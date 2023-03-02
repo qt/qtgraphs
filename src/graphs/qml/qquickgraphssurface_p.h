@@ -74,6 +74,8 @@ protected:
     void updateSingleHighlightColor() override;
     void handleThemeTypeChange() override;
 
+    void createSliceView() override;
+
 public Q_SLOTS:
     void handleAxisXChanged(QAbstract3DAxis *axis) override;
     void handleAxisYChanged(QAbstract3DAxis *axis) override;

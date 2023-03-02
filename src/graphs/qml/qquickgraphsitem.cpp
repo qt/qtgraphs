@@ -2228,6 +2228,7 @@ void QQuickGraphsItem::updateSliceGraph()
         QQuick3DOrthographicCamera *camera = static_cast<QQuick3DOrthographicCamera *>(sliceView()->camera());
         camera->setHorizontalMagnification(magnification);
         camera->setVerticalMagnification(magnification);
+
         QQuickItem *anchor = QQuickItemPrivate::get(this)->anchors()->fill();
         if (anchor)
             QQuickItemPrivate::get(this)->anchors()->resetFill();
@@ -2305,6 +2306,7 @@ void QQuickGraphsItem::createSliceView()
     m_sliceView->setParent(parent());
     m_sliceView->setParentItem(parentItem());
     m_sliceView->setVisible(false);
+
     m_sliceView->setWidth(width());
     m_sliceView->setHeight(height());
 
@@ -2416,10 +2418,10 @@ void QQuickGraphsItem::updateSliceGrid()
         for (int i = 0; i < m_sliceVerticalGridRepeater->count(); i++) {
             QQuick3DNode *lineNode = static_cast<QQuick3DNode *>(m_sliceVerticalGridRepeater->objectAt(i));
             auto axis = static_cast<QValue3DAxis *>(horizontalAxis);
-            if (i % 2 == 0)
-                linePosX = axis->gridPositionAt(i / 2) * scale * 2.0f - translate;
+            if (i < axis->gridSize())
+                linePosX = axis->gridPositionAt(i) * scale * 2.0f - translate;
             else
-                linePosX = axis->subGridPositionAt(i / 2) * scale * 2.0f - translate;
+                linePosX = axis->subGridPositionAt(i - axis->gridSize()) * scale * 2.0f - translate;
             lineNode->setProperty("lineColor", QColor(0, 0, 0));
             positionAndScaleLine(lineNode, verticalScale, QVector3D(linePosX, linePosY, linePosZ));
         }
@@ -2433,14 +2435,10 @@ void QQuickGraphsItem::updateSliceGrid()
         QQuick3DNode *lineNode = static_cast<QQuick3DNode *>(m_sliceHorizontalGridRepeater->objectAt(i));
         if (verticalAxis->type() == QAbstract3DAxis::AxisTypeValue) {
             auto axis = static_cast<QValue3DAxis *>(verticalAxis);
-            if (axis->subGridSize() > 0) {
-                if (i % 2 == 0)
-                    linePosY = axis->gridPositionAt(i / 2) * scale * 2.0f - translate;
-                else
-                    linePosY = axis->subGridPositionAt(i / 2) * scale * 2.0f - translate;
-            } else {
-                linePosY = axis->gridPositionAt(i) * scale * 2.0f - translate;
-            }
+            if (i < axis->gridSize())
+                linePosY = axis->gridPositionAt(i / 2) * scale * 2.0f - translate;
+            else
+                linePosY = axis->subGridPositionAt(i - axis->gridSize()) * scale * 2.0f - translate;
         } else if (verticalAxis->type() == QAbstract3DAxis::AxisTypeCategory) {
             linePosY = calculateCategoryGridLinePosition(verticalAxis, i);
         }
