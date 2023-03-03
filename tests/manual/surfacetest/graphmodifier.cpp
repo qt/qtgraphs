@@ -20,7 +20,7 @@
 //#define JITTER_PLANE
 //#define WONKY_PLANE
 
-GraphModifier::GraphModifier(Q3DSurface *graph, QWidget *parentWidget)
+GraphModifier::GraphModifier(Q3DSurface *graph)
     : m_graph(graph),
       m_series1(new QSurface3DSeries),
       m_series2(new QSurface3DSeries),
@@ -52,7 +52,6 @@ GraphModifier::GraphModifier(Q3DSurface *graph, QWidget *parentWidget)
       m_drawMode3(QSurface3DSeries::DrawSurfaceAndWireframe),
       m_drawMode4(QSurface3DSeries::DrawSurfaceAndWireframe),
       m_offset(4.0f),
-      m_parentWidget(parentWidget),
       m_ascendingX(true),
       m_ascendingZ(true)
 {
@@ -689,8 +688,8 @@ void GraphModifier::timeout()
 void GraphModifier::graphQueryTimeout()
 {
 #ifndef QT_NO_CURSOR
-    m_graph->scene()->setGraphPositionQuery(m_parentWidget->mapFromGlobal(QCursor::pos()));
-    qDebug() << "pos: " << (m_parentWidget->mapFromGlobal(QCursor::pos()));
+    m_graph->scene()->setGraphPositionQuery(m_graph->mapFromGlobal(QCursor::pos()));
+    qDebug() << "pos: " << (m_graph->mapFromGlobal(QCursor::pos()));
 #else
     m_graph->scene()->setGraphPositionQuery(QPoint(100, 100));
 #endif

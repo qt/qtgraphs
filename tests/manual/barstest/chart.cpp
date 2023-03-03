@@ -249,7 +249,7 @@ void GraphModifier::restart(int dynamicData)
     if (m_static) {
         m_graph->removeSeries(m_genericData);
 
-        m_graph->setTitle(QStringLiteral("Average temperatures in Oulu, Finland (2006-2012)"));
+        m_graph->setWindowTitle(QStringLiteral("Average temperatures in Oulu, Finland (2006-2012)"));
 
         m_graph->setValueAxis(m_temperatureAxis);
         m_graph->setRowAxis(m_yearAxis);
@@ -258,7 +258,7 @@ void GraphModifier::restart(int dynamicData)
     } else {
         m_graph->addSeries(m_genericData);
 
-        m_graph->setTitle(QStringLiteral("Generic data"));
+        m_graph->setWindowTitle(QStringLiteral("Generic data"));
 
         m_minval = m_fixedRangeAxis->min();
         m_maxval = m_fixedRangeAxis->max();

@@ -20,7 +20,6 @@
 
 int main(int argc, char **argv)
 {
-    qputenv("QSG_RHI_BACKEND", "opengl");
     QApplication app(argc, argv);
     //QCoreApplication::setAttribute(Qt::AA_UseOpenGLES);
 
@@ -33,15 +32,15 @@ int main(int argc, char **argv)
     Q3DScatter *chart = new Q3DScatter();
     QSize screenSize = chart->screen()->size();
 
-    QWidget *container = QWidget::createWindowContainer(chart);
-    container->setMinimumSize(QSize(screenSize.width() / 2, screenSize.height() / 2));
-    container->setMaximumSize(screenSize);
-    container->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-    container->setFocusPolicy(Qt::StrongFocus);
+    chart->setMinimumSize(QSize(screenSize.width() / 2, screenSize.height() / 2));
+    chart->setMaximumSize(screenSize);
+    chart->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    chart->setFocusPolicy(Qt::StrongFocus);
+    chart->setResizeMode(QQuickWidget::SizeRootObjectToView);
 
     widget->setWindowTitle(QStringLiteral("values of some things in something"));
 
-    hLayout->addWidget(container, 1);
+    hLayout->addWidget(chart, 1);
     hLayout->addLayout(vLayout);
     hLayout->addLayout(vLayout2);
     hLayout->addLayout(vLayout3);

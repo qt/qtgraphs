@@ -17,7 +17,6 @@
 
 int main(int argc, char **argv)
 {
-    qputenv("QSG_RHI_BACKEND", "opengl");
     QApplication app(argc, argv);
 
     QWidget *widget = new QWidget();
@@ -30,31 +29,31 @@ int main(int argc, char **argv)
 
     QSize screenSize = surface->screen()->size();
 
-    QWidget *containerSurface = QWidget::createWindowContainer(surface);
-    containerSurface->setMinimumSize(QSize(screenSize.height() / 1.2, screenSize.height() / 1.2));
-    containerSurface->setMaximumSize(screenSize);
-    containerSurface->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-    containerSurface->setFocusPolicy(Qt::StrongFocus);
+    surface->setMinimumSize(QSize(screenSize.height() / 1.2, screenSize.height() / 1.2));
+    surface->setMaximumSize(screenSize);
+    surface->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    surface->setFocusPolicy(Qt::StrongFocus);
+    surface->setResizeMode(QQuickWidget::SizeRootObjectToView);
 
-    QWidget *containerScatter = QWidget::createWindowContainer(scatter);
-    containerScatter->setMinimumSize(QSize(screenSize.height() / 1.2, screenSize.height() / 1.2));
-    containerScatter->setMaximumSize(screenSize);
-    containerScatter->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-    containerScatter->setFocusPolicy(Qt::StrongFocus);
-    containerScatter->setVisible(false);
+    scatter->setMinimumSize(QSize(screenSize.height() / 1.2, screenSize.height() / 1.2));
+    scatter->setMaximumSize(screenSize);
+    scatter->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    scatter->setFocusPolicy(Qt::StrongFocus);
+    scatter->setVisible(false);
+    scatter->setResizeMode(QQuickWidget::SizeRootObjectToView);
 
-    QWidget *containerBars = QWidget::createWindowContainer(bars);
-    containerBars->setMinimumSize(QSize(screenSize.height() / 1.2, screenSize.height() / 1.2));
-    containerBars->setMaximumSize(screenSize);
-    containerBars->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-    containerBars->setFocusPolicy(Qt::StrongFocus);
-    containerBars->setVisible(false);
+    bars->setMinimumSize(QSize(screenSize.height() / 1.2, screenSize.height() / 1.2));
+    bars->setMaximumSize(screenSize);
+    bars->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    bars->setFocusPolicy(Qt::StrongFocus);
+    bars->setVisible(false);
+    bars->setResizeMode(QQuickWidget::SizeRootObjectToView);
 
     widget->setWindowTitle(QStringLiteral("Test switching graphs on the fly"));
 
-    hLayout->addWidget(containerSurface, 1);
-    hLayout->addWidget(containerScatter, 1);
-    hLayout->addWidget(containerBars, 1);
+    hLayout->addWidget(surface, 1);
+    hLayout->addWidget(scatter, 1);
+    hLayout->addWidget(bars, 1);
     hLayout->addLayout(vLayout);
 
     QPushButton *startButton = new QPushButton(widget);
@@ -124,8 +123,7 @@ int main(int argc, char **argv)
     widget->show();
 
     Data datagen(surface, scatter, bars, status, widget);
-    ContainerChanger changer(containerSurface, containerScatter, containerBars,
-                             gradientOneButton, gradientTwoButton);
+    ContainerChanger changer(surface, scatter, bars, gradientOneButton, gradientTwoButton);
 
     QObject::connect(startButton, &QPushButton::clicked, &datagen, &Data::start);
     QObject::connect(stopButton, &QPushButton::clicked, &datagen, &Data::stop);

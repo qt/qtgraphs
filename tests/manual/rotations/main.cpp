@@ -15,10 +15,8 @@
 
 int main(int argc, char **argv)
 {
-    qputenv("QSG_RHI_BACKEND", "opengl");
     QApplication app(argc, argv);
     Q3DScatter *graph = new Q3DScatter();
-    QWidget *container = QWidget::createWindowContainer(graph);
 
     if (!graph->hasContext()) {
         QMessageBox msgBox;
@@ -28,15 +26,16 @@ int main(int argc, char **argv)
     }
 
     QSize screenSize = graph->screen()->size();
-    container->setMinimumSize(QSize(screenSize.width() / 2, screenSize.height() / 1.5));
-    container->setMaximumSize(screenSize);
-    container->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-    container->setFocusPolicy(Qt::StrongFocus);
+    graph->setMinimumSize(QSize(screenSize.width() / 2, screenSize.height() / 1.5));
+    graph->setMaximumSize(screenSize);
+    graph->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    graph->setFocusPolicy(Qt::StrongFocus);
+    graph->setResizeMode(QQuickWidget::SizeRootObjectToView);
 
     QWidget *widget = new QWidget;
     QHBoxLayout *hLayout = new QHBoxLayout(widget);
     QVBoxLayout *vLayout = new QVBoxLayout();
-    hLayout->addWidget(container, 1);
+    hLayout->addWidget(graph, 1);
     hLayout->addLayout(vLayout);
 
     widget->setWindowTitle(QStringLiteral("Item rotations example - Magnetic field of the sun"));

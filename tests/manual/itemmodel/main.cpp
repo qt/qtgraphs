@@ -54,13 +54,11 @@ GraphDataGenerator::GraphDataGenerator(Q3DBars *bargraph, QTableWidget *tableWid
       m_rowCount(50),
       m_tableWidget(tableWidget)
 {
-    //! [5]
     // Set up bar specifications; make the bars as wide as they are deep,
     // and add a small space between them
     m_graph->setBarThickness(1.0f);
     m_graph->setBarSpacing(QSizeF(0.2, 0.2));
 
-    //! [5]
 #ifndef USE_STATIC_DATA
     // Set up sample space; make it as deep as it's wide
     m_graph->rowAxis()->setRange(0, m_rowCount);
@@ -76,14 +74,10 @@ GraphDataGenerator::GraphDataGenerator(Q3DBars *bargraph, QTableWidget *tableWid
 
     m_graph->seriesList().at(0)->setItemLabelFormat(QStringLiteral("@valueLabel"));
 #else
-    //! [6]
     // Set selection mode to slice row
     m_graph->setSelectionMode(QAbstract3DGraph::SelectionItemAndRow | QAbstract3DGraph::SelectionSlice);
-
-    //! [6]
 #endif
 
-    //! [7]
     // Set theme
     m_graph->activeTheme()->setType(Q3DTheme::ThemeDigia);
 
@@ -94,7 +88,6 @@ GraphDataGenerator::GraphDataGenerator(Q3DBars *bargraph, QTableWidget *tableWid
 
     // Set preset camera position
     m_graph->scene()->activeCamera()->setCameraPreset(Q3DCamera::CameraPresetFront);
-    //! [7]
 }
 
 GraphDataGenerator::~GraphDataGenerator()
@@ -115,7 +108,6 @@ void GraphDataGenerator::start()
     m_dataTimer->start(0);
     m_tableWidget->setFixedWidth(m_graph->width());
 #else
-    //! [8]
     setupModel();
 
     // Table needs to be shown before the size of its headers can be accurately obtained,
@@ -124,13 +116,11 @@ void GraphDataGenerator::start()
     m_dataTimer->setSingleShot(true);
     QObject::connect(m_dataTimer, &QTimer::timeout, this, &GraphDataGenerator::fixTableSize);
     m_dataTimer->start(0);
-    //! [8]
 #endif
 }
 
 void GraphDataGenerator::setupModel()
 {
-    //! [9]
     // Set up row and column names
     QStringList days;
     days << "Monday" << "Tuesday" << "Wednesday" << "Thursday" << "Friday" << "Saturday" << "Sunday";
@@ -143,10 +133,8 @@ void GraphDataGenerator::setupModel()
                          {1.0f, 1.0f, 2.0f, 1.0f, 4.0f, 4.0f, 4.0f},      // week 3
                          {0.0f, 1.0f, 0.0f, 0.0f, 2.0f, 2.0f, 0.3f},      // week 4
                          {3.0f, 3.0f, 6.0f, 2.0f, 2.0f, 1.0f, 1.0f}};     // week 5
-    //! [9]
 
     // Add labels
-    //! [10]
     m_graph->rowAxis()->setTitle("Week of year");
     m_graph->rowAxis()->setTitleVisible(true);
     m_graph->columnAxis()->setTitle("Day of week");
@@ -154,9 +142,7 @@ void GraphDataGenerator::setupModel()
     m_graph->valueAxis()->setTitle("Hours spent on the Internet");
     m_graph->valueAxis()->setTitleVisible(true);
     m_graph->valueAxis()->setLabelFormat("%.1f h");
-    //! [10]
 
-    //! [11]
     m_tableWidget->setRowCount(5);
     m_tableWidget->setColumnCount(7);
     m_tableWidget->setHorizontalHeaderLabels(days);
@@ -165,16 +151,13 @@ void GraphDataGenerator::setupModel()
     m_tableWidget->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     m_tableWidget->setCurrentCell(-1, -1);
     m_tableWidget->setSelectionMode(QAbstractItemView::SingleSelection);
-    //! [11]
 
-    //! [12]
     for (int week = 0; week < weeks.size(); week++) {
         for (int day = 0; day < days.size(); day++) {
             QModelIndex index = m_tableWidget->model()->index(week, day);
             m_tableWidget->model()->setData(index, hours[week][day]);
         }
     }
-    //! [12]
 }
 
 void GraphDataGenerator::addRow()
@@ -191,15 +174,12 @@ void GraphDataGenerator::addRow()
     m_tableWidget->resizeColumnsToContents();
 }
 
-//! [13]
 void GraphDataGenerator::selectFromTable(const QPoint &selection)
 {
     m_tableWidget->setFocus();
     m_tableWidget->setCurrentCell(selection.x(), selection.y());
 }
-//! [13]
 
-//! [14]
 void GraphDataGenerator::selectedFromTable(int currentRow, int currentColumn,
                                            int previousRow, int previousColumn)
 {
@@ -207,7 +187,6 @@ void GraphDataGenerator::selectedFromTable(int currentRow, int currentColumn,
     Q_UNUSED(previousColumn);
     m_graph->seriesList().at(0)->setSelectedBar(QPoint(currentRow, currentColumn));
 }
-//! [14]
 
 void GraphDataGenerator::fixTableSize()
 {
@@ -221,12 +200,8 @@ void GraphDataGenerator::fixTableSize()
 
 int main(int argc, char **argv)
 {
-    qputenv("QSG_RHI_BACKEND", "opengl");
-    //! [0]
     QApplication app(argc, argv);
     Q3DBars *graph = new Q3DBars();
-    QWidget *container = QWidget::createWindowContainer(graph);
-    //! [0]
 
     if (!graph->hasContext()) {
         QMessageBox msgBox;
@@ -236,24 +211,22 @@ int main(int argc, char **argv)
     }
 
     QSize screenSize = graph->screen()->size();
-    container->setMinimumSize(QSize(screenSize.width() / 2, screenSize.height() / 2));
-    container->setMaximumSize(screenSize);
-    container->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-    container->setFocusPolicy(Qt::StrongFocus);
+    graph->setMinimumSize(QSize(screenSize.width() / 2, screenSize.height() / 2));
+    graph->setMaximumSize(screenSize);
+    graph->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    graph->setFocusPolicy(Qt::StrongFocus);
+    graph->setResizeMode(QQuickWidget::SizeRootObjectToView);
 
-    //! [1]
     QWidget widget;
     QVBoxLayout *layout = new QVBoxLayout(&widget);
     QTableWidget *tableWidget = new QTableWidget(&widget);
-    layout->addWidget(container, 1);
+    layout->addWidget(graph, 1);
     layout->addWidget(tableWidget, 1, Qt::AlignHCenter);
-    //! [1]
 
     tableWidget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
     tableWidget->setAlternatingRowColors(true);
     widget.setWindowTitle(QStringLiteral("Hours spent on the Internet"));
 
-    //! [2]
     // Since we are dealing with QTableWidget, the model will already have data sorted properly
     // into rows and columns, so we simply set useModelCategories property to true to utilize this.
     QItemModelBarDataProxy *proxy = new QItemModelBarDataProxy(tableWidget->model());
@@ -261,19 +234,14 @@ int main(int argc, char **argv)
     QBar3DSeries *series = new QBar3DSeries(proxy);
     series->setMesh(QAbstract3DSeries::MeshPyramid);
     graph->addSeries(series);
-    //! [2]
 
-    //! [3]
     GraphDataGenerator generator(graph, tableWidget);
     QObject::connect(series, &QBar3DSeries::selectedBarChanged, &generator,
                      &GraphDataGenerator::selectFromTable);
     QObject::connect(tableWidget, &QTableWidget::currentCellChanged, &generator,
                      &GraphDataGenerator::selectedFromTable);
-    //! [3]
 
-    //! [4]
     widget.show();
     generator.start();
     return app.exec();
-    //! [4]
 }

@@ -9,12 +9,6 @@ qt_internal_add_manual_test(custominput
         custominputhandler.cpp custominputhandler.h
         main.cpp
         scatterdatamodifier.cpp scatterdatamodifier.h
-    )
-
-qt_add_executable(custominput
-    custominputhandler.cpp custominputhandler.h
-    main.cpp
-    scatterdatamodifier.cpp scatterdatamodifier.h
 )
 
 target_link_libraries(custominput PUBLIC

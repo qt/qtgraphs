@@ -21,14 +21,12 @@
 #include <QColorDialog>
 #include <QLineEdit>
 #include <QSpinBox>
-#include <QtGui/QOpenGLContext>
 #include <QtGraphs/QCustom3DItem>
 #include <QtGraphs/QCustom3DLabel>
 #include <QtGraphs/QCustom3DVolume>
 
 int main(int argc, char **argv)
 {
-    qputenv("QSG_RHI_BACKEND", "opengl");
     QApplication app(argc, argv);
 
     // Test creating custom items before graph is created
@@ -42,23 +40,18 @@ int main(int argc, char **argv)
     QVBoxLayout *vLayout2 = new QVBoxLayout();
     QVBoxLayout *vLayout3 = new QVBoxLayout();
 
-    // For testing custom surface format
-    QSurfaceFormat surfaceFormat;
-    surfaceFormat.setDepthBufferSize(24);
-    surfaceFormat.setSamples(8);
-
-    Q3DBars *widgetchart = new Q3DBars(&surfaceFormat);
+    Q3DBars *widgetchart = new Q3DBars();
     QSize screenSize = widgetchart->screen()->size();
 
-    QWidget *container = QWidget::createWindowContainer(widgetchart);
-    container->setMinimumSize(QSize(screenSize.width() / 3, screenSize.height() / 3));
-    container->setMaximumSize(screenSize);
-    container->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-    container->setFocusPolicy(Qt::StrongFocus);
+    widgetchart->setMinimumSize(QSize(screenSize.width() / 3, screenSize.height() / 3));
+    widgetchart->setMaximumSize(screenSize);
+    widgetchart->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    widgetchart->setFocusPolicy(Qt::StrongFocus);
+    widgetchart->setResizeMode(QQuickWidget::SizeRootObjectToView);
 
     widget->setWindowTitle(QStringLiteral("Average temperatures in Oulu, Finland (2006-2012)"));
 
-    hLayout->addWidget(container, 1);
+    hLayout->addWidget(widgetchart, 1);
     hLayout->addLayout(vLayout);
     hLayout->addLayout(vLayout2);
     hLayout->addLayout(vLayout3);

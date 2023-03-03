@@ -24,7 +24,7 @@ public:
         Map
     };
 
-    explicit GraphModifier(Q3DSurface *graph, QWidget *parentWidget);
+    explicit GraphModifier(Q3DSurface *graph);
     ~GraphModifier();
 
     void toggleSeries1(int enabled);
@@ -175,7 +175,6 @@ private:
     float m_multiSampleOffsetZ[4];
     QSurfaceDataArray m_massiveTestCacheArray;
     QVector3D m_cameraTarget;
-    QWidget *m_parentWidget;
     QTimer m_graphPositionQueryTimer;
     bool m_ascendingX;
     bool m_ascendingZ;

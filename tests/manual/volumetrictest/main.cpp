@@ -15,23 +15,22 @@
 
 int main(int argc, char **argv)
 {
-    qputenv("QSG_RHI_BACKEND", "opengl");
     QApplication app(argc, argv);
     //Q3DScatter *graph = new Q3DScatter();
     //Q3DSurface *graph = new Q3DSurface();
     Q3DBars *graph = new Q3DBars();
-    QWidget *container = QWidget::createWindowContainer(graph);
 
     QSize screenSize = graph->screen()->size();
-    container->setMinimumSize(QSize(screenSize.width() / 4, screenSize.height() / 4));
-    container->setMaximumSize(screenSize);
-    container->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-    container->setFocusPolicy(Qt::StrongFocus);
+    graph->setMinimumSize(QSize(screenSize.width() / 4, screenSize.height() / 4));
+    graph->setMaximumSize(screenSize);
+    graph->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    graph->setFocusPolicy(Qt::StrongFocus);
+    graph->setResizeMode(QQuickWidget::SizeRootObjectToView);
 
     QWidget *widget = new QWidget;
     QHBoxLayout *hLayout = new QHBoxLayout(widget);
     QVBoxLayout *vLayout = new QVBoxLayout();
-    hLayout->addWidget(container, 1);
+    hLayout->addWidget(graph, 1);
     hLayout->addLayout(vLayout);
 
     widget->setWindowTitle(QStringLiteral("Volumetric TEST"));

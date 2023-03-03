@@ -221,17 +221,21 @@ void GraphDataGenerator::changeSelectedButtonClicked()
 
 int main(int argc, char **argv)
 {
-    qputenv("QSG_RHI_BACKEND", "opengl");
     QApplication app(argc, argv);
     Q3DBars *barGraph = new Q3DBars();
     Q3DSurface *surfaceGraph = new Q3DSurface();
-    QWidget *barContainer = QWidget::createWindowContainer(barGraph);
-    QWidget *surfaceContainer = QWidget::createWindowContainer(surfaceGraph);
+    QSize screenSize = barGraph->screen()->size();
 
-    barContainer->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-    barContainer->setFocusPolicy(Qt::StrongFocus);
-    surfaceContainer->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-    surfaceContainer->setFocusPolicy(Qt::StrongFocus);
+    barGraph->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    barGraph->setFocusPolicy(Qt::StrongFocus);
+    barGraph->setResizeMode(QQuickWidget::SizeRootObjectToView);
+//    barGraph->setMinimumSize(QSize(screenSize.width() / 4, screenSize.height() / 4));
+//    barGraph->setMaximumSize(screenSize);
+    surfaceGraph->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    surfaceGraph->setFocusPolicy(Qt::StrongFocus);
+    surfaceGraph->setResizeMode(QQuickWidget::SizeRootObjectToView);
+//    surfaceGraph->setMinimumSize(QSize(screenSize.width() / 4, screenSize.height() / 4));
+//    surfaceGraph->setMaximumSize(screenSize);
 
     QWidget widget;
     QVBoxLayout *mainLayout = new QVBoxLayout(&widget);
@@ -243,8 +247,8 @@ int main(int argc, char **argv)
     changeSelectedButton->setText(QStringLiteral("Change Selected"));
 
     buttonLayout->addWidget(changeSelectedButton);
-    graphLayout->addWidget(barContainer);
-    graphLayout->addWidget(surfaceContainer);
+    graphLayout->addWidget(barGraph);
+    graphLayout->addWidget(surfaceGraph);
     bottomLayout->addLayout(buttonLayout);
     bottomLayout->addWidget(tableWidget);
     mainLayout->addLayout(graphLayout);
@@ -292,7 +296,6 @@ int main(int argc, char **argv)
     QObject::connect(changeSelectedButton, &QPushButton::clicked, &generator,
                      &GraphDataGenerator::changeSelectedButtonClicked);
 
-    QSize screenSize = barGraph->screen()->size();
     widget.resize(QSize(screenSize.width() / 2, screenSize.height() / 2));
     widget.show();
     generator.start();

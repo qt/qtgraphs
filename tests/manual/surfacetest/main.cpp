@@ -25,7 +25,6 @@ const int initialTheme = 4;
 
 int main(int argc, char *argv[])
 {
-    qputenv("QSG_RHI_BACKEND", "opengl");
     QApplication app(argc, argv);
 
     QWidget *widget = new QWidget;
@@ -43,15 +42,15 @@ int main(int argc, char *argv[])
     // Set to default, should be same as the initial on themeList
     surfaceGraph->activeTheme()->setType(Q3DTheme::Theme(initialTheme));
 
-    QWidget *container = QWidget::createWindowContainer(surfaceGraph);
-    container->setMinimumSize(QSize(screenSize.width() / 2, screenSize.height() / 4));
-    container->setMaximumSize(screenSize);
-    container->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-    container->setFocusPolicy(Qt::StrongFocus);
+    surfaceGraph->setMinimumSize(QSize(screenSize.width() / 2, screenSize.height() / 4));
+    surfaceGraph->setMaximumSize(screenSize);
+    surfaceGraph->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    surfaceGraph->setFocusPolicy(Qt::StrongFocus);
+    surfaceGraph->setResizeMode(QQuickWidget::SizeRootObjectToView);
 
     widget->setWindowTitle(QStringLiteral("Surface tester"));
 
-    hLayout->addWidget(container, 1);
+    hLayout->addWidget(surfaceGraph, 1);
     hLayout->addLayout(vLayout);
     hLayout->addLayout(vLayout2);
     hLayout->addLayout(vLayout3);
@@ -517,7 +516,7 @@ int main(int argc, char *argv[])
 
     widget->show();
 
-    GraphModifier *modifier = new GraphModifier(surfaceGraph, container);
+    GraphModifier *modifier = new GraphModifier(surfaceGraph);
 
     // Connect controls to slots on modifier
     QObject::connect(smoothCB, &QCheckBox::stateChanged,
