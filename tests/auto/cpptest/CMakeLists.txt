@@ -18,7 +18,7 @@ add_subdirectory(q3dsurface-series)
 add_subdirectory(q3daxis-category)
 add_subdirectory(q3daxis-logvalue)
 add_subdirectory(q3daxis-value)
-#add_subdirectory(q3dscene) # TODO: Needs either redoing, or fixing the code; see QTBUG-110000 & QTBUG-110001
+add_subdirectory(q3dscene)
 add_subdirectory(q3dscene-camera)
 add_subdirectory(q3dscene-light)
 add_subdirectory(q3dtheme)

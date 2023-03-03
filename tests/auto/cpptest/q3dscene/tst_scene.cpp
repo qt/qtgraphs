@@ -120,9 +120,8 @@ void tst_scene::subViews()
         QSKIP("OpenGL not supported on this platform");
 
     Q3DBars graph;
-    graph.setPosition(QPoint(0, 0));
-    graph.setWidth(200);
-    graph.setHeight(200);
+    graph.setMinimumSize(QSize(200, 200));
+    graph.setResizeMode(QQuickWidget::SizeRootObjectToView);
 
     Q3DScene *scene = graph.scene();
 
