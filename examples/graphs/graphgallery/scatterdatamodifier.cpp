@@ -46,8 +46,7 @@ ScatterDataModifier::ScatterDataModifier(Q3DScatter *scatter)
 
     //! [8]
     // Give ownership of the handler to the graph and make it the active handler
-    // TODO: API missing (QTBUG-111611)
-//    m_graph->setActiveInputHandler(m_inputHandler);
+    m_graph->setActiveInputHandler(m_inputHandler);
     //! [8]
 
     //! [9]

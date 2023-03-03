@@ -839,7 +839,7 @@ void QQuickGraphsScatter::updatePointScaleSize()
     m_pointScale = calculatePointScaleSize();
 }
 
-void QQuickGraphsScatter::updateShadowQuality(ShadowQuality quality)
+void QQuickGraphsScatter::updateShadowQuality(QAbstract3DGraph::ShadowQuality quality)
 {
     QQuickGraphsItem::updateShadowQuality(quality);
 }

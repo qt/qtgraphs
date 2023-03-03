@@ -98,9 +98,8 @@ SurfaceGraphModifier::SurfaceGraphModifier(Q3DSurface *surface, QLabel *label)
     m_heightMapSeriesThree->setColorStyle(Q3DTheme::ColorStyleRangeGradient);
 
     // Custom items and label
-    // TODO: API missing (QTBUG-111611)
-//    connect(m_graph, &QAbstract3DGraph::selectedElementChanged,
-//            this, &SurfaceGraphModifier::handleElementSelected);
+    connect(m_graph, &QAbstract3DGraph::selectedElementChanged,
+            this, &SurfaceGraphModifier::handleElementSelected);
 
     m_selectionAnimation = new QPropertyAnimation(this);
     m_selectionAnimation->setPropertyName("scaling");
@@ -116,8 +115,7 @@ SurfaceGraphModifier::SurfaceGraphModifier(Q3DSurface *surface, QLabel *label)
     m_titleLabel->setPositionAbsolute(true);
     m_titleLabel->setFacingCamera(true);
     m_titleLabel->setBackgroundColor(QColor(0x66cdaa));
-    // TODO: API missing (QTBUG-111611)
-//    m_graph->addCustomItem(m_titleLabel);
+    m_graph->addCustomItem(m_titleLabel);
     m_titleLabel->setVisible(false);
 
     // Make two of the custom object visible
@@ -213,8 +211,7 @@ void SurfaceGraphModifier::enableSqrtSinModel(bool enable)
         m_graph->axisY()->setTitle({});
         m_graph->axisZ()->setTitle({});
 
-        // TODO: API missing (QTBUG-111611)
-//        m_graph->setActiveInputHandler(m_defaultInputHandler);
+        m_graph->setActiveInputHandler(m_defaultInputHandler);
 
         //! [6]
         // Reset range sliders for Sqrt & Sin
@@ -267,8 +264,7 @@ void SurfaceGraphModifier::enableHeightMapModel(bool enable)
         m_graph->addSeries(m_heightMapSeriesTwo);
         m_graph->addSeries(m_heightMapSeriesThree);
 
-        // TODO: API missing (QTBUG-111611)
-//        m_graph->setActiveInputHandler(m_defaultInputHandler);
+        m_graph->setActiveInputHandler(m_defaultInputHandler);
 
         m_titleLabel->setVisible(true);
         m_graph->axisX()->setTitleVisible(true);
@@ -325,8 +321,7 @@ void SurfaceGraphModifier::enableTopographyModel(bool enable)
         m_graph->axisZ()->setTitle({});
 
         //! [5]
-        // TODO: API missing (QTBUG-111611)
-//        m_graph->setActiveInputHandler(m_customInputHandler);
+        m_graph->setActiveInputHandler(m_customInputHandler);
         //! [5]
 
         // Reset range sliders for topography map
@@ -462,34 +457,29 @@ void SurfaceGraphModifier::toggleItemOne(bool show)
                                                 color);
         //! [11]
         //! [12]
-        // TODO: API missing (QTBUG-111611)
-//        m_graph->addCustomItem(item);
+        m_graph->addCustomItem(item);
         //! [12]
         item = new QCustom3DItem(":/data/pipe.obj", positionOnePipe,
                                  QVector3D(0.005f, 0.5f, 0.005f),
                                  QQuaternion(),
                                  color);
         item->setShadowCasting(false);
-        // TODO: API missing (QTBUG-111611)
-//        m_graph->addCustomItem(item);
+        m_graph->addCustomItem(item);
 
         //! [13]
         QCustom3DLabel *label = new QCustom3DLabel();
         label->setText("Oil Rig One");
         label->setPosition(positionOneLabel);
         label->setScaling(QVector3D(1.f, 1.f, 1.f));
-        // TODO: API missing (QTBUG-111611)
-//        m_graph->addCustomItem(label);
+        m_graph->addCustomItem(label);
         //! [13]
     } else {
         resetSelection();
         //! [14]
-        // TODO: API missing (QTBUG-111611)
-//        m_graph->removeCustomItemAt(positionOne);
+        m_graph->removeCustomItemAt(positionOne);
         //! [14]
-        // TODO: API missing (QTBUG-111611)
-//        m_graph->removeCustomItemAt(positionOnePipe);
-//        m_graph->removeCustomItemAt(positionOneLabel);
+        m_graph->removeCustomItemAt(positionOnePipe);
+        m_graph->removeCustomItemAt(positionOneLabel);
     }
 }
 
@@ -507,28 +497,24 @@ void SurfaceGraphModifier::toggleItemTwo(bool show)
         item->setScaling(QVector3D(0.025f, 0.025f, 0.025f));
         item->setRotation(QQuaternion::fromAxisAndAngle(0.f, 1.f, 0.f, 25.f));
         item->setTextureImage(color);
-        // TODO: API missing (QTBUG-111611)
-//        m_graph->addCustomItem(item);
+        m_graph->addCustomItem(item);
         item = new QCustom3DItem(":/data/pipe.obj", positionTwoPipe,
                                  QVector3D(0.005f, 0.5f, 0.005f),
                                  QQuaternion(),
                                  color);
         item->setShadowCasting(false);
-        // TODO: API missing (QTBUG-111611)
-//        m_graph->addCustomItem(item);
+        m_graph->addCustomItem(item);
 
         QCustom3DLabel *label = new QCustom3DLabel();
         label->setText("Oil Rig Two");
         label->setPosition(positionTwoLabel);
         label->setScaling(QVector3D(1.f, 1.f, 1.f));
-        // TODO: API missing (QTBUG-111611)
-//        m_graph->addCustomItem(label);
+        m_graph->addCustomItem(label);
     } else {
         resetSelection();
-        // TODO: API missing (QTBUG-111611)
-//        m_graph->removeCustomItemAt(positionTwo);
-//        m_graph->removeCustomItemAt(positionTwoPipe);
-//        m_graph->removeCustomItemAt(positionTwoLabel);
+        m_graph->removeCustomItemAt(positionTwo);
+        m_graph->removeCustomItemAt(positionTwoPipe);
+        m_graph->removeCustomItemAt(positionTwoLabel);
     }
 }
 
@@ -545,20 +531,17 @@ void SurfaceGraphModifier::toggleItemThree(bool show)
         item->setScaling(QVector3D(0.04f, 0.04f, 0.04f));
         item->setRotation(QQuaternion::fromAxisAndAngle(0.f, 1.f, 0.f, 75.f));
         item->setTextureImage(color);
-        // TODO: API missing (QTBUG-111611)
-//        m_graph->addCustomItem(item);
+        m_graph->addCustomItem(item);
 
         QCustom3DLabel *label = new QCustom3DLabel();
         label->setText("Refinery");
         label->setPosition(positionThreeLabel);
         label->setScaling(QVector3D(1.f, 1.f, 1.f));
-        // TODO: API missing (QTBUG-111611)
-//        m_graph->addCustomItem(label);
+        m_graph->addCustomItem(label);
     } else {
         resetSelection();
-        // TODO: API missing (QTBUG-111611)
-//        m_graph->removeCustomItemAt(positionThree);
-//        m_graph->removeCustomItemAt(positionThreeLabel);
+        m_graph->removeCustomItemAt(positionThree);
+        m_graph->removeCustomItemAt(positionThreeLabel);
     }
 }
 
@@ -610,7 +593,7 @@ void SurfaceGraphModifier::handleElementSelected(QAbstract3DGraph::ElementType t
 {
     resetSelection();
     if (type == QAbstract3DGraph::ElementCustomItem) {
-        QCustom3DItem *item;// = m_graph->selectedCustomItem(); // TODO: API missing (QTBUG-111611)
+        QCustom3DItem *item = m_graph->selectedCustomItem();
         QString text;
         if (qobject_cast<QCustom3DLabel *>(item) != 0) {
             text.append("Custom label: ");
@@ -619,7 +602,7 @@ void SurfaceGraphModifier::handleElementSelected(QAbstract3DGraph::ElementType t
             text.append(split.last());
             text.append(": ");
         }
-        int index;// = m_graph->selectedCustomItemIndex(); // TODO: API missing (QTBUG-111611)
+        int index = m_graph->selectedCustomItemIndex();
         text.append(QString::number(index));
         m_textField->setText(text);
         m_previouslyAnimatedItem = item;
@@ -644,7 +627,7 @@ void SurfaceGraphModifier::handleElementSelected(QAbstract3DGraph::ElementType t
         m_textField->setText(text);
     } else if (type > QAbstract3DGraph::ElementSeries
                && type < QAbstract3DGraph::ElementCustomItem) {
-        int index;// = m_graph->selectedLabelIndex(); // TODO: API missing (QTBUG-111611)
+        int index = m_graph->selectedLabelIndex();
         QString text;
         if (type == QAbstract3DGraph::ElementAxisXLabel)
             text.append("Axis X label: ");

@@ -296,26 +296,25 @@ bool QQuickGraphsItem::hasSeries(QAbstract3DSeries *series)
     return m_controller->hasSeries(series);
 }
 
-void QQuickGraphsItem::setSelectionMode(SelectionFlags mode)
+void QQuickGraphsItem::setSelectionMode(QAbstract3DGraph::SelectionFlags mode)
 {
     int intmode = int(mode);
     m_controller->setSelectionMode(QAbstract3DGraph::SelectionFlags(intmode));
 }
 
-QQuickGraphsItem::SelectionFlags QQuickGraphsItem::selectionMode() const
+QAbstract3DGraph::SelectionFlags QQuickGraphsItem::selectionMode() const
 {
-    int intmode = int(m_controller->selectionMode());
-    return SelectionFlags(intmode);
+    return m_controller->selectionMode();
 }
 
-void QQuickGraphsItem::setShadowQuality(ShadowQuality quality)
+void QQuickGraphsItem::setShadowQuality(QAbstract3DGraph::ShadowQuality quality)
 {
-    m_controller->setShadowQuality(QAbstract3DGraph::ShadowQuality(quality));
+    m_controller->setShadowQuality(quality);
 }
 
-QQuickGraphsItem::ShadowQuality QQuickGraphsItem::shadowQuality() const
+QAbstract3DGraph::ShadowQuality QQuickGraphsItem::shadowQuality() const
 {
-    return ShadowQuality(m_controller->shadowQuality());
+    return m_controller->shadowQuality();
 }
 
 bool QQuickGraphsItem::shadowsSupported() const
@@ -1424,23 +1423,23 @@ void QQuickGraphsItem::graphPositionAt(const QPoint &point)
     scene()->setGraphPositionQuery(Q3DScene::invalidSelectionPoint());
 }
 
-void QQuickGraphsItem::updateShadowQuality(ShadowQuality quality)
+void QQuickGraphsItem::updateShadowQuality(QAbstract3DGraph::ShadowQuality quality)
 {
-    if (quality != QQuickGraphsItem::ShadowQualityNone) {
+    if (quality != QAbstract3DGraph::ShadowQualityNone) {
         light()->setCastsShadow(true);
 
         QQuick3DAbstractLight::QSSGShadowMapQuality shadowMapQuality;
         switch (quality) {
-        case QQuickGraphsItem::ShadowQualityLow:
-        case QQuickGraphsItem::ShadowQualitySoftLow:
+        case QAbstract3DGraph::ShadowQualityLow:
+        case QAbstract3DGraph::ShadowQualitySoftLow:
             shadowMapQuality = QQuick3DAbstractLight::QSSGShadowMapQuality::ShadowMapQualityLow;
             break;
-        case QQuickGraphsItem::ShadowQualityMedium:
-        case QQuickGraphsItem::ShadowQualitySoftMedium:
+        case QAbstract3DGraph::ShadowQualityMedium:
+        case QAbstract3DGraph::ShadowQualitySoftMedium:
             shadowMapQuality = QQuick3DAbstractLight::QSSGShadowMapQuality::ShadowMapQualityMedium;
             break;
-        case QQuickGraphsItem::ShadowQualityHigh:
-        case QQuickGraphsItem::ShadowQualitySoftHigh:
+        case QAbstract3DGraph::ShadowQualityHigh:
+        case QAbstract3DGraph::ShadowQualitySoftHigh:
             shadowMapQuality = QQuick3DAbstractLight::QSSGShadowMapQuality::ShadowMapQualityHigh;
             break;
         default:
@@ -1898,24 +1897,22 @@ void QQuickGraphsItem::updateWindowParameters()
 
 void QQuickGraphsItem::handleSelectionModeChange(QAbstract3DGraph::SelectionFlags mode)
 {
-    int intmode = int(mode);
-    emit selectionModeChanged(SelectionFlags(intmode));
+    emit selectionModeChanged(mode);
 }
 
 void QQuickGraphsItem::handleShadowQualityChange(QAbstract3DGraph::ShadowQuality quality)
 {
-    emit shadowQualityChanged(ShadowQuality(quality));
+    emit shadowQualityChanged(quality);
 }
 
 void QQuickGraphsItem::handleSelectedElementChange(QAbstract3DGraph::ElementType type)
 {
-    emit selectedElementChanged(ElementType(type));
+    emit selectedElementChanged(type);
 }
 
 void QQuickGraphsItem::handleOptimizationHintChange(QAbstract3DGraph::OptimizationHints hints)
 {
-    int intHints = int(hints);
-    emit optimizationHintsChanged(OptimizationHints(intHints));
+    emit optimizationHintsChanged(hints);
 }
 
 QAbstract3DInputHandler *QQuickGraphsItem::inputHandler() const
@@ -2026,9 +2023,9 @@ bool QQuickGraphsItem::isOrthoProjection() const
     return m_controller->isOrthoProjection();
 }
 
-QQuickGraphsItem::ElementType QQuickGraphsItem::selectedElement() const
+QAbstract3DGraph::ElementType QQuickGraphsItem::selectedElement() const
 {
-    return ElementType(m_controller->selectedElement());
+    return m_controller->selectedElement();
 }
 
 void QQuickGraphsItem::setAspectRatio(qreal ratio)
@@ -2041,16 +2038,15 @@ qreal QQuickGraphsItem::aspectRatio() const
     return m_controller->aspectRatio();
 }
 
-void QQuickGraphsItem::setOptimizationHints(OptimizationHints hints)
+void QQuickGraphsItem::setOptimizationHints(QAbstract3DGraph::OptimizationHints hints)
 {
     int intmode = int(hints);
     m_controller->setOptimizationHints(QAbstract3DGraph::OptimizationHints(intmode));
 }
 
-QQuickGraphsItem::OptimizationHints QQuickGraphsItem::optimizationHints() const
+QAbstract3DGraph::OptimizationHints QQuickGraphsItem::optimizationHints() const
 {
-    int intmode = int(m_controller->optimizationHints());
-    return OptimizationHints(intmode);
+    return m_controller->optimizationHints();
 }
 
 void QQuickGraphsItem::setPolar(bool enable)

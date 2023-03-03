@@ -9,9 +9,8 @@ AxesInputHandler::AxesInputHandler(QAbstract3DGraph *graph, QObject *parent) :
 {
     //! [3]
     // Connect to the item selection signal from graph
-    // TODO: API missing (QTBUG-111611)
-//    connect(graph, &QAbstract3DGraph::selectedElementChanged, this,
-//            &AxesInputHandler::handleElementSelected);
+    connect(graph, &QAbstract3DGraph::selectedElementChanged, this,
+            &AxesInputHandler::handleElementSelected);
     //! [3]
 }
 

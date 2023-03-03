@@ -38,14 +38,12 @@ VolumetricModifier::VolumetricModifier(Q3DScatter *scatter)
     m_graph->setShadowQuality(QAbstract3DGraph::ShadowQualityNone);
     m_graph->scene()->activeCamera()->setCameraPreset(Q3DCamera::CameraPresetIsometricLeft);
     //! [0]
-    // TODO: API missing (QTBUG-111611)
-//    m_graph->setOrthoProjection(true);
+    m_graph->setOrthoProjection(true);
     //! [0]
     m_graph->activeTheme()->setBackgroundEnabled(false);
 
     // Only allow zooming at the center and limit the zoom to 200% to avoid clipping issues
-    // TODO: API missing (QTBUG-111611)
-//    static_cast<Q3DInputHandler *>(m_graph->activeInputHandler())->setZoomAtTargetEnabled(false);
+    static_cast<Q3DInputHandler *>(m_graph->activeInputHandler())->setZoomAtTargetEnabled(false);
     m_graph->scene()->activeCamera()->setMaxZoomLevel(200.0f);
 
     toggleAreaAll(true);
@@ -151,15 +149,13 @@ VolumetricModifier::VolumetricModifier(Q3DScatter *scatter)
     handleSlicingChanges();
 
     //! [5]
-    // TODO: API missing (QTBUG-111611)
-//        m_graph->addCustomItem(m_volumeItem);
+    m_graph->addCustomItem(m_volumeItem);
     //! [5]
 
     m_timer.start(0);
 
-    // TODO: API missing (QTBUG-111611)
-//    QObject::connect(m_graph, &QAbstract3DGraph::currentFpsChanged, this,
-//                     &VolumetricModifier::handleFpsChange);
+    QObject::connect(m_graph, &QAbstract3DGraph::currentFpsChanged, this,
+                     &VolumetricModifier::handleFpsChange);
     QObject::connect(&m_timer, &QTimer::timeout, this,
                      &VolumetricModifier::handleTimeout);
 
@@ -334,8 +330,7 @@ void VolumetricModifier::toggleHighDetail(bool enabled)
 
 void VolumetricModifier::setFpsMeasurement(bool enabled)
 {
-    // TODO: API missing (QTBUG-111611)
-    //    m_graph->setMeasureFps(enabled);
+    m_graph->setMeasureFps(enabled);
     if (enabled)
         m_fpsLabel->setText(QStringLiteral("Measuring..."));
     else

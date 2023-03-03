@@ -35,8 +35,8 @@ class QQuick3DRepeater;
 class QQuickGraphsItem : public QQuick3DViewport
 {
     Q_OBJECT
-    Q_PROPERTY(SelectionFlags selectionMode READ selectionMode WRITE setSelectionMode NOTIFY selectionModeChanged)
-    Q_PROPERTY(ShadowQuality shadowQuality READ shadowQuality WRITE setShadowQuality NOTIFY shadowQualityChanged)
+    Q_PROPERTY(QAbstract3DGraph::SelectionFlags selectionMode READ selectionMode WRITE setSelectionMode NOTIFY selectionModeChanged)
+    Q_PROPERTY(QAbstract3DGraph::ShadowQuality shadowQuality READ shadowQuality WRITE setShadowQuality NOTIFY shadowQualityChanged)
     Q_PROPERTY(bool shadowsSupported READ shadowsSupported NOTIFY shadowsSupportedChanged)
     Q_PROPERTY(int msaaSamples READ msaaSamples WRITE setMsaaSamples NOTIFY msaaSamplesChanged)
     Q_PROPERTY(Declarative3DScene *scene READ scene NOTIFY sceneChanged)
@@ -47,9 +47,9 @@ class QQuickGraphsItem : public QQuick3DViewport
     Q_PROPERTY(int currentFps READ currentFps NOTIFY currentFpsChanged)
     Q_PROPERTY(QQmlListProperty<QCustom3DItem> customItemList READ customItemList CONSTANT)
     Q_PROPERTY(bool orthoProjection READ isOrthoProjection WRITE setOrthoProjection NOTIFY orthoProjectionChanged)
-    Q_PROPERTY(ElementType selectedElement READ selectedElement NOTIFY selectedElementChanged)
+    Q_PROPERTY(QAbstract3DGraph::ElementType selectedElement READ selectedElement NOTIFY selectedElementChanged)
     Q_PROPERTY(qreal aspectRatio READ aspectRatio WRITE setAspectRatio NOTIFY aspectRatioChanged)
-    Q_PROPERTY(OptimizationHints optimizationHints READ optimizationHints WRITE setOptimizationHints NOTIFY optimizationHintsChanged)
+    Q_PROPERTY(QAbstract3DGraph::OptimizationHints optimizationHints READ optimizationHints WRITE setOptimizationHints NOTIFY optimizationHintsChanged)
     Q_PROPERTY(bool polar READ isPolar WRITE setPolar NOTIFY polarChanged)
     Q_PROPERTY(float radialLabelOffset READ radialLabelOffset WRITE setRadialLabelOffset NOTIFY radialLabelOffsetChanged)
     Q_PROPERTY(qreal horizontalAspectRatio READ horizontalAspectRatio WRITE setHorizontalAspectRatio NOTIFY horizontalAspectRatioChanged)
@@ -64,58 +64,13 @@ class QQuickGraphsItem : public QQuick3DViewport
     QML_UNCREATABLE("Trying to create uncreatable: AbstractGraph3D.")
 
 public:
-    enum SelectionFlag {
-        SelectionNone              = 0,
-        SelectionItem              = 1,
-        SelectionRow               = 2,
-        SelectionItemAndRow        = SelectionItem | SelectionRow,
-        SelectionColumn            = 4,
-        SelectionItemAndColumn     = SelectionItem | SelectionColumn,
-        SelectionRowAndColumn      = SelectionRow | SelectionColumn,
-        SelectionItemRowAndColumn  = SelectionItem | SelectionRow | SelectionColumn,
-        SelectionSlice             = 8,
-        SelectionMultiSeries       = 16
-    };
-    Q_DECLARE_FLAGS(SelectionFlags, SelectionFlag)
-
-    enum ShadowQuality {
-        ShadowQualityNone = 0,
-        ShadowQualityLow,
-        ShadowQualityMedium,
-        ShadowQualityHigh,
-        ShadowQualitySoftLow,
-        ShadowQualitySoftMedium,
-        ShadowQualitySoftHigh
-    };
-
-    enum ElementType {
-        ElementNone = 0,
-        ElementSeries,
-        ElementAxisXLabel,
-        ElementAxisYLabel,
-        ElementAxisZLabel,
-        ElementCustomItem
-    };
-
     enum RenderingMode {
         RenderDirectToBackground = 0,
         RenderDirectToBackground_NoClear,
         RenderIndirect
     };
 
-    enum OptimizationHint {
-        OptimizationDefault = 0,
-        OptimizationStatic  = 1
-    };
-    Q_DECLARE_FLAGS(OptimizationHints, OptimizationHint)
-
-    Q_ENUM(ShadowQuality)
     Q_ENUM(RenderingMode)
-    Q_ENUM(ElementType)
-    Q_ENUM(SelectionFlag)
-    Q_ENUM(OptimizationHint)
-    Q_FLAGS(SelectionFlag SelectionFlags)
-    Q_FLAGS(OptimizationHint OptimizationHints)
 
 public:
     explicit QQuickGraphsItem(QQuickItem *parent = 0);
@@ -124,13 +79,13 @@ public:
     virtual void setRenderingMode(RenderingMode mode);
     virtual QQuickGraphsItem::RenderingMode renderingMode() const;
 
-    virtual void setSelectionMode(SelectionFlags mode);
-    virtual QQuickGraphsItem::SelectionFlags selectionMode() const;
+    virtual void setSelectionMode(QAbstract3DGraph::SelectionFlags mode);
+    virtual QAbstract3DGraph::SelectionFlags selectionMode() const;
 
-    virtual void setShadowQuality(ShadowQuality quality);
-    virtual QQuickGraphsItem::ShadowQuality shadowQuality() const;
+    virtual void setShadowQuality(QAbstract3DGraph::ShadowQuality quality);
+    virtual QAbstract3DGraph::ShadowQuality shadowQuality() const;
 
-    virtual QQuickGraphsItem::ElementType selectedElement() const;
+    virtual QAbstract3DGraph::ElementType selectedElement() const;
 
     virtual bool shadowsSupported() const;
 
@@ -184,8 +139,8 @@ public:
     void setAspectRatio(qreal ratio);
     qreal aspectRatio() const;
 
-    void setOptimizationHints(OptimizationHints hints);
-    OptimizationHints optimizationHints() const;
+    void setOptimizationHints(QAbstract3DGraph::OptimizationHints hints);
+    QAbstract3DGraph::OptimizationHints optimizationHints() const;
 
     void setPolar(bool enable);
     bool isPolar() const;
@@ -287,8 +242,8 @@ public Q_SLOTS:
     void windowDestroyed(QObject *obj);
 
 Q_SIGNALS:
-    void selectionModeChanged(QQuickGraphsItem::SelectionFlags mode);
-    void shadowQualityChanged(QQuickGraphsItem::ShadowQuality quality);
+    void selectionModeChanged(QAbstract3DGraph::SelectionFlags mode);
+    void shadowQualityChanged(QAbstract3DGraph::ShadowQuality quality);
     void shadowsSupportedChanged(bool supported);
     void msaaSamplesChanged(int samples);
     void inputHandlerChanged(QAbstract3DInputHandler *inputHandler);
@@ -296,10 +251,10 @@ Q_SIGNALS:
     void renderingModeChanged(QQuickGraphsItem::RenderingMode mode);
     void measureFpsChanged(bool enabled);
     void currentFpsChanged(int fps);
-    void selectedElementChanged(QQuickGraphsItem::ElementType type);
+    void selectedElementChanged(QAbstract3DGraph::ElementType type);
     void orthoProjectionChanged(bool enabled);
     void aspectRatioChanged(qreal ratio);
-    void optimizationHintsChanged(QQuickGraphsItem::OptimizationHints hints);
+    void optimizationHintsChanged(QAbstract3DGraph::OptimizationHints hints);
     void polarChanged(bool enabled);
     void radialLabelOffsetChanged(float offset);
     void horizontalAspectRatioChanged(qreal ratio);
@@ -369,7 +324,7 @@ protected:
     void setSliceActivatedChanged(bool changed) { m_sliceActivatedChanged = changed; }
     virtual void updateSliceGraph();
 
-    virtual void updateShadowQuality(QQuickGraphsItem::ShadowQuality quality);
+    virtual void updateShadowQuality(QAbstract3DGraph::ShadowQuality quality);
     virtual void updateAxisRange(float min, float max);
     virtual void updateAxisReversed(bool enable);
     virtual void updateSingleHighlightColor() {}
@@ -461,10 +416,8 @@ private:
 
     QHash<QQuickGraphsItem *, QQuickWindow *> m_graphWindowList = {};
 
-    friend class Scatter3DController;
+    friend class QAbstract3DGraph;
 };
-Q_DECLARE_OPERATORS_FOR_FLAGS(QQuickGraphsItem::SelectionFlags)
-Q_DECLARE_OPERATORS_FOR_FLAGS(QQuickGraphsItem::OptimizationHints)
 
 QT_END_NAMESPACE
 

@@ -2,21 +2,8 @@
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 
 #include "qabstract3dgraph.h"
-#include "abstract3dcontroller_p.h"
-#include "qabstract3dinputhandler_p.h"
 #include "q3dscene_p.h"
-#include "utils_p.h"
 #include "qquickgraphsitem_p.h"
-
-#include <QtGui/QGuiApplication>
-#include <QtGui/QOpenGLContext>
-#include <QtOpenGL/QOpenGLPaintDevice>
-#include <QtGui/QPainter>
-#include <QtOpenGL/QOpenGLFramebufferObject>
-#include <QtGui/QOffscreenSurface>
-#if defined(Q_OS_OSX)
-#include <qpa/qplatformnativeinterface.h>
-#endif
 
 QT_BEGIN_NAMESPACE
 
@@ -116,7 +103,7 @@ QT_BEGIN_NAMESPACE
     \value ElementNone
            No defined element.
     \value ElementSeries
-           A series (that is, an item in a series).
+           An item in a series.
     \value ElementAxisXLabel
            The x-axis label.
     \value ElementAxisYLabel
@@ -127,9 +114,10 @@ QT_BEGIN_NAMESPACE
            A custom item.
 */
 
+// TODO: Does this make sense in the API anymore? (QTBUG-111611)
+// Or should we just have default and instanced? Do we want to do the static the old way too?
 /*!
     \enum QAbstract3DGraph::OptimizationHint
-    \since Qt Graphs 1.1
 
     The optimization hint for rendering.
 
@@ -140,8 +128,18 @@ QT_BEGIN_NAMESPACE
 */
 
 /*!
+ * \internal
+ */
+QAbstract3DGraph::QAbstract3DGraph()
+{
+}
+
+/*!
  * Destroys QAbstract3DGraph.
  */
+QAbstract3DGraph::~QAbstract3DGraph()
+{
+}
 
 /*!
  * Adds the given \a inputHandler to the graph. The input handlers added via addInputHandler
@@ -150,6 +148,12 @@ QT_BEGIN_NAMESPACE
  *
  * \sa releaseInputHandler(), setActiveInputHandler()
  */
+void QAbstract3DGraph::addInputHandler(QAbstract3DInputHandler *inputHandler)
+{
+    // TODO: API missing in QQuickGraphsItem (QTBUG-99829)
+    Q_UNUSED(inputHandler)
+//    d_ptr->addInputHandler(inputHandler);
+}
 
 /*!
  * Releases the ownership of the \a inputHandler back to the caller, if it was added to this graph.
@@ -159,6 +163,12 @@ QT_BEGIN_NAMESPACE
  *
  * \sa addInputHandler(), setActiveInputHandler()
  */
+void QAbstract3DGraph::releaseInputHandler(QAbstract3DInputHandler *inputHandler)
+{
+    // TODO: API missing in QQuickGraphsItem (QTBUG-99829)
+    Q_UNUSED(inputHandler)
+//    d_ptr->releaseInputHandler(inputHandler);
+}
 
 /*!
  * \property QAbstract3DGraph::activeInputHandler
@@ -175,12 +185,31 @@ QT_BEGIN_NAMESPACE
  *
  * \sa addInputHandler(), releaseInputHandler()
  */
+void QAbstract3DGraph::setActiveInputHandler(QAbstract3DInputHandler *inputHandler)
+{
+    // TODO: API missing in QQuickGraphsItem (QTBUG-99829)
+    Q_UNUSED(inputHandler)
+//    d_ptr->setActiveInputHandler(inputHandler);
+}
+
+QAbstract3DInputHandler *QAbstract3DGraph::activeInputHandler() const
+{
+    // TODO: API missing in QQuickGraphsItem (QTBUG-99829)
+    return nullptr;
+//    return d_ptr->activeInputHandler();
+}
 
 /*!
  * Returns the list of all added input handlers.
  *
  * \sa addInputHandler()
  */
+QList<QAbstract3DInputHandler *> QAbstract3DGraph::inputHandlers() const
+{
+    // TODO: API missing in QQuickGraphsItem (QTBUG-99829)
+    return {};
+//    return d_ptr->inputHandlers();
+}
 
 /*!
  * Adds the given \a theme to the graph. The themes added via addTheme are not taken in to use
@@ -189,6 +218,12 @@ QT_BEGIN_NAMESPACE
  *
  * \sa releaseTheme(), setActiveTheme()
  */
+void QAbstract3DGraph::addTheme(Q3DTheme *theme)
+{
+    // TODO: API missing in QQuickGraphsItem (QTBUG-111711)
+    Q_UNUSED(theme)
+//    d_ptr->addTheme(theme);
+}
 
 /*!
  * Releases the ownership of the \a theme back to the caller, if it was added to this graph.
@@ -198,6 +233,12 @@ QT_BEGIN_NAMESPACE
  *
  * \sa addTheme(), setActiveTheme()
  */
+void QAbstract3DGraph::releaseTheme(Q3DTheme *theme)
+{
+    // TODO: API missing in QQuickGraphsItem (QTBUG-111711)
+    Q_UNUSED(theme)
+//    d_ptr->releaseTheme(theme);
+}
 
 /*!
  * \property QAbstract3DGraph::activeTheme
@@ -214,12 +255,28 @@ QT_BEGIN_NAMESPACE
  * Properties of the theme can be modified even after setting it, and the modifications take
  * effect immediately.
  */
+Q3DTheme *QAbstract3DGraph::activeTheme() const
+{
+    return d_ptr->theme();
+}
+
+void QAbstract3DGraph::setActiveTheme(Q3DTheme *activeTheme)
+{
+    d_ptr->setTheme(activeTheme);
+    emit activeThemeChanged(activeTheme);
+}
 
 /*!
  * Returns the list of all added themes.
  *
  * \sa addTheme()
  */
+QList<Q3DTheme *> QAbstract3DGraph::themes() const
+{
+    // TODO: API missing in QQuickGraphsItem (QTBUG-111711)
+    return {};
+//    return d_ptr->themes();
+}
 
 /*!
  * \property QAbstract3DGraph::selectionMode
@@ -231,6 +288,16 @@ QT_BEGIN_NAMESPACE
  *
  * \sa SelectionFlags
  */
+QAbstract3DGraph::SelectionFlags QAbstract3DGraph::selectionMode() const
+{
+    return d_ptr->selectionMode();
+}
+
+void QAbstract3DGraph::setSelectionMode(const QAbstract3DGraph::SelectionFlags &selectionMode)
+{
+    d_ptr->setSelectionMode(selectionMode);
+    emit selectionModeChanged(selectionMode);
+}
 
 /*!
  * \property QAbstract3DGraph::shadowQuality
@@ -245,6 +312,16 @@ QT_BEGIN_NAMESPACE
  *
  * \sa ShadowQuality
  */
+QAbstract3DGraph::ShadowQuality QAbstract3DGraph::shadowQuality() const
+{
+    return d_ptr->shadowQuality();
+}
+
+void QAbstract3DGraph::setShadowQuality(const QAbstract3DGraph::ShadowQuality &shadowQuality)
+{
+    d_ptr->setShadowQuality(shadowQuality);
+    emit shadowQualityChanged(shadowQuality);
+}
 
 /*!
  * Returns \c true if shadows are supported with the current configuration.
@@ -259,16 +336,26 @@ QT_BEGIN_NAMESPACE
  *
  * This property is read-only.
  */
+Q3DScene *QAbstract3DGraph::scene() const
+{
+    return (Q3DScene *)d_ptr->scene();
+}
 
 /*!
  * Clears selection from all attached series.
  */
+void QAbstract3DGraph::clearSelection()
+{
+    d_ptr->clearSelection();
+}
 
 /*!
  * Returns whether the \a series has already been added to the graph.
- *
- * \since 6.3
  */
+bool QAbstract3DGraph::hasSeries(QAbstract3DSeries *series) const
+{
+    return d_ptr->hasSeries(series);
+}
 
 /*!
  * Adds a QCustom3DItem \a item to the graph. Graph takes ownership of the added item.
@@ -281,38 +368,59 @@ QT_BEGIN_NAMESPACE
  * be taken into account when having solid and transparent items.
  *
  * \sa removeCustomItems(), removeCustomItem(), removeCustomItemAt(), customItems()
- *
  */
+int QAbstract3DGraph::addCustomItem(QCustom3DItem *item)
+{
+    return d_ptr->addCustomItem(item);
+}
 
 /*!
  * Removes all custom items. Deletes the resources allocated to them.
- *
  */
+void QAbstract3DGraph::removeCustomItems()
+{
+    d_ptr->removeCustomItems();
+}
 
 /*!
  * Removes the custom \a {item}. Deletes the resources allocated to it.
- *
  */
+void QAbstract3DGraph::removeCustomItem(QCustom3DItem *item)
+{
+    d_ptr->removeCustomItem(item);
+}
 
 /*!
  * Removes all custom items at \a {position}. Deletes the resources allocated to them.
- *
  */
+void QAbstract3DGraph::removeCustomItemAt(const QVector3D &position)
+{
+    d_ptr->removeCustomItemAt(position);
+}
 
 /*!
  * Gets ownership of given \a item back and removes the \a item from the graph.
- *
  *
  * \note If the same item is added back to the graph, the texture or the texture file needs to be
  * re-set.
  *
  * \sa QCustom3DItem::setTextureImage(), QCustom3DItem::setTextureFile()
  */
+void QAbstract3DGraph::releaseCustomItem(QCustom3DItem *item)
+{
+    return d_ptr->releaseCustomItem(item);
+}
 
 /*!
  * Returns the list of all added custom items.
  * \sa addCustomItem()
  */
+QList<QCustom3DItem *> QAbstract3DGraph::customItems() const
+{
+    // TODO: API missing in QQuickGraphsItem (QTBUG-99844)
+    return {};
+//    return d_ptr->customItems();
+}
 
 /*!
  * Can be used to query the index of the selected label after receiving \c selectedElementChanged
@@ -322,6 +430,10 @@ QT_BEGIN_NAMESPACE
  *
  * \sa selectedElement
  */
+int QAbstract3DGraph::selectedLabelIndex() const
+{
+    return d_ptr->selectedLabelIndex();
+}
 
 /*!
  * Can be used to get the selected axis after receiving \c selectedElementChanged signal with any label
@@ -331,6 +443,10 @@ QT_BEGIN_NAMESPACE
  *
  * \sa selectedElement
  */
+QAbstract3DAxis *QAbstract3DGraph::selectedAxis() const
+{
+    return d_ptr->selectedAxis();
+}
 
 /*!
  * Can be used to query the index of the selected custom item after receiving \c selectedElementChanged
@@ -341,6 +457,10 @@ QT_BEGIN_NAMESPACE
  *
  * \sa selectedElement
  */
+int QAbstract3DGraph::selectedCustomItemIndex() const
+{
+    return d_ptr->selectedCustomItemIndex();
+}
 
 /*!
  * Can be used to get the selected custom item after receiving \c selectedElementChanged signal with
@@ -351,6 +471,10 @@ QT_BEGIN_NAMESPACE
  *
  * \sa selectedElement
  */
+QCustom3DItem *QAbstract3DGraph::selectedCustomItem() const
+{
+    return d_ptr->selectedCustomItem();
+}
 
 /*!
  * \property QAbstract3DGraph::selectedElement
@@ -362,13 +486,16 @@ QT_BEGIN_NAMESPACE
  * \c selectedElementChanged signal is emitted.
  *
  * The signal can be used for example for implementing custom input handlers, as
- * demonstrated by the \l {Axis Range Dragging With Labels Example}.
+ * demonstrated in the \l {Graph Gallery} example under \uicontrol {Scatter Graph} tab.
  *
  * \sa selectedLabelIndex(), selectedAxis(), selectedCustomItemIndex(), selectedCustomItem(),
  * Q3DBars::selectedSeries(), Q3DScatter::selectedSeries(), Q3DSurface::selectedSeries(),
  * Q3DScene::setSelectionQueryPosition()
- *
  */
+QAbstract3DGraph::ElementType QAbstract3DGraph::selectedElement() const
+{
+    return d_ptr->selectedElement();
+}
 
 /*!
  * Renders current frame to an image of \a imageSize. Default size is the window size. Image is
@@ -378,6 +505,16 @@ QT_BEGIN_NAMESPACE
  *
  * \note OpenGL ES2 does not support anitialiasing, so \a msaaSamples is always forced to \c{0}.
  */
+QImage QAbstract3DGraph::renderToImage(int msaaSamples, const QSize &imageSize)
+{
+    // TODO: API missing in QQuickGraphsItem (QTBUG-111712)
+    Q_UNUSED(msaaSamples)
+    QSize renderSize = imageSize;
+    if (renderSize.isEmpty())
+        renderSize = size();
+    // TODO: API missing in QQuickGraphsItem (QTBUG-111712)
+    return {};//d_ptr->renderToImage(msaaSamples, renderSize);
+}
 
 /*!
  * \property QAbstract3DGraph::measureFps
@@ -389,6 +526,15 @@ QT_BEGIN_NAMESPACE
  *
  * \sa currentFps
  */
+void QAbstract3DGraph::setMeasureFps(bool enable)
+{
+    d_ptr->setMeasureFps(enable);
+}
+
+bool QAbstract3DGraph::measureFps() const
+{
+    return d_ptr->measureFps();
+}
 
 /*!
  * \property QAbstract3DGraph::currentFps
@@ -401,6 +547,10 @@ QT_BEGIN_NAMESPACE
  *
  * \sa measureFps
  */
+qreal QAbstract3DGraph::currentFps() const
+{
+    return d_ptr->currentFps();
+}
 
 /*!
  * \property QAbstract3DGraph::orthoProjection
@@ -412,6 +562,15 @@ QT_BEGIN_NAMESPACE
  *
  * \sa QAbstract3DAxis::labelAutoRotation, Q3DCamera::cameraPreset
  */
+void QAbstract3DGraph::setOrthoProjection(bool enable)
+{
+    d_ptr->setOrthoProjection(enable);
+}
+
+bool QAbstract3DGraph::isOrthoProjection() const
+{
+    return d_ptr->isOrthoProjection();
+}
 
 /*!
  * \property QAbstract3DGraph::aspectRatio
@@ -425,6 +584,15 @@ QT_BEGIN_NAMESPACE
  *
  * \sa horizontalAspectRatio
  */
+void QAbstract3DGraph::setAspectRatio(qreal ratio)
+{
+    d_ptr->setAspectRatio(ratio);
+}
+
+qreal QAbstract3DGraph::aspectRatio() const
+{
+    return d_ptr->aspectRatio();
+}
 
 /*!
  * \property QAbstract3DGraph::optimizationHints
@@ -447,6 +615,15 @@ QT_BEGIN_NAMESPACE
  *
  * \sa QAbstract3DSeries::mesh
  */
+void QAbstract3DGraph::setOptimizationHints(OptimizationHints hints)
+{
+    d_ptr->setOptimizationHints(hints);
+}
+
+QAbstract3DGraph::OptimizationHints QAbstract3DGraph::optimizationHints() const
+{
+    return d_ptr->optimizationHints();
+}
 
 /*!
  * \property QAbstract3DGraph::polar
@@ -461,6 +638,15 @@ QT_BEGIN_NAMESPACE
  *
  * \sa orthoProjection, radialLabelOffset
  */
+void QAbstract3DGraph::setPolar(bool enable)
+{
+    d_ptr->setPolar(enable);
+}
+
+bool QAbstract3DGraph::isPolar() const
+{
+    return d_ptr->isPolar();
+}
 
 /*!
  * \property QAbstract3DGraph::radialLabelOffset
@@ -476,6 +662,15 @@ QT_BEGIN_NAMESPACE
  *
  * \sa polar
  */
+void QAbstract3DGraph::setRadialLabelOffset(float offset)
+{
+    d_ptr->setRadialLabelOffset(offset);
+}
+
+float QAbstract3DGraph::radialLabelOffset() const
+{
+    return d_ptr->radialLabelOffset();
+}
 
 /*!
  * \property QAbstract3DGraph::horizontalAspectRatio
@@ -491,6 +686,15 @@ QT_BEGIN_NAMESPACE
  *
  * \sa aspectRatio, polar, Q3DBars::barThickness, Q3DBars::barSpacing
  */
+void QAbstract3DGraph::setHorizontalAspectRatio(qreal ratio)
+{
+    d_ptr->setHorizontalAspectRatio(ratio);
+}
+
+qreal QAbstract3DGraph::horizontalAspectRatio() const
+{
+    return d_ptr->horizontalAspectRatio();
+}
 
 /*!
  * \property QAbstract3DGraph::reflection
@@ -509,6 +713,17 @@ QT_BEGIN_NAMESPACE
  *
  * \sa reflectivity
  */
+void QAbstract3DGraph::setReflection(bool enable)
+{
+    d_ptr->setReflection(enable);
+}
+
+bool QAbstract3DGraph::isReflection() const
+{
+    // TODO: API missing in QQuickGraphsItem (QTBUG-99816)
+    return false;
+//    return d_ptr->reflection();
+}
 
 /*!
  * \property QAbstract3DGraph::reflectivity
@@ -522,6 +737,15 @@ QT_BEGIN_NAMESPACE
  *
  * \sa reflection
  */
+void QAbstract3DGraph::setReflectivity(qreal reflectivity)
+{
+    d_ptr->setReflectivity(reflectivity);
+}
+
+qreal QAbstract3DGraph::reflectivity() const
+{
+    return d_ptr->reflectivity();
+}
 
 /*!
  * \property QAbstract3DGraph::locale
@@ -532,6 +756,15 @@ QT_BEGIN_NAMESPACE
  *
  * \sa QValue3DAxis::labelFormat
  */
+void QAbstract3DGraph::setLocale(const QLocale &locale)
+{
+    d_ptr->setLocale(locale);
+}
+
+QLocale QAbstract3DGraph::locale() const
+{
+    return d_ptr->locale();
+}
 
 /*!
  * \property QAbstract3DGraph::queriedGraphPosition
@@ -554,6 +787,10 @@ QT_BEGIN_NAMESPACE
  *
  * \sa Q3DScene::graphPositionQuery
  */
+QVector3D QAbstract3DGraph::queriedGraphPosition() const
+{
+    return d_ptr->queriedGraphPosition();
+}
 
 /*!
  * \property QAbstract3DGraph::margin
@@ -575,60 +812,100 @@ QT_BEGIN_NAMESPACE
  * size, the positions of the edge labels of the axes are adjusted to avoid overlap with
  * the edge labels of the neighboring axes.
  */
+void QAbstract3DGraph::setMargin(qreal margin)
+{
+    d_ptr->setMargin(margin);
+}
+
+qreal QAbstract3DGraph::margin() const
+{
+    return d_ptr->margin();
+}
 
 /*!
- * Returns \c{true} if the OpenGL context of the graph has been successfully initialized.
+ * Returns \c{true} if the graph has been successfully initialized.
  * Trying to use a graph when the context initialization has failed typically results in a crash.
- * A common reason for a context initialization failure is lack of sufficient platform support
- * for OpenGL.
  */
-
-QAbstract3DGraph::QAbstract3DGraph()
+// TODO: Does this make sense in the API anymore? (QTBUG-111611)
+bool QAbstract3DGraph::hasContext() const
 {
+    if (d_ptr->isReady())
+        return true;
+    else
+        return false;
 }
 
-QAbstract3DGraph::~QAbstract3DGraph()
+/*!
+ * \internal
+ */
+bool QAbstract3DGraph::event(QEvent *event)
 {
+    switch (event->type()) {
+    case QEvent::TouchBegin:
+    case QEvent::TouchCancel:
+    case QEvent::TouchUpdate:
+    case QEvent::TouchEnd:
+        d_ptr->touchEvent(static_cast<QTouchEvent *>(event));
+        return true;
+    default:
+        return QWidget::event(event);
+    }
 }
 
-Q3DScene *QAbstract3DGraph::scene() const
+/*!
+ * \internal
+ */
+void QAbstract3DGraph::resizeEvent(QResizeEvent *event)
 {
-    return (Q3DScene *)d_ptr->scene();
+    Q_UNUSED(event);
+
+    if (d_ptr) {
+        Q3DScene *scene = (Q3DScene *)d_ptr->scene();
+        scene->d_ptr->setWindowSize(QSize(width(), height()));
+        scene->d_ptr->setViewport(QRect(0, 0, width(), height()));
+    }
 }
 
-QAbstract3DGraph::ShadowQuality QAbstract3DGraph::shadowQuality() const
+/*!
+ * \internal
+ */
+void QAbstract3DGraph::mouseDoubleClickEvent(QMouseEvent *event)
 {
-    return QAbstract3DGraph::ShadowQuality(d_ptr->shadowQuality());
+    d_ptr->mouseDoubleClickEvent(event);
 }
 
-void QAbstract3DGraph::setShadowQuality(const QAbstract3DGraph::ShadowQuality &shadowQuality)
+/*!
+ * \internal
+ */
+void QAbstract3DGraph::mousePressEvent(QMouseEvent *event)
 {
-    d_ptr->setShadowQuality(QQuickGraphsItem::ShadowQuality(shadowQuality));
-    emit shadowQualityChanged(shadowQuality);
+    d_ptr->mousePressEvent(event);
 }
 
-Q3DTheme *QAbstract3DGraph::activeTheme() const
+/*!
+ * \internal
+ */
+void QAbstract3DGraph::mouseReleaseEvent(QMouseEvent *event)
 {
-    return d_ptr->theme();
+    d_ptr->mouseReleaseEvent(event);
 }
 
-void QAbstract3DGraph::setActiveTheme(Q3DTheme *activeTheme)
+/*!
+ * \internal
+ */
+void QAbstract3DGraph::mouseMoveEvent(QMouseEvent *event)
 {
-    d_ptr->setTheme(activeTheme);
-    emit activeThemeChanged(activeTheme);
+    d_ptr->mouseMoveEvent(event);
 }
 
-QAbstract3DGraph::SelectionFlags QAbstract3DGraph::selectionMode() const
+#if QT_CONFIG(wheelevent)
+/*!
+ * \internal
+ */
+void QAbstract3DGraph::wheelEvent(QWheelEvent *event)
 {
-    int intmode = int(d_ptr->selectionMode());
-    return QAbstract3DGraph::SelectionFlags(intmode);
+    d_ptr->wheelEvent(event);
 }
-
-void QAbstract3DGraph::setSelectionMode(const QAbstract3DGraph::SelectionFlags &selectionMode)
-{
-    int intmode = int(selectionMode);
-    d_ptr->setSelectionMode(QQuickGraphsItem::SelectionFlags(intmode));
-    emit selectionModeChanged(selectionMode);
-}
+#endif
 
 QT_END_NAMESPACE

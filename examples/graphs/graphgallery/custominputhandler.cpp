@@ -10,9 +10,8 @@ CustomInputHandler::CustomInputHandler(QAbstract3DGraph *graph, QObject *parent)
     Q3DInputHandler(parent)
 {
     // Connect to the item selection signal from graph
-    // TODO: API missing (QTBUG-111611)
-//    connect(graph, &QAbstract3DGraph::selectedElementChanged, this,
-//            &CustomInputHandler::handleElementSelected);
+    connect(graph, &QAbstract3DGraph::selectedElementChanged, this,
+            &CustomInputHandler::handleElementSelected);
 }
 
 void CustomInputHandler::mousePressEvent(QMouseEvent *event, const QPoint &mousePos)
