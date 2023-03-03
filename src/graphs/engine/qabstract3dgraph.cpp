@@ -4,6 +4,9 @@
 #include "qabstract3dgraph.h"
 #include "q3dscene_p.h"
 #include "qquickgraphsitem_p.h"
+#ifdef Q_OS_DARWIN
+#include <QtQuick3D/qquick3d.h>
+#endif
 
 QT_BEGIN_NAMESPACE
 
@@ -132,6 +135,11 @@ QT_BEGIN_NAMESPACE
  */
 QAbstract3DGraph::QAbstract3DGraph()
 {
+#ifdef Q_OS_DARWIN
+    // Take care of widget users (or CI) wanting to use OpenGL backend on macOS
+    if (QQuickWindow::graphicsApi() == QSGRendererInterface::OpenGL)
+        QSurfaceFormat::setDefaultFormat(QQuick3D::idealSurfaceFormat(4));
+#endif
 }
 
 /*!
