@@ -38,8 +38,7 @@
     \list
         \li \l{Qt Graphs Overview}{Overview}
         \li \l{Qt Graphs Data Handling}{Data Handling}
-        \li \l{Qt Graphs Interacting with Data}{Interacting with
-        Data}
+        \li \l{Qt Graphs Interacting with Data}{Interacting with Data}
         \li \l{Qt Graphs Known Issues}{Known Issues}
     \endlist
 

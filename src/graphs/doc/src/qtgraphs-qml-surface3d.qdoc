@@ -18,7 +18,7 @@
 
   \snippet doc_src_qmlgraphs.cpp 3
 
-  See \l{Qt Quick 2 Surface Example} for more thorough usage example.
+  See \l{Surface Graph Gallery} for more thorough usage example.
 
   \sa Surface3DSeries, ItemModelSurfaceDataProxy, Bars3D, Scatter3D, {Qt Graphs C++ Classes}
  */

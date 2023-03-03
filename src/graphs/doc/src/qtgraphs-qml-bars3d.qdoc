@@ -18,7 +18,7 @@
  *
  * \snippet doc_src_qmlgraphs.cpp 1
  *
- * See \l{Qt Quick 2 Bars Example} for more thorough usage example.
+ * See \l{Simple Bar Graph} for more thorough usage example.
  *
  * \sa Bar3DSeries, ItemModelBarDataProxy, Scatter3D, Surface3D, {Qt Graphs C++ Classes}
  */

@@ -18,7 +18,7 @@
 
   \snippet doc_src_qmlgraphs.cpp 2
 
-  See \l{Qt Quick 2 Scatter Example} for more thorough usage example.
+  See \l{Simple Scatter Graph} for more thorough usage example.
 
   \sa Scatter3DSeries, ScatterDataProxy, Bars3D, Surface3D, {Qt Graphs C++ Classes}
  */

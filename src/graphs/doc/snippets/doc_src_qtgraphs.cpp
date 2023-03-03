@@ -27,7 +27,7 @@ proxy->setItemLabelFormat(QStringLiteral("@xTitle: @xValue, @yTitle: @yValue, @z
 // "expenses" -> "9.2"
 QStringList years;
 QStringList months;
-years << "2006" << "2007" << "2008" << "2009" << "2010" << "2011" << "2012";
+years << "2016" << "2017" << "2018" << "2019" << "2020" << "2021" << "2022";
 months << "jan" << "feb" << "mar" << "apr" << "may" << "jun" << "jul" << "aug" << "sep" << "oct" << "nov" << "dec";
 
 QItemModelBarDataProxy *proxy = new QItemModelBarDataProxy(customModel,
@@ -78,7 +78,6 @@ make
 
 //! [9]
 Q3DBars *graph = new Q3DBars();
-QWidget *container = QWidget::createWindowContainer(graph);
 //! [9]
 
 //! [10]

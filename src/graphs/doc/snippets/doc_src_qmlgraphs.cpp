@@ -6,7 +6,7 @@ import QtGraphs
 //! [0]
 
 //! [1]
-import QtQuick 2.0
+import QtQuick
 import QtGraphs
 
 Item {
@@ -32,20 +32,20 @@ Item {
 
     ListModel {
         id: dataModel
-        ListElement{ year: "2012"; city: "Oulu";     expenses: "4200"; }
-        ListElement{ year: "2012"; city: "Rauma";    expenses: "2100"; }
-        ListElement{ year: "2012"; city: "Helsinki"; expenses: "7040"; }
-        ListElement{ year: "2012"; city: "Tampere";  expenses: "4330"; }
-        ListElement{ year: "2013"; city: "Oulu";     expenses: "3960"; }
-        ListElement{ year: "2013"; city: "Rauma";    expenses: "1990"; }
-        ListElement{ year: "2013"; city: "Helsinki"; expenses: "7230"; }
-        ListElement{ year: "2013"; city: "Tampere";  expenses: "4650"; }
+        ListElement{ year: "2022"; city: "Oulu";     expenses: "4200"; }
+        ListElement{ year: "2022"; city: "Rauma";    expenses: "2100"; }
+        ListElement{ year: "2022"; city: "Helsinki"; expenses: "7040"; }
+        ListElement{ year: "2022"; city: "Tampere";  expenses: "4330"; }
+        ListElement{ year: "2023"; city: "Oulu";     expenses: "3960"; }
+        ListElement{ year: "2023"; city: "Rauma";    expenses: "1990"; }
+        ListElement{ year: "2023"; city: "Helsinki"; expenses: "7230"; }
+        ListElement{ year: "2023"; city: "Tampere";  expenses: "4650"; }
     }
 }
 //! [1]
 
 //! [2]
-import QtQuick 2.0
+import QtQuick
 import QtGraphs
 
 Item {
@@ -78,7 +78,7 @@ Item {
 //! [2]
 
 //! [3]
-import QtQuick 2.0
+import QtQuick
 import QtGraphs
 
 Item {
@@ -128,7 +128,7 @@ ItemModelBarDataProxy {
     rowRole: "year"
     columnRole: "city"
     valueRole: "expenses"
-    rowCategories: ["2010", "2011", "2012", "2013"]
+    rowCategories: ["2020", "2021", "2022", "2023"]
     columnCategories: ["Oulu", "Rauma", "Helsinki", "Tampere"]
 }
 //! [7]
