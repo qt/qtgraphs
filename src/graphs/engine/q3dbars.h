@@ -27,7 +27,6 @@ class Q_GRAPHS_EXPORT Q3DBars : public QAbstract3DGraph
     Q_PROPERTY(QBar3DSeries *primarySeries READ primarySeries WRITE setPrimarySeries NOTIFY primarySeriesChanged)
     Q_PROPERTY(QBar3DSeries *selectedSeries READ selectedSeries NOTIFY selectedSeriesChanged)
     Q_PROPERTY(float floorLevel READ floorLevel WRITE setFloorLevel NOTIFY floorLevelChanged)
-    Q_PROPERTY(bool reflection READ isReflection WRITE setReflection NOTIFY reflectionChanged)
 
 public:
     Q3DBars();
@@ -69,9 +68,6 @@ public:
     void setFloorLevel(float level);
     float floorLevel() const;
 
-    bool isReflection() const;
-    void setReflection(bool reflection);
-
 Q_SIGNALS:
     void multiSeriesUniformChanged(bool uniform);
     void barThicknessChanged(float thicknessRatio);
@@ -84,7 +80,6 @@ Q_SIGNALS:
     void primarySeriesChanged(QBar3DSeries *series);
     void selectedSeriesChanged(QBar3DSeries *series);
     void floorLevelChanged(float level);
-    void reflectionChanged(bool reflection);
 
 private:
     QQuickGraphsBars *dptr();

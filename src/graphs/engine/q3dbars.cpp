@@ -68,21 +68,28 @@ QT_BEGIN_NAMESPACE
  */
 
 /*!
- * Constructs a new 3D bar graph with optional \a parent window
- * and surface \a format.
+ * Constructs a new 3D bar graph.
  */
+Q3DBars::Q3DBars() : QAbstract3DGraph()
+{
+    QQmlComponent *component = new QQmlComponent(engine(), this);
+    component->setData("import QtQuick; import QtGraphs; Bars3D { anchors.fill: parent; }", QUrl());
+    d_ptr.reset(qobject_cast<QQuickGraphsBars *>(component->create()));
+    setContent(component->url(), component, d_ptr.data());
+}
 
 /*!
  * Destroys the 3D bar graph.
  */
+Q3DBars::~Q3DBars()
+{
+}
 
 /*!
  * \property Q3DBars::primarySeries
  *
  * \brief The primary series of the graph.
- */
-
-/*!
+ *
  * Sets \a series as the primary series of the graph. The primary series
  * determines the row and column axis labels when the labels are not explicitly
  * set to the axes.
@@ -96,6 +103,16 @@ QT_BEGIN_NAMESPACE
  * If \a series is null, this property resets to default.
  * Defaults to the first added series or zero if no series are added to the graph.
  */
+void Q3DBars::setPrimarySeries(QBar3DSeries *series)
+{
+    dptr()->setPrimarySeries(series);
+    emit primarySeriesChanged(series);
+}
+
+QBar3DSeries *Q3DBars::primarySeries() const
+{
+    return dptrc()->primarySeries();
+}
 
 /*!
  * Adds the \a series to the graph. A graph can contain multiple series, but only one set of axes,
@@ -107,12 +124,20 @@ QT_BEGIN_NAMESPACE
  *
  * \sa seriesList(), primarySeries, QAbstract3DGraph::hasSeries()
  */
+void Q3DBars::addSeries(QBar3DSeries *series)
+{
+    dptr()->addSeries(series);
+}
 
 /*!
  * Removes the \a series from the graph.
  *
  * \sa QAbstract3DGraph::hasSeries()
  */
+void Q3DBars::removeSeries(QBar3DSeries *series)
+{
+    dptr()->removeSeries(series);
+}
 
 /*!
  * Inserts the \a series into the position \a index in the series list.
@@ -124,12 +149,20 @@ QT_BEGIN_NAMESPACE
  *
  * \sa addSeries(), seriesList(), QAbstract3DGraph::hasSeries()
  */
+void Q3DBars::insertSeries(int index, QBar3DSeries *series)
+{
+    dptr()->insertSeries(index, series);
+}
 
 /*!
  * Returns the list of series added to this graph.
  *
  * \sa QAbstract3DGraph::hasSeries()
  */
+QList<QBar3DSeries *> Q3DBars::seriesList() const
+{
+    return dptrc()->m_barsController->barSeriesList();
+}
 
 /*!
  * \property Q3DBars::multiSeriesUniform
@@ -140,6 +173,16 @@ QT_BEGIN_NAMESPACE
  * If set to \c {true}, \l{barSpacing}{bar spacing} will be correctly applied
  * only to the X-axis. Preset to \c false by default.
  */
+void Q3DBars::setMultiSeriesUniform(bool uniform)
+{
+    dptr()->setMultiSeriesUniform(uniform);
+    emit multiSeriesUniformChanged(uniform);
+}
+
+bool Q3DBars::isMultiSeriesUniform() const
+{
+    return dptrc()->isMultiSeriesUniform();
+}
 
 /*!
  * \property Q3DBars::barThickness
@@ -149,6 +192,16 @@ QT_BEGIN_NAMESPACE
  * The value \c 1.0 means that the bars are as wide as they are deep, whereas
  *\c 0.5 makes them twice as deep as they are wide. Preset to \c 1.0 by default.
  */
+void Q3DBars::setBarThickness(float thicknessRatio)
+{
+    dptr()->setBarThickness(thicknessRatio);
+    emit barThicknessChanged(thicknessRatio);
+}
+
+float Q3DBars::barThickness() const
+{
+    return dptrc()->barThickness();
+}
 
 /*!
  * \property Q3DBars::barSpacing
@@ -160,6 +213,16 @@ QT_BEGIN_NAMESPACE
  *
  * \sa barSpacingRelative, multiSeriesUniform, barSeriesMargin
  */
+void Q3DBars::setBarSpacing(const QSizeF &spacing)
+{
+    dptr()->setBarSpacing(spacing);
+    emit barSpacingChanged(spacing);
+}
+
+QSizeF Q3DBars::barSpacing() const
+{
+    return dptrc()->barSpacing();
+}
 
 /*!
  * \property Q3DBars::barSpacingRelative
@@ -170,6 +233,16 @@ QT_BEGIN_NAMESPACE
  * side-to-side, \c 1.0 means that a space as wide as the thickness of one bar
  * is left between the bars, and so on. Preset to \c true.
  */
+void Q3DBars::setBarSpacingRelative(bool relative)
+{
+    dptr()->setBarSpacingRelative(relative);
+    emit barSpacingRelativeChanged(relative);
+}
+
+bool Q3DBars::isBarSpacingRelative() const
+{
+    return dptrc()->isBarSpacingRelative();
+}
 
 /*!
  * \property Q3DBars::barSeriesMargin
@@ -183,14 +256,22 @@ QT_BEGIN_NAMESPACE
  *
  * \sa barSpacing
  */
+void Q3DBars::setBarSeriesMargin(const QSizeF &margin)
+{
+    dptr()->setBarSeriesMargin(margin);
+    emit barSeriesMarginChanged(margin);
+}
+
+QSizeF Q3DBars::barSeriesMargin() const
+{
+    return dptrc()->barSeriesMargin();
+}
 
 /*!
  * \property Q3DBars::rowAxis
  *
  * \brief The axis attached to the active row.
- */
-
-/*!
+ *
  * Sets the axis of the active row to \a axis. Implicitly calls addAxis() to
  * transfer the ownership of the axis to this graph.
  *
@@ -200,14 +281,22 @@ QT_BEGIN_NAMESPACE
  *
  * \sa addAxis(), releaseAxis()
  */
+void Q3DBars::setRowAxis(QCategory3DAxis *axis)
+{
+    dptr()->setRowAxis(axis);
+    emit rowAxisChanged(axis);
+}
+
+QCategory3DAxis *Q3DBars::rowAxis() const
+{
+    return dptrc()->rowAxis();
+}
 
 /*!
  * \property Q3DBars::columnAxis
  *
  * \brief The axis attached to the active column.
- */
-
-/*!
+ *
  * Sets the axis of the active column to \a axis. Implicitly calls addAxis() to
  * transfer the ownership of the axis to this graph.
  *
@@ -217,6 +306,16 @@ QT_BEGIN_NAMESPACE
  *
  * \sa addAxis(), releaseAxis()
  */
+void Q3DBars::setColumnAxis(QCategory3DAxis *axis)
+{
+    dptr()->setColumnAxis(axis);
+    emit columnAxisChanged(axis);
+}
+
+QCategory3DAxis *Q3DBars::columnAxis() const
+{
+    return dptrc()->columnAxis();
+}
 
 /*!
  * \property Q3DBars::valueAxis
@@ -231,169 +330,6 @@ QT_BEGIN_NAMESPACE
  *
  * \sa addAxis(), releaseAxis()
  */
-
-/*!
- * \property Q3DBars::selectedSeries
- *
- * \brief The selected series or a null value.
- *
- * If selectionMode has the \c SelectionMultiSeries flag set, this
- * property holds the series that owns the selected bar.
- */
-
-/*!
- * \property Q3DBars::floorLevel
- *
- * \brief The floor level for the bar graph in Y-axis data coordinates.
- *
- * The actual floor level will be restricted by the Y-axis minimum and maximum
- * values.
- * Defaults to zero.
- */
-
-/*!
- * Adds \a axis to the graph. The axes added via addAxis are not yet taken to use,
- * addAxis is simply used to give the ownership of the \a axis to the graph.
- * The \a axis must not be null or added to another graph.
- *
- * \sa releaseAxis(), setValueAxis(), setRowAxis(), setColumnAxis()
- */
-
-/*!
- * Releases the ownership of the \a axis back to the caller, if it is added to this graph.
- * If the released \a axis is in use, a new default axis will be created and set active.
- *
- * If the default axis is released and added back later, it behaves as any other axis would.
- *
- * \sa addAxis(), setValueAxis(), setRowAxis(), setColumnAxis()
- */
-
-/*!
- * Returns the list of all added axes.
- *
- * \sa addAxis()
- */
-
-Q3DBars::Q3DBars() : QAbstract3DGraph()
-{
-    QQmlComponent *component = new QQmlComponent(engine(), this);
-    component->setData("import QtQuick; import QtGraphs; Bars3D { anchors.fill: parent; }", QUrl());
-    d_ptr.reset(qobject_cast<QQuickGraphsBars *>(component->create()));
-    setContent(component->url(), component, d_ptr.data());
-}
-
-Q3DBars::~Q3DBars()
-{
-}
-
-void Q3DBars::setPrimarySeries(QBar3DSeries *series)
-{
-    dptr()->setPrimarySeries(series);
-    emit primarySeriesChanged(series);
-}
-
-QBar3DSeries *Q3DBars::primarySeries() const
-{
-    return dptrc()->primarySeries();
-}
-
-void Q3DBars::addSeries(QBar3DSeries *series)
-{
-    dptr()->addSeries(series);
-}
-
-void Q3DBars::removeSeries(QBar3DSeries *series)
-{
-    dptr()->removeSeries(series);
-}
-
-void Q3DBars::insertSeries(int index, QBar3DSeries *series)
-{
-    dptr()->insertSeries(index, series);
-}
-
-QList<QBar3DSeries *> Q3DBars::seriesList() const
-{
-    return dptrc()->m_barsController->barSeriesList();
-}
-
-void Q3DBars::setMultiSeriesUniform(bool uniform)
-{
-    dptr()->setMultiSeriesUniform(uniform);
-    emit multiSeriesUniformChanged(uniform);
-}
-
-bool Q3DBars::isMultiSeriesUniform() const
-{
-    return dptrc()->isMultiSeriesUniform();
-}
-
-void Q3DBars::setBarThickness(float thicknessRatio)
-{
-    dptr()->setBarThickness(thicknessRatio);
-    emit barThicknessChanged(thicknessRatio);
-}
-
-float Q3DBars::barThickness() const
-{
-    return dptrc()->barThickness();
-}
-
-void Q3DBars::setBarSpacing(const QSizeF &spacing)
-{
-    dptr()->setBarSpacing(spacing);
-    emit barSpacingChanged(spacing);
-}
-
-QSizeF Q3DBars::barSpacing() const
-{
-    return dptrc()->barSpacing();
-}
-
-void Q3DBars::setBarSpacingRelative(bool relative)
-{
-    dptr()->setBarSpacingRelative(relative);
-    emit barSpacingRelativeChanged(relative);
-}
-
-bool Q3DBars::isBarSpacingRelative() const
-{
-    return dptrc()->isBarSpacingRelative();
-}
-
-void Q3DBars::setBarSeriesMargin(const QSizeF &margin)
-{
-    dptr()->setBarSeriesMargin(margin);
-    emit barSeriesMarginChanged(margin);
-}
-
-QSizeF Q3DBars::barSeriesMargin() const
-{
-    return dptrc()->barSeriesMargin();
-}
-
-void Q3DBars::setRowAxis(QCategory3DAxis *axis)
-{
-    dptr()->setRowAxis(axis);
-    emit rowAxisChanged(axis);
-}
-
-QCategory3DAxis *Q3DBars::rowAxis() const
-{
-    return dptrc()->rowAxis();
-}
-
-void Q3DBars::setColumnAxis(QCategory3DAxis *axis)
-{
-    dptr()->setColumnAxis(axis);
-    emit columnAxisChanged(axis);
-}
-
-QCategory3DAxis *Q3DBars::columnAxis() const
-{
-    return dptrc()->columnAxis();
-}
-
 void Q3DBars::setValueAxis(QValue3DAxis *axis)
 {
     dptr()->setValueAxis(axis);
@@ -405,11 +341,28 @@ QValue3DAxis *Q3DBars::valueAxis() const
     return dptrc()->valueAxis();
 }
 
+/*!
+ * \property Q3DBars::selectedSeries
+ *
+ * \brief The selected series or a null value.
+ *
+ * If selectionMode has the \c SelectionMultiSeries flag set, this
+ * property holds the series that owns the selected bar.
+ */
 QBar3DSeries *Q3DBars::selectedSeries() const
 {
     return dptrc()->selectedSeries();
 }
 
+/*!
+ * \property Q3DBars::floorLevel
+ *
+ * \brief The floor level for the bar graph in Y-axis data coordinates.
+ *
+ * The actual floor level will be restricted by the Y-axis minimum and maximum
+ * values.
+ * Defaults to zero.
+ */
 void Q3DBars::setFloorLevel(float level)
 {
     dptr()->setFloorLevel(level);
@@ -421,37 +374,52 @@ float Q3DBars::floorLevel() const
     return dptrc()->floorLevel();
 }
 
+/*!
+ * Adds \a axis to the graph. The axes added via addAxis are not yet taken to use,
+ * addAxis is simply used to give the ownership of the \a axis to the graph.
+ * The \a axis must not be null or added to another graph.
+ *
+ * \sa releaseAxis(), setValueAxis(), setRowAxis(), setColumnAxis()
+ */
 void Q3DBars::addAxis(QAbstract3DAxis *axis)
 {
     dptr()->m_barsController->addAxis(axis);
 }
 
+/*!
+ * Releases the ownership of the \a axis back to the caller, if it is added to this graph.
+ * If the released \a axis is in use, a new default axis will be created and set active.
+ *
+ * If the default axis is released and added back later, it behaves as any other axis would.
+ *
+ * \sa addAxis(), setValueAxis(), setRowAxis(), setColumnAxis()
+ */
 void Q3DBars::releaseAxis(QAbstract3DAxis *axis)
 {
     dptr()->m_barsController->releaseAxis(axis);
 }
 
+/*!
+ * Returns the list of all added axes.
+ *
+ * \sa addAxis()
+ */
 QList<QAbstract3DAxis *> Q3DBars::axes() const
 {
     return dptrc()->m_barsController->axes();
 }
 
-bool Q3DBars::isReflection() const
-{
-    return dptrc()->isReflection();
-}
-
-void Q3DBars::setReflection(bool reflection)
-{
-    dptr()->setReflection(reflection);
-    emit reflectionChanged(reflection);
-}
-
+/*!
+ * \internal
+ */
 QQuickGraphsBars *Q3DBars::dptr()
 {
     return static_cast<QQuickGraphsBars *>(d_ptr.data());
 }
 
+/*!
+ * \internal
+ */
 const QQuickGraphsBars *Q3DBars::dptrc() const
 {
     return static_cast<const QQuickGraphsBars *>(d_ptr.data());
