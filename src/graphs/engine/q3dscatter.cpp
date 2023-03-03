@@ -56,13 +56,22 @@ QT_BEGIN_NAMESPACE
  */
 
 /*!
- * Constructs a new 3D scatter graph with optional \a parent window
- * and surface \a format.
+ * Constructs a new 3D scatter graph.
  */
+Q3DScatter::Q3DScatter() : QAbstract3DGraph()
+{
+    QQmlComponent *component = new QQmlComponent(engine(), this);
+    component->setData("import QtQuick; import QtGraphs; Scatter3D { anchors.fill: parent; }", QUrl());
+    d_ptr.reset(qobject_cast<QQuickGraphsScatter *>(component->create()));
+    setContent(component->url(), component, d_ptr.data());
+}
 
 /*!
  * Destroys the 3D scatter graph.
  */
+Q3DScatter::~Q3DScatter()
+{
+}
 
 /*!
  * Adds the \a series to the graph. A graph can contain multiple series, but has only one set of
@@ -71,26 +80,36 @@ QT_BEGIN_NAMESPACE
  *
  * \sa QAbstract3DGraph::hasSeries()
  */
+void Q3DScatter::addSeries(QScatter3DSeries *series)
+{
+    dptr()->addSeries(series);
+}
 
 /*!
  * Removes the \a series from the graph.
  *
  * \sa QAbstract3DGraph::hasSeries()
  */
+void Q3DScatter::removeSeries(QScatter3DSeries *series)
+{
+    dptr()->removeSeries(series);
+}
 
 /*!
  * Returns the list of series added to this graph.
  *
  * \sa QAbstract3DGraph::hasSeries()
  */
+QList<QScatter3DSeries *> Q3DScatter::seriesList() const
+{
+    return dptrc()->m_scatterController->scatterSeriesList();
+}
 
 /*!
  * \property Q3DScatter::axisX
  *
  * \brief The active x-axis.
- */
-
-/*!
+ *
  * Sets \a axis as the active x-axis. Implicitly calls addAxis() to transfer the
  * ownership of the axis to this graph.
  *
@@ -101,113 +120,6 @@ QT_BEGIN_NAMESPACE
  *
  * \sa addAxis(), releaseAxis()
  */
-
-/*!
- * \property Q3DScatter::axisY
- *
- * \brief The active y-axis.
- */
-
-/*!
- * Sets \a axis as the active y-axis. Implicitly calls addAxis() to transfer the
- * ownership of the axis to this graph.
- *
- * If \a axis is null, a temporary default axis with no labels and an automatically adjusting
- * range is created.
- * This temporary axis is destroyed if another axis is set explicitly to the
- * same orientation.
- *
- * \sa addAxis(), releaseAxis()
- */
-
-/*!
- * \property Q3DScatter::axisZ
- *
- * \brief The active z-axis.
- */
-
-/*!
- * Sets \a axis as the active z-axis. Implicitly calls addAxis() to transfer the
- * ownership of the axis to this graph.
- *
- * If \a axis is null, a temporary default axis with no labels and an automatically adjusting
- * range is created.
- * This temporary axis is destroyed if another axis is set explicitly to the
- * same orientation.
- *
- * \sa addAxis(), releaseAxis()
- */
-
-/*!
- * Returns the used z-axis.
- */
-
-/*!
- * \property Q3DScatter::selectedSeries
- *
- * \brief The selected series or null.
- */
-
-/*!
- * Adds \a axis to the graph. The axes added via addAxis are not yet taken to use,
- * addAxis is simply used to give the ownership of the \a axis to the graph.
- * The \a axis must not be null or added to another graph.
- *
- * \sa releaseAxis(), setAxisX(), setAxisY(), setAxisZ()
- */
-
-/*!
- * Releases the ownership of the \a axis back to the caller, if it is added to this graph.
- * If the released \a axis is in use, a new default axis will be created and set active.
- *
- * If the default axis is released and added back later, it behaves as any other axis would.
- *
- * \sa addAxis(), setAxisX(), setAxisY(), setAxisZ()
- */
-
-/*!
- * Returns the list of all added axes.
- *
- * \sa addAxis()
- */
-
-Q3DScatter::Q3DScatter() : QAbstract3DGraph()
-{
-    QQmlComponent *component = new QQmlComponent(engine(), this);
-    component->setData("import QtQuick; import QtGraphs; Scatter3D { anchors.fill: parent; }", QUrl());
-    d_ptr.reset(qobject_cast<QQuickGraphsScatter *>(component->create()));
-    setContent(component->url(), component, d_ptr.data());
-}
-
-Q3DScatter::~Q3DScatter()
-{
-}
-
-void Q3DScatter::addSeries(QScatter3DSeries *series)
-{
-    dptr()->addSeries(series);
-}
-
-void Q3DScatter::removeSeries(QScatter3DSeries *series)
-{
-    dptr()->removeSeries(series);
-}
-
-QList<QScatter3DSeries *> Q3DScatter::seriesList() const
-{
-    return dptrc()->m_scatterController->scatterSeriesList();
-}
-
-QQuickGraphsScatter *Q3DScatter::dptr()
-{
-    return static_cast<QQuickGraphsScatter *>(d_ptr.data());
-}
-
-const QQuickGraphsScatter *Q3DScatter::dptrc() const
-{
-    return static_cast<const QQuickGraphsScatter *>(d_ptr.data());
-}
-
 void Q3DScatter::setAxisX(QValue3DAxis *axis)
 {
     dptr()->setAxisX(axis);
@@ -218,6 +130,21 @@ QValue3DAxis *Q3DScatter::axisX() const
     return static_cast<QValue3DAxis *>(dptrc()->axisX());
 }
 
+/*!
+ * \property Q3DScatter::axisY
+ *
+ * \brief The active y-axis.
+ *
+ * Sets \a axis as the active y-axis. Implicitly calls addAxis() to transfer the
+ * ownership of the axis to this graph.
+ *
+ * If \a axis is null, a temporary default axis with no labels and an automatically adjusting
+ * range is created.
+ * This temporary axis is destroyed if another axis is set explicitly to the
+ * same orientation.
+ *
+ * \sa addAxis(), releaseAxis()
+ */
 void Q3DScatter::setAxisY(QValue3DAxis *axis)
 {
     dptr()->setAxisY(axis);
@@ -228,6 +155,21 @@ QValue3DAxis *Q3DScatter::axisY() const
     return static_cast<QValue3DAxis *>(dptrc()->axisY());
 }
 
+/*!
+ * \property Q3DScatter::axisZ
+ *
+ * \brief The active z-axis.
+ *
+ * Sets \a axis as the active z-axis. Implicitly calls addAxis() to transfer the
+ * ownership of the axis to this graph.
+ *
+ * If \a axis is null, a temporary default axis with no labels and an automatically adjusting
+ * range is created.
+ * This temporary axis is destroyed if another axis is set explicitly to the
+ * same orientation.
+ *
+ * \sa addAxis(), releaseAxis()
+ */
 void Q3DScatter::setAxisZ(QValue3DAxis *axis)
 {
     dptr()->setAxisZ(axis);
@@ -238,21 +180,46 @@ QValue3DAxis *Q3DScatter::axisZ() const
     return static_cast<QValue3DAxis *>(dptrc()->axisZ());
 }
 
+/*!
+ * \property Q3DScatter::selectedSeries
+ *
+ * \brief The selected series or null.
+ */
 QScatter3DSeries *Q3DScatter::selectedSeries() const
 {
     return dptrc()->selectedSeries();
 }
 
+/*!
+ * Adds \a axis to the graph. The axes added via addAxis are not yet taken to use,
+ * addAxis is simply used to give the ownership of the \a axis to the graph.
+ * The \a axis must not be null or added to another graph.
+ *
+ * \sa releaseAxis(), setAxisX(), setAxisY(), setAxisZ()
+ */
 void Q3DScatter::addAxis(QValue3DAxis *axis)
 {
     dptr()->m_scatterController->addAxis(axis);
 }
 
+/*!
+ * Releases the ownership of the \a axis back to the caller, if it is added to this graph.
+ * If the released \a axis is in use, a new default axis will be created and set active.
+ *
+ * If the default axis is released and added back later, it behaves as any other axis would.
+ *
+ * \sa addAxis(), setAxisX(), setAxisY(), setAxisZ()
+ */
 void Q3DScatter::releaseAxis(QValue3DAxis *axis)
 {
     dptr()->m_scatterController->releaseAxis(axis);
 }
 
+/*!
+ * Returns the list of all added axes.
+ *
+ * \sa addAxis()
+ */
 QList<QValue3DAxis *> Q3DScatter::axes() const
 {
     QList<QAbstract3DAxis *> abstractAxes = dptrc()->m_scatterController->axes();
@@ -261,6 +228,22 @@ QList<QValue3DAxis *> Q3DScatter::axes() const
         retList.append(static_cast<QValue3DAxis *>(axis));
 
     return retList;
+}
+
+/*!
+ * \internal
+ */
+QQuickGraphsScatter *Q3DScatter::dptr()
+{
+    return static_cast<QQuickGraphsScatter *>(d_ptr.data());
+}
+
+/*!
+ * \internal
+ */
+const QQuickGraphsScatter *Q3DScatter::dptrc() const
+{
+    return static_cast<const QQuickGraphsScatter *>(d_ptr.data());
 }
 
 QT_END_NAMESPACE
