@@ -7,7 +7,6 @@
 #include <QtGraphs/qabstract3dgraph.h>
 #include <QtGraphs/qvalue3daxis.h>
 #include <QtGraphs/qsurface3dseries.h>
-#include <QtQuick/QQuickWindow>
 
 QT_BEGIN_NAMESPACE
 

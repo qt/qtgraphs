@@ -71,13 +71,23 @@ QT_BEGIN_NAMESPACE
  */
 
 /*!
- * Constructs a new 3D surface graph with optional \a parent window
- * and surface \a format.
+ * Constructs a new 3D surface graph.
  */
+Q3DSurface::Q3DSurface() : QAbstract3DGraph()
+{
+    QQmlComponent *component = new QQmlComponent(engine(), this);
+    component->setData("import QtQuick; import QtGraphs; Surface3D { anchors.fill: parent; }",
+                       QUrl());
+    d_ptr.reset(qobject_cast<QQuickGraphsSurface *>(component->create()));
+    setContent(component->url(), component, d_ptr.data());
+}
 
 /*!
  *  Destroys the 3D surface graph.
  */
+Q3DSurface::~Q3DSurface()
+{
+}
 
 /*!
  * Adds the \a series to the graph.  A graph can contain multiple series, but has only one set of
@@ -86,26 +96,36 @@ QT_BEGIN_NAMESPACE
  *
  * \sa  QAbstract3DGraph::hasSeries()
  */
+void Q3DSurface::addSeries(QSurface3DSeries *series)
+{
+    dptr()->addSeries(series);
+}
 
 /*!
  * Removes the \a series from the graph.
  *
  * \sa QAbstract3DGraph::hasSeries()
  */
+void Q3DSurface::removeSeries(QSurface3DSeries *series)
+{
+    dptr()->removeSeries(series);
+}
 
 /*!
  * Returns the list of series added to this graph.
  *
  * \sa QAbstract3DGraph::hasSeries()
  */
+QList<QSurface3DSeries *> Q3DSurface::seriesList() const
+{
+    return dptrc()->m_surfaceController->surfaceSeriesList();
+}
 
 /*!
  * \property Q3DSurface::axisX
  *
  * \brief The active x-axis.
- */
-
-/*!
+ *
  * Sets \a axis as the active x-axis. Implicitly calls addAxis() to transfer the
  * ownership of the axis to this graph.
  *
@@ -117,14 +137,21 @@ QT_BEGIN_NAMESPACE
  *
  * \sa addAxis(), releaseAxis()
  */
+void Q3DSurface::setAxisX(QValue3DAxis *axis)
+{
+    dptr()->setAxisX(axis);
+}
+
+QValue3DAxis *Q3DSurface::axisX() const
+{
+    return static_cast<QValue3DAxis *>(dptrc()->axisX());
+}
 
 /*!
  * \property Q3DSurface::axisY
  *
  * \brief The active y-axis.
- */
-
-/*!
+ *
  * Sets \a axis as the active y-axis. Implicitly calls addAxis() to transfer the
  * ownership of the axis to this graph.
  *
@@ -136,14 +163,21 @@ QT_BEGIN_NAMESPACE
  *
  * \sa addAxis(), releaseAxis()
  */
+void Q3DSurface::setAxisY(QValue3DAxis *axis)
+{
+    dptr()->setAxisY(axis);
+}
+
+QValue3DAxis *Q3DSurface::axisY() const
+{
+    return static_cast<QValue3DAxis *>(dptrc()->axisY());
+}
 
 /*!
  * \property Q3DSurface::axisZ
  *
  * \brief The active z-axis.
- */
-
-/*!
+ *
  * Sets \a axis as the active z-axis. Implicitly calls addAxis() to transfer the
  * ownership of the axis to this graph.
  *
@@ -155,6 +189,15 @@ QT_BEGIN_NAMESPACE
  *
  * \sa addAxis(), releaseAxis()
  */
+void Q3DSurface::setAxisZ(QValue3DAxis *axis)
+{
+    dptr()->setAxisZ(axis);
+}
+
+QValue3DAxis *Q3DSurface::axisZ() const
+{
+    return static_cast<QValue3DAxis *>(dptrc()->axisZ());
+}
 
 /*!
  * \property Q3DSurface::selectedSeries
@@ -164,6 +207,10 @@ QT_BEGIN_NAMESPACE
  * If selectionMode has \c SelectionMultiSeries set, this
  * property holds the series which owns the selected point.
  */
+QSurface3DSeries *Q3DSurface::selectedSeries() const
+{
+    return dptrc()->selectedSeries();
+}
 
 /*!
  * \property Q3DSurface::flipHorizontalGrid
@@ -182,92 +229,6 @@ QT_BEGIN_NAMESPACE
  * from the horizontal background.
  * Defaults to \c{false}.
  */
-
-/*!
- * Adds \a axis to the graph. The axes added via addAxis are not yet taken to use,
- * addAxis is simply used to give the ownership of the \a axis to the graph.
- * The \a axis must not be null or added to another graph.
- *
- * \sa releaseAxis(), setAxisX(), setAxisY(), setAxisZ()
- */
-
-/*!
- * Releases the ownership of the \a axis back to the caller, if it is added to this graph.
- * If the released \a axis is in use, a new default axis will be created and set active.
- *
- * If the default axis is released and added back later, it behaves as any other axis would.
- *
- * \sa addAxis(), setAxisX(), setAxisY(), setAxisZ()
- */
-
-/*!
- * Returns the list of all added axes.
- *
- * \sa addAxis()
- */
-
-Q3DSurface::Q3DSurface() : QAbstract3DGraph()
-{
-    QQmlComponent *component = new QQmlComponent(engine(), this);
-    component->setData("import QtQuick; import QtGraphs; Surface3D { anchors.fill: parent; }", QUrl());
-    d_ptr.reset(qobject_cast<QQuickGraphsSurface *>(component->create()));
-    setContent(component->url(), component, d_ptr.data());
-}
-
-Q3DSurface::~Q3DSurface()
-{
-}
-
-void Q3DSurface::addSeries(QSurface3DSeries *series)
-{
-    dptr()->addSeries(series);
-}
-
-void Q3DSurface::removeSeries(QSurface3DSeries *series)
-{
-    dptr()->removeSeries(series);
-}
-
-QList<QSurface3DSeries *> Q3DSurface::seriesList() const
-{
-    return dptrc()->m_surfaceController->surfaceSeriesList();
-}
-
-void Q3DSurface::setAxisX(QValue3DAxis *axis)
-{
-    dptr()->setAxisX(axis);
-}
-
-QValue3DAxis *Q3DSurface::axisX() const
-{
-    return static_cast<QValue3DAxis *>(dptrc()->axisX());
-}
-
-void Q3DSurface::setAxisY(QValue3DAxis *axis)
-{
-    dptr()->setAxisY(axis);
-}
-
-QValue3DAxis *Q3DSurface::axisY() const
-{
-    return static_cast<QValue3DAxis *>(dptrc()->axisY());
-}
-
-void Q3DSurface::setAxisZ(QValue3DAxis *axis)
-{
-    dptr()->setAxisZ(axis);
-}
-
-QValue3DAxis *Q3DSurface::axisZ() const
-{
-    return static_cast<QValue3DAxis *>(dptrc()->axisZ());
-}
-
-QSurface3DSeries *Q3DSurface::selectedSeries() const
-{
-    return dptrc()->selectedSeries();
-}
-
 void Q3DSurface::setFlipHorizontalGrid(bool flip)
 {
     dptr()->setFlipHorizontalGrid(flip);
@@ -278,16 +239,36 @@ bool Q3DSurface::flipHorizontalGrid() const
     return dptrc()->flipHorizontalGrid();
 }
 
+/*!
+ * Adds \a axis to the graph. The axes added via addAxis are not yet taken to use,
+ * addAxis is simply used to give the ownership of the \a axis to the graph.
+ * The \a axis must not be null or added to another graph.
+ *
+ * \sa releaseAxis(), setAxisX(), setAxisY(), setAxisZ()
+ */
 void Q3DSurface::addAxis(QValue3DAxis *axis)
 {
     return dptrc()->m_surfaceController->addAxis(axis);
 }
 
+/*!
+ * Releases the ownership of the \a axis back to the caller, if it is added to this graph.
+ * If the released \a axis is in use, a new default axis will be created and set active.
+ *
+ * If the default axis is released and added back later, it behaves as any other axis would.
+ *
+ * \sa addAxis(), setAxisX(), setAxisY(), setAxisZ()
+ */
 void Q3DSurface::releaseAxis(QValue3DAxis *axis)
 {
     return dptrc()->m_surfaceController->releaseAxis(axis);
 }
 
+/*!
+ * Returns the list of all added axes.
+ *
+ * \sa addAxis()
+ */
 QList<QValue3DAxis *> Q3DSurface::axes() const
 {
     QList<QAbstract3DAxis *> abstractAxes = dptrc()->m_surfaceController->axes();
@@ -298,15 +279,20 @@ QList<QValue3DAxis *> Q3DSurface::axes() const
     return retList;
 }
 
+/*!
+ * \internal
+ */
 QQuickGraphsSurface *Q3DSurface::dptr()
 {
     return static_cast<QQuickGraphsSurface *>(d_ptr.data());
 }
 
+/*!
+ * \internal
+ */
 const QQuickGraphsSurface *Q3DSurface::dptrc() const
 {
     return static_cast<const QQuickGraphsSurface *>(d_ptr.data());
 }
-
 
 QT_END_NAMESPACE
