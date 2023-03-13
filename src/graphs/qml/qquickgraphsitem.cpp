@@ -1399,7 +1399,7 @@ void QQuickGraphsItem::graphPositionAt(const QPoint &point)
 {
     bool isHitted = false;
     auto results = pickAll(point.x(), point.y());
-    for (auto &result : results) {
+    for (const auto &result : std::as_const(results)) {
         if (auto hit = result.objectHit()) {
             isHitted = true;
             m_controller->setQueriedGraphPosition(QVector3D(

@@ -287,7 +287,7 @@ protected:
 
     void componentComplete() override;
 
-    void createSliceView();
+    virtual void createSliceView();
 
     QQuick3DNode *graphNode() { return m_graphNode; }
     QQuick3DViewport *sliceView() { return m_sliceView; }

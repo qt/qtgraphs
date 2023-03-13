@@ -99,6 +99,7 @@ protected:
                                              int index) override;
     float calculateCategoryGridLinePosition(QAbstract3DAxis *axis, int index) override;
     bool handleMousePressedEvent(QMouseEvent *event) override;
+    void createSliceView() override;
     void updateSliceGraph() override;
 
 public Q_SLOTS:
@@ -211,7 +212,8 @@ private:
     QQuaternion m_meshRotation;
     QQuick3DTexture *m_highlightTexture = nullptr;
     QQuick3DModel *m_selectionIndicator = nullptr;
-    QVector<BarModel *> m_sliceViewBars;
+    QHash<QBar3DSeries *, QVector<BarModel *> *> m_slicedBarModels;
+    bool m_selectionDirty = false;
 
     void calculateSceneScalingFactors();
     void calculateHeightAdjustment();
@@ -230,12 +232,13 @@ private:
                               QQuick3DTexture *texture = nullptr);
     void updatePrincipledMaterial(QQuick3DModel *model, const QColor &color, bool useGradient,
                                   bool isHighlight, QQuick3DTexture *texture);
-    void removeDataItems(QBar3DSeries *series);
+    void removeBarModels(QBar3DSeries *series);
     QQuick3DTexture *createTexture();
     void setSelectedBar(QBar3DSeries *series, const QPoint &coord);
     void updateSelectedBar();
     Abstract3DController::SelectionType isSelected(int row, int bar, QBar3DSeries *series);
     void resetClickedStatus();
+    void removeSlicedBarModels();
 
     void updateBarSpecs(float thicknessRatio, const QSizeF &spacing, bool relative);
     void updateBarSeriesMargin(const QSizeF &margin);
