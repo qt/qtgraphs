@@ -54,102 +54,6 @@ Item {
         }
     }
 
-    Item {
-        id: dataView
-        anchors.right: mainview.right
-        anchors.bottom: mainview.bottom
-
-        Bars3D {
-            id: barGraph
-            anchors.fill: parent
-            shadowQuality: AbstractGraph3D.ShadowQualitySoftHigh
-            selectionMode: AbstractGraph3D.SelectionItem
-            theme: Theme3D {
-                type: Theme3D.ThemeEbony
-                labelBorderEnabled: true
-                font.pointSize: 35
-                labelBackgroundEnabled: true
-                colorStyle: Theme3D.ColorStyleObjectGradient//Theme3D.ColorStyleRangeGradient // TODO: QTBUG-99822
-                singleHighlightGradient: customGradient
-
-                ColorGradient {
-                    id: customGradient
-                    ColorGradientStop { position: 1.0; color: "#FFFF00" }
-                    ColorGradientStop { position: 0.0; color: "#808000" }
-                }
-            }
-            barThickness: 0.7
-            barSpacing: Qt.size(0.5, 0.5)
-            barSpacingRelative: false
-            scene.activeCamera.cameraPreset: Camera3D.CameraPresetIsometricLeftHigh
-            columnAxis: graphAxes.column
-            rowAxis: graphAxes.row
-            valueAxis: graphAxes.value
-
-            //! [4]
-            Bar3DSeries {
-                id: secondarySeries
-                visible: false
-                itemLabelFormat: "Expenses, @colLabel, @rowLabel: -@valueLabel"
-                baseGradient: secondaryGradient
-
-                ItemModelBarDataProxy {
-                    id: secondaryProxy
-                    itemModel: graphData.model
-                    rowRole: "timestamp"
-                    columnRole: "timestamp"
-                    valueRole: "expenses"
-                    rowRolePattern: /^(\d\d\d\d).*$/
-                    columnRolePattern: /^.*-(\d\d)$/
-                    valueRolePattern: /-/
-                    rowRoleReplace: "\\1"
-                    columnRoleReplace: "\\1"
-                    multiMatchBehavior: ItemModelBarDataProxy.MMBCumulative
-                }
-                //! [4]
-
-                ColorGradient {
-                    id: secondaryGradient
-                    ColorGradientStop { position: 1.0; color: "#FF0000" }
-                    ColorGradientStop { position: 0.0; color: "#600000" }
-                }
-
-                onSelectedBarChanged: (position) => mainview.handleSelectionChange(secondarySeries,
-                                                                                   position);
-            }
-
-            //! [3]
-            Bar3DSeries {
-                id: barSeries
-                itemLabelFormat: "Income, @colLabel, @rowLabel: @valueLabel"
-                baseGradient: barGradient
-
-                ItemModelBarDataProxy {
-                    id: modelProxy
-                    itemModel: graphData.model
-                    rowRole: "timestamp"
-                    columnRole: "timestamp"
-                    valueRole: "income"
-                    rowRolePattern: /^(\d\d\d\d).*$/
-                    columnRolePattern: /^.*-(\d\d)$/
-                    rowRoleReplace: "\\1"
-                    columnRoleReplace: "\\1"
-                    multiMatchBehavior: ItemModelBarDataProxy.MMBCumulative
-                }
-                //! [3]
-
-                ColorGradient {
-                    id: barGradient
-                    ColorGradientStop { position: 1.0; color: "#00FF00" }
-                    ColorGradientStop { position: 0.0; color: "#006000" }
-                }
-
-                onSelectedBarChanged: (position) => mainview.handleSelectionChange(barSeries,
-                                                                                   position);
-            }
-        }
-    }
-
     ColumnLayout {
         id: tableViewLayout
 
@@ -425,6 +329,102 @@ Item {
                 border.color: marginToggle.down ? barGraph.theme.labelTextColor : barGraph.theme.gridLineColor
                 border.width: 1
                 radius: 2
+            }
+        }
+    }
+
+    Item {
+        id: dataView
+        anchors.right: mainview.right
+        anchors.bottom: mainview.bottom
+
+        Bars3D {
+            id: barGraph
+            anchors.fill: parent
+            shadowQuality: AbstractGraph3D.ShadowQualitySoftHigh
+            selectionMode: AbstractGraph3D.SelectionItem
+            theme: Theme3D {
+                type: Theme3D.ThemeEbony
+                labelBorderEnabled: true
+                font.pointSize: 35
+                labelBackgroundEnabled: true
+                colorStyle: Theme3D.ColorStyleObjectGradient//Theme3D.ColorStyleRangeGradient // TODO: QTBUG-99822
+                singleHighlightGradient: customGradient
+
+                ColorGradient {
+                    id: customGradient
+                    ColorGradientStop { position: 1.0; color: "#FFFF00" }
+                    ColorGradientStop { position: 0.0; color: "#808000" }
+                }
+            }
+            barThickness: 0.7
+            barSpacing: Qt.size(0.5, 0.5)
+            barSpacingRelative: false
+            scene.activeCamera.cameraPreset: Camera3D.CameraPresetIsometricLeftHigh
+            columnAxis: graphAxes.column
+            rowAxis: graphAxes.row
+            valueAxis: graphAxes.value
+
+            //! [4]
+            Bar3DSeries {
+                id: secondarySeries
+                visible: false
+                itemLabelFormat: "Expenses, @colLabel, @rowLabel: -@valueLabel"
+                baseGradient: secondaryGradient
+
+                ItemModelBarDataProxy {
+                    id: secondaryProxy
+                    itemModel: graphData.model
+                    rowRole: "timestamp"
+                    columnRole: "timestamp"
+                    valueRole: "expenses"
+                    rowRolePattern: /^(\d\d\d\d).*$/
+                    columnRolePattern: /^.*-(\d\d)$/
+                    valueRolePattern: /-/
+                    rowRoleReplace: "\\1"
+                    columnRoleReplace: "\\1"
+                    multiMatchBehavior: ItemModelBarDataProxy.MMBCumulative
+                }
+                //! [4]
+
+                ColorGradient {
+                    id: secondaryGradient
+                    ColorGradientStop { position: 1.0; color: "#FF0000" }
+                    ColorGradientStop { position: 0.0; color: "#600000" }
+                }
+
+                onSelectedBarChanged: (position) => mainview.handleSelectionChange(secondarySeries,
+                                                                                   position);
+            }
+
+            //! [3]
+            Bar3DSeries {
+                id: barSeries
+                itemLabelFormat: "Income, @colLabel, @rowLabel: @valueLabel"
+                baseGradient: barGradient
+
+                ItemModelBarDataProxy {
+                    id: modelProxy
+                    itemModel: graphData.model
+                    rowRole: "timestamp"
+                    columnRole: "timestamp"
+                    valueRole: "income"
+                    rowRolePattern: /^(\d\d\d\d).*$/
+                    columnRolePattern: /^.*-(\d\d)$/
+                    rowRoleReplace: "\\1"
+                    columnRoleReplace: "\\1"
+                    multiMatchBehavior: ItemModelBarDataProxy.MMBCumulative
+                }
+                //! [3]
+
+                ColorGradient {
+                    id: barGradient
+                    ColorGradientStop { position: 1.0; color: "#00FF00" }
+                    ColorGradientStop { position: 0.0; color: "#006000" }
+                }
+
+                onSelectedBarChanged: (position) => mainview.handleSelectionChange(barSeries,
+                                                                                   position);
             }
         }
     }
