@@ -345,8 +345,6 @@ void QQuickGraphsBars::synchData()
 
     // Needs to be done after data is set, as it needs to know the visual array.
     if (m_barsController->m_changeTracker.selectedBarChanged) {
-        if (m_barsController->m_selectedBar != m_selectedBarCoord || m_barsController->m_selectedBarSeries != m_selectedBarSeries)
-            setSelectedBar(m_barsController->m_selectedBarSeries, m_barsController->m_selectedBar);
         updateSelectedBar();
         m_barsController->m_changeTracker.selectedBarChanged = false;
     }
@@ -822,7 +820,6 @@ void QQuickGraphsBars::updateBarVisuality(QBar3DSeries *series, int visualIndex)
         barList.at(i)->visualIndex = visualIndex;
         barList.at(i)->model->setVisible(series->isVisible());
     }
-    setSelectedBar(m_selectedBarSeries, m_selectedBarCoord);
     itemLabel()->setVisible(false);
 }
 
@@ -1056,7 +1053,6 @@ void QQuickGraphsBars::removeBarModels(QBar3DSeries *series)
         delete barList.at(i)->model;
     }
     m_barModelsMap.remove(series);
-    setSelectedBar(m_selectedBarSeries, m_selectedBarCoord);
     itemLabel()->setVisible(false);
 }
 
@@ -1077,11 +1073,13 @@ QQuick3DTexture *QQuickGraphsBars::createTexture()
 
 bool QQuickGraphsBars::handleMousePressedEvent(QMouseEvent *event)
 {
-    //TODO: prevent to click main graph while it's minimized - QTBUG-111923
-    QQuickGraphsItem::handleMousePressedEvent(event);
+    if (isSliceEnabled())
+        m_barsController->setSlicingActive(true);
+    m_selectionDirty = true;
+    if (!QQuickGraphsItem::handleMousePressedEvent(event))
+        return true;
 
     if (Qt::LeftButton == event->button()) {
-        m_selectionDirty = true;
         auto mousePos = event->pos();
         QList<QQuick3DPickResult> pickResults = pickAll(mousePos.x(), mousePos.y());
         auto selectionMode = m_barsController->selectionMode();
@@ -1131,10 +1129,8 @@ void QQuickGraphsBars::setSelectedBar(QBar3DSeries *series, const QPoint &coord)
     if (coord != m_selectedBarCoord || series != m_selectedBarSeries) {
         m_selectedBarSeries = series;
         m_selectedBarCoord = coord;
-        if (isSliceEnabled()) {
-            m_barsController->setSlicingActive(true);
+        if (isSliceEnabled())
             setSliceActivatedChanged(true);
-        }
 
         // Clear selection from other series and finally set new selection to the specified series
         for (auto it = m_barModelsMap.begin(); it != m_barModelsMap.end(); it++) {
