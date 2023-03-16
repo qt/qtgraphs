@@ -166,6 +166,7 @@ private:
 
     friend class ThemeManager;
     friend class Bars3DController;
+    friend class QQuickGraphsBars;
     friend class AbstractDeclarative;
     friend class Abstract3DController;
     friend class QQuickGraphsItem;

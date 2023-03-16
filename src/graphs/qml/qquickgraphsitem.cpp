@@ -605,163 +605,161 @@ void QQuickGraphsItem::synchData()
     }
 
     // label Adjustments
-    if (m_repeaterX->count() && m_repeaterZ->count()) {
-        if (theme->d_ptr->m_dirtyBits.labelBackgroundColorDirty) {
-            QColor labelBackgroundColor = theme->labelBackgroundColor();
-            changeLabelBackgroundColor(m_repeaterX, labelBackgroundColor);
-            changeLabelBackgroundColor(m_repeaterY, labelBackgroundColor);
-            changeLabelBackgroundColor(m_repeaterZ, labelBackgroundColor);
-            m_titleLabelX->setProperty("backgroundColor", labelBackgroundColor);
-            m_titleLabelY->setProperty("backgroundColor", labelBackgroundColor);
-            m_titleLabelZ->setProperty("backgroundColor", labelBackgroundColor);
-            m_itemLabel->setProperty("backgroundColor", labelBackgroundColor);
+    if (theme->d_ptr->m_dirtyBits.labelBackgroundColorDirty) {
+        QColor labelBackgroundColor = theme->labelBackgroundColor();
+        changeLabelBackgroundColor(m_repeaterX, labelBackgroundColor);
+        changeLabelBackgroundColor(m_repeaterY, labelBackgroundColor);
+        changeLabelBackgroundColor(m_repeaterZ, labelBackgroundColor);
+        m_titleLabelX->setProperty("backgroundColor", labelBackgroundColor);
+        m_titleLabelY->setProperty("backgroundColor", labelBackgroundColor);
+        m_titleLabelZ->setProperty("backgroundColor", labelBackgroundColor);
+        m_itemLabel->setProperty("backgroundColor", labelBackgroundColor);
 
-            if (m_sliceView) {
-                changeLabelBackgroundColor(m_sliceHorizontalLabelRepeater, labelBackgroundColor);
-                changeLabelBackgroundColor(m_sliceVerticalLabelRepeater, labelBackgroundColor);
-                m_sliceItemLabel->setProperty("backgroundColor", labelBackgroundColor);
-                m_sliceHorizontalTitleLabel->setProperty("backgroundColor", labelBackgroundColor);
-                m_sliceVerticalTitleLabel->setProperty("backgroundColor", labelBackgroundColor);
-            }
-            theme->d_ptr->m_dirtyBits.labelBackgroundColorDirty = false;
+        if (m_sliceView) {
+            changeLabelBackgroundColor(m_sliceHorizontalLabelRepeater, labelBackgroundColor);
+            changeLabelBackgroundColor(m_sliceVerticalLabelRepeater, labelBackgroundColor);
+            m_sliceItemLabel->setProperty("backgroundColor", labelBackgroundColor);
+            m_sliceHorizontalTitleLabel->setProperty("backgroundColor", labelBackgroundColor);
+            m_sliceVerticalTitleLabel->setProperty("backgroundColor", labelBackgroundColor);
         }
+        theme->d_ptr->m_dirtyBits.labelBackgroundColorDirty = false;
+    }
 
-        if (theme->d_ptr->m_dirtyBits.labelBackgroundEnabledDirty) {
-            bool enabled = theme->isLabelBackgroundEnabled();
-            changeLabelBackgroundEnabled(m_repeaterX, enabled);
-            changeLabelBackgroundEnabled(m_repeaterY, enabled);
-            changeLabelBackgroundEnabled(m_repeaterZ, enabled);
-            m_titleLabelX->setProperty("backgroundEnabled", enabled);
-            m_titleLabelY->setProperty("backgroundEnabled", enabled);
-            m_titleLabelZ->setProperty("backgroundEnabled", enabled);
-            m_itemLabel->setProperty("backgroundEnabled", enabled);
+    if (theme->d_ptr->m_dirtyBits.labelBackgroundEnabledDirty) {
+        bool enabled = theme->isLabelBackgroundEnabled();
+        changeLabelBackgroundEnabled(m_repeaterX, enabled);
+        changeLabelBackgroundEnabled(m_repeaterY, enabled);
+        changeLabelBackgroundEnabled(m_repeaterZ, enabled);
+        m_titleLabelX->setProperty("backgroundEnabled", enabled);
+        m_titleLabelY->setProperty("backgroundEnabled", enabled);
+        m_titleLabelZ->setProperty("backgroundEnabled", enabled);
+        m_itemLabel->setProperty("backgroundEnabled", enabled);
 
-            if (m_sliceView) {
-                changeLabelBackgroundEnabled(m_sliceHorizontalLabelRepeater, enabled);
-                changeLabelBackgroundEnabled(m_sliceVerticalLabelRepeater, enabled);
-                m_sliceItemLabel->setProperty("backgroundEnabled", enabled);
-                m_sliceHorizontalTitleLabel->setProperty("backgroundEnabled", enabled);
-                m_sliceVerticalTitleLabel->setProperty("backgroundEnabled", enabled);
-            }
-            theme->d_ptr->m_dirtyBits.labelBackgroundEnabledDirty = false;
+        if (m_sliceView) {
+            changeLabelBackgroundEnabled(m_sliceHorizontalLabelRepeater, enabled);
+            changeLabelBackgroundEnabled(m_sliceVerticalLabelRepeater, enabled);
+            m_sliceItemLabel->setProperty("backgroundEnabled", enabled);
+            m_sliceHorizontalTitleLabel->setProperty("backgroundEnabled", enabled);
+            m_sliceVerticalTitleLabel->setProperty("backgroundEnabled", enabled);
         }
+        theme->d_ptr->m_dirtyBits.labelBackgroundEnabledDirty = false;
+    }
 
-        if (theme->d_ptr->m_dirtyBits.labelBorderEnabledDirty) {
-            bool enabled = theme->isLabelBorderEnabled();
-            changeLabelBorderEnabled(m_repeaterX, enabled);
-            changeLabelBorderEnabled(m_repeaterY, enabled);
-            changeLabelBorderEnabled(m_repeaterZ, enabled);
-            m_titleLabelX->setProperty("borderEnabled", enabled);
-            m_titleLabelY->setProperty("borderEnabled", enabled);
-            m_titleLabelZ->setProperty("borderEnabled", enabled);
-            m_itemLabel->setProperty("borderEnabled", enabled);
+    if (theme->d_ptr->m_dirtyBits.labelBorderEnabledDirty) {
+        bool enabled = theme->isLabelBorderEnabled();
+        changeLabelBorderEnabled(m_repeaterX, enabled);
+        changeLabelBorderEnabled(m_repeaterY, enabled);
+        changeLabelBorderEnabled(m_repeaterZ, enabled);
+        m_titleLabelX->setProperty("borderEnabled", enabled);
+        m_titleLabelY->setProperty("borderEnabled", enabled);
+        m_titleLabelZ->setProperty("borderEnabled", enabled);
+        m_itemLabel->setProperty("borderEnabled", enabled);
 
-            if (m_sliceView) {
-                changeLabelBorderEnabled(m_sliceHorizontalLabelRepeater, enabled);
-                changeLabelBorderEnabled(m_sliceVerticalLabelRepeater, enabled);
-                m_sliceItemLabel->setProperty("borderEnabled", enabled);
-                m_sliceHorizontalTitleLabel->setProperty("borderEnabled", enabled);
-                m_sliceVerticalTitleLabel->setProperty("borderEnabled", enabled);
-            }
-            theme->d_ptr->m_dirtyBits.labelBorderEnabledDirty = false;
+        if (m_sliceView) {
+            changeLabelBorderEnabled(m_sliceHorizontalLabelRepeater, enabled);
+            changeLabelBorderEnabled(m_sliceVerticalLabelRepeater, enabled);
+            m_sliceItemLabel->setProperty("borderEnabled", enabled);
+            m_sliceHorizontalTitleLabel->setProperty("borderEnabled", enabled);
+            m_sliceVerticalTitleLabel->setProperty("borderEnabled", enabled);
         }
+        theme->d_ptr->m_dirtyBits.labelBorderEnabledDirty = false;
+    }
 
-        if (theme->d_ptr->m_dirtyBits.labelTextColorDirty) {
-            QColor labelTextColor = theme->labelTextColor();
-            changeLabelTextColor(m_repeaterX, labelTextColor);
-            changeLabelTextColor(m_repeaterY, labelTextColor);
-            changeLabelTextColor(m_repeaterZ, labelTextColor);
-            m_titleLabelX->setProperty("labelTextColor", labelTextColor);
-            m_titleLabelY->setProperty("labelTextColor", labelTextColor);
-            m_titleLabelZ->setProperty("labelTextColor", labelTextColor);
-            m_itemLabel->setProperty("labelTextColor", labelTextColor);
+    if (theme->d_ptr->m_dirtyBits.labelTextColorDirty) {
+        QColor labelTextColor = theme->labelTextColor();
+        changeLabelTextColor(m_repeaterX, labelTextColor);
+        changeLabelTextColor(m_repeaterY, labelTextColor);
+        changeLabelTextColor(m_repeaterZ, labelTextColor);
+        m_titleLabelX->setProperty("labelTextColor", labelTextColor);
+        m_titleLabelY->setProperty("labelTextColor", labelTextColor);
+        m_titleLabelZ->setProperty("labelTextColor", labelTextColor);
+        m_itemLabel->setProperty("labelTextColor", labelTextColor);
 
-            if (m_sliceView) {
-                changeLabelTextColor(m_sliceHorizontalLabelRepeater, labelTextColor);
-                changeLabelTextColor(m_sliceVerticalLabelRepeater, labelTextColor);
-                m_sliceItemLabel->setProperty("labelTextColor", labelTextColor);
-                m_sliceHorizontalTitleLabel->setProperty("labelTextColor", labelTextColor);
-                m_sliceVerticalTitleLabel->setProperty("labelTextColor", labelTextColor);
-            }
-            theme->d_ptr->m_dirtyBits.labelTextColorDirty = false;
+        if (m_sliceView) {
+            changeLabelTextColor(m_sliceHorizontalLabelRepeater, labelTextColor);
+            changeLabelTextColor(m_sliceVerticalLabelRepeater, labelTextColor);
+            m_sliceItemLabel->setProperty("labelTextColor", labelTextColor);
+            m_sliceHorizontalTitleLabel->setProperty("labelTextColor", labelTextColor);
+            m_sliceVerticalTitleLabel->setProperty("labelTextColor", labelTextColor);
         }
+        theme->d_ptr->m_dirtyBits.labelTextColorDirty = false;
+    }
 
-        if (theme->d_ptr->m_dirtyBits.fontDirty) {
-            auto font = theme->font();
-            changeLabelFont(m_repeaterX, font);
-            changeLabelFont(m_repeaterY, font);
-            changeLabelFont(m_repeaterZ, font);
-            m_titleLabelX->setProperty("labelFont", font);
-            m_titleLabelY->setProperty("labelFont", font);
-            m_titleLabelZ->setProperty("labelFont", font);
-            m_itemLabel->setProperty("labelFont", font);
-            updateLabels();
+    if (theme->d_ptr->m_dirtyBits.fontDirty) {
+        auto font = theme->font();
+        changeLabelFont(m_repeaterX, font);
+        changeLabelFont(m_repeaterY, font);
+        changeLabelFont(m_repeaterZ, font);
+        m_titleLabelX->setProperty("labelFont", font);
+        m_titleLabelY->setProperty("labelFont", font);
+        m_titleLabelZ->setProperty("labelFont", font);
+        m_itemLabel->setProperty("labelFont", font);
+        updateLabels();
 
-            if (m_sliceView) {
-                changeLabelFont(m_sliceHorizontalLabelRepeater, font);
-                changeLabelFont(m_sliceVerticalLabelRepeater, font);
-                m_sliceItemLabel->setProperty("labelFont", font);
-                m_sliceHorizontalTitleLabel->setProperty("labelFont", font);
-                m_sliceVerticalTitleLabel->setProperty("labelFont", font);
-                updateSliceLabels();
-            }
-            theme->d_ptr->m_dirtyBits.fontDirty = false;
+        if (m_sliceView) {
+            changeLabelFont(m_sliceHorizontalLabelRepeater, font);
+            changeLabelFont(m_sliceVerticalLabelRepeater, font);
+            m_sliceItemLabel->setProperty("labelFont", font);
+            m_sliceHorizontalTitleLabel->setProperty("labelFont", font);
+            m_sliceVerticalTitleLabel->setProperty("labelFont", font);
+            updateSliceLabels();
         }
+        theme->d_ptr->m_dirtyBits.fontDirty = false;
+    }
 
-        // Grid and background adjustments
-        if (theme->d_ptr->m_dirtyBits.backgroundColorDirty) {
-            QQmlListReference materialsRef(m_background, "materials");
-            QQuick3DPrincipledMaterial *bgMat;
-            if (!materialsRef.size()) {
-                bgMat = new QQuick3DPrincipledMaterial();
-                bgMat->setParent(this);
-                bgMat->setRoughness(.3f);
-                bgMat->setEmissiveFactor(QVector3D(.075f, .075f, .075f));
-                materialsRef.append(bgMat);
-            } else {
-                bgMat = static_cast<QQuick3DPrincipledMaterial *>(materialsRef.at(0));
-            }
-            bgMat->setBaseColor(theme->backgroundColor());
-            theme->d_ptr->m_dirtyBits.backgroundColorDirty = false;
+    // Grid and background adjustments
+    if (theme->d_ptr->m_dirtyBits.backgroundColorDirty) {
+        QQmlListReference materialsRef(m_background, "materials");
+        QQuick3DPrincipledMaterial *bgMat;
+        if (!materialsRef.size()) {
+            bgMat = new QQuick3DPrincipledMaterial();
+            bgMat->setParent(this);
+            bgMat->setRoughness(.3f);
+            bgMat->setEmissiveFactor(QVector3D(.075f, .075f, .075f));
+            materialsRef.append(bgMat);
+        } else {
+            bgMat = static_cast<QQuick3DPrincipledMaterial *>(materialsRef.at(0));
         }
+        bgMat->setBaseColor(theme->backgroundColor());
+        theme->d_ptr->m_dirtyBits.backgroundColorDirty = false;
+    }
 
-        if (theme->d_ptr->m_dirtyBits.backgroundEnabledDirty) {
-            m_background->setVisible(theme->isBackgroundEnabled());
-            theme->d_ptr->m_dirtyBits.backgroundEnabledDirty = false;
+    if (theme->d_ptr->m_dirtyBits.backgroundEnabledDirty) {
+        m_background->setVisible(theme->isBackgroundEnabled());
+        theme->d_ptr->m_dirtyBits.backgroundEnabledDirty = false;
+    }
+
+    if (theme->d_ptr->m_dirtyBits.gridEnabledDirty) {
+        bool enabled = theme->isGridEnabled();
+        m_segmentLineRepeaterX->setVisible(enabled);
+        m_segmentLineRepeaterY->setVisible(enabled);
+        m_segmentLineRepeaterZ->setVisible(enabled);
+
+        m_subsegmentLineRepeaterX->setVisible(enabled);
+        m_subsegmentLineRepeaterY->setVisible(enabled);
+        m_subsegmentLineRepeaterZ->setVisible(enabled);
+
+        if (m_sliceEnabled) {
+            m_sliceHorizontalGridRepeater->setVisible(enabled);
+            m_sliceVerticalGridRepeater->setVisible(enabled);
         }
+        theme->d_ptr->m_dirtyBits.gridEnabledDirty = false;
+    }
 
-        if (theme->d_ptr->m_dirtyBits.gridEnabledDirty) {
-            bool enabled = theme->isGridEnabled();
-            m_segmentLineRepeaterX->setVisible(enabled);
-            m_segmentLineRepeaterY->setVisible(enabled);
-            m_segmentLineRepeaterZ->setVisible(enabled);
+    if (theme->d_ptr->m_dirtyBits.gridLineColorDirty) {
+        QColor gridLineColor = theme->gridLineColor();
+        changeGridLineColor(m_segmentLineRepeaterX, gridLineColor);
+        changeGridLineColor(m_subsegmentLineRepeaterX, gridLineColor);
+        changeGridLineColor(m_segmentLineRepeaterY, gridLineColor);
+        changeGridLineColor(m_subsegmentLineRepeaterY, gridLineColor);
+        changeGridLineColor(m_segmentLineRepeaterZ, gridLineColor);
+        changeGridLineColor(m_subsegmentLineRepeaterZ, gridLineColor);
+        theme->d_ptr->m_dirtyBits.gridLineColorDirty = false;
+    }
 
-            m_subsegmentLineRepeaterX->setVisible(enabled);
-            m_subsegmentLineRepeaterY->setVisible(enabled);
-            m_subsegmentLineRepeaterZ->setVisible(enabled);
-
-            if (m_sliceEnabled) {
-                m_sliceHorizontalGridRepeater->setVisible(enabled);
-                m_sliceVerticalGridRepeater->setVisible(enabled);
-            }
-            theme->d_ptr->m_dirtyBits.gridEnabledDirty = false;
-        }
-
-        if (theme->d_ptr->m_dirtyBits.gridLineColorDirty) {
-            QColor gridLineColor = theme->gridLineColor();
-            changeGridLineColor(m_segmentLineRepeaterX, gridLineColor);
-            changeGridLineColor(m_subsegmentLineRepeaterX, gridLineColor);
-            changeGridLineColor(m_segmentLineRepeaterY, gridLineColor);
-            changeGridLineColor(m_subsegmentLineRepeaterY, gridLineColor);
-            changeGridLineColor(m_segmentLineRepeaterZ, gridLineColor);
-            changeGridLineColor(m_subsegmentLineRepeaterZ, gridLineColor);
-            theme->d_ptr->m_dirtyBits.gridLineColorDirty = false;
-        }
-
-        if (theme->d_ptr->m_dirtyBits.singleHighlightColorDirty) {
-            updateSingleHighlightColor();
-            theme->d_ptr->m_dirtyBits.singleHighlightColorDirty = false;
-        }
+    if (theme->d_ptr->m_dirtyBits.singleHighlightColorDirty) {
+        updateSingleHighlightColor();
+        theme->d_ptr->m_dirtyBits.singleHighlightColorDirty = false;
     }
 
     // Other adjustments

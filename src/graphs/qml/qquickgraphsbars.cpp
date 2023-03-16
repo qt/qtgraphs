@@ -8,11 +8,12 @@
 #include "qbar3dseries_p.h"
 #include "qvalue3daxis_p.h"
 #include "qcategory3daxis_p.h"
+
 #include "q3dcamera_p.h"
 #include <QtCore/QMutexLocker>
 #include <QColor>
+#include "q3dtheme_p.h"
 
-#include <QtQuick3D/private/qquick3drepeater_p.h>
 #include <QtQuick3D/private/qquick3dprincipledmaterial_p.h>
 #include "quickgraphstexturedata_p.h"
 #include <QtQuick3D/private/qquick3dcustommaterial_p.h>
@@ -341,6 +342,15 @@ void QQuickGraphsBars::synchData()
     axisY->formatter()->d_ptr->recalculate();
     m_helperAxisY.setFormatter(axisY->formatter());
 
+    Q3DTheme *theme = m_barsController->activeTheme();
+
+    if (m_axisRangeChanged) {
+        theme->d_ptr->resetDirtyBits();
+        updateGrid();
+        updateLabels();
+        m_axisRangeChanged = false;
+    }
+
     QQuickGraphsItem::synchData();
 
     // Needs to be done after data is set, as it needs to know the visual array.
@@ -382,14 +392,7 @@ void QQuickGraphsBars::synchData()
     } else {
         bgMatFloor = static_cast<QQuick3DPrincipledMaterial *>(materialsRefF.at(0));
     }
-    Q3DTheme *theme = m_barsController->activeTheme();
     bgMatFloor->setBaseColor(theme->backgroundColor());
-
-    if (m_axisRangeChanged) {
-        updateGrid();
-        updateLabels();
-        m_axisRangeChanged = false;
-    }
 }
 
 void QQuickGraphsBars::updateParameters() {
