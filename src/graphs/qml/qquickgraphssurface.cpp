@@ -1163,12 +1163,12 @@ void QQuickGraphsSurface::updateSelectedPoint()
 
 void QQuickGraphsSurface::addModel(QSurface3DSeries *series)
 {
-    auto scene = QQuick3DViewport::scene();
+    auto parent = graphNode();
     bool visible = series->isVisible();
 
     auto model = new QQuick3DModel();
-    model->setParent(scene);
-    model->setParentItem(scene);
+    model->setParent(parent);
+    model->setParentItem(parent);
     model->setObjectName(QStringLiteral("SurfaceModel"));
     model->setVisible(visible);
     if (m_surfaceController->selectionMode().testFlag(QAbstract3DGraph::SelectionNone))
@@ -1177,7 +1177,7 @@ void QQuickGraphsSurface::addModel(QSurface3DSeries *series)
         model->setPickable(true);
 
     auto geometry = new QQuick3DGeometry();
-    geometry->setParent(this);
+    geometry->setParent(model);
     geometry->setStride(sizeof(SurfaceVertex));
     geometry->setPrimitiveType(QQuick3DGeometry::PrimitiveType::Triangles);
     geometry->addAttribute(QQuick3DGeometry::Attribute::PositionSemantic,
@@ -1196,11 +1196,11 @@ void QQuickGraphsSurface::addModel(QSurface3DSeries *series)
 
     QQmlListReference materialRef(model, "materials");
     auto material = new QQuick3DDefaultMaterial();
-    material->setParent(this);
+    material->setParent(model);
     QQuick3DTexture *texture = new QQuick3DTexture();
-    texture->setParent(this);
+    texture->setParent(model);
     QQuick3DTextureData *textureData = new QQuick3DTextureData();
-    textureData->setParent(this);
+    textureData->setParent(model);
     texture->setTextureData(textureData);
     material->setDiffuseMap(texture);
     material->setSpecularAmount(7.0f);
@@ -1209,8 +1209,8 @@ void QQuickGraphsSurface::addModel(QSurface3DSeries *series)
     materialRef.append(material);
 
     auto gridModel = new QQuick3DModel();
-    gridModel->setParent(scene);
-    gridModel->setParentItem(scene);
+    gridModel->setParent(parent);
+    gridModel->setParentItem(parent);
     gridModel->setVisible(visible);
     gridModel->setDepthBias(1.0f);
     auto gridGeometry = new QQuick3DGeometry();
@@ -1226,9 +1226,8 @@ void QQuickGraphsSurface::addModel(QSurface3DSeries *series)
     gridModel->setGeometry(gridGeometry);
     QQmlListReference gridMaterialRef(gridModel, "materials");
     auto gridMaterial = new QQuick3DPrincipledMaterial();
-    gridMaterial->setParent(this);
+    gridMaterial->setParent(gridModel);
     gridMaterial->setLighting(QQuick3DPrincipledMaterial::NoLighting);
-    gridMaterial->setParent(this);
     gridMaterialRef.append(gridMaterial);
 
     SurfaceModel *surfaceModel = new SurfaceModel();

@@ -147,6 +147,7 @@ void QQuickGraphsItem::componentComplete()
     m_background = new QQuick3DModel();
     m_backgroundScale = new QQuick3DNode();
     m_backgroundRotation = new QQuick3DNode();
+    m_graphNode = new QQuick3DNode();
 
     m_backgroundScale->setParent(rootNode());
     m_backgroundScale->setParentItem(rootNode());
@@ -166,6 +167,9 @@ void QQuickGraphsItem::componentComplete()
     m_backgroundBB->setParentItem(m_background);
     m_backgroundBB->setSource(QUrl(QStringLiteral("defaultMeshes/barMeshFull")));
     m_backgroundBB->setPickable(true);
+
+    m_graphNode->setParent(rootNode());
+    m_graphNode->setParentItem(rootNode());
 
     setUpCamera();
     setUpLight();
@@ -472,6 +476,9 @@ void QQuickGraphsItem::setSharedController(Abstract3DController *controller)
 
 void QQuickGraphsItem::synchData()
 {
+    if (!isVisible())
+        return;
+
     m_controller->m_renderPending = false;
 
     bool axisFormatterChanged = false;
@@ -577,6 +584,14 @@ void QQuickGraphsItem::synchData()
     if (m_controller->graphPositionQueryPending())
         graphPositionAt(m_controller->scene()->graphPositionQuery());
 
+    if (m_controller->m_changeTracker.projectionChanged) {
+        bool useOrtho = m_controller->isOrthoProjection();
+        if (useOrtho)
+            setCamera(m_oCamera);
+        else
+            setCamera(m_pCamera);
+        m_controller->m_changeTracker.projectionChanged = false;
+    }
     updateCamera();
 
     Q3DTheme *theme = m_controller->activeTheme();
@@ -1414,24 +1429,16 @@ void QQuickGraphsItem::positionAndScaleLine(QQuick3DNode *lineNode, QVector3D sc
 
 void QQuickGraphsItem::graphPositionAt(const QPoint &point)
 {
-    bool isHitted = false;
-    auto results = pickAll(point.x(), point.y());
-    for (const auto &result : std::as_const(results)) {
-        if (auto hit = result.objectHit()) {
-            isHitted = true;
-            m_controller->setQueriedGraphPosition(QVector3D(
-                                                      result.scenePosition().x(),
-                                                      result.scenePosition().y(),
-                                                      result.scenePosition().z()
-                                                      ));
-            if (m_backgroundBB != hit) {
-                m_controller->setQueriedGraphPosition(hit->position());
-                break;
-            }
-        }
+    bool isHit = false;
+    auto result = pick(point.x(), point.y());
+    if (result.objectHit()) {
+        isHit = true;
+        m_controller->setQueriedGraphPosition(QVector3D(result.scenePosition().x(),
+                                                        result.scenePosition().y(),
+                                                        result.scenePosition().z()));
     }
 
-    if (!isHitted)
+    if (!isHit)
         m_controller->setQueriedGraphPosition(QVector3D(0,0,0));
 
     emit queriedGraphPositionChanged(m_controller->queriedGraphPosition());
@@ -1731,17 +1738,30 @@ void QQuickGraphsItem::updateZTitle(const QVector3D &labelRotation, const QVecto
 
 void QQuickGraphsItem::updateCamera()
 {
-    float zoom = 720.f / m_controller->scene()->activeCamera()->zoomLevel();
-    camera()->setZ(zoom);
-    cameraTarget()->setPosition(m_controller->scene()->activeCamera()->target());
-    auto rotation = QVector3D(
-                -m_controller->scene()->activeCamera()->yRotation(),
-                -m_controller->scene()->activeCamera()->xRotation(),
-                0);
-    cameraTarget()->setEulerRotation(rotation);
+    QVector3D lookingPosition = m_controller->scene()->activeCamera()->target();
+    float zoomLevel = m_controller->scene()->activeCamera()->zoomLevel();
+    if (m_initialZoomLevel < 0)
+        m_initialZoomLevel = zoomLevel;
 
-    if (m_itemLabel->visible())
-        m_itemLabel->setEulerRotation(rotation);
+    auto useOrtho = m_controller->isOrthoProjection();
+    if (useOrtho) {
+        m_oCamera->setX(lookingPosition.x());
+        m_oCamera->setZ(lookingPosition.z());
+        float magnification = m_magnification * zoomLevel / m_initialZoomLevel;
+        m_oCamera->setVerticalMagnification(magnification);
+        m_oCamera->setHorizontalMagnification(magnification);
+    } else {
+        cameraTarget()->setPosition(lookingPosition);
+        auto rotation = QVector3D(
+                    -m_controller->scene()->activeCamera()->yRotation(),
+                    -m_controller->scene()->activeCamera()->xRotation(),
+                    0);
+        cameraTarget()->setEulerRotation(rotation);
+        if (m_itemLabel->visible())
+            m_itemLabel->setEulerRotation(rotation);
+        float zoom = 720.f / zoomLevel;
+        m_pCamera->setZ(zoom);
+    }
 }
 
 int QQuickGraphsItem::msaaSamples() const
@@ -1839,14 +1859,6 @@ void QQuickGraphsItem::handleWindowChanged(/*QQuickWindow *window*/)
 
     connect(m_controller.data(), &Abstract3DController::needRender, window, &QQuickWindow::update);
     updateWindowParameters();
-
-    if (sliceView()) {
-        float pixelRatio = window->devicePixelRatio();
-        float magnification = 100.0f * pixelRatio + 50.0f;
-        QQuick3DOrthographicCamera *camera = static_cast<QQuick3DOrthographicCamera *>(sliceView()->camera());
-        camera->setHorizontalMagnification(magnification);
-        camera->setVerticalMagnification(magnification);
-    }
 
 #if defined(Q_OS_IOS)
     // Scenegraph render cycle in iOS sometimes misses update after beforeSynchronizing signal.
@@ -2249,12 +2261,11 @@ void QQuickGraphsItem::updateSliceGraph()
         setHeight(height() * 5.f);
         m_sliceView->setVisible(false);
     } else {
-        float pixelRatio = QQuick3DObjectPrivate::get(rootNode())->sceneManager->window()->devicePixelRatio();
-        float magnification = 100.0f * pixelRatio + 50.0f;
         QQuick3DOrthographicCamera *camera = static_cast<QQuick3DOrthographicCamera *>(sliceView()->camera());
+        float pixelRatio = scene()->devicePixelRatio();
+        float magnification = 100.0f * pixelRatio + 50.0f;
         camera->setHorizontalMagnification(magnification);
         camera->setVerticalMagnification(magnification);
-
         QQuickItem *anchor = QQuickItemPrivate::get(this)->anchors()->fill();
         if (anchor)
             QQuickItemPrivate::get(this)->anchors()->resetFill();
@@ -2288,8 +2299,8 @@ QQuick3DRepeater *QQuickGraphsItem::createRepeater()
     QQmlComponent repeaterComponent(engine);
     repeaterComponent.setData("import QtQuick3D; Repeater3D{}",QUrl());
     auto repeater = qobject_cast<QQuick3DRepeater *>(repeaterComponent.create());
-    repeater->setParent(rootNode());
-    repeater->setParentItem(rootNode());
+    repeater->setParent(graphNode());
+    repeater->setParentItem(graphNode());
     return repeater;
 }
 
@@ -2297,8 +2308,8 @@ QQuick3DNode *QQuickGraphsItem::createTitleLabel()
 {
     QQmlComponent comp(qmlEngine(this), QStringLiteral(":/axis/ItemLabel"));
     auto titleLabel = qobject_cast<QQuick3DNode *>(comp.create());
-    titleLabel->setParent(rootNode());
-    titleLabel->setParentItem(rootNode());
+    titleLabel->setParent(graphNode());
+    titleLabel->setParentItem(graphNode());
     titleLabel->setVisible(false);
     titleLabel->setScale(m_labelScale);
     return titleLabel;
@@ -2678,20 +2689,11 @@ void QQuickGraphsItem::updateSliceLabels()
 
 void QQuickGraphsItem::setUpCamera()
 {
-    auto useOrtho = m_controller->isOrthoProjection();
-    QQuick3DCamera *camera;
-    if (!useOrtho) {
-        auto persCamera = new QQuick3DPerspectiveCamera(rootNode());
-        persCamera->setClipNear(0.001f);
-        persCamera->setFieldOfView(45.0f);
-        camera = persCamera;
-    } else {
-        auto orthCamera = new QQuick3DOrthographicCamera(rootNode());
-        camera = orthCamera;
-    }
+    m_pCamera = new QQuick3DPerspectiveCamera(rootNode());
+    m_pCamera->setClipNear(0.001f);
+    m_pCamera->setFieldOfView(45.0f);
+    m_pCamera->setPosition(QVector3D(.0f, .0f, 5.f));
 
-    QQuick3DObjectPrivate::get(camera)->refSceneManager(
-                *QQuick3DObjectPrivate::get(rootNode())->sceneManager);
     auto cameraTarget = new QQuick3DNode(rootNode());
 
     setCameraTarget(cameraTarget);
@@ -2699,12 +2701,21 @@ void QQuickGraphsItem::setUpCamera()
     QQuick3DObjectPrivate::get(cameraTarget)->refSceneManager(
                 *QQuick3DObjectPrivate::get(rootNode())->sceneManager);
 
-    camera->setParent(cameraTarget);
-    camera->setParentItem(cameraTarget);
+    m_pCamera->lookAt(cameraTarget);
+    m_pCamera->setParent(cameraTarget);
+    m_pCamera->setParentItem(cameraTarget);
 
-    camera->setPosition(QVector3D(0, 0, 5));
-    camera->lookAt(cameraTarget);
-    setCamera(camera);
+    m_oCamera = new QQuick3DOrthographicCamera(rootNode());
+    m_oCamera->setPosition(QVector3D(.0f, 20.f, .0f));
+    m_oCamera->setParent(rootNode());
+    m_oCamera->setParentItem(rootNode());
+    m_oCamera->lookAt(QVector3D(.0f, .0f, .0f));
+
+    auto useOrtho = m_controller->isOrthoProjection();
+    if (useOrtho)
+        setCamera(m_oCamera);
+    else
+        setCamera(m_pCamera);
 }
 
 void QQuickGraphsItem::setUpLight()

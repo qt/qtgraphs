@@ -31,6 +31,8 @@ class QQuick3DCustomMaterial;
 class QQuick3DDirectionalLight;
 class QQuick3DPrincipledMaterial;
 class QQuick3DRepeater;
+class QQuick3DPerspectiveCamera;
+class QQuick3DOrthographicCamera;
 
 class QQuickGraphsItem : public QQuick3DViewport
 {
@@ -369,6 +371,8 @@ private:
     QPointer<Abstract3DController> m_controller;
     QQuick3DNode *m_cameraTarget = nullptr;
     QQuick3DDirectionalLight *m_light = nullptr;
+    QQuick3DPerspectiveCamera *m_pCamera = nullptr;
+    QQuick3DOrthographicCamera *m_oCamera = nullptr;
     QRectF m_cachedGeometry;
     QQuickGraphsItem::RenderingMode m_renderMode;
     int m_samples;
@@ -376,6 +380,7 @@ private:
     QSize m_initialisedSize;
     bool m_runningInDesigner;
     QMutex m_mutex;
+    float m_magnification = 150.f;
 
     bool m_xFlipped = false;
     bool m_yFlipped = false;
@@ -409,6 +414,7 @@ private:
     bool m_sliceEnabled = false;
     bool m_sliceActivatedChanged = false;
 
+    float m_initialZoomLevel = -1.0f;
     void setUpCamera();
     void setUpLight();
     void graphPositionAt(const QPoint& point);
