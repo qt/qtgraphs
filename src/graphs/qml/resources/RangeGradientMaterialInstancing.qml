@@ -7,7 +7,7 @@ import QtQuick
 CustomMaterial {
     property TextureInput custex: TextureInput {}
 
-    shadingMode: CustomMaterial.Unshaded
+    shadingMode: CustomMaterial.Shaded
     fragmentShader: "qrc:/shaders/fragmentrangegradientInstancing"
     vertexShader: "qrc:/shaders/vertexrangegradientInstancing"
 }

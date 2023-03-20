@@ -5,10 +5,9 @@ import QtQuick3D
 import QtQuick
 
 CustomMaterial {
-    property color uColor: "purple"
     property real gradientPos: 0.0
     property TextureInput custex: TextureInput {}
 
-    shadingMode: CustomMaterial.Unshaded
+    shadingMode: CustomMaterial.Shaded
     fragmentShader: "qrc:/shaders/fragmentrangegradient"
 }

@@ -540,6 +540,15 @@ set_source_files_properties("engine/shaders/texture3dslice.frag"
 set_source_files_properties("engine/shaders/texture_ES2.frag"
     PROPERTIES QT_RESOURCE_ALIAS "fragmentTextureES2"
 )
+set_source_files_properties("engine/shaders/rangegradient.frag"
+    PROPERTIES QT_RESOURCE_ALIAS "fragmentrangegradient"
+)
+set_source_files_properties("engine/shaders/rangegradientInstancing.frag"
+    PROPERTIES QT_RESOURCE_ALIAS "fragmentrangegradientInstancing"
+)
+set_source_files_properties("engine/shaders/rangegradientInstancing.vert"
+    PROPERTIES QT_RESOURCE_ALIAS "vertexrangegradientInstancing"
+)
 set(shader_resource_files
     "engine/shaders/3dsliceframes.frag"
     "engine/shaders/colorOnY.frag"
@@ -558,6 +567,9 @@ set(shader_resource_files
     "engine/shaders/point_ES2_UV.vert"
     "engine/shaders/position.vert"
     "engine/shaders/positionmap.frag"
+    "engine/shaders/rangegradient.frag"
+    "engine/shaders/rangegradientInstancing.frag"
+    "engine/shaders/rangegradientInstancing.vert"
     "engine/shaders/shadow.frag"
     "engine/shaders/shadow.vert"
     "engine/shaders/shadowNoMatrices.vert"
