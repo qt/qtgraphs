@@ -27,7 +27,7 @@
 class GraphDataGenerator : public QObject
 {
 public:
-    explicit GraphDataGenerator(Q3DBars *bargraph, Q3DSurface * surfaceGraph,
+    explicit GraphDataGenerator(Q3DBars *bargraph, Q3DSurface *surfaceGraph,
                                 QTableWidget *tableWidget);
     ~GraphDataGenerator();
 
@@ -51,7 +51,7 @@ private:
     QTableWidget *m_tableWidget; // not owned
 };
 
-GraphDataGenerator::GraphDataGenerator(Q3DBars *bargraph, Q3DSurface * surfaceGraph,
+GraphDataGenerator::GraphDataGenerator(Q3DBars *bargraph, Q3DSurface *surfaceGraph,
                                        QTableWidget *tableWidget)
     : m_barGraph(bargraph),
       m_surfaceGraph(surfaceGraph),
@@ -131,12 +131,12 @@ void GraphDataGenerator::setupModel()
 
     // Set up data
     const char *hours[5][7] =
-    //    Mon            Tue            Wed            Thu            Fri            Sat            Sun
-        {{"9/10/2.0/30", "9/11/1.0/30", "9/12/3.0/30", "9/13/0.2/30", "9/14/1.0/30", "9/15/5.0/30", "9/16/10.0/30"},     // week 1
-         {"8/10/0.5/45", "8/11/1.0/45", "8/12/3.0/45", "8/13/1.0/45", "8/14/2.0/45", "8/15/2.0/45", "8/16/3.0/45"},      // week 2
-         {"7/10/1.0/60", "7/11/1.0/60", "7/12/2.0/60", "7/13/1.0/60", "7/14/4.0/60", "7/15/4.0/60", "7/16/4.0/60"},      // week 3
-         {"6/10/0.0/75", "6/11/1.0/75", "6/12/0.0/75", "6/13/0.0/75", "6/14/2.0/75", "6/15/2.0/75", "6/16/0.3/75"},      // week 4
-         {"5/10/3.0/90", "5/11/3.0/90", "5/12/6.0/90", "5/13/2.0/90", "5/14/2.0/90", "5/15/1.0/90", "5/16/1.0/90"}};     // week 5
+            //    Mon            Tue            Wed            Thu            Fri            Sat            Sun
+    {{"9/10/2.0/30", "9/11/1.0/30", "9/12/3.0/30", "9/13/0.2/30", "9/14/1.0/30", "9/15/5.0/30", "9/16/10.0/30"},     // week 1
+    {"8/10/0.5/45", "8/11/1.0/45", "8/12/3.0/45", "8/13/1.0/45", "8/14/2.0/45", "8/15/2.0/45", "8/16/3.0/45"},      // week 2
+    {"7/10/1.0/60", "7/11/1.0/60", "7/12/2.0/60", "7/13/1.0/60", "7/14/4.0/60", "7/15/4.0/60", "7/16/4.0/60"},      // week 3
+    {"6/10/0.0/75", "6/11/1.0/75", "6/12/0.0/75", "6/13/0.0/75", "6/14/2.0/75", "6/15/2.0/75", "6/16/0.3/75"},      // week 4
+    {"5/10/3.0/90", "5/11/3.0/90", "5/12/6.0/90", "5/13/2.0/90", "5/14/2.0/90", "5/15/1.0/90", "5/16/1.0/90"}};     // week 5
 
     // Add labels
     m_barGraph->rowAxis()->setTitle("Week of year");
@@ -226,16 +226,16 @@ int main(int argc, char **argv)
     Q3DSurface *surfaceGraph = new Q3DSurface();
     QSize screenSize = barGraph->screen()->size();
 
+    barGraph->setMinimumSize(QSize(screenSize.width() / 4, screenSize.height() / 4));
+    barGraph->setMaximumSize(screenSize);
     barGraph->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     barGraph->setFocusPolicy(Qt::StrongFocus);
     barGraph->setResizeMode(QQuickWidget::SizeRootObjectToView);
-//    barGraph->setMinimumSize(QSize(screenSize.width() / 4, screenSize.height() / 4));
-//    barGraph->setMaximumSize(screenSize);
+    surfaceGraph->setMinimumSize(QSize(screenSize.width() / 4, screenSize.height() / 4));
+    surfaceGraph->setMaximumSize(screenSize);
     surfaceGraph->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     surfaceGraph->setFocusPolicy(Qt::StrongFocus);
     surfaceGraph->setResizeMode(QQuickWidget::SizeRootObjectToView);
-//    surfaceGraph->setMinimumSize(QSize(screenSize.width() / 4, screenSize.height() / 4));
-//    surfaceGraph->setMaximumSize(screenSize);
 
     QWidget widget;
     QVBoxLayout *mainLayout = new QVBoxLayout(&widget);
@@ -247,8 +247,8 @@ int main(int argc, char **argv)
     changeSelectedButton->setText(QStringLiteral("Change Selected"));
 
     buttonLayout->addWidget(changeSelectedButton);
-    graphLayout->addWidget(barGraph);
-    graphLayout->addWidget(surfaceGraph);
+    graphLayout->addWidget(barGraph, 1);
+    graphLayout->addWidget(surfaceGraph, 1);
     bottomLayout->addLayout(buttonLayout);
     bottomLayout->addWidget(tableWidget);
     mainLayout->addLayout(graphLayout);
@@ -296,7 +296,6 @@ int main(int argc, char **argv)
     QObject::connect(changeSelectedButton, &QPushButton::clicked, &generator,
                      &GraphDataGenerator::changeSelectedButtonClicked);
 
-    widget.resize(QSize(screenSize.width() / 2, screenSize.height() / 2));
     widget.show();
     generator.start();
     return app.exec();
