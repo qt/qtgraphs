@@ -6,11 +6,12 @@
 
 int main(int argc, char **argv)
 {
-    QGuiApplication app(argc, argv);
+    QApplication app(argc, argv);
 
     //! [0]
     Q3DScatter scatter;
-    scatter.setFlags(scatter.flags() ^ Qt::FramelessWindowHint);
+    scatter.setMinimumSize(QSize(256, 256));
+    scatter.setResizeMode(QQuickWidget::SizeRootObjectToView);
     //! [0]
     //! [1]
     QScatter3DSeries *series = new QScatter3DSeries;

@@ -6,11 +6,12 @@
 
 int main(int argc, char **argv)
 {
-    QGuiApplication app(argc, argv);
+    QApplication app(argc, argv);
 
     //! [0]
     Q3DSurface surface;
-    surface.setFlags(surface.flags() ^ Qt::FramelessWindowHint);
+    surface.setMinimumSize(QSize(256, 256));
+    surface.setResizeMode(QQuickWidget::SizeRootObjectToView);
     //! [0]
     //! [1]
     QSurfaceDataArray *data = new QSurfaceDataArray;
