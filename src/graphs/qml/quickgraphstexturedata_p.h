@@ -29,8 +29,8 @@ public:
     void createGradient(const QLinearGradient &gradient);
 
 private:
-    int m_width =  256;
-    int m_height = 256;
+    int m_width = 8192;
+    int m_height = 1;
 
     QColor linearInterpolate(QColor startColor, QColor endColor, float value);
 
