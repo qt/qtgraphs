@@ -231,6 +231,7 @@ public:
     void changeLabelBorderEnabled(QQuick3DRepeater *repeater, const bool &enabled);
     void changeLabelTextColor(QQuick3DRepeater *repeater, const QColor &color);
     void changeLabelFont(QQuick3DRepeater *repeater, const QFont &font);
+    void changeLabelsEnabled(QQuick3DRepeater *repeater, const bool &enabled);
     void changeGridLineColor(QQuick3DRepeater *repeater, const QColor &color);
     void updateTitleLabels();
 

@@ -576,4 +576,10 @@ void ThemeManager::setColorStyle(Q3DTheme *theme, Q3DTheme::ColorStyle style)
         theme->setColorStyle(style);
 }
 
+void ThemeManager::setLabelsEnabled(Q3DTheme *theme, bool enabled)
+{
+    if (theme->d_ptr->isForcePredefinedType() || !theme->d_ptr->m_dirtyBits.labelsEnabledDirty)
+        theme->setLabelsEnabled(enabled);
+}
+
 QT_END_NAMESPACE

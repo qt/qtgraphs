@@ -135,72 +135,6 @@ Item {
         colorStyle: Theme3D.ColorStyleUniform
     }
 
-    Item {
-        id: dataView
-        anchors.right: mainview.right;
-        anchors.bottom: mainview.bottom
-
-        Bars3D {
-            id: barGraph
-            width: dataView.width
-            height: dataView.height
-            shadowQuality: AbstractGraph3D.ShadowQualityMedium
-            selectionMode: AbstractGraph3D.SelectionItem
-            theme: theme1
-            barThickness: 0.7
-            barSpacing: Qt.size(0.5, 0.5)
-            barSpacingRelative: false
-            scene.activeCamera.cameraPreset: Camera3D.CameraPresetIsometricLeftHigh
-            columnAxis: graphAxes.column
-            rowAxis: graphAxes.row
-            valueAxis: graphAxes.value
-
-            Bar3DSeries {
-                id: secondarySeries
-                visible: false
-                itemLabelFormat: "Expenses, @colLabel, @rowLabel: -@valueLabel"
-                rowColors: [color4 , color5, color6]
-
-                onSelectedBarChanged: (position)=> handleSelectionChange(secondarySeries, position)
-
-                ItemModelBarDataProxy {
-                    id: secondaryProxy
-                    itemModel: graphData.model
-                    rowRole: "timestamp"
-                    columnRole: "timestamp"
-                    valueRole: "expenses"
-                    rowRolePattern: /^(\d\d\d\d).*$/
-                    columnRolePattern: /^.*-(\d\d)$/
-                    valueRolePattern: /-/
-                    rowRoleReplace: "\\1"
-                    columnRoleReplace: "\\1"
-                    multiMatchBehavior: ItemModelBarDataProxy.MMBCumulative
-                }
-            }
-
-            Bar3DSeries {
-                id: barSeries
-                itemLabelFormat: "Income, @colLabel, @rowLabel: @valueLabel"
-                rowColors: [color1, color2, color3]
-
-                onSelectedBarChanged: (position)=> handleSelectionChange(barSeries, position)
-
-                ItemModelBarDataProxy {
-                    id: modelProxy
-                    itemModel: graphData.model
-                    rowRole: "timestamp"
-                    columnRole: "timestamp"
-                    valueRole: "income"
-                    rowRolePattern: /^(\d\d\d\d).*$/
-                    columnRolePattern: /^.*-(\d\d)$/
-                    rowRoleReplace: "\\1"
-                    columnRoleReplace: "\\1"
-                    multiMatchBehavior: ItemModelBarDataProxy.MMBCumulative
-                }
-            }
-        }
-    }
-
     ColumnLayout {
         id: tableViewLayout
 
@@ -214,7 +148,6 @@ Item {
             syncView: tableView
             Layout.fillWidth: true
             delegate: Text {
-                padding: 3
                 text: header.columnNames[index]
             }
 
@@ -334,6 +267,90 @@ Item {
                     toggleRowColorsForBarSeries(true)
                     toggleRowColorsForSecondarySeries(true)
                     text = "Disable row colors"
+                }
+            }
+        }
+
+        Button {
+            id: labelsToggle
+            Layout.fillWidth: true
+            Layout.fillHeight: true
+            text: "Hide labels"
+            clip: true
+
+            onClicked: {
+                if (text === "Hide labels") {
+                    barGraph.theme.labelsEnabled = false;
+                    text = "Show labels";
+                } else {
+                    barGraph.theme.labelsEnabled = true;
+                    text = "Hide labels";
+                }
+            }
+        }
+    }
+
+    Item {
+        id: dataView
+        anchors.right: mainview.right;
+        anchors.bottom: mainview.bottom
+
+        Bars3D {
+            id: barGraph
+            width: dataView.width
+            height: dataView.height
+            shadowQuality: AbstractGraph3D.ShadowQualityMedium
+            selectionMode: AbstractGraph3D.SelectionItemAndRow | AbstractGraph3D.SelectionSlice
+            theme: theme1
+            barThickness: 0.7
+            barSpacing: Qt.size(0.5, 0.5)
+            barSpacingRelative: false
+            scene.activeCamera.cameraPreset: Camera3D.CameraPresetIsometricLeftHigh
+            columnAxis: graphAxes.column
+            rowAxis: graphAxes.row
+            valueAxis: graphAxes.value
+
+            Bar3DSeries {
+                id: secondarySeries
+                visible: false
+                itemLabelFormat: "Expenses, @colLabel, @rowLabel: -@valueLabel"
+                rowColors: [color4 , color5, color6]
+
+                onSelectedBarChanged: (position)=> handleSelectionChange(secondarySeries, position)
+
+                ItemModelBarDataProxy {
+                    id: secondaryProxy
+                    itemModel: graphData.model
+                    rowRole: "timestamp"
+                    columnRole: "timestamp"
+                    valueRole: "expenses"
+                    rowRolePattern: /^(\d\d\d\d).*$/
+                    columnRolePattern: /^.*-(\d\d)$/
+                    valueRolePattern: /-/
+                    rowRoleReplace: "\\1"
+                    columnRoleReplace: "\\1"
+                    multiMatchBehavior: ItemModelBarDataProxy.MMBCumulative
+                }
+            }
+
+            Bar3DSeries {
+                id: barSeries
+                itemLabelFormat: "Income, @colLabel, @rowLabel: @valueLabel"
+                rowColors: [color1, color2, color3]
+
+                onSelectedBarChanged: (position)=> handleSelectionChange(barSeries, position)
+
+                ItemModelBarDataProxy {
+                    id: modelProxy
+                    itemModel: graphData.model
+                    rowRole: "timestamp"
+                    columnRole: "timestamp"
+                    valueRole: "income"
+                    rowRolePattern: /^(\d\d\d\d).*$/
+                    columnRolePattern: /^.*-(\d\d)$/
+                    rowRoleReplace: "\\1"
+                    columnRoleReplace: "\\1"
+                    multiMatchBehavior: ItemModelBarDataProxy.MMBCumulative
                 }
             }
         }

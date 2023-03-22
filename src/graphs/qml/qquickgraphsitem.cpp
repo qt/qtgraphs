@@ -583,7 +583,6 @@ void QQuickGraphsItem::synchData()
 
     if (m_controller->m_changeTracker.themeChanged) {
         environment()->setClearColor(theme->windowColor());
-
         m_controller->m_changeTracker.themeChanged = false;
     }
 
@@ -705,6 +704,26 @@ void QQuickGraphsItem::synchData()
             updateSliceLabels();
         }
         theme->d_ptr->m_dirtyBits.fontDirty = false;
+    }
+
+    if (theme->d_ptr->m_dirtyBits.labelsEnabledDirty) {
+        bool enabled = theme->isLabelsEnabled();
+        changeLabelsEnabled(m_repeaterX, enabled);
+        changeLabelsEnabled(m_repeaterY, enabled);
+        changeLabelsEnabled(m_repeaterZ, enabled);
+        m_titleLabelX->setProperty("visible", enabled && m_controller->axisX()->isTitleVisible());
+        m_titleLabelY->setProperty("visible", enabled && m_controller->axisY()->isTitleVisible());
+        m_titleLabelZ->setProperty("visible", enabled && m_controller->axisZ()->isTitleVisible());
+        m_itemLabel->setProperty("visible", enabled);
+
+        if (m_sliceView) {
+            changeLabelsEnabled(m_sliceHorizontalLabelRepeater, enabled);
+            changeLabelsEnabled(m_sliceVerticalLabelRepeater, enabled);
+            m_sliceItemLabel->setProperty("visible", enabled);
+            m_sliceHorizontalTitleLabel->setProperty("visible", enabled);
+            m_sliceVerticalTitleLabel->setProperty("visible", enabled);
+        }
+        theme->d_ptr->m_dirtyBits.labelsEnabledDirty = false;
     }
 
     // Grid and background adjustments
@@ -2169,6 +2188,15 @@ void QQuickGraphsItem::changeLabelFont(QQuick3DRepeater *repeater, const QFont &
     for (int i = 0; i < count; i++) {
         auto label = static_cast<QQuick3DNode *>(repeater->objectAt(i));
         label->setProperty("labelFont", font);
+    }
+}
+
+void QQuickGraphsItem::changeLabelsEnabled(QQuick3DRepeater *repeater, const bool &enabled)
+{
+    int count = repeater->count();
+    for (int i = 0; i < count; i++) {
+        auto label = static_cast<QQuick3DNode *>(repeater->objectAt(i));
+        label->setProperty("visible", enabled);
     }
 }
 

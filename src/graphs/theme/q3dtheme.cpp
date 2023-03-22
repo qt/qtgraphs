@@ -436,6 +436,13 @@ QT_BEGIN_NAMESPACE
  */
 
 /*!
+ * \qmlproperty bool Theme3D::labelsEnabled
+ *
+ * Defines whether labels are drawn at all. If this is \c{false}, all other label properties
+ * have no effect.
+ */
+
+/*!
  * \qmlproperty Theme3D.Theme Theme3D::type
  *
  * The type of the theme. If no type is set, the type is
@@ -979,6 +986,28 @@ void Q3DTheme::setColorStyle(ColorStyle style)
 Q3DTheme::ColorStyle Q3DTheme::colorStyle() const
 {
     return d_ptr->m_colorStyle;
+}
+
+/*!
+ * \property Q3DTheme::labelsEnabled
+ *
+ * \brief Whether labels are drawn at all.
+ *
+ * If this is \c{false}, all other label properties have no effect.
+ */
+void Q3DTheme::setLabelsEnabled(bool enabled)
+{
+    d_ptr->m_dirtyBits.labelsEnabledDirty = true;
+    if (d_ptr->m_labelsEnabled != enabled) {
+        d_ptr->m_labelsEnabled = enabled;
+        emit labelsEnabledChanged(enabled);
+        emit d_ptr->needRender();
+    }
+}
+
+bool Q3DTheme::isLabelsEnabled() const
+{
+    return d_ptr->m_labelsEnabled;
 }
 
 /*!

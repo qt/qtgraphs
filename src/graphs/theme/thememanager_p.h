@@ -59,6 +59,7 @@ protected:
     static void setGridEnabled(Q3DTheme *theme, bool enabled);
     static void setLabelBackgroundEnabled(Q3DTheme *theme, bool enabled);
     static void setColorStyle(Q3DTheme *theme, Q3DTheme::ColorStyle style);
+    static void setLabelsEnabled(Q3DTheme *theme, bool enabled);
 
 private:
     Q3DTheme *m_activeTheme;

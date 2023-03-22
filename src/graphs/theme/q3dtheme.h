@@ -39,6 +39,7 @@ class Q_GRAPHS_EXPORT Q3DTheme : public QObject
     Q_PROPERTY(bool gridEnabled READ isGridEnabled WRITE setGridEnabled NOTIFY gridEnabledChanged)
     Q_PROPERTY(bool labelBackgroundEnabled READ isLabelBackgroundEnabled WRITE setLabelBackgroundEnabled NOTIFY labelBackgroundEnabledChanged)
     Q_PROPERTY(ColorStyle colorStyle READ colorStyle WRITE setColorStyle NOTIFY colorStyleChanged)
+    Q_PROPERTY(bool labelsEnabled READ isLabelsEnabled WRITE setLabelsEnabled NOTIFY labelsEnabledChanged)
 
 public:
     enum ColorStyle {
@@ -132,6 +133,9 @@ public:
     void setColorStyle(ColorStyle style);
     ColorStyle colorStyle() const;
 
+    void setLabelsEnabled(bool enabled);
+    bool isLabelsEnabled() const;
+
 Q_SIGNALS:
     void typeChanged(Q3DTheme::Theme themeType);
     void baseColorsChanged(const QList<QColor> &colors);
@@ -155,6 +159,7 @@ Q_SIGNALS:
     void gridEnabledChanged(bool enabled);
     void labelBackgroundEnabledChanged(bool enabled);
     void colorStyleChanged(Q3DTheme::ColorStyle style);
+    void labelsEnabledChanged(bool enabled);
 
 protected:
     explicit Q3DTheme(Q3DThemePrivate *d, Theme themeType, QObject *parent = nullptr);

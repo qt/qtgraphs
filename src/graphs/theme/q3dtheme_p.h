@@ -42,6 +42,7 @@ struct Q3DThemeDirtyBitField {
     bool gridEnabledDirty              : 1;
     bool labelBackgroundEnabledDirty   : 1;
     bool themeIdDirty                  : 1;
+    bool labelsEnabledDirty            : 1;
 
     Q3DThemeDirtyBitField()
         : baseColorDirty(false),
@@ -65,7 +66,8 @@ struct Q3DThemeDirtyBitField {
           backgroundEnabledDirty(false),
           gridEnabledDirty(false),
           labelBackgroundEnabledDirty(false),
-          themeIdDirty(false)
+          themeIdDirty(false),
+          labelsEnabledDirty(false)
     {
     }
 };
@@ -124,6 +126,7 @@ public:
     bool m_labelBackground;
     bool m_isDefaultTheme;
     bool m_forcePredefinedType;
+    bool m_labelsEnabled;
 
 protected:
     Q3DTheme *q_ptr;

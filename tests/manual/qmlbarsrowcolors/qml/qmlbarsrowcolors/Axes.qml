@@ -17,6 +17,8 @@ Item {
         labels: ["January", "February", "March", "April", "May", "June",
             "July", "August", "September", "October", "November", "December"]
         labelAutoRotation: 30
+        title: "Months"
+        titleVisible: true
     }
     //! [0]
     CategoryAxis3D {
@@ -37,5 +39,6 @@ Item {
         labelFormat: "%.2f M\u20AC"
         title: "Monthly income"
         labelAutoRotation: 90
+        titleVisible: true
     }
 }
