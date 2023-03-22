@@ -1261,26 +1261,27 @@ void QQuickGraphsBars::createSliceView()
             m_slicedBarModels[barSeries] = slicedBarList;
         }
         if (slicedBarList->isEmpty()) {
-            auto selectionMode = m_barsController->selectionMode();
-            //TODO: Add other selection types: e.g: SelectionColumn - QTBUG-108312
-            if (selectionMode.testFlag(QAbstract3DGraph::SelectionRow)) {
-                for (int col = 0; col < barSeries->dataProxy()->colCount(); ++col) {
-                    BarModel *barModel = new BarModel();
-                    QQuick3DModel *model = createDataItem(sliceParent->scene());
-                    barModel->model = model;
+            int slicedBarListSize = 0;
+            if (m_barsController->selectionMode().testFlag(QAbstract3DGraph::SelectionRow))
+                slicedBarListSize = barSeries->dataProxy()->colCount();
+            else if (m_barsController->selectionMode().testFlag(QAbstract3DGraph::SelectionColumn))
+                slicedBarListSize = barSeries->dataProxy()->rowCount();
 
-                    QQuick3DTexture *texture = createTexture();
-                    texture->setParent(barModel->model);
-                    texture->setParentItem(barModel->model);
-                    auto gradient = barSeries->baseGradient();
-                    auto textureData = static_cast<QuickGraphsTextureData *>(texture->textureData());
-                    textureData->createGradient(gradient);
+            for (int ind = 0; ind < slicedBarListSize; ++ind) {
+                BarModel *barModel = new BarModel();
+                QQuick3DModel *model = createDataItem(sliceParent->scene());
+                barModel->model = model;
 
-                    barModel->texture = texture;
+                QQuick3DTexture *texture = createTexture();
+                texture->setParent(barModel->model);
+                texture->setParentItem(barModel->model);
+                auto gradient = barSeries->baseGradient();
+                auto textureData = static_cast<QuickGraphsTextureData *>(texture->textureData());
+                textureData->createGradient(gradient);
+                barModel->texture = texture;
 
-                    if (!slicedBarList->contains(barModel))
-                        slicedBarList->append(barModel);
-                }
+                if (!slicedBarList->contains(barModel))
+                    slicedBarList->append(barModel);
             }
         }
     }
@@ -1296,22 +1297,33 @@ void QQuickGraphsBars::updateSliceGraph()
         return;
     }
 
+    auto index = 0;
     for (auto it = m_slicedBarModels.begin(); it != m_slicedBarModels.end(); it++) {
         QVector<BarModel *> barList = *m_barModelsMap.value(it.key());
-        for (int col = 0; col < it.value()->count(); ++col) {
-            auto index = (m_selectedBarCoord.x() * it.key()->dataProxy()->colCount()) + col;
+        for (int ind = 0; ind < it.value()->count(); ++ind) {
+            if (m_barsController->selectionMode().testFlag(QAbstract3DGraph::SelectionRow))
+                index = (m_selectedBarCoord.x() * it.key()->dataProxy()->colCount()) + ind;
+            else if (m_barsController->selectionMode().testFlag(QAbstract3DGraph::SelectionColumn))
+                index = m_selectedBarCoord.y() + (ind * it.key()->dataProxy()->colCount());
             bool visible = it.key()->isVisible() && sliceView()->isVisible();
 
             if (index < barList.size() && m_selectedBarCoord != invalidSelectionPosition()) {
-                it.value()->at(col)->model->setVisible(visible);
-                it.value()->at(col)->barItem = barList.at(index)->barItem;
-                it.value()->at(col)->coord = barList.at(index)->coord;
-                it.value()->at(col)->visualIndex = barList.at(index)->visualIndex;
-                it.value()->at(col)->heightValue = barList.at(index)->heightValue;
+                it.value()->at(ind)->model->setVisible(visible);
+                it.value()->at(ind)->barItem = barList.at(index)->barItem;
+                it.value()->at(ind)->coord = barList.at(index)->coord;
+                it.value()->at(ind)->visualIndex = barList.at(index)->visualIndex;
+                it.value()->at(ind)->heightValue = barList.at(index)->heightValue;
 
-                it.value()->at(col)->model->setPosition(QVector3D(barList.at(index)->model->x(),
-                                                                  barList.at(index)->model->y(), 0.0f));
-                it.value()->at(col)->model->setScale(barList.at(index)->model->scale());
+                if (m_barsController->selectionMode().testFlag(QAbstract3DGraph::SelectionRow)) {
+                    it.value()->at(ind)->model->setPosition(QVector3D(barList.at(index)->model->x(),
+                                                                      barList.at(index)->model->y(), 0.0f));
+                } else if (m_barsController->selectionMode().testFlag(QAbstract3DGraph::SelectionColumn)) {
+                    it.value()->at(ind)->model->setX(barList.at(index)->model->z()
+                                                     + (barList.at(index)->visualIndex * .2f));
+                    it.value()->at(ind)->model->setY(barList.at(index)->model->y());
+                    it.value()->at(ind)->model->setZ(0.0f);
+                }
+                it.value()->at(ind)->model->setScale(barList.at(index)->model->scale());
             } else {
                 setSliceEnabled(false);
                 QQuickGraphsItem::updateSliceGraph();

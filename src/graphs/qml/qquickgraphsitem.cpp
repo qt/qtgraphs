@@ -2528,6 +2528,10 @@ void QQuickGraphsItem::updateSliceLabels()
         for (int i = 0; i < m_sliceHorizontalLabelRepeater->count(); i++) {
             labelTrans = calculateCategoryLabelPosition(horizontalAxis, labelTrans, i);
             labelTrans.setY(labelTrans.y() - (adjustment / 1.5f));
+            if (m_controller->selectionMode().testFlag(QAbstract3DGraph::SelectionColumn)) {
+                labelTrans.setX(labelTrans.z());
+                labelTrans.setZ(0.0f);
+            }
             auto obj = static_cast<QQuick3DNode *>(m_sliceHorizontalLabelRepeater->objectAt(i));
             obj->setScale(fontScaled);
             obj->setPosition(labelTrans);
@@ -2548,7 +2552,11 @@ void QQuickGraphsItem::updateSliceLabels()
     labels = verticalAxis->labels();
     labelsMaxWidth = qMax(labelsMaxWidth, float(findLabelsMaxWidth(labels))) + textPadding;
     adjustment = labelsMaxWidth * scaleFactor;
-    float xPos = backgroundScale.x() + adjustment;
+    float xPos = 0.0f;
+    if (m_controller->selectionMode().testFlag(QAbstract3DGraph::SelectionRow))
+        xPos = backgroundScale.x() + adjustment;
+    else if (m_controller->selectionMode().testFlag(QAbstract3DGraph::SelectionColumn))
+        xPos = backgroundScale.z() + adjustment;
     labelTrans = QVector3D(xPos, 0.0f, 0.0f);
 
     if (verticalAxis->type() == QAbstract3DAxis::AxisTypeValue) {
@@ -2587,7 +2595,10 @@ void QQuickGraphsItem::updateSliceLabels()
     labelHeight = fm.height() + textPadding;
     float labelWidth = fm.horizontalAdvance(verticalAxis->title()) + textPadding;
     adjustment = labelHeight * scaleFactor;
-    xPos = backgroundScale.x() + adjustment;
+    if (m_controller->selectionMode().testFlag(QAbstract3DGraph::SelectionRow))
+        xPos = backgroundScale.x() + adjustment;
+    else if (m_controller->selectionMode().testFlag(QAbstract3DGraph::SelectionColumn))
+        xPos = backgroundScale.z() + adjustment;
     labelTrans = QVector3D(-xPos, 0.0f, 0.0f);
 
     if (!verticalAxis->title().isEmpty()) {
