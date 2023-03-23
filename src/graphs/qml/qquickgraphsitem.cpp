@@ -1451,28 +1451,34 @@ void QQuickGraphsItem::updateShadowQuality(QAbstract3DGraph::ShadowQuality quali
 {
     if (quality != QAbstract3DGraph::ShadowQualityNone) {
         light()->setCastsShadow(true);
+        light()->setShadowFactor(25.f);
 
         QQuick3DAbstractLight::QSSGShadowMapQuality shadowMapQuality;
         switch (quality) {
         case QAbstract3DGraph::ShadowQualityLow:
         case QAbstract3DGraph::ShadowQualitySoftLow:
-            shadowMapQuality = QQuick3DAbstractLight::QSSGShadowMapQuality::ShadowMapQualityLow;
+            shadowMapQuality = QQuick3DAbstractLight::QSSGShadowMapQuality::ShadowMapQualityMedium;
             break;
         case QAbstract3DGraph::ShadowQualityMedium:
         case QAbstract3DGraph::ShadowQualitySoftMedium:
-            shadowMapQuality = QQuick3DAbstractLight::QSSGShadowMapQuality::ShadowMapQualityMedium;
+            shadowMapQuality = QQuick3DAbstractLight::QSSGShadowMapQuality::ShadowMapQualityHigh;
             break;
         case QAbstract3DGraph::ShadowQualityHigh:
         case QAbstract3DGraph::ShadowQualitySoftHigh:
-            shadowMapQuality = QQuick3DAbstractLight::QSSGShadowMapQuality::ShadowMapQualityHigh;
+            shadowMapQuality = QQuick3DAbstractLight::QSSGShadowMapQuality::ShadowMapQualityVeryHigh;
             break;
         default:
-            shadowMapQuality = QQuick3DAbstractLight::QSSGShadowMapQuality::ShadowMapQualityMedium;
+            shadowMapQuality = QQuick3DAbstractLight::QSSGShadowMapQuality::ShadowMapQualityHigh;
             break;
         }
         light()->setShadowMapQuality(shadowMapQuality);
+        if (quality >= QAbstract3DGraph::ShadowQualitySoftLow)
+            light()->setShadowFilter(10.f);
+        else
+            light()->setShadowFilter(2.f);
     } else {
         light()->setCastsShadow(false);
+        light()->setShadowFactor(0.f);
     }
 }
 
