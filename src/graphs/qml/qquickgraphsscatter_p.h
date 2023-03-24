@@ -83,6 +83,12 @@ private:
         QQuick3DTexture *seriesTexture;
         QQuick3DTexture *highlightTexture;
         QScatter3DSeries *series;
+
+        // For Static optimization
+        ScatterInstancing *instancing = nullptr;
+        QQuick3DModel *instancingRootItem = nullptr;
+        QQuick3DModel *selectionIndicator = nullptr;
+
     };
 
     Scatter3DController *m_scatterController;
@@ -108,6 +114,8 @@ private:
 
     bool m_polarGraph = false;
 
+    bool m_selectionActive = false;
+    float m_selectedGradientPos = 0.0f;
     int m_selectedItem;
     QScatter3DSeries *m_selectedItemSeries; // Points to the series for which the bar is selected
                                             // in single series selection cases.
@@ -120,28 +128,19 @@ private:
     void connectSeries(QScatter3DSeries *series);
     void disconnectSeries(QScatter3DSeries *series);
     qsizetype getItemIndex(QQuick3DModel *item);
-    void setSelected(qsizetype index);
 //    void clearSelection();
     QVector3D selectedItemPosition();
-
-    ScatterInstancing *m_instancing = nullptr;
-    QQuick3DModel *m_instancingRootItem = nullptr;
-    QQuick3DNode *m_seriesRootItem = nullptr;
 
     bool m_smooth = false;
 
     float m_dotSizedScale = 1.0f;
-    qsizetype m_selectedIndex = -1;
-    QQuick3DModel *m_selectionIndicator = nullptr;
-    bool m_selectionActive = false;
-    float m_selectedGradientPos = 0.0f;
 
-    void resetSelection();
     void updateItemInstancedMaterial(QQuick3DModel *item, bool useGradient, bool rangeGradient);
-    void updateInstancedCustomMaterial(QQuick3DModel *model, bool isHighlight = false,
+    void updateInstancedCustomMaterial(ScatterModel *graphModel, bool isHighlight = false,
                                        QQuick3DTexture *seriesTexture = nullptr,
                                        QQuick3DTexture *highlightTexture = nullptr);
-    void updateSelectionIndicatorMaterial(bool useGradient, bool rangeGradient);
+    void updateSelectionIndicatorMaterial(QQuick3DModel *indicator, bool useGradient,
+                                          bool rangeGradient);
 
     void updateItemMaterial(QQuick3DModel *item, bool useGradient, bool rangeGradient);
     void updateCustomMaterial(QQuick3DModel *item, QQuick3DTexture *texture);
@@ -152,8 +151,6 @@ private:
     QQuick3DModel *createDataItemModel(QAbstract3DSeries::Mesh meshType);
     QQuick3DNode *createSeriesRoot();
     QQuick3DModel *createDataItem(const QAbstract3DSeries::Mesh meshType);
-    void createInstancingRootItem(QAbstract3DSeries::Mesh meshType);
-    void createSelectionIndicator(QAbstract3DSeries::Mesh meshType);
     void removeDataItems(QList<QQuick3DModel *> &items);
     void fixMeshFileName(QString &fileName, QAbstract3DSeries::Mesh meshType);
     QString getMeshFileName(QAbstract3DSeries::Mesh meshType);
