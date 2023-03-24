@@ -610,6 +610,8 @@ void QQuickGraphsItem::synchData()
         float ambientStrength = theme->ambientLightStrength();
         QColor ambientColor = QColor::fromRgbF(ambientStrength, ambientStrength, ambientStrength);
         light()->setAmbientColor(ambientColor);
+        if (qFuzzyIsNull(light()->brightness()))
+            light()->setBrightness(.0001f);
         theme->d_ptr->m_dirtyBits.ambientLightStrengthDirty = false;
     }
 
