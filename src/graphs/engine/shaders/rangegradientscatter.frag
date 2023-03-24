@@ -6,7 +6,7 @@ float directionalBrightness = 0.75; // 0...1.0
 
 void MAIN()
 {
-    vec2 gradientUV = vec2((VAR_WORLD_POSITION.y + 1.0) / 2.0, 0.0); // TODO: Does this need to be normalized?
+    vec2 gradientUV = vec2(gradientPos, 0.0);
     vec3 color = texture(custex, gradientUV).xyz;
     diffuse = vec4(color, 1.0);
     BASE_COLOR = diffuse;

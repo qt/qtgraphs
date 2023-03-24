@@ -9,9 +9,11 @@
 #include "surfaceselectioninstancing_p.h"
 #include "qvalue3daxis_p.h"
 #include "qcategory3daxis_p.h"
+#include "quickgraphstexturedata_p.h"
 
 #include <QtQuick3D/private/qquick3dprincipledmaterial_p.h>
 #include <QtQuick3D/private/qquick3ddefaultmaterial_p.h>
+#include <QtQuick3D/private/qquick3dcustommaterial_p.h>
 
 QT_BEGIN_NAMESPACE
 
@@ -420,13 +422,12 @@ void QQuickGraphsSurface::updateModel(SurfaceModel *model)
         QVector3D boundsMax(0.0f, 0.0f, 0.0f);
 
         model->vertices.clear();
-        model->height.clear();
         for (int i = 0 ; i < rowCount ; i++) {
             const QSurfaceDataRow &row = *array.at(i);
             for (int j = 0 ; j < columnCount ; j++) {
                 // getNormalizedVertex
                 SurfaceVertex vertex;
-                QVector3D pos = getNormalizedVertex(model, row.at(j), false, false);
+                QVector3D pos = getNormalizedVertex(row.at(j), false, false);
                 vertex.position = pos;
                 vertex.normal = QVector3D(0, 0, 0);
                 vertex.uv = QVector2D(j * uvX, i * uvY);
@@ -510,61 +511,11 @@ void QQuickGraphsSurface::updateModel(SurfaceModel *model)
 
 void QQuickGraphsSurface::updateMaterial(SurfaceModel *model)
 {
-    auto axisY = m_surfaceController->axisY();
-    float maxY = axisY->max();
-    float minY = axisY->min();
-    QQmlListReference materialRef(model->model, "materials");
-    auto material = static_cast<QQuick3DDefaultMaterial *>(materialRef.at(0));
-    auto textureData = material->diffuseMap()->textureData();
-    textureData->setSize(QSize(model->rowCount, model->columnCount));
-    textureData->setFormat(QQuick3DTextureData::RGBA8);
-    QByteArray imageData;
-    imageData.resize(model->height.size() * 4);
-    QLinearGradient gradient = model->series->baseGradient();
-    auto stops = gradient.stops();
-    for (int i = 0; i < model->height.size(); i++) {
-        float height = model->height.at(i);
-        float normalizedHeight = (height - minY) / (maxY - minY);
-        for (int j = 0; j < stops.size(); j++) {
-            if (normalizedHeight < stops.at(j).first ||
-                    (normalizedHeight >= (float)stops.at(j).first && j == stops.size() - 1)) {
-                QColor color;
-                if (j == 0 || normalizedHeight >= (float)stops.at(j).first) {
-                    color = stops.at(j).second;
-                } else {
-                    float normalLowerBound = stops.at(j - 1).first;
-                    float normalUpperBound = stops.at(j).first;
-                    normalizedHeight = (normalizedHeight - normalLowerBound) / (normalUpperBound - normalLowerBound);
-                    QColor start = stops.at(j - 1).second;
-                    QColor end = stops.at(j).second;
-                    float red = start.redF() + ((end.redF() - start.redF()) * normalizedHeight);
-                    float green = start.greenF() + ((end.greenF() - start.greenF()) * normalizedHeight);
-                    float blue = start.blueF() + ((end.blueF() - start.blueF()) * normalizedHeight);
-                    color.setRedF(red);
-                    color.setGreenF(green);
-                    color.setBlueF(blue);
-                }
-                imageData.data()[i * 4 + 0] = char(color.red());
-                imageData.data()[i * 4 + 1] = char(color.green());
-                imageData.data()[i * 4 + 2] = char(color.blue());
-                imageData.data()[i * 4 + 3] = char(color.alpha());
-                break;
-            }
-        }
-    }
-    textureData->setTextureData(imageData);
-
-    if (sliceView()) {
-        QQmlListReference sliceMaterialRef(model->sliceModel, "materials");
-        material = static_cast<QQuick3DDefaultMaterial *>(sliceMaterialRef.at(0));
-        textureData = material->diffuseMap()->textureData();
-        textureData->setSize(QSize(model->rowCount, model->columnCount));
-        textureData->setFormat(QQuick3DTextureData::RGBA8);
-        textureData->setTextureData(imageData);
-    }
+    auto textureData = static_cast<QuickGraphsTextureData *>(model->texture->textureData());
+    textureData->createGradient(model->series->baseGradient());
 }
 
-QVector3D QQuickGraphsSurface::getNormalizedVertex(SurfaceModel *model, const QSurfaceDataItem &data, bool polar, bool flipXZ)
+QVector3D QQuickGraphsSurface::getNormalizedVertex(const QSurfaceDataItem &data, bool polar, bool flipXZ)
 {
     Q_UNUSED(polar);
     Q_UNUSED(flipXZ);
@@ -580,7 +531,6 @@ QVector3D QQuickGraphsSurface::getNormalizedVertex(SurfaceModel *model, const QS
     scale = translate = this->scale().x();
     normalizedX = axisX->positionAt(data.x()) * scale * 2.0f - translate;
     scale = translate = this->scale().y();
-    model->height.push_back(data.y());
     normalizedY = axisY->positionAt(data.y()) * scale * 2.0f - translate;
     scale = translate = this->scale().z();
     normalizedZ = axisZ->positionAt(data.z()) * -scale * 2.0f + translate;
@@ -1195,17 +1145,22 @@ void QQuickGraphsSurface::addModel(QSurface3DSeries *series)
     model->setGeometry(geometry);
 
     QQmlListReference materialRef(model, "materials");
-    auto material = new QQuick3DDefaultMaterial();
+    auto material = createQmlCustomMaterial(QStringLiteral(":/materials/RangeGradientMaterial"));
     material->setParent(model);
-    QQuick3DTexture *texture = new QQuick3DTexture();
-    texture->setParent(model);
-    QQuick3DTextureData *textureData = new QQuick3DTextureData();
-    textureData->setParent(model);
-    texture->setTextureData(textureData);
-    material->setDiffuseMap(texture);
-    material->setSpecularAmount(7.0f);
-    material->setSpecularRoughness(0.025f);
+    material->setParentItem(model);
     material->setCullMode(QQuick3DMaterial::NoCulling);
+    QVariant textureInputAsVariant = material->property("custex");
+    QQuick3DShaderUtilsTextureInput *textureInput = textureInputAsVariant.value<QQuick3DShaderUtilsTextureInput *>();
+    QQuick3DTexture *texture = new QQuick3DTexture();
+    texture->setParent(this);
+    texture->setRotationUV(-90.0f);
+    texture->setHorizontalTiling(QQuick3DTexture::ClampToEdge);
+    texture->setVerticalTiling(QQuick3DTexture::ClampToEdge);
+    QuickGraphsTextureData *textureData = new QuickGraphsTextureData();
+    textureData->setParent(texture);
+    textureData->setParentItem(texture);
+    texture->setTextureData(textureData);
+    textureInput->setTexture(texture);
     materialRef.append(material);
 
     auto gridModel = new QQuick3DModel();
@@ -1234,6 +1189,7 @@ void QQuickGraphsSurface::addModel(QSurface3DSeries *series)
     surfaceModel->model = model;
     surfaceModel->gridModel = gridModel;
     surfaceModel->series = series;
+    surfaceModel->texture = texture;
 
     m_model.push_back(surfaceModel);
 
@@ -1279,20 +1235,12 @@ void QQuickGraphsSurface::createSliceView()
         model->setGeometry(geometry);
 
         QQmlListReference materialRef(model, "materials");
-        QQuick3DDefaultMaterial *material = new QQuick3DDefaultMaterial();
-        material->setParent(model);
-        material->setParentItem(model);
-        QQuick3DTexture *texture = new QQuick3DTexture();
-        texture->setParent(model);
-        texture->setParent(model);
-        QQuick3DTextureData *textureData = new QQuick3DTextureData();
-        textureData->setParent(model);
-        textureData->setParentItem(model);
-        texture->setTextureData(textureData);
-        material->setDiffuseMap(texture);
-        material->setSpecularAmount(.1f);
-        material->setSpecularRoughness(0.025f);
+        auto material = createQmlCustomMaterial(QStringLiteral(":/materials/RangeGradientMaterial"));
         material->setCullMode(QQuick3DMaterial::NoCulling);
+        QVariant textureInputAsVariant = material->property("custex");
+        QQuick3DShaderUtilsTextureInput *textureInput = textureInputAsVariant.value<QQuick3DShaderUtilsTextureInput *>();
+        QQuick3DTexture *texture = surfaceModel->texture;
+        textureInput->setTexture(texture);
         materialRef.append(material);
 
         surfaceModel->sliceModel = model;

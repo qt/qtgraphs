@@ -5,9 +5,9 @@ import QtQuick3D
 import QtQuick
 
 CustomMaterial {
+    property real gradientPos: 0.0
     property TextureInput custex: TextureInput {}
 
     shadingMode: CustomMaterial.Shaded
-    vertexShader: "qrc:/shaders/vertexrangegradient"
-    fragmentShader: "qrc:/shaders/fragmentrangegradient"
+    fragmentShader: "qrc:/shaders/fragmentrangegradientscatter"
 }

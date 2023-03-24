@@ -108,15 +108,15 @@ private:
         QVector<SurfaceVertex> coarceVertices;
         QVector<quint32> indices;
         QVector<quint32> gridIndices;
-        QVector<float> height;
         QSurface3DSeries *series;
+        QQuick3DTexture *texture;
         int columnCount;
         int rowCount;
         SurfaceVertex selectedVertex;
         bool picked = false;
     };
 
-    QVector3D getNormalizedVertex(SurfaceModel *model, const QSurfaceDataItem &data, bool polar, bool flipXZ);
+    QVector3D getNormalizedVertex(const QSurfaceDataItem &data, bool polar, bool flipXZ);
     void createSmoothNormalBodyLine(SurfaceModel *model, int &totalIndex, int column);
     void createSmoothNormalUpperLine(SurfaceModel *model, int &totalIndex);
     void createSmoothIndices(SurfaceModel *model, int x, int y, int endX, int endY);

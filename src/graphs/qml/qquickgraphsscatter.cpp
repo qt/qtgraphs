@@ -322,13 +322,13 @@ void QQuickGraphsScatter::updateItemMaterial(QQuick3DModel *item, bool useGradie
         if (materialsRef.size()) {
             if (!qobject_cast<QQuick3DCustomMaterial *>(materialsRef.at(0))) {
                 QQuick3DCustomMaterial *customMaterial = createQmlCustomMaterial(
-                            QStringLiteral(":/materials/RangeGradientMaterial"));
+                            QStringLiteral(":/materials/RangeGradientScatterMaterial"));
                 QObject *oldPrincipledMaterial = materialsRef.at(0);
                 materialsRef.replace(0, customMaterial);
                 delete oldPrincipledMaterial;
             }
         } else {
-            QQuick3DCustomMaterial *customMaterial = createQmlCustomMaterial(QStringLiteral(":/materials/RangeGradientMaterial"));
+            QQuick3DCustomMaterial *customMaterial = createQmlCustomMaterial(QStringLiteral(":/materials/RangeGradientScatterMaterial"));
             materialsRef.append(customMaterial);
         }
     }
@@ -386,12 +386,12 @@ void QQuickGraphsScatter::updateSelectionIndicatorMaterial(bool useGradient, boo
         if (materialsRef.size()) {
             if (!qobject_cast<QQuick3DCustomMaterial *>(materialsRef.at(0))) {
                 auto old = materialsRef.at(0);
-                auto customMaterial = createQmlCustomMaterial(QStringLiteral(":/materials/RangeGradientMaterial"));
+                auto customMaterial = createQmlCustomMaterial(QStringLiteral(":/materials/RangeGradientScatterMaterial"));
                 materialsRef.replace(0, customMaterial);
                 delete old;
             }
         } else {
-            auto customMaterial = createQmlCustomMaterial(QStringLiteral(":/materials/RangeGradientMaterial"));
+            auto customMaterial = createQmlCustomMaterial(QStringLiteral(":/materials/RangeGradientScatterMaterial"));
             materialsRef.append(customMaterial);
         }
     }
