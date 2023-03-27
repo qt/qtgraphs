@@ -308,17 +308,20 @@ void QQuickGraphsBars::componentComplete()
 
 void QQuickGraphsBars::synchData()
 {
+    Q3DCamera *camera = m_barsController->m_scene->activeCamera();
+    Q3DTheme *theme = m_barsController->activeTheme();
+
     if (!m_noZeroInRange) {
-        m_barsController->m_scene->activeCamera()->d_ptr->setMinYRotation(-90.0f);
-        m_barsController->m_scene->activeCamera()->d_ptr->setMaxYRotation(90.0f);
+        camera->d_ptr->setMinYRotation(-90.0f);
+        camera->d_ptr->setMaxYRotation(90.0f);
     } else {
         if ((m_hasNegativeValues && !m_helperAxisY.isReversed())
                 || (!m_hasNegativeValues && m_helperAxisY.isReversed())) {
-            m_barsController->m_scene->activeCamera()->d_ptr->setMinYRotation(-90.0f);
-            m_barsController->m_scene->activeCamera()->d_ptr->setMaxYRotation(0.0f);
+            camera->d_ptr->setMinYRotation(-90.0f);
+            camera->d_ptr->setMaxYRotation(0.0f);
         } else {
-            m_barsController->m_scene->activeCamera()->d_ptr->setMinYRotation(0.0f);
-            m_barsController->m_scene->activeCamera()->d_ptr->setMaxYRotation(90.0f);
+            camera->d_ptr->setMinYRotation(0.0f);
+            camera->d_ptr->setMaxYRotation(90.0f);
         }
     }
     if (m_barsController->m_changeTracker.barSpecsChanged || !m_cachedBarThickness.isValid()) {
@@ -327,11 +330,15 @@ void QQuickGraphsBars::synchData()
         m_barsController->m_changeTracker.barSpecsChanged = false;
     }
 
-    // Floor level update requires data update, so do before abstract sync
+    // Floor level update requires data update, so do before qquickgraphicsitem sync
     if (m_barsController->m_changeTracker.floorLevelChanged) {
         updateFloorLevel(m_barsController->m_floorLevel);
         m_barsController->m_changeTracker.floorLevelChanged = false;
     }
+
+    // Do not clear dirty flag, we need to react to it in qquickgraphicsitem as well
+    if (theme->d_ptr->m_dirtyBits.backgroundEnabledDirty)
+        m_floorBackground->setVisible(theme->isBackgroundEnabled());
 
     if (m_barsController->m_changeTracker.barSeriesMarginChanged) {
         updateBarSeriesMargin(barSeriesMargin());
@@ -341,8 +348,6 @@ void QQuickGraphsBars::synchData()
     auto axisY = static_cast<QValue3DAxis *>(m_barsController->axisY());
     axisY->formatter()->d_ptr->recalculate();
     m_helperAxisY.setFormatter(axisY->formatter());
-
-    Q3DTheme *theme = m_barsController->activeTheme();
 
     if (m_axisRangeChanged) {
         theme->d_ptr->resetDirtyBits();
