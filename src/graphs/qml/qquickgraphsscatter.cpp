@@ -78,7 +78,6 @@ void QQuickGraphsScatter::setAxisZ(QValue3DAxis *axis)
     m_scatterController->setAxisZ(axis);
 }
 
-// From seriesvisualizer
 void QQuickGraphsScatter::disconnectSeries(QScatter3DSeries *series)
 {
     QObject::disconnect(series, 0, this, 0);
@@ -136,35 +135,40 @@ void QQuickGraphsScatter::updateScatterGraphItemPositions(ScatterModel *graphMod
             QQuick3DModel *dataPoint = itemList.at(i);
 
             QVector3D dotPos = item->position();
-            QQuaternion dotRot = item->rotation();
-            float posX = axisX()->positionAt(dotPos.x()) * scale().x() + translate().x();
-            float posY = axisY()->positionAt(dotPos.y()) * scale().y() + translate().y();
-            float posZ = axisZ()->positionAt(dotPos.z()) * scale().z() + translate().z();
+            if (isDotPositionInAxisRange(dotPos)) {
+                dataPoint->setVisible(true);
+                QQuaternion dotRot = item->rotation();
+                float posX = axisX()->positionAt(dotPos.x()) * scale().x() + translate().x();
+                float posY = axisY()->positionAt(dotPos.y()) * scale().y() + translate().y();
+                float posZ = axisZ()->positionAt(dotPos.z()) * scale().z() + translate().z();
+                dataPoint->setPosition(QVector3D(posX, posY, posZ));
 
-            dataPoint->setPosition(QVector3D(posX, posY, posZ));
-
-            dataPoint->setRotation(dotRot * meshRotation);
-            dataPoint->setScale(QVector3D(itemSize, itemSize, itemSize));
+                dataPoint->setRotation(dotRot * meshRotation);
+                dataPoint->setScale(QVector3D(itemSize, itemSize, itemSize));
+            } else {
+                dataPoint->setVisible(false);
+            }
         }
     } else if (m_scatterController->optimizationHints() == QAbstract3DGraph::OptimizationStatic)  {
         int count = dataProxy->itemCount();
         QList<DataItemHolder> positions;
-        positions.resize(count);
 
         for (int i = 0; i < count; i++) {
             auto item = dataProxy->itemAt(i);
             auto dotPos = item->position();
 
-            auto posX = axisX()->positionAt(dotPos.x()) * scale().x() + translate().x();
-            auto posY = axisY()->positionAt(dotPos.y()) * scale().y() + translate().y();
-            auto posZ = axisZ()->positionAt(dotPos.z()) * scale().z() + translate().z();
+            if (isDotPositionInAxisRange(dotPos)) {
+                auto posX = axisX()->positionAt(dotPos.x()) * scale().x() + translate().x();
+                auto posY = axisY()->positionAt(dotPos.y()) * scale().y() + translate().y();
+                auto posZ = axisZ()->positionAt(dotPos.z()) * scale().z() + translate().z();
 
-            DataItemHolder dih;
-            dih.position = {posX, posY, posZ};
-            dih.rotation = item->rotation() * meshRotation;
-            dih.scale = {itemSize, itemSize, itemSize};
+                DataItemHolder dih;
+                dih.position = {posX, posY, posZ};
+                dih.rotation = item->rotation() * meshRotation;
+                dih.scale = {itemSize, itemSize, itemSize};
 
-            positions[i] = dih;
+                positions.push_back(dih);
+            }
         }
         graphModel->instancing->setDataArray(positions);
     }
@@ -604,7 +608,13 @@ void QQuickGraphsScatter::handleSeriesChanged(QList<QAbstract3DSeries *> changed
     // TODO: generate items and remove old items
 }
 
-// ------------------------------------------------------------------------------
+bool QQuickGraphsScatter::isDotPositionInAxisRange(const QVector3D &dotPos)
+{
+    return ((dotPos.x() >= axisX()->min() && dotPos.x() <= axisX()->max())
+            && (dotPos.y() >= axisY()->min() && dotPos.y() <= axisY()->max())
+            && (dotPos.z() >= axisZ()->min() && dotPos.z() <= axisZ()->max()));
+}
+
 QScatter3DSeries *QQuickGraphsScatter::selectedSeries() const
 {
     return m_scatterController->selectedSeries();

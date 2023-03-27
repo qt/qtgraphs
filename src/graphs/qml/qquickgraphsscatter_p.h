@@ -94,7 +94,6 @@ private:
     Scatter3DController *m_scatterController;
     float m_maxItemSize = 0.0f;
 
-    // For Quick3D renderer integration
     const float m_defaultMinSize = 0.01f;
     const float m_defaultMaxSize = 0.1f;
     const float m_itemScaler = 3.0f;
@@ -103,7 +102,6 @@ private:
     const float m_indicatorScaleAdjustment = 1.1f;
     const float m_rangeGradientYHelper = 0.5f;
 
-    // These were in renderer
     float m_scaleX = 1.0f;
     float m_scaleY = 1.0f;
     float m_scaleZ = 1.0f;
@@ -124,7 +122,6 @@ private:
 
     QList<ScatterModel *> m_scatterGraphs;
 
-    // From seriesvisualizer
     void connectSeries(QScatter3DSeries *series);
     void disconnectSeries(QScatter3DSeries *series);
     qsizetype getItemIndex(QQuick3DModel *item);
@@ -162,6 +159,8 @@ private:
     void handleSeriesChanged(QList<QAbstract3DSeries *> changedSeries);
 
     QColor m_selectedSeriesColor;
+
+    bool isDotPositionInAxisRange(const QVector3D &dotPos);
 
     QQmlComponent *createRepeaterDelegate(QAbstract3DSeries::Mesh MeshType);
     void calculateSceneScalingFactors();
