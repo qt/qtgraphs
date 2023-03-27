@@ -969,7 +969,7 @@ void QQuickGraphsBars::updateBarVisuals(QBar3DSeries *series)
             for (int i = 0; i < barList.count(); i++) {
                 QQuick3DModel *model = barList.at(i)->model;
                 updateItemMaterial(model, useGradient, rangeGradient);
-                updateCustomMaterial(model, barList.at(i)->texture);
+                updateCustomMaterial(model, false, barList.at(i)->texture);
             }
         }
     }
