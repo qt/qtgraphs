@@ -348,7 +348,7 @@ Item {
                 labelBorderEnabled: true
                 font.pointSize: 35
                 labelBackgroundEnabled: true
-                colorStyle: Theme3D.ColorStyleObjectGradient//Theme3D.ColorStyleRangeGradient // TODO: QTBUG-99822
+                colorStyle: Theme3D.ColorStyleRangeGradient
                 singleHighlightGradient: customGradient
 
                 ColorGradient {
