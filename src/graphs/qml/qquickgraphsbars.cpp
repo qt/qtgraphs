@@ -1265,6 +1265,7 @@ void QQuickGraphsBars::createSliceView()
 
     QList<QBar3DSeries *> barSeriesList = m_barsController->barSeriesList();
     for (const auto &barSeries : std::as_const(barSeriesList)) {
+        bool useGradient = barSeries->d_ptr->isUsingGradient();
         QVector<BarModel *> *slicedBarList = m_slicedBarModels.value(barSeries);
         if (!slicedBarList) {
             slicedBarList = new QVector<BarModel *>;
@@ -1281,14 +1282,16 @@ void QQuickGraphsBars::createSliceView()
                 BarModel *barModel = new BarModel();
                 QQuick3DModel *model = createDataItem(sliceParent->scene());
                 barModel->model = model;
+                updateItemMaterial(model, useGradient, useGradient);
 
-                QQuick3DTexture *texture = createTexture();
-                texture->setParent(barModel->model);
-                texture->setParentItem(barModel->model);
-                auto gradient = barSeries->baseGradient();
-                auto textureData = static_cast<QuickGraphsTextureData *>(texture->textureData());
-                textureData->createGradient(gradient);
-                barModel->texture = texture;
+                if (useGradient) {
+                    // TODO: Use single selection highlight color only for the selected bar (QTBUG-111685)
+                    updateCustomMaterial(model, false, false, barModel->texture);
+                } else {
+                    // TODO: Use single selection highlight color only for the selected bar (QTBUG-111685)
+                    updatePrincipledMaterial(model, barSeries->singleHighlightColor(),
+                                             useGradient, true, barModel->texture);
+                }
 
                 if (!slicedBarList->contains(barModel))
                     slicedBarList->append(barModel);
