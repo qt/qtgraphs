@@ -934,20 +934,28 @@ void QQuickGraphsBars::updateBarVisuals(QBar3DSeries *series)
         if (!m_hasHighlightTexture) {
             m_highlightTexture = createTexture();
             m_highlightTexture->setParent(this);
+            m_multiHighlightTexture = createTexture();
+            m_multiHighlightTexture->setParent(this);
             m_hasHighlightTexture = true;
         }
         auto highlightGradient = series->singleHighlightGradient();
-        auto highlightTextureData = static_cast<QuickGraphsTextureData *>(m_highlightTexture->textureData());
+        auto highlightTextureData
+            = static_cast<QuickGraphsTextureData *>(m_highlightTexture->textureData());
         highlightTextureData->createGradient(highlightGradient);
+        auto multiHighlightGradient = series->multiHighlightGradient();
+        auto multiHighlightTextureData
+            = static_cast<QuickGraphsTextureData *>(m_multiHighlightTexture->textureData());
+        multiHighlightTextureData->createGradient(multiHighlightGradient);
     } else {
         if (m_hasHighlightTexture) {
             m_highlightTexture->deleteLater();
+            m_multiHighlightTexture->deleteLater();
             m_hasHighlightTexture = false;
         }
     }
 
-    bool rangeGradient = (useGradient && series->d_ptr->m_colorStyle == Q3DTheme::ColorStyleRangeGradient)
-            ? true : false;
+    bool rangeGradient = (useGradient && series->d_ptr->m_colorStyle
+                                             == Q3DTheme::ColorStyleRangeGradient);
 
     if (m_barsController->optimizationHints() == QAbstract3DGraph::OptimizationDefault) {
         if (!rangeGradient) {
@@ -969,7 +977,7 @@ void QQuickGraphsBars::updateBarVisuals(QBar3DSeries *series)
             for (int i = 0; i < barList.count(); i++) {
                 QQuick3DModel *model = barList.at(i)->model;
                 updateItemMaterial(model, useGradient, rangeGradient);
-                updateCustomMaterial(model, false, barList.at(i)->texture);
+                updateCustomMaterial(model, false, false, barList.at(i)->texture);
             }
         }
     }
@@ -1009,21 +1017,18 @@ void QQuickGraphsBars::updateItemMaterial(QQuick3DModel *item, bool useGradient,
 }
 
 void QQuickGraphsBars::updateCustomMaterial(QQuick3DModel *item, bool isHighlight,
-                                            QQuick3DTexture *texture)
+                                            bool isMultiHighlight, QQuick3DTexture *texture)
 {
     QQmlListReference materialsRef(item, "materials");
     auto customMaterial = static_cast<QQuick3DCustomMaterial *>(materialsRef.at(0));
     QVariant textureInputAsVariant = customMaterial->property("custex");
-    QQuick3DShaderUtilsTextureInput *textureInput = textureInputAsVariant.value<QQuick3DShaderUtilsTextureInput *>();
+    QQuick3DShaderUtilsTextureInput *textureInput
+        = textureInputAsVariant.value<QQuick3DShaderUtilsTextureInput *>();
 
-    if (!isHighlight)
+    if (!isHighlight && !isMultiHighlight)
         textureInput->setTexture(texture);
     else
-        textureInput->setTexture(m_highlightTexture);
-
-    float rangeGradientYScaler = 0.5f / m_yScale;
-    float value = (item->y() + m_yScale) * rangeGradientYScaler;
-    customMaterial->setProperty("gradientPos", value);
+        textureInput->setTexture(isHighlight ? m_highlightTexture : m_multiHighlightTexture);
 }
 
 void QQuickGraphsBars::updatePrincipledMaterial(QQuick3DModel *model, const QColor &color,
@@ -1165,7 +1170,8 @@ void QQuickGraphsBars::updateSelectedBar()
                 switch (selectionType) {
                 case Bars3DController::SelectionItem: {
                     if (useGradient) {
-                        updateCustomMaterial(barList.at(i)->model, true, barList.at(i)->texture);
+                        updateCustomMaterial(barList.at(i)->model, true, false,
+                                             barList.at(i)->texture);
                     } else {
                         updatePrincipledMaterial(barList.at(i)->model,
                                                  m_selectedBarSeries->singleHighlightColor(),
@@ -1207,8 +1213,8 @@ void QQuickGraphsBars::updateSelectedBar()
                 case Bars3DController::SelectionRow:
                 case Bars3DController::SelectionColumn: {
                     if (useGradient) {
-                        // TODO: Need to take multiHighlightColor into account: QTBUG-112343
-                        updateCustomMaterial(barList.at(i)->model, true, barList.at(i)->texture);
+                        updateCustomMaterial(barList.at(i)->model, false, true,
+                                             barList.at(i)->texture);
                     } else {
                         updatePrincipledMaterial(barList.at(i)->model,
                                                  m_selectedBarSeries->multiHighlightColor(),

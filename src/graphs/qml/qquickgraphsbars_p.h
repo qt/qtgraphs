@@ -187,7 +187,7 @@ private:
     QPoint m_selectedBarCoord;
     QVector3D m_selectedBarPos;
 
-    //Generate bars
+    // Generate bars
     struct BarModel
     {
         QQuick3DModel *model;
@@ -211,6 +211,7 @@ private:
     int m_visibleSeriesCount;
     QQuaternion m_meshRotation;
     QQuick3DTexture *m_highlightTexture = nullptr;
+    QQuick3DTexture *m_multiHighlightTexture = nullptr;
     QQuick3DModel *m_selectionIndicator = nullptr;
     QHash<QBar3DSeries *, QVector<BarModel *> *> m_slicedBarModels;
     bool m_selectionDirty = false;
@@ -229,7 +230,7 @@ private:
     void updateBarVisuals(QBar3DSeries *series);
     void updateItemMaterial(QQuick3DModel *item, bool useGradient, bool rangeGradient);
     void updateCustomMaterial(QQuick3DModel *item, bool isHighlight = false,
-                              QQuick3DTexture *texture = nullptr);
+                              bool isMultiHighlight = false, QQuick3DTexture *texture = nullptr);
     void updatePrincipledMaterial(QQuick3DModel *model, const QColor &color, bool useGradient,
                                   bool isHighlight, QQuick3DTexture *texture);
     void removeBarModels(QBar3DSeries *series);
