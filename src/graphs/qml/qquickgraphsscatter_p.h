@@ -74,6 +74,7 @@ Q_SIGNALS:
     void selectedSeriesChanged(QScatter3DSeries *series);
 
 protected:
+    void calculateSceneScalingFactors() override;
     bool handleMousePressedEvent(QMouseEvent *event) override;
 
 private:
@@ -163,7 +164,6 @@ private:
     bool isDotPositionInAxisRange(const QVector3D &dotPos);
 
     QQmlComponent *createRepeaterDelegate(QAbstract3DSeries::Mesh MeshType);
-    void calculateSceneScalingFactors();
     float calculatePointScaleSize();
     void updatePointScaleSize();
 

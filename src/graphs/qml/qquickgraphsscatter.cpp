@@ -969,7 +969,6 @@ void QQuickGraphsScatter::synchData()
 
     m_maxItemSize = maxItemSize;
 
-    calculateSceneScalingFactors();
     updatePointScaleSize();
     QQuickGraphsItem::synchData();
     scene()->activeCamera()->d_ptr->setMinYRotation(-90.0f);

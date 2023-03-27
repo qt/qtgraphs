@@ -207,10 +207,6 @@ void QQuickGraphsSurface::componentComplete()
     m_instancing = new SurfaceSelectionInstancing();
     m_instancing->setScale(QVector3D(0.001f, 0.001f, 0.001f));
     m_selectionPointer->setInstancing(m_instancing);
-
-    setScaleWithBackground({2.0f, 1.0f, 2.0f});
-    setBackgroundScaleMargin({0.1f, 0.1f, 0.1f});
-    setScale({2.0f, 1.0f, 2.0f});
 }
 
 void QQuickGraphsSurface::synchData()

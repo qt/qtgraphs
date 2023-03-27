@@ -308,6 +308,7 @@ protected:
     void updateZTitle(const QVector3D &labelRotation, const QVector3D &labelTrans,
                       const QQuaternion &totalRotation, float labelsMaxWidth, float labelHeight, const QVector3D &scale);
 
+    virtual void calculateSceneScalingFactors();
     void positionAndScaleLine(QQuick3DNode *lineNode, QVector3D scale, QVector3D position);
     int findLabelsMaxWidth(const QStringList &labels);
     virtual QVector3D calculateCategoryLabelPosition(QAbstract3DAxis *axis, QVector3D labelPosition, int index);

@@ -481,6 +481,25 @@ void QQuickGraphsItem::synchData()
 
     m_controller->m_renderPending = false;
 
+    bool recalculateScale = false;
+    if (m_controller->m_changeTracker.aspectRatioChanged) {
+        recalculateScale = true;
+        m_controller->m_changeTracker.aspectRatioChanged = false;
+    }
+
+    if (m_controller->m_changeTracker.horizontalAspectRatioChanged) {
+        recalculateScale = true;
+        m_controller->m_changeTracker.horizontalAspectRatioChanged = false;
+    }
+
+    if (m_controller->m_changeTracker.marginChanged) {
+        recalculateScale = true;
+        m_controller->m_changeTracker.marginChanged = false;
+    }
+
+    if (recalculateScale)
+        calculateSceneScalingFactors();
+
     bool axisFormatterChanged = false;
     if (m_controller->m_changeTracker.axisXFormatterChanged) {
         m_controller->m_changeTracker.axisXFormatterChanged = false;
@@ -823,6 +842,49 @@ void QQuickGraphsItem::synchData()
         updateSliceGraph();
         m_sliceActivatedChanged = false;
     }
+}
+
+void QQuickGraphsItem::calculateSceneScalingFactors()
+{
+    float scaleX, scaleY, scaleZ;
+    float marginH, marginV;
+    float aspectRatio = m_controller->aspectRatio();
+    float horizontalAspectRatio = m_controller->horizontalAspectRatio();
+
+    float margin = m_controller->margin();
+    if (margin < 0.0f) {
+        marginH = .1f;
+        marginV = .1f;
+    } else {
+        marginH = margin;
+        marginV = margin;
+    }
+
+    QSizeF areaSize;
+    if (qFuzzyIsNull(horizontalAspectRatio)) {
+        areaSize.setHeight(m_controller->axisZ()->max() - m_controller->axisZ()->min());
+        areaSize.setWidth(m_controller->axisX()->max() - m_controller->axisX()->min());
+    } else {
+        areaSize.setHeight(1.0);
+        areaSize.setWidth(horizontalAspectRatio);
+    }
+
+    float horizontalMaxDimension;
+    if (aspectRatio > 2.0f) {
+        horizontalMaxDimension = 2.0f;
+        scaleY = 2.0f / aspectRatio;
+    } else {
+        horizontalMaxDimension = aspectRatio;
+        scaleY = 1.0f;
+    }
+
+    float scaleFactor = qMax(areaSize.width(), areaSize.height());
+    scaleX = horizontalMaxDimension * areaSize.width() / scaleFactor;
+    scaleZ = horizontalMaxDimension * areaSize.height() / scaleFactor;
+
+    m_scale = QVector3D(scaleX, scaleY, scaleZ);
+    m_scaleWithBackground = QVector3D(scaleX, scaleY, scaleZ);
+    m_backgroundScaleMargin = QVector3D(marginH, marginV, marginH);
 }
 
 void QQuickGraphsItem::updateGrid()
@@ -1753,8 +1815,8 @@ void QQuickGraphsItem::updateCamera()
     if (useOrtho) {
         m_oCamera->setX(lookingPosition.x());
         m_oCamera->setZ(lookingPosition.z());
-        m_oCamera->setVerticalMagnification(zoomLevel);
-        m_oCamera->setHorizontalMagnification(zoomLevel);
+        m_oCamera->setVerticalMagnification(zoomLevel * 2.0f);
+        m_oCamera->setHorizontalMagnification(zoomLevel * 2.0f);
     } else {
         cameraTarget()->setPosition(lookingPosition);
         auto rotation = QVector3D(

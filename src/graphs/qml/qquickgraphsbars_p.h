@@ -95,6 +95,7 @@ protected:
     void updateGraph() override;
     void updateAxisRange(float min, float max) override;
     void updateAxisReversed(bool enable) override;
+    void calculateSceneScalingFactors() override;
     QVector3D calculateCategoryLabelPosition(QAbstract3DAxis *axis, QVector3D labelPosition,
                                              int index) override;
     float calculateCategoryGridLinePosition(QAbstract3DAxis *axis, int index) override;
@@ -216,7 +217,6 @@ private:
     QHash<QBar3DSeries *, QVector<BarModel *> *> m_slicedBarModels;
     bool m_selectionDirty = false;
 
-    void calculateSceneScalingFactors();
     void calculateHeightAdjustment();
     void calculateSeriesStartPosition();
     void connectSeries(QBar3DSeries *series);
