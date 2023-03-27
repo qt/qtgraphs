@@ -1156,6 +1156,7 @@ void QQuickGraphsBars::updateSelectedBar()
 {
     bool visible = false;
     if (m_selectedBarSeries) {
+        bool useGradient = m_selectedBarSeries->d_ptr->isUsingGradient();
         for (auto it = m_barModelsMap.begin(); it != m_barModelsMap.end(); it++) {
             QVector<BarModel *> barList = *it.value();
             for (int i = 0; i < barList.count(); i++) {
@@ -1163,10 +1164,14 @@ void QQuickGraphsBars::updateSelectedBar()
                         isSelected(barList.at(i)->coord.x(), barList.at(i)->coord.y(), it.key());
                 switch (selectionType) {
                 case Bars3DController::SelectionItem: {
-                    updatePrincipledMaterial(barList.at(i)->model,
-                                             m_selectedBarSeries->singleHighlightColor(),
-                                             m_selectedBarSeries->d_ptr->isUsingGradient(), true,
-                                             barList.at(i)->texture);
+                    if (useGradient) {
+                        updateCustomMaterial(barList.at(i)->model, true, barList.at(i)->texture);
+                    } else {
+                        updatePrincipledMaterial(barList.at(i)->model,
+                                                 m_selectedBarSeries->singleHighlightColor(),
+                                                 m_selectedBarSeries->d_ptr->isUsingGradient(),
+                                                 true, barList.at(i)->texture);
+                    }
 
                     m_selectedBarPos = barList.at(i)->model->position();
                     visible = m_selectedBarSeries->isVisible() && !m_selectedBarPos.isNull();
@@ -1199,18 +1204,18 @@ void QQuickGraphsBars::updateSelectedBar()
 
                     break;
                 }
-                case Bars3DController::SelectionRow: {
-                    updatePrincipledMaterial(barList.at(i)->model,
-                                             m_selectedBarSeries->multiHighlightColor(),
-                                             m_selectedBarSeries->d_ptr->isUsingGradient(), true,
-                                             barList.at(i)->texture);
-                    break;
-                }
+                case Bars3DController::SelectionRow:
                 case Bars3DController::SelectionColumn: {
-                    updatePrincipledMaterial(barList.at(i)->model,
-                                             m_selectedBarSeries->multiHighlightColor(),
-                                             m_selectedBarSeries->d_ptr->isUsingGradient(), true,
-                                             barList.at(i)->texture);
+                    if (useGradient) {
+                        // TODO: Need to take multiHighlightColor into account: QTBUG-112343
+                        updateCustomMaterial(barList.at(i)->model, true, barList.at(i)->texture);
+                    } else {
+                        updatePrincipledMaterial(barList.at(i)->model,
+                                                 m_selectedBarSeries->multiHighlightColor(),
+                                                 m_selectedBarSeries->d_ptr->isUsingGradient(),
+                                                 true, barList.at(i)->texture);
+                    }
+                    break;
                 }
                 default:
                     break;
