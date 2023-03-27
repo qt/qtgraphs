@@ -821,9 +821,15 @@ void QQuickGraphsBars::updateBarVisuality(QBar3DSeries *series, int visualIndex)
     QVector<BarModel *> barList = *m_barModelsMap.value(series);
     for (int i = 0; i < barList.count(); i++) {
         if (barList.at(i)->model->visible() != series->isVisible() && isSliceEnabled()) {
-            setSliceActivatedChanged(true);
-            m_barsController->m_changeTracker.selectedBarChanged = true;
-            m_selectionDirty = false;
+            if (m_selectedBarSeries == series && !series->isVisible()) {
+                setSliceEnabled(false);
+                setSliceActivatedChanged(true);
+                m_selectionDirty = true;
+            } else {
+                setSliceActivatedChanged(true);
+                m_barsController->m_changeTracker.selectedBarChanged = true;
+                m_selectionDirty = false;
+            }
         }
         barList.at(i)->visualIndex = visualIndex;
         barList.at(i)->model->setVisible(series->isVisible());
@@ -905,12 +911,10 @@ void QQuickGraphsBars::updateBarPositions(QBar3DSeries *series)
             model->setScale(QVector3D(m_xScale * m_seriesScaleX, qAbs(heightValue),
                                       m_zScale * m_seriesScaleZ));
 
-            if (heightValue == 0) {
+            if (heightValue == 0)
                 model->setPickable(false);
-                model->setVisible(false);
-            } else {
+            else
                 model->setPickable(true);
-            }
 
             if (dataColCount < dataProxy->colCount() - 1) {
                 ++dataColCount;
@@ -1164,9 +1168,9 @@ void QQuickGraphsBars::setSelectedBar(QBar3DSeries *series, const QPoint &coord)
 void QQuickGraphsBars::updateSelectedBar()
 {
     bool visible = false;
-    if (m_selectedBarSeries) {
-        bool useGradient = m_selectedBarSeries->d_ptr->isUsingGradient();
-        for (auto it = m_barModelsMap.begin(); it != m_barModelsMap.end(); it++) {
+    for (auto it = m_barModelsMap.begin(); it != m_barModelsMap.end(); it++) {
+        if (m_selectedBarSeries && it.key()->isVisible()) {
+            bool useGradient = m_selectedBarSeries->d_ptr->isUsingGradient();
             QVector<BarModel *> barList = *it.value();
             for (int i = 0; i < barList.count(); i++) {
                 Bars3DController::SelectionType selectionType =
@@ -1232,8 +1236,8 @@ void QQuickGraphsBars::updateSelectedBar()
                 }
             }
         }
+        itemLabel()->setVisible(visible);
     }
-    itemLabel()->setVisible(visible);
 }
 
 Abstract3DController::SelectionType QQuickGraphsBars::isSelected(int row, int bar,
@@ -1242,7 +1246,7 @@ Abstract3DController::SelectionType QQuickGraphsBars::isSelected(int row, int ba
     Bars3DController::SelectionType isSelectedType = Bars3DController::SelectionNone;
     auto selectionMode = m_barsController->selectionMode();
     if ((selectionMode.testFlag(QAbstract3DGraph::SelectionMultiSeries)
-         && m_selectedBarSeries) || series->isVisible()) {
+         && m_selectedBarSeries) || series == m_selectedBarSeries) {
         if (row == m_selectedBarCoord.x() && bar == m_selectedBarCoord.y()
                 && (selectionMode.testFlag(QAbstract3DGraph::SelectionItem))) {
             isSelectedType = Bars3DController::SelectionItem;
@@ -1315,6 +1319,8 @@ void QQuickGraphsBars::updateSliceGraph()
 
     if (!sliceView()->isVisible()) {
         removeSlicedBarModels();
+        if (sliceView() && !isSliceEnabled())
+            m_barsController->m_changeTracker.selectedBarChanged = false;
         return;
     }
 
@@ -1327,8 +1333,10 @@ void QQuickGraphsBars::updateSliceGraph()
                 index = (m_selectedBarCoord.x() * it.key()->dataProxy()->colCount()) + ind;
             else
                 index = m_selectedBarCoord.y() + (ind * it.key()->dataProxy()->colCount());
+            bool visible = ((m_selectedBarSeries == it.key()
+                             || m_barsController->selectionMode().testFlag(QAbstract3DGraph::SelectionMultiSeries))
+                            && it.key()->isVisible());
 
-            bool visible = it.key()->isVisible() && sliceView()->isVisible();
 
             BarModel *sliceBarModel = it.value()->at(ind);
             BarModel *barModel = barList.at(index);
