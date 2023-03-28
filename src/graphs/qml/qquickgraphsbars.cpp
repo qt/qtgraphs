@@ -1020,7 +1020,9 @@ void QQuickGraphsBars::updateCustomMaterial(QQuick3DModel *item, bool isHighligh
                                             bool isMultiHighlight, QQuick3DTexture *texture)
 {
     QQmlListReference materialsRef(item, "materials");
-    auto customMaterial = static_cast<QQuick3DCustomMaterial *>(materialsRef.at(0));
+    auto customMaterial = qobject_cast<QQuick3DCustomMaterial *>(materialsRef.at(0));
+    if (!customMaterial)
+        return;
     QVariant textureInputAsVariant = customMaterial->property("custex");
     QQuick3DShaderUtilsTextureInput *textureInput
         = textureInputAsVariant.value<QQuick3DShaderUtilsTextureInput *>();
@@ -1036,7 +1038,9 @@ void QQuickGraphsBars::updatePrincipledMaterial(QQuick3DModel *model, const QCol
                                                 QQuick3DTexture *texture)
 {
     QQmlListReference materialsRef(model, "materials");
-    auto principledMaterial = static_cast<QQuick3DPrincipledMaterial *>(materialsRef.at(0));
+    auto principledMaterial = qobject_cast<QQuick3DPrincipledMaterial *>(materialsRef.at(0));
+    if (!principledMaterial)
+        return;
     principledMaterial->setParent(this);
 
     if (useGradient) {
@@ -1316,7 +1320,7 @@ void QQuickGraphsBars::updateSliceGraph()
         return;
     }
 
-    auto index = 0;
+    int index = 0;
     for (auto it = m_slicedBarModels.begin(); it != m_slicedBarModels.end(); it++) {
         QVector<BarModel *> barList = *m_barModelsMap.value(it.key());
         for (int ind = 0; ind < it.value()->count(); ++ind) {
@@ -1326,23 +1330,27 @@ void QQuickGraphsBars::updateSliceGraph()
                 index = m_selectedBarCoord.y() + (ind * it.key()->dataProxy()->colCount());
             bool visible = it.key()->isVisible() && sliceView()->isVisible();
 
+            BarModel *sliceBarModel = it.value()->at(ind);
+            BarModel *barModel = barList.at(index);
             if (index < barList.size() && m_selectedBarCoord != invalidSelectionPosition()) {
-                it.value()->at(ind)->model->setVisible(visible);
-                it.value()->at(ind)->barItem = barList.at(index)->barItem;
-                it.value()->at(ind)->coord = barList.at(index)->coord;
-                it.value()->at(ind)->visualIndex = barList.at(index)->visualIndex;
-                it.value()->at(ind)->heightValue = barList.at(index)->heightValue;
+                sliceBarModel->model->setVisible(visible);
+                sliceBarModel->barItem = barModel->barItem;
+                sliceBarModel->coord = barModel->coord;
+                sliceBarModel->visualIndex = barModel->visualIndex;
+                sliceBarModel->heightValue = barModel->heightValue;
 
                 if (m_barsController->selectionMode().testFlag(QAbstract3DGraph::SelectionRow)) {
-                    it.value()->at(ind)->model->setPosition(QVector3D(barList.at(index)->model->x(),
-                                                                      barList.at(index)->model->y(), 0.0f));
-                } else if (m_barsController->selectionMode().testFlag(QAbstract3DGraph::SelectionColumn)) {
-                    it.value()->at(ind)->model->setX(barList.at(index)->model->z()
-                                                     + (barList.at(index)->visualIndex * .2f));
-                    it.value()->at(ind)->model->setY(barList.at(index)->model->y());
-                    it.value()->at(ind)->model->setZ(0.0f);
+                    sliceBarModel->model->setPosition(QVector3D(barModel->model->x(),
+                                                                barModel->model->y(), 0.0f));
+                } else if (m_barsController->selectionMode().testFlag(
+                               QAbstract3DGraph::SelectionColumn)) {
+                    sliceBarModel->model->setX(barModel->model->z()
+                                               + (barModel->visualIndex * .2f));
+                    sliceBarModel->model->setY(barModel->model->y());
+                    sliceBarModel->model->setZ(0.0f);
                 }
-                it.value()->at(ind)->model->setScale(barList.at(index)->model->scale());
+                sliceBarModel->model->setScale(barModel->model->scale());
+                updateCustomMaterial(sliceBarModel->model, false, false, barModel->texture);
             } else {
                 setSliceEnabled(false);
                 QQuickGraphsItem::updateSliceGraph();
