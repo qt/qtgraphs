@@ -380,7 +380,6 @@ private:
     QSize m_initialisedSize;
     bool m_runningInDesigner;
     QMutex m_mutex;
-    float m_magnification = 150.f;
 
     bool m_xFlipped = false;
     bool m_yFlipped = false;

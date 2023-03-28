@@ -1748,16 +1748,13 @@ void QQuickGraphsItem::updateCamera()
 {
     QVector3D lookingPosition = m_controller->scene()->activeCamera()->target();
     float zoomLevel = m_controller->scene()->activeCamera()->zoomLevel();
-    if (m_initialZoomLevel < 0)
-        m_initialZoomLevel = zoomLevel;
 
     auto useOrtho = m_controller->isOrthoProjection();
     if (useOrtho) {
         m_oCamera->setX(lookingPosition.x());
         m_oCamera->setZ(lookingPosition.z());
-        float magnification = m_magnification * zoomLevel / m_initialZoomLevel;
-        m_oCamera->setVerticalMagnification(magnification);
-        m_oCamera->setHorizontalMagnification(magnification);
+        m_oCamera->setVerticalMagnification(zoomLevel);
+        m_oCamera->setHorizontalMagnification(zoomLevel);
     } else {
         cameraTarget()->setPosition(lookingPosition);
         auto rotation = QVector3D(
