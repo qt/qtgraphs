@@ -1295,12 +1295,10 @@ void QQuickGraphsBars::createSliceView()
                 updateItemMaterial(model, useGradient, useGradient);
 
                 if (useGradient) {
-                    // TODO: Use single selection highlight color only for the selected bar (QTBUG-111685)
                     updateCustomMaterial(model, false, false, barModel->texture);
                 } else {
-                    // TODO: Use single selection highlight color only for the selected bar (QTBUG-111685)
-                    updatePrincipledMaterial(model, barSeries->singleHighlightColor(),
-                                             useGradient, true, barModel->texture);
+                    updatePrincipledMaterial(model, barSeries->baseColor(), useGradient, false,
+                                             barModel->texture);
                 }
 
                 if (!slicedBarList->contains(barModel))
@@ -1321,17 +1319,20 @@ void QQuickGraphsBars::updateSliceGraph()
     }
 
     int index = 0;
+    bool rowMode = m_barsController->selectionMode().testFlag(QAbstract3DGraph::SelectionRow);
     for (auto it = m_slicedBarModels.begin(); it != m_slicedBarModels.end(); it++) {
         QVector<BarModel *> barList = *m_barModelsMap.value(it.key());
         for (int ind = 0; ind < it.value()->count(); ++ind) {
-            if (m_barsController->selectionMode().testFlag(QAbstract3DGraph::SelectionRow))
+            if (rowMode)
                 index = (m_selectedBarCoord.x() * it.key()->dataProxy()->colCount()) + ind;
-            else if (m_barsController->selectionMode().testFlag(QAbstract3DGraph::SelectionColumn))
+            else
                 index = m_selectedBarCoord.y() + (ind * it.key()->dataProxy()->colCount());
+
             bool visible = it.key()->isVisible() && sliceView()->isVisible();
 
             BarModel *sliceBarModel = it.value()->at(ind);
             BarModel *barModel = barList.at(index);
+
             if (index < barList.size() && m_selectedBarCoord != invalidSelectionPosition()) {
                 sliceBarModel->model->setVisible(visible);
                 sliceBarModel->barItem = barModel->barItem;
@@ -1339,18 +1340,23 @@ void QQuickGraphsBars::updateSliceGraph()
                 sliceBarModel->visualIndex = barModel->visualIndex;
                 sliceBarModel->heightValue = barModel->heightValue;
 
-                if (m_barsController->selectionMode().testFlag(QAbstract3DGraph::SelectionRow)) {
+                if (rowMode) {
                     sliceBarModel->model->setPosition(QVector3D(barModel->model->x(),
                                                                 barModel->model->y(), 0.0f));
-                } else if (m_barsController->selectionMode().testFlag(
-                               QAbstract3DGraph::SelectionColumn)) {
+                } else {
                     sliceBarModel->model->setX(barModel->model->z()
                                                + (barModel->visualIndex * .2f));
                     sliceBarModel->model->setY(barModel->model->y());
                     sliceBarModel->model->setZ(0.0f);
                 }
                 sliceBarModel->model->setScale(barModel->model->scale());
-                updateCustomMaterial(sliceBarModel->model, false, false, barModel->texture);
+                bool highlightBar = (ind == (rowMode ? m_selectedBarCoord.y()
+                                                     : m_selectedBarCoord.x()));
+                updateCustomMaterial(sliceBarModel->model, highlightBar, false, barModel->texture);
+                updatePrincipledMaterial(sliceBarModel->model,
+                                         highlightBar ? m_selectedBarSeries->singleHighlightColor()
+                                                      : m_selectedBarSeries->baseColor(),
+                                         false, highlightBar, barModel->texture);
             } else {
                 setSliceEnabled(false);
                 QQuickGraphsItem::updateSliceGraph();
