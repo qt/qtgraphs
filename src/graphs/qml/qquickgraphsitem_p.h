@@ -44,7 +44,7 @@ class QQuickGraphsItem : public QQuick3DViewport
     Q_PROPERTY(Declarative3DScene *scene READ scene NOTIFY sceneChanged)
     Q_PROPERTY(QAbstract3DInputHandler *inputHandler READ inputHandler WRITE setInputHandler NOTIFY inputHandlerChanged)
     Q_PROPERTY(Q3DTheme *theme READ theme WRITE setTheme NOTIFY themeChanged)
-    Q_PROPERTY(RenderingMode renderingMode READ renderingMode WRITE setRenderingMode NOTIFY renderingModeChanged)
+    Q_PROPERTY(QAbstract3DGraph::RenderingMode renderingMode READ renderingMode WRITE setRenderingMode NOTIFY renderingModeChanged)
     Q_PROPERTY(bool measureFps READ measureFps WRITE setMeasureFps NOTIFY measureFpsChanged)
     Q_PROPERTY(int currentFps READ currentFps NOTIFY currentFpsChanged)
     Q_PROPERTY(QQmlListProperty<QCustom3DItem> customItemList READ customItemList CONSTANT)
@@ -61,25 +61,16 @@ class QQuickGraphsItem : public QQuick3DViewport
     Q_PROPERTY(QVector3D queriedGraphPosition READ queriedGraphPosition NOTIFY queriedGraphPositionChanged)
     Q_PROPERTY(qreal margin READ margin WRITE setMargin NOTIFY marginChanged)
 
-    QML_NAMED_ELEMENT(AbstractGraph3D)
+    QML_NAMED_ELEMENT(GraphsItem3D)
     QML_ADDED_IN_VERSION(6, 6)
-    QML_UNCREATABLE("Trying to create uncreatable: AbstractGraph3D.")
-
-public:
-    enum RenderingMode {
-        RenderDirectToBackground = 0,
-        RenderDirectToBackground_NoClear,
-        RenderIndirect
-    };
-
-    Q_ENUM(RenderingMode)
+    QML_UNCREATABLE("Trying to create uncreatable: GraphsItem3D.")
 
 public:
     explicit QQuickGraphsItem(QQuickItem *parent = 0);
     virtual ~QQuickGraphsItem();
 
-    virtual void setRenderingMode(RenderingMode mode);
-    virtual QQuickGraphsItem::RenderingMode renderingMode() const;
+    virtual void setRenderingMode(QAbstract3DGraph::RenderingMode mode);
+    virtual QAbstract3DGraph::RenderingMode renderingMode() const;
 
     virtual void setSelectionMode(QAbstract3DGraph::SelectionFlags mode);
     virtual QAbstract3DGraph::SelectionFlags selectionMode() const;
@@ -251,7 +242,7 @@ Q_SIGNALS:
     void msaaSamplesChanged(int samples);
     void inputHandlerChanged(QAbstract3DInputHandler *inputHandler);
     void themeChanged(Q3DTheme *theme);
-    void renderingModeChanged(QQuickGraphsItem::RenderingMode mode);
+    void renderingModeChanged(QAbstract3DGraph::RenderingMode mode);
     void measureFpsChanged(bool enabled);
     void currentFpsChanged(int fps);
     void selectedElementChanged(QAbstract3DGraph::ElementType type);
@@ -375,7 +366,7 @@ private:
     QQuick3DPerspectiveCamera *m_pCamera = nullptr;
     QQuick3DOrthographicCamera *m_oCamera = nullptr;
     QRectF m_cachedGeometry;
-    QQuickGraphsItem::RenderingMode m_renderMode;
+    QAbstract3DGraph::RenderingMode m_renderMode;
     int m_samples;
     int m_windowSamples;
     QSize m_initialisedSize;

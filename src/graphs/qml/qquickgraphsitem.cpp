@@ -33,7 +33,7 @@ QT_BEGIN_NAMESPACE
 QQuickGraphsItem::QQuickGraphsItem(QQuickItem *parent) :
     QQuick3DViewport(parent),
     m_controller(0),
-    m_renderMode(RenderIndirect),
+    m_renderMode(QAbstract3DGraph::RenderIndirect),
     m_samples(0),
     m_windowSamples(0),
     m_initialisedSize(0, 0)
@@ -62,12 +62,12 @@ QQuickGraphsItem::~QQuickGraphsItem()
     m_nodeMutex.clear();
 }
 
-void QQuickGraphsItem::setRenderingMode(QQuickGraphsItem::RenderingMode mode)
+void QQuickGraphsItem::setRenderingMode(QAbstract3DGraph::RenderingMode mode)
 {
     if (mode == m_renderMode)
         return;
 
-    RenderingMode previousMode = m_renderMode;
+    QAbstract3DGraph::RenderingMode previousMode = m_renderMode;
 
     m_renderMode = mode;
 
@@ -76,19 +76,19 @@ void QQuickGraphsItem::setRenderingMode(QQuickGraphsItem::RenderingMode mode)
 
     // TODO - Need to check if the mode is set properly
     switch (mode) {
-    case RenderDirectToBackground:
+    case QAbstract3DGraph::RenderDirectToBackground:
         // Intentional flowthrough
-    case RenderDirectToBackground_NoClear:
+    case QAbstract3DGraph::RenderDirectToBackground_NoClear:
         update();
         setRenderMode(QQuick3DViewport::Underlay);
-        if (previousMode == RenderIndirect) {
+        if (previousMode == QAbstract3DGraph::RenderIndirect) {
             checkWindowList(window());
             setAntialiasing(m_windowSamples > 0);
             if (m_windowSamples != m_samples)
                 emit msaaSamplesChanged(m_windowSamples);
         }
         break;
-    case RenderIndirect:
+    case QAbstract3DGraph::RenderIndirect:
         update();
         setRenderMode(QQuick3DViewport::Offscreen);
         break;
@@ -99,7 +99,7 @@ void QQuickGraphsItem::setRenderingMode(QQuickGraphsItem::RenderingMode mode)
     emit renderingModeChanged(mode);
 }
 
-QQuickGraphsItem::RenderingMode QQuickGraphsItem::renderingMode() const
+QAbstract3DGraph::RenderingMode QQuickGraphsItem::renderingMode() const
 {
     return m_renderMode;
 }
@@ -1833,7 +1833,7 @@ void QQuickGraphsItem::updateCamera()
 
 int QQuickGraphsItem::msaaSamples() const
 {
-    if (m_renderMode == RenderIndirect)
+    if (m_renderMode == QAbstract3DGraph::RenderIndirect)
         return m_samples;
     else
         return m_windowSamples;
@@ -1841,7 +1841,7 @@ int QQuickGraphsItem::msaaSamples() const
 
 void QQuickGraphsItem::setMsaaSamples(int samples)
 {
-    if (m_renderMode != RenderIndirect) {
+    if (m_renderMode != QAbstract3DGraph::RenderIndirect) {
         qWarning("Multisampling cannot be adjusted in this render mode");
     } else {
         if (m_controller->isOpenGLES()) {
@@ -1917,8 +1917,8 @@ void QQuickGraphsItem::handleWindowChanged(/*QQuickWindow *window*/)
     connect(window, &QQuickWindow::beforeSynchronizing,
             this, &QQuickGraphsItem::synchData);
 
-    if (m_renderMode == RenderDirectToBackground_NoClear
-            || m_renderMode == RenderDirectToBackground) {
+    if (m_renderMode == QAbstract3DGraph::RenderDirectToBackground_NoClear
+            || m_renderMode == QAbstract3DGraph::RenderDirectToBackground) {
         setAntialiasing(m_windowSamples > 0);
         if (m_windowSamples != oldWindowSamples)
             emit msaaSamplesChanged(m_windowSamples);
@@ -1963,8 +1963,8 @@ void QQuickGraphsItem::updateWindowParameters()
             win->update();
         }
 
-        bool directRender = m_renderMode == RenderDirectToBackground
-                || m_renderMode == RenderDirectToBackground_NoClear;
+        bool directRender = m_renderMode == QAbstract3DGraph::RenderDirectToBackground
+                || m_renderMode == QAbstract3DGraph::RenderDirectToBackground_NoClear;
         QSize windowSize;
 
         if (directRender)
@@ -2077,8 +2077,8 @@ void QQuickGraphsItem::checkWindowList(QQuickWindow *window)
     QList<QQuickWindow *> windowList;
 
     foreach (QQuickGraphsItem *graph, m_graphWindowList.keys()) {
-        if (graph->m_renderMode == RenderDirectToBackground
-                || graph->m_renderMode == RenderDirectToBackground_NoClear) {
+        if (graph->m_renderMode == QAbstract3DGraph::RenderDirectToBackground
+                || graph->m_renderMode == QAbstract3DGraph::RenderDirectToBackground_NoClear) {
             windowList.append(m_graphWindowList.value(graph));
         }
     }

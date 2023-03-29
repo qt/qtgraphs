@@ -43,6 +43,10 @@ class Q_GRAPHS_EXPORT QAbstract3DGraph : public QQuickWidget
     Q_PROPERTY(QVector3D queriedGraphPosition READ queriedGraphPosition NOTIFY queriedGraphPositionChanged)
     Q_PROPERTY(qreal margin READ margin WRITE setMargin NOTIFY marginChanged)
 
+    QML_NAMED_ELEMENT(AbstractGraph3D)
+    QML_ADDED_IN_VERSION(6, 6)
+    QML_UNCREATABLE("Trying to create uncreatable: AbstractGraph3D.")
+
 public:
      enum SelectionFlag {
         SelectionNone              = 0,
@@ -86,6 +90,13 @@ public:
     };
     Q_ENUM(OptimizationHint)
     Q_DECLARE_FLAGS(OptimizationHints, OptimizationHint)
+
+    enum RenderingMode {
+        RenderDirectToBackground = 0,
+        RenderDirectToBackground_NoClear,
+        RenderIndirect
+    };
+    Q_ENUM(RenderingMode)
 
     void addInputHandler(QAbstract3DInputHandler *inputHandler);
     void releaseInputHandler(QAbstract3DInputHandler *inputHandler);
