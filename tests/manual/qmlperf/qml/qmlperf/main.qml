@@ -24,13 +24,13 @@ Item {
         text: "Change"
         onClicked: {
             console.log("changeButton clicked");
-            if (graphView.state == "meshsphere") {
+            if (graphView.state === "meshsphere") {
                 graphView.state = "meshcube"
-            } else if (graphView.state == "meshcube") {
+            } else if (graphView.state === "meshcube") {
                 graphView.state = "meshpyramid"
-            } else if (graphView.state == "meshpyramid") {
+            } else if (graphView.state === "meshpyramid") {
                 graphView.state = "meshpoint"
-            } else if (graphView.state == "meshpoint") {
+            } else if (graphView.state === "meshpoint") {
                 graphView.state = "meshsphere"
             }
         }
@@ -52,7 +52,8 @@ Item {
         height: 50
         anchors.left: fpsText.right
         enabled: true
-        text: scatterPlot.optimizationHints === AbstractGraph3D.OptimizationDefault ? "To Static" : "To Default"
+        text: scatterPlot.optimizationHints === AbstractGraph3D.OptimizationDefault
+              ? "To Static" : "To Default"
         onClicked: {
             console.log("Optimization");
             if (scatterPlot.optimizationHints === AbstractGraph3D.OptimizationDefault) {
@@ -97,6 +98,17 @@ Item {
         anchors.top: changeButton.bottom
         anchors.left: mainview.left
         state: "meshsphere"
+
+        Timer {
+            id: rotationTimer
+            interval: 16
+            running: true
+            repeat: true
+            onTriggered: {
+                if (++scatterPlot.scene.activeCamera.xRotation == 360)
+                    scatterPlot.scene.activeCamera.xRotation = 0;
+            }
+        }
 
         Scatter3D {
             id: scatterPlot
