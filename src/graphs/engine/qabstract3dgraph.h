@@ -29,7 +29,7 @@ class Q_GRAPHS_EXPORT QAbstract3DGraph : public QQuickWidget
     Q_PROPERTY(QAbstract3DGraph::ShadowQuality shadowQuality READ shadowQuality WRITE setShadowQuality NOTIFY shadowQualityChanged)
     Q_PROPERTY(Q3DScene* scene READ scene CONSTANT)
     Q_PROPERTY(bool measureFps READ measureFps WRITE setMeasureFps NOTIFY measureFpsChanged)
-    Q_PROPERTY(qreal currentFps READ currentFps NOTIFY currentFpsChanged)
+    Q_PROPERTY(int currentFps READ currentFps NOTIFY currentFpsChanged)
     Q_PROPERTY(bool orthoProjection READ isOrthoProjection WRITE setOrthoProjection NOTIFY orthoProjectionChanged)
     Q_PROPERTY(QAbstract3DGraph::ElementType selectedElement READ selectedElement NOTIFY selectedElementChanged)
     Q_PROPERTY(qreal aspectRatio READ aspectRatio WRITE setAspectRatio NOTIFY aspectRatioChanged)
@@ -120,7 +120,7 @@ public:
 
     void setMeasureFps(bool enable);
     bool measureFps() const;
-    qreal currentFps() const;
+    int currentFps() const;
 
     void setOrthoProjection(bool enable);
     bool isOrthoProjection() const;
@@ -200,7 +200,7 @@ Q_SIGNALS:
     void selectionModeChanged(const QAbstract3DGraph::SelectionFlags selectionMode);
     void selectedElementChanged(QAbstract3DGraph::ElementType type);
     void measureFpsChanged(bool enabled);
-    void currentFpsChanged(qreal fps);
+    void currentFpsChanged(int fps);
     void orthoProjectionChanged(bool enabled);
     void aspectRatioChanged(qreal ratio);
     void optimizationHintsChanged(QAbstract3DGraph::OptimizationHints hints);

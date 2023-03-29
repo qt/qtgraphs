@@ -710,7 +710,7 @@ void GraphModifier::handleAxisZChanged(QValue3DAxis *axis)
     qDebug() << __FUNCTION__ << axis << axis->orientation() << (axis == m_graph->axisZ());
 }
 
-void GraphModifier::handleFpsChange(qreal fps)
+void GraphModifier::handleFpsChange(int fps)
 {
     qDebug() << "FPS:" << fps;
 }

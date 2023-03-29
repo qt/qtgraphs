@@ -87,11 +87,8 @@ Item {
             measureFps: true
             renderingMode: AbstractGraph3D.RenderDirectToBackground
 
-            onCurrentFpsChanged: (fps)=> {
-                                     if (fps > 10)
-                                     fpsText.text = "FPS: " + Math.round(surfaceGraph.currentFps);
-                                     else
-                                     fpsText.text = "FPS: " + Math.round(surfaceGraph.currentFps * 10.0) / 10.0;
+            onCurrentFpsChanged: (currentFps)=> {
+                                     fpsText.text = "FPS: " + currentFps;
                                  }
 
             //! [5]

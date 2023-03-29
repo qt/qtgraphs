@@ -537,6 +537,13 @@ QImage QAbstract3DGraph::renderToImage(int msaaSamples, const QSize &imageSize)
 void QAbstract3DGraph::setMeasureFps(bool enable)
 {
     d_ptr->setMeasureFps(enable);
+    if (enable) {
+        QObject::connect(d_ptr.data(), &QQuickGraphsItem::currentFpsChanged,
+                         this, &QAbstract3DGraph::currentFpsChanged);
+    } else {
+        QObject::disconnect(d_ptr.data(), &QQuickGraphsItem::currentFpsChanged,
+                            this, &QAbstract3DGraph::currentFpsChanged);
+    }
 }
 
 bool QAbstract3DGraph::measureFps() const
@@ -555,7 +562,7 @@ bool QAbstract3DGraph::measureFps() const
  *
  * \sa measureFps
  */
-qreal QAbstract3DGraph::currentFps() const
+int QAbstract3DGraph::currentFps() const
 {
     return d_ptr->currentFps();
 }

@@ -220,7 +220,7 @@ void ScatterDataModifier::massiveTestAppendAndScroll()
 
 void ScatterDataModifier::setFpsMeasurement(int enable)
 {
-    m_chart->setMeasureFps(enable);
+    m_chart->setMeasureFps(enable != 0);
 }
 
 void ScatterDataModifier::testItemChanges()
@@ -929,10 +929,10 @@ void ScatterDataModifier::handleAxisZChanged(QValue3DAxis *axis)
     qDebug() << __FUNCTION__ << axis << axis->orientation() << (axis == m_chart->axisZ());
 }
 
-void ScatterDataModifier::handleFpsChange(qreal fps)
+void ScatterDataModifier::handleFpsChange(int fps)
 {
     static const QString fpsPrefix(QStringLiteral("FPS: "));
-    m_fpsLabel->setText(fpsPrefix + QString::number(qRound(fps)));
+    m_fpsLabel->setText(fpsPrefix + QString::number(fps));
 }
 
 void ScatterDataModifier::changeLabelRotation(int rotation)

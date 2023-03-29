@@ -1493,10 +1493,10 @@ void GraphModifier::handleValueAxisLabelsChanged()
     qDebug() << __FUNCTION__;
 }
 
-void GraphModifier::handleFpsChange(qreal fps)
+void GraphModifier::handleFpsChange(int fps)
 {
     static const QString fpsPrefix(QStringLiteral("FPS: "));
-    m_fpsLabel->setText(fpsPrefix + QString::number(qRound(fps)));
+    m_fpsLabel->setText(fpsPrefix + QString::number(fps));
 }
 
 void GraphModifier::setCameraTargetX(int value)

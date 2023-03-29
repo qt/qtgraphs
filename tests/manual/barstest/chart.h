@@ -106,7 +106,7 @@ public Q_SLOTS:
     void triggerSelection();
     void triggerRotation();
     void handleValueAxisLabelsChanged();
-    void handleFpsChange(qreal fps);
+    void handleFpsChange(int fps);
     void setCameraTargetX(int value);
     void setCameraTargetY(int value);
     void setCameraTargetZ(int value);

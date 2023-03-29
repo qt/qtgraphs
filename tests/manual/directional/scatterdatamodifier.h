@@ -16,6 +16,7 @@ public:
     explicit ScatterDataModifier(Q3DScatter *scatter);
     ~ScatterDataModifier();
 
+    void fpsChanged(int fps);
     void addData();
     void changeStyle();
     void changePresetCamera();

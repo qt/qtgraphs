@@ -49,6 +49,11 @@ ScatterDataModifier::~ScatterDataModifier()
     delete m_graph;
 }
 
+void ScatterDataModifier::fpsChanged(int fps)
+{
+    qDebug() << "Current FPS:" << fps;
+}
+
 void ScatterDataModifier::addData()
 {
     // Configure the axes according to the data

@@ -45,9 +45,6 @@ Abstract3DController::Abstract3DController(QRect initialViewport, Q3DScene *scen
     m_renderPending(false),
     m_isPolar(false),
     m_radialLabelOffset(1.0f),
-    m_measureFps(false),
-    m_numFrames(0),
-    m_currentFps(0.0),
     m_clickedType(QAbstract3DGraph::ElementNone),
     m_selectedLabelIndex(-1),
     m_selectedCustomItemIndex(-1),
@@ -816,21 +813,6 @@ void Abstract3DController::handleSeriesVisibilityChanged(bool visible)
 void Abstract3DController::handleRequestShadowQuality(QAbstract3DGraph::ShadowQuality quality)
 {
     setShadowQuality(quality);
-}
-
-void Abstract3DController::setMeasureFps(bool enable)
-{
-    if (m_measureFps != enable) {
-        m_measureFps = enable;
-        m_currentFps = 0.0;
-
-        if (enable) {
-            m_frameTimer.start();
-            m_numFrames = -1;
-            emitNeedRender();
-        }
-        emit measureFpsChanged(enable);
-    }
 }
 
 void Abstract3DController::handleAxisLabelFormatChangedBySender(QObject *sender)

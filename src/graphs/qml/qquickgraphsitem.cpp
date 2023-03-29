@@ -136,7 +136,10 @@ void QQuickGraphsItem::handleThemeTypeChange()
 void QQuickGraphsItem::handleFpsChanged()
 {
     int fps = renderStats()->fps();
-    emit currentFpsChanged(fps);
+    if (m_currentFps != fps) {
+        m_currentFps = fps;
+        emit currentFpsChanged(fps);
+    }
 }
 
 void QQuickGraphsItem::componentComplete()
@@ -443,11 +446,6 @@ void QQuickGraphsItem::setSharedController(Abstract3DController *controller)
                      &QQuickGraphsItem::handleAxisYChanged);
     QObject::connect(m_controller.data(), &Abstract3DController::axisZChanged, this,
                      &QQuickGraphsItem::handleAxisZChanged);
-
-    QObject::connect(m_controller.data(), &Abstract3DController::measureFpsChanged, this,
-                     &QQuickGraphsItem::measureFpsChanged);
-//    QObject::connect(m_controller.data(), &Abstract3DController::currentFpsChanged, this,
-//                     &QQuickGraphsItem::currentFpsChanged);
 
     QObject::connect(m_controller.data(), &Abstract3DController::orthoProjectionChanged, this,
                      &QQuickGraphsItem::orthoProjectionChanged);
@@ -2091,22 +2089,25 @@ void QQuickGraphsItem::checkWindowList(QQuickWindow *window)
 
 void QQuickGraphsItem::setMeasureFps(bool enable)
 {
-    m_controller->setMeasureFps(enable);
-    if (enable)
-        QObject::connect(renderStats(), &QQuick3DRenderStats::fpsChanged, this, &QQuickGraphsItem::handleFpsChanged);
-    else
-        QObject::disconnect(renderStats(), 0, this, 0);
-
+    if (m_measureFps != enable) {
+        m_measureFps = enable;
+        if (enable) {
+            QObject::connect(renderStats(), &QQuick3DRenderStats::fpsChanged,
+                             this, &QQuickGraphsItem::handleFpsChanged);
+        } else {
+            QObject::disconnect(renderStats(), 0, this, 0);
+        }
+    }
 }
 
 bool QQuickGraphsItem::measureFps() const
 {
-    return m_controller->measureFps();
+    return m_measureFps;
 }
 
 int QQuickGraphsItem::currentFps() const
 {
-    return m_controller->currentFps();
+    return m_currentFps;
 }
 
 void QQuickGraphsItem::setOrthoProjection(bool enable)

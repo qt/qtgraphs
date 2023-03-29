@@ -185,11 +185,6 @@ protected:
 
     QList<QAbstract3DSeries *> m_seriesList;
 
-    bool m_measureFps;
-    QElapsedTimer m_frameTimer;
-    int m_numFrames;
-    qreal m_currentFps;
-
     QList<QAbstract3DSeries *> m_changedSeriesList;
 
     QList<QCustom3DItem *> m_customItems;
@@ -270,10 +265,6 @@ public:
 
     void setOrthoProjection(bool enable);
     bool isOrthoProjection() const;
-
-    void setMeasureFps(bool enable);
-    inline bool measureFps() const { return m_measureFps; }
-    inline qreal currentFps() const { return m_currentFps; }
 
     QAbstract3DGraph::ElementType selectedElement() const;
 
@@ -377,8 +368,6 @@ Q_SIGNALS:
     void axisYChanged(QAbstract3DAxis *axis);
     void axisZChanged(QAbstract3DAxis *axis);
     void elementSelected(QAbstract3DGraph::ElementType type);
-    void measureFpsChanged(bool enabled);
-    void currentFpsChanged(qreal fps);
     void orthoProjectionChanged(bool enabled);
     void aspectRatioChanged(qreal ratio);
     void horizontalAspectRatioChanged(qreal ratio);

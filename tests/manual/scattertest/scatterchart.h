@@ -72,7 +72,7 @@ public Q_SLOTS:
     void handleAxisXChanged(QValue3DAxis *axis);
     void handleAxisYChanged(QValue3DAxis *axis);
     void handleAxisZChanged(QValue3DAxis *axis);
-    void handleFpsChange(qreal fps);
+    void handleFpsChange(int fps);
     void changeLabelRotation(int rotation);
     void changeRadialLabelOffset(int offset);
     void toggleAxisTitleVisibility(int enabled);

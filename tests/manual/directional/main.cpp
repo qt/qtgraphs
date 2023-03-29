@@ -19,6 +19,7 @@ int main(int argc, char **argv)
 {
     QApplication app(argc, argv);
     Q3DScatter *graph = new Q3DScatter();
+    graph->setMeasureFps(true);
 
     QSize screenSize = graph->screen()->size();
     graph->setMinimumSize(QSize(screenSize.width() / 2, screenSize.height() / 1.5));
@@ -101,6 +102,9 @@ int main(int argc, char **argv)
     vLayout->addWidget(fontList, 1, Qt::AlignTop);
 
     ScatterDataModifier *modifier = new ScatterDataModifier(graph);
+
+    QObject::connect(graph, &QAbstract3DGraph::currentFpsChanged, modifier,
+                     &ScatterDataModifier::fpsChanged);
 
     QObject::connect(cameraButton, &QPushButton::clicked, modifier,
                      &ScatterDataModifier::changePresetCamera);

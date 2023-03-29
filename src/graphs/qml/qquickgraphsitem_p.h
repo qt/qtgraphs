@@ -414,6 +414,9 @@ private:
 
     QHash<QQuickGraphsItem *, QQuickWindow *> m_graphWindowList = {};
 
+    int m_currentFps = -1;
+    bool m_measureFps = false;
+
     friend class QAbstract3DGraph;
 };
 
