@@ -284,23 +284,25 @@ void QQuickGraphsSurface::updateGraph()
 
     if (m_surfaceController->isSeriesVisibilityDirty()) {
         for (auto model : m_model) {
-            bool visible = model->series->isVisible();
-            if (visible != model->model->visible() && isSliceEnabled()) {
+            bool seriesVisible = model->series->isVisible();
+            bool graphVisible = (model->model->visible() || model->gridModel->visible());
+            if (seriesVisible != graphVisible && isSliceEnabled()) {
                 setSliceEnabled(false);
                 setSliceActivatedChanged(true);
             }
-            if (!visible) {
-                model->model->setVisible(visible);
-                model->gridModel->setVisible(visible);
+            if (!seriesVisible) {
+                model->model->setVisible(seriesVisible);
+                model->gridModel->setVisible(seriesVisible);
                 if (sliceView()) {
-                    model->sliceModel->setVisible(visible);
-                    model->sliceGridModel->setVisible(visible);
+                    model->sliceModel->setVisible(seriesVisible);
+                    model->sliceGridModel->setVisible(seriesVisible);
                 }
                 continue;
             }
             model->gridModel->setVisible(model->series->drawMode().testFlag(QSurface3DSeries::DrawWireframe));
             model->model->setVisible(model->series->drawMode().testFlag(QSurface3DSeries::DrawSurface));
-            if (sliceView() && isSliceEnabled()) {
+
+            if (sliceView() && m_surfaceController->isSlicingActive()) {
                 model->sliceGridModel->setVisible(model->series->drawMode().testFlag(QSurface3DSeries::DrawWireframe));
                 model->sliceModel->setVisible(model->series->drawMode().testFlag(QSurface3DSeries::DrawSurface));
             }
@@ -1008,7 +1010,7 @@ bool QQuickGraphsSurface::handleMousePressedEvent(QMouseEvent *event)
                 SurfaceVertex selectedVertex;
 
                 for (auto model : m_model) {
-                    if (model->model == pickedModel) {
+                    if (model->model == pickedModel || model->gridModel == pickedModel) {
                         model->picked = true;
                         for (auto vertex : model->vertices) {
                             QVector3D pos = vertex.position;
@@ -1060,14 +1062,14 @@ void QQuickGraphsSurface::updateSelectedPoint()
 {
     bool labelVisible = false;
     m_instancing->resetPositions();
-    if (sliceView() && isSliceEnabled())
+    if (sliceView() && m_surfaceController->isSlicingActive())
         m_sliceInstancing->resetPositions();
     for (auto model : m_model) {
         SurfaceVertex selectedVertex = model->selectedVertex;
         if (model->series->isVisible() &&
                 !selectedVertex.position.isNull()) {
             m_instancing->addPosition(selectedVertex.position);
-            if (sliceView() && isSliceEnabled()) {
+            if (sliceView() && m_surfaceController->isSlicingActive()) {
                 QVector3D slicePosition = selectedVertex.position;
                 if (m_surfaceController->selectionMode().testFlag(QAbstract3DGraph::SelectionColumn))
                     slicePosition.setX(slicePosition.z());
@@ -1093,7 +1095,7 @@ void QQuickGraphsSurface::updateSelectedPoint()
                                                   0));
                 labelVisible = true;
 
-                if (sliceView() && isSliceEnabled()) {
+                if (sliceView() && m_surfaceController->isSlicingActive()) {
                     labelPosition.setZ(.1f);
                     labelPosition.setY(labelPosition.y() + .05f);
                     sliceItemLabel()->setPosition(labelPosition);
@@ -1103,7 +1105,7 @@ void QQuickGraphsSurface::updateSelectedPoint()
         }
     }
     itemLabel()->setVisible(labelVisible);
-    if (sliceView() && isSliceEnabled())
+    if (sliceView() && m_surfaceController->isSlicingActive())
         sliceItemLabel()->setVisible(labelVisible);
 }
 
@@ -1162,6 +1164,7 @@ void QQuickGraphsSurface::addModel(QSurface3DSeries *series)
     auto gridModel = new QQuick3DModel();
     gridModel->setParent(parent);
     gridModel->setParentItem(parent);
+    gridModel->setObjectName(QStringLiteral("SurfaceModel"));
     gridModel->setVisible(visible);
     gridModel->setDepthBias(1.0f);
     auto gridGeometry = new QQuick3DGeometry();
@@ -1180,6 +1183,7 @@ void QQuickGraphsSurface::addModel(QSurface3DSeries *series)
     gridMaterial->setParent(gridModel);
     gridMaterial->setLighting(QQuick3DPrincipledMaterial::NoLighting);
     gridMaterialRef.append(gridMaterial);
+    gridModel->setPickable(model->pickable());
 
     SurfaceModel *surfaceModel = new SurfaceModel();
     surfaceModel->model = model;

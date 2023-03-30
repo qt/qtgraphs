@@ -792,7 +792,7 @@ void QQuickGraphsItem::synchData()
         m_subsegmentLineRepeaterY->setVisible(enabled);
         m_subsegmentLineRepeaterZ->setVisible(enabled);
 
-        if (m_sliceEnabled) {
+        if (m_sliceEnabled && m_controller->isSlicingActive()) {
             m_sliceHorizontalGridRepeater->setVisible(enabled);
             m_sliceVerticalGridRepeater->setVisible(enabled);
         }
