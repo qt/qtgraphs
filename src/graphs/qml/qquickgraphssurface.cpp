@@ -300,7 +300,10 @@ void QQuickGraphsSurface::updateGraph()
                 continue;
             }
             model->gridModel->setVisible(model->series->drawMode().testFlag(QSurface3DSeries::DrawWireframe));
-            model->model->setVisible(model->series->drawMode().testFlag(QSurface3DSeries::DrawSurface));
+            if (model->series->drawMode().testFlag(QSurface3DSeries::DrawSurface))
+                model->model->setLocalOpacity(1.f);
+            else
+                model->model->setLocalOpacity(.0f);
 
             if (sliceView() && m_surfaceController->isSlicingActive()) {
                 model->sliceGridModel->setVisible(model->series->drawMode().testFlag(QSurface3DSeries::DrawWireframe));
@@ -470,14 +473,15 @@ void QQuickGraphsSurface::updateModel(SurfaceModel *model)
         }
 
         auto geometry = model->model->geometry();
-        QByteArray vertexBuffer;
-        if (isFlatShadingEnabled)
-            vertexBuffer.setRawData(reinterpret_cast<char *>(model->coarceVertices.data()),
+        if (isFlatShadingEnabled) {
+            QByteArray vertexBuffer(reinterpret_cast<char *>(model->coarceVertices.data()),
                                     model->coarceVertices.size() * sizeof(SurfaceVertex));
-        else
-            vertexBuffer.setRawData(reinterpret_cast<char *>(model->vertices.data()),
+            geometry->setVertexData(vertexBuffer);
+        } else {
+            QByteArray vertexBuffer(reinterpret_cast<char *>(model->vertices.data()),
                                     model->vertices.size() * sizeof(SurfaceVertex));
-        geometry->setVertexData(vertexBuffer);
+            geometry->setVertexData(vertexBuffer);
+        }
         QByteArray indexBuffer(reinterpret_cast<char *>(model->indices.data()),
                                model->indices.size() * sizeof(quint32));
         geometry->setIndexData(indexBuffer);
@@ -490,9 +494,8 @@ void QQuickGraphsSurface::updateModel(SurfaceModel *model)
 
         auto gridGeometry = model->gridModel->geometry();
 
-        if (isFlatShadingEnabled)
-            vertexBuffer.setRawData(reinterpret_cast<char *>(model->vertices.data()),
-                                    model->vertices.size() * sizeof(SurfaceVertex));
+        QByteArray vertexBuffer(reinterpret_cast<char *>(model->vertices.data()),
+                                model->vertices.size() * sizeof(SurfaceVertex));
         gridGeometry->setVertexData(vertexBuffer);
         QByteArray gridIndexBuffer(reinterpret_cast<char *>(model->gridIndices.data()),
                                    model->gridIndices.size() * sizeof(quint32));
@@ -1183,7 +1186,6 @@ void QQuickGraphsSurface::addModel(QSurface3DSeries *series)
     gridMaterial->setParent(gridModel);
     gridMaterial->setLighting(QQuick3DPrincipledMaterial::NoLighting);
     gridMaterialRef.append(gridMaterial);
-    gridModel->setPickable(model->pickable());
 
     SurfaceModel *surfaceModel = new SurfaceModel();
     surfaceModel->model = model;
