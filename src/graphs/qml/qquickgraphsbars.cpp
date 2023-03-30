@@ -337,8 +337,12 @@ void QQuickGraphsBars::synchData()
     }
 
     // Do not clear dirty flag, we need to react to it in qquickgraphicsitem as well
-    if (theme->d_ptr->m_dirtyBits.backgroundEnabledDirty)
+    if (theme->d_ptr->m_dirtyBits.backgroundEnabledDirty) {
         m_floorBackground->setVisible(theme->isBackgroundEnabled());
+        m_barsController->m_isSeriesVisualsDirty = true;
+        for (auto it = m_barModelsMap.begin(); it != m_barModelsMap.end(); it++)
+            it.key()->d_ptr->m_changeTracker.meshChanged = true;
+    }
 
     if (m_barsController->m_changeTracker.barSeriesMarginChanged) {
         updateBarSeriesMargin(barSeriesMargin());
@@ -443,17 +447,24 @@ void QQuickGraphsBars::updateGraph()
     QList<QBar3DSeries *> barSeriesList = m_barsController->barSeriesList();
     calculateSceneScalingFactors();
 
-    if (m_barsController->m_changedSeriesList.size()) {
-        for (const auto &series : std::as_const(barSeriesList)) {
-            if (m_barModelsMap.contains(series))
-                removeBarModels(series);
+    bool isEmpty = m_barsController->m_changedSeriesList.isEmpty();
+
+    for (const auto &series : std::as_const(barSeriesList)) {
+        if ((!isEmpty || series->d_ptr->m_changeTracker.meshChanged)
+                && m_barModelsMap.contains(series)) {
+            removeBarModels(series);
+            series->d_ptr->m_changeTracker.meshChanged = false;
         }
-        removeSlicedBarModels();
     }
+
     generateBars(barSeriesList);
+
+    if (!isEmpty && isSliceEnabled())
+        removeSlicedBarModels();
+
     if (isSliceEnabled()) {
         createSliceView();
-        if (m_barsController->m_changedSeriesList.size()) {
+        if (!isEmpty) {
             updateSliceGrid();
             updateSliceLabels();
         }
