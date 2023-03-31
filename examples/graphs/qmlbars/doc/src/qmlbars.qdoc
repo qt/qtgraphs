@@ -6,7 +6,7 @@
     \meta tags {Graphs, Barsr3D, Multiple Series}
     \meta category {Graphics}
     \title Simple Bar Graph
-    \ingroup qtdatavisualization_qmlexamples
+    \ingroup qtgraphs_qmlexamples
     \brief Using Bars3D in a QML application.
 
     \e {Simple Bar Graph} shows how to make a simple 3D bar graph using Bars3D and QML.

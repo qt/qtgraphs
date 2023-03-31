@@ -252,13 +252,11 @@ void QAbstract3DGraph::releaseTheme(Q3DTheme *theme)
  * \property QAbstract3DGraph::activeTheme
  *
  * \brief The active theme of the graph.
- */
-
-/*!
- * Sets \a theme as the active theme to be used for the graph. Implicitly calls
+ *
+ * Sets \a activeTheme as the active theme to be used for the graph. Implicitly calls
  * addTheme() to transfer the ownership of the theme to this graph.
  *
- * If \a theme is null, a temporary default theme is created. This temporary theme is destroyed
+ * If \a activeTheme is null, a temporary default theme is created. This temporary theme is destroyed
  * if any theme is explicitly set later.
  * Properties of the theme can be modified even after setting it, and the modifications take
  * effect immediately.
@@ -330,11 +328,6 @@ void QAbstract3DGraph::setShadowQuality(const QAbstract3DGraph::ShadowQuality &s
     d_ptr->setShadowQuality(shadowQuality);
     emit shadowQualityChanged(shadowQuality);
 }
-
-/*!
- * Returns \c true if shadows are supported with the current configuration.
- * OpenGL ES2 configurations do not support shadows.
- */
 
 /*!
  * \property QAbstract3DGraph::scene
@@ -837,11 +830,11 @@ qreal QAbstract3DGraph::margin() const
     return d_ptr->margin();
 }
 
+// TODO: Does this make sense in the API anymore? (QTBUG-111611)
 /*!
  * Returns \c{true} if the graph has been successfully initialized.
  * Trying to use a graph when the context initialization has failed typically results in a crash.
  */
-// TODO: Does this make sense in the API anymore? (QTBUG-111611)
 bool QAbstract3DGraph::hasContext() const
 {
     if (d_ptr->isReady())

@@ -6,7 +6,7 @@
     \meta tags {Graphs, Surface3D, Dynamic Data, Surface Graph, Height Map, Polar Graph}
     \meta category {Graphics}
     \title Surface Graph Gallery
-    \ingroup qtdatavisualization_qmlexamples
+    \ingroup qtgraphs_qmlexamples
     \brief Gallery with three different ways to use a Surface3D graph.
 
     \e {Surface Graph Gallery} demonstrates three different custom features with Surface3D graphs.

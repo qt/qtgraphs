@@ -8,7 +8,7 @@ buildversion        = Qt Graphs | Commercial or GPLv3
 moduleheader        = QtGraphs
 
 examplesinstallpath = graphs
-exampledirs += ../../../examples/datavisualization \
+exampledirs += ../../../examples/graphs \
                snippets
 
 {headerdirs,sourcedirs} += ..
@@ -16,7 +16,7 @@ exampledirs += ../../../examples/datavisualization \
 imagedirs  += ../images \
               images
 
-depends = qtcore qtgui qtqml qtquick qtdoc qtcmake qtwidgets
+depends = qtcore qtgui qtqml qtquick qtdoc qtcmake qtwidgets qtquick3d
 
 qhp.projects                 = QtGraphs
 

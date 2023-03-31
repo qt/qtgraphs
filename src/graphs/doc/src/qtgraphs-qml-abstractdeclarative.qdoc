@@ -161,7 +161,6 @@
 
 /*!
  * \qmlmethod bool AbstractGraph3D::hasSeries(Abstract3DSeries series)
- * \since 6.3
  * Returns whether the \a series has already been added to the graph.
  */
 

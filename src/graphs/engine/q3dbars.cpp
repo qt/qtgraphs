@@ -62,7 +62,7 @@ QT_BEGIN_NAMESPACE
  *
  * The scene can be rotated, zoomed into, and a bar can be selected to view its value,
  * but no other interaction is included in this minimal code example. You can learn more by
- * familiarizing yourself with the examples provided, like the \l{Bars Example}.
+ * familiarizing yourself with the examples provided, like the \l{Simple Bar Graph}.
  *
  * \sa Q3DScatter, Q3DSurface, {Qt Graphs C++ Classes}
  */
@@ -246,7 +246,6 @@ bool Q3DBars::isBarSpacingRelative() const
 
 /*!
  * \property Q3DBars::barSeriesMargin
- * \since 6.3
  *
  * \brief Margin between series columns in X and Z dimensions.
  * Sensible values are on the range [0,1).

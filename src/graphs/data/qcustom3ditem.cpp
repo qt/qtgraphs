@@ -44,8 +44,7 @@ QT_BEGIN_NAMESPACE
 
 /*! \qmlproperty vector3d Custom3DItem::position
  *
- * The item position as a \l vector3d type. Defaults to
- * \c {vector3d(0.0, 0.0, 0.0)}.
+ * The item position as a \l [QtQuick] vector3d. Defaults to \c {vector3d(0.0, 0.0, 0.0)}.
  *
  * Item position is specified either in data coordinates or in absolute
  * coordinates, depending on the value of the positionAbsolute property. When
@@ -70,7 +69,7 @@ QT_BEGIN_NAMESPACE
 
 /*! \qmlproperty vector3d Custom3DItem::scaling
  *
- * The item scaling as a \l vector3d type. Defaults to
+ * The item scaling as a \l [QtQuick] vector3d type. Defaults to
  * \c {vector3d(0.1, 0.1, 0.1)}.
  *
  * Item scaling is specified either in data values or in absolute values,
@@ -103,7 +102,7 @@ QT_BEGIN_NAMESPACE
 
 /*! \qmlproperty quaternion Custom3DItem::rotation
  *
- * The item rotation as a \l quaternion. Defaults to
+ * The item rotation as a \l [QtQuick] quaternion. Defaults to
  * \c {quaternion(0.0, 0.0, 0.0, 0.0)}.
  */
 

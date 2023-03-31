@@ -62,7 +62,7 @@ QT_BEGIN_NAMESPACE
  * If AbstractGraph3D::locale is anything else than \c{"C"}, the supported
  * specifiers are limited to: d, e, E, f, g, G, and i. Also, only the precision
  * modifier is supported. The rest of the formatting comes from the default
- * \l Locale of the application.
+ * \l [QML] Locale of the application.
  *
  * \sa AbstractGraph3D::locale
  */

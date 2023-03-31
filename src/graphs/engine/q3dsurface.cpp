@@ -64,7 +64,7 @@ QT_BEGIN_NAMESPACE
  * The scene can be rotated, zoomed into, and a surface point can be selected to view its position,
  * but no other interaction is included in this minimal code example.
  * You can learn more by familiarizing yourself with the examples provided,
- * like the \l{Surface Example}.
+ * like the \l{Surface Graph Gallery}.
  *
  *
  * \sa Q3DBars, Q3DScatter, {Qt Graphs C++ Classes}

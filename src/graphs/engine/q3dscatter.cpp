@@ -50,7 +50,7 @@ QT_BEGIN_NAMESPACE
  * The scene can be rotated, zoomed into, and an item can be selected to view its position,
  * but no other interaction is included in this minimal code example.
  * You can learn more by familiarizing yourself with the examples provided, like
- * the \l{Scatter Example}.
+ * the \l{Simple Scatter Graph}.
  *
  * \sa Q3DBars, Q3DSurface, {Qt Graphs C++ Classes}
  */

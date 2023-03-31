@@ -37,7 +37,7 @@ QT_BEGIN_NAMESPACE
  * item models where doing search and replace is not necessary to get the desired values.
  *
  * For example about using the search patterns in conjunction with the roles, see
- * ItemModelBarDataProxy usage in \l{Qt Quick 2 Bars Example}.
+ * ItemModelBarDataProxy usage in \l{Simple Bar Graph}.
  *
  * \sa {Qt Graphs Data Handling}
  */
@@ -89,9 +89,10 @@ QT_BEGIN_NAMESPACE
  *
  * The item model role to map into item rotation.
  * The model may supply the value for rotation as either variant that is directly convertible
- * to \l quaternion, or as one of the string representations: \c{"scalar,x,y,z"} or
- * \c{"@angle,x,y,z"}. The first format will construct the \l quaternion directly with given values,
- * and the second one will construct the \l quaternion using QQuaternion::fromAxisAndAngle() method.
+ * to \l [QtQuick] quaternion, or as one of the string representations: \c{"scalar,x,y,z"} or
+ * \c{"@angle,x,y,z"}. The first format will construct the \l [QtQuick] quaternion directly with
+ * given values, and the second one will construct the \l [QtQuick] quaternion using
+ * QQuaternion::fromAxisAndAngle() method.
  */
 
 /*!
