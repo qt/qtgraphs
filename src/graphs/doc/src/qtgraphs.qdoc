@@ -197,18 +197,122 @@
     \title Qt Graphs Known Issues
 
     \list
-        \li Some platforms like Android and WinRT cannot handle multiple native windows properly,
-            so only the Qt Quick graphs are available in practice for those platforms.
         \li Surfaces with non-straight rows and columns do not always render properly.
         \li Q3DLight class (and Light3D QML item) are currently not usable for anything.
         \li Changing most of Q3DScene properties affecting subviewports currently has no effect.
         \li Widget based examples layout incorrectly in iOS.
         \li Reparenting a graph to an item in another QQuickWindow is not supported.
-        \li Android builds of QML applications importing QtGraphs also require
+        \li Android qmake builds of QML applications importing QtGraphs also require
             "QT += graphs" in the pro file. This is because Qt Graphs
             QML plugin has a dependency to Qt Graphs C++ library, which Qt Creator
             doesn't automatically add to the deployment package.
     \endlist
+*/
+
+/*!
+    \page qtgraphs_migration_guide.html
+    \title Qt Graphs Migration from Qt DataVisualization
+
+    The API and functionality between Qt DataVisualization and Qt Graphs has been kept mostly
+    unchanged. However, there are some differences that need to be taken into consideration
+    when migrating your application from Qt DataVisualization to Qt Graphs:
+
+    \list
+        \li QML import statement
+        \li CMake module inclusion
+        \li qmake module inclusion
+        \li Widget application creation
+        \li Requirement to use OpenGL backend
+        \li Removed APIs
+        \li Changed APIs
+    \endlist
+
+    \section1 QML Import Statement
+
+    The import statement in Qt DataVisualization:
+    \code
+    import QtDataVisualization
+    \endcode
+    has to be changed to:
+    \code
+    import QtGraphs
+    \endcode
+    for Qt Graphs.
+
+    \section1 CMake Module Inclusion
+
+    The inclusion in Qt DataVisualization:
+    \code
+    find_package(Qt6 REQUIRED COMPONENTS DataVisualization)
+    target_link_libraries(mytarget PRIVATE Qt6::DataVisualization)
+    \endcode
+    has to be changed to:
+    \code
+    find_package(Qt6 REQUIRED COMPONENTS Graphs)
+    target_link_libraries(mytarget PRIVATE Qt6::Graphs)
+    \endcode
+    for Qt Graphs.
+
+    \section1 Qmake Module Inclusion
+
+    The inclusion in Qt DataVisualization:
+    \code
+    QT += datavisualization
+    \endcode
+    has to be changed to:
+    \code
+    QT += graphs
+    \endcode
+    for Qt Graphs.
+
+    \section1 Widget Application Creation
+
+    Instead of creating your widget application like this:
+    \code
+    QGuiApplication app(argc, argv);
+    Q3DScatter scatter;
+    scatter.setFlags(scatter.flags() ^ Qt::FramelessWindowHint);
+    \endcode
+    you should create it like this:
+    \code
+    QApplication app(argc, argv);
+    Q3DScatter scatter;
+    scatter.setMinimumSize(QSize(256, 256));
+    scatter.setResizeMode(QQuickWidget::SizeRootObjectToView);
+    \endcode
+
+    \section1 Requirement to Use OpenGL Backend
+
+    Adding the forced OpenGL backend usage:
+    \code
+    qputenv("QSG_RHI_BACKEND", "opengl");
+    \endcode
+    is no longer required. Qt Graphs uses Qt Quick 3D for rendering, and as such supports the
+    rendering backends native to the platform it is being run on.
+
+    \section1 Removed APIs
+
+    \list
+        \li hasContext
+        \li shadowsSupported
+     \endlist
+
+    \section1 Changed APIs
+
+    \list
+        \li optimizationHints
+        \li renderingMode
+    \endlist
+
+    \section2 optimizationHints
+
+    \c OptimizationLegacy is now the mode that was \c OptimizationDefault in QtDataVisualization.
+    \c OptimizationDefault uses instancing, and should be used for all targets that support it.
+
+    \section2 renderingMode
+
+    \c RenderDirectToBackground_NoClear has been removed, as it was already obsolete in
+    QtDataVisualization in Qt 6.
 */
 
 /*!

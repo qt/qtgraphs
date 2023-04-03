@@ -6,7 +6,6 @@
     \page qtgraphs-index.html
     \brief Provides functionality for 3D graphs.
 
-
     The Qt Graphs module enables you to visualize data in 3D as
     bar, scatter, and surface graphs. It's especially useful for visualizing
     depth maps and large quantities of rapidly changing data, such as data
@@ -28,7 +27,7 @@
 
     \section3 Building with CMake
 
-    \include {module-use.qdocinc} {building with cmake} {graphs}
+    \include {module-use.qdocinc} {building with cmake} {Graphs}
 
     \section3 Building with qmake
 
@@ -39,6 +38,7 @@
         \li \l{Qt Graphs Overview}{Overview}
         \li \l{Qt Graphs Data Handling}{Data Handling}
         \li \l{Qt Graphs Interacting with Data}{Interacting with Data}
+        \li \l{Qt Graphs Migration from Qt DataVisualization}{Migration Guide from Qt DataVisualization}
         \li \l{Qt Graphs Known Issues}{Known Issues}
     \endlist
 
