@@ -287,8 +287,8 @@ protected:
     QQuick3DViewport *sliceView() { return m_sliceView; }
 
     QQmlComponent *createRepeaterDelegateComponent(const QString &fileName);
-    QQuick3DRepeater *createRepeater();
-    QQuick3DNode *createTitleLabel();
+    QQuick3DRepeater *createRepeater(QQuick3DNode *parent = nullptr);
+    QQuick3DNode *createTitleLabel(QQuick3DNode *parent = nullptr);
 
     void updateXTitle(const QVector3D &labelRotation, const QVector3D &labelTrans,
                       const QQuaternion &totalRotation, float labelsMaxWidth, float labelHeight, const QVector3D &scale);

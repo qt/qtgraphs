@@ -55,6 +55,38 @@ QQuickGraphsItem::~QQuickGraphsItem()
     disconnect(this, 0, this, 0);
     checkWindowList(0);
 
+    m_repeaterX->model().clear();
+    m_repeaterY->model().clear();
+    m_repeaterZ->model().clear();
+    m_repeaterX->deleteLater();
+    m_repeaterY->deleteLater();
+    m_repeaterZ->deleteLater();
+
+    m_segmentLineRepeaterX->model().clear();
+    m_segmentLineRepeaterY->model().clear();
+    m_segmentLineRepeaterZ->model().clear();
+    m_segmentLineRepeaterX->deleteLater();
+    m_segmentLineRepeaterY->deleteLater();
+    m_segmentLineRepeaterZ->deleteLater();
+
+    m_subsegmentLineRepeaterX->model().clear();
+    m_subsegmentLineRepeaterY->model().clear();
+    m_subsegmentLineRepeaterZ->model().clear();
+    m_subsegmentLineRepeaterX->deleteLater();
+    m_subsegmentLineRepeaterY->deleteLater();
+    m_subsegmentLineRepeaterZ->deleteLater();
+
+    if (m_sliceVerticalGridRepeater) {
+        m_sliceVerticalGridRepeater->model().clear();
+        m_sliceHorizontalGridRepeater->model().clear();
+        m_sliceHorizontalLabelRepeater->model().clear();
+        m_sliceVerticalLabelRepeater->model().clear();
+        m_sliceVerticalGridRepeater->deleteLater();
+        m_sliceHorizontalGridRepeater->deleteLater();
+        m_sliceHorizontalLabelRepeater->deleteLater();
+        m_sliceVerticalLabelRepeater->deleteLater();
+    }
+
     // Make sure not deleting locked mutex
     QMutexLocker locker(&m_mutex);
     locker.unlock();
@@ -204,15 +236,18 @@ void QQuickGraphsItem::componentComplete()
     m_segmentLineRepeaterX->setDelegate(segmentLineDelegate);
 
     m_subsegmentLineRepeaterX = createRepeater();
+
     auto subsegmentLineDelegate = createRepeaterDelegateComponent(QStringLiteral(":/axis/GridLine"));
     m_subsegmentLineRepeaterX->setDelegate(subsegmentLineDelegate);
 
     // Y lines
     m_segmentLineRepeaterY = createRepeater();
+
     segmentLineDelegate = createRepeaterDelegateComponent(QStringLiteral(":/axis/GridLine"));
     m_segmentLineRepeaterY->setDelegate(segmentLineDelegate);
 
     m_subsegmentLineRepeaterY = createRepeater();
+
     subsegmentLineDelegate = createRepeaterDelegateComponent(QStringLiteral(":/axis/GridLine"));
     m_subsegmentLineRepeaterY->setDelegate(subsegmentLineDelegate);
 
@@ -223,6 +258,7 @@ void QQuickGraphsItem::componentComplete()
     m_segmentLineRepeaterZ->setDelegate(segmentLineDelegate);
 
     m_subsegmentLineRepeaterZ = createRepeater();
+
     subsegmentLineDelegate = createRepeaterDelegateComponent(QStringLiteral(":/axis/GridLine"));
     m_subsegmentLineRepeaterZ->setDelegate(subsegmentLineDelegate);
 
@@ -2361,23 +2397,23 @@ QQmlComponent *QQuickGraphsItem::createRepeaterDelegateComponent(const QString &
     return qobject_cast<QQmlComponent *>(component.create());
 }
 
-QQuick3DRepeater *QQuickGraphsItem::createRepeater()
+QQuick3DRepeater *QQuickGraphsItem::createRepeater(QQuick3DNode *parent)
 {
     auto engine = qmlEngine(this);
     QQmlComponent repeaterComponent(engine);
     repeaterComponent.setData("import QtQuick3D; Repeater3D{}",QUrl());
     auto repeater = qobject_cast<QQuick3DRepeater *>(repeaterComponent.create());
-    repeater->setParent(graphNode());
-    repeater->setParentItem(graphNode());
+    repeater->setParent(parent ? parent : graphNode());
+    repeater->setParentItem(parent ? parent : graphNode());
     return repeater;
 }
 
-QQuick3DNode *QQuickGraphsItem::createTitleLabel()
+QQuick3DNode *QQuickGraphsItem::createTitleLabel(QQuick3DNode *parent)
 {
     QQmlComponent comp(qmlEngine(this), QStringLiteral(":/axis/ItemLabel"));
     auto titleLabel = qobject_cast<QQuick3DNode *>(comp.create());
-    titleLabel->setParent(graphNode());
-    titleLabel->setParentItem(graphNode());
+    titleLabel->setParent(parent ? parent : graphNode());
+    titleLabel->setParentItem(parent ? parent : graphNode());
     titleLabel->setVisible(false);
     titleLabel->setScale(m_labelScale);
     return titleLabel;
@@ -2425,41 +2461,28 @@ void QQuickGraphsItem::createSliceView()
     light->setParent(camera);
     light->setParentItem(camera);
 
-    m_sliceHorizontalGridRepeater = createRepeater();
-    m_sliceHorizontalGridRepeater->setParent(scene);
-    m_sliceHorizontalGridRepeater->setParentItem(scene);
     auto gridDelegate = createRepeaterDelegateComponent(QStringLiteral(":/axis/GridLine"));
+    auto labelDelegate = createRepeaterDelegateComponent(QStringLiteral(":/axis/AxisLabel"));
+
+    m_sliceHorizontalGridRepeater = createRepeater(scene);
     m_sliceHorizontalGridRepeater->setDelegate(gridDelegate);
 
-    m_sliceVerticalGridRepeater = createRepeater();
-    m_sliceVerticalGridRepeater->setParent(scene);
-    m_sliceVerticalGridRepeater->setParentItem(scene);
+    m_sliceVerticalGridRepeater = createRepeater(scene);
     m_sliceVerticalGridRepeater->setDelegate(gridDelegate);
 
-    m_sliceHorizontalLabelRepeater = createRepeater();
-    m_sliceHorizontalLabelRepeater->setParent(scene);
-    m_sliceHorizontalLabelRepeater->setParentItem(scene);
-    auto labelDelegate = createRepeaterDelegateComponent(QStringLiteral(":/axis/AxisLabel"));
+    m_sliceHorizontalLabelRepeater = createRepeater(scene);
     m_sliceHorizontalLabelRepeater->setDelegate(labelDelegate);
 
-    m_sliceVerticalLabelRepeater = createRepeater();
-    m_sliceVerticalLabelRepeater->setParent(scene);
-    m_sliceVerticalLabelRepeater->setParentItem(scene);
+    m_sliceVerticalLabelRepeater = createRepeater(scene);
     m_sliceVerticalLabelRepeater->setDelegate(labelDelegate);
 
-    m_sliceHorizontalTitleLabel = createTitleLabel();
-    m_sliceHorizontalTitleLabel->setParent(scene);
-    m_sliceHorizontalTitleLabel->setParentItem(scene);
+    m_sliceHorizontalTitleLabel = createTitleLabel(scene);
     m_sliceHorizontalTitleLabel->setVisible(true);
 
-    m_sliceVerticalTitleLabel = createTitleLabel();
-    m_sliceVerticalTitleLabel->setParent(scene);
-    m_sliceVerticalTitleLabel->setParentItem(scene);
+    m_sliceVerticalTitleLabel = createTitleLabel(scene);
     m_sliceVerticalTitleLabel->setVisible(true);
 
-    m_sliceItemLabel = createTitleLabel();
-    m_sliceItemLabel->setParent(scene);
-    m_sliceItemLabel->setParentItem(scene);
+    m_sliceItemLabel = createTitleLabel(scene);
     m_sliceItemLabel->setVisible(false);
 }
 
@@ -2499,17 +2522,21 @@ void QQuickGraphsItem::updateSliceGrid()
 
     if (horizontalAxis->type() & QAbstract3DAxis::AxisTypeValue) {
         QValue3DAxis *valueAxis = static_cast<QValue3DAxis *>(horizontalAxis);
+        m_sliceVerticalGridRepeater->model().clear();
         m_sliceVerticalGridRepeater->setModel(valueAxis->gridSize()
                                               + valueAxis->subGridSize());
     } else if (horizontalAxis->type() & QAbstract3DAxis::AxisTypeCategory) {
+        m_sliceVerticalGridRepeater->model().clear();
         m_sliceVerticalGridRepeater->setModel(horizontalAxis->labels().size());
     }
 
     if (verticalAxis->type() & QAbstract3DAxis::AxisTypeValue) {
         QValue3DAxis *valueAxis = static_cast<QValue3DAxis *>(verticalAxis);
+        m_sliceHorizontalGridRepeater->model().clear();
         m_sliceHorizontalGridRepeater->setModel(valueAxis->gridSize()
                                                 + valueAxis->subGridSize());
     } else if (horizontalAxis->type() & QAbstract3DAxis::AxisTypeCategory) {
+        m_sliceHorizontalGridRepeater->model().clear();
         m_sliceHorizontalGridRepeater->setModel(verticalAxis->labels().size());
     }
 
@@ -2580,15 +2607,19 @@ void QQuickGraphsItem::updateSliceLabels()
 
     if (horizontalAxis->type() & QAbstract3DAxis::AxisTypeValue) {
         QValue3DAxis *valueAxis = static_cast<QValue3DAxis *>(horizontalAxis);
+        m_sliceHorizontalLabelRepeater->model().clear();
         m_sliceHorizontalLabelRepeater->setModel(valueAxis->labels().size());
     } else if (horizontalAxis->type() & QAbstract3DAxis::AxisTypeCategory) {
+        m_sliceHorizontalLabelRepeater->model().clear();
         m_sliceHorizontalLabelRepeater->setModel(horizontalAxis->labels().size());
     }
 
     if (verticalAxis->type() & QAbstract3DAxis::AxisTypeValue) {
         QValue3DAxis *valueAxis = static_cast<QValue3DAxis *>(verticalAxis);
+        m_sliceVerticalLabelRepeater->model().clear();
         m_sliceVerticalLabelRepeater->setModel(valueAxis->labels().size());
     } else if (horizontalAxis->type() & QAbstract3DAxis::AxisTypeCategory) {
+        m_sliceVerticalLabelRepeater->model().clear();
         m_sliceVerticalLabelRepeater->setModel(verticalAxis->labels().size());
     }
 

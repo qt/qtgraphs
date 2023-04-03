@@ -75,8 +75,26 @@ QQuickGraphsBars::~QQuickGraphsBars()
 {
     QMutexLocker locker(m_nodeMutex.data());
     const QMutexLocker locker2(mutex());
-    delete m_barsController;
+    QList<QBar3DSeries *> barSeriesList = m_barsController->barSeriesList();
+    for (const auto &series : std::as_const(barSeriesList))
+        removeBarModels(series);
     m_barModelsMap.clear();
+    for (const auto list : std::as_const(m_slicedBarModels)) {
+        for (auto model : *list) {
+            model->model->setPickable(false);
+            model->model->setVisible(false);
+            QQmlListReference materialsRef(model->model, "materials");
+            if (materialsRef.size()) {
+                auto material = materialsRef.at(0);
+                delete material;
+            }
+            delete model->model;
+            delete model;
+        }
+        delete list;
+    }
+    m_slicedBarModels.clear();
+    delete m_barsController;
 }
 
 QCategory3DAxis *QQuickGraphsBars::rowAxis() const
@@ -687,7 +705,9 @@ void QQuickGraphsBars::handleMeshSmoothChanged(bool enable)
 void QQuickGraphsBars::handleRowCountChanged()
 {
     QCategory3DAxis *categoryAxisZ = static_cast<QCategory3DAxis *>(m_barsController->axisZ());
+    segmentLineRepeaterZ()->model().clear();
     segmentLineRepeaterZ()->setModel(categoryAxisZ->labels().size());
+    repeaterZ()->model().clear();
     repeaterZ()->setModel(categoryAxisZ->labels().size());
     updateParameters();
 }
@@ -695,7 +715,9 @@ void QQuickGraphsBars::handleRowCountChanged()
 void QQuickGraphsBars::handleColCountChanged()
 {
     QCategory3DAxis *categoryAxisX = static_cast<QCategory3DAxis *>(m_barsController->axisX());
+    segmentLineRepeaterX()->model().clear();
     segmentLineRepeaterX()->setModel(categoryAxisX->labels().size());
+    repeaterX()->model().clear();
     repeaterX()->setModel(categoryAxisX->labels().size());
     updateParameters();
 }
@@ -724,9 +746,9 @@ void QQuickGraphsBars::generateBars(QList<QBar3DSeries *> &barSeriesList)
 {
     m_visibleSeriesCount = 0;
     for (const auto &barSeries : std::as_const(barSeriesList)) {
-        QVector<BarModel *> *barList = m_barModelsMap.value(barSeries);
+        QList<BarModel *> *barList = m_barModelsMap.value(barSeries);
         if (!barList) {
-            barList = new QVector<BarModel *>;
+            barList = new QList<BarModel *>;
             m_barModelsMap[barSeries] = barList;
         }
         if (barList->isEmpty()) {
@@ -830,7 +852,7 @@ void QQuickGraphsBars::fixMeshFileName(QString &fileName, QAbstract3DSeries::Mes
 
 void QQuickGraphsBars::updateBarVisuality(QBar3DSeries *series, int visualIndex)
 {
-    QVector<BarModel *> barList = *m_barModelsMap.value(series);
+    QList<BarModel *> barList = *m_barModelsMap.value(series);
     for (int i = 0; i < barList.count(); i++) {
         if (barList.at(i)->model->visible() != series->isVisible() && isSliceEnabled()) {
             if (m_selectedBarSeries == series && !series->isVisible()) {
@@ -869,7 +891,7 @@ void QQuickGraphsBars::updateBarPositions(QBar3DSeries *series)
     m_meshRotation = dataProxy->series()->meshRotation();
     m_zeroPosition = m_helperAxisY.itemPositionAt(m_actualFloorLevel);
 
-    QVector<BarModel *> barList = *m_barModelsMap.value(series);
+    QList<BarModel *> barList = *m_barModelsMap.value(series);
     if (m_barsController->optimizationHints() == QAbstract3DGraph::OptimizationDefault) {
         for (int i = 0; i < barList.count(); i++) {
             QBarDataItem *item = const_cast<QBarDataItem *>((barList.at(i)->barItem));
@@ -943,7 +965,7 @@ void QQuickGraphsBars::updateBarPositions(QBar3DSeries *series)
 
 void QQuickGraphsBars::updateBarVisuals(QBar3DSeries *series)
 {
-    QVector<BarModel *> barList = *m_barModelsMap.value(series);
+    QList<BarModel *> barList = *m_barModelsMap.value(series);
     bool useGradient = series->d_ptr->isUsingGradient();
 
     if (useGradient) {
@@ -982,7 +1004,7 @@ void QQuickGraphsBars::updateBarVisuals(QBar3DSeries *series)
                                          barList.at(i)->texture);
             }
             if (sliceView() && isSliceEnabled()) {
-                QVector<BarModel *> slicedBarList = *m_slicedBarModels.value(series);
+                QList<BarModel *> slicedBarList = *m_slicedBarModels.value(series);
                 for (int col = 0; col < slicedBarList.count(); ++col) {
                     updateItemMaterial(slicedBarList.at(col)->model, useGradient, rangeGradient);
                     updatePrincipledMaterial(slicedBarList.at(col)->model, series->baseColor(),
@@ -1074,17 +1096,19 @@ void QQuickGraphsBars::removeBarModels(QBar3DSeries *series)
 {
     if (m_barModelsMap.value(series)->isEmpty())
         return;
-    QVector<BarModel *> barList = *m_barModelsMap.value(series);
-    for (int i = 0; i < barList.count(); i++) {
-        barList.at(i)->model->setPickable(false);
-        barList.at(i)->model->setVisible(false);
-        QQmlListReference materialsRef(barList.at(i)->model, "materials");
+    QList<BarModel *> *barList = m_barModelsMap.value(series);
+    for (auto currentModel : *barList) {
+        currentModel->model->setPickable(false);
+        currentModel->model->setVisible(false);
+        QQmlListReference materialsRef(currentModel->model, "materials");
         if (materialsRef.size()) {
             auto material = materialsRef.at(0);
             delete material;
         }
-        delete barList.at(i)->model;
+        delete currentModel->model;
+        delete currentModel;
     }
+    delete barList;
     m_barModelsMap.remove(series);
     itemLabel()->setVisible(false);
 }
@@ -1183,7 +1207,7 @@ void QQuickGraphsBars::updateSelectedBar()
     for (auto it = m_barModelsMap.begin(); it != m_barModelsMap.end(); it++) {
         if (m_selectedBarSeries && it.key()->isVisible()) {
             bool useGradient = m_selectedBarSeries->d_ptr->isUsingGradient();
-            QVector<BarModel *> barList = *it.value();
+            QList<BarModel *> barList = *it.value();
             for (int i = 0; i < barList.count(); i++) {
                 Bars3DController::SelectionType selectionType =
                         isSelected(barList.at(i)->coord.x(), barList.at(i)->coord.y(), it.key());
@@ -1292,9 +1316,9 @@ void QQuickGraphsBars::createSliceView()
     QList<QBar3DSeries *> barSeriesList = m_barsController->barSeriesList();
     for (const auto &barSeries : std::as_const(barSeriesList)) {
         bool useGradient = barSeries->d_ptr->isUsingGradient();
-        QVector<BarModel *> *slicedBarList = m_slicedBarModels.value(barSeries);
+        QList<BarModel *> *slicedBarList = m_slicedBarModels.value(barSeries);
         if (!slicedBarList) {
-            slicedBarList = new QVector<BarModel *>;
+            slicedBarList = new QList<BarModel *>;
             m_slicedBarModels[barSeries] = slicedBarList;
         }
         if (slicedBarList->isEmpty()) {
@@ -1339,7 +1363,7 @@ void QQuickGraphsBars::updateSliceGraph()
     int index = 0;
     bool rowMode = m_barsController->selectionMode().testFlag(QAbstract3DGraph::SelectionRow);
     for (auto it = m_slicedBarModels.begin(); it != m_slicedBarModels.end(); it++) {
-        QVector<BarModel *> barList = *m_barModelsMap.value(it.key());
+        QList<BarModel *> barList = *m_barModelsMap.value(it.key());
         for (int ind = 0; ind < it.value()->count(); ++ind) {
             if (rowMode)
                 index = (m_selectedBarCoord.x() * it.key()->dataProxy()->colCount()) + ind;
@@ -1392,15 +1416,18 @@ void QQuickGraphsBars::removeSlicedBarModels()
         if (it.value()->isEmpty())
             return;
         for (int col = 0; col < it.value()->count(); ++col) {
-            it.value()->at(col)->model->setPickable(false);
-            it.value()->at(col)->model->setVisible(false);
-            QQmlListReference materialsRef(it.value()->at(col)->model, "materials");
+            auto barModel = it.value()->at(col);
+            barModel->model->setPickable(false);
+            barModel->model->setVisible(false);
+            QQmlListReference materialsRef(barModel->model, "materials");
             if (materialsRef.size()) {
                 auto material = materialsRef.at(0);
                 delete material;
             }
-            delete it.value()->at(col)->model;
+            delete barModel->model;
+            delete barModel;
         }
+        delete it.value();
         m_slicedBarModels.remove(it.key());
     }
 }

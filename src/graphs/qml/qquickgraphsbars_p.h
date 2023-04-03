@@ -198,7 +198,7 @@ private:
         float heightValue;
         QQuick3DTexture *texture;
     };
-    QHash<QBar3DSeries *, QVector<BarModel *> *> m_barModelsMap;
+    QHash<QBar3DSeries *, QList<BarModel *> *> m_barModelsMap;
     QAbstract3DSeries::Mesh m_meshType = QAbstract3DSeries::MeshSphere;
     bool m_smooth = false;
     bool m_keepSeriesUniform;
@@ -214,7 +214,7 @@ private:
     QQuick3DTexture *m_highlightTexture = nullptr;
     QQuick3DTexture *m_multiHighlightTexture = nullptr;
     QQuick3DModel *m_selectionIndicator = nullptr;
-    QHash<QBar3DSeries *, QVector<BarModel *> *> m_slicedBarModels;
+    QHash<QBar3DSeries *, QList<BarModel *> *> m_slicedBarModels;
     bool m_selectionDirty = false;
 
     void calculateHeightAdjustment();
