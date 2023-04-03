@@ -410,6 +410,9 @@ private:
     void setUpLight();
     void graphPositionAt(const QPoint& point);
     void updateCamera();
+    void handleSegmentLineCountChanged(QAbstract3DAxis *axis, QQuick3DRepeater *repeater);
+    void handleSubSegmentLineCountChanged(QAbstract3DAxis *axis, QQuick3DRepeater *repeater);
+    void handleLabelCountChanged(QQuick3DRepeater *repeater);
     QVector3D calculateLabelRotation(float labelAutoAngle);
 
     QHash<QQuickGraphsItem *, QQuickWindow *> m_graphWindowList = {};

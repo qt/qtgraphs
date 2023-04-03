@@ -565,6 +565,54 @@ void QQuickGraphsItem::synchData()
         axisFormatterChanged = true;
     }
 
+    if (m_controller->m_changeTracker.axisXSegmentCountChanged) {
+        handleSegmentLineCountChanged(m_controller->axisX(), m_segmentLineRepeaterX);
+        m_controller->m_changeTracker.axisXSegmentCountChanged = false;
+    }
+
+    if (m_controller->m_changeTracker.axisYSegmentCountChanged) {
+        handleSegmentLineCountChanged(m_controller->axisY(), m_segmentLineRepeaterY);
+        m_controller->m_changeTracker.axisYSegmentCountChanged = false;
+    }
+
+    if (m_controller->m_changeTracker.axisZSegmentCountChanged) {
+        handleSegmentLineCountChanged(m_controller->axisZ(), m_segmentLineRepeaterZ);
+        m_controller->m_changeTracker.axisZSegmentCountChanged = false;
+    }
+
+    if (m_controller->m_changeTracker.axisXSubSegmentCountChanged) {
+        handleSubSegmentLineCountChanged(m_controller->axisX(), m_subsegmentLineRepeaterX);
+        m_controller->m_changeTracker.axisXSubSegmentCountChanged = false;
+    }
+
+    if (m_controller->m_changeTracker.axisYSubSegmentCountChanged) {
+        handleSubSegmentLineCountChanged(m_controller->axisY(), m_subsegmentLineRepeaterY);
+        m_controller->m_changeTracker.axisYSubSegmentCountChanged = false;
+    }
+
+    if (m_controller->m_changeTracker.axisZSubSegmentCountChanged) {
+        handleSubSegmentLineCountChanged(m_controller->axisZ(), m_subsegmentLineRepeaterZ);
+        m_controller->m_changeTracker.axisZSubSegmentCountChanged = false;
+    }
+
+    if (m_controller->m_changeTracker.axisXLabelsChanged) {
+        m_repeaterX->setModel(m_controller->axisX()->labels().size());
+        m_controller->m_changeTracker.axisXLabelsChanged = false;
+        handleLabelCountChanged(m_repeaterX);
+    }
+
+    if (m_controller->m_changeTracker.axisYLabelsChanged) {
+        m_repeaterY->setModel(2 * m_controller->axisY()->labels().size());
+        m_controller->m_changeTracker.axisYLabelsChanged = false;
+        handleLabelCountChanged(m_repeaterY);
+    }
+
+    if (m_controller->m_changeTracker.axisZLabelsChanged) {
+        m_repeaterZ->setModel(m_controller->axisZ()->labels().size());
+        m_controller->m_changeTracker.axisZLabelsChanged = false;
+        handleLabelCountChanged(m_repeaterZ);
+    }
+
     if (m_controller->m_changeTracker.shadowQualityChanged) {
         updateShadowQuality(shadowQuality());
         m_controller->m_changeTracker.shadowQualityChanged = false;
@@ -1516,7 +1564,6 @@ void QQuickGraphsItem::updateLabels()
                      sideLabelTrans,    backLabelTrans,
                      totalSideLabelRotation, totalBackLabelRotation, labelsMaxWidth, labelHeight, fontScaled);
     }
-
 }
 
 void QQuickGraphsItem::positionAndScaleLine(QQuick3DNode *lineNode, QVector3D scale, QVector3D position)
@@ -1862,6 +1909,64 @@ void QQuickGraphsItem::updateCamera()
             m_itemLabel->setEulerRotation(rotation);
         float zoom = 720.f / zoomLevel;
         m_pCamera->setZ(zoom);
+    }
+}
+
+void QQuickGraphsItem::handleSegmentLineCountChanged(QAbstract3DAxis *axis, QQuick3DRepeater *repeater)
+{
+    int segmentCount = 0;
+    int gridLineCount = 0;
+    if (axis->type() == QAbstract3DAxis::AxisTypeValue) {
+        auto valueAxis = qobject_cast<QValue3DAxis *>(axis);
+        segmentCount = valueAxis->segmentCount();
+        gridLineCount = 2 * (segmentCount + 1);
+    } else if (axis->type() == QAbstract3DAxis::AxisTypeCategory) {
+        gridLineCount = axis->labels().size();
+    }
+    repeater->setModel(gridLineCount);
+    changeGridLineColor(repeater, m_controller->activeTheme()->gridLineColor());
+    m_controller->handleAxisSubSegmentCountChangedBySender(axis);
+}
+
+void QQuickGraphsItem::handleSubSegmentLineCountChanged(QAbstract3DAxis *axis, QQuick3DRepeater *repeater)
+{
+    int segmentCount = 0;
+    int subSegmentCount = 0;
+    int subGridLineCount = 0;
+
+    if (axis->type() == QAbstract3DAxis::AxisTypeValue) {
+        QValue3DAxis *valueAxis = qobject_cast<QValue3DAxis *>(axis);
+        segmentCount = valueAxis->segmentCount();
+        subSegmentCount = valueAxis->subSegmentCount();
+        subGridLineCount = 2 * (segmentCount * (subSegmentCount - 1));
+    } else if (axis->type() == QAbstract3DAxis::AxisTypeCategory) {
+        subGridLineCount = 0;
+    }
+
+    repeater->setModel(subGridLineCount);
+    changeGridLineColor(repeater, m_controller->activeTheme()->gridLineColor());
+}
+
+void QQuickGraphsItem::handleLabelCountChanged(QQuick3DRepeater *repeater)
+{
+    Q3DTheme *theme = m_controller->activeTheme();
+    changeLabelBackgroundColor(repeater, theme->labelBackgroundColor());
+    changeLabelBackgroundEnabled(repeater, theme->isLabelBackgroundEnabled());
+    changeLabelBorderEnabled(repeater, theme->isLabelBorderEnabled());
+    changeLabelTextColor(repeater, theme->labelTextColor());
+    changeLabelFont(repeater, theme->font());
+
+    if (m_sliceView) {
+        changeLabelBackgroundColor(m_sliceHorizontalLabelRepeater, theme->labelBackgroundColor());
+        changeLabelBackgroundColor(m_sliceVerticalLabelRepeater, theme->labelBackgroundColor());
+        changeLabelBackgroundEnabled(m_sliceHorizontalLabelRepeater, theme->isLabelBackgroundEnabled());
+        changeLabelBackgroundEnabled(m_sliceVerticalLabelRepeater, theme->isLabelBackgroundEnabled());
+        changeLabelBorderEnabled(m_sliceHorizontalLabelRepeater, theme->isLabelBorderEnabled());
+        changeLabelBorderEnabled(m_sliceVerticalLabelRepeater, theme->isLabelBorderEnabled());
+        changeLabelTextColor(m_sliceHorizontalLabelRepeater, theme->labelTextColor());
+        changeLabelTextColor(m_sliceVerticalLabelRepeater, theme->labelTextColor());
+        changeLabelFont(m_sliceHorizontalLabelRepeater, theme->font());
+        changeLabelFont(m_sliceVerticalLabelRepeater, theme->font());
     }
 }
 
