@@ -237,6 +237,7 @@ void QQuickGraphsBars::addSeries(QBar3DSeries *series)
 void QQuickGraphsBars::removeSeries(QBar3DSeries *series)
 {
     m_barsController->removeSeries(series);
+    removeBarModels(series);
     series->setParent(this); // Reparent as removing will leave series parentless
 }
 
