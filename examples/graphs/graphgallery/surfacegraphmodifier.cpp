@@ -147,7 +147,8 @@ SurfaceGraphModifier::SurfaceGraphModifier(Q3DSurface *surface, QLabel *label)
 
 SurfaceGraphModifier::~SurfaceGraphModifier()
 {
-    delete m_graph;
+    delete m_customInputHandler;
+    delete m_defaultInputHandler;
 }
 
 void SurfaceGraphModifier::fillSqrtSinProxy()

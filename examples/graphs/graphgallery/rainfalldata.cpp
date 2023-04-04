@@ -57,8 +57,6 @@ RainfallData::RainfallData()
 RainfallData::~RainfallData()
 {
     delete m_mapping;
-    delete m_dataSet;
-    delete m_proxy;
 }
 
 void RainfallData::updateYearsList(int start, int end)

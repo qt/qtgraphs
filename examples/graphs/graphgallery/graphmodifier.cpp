@@ -127,7 +127,6 @@ GraphModifier::GraphModifier(Q3DBars *bargraph) :
 GraphModifier::~GraphModifier()
 {
     delete m_customData;
-    delete m_graph;
 }
 
 void GraphModifier::resetTemperatureData()

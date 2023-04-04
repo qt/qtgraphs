@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 
 #include "scattergraph.h"
-#include "scatterdatamodifier.h"
 
 #include <QtWidgets/qboxlayout.h>
 #include <QtWidgets/qcheckbox.h>
@@ -18,7 +17,10 @@ ScatterGraph::ScatterGraph()
     initialize();
 }
 
-ScatterGraph::~ScatterGraph() = default;
+ScatterGraph::~ScatterGraph()
+{
+    delete m_modifier;
+}
 
 void ScatterGraph::initialize()
 {
@@ -103,37 +105,37 @@ void ScatterGraph::initialize()
     vLayout->addWidget(new QLabel(u"Adjust shadow quality"_s));
     vLayout->addWidget(shadowQuality, 1, Qt::AlignTop);
 
-    ScatterDataModifier *modifier = new ScatterDataModifier(m_scatterGraph);
+    m_modifier = new ScatterDataModifier(m_scatterGraph);
 
-    QObject::connect(cameraButton, &QCommandLinkButton::clicked, modifier,
+    QObject::connect(cameraButton, &QCommandLinkButton::clicked, m_modifier,
                      &ScatterDataModifier::changePresetCamera);
-    QObject::connect(itemCountButton, &QCommandLinkButton::clicked, modifier,
+    QObject::connect(itemCountButton, &QCommandLinkButton::clicked, m_modifier,
                      &ScatterDataModifier::toggleItemCount);
-    QObject::connect(rangeButton, &QCommandLinkButton::clicked, modifier,
+    QObject::connect(rangeButton, &QCommandLinkButton::clicked, m_modifier,
                      &ScatterDataModifier::toggleRanges);
 
-    QObject::connect(backgroundCheckBox, &QCheckBox::stateChanged, modifier,
+    QObject::connect(backgroundCheckBox, &QCheckBox::stateChanged, m_modifier,
                      &ScatterDataModifier::setBackgroundEnabled);
-    QObject::connect(gridCheckBox, &QCheckBox::stateChanged, modifier,
+    QObject::connect(gridCheckBox, &QCheckBox::stateChanged, m_modifier,
                      &ScatterDataModifier::setGridEnabled);
-    QObject::connect(smoothCheckBox, &QCheckBox::stateChanged, modifier,
+    QObject::connect(smoothCheckBox, &QCheckBox::stateChanged, m_modifier,
                      &ScatterDataModifier::setSmoothDots);
 
-    QObject::connect(modifier, &ScatterDataModifier::backgroundEnabledChanged,
+    QObject::connect(m_modifier, &ScatterDataModifier::backgroundEnabledChanged,
                      backgroundCheckBox, &QCheckBox::setChecked);
-    QObject::connect(modifier, &ScatterDataModifier::gridEnabledChanged,
+    QObject::connect(m_modifier, &ScatterDataModifier::gridEnabledChanged,
                      gridCheckBox, &QCheckBox::setChecked);
-    QObject::connect(itemStyleList, &QComboBox::currentIndexChanged, modifier,
+    QObject::connect(itemStyleList, &QComboBox::currentIndexChanged, m_modifier,
                      &ScatterDataModifier::changeStyle);
 
-    QObject::connect(themeList, &QComboBox::currentIndexChanged, modifier,
+    QObject::connect(themeList, &QComboBox::currentIndexChanged, m_modifier,
                      &ScatterDataModifier::changeTheme);
 
-    QObject::connect(shadowQuality, &QComboBox::currentIndexChanged, modifier,
+    QObject::connect(shadowQuality, &QComboBox::currentIndexChanged, m_modifier,
                      &ScatterDataModifier::changeShadowQuality);
 
-    QObject::connect(modifier, &ScatterDataModifier::shadowQualityChanged, shadowQuality,
+    QObject::connect(m_modifier, &ScatterDataModifier::shadowQualityChanged, shadowQuality,
                      &QComboBox::setCurrentIndex);
-    QObject::connect(m_scatterGraph, &Q3DScatter::shadowQualityChanged, modifier,
+    QObject::connect(m_scatterGraph, &Q3DScatter::shadowQualityChanged, m_modifier,
                      &ScatterDataModifier::shadowQualityUpdatedByVisual);
 }

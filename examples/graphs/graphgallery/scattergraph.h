@@ -6,6 +6,7 @@
 
 #include <QtCore/qobject.h>
 #include <QtGraphs/q3dscatter.h>
+#include "scatterdatamodifier.h"
 
 class ScatterGraph : public QObject
 {
@@ -18,6 +19,7 @@ public:
     QWidget *scatterWidget() { return m_scatterWidget; }
 
 private:
+    ScatterDataModifier *m_modifier = nullptr;
     Q3DScatter *m_scatterGraph = nullptr;
     QWidget *m_scatterWidget = nullptr;
 };

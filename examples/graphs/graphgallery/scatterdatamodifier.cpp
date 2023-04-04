@@ -61,7 +61,7 @@ ScatterDataModifier::ScatterDataModifier(Q3DScatter *scatter)
 
 ScatterDataModifier::~ScatterDataModifier()
 {
-    delete m_graph;
+    delete m_inputHandler;
 }
 
 void ScatterDataModifier::addData()
