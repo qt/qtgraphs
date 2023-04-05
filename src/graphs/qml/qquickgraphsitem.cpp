@@ -146,8 +146,7 @@ void QQuickGraphsItem::keyPressEvent(QKeyEvent *ev)
 bool QQuickGraphsItem::handleMousePressedEvent(QMouseEvent *event)
 {
     if (Qt::LeftButton == event->button()) {
-        if (m_sliceEnabled && m_controller->isSlicingActive()) {
-            m_sliceEnabled = false;
+        if (sliceView() && sliceView()->isVisible()) {
             m_sliceActivatedChanged = true;
             return false;
         }
@@ -156,6 +155,8 @@ bool QQuickGraphsItem::handleMousePressedEvent(QMouseEvent *event)
                 && (selectionMode.testFlag(QAbstract3DGraph::SelectionColumn)
                     != selectionMode.testFlag(QAbstract3DGraph::SelectionRow))) {
             m_sliceEnabled = true;
+        } else {
+            m_sliceEnabled = false;
         }
     }
     return true;
@@ -910,14 +911,14 @@ void QQuickGraphsItem::synchData()
         m_controller->m_changedSeriesList.clear();
     }
 
-    if (m_controller->m_isSeriesVisualsDirty) {
-        updateGraph();
-        m_controller->m_isSeriesVisualsDirty = false;
-    }
-
     if (m_controller->m_isDataDirty) {
         updateGraph();
         m_controller->m_isDataDirty = false;
+    }
+
+    if (m_controller->m_isSeriesVisualsDirty) {
+        updateGraph();
+        m_controller->m_isSeriesVisualsDirty = false;
     }
 
     if (m_sliceActivatedChanged) {
@@ -2464,7 +2465,10 @@ void QQuickGraphsItem::updateTitleLabels()
 
 void QQuickGraphsItem::updateSliceGraph()
 {
-    if (!m_sliceEnabled) {
+    if (!sliceView())
+        return;
+
+    if (sliceView()->isVisible()) {
         m_controller->setSlicingActive(false);
         setWidth(width() * 5.f);
         setHeight(height() * 5.f);
@@ -2483,6 +2487,7 @@ void QQuickGraphsItem::updateSliceGraph()
         m_sliceView->setVisible(true);
         updateSliceGrid();
         updateSliceLabels();
+        m_controller->setSlicingActive(true);
     }
 }
 

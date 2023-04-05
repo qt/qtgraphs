@@ -127,6 +127,7 @@ private:
     void updateMaterial(SurfaceModel *model);
     void updateSelectedPoint();
     void addModel(QSurface3DSeries *series);
+    void addSliceModel(SurfaceModel *model);
 
     QVector<SurfaceModel *> m_model;
     Surface3DController *m_surfaceController;

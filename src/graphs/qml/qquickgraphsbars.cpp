@@ -1136,6 +1136,8 @@ bool QQuickGraphsBars::handleMousePressedEvent(QMouseEvent *event)
     if (!QQuickGraphsItem::handleMousePressedEvent(event))
         return true;
 
+    createSliceView();
+
     if (Qt::LeftButton == event->button()) {
         auto mousePos = event->pos();
         QList<QQuick3DPickResult> pickResults = pickAll(mousePos.x(), mousePos.y());
@@ -1355,8 +1357,7 @@ void QQuickGraphsBars::updateSliceGraph()
 
     if (!sliceView()->isVisible()) {
         removeSlicedBarModels();
-        if (sliceView() && !isSliceEnabled())
-            m_barsController->m_changeTracker.selectedBarChanged = false;
+        m_barsController->m_changeTracker.selectedBarChanged = false;
         return;
     }
 
