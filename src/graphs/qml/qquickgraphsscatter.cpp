@@ -45,6 +45,11 @@ QQuickGraphsScatter::~QQuickGraphsScatter()
 {
     QMutexLocker locker(m_nodeMutex.data());
     const QMutexLocker locker2(mutex());
+
+    for (auto &graphModel : m_scatterGraphs) {
+        delete graphModel;
+    }
+
     delete m_scatterController;
 }
 
@@ -306,12 +311,14 @@ void QQuickGraphsScatter::updateItemMaterial(QQuick3DModel *item, bool useGradie
         if (materialsRef.size()) {
             if (!qobject_cast<QQuick3DPrincipledMaterial *>(materialsRef.at(0))) {
                 auto principledMaterial = new QQuick3DPrincipledMaterial();
+                principledMaterial->setParent(item);
                 QObject *oldCustomMaterial = materialsRef.at(0);
                 materialsRef.replace(0, principledMaterial);
                 delete oldCustomMaterial;
             }
         } else {
             auto principledMaterial = new QQuick3DPrincipledMaterial();
+            principledMaterial->setParent(item);
             materialsRef.append(principledMaterial);
         }
     } else {
@@ -319,12 +326,14 @@ void QQuickGraphsScatter::updateItemMaterial(QQuick3DModel *item, bool useGradie
             if (!qobject_cast<QQuick3DCustomMaterial *>(materialsRef.at(0))) {
                 QQuick3DCustomMaterial *customMaterial = createQmlCustomMaterial(
                             QStringLiteral(":/materials/RangeGradientScatterMaterial"));
+                customMaterial->setParent(item);
                 QObject *oldPrincipledMaterial = materialsRef.at(0);
                 materialsRef.replace(0, customMaterial);
                 delete oldPrincipledMaterial;
             }
         } else {
             QQuick3DCustomMaterial *customMaterial = createQmlCustomMaterial(QStringLiteral(":/materials/RangeGradientScatterMaterial"));
+            customMaterial->setParent(item);
             materialsRef.append(customMaterial);
         }
     }
@@ -338,24 +347,28 @@ void QQuickGraphsScatter::updateItemInstancedMaterial(QQuick3DModel *item, bool 
         if (materialsRef.size()) {
             if (!qobject_cast<QQuick3DPrincipledMaterial *>(materialsRef.at(0))) {
                 auto principledMaterial = new QQuick3DPrincipledMaterial();
+                principledMaterial->setParent(item);
                 auto oldCustomMaterial = materialsRef.at(0);
                 materialsRef.replace(0, principledMaterial);
                 delete oldCustomMaterial;
             }
         } else {
             auto principledMaterial = new QQuick3DPrincipledMaterial();
+            principledMaterial->setParent(item);
             materialsRef.append(principledMaterial);
         }
     } else {
         if (materialsRef.size()) {
             if (!qobject_cast<QQuick3DCustomMaterial *>(materialsRef.at(0))) {
                 auto customMaterial = createQmlCustomMaterial(QStringLiteral(":/materials/RangeGradientMaterialInstancing"));
+                customMaterial->setParent(item);
                 auto oldPrincipledMaterial = materialsRef.at(0);
                 materialsRef.replace(0, customMaterial);
                 delete oldPrincipledMaterial;
             }
         } else {
             auto customMaterial = createQmlCustomMaterial(QStringLiteral(":/materials/RangeGradientMaterialInstancing"));
+            customMaterial->setParent(item);
             materialsRef.append(customMaterial);
         }
     }
@@ -370,12 +383,14 @@ void QQuickGraphsScatter::updateSelectionIndicatorMaterial(QQuick3DModel *indica
         if (materialsRef.size()) {
             if (!qobject_cast<QQuick3DPrincipledMaterial *>(materialsRef.at(0))) {
                 auto principledMaterial = new QQuick3DPrincipledMaterial();
+                principledMaterial->setParent(indicator);
                 auto old = qobject_cast<QQuick3DCustomMaterial *>(materialsRef.at(0));
                 materialsRef.replace(0, principledMaterial);
                 delete old;
             }
         } else {
             auto material = new QQuick3DPrincipledMaterial();
+            material->setParent(indicator);
             materialsRef.append(material);
         }
     } else {
@@ -384,11 +399,13 @@ void QQuickGraphsScatter::updateSelectionIndicatorMaterial(QQuick3DModel *indica
             if (!qobject_cast<QQuick3DCustomMaterial *>(materialsRef.at(0))) {
                 auto old = materialsRef.at(0);
                 auto customMaterial = createQmlCustomMaterial(QStringLiteral(":/materials/RangeGradientScatterMaterial"));
+                customMaterial->setParent(indicator);
                 materialsRef.replace(0, customMaterial);
                 delete old;
             }
         } else {
             auto customMaterial = createQmlCustomMaterial(QStringLiteral(":/materials/RangeGradientScatterMaterial"));
+            customMaterial->setParent(indicator);
             materialsRef.append(customMaterial);
         }
     }
@@ -504,7 +521,7 @@ void QQuickGraphsScatter::removeDataItems(QList<QQuick3DModel *> &items, qsizety
             QObject *material = materialsRef.at(0);
             delete material;
         }
-        delete item;
+        item->deleteLater();
     }
 }
 
@@ -685,8 +702,8 @@ void QQuickGraphsScatter::removeSeries(QScatter3DSeries *series)
     series->setParent(this); // Reparent as removing will leave series parentless
 
     // Find scattergraph model
-    for (QList<ScatterModel *>::const_iterator it = m_scatterGraphs.constBegin();
-         it != m_scatterGraphs.constEnd(); ++it) {
+    for (QList<ScatterModel *>::ConstIterator it = m_scatterGraphs.cbegin();
+         it != m_scatterGraphs.cend();) {
         if ((*it)->series == series) {
             removeDataItems((*it)->dataItems);
 
@@ -696,7 +713,9 @@ void QQuickGraphsScatter::removeSeries(QScatter3DSeries *series)
                 delete (*it)->highlightTexture;
 
             delete *it;
-            m_scatterGraphs.erase(it);
+            it = m_scatterGraphs.erase(it);
+        } else {
+            ++it;
         }
     }
 
@@ -912,8 +931,10 @@ void QQuickGraphsScatter::updateGraph()
                         removeDataItems(graphModel->dataItems, qAbs(sizeDiff));
                 }
             } else  {
-                if (graphModel->instancing == nullptr)
+                if (graphModel->instancing == nullptr) {
                     graphModel->instancing = new ScatterInstancing;
+                    graphModel->instancing->setParent(graphModel->series);
+                }
                 if (graphModel->instancingRootItem == nullptr) {
                     graphModel->instancingRootItem = createDataItem(graphModel->series->mesh());
                     graphModel->instancingRootItem->setParent(graphModel->series);
