@@ -40,6 +40,8 @@ QQuickGraphsSurface::~QQuickGraphsSurface()
     delete m_surfaceController;
     for (auto model : m_model)
         delete model;
+    delete m_instancing;
+    delete m_sliceInstancing;
 }
 
 QValue3DAxis *QQuickGraphsSurface::axisX() const
