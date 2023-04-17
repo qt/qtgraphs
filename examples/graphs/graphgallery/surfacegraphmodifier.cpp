@@ -306,6 +306,7 @@ void SurfaceGraphModifier::enableTopographyModel(bool enable)
         m_graph->axisY()->setLabelAutoRotation(90.f);
         m_graph->axisZ()->setLabelAutoRotation(30.f);
 
+        m_graph->removeSeries(m_sqrtSinSeries);
         m_graph->removeSeries(m_heightMapSeriesOne);
         m_graph->removeSeries(m_heightMapSeriesTwo);
         m_graph->removeSeries(m_heightMapSeriesThree);

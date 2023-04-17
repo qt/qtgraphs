@@ -1020,47 +1020,35 @@ bool QQuickGraphsSurface::handleMousePressedEvent(QMouseEvent *event)
                 if (picked.objectHit()->objectName().contains(QStringLiteral("SurfaceModel"))) {
                     pickedPos = picked.position();
                     pickedModel = picked.objectHit();
-                    break;
+                    if (!pickedPos.isNull())
+                        break;
                 }
             }
 
             if (!pickedPos.isNull()) {
                 float min = -1.0f;
-                SurfaceVertex selectedVertex;
 
                 for (auto model : m_model) {
-                    if (model->model == pickedModel || model->gridModel == pickedModel) {
-                        model->picked = true;
-                        for (auto vertex : model->vertices) {
-                            QVector3D pos = vertex.position;
-                            float dist = pickedPos.distanceToPoint(pos);
-                            if (selectedVertex.position.isNull() || dist < min) {
-                                min = dist;
-                                selectedVertex = vertex;
-                            }
-                        }
-                    } else {
-                        model->picked = false;
-                    }
-                }
+                    if (!model->series->isVisible())
+                        continue;
 
-                for (auto model : m_model) {
-                    if (model->picked)
-                        model->selectedVertex = selectedVertex;
-                    else
-                        model->selectedVertex = SurfaceVertex();
+                    model->picked = (model->model == pickedModel);
 
-                    if (selectionMode.testFlag(QAbstract3DGraph::SelectionMultiSeries)) {
-                        if (model->picked) {
-                            model->selectedVertex = selectedVertex;
-                        } else {
-                            QPoint coord = selectedVertex.coord;
-                            int index = coord.x() * model->rowCount + coord.y();
-                            auto vertex = model->vertices.at(index);
-                            model->selectedVertex = vertex;
-                        }
+                    if (!selectionMode.testFlag(QAbstract3DGraph::SelectionMultiSeries)
+                            && !model->picked) {
+                        continue;
                     }
 
+                    SurfaceVertex selectedVertex;
+                    for (auto vertex : model->vertices) {
+                        QVector3D pos = vertex.position;
+                        float dist = pickedPos.distanceToPoint(pos);
+                        if (selectedVertex.position.isNull() || dist < min) {
+                            min = dist;
+                            selectedVertex = vertex;
+                        }
+                    }
+                    model->selectedVertex = selectedVertex;
                     if (!selectedVertex.position.isNull()
                             && model->picked) {
                         model->series->setSelectedPoint(selectedVertex.coord);
