@@ -1094,8 +1094,9 @@ void QQuickGraphsBars::updatePrincipledMaterial(QQuick3DModel *model, const QCol
 
 void QQuickGraphsBars::removeBarModels(QBar3DSeries *series)
 {
-    if (m_barModelsMap.value(series)->isEmpty())
+    if (m_barModelsMap.isEmpty() || m_barModelsMap.value(series)->isEmpty())
         return;
+
     QList<BarModel *> *barList = m_barModelsMap.value(series);
     for (auto currentModel : *barList) {
         currentModel->model->setPickable(false);
