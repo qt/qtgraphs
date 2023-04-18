@@ -1,5 +1,5 @@
 %modules = ( # path to module name map
-    "QtGraphs" => "$basedir/src/datavisualization"
+    "QtGraphs" => "$basedir/src/graphs"
 );
 %moduleheaders = ( # restrict the module headers to those found in relative path
 );
@@ -12,4 +12,5 @@
 %dependencies = (
     "qtbase" => "",
     "qtdeclarative" => "",
+    "qtquick3d" => "",
 );

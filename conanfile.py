@@ -17,15 +17,15 @@ def _get_qt_minor_version() -> str:
 
 
 class QtGraphs(ConanFile):
-    name = "qtdatavis3d"
+    name = "qtgraphs"
     license = "GPL-3.0+, Commercial Qt License Agreement"
     author = "The Qt Company <https://www.qt.io/contact-us>"
-    url = "https://code.qt.io/cgit/qt/qtdatavis3d.git"
+    url = "https://code.qt.io/cgit/qt/qtgraphs.git"
     description = (
-        "Qt Data Visualization provides UI Components for displaying 3D graphs, driven by static or "
+        "Qt Graphs provides UI Components for displaying 3D graphs, driven by static or "
         "dynamic data models."
     )
-    topics = "qt", "qt6", "data visualization", "qtquick"
+    topics = "qt", "qt6", "data visualization", "qtquick", "qtquick3d"
     settings = "os", "compiler", "arch", "build_type"
     # for referencing the version number and prerelease tag and dependencies info
     exports = ".cmake.conf", "dependencies.yaml"
