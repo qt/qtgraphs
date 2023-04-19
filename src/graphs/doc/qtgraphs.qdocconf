@@ -20,7 +20,7 @@ depends = qtcore qtgui qtqml qtquick qtdoc qtcmake qtwidgets qtquick3d
 
 qhp.projects                 = QtGraphs
 
-qhp.QtGraphs.file            = qtgraphsd.qhp
+qhp.QtGraphs.file            = qtgraphs.qhp
 qhp.QtGraphs.namespace       = org.qt-project.qtgraphs.$QT_VERSION_TAG
 qhp.QtGraphs.virtualFolder   = qtgraphs
 qhp.QtGraphs.indexTitle      = Qt Graphs
