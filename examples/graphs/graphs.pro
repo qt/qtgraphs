@@ -1,12 +1,12 @@
 TEMPLATE = subdirs
 qtHaveModule(quick) {
-    SUBDIRS += qmlbars \
-               qmlscatter \
-               qmlaxishandling \
-               qmlsurfacegallery
+    SUBDIRS += bars \
+               scatter \
+               axishandling \
+               surfacegallery
 }
 
 !android:!ios:!winrt {
-#    SUBDIRS += graphgallery \
-#               volumetric
+    SUBDIRS += widgetgraphgallery \
+               widgetvolumetric
 }

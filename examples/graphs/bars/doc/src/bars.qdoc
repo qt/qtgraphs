@@ -24,7 +24,7 @@
     The example data set is the monthly income and expenses of a fictional company over several years.
     The data is defined in a list model in \c Data.qml like this:
 
-    \snippet qmlbars/qml/qmlbars/Data.qml 0
+    \snippet bars/qml/bars/Data.qml 0
     \dots
 
     Each data item has three roles: timestamp, income, and expenses. The timestamp value is in
@@ -34,7 +34,7 @@
     Now, add the data to the Bars3D graph. Create two Bar3DSeries inside it, starting with a series
     for the income:
 
-    \snippet qmlbars/qml/qmlbars/main.qml 3
+    \snippet bars/qml/bars/main.qml 3
     \dots
 
     The data is attached to the \c itemModel property of the ItemModelBarDataProxy inside the
@@ -58,7 +58,7 @@
 
     Then, add another series for the expenses:
 
-    \snippet qmlbars/qml/qmlbars/main.qml 4
+    \snippet bars/qml/bars/main.qml 4
     \dots
 
     The model contains expenses as negative values, but you want to show them as positive bars, so
@@ -73,7 +73,7 @@
     \c Axes.qml redefines the category labels for the column axis because the data contains numbers
     for months, which would clutter the labels:
 
-    \snippet qmlbars/qml/qmlbars/Axes.qml 0
+    \snippet bars/qml/bars/Axes.qml 0
 
     To make axis labels more readable at low camera angles, set automatic axis label rotation.
 
@@ -83,7 +83,7 @@
     code blocks to highlight here. The first one shows how to change the visualized data between
     income, expenses, and both, by simply changing the visibility of the two series:
 
-    \snippet qmlbars/qml/qmlbars/main.qml 0
+    \snippet bars/qml/bars/main.qml 0
 
     The axis label format and item selection label formats are tweaked to get the negative sign
     showing properly for expenses, which were actually resolved as positive values.
@@ -91,7 +91,7 @@
     The second interesting block is where the visualized data is changed by adjusting the proxy
     properties:
 
-    \snippet qmlbars/qml/qmlbars/main.qml 1
+    \snippet bars/qml/bars/main.qml 1
 
     To show the yearly totals, combine the twelve months of each year into a single bar.
     This is achieved by specifying a \c columnRolePattern that matches all model items. That way,
@@ -107,5 +107,5 @@
     the row and column values by using ItemModelBarDataProxy methods \c rowCategoryIndex()
     and \c columnCategoryIndex():
 
-    \snippet qmlbars/qml/qmlbars/main.qml 2
+    \snippet bars/qml/bars/main.qml 2
 */
