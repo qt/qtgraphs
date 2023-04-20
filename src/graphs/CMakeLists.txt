@@ -94,6 +94,14 @@ qt_internal_add_qml_module(Graphs
         qml/qquickgraphssurface.cpp qml/qquickgraphssurface_p.h
         qml/qquickgraphsscatter.cpp qml/qquickgraphsscatter_p.h
         qml/quickgraphstexturedata.cpp qml/quickgraphstexturedata_p.h
+    NO_UNITY_BUILD_SOURCES
+        # Symbol collision with, `qtouch3dinputhandler.cpp`
+        # TODO: Resolve `rotationSpeed` symbol redefinition
+        input/q3dinputhandler.cpp
+        # Symbol collision with, `surfaceitemmodelhandler.cpp`
+        # TODO: Resolve `noRoleIndex` symbol redefinition
+        data/baritemmodelhandler.cpp
+        data/scatteritemmodelhandler.cpp
     INCLUDE_DIRECTORIES
         axis
         data
