@@ -102,6 +102,12 @@ qt_internal_add_qml_module(Graphs
         # TODO: Resolve `noRoleIndex` symbol redefinition
         data/baritemmodelhandler.cpp
         data/scatteritemmodelhandler.cpp
+        # QScatterDataItem::d_ptr' may be used uninitialized [-Werror=maybe-uninitialized]
+        # TODO: Redo QScatterDataItem copy constructor, without using operator=()
+        #       Similar issue exists in `qtdatavis3d`.
+        data/qbardataitem.cpp
+        data/qscatterdataitem.cpp
+        data/qsurfacedataitem.cpp
     INCLUDE_DIRECTORIES
         axis
         data
