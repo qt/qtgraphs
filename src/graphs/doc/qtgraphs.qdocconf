@@ -49,3 +49,6 @@ navigation.cppclassespage = Qt Graphs C++ Classes
 navigation.qmltypespage = Qt Graphs QML Types
 
 manifestmeta.highlighted.names = "QtGraphs/Graph Gallery"
+
+# Enforce zero documentation warnings in the CI
+warninglimit = 0
