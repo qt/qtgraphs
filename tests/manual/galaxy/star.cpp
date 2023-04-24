@@ -13,7 +13,7 @@ Star::Star()
 {
 }
 
-const void Star::calcXY()
+void Star::calcXY()
 {
     qreal &a = m_a;
     qreal &b = m_b;

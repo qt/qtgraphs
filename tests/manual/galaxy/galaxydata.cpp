@@ -23,8 +23,6 @@
 
 #include <QDebug>
 
-using namespace QtGraphs;
-
 static const int numOfStars = 70000;
 static const int numOfDust = numOfStars / 2;
 static const int numOfH2 = 200;
@@ -36,23 +34,23 @@ GalaxyData::GalaxyData(Q3DScatter *scatter,
                        qreal ex1,
                        qreal ex2)
     : m_graph(scatter),
-      m_pStars(0),
-      m_pDust(0),
-      m_pH2(0),
-      m_radGalaxy(rad),
-      m_radCore(radCore),
-      m_angleOffset(deltaAng),
-      m_elEx1(ex1),
-      m_elEx2(ex2),
-      m_radFarField(m_radGalaxy * 2),
-      m_filtered(false),
-      m_minx(9999.9),
-      m_maxx(-9999.0),
-      m_miny(9999.9),
-      m_maxy(-9999.0)
+    m_pStars(0),
+    m_pDust(0),
+    m_pH2(0),
+    m_elEx1(ex1),
+    m_elEx2(ex2),
+    m_angleOffset(deltaAng),
+    m_radCore(radCore),
+    m_radGalaxy(rad),
+    m_radFarField(m_radGalaxy * 2),
+    m_minx(9999.9),
+    m_maxx(-9999.0),
+    m_miny(9999.9),
+    m_maxy(-9999.0),
+    m_filtered(false)
 {
     m_graph->activeTheme()->setType(Q3DTheme::ThemeEbony);
-    m_graph->setShadowQuality(QAbstract3DGraph::ShadowQualitySoftLow);
+    m_graph->setShadowQuality(QAbstract3DGraph::ShadowQualityLow);
 
     m_graph->axisX()->setRange(-25000.0f, 25000.0f);
     m_graph->axisZ()->setRange(-25000.0f, 25000.0f);
@@ -342,8 +340,7 @@ void GalaxyData::checkMinMax(const Star &star)
 
 qreal GalaxyData::getExcentricity(qreal r) const
 {
-    if (r < m_radCore)
-    {
+    if (r < m_radCore) {
         // Core region of the galaxy. Innermost part is round
         // excentricity increasing linear to the border of the core.
         return 1 + (r / m_radCore) * (m_elEx1-1);

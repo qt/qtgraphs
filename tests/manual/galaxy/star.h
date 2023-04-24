@@ -11,7 +11,7 @@ class Star
 {
 public:
     Star();
-    const void calcXY();
+    void calcXY();
 
     qreal m_theta;    // position auf der ellipse
 //    qreal m_velTheta; // angular velocity

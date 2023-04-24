@@ -1,8 +1,8 @@
 // Copyright (C) 2023 The Qt Company Ltd.
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 
-#ifndef SCATTERDATAMODIFIER_H
-#define SCATTERDATAMODIFIER_H
+#ifndef GALAXYDATA_H
+#define GALAXYDATA_H
 
 #include "star.h"
 
@@ -11,8 +11,6 @@
 #include <QtGui/QFont>
 #include <QtWidgets/QSlider>
 #include <QtWidgets/QLabel>
-
-using namespace QtGraphs;
 
 class GalaxyData : public QObject
 {
@@ -60,7 +58,6 @@ private:
     void createNormalDataView();
     void createFilteredView();
     void createSeries();
-    qreal value;
 
 private:
     Q3DScatter *m_graph;
@@ -92,6 +89,9 @@ private:
     qreal m_maxx;
     qreal m_miny;
     qreal m_maxy;
+
+    qreal value;
+
     int m_range;
     bool m_filtered;
 };
