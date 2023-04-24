@@ -306,13 +306,15 @@
 /*!
  * \qmlproperty AbstractGraph3D.OptimizationHints AbstractGraph3D::optimizationHints
  *
- * Whether the default or static mode is used for rendering optimization.
+ * Whether the default, static, or legacy mode is used for rendering optimization.
  *
- * The default mode provides the full feature set at a reasonable level of
- * performance. The static mode optimizes graph rendering and is ideal for
+ * The default mode uses instanced rendering, and provides the full feature set at the best level of
+ * performance on most systems. The static mode optimizes graph rendering and is ideal for
  * large non-changing data sets. It is slower with dynamic data changes and item rotations.
  * Selection is not optimized, so using the static mode with massive data sets is not advisable.
  * Static optimization works only on scatter graphs.
+ * Legacy mode renders all items in th graph individually, without instancing. It should be used
+ * only if default mode does not work, i.e. if the target system does not support instancing.
  * Defaults to \l{QAbstract3DGraph::OptimizationDefault}{OptimizationDefault}.
  *
  * \note On some environments, large graphs using static optimization may not render, because

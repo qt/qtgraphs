@@ -117,17 +117,19 @@ QT_BEGIN_NAMESPACE
            A custom item.
 */
 
-// TODO: Does this make sense in the API anymore? (QTBUG-111611)
-// Or should we just have default and instanced? Do we want to do the static the old way too?
 /*!
     \enum QAbstract3DGraph::OptimizationHint
 
     The optimization hint for rendering.
 
     \value OptimizationDefault
-           Provides the full feature set at a reasonable performance.
+           Provides the full feature set with instancing at a good performance.
     \value OptimizationStatic
            Optimizes the rendering of static data sets at the expense of some features.
+           Usable only with Q3DScatter graphs.
+    \value OptimizationLegacy
+           Provides the full feature set at a reasonable performance. To be used if
+           OptimizationDefault performs poorly or does not work.
 */
 
 /*!
@@ -605,13 +607,15 @@ qreal QAbstract3DGraph::aspectRatio() const
 /*!
  * \property QAbstract3DGraph::optimizationHints
  *
- * \brief Whether the default or static mode is used for rendering optimization.
+ * \brief Whether the default, static, or legacy mode is used for rendering optimization.
  *
- * The default mode provides the full feature set at a reasonable level of
- * performance. The static mode optimizes graph rendering and is ideal for
+ * The default mode uses instanced rendering, and provides the full feature set at the best level of
+ * performance on most systems. The static mode optimizes graph rendering and is ideal for
  * large non-changing data sets. It is slower with dynamic data changes and item rotations.
  * Selection is not optimized, so using the static mode with massive data sets is not advisable.
  * Static optimization works only on scatter graphs.
+ * Legacy mode renders all items in th graph individually, without instancing. It should be used
+ * only if default mode does not work, i.e. if the target system does not support instancing.
  * Defaults to \l{OptimizationDefault}.
  *
  * \note On some environments, large graphs using static optimization may not render, because

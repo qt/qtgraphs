@@ -86,7 +86,8 @@ public:
 
     enum OptimizationHint {
         OptimizationDefault = 0,
-        OptimizationStatic  = 1
+        OptimizationStatic  = 1,
+        OptimizationLegacy
     };
     Q_ENUM(OptimizationHint)
     Q_DECLARE_FLAGS(OptimizationHints, OptimizationHint)

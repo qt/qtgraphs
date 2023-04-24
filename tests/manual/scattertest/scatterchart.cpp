@@ -991,9 +991,9 @@ void ScatterDataModifier::togglePolar(int enable)
 void ScatterDataModifier::toggleStatic(int enable)
 {
     if (enable)
-        m_chart->setOptimizationHints(QAbstract3DGraph::OptimizationStatic);
-    else
         m_chart->setOptimizationHints(QAbstract3DGraph::OptimizationDefault);
+    else
+        m_chart->setOptimizationHints(QAbstract3DGraph::OptimizationLegacy);
 }
 
 void ScatterDataModifier::toggleOrtho(int enable)

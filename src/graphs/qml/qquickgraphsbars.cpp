@@ -659,13 +659,13 @@ void QQuickGraphsBars::handleSeriesMeshChanged(QAbstract3DSeries::Mesh mesh)
 {
     QList<QBar3DSeries *> barSeriesList = m_barsController->barSeriesList();
     m_meshType = mesh;
-    if (m_barsController->optimizationHints() == QAbstract3DGraph::OptimizationDefault) {
+    if (m_barsController->optimizationHints() == QAbstract3DGraph::OptimizationLegacy) {
         for (const auto &series : std::as_const(barSeriesList)) {
             if (m_barModelsMap.contains(series))
                 removeBarModels(series);
         }
         generateBars(barSeriesList);
-    } else if (m_barsController->optimizationHints() == QAbstract3DGraph::OptimizationStatic) {
+    } else if (m_barsController->optimizationHints() == QAbstract3DGraph::OptimizationDefault) {
         resetClickedStatus();
 //        m_instancingRootItem->setSource(QUrl(getMeshFileName()));
         m_selectionIndicator->setSource(QUrl(getMeshFileName()));
@@ -686,13 +686,13 @@ void QQuickGraphsBars::handleMeshSmoothChanged(bool enable)
     QList<QBar3DSeries *> barSeriesList = m_barsController->barSeriesList();
     m_smooth = enable;
 
-    if (m_barsController->optimizationHints() == QAbstract3DGraph::OptimizationDefault) {
+    if (m_barsController->optimizationHints() == QAbstract3DGraph::OptimizationLegacy) {
         for (const auto &series : std::as_const(barSeriesList)) {
             if (m_barModelsMap.contains(series))
                 removeBarModels(series);
         }
         generateBars(barSeriesList);
-    } else if (m_barsController->optimizationHints() == QAbstract3DGraph::OptimizationStatic) {
+    } else if (m_barsController->optimizationHints() == QAbstract3DGraph::OptimizationDefault) {
         resetClickedStatus();
 //        m_instancingRootItem->setSource(QUrl(getMeshFileName()));
         m_selectionIndicator->setSource(QUrl(getMeshFileName()));
@@ -892,7 +892,7 @@ void QQuickGraphsBars::updateBarPositions(QBar3DSeries *series)
     m_zeroPosition = m_helperAxisY.itemPositionAt(m_actualFloorLevel);
 
     QList<BarModel *> barList = *m_barModelsMap.value(series);
-    if (m_barsController->optimizationHints() == QAbstract3DGraph::OptimizationDefault) {
+    if (m_barsController->optimizationHints() == QAbstract3DGraph::OptimizationLegacy) {
         for (int i = 0; i < barList.count(); i++) {
             QBarDataItem *item = const_cast<QBarDataItem *>((barList.at(i)->barItem));
             QQuick3DModel *model = barList.at(i)->model;
@@ -995,7 +995,7 @@ void QQuickGraphsBars::updateBarVisuals(QBar3DSeries *series)
     bool rangeGradient = (useGradient && series->d_ptr->m_colorStyle
                                              == Q3DTheme::ColorStyleRangeGradient);
 
-    if (m_barsController->optimizationHints() == QAbstract3DGraph::OptimizationDefault) {
+    if (m_barsController->optimizationHints() == QAbstract3DGraph::OptimizationLegacy) {
         if (!rangeGradient) {
             for (int i = 0; i < barList.count(); i++) {
                 QQuick3DModel *model = barList.at(i)->model;
