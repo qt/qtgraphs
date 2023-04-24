@@ -424,6 +424,8 @@ void QQuickGraphsBars::synchData()
 }
 
 void QQuickGraphsBars::updateParameters() {
+    int cachedMinRow = m_minRow;
+    int cachedMinCol = m_minCol;
     m_minRow = m_barsController->m_axisZ->min();
     m_maxRow = m_barsController->m_axisZ->max();
     m_minCol = m_barsController->m_axisX->min();
@@ -431,6 +433,7 @@ void QQuickGraphsBars::updateParameters() {
     m_newRows = m_maxRow - m_minRow + 1;
     m_newCols = m_maxCol - m_minCol + 1;
 
+    QList<QBar3DSeries *> barSeriesList = m_barsController->barSeriesList();
     if (m_cachedRowCount!= m_newRows || m_cachedColumnCount != m_newCols) {
         // Force update for selection related items
         if (sliceView() && isSliceEnabled()) {
@@ -449,6 +452,14 @@ void QQuickGraphsBars::updateParameters() {
 
         if (m_cachedBarThickness.isValid())
             calculateSceneScalingFactors();
+
+        for (const auto &series : std::as_const(barSeriesList))
+            removeBarModels(series);
+    }
+
+    if (cachedMinRow != m_minRow || cachedMinCol != m_minCol) {
+        for (const auto &series : std::as_const(barSeriesList))
+            removeBarModels(series);
     }
 
     m_axisRangeChanged = true;
@@ -469,35 +480,36 @@ void QQuickGraphsBars::updateGraph()
     bool isEmpty = m_barsController->m_changedSeriesList.isEmpty();
 
     for (const auto &series : std::as_const(barSeriesList)) {
-        if ((!isEmpty || series->d_ptr->m_changeTracker.meshChanged)
-                && m_barModelsMap.contains(series)) {
+        if (series->d_ptr->m_changeTracker.meshChanged) {
             removeBarModels(series);
             series->d_ptr->m_changeTracker.meshChanged = false;
+            m_barsController->m_isDataDirty = true;
         }
     }
 
-    generateBars(barSeriesList);
+    if (m_barsController->m_isDataDirty)
+        generateBars(barSeriesList);
 
-    if (!isEmpty && isSliceEnabled())
-        removeSlicedBarModels();
-
-    if (isSliceEnabled()) {
-        createSliceView();
-        if (!isEmpty) {
-            updateSliceGrid();
-            updateSliceLabels();
+    if (m_barsController->m_isSeriesVisualsDirty) {
+        if (isSliceEnabled()) {
+            removeSlicedBarModels();
+            createSliceView();
+            if (!isEmpty) {
+                updateSliceGrid();
+                updateSliceLabels();
+            }
         }
-    }
-    int visualIndex = 0;
-    for (const auto &barSeries : std::as_const(barSeriesList)) {
-        if (barSeries->isVisible()) {
-            updateBarVisuality(barSeries, visualIndex);
-            updateBarPositions(barSeries);
-            updateBarVisuals(barSeries);
-            ++visualIndex;
+        int visualIndex = 0;
+        for (const auto &barSeries : std::as_const(barSeriesList)) {
+            if (barSeries->isVisible()) {
+                updateBarVisuality(barSeries, visualIndex);
+                updateBarPositions(barSeries);
+                updateBarVisuals(barSeries);
+                ++visualIndex;
+            } else {
+                updateBarVisuality(barSeries, -1);
+            }
         }
-        else
-            updateBarVisuality(barSeries, -1);
     }
 }
 
@@ -513,6 +525,7 @@ void QQuickGraphsBars::updateAxisRange(float min, float max)
 
 void QQuickGraphsBars::updateAxisReversed(bool enable)
 {
+    m_barsController->m_isSeriesVisualsDirty = true;
     m_helperAxisY.setReversed(enable);
     calculateHeightAdjustment();
 }
@@ -747,10 +760,12 @@ void QQuickGraphsBars::generateBars(QList<QBar3DSeries *> &barSeriesList)
     m_visibleSeriesCount = 0;
     for (const auto &barSeries : std::as_const(barSeriesList)) {
         QList<BarModel *> *barList = m_barModelsMap.value(barSeries);
+
         if (!barList) {
             barList = new QList<BarModel *>;
             m_barModelsMap[barSeries] = barList;
         }
+
         if (barList->isEmpty()) {
             QQuick3DTexture *texture = createTexture();
             texture->setParent(this);
@@ -759,7 +774,6 @@ void QQuickGraphsBars::generateBars(QList<QBar3DSeries *> &barSeriesList)
             textureData->createGradient(gradient);
 
             bool visible = barSeries->isVisible();
-            int minRow = m_barsController->m_axisZ->min();
             int dataRowCount = 0;
             int dataColCount = 0;
 
@@ -767,11 +781,12 @@ void QQuickGraphsBars::generateBars(QList<QBar3DSeries *> &barSeriesList)
             QBarDataProxy *dataProxy = barSeries->dataProxy();
             dataRowCount = dataProxy->rowCount();
             dataColCount = dataProxy->colCount();
-            int dataRowIndex = minRow;
+            int dataRowIndex = m_minRow;
 
-            while (dataRowIndex < dataRowCount) {
-                const QBarDataRow *dataRow = array->at(dataRowIndex);
-                Q_ASSERT(dataRow->size() == dataColCount);
+            for (int j = 0; j < m_newRows; j++) {
+                const QBarDataRow *dataRow = 0;
+                if (dataRowIndex < dataRowCount)
+                    dataRow = array->at(dataRowIndex);
                 for (int i = 0; i < dataColCount; i++) {
                     QBarDataItem *dataItem = const_cast <QBarDataItem *> (&(dataRow->at(i)));
                     auto scene = QQuick3DViewport::scene();
@@ -790,6 +805,7 @@ void QQuickGraphsBars::generateBars(QList<QBar3DSeries *> &barSeriesList)
                 ++dataRowIndex;
             }
         }
+
         if (barSeries->isVisible())
             m_visibleSeriesCount++;
     }
@@ -1410,6 +1426,16 @@ void QQuickGraphsBars::updateSliceGraph()
             }
         }
     }
+}
+
+void QQuickGraphsBars::handleLabelCountChanged(QQuick3DRepeater *repeater)
+{
+    QQuickGraphsItem::handleLabelCountChanged(repeater);
+
+    if (repeater == repeaterX())
+        handleColCountChanged();
+    if (repeater == repeaterZ())
+        handleRowCountChanged();
 }
 
 void QQuickGraphsBars::removeSlicedBarModels()

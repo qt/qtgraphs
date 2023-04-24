@@ -126,6 +126,8 @@ public:
     void handleAxisRangeChangedBySender(QObject *sender) override;
     void adjustAxisRanges() override;
 
+    bool hasChangedSeriesList() { return !m_changedSeriesList.isEmpty(); }
+
 public Q_SLOTS:
     void handleArrayReset();
     void handleRowsAdded(int startIndex, int count);

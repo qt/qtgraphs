@@ -102,6 +102,7 @@ protected:
     bool handleMousePressedEvent(QMouseEvent *event) override;
     void createSliceView() override;
     void updateSliceGraph() override;
+    void handleLabelCountChanged(QQuick3DRepeater *repeater) override;
 
 public Q_SLOTS:
     void handleAxisXChanged(QAbstract3DAxis *axis) override;
