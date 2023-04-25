@@ -2,12 +2,12 @@
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 
 #include "qquickgraphsitem_p.h"
+
+#include "abstract3dcontroller_p.h"
 #include "declarativetheme_p.h"
 #include "declarativescene_p.h"
-#include "qvalue3daxis_p.h"
-#include "qcategory3daxis_p.h"
 #include "q3dscene_p.h"
-#include "abstract3dcontroller_p.h"
+#include "qvalue3daxis_p.h"
 #include "utils_p.h"
 
 #include <QtGui/QGuiApplication>
@@ -1918,7 +1918,7 @@ void QQuickGraphsItem::handleSegmentLineCountChanged(QAbstract3DAxis *axis, QQui
     int segmentCount = 0;
     int gridLineCount = 0;
     if (axis->type() == QAbstract3DAxis::AxisTypeValue) {
-        auto valueAxis = qobject_cast<QValue3DAxis *>(axis);
+        auto valueAxis = static_cast<QValue3DAxis *>(axis);
         segmentCount = valueAxis->segmentCount();
         gridLineCount = 2 * (segmentCount + 1);
     } else if (axis->type() == QAbstract3DAxis::AxisTypeCategory) {
@@ -1936,7 +1936,7 @@ void QQuickGraphsItem::handleSubSegmentLineCountChanged(QAbstract3DAxis *axis, Q
     int subGridLineCount = 0;
 
     if (axis->type() == QAbstract3DAxis::AxisTypeValue) {
-        QValue3DAxis *valueAxis = qobject_cast<QValue3DAxis *>(axis);
+        QValue3DAxis *valueAxis = static_cast<QValue3DAxis *>(axis);
         segmentCount = valueAxis->segmentCount();
         subSegmentCount = valueAxis->subSegmentCount();
         subGridLineCount = 2 * (segmentCount * (subSegmentCount - 1));
