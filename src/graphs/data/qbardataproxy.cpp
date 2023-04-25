@@ -144,8 +144,10 @@ void QBarDataProxy::resetArray(QBarDataArray *newArray)
 {
     dptr()->resetArray(newArray, 0, 0);
     emit arrayReset();
-    emit rowCountChanged(rowCount());
-    emit colCountChanged(colCount());
+    if (rowCount() && colCount()) {
+        emit rowCountChanged(rowCount());
+        emit colCountChanged(colCount());
+    }
 }
 
 /*!
