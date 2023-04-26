@@ -305,11 +305,23 @@ void QQuickGraphsScatter::updateScatterGraphItemVisuals(ScatterModel *graphModel
 
 void QQuickGraphsScatter::updateItemMaterial(QQuick3DModel *item, bool useGradient, bool rangeGradient)
 {
-    Q_UNUSED(useGradient);
     QQmlListReference materialsRef(item, "materials");
     if (!rangeGradient) {
         if (materialsRef.size()) {
-            if (!qobject_cast<QQuick3DPrincipledMaterial *>(materialsRef.at(0))) {
+            QObject *material = materialsRef.at(0);
+            if (useGradient && !material->objectName().contains(QStringLiteral("objectgradient"))) {
+                // The item has an existing material which is principled or range gradient.
+                // The item needs an object gradient material.
+                QQuick3DCustomMaterial *objectGradientMaterial = createQmlCustomMaterial(
+                    QStringLiteral(":/materials/ObjectGradientMaterial"));
+                objectGradientMaterial->setParent(item);
+                QObject *oldMaterial = materialsRef.at(0);
+                materialsRef.replace(0, objectGradientMaterial);
+                objectGradientMaterial->setObjectName("objectgradient");
+                delete oldMaterial;
+            } else if (!useGradient && !qobject_cast<QQuick3DPrincipledMaterial *>(material)) {
+                // The item has an existing material which is object gradient or range gradient.
+                // The item needs a principled material for uniform color.
                 auto principledMaterial = new QQuick3DPrincipledMaterial();
                 principledMaterial->setParent(item);
                 QObject *oldCustomMaterial = materialsRef.at(0);
@@ -317,13 +329,27 @@ void QQuickGraphsScatter::updateItemMaterial(QQuick3DModel *item, bool useGradie
                 delete oldCustomMaterial;
             }
         } else {
-            auto principledMaterial = new QQuick3DPrincipledMaterial();
-            principledMaterial->setParent(item);
-            materialsRef.append(principledMaterial);
+            if (useGradient) {
+                // The item needs object gradient material.
+                QQuick3DCustomMaterial *objectGradientMaterial = createQmlCustomMaterial(
+                    QStringLiteral(":/materials/ObjectGradientMaterial"));
+                objectGradientMaterial->setParent(item);
+                materialsRef.append(objectGradientMaterial);
+                objectGradientMaterial->setObjectName("objectgradient");
+            } else {
+                // The item needs a principled material.
+                auto principledMaterial = new QQuick3DPrincipledMaterial();
+                principledMaterial->setParent(item);
+                materialsRef.append(principledMaterial);
+            }
         }
     } else {
         if (materialsRef.size()) {
-            if (!qobject_cast<QQuick3DCustomMaterial *>(materialsRef.at(0))) {
+            QObject *material = materialsRef.at(0);
+            if (!qobject_cast<QQuick3DCustomMaterial *>(material)
+                || material->objectName().contains(QStringLiteral("objectgradient"))) {
+                // The item has an existing material which is principled or object gradient.
+                // The item needs a range gradient material.
                 QQuick3DCustomMaterial *customMaterial = createQmlCustomMaterial(
                             QStringLiteral(":/materials/RangeGradientScatterMaterial"));
                 customMaterial->setParent(item);
@@ -332,7 +358,9 @@ void QQuickGraphsScatter::updateItemMaterial(QQuick3DModel *item, bool useGradie
                 delete oldPrincipledMaterial;
             }
         } else {
-            QQuick3DCustomMaterial *customMaterial = createQmlCustomMaterial(QStringLiteral(":/materials/RangeGradientScatterMaterial"));
+            // The item needs a range gradient material.
+            QQuick3DCustomMaterial *customMaterial = createQmlCustomMaterial(
+                QStringLiteral(":/materials/RangeGradientScatterMaterial"));
             customMaterial->setParent(item);
             materialsRef.append(customMaterial);
         }
@@ -463,12 +491,15 @@ void QQuickGraphsScatter::updatePrincipledMaterial(QQuick3DModel *model, const Q
                                                    bool useGradient, QQuick3DTexture *texture)
 {
     QQmlListReference materialsRef(model, "materials");
-    auto principledMaterial = static_cast<QQuick3DPrincipledMaterial *>(materialsRef.at(0));
 
     if (useGradient) {
-        principledMaterial->setBaseColor(QColor(Qt::white));
-        principledMaterial->setBaseColorMap(texture);
+        auto objectGradientMaterial = qobject_cast<QQuick3DCustomMaterial *>(materialsRef.at(0));
+        QVariant textureInputAsVariant = objectGradientMaterial->property("custex");
+        QQuick3DShaderUtilsTextureInput *textureInput = textureInputAsVariant.value<QQuick3DShaderUtilsTextureInput *>();
+
+        textureInput->setTexture(texture);
     } else {
+        auto principledMaterial = static_cast<QQuick3DPrincipledMaterial *>(materialsRef.at(0));
         principledMaterial->setBaseColor(color);
     }
 }
