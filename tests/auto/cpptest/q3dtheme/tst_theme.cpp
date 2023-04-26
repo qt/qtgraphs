@@ -73,6 +73,7 @@ void tst_theme::construct()
     QCOMPARE(theme->lightStrength(), 5.0f);
     QCOMPARE(theme->multiHighlightColor(), QColor(QRgb(0xd72222)));
     QCOMPARE(theme->multiHighlightGradient().stops().at(1).second, QColor(QRgb(0xd72222)));
+    QCOMPARE(theme->shadowStrength(), 25.0f);
     QCOMPARE(theme->singleHighlightColor(), QColor(QRgb(0xf5dc0d)));
     QCOMPARE(theme->singleHighlightGradient().stops().at(1).second, QColor(QRgb(0xf5dc0d)));
     QCOMPARE(theme->type(), Q3DTheme::ThemeEbony);
@@ -105,6 +106,7 @@ void tst_theme::initialProperties()
     QCOMPARE(m_theme->lightStrength(), 5.0f);
     QCOMPARE(m_theme->multiHighlightColor(), QColor(Qt::blue));
     QCOMPARE(m_theme->multiHighlightGradient().stops(), QLinearGradient().stops());
+    QCOMPARE(m_theme->shadowStrength(), 25.0f);
     QCOMPARE(m_theme->singleHighlightColor(), QColor(Qt::red));
     QCOMPARE(m_theme->singleHighlightGradient().stops(), QLinearGradient().stops());
     QCOMPARE(m_theme->type(), Q3DTheme::ThemeUserDefined);
@@ -145,6 +147,7 @@ void tst_theme::initializeProperties()
     m_theme->setLightStrength(2.5f);
     m_theme->setMultiHighlightColor(QColor(Qt::darkBlue));
     m_theme->setMultiHighlightGradient(gradient3);
+    m_theme->setShadowStrength(50.f);
     m_theme->setSingleHighlightColor(QColor(Qt::darkRed));
     m_theme->setSingleHighlightGradient(gradient4);
     m_theme->setWindowColor(QColor(Qt::darkYellow));
@@ -171,6 +174,7 @@ void tst_theme::initializeProperties()
     QCOMPARE(m_theme->lightStrength(), 2.5f);
     QCOMPARE(m_theme->multiHighlightColor(), QColor(Qt::darkBlue));
     QCOMPARE(m_theme->multiHighlightGradient(), gradient3);
+    QCOMPARE(m_theme->shadowStrength(), 50.0f);
     QCOMPARE(m_theme->singleHighlightColor(), QColor(Qt::darkRed));
     QCOMPARE(m_theme->singleHighlightGradient(), gradient4);
     QCOMPARE(m_theme->type(), Q3DTheme::ThemeQt);
@@ -193,6 +197,11 @@ void tst_theme::invalidProperties()
     QCOMPARE(m_theme->lightStrength(), 5.0f);
     m_theme->setLightStrength(10.1f);
     QCOMPARE(m_theme->lightStrength(), 5.0f);
+
+    m_theme->setShadowStrength(-1.0f);
+    QCOMPARE(m_theme->shadowStrength(), 25.0f);
+    m_theme->setShadowStrength(100.1f);
+    QCOMPARE(m_theme->shadowStrength(), 25.0f);
 }
 
 QTEST_MAIN(tst_theme)

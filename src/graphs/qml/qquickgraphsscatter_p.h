@@ -167,8 +167,6 @@ private:
     float calculatePointScaleSize();
     void updatePointScaleSize();
 
-    void updateShadowQuality(QAbstract3DGraph::ShadowQuality quality) override;
-
     void generatePointsForScatterModel(ScatterModel *series);
     void updateScatterGraphItemPositions(ScatterModel *graphModel);
     void updateScatterGraphItemVisuals(ScatterModel *graphModel);

@@ -252,6 +252,18 @@ Item {
             }
         }
 
+        Slider {
+            id: shadowSlider
+            Layout.fillWidth: true
+            Layout.fillHeight: true
+            clip: true
+            from: 0
+            to: 100
+            value: barGraph.theme.shadowStrength
+
+            onValueChanged: barGraph.theme.shadowStrength = value
+        }
+
         Button {
             id: barSeriesRowColorToggle
             Layout.fillWidth: true

@@ -20,54 +20,56 @@
 QT_BEGIN_NAMESPACE
 
 struct Q3DThemeDirtyBitField {
-    bool baseColorDirty                : 1;
-    bool backgroundColorDirty          : 1;
-    bool windowColorDirty              : 1;
-    bool labelTextColorDirty           : 1;
-    bool labelBackgroundColorDirty     : 1;
-    bool gridLineColorDirty            : 1;
-    bool singleHighlightColorDirty     : 1;
-    bool multiHighlightColorDirty      : 1;
-    bool lightColorDirty               : 1;
-    bool baseGradientDirty             : 1;
-    bool singleHighlightGradientDirty  : 1;
-    bool multiHighlightGradientDirty   : 1;
-    bool lightStrengthDirty            : 1;
     bool ambientLightStrengthDirty     : 1;
-    bool highlightLightStrengthDirty   : 1;
-    bool labelBorderEnabledDirty       : 1;
+    bool backgroundColorDirty          : 1;
+    bool backgroundEnabledDirty        : 1;
+    bool baseColorDirty                : 1;
+    bool baseGradientDirty             : 1;
     bool colorStyleDirty               : 1;
     bool fontDirty                     : 1;
-    bool backgroundEnabledDirty        : 1;
     bool gridEnabledDirty              : 1;
+    bool gridLineColorDirty            : 1;
+    bool highlightLightStrengthDirty   : 1;
+    bool labelBackgroundColorDirty     : 1;
     bool labelBackgroundEnabledDirty   : 1;
-    bool themeIdDirty                  : 1;
+    bool labelBorderEnabledDirty       : 1;
+    bool labelTextColorDirty           : 1;
     bool labelsEnabledDirty            : 1;
+    bool lightColorDirty               : 1;
+    bool lightStrengthDirty            : 1;
+    bool multiHighlightColorDirty      : 1;
+    bool multiHighlightGradientDirty   : 1;
+    bool shadowStrengthDirty           : 1;
+    bool singleHighlightColorDirty     : 1;
+    bool singleHighlightGradientDirty  : 1;
+    bool themeIdDirty                  : 1;
+    bool windowColorDirty              : 1;
 
     Q3DThemeDirtyBitField()
-        : baseColorDirty(false),
+        : ambientLightStrengthDirty(false),
           backgroundColorDirty(false),
-          windowColorDirty(false),
-          labelTextColorDirty(false),
-          labelBackgroundColorDirty(false),
-          gridLineColorDirty(false),
-          singleHighlightColorDirty(false),
-          multiHighlightColorDirty(false),
-          lightColorDirty(false),
+          backgroundEnabledDirty(false),
+          baseColorDirty(false),
           baseGradientDirty(false),
-          singleHighlightGradientDirty(false),
-          multiHighlightGradientDirty(false),
-          lightStrengthDirty(false),
-          ambientLightStrengthDirty(false),
-          highlightLightStrengthDirty(false),
-          labelBorderEnabledDirty(false),
           colorStyleDirty(false),
           fontDirty(false),
-          backgroundEnabledDirty(false),
           gridEnabledDirty(false),
+          gridLineColorDirty(false),
+          highlightLightStrengthDirty(false),
+          labelBackgroundColorDirty(false),
           labelBackgroundEnabledDirty(false),
+          labelBorderEnabledDirty(false),
+          labelTextColorDirty(false),
+          labelsEnabledDirty(false),
+          lightColorDirty(false),
+          lightStrengthDirty(false),
+          multiHighlightColorDirty(false),
+          multiHighlightGradientDirty(false),
+          shadowStrengthDirty(false),
+          singleHighlightColorDirty(false),
+          singleHighlightGradientDirty(false),
           themeIdDirty(false),
-          labelsEnabledDirty(false)
+          windowColorDirty(false)
     {
     }
 };
@@ -103,30 +105,31 @@ public:
 
     Q3DThemeDirtyBitField m_dirtyBits;
 
-    QList<QColor> m_baseColors;
+    Q3DTheme::ColorStyle m_colorStyle;
     QColor m_backgroundColor;
-    QColor m_windowColor;
-    QColor m_textColor;
-    QColor m_textBackgroundColor;
     QColor m_gridLineColor;
-    QColor m_singleHighlightColor;
-    QColor m_multiHighlightColor;
     QColor m_lightColor;
-    QList<QLinearGradient> m_baseGradients;
-    QLinearGradient m_singleHighlightGradient;
+    QColor m_multiHighlightColor;
+    QColor m_singleHighlightColor;
+    QColor m_textBackgroundColor;
+    QColor m_textColor;
+    QColor m_windowColor;
+    QFont m_font;
     QLinearGradient m_multiHighlightGradient;
-    float m_lightStrength;
+    QLinearGradient m_singleHighlightGradient;
+    QList<QColor> m_baseColors;
+    QList<QLinearGradient> m_baseGradients;
+    bool m_backgoundEnabled;
+    bool m_forcePredefinedType;
+    bool m_gridEnabled;
+    bool m_isDefaultTheme;
+    bool m_labelBackground;
+    bool m_labelBorders;
+    bool m_labelsEnabled;
     float m_ambientLightStrength;
     float m_highlightLightStrength;
-    bool m_labelBorders;
-    Q3DTheme::ColorStyle m_colorStyle;
-    QFont m_font;
-    bool m_backgoundEnabled;
-    bool m_gridEnabled;
-    bool m_labelBackground;
-    bool m_isDefaultTheme;
-    bool m_forcePredefinedType;
-    bool m_labelsEnabled;
+    float m_lightStrength;
+    float m_shadowStrength;
 
 protected:
     Q3DTheme *q_ptr;

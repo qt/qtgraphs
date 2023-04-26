@@ -86,6 +86,9 @@ QT_BEGIN_NAMESPACE
  *     \li multiHighlightGradient
  *     \li QLinearGradient. Essentially fully black.
  *   \row
+ *     \li shadowStrength
+ *     \li 25.0
+ *   \row
  *     \li singleHighlightColor
  *     \li Qt::red
  *   \row
@@ -450,6 +453,15 @@ QT_BEGIN_NAMESPACE
  * Changing the theme type after the item has been constructed will change all other properties
  * of the theme to what the predefined theme specifies. Changing the theme type of the active theme
  * of the graph will also reset all attached series to use the new theme.
+ */
+
+/*!
+ * \qmlproperty real Theme3D::shadowStrength
+ *
+ * The shadow strength for the whole graph. The higher the number, the darker the shadows will be.
+ * The value must be between \c 0.0 and \c 100.0.
+ *
+ * This value affects the light specified in Scene3D.
  */
 
 /*!
@@ -1036,36 +1048,64 @@ Q3DTheme::Theme Q3DTheme::type() const
     return d_ptr->m_themeId;
 }
 
+/*!
+ * \property Q3DTheme::shadowStrength
+ *
+ * \brief The shadow strength for the whole graph.
+ *
+ * The higher the number, the darker the shadows will be. The value must be between \c 0.0 and
+ * \c 100.0.
+ *
+ * This value affects the light specified in Q3DScene.
+ */
+void Q3DTheme::setShadowStrength(float strength)
+{
+    d_ptr->m_dirtyBits.shadowStrengthDirty = true;
+    if (strength < 0.0f || strength > 100.0f) {
+        qWarning("Invalid value. Valid range for shadowStrength is between 0.0f and 100.0f");
+    } else if (d_ptr->m_shadowStrength != strength) {
+        d_ptr->m_shadowStrength = strength;
+        emit shadowStrengthChanged(strength);
+        emit d_ptr->needRender();
+    }
+}
+
+float Q3DTheme::shadowStrength() const
+{
+    return d_ptr->m_shadowStrength;
+}
+
 // Q3DThemePrivate
 
 Q3DThemePrivate::Q3DThemePrivate(Q3DTheme *q)
     : QObject(0),
       m_themeId(Q3DTheme::ThemeUserDefined),
+      m_colorStyle(Q3DTheme::ColorStyleUniform),
       m_backgroundColor(Qt::black),
-      m_windowColor(Qt::black),
-      m_textColor(Qt::white),
-      m_textBackgroundColor(Qt::gray),
       m_gridLineColor(Qt::white),
-      m_singleHighlightColor(Qt::red),
-      m_multiHighlightColor(Qt::blue),
       m_lightColor(Qt::white),
-      m_singleHighlightGradient(QLinearGradient(qreal(gradientTextureWidth),
-                                                qreal(gradientTextureHeight),
-                                                0.0, 0.0)),
+      m_multiHighlightColor(Qt::blue),
+      m_singleHighlightColor(Qt::red),
+      m_textBackgroundColor(Qt::gray),
+      m_textColor(Qt::white),
+      m_windowColor(Qt::black),
+      m_font(QFont()),
       m_multiHighlightGradient(QLinearGradient(qreal(gradientTextureWidth),
                                                qreal(gradientTextureHeight),
                                                0.0, 0.0)),
-      m_lightStrength(5.0f),
+      m_singleHighlightGradient(QLinearGradient(qreal(gradientTextureWidth),
+                                                qreal(gradientTextureHeight),
+                                                0.0, 0.0)),
+      m_backgoundEnabled(true),
+      m_forcePredefinedType(true),
+      m_gridEnabled(true),
+      m_isDefaultTheme(false),
+      m_labelBackground(true),
+      m_labelBorders(true),
       m_ambientLightStrength(0.25f),
       m_highlightLightStrength(7.5f),
-      m_labelBorders(true),
-      m_colorStyle(Q3DTheme::ColorStyleUniform),
-      m_font(QFont()),
-      m_backgoundEnabled(true),
-      m_gridEnabled(true),
-      m_labelBackground(true),
-      m_isDefaultTheme(false),
-      m_forcePredefinedType(true),
+      m_lightStrength(5.0f),
+      m_shadowStrength(25.0f),
       q_ptr(q)
 {
     m_baseColors.append(QColor(Qt::black));
@@ -1098,6 +1138,7 @@ void Q3DThemePrivate::resetDirtyBits()
     m_dirtyBits.lightStrengthDirty = true;
     m_dirtyBits.multiHighlightColorDirty = true;
     m_dirtyBits.multiHighlightGradientDirty = true;
+    m_dirtyBits.shadowStrengthDirty = true;
     m_dirtyBits.singleHighlightColorDirty = true;
     m_dirtyBits.singleHighlightGradientDirty = true;
     m_dirtyBits.themeIdDirty = true;
@@ -1183,6 +1224,10 @@ bool Q3DThemePrivate::sync(Q3DThemePrivate &other)
     if (m_dirtyBits.multiHighlightGradientDirty) {
         other.q_ptr->setMultiHighlightGradient(m_multiHighlightGradient);
         m_dirtyBits.multiHighlightGradientDirty = false;
+    }
+    if (m_dirtyBits.shadowStrengthDirty) {
+        other.q_ptr->setShadowStrength(m_shadowStrength);
+        m_dirtyBits.shadowStrengthDirty = false;
     }
     if (m_dirtyBits.singleHighlightColorDirty) {
         other.q_ptr->setSingleHighlightColor(m_singleHighlightColor);

@@ -310,6 +310,7 @@ protected:
     void updateLabels();
     void updateSliceGrid();
     void updateSliceLabels();
+    void updateShadowQuality(QAbstract3DGraph::ShadowQuality quality);
 
     virtual void synchData();
     virtual void updateGraph() {}
@@ -319,7 +320,6 @@ protected:
     void setSliceActivatedChanged(bool changed) { m_sliceActivatedChanged = changed; }
     virtual void updateSliceGraph();
 
-    virtual void updateShadowQuality(QAbstract3DGraph::ShadowQuality quality);
     virtual void updateAxisRange(float min, float max);
     virtual void updateAxisReversed(bool enable);
     virtual void updateSingleHighlightColor() {}

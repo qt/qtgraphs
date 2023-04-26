@@ -722,6 +722,11 @@ void QQuickGraphsItem::synchData()
         theme->d_ptr->m_dirtyBits.lightColorDirty = false;
     }
 
+    if (theme->d_ptr->m_dirtyBits.shadowStrengthDirty) {
+        light()->setShadowFactor(theme->shadowStrength());
+        theme->d_ptr->m_dirtyBits.shadowStrengthDirty = false;
+    }
+
     // label Adjustments
     if (theme->d_ptr->m_dirtyBits.labelBackgroundColorDirty) {
         QColor labelBackgroundColor = theme->labelBackgroundColor();

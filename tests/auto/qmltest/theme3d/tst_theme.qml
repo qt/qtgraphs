@@ -68,6 +68,7 @@ Item {
         lightStrength: 2.5
         multiHighlightColor: "#ff00ff"
         multiHighlightGradient: gradient3
+        shadowStrength: 12.5
         singleHighlightColor: "#ff0000"
         singleHighlightGradient: gradient3
         type: Theme3D.ThemeQt // Default values will be overwritten by initialized values
@@ -110,6 +111,7 @@ Item {
             compare(initial.lightStrength, 5)
             compare(initial.multiHighlightColor, "#0000ff")
             compare(initial.multiHighlightGradient, null)
+            compare(initial.shadowStrength, 25)
             compare(initial.singleHighlightColor, "#ff0000")
             compare(initial.singleHighlightGradient, null)
             compare(initial.type, Theme3D.ThemeUserDefined)
@@ -143,6 +145,7 @@ Item {
             compare(initialized.lightStrength, 2.5)
             compare(initialized.multiHighlightColor, "#ff00ff")
             compare(initialized.multiHighlightGradient, gradient3)
+            compare(initialized.shadowStrength, 12.5)
             compare(initialized.singleHighlightColor, "#ff0000")
             compare(initialized.singleHighlightGradient, gradient3)
             compare(initialized.type, Theme3D.ThemeQt)
@@ -186,6 +189,7 @@ Item {
             change.lightStrength = 2.5
             change.multiHighlightColor = "#ff00ff"
             change.multiHighlightGradient = gradient3
+            change.shadowStrength = 50
             change.singleHighlightColor = "#ff0000"
             change.singleHighlightGradient = gradient3
             change.windowColor = "#fff00f"
@@ -212,6 +216,7 @@ Item {
             compare(change.lightStrength, 2.5)
             compare(change.multiHighlightColor, "#ff00ff")
             compare(change.multiHighlightGradient, gradient3)
+            compare(change.shadowStrength, 50)
             compare(change.singleHighlightColor, "#ff0000")
             compare(change.singleHighlightGradient, gradient3)
             compare(change.type, Theme3D.ThemeStoneMoss)
@@ -246,6 +251,10 @@ Item {
             compare(invalid.lightStrength, 5.0)
             invalid.lightStrength = 10.1
             compare(invalid.lightStrength, 5.0)
+            invalid.shadowStrength = -1.0
+            compare(invalid.shadowStrength, 25.0)
+            invalid.shadowStrength = 100.1
+            compare(invalid.shadowStrength, 25.0)
         }
     }
 }
