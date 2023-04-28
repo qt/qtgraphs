@@ -285,9 +285,6 @@ inline static int binarySearchArray(const QSurfaceDataArray &array, int maxIndex
 
 void QQuickGraphsSurface::updateGraph()
 {
-    if (m_surfaceController->hasChangedSeriesList())
-        handleChangedSeries();
-
     if (m_surfaceController->isSeriesVisibilityDirty()) {
         for (auto model : m_model) {
             bool seriesVisible = model->series->isVisible();
@@ -326,11 +323,17 @@ void QQuickGraphsSurface::updateGraph()
 
         m_surfaceController->clearSelection();
 
-        for (auto model : m_model) {
-            bool visible = model->series->isVisible();
-            if (visible)
-                updateModel(model);
+        if (m_surfaceController->hasChangedSeriesList()) {
+            handleChangedSeries();
+        } else {
+            for (auto model : m_model) {
+                bool visible = model->series->isVisible();
+                if (visible)
+                    updateModel(model);
+            }
         }
+
+        m_surfaceController->setDataDirty(false);
     }
 }
 

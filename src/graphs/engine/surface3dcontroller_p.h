@@ -93,6 +93,7 @@ public:
     bool isSeriesVisibilityDirty() { return m_isSeriesVisualsDirty; }
 
     bool isDataDirty() { return m_isDataDirty; }
+    void setDataDirty(bool dirty) { m_isDataDirty = dirty; }
 
     QList<QAbstract3DSeries *> changedSeriesList() { return m_changedSeriesList; }
 
