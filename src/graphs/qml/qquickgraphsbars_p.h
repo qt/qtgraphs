@@ -17,6 +17,7 @@
 #include "qbar3dseries.h"
 #include "qquickgraphsitem_p.h"
 #include "bars3dcontroller_p.h"
+#include "barinstancing_p.h"
 
 #include <QtQuick3D/private/qquick3dmaterial_p.h>
 
@@ -109,7 +110,6 @@ public Q_SLOTS:
     void handleAxisYChanged(QAbstract3DAxis *axis) override;
     void handleAxisZChanged(QAbstract3DAxis *axis) override;
     void handleSeriesMeshChanged(QAbstract3DSeries::Mesh mesh);
-    void handleOptimizationHintsChanged(QAbstract3DGraph::OptimizationHints hints);
     void handleMeshSmoothChanged(bool enable);
     void handleRowCountChanged();
     void handleColCountChanged();
@@ -198,7 +198,12 @@ private:
         int visualIndex;
         float heightValue;
         QQuick3DTexture *texture;
+
+        //instancing
+        BarInstancing *instancing = nullptr;
+        QQuick3DModel *selectionIndicator = nullptr;
     };
+
     QHash<QBar3DSeries *, QList<BarModel *> *> m_barModelsMap;
     QAbstract3DSeries::Mesh m_meshType = QAbstract3DSeries::MeshSphere;
     bool m_smooth = false;
@@ -214,7 +219,6 @@ private:
     QQuaternion m_meshRotation;
     QQuick3DTexture *m_highlightTexture = nullptr;
     QQuick3DTexture *m_multiHighlightTexture = nullptr;
-    QQuick3DModel *m_selectionIndicator = nullptr;
     QHash<QBar3DSeries *, QList<BarModel *> *> m_slicedBarModels;
     bool m_selectionDirty = false;
 
@@ -228,8 +232,10 @@ private:
     void fixMeshFileName(QString &fileName, QAbstract3DSeries::Mesh meshType);
     void updateBarVisuality(QBar3DSeries *series, int visualIndex);
     void updateBarPositions(QBar3DSeries *series);
+    float updateBarHeightParameters(const QBarDataItem *item);
     void updateBarVisuals(QBar3DSeries *series);
     void updateItemMaterial(QQuick3DModel *item, bool useGradient, bool rangeGradient);
+    void updateItemInstancedMaterial(QQuick3DModel *item, bool useGradient, bool rangeGradient);
     void updateCustomMaterial(QQuick3DModel *item, bool isHighlight = false,
                               bool isMultiHighlight = false, QQuick3DTexture *texture = nullptr);
     void updatePrincipledMaterial(QQuick3DModel *model, const QColor &color, bool useGradient,

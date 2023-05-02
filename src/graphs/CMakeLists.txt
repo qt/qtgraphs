@@ -57,6 +57,7 @@ qt_internal_add_qml_module(Graphs
         engine/abstract3dcontroller.cpp engine/abstract3dcontroller_p.h
         engine/axishelper.cpp engine/axishelper_p.h
         engine/bars3dcontroller.cpp engine/bars3dcontroller_p.h
+        engine/barinstancing.cpp engine/barinstancing_p.h
         engine/scatterinstancing.cpp engine/scatterinstancing_p.h
         engine/q3dbars.cpp engine/q3dbars.h
         engine/q3dcamera.cpp engine/q3dcamera.h engine/q3dcamera_p.h
