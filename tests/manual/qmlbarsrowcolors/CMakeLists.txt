@@ -3,13 +3,13 @@
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
-qt_internal_add_manual_test(qmlbarsrowcolors
+qt_internal_add_manual_test(tst_qmlbarsrowcolors
     GUI
     SOURCES
         main.cpp
     )
 
-target_link_libraries(qmlbarsrowcolors PUBLIC
+target_link_libraries(tst_qmlbarsrowcolors PUBLIC
     Qt::Core
     Qt::Gui
     Qt::Qml
@@ -23,7 +23,7 @@ set(qmlbarsrowcolors_resource_files
     "qml/qmlbarsrowcolors/main.qml"
 )
 
-qt6_add_resources(qmlbarsrowcolors "qmlbarsrowcolors"
+qt6_add_resources(tst_qmlbarsrowcolors "qmlbarsrowcolors"
     PREFIX
         "/"
     FILES

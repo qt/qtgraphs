@@ -3,14 +3,14 @@
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
-qt_internal_add_manual_test(rotations
+qt_internal_add_manual_test(tst_rotations
     GUI
     SOURCES
         main.cpp
         scatterdatamodifier.cpp scatterdatamodifier.h
     )
 
-target_link_libraries(rotations PUBLIC
+target_link_libraries(tst_rotations PUBLIC
     Qt::Core
     Qt::Gui
     Qt::Widgets
@@ -22,7 +22,7 @@ set(rotations_resource_files
     "mesh/narrowarrow.obj"
 )
 
-qt6_add_resources(rotations "rotations"
+qt6_add_resources(tst_rotations "rotations"
     PREFIX
         "/"
     FILES

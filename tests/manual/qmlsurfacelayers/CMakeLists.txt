@@ -3,13 +3,13 @@
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
-qt_internal_add_manual_test(qmlsurfacelayers
+qt_internal_add_manual_test(tst_qmlsurfacelayers
     GUI
     SOURCES
         main.cpp
     )
 
-target_link_libraries(qmlsurfacelayers PUBLIC
+target_link_libraries(tst_qmlsurfacelayers PUBLIC
     Qt::Core
     Qt::Gui
     Qt::Qml
@@ -21,7 +21,7 @@ set(qmlsurfacelayers_resource_files
     "qml/qmlsurfacelayers/main.qml"
 )
 
-qt6_add_resources(qmlsurfacelayers "qmlsurfacelayers"
+qt6_add_resources(tst_qmlsurfacelayers "qmlsurfacelayers"
     PREFIX
         "/"
     FILES
@@ -33,7 +33,7 @@ set(qmlsurfacelayers1_resource_files
     "layer_3.png"
 )
 
-qt6_add_resources(qmlsurfacelayers "qmlsurfacelayers1"
+qt6_add_resources(tst_qmlsurfacelayers "qmlsurfacelayers1"
     PREFIX
         "/heightmaps"
     FILES

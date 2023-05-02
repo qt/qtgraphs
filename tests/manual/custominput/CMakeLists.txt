@@ -3,7 +3,7 @@
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
-qt_internal_add_manual_test(custominput
+qt_internal_add_manual_test(tst_custominput
     GUI
     SOURCES
         custominputhandler.cpp custominputhandler.h
@@ -11,7 +11,7 @@ qt_internal_add_manual_test(custominput
         scatterdatamodifier.cpp scatterdatamodifier.h
 )
 
-target_link_libraries(custominput PUBLIC
+target_link_libraries(tst_custominput PUBLIC
     Qt::Core
     Qt::Gui
     Qt::Widgets
@@ -22,7 +22,7 @@ set(custominput_resource_files
     "data/data.txt"
 )
 
-qt6_add_resources(custominput "custominput"
+qt6_add_resources(tst_custominput "custominput"
     PREFIX
         "/"
     FILES

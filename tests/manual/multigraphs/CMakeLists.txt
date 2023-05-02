@@ -3,13 +3,13 @@
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
-qt_internal_add_manual_test(multigraphs
+qt_internal_add_manual_test(tst_multigraphs
     GUI
     SOURCES
         data.cpp data.h
         main.cpp
     )
-target_link_libraries(multigraphs PUBLIC
+target_link_libraries(tst_multigraphs PUBLIC
     Qt::Gui
     Qt::Widgets
     Qt::Graphs
@@ -19,7 +19,7 @@ set(multigraphs_resource_files
     "australia.png"
     )
 
-qt_internal_add_resource(multigraphs "multigraphs"
+qt_internal_add_resource(tst_multigraphs "multigraphs"
     PREFIX
     "/"
     FILES

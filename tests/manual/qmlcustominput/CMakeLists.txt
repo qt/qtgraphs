@@ -3,13 +3,13 @@
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
-qt_internal_add_manual_test(qmlcustominput
+qt_internal_add_manual_test(tst_qmlcustominput
     GUI
     SOURCES
         main.cpp
     )
 
-target_link_libraries(qmlcustominput PUBLIC
+target_link_libraries(tst_qmlcustominput PUBLIC
     Qt::Core
     Qt::Gui
     Qt::Qml
@@ -22,7 +22,7 @@ set(qmlcustominput_resource_files
     "qml/qmlcustominput/main.qml"
 )
 
-qt6_add_resources(qmlcustominput "qmlcustominput"
+qt6_add_resources(tst_qmlcustominput "qmlcustominput"
     PREFIX
         "/"
     FILES

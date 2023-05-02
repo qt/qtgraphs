@@ -3,13 +3,13 @@
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
-qt_internal_add_manual_test(itemmodel
+qt_internal_add_manual_test(tst_itemmodel
     GUI
     SOURCES
         main.cpp
     )
 
-target_link_libraries(itemmodel PUBLIC
+target_link_libraries(tst_itemmodel PUBLIC
     Qt::Core
     Qt::Gui
     Qt::Widgets

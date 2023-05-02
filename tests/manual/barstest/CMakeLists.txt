@@ -3,7 +3,7 @@
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
-qt_internal_add_manual_test(barstest
+qt_internal_add_manual_test(tst_barstest
     GUI
     SOURCES
         chart.cpp chart.h
@@ -12,7 +12,7 @@ qt_internal_add_manual_test(barstest
         custominputhandler.cpp custominputhandler.h
         main.cpp
     )
-target_link_libraries(barstest PUBLIC
+target_link_libraries(tst_barstest PUBLIC
     Qt::Gui
     Qt::Widgets
     Qt::Graphs
@@ -23,7 +23,7 @@ set(barstest_resource_files
     "shuttle.png"
     )
 
-qt_internal_add_resource(barstest "barstest"
+qt_internal_add_resource(tst_barstest "barstest"
     PREFIX
     "/"
     FILES

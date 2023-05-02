@@ -3,13 +3,13 @@
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
-qt_internal_add_manual_test(qmllegend
+qt_internal_add_manual_test(tst_qmllegend
     GUI
     SOURCES
         main.cpp
     )
 
-target_link_libraries(qmllegend PUBLIC
+target_link_libraries(tst_qmllegend PUBLIC
     Qt::Core
     Qt::Gui
     Qt::Qml
@@ -23,7 +23,7 @@ set(qmllegend_resource_files
     "qml/qmllegend/main.qml"
 )
 
-qt6_add_resources(qmllegend "qmllegend"
+qt6_add_resources(tst_qmllegend "qmllegend"
     PREFIX
         "/"
     FILES

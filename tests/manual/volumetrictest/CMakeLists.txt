@@ -3,14 +3,14 @@
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
-qt_internal_add_manual_test(volumetrictest
+qt_internal_add_manual_test(tst_volumetrictest
     GUI
     SOURCES
         main.cpp
         volumetrictest.cpp volumetrictest.h
     )
 
-target_link_libraries(volumetrictest PUBLIC
+target_link_libraries(tst_volumetrictest PUBLIC
     Qt::Gui
     Qt::Widgets
     Qt::Graphs
@@ -25,7 +25,7 @@ set(volumetrictest_resource_files
     "logo_no_padding.png"
     )
 
-qt_internal_add_resource(volumetrictest "volumetrictest"
+qt_internal_add_resource(tst_volumetrictest "volumetrictest"
     PREFIX
     "/"
     FILES

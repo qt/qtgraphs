@@ -3,12 +3,12 @@
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
-qt_internal_add_manual_test(qmlheightmap
+qt_internal_add_manual_test(tst_qmlheightmap
     GUI
     SOURCES
         main.cpp
     )
-target_link_libraries(qmlheightmap PUBLIC
+target_link_libraries(tst_qmlheightmap PUBLIC
     Qt::Gui
     Qt::Graphs
     )
@@ -33,7 +33,7 @@ set(qmlheightmap_resource_files
     "gradientRGB8.png"
     "gradientRGB16.png"
     )
-qt_internal_add_resource(qmlheightmap "qmlheightmap"
+qt_internal_add_resource(tst_qmlheightmap "qmlheightmap"
     PREFIX
     "/"
     FILES

@@ -3,7 +3,7 @@
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
-qt_internal_add_manual_test(surfacetest
+qt_internal_add_manual_test(tst_surfacetest
     GUI
     SOURCES
         buttonwrapper.cpp buttonwrapper.h
@@ -11,7 +11,7 @@ qt_internal_add_manual_test(surfacetest
         graphmodifier.cpp graphmodifier.h
         main.cpp
     )
-target_link_libraries(surfacetest PUBLIC
+target_link_libraries(tst_surfacetest PUBLIC
     Qt::Gui
     Qt::Widgets
     Qt::Graphs
@@ -28,7 +28,7 @@ set(surfacetest_resource_files
     "mapimage.png"
     )
 
-qt_internal_add_resource(surfacetest "surfacetest"
+qt_internal_add_resource(tst_surfacetest "surfacetest"
     PREFIX
     "/maps"
     FILES
