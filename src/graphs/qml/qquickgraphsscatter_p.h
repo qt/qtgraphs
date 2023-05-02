@@ -133,14 +133,12 @@ private:
 
     float m_dotSizedScale = 1.0f;
 
-    void updateItemInstancedMaterial(QQuick3DModel *item, bool useGradient, bool rangeGradient);
     void updateInstancedCustomMaterial(ScatterModel *graphModel, bool isHighlight = false,
                                        QQuick3DTexture *seriesTexture = nullptr,
                                        QQuick3DTexture *highlightTexture = nullptr);
-    void updateSelectionIndicatorMaterial(QQuick3DModel *indicator, bool useGradient,
-                                          bool rangeGradient);
 
-    void updateItemMaterial(QQuick3DModel *item, bool useGradient, bool rangeGradient);
+    void updateItemMaterial(QQuick3DModel *item, bool useGradient, bool rangeGradient,
+                            const QString &materialName);
     void updateCustomMaterial(QQuick3DModel *item, QQuick3DTexture *texture);
     void updatePrincipledMaterial(QQuick3DModel *model, const QColor &color,
                                   bool useGradient, QQuick3DTexture *texture = nullptr);
