@@ -7,6 +7,7 @@
     \ingroup modules
     \qtcmakepackage graphs
     \qtvariable graphs
+    \modulestate Technical Preview
 
     \brief C++ classes for the Qt Graphs API.
 
@@ -17,6 +18,7 @@
     \qmlmodule QtGraphs \QtMajorVersion.\QtMinorVersion
     \title Qt Graphs QML Types
     \ingroup qmlmodules
+    \modulestate Technical Preview
 
     \brief QML types for the Qt Graphs API.
 
