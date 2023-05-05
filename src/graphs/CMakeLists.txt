@@ -133,7 +133,6 @@ qt_internal_add_qml_module(Graphs
         Qt::Quick3DRuntimeRenderPrivate
     GENERATE_CPP_EXPORTS
 )
-
 set_source_files_properties("qml/resources/DatapointSphere.qml"
     PROPERTIES QT_RESOURCE_ALIAS "DatapointSphere"
 )
@@ -170,12 +169,26 @@ set_source_files_properties("qml/resources/RangeGradientScatterMaterial.qml"
 set_source_files_properties("qml/resources/RangeGradientScatterMaterialInstancing.qml"
     PROPERTIES QT_RESOURCE_ALIAS "RangeGradientScatterMaterialInstancing"
 )
-
+set_source_files_properties("qml/resources/GridSurfaceMaterial.qml"
+    PROPERTIES QT_RESOURCE_ALIAS "GridSurfaceMaterial"
+)
+set_source_files_properties("qml/resources/SurfaceSliceMaterial.qml"
+    PROPERTIES QT_RESOURCE_ALIAS "SurfaceSliceMaterial"
+)
+set_source_files_properties("qml/resources/SurfaceRangeGradientMaterial.qml"
+    PROPERTIES QT_RESOURCE_ALIAS "SurfaceRangeGradientMaterial"
+)
+set_source_files_properties("qml/resources/SurfaceUniformMaterial.qml"
+    PROPERTIES QT_RESOURCE_ALIAS "SurfaceUniformMaterial"
+)
+set_source_files_properties("qml/resources/SurfaceTexturedMaterial.qml"
+    PROPERTIES QT_RESOURCE_ALIAS "SurfaceTexturedMaterial"
+)
+set_source_files_properties("qml/resources/SurfaceObjectGradientMaterial.qml"
+    PROPERTIES QT_RESOURCE_ALIAS "SurfaceObjectGradientMaterial"
+)
 set_source_files_properties("qml/resources/ObjectGradientMaterial.qml"
     PROPERTIES QT_RESOURCE_ALIAS "ObjectGradientMaterial"
-)
-set_source_files_properties("qml/resources/ObjectGradientSurfaceMaterial.qml"
-    PROPERTIES QT_RESOURCE_ALIAS "ObjectGradientSurfaceMaterial"
 )
 set_source_files_properties("qml/resources/ObjectGradientMaterialInstancing.qml"
     PROPERTIES QT_RESOURCE_ALIAS "ObjectGradientMaterialInstancing"
@@ -233,7 +246,7 @@ set(qml_axis_resurces
 set(qml_material_resources
     "qml/resources/ObjectGradientMaterial.qml"
     "qml/resources/ObjectGradientMaterialInstancing.qml"
-    "qml/resources/ObjectGradientSurfaceMaterial.qml"
+    "qml/resources/SurfaceObjectGradientMaterial.qml"
     "qml/resources/PointMaterial.qml"
     "qml/resources/PointRangeGradientMaterial.qml"
     "qml/resources/PointMaterialInstancing.qml"
@@ -242,6 +255,11 @@ set(qml_material_resources
     "qml/resources/RangeGradientMaterialInstancing.qml"
     "qml/resources/RangeGradientScatterMaterial.qml"
     "qml/resources/RangeGradientScatterMaterialInstancing.qml"
+    "qml/resources/GridSurfaceMaterial.qml"
+    "qml/resources/SurfaceSliceMaterial.qml"
+    "qml/resources/SurfaceRangeGradientMaterial.qml"
+    "qml/resources/SurfaceUniformMaterial.qml"
+    "qml/resources/SurfaceTexturedMaterial.qml"
     "qml/resources/SurfaceShadowNoTex.qml"
     "qml/resources/VolumeMaterial.qml"
     "qml/resources/VolumeLowDefMaterial.qml"
@@ -559,6 +577,15 @@ set_source_files_properties("engine/shaders/shadowNoTexColorOnY.frag"
 set_source_files_properties("engine/shaders/surface.frag"
     PROPERTIES QT_RESOURCE_ALIAS "fragmentSurface"
 )
+set_source_files_properties("engine/shaders/surface.vert"
+    PROPERTIES QT_RESOURCE_ALIAS "vertexSurface"
+)
+set_source_files_properties("engine/shaders/surfaceGrid.frag"
+    PROPERTIES QT_RESOURCE_ALIAS "fragSurfaceGrid"
+)
+set_source_files_properties("engine/shaders/surfaceGrid.vert"
+    PROPERTIES QT_RESOURCE_ALIAS "vertexSurfaceGrid"
+)
 set_source_files_properties("engine/shaders/surfaceFlat.frag"
     PROPERTIES QT_RESOURCE_ALIAS "fragmentSurfaceFlat"
 )
@@ -573,6 +600,12 @@ set_source_files_properties("engine/shaders/surfaceShadowFlat.vert"
 )
 set_source_files_properties("engine/shaders/surfaceShadowNoTex.frag"
     PROPERTIES QT_RESOURCE_ALIAS "fragmentSurfaceShadowNoTex"
+)
+set_source_files_properties("engine/shaders/surfaceSlice.vert"
+    PROPERTIES QT_RESOURCE_ALIAS "vertexSurfaceSlice"
+)
+set_source_files_properties("engine/shaders/surfaceTextured.frag"
+    PROPERTIES QT_RESOURCE_ALIAS "fragmentSurfaceTextured"
 )
 set_source_files_properties("engine/shaders/surfaceTexturedFlat.frag"
     PROPERTIES QT_RESOURCE_ALIAS "fragmentSurfaceTexturedFlat"
@@ -637,6 +670,12 @@ set_source_files_properties("engine/shaders/rangegradientinstancing.vert"
 set_source_files_properties("engine/shaders/rangegradientscatter.frag"
     PROPERTIES QT_RESOURCE_ALIAS "fragmentrangegradientscatter"
 )
+set_source_files_properties("engine/shaders/rangegradientsurface.frag"
+    PROPERTIES QT_RESOURCE_ALIAS "fragmentrangegradientsurface"
+)
+set_source_files_properties("engine/shaders/uniformsurface.frag"
+    PROPERTIES QT_RESOURCE_ALIAS "fragmentuniformsurface"
+)
 set_source_files_properties("engine/shaders/rangegradientinstancingscatter.frag"
     PROPERTIES QT_RESOURCE_ALIAS "fragmentrangegradientinstancingscatter"
 )
@@ -677,6 +716,8 @@ set(shader_resource_files
     "engine/shaders/rangegradientinstancing.frag"
     "engine/shaders/rangegradientinstancing.vert"
     "engine/shaders/rangegradientscatter.frag"
+    "engine/shaders/rangegradientsurface.frag"
+    "engine/shaders/uniformsurface.frag"
     "engine/shaders/rangegradientinstancingscatter.frag"
     "engine/shaders/rangegradientinstancingscatter.vert"
     "engine/shaders/shadow.frag"
@@ -685,11 +726,16 @@ set(shader_resource_files
     "engine/shaders/shadowNoTex.frag"
     "engine/shaders/shadowNoTexColorOnY.frag"
     "engine/shaders/surface.frag"
+    "engine/shaders/surfaceGrid.frag"
+    "engine/shaders/surface.vert"
+    "engine/shaders/surfaceGrid.vert"
     "engine/shaders/surfaceFlat.frag"
     "engine/shaders/surfaceFlat.vert"
     "engine/shaders/surfaceShadowFlat.frag"
     "engine/shaders/surfaceShadowFlat.vert"
     "engine/shaders/surfaceShadowNoTex.frag"
+    "engine/shaders/surfaceSlice.vert"
+    "engine/shaders/surfaceTextured.frag"
     "engine/shaders/surfaceTexturedFlat.frag"
     "engine/shaders/surfaceTexturedShadow.frag"
     "engine/shaders/surfaceTexturedShadowFlat.frag"

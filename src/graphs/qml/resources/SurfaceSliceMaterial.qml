@@ -5,11 +5,10 @@ import QtQuick3D
 import QtQuick
 
 CustomMaterial {
+    property bool isColumn: false
     property TextureInput custex: TextureInput {}
-    property real gradientMin
-    property real gradientHeight
 
     shadingMode: CustomMaterial.Shaded
-    vertexShader: "qrc:/shaders/vertexobjectgradient"
-    fragmentShader: "qrc:/shaders/fragmentobjectgradientsurface"
+    vertexShader: "qrc:/shaders/vertexSurfaceSlice"
+    fragmentShader: "qrc:/shaders/fragmentrangegradient"
 }

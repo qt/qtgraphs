@@ -96,7 +96,6 @@ Q_SIGNALS:
 private:
     struct SurfaceVertex {
         QVector3D position;
-        QVector3D normal;
         QVector2D uv;
         QPoint coord;
     };
@@ -112,7 +111,8 @@ private:
         QVector<quint32> gridIndices;
         QSurface3DSeries *series;
         QQuick3DTexture *texture;
-        QQuick3DPrincipledMaterial *principledMaterial;
+        QQuick3DTexture *heightTexture;
+        QQuick3DCustomMaterial *texturedMaterial;
         QQuick3DCustomMaterial *customMaterial;
         int columnCount;
         int rowCount;
@@ -123,8 +123,6 @@ private:
     };
 
     QVector3D getNormalizedVertex(const QSurfaceDataItem &data, bool polar, bool flipXZ);
-    void createSmoothNormalBodyLine(SurfaceModel *model, int &totalIndex, int column);
-    void createSmoothNormalUpperLine(SurfaceModel *model, int &totalIndex);
     void createSmoothIndices(SurfaceModel *model, int x, int y, int endX, int endY);
     void createCoarseVertices(SurfaceModel *model, int x, int y, int endX, int endY);
     void createGridlineIndices(SurfaceModel *model, int x, int y, int endX, int endY);
@@ -142,6 +140,7 @@ private:
     QQuick3DModel *m_sliceSelectionPointer = nullptr;
     SurfaceSelectionInstancing *m_sliceInstancing = nullptr;
 
+    bool m_isIndexDirty = true;
 
     friend class Q3DSurface;
 };

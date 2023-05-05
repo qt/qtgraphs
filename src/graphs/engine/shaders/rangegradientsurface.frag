@@ -3,20 +3,20 @@ float shininess = 50.0;
 float specularBrightness = 0.25; // 0...1.0
 float ambientBrightness = 0.75; // 0...1.0
 float directionalBrightness = 0.75; // 0...1.0
-VARYING vec3 pos;
 
 void MAIN()
 {
-    vec2 gradientUV = vec2(gradientMin + pos.y * gradientHeight, 0.0);
+    vec2 gradientUV = vec2((VAR_WORLD_POSITION.y + 1.0) / 2.0, 0.0);
     vec3 color = texture(custex, gradientUV).xyz;
-    diffuse = vec4(color, 1.0);
-    BASE_COLOR = diffuse;
+
     if (flatShading) {
         vec3 dpdx = dFdx(VAR_WORLD_POSITION);
         vec3 dpdy = dFdy(VAR_WORLD_POSITION);
         vec3 n = normalize(cross(dpdy,dpdx));
         NORMAL = n;
     }
+    diffuse = vec4(color, 1.0);
+    BASE_COLOR = diffuse;
 }
 
 void AMBIENT_LIGHT()
