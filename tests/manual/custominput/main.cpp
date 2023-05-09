@@ -20,13 +20,6 @@ int main(int argc, char **argv)
     QApplication app(argc, argv);
     Q3DScatter *graph = new Q3DScatter();
 
-    if (!graph->hasContext()) {
-        QMessageBox msgBox;
-        msgBox.setText("Couldn't initialize the OpenGL context.");
-        msgBox.exec();
-        return -1;
-    }
-
     QSize screenSize = graph->screen()->size();
     graph->setMinimumSize(QSize(screenSize.width() / 2, screenSize.height() / 1.5));
     graph->setMaximumSize(screenSize);

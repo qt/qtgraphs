@@ -203,13 +203,6 @@ int main(int argc, char **argv)
     QApplication app(argc, argv);
     Q3DBars *graph = new Q3DBars();
 
-    if (!graph->hasContext()) {
-        QMessageBox msgBox;
-        msgBox.setText("Couldn't initialize the OpenGL context.");
-        msgBox.exec();
-        return -1;
-    }
-
     QSize screenSize = graph->screen()->size();
     graph->setMinimumSize(QSize(screenSize.width() / 2, screenSize.height() / 2));
     graph->setMaximumSize(screenSize);

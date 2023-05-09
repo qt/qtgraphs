@@ -834,19 +834,6 @@ qreal QAbstract3DGraph::margin() const
     return d_ptr->margin();
 }
 
-// TODO: Does this make sense in the API anymore? (QTBUG-111611)
-/*!
- * Returns \c{true} if the graph has been successfully initialized.
- * Trying to use a graph when the context initialization has failed typically results in a crash.
- */
-bool QAbstract3DGraph::hasContext() const
-{
-    if (d_ptr->isReady())
-        return true;
-    else
-        return false;
-}
-
 /*!
  * \internal
  */

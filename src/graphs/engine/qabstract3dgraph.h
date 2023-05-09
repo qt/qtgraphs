@@ -176,8 +176,6 @@ public:
 
     QImage renderToImage(int msaaSamples = 0, const QSize &imageSize = QSize());
 
-    bool hasContext() const;
-
     virtual ~QAbstract3DGraph();
 
 protected:
