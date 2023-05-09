@@ -23,7 +23,7 @@ class SurfaceGraphModifier : public QObject
 {
     Q_OBJECT
 public:
-    explicit SurfaceGraphModifier(Q3DSurface *surface, QLabel *label);
+    explicit SurfaceGraphModifier(Q3DSurface *surface, QLabel *label, QObject *parent);
     ~SurfaceGraphModifier();
 
     //! [0]

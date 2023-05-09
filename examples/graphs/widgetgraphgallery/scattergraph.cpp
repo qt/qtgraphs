@@ -17,11 +17,6 @@ ScatterGraph::ScatterGraph()
     initialize();
 }
 
-ScatterGraph::~ScatterGraph()
-{
-    delete m_modifier;
-}
-
 void ScatterGraph::initialize()
 {
     m_scatterWidget = new QWidget;
@@ -105,7 +100,7 @@ void ScatterGraph::initialize()
     vLayout->addWidget(new QLabel(u"Adjust shadow quality"_s));
     vLayout->addWidget(shadowQuality, 1, Qt::AlignTop);
 
-    m_modifier = new ScatterDataModifier(m_scatterGraph);
+    m_modifier = new ScatterDataModifier(m_scatterGraph, this);
 
     QObject::connect(cameraButton, &QCommandLinkButton::clicked, m_modifier,
                      &ScatterDataModifier::changePresetCamera);

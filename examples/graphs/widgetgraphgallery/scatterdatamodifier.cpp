@@ -21,8 +21,9 @@ const float curveDivider = 7.5f;
 const int lowerNumberOfItems = 900;
 const float lowerCurveDivider = 0.75f;
 
-ScatterDataModifier::ScatterDataModifier(Q3DScatter *scatter)
-    : m_graph(scatter),
+ScatterDataModifier::ScatterDataModifier(Q3DScatter *scatter, QObject *parent) :
+      QObject(parent),
+      m_graph(scatter),
       m_itemCount(lowerNumberOfItems),
       m_curveDivider(lowerCurveDivider),
       //! [7]
@@ -75,24 +76,21 @@ void ScatterDataModifier::addData()
 
     //! [4]
     QScatterDataArray *dataArray = new QScatterDataArray;
-    dataArray->resize(m_itemCount);
-    QScatterDataItem *ptrToDataArray = &dataArray->first();
+    dataArray->reserve(m_itemCount);
     //! [4]
 
 #ifdef RANDOM_SCATTER
-    for (int i = 0; i < m_itemCount; i++) {
-        ptrToDataArray->setPosition(randVector());
-        ptrToDataArray++;
-    }
+    for (int i = 0; i < m_itemCount; ++i)
+        dataArray->append(QScatterDataItem(randVector()));
 #else
     //! [5]
-    float limit = qSqrt(m_itemCount) / 2.0f;
-    for (int i = -limit; i < limit; i++) {
-        for (int j = -limit; j < limit; j++) {
-            ptrToDataArray->setPosition(QVector3D(float(i) + 0.5f,
-                                                  qCos(qDegreesToRadians(float(i * j) / m_curveDivider)),
-                                                  float(j) + 0.5f));
-            ptrToDataArray++;
+    const float limit = qSqrt(m_itemCount) / 2.0f;
+    for (int i = -limit; i < limit; ++i) {
+        for (int j = -limit; j < limit; ++j) {
+            const float x = float(i) + 0.5f;
+            const float y = qCos(qDegreesToRadians(float(i * j) / m_curveDivider));
+            const float z = float(j) + 0.5f;
+            dataArray->append(QScatterDataItem({x, y, z}));
         }
     }
     //! [5]
@@ -190,11 +188,9 @@ void ScatterDataModifier::toggleRanges()
 
 QVector3D ScatterDataModifier::randVector()
 {
-    return QVector3D(
-                (float)(QRandomGenerator::global()->bounded(100)) / 2.0f -
-                (float)(QRandomGenerator::global()->bounded(100)) / 2.0f,
-                (float)(QRandomGenerator::global()->bounded(100)) / 100.0f -
-                (float)(QRandomGenerator::global()->bounded(100)) / 100.0f,
-                (float)(QRandomGenerator::global()->bounded(100)) / 2.0f -
-                (float)(QRandomGenerator::global()->bounded(100)) / 2.0f);
+    auto *generator = QRandomGenerator::global();
+    const auto x = float(generator->bounded(100)) / 2.0f - float(generator->bounded(100)) / 2.0f;
+    const auto y = float(generator->bounded(100)) / 100.0f - float(generator->bounded(100)) / 100.0f;
+    const auto z = float(generator->bounded(100)) / 2.0f - float(generator->bounded(100)) / 2.0f;
+    return {x, y, z};
 }

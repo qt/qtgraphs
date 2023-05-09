@@ -13,7 +13,6 @@ class ScatterGraph : public QObject
     Q_OBJECT
 public:
     ScatterGraph();
-    ~ScatterGraph();
 
     void initialize();
     QWidget *scatterWidget() { return m_scatterWidget; }

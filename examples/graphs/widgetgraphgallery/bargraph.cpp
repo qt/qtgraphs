@@ -23,11 +23,6 @@ BarGraph::BarGraph()
     initialize();
 }
 
-BarGraph::~BarGraph()
-{
-    delete m_modifier;
-}
-
 void BarGraph::initialize()
 {
     //! [1]
@@ -240,7 +235,7 @@ void BarGraph::initialize()
     vLayout->addWidget(modeCustomProxy, 1, Qt::AlignTop);
 
     //! [2]
-    m_modifier = new GraphModifier(m_barsGraph);
+    m_modifier = new GraphModifier(m_barsGraph, this);
     //! [2]
 
     //! [5]

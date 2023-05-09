@@ -13,7 +13,6 @@ class BarGraph : public QObject
     Q_OBJECT
 public:
     BarGraph();
-    ~BarGraph();
 
     void initialize();
     QWidget *barsWidget() { return m_barsWidget; }

@@ -13,7 +13,6 @@ class SurfaceGraph : public QObject
     Q_OBJECT
 public:
     SurfaceGraph();
-    ~SurfaceGraph();
 
     void initialize();
     QWidget *surfaceWidget() { return m_surfaceWidget; }

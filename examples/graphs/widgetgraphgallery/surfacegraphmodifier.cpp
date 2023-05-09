@@ -25,8 +25,9 @@ const float areaHeight = 8000.f;
 const float aspectRatio = 0.1389f;
 const float minRange = areaWidth * 0.49f;
 
-SurfaceGraphModifier::SurfaceGraphModifier(Q3DSurface *surface, QLabel *label)
-    : m_graph(surface),
+SurfaceGraphModifier::SurfaceGraphModifier(Q3DSurface *surface, QLabel *label, QObject *parent) :
+      QObject(parent),
+      m_graph(surface),
       m_textField(label)
 {
     m_graph->scene()->activeCamera()->setZoomLevel(85.f);
@@ -159,19 +160,19 @@ void SurfaceGraphModifier::fillSqrtSinProxy()
     //! [1]
     QSurfaceDataArray *dataArray = new QSurfaceDataArray;
     dataArray->reserve(sampleCountZ);
-    for (int i = 0 ; i < sampleCountZ ; i++) {
-        QSurfaceDataRow *newRow = new QSurfaceDataRow(sampleCountX);
+    for (int i = 0 ; i < sampleCountZ ; ++i) {
+        QSurfaceDataRow *newRow = new QSurfaceDataRow;
+        newRow->reserve(sampleCountX);
         // Keep values within range bounds, since just adding step can cause minor drift due
         // to the rounding errors.
         float z = qMin(sampleMax, (i * stepZ + sampleMin));
-        int index = 0;
-        for (int j = 0; j < sampleCountX; j++) {
+        for (int j = 0; j < sampleCountX; ++j) {
             float x = qMin(sampleMax, (j * stepX + sampleMin));
             float R = qSqrt(z * z + x * x) + 0.01f;
             float y = (qSin(R) / R + 0.24f) * 1.61f;
-            (*newRow)[index++].setPosition(QVector3D(x, y, z));
+            newRow->append(QSurfaceDataItem({x, y, z}));
         }
-        *dataArray << newRow;
+        dataArray->append(newRow);
     }
 
     m_sqrtSinProxy->resetArray(dataArray);
