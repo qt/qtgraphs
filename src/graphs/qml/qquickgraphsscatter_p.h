@@ -76,6 +76,7 @@ Q_SIGNALS:
 protected:
     void calculateSceneScalingFactors() override;
     bool handleMousePressedEvent(QMouseEvent *event) override;
+    void componentComplete() override;
 
 private:
 
@@ -139,6 +140,10 @@ private:
 
     void updateItemMaterial(QQuick3DModel *item, bool useGradient, bool rangeGradient,
                             const QString &materialName);
+    void updatePointItemMaterial(QQuick3DModel *item,
+                            const QString &materialName, const QString &objectName);
+    void updateInstancedPointItemMaterial(QQuick3DModel *item,
+                                 const QString &materialName, const QString &objectName);
     void updateCustomMaterial(QQuick3DModel *item, QQuick3DTexture *texture);
     void updatePrincipledMaterial(QQuick3DModel *model, const QColor &color,
                                   bool useGradient, QQuick3DTexture *texture = nullptr);
@@ -176,6 +181,9 @@ private:
 
     void updateGraph() override;
     void synchData() override;
+
+private slots:
+    void cameraRotationChanged();
 
     friend class Q3DScatter;
 };

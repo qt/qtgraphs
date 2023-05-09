@@ -173,6 +173,18 @@ set_source_files_properties("qml/resources/ObjectGradientMaterial.qml"
 set_source_files_properties("qml/resources/ObjectGradientMaterialInstancing.qml"
     PROPERTIES QT_RESOURCE_ALIAS "ObjectGradientMaterialInstancing"
 )
+set_source_files_properties("qml/resources/PointMaterial.qml"
+    PROPERTIES QT_RESOURCE_ALIAS "PointMaterial"
+)
+set_source_files_properties("qml/resources/PointRangeGradientMaterial.qml"
+    PROPERTIES QT_RESOURCE_ALIAS "PointRangeGradientMaterial"
+)
+set_source_files_properties("qml/resources/PointMaterialInstancing.qml"
+    PROPERTIES QT_RESOURCE_ALIAS "PointMaterialInstancing"
+)
+set_source_files_properties("qml/resources/PointRangeGradientMaterialInstancing.qml"
+    PROPERTIES QT_RESOURCE_ALIAS "PointRangeGradientMaterialInstancing"
+)
 
 set(qml_files
     "qml/designer/Bars3DSpecifics.qml"
@@ -197,6 +209,10 @@ set(qml_axis_resurces
 set(qml_material_resources
     "qml/resources/ObjectGradientMaterial.qml"
     "qml/resources/ObjectGradientMaterialInstancing.qml"
+    "qml/resources/PointMaterial.qml"
+    "qml/resources/PointRangeGradientMaterial.qml"
+    "qml/resources/PointMaterialInstancing.qml"
+    "qml/resources/PointRangeGradientMaterialInstancing.qml"
     "qml/resources/RangeGradientMaterial.qml"
     "qml/resources/RangeGradientMaterialInstancing.qml"
     "qml/resources/RangeGradientScatterMaterial.qml"
@@ -497,6 +513,24 @@ set_source_files_properties("engine/shaders/plainColor.vert"
 set_source_files_properties("engine/shaders/point_ES2.vert"
     PROPERTIES QT_RESOURCE_ALIAS "vertexPointES2"
 )
+set_source_files_properties("engine/shaders/point.vert"
+    PROPERTIES QT_RESOURCE_ALIAS "vertexpoint"
+)
+set_source_files_properties("engine/shaders/point.frag"
+    PROPERTIES QT_RESOURCE_ALIAS "fragmentpoint"
+)
+set_source_files_properties("engine/shaders/pointrangegradient.frag"
+    PROPERTIES QT_RESOURCE_ALIAS "fragmentpointrangegradient"
+)
+set_source_files_properties("engine/shaders/pointinstancing.vert"
+    PROPERTIES QT_RESOURCE_ALIAS "vertexpointinstancing"
+)
+set_source_files_properties("engine/shaders/pointrangegradientinstancing.vert"
+    PROPERTIES QT_RESOURCE_ALIAS "vertexpointrangegradientinstancing"
+)
+set_source_files_properties("engine/shaders/pointrangegradientinstancing.frag"
+    PROPERTIES QT_RESOURCE_ALIAS "fragmentpointrangegradientinstancing"
+)
 set_source_files_properties("engine/shaders/point_ES2_UV.vert"
     PROPERTIES QT_RESOURCE_ALIAS "vertexPointES2_UV"
 )
@@ -619,6 +653,12 @@ set(shader_resource_files
     "engine/shaders/label.vert"
     "engine/shaders/plainColor.frag"
     "engine/shaders/plainColor.vert"
+    "engine/shaders/point.vert"
+    "engine/shaders/point.frag"
+    "engine/shaders/pointrangegradient.frag"
+    "engine/shaders/pointinstancing.vert"
+    "engine/shaders/pointrangegradientinstancing.vert"
+    "engine/shaders/pointrangegradientinstancing.frag"
     "engine/shaders/point_ES2.vert"
     "engine/shaders/point_ES2_UV.vert"
     "engine/shaders/position.vert"
