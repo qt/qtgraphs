@@ -94,7 +94,6 @@ public:
 
     enum RenderingMode {
         RenderDirectToBackground = 0,
-        RenderDirectToBackground_NoClear,
         RenderIndirect
     };
     Q_ENUM(RenderingMode)

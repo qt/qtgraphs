@@ -109,8 +109,6 @@ void QQuickGraphsItem::setRenderingMode(QAbstract3DGraph::RenderingMode mode)
     // TODO - Need to check if the mode is set properly
     switch (mode) {
     case QAbstract3DGraph::RenderDirectToBackground:
-        // Intentional flowthrough
-    case QAbstract3DGraph::RenderDirectToBackground_NoClear:
         update();
         setRenderMode(QQuick3DViewport::Underlay);
         if (previousMode == QAbstract3DGraph::RenderIndirect) {
@@ -2062,8 +2060,7 @@ void QQuickGraphsItem::handleWindowChanged(/*QQuickWindow *window*/)
     connect(window, &QQuickWindow::beforeSynchronizing,
             this, &QQuickGraphsItem::synchData);
 
-    if (m_renderMode == QAbstract3DGraph::RenderDirectToBackground_NoClear
-            || m_renderMode == QAbstract3DGraph::RenderDirectToBackground) {
+    if (m_renderMode == QAbstract3DGraph::RenderDirectToBackground) {
         setAntialiasing(m_windowSamples > 0);
         if (m_windowSamples != oldWindowSamples)
             emit msaaSamplesChanged(m_windowSamples);
@@ -2108,8 +2105,7 @@ void QQuickGraphsItem::updateWindowParameters()
             win->update();
         }
 
-        bool directRender = m_renderMode == QAbstract3DGraph::RenderDirectToBackground
-                || m_renderMode == QAbstract3DGraph::RenderDirectToBackground_NoClear;
+        bool directRender = m_renderMode == QAbstract3DGraph::RenderDirectToBackground;
         QSize windowSize;
 
         if (directRender)
@@ -2222,10 +2218,8 @@ void QQuickGraphsItem::checkWindowList(QQuickWindow *window)
     QList<QQuickWindow *> windowList;
 
     foreach (QQuickGraphsItem *graph, m_graphWindowList.keys()) {
-        if (graph->m_renderMode == QAbstract3DGraph::RenderDirectToBackground
-                || graph->m_renderMode == QAbstract3DGraph::RenderDirectToBackground_NoClear) {
+        if (graph->m_renderMode == QAbstract3DGraph::RenderDirectToBackground)
             windowList.append(m_graphWindowList.value(graph));
-        }
     }
 
     if (!window) {

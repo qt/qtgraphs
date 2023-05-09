@@ -158,7 +158,7 @@ Item {
 //            else
 //                compare(common.msaaSamples, 0, "msaaSamples")
 //            common.theme.type = Theme3D.ThemeRetro
-//            common.renderingMode = AbstractGraph3D.RenderDirectToBackground_NoClear
+//            common.renderingMode = AbstractGraph3D.RenderDirectToBackground
 //            common.measureFps = true
 //            common.orthoProjection = true
 //            common.aspectRatio = 1.0
@@ -174,7 +174,7 @@ Item {
 //            compare(common.shadowQuality, AbstractGraph3D.ShadowQualityNone, "shadowQuality") // Ortho disables shadows
 //            compare(common.msaaSamples, 0, "msaaSamples") // Rendering mode changes this to zero
 //            compare(common.theme.type, Theme3D.ThemeRetro, "theme")
-//            compare(common.renderingMode, AbstractGraph3D.RenderDirectToBackground_NoClear, "renderingMode")
+//            compare(common.renderingMode, AbstractGraph3D.RenderDirectToBackground, "renderingMode")
 //            compare(common.measureFps, true, "measureFps")
 //            compare(common.orthoProjection, true, "orthoProjection")
 //            compare(common.aspectRatio, 1.0, "aspectRatio")
@@ -202,7 +202,7 @@ Item {
 //            common.reflectivity = -1.0
 //            compare(common.selectionMode, AbstractGraph3D.SelectionItem | AbstractGraph3D.SelectionRow | AbstractGraph3D.SelectionSlice, "selectionMode")
 //            compare(common.theme.type, -2/*Theme3D.ThemeRetro*/, "theme") // TODO: Fix once QTRD-3367 is done
-//            compare(common.renderingMode, -1/*AbstractGraph3D.RenderDirectToBackground_NoClear*/, "renderingMode") // TODO: Fix once QTRD-3367 is done
+//            compare(common.renderingMode, -1/*AbstractGraph3D.RenderDirectToBackground*/, "renderingMode") // TODO: Fix once QTRD-3367 is done
 //            compare(common.aspectRatio, -1.0/*1.0*/, "aspectRatio") // TODO: Fix once QTRD-3367 is done
 //            compare(common.horizontalAspectRatio, -2/*1*/, "horizontalAspectRatio") // TODO: Fix once QTRD-3367 is done
 //            compare(common.reflectivity, -1.0/*1.0*/, "reflectivity") // TODO: Fix once QTRD-3367 is done

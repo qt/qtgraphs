@@ -72,12 +72,6 @@
   This rendering mode offers the best performance at the expense of non-standard QML behavior. For example,
   the graphs do not obey the z ordering of QML items and the opacity value has no effect on them.
 
-
-  \value RenderDirectToBackground_NoClear
-  \obsolete
-  \note This will work exactly the same way as \c RenderDirectToBackground does in Qt 6
-  as not clearing the window is not supported anymore.
-
   \value RenderIndirect
          Indicates the graph will be first rendered to an offscreen surface that
   is then drawn during normal QML item rendering. The rendered image is
@@ -96,7 +90,7 @@
 /*!
   \qmlproperty int AbstractGraph3D::msaaSamples
   The number of samples used in multisample antialiasing when renderingMode is \c RenderIndirect.
-  When renderingMode is \c RenderDirectToBackground or \c RenderDirectToBackground_NoClear, this
+  When renderingMode is \c RenderDirectToBackground, this
   property value is read-only and returns the number of samples specified by the window surface
   format.
   Defaults to \c{4}.
