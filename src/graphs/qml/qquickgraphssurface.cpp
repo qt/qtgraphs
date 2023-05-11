@@ -315,11 +315,13 @@ void QQuickGraphsSurface::updateGraph()
 
         if (m_surfaceController->selectionMode().testFlag(QAbstract3DGraph::SelectionItem))
             updateSelectedPoint();
+
+        m_surfaceController->setSeriesVisibilityDirty(false);
     }
 
     if (m_surfaceController->isDataDirty()) {
         if (sliceView() && sliceView()->isVisible())
-            setSliceActivatedChanged(true);
+            updateSliceGraph();
 
         m_surfaceController->clearSelection();
 
@@ -522,6 +524,8 @@ void QQuickGraphsSurface::updateModel(SurfaceModel *model)
         QColor gridColor = model->series->wireframeColor();
         gridMaterial->setBaseColor(gridColor);
     }
+
+    updateSelectedPoint();
 }
 
 void QQuickGraphsSurface::updateMaterial(SurfaceModel *model)
@@ -576,11 +580,15 @@ void QQuickGraphsSurface::updateSliceGraph()
 
         QVector<SurfaceVertex> selectedSeries;
 
+        int rowCount = model->rowCount;
+        int columnCount = model->columnCount;
+
+        int indexCount = 0;
         if (selectionMode.testFlag(QAbstract3DGraph::SelectionRow)) {
-            int selectedRow = model->selectedVertex.coord.x() * model->columnCount;
-            selectedSeries.reserve(model->rowCount * 2);
+            int selectedRow = model->selectedVertex.coord.x() * columnCount;
+            selectedSeries.reserve(columnCount * 2);
             QVector<SurfaceVertex> list;
-            for (int i = 0; i < model->rowCount; i++) {
+            for (int i = 0; i < columnCount; i++) {
                 SurfaceVertex vertex = model->vertices.at(selectedRow + i);
                 vertex.normal = QVector3D(.0f, .0f, 1.f);
                 vertex.position.setY(vertex.position.y() - .025f);
@@ -590,16 +598,17 @@ void QQuickGraphsSurface::updateSliceGraph()
                 list.append(vertex);
             }
             selectedSeries.append(list);
+            indexCount = columnCount - 1;
         }
 
         if (selectionMode.testFlag(QAbstract3DGraph::SelectionColumn)) {
             int selectedColumn = model->selectedVertex.coord.y();
-            selectedSeries.reserve(model->columnCount * 2);
+            selectedSeries.reserve(rowCount * 2);
             QVector<SurfaceVertex> list;
-            for (int i = 0; i < model->columnCount; i++) {
-                SurfaceVertex vertex = model->vertices.at((i * model->rowCount) + selectedColumn);
-                vertex.normal = QVector3D(.0f, .0f, -1.0f);
-                vertex.position.setX(vertex.position.z());
+            for (int i = 0; i < rowCount; i++) {
+                SurfaceVertex vertex = model->vertices.at((i * columnCount) + selectedColumn);
+                vertex.normal = QVector3D(.0f, .0f, 1.0f);
+                vertex.position.setX(-vertex.position.z());
                 vertex.position.setY(vertex.position.y() - .025f);
                 vertex.position.setZ(0);
                 selectedSeries.append(vertex);
@@ -607,18 +616,18 @@ void QQuickGraphsSurface::updateSliceGraph()
                 list.append(vertex);
             }
             selectedSeries.append(list);
+            indexCount = rowCount - 1;
         }
 
-        int cnt = model->rowCount - 1;
         QVector<quint32> indices;
-        indices.reserve(cnt * 6);
-        for (int i = 0; i < cnt; i++) {
+        indices.reserve(indexCount * 6);
+        for (int i = 0; i < indexCount; i++) {
             indices.push_back(i + 1);
-            indices.push_back(i + cnt + 1);
+            indices.push_back(i + indexCount + 1);
             indices.push_back(i);
 
-            indices.push_back(i + cnt + 2);
-            indices.push_back(i + cnt + 1);
+            indices.push_back(i + indexCount + 2);
+            indices.push_back(i + indexCount + 1);
             indices.push_back(i + 1);
         }
 
@@ -639,10 +648,10 @@ void QQuickGraphsSurface::updateSliceGraph()
         geometry->setVertexData(vertexBuffer);
 
         QVector<quint32> gridIndices;
-        gridIndices.reserve(cnt * 4);
-        for (int i = 0; i < cnt; i++) {
+        gridIndices.reserve(indexCount * 4);
+        for (int i = 0; i < indexCount; i++) {
             gridIndices.push_back(i);
-            gridIndices.push_back(i + cnt + 1);
+            gridIndices.push_back(i + indexCount + 1);
 
             gridIndices.push_back(i);
             gridIndices.push_back(i + 1);
@@ -657,6 +666,8 @@ void QQuickGraphsSurface::updateSliceGraph()
         auto gridMaterial = static_cast<QQuick3DPrincipledMaterial *>(gridMaterialRef.at(0));
         QColor gridColor = model->series->wireframeColor();
         gridMaterial->setBaseColor(gridColor);
+
+        updateSelectedPoint();
     }
 }
 
@@ -1074,14 +1085,18 @@ void QQuickGraphsSurface::updateSelectedPoint()
     if (sliceView() && sliceView()->isVisible())
         m_sliceInstancing->resetPositions();
     for (auto model : m_model) {
-        SurfaceVertex selectedVertex = model->selectedVertex;
+        if (model->selectedVertex.position.isNull())
+            continue;
+        QPoint selectedCoord = model->selectedVertex.coord;
+        int index = selectedCoord.x() * model->columnCount + selectedCoord.y();
+        SurfaceVertex selectedVertex = model->vertices.at(index);
         if (model->series->isVisible() &&
                 !selectedVertex.position.isNull()) {
             m_instancing->addPosition(selectedVertex.position);
+            QVector3D slicePosition = selectedVertex.position;
             if (sliceView() && sliceView()->isVisible()) {
-                QVector3D slicePosition = selectedVertex.position;
                 if (m_surfaceController->selectionMode().testFlag(QAbstract3DGraph::SelectionColumn))
-                    slicePosition.setX(slicePosition.z());
+                    slicePosition.setX(-slicePosition.z());
                 slicePosition.setZ(.0f);
                 m_sliceInstancing->addPosition(slicePosition);
             }
@@ -1105,6 +1120,7 @@ void QQuickGraphsSurface::updateSelectedPoint()
                 labelVisible = true;
 
                 if (sliceView() && sliceView()->isVisible()) {
+                    labelPosition = slicePosition;
                     labelPosition.setZ(.1f);
                     labelPosition.setY(labelPosition.y() + .05f);
                     sliceItemLabel()->setPosition(labelPosition);

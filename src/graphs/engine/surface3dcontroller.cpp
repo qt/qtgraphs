@@ -14,7 +14,8 @@ Surface3DController::Surface3DController(QRect rect, Q3DScene *scene)
       m_selectedPoint(invalidSelectionPosition()),
       m_selectedSeries(0),
       m_flatShadingSupported(true),
-      m_flipHorizontalGrid(false)
+      m_flipHorizontalGrid(false),
+      m_isSeriesVisibilityDirty(false)
 {
     // Setting a null axis creates a new default axis according to orientation and graph type.
     // Note: these cannot be set in the Abstract3DController constructor, as they will call virtual
@@ -49,6 +50,7 @@ void Surface3DController::handleSeriesVisibilityChangedBySender(QObject *sender)
 {
     Abstract3DController::handleSeriesVisibilityChangedBySender(sender);
 
+    m_isSeriesVisibilityDirty = true;
     // Visibility changes may require disabling slicing,
     // so just reset selection to ensure everything is still valid.
     setSelectedPoint(m_selectedPoint, m_selectedSeries, false);

@@ -919,10 +919,8 @@ void QQuickGraphsItem::synchData()
         m_controller->m_isSeriesVisualsDirty = false;
     }
 
-    if (m_sliceActivatedChanged) {
+    if (m_sliceActivatedChanged)
         updateSliceGraph();
-        m_sliceActivatedChanged = false;
-    }
 }
 
 void QQuickGraphsItem::calculateSceneScalingFactors()
@@ -2459,7 +2457,7 @@ void QQuickGraphsItem::updateTitleLabels()
 
 void QQuickGraphsItem::updateSliceGraph()
 {
-    if (!sliceView())
+    if (!sliceView() || !m_sliceActivatedChanged)
         return;
 
     if (sliceView()->isVisible()) {
@@ -2483,6 +2481,8 @@ void QQuickGraphsItem::updateSliceGraph()
         updateSliceLabels();
         m_controller->setSlicingActive(true);
     }
+
+    m_sliceActivatedChanged = false;
 }
 
 void QQuickGraphsItem::windowDestroyed(QObject *obj)
@@ -2672,7 +2672,7 @@ void QQuickGraphsItem::updateSliceGrid()
         if (verticalAxis->type() == QAbstract3DAxis::AxisTypeValue) {
             auto axis = static_cast<QValue3DAxis *>(verticalAxis);
             if (i < axis->gridSize())
-                linePosY = axis->gridPositionAt(i / 2) * scale * 2.0f - translate;
+                linePosY = axis->gridPositionAt(i) * scale * 2.0f - translate;
             else
                 linePosY = axis->subGridPositionAt(i - axis->gridSize()) * scale * 2.0f - translate;
         } else if (verticalAxis->type() == QAbstract3DAxis::AxisTypeCategory) {

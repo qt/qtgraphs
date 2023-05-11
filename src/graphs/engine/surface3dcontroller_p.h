@@ -90,8 +90,8 @@ public:
     DataDimensions dataDimensions() { return m_dataDimensions; }
 
     bool hasChangedSeriesList() { return !m_changedSeriesList.isEmpty(); }
-    bool isSeriesVisibilityDirty() { return m_isSeriesVisualsDirty; }
-
+    bool isSeriesVisibilityDirty() { return m_isSeriesVisibilityDirty; }
+    void setSeriesVisibilityDirty(bool dirty) { m_isSeriesVisibilityDirty = dirty; }
     bool isDataDirty() { return m_isDataDirty; }
     void setDataDirty(bool dirty) { m_isDataDirty = dirty; }
 
@@ -124,6 +124,7 @@ private:
     QList<ChangeRow> m_changedRows;
     bool m_flipHorizontalGrid;
     QList<QSurface3DSeries *> m_changedTextures;
+    bool m_isSeriesVisibilityDirty;
 
     Surface3DController::DataDimensions m_dataDimensions;
 
