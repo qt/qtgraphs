@@ -359,11 +359,6 @@ QAbstract3DGraph::ShadowQuality QQuickGraphsItem::shadowQuality() const
     return m_controller->shadowQuality();
 }
 
-bool QQuickGraphsItem::shadowsSupported() const
-{
-    return m_controller->shadowsSupported();
-}
-
 int QQuickGraphsItem::addCustomItem(QCustom3DItem *item)
 {
     return m_controller->addCustomItem(item);

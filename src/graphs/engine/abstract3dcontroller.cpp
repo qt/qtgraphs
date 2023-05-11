@@ -531,11 +531,6 @@ QAbstract3DGraph::OptimizationHints Abstract3DController::optimizationHints() co
     return m_optimizationHints;
 }
 
-bool Abstract3DController::shadowsSupported() const
-{
-    return !isOpenGLES();
-}
-
 bool Abstract3DController::isSlicingActive() const
 {
     return m_scene->isSlicingActive();

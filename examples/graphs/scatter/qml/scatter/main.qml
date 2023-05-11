@@ -130,8 +130,7 @@ Item {
         anchors.left: parent.left
         anchors.top: parent.top
         anchors.margins: 5
-        text: scatterGraph.shadowsSupported ? "Hide Shadows" : "Shadows not supported"
-        enabled: scatterGraph.shadowsSupported
+        text: "Hide Shadows"
         onClicked: {
             if (scatterGraph.shadowQuality === AbstractGraph3D.ShadowQualityNone) {
                 scatterGraph.shadowQuality = AbstractGraph3D.ShadowQualityHigh;

@@ -176,9 +176,7 @@ Item {
             id: shadowToggle
             Layout.fillHeight: true
             Layout.minimumWidth: parent.width / 3 // 3 buttons divided equally in the layout
-            text: scatterGraph.shadowsSupported ? "Hide Shadows" : "Shadows not supported"
-            enabled: scatterGraph.shadowsSupported
-
+            text: "Hide Shadows"
             onClicked: {
                 if (scatterGraph.shadowQuality === AbstractGraph3D.ShadowQualityNone) {
                     scatterGraph.shadowQuality = AbstractGraph3D.ShadowQualityMedium;

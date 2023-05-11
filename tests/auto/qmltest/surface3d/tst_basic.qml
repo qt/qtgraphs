@@ -124,10 +124,7 @@ Item {
 //            constructCommon()
 //            compare(common.selectionMode, AbstractGraph3D.SelectionItem, "selectionMode")
 //            compare(common.shadowQuality, AbstractGraph3D.ShadowQualityMedium, "shadowQuality")
-//            if (common.shadowsSupported === true)
-//                compare(common.msaaSamples, 4, "msaaSamples")
-//            else
-//                compare(common.msaaSamples, 0, "msaaSamples")
+//            compare(common.msaaSamples, 4, "msaaSamples")
 //            compare(common.theme.type, Theme3D.ThemeQt, "theme")
 //            compare(common.renderingMode, AbstractGraph3D.RenderIndirect, "renderingMode")
 //            compare(common.measureFps, false, "measureFps")
@@ -152,10 +149,7 @@ Item {
 //            common.shadowQuality = AbstractGraph3D.ShadowQualitySoftHigh
 //            compare(common.shadowQuality, AbstractGraph3D.ShadowQualitySoftHigh, "shadowQuality")
 //            common.msaaSamples = 8
-//            if (common.shadowsSupported === true)
-//                compare(common.msaaSamples, 8, "msaaSamples")
-//            else
-//                compare(common.msaaSamples, 0, "msaaSamples")
+//            compare(common.msaaSamples, 8, "msaaSamples")
 //            common.theme.type = Theme3D.ThemeRetro
 //            common.renderingMode = AbstractGraph3D.RenderDirectToBackground
 //            common.measureFps = true
@@ -215,13 +209,8 @@ Item {
 //            constructCommonInit()
 
 //            compare(common_init.selectionMode, AbstractGraph3D.SelectionNone, "selectionMode")
-//            if (common_init.shadowsSupported === true) {
-//                tryCompare(common_init, "shadowQuality", AbstractGraph3D.ShadowQualityLow)
-//                compare(common_init.msaaSamples, 2, "msaaSamples")
-//            } else {
-//                tryCompare(common_init, "shadowQuality", AbstractGraph3D.ShadowQualityNone)
-//                compare(common_init.msaaSamples, 0, "msaaSamples")
-//            }
+//            tryCompare(common_init, "shadowQuality", AbstractGraph3D.ShadowQualityLow)
+//            compare(common_init.msaaSamples, 2, "msaaSamples")
 //            compare(common_init.theme.type, Theme3D.ThemeUserDefined, "theme")
 //            compare(common_init.renderingMode, AbstractGraph3D.RenderIndirect, "renderingMode")
 //            compare(common_init.measureFps, true, "measureFps")

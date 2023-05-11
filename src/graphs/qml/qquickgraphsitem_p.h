@@ -39,7 +39,6 @@ class QQuickGraphsItem : public QQuick3DViewport
     Q_OBJECT
     Q_PROPERTY(QAbstract3DGraph::SelectionFlags selectionMode READ selectionMode WRITE setSelectionMode NOTIFY selectionModeChanged)
     Q_PROPERTY(QAbstract3DGraph::ShadowQuality shadowQuality READ shadowQuality WRITE setShadowQuality NOTIFY shadowQualityChanged)
-    Q_PROPERTY(bool shadowsSupported READ shadowsSupported NOTIFY shadowsSupportedChanged)
     Q_PROPERTY(int msaaSamples READ msaaSamples WRITE setMsaaSamples NOTIFY msaaSamplesChanged)
     Q_PROPERTY(Declarative3DScene *scene READ scene NOTIFY sceneChanged)
     Q_PROPERTY(QAbstract3DInputHandler *inputHandler READ inputHandler WRITE setInputHandler NOTIFY inputHandlerChanged)
@@ -79,8 +78,6 @@ public:
     virtual QAbstract3DGraph::ShadowQuality shadowQuality() const;
 
     virtual QAbstract3DGraph::ElementType selectedElement() const;
-
-    virtual bool shadowsSupported() const;
 
     virtual void setMsaaSamples(int samples);
     virtual int msaaSamples() const;

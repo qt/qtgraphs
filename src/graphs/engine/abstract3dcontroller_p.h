@@ -236,7 +236,6 @@ public:
     virtual void setShadowQuality(QAbstract3DGraph::ShadowQuality quality);
     virtual void doSetShadowQuality(QAbstract3DGraph::ShadowQuality quality);
     virtual QAbstract3DGraph::ShadowQuality shadowQuality() const;
-    virtual bool shadowsSupported() const;
 
     void setOptimizationHints(QAbstract3DGraph::OptimizationHints hints);
     QAbstract3DGraph::OptimizationHints optimizationHints() const;

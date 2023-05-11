@@ -223,9 +223,8 @@ Item {
             id: shadowToggle
             Layout.fillWidth: true
             Layout.fillHeight: true
-            text: barGraph.shadowsSupported ? "Hide Shadows" : "Shadows not supported"
+            text: "Hide Shadows"
             clip: true
-            enabled: barGraph.shadowsSupported
             onClicked: {
                 if (barGraph.shadowQuality == AbstractGraph3D.ShadowQualityNone) {
                     barGraph.shadowQuality = AbstractGraph3D.ShadowQualitySoftHigh;
