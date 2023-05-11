@@ -115,8 +115,7 @@ void tst_bars::initialProperties()
     QCOMPARE(m_graph->isOrthoProjection(), false);
     QCOMPARE(m_graph->selectedElement(), QAbstract3DGraph::ElementNone);
     QCOMPARE(m_graph->aspectRatio(), 2.0);
-    // TODO: Once instancing support is in, make this Default instead of Legacy (QTBUG-112445)
-    QCOMPARE(m_graph->optimizationHints(), QAbstract3DGraph::OptimizationLegacy);
+    QCOMPARE(m_graph->optimizationHints(), QAbstract3DGraph::OptimizationDefault);
     QCOMPARE(m_graph->isPolar(), false);
     QCOMPARE(m_graph->radialLabelOffset(), 1.0);
     QCOMPARE(m_graph->horizontalAspectRatio(), 0.0);

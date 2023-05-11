@@ -29,8 +29,7 @@ Abstract3DController::Abstract3DController(QRect initialViewport, Q3DScene *scen
     m_useOrthoProjection(false),
     m_aspectRatio(2.0),
     m_horizontalAspectRatio(0.0),
-    // TODO: Once instancing support is in, make this Default instead of Legacy (QTBUG-112445)
-    m_optimizationHints(QAbstract3DGraph::OptimizationLegacy),
+    m_optimizationHints(QAbstract3DGraph::OptimizationDefault),
     m_reflectionEnabled(false),
     m_reflectivity(0.5),
     m_locale(QLocale::c()),
