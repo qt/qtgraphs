@@ -361,7 +361,7 @@ Item {
                     text = "Show\nSurface Grid";
                 } else {
                     surfaceSeries.drawMode |= Surface3DSeries.DrawWireframe;
-                    text = "Hid\nSurface Grid";
+                    text = "Hide\nSurface Grid";
                 }
             }
 
