@@ -104,6 +104,7 @@ protected:
     void createSliceView() override;
     void updateSliceGraph() override;
     void handleLabelCountChanged(QQuick3DRepeater *repeater) override;
+    void updateSelectionMode(QAbstract3DGraph::SelectionFlags mode) override;
 
 public Q_SLOTS:
     void handleAxisXChanged(QAbstract3DAxis *axis) override;
@@ -201,7 +202,6 @@ private:
 
         //instancing
         BarInstancing *instancing = nullptr;
-        QQuick3DModel *selectionIndicator = nullptr;
     };
 
     QHash<QBar3DSeries *, QList<BarModel *> *> m_barModelsMap;
@@ -221,6 +221,9 @@ private:
     QQuick3DTexture *m_multiHighlightTexture = nullptr;
     QHash<QBar3DSeries *, QList<BarModel *> *> m_slicedBarModels;
     bool m_selectionDirty = false;
+
+    QHash<QBar3DSeries *, QList<BarModel *> *> m_selectedModels;
+    QAbstract3DGraph::SelectionFlags m_selectionMode = QAbstract3DGraph::SelectionNone;
 
     void calculateHeightAdjustment();
     void calculateSeriesStartPosition();
@@ -243,10 +246,12 @@ private:
     void removeBarModels(QBar3DSeries *series);
     QQuick3DTexture *createTexture();
     void setSelectedBar(QBar3DSeries *series, const QPoint &coord);
+    void createSelectedModels(QBar3DSeries *series);
     void updateSelectedBar();
     Abstract3DController::SelectionType isSelected(int row, int bar, QBar3DSeries *series);
     void resetClickedStatus();
     void removeSlicedBarModels();
+    void removeSelectedModels();
 
     void updateBarSpecs(float thicknessRatio, const QSizeF &spacing, bool relative);
     void updateBarSeriesMargin(const QSizeF &margin);

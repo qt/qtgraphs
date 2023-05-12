@@ -23,6 +23,7 @@ struct BarItemHolder {
     QVector3D scale;
     QPoint coord;
     float heightValue;
+    bool selectedBar;
 };
 
 class BarInstancing : public QQuick3DInstancing
@@ -31,8 +32,8 @@ class BarInstancing : public QQuick3DInstancing
 public:
     BarInstancing();
 
-    const QList<BarItemHolder> &dataArray() const;
-    void setDataArray(const QList<BarItemHolder> &newDataArray);
+    QList<BarItemHolder *> dataArray() const;
+    void setDataArray(const QList<BarItemHolder *> &newDataArray);
 
     void markDataDirty();
     bool rangeGradient() const;
@@ -45,7 +46,7 @@ protected:
 
 private:
     QByteArray m_instanceData;
-    QList<BarItemHolder> m_dataArray;
+    QList<BarItemHolder *> m_dataArray;
     int m_instanceCount = 0;
     bool m_dirty = true;
     bool m_rangeGradient = false;

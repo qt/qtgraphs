@@ -509,6 +509,11 @@ void QQuickGraphsItem::synchData()
 
     m_controller->m_renderPending = false;
 
+    if (m_controller->m_changeTracker.selectionModeChanged) {
+        updateSelectionMode(m_controller->selectionMode());
+        m_controller->m_changeTracker.selectionModeChanged = false;
+    }
+
     bool recalculateScale = false;
     if (m_controller->m_changeTracker.aspectRatioChanged) {
         recalculateScale = true;
@@ -2453,6 +2458,11 @@ void QQuickGraphsItem::updateTitleLabels()
         m_titleLabelZ->setProperty("labelText", m_controller->axisZ()->title());
         m_controller->m_changeTracker.axisZTitleChanged = false;
     }
+}
+
+void QQuickGraphsItem::updateSelectionMode(QAbstract3DGraph::SelectionFlags newMode)
+{
+    Q_UNUSED(newMode);
 }
 
 void QQuickGraphsItem::updateSliceGraph()

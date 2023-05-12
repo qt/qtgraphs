@@ -224,6 +224,7 @@ public:
     void changeLabelsEnabled(QQuick3DRepeater *repeater, const bool &enabled);
     void changeGridLineColor(QQuick3DRepeater *repeater, const QColor &color);
     void updateTitleLabels();
+    virtual void updateSelectionMode(QAbstract3DGraph::SelectionFlags newMode);
 
 public Q_SLOTS:
     virtual void handleAxisXChanged(QAbstract3DAxis *axis) = 0;
