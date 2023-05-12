@@ -18,8 +18,8 @@ set(INSTALL_EXAMPLEDIR "${INSTALL_EXAMPLESDIR}")
 
 find_package(Qt6 COMPONENTS Core)
 find_package(Qt6 COMPONENTS Gui)
-find_package(Qt6 COMPONENTS Qml)
 find_package(Qt6 COMPONENTS Quick)
+find_package(Qt6 COMPONENTS Quick3D)
 find_package(Qt6 COMPONENTS Graphs)
 
 qt_add_executable(axishandling
@@ -32,14 +32,13 @@ set_target_properties(axishandling PROPERTIES
 target_link_libraries(axishandling PUBLIC
     Qt::Core
     Qt::Gui
-    Qt::Qml
     Qt::Quick
+    Qt::Quick3D
     Qt::Graphs
 )
 
 qt6_add_qml_module(axishandling
     URI AxisHandling
-    VERSION 1.0
     NO_RESOURCE_TARGET_PATH
     SOURCES
         customformatter.cpp customformatter.h

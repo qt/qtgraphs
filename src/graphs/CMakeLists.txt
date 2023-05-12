@@ -22,6 +22,7 @@ qt_internal_add_qml_module(Graphs
     PAST_MAJOR_VERSIONS 1
     DEPENDENCIES
         QtQuick
+        QtQuick3D
         QML_FILES
             ${qml_files}
     SOURCES
@@ -118,16 +119,15 @@ qt_internal_add_qml_module(Graphs
         theme
         utils
         qml
+    LIBRARIES
+        Qt::Quick3DPrivate
+        Qt::Quick3DRuntimeRenderPrivate
     PUBLIC_LIBRARIES
         Qt::Core
         Qt::Gui
-        Qt::OpenGL
-        Qt::Qml
         Qt::Quick
         Qt::QuickWidgets
         Qt::Quick3D
-        Qt::Quick3DPrivate
-        Qt::Quick3DRuntimeRenderPrivate
     PRIVATE_MODULE_INTERFACE
         Qt::Quick3DPrivate
         Qt::Quick3DRuntimeRenderPrivate

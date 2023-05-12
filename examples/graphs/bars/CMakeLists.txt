@@ -18,8 +18,8 @@ set(INSTALL_EXAMPLEDIR "${INSTALL_EXAMPLESDIR}")
 
 find_package(Qt6 COMPONENTS Core)
 find_package(Qt6 COMPONENTS Gui)
-find_package(Qt6 COMPONENTS Qml)
 find_package(Qt6 COMPONENTS Quick)
+find_package(Qt6 COMPONENTS Quick3D)
 find_package(Qt6 COMPONENTS Graphs)
 
 qt_add_executable(bars
@@ -29,21 +29,17 @@ set_target_properties(bars PROPERTIES
     WIN32_EXECUTABLE TRUE
     MACOSX_BUNDLE TRUE
 )
-target_compile_definitions(bars PUBLIC
-    QT_DISABLE_DEPRECATED_UP_TO=0x050F00
-)
 
 target_link_libraries(bars PUBLIC
     Qt::Core
     Qt::Gui
-    Qt::Qml
     Qt::Quick
+    Qt::Quick3D
     Qt::Graphs
 )
 
 qt6_add_qml_module(bars
     URI Bars
-    VERSION 1.0
     NO_RESOURCE_TARGET_PATH
     QML_FILES
         qml/bars/Axes.qml
