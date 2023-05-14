@@ -221,10 +221,10 @@ private:
     QQuaternion m_meshRotation;
     QQuick3DTexture *m_highlightTexture = nullptr;
     QQuick3DTexture *m_multiHighlightTexture = nullptr;
-    QHash<QBar3DSeries *, QList<BarModel *> *> m_slicedBarModels;
+    QHash<QBar3DSeries *, QList<QQuick3DModel *> *> m_slicedBarModels;
     bool m_selectionDirty = false;
 
-    QHash<QBar3DSeries *, QList<BarModel *> *> m_selectedModels;
+    QHash<QBar3DSeries *, QList<QQuick3DModel *> *> m_selectedModels;
     QAbstract3DGraph::SelectionFlags m_selectionMode = QAbstract3DGraph::SelectionNone;
 
     void calculateHeightAdjustment();
@@ -245,7 +245,7 @@ private:
                               bool isMultiHighlight = false, QQuick3DTexture *texture = nullptr);
     void updatePrincipledMaterial(QQuick3DModel *model, const QColor &color, bool useGradient,
                                   bool isHighlight, QQuick3DTexture *texture);
-    void removeBarModels(QBar3DSeries *series);
+    void removeBarModels();
     QQuick3DTexture *createTexture();
     void setSelectedBar(QBar3DSeries *series, const QPoint &coord);
     void createSelectedModels(QBar3DSeries *series);
