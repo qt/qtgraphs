@@ -1270,75 +1270,95 @@ QQuick3DTexture *QQuickGraphsBars::createTexture()
 
 bool QQuickGraphsBars::handleMousePressedEvent(QMouseEvent *event)
 {
-    if (isSliceEnabled())
-        m_barsController->setSlicingActive(true);
     m_selectionDirty = true;
+
     if (!QQuickGraphsItem::handleMousePressedEvent(event))
         return true;
 
     createSliceView();
 
-    if (Qt::LeftButton == event->button()) {
-        auto mousePos = event->pos();
-        QList<QQuick3DPickResult> pickResults = pickAll(mousePos.x(), mousePos.y());
-        QQuick3DModel *selectedModel = nullptr;
-        int instanceInd = 0;
-        if (!m_selectionMode.testFlag(QAbstract3DGraph::SelectionNone)) {
-            for (const auto &picked : std::as_const(pickResults)) {
-                if (picked.objectHit()->visible()) {
-                    if (picked.objectHit() == backgroundBB() || picked.objectHit() == background()) {
-                        resetClickedStatus();
-                        continue;
-                    } else if (picked.objectHit()->objectName().contains(QStringLiteral("BarModel"))) {
-                        if (optimizationHints() == QAbstract3DGraph::OptimizationLegacy) {
-                            selectedModel = picked.objectHit();
-                            break;
-                        } else if (optimizationHints() == QAbstract3DGraph::OptimizationDefault) {
-                            selectedModel = picked.objectHit();
-                            // Prevents to select bars with a height of 0 which affect picking.
-                            if (selectedModel->instancing()->instancePosition(picked.instanceIndex()).y()
-                                != 0) {
-                                instanceInd = picked.instanceIndex();
-                                break;
-                            }
-                        }
-                    }
-                }
-            }
+    if (Qt::LeftButton == event->button())
+        doPicking(event->pos());
 
-            if (selectedModel) {
-                QBar3DSeries *series = 0;
-                QPoint coord = m_barsController->invalidSelectionPosition();
-                for (auto it = m_barModelsMap.begin(); it != m_barModelsMap.end(); it++) {
-                    QList<BarModel *> barList = *it.value();
-                    if (!it.key()->isVisible())
-                        continue;
-                    for (int i = 0; i < barList.size(); i++) {
-                        if (optimizationHints() == QAbstract3DGraph::OptimizationLegacy) {
-                            QQuick3DModel *model = barList.at(i)->model;
-                            if (model == selectedModel) {
-                                series = it.key();
-                                coord = barList.at(i)->coord;
-                            }
-                        } else if (optimizationHints() == QAbstract3DGraph::OptimizationDefault) {
-                            QList<BarItemHolder *> barItemList = barList.at(i)->instancing->dataArray();
-                            auto itemPos = barItemList.at(instanceInd)->position;
-                            auto selected = selectedModel->instancing()->instancePosition(instanceInd);
-                            if (itemPos == selected) {
-                                series = it.key();
-                                coord = barItemList.at(instanceInd)->coord;
-                                m_selectedBarPos = barItemList.at(instanceInd)->position;
-                            }
-                        }
-                    }
-                }
-                setSelectedBar(series, coord);
-            } else {
-                resetClickedStatus();
-            }
-        }
+    return true;
+}
+
+bool QQuickGraphsBars::handleTouchEvent(QTouchEvent *event)
+{
+    m_selectionDirty = true;
+
+    if (!QQuickGraphsItem::handleTouchEvent(event))
+        return true;
+
+    createSliceView();
+
+    if (scene()->selectionQueryPosition() != scene()->invalidSelectionPoint()
+        && !event->isUpdateEvent()) {
+        doPicking(event->point(0).position());
+        scene()->setSelectionQueryPosition(scene()->invalidSelectionPoint());
     }
     return true;
+}
+
+void QQuickGraphsBars::doPicking(const QPointF &position)
+{
+    QList<QQuick3DPickResult> pickResults = pickAll(position.x(), position.y());
+    QQuick3DModel *selectedModel = nullptr;
+    int instanceInd = 0;
+    if (!m_selectionMode.testFlag(QAbstract3DGraph::SelectionNone)) {
+        for (const auto &picked : std::as_const(pickResults)) {
+            if (picked.objectHit()->visible()) {
+                if (picked.objectHit() == backgroundBB() || picked.objectHit() == background()) {
+                    resetClickedStatus();
+                    continue;
+                } else if (picked.objectHit()->objectName().contains(QStringLiteral("BarModel"))) {
+                    if (optimizationHints() == QAbstract3DGraph::OptimizationLegacy) {
+                        selectedModel = picked.objectHit();
+                        break;
+                    } else if (optimizationHints() == QAbstract3DGraph::OptimizationDefault) {
+                        selectedModel = picked.objectHit();
+                        // Prevents to select bars with a height of 0 which affect picking.
+                        if (selectedModel->instancing()->instancePosition(picked.instanceIndex()).y()
+                            != 0) {
+                            instanceInd = picked.instanceIndex();
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+
+        if (selectedModel) {
+            QBar3DSeries *series = 0;
+            QPoint coord = m_barsController->invalidSelectionPosition();
+            for (auto it = m_barModelsMap.begin(); it != m_barModelsMap.end(); it++) {
+                QList<BarModel *> barList = *it.value();
+                if (!it.key()->isVisible())
+                    continue;
+                for (int i = 0; i < barList.size(); i++) {
+                    if (optimizationHints() == QAbstract3DGraph::OptimizationLegacy) {
+                        QQuick3DModel *model = barList.at(i)->model;
+                        if (model == selectedModel) {
+                            series = it.key();
+                            coord = barList.at(i)->coord;
+                        }
+                    } else if (optimizationHints() == QAbstract3DGraph::OptimizationDefault) {
+                        QList<BarItemHolder *> barItemList = barList.at(i)->instancing->dataArray();
+                        auto itemPos = barItemList.at(instanceInd)->position;
+                        auto selected = selectedModel->instancing()->instancePosition(instanceInd);
+                        if (itemPos == selected) {
+                            series = it.key();
+                            coord = barItemList.at(instanceInd)->coord;
+                            m_selectedBarPos = barItemList.at(instanceInd)->position;
+                        }
+                    }
+                }
+            }
+            setSelectedBar(series, coord);
+        } else {
+            resetClickedStatus();
+        }
+    }
 }
 
 void QQuickGraphsBars::setSelectedBar(QBar3DSeries *series, const QPoint &coord)

@@ -275,9 +275,11 @@ protected:
     virtual void handleOptimizationHintChange(QAbstract3DGraph::OptimizationHints hints);
     virtual void keyPressEvent(QKeyEvent *ev) override;
     virtual bool handleMousePressedEvent(QMouseEvent *event);
+    virtual bool handleTouchEvent(QTouchEvent *event);
     virtual void handleThemeTypeChange();
 
     void componentComplete() override;
+    void checkSliceEnabled();
 
     virtual void createSliceView();
 

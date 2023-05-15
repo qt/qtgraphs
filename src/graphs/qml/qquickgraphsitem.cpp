@@ -144,20 +144,37 @@ void QQuickGraphsItem::keyPressEvent(QKeyEvent *ev)
 bool QQuickGraphsItem::handleMousePressedEvent(QMouseEvent *event)
 {
     if (Qt::LeftButton == event->button()) {
-        if (sliceView() && sliceView()->isVisible()) {
+        if (scene()->isSlicingActive()) {
             m_sliceActivatedChanged = true;
             return false;
         }
-        auto selectionMode = m_controller->selectionMode();
-        if (selectionMode.testFlag(QAbstract3DGraph::SelectionSlice)
-                && (selectionMode.testFlag(QAbstract3DGraph::SelectionColumn)
-                    != selectionMode.testFlag(QAbstract3DGraph::SelectionRow))) {
-            m_sliceEnabled = true;
-        } else {
-            m_sliceEnabled = false;
-        }
+        checkSliceEnabled();
     }
     return true;
+}
+
+bool QQuickGraphsItem::handleTouchEvent(QTouchEvent *event)
+{
+    if (!event->isUpdateEvent()) {
+        if (scene()->isSlicingActive()) {
+            m_sliceActivatedChanged = true;
+            return false;
+        }
+        checkSliceEnabled();
+    }
+    return true;
+}
+
+void QQuickGraphsItem::checkSliceEnabled()
+{
+    auto selectionMode = m_controller->selectionMode();
+    if (selectionMode.testFlag(QAbstract3DGraph::SelectionSlice)
+        && (selectionMode.testFlag(QAbstract3DGraph::SelectionColumn)
+            != selectionMode.testFlag(QAbstract3DGraph::SelectionRow))) {
+        m_sliceEnabled = true;
+    } else {
+        m_sliceEnabled = false;
+    }
 }
 
 void QQuickGraphsItem::handleThemeTypeChange()
@@ -2168,6 +2185,7 @@ void QQuickGraphsItem::mouseDoubleClickEvent(QMouseEvent *event)
 void QQuickGraphsItem::touchEvent(QTouchEvent *event)
 {
     m_controller->touchEvent(event);
+    handleTouchEvent(event);
     window()->update();
 }
 
@@ -2467,16 +2485,16 @@ void QQuickGraphsItem::updateSelectionMode(QAbstract3DGraph::SelectionFlags newM
 
 void QQuickGraphsItem::updateSliceGraph()
 {
-    if (!sliceView() || !m_sliceActivatedChanged)
+    if (!m_sliceView || !m_sliceActivatedChanged)
         return;
 
-    if (sliceView()->isVisible()) {
-        m_controller->setSlicingActive(false);
+    if (m_sliceView->isVisible()) {
         setWidth(width() * 5.f);
         setHeight(height() * 5.f);
         m_sliceView->setVisible(false);
+        m_controller->setSlicingActive(false);
     } else {
-        QQuick3DOrthographicCamera *camera = static_cast<QQuick3DOrthographicCamera *>(sliceView()->camera());
+        QQuick3DOrthographicCamera *camera = static_cast<QQuick3DOrthographicCamera *>(m_sliceView->camera());
         float pixelRatio = scene()->devicePixelRatio();
         float magnification = 100.0f * pixelRatio + 50.0f;
         camera->setHorizontalMagnification(magnification);

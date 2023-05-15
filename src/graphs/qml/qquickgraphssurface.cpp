@@ -1022,60 +1022,80 @@ bool QQuickGraphsSurface::handleMousePressedEvent(QMouseEvent *event)
     if (!sliceView())
         createSliceView();
 
-    if (Qt::LeftButton == event->button()) {
-        auto mousePos = event->pos();
-        auto pickResult = pickAll(mousePos.x(), mousePos.y());
-        QVector3D pickedPos(0.0f, 0.0f, 0.0f);
-        QQuick3DModel *pickedModel = nullptr;
+    if (Qt::LeftButton == event->button())
+        doPicking(event->pos());
 
-        auto selectionMode = m_surfaceController->selectionMode();
-        if (!selectionMode.testFlag(QAbstract3DGraph::SelectionNone)) {
-            for (auto picked : pickResult) {
-                if (picked.objectHit()->objectName().contains(QStringLiteral("SurfaceModel"))) {
-                    pickedPos = picked.position();
-                    pickedModel = picked.objectHit();
-                    if (!pickedPos.isNull())
-                        break;
-                }
+    return true;
+}
+
+bool QQuickGraphsSurface::handleTouchEvent(QTouchEvent *event)
+{
+    if (!QQuickGraphsItem::handleTouchEvent(event))
+        return true;
+
+    if (!sliceView())
+        createSliceView();
+
+    if (scene()->selectionQueryPosition() != scene()->invalidSelectionPoint()
+        && !event->isUpdateEvent()) {
+        doPicking(event->point(0).position());
+        scene()->setSelectionQueryPosition(scene()->invalidSelectionPoint());
+    }
+
+    return true;
+}
+
+void QQuickGraphsSurface::doPicking(const QPointF &position)
+{
+    auto pickResult = pickAll(position.x(), position.y());
+    QVector3D pickedPos(0.0f, 0.0f, 0.0f);
+    QQuick3DModel *pickedModel = nullptr;
+
+    auto selectionMode = m_surfaceController->selectionMode();
+    if (!selectionMode.testFlag(QAbstract3DGraph::SelectionNone)) {
+        for (auto picked : pickResult) {
+            if (picked.objectHit()->objectName().contains(QStringLiteral("SurfaceModel"))) {
+                pickedPos = picked.position();
+                pickedModel = picked.objectHit();
+                if (!pickedPos.isNull())
+                    break;
             }
+        }
 
-            if (!pickedPos.isNull()) {
-                float min = -1.0f;
+        if (!pickedPos.isNull()) {
+            float min = -1.0f;
 
-                for (auto model : m_model) {
-                    if (!model->series->isVisible())
-                        continue;
+            for (auto model : m_model) {
+                if (!model->series->isVisible())
+                    continue;
 
-                    model->picked = (model->model == pickedModel);
+                model->picked = (model->model == pickedModel);
 
-                    if (!selectionMode.testFlag(QAbstract3DGraph::SelectionMultiSeries)
-                            && !model->picked) {
-                        continue;
+                if (!selectionMode.testFlag(QAbstract3DGraph::SelectionMultiSeries)
+                    && !model->picked) {
+                    continue;
+                }
+
+                SurfaceVertex selectedVertex;
+                for (auto vertex : model->vertices) {
+                    QVector3D pos = vertex.position;
+                    float dist = pickedPos.distanceToPoint(pos);
+                    if (selectedVertex.position.isNull() || dist < min) {
+                        min = dist;
+                        selectedVertex = vertex;
                     }
-
-                    SurfaceVertex selectedVertex;
-                    for (auto vertex : model->vertices) {
-                        QVector3D pos = vertex.position;
-                        float dist = pickedPos.distanceToPoint(pos);
-                        if (selectedVertex.position.isNull() || dist < min) {
-                            min = dist;
-                            selectedVertex = vertex;
-                        }
-                    }
-                    model->selectedVertex = selectedVertex;
-                    if (!selectedVertex.position.isNull()
-                            && model->picked) {
-                        model->series->setSelectedPoint(selectedVertex.coord);
-                        m_surfaceController->setSlicingActive(false);
-                        if (isSliceEnabled())
-                            setSliceActivatedChanged(true);
-                    }
+                }
+                model->selectedVertex = selectedVertex;
+                if (!selectedVertex.position.isNull()
+                    && model->picked) {
+                    model->series->setSelectedPoint(selectedVertex.coord);
+                    m_surfaceController->setSlicingActive(false);
+                    if (isSliceEnabled())
+                        setSliceActivatedChanged(true);
                 }
             }
         }
     }
-
-    return true;
 }
 
 void QQuickGraphsSurface::updateSelectedPoint()

@@ -101,10 +101,12 @@ protected:
                                              int index) override;
     float calculateCategoryGridLinePosition(QAbstract3DAxis *axis, int index) override;
     bool handleMousePressedEvent(QMouseEvent *event) override;
+    bool handleTouchEvent(QTouchEvent *event) override;
     void createSliceView() override;
     void updateSliceGraph() override;
     void handleLabelCountChanged(QQuick3DRepeater *repeater) override;
     void updateSelectionMode(QAbstract3DGraph::SelectionFlags mode) override;
+    void doPicking(const QPointF &position);
 
 public Q_SLOTS:
     void handleAxisXChanged(QAbstract3DAxis *axis) override;

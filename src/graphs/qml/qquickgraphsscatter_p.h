@@ -77,6 +77,8 @@ protected:
     void calculateSceneScalingFactors() override;
     bool handleMousePressedEvent(QMouseEvent *event) override;
     void componentComplete() override;
+    bool handleTouchEvent(QTouchEvent *event) override;
+    void doPicking(const QPointF &position);
 
 private:
 

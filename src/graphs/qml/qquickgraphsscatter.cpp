@@ -845,33 +845,47 @@ void QQuickGraphsScatter::handleMeshSmoothChanged(bool enable)
 
 bool QQuickGraphsScatter::handleMousePressedEvent(QMouseEvent *event)
 {
-    if (Qt::LeftButton == event->button()) {
-        if (selectionMode() == QAbstract3DGraph::SelectionItem) {
-            const auto clickPosition = event->pos();
-            QList<QQuick3DPickResult> results = pickAll(clickPosition.x(), clickPosition.y());
-            if (!results.empty()) {
-                for (const auto &result : std::as_const(results)) {
-                    if (const auto &hit = result.objectHit()) {
-                        if (hit == backgroundBB() || hit == background()) {
-                            clearSelectionModel();
-                            continue;
-                        }
-                        if (optimizationHints() == QAbstract3DGraph::OptimizationLegacy) {
-                            setSelected(hit);
-                            break;
-                        } else if (optimizationHints() == QAbstract3DGraph::OptimizationDefault) {
-                            setSelected(hit, result.instanceIndex());
-                            break;
-                        }
-                    }
-                }
-            } else {
-                clearSelectionModel();
-            }
-        }
+    if (Qt::LeftButton == event->button())
+        doPicking(event->pos());
+
+    return true;
+}
+
+bool QQuickGraphsScatter::handleTouchEvent(QTouchEvent *event)
+{
+    if (scene()->selectionQueryPosition() != scene()->invalidSelectionPoint()
+        && !event->isUpdateEvent()) {
+        doPicking(event->point(0).position());
+        scene()->setSelectionQueryPosition(scene()->invalidSelectionPoint());
     }
 
     return true;
+}
+
+void QQuickGraphsScatter::doPicking(const QPointF &position)
+{
+    if (selectionMode() == QAbstract3DGraph::SelectionItem) {
+        QList<QQuick3DPickResult> results = pickAll(position.x(), position.y());
+        if (!results.empty()) {
+            for (const auto &result : std::as_const(results)) {
+                if (const auto &hit = result.objectHit()) {
+                    if (hit == backgroundBB() || hit == background()) {
+                        clearSelectionModel();
+                        continue;
+                    }
+                    if (optimizationHints() == QAbstract3DGraph::OptimizationLegacy) {
+                        setSelected(hit);
+                        break;
+                    } else if (optimizationHints() == QAbstract3DGraph::OptimizationDefault) {
+                        setSelected(hit, result.instanceIndex());
+                        break;
+                    }
+                }
+            }
+        } else {
+            clearSelectionModel();
+        }
+    }
 }
 
 void QQuickGraphsScatter::componentComplete()

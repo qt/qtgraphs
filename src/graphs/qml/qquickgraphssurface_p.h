@@ -73,6 +73,8 @@ protected:
     bool handleMousePressedEvent(QMouseEvent *event) override;
     void updateSingleHighlightColor() override;
     void handleThemeTypeChange() override;
+    bool handleTouchEvent(QTouchEvent *event) override;
+    void doPicking(const QPointF &position);
 
     void createSliceView() override;
 
