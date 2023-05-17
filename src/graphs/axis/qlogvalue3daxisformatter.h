@@ -13,7 +13,7 @@ class QLogValue3DAxisFormatterPrivate;
 class Q_GRAPHS_EXPORT QLogValue3DAxisFormatter : public QValue3DAxisFormatter
 {
     Q_OBJECT
-
+    Q_DECLARE_PRIVATE(QLogValue3DAxisFormatter)
     Q_PROPERTY(qreal base READ base WRITE setBase NOTIFY baseChanged)
     Q_PROPERTY(bool autoSubGrid READ autoSubGrid WRITE setAutoSubGrid NOTIFY autoSubGridChanged)
     Q_PROPERTY(bool showEdgeLabels READ showEdgeLabels WRITE setShowEdgeLabels NOTIFY showEdgeLabelsChanged)
@@ -41,15 +41,10 @@ protected:
     void recalculate() override;
     float positionAt(float value) const override;
     float valueAt(float position) const override;
-    void populateCopy(QValue3DAxisFormatter &copy) const override;
-
-    QLogValue3DAxisFormatterPrivate *dptr();
-    const QLogValue3DAxisFormatterPrivate *dptrc() const;
+    void populateCopy(QValue3DAxisFormatter &copy) override;
 
 private:
     Q_DISABLE_COPY(QLogValue3DAxisFormatter)
-
-    friend class QLogValue3DAxisFormatterPrivate;
 };
 
 QT_END_NAMESPACE

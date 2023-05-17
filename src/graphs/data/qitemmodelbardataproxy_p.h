@@ -23,7 +23,8 @@ class BarItemModelHandler;
 
 class QItemModelBarDataProxyPrivate : public QBarDataProxyPrivate
 {
-    Q_OBJECT
+    Q_DECLARE_PUBLIC(QItemModelBarDataProxy)
+
 public:
     QItemModelBarDataProxyPrivate(QItemModelBarDataProxy *q);
     virtual ~QItemModelBarDataProxyPrivate();
@@ -31,8 +32,6 @@ public:
     void connectItemModelHandler();
 
 private:
-    QItemModelBarDataProxy *qptr();
-
     BarItemModelHandler *m_itemModelHandler;
 
     QString m_rowRole;
@@ -61,7 +60,6 @@ private:
     QItemModelBarDataProxy::MultiMatchBehavior m_multiMatchBehavior;
 
     friend class BarItemModelHandler;
-    friend class QItemModelBarDataProxy;
 };
 
 QT_END_NAMESPACE

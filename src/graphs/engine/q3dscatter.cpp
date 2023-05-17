@@ -62,8 +62,8 @@ Q3DScatter::Q3DScatter() : QAbstract3DGraph()
 {
     QQmlComponent *component = new QQmlComponent(engine(), this);
     component->setData("import QtQuick; import QtGraphs; Scatter3D { anchors.fill: parent; }", QUrl());
-    d_ptr.reset(qobject_cast<QQuickGraphsScatter *>(component->create()));
-    setContent(component->url(), component, d_ptr.data());
+    m_graphsItem.reset(qobject_cast<QQuickGraphsScatter *>(component->create()));
+    setContent(component->url(), component, m_graphsItem.data());
 }
 
 /*!
@@ -235,7 +235,7 @@ QList<QValue3DAxis *> Q3DScatter::axes() const
  */
 QQuickGraphsScatter *Q3DScatter::dptr()
 {
-    return static_cast<QQuickGraphsScatter *>(d_ptr.data());
+    return static_cast<QQuickGraphsScatter *>(m_graphsItem.data());
 }
 
 /*!
@@ -243,7 +243,7 @@ QQuickGraphsScatter *Q3DScatter::dptr()
  */
 const QQuickGraphsScatter *Q3DScatter::dptrc() const
 {
-    return static_cast<const QQuickGraphsScatter *>(d_ptr.data());
+    return static_cast<const QQuickGraphsScatter *>(m_graphsItem.data());
 }
 
 QT_END_NAMESPACE

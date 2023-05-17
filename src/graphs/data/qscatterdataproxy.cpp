@@ -85,7 +85,8 @@ QScatterDataProxy::~QScatterDataProxy()
  */
 QScatter3DSeries *QScatterDataProxy::series() const
 {
-    return static_cast<QScatter3DSeries *>(d_ptr->series());
+    const Q_D(QScatterDataProxy);
+    return static_cast<QScatter3DSeries *>(d->series());
 }
 
 /*!
@@ -97,8 +98,9 @@ QScatter3DSeries *QScatterDataProxy::series() const
  */
 void QScatterDataProxy::resetArray(QScatterDataArray *newArray)
 {
-    if (dptr()->m_dataArray != newArray)
-        dptr()->resetArray(newArray);
+    Q_D(QScatterDataProxy);
+    if (d->m_dataArray != newArray)
+        d->resetArray(newArray);
 
     emit arrayReset();
     emit itemCountChanged(itemCount());
@@ -109,7 +111,8 @@ void QScatterDataProxy::resetArray(QScatterDataArray *newArray)
  */
 void QScatterDataProxy::setItem(int index, const QScatterDataItem &item)
 {
-    dptr()->setItem(index, item);
+    Q_D(QScatterDataProxy);
+    d->setItem(index, item);
     emit itemsChanged(index, 1);
 }
 
@@ -119,7 +122,8 @@ void QScatterDataProxy::setItem(int index, const QScatterDataItem &item)
  */
 void QScatterDataProxy::setItems(int index, const QScatterDataArray &items)
 {
-    dptr()->setItems(index, items);
+    Q_D(QScatterDataProxy);
+    d->setItems(index, items);
     emit itemsChanged(index, items.size());
 }
 
@@ -130,7 +134,8 @@ void QScatterDataProxy::setItems(int index, const QScatterDataArray &items)
  */
 int QScatterDataProxy::addItem(const QScatterDataItem &item)
 {
-    int addIndex = dptr()->addItem(item);
+    Q_D(QScatterDataProxy);
+    int addIndex = d->addItem(item);
     emit itemsAdded(addIndex, 1);
     emit itemCountChanged(itemCount());
     return addIndex;
@@ -143,7 +148,8 @@ int QScatterDataProxy::addItem(const QScatterDataItem &item)
  */
 int QScatterDataProxy::addItems(const QScatterDataArray &items)
 {
-    int addIndex = dptr()->addItems(items);
+    Q_D(QScatterDataProxy);
+    int addIndex = d->addItems(items);
     emit itemsAdded(addIndex, items.size());
     emit itemCountChanged(itemCount());
     return addIndex;
@@ -155,7 +161,8 @@ int QScatterDataProxy::addItems(const QScatterDataArray &items)
  */
 void QScatterDataProxy::insertItem(int index, const QScatterDataItem &item)
 {
-    dptr()->insertItem(index, item);
+    Q_D(QScatterDataProxy);
+    d->insertItem(index, item);
     emit itemsInserted(index, 1);
     emit itemCountChanged(itemCount());
 }
@@ -166,7 +173,8 @@ void QScatterDataProxy::insertItem(int index, const QScatterDataItem &item)
  */
 void QScatterDataProxy::insertItems(int index, const QScatterDataArray &items)
 {
-    dptr()->insertItems(index, items);
+    Q_D(QScatterDataProxy);
+    d->insertItems(index, items);
     emit itemsInserted(index, items.size());
     emit itemCountChanged(itemCount());
 }
@@ -178,10 +186,11 @@ void QScatterDataProxy::insertItems(int index, const QScatterDataArray &items)
  */
 void QScatterDataProxy::removeItems(int index, int removeCount)
 {
-    if (index >= dptr()->m_dataArray->size())
+    Q_D(QScatterDataProxy);
+    if (index >= d->m_dataArray->size())
         return;
 
-    dptr()->removeItems(index, removeCount);
+    d->removeItems(index, removeCount);
     emit itemsRemoved(index, removeCount);
     emit itemCountChanged(itemCount());
 }
@@ -193,7 +202,8 @@ void QScatterDataProxy::removeItems(int index, int removeCount)
  */
 int QScatterDataProxy::itemCount() const
 {
-    return dptrc()->m_dataArray->size();
+    const Q_D(QScatterDataProxy);
+    return d->m_dataArray->size();
 }
 
 /*!
@@ -201,7 +211,8 @@ int QScatterDataProxy::itemCount() const
  */
 const QScatterDataArray *QScatterDataProxy::array() const
 {
-    return dptrc()->m_dataArray;
+    const Q_D(QScatterDataProxy);
+    return d->m_dataArray;
 }
 
 /*!
@@ -210,23 +221,8 @@ const QScatterDataArray *QScatterDataProxy::array() const
  */
 const QScatterDataItem *QScatterDataProxy::itemAt(int index) const
 {
-    return &dptrc()->m_dataArray->at(index);
-}
-
-/*!
- * \internal
- */
-QScatterDataProxyPrivate *QScatterDataProxy::dptr()
-{
-    return static_cast<QScatterDataProxyPrivate *>(d_ptr.data());
-}
-
-/*!
- * \internal
- */
-const QScatterDataProxyPrivate *QScatterDataProxy::dptrc() const
-{
-    return static_cast<const QScatterDataProxyPrivate *>(d_ptr.data());
+    const Q_D(QScatterDataProxy);
+    return &d->m_dataArray->at(index);
 }
 
 /*!
@@ -407,20 +403,16 @@ bool QScatterDataProxyPrivate::isValidValue(float axisValue, float value,
                                             QAbstract3DAxis *axis) const
 {
     return (axisValue > value && (value > 0.0f
-                                  || (value == 0.0f && axis->d_ptr->allowZero())
-                                  || (value < 0.0f && axis->d_ptr->allowNegatives())));
+                                  || (value == 0.0f && axis->d_func()->allowZero())
+                                  || (value < 0.0f && axis->d_func()->allowNegatives())));
 }
 
 void QScatterDataProxyPrivate::setSeries(QAbstract3DSeries *series)
 {
+    Q_Q(QScatterDataProxy);
     QAbstractDataProxyPrivate::setSeries(series);
     QScatter3DSeries *scatterSeries = static_cast<QScatter3DSeries *>(series);
-    emit qptr()->seriesChanged(scatterSeries);
-}
-
-QScatterDataProxy *QScatterDataProxyPrivate::qptr()
-{
-    return static_cast<QScatterDataProxy *>(q_ptr);
+    emit q->seriesChanged(scatterSeries);
 }
 
 QT_END_NAMESPACE

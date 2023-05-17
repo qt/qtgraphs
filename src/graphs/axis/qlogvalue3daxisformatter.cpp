@@ -122,13 +122,14 @@ QLogValue3DAxisFormatter::~QLogValue3DAxisFormatter()
  */
 void QLogValue3DAxisFormatter::setBase(qreal base)
 {
+    Q_D(QLogValue3DAxisFormatter);
     if (base < 0.0f || base == 1.0f) {
         qWarning() << "Warning: The logarithm base must be greater than 0 and not equal to 1,"
                    << "attempted:" << base;
         return;
     }
-    if (dptr()->m_base != base) {
-        dptr()->m_base = base;
+    if (d->m_base != base) {
+        d->m_base = base;
         markDirty(true);
         emit baseChanged(base);
     }
@@ -136,7 +137,8 @@ void QLogValue3DAxisFormatter::setBase(qreal base)
 
 qreal QLogValue3DAxisFormatter::base() const
 {
-    return dptrc()->m_base;
+    const Q_D(QLogValue3DAxisFormatter);
+    return d->m_base;
 }
 
 /*!
@@ -155,8 +157,9 @@ qreal QLogValue3DAxisFormatter::base() const
  */
 void QLogValue3DAxisFormatter::setAutoSubGrid(bool enabled)
 {
-    if (dptr()->m_autoSubGrid != enabled) {
-        dptr()->m_autoSubGrid = enabled;
+    Q_D(QLogValue3DAxisFormatter);
+    if (d->m_autoSubGrid != enabled) {
+        d->m_autoSubGrid = enabled;
         markDirty(false);
         emit autoSubGridChanged(enabled);
     }
@@ -164,7 +167,8 @@ void QLogValue3DAxisFormatter::setAutoSubGrid(bool enabled)
 
 bool QLogValue3DAxisFormatter::autoSubGrid() const
 {
-    return dptrc()->m_autoSubGrid;
+    const Q_D(QLogValue3DAxisFormatter);
+    return d->m_autoSubGrid;
 }
 
 /*!
@@ -184,8 +188,9 @@ bool QLogValue3DAxisFormatter::autoSubGrid() const
  */
 void QLogValue3DAxisFormatter::setShowEdgeLabels(bool enabled)
 {
-    if (dptr()->m_showEdgeLabels != enabled) {
-        dptr()->m_showEdgeLabels = enabled;
+    Q_D(QLogValue3DAxisFormatter);
+    if (d->m_showEdgeLabels != enabled) {
+        d->m_showEdgeLabels = enabled;
         markDirty(true);
         emit showEdgeLabelsChanged(enabled);
     }
@@ -193,7 +198,8 @@ void QLogValue3DAxisFormatter::setShowEdgeLabels(bool enabled)
 
 bool QLogValue3DAxisFormatter::showEdgeLabels() const
 {
-    return dptrc()->m_showEdgeLabels;
+    const Q_D(QLogValue3DAxisFormatter);
+    return d->m_showEdgeLabels;
 }
 
 /*!
@@ -209,7 +215,8 @@ QValue3DAxisFormatter *QLogValue3DAxisFormatter::createNewInstance() const
  */
 void QLogValue3DAxisFormatter::recalculate()
 {
-    dptr()->recalculate();
+    Q_D(QLogValue3DAxisFormatter);
+    d->recalculate();
 }
 
 /*!
@@ -217,7 +224,8 @@ void QLogValue3DAxisFormatter::recalculate()
  */
 float QLogValue3DAxisFormatter::positionAt(float value) const
 {
-    return dptrc()->positionAt(value);
+    const Q_D(QLogValue3DAxisFormatter);
+    return d->positionAt(value);
 }
 
 /*!
@@ -225,32 +233,18 @@ float QLogValue3DAxisFormatter::positionAt(float value) const
  */
 float QLogValue3DAxisFormatter::valueAt(float position) const
 {
-    return dptrc()->valueAt(position);
+    const Q_D(QLogValue3DAxisFormatter);
+    return d->valueAt(position);
 }
 
 /*!
  * \internal
  */
-void QLogValue3DAxisFormatter::populateCopy(QValue3DAxisFormatter &copy) const
+void QLogValue3DAxisFormatter::populateCopy(QValue3DAxisFormatter &copy)
 {
+    Q_D(QLogValue3DAxisFormatter);
     QValue3DAxisFormatter::populateCopy(copy);
-    dptrc()->populateCopy(copy);
-}
-
-/*!
- * \internal
- */
-QLogValue3DAxisFormatterPrivate *QLogValue3DAxisFormatter::dptr()
-{
-    return static_cast<QLogValue3DAxisFormatterPrivate *>(d_ptr.data());
-}
-
-/*!
- * \internal
- */
-const QLogValue3DAxisFormatterPrivate *QLogValue3DAxisFormatter::dptrc() const
-{
-    return static_cast<const QLogValue3DAxisFormatterPrivate *>(d_ptr.data());
+    d->populateCopy(copy);
 }
 
 // QLogValue3DAxisFormatterPrivate
@@ -273,6 +267,7 @@ QLogValue3DAxisFormatterPrivate::~QLogValue3DAxisFormatterPrivate()
 
 void QLogValue3DAxisFormatterPrivate::recalculate()
 {
+    Q_Q(QLogValue3DAxisFormatter);
     // When doing position/value mappings, base doesn't matter, so just use natural logarithm
     m_logMin = qLn(qreal(m_min));
     m_logMax = qLn(qreal(m_max));
@@ -321,7 +316,7 @@ void QLogValue3DAxisFormatterPrivate::recalculate()
             m_gridPositions[0] = 0.0f;
             m_labelPositions[0] = 0.0f;
             if (m_showEdgeLabels)
-                m_labelStrings << qptr()->stringForValue(qreal(m_min), labelFormat);
+                m_labelStrings << q->stringForValue(qreal(m_min), labelFormat);
             else
                 m_labelStrings << QString();
             index++;
@@ -330,7 +325,7 @@ void QLogValue3DAxisFormatterPrivate::recalculate()
             float gridValue = float((minDiff + qreal(i)) / qreal(logRangeNormalizer));
             m_gridPositions[index] = gridValue;
             m_labelPositions[index] = gridValue;
-            m_labelStrings << qptr()->stringForValue(qPow(m_base, minDiff + qreal(i) + logMin),
+            m_labelStrings << q->stringForValue(qPow(m_base, minDiff + qreal(i) + logMin),
                                                     labelFormat);
             index++;
         }
@@ -339,7 +334,7 @@ void QLogValue3DAxisFormatterPrivate::recalculate()
         m_labelPositions[segmentCount] = 1.0f;
         QString finalLabel;
         if (m_showEdgeLabels || m_evenMaxSegment)
-            finalLabel = qptr()->stringForValue(qreal(m_max), labelFormat);
+            finalLabel = q->stringForValue(qreal(m_max), labelFormat);
 
         if (m_labelStrings.size() > segmentCount)
             m_labelStrings.replace(segmentCount, finalLabel);
@@ -353,12 +348,12 @@ void QLogValue3DAxisFormatterPrivate::recalculate()
         // Label string list needs to be repopulated
         segmentStep = 1.0 / qreal(segmentCount);
 
-        m_labelStrings << qptr()->stringForValue(qreal(m_min), labelFormat);
+        m_labelStrings << q->stringForValue(qreal(m_min), labelFormat);
         for (int i = 1; i < m_labelPositions.size() - 1; i++)
-            m_labelStrings[i] = qptr()->stringForValue(qExp(segmentStep * qreal(i)
+            m_labelStrings[i] = q->stringForValue(qExp(segmentStep * qreal(i)
                                                            * m_logRangeNormalizer + m_logMin),
                                                       labelFormat);
-        m_labelStrings << qptr()->stringForValue(qreal(m_max), labelFormat);
+        m_labelStrings << q->stringForValue(qreal(m_max), labelFormat);
 
         m_evenMaxSegment = true;
         m_evenMinSegment = true;
@@ -397,7 +392,7 @@ void QLogValue3DAxisFormatterPrivate::recalculate()
 void QLogValue3DAxisFormatterPrivate::populateCopy(QValue3DAxisFormatter &copy) const
 {
     QLogValue3DAxisFormatter *logFormatter = static_cast<QLogValue3DAxisFormatter *>(&copy);
-    QLogValue3DAxisFormatterPrivate *priv = logFormatter->dptr();
+    QLogValue3DAxisFormatterPrivate *priv = logFormatter->d_func();
 
     priv->m_base = m_base;
     priv->m_logMin = m_logMin;
@@ -417,11 +412,6 @@ float QLogValue3DAxisFormatterPrivate::valueAt(float position) const
 {
     qreal logValue = (qreal(position) * m_logRangeNormalizer) + m_logMin;
     return float(qExp(logValue));
-}
-
-QLogValue3DAxisFormatter *QLogValue3DAxisFormatterPrivate::qptr()
-{
-    return static_cast<QLogValue3DAxisFormatter *>(q_ptr);
 }
 
 QT_END_NAMESPACE

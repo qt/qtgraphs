@@ -19,7 +19,7 @@ typedef QList<QScatterDataItem> QScatterDataArray;
 class Q_GRAPHS_EXPORT QScatterDataProxy : public QAbstractDataProxy
 {
     Q_OBJECT
-
+    Q_DECLARE_PRIVATE(QScatterDataProxy)
     Q_PROPERTY(int itemCount READ itemCount NOTIFY itemCountChanged)
     Q_PROPERTY(QScatter3DSeries *series READ series NOTIFY seriesChanged)
 
@@ -57,14 +57,11 @@ Q_SIGNALS:
 
 protected:
     explicit QScatterDataProxy(QScatterDataProxyPrivate *d, QObject *parent = nullptr);
-    QScatterDataProxyPrivate *dptr();
-    const QScatterDataProxyPrivate *dptrc() const;
 
 private:
     Q_DISABLE_COPY(QScatterDataProxy)
 
     friend class Scatter3DController;
-    friend class QQuickGraphsScatter;
 };
 
 QT_END_NAMESPACE

@@ -68,7 +68,8 @@ QStringList QCategory3DAxis::labels() const
 
 void QCategory3DAxis::setLabels(const QStringList &labels)
 {
-    dptr()->m_labelsExplicitlySet = !labels.isEmpty();
+    Q_D(QCategory3DAxis);
+    d->m_labelsExplicitlySet = !labels.isEmpty();
     bool labelsFromData = false;
 
     // Get labels from data proxy if axis is attached to a bar controller and an active axis there
@@ -85,8 +86,8 @@ void QCategory3DAxis::setLabels(const QStringList &labels)
         }
     }
 
-    if (!labelsFromData && d_ptr->m_labels != labels) {
-        d_ptr->m_labels = labels;
+    if (!labelsFromData && d->m_labels != labels) {
+        d->m_labels = labels;
         emit QAbstract3DAxis::labelsChanged();
     }
 }
@@ -94,11 +95,6 @@ void QCategory3DAxis::setLabels(const QStringList &labels)
 /*!
  * \internal
  */
-QCategory3DAxisPrivate *QCategory3DAxis::dptr()
-{
-    return static_cast<QCategory3DAxisPrivate *>(d_ptr.data());
-}
-
 QCategory3DAxisPrivate::QCategory3DAxisPrivate(QCategory3DAxis *q)
     : QAbstract3DAxisPrivate(q, QAbstract3DAxis::AxisTypeCategory),
       m_labelsExplicitlySet(false)
@@ -116,9 +112,10 @@ QCategory3DAxisPrivate::~QCategory3DAxisPrivate()
  */
 void QCategory3DAxisPrivate::setDataLabels(const QStringList &labels)
 {
+    Q_Q(QCategory3DAxis);
     if (!m_labelsExplicitlySet && m_labels != labels) {
         m_labels = labels;
-        emit qptr()->QAbstract3DAxis::labelsChanged();
+        emit q->QAbstract3DAxis::labelsChanged();
     }
 }
 
@@ -135,11 +132,6 @@ bool QCategory3DAxisPrivate::allowNegatives()
 bool QCategory3DAxisPrivate::allowMinMaxSame()
 {
     return true;
-}
-
-QCategory3DAxis *QCategory3DAxisPrivate::qptr()
-{
-    return static_cast<QCategory3DAxis *>(q_ptr);
 }
 
 QT_END_NAMESPACE

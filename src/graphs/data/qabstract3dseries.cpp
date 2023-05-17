@@ -265,7 +265,8 @@ QAbstract3DSeries::~QAbstract3DSeries()
  */
 QAbstract3DSeries::SeriesType QAbstract3DSeries::type() const
 {
-    return d_ptr->m_type;
+    const Q_D(QAbstract3DSeries);
+    return d->m_type;
 }
 
 /*!
@@ -279,15 +280,17 @@ QAbstract3DSeries::SeriesType QAbstract3DSeries::type() const
  */
 void QAbstract3DSeries::setItemLabelFormat(const QString &format)
 {
-    if (d_ptr->m_itemLabelFormat != format) {
-        d_ptr->setItemLabelFormat(format);
+    Q_D(QAbstract3DSeries);
+    if (d->m_itemLabelFormat != format) {
+        d->setItemLabelFormat(format);
         emit itemLabelFormatChanged(format);
     }
 }
 
 QString QAbstract3DSeries::itemLabelFormat() const
 {
-    return d_ptr->m_itemLabelFormat;
+    const Q_D(QAbstract3DSeries);
+    return d->m_itemLabelFormat;
 }
 
 /*!
@@ -300,15 +303,17 @@ QString QAbstract3DSeries::itemLabelFormat() const
  */
 void QAbstract3DSeries::setVisible(bool visible)
 {
-    if (d_ptr->m_visible != visible) {
-        d_ptr->setVisible(visible);
+    Q_D(QAbstract3DSeries);
+    if (d->m_visible != visible) {
+        d->setVisible(visible);
         emit visibilityChanged(visible);
     }
 }
 
 bool QAbstract3DSeries::isVisible() const
 {
-    return d_ptr->m_visible;
+    const Q_D(QAbstract3DSeries);
+    return d->m_visible;
 }
 
 /*!
@@ -323,19 +328,21 @@ bool QAbstract3DSeries::isVisible() const
  */
 void QAbstract3DSeries::setMesh(QAbstract3DSeries::Mesh mesh)
 {
+    Q_D(QAbstract3DSeries);
     if ((mesh == QAbstract3DSeries::MeshPoint || mesh == QAbstract3DSeries::MeshMinimal
          || mesh == QAbstract3DSeries::MeshArrow)
             && type() != QAbstract3DSeries::SeriesTypeScatter) {
         qWarning() << "Specified style is only supported for QScatter3DSeries.";
-    } else if (d_ptr->m_mesh != mesh) {
-        d_ptr->setMesh(mesh);
+    } else if (d->m_mesh != mesh) {
+        d->setMesh(mesh);
         emit meshChanged(mesh);
     }
 }
 
 QAbstract3DSeries::Mesh QAbstract3DSeries::mesh() const
 {
-    return d_ptr->m_mesh;
+    const Q_D(QAbstract3DSeries);
+    return d->m_mesh;
 }
 
 /*!
@@ -349,15 +356,17 @@ QAbstract3DSeries::Mesh QAbstract3DSeries::mesh() const
  */
 void QAbstract3DSeries::setMeshSmooth(bool enable)
 {
-    if (d_ptr->m_meshSmooth != enable) {
-        d_ptr->setMeshSmooth(enable);
+    Q_D(QAbstract3DSeries);
+    if (d->m_meshSmooth != enable) {
+        d->setMeshSmooth(enable);
         emit meshSmoothChanged(enable);
     }
 }
 
 bool QAbstract3DSeries::isMeshSmooth() const
 {
-    return d_ptr->m_meshSmooth;
+    const Q_D(QAbstract3DSeries);
+    return d->m_meshSmooth;
 }
 
 /*!
@@ -374,15 +383,17 @@ bool QAbstract3DSeries::isMeshSmooth() const
  */
 void QAbstract3DSeries::setMeshRotation(const QQuaternion &rotation)
 {
-    if (d_ptr->m_meshRotation != rotation) {
-        d_ptr->setMeshRotation(rotation);
+    Q_D(QAbstract3DSeries);
+    if (d->m_meshRotation != rotation) {
+        d->setMeshRotation(rotation);
         emit meshRotationChanged(rotation);
     }
 }
 
 QQuaternion QAbstract3DSeries::meshRotation() const
 {
-    return d_ptr->m_meshRotation;
+    const Q_D(QAbstract3DSeries);
+    return d->m_meshRotation;
 }
 
 /*!
@@ -407,15 +418,17 @@ void QAbstract3DSeries::setMeshAxisAndAngle(const QVector3D &axis, float angle)
  */
 void QAbstract3DSeries::setUserDefinedMesh(const QString &fileName)
 {
-    if (d_ptr->m_userDefinedMesh != fileName) {
-        d_ptr->setUserDefinedMesh(fileName);
+    Q_D(QAbstract3DSeries);
+    if (d->m_userDefinedMesh != fileName) {
+        d->setUserDefinedMesh(fileName);
         emit userDefinedMeshChanged(fileName);
     }
 }
 
 QString QAbstract3DSeries::userDefinedMesh() const
 {
-    return d_ptr->m_userDefinedMesh;
+    const Q_D(QAbstract3DSeries);
+    return d->m_userDefinedMesh;
 }
 
 /*!
@@ -427,16 +440,18 @@ QString QAbstract3DSeries::userDefinedMesh() const
  */
 void QAbstract3DSeries::setColorStyle(Q3DTheme::ColorStyle style)
 {
-    if (d_ptr->m_colorStyle != style) {
-        d_ptr->setColorStyle(style);
+    Q_D(QAbstract3DSeries);
+    if (d->m_colorStyle != style) {
+        d->setColorStyle(style);
         emit colorStyleChanged(style);
     }
-    d_ptr->m_themeTracker.colorStyleOverride = true;
+    d->m_themeTracker.colorStyleOverride = true;
 }
 
 Q3DTheme::ColorStyle QAbstract3DSeries::colorStyle() const
 {
-    return d_ptr->m_colorStyle;
+    const Q_D(QAbstract3DSeries);
+    return d->m_colorStyle;
 }
 
 /*!
@@ -448,16 +463,18 @@ Q3DTheme::ColorStyle QAbstract3DSeries::colorStyle() const
  */
 void QAbstract3DSeries::setBaseColor(const QColor &color)
 {
-    if (d_ptr->m_baseColor != color) {
-        d_ptr->setBaseColor(color);
+    Q_D(QAbstract3DSeries);
+    if (d->m_baseColor != color) {
+        d->setBaseColor(color);
         emit baseColorChanged(color);
     }
-    d_ptr->m_themeTracker.baseColorOverride = true;
+    d->m_themeTracker.baseColorOverride = true;
 }
 
 QColor QAbstract3DSeries::baseColor() const
 {
-    return d_ptr->m_baseColor;
+    const Q_D(QAbstract3DSeries);
+    return d->m_baseColor;
 }
 
 /*!
@@ -469,16 +486,18 @@ QColor QAbstract3DSeries::baseColor() const
  */
 void QAbstract3DSeries::setBaseGradient(const QLinearGradient &gradient)
 {
-    if (d_ptr->m_baseGradient != gradient) {
-        d_ptr->setBaseGradient(gradient);
+    Q_D(QAbstract3DSeries);
+    if (d->m_baseGradient != gradient) {
+        d->setBaseGradient(gradient);
         emit baseGradientChanged(gradient);
     }
-    d_ptr->m_themeTracker.baseGradientOverride = true;
+    d->m_themeTracker.baseGradientOverride = true;
 }
 
 QLinearGradient QAbstract3DSeries::baseGradient() const
 {
-    return d_ptr->m_baseGradient;
+    const Q_D(QAbstract3DSeries);
+    return d->m_baseGradient;
 }
 
 /*!
@@ -490,16 +509,18 @@ QLinearGradient QAbstract3DSeries::baseGradient() const
  */
 void QAbstract3DSeries::setSingleHighlightColor(const QColor &color)
 {
-    if (d_ptr->m_singleHighlightColor != color) {
-        d_ptr->setSingleHighlightColor(color);
+    Q_D(QAbstract3DSeries);
+    if (d->m_singleHighlightColor != color) {
+        d->setSingleHighlightColor(color);
         emit singleHighlightColorChanged(color);
     }
-    d_ptr->m_themeTracker.singleHighlightColorOverride = true;
+    d->m_themeTracker.singleHighlightColorOverride = true;
 }
 
 QColor QAbstract3DSeries::singleHighlightColor() const
 {
-    return d_ptr->m_singleHighlightColor;
+    const Q_D(QAbstract3DSeries);
+    return d->m_singleHighlightColor;
 }
 
 /*!
@@ -511,16 +532,18 @@ QColor QAbstract3DSeries::singleHighlightColor() const
  */
 void QAbstract3DSeries::setSingleHighlightGradient(const QLinearGradient &gradient)
 {
-    if (d_ptr->m_singleHighlightGradient != gradient) {
-        d_ptr->setSingleHighlightGradient(gradient);
+    Q_D(QAbstract3DSeries);
+    if (d->m_singleHighlightGradient != gradient) {
+        d->setSingleHighlightGradient(gradient);
         emit singleHighlightGradientChanged(gradient);
     }
-    d_ptr->m_themeTracker.singleHighlightGradientOverride = true;
+    d->m_themeTracker.singleHighlightGradientOverride = true;
 }
 
 QLinearGradient QAbstract3DSeries::singleHighlightGradient() const
 {
-    return d_ptr->m_singleHighlightGradient;
+    const Q_D(QAbstract3DSeries);
+    return d->m_singleHighlightGradient;
 }
 
 /*!
@@ -532,16 +555,18 @@ QLinearGradient QAbstract3DSeries::singleHighlightGradient() const
  */
 void QAbstract3DSeries::setMultiHighlightColor(const QColor &color)
 {
-    if (d_ptr->m_multiHighlightColor != color) {
-        d_ptr->setMultiHighlightColor(color);
+    Q_D(QAbstract3DSeries);
+    if (d->m_multiHighlightColor != color) {
+        d->setMultiHighlightColor(color);
         emit multiHighlightColorChanged(color);
     }
-    d_ptr->m_themeTracker.multiHighlightColorOverride = true;
+    d->m_themeTracker.multiHighlightColorOverride = true;
 }
 
 QColor QAbstract3DSeries::multiHighlightColor() const
 {
-    return d_ptr->m_multiHighlightColor;
+    const Q_D(QAbstract3DSeries);
+    return d->m_multiHighlightColor;
 }
 
 /*!
@@ -553,16 +578,18 @@ QColor QAbstract3DSeries::multiHighlightColor() const
  */
 void QAbstract3DSeries::setMultiHighlightGradient(const QLinearGradient &gradient)
 {
-    if (d_ptr->m_multiHighlightGradient != gradient) {
-        d_ptr->setMultiHighlightGradient(gradient);
+    Q_D(QAbstract3DSeries);
+    if (d->m_multiHighlightGradient != gradient) {
+        d->setMultiHighlightGradient(gradient);
         emit multiHighlightGradientChanged(gradient);
     }
-    d_ptr->m_themeTracker.multiHighlightGradientOverride = true;
+    d->m_themeTracker.multiHighlightGradientOverride = true;
 }
 
 QLinearGradient QAbstract3DSeries::multiHighlightGradient() const
 {
-    return d_ptr->m_multiHighlightGradient;
+    const Q_D(QAbstract3DSeries);
+    return d->m_multiHighlightGradient;
 }
 
 /*!
@@ -576,15 +603,17 @@ QLinearGradient QAbstract3DSeries::multiHighlightGradient() const
  */
 void QAbstract3DSeries::setName(const QString &name)
 {
-    if (d_ptr->m_name != name) {
-        d_ptr->setName(name);
+    Q_D(QAbstract3DSeries);
+    if (d->m_name != name) {
+        d->setName(name);
         emit nameChanged(name);
     }
 }
 
 QString QAbstract3DSeries::name() const
 {
-    return d_ptr->m_name;
+    const Q_D(QAbstract3DSeries);
+    return d->m_name;
 }
 
 /*!
@@ -597,9 +626,10 @@ QString QAbstract3DSeries::name() const
  *
  * \sa itemLabelFormat
  */
-QString QAbstract3DSeries::itemLabel() const
+QString QAbstract3DSeries::itemLabel()
 {
-    return d_ptr->itemLabel();
+    Q_D(QAbstract3DSeries);
+    return d->itemLabel();
 }
 
 /*!
@@ -615,23 +645,24 @@ QString QAbstract3DSeries::itemLabel() const
  */
 void QAbstract3DSeries::setItemLabelVisible(bool visible)
 {
-    if (d_ptr->m_itemLabelVisible != visible) {
-        d_ptr->setItemLabelVisible(visible);
+    Q_D(QAbstract3DSeries);
+    if (d->m_itemLabelVisible != visible) {
+        d->setItemLabelVisible(visible);
         emit itemLabelVisibilityChanged(visible);
     }
 }
 
 bool QAbstract3DSeries::isItemLabelVisible() const
 {
-    return d_ptr->m_itemLabelVisible;
+    const Q_D(QAbstract3DSeries);
+    return d->m_itemLabelVisible;
 }
 
 // QAbstract3DSeriesPrivate
 
 QAbstract3DSeriesPrivate::QAbstract3DSeriesPrivate(QAbstract3DSeries *q,
                                                    QAbstract3DSeries::SeriesType type)
-    : QObject(0),
-      q_ptr(q),
+    : q_ptr(q),
       m_type(type),
       m_dataProxy(0),
       m_visible(true),
@@ -658,12 +689,13 @@ QAbstractDataProxy *QAbstract3DSeriesPrivate::dataProxy() const
 
 void QAbstract3DSeriesPrivate::setDataProxy(QAbstractDataProxy *proxy)
 {
-    Q_ASSERT(proxy && proxy != m_dataProxy && !proxy->d_ptr->series());
+    Q_Q(QAbstract3DSeries);
+    Q_ASSERT(proxy && proxy != m_dataProxy && !proxy->d_func()->series());
 
     delete m_dataProxy;
     m_dataProxy = proxy;
 
-    proxy->d_ptr->setSeries(q_ptr); // also sets parent
+    proxy->d_func()->setSeries(q); // also sets parent
 
     if (m_controller) {
         connectControllerAndProxy(m_controller);
@@ -673,9 +705,10 @@ void QAbstract3DSeriesPrivate::setDataProxy(QAbstractDataProxy *proxy)
 
 void QAbstract3DSeriesPrivate::setController(Abstract3DController *controller)
 {
+    Q_Q(QAbstract3DSeries);
     connectControllerAndProxy(controller);
     m_controller = controller;
-    q_ptr->setParent(controller);
+    q->setParent(controller);
     markItemLabelDirty();
 }
 
@@ -804,43 +837,45 @@ void QAbstract3DSeriesPrivate::setName(const QString &name)
 
 void QAbstract3DSeriesPrivate::resetToTheme(const Q3DTheme &theme, int seriesIndex, bool force)
 {
+    Q_Q(QAbstract3DSeries);
     int themeIndex = seriesIndex;
     if (force || !m_themeTracker.colorStyleOverride) {
-        q_ptr->setColorStyle(theme.colorStyle());
+        q->setColorStyle(theme.colorStyle());
         m_themeTracker.colorStyleOverride = false;
     }
     if (force || !m_themeTracker.baseColorOverride) {
         if (theme.baseColors().size() <= seriesIndex)
             themeIndex = seriesIndex % theme.baseColors().size();
-        q_ptr->setBaseColor(theme.baseColors().at(themeIndex));
+        q->setBaseColor(theme.baseColors().at(themeIndex));
         m_themeTracker.baseColorOverride = false;
     }
     if (force || !m_themeTracker.baseGradientOverride) {
         if (theme.baseGradients().size() <= seriesIndex)
             themeIndex = seriesIndex % theme.baseGradients().size();
-        q_ptr->setBaseGradient(theme.baseGradients().at(themeIndex));
+        q->setBaseGradient(theme.baseGradients().at(themeIndex));
         m_themeTracker.baseGradientOverride = false;
     }
     if (force || !m_themeTracker.singleHighlightColorOverride) {
-        q_ptr->setSingleHighlightColor(theme.singleHighlightColor());
+        q->setSingleHighlightColor(theme.singleHighlightColor());
         m_themeTracker.singleHighlightColorOverride = false;
     }
     if (force || !m_themeTracker.singleHighlightGradientOverride) {
-        q_ptr->setSingleHighlightGradient(theme.singleHighlightGradient());
+        q->setSingleHighlightGradient(theme.singleHighlightGradient());
         m_themeTracker.singleHighlightGradientOverride = false;
     }
     if (force || !m_themeTracker.multiHighlightColorOverride) {
-        q_ptr->setMultiHighlightColor(theme.multiHighlightColor());
+        q->setMultiHighlightColor(theme.multiHighlightColor());
         m_themeTracker.multiHighlightColorOverride = false;
     }
     if (force || !m_themeTracker.multiHighlightGradientOverride) {
-        q_ptr->setMultiHighlightGradient(theme.multiHighlightGradient());
+        q->setMultiHighlightGradient(theme.multiHighlightGradient());
         m_themeTracker.multiHighlightGradientOverride = false;
     }
 }
 
 QString QAbstract3DSeriesPrivate::itemLabel()
 {
+    Q_Q(QAbstract3DSeries);
     if (m_itemLabelDirty) {
         QString oldLabel = m_itemLabel;
         if (m_controller && m_visible)
@@ -850,7 +885,7 @@ QString QAbstract3DSeriesPrivate::itemLabel()
         m_itemLabelDirty = false;
 
         if (oldLabel != m_itemLabel)
-            emit q_ptr->itemLabelChanged(m_itemLabel);
+            emit q->itemLabelChanged(m_itemLabel);
     }
 
     return m_itemLabel;

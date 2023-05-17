@@ -12,7 +12,7 @@ class QTouch3DInputHandlerPrivate;
 
 class Q_GRAPHS_EXPORT QTouch3DInputHandler : public Q3DInputHandler
 {
-    Q_OBJECT
+    Q_DECLARE_PRIVATE(QTouch3DInputHandler)
 
 public:
     explicit QTouch3DInputHandler(QObject *parent = nullptr);
@@ -23,8 +23,6 @@ public:
 
 private:
     Q_DISABLE_COPY(QTouch3DInputHandler)
-
-    QScopedPointer<QTouch3DInputHandlerPrivate> d_ptr;
 };
 
 QT_END_NAMESPACE

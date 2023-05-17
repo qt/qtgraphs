@@ -23,7 +23,7 @@ QValue3DAxisFormatter *CustomFormatter::createNewInstance() const
     return new CustomFormatter();
 }
 
-void CustomFormatter::populateCopy(QValue3DAxisFormatter &copy) const
+void CustomFormatter::populateCopy(QValue3DAxisFormatter &copy)
 {
     QValue3DAxisFormatter::populateCopy(copy);
 
@@ -94,7 +94,7 @@ void CustomFormatter::recalculate()
 //! [2]
 
 //! [3]
-QString CustomFormatter::stringForValue(qreal value, const QString &format) const
+QString CustomFormatter::stringForValue(qreal value, const QString &format)
 {
     Q_UNUSED(format);
 

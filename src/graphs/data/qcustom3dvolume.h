@@ -16,6 +16,7 @@ class QCustom3DVolumePrivate;
 class Q_GRAPHS_EXPORT QCustom3DVolume : public QCustom3DItem
 {
     Q_OBJECT
+    Q_DECLARE_PRIVATE(QCustom3DVolume)
     Q_PROPERTY(int textureWidth READ textureWidth WRITE setTextureWidth NOTIFY textureWidthChanged)
     Q_PROPERTY(int textureHeight READ textureHeight WRITE setTextureHeight NOTIFY textureHeightChanged)
     Q_PROPERTY(int textureDepth READ textureDepth WRITE setTextureDepth NOTIFY textureDepthChanged)
@@ -117,10 +118,6 @@ Q_SIGNALS:
     void sliceFrameWidthsChanged(const QVector3D &values);
     void sliceFrameGapsChanged(const QVector3D &values);
     void sliceFrameThicknessesChanged(const QVector3D &values);
-
-protected:
-    QCustom3DVolumePrivate *dptr();
-    const QCustom3DVolumePrivate *dptrc() const;
 
 private:
     Q_DISABLE_COPY(QCustom3DVolume)

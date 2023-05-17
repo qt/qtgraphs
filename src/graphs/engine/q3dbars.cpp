@@ -74,8 +74,8 @@ Q3DBars::Q3DBars() : QAbstract3DGraph()
 {
     QQmlComponent *component = new QQmlComponent(engine(), this);
     component->setData("import QtQuick; import QtGraphs; Bars3D { anchors.fill: parent; }", QUrl());
-    d_ptr.reset(qobject_cast<QQuickGraphsBars *>(component->create()));
-    setContent(component->url(), component, d_ptr.data());
+    m_graphsItem.reset(qobject_cast<QQuickGraphsBars *>(component->create()));
+    setContent(component->url(), component, m_graphsItem.data());
 }
 
 /*!
@@ -413,7 +413,7 @@ QList<QAbstract3DAxis *> Q3DBars::axes() const
  */
 QQuickGraphsBars *Q3DBars::dptr()
 {
-    return static_cast<QQuickGraphsBars *>(d_ptr.data());
+    return static_cast<QQuickGraphsBars *>(m_graphsItem.data());
 }
 
 /*!
@@ -421,7 +421,7 @@ QQuickGraphsBars *Q3DBars::dptr()
  */
 const QQuickGraphsBars *Q3DBars::dptrc() const
 {
-    return static_cast<const QQuickGraphsBars *>(d_ptr.data());
+    return static_cast<const QQuickGraphsBars *>(m_graphsItem.data());
 }
 
 QT_END_NAMESPACE

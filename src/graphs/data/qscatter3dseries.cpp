@@ -112,8 +112,9 @@ QT_BEGIN_NAMESPACE
 QScatter3DSeries::QScatter3DSeries(QObject *parent) :
     QAbstract3DSeries(new QScatter3DSeriesPrivate(this), parent)
 {
+    Q_D(QScatter3DSeries);
     // Default proxy
-    dptr()->setDataProxy(new QScatterDataProxy);
+    d->setDataProxy(new QScatterDataProxy);
 }
 
 /*!
@@ -123,7 +124,8 @@ QScatter3DSeries::QScatter3DSeries(QObject *parent) :
 QScatter3DSeries::QScatter3DSeries(QScatterDataProxy *dataProxy, QObject *parent) :
     QAbstract3DSeries(new QScatter3DSeriesPrivate(this), parent)
 {
-    dptr()->setDataProxy(dataProxy);
+    Q_D(QScatter3DSeries);
+    d->setDataProxy(dataProxy);
 }
 
 /*!
@@ -155,12 +157,14 @@ QScatter3DSeries::~QScatter3DSeries()
  */
 void QScatter3DSeries::setDataProxy(QScatterDataProxy *proxy)
 {
-    d_ptr->setDataProxy(proxy);
+    Q_D(QScatter3DSeries);
+    d->setDataProxy(proxy);
 }
 
 QScatterDataProxy *QScatter3DSeries::dataProxy() const
 {
-    return static_cast<QScatterDataProxy *>(d_ptr->dataProxy());
+    const Q_D(QScatter3DSeries);
+    return static_cast<QScatterDataProxy *>(d->dataProxy());
 }
 
 /*!
@@ -185,16 +189,18 @@ QScatterDataProxy *QScatter3DSeries::dataProxy() const
  */
 void QScatter3DSeries::setSelectedItem(int index)
 {
+    Q_D(QScatter3DSeries);
     // Don't do this in private to avoid loops, as that is used for callback from controller.
-    if (d_ptr->m_controller)
-        static_cast<Scatter3DController *>(d_ptr->m_controller)->setSelectedItem(index, this);
+    if (d->m_controller)
+        static_cast<Scatter3DController *>(d->m_controller)->setSelectedItem(index, this);
     else
-        dptr()->setSelectedItem(index);
+        d->setSelectedItem(index);
 }
 
 int QScatter3DSeries::selectedItem() const
 {
-    return dptrc()->m_selectedItem;
+    const Q_D(QScatter3DSeries);
+    return d->m_selectedItem;
 }
 
 /*!
@@ -210,17 +216,19 @@ int QScatter3DSeries::selectedItem() const
  */
 void QScatter3DSeries::setItemSize(float size)
 {
+    Q_D(QScatter3DSeries);
     if (size < 0.0f || size > 1.0f) {
         qWarning("Invalid size. Valid range for itemSize is 0.0f...1.0f");
-    } else if (size != dptr()->m_itemSize) {
-        dptr()->setItemSize(size);
+    } else if (size != d->m_itemSize) {
+        d->setItemSize(size);
         emit itemSizeChanged(size);
     }
 }
 
 float QScatter3DSeries::itemSize() const
 {
-    return dptrc()->m_itemSize;
+    const Q_D(QScatter3DSeries);
+    return d->m_itemSize;
 }
 
 /*!
@@ -232,22 +240,6 @@ float QScatter3DSeries::itemSize() const
 int QScatter3DSeries::invalidSelectionIndex()
 {
     return Scatter3DController::invalidSelectionIndex();
-}
-
-/*!
- * \internal
- */
-QScatter3DSeriesPrivate *QScatter3DSeries::dptr()
-{
-    return static_cast<QScatter3DSeriesPrivate *>(d_ptr.data());
-}
-
-/*!
- * \internal
- */
-const QScatter3DSeriesPrivate *QScatter3DSeries::dptrc() const
-{
-    return static_cast<const QScatter3DSeriesPrivate *>(d_ptr.data());
 }
 
 // QScatter3DSeriesPrivate
@@ -265,22 +257,19 @@ QScatter3DSeriesPrivate::~QScatter3DSeriesPrivate()
 {
 }
 
-QScatter3DSeries *QScatter3DSeriesPrivate::qptr()
-{
-    return static_cast<QScatter3DSeries *>(q_ptr);
-}
-
 void QScatter3DSeriesPrivate::setDataProxy(QAbstractDataProxy *proxy)
 {
+    Q_Q(QScatter3DSeries);
     Q_ASSERT(proxy->type() == QAbstractDataProxy::DataTypeScatter);
 
     QAbstract3DSeriesPrivate::setDataProxy(proxy);
 
-    emit qptr()->dataProxyChanged(static_cast<QScatterDataProxy *>(proxy));
+    emit q->dataProxyChanged(static_cast<QScatterDataProxy *>(proxy));
 }
 
 void QScatter3DSeriesPrivate::connectControllerAndProxy(Abstract3DController *newController)
 {
+    Q_Q(QScatter3DSeries);
     QScatterDataProxy *scatterDataProxy = static_cast<QScatterDataProxy *>(m_dataProxy);
 
     if (m_controller && scatterDataProxy) {
@@ -301,13 +290,14 @@ void QScatter3DSeriesPrivate::connectControllerAndProxy(Abstract3DController *ne
                          controller, &Scatter3DController::handleItemsRemoved);
         QObject::connect(scatterDataProxy, &QScatterDataProxy::itemsInserted,
                          controller, &Scatter3DController::handleItemsInserted);
-        QObject::connect(qptr(), &QScatter3DSeries::dataProxyChanged,
+        QObject::connect(q, &QScatter3DSeries::dataProxyChanged,
                          controller, &Scatter3DController::handleArrayReset);
     }
 }
 
 void QScatter3DSeriesPrivate::createItemLabel()
 {
+    Q_Q(QScatter3DSeries);
     static const QString xTitleTag(QStringLiteral("@xTitle"));
     static const QString yTitleTag(QStringLiteral("@yTitle"));
     static const QString zTitleTag(QStringLiteral("@zTitle"));
@@ -324,7 +314,7 @@ void QScatter3DSeriesPrivate::createItemLabel()
     QValue3DAxis *axisX = static_cast<QValue3DAxis *>(m_controller->axisX());
     QValue3DAxis *axisY = static_cast<QValue3DAxis *>(m_controller->axisY());
     QValue3DAxis *axisZ = static_cast<QValue3DAxis *>(m_controller->axisZ());
-    QVector3D selectedPosition = qptr()->dataProxy()->itemAt(m_selectedItem)->position();
+    QVector3D selectedPosition = q->dataProxy()->itemAt(m_selectedItem)->position();
 
     m_itemLabel = m_itemLabelFormat;
 
@@ -352,10 +342,11 @@ void QScatter3DSeriesPrivate::createItemLabel()
 
 void QScatter3DSeriesPrivate::setSelectedItem(int index)
 {
+    Q_Q(QScatter3DSeries);
     if (index != m_selectedItem) {
         markItemLabelDirty();
         m_selectedItem = index;
-        emit qptr()->selectedItemChanged(m_selectedItem);
+        emit q->selectedItemChanged(m_selectedItem);
     }
 }
 

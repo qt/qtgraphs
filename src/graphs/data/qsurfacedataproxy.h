@@ -20,7 +20,7 @@ typedef QList<QSurfaceDataRow *> QSurfaceDataArray;
 class Q_GRAPHS_EXPORT QSurfaceDataProxy : public QAbstractDataProxy
 {
     Q_OBJECT
-
+    Q_DECLARE_PRIVATE(QSurfaceDataProxy)
     Q_PROPERTY(int rowCount READ rowCount NOTIFY rowCountChanged)
     Q_PROPERTY(int columnCount READ columnCount NOTIFY columnCountChanged)
     Q_PROPERTY(QSurface3DSeries *series READ series NOTIFY seriesChanged)
@@ -66,8 +66,6 @@ Q_SIGNALS:
 
 protected:
     explicit QSurfaceDataProxy(QSurfaceDataProxyPrivate *d, QObject *parent = nullptr);
-    QSurfaceDataProxyPrivate *dptr();
-    const QSurfaceDataProxyPrivate *dptrc() const;
 
 private:
     Q_DISABLE_COPY(QSurfaceDataProxy)

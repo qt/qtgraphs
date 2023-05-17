@@ -14,14 +14,14 @@
 #ifndef QABSTRACT3DAXIS_P_H
 #define QABSTRACT3DAXIS_P_H
 
-#include "graphsglobal_p.h"
 #include "qabstract3daxis.h"
 
 QT_BEGIN_NAMESPACE
 
-class QAbstract3DAxisPrivate : public QObject
+class QAbstract3DAxisPrivate
 {
-    Q_OBJECT
+    Q_DECLARE_PUBLIC(QAbstract3DAxis)
+
 public:
     QAbstract3DAxisPrivate(QAbstract3DAxis *q, QAbstract3DAxis::AxisType type);
     virtual ~QAbstract3DAxisPrivate();
@@ -55,9 +55,6 @@ protected:
     bool m_titleVisible;
     bool m_titleFixed;
 
-    friend class QAbstract3DAxis;
-    friend class QValue3DAxis;
-    friend class QCategory3DAxis;
     friend class QScatterDataProxyPrivate;
     friend class QSurfaceDataProxyPrivate;
 };

@@ -27,9 +27,9 @@ public:
 
     //! [0]
     virtual QValue3DAxisFormatter *createNewInstance() const;
-    virtual void populateCopy(QValue3DAxisFormatter &copy) const;
+    virtual void populateCopy(QValue3DAxisFormatter &copy);
     virtual void recalculate();
-    virtual QString stringForValue(qreal value, const QString &format) const;
+    virtual QString stringForValue(qreal value, const QString &format);
     //! [0]
 
     QDate originDate() const;

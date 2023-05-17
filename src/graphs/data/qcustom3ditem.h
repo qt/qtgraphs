@@ -17,6 +17,7 @@ class QCustom3DItemPrivate;
 class Q_GRAPHS_EXPORT QCustom3DItem : public QObject
 {
     Q_OBJECT
+    Q_DECLARE_PRIVATE(QCustom3DItem)
     Q_PROPERTY(QString meshFile READ meshFile WRITE setMeshFile NOTIFY meshFileChanged)
     Q_PROPERTY(QString textureFile READ textureFile WRITE setTextureFile NOTIFY textureFileChanged)
     Q_PROPERTY(QVector3D position READ position WRITE setPosition NOTIFY positionChanged)
@@ -75,6 +76,7 @@ Q_SIGNALS:
     void visibleChanged(bool visible);
     void shadowCastingChanged(bool shadowCasting);
     void scalingAbsoluteChanged(bool scalingAbsolute);
+    void needUpdate();
 
 protected:
     QCustom3DItem(QCustom3DItemPrivate *d, QObject *parent = nullptr);

@@ -119,17 +119,19 @@ QCustom3DLabel::~QCustom3DLabel()
  */
 void QCustom3DLabel::setText(const QString &text)
 {
-    if (dptr()->m_text != text) {
-        dptr()->m_text = text;
-        dptr()->handleTextureChange();
+    Q_D(QCustom3DLabel);
+    if (d->m_text != text) {
+        d->m_text = text;
+        d->handleTextureChange();
         emit textChanged(text);
-        emit dptr()->needUpdate();
+        emit needUpdate();
     }
 }
 
 QString QCustom3DLabel::text() const
 {
-    return dptrc()->m_text;
+    const Q_D(QCustom3DLabel);
+    return d->m_text;
 }
 
 /*! \property QCustom3DLabel::font
@@ -141,17 +143,19 @@ QString QCustom3DLabel::text() const
  */
 void QCustom3DLabel::setFont(const QFont &font)
 {
-    if (dptr()->m_font != font) {
-        dptr()->m_font = font;
-        dptr()->handleTextureChange();
+    Q_D(QCustom3DLabel);
+    if (d->m_font != font) {
+        d->m_font = font;
+        d->handleTextureChange();
         emit fontChanged(font);
-        emit dptr()->needUpdate();
+        emit needUpdate();
     }
 }
 
 QFont QCustom3DLabel::font() const
 {
-    return dptrc()->m_font;
+    const Q_D(QCustom3DLabel);
+    return d->m_font;
 }
 
 /*! \property QCustom3DLabel::textColor
@@ -164,18 +168,20 @@ QFont QCustom3DLabel::font() const
  */
 void QCustom3DLabel::setTextColor(const QColor &color)
 {
-    if (dptr()->m_txtColor != color) {
-        dptr()->m_txtColor = color;
-        dptr()->m_customVisuals = true;
-        dptr()->handleTextureChange();
+    Q_D(QCustom3DLabel);
+    if (d->m_txtColor != color) {
+        d->m_txtColor = color;
+        d->m_customVisuals = true;
+        d->handleTextureChange();
         emit textColorChanged(color);
-        emit dptr()->needUpdate();
+        emit needUpdate();
     }
 }
 
 QColor QCustom3DLabel::textColor() const
 {
-    return dptrc()->m_txtColor;
+    const Q_D(QCustom3DLabel);
+    return d->m_txtColor;
 }
 
 /*! \property QCustom3DLabel::backgroundColor
@@ -188,18 +194,20 @@ QColor QCustom3DLabel::textColor() const
  */
 void QCustom3DLabel::setBackgroundColor(const QColor &color)
 {
-    if (dptr()->m_bgrColor != color) {
-        dptr()->m_bgrColor = color;
-        dptr()->m_customVisuals = true;
-        dptr()->handleTextureChange();
+    Q_D(QCustom3DLabel);
+    if (d->m_bgrColor != color) {
+        d->m_bgrColor = color;
+        d->m_customVisuals = true;
+        d->handleTextureChange();
         emit backgroundColorChanged(color);
-        emit dptr()->needUpdate();
+        emit needUpdate();
     }
 }
 
 QColor QCustom3DLabel::backgroundColor() const
 {
-    return dptrc()->m_bgrColor;
+    const Q_D(QCustom3DLabel);
+    return d->m_bgrColor;
 }
 
 /*! \property QCustom3DLabel::borderEnabled
@@ -210,18 +218,20 @@ QColor QCustom3DLabel::backgroundColor() const
  */
 void QCustom3DLabel::setBorderEnabled(bool enabled)
 {
-    if (dptr()->m_borders != enabled) {
-        dptr()->m_borders = enabled;
-        dptr()->m_customVisuals = true;
-        dptr()->handleTextureChange();
+    Q_D(QCustom3DLabel);
+    if (d->m_borders != enabled) {
+        d->m_borders = enabled;
+        d->m_customVisuals = true;
+        d->handleTextureChange();
         emit borderEnabledChanged(enabled);
-        emit dptr()->needUpdate();
+        emit needUpdate();
     }
 }
 
 bool QCustom3DLabel::isBorderEnabled() const
 {
-    return dptrc()->m_borders;
+    const Q_D(QCustom3DLabel);
+    return d->m_borders;
 }
 
 /*! \property QCustom3DLabel::backgroundEnabled
@@ -233,18 +243,20 @@ bool QCustom3DLabel::isBorderEnabled() const
  */
 void QCustom3DLabel::setBackgroundEnabled(bool enabled)
 {
-    if (dptr()->m_background != enabled) {
-        dptr()->m_background = enabled;
-        dptr()->m_customVisuals = true;
-        dptr()->handleTextureChange();
+    Q_D(QCustom3DLabel);
+    if (d->m_background != enabled) {
+        d->m_background = enabled;
+        d->m_customVisuals = true;
+        d->handleTextureChange();
         emit backgroundEnabledChanged(enabled);
-        emit dptr()->needUpdate();
+        emit needUpdate();
     }
 }
 
 bool QCustom3DLabel::isBackgroundEnabled() const
 {
-    return dptrc()->m_background;
+    const Q_D(QCustom3DLabel);
+    return d->m_background;
 }
 
 /*! \property QCustom3DLabel::facingCamera
@@ -256,33 +268,19 @@ bool QCustom3DLabel::isBackgroundEnabled() const
  */
 void QCustom3DLabel::setFacingCamera(bool enabled)
 {
-    if (dptr()->m_facingCamera != enabled) {
-        dptr()->m_facingCamera = enabled;
-        dptr()->m_facingCameraDirty = true;
+    Q_D(QCustom3DLabel);
+    if (d->m_facingCamera != enabled) {
+        d->m_facingCamera = enabled;
+        d->m_facingCameraDirty = true;
         emit facingCameraChanged(enabled);
-        emit dptr()->needUpdate();
+        emit needUpdate();
     }
 }
 
 bool QCustom3DLabel::isFacingCamera() const
 {
-    return dptrc()->m_facingCamera;
-}
-
-/*!
- * \internal
- */
-QCustom3DLabelPrivate *QCustom3DLabel::dptr()
-{
-    return static_cast<QCustom3DLabelPrivate *>(d_ptr.data());
-}
-
-/*!
- * \internal
- */
-const QCustom3DLabelPrivate *QCustom3DLabel::dptrc() const
-{
-    return static_cast<const QCustom3DLabelPrivate *>(d_ptr.data());
+    const Q_D(QCustom3DLabel);
+    return d->m_facingCamera;
 }
 
 QCustom3DLabelPrivate::QCustom3DLabelPrivate(QCustom3DLabel *q) :
@@ -346,11 +344,12 @@ void QCustom3DLabelPrivate::createTextureImage(const QColor &bgrColor, const QCo
 
 void QCustom3DLabelPrivate::handleTextureChange()
 {
+    Q_Q(QCustom3DLabel);
     createTextureImage();
     m_dirtyBits.textureDirty = true;
     if (!m_textureFile.isEmpty()) {
         m_textureFile.clear();
-        emit q_ptr->textureFileChanged(m_textureFile);
+        emit q->textureFileChanged(m_textureFile);
     }
 }
 

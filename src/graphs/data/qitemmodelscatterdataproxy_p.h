@@ -23,7 +23,8 @@ class ScatterItemModelHandler;
 
 class QItemModelScatterDataProxyPrivate : public QScatterDataProxyPrivate
 {
-    Q_OBJECT
+    Q_DECLARE_PUBLIC(QItemModelScatterDataProxy)
+
 public:
     QItemModelScatterDataProxyPrivate(QItemModelScatterDataProxy *q);
     virtual ~QItemModelScatterDataProxyPrivate();
@@ -31,8 +32,6 @@ public:
     void connectItemModelHandler();
 
 private:
-    QItemModelScatterDataProxy *qptr();
-
     ScatterItemModelHandler *m_itemModelHandler;
     QString m_xPosRole;
     QString m_yPosRole;
@@ -48,9 +47,6 @@ private:
     QString m_yPosRoleReplace;
     QString m_zPosRoleReplace;
     QString m_rotationRoleReplace;
-
-    friend class ScatterItemModelHandler;
-    friend class QItemModelScatterDataProxy;
 };
 
 QT_END_NAMESPACE

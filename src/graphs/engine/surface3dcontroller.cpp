@@ -83,7 +83,7 @@ void Surface3DController::addSeries(QAbstract3DSeries *series)
 
 void Surface3DController::removeSeries(QAbstract3DSeries *series)
 {
-    bool wasVisible = (series && series->d_ptr->m_controller == this && series->isVisible());
+    bool wasVisible = (series && series->d_func()->m_controller == this && series->isVisible());
 
     Abstract3DController::removeSeries(series);
 
@@ -210,10 +210,10 @@ void Surface3DController::setSelectedPoint(const QPoint &position, QSurface3DSer
         foreach (QAbstract3DSeries *otherSeries, m_seriesList) {
             QSurface3DSeries *surfaceSeries = static_cast<QSurface3DSeries *>(otherSeries);
             if (surfaceSeries != m_selectedSeries)
-                surfaceSeries->dptr()->setSelectedPoint(invalidSelectionPosition());
+                surfaceSeries->d_func()->setSelectedPoint(invalidSelectionPosition());
         }
         if (m_selectedSeries)
-            m_selectedSeries->dptr()->setSelectedPoint(m_selectedPoint);
+            m_selectedSeries->d_func()->setSelectedPoint(m_selectedPoint);
 
         if (seriesChanged)
             emit selectedSeriesChanged(m_selectedSeries);
@@ -244,7 +244,7 @@ void Surface3DController::handleArrayReset()
 
     // Clear selection unless still valid
     setSelectedPoint(m_selectedPoint, m_selectedSeries, false);
-    series->d_ptr->markItemLabelDirty();
+    series->d_func()->markItemLabelDirty();
     emitNeedRender();
 }
 
@@ -283,7 +283,7 @@ void Surface3DController::handleRowsChanged(int startIndex, int count)
             ChangeRow newChangeItem = {series, candidate};
             m_changedRows.append(newChangeItem);
             if (series == m_selectedSeries && selectedRow == candidate)
-                series->d_ptr->markItemLabelDirty();
+                series->d_func()->markItemLabelDirty();
         }
     }
     if (count) {
@@ -314,7 +314,7 @@ void Surface3DController::handleItemChanged(int rowIndex, int columnIndex)
         m_changeTracker.itemChanged = true;
 
         if (series == m_selectedSeries && m_selectedPoint == candidate)
-            series->d_ptr->markItemLabelDirty();
+            series->d_func()->markItemLabelDirty();
 
         if (series->isVisible())
             adjustAxisRanges();
@@ -423,7 +423,7 @@ void Surface3DController::adjustAxisRanges()
             if (surfaceSeries->isVisible() && proxy) {
                 QVector3D minLimits;
                 QVector3D maxLimits;
-                proxy->dptrc()->limitValues(minLimits, maxLimits, valueAxisX, valueAxisY, valueAxisZ);
+                proxy->d_func()->limitValues(minLimits, maxLimits, valueAxisX, valueAxisY, valueAxisZ);
                 if (adjustX) {
                     if (first) {
                         // First series initializes the values
@@ -478,7 +478,7 @@ void Surface3DController::adjustAxisRanges()
                         adjustment = defaultAdjustment;
                 }
             }
-            valueAxisX->dptr()->setRange(minValueX - adjustment, maxValueX + adjustment, true);
+            valueAxisX->d_func()->setRange(minValueX - adjustment, maxValueX + adjustment, true);
         }
         if (adjustY) {
             // If all points at same coordinate, need to default to some valid range
@@ -486,7 +486,7 @@ void Surface3DController::adjustAxisRanges()
             float adjustment = 0.0f;
             if (minValueY == maxValueY)
                 adjustment = defaultAdjustment;
-            valueAxisY->dptr()->setRange(minValueY - adjustment, maxValueY + adjustment, true);
+            valueAxisY->d_func()->setRange(minValueY - adjustment, maxValueY + adjustment, true);
         }
         if (adjustZ) {
             // If all points at same coordinate, need to default to some valid range
@@ -505,7 +505,7 @@ void Surface3DController::adjustAxisRanges()
                         adjustment = defaultAdjustment;
                 }
             }
-            valueAxisZ->dptr()->setRange(minValueZ - adjustment, maxValueZ + adjustment, true);
+            valueAxisZ->d_func()->setRange(minValueZ - adjustment, maxValueZ + adjustment, true);
         }
     }
 }

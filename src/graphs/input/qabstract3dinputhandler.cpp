@@ -42,6 +42,16 @@ QT_BEGIN_NAMESPACE
  */
 
 /*!
+ * \internal
+ */
+QAbstract3DInputHandler::QAbstract3DInputHandler(QAbstract3DInputHandlerPrivate *d,
+                                                 QObject *parent) :
+    QObject(parent),
+    d_ptr(d)
+{
+}
+
+/*!
  * Constructs the base class. An optional \a parent parameter can be given
  * and is then passed to QObject constructor.
  */
@@ -133,13 +143,15 @@ void QAbstract3DInputHandler::wheelEvent(QWheelEvent *event)
  */
 QAbstract3DInputHandler::InputView QAbstract3DInputHandler::inputView() const
 {
-    return d_ptr->m_inputView;
+    const Q_D(QAbstract3DInputHandler);
+    return d->m_inputView;
 }
 
 void QAbstract3DInputHandler::setInputView(InputView inputView)
 {
-    if (inputView != d_ptr->m_inputView) {
-        d_ptr->m_inputView = inputView;
+    Q_D(QAbstract3DInputHandler);
+    if (inputView != d->m_inputView) {
+        d->m_inputView = inputView;
         emit inputViewChanged(inputView);
     }
 }
@@ -151,13 +163,15 @@ void QAbstract3DInputHandler::setInputView(InputView inputView)
  */
 QPoint QAbstract3DInputHandler::inputPosition() const
 {
-    return d_ptr->m_inputPosition;
+    const Q_D(QAbstract3DInputHandler);
+    return d->m_inputPosition;
 }
 
 void QAbstract3DInputHandler::setInputPosition(const QPoint &position)
 {
-    if (position != d_ptr->m_inputPosition) {
-        d_ptr->m_inputPosition = position;
+    Q_D(QAbstract3DInputHandler);
+    if (position != d->m_inputPosition) {
+        d->m_inputPosition = position;
         emit positionChanged(position);
     }
 }
@@ -167,7 +181,8 @@ void QAbstract3DInputHandler::setInputPosition(const QPoint &position)
  */
 int QAbstract3DInputHandler::prevDistance() const
 {
-    return d_ptr->m_prevDistance;
+    const Q_D(QAbstract3DInputHandler);
+    return d->m_prevDistance;
 }
 
 /*!
@@ -175,7 +190,8 @@ int QAbstract3DInputHandler::prevDistance() const
  */
 void QAbstract3DInputHandler::setPrevDistance(int distance)
 {
-    d_ptr->m_prevDistance = distance;
+    Q_D(QAbstract3DInputHandler);
+    d->m_prevDistance = distance;
 }
 
 /*!
@@ -188,13 +204,15 @@ void QAbstract3DInputHandler::setPrevDistance(int distance)
  */
 Q3DScene *QAbstract3DInputHandler::scene() const
 {
-    return d_ptr->m_scene;
+    const Q_D(QAbstract3DInputHandler);
+    return d->m_scene;
 }
 
 void QAbstract3DInputHandler::setScene(Q3DScene *scene)
 {
-    if (scene != d_ptr->m_scene) {
-        d_ptr->m_scene = scene;
+    Q_D(QAbstract3DInputHandler);
+    if (scene != d->m_scene) {
+        d->m_scene = scene;
         emit sceneChanged(scene);
     }
 }
@@ -204,7 +222,8 @@ void QAbstract3DInputHandler::setScene(Q3DScene *scene)
  */
 void QAbstract3DInputHandler::setPreviousInputPos(const QPoint &position)
 {
-    d_ptr->m_previousInputPos = position;
+    Q_D(QAbstract3DInputHandler);
+    d->m_previousInputPos = position;
 }
 
 /*!
@@ -212,13 +231,14 @@ void QAbstract3DInputHandler::setPreviousInputPos(const QPoint &position)
  */
 QPoint QAbstract3DInputHandler::previousInputPos() const
 {
-    return d_ptr->m_previousInputPos;
+    const Q_D(QAbstract3DInputHandler);
+    return d->m_previousInputPos;
 }
 
 QAbstract3DInputHandlerPrivate::QAbstract3DInputHandlerPrivate(QAbstract3DInputHandler *q) :
-    q_ptr(q),
     m_prevDistance(0),
     m_previousInputPos(QPoint(0,0)),
+    q_ptr(q),
     m_inputView(QAbstract3DInputHandler::InputViewNone),
     m_inputPosition(QPoint(0,0)),
     m_scene(0),

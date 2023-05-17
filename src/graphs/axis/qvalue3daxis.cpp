@@ -3,7 +3,6 @@
 
 #include "qvalue3daxis_p.h"
 #include "qvalue3daxisformatter_p.h"
-#include "abstract3dcontroller_p.h"
 
 QT_BEGIN_NAMESPACE
 
@@ -112,21 +111,23 @@ QValue3DAxis::~QValue3DAxis()
  */
 void QValue3DAxis::setSegmentCount(int count)
 {
+    Q_D(QValue3DAxis);
     if (count <= 0) {
         qWarning() << "Warning: Illegal segment count automatically adjusted to a legal one:"
                    << count << "-> 1";
         count = 1;
     }
-    if (dptr()->m_segmentCount != count) {
-        dptr()->m_segmentCount = count;
-        dptr()->emitLabelsChanged();
+    if (d->m_segmentCount != count) {
+        d->m_segmentCount = count;
+        d->emitLabelsChanged();
         emit segmentCountChanged(count);
     }
 }
 
 int QValue3DAxis::segmentCount() const
 {
-    return dptrc()->m_segmentCount;
+    const Q_D(QValue3DAxis);
+    return d->m_segmentCount;
 }
 
 /*!
@@ -142,20 +143,22 @@ int QValue3DAxis::segmentCount() const
  */
 void QValue3DAxis::setSubSegmentCount(int count)
 {
+    Q_D(QValue3DAxis);
     if (count <= 0) {
         qWarning() << "Warning: Illegal subsegment count automatically adjusted to a legal one:"
                    << count << "-> 1";
         count = 1;
     }
-    if (dptr()->m_subSegmentCount != count) {
-        dptr()->m_subSegmentCount = count;
+    if (d->m_subSegmentCount != count) {
+        d->m_subSegmentCount = count;
         emit subSegmentCountChanged(count);
     }
 }
 
 int QValue3DAxis::subSegmentCount() const
 {
-    return dptrc()->m_subSegmentCount;
+    const Q_D(QValue3DAxis);
+    return d->m_subSegmentCount;
 }
 
 /*!
@@ -180,16 +183,18 @@ int QValue3DAxis::subSegmentCount() const
  */
 void QValue3DAxis::setLabelFormat(const QString &format)
 {
-    if (dptr()->m_labelFormat != format) {
-        dptr()->m_labelFormat = format;
-        dptr()->emitLabelsChanged();
+    Q_D(QValue3DAxis);
+    if (d->m_labelFormat != format) {
+        d->m_labelFormat = format;
+        d->emitLabelsChanged();
         emit labelFormatChanged(format);
     }
 }
 
 QString QValue3DAxis::labelFormat() const
 {
-    return dptrc()->m_labelFormat;
+    const Q_D(QValue3DAxis);
+    return d->m_labelFormat;
 }
 
 /*!
@@ -203,23 +208,22 @@ QString QValue3DAxis::labelFormat() const
 void QValue3DAxis::setFormatter(QValue3DAxisFormatter *formatter)
 {
     Q_ASSERT(formatter);
+    Q_D(QValue3DAxis);
 
-    if (formatter != dptr()->m_formatter) {
-        delete dptr()->m_formatter;
-        dptr()->m_formatter = formatter;
+    if (formatter != d->m_formatter) {
+        delete d->m_formatter;
+        d->m_formatter = formatter;
         formatter->setParent(this);
-        formatter->d_ptr->setAxis(this);
-//        Abstract3DController *controller = qobject_cast<Abstract3DController *>(parent());
-//        if (controller)
-//            formatter->setLocale(controller->locale());
+        formatter->setAxis(this);
         emit formatterChanged(formatter);
-        emit dptr()->formatterDirty();
+        emit formatterDirty();
     }
 }
 
 QValue3DAxisFormatter *QValue3DAxis::formatter() const
 {
-    return dptrc()->m_formatter;
+    const Q_D(QValue3DAxis);
+    return d->m_formatter;
 }
 
 /*!
@@ -233,20 +237,22 @@ QValue3DAxisFormatter *QValue3DAxis::formatter() const
  */
 void QValue3DAxis::setReversed(bool enable)
 {
-    if (dptr()->m_reversed != enable) {
-        dptr()->m_reversed = enable;
+    Q_D(QValue3DAxis);
+    if (d->m_reversed != enable) {
+        d->m_reversed = enable;
         emit reversedChanged(enable);
     }
 }
 
 bool QValue3DAxis::reversed() const
 {
-    return dptrc()->m_reversed;
+    const Q_D(QValue3DAxis);
+    return d->m_reversed;
 }
 
 void QValue3DAxis::recalculate()
 {
-    formatter()->d_ptr->recalculate();
+    formatter()->d_func()->recalculate();
 }
 
 int QValue3DAxis::gridSize()
@@ -282,22 +288,6 @@ float QValue3DAxis::positionAt(float x)
 QString QValue3DAxis::stringForValue(float x)
 {
     return formatter()->stringForValue(x, labelFormat());
-}
-
-/*!
- * \internal
- */
-QValue3DAxisPrivate *QValue3DAxis::dptr()
-{
-    return static_cast<QValue3DAxisPrivate *>(d_ptr.data());
-}
-
-/*!
- * \internal
- */
-const QValue3DAxisPrivate *QValue3DAxis::dptrc() const
-{
-    return static_cast<const QValue3DAxisPrivate *>(d_ptr.data());
 }
 
 QValue3DAxisPrivate::QValue3DAxisPrivate(QValue3DAxis *q)
@@ -347,8 +337,16 @@ void QValue3DAxisPrivate::setMax(float max)
 
 void QValue3DAxisPrivate::emitLabelsChanged()
 {
+    Q_Q(QValue3DAxis);
     m_labelsDirty = true;
-    emit q_ptr->labelsChanged();
+    emit q->labelsChanged();
+}
+
+void QValue3DAxisPrivate::emitFormatterDirty()
+{
+    Q_Q(QValue3DAxis);
+    m_labelsDirty = true;
+    emit q->formatterDirty();
 }
 
 void QValue3DAxisPrivate::updateLabels()
@@ -358,7 +356,7 @@ void QValue3DAxisPrivate::updateLabels()
 
     m_labelsDirty = false;
 
-    m_formatter->d_ptr->recalculate();
+    m_formatter->d_func()->recalculate();
 
     m_labels = m_formatter->labelStrings();
 }
@@ -376,11 +374,6 @@ bool QValue3DAxisPrivate::allowNegatives()
 bool QValue3DAxisPrivate::allowMinMaxSame()
 {
     return false;
-}
-
-QValue3DAxis *QValue3DAxisPrivate::qptr()
-{
-    return static_cast<QValue3DAxis *>(q_ptr);
 }
 
 QT_END_NAMESPACE

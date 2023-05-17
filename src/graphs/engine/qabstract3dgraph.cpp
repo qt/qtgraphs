@@ -162,7 +162,7 @@ void QAbstract3DGraph::addInputHandler(QAbstract3DInputHandler *inputHandler)
 {
     // TODO: API missing in QQuickGraphsItem (QTBUG-99829)
     Q_UNUSED(inputHandler)
-//    d_ptr->addInputHandler(inputHandler);
+//    m_graphsItem->addInputHandler(inputHandler);
 }
 
 /*!
@@ -177,7 +177,7 @@ void QAbstract3DGraph::releaseInputHandler(QAbstract3DInputHandler *inputHandler
 {
     // TODO: API missing in QQuickGraphsItem (QTBUG-99829)
     Q_UNUSED(inputHandler)
-//    d_ptr->releaseInputHandler(inputHandler);
+//    m_graphsItem->releaseInputHandler(inputHandler);
 }
 
 /*!
@@ -199,14 +199,14 @@ void QAbstract3DGraph::setActiveInputHandler(QAbstract3DInputHandler *inputHandl
 {
     // TODO: API missing in QQuickGraphsItem (QTBUG-99829)
     Q_UNUSED(inputHandler)
-//    d_ptr->setActiveInputHandler(inputHandler);
+//    m_graphsItem->setActiveInputHandler(inputHandler);
 }
 
 QAbstract3DInputHandler *QAbstract3DGraph::activeInputHandler() const
 {
     // TODO: API missing in QQuickGraphsItem (QTBUG-99829)
     return nullptr;
-//    return d_ptr->activeInputHandler();
+//    return m_graphsItem->activeInputHandler();
 }
 
 /*!
@@ -218,7 +218,7 @@ QList<QAbstract3DInputHandler *> QAbstract3DGraph::inputHandlers() const
 {
     // TODO: API missing in QQuickGraphsItem (QTBUG-99829)
     return {};
-//    return d_ptr->inputHandlers();
+//    return m_graphsItem->inputHandlers();
 }
 
 /*!
@@ -232,7 +232,7 @@ void QAbstract3DGraph::addTheme(Q3DTheme *theme)
 {
     // TODO: API missing in QQuickGraphsItem (QTBUG-111711)
     Q_UNUSED(theme)
-//    d_ptr->addTheme(theme);
+//    m_graphsItem->addTheme(theme);
 }
 
 /*!
@@ -247,7 +247,7 @@ void QAbstract3DGraph::releaseTheme(Q3DTheme *theme)
 {
     // TODO: API missing in QQuickGraphsItem (QTBUG-111711)
     Q_UNUSED(theme)
-//    d_ptr->releaseTheme(theme);
+//    m_graphsItem->releaseTheme(theme);
 }
 
 /*!
@@ -265,12 +265,12 @@ void QAbstract3DGraph::releaseTheme(Q3DTheme *theme)
  */
 Q3DTheme *QAbstract3DGraph::activeTheme() const
 {
-    return d_ptr->theme();
+    return m_graphsItem->theme();
 }
 
 void QAbstract3DGraph::setActiveTheme(Q3DTheme *activeTheme)
 {
-    d_ptr->setTheme(activeTheme);
+    m_graphsItem->setTheme(activeTheme);
     emit activeThemeChanged(activeTheme);
 }
 
@@ -283,7 +283,7 @@ QList<Q3DTheme *> QAbstract3DGraph::themes() const
 {
     // TODO: API missing in QQuickGraphsItem (QTBUG-111711)
     return {};
-//    return d_ptr->themes();
+//    return m_graphsItem->themes();
 }
 
 /*!
@@ -298,12 +298,12 @@ QList<Q3DTheme *> QAbstract3DGraph::themes() const
  */
 QAbstract3DGraph::SelectionFlags QAbstract3DGraph::selectionMode() const
 {
-    return d_ptr->selectionMode();
+    return m_graphsItem->selectionMode();
 }
 
 void QAbstract3DGraph::setSelectionMode(const QAbstract3DGraph::SelectionFlags &selectionMode)
 {
-    d_ptr->setSelectionMode(selectionMode);
+    m_graphsItem->setSelectionMode(selectionMode);
     emit selectionModeChanged(selectionMode);
 }
 
@@ -322,12 +322,12 @@ void QAbstract3DGraph::setSelectionMode(const QAbstract3DGraph::SelectionFlags &
  */
 QAbstract3DGraph::ShadowQuality QAbstract3DGraph::shadowQuality() const
 {
-    return d_ptr->shadowQuality();
+    return m_graphsItem->shadowQuality();
 }
 
 void QAbstract3DGraph::setShadowQuality(const QAbstract3DGraph::ShadowQuality &shadowQuality)
 {
-    d_ptr->setShadowQuality(shadowQuality);
+    m_graphsItem->setShadowQuality(shadowQuality);
     emit shadowQualityChanged(shadowQuality);
 }
 
@@ -341,7 +341,7 @@ void QAbstract3DGraph::setShadowQuality(const QAbstract3DGraph::ShadowQuality &s
  */
 Q3DScene *QAbstract3DGraph::scene() const
 {
-    return (Q3DScene *)d_ptr->scene();
+    return (Q3DScene *)m_graphsItem->scene();
 }
 
 /*!
@@ -349,7 +349,7 @@ Q3DScene *QAbstract3DGraph::scene() const
  */
 void QAbstract3DGraph::clearSelection()
 {
-    d_ptr->clearSelection();
+    m_graphsItem->clearSelection();
 }
 
 /*!
@@ -357,7 +357,7 @@ void QAbstract3DGraph::clearSelection()
  */
 bool QAbstract3DGraph::hasSeries(QAbstract3DSeries *series) const
 {
-    return d_ptr->hasSeries(series);
+    return m_graphsItem->hasSeries(series);
 }
 
 /*!
@@ -374,7 +374,7 @@ bool QAbstract3DGraph::hasSeries(QAbstract3DSeries *series) const
  */
 int QAbstract3DGraph::addCustomItem(QCustom3DItem *item)
 {
-    return d_ptr->addCustomItem(item);
+    return m_graphsItem->addCustomItem(item);
 }
 
 /*!
@@ -382,7 +382,7 @@ int QAbstract3DGraph::addCustomItem(QCustom3DItem *item)
  */
 void QAbstract3DGraph::removeCustomItems()
 {
-    d_ptr->removeCustomItems();
+    m_graphsItem->removeCustomItems();
 }
 
 /*!
@@ -390,7 +390,7 @@ void QAbstract3DGraph::removeCustomItems()
  */
 void QAbstract3DGraph::removeCustomItem(QCustom3DItem *item)
 {
-    d_ptr->removeCustomItem(item);
+    m_graphsItem->removeCustomItem(item);
 }
 
 /*!
@@ -398,7 +398,7 @@ void QAbstract3DGraph::removeCustomItem(QCustom3DItem *item)
  */
 void QAbstract3DGraph::removeCustomItemAt(const QVector3D &position)
 {
-    d_ptr->removeCustomItemAt(position);
+    m_graphsItem->removeCustomItemAt(position);
 }
 
 /*!
@@ -411,7 +411,7 @@ void QAbstract3DGraph::removeCustomItemAt(const QVector3D &position)
  */
 void QAbstract3DGraph::releaseCustomItem(QCustom3DItem *item)
 {
-    return d_ptr->releaseCustomItem(item);
+    return m_graphsItem->releaseCustomItem(item);
 }
 
 /*!
@@ -422,7 +422,7 @@ QList<QCustom3DItem *> QAbstract3DGraph::customItems() const
 {
     // TODO: API missing in QQuickGraphsItem (QTBUG-99844)
     return {};
-//    return d_ptr->customItems();
+//    return m_graphsItem->customItems();
 }
 
 /*!
@@ -435,7 +435,7 @@ QList<QCustom3DItem *> QAbstract3DGraph::customItems() const
  */
 int QAbstract3DGraph::selectedLabelIndex() const
 {
-    return d_ptr->selectedLabelIndex();
+    return m_graphsItem->selectedLabelIndex();
 }
 
 /*!
@@ -448,7 +448,7 @@ int QAbstract3DGraph::selectedLabelIndex() const
  */
 QAbstract3DAxis *QAbstract3DGraph::selectedAxis() const
 {
-    return d_ptr->selectedAxis();
+    return m_graphsItem->selectedAxis();
 }
 
 /*!
@@ -462,7 +462,7 @@ QAbstract3DAxis *QAbstract3DGraph::selectedAxis() const
  */
 int QAbstract3DGraph::selectedCustomItemIndex() const
 {
-    return d_ptr->selectedCustomItemIndex();
+    return m_graphsItem->selectedCustomItemIndex();
 }
 
 /*!
@@ -476,7 +476,7 @@ int QAbstract3DGraph::selectedCustomItemIndex() const
  */
 QCustom3DItem *QAbstract3DGraph::selectedCustomItem() const
 {
-    return d_ptr->selectedCustomItem();
+    return m_graphsItem->selectedCustomItem();
 }
 
 /*!
@@ -497,7 +497,7 @@ QCustom3DItem *QAbstract3DGraph::selectedCustomItem() const
  */
 QAbstract3DGraph::ElementType QAbstract3DGraph::selectedElement() const
 {
-    return d_ptr->selectedElement();
+    return m_graphsItem->selectedElement();
 }
 
 /*!
@@ -516,7 +516,7 @@ QImage QAbstract3DGraph::renderToImage(int msaaSamples, const QSize &imageSize)
     if (renderSize.isEmpty())
         renderSize = size();
     // TODO: API missing in QQuickGraphsItem (QTBUG-111712)
-    return {};//d_ptr->renderToImage(msaaSamples, renderSize);
+    return {};//m_graphsItem->renderToImage(msaaSamples, renderSize);
 }
 
 /*!
@@ -531,19 +531,19 @@ QImage QAbstract3DGraph::renderToImage(int msaaSamples, const QSize &imageSize)
  */
 void QAbstract3DGraph::setMeasureFps(bool enable)
 {
-    d_ptr->setMeasureFps(enable);
+    m_graphsItem->setMeasureFps(enable);
     if (enable) {
-        QObject::connect(d_ptr.data(), &QQuickGraphsItem::currentFpsChanged,
+        QObject::connect(m_graphsItem.data(), &QQuickGraphsItem::currentFpsChanged,
                          this, &QAbstract3DGraph::currentFpsChanged);
     } else {
-        QObject::disconnect(d_ptr.data(), &QQuickGraphsItem::currentFpsChanged,
+        QObject::disconnect(m_graphsItem.data(), &QQuickGraphsItem::currentFpsChanged,
                             this, &QAbstract3DGraph::currentFpsChanged);
     }
 }
 
 bool QAbstract3DGraph::measureFps() const
 {
-    return d_ptr->measureFps();
+    return m_graphsItem->measureFps();
 }
 
 /*!
@@ -559,7 +559,7 @@ bool QAbstract3DGraph::measureFps() const
  */
 int QAbstract3DGraph::currentFps() const
 {
-    return d_ptr->currentFps();
+    return m_graphsItem->currentFps();
 }
 
 /*!
@@ -574,12 +574,12 @@ int QAbstract3DGraph::currentFps() const
  */
 void QAbstract3DGraph::setOrthoProjection(bool enable)
 {
-    d_ptr->setOrthoProjection(enable);
+    m_graphsItem->setOrthoProjection(enable);
 }
 
 bool QAbstract3DGraph::isOrthoProjection() const
 {
-    return d_ptr->isOrthoProjection();
+    return m_graphsItem->isOrthoProjection();
 }
 
 /*!
@@ -596,12 +596,12 @@ bool QAbstract3DGraph::isOrthoProjection() const
  */
 void QAbstract3DGraph::setAspectRatio(qreal ratio)
 {
-    d_ptr->setAspectRatio(ratio);
+    m_graphsItem->setAspectRatio(ratio);
 }
 
 qreal QAbstract3DGraph::aspectRatio() const
 {
-    return d_ptr->aspectRatio();
+    return m_graphsItem->aspectRatio();
 }
 
 /*!
@@ -629,12 +629,12 @@ qreal QAbstract3DGraph::aspectRatio() const
  */
 void QAbstract3DGraph::setOptimizationHints(OptimizationHints hints)
 {
-    d_ptr->setOptimizationHints(hints);
+    m_graphsItem->setOptimizationHints(hints);
 }
 
 QAbstract3DGraph::OptimizationHints QAbstract3DGraph::optimizationHints() const
 {
-    return d_ptr->optimizationHints();
+    return m_graphsItem->optimizationHints();
 }
 
 /*!
@@ -652,12 +652,12 @@ QAbstract3DGraph::OptimizationHints QAbstract3DGraph::optimizationHints() const
  */
 void QAbstract3DGraph::setPolar(bool enable)
 {
-    d_ptr->setPolar(enable);
+    m_graphsItem->setPolar(enable);
 }
 
 bool QAbstract3DGraph::isPolar() const
 {
-    return d_ptr->isPolar();
+    return m_graphsItem->isPolar();
 }
 
 /*!
@@ -676,12 +676,12 @@ bool QAbstract3DGraph::isPolar() const
  */
 void QAbstract3DGraph::setRadialLabelOffset(float offset)
 {
-    d_ptr->setRadialLabelOffset(offset);
+    m_graphsItem->setRadialLabelOffset(offset);
 }
 
 float QAbstract3DGraph::radialLabelOffset() const
 {
-    return d_ptr->radialLabelOffset();
+    return m_graphsItem->radialLabelOffset();
 }
 
 /*!
@@ -700,12 +700,12 @@ float QAbstract3DGraph::radialLabelOffset() const
  */
 void QAbstract3DGraph::setHorizontalAspectRatio(qreal ratio)
 {
-    d_ptr->setHorizontalAspectRatio(ratio);
+    m_graphsItem->setHorizontalAspectRatio(ratio);
 }
 
 qreal QAbstract3DGraph::horizontalAspectRatio() const
 {
-    return d_ptr->horizontalAspectRatio();
+    return m_graphsItem->horizontalAspectRatio();
 }
 
 /*!
@@ -727,14 +727,14 @@ qreal QAbstract3DGraph::horizontalAspectRatio() const
  */
 void QAbstract3DGraph::setReflection(bool enable)
 {
-    d_ptr->setReflection(enable);
+    m_graphsItem->setReflection(enable);
 }
 
 bool QAbstract3DGraph::isReflection() const
 {
     // TODO: API missing in QQuickGraphsItem (QTBUG-99816)
     return false;
-//    return d_ptr->reflection();
+//    return m_graphsItem->reflection();
 }
 
 /*!
@@ -751,12 +751,12 @@ bool QAbstract3DGraph::isReflection() const
  */
 void QAbstract3DGraph::setReflectivity(qreal reflectivity)
 {
-    d_ptr->setReflectivity(reflectivity);
+    m_graphsItem->setReflectivity(reflectivity);
 }
 
 qreal QAbstract3DGraph::reflectivity() const
 {
-    return d_ptr->reflectivity();
+    return m_graphsItem->reflectivity();
 }
 
 /*!
@@ -770,12 +770,12 @@ qreal QAbstract3DGraph::reflectivity() const
  */
 void QAbstract3DGraph::setLocale(const QLocale &locale)
 {
-    d_ptr->setLocale(locale);
+    m_graphsItem->setLocale(locale);
 }
 
 QLocale QAbstract3DGraph::locale() const
 {
-    return d_ptr->locale();
+    return m_graphsItem->locale();
 }
 
 /*!
@@ -801,7 +801,7 @@ QLocale QAbstract3DGraph::locale() const
  */
 QVector3D QAbstract3DGraph::queriedGraphPosition() const
 {
-    return d_ptr->queriedGraphPosition();
+    return m_graphsItem->queriedGraphPosition();
 }
 
 /*!
@@ -826,12 +826,12 @@ QVector3D QAbstract3DGraph::queriedGraphPosition() const
  */
 void QAbstract3DGraph::setMargin(qreal margin)
 {
-    d_ptr->setMargin(margin);
+    m_graphsItem->setMargin(margin);
 }
 
 qreal QAbstract3DGraph::margin() const
 {
-    return d_ptr->margin();
+    return m_graphsItem->margin();
 }
 
 /*!
@@ -844,7 +844,7 @@ bool QAbstract3DGraph::event(QEvent *event)
     case QEvent::TouchCancel:
     case QEvent::TouchUpdate:
     case QEvent::TouchEnd:
-        d_ptr->touchEvent(static_cast<QTouchEvent *>(event));
+        m_graphsItem->touchEvent(static_cast<QTouchEvent *>(event));
         return true;
     default:
         return QWidget::event(event);
@@ -858,10 +858,10 @@ void QAbstract3DGraph::resizeEvent(QResizeEvent *event)
 {
     Q_UNUSED(event);
 
-    if (d_ptr) {
-        Q3DScene *scene = (Q3DScene *)d_ptr->scene();
-        scene->d_ptr->setWindowSize(QSize(width(), height()));
-        scene->d_ptr->setViewport(QRect(0, 0, width(), height()));
+    if (m_graphsItem) {
+        Q3DScene *scene = (Q3DScene *)m_graphsItem->scene();
+        scene->d_func()->setWindowSize(QSize(width(), height()));
+        scene->d_func()->setViewport(QRect(0, 0, width(), height()));
     }
 }
 
@@ -870,7 +870,7 @@ void QAbstract3DGraph::resizeEvent(QResizeEvent *event)
  */
 void QAbstract3DGraph::mouseDoubleClickEvent(QMouseEvent *event)
 {
-    d_ptr->mouseDoubleClickEvent(event);
+    m_graphsItem->mouseDoubleClickEvent(event);
 }
 
 /*!
@@ -878,7 +878,7 @@ void QAbstract3DGraph::mouseDoubleClickEvent(QMouseEvent *event)
  */
 void QAbstract3DGraph::mousePressEvent(QMouseEvent *event)
 {
-    d_ptr->mousePressEvent(event);
+    m_graphsItem->mousePressEvent(event);
 }
 
 /*!
@@ -886,7 +886,7 @@ void QAbstract3DGraph::mousePressEvent(QMouseEvent *event)
  */
 void QAbstract3DGraph::mouseReleaseEvent(QMouseEvent *event)
 {
-    d_ptr->mouseReleaseEvent(event);
+    m_graphsItem->mouseReleaseEvent(event);
 }
 
 /*!
@@ -894,7 +894,7 @@ void QAbstract3DGraph::mouseReleaseEvent(QMouseEvent *event)
  */
 void QAbstract3DGraph::mouseMoveEvent(QMouseEvent *event)
 {
-    d_ptr->mouseMoveEvent(event);
+    m_graphsItem->mouseMoveEvent(event);
 }
 
 #if QT_CONFIG(wheelevent)
@@ -903,7 +903,7 @@ void QAbstract3DGraph::mouseMoveEvent(QMouseEvent *event)
  */
 void QAbstract3DGraph::wheelEvent(QWheelEvent *event)
 {
-    d_ptr->wheelEvent(event);
+    m_graphsItem->wheelEvent(event);
 }
 #endif
 

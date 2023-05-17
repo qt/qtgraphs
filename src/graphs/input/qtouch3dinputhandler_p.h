@@ -25,7 +25,7 @@ class QAbstract3DInputHandler;
 
 class QTouch3DInputHandlerPrivate : public Q3DInputHandlerPrivate
 {
-    Q_OBJECT
+    Q_DECLARE_PUBLIC(QTouch3DInputHandler)
 
 public:
     QTouch3DInputHandlerPrivate(QTouch3DInputHandler *q);
@@ -36,8 +36,6 @@ public:
     void handleSelection(const QPointF &position);
     void handleRotation(const QPointF &position);
 
-private:
-    QTouch3DInputHandler *q_ptr;
 public:
     QTimer *m_holdTimer;
     QAbstract3DInputHandlerPrivate::InputState m_inputState;

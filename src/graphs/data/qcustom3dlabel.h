@@ -18,6 +18,7 @@ class QCustom3DLabelPrivate;
 class Q_GRAPHS_EXPORT QCustom3DLabel : public QCustom3DItem
 {
     Q_OBJECT
+    Q_DECLARE_PRIVATE(QCustom3DLabel)
     Q_PROPERTY(QString text READ text WRITE setText NOTIFY textChanged)
     Q_PROPERTY(QFont font READ font WRITE setFont NOTIFY fontChanged)
     Q_PROPERTY(QColor textColor READ textColor WRITE setTextColor NOTIFY textColorChanged)
@@ -62,10 +63,6 @@ Q_SIGNALS:
     void borderEnabledChanged(bool enabled);
     void backgroundEnabledChanged(bool enabled);
     void facingCameraChanged(bool enabled);
-
-protected:
-    QCustom3DLabelPrivate *dptr();
-    const QCustom3DLabelPrivate *dptrc() const;
 
 private:
     Q_DISABLE_COPY(QCustom3DLabel)

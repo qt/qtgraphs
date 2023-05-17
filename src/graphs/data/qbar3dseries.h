@@ -15,6 +15,7 @@ class QBar3DSeriesPrivate;
 class Q_GRAPHS_EXPORT QBar3DSeries : public QAbstract3DSeries
 {
     Q_OBJECT
+    Q_DECLARE_PRIVATE(QBar3DSeries)
     Q_PROPERTY(QBarDataProxy *dataProxy READ dataProxy WRITE setDataProxy NOTIFY dataProxyChanged)
     Q_PROPERTY(QPoint selectedBar READ selectedBar WRITE setSelectedBar NOTIFY selectedBarChanged)
     Q_PROPERTY(float meshAngle READ meshAngle WRITE setMeshAngle NOTIFY meshAngleChanged)
@@ -44,12 +45,11 @@ Q_SIGNALS:
     void meshAngleChanged(float angle);
     void rowColorsChanged(const QList<QColor> &rowcolors);
 
-protected:
-    QBar3DSeriesPrivate *dptr();
-    const QBar3DSeriesPrivate *dptrc() const;
-
 private:
     Q_DISABLE_COPY(QBar3DSeries)
+
+    void connectSignals();
+    void handleMeshRotationChanged(const QQuaternion &rotation);
 
     friend class Bars3DController;
     friend class QQuickGraphsBars;

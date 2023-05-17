@@ -4,6 +4,7 @@
 #ifndef QABSTRACT3DAXIS_H
 #define QABSTRACT3DAXIS_H
 
+#include <QtCore/qtclasshelpermacros.h>
 #include <QtGraphs/qgraphsglobal.h>
 #include <QtCore/QObject>
 #include <QtCore/QScopedPointer>
@@ -16,6 +17,7 @@ class QAbstract3DAxisPrivate;
 class Q_GRAPHS_EXPORT QAbstract3DAxis : public QObject
 {
     Q_OBJECT
+    Q_DECLARE_PRIVATE(QAbstract3DAxis)
     Q_PROPERTY(QString title READ title WRITE setTitle NOTIFY titleChanged)
     Q_PROPERTY(QStringList labels READ labels WRITE setLabels NOTIFY labelsChanged)
     Q_PROPERTY(AxisOrientation orientation READ orientation NOTIFY orientationChanged)
@@ -97,7 +99,6 @@ private:
     Q_DISABLE_COPY(QAbstract3DAxis)
 
     friend class Abstract3DController;
-    friend class Bars3DController;
     friend class QScatterDataProxyPrivate;
     friend class QSurfaceDataProxyPrivate;
 };

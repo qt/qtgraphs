@@ -19,6 +19,7 @@ class QAbstract3DInputHandlerPrivate;
 class Q_GRAPHS_EXPORT QAbstract3DInputHandler : public QObject
 {
     Q_OBJECT
+    Q_DECLARE_PRIVATE(QAbstract3DInputHandler)
     Q_PROPERTY(InputView inputView READ inputView WRITE setInputView NOTIFY inputViewChanged)
     Q_PROPERTY(QPoint inputPosition READ inputPosition WRITE setInputPosition NOTIFY positionChanged)
     Q_PROPERTY(Q3DScene *scene READ scene WRITE setScene NOTIFY sceneChanged)
@@ -32,7 +33,9 @@ public:
     Q_ENUM(InputView)
 
 protected:
+    explicit QAbstract3DInputHandler(QAbstract3DInputHandlerPrivate *d, QObject *parent = nullptr);
     explicit QAbstract3DInputHandler(QObject *parent = nullptr);
+
 public:
     virtual ~QAbstract3DInputHandler();
 
@@ -61,6 +64,8 @@ Q_SIGNALS:
     void sceneChanged(Q3DScene *scene);
 
 protected:
+    QScopedPointer<QAbstract3DInputHandlerPrivate> d_ptr;
+
     void setPrevDistance(int distance);
     int prevDistance() const;
     void setPreviousInputPos(const QPoint &position);
@@ -69,10 +74,7 @@ protected:
 private:
     Q_DISABLE_COPY(QAbstract3DInputHandler)
 
-    QScopedPointer<QAbstract3DInputHandlerPrivate> d_ptr;
-
     friend class Abstract3DController;
-    friend class QTouch3DInputHandlerPrivate;
 };
 
 QT_END_NAMESPACE

@@ -21,7 +21,7 @@ QT_BEGIN_NAMESPACE
 
 class QValue3DAxisPrivate : public QAbstract3DAxisPrivate
 {
-    Q_OBJECT
+    Q_DECLARE_PUBLIC(QValue3DAxis)
 
 public:
     QValue3DAxisPrivate(QValue3DAxis *q);
@@ -32,9 +32,7 @@ public:
     void setMax (float max) override;
 
     void emitLabelsChanged();
-
-Q_SIGNALS:
-    void formatterDirty();
+    void emitFormatterDirty();
 
 protected:
     void updateLabels() override;
@@ -49,12 +47,6 @@ protected:
     bool m_labelsDirty;
     QValue3DAxisFormatter *m_formatter;
     bool m_reversed;
-
-private:
-    QValue3DAxis *qptr();
-
-    friend class QValue3DAxis;
-    friend class Abstract3DController;
 };
 
 QT_END_NAMESPACE

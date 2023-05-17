@@ -78,8 +78,8 @@ Q3DSurface::Q3DSurface() : QAbstract3DGraph()
     QQmlComponent *component = new QQmlComponent(engine(), this);
     component->setData("import QtQuick; import QtGraphs; Surface3D { anchors.fill: parent; }",
                        QUrl());
-    d_ptr.reset(qobject_cast<QQuickGraphsSurface *>(component->create()));
-    setContent(component->url(), component, d_ptr.data());
+    m_graphsItem.reset(qobject_cast<QQuickGraphsSurface *>(component->create()));
+    setContent(component->url(), component, m_graphsItem.data());
 }
 
 /*!
@@ -284,7 +284,7 @@ QList<QValue3DAxis *> Q3DSurface::axes() const
  */
 QQuickGraphsSurface *Q3DSurface::dptr()
 {
-    return static_cast<QQuickGraphsSurface *>(d_ptr.data());
+    return static_cast<QQuickGraphsSurface *>(m_graphsItem.data());
 }
 
 /*!
@@ -292,7 +292,7 @@ QQuickGraphsSurface *Q3DSurface::dptr()
  */
 const QQuickGraphsSurface *Q3DSurface::dptrc() const
 {
-    return static_cast<const QQuickGraphsSurface *>(d_ptr.data());
+    return static_cast<const QQuickGraphsSurface *>(m_graphsItem.data());
 }
 
 QT_END_NAMESPACE

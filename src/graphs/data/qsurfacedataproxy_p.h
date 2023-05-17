@@ -23,7 +23,8 @@ class QAbstract3DAxis;
 
 class QSurfaceDataProxyPrivate : public QAbstractDataProxyPrivate
 {
-    Q_OBJECT
+    Q_DECLARE_PUBLIC(QSurfaceDataProxy)
+
 public:
     QSurfaceDataProxyPrivate(QSurfaceDataProxy *q);
     virtual ~QSurfaceDataProxyPrivate();
@@ -47,11 +48,8 @@ protected:
     QSurfaceDataArray *m_dataArray;
 
 private:
-    QSurfaceDataProxy *qptr();
     void clearRow(int rowIndex);
     void clearArray();
-
-    friend class QSurfaceDataProxy;
 };
 
 QT_END_NAMESPACE

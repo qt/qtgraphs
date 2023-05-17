@@ -157,12 +157,12 @@ void DeclarativeTheme3D::classBegin()
 {
     // Turn off predefined type forcing for the duration of initial class construction
     // so that predefined type customization can be done.
-    d_ptr->setForcePredefinedType(false);
+    d_func()->setForcePredefinedType(false);
 }
 
 void DeclarativeTheme3D::componentComplete()
 {
-    d_ptr->setForcePredefinedType(true);
+    d_func()->setForcePredefinedType(true);
 }
 
 

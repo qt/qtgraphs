@@ -81,9 +81,10 @@ struct QAbstract3DSeriesThemeOverrideBitField {
     }
 };
 
-class QAbstract3DSeriesPrivate : public QObject
+class QAbstract3DSeriesPrivate
 {
-    Q_OBJECT
+    Q_DECLARE_PUBLIC(QAbstract3DSeries)
+
 public:
     QAbstract3DSeriesPrivate(QAbstract3DSeries *q, QAbstract3DSeries::SeriesType type);
     virtual ~QAbstract3DSeriesPrivate();
@@ -117,9 +118,11 @@ public:
     void setItemLabelVisible(bool visible);
     bool isUsingGradient();
 
+protected:
+    QAbstract3DSeries *q_ptr;
+
     QAbstract3DSeriesChangeBitField m_changeTracker;
     QAbstract3DSeriesThemeOverrideBitField m_themeTracker;
-    QAbstract3DSeries *q_ptr;
     QAbstract3DSeries::SeriesType m_type;
     QString m_itemLabelFormat;
     QAbstractDataProxy *m_dataProxy;
@@ -142,6 +145,11 @@ public:
     QString m_itemLabel;
     bool m_itemLabelDirty;
     bool m_itemLabelVisible;
+
+    friend class Scatter3DController;
+    friend class Surface3DController;
+    friend class Bars3DController;
+    friend class Abstract3DController;
 };
 
 QT_END_NAMESPACE

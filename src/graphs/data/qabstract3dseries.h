@@ -18,6 +18,7 @@ class QAbstract3DSeriesPrivate;
 class Q_GRAPHS_EXPORT QAbstract3DSeries : public QObject
 {
     Q_OBJECT
+    Q_DECLARE_PRIVATE(QAbstract3DSeries)
     Q_PROPERTY(SeriesType type READ type CONSTANT)
     Q_PROPERTY(QString itemLabelFormat READ itemLabelFormat WRITE setItemLabelFormat NOTIFY itemLabelFormatChanged)
     Q_PROPERTY(bool visible READ isVisible WRITE setVisible NOTIFY visibilityChanged)
@@ -106,7 +107,7 @@ public:
     void setName(const QString &name);
     QString name() const;
 
-    QString itemLabel() const;
+    QString itemLabel();
     void setItemLabelVisible(bool visible);
     bool isItemLabelVisible() const;
 
@@ -138,8 +139,6 @@ private:
     friend class Bars3DController;
     friend class Surface3DController;
     friend class Scatter3DController;
-    friend class QBar3DSeries;
-    friend class SeriesRenderCache;
 };
 
 QT_END_NAMESPACE

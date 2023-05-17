@@ -314,16 +314,16 @@ void QQuickGraphsBars::synchData()
     Q3DTheme *theme = m_barsController->activeTheme();
 
     if (!m_noZeroInRange) {
-        camera->d_ptr->setMinYRotation(-90.0f);
-        camera->d_ptr->setMaxYRotation(90.0f);
+        camera->d_func()->setMinYRotation(-90.0f);
+        camera->d_func()->setMaxYRotation(90.0f);
     } else {
         if ((m_hasNegativeValues && !m_helperAxisY.isReversed())
                 || (!m_hasNegativeValues && m_helperAxisY.isReversed())) {
-            camera->d_ptr->setMinYRotation(-90.0f);
-            camera->d_ptr->setMaxYRotation(0.0f);
+            camera->d_func()->setMinYRotation(-90.0f);
+            camera->d_func()->setMaxYRotation(0.0f);
         } else {
-            camera->d_ptr->setMinYRotation(0.0f);
-            camera->d_ptr->setMaxYRotation(90.0f);
+            camera->d_func()->setMinYRotation(0.0f);
+            camera->d_func()->setMaxYRotation(90.0f);
         }
     }
     if (m_barsController->m_changeTracker.barSpecsChanged || !m_cachedBarThickness.isValid()) {
@@ -339,11 +339,11 @@ void QQuickGraphsBars::synchData()
     }
 
     // Do not clear dirty flag, we need to react to it in qquickgraphicsitem as well
-    if (theme->d_ptr->m_dirtyBits.backgroundEnabledDirty) {
+    if (theme->d_func()->m_dirtyBits.backgroundEnabledDirty) {
         m_floorBackground->setVisible(theme->isBackgroundEnabled());
         m_barsController->m_isSeriesVisualsDirty = true;
         for (auto it = m_barModelsMap.begin(); it != m_barModelsMap.end(); it++)
-            it.key()->d_ptr->m_changeTracker.meshChanged = true;
+            it.key()->d_func()->m_changeTracker.meshChanged = true;
     }
 
     if (m_barsController->m_changeTracker.barSeriesMarginChanged) {
@@ -352,11 +352,11 @@ void QQuickGraphsBars::synchData()
     }
 
     auto axisY = static_cast<QValue3DAxis *>(m_barsController->axisY());
-    axisY->formatter()->d_ptr->recalculate();
+    axisY->formatter()->d_func()->recalculate();
     m_helperAxisY.setFormatter(axisY->formatter());
 
     if (m_axisRangeChanged) {
-        theme->d_ptr->resetDirtyBits();
+        theme->d_func()->resetDirtyBits();
         updateGrid();
         updateLabels();
         m_axisRangeChanged = false;
@@ -455,9 +455,9 @@ void QQuickGraphsBars::updateGraph()
     bool isEmpty = m_barsController->m_changedSeriesList.isEmpty();
 
     for (const auto &series : std::as_const(barSeriesList)) {
-        if (series->d_ptr->m_changeTracker.meshChanged) {
+        if (series->d_func()->m_changeTracker.meshChanged) {
             removeBarModels();
-            series->d_ptr->m_changeTracker.meshChanged = false;
+            series->d_func()->m_changeTracker.meshChanged = false;
             m_barsController->m_isDataDirty = true;
         }
     }
@@ -1028,7 +1028,7 @@ float QQuickGraphsBars::updateBarHeightParameters(const QBarDataItem *item)
 void QQuickGraphsBars::updateBarVisuals(QBar3DSeries *series)
 {
     QList<BarModel *> barList = *m_barModelsMap.value(series);
-    bool useGradient = series->d_ptr->isUsingGradient();
+    bool useGradient = series->d_func()->isUsingGradient();
 
     if (useGradient) {
         if (!m_hasHighlightTexture) {
@@ -1054,7 +1054,7 @@ void QQuickGraphsBars::updateBarVisuals(QBar3DSeries *series)
         }
     }
 
-    bool rangeGradient = (useGradient && series->d_ptr->m_colorStyle
+    bool rangeGradient = (useGradient && series->d_func()->m_colorStyle
                                              == Q3DTheme::ColorStyleRangeGradient);
 
     if (m_barsController->optimizationHints() == QAbstract3DGraph::OptimizationLegacy) {
@@ -1343,10 +1343,10 @@ void QQuickGraphsBars::setSelectedBar(QBar3DSeries *series, const QPoint &coord)
         // Clear selection from other series and finally set new selection to the specified series
         for (auto it = m_barModelsMap.begin(); it != m_barModelsMap.end(); it++) {
             if (it.key() != m_selectedBarSeries)
-                it.key()->dptr()->setSelectedBar(invalidSelectionPosition());
+                it.key()->d_func()->setSelectedBar(invalidSelectionPosition());
         }
         if (m_selectedBarSeries) {
-            m_selectedBarSeries->dptr()->setSelectedBar(m_selectedBarCoord);
+            m_selectedBarSeries->d_func()->setSelectedBar(m_selectedBarCoord);
             m_barsController->setSelectedBar(m_selectedBarCoord, m_selectedBarSeries, false);
         }
     }
@@ -1357,7 +1357,7 @@ void QQuickGraphsBars::updateSelectedBar()
     bool visible = false;
     for (auto it = m_barModelsMap.begin(); it != m_barModelsMap.end(); it++) {
         if (m_selectedBarSeries && it.key()->isVisible()) {
-            bool useGradient = m_selectedBarSeries->d_ptr->isUsingGradient();
+            bool useGradient = m_selectedBarSeries->d_func()->isUsingGradient();
             if (m_barsController->optimizationHints() == QAbstract3DGraph::OptimizationLegacy) {
                 for (auto barList : *it.value()) {
                     Bars3DController::SelectionType selectionType =
@@ -1370,13 +1370,13 @@ void QQuickGraphsBars::updateSelectedBar()
                         } else {
                             updatePrincipledMaterial(barList->model,
                                                      m_selectedBarSeries->singleHighlightColor(),
-                                                     m_selectedBarSeries->d_ptr->isUsingGradient(),
+                                                     m_selectedBarSeries->d_func()->isUsingGradient(),
                                                      true, barList->texture);
                         }
 
                         m_selectedBarPos = barList->model->position();
                         visible = m_selectedBarSeries->isVisible() && !m_selectedBarPos.isNull();
-                        QString label = (m_selectedBarSeries->dptr()->itemLabel());
+                        QString label = (m_selectedBarSeries->d_func()->itemLabel());
 
                         if (barList->heightValue >= 0.0f) {
                             m_selectedBarPos.setY(m_selectedBarPos.y() + barList->heightValue
@@ -1412,7 +1412,7 @@ void QQuickGraphsBars::updateSelectedBar()
                         } else {
                             updatePrincipledMaterial(barList->model,
                                                      m_selectedBarSeries->multiHighlightColor(),
-                                                     m_selectedBarSeries->d_ptr->isUsingGradient(),
+                                                     m_selectedBarSeries->d_func()->isUsingGradient(),
                                                      true, barList->texture);
                         }
                         break;
@@ -1445,12 +1445,12 @@ void QQuickGraphsBars::updateSelectedBar()
                             } else {
                                 updatePrincipledMaterial(selectedModel,
                                                          m_selectedBarSeries->singleHighlightColor(),
-                                                         m_selectedBarSeries->d_ptr->isUsingGradient(),
+                                                         m_selectedBarSeries->d_func()->isUsingGradient(),
                                                          true, barList.at(0)->texture);
                             }
 
                             m_selectedBarPos = bih->position;
-                            QString label = (m_selectedBarSeries->dptr()->itemLabel());
+                            QString label = (m_selectedBarSeries->d_func()->itemLabel());
 
                             if (bih->heightValue >= 0.0f)
                                 m_selectedBarPos.setY(m_selectedBarPos.y() + bih->heightValue + 0.2f);
@@ -1492,7 +1492,7 @@ void QQuickGraphsBars::updateSelectedBar()
                             } else {
                                 updatePrincipledMaterial(selectedModel,
                                                          m_selectedBarSeries->multiHighlightColor(),
-                                                         m_selectedBarSeries->d_ptr->isUsingGradient(),
+                                                         m_selectedBarSeries->d_func()->isUsingGradient(),
                                                          true, barList.at(0)->texture);
                             }
                             ++index;
@@ -1512,7 +1512,7 @@ void QQuickGraphsBars::updateSelectedBar()
 
 void QQuickGraphsBars::createSelectedModels(QBar3DSeries *series)
 {
-    bool useGradient = series->d_ptr->isUsingGradient();
+    bool useGradient = series->d_func()->isUsingGradient();
     QList<QQuick3DModel *> *selectedModelsList = m_selectedModels.value(series);
     if (!selectedModelsList) {
         selectedModelsList = new QList<QQuick3DModel *>;
@@ -1598,7 +1598,7 @@ void QQuickGraphsBars::createSliceView()
 
     QList<QBar3DSeries *> barSeriesList = m_barsController->barSeriesList();
     for (const auto &barSeries : std::as_const(barSeriesList)) {
-        bool useGradient = barSeries->d_ptr->isUsingGradient();
+        bool useGradient = barSeries->d_func()->isUsingGradient();
         QList<QQuick3DModel *> *slicedBarList = m_slicedBarModels.value(barSeries);
         if (!slicedBarList) {
             slicedBarList = new QList<QQuick3DModel *>;

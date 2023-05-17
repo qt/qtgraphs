@@ -228,12 +228,12 @@ void BarItemModelHandler::resolveModel()
         }
 
         if (generateRows)
-            m_proxy->dptr()->m_rowCategories = rowList;
+            m_proxy->d_func()->m_rowCategories = rowList;
         else
             rowList = m_proxy->rowCategories();
 
         if (generateColumns)
-            m_proxy->dptr()->m_columnCategories = columnList;
+            m_proxy->d_func()->m_columnCategories = columnList;
         else
             columnList = m_proxy->columnCategories();
 

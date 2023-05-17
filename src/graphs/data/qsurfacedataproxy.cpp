@@ -126,7 +126,8 @@ QSurfaceDataProxy::~QSurfaceDataProxy()
  */
 QSurface3DSeries *QSurfaceDataProxy::series() const
 {
-    return static_cast<QSurface3DSeries *>(d_ptr->series());
+    const Q_D(QSurfaceDataProxy);
+    return static_cast<QSurface3DSeries *>(d->series());
 }
 
 /*!
@@ -139,8 +140,9 @@ QSurface3DSeries *QSurfaceDataProxy::series() const
  */
 void QSurfaceDataProxy::resetArray(QSurfaceDataArray *newArray)
 {
-    if (dptr()->m_dataArray != newArray) {
-        dptr()->resetArray(newArray);
+    Q_D(QSurfaceDataProxy);
+    if (d->m_dataArray != newArray) {
+        d->resetArray(newArray);
     }
     emit arrayReset();
     emit rowCountChanged(rowCount());
@@ -155,7 +157,8 @@ void QSurfaceDataProxy::resetArray(QSurfaceDataArray *newArray)
  */
 void QSurfaceDataProxy::setRow(int rowIndex, QSurfaceDataRow *row)
 {
-    dptr()->setRow(rowIndex, row);
+    Q_D(QSurfaceDataProxy);
+    d->setRow(rowIndex, row);
     emit rowsChanged(rowIndex, 1);
 }
 
@@ -168,7 +171,8 @@ void QSurfaceDataProxy::setRow(int rowIndex, QSurfaceDataRow *row)
  */
 void QSurfaceDataProxy::setRows(int rowIndex, const QSurfaceDataArray &rows)
 {
-    dptr()->setRows(rowIndex, rows);
+    Q_D(QSurfaceDataProxy);
+    d->setRows(rowIndex, rows);
     emit rowsChanged(rowIndex, rows.size());
 }
 
@@ -178,7 +182,8 @@ void QSurfaceDataProxy::setRows(int rowIndex, const QSurfaceDataArray &rows)
  */
 void QSurfaceDataProxy::setItem(int rowIndex, int columnIndex, const QSurfaceDataItem &item)
 {
-    dptr()->setItem(rowIndex, columnIndex, item);
+    Q_D(QSurfaceDataProxy);
+    d->setItem(rowIndex, columnIndex, item);
     emit itemChanged(rowIndex, columnIndex);
 }
 
@@ -200,7 +205,8 @@ void QSurfaceDataProxy::setItem(const QPoint &position, const QSurfaceDataItem &
  */
 int QSurfaceDataProxy::addRow(QSurfaceDataRow *row)
 {
-    int addIndex = dptr()->addRow(row);
+    Q_D(QSurfaceDataProxy);
+    int addIndex = d->addRow(row);
     emit rowsAdded(addIndex, 1);
     emit rowCountChanged(rowCount());
     return addIndex;
@@ -214,7 +220,8 @@ int QSurfaceDataProxy::addRow(QSurfaceDataRow *row)
  */
 int QSurfaceDataProxy::addRows(const QSurfaceDataArray &rows)
 {
-    int addIndex = dptr()->addRows(rows);
+    Q_D(QSurfaceDataProxy);
+    int addIndex = d->addRows(rows);
     emit rowsAdded(addIndex, rows.size());
     emit rowCountChanged(rowCount());
     return addIndex;
@@ -228,7 +235,8 @@ int QSurfaceDataProxy::addRows(const QSurfaceDataArray &rows)
  */
 void QSurfaceDataProxy::insertRow(int rowIndex, QSurfaceDataRow *row)
 {
-    dptr()->insertRow(rowIndex, row);
+    Q_D(QSurfaceDataProxy);
+    d->insertRow(rowIndex, row);
     emit rowsInserted(rowIndex, 1);
     emit rowCountChanged(rowCount());
 }
@@ -241,7 +249,8 @@ void QSurfaceDataProxy::insertRow(int rowIndex, QSurfaceDataRow *row)
  */
 void QSurfaceDataProxy::insertRows(int rowIndex, const QSurfaceDataArray &rows)
 {
-    dptr()->insertRows(rowIndex, rows);
+    Q_D(QSurfaceDataProxy);
+    d->insertRows(rowIndex, rows);
     emit rowsInserted(rowIndex, rows.size());
     emit rowCountChanged(rowCount());
 }
@@ -253,8 +262,9 @@ void QSurfaceDataProxy::insertRows(int rowIndex, const QSurfaceDataArray &rows)
  */
 void QSurfaceDataProxy::removeRows(int rowIndex, int removeCount)
 {
+    Q_D(QSurfaceDataProxy);
     if (rowIndex < rowCount() && removeCount >= 1) {
-        dptr()->removeRows(rowIndex, removeCount);
+        d->removeRows(rowIndex, removeCount);
         emit rowsRemoved(rowIndex, removeCount);
         emit rowCountChanged(rowCount());
     }
@@ -265,7 +275,8 @@ void QSurfaceDataProxy::removeRows(int rowIndex, int removeCount)
  */
 const QSurfaceDataArray *QSurfaceDataProxy::array() const
 {
-    return dptrc()->m_dataArray;
+    const Q_D(QSurfaceDataProxy);
+    return d->m_dataArray;
 }
 
 /*!
@@ -275,7 +286,8 @@ const QSurfaceDataArray *QSurfaceDataProxy::array() const
  */
 const QSurfaceDataItem *QSurfaceDataProxy::itemAt(int rowIndex, int columnIndex) const
 {
-    const QSurfaceDataArray &dataArray = *dptrc()->m_dataArray;
+    const Q_D(QSurfaceDataProxy);
+    const QSurfaceDataArray &dataArray = *d->m_dataArray;
     Q_ASSERT(rowIndex >= 0 && rowIndex < dataArray.size());
     const QSurfaceDataRow &dataRow = *dataArray[rowIndex];
     Q_ASSERT(columnIndex >= 0 && columnIndex < dataRow.size());
@@ -299,7 +311,8 @@ const QSurfaceDataItem *QSurfaceDataProxy::itemAt(const QPoint &position) const
  */
 int QSurfaceDataProxy::rowCount() const
 {
-    return dptrc()->m_dataArray->size();
+    const Q_D(QSurfaceDataProxy);
+    return d->m_dataArray->size();
 }
 
 /*!
@@ -309,26 +322,11 @@ int QSurfaceDataProxy::rowCount() const
  */
 int QSurfaceDataProxy::columnCount() const
 {
-    if (dptrc()->m_dataArray->size() > 0)
-        return dptrc()->m_dataArray->at(0)->size();
+    const Q_D(QSurfaceDataProxy);
+    if (d->m_dataArray->size() > 0)
+        return d->m_dataArray->at(0)->size();
     else
         return 0;
-}
-
-/*!
- * \internal
- */
-QSurfaceDataProxyPrivate *QSurfaceDataProxy::dptr()
-{
-    return static_cast<QSurfaceDataProxyPrivate *>(d_ptr.data());
-}
-
-/*!
- * \internal
- */
-const QSurfaceDataProxyPrivate *QSurfaceDataProxy::dptrc() const
-{
-    return static_cast<const QSurfaceDataProxyPrivate *>(d_ptr.data());
 }
 
 /*!
@@ -495,11 +493,6 @@ void QSurfaceDataProxyPrivate::removeRows(int rowIndex, int removeCount)
     }
 }
 
-QSurfaceDataProxy *QSurfaceDataProxyPrivate::qptr()
-{
-    return static_cast<QSurfaceDataProxy *>(q_ptr);
-}
-
 void QSurfaceDataProxyPrivate::limitValues(QVector3D &minValues, QVector3D &maxValues,
                                            QAbstract3DAxis *axisX, QAbstract3DAxis *axisY,
                                            QAbstract3DAxis *axisZ) const
@@ -602,17 +595,17 @@ void QSurfaceDataProxyPrivate::limitValues(QVector3D &minValues, QVector3D &maxV
         maxValues.setX(xHigh);
         maxValues.setZ(zHigh);
     } else {
-        minValues.setX(axisX->d_ptr->allowZero() ? 0.0f : 1.0f);
-        minValues.setZ(axisZ->d_ptr->allowZero() ? 0.0f : 1.0f);
-        maxValues.setX(axisX->d_ptr->allowZero() ? 0.0f : 1.0f);
-        maxValues.setZ(axisZ->d_ptr->allowZero() ? 0.0f : 1.0f);
+        minValues.setX(axisX->d_func()->allowZero() ? 0.0f : 1.0f);
+        minValues.setZ(axisZ->d_func()->allowZero() ? 0.0f : 1.0f);
+        maxValues.setX(axisX->d_func()->allowZero() ? 0.0f : 1.0f);
+        maxValues.setZ(axisZ->d_func()->allowZero() ? 0.0f : 1.0f);
     }
 }
 
 bool QSurfaceDataProxyPrivate::isValidValue(float value, QAbstract3DAxis *axis) const
 {
-    return (value > 0.0f || (value == 0.0f && axis->d_ptr->allowZero())
-            || (value < 0.0f && axis->d_ptr->allowNegatives()));
+    return (value > 0.0f || (value == 0.0f && axis->d_func()->allowZero())
+            || (value < 0.0f && axis->d_func()->allowNegatives()));
 }
 
 void QSurfaceDataProxyPrivate::clearRow(int rowIndex)
@@ -633,9 +626,10 @@ void QSurfaceDataProxyPrivate::clearArray()
 
 void QSurfaceDataProxyPrivate::setSeries(QAbstract3DSeries *series)
 {
+    Q_Q(QSurfaceDataProxy);
     QAbstractDataProxyPrivate::setSeries(series);
     QSurface3DSeries *surfaceSeries = static_cast<QSurface3DSeries *>(series);
-    emit qptr()->seriesChanged(surfaceSeries);
+    emit q->seriesChanged(surfaceSeries);
 }
 
 QT_END_NAMESPACE

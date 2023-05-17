@@ -165,8 +165,9 @@ QT_BEGIN_NAMESPACE
 QSurface3DSeries::QSurface3DSeries(QObject *parent) :
     QAbstract3DSeries(new QSurface3DSeriesPrivate(this), parent)
 {
+    Q_D(QSurface3DSeries);
     // Default proxy
-    dptr()->setDataProxy(new QSurfaceDataProxy);
+    d->setDataProxy(new QSurfaceDataProxy);
 }
 
 /*!
@@ -176,7 +177,8 @@ QSurface3DSeries::QSurface3DSeries(QObject *parent) :
 QSurface3DSeries::QSurface3DSeries(QSurfaceDataProxy *dataProxy, QObject *parent) :
     QAbstract3DSeries(new QSurface3DSeriesPrivate(this), parent)
 {
-    dptr()->setDataProxy(dataProxy);
+    Q_D(QSurface3DSeries);
+    d->setDataProxy(dataProxy);
 }
 
 /*!
@@ -205,12 +207,14 @@ QSurface3DSeries::~QSurface3DSeries()
  */
 void QSurface3DSeries::setDataProxy(QSurfaceDataProxy *proxy)
 {
-    d_ptr->setDataProxy(proxy);
+    Q_D(QSurface3DSeries);
+    d->setDataProxy(proxy);
 }
 
 QSurfaceDataProxy *QSurface3DSeries::dataProxy() const
 {
-    return static_cast<QSurfaceDataProxy *>(d_ptr->dataProxy());
+    const Q_D(QSurface3DSeries);
+    return static_cast<QSurfaceDataProxy *>(d->dataProxy());
 }
 
 /*!
@@ -236,16 +240,18 @@ QSurfaceDataProxy *QSurface3DSeries::dataProxy() const
  */
 void QSurface3DSeries::setSelectedPoint(const QPoint &position)
 {
+    Q_D(QSurface3DSeries);
     // Don't do this in private to avoid loops, as that is used for callback from controller.
-    if (d_ptr->m_controller)
-        static_cast<Surface3DController *>(d_ptr->m_controller)->setSelectedPoint(position, this, true);
+    if (d->m_controller)
+        static_cast<Surface3DController *>(d->m_controller)->setSelectedPoint(position, this, true);
     else
-        dptr()->setSelectedPoint(position);
+        d->setSelectedPoint(position);
 }
 
 QPoint QSurface3DSeries::selectedPoint() const
 {
-    return dptrc()->m_selectedPoint;
+    const Q_D(QSurface3DSeries);
+    return d->m_selectedPoint;
 }
 
 /*!
@@ -275,15 +281,17 @@ QPoint QSurface3DSeries::invalidSelectionPosition()
  */
 void QSurface3DSeries::setFlatShadingEnabled(bool enabled)
 {
-    if (dptr()->m_flatShadingEnabled != enabled) {
-        dptr()->setFlatShadingEnabled(enabled);
+    Q_D(QSurface3DSeries);
+    if (d->m_flatShadingEnabled != enabled) {
+        d->setFlatShadingEnabled(enabled);
         emit flatShadingEnabledChanged(enabled);
     }
 }
 
 bool QSurface3DSeries::isFlatShadingEnabled() const
 {
-    return dptrc()->m_flatShadingEnabled;
+    const Q_D(QSurface3DSeries);
+    return d->m_flatShadingEnabled;
 }
 
 /*!
@@ -298,8 +306,9 @@ bool QSurface3DSeries::isFlatShadingEnabled() const
  */
 bool QSurface3DSeries::isFlatShadingSupported() const
 {
-    if (d_ptr->m_controller)
-        return static_cast<Surface3DController *>(d_ptr->m_controller)->isFlatShadingSupported();
+    const Q_D(QSurface3DSeries);
+    if (d->m_controller)
+        return static_cast<Surface3DController *>(d->m_controller)->isFlatShadingSupported();
     else
         return true;
 }
@@ -313,15 +322,17 @@ bool QSurface3DSeries::isFlatShadingSupported() const
  */
 void QSurface3DSeries::setDrawMode(DrawFlags mode)
 {
-    if (dptr()->m_drawMode != mode) {
-        dptr()->setDrawMode(mode);
+    Q_D(QSurface3DSeries);
+    if (d->m_drawMode != mode) {
+        d->setDrawMode(mode);
         emit drawModeChanged(mode);
     }
 }
 
 QSurface3DSeries::DrawFlags QSurface3DSeries::drawMode() const
 {
-    return dptrc()->m_drawMode;
+    const Q_D(QSurface3DSeries);
+    return d->m_drawMode;
 }
 
 /*!
@@ -333,17 +344,19 @@ QSurface3DSeries::DrawFlags QSurface3DSeries::drawMode() const
  */
 void QSurface3DSeries::setTexture(const QImage &texture)
 {
-    if (dptr()->m_texture != texture) {
-        dptr()->setTexture(texture);
+    Q_D(QSurface3DSeries);
+    if (d->m_texture != texture) {
+        d->setTexture(texture);
 
         emit textureChanged(texture);
-        dptr()->m_textureFile.clear();
+        d->m_textureFile.clear();
     }
 }
 
 QImage QSurface3DSeries::texture() const
 {
-    return dptrc()->m_texture;
+    const Q_D(QSurface3DSeries);
+    return d->m_texture;
 }
 
 /*!
@@ -355,7 +368,8 @@ QImage QSurface3DSeries::texture() const
  */
 void QSurface3DSeries::setTextureFile(const QString &filename)
 {
-    if (dptr()->m_textureFile != filename) {
+    Q_D(QSurface3DSeries);
+    if (d->m_textureFile != filename) {
         if (filename.isEmpty()) {
             setTexture(QImage());
         } else {
@@ -367,14 +381,15 @@ void QSurface3DSeries::setTextureFile(const QString &filename)
             setTexture(image);
         }
 
-        dptr()->m_textureFile = filename;
+        d->m_textureFile = filename;
         emit textureFileChanged(filename);
     }
 }
 
 QString QSurface3DSeries::textureFile() const
 {
-    return dptrc()->m_textureFile;
+    const Q_D(QSurface3DSeries);
+    return d->m_textureFile;
 }
 
 /*!
@@ -384,30 +399,17 @@ QString QSurface3DSeries::textureFile() const
  */
 void QSurface3DSeries::setWireframeColor(const QColor &color)
 {
-    if (dptr()->m_wireframeColor != color) {
-        dptr()->setWireframeColor(color);
+    Q_D(QSurface3DSeries);
+    if (d->m_wireframeColor != color) {
+        d->setWireframeColor(color);
         emit wireframeColorChanged(color);
     }
 }
 
 QColor QSurface3DSeries::wireframeColor() const
 {
-    return dptrc()->m_wireframeColor;
-}
-/*!
- * \internal
- */
-QSurface3DSeriesPrivate *QSurface3DSeries::dptr()
-{
-    return static_cast<QSurface3DSeriesPrivate *>(d_ptr.data());
-}
-
-/*!
- * \internal
- */
-const QSurface3DSeriesPrivate *QSurface3DSeries::dptrc() const
-{
-    return static_cast<const QSurface3DSeriesPrivate *>(d_ptr.data());
+    const Q_D(QSurface3DSeries);
+    return d->m_wireframeColor;
 }
 
 // QSurface3DSeriesPrivate
@@ -427,22 +429,19 @@ QSurface3DSeriesPrivate::~QSurface3DSeriesPrivate()
 {
 }
 
-QSurface3DSeries *QSurface3DSeriesPrivate::qptr()
-{
-    return static_cast<QSurface3DSeries *>(q_ptr);
-}
-
 void QSurface3DSeriesPrivate::setDataProxy(QAbstractDataProxy *proxy)
 {
     Q_ASSERT(proxy->type() == QAbstractDataProxy::DataTypeSurface);
+    Q_Q(QSurface3DSeries);
 
     QAbstract3DSeriesPrivate::setDataProxy(proxy);
 
-    emit qptr()->dataProxyChanged(static_cast<QSurfaceDataProxy *>(proxy));
+    emit q->dataProxyChanged(static_cast<QSurfaceDataProxy *>(proxy));
 }
 
 void QSurface3DSeriesPrivate::connectControllerAndProxy(Abstract3DController *newController)
 {
+    Q_Q(QSurface3DSeries);
     QSurfaceDataProxy *surfaceDataProxy = static_cast<QSurfaceDataProxy *>(m_dataProxy);
 
     if (m_controller && surfaceDataProxy) {
@@ -466,13 +465,14 @@ void QSurface3DSeriesPrivate::connectControllerAndProxy(Abstract3DController *ne
                          &Surface3DController::handleRowsInserted);
         QObject::connect(surfaceDataProxy, &QSurfaceDataProxy::itemChanged, controller,
                          &Surface3DController::handleItemChanged);
-        QObject::connect(qptr(), &QSurface3DSeries::dataProxyChanged, controller,
+        QObject::connect(q, &QSurface3DSeries::dataProxyChanged, controller,
                          &Surface3DController::handleArrayReset);
     }
 }
 
 void QSurface3DSeriesPrivate::createItemLabel()
 {
+    Q_Q(QSurface3DSeries);
     static const QString xTitleTag(QStringLiteral("@xTitle"));
     static const QString yTitleTag(QStringLiteral("@yTitle"));
     static const QString zTitleTag(QStringLiteral("@zTitle"));
@@ -489,7 +489,7 @@ void QSurface3DSeriesPrivate::createItemLabel()
     QValue3DAxis *axisX = static_cast<QValue3DAxis *>(m_controller->axisX());
     QValue3DAxis *axisY = static_cast<QValue3DAxis *>(m_controller->axisY());
     QValue3DAxis *axisZ = static_cast<QValue3DAxis *>(m_controller->axisZ());
-    QVector3D selectedPosition = qptr()->dataProxy()->itemAt(m_selectedPoint)->position();
+    QVector3D selectedPosition = q->dataProxy()->itemAt(m_selectedPoint)->position();
 
     m_itemLabel = m_itemLabelFormat;
 
@@ -517,10 +517,11 @@ void QSurface3DSeriesPrivate::createItemLabel()
 
 void QSurface3DSeriesPrivate::setSelectedPoint(const QPoint &position)
 {
+    Q_Q(QSurface3DSeries);
     if (position != m_selectedPoint) {
         markItemLabelDirty();
         m_selectedPoint = position;
-        emit qptr()->selectedPointChanged(m_selectedPoint);
+        emit q->selectedPointChanged(m_selectedPoint);
     }
 }
 
@@ -545,9 +546,10 @@ void QSurface3DSeriesPrivate::setDrawMode(QSurface3DSeries::DrawFlags mode)
 
 void QSurface3DSeriesPrivate::setTexture(const QImage &texture)
 {
+    Q_Q(QSurface3DSeries);
     m_texture = texture;
     if (static_cast<Surface3DController *>(m_controller))
-        static_cast<Surface3DController *>(m_controller)->updateSurfaceTexture(qptr());
+        static_cast<Surface3DController *>(m_controller)->updateSurfaceTexture(q);
 }
 
 void QSurface3DSeriesPrivate::setWireframeColor(const QColor &color)

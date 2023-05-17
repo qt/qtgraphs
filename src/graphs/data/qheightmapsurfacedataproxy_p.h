@@ -22,7 +22,7 @@ QT_BEGIN_NAMESPACE
 
 class QHeightMapSurfaceDataProxyPrivate : public QSurfaceDataProxyPrivate
 {
-    Q_OBJECT
+    Q_DECLARE_PUBLIC(QHeightMapSurfaceDataProxy)
 
 public:
     QHeightMapSurfaceDataProxyPrivate(QHeightMapSurfaceDataProxy *q);
@@ -37,7 +37,6 @@ public:
     void setMaxYValue(float max);
     void setAutoScaleY(bool enabled);
 private:
-    QHeightMapSurfaceDataProxy *qptr();
     void handlePendingResolve();
 
     QImage m_heightMap;
@@ -51,8 +50,6 @@ private:
     float m_minYValue;
     float m_maxYValue;
     bool m_autoScaleY;
-
-    friend class QHeightMapSurfaceDataProxy;
 };
 
 QT_END_NAMESPACE

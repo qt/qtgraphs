@@ -14,7 +14,6 @@
 #ifndef QABSTRACT3DINPUTHANDLER_P_H
 #define QABSTRACT3DINPUTHANDLER_P_H
 
-#include "graphsglobal_p.h"
 #include "qabstract3dinputhandler.h"
 
 QT_BEGIN_NAMESPACE
@@ -22,8 +21,11 @@ QT_BEGIN_NAMESPACE
 class QAbstract3DInputHandler;
 class Q3DScene;
 
-class QAbstract3DInputHandlerPrivate
+class QAbstract3DInputHandlerPrivate : public QObject
 {
+    Q_OBJECT
+    Q_DECLARE_PUBLIC(QAbstract3DInputHandler)
+
 public:
     QAbstract3DInputHandlerPrivate(QAbstract3DInputHandler *q);
     ~QAbstract3DInputHandlerPrivate();
@@ -36,9 +38,11 @@ public:
         InputStatePinching
     };
 
-    QAbstract3DInputHandler *q_ptr;
     int m_prevDistance;
     QPoint m_previousInputPos;
+
+protected:
+    QAbstract3DInputHandler *q_ptr;
 
 private:
     QAbstract3DInputHandler::InputView m_inputView;
@@ -47,7 +51,6 @@ private:
     Q3DScene *m_scene;
     bool m_isDefaultHandler;
 
-    friend class QAbstract3DInputHandler;
     friend class Abstract3DController;
 };
 

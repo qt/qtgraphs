@@ -520,21 +520,23 @@ Q3DTheme::~Q3DTheme()
  */
 void Q3DTheme::setBaseColors(const QList<QColor> &colors)
 {
+    Q_D(Q3DTheme);
     if (colors.size()) {
-        d_ptr->m_dirtyBits.baseColorDirty = true;
-        if (d_ptr->m_baseColors != colors) {
-            d_ptr->m_baseColors.clear();
-            d_ptr->m_baseColors = colors;
+        d->m_dirtyBits.baseColorDirty = true;
+        if (d->m_baseColors != colors) {
+            d->m_baseColors.clear();
+            d->m_baseColors = colors;
             emit baseColorsChanged(colors);
         }
     } else {
-        d_ptr->m_baseColors.clear();
+        d->m_baseColors.clear();
     }
 }
 
 QList<QColor> Q3DTheme::baseColors() const
 {
-    return d_ptr->m_baseColors;
+    const Q_D(Q3DTheme);
+    return d->m_baseColors;
 }
 
 /*!
@@ -544,17 +546,19 @@ QList<QColor> Q3DTheme::baseColors() const
  */
 void Q3DTheme::setBackgroundColor(const QColor &color)
 {
-    d_ptr->m_dirtyBits.backgroundColorDirty = true;
-    if (d_ptr->m_backgroundColor != color) {
-        d_ptr->m_backgroundColor = color;
+    Q_D(Q3DTheme);
+    d->m_dirtyBits.backgroundColorDirty = true;
+    if (d->m_backgroundColor != color) {
+        d->m_backgroundColor = color;
         emit backgroundColorChanged(color);
-        emit d_ptr->needRender();
+        emit d->needRender();
     }
 }
 
 QColor Q3DTheme::backgroundColor() const
 {
-    return d_ptr->m_backgroundColor;
+    const Q_D(Q3DTheme);
+    return d->m_backgroundColor;
 }
 
 /*!
@@ -564,17 +568,19 @@ QColor Q3DTheme::backgroundColor() const
  */
 void Q3DTheme::setWindowColor(const QColor &color)
 {
-    d_ptr->m_dirtyBits.windowColorDirty = true;
-    if (d_ptr->m_windowColor != color) {
-        d_ptr->m_windowColor = color;
+    Q_D(Q3DTheme);
+    d->m_dirtyBits.windowColorDirty = true;
+    if (d->m_windowColor != color) {
+        d->m_windowColor = color;
         emit windowColorChanged(color);
-        emit d_ptr->needRender();
+        emit d->needRender();
     }
 }
 
 QColor Q3DTheme::windowColor() const
 {
-    return d_ptr->m_windowColor;
+    const Q_D(Q3DTheme);
+    return d->m_windowColor;
 }
 
 /*!
@@ -584,17 +590,19 @@ QColor Q3DTheme::windowColor() const
  */
 void Q3DTheme::setLabelTextColor(const QColor &color)
 {
-    d_ptr->m_dirtyBits.labelTextColorDirty = true;
-    if (d_ptr->m_textColor != color) {
-        d_ptr->m_textColor = color;
+    Q_D(Q3DTheme);
+    d->m_dirtyBits.labelTextColorDirty = true;
+    if (d->m_textColor != color) {
+        d->m_textColor = color;
         emit labelTextColorChanged(color);
-        emit d_ptr->needRender();
+        emit d->needRender();
     }
 }
 
 QColor Q3DTheme::labelTextColor() const
 {
-    return d_ptr->m_textColor;
+    const Q_D(Q3DTheme);
+    return d->m_textColor;
 }
 
 /*!
@@ -606,17 +614,19 @@ QColor Q3DTheme::labelTextColor() const
  */
 void Q3DTheme::setLabelBackgroundColor(const QColor &color)
 {
-    d_ptr->m_dirtyBits.labelBackgroundColorDirty = true;
-    if (d_ptr->m_textBackgroundColor != color) {
-        d_ptr->m_textBackgroundColor = color;
+    Q_D(Q3DTheme);
+    d->m_dirtyBits.labelBackgroundColorDirty = true;
+    if (d->m_textBackgroundColor != color) {
+        d->m_textBackgroundColor = color;
         emit labelBackgroundColorChanged(color);
-        emit d_ptr->needRender();
+        emit d->needRender();
     }
 }
 
 QColor Q3DTheme::labelBackgroundColor() const
 {
-    return d_ptr->m_textBackgroundColor;
+    const Q_D(Q3DTheme);
+    return d->m_textBackgroundColor;
 }
 
 /*!
@@ -626,17 +636,19 @@ QColor Q3DTheme::labelBackgroundColor() const
  */
 void Q3DTheme::setGridLineColor(const QColor &color)
 {
-    d_ptr->m_dirtyBits.gridLineColorDirty = true;
-    if (d_ptr->m_gridLineColor != color) {
-        d_ptr->m_gridLineColor = color;
+    Q_D(Q3DTheme);
+    d->m_dirtyBits.gridLineColorDirty = true;
+    if (d->m_gridLineColor != color) {
+        d->m_gridLineColor = color;
         emit gridLineColorChanged(color);
-        emit d_ptr->needRender();
+        emit d->needRender();
     }
 }
 
 QColor Q3DTheme::gridLineColor() const
 {
-    return d_ptr->m_gridLineColor;
+    const Q_D(Q3DTheme);
+    return d->m_gridLineColor;
 }
 
 /*!
@@ -649,16 +661,18 @@ QColor Q3DTheme::gridLineColor() const
  */
 void Q3DTheme::setSingleHighlightColor(const QColor &color)
 {
-    d_ptr->m_dirtyBits.singleHighlightColorDirty = true;
-    if (d_ptr->m_singleHighlightColor != color) {
-        d_ptr->m_singleHighlightColor = color;
+    Q_D(Q3DTheme);
+    d->m_dirtyBits.singleHighlightColorDirty = true;
+    if (d->m_singleHighlightColor != color) {
+        d->m_singleHighlightColor = color;
         emit singleHighlightColorChanged(color);
     }
 }
 
 QColor Q3DTheme::singleHighlightColor() const
 {
-    return d_ptr->m_singleHighlightColor;
+    const Q_D(Q3DTheme);
+    return d->m_singleHighlightColor;
 }
 
 /*!
@@ -672,16 +686,18 @@ QColor Q3DTheme::singleHighlightColor() const
  */
 void Q3DTheme::setMultiHighlightColor(const QColor &color)
 {
-    d_ptr->m_dirtyBits.multiHighlightColorDirty = true;
-    if (d_ptr->m_multiHighlightColor != color) {
-        d_ptr->m_multiHighlightColor = color;
+    Q_D(Q3DTheme);
+    d->m_dirtyBits.multiHighlightColorDirty = true;
+    if (d->m_multiHighlightColor != color) {
+        d->m_multiHighlightColor = color;
         emit multiHighlightColorChanged(color);
     }
 }
 
 QColor Q3DTheme::multiHighlightColor() const
 {
-    return d_ptr->m_multiHighlightColor;
+    const Q_D(Q3DTheme);
+    return d->m_multiHighlightColor;
 }
 
 /*!
@@ -693,17 +709,19 @@ QColor Q3DTheme::multiHighlightColor() const
  */
 void Q3DTheme::setLightColor(const QColor &color)
 {
-    d_ptr->m_dirtyBits.lightColorDirty = true;
-    if (d_ptr->m_lightColor != color) {
-        d_ptr->m_lightColor = color;
+    Q_D(Q3DTheme);
+    d->m_dirtyBits.lightColorDirty = true;
+    if (d->m_lightColor != color) {
+        d->m_lightColor = color;
         emit lightColorChanged(color);
-        emit d_ptr->needRender();
+        emit d->needRender();
     }
 }
 
 QColor Q3DTheme::lightColor() const
 {
-    return d_ptr->m_lightColor;
+    const Q_D(Q3DTheme);
+    return d->m_lightColor;
 }
 
 /*!
@@ -722,21 +740,23 @@ QColor Q3DTheme::lightColor() const
  */
 void Q3DTheme::setBaseGradients(const QList<QLinearGradient> &gradients)
 {
+    Q_D(Q3DTheme);
     if (gradients.size()) {
-        d_ptr->m_dirtyBits.baseGradientDirty = true;
-        if (d_ptr->m_baseGradients != gradients) {
-            d_ptr->m_baseGradients.clear();
-            d_ptr->m_baseGradients = gradients;
+        d->m_dirtyBits.baseGradientDirty = true;
+        if (d->m_baseGradients != gradients) {
+            d->m_baseGradients.clear();
+            d->m_baseGradients = gradients;
             emit baseGradientsChanged(gradients);
         }
     } else {
-        d_ptr->m_baseGradients.clear();
+        d->m_baseGradients.clear();
     }
 }
 
 QList<QLinearGradient> Q3DTheme::baseGradients() const
 {
-    return d_ptr->m_baseGradients;
+    const Q_D(Q3DTheme);
+    return d->m_baseGradients;
 }
 
 /*!
@@ -749,16 +769,18 @@ QList<QLinearGradient> Q3DTheme::baseGradients() const
  */
 void Q3DTheme::setSingleHighlightGradient(const QLinearGradient &gradient)
 {
-    d_ptr->m_dirtyBits.singleHighlightGradientDirty = true;
-    if (d_ptr->m_singleHighlightGradient != gradient) {
-        d_ptr->m_singleHighlightGradient = gradient;
+    Q_D(Q3DTheme);
+    d->m_dirtyBits.singleHighlightGradientDirty = true;
+    if (d->m_singleHighlightGradient != gradient) {
+        d->m_singleHighlightGradient = gradient;
         emit singleHighlightGradientChanged(gradient);
     }
 }
 
 QLinearGradient Q3DTheme::singleHighlightGradient() const
 {
-    return d_ptr->m_singleHighlightGradient;
+    const Q_D(Q3DTheme);
+    return d->m_singleHighlightGradient;
 }
 
 /*!
@@ -772,16 +794,18 @@ QLinearGradient Q3DTheme::singleHighlightGradient() const
  */
 void Q3DTheme::setMultiHighlightGradient(const QLinearGradient &gradient)
 {
-    d_ptr->m_dirtyBits.multiHighlightGradientDirty = true;
-    if (d_ptr->m_multiHighlightGradient != gradient) {
-        d_ptr->m_multiHighlightGradient = gradient;
+    Q_D(Q3DTheme);
+    d->m_dirtyBits.multiHighlightGradientDirty = true;
+    if (d->m_multiHighlightGradient != gradient) {
+        d->m_multiHighlightGradient = gradient;
         emit multiHighlightGradientChanged(gradient);
     }
 }
 
 QLinearGradient Q3DTheme::multiHighlightGradient() const
 {
-    return d_ptr->m_multiHighlightGradient;
+    const Q_D(Q3DTheme);
+    return d->m_multiHighlightGradient;
 }
 
 /*!
@@ -795,19 +819,21 @@ QLinearGradient Q3DTheme::multiHighlightGradient() const
  */
 void Q3DTheme::setLightStrength(float strength)
 {
-    d_ptr->m_dirtyBits.lightStrengthDirty = true;
+    Q_D(Q3DTheme);
+    d->m_dirtyBits.lightStrengthDirty = true;
     if (strength < 0.0f || strength > 10.0f) {
         qWarning("Invalid value. Valid range for lightStrength is between 0.0f and 10.0f");
-    } else if (d_ptr->m_lightStrength != strength) {
-        d_ptr->m_lightStrength = strength;
+    } else if (d->m_lightStrength != strength) {
+        d->m_lightStrength = strength;
         emit lightStrengthChanged(strength);
-        emit d_ptr->needRender();
+        emit d->needRender();
     }
 }
 
 float Q3DTheme::lightStrength() const
 {
-    return d_ptr->m_lightStrength;
+    const Q_D(Q3DTheme);
+    return d->m_lightStrength;
 }
 
 /*!
@@ -822,19 +848,21 @@ float Q3DTheme::lightStrength() const
  */
 void Q3DTheme::setAmbientLightStrength(float strength)
 {
-    d_ptr->m_dirtyBits.ambientLightStrengthDirty = true;
+    Q_D(Q3DTheme);
+    d->m_dirtyBits.ambientLightStrengthDirty = true;
     if (strength < 0.0f || strength > 1.0f) {
         qWarning("Invalid value. Valid range for ambientLightStrength is between 0.0f and 1.0f");
-    } else if (d_ptr->m_ambientLightStrength != strength) {
-        d_ptr->m_ambientLightStrength = strength;
+    } else if (d->m_ambientLightStrength != strength) {
+        d->m_ambientLightStrength = strength;
         emit ambientLightStrengthChanged(strength);
-        emit d_ptr->needRender();
+        emit d->needRender();
     }
 }
 
 float Q3DTheme::ambientLightStrength() const
 {
-    return d_ptr->m_ambientLightStrength;
+    const Q_D(Q3DTheme);
+    return d->m_ambientLightStrength;
 }
 
 /*!
@@ -846,19 +874,21 @@ float Q3DTheme::ambientLightStrength() const
  */
 void Q3DTheme::setHighlightLightStrength(float strength)
 {
-    d_ptr->m_dirtyBits.highlightLightStrengthDirty = true;
+    Q_D(Q3DTheme);
+    d->m_dirtyBits.highlightLightStrengthDirty = true;
     if (strength < 0.0f || strength > 10.0f) {
         qWarning("Invalid value. Valid range for highlightLightStrength is between 0.0f and 10.0f");
-    } else if (d_ptr->m_highlightLightStrength != strength) {
-        d_ptr->m_highlightLightStrength = strength;
+    } else if (d->m_highlightLightStrength != strength) {
+        d->m_highlightLightStrength = strength;
         emit highlightLightStrengthChanged(strength);
-        emit d_ptr->needRender();
+        emit d->needRender();
     }
 }
 
 float Q3DTheme::highlightLightStrength() const
 {
-    return d_ptr->m_highlightLightStrength;
+    const Q_D(Q3DTheme);
+    return d->m_highlightLightStrength;
 }
 
 /*!
@@ -870,17 +900,19 @@ float Q3DTheme::highlightLightStrength() const
  */
 void Q3DTheme::setLabelBorderEnabled(bool enabled)
 {
-    d_ptr->m_dirtyBits.labelBorderEnabledDirty = true;
-    if (d_ptr->m_labelBorders != enabled) {
-        d_ptr->m_labelBorders = enabled;
+    Q_D(Q3DTheme);
+    d->m_dirtyBits.labelBorderEnabledDirty = true;
+    if (d->m_labelBorders != enabled) {
+        d->m_labelBorders = enabled;
         emit labelBorderEnabledChanged(enabled);
-        emit d_ptr->needRender();
+        emit d->needRender();
     }
 }
 
 bool Q3DTheme::isLabelBorderEnabled() const
 {
-    return d_ptr->m_labelBorders;
+    const Q_D(Q3DTheme);
+    return d->m_labelBorders;
 }
 
 /*!
@@ -890,17 +922,19 @@ bool Q3DTheme::isLabelBorderEnabled() const
  */
 void Q3DTheme::setFont(const QFont &font)
 {
-    d_ptr->m_dirtyBits.fontDirty = true;
-    if (d_ptr->m_font != font) {
-        d_ptr->m_font = font;
+    Q_D(Q3DTheme);
+    d->m_dirtyBits.fontDirty = true;
+    if (d->m_font != font) {
+        d->m_font = font;
         emit fontChanged(font);
-        emit d_ptr->needRender();
+        emit d->needRender();
     }
 }
 
 QFont Q3DTheme::font() const
 {
-    return d_ptr->m_font;
+    const Q_D(Q3DTheme);
+    return d->m_font;
 }
 
 /*!
@@ -912,17 +946,19 @@ QFont Q3DTheme::font() const
  */
 void Q3DTheme::setBackgroundEnabled(bool enabled)
 {
-    d_ptr->m_dirtyBits.backgroundEnabledDirty = true;
-    if (d_ptr->m_backgoundEnabled != enabled) {
-        d_ptr->m_backgoundEnabled = enabled;
+    Q_D(Q3DTheme);
+    d->m_dirtyBits.backgroundEnabledDirty = true;
+    if (d->m_backgoundEnabled != enabled) {
+        d->m_backgoundEnabled = enabled;
         emit backgroundEnabledChanged(enabled);
-        emit d_ptr->needRender();
+        emit d->needRender();
     }
 }
 
 bool Q3DTheme::isBackgroundEnabled() const
 {
-    return d_ptr->m_backgoundEnabled;
+    const Q_D(Q3DTheme);
+    return d->m_backgoundEnabled;
 }
 
 /*!
@@ -934,17 +970,19 @@ bool Q3DTheme::isBackgroundEnabled() const
  */
 void Q3DTheme::setGridEnabled(bool enabled)
 {
-    d_ptr->m_dirtyBits.gridEnabledDirty = true;
-    if (d_ptr->m_gridEnabled != enabled) {
-        d_ptr->m_gridEnabled = enabled;
+    Q_D(Q3DTheme);
+    d->m_dirtyBits.gridEnabledDirty = true;
+    if (d->m_gridEnabled != enabled) {
+        d->m_gridEnabled = enabled;
         emit gridEnabledChanged(enabled);
-        emit d_ptr->needRender();
+        emit d->needRender();
     }
 }
 
 bool Q3DTheme::isGridEnabled() const
 {
-    return d_ptr->m_gridEnabled;
+    const Q_D(Q3DTheme);
+    return d->m_gridEnabled;
 }
 
 /*!
@@ -963,17 +1001,19 @@ bool Q3DTheme::isGridEnabled() const
  */
 void Q3DTheme::setLabelBackgroundEnabled(bool enabled)
 {
-    d_ptr->m_dirtyBits.labelBackgroundEnabledDirty = true;
-    if (d_ptr->m_labelBackground != enabled) {
-        d_ptr->m_labelBackground = enabled;
+    Q_D(Q3DTheme);
+    d->m_dirtyBits.labelBackgroundEnabledDirty = true;
+    if (d->m_labelBackground != enabled) {
+        d->m_labelBackground = enabled;
         emit labelBackgroundEnabledChanged(enabled);
-        emit d_ptr->needRender();
+        emit d->needRender();
     }
 }
 
 bool Q3DTheme::isLabelBackgroundEnabled() const
 {
-    return d_ptr->m_labelBackground;
+    const Q_D(Q3DTheme);
+    return d->m_labelBackground;
 }
 
 /*!
@@ -988,16 +1028,18 @@ bool Q3DTheme::isLabelBackgroundEnabled() const
  */
 void Q3DTheme::setColorStyle(ColorStyle style)
 {
-    d_ptr->m_dirtyBits.colorStyleDirty = true;
-    if (d_ptr->m_colorStyle != style) {
-        d_ptr->m_colorStyle = style;
+    Q_D(Q3DTheme);
+    d->m_dirtyBits.colorStyleDirty = true;
+    if (d->m_colorStyle != style) {
+        d->m_colorStyle = style;
         emit colorStyleChanged(style);
     }
 }
 
 Q3DTheme::ColorStyle Q3DTheme::colorStyle() const
 {
-    return d_ptr->m_colorStyle;
+    const Q_D(Q3DTheme);
+    return d->m_colorStyle;
 }
 
 /*!
@@ -1009,17 +1051,19 @@ Q3DTheme::ColorStyle Q3DTheme::colorStyle() const
  */
 void Q3DTheme::setLabelsEnabled(bool enabled)
 {
-    d_ptr->m_dirtyBits.labelsEnabledDirty = true;
-    if (d_ptr->m_labelsEnabled != enabled) {
-        d_ptr->m_labelsEnabled = enabled;
+    Q_D(Q3DTheme);
+    d->m_dirtyBits.labelsEnabledDirty = true;
+    if (d->m_labelsEnabled != enabled) {
+        d->m_labelsEnabled = enabled;
         emit labelsEnabledChanged(enabled);
-        emit d_ptr->needRender();
+        emit d->needRender();
     }
 }
 
 bool Q3DTheme::isLabelsEnabled() const
 {
-    return d_ptr->m_labelsEnabled;
+    const Q_D(Q3DTheme);
+    return d->m_labelsEnabled;
 }
 
 /*!
@@ -1035,9 +1079,10 @@ bool Q3DTheme::isLabelsEnabled() const
  */
 void Q3DTheme::setType(Theme themeType)
 {
-    d_ptr->m_dirtyBits.themeIdDirty = true;
-    if (d_ptr->m_themeId != themeType) {
-        d_ptr->m_themeId = themeType;
+    Q_D(Q3DTheme);
+    d->m_dirtyBits.themeIdDirty = true;
+    if (d->m_themeId != themeType) {
+        d->m_themeId = themeType;
         ThemeManager::setPredefinedPropertiesToTheme(this, themeType);
         emit typeChanged(themeType);
     }
@@ -1045,7 +1090,8 @@ void Q3DTheme::setType(Theme themeType)
 
 Q3DTheme::Theme Q3DTheme::type() const
 {
-    return d_ptr->m_themeId;
+    const Q_D(Q3DTheme);
+    return d->m_themeId;
 }
 
 /*!
@@ -1060,26 +1106,27 @@ Q3DTheme::Theme Q3DTheme::type() const
  */
 void Q3DTheme::setShadowStrength(float strength)
 {
-    d_ptr->m_dirtyBits.shadowStrengthDirty = true;
+    Q_D(Q3DTheme);
+    d->m_dirtyBits.shadowStrengthDirty = true;
     if (strength < 0.0f || strength > 100.0f) {
         qWarning("Invalid value. Valid range for shadowStrength is between 0.0f and 100.0f");
-    } else if (d_ptr->m_shadowStrength != strength) {
-        d_ptr->m_shadowStrength = strength;
+    } else if (d->m_shadowStrength != strength) {
+        d->m_shadowStrength = strength;
         emit shadowStrengthChanged(strength);
-        emit d_ptr->needRender();
+        emit d->needRender();
     }
 }
 
 float Q3DTheme::shadowStrength() const
 {
-    return d_ptr->m_shadowStrength;
+    const Q_D(Q3DTheme);
+    return d->m_shadowStrength;
 }
 
 // Q3DThemePrivate
 
 Q3DThemePrivate::Q3DThemePrivate(Q3DTheme *q)
-    : QObject(0),
-      m_themeId(Q3DTheme::ThemeUserDefined),
+    : m_themeId(Q3DTheme::ThemeUserDefined),
       m_colorStyle(Q3DTheme::ColorStyleUniform),
       m_backgroundColor(Qt::black),
       m_gridLineColor(Qt::white),
@@ -1149,92 +1196,92 @@ bool Q3DThemePrivate::sync(Q3DThemePrivate &other)
 {
     bool updateDrawer = false;
     if (m_dirtyBits.ambientLightStrengthDirty) {
-        other.q_ptr->setAmbientLightStrength(m_ambientLightStrength);
+        other.q_func()->setAmbientLightStrength(m_ambientLightStrength);
         m_dirtyBits.ambientLightStrengthDirty = false;
     }
     if (m_dirtyBits.backgroundColorDirty) {
-        other.q_ptr->setBackgroundColor(m_backgroundColor);
+        other.q_func()->setBackgroundColor(m_backgroundColor);
         m_dirtyBits.backgroundColorDirty = false;
     }
     if (m_dirtyBits.backgroundEnabledDirty) {
-        other.q_ptr->setBackgroundEnabled(m_backgoundEnabled);
+        other.q_func()->setBackgroundEnabled(m_backgoundEnabled);
         m_dirtyBits.backgroundEnabledDirty = false;
     }
     if (m_dirtyBits.baseColorDirty) {
-        other.q_ptr->setBaseColors(m_baseColors);
+        other.q_func()->setBaseColors(m_baseColors);
         m_dirtyBits.baseColorDirty = false;
     }
     if (m_dirtyBits.baseGradientDirty) {
-        other.q_ptr->setBaseGradients(m_baseGradients);
+        other.q_func()->setBaseGradients(m_baseGradients);
         m_dirtyBits.baseGradientDirty = false;
     }
     if (m_dirtyBits.colorStyleDirty) {
-        other.q_ptr->setColorStyle(m_colorStyle);
+        other.q_func()->setColorStyle(m_colorStyle);
         m_dirtyBits.colorStyleDirty = false;
     }
     if (m_dirtyBits.fontDirty) {
-        other.q_ptr->setFont(m_font);
+        other.q_func()->setFont(m_font);
         m_dirtyBits.fontDirty = false;
         updateDrawer = true;
     }
     if (m_dirtyBits.gridEnabledDirty) {
-        other.q_ptr->setGridEnabled(m_gridEnabled);
+        other.q_func()->setGridEnabled(m_gridEnabled);
         m_dirtyBits.gridEnabledDirty = false;
     }
     if (m_dirtyBits.gridLineColorDirty) {
-        other.q_ptr->setGridLineColor(m_gridLineColor);
+        other.q_func()->setGridLineColor(m_gridLineColor);
         m_dirtyBits.gridLineColorDirty = false;
     }
     if (m_dirtyBits.highlightLightStrengthDirty) {
-        other.q_ptr->setHighlightLightStrength(m_highlightLightStrength);
+        other.q_func()->setHighlightLightStrength(m_highlightLightStrength);
         m_dirtyBits.highlightLightStrengthDirty = false;
     }
     if (m_dirtyBits.labelBackgroundColorDirty) {
-        other.q_ptr->setLabelBackgroundColor(m_textBackgroundColor);
+        other.q_func()->setLabelBackgroundColor(m_textBackgroundColor);
         m_dirtyBits.labelBackgroundColorDirty = false;
         updateDrawer = true;
     }
     if (m_dirtyBits.labelBackgroundEnabledDirty) {
-        other.q_ptr->setLabelBackgroundEnabled(m_labelBackground);
+        other.q_func()->setLabelBackgroundEnabled(m_labelBackground);
         m_dirtyBits.labelBackgroundEnabledDirty = false;
         updateDrawer = true;
     }
     if (m_dirtyBits.labelBorderEnabledDirty) {
-        other.q_ptr->setLabelBorderEnabled(m_labelBorders);
+        other.q_func()->setLabelBorderEnabled(m_labelBorders);
         m_dirtyBits.labelBorderEnabledDirty = false;
         updateDrawer = true;
     }
     if (m_dirtyBits.labelTextColorDirty) {
-        other.q_ptr->setLabelTextColor(m_textColor);
+        other.q_func()->setLabelTextColor(m_textColor);
         m_dirtyBits.labelTextColorDirty = false;
         updateDrawer = true;
     }
     if (m_dirtyBits.lightColorDirty) {
-        other.q_ptr->setLightColor(m_lightColor);
+        other.q_func()->setLightColor(m_lightColor);
         m_dirtyBits.lightColorDirty = false;
     }
     if (m_dirtyBits.lightStrengthDirty) {
-        other.q_ptr->setLightStrength(m_lightStrength);
+        other.q_func()->setLightStrength(m_lightStrength);
         m_dirtyBits.lightStrengthDirty = false;
     }
     if (m_dirtyBits.multiHighlightColorDirty) {
-        other.q_ptr->setMultiHighlightColor(m_multiHighlightColor);
+        other.q_func()->setMultiHighlightColor(m_multiHighlightColor);
         m_dirtyBits.multiHighlightColorDirty = false;
     }
     if (m_dirtyBits.multiHighlightGradientDirty) {
-        other.q_ptr->setMultiHighlightGradient(m_multiHighlightGradient);
+        other.q_func()->setMultiHighlightGradient(m_multiHighlightGradient);
         m_dirtyBits.multiHighlightGradientDirty = false;
     }
     if (m_dirtyBits.shadowStrengthDirty) {
-        other.q_ptr->setShadowStrength(m_shadowStrength);
+        other.q_func()->setShadowStrength(m_shadowStrength);
         m_dirtyBits.shadowStrengthDirty = false;
     }
     if (m_dirtyBits.singleHighlightColorDirty) {
-        other.q_ptr->setSingleHighlightColor(m_singleHighlightColor);
+        other.q_func()->setSingleHighlightColor(m_singleHighlightColor);
         m_dirtyBits.singleHighlightColorDirty = false;
     }
     if (m_dirtyBits.singleHighlightGradientDirty) {
-        other.q_ptr->setSingleHighlightGradient(m_singleHighlightGradient);
+        other.q_func()->setSingleHighlightGradient(m_singleHighlightGradient);
         m_dirtyBits.singleHighlightGradientDirty = false;
     }
     if (m_dirtyBits.themeIdDirty) {
@@ -1242,7 +1289,7 @@ bool Q3DThemePrivate::sync(Q3DThemePrivate &other)
         m_dirtyBits.themeIdDirty = false;
     }
     if (m_dirtyBits.windowColorDirty) {
-        other.q_ptr->setWindowColor(m_windowColor);
+        other.q_func()->setWindowColor(m_windowColor);
         m_dirtyBits.windowColorDirty = false;
     }
 

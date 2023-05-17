@@ -42,7 +42,7 @@ void Scatter3DController::addSeries(QAbstract3DSeries *series)
 
 void Scatter3DController::removeSeries(QAbstract3DSeries *series)
 {
-    bool wasVisible = (series && series->d_ptr->m_controller == this && series->isVisible());
+    bool wasVisible = (series && series->d_func()->m_controller == this && series->isVisible());
 
     Abstract3DController::removeSeries(series);
 
@@ -86,7 +86,7 @@ void Scatter3DController::handleArrayReset()
     if (!m_changedSeriesList.contains(series))
         m_changedSeriesList.append(series);
     setSelectedItem(m_selectedItem, m_selectedItemSeries);
-    series->d_ptr->markItemLabelDirty();
+    series->d_func()->markItemLabelDirty();
     emitNeedRender();
 }
 
@@ -125,7 +125,7 @@ void Scatter3DController::handleItemsChanged(int startIndex, int count)
             ChangeItem newChangeItem = {series, candidate};
             m_changedItems.append(newChangeItem);
             if (series == m_selectedItemSeries && m_selectedItem == candidate)
-                series->d_ptr->markItemLabelDirty();
+                series->d_func()->markItemLabelDirty();
         }
     }
 
@@ -264,10 +264,10 @@ void Scatter3DController::setSelectedItem(int index, QScatter3DSeries *series)
         foreach (QAbstract3DSeries *otherSeries, m_seriesList) {
             QScatter3DSeries *scatterSeries = static_cast<QScatter3DSeries *>(otherSeries);
             if (scatterSeries != m_selectedItemSeries)
-                scatterSeries->dptr()->setSelectedItem(invalidSelectionIndex());
+                scatterSeries->d_func()->setSelectedItem(invalidSelectionIndex());
         }
         if (m_selectedItemSeries)
-            m_selectedItemSeries->dptr()->setSelectedItem(m_selectedItem);
+            m_selectedItemSeries->d_func()->setSelectedItem(m_selectedItem);
 
         if (seriesChanged)
             emit selectedSeriesChanged(m_selectedItemSeries);
@@ -305,7 +305,7 @@ void Scatter3DController::adjustAxisRanges()
             if (scatterSeries->isVisible() && proxy) {
                 QVector3D minLimits;
                 QVector3D maxLimits;
-                proxy->dptrc()->limitValues(minLimits, maxLimits, valueAxisX, valueAxisY, valueAxisZ);
+                proxy->d_func()->limitValues(minLimits, maxLimits, valueAxisX, valueAxisY, valueAxisZ);
                 if (adjustX) {
                     if (!series) {
                         // First series initializes the values
@@ -359,7 +359,7 @@ void Scatter3DController::adjustAxisRanges()
                         adjustment = defaultAdjustment;
                 }
             }
-            valueAxisX->dptr()->setRange(minValueX - adjustment, maxValueX + adjustment, true);
+            valueAxisX->d_func()->setRange(minValueX - adjustment, maxValueX + adjustment, true);
         }
         if (adjustY) {
             // If all points at same coordinate, need to default to some valid range
@@ -367,7 +367,7 @@ void Scatter3DController::adjustAxisRanges()
             float adjustment = 0.0f;
             if (minValueY == maxValueY)
                 adjustment = defaultAdjustment;
-            valueAxisY->dptr()->setRange(minValueY - adjustment, maxValueY + adjustment, true);
+            valueAxisY->d_func()->setRange(minValueY - adjustment, maxValueY + adjustment, true);
         }
         if (adjustZ) {
             // If all points at same coordinate, need to default to some valid range
@@ -386,7 +386,7 @@ void Scatter3DController::adjustAxisRanges()
                         adjustment = defaultAdjustment;
                 }
             }
-            valueAxisZ->dptr()->setRange(minValueZ - adjustment, maxValueZ + adjustment, true);
+            valueAxisZ->d_func()->setRange(minValueZ - adjustment, maxValueZ + adjustment, true);
         }
     }
 }

@@ -17,6 +17,7 @@ class Q3DThemePrivate;
 class Q_GRAPHS_EXPORT Q3DTheme : public QObject
 {
     Q_OBJECT
+    Q_DECLARE_PRIVATE(Q3DTheme)
     Q_PROPERTY(ColorStyle colorStyle READ colorStyle WRITE setColorStyle NOTIFY colorStyleChanged)
     Q_PROPERTY(QColor backgroundColor READ backgroundColor WRITE setBackgroundColor NOTIFY backgroundColorChanged)
     Q_PROPERTY(QColor gridLineColor READ gridLineColor WRITE setGridLineColor NOTIFY gridLineColorChanged)
@@ -175,11 +176,10 @@ private:
     Q_DISABLE_COPY(Q3DTheme)
 
     friend class ThemeManager;
-    friend class Bars3DController;
     friend class QQuickGraphsBars;
-    friend class AbstractDeclarative;
     friend class Abstract3DController;
     friend class QQuickGraphsItem;
+    friend class DeclarativeTheme3D;
 };
 
 QT_END_NAMESPACE

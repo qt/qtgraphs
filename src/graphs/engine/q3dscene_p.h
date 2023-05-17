@@ -54,6 +54,8 @@ struct Q3DSceneChangeBitField {
 class Q_GRAPHS_EXPORT Q3DScenePrivate : public QObject
 {
     Q_OBJECT
+    Q_DECLARE_PUBLIC(Q3DScene)
+
 public:
     Q3DScenePrivate(Q3DScene *q);
     ~Q3DScenePrivate();
@@ -83,8 +85,10 @@ public:
 Q_SIGNALS:
     void needRender();
 
-public:
+protected:
     Q3DScene *q_ptr;
+
+public:
     Q3DSceneChangeBitField m_changeTracker;
 
     QRect m_viewport;

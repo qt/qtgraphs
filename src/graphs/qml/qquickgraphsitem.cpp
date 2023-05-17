@@ -470,7 +470,7 @@ void QQuickGraphsItem::setSharedController(Abstract3DController *controller)
 
     // Reset default theme, as the default C++ theme is Q3DTheme, not DeclarativeTheme3D.
     DeclarativeTheme3D *defaultTheme = new DeclarativeTheme3D;
-    defaultTheme->d_ptr->setDefaultTheme(true);
+    defaultTheme->d_func()->setDefaultTheme(true);
     defaultTheme->setType(Q3DTheme::ThemeQt);
     m_controller->setActiveTheme(defaultTheme);
 
@@ -751,32 +751,32 @@ void QQuickGraphsItem::synchData()
         m_controller->m_changeTracker.themeChanged = false;
     }
 
-    if (theme->d_ptr->m_dirtyBits.lightStrengthDirty) {
+    if (theme->d_func()->m_dirtyBits.lightStrengthDirty) {
         light()->setBrightness(theme->lightStrength() * .2f);
-        theme->d_ptr->m_dirtyBits.lightStrengthDirty = false;
+        theme->d_func()->m_dirtyBits.lightStrengthDirty = false;
     }
 
-    if (theme->d_ptr->m_dirtyBits.ambientLightStrengthDirty) {
+    if (theme->d_func()->m_dirtyBits.ambientLightStrengthDirty) {
         float ambientStrength = theme->ambientLightStrength();
         QColor ambientColor = QColor::fromRgbF(ambientStrength, ambientStrength, ambientStrength);
         light()->setAmbientColor(ambientColor);
         if (qFuzzyIsNull(light()->brightness()))
             light()->setBrightness(.0001f);
-        theme->d_ptr->m_dirtyBits.ambientLightStrengthDirty = false;
+        theme->d_func()->m_dirtyBits.ambientLightStrengthDirty = false;
     }
 
-    if (theme->d_ptr->m_dirtyBits.lightColorDirty) {
+    if (theme->d_func()->m_dirtyBits.lightColorDirty) {
         light()->setColor(theme->lightColor());
-        theme->d_ptr->m_dirtyBits.lightColorDirty = false;
+        theme->d_func()->m_dirtyBits.lightColorDirty = false;
     }
 
-    if (theme->d_ptr->m_dirtyBits.shadowStrengthDirty) {
+    if (theme->d_func()->m_dirtyBits.shadowStrengthDirty) {
         light()->setShadowFactor(theme->shadowStrength());
-        theme->d_ptr->m_dirtyBits.shadowStrengthDirty = false;
+        theme->d_func()->m_dirtyBits.shadowStrengthDirty = false;
     }
 
     // label Adjustments
-    if (theme->d_ptr->m_dirtyBits.labelBackgroundColorDirty) {
+    if (theme->d_func()->m_dirtyBits.labelBackgroundColorDirty) {
         QColor labelBackgroundColor = theme->labelBackgroundColor();
         changeLabelBackgroundColor(m_repeaterX, labelBackgroundColor);
         changeLabelBackgroundColor(m_repeaterY, labelBackgroundColor);
@@ -793,10 +793,10 @@ void QQuickGraphsItem::synchData()
             m_sliceHorizontalTitleLabel->setProperty("backgroundColor", labelBackgroundColor);
             m_sliceVerticalTitleLabel->setProperty("backgroundColor", labelBackgroundColor);
         }
-        theme->d_ptr->m_dirtyBits.labelBackgroundColorDirty = false;
+        theme->d_func()->m_dirtyBits.labelBackgroundColorDirty = false;
     }
 
-    if (theme->d_ptr->m_dirtyBits.labelBackgroundEnabledDirty) {
+    if (theme->d_func()->m_dirtyBits.labelBackgroundEnabledDirty) {
         bool enabled = theme->isLabelBackgroundEnabled();
         changeLabelBackgroundEnabled(m_repeaterX, enabled);
         changeLabelBackgroundEnabled(m_repeaterY, enabled);
@@ -813,10 +813,10 @@ void QQuickGraphsItem::synchData()
             m_sliceHorizontalTitleLabel->setProperty("backgroundEnabled", enabled);
             m_sliceVerticalTitleLabel->setProperty("backgroundEnabled", enabled);
         }
-        theme->d_ptr->m_dirtyBits.labelBackgroundEnabledDirty = false;
+        theme->d_func()->m_dirtyBits.labelBackgroundEnabledDirty = false;
     }
 
-    if (theme->d_ptr->m_dirtyBits.labelBorderEnabledDirty) {
+    if (theme->d_func()->m_dirtyBits.labelBorderEnabledDirty) {
         bool enabled = theme->isLabelBorderEnabled();
         changeLabelBorderEnabled(m_repeaterX, enabled);
         changeLabelBorderEnabled(m_repeaterY, enabled);
@@ -833,10 +833,10 @@ void QQuickGraphsItem::synchData()
             m_sliceHorizontalTitleLabel->setProperty("borderEnabled", enabled);
             m_sliceVerticalTitleLabel->setProperty("borderEnabled", enabled);
         }
-        theme->d_ptr->m_dirtyBits.labelBorderEnabledDirty = false;
+        theme->d_func()->m_dirtyBits.labelBorderEnabledDirty = false;
     }
 
-    if (theme->d_ptr->m_dirtyBits.labelTextColorDirty) {
+    if (theme->d_func()->m_dirtyBits.labelTextColorDirty) {
         QColor labelTextColor = theme->labelTextColor();
         changeLabelTextColor(m_repeaterX, labelTextColor);
         changeLabelTextColor(m_repeaterY, labelTextColor);
@@ -853,10 +853,10 @@ void QQuickGraphsItem::synchData()
             m_sliceHorizontalTitleLabel->setProperty("labelTextColor", labelTextColor);
             m_sliceVerticalTitleLabel->setProperty("labelTextColor", labelTextColor);
         }
-        theme->d_ptr->m_dirtyBits.labelTextColorDirty = false;
+        theme->d_func()->m_dirtyBits.labelTextColorDirty = false;
     }
 
-    if (theme->d_ptr->m_dirtyBits.fontDirty) {
+    if (theme->d_func()->m_dirtyBits.fontDirty) {
         auto font = theme->font();
         changeLabelFont(m_repeaterX, font);
         changeLabelFont(m_repeaterY, font);
@@ -875,10 +875,10 @@ void QQuickGraphsItem::synchData()
             m_sliceVerticalTitleLabel->setProperty("labelFont", font);
             updateSliceLabels();
         }
-        theme->d_ptr->m_dirtyBits.fontDirty = false;
+        theme->d_func()->m_dirtyBits.fontDirty = false;
     }
 
-    if (theme->d_ptr->m_dirtyBits.labelsEnabledDirty) {
+    if (theme->d_func()->m_dirtyBits.labelsEnabledDirty) {
         bool enabled = theme->isLabelsEnabled();
         changeLabelsEnabled(m_repeaterX, enabled);
         changeLabelsEnabled(m_repeaterY, enabled);
@@ -895,11 +895,11 @@ void QQuickGraphsItem::synchData()
             m_sliceHorizontalTitleLabel->setProperty("visible", enabled);
             m_sliceVerticalTitleLabel->setProperty("visible", enabled);
         }
-        theme->d_ptr->m_dirtyBits.labelsEnabledDirty = false;
+        theme->d_func()->m_dirtyBits.labelsEnabledDirty = false;
     }
 
     // Grid and background adjustments
-    if (theme->d_ptr->m_dirtyBits.backgroundColorDirty) {
+    if (theme->d_func()->m_dirtyBits.backgroundColorDirty) {
         QQmlListReference materialsRef(m_background, "materials");
         QQuick3DPrincipledMaterial *bgMat;
         if (!materialsRef.size()) {
@@ -912,15 +912,15 @@ void QQuickGraphsItem::synchData()
             bgMat = static_cast<QQuick3DPrincipledMaterial *>(materialsRef.at(0));
         }
         bgMat->setBaseColor(theme->backgroundColor());
-        theme->d_ptr->m_dirtyBits.backgroundColorDirty = false;
+        theme->d_func()->m_dirtyBits.backgroundColorDirty = false;
     }
 
-    if (theme->d_ptr->m_dirtyBits.backgroundEnabledDirty) {
+    if (theme->d_func()->m_dirtyBits.backgroundEnabledDirty) {
         m_background->setVisible(theme->isBackgroundEnabled());
-        theme->d_ptr->m_dirtyBits.backgroundEnabledDirty = false;
+        theme->d_func()->m_dirtyBits.backgroundEnabledDirty = false;
     }
 
-    if (theme->d_ptr->m_dirtyBits.gridEnabledDirty) {
+    if (theme->d_func()->m_dirtyBits.gridEnabledDirty) {
         bool enabled = theme->isGridEnabled();
         m_segmentLineRepeaterX->setVisible(enabled);
         m_segmentLineRepeaterY->setVisible(enabled);
@@ -934,10 +934,10 @@ void QQuickGraphsItem::synchData()
             m_sliceHorizontalGridRepeater->setVisible(enabled);
             m_sliceVerticalGridRepeater->setVisible(enabled);
         }
-        theme->d_ptr->m_dirtyBits.gridEnabledDirty = false;
+        theme->d_func()->m_dirtyBits.gridEnabledDirty = false;
     }
 
-    if (theme->d_ptr->m_dirtyBits.gridLineColorDirty) {
+    if (theme->d_func()->m_dirtyBits.gridLineColorDirty) {
         QColor gridLineColor = theme->gridLineColor();
         changeGridLineColor(m_segmentLineRepeaterX, gridLineColor);
         changeGridLineColor(m_subsegmentLineRepeaterX, gridLineColor);
@@ -945,18 +945,18 @@ void QQuickGraphsItem::synchData()
         changeGridLineColor(m_subsegmentLineRepeaterY, gridLineColor);
         changeGridLineColor(m_segmentLineRepeaterZ, gridLineColor);
         changeGridLineColor(m_subsegmentLineRepeaterZ, gridLineColor);
-        theme->d_ptr->m_dirtyBits.gridLineColorDirty = false;
+        theme->d_func()->m_dirtyBits.gridLineColorDirty = false;
     }
 
-    if (theme->d_ptr->m_dirtyBits.singleHighlightColorDirty) {
+    if (theme->d_func()->m_dirtyBits.singleHighlightColorDirty) {
         updateSingleHighlightColor();
-        theme->d_ptr->m_dirtyBits.singleHighlightColorDirty = false;
+        theme->d_func()->m_dirtyBits.singleHighlightColorDirty = false;
     }
 
     // Other adjustments
-    if (theme->d_ptr->m_dirtyBits.windowColorDirty) {
+    if (theme->d_func()->m_dirtyBits.windowColorDirty) {
         environment()->setClearColor(theme->windowColor());
-        theme->d_ptr->m_dirtyBits.windowColorDirty = false;
+        theme->d_func()->m_dirtyBits.windowColorDirty = false;
     }
 
     if (m_controller->m_changedSeriesList.size()) {
@@ -2235,20 +2235,20 @@ void QQuickGraphsItem::updateWindowParameters()
         else
             windowSize = m_cachedGeometry.size().toSize();
 
-        if (windowSize != scene->d_ptr->windowSize()) {
-            scene->d_ptr->setWindowSize(windowSize);
+        if (windowSize != scene->d_func()->windowSize()) {
+            scene->d_func()->setWindowSize(windowSize);
             win->update();
         }
 
         if (directRender) {
             // Origin mapping is needed when rendering directly to background
             QPointF point = QQuickItem::mapToScene(QPointF(0.0, 0.0));
-            scene->d_ptr->setViewport(QRect(point.x() + 0.5f, point.y() + 0.5f,
+            scene->d_func()->setViewport(QRect(point.x() + 0.5f, point.y() + 0.5f,
                                             m_cachedGeometry.width() + 0.5f,
                                             m_cachedGeometry.height() + 0.5f));
         } else {
             // No translation needed when rendering to FBO
-            scene->d_ptr->setViewport(QRect(0.0, 0.0, m_cachedGeometry.width() + 0.5f,
+            scene->d_func()->setViewport(QRect(0.0, 0.0, m_cachedGeometry.width() + 0.5f,
                                             m_cachedGeometry.height() + 0.5f));
         }
     }

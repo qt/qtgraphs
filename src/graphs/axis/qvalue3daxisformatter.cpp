@@ -65,7 +65,8 @@ QValue3DAxisFormatter::~QValue3DAxisFormatter()
  */
 void QValue3DAxisFormatter::setAllowNegatives(bool allow)
 {
-    d_ptr->m_allowNegatives = allow;
+    Q_D(QValue3DAxisFormatter);
+    d->m_allowNegatives = allow;
 }
 
 /*!
@@ -74,7 +75,8 @@ void QValue3DAxisFormatter::setAllowNegatives(bool allow)
  */
 bool QValue3DAxisFormatter::allowNegatives() const
 {
-    return d_ptr->m_allowNegatives;
+    const Q_D(QValue3DAxisFormatter);
+    return d->m_allowNegatives;
 }
 
 /*!
@@ -82,7 +84,8 @@ bool QValue3DAxisFormatter::allowNegatives() const
  */
 void QValue3DAxisFormatter::setAllowZero(bool allow)
 {
-    d_ptr->m_allowZero = allow;
+    Q_D(QValue3DAxisFormatter);
+    d->m_allowZero = allow;
 }
 
 /*!
@@ -91,7 +94,40 @@ void QValue3DAxisFormatter::setAllowZero(bool allow)
  */
 bool QValue3DAxisFormatter::allowZero() const
 {
-    return d_ptr->m_allowZero;
+    const Q_D(QValue3DAxisFormatter);
+    return d->m_allowZero;
+}
+
+/*!
+ * \internal
+ */
+void QValue3DAxisFormatter::setAxis(QValue3DAxis *axis)
+{
+    Q_ASSERT(axis);
+    Q_D(QValue3DAxisFormatter);
+
+    // These signals are all connected to markDirtyNoLabelChange slot, even though most of them
+    // do require labels to be regenerated. This is because the label regeneration is triggered
+    // elsewhere in these cases.
+    connect(axis, &QValue3DAxis::segmentCountChanged,
+            this, &QValue3DAxisFormatter::markDirtyNoLabelChange);
+    connect(axis, &QValue3DAxis::subSegmentCountChanged,
+            this, &QValue3DAxisFormatter::markDirtyNoLabelChange);
+    connect(axis, &QValue3DAxis::labelFormatChanged,
+            this, &QValue3DAxisFormatter::markDirtyNoLabelChange);
+    connect(axis, &QAbstract3DAxis::rangeChanged,
+            this, &QValue3DAxisFormatter::markDirtyNoLabelChange);
+
+    d->setAxis(axis);
+}
+
+/*!
+ * \internal
+ */
+void QValue3DAxisFormatter::markDirtyNoLabelChange()
+{
+    Q_D(QValue3DAxisFormatter);
+    d->markDirty(false);
 }
 
 /*!
@@ -120,7 +156,8 @@ QValue3DAxisFormatter *QValue3DAxisFormatter::createNewInstance() const
  */
 void QValue3DAxisFormatter::recalculate()
 {
-    d_ptr->doRecalculate();
+    Q_D(QValue3DAxisFormatter);
+    d->doRecalculate();
 }
 
 /*!
@@ -133,9 +170,10 @@ void QValue3DAxisFormatter::recalculate()
  *
  * \sa recalculate(), labelStrings(), QValue3DAxis::labelFormat
  */
-QString QValue3DAxisFormatter::stringForValue(qreal value, const QString &format) const
+QString QValue3DAxisFormatter::stringForValue(qreal value, const QString &format)
 {
-    return d_ptr->stringForValue(value, format);
+    Q_D(QValue3DAxisFormatter);
+    return d->stringForValue(value, format);
 }
 
 /*!
@@ -151,7 +189,8 @@ QString QValue3DAxisFormatter::stringForValue(qreal value, const QString &format
  */
 float QValue3DAxisFormatter::positionAt(float value) const
 {
-    return d_ptr->positionAt(value);
+    const Q_D(QValue3DAxisFormatter);
+    return d->positionAt(value);
 }
 
 /*!
@@ -167,7 +206,8 @@ float QValue3DAxisFormatter::positionAt(float value) const
  */
 float QValue3DAxisFormatter::valueAt(float position) const
 {
-    return d_ptr->valueAt(position);
+    const Q_D(QValue3DAxisFormatter);
+    return d->valueAt(position);
 }
 
 /*!
@@ -178,9 +218,10 @@ float QValue3DAxisFormatter::valueAt(float position) const
  *
  * Returns the new copy. The ownership of the new copy transfers to the caller.
  */
-void QValue3DAxisFormatter::populateCopy(QValue3DAxisFormatter &copy) const
+void QValue3DAxisFormatter::populateCopy(QValue3DAxisFormatter &copy)
 {
-    d_ptr->doPopulateCopy(*(copy.d_ptr.data()));
+    Q_D(QValue3DAxisFormatter);
+    d->doPopulateCopy(*(copy.d_func()));
 }
 
 /*!
@@ -191,7 +232,8 @@ void QValue3DAxisFormatter::populateCopy(QValue3DAxisFormatter &copy) const
  */
 void QValue3DAxisFormatter::markDirty(bool labelsChange)
 {
-    d_ptr->markDirty(labelsChange);
+    Q_D(QValue3DAxisFormatter);
+    d->markDirty(labelsChange);
 }
 
 /*!
@@ -202,7 +244,8 @@ void QValue3DAxisFormatter::markDirty(bool labelsChange)
  */
 QValue3DAxis *QValue3DAxisFormatter::axis() const
 {
-    return d_ptr->m_axis;
+    const Q_D(QValue3DAxisFormatter);
+    return d->m_axis;
 }
 
 /*!
@@ -214,9 +257,10 @@ QValue3DAxis *QValue3DAxisFormatter::axis() const
  *
  * \sa QValue3DAxis::segmentCount, recalculate()
  */
-QList<float> &QValue3DAxisFormatter::gridPositions() const
+QList<float> &QValue3DAxisFormatter::gridPositions()
 {
-    return d_ptr->m_gridPositions;
+    Q_D(QValue3DAxisFormatter);
+    return d->m_gridPositions;
 }
 
 /*!
@@ -229,9 +273,10 @@ QList<float> &QValue3DAxisFormatter::gridPositions() const
  *
  * \sa QValue3DAxis::segmentCount, QValue3DAxis::subSegmentCount, recalculate()
  */
-QList<float> &QValue3DAxisFormatter::subGridPositions() const
+QList<float> &QValue3DAxisFormatter::subGridPositions()
 {
-    return d_ptr->m_subGridPositions;
+    Q_D(QValue3DAxisFormatter);
+    return d->m_subGridPositions;
 }
 
 /*!
@@ -245,9 +290,10 @@ QList<float> &QValue3DAxisFormatter::subGridPositions() const
  *
  * \sa QValue3DAxis::segmentCount, QAbstract3DAxis::labels, recalculate()
  */
-QList<float> &QValue3DAxisFormatter::labelPositions() const
+QList<float> &QValue3DAxisFormatter::labelPositions()
 {
-    return d_ptr->m_labelPositions;
+    Q_D(QValue3DAxisFormatter);
+    return d->m_labelPositions;
 }
 
 /*!
@@ -257,9 +303,10 @@ QList<float> &QValue3DAxisFormatter::labelPositions() const
  *
  * \sa labelPositions()
  */
-QStringList &QValue3DAxisFormatter::labelStrings() const
+QStringList &QValue3DAxisFormatter::labelStrings()
 {
-    return d_ptr->m_labelStrings;
+    Q_D(QValue3DAxisFormatter);
+    return d->m_labelStrings;
 }
 
 /*!
@@ -272,8 +319,9 @@ QStringList &QValue3DAxisFormatter::labelStrings() const
  */
 void QValue3DAxisFormatter::setLocale(const QLocale &locale)
 {
-    d_ptr->m_cLocaleInUse = (locale == QLocale::c());
-    d_ptr->m_locale = locale;
+    Q_D(QValue3DAxisFormatter);
+    d->m_cLocaleInUse = (locale == QLocale::c());
+    d->m_locale = locale;
     markDirty(true);
 }
 /*!
@@ -281,13 +329,13 @@ void QValue3DAxisFormatter::setLocale(const QLocale &locale)
  */
 QLocale QValue3DAxisFormatter::locale() const
 {
-    return d_ptr->m_locale;
+    const Q_D(QValue3DAxisFormatter);
+    return d->m_locale;
 }
 
 // QValue3DAxisFormatterPrivate
 QValue3DAxisFormatterPrivate::QValue3DAxisFormatterPrivate(QValue3DAxisFormatter *q)
-    : QObject(0),
-      q_ptr(q),
+    : q_ptr(q),
       m_needsRecalculate(true),
       m_min(0.0f),
       m_max(0.0f),
@@ -308,6 +356,7 @@ QValue3DAxisFormatterPrivate::~QValue3DAxisFormatterPrivate()
 
 void QValue3DAxisFormatterPrivate::recalculate()
 {
+    Q_Q(QValue3DAxisFormatter);
     // Only recalculate if we need to and have m_axis pointer. If we do not have
     // m_axis, either we are not attached to an axis or this is a renderer cache.
     if (m_axis && m_needsRecalculate) {
@@ -315,13 +364,14 @@ void QValue3DAxisFormatterPrivate::recalculate()
         m_max = m_axis->max();
         m_rangeNormalizer = (m_max - m_min);
 
-        q_ptr->recalculate();
+        q->recalculate();
         m_needsRecalculate = false;
     }
 }
 
 void QValue3DAxisFormatterPrivate::doRecalculate()
 {
+    Q_Q(QValue3DAxisFormatter);
     int segmentCount = m_axis->segmentCount();
     int subGridCount = m_axis->subSegmentCount() - 1;
     QString labelFormat =  m_axis->labelFormat();
@@ -345,7 +395,7 @@ void QValue3DAxisFormatterPrivate::doRecalculate()
         qreal gridValue = segmentStep * qreal(i);
         m_gridPositions[i] = float(gridValue);
         m_labelPositions[i] = float(gridValue);
-        m_labelStrings << q_ptr->stringForValue(gridValue * rangeNormalizer + qreal(m_min),
+        m_labelStrings << q->stringForValue(gridValue * rangeNormalizer + qreal(m_min),
                                                 labelFormat);
         if (m_subGridPositions.size()) {
             for (int j = 0; j < subGridCount; j++)
@@ -356,13 +406,14 @@ void QValue3DAxisFormatterPrivate::doRecalculate()
     // Ensure max value doesn't suffer from any rounding errors
     m_gridPositions[segmentCount] = 1.0f;
     m_labelPositions[segmentCount] = 1.0f;
-    m_labelStrings << q_ptr->stringForValue(qreal(m_max), labelFormat);
+    m_labelStrings << q->stringForValue(qreal(m_max), labelFormat);
 }
 
 void QValue3DAxisFormatterPrivate::populateCopy(QValue3DAxisFormatter &copy)
 {
+    Q_Q(QValue3DAxisFormatter);
     recalculate();
-    q_ptr->populateCopy(copy);
+    q->populateCopy(copy);
 }
 
 void QValue3DAxisFormatterPrivate::doPopulateCopy(QValue3DAxisFormatterPrivate &copy)
@@ -408,19 +459,6 @@ float QValue3DAxisFormatterPrivate::valueAt(float position) const
 void QValue3DAxisFormatterPrivate::setAxis(QValue3DAxis *axis)
 {
     Q_ASSERT(axis);
-
-    // These signals are all connected to markDirtyNoLabelChange slot, even though most of them
-    // do require labels to be regenerated. This is because the label regeneration is triggered
-    // elsewhere in these cases.
-    connect(axis, &QValue3DAxis::segmentCountChanged,
-            this, &QValue3DAxisFormatterPrivate::markDirtyNoLabelChange);
-    connect(axis, &QValue3DAxis::subSegmentCountChanged,
-            this, &QValue3DAxisFormatterPrivate::markDirtyNoLabelChange);
-    connect(axis, &QValue3DAxis::labelFormatChanged,
-            this, &QValue3DAxisFormatterPrivate::markDirtyNoLabelChange);
-    connect(axis, &QAbstract3DAxis::rangeChanged,
-            this, &QValue3DAxisFormatterPrivate::markDirtyNoLabelChange);
-
     m_axis = axis;
 }
 
@@ -429,15 +467,10 @@ void QValue3DAxisFormatterPrivate::markDirty(bool labelsChange)
     m_needsRecalculate = true;
     if (m_axis) {
         if (labelsChange)
-            m_axis->dptr()->emitLabelsChanged();
+            m_axis->d_func()->emitLabelsChanged();
         if (m_axis && m_axis->orientation() != QAbstract3DAxis::AxisOrientationNone)
-            emit m_axis->dptr()->formatterDirty();
+            m_axis->d_func()->emitFormatterDirty();
     }
-}
-
-void QValue3DAxisFormatterPrivate::markDirtyNoLabelChange()
-{
-    markDirty(false);
 }
 
 QT_END_NAMESPACE

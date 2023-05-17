@@ -14,7 +14,7 @@
 #ifndef Q3DOBJECT_P_H
 #define Q3DOBJECT_P_H
 
-#include "graphsglobal_p.h"
+#include "q3dobject.h"
 
 QT_BEGIN_NAMESPACE
 
@@ -23,14 +23,18 @@ class Q3DScene;
 
 class Q3DObjectPrivate
 {
+    Q_DECLARE_PUBLIC(Q3DObject)
+
 public:
     Q3DObjectPrivate(Q3DObject *q);
     ~Q3DObjectPrivate();
 
 public:
-    Q3DObject *q_ptr;
     QVector3D m_position;
     bool m_isDirty;
+
+protected:
+    Q3DObject *q_ptr;
 };
 
 QT_END_NAMESPACE

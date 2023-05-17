@@ -42,7 +42,7 @@ struct QCustomVolumeDirtyBitField {
 
 class QCustom3DVolumePrivate : public QCustom3DItemPrivate
 {
-    Q_OBJECT
+    Q_DECLARE_PUBLIC(QCustom3DVolume)
 
 public:
     QCustom3DVolumePrivate(QCustom3DVolume *q);
@@ -54,8 +54,6 @@ public:
 
     void resetDirtyBits();
     QImage renderSlice(Qt::Axis axis, int index);
-
-    QCustom3DVolume *qptr();
 
 public:
     int m_textureWidth;
@@ -84,8 +82,6 @@ public:
 
 private:
     int multipliedAlphaValue(int alpha);
-
-    friend class QCustom3DVolume;
 };
 
 QT_END_NAMESPACE

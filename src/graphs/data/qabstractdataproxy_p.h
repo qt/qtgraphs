@@ -14,30 +14,27 @@
 #ifndef QABSTRACTDATAPROXY_P_H
 #define QABSTRACTDATAPROXY_P_H
 
-#include "graphsglobal_p.h"
 #include "qabstractdataproxy.h"
 
 QT_BEGIN_NAMESPACE
 
 class QAbstract3DSeries;
 
-class QAbstractDataProxyPrivate : public QObject
+class QAbstractDataProxyPrivate
 {
-    Q_OBJECT
+    Q_DECLARE_PUBLIC(QAbstractDataProxy)
+
 public:
     QAbstractDataProxyPrivate(QAbstractDataProxy *q, QAbstractDataProxy::DataType type);
     virtual ~QAbstractDataProxyPrivate();
 
-    inline QAbstract3DSeries *series() { return m_series; }
+    inline QAbstract3DSeries *series() const { return m_series; }
     virtual void setSeries(QAbstract3DSeries *series);
 
 protected:
     QAbstractDataProxy *q_ptr;
     QAbstractDataProxy::DataType m_type;
     QAbstract3DSeries *m_series;
-
-private:
-    friend class QAbstractDataProxy;
 };
 
 QT_END_NAMESPACE

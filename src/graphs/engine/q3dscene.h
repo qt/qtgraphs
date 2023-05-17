@@ -17,6 +17,7 @@ class Q3DScenePrivate;
 class Q_GRAPHS_EXPORT Q3DScene : public QObject
 {
     Q_OBJECT
+    Q_DECLARE_PRIVATE(Q3DScene)
     Q_PROPERTY(QRect viewport READ viewport NOTIFY viewportChanged)
     Q_PROPERTY(QRect primarySubViewport READ primarySubViewport WRITE setPrimarySubViewport NOTIFY primarySubViewportChanged)
     Q_PROPERTY(QRect secondarySubViewport READ secondarySubViewport WRITE setSecondarySubViewport NOTIFY secondarySubViewportChanged)
@@ -76,18 +77,14 @@ Q_SIGNALS:
     void selectionQueryPositionChanged(const QPoint &position);
     void graphPositionQueryChanged(const QPoint &position);
 
-private:
+protected:
     QScopedPointer<Q3DScenePrivate> d_ptr;
 
+private:
     Q_DISABLE_COPY(Q3DScene)
 
-    friend class AbstractDeclarative;
     friend class QAbstract3DGraph;
-    friend class QAbstract3DGraphPrivate;
     friend class Abstract3DController;
-    friend class Bars3DController;
-    friend class Q3DScenePrivate;
-    friend class Q3DCameraPrivate;
     friend class Q3DObject;
     friend class QQuickGraphsItem;
 };

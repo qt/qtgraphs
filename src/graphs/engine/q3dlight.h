@@ -13,6 +13,7 @@ class Q3DLightPrivate;
 class Q_GRAPHS_EXPORT Q3DLight : public Q3DObject
 {
     Q_OBJECT
+    Q_DECLARE_PRIVATE(Q3DLight)
     Q_PROPERTY(bool autoPosition READ isAutoPosition WRITE setAutoPosition NOTIFY autoPositionChanged)
 
 public:
@@ -26,11 +27,8 @@ Q_SIGNALS:
     void autoPositionChanged(bool autoPosition);
 
 private:
-    QScopedPointer<Q3DLightPrivate> d_ptr;
-
     Q_DISABLE_COPY(Q3DLight)
 
-    friend class Q3DLightPrivate;
     friend class Q3DScenePrivate;
 };
 

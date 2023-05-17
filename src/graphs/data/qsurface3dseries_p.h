@@ -21,7 +21,8 @@ QT_BEGIN_NAMESPACE
 
 class QSurface3DSeriesPrivate : public QAbstract3DSeriesPrivate
 {
-    Q_OBJECT
+    Q_DECLARE_PUBLIC(QSurface3DSeries)
+
 public:
     QSurface3DSeriesPrivate(QSurface3DSeries *q);
     virtual ~QSurface3DSeriesPrivate();
@@ -37,17 +38,12 @@ public:
     void setWireframeColor(const QColor &color);
 
 private:
-    QSurface3DSeries *qptr();
-
     QPoint m_selectedPoint;
     bool m_flatShadingEnabled;
     QSurface3DSeries::DrawFlags m_drawMode;
     QImage m_texture;
     QString m_textureFile;
     QColor m_wireframeColor;
-
-private:
-    friend class QSurface3DSeries;
 };
 
 QT_END_NAMESPACE

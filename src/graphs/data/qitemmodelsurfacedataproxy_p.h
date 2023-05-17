@@ -23,7 +23,8 @@ class SurfaceItemModelHandler;
 
 class QItemModelSurfaceDataProxyPrivate : public QSurfaceDataProxyPrivate
 {
-    Q_OBJECT
+    Q_DECLARE_PUBLIC(QItemModelSurfaceDataProxy)
+
 public:
     QItemModelSurfaceDataProxyPrivate(QItemModelSurfaceDataProxy *q);
     virtual ~QItemModelSurfaceDataProxyPrivate();
@@ -31,8 +32,6 @@ public:
     void connectItemModelHandler();
 
 private:
-    QItemModelSurfaceDataProxy *qptr();
-
     SurfaceItemModelHandler *m_itemModelHandler;
 
     QString m_rowRole;
@@ -64,7 +63,6 @@ private:
     QItemModelSurfaceDataProxy::MultiMatchBehavior m_multiMatchBehavior;
 
     friend class SurfaceItemModelHandler;
-    friend class QItemModelSurfaceDataProxy;
 };
 
 QT_END_NAMESPACE

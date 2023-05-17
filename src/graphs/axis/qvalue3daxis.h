@@ -14,6 +14,7 @@ class QValue3DAxisPrivate;
 class Q_GRAPHS_EXPORT QValue3DAxis : public QAbstract3DAxis
 {
     Q_OBJECT
+    Q_DECLARE_PRIVATE(QValue3DAxis)
     Q_PROPERTY(int segmentCount READ segmentCount WRITE setSegmentCount NOTIFY segmentCountChanged)
     Q_PROPERTY(int subSegmentCount READ subSegmentCount WRITE setSubSegmentCount NOTIFY subSegmentCountChanged)
     Q_PROPERTY(QString labelFormat READ labelFormat WRITE setLabelFormat NOTIFY labelFormatChanged)
@@ -54,10 +55,7 @@ Q_SIGNALS:
     void labelFormatChanged(const QString &format);
     void formatterChanged(QValue3DAxisFormatter *formatter);
     void reversedChanged(bool enable);
-
-protected:
-    QValue3DAxisPrivate *dptr();
-    const QValue3DAxisPrivate *dptrc() const;
+    void formatterDirty();
 
 private:
     Q_DISABLE_COPY(QValue3DAxis)
@@ -66,8 +64,6 @@ private:
     friend class Scatter3DController;
     friend class Surface3DController;
     friend class QValue3DAxisFormatterPrivate;
-    friend class QQuickGraphsScatter;
-    friend class QQuickGraphsBars;
 };
 
 QT_END_NAMESPACE

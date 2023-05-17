@@ -21,7 +21,8 @@ QT_BEGIN_NAMESPACE
 
 class QBarDataProxyPrivate : public QAbstractDataProxyPrivate
 {
-    Q_OBJECT
+    Q_DECLARE_PUBLIC(QBarDataProxy)
+
 public:
     QBarDataProxyPrivate(QBarDataProxy *q);
     virtual ~QBarDataProxyPrivate();
@@ -37,13 +38,12 @@ public:
     void insertRows(int rowIndex, const QBarDataArray &rows, const QStringList *labels);
     void removeRows(int rowIndex, int removeCount, bool removeLabels);
 
-    QPair<GLfloat, GLfloat> limitValues(int startRow, int startColumn, int rowCount,
-                                        int columnCount) const;
+    QPair<float, float> limitValues(int startRow, int startColumn, int rowCount,
+                                    int columnCount) const;
 
     void setSeries(QAbstract3DSeries *series) override;
 
 private:
-    QBarDataProxy *qptr();
     void clearRow(int rowIndex);
     void clearArray();
     void fixRowLabels(int startIndex, int count, const QStringList &newLabels, bool isInsert);
@@ -51,9 +51,6 @@ private:
     QBarDataArray *m_dataArray;
     QStringList m_rowLabels;
     QStringList m_columnLabels;
-
-private:
-    friend class QBarDataProxy;
 };
 
 QT_END_NAMESPACE

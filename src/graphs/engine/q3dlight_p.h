@@ -14,16 +14,18 @@
 #ifndef Q3DLIGHT_P_H
 #define Q3DLIGHT_P_H
 
-#include "graphsglobal_p.h"
 #include "q3dlight.h"
+#include "q3dobject_p.h"
 
 QT_BEGIN_NAMESPACE
 
 class Q3DScene;
 class Q3DLight;
 
-class Q3DLightPrivate
+class Q3DLightPrivate : public Q3DObjectPrivate
 {
+    Q_DECLARE_PUBLIC(Q3DLight)
+
 public:
     Q3DLightPrivate(Q3DLight *q);
     ~Q3DLightPrivate();
@@ -31,7 +33,6 @@ public:
     void sync(Q3DLight &other);
 
 public:
-    Q3DLight *q_ptr;
     bool m_automaticLight;
 };
 

@@ -14,7 +14,6 @@
 #ifndef QLOGVALUE3DAXISFORMATTER_P_H
 #define QLOGVALUE3DAXISFORMATTER_P_H
 
-#include "graphsglobal_p.h"
 #include "qlogvalue3daxisformatter.h"
 #include "qvalue3daxisformatter_p.h"
 
@@ -22,7 +21,7 @@ QT_BEGIN_NAMESPACE
 
 class QLogValue3DAxisFormatterPrivate : public QValue3DAxisFormatterPrivate
 {
-    Q_OBJECT
+    Q_DECLARE_PUBLIC(QLogValue3DAxisFormatter)
 
 public:
     QLogValue3DAxisFormatterPrivate(QLogValue3DAxisFormatter *q);
@@ -35,8 +34,6 @@ public:
     float valueAt(float position) const;
 
 protected:
-    QLogValue3DAxisFormatter *qptr();
-
     qreal m_base;
     qreal m_logMin;
     qreal m_logMax;
@@ -47,8 +44,6 @@ protected:
 private:
     bool m_evenMinSegment;
     bool m_evenMaxSegment;
-
-    friend class QLogValue3DAxisFormatter;
 };
 
 QT_END_NAMESPACE

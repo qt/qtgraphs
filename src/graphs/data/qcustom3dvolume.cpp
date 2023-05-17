@@ -283,12 +283,13 @@ QCustom3DVolume::~QCustom3DVolume()
  */
 void QCustom3DVolume::setTextureWidth(int value)
 {
+    Q_D(QCustom3DVolume);
     if (value >= 0) {
-        if (dptr()->m_textureWidth != value) {
-            dptr()->m_textureWidth = value;
-            dptr()->m_dirtyBitsVolume.textureDimensionsDirty = true;
+        if (d->m_textureWidth != value) {
+            d->m_textureWidth = value;
+            d->m_dirtyBitsVolume.textureDimensionsDirty = true;
             emit textureWidthChanged(value);
-            emit dptr()->needUpdate();
+            emit needUpdate();
         }
     } else {
         qWarning() << __FUNCTION__ << "Cannot set negative value.";
@@ -297,7 +298,8 @@ void QCustom3DVolume::setTextureWidth(int value)
 
 int QCustom3DVolume::textureWidth() const
 {
-    return dptrc()->m_textureWidth;
+    const Q_D(QCustom3DVolume);
+    return d->m_textureWidth;
 }
 
 /*! \property QCustom3DVolume::textureHeight
@@ -314,12 +316,13 @@ int QCustom3DVolume::textureWidth() const
  */
 void QCustom3DVolume::setTextureHeight(int value)
 {
+    Q_D(QCustom3DVolume);
     if (value >= 0) {
-        if (dptr()->m_textureHeight != value) {
-            dptr()->m_textureHeight = value;
-            dptr()->m_dirtyBitsVolume.textureDimensionsDirty = true;
+        if (d->m_textureHeight != value) {
+            d->m_textureHeight = value;
+            d->m_dirtyBitsVolume.textureDimensionsDirty = true;
             emit textureHeightChanged(value);
-            emit dptr()->needUpdate();
+            emit needUpdate();
         }
     } else {
         qWarning() << __FUNCTION__ << "Cannot set negative value.";
@@ -329,7 +332,8 @@ void QCustom3DVolume::setTextureHeight(int value)
 
 int QCustom3DVolume::textureHeight() const
 {
-    return dptrc()->m_textureHeight;
+    const Q_D(QCustom3DVolume);
+    return d->m_textureHeight;
 }
 
 /*! \property QCustom3DVolume::textureDepth
@@ -346,12 +350,13 @@ int QCustom3DVolume::textureHeight() const
  */
 void QCustom3DVolume::setTextureDepth(int value)
 {
+    Q_D(QCustom3DVolume);
     if (value >= 0) {
-        if (dptr()->m_textureDepth != value) {
-            dptr()->m_textureDepth = value;
-            dptr()->m_dirtyBitsVolume.textureDimensionsDirty = true;
+        if (d->m_textureDepth != value) {
+            d->m_textureDepth = value;
+            d->m_dirtyBitsVolume.textureDimensionsDirty = true;
             emit textureDepthChanged(value);
-            emit dptr()->needUpdate();
+            emit needUpdate();
         }
     } else {
         qWarning() << __FUNCTION__ << "Cannot set negative value.";
@@ -360,7 +365,8 @@ void QCustom3DVolume::setTextureDepth(int value)
 
 int QCustom3DVolume::textureDepth() const
 {
-    return dptrc()->m_textureDepth;
+    const Q_D(QCustom3DVolume);
+    return d->m_textureDepth;
 }
 
 /*!
@@ -383,9 +389,10 @@ void QCustom3DVolume::setTextureDimensions(int width, int height, int depth)
  */
 int QCustom3DVolume::textureDataWidth() const
 {
-    int dataWidth = dptrc()->m_textureWidth;
+    const Q_D(QCustom3DVolume);
+    int dataWidth = d->m_textureWidth;
 
-    if (dptrc()->m_textureFormat == QImage::Format_Indexed8)
+    if (d->m_textureFormat == QImage::Format_Indexed8)
         dataWidth += dataWidth % 4;
     else
         dataWidth *= 4;
@@ -408,17 +415,19 @@ int QCustom3DVolume::textureDataWidth() const
  */
 void QCustom3DVolume::setSliceIndexX(int value)
 {
-    if (dptr()->m_sliceIndexX != value) {
-        dptr()->m_sliceIndexX = value;
-        dptr()->m_dirtyBitsVolume.slicesDirty = true;
+    Q_D(QCustom3DVolume);
+    if (d->m_sliceIndexX != value) {
+        d->m_sliceIndexX = value;
+        d->m_dirtyBitsVolume.slicesDirty = true;
         emit sliceIndexXChanged(value);
-        emit dptr()->needUpdate();
+        emit needUpdate();
     }
 }
 
 int QCustom3DVolume::sliceIndexX() const
 {
-    return dptrc()->m_sliceIndexX;
+    const Q_D(QCustom3DVolume);
+    return d->m_sliceIndexX;
 }
 
 /*! \property QCustom3DVolume::sliceIndexY
@@ -436,17 +445,19 @@ int QCustom3DVolume::sliceIndexX() const
  */
 void QCustom3DVolume::setSliceIndexY(int value)
 {
-    if (dptr()->m_sliceIndexY != value) {
-        dptr()->m_sliceIndexY = value;
-        dptr()->m_dirtyBitsVolume.slicesDirty = true;
+    Q_D(QCustom3DVolume);
+    if (d->m_sliceIndexY != value) {
+        d->m_sliceIndexY = value;
+        d->m_dirtyBitsVolume.slicesDirty = true;
         emit sliceIndexYChanged(value);
-        emit dptr()->needUpdate();
+        emit needUpdate();
     }
 }
 
 int QCustom3DVolume::sliceIndexY() const
 {
-    return dptrc()->m_sliceIndexY;
+    const Q_D(QCustom3DVolume);
+    return d->m_sliceIndexY;
 }
 
 /*! \property QCustom3DVolume::sliceIndexZ
@@ -464,17 +475,19 @@ int QCustom3DVolume::sliceIndexY() const
  */
 void QCustom3DVolume::setSliceIndexZ(int value)
 {
-    if (dptr()->m_sliceIndexZ != value) {
-        dptr()->m_sliceIndexZ = value;
-        dptr()->m_dirtyBitsVolume.slicesDirty = true;
+    Q_D(QCustom3DVolume);
+    if (d->m_sliceIndexZ != value) {
+        d->m_sliceIndexZ = value;
+        d->m_dirtyBitsVolume.slicesDirty = true;
         emit sliceIndexZChanged(value);
-        emit dptr()->needUpdate();
+        emit needUpdate();
     }
 }
 
 int QCustom3DVolume::sliceIndexZ() const
 {
-    return dptrc()->m_sliceIndexZ;
+    const Q_D(QCustom3DVolume);
+    return d->m_sliceIndexZ;
 }
 
 /*!
@@ -501,17 +514,19 @@ void QCustom3DVolume::setSliceIndices(int x, int y, int z)
  */
 void QCustom3DVolume::setColorTable(const QList<QRgb> &colors)
 {
-    if (dptr()->m_colorTable != colors) {
-        dptr()->m_colorTable = colors;
-        dptr()->m_dirtyBitsVolume.colorTableDirty = true;
+    Q_D(QCustom3DVolume);
+    if (d->m_colorTable != colors) {
+        d->m_colorTable = colors;
+        d->m_dirtyBitsVolume.colorTableDirty = true;
         emit colorTableChanged();
-        emit dptr()->needUpdate();
+        emit needUpdate();
     }
 }
 
 QList<QRgb> QCustom3DVolume::colorTable() const
 {
-    return dptrc()->m_colorTable;
+    const Q_D(QCustom3DVolume);
+    return d->m_colorTable;
 }
 
 /*! \property QCustom3DVolume::textureData
@@ -545,15 +560,16 @@ QList<QRgb> QCustom3DVolume::colorTable() const
  */
 void QCustom3DVolume::setTextureData(QList<uchar> *data)
 {
-    if (dptr()->m_textureData != data)
-        delete dptr()->m_textureData;
+    Q_D(QCustom3DVolume);
+    if (d->m_textureData != data)
+        delete d->m_textureData;
 
     // Even if the pointer is same as previously, consider this property changed, as the values
     // can be changed unbeknownst to us via the array pointer.
-    dptr()->m_textureData = data;
-    dptr()->m_dirtyBitsVolume.textureDataDirty = true;
+    d->m_textureData = data;
+    d->m_dirtyBitsVolume.textureDataDirty = true;
     emit textureDataChanged(data);
-    emit dptr()->needUpdate();
+    emit needUpdate();
 }
 
 /*!
@@ -571,6 +587,7 @@ void QCustom3DVolume::setTextureData(QList<uchar> *data)
  */
 QList<uchar> *QCustom3DVolume::createTextureData(const QList<QImage *> &images)
 {
+    Q_D(QCustom3DVolume);
     int imageCount = images.size();
     if (imageCount) {
         QImage *currentImage = images.at(0);
@@ -632,12 +649,13 @@ QList<uchar> *QCustom3DVolume::createTextureData(const QList<QImage *> &images)
         setTextureHeight(0);
         setTextureDepth(0);
     }
-    return dptr()->m_textureData;
+    return d->m_textureData;
 }
 
 QList<uchar> *QCustom3DVolume::textureData() const
 {
-    return dptrc()->m_textureData;
+    const Q_D(QCustom3DVolume);
+    return d->m_textureData;
 }
 
 /*!
@@ -662,27 +680,28 @@ QList<uchar> *QCustom3DVolume::textureData() const
  */
 void QCustom3DVolume::setSubTextureData(Qt::Axis axis, int index, const uchar *data)
 {
+    Q_D(QCustom3DVolume);
     if (data) {
         int lineSize = textureDataWidth();
-        int frameSize = lineSize * dptr()->m_textureHeight;
-        int dataSize = dptr()->m_textureData->size();
-        int pixelWidth = (dptr()->m_textureFormat == QImage::Format_Indexed8) ? 1 : 4;
+        int frameSize = lineSize * d->m_textureHeight;
+        int dataSize = d->m_textureData->size();
+        int pixelWidth = (d->m_textureFormat == QImage::Format_Indexed8) ? 1 : 4;
         int targetIndex;
-        uchar *dataPtr = dptr()->m_textureData->data();
+        uchar *dataPtr = d->m_textureData->data();
         bool invalid = (index < 0);
         if (axis == Qt::XAxis) {
             targetIndex = index * pixelWidth;
-            if (index >= dptr()->m_textureWidth
-                    || (frameSize * (dptr()->m_textureDepth - 1) + targetIndex) > dataSize) {
+            if (index >= d->m_textureWidth
+                    || (frameSize * (d->m_textureDepth - 1) + targetIndex) > dataSize) {
                 invalid = true;
             }
         } else if (axis == Qt::YAxis) {
-            targetIndex = (index * lineSize) + (frameSize * (dptr()->m_textureDepth - 1));
-            if (index >= dptr()->m_textureHeight || (targetIndex + lineSize > dataSize))
+            targetIndex = (index * lineSize) + (frameSize * (d->m_textureDepth - 1));
+            if (index >= d->m_textureHeight || (targetIndex + lineSize > dataSize))
                 invalid = true;
         } else {
             targetIndex = index * frameSize;
-            if (index >= dptr()->m_textureDepth || ((targetIndex + frameSize) > dataSize))
+            if (index >= d->m_textureDepth || ((targetIndex + frameSize) > dataSize))
                 invalid = true;
         }
 
@@ -692,8 +711,8 @@ void QCustom3DVolume::setSubTextureData(Qt::Axis axis, int index, const uchar *d
             const uchar *sourcePtr = data;
             uchar *targetPtr = dataPtr + targetIndex;
             if (axis == Qt::XAxis) {
-                int targetWidth = dptr()->m_textureDepth;
-                int targetHeight = dptr()->m_textureHeight;
+                int targetWidth = d->m_textureDepth;
+                int targetHeight = d->m_textureHeight;
                 for (int i = 0; i < targetHeight; i++) {
                     targetPtr = dataPtr + targetIndex + (lineSize * i);
                     for (int j = 0; j < targetWidth; j++) {
@@ -703,7 +722,7 @@ void QCustom3DVolume::setSubTextureData(Qt::Axis axis, int index, const uchar *d
                     }
                 }
             } else if (axis == Qt::YAxis) {
-                int targetHeight = dptr()->m_textureDepth;
+                int targetHeight = d->m_textureDepth;
                 for (int i = 0; i < targetHeight; i++){
                     for (int j = 0; j < lineSize; j++)
                         *targetPtr++ = *sourcePtr++;
@@ -713,9 +732,9 @@ void QCustom3DVolume::setSubTextureData(Qt::Axis axis, int index, const uchar *d
                 void *subTexPtr = dataPtr + targetIndex;
                 memcpy(subTexPtr, static_cast<const void *>(data), frameSize);
             }
-            dptr()->m_dirtyBitsVolume.textureDataDirty = true;
-            emit textureDataChanged(dptr()->m_textureData);
-            emit dptr()->needUpdate();
+            d->m_dirtyBitsVolume.textureDataDirty = true;
+            emit textureDataChanged(d->m_textureData);
+            emit needUpdate();
         }
     } else {
         qWarning() << __FUNCTION__ << "Tried to set null data.";
@@ -743,27 +762,28 @@ void QCustom3DVolume::setSubTextureData(Qt::Axis axis, int index, const uchar *d
  */
 void QCustom3DVolume::setSubTextureData(Qt::Axis axis, int index, const QImage &image)
 {
+    Q_D(QCustom3DVolume);
     int sourceWidth = image.width();
     int sourceHeight = image.height();
     int targetWidth;
     int targetHeight;
     if (axis == Qt::XAxis) {
-        targetWidth = dptr()->m_textureDepth;
-        targetHeight = dptr()->m_textureHeight;
+        targetWidth = d->m_textureDepth;
+        targetHeight = d->m_textureHeight;
     } else if (axis == Qt::YAxis) {
-        targetWidth = dptr()->m_textureWidth;
-        targetHeight = dptr()->m_textureDepth;
+        targetWidth = d->m_textureWidth;
+        targetHeight = d->m_textureDepth;
     } else {
-        targetWidth = dptr()->m_textureWidth;
-        targetHeight = dptr()->m_textureHeight;
+        targetWidth = d->m_textureWidth;
+        targetHeight = d->m_textureHeight;
     }
 
     if (sourceWidth == targetWidth
             && sourceHeight == targetHeight
-            && (image.format() == dptr()->m_textureFormat
-                || dptr()->m_textureFormat == QImage::Format_ARGB32)) {
+            && (image.format() == d->m_textureFormat
+                || d->m_textureFormat == QImage::Format_ARGB32)) {
         QImage convertedImage;
-        if (dptr()->m_textureFormat == QImage::Format_ARGB32
+        if (d->m_textureFormat == QImage::Format_ARGB32
                 && image.format() != QImage::Format_ARGB32) {
             convertedImage = image.convertToFormat(QImage::Format_ARGB32);
         } else {
@@ -789,12 +809,13 @@ void QCustom3DVolume::setSubTextureData(Qt::Axis axis, int index, const QImage &
  */
 void QCustom3DVolume::setTextureFormat(QImage::Format format)
 {
+    Q_D(QCustom3DVolume);
     if (format == QImage::Format_ARGB32 || format == QImage::Format_Indexed8) {
-        if (dptr()->m_textureFormat != format) {
-            dptr()->m_textureFormat = format;
-            dptr()->m_dirtyBitsVolume.textureFormatDirty = true;
+        if (d->m_textureFormat != format) {
+            d->m_textureFormat = format;
+            d->m_dirtyBitsVolume.textureFormatDirty = true;
             emit textureFormatChanged(format);
-            emit dptr()->needUpdate();
+            emit needUpdate();
         }
     } else {
         qWarning() << __FUNCTION__ << "Attempted to set invalid texture format.";
@@ -808,7 +829,8 @@ void QCustom3DVolume::setTextureFormat(QImage::Format format)
  */
 QImage::Format QCustom3DVolume::textureFormat() const
 {
-    return dptrc()->m_textureFormat;
+    const Q_D(QCustom3DVolume);
+    return d->m_textureFormat;
 }
 
 /*!
@@ -835,12 +857,13 @@ QImage::Format QCustom3DVolume::textureFormat() const
  */
 void QCustom3DVolume::setAlphaMultiplier(float mult)
 {
+    Q_D(QCustom3DVolume);
     if (mult >= 0.0f) {
-        if (dptr()->m_alphaMultiplier != mult) {
-            dptr()->m_alphaMultiplier = mult;
-            dptr()->m_dirtyBitsVolume.alphaDirty = true;
+        if (d->m_alphaMultiplier != mult) {
+            d->m_alphaMultiplier = mult;
+            d->m_dirtyBitsVolume.alphaDirty = true;
             emit alphaMultiplierChanged(mult);
-            emit dptr()->needUpdate();
+            emit needUpdate();
         }
     } else {
         qWarning() << __FUNCTION__ << "Attempted to set negative multiplier.";
@@ -849,7 +872,8 @@ void QCustom3DVolume::setAlphaMultiplier(float mult)
 
 float QCustom3DVolume::alphaMultiplier() const
 {
-    return dptrc()->m_alphaMultiplier;
+    const Q_D(QCustom3DVolume);
+    return d->m_alphaMultiplier;
 }
 
 /*!
@@ -866,17 +890,19 @@ float QCustom3DVolume::alphaMultiplier() const
  */
 void QCustom3DVolume::setPreserveOpacity(bool enable)
 {
-    if (dptr()->m_preserveOpacity != enable) {
-        dptr()->m_preserveOpacity = enable;
-        dptr()->m_dirtyBitsVolume.alphaDirty = true;
+    Q_D(QCustom3DVolume);
+    if (d->m_preserveOpacity != enable) {
+        d->m_preserveOpacity = enable;
+        d->m_dirtyBitsVolume.alphaDirty = true;
         emit preserveOpacityChanged(enable);
-        emit dptr()->needUpdate();
+        emit needUpdate();
     }
 }
 
 bool QCustom3DVolume::preserveOpacity() const
 {
-    return dptrc()->m_preserveOpacity;
+    const Q_D(QCustom3DVolume);
+    return d->m_preserveOpacity;
 }
 
 /*!
@@ -904,17 +930,19 @@ bool QCustom3DVolume::preserveOpacity() const
  */
 void QCustom3DVolume::setUseHighDefShader(bool enable)
 {
-    if (dptr()->m_useHighDefShader != enable) {
-        dptr()->m_useHighDefShader = enable;
-        dptr()->m_dirtyBitsVolume.shaderDirty = true;
+    Q_D(QCustom3DVolume);
+    if (d->m_useHighDefShader != enable) {
+        d->m_useHighDefShader = enable;
+        d->m_dirtyBitsVolume.shaderDirty = true;
         emit useHighDefShaderChanged(enable);
-        emit dptr()->needUpdate();
+        emit needUpdate();
     }
 }
 
 bool QCustom3DVolume::useHighDefShader() const
 {
-    return dptrc()->m_useHighDefShader;
+    const Q_D(QCustom3DVolume);
+    return d->m_useHighDefShader;
 }
 
 /*!
@@ -934,17 +962,19 @@ bool QCustom3DVolume::useHighDefShader() const
  */
 void QCustom3DVolume::setDrawSlices(bool enable)
 {
-    if (dptr()->m_drawSlices != enable) {
-        dptr()->m_drawSlices = enable;
-        dptr()->m_dirtyBitsVolume.slicesDirty = true;
+    Q_D(QCustom3DVolume);
+    if (d->m_drawSlices != enable) {
+        d->m_drawSlices = enable;
+        d->m_dirtyBitsVolume.slicesDirty = true;
         emit drawSlicesChanged(enable);
-        emit dptr()->needUpdate();
+        emit needUpdate();
     }
 }
 
 bool QCustom3DVolume::drawSlices() const
 {
-    return dptrc()->m_drawSlices;
+    const Q_D(QCustom3DVolume);
+    return d->m_drawSlices;
 }
 
 /*!
@@ -966,17 +996,19 @@ bool QCustom3DVolume::drawSlices() const
  */
 void QCustom3DVolume::setDrawSliceFrames(bool enable)
 {
-    if (dptr()->m_drawSliceFrames != enable) {
-        dptr()->m_drawSliceFrames = enable;
-        dptr()->m_dirtyBitsVolume.slicesDirty = true;
+    Q_D(QCustom3DVolume);
+    if (d->m_drawSliceFrames != enable) {
+        d->m_drawSliceFrames = enable;
+        d->m_dirtyBitsVolume.slicesDirty = true;
         emit drawSliceFramesChanged(enable);
-        emit dptr()->needUpdate();
+        emit needUpdate();
     }
 }
 
 bool QCustom3DVolume::drawSliceFrames() const
 {
-    return dptrc()->m_drawSliceFrames;
+    const Q_D(QCustom3DVolume);
+    return d->m_drawSliceFrames;
 }
 
 /*!
@@ -992,17 +1024,19 @@ bool QCustom3DVolume::drawSliceFrames() const
  */
 void QCustom3DVolume::setSliceFrameColor(const QColor &color)
 {
-    if (dptr()->m_sliceFrameColor != color) {
-        dptr()->m_sliceFrameColor = color;
-        dptr()->m_dirtyBitsVolume.slicesDirty = true;
+    Q_D(QCustom3DVolume);
+    if (d->m_sliceFrameColor != color) {
+        d->m_sliceFrameColor = color;
+        d->m_dirtyBitsVolume.slicesDirty = true;
         emit sliceFrameColorChanged(color);
-        emit dptr()->needUpdate();
+        emit needUpdate();
     }
 }
 
 QColor QCustom3DVolume::sliceFrameColor() const
 {
-    return dptrc()->m_sliceFrameColor;
+    const Q_D(QCustom3DVolume);
+    return d->m_sliceFrameColor;
 }
 
 /*!
@@ -1021,19 +1055,21 @@ QColor QCustom3DVolume::sliceFrameColor() const
  */
 void QCustom3DVolume::setSliceFrameWidths(const QVector3D &values)
 {
+    Q_D(QCustom3DVolume);
     if (values.x() < 0.0f || values.y() < 0.0f || values.z() < 0.0f) {
         qWarning() << __FUNCTION__ << "Attempted to set negative values.";
-    } else if (dptr()->m_sliceFrameWidths != values) {
-        dptr()->m_sliceFrameWidths = values;
-        dptr()->m_dirtyBitsVolume.slicesDirty = true;
+    } else if (d->m_sliceFrameWidths != values) {
+        d->m_sliceFrameWidths = values;
+        d->m_dirtyBitsVolume.slicesDirty = true;
         emit sliceFrameWidthsChanged(values);
-        emit dptr()->needUpdate();
+        emit needUpdate();
     }
 }
 
 QVector3D QCustom3DVolume::sliceFrameWidths() const
 {
-    return dptrc()->m_sliceFrameWidths;
+    const Q_D(QCustom3DVolume);
+    return d->m_sliceFrameWidths;
 }
 
 /*!
@@ -1051,19 +1087,21 @@ QVector3D QCustom3DVolume::sliceFrameWidths() const
  */
 void QCustom3DVolume::setSliceFrameGaps(const QVector3D &values)
 {
+    Q_D(QCustom3DVolume);
     if (values.x() < 0.0f || values.y() < 0.0f || values.z() < 0.0f) {
         qWarning() << __FUNCTION__ << "Attempted to set negative values.";
-    } else if (dptr()->m_sliceFrameGaps != values) {
-        dptr()->m_sliceFrameGaps = values;
-        dptr()->m_dirtyBitsVolume.slicesDirty = true;
+    } else if (d->m_sliceFrameGaps != values) {
+        d->m_sliceFrameGaps = values;
+        d->m_dirtyBitsVolume.slicesDirty = true;
         emit sliceFrameGapsChanged(values);
-        emit dptr()->needUpdate();
+        emit needUpdate();
     }
 }
 
 QVector3D QCustom3DVolume::sliceFrameGaps() const
 {
-    return dptrc()->m_sliceFrameGaps;
+    const Q_D(QCustom3DVolume);
+    return d->m_sliceFrameGaps;
 }
 
 /*!
@@ -1080,19 +1118,21 @@ QVector3D QCustom3DVolume::sliceFrameGaps() const
  */
 void QCustom3DVolume::setSliceFrameThicknesses(const QVector3D &values)
 {
+    Q_D(QCustom3DVolume);
     if (values.x() < 0.0f || values.y() < 0.0f || values.z() < 0.0f) {
         qWarning() << __FUNCTION__ << "Attempted to set negative values.";
-    } else if (dptr()->m_sliceFrameThicknesses != values) {
-        dptr()->m_sliceFrameThicknesses = values;
-        dptr()->m_dirtyBitsVolume.slicesDirty = true;
+    } else if (d->m_sliceFrameThicknesses != values) {
+        d->m_sliceFrameThicknesses = values;
+        d->m_dirtyBitsVolume.slicesDirty = true;
         emit sliceFrameThicknessesChanged(values);
-        emit dptr()->needUpdate();
+        emit needUpdate();
     }
 }
 
 QVector3D QCustom3DVolume::sliceFrameThicknesses() const
 {
-    return dptrc()->m_sliceFrameThicknesses;
+    const Q_D(QCustom3DVolume);
+    return d->m_sliceFrameThicknesses;
 }
 
 /*!
@@ -1107,23 +1147,8 @@ QVector3D QCustom3DVolume::sliceFrameThicknesses() const
  */
 QImage QCustom3DVolume::renderSlice(Qt::Axis axis, int index)
 {
-    return dptr()->renderSlice(axis, index);
-}
-
-/*!
- * \internal
- */
-QCustom3DVolumePrivate *QCustom3DVolume::dptr()
-{
-    return static_cast<QCustom3DVolumePrivate *>(d_ptr.data());
-}
-
-/*!
- * \internal
- */
-const QCustom3DVolumePrivate *QCustom3DVolume::dptrc() const
-{
-    return static_cast<const QCustom3DVolumePrivate *>(d_ptr.data());
+    Q_D(QCustom3DVolume);
+    return d->renderSlice(axis, index);
 }
 
 QCustom3DVolumePrivate::QCustom3DVolumePrivate(QCustom3DVolume *q) :
@@ -1210,6 +1235,7 @@ void QCustom3DVolumePrivate::resetDirtyBits()
 
 QImage QCustom3DVolumePrivate::renderSlice(Qt::Axis axis, int index)
 {
+    Q_Q(QCustom3DVolume);
     if (index < 0)
         return QImage();
 
@@ -1234,13 +1260,13 @@ QImage QCustom3DVolumePrivate::renderSlice(Qt::Axis axis, int index)
 
     int padding = 0;
     int pixelWidth = 4;
-    int dataWidth = qptr()->textureDataWidth();
+    int dataWidth = q->textureDataWidth();
     if (m_textureFormat == QImage::Format_Indexed8) {
         padding = x % 4;
         pixelWidth = 1;
     }
     QList<uchar> data((x + padding) * y * pixelWidth);
-    int frameSize = qptr()->textureDataWidth() * m_textureHeight;
+    int frameSize = q->textureDataWidth() * m_textureHeight;
 
     int dataIndex = 0;
     if (axis == Qt::XAxis) {
@@ -1303,11 +1329,6 @@ int QCustom3DVolumePrivate::multipliedAlphaValue(int alpha)
         modifiedAlpha = qMin(modifiedAlpha, 255);
     }
     return modifiedAlpha;
-}
-
-QCustom3DVolume *QCustom3DVolumePrivate::qptr()
-{
-    return static_cast<QCustom3DVolume *>(q_ptr);
 }
 
 QT_END_NAMESPACE

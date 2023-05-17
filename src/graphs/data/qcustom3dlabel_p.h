@@ -21,7 +21,7 @@ QT_BEGIN_NAMESPACE
 
 class QCustom3DLabelPrivate : public QCustom3DItemPrivate
 {
-    Q_OBJECT
+    Q_DECLARE_PUBLIC(QCustom3DLabel)
 
 public:
     QCustom3DLabelPrivate(QCustom3DLabel *q);
@@ -48,9 +48,6 @@ public:
     bool m_customVisuals;
 
     bool m_facingCameraDirty;
-
-private:
-    friend class QCustom3DLabel;
 };
 
 QT_END_NAMESPACE

@@ -13,6 +13,7 @@ class Q3DCameraPrivate;
 class Q_GRAPHS_EXPORT Q3DCamera : public Q3DObject
 {
     Q_OBJECT
+    Q_DECLARE_PRIVATE(Q3DCamera)
     Q_PROPERTY(float xRotation READ xRotation WRITE setXRotation NOTIFY xRotationChanged)
     Q_PROPERTY(float yRotation READ yRotation WRITE setYRotation NOTIFY yRotationChanged)
     Q_PROPERTY(float zoomLevel READ zoomLevel WRITE setZoomLevel NOTIFY zoomLevelChanged)
@@ -94,22 +95,19 @@ Q_SIGNALS:
     void targetChanged(const QVector3D &target);
     void minZoomLevelChanged(float zoomLevel);
     void maxZoomLevelChanged(float zoomLevel);
+    void minXRotationChanged(float rotation);
+    void minYRotationChanged(float rotation);
+    void maxXRotationChanged(float rotation);
+    void maxYRotationChanged(float rotation);
+    void viewMatrixChanged(const QMatrix4x4 &viewMatrix);
+    void viewMatrixAutoUpdateChanged(bool enabled);
 
 private:
-    QScopedPointer<Q3DCameraPrivate> d_ptr;
-
     Q_DISABLE_COPY(Q3DCamera)
 
-    friend class Q3DCameraPrivate;
     friend class Q3DScenePrivate;
-    friend class Bars3DController;
-    friend class Scatter3DController;
-    friend class SelectionPointer;
-    friend class Q3DInputHandler;
-    friend class QTouch3DInputHandlerPrivate;
     friend class QQuickGraphsScatter;
     friend class QQuickGraphsBars;
-    friend class GraphSceneNode3D;
 };
 
 QT_END_NAMESPACE

@@ -56,18 +56,18 @@ Abstract3DController::Abstract3DController(QRect initialViewport, Q3DScene *scen
 
     // Set initial theme
     Q3DTheme *defaultTheme = new Q3DTheme(Q3DTheme::ThemeQt);
-    defaultTheme->d_ptr->setDefaultTheme(true);
+    defaultTheme->d_func()->setDefaultTheme(true);
     setActiveTheme(defaultTheme);
 
-    m_scene->d_ptr->setViewport(initialViewport);
+    m_scene->d_func()->setViewport(initialViewport);
     m_scene->activeLight()->setAutoPosition(true);
 
     // Create initial default input handler
     QAbstract3DInputHandler *inputHandler;
     inputHandler = new QTouch3DInputHandler();
-    inputHandler->d_ptr->m_isDefaultHandler = true;
+    inputHandler->d_func()->m_isDefaultHandler = true;
     setActiveInputHandler(inputHandler);
-    connect(m_scene->d_ptr.data(), &Q3DScenePrivate::needRender, this,
+    connect(m_scene->d_func(), &Q3DScenePrivate::needRender, this,
             &Abstract3DController::emitNeedRender);
 }
 
@@ -99,10 +99,10 @@ void Abstract3DController::insertSeries(int index, QAbstract3DSeries *series)
         } else {
             int oldSize = m_seriesList.size();
             m_seriesList.insert(index, series);
-            series->d_ptr->setController(this);
+            series->d_func()->setController(this);
             QObject::connect(series, &QAbstract3DSeries::visibilityChanged,
                              this, &Abstract3DController::handleSeriesVisibilityChanged);
-            series->d_ptr->resetToTheme(*m_themeManager->activeTheme(), oldSize, false);
+            series->d_func()->resetToTheme(*m_themeManager->activeTheme(), oldSize, false);
         }
         if (series->isVisible())
             handleSeriesVisibilityChangedBySender(series);
@@ -111,11 +111,11 @@ void Abstract3DController::insertSeries(int index, QAbstract3DSeries *series)
 
 void Abstract3DController::removeSeries(QAbstract3DSeries *series)
 {
-    if (series && series->d_ptr->m_controller == this) {
+    if (series && series->d_func()->m_controller == this) {
         m_seriesList.removeAll(series);
         QObject::disconnect(series, &QAbstract3DSeries::visibilityChanged,
                             this, &Abstract3DController::handleSeriesVisibilityChanged);
-        series->d_ptr->setController(0);
+        series->d_func()->setController(0);
         m_isDataDirty = true;
         m_isSeriesVisualsDirty = true;
         emitNeedRender();
@@ -174,9 +174,9 @@ void Abstract3DController::handleThemeColorStyleChanged(Q3DTheme::ColorStyle sty
 {
     // Set value for series that have not explicitly set this value
     foreach (QAbstract3DSeries *series, m_seriesList) {
-        if (!series->d_ptr->m_themeTracker.colorStyleOverride) {
+        if (!series->d_func()->m_themeTracker.colorStyleOverride) {
             series->setColorStyle(style);
-            series->d_ptr->m_themeTracker.colorStyleOverride = false;
+            series->d_func()->m_themeTracker.colorStyleOverride = false;
         }
     }
     markSeriesVisualsDirty();
@@ -187,9 +187,9 @@ void Abstract3DController::handleThemeBaseColorsChanged(const QList<QColor> &col
     int colorIdx = 0;
     // Set value for series that have not explicitly set this value
     foreach (QAbstract3DSeries *series, m_seriesList) {
-        if (!series->d_ptr->m_themeTracker.baseColorOverride) {
+        if (!series->d_func()->m_themeTracker.baseColorOverride) {
             series->setBaseColor(colors.at(colorIdx));
-            series->d_ptr->m_themeTracker.baseColorOverride = false;
+            series->d_func()->m_themeTracker.baseColorOverride = false;
         }
         if (++colorIdx >= colors.size())
             colorIdx = 0;
@@ -202,9 +202,9 @@ void Abstract3DController::handleThemeBaseGradientsChanged(const QList<QLinearGr
     int gradientIdx = 0;
     // Set value for series that have not explicitly set this value
     foreach (QAbstract3DSeries *series, m_seriesList) {
-        if (!series->d_ptr->m_themeTracker.baseGradientOverride) {
+        if (!series->d_func()->m_themeTracker.baseGradientOverride) {
             series->setBaseGradient(gradients.at(gradientIdx));
-            series->d_ptr->m_themeTracker.baseGradientOverride = false;
+            series->d_func()->m_themeTracker.baseGradientOverride = false;
         }
         if (++gradientIdx >= gradients.size())
             gradientIdx = 0;
@@ -216,9 +216,9 @@ void Abstract3DController::handleThemeSingleHighlightColorChanged(const QColor &
 {
     // Set value for series that have not explicitly set this value
     foreach (QAbstract3DSeries *series, m_seriesList) {
-        if (!series->d_ptr->m_themeTracker.singleHighlightColorOverride) {
+        if (!series->d_func()->m_themeTracker.singleHighlightColorOverride) {
             series->setSingleHighlightColor(color);
-            series->d_ptr->m_themeTracker.singleHighlightColorOverride = false;
+            series->d_func()->m_themeTracker.singleHighlightColorOverride = false;
         }
     }
     markSeriesVisualsDirty();
@@ -229,9 +229,9 @@ void Abstract3DController::handleThemeSingleHighlightGradientChanged(
 {
     // Set value for series that have not explicitly set this value
     foreach (QAbstract3DSeries *series, m_seriesList) {
-        if (!series->d_ptr->m_themeTracker.singleHighlightGradientOverride) {
+        if (!series->d_func()->m_themeTracker.singleHighlightGradientOverride) {
             series->setSingleHighlightGradient(gradient);
-            series->d_ptr->m_themeTracker.singleHighlightGradientOverride = false;
+            series->d_func()->m_themeTracker.singleHighlightGradientOverride = false;
         }
     }
     markSeriesVisualsDirty();
@@ -241,9 +241,9 @@ void Abstract3DController::handleThemeMultiHighlightColorChanged(const QColor &c
 {
     // Set value for series that have not explicitly set this value
     foreach (QAbstract3DSeries *series, m_seriesList) {
-        if (!series->d_ptr->m_themeTracker.multiHighlightColorOverride) {
+        if (!series->d_func()->m_themeTracker.multiHighlightColorOverride) {
             series->setMultiHighlightColor(color);
-            series->d_ptr->m_themeTracker.multiHighlightColorOverride = false;
+            series->d_func()->m_themeTracker.multiHighlightColorOverride = false;
         }
     }
     markSeriesVisualsDirty();
@@ -253,9 +253,9 @@ void Abstract3DController::handleThemeMultiHighlightGradientChanged(const QLinea
 {
     // Set value for series that have not explicitly set this value
     foreach (QAbstract3DSeries *series, m_seriesList) {
-        if (!series->d_ptr->m_themeTracker.multiHighlightGradientOverride) {
+        if (!series->d_func()->m_themeTracker.multiHighlightGradientOverride) {
             series->setMultiHighlightGradient(gradient);
-            series->d_ptr->m_themeTracker.multiHighlightGradientOverride = false;
+            series->d_func()->m_themeTracker.multiHighlightGradientOverride = false;
         }
     }
     markSeriesVisualsDirty();
@@ -270,7 +270,7 @@ void Abstract3DController::handleThemeTypeChanged(Q3DTheme::Theme theme)
     bool force = m_qml->isReady();
     Q3DTheme *activeTheme = m_themeManager->activeTheme();
     for (int i = 0; i < m_seriesList.size(); i++)
-        m_seriesList.at(i)->d_ptr->resetToTheme(*activeTheme, i, force);
+        m_seriesList.at(i)->d_func()->resetToTheme(*activeTheme, i, force);
 
     markSeriesVisualsDirty();
 
@@ -335,8 +335,8 @@ void Abstract3DController::releaseAxis(QAbstract3DAxis *axis)
 {
     if (axis && m_axes.contains(axis)) {
         // Clear the default status from released default axes
-        if (axis->d_ptr->isDefaultAxis())
-            axis->d_ptr->setDefaultAxis(false);
+        if (axis->d_func()->isDefaultAxis())
+            axis->d_func()->setDefaultAxis(false);
 
         // If the axis is in use, replace it with a temporary one
         switch (axis->orientation()) {
@@ -381,8 +381,8 @@ void Abstract3DController::releaseInputHandler(QAbstract3DInputHandler *inputHan
 {
     if (inputHandler && m_inputHandlers.contains(inputHandler)) {
         // Clear the default status from released default input handler
-        if (inputHandler->d_ptr->m_isDefaultHandler)
-            inputHandler->d_ptr->m_isDefaultHandler = false;
+        if (inputHandler->d_func()->m_isDefaultHandler)
+            inputHandler->d_func()->m_isDefaultHandler = false;
 
         // If the input handler is in use, remove it
         if (m_activeInputHandler == inputHandler)
@@ -400,7 +400,7 @@ void Abstract3DController::setActiveInputHandler(QAbstract3DInputHandler *inputH
 
     // If existing input handler is the default input handler, delete it
     if (m_activeInputHandler) {
-        if (m_activeInputHandler->d_ptr->m_isDefaultHandler) {
+        if (m_activeInputHandler->d_func()->m_isDefaultHandler) {
             m_inputHandlers.removeAll(m_activeInputHandler);
             delete m_activeInputHandler;
         } else {
@@ -468,7 +468,7 @@ void Abstract3DController::setActiveTheme(Q3DTheme *theme, bool force)
         Q3DTheme *newActiveTheme = m_themeManager->activeTheme();
         // Reset all attached series to the new theme
         for (int i = 0; i < m_seriesList.size(); i++)
-            m_seriesList.at(i)->d_ptr->resetToTheme(*newActiveTheme, i, force);
+            m_seriesList.at(i)->d_func()->resetToTheme(*newActiveTheme, i, force);
         markSeriesVisualsDirty();
         emit activeThemeChanged(newActiveTheme);
     }
@@ -571,10 +571,10 @@ int Abstract3DController::addCustomItem(QCustom3DItem *item)
         return index;
 
     item->setParent(this);
-    connect(item->d_ptr.data(), &QCustom3DItemPrivate::needUpdate,
+    connect(item, &QCustom3DItem::needUpdate,
             this, &Abstract3DController::updateCustomItem);
     m_customItems.append(item);
-    item->d_ptr->resetDirtyBits();
+    item->d_func()->resetDirtyBits();
     m_isCustomDataDirty = true;
     emitNeedRender();
     return m_customItems.size() - 1;
@@ -613,7 +613,7 @@ void Abstract3DController::deleteCustomItem(const QVector3D &position)
 void Abstract3DController::releaseCustomItem(QCustom3DItem *item)
 {
     if (item && m_customItems.contains(item)) {
-        disconnect(item->d_ptr.data(), &QCustom3DItemPrivate::needUpdate,
+        disconnect(item, &QCustom3DItem::needUpdate,
                    this, &Abstract3DController::updateCustomItem);
         m_customItems.removeOne(item);
         item->setParent(0);
@@ -849,7 +849,7 @@ void Abstract3DController::handleAxisReversedChangedBySender(QObject *sender)
 void Abstract3DController::handleAxisFormatterDirtyBySender(QObject *sender)
 {
     // Sender is QValue3DAxisPrivate
-    QValue3DAxis *valueAxis = static_cast<QValue3DAxisPrivate *>(sender)->qptr();
+    QValue3DAxis *valueAxis = static_cast<QValue3DAxis *>(sender);//->qptr();
     if (valueAxis == m_axisX) {
         m_isDataDirty = true;
         m_changeTracker.axisXFormatterChanged = true;
@@ -910,7 +910,7 @@ void Abstract3DController::handleAxisTitleFixedChangedBySender(QObject *sender)
 void Abstract3DController::handleSeriesVisibilityChangedBySender(QObject *sender)
 {
     QAbstract3DSeries *series = static_cast<QAbstract3DSeries *>(sender);
-    series->d_ptr->m_changeTracker.visibilityChanged = true;
+    series->d_func()->m_changeTracker.visibilityChanged = true;
 
     m_isDataDirty = true;
     m_isSeriesVisualsDirty = true;
@@ -923,7 +923,7 @@ void Abstract3DController::handleSeriesVisibilityChangedBySender(QObject *sender
 void Abstract3DController::markSeriesItemLabelsDirty()
 {
     for (int i = 0; i < m_seriesList.size(); i++)
-        m_seriesList.at(i)->d_ptr->markItemLabelDirty();
+        m_seriesList.at(i)->d_func()->markItemLabelDirty();
 }
 
 bool Abstract3DController::isOpenGLES() const
@@ -941,14 +941,14 @@ void Abstract3DController::setAxisHelper(QAbstract3DAxis::AxisOrientation orient
     // If old axis is default axis, delete it
     QAbstract3DAxis *oldAxis = *axisPtr;
     if (oldAxis) {
-        if (oldAxis->d_ptr->isDefaultAxis()) {
+        if (oldAxis->d_func()->isDefaultAxis()) {
             m_axes.removeAll(oldAxis);
             delete oldAxis;
             oldAxis = 0;
         } else {
             // Disconnect the old axis from use
             QObject::disconnect(oldAxis, 0, this, 0);
-            oldAxis->d_ptr->setOrientation(QAbstract3DAxis::AxisOrientationNone);
+            oldAxis->d_func()->setOrientation(QAbstract3DAxis::AxisOrientationNone);
         }
     }
 
@@ -958,7 +958,7 @@ void Abstract3DController::setAxisHelper(QAbstract3DAxis::AxisOrientation orient
     // Connect the new axis
     *axisPtr = axis;
 
-    axis->d_ptr->setOrientation(orientation);
+    axis->d_func()->setOrientation(orientation);
 
     QObject::connect(axis, &QAbstract3DAxis::titleChanged,
                      this, &Abstract3DController::handleAxisTitleChanged);
@@ -1001,14 +1001,16 @@ void Abstract3DController::setAxisHelper(QAbstract3DAxis::AxisOrientation orient
                          this, &Abstract3DController::handleAxisLabelFormatChanged);
         QObject::connect(valueAxis, &QValue3DAxis::reversedChanged,
                          this, &Abstract3DController::handleAxisReversedChanged);
-        QObject::connect(valueAxis->dptr(), &QValue3DAxisPrivate::formatterDirty,
-                         this, &Abstract3DController::handleAxisFormatterDirty);
+        // TODO: Handle this somehow (add API to QValue3DAxis?)
+//        QObject::connect(valueAxis->d_func(), &QValue3DAxisPrivate::formatterDirty,
+//                         this, &Abstract3DController::handleAxisFormatterDirty);
 
         handleAxisSegmentCountChangedBySender(valueAxis);
         handleAxisSubSegmentCountChangedBySender(valueAxis);
         handleAxisLabelFormatChangedBySender(valueAxis);
         handleAxisReversedChangedBySender(valueAxis);
-        handleAxisFormatterDirtyBySender(valueAxis->dptr());
+        // TODO: Handle this somehow (add API to QValue3DAxis?)
+//        handleAxisFormatterDirtyBySender(valueAxis->d_func());
 
         valueAxis->formatter()->setLocale(m_locale);
     }
@@ -1029,7 +1031,7 @@ QValue3DAxis *Abstract3DController::createDefaultValueAxis()
 {
     // Default value axis has single segment, empty label format, and auto scaling
     QValue3DAxis *defaultAxis = new QValue3DAxis;
-    defaultAxis->d_ptr->setDefaultAxis(true);
+    defaultAxis->d_func()->setDefaultAxis(true);
 
     return defaultAxis;
 }
@@ -1038,7 +1040,7 @@ QCategory3DAxis *Abstract3DController::createDefaultCategoryAxis()
 {
     // Default category axis has no labels
     QCategory3DAxis *defaultAxis = new QCategory3DAxis;
-    defaultAxis->d_ptr->setDefaultAxis(true);
+    defaultAxis->d_func()->setDefaultAxis(true);
     return defaultAxis;
 }
 

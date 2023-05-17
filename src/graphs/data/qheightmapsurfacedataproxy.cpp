@@ -1,6 +1,7 @@
 // Copyright (C) 2023 The Qt Company Ltd.
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 
+#include <QtCore/qdebug.h>
 #include "qheightmapsurfacedataproxy_p.h"
 
 QT_BEGIN_NAMESPACE
@@ -127,6 +128,9 @@ const float defaultMaxValue = 10.0f;
 QHeightMapSurfaceDataProxy::QHeightMapSurfaceDataProxy(QObject *parent) :
     QSurfaceDataProxy(new QHeightMapSurfaceDataProxyPrivate(this), parent)
 {
+    Q_D(QHeightMapSurfaceDataProxy);
+    QObject::connect(&d->m_resolveTimer, &QTimer::timeout,
+                     this, &QHeightMapSurfaceDataProxy::handlePendingResolve);
 }
 
 /*!
@@ -138,6 +142,9 @@ QHeightMapSurfaceDataProxy::QHeightMapSurfaceDataProxy(QObject *parent) :
 QHeightMapSurfaceDataProxy::QHeightMapSurfaceDataProxy(const QImage &image, QObject *parent) :
     QSurfaceDataProxy(new QHeightMapSurfaceDataProxyPrivate(this), parent)
 {
+    Q_D(QHeightMapSurfaceDataProxy);
+    QObject::connect(&d->m_resolveTimer, &QTimer::timeout,
+                     this, &QHeightMapSurfaceDataProxy::handlePendingResolve);
     setHeightMap(image);
 }
 
@@ -150,6 +157,9 @@ QHeightMapSurfaceDataProxy::QHeightMapSurfaceDataProxy(const QImage &image, QObj
 QHeightMapSurfaceDataProxy::QHeightMapSurfaceDataProxy(const QString &filename, QObject *parent) :
     QSurfaceDataProxy(new QHeightMapSurfaceDataProxyPrivate(this), parent)
 {
+    Q_D(QHeightMapSurfaceDataProxy);
+    QObject::connect(&d->m_resolveTimer, &QTimer::timeout,
+                     this, &QHeightMapSurfaceDataProxy::handlePendingResolve);
     setHeightMapFile(filename);
 }
 
@@ -196,16 +206,18 @@ QHeightMapSurfaceDataProxy::~QHeightMapSurfaceDataProxy()
  */
 void QHeightMapSurfaceDataProxy::setHeightMap(const QImage &image)
 {
-    dptr()->m_heightMap = image;
+    Q_D(QHeightMapSurfaceDataProxy);
+    d->m_heightMap = image;
 
     // We do resolving asynchronously to make qml onArrayReset handlers actually get the initial reset
-    if (!dptr()->m_resolveTimer.isActive())
-        dptr()->m_resolveTimer.start(0);
+    if (!d->m_resolveTimer.isActive())
+        d->m_resolveTimer.start(0);
 }
 
 QImage QHeightMapSurfaceDataProxy::heightMap() const
 {
-    return dptrc()->m_heightMap;
+    const Q_D(QHeightMapSurfaceDataProxy);
+    return d->m_heightMap;
 }
 
 /*!
@@ -222,14 +234,16 @@ QImage QHeightMapSurfaceDataProxy::heightMap() const
  */
 void QHeightMapSurfaceDataProxy::setHeightMapFile(const QString &filename)
 {
-    dptr()->m_heightMapFile = filename;
+    Q_D(QHeightMapSurfaceDataProxy);
+    d->m_heightMapFile = filename;
     setHeightMap(QImage(filename));
     emit heightMapFileChanged(filename);
 }
 
 QString QHeightMapSurfaceDataProxy::heightMapFile() const
 {
-    return dptrc()->m_heightMapFile;
+    const Q_D(QHeightMapSurfaceDataProxy);
+    return d->m_heightMapFile;
 }
 
 /*!
@@ -239,7 +253,8 @@ QString QHeightMapSurfaceDataProxy::heightMapFile() const
  */
 void QHeightMapSurfaceDataProxy::setValueRanges(float minX, float maxX, float minZ, float maxZ)
 {
-    dptr()->setValueRanges(minX, maxX, minZ, maxZ);
+    Q_D(QHeightMapSurfaceDataProxy);
+    d->setValueRanges(minX, maxX, minZ, maxZ);
 }
 
 /*!
@@ -254,12 +269,14 @@ void QHeightMapSurfaceDataProxy::setValueRanges(float minX, float maxX, float mi
  */
 void QHeightMapSurfaceDataProxy::setMinXValue(float min)
 {
-    dptr()->setMinXValue(min);
+    Q_D(QHeightMapSurfaceDataProxy);
+    d->setMinXValue(min);
 }
 
 float QHeightMapSurfaceDataProxy::minXValue() const
 {
-    return dptrc()->m_minXValue;
+    const Q_D(QHeightMapSurfaceDataProxy);
+    return d->m_minXValue;
 }
 
 /*!
@@ -274,12 +291,14 @@ float QHeightMapSurfaceDataProxy::minXValue() const
  */
 void QHeightMapSurfaceDataProxy::setMaxXValue(float max)
 {
-    dptr()->setMaxXValue(max);
+    Q_D(QHeightMapSurfaceDataProxy);
+    d->setMaxXValue(max);
 }
 
 float QHeightMapSurfaceDataProxy::maxXValue() const
 {
-    return dptrc()->m_maxXValue;
+    const Q_D(QHeightMapSurfaceDataProxy);
+    return d->m_maxXValue;
 }
 
 /*!
@@ -294,12 +313,14 @@ float QHeightMapSurfaceDataProxy::maxXValue() const
  */
 void QHeightMapSurfaceDataProxy::setMinZValue(float min)
 {
-    dptr()->setMinZValue(min);
+    Q_D(QHeightMapSurfaceDataProxy);
+    d->setMinZValue(min);
 }
 
 float QHeightMapSurfaceDataProxy::minZValue() const
 {
-    return dptrc()->m_minZValue;
+    const Q_D(QHeightMapSurfaceDataProxy);
+    return d->m_minZValue;
 }
 
 /*!
@@ -314,12 +335,14 @@ float QHeightMapSurfaceDataProxy::minZValue() const
  */
 void QHeightMapSurfaceDataProxy::setMaxZValue(float max)
 {
-    dptr()->setMaxZValue(max);
+    Q_D(QHeightMapSurfaceDataProxy);
+    d->setMaxZValue(max);
 }
 
 float QHeightMapSurfaceDataProxy::maxZValue() const
 {
-    return dptrc()->m_maxZValue;
+    const Q_D(QHeightMapSurfaceDataProxy);
+    return d->m_maxZValue;
 }
 
 /*!
@@ -336,12 +359,14 @@ float QHeightMapSurfaceDataProxy::maxZValue() const
  */
 void QHeightMapSurfaceDataProxy::setMinYValue(float min)
 {
-    dptr()->setMinYValue(min);
+    Q_D(QHeightMapSurfaceDataProxy);
+    d->setMinYValue(min);
 }
 
 float QHeightMapSurfaceDataProxy::minYValue() const
 {
-    return dptrc()->m_minYValue;
+    const Q_D(QHeightMapSurfaceDataProxy);
+    return d->m_minYValue;
 }
 
 /*!
@@ -358,12 +383,14 @@ float QHeightMapSurfaceDataProxy::minYValue() const
  */
 void QHeightMapSurfaceDataProxy::setMaxYValue(float max)
 {
-    dptr()->setMaxYValue(max);
+    Q_D(QHeightMapSurfaceDataProxy);
+    d->setMaxYValue(max);
 }
 
 float QHeightMapSurfaceDataProxy::maxYValue() const
 {
-    return dptrc()->m_maxYValue;
+    const Q_D(QHeightMapSurfaceDataProxy);
+    return d->m_maxYValue;
 }
 
 /*!
@@ -380,28 +407,23 @@ float QHeightMapSurfaceDataProxy::maxYValue() const
  */
 void QHeightMapSurfaceDataProxy::setAutoScaleY(bool enabled)
 {
-    dptr()->setAutoScaleY(enabled);
+    Q_D(QHeightMapSurfaceDataProxy);
+    d->setAutoScaleY(enabled);
 }
 
 bool QHeightMapSurfaceDataProxy::autoScaleY() const
 {
-    return dptrc()->m_autoScaleY;
+    const Q_D(QHeightMapSurfaceDataProxy);
+    return d->m_autoScaleY;
 }
 
 /*!
  * \internal
  */
-QHeightMapSurfaceDataProxyPrivate *QHeightMapSurfaceDataProxy::dptr()
+void QHeightMapSurfaceDataProxy::handlePendingResolve()
 {
-    return static_cast<QHeightMapSurfaceDataProxyPrivate *>(d_ptr.data());
-}
-
-/*!
- * \internal
- */
-const QHeightMapSurfaceDataProxyPrivate *QHeightMapSurfaceDataProxy::dptrc() const
-{
-    return static_cast<const QHeightMapSurfaceDataProxyPrivate *>(d_ptr.data());
+    Q_D(QHeightMapSurfaceDataProxy);
+    d->handlePendingResolve();
 }
 
 //  QHeightMapSurfaceDataProxyPrivate
@@ -417,22 +439,16 @@ QHeightMapSurfaceDataProxyPrivate::QHeightMapSurfaceDataProxyPrivate(QHeightMapS
       m_autoScaleY(false)
 {
     m_resolveTimer.setSingleShot(true);
-    QObject::connect(&m_resolveTimer, &QTimer::timeout,
-                     this, &QHeightMapSurfaceDataProxyPrivate::handlePendingResolve);
 }
 
 QHeightMapSurfaceDataProxyPrivate::~QHeightMapSurfaceDataProxyPrivate()
 {
 }
 
-QHeightMapSurfaceDataProxy *QHeightMapSurfaceDataProxyPrivate::qptr()
-{
-    return static_cast<QHeightMapSurfaceDataProxy *>(q_ptr);
-}
-
 void QHeightMapSurfaceDataProxyPrivate::setValueRanges(float minX, float maxX,
                                                        float minZ, float maxZ)
 {
+    Q_Q(QHeightMapSurfaceDataProxy);
     bool minXChanged = false;
     bool maxXChanged = false;
     bool minZChanged = false;
@@ -469,13 +485,13 @@ void QHeightMapSurfaceDataProxyPrivate::setValueRanges(float minX, float maxX,
     }
 
     if (minXChanged)
-        emit qptr()->minXValueChanged(m_minXValue);
+        emit q->minXValueChanged(m_minXValue);
     if (minZChanged)
-        emit qptr()->minZValueChanged(m_minZValue);
+        emit q->minZValueChanged(m_minZValue);
     if (maxXChanged)
-        emit qptr()->maxXValueChanged(m_maxXValue);
+        emit q->maxXValueChanged(m_maxXValue);
     if (maxZChanged)
-        emit qptr()->maxZValueChanged(m_maxZValue);
+        emit q->maxZValueChanged(m_maxZValue);
 
     if ((minXChanged || minZChanged || maxXChanged || maxZChanged) && !m_resolveTimer.isActive())
         m_resolveTimer.start(0);
@@ -483,6 +499,7 @@ void QHeightMapSurfaceDataProxyPrivate::setValueRanges(float minX, float maxX,
 
 void QHeightMapSurfaceDataProxyPrivate::setMinXValue(float min)
 {
+    Q_Q(QHeightMapSurfaceDataProxy);
     if (min != m_minXValue) {
         bool maxChanged = false;
         if (min >= m_maxXValue) {
@@ -494,9 +511,9 @@ void QHeightMapSurfaceDataProxyPrivate::setMinXValue(float min)
             maxChanged = true;
         }
         m_minXValue = min;
-        emit qptr()->minXValueChanged(m_minXValue);
+        emit q->minXValueChanged(m_minXValue);
         if (maxChanged)
-            emit qptr()->maxXValueChanged(m_maxXValue);
+            emit q->maxXValueChanged(m_maxXValue);
 
         if (!m_resolveTimer.isActive())
             m_resolveTimer.start(0);
@@ -505,6 +522,7 @@ void QHeightMapSurfaceDataProxyPrivate::setMinXValue(float min)
 
 void QHeightMapSurfaceDataProxyPrivate::setMaxXValue(float max)
 {
+    Q_Q(QHeightMapSurfaceDataProxy);
     if (m_maxXValue != max) {
         bool minChanged = false;
         if (max <= m_minXValue) {
@@ -516,9 +534,9 @@ void QHeightMapSurfaceDataProxyPrivate::setMaxXValue(float max)
             minChanged = true;
         }
         m_maxXValue = max;
-        emit qptr()->maxXValueChanged(m_maxXValue);
+        emit q->maxXValueChanged(m_maxXValue);
         if (minChanged)
-            emit qptr()->minXValueChanged(m_minXValue);
+            emit q->minXValueChanged(m_minXValue);
 
         if (!m_resolveTimer.isActive())
             m_resolveTimer.start(0);
@@ -527,6 +545,7 @@ void QHeightMapSurfaceDataProxyPrivate::setMaxXValue(float max)
 
 void QHeightMapSurfaceDataProxyPrivate::setMinZValue(float min)
 {
+    Q_Q(QHeightMapSurfaceDataProxy);
     if (min != m_minZValue) {
         bool maxChanged = false;
         if (min >= m_maxZValue) {
@@ -538,9 +557,9 @@ void QHeightMapSurfaceDataProxyPrivate::setMinZValue(float min)
             maxChanged = true;
         }
         m_minZValue = min;
-        emit qptr()->minZValueChanged(m_minZValue);
+        emit q->minZValueChanged(m_minZValue);
         if (maxChanged)
-            emit qptr()->maxZValueChanged(m_maxZValue);
+            emit q->maxZValueChanged(m_maxZValue);
 
         if (!m_resolveTimer.isActive())
             m_resolveTimer.start(0);
@@ -549,6 +568,7 @@ void QHeightMapSurfaceDataProxyPrivate::setMinZValue(float min)
 
 void QHeightMapSurfaceDataProxyPrivate::setMaxZValue(float max)
 {
+    Q_Q(QHeightMapSurfaceDataProxy);
     if (m_maxZValue != max) {
         bool minChanged = false;
         if (max <= m_minZValue) {
@@ -560,9 +580,9 @@ void QHeightMapSurfaceDataProxyPrivate::setMaxZValue(float max)
             minChanged = true;
         }
         m_maxZValue = max;
-        emit qptr()->maxZValueChanged(m_maxZValue);
+        emit q->maxZValueChanged(m_maxZValue);
         if (minChanged)
-            emit qptr()->minZValueChanged(m_minZValue);
+            emit q->minZValueChanged(m_minZValue);
 
         if (!m_resolveTimer.isActive())
             m_resolveTimer.start(0);
@@ -571,6 +591,7 @@ void QHeightMapSurfaceDataProxyPrivate::setMaxZValue(float max)
 
 void QHeightMapSurfaceDataProxyPrivate::setMinYValue(float min)
 {
+    Q_Q(QHeightMapSurfaceDataProxy);
     if (m_minYValue != min) {
         bool maxChanged = false;
         if (min >= m_maxYValue) {
@@ -582,9 +603,9 @@ void QHeightMapSurfaceDataProxyPrivate::setMinYValue(float min)
             maxChanged = true;
         }
         m_minYValue = min;
-        emit qptr()->minYValueChanged(m_minYValue);
+        emit q->minYValueChanged(m_minYValue);
         if (maxChanged)
-            emit qptr()->maxYValueChanged(m_maxYValue);
+            emit q->maxYValueChanged(m_maxYValue);
 
         if (!m_resolveTimer.isActive())
             m_resolveTimer.start(0);
@@ -593,6 +614,7 @@ void QHeightMapSurfaceDataProxyPrivate::setMinYValue(float min)
 
 void QHeightMapSurfaceDataProxyPrivate::setMaxYValue(float max)
 {
+    Q_Q(QHeightMapSurfaceDataProxy);
     if (m_maxYValue != max) {
         bool minChanged = false;
         if (max <= m_minYValue) {
@@ -604,9 +626,9 @@ void QHeightMapSurfaceDataProxyPrivate::setMaxYValue(float max)
             minChanged = true;
         }
         m_maxYValue = max;
-        emit qptr()->maxYValueChanged(m_maxYValue);
+        emit q->maxYValueChanged(m_maxYValue);
         if (minChanged)
-            emit qptr()->minYValueChanged(m_minYValue);
+            emit q->minYValueChanged(m_minYValue);
 
         if (!m_resolveTimer.isActive())
             m_resolveTimer.start(0);
@@ -615,9 +637,10 @@ void QHeightMapSurfaceDataProxyPrivate::setMaxYValue(float max)
 
 void QHeightMapSurfaceDataProxyPrivate::setAutoScaleY(bool enabled)
 {
+    Q_Q(QHeightMapSurfaceDataProxy);
     if (enabled != m_autoScaleY) {
         m_autoScaleY = enabled;
-        emit qptr()->autoScaleYChanged(m_autoScaleY);
+        emit q->autoScaleYChanged(m_autoScaleY);
 
         if (!m_resolveTimer.isActive())
             m_resolveTimer.start(0);
@@ -626,6 +649,7 @@ void QHeightMapSurfaceDataProxyPrivate::setAutoScaleY(bool enabled)
 
 void QHeightMapSurfaceDataProxyPrivate::handlePendingResolve()
 {
+    Q_Q(QHeightMapSurfaceDataProxy);
     QImage heightImage = m_heightMap;
     int bytesInChannel = 1;
     float yMul = 1.0f / UINT8_MAX;
@@ -656,7 +680,7 @@ void QHeightMapSurfaceDataProxyPrivate::handlePendingResolve()
 
     // Do not recreate array if dimensions have not changed
     QSurfaceDataArray *dataArray = m_dataArray;
-    if (imageWidth != qptr()->columnCount() || imageHeight != dataArray->size()) {
+    if (imageWidth != q->columnCount() || imageHeight != dataArray->size()) {
         dataArray = new QSurfaceDataArray;
         dataArray->reserve(imageHeight);
         for (int i = 0; i < imageHeight; i++) {
@@ -738,8 +762,8 @@ void QHeightMapSurfaceDataProxyPrivate::handlePendingResolve()
         }
     }
 
-    qptr()->resetArray(dataArray);
-    emit qptr()->heightMapChanged(m_heightMap);
+    q->resetArray(dataArray);
+    emit q->heightMapChanged(m_heightMap);
 }
 
 QT_END_NAMESPACE

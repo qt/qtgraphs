@@ -16,6 +16,7 @@ class QItemModelScatterDataProxyPrivate;
 class Q_GRAPHS_EXPORT QItemModelScatterDataProxy : public QScatterDataProxy
 {
     Q_OBJECT
+    Q_DECLARE_PRIVATE(QItemModelScatterDataProxy)
     Q_PROPERTY(QAbstractItemModel* itemModel READ itemModel WRITE setItemModel NOTIFY itemModelChanged)
     Q_PROPERTY(QString xPosRole READ xPosRole WRITE setXPosRole NOTIFY xPosRoleChanged)
     Q_PROPERTY(QString yPosRole READ yPosRole WRITE setYPosRole NOTIFY yPosRoleChanged)
@@ -90,14 +91,8 @@ Q_SIGNALS:
     void yPosRoleReplaceChanged(const QString &replace);
     void zPosRoleReplaceChanged(const QString &replace);
 
-protected:
-    QItemModelScatterDataProxyPrivate *dptr();
-    const QItemModelScatterDataProxyPrivate *dptrc() const;
-
 private:
     Q_DISABLE_COPY(QItemModelScatterDataProxy)
-
-    friend class ScatterItemModelHandler;
 };
 
 QT_END_NAMESPACE

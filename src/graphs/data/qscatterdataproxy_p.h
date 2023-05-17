@@ -24,7 +24,8 @@ class QAbstract3DAxis;
 
 class QScatterDataProxyPrivate : public QAbstractDataProxyPrivate
 {
-    Q_OBJECT
+    Q_DECLARE_PUBLIC(QScatterDataProxy)
+
 public:
     QScatterDataProxyPrivate(QScatterDataProxy *q);
     virtual ~QScatterDataProxyPrivate();
@@ -43,10 +44,7 @@ public:
 
     void setSeries(QAbstract3DSeries *series) override;
 private:
-    QScatterDataProxy *qptr();
     QScatterDataArray *m_dataArray;
-
-    friend class QScatterDataProxy;
 };
 
 QT_END_NAMESPACE

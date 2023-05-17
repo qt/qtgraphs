@@ -13,6 +13,7 @@ class QCategory3DAxisPrivate;
 class Q_GRAPHS_EXPORT QCategory3DAxis : public QAbstract3DAxis
 {
     Q_OBJECT
+    Q_DECLARE_PRIVATE(QCategory3DAxis)
     Q_PROPERTY(QStringList labels READ labels WRITE setLabels NOTIFY labelsChanged)
 
 public:
@@ -22,12 +23,11 @@ public:
     void setLabels(const QStringList &labels);
     QStringList labels() const;
 
-protected:
-    QCategory3DAxisPrivate *dptr();
-
 private:
     Q_DISABLE_COPY(QCategory3DAxis)
+
     friend class Bars3DController;
+    friend class Abstract3DController;
 };
 
 QT_END_NAMESPACE

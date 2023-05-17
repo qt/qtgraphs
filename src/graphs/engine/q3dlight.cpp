@@ -40,8 +40,7 @@ QT_BEGIN_NAMESPACE
  * and is then passed to QObject constructor.
  */
 Q3DLight::Q3DLight(QObject *parent) :
-    Q3DObject(parent),
-    d_ptr(new Q3DLightPrivate(this))
+    Q3DObject(new Q3DLightPrivate(this), parent)
 {
 }
 
@@ -61,8 +60,9 @@ Q3DLight::~Q3DLight()
  */
 void Q3DLight::setAutoPosition(bool enabled)
 {
-    if (enabled != d_ptr->m_automaticLight) {
-        d_ptr->m_automaticLight = enabled;
+    Q_D(Q3DLight);
+    if (enabled != d->m_automaticLight) {
+        d->m_automaticLight = enabled;
         setDirty(true);
         emit autoPositionChanged(enabled);
     }
@@ -70,11 +70,12 @@ void Q3DLight::setAutoPosition(bool enabled)
 
 bool Q3DLight::isAutoPosition()
 {
-    return d_ptr->m_automaticLight;
+    const Q_D(Q3DLight);
+    return d->m_automaticLight;
 }
 
 Q3DLightPrivate::Q3DLightPrivate(Q3DLight *q) :
-    q_ptr(q),
+    Q3DObjectPrivate(q),
     m_automaticLight(false)
 {
 }
@@ -85,10 +86,11 @@ Q3DLightPrivate::~Q3DLightPrivate()
 
 void Q3DLightPrivate::sync(Q3DLight &other)
 {
-    if (q_ptr->isDirty()) {
-        other.setPosition(q_ptr->position());
-        other.setAutoPosition(q_ptr->isAutoPosition());
-        q_ptr->setDirty(false);
+    Q_Q(Q3DLight);
+    if (q->isDirty()) {
+        other.setPosition(q->position());
+        other.setAutoPosition(q->isAutoPosition());
+        q->setDirty(false);
     }
 }
 

@@ -14,7 +14,7 @@
 #ifndef QVALUE3DAXISFORMATTER_P_H
 #define QVALUE3DAXISFORMATTER_P_H
 
-#include "graphsglobal_p.h"
+#include "private/qobject_p.h"
 #include "qvalue3daxisformatter.h"
 #include "utils_p.h"
 #include <QtCore/QLocale>
@@ -23,9 +23,9 @@ QT_BEGIN_NAMESPACE
 
 class QValue3DAxis;
 
-class QValue3DAxisFormatterPrivate : public QObject
+class QValue3DAxisFormatterPrivate// : public QObjectPrivate
 {
-    Q_OBJECT
+    Q_DECLARE_PUBLIC(QValue3DAxisFormatter)
 
 public:
     QValue3DAxisFormatterPrivate(QValue3DAxisFormatter *q);
@@ -42,9 +42,6 @@ public:
 
     void setAxis(QValue3DAxis *axis);
     void markDirty(bool labelsChange);
-
-public Q_SLOTS:
-    void markDirtyNoLabelChange();
 
 protected:
     QValue3DAxisFormatter *q_ptr;
@@ -75,8 +72,6 @@ protected:
     int m_formatPrecision;
     char m_formatSpec;
     bool m_cLocaleInUse;
-
-    friend class QValue3DAxisFormatter;
 };
 
 QT_END_NAMESPACE

@@ -14,7 +14,6 @@
 #ifndef QCUSTOM3DITEM_P_H
 #define QCUSTOM3DITEM_P_H
 
-#include "graphsglobal_p.h"
 #include "qcustom3ditem.h"
 
 QT_BEGIN_NAMESPACE
@@ -40,9 +39,10 @@ struct QCustomItemDirtyBitField {
     }
 };
 
-class QCustom3DItemPrivate : public QObject
+class QCustom3DItemPrivate
 {
-    Q_OBJECT
+    Q_DECLARE_PUBLIC(QCustom3DItem)
+
 public:
     QCustom3DItemPrivate(QCustom3DItem *q);
     QCustom3DItemPrivate(QCustom3DItem *q, const QString &meshFile, const QVector3D &position,
@@ -54,7 +54,6 @@ public:
     void resetDirtyBits();
 
 public:
-    QCustom3DItem *q_ptr;
     QImage m_textureImage;
     QString m_textureFile;
     QString m_meshFile;
@@ -71,13 +70,11 @@ public:
 
     QCustomItemDirtyBitField m_dirtyBits;
 
-Q_SIGNALS:
-    void needUpdate();
+protected:
+    QCustom3DItem *q_ptr;
 
 private:
     QCustom3DItemPrivate(QCustom3DItemPrivate *d);
-
-    friend class QCustom3DItem;
 };
 
 QT_END_NAMESPACE

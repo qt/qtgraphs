@@ -314,7 +314,8 @@ QT_BEGIN_NAMESPACE
 QItemModelSurfaceDataProxy::QItemModelSurfaceDataProxy(QObject *parent)
     : QSurfaceDataProxy(new QItemModelSurfaceDataProxyPrivate(this), parent)
 {
-    dptr()->connectItemModelHandler();
+    Q_D(QItemModelSurfaceDataProxy);
+    d->connectItemModelHandler();
 }
 
 /*!
@@ -325,8 +326,9 @@ QItemModelSurfaceDataProxy::QItemModelSurfaceDataProxy(QAbstractItemModel *itemM
                                                        QObject *parent)
     : QSurfaceDataProxy(new QItemModelSurfaceDataProxyPrivate(this), parent)
 {
-    dptr()->m_itemModelHandler->setItemModel(itemModel);
-    dptr()->connectItemModelHandler();
+    Q_D(QItemModelSurfaceDataProxy);
+    d->m_itemModelHandler->setItemModel(itemModel);
+    d->connectItemModelHandler();
 }
 
 /*!
@@ -341,10 +343,11 @@ QItemModelSurfaceDataProxy::QItemModelSurfaceDataProxy(QAbstractItemModel *itemM
                                                        QObject *parent)
     : QSurfaceDataProxy(new QItemModelSurfaceDataProxyPrivate(this), parent)
 {
-    dptr()->m_itemModelHandler->setItemModel(itemModel);
-    dptr()->m_yPosRole = yPosRole;
-    dptr()->m_useModelCategories = true;
-    dptr()->connectItemModelHandler();
+    Q_D(QItemModelSurfaceDataProxy);
+    d->m_itemModelHandler->setItemModel(itemModel);
+    d->m_yPosRole = yPosRole;
+    d->m_useModelCategories = true;
+    d->connectItemModelHandler();
 }
 
 /*!
@@ -360,13 +363,14 @@ QItemModelSurfaceDataProxy::QItemModelSurfaceDataProxy(QAbstractItemModel *itemM
                                                        QObject *parent)
     : QSurfaceDataProxy(new QItemModelSurfaceDataProxyPrivate(this), parent)
 {
-    dptr()->m_itemModelHandler->setItemModel(itemModel);
-    dptr()->m_rowRole = rowRole;
-    dptr()->m_columnRole = columnRole;
-    dptr()->m_xPosRole = columnRole;
-    dptr()->m_yPosRole = yPosRole;
-    dptr()->m_zPosRole = rowRole;
-    dptr()->connectItemModelHandler();
+    Q_D(QItemModelSurfaceDataProxy);
+    d->m_itemModelHandler->setItemModel(itemModel);
+    d->m_rowRole = rowRole;
+    d->m_columnRole = columnRole;
+    d->m_xPosRole = columnRole;
+    d->m_yPosRole = yPosRole;
+    d->m_zPosRole = rowRole;
+    d->connectItemModelHandler();
 }
 
 /*!
@@ -384,13 +388,14 @@ QItemModelSurfaceDataProxy::QItemModelSurfaceDataProxy(QAbstractItemModel *itemM
                                                        QObject *parent)
     : QSurfaceDataProxy(new QItemModelSurfaceDataProxyPrivate(this), parent)
 {
-    dptr()->m_itemModelHandler->setItemModel(itemModel);
-    dptr()->m_rowRole = rowRole;
-    dptr()->m_columnRole = columnRole;
-    dptr()->m_xPosRole = xPosRole;
-    dptr()->m_yPosRole = yPosRole;
-    dptr()->m_zPosRole = zPosRole;
-    dptr()->connectItemModelHandler();
+    Q_D(QItemModelSurfaceDataProxy);
+    d->m_itemModelHandler->setItemModel(itemModel);
+    d->m_rowRole = rowRole;
+    d->m_columnRole = columnRole;
+    d->m_xPosRole = xPosRole;
+    d->m_yPosRole = yPosRole;
+    d->m_zPosRole = zPosRole;
+    d->connectItemModelHandler();
 }
 
 /*!
@@ -410,17 +415,18 @@ QItemModelSurfaceDataProxy::QItemModelSurfaceDataProxy(QAbstractItemModel *itemM
                                                        QObject *parent)
     : QSurfaceDataProxy(new QItemModelSurfaceDataProxyPrivate(this), parent)
 {
-    dptr()->m_itemModelHandler->setItemModel(itemModel);
-    dptr()->m_rowRole = rowRole;
-    dptr()->m_columnRole = columnRole;
-    dptr()->m_xPosRole = columnRole;
-    dptr()->m_yPosRole = yPosRole;
-    dptr()->m_zPosRole = rowRole;
-    dptr()->m_rowCategories = rowCategories;
-    dptr()->m_columnCategories = columnCategories;
-    dptr()->m_autoRowCategories = false;
-    dptr()->m_autoColumnCategories = false;
-    dptr()->connectItemModelHandler();
+    Q_D(QItemModelSurfaceDataProxy);
+    d->m_itemModelHandler->setItemModel(itemModel);
+    d->m_rowRole = rowRole;
+    d->m_columnRole = columnRole;
+    d->m_xPosRole = columnRole;
+    d->m_yPosRole = yPosRole;
+    d->m_zPosRole = rowRole;
+    d->m_rowCategories = rowCategories;
+    d->m_columnCategories = columnCategories;
+    d->m_autoRowCategories = false;
+    d->m_autoColumnCategories = false;
+    d->connectItemModelHandler();
 }
 
 /*!
@@ -442,17 +448,18 @@ QItemModelSurfaceDataProxy::QItemModelSurfaceDataProxy(QAbstractItemModel *itemM
                                                        QObject *parent)
     : QSurfaceDataProxy(new QItemModelSurfaceDataProxyPrivate(this), parent)
 {
-    dptr()->m_itemModelHandler->setItemModel(itemModel);
-    dptr()->m_rowRole = rowRole;
-    dptr()->m_columnRole = columnRole;
-    dptr()->m_xPosRole = xPosRole;
-    dptr()->m_yPosRole = yPosRole;
-    dptr()->m_zPosRole = zPosRole;
-    dptr()->m_rowCategories = rowCategories;
-    dptr()->m_columnCategories = columnCategories;
-    dptr()->m_autoRowCategories = false;
-    dptr()->m_autoColumnCategories = false;
-    dptr()->connectItemModelHandler();
+    Q_D(QItemModelSurfaceDataProxy);
+    d->m_itemModelHandler->setItemModel(itemModel);
+    d->m_rowRole = rowRole;
+    d->m_columnRole = columnRole;
+    d->m_xPosRole = xPosRole;
+    d->m_yPosRole = yPosRole;
+    d->m_zPosRole = zPosRole;
+    d->m_rowCategories = rowCategories;
+    d->m_columnCategories = columnCategories;
+    d->m_autoRowCategories = false;
+    d->m_autoColumnCategories = false;
+    d->connectItemModelHandler();
 }
 
 /*!
@@ -474,12 +481,14 @@ QItemModelSurfaceDataProxy::~QItemModelSurfaceDataProxy()
  */
 void QItemModelSurfaceDataProxy::setItemModel(QAbstractItemModel *itemModel)
 {
-    dptr()->m_itemModelHandler->setItemModel(itemModel);
+    Q_D(QItemModelSurfaceDataProxy);
+    d->m_itemModelHandler->setItemModel(itemModel);
 }
 
 QAbstractItemModel *QItemModelSurfaceDataProxy::itemModel() const
 {
-    return dptrc()->m_itemModelHandler->itemModel();
+    const Q_D(QItemModelSurfaceDataProxy);
+    return d->m_itemModelHandler->itemModel();
 }
 
 /*!
@@ -493,15 +502,17 @@ QAbstractItemModel *QItemModelSurfaceDataProxy::itemModel() const
  */
 void QItemModelSurfaceDataProxy::setRowRole(const QString &role)
 {
-    if (dptr()->m_rowRole != role) {
-        dptr()->m_rowRole = role;
+    Q_D(QItemModelSurfaceDataProxy);
+    if (d->m_rowRole != role) {
+        d->m_rowRole = role;
         emit rowRoleChanged(role);
     }
 }
 
 QString QItemModelSurfaceDataProxy::rowRole() const
 {
-    return dptrc()->m_rowRole;
+    const Q_D(QItemModelSurfaceDataProxy);
+    return d->m_rowRole;
 }
 
 /*!
@@ -515,15 +526,17 @@ QString QItemModelSurfaceDataProxy::rowRole() const
  */
 void QItemModelSurfaceDataProxy::setColumnRole(const QString &role)
 {
-    if (dptr()->m_columnRole != role) {
-        dptr()->m_columnRole = role;
+    Q_D(QItemModelSurfaceDataProxy);
+    if (d->m_columnRole != role) {
+        d->m_columnRole = role;
         emit columnRoleChanged(role);
     }
 }
 
 QString QItemModelSurfaceDataProxy::columnRole() const
 {
-    return dptrc()->m_columnRole;
+    const Q_D(QItemModelSurfaceDataProxy);
+    return d->m_columnRole;
 }
 
 /*!
@@ -536,15 +549,17 @@ QString QItemModelSurfaceDataProxy::columnRole() const
  */
 void QItemModelSurfaceDataProxy::setXPosRole(const QString &role)
 {
-    if (dptr()->m_xPosRole != role) {
-        dptr()->m_xPosRole = role;
+    Q_D(QItemModelSurfaceDataProxy);
+    if (d->m_xPosRole != role) {
+        d->m_xPosRole = role;
         emit xPosRoleChanged(role);
     }
 }
 
 QString QItemModelSurfaceDataProxy::xPosRole() const
 {
-    return dptrc()->m_xPosRole;
+    const Q_D(QItemModelSurfaceDataProxy);
+    return d->m_xPosRole;
 }
 
 /*!
@@ -554,15 +569,17 @@ QString QItemModelSurfaceDataProxy::xPosRole() const
  */
 void QItemModelSurfaceDataProxy::setYPosRole(const QString &role)
 {
-    if (dptr()->m_yPosRole != role) {
-        dptr()->m_yPosRole = role;
+    Q_D(QItemModelSurfaceDataProxy);
+    if (d->m_yPosRole != role) {
+        d->m_yPosRole = role;
         emit yPosRoleChanged(role);
     }
 }
 
 QString QItemModelSurfaceDataProxy::yPosRole() const
 {
-    return dptrc()->m_yPosRole;
+    const Q_D(QItemModelSurfaceDataProxy);
+    return d->m_yPosRole;
 }
 
 /*!
@@ -575,15 +592,17 @@ QString QItemModelSurfaceDataProxy::yPosRole() const
  */
 void QItemModelSurfaceDataProxy::setZPosRole(const QString &role)
 {
-    if (dptr()->m_zPosRole != role) {
-        dptr()->m_zPosRole = role;
+    Q_D(QItemModelSurfaceDataProxy);
+    if (d->m_zPosRole != role) {
+        d->m_zPosRole = role;
         emit zPosRoleChanged(role);
     }
 }
 
 QString QItemModelSurfaceDataProxy::zPosRole() const
 {
-    return dptrc()->m_zPosRole;
+    const Q_D(QItemModelSurfaceDataProxy);
+    return d->m_zPosRole;
 }
 
 /*!
@@ -593,15 +612,17 @@ QString QItemModelSurfaceDataProxy::zPosRole() const
  */
 void QItemModelSurfaceDataProxy::setRowCategories(const QStringList &categories)
 {
-    if (dptr()->m_rowCategories != categories) {
-        dptr()->m_rowCategories = categories;
+    Q_D(QItemModelSurfaceDataProxy);
+    if (d->m_rowCategories != categories) {
+        d->m_rowCategories = categories;
         emit rowCategoriesChanged();
     }
 }
 
 QStringList QItemModelSurfaceDataProxy::rowCategories() const
 {
-    return dptrc()->m_rowCategories;
+    const Q_D(QItemModelSurfaceDataProxy);
+    return d->m_rowCategories;
 }
 
 /*!
@@ -611,15 +632,17 @@ QStringList QItemModelSurfaceDataProxy::rowCategories() const
  */
 void QItemModelSurfaceDataProxy::setColumnCategories(const QStringList &categories)
 {
-    if (dptr()->m_columnCategories != categories) {
-        dptr()->m_columnCategories = categories;
+    Q_D(QItemModelSurfaceDataProxy);
+    if (d->m_columnCategories != categories) {
+        d->m_columnCategories = categories;
         emit columnCategoriesChanged();
     }
 }
 
 QStringList QItemModelSurfaceDataProxy::columnCategories() const
 {
-    return dptrc()->m_columnCategories;
+    const Q_D(QItemModelSurfaceDataProxy);
+    return d->m_columnCategories;
 }
 
 /*!
@@ -632,15 +655,17 @@ QStringList QItemModelSurfaceDataProxy::columnCategories() const
  */
 void QItemModelSurfaceDataProxy::setUseModelCategories(bool enable)
 {
-    if (dptr()->m_useModelCategories != enable) {
-        dptr()->m_useModelCategories = enable;
+    Q_D(QItemModelSurfaceDataProxy);
+    if (d->m_useModelCategories != enable) {
+        d->m_useModelCategories = enable;
         emit useModelCategoriesChanged(enable);
     }
 }
 
 bool QItemModelSurfaceDataProxy::useModelCategories() const
 {
-    return dptrc()->m_useModelCategories;
+    const Q_D(QItemModelSurfaceDataProxy);
+    return d->m_useModelCategories;
 }
 
 /*!
@@ -654,15 +679,17 @@ bool QItemModelSurfaceDataProxy::useModelCategories() const
  */
 void QItemModelSurfaceDataProxy::setAutoRowCategories(bool enable)
 {
-    if (dptr()->m_autoRowCategories != enable) {
-        dptr()->m_autoRowCategories = enable;
+    Q_D(QItemModelSurfaceDataProxy);
+    if (d->m_autoRowCategories != enable) {
+        d->m_autoRowCategories = enable;
         emit autoRowCategoriesChanged(enable);
     }
 }
 
 bool QItemModelSurfaceDataProxy::autoRowCategories() const
 {
-    return dptrc()->m_autoRowCategories;
+    const Q_D(QItemModelSurfaceDataProxy);
+    return d->m_autoRowCategories;
 }
 
 /*!
@@ -676,15 +703,17 @@ bool QItemModelSurfaceDataProxy::autoRowCategories() const
  */
 void QItemModelSurfaceDataProxy::setAutoColumnCategories(bool enable)
 {
-    if (dptr()->m_autoColumnCategories != enable) {
-        dptr()->m_autoColumnCategories = enable;
+    Q_D(QItemModelSurfaceDataProxy);
+    if (d->m_autoColumnCategories != enable) {
+        d->m_autoColumnCategories = enable;
         emit autoColumnCategoriesChanged(enable);
     }
 }
 
 bool QItemModelSurfaceDataProxy::autoColumnCategories() const
 {
-    return dptrc()->m_autoColumnCategories;
+    const Q_D(QItemModelSurfaceDataProxy);
+    return d->m_autoColumnCategories;
 }
 
 /*!
@@ -716,7 +745,8 @@ void QItemModelSurfaceDataProxy::remap(const QString &rowRole,
  */
 int QItemModelSurfaceDataProxy::rowCategoryIndex(const QString &category)
 {
-    return dptr()->m_rowCategories.indexOf(category);
+    Q_D(QItemModelSurfaceDataProxy);
+    return d->m_rowCategories.indexOf(category);
 }
 
 /*!
@@ -727,7 +757,8 @@ int QItemModelSurfaceDataProxy::rowCategoryIndex(const QString &category)
  */
 int QItemModelSurfaceDataProxy::columnCategoryIndex(const QString &category)
 {
-    return dptr()->m_columnCategories.indexOf(category);
+    Q_D(QItemModelSurfaceDataProxy);
+    return d->m_columnCategories.indexOf(category);
 }
 
 /*!
@@ -744,15 +775,17 @@ int QItemModelSurfaceDataProxy::columnCategoryIndex(const QString &category)
  */
 void QItemModelSurfaceDataProxy::setRowRolePattern(const QRegularExpression &pattern)
 {
-    if (dptr()->m_rowRolePattern != pattern) {
-        dptr()->m_rowRolePattern = pattern;
+    Q_D(QItemModelSurfaceDataProxy);
+    if (d->m_rowRolePattern != pattern) {
+        d->m_rowRolePattern = pattern;
         emit rowRolePatternChanged(pattern);
     }
 }
 
 QRegularExpression QItemModelSurfaceDataProxy::rowRolePattern() const
 {
-    return dptrc()->m_rowRolePattern;
+    const Q_D(QItemModelSurfaceDataProxy);
+    return d->m_rowRolePattern;
 }
 
 /*!
@@ -769,15 +802,17 @@ QRegularExpression QItemModelSurfaceDataProxy::rowRolePattern() const
  */
 void QItemModelSurfaceDataProxy::setColumnRolePattern(const QRegularExpression &pattern)
 {
-    if (dptr()->m_columnRolePattern != pattern) {
-        dptr()->m_columnRolePattern = pattern;
+    Q_D(QItemModelSurfaceDataProxy);
+    if (d->m_columnRolePattern != pattern) {
+        d->m_columnRolePattern = pattern;
         emit columnRolePatternChanged(pattern);
     }
 }
 
 QRegularExpression QItemModelSurfaceDataProxy::columnRolePattern() const
 {
-    return dptrc()->m_columnRolePattern;
+    const Q_D(QItemModelSurfaceDataProxy);
+    return d->m_columnRolePattern;
 }
 
 /*!
@@ -794,15 +829,17 @@ QRegularExpression QItemModelSurfaceDataProxy::columnRolePattern() const
  */
 void QItemModelSurfaceDataProxy::setXPosRolePattern(const QRegularExpression &pattern)
 {
-    if (dptr()->m_xPosRolePattern != pattern) {
-        dptr()->m_xPosRolePattern = pattern;
+    Q_D(QItemModelSurfaceDataProxy);
+    if (d->m_xPosRolePattern != pattern) {
+        d->m_xPosRolePattern = pattern;
         emit xPosRolePatternChanged(pattern);
     }
 }
 
 QRegularExpression QItemModelSurfaceDataProxy::xPosRolePattern() const
 {
-    return dptrc()->m_xPosRolePattern;
+    const Q_D(QItemModelSurfaceDataProxy);
+    return d->m_xPosRolePattern;
 }
 
 /*!
@@ -819,15 +856,17 @@ QRegularExpression QItemModelSurfaceDataProxy::xPosRolePattern() const
  */
 void QItemModelSurfaceDataProxy::setYPosRolePattern(const QRegularExpression &pattern)
 {
-    if (dptr()->m_yPosRolePattern != pattern) {
-        dptr()->m_yPosRolePattern = pattern;
+    Q_D(QItemModelSurfaceDataProxy);
+    if (d->m_yPosRolePattern != pattern) {
+        d->m_yPosRolePattern = pattern;
         emit yPosRolePatternChanged(pattern);
     }
 }
 
 QRegularExpression QItemModelSurfaceDataProxy::yPosRolePattern() const
 {
-    return dptrc()->m_yPosRolePattern;
+    const Q_D(QItemModelSurfaceDataProxy);
+    return d->m_yPosRolePattern;
 }
 
 /*!
@@ -844,15 +883,17 @@ QRegularExpression QItemModelSurfaceDataProxy::yPosRolePattern() const
  */
 void QItemModelSurfaceDataProxy::setZPosRolePattern(const QRegularExpression &pattern)
 {
-    if (dptr()->m_zPosRolePattern != pattern) {
-        dptr()->m_zPosRolePattern = pattern;
+    Q_D(QItemModelSurfaceDataProxy);
+    if (d->m_zPosRolePattern != pattern) {
+        d->m_zPosRolePattern = pattern;
         emit zPosRolePatternChanged(pattern);
     }
 }
 
 QRegularExpression QItemModelSurfaceDataProxy::zPosRolePattern() const
 {
-    return dptrc()->m_zPosRolePattern;
+    const Q_D(QItemModelSurfaceDataProxy);
+    return d->m_zPosRolePattern;
 }
 
 /*!
@@ -869,15 +910,17 @@ QRegularExpression QItemModelSurfaceDataProxy::zPosRolePattern() const
  */
 void QItemModelSurfaceDataProxy::setRowRoleReplace(const QString &replace)
 {
-    if (dptr()->m_rowRoleReplace != replace) {
-        dptr()->m_rowRoleReplace = replace;
+    Q_D(QItemModelSurfaceDataProxy);
+    if (d->m_rowRoleReplace != replace) {
+        d->m_rowRoleReplace = replace;
         emit rowRoleReplaceChanged(replace);
     }
 }
 
 QString QItemModelSurfaceDataProxy::rowRoleReplace() const
 {
-    return dptrc()->m_rowRoleReplace;
+    const Q_D(QItemModelSurfaceDataProxy);
+    return d->m_rowRoleReplace;
 }
 
 /*!
@@ -895,15 +938,17 @@ QString QItemModelSurfaceDataProxy::rowRoleReplace() const
  */
 void QItemModelSurfaceDataProxy::setColumnRoleReplace(const QString &replace)
 {
-    if (dptr()->m_columnRoleReplace != replace) {
-        dptr()->m_columnRoleReplace = replace;
+    Q_D(QItemModelSurfaceDataProxy);
+    if (d->m_columnRoleReplace != replace) {
+        d->m_columnRoleReplace = replace;
         emit columnRoleReplaceChanged(replace);
     }
 }
 
 QString QItemModelSurfaceDataProxy::columnRoleReplace() const
 {
-    return dptrc()->m_columnRoleReplace;
+    const Q_D(QItemModelSurfaceDataProxy);
+    return d->m_columnRoleReplace;
 }
 
 /*!
@@ -921,15 +966,17 @@ QString QItemModelSurfaceDataProxy::columnRoleReplace() const
  */
 void QItemModelSurfaceDataProxy::setXPosRoleReplace(const QString &replace)
 {
-    if (dptr()->m_xPosRoleReplace != replace) {
-        dptr()->m_xPosRoleReplace = replace;
+    Q_D(QItemModelSurfaceDataProxy);
+    if (d->m_xPosRoleReplace != replace) {
+        d->m_xPosRoleReplace = replace;
         emit xPosRoleReplaceChanged(replace);
     }
 }
 
 QString QItemModelSurfaceDataProxy::xPosRoleReplace() const
 {
-    return dptrc()->m_xPosRoleReplace;
+    const Q_D(QItemModelSurfaceDataProxy);
+    return d->m_xPosRoleReplace;
 }
 
 /*!
@@ -947,15 +994,17 @@ QString QItemModelSurfaceDataProxy::xPosRoleReplace() const
  */
 void QItemModelSurfaceDataProxy::setYPosRoleReplace(const QString &replace)
 {
-    if (dptr()->m_yPosRoleReplace != replace) {
-        dptr()->m_yPosRoleReplace = replace;
+    Q_D(QItemModelSurfaceDataProxy);
+    if (d->m_yPosRoleReplace != replace) {
+        d->m_yPosRoleReplace = replace;
         emit yPosRoleReplaceChanged(replace);
     }
 }
 
 QString QItemModelSurfaceDataProxy::yPosRoleReplace() const
 {
-    return dptrc()->m_yPosRoleReplace;
+    const Q_D(QItemModelSurfaceDataProxy);
+    return d->m_yPosRoleReplace;
 }
 
 /*!
@@ -973,15 +1022,17 @@ QString QItemModelSurfaceDataProxy::yPosRoleReplace() const
  */
 void QItemModelSurfaceDataProxy::setZPosRoleReplace(const QString &replace)
 {
-    if (dptr()->m_zPosRoleReplace != replace) {
-        dptr()->m_zPosRoleReplace = replace;
+    Q_D(QItemModelSurfaceDataProxy);
+    if (d->m_zPosRoleReplace != replace) {
+        d->m_zPosRoleReplace = replace;
         emit zPosRoleReplaceChanged(replace);
     }
 }
 
 QString QItemModelSurfaceDataProxy::zPosRoleReplace() const
 {
-    return dptrc()->m_zPosRoleReplace;
+    const Q_D(QItemModelSurfaceDataProxy);
+    return d->m_zPosRoleReplace;
 }
 
 /*!
@@ -999,31 +1050,17 @@ QString QItemModelSurfaceDataProxy::zPosRoleReplace() const
 
 void QItemModelSurfaceDataProxy::setMultiMatchBehavior(QItemModelSurfaceDataProxy::MultiMatchBehavior behavior)
 {
-    if (dptr()->m_multiMatchBehavior != behavior) {
-        dptr()->m_multiMatchBehavior = behavior;
+    Q_D(QItemModelSurfaceDataProxy);
+    if (d->m_multiMatchBehavior != behavior) {
+        d->m_multiMatchBehavior = behavior;
         emit multiMatchBehaviorChanged(behavior);
     }
 }
 
 QItemModelSurfaceDataProxy::MultiMatchBehavior QItemModelSurfaceDataProxy::multiMatchBehavior() const
 {
-    return dptrc()->m_multiMatchBehavior;
-}
-
-/*!
- * \internal
- */
-QItemModelSurfaceDataProxyPrivate *QItemModelSurfaceDataProxy::dptr()
-{
-    return static_cast<QItemModelSurfaceDataProxyPrivate *>(d_ptr.data());
-}
-
-/*!
- * \internal
- */
-const QItemModelSurfaceDataProxyPrivate *QItemModelSurfaceDataProxy::dptrc() const
-{
-    return static_cast<const QItemModelSurfaceDataProxyPrivate *>(d_ptr.data());
+    const Q_D(QItemModelSurfaceDataProxy);
+    return d->m_multiMatchBehavior;
 }
 
 // QItemModelSurfaceDataProxyPrivate
@@ -1043,56 +1080,52 @@ QItemModelSurfaceDataProxyPrivate::~QItemModelSurfaceDataProxyPrivate()
     delete m_itemModelHandler;
 }
 
-QItemModelSurfaceDataProxy *QItemModelSurfaceDataProxyPrivate::qptr()
-{
-    return static_cast<QItemModelSurfaceDataProxy *>(q_ptr);
-}
-
 void QItemModelSurfaceDataProxyPrivate::connectItemModelHandler()
 {
+    Q_Q(QItemModelSurfaceDataProxy);
     QObject::connect(m_itemModelHandler, &SurfaceItemModelHandler::itemModelChanged,
-                     qptr(), &QItemModelSurfaceDataProxy::itemModelChanged);
-    QObject::connect(qptr(), &QItemModelSurfaceDataProxy::rowRoleChanged,
+                     q, &QItemModelSurfaceDataProxy::itemModelChanged);
+    QObject::connect(q, &QItemModelSurfaceDataProxy::rowRoleChanged,
                      m_itemModelHandler, &AbstractItemModelHandler::handleMappingChanged);
-    QObject::connect(qptr(), &QItemModelSurfaceDataProxy::columnRoleChanged,
+    QObject::connect(q, &QItemModelSurfaceDataProxy::columnRoleChanged,
                      m_itemModelHandler, &AbstractItemModelHandler::handleMappingChanged);
-    QObject::connect(qptr(), &QItemModelSurfaceDataProxy::xPosRoleChanged,
+    QObject::connect(q, &QItemModelSurfaceDataProxy::xPosRoleChanged,
                      m_itemModelHandler, &AbstractItemModelHandler::handleMappingChanged);
-    QObject::connect(qptr(), &QItemModelSurfaceDataProxy::yPosRoleChanged,
+    QObject::connect(q, &QItemModelSurfaceDataProxy::yPosRoleChanged,
                      m_itemModelHandler, &AbstractItemModelHandler::handleMappingChanged);
-    QObject::connect(qptr(), &QItemModelSurfaceDataProxy::zPosRoleChanged,
+    QObject::connect(q, &QItemModelSurfaceDataProxy::zPosRoleChanged,
                      m_itemModelHandler, &AbstractItemModelHandler::handleMappingChanged);
-    QObject::connect(qptr(), &QItemModelSurfaceDataProxy::rowCategoriesChanged,
+    QObject::connect(q, &QItemModelSurfaceDataProxy::rowCategoriesChanged,
                      m_itemModelHandler, &AbstractItemModelHandler::handleMappingChanged);
-    QObject::connect(qptr(), &QItemModelSurfaceDataProxy::columnCategoriesChanged,
+    QObject::connect(q, &QItemModelSurfaceDataProxy::columnCategoriesChanged,
                      m_itemModelHandler, &AbstractItemModelHandler::handleMappingChanged);
-    QObject::connect(qptr(), &QItemModelSurfaceDataProxy::useModelCategoriesChanged,
+    QObject::connect(q, &QItemModelSurfaceDataProxy::useModelCategoriesChanged,
                      m_itemModelHandler, &AbstractItemModelHandler::handleMappingChanged);
-    QObject::connect(qptr(), &QItemModelSurfaceDataProxy::autoRowCategoriesChanged,
+    QObject::connect(q, &QItemModelSurfaceDataProxy::autoRowCategoriesChanged,
                      m_itemModelHandler, &AbstractItemModelHandler::handleMappingChanged);
-    QObject::connect(qptr(), &QItemModelSurfaceDataProxy::autoColumnCategoriesChanged,
+    QObject::connect(q, &QItemModelSurfaceDataProxy::autoColumnCategoriesChanged,
                      m_itemModelHandler, &AbstractItemModelHandler::handleMappingChanged);
-    QObject::connect(qptr(), &QItemModelSurfaceDataProxy::rowRolePatternChanged,
+    QObject::connect(q, &QItemModelSurfaceDataProxy::rowRolePatternChanged,
                      m_itemModelHandler, &AbstractItemModelHandler::handleMappingChanged);
-    QObject::connect(qptr(), &QItemModelSurfaceDataProxy::columnRolePatternChanged,
+    QObject::connect(q, &QItemModelSurfaceDataProxy::columnRolePatternChanged,
                      m_itemModelHandler, &AbstractItemModelHandler::handleMappingChanged);
-    QObject::connect(qptr(), &QItemModelSurfaceDataProxy::xPosRolePatternChanged,
+    QObject::connect(q, &QItemModelSurfaceDataProxy::xPosRolePatternChanged,
                      m_itemModelHandler, &AbstractItemModelHandler::handleMappingChanged);
-    QObject::connect(qptr(), &QItemModelSurfaceDataProxy::yPosRolePatternChanged,
+    QObject::connect(q, &QItemModelSurfaceDataProxy::yPosRolePatternChanged,
                      m_itemModelHandler, &AbstractItemModelHandler::handleMappingChanged);
-    QObject::connect(qptr(), &QItemModelSurfaceDataProxy::zPosRolePatternChanged,
+    QObject::connect(q, &QItemModelSurfaceDataProxy::zPosRolePatternChanged,
                      m_itemModelHandler, &AbstractItemModelHandler::handleMappingChanged);
-    QObject::connect(qptr(), &QItemModelSurfaceDataProxy::rowRoleReplaceChanged,
+    QObject::connect(q, &QItemModelSurfaceDataProxy::rowRoleReplaceChanged,
                      m_itemModelHandler, &AbstractItemModelHandler::handleMappingChanged);
-    QObject::connect(qptr(), &QItemModelSurfaceDataProxy::columnRoleReplaceChanged,
+    QObject::connect(q, &QItemModelSurfaceDataProxy::columnRoleReplaceChanged,
                      m_itemModelHandler, &AbstractItemModelHandler::handleMappingChanged);
-    QObject::connect(qptr(), &QItemModelSurfaceDataProxy::xPosRoleReplaceChanged,
+    QObject::connect(q, &QItemModelSurfaceDataProxy::xPosRoleReplaceChanged,
                      m_itemModelHandler, &AbstractItemModelHandler::handleMappingChanged);
-    QObject::connect(qptr(), &QItemModelSurfaceDataProxy::yPosRoleReplaceChanged,
+    QObject::connect(q, &QItemModelSurfaceDataProxy::yPosRoleReplaceChanged,
                      m_itemModelHandler, &AbstractItemModelHandler::handleMappingChanged);
-    QObject::connect(qptr(), &QItemModelSurfaceDataProxy::zPosRoleReplaceChanged,
+    QObject::connect(q, &QItemModelSurfaceDataProxy::zPosRoleReplaceChanged,
                      m_itemModelHandler, &AbstractItemModelHandler::handleMappingChanged);
-    QObject::connect(qptr(), &QItemModelSurfaceDataProxy::multiMatchBehaviorChanged,
+    QObject::connect(q, &QItemModelSurfaceDataProxy::multiMatchBehaviorChanged,
                      m_itemModelHandler, &AbstractItemModelHandler::handleMappingChanged);
 }
 

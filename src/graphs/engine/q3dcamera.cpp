@@ -168,8 +168,7 @@ QT_BEGIN_NAMESPACE
  * to QObject constructor.
  */
 Q3DCamera::Q3DCamera(QObject *parent) :
-    Q3DObject(parent),
-    d_ptr(new Q3DCameraPrivate(this))
+    Q3DObject(new Q3DCameraPrivate(this), parent)
 {
 }
 
@@ -186,27 +185,28 @@ Q3DCamera::~Q3DCamera()
  */
 void Q3DCamera::copyValuesFrom(const Q3DObject &source)
 {
+    Q_D(Q3DCamera);
     // Note: Do not copy values from parent, as we are handling the position internally
 
     const Q3DCamera &sourceCamera = static_cast<const Q3DCamera &>(source);
 
-    d_ptr->m_requestedTarget = sourceCamera.d_ptr->m_requestedTarget;
+    d->m_requestedTarget = sourceCamera.d_func()->m_requestedTarget;
 
-    d_ptr->m_xRotation = sourceCamera.d_ptr->m_xRotation;
-    d_ptr->m_yRotation = sourceCamera.d_ptr->m_yRotation;
+    d->m_xRotation = sourceCamera.d_func()->m_xRotation;
+    d->m_yRotation = sourceCamera.d_func()->m_yRotation;
 
-    d_ptr->m_minXRotation = sourceCamera.d_ptr->m_minXRotation;
-    d_ptr->m_minYRotation = sourceCamera.d_ptr->m_minYRotation;
-    d_ptr->m_maxXRotation = sourceCamera.d_ptr->m_maxXRotation;
-    d_ptr->m_maxYRotation = sourceCamera.d_ptr->m_maxYRotation;
+    d->m_minXRotation = sourceCamera.d_func()->m_minXRotation;
+    d->m_minYRotation = sourceCamera.d_func()->m_minYRotation;
+    d->m_maxXRotation = sourceCamera.d_func()->m_maxXRotation;
+    d->m_maxYRotation = sourceCamera.d_func()->m_maxYRotation;
 
-    d_ptr->m_wrapXRotation = sourceCamera.d_ptr->m_wrapXRotation;
-    d_ptr->m_wrapYRotation = sourceCamera.d_ptr->m_wrapYRotation;
+    d->m_wrapXRotation = sourceCamera.d_func()->m_wrapXRotation;
+    d->m_wrapYRotation = sourceCamera.d_func()->m_wrapYRotation;
 
-    d_ptr->m_zoomLevel = sourceCamera.d_ptr->m_zoomLevel;
-    d_ptr->m_minZoomLevel = sourceCamera.d_ptr->m_minZoomLevel;
-    d_ptr->m_maxZoomLevel = sourceCamera.d_ptr->m_maxZoomLevel;
-    d_ptr->m_activePreset = sourceCamera.d_ptr->m_activePreset;
+    d->m_zoomLevel = sourceCamera.d_func()->m_zoomLevel;
+    d->m_minZoomLevel = sourceCamera.d_func()->m_minZoomLevel;
+    d->m_maxZoomLevel = sourceCamera.d_func()->m_maxZoomLevel;
+    d->m_activePreset = sourceCamera.d_func()->m_activePreset;
 }
 
 /*!
@@ -214,27 +214,30 @@ void Q3DCamera::copyValuesFrom(const Q3DObject &source)
  *
  * \brief The X-rotation angle of the camera around the target point in degrees.
  */
-float Q3DCamera::xRotation() const {
-    return d_ptr->m_xRotation;
+float Q3DCamera::xRotation() const
+{
+    const Q_D(Q3DCamera);
+    return d->m_xRotation;
 }
 
 void Q3DCamera::setXRotation(float rotation)
 {
-    if (d_ptr->m_wrapXRotation) {
-        rotation = Utils::wrapValue(rotation, d_ptr->m_minXRotation, d_ptr->m_maxXRotation);
+    Q_D(Q3DCamera);
+    if (d->m_wrapXRotation) {
+        rotation = Utils::wrapValue(rotation, d->m_minXRotation, d->m_maxXRotation);
     } else {
-        rotation = qBound(float(d_ptr->m_minXRotation), float(rotation),
-                          float(d_ptr->m_maxXRotation));
+        rotation = qBound(float(d->m_minXRotation), float(rotation),
+                          float(d->m_maxXRotation));
     }
 
-    if (d_ptr->m_xRotation != rotation) {
-        d_ptr->setXRotation(rotation);
-        if (d_ptr->m_activePreset != CameraPresetNone) {
-            d_ptr->m_activePreset = CameraPresetNone;
+    if (d->m_xRotation != rotation) {
+        d->setXRotation(rotation);
+        if (d->m_activePreset != CameraPresetNone) {
+            d->m_activePreset = CameraPresetNone;
             setDirty(true);
         }
 
-        emit xRotationChanged(d_ptr->m_xRotation);
+        emit xRotationChanged(d->m_xRotation);
     }
 }
 
@@ -243,27 +246,30 @@ void Q3DCamera::setXRotation(float rotation)
  *
  * \brief The Y-rotation angle of the camera around the target point in degrees.
  */
-float Q3DCamera::yRotation() const {
-    return d_ptr->m_yRotation;
+float Q3DCamera::yRotation() const
+{
+    const Q_D(Q3DCamera);
+    return d->m_yRotation;
 }
 
 void Q3DCamera::setYRotation(float rotation)
 {
-    if (d_ptr->m_wrapYRotation) {
-        rotation = Utils::wrapValue(rotation, d_ptr->m_minYRotation, d_ptr->m_maxYRotation);
+    Q_D(Q3DCamera);
+    if (d->m_wrapYRotation) {
+        rotation = Utils::wrapValue(rotation, d->m_minYRotation, d->m_maxYRotation);
     } else {
-        rotation = qBound(float(d_ptr->m_minYRotation), float(rotation),
-                          float(d_ptr->m_maxYRotation));
+        rotation = qBound(float(d->m_minYRotation), float(rotation),
+                          float(d->m_maxYRotation));
     }
 
-    if (d_ptr->m_yRotation != rotation) {
-        d_ptr->setYRotation(rotation);
-        if (d_ptr->m_activePreset != CameraPresetNone) {
-            d_ptr->m_activePreset = CameraPresetNone;
+    if (d->m_yRotation != rotation) {
+        d->setYRotation(rotation);
+        if (d->m_activePreset != CameraPresetNone) {
+            d->m_activePreset = CameraPresetNone;
             setDirty(true);
         }
 
-        emit yRotationChanged(d_ptr->m_yRotation);
+        emit yRotationChanged(d->m_yRotation);
     }
 }
 
@@ -276,11 +282,13 @@ void Q3DCamera::setYRotation(float rotation)
  */
 Q3DCamera::CameraPreset Q3DCamera::cameraPreset() const
 {
-    return d_ptr->m_activePreset;
+    const Q_D(Q3DCamera);
+    return d->m_activePreset;
 }
 
 void Q3DCamera::setCameraPreset(CameraPreset preset)
 {
+    Q_D(Q3DCamera);
     switch (preset) {
     case CameraPresetFrontLow: {
         setXRotation(0.0f);
@@ -410,8 +418,8 @@ void Q3DCamera::setCameraPreset(CameraPreset preset)
     // All presets target the center of the graph
     setTarget(zeroVector);
 
-    if (d_ptr->m_activePreset != preset) {
-        d_ptr->m_activePreset = preset;
+    if (d->m_activePreset != preset) {
+        d->m_activePreset = preset;
         setDirty(true);
         emit cameraPresetChanged(preset);
     }
@@ -429,15 +437,17 @@ void Q3DCamera::setCameraPreset(CameraPreset preset)
  */
 float Q3DCamera::zoomLevel() const
 {
-    return d_ptr->m_zoomLevel;
+    const Q_D(Q3DCamera);
+    return d->m_zoomLevel;
 }
 
 void Q3DCamera::setZoomLevel(float zoomLevel)
 {
-    float newZoomLevel = qBound(d_ptr->m_minZoomLevel, zoomLevel, d_ptr->m_maxZoomLevel);
+    Q_D(Q3DCamera);
+    float newZoomLevel = qBound(d->m_minZoomLevel, zoomLevel, d->m_maxZoomLevel);
 
-    if (d_ptr->m_zoomLevel != newZoomLevel) {
-        d_ptr->m_zoomLevel = newZoomLevel;
+    if (d->m_zoomLevel != newZoomLevel) {
+        d->m_zoomLevel = newZoomLevel;
         setDirty(true);
         emit zoomLevelChanged(newZoomLevel);
     }
@@ -458,18 +468,20 @@ void Q3DCamera::setZoomLevel(float zoomLevel)
  */
 float Q3DCamera::minZoomLevel() const
 {
-    return d_ptr->m_minZoomLevel;
+    const Q_D(Q3DCamera);
+    return d->m_minZoomLevel;
 }
 
 void Q3DCamera::setMinZoomLevel(float zoomLevel)
 {
+    Q_D(Q3DCamera);
     // Don't allow minimum to be below one, as that can cause zoom to break.
     float newMinLevel = qMax(zoomLevel, 1.0f);
-    if (d_ptr->m_minZoomLevel != newMinLevel) {
-        d_ptr->m_minZoomLevel = newMinLevel;
-        if (d_ptr->m_maxZoomLevel < newMinLevel)
+    if (d->m_minZoomLevel != newMinLevel) {
+        d->m_minZoomLevel = newMinLevel;
+        if (d->m_maxZoomLevel < newMinLevel)
             setMaxZoomLevel(newMinLevel);
-        setZoomLevel(d_ptr->m_zoomLevel);
+        setZoomLevel(d->m_zoomLevel);
         setDirty(true);
         emit minZoomLevelChanged(newMinLevel);
     }
@@ -489,18 +501,20 @@ void Q3DCamera::setMinZoomLevel(float zoomLevel)
  */
 float Q3DCamera::maxZoomLevel() const
 {
-    return d_ptr->m_maxZoomLevel;
+    const Q_D(Q3DCamera);
+    return d->m_maxZoomLevel;
 }
 
 void Q3DCamera::setMaxZoomLevel(float zoomLevel)
 {
+    Q_D(Q3DCamera);
     // Don't allow maximum to be below one, as that can cause zoom to break.
     float newMaxLevel = qMax(zoomLevel, 1.0f);
-    if (d_ptr->m_maxZoomLevel != newMaxLevel) {
-        d_ptr->m_maxZoomLevel = newMaxLevel;
-        if (d_ptr->m_minZoomLevel > newMaxLevel)
+    if (d->m_maxZoomLevel != newMaxLevel) {
+        d->m_maxZoomLevel = newMaxLevel;
+        if (d->m_minZoomLevel > newMaxLevel)
             setMinZoomLevel(newMaxLevel);
-        setZoomLevel(d_ptr->m_zoomLevel);
+        setZoomLevel(d->m_zoomLevel);
         setDirty(true);
         emit maxZoomLevelChanged(newMaxLevel);
     }
@@ -518,12 +532,14 @@ void Q3DCamera::setMaxZoomLevel(float zoomLevel)
  */
 bool Q3DCamera::wrapXRotation() const
 {
-    return d_ptr->m_wrapXRotation;
+    const Q_D(Q3DCamera);
+    return d->m_wrapXRotation;
 }
 
 void Q3DCamera::setWrapXRotation(bool isEnabled)
 {
-    d_ptr->m_wrapXRotation = isEnabled;
+    Q_D(Q3DCamera);
+    d->m_wrapXRotation = isEnabled;
 }
 
 /*!
@@ -538,12 +554,14 @@ void Q3DCamera::setWrapXRotation(bool isEnabled)
  */
 bool Q3DCamera::wrapYRotation() const
 {
-    return d_ptr->m_wrapYRotation;
+    const Q_D(Q3DCamera);
+    return d->m_wrapYRotation;
 }
 
 void Q3DCamera::setWrapYRotation(bool isEnabled)
 {
-    d_ptr->m_wrapYRotation = isEnabled;
+    Q_D(Q3DCamera);
+    d->m_wrapYRotation = isEnabled;
 }
 
 /*!
@@ -574,11 +592,13 @@ void Q3DCamera::setCameraPosition(float horizontal, float vertical, float zoom)
  */
 QVector3D Q3DCamera::target() const
 {
-    return d_ptr->m_requestedTarget;
+    const Q_D(Q3DCamera);
+    return d->m_requestedTarget;
 }
 
 void Q3DCamera::setTarget(const QVector3D &target)
 {
+    Q_D(Q3DCamera);
     QVector3D newTarget = target;
 
     if (newTarget.x() < -1.0f)
@@ -596,17 +616,17 @@ void Q3DCamera::setTarget(const QVector3D &target)
     else if (newTarget.z() > 1.0f)
         newTarget.setZ(1.0f);
 
-    if (d_ptr->m_requestedTarget != newTarget) {
-        if (d_ptr->m_activePreset != CameraPresetNone)
-            d_ptr->m_activePreset = CameraPresetNone;
-        d_ptr->m_requestedTarget = newTarget;
+    if (d->m_requestedTarget != newTarget) {
+        if (d->m_activePreset != CameraPresetNone)
+            d->m_activePreset = CameraPresetNone;
+        d->m_requestedTarget = newTarget;
         setDirty(true);
         emit targetChanged(newTarget);
     }
 }
 
 Q3DCameraPrivate::Q3DCameraPrivate(Q3DCamera *q) :
-    q_ptr(q),
+    Q3DObjectPrivate(q),
     m_isViewMatrixUpdateActive(true),
     m_xRotation(0.0f),
     m_yRotation(0.0f),
@@ -631,26 +651,29 @@ Q3DCameraPrivate::~Q3DCameraPrivate()
 // those changes are discarded.
 void Q3DCameraPrivate::sync(Q3DCamera &other)
 {
-    if (q_ptr->isDirty()) {
-        other.copyValuesFrom(*q_ptr);
-        q_ptr->setDirty(false);
+    Q_Q(Q3DCamera);
+    if (q->isDirty()) {
+        other.copyValuesFrom(*q);
+        q->setDirty(false);
         other.setDirty(false);
     }
 }
 
 void Q3DCameraPrivate::setXRotation(const float rotation)
 {
+    Q_Q(Q3DCamera);
     if (m_xRotation != rotation) {
         m_xRotation = rotation;
-        q_ptr->setDirty(true);
+        q->setDirty(true);
     }
 }
 
 void Q3DCameraPrivate::setYRotation(const float rotation)
 {
+    Q_Q(Q3DCamera);
     if (m_yRotation != rotation) {
         m_yRotation = rotation;
-        q_ptr->setDirty(true);
+        q->setDirty(true);
     }
 }
 
@@ -669,17 +692,18 @@ float Q3DCameraPrivate::minXRotation() const
 
 void Q3DCameraPrivate::setMinXRotation(float minRotation)
 {
+    Q_Q(Q3DCamera);
     minRotation = qBound(-180.0f, minRotation, 180.0f);
     if (minRotation > m_maxXRotation)
         minRotation = m_maxXRotation;
 
     if (m_minXRotation != minRotation) {
         m_minXRotation = minRotation;
-        emit minXRotationChanged(minRotation);
+        emit q->minXRotationChanged(minRotation);
 
         if (m_xRotation < m_minXRotation)
             setXRotation(m_xRotation);
-        q_ptr->setDirty(true);
+        q->setDirty(true);
     }
 }
 
@@ -698,17 +722,18 @@ float Q3DCameraPrivate::minYRotation() const
 
 void Q3DCameraPrivate::setMinYRotation(float minRotation)
 {
+    Q_Q(Q3DCamera);
     minRotation = qBound(-90.0f, minRotation, 90.0f);
     if (minRotation > m_maxYRotation)
         minRotation = m_maxYRotation;
 
     if (m_minYRotation != minRotation) {
         m_minYRotation = minRotation;
-        emit minYRotationChanged(minRotation);
+        emit q->minYRotationChanged(minRotation);
 
         if (m_yRotation < m_minYRotation)
             setYRotation(m_yRotation);
-        q_ptr->setDirty(true);
+        q->setDirty(true);
     }
 }
 
@@ -727,6 +752,7 @@ float Q3DCameraPrivate::maxXRotation() const
 
 void Q3DCameraPrivate::setMaxXRotation(float maxRotation)
 {
+    Q_Q(Q3DCamera);
     maxRotation = qBound(-180.0f, maxRotation, 180.0f);
 
     if (maxRotation < m_minXRotation)
@@ -734,11 +760,11 @@ void Q3DCameraPrivate::setMaxXRotation(float maxRotation)
 
     if (m_maxXRotation != maxRotation) {
         m_maxXRotation = maxRotation;
-        emit maxXRotationChanged(maxRotation);
+        emit q->maxXRotationChanged(maxRotation);
 
         if (m_xRotation > m_maxXRotation)
             setXRotation(m_xRotation);
-        q_ptr->setDirty(true);
+        q->setDirty(true);
     }
 }
 
@@ -757,6 +783,7 @@ float Q3DCameraPrivate::maxYRotation() const
 
 void Q3DCameraPrivate::setMaxYRotation(float maxRotation)
 {
+    Q_Q(Q3DCamera);
     maxRotation = qBound(-90.0f, maxRotation, 90.0f);
 
     if (maxRotation < m_minYRotation)
@@ -764,11 +791,11 @@ void Q3DCameraPrivate::setMaxYRotation(float maxRotation)
 
     if (m_maxYRotation != maxRotation) {
         m_maxYRotation = maxRotation;
-        emit maxYRotationChanged(maxRotation);
+        emit q->maxYRotationChanged(maxRotation);
 
         if (m_yRotation > m_maxYRotation)
             setYRotation(m_yRotation);
-        q_ptr->setDirty(true);
+        q->setDirty(true);
     }
 }
 
@@ -776,6 +803,7 @@ void Q3DCameraPrivate::setMaxYRotation(float maxRotation)
 // zoomAdjustment is adjustment to ensure that the 3D visualization stays inside the view area in the 100% zoom.
 void Q3DCameraPrivate::updateViewMatrix(float zoomAdjustment)
 {
+    Q_Q(Q3DCamera);
     if (!m_isViewMatrixUpdateActive)
         return;
 
@@ -783,8 +811,8 @@ void Q3DCameraPrivate::updateViewMatrix(float zoomAdjustment)
     QMatrix4x4 viewMatrix;
 
     // Apply to view matrix
-    viewMatrix.lookAt(q_ptr->position(), m_actualTarget, m_up);
-    // Compensate for translation (if d_ptr->m_target is off origin)
+    viewMatrix.lookAt(q->position(), m_actualTarget, m_up);
+    // Compensate for translation (if d->m_target is off origin)
     viewMatrix.translate(m_actualTarget.x(), m_actualTarget.y(), m_actualTarget.z());
     // Apply rotations
     // Handle x and z rotation when y -angle is other than 0
@@ -794,7 +822,7 @@ void Q3DCameraPrivate::updateViewMatrix(float zoomAdjustment)
     viewMatrix.rotate(m_yRotation, 1.0f, 0.0f, 0.0f);
     // handle zoom by scaling
     viewMatrix.scale(zoom / 100.0f);
-    // Compensate for translation (if d_ptr->m_target is off origin)
+    // Compensate for translation (if d->m_target is off origin)
     viewMatrix.translate(-m_actualTarget.x(), -m_actualTarget.y(), -m_actualTarget.z());
 
     setViewMatrix(viewMatrix);
@@ -815,10 +843,11 @@ QMatrix4x4 Q3DCameraPrivate::viewMatrix() const
 
 void Q3DCameraPrivate::setViewMatrix(const QMatrix4x4 &viewMatrix)
 {
+    Q_Q(Q3DCamera);
     if (m_viewMatrix != viewMatrix) {
         m_viewMatrix = viewMatrix;
-        q_ptr->setDirty(true);
-        emit viewMatrixChanged(m_viewMatrix);
+        q->setDirty(true);
+        emit q->viewMatrixChanged(m_viewMatrix);
     }
 }
 
@@ -835,8 +864,9 @@ bool Q3DCameraPrivate::isViewMatrixAutoUpdateEnabled() const
 
 void Q3DCameraPrivate::setViewMatrixAutoUpdateEnabled(bool isEnabled)
 {
+    Q_Q(Q3DCamera);
     m_isViewMatrixUpdateActive = isEnabled;
-    emit viewMatrixAutoUpdateChanged(isEnabled);
+    emit q->viewMatrixAutoUpdateChanged(isEnabled);
 }
 
 /*!
@@ -851,11 +881,12 @@ void Q3DCameraPrivate::setBaseOrientation(const QVector3D &basePosition,
                                           const QVector3D &target,
                                           const QVector3D &baseUp)
 {
-    if (q_ptr->position() != basePosition || m_actualTarget != target || m_up != baseUp) {
-        q_ptr->setPosition(basePosition);
+    Q_Q(Q3DCamera);
+    if (q->position() != basePosition || m_actualTarget != target || m_up != baseUp) {
+        q->setPosition(basePosition);
         m_actualTarget = target;
         m_up = baseUp;
-        q_ptr->setDirty(true);
+        q->setDirty(true);
     }
 }
 

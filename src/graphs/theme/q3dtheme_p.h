@@ -77,6 +77,8 @@ struct Q3DThemeDirtyBitField {
 class Q_GRAPHS_EXPORT Q3DThemePrivate : public QObject
 {
     Q_OBJECT
+    Q_DECLARE_PUBLIC(Q3DTheme)
+
 public:
     Q3DThemePrivate(Q3DTheme *q);
     virtual ~Q3DThemePrivate();

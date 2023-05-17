@@ -93,12 +93,21 @@ static const float rotationSpeed      = 100.0f;
  */
 
 /*!
+ * \internal
+ */
+Q3DInputHandler::Q3DInputHandler(Q3DInputHandlerPrivate *d, QObject *parent) :
+    QAbstract3DInputHandler(d, parent)
+{
+    QObject::connect(this, &QAbstract3DInputHandler::sceneChanged,
+                     d, &Q3DInputHandlerPrivate::handleSceneChange);
+}
+
+/*!
  * Constructs the basic mouse input handler. An optional \a parent parameter can be given
  * and is then passed to QObject constructor.
  */
 Q3DInputHandler::Q3DInputHandler(QObject *parent) :
-    QAbstract3DInputHandler(parent),
-    d_ptr(new Q3DInputHandlerPrivate(this))
+    QAbstract3DInputHandler(new Q3DInputHandlerPrivate(this), parent)
 {
 }
 
@@ -116,6 +125,7 @@ Q3DInputHandler::~Q3DInputHandler()
  */
 void Q3DInputHandler::mousePressEvent(QMouseEvent *event, const QPoint &mousePos)
 {
+    Q_D(Q3DInputHandler);
 #if defined(Q_OS_IOS)
     Q_UNUSED(event);
     Q_UNUSED(mousePos);
@@ -134,7 +144,7 @@ void Q3DInputHandler::mousePressEvent(QMouseEvent *event, const QPoint &mousePos
                 setInputPosition(mousePos);
                 scene()->setSelectionQueryPosition(mousePos);
                 setInputView(InputViewOnPrimary);
-                d_ptr->m_inputState = QAbstract3DInputHandlerPrivate::InputStateSelecting;
+                d->m_inputState = QAbstract3DInputHandlerPrivate::InputStateSelecting;
             }
         }
     } else if (Qt::MiddleButton == event->button()) {
@@ -146,7 +156,7 @@ void Q3DInputHandler::mousePressEvent(QMouseEvent *event, const QPoint &mousePos
         if (isRotationEnabled()) {
             // disable rotating when in slice view
             if (!scene()->isSlicingActive())
-                d_ptr->m_inputState = QAbstract3DInputHandlerPrivate::InputStateRotating;
+                d->m_inputState = QAbstract3DInputHandlerPrivate::InputStateRotating;
             // update mouse positions to prevent jumping when releasing or repressing a button
             setInputPosition(mousePos);
         }
@@ -161,14 +171,15 @@ void Q3DInputHandler::mousePressEvent(QMouseEvent *event, const QPoint &mousePos
 void Q3DInputHandler::mouseReleaseEvent(QMouseEvent *event, const QPoint &mousePos)
 {
     Q_UNUSED(event);
+    Q_D(Q3DInputHandler);
 #if defined(Q_OS_IOS)
     Q_UNUSED(mousePos);
 #else
-    if (QAbstract3DInputHandlerPrivate::InputStateRotating == d_ptr->m_inputState) {
+    if (QAbstract3DInputHandlerPrivate::InputStateRotating == d->m_inputState) {
         // update mouse positions to prevent jumping when releasing or repressing a button
         setInputPosition(mousePos);
     }
-    d_ptr->m_inputState = QAbstract3DInputHandlerPrivate::InputStateNone;
+    d->m_inputState = QAbstract3DInputHandlerPrivate::InputStateNone;
     setInputView(InputViewNone);
 #endif
 }
@@ -180,10 +191,11 @@ void Q3DInputHandler::mouseReleaseEvent(QMouseEvent *event, const QPoint &mouseP
 void Q3DInputHandler::mouseMoveEvent(QMouseEvent *event, const QPoint &mousePos)
 {
     Q_UNUSED(event);
+    Q_D(Q3DInputHandler);
 #if defined(Q_OS_IOS)
     Q_UNUSED(mousePos);
 #else
-    if (QAbstract3DInputHandlerPrivate::InputStateRotating == d_ptr->m_inputState
+    if (QAbstract3DInputHandlerPrivate::InputStateRotating == d->m_inputState
             && isRotationEnabled()) {
         // Calculate mouse movement since last frame
         float xRotation = scene()->activeCamera()->xRotation();
@@ -211,6 +223,7 @@ void Q3DInputHandler::mouseMoveEvent(QMouseEvent *event, const QPoint &mousePos)
  */
 void Q3DInputHandler::wheelEvent(QWheelEvent *event)
 {
+    Q_D(Q3DInputHandler);
     if (isZoomEnabled()) {
         // disable zooming if in slice view
         if (scene()->isSlicingActive())
@@ -230,13 +243,13 @@ void Q3DInputHandler::wheelEvent(QWheelEvent *event)
         zoomLevel = qBound(minZoomLevel, zoomLevel, maxZoomLevel);
 
         if (isZoomAtTargetEnabled()) {
-            d_ptr->m_controller->setGraphPositionQueryPending(true);
+            d->m_controller->setGraphPositionQueryPending(true);
             scene()->setGraphPositionQuery(event->position().toPoint());
-            d_ptr->m_zoomAtTargetPending = true;
+            d->m_zoomAtTargetPending = true;
             // If zoom at target is enabled, we don't want to zoom yet, as that causes
             // jitter. Instead, we zoom next frame, when we apply the camera position.
-            d_ptr->m_requestedZoomLevel = zoomLevel;
-            d_ptr->m_driftMultiplier = wheelZoomDrift;
+            d->m_requestedZoomLevel = zoomLevel;
+            d->m_driftMultiplier = wheelZoomDrift;
         } else {
             camera->setZoomLevel(zoomLevel);
         }
@@ -253,15 +266,17 @@ void Q3DInputHandler::wheelEvent(QWheelEvent *event)
  */
 void Q3DInputHandler::setRotationEnabled(bool enable)
 {
-    if (d_ptr->m_rotationEnabled != enable) {
-        d_ptr->m_rotationEnabled = enable;
+    Q_D(Q3DInputHandler);
+    if (d->m_rotationEnabled != enable) {
+        d->m_rotationEnabled = enable;
         emit rotationEnabledChanged(enable);
     }
 }
 
 bool Q3DInputHandler::isRotationEnabled() const
 {
-    return d_ptr->m_rotationEnabled;
+    const Q_D(Q3DInputHandler);
+    return d->m_rotationEnabled;
 }
 
 /*!
@@ -273,15 +288,17 @@ bool Q3DInputHandler::isRotationEnabled() const
  */
 void Q3DInputHandler::setZoomEnabled(bool enable)
 {
-    if (d_ptr->m_zoomEnabled != enable) {
-        d_ptr->m_zoomEnabled = enable;
+    Q_D(Q3DInputHandler);
+    if (d->m_zoomEnabled != enable) {
+        d->m_zoomEnabled = enable;
         emit zoomEnabledChanged(enable);
     }
 }
 
 bool Q3DInputHandler::isZoomEnabled() const
 {
-    return d_ptr->m_zoomEnabled;
+    const Q_D(Q3DInputHandler);
+    return d->m_zoomEnabled;
 }
 
 /*!
@@ -293,15 +310,17 @@ bool Q3DInputHandler::isZoomEnabled() const
  */
 void Q3DInputHandler::setSelectionEnabled(bool enable)
 {
-    if (d_ptr->m_selectionEnabled != enable) {
-        d_ptr->m_selectionEnabled = enable;
+    Q_D(Q3DInputHandler);
+    if (d->m_selectionEnabled != enable) {
+        d->m_selectionEnabled = enable;
         emit selectionEnabledChanged(enable);
     }
 }
 
 bool Q3DInputHandler::isSelectionEnabled() const
 {
-    return d_ptr->m_selectionEnabled;
+    const Q_D(Q3DInputHandler);
+    return d->m_selectionEnabled;
 }
 
 /*!
@@ -314,19 +333,21 @@ bool Q3DInputHandler::isSelectionEnabled() const
  */
 void Q3DInputHandler::setZoomAtTargetEnabled(bool enable)
 {
-    if (d_ptr->m_zoomAtTargetEnabled != enable) {
-        d_ptr->m_zoomAtTargetEnabled = enable;
+    Q_D(Q3DInputHandler);
+    if (d->m_zoomAtTargetEnabled != enable) {
+        d->m_zoomAtTargetEnabled = enable;
         emit zoomAtTargetEnabledChanged(enable);
     }
 }
 
 bool Q3DInputHandler::isZoomAtTargetEnabled() const
 {
-    return d_ptr->m_zoomAtTargetEnabled;
+    const Q_D(Q3DInputHandler);
+    return d->m_zoomAtTargetEnabled;
 }
 
 Q3DInputHandlerPrivate::Q3DInputHandlerPrivate(Q3DInputHandler *q)
-    : q_ptr(q),
+    : QAbstract3DInputHandlerPrivate(q),
       m_inputState(QAbstract3DInputHandlerPrivate::InputStateNone),
       m_rotationEnabled(true),
       m_zoomEnabled(true),
@@ -337,8 +358,6 @@ Q3DInputHandlerPrivate::Q3DInputHandlerPrivate(Q3DInputHandler *q)
       m_requestedZoomLevel(0.0f),
       m_driftMultiplier(0.0f)
 {
-    QObject::connect(q, &QAbstract3DInputHandler::sceneChanged,
-                     this, &Q3DInputHandlerPrivate::handleSceneChange);
 }
 
 Q3DInputHandlerPrivate::~Q3DInputHandlerPrivate()

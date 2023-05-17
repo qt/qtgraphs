@@ -21,9 +21,10 @@ QT_BEGIN_NAMESPACE
 
 class Abstract3DController;
 
-class Q3DInputHandlerPrivate : public QObject
+class Q3DInputHandlerPrivate : public QAbstract3DInputHandlerPrivate
 {
-    Q_OBJECT
+    Q_DECLARE_PUBLIC(Q3DInputHandler)
+
 public:
     Q3DInputHandlerPrivate(Q3DInputHandler *q);
     ~Q3DInputHandlerPrivate();
@@ -32,8 +33,6 @@ public Q_SLOTS:
     void handleSceneChange(Q3DScene *scene);
     void handleQueriedGraphPositionChange();
 
-private:
-    Q3DInputHandler *q_ptr;
 protected:
     QAbstract3DInputHandlerPrivate::InputState m_inputState;
 
@@ -47,8 +46,6 @@ protected:
 
     float m_requestedZoomLevel;
     float m_driftMultiplier;
-
-    friend class Q3DInputHandler;
 };
 
 QT_END_NAMESPACE

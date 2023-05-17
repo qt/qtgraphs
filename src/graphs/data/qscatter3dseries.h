@@ -14,6 +14,7 @@ class QScatter3DSeriesPrivate;
 class Q_GRAPHS_EXPORT QScatter3DSeries : public QAbstract3DSeries
 {
     Q_OBJECT
+    Q_DECLARE_PRIVATE(QScatter3DSeries)
     Q_PROPERTY(QScatterDataProxy *dataProxy READ dataProxy WRITE setDataProxy NOTIFY dataProxyChanged)
     Q_PROPERTY(int selectedItem READ selectedItem WRITE setSelectedItem NOTIFY selectedItemChanged)
     Q_PROPERTY(float itemSize READ itemSize WRITE setItemSize NOTIFY itemSizeChanged)
@@ -40,8 +41,6 @@ Q_SIGNALS:
 
 protected:
     explicit QScatter3DSeries(QScatter3DSeriesPrivate *d, QObject *parent = nullptr);
-    QScatter3DSeriesPrivate *dptr();
-    const QScatter3DSeriesPrivate *dptrc() const;
 
 private:
     Q_DISABLE_COPY(QScatter3DSeries)

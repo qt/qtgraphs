@@ -21,7 +21,7 @@ QT_BEGIN_NAMESPACE
 
 class QCategory3DAxisPrivate : public QAbstract3DAxisPrivate
 {
-    Q_OBJECT
+    Q_DECLARE_PUBLIC(QCategory3DAxis)
 
 public:
     QCategory3DAxisPrivate(QCategory3DAxis *q);
@@ -35,10 +35,7 @@ protected:
     bool allowMinMaxSame() override;
 
 private:
-    QCategory3DAxis *qptr();
-
     bool m_labelsExplicitlySet;
-    friend class QCategory3DAxis;
 };
 
 QT_END_NAMESPACE

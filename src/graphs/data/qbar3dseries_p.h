@@ -21,7 +21,8 @@ QT_BEGIN_NAMESPACE
 
 class QBar3DSeriesPrivate : public QAbstract3DSeriesPrivate
 {
-    Q_OBJECT
+    Q_DECLARE_PUBLIC(QBar3DSeries)
+
 public:
     QBar3DSeriesPrivate(QBar3DSeries *q);
     virtual ~QBar3DSeriesPrivate();
@@ -30,23 +31,15 @@ public:
     void connectControllerAndProxy(Abstract3DController *newController) override;
     void createItemLabel() override;
 
-    void handleMeshRotationChanged(const QQuaternion &rotation);
-
     void setSelectedBar(const QPoint &position);
-
-    void connectSignals();
 
     void setRowColors(const QList<QColor> &colors);
 
 private:
-    QBar3DSeries *qptr();
-
     QPoint m_selectedBar;
-
     QList<QColor> m_rowColors;
 
-private:
-    friend class QBar3DSeries;
+    friend class QQuickGraphsBars;
 };
 
 QT_END_NAMESPACE

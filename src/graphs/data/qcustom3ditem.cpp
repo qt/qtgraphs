@@ -176,17 +176,19 @@ QCustom3DItem::~QCustom3DItem()
  */
 void QCustom3DItem::setMeshFile(const QString &meshFile)
 {
-    if (d_ptr->m_meshFile != meshFile) {
-        d_ptr->m_meshFile = meshFile;
-        d_ptr->m_dirtyBits.meshDirty = true;
+    Q_D(QCustom3DItem);
+    if (d->m_meshFile != meshFile) {
+        d->m_meshFile = meshFile;
+        d->m_dirtyBits.meshDirty = true;
         emit meshFileChanged(meshFile);
-        emit d_ptr->needUpdate();
+        emit needUpdate();
     }
 }
 
 QString QCustom3DItem::meshFile() const
 {
-    return d_ptr->m_meshFile;
+    const Q_D(QCustom3DItem);
+    return d->m_meshFile;
 }
 
 /*! \property QCustom3DItem::position
@@ -208,17 +210,19 @@ QString QCustom3DItem::meshFile() const
  */
 void QCustom3DItem::setPosition(const QVector3D &position)
 {
-    if (d_ptr->m_position != position) {
-        d_ptr->m_position = position;
-        d_ptr->m_dirtyBits.positionDirty = true;
+    Q_D(QCustom3DItem);
+    if (d->m_position != position) {
+        d->m_position = position;
+        d->m_dirtyBits.positionDirty = true;
         emit positionChanged(position);
-        emit d_ptr->needUpdate();
+        emit needUpdate();
     }
 }
 
 QVector3D QCustom3DItem::position() const
 {
-    return d_ptr->m_position;
+    const Q_D(QCustom3DItem);
+    return d->m_position;
 }
 
 /*! \property QCustom3DItem::positionAbsolute
@@ -233,17 +237,19 @@ QVector3D QCustom3DItem::position() const
  */
 void QCustom3DItem::setPositionAbsolute(bool positionAbsolute)
 {
-    if (d_ptr->m_positionAbsolute != positionAbsolute) {
-        d_ptr->m_positionAbsolute = positionAbsolute;
-        d_ptr->m_dirtyBits.positionDirty = true;
+    Q_D(QCustom3DItem);
+    if (d->m_positionAbsolute != positionAbsolute) {
+        d->m_positionAbsolute = positionAbsolute;
+        d->m_dirtyBits.positionDirty = true;
         emit positionAbsoluteChanged(positionAbsolute);
-        emit d_ptr->needUpdate();
+        emit needUpdate();
     }
 }
 
 bool QCustom3DItem::isPositionAbsolute() const
 {
-    return d_ptr->m_positionAbsolute;
+    const Q_D(QCustom3DItem);
+    return d->m_positionAbsolute;
 }
 
 /*! \property QCustom3DItem::scaling
@@ -261,17 +267,19 @@ bool QCustom3DItem::isPositionAbsolute() const
  */
 void QCustom3DItem::setScaling(const QVector3D &scaling)
 {
-    if (d_ptr->m_scaling != scaling) {
-        d_ptr->m_scaling = scaling;
-        d_ptr->m_dirtyBits.scalingDirty = true;
+    Q_D(QCustom3DItem);
+    if (d->m_scaling != scaling) {
+        d->m_scaling = scaling;
+        d->m_dirtyBits.scalingDirty = true;
         emit scalingChanged(scaling);
-        emit d_ptr->needUpdate();
+        emit needUpdate();
     }
 }
 
 QVector3D QCustom3DItem::scaling() const
 {
-    return d_ptr->m_scaling;
+    const Q_D(QCustom3DItem);
+    return d->m_scaling;
 }
 
 /*! \property QCustom3DItem::scalingAbsolute
@@ -298,19 +306,21 @@ QVector3D QCustom3DItem::scaling() const
  */
 void QCustom3DItem::setScalingAbsolute(bool scalingAbsolute)
 {
-    if (d_ptr->m_isLabelItem && !scalingAbsolute) {
+    Q_D(QCustom3DItem);
+    if (d->m_isLabelItem && !scalingAbsolute) {
         qWarning() << __FUNCTION__ << "Data bounds are not supported for label items.";
-    } else if (d_ptr->m_scalingAbsolute != scalingAbsolute) {
-        d_ptr->m_scalingAbsolute = scalingAbsolute;
-        d_ptr->m_dirtyBits.scalingDirty = true;
+    } else if (d->m_scalingAbsolute != scalingAbsolute) {
+        d->m_scalingAbsolute = scalingAbsolute;
+        d->m_dirtyBits.scalingDirty = true;
         emit scalingAbsoluteChanged(scalingAbsolute);
-        emit d_ptr->needUpdate();
+        emit needUpdate();
     }
 }
 
 bool QCustom3DItem::isScalingAbsolute() const
 {
-    return d_ptr->m_scalingAbsolute;
+    const Q_D(QCustom3DItem);
+    return d->m_scalingAbsolute;
 }
 
 /*! \property QCustom3DItem::rotation
@@ -321,17 +331,19 @@ bool QCustom3DItem::isScalingAbsolute() const
  */
 void QCustom3DItem::setRotation(const QQuaternion &rotation)
 {
-    if (d_ptr->m_rotation != rotation) {
-        d_ptr->m_rotation = rotation;
-        d_ptr->m_dirtyBits.rotationDirty = true;
+    Q_D(QCustom3DItem);
+    if (d->m_rotation != rotation) {
+        d->m_rotation = rotation;
+        d->m_dirtyBits.rotationDirty = true;
         emit rotationChanged(rotation);
-        emit d_ptr->needUpdate();
+        emit needUpdate();
     }
 }
 
 QQuaternion QCustom3DItem::rotation()
 {
-    return d_ptr->m_rotation;
+    const Q_D(QCustom3DItem);
+    return d->m_rotation;
 }
 
 /*! \property QCustom3DItem::visible
@@ -342,17 +354,19 @@ QQuaternion QCustom3DItem::rotation()
  */
 void QCustom3DItem::setVisible(bool visible)
 {
-    if (d_ptr->m_visible != visible) {
-        d_ptr->m_visible = visible;
-        d_ptr->m_dirtyBits.visibleDirty = true;
+    Q_D(QCustom3DItem);
+    if (d->m_visible != visible) {
+        d->m_visible = visible;
+        d->m_dirtyBits.visibleDirty = true;
         emit visibleChanged(visible);
-        emit d_ptr->needUpdate();
+        emit needUpdate();
     }
 }
 
 bool QCustom3DItem::isVisible() const
 {
-    return d_ptr->m_visible;
+    const Q_D(QCustom3DItem);
+    return d->m_visible;
 }
 
 
@@ -365,17 +379,19 @@ bool QCustom3DItem::isVisible() const
  */
 void QCustom3DItem::setShadowCasting(bool enabled)
 {
-    if (d_ptr->m_shadowCasting != enabled) {
-        d_ptr->m_shadowCasting = enabled;
-        d_ptr->m_dirtyBits.shadowCastingDirty = true;
+    Q_D(QCustom3DItem);
+    if (d->m_shadowCasting != enabled) {
+        d->m_shadowCasting = enabled;
+        d->m_dirtyBits.shadowCastingDirty = true;
         emit shadowCastingChanged(enabled);
-        emit d_ptr->needUpdate();
+        emit needUpdate();
     }
 }
 
 bool QCustom3DItem::isShadowCasting() const
 {
-    return d_ptr->m_shadowCasting;
+    const Q_D(QCustom3DItem);
+    return d->m_shadowCasting;
 }
 
 /*!
@@ -398,21 +414,22 @@ void QCustom3DItem::setRotationAxisAndAngle(const QVector3D &axis, float angle)
  */
 void QCustom3DItem::setTextureImage(const QImage &textureImage)
 {
-    if (textureImage != d_ptr->m_textureImage) {
+    Q_D(QCustom3DItem);
+    if (textureImage != d->m_textureImage) {
         if (textureImage.isNull()) {
             // Make a solid gray texture
-            d_ptr->m_textureImage = QImage(2, 2, QImage::Format_RGB32);
-            d_ptr->m_textureImage.fill(Qt::gray);
+            d->m_textureImage = QImage(2, 2, QImage::Format_RGB32);
+            d->m_textureImage.fill(Qt::gray);
         } else {
-            d_ptr->m_textureImage = textureImage;
+            d->m_textureImage = textureImage;
         }
 
-        if (!d_ptr->m_textureFile.isEmpty()) {
-            d_ptr->m_textureFile.clear();
-            emit textureFileChanged(d_ptr->m_textureFile);
+        if (!d->m_textureFile.isEmpty()) {
+            d->m_textureFile.clear();
+            emit textureFileChanged(d->m_textureFile);
         }
-        d_ptr->m_dirtyBits.textureDirty = true;
-        emit d_ptr->needUpdate();
+        d->m_dirtyBits.textureDirty = true;
+        emit needUpdate();
     }
 }
 
@@ -428,27 +445,28 @@ void QCustom3DItem::setTextureImage(const QImage &textureImage)
  */
 void QCustom3DItem::setTextureFile(const QString &textureFile)
 {
-    if (d_ptr->m_textureFile != textureFile) {
-        d_ptr->m_textureFile = textureFile;
+    Q_D(QCustom3DItem);
+    if (d->m_textureFile != textureFile) {
+        d->m_textureFile = textureFile;
         if (!textureFile.isEmpty()) {
-            d_ptr->m_textureImage = QImage(textureFile);
+            d->m_textureImage = QImage(textureFile);
         } else {
-            d_ptr->m_textureImage = QImage(2, 2, QImage::Format_RGB32);
-            d_ptr->m_textureImage.fill(Qt::gray);
+            d->m_textureImage = QImage(2, 2, QImage::Format_RGB32);
+            d->m_textureImage.fill(Qt::gray);
         }
         emit textureFileChanged(textureFile);
-        d_ptr->m_dirtyBits.textureDirty = true;
-        emit d_ptr->needUpdate();
+        d->m_dirtyBits.textureDirty = true;
+        emit needUpdate();
     }
 }
 
 QString QCustom3DItem::textureFile() const
 {
-    return d_ptr->m_textureFile;
+    const Q_D(QCustom3DItem);
+    return d->m_textureFile;
 }
 
 QCustom3DItemPrivate::QCustom3DItemPrivate(QCustom3DItem *q) :
-    q_ptr(q),
     m_textureImage(QImage(1, 1, QImage::Format_ARGB32)),
     m_position(QVector3D(0.0f, 0.0f, 0.0f)),
     m_positionAbsolute(false),
@@ -458,14 +476,14 @@ QCustom3DItemPrivate::QCustom3DItemPrivate(QCustom3DItem *q) :
     m_visible(true),
     m_shadowCasting(true),
     m_isLabelItem(false),
-    m_isVolumeItem(false)
+    m_isVolumeItem(false),
+    q_ptr(q)
 {
 }
 
 QCustom3DItemPrivate::QCustom3DItemPrivate(QCustom3DItem *q, const QString &meshFile,
                                            const QVector3D &position, const QVector3D &scaling,
                                            const QQuaternion &rotation) :
-    q_ptr(q),
     m_textureImage(QImage(1, 1, QImage::Format_ARGB32)),
     m_meshFile(meshFile),
     m_position(position),
@@ -476,7 +494,8 @@ QCustom3DItemPrivate::QCustom3DItemPrivate(QCustom3DItem *q, const QString &mesh
     m_visible(true),
     m_shadowCasting(true),
     m_isLabelItem(false),
-    m_isVolumeItem(false)
+    m_isVolumeItem(false),
+    q_ptr(q)
 {
 }
 

@@ -38,13 +38,21 @@ QT_BEGIN_NAMESPACE
  */
 
 /*!
+ * \internal
+ */
+Q3DObject::Q3DObject(Q3DObjectPrivate *d, QObject *parent) :
+    QObject(parent),
+    d_ptr(d)
+{
+}
+
+/*!
  * Constructs a new 3D object with the position set to origin by default. An
  * optional \a parent parameter can be given and is then passed to the QObject
  * constructor.
  */
 Q3DObject::Q3DObject(QObject *parent) :
-    QObject(parent),
-    d_ptr(new Q3DObjectPrivate(this))
+    QObject(parent)
 {
 }
 
@@ -60,7 +68,8 @@ Q3DObject::~Q3DObject()
  */
 void Q3DObject::copyValuesFrom(const Q3DObject &source)
 {
-    d_ptr->m_position = source.d_ptr->m_position;
+    Q_D(Q3DObject);
+    d->m_position = source.d_func()->m_position;
     setDirty(true);
 }
 
@@ -86,15 +95,17 @@ Q3DScene *Q3DObject::parentScene()
  */
 QVector3D Q3DObject::position() const
 {
-    return d_ptr->m_position;
+    const Q_D(Q3DObject);
+    return d->m_position;
 }
 
 void Q3DObject::setPosition(const QVector3D &position)
 {
-    if (d_ptr->m_position != position) {
-        d_ptr->m_position = position;
+    Q_D(Q3DObject);
+    if (d->m_position != position) {
+        d->m_position = position;
         setDirty(true);
-        emit positionChanged(d_ptr->m_position);
+        emit positionChanged(d->m_position);
     }
 }
 
@@ -103,9 +114,10 @@ void Q3DObject::setPosition(const QVector3D &position)
  */
 void Q3DObject::setDirty(bool dirty)
 {
-    d_ptr->m_isDirty = dirty;
+    Q_D(Q3DObject);
+    d->m_isDirty = dirty;
     if (parentScene())
-        parentScene()->d_ptr->markDirty();
+        parentScene()->d_func()->markDirty();
 }
 
 /*!
@@ -113,12 +125,13 @@ void Q3DObject::setDirty(bool dirty)
  */
 bool Q3DObject::isDirty() const
 {
-    return d_ptr->m_isDirty;
+    const Q_D(Q3DObject);
+    return d->m_isDirty;
 }
 
 Q3DObjectPrivate::Q3DObjectPrivate(Q3DObject *q) :
-    q_ptr(q),
-    m_isDirty(true)
+    m_isDirty(true),
+    q_ptr(q)
 {
 }
 

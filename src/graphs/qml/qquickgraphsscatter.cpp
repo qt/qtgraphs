@@ -196,7 +196,7 @@ void QQuickGraphsScatter::updateScatterGraphItemPositions(ScatterModel *graphMod
 
 void QQuickGraphsScatter::updateScatterGraphItemVisuals(ScatterModel *graphModel)
 {
-    bool useGradient = graphModel->series->d_ptr->isUsingGradient();
+    bool useGradient = graphModel->series->d_func()->isUsingGradient();
     bool usePoint = graphModel->series->mesh() == QAbstract3DSeries::MeshPoint;
     int itemCount = graphModel->series->dataProxy()->itemCount();
 
@@ -232,7 +232,7 @@ void QQuickGraphsScatter::updateScatterGraphItemVisuals(ScatterModel *graphModel
         }
     }
 
-    bool rangeGradient = (useGradient && graphModel->series->d_ptr->m_colorStyle
+    bool rangeGradient = (useGradient && graphModel->series->d_func()->m_colorStyle
                           == Q3DTheme::ColorStyleRangeGradient) ? true : false;
 
     if (m_scatterController->optimizationHints() == QAbstract3DGraph::OptimizationLegacy) {
@@ -1148,15 +1148,15 @@ void QQuickGraphsScatter::synchData()
 
     updatePointScaleSize();
     QQuickGraphsItem::synchData();
-    scene()->activeCamera()->d_ptr->setMinYRotation(-90.0f);
+    scene()->activeCamera()->d_func()->setMinYRotation(-90.0f);
 
     QValue3DAxis *aX = axisX();
     QValue3DAxis *aY = axisY();
     QValue3DAxis *aZ = axisZ();
 
-    aX->formatter()->d_ptr->recalculate();
-    aY->formatter()->d_ptr->recalculate();
-    aZ->formatter()->d_ptr->recalculate();
+    aX->formatter()->d_func()->recalculate();
+    aY->formatter()->d_func()->recalculate();
+    aZ->formatter()->d_func()->recalculate();
 
     m_pointScale = calculatePointScaleSize();
 

@@ -1,6 +1,7 @@
 // Copyright (C) 2023 The Qt Company Ltd.
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 
+#include <QtCore/qdebug.h>
 #include "qabstract3daxis_p.h"
 
 QT_BEGIN_NAMESPACE
@@ -157,7 +158,8 @@ QAbstract3DAxis::~QAbstract3DAxis()
  */
 QAbstract3DAxis::AxisOrientation QAbstract3DAxis::orientation() const
 {
-    return d_ptr->m_orientation;
+    const Q_D(QAbstract3DAxis);
+    return d->m_orientation;
 }
 
 /*!
@@ -169,7 +171,8 @@ QAbstract3DAxis::AxisOrientation QAbstract3DAxis::orientation() const
  */
 QAbstract3DAxis::AxisType QAbstract3DAxis::type() const
 {
-    return d_ptr->m_type;
+    const Q_D(QAbstract3DAxis);
+    return d->m_type;
 }
 
 /*!
@@ -181,15 +184,17 @@ QAbstract3DAxis::AxisType QAbstract3DAxis::type() const
  */
 void QAbstract3DAxis::setTitle(const QString &title)
 {
-    if (d_ptr->m_title != title) {
-        d_ptr->m_title = title;
+    Q_D(QAbstract3DAxis);
+    if (d->m_title != title) {
+        d->m_title = title;
         emit titleChanged(title);
     }
 }
 
 QString QAbstract3DAxis::title() const
 {
-    return d_ptr->m_title;
+    const Q_D(QAbstract3DAxis);
+    return d->m_title;
 }
 
 /*!
@@ -205,8 +210,9 @@ void QAbstract3DAxis::setLabels(const QStringList &labels)
 
 QStringList QAbstract3DAxis::labels() const
 {
-    d_ptr->updateLabels();
-    return d_ptr->m_labels;
+    const Q_D(QAbstract3DAxis);
+    const_cast<QAbstract3DAxisPrivate *>(d)->updateLabels();
+    return const_cast<QAbstract3DAxisPrivate *>(d)->m_labels;
 }
 
 /*!
@@ -218,7 +224,8 @@ QStringList QAbstract3DAxis::labels() const
  */
 void QAbstract3DAxis::setRange(float min, float max)
 {
-    d_ptr->setRange(min, max);
+    Q_D(QAbstract3DAxis);
+    d->setRange(min, max);
     setAutoAdjustRange(false);
 }
 
@@ -234,19 +241,21 @@ void QAbstract3DAxis::setRange(float min, float max)
  */
 void QAbstract3DAxis::setLabelAutoRotation(float angle)
 {
+    Q_D(QAbstract3DAxis);
     if (angle < 0.0f)
         angle = 0.0f;
     if (angle > 90.0f)
         angle = 90.0f;
-    if (d_ptr->m_labelAutoRotation != angle) {
-        d_ptr->m_labelAutoRotation = angle;
+    if (d->m_labelAutoRotation != angle) {
+        d->m_labelAutoRotation = angle;
         emit labelAutoRotationChanged(angle);
     }
 }
 
 float QAbstract3DAxis::labelAutoRotation() const
 {
-    return d_ptr->m_labelAutoRotation;
+    const Q_D(QAbstract3DAxis);
+    return d->m_labelAutoRotation;
 }
 
 /*!
@@ -260,15 +269,17 @@ float QAbstract3DAxis::labelAutoRotation() const
  */
 void QAbstract3DAxis::setTitleVisible(bool visible)
 {
-    if (d_ptr->m_titleVisible != visible) {
-        d_ptr->m_titleVisible = visible;
+    Q_D(QAbstract3DAxis);
+    if (d->m_titleVisible != visible) {
+        d->m_titleVisible = visible;
         emit titleVisibilityChanged(visible);
     }
 }
 
 bool QAbstract3DAxis::isTitleVisible() const
 {
-    return d_ptr->m_titleVisible;
+    const Q_D(QAbstract3DAxis);
+    return d->m_titleVisible;
 }
 
 /*!
@@ -288,15 +299,17 @@ bool QAbstract3DAxis::isTitleVisible() const
  */
 void QAbstract3DAxis::setTitleFixed(bool fixed)
 {
-    if (d_ptr->m_titleFixed != fixed) {
-        d_ptr->m_titleFixed = fixed;
+    Q_D(QAbstract3DAxis);
+    if (d->m_titleFixed != fixed) {
+        d->m_titleFixed = fixed;
         emit titleFixedChanged(fixed);
     }
 }
 
 bool QAbstract3DAxis::isTitleFixed() const
 {
-    return d_ptr->m_titleFixed;
+    const Q_D(QAbstract3DAxis);
+    return d->m_titleFixed;
 }
 
 /*!
@@ -311,7 +324,8 @@ bool QAbstract3DAxis::isTitleFixed() const
  */
 void QAbstract3DAxis::setMin(float min)
 {
-    d_ptr->setMin(min);
+    Q_D(QAbstract3DAxis);
+    d->setMin(min);
     setAutoAdjustRange(false);
 }
 
@@ -327,18 +341,21 @@ void QAbstract3DAxis::setMin(float min)
  */
 void QAbstract3DAxis::setMax(float max)
 {
-    d_ptr->setMax(max);
+    Q_D(QAbstract3DAxis);
+    d->setMax(max);
     setAutoAdjustRange(false);
 }
 
 float QAbstract3DAxis::min() const
 {
-    return d_ptr->m_min;
+    const Q_D(QAbstract3DAxis);
+    return d->m_min;
 }
 
 float QAbstract3DAxis::max() const
 {
-    return d_ptr->m_max;
+    const Q_D(QAbstract3DAxis);
+    return d->m_max;
 }
 
 /*!
@@ -350,15 +367,17 @@ float QAbstract3DAxis::max() const
  */
 void QAbstract3DAxis::setAutoAdjustRange(bool autoAdjust)
 {
-    if (d_ptr->m_autoAdjust != autoAdjust) {
-        d_ptr->m_autoAdjust = autoAdjust;
+    Q_D(QAbstract3DAxis);
+    if (d->m_autoAdjust != autoAdjust) {
+        d->m_autoAdjust = autoAdjust;
         emit autoAdjustRangeChanged(autoAdjust);
     }
 }
 
 bool QAbstract3DAxis::isAutoAdjustRange() const
 {
-    return d_ptr->m_autoAdjust;
+    const Q_D(QAbstract3DAxis);
+    return d->m_autoAdjust;
 }
 
 /*!
@@ -370,8 +389,7 @@ bool QAbstract3DAxis::isAutoAdjustRange() const
 
 // QAbstract3DAxisPrivate
 QAbstract3DAxisPrivate::QAbstract3DAxisPrivate(QAbstract3DAxis *q, QAbstract3DAxis::AxisType type)
-    : QObject(0),
-      q_ptr(q),
+    : q_ptr(q),
       m_orientation(QAbstract3DAxis::AxisOrientationNone),
       m_type(type),
       m_isDefaultAxis(false),
@@ -390,9 +408,10 @@ QAbstract3DAxisPrivate::~QAbstract3DAxisPrivate()
 
 void QAbstract3DAxisPrivate::setOrientation(QAbstract3DAxis::AxisOrientation orientation)
 {
+    Q_Q(QAbstract3DAxis);
     if (m_orientation == QAbstract3DAxis::AxisOrientationNone) {
         m_orientation = orientation;
-        emit q_ptr->orientationChanged(orientation);
+        emit q->orientationChanged(orientation);
     } else {
         Q_ASSERT("Attempted to reset axis orientation.");
     }
@@ -405,6 +424,7 @@ void QAbstract3DAxisPrivate::updateLabels()
 
 void QAbstract3DAxisPrivate::setRange(float min, float max, bool suppressWarnings)
 {
+    Q_Q(QAbstract3DAxis);
     bool adjusted = false;
     if (!allowNegatives()) {
         if (allowZero()) {
@@ -452,17 +472,18 @@ void QAbstract3DAxisPrivate::setRange(float min, float max, bool suppressWarning
                           " Range automatically adjusted to a valid one:"
                        << min << "-" << max << "-->" << m_min << "-" << m_max;
         }
-        emit q_ptr->rangeChanged(m_min, m_max);
+        emit q->rangeChanged(m_min, m_max);
     }
 
     if (minDirty)
-        emit q_ptr->minChanged(m_min);
+        emit q->minChanged(m_min);
     if (maxDirty)
-        emit q_ptr->maxChanged(m_max);
+        emit q->maxChanged(m_max);
 }
 
 void QAbstract3DAxisPrivate::setMin(float min)
 {
+    Q_Q(QAbstract3DAxis);
     if (!allowNegatives()) {
         if (allowZero()) {
             if (min < 0.0f) {
@@ -491,15 +512,16 @@ void QAbstract3DAxisPrivate::setMin(float min)
         }
         m_min = min;
 
-        emit q_ptr->rangeChanged(m_min, m_max);
-        emit q_ptr->minChanged(m_min);
+        emit q->rangeChanged(m_min, m_max);
+        emit q->minChanged(m_min);
         if (maxChanged)
-            emit q_ptr->maxChanged(m_max);
+            emit q->maxChanged(m_max);
     }
 }
 
 void QAbstract3DAxisPrivate::setMax(float max)
 {
+    Q_Q(QAbstract3DAxis);
     if (!allowNegatives()) {
         if (allowZero()) {
             if (max < 0.0f) {
@@ -539,10 +561,10 @@ void QAbstract3DAxisPrivate::setMax(float max)
             minChanged = true;
         }
         m_max = max;
-        emit q_ptr->rangeChanged(m_min, m_max);
-        emit q_ptr->maxChanged(m_max);
+        emit q->rangeChanged(m_min, m_max);
+        emit q->maxChanged(m_max);
         if (minChanged)
-            emit q_ptr->minChanged(m_min);
+            emit q->minChanged(m_min);
     }
 }
 

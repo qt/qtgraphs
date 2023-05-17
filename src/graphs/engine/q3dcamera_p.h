@@ -14,17 +14,18 @@
 #ifndef Q3DCAMERA_P_H
 #define Q3DCAMERA_P_H
 
-#include "graphsglobal_p.h"
 #include "q3dcamera.h"
+#include "q3dobject_p.h"
 #include <QtGui/QMatrix4x4>
 
 QT_BEGIN_NAMESPACE
 
 class Q3DCamera;
 
-class Q3DCameraPrivate : public QObject
+class Q3DCameraPrivate : public Q3DObjectPrivate
 {
-    Q_OBJECT
+    Q_DECLARE_PUBLIC(Q3DCamera)
+
 public:
     Q3DCameraPrivate(Q3DCamera *q);
     ~Q3DCameraPrivate();
@@ -58,17 +59,7 @@ public:
                                                 float fixedRotation,
                                                 float distanceModifier) const;
 
-Q_SIGNALS:
-    void minXRotationChanged(float rotation);
-    void minYRotationChanged(float rotation);
-    void maxXRotationChanged(float rotation);
-    void maxYRotationChanged(float rotation);
-    void viewMatrixChanged(const QMatrix4x4 &viewMatrix);
-    void viewMatrixAutoUpdateChanged(bool enabled);
-
 public:
-    Q3DCamera *q_ptr;
-
     QVector3D m_actualTarget;
     QVector3D m_up;
 
@@ -88,10 +79,6 @@ public:
     bool m_wrapYRotation;
     Q3DCamera::CameraPreset m_activePreset;
     QVector3D m_requestedTarget;
-
-    friend class SelectionPointer;
-    friend class Q3DInputHandler;
-    friend class QTouch3DInputHandler;
 };
 
 QT_END_NAMESPACE

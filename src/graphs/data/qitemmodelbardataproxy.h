@@ -15,6 +15,7 @@ class QItemModelBarDataProxyPrivate;
 class Q_GRAPHS_EXPORT QItemModelBarDataProxy : public QBarDataProxy
 {
     Q_OBJECT
+    Q_DECLARE_PRIVATE(QItemModelBarDataProxy)
     Q_PROPERTY(QAbstractItemModel* itemModel READ itemModel WRITE setItemModel NOTIFY itemModelChanged)
     Q_PROPERTY(QString rowRole READ rowRole WRITE setRowRole NOTIFY rowRoleChanged)
     Q_PROPERTY(QString columnRole READ columnRole WRITE setColumnRole NOTIFY columnRoleChanged)
@@ -137,10 +138,6 @@ Q_SIGNALS:
     void valueRoleReplaceChanged(const QString &replace);
     void rotationRoleReplaceChanged(const QString &replace);
     void multiMatchBehaviorChanged(QItemModelBarDataProxy::MultiMatchBehavior behavior);
-
-protected:
-    QItemModelBarDataProxyPrivate *dptr();
-    const QItemModelBarDataProxyPrivate *dptrc() const;
 
 private:
     Q_DISABLE_COPY(QItemModelBarDataProxy)

@@ -212,7 +212,7 @@ Q_SIGNALS:
     void marginChanged(qreal margin);
 private:
     Q_DISABLE_COPY(QAbstract3DGraph)
-    QScopedPointer<QQuickGraphsItem> d_ptr;
+    QScopedPointer<QQuickGraphsItem> m_graphsItem;
 
     friend class Q3DBars;
     friend class Q3DScatter;

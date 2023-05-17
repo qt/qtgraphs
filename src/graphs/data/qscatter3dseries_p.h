@@ -21,7 +21,8 @@ QT_BEGIN_NAMESPACE
 
 class QScatter3DSeriesPrivate : public QAbstract3DSeriesPrivate
 {
-    Q_OBJECT
+    Q_DECLARE_PUBLIC(QScatter3DSeries)
+
 public:
     QScatter3DSeriesPrivate(QScatter3DSeries *q);
     virtual ~QScatter3DSeriesPrivate();
@@ -34,12 +35,10 @@ public:
     void setItemSize(float size);
 
 private:
-    QScatter3DSeries *qptr();
     int m_selectedItem;
     float m_itemSize;
 
-private:
-    friend class QScatter3DSeries;
+    friend class QQuickGraphsScatter;
 };
 
 QT_END_NAMESPACE

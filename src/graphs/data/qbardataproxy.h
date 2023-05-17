@@ -22,7 +22,7 @@ typedef QList<QBarDataRow *> QBarDataArray;
 class Q_GRAPHS_EXPORT QBarDataProxy : public QAbstractDataProxy
 {
     Q_OBJECT
-
+    Q_DECLARE_PRIVATE(QBarDataProxy)
     Q_PROPERTY(int rowCount READ rowCount NOTIFY rowCountChanged)
     Q_PROPERTY(int colCount READ colCount NOTIFY colCountChanged)
     Q_PROPERTY(QStringList rowLabels READ rowLabels WRITE setRowLabels NOTIFY rowLabelsChanged)
@@ -87,14 +87,11 @@ Q_SIGNALS:
 
 protected:
     explicit QBarDataProxy(QBarDataProxyPrivate *d, QObject *parent = nullptr);
-    QBarDataProxyPrivate *dptr();
-    const QBarDataProxyPrivate *dptrc() const;
 
 private:
     Q_DISABLE_COPY(QBarDataProxy)
 
     friend class Bars3DController;
-    friend class QQuickGraphsBars;
 };
 
 QT_END_NAMESPACE

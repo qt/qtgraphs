@@ -19,32 +19,38 @@ class QValue3DAxis;
 class Q_GRAPHS_EXPORT QValue3DAxisFormatter : public QObject
 {
     Q_OBJECT
+    Q_DECLARE_PRIVATE(QValue3DAxisFormatter)
+
 protected:
     explicit QValue3DAxisFormatter(QValue3DAxisFormatterPrivate *d, QObject *parent = nullptr);
 public:
     explicit QValue3DAxisFormatter(QObject *parent = nullptr);
     virtual ~QValue3DAxisFormatter();
 
+private Q_SLOTS:
+    void markDirtyNoLabelChange();
+
 protected:
     void setAllowNegatives(bool allow);
     bool allowNegatives() const;
     void setAllowZero(bool allow);
     bool allowZero() const;
+    void setAxis(QValue3DAxis *axis);
 
     virtual QValue3DAxisFormatter *createNewInstance() const;
     virtual void recalculate();
-    virtual QString stringForValue(qreal value, const QString &format) const;
+    virtual QString stringForValue(qreal value, const QString &format);
     virtual float positionAt(float value) const;
     virtual float valueAt(float position) const;
-    virtual void populateCopy(QValue3DAxisFormatter &copy) const;
+    virtual void populateCopy(QValue3DAxisFormatter &copy);
 
     void markDirty(bool labelsChange = false);
     QValue3DAxis *axis() const;
 
-    QList<float> &gridPositions() const;
-    QList<float> &subGridPositions() const;
-    QList<float> &labelPositions() const;
-    QStringList &labelStrings() const;
+    QList<float> &gridPositions();
+    QList<float> &subGridPositions();
+    QList<float> &labelPositions();
+    QStringList &labelStrings();
 
     void setLocale(const QLocale &locale);
     QLocale locale() const;
@@ -55,10 +61,7 @@ private:
     Q_DISABLE_COPY(QValue3DAxisFormatter)
 
     friend class Abstract3DController;
-    friend class Scatter3DController;
-    friend class SurfaceObject;
     friend class QValue3DAxisFormatterPrivate;
-    friend class QLogValue3DAxisFormatter;
     friend class QValue3DAxis;
     friend class QValue3DAxisPrivate;
     friend class AxisHelper;
@@ -67,7 +70,6 @@ private:
     friend class QSurface3DSeriesPrivate;
     friend class QQuickGraphsScatter;
     friend class QQuickGraphsBars;
-    friend class Bars3DController;
 };
 
 QT_END_NAMESPACE

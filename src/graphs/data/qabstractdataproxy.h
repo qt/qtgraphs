@@ -15,6 +15,7 @@ class QAbstractDataProxyPrivate;
 class Q_GRAPHS_EXPORT QAbstractDataProxy : public QObject
 {
     Q_OBJECT
+    Q_DECLARE_PRIVATE(QAbstractDataProxy)
     Q_PROPERTY(DataType type READ type CONSTANT)
 
 public:

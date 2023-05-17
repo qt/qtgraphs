@@ -14,6 +14,7 @@ class QSurface3DSeriesPrivate;
 class Q_GRAPHS_EXPORT QSurface3DSeries : public QAbstract3DSeries
 {
     Q_OBJECT
+    Q_DECLARE_PRIVATE(QSurface3DSeries)
     Q_FLAGS(DrawFlag DrawFlags)
     Q_PROPERTY(QSurfaceDataProxy *dataProxy READ dataProxy WRITE setDataProxy NOTIFY dataProxyChanged)
     Q_PROPERTY(QPoint selectedPoint READ selectedPoint WRITE setSelectedPoint NOTIFY selectedPointChanged)
@@ -72,8 +73,6 @@ Q_SIGNALS:
 
 protected:
     explicit QSurface3DSeries(QSurface3DSeriesPrivate *d, QObject *parent = nullptr);
-    QSurface3DSeriesPrivate *dptr();
-    const QSurface3DSeriesPrivate *dptrc() const;
 
 private:
     Q_DISABLE_COPY(QSurface3DSeries)

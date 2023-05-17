@@ -138,9 +138,10 @@ QT_BEGIN_NAMESPACE
 QBar3DSeries::QBar3DSeries(QObject *parent) :
     QAbstract3DSeries(new QBar3DSeriesPrivate(this), parent)
 {
+    Q_D(QBar3DSeries);
     // Default proxy
-    dptr()->setDataProxy(new QBarDataProxy);
-    dptr()->connectSignals();
+    d->setDataProxy(new QBarDataProxy);
+    connectSignals();
 }
 
 /*!
@@ -150,8 +151,9 @@ QBar3DSeries::QBar3DSeries(QObject *parent) :
 QBar3DSeries::QBar3DSeries(QBarDataProxy *dataProxy, QObject *parent) :
     QAbstract3DSeries(new QBar3DSeriesPrivate(this), parent)
 {
-    dptr()->setDataProxy(dataProxy);
-    dptr()->connectSignals();
+    Q_D(QBar3DSeries);
+    d->setDataProxy(dataProxy);
+    connectSignals();
 }
 
 /*!
@@ -172,12 +174,14 @@ QBar3DSeries::~QBar3DSeries()
  */
 void QBar3DSeries::setDataProxy(QBarDataProxy *proxy)
 {
-    d_ptr->setDataProxy(proxy);
+    Q_D(QBar3DSeries);
+    d->setDataProxy(proxy);
 }
 
 QBarDataProxy *QBar3DSeries::dataProxy() const
 {
-    return static_cast<QBarDataProxy *>(d_ptr->dataProxy());
+    const Q_D(QBar3DSeries);
+    return static_cast<QBarDataProxy *>(d->dataProxy());
 }
 
 /*!
@@ -207,16 +211,18 @@ QBarDataProxy *QBar3DSeries::dataProxy() const
  */
 void QBar3DSeries::setSelectedBar(const QPoint &position)
 {
+    Q_D(QBar3DSeries);
     // Don't do this in private to avoid loops, as that is used for callback from controller.
-    if (d_ptr->m_controller)
-        static_cast<Bars3DController *>(d_ptr->m_controller)->setSelectedBar(position, this, true);
+    if (d->m_controller)
+        static_cast<Bars3DController *>(d->m_controller)->setSelectedBar(position, this, true);
     else
-        dptr()->setSelectedBar(position);
+        d->setSelectedBar(position);
 }
 
 QPoint QBar3DSeries::selectedBar() const
 {
-    return dptrc()->m_selectedBar;
+    const Q_D(QBar3DSeries);
+    return d->m_selectedBar;
 }
 
 /*!
@@ -281,26 +287,30 @@ float QBar3DSeries::meshAngle() const
  */
 void QBar3DSeries::setRowColors(const QList<QColor> &colors)
 {
-    dptr()->setRowColors(colors);
+    Q_D(QBar3DSeries);
+    d->setRowColors(colors);
 }
 QList<QColor> QBar3DSeries::rowColors() const
 {
-    return dptrc()->m_rowColors;
-}
-/*!
- * \internal
- */
-QBar3DSeriesPrivate *QBar3DSeries::dptr()
-{
-    return static_cast<QBar3DSeriesPrivate *>(d_ptr.data());
+    const Q_D(QBar3DSeries);
+    return d->m_rowColors;
 }
 
 /*!
  * \internal
  */
-const QBar3DSeriesPrivate *QBar3DSeries::dptrc() const
+void QBar3DSeries::connectSignals()
 {
-    return static_cast<const QBar3DSeriesPrivate *>(d_ptr.data());
+    QObject::connect(this, &QAbstract3DSeries::meshRotationChanged, this,
+                     &QBar3DSeries::handleMeshRotationChanged);
+}
+
+/*!
+ * \internal
+ */
+void QBar3DSeries::handleMeshRotationChanged(const QQuaternion &rotation)
+{
+    emit meshAngleChanged(quaternionAngle(rotation));
 }
 
 // QBar3DSeriesPrivate
@@ -317,22 +327,19 @@ QBar3DSeriesPrivate::~QBar3DSeriesPrivate()
 {
 }
 
-QBar3DSeries *QBar3DSeriesPrivate::qptr()
-{
-    return static_cast<QBar3DSeries *>(q_ptr);
-}
-
 void QBar3DSeriesPrivate::setDataProxy(QAbstractDataProxy *proxy)
 {
     Q_ASSERT(proxy->type() == QAbstractDataProxy::DataTypeBar);
+    Q_Q(QBar3DSeries);
 
     QAbstract3DSeriesPrivate::setDataProxy(proxy);
 
-    emit qptr()->dataProxyChanged(static_cast<QBarDataProxy *>(proxy));
+    emit q->dataProxyChanged(static_cast<QBarDataProxy *>(proxy));
 }
 
 void QBar3DSeriesPrivate::connectControllerAndProxy(Abstract3DController *newController)
 {
+    Q_Q(QBar3DSeries);
     QBarDataProxy *barDataProxy = static_cast<QBarDataProxy *>(m_dataProxy);
 
     if (m_controller && barDataProxy) {
@@ -359,15 +366,16 @@ void QBar3DSeriesPrivate::connectControllerAndProxy(Abstract3DController *newCon
                          &Bars3DController::handleDataRowLabelsChanged);
         QObject::connect(barDataProxy, &QBarDataProxy::columnLabelsChanged, controller,
                          &Bars3DController::handleDataColumnLabelsChanged);
-        QObject::connect(qptr(), &QBar3DSeries::dataProxyChanged, controller,
+        QObject::connect(q, &QBar3DSeries::dataProxyChanged, controller,
                          &Bars3DController::handleArrayReset);
-        QObject::connect(qptr(), &QBar3DSeries::rowColorsChanged, controller,
+        QObject::connect(q, &QBar3DSeries::rowColorsChanged, controller,
                          &Bars3DController::handleRowColorsChanged);
     }
 }
 
 void QBar3DSeriesPrivate::createItemLabel()
 {
+    Q_Q(QBar3DSeries);
     static const QString rowIndexTag(QStringLiteral("@rowIdx"));
     static const QString rowLabelTag(QStringLiteral("@rowLabel"));
     static const QString rowTitleTag(QStringLiteral("@rowTitle"));
@@ -392,7 +400,7 @@ void QBar3DSeriesPrivate::createItemLabel()
     QCategory3DAxis *categoryAxisZ = static_cast<QCategory3DAxis *>(m_controller->axisZ());
     QCategory3DAxis *categoryAxisX = static_cast<QCategory3DAxis *>(m_controller->axisX());
     QValue3DAxis *valueAxis = static_cast<QValue3DAxis *>(m_controller->axisY());
-    qreal selectedBarValue = qreal(qptr()->dataProxy()->itemAt(m_selectedBar)->value());
+    qreal selectedBarValue = qreal(q->dataProxy()->itemAt(m_selectedBar)->value());
 
     // Custom format expects printf format specifier. There is no tag for it.
     m_itemLabel = valueAxis->formatter()->stringForValue(selectedBarValue, m_itemLabelFormat);
@@ -422,31 +430,22 @@ void QBar3DSeriesPrivate::createItemLabel()
     m_itemLabel.replace(seriesNameTag, m_name);
 }
 
-void QBar3DSeriesPrivate::handleMeshRotationChanged(const QQuaternion &rotation)
-{
-    emit qptr()->meshAngleChanged(quaternionAngle(rotation));
-}
-
 void QBar3DSeriesPrivate::setSelectedBar(const QPoint &position)
 {
+    Q_Q(QBar3DSeries);
     if (position != m_selectedBar) {
         markItemLabelDirty();
         m_selectedBar = position;
-        emit qptr()->selectedBarChanged(m_selectedBar);
+        emit q->selectedBarChanged(m_selectedBar);
     }
-}
-
-void QBar3DSeriesPrivate::connectSignals()
-{
-    QObject::connect(q_ptr, &QAbstract3DSeries::meshRotationChanged, this,
-                     &QBar3DSeriesPrivate::handleMeshRotationChanged);
 }
 
 void QBar3DSeriesPrivate::setRowColors(const QList<QColor> &colors)
 {
+    Q_Q(QBar3DSeries);
     if (m_rowColors != colors) {
         m_rowColors = colors;
-        emit qptr()->rowColorsChanged(m_rowColors);
+        emit q->rowColorsChanged(m_rowColors);
     }
 }
 

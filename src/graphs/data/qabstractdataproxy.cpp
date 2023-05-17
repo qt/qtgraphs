@@ -73,15 +73,15 @@ QAbstractDataProxy::~QAbstractDataProxy()
  */
 QAbstractDataProxy::DataType QAbstractDataProxy::type() const
 {
-    return d_ptr->m_type;
+    const Q_D(QAbstractDataProxy);
+    return d->m_type;
 }
 
 // QAbstractDataProxyPrivate
 
 QAbstractDataProxyPrivate::QAbstractDataProxyPrivate(QAbstractDataProxy *q,
                                                      QAbstractDataProxy::DataType type)
-    : QObject(0),
-      q_ptr(q),
+    : q_ptr(q),
       m_type(type),
       m_series(0)
 {

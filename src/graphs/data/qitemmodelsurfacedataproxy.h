@@ -16,6 +16,7 @@ class QItemModelSurfaceDataProxyPrivate;
 class Q_GRAPHS_EXPORT QItemModelSurfaceDataProxy : public QSurfaceDataProxy
 {
     Q_OBJECT
+    Q_DECLARE_PRIVATE(QItemModelSurfaceDataProxy)
     Q_PROPERTY(QAbstractItemModel* itemModel READ itemModel WRITE setItemModel NOTIFY itemModelChanged)
     Q_PROPERTY(QString rowRole READ rowRole WRITE setRowRole NOTIFY rowRoleChanged)
     Q_PROPERTY(QString columnRole READ columnRole WRITE setColumnRole NOTIFY columnRoleChanged)
@@ -154,10 +155,6 @@ Q_SIGNALS:
     void yPosRoleReplaceChanged(const QString &replace);
     void zPosRoleReplaceChanged(const QString &replace);
     void multiMatchBehaviorChanged(QItemModelSurfaceDataProxy::MultiMatchBehavior behavior);
-
-protected:
-    QItemModelSurfaceDataProxyPrivate *dptr();
-    const QItemModelSurfaceDataProxyPrivate *dptrc() const;
 
 private:
     Q_DISABLE_COPY(QItemModelSurfaceDataProxy)
