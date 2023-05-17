@@ -106,6 +106,9 @@ void QQuickGraphsScatter::generatePointsForScatterModel(ScatterModel *graphModel
         graphModel->dataItems = itemList;
         m_scatterController->markDataDirty();
     } else if (m_scatterController->optimizationHints() == QAbstract3DGraph::OptimizationDefault) {
+        graphModel->instancingRootItem = createDataItem(graphModel->series->mesh());
+        graphModel->instancingRootItem->setParent(graphModel->series);
+        graphModel->instancingRootItem->setInstancing(graphModel->instancing);
         if (m_scatterController->selectionMode() != QAbstract3DGraph::SelectionNone)
             graphModel->instancingRootItem->setPickable(true);
     }
@@ -586,9 +589,20 @@ QQuick3DModel *QQuickGraphsScatter::createDataItem(const QAbstract3DSeries::Mesh
     return model;
 }
 
-void QQuickGraphsScatter::removeDataItems(QList<QQuick3DModel *> &items)
+void QQuickGraphsScatter::removeDataItems(ScatterModel *graphModel)
 {
-    removeDataItems(items, items.count());
+    if (m_scatterController->optimizationHints() == QAbstract3DGraph::OptimizationDefault) {
+        QQuick3DModel *item = graphModel->instancingRootItem;
+        QQmlListReference materialsRef(item, "materials");
+        if (materialsRef.size()) {
+            QObject *material = materialsRef.at(0);
+            delete material;
+        }
+        item->deleteLater();
+    } else {
+        QList<QQuick3DModel *> &items = graphModel->dataItems;
+        removeDataItems(items, items.count());
+    }
 }
 
 void QQuickGraphsScatter::removeDataItems(QList<QQuick3DModel *> &items, qsizetype count)
@@ -612,7 +626,7 @@ void QQuickGraphsScatter::recreateDataItems()
     for (auto series : seriesList) {
         for (const auto &model : std::as_const(m_scatterGraphs)) {
             if (model->series == series) {
-                removeDataItems(model->dataItems);
+                removeDataItems(model);
                 generatePointsForScatterModel(model);
             }
         }
@@ -786,7 +800,7 @@ void QQuickGraphsScatter::removeSeries(QScatter3DSeries *series)
     for (QList<ScatterModel *>::ConstIterator it = m_scatterGraphs.cbegin();
          it != m_scatterGraphs.cend();) {
         if ((*it)->series == series) {
-            removeDataItems((*it)->dataItems);
+            removeDataItems(*it);
 
             if ((*it)->seriesTexture)
                 delete (*it)->seriesTexture;

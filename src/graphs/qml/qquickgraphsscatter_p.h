@@ -152,7 +152,7 @@ private:
     QQuick3DModel *createDataItemModel(QAbstract3DSeries::Mesh meshType);
     QQuick3DNode *createSeriesRoot();
     QQuick3DModel *createDataItem(const QAbstract3DSeries::Mesh meshType);
-    void removeDataItems(QList<QQuick3DModel *> &items);
+    void removeDataItems(ScatterModel *graphModel);
     void fixMeshFileName(QString &fileName, QAbstract3DSeries::Mesh meshType);
     QString getMeshFileName(QAbstract3DSeries::Mesh meshType);
 
