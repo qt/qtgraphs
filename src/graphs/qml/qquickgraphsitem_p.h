@@ -326,6 +326,9 @@ protected:
 
     virtual void handleLabelCountChanged(QQuick3DRepeater *repeater);
 
+    bool isGridUpdated() { return m_gridUpdated; }
+    void setGridUpdated(bool updated) { m_gridUpdated = updated; }
+
     QSharedPointer<QMutex> m_nodeMutex;
 
 private:
@@ -403,15 +406,19 @@ private:
     float m_fontScaleFactor = .3f;
 
     float m_labelMargin = 0.1f;
+    float m_zLabelAdjustment = 0.0f;
 
     bool m_sliceEnabled = false;
     bool m_sliceActivatedChanged = false;
+
+    bool m_gridUpdated = false;
 
     float m_initialZoomLevel = -1.0f;
     void setUpCamera();
     void setUpLight();
     void graphPositionAt(const QPoint& point);
     void updateCamera();
+    void updateRadialLabelOffset();
     void handleSegmentLineCountChanged(QAbstract3DAxis *axis, QQuick3DRepeater *repeater);
     void handleSubSegmentLineCountChanged(QAbstract3DAxis *axis, QQuick3DRepeater *repeater);
     QVector3D calculateLabelRotation(float labelAutoAngle);

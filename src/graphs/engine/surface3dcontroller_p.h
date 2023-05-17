@@ -100,6 +100,9 @@ public:
     bool isSelectedPointChanged() const { return m_changeTracker.selectedPointChanged; }
     void setSelectedPointChanged(bool changed) { m_changeTracker.selectedPointChanged = changed; }
 
+    bool isFlipHorizontalGridChanged() const { return m_changeTracker.flipHorizontalGridChanged; }
+    void setFlipHorizontalGridChanged(bool changed) { m_changeTracker.flipHorizontalGridChanged = changed; }
+
 public Q_SLOTS:
     void handleArrayReset();
     void handleRowsAdded(int startIndex, int count);

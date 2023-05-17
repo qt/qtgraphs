@@ -663,9 +663,22 @@ void QQuickGraphsItem::synchData()
         viewFlipped = true;
     }
 
-    if (axisFormatterChanged || viewFlipped) {
+    bool polarChanged = false;
+
+    if (m_controller->m_changeTracker.polarChanged) {
+        polarChanged = true;
+        m_controller->m_changeTracker.polarChanged = false;
+    }
+
+    if (axisFormatterChanged || viewFlipped || polarChanged) {
         updateGrid();
         updateLabels();
+        m_gridUpdated = true;
+    }
+
+    if (m_controller->m_changeTracker.radialLabelOffsetChanged) {
+        updateRadialLabelOffset();
+        m_controller->m_changeTracker.radialLabelOffsetChanged = false;
     }
 
     QMatrix4x4 modelMatrix;
@@ -1040,8 +1053,17 @@ void QQuickGraphsItem::updateGrid()
             linePosZ = calculateCategoryGridLinePosition(axisZ, i);
             linePosY = calculateCategoryGridLinePosition(axisY, i);
         }
-        positionAndScaleLine(lineNode, scaleX, QVector3D(linePosX, linePosY, linePosZ));
+        if (isPolar()) {
+            lineNode->setPosition(QVector3D(0.0f, linePosY, 0.0f));
+            lineNode->setScale(QVector3D(scaleX.x() * .5f, scaleX.x() * .5f, scaleX.z()));
+            lineNode->setProperty("polarRadius",
+                                  static_cast<QValue3DAxis *>(axisZ)->subGridPositionAt(i)
+                                  / (scaleX.x() * .5f) * 2.0f);
+        } else {
+            positionAndScaleLine(lineNode, scaleX, QVector3D(linePosX, linePosY, linePosZ));
+        }
         lineNode->setRotation(lineRotation);
+        lineNode->setProperty("isPolar", isPolar());
     }
 
     for (int i  = 0; i < gridLineCountZ; i++) {
@@ -1052,8 +1074,17 @@ void QQuickGraphsItem::updateGrid()
             linePosZ = calculateCategoryGridLinePosition(axisZ, i);
             linePosY = calculateCategoryGridLinePosition(axisY, i);
         }
-        positionAndScaleLine(lineNode, scaleX, QVector3D(linePosX, linePosY, linePosZ));
+        if (isPolar()) {
+            lineNode->setPosition(QVector3D(0.0f, linePosY, 0.0f));
+            lineNode->setScale(QVector3D(scaleX.x() * .5f, scaleX.x() * .5f, scaleX.z()));
+            lineNode->setProperty("polarRadius",
+                                  static_cast<QValue3DAxis *>(axisZ)->gridPositionAt(i)
+                                  / (scaleX.x() * .5f) * 2.0f);
+        } else {
+            positionAndScaleLine(lineNode, scaleX, QVector3D(linePosX, linePosY, linePosZ));
+        }
         lineNode->setRotation(lineRotation);
+        lineNode->setProperty("isPolar", isPolar());
     }
 
     // Side vertical line
@@ -1126,7 +1157,6 @@ void QQuickGraphsItem::updateGrid()
         rotation.setZ(180.0f);
     }
     scale = translate = m_scaleWithBackground.x();
-    lineRotation = Utils::calculateRotation(rotation);
     for (int i = 0; i < subGridLineCountX; i++) {
         QQuick3DNode *lineNode = static_cast<QQuick3DNode *>(subsegmentLineRepeaterX()->objectAt(i));
         if (axisX->type() == QAbstract3DAxis::AxisTypeValue) {
@@ -1135,7 +1165,13 @@ void QQuickGraphsItem::updateGrid()
             linePosX = calculateCategoryGridLinePosition(axisX, i);
             linePosY = calculateCategoryGridLinePosition(axisY, i);
         }
-        positionAndScaleLine(lineNode, scaleZ, QVector3D(linePosX, linePosY, linePosZ));
+        if (isPolar()) {
+            lineNode->setPosition(QVector3D(.0f, linePosY, .0f));
+            rotation.setY(static_cast<QValue3DAxis *>(axisX)->gridPositionAt(i) * 360.0f);
+        } else {
+            positionAndScaleLine(lineNode, scaleZ, QVector3D(linePosX, linePosY, linePosZ));
+        }
+        lineRotation = Utils::calculateRotation(rotation);
         lineNode->setRotation(lineRotation);
     }
     for (int i  = 0; i < gridLineCountX; i++) {
@@ -1146,7 +1182,13 @@ void QQuickGraphsItem::updateGrid()
             linePosX = calculateCategoryGridLinePosition(axisX, i);
             linePosY = calculateCategoryGridLinePosition(axisY, i);
         }
-        positionAndScaleLine(lineNode, scaleZ, QVector3D(linePosX, linePosY, linePosZ));
+        if (isPolar()) {
+            lineNode->setPosition(QVector3D(.0f, linePosY, .0f));
+            rotation.setY(static_cast<QValue3DAxis *>(axisX)->gridPositionAt(i) * 360.0f);
+        } else {
+            positionAndScaleLine(lineNode, scaleZ, QVector3D(linePosX, linePosY, linePosZ));
+        }
+        lineRotation = Utils::calculateRotation(rotation);
         lineNode->setRotation(lineRotation);
     }
 
@@ -1298,6 +1340,8 @@ void QQuickGraphsItem::updateLabels()
             }
         }
     }
+    if (isPolar())
+        labelRotation.setY(0.0f);
     auto totalRotation = Utils::calculateRotation(labelRotation);
 
     float scale = backgroundScale.x() - m_backgroundScaleMargin.x();;
@@ -1333,7 +1377,18 @@ void QQuickGraphsItem::updateLabels()
         auto valueAxisX = static_cast<QValue3DAxis *>(axisX);
         for (int i = 0; i < repeaterX()->count(); i++) {
             auto obj = static_cast<QQuick3DNode *>(repeaterX()->objectAt(i));
-            labelTrans.setX(valueAxisX->labelPositionAt(i) * scale * 2.0f - translate);
+            if (isPolar()) {
+                if (i == repeaterX()->count() - 1) {
+                    obj->setVisible(false);
+                    break;
+                }
+                float rad = qDegreesToRadians(valueAxisX->labelPositionAt(i) * 360.0f);
+                labelTrans.setX(qSin(rad) * -scale - qSin(rad) * m_labelMargin * 2.0f);
+                labelTrans.setY(yPos);
+                labelTrans.setZ(qCos(rad) * -scale - qCos(rad) * m_labelMargin * 2.0f);
+            } else {
+                labelTrans.setX(valueAxisX->labelPositionAt(i) * scale * 2.0f - translate);
+            }
             obj->setScale(fontScaled);
             obj->setPosition(labelTrans);
             obj->setRotation(totalRotation);
@@ -1518,9 +1573,20 @@ void QQuickGraphsItem::updateLabels()
 
     if (axisZ->type() == QAbstract3DAxis::AxisTypeValue) {
         auto valueAxisZ = static_cast<QValue3DAxis *>(axisZ);
+        float offset = m_controller->radialLabelOffset();
         for (int i = 0; i < repeaterZ()->count(); i++) {
             auto obj = static_cast<QQuick3DNode *>(repeaterZ()->objectAt(i));
-            labelTrans.setZ(valueAxisZ->labelPositionAt(i) * scale * -2.0f + translate);
+            if (isPolar()) {
+                float polarX = backgroundScale.x() + m_labelMargin;
+                if (xFlipped)
+                    polarX *= -1;
+                m_zLabelAdjustment = xPos - polarX;
+                labelTrans.setX(m_zLabelAdjustment + (offset * polarX));
+                labelTrans.setY(yPos);
+                labelTrans.setZ(-valueAxisZ->labelPositionAt(i));
+            } else {
+                labelTrans.setZ(valueAxisZ->labelPositionAt(i) * scale * -2.0f + translate);
+            }
             obj->setScale(fontScaled);
             obj->setPosition(labelTrans);
             obj->setRotation(totalRotation);
@@ -1582,6 +1648,27 @@ void QQuickGraphsItem::updateLabels()
         updateYTitle(sideLabelRotation, backLabelRotation,
                      sideLabelTrans,    backLabelTrans,
                      totalSideLabelRotation, totalBackLabelRotation, labelsMaxWidth, labelHeight, fontScaled);
+    }
+}
+
+void QQuickGraphsItem::updateRadialLabelOffset()
+{
+    if (!isPolar())
+        return;
+
+    QAbstract3DAxis *axisZ = m_controller->axisZ();
+    QVector3D backgroundScale = m_scaleWithBackground + m_backgroundScaleMargin;
+    float offset = m_controller->radialLabelOffset();
+    if (axisZ->type() == QAbstract3DAxis::AxisTypeValue) {
+        for (int i = 0; i < repeaterZ()->count(); i++) {
+            auto obj = static_cast<QQuick3DNode *>(repeaterZ()->objectAt(i));
+            float polarX = backgroundScale.x() + m_labelMargin;
+            QVector3D pos = obj->position();
+            if (isXFlipped())
+                polarX *= -1;
+            pos.setX(m_zLabelAdjustment + (offset * polarX));
+            obj->setPosition(pos);
+        }
     }
 }
 

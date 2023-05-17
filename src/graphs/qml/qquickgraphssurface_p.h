@@ -85,6 +85,7 @@ public Q_SLOTS:
 
     void handleFlatShadingEnabledChanged();
     void handleWireframeColorChanged();
+    void handleFlipHorizontalGridChanged(bool flip);
 
 Q_SIGNALS:
     void axisXChanged(QValue3DAxis *axis);

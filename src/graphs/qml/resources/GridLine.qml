@@ -5,14 +5,33 @@ import QtQuick
 import QtQuick3D
 
 Component {
-    Model {
+    Node {
         property color lineColor: "green"
-        source: "#Rectangle"
-        materials: [ PrincipledMaterial {
-                baseColor: lineColor
-                lighting: PrincipledMaterial.NoLighting
-            }
-        ]
-        scale: Qt.vector3d(0.0001, 0.0001, 0.0001)
+        property bool isPolar: false
+        property real polarRadius: 0.0
+        property real lineWidth: 1
+
+        Model {
+            visible: !isPolar
+            source: "#Rectangle"
+            materials: [ PrincipledMaterial {
+                    baseColor: lineColor
+                    lighting: PrincipledMaterial.NoLighting
+                }
+            ]
+        }
+
+        Rectangle {
+            x : -(polarRadius * .5)
+            y : -(polarRadius * .5)
+            width: polarRadius
+            height: polarRadius
+            radius: width / 2.0
+            border.color: lineColor
+            border.width: lineWidth
+            color: 'transparent'
+            visible: isPolar
+            antialiasing: false
+        }
     }
 }
