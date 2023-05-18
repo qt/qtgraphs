@@ -681,6 +681,26 @@ void QQuickGraphsItem::synchData()
         m_controller->m_changeTracker.radialLabelOffsetChanged = false;
     }
 
+    bool axisPropertiesChanged = false;
+
+    if (m_controller->m_changeTracker.axisXLabelAutoRotationChanged) {
+        axisPropertiesChanged = true;
+        m_controller->m_changeTracker.axisXLabelAutoRotationChanged = false;
+    }
+
+    if (m_controller->m_changeTracker.axisYLabelAutoRotationChanged) {
+        axisPropertiesChanged = true;
+        m_controller->m_changeTracker.axisYLabelAutoRotationChanged = false;
+    }
+
+    if (m_controller->m_changeTracker.axisZLabelAutoRotationChanged) {
+        axisPropertiesChanged = true;
+        m_controller->m_changeTracker.axisZLabelAutoRotationChanged = false;
+    }
+
+    if (axisPropertiesChanged)
+        updateLabels();
+
     QMatrix4x4 modelMatrix;
     m_backgroundScale->setScale(m_scaleWithBackground + m_backgroundScaleMargin);
 
