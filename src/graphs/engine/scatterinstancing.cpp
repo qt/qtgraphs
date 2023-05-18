@@ -21,6 +21,11 @@ QByteArray ScatterInstancing::getInstanceBuffer(int *instanceCount) {
             QVector4D customData{};
             if (m_rangeGradient)
                 customData.setX(m_customData.at(i));
+
+            if (item.hide) {
+                // Setting the scale to zero breaks instanced picking.
+                item.scale = {0.001f, 0.001f, 0.001f};
+            }
             auto entry = calculateTableEntryFromQuaternion({x,y,z}, item.scale, item.rotation, QColor(Qt::white), customData);
             m_instanceData.append(reinterpret_cast<char *>(&entry), sizeof(entry));
             instanceNumber++;
@@ -70,5 +75,17 @@ const QList<DataItemHolder> &ScatterInstancing::dataArray() const
 void ScatterInstancing::setDataArray(const QList<DataItemHolder> &newDataArray)
 {
     m_dataArray = newDataArray;
+    markDataDirty();
+}
+
+void ScatterInstancing::hideDataItem(int index)
+{
+    m_dataArray[index].hide = true;
+}
+
+void ScatterInstancing::resetVisibilty()
+{
+    for (auto &dih : m_dataArray)
+        dih.hide = false;
     markDataDirty();
 }

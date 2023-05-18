@@ -180,6 +180,7 @@ private:
     void setSelected(QQuick3DModel *newSelected);
     void setSelected(QQuick3DModel *root, qsizetype index);
     void clearSelectionModel();
+    void clearAllSelectionInstanced();
 
     void updateGraph() override;
     void synchData() override;

@@ -20,6 +20,7 @@ struct DataItemHolder {
     QVector3D position;
     QQuaternion rotation;
     QVector3D scale;
+    bool hide = false;
 };
 
 class ScatterInstancing : public QQuick3DInstancing
@@ -30,6 +31,8 @@ public:
 
     const QList<DataItemHolder> &dataArray() const;
     void setDataArray(const QList<DataItemHolder> &newDataArray);
+    void hideDataItem(int index);
+    void resetVisibilty();
 
     QList<float> &customData();
     void setCustomData(const QList<float> &newCustomData);

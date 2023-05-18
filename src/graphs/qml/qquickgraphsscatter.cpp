@@ -197,6 +197,7 @@ void QQuickGraphsScatter::updateScatterGraphItemPositions(ScatterModel *graphMod
 void QQuickGraphsScatter::updateScatterGraphItemVisuals(ScatterModel *graphModel)
 {
     bool useGradient = graphModel->series->d_ptr->isUsingGradient();
+    bool usePoint = graphModel->series->mesh() == QAbstract3DSeries::MeshPoint;
     int itemCount = graphModel->series->dataProxy()->itemCount();
 
     if (useGradient) {
@@ -240,13 +241,19 @@ void QQuickGraphsScatter::updateScatterGraphItemVisuals(ScatterModel *graphModel
             qWarning() << __func__ << "Item count differs from itemList count";
 
         if (!rangeGradient) {
-            if (graphModel->series->mesh() != QAbstract3DSeries::MeshPoint) {
+            if (!usePoint) {
                 for (const auto &obj : std::as_const(graphModel->dataItems)) {
                     updateItemMaterial(obj, useGradient, rangeGradient,
                                        QStringLiteral(":/materials/ObjectGradientMaterial"));
 
                     updatePrincipledMaterial(obj, graphModel->series->baseColor(),
                                              useGradient, graphModel->seriesTexture);
+                }
+                if (m_scatterController->m_selectedItem != invalidSelectionIndex()
+                    && graphModel->series == m_scatterController->m_selectedItemSeries) {
+                    QQuick3DModel *selectedItem = graphModel->dataItems.at(m_scatterController->m_selectedItem);
+                    updatePrincipledMaterial(selectedItem, graphModel->series->singleHighlightColor(),
+                                             useGradient, graphModel->highlightTexture);
                 }
             } else {
                 for (const auto &obj : std::as_const(graphModel->dataItems)) {
@@ -258,15 +265,16 @@ void QQuickGraphsScatter::updateScatterGraphItemVisuals(ScatterModel *graphModel
                     auto pointMaterial = qobject_cast<QQuick3DCustomMaterial *>(materialsRef.at(0));
                     pointMaterial->setProperty("uColor", graphModel->series->baseColor());
                 }
-            }
-            if (m_scatterController->m_selectedItem != invalidSelectionIndex()
+                if (m_scatterController->m_selectedItem != invalidSelectionIndex()
                     && graphModel->series == m_scatterController->m_selectedItemSeries) {
-                QQuick3DModel *selectedItem = graphModel->dataItems.at(m_scatterController->m_selectedItem);
-                updatePrincipledMaterial(selectedItem, graphModel->series->singleHighlightColor(),
-                                         useGradient, graphModel->highlightTexture);
+                    QQuick3DModel *selectedItem = graphModel->dataItems.at(m_scatterController->m_selectedItem);
+                    QQmlListReference materialsRef(selectedItem, "materials");
+                    auto pointMaterial = qobject_cast<QQuick3DCustomMaterial *>(materialsRef.at(0));
+                    pointMaterial->setProperty("uColor", graphModel->series->singleHighlightColor());
+                }
             }
         } else {
-            if (graphModel->series->mesh() != QAbstract3DSeries::MeshPoint) {
+            if (!usePoint) {
                 for (const auto &obj : std::as_const(graphModel->dataItems)) {
                     updateItemMaterial(obj, useGradient, rangeGradient,
                                        QStringLiteral(":/materials/RangeGradientScatterMaterial"));
@@ -287,11 +295,16 @@ void QQuickGraphsScatter::updateScatterGraphItemVisuals(ScatterModel *graphModel
                     // Update point material
                     updateCustomMaterial(obj, graphModel->seriesTexture);
                 }
+
+                if (m_scatterController->m_selectedItem != invalidSelectionIndex()
+                    && graphModel->series == m_scatterController->selectedSeries()) {
+                    QQuick3DModel *selectedItem = graphModel->dataItems.at(m_scatterController->m_selectedItem);
+                    updateCustomMaterial(selectedItem, graphModel->highlightTexture);
+                }
             }
         }
     } else if (m_scatterController->optimizationHints() == QAbstract3DGraph::OptimizationDefault) {
         graphModel->instancing->setRangeGradient(rangeGradient);
-        bool usePoint = graphModel->series->mesh() == QAbstract3DSeries::MeshPoint;
         if (!rangeGradient) {
             if (!usePoint) {
                 updateItemMaterial(graphModel->instancingRootItem, useGradient, rangeGradient,
@@ -351,27 +364,49 @@ void QQuickGraphsScatter::updateScatterGraphItemVisuals(ScatterModel *graphModel
             }
         }
 
-        // Selection indicator
-        if (!rangeGradient) {
-            updateItemMaterial(graphModel->selectionIndicator, useGradient, rangeGradient,
-                               QStringLiteral(":/materials/ObjectGradientMaterial"));
-            updatePrincipledMaterial(graphModel->selectionIndicator, graphModel->series->singleHighlightColor(),
-                                     useGradient, graphModel->highlightTexture);
-        } else {
-            // Rangegradient
-            updateItemMaterial(graphModel->selectionIndicator, useGradient, rangeGradient,
-                               QStringLiteral(":/materials/RangeGradientMaterial"));
-            updateInstancedCustomMaterial(graphModel, true, nullptr, graphModel->highlightTexture);
-        }
-
         if ((m_scatterController->m_selectedItem != -1
              && m_scatterController->m_selectedItemSeries == graphModel->series)
                 && !m_selectionActive) {
-            auto dih = graphModel->instancing->dataArray().at(m_scatterController->m_selectedItem);
+            // Selection indicator
+            if (!rangeGradient) {
+                if (!usePoint) {
+                    updateItemMaterial(graphModel->selectionIndicator, useGradient, rangeGradient,
+                                       QStringLiteral(":/materials/ObjectGradientMaterial"));
+                    updatePrincipledMaterial(graphModel->selectionIndicator,
+                                             graphModel->series->singleHighlightColor(),
+                                             useGradient, graphModel->highlightTexture);
+                } else {
+                    graphModel->selectionIndicator->setCastsShadows(false);
+                    updatePointItemMaterial(graphModel->selectionIndicator,
+                                            QStringLiteral(":/materials/PointMaterial"),
+                                            QStringLiteral("pointmaterial"));
+                    QQmlListReference materialsRef(graphModel->selectionIndicator, "materials");
+                    auto pointMaterial = qobject_cast<QQuick3DCustomMaterial *>(materialsRef.at(0));
+                    pointMaterial->setProperty("uColor", graphModel->series->singleHighlightColor());
+                }
+            } else {
+                // Rangegradient
+                if (!usePoint) {
+                    updateItemMaterial(graphModel->selectionIndicator, useGradient, rangeGradient,
+                                       QStringLiteral(":/materials/RangeGradientMaterial"));
+                    updateInstancedCustomMaterial(graphModel, true, nullptr, graphModel->highlightTexture);
+                } else {
+                    graphModel->selectionIndicator->setCastsShadows(false);
+                    updatePointItemMaterial(graphModel->selectionIndicator,
+                                            QStringLiteral(":/materials/PointRangeGradientMaterial"),
+                                            QStringLiteral("pointrangegradientmaterial"));
+                    // Update point material
+                    updateInstancedCustomMaterial(graphModel, true, nullptr, graphModel->highlightTexture);
+                }
+            }
+
+            const DataItemHolder &dih = graphModel->instancing->dataArray().at(m_scatterController->m_selectedItem);
+
             graphModel->selectionIndicator->setPosition(dih.position);
             graphModel->selectionIndicator->setRotation(dih.rotation);
-            graphModel->selectionIndicator->setScale(dih.scale * m_indicatorScaleAdjustment);
+            graphModel->selectionIndicator->setScale(dih.scale);
             graphModel->selectionIndicator->setVisible(true);
+            graphModel->instancing->hideDataItem(m_scatterController->m_selectedItem);
             itemLabel()->setPosition(graphModel->selectionIndicator->position());
             m_selectionActive = true;
             graphModel->instancing->markDataDirty();
@@ -470,7 +505,9 @@ void QQuickGraphsScatter::updatePointItemMaterial(QQuick3DModel *item,
     }
 }
 
-void QQuickGraphsScatter::updateInstancedPointItemMaterial(QQuick3DModel *item, const QString &materialName, const QString &objectName)
+void QQuickGraphsScatter::updateInstancedPointItemMaterial(QQuick3DModel *item,
+                                                           const QString &materialName,
+                                                           const QString &objectName)
 {
     QQmlListReference materialsRef(item, "materials");
     if (materialsRef.size()) {
@@ -1018,12 +1055,21 @@ void QQuickGraphsScatter::setSelected(QQuick3DModel *root, qsizetype index)
 
 void QQuickGraphsScatter::clearSelectionModel()
 {
+    if (optimizationHints() == QAbstract3DGraph::OptimizationDefault)
+        clearAllSelectionInstanced();
+
     setSelectedItem(invalidSelectionIndex(), nullptr);
 
     itemLabel()->setVisible(false);
     m_scatterController->setSeriesVisualsDirty();
     m_selected = nullptr;
     m_previousSelected = nullptr;
+}
+
+void QQuickGraphsScatter::clearAllSelectionInstanced()
+{
+    for (const auto &graph : m_scatterGraphs)
+        graph->instancing->resetVisibilty();
 }
 
 void QQuickGraphsScatter::updateGraph()
