@@ -12,12 +12,13 @@ Node {
     property bool borderEnabled : false
     property font labelFont
     property real labelWidth: -1
+    property real labelHeight: -1
 
     Item {
         anchors.centerIn: parent
-        anchors.verticalCenterOffset: -25
+        anchors.verticalCenterOffset: text0.font.pointSize
         width: Math.max(labelWidth / 2, text0.implicitWidth)
-        height: text0.implicitHeight
+        height: labelHeight
         enabled: false
 
         Rectangle {

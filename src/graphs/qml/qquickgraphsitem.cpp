@@ -719,6 +719,21 @@ void QQuickGraphsItem::synchData()
         m_controller->m_changeTracker.axisZLabelAutoRotationChanged = false;
     }
 
+    if (m_controller->m_changeTracker.axisXTitleFixedChanged) {
+        axisPropertiesChanged = true;
+        m_controller->m_changeTracker.axisXTitleFixedChanged = false;
+    }
+
+    if (m_controller->m_changeTracker.axisYTitleFixedChanged) {
+        axisPropertiesChanged = true;
+        m_controller->m_changeTracker.axisYTitleFixedChanged = false;
+    }
+
+    if (m_controller->m_changeTracker.axisZTitleFixedChanged) {
+        axisPropertiesChanged = true;
+        m_controller->m_changeTracker.axisZTitleFixedChanged = false;
+    }
+
     if (axisPropertiesChanged)
         updateLabels();
 
@@ -1385,9 +1400,10 @@ void QQuickGraphsItem::updateLabels()
         labelRotation.setY(0.0f);
     auto totalRotation = Utils::calculateRotation(labelRotation);
 
-    float scale = backgroundScale.x() - m_backgroundScaleMargin.x();;
+    float scale = backgroundScale.x() - m_backgroundScaleMargin.x();
     float translate = backgroundScale.x() - m_backgroundScaleMargin.x();
-    float textPadding = 12.0f;
+    float textPadding = 8.0f;
+    float heightPadding = 4.0f;
 
     auto pointSize = m_controller->activeTheme()->font().pointSizeF();
     auto scaleFactor = m_labelScale.x() * m_labelFontScaleFactor / pointSize
@@ -1399,7 +1415,7 @@ void QQuickGraphsItem::updateLabels()
     float labelsMaxWidth = 0.0f;
     labelsMaxWidth = qMax(labelsMaxWidth, float(findLabelsMaxWidth(axisX->labels()))) + textPadding;
     QFontMetrics fm(m_controller->activeTheme()->font());
-    float labelHeight = fm.height() + textPadding;
+    float labelHeight = fm.height() + heightPadding;
 
     auto adjustment = labelsMaxWidth * scaleFactor * .5f;
     zPos = backgroundScale.z() + adjustment + m_labelMargin;
@@ -1817,7 +1833,7 @@ void QQuickGraphsItem::updateXTitle(const QVector3D &labelRotation, const QVecto
                                     float labelHeight, const QVector3D &scale)
 {
     float scaledFontSize = (0.05 + m_controller->activeTheme()->font().pointSizeF()) / 500.0f;
-    float scaleFactor = scaledFontSize / 115.0f;
+    float scaleFactor = scaledFontSize / 90.0f;
     float titleOffset;
 
     bool radial = false;
@@ -1904,7 +1920,7 @@ void QQuickGraphsItem::updateXTitle(const QVector3D &labelRotation, const QVecto
     m_titleLabelX->setPosition(labelTrans + titleOffsetVector);
     m_titleLabelX->setRotation(titleRotation);
     m_titleLabelX->setProperty("labelWidth", labelsMaxWidth);
-    m_titleLabelX->setProperty("LabelHeight", labelHeight);
+    m_titleLabelX->setProperty("labelHeight", labelHeight);
 }
 
 void QQuickGraphsItem::updateYTitle(const QVector3D &sideLabelRotation,
@@ -1918,14 +1934,14 @@ void QQuickGraphsItem::updateYTitle(const QVector3D &sideLabelRotation,
                                     const QVector3D &scale)
 {
     float scaledFontSize = (0.05 + m_controller->activeTheme()->font().pointSizeF()) / 500.0f;
-    float scaleFactor = scaledFontSize / 115.0f;
+    float scaleFactor = scaledFontSize / 60.0f;
     float titleOffset = 2.0f * (m_labelMargin + (labelsMaxWidth * scaleFactor));
 
     QQuaternion zRightAngleRotation = QQuaternion::fromAxisAndAngle(0.0f, 0.0f, 1.0f, 90.0f);
     float yRotation;
     QVector3D titleTrans;
     QQuaternion totalRotation;
-    if (m_xFlipped == m_zFlipped) {
+    if (m_xFlipped != m_zFlipped) {
         yRotation = backLabelRotation.y();
         titleTrans = backLabelTrans;
         totalRotation = totalBackRotation;
@@ -1934,6 +1950,7 @@ void QQuickGraphsItem::updateYTitle(const QVector3D &sideLabelRotation,
         titleTrans = sideLabelTrans;
         totalRotation = totalSideRotation;
     }
+    titleTrans.setY(.0f);
 
     QQuaternion offsetRotator = QQuaternion::fromAxisAndAngle(0.0f, 1.0f, 0.0f, yRotation);
     QVector3D titleOffsetVector =
@@ -1951,7 +1968,7 @@ void QQuickGraphsItem::updateYTitle(const QVector3D &sideLabelRotation,
     m_titleLabelY->setPosition(titleTrans + titleOffsetVector);
     m_titleLabelY->setRotation(titleRotation);
     m_titleLabelY->setProperty("labelWidth", labelsMaxWidth);
-    m_titleLabelY->setProperty("LabelHeight", labelHeight);
+    m_titleLabelY->setProperty("labelHeight", labelHeight);
 }
 
 void QQuickGraphsItem::updateZTitle(const QVector3D &labelRotation, const QVector3D &labelTrans,
@@ -1959,7 +1976,7 @@ void QQuickGraphsItem::updateZTitle(const QVector3D &labelRotation, const QVecto
                                     float labelHeight, const QVector3D &scale)
 {
     float scaledFontSize = (0.05 + m_controller->activeTheme()->font().pointSizeF()) / 500.0f;
-    float scaleFactor = scaledFontSize / 115.0f;
+    float scaleFactor = scaledFontSize / 90.0f;
     float titleOffset = 2.0f * (m_labelMargin + (labelsMaxWidth * scaleFactor));
     float zRotation = labelRotation.z();
     float yRotation = -90.0f;
@@ -2031,7 +2048,7 @@ void QQuickGraphsItem::updateZTitle(const QVector3D &labelRotation, const QVecto
     m_titleLabelZ->setPosition(labelTrans + titleOffsetVector);
     m_titleLabelZ->setRotation(titleRotation);
     m_titleLabelZ->setProperty("labelWidth", labelsMaxWidth);
-    m_titleLabelZ->setProperty("LabelHeight", labelHeight);
+    m_titleLabelZ->setProperty("labelHeight", labelHeight);
 }
 
 void QQuickGraphsItem::updateCamera()

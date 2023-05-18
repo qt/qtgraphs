@@ -362,6 +362,8 @@ void QQuickGraphsBars::synchData()
         m_axisRangeChanged = false;
     }
 
+    updateTitleLabels();
+
     QQuickGraphsItem::synchData();
 
     QMatrix4x4 modelMatrix;
