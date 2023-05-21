@@ -239,8 +239,8 @@ private:
     void updateBarPositions(QBar3DSeries *series);
     float updateBarHeightParameters(const QBarDataItem *item);
     void updateBarVisuals(QBar3DSeries *series);
-    void updateItemMaterial(QQuick3DModel *item, bool useGradient, bool rangeGradient);
-    void updateItemInstancedMaterial(QQuick3DModel *item, bool useGradient, bool rangeGradient);
+    void updateItemMaterial(QQuick3DModel *item, bool useGradient, bool rangeGradient,
+                            const QString &materialName);
     void updateCustomMaterial(QQuick3DModel *item, bool isHighlight = false,
                               bool isMultiHighlight = false, QQuick3DTexture *texture = nullptr);
     void updatePrincipledMaterial(QQuick3DModel *model, const QColor &color, bool useGradient,
