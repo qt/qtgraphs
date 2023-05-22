@@ -26,7 +26,7 @@ Node {
             color: backgroundColor
             visible: backgroundEnabled
             border.color: labelTextColor
-            border.width: borderEnabled ? 1 : 0
+            border.width: borderEnabled ? Math.max(0.5, (text0.font.pointSize / 16)) : 0
             radius: 3
         }
 
