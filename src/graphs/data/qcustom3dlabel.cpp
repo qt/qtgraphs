@@ -338,8 +338,13 @@ void QCustom3DLabelPrivate::createTextureImage()
 void QCustom3DLabelPrivate::createTextureImage(const QColor &bgrColor, const QColor &txtColor,
                                                bool background, bool borders)
 {
-    m_textureImage = Utils::printTextToImage(m_font, m_text, bgrColor, txtColor, background,
-                                             borders, 0);
+    Q_UNUSED(bgrColor)
+    Q_UNUSED(txtColor)
+    Q_UNUSED(background)
+    Q_UNUSED(borders)
+    // TODO: QTBUG-99844
+//    m_textureImage = Utils::printTextToImage(m_font, m_text, bgrColor, txtColor, background,
+//                                             borders, 0);
 }
 
 void QCustom3DLabelPrivate::handleTextureChange()

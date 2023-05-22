@@ -807,7 +807,7 @@ void Q3DCameraPrivate::updateViewMatrix(float zoomAdjustment)
     if (!m_isViewMatrixUpdateActive)
         return;
 
-    GLfloat zoom = m_zoomLevel * zoomAdjustment;
+    float zoom = m_zoomLevel * zoomAdjustment;
     QMatrix4x4 viewMatrix;
 
     // Apply to view matrix

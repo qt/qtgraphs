@@ -472,9 +472,6 @@ void QQuickGraphsItem::setSharedController(Abstract3DController *controller)
     m_controller = controller;
     m_controller->m_qml = this;
 
-    if (!m_controller->isOpenGLES())
-        setMsaaSamples(4);
-
     // Reset default theme, as the default C++ theme is Q3DTheme, not DeclarativeTheme3D.
     DeclarativeTheme3D *defaultTheme = new DeclarativeTheme3D;
     defaultTheme->d_func()->setDefaultTheme(true);
@@ -2113,43 +2110,38 @@ void QQuickGraphsItem::setMsaaSamples(int samples)
 {
     if (m_renderMode != QAbstract3DGraph::RenderIndirect) {
         qWarning("Multisampling cannot be adjusted in this render mode");
-    } else {
-        if (m_controller->isOpenGLES()) {
-            if (samples > 0)
-                qWarning("Multisampling is not supported in OpenGL ES2");
-        } else if (m_samples != samples) {
-            m_samples = samples;
-            setAntialiasing(m_samples > 0);
-            auto sceneEnv = environment();
-            sceneEnv->setAntialiasingMode(m_samples > 0
+    } else if (m_samples != samples) {
+        m_samples = samples;
+        setAntialiasing(m_samples > 0);
+        auto sceneEnv = environment();
+        sceneEnv->setAntialiasingMode(m_samples > 0
                                           ? QQuick3DSceneEnvironment::QQuick3DEnvironmentAAModeValues::MSAA
                                           : QQuick3DSceneEnvironment::QQuick3DEnvironmentAAModeValues::NoAA);
-            switch (m_samples) {
-            case 0:
-                // no-op
-                break;
-            case 2:
-                sceneEnv->setAntialiasingQuality(
-                            QQuick3DSceneEnvironment::QQuick3DEnvironmentAAQualityValues::Medium);
-                break;
-            case 4:
-                sceneEnv->setAntialiasingQuality(
-                            QQuick3DSceneEnvironment::QQuick3DEnvironmentAAQualityValues::High);
-                break;
-            case 8:
-                sceneEnv->setAntialiasingQuality(
-                            QQuick3DSceneEnvironment::QQuick3DEnvironmentAAQualityValues::VeryHigh);
-                break;
-            default:
-                qWarning("Invalid multisampling sample number, using 4x instead");
-                sceneEnv->setAntialiasingQuality(
-                            QQuick3DSceneEnvironment::QQuick3DEnvironmentAAQualityValues::High);
-                m_samples = 4;
-                break;
-            }
-            emit msaaSamplesChanged(m_samples);
-            update();
+        switch (m_samples) {
+        case 0:
+            // no-op
+            break;
+        case 2:
+            sceneEnv->setAntialiasingQuality(
+                QQuick3DSceneEnvironment::QQuick3DEnvironmentAAQualityValues::Medium);
+            break;
+        case 4:
+            sceneEnv->setAntialiasingQuality(
+                QQuick3DSceneEnvironment::QQuick3DEnvironmentAAQualityValues::High);
+            break;
+        case 8:
+            sceneEnv->setAntialiasingQuality(
+                QQuick3DSceneEnvironment::QQuick3DEnvironmentAAQualityValues::VeryHigh);
+            break;
+        default:
+            qWarning("Invalid multisampling sample number, using 4x instead");
+            sceneEnv->setAntialiasingQuality(
+                QQuick3DSceneEnvironment::QQuick3DEnvironmentAAQualityValues::High);
+            m_samples = 4;
+            break;
         }
+        emit msaaSamplesChanged(m_samples);
+        update();
     }
 }
 

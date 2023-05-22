@@ -764,10 +764,10 @@ void QBarDataProxyPrivate::fixRowLabels(int startIndex, int count, const QString
         emit q->rowLabelsChanged();
 }
 
-QPair<GLfloat, GLfloat> QBarDataProxyPrivate::limitValues(int startRow, int endRow,
-                                                          int startColumn, int endColumn) const
+QPair<float, float> QBarDataProxyPrivate::limitValues(int startRow, int endRow,
+                                                      int startColumn, int endColumn) const
 {
-    QPair<GLfloat, GLfloat> limits = qMakePair(0.0f, 0.0f);
+    QPair<float, float> limits = qMakePair(0.0f, 0.0f);
     endRow = qMin(endRow, m_dataArray->size() - 1);
     for (int i = startRow; i <= endRow; i++) {
         QBarDataRow *row = m_dataArray->at(i);

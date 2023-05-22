@@ -806,11 +806,6 @@ void Abstract3DController::markSeriesItemLabelsDirty()
         m_seriesList.at(i)->d_func()->markItemLabelDirty();
 }
 
-bool Abstract3DController::isOpenGLES() const
-{
-    return Utils::isOpenGLES();
-}
-
 void Abstract3DController::setAxisHelper(QAbstract3DAxis::AxisOrientation orientation,
                                          QAbstract3DAxis *axis, QAbstract3DAxis **axisPtr)
 {

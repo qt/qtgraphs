@@ -304,7 +304,6 @@ public:
     virtual void adjustAxisRanges() = 0;
 
     void markSeriesItemLabelsDirty();
-    bool isOpenGLES() const;
 
     bool graphPositionQueryPending() const { return m_graphPositionQueryPending; }
     void setGraphPositionQueryPending(const bool &pending) { m_graphPositionQueryPending = pending; }

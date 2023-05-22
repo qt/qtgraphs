@@ -74,7 +74,7 @@ private:
     // Look'n'feel
     bool m_isMultiSeriesUniform;
     bool m_isBarSpecRelative;
-    GLfloat m_barThicknessRatio;
+    float m_barThicknessRatio;
     QSizeF m_barSpacing;
     float m_floorLevel;
     QSizeF m_barSeriesMargin;
@@ -89,13 +89,13 @@ public:
     // bar thickness, spacing between bars, and is spacing relative to thickness or absolute
     // y -component sets the thickness/spacing of z -direction
     // With relative 0.0f means side-to-side, 1.0f = one thickness in between
-    void setBarSpecs(GLfloat thicknessRatio = 1.0f,
+    void setBarSpecs(float thicknessRatio = 1.0f,
                      const QSizeF &spacing = QSizeF(1.0, 1.0),
                      bool relative = true);
     void setBarSeriesMargin(const QSizeF &margin);
     QSizeF barSeriesMargin();
 
-    GLfloat barThickness();
+    float barThickness();
     QSizeF barSpacing();
     bool isBarSpecRelative();
     void setFloorLevel(float level);

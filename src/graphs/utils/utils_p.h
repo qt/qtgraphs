@@ -15,6 +15,9 @@
 #define UTILS_P_H
 
 #include <private/graphsglobal_p.h>
+#include <QtGui/qimage.h>
+#include <QtGui/qquaternion.h>
+#include <QtCore/qlocale.h>
 
 QT_FORWARD_DECLARE_CLASS(QLinearGradient)
 
@@ -30,20 +33,6 @@ public:
         ParamTypeReal
     };
 
-    static GLuint getNearestPowerOfTwo(GLuint value);
-    static QVector4D vectorFromColor(const QColor &color);
-    static QColor colorFromVector(const QVector3D &colorVector);
-    static QColor colorFromVector(const QVector4D &colorVector);
-    static QImage printTextToImage(const QFont &font,
-                                   const QString &text,
-                                   const QColor &bgrColor,
-                                   const QColor &txtColor,
-                                   bool labelBackground,
-                                   bool borders = false,
-                                   int maxLabelWidth = 0);
-    static QVector4D getSelection(QPoint mousepos, int height);
-    static QImage getGradientImage(QLinearGradient &gradient);
-
     static ParamType preParseFormat(const QString &format, QString &preStr, QString &postStr,
                                     int &precision, char &formatSpec);
     static QString formatLabelSprintf(const QByteArray &format, ParamType paramType, qreal value);
@@ -54,8 +43,6 @@ public:
 
     static float wrapValue(float value, float min, float max);
     static QQuaternion calculateRotation(const QVector3D &xyzRotations);
-    static bool isOpenGLES();
-    static void resolveStatics();
 
 private:
     static ParamType mapFormatCharToParamType(char formatSpec);
