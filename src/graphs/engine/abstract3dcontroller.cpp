@@ -34,7 +34,6 @@ Abstract3DController::Abstract3DController(QRect initialViewport, Q3DScene *scen
     m_reflectivity(0.5),
     m_locale(QLocale::c()),
     m_scene(scene),
-    m_activeInputHandler(0),
     m_axisX(0),
     m_axisY(0),
     m_axisZ(0),
@@ -62,11 +61,6 @@ Abstract3DController::Abstract3DController(QRect initialViewport, Q3DScene *scen
     m_scene->d_func()->setViewport(initialViewport);
     m_scene->activeLight()->setAutoPosition(true);
 
-    // Create initial default input handler
-    QAbstract3DInputHandler *inputHandler;
-    inputHandler = new QTouch3DInputHandler();
-    inputHandler->d_func()->m_isDefaultHandler = true;
-    setActiveInputHandler(inputHandler);
     connect(m_scene->d_func(), &Q3DScenePrivate::needRender, this,
             &Abstract3DController::emitNeedRender);
 }
@@ -131,44 +125,6 @@ QList<QAbstract3DSeries *> Abstract3DController::seriesList()
 {
     return m_seriesList;
 }
-
-void Abstract3DController::mouseDoubleClickEvent(QMouseEvent *event)
-{
-    if (m_activeInputHandler)
-        m_activeInputHandler->mouseDoubleClickEvent(event);
-}
-
-void Abstract3DController::touchEvent(QTouchEvent *event)
-{
-    if (m_activeInputHandler)
-        m_activeInputHandler->touchEvent(event);
-}
-
-void Abstract3DController::mousePressEvent(QMouseEvent *event, const QPoint &mousePos)
-{
-    if (m_activeInputHandler)
-        m_activeInputHandler->mousePressEvent(event, mousePos);
-}
-
-void Abstract3DController::mouseReleaseEvent(QMouseEvent *event, const QPoint &mousePos)
-{
-    if (m_activeInputHandler)
-        m_activeInputHandler->mouseReleaseEvent(event, mousePos);
-}
-
-void Abstract3DController::mouseMoveEvent(QMouseEvent *event, const QPoint &mousePos)
-{
-    if (m_activeInputHandler)
-        m_activeInputHandler->mouseMoveEvent(event, mousePos);
-}
-
-#if QT_CONFIG(wheelevent)
-void Abstract3DController::wheelEvent(QWheelEvent *event)
-{
-    if (m_activeInputHandler)
-        m_activeInputHandler->wheelEvent(event);
-}
-#endif
 
 void Abstract3DController::handleThemeColorStyleChanged(Q3DTheme::ColorStyle style)
 {
@@ -361,82 +317,6 @@ void Abstract3DController::releaseAxis(QAbstract3DAxis *axis)
 QList<QAbstract3DAxis *> Abstract3DController::axes() const
 {
     return m_axes;
-}
-
-void Abstract3DController::addInputHandler(QAbstract3DInputHandler *inputHandler)
-{
-    Q_ASSERT(inputHandler);
-    Abstract3DController *owner = qobject_cast<Abstract3DController *>(inputHandler->parent());
-    if (owner != this) {
-        Q_ASSERT_X(!owner, "addInputHandler",
-                   "Input handler already attached to another component.");
-        inputHandler->setParent(this);
-    }
-
-    if (!m_inputHandlers.contains(inputHandler))
-        m_inputHandlers.append(inputHandler);
-}
-
-void Abstract3DController::releaseInputHandler(QAbstract3DInputHandler *inputHandler)
-{
-    if (inputHandler && m_inputHandlers.contains(inputHandler)) {
-        // Clear the default status from released default input handler
-        if (inputHandler->d_func()->m_isDefaultHandler)
-            inputHandler->d_func()->m_isDefaultHandler = false;
-
-        // If the input handler is in use, remove it
-        if (m_activeInputHandler == inputHandler)
-            setActiveInputHandler(0);
-
-        m_inputHandlers.removeAll(inputHandler);
-        inputHandler->setParent(0);
-    }
-}
-
-void Abstract3DController::setActiveInputHandler(QAbstract3DInputHandler *inputHandler)
-{
-    if (inputHandler == m_activeInputHandler)
-        return;
-
-    // If existing input handler is the default input handler, delete it
-    if (m_activeInputHandler) {
-        if (m_activeInputHandler->d_func()->m_isDefaultHandler) {
-            m_inputHandlers.removeAll(m_activeInputHandler);
-            delete m_activeInputHandler;
-        } else {
-            // Disconnect the old input handler
-            m_activeInputHandler->setScene(0);
-            QObject::disconnect(m_activeInputHandler, 0, this, 0);
-        }
-    }
-
-    // Assume ownership and connect to this controller's scene
-    if (inputHandler)
-        addInputHandler(inputHandler);
-
-    m_activeInputHandler = inputHandler;
-    if (m_activeInputHandler) {
-        m_activeInputHandler->setScene(m_scene);
-
-        // Connect the input handler
-        QObject::connect(m_activeInputHandler, &QAbstract3DInputHandler::inputViewChanged, this,
-                         &Abstract3DController::handleInputViewChanged);
-        QObject::connect(m_activeInputHandler, &QAbstract3DInputHandler::positionChanged, this,
-                         &Abstract3DController::handleInputPositionChanged);
-    }
-
-    // Notify change of input handler
-    emit activeInputHandlerChanged(m_activeInputHandler);
-}
-
-QAbstract3DInputHandler *Abstract3DController::activeInputHandler()
-{
-    return m_activeInputHandler;
-}
-
-QList<QAbstract3DInputHandler *> Abstract3DController::inputHandlers() const
-{
-    return m_inputHandlers;
 }
 
 void Abstract3DController::addTheme(Q3DTheme *theme)

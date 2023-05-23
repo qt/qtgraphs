@@ -226,6 +226,8 @@ public:
     void updateTitleLabels();
     virtual void updateSelectionMode(QAbstract3DGraph::SelectionFlags newMode);
 
+    virtual bool doPicking(const QPointF &);
+
 public Q_SLOTS:
     virtual void handleAxisXChanged(QAbstract3DAxis *axis) = 0;
     virtual void handleAxisYChanged(QAbstract3DAxis *axis) = 0;
@@ -329,6 +331,12 @@ protected:
     bool isGridUpdated() { return m_gridUpdated; }
     void setGridUpdated(bool updated) { m_gridUpdated = updated; }
 
+    void addInputHandler(QAbstract3DInputHandler *inputHandler);
+    void releaseInputHandler(QAbstract3DInputHandler *inputHandler);
+    void setActiveInputHandler(QAbstract3DInputHandler *inputHandler);
+    QAbstract3DInputHandler *activeInputHandler() const { return m_activeInputHandler; };
+    QList<QAbstract3DInputHandler *> inputHandlers() const { return m_inputHandlers; };
+
     QSharedPointer<QMutex> m_nodeMutex;
 
 private:
@@ -427,6 +435,9 @@ private:
 
     int m_currentFps = -1;
     bool m_measureFps = false;
+
+    QAbstract3DInputHandler *m_activeInputHandler = nullptr;
+    QList<QAbstract3DInputHandler *> m_inputHandlers = {};
 
     friend class QAbstract3DGraph;
 };

@@ -167,8 +167,6 @@ private:
 
 protected:
     Q3DScene *m_scene;
-    QList<QAbstract3DInputHandler *> m_inputHandlers; // List of all added input handlers
-    QAbstract3DInputHandler *m_activeInputHandler;
     // Active axes
     QAbstract3DAxis *m_axisX;
     QAbstract3DAxis *m_axisY;
@@ -217,12 +215,6 @@ public:
     virtual void addAxis(QAbstract3DAxis *axis);
     virtual void releaseAxis(QAbstract3DAxis *axis);
     virtual QList<QAbstract3DAxis *> axes() const; // Omits default axes
-
-    virtual void addInputHandler(QAbstract3DInputHandler *inputHandler);
-    virtual void releaseInputHandler(QAbstract3DInputHandler *inputHandler);
-    virtual void setActiveInputHandler(QAbstract3DInputHandler *inputHandler);
-    virtual QAbstract3DInputHandler *activeInputHandler();
-    virtual QList<QAbstract3DInputHandler *> inputHandlers() const;
 
     virtual void addTheme(Q3DTheme *theme);
     virtual void releaseTheme(Q3DTheme *theme);
@@ -295,15 +287,6 @@ public:
 
     virtual void clearSelection() = 0;
 
-    virtual void mouseDoubleClickEvent(QMouseEvent *event);
-    virtual void touchEvent(QTouchEvent *event);
-    virtual void mousePressEvent(QMouseEvent *event, const QPoint &mousePos);
-    virtual void mouseReleaseEvent(QMouseEvent *event, const QPoint &mousePos);
-    virtual void mouseMoveEvent(QMouseEvent *event, const QPoint &mousePos);
-#if QT_CONFIG(wheelevent)
-    virtual void wheelEvent(QWheelEvent *event);
-#endif
-
     virtual void handleAxisTitleChangedBySender(QObject *sender);
     virtual void handleAxisLabelsChangedBySender(QObject *sender);
     virtual void handleAxisRangeChangedBySender(QObject *sender);
@@ -359,7 +342,6 @@ public Q_SLOTS:
 
 Q_SIGNALS:
     void shadowQualityChanged(QAbstract3DGraph::ShadowQuality quality);
-    void activeInputHandlerChanged(QAbstract3DInputHandler *inputHandler);
     void activeThemeChanged(Q3DTheme *activeTheme);
     void selectionModeChanged(QAbstract3DGraph::SelectionFlags mode);
     void needRender();

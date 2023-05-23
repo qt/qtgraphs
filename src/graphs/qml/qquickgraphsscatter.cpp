@@ -899,8 +899,11 @@ bool QQuickGraphsScatter::handleTouchEvent(QTouchEvent *event)
     return true;
 }
 
-void QQuickGraphsScatter::doPicking(const QPointF &position)
+bool QQuickGraphsScatter::doPicking(const QPointF &position)
 {
+    if (!QQuickGraphsItem::doPicking(position))
+        return false;
+
     if (selectionMode() == QAbstract3DGraph::SelectionItem) {
         QList<QQuick3DPickResult> results = pickAll(position.x(), position.y());
         if (!results.empty()) {
@@ -923,6 +926,7 @@ void QQuickGraphsScatter::doPicking(const QPointF &position)
             clearSelectionModel();
         }
     }
+    return true;
 }
 
 void QQuickGraphsScatter::componentComplete()

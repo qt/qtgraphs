@@ -160,9 +160,7 @@ QAbstract3DGraph::~QAbstract3DGraph()
  */
 void QAbstract3DGraph::addInputHandler(QAbstract3DInputHandler *inputHandler)
 {
-    // TODO: API missing in QQuickGraphsItem (QTBUG-99829)
-    Q_UNUSED(inputHandler)
-//    m_graphsItem->addInputHandler(inputHandler);
+    m_graphsItem->addInputHandler(inputHandler);
 }
 
 /*!
@@ -175,9 +173,7 @@ void QAbstract3DGraph::addInputHandler(QAbstract3DInputHandler *inputHandler)
  */
 void QAbstract3DGraph::releaseInputHandler(QAbstract3DInputHandler *inputHandler)
 {
-    // TODO: API missing in QQuickGraphsItem (QTBUG-99829)
-    Q_UNUSED(inputHandler)
-//    m_graphsItem->releaseInputHandler(inputHandler);
+    m_graphsItem->releaseInputHandler(inputHandler);
 }
 
 /*!
@@ -197,16 +193,12 @@ void QAbstract3DGraph::releaseInputHandler(QAbstract3DInputHandler *inputHandler
  */
 void QAbstract3DGraph::setActiveInputHandler(QAbstract3DInputHandler *inputHandler)
 {
-    // TODO: API missing in QQuickGraphsItem (QTBUG-99829)
-    Q_UNUSED(inputHandler)
-//    m_graphsItem->setActiveInputHandler(inputHandler);
+    m_graphsItem->setActiveInputHandler(inputHandler);
 }
 
 QAbstract3DInputHandler *QAbstract3DGraph::activeInputHandler() const
 {
-    // TODO: API missing in QQuickGraphsItem (QTBUG-99829)
-    return nullptr;
-//    return m_graphsItem->activeInputHandler();
+    return m_graphsItem->activeInputHandler();
 }
 
 /*!
@@ -216,9 +208,7 @@ QAbstract3DInputHandler *QAbstract3DGraph::activeInputHandler() const
  */
 QList<QAbstract3DInputHandler *> QAbstract3DGraph::inputHandlers() const
 {
-    // TODO: API missing in QQuickGraphsItem (QTBUG-99829)
-    return {};
-//    return m_graphsItem->inputHandlers();
+    return m_graphsItem->inputHandlers();
 }
 
 /*!

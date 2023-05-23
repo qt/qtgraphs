@@ -38,7 +38,6 @@ public:
 
 public:
     QTimer *m_holdTimer;
-    QAbstract3DInputHandlerPrivate::InputState m_inputState;
     QPointF m_startHoldPos;
     QPointF m_touchHoldPos;
 };

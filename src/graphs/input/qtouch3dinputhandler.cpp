@@ -151,8 +151,7 @@ void QTouch3DInputHandler::touchEvent(QTouchEvent *event)
 
 QTouch3DInputHandlerPrivate::QTouch3DInputHandlerPrivate(QTouch3DInputHandler *q)
     : Q3DInputHandlerPrivate(q),
-      m_holdTimer(0),
-      m_inputState(QAbstract3DInputHandlerPrivate::InputStateNone)
+      m_holdTimer(0)
 {
     m_holdTimer = new QTimer();
     m_holdTimer->setSingleShot(true);
@@ -208,9 +207,9 @@ void QTouch3DInputHandlerPrivate::handleTapAndHold()
     if (q->isSelectionEnabled()) {
         QPointF distance = m_startHoldPos - m_touchHoldPos;
         if (distance.manhattanLength() < maxTapAndHoldJitter) {
+            m_inputState = QAbstract3DInputHandlerPrivate::InputStateSelecting;
             q->setInputPosition(m_touchHoldPos.toPoint());
             q->scene()->setSelectionQueryPosition(m_touchHoldPos.toPoint());
-            m_inputState = QAbstract3DInputHandlerPrivate::InputStateSelecting;
         }
     }
 }

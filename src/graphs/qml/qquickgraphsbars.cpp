@@ -1268,8 +1268,11 @@ bool QQuickGraphsBars::handleTouchEvent(QTouchEvent *event)
     return true;
 }
 
-void QQuickGraphsBars::doPicking(const QPointF &position)
+bool QQuickGraphsBars::doPicking(const QPointF &position)
 {
+    if (!QQuickGraphsItem::doPicking(position))
+        return false;
+
     QList<QQuick3DPickResult> pickResults = pickAll(position.x(), position.y());
     QQuick3DModel *selectedModel = nullptr;
     int instanceInd = 0;
@@ -1327,6 +1330,7 @@ void QQuickGraphsBars::doPicking(const QPointF &position)
             resetClickedStatus();
         }
     }
+    return true;
 }
 
 void QQuickGraphsBars::setSelectedBar(QBar3DSeries *series, const QPoint &coord)

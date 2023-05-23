@@ -1,12 +1,14 @@
 // Copyright (C) 2023 The Qt Company Ltd.
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 
+#include "qabstract3dinputhandler_p.h"
 #include "qquickgraphsitem_p.h"
 
 #include "abstract3dcontroller_p.h"
 #include "declarativetheme_p.h"
 #include "declarativescene_p.h"
 #include "q3dscene_p.h"
+#include "qtouch3dinputhandler.h"
 #include "qvalue3daxis_p.h"
 #include "utils_p.h"
 
@@ -328,6 +330,11 @@ void QQuickGraphsItem::componentComplete()
     m_subsegmentLineRepeaterZ->setModel(subGridLineCount);
     m_repeaterZ->setModel(axis->labels().size());
     m_controller->handleAxisLabelsChangedBySender(m_controller->axisZ());
+
+    // Create initial default input handler
+    QAbstract3DInputHandler *inputHandler;
+    inputHandler = new QTouch3DInputHandler(this);
+    setActiveInputHandler(inputHandler);
 }
 
 QQuick3DDirectionalLight *QQuickGraphsItem::light() const
@@ -476,8 +483,6 @@ void QQuickGraphsItem::setSharedController(Abstract3DController *controller)
 
     QObject::connect(m_controller.data(), &Abstract3DController::shadowQualityChanged, this,
                      &QQuickGraphsItem::handleShadowQualityChange);
-    QObject::connect(m_controller.data(), &Abstract3DController::activeInputHandlerChanged, this,
-                     &QQuickGraphsItem::inputHandlerChanged);
     QObject::connect(m_controller.data(), &Abstract3DController::activeThemeChanged, this,
                      &QQuickGraphsItem::themeChanged);
     QObject::connect(m_controller.data(), &Abstract3DController::themeTypeChanged, this,
@@ -2276,22 +2281,24 @@ void QQuickGraphsItem::handleOptimizationHintChange(QAbstract3DGraph::Optimizati
 
 QAbstract3DInputHandler *QQuickGraphsItem::inputHandler() const
 {
-    return m_controller->activeInputHandler();
+    return m_activeInputHandler;
 }
 
 void QQuickGraphsItem::setInputHandler(QAbstract3DInputHandler *inputHandler)
 {
-    m_controller->setActiveInputHandler(inputHandler);
+    setActiveInputHandler(inputHandler);
 }
 
 void QQuickGraphsItem::mouseDoubleClickEvent(QMouseEvent *event)
 {
-    m_controller->mouseDoubleClickEvent(event);
+    if (m_activeInputHandler)
+        m_activeInputHandler->mouseDoubleClickEvent(event);
 }
 
 void QQuickGraphsItem::touchEvent(QTouchEvent *event)
 {
-    m_controller->touchEvent(event);
+    if (m_activeInputHandler)
+        m_activeInputHandler->touchEvent(event);
     handleTouchEvent(event);
     window()->update();
 }
@@ -2300,25 +2307,29 @@ void QQuickGraphsItem::mousePressEvent(QMouseEvent *event)
 {
     QPoint mousePos = event->pos();
     handleMousePressedEvent(event);
-    m_controller->mousePressEvent(event, mousePos);
+    if (m_activeInputHandler)
+        m_activeInputHandler->mousePressEvent(event, mousePos);
 }
 
 void QQuickGraphsItem::mouseReleaseEvent(QMouseEvent *event)
 {
     QPoint mousePos = event->pos();
-    m_controller->mouseReleaseEvent(event, mousePos);
+    if (m_activeInputHandler)
+        m_activeInputHandler->mouseReleaseEvent(event, mousePos);
 }
 
 void QQuickGraphsItem::mouseMoveEvent(QMouseEvent *event)
 {
     QPoint mousePos = event->pos();
-    m_controller->mouseMoveEvent(event, mousePos);
+    if (m_activeInputHandler)
+        m_activeInputHandler->mouseMoveEvent(event, mousePos);
 }
 
 #if QT_CONFIG(wheelevent)
 void QQuickGraphsItem::wheelEvent(QWheelEvent *event)
 {
-    m_controller->wheelEvent(event);
+    if (m_activeInputHandler)
+        m_activeInputHandler->wheelEvent(event);
 }
 #endif
 
@@ -2590,6 +2601,13 @@ void QQuickGraphsItem::updateSelectionMode(QAbstract3DGraph::SelectionFlags newM
     Q_UNUSED(newMode);
 }
 
+bool QQuickGraphsItem::doPicking(const QPointF &)
+{
+    // Only do picking if the state is InputStateSelecting
+    return (m_activeInputHandler->d_func()->m_inputState
+            == QAbstract3DInputHandlerPrivate::InputStateSelecting);
+}
+
 void QQuickGraphsItem::updateSliceGraph()
 {
     if (!m_sliceView || !m_sliceActivatedChanged)
@@ -2618,6 +2636,78 @@ void QQuickGraphsItem::updateSliceGraph()
     }
 
     m_sliceActivatedChanged = false;
+}
+
+void QQuickGraphsItem::addInputHandler(QAbstract3DInputHandler *inputHandler)
+{
+    Q_ASSERT(inputHandler);
+    QQuickGraphsItem *owner = qobject_cast<QQuickGraphsItem *>(inputHandler->parent());
+    if (owner != this) {
+        Q_ASSERT_X(!owner, "addInputHandler",
+                   "Input handler already attached to another component.");
+        inputHandler->setParent(this);
+    }
+
+    if (!m_inputHandlers.contains(inputHandler))
+        m_inputHandlers.append(inputHandler);
+}
+
+void QQuickGraphsItem::releaseInputHandler(QAbstract3DInputHandler *inputHandler)
+{
+    if (inputHandler && m_inputHandlers.contains(inputHandler)) {
+        // Clear the default status from released default input handler
+        if (inputHandler->d_func()->m_isDefaultHandler)
+            inputHandler->d_func()->m_isDefaultHandler = false;
+
+        // If the input handler is in use, remove it
+        if (m_activeInputHandler == inputHandler)
+            setActiveInputHandler(nullptr);
+
+        m_inputHandlers.removeAll(inputHandler);
+        inputHandler->setParent(nullptr);
+    }
+}
+
+void QQuickGraphsItem::setActiveInputHandler(QAbstract3DInputHandler *inputHandler)
+{
+    if (inputHandler == m_activeInputHandler)
+        return;
+
+    // If existing input handler is the default input handler, delete it
+    if (m_activeInputHandler) {
+        if (m_activeInputHandler->d_func()->m_isDefaultHandler) {
+            m_inputHandlers.removeAll(m_activeInputHandler);
+            delete m_activeInputHandler;
+        } else {
+            // Disconnect the old input handler
+            m_activeInputHandler->setScene(nullptr);
+            QObject::disconnect(m_activeInputHandler, nullptr, m_controller, nullptr);
+            QObject::disconnect(m_activeInputHandler, &QAbstract3DInputHandler::positionChanged,
+                                this, &QQuickGraphsItem::doPicking);
+        }
+    }
+
+    // Assume ownership and connect to this controller's scene
+    if (inputHandler)
+        addInputHandler(inputHandler);
+
+    m_activeInputHandler = inputHandler;
+    m_activeInputHandler->d_func()->m_isDefaultHandler = true;
+
+    if (m_activeInputHandler) {
+        m_activeInputHandler->setScene(scene());
+
+        // Connect the input handler
+        QObject::connect(m_activeInputHandler, &QAbstract3DInputHandler::inputViewChanged,
+                         m_controller, &Abstract3DController::handleInputViewChanged);
+        QObject::connect(m_activeInputHandler, &QAbstract3DInputHandler::positionChanged,
+                         m_controller, &Abstract3DController::handleInputPositionChanged);
+        QObject::connect(m_activeInputHandler, &QAbstract3DInputHandler::positionChanged,
+                         this, &QQuickGraphsItem::doPicking);
+    }
+
+    // Notify change of input handler
+    emit inputHandlerChanged(m_activeInputHandler);
 }
 
 void QQuickGraphsItem::windowDestroyed(QObject *obj)

@@ -1169,8 +1169,11 @@ bool QQuickGraphsSurface::handleTouchEvent(QTouchEvent *event)
     return true;
 }
 
-void QQuickGraphsSurface::doPicking(const QPointF &position)
+bool QQuickGraphsSurface::doPicking(const QPointF &position)
 {
+    if (!QQuickGraphsItem::doPicking(position))
+        return false;
+
     auto pickResult = pickAll(position.x(), position.y());
     QVector3D pickedPos(0.0f, 0.0f, 0.0f);
     QQuick3DModel *pickedModel = nullptr;
@@ -1221,6 +1224,7 @@ void QQuickGraphsSurface::doPicking(const QPointF &position)
             }
         }
     }
+    return true;
 }
 
 void QQuickGraphsSurface::updateSelectedPoint()

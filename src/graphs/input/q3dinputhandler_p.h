@@ -34,8 +34,6 @@ public Q_SLOTS:
     void handleQueriedGraphPositionChange();
 
 protected:
-    QAbstract3DInputHandlerPrivate::InputState m_inputState;
-
     bool m_rotationEnabled;
     bool m_zoomEnabled;
     bool m_selectionEnabled;

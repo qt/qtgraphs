@@ -141,10 +141,10 @@ void Q3DInputHandler::mousePressEvent(QMouseEvent *event, const QPoint &mousePos
                     setInputView(InputViewNone);
             } else {
                 // update mouse positions to prevent jumping when releasing or repressing a button
+                d->m_inputState = QAbstract3DInputHandlerPrivate::InputStateSelecting;
                 setInputPosition(mousePos);
                 scene()->setSelectionQueryPosition(mousePos);
                 setInputView(InputViewOnPrimary);
-                d->m_inputState = QAbstract3DInputHandlerPrivate::InputStateSelecting;
             }
         }
     } else if (Qt::MiddleButton == event->button()) {
@@ -348,7 +348,6 @@ bool Q3DInputHandler::isZoomAtTargetEnabled() const
 
 Q3DInputHandlerPrivate::Q3DInputHandlerPrivate(Q3DInputHandler *q)
     : QAbstract3DInputHandlerPrivate(q),
-      m_inputState(QAbstract3DInputHandlerPrivate::InputStateNone),
       m_rotationEnabled(true),
       m_zoomEnabled(true),
       m_selectionEnabled(true),

@@ -106,7 +106,7 @@ protected:
     void updateSliceGraph() override;
     void handleLabelCountChanged(QQuick3DRepeater *repeater) override;
     void updateSelectionMode(QAbstract3DGraph::SelectionFlags mode) override;
-    void doPicking(const QPointF &position);
+    bool doPicking(const QPointF &position) override;
 
 public Q_SLOTS:
     void handleAxisXChanged(QAbstract3DAxis *axis) override;

@@ -74,7 +74,9 @@ protected:
 private:
     Q_DISABLE_COPY(QAbstract3DInputHandler)
 
-    friend class Abstract3DController;
+    friend class QQuickGraphsItem;
+    friend class Q3DInputHandler;
+    friend class Q3DTouchInputHandler;
 };
 
 QT_END_NAMESPACE

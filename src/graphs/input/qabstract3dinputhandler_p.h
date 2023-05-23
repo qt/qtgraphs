@@ -38,8 +38,9 @@ public:
         InputStatePinching
     };
 
-    int m_prevDistance;
-    QPoint m_previousInputPos;
+    int m_prevDistance = 0;
+    QPoint m_previousInputPos = {};
+    InputState m_inputState = InputStateNone;
 
 protected:
     QAbstract3DInputHandler *q_ptr;
@@ -51,7 +52,7 @@ private:
     Q3DScene *m_scene;
     bool m_isDefaultHandler;
 
-    friend class Abstract3DController;
+    friend class QQuickGraphsItem;
 };
 
 QT_END_NAMESPACE
