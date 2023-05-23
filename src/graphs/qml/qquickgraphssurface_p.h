@@ -113,6 +113,8 @@ private:
         QVector<quint32> gridIndices;
         QSurface3DSeries *series;
         QQuick3DTexture *texture;
+        QQuick3DPrincipledMaterial *principledMaterial;
+        QQuick3DCustomMaterial *customMaterial;
         int columnCount;
         int rowCount;
         SurfaceVertex selectedVertex;
@@ -127,7 +129,7 @@ private:
     void createGridlineIndices(SurfaceModel *model, int x, int y, int endX, int endY);
     void handleChangedSeries();
     void updateModel(SurfaceModel *model);
-    void updateMaterial(SurfaceModel *model);
+    void updateMaterial(SurfaceModel *model, bool texturedModel = false);
     void updateSelectedPoint();
     void addModel(QSurface3DSeries *series);
     void addSliceModel(SurfaceModel *model);

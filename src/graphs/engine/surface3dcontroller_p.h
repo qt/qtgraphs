@@ -103,6 +103,11 @@ public:
     bool isFlipHorizontalGridChanged() const { return m_changeTracker.flipHorizontalGridChanged; }
     void setFlipHorizontalGridChanged(bool changed) { m_changeTracker.flipHorizontalGridChanged = changed; }
 
+    bool isSurfaceTextureChanged() const { return m_changeTracker.surfaceTextureChanged; }
+    void setSurfaceTextureChanged(bool changed) { m_changeTracker.surfaceTextureChanged = changed; }
+    bool isChangedTexturesEmpty() const { return m_changedTextures.empty(); }
+    bool hasSeriesToChangeTexture(QSurface3DSeries *series) const { return m_changedTextures.contains(series); }
+
 public Q_SLOTS:
     void handleArrayReset();
     void handleRowsAdded(int startIndex, int count);
