@@ -1,17 +1,5 @@
-#version 120
-
-varying highp vec3 pos;
-varying highp vec3 rayDir;
-
-uniform highp sampler3D textureSampler;
-uniform highp vec4 colorIndex[256];
-uniform highp int color8Bit;
-uniform highp vec3 textureDimensions;
-uniform highp int sampleCount; // This is the maximum sample count
-uniform highp float alphaMultiplier;
-uniform highp int preserveOpacity;
-uniform highp vec3 minBounds;
-uniform highp vec3 maxBounds;
+VARYING vec3 pos;
+VARYING vec3 rayDir;
 
 // Ray traveling straight through a single 'alpha thickness' applies 100% of the encountered alpha.
 // Rays traveling shorter distances apply a fraction. This is used to normalize the alpha over
@@ -19,7 +7,7 @@ uniform highp vec3 maxBounds;
 const highp float alphaThicknesses = 32.0;
 const highp float SQRT3 = 1.73205081;
 
-void main() {
+void MAIN() {
     vec3 rayStart = pos;
     highp vec3 startBounds = minBounds;
     highp vec3 endBounds = maxBounds;
@@ -69,9 +57,9 @@ void main() {
 
     // Raytrace into volume, need to sample pixels along the eye ray until we hit opacity 1
     for (int i = 0; i < sampleCount; i++) {
-        curColor = texture3D(textureSampler, curPos);
+        curColor = textureLod(textureSampler, curPos, 0);
         if (color8Bit != 0)
-            curColor = colorIndex[int(curColor.r * 255.0)];
+            curColor = textureLod(colorSampler, vec2(curColor.r, 0), 0);
 
         if (curColor.a >= 0.0) {
             if (curColor.a == 1.0 && (preserveOpacity == 1 || alphaMultiplier >= 1.0))
@@ -105,5 +93,5 @@ void main() {
         destColor *= (1.0 - (totalOpacity * 0.5)) / (1.0 - totalOpacity);
 
     destColor.a = (1.0 - totalOpacity);
-    gl_FragColor = clamp(destColor, 0.0, 1.0);
+    FRAGCOLOR = clamp(destColor, 0.0, 1.0);
 }

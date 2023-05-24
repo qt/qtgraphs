@@ -63,7 +63,7 @@ Item {
             compare(initial.sliceIndexZ, -1)
             compare(initial.useHighDefShader, true)
 
-            compare(initial.meshFile, ":/defaultMeshes/barFull")
+            compare(initial.meshFile, ":/defaultMeshes/barMeshFull")
             compare(initial.position, Qt.vector3d(0.0, 0.0, 0.0))
             compare(initial.positionAbsolute, false)
             compare(initial.rotation, Qt.quaternion(0, 0, 0, 0))

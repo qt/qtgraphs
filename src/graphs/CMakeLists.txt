@@ -186,6 +186,22 @@ set_source_files_properties("qml/resources/PointRangeGradientMaterialInstancing.
     PROPERTIES QT_RESOURCE_ALIAS "PointRangeGradientMaterialInstancing"
 )
 
+set_source_files_properties("qml/resources/VolumeMaterial.qml"
+    PROPERTIES QT_RESOURCE_ALIAS "VolumeMaterial"
+)
+
+set_source_files_properties("qml/resources/VolumeLowDefMaterial.qml"
+    PROPERTIES QT_RESOURCE_ALIAS "VolumeLowDefMaterial"
+)
+
+set_source_files_properties("qml/resources/VolumeSliceMaterial.qml"
+    PROPERTIES QT_RESOURCE_ALIAS "VolumeSliceMaterial"
+)
+
+set_source_files_properties("qml/resources/VolumeFrameMaterial.qml"
+    PROPERTIES QT_RESOURCE_ALIAS "VolumeFrameMaterial"
+)
+
 set(qml_files
     "qml/designer/Bars3DSpecifics.qml"
     "qml/designer/Scatter3DSpecifics.qml"
@@ -218,6 +234,10 @@ set(qml_material_resources
     "qml/resources/RangeGradientScatterMaterial.qml"
     "qml/resources/RangeGradientScatterMaterialInstancing.qml"
     "qml/resources/SurfaceShadowNoTex.qml"
+    "qml/resources/VolumeMaterial.qml"
+    "qml/resources/VolumeLowDefMaterial.qml"
+    "qml/resources/VolumeSliceMaterial.qml"
+    "qml/resources/VolumeFrameMaterial.qml"
 )
 
 set(resources

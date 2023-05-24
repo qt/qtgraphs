@@ -11,6 +11,7 @@
 #include "qtouch3dinputhandler.h"
 #include "qvalue3daxis_p.h"
 #include "utils_p.h"
+#include "qcustom3dvolume.h"
 
 #include <QtGui/QGuiApplication>
 
@@ -996,23 +997,32 @@ void QQuickGraphsItem::synchData()
         theme->d_func()->m_dirtyBits.windowColorDirty = false;
     }
 
+    bool forceUpdateCustomItems = false;
     if (m_controller->m_changedSeriesList.size()) {
+        forceUpdateCustomItems = true;
         updateGraph();
         m_controller->m_changedSeriesList.clear();
     }
 
     if (m_controller->m_isDataDirty) {
+        forceUpdateCustomItems = true;
         updateGraph();
         m_controller->m_isDataDirty = false;
     }
 
     if (m_controller->m_isSeriesVisualsDirty) {
+        forceUpdateCustomItems = true;
         updateGraph();
         m_controller->m_isSeriesVisualsDirty = false;
     }
 
     if (m_sliceActivatedChanged)
         updateSliceGraph();
+
+    if (m_controller->m_isCustomItemDirty || forceUpdateCustomItems) {
+        updateCustomItems();
+        m_controller->m_isCustomItemDirty = false;
+    }
 }
 
 void QQuickGraphsItem::calculateSceneScalingFactors()
@@ -1788,6 +1798,366 @@ void QQuickGraphsItem::updateShadowQuality(QAbstract3DGraph::ShadowQuality quali
     } else {
         light()->setCastsShadow(false);
         light()->setShadowFactor(0.f);
+    }
+}
+
+void QQuickGraphsItem::createVolumeMaterial(QCustom3DVolume *volume, Volume &volumeItem)
+{
+    if (volumeItem.texture)
+        volumeItem.texture->deleteLater();
+    volumeItem.texture = new QQuick3DTexture();
+    auto texture = volumeItem.texture;
+
+    texture->setParent(this);
+    texture->setMinFilter(QQuick3DTexture::Filter::Nearest);
+    texture->setMagFilter(QQuick3DTexture::Filter::Nearest);
+    texture->setHorizontalTiling(QQuick3DTexture::TilingMode::ClampToEdge);
+    texture->setVerticalTiling(QQuick3DTexture::TilingMode::ClampToEdge);
+
+    if (volumeItem.textureData)
+        volumeItem.textureData->deleteLater();
+    volumeItem.textureData = new QQuick3DTextureData();
+    auto textureData = volumeItem.textureData;
+
+    int color8Bit = (volume->textureFormat() == QImage::Format_Indexed8) ? 1 : 0;
+
+    textureData->setParent(texture);
+    textureData->setParentItem(texture);
+    textureData->setSize(QSize(volume->textureWidth(), volume->textureHeight()));
+    textureData->setDepth(volume->textureDepth());
+    if (color8Bit)
+        textureData->setFormat(QQuick3DTextureData::R8);
+    else
+        textureData->setFormat(QQuick3DTextureData::RGBA8);
+    textureData->setTextureData(QByteArray::fromRawData(
+                                    reinterpret_cast<const char *>(volume->textureData()->constData()),
+                                    volume->textureData()->size()));
+    texture->setTextureData(textureData);
+
+    QObject::connect(volume, &QCustom3DVolume::textureDataChanged, [=] (QList<uchar> *data) {
+        Q_UNUSED(data);
+        m_customVolumes[volume].updateTextureData = true;
+    });
+
+    if (color8Bit) {
+        if (volumeItem.colorTexture)
+            volumeItem.colorTexture->deleteLater();
+        volumeItem.colorTexture = new QQuick3DTexture();
+        auto colorTexture = volumeItem.colorTexture;
+
+        colorTexture->setParent(this);
+        colorTexture->setMinFilter(QQuick3DTexture::Filter::Nearest);
+        colorTexture->setMagFilter(QQuick3DTexture::Filter::Nearest);
+
+        QByteArray colorTableBytes;
+        const QList<QRgb> &colorTable = volume->colorTable();
+        for (int i = 0; i < colorTable.size(); i++) {
+            QRgb shifted = qRgba(qBlue(colorTable[i]), qGreen(colorTable[i]), qRed(colorTable[i]), qAlpha(colorTable[i]));
+            colorTableBytes.append(QByteArray::fromRawData(reinterpret_cast<const char *>(&shifted), sizeof(shifted)));
+        }
+
+        if (volumeItem.colorTextureData)
+            volumeItem.colorTextureData->deleteLater();
+        volumeItem.colorTextureData = new QQuick3DTextureData();
+        auto colorTextureData = volumeItem.colorTextureData;
+
+        colorTextureData->setParent(colorTexture);
+        colorTextureData->setParentItem(colorTexture);
+        colorTextureData->setSize(QSize(volume->colorTable().size(), 1));
+        colorTextureData->setFormat(QQuick3DTextureData::RGBA8);
+        colorTextureData->setTextureData(colorTableBytes);
+        colorTexture->setTextureData(colorTextureData);
+
+        QObject::connect(volume, &QCustom3DVolume::colorTableChanged, [=] () {
+            m_customVolumes[volume].updateColorTextureData = true;
+        });
+    }
+
+    auto model = volumeItem.model;
+    QQmlListReference materialsRef(model, "materials");
+
+    QQuick3DCustomMaterial *material = nullptr;
+
+    if (volume->drawSlices())
+        material = createQmlCustomMaterial(QStringLiteral(":/materials/VolumeSliceMaterial"));
+    else if (volume->useHighDefShader())
+        material = createQmlCustomMaterial(QStringLiteral(":/materials/VolumeMaterial"));
+    else
+        material = createQmlCustomMaterial(QStringLiteral(":/materials/VolumeLowDefMaterial"));
+
+    auto textureSamplerVariant = material->property("textureSampler");
+    auto textureSampler = textureSamplerVariant.value<QQuick3DShaderUtilsTextureInput *>();
+    textureSampler->setTexture(volumeItem.texture);
+
+    if (color8Bit) {
+        auto colorSamplerVariant = material->property("colorSampler");
+        auto colorSampler = colorSamplerVariant.value<QQuick3DShaderUtilsTextureInput *>();
+        colorSampler->setTexture(volumeItem.colorTexture);
+    }
+
+    material->setProperty("textureDimensions", QVector3D(1.0f / float(volume->textureWidth()),
+                                                         1.0f / float(volume->textureHeight()),
+                                                         1.0f / float(volume->textureDepth())));
+
+    materialsRef.append(material);
+
+    volumeItem.useHighDefShader = volume->useHighDefShader();
+    volumeItem.drawSlices = volume->drawSlices();
+}
+
+QQuick3DModel *QQuickGraphsItem::createSliceFrame(Volume &volumeItem)
+{
+    QQuick3DModel *model = new QQuick3DModel();
+    model->setParent(volumeItem.model);
+    model->setParentItem(volumeItem.model);
+    model->setSource(QUrl(QStringLiteral("defaultMeshes/barMeshFull")));
+    model->setScale(QVector3D(1, 1, 0.01f));
+
+    QQmlListReference materialsRef(model, "materials");
+    QQuick3DCustomMaterial *material = createQmlCustomMaterial(QStringLiteral(":/materials/VolumeFrameMaterial"));
+    material->setParent(model);
+    material->setParentItem(model);
+    material->setCullMode(QQuick3DMaterial::NoCulling);
+    materialsRef.append(material);
+
+    return model;
+}
+
+void QQuickGraphsItem::updateSliceFrameMaterials(QCustom3DVolume *volume, Volume &volumeItem)
+{
+    QQmlListReference materialsRefX(volumeItem.sliceFrameX, "materials");
+    QQmlListReference materialsRefY(volumeItem.sliceFrameY, "materials");
+    QQmlListReference materialsRefZ(volumeItem.sliceFrameZ, "materials");
+
+    QVector2D frameWidth;
+    QVector3D frameScaling;
+
+    frameScaling = QVector3D(volume->scaling().z()
+                             + (volume->scaling().z() * volume->sliceFrameGaps().z())
+                             + (volume->scaling().z() * volume->sliceFrameWidths().z()),
+                             volume->scaling().y()
+                             + (volume->scaling().y() * volume->sliceFrameGaps().y())
+                             + (volume->scaling().y() * volume->sliceFrameWidths().y()),
+                             volume->scaling().x() * volume->sliceFrameThicknesses().x());
+
+    frameWidth = QVector2D(volume->scaling().z() * volume->sliceFrameWidths().z(),
+                           volume->scaling().y() * volume->sliceFrameWidths().y());
+
+    frameWidth.setX(1.0f - (frameWidth.x() / frameScaling.x()));
+    frameWidth.setY(1.0f - (frameWidth.y() / frameScaling.y()));
+
+    auto material = materialsRefX.at(0);
+    material->setProperty("color", volume->sliceFrameColor());
+    material->setProperty("sliceFrameWidth", frameWidth);
+
+    frameScaling = QVector3D(volume->scaling().x()
+                            + (volume->scaling().x() * volume->sliceFrameGaps().x())
+                            + (volume->scaling().x() * volume->sliceFrameWidths().x()),
+                            volume->scaling().z()
+                            + (volume->scaling().z() * volume->sliceFrameGaps().z())
+                            + (volume->scaling().z() * volume->sliceFrameWidths().z()),
+                            volume->scaling().y() * volume->sliceFrameThicknesses().y());
+    frameWidth = QVector2D(volume->scaling().x() * volume->sliceFrameWidths().x(),
+                           volume->scaling().z() * volume->sliceFrameWidths().z());
+
+    frameWidth.setX(1.0f - (frameWidth.x() / frameScaling.x()));
+    frameWidth.setY(1.0f - (frameWidth.y() / frameScaling.y()));
+
+    material = materialsRefY.at(0);
+    material->setProperty("color", volume->sliceFrameColor());
+    material->setProperty("sliceFrameWidth", frameWidth);
+
+    frameScaling = QVector3D(volume->scaling().x()
+                            + (volume->scaling().x() * volume->sliceFrameGaps().x())
+                            + (volume->scaling().x() * volume->sliceFrameWidths().x()),
+                            volume->scaling().y()
+                            + (volume->scaling().y() * volume->sliceFrameGaps().y())
+                            + (volume->scaling().y() * volume->sliceFrameWidths().y()),
+                            volume->scaling().z() * volume->sliceFrameThicknesses().z());
+    frameWidth = QVector2D(volume->scaling().x() * volume->sliceFrameWidths().x(),
+                           volume->scaling().y() * volume->sliceFrameWidths().y());
+
+    frameWidth.setX(1.0f - (frameWidth.x() / frameScaling.x()));
+    frameWidth.setY(1.0f - (frameWidth.y() / frameScaling.y()));
+
+    material = materialsRefZ.at(0);
+    material->setProperty("color", volume->sliceFrameColor());
+    material->setProperty("sliceFrameWidth", frameWidth);
+}
+
+void QQuickGraphsItem::updateCustomItems()
+{
+    auto items = m_controller->m_customItems;
+
+    for (auto &&item : items) {
+        if (auto volume = qobject_cast<QCustom3DVolume *>(item)) {
+            if (!m_customVolumes.contains(volume)) {
+                auto &&volumeItem = m_customVolumes[volume];
+
+                volumeItem.model = new QQuick3DModel();
+                auto model = volumeItem.model;
+                model->setParent(rootNode());
+                model->setParentItem(rootNode());
+                model->setSource(QUrl(volume->meshFile()));
+
+                volumeItem.useHighDefShader = volume->useHighDefShader();
+                volumeItem.drawSlices = volume->drawSlices();
+
+                createVolumeMaterial(volume, volumeItem);
+
+                volumeItem.sliceFrameX = createSliceFrame(volumeItem);
+                volumeItem.sliceFrameY = createSliceFrame(volumeItem);
+                volumeItem.sliceFrameZ = createSliceFrame(volumeItem);
+
+                if (volume->drawSliceFrames()) {
+                    volumeItem.sliceFrameX->setVisible(true);
+                    volumeItem.sliceFrameY->setVisible(true);
+                    volumeItem.sliceFrameZ->setVisible(true);
+
+                    QVector3D sliceIndices((float(volume->sliceIndexX()) + 0.5f) / float(volume->textureWidth()) * 2.0 - 1.0,
+                                           (float(volume->sliceIndexY()) + 0.5f) / float(volume->textureHeight()) * 2.0 - 1.0,
+                                           (float(volume->sliceIndexZ()) + 0.5f) / float(volume->textureDepth()) * 2.0 - 1.0);
+
+                    volumeItem.sliceFrameX->setX(sliceIndices.x());
+                    volumeItem.sliceFrameY->setY(-sliceIndices.y());
+                    volumeItem.sliceFrameZ->setZ(-sliceIndices.z());
+
+                    volumeItem.sliceFrameX->setRotation(QQuaternion::fromEulerAngles(0, 90, 0));
+                    volumeItem.sliceFrameY->setRotation(QQuaternion::fromEulerAngles(90, 0, 0));
+
+                    updateSliceFrameMaterials(volume, volumeItem);
+                } else {
+                    volumeItem.sliceFrameX->setVisible(false);
+                    volumeItem.sliceFrameY->setVisible(false);
+                    volumeItem.sliceFrameZ->setVisible(false);
+                }
+                volumeItem.drawSliceFrames = volume->drawSliceFrames();
+            }
+
+            auto &&volumeItem = m_customVolumes[volume];
+            auto model = volumeItem.model;
+
+            QQmlListReference materialsRef(model, "materials");
+            if (volumeItem.useHighDefShader != volume->useHighDefShader()) {
+                materialsRef.clear();
+                createVolumeMaterial(volume, volumeItem);
+            }
+
+            if (volumeItem.drawSlices != volume->drawSlices()) {
+                materialsRef.clear();
+                createVolumeMaterial(volume, volumeItem);
+            }
+
+            QVector3D sliceIndices((float(volume->sliceIndexX()) + 0.5f) / float(volume->textureWidth()) * 2.0 - 1.0,
+                                   (float(volume->sliceIndexY()) + 0.5f) / float(volume->textureHeight()) * 2.0 - 1.0,
+                                   (float(volume->sliceIndexZ()) + 0.5f) / float(volume->textureDepth()) * 2.0 - 1.0);
+
+            if (volume->drawSliceFrames()) {
+                volumeItem.sliceFrameX->setX(sliceIndices.x());
+                volumeItem.sliceFrameY->setY(-sliceIndices.y());
+                volumeItem.sliceFrameZ->setZ(-sliceIndices.z());
+            }
+
+            if (volumeItem.drawSliceFrames != volume->drawSliceFrames()) {
+                if (volume->drawSliceFrames()) {
+                    volumeItem.sliceFrameX->setVisible(true);
+                    volumeItem.sliceFrameY->setVisible(true);
+                    volumeItem.sliceFrameZ->setVisible(true);
+
+                    volumeItem.sliceFrameX->setRotation(QQuaternion::fromEulerAngles(0, 90, 0));
+                    volumeItem.sliceFrameY->setRotation(QQuaternion::fromEulerAngles(90, 0, 0));
+
+                    updateSliceFrameMaterials(volume, volumeItem);
+                } else {
+                    volumeItem.sliceFrameX->setVisible(false);
+                    volumeItem.sliceFrameY->setVisible(false);
+                    volumeItem.sliceFrameZ->setVisible(false);
+                }
+                volumeItem.drawSliceFrames = volume->drawSliceFrames();
+            }
+
+            auto material = materialsRef.at(0);
+
+            if (volume->drawSlices())
+                material->setProperty("volumeSliceIndices", sliceIndices);
+
+            material->setProperty("alphaMultiplier", volume->alphaMultiplier());
+            material->setProperty("preserveOpacity", volume->preserveOpacity());
+
+            int sampleCount = volume->textureWidth() + volume->textureHeight() + volume->textureDepth();
+            material->setProperty("sampleCount", sampleCount);
+
+            int color8Bit = (volume->textureFormat() == QImage::Format_Indexed8) ? 1 : 0;
+            material->setProperty("color8Bit", color8Bit);
+
+            float posX = 0;
+            float posY = 0;
+            float posZ = 0;
+            float scaleX = 1;
+            float scaleY = 1;
+            float scaleZ = 1;
+
+            // TODO: Redo position and scale calculations to fix area selection (QTBUG-113834)
+            if (m_controller->axisX()->type() == QAbstract3DAxis::AxisTypeValue) {
+                auto axis = static_cast<QValue3DAxis *>(m_controller->axisX());
+                posX = axis->positionAt(volume->position().x()) + translate().x() / scale().x();
+                scaleX = 1.0f / (axis->positionAt(volume->scaling().x()) - axis->positionAt(0));
+            }
+
+            if (m_controller->axisY()->type() == QAbstract3DAxis::AxisTypeValue) {
+                auto axis = static_cast<QValue3DAxis *>(m_controller->axisY());
+                posY = axis->positionAt(volume->position().y()) + translate().y() / scale().y();
+                scaleY = 1.0f / (axis->positionAt(volume->scaling().y()) - axis->positionAt(0));
+            }
+
+            if (m_controller->axisZ()->type() == QAbstract3DAxis::AxisTypeValue) {
+                auto axis = static_cast<QValue3DAxis *>(m_controller->axisZ());
+                posZ = axis->positionAt(volume->position().z()) + translate().z() / scale().z();
+                scaleZ = 1.0f / (axis->positionAt(volume->scaling().z()) - axis->positionAt(0));
+            }
+
+            model->setScale(QVector3D(qAbs(scale().x()) / 2, qAbs(scale().y()) / 2, qAbs(scale().z()) / 2));
+            model->setRotation(volume->rotation());
+
+            QVector3D minBounds(posX - scaleX, posY + scaleY, posZ + scaleZ);
+            QVector3D maxBounds(posX + scaleX, posY - scaleY, posZ - scaleZ);
+
+            material->setProperty("minBounds", minBounds);
+            material->setProperty("maxBounds", maxBounds);
+
+            if (volumeItem.updateTextureData) {
+                auto textureData = volumeItem.textureData;
+                textureData->setSize(QSize(volume->textureWidth(), volume->textureHeight()));
+                textureData->setDepth(volume->textureDepth());
+
+                // TODO: Support and test all texture formats from volume->textureFormat() (QTBUG-113837)
+                if (color8Bit)
+                    textureData->setFormat(QQuick3DTextureData::R8);
+                else
+                    textureData->setFormat(QQuick3DTextureData::RGBA8);
+
+                textureData->setTextureData(QByteArray::fromRawData(
+                                                reinterpret_cast<const char *>(volume->textureData()->constData()),
+                                                volume->textureData()->size()));
+
+                material->setProperty("textureDimensions", QVector3D(1.0f / float(volume->textureWidth()),
+                                                                     1.0f / float(volume->textureHeight()),
+                                                                     1.0f / float(volume->textureDepth())));
+
+                volumeItem.updateTextureData = false;
+            }
+
+            if (volumeItem.updateColorTextureData) {
+                auto colorTextureData = volumeItem.colorTextureData;
+                QByteArray colorTableBytes;
+                const QList<QRgb> &colorTable = volume->colorTable();
+                for (int i = 0; i < colorTable.size(); i++) {
+                    QRgb shifted = qRgba(qBlue(colorTable[i]), qGreen(colorTable[i]), qRed(colorTable[i]), qAlpha(colorTable[i]));
+                    colorTableBytes.append(QByteArray::fromRawData(reinterpret_cast<const char *>(&shifted), sizeof(shifted)));
+                }
+                colorTextureData->setTextureData(colorTableBytes);
+            }
+        }
     }
 }
 

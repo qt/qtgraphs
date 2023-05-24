@@ -1,22 +1,11 @@
-#version 120
-
-varying highp vec3 pos;
-varying highp vec3 rayDir;
-
-uniform highp sampler3D textureSampler;
-uniform highp vec3 volumeSliceIndices;
-uniform highp vec4 colorIndex[256];
-uniform highp int color8Bit;
-uniform highp float alphaMultiplier;
-uniform highp int preserveOpacity;
-uniform highp vec3 minBounds;
-uniform highp vec3 maxBounds;
+VARYING vec3 pos;
+VARYING vec3 rayDir;
 
 const highp vec3 xPlaneNormal = vec3(1.0, 0, 0);
 const highp vec3 yPlaneNormal = vec3(0, 1.0, 0);
 const highp vec3 zPlaneNormal = vec3(0, 0, 1.0);
 
-void main() {
+void MAIN() {
     // Find out where ray intersects the slice planes
     vec3 normRayDir = normalize(rayDir);
     highp vec3 rayStart = pos;
@@ -86,9 +75,9 @@ void main() {
                 && clamp(texelVec.y, maxBounds.y, minBounds.y) == texelVec.y
                 && clamp(texelVec.z, maxBounds.z, minBounds.z) == texelVec.z) {
             texelVec = 0.5 * (texelVec + 1.0);
-            curColor = texture3D(textureSampler, texelVec);
+            curColor = textureLod(textureSampler, texelVec, 0);
             if (color8Bit != 0)
-                curColor = colorIndex[int(curColor.r * 255.0)];
+                curColor = textureLod(colorSampler, vec2(curColor.r, 0), 0);
 
             if (curColor.a > 0.0) {
                 curAlpha = curColor.a;
@@ -106,9 +95,9 @@ void main() {
                     && clamp(texelVec.y, maxBounds.y, minBounds.y) == texelVec.y
                     && clamp(texelVec.z, maxBounds.z, minBounds.z) == texelVec.z) {
                 texelVec = 0.5 * (texelVec + 1.0);
-                curColor = texture3D(textureSampler, texelVec);
+                curColor = textureLod(textureSampler, texelVec, 0);
                 if (color8Bit != 0)
-                    curColor = colorIndex[int(curColor.r * 255.0)];
+                    curColor = textureLod(colorSampler, vec2(curColor.r, 0), 0);
                 if (curColor.a > 0.0) {
                     if (curColor.a == 1.0 && preserveOpacity != 0)
                         curAlpha = 1.0;
@@ -125,10 +114,10 @@ void main() {
                         && clamp(texelVec.y, maxBounds.y, minBounds.y) == texelVec.y
                         && clamp(texelVec.z, maxBounds.z, minBounds.z) == texelVec.z) {
                     texelVec = 0.5 * (texelVec + 1.0);
-                    curColor = texture3D(textureSampler, texelVec);
+                    curColor = textureLod(textureSampler, texelVec, 0);
                     if (curColor.a > 0.0) {
                         if (color8Bit != 0)
-                            curColor = colorIndex[int(curColor.r * 255.0)];
+                            curColor = textureLod(colorSampler, vec2(curColor.r, 0), 0);
                         if (curColor.a == 1.0 && preserveOpacity != 0)
                             curAlpha = 1.0;
                         else
@@ -150,6 +139,6 @@ void main() {
         destColor *= 1.0 / totalAlpha;
 
     destColor.a = totalAlpha;
-    gl_FragColor = clamp(destColor, 0.0, 1.0);
+    FRAGCOLOR = clamp(destColor, 0.0, 1.0);
 }
 

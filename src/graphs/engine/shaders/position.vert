@@ -1,10 +1,6 @@
-uniform highp mat4 MVP;
+VARYING vec3 pos;
 
-attribute highp vec3 vertexPosition_mdl;
-
-varying highp vec3 pos;
-
-void main() {
-    gl_Position = MVP * vec4(vertexPosition_mdl, 1.0);
-    pos = vertexPosition_mdl;
+void MAIN() {
+    POSITION = MODELVIEWPROJECTION_MATRIX * vec4(VERTEX, 1.0);
+    pos = VERTEX;
 }

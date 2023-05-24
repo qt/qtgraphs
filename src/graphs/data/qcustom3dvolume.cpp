@@ -1172,14 +1172,14 @@ QCustom3DVolumePrivate::QCustom3DVolumePrivate(QCustom3DVolume *q) :
     m_sliceFrameThicknesses(QVector3D(0.01f, 0.01f, 0.01f))
 {
     m_isVolumeItem = true;
-    m_meshFile = QStringLiteral(":/defaultMeshes/barFull");
+    m_meshFile = QStringLiteral(":/defaultMeshes/barMeshFull");
 }
 
 QCustom3DVolumePrivate::QCustom3DVolumePrivate(
         QCustom3DVolume *q, const QVector3D &position, const QVector3D &scaling,
         const QQuaternion &rotation, int textureWidth, int textureHeight, int textureDepth,
         QList<uchar> *textureData, QImage::Format textureFormat, const QList<QRgb> &colorTable)
-    : QCustom3DItemPrivate(q, QStringLiteral(":/defaultMeshes/barFull"), position, scaling,
+    : QCustom3DItemPrivate(q, QStringLiteral(":/defaultMeshes/barMeshFull"), position, scaling,
                            rotation),
       m_textureWidth(textureWidth),
       m_textureHeight(textureHeight),

@@ -38,12 +38,14 @@ VolumetricModifier::VolumetricModifier(Q3DScatter *scatter)
     m_graph->setShadowQuality(QAbstract3DGraph::ShadowQualityNone);
     m_graph->scene()->activeCamera()->setCameraPreset(Q3DCamera::CameraPresetIsometricLeft);
     //! [0]
-    m_graph->setOrthoProjection(true);
+    // TODO: Fix orthographic projection (QTBUG-113833)
+    //m_graph->setOrthoProjection(true);
     //! [0]
     m_graph->activeTheme()->setBackgroundEnabled(false);
 
     // Only allow zooming at the center and limit the zoom to 200% to avoid clipping issues
-    static_cast<Q3DInputHandler *>(m_graph->activeInputHandler())->setZoomAtTargetEnabled(false);
+    // TODO: Fix crash when setZoomAtTargetEnabled is set (QTBUG-113841)
+    //static_cast<Q3DInputHandler *>(m_graph->activeInputHandler())->setZoomAtTargetEnabled(false);
     m_graph->scene()->activeCamera()->setMaxZoomLevel(200.0f);
 
     toggleAreaAll(true);

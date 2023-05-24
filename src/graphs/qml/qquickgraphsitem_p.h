@@ -27,6 +27,7 @@ class QAbstract3DAxis;
 class QAbstract3DInputHandler;
 class QAbstract3DSeries;
 class QCustom3DItem;
+class QCustom3DVolume;
 class QQuick3DCustomMaterial;
 class QQuick3DDirectionalLight;
 class QQuick3DPrincipledMaterial;
@@ -317,6 +318,23 @@ protected:
     void updateSliceLabels();
     virtual void updateShadowQuality(QAbstract3DGraph::ShadowQuality quality);
 
+    struct Volume {
+        QQuick3DModel *model = nullptr;
+        QQuick3DTexture *texture = nullptr;
+        QQuick3DTextureData *textureData = nullptr;
+        QQuick3DTexture *colorTexture = nullptr;
+        QQuick3DTextureData *colorTextureData = nullptr;
+        bool updateTextureData = false;
+        bool updateColorTextureData = false;
+        bool useHighDefShader = false;
+        bool drawSlices = false;
+        bool drawSliceFrames = false;
+        QQuick3DModel *sliceFrameX = nullptr;
+        QQuick3DModel *sliceFrameY = nullptr;
+        QQuick3DModel *sliceFrameZ = nullptr;
+        QQuick3DTexture *sliceFrameTexture = nullptr;
+    };
+
     virtual void synchData();
     virtual void updateGraph() {}
 
@@ -342,6 +360,8 @@ protected:
     QList<QAbstract3DInputHandler *> inputHandlers() const { return m_inputHandlers; };
 
     QSharedPointer<QMutex> m_nodeMutex;
+
+    QMap<QCustom3DVolume *, Volume> m_customVolumes;
 
 private:
     QQuick3DNode *m_graphNode = nullptr;
@@ -434,6 +454,11 @@ private:
     void handleSegmentLineCountChanged(QAbstract3DAxis *axis, QQuick3DRepeater *repeater);
     void handleSubSegmentLineCountChanged(QAbstract3DAxis *axis, QQuick3DRepeater *repeater);
     QVector3D calculateLabelRotation(float labelAutoAngle);
+
+    void createVolumeMaterial(QCustom3DVolume *volume, Volume &volumeItem);
+    QQuick3DModel *createSliceFrame(Volume &volumeItem);
+    void updateSliceFrameMaterials(QCustom3DVolume *volume, Volume &volumeItem);
+    void updateCustomItems();
 
     QHash<QQuickGraphsItem *, QQuickWindow *> m_graphWindowList = {};
 

@@ -76,7 +76,7 @@ void tst_custom::construct()
     QCOMPARE(custom->textureHeight(), 10);
     QCOMPARE(custom->textureWidth(), 10);
     QCOMPARE(custom->textureDepth(), 10);
-    QCOMPARE(custom->meshFile(), QString(":/defaultMeshes/barFull"));
+    QCOMPARE(custom->meshFile(), QString(":/defaultMeshes/barMeshFull"));
     QCOMPARE(custom->position(), QVector3D(1.0f, 1.0f, 1.0f));
     QCOMPARE(custom->isPositionAbsolute(), false);
     QCOMPARE(custom->rotation(), QQuaternion(1.0f, 1.0f, 10.0f, 100.0f));
@@ -106,7 +106,7 @@ void tst_custom::initialProperties()
     QCOMPARE(m_custom->useHighDefShader(), true);
 
     // Common (from QCustom3DVolume)
-    QCOMPARE(m_custom->meshFile(), QString(":/defaultMeshes/barFull"));
+    QCOMPARE(m_custom->meshFile(), QString(":/defaultMeshes/barMeshFull"));
     QCOMPARE(m_custom->position(), QVector3D());
     QCOMPARE(m_custom->isPositionAbsolute(), false);
     QCOMPARE(m_custom->rotation(), QQuaternion());
