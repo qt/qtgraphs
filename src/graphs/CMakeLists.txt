@@ -439,38 +439,6 @@ set(mesh_resource_files
     "engine/meshes/backgroundNoFloor.mesh"
 )
 
-set(obj_resource_files
-    "engine/meshes/arrowFlat.obj"
-    "engine/meshes/arrowSmooth.obj"
-    "engine/meshes/background.obj"
-    "engine/meshes/backgroundNoFloor.obj"
-    "engine/meshes/barFilledFlat.obj"
-    "engine/meshes/barFilledSmooth.obj"
-    "engine/meshes/barFlat.obj"
-    "engine/meshes/barSmooth.obj"
-    "engine/meshes/coneFilledFlat.obj"
-    "engine/meshes/coneFilledSmooth.obj"
-    "engine/meshes/coneFlat.obj"
-    "engine/meshes/coneSmooth.obj"
-    "engine/meshes/cubeFilledFlat.obj"
-    "engine/meshes/cubeFilledSmooth.obj"
-    "engine/meshes/cubeFlat.obj"
-    "engine/meshes/cubeSmooth.obj"
-    "engine/meshes/cylinderFilledFlat.obj"
-    "engine/meshes/cylinderFilledSmooth.obj"
-    "engine/meshes/cylinderFlat.obj"
-    "engine/meshes/cylinderSmooth.obj"
-    "engine/meshes/minimalFlat.obj"
-    "engine/meshes/minimalSmooth.obj"
-    "engine/meshes/plane.obj"
-    "engine/meshes/pyramidFilledFlat.obj"
-    "engine/meshes/pyramidFilledSmooth.obj"
-    "engine/meshes/pyramidFlat.obj"
-    "engine/meshes/pyramidSmooth.obj"
-    "engine/meshes/sphere.obj"
-    "engine/meshes/sphereSmooth.obj"
-)
-
 set_source_files_properties("engine/shaders/3dsliceframes.frag"
     PROPERTIES QT_RESOURCE_ALIAS "fragment3DSliceFrames"
 )
