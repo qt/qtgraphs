@@ -6,7 +6,7 @@ float ambientBrightness = 0.75;
 // 0...1.0
 float directionalBrightness = 0.75;
 // 0...1.0
-float pointSize = 1.0f;
+float pointSize = 0.75f;
 VARYING vec3 pos;
 
 void MAIN()

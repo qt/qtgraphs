@@ -397,6 +397,9 @@ set_source_files_properties("engine/meshes/pyramidFlat.mesh"
 set_source_files_properties("engine/meshes/pyramidSmooth.mesh"
     PROPERTIES QT_RESOURCE_ALIAS "pyramidMeshSmooth"
 )
+set_source_files_properties("engine/meshes/octagon.mesh"
+    PROPERTIES QT_RESOURCE_ALIAS "octagonMesh"
+)
 set_source_files_properties("engine/meshes/sphere.mesh"
     PROPERTIES QT_RESOURCE_ALIAS "sphereMesh"
 )
@@ -434,6 +437,7 @@ set(mesh_resource_files
     "engine/meshes/pyramidFilledSmooth.mesh"
     "engine/meshes/pyramidFlat.mesh"
     "engine/meshes/pyramidSmooth.mesh"
+    "engine/meshes/octagon.mesh"
     "engine/meshes/sphere.mesh"
     "engine/meshes/sphereSmooth.mesh"
     "engine/meshes/backgroundNoFloor.mesh"

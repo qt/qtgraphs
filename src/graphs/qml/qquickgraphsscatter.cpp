@@ -109,8 +109,10 @@ void QQuickGraphsScatter::generatePointsForScatterModel(ScatterModel *graphModel
         graphModel->instancingRootItem = createDataItem(graphModel->series->mesh());
         graphModel->instancingRootItem->setParent(graphModel->series);
         graphModel->instancingRootItem->setInstancing(graphModel->instancing);
-        if (m_scatterController->selectionMode() != QAbstract3DGraph::SelectionNone)
+        if (m_scatterController->selectionMode() != QAbstract3DGraph::SelectionNone) {
+            graphModel->selectionIndicator = createDataItem(graphModel->series->mesh());
             graphModel->instancingRootItem->setPickable(true);
+        }
     }
     m_scatterController->markSeriesVisualsDirty();
 }
@@ -257,7 +259,6 @@ void QQuickGraphsScatter::updateScatterGraphItemVisuals(ScatterModel *graphModel
                 }
             } else {
                 for (const auto &obj : std::as_const(graphModel->dataItems)) {
-                    obj->setCastsShadows(false);
                     updatePointItemMaterial(obj, QStringLiteral(":/materials/PointMaterial"),
                                             QStringLiteral("pointmaterial"));
                     // Update point material
@@ -288,7 +289,6 @@ void QQuickGraphsScatter::updateScatterGraphItemVisuals(ScatterModel *graphModel
                 }
             } else {
                 for (const auto &obj : std::as_const(graphModel->dataItems)) {
-                    obj->setCastsShadows(false);
                     updatePointItemMaterial(obj,
                                             QStringLiteral(":/materials/PointRangeGradientMaterial"),
                                             QStringLiteral("pointrangegradientmaterial"));
@@ -313,7 +313,6 @@ void QQuickGraphsScatter::updateScatterGraphItemVisuals(ScatterModel *graphModel
                                          useGradient, graphModel->seriesTexture);
             } else {
                 QQuick3DModel *obj = graphModel->instancingRootItem;
-                obj->setCastsShadows(false);
                 updateInstancedPointItemMaterial(obj,
                                                  QStringLiteral(":/materials/PointMaterialInstancing"),
                                                  QStringLiteral("pointmaterialinstancing"));
@@ -342,7 +341,6 @@ void QQuickGraphsScatter::updateScatterGraphItemVisuals(ScatterModel *graphModel
                 graphModel->instancing->setCustomData(customData);
             } else {
                 QQuick3DModel *obj = graphModel->instancingRootItem;
-                obj->setCastsShadows(false);
                 updateInstancedPointItemMaterial(obj,
                                                  QStringLiteral(":/materials/PointRangeGradientMaterialInstancing"),
                                                  QStringLiteral("pointrangegradientinstancingmaterial"));
@@ -629,13 +627,13 @@ QQuick3DModel *QQuickGraphsScatter::createDataItem(const QAbstract3DSeries::Mesh
 void QQuickGraphsScatter::removeDataItems(ScatterModel *graphModel)
 {
     if (m_scatterController->optimizationHints() == QAbstract3DGraph::OptimizationDefault) {
-        QQuick3DModel *item = graphModel->instancingRootItem;
-        QQmlListReference materialsRef(item, "materials");
-        if (materialsRef.size()) {
-            QObject *material = materialsRef.at(0);
-            delete material;
-        }
-        item->deleteLater();
+        delete graphModel->instancing;
+        graphModel->instancing = nullptr;
+        deleteDataItem(graphModel->instancingRootItem);
+        deleteDataItem(graphModel->selectionIndicator);
+
+        graphModel->instancingRootItem = nullptr;
+        graphModel->selectionIndicator = nullptr;
     } else {
         QList<QQuick3DModel *> &items = graphModel->dataItems;
         removeDataItems(items, items.count());
@@ -662,12 +660,11 @@ void QQuickGraphsScatter::recreateDataItems()
     QList<QScatter3DSeries *> seriesList = m_scatterController->scatterSeriesList();
     for (auto series : seriesList) {
         for (const auto &model : std::as_const(m_scatterGraphs)) {
-            if (model->series == series) {
+            if (model->series == series)
                 removeDataItems(model);
-                generatePointsForScatterModel(model);
-            }
         }
     }
+    m_scatterController->markDataDirty();
 }
 
 void QQuickGraphsScatter::addPointsToScatterModel(ScatterModel *graphModel, qsizetype count)
@@ -738,7 +735,9 @@ QString QQuickGraphsScatter::getMeshFileName(QAbstract3DSeries::Mesh meshType)
         fileName = QStringLiteral("defaultMeshes/arrowMesh");
         break;
     case QAbstract3DSeries::MeshPoint:
-        fileName = QStringLiteral("defaultMeshes/planeMesh");
+        fileName = shadowQuality() == QAbstract3DGraph::ShadowQualityNone
+                       ? QStringLiteral("defaultMeshes/planeMesh")
+                       : QStringLiteral("defaultMeshes/octagonMesh");
         break;
     default:
         fileName = QStringLiteral("defaultMeshes/sphereMesh");
@@ -749,6 +748,17 @@ QString QQuickGraphsScatter::getMeshFileName(QAbstract3DSeries::Mesh meshType)
     fixMeshFileName(fileName, meshType);
 
     return fileName;
+}
+
+void QQuickGraphsScatter::deleteDataItem(QQuick3DModel *item)
+{
+    QQmlListReference materialsRef(item, "materials");
+    if (materialsRef.size()) {
+        QObject *material = materialsRef.at(0);
+        delete material;
+    }
+    item->deleteLater();
+    item = nullptr;
 }
 
 void QQuickGraphsScatter::handleSeriesChanged(QList<QAbstract3DSeries *> changedSeries)
@@ -929,6 +939,13 @@ bool QQuickGraphsScatter::doPicking(const QPointF &position)
     return true;
 }
 
+void QQuickGraphsScatter::updateShadowQuality(QAbstract3DGraph::ShadowQuality quality)
+{
+    QQuickGraphsItem::updateShadowQuality(quality);
+
+    recreateDataItems();
+}
+
 void QQuickGraphsScatter::componentComplete()
 {
     QQuickGraphsItem::componentComplete();
@@ -1100,9 +1117,11 @@ void QQuickGraphsScatter::updateGraph()
                     graphModel->instancingRootItem = createDataItem(graphModel->series->mesh());
                     graphModel->instancingRootItem->setParent(graphModel->series);
                     graphModel->instancingRootItem->setInstancing(graphModel->instancing);
-                    graphModel->instancingRootItem->setPickable(true);
-                    graphModel->selectionIndicator = createDataItem(graphModel->series->mesh());
-                    graphModel->selectionIndicator->setVisible(false);
+                    if (selectionMode() != QAbstract3DGraph::SelectionNone) {
+                        graphModel->instancingRootItem->setPickable(true);
+                        graphModel->selectionIndicator = createDataItem(graphModel->series->mesh());
+                        graphModel->selectionIndicator->setVisible(false);
+                    }
                 }
             }
 

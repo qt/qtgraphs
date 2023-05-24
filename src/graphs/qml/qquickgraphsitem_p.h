@@ -312,7 +312,7 @@ protected:
     void updateLabels();
     void updateSliceGrid();
     void updateSliceLabels();
-    void updateShadowQuality(QAbstract3DGraph::ShadowQuality quality);
+    virtual void updateShadowQuality(QAbstract3DGraph::ShadowQuality quality);
 
     virtual void synchData();
     virtual void updateGraph() {}

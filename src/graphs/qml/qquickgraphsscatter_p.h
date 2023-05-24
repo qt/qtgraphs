@@ -79,6 +79,7 @@ protected:
     void componentComplete() override;
     bool handleTouchEvent(QTouchEvent *event) override;
     bool doPicking(const QPointF &position) override;
+    void updateShadowQuality(QAbstract3DGraph::ShadowQuality quality) override;
 
 private:
 
@@ -158,6 +159,7 @@ private:
     void fixMeshFileName(QString &fileName, QAbstract3DSeries::Mesh meshType);
     QString getMeshFileName(QAbstract3DSeries::Mesh meshType);
 
+    void deleteDataItem(QQuick3DModel *item);
     void removeDataItems(QList<QQuick3DModel *> &items, qsizetype count);
     void recreateDataItems();
     void addPointsToScatterModel(ScatterModel *graphModel, qsizetype count);
