@@ -17,34 +17,19 @@ QT_BEGIN_NAMESPACE
  */
 
 /*!
+ * \fn QBarDataItem::QBarDataItem()
  * Constructs a bar data item.
  */
-QBarDataItem::QBarDataItem()
-    : d_ptr(0), // private data doesn't exist by default (optimization)
-      m_value(0.0f),
-      m_angle(0.0f)
-{
-}
 
 /*!
+ * \fn QBarDataItem::QBarDataItem(float value)
  * Constructs a bar data item with the value \a value.
  */
-QBarDataItem::QBarDataItem(float value)
-    : d_ptr(0),
-      m_value(value),
-      m_angle(0.0f)
-{
-}
 
 /*!
+ * \fn QBarDataItem::QBarDataItem(float value, float angle)
  * Constructs a bar data item with the value \a value and angle \a angle.
  */
-QBarDataItem::QBarDataItem(float value, float angle)
-    : d_ptr(0),
-      m_value(value),
-      m_angle(angle)
-{
-}
 
 /*!
  * Constructs a copy of \a other.

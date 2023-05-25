@@ -13,27 +13,27 @@ class QBarDataItemPrivate;
 class Q_GRAPHS_EXPORT QBarDataItem
 {
 public:
-    QBarDataItem();
-    QBarDataItem(float value);
-    QBarDataItem(float value, float angle);
+    constexpr QBarDataItem() noexcept {};
+    constexpr QBarDataItem(float value) noexcept { m_value = value; };
+    constexpr QBarDataItem(float value, float angle) noexcept{ m_value = value; m_angle = angle; };
     QBarDataItem(const QBarDataItem &other);
     ~QBarDataItem();
 
     QBarDataItem &operator=(const QBarDataItem &other);
 
-    inline void setValue(float val) { m_value = val; }
-    inline float value() const { return m_value; }
-    inline void setRotation(float angle) { m_angle = angle; }
-    inline float rotation() const { return m_angle; }
+    constexpr inline void setValue(float val) noexcept { m_value = val; }
+    constexpr inline float value() const noexcept { return m_value; }
+    constexpr inline void setRotation(float angle) noexcept { m_angle = angle; }
+    constexpr inline float rotation() const noexcept { return m_angle; }
 
 protected:
     void createExtraData();
 
-    QBarDataItemPrivate *d_ptr;
+    QBarDataItemPrivate *d_ptr = nullptr;
 
 private:
-    float m_value;
-    float m_angle;
+    float m_value = 0.f;
+    float m_angle = 0.f;
 };
 
 QT_END_NAMESPACE

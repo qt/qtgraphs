@@ -21,14 +21,14 @@ public:
 
     QSurfaceDataItem &operator=(const QSurfaceDataItem &other);
 
-    inline void setPosition(const QVector3D &pos) { m_position = pos; }
-    inline QVector3D position() const { return m_position; }
-    inline void setX(float value) { m_position.setX(value); }
-    inline void setY(float value) { m_position.setY(value); }
-    inline void setZ(float value) { m_position.setZ(value); }
-    inline float x() const { return m_position.x(); }
-    inline float y() const { return m_position.y(); }
-    inline float z() const { return m_position.z(); }
+    constexpr inline void setPosition(const QVector3D &pos) noexcept { m_position = pos; }
+    constexpr inline QVector3D position() const noexcept { return m_position; }
+    constexpr inline void setX(float value) noexcept { m_position.setX(value); }
+    constexpr inline void setY(float value) noexcept { m_position.setY(value); }
+    constexpr inline void setZ(float value) noexcept { m_position.setZ(value); }
+    constexpr inline float x() const noexcept { return m_position.x(); }
+    constexpr inline float y() const noexcept { return m_position.y(); }
+    constexpr inline float z() const noexcept { return m_position.z(); }
 
 protected:
     void createExtraData();
