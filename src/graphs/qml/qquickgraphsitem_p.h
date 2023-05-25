@@ -28,6 +28,7 @@ class QAbstract3DInputHandler;
 class QAbstract3DSeries;
 class QCustom3DItem;
 class QCustom3DVolume;
+class QCustom3DLabel;
 class QQuick3DCustomMaterial;
 class QQuick3DDirectionalLight;
 class QQuick3DPrincipledMaterial;
@@ -454,6 +455,8 @@ private:
     void handleSegmentLineCountChanged(QAbstract3DAxis *axis, QQuick3DRepeater *repeater);
     void handleSubSegmentLineCountChanged(QAbstract3DAxis *axis, QQuick3DRepeater *repeater);
     QVector3D calculateLabelRotation(float labelAutoAngle);
+    void updateCustomData();
+    void updateCustomItemsRotation();
 
     void createVolumeMaterial(QCustom3DVolume *volume, Volume &volumeItem);
     QQuick3DModel *createSliceFrame(Volume &volumeItem);
@@ -461,6 +464,9 @@ private:
     void updateCustomItems();
 
     QHash<QQuickGraphsItem *, QQuickWindow *> m_graphWindowList = {};
+    QHash<QCustom3DLabel *, QQuick3DNode *> m_customLabelList = {};
+    QHash<QCustom3DItem *, QQuick3DModel *> m_customItemList = {};
+    QList<QCustom3DItem *> m_pendingCustomItemList = {};
 
     int m_currentFps = -1;
     bool m_measureFps = false;

@@ -421,6 +421,21 @@ void Abstract3DController::setSlicingActive(bool isSlicing)
     m_scene->setSlicingActive(isSlicing);
 }
 
+bool Abstract3DController::isCustomLabelItem(QCustom3DItem *item) const
+{
+    return item->d_ptr->m_isLabelItem;
+}
+
+bool Abstract3DController::isCustomVolumeItem(QCustom3DItem *item) const
+{
+    return item->d_ptr->m_isVolumeItem;
+}
+
+QImage Abstract3DController::customTextureImage(QCustom3DItem *item)
+{
+    return item->d_ptr->textureImage();
+}
+
 Q3DScene *Abstract3DController::scene()
 {
     return m_scene;

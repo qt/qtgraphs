@@ -125,7 +125,7 @@ Item {
         customItemList: [
             Custom3DItem {
                 id: qtCube
-                meshFile: ":/qml/axishandling/cube.obj"
+                meshFile: ":/qml/axishandling/cube.mesh"
                 textureFile: ":/qml/axishandling/cubetexture.png"
                 position: Qt.vector3d(0.65, 0.35, 0.65)
                 scaling: Qt.vector3d(0.3, 0.3, 0.3)

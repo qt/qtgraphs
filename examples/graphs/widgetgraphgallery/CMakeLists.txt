@@ -54,9 +54,9 @@ set(widgetgraphgallery_resource_files
     "data/layer_1.png"
     "data/layer_2.png"
     "data/layer_3.png"
-    "data/oilrig.obj"
-    "data/pipe.obj"
-    "data/refinery.obj"
+    "data/oilrig.mesh"
+    "data/pipe.mesh"
+    "data/refinery.mesh"
     "data/maptexture.jpg"
     "data/topography.png"
 )

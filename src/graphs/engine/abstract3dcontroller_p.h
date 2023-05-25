@@ -235,6 +235,13 @@ public:
     bool isSlicingActive() const;
     void setSlicingActive(bool isSlicing);
 
+    bool isCustomDataDirty() const { return m_isCustomDataDirty; }
+    void setCustomDataDirty(bool dirty) { m_isCustomDataDirty = dirty; }
+    bool isCustomItemDirty() const { return m_isCustomItemDirty; }
+    void setCustomItemDirty(bool dirty) { m_isCustomItemDirty = dirty; }
+    bool isCustomLabelItem(QCustom3DItem *item) const;
+    bool isCustomVolumeItem(QCustom3DItem *item) const;
+    QImage customTextureImage(QCustom3DItem *item);
     Q3DScene *scene();
 
     void markDataDirty();

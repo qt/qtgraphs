@@ -48,7 +48,7 @@ qt6_add_qml_module(axishandling
         qml/axishandling/AxisDragging.qml
         qml/axishandling/AxisFormatting.qml
     RESOURCES
-        qml/axishandling/cube.obj
+        qml/axishandling/cube.mesh
         qml/axishandling/cubetexture.png
 )
 

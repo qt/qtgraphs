@@ -29,8 +29,8 @@ QT_BEGIN_NAMESPACE
 
 /*! \qmlproperty string Custom3DItem::meshFile
  *
- * The item mesh file name. The item in the file must be in Wavefront OBJ format and include
- * vertices, normals, and UVs. It also needs to be in triangles.
+ * The item mesh file name. The item in the file must be mesh format.
+ * The mesh files are recommended to include vertices, normals, and UVs.
  */
 
 /*! \qmlproperty string Custom3DItem::textureFile
@@ -171,8 +171,10 @@ QCustom3DItem::~QCustom3DItem()
  *
  * \brief The item mesh file name.
  *
- * The item in the file must be in Wavefront OBJ format and include
- * vertices, normals, and UVs. It also needs to be in triangles.
+ * The item in the file must be in mesh format. The other types
+ * can be converted by \l {Balsam Asset Import Tool}{Balsam}
+ * asset import tool. The mesh files are recommended to include
+ * vertices, normals, and UVs.
  */
 void QCustom3DItem::setMeshFile(const QString &meshFile)
 {

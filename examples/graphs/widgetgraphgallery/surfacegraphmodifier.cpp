@@ -452,7 +452,7 @@ void SurfaceGraphModifier::toggleItemOne(bool show)
         color.fill(Qt::red);
         //! [9]
         //! [11]
-        QCustom3DItem *item = new QCustom3DItem(":/data/oilrig.obj", positionOne,
+        QCustom3DItem *item = new QCustom3DItem(":/data/oilrig.mesh", positionOne,
                                                 QVector3D(0.025f, 0.025f, 0.025f),
                                                 QQuaternion::fromAxisAndAngle(0.f, 1.f, 0.f, 45.f),
                                                 color);
@@ -460,7 +460,7 @@ void SurfaceGraphModifier::toggleItemOne(bool show)
         //! [12]
         m_graph->addCustomItem(item);
         //! [12]
-        item = new QCustom3DItem(":/data/pipe.obj", positionOnePipe,
+        item = new QCustom3DItem(":/data/pipe.mesh", positionOnePipe,
                                  QVector3D(0.005f, 0.5f, 0.005f),
                                  QQuaternion(),
                                  color);
@@ -493,13 +493,13 @@ void SurfaceGraphModifier::toggleItemTwo(bool show)
         QImage color = QImage(2, 2, QImage::Format_RGB32);
         color.fill(Qt::red);
         QCustom3DItem *item = new QCustom3DItem();
-        item->setMeshFile(":/data/oilrig.obj");
+        item->setMeshFile(":/data/oilrig.mesh");
         item->setPosition(positionTwo);
         item->setScaling(QVector3D(0.025f, 0.025f, 0.025f));
         item->setRotation(QQuaternion::fromAxisAndAngle(0.f, 1.f, 0.f, 25.f));
         item->setTextureImage(color);
         m_graph->addCustomItem(item);
-        item = new QCustom3DItem(":/data/pipe.obj", positionTwoPipe,
+        item = new QCustom3DItem(":/data/pipe.mesh", positionTwoPipe,
                                  QVector3D(0.005f, 0.5f, 0.005f),
                                  QQuaternion(),
                                  color);
@@ -527,7 +527,7 @@ void SurfaceGraphModifier::toggleItemThree(bool show)
         QImage color = QImage(2, 2, QImage::Format_RGB32);
         color.fill(Qt::darkMagenta);
         QCustom3DItem *item = new QCustom3DItem();
-        item->setMeshFile(":/data/refinery.obj");
+        item->setMeshFile(":/data/refinery.mesh");
         item->setPosition(positionThree);
         item->setScaling(QVector3D(0.04f, 0.04f, 0.04f));
         item->setRotation(QQuaternion::fromAxisAndAngle(0.f, 1.f, 0.f, 75.f));
