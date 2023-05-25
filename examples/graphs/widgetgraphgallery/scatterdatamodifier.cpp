@@ -62,7 +62,6 @@ ScatterDataModifier::ScatterDataModifier(Q3DScatter *scatter, QObject *parent) :
 
 ScatterDataModifier::~ScatterDataModifier()
 {
-    delete m_inputHandler;
 }
 
 void ScatterDataModifier::addData()
