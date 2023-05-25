@@ -220,9 +220,7 @@ QList<QAbstract3DInputHandler *> QAbstract3DGraph::inputHandlers() const
  */
 void QAbstract3DGraph::addTheme(Q3DTheme *theme)
 {
-    // TODO: API missing in QQuickGraphsItem (QTBUG-111711)
-    Q_UNUSED(theme)
-//    m_graphsItem->addTheme(theme);
+    m_graphsItem->addTheme(theme);
 }
 
 /*!
@@ -235,9 +233,7 @@ void QAbstract3DGraph::addTheme(Q3DTheme *theme)
  */
 void QAbstract3DGraph::releaseTheme(Q3DTheme *theme)
 {
-    // TODO: API missing in QQuickGraphsItem (QTBUG-111711)
-    Q_UNUSED(theme)
-//    m_graphsItem->releaseTheme(theme);
+    m_graphsItem->releaseTheme(theme);
 }
 
 /*!
@@ -271,9 +267,7 @@ void QAbstract3DGraph::setActiveTheme(Q3DTheme *activeTheme)
  */
 QList<Q3DTheme *> QAbstract3DGraph::themes() const
 {
-    // TODO: API missing in QQuickGraphsItem (QTBUG-111711)
-    return {};
-//    return m_graphsItem->themes();
+    return m_graphsItem->themes();
 }
 
 /*!

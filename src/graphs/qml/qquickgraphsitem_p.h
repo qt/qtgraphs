@@ -87,8 +87,11 @@ public:
     virtual QAbstract3DInputHandler *inputHandler() const;
     virtual void setInputHandler(QAbstract3DInputHandler *inputHandler);
 
+    virtual void addTheme(Q3DTheme *theme);
+    virtual void releaseTheme(Q3DTheme *theme);
     virtual void setTheme(Q3DTheme *theme);
     virtual Q3DTheme *theme() const;
+    virtual QList<Q3DTheme *> themes() const;
 
     Q_INVOKABLE virtual void clearSelection();
 

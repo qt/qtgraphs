@@ -342,6 +342,23 @@ QQuick3DDirectionalLight *QQuickGraphsItem::light() const
     return m_light;
 }
 
+// TODO: Check if it would make sense to remove these from Abstract3DController - QTBUG-113812
+// begin..
+void QQuickGraphsItem::addTheme(Q3DTheme *theme)
+{
+    m_controller->addTheme(theme);
+}
+
+void QQuickGraphsItem::releaseTheme(Q3DTheme *theme)
+{
+    m_controller->releaseTheme(theme);
+}
+
+QList<Q3DTheme *> QQuickGraphsItem::themes() const
+{
+    return m_controller->themes();
+}
+
 void QQuickGraphsItem::setTheme(Q3DTheme *theme)
 {
     m_controller->setActiveTheme(theme, isComponentComplete());
@@ -427,6 +444,8 @@ QCustom3DItem *QQuickGraphsItem::selectedCustomItem() const
 {
     return m_controller->selectedCustomItem();
 }
+// ...end
+// TODO: Check if it would make sense to remove these from Abstract3DController - QTBUG-113812
 
 QQmlListProperty<QCustom3DItem> QQuickGraphsItem::customItemList()
 {
@@ -2377,6 +2396,8 @@ int QQuickGraphsItem::currentFps() const
     return m_currentFps;
 }
 
+// TODO: Check if it would make sense to remove these from Abstract3DController - QTBUG-113812
+// begin..
 void QQuickGraphsItem::setOrthoProjection(bool enable)
 {
     m_controller->setOrthoProjection(enable);
@@ -2487,6 +2508,8 @@ qreal QQuickGraphsItem::margin() const
 {
     return m_controller->margin();
 }
+// ..end
+// TODO: Check if it would make sense to remove these from Abstract3DController - QTBUG-113812
 
 QQuick3DNode *QQuickGraphsItem::rootNode() const
 {
