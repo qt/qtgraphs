@@ -1,15 +1,15 @@
 # Copyright (C) 2023 The Qt Company Ltd.
 # SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only WITH Qt-GPL-exception-1.0
 
-#add_subdirectory(qgbars) # TODO: Needs either redoing, or fixing the code; see QTBUG-110000 & QTBUG-110001
+add_subdirectory(qgbars)
 add_subdirectory(qgbars-proxy)
 add_subdirectory(qgbars-modelproxy)
 add_subdirectory(qgbars-series)
-#add_subdirectory(qgscatter) # TODO: Needs either redoing, or fixing the code; see QTBUG-110000 & QTBUG-110001
+add_subdirectory(qgscatter)
 add_subdirectory(qgscatter-proxy)
 add_subdirectory(qgscatter-modelproxy)
 add_subdirectory(qgscatter-series)
-#add_subdirectory(qgsurface) # TODO: Needs either redoing, or fixing the code; see QTBUG-110000 & QTBUG-110001
+add_subdirectory(qgsurface)
 add_subdirectory(qgsurface-proxy)
 add_subdirectory(qgsurface-modelproxy)
 add_subdirectory(qgsurface-modelproxy-nan)

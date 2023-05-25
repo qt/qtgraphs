@@ -2707,9 +2707,9 @@ void QQuickGraphsItem::setActiveInputHandler(QAbstract3DInputHandler *inputHandl
         addInputHandler(inputHandler);
 
     m_activeInputHandler = inputHandler;
-    m_activeInputHandler->d_func()->m_isDefaultHandler = true;
 
     if (m_activeInputHandler) {
+        m_activeInputHandler->d_func()->m_isDefaultHandler = true;
         m_activeInputHandler->setScene(scene());
 
         // Connect the input handler

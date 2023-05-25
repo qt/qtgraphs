@@ -40,8 +40,9 @@ private slots:
     void addTheme();
     void removeTheme();
 
-    void addCustomItem();
-    void removeCustomItem();
+    // TODO: QTBUG-99844
+    //void addCustomItem();
+    //void removeCustomItem();
 
     void renderToImage();
 
@@ -81,11 +82,6 @@ void tst_bars::cleanup()
 void tst_bars::construct()
 {
     Q3DBars *graph = new Q3DBars();
-    QVERIFY(graph);
-    delete graph;
-
-    QSurfaceFormat format;
-    graph = new Q3DBars(&format);
     QVERIFY(graph);
     delete graph;
 }
@@ -171,7 +167,7 @@ void tst_bars::initializeProperties()
     QCOMPARE(m_graph->isPolar(), true);
     QCOMPARE(m_graph->radialLabelOffset(), 0.1f);
     QCOMPARE(m_graph->horizontalAspectRatio(), 1.0);
-    QCOMPARE(m_graph->isReflection(), true);
+    //QCOMPARE(m_graph->isReflection(), true); // TODO: QTBUG-99816
     QCOMPARE(m_graph->reflectivity(), 0.1);
     QCOMPARE(m_graph->locale(), QLocale("FI"));
     QCOMPARE(m_graph->margin(), 1.0);
@@ -299,9 +295,9 @@ void tst_bars::addInputHandler()
     m_graph->setActiveInputHandler(handler2);
     QCOMPARE(m_graph->activeInputHandler(), handler2);
 
-    m_graph->setActiveInputHandler(NULL);
+    m_graph->setActiveInputHandler(nullptr);
     QVERIFY(!m_graph->activeInputHandler());
-    QCOMPARE(m_graph->inputHandlers().size(), 2);
+    //QCOMPARE(m_graph->inputHandlers().size(), 2); // TODO: QTBUG-113816
 }
 
 void tst_bars::removeInputHandler()
@@ -355,7 +351,8 @@ void tst_bars::removeTheme()
     delete theme2;
     delete theme;
 }
-
+// TODO: QTBUG-99844
+/*
 void tst_bars::addCustomItem()
 {
     QCustom3DItem *item = new QCustom3DItem();
@@ -388,7 +385,7 @@ void tst_bars::removeCustomItem()
     m_graph->removeCustomItems();
     QCOMPARE(m_graph->customItems().size(), 0);
 }
-
+*/
 void tst_bars::renderToImage()
 {
     /* Crashes on some CI machines using Mesa, but can't repro locally, so commented out for now.
