@@ -33,14 +33,14 @@ QT_BEGIN_NAMESPACE
  */
 
 /*!
- * \typedef QBarDataRow
+ * \typealias QBarDataRow
  * \relates QBarDataProxy
  *
  * A list of \l {QBarDataItem} objects.
  */
 
 /*!
- * \typedef QBarDataArray
+ * \typealias QBarDataArray
  * \relates QBarDataProxy
  *
  * A list of pointers to \l {QBarDataRow} objects.

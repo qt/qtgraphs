@@ -23,7 +23,7 @@ QT_BEGIN_NAMESPACE
  */
 
 /*!
- * \typedef QScatterDataArray
+ * \typealias QScatterDataArray
  * \relates QScatterDataProxy
  *
  * A list of \l {QScatterDataItem} objects.

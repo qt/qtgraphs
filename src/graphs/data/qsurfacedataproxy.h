@@ -14,8 +14,8 @@ QT_BEGIN_NAMESPACE
 class QSurfaceDataProxyPrivate;
 class QSurface3DSeries;
 
-typedef QList<QSurfaceDataItem> QSurfaceDataRow;
-typedef QList<QSurfaceDataRow *> QSurfaceDataArray;
+using QSurfaceDataRow = QList<QSurfaceDataItem>;
+using QSurfaceDataArray = QList<QSurfaceDataRow *>;
 
 class Q_GRAPHS_EXPORT QSurfaceDataProxy : public QAbstractDataProxy
 {

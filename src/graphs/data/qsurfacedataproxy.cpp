@@ -13,7 +13,7 @@ QT_BEGIN_NAMESPACE
  * \brief The QSurfaceDataProxy class is the data proxy for a 3D surface graph.
  *
  * A surface data proxy handles surface related data in rows. For this it
- * provides two auxiliary typedefs: QtGraphs::QSurfaceDataArray and
+ * provides two auxiliary type aliases: QtGraphs::QSurfaceDataArray and
  * QtGraphs::QSurfaceDataRow. \c QSurfaceDataArray is a QList that
  * controls the rows. \c QSurfaceDataRow is a QList that contains
  * QSurfaceDataItem objects. For more information about how to feed the data to
@@ -49,14 +49,14 @@ QT_BEGIN_NAMESPACE
  */
 
 /*!
- * \typedef QSurfaceDataRow
+ * \typealias QSurfaceDataRow
  * \relates QSurfaceDataProxy
  *
  * A list of \l {QSurfaceDataItem} objects.
  */
 
 /*!
- * \typedef QSurfaceDataArray
+ * \typealias QSurfaceDataArray
  * \relates QSurfaceDataProxy
  *
  * A list of pointers to \l {QSurfaceDataRow} objects.

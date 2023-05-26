@@ -14,7 +14,7 @@ QT_BEGIN_NAMESPACE
 class QScatterDataProxyPrivate;
 class QScatter3DSeries;
 
-typedef QList<QScatterDataItem> QScatterDataArray;
+using QScatterDataArray = QList<QScatterDataItem>;
 
 class Q_GRAPHS_EXPORT QScatterDataProxy : public QAbstractDataProxy
 {

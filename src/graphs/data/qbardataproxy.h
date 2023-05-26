@@ -16,8 +16,8 @@ QT_BEGIN_NAMESPACE
 class QBarDataProxyPrivate;
 class QBar3DSeries;
 
-typedef QList<QBarDataItem> QBarDataRow;
-typedef QList<QBarDataRow *> QBarDataArray;
+using QBarDataRow = QList<QBarDataItem>;
+using QBarDataArray = QList<QBarDataRow *>;
 
 class Q_GRAPHS_EXPORT QBarDataProxy : public QAbstractDataProxy
 {
