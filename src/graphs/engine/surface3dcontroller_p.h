@@ -89,11 +89,12 @@ public:
     void setDataDimensions(DataDimensions dimension) { m_dataDimensions = dimension; }
     DataDimensions dataDimensions() { return m_dataDimensions; }
 
-    bool hasChangedSeriesList() { return !m_changedSeriesList.isEmpty(); }
-    bool isSeriesVisibilityDirty() { return m_isSeriesVisibilityDirty; }
+    bool hasChangedSeriesList() const { return !m_changedSeriesList.isEmpty(); }
+    bool isSeriesVisibilityDirty() const { return m_isSeriesVisibilityDirty; }
     void setSeriesVisibilityDirty(bool dirty) { m_isSeriesVisibilityDirty = dirty; }
-    bool isDataDirty() { return m_isDataDirty; }
+    bool isDataDirty() const { return m_isDataDirty; }
     void setDataDirty(bool dirty) { m_isDataDirty = dirty; }
+    bool isSeriesVisualsDirty() const { return m_isSeriesVisualsDirty; }
 
     QList<QAbstract3DSeries *> changedSeriesList() { return m_changedSeriesList; }
 

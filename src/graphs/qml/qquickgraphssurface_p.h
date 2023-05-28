@@ -118,6 +118,8 @@ private:
         int rowCount;
         SurfaceVertex selectedVertex;
         bool picked = false;
+        QVector3D boundsMin;
+        QVector3D boundsMax;
     };
 
     QVector3D getNormalizedVertex(const QSurfaceDataItem &data, bool polar, bool flipXZ);
