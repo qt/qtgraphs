@@ -170,6 +170,9 @@ set_source_files_properties("qml/resources/RangeGradientScatterMaterialInstancin
 set_source_files_properties("qml/resources/ObjectGradientMaterial.qml"
     PROPERTIES QT_RESOURCE_ALIAS "ObjectGradientMaterial"
 )
+set_source_files_properties("qml/resources/ObjectGradientSurfaceMaterial.qml"
+    PROPERTIES QT_RESOURCE_ALIAS "ObjectGradientSurfaceMaterial"
+)
 set_source_files_properties("qml/resources/ObjectGradientMaterialInstancing.qml"
     PROPERTIES QT_RESOURCE_ALIAS "ObjectGradientMaterialInstancing"
 )
@@ -225,6 +228,7 @@ set(qml_axis_resurces
 set(qml_material_resources
     "qml/resources/ObjectGradientMaterial.qml"
     "qml/resources/ObjectGradientMaterialInstancing.qml"
+    "qml/resources/ObjectGradientSurfaceMaterial.qml"
     "qml/resources/PointMaterial.qml"
     "qml/resources/PointRangeGradientMaterial.qml"
     "qml/resources/PointMaterialInstancing.qml"
@@ -610,6 +614,9 @@ set_source_files_properties("engine/shaders/objectgradientinstancing.vert"
 set_source_files_properties("engine/shaders/objectgradientinstancing.frag"
     PROPERTIES QT_RESOURCE_ALIAS "fragmentobjectgradientinstancing"
 )
+set_source_files_properties("engine/shaders/objectgradientsurface.frag"
+    PROPERTIES QT_RESOURCE_ALIAS "fragmentobjectgradientsurface"
+)
 set_source_files_properties("engine/shaders/rangegradient.vert"
     PROPERTIES QT_RESOURCE_ALIAS "vertexrangegradient"
 )
@@ -659,6 +666,7 @@ set(shader_resource_files
     "engine/shaders/objectgradient.frag"
     "engine/shaders/objectgradientinstancing.vert"
     "engine/shaders/objectgradientinstancing.frag"
+    "engine/shaders/objectgradientsurface.frag"
     "engine/shaders/rangegradient.vert"
     "engine/shaders/rangegradient.frag"
     "engine/shaders/rangegradientinstancing.frag"

@@ -386,6 +386,8 @@ void QQuickGraphsSurface::updateGraph()
             model->sliceGridModel->setVisible(model->series->drawMode().testFlag(QSurface3DSeries::DrawWireframe));
             model->sliceModel->setVisible(model->series->drawMode().testFlag(QSurface3DSeries::DrawSurface));
         }
+
+        updateMaterial(model);
     }
 
     if (m_surfaceController->selectionMode().testFlag(QAbstract3DGraph::SelectionItem))
@@ -535,6 +537,9 @@ void QQuickGraphsSurface::updateModel(SurfaceModel *model)
             }
         }
 
+        model->boundsMin = boundsMin;
+        model->boundsMax = boundsMax;
+
         //create normals
         int rowLimit = rowCount - 1;
         int colLimit = columnCount - 1;
@@ -606,12 +611,42 @@ void QQuickGraphsSurface::updateMaterial(SurfaceModel *model, bool texturedModel
     QQmlListReference materialRef(model->model, "materials");
     QQuick3DMaterial *material = static_cast<QQuick3DMaterial *>(materialRef.at(0));
     if (!texturedModel) {
-        if (material == model->principledMaterial) {
-            materialRef.clear();
-            materialRef.append(model->customMaterial);
+        if (m_surfaceController->isSeriesVisualsDirty()) {
+            if (model->series->colorStyle() == Q3DTheme::ColorStyleUniform) {
+                materialRef.clear();
+                QQuick3DPrincipledMaterial *material = new QQuick3DPrincipledMaterial();
+                material->setParent(model->model);
+                material->setParentItem(model->model);
+                material->setCullMode(QQuick3DMaterial::NoCulling);
+                material->setBaseColor(model->series->baseColor());
+                materialRef.append(material);
+            } else {
+                QQuick3DCustomMaterial *material = nullptr;
+                if (model->series->colorStyle() == Q3DTheme::ColorStyleObjectGradient) {
+                    material = createQmlCustomMaterial(QStringLiteral(":/materials/ObjectGradientSurfaceMaterial"));
+                    float minY = model->boundsMin.y();
+                    float maxY = model->boundsMax.y();
+                    float range = maxY - minY;
+                    material->setProperty("gradientMin", -(minY / range));
+                    material->setProperty("gradientHeight", 1.0f / range);
+                } else {
+                    material = createQmlCustomMaterial(QStringLiteral(":/materials/RangeGradientMaterial"));
+                }
+                material->setParent(model->model);
+                material->setParentItem(model->model);
+                material->setCullMode(QQuick3DMaterial::NoCulling);
+                QVariant textureInputAsVariant = material->property("custex");
+                QQuick3DShaderUtilsTextureInput *textureInput = textureInputAsVariant.value<QQuick3DShaderUtilsTextureInput *>();
+                auto textureData = static_cast<QuickGraphsTextureData *>(model->texture->textureData());
+                textureData->createGradient(model->series->baseGradient());
+                textureInput->setTexture(model->texture);
+                material->update();
+                delete model->customMaterial;
+                model->customMaterial = material;
+                materialRef.clear();
+                materialRef.append(model->customMaterial);
+            }
         }
-        auto textureData = static_cast<QuickGraphsTextureData *>(model->texture->textureData());
-        textureData->createGradient(model->series->baseGradient());
     } else {
         if (!model->principledMaterial) {
             QQuick3DPrincipledMaterial *principledMaterial = new QQuick3DPrincipledMaterial();
@@ -621,7 +656,7 @@ void QQuickGraphsSurface::updateMaterial(SurfaceModel *model, bool texturedModel
 
             model->principledMaterial = principledMaterial;
         }
-        if (material == model->customMaterial) {
+        if (material != model->principledMaterial) {
             materialRef.clear();
             materialRef.append(model->principledMaterial);
         }
@@ -638,10 +673,9 @@ void QQuickGraphsSurface::updateMaterial(SurfaceModel *model, bool texturedModel
             texture->setSource(QUrl::fromLocalFile(model->series->textureFile()));
         } else if (!model->series->texture().isNull()) {
             QImage image = model->series->texture();
-            QByteArray imageArray = QByteArray::fromRawData((const char*)image.bits(),
-                                                            image.sizeInBytes());
             auto textureData = static_cast<QuickGraphsTextureData *>(model->texture->textureData());
-            textureData->setTextureData(imageArray);
+            textureData->setTextureData(QByteArray(reinterpret_cast<const char*>(image.bits()),
+                                                   image.sizeInBytes()));
         } else {
             texture->setSource(QUrl());
         }
@@ -1327,7 +1361,11 @@ void QQuickGraphsSurface::addModel(QSurface3DSeries *series)
     texture->setTextureData(textureData);
 
     QQmlListReference materialRef(model, "materials");
-    QQuick3DCustomMaterial *customMaterial = createQmlCustomMaterial(QStringLiteral(":/materials/RangeGradientMaterial"));
+    QQuick3DCustomMaterial *customMaterial = nullptr;
+    if (series->colorStyle() == Q3DTheme::ColorStyleObjectGradient)
+        customMaterial = createQmlCustomMaterial(QStringLiteral(":/materials/ObjectGradientSurfaceMaterial"));
+    else
+        customMaterial = createQmlCustomMaterial(QStringLiteral(":/materials/RangeGradientMaterial"));
     customMaterial->setParent(model);
     customMaterial->setParentItem(model);
     customMaterial->setCullMode(QQuick3DMaterial::NoCulling);
