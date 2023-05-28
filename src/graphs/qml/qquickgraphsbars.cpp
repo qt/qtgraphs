@@ -415,12 +415,6 @@ void QQuickGraphsBars::updateParameters() {
     QList<QBar3DSeries *> barSeriesList = m_barsController->barSeriesList();
     if (m_cachedRowCount!= m_newRows || m_cachedColumnCount != m_newCols) {
         m_barsController->m_changeTracker.selectedBarChanged = true;
-        // Force update for selection related items
-        if (sliceView() && isSliceEnabled()) {
-            setSliceActivatedChanged(true);
-            m_selectionDirty = false;
-        }
-
         m_cachedColumnCount = m_newCols;
         m_cachedRowCount = m_newRows;
 
@@ -474,6 +468,10 @@ void QQuickGraphsBars::updateGraph()
             if (!isEmpty) {
                 updateSliceGrid();
                 updateSliceLabels();
+            }
+            if (!isSliceActivatedChanged() && m_selectionDirty) {
+                setSliceActivatedChanged(true);
+                m_selectionDirty = false;
             }
         }
         int visualIndex = 0;
@@ -1864,11 +1862,6 @@ void QQuickGraphsBars::updateBarSpecs(float thicknessRatio, const QSizeF &spacin
 
     m_axisRangeChanged = true;
     m_barsController->m_changeTracker.selectedBarChanged = true;
-    // Slice mode doesn't update correctly without this
-    if (sliceView() && isSliceEnabled()) {
-        setSliceActivatedChanged(true);
-        m_selectionDirty = false;
-    }
 
     // Calculate here and at setting sample space
     calculateSceneScalingFactors();

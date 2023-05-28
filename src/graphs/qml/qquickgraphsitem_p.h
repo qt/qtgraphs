@@ -322,6 +322,7 @@ protected:
 
     bool isSliceEnabled() const { return m_sliceEnabled; }
     void setSliceEnabled(bool enabled) { m_sliceEnabled = enabled; }
+    bool isSliceActivatedChanged() const { return m_sliceActivatedChanged; }
     void setSliceActivatedChanged(bool changed) { m_sliceActivatedChanged = changed; }
     virtual void updateSliceGraph();
 
