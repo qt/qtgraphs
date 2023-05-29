@@ -297,7 +297,7 @@ void tst_bars::addInputHandler()
 
     m_graph->setActiveInputHandler(nullptr);
     QVERIFY(!m_graph->activeInputHandler());
-    //QCOMPARE(m_graph->inputHandlers().size(), 2); // TODO: QTBUG-113816
+    QCOMPARE(m_graph->inputHandlers().size(), 2);
 }
 
 void tst_bars::removeInputHandler()

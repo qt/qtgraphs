@@ -334,6 +334,7 @@ void QQuickGraphsItem::componentComplete()
     // Create initial default input handler
     QAbstract3DInputHandler *inputHandler;
     inputHandler = new QTouch3DInputHandler(this);
+    inputHandler->d_func()->m_isDefaultHandler = true;
     setActiveInputHandler(inputHandler);
 }
 
@@ -2726,7 +2727,6 @@ void QQuickGraphsItem::setActiveInputHandler(QAbstract3DInputHandler *inputHandl
     m_activeInputHandler = inputHandler;
 
     if (m_activeInputHandler) {
-        m_activeInputHandler->d_func()->m_isDefaultHandler = true;
         m_activeInputHandler->setScene(scene());
 
         // Connect the input handler
