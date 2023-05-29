@@ -243,6 +243,8 @@ void Q3DInputHandler::wheelEvent(QWheelEvent *event)
         zoomLevel = qBound(minZoomLevel, zoomLevel, maxZoomLevel);
 
         if (isZoomAtTargetEnabled()) {
+            if (!d->m_controller)
+                d->handleSceneChange(scene());
             d->m_controller->setGraphPositionQueryPending(true);
             scene()->setGraphPositionQuery(event->position().toPoint());
             d->m_zoomAtTargetPending = true;
@@ -372,7 +374,6 @@ void Q3DInputHandlerPrivate::handleSceneChange(Q3DScene *scene)
         }
 
         m_controller = qobject_cast<Abstract3DController *>(scene->parent());
-
         if (m_controller) {
             QObject::connect(m_controller, &Abstract3DController::queriedGraphPositionChanged,
                              this, &Q3DInputHandlerPrivate::handleQueriedGraphPositionChange);
