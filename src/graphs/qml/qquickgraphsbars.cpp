@@ -1390,6 +1390,9 @@ void QQuickGraphsBars::updateSelectedBar()
             bool useGradient = m_selectedBarSeries->d_func()->isUsingGradient();
             QString label = m_selectedBarSeries->itemLabel();
             visible = m_selectedBarSeries->isVisible() && !m_selectedBarPos.isNull();
+            QFontMetrics fm(m_barsController->activeTheme()->font());
+            float textPadding = 10.0f;
+            float labelHeight = fm.height() + textPadding;
             if (m_barsController->optimizationHints() == QAbstract3DGraph::OptimizationLegacy) {
                 for (auto barList : *it.value()) {
                     Bars3DController::SelectionType selectionType =
@@ -1419,10 +1422,12 @@ void QQuickGraphsBars::updateSelectedBar()
 
                         itemLabel()->setPosition(m_selectedBarPos);
                         itemLabel()->setProperty("labelText", label);
+                        itemLabel()->setProperty("labelHeight", labelHeight);
                         itemLabel()->setEulerRotation(
                             QVector3D(-m_barsController->scene()->activeCamera()->yRotation(),
                                       -m_barsController->scene()->activeCamera()->xRotation(),
                                       0));
+                        itemLabel()->setProperty("labelHeight", labelHeight);
 
                         if (isSliceEnabled()) {
                             sliceItemLabel()->setPosition(QVector3D((m_selectedBarPos.x() + .05f),
@@ -1430,6 +1435,7 @@ void QQuickGraphsBars::updateSelectedBar()
                             //TODO: set sliceItemLabel's size - QTBUG-111924
                             sliceItemLabel()->setScale(sliceItemLabel()->scale() / 1.5f);
                             sliceItemLabel()->setProperty("labelText", label);
+                            sliceItemLabel()->setProperty("labelHeight", labelHeight);
                             sliceItemLabel()->setEulerRotation(QVector3D(0.0f, 0.0f, 90.0f));
                             sliceItemLabel()->setVisible(true);
                         }
@@ -1486,6 +1492,7 @@ void QQuickGraphsBars::updateSelectedBar()
 
                             itemLabel()->setPosition(m_selectedBarPos);
                             itemLabel()->setProperty("labelText", label);
+                            itemLabel()->setProperty("labelHeight", labelHeight);
                             itemLabel()->setEulerRotation(
                                 QVector3D(-m_barsController->scene()->activeCamera()->yRotation(),
                                           -m_barsController->scene()->activeCamera()->xRotation(),
@@ -1497,6 +1504,7 @@ void QQuickGraphsBars::updateSelectedBar()
                                 //TODO: set sliceItemLabel's size - QTBUG-111924
                                 sliceItemLabel()->setScale(sliceItemLabel()->scale() / 1.5f);
                                 sliceItemLabel()->setProperty("labelText", label);
+                                sliceItemLabel()->setProperty("labelHeight", labelHeight);
                                 sliceItemLabel()->setEulerRotation(QVector3D(0.0f, 0.0f, 90.0f));
                                 sliceItemLabel()->setVisible(true);
                             }
