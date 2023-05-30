@@ -4,7 +4,7 @@
 #ifndef GRAPHSGLOBAL_H
 #define GRAPHSGLOBAL_H
 
-#include <QtGlobal>
+#include <QtCore/QtGlobal>
 #include <QtGraphs/qtgraphsexports.h>
 
 #endif
