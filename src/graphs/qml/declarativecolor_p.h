@@ -26,7 +26,6 @@ class DeclarativeColor : public QObject
     Q_PROPERTY(QColor color READ color WRITE setColor NOTIFY colorChanged)
 
     QML_NAMED_ELEMENT(ThemeColor)
-    QML_ADDED_IN_VERSION(6, 6)
 
 public:
     DeclarativeColor(QObject *parent = 0);

@@ -80,7 +80,6 @@ struct Q3DSceneForeign
 {
     Q_GADGET
     QML_ANONYMOUS
-    QML_ADDED_IN_VERSION(6, 6)
     QML_FOREIGN(Q3DScene)
 };
 

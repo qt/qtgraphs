@@ -36,7 +36,6 @@ class DeclarativeTheme3D : public Q3DTheme, public QQmlParserStatus
     Q_PROPERTY(ColorGradient *multiHighlightGradient READ multiHighlightGradient WRITE setMultiHighlightGradient NOTIFY multiHighlightGradientChanged)
     Q_CLASSINFO("DefaultProperty", "themeChildren")
     QML_NAMED_ELEMENT(Theme3D)
-    QML_ADDED_IN_VERSION(6, 6)
 
 public:
     DeclarativeTheme3D(QObject *parent = 0);

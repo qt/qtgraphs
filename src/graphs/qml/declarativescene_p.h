@@ -30,7 +30,6 @@ class Declarative3DScene : public Q3DScene
     Q_PROPERTY(QPoint invalidSelectionPoint READ invalidSelectionPoint CONSTANT)
 
     QML_NAMED_ELEMENT(Scene3D)
-    QML_ADDED_IN_VERSION(6, 6)
     QML_UNCREATABLE("Trying to create uncreatable: Scene3D.")
 
 public:

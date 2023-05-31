@@ -28,7 +28,6 @@ class ColorGradientStop : public QObject
     Q_PROPERTY(QColor color READ color WRITE setColor NOTIFY colorChanged)
 
     QML_ELEMENT
-    QML_ADDED_IN_VERSION(6, 6)
 
 public:
     ColorGradientStop(QObject *parent = 0);
@@ -59,7 +58,6 @@ class ColorGradient : public QObject
     Q_CLASSINFO("DefaultProperty", "stops")
 
     QML_ELEMENT
-    QML_ADDED_IN_VERSION(6, 6)
 
 public:
     ColorGradient(QObject *parent = 0);

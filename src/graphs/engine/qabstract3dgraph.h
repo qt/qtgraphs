@@ -44,7 +44,6 @@ class Q_GRAPHS_EXPORT QAbstract3DGraph : public QQuickWidget
     Q_PROPERTY(qreal margin READ margin WRITE setMargin NOTIFY marginChanged)
 
     QML_NAMED_ELEMENT(AbstractGraph3D)
-    QML_ADDED_IN_VERSION(6, 6)
     QML_UNCREATABLE("Trying to create uncreatable: AbstractGraph3D.")
 
 public:

@@ -43,7 +43,6 @@ class QQuickGraphsBars : public QQuickGraphsItem
     Q_CLASSINFO("DefaultProperty", "seriesList")
 
     QML_NAMED_ELEMENT(Bars3D)
-    QML_ADDED_IN_VERSION(6, 6)
 
 public:
     explicit QQuickGraphsBars(QQuickItem *parent = 0);

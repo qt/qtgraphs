@@ -47,7 +47,6 @@ class DeclarativeBar3DSeries : public QBar3DSeries
     Q_CLASSINFO("DefaultProperty", "seriesChildren")
 
     QML_NAMED_ELEMENT(Bar3DSeries)
-    QML_ADDED_IN_VERSION(6, 6)
 
 public:
     DeclarativeBar3DSeries(QObject *parent = 0);
@@ -113,7 +112,6 @@ class DeclarativeScatter3DSeries : public QScatter3DSeries
     Q_CLASSINFO("DefaultProperty", "seriesChildren")
 
     QML_NAMED_ELEMENT(Scatter3DSeries)
-    QML_ADDED_IN_VERSION(6, 6)
 
 public:
     DeclarativeScatter3DSeries(QObject *parent = 0);
@@ -162,7 +160,6 @@ class DeclarativeSurface3DSeries : public QSurface3DSeries
     Q_CLASSINFO("DefaultProperty", "seriesChildren")
 
     QML_NAMED_ELEMENT(Surface3DSeries)
-    QML_ADDED_IN_VERSION(6, 6)
 
 public:
     DeclarativeSurface3DSeries(QObject *parent = 0);

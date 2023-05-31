@@ -63,7 +63,6 @@ class QQuickGraphsItem : public QQuick3DViewport
     Q_PROPERTY(qreal margin READ margin WRITE setMargin NOTIFY marginChanged)
 
     QML_NAMED_ELEMENT(GraphsItem3D)
-    QML_ADDED_IN_VERSION(6, 6)
     QML_UNCREATABLE("Trying to create uncreatable: GraphsItem3D.")
 
 public:

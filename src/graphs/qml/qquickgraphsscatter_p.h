@@ -35,7 +35,6 @@ class QQuickGraphsScatter : public QQuickGraphsItem
     Q_CLASSINFO("DefaultProperty", "seriesList")
 
     QML_NAMED_ELEMENT(Scatter3D)
-    QML_ADDED_IN_VERSION(6, 6)
 
 public:
     explicit QQuickGraphsScatter(QQuickItem *parent = 0);

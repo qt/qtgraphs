@@ -40,7 +40,6 @@ class QQuickGraphsSurface : public QQuickGraphsItem
     Q_CLASSINFO("DefaultProperty", "seriesList")
 
     QML_NAMED_ELEMENT(Surface3D)
-    QML_ADDED_IN_VERSION(6, 6)
 
 public:
     explicit QQuickGraphsSurface(QQuickItem *parent = 0);
