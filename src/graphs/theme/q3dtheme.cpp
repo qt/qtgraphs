@@ -1026,7 +1026,7 @@ bool Q3DTheme::isLabelBackgroundEnabled() const
  * This value can be overridden by setting \l{Abstract3DSeries::colorStyle}
  * {colorStyle} explicitly in the series.
  */
-void Q3DTheme::setColorStyle(ColorStyle style)
+void Q3DTheme::setColorStyle(Q3DTheme::ColorStyle style)
 {
     Q_D(Q3DTheme);
     d->m_dirtyBits.colorStyleDirty = true;
@@ -1077,7 +1077,7 @@ bool Q3DTheme::isLabelsEnabled() const
  * Changing the theme type of the active theme of the graph will also reset all
  * attached series to use the new theme.
  */
-void Q3DTheme::setType(Theme themeType)
+void Q3DTheme::setType(Q3DTheme::Theme themeType)
 {
     Q_D(Q3DTheme);
     d->m_dirtyBits.themeIdDirty = true;

@@ -320,7 +320,7 @@ bool QSurface3DSeries::isFlatShadingSupported() const
  *
  * Possible values are the values of DrawFlag. Clearing all flags is not allowed.
  */
-void QSurface3DSeries::setDrawMode(DrawFlags mode)
+void QSurface3DSeries::setDrawMode(QSurface3DSeries::DrawFlags mode)
 {
     Q_D(QSurface3DSeries);
     if (d->m_drawMode != mode) {

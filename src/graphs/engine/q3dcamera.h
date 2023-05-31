@@ -17,7 +17,7 @@ class Q_GRAPHS_EXPORT Q3DCamera : public Q3DObject
     Q_PROPERTY(float xRotation READ xRotation WRITE setXRotation NOTIFY xRotationChanged)
     Q_PROPERTY(float yRotation READ yRotation WRITE setYRotation NOTIFY yRotationChanged)
     Q_PROPERTY(float zoomLevel READ zoomLevel WRITE setZoomLevel NOTIFY zoomLevelChanged)
-    Q_PROPERTY(CameraPreset cameraPreset READ cameraPreset WRITE setCameraPreset NOTIFY cameraPresetChanged)
+    Q_PROPERTY(Q3DCamera::CameraPreset cameraPreset READ cameraPreset WRITE setCameraPreset NOTIFY cameraPresetChanged)
     Q_PROPERTY(bool wrapXRotation READ wrapXRotation WRITE setWrapXRotation NOTIFY wrapXRotationChanged)
     Q_PROPERTY(bool wrapYRotation READ wrapYRotation WRITE setWrapYRotation NOTIFY wrapYRotationChanged)
     Q_PROPERTY(QVector3D target READ target WRITE setTarget NOTIFY targetChanged)
@@ -70,8 +70,8 @@ public:
 
     void copyValuesFrom(const Q3DObject &source) override;
 
-    CameraPreset cameraPreset() const;
-    void setCameraPreset(CameraPreset preset);
+    Q3DCamera::CameraPreset cameraPreset() const;
+    void setCameraPreset(Q3DCamera::CameraPreset preset);
 
     float zoomLevel() const;
     void setZoomLevel(float zoomLevel);

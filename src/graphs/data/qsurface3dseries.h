@@ -20,7 +20,7 @@ class Q_GRAPHS_EXPORT QSurface3DSeries : public QAbstract3DSeries
     Q_PROPERTY(QPoint selectedPoint READ selectedPoint WRITE setSelectedPoint NOTIFY selectedPointChanged)
     Q_PROPERTY(bool flatShadingEnabled READ isFlatShadingEnabled WRITE setFlatShadingEnabled NOTIFY flatShadingEnabledChanged)
     Q_PROPERTY(bool flatShadingSupported READ isFlatShadingSupported NOTIFY flatShadingSupportedChanged)
-    Q_PROPERTY(DrawFlags drawMode READ drawMode WRITE setDrawMode NOTIFY drawModeChanged)
+    Q_PROPERTY(QSurface3DSeries::DrawFlags drawMode READ drawMode WRITE setDrawMode NOTIFY drawModeChanged)
     Q_PROPERTY(QImage texture READ texture WRITE setTexture NOTIFY textureChanged)
     Q_PROPERTY(QString textureFile READ textureFile WRITE setTextureFile NOTIFY textureFileChanged)
     Q_PROPERTY(QColor wireframeColor READ wireframeColor WRITE setWireframeColor NOTIFY wireframeColorChanged)
@@ -48,7 +48,7 @@ public:
     void setFlatShadingEnabled(bool enabled);
     bool isFlatShadingEnabled() const;
 
-    void setDrawMode(DrawFlags mode);
+    void setDrawMode(QSurface3DSeries::DrawFlags mode);
     QSurface3DSeries::DrawFlags drawMode() const;
 
     bool isFlatShadingSupported() const;

@@ -20,8 +20,8 @@ class Q_GRAPHS_EXPORT QAbstract3DAxis : public QObject
     Q_DECLARE_PRIVATE(QAbstract3DAxis)
     Q_PROPERTY(QString title READ title WRITE setTitle NOTIFY titleChanged)
     Q_PROPERTY(QStringList labels READ labels WRITE setLabels NOTIFY labelsChanged)
-    Q_PROPERTY(AxisOrientation orientation READ orientation NOTIFY orientationChanged)
-    Q_PROPERTY(AxisType type READ type CONSTANT)
+    Q_PROPERTY(QAbstract3DAxis::AxisOrientation orientation READ orientation NOTIFY orientationChanged)
+    Q_PROPERTY(QAbstract3DAxis::AxisType type READ type CONSTANT)
     Q_PROPERTY(float min READ min WRITE setMin NOTIFY minChanged)
     Q_PROPERTY(float max READ max WRITE setMax NOTIFY maxChanged)
     Q_PROPERTY(bool autoAdjustRange READ isAutoAdjustRange WRITE setAutoAdjustRange NOTIFY autoAdjustRangeChanged)
@@ -57,8 +57,8 @@ public:
     void setLabels(const QStringList &labels);
     QStringList labels() const;
 
-    AxisOrientation orientation() const;
-    AxisType type() const;
+    QAbstract3DAxis::AxisOrientation orientation() const;
+    QAbstract3DAxis::AxisType type() const;
 
     void setMin(float min);
     float min() const;

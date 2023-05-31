@@ -286,7 +286,7 @@ Q3DCamera::CameraPreset Q3DCamera::cameraPreset() const
     return d->m_activePreset;
 }
 
-void Q3DCamera::setCameraPreset(CameraPreset preset)
+void Q3DCamera::setCameraPreset(Q3DCamera::CameraPreset preset)
 {
     Q_D(Q3DCamera);
     switch (preset) {

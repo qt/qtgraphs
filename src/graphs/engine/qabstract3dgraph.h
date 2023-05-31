@@ -33,7 +33,7 @@ class Q_GRAPHS_EXPORT QAbstract3DGraph : public QQuickWidget
     Q_PROPERTY(bool orthoProjection READ isOrthoProjection WRITE setOrthoProjection NOTIFY orthoProjectionChanged)
     Q_PROPERTY(QAbstract3DGraph::ElementType selectedElement READ selectedElement NOTIFY selectedElementChanged)
     Q_PROPERTY(qreal aspectRatio READ aspectRatio WRITE setAspectRatio NOTIFY aspectRatioChanged)
-    Q_PROPERTY(OptimizationHints optimizationHints READ optimizationHints WRITE setOptimizationHints NOTIFY optimizationHintsChanged)
+    Q_PROPERTY(QAbstract3DGraph::OptimizationHints optimizationHints READ optimizationHints WRITE setOptimizationHints NOTIFY optimizationHintsChanged)
     Q_PROPERTY(bool polar READ isPolar WRITE setPolar NOTIFY polarChanged)
     Q_PROPERTY(float radialLabelOffset READ radialLabelOffset WRITE setRadialLabelOffset NOTIFY radialLabelOffsetChanged)
     Q_PROPERTY(qreal horizontalAspectRatio READ horizontalAspectRatio WRITE setHorizontalAspectRatio NOTIFY horizontalAspectRatioChanged)
@@ -125,13 +125,13 @@ public:
     void setOrthoProjection(bool enable);
     bool isOrthoProjection() const;
 
-    ElementType selectedElement() const;
+    QAbstract3DGraph::ElementType selectedElement() const;
 
     void setAspectRatio(qreal ratio);
     qreal aspectRatio() const;
 
-    void setOptimizationHints(OptimizationHints hints);
-    OptimizationHints optimizationHints() const;
+    void setOptimizationHints(QAbstract3DGraph::OptimizationHints hints);
+    QAbstract3DGraph::OptimizationHints optimizationHints() const;
 
     void setPolar(bool enable);
     bool isPolar() const;

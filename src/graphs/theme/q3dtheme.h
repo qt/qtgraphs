@@ -18,7 +18,7 @@ class Q_GRAPHS_EXPORT Q3DTheme : public QObject
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(Q3DTheme)
-    Q_PROPERTY(ColorStyle colorStyle READ colorStyle WRITE setColorStyle NOTIFY colorStyleChanged)
+    Q_PROPERTY(Q3DTheme::ColorStyle colorStyle READ colorStyle WRITE setColorStyle NOTIFY colorStyleChanged)
     Q_PROPERTY(QColor backgroundColor READ backgroundColor WRITE setBackgroundColor NOTIFY backgroundColorChanged)
     Q_PROPERTY(QColor gridLineColor READ gridLineColor WRITE setGridLineColor NOTIFY gridLineColorChanged)
     Q_PROPERTY(QColor labelBackgroundColor READ labelBackgroundColor WRITE setLabelBackgroundColor NOTIFY labelBackgroundColorChanged)
@@ -32,7 +32,7 @@ class Q_GRAPHS_EXPORT Q3DTheme : public QObject
     Q_PROPERTY(QLinearGradient singleHighlightGradient READ singleHighlightGradient WRITE setSingleHighlightGradient NOTIFY singleHighlightGradientChanged)
     Q_PROPERTY(QList<QColor> baseColors READ baseColors WRITE setBaseColors NOTIFY baseColorsChanged)
     Q_PROPERTY(QList<QLinearGradient> baseGradients READ baseGradients WRITE setBaseGradients NOTIFY baseGradientsChanged)
-    Q_PROPERTY(Theme type READ type WRITE setType NOTIFY typeChanged)
+    Q_PROPERTY(Q3DTheme::Theme type READ type WRITE setType NOTIFY typeChanged)
     Q_PROPERTY(bool backgroundEnabled READ isBackgroundEnabled WRITE setBackgroundEnabled NOTIFY backgroundEnabledChanged)
     Q_PROPERTY(bool gridEnabled READ isGridEnabled WRITE setGridEnabled NOTIFY gridEnabledChanged)
     Q_PROPERTY(bool labelBackgroundEnabled READ isLabelBackgroundEnabled WRITE setLabelBackgroundEnabled NOTIFY labelBackgroundEnabledChanged)
@@ -69,8 +69,8 @@ public:
     explicit Q3DTheme(Theme themeType, QObject *parent = nullptr);
     virtual ~Q3DTheme();
 
-    void setType(Theme themeType);
-    Theme type() const;
+    void setType(Q3DTheme::Theme themeType);
+    Q3DTheme::Theme type() const;
 
     void setBaseColors(const QList<QColor> &colors);
     QList<QColor> baseColors() const;
@@ -132,8 +132,8 @@ public:
     void setLabelBackgroundEnabled(bool enabled);
     bool isLabelBackgroundEnabled() const;
 
-    void setColorStyle(ColorStyle style);
-    ColorStyle colorStyle() const;
+    void setColorStyle(Q3DTheme::ColorStyle style);
+    Q3DTheme::ColorStyle colorStyle() const;
 
     void setLabelsEnabled(bool enabled);
     bool isLabelsEnabled() const;

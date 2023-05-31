@@ -147,7 +147,7 @@ QAbstract3DInputHandler::InputView QAbstract3DInputHandler::inputView() const
     return d->m_inputView;
 }
 
-void QAbstract3DInputHandler::setInputView(InputView inputView)
+void QAbstract3DInputHandler::setInputView(QAbstract3DInputHandler::InputView inputView)
 {
     Q_D(QAbstract3DInputHandler);
     if (inputView != d->m_inputView) {

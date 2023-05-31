@@ -38,7 +38,7 @@ class Q_GRAPHS_EXPORT QItemModelSurfaceDataProxy : public QSurfaceDataProxy
     Q_PROPERTY(QString xPosRoleReplace READ xPosRoleReplace WRITE setXPosRoleReplace NOTIFY xPosRoleReplaceChanged)
     Q_PROPERTY(QString yPosRoleReplace READ yPosRoleReplace WRITE setYPosRoleReplace NOTIFY yPosRoleReplaceChanged)
     Q_PROPERTY(QString zPosRoleReplace READ zPosRoleReplace WRITE setZPosRoleReplace NOTIFY zPosRoleReplaceChanged)
-    Q_PROPERTY(MultiMatchBehavior multiMatchBehavior READ multiMatchBehavior WRITE setMultiMatchBehavior NOTIFY multiMatchBehaviorChanged)
+    Q_PROPERTY(QItemModelSurfaceDataProxy::MultiMatchBehavior multiMatchBehavior READ multiMatchBehavior WRITE setMultiMatchBehavior NOTIFY multiMatchBehaviorChanged)
 
 public:
     enum MultiMatchBehavior {
@@ -129,8 +129,8 @@ public:
     void setZPosRoleReplace(const QString &replace);
     QString zPosRoleReplace() const;
 
-    void setMultiMatchBehavior(MultiMatchBehavior behavior);
-    MultiMatchBehavior multiMatchBehavior() const;
+    void setMultiMatchBehavior(QItemModelSurfaceDataProxy::MultiMatchBehavior behavior);
+    QItemModelSurfaceDataProxy::MultiMatchBehavior multiMatchBehavior() const;
 
 Q_SIGNALS:
     void itemModelChanged(const QAbstractItemModel* itemModel);

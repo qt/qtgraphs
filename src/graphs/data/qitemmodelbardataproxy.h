@@ -34,7 +34,7 @@ class Q_GRAPHS_EXPORT QItemModelBarDataProxy : public QBarDataProxy
     Q_PROPERTY(QString columnRoleReplace READ columnRoleReplace WRITE setColumnRoleReplace NOTIFY columnRoleReplaceChanged)
     Q_PROPERTY(QString valueRoleReplace READ valueRoleReplace WRITE setValueRoleReplace NOTIFY valueRoleReplaceChanged)
     Q_PROPERTY(QString rotationRoleReplace READ rotationRoleReplace WRITE setRotationRoleReplace NOTIFY rotationRoleReplaceChanged)
-    Q_PROPERTY(MultiMatchBehavior multiMatchBehavior READ multiMatchBehavior WRITE setMultiMatchBehavior NOTIFY multiMatchBehaviorChanged)
+    Q_PROPERTY(QItemModelBarDataProxy::MultiMatchBehavior multiMatchBehavior READ multiMatchBehavior WRITE setMultiMatchBehavior NOTIFY multiMatchBehaviorChanged)
 
 public:
     enum MultiMatchBehavior {
@@ -115,8 +115,8 @@ public:
     void setRotationRoleReplace(const QString &replace);
     QString rotationRoleReplace() const;
 
-    void setMultiMatchBehavior(MultiMatchBehavior behavior);
-    MultiMatchBehavior multiMatchBehavior() const;
+    void setMultiMatchBehavior(QItemModelBarDataProxy::MultiMatchBehavior behavior);
+    QItemModelBarDataProxy::MultiMatchBehavior multiMatchBehavior() const;
 
 Q_SIGNALS:
     void itemModelChanged(const QAbstractItemModel* itemModel);

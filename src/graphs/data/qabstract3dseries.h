@@ -19,10 +19,10 @@ class Q_GRAPHS_EXPORT QAbstract3DSeries : public QObject
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(QAbstract3DSeries)
-    Q_PROPERTY(SeriesType type READ type CONSTANT)
+    Q_PROPERTY(QAbstract3DSeries::SeriesType type READ type CONSTANT)
     Q_PROPERTY(QString itemLabelFormat READ itemLabelFormat WRITE setItemLabelFormat NOTIFY itemLabelFormatChanged)
     Q_PROPERTY(bool visible READ isVisible WRITE setVisible NOTIFY visibilityChanged)
-    Q_PROPERTY(Mesh mesh READ mesh WRITE setMesh NOTIFY meshChanged)
+    Q_PROPERTY(QAbstract3DSeries::Mesh mesh READ mesh WRITE setMesh NOTIFY meshChanged)
     Q_PROPERTY(bool meshSmooth READ isMeshSmooth WRITE setMeshSmooth NOTIFY meshSmoothChanged)
     Q_PROPERTY(QQuaternion meshRotation READ meshRotation WRITE setMeshRotation NOTIFY meshRotationChanged)
     Q_PROPERTY(QString userDefinedMesh READ userDefinedMesh WRITE setUserDefinedMesh NOTIFY userDefinedMeshChanged)
@@ -68,7 +68,7 @@ protected:
 public:
     virtual ~QAbstract3DSeries();
 
-    SeriesType type() const;
+    QAbstract3DSeries::SeriesType type() const;
 
     void setItemLabelFormat(const QString &format);
     QString itemLabelFormat() const;
@@ -76,8 +76,8 @@ public:
     void setVisible(bool visible);
     bool isVisible() const;
 
-    void setMesh(Mesh mesh);
-    Mesh mesh() const;
+    void setMesh(QAbstract3DSeries::Mesh mesh);
+    QAbstract3DSeries::Mesh mesh() const;
 
     void setMeshSmooth(bool enable);
     bool isMeshSmooth() const;

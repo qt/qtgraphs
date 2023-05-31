@@ -611,7 +611,7 @@ qreal QAbstract3DGraph::aspectRatio() const
  *
  * \sa QAbstract3DSeries::mesh
  */
-void QAbstract3DGraph::setOptimizationHints(OptimizationHints hints)
+void QAbstract3DGraph::setOptimizationHints(QAbstract3DGraph::OptimizationHints hints)
 {
     m_graphsItem->setOptimizationHints(hints);
 }

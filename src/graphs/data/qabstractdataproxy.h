@@ -16,7 +16,7 @@ class Q_GRAPHS_EXPORT QAbstractDataProxy : public QObject
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(QAbstractDataProxy)
-    Q_PROPERTY(DataType type READ type CONSTANT)
+    Q_PROPERTY(QAbstractDataProxy::DataType type READ type CONSTANT)
 
 public:
     enum DataType {
@@ -33,7 +33,7 @@ protected:
 public:
     virtual ~QAbstractDataProxy();
 
-    DataType type() const;
+    QAbstractDataProxy::DataType type() const;
 
 protected:
     QScopedPointer<QAbstractDataProxyPrivate> d_ptr;
