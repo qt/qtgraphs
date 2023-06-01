@@ -65,6 +65,7 @@ void BarGraph::initialize()
     barStyleList->addItem(u"Cylinder"_s, QAbstract3DSeries::MeshCylinder);
     barStyleList->addItem(u"Bevel bar"_s, QAbstract3DSeries::MeshBevelBar);
     barStyleList->addItem(u"Sphere"_s, QAbstract3DSeries::MeshSphere);
+    barStyleList->addItem(u"UserDefined"_s, QAbstract3DSeries::MeshUserDefined);
     barStyleList->setCurrentIndex(4);
 
     QPushButton *cameraButton = new QPushButton(m_barsWidget);

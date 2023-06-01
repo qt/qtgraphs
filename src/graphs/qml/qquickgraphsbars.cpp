@@ -651,14 +651,12 @@ void QQuickGraphsBars::handleAxisZChanged(QAbstract3DAxis *axis)
 
 void QQuickGraphsBars::handleSeriesMeshChanged(QAbstract3DSeries::Mesh mesh)
 {
-    QList<QBar3DSeries *> barSeriesList = m_barsController->barSeriesList();
     m_meshType = mesh;
     removeBarModels();
 }
 
 void QQuickGraphsBars::handleMeshSmoothChanged(bool enable)
 {
-    QList<QBar3DSeries *> barSeriesList = m_barsController->barSeriesList();
     m_smooth = enable;
     removeBarModels();
 }
@@ -740,7 +738,7 @@ void QQuickGraphsBars::generateBars(QList<QBar3DSeries *> &barSeriesList)
                     for (int i = 0; i < dataColCount; i++) {
                         QBarDataItem *dataItem = const_cast <QBarDataItem *> (&(dataRow->at(i)));
                         auto scene = QQuick3DViewport::scene();
-                        QQuick3DModel *model = createDataItem(scene);
+                        QQuick3DModel *model = createDataItem(scene, barSeries);
                         model->setVisible(visible);
 
                         BarModel *barModel = new BarModel();
@@ -769,7 +767,7 @@ void QQuickGraphsBars::generateBars(QList<QBar3DSeries *> &barSeriesList)
                 }
 
                 if (barInstancing->model == nullptr) {
-                    barInstancing->model = createDataItem(scene);
+                    barInstancing->model = createDataItem(scene, barSeries);
                     barInstancing->model->setInstancing(barInstancing->instancing);
                     barInstancing->model->setVisible(visible);
                     barInstancing->model->setPickable(true);
@@ -791,21 +789,23 @@ void QQuickGraphsBars::generateBars(QList<QBar3DSeries *> &barSeriesList)
     }
 }
 
-QQuick3DModel *QQuickGraphsBars::createDataItem(QQuick3DNode *scene)
+QQuick3DModel *QQuickGraphsBars::createDataItem(QQuick3DNode *scene, QAbstract3DSeries *series)
 {
     auto model = new QQuick3DModel();
     model->setParent(scene);
     model->setParentItem(scene);
     model->setObjectName(QStringLiteral("BarModel"));
     QString fileName = getMeshFileName();
+    if (fileName.isEmpty())
+        fileName = series->userDefinedMesh();
+
     model->setSource(QUrl(fileName));
     return model;
 }
 
 QString QQuickGraphsBars::getMeshFileName()
 {
-    QString fileName;
-    QString smoothString = QStringLiteral("Smooth");
+    QString fileName = {};
     switch (m_meshType) {
     case QAbstract3DSeries::MeshSphere:
         fileName = QStringLiteral("defaultMeshes/sphereMesh");
@@ -827,11 +827,11 @@ QString QQuickGraphsBars::getMeshFileName()
     case QAbstract3DSeries::MeshBevelCube:
         fileName = QStringLiteral("defaultMeshes/bevelBarMesh");
         break;
+    case QAbstract3DSeries::MeshUserDefined:
+        break;
     default:
         fileName = QStringLiteral("defaultMeshes/sphereMesh");
     }
-    if (m_smooth && m_meshType != QAbstract3DSeries::MeshPoint)
-        fileName += smoothString;
 
     fixMeshFileName(fileName, m_meshType);
 
@@ -840,8 +840,17 @@ QString QQuickGraphsBars::getMeshFileName()
 
 void QQuickGraphsBars::fixMeshFileName(QString &fileName, QAbstract3DSeries::Mesh meshType)
 {
+    // Should it be smooth?
+    if (m_smooth && meshType != QAbstract3DSeries::MeshPoint
+        && meshType != QAbstract3DSeries::MeshUserDefined) {
+        fileName += QStringLiteral("Smooth");
+    }
+
+    // Should it be filled?
     if (!m_barsController->activeTheme()->isBackgroundEnabled()
-            && meshType != QAbstract3DSeries::MeshSphere) {
+            && meshType != QAbstract3DSeries::MeshSphere
+            && meshType != QAbstract3DSeries::MeshPoint
+            && meshType != QAbstract3DSeries::MeshUserDefined) {
         fileName.append(QStringLiteral("Full"));
     }
 }
@@ -1569,7 +1578,7 @@ void QQuickGraphsBars::createSelectedModels(QBar3DSeries *series)
     }
 
     for (int ind = 0; ind < selectedModelsListSize; ++ind) {
-        QQuick3DModel *model = createDataItem(QQuick3DViewport::scene());
+        QQuick3DModel *model = createDataItem(QQuick3DViewport::scene(), series);
         model->setVisible(false);
         if (!rangeGradient) {
             updateItemMaterial(model, useGradient, rangeGradient,
@@ -1650,7 +1659,7 @@ void QQuickGraphsBars::createSliceView()
                 slicedBarListSize = barSeries->dataProxy()->rowCount();
 
             for (int ind = 0; ind < slicedBarListSize; ++ind) {
-                QQuick3DModel *model = createDataItem(sliceParent->scene());
+                QQuick3DModel *model = createDataItem(sliceParent->scene(), barSeries);
                 model->setVisible(false);
                 if (!rangeGradient) {
                     updateItemMaterial(model, useGradient, rangeGradient,

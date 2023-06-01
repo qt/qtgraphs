@@ -231,7 +231,7 @@ private:
     void connectSeries(QBar3DSeries *series);
     void disconnectSeries(QBar3DSeries *series);
     void generateBars(QList<QBar3DSeries *> &barSeriesList);
-    QQuick3DModel *createDataItem(QQuick3DNode *scene);
+    QQuick3DModel *createDataItem(QQuick3DNode *scene, QAbstract3DSeries *series);
     QString getMeshFileName();
     void fixMeshFileName(QString &fileName, QAbstract3DSeries::Mesh meshType);
     void updateBarVisuality(QBar3DSeries *series, int visualIndex);

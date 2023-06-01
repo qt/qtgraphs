@@ -201,6 +201,11 @@ void GraphModifier::changeStyle(int style)
         m_primarySeries->setMesh(m_barMesh);
         m_secondarySeries->setMesh(m_barMesh);
         m_customData->customSeries()->setMesh(m_barMesh);
+        if (m_barMesh == QAbstract3DSeries::MeshUserDefined) {
+            m_primarySeries->setUserDefinedMesh(":/data/narrowarrow.mesh");
+            m_secondarySeries->setUserDefinedMesh(":/data/narrowarrow.mesh");
+            m_customData->customSeries()->setUserDefinedMesh(":/data/narrowarrow.mesh");
+        }
     }
 }
 

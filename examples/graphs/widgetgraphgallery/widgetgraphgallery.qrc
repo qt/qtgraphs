@@ -7,6 +7,7 @@
         <file>data/refinery.mesh</file>
         <file>data/oilrig.mesh</file>
         <file>data/pipe.mesh</file>
+        <file>data/narrowarrow.mesh</file>
         <file>data/maptexture.jpg</file>
         <file>data/topography.png</file>
     </qresource>

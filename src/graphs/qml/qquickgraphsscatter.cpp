@@ -96,9 +96,8 @@ void QQuickGraphsScatter::generatePointsForScatterModel(ScatterModel *graphModel
         if (graphModel->series->dataProxy()->itemCount() > 0)
             itemList.resize(itemCount);
 
-        QAbstract3DSeries::Mesh meshType = graphModel->series->mesh();
         for (int i = 0; i < itemCount; i++) {
-            QQuick3DModel *item = createDataItem(meshType);
+            QQuick3DModel *item = createDataItem(graphModel->series);
             item->setPickable(true);
             item->setParent(graphModel->series);
             itemList[i] = item;
@@ -106,11 +105,11 @@ void QQuickGraphsScatter::generatePointsForScatterModel(ScatterModel *graphModel
         graphModel->dataItems = itemList;
         m_scatterController->markDataDirty();
     } else if (m_scatterController->optimizationHints() == QAbstract3DGraph::OptimizationDefault) {
-        graphModel->instancingRootItem = createDataItem(graphModel->series->mesh());
+        graphModel->instancingRootItem = createDataItem(graphModel->series);
         graphModel->instancingRootItem->setParent(graphModel->series);
         graphModel->instancingRootItem->setInstancing(graphModel->instancing);
         if (m_scatterController->selectionMode() != QAbstract3DGraph::SelectionNone) {
-            graphModel->selectionIndicator = createDataItem(graphModel->series->mesh());
+            graphModel->selectionIndicator = createDataItem(graphModel->series);
             graphModel->instancingRootItem->setPickable(true);
         }
     }
@@ -613,12 +612,14 @@ QQuick3DNode *QQuickGraphsScatter::createSeriesRoot()
     return model;
 }
 
-QQuick3DModel *QQuickGraphsScatter::createDataItem(const QAbstract3DSeries::Mesh meshType)
+QQuick3DModel *QQuickGraphsScatter::createDataItem(QAbstract3DSeries *series)
 {
     auto model = new QQuick3DModel();
     model->setParent(this);
     model->setParentItem(QQuick3DViewport::scene());
-    QString fileName = getMeshFileName(meshType);
+    QString fileName = getMeshFileName(series->mesh());
+    if (fileName.isEmpty())
+        fileName = series->userDefinedMesh();
 
     model->setSource(QUrl(fileName));
     return model;
@@ -669,9 +670,8 @@ void QQuickGraphsScatter::recreateDataItems()
 
 void QQuickGraphsScatter::addPointsToScatterModel(ScatterModel *graphModel, qsizetype count)
 {
-    QAbstract3DSeries::Mesh meshType = graphModel->series->mesh();
     for (int i = 0; i < count; i++) {
-        QQuick3DModel *item = createDataItem(meshType);
+        QQuick3DModel *item = createDataItem(graphModel->series);
         item->setPickable(true);
         item->setParent(graphModel->series);
         graphModel->dataItems.push_back(item);
@@ -697,16 +697,24 @@ QVector3D QQuickGraphsScatter::selectedItemPosition()
 
 void QQuickGraphsScatter::fixMeshFileName(QString &fileName, QAbstract3DSeries::Mesh meshType)
 {
+    // Should it be smooth?
+    if (m_smooth && meshType != QAbstract3DSeries::MeshPoint
+        && meshType != QAbstract3DSeries::MeshUserDefined) {
+        fileName += QStringLiteral("Smooth");
+    }
+
+    // Should it be filled?
     if (meshType != QAbstract3DSeries::MeshSphere && meshType != QAbstract3DSeries::MeshArrow
-            && meshType != QAbstract3DSeries::MeshMinimal && meshType != QAbstract3DSeries::MeshPoint) {
+            && meshType != QAbstract3DSeries::MeshMinimal
+            && meshType != QAbstract3DSeries::MeshPoint
+            && meshType != QAbstract3DSeries::MeshUserDefined) {
         fileName.append(QStringLiteral("Full"));
     }
 }
 
 QString QQuickGraphsScatter::getMeshFileName(QAbstract3DSeries::Mesh meshType)
 {
-    QString fileName;
-    QString smoothString = QStringLiteral("Smooth");
+    QString fileName = {};
     switch (meshType) {
     case QAbstract3DSeries::MeshSphere:
         fileName = QStringLiteral("defaultMeshes/sphereMesh");
@@ -739,11 +747,11 @@ QString QQuickGraphsScatter::getMeshFileName(QAbstract3DSeries::Mesh meshType)
                        ? QStringLiteral("defaultMeshes/planeMesh")
                        : QStringLiteral("defaultMeshes/octagonMesh");
         break;
+    case QAbstract3DSeries::MeshUserDefined:
+        break;
     default:
         fileName = QStringLiteral("defaultMeshes/sphereMesh");
     }
-    if (m_smooth && meshType != QAbstract3DSeries::MeshPoint)
-        fileName += smoothString;
 
     fixMeshFileName(fileName, meshType);
 
@@ -1114,12 +1122,12 @@ void QQuickGraphsScatter::updateGraph()
                     graphModel->instancing->setParent(graphModel->series);
                 }
                 if (graphModel->instancingRootItem == nullptr) {
-                    graphModel->instancingRootItem = createDataItem(graphModel->series->mesh());
+                    graphModel->instancingRootItem = createDataItem(graphModel->series);
                     graphModel->instancingRootItem->setParent(graphModel->series);
                     graphModel->instancingRootItem->setInstancing(graphModel->instancing);
                     if (selectionMode() != QAbstract3DGraph::SelectionNone) {
                         graphModel->instancingRootItem->setPickable(true);
-                        graphModel->selectionIndicator = createDataItem(graphModel->series->mesh());
+                        graphModel->selectionIndicator = createDataItem(graphModel->series);
                         graphModel->selectionIndicator->setVisible(false);
                     }
                 }

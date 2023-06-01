@@ -153,7 +153,7 @@ private:
     QQuick3DTexture *createTexture();
     QQuick3DModel *createDataItemModel(QAbstract3DSeries::Mesh meshType);
     QQuick3DNode *createSeriesRoot();
-    QQuick3DModel *createDataItem(const QAbstract3DSeries::Mesh meshType);
+    QQuick3DModel *createDataItem(QAbstract3DSeries *series);
     void removeDataItems(ScatterModel *graphModel);
     void fixMeshFileName(QString &fileName, QAbstract3DSeries::Mesh meshType);
     QString getMeshFileName(QAbstract3DSeries::Mesh meshType);
