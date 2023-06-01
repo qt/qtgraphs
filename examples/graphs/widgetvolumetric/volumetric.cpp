@@ -44,8 +44,7 @@ VolumetricModifier::VolumetricModifier(Q3DScatter *scatter)
     m_graph->activeTheme()->setBackgroundEnabled(false);
 
     // Only allow zooming at the center and limit the zoom to 200% to avoid clipping issues
-    // TODO: Fix crash when setZoomAtTargetEnabled is set (QTBUG-113841)
-    //static_cast<Q3DInputHandler *>(m_graph->activeInputHandler())->setZoomAtTargetEnabled(false);
+    static_cast<Q3DInputHandler *>(m_graph->activeInputHandler())->setZoomAtTargetEnabled(false);
     m_graph->scene()->activeCamera()->setMaxZoomLevel(200.0f);
 
     toggleAreaAll(true);
