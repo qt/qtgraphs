@@ -18,8 +18,8 @@ target_link_libraries(tst_rotations PUBLIC
 )
 
 set(rotations_resource_files
-    "mesh/largesphere.obj"
-    "mesh/narrowarrow.obj"
+    "mesh/largesphere.mesh"
+    "mesh/narrowarrow.mesh"
 )
 
 qt6_add_resources(tst_rotations "rotations"

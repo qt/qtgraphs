@@ -36,7 +36,7 @@ ScatterDataModifier::ScatterDataModifier(Q3DScatter *scatter)
     m_magneticField->setItemSize(0.2f);
     //! [3]
     m_magneticField->setMesh(QAbstract3DSeries::MeshUserDefined);
-    m_magneticField->setUserDefinedMesh(QStringLiteral(":/mesh/narrowarrow.obj"));
+    m_magneticField->setUserDefinedMesh(QStringLiteral(":/mesh/narrowarrow.mesh"));
     //! [3]
     //! [4]
     QLinearGradient fieldGradient(0, 0, 16, 1024);
@@ -48,7 +48,7 @@ ScatterDataModifier::ScatterDataModifier(Q3DScatter *scatter)
 
     // For 'sun' we use a custom large sphere
     m_sun->setScaling(QVector3D(0.07f, 0.07f, 0.07f));
-    m_sun->setMeshFile(QStringLiteral(":/mesh/largesphere.obj"));
+    m_sun->setMeshFile(QStringLiteral(":/mesh/largesphere.mesh"));
     QImage sunColor = QImage(2, 2, QImage::Format_RGB32);
     sunColor.fill(QColor(0xff, 0xbb, 0x00));
     m_sun->setTextureImage(sunColor);
