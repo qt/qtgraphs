@@ -1439,10 +1439,14 @@ void QQuickGraphsBars::updateSelectedBar()
                         itemLabel()->setProperty("labelHeight", labelHeight);
 
                         if (isSliceEnabled()) {
-                            sliceItemLabel()->setPosition(QVector3D((m_selectedBarPos.x() + .05f),
-                                                                    (m_selectedBarPos.y() + .5f), 0.0f));
-                            //TODO: set sliceItemLabel's size - QTBUG-111924
-                            sliceItemLabel()->setScale(sliceItemLabel()->scale() / 1.5f);
+                            QVector3D slicePos = barList->model->position();
+                            if (m_barsController->selectionMode().testFlag(QAbstract3DGraph::SelectionColumn))
+                                slicePos.setX(slicePos.z() - .1f);
+                            else if (m_barsController->selectionMode().testFlag(QAbstract3DGraph::SelectionRow))
+                                slicePos.setX(slicePos.x() - .1f);
+                            slicePos.setZ(.0f);
+                            slicePos.setY(slicePos.y() + 1.5f);
+                            sliceItemLabel()->setPosition(slicePos);
                             sliceItemLabel()->setProperty("labelText", label);
                             sliceItemLabel()->setProperty("labelHeight", labelHeight);
                             sliceItemLabel()->setEulerRotation(QVector3D(0.0f, 0.0f, 90.0f));
@@ -1508,10 +1512,14 @@ void QQuickGraphsBars::updateSelectedBar()
                                           0));
 
                             if (isSliceEnabled()) {
-                                sliceItemLabel()->setPosition(QVector3D((m_selectedBarPos.x() + .05f),
-                                                                        (m_selectedBarPos.y() + .5f), 0.0f));
-                                //TODO: set sliceItemLabel's size - QTBUG-111924
-                                sliceItemLabel()->setScale(sliceItemLabel()->scale() / 1.5f);
+                                QVector3D slicePos = bih->position;
+                                if (m_barsController->selectionMode().testFlag(QAbstract3DGraph::SelectionColumn))
+                                    slicePos.setX(slicePos.z() - .1f);
+                                else if (m_barsController->selectionMode().testFlag(QAbstract3DGraph::SelectionRow))
+                                    slicePos.setX(slicePos.x() - .1f);
+                                slicePos.setZ(.0f);
+                                slicePos.setY(slicePos.y() + 1.5f);
+                                sliceItemLabel()->setPosition(slicePos);
                                 sliceItemLabel()->setProperty("labelText", label);
                                 sliceItemLabel()->setProperty("labelHeight", labelHeight);
                                 sliceItemLabel()->setEulerRotation(QVector3D(0.0f, 0.0f, 90.0f));
@@ -1702,10 +1710,10 @@ void QQuickGraphsBars::updateSliceGraph()
                                  || m_selectionMode.testFlag(QAbstract3DGraph::SelectionMultiSeries))
                                 && it.key()->isVisible());
 
-                QQuick3DModel *sliceBarModel = it.value()->at(ind);
-                BarModel *barModel = barList.at(index);
-
                 if (index < barList.size() && m_selectedBarCoord != invalidSelectionPosition()) {
+                    QQuick3DModel *sliceBarModel = it.value()->at(ind);
+                    BarModel *barModel = barList.at(index);
+
                     sliceBarModel->setVisible(visible);
                     if (rowMode) {
                         sliceBarModel->setPosition(QVector3D(barModel->model->x(),
@@ -1745,18 +1753,18 @@ void QQuickGraphsBars::updateSliceGraph()
                                      || m_selectionMode.testFlag(QAbstract3DGraph::SelectionMultiSeries))
                                     && it.key()->isVisible());
 
-                    QQuick3DModel *sliceBarModel = it.value()->at(ind);
-                    BarItemHolder *bih = barItemList.at(index);
-
                     if (index < barItemList.size() && m_selectedBarCoord != invalidSelectionPosition()) {
+                        QQuick3DModel *sliceBarModel = it.value()->at(ind);
+                        BarItemHolder *bih = barItemList.at(index);
+
                         sliceBarModel->setVisible(visible);
 
                         if (rowMode) {
                             sliceBarModel->setPosition(QVector3D(bih->position.x(),
-                                                                        bih->position.y(), 0.0f));
+                                                                 bih->position.y(), 0.0f));
                         } else {
                             sliceBarModel->setX(bih->position.z()
-                                                       + (barList.at(0)->visualIndex * .2f));
+                                                + (barList.at(0)->visualIndex * .2f));
                             sliceBarModel->setY(bih->position.y());
                             sliceBarModel->setZ(0.0f);
                         }
