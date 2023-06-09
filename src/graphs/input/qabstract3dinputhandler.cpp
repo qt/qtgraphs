@@ -167,10 +167,12 @@ QPoint QAbstract3DInputHandler::inputPosition() const
     return d->m_inputPosition;
 }
 
-void QAbstract3DInputHandler::setInputPosition(const QPoint &position)
+void QAbstract3DInputHandler::setInputPosition(const QPoint &position, bool forceSelection)
 {
     Q_D(QAbstract3DInputHandler);
     if (position != d->m_inputPosition) {
+        if (forceSelection)
+            d->m_inputState = QAbstract3DInputHandlerPrivate::InputStateSelecting;
         d->m_inputPosition = position;
         emit positionChanged(position);
     }
@@ -212,6 +214,14 @@ void QAbstract3DInputHandler::setScene(Q3DScene *scene)
 {
     Q_D(QAbstract3DInputHandler);
     if (scene != d->m_scene) {
+        if (d->m_scene) {
+            QObject::disconnect(d->m_scene, &Q3DScene::selectionQueryPositionChanged,
+                                this, &QAbstract3DInputHandler::handleSelection);
+        }
+
+        QObject::connect(scene, &Q3DScene::selectionQueryPositionChanged,
+                         this, &QAbstract3DInputHandler::handleSelection);
+
         d->m_scene = scene;
         emit sceneChanged(scene);
     }
@@ -233,6 +243,14 @@ QPoint QAbstract3DInputHandler::previousInputPos() const
 {
     const Q_D(QAbstract3DInputHandler);
     return d->m_previousInputPos;
+}
+
+/*!
+ * Converts incoming selectionqueryPositions to selections
+ */
+void QAbstract3DInputHandler::handleSelection(const QPoint &position)
+{
+    setInputPosition(position, true);
 }
 
 QAbstract3DInputHandlerPrivate::QAbstract3DInputHandlerPrivate(QAbstract3DInputHandler *q) :
