@@ -53,7 +53,7 @@ public:
     void setInputView(QAbstract3DInputHandler::InputView inputView);
 
     QPoint inputPosition() const;
-    void setInputPosition(const QPoint &position);
+    void setInputPosition(const QPoint &position, bool forceSelection = false);
 
     Q3DScene *scene() const;
     void setScene(Q3DScene *scene);
@@ -62,6 +62,9 @@ Q_SIGNALS:
     void positionChanged(const QPoint &position);
     void inputViewChanged(QAbstract3DInputHandler::InputView view);
     void sceneChanged(Q3DScene *scene);
+
+public Q_SLOTS:
+    void handleSelection(const QPoint &position);
 
 protected:
     QScopedPointer<QAbstract3DInputHandlerPrivate> d_ptr;
