@@ -156,10 +156,10 @@ void SurfaceGraphModifier::fillSqrtSinProxy()
     float stepZ = (sampleMax - sampleMin) / float(sampleCountZ - 1);
 
     //! [1]
-    QSurfaceDataArray *dataArray = new QSurfaceDataArray;
+    auto *dataArray = new QSurfaceDataArray;
     dataArray->reserve(sampleCountZ);
     for (int i = 0 ; i < sampleCountZ ; ++i) {
-        QSurfaceDataRow *newRow = new QSurfaceDataRow;
+        auto *newRow = new QSurfaceDataRow;
         newRow->reserve(sampleCountX);
         // Keep values within range bounds, since just adding step can cause minor drift due
         // to the rounding errors.
@@ -452,7 +452,7 @@ void SurfaceGraphModifier::toggleItemOne(bool show)
         color.fill(Qt::red);
         //! [9]
         //! [11]
-        QCustom3DItem *item = new QCustom3DItem(":/data/oilrig.mesh", positionOne,
+        auto *item = new QCustom3DItem(":/data/oilrig.mesh", positionOne,
                                                 QVector3D(0.025f, 0.025f, 0.025f),
                                                 QQuaternion::fromAxisAndAngle(0.f, 1.f, 0.f, 45.f),
                                                 color);
@@ -468,7 +468,7 @@ void SurfaceGraphModifier::toggleItemOne(bool show)
         m_graph->addCustomItem(item);
 
         //! [13]
-        QCustom3DLabel *label = new QCustom3DLabel();
+        auto *label = new QCustom3DLabel();
         label->setText("Oil Rig One");
         label->setPosition(positionOneLabel);
         label->setScaling(QVector3D(1.f, 1.f, 1.f));
@@ -492,7 +492,7 @@ void SurfaceGraphModifier::toggleItemTwo(bool show)
     if (show) {
         QImage color = QImage(2, 2, QImage::Format_RGB32);
         color.fill(Qt::red);
-        QCustom3DItem *item = new QCustom3DItem();
+        auto *item = new QCustom3DItem();
         item->setMeshFile(":/data/oilrig.mesh");
         item->setPosition(positionTwo);
         item->setScaling(QVector3D(0.025f, 0.025f, 0.025f));
@@ -506,7 +506,7 @@ void SurfaceGraphModifier::toggleItemTwo(bool show)
         item->setShadowCasting(false);
         m_graph->addCustomItem(item);
 
-        QCustom3DLabel *label = new QCustom3DLabel();
+        auto *label = new QCustom3DLabel();
         label->setText("Oil Rig Two");
         label->setPosition(positionTwoLabel);
         label->setScaling(QVector3D(1.f, 1.f, 1.f));
@@ -526,7 +526,7 @@ void SurfaceGraphModifier::toggleItemThree(bool show)
     if (show) {
         QImage color = QImage(2, 2, QImage::Format_RGB32);
         color.fill(Qt::darkMagenta);
-        QCustom3DItem *item = new QCustom3DItem();
+        auto *item = new QCustom3DItem();
         item->setMeshFile(":/data/refinery.mesh");
         item->setPosition(positionThree);
         item->setScaling(QVector3D(0.04f, 0.04f, 0.04f));
@@ -534,7 +534,7 @@ void SurfaceGraphModifier::toggleItemThree(bool show)
         item->setTextureImage(color);
         m_graph->addCustomItem(item);
 
-        QCustom3DLabel *label = new QCustom3DLabel();
+        auto *label = new QCustom3DLabel();
         label->setText("Refinery");
         label->setPosition(positionThreeLabel);
         label->setScaling(QVector3D(1.f, 1.f, 1.f));

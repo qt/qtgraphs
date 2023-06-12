@@ -159,8 +159,8 @@ void GraphModifier::resetTemperatureData()
 
     // Create data arrays
     //! [9b]
-    QBarDataArray *dataSet = new QBarDataArray;
-    QBarDataArray *dataSet2 = new QBarDataArray;
+    auto *dataSet = new QBarDataArray;
+    auto *dataSet2 = new QBarDataArray;
     QBarDataRow *dataRow = nullptr;
     QBarDataRow *dataRow2= nullptr;
 
