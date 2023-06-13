@@ -246,7 +246,9 @@ QPoint QAbstract3DInputHandler::previousInputPos() const
 }
 
 /*!
- * Converts incoming selectionqueryPositions to selections
+ * Converts an incoming selection query \a position to a selection.
+ *
+ * \sa Q3DScene::selectionQueryPosition
  */
 void QAbstract3DInputHandler::handleSelection(const QPoint &position)
 {
