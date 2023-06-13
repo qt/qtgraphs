@@ -2514,8 +2514,13 @@ void QQuickGraphsItem::updateCamera()
     if (useOrtho) {
         m_oCamera->setX(lookingPosition.x());
         m_oCamera->setZ(lookingPosition.z());
-        m_oCamera->setVerticalMagnification(zoomLevel * 2.0f);
-        m_oCamera->setHorizontalMagnification(zoomLevel * 2.0f);
+        if (m_sliceView && m_sliceView->isVisible()) {
+            m_oCamera->setVerticalMagnification(zoomLevel * .4f);
+            m_oCamera->setHorizontalMagnification(zoomLevel * .4f);
+        } else {
+            m_oCamera->setVerticalMagnification(zoomLevel * 2.0f);
+            m_oCamera->setHorizontalMagnification(zoomLevel * 2.0f);
+        }
     } else {
         cameraTarget()->setPosition(lookingPosition);
         auto rotation = QVector3D(
