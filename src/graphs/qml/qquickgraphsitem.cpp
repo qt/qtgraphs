@@ -537,8 +537,7 @@ void QQuickGraphsItem::appendCustomItemFunc(QQmlListProperty<QCustom3DItem> *lis
 qsizetype QQuickGraphsItem::countCustomItemFunc(QQmlListProperty<QCustom3DItem> *list)
 {
     Q_UNUSED(list);
-    return 0;
-//    return reinterpret_cast<QQuickGraphsItem *>(list->data)->m_controller->m_customItems.size();
+    return reinterpret_cast<QQuickGraphsItem *>(list->data)->m_controller->m_customItems.size();
 }
 
 QCustom3DItem *QQuickGraphsItem::atCustomItemFunc(QQmlListProperty<QCustom3DItem> *list,
@@ -546,8 +545,7 @@ QCustom3DItem *QQuickGraphsItem::atCustomItemFunc(QQmlListProperty<QCustom3DItem
 {
     Q_UNUSED(list);
     Q_UNUSED(index);
-    return new QCustom3DItem();
-//    return reinterpret_cast<QQuickGraphsItem *>(list->data)->m_controller->m_customItems.at(index);
+    return reinterpret_cast<QQuickGraphsItem *>(list->data)->m_controller->m_customItems.at(index);
 }
 
 void QQuickGraphsItem::clearCustomItemFunc(QQmlListProperty<QCustom3DItem> *list)
