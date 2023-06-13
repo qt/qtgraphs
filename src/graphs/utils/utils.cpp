@@ -1,6 +1,7 @@
 // Copyright (C) 2023 The Qt Company Ltd.
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 
+#include "QtGui/qbrush.h"
 #include "utils_p.h"
 
 #include <QtCore/QRegularExpression>
@@ -123,6 +124,20 @@ QQuaternion Utils::calculateRotation(const QVector3D &xyzRotations)
     QQuaternion rotQuatZ = QQuaternion::fromAxisAndAngle(0.0f, 0.0f, 1.0f, xyzRotations.z());
     QQuaternion totalRotation = rotQuatY * rotQuatZ * rotQuatX;
     return totalRotation;
+}
+
+void Utils::verifyGradientCompleteness(QLinearGradient &gradient)
+{
+    // Fix the start and end stops of the gradient, to make sure it's complete (0...1)
+    auto stops = gradient.stops();
+    if (stops.first().first != 0.) {
+        const QColor firstColor = stops.first().second;
+        gradient.setColorAt(0., firstColor);
+    }
+    if (stops.last().first != 1.) {
+        const QColor lastColor = stops.last().second;
+        gradient.setColorAt(1., lastColor);
+    }
 }
 
 QT_END_NAMESPACE

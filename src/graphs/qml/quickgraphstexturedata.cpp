@@ -1,6 +1,7 @@
 // Copyright (C) 2023 The Qt Company Ltd.
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 
+#include "graphsglobal_p.h"
 #include "quickgraphstexturedata_p.h"
 
 QuickGraphsTextureData::QuickGraphsTextureData()
@@ -11,16 +12,20 @@ QuickGraphsTextureData::~QuickGraphsTextureData()
 {
 }
 
-void QuickGraphsTextureData::createGradient(const QLinearGradient &gradient)
+void QuickGraphsTextureData::createGradient(QLinearGradient gradient)
 {
-    setSize(QSize(m_width, m_height));
+    setSize(QSize(gradientTextureWidth, gradientTextureHeight));
     setFormat(QQuick3DTextureData::RGBA8);
     setHasTransparency(false);
+
+    // Make sure the gradient fills the whole image
+    gradient.setFinalStop(gradientTextureWidth, gradientTextureHeight);
+    gradient.setStart(0., 0.);
 
     QByteArray imageData;
 
     QByteArray gradientScanline;
-    gradientScanline.resize(m_width * 4); // RGBA8
+    gradientScanline.resize(gradientTextureWidth * 4); // RGBA8
     auto stops = gradient.stops();
 
     int x = 0;
@@ -28,7 +33,7 @@ void QuickGraphsTextureData::createGradient(const QLinearGradient &gradient)
         QColor startColor = stops.at(i - 1).second;
         QColor endColor = stops.at(i).second;
         int w = 0;
-        w = (stops.at(i).first - stops.at(i - 1).first) * m_width;
+        w = (stops.at(i).first - stops.at(i - 1).first) * gradientTextureWidth;
         for (int t = 0; t <= w; t++) {
             QColor color = linearInterpolate(startColor, endColor, t / float(w));
             int offset = x * 4;
@@ -39,7 +44,7 @@ void QuickGraphsTextureData::createGradient(const QLinearGradient &gradient)
             x++;
         }
     }
-    for (int y = 0; y < m_height; y++)
+    for (int y = 0; y < gradientTextureHeight; y++)
         imageData += gradientScanline;
     setTextureData(imageData);
 }

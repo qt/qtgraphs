@@ -43,6 +43,8 @@ public:
 
     static float wrapValue(float value, float min, float max);
     static QQuaternion calculateRotation(const QVector3D &xyzRotations);
+    static void verifyGradientCompleteness(QLinearGradient &gradient);
+
 
 private:
     static ParamType mapFormatCharToParamType(char formatSpec);

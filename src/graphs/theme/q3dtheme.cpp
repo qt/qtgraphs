@@ -3,6 +3,7 @@
 
 #include "q3dtheme_p.h"
 #include "thememanager_p.h"
+#include "utils_p.h"
 
 QT_BEGIN_NAMESPACE
 
@@ -778,6 +779,7 @@ void Q3DTheme::setSingleHighlightGradient(const QLinearGradient &gradient)
     Q_D(Q3DTheme);
     d->m_dirtyBits.singleHighlightGradientDirty = true;
     if (d->m_singleHighlightGradient != gradient) {
+        Utils::verifyGradientCompleteness(d->m_singleHighlightGradient);
         d->m_singleHighlightGradient = gradient;
         emit singleHighlightGradientChanged(gradient);
     }
@@ -803,6 +805,7 @@ void Q3DTheme::setMultiHighlightGradient(const QLinearGradient &gradient)
     Q_D(Q3DTheme);
     d->m_dirtyBits.multiHighlightGradientDirty = true;
     if (d->m_multiHighlightGradient != gradient) {
+        Utils::verifyGradientCompleteness(d->m_multiHighlightGradient);
         d->m_multiHighlightGradient = gradient;
         emit multiHighlightGradientChanged(gradient);
     }
@@ -1143,11 +1146,11 @@ Q3DThemePrivate::Q3DThemePrivate(Q3DTheme *q)
       m_textColor(Qt::white),
       m_windowColor(Qt::black),
       m_font(QFont()),
-      m_multiHighlightGradient(QLinearGradient(qreal(gradientTextureWidth),
-                                               qreal(gradientTextureHeight),
+      m_multiHighlightGradient(QLinearGradient(gradientTextureWidth,
+                                               gradientTextureHeight,
                                                0.0, 0.0)),
-      m_singleHighlightGradient(QLinearGradient(qreal(gradientTextureWidth),
-                                                qreal(gradientTextureHeight),
+      m_singleHighlightGradient(QLinearGradient(gradientTextureWidth,
+                                                gradientTextureHeight,
                                                 0.0, 0.0)),
       m_backgoundEnabled(true),
       m_forcePredefinedType(true),
@@ -1162,8 +1165,8 @@ Q3DThemePrivate::Q3DThemePrivate(Q3DTheme *q)
       q_ptr(q)
 {
     m_baseColors.append(QColor(Qt::black));
-    m_baseGradients.append(QLinearGradient(qreal(gradientTextureWidth),
-                                           qreal(gradientTextureHeight),
+    m_baseGradients.append(QLinearGradient(gradientTextureWidth,
+                                           gradientTextureHeight,
                                            0.0, 0.0));
 }
 

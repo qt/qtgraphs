@@ -4,6 +4,7 @@
 #include "qabstract3dseries_p.h"
 #include "qabstractdataproxy_p.h"
 #include "abstract3dcontroller_p.h"
+#include "utils_p.h"
 
 QT_BEGIN_NAMESPACE
 
@@ -791,6 +792,7 @@ void QAbstract3DSeriesPrivate::setBaseColor(const QColor &color)
 void QAbstract3DSeriesPrivate::setBaseGradient(const QLinearGradient &gradient)
 {
     m_baseGradient = gradient;
+    Utils::verifyGradientCompleteness(m_baseGradient);
     m_changeTracker.baseGradientChanged = true;
     if (m_controller)
         m_controller->markSeriesVisualsDirty();
@@ -807,6 +809,7 @@ void QAbstract3DSeriesPrivate::setSingleHighlightColor(const QColor &color)
 void QAbstract3DSeriesPrivate::setSingleHighlightGradient(const QLinearGradient &gradient)
 {
     m_singleHighlightGradient = gradient;
+    Utils::verifyGradientCompleteness(m_singleHighlightGradient);
     m_changeTracker.singleHighlightGradientChanged = true;
     if (m_controller)
         m_controller->markSeriesVisualsDirty();
@@ -823,6 +826,7 @@ void QAbstract3DSeriesPrivate::setMultiHighlightColor(const QColor &color)
 void QAbstract3DSeriesPrivate::setMultiHighlightGradient(const QLinearGradient &gradient)
 {
     m_multiHighlightGradient = gradient;
+    Utils::verifyGradientCompleteness(m_multiHighlightGradient);
     m_changeTracker.multiHighlightGradientChanged = true;
     if (m_controller)
         m_controller->markSeriesVisualsDirty();
