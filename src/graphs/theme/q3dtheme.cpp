@@ -74,6 +74,9 @@ QT_BEGIN_NAMESPACE
  *     \li labelTextColor
  *     \li Qt::white
  *   \row
+ *     \li labelsEnabled
+ *     \li \c true
+ *   \row
  *     \li lightColor
  *     \li Qt::white
  *   \row
@@ -231,6 +234,9 @@ QT_BEGIN_NAMESPACE
  *   \row
  *     \li labelTextColor
  *     \li "white"
+ *   \row
+ *     \li labelsEnabled
+ *     \li \c true
  *   \row
  *     \li lightColor
  *     \li "white"
