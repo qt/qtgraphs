@@ -26,12 +26,9 @@ public:
     QuickGraphsTextureData();
     ~QuickGraphsTextureData();
 
-    void createGradient(const QLinearGradient &gradient);
+    void createGradient(QLinearGradient gradient);
 
 private:
-    int m_width = 8192;
-    int m_height = 1;
-
     QColor linearInterpolate(QColor startColor, QColor endColor, float value);
 
 };

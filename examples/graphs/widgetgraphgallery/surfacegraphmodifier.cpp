@@ -78,23 +78,23 @@ SurfaceGraphModifier::SurfaceGraphModifier(Q3DSurface *surface, QLabel *label, Q
 
     // Set the gradients for multi-surface layers
     QLinearGradient grOne;
-    grOne.setColorAt(0.f, Qt::black);
-    grOne.setColorAt(0.38f, Qt::darkYellow);
-    grOne.setColorAt(0.39f, Qt::darkGreen);
-    grOne.setColorAt(0.5f, Qt::darkGray);
-    grOne.setColorAt(1.f, Qt::gray);
+    grOne.setColorAt(0., Qt::black);
+    grOne.setColorAt(0.38, Qt::darkYellow);
+    grOne.setColorAt(0.39, Qt::darkGreen);
+    grOne.setColorAt(0.5, Qt::darkGray);
+    grOne.setColorAt(1., Qt::gray);
     m_heightMapSeriesOne->setBaseGradient(grOne);
     m_heightMapSeriesOne->setColorStyle(Q3DTheme::ColorStyleRangeGradient);
 
     QLinearGradient grTwo;
-    grTwo.setColorAt(0.39f, Qt::blue);
-    grTwo.setColorAt(0.4f, Qt::white);
+    grTwo.setColorAt(0.39, Qt::blue);
+    grTwo.setColorAt(0.4, Qt::white);
     m_heightMapSeriesTwo->setBaseGradient(grTwo);
     m_heightMapSeriesTwo->setColorStyle(Q3DTheme::ColorStyleRangeGradient);
 
     QLinearGradient grThree;
-    grThree.setColorAt(0.f, Qt::white);
-    grThree.setColorAt(0.05f, Qt::black);
+    grThree.setColorAt(0., Qt::white);
+    grThree.setColorAt(0.05, Qt::black);
     m_heightMapSeriesThree->setBaseGradient(grThree);
     m_heightMapSeriesThree->setColorStyle(Q3DTheme::ColorStyleRangeGradient);
 

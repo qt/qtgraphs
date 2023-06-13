@@ -27,8 +27,8 @@ static const int textureFontSize = 50;
 static const QVector3D zeroVector = QVector3D(0.0f, 0.0f, 0.0f);
 static const QVector3D upVector = QVector3D(0.0f, 1.0f, 0.0f);
 static const float itemAlpha = 0.0f;
-static const float gradientTextureHeight = 1024.0f;
-static const float gradientTextureWidth = 2.0f;
+static const qreal gradientTextureHeight = 1.;
+static const qreal gradientTextureWidth = 8192.;
 
 QT_END_NAMESPACE
 
