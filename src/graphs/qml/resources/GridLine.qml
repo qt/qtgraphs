@@ -13,10 +13,11 @@ Component {
 
         Model {
             visible: !isPolar
-            source: "#Rectangle"
-            materials: [ PrincipledMaterial {
-                    baseColor: lineColor
-                    lighting: PrincipledMaterial.NoLighting
+            source: "#Cube"
+            depthBias: 1
+            materials: [ DefaultMaterial {
+                    diffuseColor: lineColor
+                    lighting: DefaultMaterial.NoLighting
                 }
             ]
         }
