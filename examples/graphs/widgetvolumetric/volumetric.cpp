@@ -38,8 +38,7 @@ VolumetricModifier::VolumetricModifier(Q3DScatter *scatter)
     m_graph->setShadowQuality(QAbstract3DGraph::ShadowQualityNone);
     m_graph->scene()->activeCamera()->setCameraPreset(Q3DCamera::CameraPresetIsometricLeft);
     //! [0]
-    // TODO: Fix orthographic projection (QTBUG-113833)
-    //m_graph->setOrthoProjection(true);
+    m_graph->setOrthoProjection(true);
     //! [0]
     m_graph->activeTheme()->setBackgroundEnabled(false);
 

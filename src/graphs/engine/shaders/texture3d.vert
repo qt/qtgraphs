@@ -20,11 +20,7 @@ void MAIN() {
             - ((1.0 + VERTEX) * (1.0 - maxBoundsNorm));
 
     vec3 camPos = (inverse(MODEL_MATRIX) * vec4(CAMERA_POSITION, 1.0)).xyz;
-    camPos = camPos
-            + ((1.0 - camPos) * minBoundsNorm)
-            - ((1.0 + camPos) * (1.0 - maxBoundsNorm));
-
-    rayDir = -(camPos - pos);
+    rayDir = -camPos;
 
     // Flip Y and Z so QImage bits work directly for texture and first image is in the front
     rayDir.yz = -rayDir.yz;
