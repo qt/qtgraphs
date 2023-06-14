@@ -404,7 +404,7 @@ void QQuickGraphsScatter::updateScatterGraphItemVisuals(ScatterModel *graphModel
             graphModel->selectionIndicator->setScale(dih.scale);
             graphModel->selectionIndicator->setVisible(true);
             graphModel->instancing->hideDataItem(m_scatterController->m_selectedItem);
-            itemLabel()->setPosition(graphModel->selectionIndicator->position());
+            updateItemLabel(graphModel->selectionIndicator->position());
             m_selectionActive = true;
             graphModel->instancing->markDataDirty();
         } else if (m_scatterController->m_selectedItem == -1
@@ -1151,7 +1151,7 @@ void QQuickGraphsScatter::updateGraph()
                 selectionPosition = graphModel->instancing->dataArray().at(
                             m_scatterController->m_selectedItem).position;
             }
-            itemLabel()->setPosition(selectionPosition);
+            updateItemLabel(selectionPosition);
             QString label = m_scatterController->m_selectedItemSeries->itemLabel();
             itemLabel()->setProperty("labelText", label);
         }

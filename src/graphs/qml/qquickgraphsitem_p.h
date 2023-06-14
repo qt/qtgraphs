@@ -175,7 +175,7 @@ public:
     QQuick3DCustomMaterial *createQmlCustomMaterial(const QString &fileName);
     QQuick3DPrincipledMaterial *createPrincipledMaterial();
 
-    QQuick3DNode *itemLabel() { return m_itemLabel; }
+    QQuickItem *itemLabel() { return m_itemLabel; }
     QQuick3DNode *sliceItemLabel() { return m_sliceItemLabel; }
 
     QQuick3DModel *m_targetVisualizer;
@@ -295,6 +295,7 @@ protected:
     QQmlComponent *createRepeaterDelegateComponent(const QString &fileName);
     QQuick3DRepeater *createRepeater(QQuick3DNode *parent = nullptr);
     QQuick3DNode *createTitleLabel(QQuick3DNode *parent = nullptr);
+    void createItemLabel();
 
     void updateXTitle(const QVector3D &labelRotation, const QVector3D &labelTrans,
                       const QQuaternion &totalRotation, float labelsMaxWidth, float labelHeight, const QVector3D &scale);
@@ -317,6 +318,7 @@ protected:
     void updateSliceGrid();
     void updateSliceLabels();
     virtual void updateShadowQuality(QAbstract3DGraph::ShadowQuality quality);
+    void updateItemLabel(const QVector3D &position);
 
     struct Volume {
         QQuick3DModel *model = nullptr;
@@ -378,7 +380,7 @@ private:
     QQuick3DNode *m_titleLabelY = nullptr;
     QQuick3DNode *m_titleLabelZ = nullptr;
 
-    QQuick3DNode *m_itemLabel = nullptr;
+    QQuickItem *m_itemLabel = nullptr;
     QQuick3DNode *m_sliceItemLabel = nullptr;
 
     QQuick3DRepeater *m_segmentLineRepeaterX = nullptr;
@@ -444,6 +446,8 @@ private:
     bool m_sliceActivatedChanged = false;
 
     bool m_gridUpdated = false;
+
+    QVector3D m_labelPosition = QVector3D();
 
     float m_initialZoomLevel = -1.0f;
     void setUpCamera();

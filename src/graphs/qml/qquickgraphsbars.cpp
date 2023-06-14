@@ -1429,13 +1429,9 @@ void QQuickGraphsBars::updateSelectedBar()
                                                   - 0.2f);
                         }
 
-                        itemLabel()->setPosition(m_selectedBarPos);
+                        updateItemLabel(m_selectedBarPos);
                         itemLabel()->setProperty("labelText", label);
                         itemLabel()->setProperty("labelHeight", labelHeight);
-                        itemLabel()->setEulerRotation(
-                            QVector3D(-m_barsController->scene()->activeCamera()->yRotation(),
-                                      -m_barsController->scene()->activeCamera()->xRotation(),
-                                      0));
                         itemLabel()->setProperty("labelHeight", labelHeight);
 
                         if (isSliceEnabled()) {
@@ -1503,13 +1499,9 @@ void QQuickGraphsBars::updateSelectedBar()
                             else
                                 m_selectedBarPos.setY(m_selectedBarPos.y() + bih->heightValue - 0.2f);
 
-                            itemLabel()->setPosition(m_selectedBarPos);
+                            updateItemLabel(m_selectedBarPos);
                             itemLabel()->setProperty("labelText", label);
                             itemLabel()->setProperty("labelHeight", labelHeight);
-                            itemLabel()->setEulerRotation(
-                                QVector3D(-m_barsController->scene()->activeCamera()->yRotation(),
-                                          -m_barsController->scene()->activeCamera()->xRotation(),
-                                          0));
 
                             if (isSliceEnabled()) {
                                 QVector3D slicePos = bih->position;
