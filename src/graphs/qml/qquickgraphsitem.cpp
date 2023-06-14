@@ -2524,8 +2524,6 @@ void QQuickGraphsItem::updateCamera()
 
     auto useOrtho = m_controller->isOrthoProjection();
     if (useOrtho) {
-        m_oCamera->setX(lookingPosition.x());
-        m_oCamera->setZ(lookingPosition.z());
         if (m_sliceView && m_sliceView->isVisible()) {
             m_oCamera->setVerticalMagnification(zoomLevel * .4f);
             m_oCamera->setHorizontalMagnification(zoomLevel * .4f);
@@ -2533,18 +2531,17 @@ void QQuickGraphsItem::updateCamera()
             m_oCamera->setVerticalMagnification(zoomLevel * 2.0f);
             m_oCamera->setHorizontalMagnification(zoomLevel * 2.0f);
         }
-    } else {
-        cameraTarget()->setPosition(lookingPosition);
-        auto rotation = QVector3D(
-                    -m_controller->scene()->activeCamera()->yRotation(),
-                    -m_controller->scene()->activeCamera()->xRotation(),
-                    0);
-        cameraTarget()->setEulerRotation(rotation);
-        float zoom = 720.f / zoomLevel;
-        m_pCamera->setZ(zoom);
-        updateCustomItemsRotation();
-        updateItemLabel(m_labelPosition);
     }
+    cameraTarget()->setPosition(lookingPosition);
+    auto rotation = QVector3D(
+                -m_controller->scene()->activeCamera()->yRotation(),
+                -m_controller->scene()->activeCamera()->xRotation(),
+                0);
+    cameraTarget()->setEulerRotation(rotation);
+    float zoom = 720.f / zoomLevel;
+    m_pCamera->setZ(zoom);
+    updateCustomItemsRotation();
+    updateItemLabel(m_labelPosition);
 }
 
 void QQuickGraphsItem::handleSegmentLineCountChanged(QAbstract3DAxis *axis, QQuick3DRepeater *repeater)
@@ -3817,10 +3814,11 @@ void QQuickGraphsItem::setUpCamera()
     m_pCamera->setParentItem(cameraTarget);
 
     m_oCamera = new QQuick3DOrthographicCamera(rootNode());
-    m_oCamera->setPosition(QVector3D(.0f, 20.f, .0f));
-    m_oCamera->setParent(rootNode());
-    m_oCamera->setParentItem(rootNode());
-    m_oCamera->lookAt(QVector3D(.0f, .0f, .0f));
+    m_oCamera->setClipNear(0.001f);
+    m_oCamera->setPosition(QVector3D(0.f, 0.f, 5.f));
+    m_oCamera->setParent(cameraTarget);
+    m_oCamera->setParentItem(cameraTarget);
+    m_oCamera->lookAt(cameraTarget);
 
     auto useOrtho = m_controller->isOrthoProjection();
     if (useOrtho)
