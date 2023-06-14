@@ -725,6 +725,8 @@ void QQuickGraphsSurface::updateSliceGraph()
 {
     QQuickGraphsItem::updateSliceGraph();
 
+    m_surfaceController->setSelectedPointChanged(true);
+
     if (!sliceView()->isVisible())
         return;
 
@@ -1294,12 +1296,9 @@ void QQuickGraphsSurface::updateSelectedPoint()
                 QString label = x + QStringLiteral(", ") +
                         y + QStringLiteral(", ") +
                         z;
-                itemLabel()->setPosition(labelPosition);
+
+                updateItemLabel(labelPosition);
                 itemLabel()->setProperty("labelText", label);
-                itemLabel()->setEulerRotation(QVector3D(
-                                                  -m_surfaceController->scene()->activeCamera()->yRotation(),
-                                                  -m_surfaceController->scene()->activeCamera()->xRotation(),
-                                                  0));
                 labelVisible = true;
 
                 if (sliceView() && sliceView()->isVisible()) {

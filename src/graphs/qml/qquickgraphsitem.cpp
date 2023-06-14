@@ -289,7 +289,7 @@ void QQuickGraphsItem::componentComplete()
     subsegmentLineDelegate = createRepeaterDelegateComponent(QStringLiteral(":/axis/GridLine"));
     m_subsegmentLineRepeaterZ->setDelegate(subsegmentLineDelegate);
 
-    m_itemLabel = createTitleLabel();
+    createItemLabel();
 
     auto axis = m_controller->axisX();
     int segmentCount = 0;
@@ -1502,8 +1502,6 @@ void QQuickGraphsItem::updateLabels()
             + m_labelScale.x() * m_fontScaleFactor;
     QVector3D fontScaled = QVector3D(scaleFactor, scaleFactor, 0.0f);
 
-    m_itemLabel->setScale(fontScaled);
-
     float labelsMaxWidth = 0.0f;
     labelsMaxWidth = qMax(labelsMaxWidth, float(findLabelsMaxWidth(axisX->labels()))) + textPadding;
     QFontMetrics fm(m_controller->activeTheme()->font());
@@ -1880,6 +1878,22 @@ void QQuickGraphsItem::updateShadowQuality(QAbstract3DGraph::ShadowQuality quali
         light()->setCastsShadow(false);
         light()->setShadowFactor(0.f);
     }
+}
+
+void QQuickGraphsItem::updateItemLabel(const QVector3D &position)
+{
+    if (m_labelPosition != position)
+        m_labelPosition = position;
+    QVector3D pos2d = mapFrom3DScene(m_labelPosition);
+    int pointSize = m_controller->activeTheme()->font().pointSize();
+    float scale = m_labelScale.x() * ((-10.0f * pointSize) + 650.0f) / pos2d.z();
+    if (m_sliceView && m_sliceView->isVisible())
+        m_itemLabel->setScale(scale * .2f);
+    else
+        m_itemLabel->setScale(scale);
+    pos2d.setX(pos2d.x() - (m_itemLabel->width() / 2.f));
+    pos2d.setY(pos2d.y() - (m_itemLabel->height() / 2.f) - (m_itemLabel->height() * m_itemLabel->scale()));
+    m_itemLabel->setPosition(pos2d.toPointF());
 }
 
 void QQuickGraphsItem::createVolumeMaterial(QCustom3DVolume *volume, Volume &volumeItem)
@@ -2526,11 +2540,10 @@ void QQuickGraphsItem::updateCamera()
                     -m_controller->scene()->activeCamera()->xRotation(),
                     0);
         cameraTarget()->setEulerRotation(rotation);
-        if (m_itemLabel->visible())
-            m_itemLabel->setEulerRotation(rotation);
         float zoom = 720.f / zoomLevel;
         m_pCamera->setZ(zoom);
         updateCustomItemsRotation();
+        updateItemLabel(m_labelPosition);
     }
 }
 
@@ -3399,13 +3412,23 @@ QQuick3DRepeater *QQuickGraphsItem::createRepeater(QQuick3DNode *parent)
 QQuick3DNode *QQuickGraphsItem::createTitleLabel(QQuick3DNode *parent)
 {
     auto engine = qmlEngine(this);
-    QQmlComponent comp(engine, QStringLiteral(":/axis/ItemLabel"));
+    QQmlComponent comp(engine, QStringLiteral(":/axis/TitleLabel"));
     auto titleLabel = qobject_cast<QQuick3DNode *>(comp.create());
     titleLabel->setParent(parent ? parent : graphNode());
     titleLabel->setParentItem(parent ? parent : graphNode());
     titleLabel->setVisible(false);
     titleLabel->setScale(m_labelScale);
     return titleLabel;
+}
+
+void QQuickGraphsItem::createItemLabel()
+{
+    auto engine = qmlEngine(this);
+    QQmlComponent comp(engine, QStringLiteral(":/axis/ItemLabel"));
+    m_itemLabel = qobject_cast<QQuickItem *>(comp.create());
+    m_itemLabel->setParent(this);
+    m_itemLabel->setParentItem(this);
+    m_itemLabel->setVisible(false);
 }
 
 QQuick3DCustomMaterial *QQuickGraphsItem::createQmlCustomMaterial(const QString &fileName)

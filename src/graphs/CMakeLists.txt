@@ -154,6 +154,10 @@ set_source_files_properties("qml/resources/ItemLabel.qml"
     PROPERTIES QT_RESOURCE_ALIAS "ItemLabel"
 )
 
+set_source_files_properties("qml/resources/TitleLabel.qml"
+    PROPERTIES QT_RESOURCE_ALIAS "TitleLabel"
+)
+
 set_source_files_properties("qml/resources/RangeGradientMaterial.qml"
     PROPERTIES QT_RESOURCE_ALIAS "RangeGradientMaterial"
 )
@@ -223,6 +227,7 @@ set(qml_axis_resurces
     "qml/resources/AxisLabel.qml"
     "qml/resources/GridLine.qml"
     "qml/resources/ItemLabel.qml"
+    "qml/resources/TitleLabel.qml"
 )
 
 set(qml_material_resources
