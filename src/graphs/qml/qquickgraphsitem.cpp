@@ -2192,27 +2192,32 @@ void QQuickGraphsItem::updateCustomItems()
             float scaleY = 1;
             float scaleZ = 1;
 
-            // TODO: Redo position and scale calculations to fix area selection (QTBUG-113834)
-            if (m_controller->axisX()->type() == QAbstract3DAxis::AxisTypeValue) {
-                auto axis = static_cast<QValue3DAxis *>(m_controller->axisX());
-                posX = axis->positionAt(volume->position().x()) + translate().x() / scale().x();
-                scaleX = 1.0f / (axis->positionAt(volume->scaling().x()) - axis->positionAt(0));
-            }
+            if (!volume->isScalingAbsolute() && !volume->isPositionAbsolute()) {
+                // TODO: Redo position and scale calculations to fix area selection (QTBUG-113834)
+                if (m_controller->axisX()->type() == QAbstract3DAxis::AxisTypeValue) {
+                    auto axis = static_cast<QValue3DAxis *>(m_controller->axisX());
+                    posX = axis->positionAt(volume->position().x()) + translate().x() / scale().x();
+                    scaleX = 1.0f / (axis->positionAt(volume->scaling().x()) - axis->positionAt(0));
+                }
 
-            if (m_controller->axisY()->type() == QAbstract3DAxis::AxisTypeValue) {
-                auto axis = static_cast<QValue3DAxis *>(m_controller->axisY());
-                posY = axis->positionAt(volume->position().y()) + translate().y() / scale().y();
-                scaleY = 1.0f / (axis->positionAt(volume->scaling().y()) - axis->positionAt(0));
-            }
+                if (m_controller->axisY()->type() == QAbstract3DAxis::AxisTypeValue) {
+                    auto axis = static_cast<QValue3DAxis *>(m_controller->axisY());
+                    posY = axis->positionAt(volume->position().y()) + translate().y() / scale().y();
+                    scaleY = 1.0f / (axis->positionAt(volume->scaling().y()) - axis->positionAt(0));
+                }
 
-            if (m_controller->axisZ()->type() == QAbstract3DAxis::AxisTypeValue) {
-                auto axis = static_cast<QValue3DAxis *>(m_controller->axisZ());
-                posZ = axis->positionAt(volume->position().z()) + translate().z() / scale().z();
-                scaleZ = 1.0f / (axis->positionAt(volume->scaling().z()) - axis->positionAt(0));
-            }
+                if (m_controller->axisZ()->type() == QAbstract3DAxis::AxisTypeValue) {
+                    auto axis = static_cast<QValue3DAxis *>(m_controller->axisZ());
+                    posZ = axis->positionAt(volume->position().z()) + translate().z() / scale().z();
+                    scaleZ = 1.0f / (axis->positionAt(volume->scaling().z()) - axis->positionAt(0));
+                }
 
-            model->setScale(QVector3D(qAbs(scale().x()) / 2, qAbs(scale().y()) / 2, qAbs(scale().z()) / 2));
-            model->setRotation(volume->rotation());
+                model->setScale(QVector3D(qAbs(scale().x()) / 2, qAbs(scale().y()) / 2, qAbs(scale().z()) / 2));
+                model->setRotation(volume->rotation());
+            } else {
+                model->setPosition(volume->position());
+                model->setScale(volume->scaling());
+            }
 
             QVector3D minBounds(posX - scaleX, posY + scaleY, posZ + scaleZ);
             QVector3D maxBounds(posX + scaleX, posY - scaleY, posZ - scaleZ);
