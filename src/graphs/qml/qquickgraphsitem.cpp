@@ -2026,6 +2026,7 @@ QQuick3DModel *QQuickGraphsItem::createSliceFrame(Volume &volumeItem)
     model->setParentItem(volumeItem.model);
     model->setSource(QUrl(QStringLiteral("defaultMeshes/barMeshFull")));
     model->setScale(QVector3D(1, 1, 0.01f));
+    model->setDepthBias(-100.0f);
 
     QQmlListReference materialsRef(model, "materials");
     QQuick3DCustomMaterial *material = createQmlCustomMaterial(QStringLiteral(":/materials/VolumeFrameMaterial"));
