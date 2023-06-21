@@ -2147,12 +2147,6 @@ void QQuickGraphsItem::updateCustomItems()
                                    (float(volume->sliceIndexY()) + 0.5f) / float(volume->textureHeight()) * 2.0 - 1.0,
                                    (float(volume->sliceIndexZ()) + 0.5f) / float(volume->textureDepth()) * 2.0 - 1.0);
 
-            if (volume->drawSliceFrames()) {
-                volumeItem.sliceFrameX->setX(sliceIndices.x());
-                volumeItem.sliceFrameY->setY(-sliceIndices.y());
-                volumeItem.sliceFrameZ->setZ(-sliceIndices.z());
-            }
-
             if (volumeItem.drawSliceFrames != volume->drawSliceFrames()) {
                 if (volume->drawSliceFrames()) {
                     volumeItem.sliceFrameX->setVisible(true);
@@ -2173,44 +2167,34 @@ void QQuickGraphsItem::updateCustomItems()
 
             auto material = materialsRef.at(0);
 
-            if (volume->drawSlices())
-                material->setProperty("volumeSliceIndices", sliceIndices);
-
-            material->setProperty("alphaMultiplier", volume->alphaMultiplier());
-            material->setProperty("preserveOpacity", volume->preserveOpacity());
-
-            int sampleCount = volume->textureWidth() + volume->textureHeight() + volume->textureDepth();
-            material->setProperty("sampleCount", sampleCount);
-
-            int color8Bit = (volume->textureFormat() == QImage::Format_Indexed8) ? 1 : 0;
-            material->setProperty("color8Bit", color8Bit);
-
             QVector3D minBounds(-1, 1, 1);
             QVector3D maxBounds(1, -1, -1);
+            QVector3D translation(0, 0, 0);
+            QVector3D scaling(1, 1, 1);
 
             if (!volume->isScalingAbsolute() && !volume->isPositionAbsolute()) {
                 if (m_controller->axisX()->type() == QAbstract3DAxis::AxisTypeValue) {
                     auto axis = static_cast<QValue3DAxis *>(m_controller->axisX());
-                    float pos = axis->positionAt(volume->position().x()) + translate().x() / scale().x();
-                    float scaling = (axis->max() - axis->min()) / volume->scaling().x();
-                    minBounds.setX(minBounds.x() * scaling - pos);
-                    maxBounds.setX(maxBounds.x() * scaling - pos);
+                    translation.setX(axis->positionAt(volume->position().x()) + translate().x() / scale().x());
+                    scaling.setX((axis->max() - axis->min()) / volume->scaling().x());
+                    minBounds.setX(minBounds.x() * scaling.x() - translation.x());
+                    maxBounds.setX(maxBounds.x() * scaling.x() - translation.x());
                 }
 
                 if (m_controller->axisY()->type() == QAbstract3DAxis::AxisTypeValue) {
                     auto axis = static_cast<QValue3DAxis *>(m_controller->axisY());
-                    float pos = axis->positionAt(volume->position().y()) + translate().y() / scale().y();
-                    float scaling = (axis->max() - axis->min()) / volume->scaling().y();
-                    minBounds.setY(minBounds.y() * scaling + pos);
-                    maxBounds.setY(maxBounds.y() * scaling + pos);
+                    translation.setY(axis->positionAt(volume->position().y()) + translate().y() / scale().y());
+                    scaling.setY((axis->max() - axis->min()) / volume->scaling().y());
+                    minBounds.setY(minBounds.y() * scaling.y() + translation.y());
+                    maxBounds.setY(maxBounds.y() * scaling.y() + translation.y());
                 }
 
                 if (m_controller->axisZ()->type() == QAbstract3DAxis::AxisTypeValue) {
                     auto axis = static_cast<QValue3DAxis *>(m_controller->axisZ());
-                    float pos = axis->positionAt(volume->position().z()) + translate().z() / scale().z();
-                    float scaling = (axis->max() - axis->min()) / volume->scaling().z();
-                    minBounds.setZ(minBounds.z() * scaling - pos);
-                    maxBounds.setZ(maxBounds.z() * scaling - pos);
+                    translation.setZ(axis->positionAt(volume->position().z()) + translate().z() / scale().z());
+                    scaling.setZ((axis->max() - axis->min()) / volume->scaling().z());
+                    minBounds.setZ(minBounds.z() * scaling.z() - translation.z());
+                    maxBounds.setZ(maxBounds.z() * scaling.z() - translation.z());
                 }
 
                 model->setPosition(QVector3D());
@@ -2223,6 +2207,52 @@ void QQuickGraphsItem::updateCustomItems()
 
             material->setProperty("minBounds", minBounds);
             material->setProperty("maxBounds", maxBounds);
+
+            if (volume->drawSlices())
+                material->setProperty("volumeSliceIndices", sliceIndices);
+
+            if (volume->drawSliceFrames()) {
+                float sliceFrameX = sliceIndices.x();
+                float sliceFrameY = sliceIndices.y();
+                float sliceFrameZ = sliceIndices.z();
+                if (volume->sliceIndexX() >= 0 && scaling.x() > 0)
+                    sliceFrameX = (sliceFrameX + translation.x()) / scaling.x();
+                if (volume->sliceIndexY() >= 0 && scaling.y() > 0)
+                    sliceFrameY = (sliceFrameY - translation.y()) / scaling.y();
+                if (volume->sliceIndexZ() >= 0 && scaling.z() > 0)
+                    sliceFrameZ = (sliceFrameZ + translation.z()) / scaling.z();
+
+                if (sliceFrameX < - 1 || sliceFrameX > 1) {
+                    volumeItem.sliceFrameX->setVisible(false);
+                } else {
+                    volumeItem.sliceFrameX->setVisible(true);
+                }
+
+                if (sliceFrameY < - 1 || sliceFrameY > 1) {
+                    volumeItem.sliceFrameY->setVisible(false);
+                } else {
+                    volumeItem.sliceFrameY->setVisible(true);
+                }
+
+                if (sliceFrameZ < - 1 || sliceFrameZ > 1) {
+                    volumeItem.sliceFrameZ->setVisible(false);
+                } else {
+                    volumeItem.sliceFrameZ->setVisible(true);
+                }
+
+                volumeItem.sliceFrameX->setX(sliceFrameX);
+                volumeItem.sliceFrameY->setY(-sliceFrameY);
+                volumeItem.sliceFrameZ->setZ(-sliceFrameZ);
+            }
+
+            material->setProperty("alphaMultiplier", volume->alphaMultiplier());
+            material->setProperty("preserveOpacity", volume->preserveOpacity());
+
+            int sampleCount = volume->textureWidth() + volume->textureHeight() + volume->textureDepth();
+            material->setProperty("sampleCount", sampleCount);
+
+            int color8Bit = (volume->textureFormat() == QImage::Format_Indexed8) ? 1 : 0;
+            material->setProperty("color8Bit", color8Bit);
 
             if (volumeItem.updateTextureData) {
                 auto textureData = volumeItem.textureData;
