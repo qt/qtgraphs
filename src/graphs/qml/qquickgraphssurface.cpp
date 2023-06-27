@@ -395,7 +395,8 @@ void QQuickGraphsSurface::updateGraph()
 
     m_surfaceController->setSeriesVisibilityDirty(false);
 
-    if (m_surfaceController->isDataDirty()) {
+    if (m_surfaceController->isDataDirty() ||
+            m_surfaceController->isSeriesVisualsDirty()) {
         if (sliceView() && sliceView()->isVisible())
             updateSliceGraph();
 
@@ -412,6 +413,7 @@ void QQuickGraphsSurface::updateGraph()
         }
 
         m_surfaceController->setDataDirty(false);
+        m_surfaceController->setSeriesVisualsDirty(false);
     }
 }
 
@@ -514,13 +516,36 @@ void QQuickGraphsSurface::updateModel(SurfaceModel *model)
         QVector3D boundsMin(0.0f, 0.0f, 0.0f);
         QVector3D boundsMax(0.0f, 0.0f, 0.0f);
 
+        int startColumn = 0;
+        int startRow = 0;
+        int rowLimit = rowCount - 1;
+        int colLimit = columnCount - 1;
+
+        QAbstract3DAxis *axis = m_surfaceController->axisZ();
+        float z = (*array.at(startRow)).at(0).z();
+        while (z < axis->min())
+            z = (*array.at(++startRow)).at(0).z();
+
+        z = (*array.at(rowLimit)).at(0).z();
+        while (z > axis->max())
+            z = (*array.at(--rowLimit)).at(0).z();
+
+        axis = m_surfaceController->axisX();
+        float x = (*array.at(0)).at(startColumn).x();
+        while (x < axis->min())
+            x = (*array.at(0)).at(++startColumn).x();
+
+        x = (*array.at(0)).at(colLimit).x();
+        while (x > axis->max())
+            x = (*array.at(0)).at(--colLimit).x();
+
         bool isPolar = m_surfaceController->isPolar();
-        for (int i = 0 ; i < rowCount ; i++) {
+        for (int i = startRow ; i < rowLimit + startRow + 1 ; i++) {
             const QSurfaceDataRow &row = *array.at(i);
-            for (int j = 0 ; j < columnCount ; j++) {
+            for (int j = startColumn ; j < colLimit + startColumn + 1 ; j++) {
                 // getNormalizedVertex
-                SurfaceVertex vertex;
                 QVector3D pos = getNormalizedVertex(row.at(j), isPolar, false);
+                SurfaceVertex vertex;
                 vertex.position = pos;
                 vertex.normal = QVector3D(0, 0, 0);
                 vertex.uv = QVector2D(j * uvX, i * uvY);
@@ -539,10 +564,6 @@ void QQuickGraphsSurface::updateModel(SurfaceModel *model)
 
         model->boundsMin = boundsMin;
         model->boundsMax = boundsMax;
-
-        //create normals
-        int rowLimit = rowCount - 1;
-        int colLimit = columnCount - 1;
 
         int totalIndex = 0;
 
@@ -702,9 +723,9 @@ QVector3D QQuickGraphsSurface::getNormalizedVertex(const QSurfaceDataItem &data,
         normalizedX = radius * qSin(angle) * 1.0f;
         normalizedZ = -(radius * qCos(angle)) * 1.0f;
     } else {
-        scale = translate = this->scale().x();
+        scale = translate = this->scaleWithBackground().x();
         normalizedX = normalizedX * scale * 2.0f - translate;
-        scale = translate = this->scale().z();
+        scale = translate = this->scaleWithBackground().z();
         normalizedZ = normalizedZ * -scale * 2.0f + translate;
     }
     scale = translate = this->scale().y();

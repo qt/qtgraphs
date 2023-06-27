@@ -95,6 +95,7 @@ public:
     bool isDataDirty() const { return m_isDataDirty; }
     void setDataDirty(bool dirty) { m_isDataDirty = dirty; }
     bool isSeriesVisualsDirty() const { return m_isSeriesVisualsDirty; }
+    void setSeriesVisualsDirty(bool dirty) { m_isSeriesVisualsDirty = dirty; }
 
     QList<QAbstract3DSeries *> changedSeriesList() { return m_changedSeriesList; }
 

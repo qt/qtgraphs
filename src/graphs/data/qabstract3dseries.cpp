@@ -899,8 +899,6 @@ void QAbstract3DSeriesPrivate::markItemLabelDirty()
 {
     m_itemLabelDirty = true;
     m_changeTracker.itemLabelChanged = true;
-    if (m_controller)
-        m_controller->markSeriesVisualsDirty();
 }
 
 void QAbstract3DSeriesPrivate::setItemLabelVisible(bool visible)
