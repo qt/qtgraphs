@@ -579,13 +579,13 @@ void Abstract3DController::handleAxisRangeChanged(float min, float max)
 void Abstract3DController::handleAxisRangeChangedBySender(QObject *sender)
 {
     if (sender == m_axisX) {
-        m_isDataDirty = true;
+        m_isSeriesVisualsDirty = true;
         m_changeTracker.axisXRangeChanged = true;
     } else if (sender == m_axisY) {
-        m_isDataDirty = true;
+        m_isSeriesVisualsDirty = true;
         m_changeTracker.axisYRangeChanged = true;
     } else if (sender == m_axisZ) {
-        m_isDataDirty = true;
+        m_isSeriesVisualsDirty = true;
         m_changeTracker.axisZRangeChanged = true;
     } else {
         qWarning() << __FUNCTION__ << "invoked for invalid axis";
@@ -1154,6 +1154,5 @@ qreal Abstract3DController::margin() const
 {
     return m_margin;
 }
-
 
 QT_END_NAMESPACE
