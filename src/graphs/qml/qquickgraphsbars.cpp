@@ -59,10 +59,6 @@ QQuickGraphsBars::QQuickGraphsBars(QQuickItem *parent)
     m_barsController = new Bars3DController(boundingRect().toRect(), new Declarative3DScene);
     setSharedController(m_barsController);
 
-    QQuick3DSceneEnvironment *scene = environment();
-    scene->setBackgroundMode(QQuick3DSceneEnvironment::QQuick3DEnvironmentBackgroundTypes::Color);
-    scene->setClearColor(Qt::blue);
-
     QObject::connect(m_barsController, &Bars3DController::primarySeriesChanged,
                      this, &QQuickGraphsBars::primarySeriesChanged);
     QObject::connect(m_barsController, &Bars3DController::selectedSeriesChanged,

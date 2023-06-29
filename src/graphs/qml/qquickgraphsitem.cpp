@@ -46,6 +46,10 @@ QQuickGraphsItem::QQuickGraphsItem(QQuickItem *parent) :
 {
     m_nodeMutex = QSharedPointer<QMutex>::create();
 
+    QQuick3DSceneEnvironment *scene = environment();
+    scene->setBackgroundMode(QQuick3DSceneEnvironment::QQuick3DEnvironmentBackgroundTypes::Color);
+    scene->setClearColor(Qt::blue);
+
     auto sceneManager = QQuick3DObjectPrivate::get(rootNode())->sceneManager;
     connect(sceneManager.data(), &QQuick3DSceneManager::windowChanged, this, &QQuickGraphsItem::handleWindowChanged);
     // Set contents to false in case we are in qml designer to make component look nice
@@ -613,7 +617,6 @@ void QQuickGraphsItem::synchData()
 {
     if (!isVisible())
         return;
-
     m_controller->m_renderPending = false;
 
     if (m_controller->m_changeTracker.selectionModeChanged) {
@@ -873,7 +876,6 @@ void QQuickGraphsItem::synchData()
     updateCamera();
 
     Q3DTheme *theme = m_controller->activeTheme();
-
     if (m_controller->m_changeTracker.themeChanged) {
         environment()->setClearColor(theme->windowColor());
         m_controller->m_changeTracker.themeChanged = false;
@@ -1083,8 +1085,12 @@ void QQuickGraphsItem::synchData()
 
     // Other adjustments
     if (theme->d_func()->m_dirtyBits.windowColorDirty) {
+        window()->setColor(theme->windowColor());
         environment()->setClearColor(theme->windowColor());
         theme->d_func()->m_dirtyBits.windowColorDirty = false;
+    }
+    if (m_controller->activeTheme()->windowColor() != window()->color()) {
+        window()->setColor(m_controller->activeTheme()->windowColor());
     }
 
     bool forceUpdateCustomItems = false;

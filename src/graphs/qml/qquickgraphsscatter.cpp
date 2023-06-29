@@ -33,10 +33,6 @@ QQuickGraphsScatter::QQuickGraphsScatter(QQuickItem *parent)
 
     setSharedController(m_scatterController);
 
-    QQuick3DSceneEnvironment *scene = environment();
-    scene->setBackgroundMode(QQuick3DSceneEnvironment::QQuick3DEnvironmentBackgroundTypes::Color);
-    scene->setClearColor(Qt::blue);
-
     QObject::connect(m_scatterController, &Scatter3DController::selectedSeriesChanged,
                      this, &QQuickGraphsScatter::selectedSeriesChanged);
 }
