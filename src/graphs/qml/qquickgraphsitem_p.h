@@ -285,7 +285,8 @@ protected:
     virtual bool handleMousePressedEvent(QMouseEvent *event);
     virtual bool handleTouchEvent(QTouchEvent *event);
     virtual void handleThemeTypeChange();
-
+    virtual void handleParentWidthChange();
+    virtual void handleParentHeightChange();
     void componentComplete() override;
     void checkSliceEnabled();
 
