@@ -724,36 +724,37 @@ void QQuickGraphsBars::generateBars(QList<QBar3DSeries *> &barSeriesList)
                 int dataRowCount = 0;
                 int dataColCount = 0;
 
-                const QBarDataArray *array = barSeries->dataProxy()->array();
                 QBarDataProxy *dataProxy = barSeries->dataProxy();
                 dataRowCount = dataProxy->rowCount();
                 dataColCount = dataProxy->colCount();
                 int dataRowIndex = m_minRow;
 
-                for (int j = 0; j < m_newRows; j++) {
+                for (int row = 0; row < m_newRows; ++row) {
                     const QBarDataRow *dataRow = 0;
                     if (dataRowIndex < dataRowCount)
-                        dataRow = array->at(dataRowIndex);
-                    for (int i = 0; i < dataColCount; i++) {
-                        QBarDataItem *dataItem = const_cast <QBarDataItem *> (&(dataRow->at(i)));
-                        auto scene = QQuick3DViewport::scene();
-                        QQuick3DModel *model = createDataItem(scene, barSeries);
-                        model->setVisible(visible);
+                        dataRow = dataProxy->rowAt(dataRowIndex);
+                    if (dataRow) {
+                        for (int col = 0; col < dataColCount; ++col) {
+                            QBarDataItem *dataItem = const_cast <QBarDataItem *> (&(dataRow->at(col)));
+                            auto scene = QQuick3DViewport::scene();
+                            QQuick3DModel *model = createDataItem(scene, barSeries);
+                            model->setVisible(visible);
 
-                        BarModel *barModel = new BarModel();
-                        barModel->model = model;
-                        barModel->barItem = dataItem;
-                        barModel->coord = QPoint(dataRowIndex, i);
-                        barModel->texture = texture;
+                            BarModel *barModel = new BarModel();
+                            barModel->model = model;
+                            barModel->barItem = dataItem;
+                            barModel->coord = QPoint(dataRowIndex, col);
+                            barModel->texture = texture;
 
-                        if (!barList->contains(barModel)) {
-                            barList->append(barModel);
-                        } else {
-                            delete barModel->model;
-                            delete barModel;
+                            if (!barList->contains(barModel)) {
+                                barList->append(barModel);
+                            } else {
+                                delete barModel->model;
+                                delete barModel;
+                            }
                         }
+                        ++dataRowIndex;
                     }
-                    ++dataRowIndex;
                 }
             } else if (m_barsController->optimizationHints() == QAbstract3DGraph::OptimizationDefault) {
                 auto scene = QQuick3DViewport::scene();
@@ -956,53 +957,57 @@ void QQuickGraphsBars::updateBarPositions(QBar3DSeries *series)
             }
         } else if (m_barsController->optimizationHints() == QAbstract3DGraph::OptimizationDefault) {
             QList<BarItemHolder *> positions;
+            dataRowCount = dataProxy->rowCount();
+            dataColCount = dataProxy->colCount();
             int dataRowIndex = m_minRow;
-            while (dataRowCount < m_newRows) {
-                dataColCount = 0;
-                while (dataColCount < dataProxy->colCount()) {
-                    const QBarDataItem *item = dataProxy->itemAt(dataRowIndex, dataColCount);
-                    float heightValue = updateBarHeightParameters(item);
+            for (int row = 0; row < m_newRows; ++row) {
+                const QBarDataRow *dataRow = 0;
+                if (dataRowIndex < dataRowCount)
+                    dataRow = dataProxy->rowAt(dataRowIndex);
+                if (dataRow) {
+                    for (int col = 0; col < dataColCount; col++) {
+                        const QBarDataItem *item = const_cast <QBarDataItem *> (&(dataRow->at(col)));
+                        float heightValue = updateBarHeightParameters(item);
 
-                    float angle = item->rotation();
-                    BarItemHolder *bih = new BarItemHolder();
-                    if (angle)
-                        bih->rotation = QQuaternion::fromAxisAndAngle(upVector, angle);
-                    else
-                        bih->rotation = QQuaternion();
+                        float angle = item->rotation();
+                        BarItemHolder *bih = new BarItemHolder();
+                        if (angle)
+                            bih->rotation = QQuaternion::fromAxisAndAngle(upVector, angle);
+                        else
+                            bih->rotation = QQuaternion();
 
-                    if (heightValue < 0.f) {
-                        const QVector3D eulerRot = barList.at(i)->model->eulerRotation();
-                        bih->eulerRotation = QVector3D(-180.f, eulerRot.y(), eulerRot.z());
+                        if (heightValue < 0.f) {
+                            const QVector3D eulerRot = barList.at(i)->model->eulerRotation();
+                            bih->eulerRotation = QVector3D(-180.f, eulerRot.y(), eulerRot.z());
+                        }
+
+                        float seriesPos = m_seriesStart + m_seriesStep * (barList.at(i)->visualIndex
+                                                                          - (barList.at(i)->visualIndex
+                                                                             * m_cachedBarSeriesMargin.width())) + 0.5f;
+
+
+                        float colPos = (col + seriesPos) * m_cachedBarSpacing.width();
+                        float xPos = (colPos - m_rowWidth) / m_scaleFactor;
+                        float rowPos = (row + 0.5f) * (m_cachedBarSpacing.height());
+                        float zPos = (m_columnDepth - rowPos) / m_scaleFactor;
+
+                        bih->position = {xPos, (heightValue - m_backgroundAdjustment), zPos};
+                        bih->coord = QPoint(row, col);
+
+                        if (heightValue == 0) {
+                            bih->scale = {.0f, .0f, .0f};
+                        } else {
+                            bih->scale = {m_xScale * m_seriesScaleX, qAbs(heightValue),
+                                          m_zScale * m_seriesScaleZ};
+                        }
+
+                        bih->heightValue = heightValue;
+                        bih->selectedBar = false;
+
+                        positions.push_back(bih);
                     }
-
-                    float seriesPos = m_seriesStart + m_seriesStep * (barList.at(i)->visualIndex
-                                                                      - (barList.at(i)->visualIndex
-                                                                         * m_cachedBarSeriesMargin.width())) + 0.5f;
-
-
-                    float colPos = (dataColCount + seriesPos) * m_cachedBarSpacing.width();
-                    float xPos = (colPos - m_rowWidth) / m_scaleFactor;
-                    float rowPos = (dataRowCount + 0.5f) * (m_cachedBarSpacing.height());
-                    float zPos = (m_columnDepth - rowPos) / m_scaleFactor;
-
-                    bih->position = {xPos, (heightValue - m_backgroundAdjustment), zPos};
-                    bih->coord = QPoint(dataRowCount, dataColCount);
-
-                    if (heightValue == 0) {
-                        bih->scale = {.0f, .0f, .0f};
-                    } else {
-                        bih->scale = {m_xScale * m_seriesScaleX, qAbs(heightValue),
-                                      m_zScale * m_seriesScaleZ};
-                    }
-
-                    bih->heightValue = heightValue;
-                    bih->selectedBar = false;
-
-                    positions.push_back(bih);
-                    ++dataColCount;
                 }
-                ++dataRowIndex;
-                ++dataRowCount;
+                dataRowIndex++;
             }
             barList.at(i)->instancing->setDataArray(positions);
         }
