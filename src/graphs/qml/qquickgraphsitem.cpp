@@ -1044,7 +1044,7 @@ void QQuickGraphsItem::synchData()
     }
 
     if (theme->d_func()->m_dirtyBits.backgroundEnabledDirty) {
-        m_background->setVisible(theme->isBackgroundEnabled());
+        m_background->setLocalOpacity(theme->isBackgroundEnabled());
         theme->d_func()->m_dirtyBits.backgroundEnabledDirty = false;
     }
 
