@@ -127,6 +127,10 @@ public:
     void adjustAxisRanges() override;
 
     bool hasChangedSeriesList() { return !m_changedSeriesList.isEmpty(); }
+    bool isSeriesVisualsDirty() const { return m_isSeriesVisualsDirty; }
+    void setSeriesVisualsDirty(bool dirty) { m_isSeriesVisualsDirty = dirty; }
+    bool isDataDirty() const { return m_isDataDirty; }
+    void setDataDirty(bool dirty) { m_isDataDirty = dirty; }
 
 public Q_SLOTS:
     void handleArrayReset();

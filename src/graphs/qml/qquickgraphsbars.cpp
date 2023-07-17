@@ -341,7 +341,7 @@ void QQuickGraphsBars::synchData()
     // Do not clear dirty flag, we need to react to it in qquickgraphicsitem as well
     if (theme->d_func()->m_dirtyBits.backgroundEnabledDirty) {
         m_floorBackground->setVisible(theme->isBackgroundEnabled());
-        m_barsController->m_isSeriesVisualsDirty = true;
+        m_barsController->setSeriesVisualsDirty(true);
         for (auto it = m_barModelsMap.begin(); it != m_barModelsMap.end(); it++)
             it.key()->d_func()->m_changeTracker.meshChanged = true;
     }
@@ -454,14 +454,14 @@ void QQuickGraphsBars::updateGraph()
         if (series->d_func()->m_changeTracker.meshChanged) {
             removeBarModels();
             series->d_func()->m_changeTracker.meshChanged = false;
-            m_barsController->m_isDataDirty = true;
+            m_barsController->setDataDirty(true);
         }
     }
 
-    if (m_barsController->m_isDataDirty)
+    if (m_barsController->isDataDirty())
         generateBars(barSeriesList);
 
-    if (m_barsController->m_isSeriesVisualsDirty) {
+    if (m_barsController->isSeriesVisualsDirty()) {
         if (isSliceEnabled()) {
             removeSlicedBarModels();
             createSliceView();
@@ -492,6 +492,9 @@ void QQuickGraphsBars::updateGraph()
             m_barsController->m_changeTracker.selectedBarChanged = false;
         }
     }
+
+    m_barsController->setDataDirty(false);
+    m_barsController->setSeriesVisualsDirty(false);
 }
 
 void QQuickGraphsBars::updateAxisRange(float min, float max)
@@ -506,7 +509,7 @@ void QQuickGraphsBars::updateAxisRange(float min, float max)
 
 void QQuickGraphsBars::updateAxisReversed(bool enable)
 {
-    m_barsController->m_isSeriesVisualsDirty = true;
+    m_barsController->setSeriesVisualsDirty(true);
     m_helperAxisY.setReversed(enable);
     calculateHeightAdjustment();
 }
@@ -1388,6 +1391,7 @@ void QQuickGraphsBars::setSelectedBar(QBar3DSeries *series, const QPoint &coord)
             m_selectedBarSeries->d_func()->setSelectedBar(m_selectedBarCoord);
             m_barsController->setSelectedBar(m_selectedBarCoord, m_selectedBarSeries, false);
         }
+        m_barsController->setSeriesVisualsDirty(true);
     }
 }
 
@@ -1476,6 +1480,7 @@ void QQuickGraphsBars::updateSelectedBar()
                     switch (selectionType) {
                     case Bars3DController::SelectionItem: {
                         if (index <= m_selectedModels.value(it.key())->size()) {
+                            visible = m_selectedBarSeries->isVisible() && !m_selectedBarPos.isNull();
                             bih->selectedBar = true;
                             QQuick3DModel *selectedModel = m_selectedModels.value(it.key())->at(index);
                             selectedModel->setVisible(visible);
@@ -1616,7 +1621,7 @@ Abstract3DController::SelectionType QQuickGraphsBars::isSelected(int row, int ba
 
 void QQuickGraphsBars::resetClickedStatus()
 {
-    m_barsController->m_isSeriesVisualsDirty = true;
+    m_barsController->setSeriesVisualsDirty(true);
     m_selectedBarPos = QVector3D(0.0f, 0.0f, 0.0f);
     m_selectedBarCoord = Bars3DController::invalidSelectionPosition();
     m_selectedBarSeries = 0;
@@ -1633,6 +1638,7 @@ void QQuickGraphsBars::resetClickedStatus()
                 bih->selectedBar = false;
         }
     }
+    m_barsController->setSeriesVisualsDirty(true);
 }
 
 void QQuickGraphsBars::createSliceView()
@@ -1858,7 +1864,7 @@ void QQuickGraphsBars::updateSelectionMode(QAbstract3DGraph::SelectionFlags mode
             createSelectedModels(series);
     }
 
-    m_barsController->m_isSeriesVisualsDirty = true;
+    m_barsController->setSeriesVisualsDirty(true);
     itemLabel()->setVisible(false);
 }
 
@@ -1889,5 +1895,5 @@ void QQuickGraphsBars::updateBarSeriesMargin(const QSizeF &margin)
     m_cachedBarSeriesMargin = margin;
     calculateSeriesStartPosition();
     calculateSceneScalingFactors();
-    m_barsController->m_isSeriesVisualsDirty = true;
+    m_barsController->setSeriesVisualsDirty(true);
 }
