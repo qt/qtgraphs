@@ -115,6 +115,7 @@ public Q_SLOTS:
     void handleMeshSmoothChanged(bool enable);
     void handleRowCountChanged();
     void handleColCountChanged();
+    void handleRowColorsChanged();
 
 Q_SIGNALS:
     void rowAxisChanged(QCategory3DAxis *axis);

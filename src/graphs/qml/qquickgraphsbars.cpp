@@ -433,6 +433,7 @@ void QQuickGraphsBars::updateParameters() {
         removeBarModels();
 
     m_axisRangeChanged = true;
+    m_barsController->setDataDirty(true);
     update();
 }
 
@@ -452,6 +453,7 @@ void QQuickGraphsBars::updateGraph()
     for (const auto &series : std::as_const(barSeriesList)) {
         if (series->d_func()->m_changeTracker.meshChanged) {
             removeBarModels();
+            removeSelectedModels();
             series->d_func()->m_changeTracker.meshChanged = false;
             m_barsController->setDataDirty(true);
         }
@@ -683,6 +685,11 @@ void QQuickGraphsBars::handleColCountChanged()
     updateParameters();
 }
 
+void QQuickGraphsBars::handleRowColorsChanged()
+{
+    m_barsController->setSeriesVisualsDirty(true);
+}
+
 void QQuickGraphsBars::connectSeries(QBar3DSeries *series)
 {
     m_meshType = series->mesh();
@@ -696,6 +703,8 @@ void QQuickGraphsBars::connectSeries(QBar3DSeries *series)
                      &QQuickGraphsBars::handleRowCountChanged);
     QObject::connect(series->dataProxy(), &QBarDataProxy::colCountChanged, this,
                      &QQuickGraphsBars::handleColCountChanged);
+    QObject::connect(series, &QBar3DSeries::rowColorsChanged, this,
+                     &QQuickGraphsBars::handleRowColorsChanged);
 }
 
 void QQuickGraphsBars::disconnectSeries(QBar3DSeries *series)
@@ -1007,6 +1016,17 @@ void QQuickGraphsBars::updateBarPositions(QBar3DSeries *series)
                         bih->heightValue = heightValue;
                         bih->selectedBar = false;
 
+                        bool colorStyleIsUniform = (series->colorStyle() == Q3DTheme::ColorStyleUniform);
+                        if (colorStyleIsUniform) {
+                            QList<QColor> rowColors = series->rowColors();
+                            if (rowColors.size() == 0) {
+                                bih->color = series->baseColor();
+                            } else {
+                                int rowColorIndex = bih->coord.x() % rowColors.size();
+                                bih->color = rowColors[rowColorIndex];
+                            }
+                        }
+
                         positions.push_back(bih);
                     }
                 }
@@ -1072,6 +1092,8 @@ void QQuickGraphsBars::updateBarVisuals(QBar3DSeries *series)
 
     bool rangeGradient = (useGradient && series->d_func()->m_colorStyle
                                              == Q3DTheme::ColorStyleRangeGradient);
+    QColor baseColor = series->baseColor();
+    QColor barColor;
 
     if (m_barsController->optimizationHints() == QAbstract3DGraph::OptimizationLegacy) {
         if (!rangeGradient) {
@@ -1082,7 +1104,14 @@ void QQuickGraphsBars::updateBarVisuals(QBar3DSeries *series)
                 if (useGradient) {
                     updateCustomMaterial(model, false, false, barList.at(i)->texture);
                 } else {
-                    updatePrincipledMaterial(model, series->baseColor(), useGradient, false,
+                    QList<QColor> rowColors = series->rowColors();
+                    if (rowColors.size() == 0) {
+                        barColor = baseColor;
+                    } else {
+                        int rowColorIndex = barList.at(i)->coord.x() % rowColors.size();
+                        barColor = rowColors[rowColorIndex];
+                    }
+                    updatePrincipledMaterial(model, barColor, useGradient, false,
                                              barList.at(i)->texture);
                 }
             }
@@ -1094,7 +1123,7 @@ void QQuickGraphsBars::updateBarVisuals(QBar3DSeries *series)
                 if (useGradient) {
                     updateCustomMaterial(model, false, false, barList.at(i)->texture);
                 } else {
-                    updatePrincipledMaterial(model, series->baseColor(), useGradient, false,
+                    updatePrincipledMaterial(model, baseColor, useGradient, false,
                                              barList.at(i)->texture);
                 }
             }
@@ -1108,7 +1137,7 @@ void QQuickGraphsBars::updateBarVisuals(QBar3DSeries *series)
                 if (useGradient) {
                     updateCustomMaterial(barList.at(i)->model, false, false, barList.at(i)->texture);
                 } else {
-                    updatePrincipledMaterial(barList.at(i)->model, series->baseColor(),
+                    updatePrincipledMaterial(barList.at(i)->model, QColor(Qt::white),
                                              useGradient, false, barList.at(i)->texture);
                 }
             } else {
@@ -1117,7 +1146,7 @@ void QQuickGraphsBars::updateBarVisuals(QBar3DSeries *series)
                 if (useGradient) {
                     updateCustomMaterial(barList.at(i)->model, false, false, barList.at(i)->texture);
                 } else {
-                    updatePrincipledMaterial(barList.at(i)->model, series->baseColor(),
+                    updatePrincipledMaterial(barList.at(i)->model, baseColor,
                                              useGradient, false, barList.at(i)->texture);
                 }
             }
@@ -1452,7 +1481,6 @@ void QQuickGraphsBars::updateSelectedBar()
                     }
                     case Bars3DController::SelectionRow:
                     case Bars3DController::SelectionColumn: {
-                        visible = m_selectedBarSeries->isVisible() && !m_selectedBarPos.isNull();
                         if (useGradient) {
                             updateCustomMaterial(barList->model, false, true,
                                                  barList->texture);
@@ -1480,7 +1508,7 @@ void QQuickGraphsBars::updateSelectedBar()
                             visible = m_selectedBarSeries->isVisible() && !m_selectedBarPos.isNull();
                             bih->selectedBar = true;
                             QQuick3DModel *selectedModel = m_selectedModels.value(it.key())->at(index);
-                            selectedModel->setVisible(visible);
+                            selectedModel->setVisible(true);
                             selectedModel->setPosition(bih->position);
                             selectedModel->setScale(bih->scale);
 
@@ -1524,10 +1552,9 @@ void QQuickGraphsBars::updateSelectedBar()
                     case Bars3DController::SelectionRow:
                     case Bars3DController::SelectionColumn: {
                         if (index <= m_selectedModels.value(it.key())->size()) {
-                            visible = m_selectedBarSeries->isVisible() && !m_selectedBarPos.isNull();
                             bih->selectedBar = true;
                             QQuick3DModel *selectedModel = m_selectedModels.value(it.key())->at(index);
-                            selectedModel->setVisible(visible);
+                            selectedModel->setVisible(true);
                             selectedModel->setPosition(bih->position);
                             selectedModel->setScale(bih->scale);
 
