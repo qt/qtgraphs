@@ -24,6 +24,7 @@ struct BarItemHolder {
     QPoint coord;
     float heightValue;
     bool selectedBar;
+    QColor color;
 };
 
 class BarInstancing : public QQuick3DInstancing

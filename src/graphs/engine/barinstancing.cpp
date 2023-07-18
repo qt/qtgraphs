@@ -18,7 +18,7 @@ QByteArray BarInstancing::getInstanceBuffer(int *instanceCount)
             auto item = m_dataArray.at(i);
             if (!item->selectedBar) {
                 auto entry = calculateTableEntry(item->position, item->scale, item->eulerRotation,
-                                                 QColor(Qt::white));
+                                                 item->color);
                 m_instanceData.append(reinterpret_cast<char *>(&entry), sizeof(entry));
             } else {
                 //Even selected bars need to be drawn in a very small scale.
