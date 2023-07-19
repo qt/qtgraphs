@@ -492,6 +492,13 @@ void QQuickGraphsSurface::updateModel(SurfaceModel *model)
 
         int rowCount = sampleSpace.height();
         int columnCount = sampleSpace.width();
+        if (model->rowCount != rowCount || model->columnCount != columnCount) {
+            model->selectedVertex.position = QVector3D();
+            if (sliceView() && sliceView()->isVisible()) {
+                m_surfaceController->setSlicingActive(false);
+                setSliceActivatedChanged(true);
+            }
+        }
         model->rowCount = rowCount;
         model->columnCount = columnCount;
 
@@ -1313,7 +1320,11 @@ void QQuickGraphsSurface::updateSelectedPoint()
             }
             if (model->picked) {
                 const QSurfaceDataArray &array = *(model->series->dataProxy())->array();
+                if (array.count() < selectedVertex.coord.x())
+                    continue;
                 const QSurfaceDataRow &rowArray = *array.at(selectedVertex.coord.x());
+                if (rowArray.count() < selectedVertex.coord.y())
+                    continue;
                 QVector3D value = rowArray.at(selectedVertex.coord.y()).position();
                 QVector3D labelPosition = selectedVertex.position;
                 QString x = static_cast<QValue3DAxis *>(m_surfaceController->axisX())->stringForValue(value.x());
