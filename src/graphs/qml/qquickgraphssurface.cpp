@@ -359,9 +359,10 @@ inline static int binarySearchArray(const QSurfaceDataArray &array, int maxIndex
 void QQuickGraphsSurface::updateGraph()
 {
     for (auto model : m_model) {
+        bool seriesVisible = model->series->isVisible();
         if (m_surfaceController->isSeriesVisibilityDirty()) {
-            bool seriesVisible = model->series->isVisible();
             bool graphVisible = (model->model->visible() || model->gridModel->visible());
+
             if (seriesVisible != graphVisible && m_surfaceController->isSlicingActive()) {
                 setSliceActivatedChanged(true);
             }
@@ -376,6 +377,10 @@ void QQuickGraphsSurface::updateGraph()
             }
         }
 
+        if (model->gridModel->visible() != seriesVisible)
+            model->gridModel->setVisible(seriesVisible);
+        if (model->model->visible() != seriesVisible)
+            model->model->setVisible(seriesVisible);
         model->gridModel->setVisible(model->series->drawMode().testFlag(QSurface3DSeries::DrawWireframe));
         if (model->series->drawMode().testFlag(QSurface3DSeries::DrawSurface))
             model->model->setLocalOpacity(1.f);
