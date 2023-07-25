@@ -3323,6 +3323,9 @@ void QQuickGraphsItem::updateTitleLabels()
 void QQuickGraphsItem::updateSelectionMode(QAbstract3DGraph::SelectionFlags newMode)
 {
     Q_UNUSED(newMode);
+
+    if (m_sliceView && m_sliceView->isVisible())
+        updateSliceGraph();
 }
 
 bool QQuickGraphsItem::doPicking(const QPointF &)
