@@ -389,7 +389,10 @@ void QQuickGraphsSurface::updateGraph()
 
         if (sliceView() && sliceView()->isVisible()) {
             model->sliceGridModel->setVisible(model->series->drawMode().testFlag(QSurface3DSeries::DrawWireframe));
-            model->sliceModel->setVisible(model->series->drawMode().testFlag(QSurface3DSeries::DrawSurface));
+            if (model->series->drawMode().testFlag(QSurface3DSeries::DrawSurface))
+                model->sliceModel->setLocalOpacity(1.f);
+            else
+                model->sliceModel->setLocalOpacity(.0f);
         }
 
         updateMaterial(model);
@@ -764,10 +767,24 @@ void QQuickGraphsSurface::updateSliceGraph()
         return;
 
     auto selectionMode = m_surfaceController->selectionMode();
-
     for (auto model : m_model) {
-        if (!model->series->isVisible())
+        bool visible = model->series->isVisible();
+
+        model->sliceModel->setVisible(visible);
+        model->sliceGridModel->setVisible(visible);
+
+        if (!selectionMode.testFlag(QAbstract3DGraph::SelectionMultiSeries)
+                && !model->picked) {
+            model->sliceModel->setVisible(false);
+            model->sliceGridModel->setVisible(false);
             continue;
+        } else {
+            model->sliceGridModel->setVisible(model->series->drawMode().testFlag(QSurface3DSeries::DrawWireframe));
+            if (model->series->drawMode().testFlag(QSurface3DSeries::DrawSurface))
+                model->sliceModel->setLocalOpacity(1.f);
+            else
+                model->sliceModel->setLocalOpacity(.0f);
+        }
 
         QVector<SurfaceVertex> selectedSeries;
 
@@ -1268,11 +1285,6 @@ bool QQuickGraphsSurface::doPicking(const QPointF &position)
 
                 model->picked = (model->model == pickedModel);
 
-                if (!selectionMode.testFlag(QAbstract3DGraph::SelectionMultiSeries)
-                    && !model->picked) {
-                    continue;
-                }
-
                 SurfaceVertex selectedVertex;
                 for (auto vertex : model->vertices) {
                     QVector3D pos = vertex.position;
@@ -1303,13 +1315,15 @@ void QQuickGraphsSurface::updateSelectedPoint()
     if (sliceView() && sliceView()->isVisible())
         m_sliceInstancing->resetPositions();
     for (auto model : m_model) {
-        if (model->selectedVertex.position.isNull())
+        if (!m_surfaceController->selectionMode().testFlag(QAbstract3DGraph::SelectionMultiSeries) &&
+                !model->picked)
             continue;
         QPoint selectedCoord = model->selectedVertex.coord;
         int index = selectedCoord.x() * model->columnCount + selectedCoord.y();
         SurfaceVertex selectedVertex = model->vertices.at(index);
         if (model->series->isVisible() &&
-                !selectedVertex.position.isNull()) {
+                !selectedVertex.position.isNull() &&
+                m_surfaceController->selectionMode().testFlag(QAbstract3DGraph::SelectionItem)) {
             m_instancing->addPosition(selectedVertex.position);
             QVector3D slicePosition = selectedVertex.position;
             if (sliceView() && sliceView()->isVisible()) {
@@ -1488,7 +1502,6 @@ void QQuickGraphsSurface::addSliceModel(SurfaceModel *model)
     surfaceModel->setParent(sliceParent->scene());
     surfaceModel->setParentItem(sliceParent->scene());
     surfaceModel->setVisible(model->series->isVisible());
-    surfaceModel->setDepthBias(1.f);
 
     auto geometry = new QQuick3DGeometry();
     geometry->setParent(surfaceModel);
