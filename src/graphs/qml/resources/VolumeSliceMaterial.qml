@@ -15,6 +15,7 @@ CustomMaterial {
     property int sampleCount
     property real alphaMultiplier
     property int preserveOpacity
+    property bool useOrtho
 
     shadingMode: CustomMaterial.Unshaded
     sourceBlend: CustomMaterial.SrcAlpha

@@ -43,6 +43,7 @@ public Q_SLOTS:
     void setPreserveOpacity(bool enabled);
     void setTransparentGround(bool enabled);
     void setUseHighDefShader(bool enabled);
+    void setUsePerspectiveCamera(bool enabled);
     void adjustAlphaMultiplier(int value);
     void toggleAreaAll(bool enabled);
     void toggleAreaMine(bool enabled);

@@ -412,6 +412,12 @@ void VolumetricModifier::setUseHighDefShader(bool enabled)
     }
 }
 
+void VolumetricModifier::setUsePerspectiveCamera(bool enabled)
+{
+    if (m_graph)
+        m_graph->setOrthoProjection(!enabled);
+}
+
 void VolumetricModifier::adjustAlphaMultiplier(int value)
 {
     if (m_volumeItem) {

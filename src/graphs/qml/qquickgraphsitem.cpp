@@ -921,7 +921,9 @@ void QQuickGraphsItem::synchData()
     if (m_controller->graphPositionQueryPending())
         graphPositionAt(m_controller->scene()->graphPositionQuery());
 
+    bool forceUpdateCustomItems = false;
     if (m_controller->m_changeTracker.projectionChanged) {
+        forceUpdateCustomItems = true;
         bool useOrtho = m_controller->isOrthoProjection();
         if (useOrtho)
             setCamera(m_oCamera);
@@ -1148,7 +1150,6 @@ void QQuickGraphsItem::synchData()
         window()->setColor(m_controller->activeTheme()->windowColor());
     }
 
-    bool forceUpdateCustomItems = false;
     if (m_controller->isCustomDataDirty()) {
         updateCustomData();
         m_controller->setCustomDataDirty(false);
@@ -2343,6 +2344,7 @@ void QQuickGraphsItem::updateCustomItems()
 
             material->setProperty("alphaMultiplier", volume->alphaMultiplier());
             material->setProperty("preserveOpacity", volume->preserveOpacity());
+            material->setProperty("useOrtho", m_controller->isOrthoProjection());
 
             int sampleCount = volume->textureWidth() + volume->textureHeight() + volume->textureDepth();
             material->setProperty("sampleCount", sampleCount);
