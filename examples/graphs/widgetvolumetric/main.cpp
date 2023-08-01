@@ -148,6 +148,10 @@ int main(int argc, char **argv)
     useHighDefShaderCheckBox->setText(QStringLiteral("Use HD shader"));
     useHighDefShaderCheckBox->setChecked(true);
 
+    QCheckBox *usePerspectiveCamera = new QCheckBox(widget);
+    usePerspectiveCamera->setText(QStringLiteral("Use perspective camera"));
+    usePerspectiveCamera->setChecked(false);
+
     QLabel *performanceNoteLabel =
             new QLabel(QStringLiteral(
                            "Note: A high end graphics card is\nrecommended with the HD shader\nwhen the volume contains a lot of\ntransparent areas."));
@@ -177,6 +181,7 @@ int main(int argc, char **argv)
     vLayout2->addWidget(preserveOpacityCheckBox);
     vLayout2->addWidget(transparentGroundCheckBox);
     vLayout2->addWidget(useHighDefShaderCheckBox);
+    vLayout2->addWidget(usePerspectiveCamera);
     vLayout2->addWidget(performanceNoteLabel, 1, Qt::AlignTop);
 
     VolumetricModifier *modifier = new VolumetricModifier(graph);
@@ -216,6 +221,8 @@ int main(int argc, char **argv)
                      &VolumetricModifier::setTransparentGround);
     QObject::connect(useHighDefShaderCheckBox, &QCheckBox::stateChanged, modifier,
                      &VolumetricModifier::setUseHighDefShader);
+    QObject::connect(usePerspectiveCamera, &QCheckBox::stateChanged, modifier,
+                     &VolumetricModifier::setUsePerspectiveCamera);
     QObject::connect(alphaMultiplierSlider, &QSlider::valueChanged, modifier,
                      &VolumetricModifier::adjustAlphaMultiplier);
     QObject::connect(areaAllRB, &QRadioButton::toggled, modifier,
