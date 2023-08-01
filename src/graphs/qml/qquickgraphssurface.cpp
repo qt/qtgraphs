@@ -104,10 +104,10 @@ void QQuickGraphsSurface::handleWireframeColorChanged()
 
 void QQuickGraphsSurface::handleFlipHorizontalGridChanged(bool flip)
 {
-    if (!segmentLineRepeaterX())
+    if (!segmentLineRepeaterX()
+            || !segmentLineRepeaterZ()) {
         return;
-    if (!segmentLineRepeaterZ())
-        return;
+    }
     int gridLineCountX = segmentLineRepeaterX()->count();
     int subGridLineCountX = subsegmentLineRepeaterX()->count();
     int gridLineCountZ = segmentLineRepeaterZ()->count();
@@ -143,18 +143,26 @@ void QQuickGraphsSurface::handleFlipHorizontalGridChanged(bool flip)
     }
 
     for (int i = 0; i < repeaterX()->count(); i++) {
-        auto obj = static_cast<QQuick3DNode *>(repeaterX()->objectAt(i));
+        QQuick3DNode *obj = static_cast<QQuick3DNode *>(repeaterX()->objectAt(i));
         QVector3D pos = obj->position();
         pos.setY(pos.y() * factor);
         obj->setPosition(pos);
     }
 
     for (int i = 0; i < repeaterZ()->count(); i++) {
-        auto obj = static_cast<QQuick3DNode *>(repeaterZ()->objectAt(i));
+        QQuick3DNode *obj = static_cast<QQuick3DNode *>(repeaterZ()->objectAt(i));
         QVector3D pos = obj->position();
         pos.setY(pos.y() * factor);
         obj->setPosition(pos);
     }
+
+    QVector3D pos = titleLabelX()->position();
+    pos.setY(pos.y() * factor);
+    titleLabelX()->setPosition(pos);
+
+    pos = titleLabelZ()->position();
+    pos.setY(pos.y() * factor);
+    titleLabelZ()->setPosition(pos);
 
     setGridUpdated(false);
     emit flipHorizontalGridChanged(flip);
