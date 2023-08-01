@@ -1403,7 +1403,6 @@ void QQuickGraphsBars::updateSelectedBar()
         if (m_selectedBarSeries && it.key()->isVisible()) {
             bool useGradient = m_selectedBarSeries->d_func()->isUsingGradient();
             QString label = m_selectedBarSeries->itemLabel();
-            visible = m_selectedBarSeries->isVisible() && !m_selectedBarPos.isNull();
             QFontMetrics fm(m_barsController->activeTheme()->font());
             float textPadding = 10.0f;
             float labelHeight = fm.height() + textPadding;
@@ -1457,6 +1456,7 @@ void QQuickGraphsBars::updateSelectedBar()
                     }
                     case Bars3DController::SelectionRow:
                     case Bars3DController::SelectionColumn: {
+                        visible = m_selectedBarSeries->isVisible() && !m_selectedBarPos.isNull();
                         if (useGradient) {
                             updateCustomMaterial(barList->model, false, true,
                                                  barList->texture);
