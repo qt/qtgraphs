@@ -225,6 +225,8 @@ void Scatter3DController::handleAxisRangeChangedBySender(QObject *sender)
 {
     Abstract3DController::handleAxisRangeChangedBySender(sender);
 
+    m_isDataDirty = true;
+
     // Update selected index - may be moved offscreen
     setSelectedItem(m_selectedItem, m_selectedItemSeries);
 }
