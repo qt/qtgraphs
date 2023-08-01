@@ -25,6 +25,8 @@ public Q_SLOTS:
     void changePresetCamera();
     void toggleItemCount();
     void toggleRanges();
+    void adjustMinimumRange(float range);
+    void adjustMaximumRange(float range);
     void changeStyle(int style);
     void changeTheme(int theme);
     void changeShadowQuality(int quality);
