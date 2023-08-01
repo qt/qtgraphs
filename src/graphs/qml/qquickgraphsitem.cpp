@@ -3433,6 +3433,11 @@ void QQuickGraphsItem::setActiveInputHandler(QAbstract3DInputHandler *inputHandl
     emit inputHandlerChanged(m_activeInputHandler);
 }
 
+void QQuickGraphsItem::setDefaultScaleWithBackground(const QVector3D &newDefaultScaleWithBackground)
+{
+    m_defaultScaleWithBackground = newDefaultScaleWithBackground;
+}
+
 void QQuickGraphsItem::windowDestroyed(QObject *obj)
 {
     // Remove destroyed window from window lists

@@ -1014,6 +1014,7 @@ void QQuickGraphsScatter::calculateSceneScalingFactors()
     setScaleWithBackground({m_scaleX, m_scaleY, m_scaleZ});
     setScale({m_scaleX * 2.0f, m_scaleY * 2.0f, m_scaleZ * -2.0f});
     setTranslate({-m_scaleX, -m_scaleY, m_scaleZ});
+    setDefaultScaleWithBackground(scaleWithBackground());
 }
 
 float QQuickGraphsScatter::calculatePointScaleSize()

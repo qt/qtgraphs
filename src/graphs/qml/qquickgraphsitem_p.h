@@ -232,6 +232,8 @@ public:
 
     virtual bool doPicking(const QPointF &);
 
+    void setDefaultScaleWithBackground(const QVector3D &newDefaultScaleWithBackground);
+
 public Q_SLOTS:
     virtual void handleAxisXChanged(QAbstract3DAxis *axis) = 0;
     virtual void handleAxisYChanged(QAbstract3DAxis *axis) = 0;
