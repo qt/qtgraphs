@@ -47,6 +47,18 @@ void ScatterGraph::initialize()
     rangeButton->setDescription(u"Switch between automatic axis ranges and preset ranges"_s);
     rangeButton->setIconSize(QSize(0, 0));
 
+    auto *rangeMinSlider = new QSlider(m_scatterWidget);
+    rangeMinSlider->setOrientation(Qt::Horizontal);
+    rangeMinSlider->setMinimum(-10);
+    rangeMinSlider->setMaximum(1);
+    rangeMinSlider->setValue(-10);
+
+    auto *rangeMaxSlider = new QSlider(m_scatterWidget);
+    rangeMaxSlider->setOrientation(Qt::Horizontal);
+    rangeMaxSlider->setMinimum(1);
+    rangeMaxSlider->setMaximum(10);
+    rangeMaxSlider->setValue(10);
+
     auto *backgroundCheckBox = new QCheckBox(m_scatterWidget);
     backgroundCheckBox->setText(u"Show background"_s);
     backgroundCheckBox->setChecked(true);
@@ -90,6 +102,9 @@ void ScatterGraph::initialize()
     vLayout->addWidget(cameraButton);
     vLayout->addWidget(itemCountButton);
     vLayout->addWidget(rangeButton);
+    vLayout->addWidget(new QLabel(u"Adjust axis ranges"_s));
+    vLayout->addWidget(rangeMinSlider);
+    vLayout->addWidget(rangeMaxSlider);
     vLayout->addWidget(backgroundCheckBox);
     vLayout->addWidget(gridCheckBox);
     vLayout->addWidget(smoothCheckBox);
@@ -108,6 +123,11 @@ void ScatterGraph::initialize()
                      &ScatterDataModifier::toggleItemCount);
     QObject::connect(rangeButton, &QCommandLinkButton::clicked, m_modifier,
                      &ScatterDataModifier::toggleRanges);
+
+    QObject::connect(rangeMinSlider, &QSlider::valueChanged, m_modifier,
+                     &ScatterDataModifier::adjustMinimumRange);
+    QObject::connect(rangeMaxSlider, &QSlider::valueChanged, m_modifier,
+                     &ScatterDataModifier::adjustMaximumRange);
 
     QObject::connect(backgroundCheckBox, &QCheckBox::stateChanged, m_modifier,
                      &ScatterDataModifier::setBackgroundEnabled);

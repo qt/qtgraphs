@@ -185,6 +185,28 @@ void ScatterDataModifier::toggleRanges()
     }
 }
 
+void ScatterDataModifier::adjustMinimumRange(float range)
+{
+    if (m_itemCount == lowerNumberOfItems)
+        range *= 1.45f;
+    else
+        range *= 4.95f;
+    m_graph->axisX()->setMin(range);
+    m_graph->axisZ()->setMin(range);
+    m_autoAdjust = false;
+}
+
+void ScatterDataModifier::adjustMaximumRange(float range)
+{
+    if (m_itemCount == lowerNumberOfItems)
+        range *= 1.45f;
+    else
+        range *= 4.95f;
+    m_graph->axisX()->setMax(range);
+    m_graph->axisZ()->setMax(range);
+    m_autoAdjust = false;
+}
+
 QVector3D ScatterDataModifier::randVector()
 {
     auto *generator = QRandomGenerator::global();
