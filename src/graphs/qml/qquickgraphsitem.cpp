@@ -269,12 +269,15 @@ void QQuickGraphsItem::componentComplete()
     // title labels for axes
     m_titleLabelX = createTitleLabel();
     m_titleLabelX->setVisible(m_controller->axisX()->isTitleVisible());
+    m_titleLabelX->setProperty("labelText", m_controller->axisX()->title());
 
     m_titleLabelY = createTitleLabel();
     m_titleLabelY->setVisible(m_controller->axisY()->isTitleVisible());
+    m_titleLabelY->setProperty("labelText", m_controller->axisY()->title());
 
     m_titleLabelZ = createTitleLabel();
     m_titleLabelZ->setVisible(m_controller->axisZ()->isTitleVisible());
+    m_titleLabelZ->setProperty("labelText", m_controller->axisZ()->title());
 
     // Testing gridline
 
@@ -776,6 +779,8 @@ void QQuickGraphsItem::synchData()
         handleLabelCountChanged(m_repeaterZ);
     }
 
+    updateTitleLabels();
+
     if (m_controller->m_changeTracker.shadowQualityChanged) {
         updateShadowQuality(shadowQuality());
         m_controller->m_changeTracker.shadowQualityChanged = false;
@@ -819,6 +824,43 @@ void QQuickGraphsItem::synchData()
         }
     }
 
+    if (m_controller->m_changeTracker.polarChanged) {
+        axisDirty = true;
+        m_controller->m_changeTracker.polarChanged = false;
+    }
+
+    if (m_controller->m_changeTracker.axisXLabelAutoRotationChanged) {
+        axisDirty = true;
+        m_controller->m_changeTracker.axisXLabelAutoRotationChanged = false;
+    }
+
+    if (m_controller->m_changeTracker.axisYLabelAutoRotationChanged) {
+        axisDirty = true;
+        m_controller->m_changeTracker.axisYLabelAutoRotationChanged = false;
+    }
+
+    if (m_controller->m_changeTracker.axisZLabelAutoRotationChanged) {
+        axisDirty = true;
+        m_controller->m_changeTracker.axisZLabelAutoRotationChanged = false;
+    }
+
+    if (m_controller->m_changeTracker.axisXTitleFixedChanged) {
+        axisDirty = true;
+        m_controller->m_changeTracker.axisXTitleFixedChanged = false;
+    }
+
+    if (m_controller->m_changeTracker.axisYTitleFixedChanged) {
+        axisDirty = true;
+        m_controller->m_changeTracker.axisYTitleFixedChanged = false;
+    }
+
+    if (m_controller->m_changeTracker.axisZTitleFixedChanged) {
+        axisDirty = true;
+        m_controller->m_changeTracker.axisZTitleFixedChanged = false;
+    }
+
+    updateCamera();
+
     QVector3D forward = camera()->forward();
     auto targetRotation = cameraTarget()->rotation();
     if (m_yFlipped != (targetRotation.x() > 0)) {
@@ -829,14 +871,9 @@ void QQuickGraphsItem::synchData()
         m_xFlipped = (forward.x() > 0);
         axisDirty = true;
     }
-    if (m_zFlipped != (forward.z() >= 0)) {
-        m_zFlipped = (forward.z() >= 0);
+    if (m_zFlipped != ((forward.z() > .1f))) {
+        m_zFlipped = ((forward.z() > .1f));
         axisDirty = true;
-    }
-
-    if (m_controller->m_changeTracker.polarChanged) {
-        axisDirty = true;
-        m_controller->m_changeTracker.polarChanged = false;
     }
 
     if (axisDirty) {
@@ -850,41 +887,6 @@ void QQuickGraphsItem::synchData()
         updateRadialLabelOffset();
         m_controller->m_changeTracker.radialLabelOffsetChanged = false;
     }
-
-    bool axisPropertiesChanged = false;
-
-    if (m_controller->m_changeTracker.axisXLabelAutoRotationChanged) {
-        axisPropertiesChanged = true;
-        m_controller->m_changeTracker.axisXLabelAutoRotationChanged = false;
-    }
-
-    if (m_controller->m_changeTracker.axisYLabelAutoRotationChanged) {
-        axisPropertiesChanged = true;
-        m_controller->m_changeTracker.axisYLabelAutoRotationChanged = false;
-    }
-
-    if (m_controller->m_changeTracker.axisZLabelAutoRotationChanged) {
-        axisPropertiesChanged = true;
-        m_controller->m_changeTracker.axisZLabelAutoRotationChanged = false;
-    }
-
-    if (m_controller->m_changeTracker.axisXTitleFixedChanged) {
-        axisPropertiesChanged = true;
-        m_controller->m_changeTracker.axisXTitleFixedChanged = false;
-    }
-
-    if (m_controller->m_changeTracker.axisYTitleFixedChanged) {
-        axisPropertiesChanged = true;
-        m_controller->m_changeTracker.axisYTitleFixedChanged = false;
-    }
-
-    if (m_controller->m_changeTracker.axisZTitleFixedChanged) {
-        axisPropertiesChanged = true;
-        m_controller->m_changeTracker.axisZTitleFixedChanged = false;
-    }
-
-    if (axisPropertiesChanged)
-        updateLabels();
 
     QMatrix4x4 modelMatrix;
     m_backgroundScale->setScale(m_scaleWithBackground + m_backgroundScaleMargin);
@@ -927,7 +929,6 @@ void QQuickGraphsItem::synchData()
             setCamera(m_pCamera);
         m_controller->m_changeTracker.projectionChanged = false;
     }
-    updateCamera();
 
     Q3DTheme *theme = m_controller->activeTheme();
     if (m_controller->m_changeTracker.themeChanged) {
@@ -1593,6 +1594,7 @@ void QQuickGraphsItem::updateLabels()
         zPos *= -1.0f;
 
     auto labelTrans = QVector3D(0.0f, yPos, zPos);
+    float polarLabelZPos = 0.0f;
 
     if (axisX->type() == QAbstract3DAxis::AxisTypeValue) {
         auto valueAxisX = static_cast<QValue3DAxis *>(axisX);
@@ -1606,9 +1608,11 @@ void QQuickGraphsItem::updateLabels()
                     break;
                 }
                 float rad = qDegreesToRadians(valueAxisX->labelPositionAt(i) * 360.0f);
-                labelTrans.setX(qSin(rad) * -scale - qSin(rad) * m_labelMargin * 2.0f);
+                labelTrans.setX(-qSin(rad) * -scale + qSin(rad) * m_labelMargin * 2.0f);
                 labelTrans.setY(yPos);
                 labelTrans.setZ(qCos(rad) * -scale - qCos(rad) * m_labelMargin * 2.0f);
+                if (i == 0)
+                    polarLabelZPos = labelTrans.z();
             } else {
                 labelTrans.setX(valueAxisX->labelPositionAt(i) * scale * 2.0f - scale);
             }
@@ -1634,12 +1638,14 @@ void QQuickGraphsItem::updateLabels()
         }
     }
 
-    if (titleLabelX()->visible()) {
-        float x = labelTrans.x();
-        labelTrans.setX(0.0f);
-        updateXTitle(labelRotation, labelTrans, totalRotation, labelsMaxWidth, labelHeight, fontScaled);
-        labelTrans.setX(x);
+    float x = labelTrans.x();
+    labelTrans.setX(0.0f);
+    updateXTitle(labelRotation, labelTrans, totalRotation, labelsMaxWidth, labelHeight, fontScaled);
+    if (isPolar()) {
+        m_titleLabelX->setZ(polarLabelZPos + m_labelMargin * -2.5f);
+        m_titleLabelX->setRotation(totalRotation);
     }
+    labelTrans.setX(x);
 
     auto axisY = m_controller->axisY();
     labels = axisY->labels();
@@ -1808,11 +1814,10 @@ void QQuickGraphsItem::updateLabels()
                 break;
             auto obj = static_cast<QQuick3DNode *>(repeaterZ()->objectAt(i));
             if (isPolar()) {
-                float polarX = backgroundScale.x() + m_labelMargin;
+                float polarX = backgroundScale.x() * offset + m_labelMargin * 2.0f;
                 if (xFlipped)
                     polarX *= -1;
-                m_zLabelAdjustment = xPos - polarX;
-                labelTrans.setX(m_zLabelAdjustment + (offset * polarX));
+                labelTrans.setX(polarX);
                 labelTrans.setY(yPos);
                 labelTrans.setZ(-valueAxisZ->labelPositionAt(i));
             } else {
@@ -1840,12 +1845,10 @@ void QQuickGraphsItem::updateLabels()
         }
     }
 
-    if (titleLabelZ()->visible()) {
-        float z = labelTrans.z();
-        labelTrans.setZ(0.0f);
-        updateZTitle(labelRotation, labelTrans, totalRotation, labelsMaxWidth, labelHeight, fontScaled);
-        labelTrans.setZ(z);
-    }
+    float z = labelTrans.z();
+    labelTrans.setZ(0.0f);
+    updateZTitle(labelRotation, labelTrans, totalRotation, labelsMaxWidth, labelHeight, fontScaled);
+    labelTrans.setZ(z);
 
     labels = axisY->labels();
     labelCount = labels.size();
@@ -1880,11 +1883,9 @@ void QQuickGraphsItem::updateLabels()
 
     auto backLabelTrans = labelTrans;
     auto totalBackLabelRotation = totalRotation;
-    if (titleLabelY()->visible()) {
-        updateYTitle(sideLabelRotation, backLabelRotation,
-                     sideLabelTrans,    backLabelTrans,
-                     totalSideLabelRotation, totalBackLabelRotation, labelsMaxWidth, labelHeight, fontScaled);
-    }
+    updateYTitle(sideLabelRotation, backLabelRotation,
+                 sideLabelTrans,    backLabelTrans,
+                 totalSideLabelRotation, totalBackLabelRotation, labelsMaxWidth, labelHeight, fontScaled);
 }
 
 void QQuickGraphsItem::updateRadialLabelOffset()
@@ -1895,17 +1896,23 @@ void QQuickGraphsItem::updateRadialLabelOffset()
     QAbstract3DAxis *axisZ = m_controller->axisZ();
     QVector3D backgroundScale = m_scaleWithBackground + m_backgroundScaleMargin;
     float offset = m_controller->radialLabelOffset();
+    float scale = backgroundScale.x() + (m_backgroundScaleMargin.x() * 2.0f);
+    float polarX = scale * offset + m_labelMargin * 2.0f;
+    if (isXFlipped())
+        polarX *= -1;
     if (axisZ->type() == QAbstract3DAxis::AxisTypeValue) {
         for (int i = 0; i < repeaterZ()->count(); i++) {
-            auto obj = static_cast<QQuick3DNode *>(repeaterZ()->objectAt(i));
-            float polarX = backgroundScale.x() + m_labelMargin;
+            QQuick3DNode *obj = static_cast<QQuick3DNode *>(repeaterZ()->objectAt(i));
             QVector3D pos = obj->position();
-            if (isXFlipped())
-                polarX *= -1;
-            pos.setX(m_zLabelAdjustment + (offset * polarX));
+            pos.setX(polarX);
             obj->setPosition(pos);
         }
     }
+
+    polarX += m_labelMargin * 2.0f;
+    QVector3D pos = m_titleLabelZ->position();
+    pos.setX(polarX);
+    m_titleLabelZ->setPosition(pos);
 }
 
 void QQuickGraphsItem::positionAndScaleLine(QQuick3DNode *lineNode, QVector3D scale, QVector3D position)
@@ -2459,13 +2466,12 @@ void QQuickGraphsItem::updateXTitle(const QVector3D &labelRotation, const QVecto
         if (m_zFlipped) {
             titleOffset = -titleOffset;
             if (m_xFlipped) {
-                yRotation = 180.0f;
                 offsetRotation = -offsetRotation;
             } else {
-                yRotation = 180.0f;
                 xRotation = -90.0f - labelRotation.z();
                 extraRotation = -extraRotation;
             }
+            yRotation = 180.0f;
             if (m_yFlipped) {
                 extraRotation = -extraRotation;
                 if (m_xFlipped)
