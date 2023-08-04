@@ -403,8 +403,9 @@ void QQuickGraphsScatter::updateScatterGraphItemVisuals(ScatterModel *graphModel
             updateItemLabel(graphModel->selectionIndicator->position());
             m_selectionActive = true;
             graphModel->instancing->markDataDirty();
-        } else if (m_scatterController->m_selectedItem == -1
-                   || m_scatterController->m_selectedItemSeries != graphModel->series) {
+        } else if ((m_scatterController->m_selectedItem == -1
+                    || m_scatterController->m_selectedItemSeries != graphModel->series)
+                   && graphModel->selectionIndicator) {
             graphModel->selectionIndicator->setVisible(false);
         }
     }
