@@ -2963,7 +2963,6 @@ void QQuickGraphsItem::geometryChange(const QRectF &newGeometry, const QRectF &o
     QQuickItem::geometryChange(newGeometry, oldGeometry);
 
     m_cachedGeometry = newGeometry;
-
     updateWindowParameters();
 }
 
@@ -2976,7 +2975,6 @@ void QQuickGraphsItem::itemChange(ItemChange change, const ItemChangeData  &valu
 void QQuickGraphsItem::updateWindowParameters()
 {
     const QMutexLocker locker(&m_mutex);
-
     // Update the device pixel ratio, window size and bounding box
     QQuickWindow *win = window();
     if (win && !m_controller.isNull()) {

@@ -986,7 +986,7 @@ void QQuickGraphsScatter::calculateSceneScalingFactors()
     auto *axisX = static_cast<QValue3DAxis *>(m_scatterController->axisX());
     auto *axisZ = static_cast<QValue3DAxis *>(m_scatterController->axisZ());
 
-    if (hAspectRatio == 0.0f) {
+    if (qFuzzyIsNull(hAspectRatio)) {
         areaSize.setHeight(axisZ->max() - axisZ->min());
         areaSize.setWidth(axisX->max() - axisX->min());
     } else {
