@@ -1,6 +1,8 @@
 // Copyright (C) 2023 The Qt Company Ltd.
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 
+#undef QT_NO_FOREACH // this file contains unported legacy Q_FOREACH uses
+
 #include "scatterchart.h"
 #include <QtGraphs/qscatterdataproxy.h>
 #include <QtGraphs/qscatter3dseries.h>

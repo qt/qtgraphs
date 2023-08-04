@@ -110,6 +110,13 @@ qt_internal_add_qml_module(Graphs
         data/qbardataitem.cpp
         data/qscatterdataitem.cpp
         data/qsurfacedataitem.cpp
+    NO_PCH_SOURCES
+        engine/abstract3dcontroller.cpp   # undef QT_NO_FOREACH
+        engine/bars3dcontroller.cpp       # undef QT_NO_FOREACH
+        engine/scatter3dcontroller.cpp    # undef QT_NO_FOREACH
+        engine/surface3dcontroller.cpp    # undef QT_NO_FOREACH
+        qml/declarativetheme.cpp          # undef QT_NO_FOREACH
+        qml/qquickgraphsitem.cpp          # undef QT_NO_FOREACH
     INCLUDE_DIRECTORIES
         axis
         data

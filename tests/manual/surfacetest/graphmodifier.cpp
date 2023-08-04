@@ -1,6 +1,8 @@
 // Copyright (C) 2023 The Qt Company Ltd.
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 
+#undef QT_NO_FOREACH // this file contains unported legacy Q_FOREACH uses
+
 #include "graphmodifier.h"
 #include <QtGraphs/QValue3DAxis>
 #include <QtGraphs/QSurfaceDataProxy>
