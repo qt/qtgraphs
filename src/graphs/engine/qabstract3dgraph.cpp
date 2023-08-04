@@ -843,6 +843,8 @@ void QAbstract3DGraph::resizeEvent(QResizeEvent *event)
     Q_UNUSED(event);
 
     if (m_graphsItem) {
+        QQuickWidget::resizeEvent(event);
+
         Q3DScene *scene = (Q3DScene *)m_graphsItem->scene();
         scene->d_func()->setWindowSize(QSize(width(), height()));
         scene->d_func()->setViewport(QRect(0, 0, width(), height()));
