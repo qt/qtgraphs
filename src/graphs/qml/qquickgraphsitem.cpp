@@ -1982,8 +1982,7 @@ void QQuickGraphsItem::createVolumeMaterial(QCustom3DVolume *volume, Volume &vol
                                     volume->textureData()->size()));
     texture->setTextureData(textureData);
 
-    QObject::connect(volume, &QCustom3DVolume::textureDataChanged, [=] (QList<uchar> *data) {
-        Q_UNUSED(data);
+    QObject::connect(volume, &QCustom3DVolume::textureDataChanged, this, [this, volume] {
         m_customVolumes[volume].updateTextureData = true;
     });
 
@@ -2016,7 +2015,7 @@ void QQuickGraphsItem::createVolumeMaterial(QCustom3DVolume *volume, Volume &vol
         colorTextureData->setTextureData(colorTableBytes);
         colorTexture->setTextureData(colorTextureData);
 
-        QObject::connect(volume, &QCustom3DVolume::colorTableChanged, [=] () {
+        QObject::connect(volume, &QCustom3DVolume::colorTableChanged, this, [this, volume] {
             m_customVolumes[volume].updateColorTextureData = true;
         });
     }
