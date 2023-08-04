@@ -1447,6 +1447,7 @@ void QQuickGraphsItem::updateLabels()
     auto axisX = m_controller->axisX();
 
     auto labels = axisX->labels();
+    int labelCount = labels.size();
     float labelAutoAngle = axisX->labelAutoRotation();
     float labelAngleFraction = labelAutoAngle / 90.0f;
     float fractionCamX = m_controller->scene()->activeCamera()->xRotation() * labelAngleFraction;
@@ -1560,6 +1561,8 @@ void QQuickGraphsItem::updateLabels()
     if (axisX->type() == QAbstract3DAxis::AxisTypeValue) {
         auto valueAxisX = static_cast<QValue3DAxis *>(axisX);
         for (int i = 0; i < repeaterX()->count(); i++) {
+            if (labelCount <= i)
+                break;
             auto obj = static_cast<QQuick3DNode *>(repeaterX()->objectAt(i));
             if (isPolar()) {
                 if (i == repeaterX()->count() - 1) {
@@ -1582,6 +1585,8 @@ void QQuickGraphsItem::updateLabels()
         }
     } else if (axisX->type() == QAbstract3DAxis::AxisTypeCategory) {
         for (int i = 0; i < repeaterX()->count(); i++) {
+            if (labelCount <= i)
+                break;
             labelTrans = calculateCategoryLabelPosition(axisX, labelTrans, i);
             auto obj = static_cast<QQuick3DNode *>(repeaterX()->objectAt(i));
             obj->setScale(fontScaled);
@@ -1602,6 +1607,7 @@ void QQuickGraphsItem::updateLabels()
 
     auto axisY = m_controller->axisY();
     labels = axisY->labels();
+    labelCount = labels.size();
     labelAutoAngle = axisY->labelAutoRotation();
     labelAngleFraction = labelAutoAngle / 90.0f;
     fractionCamX = m_controller->scene()->activeCamera()->xRotation() * labelAngleFraction;
@@ -1652,6 +1658,8 @@ void QQuickGraphsItem::updateLabels()
     labelTrans.setZ(zPos);
 
     for (int i = 0; i < repeaterY()->count() / 2; i++) {
+        if (labelCount <= i)
+            break;
         auto obj = static_cast<QQuick3DNode *>(repeaterY()->objectAt(i));
         labelTrans.setY(static_cast<QValue3DAxis *>(axisY)->labelPositionAt(i) * scale * 2.0f - scale);
         obj->setScale(fontScaled);
@@ -1667,6 +1675,7 @@ void QQuickGraphsItem::updateLabels()
 
     auto axisZ = m_controller->axisZ();
     labels = axisZ->labels();
+    labelCount = labels.size();
     labelAutoAngle = axisZ->labelAutoRotation();
     labelAngleFraction = labelAutoAngle / 90.0f;
     fractionCamX = m_controller->scene()->activeCamera()->xRotation() * labelAngleFraction;
@@ -1759,6 +1768,8 @@ void QQuickGraphsItem::updateLabels()
         auto valueAxisZ = static_cast<QValue3DAxis *>(axisZ);
         float offset = m_controller->radialLabelOffset();
         for (int i = 0; i < repeaterZ()->count(); i++) {
+            if (labelCount <= i)
+                break;
             auto obj = static_cast<QQuick3DNode *>(repeaterZ()->objectAt(i));
             if (isPolar()) {
                 float polarX = backgroundScale.x() + m_labelMargin;
@@ -1780,6 +1791,8 @@ void QQuickGraphsItem::updateLabels()
         }
     } else if (axisZ->type() == QAbstract3DAxis::AxisTypeCategory) {
         for (int i = 0; i < repeaterZ()->count(); i++) {
+            if (labelCount <= i)
+                break;
             labelTrans = calculateCategoryLabelPosition(axisZ, labelTrans, i);
             auto obj = static_cast<QQuick3DNode *>(repeaterZ()->objectAt(i));
             obj->setScale(fontScaled);
@@ -1799,6 +1812,7 @@ void QQuickGraphsItem::updateLabels()
     }
 
     labels = axisY->labels();
+    labelCount = labels.size();
     totalRotation = Utils::calculateRotation(backLabelRotation);
     scale = backgroundScale.y() - m_backgroundScaleMargin.y();
     labelsMaxWidth = 0.0f;
@@ -1816,6 +1830,8 @@ void QQuickGraphsItem::updateLabels()
     labelTrans.setZ(zPos);
 
     for (int i = 0; i < repeaterY()->count() / 2; i++) {
+        if (labelCount <= i)
+            break;
         auto obj = static_cast<QQuick3DNode *>(repeaterY()->objectAt(i + (repeaterY()->count() / 2)));
         labelTrans.setY(static_cast<QValue3DAxis *>(axisY)->labelPositionAt(i) * scale * 2.0f - scale);
         obj->setScale(fontScaled);
