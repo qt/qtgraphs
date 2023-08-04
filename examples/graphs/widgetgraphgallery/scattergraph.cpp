@@ -115,6 +115,9 @@ void ScatterGraph::initialize()
     vLayout->addWidget(new QLabel(u"Adjust shadow quality"_s));
     vLayout->addWidget(shadowQuality, 1, Qt::AlignTop);
 
+    // Raise the graph to the top of the widget stack, to hide UI if resized smaller
+    m_scatterGraph->raise();
+
     m_modifier = new ScatterDataModifier(m_scatterGraph, this);
 
     QObject::connect(cameraButton, &QCommandLinkButton::clicked, m_modifier,
