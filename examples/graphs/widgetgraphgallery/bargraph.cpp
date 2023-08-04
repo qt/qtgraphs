@@ -235,6 +235,9 @@ void BarGraph::initialize()
     vLayout->addWidget(modeWeather, 0, Qt::AlignTop);
     vLayout->addWidget(modeCustomProxy, 1, Qt::AlignTop);
 
+    // Raise the graph to the top of the widget stack, to hide UI if resized smaller
+    m_barsGraph->raise();
+
     //! [2]
     m_modifier = new GraphModifier(m_barsGraph, this);
     //! [2]

@@ -260,6 +260,9 @@ void SurfaceGraph::initialize()
     vLayout->addWidget(heightMapGroupBox);
     vLayout->addWidget(enableTexture);
 
+    // Raise the graph to the top of the widget stack, to hide UI if resized smaller
+    m_surfaceGraph->raise();
+
     // Create the controller
     m_modifier = new SurfaceGraphModifier(m_surfaceGraph, labelSelectedItem, this);
 
