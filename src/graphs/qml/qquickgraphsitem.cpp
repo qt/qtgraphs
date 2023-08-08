@@ -2633,12 +2633,10 @@ void QQuickGraphsItem::updateCamera()
 
 void QQuickGraphsItem::handleSegmentLineCountChanged(QAbstract3DAxis *axis, QQuick3DRepeater *repeater)
 {
-    int segmentCount = 0;
     int gridLineCount = 0;
     if (axis->type() == QAbstract3DAxis::AxisTypeValue) {
         auto valueAxis = static_cast<QValue3DAxis *>(axis);
-        segmentCount = valueAxis->segmentCount();
-        gridLineCount = 2 * (segmentCount + 1);
+        gridLineCount = 2 * valueAxis->gridSize();
     } else if (axis->type() == QAbstract3DAxis::AxisTypeCategory) {
         gridLineCount = axis->labels().size();
     }
@@ -2649,15 +2647,11 @@ void QQuickGraphsItem::handleSegmentLineCountChanged(QAbstract3DAxis *axis, QQui
 
 void QQuickGraphsItem::handleSubSegmentLineCountChanged(QAbstract3DAxis *axis, QQuick3DRepeater *repeater)
 {
-    int segmentCount = 0;
-    int subSegmentCount = 0;
     int subGridLineCount = 0;
 
     if (axis->type() == QAbstract3DAxis::AxisTypeValue) {
         QValue3DAxis *valueAxis = static_cast<QValue3DAxis *>(axis);
-        segmentCount = valueAxis->segmentCount();
-        subSegmentCount = valueAxis->subSegmentCount();
-        subGridLineCount = 2 * (segmentCount * (subSegmentCount - 1));
+        subGridLineCount = 2 * valueAxis->subGridSize();
     } else if (axis->type() == QAbstract3DAxis::AxisTypeCategory) {
         subGridLineCount = 0;
     }
