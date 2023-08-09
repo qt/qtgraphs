@@ -1045,9 +1045,6 @@ bool QQuickGraphsSurface::handleMousePressedEvent(QMouseEvent *event)
     if (!QQuickGraphsItem::handleMousePressedEvent(event))
         return true;
 
-    if (!sliceView())
-        createSliceView();
-
     if (Qt::LeftButton == event->button())
         doPicking(event->pos());
 
@@ -1058,9 +1055,6 @@ bool QQuickGraphsSurface::handleTouchEvent(QTouchEvent *event)
 {
     if (!QQuickGraphsItem::handleTouchEvent(event))
         return true;
-
-    if (!sliceView())
-        createSliceView();
 
     if (scene()->selectionQueryPosition() != scene()->invalidSelectionPoint()
         && !event->isUpdateEvent()) {
@@ -1082,6 +1076,9 @@ bool QQuickGraphsSurface::doPicking(const QPointF &position)
 
     auto selectionMode = m_surfaceController->selectionMode();
     if (!selectionMode.testFlag(QAbstract3DGraph::SelectionNone)) {
+        if (!sliceView() && selectionMode.testFlag(QAbstract3DGraph::SelectionSlice))
+            createSliceView();
+
         for (auto picked : pickResult) {
             if (picked.objectHit()
                     && picked.objectHit()->objectName().contains(QStringLiteral("SurfaceModel"))) {
