@@ -398,15 +398,9 @@ void QQuickGraphsSurface::updateGraph()
         updateMaterial(model);
     }
 
-    if (m_surfaceController->selectionMode().testFlag(QAbstract3DGraph::SelectionItem))
-        updateSelectedPoint();
-
     m_surfaceController->setSeriesVisibilityDirty(false);
-
     if (m_surfaceController->isDataDirty() ||
             m_surfaceController->isSeriesVisualsDirty()) {
-        if (sliceView() && sliceView()->isVisible())
-            updateSliceGraph();
 
         m_surfaceController->clearSelection();
 
@@ -420,9 +414,15 @@ void QQuickGraphsSurface::updateGraph()
             }
         }
 
+        if (sliceView() && sliceView()->isVisible())
+            updateSliceGraph();
+
         m_surfaceController->setDataDirty(false);
         m_surfaceController->setSeriesVisualsDirty(false);
     }
+
+    if (m_surfaceController->selectionMode().testFlag(QAbstract3DGraph::SelectionItem))
+        updateSelectedPoint();
 }
 
 void QQuickGraphsSurface::handleChangedSeries()
@@ -505,7 +505,7 @@ void QQuickGraphsSurface::updateModel(SurfaceModel *model)
             m_isIndexDirty = true;
         }
         if (m_isIndexDirty) {
-            model->selectedVertex.position = QVector3D();
+            model->selectedVertex = SurfaceVertex();
             if (sliceView() && sliceView()->isVisible()) {
                 m_surfaceController->setSlicingActive(false);
                 setSliceActivatedChanged(true);
@@ -1084,8 +1084,8 @@ void QQuickGraphsSurface::updateSelectedPoint()
     if (sliceView() && sliceView()->isVisible())
         m_sliceInstancing->resetPositions();
     for (auto model : m_model) {
-        if (!m_surfaceController->selectionMode().testFlag(QAbstract3DGraph::SelectionMultiSeries) &&
-                !model->picked)
+        if ((!m_surfaceController->selectionMode().testFlag(QAbstract3DGraph::SelectionMultiSeries) &&
+                !model->picked)|| model->selectedVertex.position.isNull())
             continue;
         QPoint selectedCoord = model->selectedVertex.coord;
         int index = selectedCoord.x() * model->columnCount + selectedCoord.y();
@@ -1103,11 +1103,7 @@ void QQuickGraphsSurface::updateSelectedPoint()
             }
             if (model->picked) {
                 const QSurfaceDataArray &array = *(model->series->dataProxy())->array();
-                if (array.count() < selectedVertex.coord.x())
-                    continue;
                 const QSurfaceDataRow &rowArray = *array.at(selectedVertex.coord.x());
-                if (rowArray.count() < selectedVertex.coord.y())
-                    continue;
                 QVector3D value = rowArray.at(selectedVertex.coord.y()).position();
                 QVector3D labelPosition = selectedVertex.position;
                 QString x = static_cast<QValue3DAxis *>(m_surfaceController->axisX())->stringForValue(value.x());
