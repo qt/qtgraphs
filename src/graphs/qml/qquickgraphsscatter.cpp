@@ -1179,14 +1179,6 @@ void QQuickGraphsScatter::synchData()
     QQuickGraphsItem::synchData();
     scene()->activeCamera()->d_func()->setMinYRotation(-90.0f);
 
-    QValue3DAxis *aX = axisX();
-    QValue3DAxis *aY = axisY();
-    QValue3DAxis *aZ = axisZ();
-
-    aX->formatter()->d_func()->recalculate();
-    aY->formatter()->d_func()->recalculate();
-    aZ->formatter()->d_func()->recalculate();
-
     m_pointScale = calculatePointScaleSize();
 
     // Notify changes to renderer
