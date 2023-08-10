@@ -448,7 +448,10 @@ int QQuickGraphsItem::addCustomItem(QCustom3DItem *item)
             QCustom3DLabel *key = static_cast<QCustom3DLabel *>(item);
             m_customLabelList.insert(key, label);
         } else if (m_controller->isCustomVolumeItem(item)) {
-            // will be handled at customDataDirty
+            QQuick3DModel *model = new QQuick3DModel();
+            model->setParent(graphNode());
+            model->setParentItem(graphNode());
+            m_customItemList.insert(item, model);
         } else {
             QQuick3DModel *model = new QQuick3DModel();
             model->setParent(graphNode());
@@ -475,12 +478,18 @@ void QQuickGraphsItem::removeCustomItems()
 
 void QQuickGraphsItem::removeCustomItem(QCustom3DItem *item)
 {
-    if (m_controller->isCustomLabelItem(item))
+    if (m_controller->isCustomLabelItem(item)) {
         m_customLabelList.remove(static_cast<QCustom3DLabel *>(item));
-    else if (m_controller->isCustomVolumeItem(item))
-        ;// TODO: Handle volume item (QTBUG-113988)f
-    else
+    } else if (m_controller->isCustomVolumeItem(item)) {
         m_customItemList.remove(item);
+        auto volume = static_cast<QCustom3DVolume *>(item);
+        if (m_customVolumes.contains(volume)) {
+            m_customVolumes[volume].model->deleteLater();
+            m_customVolumes.remove(volume);
+        }
+    } else {
+        m_customItemList.remove(item);
+    }
     m_controller->deleteCustomItem(item);
 }
 
@@ -503,6 +512,13 @@ void QQuickGraphsItem::removeCustomItemAt(const QVector3D &position)
         if (item->position() == position) {
             itemIterator.value()->setVisible(false);
             itemIterator = m_customItemList.erase(itemIterator);
+            if (m_controller->isCustomVolumeItem(item)) {
+                auto volume = static_cast<QCustom3DVolume *>(item);
+                if (m_customVolumes.contains(volume)) {
+                    m_customVolumes[volume].model->deleteLater();
+                    m_customVolumes.remove(volume);
+                }
+            }
         } else {
             ++itemIterator;
         }
@@ -512,12 +528,18 @@ void QQuickGraphsItem::removeCustomItemAt(const QVector3D &position)
 
 void QQuickGraphsItem::releaseCustomItem(QCustom3DItem *item)
 {
-    if (m_controller->isCustomLabelItem(item))
+    if (m_controller->isCustomLabelItem(item)) {
         m_customLabelList.remove(static_cast<QCustom3DLabel *>(item));
-    else if (m_controller->isCustomVolumeItem(item))
-        ;// TODO: Handle volume item (QTBUG-113988)
-    else
+    } else if (m_controller->isCustomVolumeItem(item)) {
         m_customItemList.remove(item);
+        auto volume = static_cast<QCustom3DVolume *>(item);
+        if (m_customVolumes.contains(volume)) {
+            m_customVolumes[volume].model->deleteLater();
+            m_customVolumes.remove(volume);
+        }
+    } else {
+        m_customItemList.remove(item);
+    }
     m_controller->releaseCustomItem(item);
 }
 
@@ -921,9 +943,9 @@ void QQuickGraphsItem::synchData()
     if (m_controller->graphPositionQueryPending())
         graphPositionAt(m_controller->scene()->graphPositionQuery());
 
-    bool forceUpdateCustomItems = false;
+    bool forceUpdateCustomVolumes = false;
     if (m_controller->m_changeTracker.projectionChanged) {
-        forceUpdateCustomItems = true;
+        forceUpdateCustomVolumes = true;
         bool useOrtho = m_controller->isOrthoProjection();
         if (useOrtho)
             setCamera(m_oCamera);
@@ -1151,24 +1173,25 @@ void QQuickGraphsItem::synchData()
     }
 
     if (m_controller->isCustomDataDirty()) {
+        forceUpdateCustomVolumes = true;
         updateCustomData();
         m_controller->setCustomDataDirty(false);
     }
 
     if (m_controller->m_changedSeriesList.size()) {
-        forceUpdateCustomItems = true;
+        forceUpdateCustomVolumes = true;
         updateGraph();
         m_controller->m_changedSeriesList.clear();
     }
 
     if (m_controller->m_isDataDirty) {
-        forceUpdateCustomItems = true;
+        forceUpdateCustomVolumes = true;
         updateGraph();
         m_controller->m_isDataDirty = false;
     }
 
     if (m_controller->m_isSeriesVisualsDirty) {
-        forceUpdateCustomItems = true;
+        forceUpdateCustomVolumes = true;
         updateLabels();
         updateGraph();
         m_controller->m_isSeriesVisualsDirty = false;
@@ -1177,10 +1200,8 @@ void QQuickGraphsItem::synchData()
     if (m_sliceActivatedChanged)
         updateSliceGraph();
 
-    if (m_controller->isCustomItemDirty() || forceUpdateCustomItems) {
-        updateCustomItems();
-        m_controller->setCustomItemDirty(false);
-    }
+    if (m_controller->isCustomItemDirty() || forceUpdateCustomVolumes)
+        updateCustomVolumes();
 }
 
 void QQuickGraphsItem::calculateSceneScalingFactors()
@@ -2177,57 +2198,60 @@ void QQuickGraphsItem::updateSliceFrameMaterials(QCustom3DVolume *volume, Volume
     material->setProperty("sliceFrameWidth", frameWidth);
 }
 
-void QQuickGraphsItem::updateCustomItems()
+void QQuickGraphsItem::updateCustomVolumes()
 {
-    auto items = m_controller->m_customItems;
+    QAbstract3DAxis *axisX = m_controller->axisX();
+    QAbstract3DAxis *axisY = m_controller->axisY();
+    QAbstract3DAxis *axisZ = m_controller->axisZ();
 
-    for (auto &&item : items) {
+    int maxX = axisX->max();
+    int minX = axisX->min();
+    int maxY = axisY->max();
+    int minY = axisY->min();
+    int maxZ = axisZ->max();
+    int minZ = axisZ->min();
+    QVector3D adjustment = m_scaleWithBackground * QVector3D(1.0f, 1.0f, -1.0f);
+    bool isPolar = m_controller->isPolar();
+
+    auto itemIterator = m_customItemList.constBegin();
+    while (itemIterator != m_customItemList.constEnd()) {
+        QCustom3DItem *item = itemIterator.key();
+        QQuick3DModel *model = itemIterator.value();
+
         if (auto volume = qobject_cast<QCustom3DVolume *>(item)) {
-            if (!m_customVolumes.contains(volume)) {
-                auto &&volumeItem = m_customVolumes[volume];
-
-                volumeItem.model = new QQuick3DModel();
-                auto model = volumeItem.model;
-                model->setParent(rootNode());
-                model->setParentItem(rootNode());
-                model->setSource(QUrl(volume->meshFile()));
-
-                volumeItem.useHighDefShader = volume->useHighDefShader();
-                volumeItem.drawSlices = volume->drawSlices();
-
-                createVolumeMaterial(volume, volumeItem);
-
-                volumeItem.sliceFrameX = createSliceFrame(volumeItem);
-                volumeItem.sliceFrameY = createSliceFrame(volumeItem);
-                volumeItem.sliceFrameZ = createSliceFrame(volumeItem);
-
-                if (volume->drawSliceFrames()) {
-                    volumeItem.sliceFrameX->setVisible(true);
-                    volumeItem.sliceFrameY->setVisible(true);
-                    volumeItem.sliceFrameZ->setVisible(true);
-
-                    QVector3D sliceIndices((float(volume->sliceIndexX()) + 0.5f) / float(volume->textureWidth()) * 2.0 - 1.0,
-                                           (float(volume->sliceIndexY()) + 0.5f) / float(volume->textureHeight()) * 2.0 - 1.0,
-                                           (float(volume->sliceIndexZ()) + 0.5f) / float(volume->textureDepth()) * 2.0 - 1.0);
-
-                    volumeItem.sliceFrameX->setX(sliceIndices.x());
-                    volumeItem.sliceFrameY->setY(-sliceIndices.y());
-                    volumeItem.sliceFrameZ->setZ(-sliceIndices.z());
-
-                    volumeItem.sliceFrameX->setRotation(QQuaternion::fromEulerAngles(0, 90, 0));
-                    volumeItem.sliceFrameY->setRotation(QQuaternion::fromEulerAngles(90, 0, 0));
-
-                    updateSliceFrameMaterials(volume, volumeItem);
-                } else {
-                    volumeItem.sliceFrameX->setVisible(false);
-                    volumeItem.sliceFrameY->setVisible(false);
-                    volumeItem.sliceFrameZ->setVisible(false);
+            QVector3D pos = item->position();
+            if (!item->isPositionAbsolute()) {
+                if (item->position().x() < minX
+                        || item->position().x() > maxX
+                        || item->position().y() < minY
+                        || item->position().y() > maxY
+                        || item->position().z() < minZ
+                        || item->position().z() > maxZ) {
+                    model->setVisible(false);
+                    ++itemIterator;
+                    continue;
                 }
-                volumeItem.drawSliceFrames = volume->drawSliceFrames();
+                float xNormalizer = maxX - minX;
+                float xPos = (pos.x() - minX) / xNormalizer;
+                float yNormalizer = maxY - minY;
+                float yPos = (pos.y() - minY) / yNormalizer;
+                float zNormalizer = maxZ - minZ;
+                float zPos = (pos.z() - minZ) / zNormalizer;
+                pos = QVector3D(xPos, yPos, zPos);
+                if (isPolar) {
+                    float angle = xPos * M_PI * 2.0f;
+                    float radius = zPos;
+                    xPos = radius * qSin(angle) * 1.0f;
+                    zPos = -(radius * qCos(angle)) * 1.0f;
+                    yPos = yPos * adjustment.y() * 2.0f - adjustment.y();
+                    pos = QVector3D(xPos, yPos, zPos);
+                } else {
+                    pos = pos * adjustment * 2.0f - adjustment;
+                }
             }
+            model->setPosition(pos);
 
             auto &&volumeItem = m_customVolumes[volume];
-            auto model = volumeItem.model;
 
             QQmlListReference materialsRef(model, "materials");
             if (volumeItem.useHighDefShader != volume->useHighDefShader()) {
@@ -2297,7 +2321,6 @@ void QQuickGraphsItem::updateCustomItems()
                 model->setPosition(QVector3D());
                 model->setScale(QVector3D(qAbs(scale().x()) / 2, qAbs(scale().y()) / 2, qAbs(scale().z()) / 2));
             } else {
-                model->setPosition(volume->position());
                 model->setScale(volume->scaling());
             }
             model->setRotation(volume->rotation());
@@ -2357,7 +2380,6 @@ void QQuickGraphsItem::updateCustomItems()
                 textureData->setSize(QSize(volume->textureWidth(), volume->textureHeight()));
                 textureData->setDepth(volume->textureDepth());
 
-                // TODO: Support and test all texture formats from volume->textureFormat() (QTBUG-113837)
                 if (color8Bit)
                     textureData->setFormat(QQuick3DTextureData::R8);
                 else
@@ -2385,6 +2407,7 @@ void QQuickGraphsItem::updateCustomItems()
                 colorTextureData->setTextureData(colorTableBytes);
             }
         }
+        ++itemIterator;
     }
 }
 
@@ -2845,36 +2868,79 @@ void QQuickGraphsItem::updateCustomData()
         }
         model->setPosition(pos);
 
-        model->setSource(QUrl::fromLocalFile(item->meshFile()));
-        QQmlListReference materialsRef(model, "materials");
-        QQuick3DPrincipledMaterial *material = static_cast<QQuick3DPrincipledMaterial *>(materialsRef.at(0));
-        QQuick3DTexture *texture = material->baseColorMap();
-        if (!texture) {
-            texture = new QQuick3DTexture();
-            texture->setParent(model);
-            texture->setParentItem(model);
-            material->setBaseColorMap(texture);
-        }
-        if (!item->textureFile().isEmpty()) {
-            texture->setSource(QUrl::fromLocalFile(item->textureFile()));
-        } else {
-            QImage textureImage = m_controller->customTextureImage(item);
-            textureImage.convertTo(QImage::Format_RGBA32FPx4);
-            QQuick3DTextureData *textureData = texture->textureData();
-            if (!textureData) {
-                textureData = new QQuick3DTextureData();
-                textureData->setParent(texture);
-                textureData->setParentItem(texture);
-                textureData->setFormat(QQuick3DTextureData::RGBA32F);
-                texture->setTextureData(textureData);
+        if (auto volume = qobject_cast<QCustom3DVolume *>(item)) {
+            if (!m_customVolumes.contains(volume)) {
+                auto &&volumeItem = m_customVolumes[volume];
+
+                volumeItem.model = model;
+                model->setSource(QUrl(volume->meshFile()));
+
+                volumeItem.useHighDefShader = volume->useHighDefShader();
+                volumeItem.drawSlices = volume->drawSlices();
+
+                createVolumeMaterial(volume, volumeItem);
+
+                volumeItem.sliceFrameX = createSliceFrame(volumeItem);
+                volumeItem.sliceFrameY = createSliceFrame(volumeItem);
+                volumeItem.sliceFrameZ = createSliceFrame(volumeItem);
+
+                if (volume->drawSliceFrames()) {
+                    volumeItem.sliceFrameX->setVisible(true);
+                    volumeItem.sliceFrameY->setVisible(true);
+                    volumeItem.sliceFrameZ->setVisible(true);
+
+                    QVector3D sliceIndices((float(volume->sliceIndexX()) + 0.5f) / float(volume->textureWidth()) * 2.0 - 1.0,
+                                           (float(volume->sliceIndexY()) + 0.5f) / float(volume->textureHeight()) * 2.0 - 1.0,
+                                           (float(volume->sliceIndexZ()) + 0.5f) / float(volume->textureDepth()) * 2.0 - 1.0);
+
+                    volumeItem.sliceFrameX->setX(sliceIndices.x());
+                    volumeItem.sliceFrameY->setY(-sliceIndices.y());
+                    volumeItem.sliceFrameZ->setZ(-sliceIndices.z());
+
+                    volumeItem.sliceFrameX->setRotation(QQuaternion::fromEulerAngles(0, 90, 0));
+                    volumeItem.sliceFrameY->setRotation(QQuaternion::fromEulerAngles(90, 0, 0));
+
+                    updateSliceFrameMaterials(volume, volumeItem);
+                } else {
+                    volumeItem.sliceFrameX->setVisible(false);
+                    volumeItem.sliceFrameY->setVisible(false);
+                    volumeItem.sliceFrameZ->setVisible(false);
+                }
+                volumeItem.drawSliceFrames = volume->drawSliceFrames();
+                m_customItemList.insert(item, model);
             }
-            textureData->setSize(textureImage.size());
-            textureData->setTextureData(QByteArray(reinterpret_cast<const char*>(textureImage.bits()),
-                                                   textureImage.sizeInBytes()));
+        } else {
+            model->setSource(QUrl::fromLocalFile(item->meshFile()));
+            QQmlListReference materialsRef(model, "materials");
+            QQuick3DPrincipledMaterial *material = static_cast<QQuick3DPrincipledMaterial *>(materialsRef.at(0));
+            QQuick3DTexture *texture = material->baseColorMap();
+            if (!texture) {
+                texture = new QQuick3DTexture();
+                texture->setParent(model);
+                texture->setParentItem(model);
+                material->setBaseColorMap(texture);
+            }
+            if (!item->textureFile().isEmpty()) {
+                texture->setSource(QUrl::fromLocalFile(item->textureFile()));
+            } else {
+                QImage textureImage = m_controller->customTextureImage(item);
+                textureImage.convertTo(QImage::Format_RGBA32FPx4);
+                QQuick3DTextureData *textureData = texture->textureData();
+                if (!textureData) {
+                    textureData = new QQuick3DTextureData();
+                    textureData->setParent(texture);
+                    textureData->setParentItem(texture);
+                    textureData->setFormat(QQuick3DTextureData::RGBA32F);
+                    texture->setTextureData(textureData);
+                }
+                textureData->setSize(textureImage.size());
+                textureData->setTextureData(QByteArray(reinterpret_cast<const char*>(textureImage.bits()),
+                                                       textureImage.sizeInBytes()));
+            }
+            model->setRotation(item->rotation());
+            model->setScale(item->scaling());
+            model->setVisible(item->isVisible());
         }
-        model->setRotation(item->rotation());
-        model->setScale(item->scaling());
-        model->setVisible(item->isVisible());
         ++itemIterator;
     }
 }

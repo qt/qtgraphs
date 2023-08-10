@@ -471,7 +471,7 @@ private:
     void createVolumeMaterial(QCustom3DVolume *volume, Volume &volumeItem);
     QQuick3DModel *createSliceFrame(Volume &volumeItem);
     void updateSliceFrameMaterials(QCustom3DVolume *volume, Volume &volumeItem);
-    void updateCustomItems();
+    void updateCustomVolumes();
 
     QHash<QQuickGraphsItem *, QQuickWindow *> m_graphWindowList = {};
     QHash<QCustom3DLabel *, QQuick3DNode *> m_customLabelList = {};
