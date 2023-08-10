@@ -693,33 +693,69 @@ void QQuickGraphsItem::synchData()
     }
 
     if (m_controller->m_changeTracker.axisXSegmentCountChanged) {
-        handleSegmentLineCountChanged(m_controller->axisX(), m_segmentLineRepeaterX);
+        QAbstract3DAxis *axisX = m_controller->axisX();
+        if (axisX->type() & QAbstract3DAxis::AxisTypeValue) {
+            QValue3DAxis *valueAxisX = static_cast<QValue3DAxis *>(axisX);
+            valueAxisX->recalculate();
+        }
+        handleSegmentLineCountChanged(axisX, m_segmentLineRepeaterX);
         m_controller->m_changeTracker.axisXSegmentCountChanged = false;
+        axisDirty = true;
     }
 
     if (m_controller->m_changeTracker.axisYSegmentCountChanged) {
-        handleSegmentLineCountChanged(m_controller->axisY(), m_segmentLineRepeaterY);
+        QAbstract3DAxis *axisY = m_controller->axisY();
+        if (axisY->type() & QAbstract3DAxis::AxisTypeValue) {
+            QValue3DAxis *valueAxisY = static_cast<QValue3DAxis *>(axisY);
+            valueAxisY->recalculate();
+        }
+        handleSegmentLineCountChanged(axisY, m_segmentLineRepeaterY);
         m_controller->m_changeTracker.axisYSegmentCountChanged = false;
+        axisDirty = true;
     }
 
     if (m_controller->m_changeTracker.axisZSegmentCountChanged) {
-        handleSegmentLineCountChanged(m_controller->axisZ(), m_segmentLineRepeaterZ);
+        QAbstract3DAxis *axisZ = m_controller->axisZ();
+        if (axisZ->type() & QAbstract3DAxis::AxisTypeValue) {
+            QValue3DAxis *valueAxisZ = static_cast<QValue3DAxis *>(axisZ);
+            valueAxisZ->recalculate();
+        }
+        handleSegmentLineCountChanged(axisZ, m_segmentLineRepeaterZ);
         m_controller->m_changeTracker.axisZSegmentCountChanged = false;
+        axisDirty = true;
     }
 
     if (m_controller->m_changeTracker.axisXSubSegmentCountChanged) {
-        handleSubSegmentLineCountChanged(m_controller->axisX(), m_subsegmentLineRepeaterX);
+        QAbstract3DAxis *axisX = m_controller->axisX();
+        if (axisX->type() & QAbstract3DAxis::AxisTypeValue) {
+            QValue3DAxis *valueAxisX = static_cast<QValue3DAxis *>(axisX);
+            valueAxisX->recalculate();
+        }
+        handleSubSegmentLineCountChanged(axisX, m_subsegmentLineRepeaterX);
         m_controller->m_changeTracker.axisXSubSegmentCountChanged = false;
+        axisDirty = true;
     }
 
     if (m_controller->m_changeTracker.axisYSubSegmentCountChanged) {
-        handleSubSegmentLineCountChanged(m_controller->axisY(), m_subsegmentLineRepeaterY);
+        QAbstract3DAxis *axisY = m_controller->axisY();
+        if (axisY->type() & QAbstract3DAxis::AxisTypeValue) {
+            QValue3DAxis *valueAxisY = static_cast<QValue3DAxis *>(axisY);
+            valueAxisY->recalculate();
+        }
+        handleSubSegmentLineCountChanged(axisY, m_subsegmentLineRepeaterY);
         m_controller->m_changeTracker.axisYSubSegmentCountChanged = false;
+        axisDirty = true;
     }
 
     if (m_controller->m_changeTracker.axisZSubSegmentCountChanged) {
-        handleSubSegmentLineCountChanged(m_controller->axisZ(), m_subsegmentLineRepeaterZ);
+        QAbstract3DAxis *axisZ = m_controller->axisZ();
+        if (axisZ->type() & QAbstract3DAxis::AxisTypeValue) {
+            QValue3DAxis *valueAxisZ = static_cast<QValue3DAxis *>(axisZ);
+            valueAxisZ->recalculate();
+        }
+        handleSubSegmentLineCountChanged(axisZ, m_subsegmentLineRepeaterZ);
         m_controller->m_changeTracker.axisZSubSegmentCountChanged = false;
+        axisDirty = true;
     }
 
     if (m_controller->m_changeTracker.axisXLabelsChanged) {
