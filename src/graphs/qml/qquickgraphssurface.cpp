@@ -395,7 +395,9 @@ void QQuickGraphsSurface::updateGraph()
                 model->sliceModel->setLocalOpacity(.0f);
         }
 
-        updateMaterial(model);
+        QQmlListReference materialRef(model->model, "materials");
+        QQuick3DMaterial *material = static_cast<QQuick3DMaterial *>(materialRef.at(0));
+        updateMaterial(model, material == model->texturedMaterial);
     }
 
     m_surfaceController->setSeriesVisibilityDirty(false);
@@ -635,7 +637,9 @@ void QQuickGraphsSurface::updateModel(SurfaceModel *model)
             geometry->setBounds(boundsMin, boundsMax);
             geometry->update();
         }
-        updateMaterial(model);
+
+        QQuick3DMaterial *mat = static_cast<QQuick3DMaterial *>(material);
+        updateMaterial(model, mat == model->texturedMaterial);
         if (m_isIndexDirty) {
             createGridlineIndices(model, 0, 0, colLimit, rowLimit);
             auto gridGeometry = model->gridModel->geometry();
