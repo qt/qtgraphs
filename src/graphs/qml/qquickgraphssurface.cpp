@@ -716,11 +716,14 @@ void QQuickGraphsSurface::updateMaterial(SurfaceModel *model, bool texturedModel
     float xDiff = 1.0f / float(model->columnCount - 1);
     float yDiff = 1.0f / float(model->rowCount - 1);
 
-    if (!texturedModel) {
-        if (m_surfaceController->isSeriesVisualsDirty()) {
+    if (!texturedModel
+            || (model->series->texture().isNull()
+                && model->series->textureFile().isEmpty())) {
+        if (m_surfaceController->isSeriesVisualsDirty()
+                || (model->series->texture().isNull()
+                    && model->series->textureFile().isEmpty())) {
             QQuick3DCustomMaterial *material = nullptr;
             if (model->series->colorStyle() == Q3DTheme::ColorStyleUniform) {
-
                 material = createQmlCustomMaterial(QStringLiteral(":/materials/SurfaceUniformMaterial"));
                 material->setProperty("uniformColor",model->series->baseColor());
             } else {
@@ -788,9 +791,13 @@ void QQuickGraphsSurface::updateMaterial(SurfaceModel *model, bool texturedModel
             texInput->texture()->setSource(QUrl::fromLocalFile(model->series->textureFile()));
         } else if (!model->series->texture().isNull()) {
             QImage image = model->series->texture();
+            image.convertTo(QImage::Format_RGBA32FPx4);
             auto textureData = static_cast<QuickGraphsTextureData *>(model->texture->textureData());
+            textureData->setFormat(QQuick3DTextureData::RGBA32F);
+            textureData->setSize(image.size());
             textureData->setTextureData(QByteArray(reinterpret_cast<const char*>(image.bits()),
                                                    image.sizeInBytes()));
+            texInput->texture()->setTextureData(textureData);
         } else {
             texInput->texture()->setSource(QUrl());
         }
@@ -1000,7 +1007,7 @@ void QQuickGraphsSurface::createSmoothIndices(SurfaceModel *model, int x, int y,
                 indices->push_back(row + j + 1);
 
                 indices->push_back(row + j);
-                indices->push_back(row + columnCount + j + 1);
+                indices->push_back(row + columnCount + j);
                 indices->push_back(row + j + 1);
             }
         }
