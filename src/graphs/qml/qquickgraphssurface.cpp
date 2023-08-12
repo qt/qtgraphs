@@ -506,6 +506,9 @@ void QQuickGraphsSurface::updateModel(SurfaceModel *model)
         int rowCount = sampleSpace.height();
         int columnCount = sampleSpace.width();
 
+        if (rowCount <= 0 || columnCount <= 0)
+            return;
+
         if (model->rowCount != rowCount) {
             model->rowCount = rowCount;
             m_isIndexDirty = true;
@@ -554,22 +557,54 @@ void QQuickGraphsSurface::updateModel(SurfaceModel *model)
         int colLimit = columnCount - 1;
 
         QAbstract3DAxis *axis = m_surfaceController->axisZ();
-        float z = (*array.at(startRow)).at(0).z();
-        while (z < axis->min())
-            z = (*array.at(++startRow)).at(0).z();
+        if (dataDimensions == Surface3DController::BothDescending
+                || dataDimensions == Surface3DController::ZDescending) {
+            float z = (*array.at(startRow)).at(0).z();
+            while (z > axis->max())
+                z = (*array.at(++startRow)).at(0).z();
 
-        z = (*array.at(rowLimit)).at(0).z();
-        while (z > axis->max())
-            z = (*array.at(--rowLimit)).at(0).z();
+            z = (*array.at(rowLimit)).at(0).z();
+            while (z < axis->min())
+                z = (*array.at(--rowLimit)).at(0).z();
+        } else {
+            float z = (*array.at(startRow)).at(0).z();
+            while (z < axis->min())
+                z = (*array.at(++startRow)).at(0).z();
 
-        axis = m_surfaceController->axisX();
-        float x = (*array.at(0)).at(startColumn).x();
-        while (x < axis->min())
-            x = (*array.at(0)).at(++startColumn).x();
+            z = (*array.at(rowLimit)).at(0).z();
+            while (z > axis->max())
+                z = (*array.at(--rowLimit)).at(0).z();
+        }
 
-        x = (*array.at(0)).at(colLimit).x();
-        while (x > axis->max())
-            x = (*array.at(0)).at(--colLimit).x();
+        if (startRow == rowLimit)
+            return;
+
+        if (dataDimensions == Surface3DController::BothDescending
+                || dataDimensions == Surface3DController::XDescending) {
+            axis = m_surfaceController->axisX();
+            float x = (*array.at(0)).at(startColumn).x();
+            while (x > axis->max())
+                x = (*array.at(0)).at(++startColumn).x();
+
+            x = (*array.at(0)).at(colLimit).x();
+            while (x < axis->min())
+                x = (*array.at(0)).at(--colLimit).x();
+        } else {
+            axis = m_surfaceController->axisX();
+            float x = (*array.at(0)).at(startColumn).x();
+            while (x < axis->min()) {
+                if ((array.size()) == (startColumn + 1))
+                    break;
+                x = (*array.at(0)).at(++startColumn).x();
+            }
+
+            x = (*array.at(0)).at(colLimit).x();
+            while (x > axis->max())
+                x = (*array.at(0)).at(--colLimit).x();
+        }
+
+        if (startColumn == colLimit)
+            return;
 
         QVector<QVector4D> heights;
         heights.reserve(totalSize);
