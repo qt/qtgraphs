@@ -357,6 +357,8 @@ void Bars3DController::handleAxisRangeChangedBySender(QObject *sender)
 
     Abstract3DController::handleAxisRangeChangedBySender(sender);
 
+    m_isDataDirty = true;
+
     // Update selected bar - may be moved offscreen
     setSelectedBar(m_selectedBar, m_selectedBarSeries, false);
 }
