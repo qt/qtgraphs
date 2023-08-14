@@ -83,6 +83,9 @@ QCategory3DAxis *QQuickGraphsBars::rowAxis() const
 void QQuickGraphsBars::setRowAxis(QCategory3DAxis *axis)
 {
     m_barsController->setAxisZ(axis);
+    QObject::connect(axis, &QAbstract3DAxis::labelsChanged, this,
+                     &QQuickGraphsBars::handleRowCountChanged);
+    handleRowCountChanged();
 }
 
 QValue3DAxis *QQuickGraphsBars::valueAxis() const
@@ -121,6 +124,9 @@ QCategory3DAxis *QQuickGraphsBars::columnAxis() const
 void QQuickGraphsBars::setColumnAxis(QCategory3DAxis *axis)
 {
     m_barsController->setAxisX(axis);
+    QObject::connect(axis, &QAbstract3DAxis::labelsChanged, this,
+                     &QQuickGraphsBars::handleColCountChanged);
+    handleColCountChanged();
 }
 
 void QQuickGraphsBars::setMultiSeriesUniform(bool uniform)
@@ -236,16 +242,22 @@ void QQuickGraphsBars::removeSeries(QBar3DSeries *series)
     removeBarModels();
     series->setParent(this); // Reparent as removing will leave series parentless
     disconnectSeries(series);
+    handleRowCountChanged();
+    handleColCountChanged();
 }
 
 void QQuickGraphsBars::insertSeries(int index, QBar3DSeries *series)
 {
     m_barsController->insertSeries(index, series);
+    handleRowCountChanged();
+    handleColCountChanged();
 }
 
 void QQuickGraphsBars::setPrimarySeries(QBar3DSeries *series)
 {
     m_barsController->setPrimarySeries(series);
+    handleRowCountChanged();
+    handleColCountChanged();
 }
 
 QBar3DSeries *QQuickGraphsBars::primarySeries() const
@@ -666,21 +678,25 @@ void QQuickGraphsBars::handleMeshSmoothChanged(bool enable)
 void QQuickGraphsBars::handleRowCountChanged()
 {
     QCategory3DAxis *categoryAxisZ = static_cast<QCategory3DAxis *>(m_barsController->axisZ());
-    segmentLineRepeaterZ()->model().clear();
-    segmentLineRepeaterZ()->setModel(categoryAxisZ->labels().size());
-    repeaterZ()->model().clear();
-    repeaterZ()->setModel(categoryAxisZ->labels().size());
-    updateParameters();
+    if (repeaterZ()) {
+        segmentLineRepeaterZ()->model().clear();
+        segmentLineRepeaterZ()->setModel(categoryAxisZ->labels().size());
+        repeaterZ()->model().clear();
+        repeaterZ()->setModel(categoryAxisZ->labels().size());
+        updateParameters();
+    }
 }
 
 void QQuickGraphsBars::handleColCountChanged()
 {
     QCategory3DAxis *categoryAxisX = static_cast<QCategory3DAxis *>(m_barsController->axisX());
-    segmentLineRepeaterX()->model().clear();
-    segmentLineRepeaterX()->setModel(categoryAxisX->labels().size());
-    repeaterX()->model().clear();
-    repeaterX()->setModel(categoryAxisX->labels().size());
-    updateParameters();
+    if (repeaterX()) {
+        segmentLineRepeaterX()->model().clear();
+        segmentLineRepeaterX()->setModel(categoryAxisX->labels().size());
+        repeaterX()->model().clear();
+        repeaterX()->setModel(categoryAxisX->labels().size());
+        updateParameters();
+    }
 }
 
 void QQuickGraphsBars::handleRowColorsChanged()
@@ -697,10 +713,10 @@ void QQuickGraphsBars::connectSeries(QBar3DSeries *series)
                      &QQuickGraphsBars::handleSeriesMeshChanged);
     QObject::connect(series, &QBar3DSeries::meshSmoothChanged, this,
                      &QQuickGraphsBars::handleMeshSmoothChanged);
-    QObject::connect(series->dataProxy(), &QBarDataProxy::rowCountChanged, this,
-                     &QQuickGraphsBars::handleRowCountChanged);
     QObject::connect(series->dataProxy(), &QBarDataProxy::colCountChanged, this,
                      &QQuickGraphsBars::handleColCountChanged);
+    QObject::connect(series->dataProxy(), &QBarDataProxy::rowCountChanged, this,
+                     &QQuickGraphsBars::handleRowCountChanged);
     QObject::connect(series, &QBar3DSeries::rowColorsChanged, this,
                      &QQuickGraphsBars::handleRowColorsChanged);
 }
