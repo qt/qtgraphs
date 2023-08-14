@@ -83,8 +83,13 @@ QCategory3DAxis *QQuickGraphsBars::rowAxis() const
 void QQuickGraphsBars::setRowAxis(QCategory3DAxis *axis)
 {
     m_barsController->setAxisZ(axis);
+    // labelsChanged and rangeChanged signals are required to update the row and column numbers.
+    // The same situation exists in the barscontroller. (see setAxisZ and setAxisHelper)
+    // A better implementation may apply once controllers are removed
     QObject::connect(axis, &QAbstract3DAxis::labelsChanged, this,
                      &QQuickGraphsBars::handleRowCountChanged);
+    QObject::connect(axis, &QAbstract3DAxis::rangeChanged,
+                     this, &QQuickGraphsBars::handleRowCountChanged);
     handleRowCountChanged();
 }
 
@@ -125,6 +130,8 @@ void QQuickGraphsBars::setColumnAxis(QCategory3DAxis *axis)
 {
     m_barsController->setAxisX(axis);
     QObject::connect(axis, &QAbstract3DAxis::labelsChanged, this,
+                     &QQuickGraphsBars::handleColCountChanged);
+    QObject::connect(axis, &QAbstract3DAxis::rangeChanged, this,
                      &QQuickGraphsBars::handleColCountChanged);
     handleColCountChanged();
 }
@@ -444,7 +451,6 @@ void QQuickGraphsBars::updateParameters() {
 
     m_axisRangeChanged = true;
     m_barsController->setDataDirty(true);
-    update();
 }
 
 void QQuickGraphsBars::updateFloorLevel(float level)
@@ -679,11 +685,13 @@ void QQuickGraphsBars::handleRowCountChanged()
 {
     QCategory3DAxis *categoryAxisZ = static_cast<QCategory3DAxis *>(m_barsController->axisZ());
     if (repeaterZ()) {
+        updateParameters();
         segmentLineRepeaterZ()->model().clear();
-        segmentLineRepeaterZ()->setModel(categoryAxisZ->labels().size());
+        segmentLineRepeaterZ()->setModel(m_cachedRowCount);
         repeaterZ()->model().clear();
         repeaterZ()->setModel(categoryAxisZ->labels().size());
-        updateParameters();
+        m_barsController->handleAxisLabelsChangedBySender(m_barsController->axisZ());
+        update();
     }
 }
 
@@ -691,11 +699,13 @@ void QQuickGraphsBars::handleColCountChanged()
 {
     QCategory3DAxis *categoryAxisX = static_cast<QCategory3DAxis *>(m_barsController->axisX());
     if (repeaterX()) {
+        updateParameters();
         segmentLineRepeaterX()->model().clear();
-        segmentLineRepeaterX()->setModel(categoryAxisX->labels().size());
+        segmentLineRepeaterX()->setModel(m_cachedColumnCount);
         repeaterX()->model().clear();
         repeaterX()->setModel(categoryAxisX->labels().size());
-        updateParameters();
+        m_barsController->handleAxisLabelsChangedBySender(m_barsController->axisX());
+        update();
     }
 }
 
@@ -986,13 +996,16 @@ void QQuickGraphsBars::updateBarPositions(QBar3DSeries *series)
             dataRowCount = dataProxy->rowCount();
             dataColCount = dataProxy->colCount();
             int dataRowIndex = m_minRow;
+            int startColIndex = m_minCol;
             for (int row = 0; row < m_newRows; ++row) {
                 const QBarDataRow *dataRow = 0;
                 if (dataRowIndex < dataRowCount)
                     dataRow = dataProxy->rowAt(dataRowIndex);
                 if (dataRow) {
-                    for (int col = 0; col < dataColCount; col++) {
-                        const QBarDataItem *item = const_cast <QBarDataItem *> (&(dataRow->at(col)));
+                    int updateSize = dataRow->size() - startColIndex;
+                    int dataColIndex = startColIndex;
+                    for (int col = 0; col < updateSize; col++) {
+                        const QBarDataItem *item = const_cast <QBarDataItem *> (&(dataRow->at(dataColIndex)));
                         float heightValue = updateBarHeightParameters(item);
 
                         float angle = item->rotation();
@@ -1042,6 +1055,7 @@ void QQuickGraphsBars::updateBarPositions(QBar3DSeries *series)
                         }
 
                         positions.push_back(bih);
+                        dataColIndex++;
                     }
                 }
                 dataRowIndex++;
