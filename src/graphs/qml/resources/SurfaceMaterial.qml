@@ -17,6 +17,10 @@ CustomMaterial {
     property int colorStyle: 0
     property real specularBrightness: 0.25
     readonly property real shininess: (1.0 - specularBrightness) * 100
+    property vector2d rangeMin
+    property vector2d rangeMax
+    property bool xDesc
+    property bool zDesc
 
     shadingMode: CustomMaterial.Shaded
     vertexShader: "qrc:/shaders/vertexSurface"
