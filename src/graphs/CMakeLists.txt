@@ -182,9 +182,6 @@ set_source_files_properties("qml/resources/GridSurfaceMaterial.qml"
 set_source_files_properties("qml/resources/SurfaceSliceMaterial.qml"
     PROPERTIES QT_RESOURCE_ALIAS "SurfaceSliceMaterial"
 )
-set_source_files_properties("qml/resources/SurfaceTexturedMaterial.qml"
-    PROPERTIES QT_RESOURCE_ALIAS "SurfaceTexturedMaterial"
-)
 set_source_files_properties("qml/resources/SurfaceMaterial.qml"
     PROPERTIES QT_RESOURCE_ALIAS "SurfaceMaterial"
 )
@@ -258,7 +255,6 @@ set(qml_material_resources
     "qml/resources/RangeGradientScatterMaterialInstancing.qml"
     "qml/resources/GridSurfaceMaterial.qml"
     "qml/resources/SurfaceSliceMaterial.qml"
-    "qml/resources/SurfaceTexturedMaterial.qml"
     "qml/resources/SurfaceShadowNoTex.qml"
     "qml/resources/VolumeMaterial.qml"
     "qml/resources/VolumeLowDefMaterial.qml"
@@ -603,9 +599,6 @@ set_source_files_properties("engine/shaders/surfaceShadowNoTex.frag"
 set_source_files_properties("engine/shaders/surfaceSlice.vert"
     PROPERTIES QT_RESOURCE_ALIAS "vertexSurfaceSlice"
 )
-set_source_files_properties("engine/shaders/surfaceTextured.frag"
-    PROPERTIES QT_RESOURCE_ALIAS "fragmentSurfaceTextured"
-)
 set_source_files_properties("engine/shaders/surfaceTexturedFlat.frag"
     PROPERTIES QT_RESOURCE_ALIAS "fragmentSurfaceTexturedFlat"
 )
@@ -722,7 +715,6 @@ set(shader_resource_files
     "engine/shaders/surfaceShadowFlat.vert"
     "engine/shaders/surfaceShadowNoTex.frag"
     "engine/shaders/surfaceSlice.vert"
-    "engine/shaders/surfaceTextured.frag"
     "engine/shaders/surfaceTexturedFlat.frag"
     "engine/shaders/surfaceTexturedShadow.frag"
     "engine/shaders/surfaceTexturedShadowFlat.frag"

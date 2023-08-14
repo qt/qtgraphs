@@ -1,4 +1,5 @@
 VARYING vec3 pos;
+VARYING vec2 bounds;
 
 void MAIN()
 {
@@ -18,8 +19,12 @@ void MAIN()
         n = cross(v31, v21);
     if (UV0.y > (1.0 - yDiff))
         n = cross(v31, v21);
+
     NORMAL = n;
     VERTEX = v1;
+
     pos = VERTEX;
+    vec2 desc = vec2(int(xDesc),int(zDesc));
+    bounds = abs(desc - UV0);
     POSITION = MODELVIEWPROJECTION_MATRIX * vec4(VERTEX, 1.0);
 }

@@ -121,6 +121,8 @@ private:
         bool picked = false;
         QVector3D boundsMin;
         QVector3D boundsMax;
+        QVector2D rangeMin;
+        QVector2D rangeMax;
     };
 
     QVector3D getNormalizedVertex(const QSurfaceDataItem &data, bool polar, bool flipXZ);

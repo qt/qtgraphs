@@ -2,9 +2,23 @@ vec4 diffuse = vec4(0.0);
 float ambientBrightness = 0.75; // 0...1.0
 float directionalBrightness = 0.50; // 0...1.0
 VARYING vec3 pos;
+VARYING vec2 bounds;
+
+void checkBounds() {
+
+    float xBoundsMin = step(-0.01,(bounds.x - rangeMin.x));
+    float yBoundsMin = step(-0.01,(bounds.y - rangeMin.y));
+    float xBoundsMax = step(-0.01,(rangeMax.x - bounds.x));
+    float yBoundsMax = step(-0.01,(rangeMax.y - bounds.y));
+
+    float total = xBoundsMin * yBoundsMin * xBoundsMax * yBoundsMax;
+    if(total == 0)
+        discard;
+}
 
 void MAIN()
 {
+    checkBounds();
     vec3 color;
     vec2 gradientUV;
     switch (colorStyle) {
