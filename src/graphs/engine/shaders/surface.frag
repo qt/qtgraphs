@@ -1,39 +1,55 @@
-#version 120
+vec4 diffuse = vec4(0.0);
+float shininess = 50.0;
+float specularBrightness = 0.25; // 0...1.0
+float ambientBrightness = 0.75; // 0...1.0
+float directionalBrightness = 0.75; // 0...1.0
+VARYING vec3 pos;
 
-varying highp vec2 coords_mdl;
-varying highp vec3 position_wrld;
-varying highp vec3 normal_cmr;
-varying highp vec3 eyeDirection_cmr;
-varying highp vec3 lightDirection_cmr;
-
-uniform sampler2D textureSampler;
-uniform highp vec3 lightPosition_wrld;
-uniform highp float lightStrength;
-uniform highp float ambientStrength;
-uniform highp vec4 lightColor;
-uniform highp float gradMin;
-uniform highp float gradHeight;
-
-void main() {
-    highp vec2 gradientUV = vec2(0.0, gradMin + coords_mdl.y * gradHeight);
-    highp vec3 materialDiffuseColor = texture2D(textureSampler, gradientUV).xyz;
-    highp vec3 materialAmbientColor = lightColor.rgb * ambientStrength * materialDiffuseColor;
-    highp vec3 materialSpecularColor = lightColor.rgb;
-
-    highp float distance = length(lightPosition_wrld - position_wrld);
-
-    highp vec3 n = normalize(normal_cmr);
-    highp vec3 l = normalize(lightDirection_cmr);
-    highp float cosTheta = clamp(dot(n, l), 0.0, 1.0);
-
-    highp vec3 E = normalize(eyeDirection_cmr);
-    highp vec3 R = reflect(-l, n);
-    highp float cosAlpha = clamp(dot(E, R), 0.0, 1.0);
-
-    gl_FragColor.rgb =
-        materialAmbientColor +
-        materialDiffuseColor * lightStrength * pow(cosTheta, 2) / distance +
-        materialSpecularColor * lightStrength * pow(cosAlpha, 10) / distance;
-    gl_FragColor.a = 1.0;
+void MAIN()
+{
+    vec3 color;
+    vec2 gradientUV;
+    switch (colorStyle) {
+    case 0: //Object gradient
+        gradientUV = vec2(gradientMin + pos.y * gradientHeight, 0.0);
+        color = texture(custex, gradientUV).xyz;
+        break;
+    case 1: //Range gradient
+        gradientUV = vec2((VAR_WORLD_POSITION.y + 1.0) / 2.0, 0.0);
+        color = texture(custex, gradientUV).xyz;
+        break;
+    case 2: // Uniform color
+        color = uniformColor.rgb;
+        break;
+    case 3: // Textured model
+        color = texture(baseColor, UV0).xyz;
+        break;
+    }
+    diffuse = vec4(color, 1.0);
+    BASE_COLOR = diffuse;
+    if (flatShading) {
+        vec3 dpdx = dFdx(VAR_WORLD_POSITION);
+        vec3 dpdy = dFdy(VAR_WORLD_POSITION);
+        vec3 n = normalize(cross(dpdy,dpdx));
+        NORMAL = n;
+    }
 }
 
+void AMBIENT_LIGHT()
+{
+    DIFFUSE += diffuse.rgb * TOTAL_AMBIENT_COLOR * ambientBrightness;
+}
+
+void DIRECTIONAL_LIGHT()
+{
+    DIFFUSE += diffuse.rgb * directionalBrightness * LIGHT_COLOR * SHADOW_CONTRIB * vec3(max(0.0, dot(normalize(NORMAL), TO_LIGHT_DIR)));
+}
+
+void SPECULAR_LIGHT()
+{
+    vec3 H = normalize(VIEW_VECTOR + TO_LIGHT_DIR);
+    float cosAlpha = max(0.0, dot(H, normalize(NORMAL)));
+    float shine = pow(cosAlpha, shininess);
+    const vec3 specularColor = vec3(specularBrightness);
+    SPECULAR += shine * specularColor;
+}

@@ -128,7 +128,7 @@ private:
     void createGridlineIndices(SurfaceModel *model, int x, int y, int endX, int endY);
     void handleChangedSeries();
     void updateModel(SurfaceModel *model);
-    void updateMaterial(SurfaceModel *model, bool texturedModel = false);
+    void updateMaterial(SurfaceModel *model);
     void updateSelectedPoint();
     void addModel(QSurface3DSeries *series);
     void addSliceModel(SurfaceModel *model);
