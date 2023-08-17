@@ -702,7 +702,7 @@ void QQuickGraphsItem::synchData()
     if (recalculateScale)
         calculateSceneScalingFactors();
 
-    bool axisDirty = false;
+    bool axisDirty = recalculateScale;
     if (m_controller->m_changeTracker.axisXFormatterChanged) {
         m_controller->m_changeTracker.axisXFormatterChanged = false;
         QAbstract3DAxis *axisX = m_controller->axisX();
