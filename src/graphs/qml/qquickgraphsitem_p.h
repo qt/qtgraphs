@@ -232,8 +232,6 @@ public:
 
     virtual bool doPicking(const QPointF &);
 
-    void setDefaultScaleWithBackground(const QVector3D &newDefaultScaleWithBackground);
-
 public Q_SLOTS:
     virtual void handleAxisXChanged(QAbstract3DAxis *axis) = 0;
     virtual void handleAxisYChanged(QAbstract3DAxis *axis) = 0;
@@ -426,7 +424,6 @@ private:
 
     QVector3D m_scaleWithBackground = QVector3D(1.0f, 1.0f, 1.0f);
     QVector3D m_backgroundScaleMargin = QVector3D(0.0f, 0.0f, 0.0f);
-    QVector3D m_defaultScaleWithBackground = QVector3D();
 
     QVector3D m_rot = QVector3D(1.0f, 1.0f, 1.0f);
 
@@ -454,9 +451,6 @@ private:
     QVector3D m_labelPosition = QVector3D();
 
     float m_initialZoomLevel = -1.0f;
-    float m_initialXRange = qInf();
-    float m_initialYRange = qInf();
-    float m_initialZRange = qInf();
     void setUpCamera();
     void setUpLight();
     void graphPositionAt(const QPoint& point);
