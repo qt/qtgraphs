@@ -968,6 +968,8 @@ void QQuickGraphsItem::synchData()
 
     if (theme->d_func()->m_dirtyBits.lightStrengthDirty) {
         light()->setBrightness(theme->lightStrength() * .2f);
+        if (qFuzzyIsNull(light()->brightness()))
+            light()->setBrightness(.0000001f);
         theme->d_func()->m_dirtyBits.lightStrengthDirty = false;
     }
 
@@ -976,7 +978,7 @@ void QQuickGraphsItem::synchData()
         QColor ambientColor = QColor::fromRgbF(ambientStrength, ambientStrength, ambientStrength);
         light()->setAmbientColor(ambientColor);
         if (qFuzzyIsNull(light()->brightness()))
-            light()->setBrightness(.0001f);
+            light()->setBrightness(.0000001f);
         theme->d_func()->m_dirtyBits.ambientLightStrengthDirty = false;
     }
 
