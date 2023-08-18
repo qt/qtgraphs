@@ -1355,6 +1355,16 @@ void QQuickGraphsSurface::updateSingleHighlightColor()
         m_sliceInstancing->setColor(m_surfaceController->activeTheme()->singleHighlightColor());
 }
 
+void QQuickGraphsSurface::updateLightStrength()
+{
+    for (auto model : m_model) {
+        QQmlListReference materialRef(model->model, "materials");
+        QQuick3DCustomMaterial *material = qobject_cast<QQuick3DCustomMaterial *>(materialRef.at(0));
+        material->setProperty("specularBrightness",
+                              m_surfaceController->activeTheme()->lightStrength() * 0.05);
+    }
+}
+
 void QQuickGraphsSurface::handleThemeTypeChange()
 {
     for (auto model : m_model)

@@ -350,6 +350,7 @@ protected:
     virtual void updateAxisRange(float min, float max);
     virtual void updateAxisReversed(bool enable);
     virtual void updateSingleHighlightColor() {}
+    virtual void updateLightStrength() {}
 
     virtual void handleLabelCountChanged(QQuick3DRepeater *repeater);
 
