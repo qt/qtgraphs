@@ -15,6 +15,7 @@ CustomMaterial {
     property color uniformColor
     property bool flatShading: false
     property int colorStyle: 0
+    property real specularBrightness: 0.25
 
     shadingMode: CustomMaterial.Shaded
     vertexShader: "qrc:/shaders/vertexSurface"

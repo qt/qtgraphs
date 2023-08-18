@@ -970,6 +970,7 @@ void QQuickGraphsItem::synchData()
         light()->setBrightness(theme->lightStrength() * .2f);
         if (qFuzzyIsNull(light()->brightness()))
             light()->setBrightness(.0000001f);
+        updateLightStrength();
         theme->d_func()->m_dirtyBits.lightStrengthDirty = false;
     }
 
