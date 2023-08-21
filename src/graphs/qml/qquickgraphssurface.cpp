@@ -1137,16 +1137,9 @@ void QQuickGraphsSurface::updateSelectedPoint()
                 m_sliceInstancing->addPosition(slicePosition);
             }
             if (model->picked) {
-                const QSurfaceDataArray &array = *(model->series->dataProxy())->array();
-                const QSurfaceDataRow &rowArray = *array.at(selectedVertex.coord.x());
-                QVector3D value = rowArray.at(selectedVertex.coord.y()).position();
                 QVector3D labelPosition = selectedVertex.position;
-                QString x = static_cast<QValue3DAxis *>(m_surfaceController->axisX())->stringForValue(value.x());
-                QString y = static_cast<QValue3DAxis *>(m_surfaceController->axisY())->stringForValue(value.y());
-                QString z = static_cast<QValue3DAxis *>(m_surfaceController->axisZ())->stringForValue(value.z());
-                QString label = x + QStringLiteral(", ") +
-                        y + QStringLiteral(", ") +
-                        z;
+                model->series->setSelectedPoint(selectedVertex.coord);
+                QString label = model->series->itemLabel();
 
                 updateItemLabel(labelPosition);
                 itemLabel()->setProperty("labelText", label);
