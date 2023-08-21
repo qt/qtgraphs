@@ -912,6 +912,10 @@ void QQuickGraphsItem::synchData()
         updateGrid();
         updateLabels();
         updateCustomData();
+        if (m_sliceView) {
+            updateSliceGrid();
+            updateSliceLabels();
+        }
         m_gridUpdated = true;
     }
 

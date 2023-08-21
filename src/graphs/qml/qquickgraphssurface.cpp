@@ -732,12 +732,17 @@ void QQuickGraphsSurface::updateSliceGraph()
         int rowCount = model->rowCount;
         int columnCount = model->columnCount;
 
+        int rowStart = model->rowCount * model->rangeMin.y();
+        int columnStart = model->columnCount * model->rangeMin.x();
+        int rowLimit = model->rowCount * model->rangeMax.y();
+        int columnLimit = model->columnCount * model->rangeMax.x();
+
         int indexCount = 0;
         if (selectionMode.testFlag(QAbstract3DGraph::SelectionRow)) {
             int selectedRow = model->selectedVertex.coord.x() * columnCount;
             selectedSeries.reserve(columnCount * 2);
             QVector<SurfaceVertex> list;
-            for (int i = 0; i < columnCount; i++) {
+            for (int i = columnStart; i < columnLimit; i++) {
                 SurfaceVertex vertex = model->vertices.at(selectedRow + i);
                 vertex.position.setY(vertex.position.y() - .025f);
                 vertex.position.setZ(.0f);
@@ -746,14 +751,14 @@ void QQuickGraphsSurface::updateSliceGraph()
                 list.append(vertex);
             }
             selectedSeries.append(list);
-            indexCount = columnCount - 1;
+            indexCount = columnLimit - columnStart - 1;
         }
 
         if (selectionMode.testFlag(QAbstract3DGraph::SelectionColumn)) {
             int selectedColumn = model->selectedVertex.coord.y();
             selectedSeries.reserve(rowCount * 2);
             QVector<SurfaceVertex> list;
-            for (int i = 0; i < rowCount; i++) {
+            for (int i = rowStart; i < rowLimit; i++) {
                 SurfaceVertex vertex = model->vertices.at((i * columnCount) + selectedColumn);
                 vertex.position.setX(-vertex.position.z());
                 vertex.position.setY(vertex.position.y() - .025f);
@@ -763,7 +768,7 @@ void QQuickGraphsSurface::updateSliceGraph()
                 list.append(vertex);
             }
             selectedSeries.append(list);
-            indexCount = rowCount - 1;
+            indexCount = rowLimit - rowStart - 1;
 
             QQmlListReference materialRef(model->sliceModel, "materials");
             auto material = materialRef.at(0);
