@@ -406,10 +406,10 @@ private:
     QQuick3DPerspectiveCamera *m_pCamera = nullptr;
     QQuick3DOrthographicCamera *m_oCamera = nullptr;
     QRectF m_cachedGeometry;
-    QAbstract3DGraph::RenderingMode m_renderMode;
-    int m_samples;
-    int m_windowSamples;
-    QSize m_initialisedSize;
+    QAbstract3DGraph::RenderingMode m_renderMode = QAbstract3DGraph::RenderDirectToBackground;
+    int m_samples = 0;
+    int m_windowSamples = 0;
+    QSize m_initialisedSize = QSize(0, 0);
     bool m_runningInDesigner;
     QMutex m_mutex;
 
