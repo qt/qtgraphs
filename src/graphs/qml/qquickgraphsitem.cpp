@@ -13,7 +13,7 @@
 #include "qcustom3dlabel.h"
 #include "qcustom3ditem.h"
 #include "qtouch3dinputhandler.h"
-#include "qvalue3daxis_p.h"
+#include "qvalue3daxis.h"
 #include "utils_p.h"
 #include "qcustom3dvolume.h"
 
@@ -40,11 +40,7 @@ QT_BEGIN_NAMESPACE
 
 QQuickGraphsItem::QQuickGraphsItem(QQuickItem *parent) :
     QQuick3DViewport(parent),
-    m_controller(0),
-    m_renderMode(QAbstract3DGraph::RenderIndirect),
-    m_samples(0),
-    m_windowSamples(0),
-    m_initialisedSize(0, 0)
+    m_controller(nullptr)
 {
     m_nodeMutex = QSharedPointer<QMutex>::create();
 
@@ -57,6 +53,10 @@ QQuickGraphsItem::QQuickGraphsItem(QQuickItem *parent) :
     // Set contents to false in case we are in qml designer to make component look nice
     m_runningInDesigner = QGuiApplication::applicationDisplayName() == QLatin1String("Qml2Puppet");
     setFlag(ItemHasContents/*, !m_runningInDesigner*/); // Is this relevant anymore?
+
+    // Set 4x MSAA by default
+    setRenderingMode(QAbstract3DGraph::RenderIndirect);
+    setMsaaSamples(4);
 
     // Accept touchevents
     setAcceptTouchEvents(true);
