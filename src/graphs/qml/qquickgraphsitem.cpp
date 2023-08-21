@@ -44,7 +44,7 @@ QQuickGraphsItem::QQuickGraphsItem(QQuickItem *parent) :
 
     QQuick3DSceneEnvironment *scene = environment();
     scene->setBackgroundMode(QQuick3DSceneEnvironment::QQuick3DEnvironmentBackgroundTypes::Color);
-    scene->setClearColor(Qt::blue);
+    scene->setClearColor(Qt::transparent);
 
     auto sceneManager = QQuick3DObjectPrivate::get(rootNode())->sceneManager;
     connect(sceneManager.data(), &QQuick3DSceneManager::windowChanged, this, &QQuickGraphsItem::handleWindowChanged);
