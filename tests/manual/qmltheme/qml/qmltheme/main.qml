@@ -37,6 +37,8 @@ Item {
         id: customSurfaceTheme
         type: Theme3D.ThemeUserDefined
         colorStyle: Theme3D.ColorStyleObjectGradient
+        backgroundColor: "gray"
+        gridLineColor: "lightGray"
         multiHighlightColor: "blue"
         singleHighlightColor: "yellow"
         multiHighlightGradient: multiGradient
@@ -47,6 +49,8 @@ Item {
         id: customBarsTheme
         type: Theme3D.ThemeUserDefined
         colorStyle: Theme3D.ColorStyleObjectGradient
+        backgroundColor: "gray"
+        gridLineColor: "lightGray"
         multiHighlightColor: "blue"
         singleHighlightColor: "yellow"
         multiHighlightGradient: multiGradient

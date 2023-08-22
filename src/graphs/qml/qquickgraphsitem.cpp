@@ -1122,9 +1122,10 @@ void QQuickGraphsItem::synchData()
         QQuick3DPrincipledMaterial *bgMat;
         if (!materialsRef.size()) {
             bgMat = new QQuick3DPrincipledMaterial();
-            bgMat->setParent(this);
+            bgMat->setParent(m_background);
+            bgMat->setMetalness(0.f);
             bgMat->setRoughness(.3f);
-            bgMat->setEmissiveFactor(QVector3D(.075f, .075f, .075f));
+            bgMat->setEmissiveFactor(QVector3D(.001f, .001f, .001f));
             materialsRef.append(bgMat);
         } else {
             bgMat = static_cast<QQuick3DPrincipledMaterial *>(materialsRef.at(0));
@@ -4020,6 +4021,7 @@ void QQuickGraphsItem::setUpCamera()
     m_pCamera->setPosition(QVector3D(.0f, .0f, 5.f));
 
     auto cameraTarget = new QQuick3DNode(rootNode());
+    cameraTarget->setParentItem(rootNode());
 
     setCameraTarget(cameraTarget);
     cameraTarget->setPosition(QVector3D(0, 0, 0));
