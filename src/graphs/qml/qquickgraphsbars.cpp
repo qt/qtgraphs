@@ -758,21 +758,18 @@ void QQuickGraphsBars::generateBars(QList<QBar3DSeries *> &barSeriesList)
 
         if (barList->isEmpty()) {
             if (m_barsController->optimizationHints() == QAbstract3DGraph::OptimizationLegacy) {
-                int dataRowCount = 0;
-                int dataColCount = 0;
 
                 QBarDataProxy *dataProxy = barSeries->dataProxy();
-                dataRowCount = dataProxy->rowCount();
-                dataColCount = dataProxy->colCount();
                 int dataRowIndex = m_minRow;
+                int newRowSize = qMin(dataProxy->rowCount() - dataRowIndex, m_newRows);
 
-                for (int row = 0; row < m_newRows; ++row) {
-                    const QBarDataRow *dataRow = 0;
-                    if (dataRowIndex < dataRowCount)
-                        dataRow = dataProxy->rowAt(dataRowIndex);
+                for (int row = 0; row < newRowSize; ++row) {
+                    const QBarDataRow *dataRow = dataProxy->rowAt(dataRowIndex);
                     if (dataRow) {
-                        for (int col = 0; col < dataColCount; ++col) {
-                            QBarDataItem *dataItem = const_cast <QBarDataItem *> (&(dataRow->at(col)));
+                        int dataColIndex = m_minCol;
+                        int newColSize = qMin(dataRow->size() - dataColIndex, m_newCols);
+                        for (int col = 0; col < newColSize; ++col) {
+                            QBarDataItem *dataItem = const_cast<QBarDataItem *> (&(dataRow->at(dataColIndex)));
                             auto scene = QQuick3DViewport::scene();
                             QQuick3DModel *model = createDataItem(scene, barSeries);
                             model->setVisible(visible);
@@ -789,6 +786,7 @@ void QQuickGraphsBars::generateBars(QList<QBar3DSeries *> &barSeriesList)
                                 delete barModel->model;
                                 delete barModel;
                             }
+                            ++dataColIndex;
                         }
                         ++dataRowIndex;
                     }
@@ -928,9 +926,6 @@ void QQuickGraphsBars::updateBarVisuality(QBar3DSeries *series, int visualIndex)
 void QQuickGraphsBars::updateBarPositions(QBar3DSeries *series)
 {
     QBarDataProxy *dataProxy = series->dataProxy();
-    int dataRowCount = 0;
-    int dataColCount = 0;
-
 
     m_seriesScaleX = 1.0f / float(m_visibleSeriesCount);
     m_seriesStep = 1.0f / float(m_visibleSeriesCount);
@@ -946,6 +941,13 @@ void QQuickGraphsBars::updateBarPositions(QBar3DSeries *series)
     m_zeroPosition = m_helperAxisY.itemPositionAt(m_actualFloorLevel);
 
     QList<BarModel *> barList = *m_barModelsMap.value(series);
+
+    int dataRowIndex = m_minRow;
+    int newRowSize = qMin(dataProxy->rowCount() - dataRowIndex, m_newRows);
+    int row = 0;
+    int dataColIndex = m_minCol;
+    int newColSize = qMin(dataProxy->colCount() - dataColIndex, m_newCols);
+    int col = 0;
     for (int i = 0; i < barList.count(); i++) {
         if (m_barsController->optimizationHints() == QAbstract3DGraph::OptimizationLegacy) {
             QBarDataItem *item = barList.at(i)->barItem;
@@ -968,9 +970,9 @@ void QQuickGraphsBars::updateBarPositions(QBar3DSeries *series)
                                                                  * m_cachedBarSeriesMargin.width())) + 0.5f;
 
 
-            float colPos = (dataColCount + seriesPos) * m_cachedBarSpacing.width();
+            float colPos = (col + seriesPos) * m_cachedBarSpacing.width();
             float xPos = (colPos - m_rowWidth) / m_scaleFactor;
-            float rowPos = (dataRowCount + 0.5f) * (m_cachedBarSpacing.height());
+            float rowPos = (row + 0.5f) * (m_cachedBarSpacing.height());
             float zPos = (m_columnDepth - rowPos) / m_scaleFactor;
 
             barList.at(i)->heightValue = heightValue;
@@ -983,30 +985,23 @@ void QQuickGraphsBars::updateBarPositions(QBar3DSeries *series)
             else
                 model->setPickable(true);
 
-            if (dataColCount < dataProxy->colCount() - 1) {
-                ++dataColCount;
+            if (col < newColSize - 1) {
+                ++col;
             } else {
-                dataColCount = 0;
-                if (dataRowCount < dataProxy->rowCount() - 1)
-                    ++dataRowCount;
+                col = 0;
+                if (row < newRowSize - 1)
+                    ++row;
                 else
-                    dataRowCount = 0;
+                    row = 0;
             }
         } else if (m_barsController->optimizationHints() == QAbstract3DGraph::OptimizationDefault) {
             QList<BarItemHolder *> positions;
-            dataRowCount = dataProxy->rowCount();
-            dataColCount = dataProxy->colCount();
-            int dataRowIndex = m_minRow;
-            int startColIndex = m_minCol;
-            for (int row = 0; row < m_newRows; ++row) {
-                const QBarDataRow *dataRow = 0;
-                if (dataRowIndex < dataRowCount)
-                    dataRow = dataProxy->rowAt(dataRowIndex);
+            for (int row = 0; row < newRowSize; ++row) {
+                const QBarDataRow *dataRow = dataProxy->rowAt(dataRowIndex);
                 if (dataRow) {
-                    int updateSize = dataRow->size() - startColIndex;
-                    int dataColIndex = startColIndex;
-                    for (int col = 0; col < updateSize; col++) {
-                        const QBarDataItem *item = const_cast <QBarDataItem *> (&(dataRow->at(dataColIndex)));
+                    dataColIndex = m_minCol;
+                    for (int col = 0; col < newColSize; col++) {
+                        const QBarDataItem *item = const_cast<QBarDataItem *> (&(dataRow->at(dataColIndex)));
                         float heightValue = updateBarHeightParameters(item);
 
                         float angle = item->rotation();
