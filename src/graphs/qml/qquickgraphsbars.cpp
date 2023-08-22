@@ -405,9 +405,10 @@ void QQuickGraphsBars::synchData()
 
     if (!materialsRefF.size()) {
         bgMatFloor = new QQuick3DPrincipledMaterial();
-        bgMatFloor->setParent(this);
+        bgMatFloor->setParent(bgFloor);
+        bgMatFloor->setMetalness(0.f);
         bgMatFloor->setRoughness(.3f);
-        bgMatFloor->setEmissiveFactor(QVector3D(.075f, .075f, .075f));
+        bgMatFloor->setEmissiveFactor(QVector3D(.001f, .001f, .001f));
         materialsRefF.append(bgMatFloor);
     } else {
         bgMatFloor = static_cast<QQuick3DPrincipledMaterial *>(materialsRefF.at(0));
