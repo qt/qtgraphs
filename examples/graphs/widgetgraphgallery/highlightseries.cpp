@@ -71,7 +71,7 @@ void HighlightSeries::handlePositionChange(const QPoint &position)
         QSurfaceDataRow *srcRow = srcArray.at(i);
         for (int j = startX; j < endX; ++j) {
             QVector3D pos = srcRow->at(j).position();
-            pos.setY(pos.y() + 0.1f);
+            pos.setY(pos.y() + 5.f);
             newRow->append(QSurfaceDataItem(pos));
         }
         dataArray->append(newRow);
