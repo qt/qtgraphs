@@ -230,7 +230,7 @@ public:
     void updateTitleLabels();
     virtual void updateSelectionMode(QAbstract3DGraph::SelectionFlags newMode);
 
-    virtual bool doPicking(const QPointF &);
+    virtual bool doPicking(const QPointF &point);
 
 public Q_SLOTS:
     virtual void handleAxisXChanged(QAbstract3DAxis *axis) = 0;
@@ -461,7 +461,7 @@ private:
     void handleSubSegmentLineCountChanged(QAbstract3DAxis *axis, QQuick3DRepeater *repeater);
     QVector3D calculateLabelRotation(float labelAutoAngle);
     void updateCustomData();
-    void updateCustomItemsRotation();
+    void updateCustomLabelsRotation();
 
     void createVolumeMaterial(QCustom3DVolume *volume, Volume &volumeItem);
     QQuick3DModel *createSliceFrame(Volume &volumeItem);

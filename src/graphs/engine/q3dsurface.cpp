@@ -80,6 +80,9 @@ Q3DSurface::Q3DSurface() : QAbstract3DGraph()
                        QUrl());
     m_graphsItem.reset(qobject_cast<QQuickGraphsSurface *>(component->create()));
     setContent(component->url(), component, m_graphsItem.data());
+
+    QObject::connect(m_graphsItem.data(), &QQuickGraphsItem::selectedElementChanged,
+                     this, &QAbstract3DGraph::selectedElementChanged);
 }
 
 /*!

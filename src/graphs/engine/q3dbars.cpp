@@ -76,6 +76,9 @@ Q3DBars::Q3DBars() : QAbstract3DGraph()
     component->setData("import QtQuick; import QtGraphs; Bars3D { anchors.fill: parent; }", QUrl());
     m_graphsItem.reset(qobject_cast<QQuickGraphsBars *>(component->create()));
     setContent(component->url(), component, m_graphsItem.data());
+
+    QObject::connect(m_graphsItem.data(), &QQuickGraphsItem::selectedElementChanged,
+                     this, &QAbstract3DGraph::selectedElementChanged);
 }
 
 /*!
