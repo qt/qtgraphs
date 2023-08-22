@@ -10,6 +10,7 @@
 #include "q3dscene_p.h"
 #include "qcustom3dlabel.h"
 #include "qcustom3ditem.h"
+#include "qcustom3ditem_p.h"
 #include "qtouch3dinputhandler.h"
 #include "qvalue3daxis.h"
 #include "utils_p.h"
@@ -478,6 +479,8 @@ int QQuickGraphsItem::addCustomItem(QCustom3DItem *item)
             material->setParent(model);
             material->setParentItem(model);
             materialsRef.append(material);
+            if (!selectionMode().testFlag(QAbstract3DGraph::SelectionNone))
+                model->setPickable(true);
             m_customItemList.insert(item, model);
         }
     } else {
@@ -2705,7 +2708,7 @@ void QQuickGraphsItem::updateCamera()
     cameraTarget()->setEulerRotation(rotation);
     float zoom = 720.f / zoomLevel;
     m_pCamera->setZ(zoom);
-    updateCustomItemsRotation();
+    updateCustomLabelsRotation();
     updateItemLabel(m_labelPosition);
 }
 
@@ -2956,7 +2959,7 @@ void QQuickGraphsItem::updateCustomData()
     }
 }
 
-void QQuickGraphsItem::updateCustomItemsRotation()
+void QQuickGraphsItem::updateCustomLabelsRotation()
 {
     auto labelIterator = m_customLabelList.constBegin();
     while (labelIterator != m_customLabelList.constEnd()) {
@@ -3483,11 +3486,34 @@ void QQuickGraphsItem::updateSelectionMode(QAbstract3DGraph::SelectionFlags newM
         updateSliceGraph();
 }
 
-bool QQuickGraphsItem::doPicking(const QPointF &)
+bool QQuickGraphsItem::doPicking(const QPointF &point)
 {
-    // Only do picking if the state is InputStateSelecting
-    return (m_activeInputHandler->d_func()->m_inputState
-            == QAbstract3DInputHandlerPrivate::InputStateSelecting);
+    if (m_activeInputHandler->d_func()->m_inputState
+        == QAbstract3DInputHandlerPrivate::InputStateSelecting) {
+        if (!m_customItemList.isEmpty()) {
+            // Try to pick custom item only
+            QList<QQuick3DPickResult> results = pickAll(point.x(), point.y());
+
+            for (const auto &result : results) {
+                QCustom3DItem *customItem = m_customItemList.key(result.objectHit(), nullptr);
+
+                if (customItem) {
+                    int selectedIndex = m_controller->m_customItems.indexOf(customItem);
+                    m_controller->m_selectedCustomItemIndex = selectedIndex;
+                    m_controller->m_clickedType = QAbstract3DGraph::ElementCustomItem;
+
+                    emit selectedElementChanged(QAbstract3DGraph::ElementCustomItem);
+                    // Don't allow picking in subclasses if custom item is picked
+                    return false;
+                }
+            }
+            m_controller->m_clickedType = QAbstract3DGraph::ElementNone;
+            emit selectedElementChanged(QAbstract3DGraph::ElementNone);
+        }
+        return true;
+    }
+
+    return false;
 }
 
 void QQuickGraphsItem::updateSliceGraph()

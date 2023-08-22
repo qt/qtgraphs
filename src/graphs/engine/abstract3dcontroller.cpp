@@ -525,6 +525,7 @@ QList<QCustom3DItem *> Abstract3DController::customItems() const
 void Abstract3DController::updateCustomItem()
 {
     m_isCustomItemDirty = true;
+    m_isCustomDataDirty = true;
     emitNeedRender();
 }
 

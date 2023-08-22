@@ -87,6 +87,7 @@ private:
     Q_DISABLE_COPY(QCustom3DItem)
 
     friend class Abstract3DController;
+    friend class QQuickGraphsItem;
 };
 
 QT_END_NAMESPACE

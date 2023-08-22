@@ -64,6 +64,9 @@ Q3DScatter::Q3DScatter() : QAbstract3DGraph()
     component->setData("import QtQuick; import QtGraphs; Scatter3D { anchors.fill: parent; }", QUrl());
     m_graphsItem.reset(qobject_cast<QQuickGraphsScatter *>(component->create()));
     setContent(component->url(), component, m_graphsItem.data());
+
+    QObject::connect(m_graphsItem.data(), &QQuickGraphsItem::selectedElementChanged,
+                     this, &QAbstract3DGraph::selectedElementChanged);
 }
 
 /*!
