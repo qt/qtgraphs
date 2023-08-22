@@ -26,5 +26,7 @@ void MAIN()
     pos = VERTEX;
     vec2 desc = vec2(int(xDesc),int(zDesc));
     bounds = abs(desc - UV0);
-    POSITION = MODELVIEWPROJECTION_MATRIX * vec4(VERTEX, 1.0);
+    vec4 pos = MODELVIEWPROJECTION_MATRIX * vec4(VERTEX, 1.0);
+    pos.z += 0.000001;
+    POSITION = pos;
 }
