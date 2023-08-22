@@ -1,8 +1,7 @@
-!include( ../examples.pri ) {
-    error( "Couldn't find the examples.pri file!" )
-}
+QT +=  graphs gui qml
+# If testing with datavisualization instead, uncomment the following line
+#QT += datavisualization
 
-# The .cpp file which was generated for your project. Feel free to hack it.
 SOURCES += main.cpp
 
 RESOURCES += qmltheme.qrc
