@@ -1,7 +1,6 @@
 vec4 diffuse = vec4(0.0);
-float shininess = 50.0;
 float ambientBrightness = 0.75; // 0...1.0
-float directionalBrightness = 0.75; // 0...1.0
+float directionalBrightness = 0.50; // 0...1.0
 VARYING vec3 pos;
 
 void MAIN()
