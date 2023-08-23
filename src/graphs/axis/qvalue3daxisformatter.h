@@ -68,6 +68,7 @@ private:
     friend class QBar3DSeriesPrivate;
     friend class QScatter3DSeriesPrivate;
     friend class QSurface3DSeriesPrivate;
+    friend class QQuickGraphsItem;
     friend class QQuickGraphsScatter;
     friend class QQuickGraphsBars;
 };
