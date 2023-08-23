@@ -13,6 +13,7 @@
 #include "qcustom3ditem_p.h"
 #include "qtouch3dinputhandler.h"
 #include "qvalue3daxis.h"
+#include "qcategory3daxis.h"
 #include "utils_p.h"
 #include "qcustom3dvolume.h"
 
@@ -713,6 +714,7 @@ void QQuickGraphsItem::synchData()
         if (axisX->type() & QAbstract3DAxis::AxisTypeValue) {
             QValue3DAxis *valueAxisX = static_cast<QValue3DAxis *>(axisX);
             valueAxisX->recalculate();
+            repeaterX()->setModel(valueAxisX->formatter()->labelPositions().size());
         }
         axisDirty = true;
     }
@@ -723,6 +725,7 @@ void QQuickGraphsItem::synchData()
         if (axisY->type() & QAbstract3DAxis::AxisTypeValue) {
             QValue3DAxis *valueAxisY = static_cast<QValue3DAxis *>(axisY);
             valueAxisY->recalculate();
+            repeaterY()->setModel(2 * valueAxisY->formatter()->labelPositions().size());
         }
         axisDirty = true;
     }
@@ -733,6 +736,7 @@ void QQuickGraphsItem::synchData()
         if (axisZ->type() & QAbstract3DAxis::AxisTypeValue) {
             QValue3DAxis *valueAxisZ = static_cast<QValue3DAxis *>(axisZ);
             valueAxisZ->recalculate();
+            repeaterZ()->setModel(valueAxisZ->formatter()->labelPositions().size());
         }
         axisDirty = true;
     }
@@ -804,21 +808,57 @@ void QQuickGraphsItem::synchData()
     }
 
     if (m_controller->m_changeTracker.axisXLabelsChanged) {
-        m_repeaterX->setModel(m_controller->axisX()->labels().size());
+        QAbstract3DAxis *axisX = m_controller->axisX();
+        if (axisX->type() & QAbstract3DAxis::AxisTypeValue) {
+            auto valueAxisX = static_cast<QValue3DAxis *>(axisX);
+            valueAxisX->recalculate();
+            repeaterX()->setModel(valueAxisX->formatter()->labelPositions().size());
+        } else if (axisX->type() & QAbstract3DAxis::AxisTypeCategory) {
+            auto categoryAxis = static_cast<QCategory3DAxis *>(axisX);
+            repeaterX()->setModel(categoryAxis->labels().size());
+        }
+
+        handleSegmentLineCountChanged(axisX, segmentLineRepeaterX());
+        handleSubSegmentLineCountChanged(axisX, subsegmentLineRepeaterX());
         m_controller->m_changeTracker.axisXLabelsChanged = false;
         handleLabelCountChanged(m_repeaterX);
+        axisDirty = true;
     }
 
     if (m_controller->m_changeTracker.axisYLabelsChanged) {
-        m_repeaterY->setModel(2 * m_controller->axisY()->labels().size());
+        QAbstract3DAxis *axisY = m_controller->axisY();
+        if (axisY->type() & QAbstract3DAxis::AxisTypeValue) {
+            auto valueAxisY = static_cast<QValue3DAxis *>(axisY);
+            valueAxisY->recalculate();
+            repeaterY()->setModel(2 * valueAxisY->formatter()->labelPositions().size());
+        } else if (axisY->type() & QAbstract3DAxis::AxisTypeCategory) {
+            auto categoryAxis = static_cast<QCategory3DAxis *>(axisY);
+            repeaterY()->setModel(2 * categoryAxis->labels().size());
+        }
+
+        handleSegmentLineCountChanged(axisY, segmentLineRepeaterY());
+        handleSubSegmentLineCountChanged(axisY, subsegmentLineRepeaterY());
         m_controller->m_changeTracker.axisYLabelsChanged = false;
         handleLabelCountChanged(m_repeaterY);
+        axisDirty = true;
     }
 
     if (m_controller->m_changeTracker.axisZLabelsChanged) {
-        m_repeaterZ->setModel(m_controller->axisZ()->labels().size());
+        QAbstract3DAxis *axisZ = m_controller->axisZ();
+        if (axisZ->type() & QAbstract3DAxis::AxisTypeValue) {
+            auto valueAxisZ = static_cast<QValue3DAxis *>(axisZ);
+            valueAxisZ->recalculate();
+            repeaterZ()->setModel(valueAxisZ->formatter()->labelPositions().size());
+        } else if (axisZ->type() & QAbstract3DAxis::AxisTypeCategory) {
+            auto categoryAxis = static_cast<QCategory3DAxis *>(axisZ);
+            repeaterZ()->setModel(categoryAxis->labels().size());
+        }
+
+        handleSegmentLineCountChanged(axisZ, segmentLineRepeaterZ());
+        handleSubSegmentLineCountChanged(axisZ, subsegmentLineRepeaterZ());
         m_controller->m_changeTracker.axisZLabelsChanged = false;
         handleLabelCountChanged(m_repeaterZ);
+        axisDirty = true;
     }
 
     updateTitleLabels();
