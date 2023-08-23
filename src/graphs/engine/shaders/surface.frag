@@ -34,7 +34,8 @@ void MAIN()
         color = uniformColor.rgb;
         break;
     case 3: // Textured model
-        color = texture(baseColor, UV0).xyz;
+        vec2 flippedUV = vec2(UV0.x, 1.0 - UV0.y);
+        color = texture(baseColor, flippedUV).xyz;
         break;
     }
     diffuse = vec4(color, 1.0);
