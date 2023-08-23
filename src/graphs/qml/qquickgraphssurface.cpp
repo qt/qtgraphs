@@ -646,10 +646,8 @@ void QQuickGraphsSurface::updateMaterial(SurfaceModel *model)
         QQuick3DShaderUtilsTextureInput *texInput = material->property("baseColor").value<QQuick3DShaderUtilsTextureInput *>();
         if (!texInput->texture()) {
             QQuick3DTexture *texture = new QQuick3DTexture();
-            texture->setParent(model->model);
-            texture->setParentItem(model->model);
-            texture->setRotationUV(180.0f);
-            texture->setFlipU(true);
+            texture->setParent(material);
+            texture->setParentItem(material);
             texInput->setTexture(texture);
         }
         if (!model->series->textureFile().isEmpty()) {
@@ -1074,8 +1072,6 @@ void QQuickGraphsSurface::addModel(QSurface3DSeries *series)
 
 
     QQuick3DTexture *texture = new QQuick3DTexture();
-    texture->setParent(this);
-    texture->setRotationUV(-90.0f);
     texture->setHorizontalTiling(QQuick3DTexture::ClampToEdge);
     texture->setVerticalTiling(QQuick3DTexture::ClampToEdge);
     QuickGraphsTextureData *textureData = new QuickGraphsTextureData();
@@ -1093,6 +1089,8 @@ void QQuickGraphsSurface::addModel(QSurface3DSeries *series)
     QVariant textureInputAsVariant = customMaterial->property("custex");
     QQuick3DShaderUtilsTextureInput *textureInput = textureInputAsVariant.value<QQuick3DShaderUtilsTextureInput *>();
     textureInput->setTexture(texture);
+
+    texture->setParent(customMaterial);
 
     materialRef.append(customMaterial);
 
