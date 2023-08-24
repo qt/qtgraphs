@@ -299,13 +299,15 @@ protected:
     void createItemLabel();
 
     void updateXTitle(const QVector3D &labelRotation, const QVector3D &labelTrans,
-                      const QQuaternion &totalRotation, float labelsMaxWidth, float labelHeight, const QVector3D &scale);
+                      const QQuaternion &totalRotation, float labelsMaxWidth,
+                      const QVector3D &scale);
     void updateYTitle(const QVector3D &sideLabelRotation, const QVector3D &backLabelRotation,
                       const QVector3D &sideLabelTrans, const QVector3D &backLabelTrans,
                       const QQuaternion &totalSideRotation, const QQuaternion &totalBackRotation,
-                      float labelsMaxWidth, float labelHeight, const QVector3D &scale);
+                      float labelsMaxWidth, const QVector3D &scale);
     void updateZTitle(const QVector3D &labelRotation, const QVector3D &labelTrans,
-                      const QQuaternion &totalRotation, float labelsMaxWidth, float labelHeight, const QVector3D &scale);
+                      const QQuaternion &totalRotation, float labelsMaxWidth,
+                      const QVector3D &scale);
 
     virtual void calculateSceneScalingFactors();
     void positionAndScaleLine(QQuick3DNode *lineNode, QVector3D scale, QVector3D position);
@@ -438,8 +440,8 @@ private:
     float m_lineWidthScaleFactor = 0.0001f;
     float m_lineLengthScaleFactor = 0.02f;
 
-    float m_labelFontScaleFactor = 4.0f;
-    float m_fontScaleFactor = .3f;
+    float m_fontScaleFactorA = -1.130435e-06f;
+    float m_fontScaleFactorB = 0.000115652f;
 
     float m_labelMargin = 0.1f;
     float m_zLabelAdjustment = 0.0f;
@@ -448,6 +450,8 @@ private:
     bool m_sliceActivatedChanged = false;
 
     bool m_gridUpdated = false;
+
+    bool m_itemSelected = false;
 
     QVector3D m_labelPosition = QVector3D();
 
@@ -462,6 +466,7 @@ private:
     QVector3D calculateLabelRotation(float labelAutoAngle);
     void updateCustomData();
     void updateCustomLabelsRotation();
+    float fontScaleFactor(float pointSize);
 
     void createVolumeMaterial(QCustom3DVolume *volume, Volume &volumeItem);
     QQuick3DModel *createSliceFrame(Volume &volumeItem);

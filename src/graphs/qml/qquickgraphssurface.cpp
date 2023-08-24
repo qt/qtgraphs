@@ -1043,6 +1043,15 @@ void QQuickGraphsSurface::updateSelectedPoint()
                 labelVisible = true;
 
                 if (sliceView() && sliceView()->isVisible()) {
+                    QFontMetrics fm(m_surfaceController->activeTheme()->font());
+                    float textPadding = 12.0f;
+                    float labelHeight = fm.height() + textPadding;
+                    float labelWidth = fm.horizontalAdvance(label) + textPadding;
+                    QVector3D scale = sliceItemLabel()->scale();
+                    scale.setX(scale.y() * labelWidth / labelHeight);
+                    sliceItemLabel()->setProperty("labelWidth", labelWidth);
+                    sliceItemLabel()->setProperty("labelHeight", labelHeight);
+                    sliceItemLabel()->setScale(scale);
                     labelPosition = slicePosition;
                     labelPosition.setZ(.1f);
                     labelPosition.setY(labelPosition.y() + .05f);

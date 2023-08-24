@@ -4,40 +4,45 @@
 import QtQuick
 import QtQuick3D
 
-Node {
+Model {
+    id: root
+    source: "#Rectangle"
+    pickable: true
+
     property string labelText: "Bar"
     property color backgroundColor: "gray"
-    property bool backgroundEnabled: true
+    property bool backgroundEnabled: false
     property color labelTextColor: "red"
     property bool borderEnabled : false
     property font labelFont
     property real labelWidth: -1
     property real labelHeight: -1
 
-    Item {
-        anchors.centerIn: parent
-        anchors.verticalCenterOffset: text0.font.pointSize
-        width: Math.max(labelWidth / 2, text0.implicitWidth)
-        height: labelHeight
-        enabled: false
+    materials: DefaultMaterial {
+        diffuseMap: Texture {
+            sourceItem: Item {
+                id: labelItem
+                width: labelWidth
+                height: labelHeight
 
-        Rectangle {
-            id: labelBackground
-            anchors.fill: parent
-            color: backgroundColor
-            visible: backgroundEnabled
-            border.color: labelTextColor
-            border.width: borderEnabled ? Math.max(0.5, (text0.font.pointSize / 16)) : 0
-            radius: 3
-        }
+                Rectangle {
+                    id: labelBackground
+                    anchors.fill: parent
+                    color: backgroundColor
+                    visible: backgroundEnabled
+                    border.color: labelTextColor
+                    border.width: borderEnabled ? Math.max(0.5, (text0.font.pointSize / 16)) : 0
+                    radius: 4
+                }
 
-        Text {
-            id: text0
-            anchors.centerIn: parent
-            color: labelTextColor
-            text: labelText
-            font: labelFont
-            padding: 4
+                Text {
+                    id: text0
+                    anchors.centerIn: parent
+                    color: labelTextColor
+                    text: labelText
+                    font: labelFont
+                }
+            }
         }
     }
 }
