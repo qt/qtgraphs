@@ -1559,6 +1559,12 @@ void QQuickGraphsItem::updateGrid()
     }
 }
 
+float QQuickGraphsItem::fontScaleFactor(float pointSize)
+{
+    return m_fontScaleFactorA * pointSize
+            + m_fontScaleFactorB;
+}
+
 void QQuickGraphsItem::updateLabels()
 {
     auto axisX = m_controller->axisX();
@@ -1649,20 +1655,21 @@ void QQuickGraphsItem::updateLabels()
     auto totalRotation = Utils::calculateRotation(labelRotation);
 
     float scale = backgroundScale.x() - m_backgroundScaleMargin.x();
-    float textPadding = 8.0f;
-    float heightPadding = 4.0f;
 
-    auto pointSize = m_controller->activeTheme()->font().pointSizeF();
-    auto scaleFactor = m_labelScale.x() * m_labelFontScaleFactor / pointSize
-            + m_labelScale.x() * m_fontScaleFactor;
-    QVector3D fontScaled = QVector3D(scaleFactor, scaleFactor, 0.0f);
+    float pointSize = m_controller->activeTheme()->font().pointSizeF();
+
+    float textPadding = pointSize * .5f;
 
     float labelsMaxWidth = 0.0f;
     labelsMaxWidth = qMax(labelsMaxWidth, float(findLabelsMaxWidth(axisX->labels()))) + textPadding;
     QFontMetrics fm(m_controller->activeTheme()->font());
-    float labelHeight = fm.height() + heightPadding;
+    float labelHeight = fm.height() + textPadding;
 
-    auto adjustment = labelsMaxWidth * scaleFactor * .5f;
+    float scaleFactor = fontScaleFactor(pointSize) * pointSize;
+    float fontRatio = labelsMaxWidth / labelHeight;
+    QVector3D fontScaled = QVector3D(scaleFactor * fontRatio, scaleFactor, 0.00001f);
+
+    auto adjustment = labelsMaxWidth * fontScaled.x() * .5f;
     zPos = backgroundScale.z() + adjustment + m_labelMargin;
     adjustment *= qAbs(qSin(qDegreesToRadians(labelRotation.z())));
     yPos = backgroundScale.y() + adjustment;
@@ -1696,6 +1703,7 @@ void QQuickGraphsItem::updateLabels()
             } else {
                 labelTrans.setX(valueAxisX->labelPositionAt(i) * scale * 2.0f - scale);
             }
+            obj->setObjectName(QStringLiteral("ElementAxisXLabel"));
             obj->setScale(fontScaled);
             obj->setPosition(labelTrans);
             obj->setRotation(totalRotation);
@@ -1709,6 +1717,7 @@ void QQuickGraphsItem::updateLabels()
                 break;
             labelTrans = calculateCategoryLabelPosition(axisX, labelTrans, i);
             auto obj = static_cast<QQuick3DNode *>(repeaterX()->objectAt(i));
+            obj->setObjectName(QStringLiteral("ElementAxisXLabel"));
             obj->setScale(fontScaled);
             obj->setPosition(labelTrans);
             obj->setRotation(totalRotation);
@@ -1720,7 +1729,7 @@ void QQuickGraphsItem::updateLabels()
 
     float x = labelTrans.x();
     labelTrans.setX(0.0f);
-    updateXTitle(labelRotation, labelTrans, totalRotation, labelsMaxWidth, labelHeight, fontScaled);
+    updateXTitle(labelRotation, labelTrans, totalRotation, labelsMaxWidth, fontScaled);
     if (isPolar()) {
         m_titleLabelX->setZ(polarLabelZPos + m_labelMargin * -2.5f);
         m_titleLabelX->setRotation(totalRotation);
@@ -1769,7 +1778,7 @@ void QQuickGraphsItem::updateLabels()
     labelsMaxWidth = 0.0f;
     labelsMaxWidth = qMax(labelsMaxWidth, float(findLabelsMaxWidth(axisY->labels()))) + textPadding;
 
-    adjustment = labelsMaxWidth * scaleFactor * .5f + m_labelMargin;
+    adjustment = labelsMaxWidth * fontScaled.x() * .5f + m_labelMargin;
     xPos = backgroundScale.x();
     if (!xFlipped)
         xPos *= -1.0f;
@@ -1779,11 +1788,15 @@ void QQuickGraphsItem::updateLabels()
         zPos *= -1.0f;
     labelTrans.setZ(zPos);
 
+    fontRatio = labelsMaxWidth / labelHeight;
+    fontScaled = QVector3D(scaleFactor * fontRatio, scaleFactor, 0.00001f);
+
     for (int i = 0; i < repeaterY()->count() / 2; i++) {
         if (labelCount <= i)
             break;
         auto obj = static_cast<QQuick3DNode *>(repeaterY()->objectAt(i));
         labelTrans.setY(static_cast<QValue3DAxis *>(axisY)->labelPositionAt(i) * scale * 2.0f - scale);
+        obj->setObjectName(QStringLiteral("ElementAxisYLabel"));
         obj->setScale(fontScaled);
         obj->setPosition(labelTrans);
         obj->setRotation(totalRotation);
@@ -1873,7 +1886,10 @@ void QQuickGraphsItem::updateLabels()
     scale = backgroundScale.z() - m_backgroundScaleMargin.z();
     labelsMaxWidth = 0.0f;
     labelsMaxWidth = qMax(labelsMaxWidth, float(findLabelsMaxWidth(axisZ->labels()))) + textPadding ;
-    adjustment = labelsMaxWidth * scaleFactor * .5f;
+    adjustment = labelsMaxWidth * fontScaled.x() * .5f;
+
+    fontRatio = labelsMaxWidth / labelHeight;
+    fontScaled = QVector3D(scaleFactor * fontRatio, scaleFactor, 0.00001f);
 
     xPos = backgroundScale.x() + adjustment + m_labelMargin;
     if (xFlipped)
@@ -1903,6 +1919,7 @@ void QQuickGraphsItem::updateLabels()
             } else {
                 labelTrans.setZ(valueAxisZ->labelPositionAt(i) * scale * -2.0f + scale);
             }
+            obj->setObjectName(QStringLiteral("ElementAxisZLabel"));
             obj->setScale(fontScaled);
             obj->setPosition(labelTrans);
             obj->setRotation(totalRotation);
@@ -1916,6 +1933,7 @@ void QQuickGraphsItem::updateLabels()
                 break;
             labelTrans = calculateCategoryLabelPosition(axisZ, labelTrans, i);
             auto obj = static_cast<QQuick3DNode *>(repeaterZ()->objectAt(i));
+            obj->setObjectName(QStringLiteral("ElementAxisZLabel"));
             obj->setScale(fontScaled);
             obj->setPosition(labelTrans);
             obj->setRotation(totalRotation);
@@ -1927,7 +1945,7 @@ void QQuickGraphsItem::updateLabels()
 
     float z = labelTrans.z();
     labelTrans.setZ(0.0f);
-    updateZTitle(labelRotation, labelTrans, totalRotation, labelsMaxWidth, labelHeight, fontScaled);
+    updateZTitle(labelRotation, labelTrans, totalRotation, labelsMaxWidth, fontScaled);
     labelTrans.setZ(z);
 
     labels = axisY->labels();
@@ -1965,7 +1983,8 @@ void QQuickGraphsItem::updateLabels()
     auto totalBackLabelRotation = totalRotation;
     updateYTitle(sideLabelRotation, backLabelRotation,
                  sideLabelTrans,    backLabelTrans,
-                 totalSideLabelRotation, totalBackLabelRotation, labelsMaxWidth, labelHeight, fontScaled);
+                 totalSideLabelRotation, totalBackLabelRotation,
+                 labelsMaxWidth, fontScaled);
 }
 
 void QQuickGraphsItem::updateRadialLabelOffset()
@@ -2509,17 +2528,21 @@ float QQuickGraphsItem::calculateCategoryGridLinePosition(QAbstract3DAxis *axis,
 
 void QQuickGraphsItem::updateXTitle(const QVector3D &labelRotation, const QVector3D &labelTrans,
                                     const QQuaternion &totalRotation, float labelsMaxWidth,
-                                    float labelHeight, const QVector3D &scale)
+                                    const QVector3D &scale)
 {
-    float scaledFontSize = (0.05 + m_controller->activeTheme()->font().pointSizeF()) / 500.0f;
-    float scaleFactor = scaledFontSize / 90.0f;
+    float pointSize = m_controller->activeTheme()->font().pointSizeF();
+    float textPadding = pointSize * .5f;
+    QFontMetrics fm(m_controller->activeTheme()->font());
+    float height = fm.height() + textPadding;
+    float width = fm.horizontalAdvance(m_controller->axisX()->title()) + textPadding;
+
     float titleOffset;
 
     bool radial = false;
     if (radial)
-        titleOffset = -2.0f * (m_labelMargin + scaledFontSize);
+        titleOffset = -2.0f * (m_labelMargin + scale.y());
     else
-        titleOffset = 2.0f * (m_labelMargin + (labelsMaxWidth * scaleFactor));
+        titleOffset = 2.0f * m_labelMargin + (labelsMaxWidth * scale.y());
 
     float zRotation = 0.0f;
     float yRotation = 0.0f;
@@ -2594,11 +2617,13 @@ void QQuickGraphsItem::updateXTitle(const QVector3D &labelRotation, const QVecto
                 * QQuaternion::fromAxisAndAngle(0.0f, 0.0f, 1.0f, extraRotation);
     }
 
-    m_titleLabelX->setScale(scale);
+    QVector3D titleScale = scale;
+    titleScale.setX(titleScale.y() * width / height);
+    m_titleLabelX->setScale(titleScale);
     m_titleLabelX->setPosition(labelTrans + titleOffsetVector);
     m_titleLabelX->setRotation(titleRotation);
-    m_titleLabelX->setProperty("labelWidth", labelsMaxWidth);
-    m_titleLabelX->setProperty("labelHeight", labelHeight);
+    m_titleLabelX->setProperty("labelWidth", width);
+    m_titleLabelX->setProperty("labelHeight", height);
 }
 
 void QQuickGraphsItem::updateYTitle(const QVector3D &sideLabelRotation,
@@ -2608,12 +2633,15 @@ void QQuickGraphsItem::updateYTitle(const QVector3D &sideLabelRotation,
                                     const QQuaternion &totalSideRotation,
                                     const QQuaternion &totalBackRotation,
                                     float labelsMaxWidth,
-                                    float labelHeight,
                                     const QVector3D &scale)
 {
-    float scaledFontSize = (0.05 + m_controller->activeTheme()->font().pointSizeF()) / 500.0f;
-    float scaleFactor = scaledFontSize / 60.0f;
-    float titleOffset = 2.0f * (m_labelMargin + (labelsMaxWidth * scaleFactor));
+    float pointSize = m_controller->activeTheme()->font().pointSizeF();
+    float textPadding = pointSize * .5f;
+    QFontMetrics fm(m_controller->activeTheme()->font());
+    float height = fm.height() + textPadding;
+    float width = fm.horizontalAdvance(m_controller->axisY()->title()) + textPadding;
+
+    float titleOffset = m_labelMargin + (labelsMaxWidth * scale.x());
 
     QQuaternion zRightAngleRotation = QQuaternion::fromAxisAndAngle(0.0f, 0.0f, 1.0f, 90.0f);
     float yRotation;
@@ -2642,20 +2670,27 @@ void QQuickGraphsItem::updateYTitle(const QVector3D &sideLabelRotation,
         titleRotation = totalRotation * zRightAngleRotation;
     }
 
-    m_titleLabelY->setScale(scale);
+    QVector3D titleScale = scale;
+    titleScale.setX(titleScale.y() * width / height);
+    m_titleLabelY->setScale(titleScale);
     m_titleLabelY->setPosition(titleTrans + titleOffsetVector);
     m_titleLabelY->setRotation(titleRotation);
-    m_titleLabelY->setProperty("labelWidth", labelsMaxWidth);
-    m_titleLabelY->setProperty("labelHeight", labelHeight);
+    m_titleLabelY->setProperty("labelWidth", width);
+    m_titleLabelY->setProperty("labelHeight", height);
 }
 
 void QQuickGraphsItem::updateZTitle(const QVector3D &labelRotation, const QVector3D &labelTrans,
                                     const QQuaternion &totalRotation, float labelsMaxWidth,
-                                    float labelHeight, const QVector3D &scale)
+                                    const QVector3D &scale)
 {
-    float scaledFontSize = (0.05 + m_controller->activeTheme()->font().pointSizeF()) / 500.0f;
-    float scaleFactor = scaledFontSize / 90.0f;
-    float titleOffset = 2.0f * (m_labelMargin + (labelsMaxWidth * scaleFactor));
+    float pointSize = m_controller->activeTheme()->font().pointSizeF();
+    float textPadding = pointSize * .5f;
+    QFontMetrics fm(m_controller->activeTheme()->font());
+    float height = fm.height() + textPadding;
+    float width = fm.horizontalAdvance(m_controller->axisZ()->title()) + textPadding;
+
+    float titleOffset = m_labelMargin + (labelsMaxWidth * scale.x());
+
     float zRotation = labelRotation.z();
     float yRotation = -90.0f;
     float xRotation = -90.0f;
@@ -2722,11 +2757,13 @@ void QQuickGraphsItem::updateZTitle(const QVector3D &labelRotation, const QVecto
                 * QQuaternion::fromAxisAndAngle(0.0f, 0.0f, 1.0f, extraRotation);
     }
 
-    m_titleLabelZ->setScale(scale);
+    QVector3D titleScale = scale;
+    titleScale.setX(titleScale.y() * width / height);
+    m_titleLabelZ->setScale(titleScale);
     m_titleLabelZ->setPosition(labelTrans + titleOffsetVector);
     m_titleLabelZ->setRotation(titleRotation);
-    m_titleLabelZ->setProperty("labelWidth", labelsMaxWidth);
-    m_titleLabelZ->setProperty("labelHeight", labelHeight);
+    m_titleLabelZ->setProperty("labelWidth", width);
+    m_titleLabelZ->setProperty("labelHeight", height);
 }
 
 void QQuickGraphsItem::updateCamera()
@@ -2878,10 +2915,10 @@ void QQuickGraphsItem::updateCustomData()
                         0));
         }
         customLabel->setRotation(rotation);
-        float pointSize = label->font().pointSize();
-        float scaleFactor = m_labelScale.x() * m_labelFontScaleFactor / pointSize
-                + m_labelScale.x() * m_fontScaleFactor;
-        QVector3D fontScaled = QVector3D(scaleFactor, scaleFactor, 0.f);
+        float pointSize = m_controller->activeTheme()->font().pointSizeF();
+        float scaleFactor = fontScaleFactor(pointSize) * pointSize;
+        float fontRatio = height / width;
+        QVector3D fontScaled = QVector3D(scaleFactor, scaleFactor * fontRatio, 0.0f);
         customLabel->setScale(fontScaled);
         customLabel->setProperty("labelText", label->text());
         customLabel->setProperty("labelTextColor", label->textColor());
@@ -3240,6 +3277,8 @@ void QQuickGraphsItem::mousePressEvent(QMouseEvent *event)
 void QQuickGraphsItem::mouseReleaseEvent(QMouseEvent *event)
 {
     QPoint mousePos = event->pos();
+    handleSelectedElementChange(QAbstract3DGraph::ElementNone);
+    m_itemSelected = false;
     if (m_activeInputHandler)
         m_activeInputHandler->mouseReleaseEvent(event, mousePos);
 }
@@ -3536,12 +3575,14 @@ void QQuickGraphsItem::updateSelectionMode(QAbstract3DGraph::SelectionFlags newM
 
 bool QQuickGraphsItem::doPicking(const QPointF &point)
 {
+    if (m_itemSelected)
+        return false;
+
     if (m_activeInputHandler->d_func()->m_inputState
         == QAbstract3DInputHandlerPrivate::InputStateSelecting) {
+        QList<QQuick3DPickResult> results = pickAll(point.x(), point.y());
         if (!m_customItemList.isEmpty()) {
             // Try to pick custom item only
-            QList<QQuick3DPickResult> results = pickAll(point.x(), point.y());
-
             for (const auto &result : results) {
                 QCustom3DItem *customItem = m_customItemList.key(result.objectHit(), nullptr);
 
@@ -3556,7 +3597,23 @@ bool QQuickGraphsItem::doPicking(const QPointF &point)
                 }
             }
             m_controller->m_clickedType = QAbstract3DGraph::ElementNone;
-            emit selectedElementChanged(QAbstract3DGraph::ElementNone);
+            handleSelectedElementChange(QAbstract3DGraph::ElementNone);
+        }
+
+        for (const auto &result : results) {
+            QString objName = result.objectHit()->objectName();
+            if (objName.contains(QStringLiteral("ElementAxisXLabel"))) {
+                handleSelectedElementChange(QAbstract3DGraph::ElementAxisXLabel);
+                m_itemSelected = true;
+            } else if (objName.contains(QStringLiteral("ElementAxisYLabel"))) {
+                handleSelectedElementChange(QAbstract3DGraph::ElementAxisYLabel);
+                m_itemSelected = true;
+            } else if (objName.contains(QStringLiteral("ElementAxisZLabel"))) {
+                handleSelectedElementChange(QAbstract3DGraph::ElementAxisZLabel);
+                m_itemSelected = true;
+            } else {
+                continue;
+            }
         }
         return true;
     }
@@ -3888,8 +3945,6 @@ void QQuickGraphsItem::updateSliceLabels()
     auto backgroundScale = m_scaleWithBackground + m_backgroundScaleMargin;
     float scale;
     float translate;
-    float scaleFactor;
-    auto pointSize = m_controller->activeTheme()->font().pointSizeF();
     auto selectionMode = m_controller->selectionMode();
 
     if (selectionMode.testFlag(QAbstract3DGraph::SelectionRow))
@@ -3899,8 +3954,6 @@ void QQuickGraphsItem::updateSliceLabels()
 
     scale = backgroundScale.x() - m_backgroundScaleMargin.x();
     translate = backgroundScale.x() - m_backgroundScaleMargin.x();
-    scaleFactor = m_labelScale.x() * m_labelFontScaleFactor / pointSize
-            + m_labelScale.x() * m_fontScaleFactor;
 
     if (horizontalAxis == nullptr) {
         qWarning("Invalid selection mode");
@@ -3926,14 +3979,16 @@ void QQuickGraphsItem::updateSliceLabels()
     }
 
     float textPadding = 12.0f;
-    scaleFactor *= .8f;
-
-    QVector3D fontScaled = QVector3D(scaleFactor, scaleFactor, 0.0f);
 
     float labelsMaxWidth = 0.0f;
     labelsMaxWidth = qMax(labelsMaxWidth, float(findLabelsMaxWidth(horizontalAxis->labels()))) + textPadding;
     QFontMetrics fm(m_controller->activeTheme()->font());
     float labelHeight = fm.height() + textPadding;
+
+    float pointSize = m_controller->activeTheme()->font().pointSizeF();
+    float scaleFactor = fontScaleFactor(pointSize) * pointSize;
+    float fontRatio = labelsMaxWidth / labelHeight;
+    QVector3D fontScaled = QVector3D(scaleFactor * fontRatio, scaleFactor, 0.00001f);
 
     float adjustment = labelsMaxWidth * scaleFactor;
     float yPos = backgroundScale.y() + adjustment;
@@ -4034,6 +4089,8 @@ void QQuickGraphsItem::updateSliceLabels()
 
     labelHeight = fm.height() + textPadding;
     float labelWidth = fm.horizontalAdvance(verticalAxis->title()) + textPadding;
+    QVector3D vTitleScale = fontScaled;
+    vTitleScale.setX(fontScaled.y() * labelWidth / labelHeight);
     adjustment = labelHeight * scaleFactor;
     if (m_controller->selectionMode().testFlag(QAbstract3DGraph::SelectionRow))
         xPos = backgroundScale.x() + adjustment;
@@ -4042,7 +4099,7 @@ void QQuickGraphsItem::updateSliceLabels()
     labelTrans = QVector3D(-xPos, 0.0f, 0.0f);
 
     if (!verticalAxis->title().isEmpty()) {
-        m_sliceVerticalTitleLabel->setScale(fontScaled);
+        m_sliceVerticalTitleLabel->setScale(vTitleScale);
         m_sliceVerticalTitleLabel->setPosition(labelTrans);
         m_sliceVerticalTitleLabel->setProperty("labelWidth", labelWidth);
         m_sliceVerticalTitleLabel->setProperty("labelHeight", labelHeight);
@@ -4059,12 +4116,14 @@ void QQuickGraphsItem::updateSliceLabels()
 
     labelHeight = fm.height() + textPadding;
     labelWidth = fm.horizontalAdvance(horizontalAxis->title()) + textPadding;
+    QVector3D hTitleScale = fontScaled;
+    hTitleScale.setX(fontScaled.y() * labelWidth / labelHeight);
     adjustment = labelHeight * scaleFactor;
     yPos = backgroundScale.y() * 1.5f + adjustment;
     labelTrans = QVector3D(0.0f, -yPos, 0.0f);
 
     if (!horizontalAxis->title().isEmpty()) {
-        m_sliceHorizontalTitleLabel->setScale(fontScaled);
+        m_sliceHorizontalTitleLabel->setScale(hTitleScale);
         m_sliceHorizontalTitleLabel->setPosition(labelTrans);
         m_sliceHorizontalTitleLabel->setProperty("labelWidth", labelWidth);
         m_sliceHorizontalTitleLabel->setProperty("labelHeight", labelHeight);
@@ -4079,8 +4138,6 @@ void QQuickGraphsItem::updateSliceLabels()
     }
 
     m_sliceItemLabel->setScale(fontScaled);
-    m_sliceItemLabel->setProperty("labelWidth", labelWidth);
-    m_sliceItemLabel->setProperty("labelHeight", labelHeight);
     m_sliceItemLabel->setProperty("labelFont", font);
     m_sliceItemLabel->setProperty("borderEnabled", borderEnabled);
     m_sliceItemLabel->setProperty("labelTextColor", labelTextColor);

@@ -1508,6 +1508,14 @@ void QQuickGraphsBars::updateSelectedBar()
                         itemLabel()->setProperty("labelText", label);
 
                         if (isSliceEnabled()) {
+                            QFontMetrics fm(m_barsController->activeTheme()->font());
+                            float textPadding = m_barsController->activeTheme()->font().pointSizeF() * .5f;
+                            float labelHeight = fm.height() + textPadding;
+                            float labelWidth = fm.horizontalAdvance(label) + textPadding;
+                            QVector3D scale = sliceItemLabel()->scale();
+                            scale.setX(scale.y() * labelWidth / labelHeight);
+                            sliceItemLabel()->setProperty("labelWidth", labelWidth);
+                            sliceItemLabel()->setProperty("labelHeight", labelHeight);
                             QVector3D slicePos = barList->model->position();
                             if (m_barsController->selectionMode().testFlag(QAbstract3DGraph::SelectionColumn))
                                 slicePos.setX(slicePos.z() - .1f);
@@ -1593,6 +1601,14 @@ void QQuickGraphsBars::updateSelectedBar()
                             itemLabel()->setProperty("labelText", label);
 
                             if (isSliceEnabled()) {
+                                QFontMetrics fm(m_barsController->activeTheme()->font());
+                                float textPadding = m_barsController->activeTheme()->font().pointSizeF() * .5f;
+                                float labelHeight = fm.height() + textPadding;
+                                float labelWidth = fm.horizontalAdvance(label) + textPadding;
+                                QVector3D scale = sliceItemLabel()->scale();
+                                scale.setX(scale.y() * labelWidth / labelHeight);
+                                sliceItemLabel()->setProperty("labelWidth", labelWidth);
+                                sliceItemLabel()->setProperty("labelHeight", labelHeight);
                                 QVector3D slicePos = bih->position;
                                 if (m_barsController->selectionMode().testFlag(QAbstract3DGraph::SelectionColumn))
                                     slicePos.setX(slicePos.z() - .1f);
