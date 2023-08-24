@@ -1,5 +1,6 @@
 VARYING vec3 pos;
 VARYING vec2 bounds;
+out layout(location = 9) flat vec3 nF;
 
 void MAIN()
 {
@@ -21,6 +22,7 @@ void MAIN()
         n = cross(v31, v21);
 
     NORMAL = n;
+    nF = n;
     VERTEX = v1;
 
     pos = VERTEX;
