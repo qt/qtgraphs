@@ -712,6 +712,9 @@ QVector3D QQuickGraphsSurface::getNormalizedVertex(const QSurfaceDataItem &data,
 
 void QQuickGraphsSurface::updateSliceGraph()
 {
+    if (!sliceView())
+        createSliceView();
+
     QQuickGraphsItem::updateSliceGraph();
 
     m_surfaceController->setSelectedPointChanged(true);
