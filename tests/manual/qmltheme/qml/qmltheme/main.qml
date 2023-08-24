@@ -231,6 +231,7 @@ Item {
             color: "gray"
         }
         CheckBox {
+            checked: (customTheme.colorStyle === Theme3D.ColorStyleUniform)
             onCheckedChanged: {
                 if (checked)
                     customTheme.colorStyle = Theme3D.ColorStyleUniform
@@ -244,7 +245,7 @@ Item {
             color: "gray"
         }
         CheckBox {
-        checked: true
+            checked: customTheme.backgroundEnabled
             onCheckedChanged: {
                 customTheme.backgroundEnabled = checked
             }
@@ -255,7 +256,7 @@ Item {
             color: "gray"
         }
         CheckBox {
-        checked: true
+            checked: customTheme.gridEnabled
             onCheckedChanged: {
                 customTheme.gridEnabled = checked
             }
@@ -266,7 +267,7 @@ Item {
             color: "gray"
         }
         CheckBox {
-        checked: true
+            checked: customTheme.labelsEnabled
             onCheckedChanged: {
                 customTheme.labelsEnabled = checked
             }
@@ -277,7 +278,7 @@ Item {
             color: "gray"
         }
         CheckBox {
-        checked: true
+            checked: customTheme.labelBackgroundEnabled
             onCheckedChanged: {
                 customTheme.labelBackgroundEnabled = checked
             }
@@ -288,7 +289,7 @@ Item {
             color: "gray"
         }
         CheckBox {
-        checked: true
+            checked: customTheme.labelBorderEnabled
             onCheckedChanged: {
                 customTheme.labelBorderEnabled = checked
             }
