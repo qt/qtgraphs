@@ -16,7 +16,9 @@ static const int nearZoomRangeDivider = 12;
 static const int midZoomRangeDivider  = 60;
 static const int farZoomRangeDivider  = 120;
 
+#if !defined(Q_OS_IOS)
 static const float rotationSpeed      = 100.0f;
+#endif
 
 /*!
  * \class Q3DInputHandler
@@ -125,11 +127,11 @@ Q3DInputHandler::~Q3DInputHandler()
  */
 void Q3DInputHandler::mousePressEvent(QMouseEvent *event, const QPoint &mousePos)
 {
-    Q_D(Q3DInputHandler);
 #if defined(Q_OS_IOS)
     Q_UNUSED(event);
     Q_UNUSED(mousePos);
 #else
+    Q_D(Q3DInputHandler);
     if (Qt::LeftButton == event->button()) {
         if (isSelectionEnabled()) {
             if (scene()->isSlicingActive()) {
@@ -171,10 +173,10 @@ void Q3DInputHandler::mousePressEvent(QMouseEvent *event, const QPoint &mousePos
 void Q3DInputHandler::mouseReleaseEvent(QMouseEvent *event, const QPoint &mousePos)
 {
     Q_UNUSED(event);
-    Q_D(Q3DInputHandler);
 #if defined(Q_OS_IOS)
     Q_UNUSED(mousePos);
 #else
+    Q_D(Q3DInputHandler);
     if (QAbstract3DInputHandlerPrivate::InputStateRotating == d->m_inputState) {
         // update mouse positions to prevent jumping when releasing or repressing a button
         setInputPosition(mousePos);
@@ -191,10 +193,10 @@ void Q3DInputHandler::mouseReleaseEvent(QMouseEvent *event, const QPoint &mouseP
 void Q3DInputHandler::mouseMoveEvent(QMouseEvent *event, const QPoint &mousePos)
 {
     Q_UNUSED(event);
-    Q_D(Q3DInputHandler);
 #if defined(Q_OS_IOS)
     Q_UNUSED(mousePos);
 #else
+    Q_D(Q3DInputHandler);
     if (QAbstract3DInputHandlerPrivate::InputStateRotating == d->m_inputState
             && isRotationEnabled()) {
         // Calculate mouse movement since last frame
