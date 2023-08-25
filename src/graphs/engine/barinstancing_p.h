@@ -17,14 +17,14 @@
 #include <QtQuick3D/private/qquick3dinstancing_p.h>
 
 struct BarItemHolder {
-    QVector3D position;
+    QVector3D position = {.0f, .0f, .0f};
     QQuaternion rotation;
-    QVector3D eulerRotation;
-    QVector3D scale;
+    QVector3D eulerRotation = {.0f, .0f, .0f};
+    QVector3D scale = {.0f, .0f, .0f};
     QPoint coord;
-    float heightValue;
-    bool selectedBar;
-    QColor color;
+    float heightValue = .0f;
+    bool selectedBar = false;
+    QColor color = {0, 0, 0};;
 };
 
 class BarInstancing : public QQuick3DInstancing
@@ -32,6 +32,7 @@ class BarInstancing : public QQuick3DInstancing
     Q_OBJECT
 public:
     BarInstancing();
+    ~BarInstancing();
 
     QList<BarItemHolder *> dataArray() const;
     void setDataArray(const QList<BarItemHolder *> &newDataArray);

@@ -246,6 +246,8 @@ private:
     void updatePrincipledMaterial(QQuick3DModel *model, const QColor &color, bool useGradient,
                                   bool isHighlight, QQuick3DTexture *texture);
     void removeBarModels();
+    void deleteBarModels(BarModel *barModel);
+    void deleteBarItemHolders();
     QQuick3DTexture *createTexture();
     void setSelectedBar(QBar3DSeries *series, const QPoint &coord);
     void createSelectedModels(QBar3DSeries *series);
