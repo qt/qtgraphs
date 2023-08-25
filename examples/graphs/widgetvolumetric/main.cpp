@@ -235,5 +235,7 @@ int main(int argc, char **argv)
                      &VolumetricModifier::setDrawSliceFrames);
 
     widget->show();
-    return app.exec();
+    int retval = app.exec();
+    delete modifier;
+    return retval;
 }
