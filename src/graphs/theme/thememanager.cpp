@@ -150,6 +150,7 @@ void ThemeManager::setPredefinedPropertiesToTheme(Q3DTheme *theme, Q3DTheme::The
         setAmbientLightStrength(theme, 0.5f);
         setHighlightLightStrength(theme, 5.0f);
         setLabelBorderEnabled(theme, true);
+        setLabelsEnabled(theme, true);
         setColorStyle(theme, Q3DTheme::ColorStyleUniform);
         setBaseGradients(theme, baseGradients);
         setSingleHighlightGradient(theme, createGradient(QColor(QRgb(0x14aaff)),
@@ -189,6 +190,7 @@ void ThemeManager::setPredefinedPropertiesToTheme(Q3DTheme *theme, Q3DTheme::The
         setAmbientLightStrength(theme, 0.5f);
         setHighlightLightStrength(theme, 5.0f);
         setLabelBorderEnabled(theme, false);
+        setLabelsEnabled(theme, true);
         setColorStyle(theme, Q3DTheme::ColorStyleUniform);
         setBaseGradients(theme, baseGradients);
         setSingleHighlightGradient(theme, createGradient(QColor(QRgb(0x27beee)),
@@ -228,6 +230,7 @@ void ThemeManager::setPredefinedPropertiesToTheme(Q3DTheme *theme, Q3DTheme::The
         setAmbientLightStrength(theme, 0.5f);
         setHighlightLightStrength(theme, 5.0f);
         setLabelBorderEnabled(theme, false);
+        setLabelsEnabled(theme, true);
         setColorStyle(theme, Q3DTheme::ColorStyleObjectGradient);
         setBaseGradients(theme, baseGradients);
         setSingleHighlightGradient(theme, createGradient(QColor(QRgb(0xfa0000)),
@@ -267,6 +270,7 @@ void ThemeManager::setPredefinedPropertiesToTheme(Q3DTheme *theme, Q3DTheme::The
         setAmbientLightStrength(theme, 0.5f);
         setHighlightLightStrength(theme, 5.0f);
         setLabelBorderEnabled(theme, true);
+        setLabelsEnabled(theme, true);
         setColorStyle(theme, Q3DTheme::ColorStyleUniform);
         setBaseGradients(theme, baseGradients);
         setSingleHighlightGradient(theme, createGradient(QColor(QRgb(0xfbf6d6)),
@@ -306,6 +310,7 @@ void ThemeManager::setPredefinedPropertiesToTheme(Q3DTheme *theme, Q3DTheme::The
         setAmbientLightStrength(theme, 0.5f);
         setHighlightLightStrength(theme, 5.0f);
         setLabelBorderEnabled(theme, false);
+        setLabelsEnabled(theme, true);
         setColorStyle(theme, Q3DTheme::ColorStyleObjectGradient);
         setBaseGradients(theme, baseGradients);
         setSingleHighlightGradient(theme, createGradient(QColor(QRgb(0x2aa2f9)),
@@ -345,6 +350,7 @@ void ThemeManager::setPredefinedPropertiesToTheme(Q3DTheme *theme, Q3DTheme::The
         setAmbientLightStrength(theme, 0.5f);
         setHighlightLightStrength(theme, 5.0f);
         setLabelBorderEnabled(theme, false);
+        setLabelsEnabled(theme, true);
         setColorStyle(theme, Q3DTheme::ColorStyleObjectGradient);
         setBaseGradients(theme, baseGradients);
         setSingleHighlightGradient(theme, createGradient(QColor(QRgb(0x8ea317)),
@@ -384,6 +390,7 @@ void ThemeManager::setPredefinedPropertiesToTheme(Q3DTheme *theme, Q3DTheme::The
         setAmbientLightStrength(theme, 0.5f);
         setHighlightLightStrength(theme, 5.0f);
         setLabelBorderEnabled(theme, false);
+        setLabelsEnabled(theme, true);
         setColorStyle(theme, Q3DTheme::ColorStyleUniform);
         setBaseGradients(theme, baseGradients);
         setSingleHighlightGradient(theme, createGradient(QColor(QRgb(0xf5dc0d)),
@@ -423,6 +430,7 @@ void ThemeManager::setPredefinedPropertiesToTheme(Q3DTheme *theme, Q3DTheme::The
         setAmbientLightStrength(theme, 0.5f);
         setHighlightLightStrength(theme, 5.0f);
         setLabelBorderEnabled(theme, false);
+        setLabelsEnabled(theme, true);
         setColorStyle(theme, Q3DTheme::ColorStyleUniform);
         setBaseGradients(theme, baseGradients);
         setSingleHighlightGradient(theme, createGradient(QColor(QRgb(0xfff7cc)),
