@@ -2734,14 +2734,18 @@ void QQuickGraphsItem::updateCamera()
     QVector3D lookingPosition = m_controller->scene()->activeCamera()->target();
     float zoomLevel = m_controller->scene()->activeCamera()->zoomLevel();
 
+    const float scale = qMin(width(), height() * 1.6f);
+    const float magnificationScaleFactor = 1.0f / 640.0f;
+    const float magnification = scale * magnificationScaleFactor;
+
     auto useOrtho = m_controller->isOrthoProjection();
     if (useOrtho) {
         if (m_sliceView && m_sliceView->isVisible()) {
             m_oCamera->setVerticalMagnification(zoomLevel * .4f);
             m_oCamera->setHorizontalMagnification(zoomLevel * .4f);
         } else {
-            m_oCamera->setVerticalMagnification(zoomLevel * 2.0f);
-            m_oCamera->setHorizontalMagnification(zoomLevel * 2.0f);
+            m_oCamera->setVerticalMagnification(zoomLevel * magnification);
+            m_oCamera->setHorizontalMagnification(zoomLevel * magnification);
         }
     }
     cameraTarget()->setPosition(lookingPosition);
