@@ -1158,6 +1158,7 @@ Q3DThemePrivate::Q3DThemePrivate(Q3DTheme *q)
       m_isDefaultTheme(false),
       m_labelBackground(true),
       m_labelBorders(true),
+      m_labelsEnabled(true),
       m_ambientLightStrength(0.25f),
       m_highlightLightStrength(7.5f),
       m_lightStrength(5.0f),
