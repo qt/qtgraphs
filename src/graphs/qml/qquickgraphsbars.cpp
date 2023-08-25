@@ -691,8 +691,6 @@ void QQuickGraphsBars::handleRowCountChanged()
         segmentLineRepeaterZ()->setModel(m_cachedRowCount);
         repeaterZ()->model().clear();
         repeaterZ()->setModel(categoryAxisZ->labels().size());
-        m_barsController->handleAxisLabelsChangedBySender(m_barsController->axisZ());
-        update();
     }
 }
 
@@ -705,8 +703,6 @@ void QQuickGraphsBars::handleColCountChanged()
         segmentLineRepeaterX()->setModel(m_cachedColumnCount);
         repeaterX()->model().clear();
         repeaterX()->setModel(categoryAxisX->labels().size());
-        m_barsController->handleAxisLabelsChangedBySender(m_barsController->axisX());
-        update();
     }
 }
 
@@ -995,6 +991,11 @@ void QQuickGraphsBars::updateBarPositions(QBar3DSeries *series)
                     row = 0;
             }
         } else if (m_barsController->optimizationHints() == QAbstract3DGraph::OptimizationDefault) {
+            auto barItemList = barList.at(i)->instancing->dataArray();
+            for (auto bih : barItemList)
+                delete bih;
+            barList.at(i)->instancing->clearDataArray();
+
             QList<BarItemHolder *> positions;
             for (int row = 0; row < newRowSize; ++row) {
                 const QBarDataRow *dataRow = dataProxy->rowAt(dataRowIndex);
@@ -1298,21 +1299,39 @@ void QQuickGraphsBars::updatePrincipledMaterial(QQuick3DModel *model, const QCol
 
 void QQuickGraphsBars::removeBarModels()
 {
+    deleteBarItemHolders();
     for (const auto list : std::as_const(m_barModelsMap)) {
         for (auto barModel : *list) {
-            barModel->model->setPickable(false);
-            barModel->model->setVisible(false);
-            QQmlListReference materialsRef(barModel->model, "materials");
-            if (materialsRef.size()) {
-                auto material = materialsRef.at(0);
-                delete material;
-            }
-            delete barModel->model;
-            delete barModel;
+            deleteBarModels(barModel);
         }
         delete list;
     }
+
     m_barModelsMap.clear();
+}
+
+void QQuickGraphsBars::deleteBarModels(BarModel *barModel)
+{
+    barModel->model->setPickable(false);
+    barModel->model->setVisible(false);
+    QQmlListReference materialsRef(barModel->model, "materials");
+    if (materialsRef.size()) {
+        auto material = materialsRef.at(0);
+        delete material;
+    }
+    delete barModel->model;
+    delete barModel;
+}
+
+void QQuickGraphsBars::deleteBarItemHolders()
+{
+    for (const auto list : std::as_const(m_barModelsMap)) {
+        for (auto barModel : *list) {
+            QList<BarItemHolder *> barItemList = barModel->instancing->dataArray();
+            for (auto bih : barItemList)
+                delete bih;
+        }
+    }
 }
 
 QQuick3DTexture *QQuickGraphsBars::createTexture()

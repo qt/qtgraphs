@@ -8,6 +8,11 @@ BarInstancing::BarInstancing()
 
 }
 
+BarInstancing::~BarInstancing()
+{
+    clearDataArray();
+}
+
 QByteArray BarInstancing::getInstanceBuffer(int *instanceCount)
 {
     if (m_dirty) {
