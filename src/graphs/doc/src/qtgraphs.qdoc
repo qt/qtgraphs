@@ -196,6 +196,8 @@
     \page qtgraphs_known_issues.html
     \title Qt Graphs Known Issues
 
+    \section1 Generic issues
+
     \list
         \li Surfaces with non-straight rows and columns do not always render properly.
         \li Q3DLight class (and Light3D QML item) are currently not usable for anything.
@@ -206,6 +208,31 @@
             "QT += graphs" in the pro file. This is because Qt Graphs
             QML plugin has a dependency to Qt Graphs C++ library, which Qt Creator
             doesn't automatically add to the deployment package.
+    \endlist
+
+    \section1 Unresolved JIRA tickets in Qt 6.6.0
+    \list
+        \li Labels re-align after rotating a bar graph and then selecting something - \l https://bugreports.qt.io/browse/QTBUG-116486
+        \li Highlighting the selection does not work correctly in texture topography example - \l https://bugreports.qt.io/browse/QTBUG-116479
+        \li Surface graphs camera can not be rotated after switching to slice view - \l https://bugreports.qt.io/browse/QTBUG-116438
+        \li Surface3D crashes in textured topography example if slice view is used - \l https://bugreports.qt.io/browse/QTBUG-116435
+        \li widgetgraphgallery: surfacegraph should open slice view immediately - \l https://bugreports.qt.io/browse/QTBUG-116429
+        \li Toggling surface grid on causes labels to jump out of place - \l https://bugreports.qt.io/browse/QTBUG-116397
+        \li Camera rotation should be disabled in surfacegallery spectrogram example in ortho mode - \l https://bugreports.qt.io/browse/QTBUG-116310
+        \li The original graph enlarges in slice view when resizing window - \l https://bugreports.qt.io/browse/QTBUG-116033
+        \li Shadows do not work on Surface3D - \l https://bugreports.qt.io/browse/QTBUG-115780
+        \li Graph goes to empty slice view automatically - \l https://bugreports.qt.io/browse/QTBUG-115772
+        \li Vertical grids are still visible on top view - \l https://bugreports.qt.io/browse/QTBUG-115736
+        \li Axis label selection does not work - \l https://bugreports.qt.io/browse/QTBUG-114411
+        \li tst_itemmodel: selection from table does not work - \l https://bugreports.qt.io/browse/QTBUG-114122
+        \li Volume texture formats not handled - \l https://bugreports.qt.io/browse/QTBUG-113837
+        \li Slice view is sometimes empty in Bars3D - \l https://bugreports.qt.io/browse/QTBUG-113675
+        \li Selection is sometimes incorrect in Bars3D - \l https://bugreports.qt.io/browse/QTBUG-113650
+        \li Labels get hidden on widget-side when axis segment count is changed - \l https://bugreports.qt.io/browse/QTBUG-112647
+        \li renderToImage does nothing - \l https://bugreports.qt.io/browse/QTBUG-111712
+        \li Change camera type at Slice View Graph - \l https://bugreports.qt.io/browse/QTBUG-111588
+        \li Minimizing for slice view with anchors - \l https://bugreports.qt.io/browse/QTBUG-111115
+        \li Reflection support does not work - \l https://bugreports.qt.io/browse/QTBUG-99816
     \endlist
 */
 
