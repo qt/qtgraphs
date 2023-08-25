@@ -407,7 +407,20 @@ void QQuickGraphsSurface::updateModel(SurfaceModel *model)
             model->columnCount = columnCount;
             m_isIndexDirty = true;
         }
-        if (m_isIndexDirty) {
+
+        QAbstract3DAxis *axisX = m_surfaceController->axisX();
+        QAbstract3DAxis *axisZ = m_surfaceController->axisZ();
+
+        QPoint selC =  model->selectedVertex.coord;
+        QVector3D selP = array.at(selC.x())->at(selC.y()).position();
+
+        bool pickOutOfRange = false;
+        if (selP.x() < axisX->min() || selP.x() > axisX->max()
+            || selP.z() < axisZ->min() || selP.z() > axisZ->max()) {
+            pickOutOfRange = true;
+        }
+
+        if (m_isIndexDirty || pickOutOfRange) {
             model->selectedVertex = SurfaceVertex();
             if (sliceView() && sliceView()->isVisible()) {
                 m_surfaceController->setSlicingActive(false);
@@ -485,9 +498,6 @@ void QQuickGraphsSurface::updateModel(SurfaceModel *model)
             modelMin.setY(array.at(rowCount -1)->at(0).z());
             modelMax.setY(array.at(0)->at(0).z());
         }
-
-        QAbstract3DAxis *axisX = m_surfaceController->axisX();
-        QAbstract3DAxis *axisZ = m_surfaceController->axisZ();
 
         auto normalize = [](float x, float min, float max) -> float {
             return (x - min) / (max - min);
