@@ -321,6 +321,9 @@ void QQuickGraphsBars::componentComplete()
 
     setFloorGridInRange(true);
     setVerticalSegmentLine(false);
+
+    QObject::connect(cameraTarget(), &QQuick3DNode::rotationChanged, this,
+                     &QQuickGraphsBars::handleCameraRotationChanged);
 }
 
 void QQuickGraphsBars::synchData()
@@ -709,6 +712,11 @@ void QQuickGraphsBars::handleColCountChanged()
 void QQuickGraphsBars::handleRowColorsChanged()
 {
     m_barsController->setSeriesVisualsDirty(true);
+}
+
+void QQuickGraphsBars::handleCameraRotationChanged()
+{
+    updateLabels();
 }
 
 void QQuickGraphsBars::connectSeries(QBar3DSeries *series)

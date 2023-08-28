@@ -116,6 +116,7 @@ public Q_SLOTS:
     void handleRowCountChanged();
     void handleColCountChanged();
     void handleRowColorsChanged();
+    void handleCameraRotationChanged();
 
 Q_SIGNALS:
     void rowAxisChanged(QCategory3DAxis *axis);
