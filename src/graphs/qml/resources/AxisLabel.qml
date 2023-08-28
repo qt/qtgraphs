@@ -13,7 +13,7 @@ Component {
         property string labelText: "Bar"
         property color backgroundColor: "gray"
         property bool backgroundEnabled: false
-        property color labelTextColor: "red"
+        property color labelTextColor: "transparent"
         property bool borderEnabled : false
         property font labelFont
         property real labelWidth: -1
