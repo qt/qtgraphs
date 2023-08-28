@@ -31,10 +31,6 @@ public:
     virtual ~QCustom3DLabelPrivate();
 
     void resetDirtyBits();
-    void createTextureImage();
-    void createTextureImage(const QColor &bgrColor, const QColor &txtColor, bool background,
-                            bool borders);
-    void handleTextureChange();
 
 public:
     QString m_text;

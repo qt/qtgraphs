@@ -122,7 +122,6 @@ void QCustom3DLabel::setText(const QString &text)
     Q_D(QCustom3DLabel);
     if (d->m_text != text) {
         d->m_text = text;
-        d->handleTextureChange();
         emit textChanged(text);
         emit needUpdate();
     }
@@ -146,7 +145,6 @@ void QCustom3DLabel::setFont(const QFont &font)
     Q_D(QCustom3DLabel);
     if (d->m_font != font) {
         d->m_font = font;
-        d->handleTextureChange();
         emit fontChanged(font);
         emit needUpdate();
     }
@@ -172,7 +170,6 @@ void QCustom3DLabel::setTextColor(const QColor &color)
     if (d->m_txtColor != color) {
         d->m_txtColor = color;
         d->m_customVisuals = true;
-        d->handleTextureChange();
         emit textColorChanged(color);
         emit needUpdate();
     }
@@ -198,7 +195,6 @@ void QCustom3DLabel::setBackgroundColor(const QColor &color)
     if (d->m_bgrColor != color) {
         d->m_bgrColor = color;
         d->m_customVisuals = true;
-        d->handleTextureChange();
         emit backgroundColorChanged(color);
         emit needUpdate();
     }
@@ -222,7 +218,6 @@ void QCustom3DLabel::setBorderEnabled(bool enabled)
     if (d->m_borders != enabled) {
         d->m_borders = enabled;
         d->m_customVisuals = true;
-        d->handleTextureChange();
         emit borderEnabledChanged(enabled);
         emit needUpdate();
     }
@@ -247,7 +242,6 @@ void QCustom3DLabel::setBackgroundEnabled(bool enabled)
     if (d->m_background != enabled) {
         d->m_background = enabled;
         d->m_customVisuals = true;
-        d->handleTextureChange();
         emit backgroundEnabledChanged(enabled);
         emit needUpdate();
     }
@@ -297,7 +291,6 @@ QCustom3DLabelPrivate::QCustom3DLabelPrivate(QCustom3DLabel *q) :
     m_isLabelItem = true;
     m_shadowCasting = false;
     m_meshFile = QStringLiteral(":/defaultMeshes/plane");
-    createTextureImage();
 }
 
 QCustom3DLabelPrivate::QCustom3DLabelPrivate(QCustom3DLabel *q, const QString &text,
@@ -317,7 +310,6 @@ QCustom3DLabelPrivate::QCustom3DLabelPrivate(QCustom3DLabel *q, const QString &t
 {
     m_isLabelItem = true;
     m_shadowCasting = false;
-    createTextureImage();
 }
 
 QCustom3DLabelPrivate::~QCustom3DLabelPrivate()
@@ -328,34 +320,6 @@ void QCustom3DLabelPrivate::resetDirtyBits()
 {
     QCustom3DItemPrivate::resetDirtyBits();
     m_facingCameraDirty = false;
-}
-
-void QCustom3DLabelPrivate::createTextureImage()
-{
-    createTextureImage(m_bgrColor, m_txtColor, m_background, m_borders);
-}
-
-void QCustom3DLabelPrivate::createTextureImage(const QColor &bgrColor, const QColor &txtColor,
-                                               bool background, bool borders)
-{
-    Q_UNUSED(bgrColor)
-    Q_UNUSED(txtColor)
-    Q_UNUSED(background)
-    Q_UNUSED(borders)
-    // TODO: QTBUG-99844
-//    m_textureImage = Utils::printTextToImage(m_font, m_text, bgrColor, txtColor, background,
-//                                             borders, 0);
-}
-
-void QCustom3DLabelPrivate::handleTextureChange()
-{
-    Q_Q(QCustom3DLabel);
-    createTextureImage();
-    m_dirtyBits.textureDirty = true;
-    if (!m_textureFile.isEmpty()) {
-        m_textureFile.clear();
-        emit q->textureFileChanged(m_textureFile);
-    }
 }
 
 QT_END_NAMESPACE
