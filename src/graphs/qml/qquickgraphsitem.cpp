@@ -2919,8 +2919,8 @@ void QQuickGraphsItem::updateCustomData()
         customLabel->setRotation(rotation);
         float pointSize = m_controller->activeTheme()->font().pointSizeF();
         float scaleFactor = fontScaleFactor(pointSize) * pointSize;
-        float fontRatio = height / width;
-        QVector3D fontScaled = QVector3D(scaleFactor, scaleFactor * fontRatio, 0.0f);
+        float fontRatio = float(height) / float(width);
+        QVector3D fontScaled = QVector3D(scaleFactor / fontRatio, scaleFactor, 0.0f);
         customLabel->setScale(fontScaled);
         customLabel->setProperty("labelText", label->text());
         customLabel->setProperty("labelTextColor", label->textColor());
@@ -2929,6 +2929,7 @@ void QQuickGraphsItem::updateCustomData()
         customLabel->setProperty("backgroundColor", label->backgroundColor());
         customLabel->setProperty("borderEnabled", label->isBorderEnabled());
         customLabel->setVisible(label->isVisible());
+
         ++labelIterator;
     }
 
@@ -3743,7 +3744,7 @@ QQuick3DRepeater *QQuickGraphsItem::createRepeater(QQuick3DNode *parent)
 {
     auto engine = qmlEngine(this);
     QQmlComponent repeaterComponent(engine);
-    repeaterComponent.setData("import QtQuick3D; Repeater3D{}",QUrl());
+    repeaterComponent.setData("import QtQuick3D; Repeater3D{}", QUrl());
     auto repeater = qobject_cast<QQuick3DRepeater *>(repeaterComponent.create());
     repeater->setParent(parent ? parent : graphNode());
     repeater->setParentItem(parent ? parent : graphNode());
