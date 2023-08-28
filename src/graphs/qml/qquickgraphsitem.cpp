@@ -3237,6 +3237,7 @@ void QQuickGraphsItem::handleShadowQualityChange(QAbstract3DGraph::ShadowQuality
 
 void QQuickGraphsItem::handleSelectedElementChange(QAbstract3DGraph::ElementType type)
 {
+    m_controller->m_clickedType = type;
     emit selectedElementChanged(type);
 }
 
@@ -3280,8 +3281,6 @@ void QQuickGraphsItem::mousePressEvent(QMouseEvent *event)
 void QQuickGraphsItem::mouseReleaseEvent(QMouseEvent *event)
 {
     QPoint mousePos = event->pos();
-    handleSelectedElementChange(QAbstract3DGraph::ElementNone);
-    m_itemSelected = false;
     if (m_activeInputHandler)
         m_activeInputHandler->mouseReleaseEvent(event, mousePos);
 }
@@ -3578,9 +3577,6 @@ void QQuickGraphsItem::updateSelectionMode(QAbstract3DGraph::SelectionFlags newM
 
 bool QQuickGraphsItem::doPicking(const QPointF &point)
 {
-    if (m_itemSelected)
-        return false;
-
     if (m_activeInputHandler->d_func()->m_inputState
         == QAbstract3DInputHandlerPrivate::InputStateSelecting) {
         QList<QQuick3DPickResult> results = pickAll(point.x(), point.y());
@@ -3592,31 +3588,23 @@ bool QQuickGraphsItem::doPicking(const QPointF &point)
                 if (customItem) {
                     int selectedIndex = m_controller->m_customItems.indexOf(customItem);
                     m_controller->m_selectedCustomItemIndex = selectedIndex;
-                    m_controller->m_clickedType = QAbstract3DGraph::ElementCustomItem;
-
-                    emit selectedElementChanged(QAbstract3DGraph::ElementCustomItem);
+                    handleSelectedElementChange(QAbstract3DGraph::ElementCustomItem);
                     // Don't allow picking in subclasses if custom item is picked
                     return false;
                 }
             }
-            m_controller->m_clickedType = QAbstract3DGraph::ElementNone;
-            handleSelectedElementChange(QAbstract3DGraph::ElementNone);
         }
 
         for (const auto &result : results) {
             QString objName = result.objectHit()->objectName();
-            if (objName.contains(QStringLiteral("ElementAxisXLabel"))) {
+            if (objName.contains(QStringLiteral("ElementAxisXLabel")))
                 handleSelectedElementChange(QAbstract3DGraph::ElementAxisXLabel);
-                m_itemSelected = true;
-            } else if (objName.contains(QStringLiteral("ElementAxisYLabel"))) {
+            else if (objName.contains(QStringLiteral("ElementAxisYLabel")))
                 handleSelectedElementChange(QAbstract3DGraph::ElementAxisYLabel);
-                m_itemSelected = true;
-            } else if (objName.contains(QStringLiteral("ElementAxisZLabel"))) {
+            else if (objName.contains(QStringLiteral("ElementAxisZLabel")))
                 handleSelectedElementChange(QAbstract3DGraph::ElementAxisZLabel);
-                m_itemSelected = true;
-            } else {
+            else
                 continue;
-            }
         }
         return true;
     }

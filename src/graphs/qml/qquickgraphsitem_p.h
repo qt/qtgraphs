@@ -451,8 +451,6 @@ private:
 
     bool m_gridUpdated = false;
 
-    bool m_itemSelected = false;
-
     QVector3D m_labelPosition = QVector3D();
 
     float m_initialZoomLevel = -1.0f;
