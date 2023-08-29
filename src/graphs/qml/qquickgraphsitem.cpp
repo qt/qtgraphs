@@ -1568,6 +1568,20 @@ float QQuickGraphsItem::fontScaleFactor(float pointSize)
             + m_fontScaleFactorB;
 }
 
+float QQuickGraphsItem::labelAdjustment(float width)
+{
+    float a = -2.43761e-13f;
+    float b = 4.23579e-10f;
+    float c = 0.00414881f;
+
+    float factor = a * qPow(width, 3) + b * qPow(width, 2) + c;
+#if defined(Q_OS_WIN)
+    factor *= .8f;
+#endif
+    float ret = width * .5f * factor;
+    return ret;
+}
+
 void QQuickGraphsItem::updateLabels()
 {
     auto axisX = m_controller->axisX();
@@ -1663,17 +1677,16 @@ void QQuickGraphsItem::updateLabels()
 
     float textPadding = pointSize * .5f;
 
-    float labelsMaxWidth = 0.0f;
-    labelsMaxWidth = qMax(labelsMaxWidth, float(findLabelsMaxWidth(axisX->labels()))) + textPadding;
+    float labelsMaxWidth = float(findLabelsMaxWidth(axisX->labels())) + textPadding;
     QFontMetrics fm(m_controller->activeTheme()->font());
     float labelHeight = fm.height() + textPadding;
 
     float scaleFactor = fontScaleFactor(pointSize) * pointSize;
     float fontRatio = labelsMaxWidth / labelHeight;
     QVector3D fontScaled = QVector3D(scaleFactor * fontRatio, scaleFactor, 0.00001f);
-
-    auto adjustment = labelsMaxWidth * fontScaled.x() * .5f;
+    auto adjustment = labelAdjustment(labelsMaxWidth);
     zPos = backgroundScale.z() + adjustment + m_labelMargin;
+
     adjustment *= qAbs(qSin(qDegreesToRadians(labelRotation.z())));
     yPos = backgroundScale.y() + adjustment;
 
@@ -1734,7 +1747,7 @@ void QQuickGraphsItem::updateLabels()
     labelTrans.setX(0.0f);
     updateXTitle(labelRotation, labelTrans, totalRotation, labelsMaxWidth, fontScaled);
     if (isPolar()) {
-        m_titleLabelX->setZ(polarLabelZPos + m_labelMargin * -2.5f);
+        m_titleLabelX->setZ(polarLabelZPos - m_labelMargin * 2.0f);
         m_titleLabelX->setRotation(totalRotation);
     }
     labelTrans.setX(x);
@@ -1777,22 +1790,20 @@ void QQuickGraphsItem::updateLabels()
 
     totalRotation = Utils::calculateRotation(sideLabelRotation);
     scale = backgroundScale.y() - m_backgroundScaleMargin.y();
+    labelsMaxWidth = float(findLabelsMaxWidth(axisY->labels())) + textPadding;
+    fontRatio = labelsMaxWidth / labelHeight;
+    fontScaled = QVector3D(scaleFactor * fontRatio, scaleFactor, 0.00001f);
 
-    labelsMaxWidth = 0.0f;
-    labelsMaxWidth = qMax(labelsMaxWidth, float(findLabelsMaxWidth(axisY->labels()))) + textPadding;
-
-    adjustment = labelsMaxWidth * fontScaled.x() * .5f + m_labelMargin;
     xPos = backgroundScale.x();
     if (!xFlipped)
         xPos *= -1.0f;
     labelTrans.setX(xPos);
-    zPos = backgroundScale.z() + adjustment;
+
+    adjustment = labelAdjustment(labelsMaxWidth);
+    zPos = backgroundScale.z() + adjustment + m_labelMargin;
     if (zFlipped)
         zPos *= -1.0f;
     labelTrans.setZ(zPos);
-
-    fontRatio = labelsMaxWidth / labelHeight;
-    fontScaled = QVector3D(scaleFactor * fontRatio, scaleFactor, 0.00001f);
 
     for (int i = 0; i < repeaterY()->count() / 2; i++) {
         if (labelCount <= i)
@@ -1887,13 +1898,10 @@ void QQuickGraphsItem::updateLabels()
     totalRotation = Utils::calculateRotation(labelRotation);
 
     scale = backgroundScale.z() - m_backgroundScaleMargin.z();
-    labelsMaxWidth = 0.0f;
-    labelsMaxWidth = qMax(labelsMaxWidth, float(findLabelsMaxWidth(axisZ->labels()))) + textPadding ;
-    adjustment = labelsMaxWidth * fontScaled.x() * .5f;
-
+    labelsMaxWidth = float(findLabelsMaxWidth(axisZ->labels())) + textPadding ;
     fontRatio = labelsMaxWidth / labelHeight;
     fontScaled = QVector3D(scaleFactor * fontRatio, scaleFactor, 0.00001f);
-
+    adjustment = labelAdjustment(labelsMaxWidth);
     xPos = backgroundScale.x() + adjustment + m_labelMargin;
     if (xFlipped)
         xPos *= -1.0f;
@@ -1955,11 +1963,12 @@ void QQuickGraphsItem::updateLabels()
     labelCount = labels.size();
     totalRotation = Utils::calculateRotation(backLabelRotation);
     scale = backgroundScale.y() - m_backgroundScaleMargin.y();
-    labelsMaxWidth = 0.0f;
-    labelsMaxWidth = qMax(labelsMaxWidth, float(findLabelsMaxWidth(axisY->labels()))) + textPadding;
-    adjustment = labelsMaxWidth * scaleFactor * .5f + m_labelMargin;
+    labelsMaxWidth = float(findLabelsMaxWidth(axisY->labels())) + textPadding;
+    fontRatio = labelsMaxWidth / labelHeight;
+    fontScaled = QVector3D(scaleFactor * fontRatio, scaleFactor, 0.00001f);
+    adjustment = labelAdjustment(labelsMaxWidth);
 
-    xPos = backgroundScale.x() + adjustment;
+    xPos = backgroundScale.x() + adjustment + m_labelMargin;
     if (xFlipped)
         xPos *= -1.0f;
     labelTrans.setX(xPos);
@@ -1998,7 +2007,7 @@ void QQuickGraphsItem::updateRadialLabelOffset()
     QAbstract3DAxis *axisZ = m_controller->axisZ();
     QVector3D backgroundScale = m_scaleWithBackground + m_backgroundScaleMargin;
     float offset = m_controller->radialLabelOffset();
-    float scale = backgroundScale.x() + (m_backgroundScaleMargin.x() * 2.0f);
+    float scale = backgroundScale.x() + (m_backgroundScaleMargin.x());
     float polarX = scale * offset + m_labelMargin * 2.0f;
     if (isXFlipped())
         polarX *= -1;
@@ -2011,7 +2020,7 @@ void QQuickGraphsItem::updateRadialLabelOffset()
         }
     }
 
-    polarX += m_labelMargin * 2.0f;
+    polarX += m_labelMargin * 2.5f;
     QVector3D pos = m_titleLabelZ->position();
     pos.setX(polarX);
     m_titleLabelZ->setPosition(pos);
@@ -2700,7 +2709,6 @@ void QQuickGraphsItem::updateZTitle(const QVector3D &labelRotation, const QVecto
     float extraRotation = 90.0f;
 
     if (m_yFlipped) {
-
         xRotation = -xRotation;
         if (m_zFlipped) {
             if (m_xFlipped) {
@@ -3976,8 +3984,7 @@ void QQuickGraphsItem::updateSliceLabels()
 
     float textPadding = 12.0f;
 
-    float labelsMaxWidth = 0.0f;
-    labelsMaxWidth = qMax(labelsMaxWidth, float(findLabelsMaxWidth(horizontalAxis->labels()))) + textPadding;
+    float labelsMaxWidth = float(findLabelsMaxWidth(horizontalAxis->labels())) + textPadding;
     QFontMetrics fm(m_controller->activeTheme()->font());
     float labelHeight = fm.height() + textPadding;
 
@@ -4040,7 +4047,7 @@ void QQuickGraphsItem::updateSliceLabels()
     scale = backgroundScale.y() - m_backgroundScaleMargin.y();
     translate = backgroundScale.y() - m_backgroundScaleMargin.y();
     labels = verticalAxis->labels();
-    labelsMaxWidth = qMax(labelsMaxWidth, float(findLabelsMaxWidth(labels))) + textPadding;
+    labelsMaxWidth = float(findLabelsMaxWidth(labels)) + textPadding;
     adjustment = labelsMaxWidth * scaleFactor;
     float xPos = 0.0f;
     if (m_controller->selectionMode().testFlag(QAbstract3DGraph::SelectionRow))

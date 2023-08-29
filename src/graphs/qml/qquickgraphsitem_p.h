@@ -445,8 +445,7 @@ private:
     float m_fontScaleFactorA = -1.130435e-06f;
     float m_fontScaleFactorB = 0.000115652f;
 
-    float m_labelMargin = 0.1f;
-    float m_zLabelAdjustment = 0.0f;
+    float m_labelMargin = .1f;
 
     bool m_sliceEnabled = false;
     bool m_sliceActivatedChanged = false;
@@ -467,6 +466,7 @@ private:
     void updateCustomData();
     void updateCustomLabelsRotation();
     float fontScaleFactor(float pointSize);
+    float labelAdjustment(float width);
 
     void createVolumeMaterial(QCustom3DVolume *volume, Volume &volumeItem);
     QQuick3DModel *createSliceFrame(Volume &volumeItem);
