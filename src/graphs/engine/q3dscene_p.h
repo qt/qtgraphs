@@ -20,7 +20,6 @@
 QT_BEGIN_NAMESPACE
 
 class Q3DCamera;
-class Q3DLight;
 
 struct Q3DSceneChangeBitField {
     bool viewportChanged               : 1;
@@ -28,7 +27,6 @@ struct Q3DSceneChangeBitField {
     bool secondarySubViewportChanged   : 1;
     bool subViewportOrderChanged       : 1;
     bool cameraChanged                 : 1;
-    bool lightChanged                  : 1;
     bool slicingActivatedChanged       : 1;
     bool devicePixelRatioChanged       : 1;
     bool selectionQueryPositionChanged : 1;
@@ -41,7 +39,6 @@ struct Q3DSceneChangeBitField {
           secondarySubViewportChanged(true),
           subViewportOrderChanged(true),
           cameraChanged(true),
-          lightChanged(true),
           slicingActivatedChanged(true),
           devicePixelRatioChanged(true),
           selectionQueryPositionChanged(false),
@@ -74,10 +71,6 @@ public:
     QRect glPrimarySubViewport();
     QRect glSecondarySubViewport();
 
-    void setLightPositionRelativeToCamera(const QVector3D &relativePosition,
-                                          float fixedRotation = 0.0f,
-                                          float distanceModifier = 0.0f);
-
     void markDirty();
 
     bool isInArea(const QRect &area, int x, int y) const;
@@ -97,7 +90,6 @@ public:
     bool m_isSecondarySubviewOnTop;
     float m_devicePixelRatio;
     Q3DCamera *m_camera;
-    Q3DLight *m_light;
     bool m_isUnderSideCameraEnabled;
     bool m_isSlicingActive;
     QPoint m_selectionQueryPosition;

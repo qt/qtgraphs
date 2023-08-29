@@ -62,7 +62,6 @@ qt_internal_add_qml_module(Graphs
         engine/scatterinstancing.cpp engine/scatterinstancing_p.h
         engine/q3dbars.cpp engine/q3dbars.h
         engine/q3dcamera.cpp engine/q3dcamera.h engine/q3dcamera_p.h
-        engine/q3dlight.cpp engine/q3dlight.h engine/q3dlight_p.h
         engine/q3dobject.cpp engine/q3dobject.h engine/q3dobject_p.h
         engine/q3dscatter.cpp engine/q3dscatter.h
         engine/q3dscene.cpp engine/q3dscene.h engine/q3dscene_p.h

@@ -61,7 +61,6 @@ Abstract3DController::Abstract3DController(QRect initialViewport, Q3DScene *scen
     setActiveTheme(defaultTheme);
 
     m_scene->d_func()->setViewport(initialViewport);
-    m_scene->activeLight()->setAutoPosition(true);
 
     connect(m_scene->d_func(), &Q3DScenePrivate::needRender, this,
             &Abstract3DController::emitNeedRender);

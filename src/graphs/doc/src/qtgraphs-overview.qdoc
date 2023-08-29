@@ -192,9 +192,8 @@
 
     A 3D scene is implemented by using the Q3DScene class or the Scene3D QML
     type. A scene contains a single active camera, implemented by using the
-    Q3DCamera class or the Camera3D type, and a single active light source,
-    implemented by using the Q3DLight class or the Light3D type. The light
-    source is always positioned in relation to the camera. By default, the light
+    Q3DCamera class or the Camera3D type, and a single active light source. The
+    light source is always positioned in relation to the camera. The light
     position follows the camera automatically.
 
     The camera can be customized by specifying its preset position, rotation,

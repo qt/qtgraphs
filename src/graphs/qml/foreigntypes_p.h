@@ -20,7 +20,6 @@
 
 #include <QtGraphs/q3dcamera.h>
 #include <QtGraphs/q3dinputhandler.h>
-#include <QtGraphs/q3dlight.h>
 #include <QtGraphs/q3dobject.h>
 #include <QtGraphs/q3dscene.h>
 #include <QtGraphs/q3dtheme.h>
@@ -84,7 +83,6 @@ struct Q3DSceneForeign
 };
 
 DEFINE_FOREIGN_CREATABLE_TYPE(Q3DCamera, Camera3D, 6)
-DEFINE_FOREIGN_CREATABLE_TYPE(Q3DLight, Light3D, 6)
 DEFINE_FOREIGN_CREATABLE_TYPE(QCategory3DAxis, CategoryAxis3D, 6)
 DEFINE_FOREIGN_CREATABLE_TYPE(QHeightMapSurfaceDataProxy, HeightMapSurfaceDataProxy, 6)
 DEFINE_FOREIGN_CREATABLE_TYPE(QItemModelBarDataProxy, ItemModelBarDataProxy, 6)

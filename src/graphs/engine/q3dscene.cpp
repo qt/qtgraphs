@@ -3,7 +3,6 @@
 
 #include "q3dscene_p.h"
 #include "q3dcamera_p.h"
-#include "q3dlight_p.h"
 
 QT_BEGIN_NAMESPACE
 
@@ -134,14 +133,6 @@ QT_BEGIN_NAMESPACE
  */
 
 /*!
- * \qmlproperty Light3D Scene3D::activeLight
- *
- * The currently active light in the 3D scene.
- * When a Light3D is set in the property, it is automatically added as child of
- * the scene.
- */
-
-/*!
  * \qmlproperty float Scene3D::devicePixelRatio
  *
  * The current device pixel ratio that is used when mapping input
@@ -162,7 +153,6 @@ Q3DScene::Q3DScene(QObject *parent) :
     d_ptr(new Q3DScenePrivate(this))
 {
     setActiveCamera(new Q3DCamera(0));
-    setActiveLight(new Q3DLight(0));
 }
 
 /*!
@@ -523,39 +513,6 @@ void Q3DScene::setActiveCamera(Q3DCamera *camera)
 }
 
 /*!
- * \property Q3DScene::activeLight
- *
- * \brief The currently active light in the 3D scene.
- *
- * When a new Q3DLight objects is set, it is automatically added as child of
- * the scene.
- */
-Q3DLight *Q3DScene::activeLight() const
-{
-    const Q_D(Q3DScene);
-    return d->m_light;
-}
-
-void Q3DScene::setActiveLight(Q3DLight *light)
-{
-    Q_ASSERT(light);
-    Q_D(Q3DScene);
-
-    // Add new light as child of the scene
-    if (light->parent() != this)
-        light->setParent(this);
-
-    if (light != d->m_light) {
-        d->m_light = light;
-        d->m_changeTracker.lightChanged = true;
-        d->m_sceneDirty = true;
-
-        emit activeLightChanged(light);
-        emit d->needRender();
-    }
-}
-
-/*!
  * \property Q3DScene::devicePixelRatio
  *
  * \brief The device pixel ratio that is used when mapping input
@@ -586,7 +543,6 @@ Q3DScenePrivate::Q3DScenePrivate(Q3DScene *q) :
     m_isSecondarySubviewOnTop(true),
     m_devicePixelRatio(1.f),
     m_camera(),
-    m_light(),
     m_isUnderSideCameraEnabled(false),
     m_isSlicingActive(false),
     m_selectionQueryPosition(Q3DScene::invalidSelectionPoint()),
@@ -599,7 +555,6 @@ Q3DScenePrivate::Q3DScenePrivate(Q3DScene *q) :
 Q3DScenePrivate::~Q3DScenePrivate()
 {
     delete m_camera;
-    delete m_light;
 }
 
 // Copies changed values from this scene to the other scene. If the other scene had same changes,
@@ -648,13 +603,6 @@ void Q3DScenePrivate::sync(Q3DScenePrivate &other)
         other.m_changeTracker.cameraChanged = false;
     }
     m_camera->d_func()->sync(*other.m_camera);
-
-    if (m_changeTracker.lightChanged) {
-        m_light->setDirty(true);
-        m_changeTracker.lightChanged = false;
-        other.m_changeTracker.lightChanged = false;
-    }
-    m_light->d_func()->sync(*other.m_light);
 
     if (m_changeTracker.slicingActivatedChanged) {
         other.q_func()->setSlicingActive(q->isSlicingActive());
@@ -792,23 +740,6 @@ QRect Q3DScenePrivate::glPrimarySubViewport()
 QRect Q3DScenePrivate::glSecondarySubViewport()
 {
     return m_glSecondarySubViewport;
-}
-
-/*!
- * \internal
- * Calculates and sets the light position relative to the currently active camera using the given
- * parameters.
- * The relative 3D offset to the current camera position is defined in \a relativePosition.
- * Optional \a fixedRotation fixes the light rotation around the graph area to the
- * given value in degrees.
- * Optional \a distanceModifier modifies the distance of the light from the graph.
- */
-void Q3DScenePrivate::setLightPositionRelativeToCamera(const QVector3D &relativePosition,
-                                                       float fixedRotation, float distanceModifier)
-{
-    m_light->setPosition(m_camera->d_func()->calculatePositionRelativeToCamera(relativePosition,
-                                                                            fixedRotation,
-                                                                            distanceModifier));
 }
 
 void Q3DScenePrivate::markDirty()
