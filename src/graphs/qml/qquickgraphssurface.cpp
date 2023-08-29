@@ -745,10 +745,15 @@ void QQuickGraphsSurface::updateSliceGraph()
         int rowCount = model->rowCount;
         int columnCount = model->columnCount;
 
-        int rowStart = model->rowCount * model->rangeMin.y();
-        int columnStart = model->columnCount * model->rangeMin.x();
-        int rowLimit = model->rowCount * model->rangeMax.y() - 1;
-        int columnLimit = model->columnCount * model->rangeMax.x() - 1;
+        auto clamp = [](float x) -> float {
+            x = qMin(x, 1.0);
+            x = qMax(x, 0.0);
+            return x;
+        };
+        int rowStart = model->rowCount * clamp(model->rangeMin.y());
+        int columnStart = model->columnCount * clamp(model->rangeMin.x());
+        int rowLimit = model->rowCount * clamp(model->rangeMax.y());
+        int columnLimit = model->columnCount * clamp(model->rangeMax.x());
 
         int indexCount = 0;
         if (selectionMode.testFlag(QAbstract3DGraph::SelectionRow)) {
@@ -764,7 +769,7 @@ void QQuickGraphsSurface::updateSliceGraph()
                 list.append(vertex);
             }
             selectedSeries.append(list);
-            indexCount = columnLimit - columnStart;
+            indexCount = columnLimit - columnStart - 1;
         }
 
         if (selectionMode.testFlag(QAbstract3DGraph::SelectionColumn)) {
@@ -781,7 +786,7 @@ void QQuickGraphsSurface::updateSliceGraph()
                 list.append(vertex);
             }
             selectedSeries.append(list);
-            indexCount = rowLimit - rowStart;
+            indexCount = rowLimit - rowStart - 1;
 
             QQmlListReference materialRef(model->sliceModel, "materials");
             auto material = materialRef.at(0);
