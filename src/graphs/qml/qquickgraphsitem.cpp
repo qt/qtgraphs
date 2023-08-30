@@ -3893,7 +3893,7 @@ void QQuickGraphsItem::updateSliceGrid()
 
     float linePosX = .0f;
     float linePosY = .0f;
-    float linePosZ = .0f;
+    float linePosZ = -1.f; // Draw grid lines behind slice (especially for surface)
 
     if (horizontalAxis->type() == QAbstract3DAxis::AxisTypeCategory) {
         m_sliceVerticalGridRepeater->setVisible(false);
@@ -4015,10 +4015,9 @@ void QQuickGraphsItem::updateSliceLabels()
         for (int i = 0; i < m_sliceHorizontalLabelRepeater->count(); i++) {
             labelTrans = calculateCategoryLabelPosition(horizontalAxis, labelTrans, i);
             labelTrans.setY(labelTrans.y() - (adjustment / 1.5f));
-            if (m_controller->selectionMode().testFlag(QAbstract3DGraph::SelectionColumn)) {
+            if (m_controller->selectionMode().testFlag(QAbstract3DGraph::SelectionColumn))
                 labelTrans.setX(labelTrans.z());
-                labelTrans.setZ(0.0f);
-            }
+            labelTrans.setZ(1.0f); // Bring the labels on top of bars and grid
             auto obj = static_cast<QQuick3DNode *>(m_sliceHorizontalLabelRepeater->objectAt(i));
             obj->setScale(fontScaled);
             obj->setPosition(labelTrans);
