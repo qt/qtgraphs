@@ -540,6 +540,21 @@ void QQuickGraphsBars::updateAxisReversed(bool enable)
     calculateHeightAdjustment();
 }
 
+void QQuickGraphsBars::updateLightStrength()
+{
+    for (const auto list : std::as_const(m_barModelsMap)) {
+        for (auto barModel : *list) {
+            QQmlListReference materialRef(barModel->model,"materials");
+            if (materialRef.size()) {
+                QQuick3DCustomMaterial *material =
+                    qobject_cast<QQuick3DCustomMaterial *>(materialRef.at(0));
+                material->setProperty("specularBrightness",
+                                      m_barsController->activeTheme()->lightStrength() * 0.05);
+            }
+        }
+    }
+}
+
 void QQuickGraphsBars::calculateSceneScalingFactors()
 {
     m_rowWidth = (m_cachedColumnCount * m_cachedBarSpacing.width()) * 0.5f;
@@ -1120,60 +1135,29 @@ void QQuickGraphsBars::updateBarVisuals(QBar3DSeries *series)
     QColor barColor;
 
     if (m_barsController->optimizationHint() == QAbstract3DGraph::OptimizationHint::Legacy) {
-        if (!rangeGradient) {
-            for (int i = 0; i < barList.count(); i++) {
-                QQuick3DModel *model = barList.at(i)->model;
-                updateItemMaterial(model, useGradient, rangeGradient,
-                                   QStringLiteral(":/materials/ObjectGradientMaterial"));
-                if (useGradient) {
-                    updateCustomMaterial(model, false, false, barList.at(i)->texture);
+        for (int i = 0; i < barList.count(); i++) {
+            QQuick3DModel *model = barList.at(i)->model;
+            updateItemMaterial(model, useGradient, rangeGradient,
+                               QStringLiteral(":/materials/BarsMaterial"));
+            if (useGradient) {
+                updateMaterialProperties(model, false, false, barList.at(i)->texture, QColor(Qt::white));
+            } else {
+                QList<QColor> rowColors = series->rowColors();
+                if (rowColors.size() == 0) {
+                    barColor = baseColor;
                 } else {
-                    QList<QColor> rowColors = series->rowColors();
-                    if (rowColors.size() == 0) {
-                        barColor = baseColor;
-                    } else {
-                        int rowColorIndex = barList.at(i)->coord.x() % rowColors.size();
-                        barColor = rowColors[rowColorIndex];
-                    }
-                    updatePrincipledMaterial(model, barColor, useGradient, false,
-                                             barList.at(i)->texture);
+                    int rowColorIndex = barList.at(i)->coord.x() % rowColors.size();
+                    barColor = rowColors[rowColorIndex];
                 }
-            }
-        } else {
-            for (int i = 0; i < barList.count(); i++) {
-                QQuick3DModel *model = barList.at(i)->model;
-                updateItemMaterial(model, useGradient, rangeGradient,
-                                   QStringLiteral(":/materials/RangeGradientMaterial"));
-                if (useGradient) {
-                    updateCustomMaterial(model, false, false, barList.at(i)->texture);
-                } else {
-                    updatePrincipledMaterial(model, baseColor, useGradient, false,
-                                             barList.at(i)->texture);
-                }
+                updateMaterialProperties(model, false, false, barList.at(i)->texture, barColor);
             }
         }
     } else if (m_barsController->optimizationHint() == QAbstract3DGraph::OptimizationHint::Default) {
         for (int i = 0; i < barList.count(); i++) {
             barList.at(i)->instancing->setRangeGradient(rangeGradient);
-            if (!rangeGradient) {
-                updateItemMaterial(barList.at(i)->model, useGradient, rangeGradient,
-                                   QStringLiteral(":/materials/ObjectGradientMaterialInstancing"));
-                if (useGradient) {
-                    updateCustomMaterial(barList.at(i)->model, false, false, barList.at(i)->texture);
-                } else {
-                    updatePrincipledMaterial(barList.at(i)->model, QColor(Qt::white),
-                                             useGradient, false, barList.at(i)->texture);
-                }
-            } else {
-                updateItemMaterial(barList.at(i)->model, useGradient, rangeGradient,
-                                   QStringLiteral(":/materials/RangeGradientMaterialInstancing"));
-                if (useGradient) {
-                    updateCustomMaterial(barList.at(i)->model, false, false, barList.at(i)->texture);
-                } else {
-                    updatePrincipledMaterial(barList.at(i)->model, baseColor,
-                                             useGradient, false, barList.at(i)->texture);
-                }
-            }
+            updateItemMaterial(barList.at(i)->model, useGradient, rangeGradient,
+                               QStringLiteral(":/materials/BarsMaterialInstancing"));
+            updateMaterialProperties(barList.at(i)->model, false, false, barList.at(i)->texture, QColor(Qt::white));
         }
     }
 }
@@ -1181,85 +1165,37 @@ void QQuickGraphsBars::updateBarVisuals(QBar3DSeries *series)
 void QQuickGraphsBars::updateItemMaterial(QQuick3DModel *item, bool useGradient, bool rangeGradient, const QString &materialName)
 {
     QQmlListReference materialsRef(item, "materials");
-    if (!rangeGradient) {
-        if (materialsRef.size()) {
-            QObject *material = materialsRef.at(0);
-            if (useGradient && !material->objectName().contains(QStringLiteral("objectgradient"))) {
-                // The item has an existing material which is principled or range gradient.
-                // The item needs an object gradient material.
-                QQuick3DCustomMaterial *objectGradientMaterial = createQmlCustomMaterial(
-                    materialName);
-                objectGradientMaterial->setParent(item);
-                QObject *oldMaterial = materialsRef.at(0);
-                materialsRef.replace(0, objectGradientMaterial);
-                objectGradientMaterial->setObjectName("objectgradient");
-                delete oldMaterial;
-            } else if (!useGradient && !qobject_cast<QQuick3DPrincipledMaterial *>(material)) {
-                // The item has an existing material which is object gradient or range gradient.
-                // The item needs a principled material for uniform color.
-                auto principledMaterial = new QQuick3DPrincipledMaterial();
-                principledMaterial->setParent(item);
-                QObject *oldCustomMaterial = materialsRef.at(0);
-                materialsRef.replace(0, principledMaterial);
-                delete oldCustomMaterial;
-            }
-        } else {
-            if (useGradient) {
-                // The item needs object gradient material.
-                QQuick3DCustomMaterial *objectGradientMaterial = createQmlCustomMaterial(
-                    materialName);
-                objectGradientMaterial->setParent(item);
-                materialsRef.append(objectGradientMaterial);
-                objectGradientMaterial->setObjectName("objectgradient");
-            } else {
-                // The item needs a principled material.
-                auto principledMaterial = new QQuick3DPrincipledMaterial();
-                principledMaterial->setParent(item);
-                materialsRef.append(principledMaterial);
-            }
-        }
-    } else {
-        if (materialsRef.size()) {
-            QObject *material = materialsRef.at(0);
-            if (!qobject_cast<QQuick3DCustomMaterial *>(material)
-                || material->objectName().contains(QStringLiteral("objectgradient"))) {
-                // The item has an existing material which is principled or object gradient.
-                // The item needs a range gradient material.
-                if (useGradient) {
-                    QQuick3DCustomMaterial *customMaterial = createQmlCustomMaterial(
-                        materialName);
-                    customMaterial->setParent(item);
-                    QObject *oldPrincipledMaterial = materialsRef.at(0);
-                    materialsRef.replace(0, customMaterial);
-                    delete oldPrincipledMaterial;
-                } else  {
-                    // The item needs a principled material for uniform color.
-                    auto principledMaterial = new QQuick3DPrincipledMaterial();
-                    principledMaterial->setParent(item);
-                    QObject *oldCustomMaterial = materialsRef.at(0);
-                    materialsRef.replace(0, principledMaterial);
-                    delete oldCustomMaterial;
-                }
-            }
-        } else {
-            if (useGradient) {
-                // The item needs a range gradient material.
-                QQuick3DCustomMaterial *customMaterial = createQmlCustomMaterial(
-                    materialName);
-                customMaterial->setParent(item);
-                materialsRef.append(customMaterial);
-            } else {
-                // The item needs a principled material for uniform color.
-                auto principledMaterial = new QQuick3DPrincipledMaterial();
-                principledMaterial->setParent(item);
-                materialsRef.append(principledMaterial);
-            }
-        }
+
+    bool needNewMaterial = false;
+    if (!materialsRef.size())
+        needNewMaterial = true;
+    else if (materialsRef.at(0)->objectName().contains(QStringLiteral("Instancing"))
+             == materialName.contains(QStringLiteral("Instancing"))) {
+        needNewMaterial = true;
     }
+
+    if (needNewMaterial) {
+        materialsRef.clear();
+        auto *material = createQmlCustomMaterial(materialName);
+        material->setObjectName(materialName);
+        material->setParent(item);
+        materialsRef.append(material);
+    }
+    int colorStyle;
+    if (!useGradient)
+        colorStyle = 0; //style is uniform
+    else if (!rangeGradient)
+        colorStyle = 1; // style is objectGradient
+    else
+        colorStyle = 2; // style is rangeGradient
+
+    auto *material = qobject_cast<QQuick3DCustomMaterial *>(materialsRef.at(0));
+    material->setProperty("colorStyle", colorStyle);
 }
 
-void QQuickGraphsBars::updateCustomMaterial(QQuick3DModel *item, bool isHighlight,
-                                            bool isMultiHighlight, QQuick3DTexture *texture)
+void QQuickGraphsBars::updateMaterialProperties(QQuick3DModel *item, bool isHighlight,
+                                            bool isMultiHighlight, QQuick3DTexture *texture,
+                                            const QColor &color)
 {
     QQmlListReference materialsRef(item, "materials");
     auto customMaterial = qobject_cast<QQuick3DCustomMaterial *>(materialsRef.at(0));
@@ -1269,31 +1205,19 @@ void QQuickGraphsBars::updateCustomMaterial(QQuick3DModel *item, bool isHighligh
     QQuick3DShaderUtilsTextureInput *textureInput
         = textureInputAsVariant.value<QQuick3DShaderUtilsTextureInput *>();
 
-    if (!isHighlight && !isMultiHighlight)
-        textureInput->setTexture(texture);
-    else
-        textureInput->setTexture(isHighlight ? m_highlightTexture : m_multiHighlightTexture);
-}
+    int colorStyle = customMaterial->property("colorStyle").value<int>();
 
-void QQuickGraphsBars::updatePrincipledMaterial(QQuick3DModel *model, const QColor &color,
-                                                bool useGradient, bool isHighlight,
-                                                QQuick3DTexture *texture)
-{
-    QQmlListReference materialsRef(model, "materials");
-    auto principledMaterial = qobject_cast<QQuick3DPrincipledMaterial *>(materialsRef.at(0));
-    if (!principledMaterial)
-        return;
-    principledMaterial->setParent(this);
-
-    if (useGradient) {
-        principledMaterial->setBaseColor(QColor(Qt::white));
-        if (!isHighlight)
-            principledMaterial->setBaseColorMap(texture);
-        else
-            principledMaterial->setBaseColorMap(m_highlightTexture);
+    if (colorStyle == 0) {
+        customMaterial->setProperty("uniformColor", color);
     } else {
-        principledMaterial->setBaseColor(color);
+        if (!isHighlight && !isMultiHighlight)
+            textureInput->setTexture(texture);
+        else
+            textureInput->setTexture(isHighlight ? m_highlightTexture : m_multiHighlightTexture);
+        customMaterial->setProperty("isHighlight", isHighlight || isMultiHighlight);
     }
+    customMaterial->setProperty("specularBrightness",
+                          m_barsController->activeTheme()->lightStrength() * 0.05);
 }
 
 void QQuickGraphsBars::removeBarModels()
@@ -1483,14 +1407,8 @@ void QQuickGraphsBars::updateSelectedBar()
                         isSelected(barList->coord.x(), barList->coord.y(), it.key());
                     switch (selectionType) {
                     case Bars3DController::SelectionItem: {
-                        if (useGradient) {
-                            updateCustomMaterial(barList->model, true, false,
-                                                 barList->texture);
-                        } else {
-                            updatePrincipledMaterial(barList->model,
-                                                     it.key()->singleHighlightColor(), useGradient,
-                                                     true, barList->texture);
-                        }
+                        updateMaterialProperties(barList->model, true, false,
+                                             barList->texture, it.key()->singleHighlightColor());
 
                         m_selectedBarPos = barList->model->position();
                         visible = m_selectedBarSeries->isVisible() && !m_selectedBarPos.isNull();
@@ -1532,14 +1450,8 @@ void QQuickGraphsBars::updateSelectedBar()
                     }
                     case Bars3DController::SelectionRow:
                     case Bars3DController::SelectionColumn: {
-                        if (useGradient) {
-                            updateCustomMaterial(barList->model, false, true,
-                                                 barList->texture);
-                        } else {
-                            updatePrincipledMaterial(barList->model,
-                                                     it.key()->multiHighlightColor(), useGradient,
-                                                     true, barList->texture);
-                        }
+                        updateMaterialProperties(barList->model, false, true,
+                                             barList->texture, it.key()->multiHighlightColor());
                         break;
                     }
                     default:
@@ -1565,30 +1477,10 @@ void QQuickGraphsBars::updateSelectedBar()
                             selectedModel->setPosition(bih->position);
                             selectedModel->setScale(bih->scale);
 
-                            if (!rangeGradient) {
-                                updateItemMaterial(selectedModel, useGradient, rangeGradient,
-                                                   QStringLiteral(":/materials/ObjectGradientMaterial"));
-                                if (useGradient) {
-                                    updateCustomMaterial(selectedModel, true, false,
-                                                         barList.at(0)->texture);
-                                } else {
-                                    updatePrincipledMaterial(selectedModel,
-                                                             it.key()->singleHighlightColor(), useGradient,
-                                                             true, barList.at(0)->texture);
-                                }
-                            } else {
-                                updateItemMaterial(selectedModel, useGradient, rangeGradient,
-                                                   QStringLiteral(":/materials/RangeGradientMaterial"));
-                                if (useGradient) {
-                                    updateCustomMaterial(selectedModel, true, false,
-                                                         barList.at(0)->texture);
-                                } else {
-                                    updatePrincipledMaterial(selectedModel,
-                                                             it.key()->singleHighlightColor(), useGradient,
-                                                             true, barList.at(0)->texture);
-                                }
-                            }
-
+                            updateItemMaterial(selectedModel, useGradient, rangeGradient,
+                                               QStringLiteral(":/materials/BarsMaterial"));
+                            updateMaterialProperties(selectedModel, true, false,
+                                                     barList.at(0)->texture, it.key()->singleHighlightColor());
                             m_selectedBarPos = bih->position;
                             QString label = (m_selectedBarSeries->d_func()->itemLabel());
 
@@ -1634,29 +1526,11 @@ void QQuickGraphsBars::updateSelectedBar()
                             selectedModel->setPosition(bih->position);
                             selectedModel->setScale(bih->scale);
 
-                            if (!rangeGradient) {
-                                updateItemMaterial(selectedModel, useGradient, rangeGradient,
-                                                   QStringLiteral(":/materials/ObjectGradientMaterial"));
-                                if (useGradient) {
-                                    updateCustomMaterial(selectedModel, false, true,
-                                                         barList.at(0)->texture);
-                                } else {
-                                    updatePrincipledMaterial(selectedModel,
-                                                             it.key()->multiHighlightColor(), useGradient,
-                                                             true, barList.at(0)->texture);
-                                }
-                            } else {
-                                updateItemMaterial(selectedModel, useGradient, rangeGradient,
-                                                   QStringLiteral(":/materials/RangeGradientMaterial"));
-                                if (useGradient) {
-                                    updateCustomMaterial(selectedModel, false, true,
-                                                         barList.at(0)->texture);
-                                } else {
-                                    updatePrincipledMaterial(selectedModel,
-                                                             it.key()->multiHighlightColor(), useGradient,
-                                                             true, barList.at(0)->texture);
-                                }
-                            }
+                            updateItemMaterial(selectedModel, useGradient, rangeGradient,
+                                               QStringLiteral(":/materials/BarsMaterial"));
+                            updateMaterialProperties(selectedModel, false, true,
+                                                     barList.at(0)->texture,
+                                                     it.key()->multiHighlightColor());
                             ++index;
                         }
                         break;
@@ -1783,14 +1657,8 @@ void QQuickGraphsBars::createSliceView()
             for (int ind = 0; ind < slicedBarListSize; ++ind) {
                 QQuick3DModel *model = createDataItem(sliceParent->scene(), barSeries);
                 model->setVisible(false);
-                if (!rangeGradient) {
-                    updateItemMaterial(model, useGradient, rangeGradient,
-                                       QStringLiteral(":/materials/ObjectGradientMaterial"));
-                } else {
-                    updateItemMaterial(model, useGradient, rangeGradient,
-                                       QStringLiteral(":/materials/RangeGradientMaterial"));
-                }
-
+                updateItemMaterial(model, useGradient, rangeGradient,
+                                   QStringLiteral(":/materials/BarsMaterial"));
                 if (!slicedBarList->contains(model))
                     slicedBarList->append(model);
             }
@@ -1813,7 +1681,6 @@ void QQuickGraphsBars::updateSliceGraph()
     bool rowMode = m_selectionMode.testFlag(QAbstract3DGraph::SelectionRow);
     for (auto it = m_slicedBarModels.begin(); it != m_slicedBarModels.end(); it++) {
         QList<BarModel *> barList = *m_barModelsMap.value(it.key());
-        bool useGradient = it.key()->d_func()->isUsingGradient();
         if (m_barsController->optimizationHint() == QAbstract3DGraph::OptimizationHint::Legacy) {
             for (int ind = 0; ind < it.value()->count(); ++ind) {
                 if (rowMode)
@@ -1841,14 +1708,10 @@ void QQuickGraphsBars::updateSliceGraph()
                     sliceBarModel->setScale(barModel->model->scale());
                     bool highlightBar = (ind == (rowMode ? m_selectedBarCoord.y()
                                                          : m_selectedBarCoord.x()));
-                    if (useGradient) {
-                        updateCustomMaterial(sliceBarModel, highlightBar, false, barList.at(index)->texture);
-                    } else {
-                        updatePrincipledMaterial(sliceBarModel,
-                                                 highlightBar ? m_selectedBarSeries->singleHighlightColor()
-                                                              : m_selectedBarSeries->baseColor(),
-                                                 useGradient, highlightBar, barList.at(index)->texture);
-                    }
+                    updateMaterialProperties(sliceBarModel, highlightBar, false,
+                                             barList.at(index)->texture,
+                                             highlightBar ? m_selectedBarSeries->singleHighlightColor()
+                                                          : m_selectedBarSeries->baseColor());
                 } else {
                     setSliceEnabled(false);
                     QQuickGraphsItem::updateSliceGraph();
@@ -1885,14 +1748,10 @@ void QQuickGraphsBars::updateSliceGraph()
                         sliceBarModel->setScale(bih->scale);
                         bool highlightBar = (ind == (rowMode ? m_selectedBarCoord.y()
                                                              : m_selectedBarCoord.x()));
-                        if (useGradient) {
-                            updateCustomMaterial(sliceBarModel, highlightBar, false, barList.at(0)->texture);
-                        } else {
-                            updatePrincipledMaterial(sliceBarModel,
-                                                     highlightBar ? m_selectedBarSeries->singleHighlightColor()
-                                                                  : m_selectedBarSeries->baseColor(),
-                                                     useGradient, highlightBar, barList.at(0)->texture);
-                        }
+                        updateMaterialProperties(sliceBarModel, highlightBar, false,
+                                                 barList.at(0)->texture,
+                                                 highlightBar ? m_selectedBarSeries->singleHighlightColor()
+                                                              : m_selectedBarSeries->baseColor());
                     } else {
                         setSliceEnabled(false);
                         QQuickGraphsItem::updateSliceGraph();

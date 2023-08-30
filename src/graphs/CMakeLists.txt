@@ -158,12 +158,6 @@ set_source_files_properties("qml/resources/TitleLabel.qml"
     PROPERTIES QT_RESOURCE_ALIAS "TitleLabel"
 )
 
-set_source_files_properties("qml/resources/RangeGradientMaterial.qml"
-    PROPERTIES QT_RESOURCE_ALIAS "RangeGradientMaterial"
-)
-set_source_files_properties("qml/resources/RangeGradientMaterialInstancing.qml"
-    PROPERTIES QT_RESOURCE_ALIAS "RangeGradientMaterialInstancing"
-)
 set_source_files_properties("qml/resources/RangeGradientScatterMaterial.qml"
     PROPERTIES QT_RESOURCE_ALIAS "RangeGradientScatterMaterial"
 )
@@ -175,6 +169,12 @@ set_source_files_properties("qml/resources/GridSurfaceMaterial.qml"
 )
 set_source_files_properties("qml/resources/SurfaceSliceMaterial.qml"
     PROPERTIES QT_RESOURCE_ALIAS "SurfaceSliceMaterial"
+)
+set_source_files_properties("qml/resources/BarsMaterial.qml"
+    PROPERTIES QT_RESOURCE_ALIAS "BarsMaterial"
+)
+set_source_files_properties("qml/resources/BarsMaterialInstancing.qml"
+    PROPERTIES QT_RESOURCE_ALIAS "BarsMaterialInstancing"
 )
 set_source_files_properties("qml/resources/SurfaceMaterial.qml"
     PROPERTIES QT_RESOURCE_ALIAS "SurfaceMaterial"
@@ -238,13 +238,13 @@ set(qml_axis_resurces
 set(qml_material_resources
     "qml/resources/ObjectGradientMaterial.qml"
     "qml/resources/ObjectGradientMaterialInstancing.qml"
+    "qml/resources/BarsMaterial.qml"
+    "qml/resources/BarsMaterialInstancing.qml"
     "qml/resources/SurfaceMaterial.qml"
     "qml/resources/PointMaterial.qml"
     "qml/resources/PointRangeGradientMaterial.qml"
     "qml/resources/PointMaterialInstancing.qml"
     "qml/resources/PointRangeGradientMaterialInstancing.qml"
-    "qml/resources/RangeGradientMaterial.qml"
-    "qml/resources/RangeGradientMaterialInstancing.qml"
     "qml/resources/RangeGradientScatterMaterial.qml"
     "qml/resources/RangeGradientScatterMaterialInstancing.qml"
     "qml/resources/GridSurfaceMaterial.qml"
@@ -415,6 +415,15 @@ set_source_files_properties("engine/shaders/pointrangegradientinstancing.frag"
 set_source_files_properties("engine/shaders/position.vert"
     PROPERTIES QT_RESOURCE_ALIAS "vertexPosition"
 )
+set_source_files_properties("engine/shaders/bars.frag"
+    PROPERTIES QT_RESOURCE_ALIAS "fragmentBars"
+)
+set_source_files_properties("engine/shaders/barsinstancing.frag"
+    PROPERTIES QT_RESOURCE_ALIAS "fragmentBarsInstancing"
+)
+set_source_files_properties("engine/shaders/barsinstancing.vert"
+    PROPERTIES QT_RESOURCE_ALIAS "vertexBarsInstancing"
+)
 set_source_files_properties("engine/shaders/surface.frag"
     PROPERTIES QT_RESOURCE_ALIAS "fragmentSurface"
 )
@@ -457,12 +466,6 @@ set_source_files_properties("engine/shaders/objectgradientinstancing.frag"
 set_source_files_properties("engine/shaders/rangegradient.vert"
     PROPERTIES QT_RESOURCE_ALIAS "vertexrangegradient"
 )
-set_source_files_properties("engine/shaders/rangegradient.frag"
-    PROPERTIES QT_RESOURCE_ALIAS "fragmentrangegradient"
-)
-set_source_files_properties("engine/shaders/rangegradientinstancing.frag"
-    PROPERTIES QT_RESOURCE_ALIAS "fragmentrangegradientinstancing"
-)
 set_source_files_properties("engine/shaders/rangegradientinstancing.vert"
     PROPERTIES QT_RESOURCE_ALIAS "vertexrangegradientinstancing"
 )
@@ -489,15 +492,15 @@ set(shader_resource_files
     "engine/shaders/objectgradientinstancing.vert"
     "engine/shaders/objectgradientinstancing.frag"
     "engine/shaders/rangegradient.vert"
-    "engine/shaders/rangegradient.frag"
-    "engine/shaders/rangegradientinstancing.frag"
-    "engine/shaders/rangegradientinstancing.vert"
     "engine/shaders/rangegradientscatter.frag"
     "engine/shaders/rangegradientinstancingscatter.frag"
     "engine/shaders/rangegradientinstancingscatter.vert"
     "engine/shaders/surface.frag"
     "engine/shaders/surfaceGrid.frag"
     "engine/shaders/surface.vert"
+    "engine/shaders/barsinstancing.frag"
+    "engine/shaders/barsinstancing.vert"
+    "engine/shaders/bars.frag"
     "engine/shaders/surfaceGrid.vert"
     "engine/shaders/surfaceSlice.vert"
     "engine/shaders/texture3d.frag"

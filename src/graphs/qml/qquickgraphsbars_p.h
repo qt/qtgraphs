@@ -95,6 +95,7 @@ protected:
     void updateGraph() override;
     void updateAxisRange(float min, float max) override;
     void updateAxisReversed(bool enable) override;
+    void updateLightStrength() override;
     void calculateSceneScalingFactors() override;
     QVector3D calculateCategoryLabelPosition(QAbstract3DAxis *axis, QVector3D labelPosition,
                                              int index) override;
@@ -242,10 +243,9 @@ private:
     void updateBarVisuals(QBar3DSeries *series);
     void updateItemMaterial(QQuick3DModel *item, bool useGradient, bool rangeGradient,
                             const QString &materialName);
-    void updateCustomMaterial(QQuick3DModel *item, bool isHighlight = false,
-                              bool isMultiHighlight = false, QQuick3DTexture *texture = nullptr);
-    void updatePrincipledMaterial(QQuick3DModel *model, const QColor &color, bool useGradient,
-                                  bool isHighlight, QQuick3DTexture *texture);
+    void updateMaterialProperties(QQuick3DModel *item, bool isHighlight,
+                                  bool isMultiHighlight, QQuick3DTexture *texture,
+                                  const QColor &color);
     void removeBarModels();
     void deleteBarModels(BarModel *barModel);
     void deleteBarItemHolders();
