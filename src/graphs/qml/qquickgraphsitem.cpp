@@ -3611,6 +3611,17 @@ bool QQuickGraphsItem::doPicking(const QPointF &point)
     return false;
 }
 
+void QQuickGraphsItem::minimizeMainGraph()
+{
+    QQuickItem *anchor = QQuickItemPrivate::get(this)->anchors()->fill();
+    if (anchor)
+        QQuickItemPrivate::get(this)->anchors()->resetFill();
+
+    const float minimizedSize = .2f;
+    setWidth(parentItem()->width() * minimizedSize);
+    setHeight(parentItem()->height() * minimizedSize);
+}
+
 void QQuickGraphsItem::updateSliceGraph()
 {
     if (!m_sliceView || !m_sliceActivatedChanged)
@@ -3623,14 +3634,7 @@ void QQuickGraphsItem::updateSliceGraph()
         m_sliceView->setVisible(false);
         m_controller->setSlicingActive(false);
     } else {
-        QQuickItem *anchor = QQuickItemPrivate::get(this)->anchors()->fill();
-        if (anchor)
-            QQuickItemPrivate::get(this)->anchors()->resetFill();
-
-        const float minimizedSize = .2f;
-        setWidth(parentItem()->width() * minimizedSize);
-        setHeight(parentItem()->height() * minimizedSize);
-
+        minimizeMainGraph();
         m_sliceView->setVisible(true);
         updateSliceGrid();
         updateSliceLabels();

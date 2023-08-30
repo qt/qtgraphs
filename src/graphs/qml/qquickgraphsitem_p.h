@@ -232,6 +232,8 @@ public:
 
     virtual bool doPicking(const QPointF &point);
 
+    void minimizeMainGraph();
+
 public Q_SLOTS:
     virtual void handleAxisXChanged(QAbstract3DAxis *axis) = 0;
     virtual void handleAxisYChanged(QAbstract3DAxis *axis) = 0;

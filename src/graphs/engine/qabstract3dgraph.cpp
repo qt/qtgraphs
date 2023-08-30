@@ -848,6 +848,8 @@ void QAbstract3DGraph::resizeEvent(QResizeEvent *event)
         Q3DScene *scene = (Q3DScene *)m_graphsItem->scene();
         scene->d_func()->setWindowSize(QSize(width(), height()));
         scene->d_func()->setViewport(QRect(0, 0, width(), height()));
+        if (m_graphsItem->sliceView() && m_graphsItem->sliceView()->isVisible())
+            m_graphsItem->minimizeMainGraph();
     }
 }
 
