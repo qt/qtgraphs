@@ -388,11 +388,13 @@ void QQuickGraphsItem::componentComplete()
             addCustomItem(item);
     }
 
-    // Create initial default input handler
-    QAbstract3DInputHandler *inputHandler;
-    inputHandler = new QTouch3DInputHandler(this);
-    inputHandler->d_func()->m_isDefaultHandler = true;
-    setActiveInputHandler(inputHandler);
+    // Create initial default input handler, if one hasn't already been created by QML
+    if (!activeInputHandler()) {
+        QAbstract3DInputHandler *inputHandler;
+        inputHandler = new QTouch3DInputHandler(this);
+        inputHandler->d_func()->m_isDefaultHandler = true;
+        setActiveInputHandler(inputHandler);
+    }
 }
 
 QQuick3DDirectionalLight *QQuickGraphsItem::light() const
