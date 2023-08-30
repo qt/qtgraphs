@@ -412,6 +412,8 @@ void QQuickGraphsSurface::updateModel(SurfaceModel *model)
         QAbstract3DAxis *axisZ = m_surfaceController->axisZ();
 
         QPoint selC =  model->selectedVertex.coord;
+        selC.setX(qMin(selC.x(), rowCount - 1));
+        selC.setY(qMin(selC.y(), columnCount -1));
         QVector3D selP = array.at(selC.x())->at(selC.y()).position();
 
         bool pickOutOfRange = false;
