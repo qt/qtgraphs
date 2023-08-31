@@ -5,7 +5,8 @@ import QtQuick
 import QtQuick3D
 
 Item {
-    property string labelText: "Bar"
+    id: root
+    property string labelText: ""
     property color backgroundColor: "gray"
     property bool backgroundEnabled: true
     property color labelTextColor: "transparent"
@@ -21,19 +22,19 @@ Item {
     Rectangle {
         id: labelBackground
         anchors.fill: parent
-        color: backgroundColor
-        visible: backgroundEnabled
-        border.color: labelTextColor
-        border.width: borderEnabled ? Math.max(0.5, (text0.font.pointSize / 16)) : 0
+        color: root.backgroundColor
+        visible: root.backgroundEnabled
+        border.color: root.labelTextColor
+        border.width: root.borderEnabled ? Math.max(0.5, (text0.font.pointSize / 16)) : 0
         radius: 3
     }
 
     Text {
         id: text0
         anchors.centerIn: parent
-        color: labelTextColor
-        text: labelText
-        font: labelFont
+        color: root.labelTextColor
+        text: root.labelText
+        font: root.labelFont
         padding: 4
     }
 }

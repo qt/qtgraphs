@@ -7,10 +7,10 @@ import QtQuick3D
 Component {
     Model {
         id: root
-        source: "#Cube"
+        source: "#Rectangle"
         pickable: true
 
-        property string labelText: "Bar"
+        property string labelText: ""
         property color backgroundColor: "gray"
         property bool backgroundEnabled: false
         property color labelTextColor: "transparent"
@@ -19,29 +19,32 @@ Component {
         property real labelWidth: -1
         property real labelHeight: -1
 
-        materials: DefaultMaterial {
-            diffuseMap: Texture {
+        materials: PrincipledMaterial {
+            lighting: PrincipledMaterial.NoLighting
+            baseColorMap: Texture {
+
                 sourceItem: Item {
                     id: labelItem
-                    width: labelWidth
-                    height: labelHeight
+                    width: root.labelWidth
+                    height: root.labelHeight
 
                     Rectangle {
                         id: labelBackground
                         anchors.fill: parent
-                        color: backgroundColor
-                        visible: backgroundEnabled
-                        border.color: labelTextColor
-                        border.width: borderEnabled ? Math.max(0.5, (text0.font.pointSize / 16)) : 0
+                        color: root.backgroundColor
+                        visible: root.backgroundEnabled
+                        border.color: root.labelTextColor
+                        border.width: root.borderEnabled
+                                      ? Math.max(0.5, (text0.font.pointSize / 16)) : 0
                         radius: 4
                     }
 
                     Text {
                         id: text0
                         anchors.centerIn: parent
-                        color: labelTextColor
-                        text: labelText
-                        font: labelFont
+                        color: root.labelTextColor
+                        text: root.labelText
+                        font: root.labelFont
                     }
                 }
             }
