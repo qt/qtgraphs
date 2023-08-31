@@ -15,7 +15,7 @@
     The following sections concentrate on those features only and skip explaining the basic
     functionality - for more detailed QML example documentation, see \l{Simple Scatter Graph}.
 
-    \image qmlsurfacegallery-example.png
+    \image surfacegallery-example.png
 
     \include examples-run.qdocinc
 

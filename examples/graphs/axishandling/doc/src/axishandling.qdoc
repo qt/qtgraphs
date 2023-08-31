@@ -15,7 +15,7 @@
     The following sections concentrate on those features only and skip explaining the basic
     functionality - for more detailed QML example documentation, see \l{Simple Scatter Graph}.
 
-    \image qmlaxishandling-example.png
+    \image axishandling-example.png
 
     \include examples-run.qdocinc
 
