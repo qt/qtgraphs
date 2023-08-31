@@ -17,7 +17,7 @@
 
     For instructions on how to create a new Qt Quick application of your own, see Qt Creator help.
 
-    \image qmlscatter-example.png
+    \image scatter-example.png
 
     \include examples-run.qdocinc
 
