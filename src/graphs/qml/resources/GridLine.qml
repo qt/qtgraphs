@@ -19,6 +19,7 @@ Component {
             scale: Qt.vector3d(1., 1., 1.5)
             materials: [ DefaultMaterial {
                     diffuseColor: lineColor
+                    specularAmount: 0.0
                 }
             ]
         }
