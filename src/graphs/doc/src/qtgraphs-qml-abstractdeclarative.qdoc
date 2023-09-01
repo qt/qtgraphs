@@ -292,7 +292,7 @@
  */
 
 /*!
- * \qmlproperty AbstractGraph3D.OptimizationHints AbstractGraph3D::optimizationHints
+ * \qmlproperty AbstractGraph3D.OptimizationHint AbstractGraph3D::optimizationHint
  *
  * Whether the default, static, or legacy mode is used for rendering optimization.
  *

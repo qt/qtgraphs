@@ -31,7 +31,7 @@ Abstract3DController::Abstract3DController(QRect initialViewport, Q3DScene *scen
     m_useOrthoProjection(false),
     m_aspectRatio(2.0),
     m_horizontalAspectRatio(0.0),
-    m_optimizationHints(QAbstract3DGraph::OptimizationDefault),
+    m_optimizationHint(QAbstract3DGraph::OptimizationDefault),
     m_reflectionEnabled(false),
     m_reflectivity(0.5),
     m_locale(QLocale::c()),
@@ -396,20 +396,20 @@ QAbstract3DGraph::ShadowQuality Abstract3DController::shadowQuality() const
     return m_shadowQuality;
 }
 
-void Abstract3DController::setOptimizationHints(QAbstract3DGraph::OptimizationHints hints)
+void Abstract3DController::setOptimizationHint(QAbstract3DGraph::OptimizationHint hint)
 {
-    if (hints != m_optimizationHints) {
-        m_optimizationHints = hints;
+    if (hint != m_optimizationHint) {
+        m_optimizationHint = hint;
         m_changeTracker.optimizationHintChanged = true;
         m_isDataDirty = true;
-        emit optimizationHintsChanged(hints);
+        emit optimizationHintChanged(hint);
         emitNeedRender();
     }
 }
 
-QAbstract3DGraph::OptimizationHints Abstract3DController::optimizationHints() const
+QAbstract3DGraph::OptimizationHint Abstract3DController::optimizationHint() const
 {
-    return m_optimizationHints;
+    return m_optimizationHint;
 }
 
 bool Abstract3DController::isSlicingActive() const

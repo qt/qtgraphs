@@ -158,7 +158,7 @@ private:
     bool m_useOrthoProjection;
     qreal m_aspectRatio;
     qreal m_horizontalAspectRatio;
-    QAbstract3DGraph::OptimizationHints m_optimizationHints;
+    QAbstract3DGraph::OptimizationHint m_optimizationHint;
     bool m_reflectionEnabled;
     qreal m_reflectivity;
     QLocale m_locale;
@@ -229,8 +229,8 @@ public:
     virtual void doSetShadowQuality(QAbstract3DGraph::ShadowQuality quality);
     virtual QAbstract3DGraph::ShadowQuality shadowQuality() const;
 
-    void setOptimizationHints(QAbstract3DGraph::OptimizationHints hints);
-    QAbstract3DGraph::OptimizationHints optimizationHints() const;
+    void setOptimizationHint(QAbstract3DGraph::OptimizationHint hint);
+    QAbstract3DGraph::OptimizationHint optimizationHint() const;
 
     bool isSlicingActive() const;
     void setSlicingActive(bool isSlicing);
@@ -358,7 +358,7 @@ Q_SIGNALS:
     void orthoProjectionChanged(bool enabled);
     void aspectRatioChanged(qreal ratio);
     void horizontalAspectRatioChanged(qreal ratio);
-    void optimizationHintsChanged(QAbstract3DGraph::OptimizationHints hints);
+    void optimizationHintChanged(QAbstract3DGraph::OptimizationHint hint);
     void polarChanged(bool enabled);
     void radialLabelOffsetChanged(float offset);
     void reflectionChanged(bool enabled);

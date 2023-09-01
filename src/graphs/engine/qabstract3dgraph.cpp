@@ -589,7 +589,7 @@ qreal QAbstract3DGraph::aspectRatio() const
 }
 
 /*!
- * \property QAbstract3DGraph::optimizationHints
+ * \property QAbstract3DGraph::optimizationHint
  *
  * \brief Whether the default, static, or legacy mode is used for rendering optimization.
  *
@@ -611,14 +611,14 @@ qreal QAbstract3DGraph::aspectRatio() const
  *
  * \sa QAbstract3DSeries::mesh
  */
-void QAbstract3DGraph::setOptimizationHints(QAbstract3DGraph::OptimizationHints hints)
+void QAbstract3DGraph::setOptimizationHint(QAbstract3DGraph::OptimizationHint hint)
 {
-    m_graphsItem->setOptimizationHints(hints);
+    m_graphsItem->setOptimizationHint(hint);
 }
 
-QAbstract3DGraph::OptimizationHints QAbstract3DGraph::optimizationHints() const
+QAbstract3DGraph::OptimizationHint QAbstract3DGraph::optimizationHint() const
 {
-    return m_graphsItem->optimizationHints();
+    return m_graphsItem->optimizationHint();
 }
 
 /*!

@@ -57,7 +57,7 @@ Item {
             measureFps: true
             orthoProjection: false
             aspectRatio: 3.0
-            optimizationHints: AbstractGraph3D.OptimizationDefault
+            optimizationHint: AbstractGraph3D.OptimizationDefault
             polar: false
             radialLabelOffset: 2
             horizontalAspectRatio: 0.2
@@ -124,7 +124,7 @@ Item {
 //            compare(common.orthoProjection, false, "orthoProjection")
 //            compare(common.selectedElement, AbstractGraph3D.ElementNone, "selectedElement")
 //            compare(common.aspectRatio, 2.0, "aspectRatio")
-//            compare(common.optimizationHints, AbstractGraph3D.OptimizationDefault, "optimizationHints")
+//            compare(common.optimizationHint, AbstractGraph3D.OptimizationDefault, "optimizationHint")
 //            compare(common.polar, false, "polar")
 //            compare(common.radialLabelOffset, 1, "radialLabelOffset")
 //            compare(common.horizontalAspectRatio, 0, "horizontalAspectRatio")
@@ -147,7 +147,7 @@ Item {
 //            common.measureFps = true
 //            common.orthoProjection = true
 //            common.aspectRatio = 1.0
-//            common.optimizationHints = AbstractGraph3D.OptimizationDefault
+//            common.optimizationHint = AbstractGraph3D.OptimizationDefault
 //            common.polar = true
 //            common.radialLabelOffset = 2
 //            common.horizontalAspectRatio = 1
@@ -163,7 +163,7 @@ Item {
 //            compare(common.measureFps, true, "measureFps")
 //            compare(common.orthoProjection, true, "orthoProjection")
 //            compare(common.aspectRatio, 1.0, "aspectRatio")
-//            compare(common.optimizationHints, AbstractGraph3D.OptimizationDefault, "optimizationHints")
+//            compare(common.optimizationHint, AbstractGraph3D.OptimizationDefault, "optimizationHint")
 //            compare(common.polar, true, "polar")
 //            compare(common.radialLabelOffset, 2, "radialLabelOffset")
 //            compare(common.horizontalAspectRatio, 1, "horizontalAspectRatio")
@@ -209,7 +209,7 @@ Item {
 //            compare(common_init.customItemList.length, 0, "customItemList")
 //            compare(common_init.orthoProjection, false, "orthoProjection")
 //            compare(common_init.aspectRatio, 3.0, "aspectRatio")
-//            compare(common_init.optimizationHints, AbstractGraph3D.OptimizationDefault, "optimizationHints")
+//            compare(common_init.optimizationHint, AbstractGraph3D.OptimizationDefault, "optimizationHint")
 //            compare(common_init.polar, false, "polar")
 //            compare(common_init.radialLabelOffset, 2, "radialLabelOffset")
 //            compare(common_init.horizontalAspectRatio, 0.2, "horizontalAspectRatio")

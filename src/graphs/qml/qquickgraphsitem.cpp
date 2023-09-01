@@ -660,7 +660,7 @@ void QQuickGraphsItem::setSharedController(Abstract3DController *controller)
 
     QObject::connect(m_controller.data(), &Abstract3DController::aspectRatioChanged, this,
                      &QQuickGraphsItem::aspectRatioChanged);
-    QObject::connect(m_controller.data(), &Abstract3DController::optimizationHintsChanged, this,
+    QObject::connect(m_controller.data(), &Abstract3DController::optimizationHintChanged, this,
                      &QQuickGraphsItem::handleOptimizationHintChange);
     QObject::connect(m_controller.data(), &Abstract3DController::polarChanged, this,
                      &QQuickGraphsItem::polarChanged);
@@ -3250,9 +3250,9 @@ void QQuickGraphsItem::handleSelectedElementChange(QAbstract3DGraph::ElementType
     emit selectedElementChanged(type);
 }
 
-void QQuickGraphsItem::handleOptimizationHintChange(QAbstract3DGraph::OptimizationHints hints)
+void QQuickGraphsItem::handleOptimizationHintChange(QAbstract3DGraph::OptimizationHint hint)
 {
-    emit optimizationHintsChanged(hints);
+    emit optimizationHintChanged(hint);
 }
 
 QAbstract3DInputHandler *QQuickGraphsItem::inputHandler() const
@@ -3388,15 +3388,15 @@ qreal QQuickGraphsItem::aspectRatio() const
     return m_controller->aspectRatio();
 }
 
-void QQuickGraphsItem::setOptimizationHints(QAbstract3DGraph::OptimizationHints hints)
+void QQuickGraphsItem::setOptimizationHint(QAbstract3DGraph::OptimizationHint hint)
 {
-    int intmode = int(hints);
-    m_controller->setOptimizationHints(QAbstract3DGraph::OptimizationHints(intmode));
+    int intmode = int(hint);
+    m_controller->setOptimizationHint(QAbstract3DGraph::OptimizationHint(intmode));
 }
 
-QAbstract3DGraph::OptimizationHints QQuickGraphsItem::optimizationHints() const
+QAbstract3DGraph::OptimizationHint QQuickGraphsItem::optimizationHint() const
 {
-    return m_controller->optimizationHints();
+    return m_controller->optimizationHint();
 }
 
 void QQuickGraphsItem::setPolar(bool enable)

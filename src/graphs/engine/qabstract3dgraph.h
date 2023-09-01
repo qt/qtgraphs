@@ -21,8 +21,6 @@ class QQuickGraphsItem;
 class Q_GRAPHS_EXPORT QAbstract3DGraph : public QQuickWidget
 {
     Q_OBJECT
-    Q_FLAGS(SelectionFlag SelectionFlags)
-    Q_FLAGS(OptimizationHint OptimizationHints)
     Q_PROPERTY(QAbstract3DInputHandler* activeInputHandler READ activeInputHandler WRITE setActiveInputHandler NOTIFY activeInputHandlerChanged)
     Q_PROPERTY(Q3DTheme* activeTheme READ activeTheme WRITE setActiveTheme NOTIFY activeThemeChanged)
     Q_PROPERTY(QAbstract3DGraph::SelectionFlags selectionMode READ selectionMode WRITE setSelectionMode NOTIFY selectionModeChanged)
@@ -33,7 +31,7 @@ class Q_GRAPHS_EXPORT QAbstract3DGraph : public QQuickWidget
     Q_PROPERTY(bool orthoProjection READ isOrthoProjection WRITE setOrthoProjection NOTIFY orthoProjectionChanged)
     Q_PROPERTY(QAbstract3DGraph::ElementType selectedElement READ selectedElement NOTIFY selectedElementChanged)
     Q_PROPERTY(qreal aspectRatio READ aspectRatio WRITE setAspectRatio NOTIFY aspectRatioChanged)
-    Q_PROPERTY(QAbstract3DGraph::OptimizationHints optimizationHints READ optimizationHints WRITE setOptimizationHints NOTIFY optimizationHintsChanged)
+    Q_PROPERTY(QAbstract3DGraph::OptimizationHint optimizationHint READ optimizationHint WRITE setOptimizationHint NOTIFY optimizationHintChanged)
     Q_PROPERTY(bool polar READ isPolar WRITE setPolar NOTIFY polarChanged)
     Q_PROPERTY(float radialLabelOffset READ radialLabelOffset WRITE setRadialLabelOffset NOTIFY radialLabelOffsetChanged)
     Q_PROPERTY(qreal horizontalAspectRatio READ horizontalAspectRatio WRITE setHorizontalAspectRatio NOTIFY horizontalAspectRatioChanged)
@@ -59,7 +57,7 @@ public:
         SelectionSlice             = 8,
         SelectionMultiSeries       = 16
     };
-    Q_ENUM(SelectionFlag)
+    Q_FLAG(SelectionFlag)
     Q_DECLARE_FLAGS(SelectionFlags, SelectionFlag)
 
     enum ShadowQuality {
@@ -89,7 +87,6 @@ public:
         OptimizationLegacy
     };
     Q_ENUM(OptimizationHint)
-    Q_DECLARE_FLAGS(OptimizationHints, OptimizationHint)
 
     enum RenderingMode {
         RenderDirectToBackground = 0,
@@ -129,8 +126,8 @@ public:
     void setAspectRatio(qreal ratio);
     qreal aspectRatio() const;
 
-    void setOptimizationHints(QAbstract3DGraph::OptimizationHints hints);
-    QAbstract3DGraph::OptimizationHints optimizationHints() const;
+    void setOptimizationHint(QAbstract3DGraph::OptimizationHint hint);
+    QAbstract3DGraph::OptimizationHint optimizationHint() const;
 
     void setPolar(bool enable);
     bool isPolar() const;
@@ -200,7 +197,7 @@ Q_SIGNALS:
     void currentFpsChanged(int fps);
     void orthoProjectionChanged(bool enabled);
     void aspectRatioChanged(qreal ratio);
-    void optimizationHintsChanged(QAbstract3DGraph::OptimizationHints hints);
+    void optimizationHintChanged(QAbstract3DGraph::OptimizationHint hint);
     void polarChanged(bool enabled);
     void radialLabelOffsetChanged(float offset);
     void horizontalAspectRatioChanged(qreal ratio);
@@ -218,7 +215,6 @@ private:
     friend class Q3DSurface;
 };
 Q_DECLARE_OPERATORS_FOR_FLAGS(QAbstract3DGraph::SelectionFlags)
-Q_DECLARE_OPERATORS_FOR_FLAGS(QAbstract3DGraph::OptimizationHints)
 
 QT_END_NAMESPACE
 

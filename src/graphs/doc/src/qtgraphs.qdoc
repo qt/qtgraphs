@@ -320,11 +320,11 @@
     \section1 Changed APIs
 
     \list
-        \li optimizationHints
+        \li optimizationHint
         \li renderingMode
     \endlist
 
-    \section2 optimizationHints
+    \section2 optimizationHint
 
     \c OptimizationLegacy is now the mode that was \c OptimizationDefault in QtDataVisualization.
     \c OptimizationDefault uses instancing, and should be used for all targets that support it.

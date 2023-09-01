@@ -761,7 +761,7 @@ void QQuickGraphsBars::generateBars(QList<QBar3DSeries *> &barSeriesList)
         }
 
         if (barList->isEmpty()) {
-            if (m_barsController->optimizationHints() == QAbstract3DGraph::OptimizationLegacy) {
+            if (m_barsController->optimizationHint() == QAbstract3DGraph::OptimizationLegacy) {
 
                 QBarDataProxy *dataProxy = barSeries->dataProxy();
                 int dataRowIndex = m_minRow;
@@ -795,7 +795,7 @@ void QQuickGraphsBars::generateBars(QList<QBar3DSeries *> &barSeriesList)
                         ++dataRowIndex;
                     }
                 }
-            } else if (m_barsController->optimizationHints() == QAbstract3DGraph::OptimizationDefault) {
+            } else if (m_barsController->optimizationHint() == QAbstract3DGraph::OptimizationDefault) {
                 auto scene = QQuick3DViewport::scene();
                 BarModel *barInstancing = new BarModel();
                 barInstancing->texture = texture;
@@ -909,10 +909,10 @@ void QQuickGraphsBars::updateBarVisuality(QBar3DSeries *series, int visualIndex)
                 m_selectionDirty = false;
             }
         }
-        if (m_barsController->optimizationHints() == QAbstract3DGraph::OptimizationLegacy) {
+        if (m_barsController->optimizationHint() == QAbstract3DGraph::OptimizationLegacy) {
             barList.at(i)->visualIndex = visualIndex;
             barList.at(i)->model->setVisible(series->isVisible());
-        } else if (m_barsController->optimizationHints() == QAbstract3DGraph::OptimizationDefault) {
+        } else if (m_barsController->optimizationHint() == QAbstract3DGraph::OptimizationDefault) {
             barList.at(i)->visualIndex = visualIndex;
             barList.at(i)->model->setVisible(series->isVisible());
             if (m_selectedBarSeries == series && !series->isVisible()) {
@@ -953,7 +953,7 @@ void QQuickGraphsBars::updateBarPositions(QBar3DSeries *series)
     int newColSize = qMin(dataProxy->colCount() - dataColIndex, m_newCols);
     int col = 0;
     for (int i = 0; i < barList.count(); i++) {
-        if (m_barsController->optimizationHints() == QAbstract3DGraph::OptimizationLegacy) {
+        if (m_barsController->optimizationHint() == QAbstract3DGraph::OptimizationLegacy) {
             QBarDataItem *item = barList.at(i)->barItem;
             QQuick3DModel *model = barList.at(i)->model;
             float heightValue = updateBarHeightParameters(item);
@@ -998,7 +998,7 @@ void QQuickGraphsBars::updateBarPositions(QBar3DSeries *series)
                 else
                     row = 0;
             }
-        } else if (m_barsController->optimizationHints() == QAbstract3DGraph::OptimizationDefault) {
+        } else if (m_barsController->optimizationHint() == QAbstract3DGraph::OptimizationDefault) {
             auto barItemList = barList.at(i)->instancing->dataArray();
             for (auto bih : barItemList)
                 delete bih;
@@ -1128,7 +1128,7 @@ void QQuickGraphsBars::updateBarVisuals(QBar3DSeries *series)
     QColor baseColor = series->baseColor();
     QColor barColor;
 
-    if (m_barsController->optimizationHints() == QAbstract3DGraph::OptimizationLegacy) {
+    if (m_barsController->optimizationHint() == QAbstract3DGraph::OptimizationLegacy) {
         if (!rangeGradient) {
             for (int i = 0; i < barList.count(); i++) {
                 QQuick3DModel *model = barList.at(i)->model;
@@ -1161,7 +1161,7 @@ void QQuickGraphsBars::updateBarVisuals(QBar3DSeries *series)
                 }
             }
         }
-    } else if (m_barsController->optimizationHints() == QAbstract3DGraph::OptimizationDefault) {
+    } else if (m_barsController->optimizationHint() == QAbstract3DGraph::OptimizationDefault) {
         for (int i = 0; i < barList.count(); i++) {
             barList.at(i)->instancing->setRangeGradient(rangeGradient);
             if (!rangeGradient) {
@@ -1404,10 +1404,10 @@ bool QQuickGraphsBars::doPicking(const QPointF &position)
                     resetClickedStatus();
                     continue;
                 } else if (picked.objectHit()->objectName().contains(QStringLiteral("BarModel"))) {
-                    if (optimizationHints() == QAbstract3DGraph::OptimizationLegacy) {
+                    if (optimizationHint() == QAbstract3DGraph::OptimizationLegacy) {
                         selectedModel = picked.objectHit();
                         break;
-                    } else if (optimizationHints() == QAbstract3DGraph::OptimizationDefault) {
+                    } else if (optimizationHint() == QAbstract3DGraph::OptimizationDefault) {
                         selectedModel = picked.objectHit();
                         // Prevents to select bars with a height of 0 which affect picking.
                         if (selectedModel->instancing()->instancePosition(picked.instanceIndex()).y()
@@ -1428,13 +1428,13 @@ bool QQuickGraphsBars::doPicking(const QPointF &position)
                 if (!it.key()->isVisible())
                     continue;
                 for (int i = 0; i < barList.size(); i++) {
-                    if (optimizationHints() == QAbstract3DGraph::OptimizationLegacy) {
+                    if (optimizationHint() == QAbstract3DGraph::OptimizationLegacy) {
                         QQuick3DModel *model = barList.at(i)->model;
                         if (model == selectedModel) {
                             series = it.key();
                             coord = barList.at(i)->coord;
                         }
-                    } else if (optimizationHints() == QAbstract3DGraph::OptimizationDefault) {
+                    } else if (optimizationHint() == QAbstract3DGraph::OptimizationDefault) {
                         QList<BarItemHolder *> barItemList = barList.at(i)->instancing->dataArray();
                         auto itemPos = barItemList.at(instanceInd)->position;
                         auto selected = selectedModel->instancing()->instancePosition(instanceInd);
@@ -1485,7 +1485,7 @@ void QQuickGraphsBars::updateSelectedBar()
         if (m_selectedBarSeries && it.key()->isVisible()) {
             bool useGradient = m_selectedBarSeries->d_func()->isUsingGradient();
             QString label = m_selectedBarSeries->itemLabel();
-            if (m_barsController->optimizationHints() == QAbstract3DGraph::OptimizationLegacy) {
+            if (m_barsController->optimizationHint() == QAbstract3DGraph::OptimizationLegacy) {
                 for (auto barList : *it.value()) {
                     Bars3DController::SelectionType selectionType =
                         isSelected(barList->coord.x(), barList->coord.y(), it.key());
@@ -1554,7 +1554,7 @@ void QQuickGraphsBars::updateSelectedBar()
                         break;
                     }
                 }
-            } else if (m_barsController->optimizationHints() == QAbstract3DGraph::OptimizationDefault) {
+            } else if (m_barsController->optimizationHint() == QAbstract3DGraph::OptimizationDefault) {
                 bool rangeGradient = (useGradient && it.key()->d_func()->m_colorStyle
                                                          == Q3DTheme::ColorStyleRangeGradient);
                 int index = 0;
@@ -1738,7 +1738,7 @@ void QQuickGraphsBars::resetClickedStatus()
     m_selectedBarSeries = 0;
     m_barsController->clearSelection();
 
-    if (optimizationHints() == QAbstract3DGraph::OptimizationDefault) {
+    if (optimizationHint() == QAbstract3DGraph::OptimizationDefault) {
         for (const auto list : std::as_const(m_selectedModels)) {
             for (auto selectedModel : *list)
                 selectedModel->setVisible(false);
@@ -1809,7 +1809,7 @@ void QQuickGraphsBars::updateSliceGraph()
     for (auto it = m_slicedBarModels.begin(); it != m_slicedBarModels.end(); it++) {
         QList<BarModel *> barList = *m_barModelsMap.value(it.key());
         bool useGradient = it.key()->d_func()->isUsingGradient();
-        if (m_barsController->optimizationHints() == QAbstract3DGraph::OptimizationLegacy) {
+        if (m_barsController->optimizationHint() == QAbstract3DGraph::OptimizationLegacy) {
             for (int ind = 0; ind < it.value()->count(); ++ind) {
                 if (rowMode)
                     index = (m_selectedBarCoord.x() * it.key()->dataProxy()->colCount()) + ind;
@@ -1850,7 +1850,7 @@ void QQuickGraphsBars::updateSliceGraph()
                     return;
                 }
             }
-        } else if (m_barsController->optimizationHints() == QAbstract3DGraph::OptimizationDefault) {
+        } else if (m_barsController->optimizationHint() == QAbstract3DGraph::OptimizationDefault) {
             QList<BarItemHolder *> barItemList = barList.at(0)->instancing->dataArray();
             if (!barItemList.isEmpty()) {
                 for (int ind = 0; ind < it.value()->size(); ++ind) {
@@ -1960,7 +1960,7 @@ void QQuickGraphsBars::updateSelectionMode(QAbstract3DGraph::SelectionFlags mode
 
     m_selectionMode = mode;
 
-    if (optimizationHints() == QAbstract3DGraph::OptimizationDefault) {
+    if (optimizationHint() == QAbstract3DGraph::OptimizationDefault) {
         for (const auto list : std::as_const(m_barModelsMap)) {
             QList<BarItemHolder *> barItemList = list->at(0)->instancing->dataArray();
             for (auto bih : barItemList)

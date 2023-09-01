@@ -106,13 +106,13 @@ Column {
                 }
             }
             Label {
-                text: qsTr("optimizationHints")
+                text: qsTr("optimizationHint")
                 tooltip: qsTr("Optimization Hints")
                 Layout.fillWidth: true
             }
             SecondColumnLayout {
                 ComboBox {
-                    backendValue: backendValues.optimizationHints
+                    backendValue: backendValues.optimizationHint
                     model: ["OptimizationDefault", "OptimizationStatic", "OptimizationLegacy"]
                     Layout.fillWidth: true
                     scope: "AbstractGraph3D"

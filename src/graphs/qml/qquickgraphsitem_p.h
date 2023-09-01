@@ -52,7 +52,7 @@ class QQuickGraphsItem : public QQuick3DViewport
     Q_PROPERTY(bool orthoProjection READ isOrthoProjection WRITE setOrthoProjection NOTIFY orthoProjectionChanged)
     Q_PROPERTY(QAbstract3DGraph::ElementType selectedElement READ selectedElement NOTIFY selectedElementChanged)
     Q_PROPERTY(qreal aspectRatio READ aspectRatio WRITE setAspectRatio NOTIFY aspectRatioChanged)
-    Q_PROPERTY(QAbstract3DGraph::OptimizationHints optimizationHints READ optimizationHints WRITE setOptimizationHints NOTIFY optimizationHintsChanged)
+    Q_PROPERTY(QAbstract3DGraph::OptimizationHint optimizationHint READ optimizationHint WRITE setOptimizationHint NOTIFY optimizationHintChanged)
     Q_PROPERTY(bool polar READ isPolar WRITE setPolar NOTIFY polarChanged)
     Q_PROPERTY(float radialLabelOffset READ radialLabelOffset WRITE setRadialLabelOffset NOTIFY radialLabelOffsetChanged)
     Q_PROPERTY(qreal horizontalAspectRatio READ horizontalAspectRatio WRITE setHorizontalAspectRatio NOTIFY horizontalAspectRatioChanged)
@@ -133,8 +133,8 @@ public:
     void setAspectRatio(qreal ratio);
     qreal aspectRatio() const;
 
-    void setOptimizationHints(QAbstract3DGraph::OptimizationHints hints);
-    QAbstract3DGraph::OptimizationHints optimizationHints() const;
+    void setOptimizationHint(QAbstract3DGraph::OptimizationHint hint);
+    QAbstract3DGraph::OptimizationHint optimizationHint() const;
 
     void setPolar(bool enable);
     bool isPolar() const;
@@ -254,7 +254,7 @@ Q_SIGNALS:
     void selectedElementChanged(QAbstract3DGraph::ElementType type);
     void orthoProjectionChanged(bool enabled);
     void aspectRatioChanged(qreal ratio);
-    void optimizationHintsChanged(QAbstract3DGraph::OptimizationHints hints);
+    void optimizationHintChanged(QAbstract3DGraph::OptimizationHint hint);
     void polarChanged(bool enabled);
     void radialLabelOffsetChanged(float offset);
     void horizontalAspectRatioChanged(qreal ratio);
@@ -280,7 +280,7 @@ protected:
     virtual void handleSelectionModeChange(QAbstract3DGraph::SelectionFlags mode);
     virtual void handleShadowQualityChange(QAbstract3DGraph::ShadowQuality quality);
     virtual void handleSelectedElementChange(QAbstract3DGraph::ElementType type);
-    virtual void handleOptimizationHintChange(QAbstract3DGraph::OptimizationHints hints);
+    virtual void handleOptimizationHintChange(QAbstract3DGraph::OptimizationHint hint);
     virtual void keyPressEvent(QKeyEvent *ev) override;
     virtual bool handleMousePressedEvent(QMouseEvent *event);
     virtual bool handleTouchEvent(QTouchEvent *event);
