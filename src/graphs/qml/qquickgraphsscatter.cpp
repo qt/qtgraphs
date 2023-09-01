@@ -665,6 +665,20 @@ void QQuickGraphsScatter::recreateDataItems()
     m_scatterController->markDataDirty();
 }
 
+void QQuickGraphsScatter::recreateDataItems(const QList<ScatterModel *> &graphs)
+{
+    if (!isComponentComplete())
+        return;
+    QList<QScatter3DSeries *> seriesList = m_scatterController->scatterSeriesList();
+    for (auto series : seriesList) {
+        for (const auto &model : graphs) {
+            if (model->series == series)
+                removeDataItems(model);
+        }
+    }
+    m_scatterController->markDataDirty();
+}
+
 void QQuickGraphsScatter::addPointsToScatterModel(ScatterModel *graphModel, qsizetype count)
 {
     for (int i = 0; i < count; i++) {
@@ -946,9 +960,20 @@ bool QQuickGraphsScatter::doPicking(const QPointF &position)
 
 void QQuickGraphsScatter::updateShadowQuality(QAbstract3DGraph::ShadowQuality quality)
 {
+    // Were shadows enabled before?
+    bool prevShadowsEnabled = light()->castsShadow();
     QQuickGraphsItem::updateShadowQuality(quality);
+    m_scatterController->setSeriesVisualsDirty();
 
-    recreateDataItems();
+    if (prevShadowsEnabled != light()->castsShadow()) {
+        // Need to change mesh for series using point type
+        QList<ScatterModel *> graphs;
+        for (const auto &graph : std::as_const(m_scatterGraphs)) {
+            if (graph->series->mesh() == QAbstract3DSeries::MeshPoint)
+                graphs.append(graph);
+        }
+        recreateDataItems(graphs);
+    }
 }
 
 void QQuickGraphsScatter::componentComplete()
@@ -1179,12 +1204,6 @@ void QQuickGraphsScatter::synchData()
     scene()->activeCamera()->d_func()->setMinYRotation(-90.0f);
 
     m_pointScale = calculatePointScaleSize();
-
-    // Notify changes to renderer
-    if (m_scatterController->hasItemChanged()) {
-        m_scatterController->setItemChanged(false);
-        m_scatterController->clearChangedItems();
-    }
 
     if (m_scatterController->hasSelectedItemChanged()) {
         if (m_scatterController->m_selectedItem != m_scatterController->invalidSelectionIndex()) {

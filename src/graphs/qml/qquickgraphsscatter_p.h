@@ -161,6 +161,7 @@ private:
     void deleteDataItem(QQuick3DModel *item);
     void removeDataItems(QList<QQuick3DModel *> &items, qsizetype count);
     void recreateDataItems();
+    void recreateDataItems(const QList<ScatterModel *> &);
     void addPointsToScatterModel(ScatterModel *graphModel, qsizetype count);
     int sizeDifference(qsizetype size1, qsizetype size2);
     void handleSeriesChanged(QList<QAbstract3DSeries *> changedSeries);
