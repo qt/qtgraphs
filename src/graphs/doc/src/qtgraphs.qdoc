@@ -212,7 +212,6 @@
 
     \section1 Unresolved JIRA tickets in Qt 6.6.0
     \list
-        \li Toggling Hide Shadows in scatter example cause the series to disappear - \l https://bugreports.qt.io/browse/QTBUG-116659
         \li Main graph enlarges on top of slice view for a one frame - \l https://bugreports.qt.io/browse/QTBUG-116628
         \li Item label is shown as an empty label in topography example - \l https://bugreports.qt.io/browse/QTBUG-116602
         \li Highlighting the selection does not work correctly in texture topography example - \l https://bugreports.qt.io/browse/QTBUG-116479
