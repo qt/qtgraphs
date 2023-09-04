@@ -1041,6 +1041,7 @@ void QQuickGraphsSurface::updateSelectedPoint()
             if (model->picked) {
                 QVector3D labelPosition = selectedVertex.position;
                 QString label = model->series->itemLabel();
+                m_surfaceController->setSelectedPoint(selectedVertex.coord, model->series, false);
 
                 updateItemLabel(labelPosition);
                 itemLabel()->setProperty("labelText", label);
