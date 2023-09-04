@@ -67,7 +67,7 @@ void tst_series::initialProperties()
     // Common properties. The ones identical between different series are tested in QBar3DSeries tests
     QCOMPARE(m_series->itemLabelFormat(), QString("@xLabel, @yLabel, @zLabel"));
     QCOMPARE(m_series->mesh(), QAbstract3DSeries::MeshSphere);
-    QCOMPARE(m_series->type(), QAbstract3DSeries::SeriesTypeScatter);
+    QCOMPARE(m_series->type(), QAbstract3DSeries::SeriesType::Scatter);
 }
 
 void tst_series::initializeProperties()

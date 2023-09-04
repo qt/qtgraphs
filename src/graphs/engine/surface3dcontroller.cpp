@@ -71,7 +71,7 @@ bool Surface3DController::isFlatShadingSupported()
 
 void Surface3DController::addSeries(QAbstract3DSeries *series)
 {
-    Q_ASSERT(series && series->type() == QAbstract3DSeries::SeriesTypeSurface);
+    Q_ASSERT(series && series->type() == QAbstract3DSeries::SeriesType::Surface);
 
     Abstract3DController::addSeries(series);
 

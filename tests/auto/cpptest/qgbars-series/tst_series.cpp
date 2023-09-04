@@ -81,7 +81,7 @@ void tst_series::initialProperties()
     QCOMPARE(m_series->name(), QString(""));
     QCOMPARE(m_series->singleHighlightColor(), QColor(Qt::black));
     QCOMPARE(m_series->singleHighlightGradient(), QLinearGradient());
-    QCOMPARE(m_series->type(), QAbstract3DSeries::SeriesTypeBar);
+    QCOMPARE(m_series->type(), QAbstract3DSeries::SeriesType::Bar);
     QCOMPARE(m_series->userDefinedMesh(), QString(""));
     QCOMPARE(m_series->isVisible(), true);
 }

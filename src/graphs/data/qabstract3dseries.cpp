@@ -47,13 +47,13 @@ QT_BEGIN_NAMESPACE
  *
  * Type of the series.
  *
- * \value SeriesTypeNone
+ * \value None
  *        No series type.
- * \value SeriesTypeBar
+ * \value Bar
  *        Series type for Q3DBars.
- * \value SeriesTypeScatter
+ * \value Scatter
  *        Series type for Q3DScatter.
- * \value SeriesTypeSurface
+ * \value Surface
  *        Series type for Q3DSurface.
  */
 
@@ -332,7 +332,7 @@ void QAbstract3DSeries::setMesh(QAbstract3DSeries::Mesh mesh)
     Q_D(QAbstract3DSeries);
     if ((mesh == QAbstract3DSeries::MeshPoint || mesh == QAbstract3DSeries::MeshMinimal
          || mesh == QAbstract3DSeries::MeshArrow)
-            && type() != QAbstract3DSeries::SeriesTypeScatter) {
+            && type() != QAbstract3DSeries::SeriesType::Scatter) {
         qWarning() << "Specified style is only supported for QScatter3DSeries.";
     } else if (d->m_mesh != mesh) {
         d->setMesh(mesh);

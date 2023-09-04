@@ -245,7 +245,7 @@ int QScatter3DSeries::invalidSelectionIndex()
 // QScatter3DSeriesPrivate
 
 QScatter3DSeriesPrivate::QScatter3DSeriesPrivate(QScatter3DSeries *q)
-    : QAbstract3DSeriesPrivate(q, QAbstract3DSeries::SeriesTypeScatter),
+    : QAbstract3DSeriesPrivate(q, QAbstract3DSeries::SeriesType::Scatter),
       m_selectedItem(Scatter3DController::invalidSelectionIndex()),
       m_itemSize(0.0f)
 {

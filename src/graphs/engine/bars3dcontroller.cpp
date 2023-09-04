@@ -312,7 +312,7 @@ void Bars3DController::removeSeries(QAbstract3DSeries *series)
 
 void Bars3DController::insertSeries(int index, QAbstract3DSeries *series)
 {
-    Q_ASSERT(series && series->type() == QAbstract3DSeries::SeriesTypeBar);
+    Q_ASSERT(series && series->type() == QAbstract3DSeries::SeriesType::Bar);
 
     int oldSize = m_seriesList.size();
 

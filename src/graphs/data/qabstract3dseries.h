@@ -38,11 +38,11 @@ class Q_GRAPHS_EXPORT QAbstract3DSeries : public QObject
     Q_PROPERTY(bool itemLabelVisible READ isItemLabelVisible WRITE setItemLabelVisible NOTIFY itemLabelVisibilityChanged)
 
 public:
-    enum SeriesType {
-        SeriesTypeNone = 0,
-        SeriesTypeBar = 1,
-        SeriesTypeScatter = 2,
-        SeriesTypeSurface = 4
+    enum class SeriesType {
+        None = 0,
+        Bar = 1,
+        Scatter = 2,
+        Surface = 4
     };
     Q_ENUM(SeriesType)
 

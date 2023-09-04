@@ -415,7 +415,7 @@ QColor QSurface3DSeries::wireframeColor() const
 // QSurface3DSeriesPrivate
 
 QSurface3DSeriesPrivate::QSurface3DSeriesPrivate(QSurface3DSeries *q)
-    : QAbstract3DSeriesPrivate(q, QAbstract3DSeries::SeriesTypeSurface),
+    : QAbstract3DSeriesPrivate(q, QAbstract3DSeries::SeriesType::Surface),
       m_selectedPoint(Surface3DController::invalidSelectionPosition()),
       m_flatShadingEnabled(true),
       m_drawMode(QSurface3DSeries::DrawSurfaceAndWireframe),

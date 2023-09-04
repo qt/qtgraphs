@@ -115,7 +115,7 @@ Item {
             compare(initial.name, "")
             compare(initial.singleHighlightColor, "#000000")
             compare(initial.singleHighlightGradient, null)
-            compare(initial.type, Abstract3DSeries.SeriesTypeScatter)
+            compare(initial.type, Abstract3DSeries.SeriesType.Scatter)
             compare(initial.userDefinedMesh, "")
             compare(initial.visible, true)
         }

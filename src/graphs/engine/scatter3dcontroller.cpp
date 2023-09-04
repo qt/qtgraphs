@@ -33,7 +33,7 @@ Scatter3DController::~Scatter3DController()
 
 void Scatter3DController::addSeries(QAbstract3DSeries *series)
 {
-    Q_ASSERT(series && series->type() == QAbstract3DSeries::SeriesTypeScatter);
+    Q_ASSERT(series && series->type() == QAbstract3DSeries::SeriesType::Scatter);
 
     Abstract3DController::addSeries(series);
 
