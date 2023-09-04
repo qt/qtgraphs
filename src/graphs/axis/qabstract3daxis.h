@@ -38,10 +38,10 @@ public:
     };
     Q_ENUM(AxisOrientation)
 
-    enum AxisType {
-        AxisTypeNone = 0,
-        AxisTypeCategory = 1,
-        AxisTypeValue = 2
+    enum class AxisType {
+        None = 0,
+        Category = 1,
+        Value = 2
     };
     Q_ENUM(AxisType)
 

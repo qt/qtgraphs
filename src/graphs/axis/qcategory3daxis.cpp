@@ -96,7 +96,7 @@ void QCategory3DAxis::setLabels(const QStringList &labels)
  * \internal
  */
 QCategory3DAxisPrivate::QCategory3DAxisPrivate(QCategory3DAxis *q)
-    : QAbstract3DAxisPrivate(q, QAbstract3DAxis::AxisTypeCategory),
+    : QAbstract3DAxisPrivate(q, QAbstract3DAxis::AxisType::Category),
       m_labelsExplicitlySet(false)
 {
 }

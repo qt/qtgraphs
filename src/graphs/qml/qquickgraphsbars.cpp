@@ -106,13 +106,13 @@ void QQuickGraphsBars::setValueAxis(QValue3DAxis *axis)
         int subSegmentCount = 0;
         int gridLineCount = 0;
         int subGridLineCount = 0;
-        if (axis->type() & QAbstract3DAxis::AxisTypeValue) {
+        if (axis->type() == QAbstract3DAxis::AxisType::Value) {
             QValue3DAxis *valueAxis = static_cast<QValue3DAxis *>(axis);
             segmentCount = valueAxis->segmentCount();
             subSegmentCount = valueAxis->subSegmentCount();
             gridLineCount = 2 * (segmentCount + 1);
             subGridLineCount = 2 * (segmentCount * (subSegmentCount - 1));
-        } else if (axis->type() & QAbstract3DAxis::AxisTypeCategory) {
+        } else if (axis->type() == QAbstract3DAxis::AxisType::Category) {
             gridLineCount = axis->labels().size();
         }
         segmentLineRepeaterY()->setModel(gridLineCount);

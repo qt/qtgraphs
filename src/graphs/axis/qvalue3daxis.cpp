@@ -291,7 +291,7 @@ QString QValue3DAxis::stringForValue(float x)
 }
 
 QValue3DAxisPrivate::QValue3DAxisPrivate(QValue3DAxis *q)
-    : QAbstract3DAxisPrivate(q, QAbstract3DAxis::AxisTypeValue),
+    : QAbstract3DAxisPrivate(q, QAbstract3DAxis::AxisType::Value),
       m_segmentCount(5),
       m_subSegmentCount(1),
       m_labelFormat(Utils::defaultLabelFormat()),

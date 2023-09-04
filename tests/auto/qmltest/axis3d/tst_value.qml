@@ -57,7 +57,7 @@ Item {
             compare(initial.title, "")
             compare(initial.titleFixed, true)
             compare(initial.titleVisible, false)
-            compare(initial.type, AbstractAxis3D.AxisTypeValue)
+            compare(initial.type, AbstractAxis3D.AxisType.Value)
         }
     }
 

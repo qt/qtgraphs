@@ -65,7 +65,7 @@ void tst_axis::initialProperties()
     QCOMPARE(m_axis->title(), QString(""));
     QCOMPARE(m_axis->isTitleFixed(), true);
     QCOMPARE(m_axis->isTitleVisible(), false);
-    QCOMPARE(m_axis->type(), QAbstract3DAxis::AxisTypeCategory);
+    QCOMPARE(m_axis->type(), QAbstract3DAxis::AxisType::Category);
 }
 
 void tst_axis::initializeProperties()

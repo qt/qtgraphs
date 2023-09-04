@@ -883,7 +883,7 @@ void Abstract3DController::setAxisHelper(QAbstract3DAxis::AxisOrientation orient
     handleAxisTitleVisibilityChangedBySender(axis);
     handleAxisTitleFixedChangedBySender(axis);
 
-    if (axis->type() & QAbstract3DAxis::AxisTypeValue) {
+    if (axis->type() == QAbstract3DAxis::AxisType::Value) {
         QValue3DAxis *valueAxis = static_cast<QValue3DAxis *>(axis);
         QObject::connect(valueAxis, &QValue3DAxis::segmentCountChanged,
                          this, &Abstract3DController::handleAxisSegmentCountChanged);

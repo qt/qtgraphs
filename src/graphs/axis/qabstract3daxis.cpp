@@ -128,9 +128,9 @@ QT_BEGIN_NAMESPACE
  *
  * The type of the axis object.
  *
- * \value AxisTypeNone
- * \value AxisTypeCategory
- * \value AxisTypeValue
+ * \value None
+ * \value Category
+ * \value Value
  */
 
 /*!
