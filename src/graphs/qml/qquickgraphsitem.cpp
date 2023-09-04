@@ -3597,7 +3597,7 @@ bool QQuickGraphsItem::doPicking(const QPointF &point)
                 if (customItem) {
                     int selectedIndex = m_controller->m_customItems.indexOf(customItem);
                     m_controller->m_selectedCustomItemIndex = selectedIndex;
-                    handleSelectedElementChange(QAbstract3DGraph::ElementCustomItem);
+                    handleSelectedElementChange(QAbstract3DGraph::ElementType::CustomItem);
                     // Don't allow picking in subclasses if custom item is picked
                     return false;
                 }
@@ -3607,11 +3607,11 @@ bool QQuickGraphsItem::doPicking(const QPointF &point)
         for (const auto &result : results) {
             QString objName = result.objectHit()->objectName();
             if (objName.contains(QStringLiteral("ElementAxisXLabel")))
-                handleSelectedElementChange(QAbstract3DGraph::ElementAxisXLabel);
+                handleSelectedElementChange(QAbstract3DGraph::ElementType::AxisXLabel);
             else if (objName.contains(QStringLiteral("ElementAxisYLabel")))
-                handleSelectedElementChange(QAbstract3DGraph::ElementAxisYLabel);
+                handleSelectedElementChange(QAbstract3DGraph::ElementType::AxisYLabel);
             else if (objName.contains(QStringLiteral("ElementAxisZLabel")))
-                handleSelectedElementChange(QAbstract3DGraph::ElementAxisZLabel);
+                handleSelectedElementChange(QAbstract3DGraph::ElementType::AxisZLabel);
             else
                 continue;
         }

@@ -92,7 +92,7 @@ void tst_surface::initialProperties()
     QVERIFY(m_graph->scene());
     QCOMPARE(m_graph->measureFps(), false);
     QCOMPARE(m_graph->isOrthoProjection(), false);
-    QCOMPARE(m_graph->selectedElement(), QAbstract3DGraph::ElementNone);
+    QCOMPARE(m_graph->selectedElement(), QAbstract3DGraph::ElementType::None);
     QCOMPARE(m_graph->aspectRatio(), 2.0);
     QCOMPARE(m_graph->optimizationHint(), QAbstract3DGraph::OptimizationDefault);
     QCOMPARE(m_graph->isPolar(), false);

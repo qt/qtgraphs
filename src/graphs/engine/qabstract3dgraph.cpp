@@ -103,17 +103,17 @@ QT_BEGIN_NAMESPACE
 
     Type of an element in the graph.
 
-    \value ElementNone
+    \value None
            No defined element.
-    \value ElementSeries
+    \value Series
            An item in a series.
-    \value ElementAxisXLabel
+    \value AxisXLabel
            The x-axis label.
-    \value ElementAxisYLabel
+    \value AxisYLabel
            The y-axis label.
-    \value ElementAxisZLabel
+    \value AxisZLabel
            The z-axis label.
-    \value ElementCustomItem
+    \value CustomItem
            A custom item.
 */
 
@@ -437,7 +437,7 @@ QAbstract3DAxis *QAbstract3DGraph::selectedAxis() const
 
 /*!
  * Can be used to query the index of the selected custom item after receiving \c selectedElementChanged
- * signal with QAbstract3DGraph::ElementCustomItem type. Selection is valid until the next
+ * signal with QAbstract3DGraph::ElementType::CustomItem type. Selection is valid until the next
  * \c selectedElementChanged signal.
  *
  * Returns the index of the selected custom item, or -1.
@@ -451,7 +451,7 @@ int QAbstract3DGraph::selectedCustomItemIndex() const
 
 /*!
  * Can be used to get the selected custom item after receiving \c selectedElementChanged signal with
- * QAbstract3DGraph::ElementCustomItem type. Ownership of the item remains with the graph.
+ * QAbstract3DGraph::ElementType::CustomItem type. Ownership of the item remains with the graph.
  * Selection is valid until the next \c selectedElementChanged signal.
  *
  * Returns the pointer to the selected custom item, or null.

@@ -46,7 +46,7 @@ Abstract3DController::Abstract3DController(QRect initialViewport, Q3DScene *scen
     m_renderPending(false),
     m_isPolar(false),
     m_radialLabelOffset(1.0f),
-    m_clickedType(QAbstract3DGraph::ElementNone),
+    m_clickedType(QAbstract3DGraph::ElementType::None),
     m_selectedLabelIndex(-1),
     m_selectedCustomItemIndex(-1),
     m_margin(-1.0)
@@ -963,13 +963,13 @@ QAbstract3DAxis *Abstract3DController::selectedAxis() const
     QAbstract3DAxis *axis = 0;
     QAbstract3DGraph::ElementType type = m_clickedType;
     switch (type) {
-    case QAbstract3DGraph::ElementAxisXLabel:
+    case QAbstract3DGraph::ElementType::AxisXLabel:
         axis = axisX();
         break;
-    case QAbstract3DGraph::ElementAxisYLabel:
+    case QAbstract3DGraph::ElementType::AxisYLabel:
         axis = axisY();
         break;
-    case QAbstract3DGraph::ElementAxisZLabel:
+    case QAbstract3DGraph::ElementType::AxisZLabel:
         axis = axisZ();
         break;
     default:

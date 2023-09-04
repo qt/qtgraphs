@@ -134,8 +134,8 @@ Item {
         //! [9]
         //! [5]
         onSelectedElementChanged: {
-            if (selectedElement >= AbstractGraph3D.ElementAxisXLabel
-                    && selectedElement <= AbstractGraph3D.ElementAxisZLabel) {
+            if (selectedElement >= AbstractGraph3D.ElementType.AxisXLabel
+                    && selectedElement <= AbstractGraph3D.ElementType.AxisZLabel) {
                 selectedAxisLabel = selectedElement;
             } else {
                 selectedAxisLabel = -1;
@@ -199,7 +199,7 @@ Item {
 
         // Adjust axes
         switch (selectedAxisLabel) {
-        case AbstractGraph3D.ElementAxisXLabel:
+        case AbstractGraph3D.ElementType.AxisXLabel:
             var distance = ((moveX - moveY) * cameraMultiplier) / dragSpeedModifier;
             // Check if we need to change min or max first to avoid invalid ranges
             if (distance > 0) {
@@ -210,7 +210,7 @@ Item {
                 scatterGraph.axisX.min -= distance;
             }
             break;
-        case AbstractGraph3D.ElementAxisYLabel:
+        case AbstractGraph3D.ElementType.AxisYLabel:
             distance = moveY / dragSpeedModifier;
             // Check if we need to change min or max first to avoid invalid ranges
             if (distance > 0) {
@@ -221,7 +221,7 @@ Item {
                 scatterGraph.axisY.max += distance;
             }
             break;
-        case AbstractGraph3D.ElementAxisZLabel:
+        case AbstractGraph3D.ElementType.AxisZLabel:
             distance = ((moveX + moveY) * cameraMultiplier) / dragSpeedModifier;
             // Check if we need to change min or max first to avoid invalid ranges
             if (distance > 0) {

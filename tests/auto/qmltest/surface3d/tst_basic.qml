@@ -130,7 +130,7 @@ Item {
 //            compare(common.measureFps, false, "measureFps")
 //            compare(common.customItemList.length, 0, "customItemList")
 //            compare(common.orthoProjection, false, "orthoProjection")
-//            compare(common.selectedElement, AbstractGraph3D.ElementNone, "selectedElement")
+//            compare(common.selectedElement, AbstractGraph3D.ElementType.None, "selectedElement")
 //            compare(common.aspectRatio, 2.0, "aspectRatio")
 //            compare(common.optimizationHint, AbstractGraph3D.OptimizationDefault, "optimizationHint")
 //            compare(common.polar, false, "polar")

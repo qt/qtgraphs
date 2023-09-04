@@ -64,10 +64,10 @@ void CustomInputHandler::mouseReleaseEvent(QMouseEvent *event, const QPoint &mou
 void CustomInputHandler::handleElementSelected(QAbstract3DGraph::ElementType type)
 {
     switch (type) {
-    case QAbstract3DGraph::ElementAxisXLabel:
+    case QAbstract3DGraph::ElementType::AxisXLabel:
         m_state = StateDraggingX;
         break;
-    case QAbstract3DGraph::ElementAxisZLabel:
+    case QAbstract3DGraph::ElementType::AxisZLabel:
         m_state = StateDraggingZ;
         break;
     default:

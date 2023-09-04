@@ -71,13 +71,13 @@ public:
     };
     Q_ENUM(ShadowQuality)
 
-    enum ElementType {
-        ElementNone = 0,
-        ElementSeries,
-        ElementAxisXLabel,
-        ElementAxisYLabel,
-        ElementAxisZLabel,
-        ElementCustomItem
+    enum class ElementType {
+        None = 0,
+        Series,
+        AxisXLabel,
+        AxisYLabel,
+        AxisZLabel,
+        CustomItem
     };
     Q_ENUM(ElementType)
 

@@ -221,7 +221,7 @@
  * \qmlmethod int AbstractGraph3D::selectedCustomItemIndex()
  *
  * Can be used to query the index of the selected custom item after receiving \c selectedElementChanged
- * signal with \l{QAbstract3DGraph::ElementCustomItem}{ElementCustomItem} type. Selection is valid
+ * signal with \l{QAbstract3DGraph::ElementType::CustomItem}{ElementType.CustomItem} type. Selection is valid
  * until the next \c selectedElementChanged signal.
  *
  * \return index of the selected custom item, or -1.
@@ -233,7 +233,7 @@
  * \qmlmethod Custom3DItem AbstractGraph3D::selectedCustomItem()
  *
  * Can be used to get the selected custom item after receiving \c selectedElementChanged signal with
- * \l{QAbstract3DGraph::ElementCustomItem}{ElementCustomItem} type. Ownership of the item remains
+ * \l{QAbstract3DGraph::ElementType::CustomItem}{ElementType.CustomItem} type. Ownership of the item remains
  * with the graph. Selection is valid until the next \c selectedElementChanged signal.
  *
  * \return the selected custom item, or null.
