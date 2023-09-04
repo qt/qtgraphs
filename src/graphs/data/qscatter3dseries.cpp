@@ -260,7 +260,7 @@ QScatter3DSeriesPrivate::~QScatter3DSeriesPrivate()
 void QScatter3DSeriesPrivate::setDataProxy(QAbstractDataProxy *proxy)
 {
     Q_Q(QScatter3DSeries);
-    Q_ASSERT(proxy->type() == QAbstractDataProxy::DataTypeScatter);
+    Q_ASSERT(proxy->type() == QAbstractDataProxy::DataType::Scatter);
 
     QAbstract3DSeriesPrivate::setDataProxy(proxy);
 

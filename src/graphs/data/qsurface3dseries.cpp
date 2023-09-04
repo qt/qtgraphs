@@ -431,7 +431,7 @@ QSurface3DSeriesPrivate::~QSurface3DSeriesPrivate()
 
 void QSurface3DSeriesPrivate::setDataProxy(QAbstractDataProxy *proxy)
 {
-    Q_ASSERT(proxy->type() == QAbstractDataProxy::DataTypeSurface);
+    Q_ASSERT(proxy->type() == QAbstractDataProxy::DataType::Surface);
     Q_Q(QSurface3DSeries);
 
     QAbstract3DSeriesPrivate::setDataProxy(proxy);

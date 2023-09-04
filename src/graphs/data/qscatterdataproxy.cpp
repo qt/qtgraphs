@@ -273,7 +273,7 @@ const QScatterDataItem *QScatterDataProxy::itemAt(int index) const
 // QScatterDataProxyPrivate
 
 QScatterDataProxyPrivate::QScatterDataProxyPrivate(QScatterDataProxy *q)
-    : QAbstractDataProxyPrivate(q, QAbstractDataProxy::DataTypeScatter),
+    : QAbstractDataProxyPrivate(q, QAbstractDataProxy::DataType::Scatter),
       m_dataArray(new QScatterDataArray)
 {
 }

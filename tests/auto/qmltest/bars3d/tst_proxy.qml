@@ -73,7 +73,7 @@ Item {
             compare(initial.rowLabels.length, 0)
             verify(!initial.series)
 
-            compare(initial.type, AbstractDataProxy.DataTypeBar)
+            compare(initial.type, AbstractDataProxy.DataType.Bar)
         }
     }
 

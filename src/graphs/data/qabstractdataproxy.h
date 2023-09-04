@@ -19,11 +19,11 @@ class Q_GRAPHS_EXPORT QAbstractDataProxy : public QObject
     Q_PROPERTY(QAbstractDataProxy::DataType type READ type CONSTANT)
 
 public:
-    enum DataType {
-        DataTypeNone = 0,
-        DataTypeBar = 1,
-        DataTypeScatter = 2,
-        DataTypeSurface = 4
+    enum class DataType {
+        None = 0,
+        Bar = 1,
+        Scatter = 2,
+        Surface = 4
     };
     Q_ENUM(DataType)
 

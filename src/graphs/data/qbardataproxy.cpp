@@ -561,7 +561,7 @@ const QBarDataItem *QBarDataProxy::itemAt(const QPoint &position) const
 // QBarDataProxyPrivate
 
 QBarDataProxyPrivate::QBarDataProxyPrivate(QBarDataProxy *q)
-    : QAbstractDataProxyPrivate(q, QAbstractDataProxy::DataTypeBar),
+    : QAbstractDataProxyPrivate(q, QAbstractDataProxy::DataType::Bar),
       m_dataArray(new QBarDataArray)
 {
 }

@@ -142,7 +142,7 @@ void tst_proxy::initialProperties()
     QCOMPARE(m_proxy->rowLabels().size(), 0);
     QVERIFY(!m_proxy->series());
 
-    QCOMPARE(m_proxy->type(), QAbstractDataProxy::DataTypeBar);
+    QCOMPARE(m_proxy->type(), QAbstractDataProxy::DataType::Bar);
 }
 
 void tst_proxy::initializeProperties()

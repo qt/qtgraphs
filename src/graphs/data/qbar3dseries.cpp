@@ -329,7 +329,7 @@ QBar3DSeriesPrivate::~QBar3DSeriesPrivate()
 
 void QBar3DSeriesPrivate::setDataProxy(QAbstractDataProxy *proxy)
 {
-    Q_ASSERT(proxy->type() == QAbstractDataProxy::DataTypeBar);
+    Q_ASSERT(proxy->type() == QAbstractDataProxy::DataType::Bar);
     Q_Q(QBar3DSeries);
 
     QAbstract3DSeriesPrivate::setDataProxy(proxy);

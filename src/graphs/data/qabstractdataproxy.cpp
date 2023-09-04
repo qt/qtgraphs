@@ -40,13 +40,13 @@ QT_BEGIN_NAMESPACE
  *
  * This enum type specifies the data type of the proxy.
  *
- * \value DataTypeNone
+ * \value None
  *        No data type.
- * \value DataTypeBar
+ * \value Bar
  *        Data type for Q3DBars.
- * \value DataTypeScatter
+ * \value Scatter
  *        Data type for Q3DScatter.
- * \value DataTypeSurface
+ * \value Surface
  *        Data type for Q3DSurface.
  */
 

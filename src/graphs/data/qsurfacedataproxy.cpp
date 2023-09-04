@@ -388,7 +388,7 @@ int QSurfaceDataProxy::columnCount() const
 //  QSurfaceDataProxyPrivate
 
 QSurfaceDataProxyPrivate::QSurfaceDataProxyPrivate(QSurfaceDataProxy *q)
-    : QAbstractDataProxyPrivate(q, QAbstractDataProxy::DataTypeSurface),
+    : QAbstractDataProxyPrivate(q, QAbstractDataProxy::DataType::Surface),
       m_dataArray(new QSurfaceDataArray)
 {
 }
