@@ -63,13 +63,12 @@ void ScatterDataModifier::addData()
     m_graph->axisY()->setRange(-1.0f, 1.0f);
     m_graph->axisZ()->setRange(-limit, limit);
 
-    QScatterDataArray *dataArray = new QScatterDataArray;
-    dataArray->resize(numberOfCols * numberOfRows);
-    QScatterDataItem *ptrToDataArray = &dataArray->first();
+    QScatterDataArray dataArray(numberOfCols * numberOfRows);
 
     float angleStep = 360.0f / float(numberOfCols);
     float latAngleStep = 100.0f / float(numberOfRows);
 
+    int arrayIndex = 0;
     for (float i = 0; i < numberOfRows; i++) {
         float latAngle = float(i) * latAngleStep + 40.0f;
         float radius = qSin(qDegreesToRadians(latAngle)) * limit;
@@ -96,9 +95,9 @@ void ScatterDataModifier::addData()
                 QQuaternion::fromAxisAndAngle(QVector3D(1.0f, 0.0f, 0.0f), -90.0f);
 #endif
 
-            ptrToDataArray->setPosition(QVector3D(x, y, z));
-            ptrToDataArray->setRotation(rotation);
-            ptrToDataArray++;
+            dataArray[arrayIndex].setPosition(QVector3D(x, y, z));
+            dataArray[arrayIndex].setRotation(rotation);
+            ++arrayIndex;
         }
     }
 
@@ -166,7 +165,7 @@ void ScatterDataModifier::triggerRotation()
         int selectedIndex = m_graph->seriesList().at(0)->selectedItem();
         if (selectedIndex != QScatter3DSeries::invalidSelectionIndex()) {
             static float itemAngle = 0.0f;
-            QScatterDataItem item(*(m_graph->seriesList().at(0)->dataProxy()->itemAt(selectedIndex)));
+            QScatterDataItem item(m_graph->seriesList().at(0)->dataProxy()->itemAt(selectedIndex));
             QQuaternion itemRotation = QQuaternion::fromAxisAndAngle(0.0f, 0.0f, 1.0f, itemAngle++);
             item.setRotation(itemRotation);
             m_graph->seriesList().at(0)->dataProxy()->setItem(selectedIndex, item);

@@ -39,7 +39,7 @@ private:
     void modelPosToScatterItem(int modelRow, int modelColumn, QScatterDataItem &item);
 
     QItemModelScatterDataProxy *m_proxy; // Not owned
-    QScatterDataArray *m_proxyArray; // Not owned
+    QScatterDataArray m_proxyArray;
     int m_xPosRole;
     int m_yPosRole;
     int m_zPosRole;

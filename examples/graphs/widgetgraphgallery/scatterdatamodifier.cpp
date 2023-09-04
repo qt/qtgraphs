@@ -73,8 +73,8 @@ void ScatterDataModifier::addData()
     //! [3]
 
     //! [4]
-    auto *dataArray = new QScatterDataArray;
-    dataArray->reserve(m_itemCount);
+    QScatterDataArray dataArray;
+    dataArray.reserve(m_itemCount);
     //! [4]
 
 #ifdef RANDOM_SCATTER
@@ -88,7 +88,7 @@ void ScatterDataModifier::addData()
             const float x = float(i) + 0.5f;
             const float y = qCos(qDegreesToRadians(float(i * j) / m_curveDivider));
             const float z = float(j) + 0.5f;
-            dataArray->append(QScatterDataItem({x, y, z}));
+            dataArray.append(QScatterDataItem({x, y, z}));
         }
     }
     //! [5]
@@ -165,7 +165,7 @@ void ScatterDataModifier::toggleItemCount()
         m_itemCount = numberOfItems;
         m_curveDivider = curveDivider;
     }
-    m_graph->seriesList().at(0)->dataProxy()->resetArray(0);
+    m_graph->seriesList().at(0)->dataProxy()->resetArray();
     addData();
 }
 

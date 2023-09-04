@@ -24,7 +24,6 @@ ScatterDataModifier::ScatterDataModifier(Q3DScatter *scatter)
       m_arrowsPerLine(16),
       m_magneticField(new QScatter3DSeries),
       m_sun(new QCustom3DItem),
-      m_magneticFieldArray(0),
       m_angleOffset(0.0f),
       m_angleStep(doublePi / m_arrowsPerLine / animationFrames)
 {
@@ -76,16 +75,11 @@ ScatterDataModifier::~ScatterDataModifier()
 
 void ScatterDataModifier::generateData()
 {
-    // Reusing existing array is computationally cheaper than always generating new array, even if
-    // all data items change in the array, if the array size doesn't change.
-    if (!m_magneticFieldArray)
-        m_magneticFieldArray = new QScatterDataArray;
-
     int arraySize = m_fieldLines * m_arrowsPerLine;
-    if (arraySize != m_magneticFieldArray->size())
-        m_magneticFieldArray->resize(arraySize);
+    if (arraySize != m_magneticFieldArray.size())
+        m_magneticFieldArray.resize(arraySize);
 
-    QScatterDataItem *ptrToDataArray = &m_magneticFieldArray->first();
+    QScatterDataItem *ptrToDataArray = &m_magneticFieldArray.first();
 
     for (float i = 0; i < m_fieldLines; i++) {
         float horizontalAngle = (doublePi * i) / m_fieldLines;

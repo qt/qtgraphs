@@ -29,19 +29,22 @@ public:
 
     QScatter3DSeries *series() const;
     int itemCount() const;
-    const QScatterDataArray *array() const;
-    const QScatterDataItem *itemAt(int index) const;
+    const QScatterDataArray &array() const;
+    const QScatterDataItem &itemAt(int index) const;
 
-    void resetArray(QScatterDataArray *newArray);
+    void resetArray();
+    void resetArray(QScatterDataArray newArray);
 
-    void setItem(int index, const QScatterDataItem &item);
-    void setItems(int index, const QScatterDataArray &items);
+    void setItem(int index, QScatterDataItem item);
+    void setItems(int index, QScatterDataArray items);
 
-    int addItem(const QScatterDataItem &item);
-    int addItems(const QScatterDataArray &items);
+    int addItem(QScatterDataItem item);
+    int addItem(QScatterDataItem &&item);
+    int addItems(QScatterDataArray items);
+    int addItems(QScatterDataArray &&items);
 
-    void insertItem(int index, const QScatterDataItem &item);
-    void insertItems(int index, const QScatterDataArray &items);
+    void insertItem(int index, QScatterDataItem item);
+    void insertItems(int index, QScatterDataArray items);
 
     void removeItems(int index, int removeCount);
 

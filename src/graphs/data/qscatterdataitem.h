@@ -18,9 +18,11 @@ public:
     QScatterDataItem(const QVector3D &position);
     QScatterDataItem(const QVector3D &position, const QQuaternion &rotation);
     QScatterDataItem(const QScatterDataItem &other);
+    QScatterDataItem(QScatterDataItem &&other) noexcept ;
     ~QScatterDataItem();
 
     QScatterDataItem &operator=(const QScatterDataItem &other);
+    QScatterDataItem &operator=(QScatterDataItem &&other) noexcept;
 
     constexpr inline void setPosition(const QVector3D &pos) noexcept { m_position = pos; }
     constexpr inline QVector3D position() const noexcept { return m_position; }

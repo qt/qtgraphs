@@ -75,7 +75,6 @@ Data::~Data()
     delete m_surface;
     delete m_scatter;
     delete m_widget;
-    delete m_scatterDataArray; // only portion of this array is set to graph
 }
 
 void Data::updateData()
@@ -97,7 +96,7 @@ void Data::updateData()
 void Data::clearData()
 {
     m_bars->seriesList().at(0)->dataProxy()->resetArray(0);
-    m_scatter->seriesList().at(0)->dataProxy()->resetArray(0);
+    m_scatter->seriesList().at(0)->dataProxy()->resetArray();
     m_surface->seriesList().at(0)->dataProxy()->resetArray(0);
 }
 
@@ -129,9 +128,7 @@ void Data::setResolution(int selection)
     if (m_mode == Scatter) {
         m_resize = true;
         m_resolution /= 3;
-        delete m_scatterDataArray;
-        m_scatterDataArray = new QScatterDataArray;
-        m_scatterDataArray->resize(m_resolution.width() * m_resolution.height());
+        m_scatterDataArray.resize(m_resolution.width() * m_resolution.height());
     } else if (m_mode == Bars) {
         m_resize = true;
         m_resolution /= 6;
@@ -192,7 +189,7 @@ void Data::setData(const QImage &image)
     int widthBits = imageWidth * 4;
 
     if (m_mode == Scatter) {
-        QScatterDataItem *ptrToDataArray = &m_scatterDataArray->first();
+        QScatterDataItem *ptrToDataArray = &m_scatterDataArray.first();
 
         int limitsX = imageWidth / 2;
         int limitsZ = imageHeight / 2;
@@ -210,7 +207,7 @@ void Data::setData(const QImage &image)
             }
         }
 
-        QScatterDataArray *dataArray = new QScatterDataArray(m_scatterDataArray->mid(0, count));
+        QScatterDataArray dataArray(m_scatterDataArray.mid(0, count));
         m_scatter->seriesList().at(0)->dataProxy()->resetArray(dataArray);
     } else {
         QBarDataArray *dataArray = m_barDataArray;

@@ -137,13 +137,13 @@ void QQuickGraphsScatter::updateScatterGraphItemPositions(ScatterModel *graphMod
             qWarning() << __func__ << "Item count differs from itemList count";
 
         for (int i = 0; i < dataProxy->itemCount(); ++i) {
-            const QScatterDataItem *item = dataProxy->itemAt(i);
+            const QScatterDataItem item = dataProxy->itemAt(i);
             QQuick3DModel *dataPoint = itemList.at(i);
 
-            QVector3D dotPos = item->position();
+            QVector3D dotPos = item.position();
             if (isDotPositionInAxisRange(dotPos)) {
                 dataPoint->setVisible(true);
-                QQuaternion dotRot = item->rotation();
+                QQuaternion dotRot = item.rotation();
                 float posX = axisX()->positionAt(dotPos.x()) * scale().x() + translate().x();
                 float posY = axisY()->positionAt(dotPos.y()) * scale().y() + translate().y();
                 float posZ = axisZ()->positionAt(dotPos.z()) * scale().z() + translate().z();
@@ -167,7 +167,7 @@ void QQuickGraphsScatter::updateScatterGraphItemPositions(ScatterModel *graphMod
 
         for (int i = 0; i < count; i++) {
             auto item = dataProxy->itemAt(i);
-            auto dotPos = item->position();
+            auto dotPos = item.position();
 
             if (isDotPositionInAxisRange(dotPos)) {
                 auto posX = axisX()->positionAt(dotPos.x()) * scale().x() + translate().x();
@@ -175,8 +175,9 @@ void QQuickGraphsScatter::updateScatterGraphItemPositions(ScatterModel *graphMod
                 auto posZ = axisZ()->positionAt(dotPos.z()) * scale().z() + translate().z();
 
                 QQuaternion totalRotation;
+
                 if (graphModel->series->mesh() != QAbstract3DSeries::Mesh::Point)
-                    totalRotation = item->rotation() * meshRotation;
+                    totalRotation = item.rotation() * meshRotation;
                 else
                     totalRotation = cameraTarget()->rotation();
 
@@ -1050,7 +1051,7 @@ float QQuickGraphsScatter::calculatePointScaleSize()
     int totalDataSize = 0;
     for (const auto &scatterSeries : std::as_const(series)) {
         if (scatterSeries->isVisible())
-            totalDataSize += scatterSeries->dataProxy()->array()->size();
+            totalDataSize += scatterSeries->dataProxy()->array().size();
     }
 
     return qBound(m_defaultMinSize, 2.0f / float(qSqrt(qreal(totalDataSize))), m_defaultMaxSize);

@@ -55,6 +55,11 @@ QScatterDataItem::QScatterDataItem(const QScatterDataItem &other)
     operator=(other);
 }
 
+QScatterDataItem::QScatterDataItem(QScatterDataItem &&other) noexcept
+{
+    *this = std::move(other);
+}
+
 /*!
  * Deletes a scatter data item.
  */
@@ -74,6 +79,17 @@ QScatterDataItem &QScatterDataItem::operator=(const QScatterDataItem &other)
         createExtraData();
     else
         d_ptr = 0;
+
+    return *this;
+}
+
+QScatterDataItem &QScatterDataItem::operator=(QScatterDataItem &&other) noexcept
+{
+    m_position = std::move(other.m_position);
+    m_rotation = std::move(other.m_rotation);
+
+    std::swap(d_ptr, other.d_ptr);
+    other.d_ptr = nullptr;
 
     return *this;
 }

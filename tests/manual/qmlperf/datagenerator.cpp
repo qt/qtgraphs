@@ -27,15 +27,13 @@ DataGenerator::~DataGenerator()
 
 void DataGenerator::generateData(QScatter3DSeries *series, uint count)
 {
-    QScatterDataArray *dataArray = new QScatterDataArray;
-    dataArray->resize(count);
-    QScatterDataItem *ptrToDataArray = &dataArray->first();
+    QScatterDataArray dataArray;
+    dataArray.resize(count);
 
     for (uint i = 0; i < count; i++) {
-            ptrToDataArray->setPosition(QVector3D(QRandomGenerator::global()->generateDouble(),
-                                                  QRandomGenerator::global()->generateDouble(),
-                                                  QRandomGenerator::global()->generateDouble()));
-            ptrToDataArray++;
+        dataArray[i].setPosition(QVector3D(QRandomGenerator::global()->generateDouble(),
+                                              QRandomGenerator::global()->generateDouble(),
+                                              QRandomGenerator::global()->generateDouble()));
     }
 
     series->dataProxy()->resetArray(dataArray);

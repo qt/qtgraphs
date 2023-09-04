@@ -172,8 +172,9 @@ void ScatterItemModelHandler::modelPosToScatterItem(int modelRow, int modelColum
 void ScatterItemModelHandler::resolveModel()
 {
     if (m_itemModel.isNull()) {
-        m_proxy->resetArray(0);
-        m_proxyArray = 0;
+        QScatterDataArray empty;
+        m_proxy->resetArray(empty);
+        m_proxyArray.clear();
         return;
     }
 
@@ -201,13 +202,13 @@ void ScatterItemModelHandler::resolveModel()
     int runningCount = 0;
 
     // If dimensions have changed, recreate the array
-    if (m_proxyArray != m_proxy->array() || totalCount != m_proxyArray->size())
-        m_proxyArray = new QScatterDataArray(totalCount);
+    if (m_proxyArray.data() != m_proxy->array().data() || totalCount != m_proxyArray.size())
+        m_proxyArray.resize(totalCount);
 
     // Parse data into newProxyArray
     for (int i = 0; i < rowCount; i++) {
         for (int j = 0; j < columnCount; j++) {
-            modelPosToScatterItem(i, j, (*m_proxyArray)[runningCount]);
+            modelPosToScatterItem(i, j, m_proxyArray[runningCount]);
             runningCount++;
         }
     }

@@ -117,13 +117,11 @@ void ScatterDataModifier::addData()
     }
 
     // Add data from the QList to datamodel
-    QScatterDataArray *dataArray = new QScatterDataArray;
-    dataArray->resize(itemList.size());
-    QScatterDataItem *ptrToDataArray = &dataArray->first();
-    for (int i = 0; i < itemList.size(); i++) {
-        ptrToDataArray->setPosition(itemList.at(i));
-        ptrToDataArray++;
-    }
+    QScatterDataArray dataArray;
+    dataArray.resize(itemList.size());
+
+    for (int i = 0; i < itemList.size(); i++)
+        dataArray[i].setPosition(itemList.at(i));
 
     m_graph->seriesList().at(0)->dataProxy()->resetArray(dataArray);
 }

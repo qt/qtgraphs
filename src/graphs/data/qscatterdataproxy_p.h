@@ -30,13 +30,13 @@ public:
     QScatterDataProxyPrivate(QScatterDataProxy *q);
     virtual ~QScatterDataProxyPrivate();
 
-    void resetArray(QScatterDataArray *newArray);
-    void setItem(int index, const QScatterDataItem &item);
-    void setItems(int index, const QScatterDataArray &items);
-    int addItem(const QScatterDataItem &item);
-    int addItems(const QScatterDataArray &items);
-    void insertItem(int index, const QScatterDataItem &item);
-    void insertItems(int index, const QScatterDataArray &items);
+    void resetArray(QScatterDataArray &&newArray);
+    void setItem(int index, QScatterDataItem &&item);
+    void setItems(int index, QScatterDataArray &&items);
+    int addItem(QScatterDataItem &&item);
+    int addItems(QScatterDataArray &&items);
+    void insertItem(int index, QScatterDataItem &&item);
+    void insertItems(int index, QScatterDataArray &&items);
     void removeItems(int index, int removeCount);
     void limitValues(QVector3D &minValues, QVector3D &maxValues, QAbstract3DAxis *axisX,
                      QAbstract3DAxis *axisY, QAbstract3DAxis *axisZ) const;
@@ -44,7 +44,7 @@ public:
 
     void setSeries(QAbstract3DSeries *series) override;
 private:
-    QScatterDataArray *m_dataArray;
+    QScatterDataArray m_dataArray;
 };
 
 QT_END_NAMESPACE
