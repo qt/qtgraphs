@@ -106,6 +106,7 @@ private:
         QQuick3DModel *gridModel;
         QQuick3DModel *sliceModel;
         QQuick3DModel *sliceGridModel;
+        QQuick3DModel *proxyModel;
         QVector<SurfaceVertex> vertices;
         QVector<SurfaceVertex> coarceVertices;
         QVector<quint32> indices;
@@ -119,6 +120,7 @@ private:
         int rowCount;
         SurfaceVertex selectedVertex;
         bool picked = false;
+        bool polar;
         QVector3D boundsMin;
         QVector3D boundsMax;
         QVector2D rangeMin;
@@ -133,6 +135,8 @@ private:
     void createGridlineIndices(SurfaceModel *model, int x, int y, int endX, int endY);
     void handleChangedSeries();
     void updateModel(SurfaceModel *model);
+    void createProxyModel(SurfaceModel *parentModel);
+    void updateProxyModel(SurfaceModel *model);
     void updateMaterial(SurfaceModel *model);
     void updateSelectedPoint();
     void addModel(QSurface3DSeries *series);
