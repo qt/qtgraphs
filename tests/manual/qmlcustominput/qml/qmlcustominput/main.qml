@@ -29,7 +29,7 @@ Item {
             width: dataView.width
             height: dataView.height
             theme: Theme3D { type: Theme3D.ThemeDigia }
-            shadowQuality: AbstractGraph3D.ShadowQualityMedium
+            shadowQuality: AbstractGraph3D.ShadowQuality.Medium
             scene.activeCamera.yRotation: 30.0
             //! [1]
             inputHandler: null
@@ -178,11 +178,11 @@ Item {
             Layout.minimumWidth: parent.width / 3 // 3 buttons divided equally in the layout
             text: "Hide Shadows"
             onClicked: {
-                if (scatterGraph.shadowQuality === AbstractGraph3D.ShadowQualityNone) {
-                    scatterGraph.shadowQuality = AbstractGraph3D.ShadowQualityMedium;
+                if (scatterGraph.shadowQuality === AbstractGraph3D.ShadowQuality.None) {
+                    scatterGraph.shadowQuality = AbstractGraph3D.ShadowQuality.Medium;
                     text = "Hide Shadows";
                 } else {
-                    scatterGraph.shadowQuality = AbstractGraph3D.ShadowQualityNone;
+                    scatterGraph.shadowQuality = AbstractGraph3D.ShadowQuality.None;
                     text = "Show Shadows";
                 }
             }

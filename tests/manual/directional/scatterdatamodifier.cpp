@@ -26,7 +26,7 @@ ScatterDataModifier::ScatterDataModifier(Q3DScatter *scatter)
     QFont font = m_graph->activeTheme()->font();
     font.setPointSize(m_fontSize);
     m_graph->activeTheme()->setFont(font);
-    m_graph->setShadowQuality(QAbstract3DGraph::ShadowQualitySoftLow);
+    m_graph->setShadowQuality(QAbstract3DGraph::ShadowQuality::SoftLow);
     m_graph->scene()->activeCamera()->setCameraPreset(Q3DCamera::CameraPresetFront);
 
     m_graph->setAxisX(new QValue3DAxis);

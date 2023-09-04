@@ -114,7 +114,7 @@ Item {
             id: scatterPlot
             width: graphView.width
             height: graphView.height
-            shadowQuality: AbstractGraph3D.ShadowQualityNone
+            shadowQuality: AbstractGraph3D.ShadowQuality.None
             optimizationHint: AbstractGraph3D.OptimizationLegacy
             scene.activeCamera.yRotation: 45.0
             measureFps: true

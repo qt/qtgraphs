@@ -311,7 +311,7 @@ Item {
             id: barGraph
             width: dataView.width
             height: dataView.height
-            shadowQuality: AbstractGraph3D.ShadowQualityMedium
+            shadowQuality: AbstractGraph3D.ShadowQuality.Medium
             selectionMode: AbstractGraph3D.SelectionItemAndRow | AbstractGraph3D.SelectionSlice
             theme: theme1
             barThickness: 0.7

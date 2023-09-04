@@ -48,9 +48,9 @@ Column {
             SecondColumnLayout {
                 ComboBox {
                     backendValue: backendValues.shadowQuality
-                    model: ["ShadowQualityNone", "ShadowQualityLow", "ShadowQualityMedium",
-                        "ShadowQualityHigh", "ShadowQualitySoftLow", "ShadowQualitySoftMedium",
-                        "ShadowQualitySoftHigh"]
+                    model: ["None", "Low", "Medium",
+                        "High", "SoftLow", "SoftMedium",
+                        "SoftHigh"]
                     Layout.fillWidth: true
                     scope: "AbstractGraph3D"
                 }

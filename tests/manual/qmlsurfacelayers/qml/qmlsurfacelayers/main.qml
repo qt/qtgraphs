@@ -52,7 +52,7 @@ Item {
                 font.pointSize: 35
                 colorStyle: Theme3D.ColorStyleRangeGradient
             }
-            shadowQuality: AbstractGraph3D.ShadowQualityNone
+            shadowQuality: AbstractGraph3D.ShadowQuality.None
             selectionMode: AbstractGraph3D.SelectionRow | AbstractGraph3D.SelectionSlice
             scene.activeCamera.cameraPreset: Camera3D.CameraPresetIsometricLeft
             axisY.min: 20
@@ -223,11 +223,11 @@ Item {
             Layout.minimumHeight: 40
             text: "Show Shadows"
             onClicked: {
-                if (surfaceLayers.shadowQuality === AbstractGraph3D.ShadowQualityNone) {
-                    surfaceLayers.shadowQuality = AbstractGraph3D.ShadowQualityLow
+                if (surfaceLayers.shadowQuality === AbstractGraph3D.ShadowQuality.None) {
+                    surfaceLayers.shadowQuality = AbstractGraph3D.ShadowQuality.Low
                     text = "Hide Shadows"
                 } else {
-                    surfaceLayers.shadowQuality = AbstractGraph3D.ShadowQualityNone
+                    surfaceLayers.shadowQuality = AbstractGraph3D.ShadowQuality.None
                     text = "Show Shadows"
                 }
             }

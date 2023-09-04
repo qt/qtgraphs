@@ -226,11 +226,11 @@ Item {
             text: "Hide Shadows"
             clip: true
             onClicked: {
-                if (barGraph.shadowQuality == AbstractGraph3D.ShadowQualityNone) {
-                    barGraph.shadowQuality = AbstractGraph3D.ShadowQualitySoftHigh;
+                if (barGraph.shadowQuality == AbstractGraph3D.ShadowQuality.None) {
+                    barGraph.shadowQuality = AbstractGraph3D.ShadowQuality.SoftHigh;
                     text = "Hide Shadows";
                 } else {
-                    barGraph.shadowQuality = AbstractGraph3D.ShadowQualityNone;
+                    barGraph.shadowQuality = AbstractGraph3D.ShadowQuality.None;
                     text = "Show Shadows";
                 }
             }
@@ -340,7 +340,7 @@ Item {
         Bars3D {
             id: barGraph
             anchors.fill: parent
-            shadowQuality: AbstractGraph3D.ShadowQualitySoftHigh
+            shadowQuality: AbstractGraph3D.ShadowQuality.SoftHigh
             selectionMode: AbstractGraph3D.SelectionItem
             theme: Theme3D {
                 type: Theme3D.ThemeEbony

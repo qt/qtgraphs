@@ -103,7 +103,7 @@ Item {
         //! [0]
         anchors.fill: parent
         theme: dynamicColorTheme
-        shadowQuality: AbstractGraph3D.ShadowQualityMedium
+        shadowQuality: AbstractGraph3D.ShadowQuality.Medium
         scene.activeCamera.yRotation: 45.0
         scene.activeCamera.xRotation: 45.0
         scene.activeCamera.zoomLevel: 75.0
@@ -278,7 +278,7 @@ Item {
                 text = "Display Orthographic";
                 scatterGraph.orthoProjection = false;
                 // Orthographic projection disables shadows, so we need to switch them back on
-                scatterGraph.shadowQuality = AbstractGraph3D.ShadowQualityMedium
+                scatterGraph.shadowQuality = AbstractGraph3D.ShadowQuality.Medium
             } else {
                 text = "Display Perspective";
                 scatterGraph.orthoProjection = true;

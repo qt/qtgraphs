@@ -60,7 +60,7 @@ Item {
             //! [2]
             //! [3]
             theme: themeQt
-            shadowQuality: AbstractGraph3D.ShadowQualityHigh
+            shadowQuality: AbstractGraph3D.ShadowQuality.High
             scene.activeCamera.cameraPreset: Camera3D.CameraPresetFront
             //! [3]
             //! [6]
@@ -132,11 +132,11 @@ Item {
         anchors.margins: 5
         text: "Hide Shadows"
         onClicked: {
-            if (scatterGraph.shadowQuality === AbstractGraph3D.ShadowQualityNone) {
-                scatterGraph.shadowQuality = AbstractGraph3D.ShadowQualityHigh;
+            if (scatterGraph.shadowQuality === AbstractGraph3D.ShadowQuality.None) {
+                scatterGraph.shadowQuality = AbstractGraph3D.ShadowQuality.High;
                 text = "Hide Shadows";
             } else {
-                scatterGraph.shadowQuality = AbstractGraph3D.ShadowQualityNone;
+                scatterGraph.shadowQuality = AbstractGraph3D.ShadowQuality.None;
                 text = "Show Shadows";
             }
         }

@@ -32,7 +32,7 @@ ScatterDataModifier::ScatterDataModifier(Q3DScatter *scatter, QObject *parent) :
 {
     //! [0]
     m_graph->activeTheme()->setType(Q3DTheme::ThemeStoneMoss);
-    m_graph->setShadowQuality(QAbstract3DGraph::ShadowQualitySoftHigh);
+    m_graph->setShadowQuality(QAbstract3DGraph::ShadowQuality::SoftHigh);
     m_graph->scene()->activeCamera()->setCameraPreset(Q3DCamera::CameraPresetFront);
     m_graph->scene()->activeCamera()->setZoomLevel(80.f);
     //! [0]

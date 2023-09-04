@@ -116,7 +116,7 @@ Rectangle {
             //! [5]
 
             theme: customTheme
-            shadowQuality: AbstractGraph3D.ShadowQualityNone
+            shadowQuality: AbstractGraph3D.ShadowQuality.None
             selectionMode: AbstractGraph3D.SelectionSlice | AbstractGraph3D.SelectionItemAndColumn
             axisX: xAxis
             axisY: yAxis

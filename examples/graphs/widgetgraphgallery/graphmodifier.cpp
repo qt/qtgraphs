@@ -33,7 +33,7 @@ GraphModifier::GraphModifier(Q3DBars *bargraph, QObject *parent) :
     //! [1]
 {
     //! [2]
-    m_graph->setShadowQuality(QAbstract3DGraph::ShadowQualitySoftMedium);
+    m_graph->setShadowQuality(QAbstract3DGraph::ShadowQuality::SoftMedium);
     m_graph->activeTheme()->setBackgroundEnabled(false);
     m_graph->activeTheme()->setFont(QFont("Times New Roman", m_fontSize));
     m_graph->activeTheme()->setLabelBackgroundEnabled(true);

@@ -27,7 +27,7 @@ Abstract3DController::Abstract3DController(QRect initialViewport, Q3DScene *scen
     QObject(parent),
     m_themeManager(new ThemeManager(this)),
     m_selectionMode(QAbstract3DGraph::SelectionItem),
-    m_shadowQuality(QAbstract3DGraph::ShadowQualityMedium),
+    m_shadowQuality(QAbstract3DGraph::ShadowQuality::Medium),
     m_useOrthoProjection(false),
     m_aspectRatio(2.0),
     m_horizontalAspectRatio(0.0),
@@ -1010,7 +1010,7 @@ void Abstract3DController::setOrthoProjection(bool enable)
         emit orthoProjectionChanged(m_useOrthoProjection);
         // If changed to ortho, disable shadows
         if (m_useOrthoProjection)
-            doSetShadowQuality(QAbstract3DGraph::ShadowQualityNone);
+            doSetShadowQuality(QAbstract3DGraph::ShadowQuality::None);
         emitNeedRender();
     }
 }

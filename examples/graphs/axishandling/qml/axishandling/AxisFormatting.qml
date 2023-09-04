@@ -73,7 +73,7 @@ Item {
         anchors.bottom: parent.bottom
         width: parent.width
         theme: themePrimaryColors
-        shadowQuality: AbstractGraph3D.ShadowQualitySoftMedium
+        shadowQuality: AbstractGraph3D.ShadowQuality.SoftMedium
         scene.activeCamera.cameraPreset: Camera3D.CameraPresetIsometricRight
         //! [3]
         axisZ: valueAxis

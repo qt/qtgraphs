@@ -42,7 +42,7 @@ Item {
             width: surfaceview.width
             height: surfaceview.height
             theme: mainTheme
-            shadowQuality: AbstractGraph3D.ShadowQualityMedium
+            shadowQuality: AbstractGraph3D.ShadowQuality.Medium
             selectionMode: AbstractGraph3D.SelectionSlice | AbstractGraph3D.SelectionItemAndRow
             scene.activeCamera.cameraPreset: Camera3D.CameraPresetIsometricLeft
             axisY.min: 0.0

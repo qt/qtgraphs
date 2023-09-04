@@ -754,7 +754,7 @@ QString QQuickGraphsScatter::getMeshFileName(QAbstract3DSeries::Mesh meshType)
         fileName = QStringLiteral("defaultMeshes/arrowMesh");
         break;
     case QAbstract3DSeries::Mesh::Point:
-        fileName = shadowQuality() == QAbstract3DGraph::ShadowQualityNone
+        fileName = shadowQuality() == QAbstract3DGraph::ShadowQuality::None
                        ? QStringLiteral("defaultMeshes/planeMesh")
                        : QStringLiteral("defaultMeshes/octagonMesh");
         break;

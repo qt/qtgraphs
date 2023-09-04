@@ -82,7 +82,7 @@ void tst_scatter::initialProperties()
     // Common properties
     QCOMPARE(m_graph->activeTheme()->type(), Q3DTheme::ThemeQt);
     QCOMPARE(m_graph->selectionMode(), QAbstract3DGraph::SelectionItem);
-    QCOMPARE(m_graph->shadowQuality(), QAbstract3DGraph::ShadowQualityMedium);
+    QCOMPARE(m_graph->shadowQuality(), QAbstract3DGraph::ShadowQuality::Medium);
     QVERIFY(m_graph->scene());
     QCOMPARE(m_graph->measureFps(), false);
     QCOMPARE(m_graph->isOrthoProjection(), false);
@@ -104,8 +104,8 @@ void tst_scatter::initializeProperties()
     Q3DTheme *theme = new Q3DTheme(Q3DTheme::ThemeDigia);
     m_graph->setActiveTheme(theme);
     m_graph->setSelectionMode(QAbstract3DGraph::SelectionNone);
-    m_graph->setShadowQuality(QAbstract3DGraph::ShadowQualitySoftHigh);
-    QCOMPARE(m_graph->shadowQuality(), QAbstract3DGraph::ShadowQualitySoftHigh);
+    m_graph->setShadowQuality(QAbstract3DGraph::ShadowQuality::SoftHigh);
+    QCOMPARE(m_graph->shadowQuality(), QAbstract3DGraph::ShadowQuality::SoftHigh);
     m_graph->setMeasureFps(true);
     m_graph->setOrthoProjection(true);
     m_graph->setAspectRatio(1.0);
@@ -120,7 +120,7 @@ void tst_scatter::initializeProperties()
 
     QCOMPARE(m_graph->activeTheme()->type(), Q3DTheme::ThemeDigia);
     QCOMPARE(m_graph->selectionMode(), QAbstract3DGraph::SelectionNone);
-    QCOMPARE(m_graph->shadowQuality(), QAbstract3DGraph::ShadowQualityNone); // Ortho disables shadows
+    QCOMPARE(m_graph->shadowQuality(), QAbstract3DGraph::ShadowQuality::None); // Ortho disables shadows
     QCOMPARE(m_graph->measureFps(), true);
     QCOMPARE(m_graph->isOrthoProjection(), true);
     QCOMPARE(m_graph->aspectRatio(), 1.0);

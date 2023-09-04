@@ -49,7 +49,7 @@ Data::Data(Q3DSurface *surface, Q3DScatter *scatter, Q3DBars *bars,
     m_scatter->activeTheme()->setType(Q3DTheme::ThemeStoneMoss);
     m_scatter->setSelectionMode(QAbstract3DGraph::SelectionNone);
     m_scatter->activeTheme()->setGridEnabled(false);
-    m_scatter->setShadowQuality(QAbstract3DGraph::ShadowQualitySoftLow);
+    m_scatter->setShadowQuality(QAbstract3DGraph::ShadowQuality::SoftLow);
     m_scatter->scene()->activeCamera()->setCameraPosition(0.0, 85.0, 150.0);
     QScatter3DSeries *series2 = new QScatter3DSeries;
     series2->setMesh(QAbstract3DSeries::Mesh::Point);
@@ -59,7 +59,7 @@ Data::Data(Q3DSurface *surface, Q3DScatter *scatter, Q3DBars *bars,
     m_bars->activeTheme()->setType(Q3DTheme::ThemeQt);
     m_bars->setSelectionMode(QAbstract3DGraph::SelectionItemAndRow | QAbstract3DGraph::SelectionSlice);
     m_bars->activeTheme()->setGridEnabled(false);
-    m_bars->setShadowQuality(QAbstract3DGraph::ShadowQualityLow);
+    m_bars->setShadowQuality(QAbstract3DGraph::ShadowQuality::Low);
     m_bars->setBarSpacing(QSizeF(0.0, 0.0));
     m_bars->scene()->activeCamera()->setCameraPosition(0.0, 75.0, 150.0);
     QBar3DSeries *series3 = new QBar3DSeries;

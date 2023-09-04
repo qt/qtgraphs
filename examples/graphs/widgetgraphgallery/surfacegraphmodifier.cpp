@@ -575,9 +575,9 @@ void SurfaceGraphModifier::toggleOilHighlight(bool highlight)
 void SurfaceGraphModifier::toggleShadows(bool shadows)
 {
     if (shadows)
-        m_graph->setShadowQuality(QAbstract3DGraph::ShadowQualityMedium);
+        m_graph->setShadowQuality(QAbstract3DGraph::ShadowQuality::Medium);
     else
-        m_graph->setShadowQuality(QAbstract3DGraph::ShadowQualityNone);
+        m_graph->setShadowQuality(QAbstract3DGraph::ShadowQuality::None);
 }
 
 //! [15]

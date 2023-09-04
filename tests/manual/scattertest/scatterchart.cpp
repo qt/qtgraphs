@@ -29,7 +29,7 @@ ScatterDataModifier::ScatterDataModifier(Q3DScatter *scatter)
     QFont font = m_chart->activeTheme()->font();
     font.setPointSize(m_fontSize);
     m_chart->activeTheme()->setFont(font);
-    m_chart->setShadowQuality(QAbstract3DGraph::ShadowQualityNone);
+    m_chart->setShadowQuality(QAbstract3DGraph::ShadowQuality::None);
     m_chart->scene()->activeCamera()->setCameraPreset(Q3DCamera::CameraPresetFront);
     m_chart->setAxisX(new QValue3DAxis);
     m_chart->setAxisY(new QValue3DAxis);
@@ -128,7 +128,7 @@ void ScatterDataModifier::massiveDataTest()
         m_chart->setAxisY(yAxis);
         m_chart->setAxisZ(zAxis);
         m_chart->scene()->activeCamera()->setCameraPreset(Q3DCamera::CameraPresetRight);
-        m_chart->setShadowQuality(QAbstract3DGraph::ShadowQualityNone);
+        m_chart->setShadowQuality(QAbstract3DGraph::ShadowQuality::None);
         foreach (QAbstract3DSeries *series, m_chart->seriesList())
             m_chart->removeSeries(static_cast<QScatter3DSeries *>(series));
 

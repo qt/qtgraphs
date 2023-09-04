@@ -82,19 +82,19 @@ QT_BEGIN_NAMESPACE
 
     Quality of shadows.
 
-    \value ShadowQualityNone
+    \value None
            Shadows are disabled.
-    \value ShadowQualityLow
+    \value Low
            Shadows are rendered in low quality.
-    \value ShadowQualityMedium
+    \value Medium
            Shadows are rendered in medium quality.
-    \value ShadowQualityHigh
+    \value High
            Shadows are rendered in high quality.
-    \value ShadowQualitySoftLow
+    \value SoftLow
            Shadows are rendered in low quality with softened edges.
-    \value ShadowQualitySoftMedium
+    \value SoftMedium
            Shadows are rendered in medium quality with softened edges.
-    \value ShadowQualitySoftHigh
+    \value SoftHigh
            Shadows are rendered in high quality with softened edges.
 */
 
@@ -296,7 +296,7 @@ void QAbstract3DGraph::setSelectionMode(const QAbstract3DGraph::SelectionFlags &
  *
  * \brief The quality of the shadow.
  *
- * One of the ShadowQuality enum values. By default, \c ShadowQualityMedium.
+ * One of the ShadowQuality enum values. By default, \c Medium.
  *
  * \note If setting the shadow quality to a certain level fails, the level is lowered
  * until it is successfully set. The \c shadowQualityChanged signal is emitted each time

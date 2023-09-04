@@ -67,7 +67,7 @@ Item {
             id: surface
             anchors.fill: graphView
             theme: customSurfaceTheme
-            shadowQuality: AbstractGraph3D.ShadowQualityNone
+            shadowQuality: AbstractGraph3D.ShadowQuality.None
             selectionMode: AbstractGraph3D.SelectionNone
             scene.activeCamera.cameraPreset: Camera3D.CameraPresetIsometricLeft
             msaaSamples: 8
@@ -91,7 +91,7 @@ Item {
             id: bars
             anchors.fill: graphView
             theme: customBarsTheme
-            shadowQuality: AbstractGraph3D.ShadowQualityNone
+            shadowQuality: AbstractGraph3D.ShadowQuality.None
             selectionMode: AbstractGraph3D.SelectionItemAndRow
             scene.activeCamera.cameraPreset: Camera3D.CameraPresetIsometricLeft
             msaaSamples: 8

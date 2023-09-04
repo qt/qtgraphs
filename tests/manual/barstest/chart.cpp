@@ -124,7 +124,7 @@ GraphModifier::GraphModifier(Q3DBars *barchart, QColorDialog *colorDialog)
     m_graph->addAxis(m_genericColumnAxis);
 
     m_graph->setActiveTheme(m_builtinTheme);
-    m_graph->setShadowQuality(QAbstract3DGraph::ShadowQualitySoftMedium);
+    m_graph->setShadowQuality(QAbstract3DGraph::ShadowQuality::SoftMedium);
 
     m_temperatureData->setName("Oulu");
     m_temperatureData2->setName("Helsinki");

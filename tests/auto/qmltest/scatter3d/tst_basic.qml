@@ -50,7 +50,7 @@ Item {
         Scatter3D {
             anchors.fill: parent
             selectionMode: AbstractGraph3D.SelectionNone
-            shadowQuality: AbstractGraph3D.ShadowQualityLow
+            shadowQuality: AbstractGraph3D.ShadowQuality.Low
             msaaSamples: 2
             theme: Theme3D { }
             renderingMode: AbstractGraph3D.RenderIndirect
@@ -115,7 +115,7 @@ Item {
 //        function test_1_common() {
 //            constructCommon()
 //            compare(common.selectionMode, AbstractGraph3D.SelectionItem, "selectionMode")
-//            compare(common.shadowQuality, AbstractGraph3D.ShadowQualityMedium, "shadowQuality")
+//            compare(common.shadowQuality, AbstractGraph3D.ShadowQuality.Medium, "shadowQuality")
 //            compare(common.msaaSamples, 4, "msaaSamples")
 //            compare(common.theme.type, Theme3D.ThemeQt, "theme")
 //            compare(common.renderingMode, AbstractGraph3D.RenderIndirect, "renderingMode")
@@ -138,8 +138,8 @@ Item {
 
 //        function test_2_change_common() {
 //            common.selectionMode = AbstractGraph3D.SelectionNone
-//            common.shadowQuality = AbstractGraph3D.ShadowQualitySoftHigh
-//            compare(common.shadowQuality, AbstractGraph3D.ShadowQualitySoftHigh, "shadowQuality")
+//            common.shadowQuality = AbstractGraph3D.ShadowQuality.SoftHigh
+//            compare(common.shadowQuality, AbstractGraph3D.ShadowQuality.SoftHigh, "shadowQuality")
 //            common.msaaSamples = 8
 //            compare(common.msaaSamples, 8, "msaaSamples")
 //            common.theme.type = Theme3D.ThemeRetro
@@ -156,7 +156,7 @@ Item {
 //            common.locale = Qt.locale("FI")
 //            common.margin = 1.0
 //            compare(common.selectionMode, AbstractGraph3D.SelectionNone, "selectionMode")
-//            compare(common.shadowQuality, AbstractGraph3D.ShadowQualityNone, "shadowQuality") // Ortho disables shadows
+//            compare(common.shadowQuality, AbstractGraph3D.ShadowQuality.None, "shadowQuality") // Ortho disables shadows
 //            compare(common.msaaSamples, 0, "msaaSamples") // Rendering mode changes this to zero
 //            compare(common.theme.type, Theme3D.ThemeRetro, "theme")
 //            compare(common.renderingMode, AbstractGraph3D.RenderDirectToBackground, "renderingMode")
@@ -201,7 +201,7 @@ Item {
 //            constructCommonInit()
 
 //            compare(common_init.selectionMode, AbstractGraph3D.SelectionNone, "selectionMode")
-//            tryCompare(common_init, "shadowQuality", AbstractGraph3D.ShadowQualityLow)
+//            tryCompare(common_init, "shadowQuality", AbstractGraph3D.ShadowQuality.Low)
 //            compare(common_init.msaaSamples, 2, "msaaSamples")
 //            compare(common_init.theme.type, Theme3D.ThemeUserDefined, "theme")
 //            compare(common_init.renderingMode, AbstractGraph3D.RenderIndirect, "renderingMode")

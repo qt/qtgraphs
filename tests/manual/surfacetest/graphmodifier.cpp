@@ -1373,7 +1373,7 @@ void GraphModifier::massiveDataTest()
         m_graph->setAxisY(yAxis);
         m_graph->setAxisZ(zAxis);
         m_graph->scene()->activeCamera()->setCameraPreset(Q3DCamera::CameraPresetRight);
-        m_graph->setShadowQuality(QAbstract3DGraph::ShadowQualityNone);
+        m_graph->setShadowQuality(QAbstract3DGraph::ShadowQuality::None);
         foreach (QAbstract3DSeries *series, m_graph->seriesList())
             m_graph->removeSeries(static_cast<QSurface3DSeries *>(series));
 

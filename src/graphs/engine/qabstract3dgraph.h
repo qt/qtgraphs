@@ -60,14 +60,14 @@ public:
     Q_FLAG(SelectionFlag)
     Q_DECLARE_FLAGS(SelectionFlags, SelectionFlag)
 
-    enum ShadowQuality {
-        ShadowQualityNone = 0,
-        ShadowQualityLow,
-        ShadowQualityMedium,
-        ShadowQualityHigh,
-        ShadowQualitySoftLow,
-        ShadowQualitySoftMedium,
-        ShadowQualitySoftHigh
+    enum class ShadowQuality {
+        None = 0,
+        Low,
+        Medium,
+        High,
+        SoftLow,
+        SoftMedium,
+        SoftHigh
     };
     Q_ENUM(ShadowQuality)
 
