@@ -49,7 +49,7 @@ QT_BEGIN_NAMESPACE
  *     \li QLinearGradient. Essentially fully black.
  *   \row
  *     \li colorStyle
- *     \li ColorStyleUniform
+ *     \li Uniform
  *   \row
  *     \li \l font
  *     \li QFont
@@ -128,14 +128,14 @@ QT_BEGIN_NAMESPACE
  *
  * Color styles.
  *
- * \value ColorStyleUniform
+ * \value Uniform
  *        Objects are rendered in a single color. The color used is specified in baseColors,
  *        singleHighlightColor and multiHighlightColor properties.
- * \value ColorStyleObjectGradient
+ * \value ObjectGradient
  *        Objects are colored using a full gradient for each object regardless of object height. The
  *        gradient used is specified in baseGradients, singleHighlightGradient and
  *        multiHighlightGradient properties.
- * \value ColorStyleRangeGradient
+ * \value RangeGradient
  *        Objects are colored using a portion of the full gradient determined by the object's
  *        height and its position on the Y-axis. The gradient used is specified in baseGradients,
  *        singleHighlightGradient and multiHighlightGradient properties.
@@ -210,7 +210,7 @@ QT_BEGIN_NAMESPACE
  *     \li QLinearGradient. Essentially fully black.
  *   \row
  *     \li colorStyle
- *     \li ColorStyleUniform
+ *     \li Uniform
  *   \row
  *     \li \l font
  *     \li \l [QtQuick] font
@@ -283,7 +283,7 @@ QT_BEGIN_NAMESPACE
  *
  * The list of base colors to be used for all the objects in the graph, series by series. If there
  * are more series than colors, color list wraps and starts again with the first color in the list.
- * Has no immediate effect if colorStyle is not \c Theme3D.ColorStyleUniform.
+ * Has no immediate effect if colorStyle is not \c Theme3D.ColorStyle.Uniform.
  *
  * This can be overridden by setting \l{Abstract3DSeries::baseColor}
  * {Abstract3DSeries.baseColor} explicitly in the series.
@@ -349,8 +349,8 @@ QT_BEGIN_NAMESPACE
  * series by series. If there are more series than gradients, the gradient list
  * wraps and starts again with the first gradient in the list.
  *
- * Has no immediate effect if colorStyle is \l{Q3DTheme::ColorStyleUniform}
- * {Theme3D.ColorStyleUniform}.
+ * Has no immediate effect if colorStyle is \l{Q3DTheme::ColorStyle::Uniform}
+ * {Theme3D.ColorStyle.Uniform}.
  *
  * This value can be overridden by setting \l{Abstract3DSeries::baseGradient}
  *{Abstract3DSeries.baseGradient} explicitly in the series.
@@ -520,7 +520,7 @@ Q3DTheme::~Q3DTheme()
  * If there are more series than colors, the color list wraps and starts again
  * with the first color in the list.
  *
- * Has no immediate effect if colorStyle is not ColorStyleUniform.
+ * Has no immediate effect if colorStyle is not Uniform.
  *
  * This value can be overridden by setting the \l{QAbstract3DSeries::baseColor}
  * {baseColor} explicitly in the series.
@@ -740,7 +740,7 @@ QColor Q3DTheme::lightColor() const
  * If there are more series than gradients, the gradient list wraps and starts
  * again with the first gradient in the list
  *
- * Has no immediate effect if colorStyle is ColorStyleUniform.
+ * Has no immediate effect if colorStyle is Uniform.
  *
  * This value can be overridden by setting the
  * \l{QAbstract3DSeries::baseGradient}{baseGradient} explicitly in the series.
@@ -1136,7 +1136,7 @@ float Q3DTheme::shadowStrength() const
 
 Q3DThemePrivate::Q3DThemePrivate(Q3DTheme *q)
     : m_themeId(Q3DTheme::ThemeUserDefined),
-      m_colorStyle(Q3DTheme::ColorStyleUniform),
+      m_colorStyle(Q3DTheme::ColorStyle::Uniform),
       m_backgroundColor(Qt::black),
       m_gridLineColor(Qt::white),
       m_lightColor(Qt::white),

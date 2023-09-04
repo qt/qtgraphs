@@ -867,12 +867,12 @@ void ScatterDataModifier::setGradient()
         m_targetSeries->setSingleHighlightGradient(singleHighlightGradient);
 
         Q3DTheme::ColorStyle oldStyle = m_targetSeries->colorStyle();
-        if (oldStyle == Q3DTheme::ColorStyleUniform)
-            m_targetSeries->setColorStyle(Q3DTheme::ColorStyleObjectGradient);
-        else if (oldStyle == Q3DTheme::ColorStyleObjectGradient)
-            m_targetSeries->setColorStyle(Q3DTheme::ColorStyleRangeGradient);
-        if (oldStyle == Q3DTheme::ColorStyleRangeGradient)
-            m_targetSeries->setColorStyle(Q3DTheme::ColorStyleUniform);
+        if (oldStyle == Q3DTheme::ColorStyle::Uniform)
+            m_targetSeries->setColorStyle(Q3DTheme::ColorStyle::ObjectGradient);
+        else if (oldStyle == Q3DTheme::ColorStyle::ObjectGradient)
+            m_targetSeries->setColorStyle(Q3DTheme::ColorStyle::RangeGradient);
+        if (oldStyle == Q3DTheme::ColorStyle::RangeGradient)
+            m_targetSeries->setColorStyle(Q3DTheme::ColorStyle::Uniform);
     }
 }
 

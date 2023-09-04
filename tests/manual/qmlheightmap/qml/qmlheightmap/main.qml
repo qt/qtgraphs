@@ -32,8 +32,8 @@ Item {
 
         Theme3D {
             id: mainTheme
-            type: Q3DTheme.ThemeStoneMoss
-            colorStyle: Q3DTheme.ColorStyleRangeGradient
+            type: Theme3D.ThemeStoneMoss
+            colorStyle: Theme3D.ColorStyle.RangeGradient
             baseGradients: [surfaceGradient]
         }
 

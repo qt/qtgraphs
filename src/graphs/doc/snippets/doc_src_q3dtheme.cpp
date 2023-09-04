@@ -22,7 +22,7 @@ int main(int argc, char **argv)
     theme->setBackgroundColor(QColor(QRgb(0x99ca53)));
     theme->setBackgroundEnabled(true);
     theme->setBaseColor(QColor(QRgb(0x209fdf)));
-    theme->setColorStyle(Q3DTheme::ColorStyleUniform);
+    theme->setColorStyle(Q3DTheme::ColorStyle::Uniform);
     theme->setFont(QFont(QStringLiteral("Impact"), 35));
     theme->setGridEnabled(true);
     theme->setGridLineColor(QColor(QRgb(0x99ca53)));
@@ -75,7 +75,7 @@ Surface3D {
         backgroundColor: "red"
         backgroundEnabled: true
         baseColor: "blue"
-        colorStyle: Theme3D.ColorStyleUniform
+        colorStyle: Theme3D.ColorStyle.Uniform
         font.family: "Lucida Handwriting"
         font.pointSize: 35
         gridEnabled: false

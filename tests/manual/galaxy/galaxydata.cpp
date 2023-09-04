@@ -400,7 +400,7 @@ void GalaxyData::setFilteredEnabled(bool enabled)
         gr.setColorAt(1.0, Qt::red);
 
         m_filteredSeries->setBaseGradient(gr);
-        m_filteredSeries->setColorStyle(Q3DTheme::ColorStyleRangeGradient);
+        m_filteredSeries->setColorStyle(Q3DTheme::ColorStyle::RangeGradient);
 
         m_normalSeries->setVisible(false);
 
@@ -408,7 +408,7 @@ void GalaxyData::setFilteredEnabled(bool enabled)
 
         m_filteredSeries->setVisible(true);
     } else {
-        m_normalSeries->setColorStyle(Q3DTheme::ColorStyleUniform);
+        m_normalSeries->setColorStyle(Q3DTheme::ColorStyle::Uniform);
         m_graph->axisY()->setRange(-1.0f, 1.0f);
         m_normalSeries->setItemSize(0.0f);
 

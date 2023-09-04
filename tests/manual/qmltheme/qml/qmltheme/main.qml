@@ -36,7 +36,7 @@ Item {
     Theme3D {
         id: customSurfaceTheme
         type: Theme3D.ThemeUserDefined
-        colorStyle: Theme3D.ColorStyleObjectGradient
+        colorStyle: Theme3D.ColorStyle.ObjectGradient
         backgroundColor: "gray"
         gridLineColor: "lightGray"
         multiHighlightColor: "blue"
@@ -48,7 +48,7 @@ Item {
     Theme3D {
         id: customBarsTheme
         type: Theme3D.ThemeUserDefined
-        colorStyle: Theme3D.ColorStyleObjectGradient
+        colorStyle: Theme3D.ColorStyle.ObjectGradient
         backgroundColor: "gray"
         gridLineColor: "lightGray"
         multiHighlightColor: "blue"
@@ -231,12 +231,12 @@ Item {
             color: "gray"
         }
         CheckBox {
-            checked: (customTheme.colorStyle === Theme3D.ColorStyleUniform)
+            checked: (customTheme.colorStyle === Theme3D.ColorStyle.Uniform)
             onCheckedChanged: {
                 if (checked)
-                    customTheme.colorStyle = Theme3D.ColorStyleUniform
+                    customTheme.colorStyle = Theme3D.ColorStyle.Uniform
                 else
-                    customTheme.colorStyle = Theme3D.ColorStyleObjectGradient
+                    customTheme.colorStyle = Theme3D.ColorStyle.ObjectGradient
             }
         }
 

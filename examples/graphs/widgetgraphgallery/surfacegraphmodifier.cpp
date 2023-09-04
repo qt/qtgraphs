@@ -84,19 +84,19 @@ SurfaceGraphModifier::SurfaceGraphModifier(Q3DSurface *surface, QLabel *label, Q
     grOne.setColorAt(0.5, Qt::darkGray);
     grOne.setColorAt(1., Qt::gray);
     m_heightMapSeriesOne->setBaseGradient(grOne);
-    m_heightMapSeriesOne->setColorStyle(Q3DTheme::ColorStyleRangeGradient);
+    m_heightMapSeriesOne->setColorStyle(Q3DTheme::ColorStyle::RangeGradient);
 
     QLinearGradient grTwo;
     grTwo.setColorAt(0.39, Qt::blue);
     grTwo.setColorAt(0.4, Qt::white);
     m_heightMapSeriesTwo->setBaseGradient(grTwo);
-    m_heightMapSeriesTwo->setColorStyle(Q3DTheme::ColorStyleRangeGradient);
+    m_heightMapSeriesTwo->setColorStyle(Q3DTheme::ColorStyle::RangeGradient);
 
     QLinearGradient grThree;
     grThree.setColorAt(0., Qt::white);
     grThree.setColorAt(0.05, Qt::black);
     m_heightMapSeriesThree->setBaseGradient(grThree);
-    m_heightMapSeriesThree->setColorStyle(Q3DTheme::ColorStyleRangeGradient);
+    m_heightMapSeriesThree->setColorStyle(Q3DTheme::ColorStyle::RangeGradient);
 
     // Custom items and label
     connect(m_graph, &QAbstract3DGraph::selectedElementChanged,
@@ -423,7 +423,7 @@ void SurfaceGraphModifier::setBlackToYellowGradient()
     gr.setColorAt(1.f, Qt::yellow);
 
     m_sqrtSinSeries->setBaseGradient(gr);
-    m_sqrtSinSeries->setColorStyle(Q3DTheme::ColorStyleRangeGradient);
+    m_sqrtSinSeries->setColorStyle(Q3DTheme::ColorStyle::RangeGradient);
     //! [8]
 }
 
@@ -436,7 +436,7 @@ void SurfaceGraphModifier::setGreenToRedGradient()
     gr.setColorAt(1.f, Qt::darkRed);
 
     m_sqrtSinSeries->setBaseGradient(gr);
-    m_sqrtSinSeries->setColorStyle(Q3DTheme::ColorStyleRangeGradient);
+    m_sqrtSinSeries->setColorStyle(Q3DTheme::ColorStyle::RangeGradient);
 }
 
 void SurfaceGraphModifier::toggleItemOne(bool show)

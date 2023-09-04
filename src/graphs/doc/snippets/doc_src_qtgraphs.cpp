@@ -105,7 +105,7 @@ barGradient.setColorAt(1.0, Qt::white);
 barGradient.setColorAt(0.0, Qt::black);
 
 series->setBaseGradient(barGradient);
-series->setColorStyle(Q3DTheme::ColorStyleObjectGradient);
+series->setColorStyle(Q3DTheme::ColorStyle::ObjectGradient);
 series->setMesh(QAbstract3DSeries::Mesh::Cylinder);
 
 graph->addSeries(series);

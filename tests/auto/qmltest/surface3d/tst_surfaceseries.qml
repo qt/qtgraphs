@@ -57,7 +57,7 @@ Item {
 
         baseColor: "blue"
         baseGradient: gradient1
-        colorStyle: Theme3D.ColorStyleObjectGradient
+        colorStyle: Theme3D.ColorStyle.ObjectGradient
         itemLabelFormat: "%f"
         itemLabelVisible: false
         mesh: Abstract3DSeries.Mesh.Cube
@@ -105,7 +105,7 @@ Item {
             // Common properties
             compare(initial.baseColor, "#000000")
             compare(initial.baseGradient, null)
-            compare(initial.colorStyle, Theme3D.ColorStyleUniform)
+            compare(initial.colorStyle, Theme3D.ColorStyle.Uniform)
             compare(initial.itemLabel, "")
             compare(initial.itemLabelFormat, "@xLabel, @yLabel, @zLabel")
             compare(initial.itemLabelVisible, true)
@@ -139,7 +139,7 @@ Item {
             // Common properties
             compare(initialized.baseColor, "#0000ff")
             compare(initialized.baseGradient, gradient1)
-            compare(initialized.colorStyle, Theme3D.ColorStyleObjectGradient)
+            compare(initialized.colorStyle, Theme3D.ColorStyle.ObjectGradient)
             compare(initialized.itemLabelFormat, "%f")
             compare(initialized.itemLabelVisible, false)
             compare(initialized.mesh, Abstract3DSeries.Mesh.Cube)
@@ -180,7 +180,7 @@ Item {
         function test_3_change_common() {
             change.baseColor = "blue"
             change.baseGradient = gradient1
-            change.colorStyle = Theme3D.ColorStyleObjectGradient
+            change.colorStyle = Theme3D.ColorStyle.ObjectGradient
             change.itemLabelFormat = "%f"
             change.itemLabelVisible = false
             change.mesh = Abstract3DSeries.Mesh.Cube
@@ -196,7 +196,7 @@ Item {
 
             compare(change.baseColor, "#0000ff")
             compare(change.baseGradient, gradient1)
-            compare(change.colorStyle, Theme3D.ColorStyleObjectGradient)
+            compare(change.colorStyle, Theme3D.ColorStyle.ObjectGradient)
             compare(change.itemLabelFormat, "%f")
             compare(change.itemLabelVisible, false)
             compare(change.mesh, Abstract3DSeries.Mesh.Cube)

@@ -620,15 +620,15 @@ void QQuickGraphsSurface::updateMaterial(SurfaceModel *model)
         float range = maxY - minY;
 
         switch (model->series->colorStyle()) {
-        case(Q3DTheme::ColorStyleObjectGradient):
+        case(Q3DTheme::ColorStyle::ObjectGradient):
             material->setProperty("colorStyle", 0);
             material->setProperty("gradientMin", -(minY / range));
             material->setProperty("gradientHeight", 1.0f / range);
             break;
-        case(Q3DTheme::ColorStyleRangeGradient):
+        case(Q3DTheme::ColorStyle::RangeGradient):
             material->setProperty("colorStyle", 1);
             break;
-        case(Q3DTheme::ColorStyleUniform):
+        case(Q3DTheme::ColorStyle::Uniform):
             material->setProperty("colorStyle", 2);
             material->setProperty("uniformColor",model->series->baseColor());
             break;

@@ -546,7 +546,7 @@
 
     With the \uicontrol {Sqrt & Sin} data set, custom surface gradients can be taken into use
     with two push buttons. Define the gradient with QLinearGradient, where the desired colors are
-    set. Also, change the color style to Q3DTheme::ColorStyleRangeGradient to use the gradient.
+    set. Also, change the color style to Q3DTheme::ColorStyle::RangeGradient to use the gradient.
 
     \snippet widgetgraphgallery/surfacegraphmodifier.cpp 8
 

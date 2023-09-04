@@ -602,17 +602,17 @@ void GraphModifier::adjustZMin(int min)
 
 void GraphModifier::gradientPressed()
 {
-    static Q3DTheme::ColorStyle colorStyle = Q3DTheme::ColorStyleUniform;
+    static Q3DTheme::ColorStyle colorStyle = Q3DTheme::ColorStyle::Uniform;
 
-    if (colorStyle == Q3DTheme::ColorStyleRangeGradient) {
-        colorStyle = Q3DTheme::ColorStyleObjectGradient;
-        qDebug() << "Color style: ColorStyleObjectGradient";
-    } else if (colorStyle == Q3DTheme::ColorStyleObjectGradient) {
-        colorStyle = Q3DTheme::ColorStyleUniform;
-        qDebug() << "Color style: ColorStyleUniform";
+    if (colorStyle == Q3DTheme::ColorStyle::RangeGradient) {
+        colorStyle = Q3DTheme::ColorStyle::ObjectGradient;
+        qDebug() << "Color style: ObjectGradient";
+    } else if (colorStyle == Q3DTheme::ColorStyle::ObjectGradient) {
+        colorStyle = Q3DTheme::ColorStyle::Uniform;
+        qDebug() << "Color style: Uniform";
     } else {
-        colorStyle = Q3DTheme::ColorStyleRangeGradient;
-        qDebug() << "Color style: ColorStyleRangeGradient";
+        colorStyle = Q3DTheme::ColorStyle::RangeGradient;
+        qDebug() << "Color style: RangeGradient";
     }
 
     QLinearGradient gradient;

@@ -96,6 +96,6 @@ void HighlightSeries::handleGradientChange(float value)
     gr.setColorAt(darkRedPos * ratio, Qt::darkRed);
 
     setBaseGradient(gr);
-    setColorStyle(Q3DTheme::ColorStyleRangeGradient);
+    setColorStyle(Q3DTheme::ColorStyle::RangeGradient);
 }
 //! [3]

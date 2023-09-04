@@ -124,7 +124,7 @@ Item {
 
             theme: Theme3D {
                 type: Theme3D.ThemeRetro
-                colorStyle: Theme3D.ColorStyleRangeGradient
+                colorStyle: Theme3D.ColorStyle.RangeGradient
                 baseGradients: customGradient
 
                 ColorGradient {

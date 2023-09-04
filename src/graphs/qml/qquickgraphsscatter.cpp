@@ -230,7 +230,7 @@ void QQuickGraphsScatter::updateScatterGraphItemVisuals(ScatterModel *graphModel
     }
 
     bool rangeGradient = (useGradient && graphModel->series->d_func()->m_colorStyle
-                          == Q3DTheme::ColorStyleRangeGradient) ? true : false;
+                          == Q3DTheme::ColorStyle::RangeGradient) ? true : false;
 
     if (m_scatterController->optimizationHint() == QAbstract3DGraph::OptimizationHint::Legacy) {
 

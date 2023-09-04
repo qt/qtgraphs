@@ -125,11 +125,11 @@ QT_BEGIN_NAMESPACE
  * \qmlproperty list<ThemeColor> Bar3DSeries::rowColors
  * This property can be used to draw the rows of the series in different colors.
  * The \l{Theme3D::colorStyle}{Theme3D.colorStyle} must be set to
- * \c ColorStyleUniform to use this property.
+ * \c Uniform to use this property.
  * \note If the property is set and the theme is changed,
  * the rowColors list is not cleared automatically.
  *
- * \sa Q3DTheme::ColorStyleUniform
+ * \sa Q3DTheme::ColorStyle::Uniform
  */
 
 /*!
@@ -281,9 +281,9 @@ float QBar3DSeries::meshAngle() const
  * This property can be used to color
  * the rows of the series in different colors.
  * The Q3DTheme::ColorStyle must be set to
- * Q3DTheme::ColorStyleUniform to use this property.
+ * Q3DTheme::ColorStyle::Uniform to use this property.
  *
- * \sa Q3DTheme::ColorStyleUniform
+ * \sa Q3DTheme::ColorStyle::Uniform
  */
 void QBar3DSeries::setRowColors(const QList<QColor> &colors)
 {

@@ -41,7 +41,7 @@ Rectangle {
                 type: Theme3D.ThemeStoneMoss
                 font.family: "STCaiyun"
                 font.pointSize: 35
-                colorStyle: Theme3D.ColorStyleObjectGradient
+                colorStyle: Theme3D.ColorStyle.ObjectGradient
                 baseGradients: [surfaceGradient] // Use the custom gradient
             }
             //! [2]

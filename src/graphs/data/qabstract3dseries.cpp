@@ -86,7 +86,7 @@ QT_BEGIN_NAMESPACE
  *         Arrow pointing upwards.
  *  \value Point
  *         2D point. Usable only with Q3DScatter.
- *         Shadows do not affect this style. Color style Q3DTheme::ColorStyleObjectGradient
+ *         Shadows do not affect this style. Color style Q3DTheme::ColorStyle::ObjectGradient
  *         is not supported by this style.
  */
 
@@ -670,7 +670,7 @@ QAbstract3DSeriesPrivate::QAbstract3DSeriesPrivate(QAbstract3DSeries *q,
       m_controller(0),
       m_mesh(QAbstract3DSeries::Mesh::Cube),
       m_meshSmooth(false),
-      m_colorStyle(Q3DTheme::ColorStyleUniform),
+      m_colorStyle(Q3DTheme::ColorStyle::Uniform),
       m_baseColor(Qt::black),
       m_singleHighlightColor(Qt::black),
       m_multiHighlightColor(Qt::black),
@@ -910,7 +910,7 @@ void QAbstract3DSeriesPrivate::setItemLabelVisible(bool visible)
 
 bool QAbstract3DSeriesPrivate::isUsingGradient()
 {
-    return m_colorStyle != Q3DTheme::ColorStyleUniform ? true : false;
+    return m_colorStyle != Q3DTheme::ColorStyle::Uniform ? true : false;
 }
 
 QT_END_NAMESPACE

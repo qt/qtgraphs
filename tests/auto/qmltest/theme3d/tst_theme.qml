@@ -55,7 +55,7 @@ Item {
         backgroundEnabled: false
         baseColors: [color1, color2]
         baseGradients: [gradient1, gradient2]
-        colorStyle: Theme3D.ColorStyleRangeGradient
+        colorStyle: Theme3D.ColorStyle.RangeGradient
         font.family: "Arial"
         gridEnabled: false
         gridLineColor: "#00ff00"
@@ -97,7 +97,7 @@ Item {
             compare(initial.baseGradients.length, 1)
             compare(initial.baseGradients[0].stops[0].color, "#000000")
             compare(initial.baseGradients[0].stops[1].color, "#ffffff")
-            compare(initial.colorStyle, Theme3D.ColorStyleUniform)
+            compare(initial.colorStyle, Theme3D.ColorStyle.Uniform)
             // Initial font needs to be tested like this, as different platforms have different default font (QFont())
             compare(initial.font.family, dummy.font.family)
             compare(initial.gridEnabled, true)
@@ -132,7 +132,7 @@ Item {
             compare(initialized.baseGradients.length, 2)
             compare(initialized.baseGradients[0], gradient1)
             compare(initialized.baseGradients[1], gradient2)
-            compare(initialized.colorStyle, Theme3D.ColorStyleRangeGradient)
+            compare(initialized.colorStyle, Theme3D.ColorStyle.RangeGradient)
             compare(initialized.font.family, "Arial")
             compare(initialized.gridEnabled, false)
             compare(initialized.gridLineColor, "#00ff00")
@@ -176,7 +176,7 @@ Item {
             change.backgroundEnabled = false
             change.baseColors = [color3, color2]
             change.baseGradients = [gradient4, gradient2]
-            change.colorStyle = Theme3D.ColorStyleObjectGradient
+            change.colorStyle = Theme3D.ColorStyle.ObjectGradient
             change.font.family = "Arial"
             change.gridEnabled = false
             change.gridLineColor = "#00ff00"
@@ -203,7 +203,7 @@ Item {
             compare(change.baseGradients.length, 2)
             compare(change.baseGradients[0], gradient4)
             compare(change.baseGradients[1], gradient2)
-            compare(change.colorStyle, Theme3D.ColorStyleObjectGradient)
+            compare(change.colorStyle, Theme3D.ColorStyle.ObjectGradient)
             compare(change.font.family, "Arial")
             compare(change.gridEnabled, false)
             compare(change.gridLineColor, "#00ff00")

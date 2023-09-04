@@ -1657,10 +1657,10 @@ void GraphModifier::setMaxY(int max)
 void GraphModifier::changeColorStyle(bool checked)
 {
     Q_UNUSED(checked)
-    int style = m_graph->activeTheme()->colorStyle();
+    int style = int(m_graph->activeTheme()->colorStyle());
 
-    if (++style > Q3DTheme::ColorStyleRangeGradient)
-        style = Q3DTheme::ColorStyleUniform;
+    if (++style > int(Q3DTheme::ColorStyle::RangeGradient))
+        style = int(Q3DTheme::ColorStyle::Uniform);
 
     m_graph->activeTheme()->setColorStyle(Q3DTheme::ColorStyle(style));
 }
@@ -1678,7 +1678,7 @@ void GraphModifier::useOwnTheme(bool checked)
         QList<QColor> colors;
         colors.append(QColor(QRgb(0x209fdf)));
         m_ownTheme->setBaseColors(colors);
-        m_ownTheme->setColorStyle(Q3DTheme::ColorStyleUniform);
+        m_ownTheme->setColorStyle(Q3DTheme::ColorStyle::Uniform);
         m_ownTheme->setGridLineColor(QColor(QRgb(0x99ca53)));
         m_ownTheme->setHighlightLightStrength(7.0f);
         m_ownTheme->setLabelBackgroundEnabled(true);
@@ -1738,7 +1738,7 @@ void GraphModifier::setGradient(bool checked)
     m_graph->activeTheme()->setSingleHighlightGradient(singleHighlightGradient);
     m_graph->activeTheme()->setMultiHighlightGradient(multiHighlightGradient);
 
-    m_graph->activeTheme()->setColorStyle(Q3DTheme::ColorStyleObjectGradient);
+    m_graph->activeTheme()->setColorStyle(Q3DTheme::ColorStyle::ObjectGradient);
 }
 
 void GraphModifier::toggleMultiseriesScaling()

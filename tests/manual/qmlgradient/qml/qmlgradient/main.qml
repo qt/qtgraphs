@@ -60,15 +60,15 @@ Item {
 
         Theme3D {
             id: mainTheme
-            type: Q3DTheme.ThemeStoneMoss
+            type: Theme3D.ThemeStoneMoss
 
-            colorStyle: Q3DTheme.ColorStyleRangeGradient
+            colorStyle: Theme3D.ColorStyle.RangeGradient
             baseGradients: [mainGradient]
         }
 
         Theme3D {
             id: secondaryTheme
-            type: Q3DTheme.ThemeArmyBlue
+            type: Theme3D.ThemeArmyBlue
             baseGradients: [secondaryGradient]
         }
 

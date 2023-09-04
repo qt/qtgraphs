@@ -43,7 +43,7 @@ ScatterDataModifier::ScatterDataModifier(Q3DScatter *scatter)
     fieldGradient.setColorAt(0.0, Qt::black);
     fieldGradient.setColorAt(1.0, Qt::white);
     m_magneticField->setBaseGradient(fieldGradient);
-    m_magneticField->setColorStyle(Q3DTheme::ColorStyleRangeGradient);
+    m_magneticField->setColorStyle(Q3DTheme::ColorStyle::RangeGradient);
     //! [4]
 
     // For 'sun' we use a custom large sphere

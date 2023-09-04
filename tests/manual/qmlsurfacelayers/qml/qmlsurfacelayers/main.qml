@@ -50,7 +50,7 @@ Item {
             theme: Theme3D {
                 type: Theme3D.ThemeEbony
                 font.pointSize: 35
-                colorStyle: Theme3D.ColorStyleRangeGradient
+                colorStyle: Theme3D.ColorStyle.RangeGradient
             }
             shadowQuality: AbstractGraph3D.ShadowQuality.None
             selectionMode: AbstractGraph3D.SelectionRow | AbstractGraph3D.SelectionSlice

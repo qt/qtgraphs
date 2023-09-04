@@ -60,7 +60,7 @@ void tst_theme::construct()
     QCOMPARE(theme->baseGradients().size(), 5);
     QCOMPARE(theme->baseGradients().at(0).stops().at(1).second, QColor(Qt::white));
     QCOMPARE(theme->baseGradients().at(4).stops().at(1).second, QColor(QRgb(0x6b6b6b)));
-    QCOMPARE(theme->colorStyle(), Q3DTheme::ColorStyleUniform);
+    QCOMPARE(theme->colorStyle(), Q3DTheme::ColorStyle::Uniform);
     QCOMPARE(theme->font(), QFont("Arial"));
     QCOMPARE(theme->isGridEnabled(), true);
     QCOMPARE(theme->gridLineColor(), QColor(QRgb(0x35322f)));
@@ -93,7 +93,7 @@ void tst_theme::initialProperties()
     QCOMPARE(m_theme->baseGradients().size(), 1);
     QCOMPARE(m_theme->baseGradients().at(0).stops().at(0).second, QColor(Qt::black));
     QCOMPARE(m_theme->baseGradients().at(0).stops().at(1).second, QColor(Qt::white));
-    QCOMPARE(m_theme->colorStyle(), Q3DTheme::ColorStyleUniform);
+    QCOMPARE(m_theme->colorStyle(), Q3DTheme::ColorStyle::Uniform);
     QCOMPARE(m_theme->font(), QFont());
     QCOMPARE(m_theme->isGridEnabled(), true);
     QCOMPARE(m_theme->gridLineColor(), QColor(Qt::white));
@@ -134,7 +134,7 @@ void tst_theme::initializeProperties()
     m_theme->setBackgroundEnabled(false);
     m_theme->setBaseColors(basecolors);
     m_theme->setBaseGradients(basegradients);
-    m_theme->setColorStyle(Q3DTheme::ColorStyleRangeGradient);
+    m_theme->setColorStyle(Q3DTheme::ColorStyle::RangeGradient);
     m_theme->setFont(QFont("Arial"));
     m_theme->setGridEnabled(false);
     m_theme->setGridLineColor(QColor(Qt::green));
@@ -161,7 +161,7 @@ void tst_theme::initializeProperties()
     QCOMPARE(m_theme->baseGradients().size(), 2);
     QCOMPARE(m_theme->baseGradients().at(0), gradient1);
     QCOMPARE(m_theme->baseGradients().at(0), gradient2);
-    QCOMPARE(m_theme->colorStyle(), Q3DTheme::ColorStyleRangeGradient);
+    QCOMPARE(m_theme->colorStyle(), Q3DTheme::ColorStyle::RangeGradient);
     QCOMPARE(m_theme->font(), QFont("Arial"));
     QCOMPARE(m_theme->isGridEnabled(), false);
     QCOMPARE(m_theme->gridLineColor(), QColor(Qt::green));

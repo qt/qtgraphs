@@ -123,7 +123,7 @@ Item {
         labelBorderEnabled: true
         font.pointSize: 35
         labelBackgroundEnabled: true
-        colorStyle: Theme3D.ColorStyleUniform
+        colorStyle: Theme3D.ColorStyle.Uniform
     }
 
     Theme3D {
@@ -132,7 +132,7 @@ Item {
         labelBorderEnabled: true
         font.pointSize: 35
         labelBackgroundEnabled: true
-        colorStyle: Theme3D.ColorStyleUniform
+        colorStyle: Theme3D.ColorStyle.Uniform
     }
 
     ColumnLayout {

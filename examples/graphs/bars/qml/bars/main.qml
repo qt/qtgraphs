@@ -347,7 +347,7 @@ Item {
                 labelBorderEnabled: true
                 font.pointSize: 35
                 labelBackgroundEnabled: true
-                colorStyle: Theme3D.ColorStyleRangeGradient
+                colorStyle: Theme3D.ColorStyle.RangeGradient
                 singleHighlightGradient: customGradient
 
                 ColorGradient {

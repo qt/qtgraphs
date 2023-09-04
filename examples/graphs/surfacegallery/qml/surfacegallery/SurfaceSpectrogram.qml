@@ -83,7 +83,7 @@ Rectangle {
                 flatShadingEnabled: false
                 drawMode: Surface3DSeries.DrawSurface
                 baseGradient: surfaceGradient
-                colorStyle: Theme3D.ColorStyleRangeGradient
+                colorStyle: Theme3D.ColorStyle.RangeGradient
                 itemLabelFormat: "(@xLabel, @zLabel): @yLabel"
 
                 ItemModelSurfaceDataProxy {

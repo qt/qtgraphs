@@ -41,7 +41,7 @@ Data::Data(Q3DSurface *surface, Q3DScatter *scatter, Q3DBars *bars,
     QSurface3DSeries *series1 = new QSurface3DSeries(new QHeightMapSurfaceDataProxy());
     series1->setFlatShadingEnabled(true);
     series1->setDrawMode(QSurface3DSeries::DrawSurface);
-    series1->setColorStyle(Q3DTheme::ColorStyleRangeGradient);
+    series1->setColorStyle(Q3DTheme::ColorStyle::RangeGradient);
     series1->setBaseGradient(gradient);
     m_surface->addSeries(series1);
 
@@ -165,7 +165,7 @@ void Data::useGradientOne()
     gradient.setColorAt(0.67, Qt::red);
     gradient.setColorAt(1.0, Qt::yellow);
     m_surface->seriesList().at(0)->setBaseGradient(gradient);
-    m_surface->seriesList().at(0)->setColorStyle(Q3DTheme::ColorStyleRangeGradient);
+    m_surface->seriesList().at(0)->setColorStyle(Q3DTheme::ColorStyle::RangeGradient);
     m_statusArea->append(QStringLiteral("<b>Colors:</b> Thermal image imitation"));
 }
 
@@ -177,7 +177,7 @@ void Data::useGradientTwo()
     gradient.setColorAt(0.8, Qt::red);
     gradient.setColorAt(1.0, Qt::green);
     m_surface->seriesList().at(0)->setBaseGradient(gradient);
-    m_surface->seriesList().at(0)->setColorStyle(Q3DTheme::ColorStyleRangeGradient);
+    m_surface->seriesList().at(0)->setColorStyle(Q3DTheme::ColorStyle::RangeGradient);
     m_statusArea->append(QStringLiteral("<b>Colors:</b> Highlight foreground"));
 }
 

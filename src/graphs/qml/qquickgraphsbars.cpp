@@ -1048,7 +1048,7 @@ void QQuickGraphsBars::updateBarPositions(QBar3DSeries *series)
                         bih->heightValue = heightValue;
                         bih->selectedBar = false;
 
-                        bool colorStyleIsUniform = (series->colorStyle() == Q3DTheme::ColorStyleUniform);
+                        bool colorStyleIsUniform = (series->colorStyle() == Q3DTheme::ColorStyle::Uniform);
                         if (colorStyleIsUniform) {
                             QList<QColor> rowColors = series->rowColors();
                             if (rowColors.size() == 0) {
@@ -1124,7 +1124,7 @@ void QQuickGraphsBars::updateBarVisuals(QBar3DSeries *series)
     }
 
     bool rangeGradient = (useGradient && series->d_func()->m_colorStyle
-                                             == Q3DTheme::ColorStyleRangeGradient);
+                                             == Q3DTheme::ColorStyle::RangeGradient);
     QColor baseColor = series->baseColor();
     QColor barColor;
 
@@ -1556,7 +1556,7 @@ void QQuickGraphsBars::updateSelectedBar()
                 }
             } else if (m_barsController->optimizationHint() == QAbstract3DGraph::OptimizationHint::Default) {
                 bool rangeGradient = (useGradient && it.key()->d_func()->m_colorStyle
-                                                         == Q3DTheme::ColorStyleRangeGradient);
+                                                         == Q3DTheme::ColorStyle::RangeGradient);
                 int index = 0;
                 QList<BarModel *> barList = *m_barModelsMap.value(it.key());
                 QList<BarItemHolder *> barItemList = barList.at(0)->instancing->dataArray();
@@ -1762,7 +1762,7 @@ void QQuickGraphsBars::createSliceView()
     for (const auto &barSeries : std::as_const(barSeriesList)) {
         bool useGradient = barSeries->d_func()->isUsingGradient();
         bool rangeGradient = (useGradient && barSeries->d_func()->m_colorStyle
-                                                 == Q3DTheme::ColorStyleRangeGradient);
+                                                 == Q3DTheme::ColorStyle::RangeGradient);
         QList<QQuick3DModel *> *slicedBarList = m_slicedBarModels.value(barSeries);
         if (!slicedBarList) {
             slicedBarList = new QList<QQuick3DModel *>;

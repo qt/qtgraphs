@@ -44,10 +44,10 @@ class Q_GRAPHS_EXPORT Q3DTheme : public QObject
     Q_PROPERTY(float shadowStrength READ shadowStrength WRITE setShadowStrength NOTIFY shadowStrengthChanged)
 
 public:
-    enum ColorStyle {
-        ColorStyleUniform = 0,
-        ColorStyleObjectGradient,
-        ColorStyleRangeGradient
+    enum class ColorStyle {
+        Uniform = 0,
+        ObjectGradient,
+        RangeGradient
     };
     Q_ENUM(ColorStyle)
 
