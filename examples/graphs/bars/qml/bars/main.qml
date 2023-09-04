@@ -343,7 +343,7 @@ Item {
             shadowQuality: AbstractGraph3D.ShadowQuality.SoftHigh
             selectionMode: AbstractGraph3D.SelectionItem
             theme: Theme3D {
-                type: Theme3D.ThemeEbony
+                type: Theme3D.Theme.Ebony
                 labelBorderEnabled: true
                 font.pointSize: 35
                 labelBackgroundEnabled: true

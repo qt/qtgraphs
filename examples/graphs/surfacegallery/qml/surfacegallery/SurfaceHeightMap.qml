@@ -38,7 +38,7 @@ Rectangle {
             aspectRatio: 3.0
             //! [2]
             theme: Theme3D {
-                type: Theme3D.ThemeStoneMoss
+                type: Theme3D.Theme.StoneMoss
                 font.family: "STCaiyun"
                 font.pointSize: 35
                 colorStyle: Theme3D.ColorStyle.ObjectGradient

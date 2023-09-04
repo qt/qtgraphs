@@ -634,7 +634,7 @@ void QQuickGraphsItem::setSharedController(Abstract3DController *controller)
     // Reset default theme, as the default C++ theme is Q3DTheme, not DeclarativeTheme3D.
     DeclarativeTheme3D *defaultTheme = new DeclarativeTheme3D;
     defaultTheme->d_func()->setDefaultTheme(true);
-    defaultTheme->setType(Q3DTheme::ThemeQt);
+    defaultTheme->setType(Q3DTheme::Theme::Qt);
     m_controller->setActiveTheme(defaultTheme);
 
     QObject::connect(m_controller.data(), &Abstract3DController::shadowQualityChanged, this,

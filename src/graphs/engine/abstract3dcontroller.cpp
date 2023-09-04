@@ -56,7 +56,7 @@ Abstract3DController::Abstract3DController(QRect initialViewport, Q3DScene *scen
     m_scene->setParent(this);
 
     // Set initial theme
-    Q3DTheme *defaultTheme = new Q3DTheme(Q3DTheme::ThemeQt);
+    Q3DTheme *defaultTheme = new Q3DTheme(Q3DTheme::Theme::Qt);
     defaultTheme->d_func()->setDefaultTheme(true);
     setActiveTheme(defaultTheme);
 

@@ -59,7 +59,7 @@ GraphModifier::GraphModifier(Q3DBars *barchart, QColorDialog *colorDialog)
       m_useNullInputHandler(false),
       m_defaultInputHandler(0),
       m_ownTheme(0),
-      m_builtinTheme(new Q3DTheme(Q3DTheme::ThemeStoneMoss)),
+      m_builtinTheme(new Q3DTheme(Q3DTheme::Theme::StoneMoss)),
       m_customInputHandler(new CustomInputHandler),
       m_extraSeries(0)
 {
@@ -613,7 +613,7 @@ void GraphModifier::changePresetCamera()
 
 void GraphModifier::changeTheme()
 {
-    static int theme = Q3DTheme::ThemeQt;
+    static int theme = int(Q3DTheme::Theme::Qt);
 
     Q3DTheme *currentTheme = m_graph->activeTheme();
     m_builtinTheme->setType(Q3DTheme::Theme(theme));
@@ -621,37 +621,34 @@ void GraphModifier::changeTheme()
         m_graph->setActiveTheme(m_builtinTheme);
 
     switch (theme) {
-    case Q3DTheme::ThemeQt:
-        qDebug() << __FUNCTION__ << "ThemeQt";
+    case int(Q3DTheme::Theme::Qt):
+        qDebug() << __FUNCTION__ << "Qt";
         break;
-    case Q3DTheme::ThemePrimaryColors:
-        qDebug() << __FUNCTION__ << "ThemePrimaryColors";
+    case int(Q3DTheme::Theme::PrimaryColors):
+        qDebug() << __FUNCTION__ << "PrimaryColors";
         break;
-    case Q3DTheme::ThemeDigia:
-        qDebug() << __FUNCTION__ << "ThemeDigia";
+    case int(Q3DTheme::Theme::StoneMoss):
+        qDebug() << __FUNCTION__ << "StoneMoss";
         break;
-    case Q3DTheme::ThemeStoneMoss:
-        qDebug() << __FUNCTION__ << "ThemeStoneMoss";
+    case int(Q3DTheme::Theme::ArmyBlue):
+        qDebug() << __FUNCTION__ << "ArmyBlue";
         break;
-    case Q3DTheme::ThemeArmyBlue:
-        qDebug() << __FUNCTION__ << "ThemeArmyBlue";
+    case int(Q3DTheme::Theme::Retro):
+        qDebug() << __FUNCTION__ << "Retro";
         break;
-    case Q3DTheme::ThemeRetro:
-        qDebug() << __FUNCTION__ << "ThemeRetro";
+    case int(Q3DTheme::Theme::Ebony):
+        qDebug() << __FUNCTION__ << "Ebony";
         break;
-    case Q3DTheme::ThemeEbony:
-        qDebug() << __FUNCTION__ << "ThemeEbony";
-        break;
-    case Q3DTheme::ThemeIsabelle:
-        qDebug() << __FUNCTION__ << "ThemeIsabelle";
+    case int(Q3DTheme::Theme::Isabelle):
+        qDebug() << __FUNCTION__ << "Isabelle";
         break;
     default:
         qDebug() << __FUNCTION__ << "Unknown theme";
         break;
     }
 
-    if (++theme > Q3DTheme::ThemeIsabelle)
-        theme = Q3DTheme::ThemeQt;
+    if (++theme > int(Q3DTheme::Theme::Isabelle))
+        theme = int(Q3DTheme::Theme::Qt);
 }
 
 void GraphModifier::changeLabelStyle()

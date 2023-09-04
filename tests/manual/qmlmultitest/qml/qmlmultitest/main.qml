@@ -38,7 +38,7 @@ Item {
                 anchors.fill: parent
                 anchors.margins: parent.border.width
                 theme: Theme3D {
-                    type: Theme3D.ThemePrimaryColors
+                    type: Theme3D.Theme.PrimaryColors
                     font.pointSize: 60
                 }
                 scene.activeCamera.cameraPreset: Camera3D.CameraPresetIsometricLeftHigh
@@ -127,7 +127,7 @@ Item {
                 anchors.fill: parent
                 anchors.margins: parent.border.width
                 theme: Theme3D {
-                    type: Theme3D.ThemeDigia
+                    type: Theme3D.Theme.PrimaryColors
                     font.pointSize: 60
                 }
                 scene.activeCamera.cameraPreset: Camera3D.CameraPresetIsometricLeftHigh
@@ -168,7 +168,7 @@ Item {
                 anchors.fill: parent
                 anchors.margins: parent.border.width
                 theme: Theme3D {
-                    type: Theme3D.ThemeQt
+                    type: Theme3D.Theme.Qt
                     font.pointSize: 60
                 }
                 selectionMode: AbstractGraph3D.SelectionItemAndRow | AbstractGraph3D.SelectionSlice

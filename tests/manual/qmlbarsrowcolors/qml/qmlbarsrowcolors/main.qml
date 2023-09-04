@@ -119,7 +119,7 @@ Item {
 
     Theme3D {
         id: theme1
-        type: Theme3D.ThemeRetro
+        type: Theme3D.Theme.Retro
         labelBorderEnabled: true
         font.pointSize: 35
         labelBackgroundEnabled: true
@@ -128,7 +128,7 @@ Item {
 
     Theme3D {
         id: theme2
-        type: Theme3D.ThemeArmyBlue
+        type: Theme3D.Theme.ArmyBlue
         labelBorderEnabled: true
         font.pointSize: 35
         labelBackgroundEnabled: true

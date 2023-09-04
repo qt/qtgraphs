@@ -120,7 +120,7 @@ void ThemeManager::setPredefinedPropertiesToTheme(Q3DTheme *theme, Q3DTheme::The
     QList<QColor> baseColors;
     QList<QLinearGradient> baseGradients;
     switch (type) {
-    case Q3DTheme::ThemeQt: {
+    case Q3DTheme::Theme::Qt: {
         baseColors.append(QColor(QRgb(0x80c342)));
         baseColors.append(QColor(QRgb(0x469835)));
         baseColors.append(QColor(QRgb(0x006325)));
@@ -160,7 +160,7 @@ void ThemeManager::setPredefinedPropertiesToTheme(Q3DTheme *theme, Q3DTheme::The
         break;
     }
 
-    case Q3DTheme::ThemePrimaryColors: {
+    case Q3DTheme::Theme::PrimaryColors: {
         baseColors.append(QColor(QRgb(0xffe400)));
         baseColors.append(QColor(QRgb(0xfaa106)));
         baseColors.append(QColor(QRgb(0xf45f0d)));
@@ -200,47 +200,7 @@ void ThemeManager::setPredefinedPropertiesToTheme(Q3DTheme *theme, Q3DTheme::The
         break;
     }
 
-    case Q3DTheme::ThemeDigia: {
-        baseColors.append(QColor(QRgb(0xeaeaea)));
-        baseColors.append(QColor(QRgb(0xa0a0a0)));
-        baseColors.append(QColor(QRgb(0x626262)));
-        baseColors.append(QColor(QRgb(0xbebebe)));
-        baseColors.append(QColor(QRgb(0x818181)));
-
-        baseGradients.append(createGradient(baseColors.at(0), defaultBuiltInColorLevel));
-        baseGradients.append(createGradient(baseColors.at(1), defaultBuiltInColorLevel));
-        baseGradients.append(createGradient(baseColors.at(2), defaultBuiltInColorLevel));
-        baseGradients.append(createGradient(baseColors.at(3), defaultBuiltInColorLevel));
-        baseGradients.append(createGradient(baseColors.at(4), defaultBuiltInColorLevel));
-
-        setBackgroundEnabled(theme, true);
-        setGridEnabled(theme, true);
-        setFont(theme, QFont(QStringLiteral("Arial")));
-        setLabelBackgroundEnabled(theme, true);
-        setLightColor(theme, Qt::white);
-        setBaseColors(theme, baseColors);
-        setBackgroundColor(theme, QColor(QRgb(0xffffff)));
-        setWindowColor(theme, QColor(QRgb(0xffffff)));
-        setTextColor(theme, QColor(QRgb(0x000000)));
-        setTextBackgroundColor(theme, QColor(0xff, 0xff, 0xff, 0x80));
-        setGridLineColor(theme, QColor(QRgb(0xd7d6d5)));
-        setSingleHighlightColor(theme, QColor(QRgb(0xfa0000)));
-        setMultiHighlightColor(theme, QColor(QRgb(0x333333)));
-        setLightStrength(theme, 5.0f);
-        setAmbientLightStrength(theme, 0.5f);
-        setHighlightLightStrength(theme, 5.0f);
-        setLabelBorderEnabled(theme, false);
-        setLabelsEnabled(theme, true);
-        setColorStyle(theme, Q3DTheme::ColorStyle::ObjectGradient);
-        setBaseGradients(theme, baseGradients);
-        setSingleHighlightGradient(theme, createGradient(QColor(QRgb(0xfa0000)),
-                                                         defaultBuiltInColorLevel));
-        setMultiHighlightGradient(theme, createGradient(QColor(QRgb(0x333333)),
-                                                        defaultBuiltInColorLevel));
-        break;
-    }
-
-    case Q3DTheme::ThemeStoneMoss: {
+    case Q3DTheme::Theme::StoneMoss: {
         baseColors.append(QColor(QRgb(0xbeb32b)));
         baseColors.append(QColor(QRgb(0x928327)));
         baseColors.append(QColor(QRgb(0x665423)));
@@ -280,7 +240,7 @@ void ThemeManager::setPredefinedPropertiesToTheme(Q3DTheme *theme, Q3DTheme::The
         break;
     }
 
-    case Q3DTheme::ThemeArmyBlue: {
+    case Q3DTheme::Theme::ArmyBlue: {
         baseColors.append(QColor(QRgb(0x495f76)));
         baseColors.append(QColor(QRgb(0x81909f)));
         baseColors.append(QColor(QRgb(0xbec5cd)));
@@ -320,7 +280,7 @@ void ThemeManager::setPredefinedPropertiesToTheme(Q3DTheme *theme, Q3DTheme::The
         break;
     }
 
-    case Q3DTheme::ThemeRetro: {
+    case Q3DTheme::Theme::Retro: {
         baseColors.append(QColor(QRgb(0x533b23)));
         baseColors.append(QColor(QRgb(0x83715a)));
         baseColors.append(QColor(QRgb(0xb3a690)));
@@ -360,7 +320,7 @@ void ThemeManager::setPredefinedPropertiesToTheme(Q3DTheme *theme, Q3DTheme::The
         break;
     }
 
-    case Q3DTheme::ThemeEbony: {
+    case Q3DTheme::Theme::Ebony: {
         baseColors.append(QColor(QRgb(0xffffff)));
         baseColors.append(QColor(QRgb(0x999999)));
         baseColors.append(QColor(QRgb(0x474747)));
@@ -400,7 +360,7 @@ void ThemeManager::setPredefinedPropertiesToTheme(Q3DTheme *theme, Q3DTheme::The
         break;
     }
 
-    case Q3DTheme::ThemeIsabelle: {
+    case Q3DTheme::Theme::Isabelle: {
         baseColors.append(QColor(QRgb(0xf9d900)));
         baseColors.append(QColor(QRgb(0xf09603)));
         baseColors.append(QColor(QRgb(0xe85506)));

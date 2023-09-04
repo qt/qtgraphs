@@ -30,14 +30,14 @@ Item {
     //! [13]
     Theme3D {
         id: themeQt
-        type: Theme3D.ThemeQt
+        type: Theme3D.Theme.Qt
         font.pointSize: 40
     }
     //! [13]
 
     Theme3D {
         id: themeRetro
-        type: Theme3D.ThemeRetro
+        type: Theme3D.Theme.Retro
     }
 
     //! [8]
@@ -186,7 +186,7 @@ Item {
         anchors.margins: 5
         text: "Change Theme"
         onClicked: {
-            if (scatterGraph.theme.type === Theme3D.ThemeRetro)
+            if (scatterGraph.theme.type === Theme3D.Theme.Retro)
                 scatterGraph.theme = themeQt;
             else
                 scatterGraph.theme = themeRetro;

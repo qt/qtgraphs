@@ -60,7 +60,7 @@ Item {
 
         Theme3D {
             id: mainTheme
-            type: Theme3D.ThemeStoneMoss
+            type: Theme3D.Theme.StoneMoss
 
             colorStyle: Theme3D.ColorStyle.RangeGradient
             baseGradients: [mainGradient]
@@ -68,7 +68,7 @@ Item {
 
         Theme3D {
             id: secondaryTheme
-            type: Theme3D.ThemeArmyBlue
+            type: Theme3D.Theme.ArmyBlue
             baseGradients: [secondaryGradient]
         }
 

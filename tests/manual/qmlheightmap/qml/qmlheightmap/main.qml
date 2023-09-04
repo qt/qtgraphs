@@ -32,7 +32,7 @@ Item {
 
         Theme3D {
             id: mainTheme
-            type: Theme3D.ThemeStoneMoss
+            type: Theme3D.Theme.StoneMoss
             colorStyle: Theme3D.ColorStyle.RangeGradient
             baseGradients: [surfaceGradient]
         }

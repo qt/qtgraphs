@@ -7,11 +7,11 @@
 int main(int argc, char **argv)
 {
     //! [0]
-    Q3DTheme *theme = new Q3DTheme(Q3DTheme::ThemeQt);
+    Q3DTheme *theme = new Q3DTheme(Q3DTheme::Theme::Qt);
     //! [0]
 
     //! [1]
-    Q3DTheme *theme = new Q3DTheme(Q3DTheme::ThemeQt);
+    Q3DTheme *theme = new Q3DTheme(Q3DTheme::Theme::Qt);
     theme->setBackgroundEnabled(false);
     theme->setLabelBackgroundEnabled(false);
     //! [1]
@@ -40,7 +40,7 @@ int main(int argc, char **argv)
 
     //! [3]
     Q3DBars *graph = new Q3DBars();
-    graph->activeTheme()->setType(Q3DTheme::ThemePrimaryColors);
+    graph->activeTheme()->setType(Q3DTheme::Theme::PrimaryColors);
     graph->activeTheme()->setBaseColor(Qt::red);
     graph->activeTheme()->setSingleHighlightColor(Qt::yellow);
     //! [3]
@@ -49,7 +49,7 @@ int main(int argc, char **argv)
 //! [4]
 Scatter3D {
     ...
-    theme: Theme3D { type: Theme3D.ThemeRetro }
+    theme: Theme3D { type: Theme3D.Theme.Retro }
     ...
 }
 //! [4]
@@ -58,7 +58,7 @@ Scatter3D {
 Bars3D {
     ...
     theme: Theme3D {
-        type: Theme3D.ThemeRetro
+        type: Theme3D.Theme.Retro
         labelBorderEnabled: true
         font.pointSize: 35
         labelBackgroundEnabled: false

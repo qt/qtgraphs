@@ -117,7 +117,7 @@ Item {
 //            compare(common.selectionMode, AbstractGraph3D.SelectionItem, "selectionMode")
 //            compare(common.shadowQuality, AbstractGraph3D.ShadowQuality.Medium, "shadowQuality")
 //            compare(common.msaaSamples, 4, "msaaSamples")
-//            compare(common.theme.type, Theme3D.ThemeQt, "theme")
+//            compare(common.theme.type, Theme3D.Theme.Qt, "theme")
 //            compare(common.renderingMode, AbstractGraph3D.RenderingMode.Indirect, "renderingMode")
 //            compare(common.measureFps, false, "measureFps")
 //            compare(common.customItemList.length, 0, "customItemList")
@@ -142,7 +142,7 @@ Item {
 //            compare(common.shadowQuality, AbstractGraph3D.ShadowQuality.SoftHigh, "shadowQuality")
 //            common.msaaSamples = 8
 //            compare(common.msaaSamples, 8, "msaaSamples")
-//            common.theme.type = Theme3D.ThemeRetro
+//            common.theme.type = Theme3D.Theme.Retro
 //            common.renderingMode = AbstractGraph3D.RenderingMode.DirectToBackground
 //            common.measureFps = true
 //            common.orthoProjection = true
@@ -158,7 +158,7 @@ Item {
 //            compare(common.selectionMode, AbstractGraph3D.SelectionNone, "selectionMode")
 //            compare(common.shadowQuality, AbstractGraph3D.ShadowQuality.None, "shadowQuality") // Ortho disables shadows
 //            compare(common.msaaSamples, 0, "msaaSamples") // Rendering mode changes this to zero
-//            compare(common.theme.type, Theme3D.ThemeRetro, "theme")
+//            compare(common.theme.type, Theme3D.Theme.Retro, "theme")
 //            compare(common.renderingMode, AbstractGraph3D.RenderingMode.DirectToBackground, "renderingMode")
 //            compare(common.measureFps, true, "measureFps")
 //            compare(common.orthoProjection, true, "orthoProjection")
@@ -186,7 +186,7 @@ Item {
 //            common.reflection = false
 //            common.reflectivity = -1.0
 //            compare(common.selectionMode, AbstractGraph3D.SelectionNone, "selectionMode")
-//            compare(common.theme.type, -2/*Theme3D.ThemeRetro*/, "theme") // TODO: Fix once QTRD-3367 is done
+//            compare(common.theme.type, -2/*Theme3D.Theme.Retro*/, "theme") // TODO: Fix once QTRD-3367 is done
 //            compare(common.renderingMode, -1/*AbstractGraph3D.RenderingMode.DirectToBackground*/, "renderingMode") // TODO: Fix once QTRD-3367 is done
 //            compare(common.aspectRatio, -1.0/*1.0*/, "aspectRatio") // TODO: Fix once QTRD-3367 is done
 //            compare(common.horizontalAspectRatio, -2/*1*/, "horizontalAspectRatio") // TODO: Fix once QTRD-3367 is done
@@ -203,7 +203,7 @@ Item {
 //            compare(common_init.selectionMode, AbstractGraph3D.SelectionNone, "selectionMode")
 //            tryCompare(common_init, "shadowQuality", AbstractGraph3D.ShadowQuality.Low)
 //            compare(common_init.msaaSamples, 2, "msaaSamples")
-//            compare(common_init.theme.type, Theme3D.ThemeUserDefined, "theme")
+//            compare(common_init.theme.type, Theme3D.Theme.UserDefined, "theme")
 //            compare(common_init.renderingMode, AbstractGraph3D.RenderingMode.Indirect, "renderingMode")
 //            compare(common_init.measureFps, true, "measureFps")
 //            compare(common_init.customItemList.length, 0, "customItemList")

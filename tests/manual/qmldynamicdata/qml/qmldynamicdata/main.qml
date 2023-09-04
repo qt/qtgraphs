@@ -53,7 +53,7 @@ Item {
                 appendRow()
                 appendRow()
                 if (graphModel.count > 5000) {
-                    scatterGraph.theme.type = Theme3D.ThemeIsabelle;
+                    scatterGraph.theme.type = Theme3D.Theme.Isabelle;
                     isIncreasing = false;
                 }
             } else {
@@ -68,7 +68,7 @@ Item {
                 graphModel.remove(Math.random() * (graphModel.count - 1));
                 graphModel.remove(Math.random() * (graphModel.count - 1));
                 if (graphModel.count == 2) {
-                    scatterGraph.theme.type = Theme3D.ThemeDigia;
+                    scatterGraph.theme.type = Theme3D.Theme.PrimaryColors;
                     isIncreasing = true;
                 }
             }
@@ -96,7 +96,7 @@ Item {
             width: dataView.width
             height: dataView.height
             theme: Theme3D {
-                type: Theme3D.ThemeQt
+                type: Theme3D.Theme.Qt
                 baseColors: [dynamicColor]
             }
             shadowQuality: AbstractGraph3D.ShadowQuality.SoftMedium

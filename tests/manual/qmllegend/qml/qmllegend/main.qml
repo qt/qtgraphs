@@ -20,12 +20,12 @@ Item {
 
     Theme3D {
         id: firstTheme
-        type: Theme3D.ThemeQt
+        type: Theme3D.Theme.Qt
     }
 
     Theme3D {
         id: secondTheme
-        type: Theme3D.ThemeEbony
+        type: Theme3D.Theme.Ebony
     }
 
     Item {

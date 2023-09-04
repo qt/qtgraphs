@@ -71,7 +71,7 @@ Item {
         shadowStrength: 12.5
         singleHighlightColor: "#ff0000"
         singleHighlightGradient: gradient3
-        type: Theme3D.ThemeQt // Default values will be overwritten by initialized values
+        type: Theme3D.Theme.UserDefined // Default values will be overwritten by initialized values
         windowColor: "#fff00f"
     }
 
@@ -114,7 +114,7 @@ Item {
             compare(initial.shadowStrength, 25)
             compare(initial.singleHighlightColor, "#ff0000")
             compare(initial.singleHighlightGradient, null)
-            compare(initial.type, Theme3D.ThemeUserDefined)
+            compare(initial.type, Theme3D.Theme.UserDefined)
             compare(initial.windowColor, "#000000")
         }
     }
@@ -148,7 +148,7 @@ Item {
             compare(initialized.shadowStrength, 12.5)
             compare(initialized.singleHighlightColor, "#ff0000")
             compare(initialized.singleHighlightGradient, gradient3)
-            compare(initialized.type, Theme3D.ThemeQt)
+            compare(initialized.type, Theme3D.Theme.UserDefined)
             compare(initialized.windowColor, "#fff00f")
         }
     }
@@ -170,7 +170,7 @@ Item {
         }
 
         function test_1_change() {
-            change.type = Theme3D.ThemeStoneMoss // Default values will be overwritten by the following sets
+            change.type = Theme3D.Theme.StoneMoss // Default values will be overwritten by the following sets
             change.ambientLightStrength = 0.3
             change.backgroundColor = "#ff0000"
             change.backgroundEnabled = false
@@ -219,7 +219,7 @@ Item {
             compare(change.shadowStrength, 50)
             compare(change.singleHighlightColor, "#ff0000")
             compare(change.singleHighlightGradient, gradient3)
-            compare(change.type, Theme3D.ThemeStoneMoss)
+            compare(change.type, Theme3D.Theme.StoneMoss)
             compare(change.windowColor, "#fff00f")
         }
 

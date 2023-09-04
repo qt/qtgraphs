@@ -17,7 +17,7 @@ Item {
 
     Theme3D {
         id: themePrimaryColors
-        type: Theme3D.ThemePrimaryColors
+        type: Theme3D.Theme.PrimaryColors
         font.family: "Lucida Handwriting"
         font.pointSize: 40
     }

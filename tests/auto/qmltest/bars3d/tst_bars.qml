@@ -111,8 +111,8 @@ Item {
 //        }
 
 //        function test_2_change_theme() {
-//            newTheme.type = Theme3D.ThemePrimaryColors
-//            compare(bars3d.theme.type, Theme3D.ThemePrimaryColors)
+//            newTheme.type = Theme3D.Theme.PrimaryColors
+//            compare(bars3d.theme.type, Theme3D.Theme.PrimaryColors)
 
 //            waitForRendering(top)
 //            bars3d.destroy()

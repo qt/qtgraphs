@@ -67,7 +67,7 @@ Item {
             shadowQuality: AbstractGraph3D.ShadowQuality.None
             selectionMode: AbstractGraph3D.SelectionSlice | AbstractGraph3D.SelectionItemAndColumn
             theme: Theme3D {
-                type: Theme3D.ThemeIsabelle
+                type: Theme3D.Theme.Isabelle
                 backgroundEnabled: false
             }
             scene.activeCamera.cameraPreset: Camera3D.CameraPresetFrontHigh

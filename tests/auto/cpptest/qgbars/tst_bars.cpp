@@ -103,7 +103,7 @@ void tst_bars::initialProperties()
     QCOMPARE(m_graph->rowAxis()->orientation(), QAbstract3DAxis::AxisOrientation::Z);
 
     // Common properties
-    QCOMPARE(m_graph->activeTheme()->type(), Q3DTheme::ThemeQt);
+    QCOMPARE(m_graph->activeTheme()->type(), Q3DTheme::Theme::Qt);
     QCOMPARE(m_graph->selectionMode(), QAbstract3DGraph::SelectionItem);
     QCOMPARE(m_graph->shadowQuality(), QAbstract3DGraph::ShadowQuality::Medium);
     QVERIFY(m_graph->scene());
@@ -140,7 +140,7 @@ void tst_bars::initializeProperties()
     QCOMPARE(m_graph->isBarSpacingRelative(), false);
     QCOMPARE(m_graph->floorLevel(), 1.0f);
 
-    Q3DTheme *theme = new Q3DTheme(Q3DTheme::ThemeDigia);
+    Q3DTheme *theme = new Q3DTheme(Q3DTheme::Theme::PrimaryColors);
     m_graph->setActiveTheme(theme);
     m_graph->setSelectionMode(QAbstract3DGraph::SelectionItem | QAbstract3DGraph::SelectionRow | QAbstract3DGraph::SelectionSlice);
     m_graph->setShadowQuality(QAbstract3DGraph::ShadowQuality::SoftHigh);
@@ -157,7 +157,7 @@ void tst_bars::initializeProperties()
     m_graph->setLocale(QLocale("FI"));
     m_graph->setMargin(1.0);
 
-    QCOMPARE(m_graph->activeTheme()->type(), Q3DTheme::ThemeDigia);
+    QCOMPARE(m_graph->activeTheme()->type(), Q3DTheme::Theme::PrimaryColors);
     QCOMPARE(m_graph->selectionMode(), QAbstract3DGraph::SelectionItem | QAbstract3DGraph::SelectionRow | QAbstract3DGraph::SelectionSlice);
     QCOMPARE(m_graph->shadowQuality(), QAbstract3DGraph::ShadowQuality::None); // Ortho disables shadows
     QCOMPARE(m_graph->measureFps(), true);
@@ -322,7 +322,7 @@ void tst_bars::removeInputHandler()
 
 void tst_bars::addTheme()
 {
-    Q3DTheme *theme = new Q3DTheme(Q3DTheme::ThemeDigia);
+    Q3DTheme *theme = new Q3DTheme(Q3DTheme::Theme::PrimaryColors);
     Q3DTheme *theme2 = new Q3DTheme();
     Q3DTheme *initialTheme = m_graph->activeTheme();
     m_graph->addTheme(theme);
@@ -336,7 +336,7 @@ void tst_bars::addTheme()
 
 void tst_bars::removeTheme()
 {
-    Q3DTheme *theme = new Q3DTheme(Q3DTheme::ThemeDigia);
+    Q3DTheme *theme = new Q3DTheme(Q3DTheme::Theme::PrimaryColors);
     Q3DTheme *theme2 = new Q3DTheme();
     m_graph->addTheme(theme);
     m_graph->addTheme(theme2);

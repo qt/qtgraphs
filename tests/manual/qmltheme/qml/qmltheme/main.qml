@@ -35,7 +35,7 @@ Item {
 
     Theme3D {
         id: customSurfaceTheme
-        type: Theme3D.ThemeUserDefined
+        type: Theme3D.Theme.UserDefined
         colorStyle: Theme3D.ColorStyle.ObjectGradient
         backgroundColor: "gray"
         gridLineColor: "lightGray"
@@ -47,7 +47,7 @@ Item {
 
     Theme3D {
         id: customBarsTheme
-        type: Theme3D.ThemeUserDefined
+        type: Theme3D.Theme.UserDefined
         colorStyle: Theme3D.ColorStyle.ObjectGradient
         backgroundColor: "gray"
         gridLineColor: "lightGray"

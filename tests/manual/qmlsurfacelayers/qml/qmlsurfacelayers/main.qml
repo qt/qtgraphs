@@ -48,7 +48,7 @@ Item {
             width: surfaceView.width
             height: surfaceView.height
             theme: Theme3D {
-                type: Theme3D.ThemeEbony
+                type: Theme3D.Theme.Ebony
                 font.pointSize: 35
                 colorStyle: Theme3D.ColorStyle.RangeGradient
             }

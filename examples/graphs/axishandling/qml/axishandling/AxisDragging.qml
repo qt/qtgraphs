@@ -79,7 +79,7 @@ Item {
 
     Theme3D {
         id: dynamicColorTheme
-        type: Theme3D.ThemeEbony
+        type: Theme3D.Theme.Ebony
         baseColors: [dynamicColor]
         font.pointSize: 50
         labelBorderEnabled: true
@@ -89,7 +89,7 @@ Item {
 
     Theme3D {
         id: isabelleTheme
-        type: Theme3D.ThemeIsabelle
+        type: Theme3D.Theme.Isabelle
         font.pointSize: 50
         labelBorderEnabled: true
         labelBackgroundColor: "gold"

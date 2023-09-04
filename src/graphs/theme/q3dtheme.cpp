@@ -19,14 +19,14 @@ QT_BEGIN_NAMESPACE
  * properties to set them explicitly in the series: baseColors, baseGradients,
  * and colorStyle.
  *
- * Themes can be created from scratch using the ThemeUserDefined enum value.
+ * Themes can be created from scratch using the UserDefined enum value.
  * Creating a theme using the default constructor produces a new user-defined
  * theme.
  *
  * \section1 Default Theme
  *
  * The following table lists the properties controlled by themes and the
- * default values for ThemeUserDefined.
+ * default values for UserDefined.
  *
  * \table
  *   \header
@@ -146,23 +146,21 @@ QT_BEGIN_NAMESPACE
  *
  * Built-in themes.
  *
- * \value ThemeQt
+ * \value Qt
  *        A light theme with green as the base color.
- * \value ThemePrimaryColors
+ * \value PrimaryColors
  *        A light theme with yellow as the base color.
- * \value ThemeDigia
- *        A light theme with gray as the base color.
- * \value ThemeStoneMoss
+ * \value StoneMoss
  *        A medium dark theme with yellow as the base color.
- * \value ThemeArmyBlue
+ * \value ArmyBlue
  *        A medium light theme with blue as the base color.
- * \value ThemeRetro
+ * \value Retro
  *        A medium light theme with brown as the base color.
- * \value ThemeEbony
+ * \value Ebony
  *        A dark theme with white as the base color.
- * \value ThemeIsabelle
+ * \value Isabelle
  *        A dark theme with yellow as the base color.
- * \value ThemeUserDefined
+ * \value UserDefined
  *        A user-defined theme. For more information, see \l {Default Theme}.
  */
 
@@ -181,13 +179,13 @@ QT_BEGIN_NAMESPACE
  * baseColors, baseGradients, and colorStyle.
  *
  * Themes can be created from scratch by using the
- * \l{Q3DTheme::ThemeUserDefined}{Theme3D.ThemeUserDefined} enum value.
+ * \l{Q3DTheme::Theme::UserDefined}{Theme3D.Theme.UserDefined} enum value.
  *
  * \section1 Default Theme
  *
  * The following table lists the properties controlled by themes and the
- * default values for \l{Q3DTheme::ThemeUserDefined}
- * {Theme3D.ThemeUserDefined}.
+ * default values for \l{Q3DTheme::Theme::UserDefined}
+ * {Theme3D.Theme.UserDefined}.
  *
  * \table
  *   \header
@@ -456,7 +454,7 @@ QT_BEGIN_NAMESPACE
  * \qmlproperty Theme3D.Theme Theme3D::type
  *
  * The type of the theme. If no type is set, the type is
- * \l{Q3DTheme::ThemeUserDefined}{Theme3D.ThemeUserDefined}.
+ * \l{Q3DTheme::Theme::UserDefined}{Theme3D.Theme.UserDefined}.
  * Changing the theme type after the item has been constructed will change all other properties
  * of the theme to what the predefined theme specifies. Changing the theme type of the active theme
  * of the graph will also reset all attached series to use the new theme.
@@ -472,7 +470,7 @@ QT_BEGIN_NAMESPACE
  */
 
 /*!
- * Constructs a new theme of type ThemeUserDefined. An optional \a parent parameter
+ * Constructs a new theme of type UserDefined. An optional \a parent parameter
  * can be given and is then passed to QObject constructor.
  */
 Q3DTheme::Q3DTheme(QObject *parent)
@@ -1135,7 +1133,7 @@ float Q3DTheme::shadowStrength() const
 // Q3DThemePrivate
 
 Q3DThemePrivate::Q3DThemePrivate(Q3DTheme *q)
-    : m_themeId(Q3DTheme::ThemeUserDefined),
+    : m_themeId(Q3DTheme::Theme::UserDefined),
       m_colorStyle(Q3DTheme::ColorStyle::Uniform),
       m_backgroundColor(Qt::black),
       m_gridLineColor(Qt::white),

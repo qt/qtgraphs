@@ -49,7 +49,7 @@ void tst_theme::construct()
     QVERIFY(theme);
     delete theme;
 
-    theme = new Q3DTheme(Q3DTheme::ThemeEbony);
+    theme = new Q3DTheme(Q3DTheme::Theme::Ebony);
     QVERIFY(theme);
     QCOMPARE(theme->ambientLightStrength(), 0.5f);
     QCOMPARE(theme->backgroundColor(), QColor(Qt::black));
@@ -76,7 +76,7 @@ void tst_theme::construct()
     QCOMPARE(theme->shadowStrength(), 25.0f);
     QCOMPARE(theme->singleHighlightColor(), QColor(QRgb(0xf5dc0d)));
     QCOMPARE(theme->singleHighlightGradient().stops().at(1).second, QColor(QRgb(0xf5dc0d)));
-    QCOMPARE(theme->type(), Q3DTheme::ThemeEbony);
+    QCOMPARE(theme->type(), Q3DTheme::Theme::Ebony);
     QCOMPARE(theme->windowColor(), QColor(Qt::black));
     delete theme;
 }
@@ -109,7 +109,7 @@ void tst_theme::initialProperties()
     QCOMPARE(m_theme->shadowStrength(), 25.0f);
     QCOMPARE(m_theme->singleHighlightColor(), QColor(Qt::red));
     QCOMPARE(m_theme->singleHighlightGradient().stops(), QLinearGradient().stops());
-    QCOMPARE(m_theme->type(), Q3DTheme::ThemeUserDefined);
+    QCOMPARE(m_theme->type(), Q3DTheme::Theme::UserDefined);
     QCOMPARE(m_theme->windowColor(), QColor(Qt::black));
 }
 
@@ -128,7 +128,7 @@ void tst_theme::initializeProperties()
     QList<QLinearGradient> basegradients;
     basegradients << gradient1 << gradient2;
 
-    m_theme->setType(Q3DTheme::ThemeQt); // We'll override default values with the following setters
+    m_theme->setType(Q3DTheme::Theme::Qt); // We'll override default values with the following setters
     m_theme->setAmbientLightStrength(0.3f);
     m_theme->setBackgroundColor(QColor(Qt::red));
     m_theme->setBackgroundEnabled(false);
@@ -177,7 +177,7 @@ void tst_theme::initializeProperties()
     QCOMPARE(m_theme->shadowStrength(), 50.0f);
     QCOMPARE(m_theme->singleHighlightColor(), QColor(Qt::darkRed));
     QCOMPARE(m_theme->singleHighlightGradient(), gradient4);
-    QCOMPARE(m_theme->type(), Q3DTheme::ThemeQt);
+    QCOMPARE(m_theme->type(), Q3DTheme::Theme::Qt);
     QCOMPARE(m_theme->windowColor(), QColor(Qt::darkYellow));
 }
 

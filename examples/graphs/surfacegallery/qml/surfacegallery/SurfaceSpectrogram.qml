@@ -64,7 +64,7 @@ Rectangle {
 
         Theme3D {
             id: customTheme
-            type: Theme3D.ThemeQt
+            type: Theme3D.Theme.Qt
             // Don't show specular spotlight as we don't want it to distort the colors
             lightStrength: 0.0
             ambientLightStrength: 1.0

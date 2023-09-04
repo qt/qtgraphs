@@ -31,8 +31,8 @@ VolumetricModifier::VolumetricModifier(QAbstract3DGraph *scatter)
       m_sliceIndexY(0),
       m_sliceIndexZ(0)
 {
-    m_graph->activeTheme()->setType(Q3DTheme::ThemeQt);
-    //m_graph->activeTheme()->setType(Q3DTheme::ThemeIsabelle);
+    m_graph->activeTheme()->setType(Q3DTheme::Theme::Qt);
+    //m_graph->activeTheme()->setType(Q3DTheme::Theme::Isabelle);
     m_graph->setShadowQuality(QAbstract3DGraph::ShadowQuality::None);
     m_graph->scene()->activeCamera()->setCameraPreset(Q3DCamera::CameraPresetFront);
     m_graph->setOrthoProjection(true);

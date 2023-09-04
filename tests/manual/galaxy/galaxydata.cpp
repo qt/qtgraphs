@@ -49,7 +49,7 @@ GalaxyData::GalaxyData(Q3DScatter *scatter,
     m_maxy(-9999.0),
     m_filtered(false)
 {
-    m_graph->activeTheme()->setType(Q3DTheme::ThemeEbony);
+    m_graph->activeTheme()->setType(Q3DTheme::Theme::Ebony);
     m_graph->setShadowQuality(QAbstract3DGraph::ShadowQuality::Low);
 
     m_graph->axisX()->setRange(-25000.0f, 25000.0f);

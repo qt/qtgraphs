@@ -25,7 +25,7 @@ ScatterDataModifier::ScatterDataModifier(Q3DScatter *scatter)
       m_selectedItem(-1),
       m_targetSeries(0)
 {
-    m_chart->activeTheme()->setType(Q3DTheme::ThemeStoneMoss);
+    m_chart->activeTheme()->setType(Q3DTheme::Theme::StoneMoss);
     QFont font = m_chart->activeTheme()->font();
     font.setPointSize(m_fontSize);
     m_chart->activeTheme()->setFont(font);
@@ -569,12 +569,12 @@ void ScatterDataModifier::changePresetCamera()
 
 void ScatterDataModifier::changeTheme()
 {
-    static int theme = Q3DTheme::ThemeQt;
+    static int theme = int(Q3DTheme::Theme::Qt);
 
     m_chart->activeTheme()->setType(Q3DTheme::Theme(theme));
 
-    if (++theme > Q3DTheme::ThemeIsabelle)
-        theme = Q3DTheme::ThemeQt;
+    if (++theme > int(Q3DTheme::Theme::Isabelle))
+        theme = int(Q3DTheme::Theme::Qt);
 }
 
 void ScatterDataModifier::changeLabelStyle()

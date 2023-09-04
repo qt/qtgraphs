@@ -51,16 +51,15 @@ public:
     };
     Q_ENUM(ColorStyle)
 
-    enum Theme {
-        ThemeQt,
-        ThemePrimaryColors,
-        ThemeDigia,
-        ThemeStoneMoss,
-        ThemeArmyBlue,
-        ThemeRetro,
-        ThemeEbony,
-        ThemeIsabelle,
-        ThemeUserDefined
+    enum class Theme {
+        Qt,
+        PrimaryColors,
+        StoneMoss,
+        ArmyBlue,
+        Retro,
+        Ebony,
+        Isabelle,
+        UserDefined
     };
     Q_ENUM(Theme)
 
