@@ -468,7 +468,7 @@ void QValue3DAxisFormatterPrivate::markDirty(bool labelsChange)
     if (m_axis) {
         if (labelsChange)
             m_axis->d_func()->emitLabelsChanged();
-        if (m_axis && m_axis->orientation() != QAbstract3DAxis::AxisOrientationNone)
+        if (m_axis && m_axis->orientation() != QAbstract3DAxis::AxisOrientation::None)
             m_axis->d_func()->emitFormatterDirty();
     }
 }

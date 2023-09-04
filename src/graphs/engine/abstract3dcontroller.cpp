@@ -238,7 +238,7 @@ void Abstract3DController::setAxisX(QAbstract3DAxis *axis)
 {
     // Setting null axis will always create new default axis
     if (!axis || axis != m_axisX) {
-        setAxisHelper(QAbstract3DAxis::AxisOrientationX, axis, &m_axisX);
+        setAxisHelper(QAbstract3DAxis::AxisOrientation::X, axis, &m_axisX);
         emit axisXChanged(m_axisX);
     }
 }
@@ -252,7 +252,7 @@ void Abstract3DController::setAxisY(QAbstract3DAxis *axis)
 {
     // Setting null axis will always create new default axis
     if (!axis || axis != m_axisY) {
-        setAxisHelper(QAbstract3DAxis::AxisOrientationY, axis, &m_axisY);
+        setAxisHelper(QAbstract3DAxis::AxisOrientation::Y, axis, &m_axisY);
         emit axisYChanged(m_axisY);
     }
 }
@@ -266,7 +266,7 @@ void Abstract3DController::setAxisZ(QAbstract3DAxis *axis)
 {
     // Setting null axis will always create new default axis
     if (!axis || axis != m_axisZ) {
-        setAxisHelper(QAbstract3DAxis::AxisOrientationZ, axis, &m_axisZ);
+        setAxisHelper(QAbstract3DAxis::AxisOrientation::Z, axis, &m_axisZ);
         emit axisZChanged(m_axisZ);
     }
 }
@@ -297,13 +297,13 @@ void Abstract3DController::releaseAxis(QAbstract3DAxis *axis)
 
         // If the axis is in use, replace it with a temporary one
         switch (axis->orientation()) {
-        case QAbstract3DAxis::AxisOrientationX:
+        case QAbstract3DAxis::AxisOrientation::X:
             setAxisX(0);
             break;
-        case QAbstract3DAxis::AxisOrientationY:
+        case QAbstract3DAxis::AxisOrientation::Y:
             setAxisY(0);
             break;
-        case QAbstract3DAxis::AxisOrientationZ:
+        case QAbstract3DAxis::AxisOrientation::Z:
             setAxisZ(0);
             break;
         default:
@@ -840,7 +840,7 @@ void Abstract3DController::setAxisHelper(QAbstract3DAxis::AxisOrientation orient
         } else {
             // Disconnect the old axis from use
             QObject::disconnect(oldAxis, 0, this, 0);
-            oldAxis->d_func()->setOrientation(QAbstract3DAxis::AxisOrientationNone);
+            oldAxis->d_func()->setOrientation(QAbstract3DAxis::AxisOrientation::None);
         }
     }
 
@@ -867,11 +867,11 @@ void Abstract3DController::setAxisHelper(QAbstract3DAxis::AxisOrientation orient
     QObject::connect(axis, &QAbstract3DAxis::titleFixedChanged,
                      this, &Abstract3DController::handleAxisTitleFixedChanged);
 
-    if (orientation == QAbstract3DAxis::AxisOrientationX)
+    if (orientation == QAbstract3DAxis::AxisOrientation::X)
         m_changeTracker.axisXTypeChanged = true;
-    else if (orientation == QAbstract3DAxis::AxisOrientationY)
+    else if (orientation == QAbstract3DAxis::AxisOrientation::Y)
         m_changeTracker.axisYTypeChanged = true;
-    else if (orientation == QAbstract3DAxis::AxisOrientationZ)
+    else if (orientation == QAbstract3DAxis::AxisOrientation::Z)
         m_changeTracker.axisZTypeChanged = true;
 
     handleAxisTitleChangedBySender(axis);

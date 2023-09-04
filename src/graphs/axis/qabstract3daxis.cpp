@@ -117,10 +117,10 @@ QT_BEGIN_NAMESPACE
  *
  * The orientation of the axis object.
  *
- * \value AxisOrientationNone
- * \value AxisOrientationX
- * \value AxisOrientationY
- * \value AxisOrientationZ
+ * \value None
+ * \value X
+ * \value Y
+ * \value Z
  */
 
 /*!
@@ -390,7 +390,7 @@ bool QAbstract3DAxis::isAutoAdjustRange() const
 // QAbstract3DAxisPrivate
 QAbstract3DAxisPrivate::QAbstract3DAxisPrivate(QAbstract3DAxis *q, QAbstract3DAxis::AxisType type)
     : q_ptr(q),
-      m_orientation(QAbstract3DAxis::AxisOrientationNone),
+      m_orientation(QAbstract3DAxis::AxisOrientation::None),
       m_type(type),
       m_isDefaultAxis(false),
       m_min(0.0f),
@@ -409,7 +409,7 @@ QAbstract3DAxisPrivate::~QAbstract3DAxisPrivate()
 void QAbstract3DAxisPrivate::setOrientation(QAbstract3DAxis::AxisOrientation orientation)
 {
     Q_Q(QAbstract3DAxis);
-    if (m_orientation == QAbstract3DAxis::AxisOrientationNone) {
+    if (m_orientation == QAbstract3DAxis::AxisOrientation::None) {
         m_orientation = orientation;
         emit q->orientationChanged(orientation);
     } else {

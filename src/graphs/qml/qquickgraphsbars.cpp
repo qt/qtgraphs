@@ -630,11 +630,11 @@ QVector3D QQuickGraphsBars::calculateCategoryLabelPosition(QAbstract3DAxis *axis
                                                            QVector3D labelPosition, int index)
 {
     QVector3D ret = labelPosition;
-    if (axis->orientation() == QAbstract3DAxis::AxisOrientationX) {
+    if (axis->orientation() == QAbstract3DAxis::AxisOrientation::X) {
         float xPos = (index + 0.5f) * m_cachedBarSpacing.width();
         ret.setX((xPos - m_rowWidth) / m_scaleFactor);
     }
-    if (axis->orientation() == QAbstract3DAxis::AxisOrientationZ) {
+    if (axis->orientation() == QAbstract3DAxis::AxisOrientation::Z) {
         float zPos = (index + 0.5f) * m_cachedBarSpacing.height();
         ret.setZ((m_columnDepth - zPos) / m_scaleFactor);
     }
@@ -645,15 +645,15 @@ QVector3D QQuickGraphsBars::calculateCategoryLabelPosition(QAbstract3DAxis *axis
 float QQuickGraphsBars::calculateCategoryGridLinePosition(QAbstract3DAxis *axis, int index)
 {
     float ret = 0.0f;
-    if (axis->orientation() == QAbstract3DAxis::AxisOrientationZ) {
+    if (axis->orientation() == QAbstract3DAxis::AxisOrientation::Z) {
         float colPos = index * -(m_cachedBarSpacing.height() / m_scaleFactor);
         ret = colPos + scale().z();
     }
-    if (axis->orientation() == QAbstract3DAxis::AxisOrientationX) {
+    if (axis->orientation() == QAbstract3DAxis::AxisOrientation::X) {
         float rowPos = index * (m_cachedBarSpacing.width() / m_scaleFactor);
         ret = rowPos - scale().x();
     }
-    if (axis->orientation() == QAbstract3DAxis::AxisOrientationY)
+    if (axis->orientation() == QAbstract3DAxis::AxisOrientation::Y)
         ret = -m_backgroundAdjustment;
     return ret;
 }

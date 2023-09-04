@@ -30,11 +30,11 @@ class Q_GRAPHS_EXPORT QAbstract3DAxis : public QObject
     Q_PROPERTY(bool titleFixed READ isTitleFixed WRITE setTitleFixed NOTIFY titleFixedChanged)
 
 public:
-    enum AxisOrientation {
-        AxisOrientationNone = 0,
-        AxisOrientationX = 1,
-        AxisOrientationY = 2,
-        AxisOrientationZ = 4
+    enum class AxisOrientation {
+        None = 0,
+        X = 1,
+        Y = 2,
+        Z = 4
     };
     Q_ENUM(AxisOrientation)
 

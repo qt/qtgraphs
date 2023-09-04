@@ -622,7 +622,7 @@ QAbstract3DAxis *Bars3DController::createDefaultAxis(QAbstract3DAxis::AxisOrient
 {
     QAbstract3DAxis *defaultAxis = 0;
 
-    if (orientation == QAbstract3DAxis::AxisOrientationY)
+    if (orientation == QAbstract3DAxis::AxisOrientation::Y)
         defaultAxis = createDefaultValueAxis();
     else
         defaultAxis = createDefaultCategoryAxis();

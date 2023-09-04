@@ -61,7 +61,7 @@ void tst_axis::initialProperties()
     QCOMPARE(m_axis->labelAutoRotation(), 0.0f);
     QCOMPARE(m_axis->max(), 10.0f);
     QCOMPARE(m_axis->min(), 0.0f);
-    QCOMPARE(m_axis->orientation(), QAbstract3DAxis::AxisOrientationNone);
+    QCOMPARE(m_axis->orientation(), QAbstract3DAxis::AxisOrientation::None);
     QCOMPARE(m_axis->title(), QString(""));
     QCOMPARE(m_axis->isTitleFixed(), true);
     QCOMPARE(m_axis->isTitleVisible(), false);
