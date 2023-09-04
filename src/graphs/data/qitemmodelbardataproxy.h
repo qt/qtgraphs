@@ -37,11 +37,11 @@ class Q_GRAPHS_EXPORT QItemModelBarDataProxy : public QBarDataProxy
     Q_PROPERTY(QItemModelBarDataProxy::MultiMatchBehavior multiMatchBehavior READ multiMatchBehavior WRITE setMultiMatchBehavior NOTIFY multiMatchBehaviorChanged)
 
 public:
-    enum MultiMatchBehavior {
-        MMBFirst = 0,
-        MMBLast = 1,
-        MMBAverage = 2,
-        MMBCumulative = 3
+    enum class MultiMatchBehavior {
+        First = 0,
+        Last = 1,
+        Average = 2,
+        Cumulative = 3
     };
     Q_ENUM(MultiMatchBehavior)
 

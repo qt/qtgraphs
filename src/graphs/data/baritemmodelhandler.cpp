@@ -163,10 +163,10 @@ void BarItemModelHandler::resolveModel()
         QHash<QString, ColumnValueMap> itemValueMap;
         QHash<QString, ColumnValueMap> itemRotationMap;
 
-        bool cumulative = m_proxy->multiMatchBehavior() == QItemModelBarDataProxy::MMBAverage
-                || m_proxy->multiMatchBehavior() == QItemModelBarDataProxy::MMBCumulative;
-        bool countMatches = m_proxy->multiMatchBehavior() == QItemModelBarDataProxy::MMBAverage;
-        bool takeFirst = m_proxy->multiMatchBehavior() == QItemModelBarDataProxy::MMBFirst;
+        bool cumulative = m_proxy->multiMatchBehavior() == QItemModelBarDataProxy::MultiMatchBehavior::Average
+                || m_proxy->multiMatchBehavior() == QItemModelBarDataProxy::MultiMatchBehavior::Cumulative;
+        bool countMatches = m_proxy->multiMatchBehavior() == QItemModelBarDataProxy::MultiMatchBehavior::Average;
+        bool takeFirst = m_proxy->multiMatchBehavior() == QItemModelBarDataProxy::MultiMatchBehavior::First;
         QHash<QString, QHash<QString, int> > *matchCountMap = 0;
         if (countMatches)
             matchCountMap = new QHash<QString, QHash<QString, int> >;

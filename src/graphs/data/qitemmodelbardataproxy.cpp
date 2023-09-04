@@ -226,14 +226,14 @@ QT_BEGIN_NAMESPACE
 /*!
  * \qmlproperty ItemModelBarDataProxy.MultiMatchBehavior ItemModelBarDataProxy::multiMatchBehavior
  * Defines how multiple matches for each row/column combination are handled.
- * Defaults to \l{QItemModelBarDataProxy::MMBLast}{ItemModelBarDataProxy.MMBLast}. The chosen
+ * Defaults to \l{QItemModelBarDataProxy::MultiMatchBehavior::Last}{ItemModelBarDataProxy.MultiMatchBehavior.Last}. The chosen
  * behavior affects both bar value and rotation.
  *
  * For example, you might have an item model with timestamped data taken at irregular intervals
  * and you want to visualize total value of data items on each day with a bar graph.
  * This can be done by specifying row and column categories so that each bar represents a day,
  * and setting multiMatchBehavior to
- * \l{QItemModelBarDataProxy::MMBCumulative}{ItemModelBarDataProxy.MMBCumulative}.
+ * \l{QItemModelBarDataProxy::MultiMatchBehavior::Cumulative}{ItemModelBarDataProxy.MultiMatchBehavior.Cumulative}.
  */
 
 /*!
@@ -241,16 +241,16 @@ QT_BEGIN_NAMESPACE
  *
  *  Behavior types for QItemModelBarDataProxy::multiMatchBehavior property.
  *
- *  \value MMBFirst
+ *  \value First
  *         The value is taken from the first item in the item model that matches
  *         each row/column combination.
- *  \value MMBLast
+ *  \value Last
  *         The value is taken from the last item in the item model that matches
  *         each row/column combination.
- *  \value MMBAverage
+ *  \value Average
  *         The values from all items matching each row/column combination are
  *         averaged together and the average is used as the bar value.
- *  \value MMBCumulative
+ *  \value Cumulative
  *         The values from all items matching each row/column combination are
  *         added together and the total is used as the bar value.
  */
@@ -875,13 +875,13 @@ QString QItemModelBarDataProxy::rotationRoleReplace() const
  *
  * \brief How multiple matches for each row/column combination are handled.
  *
- * Defaults to QItemModelBarDataProxy::MMBLast. The chosen behavior affects both bar value
+ * Defaults to QItemModelBarDataProxy::MultiMatchBehavior::Last. The chosen behavior affects both bar value
  * and rotation.
  *
  * For example, you might have an item model with timestamped data taken at irregular intervals
  * and you want to visualize total value of data items on each day with a bar graph.
  * This can be done by specifying row and column categories so that each bar represents a day,
- * and setting multiMatchBehavior to QItemModelBarDataProxy::MMBCumulative.
+ * and setting multiMatchBehavior to QItemModelBarDataProxy::MultiMatchBehavior::Cumulative.
  */
 void QItemModelBarDataProxy::setMultiMatchBehavior(QItemModelBarDataProxy::MultiMatchBehavior behavior)
 {
@@ -906,7 +906,7 @@ QItemModelBarDataProxyPrivate::QItemModelBarDataProxyPrivate(QItemModelBarDataPr
       m_useModelCategories(false),
       m_autoRowCategories(true),
       m_autoColumnCategories(true),
-      m_multiMatchBehavior(QItemModelBarDataProxy::MMBLast)
+      m_multiMatchBehavior(QItemModelBarDataProxy::MultiMatchBehavior::Last)
 {
 }
 

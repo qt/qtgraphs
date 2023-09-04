@@ -197,10 +197,10 @@ void SurfaceItemModelHandler::resolveModel()
         QHash<QString, bool> rowListHash;
         QHash<QString, bool> columnListHash;
 
-        bool cumulative = m_proxy->multiMatchBehavior() == QItemModelSurfaceDataProxy::MMBAverage
-                || m_proxy->multiMatchBehavior() == QItemModelSurfaceDataProxy::MMBCumulativeY;
-        bool average = m_proxy->multiMatchBehavior() == QItemModelSurfaceDataProxy::MMBAverage;
-        bool takeFirst = m_proxy->multiMatchBehavior() == QItemModelSurfaceDataProxy::MMBFirst;
+        bool cumulative = m_proxy->multiMatchBehavior() == QItemModelSurfaceDataProxy::MultiMatchBehavior::Average
+                || m_proxy->multiMatchBehavior() == QItemModelSurfaceDataProxy::MultiMatchBehavior::CumulativeY;
+        bool average = m_proxy->multiMatchBehavior() == QItemModelSurfaceDataProxy::MultiMatchBehavior::Average;
+        bool takeFirst = m_proxy->multiMatchBehavior() == QItemModelSurfaceDataProxy::MultiMatchBehavior::First;
         QHash<QString, QHash<QString, int> > *matchCountMap = 0;
         if (cumulative)
             matchCountMap = new QHash<QString, QHash<QString, int> >;

@@ -216,21 +216,21 @@ Item {
     }
 
     function changeMMB() {
-        if (barProxy.multiMatchBehavior === ItemModelBarDataProxy.MMBLast) {
-            barProxy.multiMatchBehavior = ItemModelBarDataProxy.MMBAverage
-            surfaceProxy.multiMatchBehavior = ItemModelSurfaceDataProxy.MMBAverage
+        if (barProxy.multiMatchBehavior === ItemModelBarDataProxy.MultiMatchBehavior.Last) {
+            barProxy.multiMatchBehavior = ItemModelBarDataProxy.MultiMatchBehavior.Average
+            surfaceProxy.multiMatchBehavior = ItemModelSurfaceDataProxy.MultiMatchBehavior.Average
             mmbButton.text = "MMB: Average"
-        } else if (barProxy.multiMatchBehavior === ItemModelBarDataProxy.MMBAverage) {
-            barProxy.multiMatchBehavior = ItemModelBarDataProxy.MMBCumulative
-            surfaceProxy.multiMatchBehavior = ItemModelSurfaceDataProxy.MMBCumulativeY
+        } else if (barProxy.multiMatchBehavior === ItemModelBarDataProxy.MultiMatchBehavior.Average) {
+            barProxy.multiMatchBehavior = ItemModelBarDataProxy.MultiMatchBehavior.Cumulative
+            surfaceProxy.multiMatchBehavior = ItemModelSurfaceDataProxy.MultiMatchBehavior.CumulativeY
             mmbButton.text = "MMB: Cumulative"
-        } else if (barProxy.multiMatchBehavior === ItemModelBarDataProxy.MMBCumulative) {
-            barProxy.multiMatchBehavior = ItemModelBarDataProxy.MMBFirst
-            surfaceProxy.multiMatchBehavior = ItemModelSurfaceDataProxy.MMBFirst
+        } else if (barProxy.multiMatchBehavior === ItemModelBarDataProxy.MultiMatchBehavior.Cumulative) {
+            barProxy.multiMatchBehavior = ItemModelBarDataProxy.MultiMatchBehavior.First
+            surfaceProxy.multiMatchBehavior = ItemModelSurfaceDataProxy.MultiMatchBehavior.First
             mmbButton.text = "MMB: First"
         } else {
-            barProxy.multiMatchBehavior = ItemModelBarDataProxy.MMBLast
-            surfaceProxy.multiMatchBehavior = ItemModelSurfaceDataProxy.MMBLast
+            barProxy.multiMatchBehavior = ItemModelBarDataProxy.MultiMatchBehavior.Last
+            surfaceProxy.multiMatchBehavior = ItemModelSurfaceDataProxy.MultiMatchBehavior.Last
             mmbButton.text = "MMB: Last"
         }
     }

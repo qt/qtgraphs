@@ -280,13 +280,13 @@ QT_BEGIN_NAMESPACE
 /*!
  * \qmlproperty ItemModelSurfaceDataProxy.MultiMatchBehavior ItemModelSurfaceDataProxy::multiMatchBehavior
  * Defines how multiple matches for each row/column combination are handled.
- * Defaults to \l{QItemModelSurfaceDataProxy::MMBLast}{ItemModelSurfaceDataProxy.MMBLast}.
+ * Defaults to \l{QItemModelSurfaceDataProxy::MultiMatchBehavior::Last}{ItemModelSurfaceDataProxy.MultiMatchBehavior.Last}.
  *
  * For example, you might have an item model with timestamped data taken at irregular intervals
  * and you want to visualize an average position of data items on each hour with a surface graph.
  * This can be done by specifying row and column categories so that each surface point represents
  * an hour, and setting multiMatchBehavior to
- * \l{QItemModelSurfaceDataProxy::MMBAverage}{ItemModelSurfaceDataProxy.MMBAverage}.
+ * \l{QItemModelSurfaceDataProxy::MultiMatchBehavior::Average}{ItemModelSurfaceDataProxy.MultiMatchBehavior.Average}.
  */
 
 /*!
@@ -294,17 +294,17 @@ QT_BEGIN_NAMESPACE
  *
  *  Behavior types for QItemModelSurfaceDataProxy::multiMatchBehavior property.
  *
- *  \value MMBFirst
+ *  \value First
  *         The position values are taken from the first item in the item model that matches
  *         each row/column combination.
- *  \value MMBLast
+ *  \value Last
  *         The position values are taken from the last item in the item model that matches
  *         each row/column combination.
- *  \value MMBAverage
+ *  \value Average
  *         The position values from all items matching each row/column combination are
  *         averaged together and the averages are used as the surface point position.
- *  \value MMBCumulativeY
- *         For X and Z values this acts just like \c{MMBAverage}, but Y values are added together
+ *  \value CumulativeY
+ *         For X and Z values this acts just like \c{Average}, but Y values are added together
  *         instead of averaged and the total is used as the surface point Y position.
  */
 
@@ -1040,12 +1040,12 @@ QString QItemModelSurfaceDataProxy::zPosRoleReplace() const
  *
  * \brief How multiple matches for each row/column combination are handled.
  *
- * Defaults to MMBLast.
+ * Defaults to Last.
  *
  * For example, you might have an item model with timestamped data taken at irregular intervals
  * and you want to visualize an average position of data items on each hour with a surface graph.
  * This can be done by specifying row and column categories so that each surface point represents
- * an hour, and setting this property to MMBAverage.
+ * an hour, and setting this property to Average.
  */
 
 void QItemModelSurfaceDataProxy::setMultiMatchBehavior(QItemModelSurfaceDataProxy::MultiMatchBehavior behavior)
@@ -1071,7 +1071,7 @@ QItemModelSurfaceDataProxyPrivate::QItemModelSurfaceDataProxyPrivate(QItemModelS
       m_useModelCategories(false),
       m_autoRowCategories(true),
       m_autoColumnCategories(true),
-      m_multiMatchBehavior(QItemModelSurfaceDataProxy::MMBLast)
+      m_multiMatchBehavior(QItemModelSurfaceDataProxy::MultiMatchBehavior::Last)
 {
 }
 

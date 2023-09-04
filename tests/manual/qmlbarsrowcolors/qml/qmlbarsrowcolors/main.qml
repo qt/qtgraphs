@@ -341,7 +341,7 @@ Item {
                     valueRolePattern: /-/
                     rowRoleReplace: "\\1"
                     columnRoleReplace: "\\1"
-                    multiMatchBehavior: ItemModelBarDataProxy.MMBCumulative
+                    multiMatchBehavior: ItemModelBarDataProxy.MultiMatchBehavior.Cumulative
                 }
             }
 
@@ -362,7 +362,7 @@ Item {
                     columnRolePattern: /^.*-(\d\d)$/
                     rowRoleReplace: "\\1"
                     columnRoleReplace: "\\1"
-                    multiMatchBehavior: ItemModelBarDataProxy.MMBCumulative
+                    multiMatchBehavior: ItemModelBarDataProxy.MultiMatchBehavior.Cumulative
                 }
             }
         }
