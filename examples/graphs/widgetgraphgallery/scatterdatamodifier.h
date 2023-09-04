@@ -40,7 +40,7 @@ Q_SIGNALS:
 private:
     QVector3D randVector();
     Q3DScatter *m_graph = nullptr;
-    QAbstract3DSeries::Mesh m_style = QAbstract3DSeries::MeshSphere;
+    QAbstract3DSeries::Mesh m_style = QAbstract3DSeries::Mesh::Sphere;
     bool m_smooth = true;
     int m_itemCount;
     float m_curveDivider;

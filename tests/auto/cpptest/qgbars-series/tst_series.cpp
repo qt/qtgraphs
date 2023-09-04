@@ -73,7 +73,7 @@ void tst_series::initialProperties()
     QCOMPARE(m_series->itemLabel(), QString(""));
     QCOMPARE(m_series->itemLabelFormat(), QString("@valueLabel"));
     QCOMPARE(m_series->isItemLabelVisible(), true);
-    QCOMPARE(m_series->mesh(), QAbstract3DSeries::MeshBevelBar);
+    QCOMPARE(m_series->mesh(), QAbstract3DSeries::Mesh::BevelBar);
     QCOMPARE(m_series->meshRotation(), QQuaternion(1, 0, 0, 0));
     QCOMPARE(m_series->isMeshSmooth(), false);
     QCOMPARE(m_series->multiHighlightColor(), QColor(Qt::black));
@@ -120,7 +120,7 @@ void tst_series::initializeProperties()
     m_series->setColorStyle(Q3DTheme::ColorStyleRangeGradient);
     m_series->setItemLabelFormat("%f");
     m_series->setItemLabelVisible(false);
-    m_series->setMesh(QAbstract3DSeries::MeshCone);
+    m_series->setMesh(QAbstract3DSeries::Mesh::Cone);
     m_series->setMeshSmooth(true);
     m_series->setMultiHighlightColor(QColor(Qt::green));
     m_series->setMultiHighlightGradient(gradient2);
@@ -136,7 +136,7 @@ void tst_series::initializeProperties()
     QCOMPARE(m_series->colorStyle(), Q3DTheme::ColorStyleRangeGradient);
     QCOMPARE(m_series->itemLabelFormat(), QString("%f"));
     QCOMPARE(m_series->isItemLabelVisible(), false);
-    QCOMPARE(m_series->mesh(), QAbstract3DSeries::MeshCone);
+    QCOMPARE(m_series->mesh(), QAbstract3DSeries::Mesh::Cone);
     QCOMPARE(m_series->isMeshSmooth(), true);
     QCOMPARE(m_series->multiHighlightColor(), QColor(Qt::green));
     QCOMPARE(m_series->multiHighlightGradient(), gradient2);
@@ -156,9 +156,9 @@ void tst_series::initializeProperties()
 
 void tst_series::invalidProperties()
 {
-    m_series->setMesh(QAbstract3DSeries::MeshMinimal);
+    m_series->setMesh(QAbstract3DSeries::Mesh::Minimal);
 
-    QCOMPARE(m_series->mesh(), QAbstract3DSeries::MeshBevelBar);
+    QCOMPARE(m_series->mesh(), QAbstract3DSeries::Mesh::BevelBar);
 }
 
 QTEST_MAIN(tst_series)

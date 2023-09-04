@@ -19,7 +19,7 @@ const float limit = 8.0f;
 ScatterDataModifier::ScatterDataModifier(Q3DScatter *scatter)
     : m_graph(scatter),
       m_fontSize(40.0f),
-      m_style(QAbstract3DSeries::MeshUserDefined),
+      m_style(QAbstract3DSeries::Mesh::UserDefined),
       m_smooth(true)
 {
     m_graph->activeTheme()->setType(Q3DTheme::ThemeEbony);

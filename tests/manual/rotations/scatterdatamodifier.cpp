@@ -35,7 +35,7 @@ ScatterDataModifier::ScatterDataModifier(Q3DScatter *scatter)
     // Magnetic field lines use custom narrow arrow
     m_magneticField->setItemSize(0.2f);
     //! [3]
-    m_magneticField->setMesh(QAbstract3DSeries::MeshUserDefined);
+    m_magneticField->setMesh(QAbstract3DSeries::Mesh::UserDefined);
     m_magneticField->setUserDefinedMesh(QStringLiteral(":/mesh/narrowarrow.mesh"));
     //! [3]
     //! [4]

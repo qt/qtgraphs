@@ -136,7 +136,7 @@ Item {
 
             Scatter3DSeries {
                 id: scatterSeries
-                mesh: Abstract3DSeries.MeshSphere
+                mesh: Abstract3DSeries.Mesh.Sphere
             }
 
             Component.onCompleted: dataGenerator.generateData(scatterSeries, itemCount);
@@ -149,7 +149,7 @@ Item {
                     name: "doSphere"
                     script: {
                         console.log("Do the sphere");
-                        scatterSeries.mesh = Abstract3DSeries.MeshSphere;
+                        scatterSeries.mesh = Abstract3DSeries.Mesh.Sphere;
                     }
                 }
             },
@@ -159,7 +159,7 @@ Item {
                     name: "doCube"
                     script: {
                         console.log("Do the cube");
-                        scatterSeries.mesh = Abstract3DSeries.MeshCube;
+                        scatterSeries.mesh = Abstract3DSeries.Mesh.Cube;
                     }
                 }
             },
@@ -169,7 +169,7 @@ Item {
                     name: "doPyramid"
                     script: {
                         console.log("Do the pyramid");
-                        scatterSeries.mesh = Abstract3DSeries.MeshPyramid;
+                        scatterSeries.mesh = Abstract3DSeries.Mesh.Pyramid;
                     }
                 }
             },
@@ -179,7 +179,7 @@ Item {
                     name: "doPoint"
                     script: {
                         console.log("Do the point");
-                        scatterSeries.mesh = Abstract3DSeries.MeshPoint;
+                        scatterSeries.mesh = Abstract3DSeries.Mesh.Point;
                     }
                 }
             }

@@ -51,9 +51,9 @@ int main(int argc, char **argv)
     labelButton->setText(QStringLiteral("Change label style"));
 
     QComboBox *itemStyleList = new QComboBox(widget);
-    itemStyleList->addItem(QStringLiteral("Arrow"), int(QAbstract3DSeries::MeshArrow));
-    itemStyleList->addItem(QStringLiteral("Cube"), int(QAbstract3DSeries::MeshCube));
-    itemStyleList->addItem(QStringLiteral("Minimal"), int(QAbstract3DSeries::MeshMinimal));
+    itemStyleList->addItem(QStringLiteral("Arrow"), int(QAbstract3DSeries::Mesh::Arrow));
+    itemStyleList->addItem(QStringLiteral("Cube"), int(QAbstract3DSeries::Mesh::Cube));
+    itemStyleList->addItem(QStringLiteral("Minimal"), int(QAbstract3DSeries::Mesh::Minimal));
     itemStyleList->setCurrentIndex(-1);
 
     QPushButton *cameraButton = new QPushButton(widget);

@@ -71,7 +71,7 @@ Item {
         colorStyle: Theme3D.ColorStyleObjectGradient
         itemLabelFormat: "%f"
         itemLabelVisible: false
-        mesh: Abstract3DSeries.MeshCone
+        mesh: Abstract3DSeries.Mesh.Cone
         meshSmooth: true
         multiHighlightColor: "green"
         multiHighlightGradient: gradient2
@@ -118,7 +118,7 @@ Item {
             compare(initial.itemLabel, "")
             compare(initial.itemLabelFormat, "@valueLabel")
             compare(initial.itemLabelVisible, true)
-            compare(initial.mesh, Abstract3DSeries.MeshBevelBar)
+            compare(initial.mesh, Abstract3DSeries.Mesh.BevelBar)
             compare(initial.meshRotation, Qt.quaternion(1, 0, 0, 0))
             compare(initial.meshSmooth, false)
             compare(initial.multiHighlightColor, "#000000")
@@ -149,7 +149,7 @@ Item {
             compare(initialized.colorStyle, Theme3D.ColorStyleObjectGradient)
             compare(initialized.itemLabelFormat, "%f")
             compare(initialized.itemLabelVisible, false)
-            compare(initialized.mesh, Abstract3DSeries.MeshCone)
+            compare(initialized.mesh, Abstract3DSeries.Mesh.Cone)
             compare(initialized.meshSmooth, true)
             compare(initialized.multiHighlightColor, "#008000")
             compare(initialized.multiHighlightGradient, gradient2)
@@ -184,7 +184,7 @@ Item {
             change.colorStyle = Theme3D.ColorStyleObjectGradient
             change.itemLabelFormat = "%f"
             change.itemLabelVisible = false
-            change.mesh = Abstract3DSeries.MeshCone
+            change.mesh = Abstract3DSeries.Mesh.Cone
             change.meshSmooth = true
             change.multiHighlightColor = "green"
             change.multiHighlightGradient = gradient2
@@ -199,7 +199,7 @@ Item {
             compare(change.colorStyle, Theme3D.ColorStyleObjectGradient)
             compare(change.itemLabelFormat, "%f")
             compare(change.itemLabelVisible, false)
-            compare(change.mesh, Abstract3DSeries.MeshCone)
+            compare(change.mesh, Abstract3DSeries.Mesh.Cone)
             compare(change.meshSmooth, true)
             compare(change.multiHighlightColor, "#008000")
             compare(change.multiHighlightGradient, gradient2)

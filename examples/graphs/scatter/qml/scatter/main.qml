@@ -97,7 +97,7 @@ Item {
                 id: scatterSeriesTwo
                 itemLabelFormat: "Series 2: X:@xLabel Y:@yLabel Z:@zLabel"
                 itemSize: 0.05
-                mesh: Abstract3DSeries.MeshCube
+                mesh: Abstract3DSeries.Mesh.Cube
                 //! [12]
 
                 ItemModelScatterDataProxy {
@@ -111,7 +111,7 @@ Item {
                 id: scatterSeriesThree
                 itemLabelFormat: "Series 3: X:@xLabel Y:@yLabel Z:@zLabel"
                 itemSize: 0.1
-                mesh: Abstract3DSeries.MeshMinimal
+                mesh: Abstract3DSeries.Mesh.Minimal
 
                 ItemModelScatterDataProxy {
                     itemModel: seriesData.modelThree

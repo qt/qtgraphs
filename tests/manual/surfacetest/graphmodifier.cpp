@@ -1583,43 +1583,43 @@ void GraphModifier::changeMesh()
     static int model = 0;
     switch (model) {
     case 0:
-        m_graph->seriesList().at(0)->setMesh(QAbstract3DSeries::MeshCylinder);
+        m_graph->seriesList().at(0)->setMesh(QAbstract3DSeries::Mesh::Cylinder);
         m_graph->seriesList().at(0)->setMeshSmooth(false);
         break;
     case 1:
-        m_graph->seriesList().at(0)->setMesh(QAbstract3DSeries::MeshCylinder);
+        m_graph->seriesList().at(0)->setMesh(QAbstract3DSeries::Mesh::Cylinder);
         m_graph->seriesList().at(0)->setMeshSmooth(true);
         break;
     case 2:
-        m_graph->seriesList().at(0)->setMesh(QAbstract3DSeries::MeshCone);
+        m_graph->seriesList().at(0)->setMesh(QAbstract3DSeries::Mesh::Cone);
         m_graph->seriesList().at(0)->setMeshSmooth(false);
         break;
     case 3:
-        m_graph->seriesList().at(0)->setMesh(QAbstract3DSeries::MeshCone);
+        m_graph->seriesList().at(0)->setMesh(QAbstract3DSeries::Mesh::Cone);
         m_graph->seriesList().at(0)->setMeshSmooth(true);
         break;
     case 4:
-        m_graph->seriesList().at(0)->setMesh(QAbstract3DSeries::MeshBar);
+        m_graph->seriesList().at(0)->setMesh(QAbstract3DSeries::Mesh::Bar);
         m_graph->seriesList().at(0)->setMeshSmooth(false);
         break;
     case 5:
-        m_graph->seriesList().at(0)->setMesh(QAbstract3DSeries::MeshBar);
+        m_graph->seriesList().at(0)->setMesh(QAbstract3DSeries::Mesh::Bar);
         m_graph->seriesList().at(0)->setMeshSmooth(true);
         break;
     case 6:
-        m_graph->seriesList().at(0)->setMesh(QAbstract3DSeries::MeshPyramid);
+        m_graph->seriesList().at(0)->setMesh(QAbstract3DSeries::Mesh::Pyramid);
         m_graph->seriesList().at(0)->setMeshSmooth(false);
         break;
     case 7:
-        m_graph->seriesList().at(0)->setMesh(QAbstract3DSeries::MeshPyramid);
+        m_graph->seriesList().at(0)->setMesh(QAbstract3DSeries::Mesh::Pyramid);
         m_graph->seriesList().at(0)->setMeshSmooth(true);
         break;
     case 8:
-        m_graph->seriesList().at(0)->setMesh(QAbstract3DSeries::MeshBevelBar);
+        m_graph->seriesList().at(0)->setMesh(QAbstract3DSeries::Mesh::BevelBar);
         m_graph->seriesList().at(0)->setMeshSmooth(false);
         break;
     case 9:
-        m_graph->seriesList().at(0)->setMesh(QAbstract3DSeries::MeshBevelBar);
+        m_graph->seriesList().at(0)->setMesh(QAbstract3DSeries::Mesh::BevelBar);
         m_graph->seriesList().at(0)->setMeshSmooth(true);
         break;
     }

@@ -281,7 +281,7 @@ int main(int argc, char **argv)
     surfaceProxy->setZPosRoleReplace(QStringLiteral("\\1"));
     QBar3DSeries *barSeries = new QBar3DSeries(barProxy);
     QSurface3DSeries *surfaceSeries = new QSurface3DSeries(surfaceProxy);
-    barSeries->setMesh(QAbstract3DSeries::MeshPyramid);
+    barSeries->setMesh(QAbstract3DSeries::Mesh::Pyramid);
     barGraph->addSeries(barSeries);
     surfaceGraph->addSeries(surfaceSeries);
 

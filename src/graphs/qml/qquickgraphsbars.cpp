@@ -846,27 +846,27 @@ QString QQuickGraphsBars::getMeshFileName()
 {
     QString fileName = {};
     switch (m_meshType) {
-    case QAbstract3DSeries::MeshSphere:
+    case QAbstract3DSeries::Mesh::Sphere:
         fileName = QStringLiteral("defaultMeshes/sphereMesh");
         break;
-    case QAbstract3DSeries::MeshBar:
-    case QAbstract3DSeries::MeshCube:
+    case QAbstract3DSeries::Mesh::Bar:
+    case QAbstract3DSeries::Mesh::Cube:
         fileName = QStringLiteral("defaultMeshes/barMesh");
         break;
-    case QAbstract3DSeries::MeshPyramid:
+    case QAbstract3DSeries::Mesh::Pyramid:
         fileName = QStringLiteral("defaultMeshes/pyramidMesh");
         break;
-    case QAbstract3DSeries::MeshCone:
+    case QAbstract3DSeries::Mesh::Cone:
         fileName = QStringLiteral("defaultMeshes/coneMesh");
         break;
-    case QAbstract3DSeries::MeshCylinder:
+    case QAbstract3DSeries::Mesh::Cylinder:
         fileName = QStringLiteral("defaultMeshes/cylinderMesh");
         break;
-    case QAbstract3DSeries::MeshBevelBar:
-    case QAbstract3DSeries::MeshBevelCube:
+    case QAbstract3DSeries::Mesh::BevelBar:
+    case QAbstract3DSeries::Mesh::BevelCube:
         fileName = QStringLiteral("defaultMeshes/bevelBarMesh");
         break;
-    case QAbstract3DSeries::MeshUserDefined:
+    case QAbstract3DSeries::Mesh::UserDefined:
         break;
     default:
         fileName = QStringLiteral("defaultMeshes/sphereMesh");
@@ -880,16 +880,16 @@ QString QQuickGraphsBars::getMeshFileName()
 void QQuickGraphsBars::fixMeshFileName(QString &fileName, QAbstract3DSeries::Mesh meshType)
 {
     // Should it be smooth?
-    if (m_smooth && meshType != QAbstract3DSeries::MeshPoint
-        && meshType != QAbstract3DSeries::MeshUserDefined) {
+    if (m_smooth && meshType != QAbstract3DSeries::Mesh::Point
+        && meshType != QAbstract3DSeries::Mesh::UserDefined) {
         fileName += QStringLiteral("Smooth");
     }
 
     // Should it be filled?
     if (!m_barsController->activeTheme()->isBackgroundEnabled()
-            && meshType != QAbstract3DSeries::MeshSphere
-            && meshType != QAbstract3DSeries::MeshPoint
-            && meshType != QAbstract3DSeries::MeshUserDefined) {
+            && meshType != QAbstract3DSeries::Mesh::Sphere
+            && meshType != QAbstract3DSeries::Mesh::Point
+            && meshType != QAbstract3DSeries::Mesh::UserDefined) {
         fileName.append(QStringLiteral("Full"));
     }
 }

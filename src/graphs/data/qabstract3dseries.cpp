@@ -62,29 +62,29 @@ QT_BEGIN_NAMESPACE
  *
  *  Predefined mesh types. All styles are not usable with all graphs types.
  *
- *  \value MeshUserDefined
+ *  \value UserDefined
  *         User defined mesh, set via QAbstract3DSeries::userDefinedMesh property.
- *  \value MeshBar
+ *  \value Bar
  *         Basic rectangular bar.
- *  \value MeshCube
+ *  \value Cube
  *         Basic cube.
- *  \value MeshPyramid
+ *  \value Pyramid
  *         Four-sided pyramid.
- *  \value MeshCone
+ *  \value Cone
  *         Basic cone.
- *  \value MeshCylinder
+ *  \value Cylinder
  *         Basic cylinder.
- *  \value MeshBevelBar
+ *  \value BevelBar
  *         Slightly beveled (rounded) rectangular bar.
- *  \value MeshBevelCube
+ *  \value BevelCube
  *         Slightly beveled (rounded) cube.
- *  \value MeshSphere
+ *  \value Sphere
  *         Sphere.
- *  \value MeshMinimal
+ *  \value Minimal
  *         The minimal 3D mesh: a triangular pyramid. Usable only with Q3DScatter.
- *  \value MeshArrow
+ *  \value Arrow
  *         Arrow pointing upwards.
- *  \value MeshPoint
+ *  \value Point
  *         2D point. Usable only with Q3DScatter.
  *         Shadows do not affect this style. Color style Q3DTheme::ColorStyleObjectGradient
  *         is not supported by this style.
@@ -113,7 +113,7 @@ QT_BEGIN_NAMESPACE
  * \qmlproperty Abstract3DSeries.Mesh Abstract3DSeries::mesh
  *
  * Sets the mesh of the items in the series, or the selection pointer in case of
- * Surface3DSeries. If the mesh is \l{QAbstract3DSeries::MeshUserDefined}{Abstract3DSeries.MeshUserDefined},
+ * Surface3DSeries. If the mesh is \l{QAbstract3DSeries::Mesh::UserDefined}{Abstract3DSeries.Mesh.UserDefined},
  * then the userDefinedMesh property must also be set for items to render properly.
  * The default value depends on the graph type.
  *
@@ -125,7 +125,7 @@ QT_BEGIN_NAMESPACE
  *
  * If \c true, smooth versions of predefined meshes set via the \l mesh property are used.
  * This property does not affect custom meshes used when the mesh is set to
- * \l{QAbstract3DSeries::MeshUserDefined}{Abstract3DSeries.MeshUserDefined}.
+ * \l{QAbstract3DSeries::Mesh::UserDefined}{Abstract3DSeries.Mesh.UserDefined}.
  * Defaults to \c{false}.
  */
 
@@ -145,7 +145,7 @@ QT_BEGIN_NAMESPACE
  * \qmlproperty string Abstract3DSeries::userDefinedMesh
  *
  * Sets the filename for a user defined custom mesh for objects that is used when \l mesh
- * is \l{QAbstract3DSeries::MeshUserDefined}{Abstract3DSeries.MeshUserDefined}.
+ * is \l{QAbstract3DSeries::Mesh::UserDefined}{Abstract3DSeries.Mesh.UserDefined}.
  * \note The file needs to be in the Wavefront OBJ format and include
  * vertices, normals, and UVs. It also needs to be in triangles.
  */
@@ -330,8 +330,8 @@ bool QAbstract3DSeries::isVisible() const
 void QAbstract3DSeries::setMesh(QAbstract3DSeries::Mesh mesh)
 {
     Q_D(QAbstract3DSeries);
-    if ((mesh == QAbstract3DSeries::MeshPoint || mesh == QAbstract3DSeries::MeshMinimal
-         || mesh == QAbstract3DSeries::MeshArrow)
+    if ((mesh == QAbstract3DSeries::Mesh::Point || mesh == QAbstract3DSeries::Mesh::Minimal
+         || mesh == QAbstract3DSeries::Mesh::Arrow)
             && type() != QAbstract3DSeries::SeriesType::Scatter) {
         qWarning() << "Specified style is only supported for QScatter3DSeries.";
     } else if (d->m_mesh != mesh) {
@@ -668,7 +668,7 @@ QAbstract3DSeriesPrivate::QAbstract3DSeriesPrivate(QAbstract3DSeries *q,
       m_dataProxy(0),
       m_visible(true),
       m_controller(0),
-      m_mesh(QAbstract3DSeries::MeshCube),
+      m_mesh(QAbstract3DSeries::Mesh::Cube),
       m_meshSmooth(false),
       m_colorStyle(Q3DTheme::ColorStyleUniform),
       m_baseColor(Qt::black),

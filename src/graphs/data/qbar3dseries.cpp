@@ -320,7 +320,7 @@ QBar3DSeriesPrivate::QBar3DSeriesPrivate(QBar3DSeries *q)
       m_selectedBar(Bars3DController::invalidSelectionPosition())
 {
     m_itemLabelFormat = QStringLiteral("@valueLabel");
-    m_mesh = QAbstract3DSeries::MeshBevelBar;
+    m_mesh = QAbstract3DSeries::Mesh::BevelBar;
 }
 
 QBar3DSeriesPrivate::~QBar3DSeriesPrivate()

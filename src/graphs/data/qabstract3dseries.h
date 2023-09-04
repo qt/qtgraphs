@@ -46,19 +46,19 @@ public:
     };
     Q_ENUM(SeriesType)
 
-    enum Mesh {
-        MeshUserDefined = 0,
-        MeshBar,
-        MeshCube,
-        MeshPyramid,
-        MeshCone,
-        MeshCylinder,
-        MeshBevelBar,
-        MeshBevelCube,
-        MeshSphere,
-        MeshMinimal,
-        MeshArrow,
-        MeshPoint
+    enum class Mesh {
+        UserDefined = 0,
+        Bar,
+        Cube,
+        Pyramid,
+        Cone,
+        Cylinder,
+        BevelBar,
+        BevelCube,
+        Sphere,
+        Minimal,
+        Arrow,
+        Point
     };
     Q_ENUM(Mesh)
 

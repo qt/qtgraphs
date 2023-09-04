@@ -225,7 +225,7 @@ int main(int argc, char **argv)
     QItemModelBarDataProxy *proxy = new QItemModelBarDataProxy(tableWidget->model());
     proxy->setUseModelCategories(true);
     QBar3DSeries *series = new QBar3DSeries(proxy);
-    series->setMesh(QAbstract3DSeries::MeshPyramid);
+    series->setMesh(QAbstract3DSeries::Mesh::Pyramid);
     graph->addSeries(series);
 
     GraphDataGenerator generator(graph, tableWidget);

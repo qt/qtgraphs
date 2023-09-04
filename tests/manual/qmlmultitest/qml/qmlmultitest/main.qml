@@ -134,7 +134,7 @@ Item {
 
                 Scatter3DSeries {
                     itemLabelFormat: "Pop density at (@xLabel N, @zLabel E): @yLabel"
-                    mesh: Abstract3DSeries.MeshCube
+                    mesh: Abstract3DSeries.Mesh.Cube
                     ItemModelScatterDataProxy {
                         id: scatterProxy
                         itemModel: data.sharedData

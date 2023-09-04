@@ -422,7 +422,7 @@ QSurface3DSeriesPrivate::QSurface3DSeriesPrivate(QSurface3DSeries *q)
       m_wireframeColor(Qt::black)
 {
     m_itemLabelFormat = QStringLiteral("@xLabel, @yLabel, @zLabel");
-    m_mesh = QAbstract3DSeries::MeshSphere;
+    m_mesh = QAbstract3DSeries::Mesh::Sphere;
 }
 
 QSurface3DSeriesPrivate::~QSurface3DSeriesPrivate()

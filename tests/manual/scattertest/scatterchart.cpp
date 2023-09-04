@@ -149,7 +149,7 @@ void ScatterDataModifier::massiveDataTest()
 
         QScatter3DSeries *series =  new QScatter3DSeries;
         series->dataProxy()->resetArray(massiveArray);
-        series->setMesh(QAbstract3DSeries::MeshPoint);
+        series->setMesh(QAbstract3DSeries::Mesh::Point);
         m_chart->addSeries(series);
         break;
     }
@@ -525,29 +525,29 @@ void ScatterDataModifier::changeStyle()
     if (m_targetSeries->isMeshSmooth()) {
         m_targetSeries->setMeshSmooth(false);
         switch (m_targetSeries->mesh()) {
-        case QAbstract3DSeries::MeshCube:
-            m_targetSeries->setMesh(QAbstract3DSeries::MeshPyramid);
+        case QAbstract3DSeries::Mesh::Cube:
+            m_targetSeries->setMesh(QAbstract3DSeries::Mesh::Pyramid);
             break;
-        case QAbstract3DSeries::MeshPyramid:
-            m_targetSeries->setMesh(QAbstract3DSeries::MeshCone);
+        case QAbstract3DSeries::Mesh::Pyramid:
+            m_targetSeries->setMesh(QAbstract3DSeries::Mesh::Cone);
             break;
-        case QAbstract3DSeries::MeshCone:
-            m_targetSeries->setMesh(QAbstract3DSeries::MeshCylinder);
+        case QAbstract3DSeries::Mesh::Cone:
+            m_targetSeries->setMesh(QAbstract3DSeries::Mesh::Cylinder);
             break;
-        case QAbstract3DSeries::MeshCylinder:
-            m_targetSeries->setMesh(QAbstract3DSeries::MeshBevelCube);
+        case QAbstract3DSeries::Mesh::Cylinder:
+            m_targetSeries->setMesh(QAbstract3DSeries::Mesh::BevelCube);
             break;
-        case QAbstract3DSeries::MeshBevelCube:
-            m_targetSeries->setMesh(QAbstract3DSeries::MeshSphere);
+        case QAbstract3DSeries::Mesh::BevelCube:
+            m_targetSeries->setMesh(QAbstract3DSeries::Mesh::Sphere);
             break;
-        case QAbstract3DSeries::MeshSphere:
-            m_targetSeries->setMesh(QAbstract3DSeries::MeshMinimal);
+        case QAbstract3DSeries::Mesh::Sphere:
+            m_targetSeries->setMesh(QAbstract3DSeries::Mesh::Minimal);
             break;
-        case QAbstract3DSeries::MeshMinimal:
-            m_targetSeries->setMesh(QAbstract3DSeries::MeshPoint);
+        case QAbstract3DSeries::Mesh::Minimal:
+            m_targetSeries->setMesh(QAbstract3DSeries::Mesh::Point);
             break;
         default:
-            m_targetSeries->setMesh(QAbstract3DSeries::MeshCube);
+            m_targetSeries->setMesh(QAbstract3DSeries::Mesh::Cube);
             break;
         }
     } else {
@@ -1116,7 +1116,7 @@ QScatter3DSeries *ScatterDataModifier::createAndAddSeries()
     m_chart->addSeries(series);
     series->setName(QString("Series %1").arg(counter++));
     series->setItemLabelFormat(QStringLiteral("@seriesName: (X:@xLabel / Z:@zLabel) Y:@yLabel"));
-    series->setMesh(QAbstract3DSeries::MeshSphere);
+    series->setMesh(QAbstract3DSeries::Mesh::Sphere);
     series->setMeshSmooth(true);
     series->setBaseColor(QColor(QRandomGenerator::global()->bounded(256), QRandomGenerator::global()->bounded(256), QRandomGenerator::global()->bounded(256)));
     series->setItemSize(float(QRandomGenerator::global()->bounded(90) + 10) / 100.0f);

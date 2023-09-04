@@ -72,10 +72,13 @@ void ScatterGraph::initialize()
     smoothCheckBox->setChecked(true);
 
     auto *itemStyleList = new QComboBox(m_scatterWidget);
-    itemStyleList->addItem(u"Sphere"_s, QAbstract3DSeries::MeshSphere);
-    itemStyleList->addItem(u"Cube"_s, QAbstract3DSeries::MeshCube);
-    itemStyleList->addItem(u"Minimal"_s, QAbstract3DSeries::MeshMinimal);
-    itemStyleList->addItem(u"Point"_s, QAbstract3DSeries::MeshPoint);
+    const QMetaObject &metaObj = QAbstract3DSeries::staticMetaObject;
+    int index = metaObj.indexOfEnumerator("Mesh");
+    QMetaEnum metaEnum = metaObj.enumerator(index);
+    itemStyleList->addItem(u"Sphere"_s, metaEnum.value(static_cast<int>(QAbstract3DSeries::Mesh::Sphere)));
+    itemStyleList->addItem(u"Cube"_s, metaEnum.value(static_cast<int>(QAbstract3DSeries::Mesh::Cube)));
+    itemStyleList->addItem(u"Minimal"_s, metaEnum.value(static_cast<int>(QAbstract3DSeries::Mesh::Minimal)));
+    itemStyleList->addItem(u"Point"_s, metaEnum.value(static_cast<int>(QAbstract3DSeries::Mesh::Point)));
     itemStyleList->setCurrentIndex(0);
 
     auto *themeList = new QComboBox(m_scatterWidget);

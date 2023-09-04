@@ -52,7 +52,7 @@ Data::Data(Q3DSurface *surface, Q3DScatter *scatter, Q3DBars *bars,
     m_scatter->setShadowQuality(QAbstract3DGraph::ShadowQualitySoftLow);
     m_scatter->scene()->activeCamera()->setCameraPosition(0.0, 85.0, 150.0);
     QScatter3DSeries *series2 = new QScatter3DSeries;
-    series2->setMesh(QAbstract3DSeries::MeshPoint);
+    series2->setMesh(QAbstract3DSeries::Mesh::Point);
     m_scatter->addSeries(series2);
 
     // Initialize bars
@@ -63,7 +63,7 @@ Data::Data(Q3DSurface *surface, Q3DScatter *scatter, Q3DBars *bars,
     m_bars->setBarSpacing(QSizeF(0.0, 0.0));
     m_bars->scene()->activeCamera()->setCameraPosition(0.0, 75.0, 150.0);
     QBar3DSeries *series3 = new QBar3DSeries;
-    series3->setMesh(QAbstract3DSeries::MeshBar);
+    series3->setMesh(QAbstract3DSeries::Mesh::Bar);
     m_bars->addSeries(series3);
 
     // Hide scroll bar

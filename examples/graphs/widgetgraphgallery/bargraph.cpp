@@ -59,13 +59,16 @@ void BarGraph::initialize()
     smoothCheckBox->setChecked(false);
 
     auto *barStyleList = new QComboBox(m_barsWidget);
-    barStyleList->addItem(u"Bar"_s, QAbstract3DSeries::MeshBar);
-    barStyleList->addItem(u"Pyramid"_s, QAbstract3DSeries::MeshPyramid);
-    barStyleList->addItem(u"Cone"_s, QAbstract3DSeries::MeshCone);
-    barStyleList->addItem(u"Cylinder"_s, QAbstract3DSeries::MeshCylinder);
-    barStyleList->addItem(u"Bevel bar"_s, QAbstract3DSeries::MeshBevelBar);
-    barStyleList->addItem(u"Sphere"_s, QAbstract3DSeries::MeshSphere);
-    barStyleList->addItem(u"UserDefined"_s, QAbstract3DSeries::MeshUserDefined);
+    const QMetaObject &metaObj = QAbstract3DSeries::staticMetaObject;
+    int index = metaObj.indexOfEnumerator("Mesh");
+    QMetaEnum metaEnum = metaObj.enumerator(index);
+    barStyleList->addItem(u"Bar"_s, metaEnum.value(static_cast<int>(QAbstract3DSeries::Mesh::Bar)));
+    barStyleList->addItem(u"Pyramid"_s, metaEnum.value(static_cast<int>(QAbstract3DSeries::Mesh::Pyramid)));
+    barStyleList->addItem(u"Cone"_s, metaEnum.value(static_cast<int>(QAbstract3DSeries::Mesh::Cone)));
+    barStyleList->addItem(u"Cylinder"_s, metaEnum.value(static_cast<int>(QAbstract3DSeries::Mesh::Cylinder)));
+    barStyleList->addItem(u"Bevel bar"_s, metaEnum.value(static_cast<int>(QAbstract3DSeries::Mesh::BevelBar)));
+    barStyleList->addItem(u"Sphere"_s, metaEnum.value(static_cast<int>(QAbstract3DSeries::Mesh::Sphere)));
+    barStyleList->addItem(u"UserDefined"_s, metaEnum.value(static_cast<int>(QAbstract3DSeries::Mesh::UserDefined)));
     barStyleList->setCurrentIndex(4);
 
     auto *cameraButton = new QPushButton(m_barsWidget);

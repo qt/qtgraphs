@@ -67,11 +67,11 @@ GraphModifier::GraphModifier(Q3DBars *bargraph, QObject *parent) :
 
     //! [4]
     m_primarySeries->setItemLabelFormat(u"Oulu - @colLabel @rowLabel: @valueLabel"_s);
-    m_primarySeries->setMesh(QAbstract3DSeries::MeshBevelBar);
+    m_primarySeries->setMesh(QAbstract3DSeries::Mesh::BevelBar);
     m_primarySeries->setMeshSmooth(false);
 
     m_secondarySeries->setItemLabelFormat(u"Helsinki - @colLabel @rowLabel: @valueLabel"_s);
-    m_secondarySeries->setMesh(QAbstract3DSeries::MeshBevelBar);
+    m_secondarySeries->setMesh(QAbstract3DSeries::Mesh::BevelBar);
     m_secondarySeries->setMeshSmooth(false);
     m_secondarySeries->setVisible(false);
     //! [4]
@@ -201,7 +201,7 @@ void GraphModifier::changeStyle(int style)
         m_primarySeries->setMesh(m_barMesh);
         m_secondarySeries->setMesh(m_barMesh);
         m_customData->customSeries()->setMesh(m_barMesh);
-        if (m_barMesh == QAbstract3DSeries::MeshUserDefined) {
+        if (m_barMesh == QAbstract3DSeries::Mesh::UserDefined) {
             m_primarySeries->setUserDefinedMesh(":/data/narrowarrow.mesh");
             m_secondarySeries->setUserDefinedMesh(":/data/narrowarrow.mesh");
             m_customData->customSeries()->setUserDefinedMesh(":/data/narrowarrow.mesh");

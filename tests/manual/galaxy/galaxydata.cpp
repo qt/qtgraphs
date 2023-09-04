@@ -206,22 +206,22 @@ void GalaxyData::createSeries()
 {
     QScatterDataProxy *proxyNormal = new QScatterDataProxy;
     m_normalSeries = new QScatter3DSeries(proxyNormal);
-    m_normalSeries->setMesh(QAbstract3DSeries::MeshPoint);
+    m_normalSeries->setMesh(QAbstract3DSeries::Mesh::Point);
     m_graph->addSeries(m_normalSeries);
 
     QScatterDataProxy *proxyDust = new QScatterDataProxy;
     m_dustSeries = new QScatter3DSeries(proxyDust);
-    m_dustSeries->setMesh(QAbstract3DSeries::MeshPoint);
+    m_dustSeries->setMesh(QAbstract3DSeries::Mesh::Point);
     m_graph->addSeries(m_dustSeries);
 
     QScatterDataProxy *proxyH2 = new QScatterDataProxy;
     m_H2Series = new QScatter3DSeries(proxyH2);
-    m_H2Series->setMesh(QAbstract3DSeries::MeshPoint);
+    m_H2Series->setMesh(QAbstract3DSeries::Mesh::Point);
     m_graph->addSeries(m_H2Series);
 
     QScatterDataProxy *proxyFiltered = new QScatterDataProxy;
     m_filteredSeries = new QScatter3DSeries(proxyFiltered);
-    m_filteredSeries->setMesh(QAbstract3DSeries::MeshCube);
+    m_filteredSeries->setMesh(QAbstract3DSeries::Mesh::Cube);
     m_graph->addSeries(m_filteredSeries);
 
 }
@@ -240,7 +240,7 @@ void GalaxyData::createNormalDataView()
     }
 
     m_normalSeries->dataProxy()->resetArray(dataArray);
-    m_normalSeries->setMesh(QAbstract3DSeries::MeshPoint);
+    m_normalSeries->setMesh(QAbstract3DSeries::Mesh::Point);
     m_normalSeries->setBaseColor(Qt::white);
 
     dataArray = new QScatterDataArray;
@@ -255,7 +255,7 @@ void GalaxyData::createNormalDataView()
     }
 
     m_dustSeries->dataProxy()->resetArray(dataArray);
-    m_dustSeries->setMesh(QAbstract3DSeries::MeshPoint);
+    m_dustSeries->setMesh(QAbstract3DSeries::Mesh::Point);
     m_dustSeries->setBaseColor(QColor(131, 111, 255));
 
     dataArray = new QScatterDataArray;
@@ -271,7 +271,7 @@ void GalaxyData::createNormalDataView()
     }
 
     m_H2Series->dataProxy()->resetArray(dataArray);
-    m_H2Series->setMesh(QAbstract3DSeries::MeshPoint);
+    m_H2Series->setMesh(QAbstract3DSeries::Mesh::Point);
     m_H2Series->setBaseColor(Qt::red);
 }
 
@@ -318,7 +318,7 @@ void GalaxyData::createFilteredView()
     }
 
     m_filteredSeries->dataProxy()->resetArray(dataArray);
-    m_filteredSeries->setMesh(QAbstract3DSeries::MeshCube);
+    m_filteredSeries->setMesh(QAbstract3DSeries::Mesh::Cube);
     m_filteredSeries->setItemSize(0.1f);
 
     m_graph->axisY()->setRange(0.0f, float(max + 1));

@@ -208,7 +208,7 @@ private:
     };
 
     QHash<QBar3DSeries *, QList<BarModel *> *> m_barModelsMap;
-    QAbstract3DSeries::Mesh m_meshType = QAbstract3DSeries::MeshSphere;
+    QAbstract3DSeries::Mesh m_meshType = QAbstract3DSeries::Mesh::Sphere;
     bool m_smooth = false;
     bool m_keepSeriesUniform;
     bool m_hasHighlightTexture = false;

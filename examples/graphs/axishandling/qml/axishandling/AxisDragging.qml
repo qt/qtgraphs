@@ -111,7 +111,7 @@ Item {
         Scatter3DSeries {
             id: scatterSeries
             itemLabelFormat: "X:@xLabel Y:@yLabel Z:@zLabel"
-            mesh: Abstract3DSeries.MeshCube
+            mesh: Abstract3DSeries.Mesh.Cube
 
             ItemModelScatterDataProxy {
                 itemModel: graphModel

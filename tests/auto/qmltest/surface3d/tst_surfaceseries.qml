@@ -60,7 +60,7 @@ Item {
         colorStyle: Theme3D.ColorStyleObjectGradient
         itemLabelFormat: "%f"
         itemLabelVisible: false
-        mesh: Abstract3DSeries.MeshCube
+        mesh: Abstract3DSeries.Mesh.Cube
         meshRotation: Qt.quaternion(1, 1, 1, 1)
         meshSmooth: true
         multiHighlightColor: "green"
@@ -109,7 +109,7 @@ Item {
             compare(initial.itemLabel, "")
             compare(initial.itemLabelFormat, "@xLabel, @yLabel, @zLabel")
             compare(initial.itemLabelVisible, true)
-            compare(initial.mesh, Abstract3DSeries.MeshSphere)
+            compare(initial.mesh, Abstract3DSeries.Mesh.Sphere)
             compare(initial.meshRotation, Qt.quaternion(1, 0, 0, 0))
             compare(initial.meshSmooth, false)
             compare(initial.multiHighlightColor, "#000000")
@@ -142,7 +142,7 @@ Item {
             compare(initialized.colorStyle, Theme3D.ColorStyleObjectGradient)
             compare(initialized.itemLabelFormat, "%f")
             compare(initialized.itemLabelVisible, false)
-            compare(initialized.mesh, Abstract3DSeries.MeshCube)
+            compare(initialized.mesh, Abstract3DSeries.Mesh.Cube)
             compare(initialized.meshRotation, Qt.quaternion(1, 1, 1, 1))
             compare(initialized.meshSmooth, true)
             compare(initialized.multiHighlightColor, "#008000")
@@ -183,7 +183,7 @@ Item {
             change.colorStyle = Theme3D.ColorStyleObjectGradient
             change.itemLabelFormat = "%f"
             change.itemLabelVisible = false
-            change.mesh = Abstract3DSeries.MeshCube
+            change.mesh = Abstract3DSeries.Mesh.Cube
             change.meshRotation = Qt.quaternion(1, 1, 1, 1)
             change.meshSmooth = true
             change.multiHighlightColor = "green"
@@ -199,7 +199,7 @@ Item {
             compare(change.colorStyle, Theme3D.ColorStyleObjectGradient)
             compare(change.itemLabelFormat, "%f")
             compare(change.itemLabelVisible, false)
-            compare(change.mesh, Abstract3DSeries.MeshCube)
+            compare(change.mesh, Abstract3DSeries.Mesh.Cube)
             compare(change.meshRotation, Qt.quaternion(1, 1, 1, 1))
             compare(change.meshSmooth, true)
             compare(change.multiHighlightColor, "#008000")

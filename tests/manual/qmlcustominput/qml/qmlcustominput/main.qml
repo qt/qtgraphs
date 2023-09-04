@@ -38,7 +38,7 @@ Item {
             Scatter3DSeries {
                 id: scatterSeriesOne
                 itemLabelFormat: "One - X:@xLabel Y:@yLabel Z:@zLabel"
-                mesh: Abstract3DSeries.MeshCube
+                mesh: Abstract3DSeries.Mesh.Cube
 
                 ItemModelScatterDataProxy {
                     itemModel: graphData.modelOne
@@ -51,7 +51,7 @@ Item {
             Scatter3DSeries {
                 id: scatterSeriesTwo
                 itemLabelFormat: "Two - X:@xLabel Y:@yLabel Z:@zLabel"
-                mesh: Abstract3DSeries.MeshCube
+                mesh: Abstract3DSeries.Mesh.Cube
 
                 ItemModelScatterDataProxy {
                     itemModel: graphData.modelTwo
@@ -64,7 +64,7 @@ Item {
             Scatter3DSeries {
                 id: scatterSeriesThree
                 itemLabelFormat: "Three - X:@xLabel Y:@yLabel Z:@zLabel"
-                mesh: Abstract3DSeries.MeshCube
+                mesh: Abstract3DSeries.Mesh.Cube
 
                 ItemModelScatterDataProxy {
                     itemModel: graphData.modelThree

@@ -32,7 +32,7 @@ ScatterDataModifier::ScatterDataModifier(Q3DScatter *scatter)
 
     QScatter3DSeries *series = new QScatter3DSeries;
     series->setItemLabelFormat(QStringLiteral("@xLabel, @yLabel, @zLabel"));
-    series->setMesh(QAbstract3DSeries::MeshCube);
+    series->setMesh(QAbstract3DSeries::Mesh::Cube);
     series->setItemSize(0.15f);
     m_graph->addSeries(series);
 

@@ -149,7 +149,7 @@ void QQuickGraphsScatter::updateScatterGraphItemPositions(ScatterModel *graphMod
                 dataPoint->setPosition(QVector3D(posX, posY, posZ));
                 QQuaternion totalRotation;
 
-                if (graphModel->series->mesh() != QAbstract3DSeries::MeshPoint)
+                if (graphModel->series->mesh() != QAbstract3DSeries::Mesh::Point)
                     totalRotation = dotRot * meshRotation;
                 else
                     totalRotation = cameraTarget()->rotation();
@@ -174,7 +174,7 @@ void QQuickGraphsScatter::updateScatterGraphItemPositions(ScatterModel *graphMod
                 auto posZ = axisZ()->positionAt(dotPos.z()) * scale().z() + translate().z();
 
                 QQuaternion totalRotation;
-                if (graphModel->series->mesh() != QAbstract3DSeries::MeshPoint)
+                if (graphModel->series->mesh() != QAbstract3DSeries::Mesh::Point)
                     totalRotation = item->rotation() * meshRotation;
                 else
                     totalRotation = cameraTarget()->rotation();
@@ -194,7 +194,7 @@ void QQuickGraphsScatter::updateScatterGraphItemPositions(ScatterModel *graphMod
 void QQuickGraphsScatter::updateScatterGraphItemVisuals(ScatterModel *graphModel)
 {
     bool useGradient = graphModel->series->d_func()->isUsingGradient();
-    bool usePoint = graphModel->series->mesh() == QAbstract3DSeries::MeshPoint;
+    bool usePoint = graphModel->series->mesh() == QAbstract3DSeries::Mesh::Point;
     int itemCount = graphModel->series->dataProxy()->itemCount();
 
     if (useGradient) {
@@ -709,16 +709,16 @@ QVector3D QQuickGraphsScatter::selectedItemPosition()
 void QQuickGraphsScatter::fixMeshFileName(QString &fileName, QAbstract3DSeries::Mesh meshType)
 {
     // Should it be smooth?
-    if (m_smooth && meshType != QAbstract3DSeries::MeshPoint
-        && meshType != QAbstract3DSeries::MeshUserDefined) {
+    if (m_smooth && meshType != QAbstract3DSeries::Mesh::Point
+        && meshType != QAbstract3DSeries::Mesh::UserDefined) {
         fileName += QStringLiteral("Smooth");
     }
 
     // Should it be filled?
-    if (meshType != QAbstract3DSeries::MeshSphere && meshType != QAbstract3DSeries::MeshArrow
-            && meshType != QAbstract3DSeries::MeshMinimal
-            && meshType != QAbstract3DSeries::MeshPoint
-            && meshType != QAbstract3DSeries::MeshUserDefined) {
+    if (meshType != QAbstract3DSeries::Mesh::Sphere && meshType != QAbstract3DSeries::Mesh::Arrow
+            && meshType != QAbstract3DSeries::Mesh::Minimal
+            && meshType != QAbstract3DSeries::Mesh::Point
+            && meshType != QAbstract3DSeries::Mesh::UserDefined) {
         fileName.append(QStringLiteral("Full"));
     }
 }
@@ -727,38 +727,38 @@ QString QQuickGraphsScatter::getMeshFileName(QAbstract3DSeries::Mesh meshType)
 {
     QString fileName = {};
     switch (meshType) {
-    case QAbstract3DSeries::MeshSphere:
+    case QAbstract3DSeries::Mesh::Sphere:
         fileName = QStringLiteral("defaultMeshes/sphereMesh");
         break;
-    case QAbstract3DSeries::MeshBar:
-    case QAbstract3DSeries::MeshCube:
+    case QAbstract3DSeries::Mesh::Bar:
+    case QAbstract3DSeries::Mesh::Cube:
         fileName = QStringLiteral("defaultMeshes/barMesh");
         break;
-    case QAbstract3DSeries::MeshPyramid:
+    case QAbstract3DSeries::Mesh::Pyramid:
         fileName = QStringLiteral("defaultMeshes/pyramidMesh");
         break;
-    case QAbstract3DSeries::MeshCone:
+    case QAbstract3DSeries::Mesh::Cone:
         fileName = QStringLiteral("defaultMeshes/coneMesh");
         break;
-    case QAbstract3DSeries::MeshCylinder:
+    case QAbstract3DSeries::Mesh::Cylinder:
         fileName = QStringLiteral("defaultMeshes/cylinderMesh");
         break;
-    case QAbstract3DSeries::MeshBevelBar:
-    case QAbstract3DSeries::MeshBevelCube:
+    case QAbstract3DSeries::Mesh::BevelBar:
+    case QAbstract3DSeries::Mesh::BevelCube:
         fileName = QStringLiteral("defaultMeshes/bevelBarMesh");
         break;
-    case QAbstract3DSeries::MeshMinimal:
+    case QAbstract3DSeries::Mesh::Minimal:
         fileName = QStringLiteral("defaultMeshes/minimalMesh");
         break;
-    case QAbstract3DSeries::MeshArrow:
+    case QAbstract3DSeries::Mesh::Arrow:
         fileName = QStringLiteral("defaultMeshes/arrowMesh");
         break;
-    case QAbstract3DSeries::MeshPoint:
+    case QAbstract3DSeries::Mesh::Point:
         fileName = shadowQuality() == QAbstract3DGraph::ShadowQualityNone
                        ? QStringLiteral("defaultMeshes/planeMesh")
                        : QStringLiteral("defaultMeshes/octagonMesh");
         break;
-    case QAbstract3DSeries::MeshUserDefined:
+    case QAbstract3DSeries::Mesh::UserDefined:
         break;
     default:
         fileName = QStringLiteral("defaultMeshes/sphereMesh");
@@ -969,7 +969,7 @@ void QQuickGraphsScatter::updateShadowQuality(QAbstract3DGraph::ShadowQuality qu
         // Need to change mesh for series using point type
         QList<ScatterModel *> graphs;
         for (const auto &graph : std::as_const(m_scatterGraphs)) {
-            if (graph->series->mesh() == QAbstract3DSeries::MeshPoint)
+            if (graph->series->mesh() == QAbstract3DSeries::Mesh::Point)
                 graphs.append(graph);
         }
         recreateDataItems(graphs);

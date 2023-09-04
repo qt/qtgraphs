@@ -250,7 +250,7 @@ QScatter3DSeriesPrivate::QScatter3DSeriesPrivate(QScatter3DSeries *q)
       m_itemSize(0.0f)
 {
     m_itemLabelFormat = QStringLiteral("@xLabel, @yLabel, @zLabel");
-    m_mesh = QAbstract3DSeries::MeshSphere;
+    m_mesh = QAbstract3DSeries::Mesh::Sphere;
 }
 
 QScatter3DSeriesPrivate::~QScatter3DSeriesPrivate()

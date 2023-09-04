@@ -70,7 +70,7 @@ private:
     QCategory3DAxis *m_monthAxis = nullptr;
     QBar3DSeries *m_primarySeries = nullptr;
     QBar3DSeries *m_secondarySeries = nullptr;
-    QAbstract3DSeries::Mesh m_barMesh = QAbstract3DSeries::MeshBevelBar;
+    QAbstract3DSeries::Mesh m_barMesh = QAbstract3DSeries::Mesh::BevelBar;
     bool m_smooth = false;
     QPropertyAnimation m_animationCameraX = {};
     QPropertyAnimation m_animationCameraY = {};
