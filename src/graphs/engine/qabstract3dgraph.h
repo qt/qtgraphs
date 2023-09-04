@@ -81,10 +81,10 @@ public:
     };
     Q_ENUM(ElementType)
 
-    enum OptimizationHint {
-        OptimizationDefault = 0,
-        OptimizationStatic  = 1,
-        OptimizationLegacy
+    enum class OptimizationHint {
+        Default = 0,
+        Static  = 1,
+        Legacy
     };
     Q_ENUM(OptimizationHint)
 

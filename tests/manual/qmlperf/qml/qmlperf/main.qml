@@ -52,15 +52,15 @@ Item {
         height: 50
         anchors.left: fpsText.right
         enabled: true
-        text: scatterPlot.optimizationHint === AbstractGraph3D.OptimizationLegacy
+        text: scatterPlot.optimizationHint === AbstractGraph3D.OptimizationHint.Legacy
               ? "To Static" : "To Default"
         onClicked: {
             console.log("Optimization");
-            if (scatterPlot.optimizationHint === AbstractGraph3D.OptimizationLegacy) {
-                scatterPlot.optimizationHint = AbstractGraph3D.OptimizationDefault;
+            if (scatterPlot.optimizationHint === AbstractGraph3D.OptimizationHint.Legacy) {
+                scatterPlot.optimizationHint = AbstractGraph3D.OptimizationHint.Default;
                 optimization.text = "To Default";
             } else {
-                scatterPlot.optimizationHint = AbstractGraph3D.OptimizationLegacy;
+                scatterPlot.optimizationHint = AbstractGraph3D.OptimizationHint.Legacy;
                 optimization.text = "To Static";
             }
         }
@@ -115,7 +115,7 @@ Item {
             width: graphView.width
             height: graphView.height
             shadowQuality: AbstractGraph3D.ShadowQuality.None
-            optimizationHint: AbstractGraph3D.OptimizationLegacy
+            optimizationHint: AbstractGraph3D.OptimizationHint.Legacy
             scene.activeCamera.yRotation: 45.0
             measureFps: true
             onCurrentFpsChanged: {

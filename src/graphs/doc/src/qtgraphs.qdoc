@@ -325,8 +325,8 @@
 
     \section2 optimizationHint
 
-    \c OptimizationLegacy is now the mode that was \c OptimizationDefault in QtDataVisualization.
-    \c OptimizationDefault uses instancing, and should be used for all targets that support it.
+    \c Legacy is now the mode that was \c OptimizationDefault in QtDataVisualization.
+    \c Default uses instancing, and should be used for all targets that support it.
 
     \section2 renderingMode
 

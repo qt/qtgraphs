@@ -109,9 +109,9 @@ void ScatterDataModifier::addData()
 void ScatterDataModifier::enableOptimization(int enabled)
 {
     if (enabled)
-        m_graph->setOptimizationHint(QAbstract3DGraph::OptimizationDefault);
+        m_graph->setOptimizationHint(QAbstract3DGraph::OptimizationHint::Default);
     else
-        m_graph->setOptimizationHint(QAbstract3DGraph::OptimizationLegacy);
+        m_graph->setOptimizationHint(QAbstract3DGraph::OptimizationHint::Legacy);
 }
 
 void ScatterDataModifier::changeStyle(int style)

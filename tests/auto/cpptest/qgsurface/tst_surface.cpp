@@ -94,7 +94,7 @@ void tst_surface::initialProperties()
     QCOMPARE(m_graph->isOrthoProjection(), false);
     QCOMPARE(m_graph->selectedElement(), QAbstract3DGraph::ElementType::None);
     QCOMPARE(m_graph->aspectRatio(), 2.0);
-    QCOMPARE(m_graph->optimizationHint(), QAbstract3DGraph::OptimizationDefault);
+    QCOMPARE(m_graph->optimizationHint(), QAbstract3DGraph::OptimizationHint::Default);
     QCOMPARE(m_graph->isPolar(), false);
     QCOMPARE(m_graph->radialLabelOffset(), 1.0);
     QCOMPARE(m_graph->horizontalAspectRatio(), 0.0);
@@ -119,7 +119,7 @@ void tst_surface::initializeProperties()
     m_graph->setMeasureFps(true);
     m_graph->setOrthoProjection(true);
     m_graph->setAspectRatio(1.0);
-    m_graph->setOptimizationHint(QAbstract3DGraph::OptimizationDefault);
+    m_graph->setOptimizationHint(QAbstract3DGraph::OptimizationHint::Default);
     m_graph->setPolar(true);
     m_graph->setRadialLabelOffset(0.1f);
     m_graph->setHorizontalAspectRatio(1.0);
@@ -134,7 +134,7 @@ void tst_surface::initializeProperties()
     QCOMPARE(m_graph->measureFps(), true);
     QCOMPARE(m_graph->isOrthoProjection(), true);
     QCOMPARE(m_graph->aspectRatio(), 1.0);
-    QCOMPARE(m_graph->optimizationHint(), QAbstract3DGraph::OptimizationDefault);
+    QCOMPARE(m_graph->optimizationHint(), QAbstract3DGraph::OptimizationHint::Default);
     QCOMPARE(m_graph->isPolar(), true);
     QCOMPARE(m_graph->radialLabelOffset(), 0.1f);
     QCOMPARE(m_graph->horizontalAspectRatio(), 1.0);

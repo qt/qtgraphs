@@ -122,14 +122,14 @@ QT_BEGIN_NAMESPACE
 
     The optimization hint for rendering.
 
-    \value OptimizationDefault
+    \value Default
            Provides the full feature set with instancing at a good performance.
-    \value OptimizationStatic
+    \value Static
            Optimizes the rendering of static data sets at the expense of some features.
            Usable only with Q3DScatter graphs.
-    \value OptimizationLegacy
+    \value Legacy
            Provides the full feature set at a reasonable performance. To be used if
-           OptimizationDefault performs poorly or does not work.
+           OptimizationHint.Default performs poorly or does not work.
 */
 
 /*!
@@ -600,7 +600,7 @@ qreal QAbstract3DGraph::aspectRatio() const
  * Static optimization works only on scatter graphs.
  * Legacy mode renders all items in th graph individually, without instancing. It should be used
  * only if default mode does not work, i.e. if the target system does not support instancing.
- * Defaults to \l{OptimizationDefault}.
+ * Defaults to \l{Default}.
  *
  * \note On some environments, large graphs using static optimization may not render, because
  * all of the items are rendered using a single draw call, and different graphics drivers

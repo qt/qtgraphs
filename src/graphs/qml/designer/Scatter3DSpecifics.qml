@@ -113,7 +113,7 @@ Column {
             SecondColumnLayout {
                 ComboBox {
                     backendValue: backendValues.optimizationHint
-                    model: ["OptimizationDefault", "OptimizationStatic", "OptimizationLegacy"]
+                    model: ["Default", "Static", "Legacy"]
                     Layout.fillWidth: true
                     scope: "AbstractGraph3D"
                 }

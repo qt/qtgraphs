@@ -31,7 +31,7 @@ Abstract3DController::Abstract3DController(QRect initialViewport, Q3DScene *scen
     m_useOrthoProjection(false),
     m_aspectRatio(2.0),
     m_horizontalAspectRatio(0.0),
-    m_optimizationHint(QAbstract3DGraph::OptimizationDefault),
+    m_optimizationHint(QAbstract3DGraph::OptimizationHint::Default),
     m_reflectionEnabled(false),
     m_reflectivity(0.5),
     m_locale(QLocale::c()),

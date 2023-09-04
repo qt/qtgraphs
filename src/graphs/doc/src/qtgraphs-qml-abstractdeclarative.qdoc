@@ -303,7 +303,7 @@
  * Static optimization works only on scatter graphs.
  * Legacy mode renders all items in th graph individually, without instancing. It should be used
  * only if default mode does not work, i.e. if the target system does not support instancing.
- * Defaults to \l{QAbstract3DGraph::OptimizationDefault}{OptimizationDefault}.
+ * Defaults to \l{QAbstract3DGraph::OptimizationHint::Default}{Default}.
  *
  * \note On some environments, large graphs using static optimization may not render, because
  * all of the items are rendered using a single draw call, and different graphics drivers

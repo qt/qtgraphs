@@ -54,7 +54,7 @@ GalaxyData::GalaxyData(Q3DScatter *scatter,
 
     m_graph->axisX()->setRange(-25000.0f, 25000.0f);
     m_graph->axisZ()->setRange(-25000.0f, 25000.0f);
-    m_graph->setOptimizationHint(QAbstract3DGraph::OptimizationDefault);
+    m_graph->setOptimizationHint(QAbstract3DGraph::OptimizationHint::Default);
     m_graph->activeTheme()->setBackgroundColor(QColor(31, 31, 31));
     m_graph->activeTheme()->setWindowColor(QColor(31, 31, 31));
     m_graph->activeTheme()->setLabelBackgroundColor(QColor(31, 31, 31));
@@ -424,9 +424,9 @@ void GalaxyData::setFilteredEnabled(bool enabled)
 void GalaxyData::setStaticEnabled(bool enabled)
 {
     if (enabled)
-        m_graph->setOptimizationHint(QAbstract3DGraph::OptimizationDefault);
+        m_graph->setOptimizationHint(QAbstract3DGraph::OptimizationHint::Default);
     else
-        m_graph->setOptimizationHint(QAbstract3DGraph::OptimizationLegacy);
+        m_graph->setOptimizationHint(QAbstract3DGraph::OptimizationHint::Legacy);
 }
 
 void GalaxyData::setStarsVisible(bool enabled)
