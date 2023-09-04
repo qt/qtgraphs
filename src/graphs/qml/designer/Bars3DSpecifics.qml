@@ -86,7 +86,7 @@ Column {
             SecondColumnLayout {
                 ComboBox {
                     backendValue: backendValues.renderingMode
-                    model: ["RenderIndirect", "RenderDirectToBackground"]
+                    model: ["Indirect", "DirectToBackground"]
                     Layout.fillWidth: true
                     scope: "AbstractGraph3D"
                 }

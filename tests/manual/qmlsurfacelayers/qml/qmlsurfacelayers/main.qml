@@ -241,20 +241,20 @@ Item {
             onClicked: {
                 var modeText = "Indirect "
                 var aaText
-                if (surfaceLayers.renderingMode === AbstractGraph3D.RenderIndirect &&
+                if (surfaceLayers.renderingMode === AbstractGraph3D.RenderingMode.Indirect &&
                         surfaceLayers.msaaSamples === 0) {
-                    surfaceLayers.renderingMode = AbstractGraph3D.RenderDirectToBackground
+                    surfaceLayers.renderingMode = AbstractGraph3D.RenderingMode.DirectToBackground
                     modeText = "BackGround "
-                } else if (surfaceLayers.renderingMode === AbstractGraph3D.RenderIndirect &&
+                } else if (surfaceLayers.renderingMode === AbstractGraph3D.RenderingMode.Indirect &&
                            surfaceLayers.msaaSamples === 4) {
-                    surfaceLayers.renderingMode = AbstractGraph3D.RenderIndirect
+                    surfaceLayers.renderingMode = AbstractGraph3D.RenderingMode.Indirect
                     surfaceLayers.msaaSamples = 0
-                } else if (surfaceLayers.renderingMode === AbstractGraph3D.RenderIndirect &&
+                } else if (surfaceLayers.renderingMode === AbstractGraph3D.RenderingMode.Indirect &&
                            surfaceLayers.msaaSamples === 8) {
-                    surfaceLayers.renderingMode = AbstractGraph3D.RenderIndirect
+                    surfaceLayers.renderingMode = AbstractGraph3D.RenderingMode.Indirect
                     surfaceLayers.msaaSamples = 4
                 } else {
-                    surfaceLayers.renderingMode = AbstractGraph3D.RenderIndirect
+                    surfaceLayers.renderingMode = AbstractGraph3D.RenderingMode.Indirect
                     surfaceLayers.msaaSamples = 8
                 }
 

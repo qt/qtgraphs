@@ -57,7 +57,7 @@ QQuickGraphsItem::QQuickGraphsItem(QQuickItem *parent) :
     setFlag(ItemHasContents/*, !m_runningInDesigner*/); // Is this relevant anymore?
 
     // Set 4x MSAA by default
-    setRenderingMode(QAbstract3DGraph::RenderIndirect);
+    setRenderingMode(QAbstract3DGraph::RenderingMode::Indirect);
     setMsaaSamples(4);
 
     // Accept touchevents
@@ -122,17 +122,17 @@ void QQuickGraphsItem::setRenderingMode(QAbstract3DGraph::RenderingMode mode)
 
     // TODO - Need to check if the mode is set properly
     switch (mode) {
-    case QAbstract3DGraph::RenderDirectToBackground:
+    case QAbstract3DGraph::RenderingMode::DirectToBackground:
         update();
         setRenderMode(QQuick3DViewport::Underlay);
-        if (previousMode == QAbstract3DGraph::RenderIndirect) {
+        if (previousMode == QAbstract3DGraph::RenderingMode::Indirect) {
             checkWindowList(window());
             setAntialiasing(m_windowSamples > 0);
             if (m_windowSamples != m_samples)
                 emit msaaSamplesChanged(m_windowSamples);
         }
         break;
-    case QAbstract3DGraph::RenderIndirect:
+    case QAbstract3DGraph::RenderingMode::Indirect:
         update();
         setRenderMode(QQuick3DViewport::Offscreen);
         break;
@@ -3076,7 +3076,7 @@ void QQuickGraphsItem::updateCustomLabelsRotation()
 
 int QQuickGraphsItem::msaaSamples() const
 {
-    if (m_renderMode == QAbstract3DGraph::RenderIndirect)
+    if (m_renderMode == QAbstract3DGraph::RenderingMode::Indirect)
         return m_samples;
     else
         return m_windowSamples;
@@ -3084,7 +3084,7 @@ int QQuickGraphsItem::msaaSamples() const
 
 void QQuickGraphsItem::setMsaaSamples(int samples)
 {
-    if (m_renderMode != QAbstract3DGraph::RenderIndirect) {
+    if (m_renderMode != QAbstract3DGraph::RenderingMode::Indirect) {
         qWarning("Multisampling cannot be adjusted in this render mode");
     } else if (m_samples != samples) {
         m_samples = samples;
@@ -3155,7 +3155,7 @@ void QQuickGraphsItem::handleWindowChanged(/*QQuickWindow *window*/)
     connect(window, &QQuickWindow::beforeSynchronizing,
             this, &QQuickGraphsItem::synchData);
 
-    if (m_renderMode == QAbstract3DGraph::RenderDirectToBackground) {
+    if (m_renderMode == QAbstract3DGraph::RenderingMode::DirectToBackground) {
         setAntialiasing(m_windowSamples > 0);
         if (m_windowSamples != oldWindowSamples)
             emit msaaSamplesChanged(m_windowSamples);
@@ -3198,7 +3198,7 @@ void QQuickGraphsItem::updateWindowParameters()
             win->update();
         }
 
-        bool directRender = m_renderMode == QAbstract3DGraph::RenderDirectToBackground;
+        bool directRender = m_renderMode == QAbstract3DGraph::RenderingMode::DirectToBackground;
         QSize windowSize;
 
         if (directRender)
@@ -3328,7 +3328,7 @@ void QQuickGraphsItem::checkWindowList(QQuickWindow *window)
     QList<QQuickWindow *> windowList;
 
     foreach (QQuickGraphsItem *graph, m_graphWindowList.keys()) {
-        if (graph->m_renderMode == QAbstract3DGraph::RenderDirectToBackground)
+        if (graph->m_renderMode == QAbstract3DGraph::RenderingMode::DirectToBackground)
             windowList.append(m_graphWindowList.value(graph));
     }
 

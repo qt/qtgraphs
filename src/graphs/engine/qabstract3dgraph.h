@@ -88,9 +88,9 @@ public:
     };
     Q_ENUM(OptimizationHint)
 
-    enum RenderingMode {
-        RenderDirectToBackground = 0,
-        RenderIndirect
+    enum class RenderingMode {
+        DirectToBackground = 0,
+        Indirect
     };
     Q_ENUM(RenderingMode)
 

@@ -55,9 +55,9 @@
 /*!
   \qmlproperty AbstractGraph3D.RenderingMode AbstractGraph3D::renderingMode
 
-  How the graph will be rendered. Defaults to \c{RenderIndirect}.
+  How the graph will be rendered. Defaults to \c{Indirect}.
 
-  \value RenderDirectToBackground
+  \value DirectToBackground
          Indicates that the graph will be rendered directly on the window background and QML items are
   rendered on top of it. Using non-transparent QML item as a background will hide the graph.
   Clears the whole window before rendering the graph, including the areas
@@ -66,7 +66,7 @@
   This rendering mode offers the best performance at the expense of non-standard QML behavior. For example,
   the graphs do not obey the z ordering of QML items and the opacity value has no effect on them.
 
-  \value RenderIndirect
+  \value Indirect
          Indicates the graph will be first rendered to an offscreen surface that
   is then drawn during normal QML item rendering. The rendered image is
   antialiased using the multisampling method if it is supported in the current environment and the
@@ -83,8 +83,8 @@
 
 /*!
   \qmlproperty int AbstractGraph3D::msaaSamples
-  The number of samples used in multisample antialiasing when renderingMode is \c RenderIndirect.
-  When renderingMode is \c RenderDirectToBackground, this
+  The number of samples used in multisample antialiasing when renderingMode is \c Indirect.
+  When renderingMode is \c DirectToBackground, this
   property value is read-only and returns the number of samples specified by the window surface
   format.
   Defaults to \c{4}.

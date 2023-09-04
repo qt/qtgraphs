@@ -85,7 +85,7 @@ Item {
             axisY.segmentCount: 4
             axisZ.segmentCount: 4
             measureFps: true
-            renderingMode: AbstractGraph3D.RenderDirectToBackground
+            renderingMode: AbstractGraph3D.RenderingMode.DirectToBackground
 
             onCurrentFpsChanged: (currentFps)=> {
                                      fpsText.text = "FPS: " + currentFps;
