@@ -20,12 +20,12 @@ QT_BEGIN_NAMESPACE
  *
  * Predefined input views for mouse and touch based input handlers.
  *
- * \value InputViewNone
+ * \value None
  *        Mouse or touch not on a view.
- * \value InputViewOnPrimary
+ * \value OnPrimary
  *        Mouse or touch input received on the primary view area. If secondary view is displayed when
- *        inputView becomes InputViewOnPrimary, secondary view is closed.
- * \value InputViewOnSecondary
+ *        inputView becomes OnPrimary, secondary view is closed.
+ * \value OnSecondary
  *        Mouse or touch input received on the secondary view area.
  */
 
@@ -259,7 +259,7 @@ QAbstract3DInputHandlerPrivate::QAbstract3DInputHandlerPrivate(QAbstract3DInputH
     m_prevDistance(0),
     m_previousInputPos(QPoint(0,0)),
     q_ptr(q),
-    m_inputView(QAbstract3DInputHandler::InputViewNone),
+    m_inputView(QAbstract3DInputHandler::InputView::None),
     m_inputPosition(QPoint(0,0)),
     m_scene(0),
     m_isDefaultHandler(false)

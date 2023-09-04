@@ -26,9 +26,9 @@ class Q_GRAPHS_EXPORT QAbstract3DInputHandler : public QObject
 
 public:
     enum InputView {
-        InputViewNone = 0,
-        InputViewOnPrimary,
-        InputViewOnSecondary
+        None = 0,
+        OnPrimary,
+        OnSecondary
     };
     Q_ENUM(InputView)
 

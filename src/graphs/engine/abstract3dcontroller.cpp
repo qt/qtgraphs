@@ -682,7 +682,7 @@ void Abstract3DController::handleInputViewChanged(QAbstract3DInputHandler::Input
 {
     // When in automatic slicing mode, input view change to primary disables slice mode
     if (m_selectionMode.testFlag(QAbstract3DGraph::SelectionSlice)
-            && view == QAbstract3DInputHandler::InputViewOnPrimary) {
+            && view == QAbstract3DInputHandler::InputView::OnPrimary) {
         setSlicingActive(false);
     }
 

@@ -107,11 +107,11 @@ void QTouch3DInputHandler::touchEvent(QTouchEvent *event)
             if (scene()->isSlicingActive()) {
                 if (isSelectionEnabled()) {
                     if (scene()->isPointInPrimarySubView(pointerPos.toPoint()))
-                        setInputView(InputViewOnPrimary);
+                        setInputView(QAbstract3DInputHandler::InputView::OnPrimary);
                     else if (scene()->isPointInSecondarySubView(pointerPos.toPoint()))
-                        setInputView(InputViewOnSecondary);
+                        setInputView(QAbstract3DInputHandler::InputView::OnSecondary);
                     else
-                        setInputView(InputViewNone);
+                        setInputView(QAbstract3DInputHandler::InputView::None);
                 }
             } else {
                 // Handle possible tap-and-hold selection
@@ -119,17 +119,17 @@ void QTouch3DInputHandler::touchEvent(QTouchEvent *event)
                     d->m_startHoldPos = pointerPos;
                     d->m_touchHoldPos = d->m_startHoldPos;
                     d->m_holdTimer->start();
-                    setInputView(InputViewOnPrimary);
+                    setInputView(QAbstract3DInputHandler::InputView::OnPrimary);
                 }
                 // Start rotating
                 if (isRotationEnabled()) {
                     d->m_inputState = QAbstract3DInputHandlerPrivate::InputStateRotating;
                     setInputPosition(pointerPos.toPoint());
-                    setInputView(InputViewOnPrimary);
+                    setInputView(QAbstract3DInputHandler::InputView::OnPrimary);
                 }
             }
         } else if (event->type() == QEvent::TouchEnd) {
-            setInputView(InputViewNone);
+            setInputView(QAbstract3DInputHandler::InputView::None);
             d->m_holdTimer->stop();
             // Handle possible selection
             if (!scene()->isSlicingActive()
@@ -224,7 +224,7 @@ void QTouch3DInputHandlerPrivate::handleSelection(const QPointF &position)
             q->scene()->setSelectionQueryPosition(position.toPoint());
         } else {
             m_inputState = QAbstract3DInputHandlerPrivate::InputStateNone;
-            q->setInputView(QAbstract3DInputHandler::InputViewNone);
+            q->setInputView(QAbstract3DInputHandler::InputView::None);
         }
         q->setPreviousInputPos(position.toPoint());
     }

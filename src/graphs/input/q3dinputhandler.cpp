@@ -136,17 +136,17 @@ void Q3DInputHandler::mousePressEvent(QMouseEvent *event, const QPoint &mousePos
         if (isSelectionEnabled()) {
             if (scene()->isSlicingActive()) {
                 if (scene()->isPointInPrimarySubView(mousePos))
-                    setInputView(InputViewOnPrimary);
+                    setInputView(QAbstract3DInputHandler::InputView::OnPrimary);
                 else if (scene()->isPointInSecondarySubView(mousePos))
-                    setInputView(InputViewOnSecondary);
+                    setInputView(QAbstract3DInputHandler::InputView::OnSecondary);
                 else
-                    setInputView(InputViewNone);
+                    setInputView(QAbstract3DInputHandler::InputView::None);
             } else {
                 // update mouse positions to prevent jumping when releasing or repressing a button
                 d->m_inputState = QAbstract3DInputHandlerPrivate::InputStateSelecting;
                 setInputPosition(mousePos);
                 scene()->setSelectionQueryPosition(mousePos);
-                setInputView(InputViewOnPrimary);
+                setInputView(QAbstract3DInputHandler::InputView::OnPrimary);
             }
         }
     } else if (Qt::MiddleButton == event->button()) {
@@ -182,7 +182,7 @@ void Q3DInputHandler::mouseReleaseEvent(QMouseEvent *event, const QPoint &mouseP
         setInputPosition(mousePos);
     }
     d->m_inputState = QAbstract3DInputHandlerPrivate::InputStateNone;
-    setInputView(InputViewNone);
+    setInputView(QAbstract3DInputHandler::InputView::None);
 #endif
 }
 
