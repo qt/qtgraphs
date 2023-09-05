@@ -12,8 +12,8 @@ Item {
     width: 1280
     height: 1024
 
-    property var itemCount: 1000.0
-    property var addItems: 500.0
+    property real itemCount: 1000.0
+    property real addItems: 500.0
 
     Button {
         id: changeButton
@@ -53,15 +53,15 @@ Item {
         anchors.left: fpsText.right
         enabled: true
         text: scatterPlot.optimizationHint === AbstractGraph3D.OptimizationHint.Legacy
-              ? "To Static" : "To Default"
+              ? "To Default" : "To Legacy"
         onClicked: {
-            console.log("Optimization");
+            console.log("Optimization " + optimization.text);
             if (scatterPlot.optimizationHint === AbstractGraph3D.OptimizationHint.Legacy) {
                 scatterPlot.optimizationHint = AbstractGraph3D.OptimizationHint.Default;
-                optimization.text = "To Default";
+                optimization.text = "To Legacy";
             } else {
                 scatterPlot.optimizationHint = AbstractGraph3D.OptimizationHint.Legacy;
-                optimization.text = "To Static";
+                optimization.text = "To Default";
             }
         }
     }
