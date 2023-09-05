@@ -487,45 +487,6 @@ set(mesh_resource_files
 set_source_files_properties("engine/shaders/3dsliceframes.frag"
     PROPERTIES QT_RESOURCE_ALIAS "fragment3DSliceFrames"
 )
-set_source_files_properties("engine/shaders/colorOnY.frag"
-    PROPERTIES QT_RESOURCE_ALIAS "fragmentColorOnY"
-)
-set_source_files_properties("engine/shaders/colorOnY_ES2.frag"
-    PROPERTIES QT_RESOURCE_ALIAS "fragmentColorOnYES2"
-)
-set_source_files_properties("engine/shaders/default.frag"
-    PROPERTIES QT_RESOURCE_ALIAS "fragment"
-)
-set_source_files_properties("engine/shaders/default.vert"
-    PROPERTIES QT_RESOURCE_ALIAS "vertex"
-)
-set_source_files_properties("engine/shaders/defaultNoMatrices.vert"
-    PROPERTIES QT_RESOURCE_ALIAS "vertexNoMatrices"
-)
-set_source_files_properties("engine/shaders/default_ES2.frag"
-    PROPERTIES QT_RESOURCE_ALIAS "fragmentES2"
-)
-set_source_files_properties("engine/shaders/depth.frag"
-    PROPERTIES QT_RESOURCE_ALIAS "fragmentDepth"
-)
-set_source_files_properties("engine/shaders/depth.vert"
-    PROPERTIES QT_RESOURCE_ALIAS "vertexDepth"
-)
-set_source_files_properties("engine/shaders/label.frag"
-    PROPERTIES QT_RESOURCE_ALIAS "fragmentLabel"
-)
-set_source_files_properties("engine/shaders/label.vert"
-    PROPERTIES QT_RESOURCE_ALIAS "vertexLabel"
-)
-set_source_files_properties("engine/shaders/plainColor.frag"
-    PROPERTIES QT_RESOURCE_ALIAS "fragmentPlainColor"
-)
-set_source_files_properties("engine/shaders/plainColor.vert"
-    PROPERTIES QT_RESOURCE_ALIAS "vertexPlainColor"
-)
-set_source_files_properties("engine/shaders/point_ES2.vert"
-    PROPERTIES QT_RESOURCE_ALIAS "vertexPointES2"
-)
 set_source_files_properties("engine/shaders/point.vert"
     PROPERTIES QT_RESOURCE_ALIAS "vertexpoint"
 )
@@ -544,29 +505,8 @@ set_source_files_properties("engine/shaders/pointrangegradientinstancing.vert"
 set_source_files_properties("engine/shaders/pointrangegradientinstancing.frag"
     PROPERTIES QT_RESOURCE_ALIAS "fragmentpointrangegradientinstancing"
 )
-set_source_files_properties("engine/shaders/point_ES2_UV.vert"
-    PROPERTIES QT_RESOURCE_ALIAS "vertexPointES2_UV"
-)
 set_source_files_properties("engine/shaders/position.vert"
     PROPERTIES QT_RESOURCE_ALIAS "vertexPosition"
-)
-set_source_files_properties("engine/shaders/positionmap.frag"
-    PROPERTIES QT_RESOURCE_ALIAS "fragmentPositionMap"
-)
-set_source_files_properties("engine/shaders/shadow.frag"
-    PROPERTIES QT_RESOURCE_ALIAS "fragmentShadow"
-)
-set_source_files_properties("engine/shaders/shadow.vert"
-    PROPERTIES QT_RESOURCE_ALIAS "vertexShadow"
-)
-set_source_files_properties("engine/shaders/shadowNoMatrices.vert"
-    PROPERTIES QT_RESOURCE_ALIAS "vertexShadowNoMatrices"
-)
-set_source_files_properties("engine/shaders/shadowNoTex.frag"
-    PROPERTIES QT_RESOURCE_ALIAS "fragmentShadowNoTex"
-)
-set_source_files_properties("engine/shaders/shadowNoTexColorOnY.frag"
-    PROPERTIES QT_RESOURCE_ALIAS "fragmentShadowNoTexColorOnY"
 )
 set_source_files_properties("engine/shaders/surface.frag"
     PROPERTIES QT_RESOURCE_ALIAS "fragmentSurface"
@@ -580,41 +520,8 @@ set_source_files_properties("engine/shaders/surfaceGrid.frag"
 set_source_files_properties("engine/shaders/surfaceGrid.vert"
     PROPERTIES QT_RESOURCE_ALIAS "vertexSurfaceGrid"
 )
-set_source_files_properties("engine/shaders/surfaceFlat.frag"
-    PROPERTIES QT_RESOURCE_ALIAS "fragmentSurfaceFlat"
-)
-set_source_files_properties("engine/shaders/surfaceFlat.vert"
-    PROPERTIES QT_RESOURCE_ALIAS "vertexSurfaceFlat"
-)
-set_source_files_properties("engine/shaders/surfaceShadowFlat.frag"
-    PROPERTIES QT_RESOURCE_ALIAS "fragmentSurfaceShadowFlat"
-)
-set_source_files_properties("engine/shaders/surfaceShadowFlat.vert"
-    PROPERTIES QT_RESOURCE_ALIAS "vertexSurfaceShadowFlat"
-)
-set_source_files_properties("engine/shaders/surfaceShadowNoTex.frag"
-    PROPERTIES QT_RESOURCE_ALIAS "fragmentSurfaceShadowNoTex"
-)
 set_source_files_properties("engine/shaders/surfaceSlice.vert"
     PROPERTIES QT_RESOURCE_ALIAS "vertexSurfaceSlice"
-)
-set_source_files_properties("engine/shaders/surfaceTexturedFlat.frag"
-    PROPERTIES QT_RESOURCE_ALIAS "fragmentSurfaceTexturedFlat"
-)
-set_source_files_properties("engine/shaders/surfaceTexturedShadow.frag"
-    PROPERTIES QT_RESOURCE_ALIAS "fragmentTexturedSurfaceShadow"
-)
-set_source_files_properties("engine/shaders/surfaceTexturedShadowFlat.frag"
-    PROPERTIES QT_RESOURCE_ALIAS "fragmentTexturedSurfaceShadowFlat"
-)
-set_source_files_properties("engine/shaders/surface_ES2.frag"
-    PROPERTIES QT_RESOURCE_ALIAS "fragmentSurfaceES2"
-)
-set_source_files_properties("engine/shaders/texture.frag"
-    PROPERTIES QT_RESOURCE_ALIAS "fragmentTexture"
-)
-set_source_files_properties("engine/shaders/texture.vert"
-    PROPERTIES QT_RESOURCE_ALIAS "vertexTexture"
 )
 set_source_files_properties("engine/shaders/texture3d.frag"
     PROPERTIES QT_RESOURCE_ALIAS "fragmentTexture3D"
@@ -627,9 +534,6 @@ set_source_files_properties("engine/shaders/texture3dlowdef.frag"
 )
 set_source_files_properties("engine/shaders/texture3dslice.frag"
     PROPERTIES QT_RESOURCE_ALIAS "fragmentTexture3DSlice"
-)
-set_source_files_properties("engine/shaders/texture_ES2.frag"
-    PROPERTIES QT_RESOURCE_ALIAS "fragmentTextureES2"
 )
 set_source_files_properties("engine/shaders/objectgradient.vert"
     PROPERTIES QT_RESOURCE_ALIAS "vertexobjectgradient"
@@ -666,28 +570,13 @@ set_source_files_properties("engine/shaders/rangegradientinstancingscatter.vert"
 )
 set(shader_resource_files
     "engine/shaders/3dsliceframes.frag"
-    "engine/shaders/colorOnY.frag"
-    "engine/shaders/colorOnY_ES2.frag"
-    "engine/shaders/default.frag"
-    "engine/shaders/default.vert"
-    "engine/shaders/defaultNoMatrices.vert"
-    "engine/shaders/default_ES2.frag"
-    "engine/shaders/depth.frag"
-    "engine/shaders/depth.vert"
-    "engine/shaders/label.frag"
-    "engine/shaders/label.vert"
-    "engine/shaders/plainColor.frag"
-    "engine/shaders/plainColor.vert"
     "engine/shaders/point.vert"
     "engine/shaders/point.frag"
     "engine/shaders/pointrangegradient.frag"
     "engine/shaders/pointinstancing.vert"
     "engine/shaders/pointrangegradientinstancing.vert"
     "engine/shaders/pointrangegradientinstancing.frag"
-    "engine/shaders/point_ES2.vert"
-    "engine/shaders/point_ES2_UV.vert"
     "engine/shaders/position.vert"
-    "engine/shaders/positionmap.frag"
     "engine/shaders/objectgradient.vert"
     "engine/shaders/objectgradient.frag"
     "engine/shaders/objectgradientinstancing.vert"
@@ -699,32 +588,15 @@ set(shader_resource_files
     "engine/shaders/rangegradientscatter.frag"
     "engine/shaders/rangegradientinstancingscatter.frag"
     "engine/shaders/rangegradientinstancingscatter.vert"
-    "engine/shaders/shadow.frag"
-    "engine/shaders/shadow.vert"
-    "engine/shaders/shadowNoMatrices.vert"
-    "engine/shaders/shadowNoTex.frag"
-    "engine/shaders/shadowNoTexColorOnY.frag"
     "engine/shaders/surface.frag"
     "engine/shaders/surfaceGrid.frag"
     "engine/shaders/surface.vert"
     "engine/shaders/surfaceGrid.vert"
-    "engine/shaders/surfaceFlat.frag"
-    "engine/shaders/surfaceFlat.vert"
-    "engine/shaders/surfaceShadowFlat.frag"
-    "engine/shaders/surfaceShadowFlat.vert"
-    "engine/shaders/surfaceShadowNoTex.frag"
     "engine/shaders/surfaceSlice.vert"
-    "engine/shaders/surfaceTexturedFlat.frag"
-    "engine/shaders/surfaceTexturedShadow.frag"
-    "engine/shaders/surfaceTexturedShadowFlat.frag"
-    "engine/shaders/surface_ES2.frag"
-    "engine/shaders/texture.frag"
-    "engine/shaders/texture.vert"
     "engine/shaders/texture3d.frag"
     "engine/shaders/texture3d.vert"
     "engine/shaders/texture3dlowdef.frag"
     "engine/shaders/texture3dslice.frag"
-    "engine/shaders/texture_ES2.frag"
 )
 
 qt_internal_add_resource(Graphs "graphsshaders"
