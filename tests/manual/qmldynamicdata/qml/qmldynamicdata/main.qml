@@ -67,7 +67,7 @@ Item {
                 graphModel.remove(Math.random() * (graphModel.count - 1));
                 graphModel.remove(Math.random() * (graphModel.count - 1));
                 graphModel.remove(Math.random() * (graphModel.count - 1));
-                if (graphModel.count == 2) {
+                if (graphModel.count === 2) {
                     scatterGraph.theme.type = Theme3D.Theme.PrimaryColors;
                     isIncreasing = true;
                 }
@@ -129,13 +129,6 @@ Item {
             anchors.fill: parent
             hoverEnabled: true
             acceptedButtons: Qt.LeftButton | Qt.RightButton
-            property int mouseX: -1
-            property int mouseY: -1
-
-            onPositionChanged: (mouse)=> {
-                mouseX = mouse.x;
-                mouseY = mouse.y;
-            }
 
             onWheel: (wheel)=> {
                 // Adjust zoom level based on what zoom range we're in.
@@ -157,10 +150,11 @@ Item {
 
         Timer {
             id: reselectTimer
-            interval: 10
+            interval: 33
             running: true
             repeat: true
             onTriggered: {
+                scatterGraph.scene.selectionQueryPosition = Qt.point(-1, -1);
                 scatterGraph.scene.selectionQueryPosition = Qt.point(inputArea.mouseX, inputArea.mouseY);
             }
         }

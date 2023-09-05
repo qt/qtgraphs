@@ -22,18 +22,14 @@ Item {
         width: parent.width
         height: parent.height - buttonLayout.height
 
-        //! [0]
         Scatter3D {
-            //! [0]
             id: scatterGraph
             width: dataView.width
             height: dataView.height
             theme: Theme3D { type: Theme3D.Theme.Ebony }
             shadowQuality: AbstractGraph3D.ShadowQuality.Medium
             scene.activeCamera.yRotation: 30.0
-            //! [1]
             inputHandler: null
-            //! [1]
 
             Scatter3DSeries {
                 id: scatterSeriesOne
@@ -75,24 +71,12 @@ Item {
             }
         }
 
-        //! [2]
         MouseArea {
             id: inputArea
             anchors.fill: parent
             hoverEnabled: true
             acceptedButtons: Qt.LeftButton | Qt.RightButton
-            property int mouseX: -1
-            property int mouseY: -1
-            //! [2]
 
-            //! [3]
-            onPositionChanged: (mouse)=> {
-                mouseX = mouse.x;
-                mouseY = mouse.y;
-            }
-            //! [3]
-
-            //! [5]
             onWheel: (wheel)=> {
                 // Adjust zoom level based on what zoom range we're in.
                 var zoomLevel = scatterGraph.scene.activeCamera.zoomLevel;
@@ -109,23 +93,20 @@ Item {
 
                 scatterGraph.scene.activeCamera.zoomLevel = zoomLevel;
             }
-            //! [5]
         }
 
-        //! [4]
         Timer {
             id: reselectTimer
-            interval: 10
+            interval: 33
             running: true
             repeat: true
             onTriggered: {
+                scatterGraph.scene.selectionQueryPosition = Qt.point(-1, -1);
                 scatterGraph.scene.selectionQueryPosition = Qt.point(inputArea.mouseX, inputArea.mouseY);
             }
         }
-        //! [4]
     }
 
-    //! [6]
     NumberAnimation {
         id: cameraAnimationX
         loops: Animation.Infinite
@@ -136,10 +117,7 @@ Item {
         to: 360.0
         duration: 20000
     }
-    //! [6]
 
-
-    //! [7]
     SequentialAnimation {
         id: cameraAnimationY
         loops: Animation.Infinite
@@ -163,7 +141,6 @@ Item {
             easing.type: Easing.InOutSine
         }
     }
-    //! [7]
 
     RowLayout {
         id: buttonLayout
