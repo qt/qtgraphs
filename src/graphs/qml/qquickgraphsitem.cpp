@@ -3160,6 +3160,12 @@ void QQuickGraphsItem::handleWindowChanged(/*QQuickWindow *window*/)
     }
 
     connect(m_controller.data(), &Abstract3DController::needRender, window, &QQuickWindow::update);
+    // Force camera update before rendering the first frame
+    // to workaround a Quick3D device pixel ratio bug
+    connect(window, &QQuickWindow::beforeRendering, this, [this, window]() {
+        m_oCamera->setClipNear(0.001f);
+        disconnect(window, &QQuickWindow::beforeRendering, this, nullptr);
+    });
     updateWindowParameters();
 
 #if defined(Q_OS_IOS)
@@ -4165,7 +4171,9 @@ void QQuickGraphsItem::setUpCamera()
     m_pCamera->setParentItem(cameraTarget);
 
     m_oCamera = new QQuick3DOrthographicCamera(rootNode());
-    m_oCamera->setClipNear(0.001f);
+    // Set clip near 0.0001f so that it can be set correct value to workaround
+    // a Quick3D device pixel ratio bug
+    m_oCamera->setClipNear(0.0001f);
     m_oCamera->setPosition(QVector3D(0.f, 0.f, 5.f));
     m_oCamera->setParent(cameraTarget);
     m_oCamera->setParentItem(cameraTarget);
