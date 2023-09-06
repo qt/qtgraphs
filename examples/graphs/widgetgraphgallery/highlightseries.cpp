@@ -71,7 +71,7 @@ void HighlightSeries::handlePositionChange(const QPoint &position)
         QSurfaceDataRow *srcRow = srcArray.at(i);
         for (int j = startX; j < endX; ++j) {
             QVector3D pos = srcRow->at(j).position();
-            pos.setY(pos.y() + 5.f);
+            pos.setY(pos.y() + m_heightAdjustment);
             newRow->append(QSurfaceDataItem(pos));
         }
         dataArray->append(newRow);
@@ -97,5 +97,12 @@ void HighlightSeries::handleGradientChange(float value)
 
     setBaseGradient(gr);
     setColorStyle(Q3DTheme::ColorStyle::RangeGradient);
+
+    handleZoomChange(ratio);
 }
 //! [3]
+
+void HighlightSeries::handleZoomChange(float zoom)
+{
+    m_heightAdjustment = (1.2f - zoom) * 10.f;
+}
