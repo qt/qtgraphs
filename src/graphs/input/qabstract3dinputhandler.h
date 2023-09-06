@@ -25,7 +25,7 @@ class Q_GRAPHS_EXPORT QAbstract3DInputHandler : public QObject
     Q_PROPERTY(Q3DScene *scene READ scene WRITE setScene NOTIFY sceneChanged)
 
 public:
-    enum InputView {
+    enum class InputView {
         None = 0,
         OnPrimary,
         OnSecondary
