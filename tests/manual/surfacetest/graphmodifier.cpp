@@ -807,7 +807,7 @@ void GraphModifier::setCameraTargetX(int value)
 {
     // Value is (-100, 100), normalize
     m_cameraTarget.setX(float(value) / 100.0f);
-    m_graph->scene()->activeCamera()->setTarget(m_cameraTarget);
+    m_graph->setCameraTargetPosition(m_cameraTarget);
     qDebug() << "m_cameraTarget:" << m_cameraTarget;
 }
 
@@ -815,7 +815,7 @@ void GraphModifier::setCameraTargetY(int value)
 {
     // Value is (-100, 100), normalize
     m_cameraTarget.setY(float(value) / 100.0f);
-    m_graph->scene()->activeCamera()->setTarget(m_cameraTarget);
+    m_graph->setCameraTargetPosition(m_cameraTarget);
     qDebug() << "m_cameraTarget:" << m_cameraTarget;
 }
 
@@ -823,7 +823,7 @@ void GraphModifier::setCameraTargetZ(int value)
 {
     // Value is (-100, 100), normalize
     m_cameraTarget.setZ(float(value) / 100.0f);
-    m_graph->scene()->activeCamera()->setTarget(m_cameraTarget);
+    m_graph->setCameraTargetPosition(m_cameraTarget);
     qDebug() << "m_cameraTarget:" << m_cameraTarget;
 }
 
@@ -1372,7 +1372,7 @@ void GraphModifier::massiveDataTest()
         m_graph->setAxisX(xAxis);
         m_graph->setAxisY(yAxis);
         m_graph->setAxisZ(zAxis);
-        m_graph->scene()->activeCamera()->setCameraPreset(Q3DCamera::CameraPresetRight);
+        m_graph->setCameraPreset(QAbstract3DGraph::CameraPresetRight);
         m_graph->setShadowQuality(QAbstract3DGraph::ShadowQuality::None);
         const auto surfaceSeriesList = m_graph->seriesList();
         for (const auto &series : surfaceSeriesList)

@@ -133,6 +133,42 @@ QT_BEGIN_NAMESPACE
 */
 
 /*!
+ * \enum QAbstract3DGraph::CameraPreset
+ *
+ * Predefined positions for camera.
+ *
+ * \value CameraPresetNone
+ *        Used to indicate a preset has not been set, or the scene has been rotated freely.
+ * \value CameraPresetFrontLow
+ * \value CameraPresetFront
+ * \value CameraPresetFrontHigh
+ * \value CameraPresetLeftLow
+ * \value CameraPresetLeft
+ * \value CameraPresetLeftHigh
+ * \value CameraPresetRightLow
+ * \value CameraPresetRight
+ * \value CameraPresetRightHigh
+ * \value CameraPresetBehindLow
+ * \value CameraPresetBehind
+ * \value CameraPresetBehindHigh
+ * \value CameraPresetIsometricLeft
+ * \value CameraPresetIsometricLeftHigh
+ * \value CameraPresetIsometricRight
+ * \value CameraPresetIsometricRightHigh
+ * \value CameraPresetDirectlyAbove
+ * \value CameraPresetDirectlyAboveCW45
+ * \value CameraPresetDirectlyAboveCCW45
+ * \value CameraPresetFrontBelow
+ *        In Q3DBars from CameraPresetFrontBelow onward these only work for graphs including negative
+ *        values. They act as Preset...Low for positive-only values.
+ * \value CameraPresetLeftBelow
+ * \value CameraPresetRightBelow
+ * \value CameraPresetBehindBelow
+ * \value CameraPresetDirectlyBelow
+ *        Acts as CameraPresetFrontLow for positive-only bars.
+ */
+
+/*!
  * \internal
  */
 QAbstract3DGraph::QAbstract3DGraph()
@@ -503,6 +539,248 @@ QImage QAbstract3DGraph::renderToImage(int msaaSamples, const QSize &imageSize)
     return {};//m_graphsItem->renderToImage(msaaSamples, renderSize);
 }
 
+QAbstract3DGraph::CameraPreset QAbstract3DGraph::cameraPreset() const
+{
+    return m_graphsItem->cameraPreset();
+}
+
+void QAbstract3DGraph::setCameraPreset(CameraPreset preset)
+{
+    m_graphsItem->setCameraPreset(preset);
+}
+/*!
+ * \property QAbstract3DGraph::cameraXRotation
+ *
+ * \brief The X-rotation angle of the camera around the target point in degrees.
+ */
+float QAbstract3DGraph::cameraXRotation()
+{
+    return m_graphsItem->cameraXRotation();
+}
+
+void QAbstract3DGraph::setCameraXRotation(float rotation)
+{
+    m_graphsItem->setCameraXRotation(rotation);
+}
+
+/*!
+ * \property Q3DCamera::cameraYRotation
+ *
+ * \brief The Y-rotation angle of the camera around the target point in degrees.
+ */
+float QAbstract3DGraph::cameraYRotation()
+{
+    return m_graphsItem->cameraYRotation();
+}
+
+void QAbstract3DGraph::setCameraYRotation(float rotation)
+{
+    m_graphsItem->setCameraYRotation(rotation);
+}
+
+float QAbstract3DGraph::minCameraXRotation()
+{
+    return m_graphsItem->minCameraXRotation();
+}
+
+void QAbstract3DGraph::setMinCameraXRotation(float rotation)
+{
+    m_graphsItem->setMinCameraXRotation(rotation);
+}
+
+float QAbstract3DGraph::maxCameraXRotation()
+{
+    return m_graphsItem->maxCameraXRotation();
+}
+
+void QAbstract3DGraph::setMaxCameraXRotation(float rotation)
+{
+    m_graphsItem->setMaxCameraXRotation(rotation);
+}
+
+float QAbstract3DGraph::minCameraYRotation()
+{
+    return m_graphsItem->minCameraYRotation();
+}
+
+void QAbstract3DGraph::setMinCameraYRotation(float rotation)
+{
+    m_graphsItem->setMinCameraYRotation(rotation);
+}
+
+float QAbstract3DGraph::maxCameraYRotation()
+{
+    return m_graphsItem->maxCameraYRotation();
+}
+
+void QAbstract3DGraph::setMaxCameraYRotation(float rotation)
+{
+    m_graphsItem->setMaxCameraYRotation(rotation);
+}
+
+/*!
+* \property QAbstract3DGraph::cameraZoomLevel
+*
+* \brief The camera zoom level in percentage.
+*
+* The default value of \c{100.0f} means there is no zoom in or out set in the
+* camera. The value is limited by the minCameraZoomLevel and maxCameraZoomLevel properties.
+*
+* \sa minCameraZoomLevel, maxCameraZoomLevel
+*/
+float QAbstract3DGraph::cameraZoomLevel()
+{
+    return m_graphsItem->cameraZoomLevel();
+}
+
+void QAbstract3DGraph::setCameraZoomLevel(float level)
+{
+    m_graphsItem->setCameraZoomLevel(level);
+}
+
+/*!
+ * \property QAbstract3DGraph::minCameraZoomLevel
+ *
+ * \brief The minimum allowed camera zoom level.
+ *
+ * If the minimum level is set to a new value that is higher than the existing
+ * maximum level, the maximum level is adjusted to the new minimum as well.
+ * If the current zoomLevel is outside the new bounds, it is adjusted as well.
+ * The minCameraZoomLevel cannot be set below \c{1.0f}.
+ * Defaults to \c{10.0f}.
+ *
+ * \sa cameraZoomLevel, maxCameraZoomLevel
+ */
+float QAbstract3DGraph::minCameraZoomLevel()
+{
+    return m_graphsItem->minCameraZoomLevel();
+}
+
+void QAbstract3DGraph::setMinCameraZoomLevel(float level)
+{
+    m_graphsItem->setMinCameraZoomLevel(level);
+}
+
+/*!
+ * \property QAbstract3DGraph::maxCameraZoomLevel
+ *
+ * \brief The maximum allowed camera zoom level.
+ *
+ * If the maximum level is set to a new value that is lower than the existing
+ * minimum level, the minimum level is adjusted to the new maximum as well.
+ * If the current cameraZoomLevel is outside the new bounds, it is adjusted as well.
+ * Defaults to \c{500.0f}.
+ *
+ * \sa cameraZoomLevel, minCameraZoomLevel
+ */
+float QAbstract3DGraph::maxCameraZoomLevel()
+{
+    return m_graphsItem->maxCameraZoomLevel();
+}
+
+void QAbstract3DGraph::setMaxCameraZoomLevel(float level)
+{
+    m_graphsItem->setMaxCameraZoomLevel(level);
+}
+
+
+/*!
+* \property QAbstract3DGraph::cameraTargetPosition
+*
+* \brief The camera target position as a vector or vertex in the 3D space.
+*
+* Defaults to \c {QVector3D(0.0, 0.0, 0.0)}.
+*
+* Valid coordinate values are between \c{-1.0...1.0}, where the edge values indicate
+* the edges of the corresponding axis range. Any values outside this range are clamped to the edge.
+*
+* \note For bar graphs, the Y-coordinate is ignored and camera always targets a point on
+* the horizontal background.
+*/
+QVector3D QAbstract3DGraph::cameraTargetPosition()
+{
+    return m_graphsItem->cameraTargetPosition();
+}
+
+void QAbstract3DGraph::setCameraTargetPosition(const QVector3D &target)
+{
+    QVector3D newTarget = target;
+
+    if (newTarget.x() < -1.0f)
+        newTarget.setX(-1.0f);
+    else if (newTarget.x() > 1.0f)
+        newTarget.setX(1.0f);
+
+    if (newTarget.y() < -1.0f)
+        newTarget.setY(-1.0f);
+    else if (newTarget.y() > 1.0f)
+        newTarget.setY(1.0f);
+
+    if (newTarget.z() < -1.0f)
+        newTarget.setZ(-1.0f);
+    else if (newTarget.z() > 1.0f)
+        newTarget.setZ(1.0f);
+
+    if (m_graphsItem->cameraTargetPosition() != newTarget) {
+        if (m_graphsItem->cameraPreset() != CameraPresetNone)
+            m_graphsItem->setCameraPreset(CameraPresetNone);
+        m_graphsItem->setCameraTargetPosition(newTarget);
+    }
+}
+
+/*!
+ * \property QAbstract3DGraph::wrapCameraXRotation
+ *
+ * \brief The behavior of the minimum and maximum limits in the X-rotation.
+ *
+ * If set to \c true, the X-rotation of the camera is wrapped from minimum to
+ * maximum and from maximum to minimum. If set to \c false, the X-rotation of
+ * the camera is limited to the sector determined by the minimum and maximum
+ * values. Set to \c true by default.
+ */
+bool QAbstract3DGraph::wrapCameraXRotation()
+{
+    return m_graphsItem->wrapCameraXRotation();
+}
+
+void QAbstract3DGraph::setWrapCameraXRotation(bool wrap)
+{
+    m_graphsItem->setCameraXRotation(wrap);
+}
+
+/*!
+ * \property QAbstract3DGraph::wrapCameraYRotation
+ *
+ * \brief The behavior of the minimum and maximum limits in the Y-rotation.
+ *
+ * If \c true, the Y-rotation of the camera is wrapped from minimum to maximum
+ * and from maximum to minimum. If \c false, the Y-rotation of the camera is
+ * limited to the sector determined by the minimum and maximum values.
+ * Set to \c true by default.
+ */
+bool QAbstract3DGraph::wrapCameraYRotation()
+{
+    return m_graphsItem->wrapCameraYRotation();
+}
+
+void QAbstract3DGraph::setWrapCameraYRotation(bool wrap)
+{
+    m_graphsItem->setWrapCameraYRotation(wrap);
+}
+
+/*!
+* Utility function that sets the camera rotations and distance.\a horizontal and \a vertical
+* define the camera rotations to be used.
+* Optional \a zoom parameter can be given to set the zoom percentage of the camera within
+* the bounds defined by minCameraZoomLevel and maxCameraZoomLevel properties.
+*/
+void QAbstract3DGraph::setCameraPosition(float horizontal, float vertical, float zoom)
+{
+    m_graphsItem->setCameraPosition(horizontal, vertical, zoom);
+}
+
+
+
 /*!
  * \property QAbstract3DGraph::measureFps
  *
@@ -554,7 +832,7 @@ int QAbstract3DGraph::currentFps() const
  * Defaults to \c{false}.
  * \note Shadows will be disabled when set to \c{true}.
  *
- * \sa QAbstract3DAxis::labelAutoRotation, Q3DCamera::cameraPreset
+ * \sa QAbstract3DAxis::labelAutoRotation,
  */
 void QAbstract3DGraph::setOrthoProjection(bool enable)
 {

@@ -227,6 +227,18 @@ void QAbstract3DInputHandler::setScene(Q3DScene *scene)
     }
 }
 
+QQuickGraphsItem *QAbstract3DInputHandler::item() const
+{
+    const Q_D(QAbstract3DInputHandler);
+    return d->m_item;
+}
+
+void QAbstract3DInputHandler::setItem(QQuickGraphsItem *item)
+{
+    Q_D(QAbstract3DInputHandler);
+    d->m_item = item;
+}
+
 /*!
  * Sets the previous input position to the point given by \a position.
  */
@@ -243,6 +255,90 @@ QPoint QAbstract3DInputHandler::previousInputPos() const
 {
     const Q_D(QAbstract3DInputHandler);
     return d->m_previousInputPos;
+}
+
+float QAbstract3DInputHandler::cameraZoomLevel()
+{
+    Q_D(QAbstract3DInputHandler);
+    return d->m_item->cameraZoomLevel();
+}
+
+void QAbstract3DInputHandler::setCameraZoomLevel(float level)
+{
+    Q_D(QAbstract3DInputHandler);
+    d->m_item->setCameraZoomLevel(level);
+}
+
+float QAbstract3DInputHandler::cameraXRotation()
+{
+    Q_D(QAbstract3DInputHandler);
+    return d->m_item->cameraXRotation();
+}
+
+void QAbstract3DInputHandler::setCameraXRotation(float rotation)
+{
+    Q_D(QAbstract3DInputHandler);
+    d->m_item->setCameraXRotation(rotation);
+}
+
+float QAbstract3DInputHandler::cameraYRotation()
+{
+    Q_D(QAbstract3DInputHandler);
+    return d->m_item->cameraYRotation();
+}
+
+void QAbstract3DInputHandler::setCameraYRotation(float rotation)
+{
+    Q_D(QAbstract3DInputHandler);
+    d->m_item->setCameraYRotation(rotation);
+}
+
+float QAbstract3DInputHandler::minCameraXRotation()
+{
+    Q_D(QAbstract3DInputHandler);
+    return d->m_item->minCameraXRotation();
+}
+
+void QAbstract3DInputHandler::setMinCameraXRotation(float rotation)
+{
+    Q_D(QAbstract3DInputHandler);
+    d->m_item->setMinCameraXRotation(rotation);
+}
+
+float QAbstract3DInputHandler::maxCameraXRotation()
+{
+    Q_D(QAbstract3DInputHandler);
+    return d->m_item->maxCameraXRotation();
+}
+
+void QAbstract3DInputHandler::setMaxCameraXRotation(float rotation)
+{
+    Q_D(QAbstract3DInputHandler);
+    d->m_item->setMaxCameraXRotation(rotation);
+}
+
+float QAbstract3DInputHandler::minCameraYRotation()
+{
+    Q_D(QAbstract3DInputHandler);
+    return d->m_item->minCameraYRotation();
+}
+
+void QAbstract3DInputHandler::setMinCameraYRotation(float rotation)
+{
+    Q_D(QAbstract3DInputHandler);
+    d->m_item->setMinCameraYRotation(rotation);
+}
+
+float QAbstract3DInputHandler::maxCameraYRotation()
+{
+    Q_D(QAbstract3DInputHandler);
+    return d->m_item->maxCameraYRotation();
+}
+
+void QAbstract3DInputHandler::setMaxCameraYRotation(float rotation)
+{
+    Q_D(QAbstract3DInputHandler);
+    d->m_item->setMaxCameraYRotation(rotation);
 }
 
 /*!

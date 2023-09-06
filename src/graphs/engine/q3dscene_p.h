@@ -19,14 +19,11 @@
 
 QT_BEGIN_NAMESPACE
 
-class Q3DCamera;
-
 struct Q3DSceneChangeBitField {
     bool viewportChanged               : 1;
     bool primarySubViewportChanged     : 1;
     bool secondarySubViewportChanged   : 1;
     bool subViewportOrderChanged       : 1;
-    bool cameraChanged                 : 1;
     bool slicingActivatedChanged       : 1;
     bool devicePixelRatioChanged       : 1;
     bool selectionQueryPositionChanged : 1;
@@ -38,7 +35,6 @@ struct Q3DSceneChangeBitField {
           primarySubViewportChanged(true),
           secondarySubViewportChanged(true),
           subViewportOrderChanged(true),
-          cameraChanged(true),
           slicingActivatedChanged(true),
           devicePixelRatioChanged(true),
           selectionQueryPositionChanged(false),
@@ -89,7 +85,6 @@ public:
     QRect m_secondarySubViewport;
     bool m_isSecondarySubviewOnTop;
     float m_devicePixelRatio;
-    Q3DCamera *m_camera;
     bool m_isUnderSideCameraEnabled;
     bool m_isSlicingActive;
     QPoint m_selectionQueryPosition;

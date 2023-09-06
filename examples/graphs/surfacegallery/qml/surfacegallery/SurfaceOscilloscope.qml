@@ -70,7 +70,7 @@ Item {
                 type: Theme3D.Theme.Isabelle
                 backgroundEnabled: false
             }
-            scene.activeCamera.cameraPreset: Camera3D.CameraPresetFrontHigh
+            cameraPreset: AbstractGraph3D.CameraPresetFrontHigh
 
             axisX.labelFormat: "%d ms"
             axisY.labelFormat: "%d W"

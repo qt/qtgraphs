@@ -3,7 +3,6 @@
 
 #include "custominputhandler.h"
 
-#include <QtGraphs/q3dcamera.h>
 #include <QtCore/qmath.h>
 
 CustomInputHandler::CustomInputHandler(QAbstract3DGraph *graph, QObject *parent) :
@@ -81,7 +80,7 @@ void CustomInputHandler::handleAxisDragging()
     float distance = 0.f;
 
     // Get scene orientation from active camera
-    float xRotation = scene()->activeCamera()->xRotation();
+    float xRotation = this->cameraXRotation();
 
     // Calculate directional drag multipliers based on rotation
     float xMulX = qCos(qDegreesToRadians(xRotation));

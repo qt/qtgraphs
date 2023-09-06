@@ -69,7 +69,7 @@ Item {
             theme: customSurfaceTheme
             shadowQuality: AbstractGraph3D.ShadowQuality.None
             selectionMode: AbstractGraph3D.SelectionNone
-            scene.activeCamera.cameraPreset: Camera3D.CameraPresetIsometricLeft
+            cameraPreset: AbstractGraph3D.CameraPresetIsometricLeft
             msaaSamples: 8
             aspectRatio: 3.0
             visible: !barsVisible.checked
@@ -93,7 +93,7 @@ Item {
             theme: customBarsTheme
             shadowQuality: AbstractGraph3D.ShadowQuality.None
             selectionMode: AbstractGraph3D.SelectionItemAndRow
-            scene.activeCamera.cameraPreset: Camera3D.CameraPresetIsometricLeft
+            cameraPreset: AbstractGraph3D.CameraPresetIsometricLeft
             msaaSamples: 8
             aspectRatio: 3.0
             visible: barsVisible.checked

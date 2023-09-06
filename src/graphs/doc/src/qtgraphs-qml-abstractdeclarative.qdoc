@@ -32,6 +32,100 @@
  */
 
 /*!
+ * \qmlproperty AbstractGraph3D.CameraPreset AbstractGraph3D::cameraPreset
+ *
+ * The currently active camera preset, which is one of
+ * \l{AbstractGraph3D::CameraPreset}{AbstractGraph3D.CameraPreset}. If no preset is active, the value
+ * is \l{AbstractGraph3D::CameraPresetNone}{AbstractGraph3D.CameraPresetNone}.
+ */
+
+/*!
+ * \qmlproperty float AbstractGraph3D::cameraXRotation
+ *
+ * The X-rotation angle of the camera around the target point in degrees
+ * starting from the current base position.
+ */
+
+/*!
+ * \qmlproperty float AbstractGraph3D::cameraYRotation
+ *
+ * The Y-rotation angle of the camera around the target point in degrees
+ * starting from the current base position.
+ */
+
+/*!
+ * \qmlproperty float AbstractGraph3D::cameraZoomLevel
+ *
+ * The camera zoom level in percentage. The default value of \c{100.0}
+ * means there is no zoom in or out set in the camera.
+ * The value is limited by the minZoomLevel and maxZoomLevel properties.
+ *
+ * \sa minZoomLevel, maxZoomLevel
+ */
+
+/*!
+ * \qmlproperty float AbstractGraph3D::minCameraZoomLevel
+ *
+ * Sets the minimum allowed camera zoom level.
+ * If the new minimum level is higher than the existing maximum level, the maximum level is
+ * adjusted to the new minimum as well.
+ * If the current zoomLevel is outside the new bounds, it is adjusted as well.
+ * The minZoomLevel cannot be set below \c{1.0}.
+ * Defaults to \c{10.0}.
+ *
+ * \sa zoomLevel, maxZoomLevel
+ */
+
+/*!
+ * \qmlproperty float AbstractGraph3D::maxCameraZoomLevel
+ *
+ * Sets the maximum allowed camera zoom level.
+ * If the new maximum level is lower than the existing minimum level, the minimum level is
+ * adjusted to the new maximum as well.
+ * If the current zoomLevel is outside the new bounds, it is adjusted as well.
+ * Defaults to \c{500.0f}.
+ *
+ * \sa zoomLevel, minZoomLevel
+ */
+
+/*!
+ * \qmlproperty bool AbstractGraph3D::wrapCameraXRotation
+ *
+ * The behavior of the minimum and maximum limits in the X-rotation.
+ * By default, the X-rotation wraps from minimum value to maximum and from
+ * maximum to minimum.
+ *
+ * If set to \c true, the X-rotation of the camera is wrapped from minimum to
+ * maximum and from maximum to minimum. If set to \c false, the X-rotation of
+ * the camera is limited to the sector determined by the minimum and maximum
+ * values.
+ */
+
+/*!
+ * \qmlproperty bool AbstractGraph3D::wrapCameraYRotation
+ *
+ * The behavior of the minimum and maximum limits in the Y-rotation.
+ * By default, the Y-rotation is limited between the minimum and maximum values
+ * without any wrapping.
+ *
+ * If \c true, the Y-rotation of the camera is wrapped from minimum to maximum
+ * and from maximum to minimum. If \c false, the Y-rotation of the camera is
+ * limited to the sector determined by the minimum and maximum values.
+ */
+
+/*!
+ * \qmlproperty vector3d AbstractGraph3D::cameraTargetPosition
+ *
+ * The camera target as a vector3d. Defaults to \c {vector3d(0.0, 0.0, 0.0)}.
+ *
+ * Valid coordinate values are between \c{-1.0...1.0}, where the edge values indicate
+ * the edges of the corresponding axis range. Any values outside this range are clamped to the edge.
+ *
+ * \note For bar graphs, the Y-coordinate is ignored and camera always targets a point on
+ * the horizontal background.
+ */
+
+/*!
   \qmlproperty Scene3D AbstractGraph3D::scene
   The Scene3D pointer that can be used to manipulate the scene and access the
   scene elements, such as the active camera.

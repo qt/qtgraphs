@@ -8,7 +8,6 @@
 #include <QtGraphs/qlogvalue3daxisformatter.h>
 #include <QtGraphs/qbardataproxy.h>
 #include <QtGraphs/q3dscene.h>
-#include <QtGraphs/q3dcamera.h>
 #include <QtGraphs/q3dtheme.h>
 #include <QtGraphs/q3dinputhandler.h>
 #include <QtGraphs/qcustom3ditem.h>
@@ -602,12 +601,12 @@ void GraphModifier::changeStyle()
 
 void GraphModifier::changePresetCamera()
 {
-    static int preset = Q3DCamera::CameraPresetFrontLow;
+    static int preset = QAbstract3DGraph::CameraPresetFrontLow;
 
-    m_graph->scene()->activeCamera()->setCameraPreset((Q3DCamera::CameraPreset)preset);
+    m_graph->setCameraPreset((QAbstract3DGraph::CameraPreset)preset);
 
-    if (++preset > Q3DCamera::CameraPresetDirectlyBelow)
-        preset = Q3DCamera::CameraPresetFrontLow;
+    if (++preset > QAbstract3DGraph::CameraPresetDirectlyBelow)
+        preset = QAbstract3DGraph::CameraPresetFrontLow;
 }
 
 void GraphModifier::changeTheme()
@@ -1503,7 +1502,7 @@ void GraphModifier::setCameraTargetX(int value)
 {
     // Value is (-100, 100), normalize
     m_cameraTarget.setX(float(value) / 100.0f);
-    m_graph->scene()->activeCamera()->setTarget(m_cameraTarget);
+    m_graph->setCameraTargetPosition(m_cameraTarget);
     qDebug() << "m_cameraTarget:" << m_cameraTarget;
 }
 
@@ -1511,7 +1510,7 @@ void GraphModifier::setCameraTargetY(int value)
 {
     // Value is (-100, 100), normalize
     m_cameraTarget.setY(float(value) / 100.0f);
-    m_graph->scene()->activeCamera()->setTarget(m_cameraTarget);
+    m_graph->setCameraTargetPosition(m_cameraTarget);
     qDebug() << "m_cameraTarget:" << m_cameraTarget;
 }
 
@@ -1519,7 +1518,7 @@ void GraphModifier::setCameraTargetZ(int value)
 {
     // Value is (-100, 100), normalize
     m_cameraTarget.setZ(float(value) / 100.0f);
-    m_graph->scene()->activeCamera()->setTarget(m_cameraTarget);
+    m_graph->setCameraTargetPosition(m_cameraTarget);
     qDebug() << "m_cameraTarget:" << m_cameraTarget;
 }
 
@@ -1574,13 +1573,13 @@ void GraphModifier::setGridEnabled(int enabled)
 void GraphModifier::rotateX(int rotation)
 {
     m_xRotation = rotation;
-    m_graph->scene()->activeCamera()->setCameraPosition(m_xRotation, m_yRotation);
+    m_graph->setCameraPosition(m_xRotation, m_yRotation);
 }
 
 void GraphModifier::rotateY(int rotation)
 {
     m_yRotation = rotation;
-    m_graph->scene()->activeCamera()->setCameraPosition(m_xRotation, m_yRotation);
+    m_graph->setCameraPosition(m_xRotation, m_yRotation);
 }
 
 void GraphModifier::setFpsMeasurement(int enable)

@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 
 #include "q3dscene_p.h"
-#include "q3dcamera_p.h"
 
 QT_BEGIN_NAMESPACE
 
@@ -125,14 +124,6 @@ QT_BEGIN_NAMESPACE
  */
 
 /*!
- * \qmlproperty Camera3D Scene3D::activeCamera
- *
- * The currently active camera in the 3D scene.
- * When a Camera3D is set in the property, it is automatically added as child of
- * the scene.
- */
-
-/*!
  * \qmlproperty float Scene3D::devicePixelRatio
  *
  * The current device pixel ratio that is used when mapping input
@@ -152,7 +143,6 @@ Q3DScene::Q3DScene(QObject *parent) :
     QObject(parent),
     d_ptr(new Q3DScenePrivate(this))
 {
-    setActiveCamera(new Q3DCamera(0));
 }
 
 /*!
@@ -461,58 +451,6 @@ void Q3DScene::setSecondarySubviewOnTop(bool isSecondaryOnTop)
 }
 
 /*!
- * \property Q3DScene::activeCamera
- *
- * \brief The currently active camera in the 3D scene.
- *
- * When a new Q3DCamera object is set, it is automatically added as child of
- * the scene.
- */
-Q3DCamera *Q3DScene::activeCamera() const
-{
-    const Q_D(Q3DScene);
-    return d->m_camera;
-}
-
-void Q3DScene::setActiveCamera(Q3DCamera *camera)
-{
-    Q_ASSERT(camera);
-    Q_D(Q3DScene);
-
-    // Add new camera as child of the scene
-    if (camera->parent() != this)
-        camera->setParent(this);
-
-    if (camera != d->m_camera) {
-        if (d->m_camera) {
-            disconnect(d->m_camera, &Q3DCamera::xRotationChanged, d,
-                       &Q3DScenePrivate::needRender);
-            disconnect(d->m_camera, &Q3DCamera::yRotationChanged, d,
-                       &Q3DScenePrivate::needRender);
-            disconnect(d->m_camera, &Q3DCamera::zoomLevelChanged, d,
-                       &Q3DScenePrivate::needRender);
-        }
-
-        d->m_camera = camera;
-        d->m_changeTracker.cameraChanged = true;
-        d->m_sceneDirty = true;
-
-
-        if (camera) {
-            connect(camera, &Q3DCamera::xRotationChanged, d,
-                    &Q3DScenePrivate::needRender);
-            connect(camera, &Q3DCamera::yRotationChanged, d,
-                    &Q3DScenePrivate::needRender);
-            connect(camera, &Q3DCamera::zoomLevelChanged, d,
-                    &Q3DScenePrivate::needRender);
-        }
-
-        emit activeCameraChanged(camera);
-        emit d->needRender();
-    }
-}
-
-/*!
  * \property Q3DScene::devicePixelRatio
  *
  * \brief The device pixel ratio that is used when mapping input
@@ -542,7 +480,6 @@ Q3DScenePrivate::Q3DScenePrivate(Q3DScene *q) :
     q_ptr(q),
     m_isSecondarySubviewOnTop(true),
     m_devicePixelRatio(1.f),
-    m_camera(),
     m_isUnderSideCameraEnabled(false),
     m_isSlicingActive(false),
     m_selectionQueryPosition(Q3DScene::invalidSelectionPoint()),
@@ -554,7 +491,6 @@ Q3DScenePrivate::Q3DScenePrivate(Q3DScene *q) :
 
 Q3DScenePrivate::~Q3DScenePrivate()
 {
-    delete m_camera;
 }
 
 // Copies changed values from this scene to the other scene. If the other scene had same changes,
@@ -597,12 +533,6 @@ void Q3DScenePrivate::sync(Q3DScenePrivate &other)
         m_changeTracker.graphPositionQueryPositionChanged = false;
         other.m_changeTracker.graphPositionQueryPositionChanged = false;
     }
-    if (m_changeTracker.cameraChanged) {
-        m_camera->setDirty(true);
-        m_changeTracker.cameraChanged = false;
-        other.m_changeTracker.cameraChanged = false;
-    }
-    m_camera->d_func()->sync(*other.m_camera);
 
     if (m_changeTracker.slicingActivatedChanged) {
         other.q_func()->setSlicingActive(q->isSlicingActive());

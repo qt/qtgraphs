@@ -5,7 +5,6 @@
 #define Q3DSCENE_H
 
 #include <QtGraphs/qgraphsglobal.h>
-#include <QtGraphs/q3dcamera.h>
 #include <QtCore/QObject>
 #include <QtCore/QRect>
 
@@ -23,7 +22,6 @@ class Q_GRAPHS_EXPORT Q3DScene : public QObject
     Q_PROPERTY(QPoint selectionQueryPosition READ selectionQueryPosition WRITE setSelectionQueryPosition NOTIFY selectionQueryPositionChanged)
     Q_PROPERTY(bool secondarySubviewOnTop READ isSecondarySubviewOnTop  WRITE setSecondarySubviewOnTop  NOTIFY secondarySubviewOnTopChanged)
     Q_PROPERTY(bool slicingActive READ isSlicingActive WRITE setSlicingActive NOTIFY slicingActiveChanged)
-    Q_PROPERTY(Q3DCamera* activeCamera READ activeCamera WRITE setActiveCamera NOTIFY activeCameraChanged)
     Q_PROPERTY(float devicePixelRatio READ devicePixelRatio WRITE setDevicePixelRatio NOTIFY devicePixelRatioChanged)
     Q_PROPERTY(QPoint graphPositionQuery READ graphPositionQuery WRITE setGraphPositionQuery NOTIFY graphPositionQueryChanged)
 
@@ -54,9 +52,6 @@ public:
     void setSecondarySubviewOnTop(bool isSecondaryOnTop);
     bool isSecondarySubviewOnTop() const;
 
-    Q3DCamera *activeCamera() const;
-    void setActiveCamera(Q3DCamera *camera);
-
     float devicePixelRatio() const;
     void setDevicePixelRatio(float pixelRatio);
 
@@ -66,7 +61,6 @@ Q_SIGNALS:
     void secondarySubViewportChanged(const QRect &subViewport);
     void secondarySubviewOnTopChanged(bool isSecondaryOnTop);
     void slicingActiveChanged(bool isSlicingActive);
-    void activeCameraChanged(Q3DCamera *camera);
     void devicePixelRatioChanged(float pixelRatio);
     void selectionQueryPositionChanged(const QPoint &position);
     void graphPositionQueryChanged(const QPoint &position);

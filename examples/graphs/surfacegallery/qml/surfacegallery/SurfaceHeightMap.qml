@@ -47,7 +47,7 @@ Rectangle {
             //! [2]
             shadowQuality: AbstractGraph3D.ShadowQuality.Medium
             selectionMode: AbstractGraph3D.SelectionSlice | AbstractGraph3D.SelectionItemAndRow
-            scene.activeCamera.cameraPreset: Camera3D.CameraPresetIsometricLeft
+            cameraPreset: AbstractGraph3D.CameraPresetIsometricLeft
             axisX.segmentCount: 3
             axisX.subSegmentCount: 3
             axisX.labelFormat: "%i"

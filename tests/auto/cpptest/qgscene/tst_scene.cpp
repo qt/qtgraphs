@@ -59,7 +59,6 @@ void tst_scene::initialProperties()
 {
     QVERIFY(m_scene);
 
-    QVERIFY(m_scene->activeCamera());
     QCOMPARE(m_scene->devicePixelRatio(), 1.0f);
     QCOMPARE(m_scene->graphPositionQuery(), m_scene->invalidSelectionPoint());
     QCOMPARE(m_scene->primarySubViewport(), QRect(0, 0, 0, 0));
@@ -74,9 +73,6 @@ void tst_scene::initializeProperties()
 {
     QVERIFY(m_scene);
 
-    Q3DCamera *camera1 = new Q3DCamera();
-
-    m_scene->setActiveCamera(camera1);
     m_scene->setDevicePixelRatio(2.0f);
     m_scene->setGraphPositionQuery(QPoint(0, 0));
     m_scene->setPrimarySubViewport(QRect(0, 0, 50, 50));
@@ -85,7 +81,6 @@ void tst_scene::initializeProperties()
     m_scene->setSlicingActive(true);
     m_scene->setSelectionQueryPosition(QPoint(0, 0));
 
-    QCOMPARE(m_scene->activeCamera(), camera1);
     QCOMPARE(m_scene->devicePixelRatio(), 2.0f);
     QCOMPARE(m_scene->graphPositionQuery(), QPoint(0, 0)); // TODO: When doing signal checks, add tests to check that queries return something (asynchronously)
     QCOMPARE(m_scene->primarySubViewport(), QRect(0, 0, 50, 50));

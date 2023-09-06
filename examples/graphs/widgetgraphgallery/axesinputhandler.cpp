@@ -74,8 +74,8 @@ void AxesInputHandler::handleAxisDragging()
 
     //! [6]
     // Get scene orientation from active camera
-    float xRotation = scene()->activeCamera()->xRotation();
-    float yRotation = scene()->activeCamera()->yRotation();
+    float xRotation = this->cameraXRotation();
+    float yRotation = this->cameraYRotation();
     //! [6]
 
     //! [7]

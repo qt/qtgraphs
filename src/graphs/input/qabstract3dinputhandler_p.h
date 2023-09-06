@@ -15,6 +15,7 @@
 #define QABSTRACT3DINPUTHANDLER_P_H
 
 #include "qabstract3dinputhandler.h"
+#include "qquickgraphsitem_p.h"
 
 QT_BEGIN_NAMESPACE
 
@@ -50,6 +51,7 @@ private:
     QPoint m_inputPosition;
 
     Q3DScene *m_scene;
+    QQuickGraphsItem *m_item;
     bool m_isDefaultHandler;
 
     friend class QQuickGraphsItem;

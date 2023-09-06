@@ -7,7 +7,6 @@
 #include "qvalue3daxis_p.h"
 #include "qcategory3daxis_p.h"
 #include "axis/qvalue3daxisformatter_p.h"
-#include "engine/q3dcamera_p.h"
 #include "quickgraphstexturedata_p.h"
 
 #include <QtCore/QMutexLocker>
@@ -35,6 +34,8 @@ QQuickGraphsScatter::QQuickGraphsScatter(QQuickItem *parent)
 
     QObject::connect(m_scatterController, &Scatter3DController::selectedSeriesChanged,
                      this, &QQuickGraphsScatter::selectedSeriesChanged);
+
+    createInitialInputHandler();
 }
 
 QQuickGraphsScatter::~QQuickGraphsScatter()
@@ -1201,7 +1202,7 @@ void QQuickGraphsScatter::synchData()
 
     updatePointScaleSize();
     QQuickGraphsItem::synchData();
-    scene()->activeCamera()->d_func()->setMinYRotation(-90.0f);
+    setMinCameraYRotation(-90.0f);
 
     m_pointScale = calculatePointScaleSize();
 

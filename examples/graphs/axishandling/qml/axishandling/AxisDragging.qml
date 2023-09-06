@@ -104,9 +104,9 @@ Item {
         anchors.fill: parent
         theme: dynamicColorTheme
         shadowQuality: AbstractGraph3D.ShadowQuality.Medium
-        scene.activeCamera.yRotation: 45.0
-        scene.activeCamera.xRotation: 45.0
-        scene.activeCamera.zoomLevel: 75.0
+        cameraYRotation: 45.0
+        cameraXRotation: 45.0
+        cameraZoomLevel: 75.0
 
         Scatter3DSeries {
             id: scatterSeries

@@ -8,7 +8,6 @@
 #include <QtGraphs/qvalue3daxis.h>
 #include <QtGraphs/qbardataproxy.h>
 #include <QtGraphs/q3dscene.h>
-#include <QtGraphs/q3dcamera.h>
 #include <QtGraphs/qbar3dseries.h>
 #include <QtGraphs/q3dtheme.h>
 #include <QtCore/qmath.h>
@@ -91,21 +90,21 @@ GraphModifier::GraphModifier(Q3DBars *bargraph, QObject *parent) :
 
     // Set up property animations for zooming to the selected bar
     //! [11]
-    Q3DCamera *camera = m_graph->scene()->activeCamera();
-    m_defaultAngleX = camera->xRotation();
-    m_defaultAngleY = camera->yRotation();
-    m_defaultZoom = camera->zoomLevel();
-    m_defaultTarget = camera->target();
+    QAbstract3DInputHandler *inputHandler = m_graph->activeInputHandler();
+    m_defaultAngleX = m_graph->cameraXRotation();
+    m_defaultAngleY = m_graph->cameraYRotation();
+    m_defaultZoom = m_graph->cameraZoomLevel();
+    m_defaultTarget = m_graph->cameraTargetPosition();
 
-    m_animationCameraX.setTargetObject(camera);
-    m_animationCameraY.setTargetObject(camera);
-    m_animationCameraZoom.setTargetObject(camera);
-    m_animationCameraTarget.setTargetObject(camera);
+    m_animationCameraX.setTargetObject(inputHandler);
+    m_animationCameraY.setTargetObject(inputHandler);
+    m_animationCameraZoom.setTargetObject(inputHandler);
+    m_animationCameraTarget.setTargetObject(inputHandler);
 
-    m_animationCameraX.setPropertyName("xRotation");
-    m_animationCameraY.setPropertyName("yRotation");
-    m_animationCameraZoom.setPropertyName("zoomLevel");
-    m_animationCameraTarget.setPropertyName("target");
+    m_animationCameraX.setPropertyName("cameraXRotation");
+    m_animationCameraY.setPropertyName("cameraYRotation");
+    m_animationCameraZoom.setPropertyName("cameraZoomLevel");
+    m_animationCameraTarget.setPropertyName("cameraTargetPosition");
 
     int duration = 1700;
     m_animationCameraX.setDuration(duration);
@@ -217,15 +216,15 @@ void GraphModifier::changePresetCamera()
     m_animationCameraTarget.stop();
 
     // Restore camera target in case animation has changed it
-    m_graph->scene()->activeCamera()->setTarget(QVector3D(0.0f, 0.0f, 0.0f));
+    m_graph->setCameraTargetPosition(QVector3D(0.0f, 0.0f, 0.0f));
 
     //! [7]
-    static int preset = Q3DCamera::CameraPresetFront;
+    static int preset = QAbstract3DGraph::CameraPresetFront;
 
-    m_graph->scene()->activeCamera()->setCameraPreset((Q3DCamera::CameraPreset)preset);
+    m_graph->setCameraPreset((QAbstract3DGraph::CameraPreset)preset);
 
-    if (++preset > Q3DCamera::CameraPresetDirectlyBelow)
-        preset = Q3DCamera::CameraPresetFrontLow;
+    if (++preset > QAbstract3DGraph::CameraPresetDirectlyBelow)
+        preset = QAbstract3DGraph::CameraPresetFrontLow;
     //! [7]
 }
 
@@ -302,11 +301,10 @@ void GraphModifier::zoomToSelectedBar()
     m_animationCameraZoom.stop();
     m_animationCameraTarget.stop();
 
-    Q3DCamera *camera = m_graph->scene()->activeCamera();
-    float currentX = camera->xRotation();
-    float currentY = camera->yRotation();
-    float currentZoom = camera->zoomLevel();
-    QVector3D currentTarget = camera->target();
+    float currentX = m_graph->cameraXRotation();
+    float currentY = m_graph->cameraYRotation();
+    float currentZoom = m_graph->cameraZoomLevel();
+    QVector3D currentTarget = m_graph->cameraTargetPosition();
 
     m_animationCameraX.setStartValue(QVariant::fromValue(currentX));
     m_animationCameraY.setStartValue(QVariant::fromValue(currentY));
@@ -384,14 +382,14 @@ void GraphModifier::changeShadowQuality(int quality)
 void GraphModifier::rotateX(int rotation)
 {
     m_xRotation = rotation;
-    m_graph->scene()->activeCamera()->setCameraPosition(m_xRotation, m_yRotation);
+    m_graph->setCameraPosition(m_xRotation, m_yRotation);
 }
 //! [10]
 
 void GraphModifier::rotateY(int rotation)
 {
     m_yRotation = rotation;
-    m_graph->scene()->activeCamera()->setCameraPosition(m_xRotation, m_yRotation);
+    m_graph->setCameraPosition(m_xRotation, m_yRotation);
 }
 
 void GraphModifier::setBackgroundEnabled(int enabled)

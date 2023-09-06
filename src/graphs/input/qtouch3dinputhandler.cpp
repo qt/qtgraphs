@@ -33,7 +33,7 @@ static const float touchZoomDrift = 0.02f;
  *          \li Action
  *      \row
  *          \li Touch-And-Move
- *          \li Rotate graph within limits set for Q3DCamera
+ *          \li Rotate graph within limits
  *      \row
  *          \li Tap
  *          \li Select the item tapped or remove selection if none.
@@ -44,7 +44,7 @@ static const float touchZoomDrift = 0.02f;
  *          \li Same as tap.
  *      \row
  *          \li Pinch
- *          \li Zoom in/out within the allowable zoom range set for Q3DCamera.
+ *          \li Zoom in/out within the allowable zoom range.
  *      \row
  *          \li Tap on the primary view when the secondary view is visible
  *          \li Closes the secondary view.
@@ -174,10 +174,10 @@ void QTouch3DInputHandlerPrivate::handlePinchZoom(float distance, const QPoint &
         if (prevDist > 0 && qAbs(prevDist - newDistance) < maxPinchJitter)
             return;
         m_inputState = QAbstract3DInputHandlerPrivate::InputState::Pinching;
-        Q3DCamera *camera = q->scene()->activeCamera();
-        int zoomLevel = int(camera->zoomLevel());
-        const int minZoomLevel = int(camera->minZoomLevel());
-        const int maxZoomLevel = int(camera->maxZoomLevel());
+        QQuickGraphsItem *item = q->item();
+        int zoomLevel = int(item->cameraZoomLevel());
+        const int minZoomLevel = int(item->minCameraZoomLevel());
+        const int maxZoomLevel = int(item->maxCameraZoomLevel());
         float zoomRate = qSqrt(qSqrt(zoomLevel));
         if (newDistance > prevDist)
             zoomLevel += zoomRate;
@@ -194,7 +194,7 @@ void QTouch3DInputHandlerPrivate::handlePinchZoom(float distance, const QPoint &
             m_requestedZoomLevel = zoomLevel;
             m_driftMultiplier = touchZoomDrift;
         } else {
-            camera->setZoomLevel(zoomLevel);
+            q->item()->setCameraZoomLevel(zoomLevel);
         }
 
         q->setPrevDistance(newDistance);
@@ -236,9 +236,9 @@ void QTouch3DInputHandlerPrivate::handleRotation(const QPointF &position)
     if (q->isRotationEnabled()
             && QAbstract3DInputHandlerPrivate::InputState::Rotating == m_inputState) {
         Q3DScene *scene = q->scene();
-        Q3DCamera *camera = scene->activeCamera();
-        float xRotation = camera->xRotation();
-        float yRotation = camera->yRotation();
+        QQuickGraphsItem *item = q->item();
+        float xRotation = item->cameraXRotation();
+        float yRotation = item->cameraYRotation();
         QPointF inputPos = q->inputPosition();
         float mouseMoveX = float(inputPos.x() - position.x())
                 / (scene->viewport().width() / rotationSpeed);
@@ -246,8 +246,8 @@ void QTouch3DInputHandlerPrivate::handleRotation(const QPointF &position)
                 / (scene->viewport().height() / rotationSpeed);
         xRotation -= mouseMoveX;
         yRotation -= mouseMoveY;
-        camera->setXRotation(xRotation);
-        camera->setYRotation(yRotation);
+        item->setCameraXRotation(xRotation);
+        item->setCameraYRotation(yRotation);
 
         q->setPreviousInputPos(inputPos.toPoint());
         q->setInputPosition(position.toPoint());

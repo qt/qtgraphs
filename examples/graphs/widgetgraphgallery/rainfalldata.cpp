@@ -3,7 +3,6 @@
 
 #include "rainfalldata.h"
 #include <QtGraphs/q3dscene.h>
-#include <QtGraphs/q3dcamera.h>
 #include <QtGraphs/qbar3dseries.h>
 #include <QtGraphs/q3dtheme.h>
 #include <QtCore/qtextstream.h>

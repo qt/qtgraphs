@@ -8,7 +8,6 @@
 #include <QtGraphs/qitemmodelsurfacedataproxy.h>
 #include <QtGraphs/qvalue3daxis.h>
 #include <QtGraphs/q3dscene.h>
-#include <QtGraphs/q3dcamera.h>
 #include <QtGraphs/qbar3dseries.h>
 #include <QtGraphs/q3dtheme.h>
 
@@ -283,8 +282,8 @@ int main(int argc, char **argv)
     barGraph->addSeries(barSeries);
     surfaceGraph->addSeries(surfaceSeries);
 
-    barGraph->scene()->activeCamera()->setCameraPreset(Q3DCamera::CameraPresetBehind);
-    surfaceGraph->scene()->activeCamera()->setCameraPreset(Q3DCamera::CameraPresetFront);
+    barGraph->setCameraPreset(QAbstract3DGraph::CameraPresetBehind);
+    surfaceGraph->setCameraPreset(QAbstract3DGraph::CameraPresetFront);
 
     GraphDataGenerator generator(barGraph, surfaceGraph, tableWidget);
     QObject::connect(barSeries, &QBar3DSeries::selectedBarChanged, &generator,

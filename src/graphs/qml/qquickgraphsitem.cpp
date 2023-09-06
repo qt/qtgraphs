@@ -1588,8 +1588,8 @@ void QQuickGraphsItem::updateLabels()
     int labelCount = labels.size();
     float labelAutoAngle = axisX->labelAutoRotation();
     float labelAngleFraction = labelAutoAngle / 90.0f;
-    float fractionCamX = m_controller->scene()->activeCamera()->xRotation() * labelAngleFraction;
-    float fractionCamY = m_controller->scene()->activeCamera()->yRotation() * labelAngleFraction;
+    float fractionCamX = m_xRotation * labelAngleFraction;
+    float fractionCamY = m_yRotation * labelAngleFraction;
 
     QVector3D labelRotation = QVector3D(0.0f, 0.0f, 0.0f);
 
@@ -1755,8 +1755,8 @@ void QQuickGraphsItem::updateLabels()
     labelCount = labels.size();
     labelAutoAngle = axisY->labelAutoRotation();
     labelAngleFraction = labelAutoAngle / 90.0f;
-    fractionCamX = m_controller->scene()->activeCamera()->xRotation() * labelAngleFraction;
-    fractionCamY = m_controller->scene()->activeCamera()->yRotation() * labelAngleFraction;
+    fractionCamX = m_xRotation * labelAngleFraction;
+    fractionCamY = m_yRotation * labelAngleFraction;
 
     QVector3D sideLabelRotation(0.0f, -90.0f, 0.0f);
     QVector3D backLabelRotation(0.0f, 0.0f, 0.0f);
@@ -1825,8 +1825,8 @@ void QQuickGraphsItem::updateLabels()
     labelCount = labels.size();
     labelAutoAngle = axisZ->labelAutoRotation();
     labelAngleFraction = labelAutoAngle / 90.0f;
-    fractionCamX = m_controller->scene()->activeCamera()->xRotation() * labelAngleFraction;
-    fractionCamY = m_controller->scene()->activeCamera()->yRotation() * labelAngleFraction;
+    fractionCamX = m_xRotation * labelAngleFraction;
+    fractionCamY = m_yRotation * labelAngleFraction;
 
     if (labelAutoAngle == 0.0f) {
         labelRotation = QVector3D(90.0f, 0.0f, 0.0f);
@@ -2777,8 +2777,7 @@ void QQuickGraphsItem::updateZTitle(const QVector3D &labelRotation, const QVecto
 
 void QQuickGraphsItem::updateCamera()
 {
-    QVector3D lookingPosition = m_controller->scene()->activeCamera()->target();
-    float zoomLevel = m_controller->scene()->activeCamera()->zoomLevel();
+    QVector3D lookingPosition = m_requestedTarget;
 
     const float scale = qMin(width(), height() * 1.6f);
     const float magnificationScaleFactor = 1.0f / 640.0f;
@@ -2787,20 +2786,20 @@ void QQuickGraphsItem::updateCamera()
     auto useOrtho = m_controller->isOrthoProjection();
     if (useOrtho) {
         if (m_sliceView && m_sliceView->isVisible()) {
-            m_oCamera->setVerticalMagnification(zoomLevel * .4f);
-            m_oCamera->setHorizontalMagnification(zoomLevel * .4f);
+            m_oCamera->setVerticalMagnification(m_zoomLevel * .4f);
+            m_oCamera->setHorizontalMagnification(m_zoomLevel * .4f);
         } else {
-            m_oCamera->setVerticalMagnification(zoomLevel * magnification);
-            m_oCamera->setHorizontalMagnification(zoomLevel * magnification);
+            m_oCamera->setVerticalMagnification(m_zoomLevel * magnification);
+            m_oCamera->setHorizontalMagnification(m_zoomLevel * magnification);
         }
     }
     cameraTarget()->setPosition(lookingPosition);
     auto rotation = QVector3D(
-                -m_controller->scene()->activeCamera()->yRotation(),
-                -m_controller->scene()->activeCamera()->xRotation(),
+                -m_yRotation,
+                -m_xRotation,
                 0);
     cameraTarget()->setEulerRotation(rotation);
-    float zoom = 720.f / zoomLevel;
+    float zoom = 720.f / m_zoomLevel;
     m_pCamera->setZ(zoom);
     updateCustomLabelsRotation();
     updateItemLabel(m_labelPosition);
@@ -2919,8 +2918,8 @@ void QQuickGraphsItem::updateCustomData()
         QQuaternion rotation = label->rotation();
         if (label->isFacingCamera()) {
             rotation = Utils::calculateRotation(QVector3D(
-                        -m_controller->scene()->activeCamera()->yRotation(),
-                        -m_controller->scene()->activeCamera()->xRotation(),
+                        -m_yRotation,
+                        -m_xRotation,
                         0));
         }
         customLabel->setRotation(rotation);
@@ -3063,8 +3062,8 @@ void QQuickGraphsItem::updateCustomLabelsRotation()
         QQuaternion rotation = label->rotation();
         if (label->isFacingCamera()) {
             rotation = Utils::calculateRotation(QVector3D(
-                        -m_controller->scene()->activeCamera()->yRotation(),
-                        -m_controller->scene()->activeCamera()->xRotation(),
+                        -m_yRotation,
+                        -m_xRotation,
                         0));
         }
         customLabel->setRotation(rotation);
@@ -3364,6 +3363,14 @@ bool QQuickGraphsItem::measureFps() const
 int QQuickGraphsItem::currentFps() const
 {
     return m_currentFps;
+}
+
+void QQuickGraphsItem::createInitialInputHandler()
+{
+    QAbstract3DInputHandler *inputHandler;
+    inputHandler = new QTouch3DInputHandler(this);
+    inputHandler->d_func()->m_isDefaultHandler = true;
+    setActiveInputHandler(inputHandler);
 }
 
 // TODO: Check if it would make sense to remove these from Abstract3DController - QTBUG-113812
@@ -3715,6 +3722,7 @@ void QQuickGraphsItem::setActiveInputHandler(QAbstract3DInputHandler *inputHandl
     m_activeInputHandler = inputHandler;
 
     if (m_activeInputHandler) {
+        m_activeInputHandler->setItem(this);
         m_activeInputHandler->setScene(scene());
 
         // Connect the input handler
@@ -3791,6 +3799,253 @@ QQuick3DPrincipledMaterial *QQuickGraphsItem::createPrincipledMaterial()
     QQmlComponent component(qmlEngine(this));
     component.setData("import QtQuick3D; PrincipledMaterial{}", QUrl());
     return qobject_cast<QQuick3DPrincipledMaterial *>(component.create());
+}
+
+QAbstract3DGraph::CameraPreset QQuickGraphsItem::cameraPreset() const
+{
+    return m_activePreset;
+}
+
+void QQuickGraphsItem::setCameraPreset(QAbstract3DGraph::CameraPreset preset)
+{
+    switch (preset) {
+    case QAbstract3DGraph::CameraPresetFrontLow: {
+        m_xRotation = 0.0f;
+        m_yRotation = 0.0f;
+        break;
+    }
+    case QAbstract3DGraph::CameraPresetFront: {
+        m_xRotation = 0.0f;
+        m_yRotation = 22.5f;
+        break;
+    }
+    case QAbstract3DGraph::CameraPresetFrontHigh: {
+        m_xRotation = 0.0f;
+        m_yRotation = 45.0f;
+        break;
+    }
+    case QAbstract3DGraph::CameraPresetLeftLow: {
+        m_xRotation = 90.0f;
+        m_yRotation = 0.0f;
+        break;
+    }
+    case QAbstract3DGraph::CameraPresetLeft: {
+        m_xRotation = 90.0f;
+        m_yRotation = 22.5f;
+        break;
+    }
+    case QAbstract3DGraph::CameraPresetLeftHigh: {
+        m_xRotation = 90.0f;
+        m_yRotation = 45.0f;
+        break;
+    }
+    case QAbstract3DGraph::CameraPresetRightLow: {
+        m_xRotation = -90.0f;
+        m_yRotation = 0.0f;
+        break;
+    }
+    case QAbstract3DGraph::CameraPresetRight: {
+        m_xRotation = -90.0f;
+        m_yRotation = 22.5f;
+        break;
+    }
+    case QAbstract3DGraph::CameraPresetRightHigh: {
+        m_xRotation = -90.0f;
+        m_yRotation = 45.0f;
+        break;
+    }
+    case QAbstract3DGraph::CameraPresetBehindLow: {
+        m_xRotation = 180.0f;
+        m_yRotation = 0.0f;
+        break;
+    }
+    case QAbstract3DGraph::CameraPresetBehind: {
+        m_xRotation = 180.0f;
+        m_yRotation = 22.5f;
+        break;
+    }
+    case QAbstract3DGraph::CameraPresetBehindHigh: {
+        m_xRotation = 180.0f;
+        m_yRotation = 45.0f;
+        break;
+    }
+    case QAbstract3DGraph::CameraPresetIsometricLeft: {
+        m_xRotation = 45.0f;
+        m_yRotation = 22.5f;
+        break;
+    }
+    case QAbstract3DGraph::CameraPresetIsometricLeftHigh: {
+        m_xRotation = 45.0f;
+        m_yRotation = 45.0f;
+        break;
+    }
+    case QAbstract3DGraph::CameraPresetIsometricRight: {
+        m_xRotation = -45.0f;
+        m_yRotation = 22.5f;
+        break;
+    }
+    case QAbstract3DGraph::CameraPresetIsometricRightHigh: {
+        m_xRotation = -45.0f;
+        m_yRotation = 45.0f;
+        break;
+    }
+    case QAbstract3DGraph::CameraPresetDirectlyAbove: {
+        m_xRotation = 0.0f;
+        m_yRotation = 90.0f;
+        break;
+    }
+    case QAbstract3DGraph::CameraPresetDirectlyAboveCW45: {
+        m_xRotation = -45.0f;
+        m_yRotation = 90.0f;
+        break;
+    }
+    case QAbstract3DGraph::CameraPresetDirectlyAboveCCW45: {
+        m_xRotation = 45.0f;
+        m_yRotation = 90.0f;
+        break;
+    }
+    case QAbstract3DGraph::CameraPresetFrontBelow: {
+        m_xRotation = 0.0f;
+        m_yRotation = -45.0f;
+        break;
+    }
+    case QAbstract3DGraph::CameraPresetLeftBelow: {
+        m_xRotation = 90.0f;
+        m_yRotation = -45.0f;
+        break;
+    }
+    case QAbstract3DGraph::CameraPresetRightBelow: {
+        m_xRotation = -90.0f;
+        m_yRotation = -45.0f;
+        break;
+    }
+    case QAbstract3DGraph::CameraPresetBehindBelow: {
+        m_xRotation = 180.0f;
+        m_yRotation = -45.0f;
+        break;
+    }
+    case QAbstract3DGraph::CameraPresetDirectlyBelow: {
+        m_xRotation = 0.0f;
+        m_yRotation = -90.0f;
+        break;
+    }
+    default:
+        preset = QAbstract3DGraph::CameraPresetNone;
+        break;
+    }
+
+    // All presets target the center of the graph
+    setCameraTargetPosition(QVector3D());
+
+    if (m_activePreset != preset) {
+        m_activePreset = preset;
+        emit cameraPresetChanged(preset);
+    }
+    if (camera())
+        updateCamera();
+}
+
+void QQuickGraphsItem::setCameraXRotation(float rotation)
+{
+    if (m_wrapXRotation)
+        rotation = Utils::wrapValue(rotation, m_minXRotation, m_maxXRotation);
+    else
+        rotation = qBound(m_minXRotation, rotation, m_maxXRotation);
+    if (rotation != m_xRotation) {
+        m_xRotation = rotation;
+        emit cameraXRotationChanged(m_xRotation);
+    }
+}
+
+void QQuickGraphsItem::setCameraYRotation(float rotation)
+{
+    if (m_wrapYRotation)
+        rotation = Utils::wrapValue(rotation, m_minYRotation, m_maxYRotation);
+    else
+        rotation = qBound(m_minYRotation, rotation, m_maxYRotation);
+    if (rotation != m_yRotation) {
+        m_yRotation = rotation;
+        emit cameraYRotationChanged(m_yRotation);
+    }
+}
+
+void QQuickGraphsItem::setMinCameraXRotation(float rotation)
+{
+    if (m_minXRotation == rotation)
+        return;
+
+    m_minXRotation = rotation;
+    emit minCameraXRotationChanged(rotation);
+}
+
+void QQuickGraphsItem::setMaxCameraXRotation(float rotation)
+{
+    if (m_maxXRotation == rotation)
+        return;
+
+    m_maxXRotation = rotation;
+    emit maxCameraXRotationChanged(rotation);
+}
+
+void QQuickGraphsItem::setMinCameraYRotation(float rotation)
+{
+    if (m_minYRotation == rotation)
+        return;
+
+    m_minYRotation = rotation;
+    emit minCameraYRotationChanged(rotation);
+}
+
+void QQuickGraphsItem::setMaxCameraYRotation(float rotation)
+{
+    if (m_maxYRotation == rotation)
+        return;
+
+    m_maxYRotation = rotation;
+    emit maxCameraYRotationChanged(rotation);
+}
+
+void QQuickGraphsItem::setCameraZoomLevel(float level)
+{
+    if (m_zoomLevel == level)
+        return;
+
+    m_zoomLevel = level;
+    emit cameraZoomLevelChanged(level);
+}
+
+void QQuickGraphsItem::setMinCameraZoomLevel(float level)
+{
+    if (m_minZoomLevel == level)
+        return;
+
+    m_minZoomLevel = level;
+    emit minCameraZoomLevelChanged(level);
+}
+
+void QQuickGraphsItem::setMaxCameraZoomLevel(float level)
+{
+    if (m_maxZoomLevel == level)
+        return;
+
+    m_maxZoomLevel = level;
+    emit maxCameraZoomLevelChanged(level);
+}
+
+void QQuickGraphsItem::setCameraTargetPosition(const QVector3D &target)
+{
+    if (m_requestedTarget == target)
+        return;
+
+    m_requestedTarget = target;
+    emit cameraTargetPositionChanged(target);
+}
+
+void QQuickGraphsItem::setCameraPosition(float horizontal, float vertical, float zoom)
+{
+    setCameraZoomLevel(zoom);
+    setCameraXRotation(horizontal);
+    setCameraYRotation(vertical);
 }
 
 bool QQuickGraphsItem::event(QEvent *event)
@@ -4198,3 +4453,19 @@ void QQuickGraphsItem::setUpLight()
 }
 
 QT_END_NAMESPACE
+
+void QQuickGraphsItem::setWrapCameraXRotation(bool wrap)
+{
+    if (m_wrapXRotation == wrap)
+        return;
+    m_wrapXRotation = wrap;
+    emit wrapCameraXRotationChanged(wrap);
+}
+
+void QQuickGraphsItem::setWrapCameraYRotation(bool wrap)
+{
+    if (m_wrapYRotation == wrap)
+        return;
+    m_wrapYRotation = wrap;
+    emit wrapCameraYRotationChanged(wrap);
+}

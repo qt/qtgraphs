@@ -17,7 +17,6 @@ Item {
 
     Bars3D {
         id: initialized
-        scene.activeCamera: Camera3D { zoomLevel: 200 }
         scene.devicePixelRatio: Screen.devicePixelRatio
         scene.graphPositionQuery: Qt.point(0, 0)
         scene.primarySubViewport: Qt.rect(0, 0, 50, 50)
@@ -39,7 +38,6 @@ Item {
         name: "Scene3D Initial"
 
         function test_initial() {
-            verify(initial.scene.activeCamera)
             compare(initial.scene.devicePixelRatio, Screen.devicePixelRatio)
             compare(initial.scene.graphPositionQuery, Qt.point(-1, -1))
             compare(initial.scene.invalidSelectionPoint, Qt.point(-1, -1))
@@ -65,7 +63,6 @@ Item {
         name: "Scene3D Initialized"
 
         function test_initialized() {
-            compare(initialized.scene.activeCamera.zoomLevel, 200)
             compare(initialized.scene.devicePixelRatio, Screen.devicePixelRatio)
             compare(initialized.scene.graphPositionQuery, Qt.point(0, 0))
             compare(initialized.scene.primarySubViewport.x, 0)
@@ -89,13 +86,7 @@ Item {
     TestCase {
         name: "Scene3D Change"
 
-        Camera3D {
-            id: camera1
-            zoomLevel: 200
-        }
-
         function test_change() {
-            change.scene.activeCamera = camera1
             change.scene.devicePixelRatio = 2.0
             change.scene.graphPositionQuery = Qt.point(0, 0)
             change.scene.primarySubViewport = Qt.rect(0, 0, 50, 50)
@@ -104,7 +95,6 @@ Item {
             change.scene.selectionQueryPosition = Qt.point(0, 0) // TODO: When doing signal checks, add tests to check that queries return something (asynchronously)
             change.scene.slicingActive = true
 
-            compare(change.scene.activeCamera.zoomLevel, 200)
             compare(change.scene.devicePixelRatio, 2.0)
             compare(change.scene.graphPositionQuery, Qt.point(0, 0))
             compare(change.scene.primarySubViewport.x, 0)

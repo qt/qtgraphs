@@ -28,7 +28,7 @@ Item {
             height: dataView.height
             theme: Theme3D { type: Theme3D.Theme.Ebony }
             shadowQuality: AbstractGraph3D.ShadowQuality.Medium
-            scene.activeCamera.yRotation: 30.0
+            cameraYRotation: 30.0
             inputHandler: null
 
             Scatter3DSeries {
@@ -79,7 +79,7 @@ Item {
 
             onWheel: (wheel)=> {
                 // Adjust zoom level based on what zoom range we're in.
-                var zoomLevel = scatterGraph.scene.activeCamera.zoomLevel;
+                var zoomLevel = scatterGraph.zoomLevel;
                 if (zoomLevel > 100)
                     zoomLevel += wheel.angleDelta.y / 12.0;
                 else if (zoomLevel > 50)
@@ -91,7 +91,7 @@ Item {
                 else if (zoomLevel < 10)
                     zoomLevel = 10;
 
-                scatterGraph.scene.activeCamera.zoomLevel = zoomLevel;
+                scatterGraph.zoomLevel = zoomLevel;
             }
         }
 
@@ -111,8 +111,8 @@ Item {
         id: cameraAnimationX
         loops: Animation.Infinite
         running: true
-        target: scatterGraph.scene.activeCamera
-        property:"xRotation"
+        target: scatterGraph
+        property:"cameraXRotation"
         from: 0.0
         to: 360.0
         duration: 20000
@@ -124,8 +124,8 @@ Item {
         running: true
 
         NumberAnimation {
-            target: scatterGraph.scene.activeCamera
-            property:"yRotation"
+            target: scatterGraph
+            property:"cameraYRotation"
             from: 5.0
             to: 45.0
             duration: 9000
@@ -133,8 +133,8 @@ Item {
         }
 
         NumberAnimation {
-            target: scatterGraph.scene.activeCamera
-            property:"yRotation"
+            target: scatterGraph
+            property:"cameraYRotation"
             from: 45.0
             to: 5.0
             duration: 9000

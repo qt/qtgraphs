@@ -61,6 +61,15 @@ class QQuickGraphsItem : public QQuick3DViewport
     Q_PROPERTY(QLocale locale READ locale WRITE setLocale NOTIFY localeChanged)
     Q_PROPERTY(QVector3D queriedGraphPosition READ queriedGraphPosition NOTIFY queriedGraphPositionChanged)
     Q_PROPERTY(qreal margin READ margin WRITE setMargin NOTIFY marginChanged)
+    Q_PROPERTY(float cameraXRotation READ cameraXRotation WRITE setCameraXRotation NOTIFY cameraXRotationChanged)
+    Q_PROPERTY(float cameraYRotation READ cameraYRotation WRITE setCameraYRotation NOTIFY cameraYRotationChanged)
+    Q_PROPERTY(float cameraZoomLevel READ cameraZoomLevel WRITE setCameraZoomLevel NOTIFY cameraZoomLevelChanged)
+    Q_PROPERTY(QAbstract3DGraph::CameraPreset cameraPreset READ cameraPreset WRITE setCameraPreset NOTIFY cameraPresetChanged)
+    Q_PROPERTY(QVector3D cameraTargetPosition READ cameraTargetPosition WRITE setCameraTargetPosition NOTIFY cameraTargetPositionChanged)
+    Q_PROPERTY(float minCameraZoomLevel READ minCameraZoomLevel WRITE setMinCameraZoomLevel NOTIFY minCameraZoomLevelChanged)
+    Q_PROPERTY(float maxCameraZoomLevel READ maxCameraZoomLevel WRITE setMaxCameraZoomLevel NOTIFY maxCameraZoomLevelChanged)
+    Q_PROPERTY(bool wrapCameraXRotation READ wrapCameraXRotation WRITE setWrapCameraXRotation NOTIFY wrapCameraXRotationChanged)
+    Q_PROPERTY(bool wrapCameraYRotation READ wrapCameraYRotation WRITE setWrapCameraYRotation NOTIFY wrapCameraYRotationChanged)
 
     QML_NAMED_ELEMENT(GraphsItem3D)
     QML_UNCREATABLE("Trying to create uncreatable: GraphsItem3D.")
@@ -126,6 +135,8 @@ public:
     void setMeasureFps(bool enable);
     bool measureFps() const;
     int currentFps() const;
+
+    void createInitialInputHandler();
 
     void setOrthoProjection(bool enable);
     bool isOrthoProjection() const;
@@ -220,6 +231,44 @@ public:
     void setLabelMargin(float margin) { m_labelMargin = margin; }
     float labelMargin() const { return m_labelMargin; }
 
+    QAbstract3DGraph::CameraPreset cameraPreset() const;
+    void setCameraPreset(QAbstract3DGraph::CameraPreset preset);
+
+    float cameraXRotation() const { return m_xRotation; }
+    void setCameraXRotation(float rotation);
+    float cameraYRotation() const { return m_yRotation; }
+    void setCameraYRotation(float rotation);
+
+    float minCameraXRotation() const { return m_minXRotation; }
+    void setMinCameraXRotation(float rotation);
+    float maxCameraXRotation() const { return m_maxXRotation; }
+    void setMaxCameraXRotation(float rotation);
+
+    float minCameraYRotation() const { return m_minYRotation; }
+    void setMinCameraYRotation(float rotation);
+    float maxCameraYRotation() const { return m_maxYRotation; }
+    void setMaxCameraYRotation(float rotation);
+
+    float cameraZoomLevel() const { return m_zoomLevel; }
+    void setCameraZoomLevel(float level);
+
+    float minCameraZoomLevel() const { return m_minZoomLevel; }
+    void setMinCameraZoomLevel(float level);
+
+    float maxCameraZoomLevel() const { return m_maxZoomLevel; }
+    void setMaxCameraZoomLevel(float level);
+
+    void setCameraTargetPosition(const QVector3D &target);
+    QVector3D cameraTargetPosition() const { return m_requestedTarget; }
+
+    bool wrapCameraXRotation() const { return m_wrapXRotation; }
+    void setWrapCameraXRotation(bool wrap);
+
+    bool wrapCameraYRotation() const { return m_wrapYRotation; }
+    void setWrapCameraYRotation(bool wrap);
+
+    void setCameraPosition(float horizontal, float vertical, float zoom = 100.0f);
+
     void changeLabelBackgroundColor(QQuick3DRepeater *repeater, const QColor &color);
     void changeLabelBackgroundEnabled(QQuick3DRepeater *repeater, const bool &enabled);
     void changeLabelBorderEnabled(QQuick3DRepeater *repeater, const bool &enabled);
@@ -263,6 +312,19 @@ Q_SIGNALS:
     void localeChanged(const QLocale &locale);
     void queriedGraphPositionChanged(const QVector3D &data);
     void marginChanged(qreal margin);
+    void cameraPresetChanged(QAbstract3DGraph::CameraPreset preset);
+    void cameraXRotationChanged(float rotation);
+    void cameraYRotationChanged(float rotation);
+    void cameraZoomLevelChanged(float zoomLevel);
+    void cameraTargetPositionChanged(const QVector3D &target);
+    void minCameraZoomLevelChanged(float zoomLevel);
+    void maxCameraZoomLevelChanged(float zoomLevel);
+    void minCameraXRotationChanged(float rotation);
+    void minCameraYRotationChanged(float rotation);
+    void maxCameraXRotationChanged(float rotation);
+    void maxCameraYRotationChanged(float rotation);
+    void wrapCameraXRotationChanged(bool wrap);
+    void wrapCameraYRotationChanged(bool wrap);
 
 protected:
     bool event(QEvent *event) override;
@@ -480,6 +542,22 @@ private:
 
     int m_currentFps = -1;
     bool m_measureFps = false;
+
+    QAbstract3DGraph::CameraPreset m_activePreset = QAbstract3DGraph::CameraPresetNone;
+    float m_xRotation = 0.0f;
+    float m_yRotation = 0.0f;
+    float m_minXRotation = -180.0f;
+    float m_maxXRotation = 180.0f;
+    float m_minYRotation = 0.0f;
+    float m_maxYRotation = 90.0f;
+    bool m_wrapXRotation = true;
+    bool m_wrapYRotation = false;
+
+    float m_zoomLevel = 100.0f;
+    float m_minZoomLevel = 10.0f;
+    float m_maxZoomLevel = 500.0f;
+
+    QVector3D m_requestedTarget = QVector3D();
 
     QAbstract3DInputHandler *m_activeInputHandler = nullptr;
     QList<QAbstract3DInputHandler *> m_inputHandlers = {};

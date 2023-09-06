@@ -36,7 +36,7 @@ VolumetricModifier::VolumetricModifier(Q3DScatter *scatter)
 {
     m_graph->activeTheme()->setType(Q3DTheme::Theme::PrimaryColors);
     m_graph->setShadowQuality(QAbstract3DGraph::ShadowQuality::None);
-    m_graph->scene()->activeCamera()->setCameraPreset(Q3DCamera::CameraPresetIsometricLeft);
+    m_graph->setCameraPreset(QAbstract3DGraph::CameraPresetIsometricLeft);
     //! [0]
     m_graph->setOrthoProjection(true);
     //! [0]
@@ -44,7 +44,7 @@ VolumetricModifier::VolumetricModifier(Q3DScatter *scatter)
 
     // Only allow zooming at the center and limit the zoom to 200% to avoid clipping issues
     static_cast<Q3DInputHandler *>(m_graph->activeInputHandler())->setZoomAtTargetEnabled(false);
-    m_graph->scene()->activeCamera()->setMaxZoomLevel(200.0f);
+    m_graph->setMaxCameraZoomLevel(200.0f);
 
     toggleAreaAll(true);
 

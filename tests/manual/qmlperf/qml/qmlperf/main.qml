@@ -105,8 +105,8 @@ Item {
             running: true
             repeat: true
             onTriggered: {
-                if (++scatterPlot.scene.activeCamera.xRotation == 360)
-                    scatterPlot.scene.activeCamera.xRotation = 0;
+                if (++scatterPlot.cameraXRotation == 360)
+                    scatterPlot.cameraXRotation = 0;
             }
         }
 
@@ -116,7 +116,7 @@ Item {
             height: graphView.height
             shadowQuality: AbstractGraph3D.ShadowQuality.None
             optimizationHint: AbstractGraph3D.OptimizationHint.Legacy
-            scene.activeCamera.yRotation: 45.0
+            cameraYRotation: 45.0
             measureFps: true
             onCurrentFpsChanged: {
                 fpsText.text = itemCount + " : " + scatterPlot.currentFps.toFixed(1);

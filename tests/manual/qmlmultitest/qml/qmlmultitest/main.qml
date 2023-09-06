@@ -41,7 +41,7 @@ Item {
                     type: Theme3D.Theme.PrimaryColors
                     font.pointSize: 60
                 }
-                scene.activeCamera.cameraPreset: Camera3D.CameraPresetIsometricLeftHigh
+                cameraPreset: AbstractGraph3D.CameraPresetIsometricLeftHigh
 
                 Surface3DSeries {
                     itemLabelFormat: "Pop density at (@xLabel N, @zLabel E): @yLabel"
@@ -130,7 +130,7 @@ Item {
                     type: Theme3D.Theme.PrimaryColors
                     font.pointSize: 60
                 }
-                scene.activeCamera.cameraPreset: Camera3D.CameraPresetIsometricLeftHigh
+                cameraPreset: AbstractGraph3D.CameraPresetIsometricLeftHigh
 
                 Scatter3DSeries {
                     itemLabelFormat: "Pop density at (@xLabel N, @zLabel E): @yLabel"
@@ -172,7 +172,7 @@ Item {
                     font.pointSize: 60
                 }
                 selectionMode: AbstractGraph3D.SelectionItemAndRow | AbstractGraph3D.SelectionSlice
-                scene.activeCamera.cameraPreset: Camera3D.CameraPresetIsometricLeftHigh
+                cameraPreset: AbstractGraph3D.CameraPresetIsometricLeftHigh
 
                 Bar3DSeries {
                     itemLabelFormat: "@seriesName: @valueLabel"
@@ -207,12 +207,12 @@ Item {
     }
 
     function resetCameras() {
-        surfaceGraph.scene.activeCamera.cameraPreset = Camera3D.CameraPresetIsometricLeftHigh
-        scatterGraph.scene.activeCamera.cameraPreset = Camera3D.CameraPresetIsometricLeftHigh
-        barGraph.scene.activeCamera.cameraPreset = Camera3D.CameraPresetIsometricLeftHigh
-        surfaceGraph.scene.activeCamera.zoomLevel = 100.0
-        scatterGraph.scene.activeCamera.zoomLevel = 100.0
-        barGraph.scene.activeCamera.zoomLevel = 100.0
+        surfaceGraph.cameraPreset = AbstractGraph3D.CameraPresetIsometricLeftHigh
+        scatterGraph.cameraPreset = AbstractGraph3D.CameraPresetIsometricLeftHigh
+        barGraph.cameraPreset = AbstractGraph3D.CameraPresetIsometricLeftHigh
+        surfaceGraph.zoomLevel = 100.0
+        scatterGraph.zoomLevel = 100.0
+        barGraph.zoomLevel = 100.0
     }
 
     function changeMMB() {

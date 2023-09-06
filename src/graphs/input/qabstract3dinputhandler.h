@@ -15,6 +15,7 @@
 QT_BEGIN_NAMESPACE
 
 class QAbstract3DInputHandlerPrivate;
+class QQuickGraphsItem;
 
 class Q_GRAPHS_EXPORT QAbstract3DInputHandler : public QObject
 {
@@ -58,6 +59,9 @@ public:
     Q3DScene *scene() const;
     void setScene(Q3DScene *scene);
 
+    QQuickGraphsItem *item() const;
+    void setItem(QQuickGraphsItem* item);
+
 Q_SIGNALS:
     void positionChanged(const QPoint &position);
     void inputViewChanged(QAbstract3DInputHandler::InputView view);
@@ -73,6 +77,24 @@ protected:
     int prevDistance() const;
     void setPreviousInputPos(const QPoint &position);
     QPoint previousInputPos() const;
+
+    float cameraZoomLevel();
+    void setCameraZoomLevel(float level);
+
+    float cameraXRotation();
+    void setCameraXRotation(float rotation);
+    float cameraYRotation();
+    void setCameraYRotation(float rotation);
+
+    float minCameraXRotation();
+    void setMinCameraXRotation(float rotation);
+    float maxCameraXRotation();
+    void setMaxCameraXRotation(float rotation);
+
+    float minCameraYRotation();
+    void setMinCameraYRotation(float rotation);
+    float maxCameraYRotation();
+    void setMaxCameraYRotation(float rotation);
 
 private:
     Q_DISABLE_COPY(QAbstract3DInputHandler)

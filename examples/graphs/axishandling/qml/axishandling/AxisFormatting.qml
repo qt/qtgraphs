@@ -74,7 +74,7 @@ Item {
         width: parent.width
         theme: themePrimaryColors
         shadowQuality: AbstractGraph3D.ShadowQuality.SoftMedium
-        scene.activeCamera.cameraPreset: Camera3D.CameraPresetIsometricRight
+        cameraPreset: AbstractGraph3D.CameraPresetIsometricRight
         //! [3]
         axisZ: valueAxis
         axisY: logAxis

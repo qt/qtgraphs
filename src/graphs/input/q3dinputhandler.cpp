@@ -34,7 +34,7 @@ static const float rotationSpeed      = 100.0f;
  *          \li Action
  *      \row
  *          \li Drag with right button pressed
- *          \li Rotate graph within limits set for Q3DCamera.
+ *          \li Rotate graph within limits.
  *      \row
  *          \li Left click
  *          \li Select item under cursor or remove selection if none.
@@ -42,7 +42,7 @@ static const float rotationSpeed      = 100.0f;
  *              \l {QAbstract3DGraph::selectionMode}{selection mode}.
  *      \row
  *          \li Mouse wheel
- *          \li Zoom in/out within the allowable zoom range set for Q3DCamera.
+ *          \li Zoom in/out within the allowable zoom range.
  *      \row
  *          \li Left click on the primary view when the secondary view is visible
  *          \li Closes the secondary view.
@@ -199,9 +199,10 @@ void Q3DInputHandler::mouseMoveEvent(QMouseEvent *event, const QPoint &mousePos)
     Q_D(Q3DInputHandler);
     if (QAbstract3DInputHandlerPrivate::InputState::Rotating == d->m_inputState
             && isRotationEnabled()) {
+        QQuickGraphsItem *item = this->item();
         // Calculate mouse movement since last frame
-        float xRotation = scene()->activeCamera()->xRotation();
-        float yRotation = scene()->activeCamera()->yRotation();
+        float xRotation = item->cameraXRotation();
+        float yRotation = item->cameraYRotation();
         float mouseMoveX = float(inputPosition().x() - mousePos.x())
                 / (scene()->viewport().width() / rotationSpeed);
         float mouseMoveY = float(inputPosition().y() - mousePos.y())
@@ -209,8 +210,8 @@ void Q3DInputHandler::mouseMoveEvent(QMouseEvent *event, const QPoint &mousePos)
         // Apply to rotations
         xRotation -= mouseMoveX;
         yRotation -= mouseMoveY;
-        scene()->activeCamera()->setXRotation(xRotation);
-        scene()->activeCamera()->setYRotation(yRotation);
+        item->setCameraXRotation(xRotation);
+        item->setCameraYRotation(yRotation);
 
         setPreviousInputPos(inputPosition());
         setInputPosition(mousePos);
@@ -232,10 +233,10 @@ void Q3DInputHandler::wheelEvent(QWheelEvent *event)
             return;
 
         // Adjust zoom level based on what zoom range we're in.
-        Q3DCamera *camera = scene()->activeCamera();
-        int zoomLevel = int(camera->zoomLevel());
-        const int minZoomLevel = int(camera->minZoomLevel());
-        const int maxZoomLevel = int(camera->maxZoomLevel());
+        QQuickGraphsItem *item = this->item();
+        int zoomLevel = int(item->cameraZoomLevel());
+        const int minZoomLevel = int(item->minCameraZoomLevel());
+        const int maxZoomLevel = int(item->maxCameraZoomLevel());
         if (zoomLevel > oneToOneZoomLevel)
             zoomLevel += event->angleDelta().y() / nearZoomRangeDivider;
         else if (zoomLevel > halfSizeZoomLevel)
@@ -255,7 +256,7 @@ void Q3DInputHandler::wheelEvent(QWheelEvent *event)
             d->m_requestedZoomLevel = zoomLevel;
             d->m_driftMultiplier = wheelZoomDrift;
         } else {
-            camera->setZoomLevel(zoomLevel);
+            item->setCameraZoomLevel(zoomLevel);
         }
     }
 }
@@ -389,8 +390,8 @@ void Q3DInputHandlerPrivate::handleQueriedGraphPositionChange()
         // Check if the zoom point is on graph
         QVector3D newTarget = m_controller->queriedGraphPosition();
         float currentZoom = m_requestedZoomLevel;
-        float previousZoom = q_ptr->scene()->activeCamera()->zoomLevel();
-        q_ptr->scene()->activeCamera()->setZoomLevel(currentZoom);
+        float previousZoom = q_ptr->item()->cameraZoomLevel();
+        q_ptr->item()->setCameraZoomLevel(currentZoom);
         float diffAdj = 0.0f;
 
         // If zooming in/out outside the graph, or zooming out after certain point,
@@ -409,12 +410,12 @@ void Q3DInputHandlerPrivate::handleQueriedGraphPositionChange()
         float zoomFraction = 1.0f - (previousZoom / currentZoom);
 
         // Adjust camera towards the zoom point, attempting to keep the cursor at same graph point
-        QVector3D oldTarget = q_ptr->scene()->activeCamera()->target();
+        QVector3D oldTarget = q_ptr->item()->cameraTargetPosition();
         QVector3D origDiff = newTarget - oldTarget;
         QVector3D diff = origDiff * zoomFraction + (origDiff.normalized() * diffAdj);
         if (diff.length() > origDiff.length())
             diff = origDiff;
-        q_ptr->scene()->activeCamera()->setTarget(oldTarget + diff);
+        q_ptr->item()->setCameraTargetPosition(oldTarget + diff);
 
         if (q_ptr->scene()->selectionQueryPosition() == Q3DScene::invalidSelectionPoint())
             m_zoomAtTargetPending = false;

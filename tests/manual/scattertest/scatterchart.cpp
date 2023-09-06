@@ -6,7 +6,6 @@
 #include <QtGraphs/qscatter3dseries.h>
 #include <QtGraphs/qvalue3daxis.h>
 #include <QtGraphs/q3dscene.h>
-#include <QtGraphs/q3dcamera.h>
 #include <QtGraphs/q3dtheme.h>
 #include <QtGraphs/Q3DInputHandler>
 #include <qmath.h>
@@ -28,7 +27,7 @@ ScatterDataModifier::ScatterDataModifier(Q3DScatter *scatter)
     font.setPointSize(m_fontSize);
     m_chart->activeTheme()->setFont(font);
     m_chart->setShadowQuality(QAbstract3DGraph::ShadowQuality::None);
-    m_chart->scene()->activeCamera()->setCameraPreset(Q3DCamera::CameraPresetFront);
+    m_chart->setCameraPreset(QAbstract3DGraph::CameraPresetFront);
     m_chart->setAxisX(new QValue3DAxis);
     m_chart->setAxisY(new QValue3DAxis);
     m_chart->setAxisZ(new QValue3DAxis);
@@ -125,7 +124,7 @@ void ScatterDataModifier::massiveDataTest()
         m_chart->setAxisX(xAxis);
         m_chart->setAxisY(yAxis);
         m_chart->setAxisZ(zAxis);
-        m_chart->scene()->activeCamera()->setCameraPreset(Q3DCamera::CameraPresetRight);
+        m_chart->setCameraPreset(QAbstract3DGraph::CameraPresetRight);
         m_chart->setShadowQuality(QAbstract3DGraph::ShadowQuality::None);
         const auto scatteriesList = m_chart->seriesList();
         for (const auto &series : scatteriesList)
@@ -562,12 +561,12 @@ void ScatterDataModifier::changeStyle()
 
 void ScatterDataModifier::changePresetCamera()
 {
-    static int preset = Q3DCamera::CameraPresetFrontLow;
+    static int preset = QAbstract3DGraph::CameraPresetFrontLow;
 
-    m_chart->scene()->activeCamera()->setCameraPreset((Q3DCamera::CameraPreset)preset);
+    m_chart->setCameraPreset((QAbstract3DGraph::CameraPreset)preset);
 
-    if (++preset > Q3DCamera::CameraPresetDirectlyAboveCCW45)
-        preset = Q3DCamera::CameraPresetFrontLow;
+    if (++preset > QAbstract3DGraph::CameraPresetDirectlyAboveCCW45)
+        preset = QAbstract3DGraph::CameraPresetFrontLow;
 }
 
 void ScatterDataModifier::changeTheme()
@@ -1013,7 +1012,7 @@ void ScatterDataModifier::setCameraTargetX(int value)
 {
     // Value is (-100, 100), normalize
     m_cameraTarget.setX(float(value) / 100.0f);
-    m_chart->scene()->activeCamera()->setTarget(m_cameraTarget);
+    m_chart->setCameraTargetPosition(m_cameraTarget);
     qDebug() << "m_cameraTarget:" << m_cameraTarget;
 }
 
@@ -1021,7 +1020,7 @@ void ScatterDataModifier::setCameraTargetY(int value)
 {
     // Value is (-100, 100), normalize
     m_cameraTarget.setY(float(value) / 100.0f);
-    m_chart->scene()->activeCamera()->setTarget(m_cameraTarget);
+    m_chart->setCameraTargetPosition(m_cameraTarget);
     qDebug() << "m_cameraTarget:" << m_cameraTarget;
 }
 
@@ -1029,7 +1028,7 @@ void ScatterDataModifier::setCameraTargetZ(int value)
 {
     // Value is (-100, 100), normalize
     m_cameraTarget.setZ(float(value) / 100.0f);
-    m_chart->scene()->activeCamera()->setTarget(m_cameraTarget);
+    m_chart->setCameraTargetPosition(m_cameraTarget);
     qDebug() << "m_cameraTarget:" << m_cameraTarget;
 }
 

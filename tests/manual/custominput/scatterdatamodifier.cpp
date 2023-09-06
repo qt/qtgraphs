@@ -6,7 +6,6 @@
 #include <QtGraphs/QScatterDataProxy>
 #include <QtGraphs/QValue3DAxis>
 #include <QtGraphs/Q3DScene>
-#include <QtGraphs/Q3DCamera>
 #include <QtGraphs/QScatter3DSeries>
 #include <QtGraphs/Q3DTheme>
 #include <QtCore/qmath.h>
@@ -20,7 +19,7 @@ ScatterDataModifier::ScatterDataModifier(Q3DScatter *scatter)
 {
     m_graph->activeTheme()->setType(Q3DTheme::Theme::PrimaryColors);
     m_graph->setShadowQuality(QAbstract3DGraph::ShadowQuality::Medium);
-    m_graph->scene()->activeCamera()->setCameraPreset(Q3DCamera::CameraPresetFront);
+    m_graph->setCameraPreset(QAbstract3DGraph::CameraPresetFront);
 
     m_graph->setAxisX(new QValue3DAxis);
     m_graph->setAxisY(new QValue3DAxis);
@@ -37,7 +36,7 @@ ScatterDataModifier::ScatterDataModifier(Q3DScatter *scatter)
     m_graph->addSeries(series);
 
     //! [2]
-    m_animationCameraX = new QPropertyAnimation(m_graph->scene()->activeCamera(), "xRotation");
+    m_animationCameraX = new QPropertyAnimation(m_graph, "cameraXRotation");
     m_animationCameraX->setDuration(20000);
     m_animationCameraX->setStartValue(QVariant::fromValue(0.0f));
     m_animationCameraX->setEndValue(QVariant::fromValue(360.0f));
@@ -45,12 +44,12 @@ ScatterDataModifier::ScatterDataModifier(Q3DScatter *scatter)
     //! [2]
 
     //! [3]
-    QPropertyAnimation *upAnimation = new QPropertyAnimation(m_graph->scene()->activeCamera(), "yRotation");
+    QPropertyAnimation *upAnimation = new QPropertyAnimation(m_graph, "cameraYRotation");
     upAnimation->setDuration(9000);
     upAnimation->setStartValue(QVariant::fromValue(5.0f));
     upAnimation->setEndValue(QVariant::fromValue(45.0f));
 
-    QPropertyAnimation *downAnimation = new QPropertyAnimation(m_graph->scene()->activeCamera(), "yRotation");
+    QPropertyAnimation *downAnimation = new QPropertyAnimation(m_graph, "cameraYRotation");
     downAnimation->setDuration(9000);
     downAnimation->setStartValue(QVariant::fromValue(45.0f));
     downAnimation->setEndValue(QVariant::fromValue(5.0f));

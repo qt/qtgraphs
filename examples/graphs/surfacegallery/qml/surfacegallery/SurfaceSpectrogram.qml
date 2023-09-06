@@ -98,7 +98,7 @@ Rectangle {
             //! [1]
             // Remove the perspective and view the graph from top down to achieve 2D effect
             orthoProjection: true
-            scene.activeCamera.cameraPreset: Camera3D.CameraPresetDirectlyAbove
+            cameraPreset: AbstractGraph3D.CameraPresetDirectlyAbove
             //! [1]
 
             //! [2]
@@ -124,7 +124,7 @@ Rectangle {
 
             aspectRatio: 1.0
             horizontalAspectRatio: 1.0
-            scene.activeCamera.zoomLevel: 140
+            cameraZoomLevel: 140
         }
     }
 
@@ -164,8 +164,8 @@ Rectangle {
                     zAxis.labelAutoRotation = 30;
                 } else {
                     surfaceGraph.orthoProjection = true;
-                    surfaceGraph.scene.activeCamera.cameraPreset
-                            = Camera3D.CameraPresetDirectlyAbove;
+                    surfaceGraph.cameraPreset
+                            = AbstractGraph3D.CameraPresetDirectlyAbove;
                     surfaceSeries.drawMode &= ~Surface3DSeries.DrawWireframe;
                     xAxis.labelAutoRotation = 0;
                     yAxis.labelAutoRotation = 0;

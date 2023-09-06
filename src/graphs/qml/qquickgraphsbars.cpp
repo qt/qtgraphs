@@ -9,7 +9,6 @@
 #include "qvalue3daxis_p.h"
 #include "qcategory3daxis_p.h"
 
-#include "q3dcamera_p.h"
 #include <QtCore/QMutexLocker>
 #include <QColor>
 #include "q3dtheme_p.h"
@@ -63,6 +62,8 @@ QQuickGraphsBars::QQuickGraphsBars(QQuickItem *parent)
                      this, &QQuickGraphsBars::primarySeriesChanged);
     QObject::connect(m_barsController, &Bars3DController::selectedSeriesChanged,
                      this, &QQuickGraphsBars::selectedSeriesChanged);
+
+    createInitialInputHandler();
 }
 
 QQuickGraphsBars::~QQuickGraphsBars()
@@ -328,20 +329,19 @@ void QQuickGraphsBars::componentComplete()
 
 void QQuickGraphsBars::synchData()
 {
-    Q3DCamera *camera = m_barsController->m_scene->activeCamera();
     Q3DTheme *theme = m_barsController->activeTheme();
 
     if (!m_noZeroInRange) {
-        camera->d_func()->setMinYRotation(-90.0f);
-        camera->d_func()->setMaxYRotation(90.0f);
+        setMinCameraYRotation(-90.0f);
+        setMaxCameraYRotation(90.0f);
     } else {
         if ((m_hasNegativeValues && !m_helperAxisY.isReversed())
                 || (!m_hasNegativeValues && m_helperAxisY.isReversed())) {
-            camera->d_func()->setMinYRotation(-90.0f);
-            camera->d_func()->setMaxYRotation(0.0f);
+            setMinCameraYRotation(-90.0f);
+            setMaxCameraYRotation(0.0f);
         } else {
-            camera->d_func()->setMinYRotation(0.0f);
-            camera->d_func()->setMaxYRotation(90.0f);
+            setMinCameraYRotation(0.0f);
+            setMaxCameraYRotation(90.0f);
         }
     }
     if (m_barsController->m_changeTracker.barSpecsChanged || !m_cachedBarThickness.isValid()) {

@@ -6,7 +6,6 @@
 #include <QtGraphs/qitemmodelbardataproxy.h>
 #include <QtGraphs/qvalue3daxis.h>
 #include <QtGraphs/q3dscene.h>
-#include <QtGraphs/q3dcamera.h>
 #include <QtGraphs/qbar3dseries.h>
 #include <QtGraphs/q3dtheme.h>
 
@@ -87,7 +86,7 @@ GraphDataGenerator::GraphDataGenerator(Q3DBars *bargraph, QTableWidget *tableWid
     m_graph->activeTheme()->setFont(font);
 
     // Set preset camera position
-    m_graph->scene()->activeCamera()->setCameraPreset(Q3DCamera::CameraPresetFront);
+    m_graph->setCameraPreset(QAbstract3DGraph::CameraPresetFront);
 }
 
 GraphDataGenerator::~GraphDataGenerator()

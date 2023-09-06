@@ -89,9 +89,6 @@ Q3DScene *Q3DObject::parentScene()
  * \property Q3DObject::position
  *
  * \brief The 3D position of the object.
- *
- * \note Currently setting this property has no effect for Q3DCamera, as the position is handled
- * internally.
  */
 QVector3D Q3DObject::position() const
 {

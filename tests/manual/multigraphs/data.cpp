@@ -3,7 +3,6 @@
 
 #include "data.h"
 #include <QtGraphs/QValue3DAxis>
-#include <QtGraphs/Q3DCamera>
 #include <QtGraphs/QBar3DSeries>
 #include <QtGraphs/QScatter3DSeries>
 #include <QtGraphs/QSurface3DSeries>
@@ -37,7 +36,7 @@ Data::Data(Q3DSurface *surface, Q3DScatter *scatter, Q3DBars *bars,
     m_surface->setSelectionMode(QAbstract3DGraph::SelectionNone);
     m_surface->activeTheme()->setGridEnabled(false);
     m_surface->activeTheme()->setBackgroundEnabled(false);
-    m_surface->scene()->activeCamera()->setCameraPosition(0.0, 90.0, 150.0);
+    m_surface->setCameraPosition(0.0, 90.0, 150.0);
     QSurface3DSeries *series1 = new QSurface3DSeries(new QHeightMapSurfaceDataProxy());
     series1->setFlatShadingEnabled(true);
     series1->setDrawMode(QSurface3DSeries::DrawSurface);
@@ -50,7 +49,7 @@ Data::Data(Q3DSurface *surface, Q3DScatter *scatter, Q3DBars *bars,
     m_scatter->setSelectionMode(QAbstract3DGraph::SelectionNone);
     m_scatter->activeTheme()->setGridEnabled(false);
     m_scatter->setShadowQuality(QAbstract3DGraph::ShadowQuality::SoftLow);
-    m_scatter->scene()->activeCamera()->setCameraPosition(0.0, 85.0, 150.0);
+    m_scatter->setCameraPosition(0.0, 85.0, 150.0);
     QScatter3DSeries *series2 = new QScatter3DSeries;
     series2->setMesh(QAbstract3DSeries::Mesh::Point);
     m_scatter->addSeries(series2);
@@ -61,7 +60,7 @@ Data::Data(Q3DSurface *surface, Q3DScatter *scatter, Q3DBars *bars,
     m_bars->activeTheme()->setGridEnabled(false);
     m_bars->setShadowQuality(QAbstract3DGraph::ShadowQuality::Low);
     m_bars->setBarSpacing(QSizeF(0.0, 0.0));
-    m_bars->scene()->activeCamera()->setCameraPosition(0.0, 75.0, 150.0);
+    m_bars->setCameraPosition(0.0, 75.0, 150.0);
     QBar3DSeries *series3 = new QBar3DSeries;
     series3->setMesh(QAbstract3DSeries::Mesh::Bar);
     m_bars->addSeries(series3);

@@ -5,7 +5,6 @@
 #include <QtGraphs/qscatterdataproxy.h>
 #include <QtGraphs/qvalue3daxis.h>
 #include <QtGraphs/q3dscene.h>
-#include <QtGraphs/q3dcamera.h>
 #include <QtGraphs/qscatter3dseries.h>
 #include <QtGraphs/q3dtheme.h>
 #include <QtGraphs/QCustom3DItem>
@@ -30,7 +29,7 @@ ScatterDataModifier::ScatterDataModifier(Q3DScatter *scatter)
       m_angleStep(doublePi / m_arrowsPerLine / animationFrames)
 {
     m_graph->setShadowQuality(QAbstract3DGraph::ShadowQuality::None);
-    m_graph->scene()->activeCamera()->setCameraPreset(Q3DCamera::CameraPresetFront);
+    m_graph->setCameraPreset(QAbstract3DGraph::CameraPresetFront);
 
     // Magnetic field lines use custom narrow arrow
     m_magneticField->setItemSize(0.2f);

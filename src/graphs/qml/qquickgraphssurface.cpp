@@ -32,6 +32,8 @@ QQuickGraphsSurface::QQuickGraphsSurface(QQuickItem *parent)
                      this, &QQuickGraphsSurface::selectedSeriesChanged);
     QObject::connect(m_surfaceController, &Surface3DController::flipHorizontalGridChanged,
                      this, &QQuickGraphsSurface::handleFlipHorizontalGridChanged);
+
+    createInitialInputHandler();
 }
 
 QQuickGraphsSurface::~QQuickGraphsSurface()
