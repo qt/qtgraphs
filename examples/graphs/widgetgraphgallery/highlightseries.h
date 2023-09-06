@@ -17,6 +17,7 @@ public:
 
     void setTopographicSeries(TopographicSeries *series);
     inline void setMinHeight(float height) { m_minHeight = height; }
+    void handleZoomChange(float zoom);
 
 public Q_SLOTS:
     void handlePositionChange(const QPoint &position);
@@ -30,6 +31,7 @@ private:
     QPoint m_position = {};
     TopographicSeries *m_topographicSeries = nullptr;
     float m_minHeight = 0.f;
+    float m_heightAdjustment = 5.f;
 };
 
 #endif // HIGHLIGHTSERIES_H
