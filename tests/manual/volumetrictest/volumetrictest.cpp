@@ -70,10 +70,10 @@ VolumetricModifier::VolumetricModifier(QAbstract3DGraph *scatter)
         }
 
         QBar3DSeries *series = new QBar3DSeries;
-        QBarDataArray *array = new QBarDataArray();
-        array->reserve(zRange * 2 + 1);
+        QBarDataArray array;
+        array.reserve(zRange * 2 + 1);
         for (int i = 0; i < zRange * 2 + 1; i++)
-            array->append(new QBarDataRow(xRange * 2 + 1));
+            array.append(QBarDataRow(xRange * 2 + 1));
 
         series->dataProxy()->resetArray(array, rowLabels, columnLabels);
         m_barGraph->addSeries(series);

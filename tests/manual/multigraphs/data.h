@@ -54,7 +54,7 @@ private:
     int m_resolutionLevel;
     GraphsMode m_mode;
     QScatterDataArray m_scatterDataArray;
-    QBarDataArray *m_barDataArray;
+    QBarDataArray m_barDataArray;
     bool m_started;
 };
 

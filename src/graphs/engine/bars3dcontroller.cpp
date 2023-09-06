@@ -539,11 +539,11 @@ void Bars3DController::adjustAxisRanges()
                     }
 
                     if (adjustX && proxy) {
-                        const QBarDataArray *array = proxy->array();
+                        const QBarDataArray array = proxy->array();
                         int columnCount = 0;
-                        for (int i = 0; i < array->size(); i++) {
-                            if (columnCount < array->at(i)->size())
-                                columnCount = array->at(i)->size();
+                        for (int i = 0; i < array.size(); i++) {
+                            if (columnCount < array.at(i).size())
+                                columnCount = array.at(i).size();
                         }
                         if (columnCount)
                             columnCount--;
@@ -610,8 +610,8 @@ void Bars3DController::adjustSelectionPosition(QPoint &pos, const QBar3DSeries *
 
     if (pos != invalidSelectionPosition()) {
         int maxRow = proxy->rowCount() - 1;
-        int maxCol = (pos.x() <= maxRow && pos.x() >= 0 && proxy->rowAt(pos.x()))
-                ? proxy->rowAt(pos.x())->size() - 1 : -1;
+        int maxCol = (pos.x() <= maxRow && pos.x() >= 0 && !proxy->rowAt(pos.x()).isEmpty())
+                ? proxy->rowAt(pos.x()).size() - 1 : -1;
 
         if (pos.x() < 0 || pos.x() > maxRow || pos.y() < 0 || pos.y() > maxCol)
             pos = invalidSelectionPosition();

@@ -34,7 +34,7 @@ protected:
     void resolveModel() override;
 
     QItemModelBarDataProxy *m_proxy; // Not owned
-    QBarDataArray *m_proxyArray; // Not owned
+    QBarDataArray m_proxyArray;
     int m_columnCount;
     int m_valueRole;
     int m_rotationRole;

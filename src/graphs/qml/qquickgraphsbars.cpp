@@ -787,19 +787,19 @@ void QQuickGraphsBars::generateBars(QList<QBar3DSeries *> &barSeriesList)
                 int newRowSize = qMin(dataProxy->rowCount() - dataRowIndex, m_newRows);
 
                 for (int row = 0; row < newRowSize; ++row) {
-                    const QBarDataRow *dataRow = dataProxy->rowAt(dataRowIndex);
-                    if (dataRow) {
+                    const QBarDataRow &dataRow = dataProxy->rowAt(dataRowIndex);
+                    if (!dataRow.isEmpty()) {
                         int dataColIndex = m_minCol;
-                        int newColSize = qMin(dataRow->size() - dataColIndex, m_newCols);
+                        int newColSize = qMin(dataRow.size() - dataColIndex, m_newCols);
                         for (int col = 0; col < newColSize; ++col) {
-                            QBarDataItem *dataItem = const_cast<QBarDataItem *> (&(dataRow->at(dataColIndex)));
+                            QBarDataItem &dataItem = const_cast<QBarDataItem &>(dataRow.at(dataColIndex));
                             auto scene = QQuick3DViewport::scene();
                             QQuick3DModel *model = createDataItem(scene, barSeries);
                             model->setVisible(visible);
 
                             BarModel *barModel = new BarModel();
                             barModel->model = model;
-                            barModel->barItem = dataItem;
+                            barModel->barItem = &dataItem;
                             barModel->coord = QPoint(dataRowIndex, col);
                             barModel->texture = texture;
 
@@ -1012,14 +1012,14 @@ void QQuickGraphsBars::updateBarPositions(QBar3DSeries *series)
 
             QList<BarItemHolder *> positions;
             for (int row = 0; row < newRowSize; ++row) {
-                const QBarDataRow *dataRow = dataProxy->rowAt(dataRowIndex);
-                if (dataRow) {
+                const QBarDataRow &dataRow = dataProxy->rowAt(dataRowIndex);
+                if (!dataRow.isEmpty()) {
                     dataColIndex = m_minCol;
                     for (int col = 0; col < newColSize; col++) {
-                        const QBarDataItem *item = const_cast<QBarDataItem *> (&(dataRow->at(dataColIndex)));
-                        float heightValue = updateBarHeightParameters(item);
+                        const QBarDataItem &item = dataRow.at(dataColIndex);
+                        float heightValue = updateBarHeightParameters(&item);
 
-                        float angle = item->rotation();
+                        float angle = item.rotation();
                         BarItemHolder *bih = new BarItemHolder();
                         if (angle)
                             bih->rotation = QQuaternion::fromAxisAndAngle(upVector, angle);
@@ -1641,7 +1641,7 @@ void QQuickGraphsBars::createSliceView()
             int newRowSize = qMin(barSeries->dataProxy()->rowCount() - dataRowIndex, m_newRows);
             int newColSize = 0;
             if (newRowSize) {
-                const QBarDataRow *dataRow = barSeries->dataProxy()->rowAt(dataRowIndex);
+                const QBarDataRow *dataRow = &barSeries->dataProxy()->rowAt(dataRowIndex);
                 if (dataRow) {
                     int dataColIndex = m_minCol;
                     newColSize = qMin(dataRow->size() - dataColIndex, m_newCols);

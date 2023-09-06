@@ -158,24 +158,22 @@ void GraphModifier::resetTemperatureData()
 
     // Create data arrays
     //! [9b]
-    auto *dataSet = new QBarDataArray;
-    auto *dataSet2 = new QBarDataArray;
-    QBarDataRow *dataRow = nullptr;
-    QBarDataRow *dataRow2= nullptr;
+    QBarDataArray dataSet;
+    QBarDataArray dataSet2;
 
-    dataSet->reserve(m_years.size());
+    dataSet.reserve(m_years.size());
     for (qsizetype year = 0; year < m_years.size(); ++year) {
         // Create a data row
-        dataRow = new QBarDataRow(m_months.size());
-        dataRow2 = new QBarDataRow(m_months.size());
+        QBarDataRow dataRow(m_months.size());
+        QBarDataRow dataRow2(m_months.size());
         for (qsizetype month = 0; month < m_months.size(); ++month) {
             // Add data to the row
-            (*dataRow)[month].setValue(tempOulu[year][month]);
-            (*dataRow2)[month].setValue(tempHelsinki[year][month]);
+            dataRow[month].setValue(tempOulu[year][month]);
+            dataRow2[month].setValue(tempHelsinki[year][month]);
         }
         // Add the row to the set
-        dataSet->append(dataRow);
-        dataSet2->append(dataRow2);
+        dataSet.append(dataRow);
+        dataSet2.append(dataRow2);
     }
 
     // Add data to the data proxy (the data proxy assumes ownership of it)
@@ -333,7 +331,7 @@ void GraphModifier::zoomToSelectedBar()
         if (endTarget.x() > 0.0f)
             endAngleX -= 180.0f;
         float barValue = m_graph->selectedSeries()->dataProxy()->itemAt(selectedBar.x(),
-                                                                        selectedBar.y())->value();
+                                                                        selectedBar.y()).value();
         float endAngleY = barValue >= 0.0f ? 30.0f : -30.0f;
         if (m_graph->valueAxis()->reversed())
             endAngleY *= -1.0f;

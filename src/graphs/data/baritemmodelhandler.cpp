@@ -70,13 +70,13 @@ void BarItemModelHandler::handleDataChanged(const QModelIndex &topLeft,
 void BarItemModelHandler::resolveModel()
 {
     if (m_itemModel.isNull()) {
-        m_proxy->resetArray(0);
+        m_proxy->resetArray();
         return;
     }
 
     if (!m_proxy->useModelCategories()
             && (m_proxy->rowRole().isEmpty() || m_proxy->columnRole().isEmpty())) {
-        m_proxy->resetArray(0);
+        m_proxy->resetArray();
         return;
     }
 
@@ -108,15 +108,15 @@ void BarItemModelHandler::resolveModel()
 
     if (m_proxy->useModelCategories()) {
         // If dimensions have changed, recreate the array
-        if (m_proxyArray != m_proxy->array() || columnCount != m_columnCount
-                || rowCount != m_proxyArray->size()) {
-            m_proxyArray = new QBarDataArray;
-            m_proxyArray->reserve(rowCount);
+        if (m_proxyArray.data() != m_proxy->array().data() || columnCount != m_columnCount
+                || rowCount != m_proxyArray.size()) {
+
+            m_proxyArray.reserve(rowCount);
             for (int i = 0; i < rowCount; i++)
-                m_proxyArray->append(new QBarDataRow(columnCount));
+                m_proxyArray.append(QBarDataRow(columnCount));
         }
         for (int i = 0; i < rowCount; i++) {
-            QBarDataRow &newProxyRow = *m_proxyArray->at(i);
+            QBarDataRow &newProxyRow = m_proxyArray[i];
             for (int j = 0; j < columnCount; j++) {
                 QModelIndex index = m_itemModel->index(i, j);
                 QVariant valueVar = index.data(m_valueRole);
@@ -238,17 +238,17 @@ void BarItemModelHandler::resolveModel()
             columnList = m_proxy->columnCategories();
 
         // If dimensions have changed, recreate the array
-        if (m_proxyArray != m_proxy->array() || columnList.size() != m_columnCount
-                || rowList.size() != m_proxyArray->size()) {
-            m_proxyArray = new QBarDataArray;
-            m_proxyArray->reserve(rowList.size());
+        if (m_proxyArray.data() != m_proxy->array().data() || columnList.size() != m_columnCount
+                || rowList.size() != m_proxyArray.size()) {
+            m_proxyArray.clear();
+            m_proxyArray.reserve(rowList.size());
             for (int i = 0; i < rowList.size(); i++)
-                m_proxyArray->append(new QBarDataRow(columnList.size()));
+                m_proxyArray.append(QBarDataRow(columnList.size()));
         }
         // Create new data array from itemValueMap
         for (int i = 0; i < rowList.size(); i++) {
             QString rowKey = rowList.at(i);
-            QBarDataRow &newProxyRow = *m_proxyArray->at(i);
+            QBarDataRow &newProxyRow = m_proxyArray[i];
             for (int j = 0; j < columnList.size(); j++) {
                 float value = itemValueMap[rowKey][columnList.at(j)];
                 if (countMatches)

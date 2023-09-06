@@ -17,9 +17,11 @@ public:
     constexpr QBarDataItem(float value) noexcept { m_value = value; };
     constexpr QBarDataItem(float value, float angle) noexcept{ m_value = value; m_angle = angle; };
     QBarDataItem(const QBarDataItem &other);
+    QBarDataItem(QBarDataItem &&other) noexcept;
     ~QBarDataItem();
 
     QBarDataItem &operator=(const QBarDataItem &other);
+    QBarDataItem &operator=(QBarDataItem &&other) noexcept;
 
     constexpr inline void setValue(float val) noexcept { m_value = val; }
     constexpr inline float value() const noexcept { return m_value; }

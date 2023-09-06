@@ -65,7 +65,7 @@ void VariantBarDataProxy::handleItemsAdded(int index, int count)
 void VariantBarDataProxy::handleDataCleared()
 {
     // Data cleared, reset array
-    resetArray(nullptr);
+    resetArray();
 }
 
 void VariantBarDataProxy::handleMappingChanged()
@@ -80,7 +80,7 @@ void VariantBarDataProxy::resolveDataSet()
     // If we have no data or mapping, or the categories are not defined, simply clear the array
     if (m_dataSet.isNull() || m_mapping.isNull() || !m_mapping->rowCategories().size()
             || !m_mapping->columnCategories().size()) {
-        resetArray(nullptr);
+        resetArray();
         return;
     }
     const VariantDataItemList &itemList = m_dataSet->itemList();
@@ -100,12 +100,12 @@ void VariantBarDataProxy::resolveDataSet()
     }
 
     // Create a new data array in format the parent class understands
-    auto *newProxyArray = new QBarDataArray;
+    QBarDataArray newProxyArray;
     for (const QString &rowKey : rowList) {
-        auto *newProxyRow = new QBarDataRow(columnList.size());
+        QBarDataRow newProxyRow(columnList.size());
         for (qsizetype i = 0; i < columnList.size(); ++i)
-            (*newProxyRow)[i].setValue(itemValueMap[rowKey][columnList.at(i)]);
-        newProxyArray->append(newProxyRow);
+            newProxyRow[i].setValue(itemValueMap[rowKey][columnList.at(i)]);
+        newProxyArray.append(newProxyRow);
     }
 
     // Finally, reset the data array in the parent class

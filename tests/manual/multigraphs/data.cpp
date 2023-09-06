@@ -95,7 +95,7 @@ void Data::updateData()
 
 void Data::clearData()
 {
-    m_bars->seriesList().at(0)->dataProxy()->resetArray(0);
+    m_bars->seriesList().at(0)->dataProxy()->resetArray();
     m_scatter->seriesList().at(0)->dataProxy()->resetArray();
     m_surface->seriesList().at(0)->dataProxy()->resetArray(0);
 }
@@ -132,11 +132,11 @@ void Data::setResolution(int selection)
     } else if (m_mode == Bars) {
         m_resize = true;
         m_resolution /= 6;
-        m_barDataArray = new QBarDataArray;
-        m_barDataArray->reserve(m_resolution.height());
+        m_barDataArray.clear();
+        m_barDataArray.reserve(m_resolution.height());
         for (int i = 0; i < m_resolution.height(); i++) {
-            QBarDataRow *newProxyRow = new QBarDataRow(m_resolution.width());
-            m_barDataArray->append(newProxyRow);
+            QBarDataRow newProxyRow(m_resolution.width());
+            m_barDataArray.append(newProxyRow);
         }
     }
 
@@ -210,9 +210,9 @@ void Data::setData(const QImage &image)
         QScatterDataArray dataArray(m_scatterDataArray.mid(0, count));
         m_scatter->seriesList().at(0)->dataProxy()->resetArray(dataArray);
     } else {
-        QBarDataArray *dataArray = m_barDataArray;
+        QBarDataArray dataArray = m_barDataArray;
         for (int i = 0; i < imageHeight; i++, bitCount -= widthBits) {
-            QBarDataRow &newRow = *dataArray->at(i);
+            QBarDataRow &newRow = dataArray[i];
             for (int j = 0; j < imageWidth; j++)
                 newRow[j] = float(bits[bitCount + (j * 4)]);
         }

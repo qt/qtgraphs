@@ -39,6 +39,11 @@ QBarDataItem::QBarDataItem(const QBarDataItem &other)
     operator=(other);
 }
 
+QBarDataItem::QBarDataItem(QBarDataItem &&other) noexcept
+{
+    *this = std::move(other);
+}
+
 /*!
  * Deletes a bar data item.
  */
@@ -58,6 +63,17 @@ QBarDataItem &QBarDataItem::operator=(const QBarDataItem &other)
         createExtraData();
     else
         d_ptr = 0;
+    return *this;
+}
+
+QBarDataItem &QBarDataItem::operator=(QBarDataItem &&other) noexcept
+{
+    m_value = other.m_value;
+    m_angle = other.m_angle;
+
+    std::swap(d_ptr, other.d_ptr);
+    other.d_ptr = nullptr;
+
     return *this;
 }
 

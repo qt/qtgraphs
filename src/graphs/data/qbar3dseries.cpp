@@ -400,7 +400,7 @@ void QBar3DSeriesPrivate::createItemLabel()
     QCategory3DAxis *categoryAxisZ = static_cast<QCategory3DAxis *>(m_controller->axisZ());
     QCategory3DAxis *categoryAxisX = static_cast<QCategory3DAxis *>(m_controller->axisX());
     QValue3DAxis *valueAxis = static_cast<QValue3DAxis *>(m_controller->axisY());
-    qreal selectedBarValue = qreal(q->dataProxy()->itemAt(m_selectedBar)->value());
+    qreal selectedBarValue = qreal(q->dataProxy()->itemAt(m_selectedBar).value());
 
     // Custom format expects printf format specifier. There is no tag for it.
     m_itemLabel = valueAxis->formatter()->stringForValue(selectedBarValue, m_itemLabelFormat);

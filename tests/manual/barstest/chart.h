@@ -68,7 +68,7 @@ public:
     void changeBaseColor(const QColor &color);
     void changeColorStyle(bool checked);
     void showFiveSeries();
-    QBarDataArray *makeDummyData();
+    QBarDataArray makeDummyData();
     void primarySeriesTest(bool checked);
     void insertRemoveTestToggle();
     void toggleRotation(bool checked);
@@ -118,7 +118,7 @@ Q_SIGNALS:
 
 private:
     void populateFlatSeries(QBar3DSeries *series, int rows, int columns, float value);
-    QBarDataRow *createFlatRow(int columns, float value);
+    QBarDataRow createFlatRow(int columns, float value);
 
     Q3DBars *m_graph;
     QColorDialog *m_colorDialog;
