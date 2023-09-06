@@ -26,11 +26,11 @@ QT_BEGIN_NAMESPACE
 class Utils
 {
 public:
-    enum ParamType {
-        ParamTypeUnknown = 0,
-        ParamTypeInt,
-        ParamTypeUInt,
-        ParamTypeReal
+    enum class ParamType {
+        Unknown = 0,
+        Int,
+        UInt,
+        Real
     };
 
     static ParamType preParseFormat(const QString &format, QString &preStr, QString &postStr,

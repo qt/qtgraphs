@@ -172,7 +172,7 @@ void QAbstract3DInputHandler::setInputPosition(const QPoint &position, bool forc
     Q_D(QAbstract3DInputHandler);
     if (position != d->m_inputPosition) {
         if (forceSelection)
-            d->m_inputState = QAbstract3DInputHandlerPrivate::InputStateSelecting;
+            d->m_inputState = QAbstract3DInputHandlerPrivate::InputState::Selecting;
         d->m_inputPosition = position;
         emit positionChanged(position);
     }

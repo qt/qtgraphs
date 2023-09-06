@@ -143,7 +143,7 @@ void Q3DInputHandler::mousePressEvent(QMouseEvent *event, const QPoint &mousePos
                     setInputView(QAbstract3DInputHandler::InputView::None);
             } else {
                 // update mouse positions to prevent jumping when releasing or repressing a button
-                d->m_inputState = QAbstract3DInputHandlerPrivate::InputStateSelecting;
+                d->m_inputState = QAbstract3DInputHandlerPrivate::InputState::Selecting;
                 setInputPosition(mousePos);
                 scene()->setSelectionQueryPosition(mousePos);
                 setInputView(QAbstract3DInputHandler::InputView::OnPrimary);
@@ -158,7 +158,7 @@ void Q3DInputHandler::mousePressEvent(QMouseEvent *event, const QPoint &mousePos
         if (isRotationEnabled()) {
             // disable rotating when in slice view
             if (!scene()->isSlicingActive())
-                d->m_inputState = QAbstract3DInputHandlerPrivate::InputStateRotating;
+                d->m_inputState = QAbstract3DInputHandlerPrivate::InputState::Rotating;
             // update mouse positions to prevent jumping when releasing or repressing a button
             setInputPosition(mousePos);
         }
@@ -177,11 +177,11 @@ void Q3DInputHandler::mouseReleaseEvent(QMouseEvent *event, const QPoint &mouseP
     Q_UNUSED(mousePos);
 #else
     Q_D(Q3DInputHandler);
-    if (QAbstract3DInputHandlerPrivate::InputStateRotating == d->m_inputState) {
+    if (QAbstract3DInputHandlerPrivate::InputState::Rotating == d->m_inputState) {
         // update mouse positions to prevent jumping when releasing or repressing a button
         setInputPosition(mousePos);
     }
-    d->m_inputState = QAbstract3DInputHandlerPrivate::InputStateNone;
+    d->m_inputState = QAbstract3DInputHandlerPrivate::InputState::None;
     setInputView(QAbstract3DInputHandler::InputView::None);
 #endif
 }
@@ -197,7 +197,7 @@ void Q3DInputHandler::mouseMoveEvent(QMouseEvent *event, const QPoint &mousePos)
     Q_UNUSED(mousePos);
 #else
     Q_D(Q3DInputHandler);
-    if (QAbstract3DInputHandlerPrivate::InputStateRotating == d->m_inputState
+    if (QAbstract3DInputHandlerPrivate::InputState::Rotating == d->m_inputState
             && isRotationEnabled()) {
         // Calculate mouse movement since last frame
         float xRotation = scene()->activeCamera()->xRotation();

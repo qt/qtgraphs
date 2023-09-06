@@ -31,16 +31,16 @@ public:
     ~QAbstract3DInputHandlerPrivate();
 
 public:
-    enum InputState {
-        InputStateNone = 0,
-        InputStateSelecting,
-        InputStateRotating,
-        InputStatePinching
+    enum class InputState {
+        None = 0,
+        Selecting,
+        Rotating,
+        Pinching
     };
 
     int m_prevDistance = 0;
     QPoint m_previousInputPos = {};
-    InputState m_inputState = InputStateNone;
+    InputState m_inputState = InputState::None;
 
 protected:
     QAbstract3DInputHandler *q_ptr;

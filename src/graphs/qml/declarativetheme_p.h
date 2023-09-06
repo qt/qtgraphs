@@ -81,10 +81,10 @@ protected:
     void handleSingleHLGradientUpdate();
     void handleMultiHLGradientUpdate();
 
-    enum GradientType {
-        GradientTypeBase = 0,
-        GradientTypeSingleHL,
-        GradientTypeMultiHL
+    enum class GradientType {
+        Base = 0,
+        SingleHL,
+        MultiHL
     };
 
 private:

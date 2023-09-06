@@ -35,7 +35,7 @@ Utils::ParamType Utils::preParseFormat(const QString &format, QString &preStr, Q
         postStr = formatMatch.captured(4);
         retVal = mapFormatCharToParamType(formatSpec);
     } else {
-        retVal = ParamTypeUnknown;
+        retVal = ParamType::Unknown;
         // The out parameters are irrelevant in unknown case
     }
 
@@ -44,16 +44,16 @@ Utils::ParamType Utils::preParseFormat(const QString &format, QString &preStr, Q
 
 Utils::ParamType Utils::mapFormatCharToParamType(char formatSpec)
 {
-    ParamType retVal = ParamTypeUnknown;
+    ParamType retVal = ParamType::Unknown;
     if (formatSpec == 'd' || formatSpec == 'i' || formatSpec == 'c') {
-        retVal = ParamTypeInt;
+        retVal = ParamType::Int;
     } else if (formatSpec == 'u' || formatSpec == 'o'
                || formatSpec == 'x'|| formatSpec == 'X') {
-        retVal = ParamTypeUInt;
+        retVal = ParamType::UInt;
     } else if (formatSpec == 'f' || formatSpec == 'F'
                || formatSpec == 'e' || formatSpec == 'E'
                || formatSpec == 'g' || formatSpec == 'G') {
-        retVal = ParamTypeReal;
+        retVal = ParamType::Real;
     }
 
     return retVal;
@@ -62,11 +62,11 @@ Utils::ParamType Utils::mapFormatCharToParamType(char formatSpec)
 QString Utils::formatLabelSprintf(const QByteArray &format, Utils::ParamType paramType, qreal value)
 {
     switch (paramType) {
-    case ParamTypeInt:
+    case ParamType::Int:
         return QString::asprintf(format.constData(), qint64(value));
-    case ParamTypeUInt:
+    case ParamType::UInt:
         return QString::asprintf(format.constData(), quint64(value));
-    case ParamTypeReal:
+    case ParamType::Real:
         return QString::asprintf(format.constData(), value);
     default:
         // Return format string to detect errors. Bars selection label logic also depends on this.
@@ -79,10 +79,10 @@ QString Utils::formatLabelLocalized(Utils::ParamType paramType, qreal value,
                                     int precision, char formatSpec, const QByteArray &format)
 {
     switch (paramType) {
-    case ParamTypeInt:
-    case ParamTypeUInt:
+    case ParamType::Int:
+    case ParamType::UInt:
         return preStr + locale.toString(qint64(value)) + postStr;
-    case ParamTypeReal:
+    case ParamType::Real:
         return preStr + locale.toString(value, formatSpec, precision) + postStr;
     default:
         // Return format string to detect errors. Bars selection label logic also depends on this.

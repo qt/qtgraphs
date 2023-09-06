@@ -94,13 +94,13 @@ void DeclarativeTheme3D::handleBaseGradientUpdate()
 void DeclarativeTheme3D::handleSingleHLGradientUpdate()
 {
     if (m_singleHLGradient)
-        setThemeGradient(m_singleHLGradient, GradientTypeSingleHL);
+        setThemeGradient(m_singleHLGradient, GradientType::SingleHL);
 }
 
 void DeclarativeTheme3D::handleMultiHLGradientUpdate()
 {
     if (m_multiHLGradient)
-        setThemeGradient(m_multiHLGradient, GradientTypeMultiHL);
+        setThemeGradient(m_multiHLGradient, GradientType::MultiHL);
 }
 
 void DeclarativeTheme3D::setSingleHighlightGradient(ColorGradient *gradient)
@@ -121,7 +121,7 @@ void DeclarativeTheme3D::setSingleHighlightGradient(ColorGradient *gradient)
     }
 
     if (m_singleHLGradient)
-        setThemeGradient(m_singleHLGradient, GradientTypeSingleHL);
+        setThemeGradient(m_singleHLGradient, GradientType::SingleHL);
 }
 
 ColorGradient *DeclarativeTheme3D::singleHighlightGradient() const
@@ -147,7 +147,7 @@ void DeclarativeTheme3D::setMultiHighlightGradient(ColorGradient *gradient)
     }
 
     if (m_multiHLGradient)
-        setThemeGradient(m_multiHLGradient, GradientTypeMultiHL);
+        setThemeGradient(m_multiHLGradient, GradientType::MultiHL);
 }
 
 ColorGradient *DeclarativeTheme3D::multiHighlightGradient() const
@@ -173,14 +173,14 @@ void DeclarativeTheme3D::setThemeGradient(ColorGradient *gradient, GradientType 
     QLinearGradient newGradient = convertGradient(gradient);
 
     switch (type) {
-    case GradientTypeSingleHL:
+    case GradientType::SingleHL:
         Q3DTheme::setSingleHighlightGradient(newGradient);
         break;
-    case GradientTypeMultiHL:
+    case GradientType::MultiHL:
         Q3DTheme::setMultiHighlightGradient(newGradient);
         break;
     default:
-        qWarning("Incorrect usage. Type may be GradientTypeSingleHL or GradientTypeMultiHL.");
+        qWarning("Incorrect usage. Type may be GradientType::SingleHL or GradientType::MultiHL.");
         break;
     }
 }

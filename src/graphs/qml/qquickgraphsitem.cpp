@@ -3593,7 +3593,7 @@ void QQuickGraphsItem::updateSelectionMode(QAbstract3DGraph::SelectionFlags newM
 bool QQuickGraphsItem::doPicking(const QPointF &point)
 {
     if (m_activeInputHandler->d_func()->m_inputState
-        == QAbstract3DInputHandlerPrivate::InputStateSelecting) {
+        == QAbstract3DInputHandlerPrivate::InputState::Selecting) {
         QList<QQuick3DPickResult> results = pickAll(point.x(), point.y());
         if (!m_customItemList.isEmpty()) {
             // Try to pick custom item only

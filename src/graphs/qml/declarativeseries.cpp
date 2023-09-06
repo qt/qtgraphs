@@ -23,13 +23,13 @@ static void setSeriesGradient(QAbstract3DSeries *series, const ColorGradient &gr
 
     newGradient.setStops(stops);
     switch (type) {
-    case GradientTypeBase:
+    case GradientType::Base:
         series->setBaseGradient(newGradient);
         break;
-    case GradientTypeSingle:
+    case GradientType::Single:
         series->setSingleHighlightGradient(newGradient);
         break;
-    case GradientTypeMulti:
+    case GradientType::Multi:
         series->setMultiHighlightGradient(newGradient);
         break;
     default: // Never goes here
@@ -51,13 +51,13 @@ static void connectSeriesGradient(QAbstract3DSeries *series, ColorGradient *newG
         QMetaMethod updateFunction = newGradient->metaObject()->method(updatedIndex);
         int handleIndex = -1;
         switch (type) {
-        case GradientTypeBase:
+        case GradientType::Base:
             handleIndex = series->metaObject()->indexOfSlot("handleBaseGradientUpdate()");
             break;
-        case GradientTypeSingle:
+        case GradientType::Single:
             handleIndex = series->metaObject()->indexOfSlot("handleSingleHighlightGradientUpdate()");
             break;
-        case GradientTypeMulti:
+        case GradientType::Multi:
             handleIndex = series->metaObject()->indexOfSlot("handleMultiHighlightGradientUpdate()");
             break;
         default: // Never goes here
@@ -118,7 +118,7 @@ QPointF DeclarativeBar3DSeries::invalidSelectionPosition() const
 
 void DeclarativeBar3DSeries::setBaseGradient(ColorGradient *gradient)
 {
-    connectSeriesGradient(this, gradient, GradientTypeBase, &m_baseGradient);
+    connectSeriesGradient(this, gradient, GradientType::Base, &m_baseGradient);
 }
 
 ColorGradient *DeclarativeBar3DSeries::baseGradient() const
@@ -128,7 +128,7 @@ ColorGradient *DeclarativeBar3DSeries::baseGradient() const
 
 void DeclarativeBar3DSeries::setSingleHighlightGradient(ColorGradient *gradient)
 {
-    connectSeriesGradient(this, gradient, GradientTypeSingle, &m_singleHighlightGradient);
+    connectSeriesGradient(this, gradient, GradientType::Single, &m_singleHighlightGradient);
 }
 
 ColorGradient *DeclarativeBar3DSeries::singleHighlightGradient() const
@@ -138,7 +138,7 @@ ColorGradient *DeclarativeBar3DSeries::singleHighlightGradient() const
 
 void DeclarativeBar3DSeries::setMultiHighlightGradient(ColorGradient *gradient)
 {
-    connectSeriesGradient(this, gradient, GradientTypeMulti, &m_multiHighlightGradient);
+    connectSeriesGradient(this, gradient, GradientType::Multi, &m_multiHighlightGradient);
 }
 
 ColorGradient *DeclarativeBar3DSeries::multiHighlightGradient() const
@@ -180,19 +180,19 @@ void DeclarativeBar3DSeries::clearRowColorsFunc(QQmlListProperty<DeclarativeColo
 void DeclarativeBar3DSeries::handleBaseGradientUpdate()
 {
     if (m_baseGradient)
-        setSeriesGradient(this, *m_baseGradient, GradientTypeBase);
+        setSeriesGradient(this, *m_baseGradient, GradientType::Base);
 }
 
 void DeclarativeBar3DSeries::handleSingleHighlightGradientUpdate()
 {
     if (m_singleHighlightGradient)
-        setSeriesGradient(this, *m_singleHighlightGradient, GradientTypeSingle);
+        setSeriesGradient(this, *m_singleHighlightGradient, GradientType::Single);
 }
 
 void DeclarativeBar3DSeries::handleMultiHighlightGradientUpdate()
 {
     if (m_multiHighlightGradient)
-        setSeriesGradient(this, *m_multiHighlightGradient, GradientTypeMulti);
+        setSeriesGradient(this, *m_multiHighlightGradient, GradientType::Multi);
 }
 
 void DeclarativeBar3DSeries::handleRowColorUpdate()
@@ -290,7 +290,7 @@ void DeclarativeScatter3DSeries::appendSeriesChildren(QQmlListProperty<QObject> 
 
 void DeclarativeScatter3DSeries::setBaseGradient(ColorGradient *gradient)
 {
-    connectSeriesGradient(this, gradient, GradientTypeBase, &m_baseGradient);
+    connectSeriesGradient(this, gradient, GradientType::Base, &m_baseGradient);
 }
 
 ColorGradient *DeclarativeScatter3DSeries::baseGradient() const
@@ -300,7 +300,7 @@ ColorGradient *DeclarativeScatter3DSeries::baseGradient() const
 
 void DeclarativeScatter3DSeries::setSingleHighlightGradient(ColorGradient *gradient)
 {
-    connectSeriesGradient(this, gradient, GradientTypeSingle, &m_singleHighlightGradient);
+    connectSeriesGradient(this, gradient, GradientType::Single, &m_singleHighlightGradient);
 }
 
 ColorGradient *DeclarativeScatter3DSeries::singleHighlightGradient() const
@@ -310,7 +310,7 @@ ColorGradient *DeclarativeScatter3DSeries::singleHighlightGradient() const
 
 void DeclarativeScatter3DSeries::setMultiHighlightGradient(ColorGradient *gradient)
 {
-    connectSeriesGradient(this, gradient, GradientTypeMulti, &m_multiHighlightGradient);
+    connectSeriesGradient(this, gradient, GradientType::Multi, &m_multiHighlightGradient);
 }
 
 ColorGradient *DeclarativeScatter3DSeries::multiHighlightGradient() const
@@ -326,19 +326,19 @@ int DeclarativeScatter3DSeries::invalidSelectionIndex() const
 void DeclarativeScatter3DSeries::handleBaseGradientUpdate()
 {
     if (m_baseGradient)
-        setSeriesGradient(this, *m_baseGradient, GradientTypeBase);
+        setSeriesGradient(this, *m_baseGradient, GradientType::Base);
 }
 
 void DeclarativeScatter3DSeries::handleSingleHighlightGradientUpdate()
 {
     if (m_singleHighlightGradient)
-        setSeriesGradient(this, *m_singleHighlightGradient, GradientTypeSingle);
+        setSeriesGradient(this, *m_singleHighlightGradient, GradientType::Single);
 }
 
 void DeclarativeScatter3DSeries::handleMultiHighlightGradientUpdate()
 {
     if (m_multiHighlightGradient)
-        setSeriesGradient(this, *m_multiHighlightGradient, GradientTypeMulti);
+        setSeriesGradient(this, *m_multiHighlightGradient, GradientType::Multi);
 }
 
 DeclarativeSurface3DSeries::DeclarativeSurface3DSeries(QObject *parent)
@@ -386,7 +386,7 @@ void DeclarativeSurface3DSeries::appendSeriesChildren(QQmlListProperty<QObject> 
 
 void DeclarativeSurface3DSeries::setBaseGradient(ColorGradient *gradient)
 {
-    connectSeriesGradient(this, gradient, GradientTypeBase, &m_baseGradient);
+    connectSeriesGradient(this, gradient, GradientType::Base, &m_baseGradient);
 }
 
 ColorGradient *DeclarativeSurface3DSeries::baseGradient() const
@@ -396,7 +396,7 @@ ColorGradient *DeclarativeSurface3DSeries::baseGradient() const
 
 void DeclarativeSurface3DSeries::setSingleHighlightGradient(ColorGradient *gradient)
 {
-    connectSeriesGradient(this, gradient, GradientTypeSingle, &m_singleHighlightGradient);
+    connectSeriesGradient(this, gradient, GradientType::Single, &m_singleHighlightGradient);
 }
 
 ColorGradient *DeclarativeSurface3DSeries::singleHighlightGradient() const
@@ -406,7 +406,7 @@ ColorGradient *DeclarativeSurface3DSeries::singleHighlightGradient() const
 
 void DeclarativeSurface3DSeries::setMultiHighlightGradient(ColorGradient *gradient)
 {
-    connectSeriesGradient(this, gradient, GradientTypeMulti, &m_multiHighlightGradient);
+    connectSeriesGradient(this, gradient, GradientType::Multi, &m_multiHighlightGradient);
 }
 
 ColorGradient *DeclarativeSurface3DSeries::multiHighlightGradient() const
@@ -417,19 +417,19 @@ ColorGradient *DeclarativeSurface3DSeries::multiHighlightGradient() const
 void DeclarativeSurface3DSeries::handleBaseGradientUpdate()
 {
     if (m_baseGradient)
-        setSeriesGradient(this, *m_baseGradient, GradientTypeBase);
+        setSeriesGradient(this, *m_baseGradient, GradientType::Base);
 }
 
 void DeclarativeSurface3DSeries::handleSingleHighlightGradientUpdate()
 {
     if (m_singleHighlightGradient)
-        setSeriesGradient(this, *m_singleHighlightGradient, GradientTypeSingle);
+        setSeriesGradient(this, *m_singleHighlightGradient, GradientType::Single);
 }
 
 void DeclarativeSurface3DSeries::handleMultiHighlightGradientUpdate()
 {
     if (m_multiHighlightGradient)
-        setSeriesGradient(this, *m_multiHighlightGradient, GradientTypeMulti);
+        setSeriesGradient(this, *m_multiHighlightGradient, GradientType::Multi);
 }
 
 QT_END_NAMESPACE

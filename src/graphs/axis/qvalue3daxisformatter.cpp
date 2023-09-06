@@ -341,7 +341,7 @@ QValue3DAxisFormatterPrivate::QValue3DAxisFormatterPrivate(QValue3DAxisFormatter
       m_max(0.0f),
       m_rangeNormalizer(0.0f),
       m_axis(0),
-      m_preparsedParamType(Utils::ParamTypeUnknown),
+      m_preparsedParamType(Utils::ParamType::Unknown),
       m_allowNegatives(true),
       m_allowZero(true),
       m_formatPrecision(6), // 6 and 'g' are defaults in Qt API for format precision and spec

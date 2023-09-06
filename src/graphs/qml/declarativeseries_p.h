@@ -25,10 +25,10 @@
 
 QT_BEGIN_NAMESPACE
 
-enum GradientType {
-    GradientTypeBase,
-    GradientTypeSingle,
-    GradientTypeMulti
+enum class GradientType {
+    Base,
+    Single,
+    Multi
 };
 
 class DeclarativeBar3DSeries : public QBar3DSeries
