@@ -73,7 +73,6 @@ private:
 
     friend class QAbstract3DGraph;
     friend class Abstract3DController;
-    friend class Q3DObject;
     friend class QQuickGraphsItem;
 };
 

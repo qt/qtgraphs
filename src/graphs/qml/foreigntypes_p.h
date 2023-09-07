@@ -19,7 +19,6 @@
 #include <QtCore/qabstractitemmodel.h>
 
 #include <QtGraphs/q3dinputhandler.h>
-#include <QtGraphs/q3dobject.h>
 #include <QtGraphs/q3dscene.h>
 #include <QtGraphs/q3dtheme.h>
 #include <QtGraphs/qabstract3daxis.h>
@@ -102,7 +101,6 @@ DEFINE_FOREIGN_REPLACED_TYPE(QBar3DSeries, QBar3DSeries, Bar3DSeries)
 DEFINE_FOREIGN_REPLACED_TYPE(QScatter3DSeries, QScatter3DSeries, Scatter3DSeries)
 DEFINE_FOREIGN_REPLACED_TYPE(QSurface3DSeries, QSurface3DSeries, Surface3DSeries)
 
-DEFINE_FOREIGN_UNCREATABLE_TYPE(Q3DObject, Object3D)
 DEFINE_FOREIGN_UNCREATABLE_TYPE(QAbstract3DAxis, AbstractAxis3D)
 DEFINE_FOREIGN_UNCREATABLE_TYPE(QAbstract3DInputHandler, AbstractInputHandler3D)
 DEFINE_FOREIGN_UNCREATABLE_TYPE(QAbstract3DSeries, Abstract3DSeries)
