@@ -34,7 +34,7 @@ protected:
     void resolveModel() override;
 
     QItemModelSurfaceDataProxy *m_proxy; // Not owned
-    QSurfaceDataArray *m_proxyArray; // Not owned
+    QSurfaceDataArray m_proxyArray;
     int m_xPosRole;
     int m_yPosRole;
     int m_zPosRole;

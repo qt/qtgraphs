@@ -97,7 +97,7 @@ void Data::clearData()
 {
     m_bars->seriesList().at(0)->dataProxy()->resetArray();
     m_scatter->seriesList().at(0)->dataProxy()->resetArray();
-    m_surface->seriesList().at(0)->dataProxy()->resetArray(0);
+    m_surface->seriesList().at(0)->dataProxy()->resetArray();
 }
 
 void Data::setResolution(int selection)

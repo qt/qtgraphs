@@ -26,8 +26,8 @@ HighlightSeries::~HighlightSeries()
 void HighlightSeries::setTopographicSeries(TopographicSeries *series)
 {
     m_topographicSeries = series;
-    m_srcWidth = m_topographicSeries->dataProxy()->array()->at(0)->size();
-    m_srcHeight = m_topographicSeries->dataProxy()->array()->size();
+    m_srcWidth = m_topographicSeries->dataProxy()->array().at(0).size();
+    m_srcHeight = m_topographicSeries->dataProxy()->array().size();
 
     QObject::connect(m_topographicSeries, &QSurface3DSeries::selectedPointChanged,
                      this, &HighlightSeries::handlePositionChange);
@@ -61,20 +61,20 @@ void HighlightSeries::handlePositionChange(const QPoint &position)
         endZ = m_srcHeight - 1;
 
     QSurfaceDataProxy *srcProxy = m_topographicSeries->dataProxy();
-    const QSurfaceDataArray &srcArray = *srcProxy->array();
+    const QSurfaceDataArray &srcArray = srcProxy->array();
 
-    auto *dataArray = new QSurfaceDataArray;
-    dataArray->reserve(endZ - startZ);
+    QSurfaceDataArray dataArray;
+    dataArray.reserve(endZ - startZ);
     for (int i = startZ; i < endZ; ++i) {
-        auto *newRow = new QSurfaceDataRow;
-        newRow->reserve(endX - startX);
-        QSurfaceDataRow *srcRow = srcArray.at(i);
+        QSurfaceDataRow newRow;
+        newRow.reserve(endX - startX);
+        QSurfaceDataRow srcRow = srcArray.at(i);
         for (int j = startX; j < endX; ++j) {
-            QVector3D pos = srcRow->at(j).position();
+            QVector3D pos = srcRow.at(j).position();
             pos.setY(pos.y() + m_heightAdjustment);
-            newRow->append(QSurfaceDataItem(pos));
+            newRow.append(QSurfaceDataItem(pos));
         }
-        dataArray->append(newRow);
+        dataArray.append(newRow);
     }
 
     dataProxy()->resetArray(dataArray);

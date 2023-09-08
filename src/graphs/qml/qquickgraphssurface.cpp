@@ -393,9 +393,9 @@ void QQuickGraphsSurface::handleChangedSeries()
 inline static float getDataValue(const QSurfaceDataArray &array, bool searchRow, int index)
 {
     if (searchRow)
-        return array.at(0)->at(index).x();
+        return array.at(0).at(index).x();
     else
-        return array.at(index)->at(0).z();
+        return array.at(index).at(0).z();
 }
 
 inline static int binarySearchArray(const QSurfaceDataArray &array, int maxIndex, float limitValue, bool searchRow, bool lowBound, bool ascending)
@@ -451,12 +451,12 @@ QRect QQuickGraphsSurface::calculateSampleSpace(const QSurfaceDataArray &array)
 {
     QRect sampleSpace;
     if (array.size() > 0) {
-        if (array.size() >= 2 && array.at(0)->size() >= 2) {
+        if (array.size() >= 2 && array.at(0).size() >= 2) {
             const int maxRow = array.size() - 1;
-            const int maxColumn = array.at(0)->size() - 1;
+            const int maxColumn = array.at(0).size() - 1;
 
-            const bool ascendingX = array.at(0)->at(0).x() < array.at(0)->at(maxColumn).x();
-            const bool ascendingZ = array.at(0)->at(0).z() < array.at(maxRow)->at(0).z();
+            const bool ascendingX = array.at(0).at(0).x() < array.at(0).at(maxColumn).x();
+            const bool ascendingZ = array.at(0).at(0).z() < array.at(maxRow).at(0).z();
 
             int idx = binarySearchArray(array, maxColumn, m_surfaceController->axisX()->min(), true, true, ascendingX);
             if (idx != -1) {
@@ -504,10 +504,11 @@ QRect QQuickGraphsSurface::calculateSampleSpace(const QSurfaceDataArray &array)
 
 void QQuickGraphsSurface::updateModel(SurfaceModel *model)
 {
-    const QSurfaceDataArray &array = *(model->series->dataProxy())->array();
+    const QSurfaceDataArray &array = model->series->dataProxy()->array();
+
     if (!array.isEmpty()) {
         int rowCount = array.size();
-        int columnCount = array.at(0)->size();
+        int columnCount = array.at(0).size();
 
         const int maxSize = 4096; //maximum texture size
         columnCount = qMin(maxSize, columnCount);
@@ -546,7 +547,7 @@ void QQuickGraphsSurface::updateModel(SurfaceModel *model)
         QPoint selC = model->selectedVertex.coord;
         selC.setX(qMin(selC.x(), rowCount - 1));
         selC.setY(qMin(selC.y(), columnCount - 1));
-        QVector3D selP = array.at(selC.x())->at(selC.y()).position();
+        QVector3D selP = array.at(selC.x()).at(selC.y()).position();
 
         bool pickOutOfRange = false;
         if (selP.x() < axisX->min() || selP.x() > axisX->max() || selP.z() < axisZ->min()
@@ -613,7 +614,7 @@ void QQuickGraphsSurface::updateModel(SurfaceModel *model)
         model->vertices.reserve(totalSize);
 
         for (int i = rowStart; i < rowLimit; i++) {
-            const QSurfaceDataRow &row = *array.at(i);
+            const QSurfaceDataRow &row = array.at(i);
             for (int j = columnStart; j < columnLimit; j++) {
                 QVector3D pos = getNormalizedVertex(row.at(j), isPolar, false);
                 heights.push_back(QVector4D(pos, .0f));
@@ -649,7 +650,7 @@ void QQuickGraphsSurface::updateModel(SurfaceModel *model)
         if (m_isIndexDirty) {
             QVector<SurfaceVertex> vertices;
             for (int i = 0; i < rowCount; i++) {
-                const QSurfaceDataRow &row = *array.at(i);
+                const QSurfaceDataRow &row = array.at(i);
                 for (int j = 0; j < columnCount; j++) {
                     SurfaceVertex vertex;
                     QVector3D pos = getNormalizedVertex(row.at(j), isPolar, false);
@@ -705,7 +706,7 @@ void QQuickGraphsSurface::updateProxyModel(SurfaceModel *model)
     if (!model->proxyModel)
         createProxyModel(model);
 
-    const QSurfaceDataArray &array = *(model->series->dataProxy())->array();
+    const QSurfaceDataArray &array = model->series->dataProxy()->array();
     if (array.isEmpty())
         return;
 
@@ -736,7 +737,7 @@ void QQuickGraphsSurface::updateProxyModel(SurfaceModel *model)
     bool isPolar = m_surfaceController->isPolar();
     int i = rowStart;
     while (i < rowLimit) {
-        const QSurfaceDataRow &row = *array.at(i);
+        const QSurfaceDataRow &row = array.at(i);
         proxyRowCount++;
         int j = columnStart;
         while (j < columnLimit) {
@@ -782,9 +783,9 @@ void QQuickGraphsSurface::updateProxyModel(SurfaceModel *model)
     proxyIndices->resize(indexCount);
 
     const int maxRow = array.size() - 1;
-    const int maxColumn = array.at(0)->size() - 1;
-    const bool ascendingX = array.at(0)->at(0).x() < array.at(0)->at(maxColumn).x();
-    const bool ascendingZ = array.at(0)->at(0).z() < array.at(maxRow)->at(0).z();
+    const int maxColumn = array.at(0).size() - 1;
+    const bool ascendingX = array.at(0).at(0).x() < array.at(0).at(maxColumn).x();
+    const bool ascendingZ = array.at(0).at(0).z() < array.at(maxRow).at(0).z();
 
     int rowEnd = endY * proxyColumnCount;
     for (int row = 0; row < rowEnd; row += proxyColumnCount) {

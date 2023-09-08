@@ -124,9 +124,9 @@ public Q_SLOTS:
 
 private:
     void fillSeries();
-    void resetArrayAndSliders(QSurfaceDataArray *array, float minZ, float maxZ, float minX,
+    void resetArrayAndSliders(QSurfaceDataArray array, float minZ, float maxZ, float minX,
                               float maxX);
-    QSurfaceDataRow *createMultiRow(int row, int series, bool change);
+    QSurfaceDataRow createMultiRow(int row, int series, bool change);
     void populateRisingSeries(QSurface3DSeries *series, int rows, int columns, float minValue,
                               float maxValue, bool ascendingX, bool ascendingZ);
 
@@ -161,7 +161,7 @@ private:
     int m_insertTestZPos;
     int m_insertTestIndexPos;
     QTimer m_timer;
-    QSurfaceDataArray *m_planeArray;
+    QSurfaceDataArray m_planeArray;
     QLabel *m_selectionInfoLabel;
     QSurface3DSeries *m_theSeries;
     QSurface3DSeries::DrawFlags m_drawMode;

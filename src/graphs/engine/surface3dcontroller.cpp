@@ -191,7 +191,7 @@ void Surface3DController::setSelectedPoint(const QPoint &position, QSurface3DSer
             float axisMinZ = m_axisZ->min();
             float axisMaxZ = m_axisZ->max();
 
-            QSurfaceDataItem item = proxy->array()->at(pos.x())->at(pos.y());
+            QSurfaceDataItem item = proxy->array().at(pos.x()).at(pos.y());
             if (item.x() < axisMinX || item.x() > axisMaxX
                     || item.z() < axisMinZ || item.z() > axisMaxZ) {
                 scene()->setSlicingActive(false);

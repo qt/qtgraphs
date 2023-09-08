@@ -32,7 +32,7 @@ private:
 
     QList<QSurfaceDataArray> m_data;
     int m_index;
-    QSurfaceDataArray *m_resetArray;
+    QSurfaceDataArray m_resetArray;
 };
 
 #endif

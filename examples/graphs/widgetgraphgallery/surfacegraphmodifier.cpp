@@ -156,11 +156,11 @@ void SurfaceGraphModifier::fillSqrtSinProxy()
     float stepZ = (sampleMax - sampleMin) / float(sampleCountZ - 1);
 
     //! [1]
-    auto *dataArray = new QSurfaceDataArray;
-    dataArray->reserve(sampleCountZ);
+    QSurfaceDataArray dataArray;
+    dataArray.reserve(sampleCountZ);
     for (int i = 0 ; i < sampleCountZ ; ++i) {
-        auto *newRow = new QSurfaceDataRow;
-        newRow->reserve(sampleCountX);
+        QSurfaceDataRow newRow;
+        newRow.reserve(sampleCountX);
         // Keep values within range bounds, since just adding step can cause minor drift due
         // to the rounding errors.
         float z = qMin(sampleMax, (i * stepZ + sampleMin));
@@ -168,9 +168,9 @@ void SurfaceGraphModifier::fillSqrtSinProxy()
             float x = qMin(sampleMax, (j * stepX + sampleMin));
             float R = qSqrt(z * z + x * x) + 0.01f;
             float y = (qSin(R) / R + 0.24f) * 1.61f;
-            newRow->append(QSurfaceDataItem({x, y, z}));
+            newRow.append(QSurfaceDataItem({x, y, z}));
         }
-        dataArray->append(newRow);
+        dataArray.append(newRow);
     }
 
     m_sqrtSinProxy->resetArray(dataArray);

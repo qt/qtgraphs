@@ -28,23 +28,23 @@ void TopographicSeries::setTopographyFile(const QString file, float width, float
     float stepX = width / float(imageWidth);
     float stepZ = height / float(imageHeight);
 
-    auto *dataArray = new QSurfaceDataArray;
-    dataArray->reserve(imageHeight);
+    QSurfaceDataArray dataArray;
+    dataArray.reserve(imageHeight);
     for (int i = 0; i < imageHeight; ++i) {
         int p = i * widthBits;
         float z = height - float(i) * stepZ;
-        auto *newRow = new QSurfaceDataRow;
-        newRow->reserve(imageWidth);
+        QSurfaceDataRow newRow;
+        newRow.reserve(imageWidth);
         for (int j = 0; j < imageWidth; ++j) {
             uchar aa = bits[p + 0];
             uchar rr = bits[p + 1];
             uchar gg = bits[p + 2];
             uint color = uint((gg << 16) + (rr << 8) + aa);
             float y = float(color) / packingFactor;
-            newRow->append(QSurfaceDataItem({float(j) * stepX, y, z}));
+            newRow.append(QSurfaceDataItem({float(j) * stepX, y, z}));
             p += 4;
         }
-        dataArray->append(newRow);
+        dataArray.append(newRow);
     }
 
     dataProxy()->resetArray(dataArray);

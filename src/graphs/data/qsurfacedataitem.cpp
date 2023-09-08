@@ -44,6 +44,11 @@ QSurfaceDataItem::QSurfaceDataItem(const QSurfaceDataItem &other)
     operator=(other);
 }
 
+QSurfaceDataItem::QSurfaceDataItem(QSurfaceDataItem &&other) noexcept
+{
+    *this = std::move(other);
+}
+
 /*!
  * Deletes a surface data item.
  */
@@ -62,6 +67,17 @@ QSurfaceDataItem &QSurfaceDataItem::operator=(const QSurfaceDataItem &other)
         createExtraData();
     else
         d_ptr = 0;
+
+    return *this;
+}
+
+QSurfaceDataItem &QSurfaceDataItem::operator=(QSurfaceDataItem &&other) noexcept
+{
+    m_position = other.m_position;
+
+    QSurfaceDataItemPrivate *temp = std::move(other.d_ptr);
+    other.d_ptr = nullptr;
+    d_ptr = temp;
 
     return *this;
 }

@@ -46,7 +46,7 @@ void SurfaceItemModelHandler::handleDataChanged(const QModelIndex &topLeft,
                     QVariant xValueVar = index.data(m_xPosRole);
                     QVariant yValueVar = index.data(m_yPosRole);
                     QVariant zValueVar = index.data(m_zPosRole);
-                    const QSurfaceDataItem *oldItem = m_proxy->itemAt(i, j);
+                    const QSurfaceDataItem &oldItem = m_proxy->itemAt(i, j);
                     float xPos;
                     float yPos;
                     float zPos;
@@ -56,7 +56,7 @@ void SurfaceItemModelHandler::handleDataChanged(const QModelIndex &topLeft,
                         else
                             xPos = xValueVar.toFloat();
                     } else {
-                        xPos = oldItem->x();
+                        xPos = oldItem.x();
                     }
 
                     if (m_haveYPosPattern)
@@ -70,7 +70,7 @@ void SurfaceItemModelHandler::handleDataChanged(const QModelIndex &topLeft,
                         else
                             zPos = zValueVar.toFloat();
                     } else {
-                        zPos = oldItem->z();
+                        zPos = oldItem.z();
                     }
                     item.setPosition(QVector3D(xPos, yPos, zPos));
                     m_proxy->setItem(i, j, item);
@@ -84,15 +84,15 @@ void SurfaceItemModelHandler::handleDataChanged(const QModelIndex &topLeft,
 void SurfaceItemModelHandler::resolveModel()
 {
     if (m_itemModel.isNull()) {
-        m_proxy->resetArray(0);
-        m_proxyArray = 0;
+        m_proxy->resetArray();
+        m_proxyArray.clear();
         return;
     }
 
     if (!m_proxy->useModelCategories()
             && (m_proxy->rowRole().isEmpty() || m_proxy->columnRole().isEmpty())) {
-        m_proxy->resetArray(0);
-        m_proxyArray = 0;
+        m_proxy->resetArray();
+        m_proxyArray.clear();
         return;
     }
 
@@ -124,15 +124,15 @@ void SurfaceItemModelHandler::resolveModel()
 
     if (m_proxy->useModelCategories()) {
         // If dimensions have changed, recreate the array
-        if (m_proxyArray != m_proxy->array() || columnCount != m_proxy->columnCount()
-                || rowCount != m_proxyArray->size()) {
-            m_proxyArray = new QSurfaceDataArray;
-            m_proxyArray->reserve(rowCount);
+        if (m_proxyArray.data() != m_proxy->array().data() || columnCount != m_proxy->columnCount()
+                || rowCount != m_proxyArray.size()) {
+            m_proxyArray.clear();
+            m_proxyArray.reserve(rowCount);
             for (int i = 0; i < rowCount; i++)
-                m_proxyArray->append(new QSurfaceDataRow(columnCount));
+                m_proxyArray.append(QSurfaceDataRow(columnCount));
         }
         for (int i = 0; i < rowCount; i++) {
-            QSurfaceDataRow &newProxyRow = *m_proxyArray->at(i);
+            QSurfaceDataRow &newProxyRow = m_proxyArray[i];
             for (int j = 0; j < columnCount; j++) {
                 QModelIndex index = m_itemModel->index(i, j);
                 QVariant xValueVar = index.data(m_xPosRole);
@@ -273,17 +273,17 @@ void SurfaceItemModelHandler::resolveModel()
             columnList = m_proxy->columnCategories();
 
         // If dimensions have changed, recreate the array
-        if (m_proxyArray != m_proxy->array() || columnList.size() != m_proxy->columnCount()
-                || rowList.size() != m_proxyArray->size()) {
-            m_proxyArray = new QSurfaceDataArray;
-            m_proxyArray->reserve(rowList.size());
+        if (m_proxyArray.data() != m_proxy->array().data() || columnList.size() != m_proxy->columnCount()
+                || rowList.size() != m_proxyArray.size()) {
+            m_proxyArray.clear();
+            m_proxyArray.reserve(rowList.size());
             for (int i = 0; i < rowList.size(); i++)
-                m_proxyArray->append(new QSurfaceDataRow(columnList.size()));
+                m_proxyArray.append(QSurfaceDataRow(columnList.size()));
         }
         // Create data array from itemValueMap
         for (int i = 0; i < rowList.size(); i++) {
             QString rowKey = rowList.at(i);
-            QSurfaceDataRow &newProxyRow = *m_proxyArray->at(i);
+            QSurfaceDataRow &newProxyRow = m_proxyArray[i];
             for (int j = 0; j < columnList.size(); j++) {
                 QVector3D &itemPos = itemValueMap[rowKey][columnList.at(j)];
                 if (cumulative) {

@@ -15,7 +15,7 @@ class QSurfaceDataProxyPrivate;
 class QSurface3DSeries;
 
 using QSurfaceDataRow = QList<QSurfaceDataItem>;
-using QSurfaceDataArray = QList<QSurfaceDataRow *>;
+using QSurfaceDataArray = QList<QSurfaceDataRow>;
 
 class Q_GRAPHS_EXPORT QSurfaceDataProxy : public QAbstractDataProxy
 {
@@ -32,23 +32,24 @@ public:
     QSurface3DSeries *series() const;
     int rowCount() const;
     int columnCount() const;
-    const QSurfaceDataArray *array() const;
-    const QSurfaceDataItem *itemAt(int rowIndex, int columnIndex) const;
-    const QSurfaceDataItem *itemAt(const QPoint &position) const;
+    const QSurfaceDataArray &array() const;
+    const QSurfaceDataItem &itemAt(int rowIndex, int columnIndex) const;
+    const QSurfaceDataItem &itemAt(const QPoint &position) const;
 
-    void resetArray(QSurfaceDataArray *newArray);
+    void resetArray();
+    void resetArray(QSurfaceDataArray newArray);
 
-    void setRow(int rowIndex, QSurfaceDataRow *row);
-    void setRows(int rowIndex, const QSurfaceDataArray &rows);
+    void setRow(int rowIndex, QSurfaceDataRow row);
+    void setRows(int rowIndex, QSurfaceDataArray rows);
 
-    void setItem(int rowIndex, int columnIndex, const QSurfaceDataItem &item);
-    void setItem(const QPoint &position, const QSurfaceDataItem &item);
+    void setItem(int rowIndex, int columnIndex, QSurfaceDataItem item);
+    void setItem(const QPoint &position, QSurfaceDataItem item);
 
-    int addRow(QSurfaceDataRow *row);
-    int addRows(const QSurfaceDataArray &rows);
+    int addRow(QSurfaceDataRow row);
+    int addRows(QSurfaceDataArray rows);
 
-    void insertRow(int rowIndex, QSurfaceDataRow *row);
-    void insertRows(int rowIndex, const QSurfaceDataArray &rows);
+    void insertRow(int rowIndex, QSurfaceDataRow row);
+    void insertRows(int rowIndex, QSurfaceDataArray rows);
 
     void removeRows(int rowIndex, int removeCount);
 

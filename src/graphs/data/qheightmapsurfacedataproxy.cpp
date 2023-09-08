@@ -679,13 +679,13 @@ void QHeightMapSurfaceDataProxyPrivate::handlePendingResolve()
     float height = 0;
 
     // Do not recreate array if dimensions have not changed
-    QSurfaceDataArray *dataArray = m_dataArray;
-    if (imageWidth != q->columnCount() || imageHeight != dataArray->size()) {
-        dataArray = new QSurfaceDataArray;
-        dataArray->reserve(imageHeight);
+    QSurfaceDataArray dataArray = m_dataArray;
+    if (imageWidth != q->columnCount() || imageHeight != dataArray.size()) {
+        dataArray.clear();
+        dataArray.reserve(imageHeight);
         for (int i = 0; i < imageHeight; i++) {
-            QSurfaceDataRow *newProxyRow = new QSurfaceDataRow(imageWidth);
-            dataArray->append(newProxyRow);
+            QSurfaceDataRow newProxyRow(imageWidth);
+            dataArray.append(newProxyRow);
         }
     }
     yMul *= m_maxYValue - m_minYValue;
@@ -701,7 +701,7 @@ void QHeightMapSurfaceDataProxyPrivate::handlePendingResolve()
     if (heightImage.isGrayscale()) {
         // Grayscale, it's enough to read Red byte
         for (int i = 0; i < imageHeight; i++, bitCount -= widthBits) {
-            QSurfaceDataRow &newRow = *dataArray->at(i);
+            QSurfaceDataRow &newRow = dataArray[i];
             float zVal;
             if (i == lastRow)
                 zVal = m_maxZValue;
@@ -727,7 +727,7 @@ void QHeightMapSurfaceDataProxyPrivate::handlePendingResolve()
     } else {
         // Not grayscale, we'll need to calculate height from RGB
         for (int i = 0; i < imageHeight; i++, bitCount -= widthBits) {
-            QSurfaceDataRow &newRow = *dataArray->at(i);
+            QSurfaceDataRow &newRow = dataArray[i];
             float zVal;
             if (i == lastRow)
                 zVal = m_maxZValue;
