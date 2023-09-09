@@ -115,7 +115,6 @@ qt_internal_add_qml_module(Graphs
         engine/scatter3dcontroller.cpp    # undef QT_NO_FOREACH
         engine/surface3dcontroller.cpp    # undef QT_NO_FOREACH
         qml/declarativetheme.cpp          # undef QT_NO_FOREACH
-        qml/qquickgraphsitem.cpp          # undef QT_NO_FOREACH
     INCLUDE_DIRECTORIES
         axis
         data

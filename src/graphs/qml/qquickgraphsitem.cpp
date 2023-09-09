@@ -1,8 +1,6 @@
 // Copyright (C) 2023 The Qt Company Ltd.
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 
-#undef QT_NO_FOREACH // this file contains unported legacy Q_FOREACH uses
-
 #include "qabstract3dinputhandler_p.h"
 #include "qquickgraphsitem_p.h"
 
@@ -386,7 +384,7 @@ void QQuickGraphsItem::componentComplete()
     m_controller->handleAxisLabelsChangedBySender(m_controller->axisZ());
 
     if (!m_pendingCustomItemList.isEmpty()) {
-        foreach (auto item, m_pendingCustomItemList)
+        for (const auto &item : std::as_const(m_pendingCustomItemList))
             addCustomItem(item);
     }
 
@@ -3333,7 +3331,8 @@ void QQuickGraphsItem::checkWindowList(QQuickWindow *window)
 
     QList<QQuickWindow *> windowList;
 
-    foreach (QQuickGraphsItem *graph, m_graphWindowList.keys()) {
+    const auto keys = m_graphWindowList.keys();
+    for (const auto &graph : keys) {
         if (graph->m_renderMode == QAbstract3DGraph::RenderingMode::DirectToBackground)
             windowList.append(m_graphWindowList.value(graph));
     }
