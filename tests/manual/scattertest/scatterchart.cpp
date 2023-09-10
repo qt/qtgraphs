@@ -1,8 +1,6 @@
 // Copyright (C) 2023 The Qt Company Ltd.
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 
-#undef QT_NO_FOREACH // this file contains unported legacy Q_FOREACH uses
-
 #include "scatterchart.h"
 #include <QtGraphs/qscatterdataproxy.h>
 #include <QtGraphs/qscatter3dseries.h>
@@ -129,7 +127,8 @@ void ScatterDataModifier::massiveDataTest()
         m_chart->setAxisZ(zAxis);
         m_chart->scene()->activeCamera()->setCameraPreset(Q3DCamera::CameraPresetRight);
         m_chart->setShadowQuality(QAbstract3DGraph::ShadowQuality::None);
-        foreach (QAbstract3DSeries *series, m_chart->seriesList())
+        const auto scatteriesList = m_chart->seriesList();
+        for (const auto &series : scatteriesList)
             m_chart->removeSeries(static_cast<QScatter3DSeries *>(series));
 
         qDebug() << __FUNCTION__ << testPhase << ": Creating massive array..." << items;
@@ -237,9 +236,11 @@ void ScatterDataModifier::testItemChanges()
     switch (counter) {
     case 0: {
         qDebug() << __FUNCTION__ << counter << "Setup test";
-        foreach (QScatter3DSeries *series, m_chart->seriesList())
+        const auto scatterSeriesList = m_chart->seriesList();
+        for (const auto &series : scatterSeriesList)
             m_chart->removeSeries(series);
-        foreach (QValue3DAxis *axis, m_chart->axes())
+        const auto &axes = m_chart->axes();
+        for (const auto &axis : axes)
             deleteAxis(axis);
         delete series0;
         delete series1;
@@ -412,9 +413,11 @@ void ScatterDataModifier::testAxisReverse()
     switch (counter) {
     case 0: {
         qDebug() << __FUNCTION__ << counter << "Setup test";
-        foreach (QScatter3DSeries *series, m_chart->seriesList())
+        const auto scatterSeriesList = m_chart->seriesList();
+        for (const auto &series : scatterSeriesList)
             m_chart->removeSeries(series);
-        foreach (QValue3DAxis *axis, m_chart->axes())
+        const auto &axes = m_chart->axes();
+        for (const auto &axis : axes)
             deleteAxis(axis);
         delete series0;
         delete series1;
@@ -611,7 +614,8 @@ void ScatterDataModifier::shadowQualityUpdatedByVisual(QAbstract3DGraph::ShadowQ
 
 void ScatterDataModifier::clear()
 {
-    foreach (QScatter3DSeries *series, m_chart->seriesList()) {
+    const auto scatterSeriesList = m_chart->seriesList();
+    for (const auto &series : scatterSeriesList) {
         m_chart->removeSeries(series);
         delete series;
     }
@@ -831,7 +835,9 @@ void ScatterDataModifier::handleSelectionChange(int index)
     m_selectedItem = index;
     m_targetSeries = static_cast<QScatter3DSeries *>(sender());
     int seriesIndex = 0;
-    foreach (QScatter3DSeries *series, m_chart->seriesList()) {
+
+    const auto scatterSeriesList = m_chart->seriesList();
+    for (const auto &series : scatterSeriesList) {
         if (series == sender())
             break;
         seriesIndex++;
