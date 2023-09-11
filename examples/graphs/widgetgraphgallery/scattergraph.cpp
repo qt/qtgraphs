@@ -84,7 +84,6 @@ void ScatterGraph::initialize()
     auto *themeList = new QComboBox(m_scatterWidget);
     themeList->addItem(u"Qt"_s);
     themeList->addItem(u"Primary Colors"_s);
-    themeList->addItem(u"Digia"_s);
     themeList->addItem(u"Stone Moss"_s);
     themeList->addItem(u"Army Blue"_s);
     themeList->addItem(u"Retro"_s);
