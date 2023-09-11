@@ -1,8 +1,6 @@
 // Copyright (C) 2023 The Qt Company Ltd.
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 
-#undef QT_NO_FOREACH // this file contains unported legacy Q_FOREACH uses
-
 #include <QtGraphs/q3dbars.h>
 #include <QtGraphs/q3dsurface.h>
 #include <QtGraphs/qcategory3daxis.h>
@@ -210,8 +208,8 @@ void GraphDataGenerator::changeSelectedButtonClicked()
 {
     // Change all selected cells to a random value 1-10
     QVariant value = QVariant::fromValue(QRandomGenerator::global()->bounded(10.0) + 1);
-    QList<QTableWidgetItem *> selectedItems = m_tableWidget->selectedItems();
-    foreach (QTableWidgetItem *item, selectedItems) {
+    const auto selectedItems = m_tableWidget->selectedItems();
+    for (const auto &item : selectedItems) {
         QString oldData = item->data(Qt::DisplayRole).toString();
         item->setData(Qt::DisplayRole,
                       oldData.left(5)

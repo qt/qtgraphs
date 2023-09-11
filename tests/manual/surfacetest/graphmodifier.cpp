@@ -1,8 +1,6 @@
 // Copyright (C) 2023 The Qt Company Ltd.
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 
-#undef QT_NO_FOREACH // this file contains unported legacy Q_FOREACH uses
-
 #include "graphmodifier.h"
 #include <QtGraphs/QValue3DAxis>
 #include <QtGraphs/QSurfaceDataProxy>
@@ -743,7 +741,8 @@ void GraphModifier::toggleXAscending(int enabled)
     m_ascendingX = enabled;
 
     // Flip data array contents if necessary
-    foreach (QSurface3DSeries *series, m_graph->seriesList()) {
+    const auto surfaceSeriesList = m_graph->seriesList();
+    for (const auto &series : surfaceSeriesList) {
         QSurfaceDataArray *array = const_cast<QSurfaceDataArray *>(series->dataProxy()->array());
         const int rowCount = array->size();
         const int columnCount = array->at(0)->size();
@@ -773,7 +772,8 @@ void GraphModifier::toggleZAscending(int enabled)
     m_ascendingZ = enabled;
 
     // Flip data array contents if necessary
-    foreach (QSurface3DSeries *series, m_graph->seriesList()) {
+    const auto surfaceSeriesList = m_graph->seriesList();
+    for (const auto &series : surfaceSeriesList) {
         QSurfaceDataArray *array = const_cast<QSurfaceDataArray *>(series->dataProxy()->array());
         const int rowCount = array->size();
         const int columnCount = array->at(0)->size();
@@ -1374,8 +1374,9 @@ void GraphModifier::massiveDataTest()
         m_graph->setAxisZ(zAxis);
         m_graph->scene()->activeCamera()->setCameraPreset(Q3DCamera::CameraPresetRight);
         m_graph->setShadowQuality(QAbstract3DGraph::ShadowQuality::None);
-        foreach (QAbstract3DSeries *series, m_graph->seriesList())
-            m_graph->removeSeries(static_cast<QSurface3DSeries *>(series));
+        const auto surfaceSeriesList = m_graph->seriesList();
+        for (const auto &series : surfaceSeriesList)
+            m_graph->removeSeries(series);
 
         qDebug() << __FUNCTION__ << testPhase << ": Creating massive array..."
                  << rows << "x" << columns;
@@ -1468,9 +1469,11 @@ void GraphModifier::testAxisReverse()
     switch (counter) {
     case 0: {
         qDebug() << __FUNCTION__ << counter << "Setup test";
-        foreach (QSurface3DSeries *series, m_graph->seriesList())
+        const auto surfaceSeriesList = m_graph->seriesList();
+        for (const auto &series : surfaceSeriesList)
             m_graph->removeSeries(series);
-        foreach (QValue3DAxis *axis, m_graph->axes())
+        const auto axes = m_graph->axes();
+        for (const auto &axis : axes)
             m_graph->releaseAxis(axis);
         delete series0;
         delete series1;
@@ -1536,9 +1539,11 @@ void GraphModifier::testDataOrdering()
     switch (counter) {
     case 0: {
         qDebug() << __FUNCTION__ << counter << "Setup test - both ascending";
-        foreach (QSurface3DSeries *series, m_graph->seriesList())
+        const auto surfaceSeriesList = m_graph->seriesList();
+        for (const auto &series : surfaceSeriesList)
             m_graph->removeSeries(series);
-        foreach (QValue3DAxis *axis, m_graph->axes())
+        const auto axes = m_graph->axes();
+        for (const auto &axis : axes)
             m_graph->releaseAxis(axis);
         delete series0;
         delete series1;

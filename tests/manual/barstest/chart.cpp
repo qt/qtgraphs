@@ -1,8 +1,6 @@
 // Copyright (C) 2023 The Qt Company Ltd.
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 
-#undef QT_NO_FOREACH // this file contains unported legacy Q_FOREACH uses
-
 #include "chart.h"
 #include "custominputhandler.h"
 #include <QtGraphs/qcategory3daxis.h>
@@ -315,7 +313,8 @@ void GraphModifier::releaseAxes()
 
 void GraphModifier::releaseSeries()
 {
-    foreach (QBar3DSeries *series, m_graph->seriesList())
+    const auto barSeriesList = m_graph->seriesList();
+    for (const auto &series : barSeriesList)
         m_graph->removeSeries(series);
 }
 
@@ -694,7 +693,9 @@ void GraphModifier::handleSelectionChange(const QPoint &position)
 {
     m_selectedBar = position;
     int index = 0;
-    foreach (QBar3DSeries *series, m_graph->seriesList()) {
+
+    const auto barSeriesList = m_graph->seriesList();
+    for (const auto &series : barSeriesList) {
         if (series == sender()) {
             if (series->selectedBar() != QBar3DSeries::invalidSelectionPosition())
                 m_selectedSeries = series;
