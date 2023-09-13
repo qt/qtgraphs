@@ -8,6 +8,7 @@ Model {
     id: root
     source: "#Rectangle"
     pickable: true
+    castsShadows: false
 
     property string labelText: ""
     property color backgroundColor: "gray"
