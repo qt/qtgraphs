@@ -23,11 +23,11 @@ Item {
         anchors.top: mainwindow.top
         anchors.left: mainwindow.left
 
-        ColorGradient {
+        Gradient {
             id: surfaceGradient
-            ColorGradientStop { position: 0.0; color: "darkslategray" }
-            ColorGradientStop { id: middleGradient; position: 0.50; color: "peru" }
-            ColorGradientStop { position: 1.0; color: "red" }
+            GradientStop { position: 0.0; color: "darkslategray" }
+            GradientStop { id: middleGradient; position: 0.50; color: "peru" }
+            GradientStop { position: 1.0; color: "red" }
         }
 
         Theme3D {

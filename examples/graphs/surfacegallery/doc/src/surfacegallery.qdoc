@@ -42,7 +42,7 @@
     In \c main.qml, set up the Surface3D element to display the data.
 
     First, define the custom gradient to be used for the surface. Set the colors from position
-    0.0 to 1.0 with ColorGradient, with two extra stops to make the graph more vivid:
+    0.0 to 1.0 with Gradient, with two extra stops to make the graph more vivid:
 
     \snippet surfacegallery/qml/surfacegallery/SurfaceHeightMap.qml 1
 

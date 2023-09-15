@@ -127,10 +127,10 @@ Item {
                 colorStyle: Theme3D.ColorStyle.RangeGradient
                 baseGradients: customGradient
 
-                ColorGradient {
+                Gradient {
                     id: customGradient
-                    ColorGradientStop { position: 1.0; color: "red" }
-                    ColorGradientStop { position: 0.0; color: "blue" }
+                    GradientStop { position: 1.0; color: "red" }
+                    GradientStop { position: 0.0; color: "blue" }
                 }
             }
 

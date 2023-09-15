@@ -350,10 +350,10 @@ Item {
                 colorStyle: Theme3D.ColorStyle.RangeGradient
                 singleHighlightGradient: customGradient
 
-                ColorGradient {
+                Gradient {
                     id: customGradient
-                    ColorGradientStop { position: 1.0; color: "#FFFF00" }
-                    ColorGradientStop { position: 0.0; color: "#808000" }
+                    GradientStop { position: 1.0; color: "#FFFF00" }
+                    GradientStop { position: 0.0; color: "#808000" }
                 }
             }
             barThickness: 0.7
@@ -386,10 +386,10 @@ Item {
                 }
                 //! [4]
 
-                ColorGradient {
+                Gradient {
                     id: secondaryGradient
-                    ColorGradientStop { position: 1.0; color: "#FF0000" }
-                    ColorGradientStop { position: 0.0; color: "#600000" }
+                    GradientStop { position: 1.0; color: "#FF0000" }
+                    GradientStop { position: 0.0; color: "#600000" }
                 }
 
                 onSelectedBarChanged: (position) => mainview.handleSelectionChange(secondarySeries,
@@ -416,10 +416,10 @@ Item {
                 }
                 //! [3]
 
-                ColorGradient {
+                Gradient {
                     id: barGradient
-                    ColorGradientStop { position: 1.0; color: "#00FF00" }
-                    ColorGradientStop { position: 0.0; color: "#006000" }
+                    GradientStop { position: 1.0; color: "#00FF00" }
+                    GradientStop { position: 0.0; color: "#006000" }
                 }
 
                 onSelectedBarChanged: (position) => mainview.handleSelectionChange(barSeries,

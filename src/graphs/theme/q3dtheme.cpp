@@ -341,7 +341,7 @@ QT_BEGIN_NAMESPACE
  */
 
 /*!
- * \qmlproperty list<ColorGradient> Theme3D::baseGradients
+ * \qmlproperty list<Gradient> Theme3D::baseGradients
  *
  * The list of base gradients to be used for all the objects in the graph,
  * series by series. If there are more series than gradients, the gradient list
@@ -355,7 +355,7 @@ QT_BEGIN_NAMESPACE
  */
 
 /*!
- * \qmlproperty ColorGradient Theme3D::singleHighlightGradient
+ * \qmlproperty Gradient Theme3D::singleHighlightGradient
  *
  * The highlight gradient for a selected object. Used if
  * \l{AbstractGraph3D::selectionMode}{selectionMode}
@@ -363,7 +363,7 @@ QT_BEGIN_NAMESPACE
  */
 
 /*!
- * \qmlproperty ColorGradient Theme3D::multiHighlightGradient
+ * \qmlproperty Gradient Theme3D::multiHighlightGradient
  *
  * The highlight gradient for selected objects. Used if
  * \l{AbstractGraph3D::selectionMode}{selectionMode}

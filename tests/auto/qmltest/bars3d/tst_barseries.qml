@@ -14,27 +14,27 @@ Item {
         id: initial
     }
 
-    ColorGradient {
+    Gradient {
         id: gradient1;
         stops: [
-            ColorGradientStop { color: "red"; position: 0 },
-            ColorGradientStop { color: "blue"; position: 1 }
+            GradientStop { color: "red"; position: 0 },
+            GradientStop { color: "blue"; position: 1 }
         ]
     }
 
-    ColorGradient {
+    Gradient {
         id: gradient2;
         stops: [
-            ColorGradientStop { color: "green"; position: 0 },
-            ColorGradientStop { color: "red"; position: 1 }
+            GradientStop { color: "green"; position: 0 },
+            GradientStop { color: "red"; position: 1 }
         ]
     }
 
-    ColorGradient {
+    Gradient {
         id: gradient3;
         stops: [
-            ColorGradientStop { color: "gray"; position: 0 },
-            ColorGradientStop { color: "darkgray"; position: 1 }
+            GradientStop { color: "gray"; position: 0 },
+            GradientStop { color: "darkgray"; position: 1 }
         ]
     }
 
@@ -113,7 +113,7 @@ Item {
         function test_2_initial_common() {
             // Common properties
             compare(initial.baseColor, "#000000")
-            compare(initial.baseGradient, null)
+            compare(initial.baseGradient, 0)
             compare(initial.colorStyle, Theme3D.ColorStyle.Uniform)
             compare(initial.itemLabel, "")
             compare(initial.itemLabelFormat, "@valueLabel")
@@ -122,10 +122,10 @@ Item {
             compare(initial.meshRotation, Qt.quaternion(1, 0, 0, 0))
             compare(initial.meshSmooth, false)
             compare(initial.multiHighlightColor, "#000000")
-            compare(initial.multiHighlightGradient, null)
+            compare(initial.multiHighlightGradient, 0)
             compare(initial.name, "")
             compare(initial.singleHighlightColor, "#000000")
-            compare(initial.singleHighlightGradient, null)
+            compare(initial.singleHighlightGradient, 0)
             compare(initial.type, Abstract3DSeries.SeriesType.Bar)
             compare(initial.userDefinedMesh, "")
             compare(initial.visible, true)

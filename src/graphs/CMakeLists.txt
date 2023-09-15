@@ -84,7 +84,6 @@ qt_internal_add_qml_module(Graphs
         utils/utils.cpp utils/utils_p.h
 
         qml/foreigntypes_p.h
-        qml/colorgradient.cpp qml/colorgradient_p.h
         qml/declarativecolor.cpp qml/declarativecolor_p.h
         qml/declarativescene.cpp qml/declarativescene_p.h
         qml/declarativeseries.cpp qml/declarativeseries_p.h
@@ -113,7 +112,6 @@ qt_internal_add_qml_module(Graphs
         engine/bars3dcontroller.cpp       # undef QT_NO_FOREACH
         engine/scatter3dcontroller.cpp    # undef QT_NO_FOREACH
         engine/surface3dcontroller.cpp    # undef QT_NO_FOREACH
-        qml/declarativetheme.cpp          # undef QT_NO_FOREACH
     INCLUDE_DIRECTORIES
         axis
         data

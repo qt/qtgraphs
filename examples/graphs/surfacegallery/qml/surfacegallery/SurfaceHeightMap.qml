@@ -22,12 +22,12 @@ Rectangle {
         anchors.right: heightMapView.right
 
         //! [1]
-        ColorGradient {
+        Gradient {
             id: surfaceGradient
-            ColorGradientStop { position: 0.0; color: "darkgreen"}
-            ColorGradientStop { position: 0.15; color: "darkslategray" }
-            ColorGradientStop { position: 0.7; color: "peru" }
-            ColorGradientStop { position: 1.0; color: "white" }
+            GradientStop { position: 0.0; color: "darkgreen"}
+            GradientStop { position: 0.15; color: "darkslategray" }
+            GradientStop { position: 0.7; color: "peru" }
+            GradientStop { position: 1.0; color: "white" }
         }
         //! [1]
 

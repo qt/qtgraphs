@@ -15,22 +15,22 @@ Item {
 
     property var customTheme: customSurfaceTheme
 
-    ColorGradient {
+    Gradient {
         id: customGradient
-        ColorGradientStop { position: 0.0; color: "red" }
-        ColorGradientStop { position: 1.0; color: "green" }
+        GradientStop { position: 0.0; color: "red" }
+        GradientStop { position: 1.0; color: "green" }
     }
 
-    ColorGradient {
+    Gradient {
         id: singleGradient
-        ColorGradientStop { position: 0.0; color: "white" }
-        ColorGradientStop { position: 1.0; color: "yellow" }
+        GradientStop { position: 0.0; color: "white" }
+        GradientStop { position: 1.0; color: "yellow" }
     }
 
-    ColorGradient {
+    Gradient {
         id: multiGradient
-        ColorGradientStop { position: 0.0; color: "white" }
-        ColorGradientStop { position: 1.0; color: "blue" }
+        GradientStop { position: 0.0; color: "white" }
+        GradientStop { position: 1.0; color: "blue" }
     }
 
     Theme3D {

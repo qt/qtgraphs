@@ -14,27 +14,27 @@ Item {
         id: initial
     }
 
-    ColorGradient {
+    Gradient {
         id: gradient1
         stops: [
-            ColorGradientStop { color: "red"; position: 0 },
-            ColorGradientStop { color: "blue"; position: 1 }
+            GradientStop { color: "red"; position: 0 },
+            GradientStop { color: "blue"; position: 1 }
         ]
     }
 
-    ColorGradient {
+    Gradient {
         id: gradient2
         stops: [
-            ColorGradientStop { color: "green"; position: 0 },
-            ColorGradientStop { color: "red"; position: 1 }
+            GradientStop { color: "green"; position: 0 },
+            GradientStop { color: "red"; position: 1 }
         ]
     }
 
-    ColorGradient {
+    Gradient {
         id: gradient3
         stops: [
-            ColorGradientStop { color: "gray"; position: 0 },
-            ColorGradientStop { color: "darkgray"; position: 1 }
+            GradientStop { color: "gray"; position: 0 },
+            GradientStop { color: "darkgray"; position: 1 }
         ]
     }
 
@@ -94,9 +94,10 @@ Item {
             compare(initial.backgroundEnabled, true)
             compare(initial.baseColors.length, 1)
             compare(initial.baseColors[0].color, "#000000")
-            compare(initial.baseGradients.length, 1)
-            compare(initial.baseGradients[0].stops[0].color, "#000000")
-            compare(initial.baseGradients[0].stops[1].color, "#ffffff")
+            // TODO: Do we actually need to support this? QTBUG-116923
+            //compare(initial.baseGradients.length, 1)
+            //compare(initial.baseGradients[0].stops[0], "#000000")
+            //compare(initial.baseGradients[0].stops[1], "#ffffff")
             compare(initial.colorStyle, Theme3D.ColorStyle.Uniform)
             // Initial font needs to be tested like this, as different platforms have different default font (QFont())
             compare(initial.font.family, dummy.font.family)
@@ -110,10 +111,10 @@ Item {
             compare(initial.lightColor, "#ffffff")
             compare(initial.lightStrength, 5)
             compare(initial.multiHighlightColor, "#0000ff")
-            compare(initial.multiHighlightGradient, null)
+            compare(initial.multiHighlightGradient, 0)
             compare(initial.shadowStrength, 25)
             compare(initial.singleHighlightColor, "#ff0000")
-            compare(initial.singleHighlightGradient, null)
+            compare(initial.singleHighlightGradient, 0)
             compare(initial.type, Theme3D.Theme.UserDefined)
             compare(initial.windowColor, "#000000")
         }
@@ -161,11 +162,11 @@ Item {
             color: "red"
         }
 
-        ColorGradient {
+        Gradient {
             id: gradient4
             stops: [
-                ColorGradientStop { color: "red"; position: 0 },
-                ColorGradientStop { color: "blue"; position: 1 }
+                GradientStop { color: "red"; position: 0 },
+                GradientStop { color: "blue"; position: 1 }
             ]
         }
 

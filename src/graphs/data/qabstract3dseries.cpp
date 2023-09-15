@@ -167,7 +167,7 @@ QT_BEGIN_NAMESPACE
  */
 
 /*!
- * \qmlproperty ColorGradient Abstract3DSeries::baseGradient
+ * \qmlproperty Gradient Abstract3DSeries::baseGradient
  *
  * Sets the base gradient of the series.
  *
@@ -183,7 +183,7 @@ QT_BEGIN_NAMESPACE
  */
 
 /*!
- * \qmlproperty ColorGradient Abstract3DSeries::singleHighlightGradient
+ * \qmlproperty Gradient Abstract3DSeries::singleHighlightGradient
  *
  * Sets the single item highlight gradient of the series.
  *
@@ -199,7 +199,7 @@ QT_BEGIN_NAMESPACE
  */
 
 /*!
- * \qmlproperty ColorGradient Abstract3DSeries::multiHighlightGradient
+ * \qmlproperty Gradient Abstract3DSeries::multiHighlightGradient
  *
  * Sets the multiple item highlight gradient of the series.
  *

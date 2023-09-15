@@ -25,13 +25,13 @@ Rectangle {
         anchors.right: legend.left
         anchors.bottom: parent.bottom
 
-        ColorGradient {
+        Gradient {
             id: surfaceGradient
-            ColorGradientStop { position: 0.0; color: "black" }
-            ColorGradientStop { position: 0.2; color: "red" }
-            ColorGradientStop { position: 0.5; color: "blue" }
-            ColorGradientStop { position: 0.8; color: "yellow" }
-            ColorGradientStop { position: 1.0; color: "white" }
+            GradientStop { position: 0.0; color: "black" }
+            GradientStop { position: 0.2; color: "red" }
+            GradientStop { position: 0.5; color: "blue" }
+            GradientStop { position: 0.8; color: "yellow" }
+            GradientStop { position: 1.0; color: "white" }
         }
 
         ValueAxis3D {

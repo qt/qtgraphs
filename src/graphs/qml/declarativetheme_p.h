@@ -18,10 +18,10 @@
 #include <private/q3dtheme_p.h>
 
 #include "declarativecolor_p.h"
-#include "colorgradient_p.h"
 
 #include <QtQml/qqml.h>
 #include <QtQml/qqmlparserstatus.h>
+#include <QtQuick/private/qquickrectangle_p.h>
 
 QT_BEGIN_NAMESPACE
 
@@ -31,9 +31,9 @@ class DeclarativeTheme3D : public Q3DTheme, public QQmlParserStatus
     Q_INTERFACES(QQmlParserStatus)
     Q_PROPERTY(QQmlListProperty<QObject> themeChildren READ themeChildren CONSTANT)
     Q_PROPERTY(QQmlListProperty<DeclarativeColor> baseColors READ baseColors CONSTANT)
-    Q_PROPERTY(QQmlListProperty<ColorGradient> baseGradients READ baseGradients CONSTANT)
-    Q_PROPERTY(ColorGradient *singleHighlightGradient READ singleHighlightGradient WRITE setSingleHighlightGradient NOTIFY singleHighlightGradientChanged)
-    Q_PROPERTY(ColorGradient *multiHighlightGradient READ multiHighlightGradient WRITE setMultiHighlightGradient NOTIFY multiHighlightGradientChanged)
+    Q_PROPERTY(QQmlListProperty<QObject> baseGradients READ baseGradients CONSTANT)
+    Q_PROPERTY(QJSValue singleHighlightGradient READ singleHighlightGradient WRITE setSingleHighlightGradient NOTIFY singleHighlightGradientChanged)
+    Q_PROPERTY(QJSValue multiHighlightGradient READ multiHighlightGradient WRITE setMultiHighlightGradient NOTIFY multiHighlightGradientChanged)
     Q_CLASSINFO("DefaultProperty", "themeChildren")
     QML_NAMED_ELEMENT(Theme3D)
 
@@ -52,35 +52,36 @@ public:
                                               qsizetype index);
     static void clearBaseColorsFunc(QQmlListProperty<DeclarativeColor> *list);
 
-    QQmlListProperty<ColorGradient> baseGradients();
-    static void appendBaseGradientsFunc(QQmlListProperty<ColorGradient> *list,
-                                        ColorGradient *gradient);
-    static qsizetype countBaseGradientsFunc(QQmlListProperty<ColorGradient> *list);
-    static ColorGradient *atBaseGradientsFunc(QQmlListProperty<ColorGradient> *list,
-                                              qsizetype index);
-    static void clearBaseGradientsFunc(QQmlListProperty<ColorGradient> *list);
+    QQmlListProperty<QObject> baseGradients();
+    static void appendBaseGradientsFunc(QQmlListProperty<QObject> *list,
+                                        QObject *gradient);
+    static qsizetype countBaseGradientsFunc(QQmlListProperty<QObject> *list);
+    static QObject *atBaseGradientsFunc(QQmlListProperty<QObject> *list,
+                                        qsizetype index);
+    static void clearBaseGradientsFunc(QQmlListProperty<QObject> *list);
 
-    void setSingleHighlightGradient(ColorGradient *gradient);
-    ColorGradient *singleHighlightGradient() const;
+    void setSingleHighlightGradient(QJSValue gradient);
+    QJSValue singleHighlightGradient() const;
 
-    void setMultiHighlightGradient(ColorGradient *gradient);
-    ColorGradient *multiHighlightGradient() const;
+    void setMultiHighlightGradient(QJSValue gradient);
+    QJSValue multiHighlightGradient() const;
 
     // From QQmlParserStatus
     void classBegin() override;
     void componentComplete() override;
 
 Q_SIGNALS:
-    void singleHighlightGradientChanged(ColorGradient *gradient);
-    void multiHighlightGradientChanged(ColorGradient *gradient);
+    void singleHighlightGradientChanged(QJSValue gradient);
+    void multiHighlightGradientChanged(QJSValue gradient);
 
-protected:
+public Q_SLOTS:
     void handleTypeChange(Theme themeType);
     void handleBaseColorUpdate();
     void handleBaseGradientUpdate();
     void handleSingleHLGradientUpdate();
     void handleMultiHLGradientUpdate();
 
+protected:
     enum class GradientType {
         Base = 0,
         SingleHL,
@@ -93,21 +94,19 @@ private:
     void clearColors();
     void clearDummyColors();
 
-    void addGradient(ColorGradient *gradient);
-    QList<ColorGradient *> gradientList();
+    void addGradient(QJSValue gradient);
+    QList<QQuickGradient *> gradientList();
     void clearGradients();
     void clearDummyGradients();
 
-    void setThemeGradient(ColorGradient *gradient, GradientType type);
-    QLinearGradient convertGradient(ColorGradient *gradient);
-    ColorGradient *convertGradient(const QLinearGradient &gradient);
+    void setThemeGradient(QJSValue gradient, GradientType type);
+    QLinearGradient convertGradient(QJSValue gradient);
 
     QList<DeclarativeColor *> m_colors; // Not owned
-    QList<ColorGradient *> m_gradients; // Not owned
-    ColorGradient *m_singleHLGradient; // Not owned
-    ColorGradient *m_multiHLGradient; // Not owned
+    QList<QQuickGradient *> m_gradients; // Not owned
+    QJSValue m_singleHLGradient; // Not owned
+    QJSValue m_multiHLGradient; // Not owned
 
-    bool m_dummyGradients;
     bool m_dummyColors;
 };
 

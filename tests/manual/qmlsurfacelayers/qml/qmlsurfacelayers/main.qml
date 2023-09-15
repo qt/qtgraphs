@@ -21,25 +21,25 @@ Item {
         anchors.right: mainview.right;
 
         //! [0]
-        ColorGradient {
+        Gradient {
             id: layerOneGradient
-            ColorGradientStop { position: 0.0; color: "black" }
-            ColorGradientStop { position: 0.31; color: "tan" }
-            ColorGradientStop { position: 0.32; color: "green" }
-            ColorGradientStop { position: 0.40; color: "darkslategray" }
-            ColorGradientStop { position: 1.0; color: "white" }
+            GradientStop { position: 0.0; color: "black" }
+            GradientStop { position: 0.31; color: "tan" }
+            GradientStop { position: 0.32; color: "green" }
+            GradientStop { position: 0.40; color: "darkslategray" }
+            GradientStop { position: 1.0; color: "white" }
         }
 
-        ColorGradient {
+        Gradient {
             id: layerTwoGradient
-            ColorGradientStop { position: 0.315; color: "blue" }
-            ColorGradientStop { position: 0.33; color: "white" }
+            GradientStop { position: 0.315; color: "blue" }
+            GradientStop { position: 0.33; color: "white" }
         }
 
-        ColorGradient {
+        Gradient {
             id: layerThreeGradient
-            ColorGradientStop { position: 0.0; color: "red" }
-            ColorGradientStop { position: 0.15; color: "black" }
+            GradientStop { position: 0.0; color: "red" }
+            GradientStop { position: 0.15; color: "black" }
         }
         //! [0]
 
