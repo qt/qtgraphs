@@ -36,7 +36,7 @@ Item {
             id: barGraph
             anchors.fill: parent
             selectionMode: AbstractGraph3D.SelectionItemAndRow
-            cameraPreset: AbstractGraph3D.CameraPresetIsometricLeftHigh
+            cameraPreset: AbstractGraph3D.CameraPreset.IsometricLeftHigh
             theme: firstTheme
             valueAxis.labelFormat: "%d\u00B0C"
 

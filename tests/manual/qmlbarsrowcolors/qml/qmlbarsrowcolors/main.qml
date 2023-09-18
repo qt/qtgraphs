@@ -317,7 +317,7 @@ Item {
             barThickness: 0.7
             barSpacing: Qt.size(0.5, 0.5)
             barSpacingRelative: false
-            cameraPreset: AbstractGraph3D.CameraPresetIsometricLeftHigh
+            cameraPreset: AbstractGraph3D.CameraPreset.IsometricLeftHigh
             columnAxis: graphAxes.column
             rowAxis: graphAxes.row
             valueAxis: graphAxes.value

@@ -543,7 +543,7 @@ private:
     int m_currentFps = -1;
     bool m_measureFps = false;
 
-    QAbstract3DGraph::CameraPreset m_activePreset = QAbstract3DGraph::CameraPresetNone;
+    QAbstract3DGraph::CameraPreset m_activePreset = QAbstract3DGraph::CameraPreset::None;
     float m_xRotation = 0.0f;
     float m_yRotation = 0.0f;
     float m_minXRotation = -180.0f;

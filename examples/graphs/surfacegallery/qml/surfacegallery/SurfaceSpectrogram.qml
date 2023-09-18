@@ -98,7 +98,7 @@ Rectangle {
             //! [1]
             // Remove the perspective and view the graph from top down to achieve 2D effect
             orthoProjection: true
-            cameraPreset: AbstractGraph3D.CameraPresetDirectlyAbove
+            cameraPreset: AbstractGraph3D.CameraPreset.DirectlyAbove
             //! [1]
 
             //! [2]
@@ -165,7 +165,7 @@ Rectangle {
                 } else {
                     surfaceGraph.orthoProjection = true;
                     surfaceGraph.cameraPreset
-                            = AbstractGraph3D.CameraPresetDirectlyAbove;
+                            = AbstractGraph3D.CameraPreset.DirectlyAbove;
                     surfaceSeries.drawMode &= ~Surface3DSeries.DrawWireframe;
                     xAxis.labelAutoRotation = 0;
                     yAxis.labelAutoRotation = 0;

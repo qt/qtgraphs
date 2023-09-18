@@ -31,7 +31,7 @@ SurfaceGraphModifier::SurfaceGraphModifier(Q3DSurface *surface, QLabel *label, Q
       m_textField(label)
 {
     m_graph->setCameraZoomLevel(85.f);
-    m_graph->setCameraPreset(QAbstract3DGraph::CameraPresetIsometricRight);
+    m_graph->setCameraPreset(QAbstract3DGraph::CameraPreset::IsometricRight);
     m_graph->activeTheme()->setType(Q3DTheme::Theme::Retro);
 
     m_graph->setAxisX(new QValue3DAxis);

@@ -137,35 +137,35 @@ QT_BEGIN_NAMESPACE
  *
  * Predefined positions for camera.
  *
- * \value CameraPresetNone
+ * \value None
  *        Used to indicate a preset has not been set, or the scene has been rotated freely.
- * \value CameraPresetFrontLow
- * \value CameraPresetFront
- * \value CameraPresetFrontHigh
- * \value CameraPresetLeftLow
- * \value CameraPresetLeft
- * \value CameraPresetLeftHigh
- * \value CameraPresetRightLow
- * \value CameraPresetRight
- * \value CameraPresetRightHigh
- * \value CameraPresetBehindLow
- * \value CameraPresetBehind
- * \value CameraPresetBehindHigh
- * \value CameraPresetIsometricLeft
- * \value CameraPresetIsometricLeftHigh
- * \value CameraPresetIsometricRight
- * \value CameraPresetIsometricRightHigh
- * \value CameraPresetDirectlyAbove
- * \value CameraPresetDirectlyAboveCW45
- * \value CameraPresetDirectlyAboveCCW45
- * \value CameraPresetFrontBelow
- *        In Q3DBars from CameraPresetFrontBelow onward these only work for graphs including negative
+ * \value FrontLow
+ * \value Front
+ * \value FrontHigh
+ * \value LeftLow
+ * \value Left
+ * \value LeftHigh
+ * \value RightLow
+ * \value Right
+ * \value RightHigh
+ * \value BehindLow
+ * \value Behind
+ * \value BehindHigh
+ * \value IsometricLeft
+ * \value IsometricLeftHigh
+ * \value IsometricRight
+ * \value IsometricRightHigh
+ * \value DirectlyAbove
+ * \value DirectlyAboveCW45
+ * \value DirectlyAboveCCW45
+ * \value FrontBelow
+ *        In Q3DBars from FrontBelow onward these only work for graphs including negative
  *        values. They act as Preset...Low for positive-only values.
- * \value CameraPresetLeftBelow
- * \value CameraPresetRightBelow
- * \value CameraPresetBehindBelow
- * \value CameraPresetDirectlyBelow
- *        Acts as CameraPresetFrontLow for positive-only bars.
+ * \value LeftBelow
+ * \value RightBelow
+ * \value BehindBelow
+ * \value DirectlyBelow
+ *        Acts as FrontLow for positive-only bars.
  */
 
 /*!
@@ -544,7 +544,7 @@ QAbstract3DGraph::CameraPreset QAbstract3DGraph::cameraPreset() const
     return m_graphsItem->cameraPreset();
 }
 
-void QAbstract3DGraph::setCameraPreset(CameraPreset preset)
+void QAbstract3DGraph::setCameraPreset(QAbstract3DGraph::CameraPreset preset)
 {
     m_graphsItem->setCameraPreset(preset);
 }
@@ -722,8 +722,8 @@ void QAbstract3DGraph::setCameraTargetPosition(const QVector3D &target)
         newTarget.setZ(1.0f);
 
     if (m_graphsItem->cameraTargetPosition() != newTarget) {
-        if (m_graphsItem->cameraPreset() != CameraPresetNone)
-            m_graphsItem->setCameraPreset(CameraPresetNone);
+        if (m_graphsItem->cameraPreset() != CameraPreset::None)
+            m_graphsItem->setCameraPreset(CameraPreset::None);
         m_graphsItem->setCameraTargetPosition(newTarget);
     }
 }

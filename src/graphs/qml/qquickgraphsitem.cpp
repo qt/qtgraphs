@@ -3809,128 +3809,128 @@ QAbstract3DGraph::CameraPreset QQuickGraphsItem::cameraPreset() const
 void QQuickGraphsItem::setCameraPreset(QAbstract3DGraph::CameraPreset preset)
 {
     switch (preset) {
-    case QAbstract3DGraph::CameraPresetFrontLow: {
+    case QAbstract3DGraph::CameraPreset::FrontLow: {
         m_xRotation = 0.0f;
         m_yRotation = 0.0f;
         break;
     }
-    case QAbstract3DGraph::CameraPresetFront: {
+    case QAbstract3DGraph::CameraPreset::Front: {
         m_xRotation = 0.0f;
         m_yRotation = 22.5f;
         break;
     }
-    case QAbstract3DGraph::CameraPresetFrontHigh: {
+    case QAbstract3DGraph::CameraPreset::FrontHigh: {
         m_xRotation = 0.0f;
         m_yRotation = 45.0f;
         break;
     }
-    case QAbstract3DGraph::CameraPresetLeftLow: {
+    case QAbstract3DGraph::CameraPreset::LeftLow: {
         m_xRotation = 90.0f;
         m_yRotation = 0.0f;
         break;
     }
-    case QAbstract3DGraph::CameraPresetLeft: {
+    case QAbstract3DGraph::CameraPreset::Left: {
         m_xRotation = 90.0f;
         m_yRotation = 22.5f;
         break;
     }
-    case QAbstract3DGraph::CameraPresetLeftHigh: {
+    case QAbstract3DGraph::CameraPreset::LeftHigh: {
         m_xRotation = 90.0f;
         m_yRotation = 45.0f;
         break;
     }
-    case QAbstract3DGraph::CameraPresetRightLow: {
+    case QAbstract3DGraph::CameraPreset::RightLow: {
         m_xRotation = -90.0f;
         m_yRotation = 0.0f;
         break;
     }
-    case QAbstract3DGraph::CameraPresetRight: {
+    case QAbstract3DGraph::CameraPreset::Right: {
         m_xRotation = -90.0f;
         m_yRotation = 22.5f;
         break;
     }
-    case QAbstract3DGraph::CameraPresetRightHigh: {
+    case QAbstract3DGraph::CameraPreset::RightHigh: {
         m_xRotation = -90.0f;
         m_yRotation = 45.0f;
         break;
     }
-    case QAbstract3DGraph::CameraPresetBehindLow: {
+    case QAbstract3DGraph::CameraPreset::BehindLow: {
         m_xRotation = 180.0f;
         m_yRotation = 0.0f;
         break;
     }
-    case QAbstract3DGraph::CameraPresetBehind: {
+    case QAbstract3DGraph::CameraPreset::Behind: {
         m_xRotation = 180.0f;
         m_yRotation = 22.5f;
         break;
     }
-    case QAbstract3DGraph::CameraPresetBehindHigh: {
+    case QAbstract3DGraph::CameraPreset::BehindHigh: {
         m_xRotation = 180.0f;
         m_yRotation = 45.0f;
         break;
     }
-    case QAbstract3DGraph::CameraPresetIsometricLeft: {
+    case QAbstract3DGraph::CameraPreset::IsometricLeft: {
         m_xRotation = 45.0f;
         m_yRotation = 22.5f;
         break;
     }
-    case QAbstract3DGraph::CameraPresetIsometricLeftHigh: {
+    case QAbstract3DGraph::CameraPreset::IsometricLeftHigh: {
         m_xRotation = 45.0f;
         m_yRotation = 45.0f;
         break;
     }
-    case QAbstract3DGraph::CameraPresetIsometricRight: {
+    case QAbstract3DGraph::CameraPreset::IsometricRight: {
         m_xRotation = -45.0f;
         m_yRotation = 22.5f;
         break;
     }
-    case QAbstract3DGraph::CameraPresetIsometricRightHigh: {
+    case QAbstract3DGraph::CameraPreset::IsometricRightHigh: {
         m_xRotation = -45.0f;
         m_yRotation = 45.0f;
         break;
     }
-    case QAbstract3DGraph::CameraPresetDirectlyAbove: {
+    case QAbstract3DGraph::CameraPreset::DirectlyAbove: {
         m_xRotation = 0.0f;
         m_yRotation = 90.0f;
         break;
     }
-    case QAbstract3DGraph::CameraPresetDirectlyAboveCW45: {
+    case QAbstract3DGraph::CameraPreset::DirectlyAboveCW45: {
         m_xRotation = -45.0f;
         m_yRotation = 90.0f;
         break;
     }
-    case QAbstract3DGraph::CameraPresetDirectlyAboveCCW45: {
+    case QAbstract3DGraph::CameraPreset::DirectlyAboveCCW45: {
         m_xRotation = 45.0f;
         m_yRotation = 90.0f;
         break;
     }
-    case QAbstract3DGraph::CameraPresetFrontBelow: {
+    case QAbstract3DGraph::CameraPreset::FrontBelow: {
         m_xRotation = 0.0f;
         m_yRotation = -45.0f;
         break;
     }
-    case QAbstract3DGraph::CameraPresetLeftBelow: {
+    case QAbstract3DGraph::CameraPreset::LeftBelow: {
         m_xRotation = 90.0f;
         m_yRotation = -45.0f;
         break;
     }
-    case QAbstract3DGraph::CameraPresetRightBelow: {
+    case QAbstract3DGraph::CameraPreset::RightBelow: {
         m_xRotation = -90.0f;
         m_yRotation = -45.0f;
         break;
     }
-    case QAbstract3DGraph::CameraPresetBehindBelow: {
+    case QAbstract3DGraph::CameraPreset::BehindBelow: {
         m_xRotation = 180.0f;
         m_yRotation = -45.0f;
         break;
     }
-    case QAbstract3DGraph::CameraPresetDirectlyBelow: {
+    case QAbstract3DGraph::CameraPreset::DirectlyBelow: {
         m_xRotation = 0.0f;
         m_yRotation = -90.0f;
         break;
     }
     default:
-        preset = QAbstract3DGraph::CameraPresetNone;
+        preset = QAbstract3DGraph::CameraPreset::None;
         break;
     }
 

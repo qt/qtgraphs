@@ -1372,7 +1372,7 @@ void GraphModifier::massiveDataTest()
         m_graph->setAxisX(xAxis);
         m_graph->setAxisY(yAxis);
         m_graph->setAxisZ(zAxis);
-        m_graph->setCameraPreset(QAbstract3DGraph::CameraPresetRight);
+        m_graph->setCameraPreset(QAbstract3DGraph::CameraPreset::Right);
         m_graph->setShadowQuality(QAbstract3DGraph::ShadowQuality::None);
         const auto surfaceSeriesList = m_graph->seriesList();
         for (const auto &series : surfaceSeriesList)

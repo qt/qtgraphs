@@ -601,12 +601,12 @@ void GraphModifier::changeStyle()
 
 void GraphModifier::changePresetCamera()
 {
-    static int preset = QAbstract3DGraph::CameraPresetFrontLow;
+    static int preset = int(QAbstract3DGraph::CameraPreset::FrontLow);
 
     m_graph->setCameraPreset((QAbstract3DGraph::CameraPreset)preset);
 
-    if (++preset > QAbstract3DGraph::CameraPresetDirectlyBelow)
-        preset = QAbstract3DGraph::CameraPresetFrontLow;
+    if (++preset > int(QAbstract3DGraph::CameraPreset::DirectlyBelow))
+        preset = int(QAbstract3DGraph::CameraPreset::FrontLow);
 }
 
 void GraphModifier::changeTheme()

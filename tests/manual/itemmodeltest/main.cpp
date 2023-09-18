@@ -282,8 +282,8 @@ int main(int argc, char **argv)
     barGraph->addSeries(barSeries);
     surfaceGraph->addSeries(surfaceSeries);
 
-    barGraph->setCameraPreset(QAbstract3DGraph::CameraPresetBehind);
-    surfaceGraph->setCameraPreset(QAbstract3DGraph::CameraPresetFront);
+    barGraph->setCameraPreset(QAbstract3DGraph::CameraPreset::Behind);
+    surfaceGraph->setCameraPreset(QAbstract3DGraph::CameraPreset::Front);
 
     GraphDataGenerator generator(barGraph, surfaceGraph, tableWidget);
     QObject::connect(barSeries, &QBar3DSeries::selectedBarChanged, &generator,

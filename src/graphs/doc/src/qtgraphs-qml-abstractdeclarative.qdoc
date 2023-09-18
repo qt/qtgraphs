@@ -36,7 +36,7 @@
  *
  * The currently active camera preset, which is one of
  * \l{AbstractGraph3D::CameraPreset}{AbstractGraph3D.CameraPreset}. If no preset is active, the value
- * is \l{AbstractGraph3D::CameraPresetNone}{AbstractGraph3D.CameraPresetNone}.
+ * is \l{AbstractGraph3D::CameraPreset::None}{AbstractGraph3D.CameraPreset.None}.
  */
 
 /*!

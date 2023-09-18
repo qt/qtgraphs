@@ -219,12 +219,12 @@ void GraphModifier::changePresetCamera()
     m_graph->setCameraTargetPosition(QVector3D(0.0f, 0.0f, 0.0f));
 
     //! [7]
-    static int preset = QAbstract3DGraph::CameraPresetFront;
+    static int preset = int(QAbstract3DGraph::CameraPreset::Front);
 
     m_graph->setCameraPreset((QAbstract3DGraph::CameraPreset)preset);
 
-    if (++preset > QAbstract3DGraph::CameraPresetDirectlyBelow)
-        preset = QAbstract3DGraph::CameraPresetFrontLow;
+    if (++preset > int(QAbstract3DGraph::CameraPreset::DirectlyBelow))
+        preset = int(QAbstract3DGraph::CameraPreset::FrontLow);
     //! [7]
 }
 

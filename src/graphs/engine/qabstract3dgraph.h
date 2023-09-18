@@ -103,32 +103,32 @@ public:
     };
     Q_ENUM(RenderingMode)
 
-    enum CameraPreset {
-        CameraPresetNone = -1,
-        CameraPresetFrontLow = 0,
-        CameraPresetFront,
-        CameraPresetFrontHigh,
-        CameraPresetLeftLow,
-        CameraPresetLeft,
-        CameraPresetLeftHigh,
-        CameraPresetRightLow,
-        CameraPresetRight,
-        CameraPresetRightHigh,
-        CameraPresetBehindLow,
-        CameraPresetBehind,
-        CameraPresetBehindHigh,
-        CameraPresetIsometricLeft,
-        CameraPresetIsometricLeftHigh,
-        CameraPresetIsometricRight,
-        CameraPresetIsometricRightHigh,
-        CameraPresetDirectlyAbove,
-        CameraPresetDirectlyAboveCW45,
-        CameraPresetDirectlyAboveCCW45,
-        CameraPresetFrontBelow,
-        CameraPresetLeftBelow,
-        CameraPresetRightBelow,
-        CameraPresetBehindBelow,
-        CameraPresetDirectlyBelow
+    enum class CameraPreset {
+        None = -1,
+        FrontLow = 0,
+        Front,
+        FrontHigh,
+        LeftLow,
+        Left,
+        LeftHigh,
+        RightLow,
+        Right,
+        RightHigh,
+        BehindLow,
+        Behind,
+        BehindHigh,
+        IsometricLeft,
+        IsometricLeftHigh,
+        IsometricRight,
+        IsometricRightHigh,
+        DirectlyAbove,
+        DirectlyAboveCW45,
+        DirectlyAboveCCW45,
+        FrontBelow,
+        LeftBelow,
+        RightBelow,
+        BehindBelow,
+        DirectlyBelow
     };
     Q_ENUM(CameraPreset)
 

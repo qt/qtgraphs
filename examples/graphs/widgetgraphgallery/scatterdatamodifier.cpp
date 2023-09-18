@@ -32,7 +32,7 @@ ScatterDataModifier::ScatterDataModifier(Q3DScatter *scatter, QObject *parent) :
     //! [0]
     m_graph->activeTheme()->setType(Q3DTheme::Theme::StoneMoss);
     m_graph->setShadowQuality(QAbstract3DGraph::ShadowQuality::SoftHigh);
-    m_graph->setCameraPreset(QAbstract3DGraph::CameraPresetFront);
+    m_graph->setCameraPreset(QAbstract3DGraph::CameraPreset::Front);
     m_graph->setCameraZoomLevel(80.f);
     //! [0]
 
@@ -126,12 +126,12 @@ void ScatterDataModifier::changeTheme(int theme)
 
 void ScatterDataModifier::changePresetCamera()
 {
-    static int preset = QAbstract3DGraph::CameraPresetFrontLow;
+    static int preset = int(QAbstract3DGraph::CameraPreset::FrontLow);
 
     m_graph->setCameraPreset((QAbstract3DGraph::CameraPreset)preset);
 
-    if (++preset > QAbstract3DGraph::CameraPresetDirectlyBelow)
-        preset = QAbstract3DGraph::CameraPresetFrontLow;
+    if (++preset > int(QAbstract3DGraph::CameraPreset::DirectlyBelow))
+        preset = int(QAbstract3DGraph::CameraPreset::FrontLow);
 }
 
 void ScatterDataModifier::shadowQualityUpdatedByVisual(QAbstract3DGraph::ShadowQuality sq)

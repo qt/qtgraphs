@@ -26,7 +26,7 @@ ScatterDataModifier::ScatterDataModifier(Q3DScatter *scatter)
     font.setPointSize(m_fontSize);
     m_graph->activeTheme()->setFont(font);
     m_graph->setShadowQuality(QAbstract3DGraph::ShadowQuality::SoftLow);
-    m_graph->setCameraPreset(QAbstract3DGraph::CameraPresetFront);
+    m_graph->setCameraPreset(QAbstract3DGraph::CameraPreset::Front);
 
     m_graph->setAxisX(new QValue3DAxis);
     m_graph->setAxisY(new QValue3DAxis);
@@ -134,12 +134,12 @@ void ScatterDataModifier::changeTheme(int theme)
 
 void ScatterDataModifier::changePresetCamera()
 {
-    static int preset = QAbstract3DGraph::CameraPresetFrontLow;
+    static int preset = int(QAbstract3DGraph::CameraPreset::FrontLow);
 
     m_graph->setCameraPreset((QAbstract3DGraph::CameraPreset)preset);
 
-    if (++preset > QAbstract3DGraph::CameraPresetDirectlyBelow)
-        preset = QAbstract3DGraph::CameraPresetFrontLow;
+    if (++preset > int(QAbstract3DGraph::CameraPreset::DirectlyBelow))
+        preset = int(QAbstract3DGraph::CameraPreset::FrontLow);
 }
 
 void ScatterDataModifier::changeLabelStyle()

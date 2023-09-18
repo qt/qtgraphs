@@ -41,7 +41,7 @@ Item {
                     type: Theme3D.Theme.PrimaryColors
                     font.pointSize: 60
                 }
-                cameraPreset: AbstractGraph3D.CameraPresetIsometricLeftHigh
+                cameraPreset: AbstractGraph3D.CameraPreset.IsometricLeftHigh
 
                 Surface3DSeries {
                     itemLabelFormat: "Pop density at (@xLabel N, @zLabel E): @yLabel"
@@ -130,7 +130,7 @@ Item {
                     type: Theme3D.Theme.PrimaryColors
                     font.pointSize: 60
                 }
-                cameraPreset: AbstractGraph3D.CameraPresetIsometricLeftHigh
+                cameraPreset: AbstractGraph3D.CameraPreset.IsometricLeftHigh
 
                 Scatter3DSeries {
                     itemLabelFormat: "Pop density at (@xLabel N, @zLabel E): @yLabel"
@@ -172,7 +172,7 @@ Item {
                     font.pointSize: 60
                 }
                 selectionMode: AbstractGraph3D.SelectionItemAndRow | AbstractGraph3D.SelectionSlice
-                cameraPreset: AbstractGraph3D.CameraPresetIsometricLeftHigh
+                cameraPreset: AbstractGraph3D.CameraPreset.IsometricLeftHigh
 
                 Bar3DSeries {
                     itemLabelFormat: "@seriesName: @valueLabel"
@@ -207,9 +207,9 @@ Item {
     }
 
     function resetCameras() {
-        surfaceGraph.cameraPreset = AbstractGraph3D.CameraPresetIsometricLeftHigh
-        scatterGraph.cameraPreset = AbstractGraph3D.CameraPresetIsometricLeftHigh
-        barGraph.cameraPreset = AbstractGraph3D.CameraPresetIsometricLeftHigh
+        surfaceGraph.cameraPreset = AbstractGraph3D.CameraPreset.IsometricLeftHigh
+        scatterGraph.cameraPreset = AbstractGraph3D.CameraPreset.IsometricLeftHigh
+        barGraph.cameraPreset = AbstractGraph3D.CameraPreset.IsometricLeftHigh
         surfaceGraph.zoomLevel = 100.0
         scatterGraph.zoomLevel = 100.0
         barGraph.zoomLevel = 100.0

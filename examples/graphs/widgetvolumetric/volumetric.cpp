@@ -36,7 +36,7 @@ VolumetricModifier::VolumetricModifier(Q3DScatter *scatter)
 {
     m_graph->activeTheme()->setType(Q3DTheme::Theme::PrimaryColors);
     m_graph->setShadowQuality(QAbstract3DGraph::ShadowQuality::None);
-    m_graph->setCameraPreset(QAbstract3DGraph::CameraPresetIsometricLeft);
+    m_graph->setCameraPreset(QAbstract3DGraph::CameraPreset::IsometricLeft);
     //! [0]
     m_graph->setOrthoProjection(true);
     //! [0]

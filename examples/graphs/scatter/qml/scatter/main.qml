@@ -61,7 +61,7 @@ Item {
             //! [3]
             theme: themeQt
             shadowQuality: AbstractGraph3D.ShadowQuality.High
-            cameraPreset: AbstractGraph3D.CameraPresetFront
+            cameraPreset: AbstractGraph3D.CameraPreset.Front
             //! [3]
             //! [6]
             axisX.segmentCount: 3
@@ -169,11 +169,11 @@ Item {
         anchors.margins: 5
         text: "Change Camera Placement"
         onClicked: {
-            if (scatterGraph.cameraPreset === AbstractGraph3D.CameraPresetFront) {
+            if (scatterGraph.cameraPreset === AbstractGraph3D.CameraPreset.Front) {
                 scatterGraph.cameraPreset =
-                        AbstractGraph3D.CameraPresetIsometricRightHigh;
+                        AbstractGraph3D.CameraPreset.IsometricRightHigh;
             } else {
-                scatterGraph.cameraPreset = AbstractGraph3D.CameraPresetFront;
+                scatterGraph.cameraPreset = AbstractGraph3D.CameraPreset.Front;
             }
         }
     }

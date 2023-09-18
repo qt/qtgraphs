@@ -80,7 +80,7 @@ Item {
 
             shadowQuality: AbstractGraph3D.ShadowQuality.Medium
             selectionMode: AbstractGraph3D.SelectionSlice | AbstractGraph3D.SelectionItemAndRow
-            cameraPreset: AbstractGraph3D.CameraPresetIsometricLeft
+            cameraPreset: AbstractGraph3D.CameraPreset.IsometricLeft
             axisY.min: 0.0
             axisY.max: 500.0
             axisX.segmentCount: 10

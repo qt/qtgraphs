@@ -54,7 +54,7 @@ Item {
             }
             shadowQuality: AbstractGraph3D.ShadowQuality.None
             selectionMode: AbstractGraph3D.SelectionRow | AbstractGraph3D.SelectionSlice
-            cameraPreset: AbstractGraph3D.CameraPresetIsometricLeft
+            cameraPreset: AbstractGraph3D.CameraPreset.IsometricLeft
             axisY.min: 20
             axisY.max: 200
             axisX.segmentCount: 5

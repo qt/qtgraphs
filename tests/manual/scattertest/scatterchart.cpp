@@ -27,7 +27,7 @@ ScatterDataModifier::ScatterDataModifier(Q3DScatter *scatter)
     font.setPointSize(m_fontSize);
     m_chart->activeTheme()->setFont(font);
     m_chart->setShadowQuality(QAbstract3DGraph::ShadowQuality::None);
-    m_chart->setCameraPreset(QAbstract3DGraph::CameraPresetFront);
+    m_chart->setCameraPreset(QAbstract3DGraph::CameraPreset::Front);
     m_chart->setAxisX(new QValue3DAxis);
     m_chart->setAxisY(new QValue3DAxis);
     m_chart->setAxisZ(new QValue3DAxis);
@@ -124,7 +124,7 @@ void ScatterDataModifier::massiveDataTest()
         m_chart->setAxisX(xAxis);
         m_chart->setAxisY(yAxis);
         m_chart->setAxisZ(zAxis);
-        m_chart->setCameraPreset(QAbstract3DGraph::CameraPresetRight);
+        m_chart->setCameraPreset(QAbstract3DGraph::CameraPreset::Right);
         m_chart->setShadowQuality(QAbstract3DGraph::ShadowQuality::None);
         const auto scatteriesList = m_chart->seriesList();
         for (const auto &series : scatteriesList)
@@ -561,12 +561,12 @@ void ScatterDataModifier::changeStyle()
 
 void ScatterDataModifier::changePresetCamera()
 {
-    static int preset = QAbstract3DGraph::CameraPresetFrontLow;
+    static int preset = int(QAbstract3DGraph::CameraPreset::FrontLow);
 
     m_chart->setCameraPreset((QAbstract3DGraph::CameraPreset)preset);
 
-    if (++preset > QAbstract3DGraph::CameraPresetDirectlyAboveCCW45)
-        preset = QAbstract3DGraph::CameraPresetFrontLow;
+    if (++preset > int(QAbstract3DGraph::CameraPreset::DirectlyAboveCCW45))
+        preset = int(QAbstract3DGraph::CameraPreset::FrontLow);
 }
 
 void ScatterDataModifier::changeTheme()
