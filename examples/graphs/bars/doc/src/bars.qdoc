@@ -4,7 +4,7 @@
 /*!
     \example bars
     \meta tags {Graphs, Barsr3D, Multiple Series}
-    \examplecategory {Graphics}
+    \examplecategory {Data Visualization & 3D}
     \title Simple Bar Graph
     \ingroup qtgraphs_qmlexamples
     \brief Using Bars3D in a QML application.
