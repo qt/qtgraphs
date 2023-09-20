@@ -2,24 +2,13 @@ vec4 diffuse = vec4(0.0);
 float ambientBrightness = 0.75; // 0...1.0
 float directionalBrightness = 0.50; // 0...1.0
 VARYING vec3 pos;
-VARYING vec2 bounds;
+VARYING vec2 UV;
 in layout(location = 9) flat vec3 nF;
-
-void checkBounds() {
-
-    float xBoundsMin = step(-0.01,(bounds.x - rangeMin.x));
-    float yBoundsMin = step(-0.01,(bounds.y - rangeMin.y));
-    float xBoundsMax = step(-0.01,(rangeMax.x - bounds.x));
-    float yBoundsMax = step(-0.01,(rangeMax.y - bounds.y));
-
-    float total = xBoundsMin * yBoundsMin * xBoundsMax * yBoundsMax;
-    if(total == 0)
-        discard;
-}
 
 void MAIN()
 {
-    checkBounds();
+    if (any(greaterThan(UV, vec2(1))))
+        discard;
     vec3 color;
     vec2 gradientUV;
     switch (colorStyle) {
@@ -35,7 +24,9 @@ void MAIN()
         color = uniformColor.rgb;
         break;
     case 3: // Textured model
-        vec2 flippedUV = vec2(UV0.x, 1.0 - UV0.y);
+        vec2 rangeMinUV = rangeMin * (1 / (vertices - 1));
+        vec2 offsetUV = UV0 + rangeMinUV;
+        vec2 flippedUV = vec2(offsetUV.x, 1 - offsetUV.y);
         color = texture(baseColor, flippedUV).xyz;
         break;
     }

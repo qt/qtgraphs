@@ -123,10 +123,12 @@ private:
         QVector3D boundsMax;
         QVector2D rangeMin;
         QVector2D rangeMax;
+        QRect sampleSpace;
     };
 
     QVector3D getNormalizedVertex(const QSurfaceDataItem &data, bool polar, bool flipXZ);
-    void createSmoothIndices(SurfaceModel *model, int x, int y, int endX, int endY);
+    QRect calculateSampleSpace(const QSurfaceDataArray &array);
+    void createIndices(SurfaceModel *model, int columnCount, int rowCount);
     void createCoarseVertices(SurfaceModel *model, int x, int y, int endX, int endY);
     void createGridlineIndices(SurfaceModel *model, int x, int y, int endX, int endY);
     void handleChangedSeries();
