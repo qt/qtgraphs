@@ -248,6 +248,8 @@ void QQuickGraphsBars::removeSeries(QBar3DSeries *series)
 {
     m_barsController->removeSeries(series);
     removeBarModels();
+    if (m_selectedBarSeries == series)
+        resetClickedStatus();
     series->setParent(this); // Reparent as removing will leave series parentless
     disconnectSeries(series);
     handleRowCountChanged();
@@ -468,8 +470,6 @@ void QQuickGraphsBars::updateGraph()
     QList<QBar3DSeries *> barSeriesList = m_barsController->barSeriesList();
     calculateSceneScalingFactors();
 
-    bool isEmpty = m_barsController->m_changedSeriesList.isEmpty();
-
     for (const auto &series : std::as_const(barSeriesList)) {
         if (series->d_func()->m_changeTracker.meshChanged) {
             removeBarModels();
@@ -486,15 +486,16 @@ void QQuickGraphsBars::updateGraph()
         if (isSliceEnabled()) {
             removeSlicedBarModels();
             createSliceView();
-            if (!isEmpty) {
-                updateSliceGrid();
-                updateSliceLabels();
-            }
-            if (!isSliceActivatedChanged() && m_selectionDirty) {
-                setSliceActivatedChanged(true);
+            updateSliceGrid();
+            updateSliceLabels();
+
+            if (!sliceView()->isVisible())
+                m_selectionDirty = true;
+            else
                 m_selectionDirty = false;
-            }
+            setSliceActivatedChanged(true);
         }
+
         int visualIndex = 0;
         for (const auto &barSeries : std::as_const(barSeriesList)) {
             if (barSeries->isVisible()) {
@@ -1307,7 +1308,8 @@ void QQuickGraphsBars::updatePrincipledMaterial(QQuick3DModel *model, const QCol
 
 void QQuickGraphsBars::removeBarModels()
 {
-    deleteBarItemHolders();
+    if (m_barsController->optimizationHint() == QAbstract3DGraph::OptimizationHint::Default)
+        deleteBarItemHolders();
     for (const auto list : std::as_const(m_barModelsMap)) {
         for (auto barModel : *list) {
             deleteBarModels(barModel);
@@ -1732,7 +1734,6 @@ Abstract3DController::SelectionType QQuickGraphsBars::isSelected(int row, int ba
 
 void QQuickGraphsBars::resetClickedStatus()
 {
-    m_barsController->setSeriesVisualsDirty(true);
     m_selectedBarPos = QVector3D(0.0f, 0.0f, 0.0f);
     m_selectedBarCoord = Bars3DController::invalidSelectionPosition();
     m_selectedBarSeries = 0;
@@ -1749,6 +1750,8 @@ void QQuickGraphsBars::resetClickedStatus()
                 bih->selectedBar = false;
         }
     }
+    if (sliceView() && sliceView()->isVisible())
+        setSliceActivatedChanged(true);
     m_barsController->setSeriesVisualsDirty(true);
 }
 
@@ -1948,13 +1951,18 @@ void QQuickGraphsBars::removeSelectedModels()
 
 void QQuickGraphsBars::updateSelectionMode(QAbstract3DGraph::SelectionFlags mode)
 {
+    m_barsController->m_changeTracker.selectedBarChanged = true;
+    checkSliceEnabled();
     if (mode.testFlag(QAbstract3DGraph::SelectionSlice) && m_selectedBarSeries) {
         setSliceActivatedChanged(true);
-        if (sliceView() && isSliceEnabled()) {
+        if (sliceView()->isVisible())
             m_selectionDirty = false;
-        } else {
-            setSliceEnabled(true);
+        else
             m_selectionDirty = true;
+    } else {
+        if (sliceView() && sliceView()->isVisible()) {
+            m_selectionDirty = true;
+            setSliceActivatedChanged(true);
         }
     }
 
