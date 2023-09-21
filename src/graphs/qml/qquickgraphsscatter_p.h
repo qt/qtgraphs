@@ -79,6 +79,7 @@ protected:
     bool handleTouchEvent(QTouchEvent *event) override;
     bool doPicking(const QPointF &position) override;
     void updateShadowQuality(QAbstract3DGraph::ShadowQuality quality) override;
+    void updateLightStrength() override;
 
 private:
 
@@ -138,20 +139,13 @@ private:
 
     float m_dotSizedScale = 1.0f;
 
-    void updateInstancedCustomMaterial(ScatterModel *graphModel, bool isHighlight = false,
-                                       QQuick3DTexture *seriesTexture = nullptr,
-                                       QQuick3DTexture *highlightTexture = nullptr);
-
+    void updateInstancedMaterialProperties(ScatterModel *graphModel, bool isHighlight = false,
+                                           QQuick3DTexture *seriesTexture = nullptr,
+                                           QQuick3DTexture *highlightTexture = nullptr);
     void updateItemMaterial(QQuick3DModel *item, bool useGradient, bool rangeGradient,
-                            const QString &materialName);
-    void updatePointItemMaterial(QQuick3DModel *item,
-                            const QString &materialName, const QString &objectName);
-    void updateInstancedPointItemMaterial(QQuick3DModel *item,
-                                 const QString &materialName, const QString &objectName);
-    void updateCustomMaterial(QQuick3DModel *item, QQuick3DTexture *texture);
-    void updatePrincipledMaterial(QQuick3DModel *model, const QColor &color,
-                                  bool useGradient, QQuick3DTexture *texture = nullptr);
-
+                            bool usePoint, const QString &materialName);
+    void updateMaterialProperties(QQuick3DModel *item, QQuick3DTexture *texture,
+                                  const QColor &color = Qt::white);
     QQuick3DTexture *createTexture();
     QQuick3DModel *createDataItemModel(QAbstract3DSeries::Mesh meshType);
     QQuick3DNode *createSeriesRoot();

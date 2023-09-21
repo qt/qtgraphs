@@ -1,5 +1,5 @@
-VARYING vec3 vColor;
 VARYING vec3 pos;
+VARYING vec3 vColor;
 
 void MAIN()
 {
