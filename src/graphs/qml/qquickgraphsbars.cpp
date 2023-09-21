@@ -489,13 +489,17 @@ void QQuickGraphsBars::updateGraph()
             updateSliceGrid();
             updateSliceLabels();
 
-            if (!sliceView()->isVisible())
-                m_selectionDirty = true;
-            else
-                m_selectionDirty = false;
-            setSliceActivatedChanged(true);
+            for (const auto &barSeries : std::as_const(barSeriesList)) {
+                bool visible = !(sliceView()->isVisible() ^ barSeries->isVisible());
+                if (m_selectedBarSeries == barSeries) {
+                    setSliceActivatedChanged(true);
+                    if (visible)
+                        m_selectionDirty = false;
+                    else
+                        m_selectionDirty = true;
+                }
+            }
         }
-
         int visualIndex = 0;
         for (const auto &barSeries : std::as_const(barSeriesList)) {
             if (barSeries->isVisible()) {
@@ -763,7 +767,6 @@ void QQuickGraphsBars::generateBars(QList<QBar3DSeries *> &barSeriesList)
 
         if (barList->isEmpty()) {
             if (m_barsController->optimizationHint() == QAbstract3DGraph::OptimizationHint::Legacy) {
-
                 QBarDataProxy *dataProxy = barSeries->dataProxy();
                 int dataRowIndex = m_minRow;
                 int newRowSize = qMin(dataProxy->rowCount() - dataRowIndex, m_newRows);
@@ -899,23 +902,9 @@ void QQuickGraphsBars::updateBarVisuality(QBar3DSeries *series, int visualIndex)
 {
     QList<BarModel *> barList = *m_barModelsMap.value(series);
     for (int i = 0; i < barList.count(); i++) {
-        m_barsController->m_changeTracker.selectedBarChanged = true;
-        if (barList.at(i)->model->visible() != series->isVisible() && isSliceEnabled()) {
-            if (m_selectedBarSeries == series && !series->isVisible()) {
-                setSliceEnabled(false);
-                setSliceActivatedChanged(true);
-                m_selectionDirty = true;
-            } else {
-                setSliceActivatedChanged(true);
-                m_selectionDirty = false;
-            }
-        }
-        if (m_barsController->optimizationHint() == QAbstract3DGraph::OptimizationHint::Legacy) {
-            barList.at(i)->visualIndex = visualIndex;
-            barList.at(i)->model->setVisible(series->isVisible());
-        } else if (m_barsController->optimizationHint() == QAbstract3DGraph::OptimizationHint::Default) {
-            barList.at(i)->visualIndex = visualIndex;
-            barList.at(i)->model->setVisible(series->isVisible());
+        barList.at(i)->visualIndex = visualIndex;
+        barList.at(i)->model->setVisible(series->isVisible());
+        if (m_barsController->optimizationHint() == QAbstract3DGraph::OptimizationHint::Default) {
             if (m_selectedBarSeries == series && !series->isVisible()) {
                 for (const auto list : std::as_const(m_selectedModels)) {
                     for (auto selectedModel : *list)
@@ -925,6 +914,7 @@ void QQuickGraphsBars::updateBarVisuality(QBar3DSeries *series, int visualIndex)
         }
     }
 
+    m_barsController->m_changeTracker.selectedBarChanged = true;
     itemLabel()->setVisible(false);
 }
 
@@ -1750,6 +1740,7 @@ void QQuickGraphsBars::resetClickedStatus()
                 bih->selectedBar = false;
         }
     }
+
     if (sliceView() && sliceView()->isVisible())
         setSliceActivatedChanged(true);
     m_barsController->setSeriesVisualsDirty(true);
@@ -1772,11 +1763,22 @@ void QQuickGraphsBars::createSliceView()
             m_slicedBarModels[barSeries] = slicedBarList;
         }
         if (slicedBarList->isEmpty()) {
+            int dataRowIndex = m_minRow;
+            int newRowSize = qMin(barSeries->dataProxy()->rowCount() - dataRowIndex, m_newRows);
+            int newColSize = 0;
+            if (newRowSize) {
+                const QBarDataRow *dataRow = barSeries->dataProxy()->rowAt(dataRowIndex);
+                if (dataRow) {
+                    int dataColIndex = m_minCol;
+                    newColSize = qMin(dataRow->size() - dataColIndex, m_newCols);
+                }
+            }
             int slicedBarListSize = 0;
+
             if (m_selectionMode.testFlag(QAbstract3DGraph::SelectionRow))
-                slicedBarListSize = barSeries->dataProxy()->colCount();
+                slicedBarListSize = newColSize;
             else if (m_selectionMode.testFlag(QAbstract3DGraph::SelectionColumn))
-                slicedBarListSize = barSeries->dataProxy()->rowCount();
+                slicedBarListSize = newRowSize;
 
             for (int ind = 0; ind < slicedBarListSize; ++ind) {
                 QQuick3DModel *model = createDataItem(sliceParent->scene(), barSeries);
@@ -1951,7 +1953,6 @@ void QQuickGraphsBars::removeSelectedModels()
 
 void QQuickGraphsBars::updateSelectionMode(QAbstract3DGraph::SelectionFlags mode)
 {
-    m_barsController->m_changeTracker.selectedBarChanged = true;
     checkSliceEnabled();
     if (mode.testFlag(QAbstract3DGraph::SelectionSlice) && m_selectedBarSeries) {
         setSliceActivatedChanged(true);
