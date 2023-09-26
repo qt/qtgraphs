@@ -173,7 +173,14 @@ void Q3DBars::insertSeries(int index, QBar3DSeries *series)
  */
 QList<QBar3DSeries *> Q3DBars::seriesList() const
 {
-    return dptrc()->m_barsController->barSeriesList();
+    QList<QBar3DSeries *> barSeriesList;
+    for (QAbstract3DSeries *abstractSeries : dptrc()->m_seriesList) {
+        QBar3DSeries *barSeries = qobject_cast<QBar3DSeries *>(abstractSeries);
+        if (barSeries)
+            barSeriesList.append(barSeries);
+    }
+
+    return barSeriesList;
 }
 
 /*!
@@ -395,7 +402,7 @@ float Q3DBars::floorLevel() const
  */
 void Q3DBars::addAxis(QAbstract3DAxis *axis)
 {
-    dptr()->m_barsController->addAxis(axis);
+    dptr()->addAxis(axis);
 }
 
 /*!
@@ -410,7 +417,7 @@ void Q3DBars::addAxis(QAbstract3DAxis *axis)
  */
 void Q3DBars::releaseAxis(QAbstract3DAxis *axis)
 {
-    dptr()->m_barsController->releaseAxis(axis);
+    dptr()->releaseAxis(axis);
 }
 
 /*!
@@ -420,7 +427,7 @@ void Q3DBars::releaseAxis(QAbstract3DAxis *axis)
  */
 QList<QAbstract3DAxis *> Q3DBars::axes() const
 {
-    return dptrc()->m_barsController->axes();
+    return dptrc()->axes();
 }
 
 /*!

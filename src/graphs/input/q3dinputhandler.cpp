@@ -3,7 +3,7 @@
 
 #include "graphsglobal_p.h"
 #include "q3dinputhandler_p.h"
-#include "abstract3dcontroller_p.h"
+#include "qquickgraphsitem_p.h"
 
 QT_BEGIN_NAMESPACE
 
@@ -246,9 +246,9 @@ void Q3DInputHandler::wheelEvent(QWheelEvent *event)
         zoomLevel = qBound(minZoomLevel, zoomLevel, maxZoomLevel);
 
         if (isZoomAtTargetEnabled()) {
-            if (!d->m_controller)
+            if (!d->m_graph)
                 d->handleSceneChange(scene());
-            d->m_controller->setGraphPositionQueryPending(true);
+            d->m_graph->setGraphPositionQueryPending(true);
             scene()->setGraphPositionQuery(event->position().toPoint());
             d->m_zoomAtTargetPending = true;
             // If zoom at target is enabled, we don't want to zoom yet, as that causes
@@ -358,7 +358,7 @@ Q3DInputHandlerPrivate::Q3DInputHandlerPrivate(Q3DInputHandler *q)
       m_selectionEnabled(true),
       m_zoomAtTargetEnabled(true),
       m_zoomAtTargetPending(false),
-      m_controller(0),
+      m_graph(0),
       m_requestedZoomLevel(0.0f),
       m_driftMultiplier(0.0f)
 {
@@ -371,14 +371,14 @@ Q3DInputHandlerPrivate::~Q3DInputHandlerPrivate()
 void Q3DInputHandlerPrivate::handleSceneChange(Q3DScene *scene)
 {
     if (scene) {
-        if (m_controller) {
-            QObject::disconnect(m_controller, &Abstract3DController::queriedGraphPositionChanged,
+        if (m_graph) {
+            QObject::disconnect(m_graph, &QQuickGraphsItem::queriedGraphPositionChanged,
                                 this, &Q3DInputHandlerPrivate::handleQueriedGraphPositionChange);
         }
 
-        m_controller = qobject_cast<Abstract3DController *>(scene->parent());
-        if (m_controller) {
-            QObject::connect(m_controller, &Abstract3DController::queriedGraphPositionChanged,
+        m_graph = qobject_cast<QQuickGraphsItem *>(scene->parent());
+        if (m_graph) {
+            QObject::connect(m_graph, &QQuickGraphsItem::queriedGraphPositionChanged,
                              this, &Q3DInputHandlerPrivate::handleQueriedGraphPositionChange);
         }
     }
@@ -388,7 +388,7 @@ void Q3DInputHandlerPrivate::handleQueriedGraphPositionChange()
 {
     if (m_zoomAtTargetPending) {
         // Check if the zoom point is on graph
-        QVector3D newTarget = m_controller->queriedGraphPosition();
+        QVector3D newTarget = m_graph->queriedGraphPosition();
         float currentZoom = m_requestedZoomLevel;
         float previousZoom = q_ptr->item()->cameraZoomLevel();
         q_ptr->item()->setCameraZoomLevel(currentZoom);

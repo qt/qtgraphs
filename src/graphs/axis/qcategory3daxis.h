@@ -26,8 +26,8 @@ public:
 private:
     Q_DISABLE_COPY(QCategory3DAxis)
 
-    friend class Bars3DController;
-    friend class Abstract3DController;
+    friend class QQuickGraphsBars;
+    friend class QQuickGraphsItem;
 };
 
 QT_END_NAMESPACE

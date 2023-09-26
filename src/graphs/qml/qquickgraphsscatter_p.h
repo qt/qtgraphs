@@ -14,7 +14,7 @@
 
 #include "qscatter3dseries.h"
 #include "qquickgraphsitem_p.h"
-#include "scatter3dcontroller_p.h"
+#include "qvalue3daxis.h"
 #include "scatterinstancing_p.h"
 
 #include <private/graphsglobal_p.h>
@@ -23,6 +23,17 @@
 QT_BEGIN_NAMESPACE
 
 class Q3DScatter;
+
+struct Scatter3DChangeBitField {
+    bool selectedItemChanged : 1;
+    bool itemChanged         : 1;
+
+    Scatter3DChangeBitField() :
+        selectedItemChanged(true),
+        itemChanged(false)
+    {
+    }
+};
 
 class QQuickGraphsScatter : public QQuickGraphsItem
 {
@@ -40,24 +51,46 @@ public:
     explicit QQuickGraphsScatter(QQuickItem *parent = 0);
     ~QQuickGraphsScatter();
 
-    QValue3DAxis *axisX() const;
+    struct ChangeItem {
+        QScatter3DSeries *series;
+        int index;
+    };
+
     void setAxisX(QValue3DAxis *axis);
-    QValue3DAxis *axisY() const;
+    QValue3DAxis *axisX() const;
     void setAxisY(QValue3DAxis *axis);
-    QValue3DAxis *axisZ() const;
+    QValue3DAxis *axisY() const;
     void setAxisZ(QValue3DAxis *axis);
+    QValue3DAxis *axisZ() const;
 
     QQmlListProperty<QScatter3DSeries> seriesList();
     static void appendSeriesFunc(QQmlListProperty<QScatter3DSeries> *list, QScatter3DSeries *series);
     static qsizetype countSeriesFunc(QQmlListProperty<QScatter3DSeries> *list);
     static QScatter3DSeries *atSeriesFunc(QQmlListProperty<QScatter3DSeries> *list, qsizetype index);
     static void clearSeriesFunc(QQmlListProperty<QScatter3DSeries> *list);
+    Q_INVOKABLE virtual void clearSelection() override;
     Q_INVOKABLE void addSeries(QScatter3DSeries *series);
     Q_INVOKABLE void removeSeries(QScatter3DSeries *series);
+    QList<QScatter3DSeries *> scatterSeriesList();
 
     QScatter3DSeries *selectedSeries() const;
     void setSelectedItem(int index, QScatter3DSeries *series);
     static inline int invalidSelectionIndex() { return -1; }
+    virtual void setSelectionMode(QAbstract3DGraph::SelectionFlags mode) override;
+
+    inline bool hasSelectedItemChanged() const { return m_changeTracker.selectedItemChanged; }
+    inline void setSelectedItemChanged(bool changed) { m_changeTracker.selectedItemChanged = changed; }
+    inline bool hasItemChanged() const { return m_changeTracker.itemChanged; }
+    inline void setItemChanged(bool changed) { m_changeTracker.itemChanged = changed; }
+
+    void handleAxisAutoAdjustRangeChangedInOrientation(
+        QAbstract3DAxis::AxisOrientation orientation, bool autoAdjust) override;
+    void handleAxisRangeChangedBySender(QObject *sender) override;
+    void adjustAxisRanges() override;
+    inline bool hasChangedSeriesList() const { return !m_changedSeriesList.empty(); }
+    inline bool isSeriesVisualsDirty() const { return m_isSeriesVisualsDirty; }
+    inline void setSeriesVisualsDirty() { m_isSeriesVisualsDirty = true; }
+    inline bool isDataDirty() const { return m_isDataDirty; }
 
 public Q_SLOTS:
     void handleAxisXChanged(QAbstract3DAxis *axis) override;
@@ -65,6 +98,12 @@ public Q_SLOTS:
     void handleAxisZChanged(QAbstract3DAxis *axis) override;
     void handleSeriesMeshChanged();
     void handleMeshSmoothChanged(bool enable);
+
+    void handleArrayReset();
+    void handleItemsAdded(int startIndex, int count);
+    void handleItemsChanged(int startIndex, int count);
+    void handleItemsRemoved(int startIndex, int count);
+    void handleItemsInserted(int startIndex, int count);
 
 Q_SIGNALS:
     void axisXChanged(QValue3DAxis *axis);
@@ -80,8 +119,35 @@ protected:
     bool doPicking(const QPointF &position) override;
     void updateShadowQuality(QAbstract3DGraph::ShadowQuality quality) override;
     void updateLightStrength() override;
+    void startRecordingRemovesAndInserts() override;
 
 private:
+    Scatter3DChangeBitField m_changeTracker;
+    QList<ChangeItem> m_changedItems;
+
+    struct InsertRemoveRecord {
+        bool m_isInsert;
+        int m_startIndex;
+        int m_count;
+        QAbstract3DSeries *m_series;
+
+        InsertRemoveRecord() :
+            m_isInsert(false),
+            m_startIndex(0),
+            m_count(0),
+            m_series(0)
+        {}
+
+        InsertRemoveRecord(bool isInsert, int startIndex, int count, QAbstract3DSeries *series) :
+            m_isInsert(isInsert),
+            m_startIndex(startIndex),
+            m_count(count),
+            m_series(series)
+        {}
+    };
+
+    QList<InsertRemoveRecord> m_insertRemoveRecords;
+    bool m_recordInsertsAndRemoves;
 
     struct ScatterModel {
         QList <QQuick3DModel *> dataItems;
@@ -96,7 +162,6 @@ private:
 
     };
 
-    Scatter3DController *m_scatterController;
     float m_maxItemSize = 0.0f;
 
     const float m_defaultMinSize = 0.01f;
@@ -131,7 +196,6 @@ private:
     void connectSeries(QScatter3DSeries *series);
     void disconnectSeries(QScatter3DSeries *series);
     qsizetype getItemIndex(QQuick3DModel *item);
-//    void clearSelection();
     QVector3D selectedItemPosition();
 
     bool m_smooth = false;

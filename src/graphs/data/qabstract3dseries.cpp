@@ -3,7 +3,7 @@
 
 #include "qabstract3dseries_p.h"
 #include "qabstractdataproxy_p.h"
-#include "abstract3dcontroller_p.h"
+#include "qquickgraphsitem_p.h"
 #include "utils_p.h"
 
 QT_BEGIN_NAMESPACE
@@ -667,7 +667,7 @@ QAbstract3DSeriesPrivate::QAbstract3DSeriesPrivate(QAbstract3DSeries *q,
       m_type(type),
       m_dataProxy(0),
       m_visible(true),
-      m_controller(0),
+      m_graph(0),
       m_mesh(QAbstract3DSeries::Mesh::Cube),
       m_meshSmooth(false),
       m_colorStyle(Q3DTheme::ColorStyle::Uniform),
@@ -698,18 +698,18 @@ void QAbstract3DSeriesPrivate::setDataProxy(QAbstractDataProxy *proxy)
 
     proxy->d_func()->setSeries(q); // also sets parent
 
-    if (m_controller) {
-        connectControllerAndProxy(m_controller);
-        m_controller->markDataDirty();
+    if (m_graph) {
+        connectGraphAndProxy(m_graph);
+        m_graph->markDataDirty();
     }
 }
 
-void QAbstract3DSeriesPrivate::setController(Abstract3DController *controller)
+void QAbstract3DSeriesPrivate::setGraph(QQuickGraphsItem *graph)
 {
     Q_Q(QAbstract3DSeries);
-    connectControllerAndProxy(controller);
-    m_controller = controller;
-    q->setParent(controller);
+    connectGraphAndProxy(graph);
+    m_graph = graph;
+    q->setParent(graph);
     markItemLabelDirty();
 }
 
@@ -729,11 +729,11 @@ void QAbstract3DSeriesPrivate::setMesh(QAbstract3DSeries::Mesh mesh)
 {
     m_mesh = mesh;
     m_changeTracker.meshChanged = true;
-    if (m_controller) {
-        m_controller->markSeriesVisualsDirty();
+    if (m_graph) {
+        m_graph->markSeriesVisualsDirty();
 
-        if (m_controller->optimizationHint() == QAbstract3DGraph::OptimizationHint::Default)
-            m_controller->markDataDirty();
+        if (m_graph->optimizationHint() == QAbstract3DGraph::OptimizationHint::Default)
+            m_graph->markDataDirty();
     }
 }
 
@@ -741,11 +741,11 @@ void QAbstract3DSeriesPrivate::setMeshSmooth(bool enable)
 {
     m_meshSmooth = enable;
     m_changeTracker.meshSmoothChanged = true;
-    if (m_controller) {
-        m_controller->markSeriesVisualsDirty();
+    if (m_graph) {
+        m_graph->markSeriesVisualsDirty();
 
-        if (m_controller->optimizationHint() == QAbstract3DGraph::OptimizationHint::Default)
-            m_controller->markDataDirty();
+        if (m_graph->optimizationHint() == QAbstract3DGraph::OptimizationHint::Default)
+            m_graph->markDataDirty();
     }
 }
 
@@ -753,11 +753,11 @@ void QAbstract3DSeriesPrivate::setMeshRotation(const QQuaternion &rotation)
 {
     m_meshRotation = rotation;
     m_changeTracker.meshRotationChanged = true;
-    if (m_controller) {
-        m_controller->markSeriesVisualsDirty();
+    if (m_graph) {
+        m_graph->markSeriesVisualsDirty();
 
-        if (m_controller->optimizationHint() == QAbstract3DGraph::OptimizationHint::Default)
-            m_controller->markDataDirty();
+        if (m_graph->optimizationHint() == QAbstract3DGraph::OptimizationHint::Default)
+            m_graph->markDataDirty();
     }
 }
 
@@ -765,11 +765,11 @@ void QAbstract3DSeriesPrivate::setUserDefinedMesh(const QString &meshFile)
 {
     m_userDefinedMesh = meshFile;
     m_changeTracker.userDefinedMeshChanged = true;
-    if (m_controller) {
-        m_controller->markSeriesVisualsDirty();
+    if (m_graph) {
+        m_graph->markSeriesVisualsDirty();
 
-        if (m_controller->optimizationHint() == QAbstract3DGraph::OptimizationHint::Default)
-            m_controller->markDataDirty();
+        if (m_graph->optimizationHint() == QAbstract3DGraph::OptimizationHint::Default)
+            m_graph->markDataDirty();
     }
 }
 
@@ -777,16 +777,16 @@ void QAbstract3DSeriesPrivate::setColorStyle(Q3DTheme::ColorStyle style)
 {
     m_colorStyle = style;
     m_changeTracker.colorStyleChanged = true;
-    if (m_controller)
-        m_controller->markSeriesVisualsDirty();
+    if (m_graph)
+        m_graph->markSeriesVisualsDirty();
 }
 
 void QAbstract3DSeriesPrivate::setBaseColor(const QColor &color)
 {
     m_baseColor = color;
     m_changeTracker.baseColorChanged = true;
-    if (m_controller)
-        m_controller->markSeriesVisualsDirty();
+    if (m_graph)
+        m_graph->markSeriesVisualsDirty();
 }
 
 void QAbstract3DSeriesPrivate::setBaseGradient(const QLinearGradient &gradient)
@@ -794,16 +794,16 @@ void QAbstract3DSeriesPrivate::setBaseGradient(const QLinearGradient &gradient)
     m_baseGradient = gradient;
     Utils::verifyGradientCompleteness(m_baseGradient);
     m_changeTracker.baseGradientChanged = true;
-    if (m_controller)
-        m_controller->markSeriesVisualsDirty();
+    if (m_graph)
+        m_graph->markSeriesVisualsDirty();
 }
 
 void QAbstract3DSeriesPrivate::setSingleHighlightColor(const QColor &color)
 {
     m_singleHighlightColor = color;
     m_changeTracker.singleHighlightColorChanged = true;
-    if (m_controller)
-        m_controller->markSeriesVisualsDirty();
+    if (m_graph)
+        m_graph->markSeriesVisualsDirty();
 }
 
 void QAbstract3DSeriesPrivate::setSingleHighlightGradient(const QLinearGradient &gradient)
@@ -811,16 +811,16 @@ void QAbstract3DSeriesPrivate::setSingleHighlightGradient(const QLinearGradient 
     m_singleHighlightGradient = gradient;
     Utils::verifyGradientCompleteness(m_singleHighlightGradient);
     m_changeTracker.singleHighlightGradientChanged = true;
-    if (m_controller)
-        m_controller->markSeriesVisualsDirty();
+    if (m_graph)
+        m_graph->markSeriesVisualsDirty();
 }
 
 void QAbstract3DSeriesPrivate::setMultiHighlightColor(const QColor &color)
 {
     m_multiHighlightColor = color;
     m_changeTracker.multiHighlightColorChanged = true;
-    if (m_controller)
-        m_controller->markSeriesVisualsDirty();
+    if (m_graph)
+        m_graph->markSeriesVisualsDirty();
 }
 
 void QAbstract3DSeriesPrivate::setMultiHighlightGradient(const QLinearGradient &gradient)
@@ -828,8 +828,8 @@ void QAbstract3DSeriesPrivate::setMultiHighlightGradient(const QLinearGradient &
     m_multiHighlightGradient = gradient;
     Utils::verifyGradientCompleteness(m_multiHighlightGradient);
     m_changeTracker.multiHighlightGradientChanged = true;
-    if (m_controller)
-        m_controller->markSeriesVisualsDirty();
+    if (m_graph)
+        m_graph->markSeriesVisualsDirty();
 }
 
 void QAbstract3DSeriesPrivate::setName(const QString &name)
@@ -882,7 +882,7 @@ QString QAbstract3DSeriesPrivate::itemLabel()
     Q_Q(QAbstract3DSeries);
     if (m_itemLabelDirty) {
         QString oldLabel = m_itemLabel;
-        if (m_controller && m_visible)
+        if (m_graph && m_visible)
             createItemLabel();
         else
             m_itemLabel = QString();

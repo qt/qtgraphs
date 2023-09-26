@@ -111,7 +111,14 @@ void Q3DScatter::removeSeries(QScatter3DSeries *series)
  */
 QList<QScatter3DSeries *> Q3DScatter::seriesList() const
 {
-    return dptrc()->m_scatterController->scatterSeriesList();
+    QList<QScatter3DSeries *> scatterSeriesList;
+    for (QAbstract3DSeries *abstractSeries : dptrc()->m_seriesList) {
+        QScatter3DSeries *scatterSeries = qobject_cast<QScatter3DSeries *>(abstractSeries);
+        if (scatterSeries)
+            scatterSeriesList.append(scatterSeries);
+    }
+
+    return scatterSeriesList;
 }
 
 /*!
@@ -205,7 +212,7 @@ QScatter3DSeries *Q3DScatter::selectedSeries() const
  */
 void Q3DScatter::addAxis(QValue3DAxis *axis)
 {
-    dptr()->m_scatterController->addAxis(axis);
+    dptr()->addAxis(axis);
 }
 
 /*!
@@ -220,7 +227,7 @@ void Q3DScatter::addAxis(QValue3DAxis *axis)
  */
 void Q3DScatter::releaseAxis(QValue3DAxis *axis)
 {
-    dptr()->m_scatterController->releaseAxis(axis);
+    dptr()->releaseAxis(axis);
 }
 
 /*!
@@ -230,7 +237,7 @@ void Q3DScatter::releaseAxis(QValue3DAxis *axis)
  */
 QList<QValue3DAxis *> Q3DScatter::axes() const
 {
-    QList<QAbstract3DAxis *> abstractAxes = dptrc()->m_scatterController->axes();
+    QList<QAbstract3DAxis *> abstractAxes = dptrc()->axes();
     QList<QValue3DAxis *> retList;
     for (QAbstract3DAxis *axis : abstractAxes)
         retList.append(static_cast<QValue3DAxis *>(axis));

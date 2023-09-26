@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 
 #include "qsurface3dseries_p.h"
-#include "surface3dcontroller_p.h"
+#include "qquickgraphssurface_p.h"
 #include "qvalue3daxis.h"
 #include "qcategory3daxis.h"
 
@@ -241,9 +241,9 @@ QSurfaceDataProxy *QSurface3DSeries::dataProxy() const
 void QSurface3DSeries::setSelectedPoint(const QPoint &position)
 {
     Q_D(QSurface3DSeries);
-    // Don't do this in private to avoid loops, as that is used for callback from controller.
-    if (d->m_controller)
-        static_cast<Surface3DController *>(d->m_controller)->setSelectedPoint(position, this, true);
+    // Don't do this in private to avoid loops, as that is used for callback from graph.
+    if (d->m_graph)
+        static_cast<QQuickGraphsSurface *>(d->m_graph)->setSelectedPoint(position, this, true);
     else
         d->setSelectedPoint(position);
 }
@@ -262,7 +262,7 @@ QPoint QSurface3DSeries::selectedPoint() const
  */
 QPoint QSurface3DSeries::invalidSelectionPosition()
 {
-    return Surface3DController::invalidSelectionPosition();
+    return QQuickGraphsSurface::invalidSelectionPosition();
 }
 
 /*!
@@ -307,8 +307,8 @@ bool QSurface3DSeries::isFlatShadingEnabled() const
 bool QSurface3DSeries::isFlatShadingSupported() const
 {
     const Q_D(QSurface3DSeries);
-    if (d->m_controller)
-        return static_cast<Surface3DController *>(d->m_controller)->isFlatShadingSupported();
+    if (d->m_graph)
+        return static_cast<QQuickGraphsSurface *>(d->m_graph)->isFlatShadingSupported();
     else
         return true;
 }
@@ -416,7 +416,7 @@ QColor QSurface3DSeries::wireframeColor() const
 
 QSurface3DSeriesPrivate::QSurface3DSeriesPrivate(QSurface3DSeries *q)
     : QAbstract3DSeriesPrivate(q, QAbstract3DSeries::SeriesType::Surface),
-      m_selectedPoint(Surface3DController::invalidSelectionPosition()),
+      m_selectedPoint(QQuickGraphsSurface::invalidSelectionPosition()),
       m_flatShadingEnabled(true),
       m_drawMode(QSurface3DSeries::DrawSurfaceAndWireframe),
       m_wireframeColor(Qt::black)
@@ -439,34 +439,34 @@ void QSurface3DSeriesPrivate::setDataProxy(QAbstractDataProxy *proxy)
     emit q->dataProxyChanged(static_cast<QSurfaceDataProxy *>(proxy));
 }
 
-void QSurface3DSeriesPrivate::connectControllerAndProxy(Abstract3DController *newController)
+void QSurface3DSeriesPrivate::connectGraphAndProxy(QQuickGraphsItem *newGraph)
 {
     Q_Q(QSurface3DSeries);
     QSurfaceDataProxy *surfaceDataProxy = static_cast<QSurfaceDataProxy *>(m_dataProxy);
 
-    if (m_controller && surfaceDataProxy) {
-        //Disconnect old controller/old proxy
-        QObject::disconnect(surfaceDataProxy, 0, m_controller, 0);
-        QObject::disconnect(q_ptr, 0, m_controller, 0);
+    if (m_graph && surfaceDataProxy) {
+        //Disconnect old graph/old proxy
+        QObject::disconnect(surfaceDataProxy, 0, m_graph, 0);
+        QObject::disconnect(q_ptr, 0, m_graph, 0);
     }
 
-    if (newController && surfaceDataProxy) {
-        Surface3DController *controller = static_cast<Surface3DController *>(newController);
+    if (newGraph && surfaceDataProxy) {
+        QQuickGraphsSurface *graph = static_cast<QQuickGraphsSurface *>(newGraph);
 
-        QObject::connect(surfaceDataProxy, &QSurfaceDataProxy::arrayReset, controller,
-                         &Surface3DController::handleArrayReset);
-        QObject::connect(surfaceDataProxy, &QSurfaceDataProxy::rowsAdded, controller,
-                         &Surface3DController::handleRowsAdded);
-        QObject::connect(surfaceDataProxy, &QSurfaceDataProxy::rowsChanged, controller,
-                         &Surface3DController::handleRowsChanged);
-        QObject::connect(surfaceDataProxy, &QSurfaceDataProxy::rowsRemoved, controller,
-                         &Surface3DController::handleRowsRemoved);
-        QObject::connect(surfaceDataProxy, &QSurfaceDataProxy::rowsInserted, controller,
-                         &Surface3DController::handleRowsInserted);
-        QObject::connect(surfaceDataProxy, &QSurfaceDataProxy::itemChanged, controller,
-                         &Surface3DController::handleItemChanged);
-        QObject::connect(q, &QSurface3DSeries::dataProxyChanged, controller,
-                         &Surface3DController::handleArrayReset);
+        QObject::connect(surfaceDataProxy, &QSurfaceDataProxy::arrayReset, graph,
+                         &QQuickGraphsSurface::handleArrayReset);
+        QObject::connect(surfaceDataProxy, &QSurfaceDataProxy::rowsAdded, graph,
+                         &QQuickGraphsSurface::handleRowsAdded);
+        QObject::connect(surfaceDataProxy, &QSurfaceDataProxy::rowsChanged, graph,
+                         &QQuickGraphsSurface::handleRowsChanged);
+        QObject::connect(surfaceDataProxy, &QSurfaceDataProxy::rowsRemoved, graph,
+                         &QQuickGraphsSurface::handleRowsRemoved);
+        QObject::connect(surfaceDataProxy, &QSurfaceDataProxy::rowsInserted, graph,
+                         &QQuickGraphsSurface::handleRowsInserted);
+        QObject::connect(surfaceDataProxy, &QSurfaceDataProxy::itemChanged, graph,
+                         &QQuickGraphsSurface::handleItemChanged);
+        QObject::connect(q, &QSurface3DSeries::dataProxyChanged, graph,
+                         &QQuickGraphsSurface::handleArrayReset);
     }
 }
 
@@ -486,9 +486,9 @@ void QSurface3DSeriesPrivate::createItemLabel()
         return;
     }
 
-    QValue3DAxis *axisX = static_cast<QValue3DAxis *>(m_controller->axisX());
-    QValue3DAxis *axisY = static_cast<QValue3DAxis *>(m_controller->axisY());
-    QValue3DAxis *axisZ = static_cast<QValue3DAxis *>(m_controller->axisZ());
+    QValue3DAxis *axisX = static_cast<QValue3DAxis *>(m_graph->axisX());
+    QValue3DAxis *axisY = static_cast<QValue3DAxis *>(m_graph->axisY());
+    QValue3DAxis *axisZ = static_cast<QValue3DAxis *>(m_graph->axisZ());
     QVector3D selectedPosition = q->dataProxy()->itemAt(m_selectedPoint).position();
 
     m_itemLabel = m_itemLabelFormat;
@@ -528,8 +528,8 @@ void QSurface3DSeriesPrivate::setSelectedPoint(const QPoint &position)
 void QSurface3DSeriesPrivate::setFlatShadingEnabled(bool enabled)
 {
     m_flatShadingEnabled = enabled;
-    if (m_controller)
-        m_controller->markSeriesVisualsDirty();
+    if (m_graph)
+        m_graph->markSeriesVisualsDirty();
 }
 
 void QSurface3DSeriesPrivate::setDrawMode(QSurface3DSeries::DrawFlags mode)
@@ -537,8 +537,8 @@ void QSurface3DSeriesPrivate::setDrawMode(QSurface3DSeries::DrawFlags mode)
     if (mode.testFlag(QSurface3DSeries::DrawWireframe)
             || mode.testFlag(QSurface3DSeries::DrawSurface)) {
         m_drawMode = mode;
-        if (m_controller)
-            m_controller->markSeriesVisualsDirty();
+        if (m_graph)
+            m_graph->markSeriesVisualsDirty();
     } else {
         qWarning("You may not clear all draw flags. Mode not changed.");
     }
@@ -548,15 +548,15 @@ void QSurface3DSeriesPrivate::setTexture(const QImage &texture)
 {
     Q_Q(QSurface3DSeries);
     m_texture = texture;
-    if (static_cast<Surface3DController *>(m_controller))
-        static_cast<Surface3DController *>(m_controller)->updateSurfaceTexture(q);
+    if (static_cast<QQuickGraphsSurface *>(m_graph))
+        static_cast<QQuickGraphsSurface *>(m_graph)->updateSurfaceTexture(q);
 }
 
 void QSurface3DSeriesPrivate::setWireframeColor(const QColor &color)
 {
     m_wireframeColor = color;
-    if (m_controller)
-        m_controller->markSeriesVisualsDirty();
+    if (m_graph)
+        m_graph->markSeriesVisualsDirty();
 }
 
 QT_END_NAMESPACE

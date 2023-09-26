@@ -79,7 +79,6 @@ private:
     Q_DISABLE_COPY(Q3DScene)
 
     friend class QAbstract3DGraph;
-    friend class Abstract3DController;
     friend class QQuickGraphsItem;
 };
 

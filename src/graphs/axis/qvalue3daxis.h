@@ -59,10 +59,10 @@ Q_SIGNALS:
 
 private:
     Q_DISABLE_COPY(QValue3DAxis)
-    friend class Abstract3DController;
-    friend class Bars3DController;
-    friend class Scatter3DController;
-    friend class Surface3DController;
+    friend class QQuickGraphsItem;
+    friend class QQuickGraphsBars;
+    friend class QQuickGraphsScatter;
+    friend class QQuickGraphsSurface;
     friend class QValue3DAxisFormatterPrivate;
 };
 

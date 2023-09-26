@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 
 #include "qscatter3dseries_p.h"
-#include "scatter3dcontroller_p.h"
+#include "qquickgraphsscatter_p.h"
 #include "qvalue3daxis.h"
 #include "qcategory3daxis.h"
 
@@ -190,9 +190,9 @@ QScatterDataProxy *QScatter3DSeries::dataProxy() const
 void QScatter3DSeries::setSelectedItem(int index)
 {
     Q_D(QScatter3DSeries);
-    // Don't do this in private to avoid loops, as that is used for callback from controller.
-    if (d->m_controller)
-        static_cast<Scatter3DController *>(d->m_controller)->setSelectedItem(index, this);
+    // Don't do this in private to avoid loops, as that is used for callback from graph.
+    if (d->m_graph)
+        static_cast<QQuickGraphsScatter *>(d->m_graph)->setSelectedItem(index, this);
     else
         d->setSelectedItem(index);
 }
@@ -239,14 +239,14 @@ float QScatter3DSeries::itemSize() const
  */
 int QScatter3DSeries::invalidSelectionIndex()
 {
-    return Scatter3DController::invalidSelectionIndex();
+    return QQuickGraphsScatter::invalidSelectionIndex();
 }
 
 // QScatter3DSeriesPrivate
 
 QScatter3DSeriesPrivate::QScatter3DSeriesPrivate(QScatter3DSeries *q)
     : QAbstract3DSeriesPrivate(q, QAbstract3DSeries::SeriesType::Scatter),
-      m_selectedItem(Scatter3DController::invalidSelectionIndex()),
+      m_selectedItem(QQuickGraphsScatter::invalidSelectionIndex()),
       m_itemSize(0.0f)
 {
     m_itemLabelFormat = QStringLiteral("@xLabel, @yLabel, @zLabel");
@@ -267,31 +267,31 @@ void QScatter3DSeriesPrivate::setDataProxy(QAbstractDataProxy *proxy)
     emit q->dataProxyChanged(static_cast<QScatterDataProxy *>(proxy));
 }
 
-void QScatter3DSeriesPrivate::connectControllerAndProxy(Abstract3DController *newController)
+void QScatter3DSeriesPrivate::connectGraphAndProxy(QQuickGraphsItem *newGraph)
 {
     Q_Q(QScatter3DSeries);
     QScatterDataProxy *scatterDataProxy = static_cast<QScatterDataProxy *>(m_dataProxy);
 
-    if (m_controller && scatterDataProxy) {
-        //Disconnect old controller/old proxy
-        QObject::disconnect(scatterDataProxy, 0, m_controller, 0);
-        QObject::disconnect(q_ptr, 0, m_controller, 0);
+    if (m_graph && scatterDataProxy) {
+        //Disconnect old graph/old proxy
+        QObject::disconnect(scatterDataProxy, 0, m_graph, 0);
+        QObject::disconnect(q_ptr, 0, m_graph, 0);
     }
 
-    if (newController && scatterDataProxy) {
-        Scatter3DController *controller = static_cast<Scatter3DController *>(newController);
+    if (newGraph && scatterDataProxy) {
+        QQuickGraphsScatter *graph = static_cast<QQuickGraphsScatter *>(newGraph);
         QObject::connect(scatterDataProxy, &QScatterDataProxy::arrayReset,
-                         controller, &Scatter3DController::handleArrayReset);
+                         graph, &QQuickGraphsScatter::handleArrayReset);
         QObject::connect(scatterDataProxy, &QScatterDataProxy::itemsAdded,
-                         controller, &Scatter3DController::handleItemsAdded);
+                         graph, &QQuickGraphsScatter::handleItemsAdded);
         QObject::connect(scatterDataProxy, &QScatterDataProxy::itemsChanged,
-                         controller, &Scatter3DController::handleItemsChanged);
+                         graph, &QQuickGraphsScatter::handleItemsChanged);
         QObject::connect(scatterDataProxy, &QScatterDataProxy::itemsRemoved,
-                         controller, &Scatter3DController::handleItemsRemoved);
+                         graph, &QQuickGraphsScatter::handleItemsRemoved);
         QObject::connect(scatterDataProxy, &QScatterDataProxy::itemsInserted,
-                         controller, &Scatter3DController::handleItemsInserted);
+                         graph, &QQuickGraphsScatter::handleItemsInserted);
         QObject::connect(q, &QScatter3DSeries::dataProxyChanged,
-                         controller, &Scatter3DController::handleArrayReset);
+                         graph, &QQuickGraphsScatter::handleArrayReset);
     }
 }
 
@@ -311,9 +311,9 @@ void QScatter3DSeriesPrivate::createItemLabel()
         return;
     }
 
-    QValue3DAxis *axisX = static_cast<QValue3DAxis *>(m_controller->axisX());
-    QValue3DAxis *axisY = static_cast<QValue3DAxis *>(m_controller->axisY());
-    QValue3DAxis *axisZ = static_cast<QValue3DAxis *>(m_controller->axisZ());
+    QValue3DAxis *axisX = static_cast<QValue3DAxis *>(m_graph->axisX());
+    QValue3DAxis *axisY = static_cast<QValue3DAxis *>(m_graph->axisY());
+    QValue3DAxis *axisZ = static_cast<QValue3DAxis *>(m_graph->axisZ());
     QVector3D selectedPosition = q->dataProxy()->itemAt(m_selectedItem).position();
 
     m_itemLabel = m_itemLabelFormat;
@@ -353,8 +353,8 @@ void QScatter3DSeriesPrivate::setSelectedItem(int index)
 void QScatter3DSeriesPrivate::setItemSize(float size)
 {
     m_itemSize = size;
-    if (m_controller)
-        m_controller->markSeriesVisualsDirty();
+    if (m_graph)
+        m_graph->markSeriesVisualsDirty();
 }
 
 QT_END_NAMESPACE

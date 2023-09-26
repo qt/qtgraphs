@@ -19,7 +19,7 @@
 
 QT_BEGIN_NAMESPACE
 
-class Abstract3DController;
+class QQuickGraphsItem;
 
 class Q3DInputHandlerPrivate : public QAbstract3DInputHandlerPrivate
 {
@@ -40,7 +40,7 @@ protected:
     bool m_zoomAtTargetEnabled;
     bool m_zoomAtTargetPending;
 
-    Abstract3DController *m_controller; // Not owned
+    QQuickGraphsItem *m_graph; // Not owned
 
     float m_requestedZoomLevel;
     float m_driftMultiplier;

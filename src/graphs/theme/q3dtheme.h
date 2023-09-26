@@ -242,7 +242,6 @@ private:
 
     friend class ThemeManager;
     friend class QQuickGraphsBars;
-    friend class Abstract3DController;
     friend class QQuickGraphsItem;
 };
 

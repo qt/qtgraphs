@@ -76,7 +76,7 @@ protected:
 private:
     Q_DISABLE_COPY(QSurface3DSeries)
 
-    friend class Surface3DController;
+    friend class QQuickGraphsSurface;
 };
 Q_DECLARE_OPERATORS_FOR_FLAGS(QSurface3DSeries::DrawFlags)
 

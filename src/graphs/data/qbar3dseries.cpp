@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 
 #include "qbar3dseries_p.h"
-#include "bars3dcontroller_p.h"
+#include "qquickgraphsbars_p.h"
 #include "qabstract3daxis_p.h"
 #include "qvalue3daxis_p.h"
 #include "qcategory3daxis_p.h"
@@ -212,9 +212,9 @@ QBarDataProxy *QBar3DSeries::dataProxy() const
 void QBar3DSeries::setSelectedBar(const QPoint &position)
 {
     Q_D(QBar3DSeries);
-    // Don't do this in private to avoid loops, as that is used for callback from controller.
-    if (d->m_controller)
-        static_cast<Bars3DController *>(d->m_controller)->setSelectedBar(position, this, true);
+    // Don't do this in private to avoid loops, as that is used for callback from graph.
+    if (d->m_graph)
+        static_cast<QQuickGraphsBars *>(d->m_graph)->setSelectedBar(position, this, true);
     else
         d->setSelectedBar(position);
 }
@@ -233,7 +233,7 @@ QPoint QBar3DSeries::selectedBar() const
  */
 QPoint QBar3DSeries::invalidSelectionPosition()
 {
-    return Bars3DController::invalidSelectionPosition();
+    return QQuickGraphsBars::invalidSelectionPosition();
 }
 
 static inline float quaternionAngle(const QQuaternion &rotation)
@@ -317,7 +317,7 @@ void QBar3DSeries::handleMeshRotationChanged(const QQuaternion &rotation)
 
 QBar3DSeriesPrivate::QBar3DSeriesPrivate(QBar3DSeries *q)
     : QAbstract3DSeriesPrivate(q, QAbstract3DSeries::SeriesType::Bar),
-      m_selectedBar(Bars3DController::invalidSelectionPosition())
+      m_selectedBar(QQuickGraphsBars::invalidSelectionPosition())
 {
     m_itemLabelFormat = QStringLiteral("@valueLabel");
     m_mesh = QAbstract3DSeries::Mesh::BevelBar;
@@ -337,39 +337,39 @@ void QBar3DSeriesPrivate::setDataProxy(QAbstractDataProxy *proxy)
     emit q->dataProxyChanged(static_cast<QBarDataProxy *>(proxy));
 }
 
-void QBar3DSeriesPrivate::connectControllerAndProxy(Abstract3DController *newController)
+void QBar3DSeriesPrivate::connectGraphAndProxy(QQuickGraphsItem *newGraph)
 {
     Q_Q(QBar3DSeries);
     QBarDataProxy *barDataProxy = static_cast<QBarDataProxy *>(m_dataProxy);
 
-    if (m_controller && barDataProxy) {
-        // Disconnect old controller/old proxy
-        QObject::disconnect(barDataProxy, 0, m_controller, 0);
-        QObject::disconnect(q_ptr, 0, m_controller, 0);
+    if (m_graph && barDataProxy) {
+        // Disconnect old graph/old proxy
+        QObject::disconnect(barDataProxy, 0, m_graph, 0);
+        QObject::disconnect(q_ptr, 0, m_graph, 0);
     }
 
-    if (newController && barDataProxy) {
-        Bars3DController *controller = static_cast<Bars3DController *>(newController);
-        QObject::connect(barDataProxy, &QBarDataProxy::arrayReset, controller,
-                         &Bars3DController::handleArrayReset);
-        QObject::connect(barDataProxy, &QBarDataProxy::rowsAdded, controller,
-                         &Bars3DController::handleRowsAdded);
-        QObject::connect(barDataProxy, &QBarDataProxy::rowsChanged, controller,
-                         &Bars3DController::handleRowsChanged);
-        QObject::connect(barDataProxy, &QBarDataProxy::rowsRemoved, controller,
-                         &Bars3DController::handleRowsRemoved);
-        QObject::connect(barDataProxy, &QBarDataProxy::rowsInserted, controller,
-                         &Bars3DController::handleRowsInserted);
-        QObject::connect(barDataProxy, &QBarDataProxy::itemChanged, controller,
-                         &Bars3DController::handleItemChanged);
-        QObject::connect(barDataProxy, &QBarDataProxy::rowLabelsChanged, controller,
-                         &Bars3DController::handleDataRowLabelsChanged);
-        QObject::connect(barDataProxy, &QBarDataProxy::columnLabelsChanged, controller,
-                         &Bars3DController::handleDataColumnLabelsChanged);
-        QObject::connect(q, &QBar3DSeries::dataProxyChanged, controller,
-                         &Bars3DController::handleArrayReset);
-        QObject::connect(q, &QBar3DSeries::rowColorsChanged, controller,
-                         &Bars3DController::handleRowColorsChanged);
+    if (newGraph && barDataProxy) {
+        QQuickGraphsBars *graph = static_cast<QQuickGraphsBars *>(newGraph);
+        QObject::connect(barDataProxy, &QBarDataProxy::arrayReset, graph,
+                         &QQuickGraphsBars::handleArrayReset);
+        QObject::connect(barDataProxy, &QBarDataProxy::rowsAdded, graph,
+                         &QQuickGraphsBars::handleRowsAdded);
+        QObject::connect(barDataProxy, &QBarDataProxy::rowsChanged, graph,
+                         &QQuickGraphsBars::handleRowsChanged);
+        QObject::connect(barDataProxy, &QBarDataProxy::rowsRemoved, graph,
+                         &QQuickGraphsBars::handleRowsRemoved);
+        QObject::connect(barDataProxy, &QBarDataProxy::rowsInserted, graph,
+                         &QQuickGraphsBars::handleRowsInserted);
+        QObject::connect(barDataProxy, &QBarDataProxy::itemChanged, graph,
+                         &QQuickGraphsBars::handleItemChanged);
+        QObject::connect(barDataProxy, &QBarDataProxy::rowLabelsChanged, graph,
+                         &QQuickGraphsBars::handleDataRowLabelsChanged);
+        QObject::connect(barDataProxy, &QBarDataProxy::columnLabelsChanged, graph,
+                         &QQuickGraphsBars::handleDataColumnLabelsChanged);
+        QObject::connect(q, &QBar3DSeries::dataProxyChanged, graph,
+                         &QQuickGraphsBars::handleArrayReset);
+        QObject::connect(q, &QBar3DSeries::rowColorsChanged, graph,
+                         &QQuickGraphsBars::handleRowColorsChanged);
     }
 }
 
@@ -392,14 +392,14 @@ void QBar3DSeriesPrivate::createItemLabel()
     }
 
     QLocale locale(QLocale::c());
-    if (m_controller)
-        locale = m_controller->locale();
+    if (m_graph)
+        locale = m_graph->locale();
     else
         return;
 
-    QCategory3DAxis *categoryAxisZ = static_cast<QCategory3DAxis *>(m_controller->axisZ());
-    QCategory3DAxis *categoryAxisX = static_cast<QCategory3DAxis *>(m_controller->axisX());
-    QValue3DAxis *valueAxis = static_cast<QValue3DAxis *>(m_controller->axisY());
+    QCategory3DAxis *categoryAxisZ = static_cast<QCategory3DAxis *>(m_graph->axisZ());
+    QCategory3DAxis *categoryAxisX = static_cast<QCategory3DAxis *>(m_graph->axisX());
+    QValue3DAxis *valueAxis = static_cast<QValue3DAxis *>(m_graph->axisY());
     qreal selectedBarValue = qreal(q->dataProxy()->itemAt(m_selectedBar).value());
 
     // Custom format expects printf format specifier. There is no tag for it.

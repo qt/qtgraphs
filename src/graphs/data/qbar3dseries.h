@@ -51,7 +51,6 @@ private:
     void connectSignals();
     void handleMeshRotationChanged(const QQuaternion &rotation);
 
-    friend class Bars3DController;
     friend class QQuickGraphsBars;
 };
 

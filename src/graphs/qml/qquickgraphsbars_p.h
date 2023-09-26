@@ -14,16 +14,39 @@
 #ifndef QQUICKGRAPHSBARS_H
 #define QQUICKGRAPHSBARS_H
 
+#include "axishelper_p.h"
 #include "qbar3dseries.h"
+#include "qcategory3daxis.h"
 #include "qquickgraphsitem_p.h"
-#include "bars3dcontroller_p.h"
 #include "barinstancing_p.h"
+#include "qabstract3daxis.h"
 
 #include <QtQuick3D/private/qquick3dmaterial_p.h>
 
 QT_BEGIN_NAMESPACE
 
 class Q3DBars;
+
+struct Bars3DChangeBitField {
+    bool multiSeriesScalingChanged  : 1;
+    bool barSpecsChanged            : 1;
+    bool selectedBarChanged         : 1;
+    bool rowsChanged                : 1;
+    bool itemChanged                : 1;
+    bool floorLevelChanged          : 1;
+    bool barSeriesMarginChanged     : 1;
+
+    Bars3DChangeBitField() :
+        multiSeriesScalingChanged(true),
+        barSpecsChanged(true),
+        selectedBarChanged(true),
+        rowsChanged(false),
+        itemChanged(false),
+        floorLevelChanged(false),
+        barSeriesMarginChanged(false)
+    {
+    }
+};
 
 class QQuickGraphsBars : public QQuickGraphsItem
 {
@@ -47,6 +70,15 @@ class QQuickGraphsBars : public QQuickGraphsItem
 public:
     explicit QQuickGraphsBars(QQuickItem *parent = 0);
     ~QQuickGraphsBars();
+
+    struct ChangeItem {
+        QBar3DSeries *series;
+        QPoint point;
+    };
+    struct ChangeRow {
+        QBar3DSeries *series;
+        int row;
+    };
 
     QCategory3DAxis *rowAxis() const;
     void setRowAxis(QCategory3DAxis *axis);
@@ -78,14 +110,43 @@ public:
     Q_INVOKABLE void addSeries(QBar3DSeries *series);
     Q_INVOKABLE void removeSeries(QBar3DSeries *series);
     Q_INVOKABLE void insertSeries(int index, QBar3DSeries *series);
+    Q_INVOKABLE virtual void clearSelection() override;
 
     void setPrimarySeries(QBar3DSeries *series);
     QBar3DSeries *primarySeries() const;
     QBar3DSeries *selectedSeries() const;
     static inline QPoint invalidSelectionPosition(){ return QPoint(-1, -1); }
+    virtual void setSelectionMode(QAbstract3DGraph::SelectionFlags mode) override;
+
+    void handleAxisAutoAdjustRangeChangedInOrientation(
+            QAbstract3DAxis::AxisOrientation orientation, bool autoAdjust) override;
+    void handleSeriesVisibilityChangedBySender(QObject *sender) override;
+
+    void setAxisX(QAbstract3DAxis *axis);
+    void setAxisZ(QAbstract3DAxis *axis);
+
+    void handleAxisRangeChangedBySender(QObject *sender) override;
+    void adjustAxisRanges() override;
 
     void setFloorLevel(float level);
     float floorLevel() const;
+
+    void setSelectedBar(const QPoint &position, QBar3DSeries *series, bool enterSlice);
+
+    void setMultiSeriesScaling(bool uniform);
+    bool multiSeriesScaling() const;
+
+    void setBarSpecs(float thicknessRatio = 1.0f,
+                     const QSizeF &spacing = QSizeF(1.0, 1.0),
+                     bool relative = true);
+
+    QList<QBar3DSeries *> barSeriesList();
+
+    bool hasChangedSeriesList() { return !m_changedSeriesList.isEmpty(); }
+    bool isSeriesVisualsDirty() const { return m_isSeriesVisualsDirty; }
+    void setSeriesVisualsDirty(bool dirty) { m_isSeriesVisualsDirty = dirty; }
+    bool isDataDirty() const { return m_isDataDirty; }
+    void setDataDirty(bool dirty) { m_isDataDirty = dirty; }
 
 protected:
     void componentComplete() override;
@@ -107,6 +168,7 @@ protected:
     void handleLabelCountChanged(QQuick3DRepeater *repeater) override;
     void updateSelectionMode(QAbstract3DGraph::SelectionFlags mode) override;
     bool doPicking(const QPointF &position) override;
+    QAbstract3DAxis *createDefaultAxis(QAbstract3DAxis::AxisOrientation orientation) override;
 
 public Q_SLOTS:
     void handleAxisXChanged(QAbstract3DAxis *axis) override;
@@ -115,9 +177,17 @@ public Q_SLOTS:
     void handleSeriesMeshChanged(QAbstract3DSeries::Mesh mesh);
     void handleMeshSmoothChanged(bool enable);
     void handleRowCountChanged();
-    void handleColCountChanged();
-    void handleRowColorsChanged();
+    void handleColCountChanged();;
     void handleCameraRotationChanged();
+    void handleArrayReset();
+    void handleRowsAdded(int startIndex, int count);
+    void handleRowsChanged(int startIndex, int count);
+    void handleRowsRemoved(int startIndex, int count);
+    void handleRowsInserted(int startIndex, int count);
+    void handleItemChanged(int rowIndex, int columnIndex);
+    void handleDataRowLabelsChanged();
+    void handleDataColumnLabelsChanged();
+    void handleRowColorsChanged();
 
 Q_SIGNALS:
     void rowAxisChanged(QCategory3DAxis *axis);
@@ -134,7 +204,22 @@ Q_SIGNALS:
     void floorLevelChanged(float level);
 
 private:
-    Bars3DController *m_barsController;
+    Bars3DChangeBitField m_changeTracker;
+    QList<ChangeItem> m_changedItems;
+    QList<ChangeRow> m_changedRows;
+
+    // Interaction
+    QPoint m_selectedBar; // Points to row & column in data window.
+    // Category axis labels are taken from the primary series
+    QBar3DSeries *m_primarySeries = nullptr;
+
+    // Look'n'feel
+    bool m_isMultiSeriesUniform = false;
+    bool m_isBarSpecRelative = true;
+    float m_barThicknessRatio = 1.0f;
+    QSizeF m_barSpacing;
+    float m_floorLevel = 0.0f;
+    QSizeF m_barSeriesMargin;
 
     int m_cachedRowCount;
     int m_cachedColumnCount;
@@ -253,7 +338,7 @@ private:
     void setSelectedBar(QBar3DSeries *series, const QPoint &coord);
     void createSelectedModels(QBar3DSeries *series);
     void updateSelectedBar();
-    Abstract3DController::SelectionType isSelected(int row, int bar, QBar3DSeries *series);
+    QQuickGraphsItem::SelectionType isSelected(int row, int bar, QBar3DSeries *series);
     void resetClickedStatus();
     void removeSlicedBarModels();
     void removeSelectedModels();
@@ -261,7 +346,8 @@ private:
     void updateBarSpecs(float thicknessRatio, const QSizeF &spacing, bool relative);
     void updateBarSeriesMargin(const QSizeF &margin);
 
-    friend class Bars3DController;
+    void adjustSelectionPosition(QPoint &pos, const QBar3DSeries *series);
+
     friend class Q3DBars;
 };
 

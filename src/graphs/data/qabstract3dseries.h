@@ -136,10 +136,10 @@ protected:
 private:
     Q_DISABLE_COPY(QAbstract3DSeries)
 
-    friend class Abstract3DController;
-    friend class Bars3DController;
-    friend class Surface3DController;
-    friend class Scatter3DController;
+    friend class QQuickGraphsItem;
+    friend class QQuickGraphsBars;
+    friend class QQuickGraphsSurface;
+    friend class QQuickGraphsScatter;
 };
 
 QT_END_NAMESPACE

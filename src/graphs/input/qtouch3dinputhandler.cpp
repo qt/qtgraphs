@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 
 #include "qtouch3dinputhandler_p.h"
-#include "abstract3dcontroller_p.h"
+#include "qquickgraphsitem_p.h"
 #include <QtCore/QTimer>
 #include <QtCore/qmath.h>
 
@@ -187,7 +187,7 @@ void QTouch3DInputHandlerPrivate::handlePinchZoom(float distance, const QPoint &
 
         if (q->isZoomAtTargetEnabled()) {
             q->scene()->setGraphPositionQuery(pos);
-            m_controller->setGraphPositionQueryPending(true);
+            m_graph->setGraphPositionQueryPending(true);
             m_zoomAtTargetPending = true;
             // If zoom at target is enabled, we don't want to zoom yet, as that causes
             // jitter. Instead, we zoom next frame, when we apply the camera position.

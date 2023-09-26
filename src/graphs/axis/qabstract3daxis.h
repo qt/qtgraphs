@@ -99,7 +99,7 @@ protected:
 private:
     Q_DISABLE_COPY(QAbstract3DAxis)
 
-    friend class Abstract3DController;
+    friend class QQuickGraphsItem;
     friend class QScatterDataProxyPrivate;
     friend class QSurfaceDataProxyPrivate;
 };

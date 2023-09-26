@@ -14,13 +14,16 @@
 //
 // We mean it.
 
+#include "../theme/thememanager_p.h"
+#include "qabstract3daxis.h"
 #include "qabstract3dgraph.h"
+#include "qcategory3daxis.h"
+#include "qvalue3daxis.h"
 
 #include <QtQuick3D/private/qquick3dviewport_p.h>
 
 QT_BEGIN_NAMESPACE
 
-class Abstract3DController;
 class Declarative3DScene;
 class Q3DTheme;
 class QAbstract3DAxis;
@@ -35,6 +38,109 @@ class QQuick3DPrincipledMaterial;
 class QQuick3DRepeater;
 class QQuick3DPerspectiveCamera;
 class QQuick3DOrthographicCamera;
+
+struct Abstract3DChangeBitField {
+    bool themeChanged                  : 1;
+    bool shadowQualityChanged          : 1;
+    bool selectionModeChanged          : 1;
+    bool optimizationHintChanged       : 1;
+    bool axisXTypeChanged              : 1;
+    bool axisYTypeChanged              : 1;
+    bool axisZTypeChanged              : 1;
+    bool axisXTitleChanged             : 1;
+    bool axisYTitleChanged             : 1;
+    bool axisZTitleChanged             : 1;
+    bool axisXLabelsChanged            : 1;
+    bool axisYLabelsChanged            : 1;
+    bool axisZLabelsChanged            : 1;
+    bool axisXRangeChanged             : 1;
+    bool axisYRangeChanged             : 1;
+    bool axisZRangeChanged             : 1;
+    bool axisXSegmentCountChanged      : 1;
+    bool axisYSegmentCountChanged      : 1;
+    bool axisZSegmentCountChanged      : 1;
+    bool axisXSubSegmentCountChanged   : 1;
+    bool axisYSubSegmentCountChanged   : 1;
+    bool axisZSubSegmentCountChanged   : 1;
+    bool axisXLabelFormatChanged       : 1;
+    bool axisYLabelFormatChanged       : 1;
+    bool axisZLabelFormatChanged       : 1;
+    bool axisXReversedChanged          : 1;
+    bool axisYReversedChanged          : 1;
+    bool axisZReversedChanged          : 1;
+    bool axisXFormatterChanged         : 1;
+    bool axisYFormatterChanged         : 1;
+    bool axisZFormatterChanged         : 1;
+    bool projectionChanged             : 1;
+    bool axisXLabelAutoRotationChanged : 1;
+    bool axisYLabelAutoRotationChanged : 1;
+    bool axisZLabelAutoRotationChanged : 1;
+    bool aspectRatioChanged            : 1;
+    bool horizontalAspectRatioChanged  : 1;
+    bool axisXTitleVisibilityChanged   : 1;
+    bool axisYTitleVisibilityChanged   : 1;
+    bool axisZTitleVisibilityChanged   : 1;
+    bool axisXTitleFixedChanged        : 1;
+    bool axisYTitleFixedChanged        : 1;
+    bool axisZTitleFixedChanged        : 1;
+    bool polarChanged                  : 1;
+    bool radialLabelOffsetChanged      : 1;
+    bool reflectionChanged             : 1;
+    bool reflectivityChanged           : 1;
+    bool marginChanged                 : 1;
+
+    Abstract3DChangeBitField() :
+        themeChanged(true),
+        shadowQualityChanged(true),
+        selectionModeChanged(true),
+        optimizationHintChanged(true),
+        axisXTypeChanged(true),
+        axisYTypeChanged(true),
+        axisZTypeChanged(true),
+        axisXTitleChanged(true),
+        axisYTitleChanged(true),
+        axisZTitleChanged(true),
+        axisXLabelsChanged(true),
+        axisYLabelsChanged(true),
+        axisZLabelsChanged(true),
+        axisXRangeChanged(true),
+        axisYRangeChanged(true),
+        axisZRangeChanged(true),
+        axisXSegmentCountChanged(true),
+        axisYSegmentCountChanged(true),
+        axisZSegmentCountChanged(true),
+        axisXSubSegmentCountChanged(true),
+        axisYSubSegmentCountChanged(true),
+        axisZSubSegmentCountChanged(true),
+        axisXLabelFormatChanged(true),
+        axisYLabelFormatChanged(true),
+        axisZLabelFormatChanged(true),
+        axisXReversedChanged(true),
+        axisYReversedChanged(true),
+        axisZReversedChanged(true),
+        axisXFormatterChanged(true),
+        axisYFormatterChanged(true),
+        axisZFormatterChanged(true),
+        projectionChanged(true),
+        axisXLabelAutoRotationChanged(true),
+        axisYLabelAutoRotationChanged(true),
+        axisZLabelAutoRotationChanged(true),
+        aspectRatioChanged(true),
+        horizontalAspectRatioChanged(true),
+        axisXTitleVisibilityChanged(true),
+        axisYTitleVisibilityChanged(true),
+        axisZTitleVisibilityChanged(true),
+        axisXTitleFixedChanged(true),
+        axisYTitleFixedChanged(true),
+        axisZTitleFixedChanged(true),
+        polarChanged(true),
+        radialLabelOffsetChanged(true),
+        reflectionChanged(true),
+        reflectivityChanged(true),
+        marginChanged(true)
+    {
+    }
+};
 
 class QQuickGraphsItem : public QQuick3DViewport
 {
@@ -78,12 +184,61 @@ public:
     explicit QQuickGraphsItem(QQuickItem *parent = 0);
     virtual ~QQuickGraphsItem();
 
+    void markDataDirty();
+    void markSeriesVisualsDirty();
+    void markSeriesItemLabelsDirty();
+    void emitNeedRender();
+
+    void setQueriedGraphPosition(const QVector3D &position) { m_queriedGraphPosition = position; }
+
+    virtual void handleAxisTitleChangedBySender(QObject *sender);
+    virtual void handleAxisLabelsChangedBySender(QObject *sender);
+    virtual void handleAxisRangeChangedBySender(QObject *sender);
+    virtual void handleAxisSegmentCountChangedBySender(QObject *sender);
+    virtual void handleAxisSubSegmentCountChangedBySender(QObject *sender);
+    virtual void handleAxisAutoAdjustRangeChangedInOrientation(
+            QAbstract3DAxis::AxisOrientation orientation, bool autoAdjust) = 0;
+    virtual void handleAxisLabelFormatChangedBySender(QObject *sender);
+    virtual void handleAxisReversedChangedBySender(QObject *sender);
+    virtual void handleAxisFormatterDirtyBySender(QObject *sender);
+    virtual void handleAxisLabelAutoRotationChangedBySender(QObject *sender);
+    virtual void handleAxisTitleVisibilityChangedBySender(QObject *sender);
+    virtual void handleAxisTitleFixedChangedBySender(QObject *sender);
+    virtual void handleSeriesVisibilityChangedBySender(QObject *sender);
+    virtual void adjustAxisRanges() = 0;
+
+    bool graphPositionQueryPending() const { return m_graphPositionQueryPending; }
+    void setGraphPositionQueryPending(const bool &pending) { m_graphPositionQueryPending = pending; }
+
+    enum SelectionType {
+        SelectionNone = 0,
+        SelectionItem,
+        SelectionRow,
+        SelectionColumn
+    };
+
+    virtual void addSeriesInternal(QAbstract3DSeries *series);
+    void insertSeries(int index, QAbstract3DSeries *series);
+    virtual void removeSeriesInternal(QAbstract3DSeries *series);
+    QList<QAbstract3DSeries *> seriesList();
+
+    void setAxisX(QAbstract3DAxis *axis);
+    QAbstract3DAxis *axisX() const;
+    void setAxisY(QAbstract3DAxis *axis);
+    QAbstract3DAxis *axisY() const;
+    void setAxisZ(QAbstract3DAxis *axis);
+    QAbstract3DAxis *axisZ() const;
+    virtual void addAxis(QAbstract3DAxis *axis);
+    virtual void releaseAxis(QAbstract3DAxis *axis);
+    virtual QList<QAbstract3DAxis *> axes() const; // Omits default axes
+
     virtual void setRenderingMode(QAbstract3DGraph::RenderingMode mode);
     virtual QAbstract3DGraph::RenderingMode renderingMode() const;
 
     virtual void setSelectionMode(QAbstract3DGraph::SelectionFlags mode);
     virtual QAbstract3DGraph::SelectionFlags selectionMode() const;
 
+    void doSetShadowQuality(QAbstract3DGraph::ShadowQuality quality);
     virtual void setShadowQuality(QAbstract3DGraph::ShadowQuality quality);
     virtual QAbstract3DGraph::ShadowQuality shadowQuality() const;
 
@@ -91,8 +246,6 @@ public:
 
     virtual void setMsaaSamples(int samples);
     virtual int msaaSamples() const;
-
-    virtual Declarative3DScene *scene() const;
 
     virtual QAbstract3DInputHandler *inputHandler() const;
     virtual void setInputHandler(QAbstract3DInputHandler *inputHandler);
@@ -103,9 +256,25 @@ public:
     virtual Q3DTheme *theme() const;
     virtual QList<Q3DTheme *> themes() const;
 
-    Q_INVOKABLE virtual void clearSelection();
+    bool isSlicingActive() const;
+    void setSlicingActive(bool isSlicing);
+
+    bool isCustomDataDirty() const { return m_isCustomDataDirty; }
+    void setCustomDataDirty(bool dirty) { m_isCustomDataDirty = dirty; }
+    bool isCustomItemDirty() const { return m_isCustomItemDirty; }
+    void setCustomItemDirty(bool dirty) { m_isCustomItemDirty = dirty; }
+    bool isCustomLabelItem(QCustom3DItem *item) const;
+    bool isCustomVolumeItem(QCustom3DItem *item) const;
+    QImage customTextureImage(QCustom3DItem *item);
+    Declarative3DScene *scene();
 
     Q_INVOKABLE virtual bool hasSeries(QAbstract3DSeries *series);
+    Q_INVOKABLE virtual void clearSelection() = 0;
+
+    void deleteCustomItems();
+    void deleteCustomItem(QCustom3DItem *item);
+    void deleteCustomItem(const QVector3D &position);
+    QList<QCustom3DItem *> customItems() const;
 
     Q_INVOKABLE virtual int addCustomItem(QCustom3DItem *item);
     Q_INVOKABLE virtual void removeCustomItems();
@@ -127,8 +296,6 @@ public:
     static void clearCustomItemFunc(QQmlListProperty<QCustom3DItem> *list);
 
     void geometryChange(const QRectF &newGeometry, const QRectF &oldGeometry) override;
-
-    void setSharedController(Abstract3DController *controller);
 
     void checkWindowList(QQuickWindow *window);
 
@@ -290,6 +457,35 @@ public Q_SLOTS:
     void handleFpsChanged();
     void windowDestroyed(QObject *obj);
 
+    void handleAxisTitleChanged(const QString &title);
+    void handleAxisLabelsChanged();
+    void handleAxisRangeChanged(float min, float max);
+    void handleAxisSegmentCountChanged(int count);
+    void handleAxisSubSegmentCountChanged(int count);
+    void handleAxisAutoAdjustRangeChanged(bool autoAdjust);
+    void handleAxisLabelFormatChanged(const QString &format);
+    void handleAxisReversedChanged(bool enable);
+    void handleAxisFormatterDirty();
+    void handleAxisLabelAutoRotationChanged(float angle);
+    void handleAxisTitleVisibilityChanged(bool visible);
+    void handleAxisTitleFixedChanged(bool fixed);
+    void handleInputViewChanged(QAbstract3DInputHandler::InputView view);
+    void handleInputPositionChanged(const QPoint &position);
+    void handleSeriesVisibilityChanged(bool visible);
+
+    void handleThemeColorStyleChanged(Q3DTheme::ColorStyle style);
+    void handleThemeBaseColorsChanged(const QList<QColor> &color);
+    void handleThemeBaseGradientsChanged(const QList<QLinearGradient> &gradient);
+    void handleThemeSingleHighlightColorChanged(const QColor &color);
+    void handleThemeSingleHighlightGradientChanged(const QLinearGradient &gradient);
+    void handleThemeMultiHighlightColorChanged(const QColor &color);
+    void handleThemeMultiHighlightGradientChanged(const QLinearGradient &gradient);
+    void handleThemeTypeChanged(Q3DTheme::Theme theme);
+
+    void handleRequestShadowQuality(QAbstract3DGraph::ShadowQuality quality);
+
+    void updateCustomItem();
+
 Q_SIGNALS:
     void selectionModeChanged(QAbstract3DGraph::SelectionFlags mode);
     void shadowQualityChanged(QAbstract3DGraph::ShadowQuality quality);
@@ -325,6 +521,12 @@ Q_SIGNALS:
     void maxCameraYRotationChanged(float rotation);
     void wrapCameraXRotationChanged(bool wrap);
     void wrapCameraYRotationChanged(bool wrap);
+    void needRender();
+    void themeTypeChanged();
+    void axisXChanged(QAbstract3DAxis *axis);
+    void axisYChanged(QAbstract3DAxis *axis);
+    void axisZChanged(QAbstract3DAxis *axis);
+    void activeThemeChanged(Q3DTheme *activeTheme);
 
 protected:
     bool event(QEvent *event) override;
@@ -429,11 +631,61 @@ protected:
     QAbstract3DInputHandler *activeInputHandler() const { return m_activeInputHandler; };
     QList<QAbstract3DInputHandler *> inputHandlers() const { return m_inputHandlers; };
 
+    virtual QAbstract3DAxis *createDefaultAxis(QAbstract3DAxis::AxisOrientation orientation);
+    QValue3DAxis *createDefaultValueAxis();
+    QCategory3DAxis *createDefaultCategoryAxis();
+    void setAxisHelper(QAbstract3DAxis::AxisOrientation orientation,
+                       QAbstract3DAxis *axis, QAbstract3DAxis **axisPtr);
+    virtual void startRecordingRemovesAndInserts();
+
     QSharedPointer<QMutex> m_nodeMutex;
 
     QMap<QCustom3DVolume *, Volume> m_customVolumes;
 
+    Declarative3DScene *m_scene = nullptr;
+    // Active axes
+    QAbstract3DAxis *m_axisX = nullptr;
+    QAbstract3DAxis *m_axisY = nullptr;
+    QAbstract3DAxis *m_axisZ = nullptr;
+
+    QList<QAbstract3DAxis *> m_axes; // List of all added axes
+    bool m_isDataDirty = true;
+    bool m_isCustomDataDirty = true;
+    bool m_isCustomItemDirty = true;
+    bool m_isSeriesVisualsDirty = true;
+    bool m_renderPending = false;
+    bool m_isPolar = false;
+    float m_radialLabelOffset = 1.0f;
+
+    QList<QAbstract3DSeries *> m_seriesList;
+
+    QList<QAbstract3DSeries *> m_changedSeriesList;
+
+    QList<QCustom3DItem *> m_customItems;
+
+    QAbstract3DGraph::ElementType m_clickedType = QAbstract3DGraph::ElementType::None;
+    int m_selectedLabelIndex = -1;
+    int m_selectedCustomItemIndex = -1;
+    qreal m_margin = -1.0;
+
+    QMutex m_renderMutex;
+    QQuickGraphsItem *m_qml = nullptr;
+
 private:
+    Abstract3DChangeBitField m_changeTracker;
+    ThemeManager *m_themeManager = nullptr;
+    QAbstract3DGraph::SelectionFlags m_selectionMode = QAbstract3DGraph::SelectionItem;
+    QAbstract3DGraph::ShadowQuality m_shadowQuality = QAbstract3DGraph::ShadowQuality::Medium;
+    bool m_useOrthoProjection = false;
+    qreal m_aspectRatio = 2.0;
+    qreal m_horizontalAspectRatio = 0.0;
+    QAbstract3DGraph::OptimizationHint m_optimizationHint = QAbstract3DGraph::OptimizationHint::Default;
+    bool m_reflectionEnabled = false;
+    qreal m_reflectivity = 0.5;
+    QLocale m_locale;
+    QVector3D m_queriedGraphPosition;
+    bool m_graphPositionQueryPending = false;
+
     QQuick3DNode *m_graphNode = nullptr;
     QQuick3DModel *m_background = nullptr;
     QQuick3DModel *m_backgroundBB = nullptr;
@@ -467,7 +719,6 @@ private:
     QQuick3DNode *m_sliceHorizontalTitleLabel = nullptr;
     QQuick3DNode *m_sliceVerticalTitleLabel = nullptr;
 
-    QPointer<Abstract3DController> m_controller;
     QQuick3DNode *m_cameraTarget = nullptr;
     QQuick3DDirectionalLight *m_light = nullptr;
     QQuick3DPerspectiveCamera *m_pCamera = nullptr;

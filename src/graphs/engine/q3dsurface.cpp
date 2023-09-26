@@ -129,7 +129,14 @@ void Q3DSurface::removeSeries(QSurface3DSeries *series)
  */
 QList<QSurface3DSeries *> Q3DSurface::seriesList() const
 {
-    return dptrc()->m_surfaceController->surfaceSeriesList();
+    QList<QSurface3DSeries *> surfaceSeriesList;
+    for (QAbstract3DSeries *abstractSeries : dptrc()->m_seriesList) {
+        QSurface3DSeries *surfaceSeries = qobject_cast<QSurface3DSeries *>(abstractSeries);
+        if (surfaceSeries)
+            surfaceSeriesList.append(surfaceSeries);
+    }
+
+    return surfaceSeriesList;
 }
 
 /*!
@@ -258,7 +265,7 @@ bool Q3DSurface::flipHorizontalGrid() const
  */
 void Q3DSurface::addAxis(QValue3DAxis *axis)
 {
-    return dptrc()->m_surfaceController->addAxis(axis);
+    return dptr()->addAxis(axis);
 }
 
 /*!
@@ -273,7 +280,7 @@ void Q3DSurface::addAxis(QValue3DAxis *axis)
  */
 void Q3DSurface::releaseAxis(QValue3DAxis *axis)
 {
-    return dptrc()->m_surfaceController->releaseAxis(axis);
+    return dptr()->releaseAxis(axis);
 }
 
 /*!
@@ -283,7 +290,7 @@ void Q3DSurface::releaseAxis(QValue3DAxis *axis)
  */
 QList<QValue3DAxis *> Q3DSurface::axes() const
 {
-    QList<QAbstract3DAxis *> abstractAxes = dptrc()->m_surfaceController->axes();
+    QList<QAbstract3DAxis *> abstractAxes = dptrc()->axes();
     QList<QValue3DAxis *> retList;
     for (QAbstract3DAxis *axis : abstractAxes)
         retList.append(static_cast<QValue3DAxis *>(axis));

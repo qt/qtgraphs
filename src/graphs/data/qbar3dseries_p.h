@@ -28,7 +28,7 @@ public:
     virtual ~QBar3DSeriesPrivate();
 
     void setDataProxy(QAbstractDataProxy *proxy) override;
-    void connectControllerAndProxy(Abstract3DController *newController) override;
+    void connectGraphAndProxy(QQuickGraphsItem *newGraph) override;
     void createItemLabel() override;
 
     void setSelectedBar(const QPoint &position);

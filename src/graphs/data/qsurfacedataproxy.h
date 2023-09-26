@@ -71,7 +71,7 @@ protected:
 private:
     Q_DISABLE_COPY(QSurfaceDataProxy)
 
-    friend class Surface3DController;
+    friend class QQuickGraphsSurface;
 };
 
 QT_END_NAMESPACE

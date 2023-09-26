@@ -55,9 +55,7 @@ qt_internal_add_qml_module(Graphs
         data/scatteritemmodelhandler.cpp data/scatteritemmodelhandler_p.h
         data/surfaceitemmodelhandler.cpp data/surfaceitemmodelhandler_p.h
 
-        engine/abstract3dcontroller.cpp engine/abstract3dcontroller_p.h
         engine/axishelper.cpp engine/axishelper_p.h
-        engine/bars3dcontroller.cpp engine/bars3dcontroller_p.h
         engine/barinstancing.cpp engine/barinstancing_p.h
         engine/scatterinstancing.cpp engine/scatterinstancing_p.h
         engine/q3dbars.cpp engine/q3dbars.h
@@ -65,8 +63,6 @@ qt_internal_add_qml_module(Graphs
         engine/q3dscene.cpp engine/q3dscene.h engine/q3dscene_p.h
         engine/q3dsurface.cpp engine/q3dsurface.h
         engine/qabstract3dgraph.cpp engine/qabstract3dgraph.h
-        engine/scatter3dcontroller.cpp engine/scatter3dcontroller_p.h
-        engine/surface3dcontroller.cpp engine/surface3dcontroller_p.h
         engine/surfaceselectioninstancing.cpp engine/surfaceselectioninstancing_p.h
 
         global/graphsglobal_p.h
@@ -105,11 +101,6 @@ qt_internal_add_qml_module(Graphs
         data/qbardataitem.cpp
         data/qscatterdataitem.cpp
         data/qsurfacedataitem.cpp
-    NO_PCH_SOURCES
-        engine/abstract3dcontroller.cpp   # undef QT_NO_FOREACH
-        engine/bars3dcontroller.cpp       # undef QT_NO_FOREACH
-        engine/scatter3dcontroller.cpp    # undef QT_NO_FOREACH
-        engine/surface3dcontroller.cpp    # undef QT_NO_FOREACH
     INCLUDE_DIRECTORIES
         axis
         data

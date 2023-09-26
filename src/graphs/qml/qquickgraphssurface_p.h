@@ -18,15 +18,31 @@
 #include "qsurface3dseries.h"
 
 #include <private/graphsglobal_p.h>
-#include <private/surface3dcontroller_p.h>
 
 QT_BEGIN_NAMESPACE
 
 class QValue3DAxis;
 class QSurface3DSeries;
-class Surface3DController;
+class QQuickGraphsSurface;
 class SurfaceSelectionInstancing;
 class Q3DSurface;
+
+struct Surface3DChangeBitField {
+    bool selectedPointChanged      : 1;
+    bool rowsChanged               : 1;
+    bool itemChanged               : 1;
+    bool flipHorizontalGridChanged : 1;
+    bool surfaceTextureChanged     : 1;
+
+    Surface3DChangeBitField() :
+        selectedPointChanged(true),
+        rowsChanged(false),
+        itemChanged(false),
+        flipHorizontalGridChanged(true),
+        surfaceTextureChanged(true)
+    {
+    }
+};
 
 class QQuickGraphsSurface : public QQuickGraphsItem
 {
@@ -45,12 +61,28 @@ public:
     explicit QQuickGraphsSurface(QQuickItem *parent = 0);
     ~QQuickGraphsSurface();
 
-    QValue3DAxis *axisX() const;
+    struct ChangeItem {
+        QSurface3DSeries *series;
+        QPoint point;
+    };
+    struct ChangeRow {
+        QSurface3DSeries *series;
+        int row;
+    };
+    enum DataDimension {
+        BothAscending = 0,
+        XDescending = 1,
+        ZDescending = 2,
+        BothDescending = XDescending | ZDescending
+    };
+    Q_DECLARE_FLAGS(DataDimensions, DataDimension)
+
     void setAxisX(QValue3DAxis *axis);
-    QValue3DAxis *axisY() const;
+    QValue3DAxis *axisX() const;
     void setAxisY(QValue3DAxis *axis);
-    QValue3DAxis *axisZ() const;
+    QValue3DAxis *axisY() const;
     void setAxisZ(QValue3DAxis *axis);
+    QValue3DAxis *axisZ() const;
 
     QQmlListProperty<QSurface3DSeries> seriesList();
     static void appendSeriesFunc(QQmlListProperty<QSurface3DSeries> *list, QSurface3DSeries *series);
@@ -59,10 +91,49 @@ public:
     static void clearSeriesFunc(QQmlListProperty<QSurface3DSeries> *list);
     Q_INVOKABLE void addSeries(QSurface3DSeries *series);
     Q_INVOKABLE void removeSeries(QSurface3DSeries *series);
+    Q_INVOKABLE virtual void clearSelection() override;
 
-    QSurface3DSeries *selectedSeries() const;
     void setFlipHorizontalGrid(bool flip);
     bool flipHorizontalGrid() const;
+    bool isFlatShadingSupported();
+    QList<QSurface3DSeries *> surfaceSeriesList();
+    void updateSurfaceTexture(QSurface3DSeries *series);
+
+    static QPoint invalidSelectionPosition();
+    void setSelectedPoint(const QPoint &position, QSurface3DSeries *series, bool enterSlice);
+
+    inline QSurface3DSeries *selectedSeries() const { return m_selectedSeries; }
+    virtual void setSelectionMode(QAbstract3DGraph::SelectionFlags mode) override;
+
+    void setDataDimensions(DataDimensions dimension) { m_dataDimensions = dimension; }
+    DataDimensions dataDimensions() { return m_dataDimensions; }
+
+    bool hasChangedSeriesList() const { return !m_changedSeriesList.isEmpty(); }
+    bool isSeriesVisibilityDirty() const { return m_isSeriesVisibilityDirty; }
+    void setSeriesVisibilityDirty(bool dirty) { m_isSeriesVisibilityDirty = dirty; }
+    bool isDataDirty() const { return m_isDataDirty; }
+    void setDataDirty(bool dirty) { m_isDataDirty = dirty; }
+    bool isSeriesVisualsDirty() const { return m_isSeriesVisualsDirty; }
+    void setSeriesVisualsDirty(bool dirty) { m_isSeriesVisualsDirty = dirty; }
+
+    QList<QAbstract3DSeries *> changedSeriesList() { return m_changedSeriesList; }
+
+    bool isSelectedPointChanged() const { return m_changeTracker.selectedPointChanged; }
+    void setSelectedPointChanged(bool changed) { m_changeTracker.selectedPointChanged = changed; }
+
+    bool isFlipHorizontalGridChanged() const { return m_changeTracker.flipHorizontalGridChanged; }
+    void setFlipHorizontalGridChanged(bool changed) { m_changeTracker.flipHorizontalGridChanged = changed; }
+
+    bool isSurfaceTextureChanged() const { return m_changeTracker.surfaceTextureChanged; }
+    void setSurfaceTextureChanged(bool changed) { m_changeTracker.surfaceTextureChanged = changed; }
+    bool isChangedTexturesEmpty() const { return m_changedTextures.empty(); }
+    bool hasSeriesToChangeTexture(QSurface3DSeries *series) const { return m_changedTextures.contains(series); }
+
+    void handleAxisAutoAdjustRangeChangedInOrientation(
+        QAbstract3DAxis::AxisOrientation orientation, bool autoAdjust) override;
+    void handleAxisRangeChangedBySender(QObject *sender) override;
+    void handleSeriesVisibilityChangedBySender(QObject *sender) override;
+    void adjustAxisRanges() override;
 
 protected:
     void componentComplete() override;
@@ -86,6 +157,15 @@ public Q_SLOTS:
     void handleFlatShadingEnabledChanged();
     void handleWireframeColorChanged();
     void handleFlipHorizontalGridChanged(bool flip);
+
+    void handleArrayReset();
+    void handleRowsAdded(int startIndex, int count);
+    void handleRowsChanged(int startIndex, int count);
+    void handleRowsRemoved(int startIndex, int count);
+    void handleRowsInserted(int startIndex, int count);
+    void handleItemChanged(int rowIndex, int columnIndex);
+
+    void handleFlatShadingSupportedChange(bool supported);
 
 Q_SIGNALS:
     void axisXChanged(QValue3DAxis *axis);
@@ -143,13 +223,25 @@ private:
     void addSliceModel(SurfaceModel *model);
 
     QVector<SurfaceModel *> m_model;
-    Surface3DController *m_surfaceController;
     QQuick3DModel *m_selectionPointer = nullptr;
     SurfaceSelectionInstancing *m_instancing = nullptr;
     QQuick3DModel *m_sliceSelectionPointer = nullptr;
     SurfaceSelectionInstancing *m_sliceInstancing = nullptr;
 
     bool m_isIndexDirty = true;
+
+    Surface3DChangeBitField m_changeTracker;
+    QPoint m_selectedPoint;
+    QSurface3DSeries *m_selectedSeries = nullptr; // Points to the series for which the point is selected in
+                                                  // single series selection cases.
+    bool m_flatShadingSupported = true;
+    QList<ChangeItem> m_changedItems;
+    QList<ChangeRow> m_changedRows;
+    bool m_flipHorizontalGrid = false;
+    QList<QSurface3DSeries *> m_changedTextures;
+    bool m_isSeriesVisibilityDirty = false;
+
+    DataDimensions m_dataDimensions;
 
     friend class Q3DSurface;
 };

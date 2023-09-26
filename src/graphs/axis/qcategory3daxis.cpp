@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 
 #include "qcategory3daxis_p.h"
-#include "bars3dcontroller_p.h"
+#include "qquickgraphsbars_p.h"
 
 QT_BEGIN_NAMESPACE
 
@@ -72,15 +72,15 @@ void QCategory3DAxis::setLabels(const QStringList &labels)
     d->m_labelsExplicitlySet = !labels.isEmpty();
     bool labelsFromData = false;
 
-    // Get labels from data proxy if axis is attached to a bar controller and an active axis there
+    // Get labels from data proxy if axis is attached to a bar graph and an active axis there
     if (labels.isEmpty()) {
-        Bars3DController *controller = qobject_cast<Bars3DController *>(parent());
-        if (controller) {
-            if (controller->axisX() == this) {
-                controller->handleDataRowLabelsChanged();
+        QQuickGraphsBars *graph = qobject_cast<QQuickGraphsBars *>(parent());
+        if (graph) {
+            if (graph->axisX() == this) {
+                graph->handleDataRowLabelsChanged();
                 labelsFromData = true;
-            } else if (controller->axisZ() == this) {
-                controller->handleDataColumnLabelsChanged();
+            } else if (graph->axisZ() == this) {
+                graph->handleDataColumnLabelsChanged();
                 labelsFromData = true;
             }
         }
@@ -107,7 +107,7 @@ QCategory3DAxisPrivate::~QCategory3DAxisPrivate()
 
 /*!
  * \internal
- * Controller uses this function to set labels from data proxy as category labels.
+ * Graph uses this function to set labels from data proxy as category labels.
  * If the labels have been set explicitly by the user, data proxy labels are not used.
  */
 void QCategory3DAxisPrivate::setDataLabels(const QStringList &labels)

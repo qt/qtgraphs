@@ -21,7 +21,7 @@
 QT_BEGIN_NAMESPACE
 
 class QAbstractDataProxy;
-class Abstract3DController;
+class QQuickGraphsItem;
 
 struct QAbstract3DSeriesChangeBitField {
     bool meshChanged                    : 1;
@@ -91,8 +91,8 @@ public:
 
     QAbstractDataProxy *dataProxy() const;
     virtual void setDataProxy(QAbstractDataProxy *proxy);
-    virtual void setController(Abstract3DController *controller);
-    virtual void connectControllerAndProxy(Abstract3DController *newController) = 0;
+    virtual void setGraph(QQuickGraphsItem *graph);
+    virtual void connectGraphAndProxy(QQuickGraphsItem *newGraph) = 0;
     virtual void createItemLabel() = 0;
 
     void setItemLabelFormat(const QString &format);
@@ -127,7 +127,7 @@ protected:
     QString m_itemLabelFormat;
     QAbstractDataProxy *m_dataProxy;
     bool m_visible;
-    Abstract3DController *m_controller;
+    QQuickGraphsItem *m_graph;
     QAbstract3DSeries::Mesh m_mesh;
     bool m_meshSmooth;
     QQuaternion m_meshRotation;
@@ -146,10 +146,10 @@ protected:
     bool m_itemLabelDirty;
     bool m_itemLabelVisible;
 
-    friend class Scatter3DController;
-    friend class Surface3DController;
-    friend class Bars3DController;
-    friend class Abstract3DController;
+    friend class QQuickGraphsScatter;
+    friend class QQuickGraphsSurface;
+    friend class QQuickGraphsBars;
+    friend class QQuickGraphsItem;
 };
 
 QT_END_NAMESPACE

@@ -1,17 +1,18 @@
 // Copyright (C) 2023 The Qt Company Ltd.
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 
-#include "thememanager_p.h"
 #include "q3dtheme_p.h"
+#include "qquickgraphsitem_p.h"
+#include "thememanager_p.h"
 
 QT_BEGIN_NAMESPACE
 
 const float defaultBuiltInColorLevel = 0.7f; // for built-in gradient themes
 const float defaultColorLevel = 0.5f; // for built-in uniform themes
 
-ThemeManager::ThemeManager(Abstract3DController *controller)
+ThemeManager::ThemeManager(QQuickGraphsItem *graph)
     : m_activeTheme(0),
-      m_controller(controller)
+      m_graph(graph)
 {
 }
 
@@ -64,8 +65,8 @@ void ThemeManager::setActiveTheme(Q3DTheme *theme)
             oldTheme = 0;
         } else {
             // Disconnect the old theme from use
-            disconnect(m_activeTheme->d_func(), 0, m_controller, 0);
-            disconnect(m_activeTheme, 0, m_controller, 0);
+            disconnect(m_activeTheme->d_func(), 0, m_graph, 0);
+            disconnect(m_activeTheme, 0, m_graph, 0);
         }
     }
 
@@ -95,24 +96,24 @@ QList<Q3DTheme *> ThemeManager::themes() const
 void ThemeManager::connectThemeSignals()
 {
     connect(m_activeTheme, &Q3DTheme::colorStyleChanged,
-            m_controller, &Abstract3DController::handleThemeColorStyleChanged);
+            m_graph, &QQuickGraphsItem::handleThemeColorStyleChanged);
     connect(m_activeTheme, &Q3DTheme::baseColorsChanged,
-            m_controller, &Abstract3DController::handleThemeBaseColorsChanged);
+            m_graph, &QQuickGraphsItem::handleThemeBaseColorsChanged);
     connect(m_activeTheme, &Q3DTheme::singleHighlightColorChanged,
-            m_controller, &Abstract3DController::handleThemeSingleHighlightColorChanged);
+            m_graph, &QQuickGraphsItem::handleThemeSingleHighlightColorChanged);
     connect(m_activeTheme, &Q3DTheme::multiHighlightColorChanged,
-            m_controller, &Abstract3DController::handleThemeMultiHighlightColorChanged);
+            m_graph, &QQuickGraphsItem::handleThemeMultiHighlightColorChanged);
     connect(m_activeTheme, &Q3DTheme::baseGradientsChanged,
-            m_controller, &Abstract3DController::handleThemeBaseGradientsChanged);
+            m_graph, &QQuickGraphsItem::handleThemeBaseGradientsChanged);
     connect(m_activeTheme, &Q3DTheme::singleHighlightGradientChanged,
-            m_controller, &Abstract3DController::handleThemeSingleHighlightGradientChanged);
+            m_graph, &QQuickGraphsItem::handleThemeSingleHighlightGradientChanged);
     connect(m_activeTheme, &Q3DTheme::multiHighlightGradientChanged,
-            m_controller, &Abstract3DController::handleThemeMultiHighlightGradientChanged);
+            m_graph, &QQuickGraphsItem::handleThemeMultiHighlightGradientChanged);
     connect(m_activeTheme, &Q3DTheme::typeChanged,
-            m_controller, &Abstract3DController::handleThemeTypeChanged);
+            m_graph, &QQuickGraphsItem::handleThemeTypeChanged);
 
     connect(m_activeTheme->d_func(), &Q3DThemePrivate::needRender,
-            m_controller, &Abstract3DController::needRender);
+            m_graph, &QQuickGraphsItem::needRender);
 }
 
 void ThemeManager::setPredefinedPropertiesToTheme(Q3DTheme *theme, Q3DTheme::Theme type)

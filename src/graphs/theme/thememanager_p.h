@@ -14,17 +14,18 @@
 #ifndef THEMEMANAGER_P_H
 #define THEMEMANAGER_P_H
 
-#include "graphsglobal_p.h"
-#include "abstract3dcontroller_p.h"
+//#include "graphsglobal_p.h"
 #include "q3dtheme.h"
 
 QT_BEGIN_NAMESPACE
+
+class QQuickGraphsItem;
 
 class ThemeManager : public QObject
 {
     Q_OBJECT
 public:
-    ThemeManager(Abstract3DController *controller);
+    ThemeManager(QQuickGraphsItem *graph);
     ~ThemeManager();
 
     void addTheme(Q3DTheme *theme);
@@ -64,7 +65,7 @@ protected:
 private:
     Q3DTheme *m_activeTheme;
     QList<Q3DTheme *> m_themes; // List of all added themes
-    Abstract3DController *m_controller;
+    QQuickGraphsItem *m_graph;
 };
 
 QT_END_NAMESPACE
