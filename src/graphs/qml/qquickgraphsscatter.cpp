@@ -623,9 +623,10 @@ QQuick3DModel *QQuickGraphsScatter::createDataItem(QAbstract3DSeries *series)
     return model;
 }
 
-void QQuickGraphsScatter::removeDataItems(ScatterModel *graphModel)
+void QQuickGraphsScatter::removeDataItems(ScatterModel *graphModel,
+                                          QAbstract3DGraph::OptimizationHint optimizationHint)
 {
-    if (m_scatterController->optimizationHint() == QAbstract3DGraph::OptimizationHint::Default) {
+    if (optimizationHint == QAbstract3DGraph::OptimizationHint::Default) {
         delete graphModel->instancing;
         graphModel->instancing = nullptr;
         deleteDataItem(graphModel->instancingRootItem);
@@ -660,7 +661,7 @@ void QQuickGraphsScatter::recreateDataItems()
     for (auto series : seriesList) {
         for (const auto &model : std::as_const(m_scatterGraphs)) {
             if (model->series == series)
-                removeDataItems(model);
+                removeDataItems(model, optimizationHint());
         }
     }
     m_scatterController->markDataDirty();
@@ -674,7 +675,7 @@ void QQuickGraphsScatter::recreateDataItems(const QList<ScatterModel *> &graphs)
     for (auto series : seriesList) {
         for (const auto &model : graphs) {
             if (model->series == series)
-                removeDataItems(model);
+                removeDataItems(model, optimizationHint());
         }
     }
     m_scatterController->markDataDirty();
@@ -867,7 +868,7 @@ void QQuickGraphsScatter::removeSeries(QScatter3DSeries *series)
     for (QList<ScatterModel *>::ConstIterator it = m_scatterGraphs.cbegin();
          it != m_scatterGraphs.cend();) {
         if ((*it)->series == series) {
-            removeDataItems(*it);
+            removeDataItems(*it, optimizationHint());
 
             if ((*it)->seriesTexture)
                 delete (*it)->seriesTexture;
@@ -1124,9 +1125,26 @@ void QQuickGraphsScatter::clearAllSelectionInstanced()
         graph->instancing->resetVisibilty();
 }
 
+void QQuickGraphsScatter::optimizationChanged(QAbstract3DGraph::OptimizationHint toOptimization)
+{
+    if (toOptimization == QAbstract3DGraph::OptimizationHint::Default) {
+        for (const auto &graph : std::as_const(m_scatterGraphs))
+            removeDataItems(graph, QAbstract3DGraph::OptimizationHint::Legacy);
+    } else {
+        for (const auto &graph : std::as_const(m_scatterGraphs))
+            removeDataItems(graph, QAbstract3DGraph::OptimizationHint::Default);
+    }
+    m_scatterController->setSeriesVisualsDirty();
+}
+
 void QQuickGraphsScatter::updateGraph()
 {
     updatePointScaleSize();
+    if (m_optimizationChanged) {
+        optimizationChanged(optimizationHint());
+        m_optimizationChanged = false;
+    }
+
     for (auto graphModel : std::as_const(m_scatterGraphs)) {
         if (m_scatterController->isDataDirty()) {
             if (optimizationHint() == QAbstract3DGraph::OptimizationHint::Legacy) {
@@ -1218,5 +1236,11 @@ void QQuickGraphsScatter::synchData()
 void QQuickGraphsScatter::cameraRotationChanged()
 {
     m_scatterController->m_isDataDirty = true;
+}
+
+void QQuickGraphsScatter::handleOptimizationHintChange(QAbstract3DGraph::OptimizationHint hint)
+{
+    m_optimizationChanged = true;
+    QQuickGraphsItem::handleOptimizationHintChange(hint);
 }
 QT_END_NAMESPACE

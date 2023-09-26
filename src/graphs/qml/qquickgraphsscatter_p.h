@@ -126,6 +126,8 @@ private:
 
     QList<ScatterModel *> m_scatterGraphs;
 
+    bool m_optimizationChanged = false;
+
     void connectSeries(QScatter3DSeries *series);
     void disconnectSeries(QScatter3DSeries *series);
     qsizetype getItemIndex(QQuick3DModel *item);
@@ -154,7 +156,8 @@ private:
     QQuick3DModel *createDataItemModel(QAbstract3DSeries::Mesh meshType);
     QQuick3DNode *createSeriesRoot();
     QQuick3DModel *createDataItem(QAbstract3DSeries *series);
-    void removeDataItems(ScatterModel *graphModel);
+    void removeDataItems(ScatterModel *graphModel,
+                         QAbstract3DGraph::OptimizationHint optimizationHint);
     void fixMeshFileName(QString &fileName, QAbstract3DSeries::Mesh meshType);
     QString getMeshFileName(QAbstract3DSeries::Mesh meshType);
 
@@ -184,11 +187,14 @@ private:
     void clearSelectionModel();
     void clearAllSelectionInstanced();
 
+    void optimizationChanged(QAbstract3DGraph::OptimizationHint toOptimization);
+
     void updateGraph() override;
     void synchData() override;
 
 private slots:
     void cameraRotationChanged();
+    void handleOptimizationHintChange(QAbstract3DGraph::OptimizationHint hint) override;
 
     friend class Q3DScatter;
 };
