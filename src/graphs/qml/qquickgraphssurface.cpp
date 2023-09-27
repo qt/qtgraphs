@@ -781,7 +781,7 @@ QVector3D QQuickGraphsSurface::getNormalizedVertex(const QSurfaceDataItem &data,
     float scale, translate;
     if (polar) {
         float angle = normalizedX * M_PI * 2.0f;
-        float radius = normalizedZ;
+        float radius = normalizedZ * this->scaleWithBackground().z();
         normalizedX = radius * qSin(angle) * 1.0f;
         normalizedZ = -(radius * qCos(angle)) * 1.0f;
     } else {
