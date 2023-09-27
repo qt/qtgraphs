@@ -35,8 +35,8 @@
  * \qmlproperty AbstractGraph3D.CameraPreset AbstractGraph3D::cameraPreset
  *
  * The currently active camera preset, which is one of
- * \l{AbstractGraph3D::CameraPreset}{AbstractGraph3D.CameraPreset}. If no preset is active, the value
- * is \l{AbstractGraph3D::CameraPreset::None}{AbstractGraph3D.CameraPreset.None}.
+ * \l{AbstractGraph3D::cameraPreset}{AbstractGraph3D.CameraPreset}. If no
+ * preset is active, the value is \c {AbstractGraph3D.CameraPreset.None}.
  */
 
 /*!
@@ -58,9 +58,10 @@
  *
  * The camera zoom level in percentage. The default value of \c{100.0}
  * means there is no zoom in or out set in the camera.
- * The value is limited by the minZoomLevel and maxZoomLevel properties.
+ * The value is limited by the minCameraZoomLevel and maxCameraZoomLevel
+ * properties.
  *
- * \sa minZoomLevel, maxZoomLevel
+ * \sa minCameraZoomLevel, maxCameraZoomLevel
  */
 
 /*!
@@ -69,11 +70,11 @@
  * Sets the minimum allowed camera zoom level.
  * If the new minimum level is higher than the existing maximum level, the maximum level is
  * adjusted to the new minimum as well.
- * If the current zoomLevel is outside the new bounds, it is adjusted as well.
- * The minZoomLevel cannot be set below \c{1.0}.
+ * If the current cameraZoomLevel is outside the new bounds, it is adjusted as well.
+ * The minCameraZoomLevel cannot be set below \c{1.0}.
  * Defaults to \c{10.0}.
  *
- * \sa zoomLevel, maxZoomLevel
+ * \sa cameraZoomLevel, maxCameraZoomLevel
  */
 
 /*!
@@ -82,10 +83,10 @@
  * Sets the maximum allowed camera zoom level.
  * If the new maximum level is lower than the existing minimum level, the minimum level is
  * adjusted to the new maximum as well.
- * If the current zoomLevel is outside the new bounds, it is adjusted as well.
+ * If the current cameraZoomLevel is outside the new bounds, it is adjusted as well.
  * Defaults to \c{500.0f}.
  *
- * \sa zoomLevel, minZoomLevel
+ * \sa cameraZoomLevel, minCameraZoomLevel
  */
 
 /*!

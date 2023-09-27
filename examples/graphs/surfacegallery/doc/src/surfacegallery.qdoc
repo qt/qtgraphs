@@ -93,10 +93,9 @@
     \snippet surfacegallery/qml/surfacegallery/SurfaceSpectrogram.qml 0
 
     The key properties for enabling the 2D effect are
-    \l{AbstractGraph3D::orthoProjection}{orthoProjection} and
-    \l{Camera3D::cameraPreset}{scene.activeCamera.cameraPreset}. Remove the perspective by
-    enabling orthographic projection for the graph, and the Y-dimension by viewing the graph
-    directly from above:
+    \l{AbstractGraph3D::}{orthoProjection} and \l{AbstractGraph3D::}{cameraPreset}. Remove the
+    perspective by enabling orthographic projection for the graph, and the Y-dimension by viewing
+    the graph directly from above:
 
     \snippet surfacegallery/qml/surfacegallery/SurfaceSpectrogram.qml 1
 

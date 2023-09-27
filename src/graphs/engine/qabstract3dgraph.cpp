@@ -564,7 +564,7 @@ void QAbstract3DGraph::setCameraXRotation(float rotation)
 }
 
 /*!
- * \property Q3DCamera::cameraYRotation
+ * \property QAbstract3DGraph::cameraYRotation
  *
  * \brief The Y-rotation angle of the camera around the target point in degrees.
  */
@@ -619,15 +619,15 @@ void QAbstract3DGraph::setMaxCameraYRotation(float rotation)
 }
 
 /*!
-* \property QAbstract3DGraph::cameraZoomLevel
-*
-* \brief The camera zoom level in percentage.
-*
-* The default value of \c{100.0f} means there is no zoom in or out set in the
-* camera. The value is limited by the minCameraZoomLevel and maxCameraZoomLevel properties.
-*
-* \sa minCameraZoomLevel, maxCameraZoomLevel
-*/
+ * \property QAbstract3DGraph::cameraZoomLevel
+ *
+ * \brief The camera zoom level in percentage.
+ *
+ * The default value of \c{100.0f} means there is no zoom in or out set in the
+ * camera. The value is limited by the minCameraZoomLevel and maxCameraZoomLevel properties.
+ *
+ * \sa minCameraZoomLevel, maxCameraZoomLevel
+ */
 float QAbstract3DGraph::cameraZoomLevel()
 {
     return m_graphsItem->cameraZoomLevel();
@@ -685,18 +685,18 @@ void QAbstract3DGraph::setMaxCameraZoomLevel(float level)
 
 
 /*!
-* \property QAbstract3DGraph::cameraTargetPosition
-*
-* \brief The camera target position as a vector or vertex in the 3D space.
-*
-* Defaults to \c {QVector3D(0.0, 0.0, 0.0)}.
-*
-* Valid coordinate values are between \c{-1.0...1.0}, where the edge values indicate
-* the edges of the corresponding axis range. Any values outside this range are clamped to the edge.
-*
-* \note For bar graphs, the Y-coordinate is ignored and camera always targets a point on
-* the horizontal background.
-*/
+ * \property QAbstract3DGraph::cameraTargetPosition
+ *
+ * \brief The camera target position as a vector or vertex in the 3D space.
+ *
+ * Defaults to \c {QVector3D(0.0, 0.0, 0.0)}.
+ *
+ * Valid coordinate values are between \c{-1.0...1.0}, where the edge values indicate
+ * the edges of the corresponding axis range. Any values outside this range are clamped to the edge.
+ *
+ * \note For bar graphs, the Y-coordinate is ignored and camera always targets a point on
+ * the horizontal background.
+ */
 QVector3D QAbstract3DGraph::cameraTargetPosition()
 {
     return m_graphsItem->cameraTargetPosition();
@@ -769,11 +769,11 @@ void QAbstract3DGraph::setWrapCameraYRotation(bool wrap)
 }
 
 /*!
-* Utility function that sets the camera rotations and distance.\a horizontal and \a vertical
-* define the camera rotations to be used.
-* Optional \a zoom parameter can be given to set the zoom percentage of the camera within
-* the bounds defined by minCameraZoomLevel and maxCameraZoomLevel properties.
-*/
+ * Utility function that sets the camera rotations and distance.\a horizontal and \a vertical
+ * define the camera rotations to be used.
+ * Optional \a zoom parameter can be given to set the zoom percentage of the camera within
+ * the bounds defined by minCameraZoomLevel and maxCameraZoomLevel properties.
+ */
 void QAbstract3DGraph::setCameraPosition(float horizontal, float vertical, float zoom)
 {
     m_graphsItem->setCameraPosition(horizontal, vertical, zoom);
