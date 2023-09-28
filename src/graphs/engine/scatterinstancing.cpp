@@ -52,7 +52,7 @@ void ScatterInstancing::setRangeGradient(bool newRangeGradient)
     m_rangeGradient = newRangeGradient;
 }
 
-QList<float> &ScatterInstancing::customData()
+const QList<float> &ScatterInstancing::customData() const
 {
     return m_customData;
 }

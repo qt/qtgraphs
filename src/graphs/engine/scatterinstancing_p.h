@@ -35,7 +35,7 @@ public:
     void hideDataItem(int index);
     void resetVisibilty();
 
-    QList<float> &customData();
+    const QList<float> &customData() const;
     void setCustomData(const QList<float> &newCustomData);
 
     void markDataDirty();
