@@ -53,11 +53,16 @@ void CustomFormatter::recalculate()
     gridCount += minFullDate.daysTo(maxFullDate) + 1;
     int subGridCount = axis()->subSegmentCount() - 1;
 
+    QList<float> gridPositions;
+    QList<float> subGridPositions;
+    QList<float> labelPositions;
+    QStringList labelStrings;
+
     // Reserve space for position arrays and label strings
-    gridPositions().resize(gridCount);
-    subGridPositions().resize((gridCount + 1) * subGridCount);
-    labelPositions().resize(gridCount);
-    labelStrings().reserve(gridCount);
+    gridPositions.resize(gridCount);
+    subGridPositions.resize((gridCount + 1) * subGridCount);
+    labelPositions.resize(gridCount);
+    labelStrings.reserve(gridCount);
 
     // Calculate positions and format labels
     qint64 startMs = minTime.toMSecsSinceEpoch();
@@ -71,25 +76,29 @@ void CustomFormatter::recalculate()
 
     for (int i = 0; i < gridCount; i++) {
         qreal gridValue = firstLineOffset + (segmentStep * qreal(i));
-        gridPositions()[i] = float(gridValue);
-        labelPositions()[i] = float(gridValue);
-        labelStrings() << minFullDate.addDays(i).toString(axis()->labelFormat());
+        gridPositions[i] = float(gridValue);
+        labelPositions[i] = float(gridValue);
+        labelStrings << minFullDate.addDays(i).toString(axis()->labelFormat());
     }
 
     for (int i = 0; i <= gridCount; i++) {
-        if (subGridPositions().size()) {
+        if (subGridPositions.size()) {
             for (int j = 0; j < subGridCount; j++) {
                 float position;
                 if (i)
-                    position =  gridPositions().at(i - 1) + subSegmentStep * (j + 1);
+                    position =  gridPositions.at(i - 1) + subSegmentStep * (j + 1);
                 else
-                    position =  gridPositions().at(0) - segmentStep + subSegmentStep * (j + 1);
+                    position =  gridPositions.at(0) - segmentStep + subSegmentStep * (j + 1);
                 if (position > 1.0f || position < 0.0f)
-                    position = gridPositions().at(0);
-                subGridPositions()[i * subGridCount + j] = position;
+                    position = gridPositions.at(0);
+                subGridPositions[i * subGridCount + j] = position;
             }
         }
     }
+    setGridPoitions(gridPositions);
+    setSubGridPositions(subGridPositions);
+    setlabelPositions(labelPositions);
+    setLabelStrings(labelStrings);
 }
 //! [2]
 

@@ -252,15 +252,26 @@ QValue3DAxis *QValue3DAxisFormatter::axis() const
  * Returns a reference to the array of normalized grid line positions.
  * The default array size is equal to the segment count of the parent axis plus one, but
  * a subclassed implementation of the recalculate() method may resize the array differently.
- * The values should be between \c 0.0 (the minimum value) and \c 1.0 (the
- * maximum value), inclusive.
  *
  * \sa QValue3DAxis::segmentCount, recalculate()
  */
-QList<float> &QValue3DAxisFormatter::gridPositions()
+const QList<float> &QValue3DAxisFormatter::gridPositions() const
+{
+    const Q_D(QValue3DAxisFormatter);
+    return d->m_gridPositions;
+}
+
+/*!
+ * Sets a list of new gridpositions.
+ * The values should be between \c 0.0 (the minimum value) and \c 1.0 (the
+ * maximum value), inclusive.
+ *
+ * \sa QValue3DAxis::segmentCount, recalculate(), gridPositions
+ */
+void QValue3DAxisFormatter::setGridPoitions(QList<float> gridPositions)
 {
     Q_D(QValue3DAxisFormatter);
-    return d->m_gridPositions;
+    d->m_gridPositions = gridPositions;
 }
 
 /*!
@@ -268,45 +279,77 @@ QList<float> &QValue3DAxisFormatter::gridPositions()
  * The default array size is equal to the segment count of the parent axis times
  * the sub-segment count of the parent axis minus one, but a subclassed
  * implementation of the recalculate() method may resize the array differently.
- * The values should be between \c 0.0 (the minimum value) and \c 1.0 (the
- * maximum value), inclusive.
  *
  * \sa QValue3DAxis::segmentCount, QValue3DAxis::subSegmentCount, recalculate()
  */
-QList<float> &QValue3DAxisFormatter::subGridPositions()
+const QList<float> &QValue3DAxisFormatter::subGridPositions() const
+{
+    const Q_D(QValue3DAxisFormatter);
+    return d->m_subGridPositions;
+}
+
+/*!
+ * Sets a list of new subgridpositions.
+ * The values should be between \c 0.0 (the minimum value) and \c 1.0 (the
+ * maximum value), inclusive.
+ *
+ * \sa QValue3DAxis::segmentCount, QValue3DAxis::subSegmentCount, recalculate(), subGridPositions
+ */
+void QValue3DAxisFormatter::setSubGridPositions(QList<float> subGridPositions)
 {
     Q_D(QValue3DAxisFormatter);
-    return d->m_subGridPositions;
+    d->m_subGridPositions = subGridPositions;
 }
 
 /*!
  * Returns a reference to the array of normalized label positions.
  * The default array size is equal to the segment count of the parent axis plus one, but
  * a subclassed implementation of the recalculate() method may resize the array
- * differently. The values should be between \c 0.0 (the minimum value) and
- * \c 1.0 (the maximum value), inclusive.
- * By default, the label at the index zero corresponds to the minimum value
+ * differently. By default, the label at the index zero corresponds to the minimum value
  * of the axis.
  *
  * \sa QValue3DAxis::segmentCount, QAbstract3DAxis::labels, recalculate()
  */
-QList<float> &QValue3DAxisFormatter::labelPositions()
+const QList<float> &QValue3DAxisFormatter::labelPositions() const
 {
-    Q_D(QValue3DAxisFormatter);
+    const Q_D(QValue3DAxisFormatter);
     return d->m_labelPositions;
 }
 
 /*!
+ * Sets a list of new labelPositions.
+ * The values should be between \c 0.0 (the minimum value) and
+ * \c 1.0 (the maximum value), inclusive.
+ *
+ * \sa QValue3DAxis::segmentCount, QAbstract3DAxis::labels, recalculate(), labelPosittions()
+ */
+void QValue3DAxisFormatter::setlabelPositions(QList<float> labelPositions)
+{
+    Q_D(QValue3DAxisFormatter);
+    d->m_labelPositions = labelPositions;
+}
+
+/*!
  * Returns a reference to the string list containing formatter label strings.
- * The array size must be equal to the size of the label positions array, which
- * the indexes also correspond to.
  *
  * \sa labelPositions()
  */
-QStringList &QValue3DAxisFormatter::labelStrings()
+const QStringList &QValue3DAxisFormatter::labelStrings() const
+{
+    const Q_D(QValue3DAxisFormatter);
+    return d->m_labelStrings;
+}
+
+/*!
+ * Sets a list of new labelStrings.
+ * The array size must be equal to the size of the label positions array, which
+ * the indexes also correspond to.
+ * \sa labelPositions(), labelStrings()
+ */
+void QValue3DAxisFormatter::setLabelStrings(QStringList labelStrings)
 {
     Q_D(QValue3DAxisFormatter);
-    return d->m_labelStrings;
+    d->m_labelStrings = labelStrings;
 }
 
 /*!
