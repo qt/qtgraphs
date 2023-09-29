@@ -8,10 +8,11 @@
 
 QT_BEGIN_NAMESPACE
 
-Utils::ParamType Utils::preParseFormat(const QString &format, QString &preStr, QString &postStr,
-                                       int &precision, char &formatSpec)
+Utils::ParamType Utils::preParseFormat(
+    const QString &format, QString &preStr, QString &postStr, int &precision, char &formatSpec)
 {
-    static QRegularExpression formatMatcher(QStringLiteral("^([^%]*)%([\\-\\+#\\s\\d\\.lhjztL]*)([dicuoxfegXFEG])(.*)$"));
+    static QRegularExpression formatMatcher(
+        QStringLiteral("^([^%]*)%([\\-\\+#\\s\\d\\.lhjztL]*)([dicuoxfegXFEG])(.*)$"));
     static QRegularExpression precisionMatcher(QStringLiteral("\\.(\\d+)"));
 
     Utils::ParamType retVal;
@@ -47,11 +48,9 @@ Utils::ParamType Utils::mapFormatCharToParamType(char formatSpec)
     ParamType retVal = ParamType::Unknown;
     if (formatSpec == 'd' || formatSpec == 'i' || formatSpec == 'c') {
         retVal = ParamType::Int;
-    } else if (formatSpec == 'u' || formatSpec == 'o'
-               || formatSpec == 'x'|| formatSpec == 'X') {
+    } else if (formatSpec == 'u' || formatSpec == 'o' || formatSpec == 'x' || formatSpec == 'X') {
         retVal = ParamType::UInt;
-    } else if (formatSpec == 'f' || formatSpec == 'F'
-               || formatSpec == 'e' || formatSpec == 'E'
+    } else if (formatSpec == 'f' || formatSpec == 'F' || formatSpec == 'e' || formatSpec == 'E'
                || formatSpec == 'g' || formatSpec == 'G') {
         retVal = ParamType::Real;
     }
@@ -69,14 +68,20 @@ QString Utils::formatLabelSprintf(const QByteArray &format, Utils::ParamType par
     case ParamType::Real:
         return QString::asprintf(format.constData(), value);
     default:
-        // Return format string to detect errors. Bars selection label logic also depends on this.
+        // Return format string to detect errors. Bars selection label logic also
+        // depends on this.
         return QString::fromUtf8(format);
     }
 }
 
-QString Utils::formatLabelLocalized(Utils::ParamType paramType, qreal value,
-                                    const QLocale &locale, const QString &preStr, const QString &postStr,
-                                    int precision, char formatSpec, const QByteArray &format)
+QString Utils::formatLabelLocalized(Utils::ParamType paramType,
+                                    qreal value,
+                                    const QLocale &locale,
+                                    const QString &preStr,
+                                    const QString &postStr,
+                                    int precision,
+                                    char formatSpec,
+                                    const QByteArray &format)
 {
     switch (paramType) {
     case ParamType::Int:
@@ -85,7 +90,8 @@ QString Utils::formatLabelLocalized(Utils::ParamType paramType, qreal value,
     case ParamType::Real:
         return preStr + locale.toString(value, formatSpec, precision) + postStr;
     default:
-        // Return format string to detect errors. Bars selection label logic also depends on this.
+        // Return format string to detect errors. Bars selection label logic also
+        // depends on this.
         return QString::fromUtf8(format);
     }
 }
@@ -128,7 +134,8 @@ QQuaternion Utils::calculateRotation(const QVector3D &xyzRotations)
 
 void Utils::verifyGradientCompleteness(QLinearGradient &gradient)
 {
-    // Fix the start and end stops of the gradient, to make sure it's complete (0...1)
+    // Fix the start and end stops of the gradient, to make sure it's complete
+    // (0...1)
     auto stops = gradient.stops();
     if (stops.first().first != 0.) {
         const QColor firstColor = stops.first().second;

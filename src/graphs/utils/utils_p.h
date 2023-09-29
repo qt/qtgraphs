@@ -14,10 +14,10 @@
 #ifndef UTILS_P_H
 #define UTILS_P_H
 
-#include <private/graphsglobal_p.h>
+#include <QtCore/qlocale.h>
 #include <QtGui/qimage.h>
 #include <QtGui/qquaternion.h>
-#include <QtCore/qlocale.h>
+#include <private/graphsglobal_p.h>
 
 QT_FORWARD_DECLARE_CLASS(QLinearGradient)
 
@@ -26,25 +26,24 @@ QT_BEGIN_NAMESPACE
 class Utils
 {
 public:
-    enum class ParamType {
-        Unknown = 0,
-        Int,
-        UInt,
-        Real
-    };
+    enum class ParamType { Unknown = 0, Int, UInt, Real };
 
-    static ParamType preParseFormat(const QString &format, QString &preStr, QString &postStr,
-                                    int &precision, char &formatSpec);
+    static ParamType preParseFormat(
+        const QString &format, QString &preStr, QString &postStr, int &precision, char &formatSpec);
     static QString formatLabelSprintf(const QByteArray &format, ParamType paramType, qreal value);
-    static QString formatLabelLocalized(ParamType paramType, qreal value,
-                               const QLocale &locale, const QString &preStr, const QString &postStr,
-                               int precision, char formatSpec, const QByteArray &format);
+    static QString formatLabelLocalized(ParamType paramType,
+                                        qreal value,
+                                        const QLocale &locale,
+                                        const QString &preStr,
+                                        const QString &postStr,
+                                        int precision,
+                                        char formatSpec,
+                                        const QByteArray &format);
     static QString defaultLabelFormat();
 
     static float wrapValue(float value, float min, float max);
     static QQuaternion calculateRotation(const QVector3D &xyzRotations);
     static void verifyGradientCompleteness(QLinearGradient &gradient);
-
 
 private:
     static ParamType mapFormatCharToParamType(char formatSpec);

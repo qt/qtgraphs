@@ -4,13 +4,12 @@
 #ifndef QUTILS_H
 #define QUTILS_H
 
-#include <QtGui/QSurfaceFormat>
 #include <QtCore/QCoreApplication>
+#include <QtGui/QSurfaceFormat>
 
 QT_BEGIN_NAMESPACE
 
-[[maybe_unused]]
-static inline QSurfaceFormat qDefaultSurfaceFormat(bool antialias)
+[[maybe_unused]] static inline QSurfaceFormat qDefaultSurfaceFormat(bool antialias)
 {
     QSurfaceFormat surfaceFormat;
     surfaceFormat.setDepthBufferSize(24);
@@ -28,4 +27,3 @@ static inline QSurfaceFormat qDefaultSurfaceFormat(bool antialias)
 QT_END_NAMESPACE
 
 #endif
-
