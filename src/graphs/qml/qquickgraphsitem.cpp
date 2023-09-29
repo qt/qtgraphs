@@ -3617,6 +3617,8 @@ bool QQuickGraphsItem::doPicking(const QPointF &point)
         }
 
         for (const auto &result : results) {
+            if (!result.objectHit())
+                continue;
             QString objName = result.objectHit()->objectName();
             if (objName.contains(QStringLiteral("ElementAxisXLabel")))
                 handleSelectedElementChange(QAbstract3DGraph::ElementType::AxisXLabel);
