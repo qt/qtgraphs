@@ -11,27 +11,30 @@ QT_BEGIN_NAMESPACE
  * \inmodule QtGraphs
  * \brief The Q3DScatter class provides methods for rendering 3D scatter graphs.
  *
- * This class enables developers to render scatter graphs in 3D and to view them by rotating the scene
- * freely. Rotation is done by holding down the right mouse button and moving the mouse. Zooming
- * is done by mouse wheel. Selection, if enabled, is done by left mouse button. The scene can be
- * reset to default camera view by clicking mouse wheel. In touch devices rotation is done
- * by tap-and-move, selection by tap-and-hold and zoom by pinch.
+ * This class enables developers to render scatter graphs in 3D and to view them
+ * by rotating the scene freely. Rotation is done by holding down the right
+ * mouse button and moving the mouse. Zooming is done by mouse wheel. Selection,
+ * if enabled, is done by left mouse button. The scene can be reset to default
+ * camera view by clicking mouse wheel. In touch devices rotation is done by
+ * tap-and-move, selection by tap-and-hold and zoom by pinch.
  *
- * If no axes are set explicitly to Q3DScatter, temporary default axes with no labels are created.
- * These default axes can be modified via axis accessors, but as soon any axis is set explicitly
- * for the orientation, the default axis for that orientation is destroyed.
+ * If no axes are set explicitly to Q3DScatter, temporary default axes with no
+ * labels are created. These default axes can be modified via axis accessors,
+ * but as soon any axis is set explicitly for the orientation, the default axis
+ * for that orientation is destroyed.
  *
  * Q3DScatter supports more than one series visible at the same time.
  *
  * \section1 How to construct a minimal Q3DScatter graph
  *
- * First, construct Q3DScatter. Since we are running the graph as top level window
- * in this example, we need to clear the \c Qt::FramelessWindowHint flag, which gets set by
- * default:
+ * First, construct Q3DScatter. Since we are running the graph as top level
+ * window in this example, we need to clear the \c Qt::FramelessWindowHint flag,
+ * which gets set by default:
  *
  * \snippet doc_src_q3dscatter_construction.cpp 0
  *
- * Now Q3DScatter is ready to receive data to be rendered. Add one series of 3 QVector3D items:
+ * Now Q3DScatter is ready to receive data to be rendered. Add one series of 3
+ * QVector3D items:
  *
  * \snippet doc_src_q3dscatter_construction.cpp 1
  *
@@ -47,10 +50,10 @@ QT_BEGIN_NAMESPACE
  *
  * \image q3dscatter-minimal.png
  *
- * The scene can be rotated, zoomed into, and an item can be selected to view its position,
- * but no other interaction is included in this minimal code example.
- * You can learn more by familiarizing yourself with the examples provided, like
- * the \l{Simple Scatter Graph}.
+ * The scene can be rotated, zoomed into, and an item can be selected to view
+ * its position, but no other interaction is included in this minimal code
+ * example. You can learn more by familiarizing yourself with the examples
+ * provided, like the \l{Simple Scatter Graph}.
  *
  * \sa Q3DBars, Q3DSurface, {Qt Graphs C++ Classes}
  */
@@ -58,28 +61,31 @@ QT_BEGIN_NAMESPACE
 /*!
  * Constructs a new 3D scatter graph.
  */
-Q3DScatter::Q3DScatter() : QAbstract3DGraph()
+Q3DScatter::Q3DScatter()
+    : QAbstract3DGraph()
 {
     QQmlComponent *component = new QQmlComponent(engine(), this);
-    component->setData("import QtQuick; import QtGraphs; Scatter3D { anchors.fill: parent; }", QUrl());
+    component->setData("import QtQuick; import QtGraphs; Scatter3D { anchors.fill: parent; }",
+                       QUrl());
     m_graphsItem.reset(qobject_cast<QQuickGraphsScatter *>(component->create()));
     setContent(component->url(), component, m_graphsItem.data());
 
-    QObject::connect(m_graphsItem.data(), &QQuickGraphsItem::selectedElementChanged,
-                     this, &QAbstract3DGraph::selectedElementChanged);
+    QObject::connect(m_graphsItem.data(),
+                     &QQuickGraphsItem::selectedElementChanged,
+                     this,
+                     &QAbstract3DGraph::selectedElementChanged);
 }
 
 /*!
  * Destroys the 3D scatter graph.
  */
-Q3DScatter::~Q3DScatter()
-{
-}
+Q3DScatter::~Q3DScatter() {}
 
 /*!
- * Adds the \a series to the graph. A graph can contain multiple series, but has only one set of
- * axes. If the newly added series has specified a selected item, it will be highlighted and
- * any existing selection will be cleared. Only one added series can have an active selection.
+ * Adds the \a series to the graph. A graph can contain multiple series, but has
+ * only one set of axes. If the newly added series has specified a selected
+ * item, it will be highlighted and any existing selection will be cleared. Only
+ * one added series can have an active selection.
  *
  * \sa QAbstract3DGraph::hasSeries()
  */
@@ -116,10 +122,9 @@ QList<QScatter3DSeries *> Q3DScatter::seriesList() const
  * Sets \a axis as the active x-axis. Implicitly calls addAxis() to transfer the
  * ownership of the axis to this graph.
  *
- * If \a axis is null, a temporary default axis with no labels and an automatically adjusting
- * range is created.
- * This temporary axis is destroyed if another axis is set explicitly to the
- * same orientation.
+ * If \a axis is null, a temporary default axis with no labels and an
+ * automatically adjusting range is created. This temporary axis is destroyed if
+ * another axis is set explicitly to the same orientation.
  *
  * \sa addAxis(), releaseAxis()
  */
@@ -141,10 +146,9 @@ QValue3DAxis *Q3DScatter::axisX() const
  * Sets \a axis as the active y-axis. Implicitly calls addAxis() to transfer the
  * ownership of the axis to this graph.
  *
- * If \a axis is null, a temporary default axis with no labels and an automatically adjusting
- * range is created.
- * This temporary axis is destroyed if another axis is set explicitly to the
- * same orientation.
+ * If \a axis is null, a temporary default axis with no labels and an
+ * automatically adjusting range is created. This temporary axis is destroyed if
+ * another axis is set explicitly to the same orientation.
  *
  * \sa addAxis(), releaseAxis()
  */
@@ -166,10 +170,9 @@ QValue3DAxis *Q3DScatter::axisY() const
  * Sets \a axis as the active z-axis. Implicitly calls addAxis() to transfer the
  * ownership of the axis to this graph.
  *
- * If \a axis is null, a temporary default axis with no labels and an automatically adjusting
- * range is created.
- * This temporary axis is destroyed if another axis is set explicitly to the
- * same orientation.
+ * If \a axis is null, a temporary default axis with no labels and an
+ * automatically adjusting range is created. This temporary axis is destroyed if
+ * another axis is set explicitly to the same orientation.
  *
  * \sa addAxis(), releaseAxis()
  */
@@ -194,9 +197,9 @@ QScatter3DSeries *Q3DScatter::selectedSeries() const
 }
 
 /*!
- * Adds \a axis to the graph. The axes added via addAxis are not yet taken to use,
- * addAxis is simply used to give the ownership of the \a axis to the graph.
- * The \a axis must not be null or added to another graph.
+ * Adds \a axis to the graph. The axes added via addAxis are not yet taken to
+ * use, addAxis is simply used to give the ownership of the \a axis to the
+ * graph. The \a axis must not be null or added to another graph.
  *
  * \sa releaseAxis(), setAxisX(), setAxisY(), setAxisZ()
  */
@@ -206,10 +209,12 @@ void Q3DScatter::addAxis(QValue3DAxis *axis)
 }
 
 /*!
- * Releases the ownership of the \a axis back to the caller, if it is added to this graph.
- * If the released \a axis is in use, a new default axis will be created and set active.
+ * Releases the ownership of the \a axis back to the caller, if it is added to
+ * this graph. If the released \a axis is in use, a new default axis will be
+ * created and set active.
  *
- * If the default axis is released and added back later, it behaves as any other axis would.
+ * If the default axis is released and added back later, it behaves as any other
+ * axis would.
  *
  * \sa addAxis(), setAxisX(), setAxisY(), setAxisZ()
  */
@@ -250,4 +255,3 @@ const QQuickGraphsScatter *Q3DScatter::dptrc() const
 }
 
 QT_END_NAMESPACE
-

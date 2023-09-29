@@ -11,42 +11,46 @@ QT_BEGIN_NAMESPACE
  * \inmodule QtGraphs
  * \brief The Q3DBars class provides methods for rendering 3D bar graphs.
  *
- * This class enables developers to render bar graphs in 3D and to view them by rotating the scene
- * freely. Rotation is done by holding down the right mouse button and moving the mouse. Zooming
- * is done by mouse wheel. Selection, if enabled, is done by left mouse button. The scene can be
- * reset to default camera view by clicking mouse wheel. In touch devices rotation is done
- * by tap-and-move, selection by tap-and-hold and zoom by pinch.
+ * This class enables developers to render bar graphs in 3D and to view them by
+ * rotating the scene freely. Rotation is done by holding down the right mouse
+ * button and moving the mouse. Zooming is done by mouse wheel. Selection, if
+ * enabled, is done by left mouse button. The scene can be reset to default
+ * camera view by clicking mouse wheel. In touch devices rotation is done by
+ * tap-and-move, selection by tap-and-hold and zoom by pinch.
  *
- * If no axes are set explicitly to Q3DBars, temporary default axes with no labels are created.
- * These default axes can be modified via axis accessors, but as soon any axis is set explicitly
- * for the orientation, the default axis for that orientation is destroyed.
+ * If no axes are set explicitly to Q3DBars, temporary default axes with no
+ * labels are created. These default axes can be modified via axis accessors,
+ * but as soon any axis is set explicitly for the orientation, the default axis
+ * for that orientation is destroyed.
  *
- * Q3DBars supports more than one series visible at the same time. It is not necessary for all series
- * to have the same amount of rows and columns.
- * Row and column labels are taken from the first added series, unless explicitly defined to
- * row and column axes.
+ * Q3DBars supports more than one series visible at the same time. It is not
+ * necessary for all series to have the same amount of rows and columns. Row and
+ * column labels are taken from the first added series, unless explicitly
+ * defined to row and column axes.
  *
  * \section1 How to construct a minimal Q3DBars graph
  *
- * First, construct an instance of Q3DBars. Since we are running the graph as top level window
- * in this example, we need to clear the \c Qt::FramelessWindowHint flag, which gets set by
- * default:
+ * First, construct an instance of Q3DBars. Since we are running the graph as
+ * top level window in this example, we need to clear the \c
+ * Qt::FramelessWindowHint flag, which gets set by default:
  *
  * \snippet doc_src_q3dbars_construction.cpp 4
  *
- * After constructing Q3DBars, you can set the data window by changing the range on the row and
- * column axes. It is not mandatory, as data window will default to showing all of the data in
- * the series. If the amount of data is large, it is usually preferable to show just a
- * portion of it. For the example, let's set the data window to show first five rows and columns:
+ * After constructing Q3DBars, you can set the data window by changing the range
+ * on the row and column axes. It is not mandatory, as data window will default
+ * to showing all of the data in the series. If the amount of data is large, it
+ * is usually preferable to show just a portion of it. For the example, let's
+ * set the data window to show first five rows and columns:
  *
  * \snippet doc_src_q3dbars_construction.cpp 0
  *
- * Now Q3DBars is ready to receive data to be rendered. Create a series with one row of 5 values:
+ * Now Q3DBars is ready to receive data to be rendered. Create a series with one
+ * row of 5 values:
  *
  * \snippet doc_src_q3dbars_construction.cpp 1
  *
- * \note We set the data window to 5 x 5, but we are adding only one row of data. This is ok,
- * the rest of the rows will just be blank.
+ * \note We set the data window to 5 x 5, but we are adding only one row of
+ * data. This is ok, the rest of the rows will just be blank.
  *
  * Finally you will need to set it visible:
  *
@@ -60,9 +64,10 @@ QT_BEGIN_NAMESPACE
  *
  * \image q3dbars-minimal.png
  *
- * The scene can be rotated, zoomed into, and a bar can be selected to view its value,
- * but no other interaction is included in this minimal code example. You can learn more by
- * familiarizing yourself with the examples provided, like the \l{Simple Bar Graph}.
+ * The scene can be rotated, zoomed into, and a bar can be selected to view its
+ * value, but no other interaction is included in this minimal code example. You
+ * can learn more by familiarizing yourself with the examples provided, like the
+ * \l{Simple Bar Graph}.
  *
  * \sa Q3DScatter, Q3DSurface, {Qt Graphs C++ Classes}
  */
@@ -70,23 +75,24 @@ QT_BEGIN_NAMESPACE
 /*!
  * Constructs a new 3D bar graph.
  */
-Q3DBars::Q3DBars() : QAbstract3DGraph()
+Q3DBars::Q3DBars()
+    : QAbstract3DGraph()
 {
     QQmlComponent *component = new QQmlComponent(engine(), this);
     component->setData("import QtQuick; import QtGraphs; Bars3D { anchors.fill: parent; }", QUrl());
     m_graphsItem.reset(qobject_cast<QQuickGraphsBars *>(component->create()));
     setContent(component->url(), component, m_graphsItem.data());
 
-    QObject::connect(m_graphsItem.data(), &QQuickGraphsItem::selectedElementChanged,
-                     this, &QAbstract3DGraph::selectedElementChanged);
+    QObject::connect(m_graphsItem.data(),
+                     &QQuickGraphsItem::selectedElementChanged,
+                     this,
+                     &QAbstract3DGraph::selectedElementChanged);
 }
 
 /*!
  * Destroys the 3D bar graph.
  */
-Q3DBars::~Q3DBars()
-{
-}
+Q3DBars::~Q3DBars() {}
 
 /*!
  * \property Q3DBars::primarySeries
@@ -104,7 +110,8 @@ Q3DBars::~Q3DBars()
  * resets to default.
  *
  * If \a series is null, this property resets to default.
- * Defaults to the first added series or zero if no series are added to the graph.
+ * Defaults to the first added series or zero if no series are added to the
+ * graph.
  */
 void Q3DBars::setPrimarySeries(QBar3DSeries *series)
 {
@@ -118,12 +125,14 @@ QBar3DSeries *Q3DBars::primarySeries() const
 }
 
 /*!
- * Adds the \a series to the graph. A graph can contain multiple series, but only one set of axes,
- * so the rows and columns of all series must match for the visualized data to be meaningful.
- * If the graph has multiple visible series, only the primary series will
- * generate the row or column labels on the axes in cases where the labels are not explicitly set
- * to the axes. If the newly added series has specified a selected bar, it will be highlighted and
- * any existing selection will be cleared. Only one added series can have an active selection.
+ * Adds the \a series to the graph. A graph can contain multiple series, but
+ * only one set of axes, so the rows and columns of all series must match for
+ * the visualized data to be meaningful. If the graph has multiple visible
+ * series, only the primary series will generate the row or column labels on the
+ * axes in cases where the labels are not explicitly set to the axes. If the
+ * newly added series has specified a selected bar, it will be highlighted and
+ * any existing selection will be cleared. Only one added series can have an
+ * active selection.
  *
  * \sa seriesList(), primarySeries, QAbstract3DGraph::hasSeries()
  */
@@ -254,7 +263,8 @@ bool Q3DBars::isBarSpacingRelative() const
  * Sensible values are on the range [0,1).
  *
  * Preset to \c {(0.0, 0.0)} by default. This property enables
- * showing bars from different series side by side, but with space between columns.
+ * showing bars from different series side by side, but with space between
+ * columns.
  *
  * \sa barSpacing
  */
@@ -377,9 +387,9 @@ float Q3DBars::floorLevel() const
 }
 
 /*!
- * Adds \a axis to the graph. The axes added via addAxis are not yet taken to use,
- * addAxis is simply used to give the ownership of the \a axis to the graph.
- * The \a axis must not be null or added to another graph.
+ * Adds \a axis to the graph. The axes added via addAxis are not yet taken to
+ * use, addAxis is simply used to give the ownership of the \a axis to the
+ * graph. The \a axis must not be null or added to another graph.
  *
  * \sa releaseAxis(), setValueAxis(), setRowAxis(), setColumnAxis()
  */
@@ -389,10 +399,12 @@ void Q3DBars::addAxis(QAbstract3DAxis *axis)
 }
 
 /*!
- * Releases the ownership of the \a axis back to the caller, if it is added to this graph.
- * If the released \a axis is in use, a new default axis will be created and set active.
+ * Releases the ownership of the \a axis back to the caller, if it is added to
+ * this graph. If the released \a axis is in use, a new default axis will be
+ * created and set active.
  *
- * If the default axis is released and added back later, it behaves as any other axis would.
+ * If the default axis is released and added back later, it behaves as any other
+ * axis would.
  *
  * \sa addAxis(), setValueAxis(), setRowAxis(), setColumnAxis()
  */

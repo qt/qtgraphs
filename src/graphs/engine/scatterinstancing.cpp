@@ -3,12 +3,10 @@
 
 #include "scatterinstancing_p.h"
 
-ScatterInstancing::ScatterInstancing()
+ScatterInstancing::ScatterInstancing() {}
+
+QByteArray ScatterInstancing::getInstanceBuffer(int *instanceCount)
 {
-
-}
-
-QByteArray ScatterInstancing::getInstanceBuffer(int *instanceCount) {
     if (m_dirty) {
         m_instanceData.resize(0);
         int instanceNumber = 0;
@@ -26,7 +24,11 @@ QByteArray ScatterInstancing::getInstanceBuffer(int *instanceCount) {
                 // Setting the scale to zero breaks instanced picking.
                 item.scale = {0.001f, 0.001f, 0.001f};
             }
-            auto entry = calculateTableEntryFromQuaternion({x,y,z}, item.scale, item.rotation, QColor(Qt::white), customData);
+            auto entry = calculateTableEntryFromQuaternion({x, y, z},
+                                                           item.scale,
+                                                           item.rotation,
+                                                           QColor(Qt::white),
+                                                           customData);
             m_instanceData.append(reinterpret_cast<char *>(&entry), sizeof(entry));
             instanceNumber++;
         }

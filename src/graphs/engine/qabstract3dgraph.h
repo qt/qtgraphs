@@ -4,11 +4,11 @@
 #ifndef QABSTRACT3DGRAPH_H
 #define QABSTRACT3DGRAPH_H
 
-#include <QtGraphs/qgraphsglobal.h>
-#include <QtGraphs/q3dtheme.h>
-#include <QtGraphs/q3dscene.h>
-#include <QtGraphs/qabstract3dinputhandler.h>
 #include <QtCore/qlocale.h>
+#include <QtGraphs/q3dscene.h>
+#include <QtGraphs/q3dtheme.h>
+#include <QtGraphs/qabstract3dinputhandler.h>
+#include <QtGraphs/qgraphsglobal.h>
 #include <QtQuickWidgets/qquickwidget.h>
 
 QT_BEGIN_NAMESPACE
@@ -21,86 +21,82 @@ class QQuickGraphsItem;
 class Q_GRAPHS_EXPORT QAbstract3DGraph : public QQuickWidget
 {
     Q_OBJECT
-    Q_PROPERTY(QAbstract3DInputHandler* activeInputHandler READ activeInputHandler WRITE setActiveInputHandler NOTIFY activeInputHandlerChanged)
-    Q_PROPERTY(Q3DTheme* activeTheme READ activeTheme WRITE setActiveTheme NOTIFY activeThemeChanged)
-    Q_PROPERTY(QAbstract3DGraph::SelectionFlags selectionMode READ selectionMode WRITE setSelectionMode NOTIFY selectionModeChanged)
-    Q_PROPERTY(QAbstract3DGraph::ShadowQuality shadowQuality READ shadowQuality WRITE setShadowQuality NOTIFY shadowQualityChanged)
-    Q_PROPERTY(Q3DScene* scene READ scene CONSTANT)
+    Q_PROPERTY(QAbstract3DInputHandler *activeInputHandler READ activeInputHandler WRITE
+                   setActiveInputHandler NOTIFY activeInputHandlerChanged)
+    Q_PROPERTY(Q3DTheme *activeTheme READ activeTheme WRITE setActiveTheme NOTIFY activeThemeChanged)
+    Q_PROPERTY(QAbstract3DGraph::SelectionFlags selectionMode READ selectionMode WRITE
+                   setSelectionMode NOTIFY selectionModeChanged)
+    Q_PROPERTY(QAbstract3DGraph::ShadowQuality shadowQuality READ shadowQuality WRITE
+                   setShadowQuality NOTIFY shadowQualityChanged)
+    Q_PROPERTY(Q3DScene *scene READ scene CONSTANT)
     Q_PROPERTY(bool measureFps READ measureFps WRITE setMeasureFps NOTIFY measureFpsChanged)
     Q_PROPERTY(int currentFps READ currentFps NOTIFY currentFpsChanged)
-    Q_PROPERTY(bool orthoProjection READ isOrthoProjection WRITE setOrthoProjection NOTIFY orthoProjectionChanged)
-    Q_PROPERTY(QAbstract3DGraph::ElementType selectedElement READ selectedElement NOTIFY selectedElementChanged)
+    Q_PROPERTY(bool orthoProjection READ isOrthoProjection WRITE setOrthoProjection NOTIFY
+                   orthoProjectionChanged)
+    Q_PROPERTY(QAbstract3DGraph::ElementType selectedElement READ selectedElement NOTIFY
+                   selectedElementChanged)
     Q_PROPERTY(qreal aspectRatio READ aspectRatio WRITE setAspectRatio NOTIFY aspectRatioChanged)
-    Q_PROPERTY(QAbstract3DGraph::OptimizationHint optimizationHint READ optimizationHint WRITE setOptimizationHint NOTIFY optimizationHintChanged)
+    Q_PROPERTY(QAbstract3DGraph::OptimizationHint optimizationHint READ optimizationHint WRITE
+                   setOptimizationHint NOTIFY optimizationHintChanged)
     Q_PROPERTY(bool polar READ isPolar WRITE setPolar NOTIFY polarChanged)
-    Q_PROPERTY(float radialLabelOffset READ radialLabelOffset WRITE setRadialLabelOffset NOTIFY radialLabelOffsetChanged)
-    Q_PROPERTY(qreal horizontalAspectRatio READ horizontalAspectRatio WRITE setHorizontalAspectRatio NOTIFY horizontalAspectRatioChanged)
+    Q_PROPERTY(float radialLabelOffset READ radialLabelOffset WRITE setRadialLabelOffset NOTIFY
+                   radialLabelOffsetChanged)
+    Q_PROPERTY(qreal horizontalAspectRatio READ horizontalAspectRatio WRITE setHorizontalAspectRatio
+                   NOTIFY horizontalAspectRatioChanged)
     Q_PROPERTY(bool reflection READ isReflection WRITE setReflection NOTIFY reflectionChanged)
     Q_PROPERTY(qreal reflectivity READ reflectivity WRITE setReflectivity NOTIFY reflectivityChanged)
     Q_PROPERTY(QLocale locale READ locale WRITE setLocale NOTIFY localeChanged)
-    Q_PROPERTY(QVector3D queriedGraphPosition READ queriedGraphPosition NOTIFY queriedGraphPositionChanged)
+    Q_PROPERTY(
+        QVector3D queriedGraphPosition READ queriedGraphPosition NOTIFY queriedGraphPositionChanged)
     Q_PROPERTY(qreal margin READ margin WRITE setMargin NOTIFY marginChanged)
-    Q_PROPERTY(QAbstract3DGraph::CameraPreset cameraPreset READ cameraPreset WRITE setCameraPreset NOTIFY cameraPresetChanged)
-    Q_PROPERTY(float cameraXRotation READ cameraXRotation WRITE setCameraXRotation NOTIFY cameraXRotationChanged)
-    Q_PROPERTY(float cameraYRotation READ cameraYRotation WRITE setCameraYRotation NOTIFY cameraYRotationChanged)
-    Q_PROPERTY(float cameraZoomLevel READ cameraZoomLevel WRITE setCameraZoomLevel NOTIFY cameraZoomLevelChanged)
-    Q_PROPERTY(float minCameraZoomLevel READ minCameraZoomLevel WRITE setMinCameraZoomLevel NOTIFY minCameraZoomLevelChanged)
-    Q_PROPERTY(float maxCameraZoomLevel READ maxCameraZoomLevel WRITE setMaxCameraZoomLevel NOTIFY maxCameraZoomLevelChanged)
-    Q_PROPERTY(bool wrapCameraXRotation READ wrapCameraXRotation WRITE setWrapCameraXRotation NOTIFY wrapCameraXRotationChanged)
-    Q_PROPERTY(bool wrapCameraYRotation READ wrapCameraYRotation WRITE setWrapCameraYRotation NOTIFY wrapCameraYRotationChanged)
-    Q_PROPERTY(QVector3D cameraTargetPosition READ cameraTargetPosition WRITE setCameraTargetPosition NOTIFY cameraTargetPositionChanged)
+    Q_PROPERTY(QAbstract3DGraph::CameraPreset cameraPreset READ cameraPreset WRITE setCameraPreset
+                   NOTIFY cameraPresetChanged)
+    Q_PROPERTY(float cameraXRotation READ cameraXRotation WRITE setCameraXRotation NOTIFY
+                   cameraXRotationChanged)
+    Q_PROPERTY(float cameraYRotation READ cameraYRotation WRITE setCameraYRotation NOTIFY
+                   cameraYRotationChanged)
+    Q_PROPERTY(float cameraZoomLevel READ cameraZoomLevel WRITE setCameraZoomLevel NOTIFY
+                   cameraZoomLevelChanged)
+    Q_PROPERTY(float minCameraZoomLevel READ minCameraZoomLevel WRITE setMinCameraZoomLevel NOTIFY
+                   minCameraZoomLevelChanged)
+    Q_PROPERTY(float maxCameraZoomLevel READ maxCameraZoomLevel WRITE setMaxCameraZoomLevel NOTIFY
+                   maxCameraZoomLevelChanged)
+    Q_PROPERTY(bool wrapCameraXRotation READ wrapCameraXRotation WRITE setWrapCameraXRotation NOTIFY
+                   wrapCameraXRotationChanged)
+    Q_PROPERTY(bool wrapCameraYRotation READ wrapCameraYRotation WRITE setWrapCameraYRotation NOTIFY
+                   wrapCameraYRotationChanged)
+    Q_PROPERTY(QVector3D cameraTargetPosition READ cameraTargetPosition WRITE
+                   setCameraTargetPosition NOTIFY cameraTargetPositionChanged)
 
     QML_NAMED_ELEMENT(AbstractGraph3D)
     QML_UNCREATABLE("Trying to create uncreatable: AbstractGraph3D.")
 
 public:
-     enum SelectionFlag {
-        SelectionNone              = 0,
-        SelectionItem              = 1,
-        SelectionRow               = 2,
-        SelectionItemAndRow        = SelectionItem | SelectionRow,
-        SelectionColumn            = 4,
-        SelectionItemAndColumn     = SelectionItem | SelectionColumn,
-        SelectionRowAndColumn      = SelectionRow | SelectionColumn,
-        SelectionItemRowAndColumn  = SelectionItem | SelectionRow | SelectionColumn,
-        SelectionSlice             = 8,
-        SelectionMultiSeries       = 16
+    enum SelectionFlag {
+        SelectionNone = 0,
+        SelectionItem = 1,
+        SelectionRow = 2,
+        SelectionItemAndRow = SelectionItem | SelectionRow,
+        SelectionColumn = 4,
+        SelectionItemAndColumn = SelectionItem | SelectionColumn,
+        SelectionRowAndColumn = SelectionRow | SelectionColumn,
+        SelectionItemRowAndColumn = SelectionItem | SelectionRow | SelectionColumn,
+        SelectionSlice = 8,
+        SelectionMultiSeries = 16
     };
     Q_FLAG(SelectionFlag)
     Q_DECLARE_FLAGS(SelectionFlags, SelectionFlag)
 
-    enum class ShadowQuality {
-        None = 0,
-        Low,
-        Medium,
-        High,
-        SoftLow,
-        SoftMedium,
-        SoftHigh
-    };
+    enum class ShadowQuality { None = 0, Low, Medium, High, SoftLow, SoftMedium, SoftHigh };
     Q_ENUM(ShadowQuality)
 
-    enum class ElementType {
-        None = 0,
-        Series,
-        AxisXLabel,
-        AxisYLabel,
-        AxisZLabel,
-        CustomItem
-    };
+    enum class ElementType { None = 0, Series, AxisXLabel, AxisYLabel, AxisZLabel, CustomItem };
     Q_ENUM(ElementType)
 
-    enum class OptimizationHint {
-        Default = 0,
-        Static  = 1,
-        Legacy
-    };
+    enum class OptimizationHint { Default = 0, Static = 1, Legacy };
     Q_ENUM(OptimizationHint)
 
-    enum class RenderingMode {
-        DirectToBackground = 0,
-        Indirect
-    };
+    enum class RenderingMode { DirectToBackground = 0, Indirect };
     Q_ENUM(RenderingMode)
 
     enum class CameraPreset {
@@ -248,6 +244,7 @@ public:
     void setCameraPosition(float horizontal, float vertical, float zoom = 100.0f);
 
     virtual ~QAbstract3DGraph();
+
 protected:
     QAbstract3DGraph();
 

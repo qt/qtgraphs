@@ -3,10 +3,7 @@
 
 #include "barinstancing_p.h"
 
-BarInstancing::BarInstancing()
-{
-
-}
+BarInstancing::BarInstancing() {}
 
 BarInstancing::~BarInstancing()
 {
@@ -22,15 +19,19 @@ QByteArray BarInstancing::getInstanceBuffer(int *instanceCount)
         for (int i = 0; i < m_dataArray.size(); ++i) {
             auto item = m_dataArray.at(i);
             if (!item->selectedBar) {
-                auto entry = calculateTableEntry(item->position, item->scale, item->eulerRotation,
+                auto entry = calculateTableEntry(item->position,
+                                                 item->scale,
+                                                 item->eulerRotation,
                                                  item->color);
                 m_instanceData.append(reinterpret_cast<char *>(&entry), sizeof(entry));
             } else {
-                //Even selected bars need to be drawn in a very small scale.
-                //If this is not done, the program can't find the selected bars in the graph and
-                //detects the wrong bars as selected ones.
-                auto entry = calculateTableEntry(item->position, QVector3D{.001f, .001f, .001f},
-                                                 item->eulerRotation, QColor(Qt::white));
+                // Even selected bars need to be drawn in a very small scale.
+                // If this is not done, the program can't find the selected bars in the
+                // graph and detects the wrong bars as selected ones.
+                auto entry = calculateTableEntry(item->position,
+                                                 QVector3D{.001f, .001f, .001f},
+                                                 item->eulerRotation,
+                                                 QColor(Qt::white));
                 m_instanceData.append(reinterpret_cast<char *>(&entry), sizeof(entry));
             }
             instanceNumber++;

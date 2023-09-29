@@ -1,7 +1,6 @@
 // Copyright (C) 2023 The Qt Company Ltd.
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 
-
 //
 //  W A R N I N G
 //  -------------
@@ -15,9 +14,9 @@
 #ifndef AXISHELPER_P_H
 #define AXISHELPER_P_H
 
+#include <QList>
 #include "graphsglobal_p.h"
 #include <qvalue3daxisformatter_p.h>
-#include <QList>
 
 QT_BEGIN_NAMESPACE
 class AxisHelper : public QObject

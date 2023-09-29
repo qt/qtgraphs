@@ -16,7 +16,8 @@
 
 #include <QtQuick3D/private/qquick3dinstancing_p.h>
 
-struct BarItemHolder {
+struct BarItemHolder
+{
     QVector3D position = {.0f, .0f, .0f};
     QQuaternion rotation;
     QVector3D eulerRotation = {.0f, .0f, .0f};
@@ -24,7 +25,8 @@ struct BarItemHolder {
     QPoint coord;
     float heightValue = .0f;
     bool selectedBar = false;
-    QColor color = {0, 0, 0};;
+    QColor color = {0, 0, 0};
+    ;
 };
 
 class BarInstancing : public QQuick3DInstancing

@@ -5,8 +5,8 @@
 #define Q3DSURFACE_H
 
 #include <QtGraphs/qabstract3dgraph.h>
-#include <QtGraphs/qvalue3daxis.h>
 #include <QtGraphs/qsurface3dseries.h>
+#include <QtGraphs/qvalue3daxis.h>
 
 QT_BEGIN_NAMESPACE
 
@@ -19,7 +19,8 @@ class Q_GRAPHS_EXPORT Q3DSurface : public QAbstract3DGraph
     Q_PROPERTY(QValue3DAxis *axisY READ axisY WRITE setAxisY NOTIFY axisYChanged)
     Q_PROPERTY(QValue3DAxis *axisZ READ axisZ WRITE setAxisZ NOTIFY axisZChanged)
     Q_PROPERTY(QSurface3DSeries *selectedSeries READ selectedSeries NOTIFY selectedSeriesChanged)
-    Q_PROPERTY(bool flipHorizontalGrid READ flipHorizontalGrid WRITE setFlipHorizontalGrid NOTIFY flipHorizontalGridChanged)
+    Q_PROPERTY(bool flipHorizontalGrid READ flipHorizontalGrid WRITE setFlipHorizontalGrid NOTIFY
+                   flipHorizontalGridChanged)
 
 public:
     explicit Q3DSurface();

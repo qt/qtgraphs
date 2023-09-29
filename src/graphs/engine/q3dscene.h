@@ -4,9 +4,9 @@
 #ifndef Q3DSCENE_H
 #define Q3DSCENE_H
 
-#include <QtGraphs/qgraphsglobal.h>
 #include <QtCore/QObject>
 #include <QtCore/QRect>
+#include <QtGraphs/qgraphsglobal.h>
 
 QT_BEGIN_NAMESPACE
 
@@ -17,13 +17,20 @@ class Q_GRAPHS_EXPORT Q3DScene : public QObject
     Q_OBJECT
     Q_DECLARE_PRIVATE(Q3DScene)
     Q_PROPERTY(QRect viewport READ viewport NOTIFY viewportChanged)
-    Q_PROPERTY(QRect primarySubViewport READ primarySubViewport WRITE setPrimarySubViewport NOTIFY primarySubViewportChanged)
-    Q_PROPERTY(QRect secondarySubViewport READ secondarySubViewport WRITE setSecondarySubViewport NOTIFY secondarySubViewportChanged)
-    Q_PROPERTY(QPoint selectionQueryPosition READ selectionQueryPosition WRITE setSelectionQueryPosition NOTIFY selectionQueryPositionChanged)
-    Q_PROPERTY(bool secondarySubviewOnTop READ isSecondarySubviewOnTop  WRITE setSecondarySubviewOnTop  NOTIFY secondarySubviewOnTopChanged)
-    Q_PROPERTY(bool slicingActive READ isSlicingActive WRITE setSlicingActive NOTIFY slicingActiveChanged)
-    Q_PROPERTY(float devicePixelRatio READ devicePixelRatio WRITE setDevicePixelRatio NOTIFY devicePixelRatioChanged)
-    Q_PROPERTY(QPoint graphPositionQuery READ graphPositionQuery WRITE setGraphPositionQuery NOTIFY graphPositionQueryChanged)
+    Q_PROPERTY(QRect primarySubViewport READ primarySubViewport WRITE setPrimarySubViewport NOTIFY
+                   primarySubViewportChanged)
+    Q_PROPERTY(QRect secondarySubViewport READ secondarySubViewport WRITE setSecondarySubViewport
+                   NOTIFY secondarySubViewportChanged)
+    Q_PROPERTY(QPoint selectionQueryPosition READ selectionQueryPosition WRITE
+                   setSelectionQueryPosition NOTIFY selectionQueryPositionChanged)
+    Q_PROPERTY(bool secondarySubviewOnTop READ isSecondarySubviewOnTop WRITE
+                   setSecondarySubviewOnTop NOTIFY secondarySubviewOnTopChanged)
+    Q_PROPERTY(
+        bool slicingActive READ isSlicingActive WRITE setSlicingActive NOTIFY slicingActiveChanged)
+    Q_PROPERTY(float devicePixelRatio READ devicePixelRatio WRITE setDevicePixelRatio NOTIFY
+                   devicePixelRatioChanged)
+    Q_PROPERTY(QPoint graphPositionQuery READ graphPositionQuery WRITE setGraphPositionQuery NOTIFY
+                   graphPositionQueryChanged)
 
 public:
     explicit Q3DScene(QObject *parent = nullptr);

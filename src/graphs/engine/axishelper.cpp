@@ -3,12 +3,6 @@
 
 #include "axishelper_p.h"
 
-AxisHelper::AxisHelper()
-{
+AxisHelper::AxisHelper() {}
 
-}
-
-AxisHelper::~AxisHelper()
-{
-
-}
+AxisHelper::~AxisHelper() {}

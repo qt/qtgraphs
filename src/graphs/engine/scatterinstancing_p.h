@@ -16,7 +16,8 @@
 
 #include <QtQuick3D/private/qquick3dinstancing_p.h>
 
-struct DataItemHolder {
+struct DataItemHolder
+{
     QVector3D position;
     QQuaternion rotation;
     QVector3D scale;

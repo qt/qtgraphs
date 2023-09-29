@@ -10,17 +10,20 @@ QT_BEGIN_NAMESPACE
  * \inmodule QtGraphs
  * \brief Q3DScene class provides description of the 3D scene being visualized.
  *
- * The 3D scene contains a single active camera and a single active light source.
- * Visualized data is assumed to be at a fixed location.
+ * The 3D scene contains a single active camera and a single active light
+ * source. Visualized data is assumed to be at a fixed location.
  *
- * The 3D scene also keeps track of the viewport in which graph rendering is done,
- * the primary subviewport inside the viewport where the main 3D graphs view resides
- * and the secondary subviewport where the 2D sliced view of the data resides. The subviewports are
- * by default resized by the \a Q3DScene. To override the resize behavior you need to listen to both
- * \l viewportChanged() and \l slicingActiveChanged() signals and recalculate the subviewports accordingly.
+ * The 3D scene also keeps track of the viewport in which graph rendering is
+ * done, the primary subviewport inside the viewport where the main 3D graphs
+ * view resides and the secondary subviewport where the 2D sliced view of the
+ * data resides. The subviewports are by default resized by the \a Q3DScene. To
+ * override the resize behavior you need to listen to both \l viewportChanged()
+ * and \l slicingActiveChanged() signals and recalculate the subviewports
+ * accordingly.
  *
- * Also the scene has flag for tracking if the secondary 2D slicing view is currently active or not.
- * \note Not all graphs support the secondary 2D slicing view.
+ * Also the scene has flag for tracking if the secondary 2D slicing view is
+ * currently active or not. \note Not all graphs support the secondary 2D
+ * slicing view.
  */
 
 /*!
@@ -35,15 +38,17 @@ QT_BEGIN_NAMESPACE
  * \instantiates Q3DScene
  * \brief Scene3D type provides description of the 3D scene being visualized.
  *
- * The 3D scene contains a single active camera and a single active light source.
- * Visualized data is assumed to be at a fixed location.
+ * The 3D scene contains a single active camera and a single active light
+ * source. Visualized data is assumed to be at a fixed location.
  *
- * The 3D scene also keeps track of the viewport in which graph rendering is done,
- * the primary subviewport inside the viewport where the main 3D graphs view resides
- * and the secondary subviewport where the 2D sliced view of the data resides.
+ * The 3D scene also keeps track of the viewport in which graph rendering is
+ * done, the primary subviewport inside the viewport where the main 3D graphs
+ * view resides and the secondary subviewport where the 2D sliced view of the
+ * data resides.
  *
- * Also the scene has flag for tracking if the secondary 2D slicing view is currently active or not.
- * \note Not all graphs support the secondary 2D slicing view.
+ * Also the scene has flag for tracking if the secondary 2D slicing view is
+ * currently active or not. \note Not all graphs support the secondary 2D
+ * slicing view.
  */
 
 /*!
@@ -61,7 +66,8 @@ QT_BEGIN_NAMESPACE
  * If slicingActive is \c false, the primary sub viewport will be equal to the
  * viewport. If slicingActive is \c true and the primary sub viewport has not
  * been explicitly set, it will be one fifth of the viewport.
- * \note Setting primarySubViewport larger than or outside of viewport resizes viewport accordingly.
+ * \note Setting primarySubViewport larger than or outside of viewport resizes
+ * viewport accordingly.
  */
 
 /*!
@@ -73,7 +79,7 @@ QT_BEGIN_NAMESPACE
  * be equal to the viewport.
  * \note If the secondary sub viewport is larger than or outside of the
  * viewport, the viewport is resized accordingly.
-*/
+ */
 
 /*!
  * \qmlproperty point Scene3D::selectionQueryPosition
@@ -81,9 +87,9 @@ QT_BEGIN_NAMESPACE
  * The coordinates for the user input that should be processed
  * by the scene as a selection. If this property is set to a value other than
  * invalidSelectionPoint, the
- * graph tries to select a data item at the given point within the primary viewport.
- * After the rendering pass, the property is returned to its default state of
- * invalidSelectionPoint.
+ * graph tries to select a data item at the given point within the primary
+ * viewport. After the rendering pass, the property is returned to its default
+ * state of invalidSelectionPoint.
  */
 
 /*!
@@ -91,15 +97,15 @@ QT_BEGIN_NAMESPACE
  *
  * The coordinates for the user input that should be processed by the scene as a
  * graph position query. If this property is set to value other than
- * invalidSelectionPoint, the graph tries to match a graph position to the given point
- * within the primary viewport.
- * After the rendering pass, this property is returned to its default state of
- * invalidSelectionPoint. The queried graph position can be read from the
- * AbstractGraph3D::queriedGraphPosition property after the next render pass.
+ * invalidSelectionPoint, the graph tries to match a graph position to the given
+ * point within the primary viewport. After the rendering pass, this property is
+ * returned to its default state of invalidSelectionPoint. The queried graph
+ * position can be read from the AbstractGraph3D::queriedGraphPosition property
+ * after the next render pass.
  *
- * There is no single correct 3D coordinate to match a particular screen position, so to be
- * consistent, the queries are always done against the inner sides of an invisible box surrounding
- * the graph.
+ * There is no single correct 3D coordinate to match a particular screen
+ * position, so to be consistent, the queries are always done against the inner
+ * sides of an invisible box surrounding the graph.
  *
  * \note Bar graphs allow graph position queries only at the graph floor level.
  *
@@ -137,20 +143,18 @@ QT_BEGIN_NAMESPACE
 
 /*!
  * Constructs a basic scene with one light and one camera in it. An
- * optional \a parent parameter can be given and is then passed to QObject constructor.
+ * optional \a parent parameter can be given and is then passed to QObject
+ * constructor.
  */
-Q3DScene::Q3DScene(QObject *parent) :
-    QObject(parent),
-    d_ptr(new Q3DScenePrivate(this))
-{
-}
+Q3DScene::Q3DScene(QObject *parent)
+    : QObject(parent)
+    , d_ptr(new Q3DScenePrivate(this))
+{}
 
 /*!
  * Destroys the 3D scene and all the objects contained within it.
  */
-Q3DScene::~Q3DScene()
-{
-}
+Q3DScene::~Q3DScene() {}
 
 /*!
  * \property Q3DScene::viewport
@@ -200,14 +204,12 @@ void Q3DScene::setPrimarySubViewport(const QRect &primarySubViewport)
         }
 
         // If viewport is smaller than primarySubViewport, enlarge it
-        if ((d->m_viewport.width() < (primarySubViewport.width()
-                                          + primarySubViewport.x()))
-                || (d->m_viewport.height() < (primarySubViewport.height()
-                                                  + primarySubViewport.y()))) {
-            d->m_viewport.setWidth(qMax(d->m_viewport.width(),
-                                            primarySubViewport.width() + primarySubViewport.x()));
-            d->m_viewport.setHeight(qMax(d->m_viewport.height(),
-                                             primarySubViewport.height() + primarySubViewport.y()));
+        if ((d->m_viewport.width() < (primarySubViewport.width() + primarySubViewport.x()))
+            || (d->m_viewport.height() < (primarySubViewport.height() + primarySubViewport.y()))) {
+            d->m_viewport.setWidth(
+                qMax(d->m_viewport.width(), primarySubViewport.width() + primarySubViewport.x()));
+            d->m_viewport.setHeight(
+                qMax(d->m_viewport.height(), primarySubViewport.height() + primarySubViewport.y()));
             d->calculateSubViewports();
         }
 
@@ -224,8 +226,8 @@ void Q3DScene::setPrimarySubViewport(const QRect &primarySubViewport)
 /*!
  * Returns whether the given \a point resides inside the primary subview or not.
  * \return \c true if the point is inside the primary subview.
- * \note If subviews are superimposed, and the given \a point resides inside both, result is
- * \c true only when the primary subview is on top.
+ * \note If subviews are superimposed, and the given \a point resides inside
+ * both, result is \c true only when the primary subview is on top.
  */
 bool Q3DScene::isPointInPrimarySubView(const QPoint &point)
 {
@@ -240,10 +242,10 @@ bool Q3DScene::isPointInPrimarySubView(const QPoint &point)
 }
 
 /*!
- * Returns whether the given \a point resides inside the secondary subview or not.
- * \return \c true if the point is inside the secondary subview.
- * \note If subviews are superimposed, and the given \a point resides inside both, result is
- * \c true only when the secondary subview is on top.
+ * Returns whether the given \a point resides inside the secondary subview or
+ * not. \return \c true if the point is inside the secondary subview. \note If
+ * subviews are superimposed, and the given \a point resides inside both, result
+ * is \c true only when the secondary subview is on top.
  */
 bool Q3DScene::isPointInSecondarySubView(const QPoint &point)
 {
@@ -287,16 +289,13 @@ void Q3DScene::setSecondarySubViewport(const QRect &secondarySubViewport)
         }
 
         // If viewport is smaller than secondarySubViewport, enlarge it
-        if ((d->m_viewport.width() < (secondarySubViewport.width()
-                                          + secondarySubViewport.x()))
-                || (d->m_viewport.height() < (secondarySubViewport.height()
-                                                  + secondarySubViewport.y()))) {
+        if ((d->m_viewport.width() < (secondarySubViewport.width() + secondarySubViewport.x()))
+            || (d->m_viewport.height()
+                < (secondarySubViewport.height() + secondarySubViewport.y()))) {
             d->m_viewport.setWidth(qMax(d->m_viewport.width(),
-                                            secondarySubViewport.width()
-                                            + secondarySubViewport.x()));
+                                        secondarySubViewport.width() + secondarySubViewport.x()));
             d->m_viewport.setHeight(qMax(d->m_viewport.height(),
-                                             secondarySubViewport.height()
-                                             + secondarySubViewport.y()));
+                                         secondarySubViewport.height() + secondarySubViewport.y()));
             d->calculateSubViewports();
         }
 
@@ -365,9 +364,9 @@ QPoint Q3DScene::invalidSelectionPoint()
  * invalidSelectionPoint(). The queried graph position can be read from the
  * QAbstract3DGraph::queriedGraphPosition property after the next render pass.
  *
- * There is no single correct 3D coordinate to match a particular screen position, so to be
- * consistent, the queries are always done against the inner sides of an invisible box surrounding
- * the graph.
+ * There is no single correct 3D coordinate to match a particular screen
+ * position, so to be consistent, the queries are always done against the inner
+ * sides of an invisible box surrounding the graph.
  *
  * \note Bar graphs allow graph position queries only at the graph floor level.
  *
@@ -416,8 +415,8 @@ void Q3DScene::setSlicingActive(bool isSlicing)
         d->m_changeTracker.slicingActivatedChanged = true;
         d->m_sceneDirty = true;
 
-        // Set secondary subview behind primary to achieve default functionality (= clicking on
-        // primary disables slice)
+        // Set secondary subview behind primary to achieve default functionality (=
+        // clicking on primary disables slice)
         setSecondarySubviewOnTop(!isSlicing);
 
         d->calculateSubViewports();
@@ -476,25 +475,22 @@ void Q3DScene::setDevicePixelRatio(float pixelRatio)
     }
 }
 
-Q3DScenePrivate::Q3DScenePrivate(Q3DScene *q) :
-    q_ptr(q),
-    m_isSecondarySubviewOnTop(true),
-    m_devicePixelRatio(1.f),
-    m_isUnderSideCameraEnabled(false),
-    m_isSlicingActive(false),
-    m_selectionQueryPosition(Q3DScene::invalidSelectionPoint()),
-    m_graphPositionQueryPosition(Q3DScene::invalidSelectionPoint()),
-    m_windowSize(QSize(0, 0)),
-    m_sceneDirty(true)
-{
-}
+Q3DScenePrivate::Q3DScenePrivate(Q3DScene *q)
+    : q_ptr(q)
+    , m_isSecondarySubviewOnTop(true)
+    , m_devicePixelRatio(1.f)
+    , m_isUnderSideCameraEnabled(false)
+    , m_isSlicingActive(false)
+    , m_selectionQueryPosition(Q3DScene::invalidSelectionPoint())
+    , m_graphPositionQueryPosition(Q3DScene::invalidSelectionPoint())
+    , m_windowSize(QSize(0, 0))
+    , m_sceneDirty(true)
+{}
 
-Q3DScenePrivate::~Q3DScenePrivate()
-{
-}
+Q3DScenePrivate::~Q3DScenePrivate() {}
 
-// Copies changed values from this scene to the other scene. If the other scene had same changes,
-// those changes are discarded.
+// Copies changed values from this scene to the other scene. If the other scene
+// had same changes, those changes are discarded.
 void Q3DScenePrivate::sync(Q3DScenePrivate &other)
 {
     Q_Q(Q3DScene);
@@ -595,12 +591,11 @@ void Q3DScenePrivate::calculateSubViewports()
 {
     // Calculates the default subviewport layout, used when slicing
     const float smallerViewPortRatio = 0.2f;
-    m_defaultSmallViewport = QRect(0, 0,
+    m_defaultSmallViewport = QRect(0,
+                                   0,
                                    m_viewport.width() * smallerViewPortRatio,
                                    m_viewport.height() * smallerViewPortRatio);
-    m_defaultLargeViewport = QRect(0, 0,
-                                   m_viewport.width(),
-                                   m_viewport.height());
+    m_defaultLargeViewport = QRect(0, 0, m_viewport.width(), m_viewport.height());
 
     updateGLViewport();
 }
@@ -618,7 +613,8 @@ void Q3DScenePrivate::updateGLViewport()
     m_changeTracker.viewportChanged = true;
     m_sceneDirty = true;
 
-    // Do default subviewport changes first, then allow signal listeners to override.
+    // Do default subviewport changes first, then allow signal listeners to
+    // override.
     updateGLSubViewports();
     emit q->viewportChanged(m_viewport);
 }
@@ -634,16 +630,16 @@ void Q3DScenePrivate::updateGLSubViewports()
             secondary = m_defaultLargeViewport;
 
         m_glPrimarySubViewport.setX((primary.x() + m_viewport.x()) * m_devicePixelRatio);
-        m_glPrimarySubViewport.setY((m_windowSize.height()
-                                     - (primary.y() + primary.height() + m_viewport.y()))
-                                    * m_devicePixelRatio);
+        m_glPrimarySubViewport.setY(
+            (m_windowSize.height() - (primary.y() + primary.height() + m_viewport.y()))
+            * m_devicePixelRatio);
         m_glPrimarySubViewport.setWidth(primary.width() * m_devicePixelRatio);
         m_glPrimarySubViewport.setHeight(primary.height() * m_devicePixelRatio);
 
         m_glSecondarySubViewport.setX((secondary.x() + m_viewport.x()) * m_devicePixelRatio);
-        m_glSecondarySubViewport.setY((m_windowSize.height()
-                                       - (secondary.y() + secondary.height() + m_viewport.y()))
-                                      * m_devicePixelRatio);
+        m_glSecondarySubViewport.setY(
+            (m_windowSize.height() - (secondary.y() + secondary.height() + m_viewport.y()))
+            * m_devicePixelRatio);
         m_glSecondarySubViewport.setWidth(secondary.width() * m_devicePixelRatio);
         m_glSecondarySubViewport.setHeight(secondary.height() * m_devicePixelRatio);
     } else {
@@ -684,7 +680,7 @@ bool Q3DScenePrivate::isInArea(const QRect &area, int x, int y) const
     int areaMaxX = area.x() + area.width();
     int areaMinY = area.y();
     int areaMaxY = area.y() + area.height();
-    return ( x >= areaMinX && x <= areaMaxX && y >= areaMinY && y <= areaMaxY );
+    return (x >= areaMinX && x <= areaMaxX && y >= areaMinY && y <= areaMaxY);
 }
 
 QT_END_NAMESPACE

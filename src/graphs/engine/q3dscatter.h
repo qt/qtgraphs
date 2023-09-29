@@ -5,8 +5,8 @@
 #define Q3DSCATTER_H
 
 #include <QtGraphs/qabstract3dgraph.h>
-#include <QtGraphs/qvalue3daxis.h>
 #include <QtGraphs/qscatter3dseries.h>
+#include <QtGraphs/qvalue3daxis.h>
 
 QT_BEGIN_NAMESPACE
 

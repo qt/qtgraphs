@@ -14,34 +14,34 @@
 #ifndef Q3DSCENE_P_H
 #define Q3DSCENE_P_H
 
-#include <private/graphsglobal_p.h>
 #include <QtGraphs/q3dscene.h>
+#include <private/graphsglobal_p.h>
 
 QT_BEGIN_NAMESPACE
 
-struct Q3DSceneChangeBitField {
-    bool viewportChanged               : 1;
-    bool primarySubViewportChanged     : 1;
-    bool secondarySubViewportChanged   : 1;
-    bool subViewportOrderChanged       : 1;
-    bool slicingActivatedChanged       : 1;
-    bool devicePixelRatioChanged       : 1;
+struct Q3DSceneChangeBitField
+{
+    bool viewportChanged : 1;
+    bool primarySubViewportChanged : 1;
+    bool secondarySubViewportChanged : 1;
+    bool subViewportOrderChanged : 1;
+    bool slicingActivatedChanged : 1;
+    bool devicePixelRatioChanged : 1;
     bool selectionQueryPositionChanged : 1;
-    bool graphPositionQueryPositionChanged      : 1;
-    bool windowSizeChanged             : 1;
+    bool graphPositionQueryPositionChanged : 1;
+    bool windowSizeChanged : 1;
 
     Q3DSceneChangeBitField()
-        : viewportChanged(true),
-          primarySubViewportChanged(true),
-          secondarySubViewportChanged(true),
-          subViewportOrderChanged(true),
-          slicingActivatedChanged(true),
-          devicePixelRatioChanged(true),
-          selectionQueryPositionChanged(false),
-          graphPositionQueryPositionChanged(false),
-          windowSizeChanged(true)
-    {
-    }
+        : viewportChanged(true)
+        , primarySubViewportChanged(true)
+        , secondarySubViewportChanged(true)
+        , subViewportOrderChanged(true)
+        , slicingActivatedChanged(true)
+        , devicePixelRatioChanged(true)
+        , selectionQueryPositionChanged(false)
+        , graphPositionQueryPositionChanged(false)
+        , windowSizeChanged(true)
+    {}
 };
 
 class Q_GRAPHS_EXPORT Q3DScenePrivate : public QObject

@@ -3,13 +3,9 @@
 
 #include "surfaceselectioninstancing_p.h"
 
-SurfaceSelectionInstancing::SurfaceSelectionInstancing()
-{
-}
+SurfaceSelectionInstancing::SurfaceSelectionInstancing() {}
 
-SurfaceSelectionInstancing::~SurfaceSelectionInstancing()
-{
-}
+SurfaceSelectionInstancing::~SurfaceSelectionInstancing() {}
 
 void SurfaceSelectionInstancing::addPosition(const QVector3D &position)
 {
@@ -33,7 +29,7 @@ QByteArray SurfaceSelectionInstancing::getInstanceBuffer(int *instanceCount)
 
         for (auto position : m_positions) {
             auto entry = calculateTableEntry(position, m_scale, m_rotation, m_color);
-            m_instanceData.append(reinterpret_cast<const char*>(&entry), sizeof(entry));
+            m_instanceData.append(reinterpret_cast<const char *>(&entry), sizeof(entry));
             instanceNumber++;
         }
         m_instanceCount = instanceNumber;
