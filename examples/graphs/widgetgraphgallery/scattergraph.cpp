@@ -89,7 +89,7 @@ void ScatterGraph::initialize()
     themeList->addItem(u"Retro"_s);
     themeList->addItem(u"Ebony"_s);
     themeList->addItem(u"Isabelle"_s);
-    themeList->setCurrentIndex(3);
+    themeList->setCurrentIndex(2);
 
     auto *shadowQuality = new QComboBox(m_scatterWidget);
     shadowQuality->addItem(u"None"_s);
