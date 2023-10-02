@@ -157,7 +157,6 @@ set_source_files_properties("qml/resources/ItemLabel.qml"
 set_source_files_properties("qml/resources/TitleLabel.qml"
     PROPERTIES QT_RESOURCE_ALIAS "TitleLabel"
 )
-
 set_source_files_properties("qml/resources/GridSurfaceMaterial.qml"
     PROPERTIES QT_RESOURCE_ALIAS "GridSurfaceMaterial"
 )
@@ -444,6 +443,9 @@ set_source_files_properties("engine/shaders/objectgradientinstancing.frag"
 set_source_files_properties("engine/shaders/rangegradient.vert"
     PROPERTIES QT_RESOURCE_ALIAS "vertexrangegradient"
 )
+set_source_files_properties("engine/shaders/rangegradient.frag"
+    PROPERTIES QT_RESOURCE_ALIAS "fragmentrangegradient"
+)
 set_source_files_properties("engine/shaders/rangegradientinstancing.vert"
     PROPERTIES QT_RESOURCE_ALIAS "vertexrangegradientinstancing"
 )
@@ -469,7 +471,6 @@ set(shader_resource_files
     "engine/shaders/scatter.frag"
     "engine/shaders/scatterinstancing.vert"
     "engine/shaders/scatterinstancing.frag"
-    "engine/shaders/surfaceGrid.vert"
     "engine/shaders/surfaceSlice.vert"
     "engine/shaders/texture3d.frag"
     "engine/shaders/texture3d.vert"
