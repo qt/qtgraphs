@@ -164,6 +164,7 @@ private:
     void handleSeriesChanged(QList<QAbstract3DSeries *> changedSeries);
 
     QColor m_selectedSeriesColor;
+    bool selectedItemInSeries(const QScatter3DSeries *series);
 
     bool isDotPositionInAxisRange(const QVector3D &dotPos);
 

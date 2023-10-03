@@ -190,6 +190,8 @@ void QQuickGraphsScatter::updateScatterGraphItemPositions(ScatterModel *graphMod
             }
         }
         graphModel->instancing->setDataArray(positions);
+        if (selectedItemInSeries(graphModel->series))
+            graphModel->instancing->hideDataItem(m_scatterController->m_selectedItem);
     }
 }
 
@@ -279,9 +281,7 @@ void QQuickGraphsScatter::updateScatterGraphItemVisuals(ScatterModel *graphModel
             graphModel->instancing->setCustomData(customData);
         }
 
-        if ((m_scatterController->m_selectedItem != -1
-             && m_scatterController->m_selectedItemSeries == graphModel->series)
-                && !m_selectionActive) {
+        if (selectedItemInSeries(graphModel->series) && !m_selectionActive) {
             // Selection indicator
             if (!rangeGradient) {
                 updateItemMaterial(graphModel->selectionIndicator, useGradient, rangeGradient,
@@ -603,6 +603,12 @@ void QQuickGraphsScatter::handleSeriesChanged(QList<QAbstract3DSeries *> changed
 {
     Q_UNUSED(changedSeries)
     // TODO: generate items and remove old items
+}
+
+bool QQuickGraphsScatter::selectedItemInSeries(const QScatter3DSeries *series)
+{
+    return (m_scatterController->m_selectedItem != -1
+            && m_scatterController->m_selectedItemSeries == series);
 }
 
 bool QQuickGraphsScatter::isDotPositionInAxisRange(const QVector3D &dotPos)
