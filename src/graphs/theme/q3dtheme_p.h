@@ -14,8 +14,8 @@
 #ifndef Q3DTHEME_P_H
 #define Q3DTHEME_P_H
 
-#include <private/graphsglobal_p.h>
 #include "q3dtheme.h"
+#include <private/graphsglobal_p.h>
 
 QT_BEGIN_NAMESPACE
 
@@ -46,32 +46,31 @@ struct Q3DThemeDirtyBitField {
     bool windowColorDirty              : 1;
 
     Q3DThemeDirtyBitField()
-        : ambientLightStrengthDirty(false),
-          backgroundColorDirty(false),
-          backgroundEnabledDirty(false),
-          baseColorDirty(false),
-          baseGradientDirty(false),
-          colorStyleDirty(false),
-          fontDirty(false),
-          gridEnabledDirty(false),
-          gridLineColorDirty(false),
-          highlightLightStrengthDirty(false),
-          labelBackgroundColorDirty(false),
-          labelBackgroundEnabledDirty(false),
-          labelBorderEnabledDirty(false),
-          labelTextColorDirty(false),
-          labelsEnabledDirty(false),
-          lightColorDirty(false),
-          lightStrengthDirty(false),
-          multiHighlightColorDirty(false),
-          multiHighlightGradientDirty(false),
-          shadowStrengthDirty(false),
-          singleHighlightColorDirty(false),
-          singleHighlightGradientDirty(false),
-          themeIdDirty(false),
-          windowColorDirty(false)
-    {
-    }
+        : ambientLightStrengthDirty(false)
+        , backgroundColorDirty(false)
+        , backgroundEnabledDirty(false)
+        , baseColorDirty(false)
+        , baseGradientDirty(false)
+        , colorStyleDirty(false)
+        , fontDirty(false)
+        , gridEnabledDirty(false)
+        , gridLineColorDirty(false)
+        , highlightLightStrengthDirty(false)
+        , labelBackgroundColorDirty(false)
+        , labelBackgroundEnabledDirty(false)
+        , labelBorderEnabledDirty(false)
+        , labelTextColorDirty(false)
+        , labelsEnabledDirty(false)
+        , lightColorDirty(false)
+        , lightStrengthDirty(false)
+        , multiHighlightColorDirty(false)
+        , multiHighlightGradientDirty(false)
+        , shadowStrengthDirty(false)
+        , singleHighlightColorDirty(false)
+        , singleHighlightGradientDirty(false)
+        , themeIdDirty(false)
+        , windowColorDirty(false)
+    {}
 };
 
 class Q_GRAPHS_EXPORT Q3DThemePrivate : public QObject
@@ -80,6 +79,8 @@ class Q_GRAPHS_EXPORT Q3DThemePrivate : public QObject
     Q_DECLARE_PUBLIC(Q3DTheme)
 
 public:
+    enum class GradientType { Base = 0, SingleHL, MultiHL };
+
     Q3DThemePrivate(Q3DTheme *q);
     virtual ~Q3DThemePrivate();
 
@@ -90,17 +91,32 @@ public:
     inline bool isDefaultTheme() { return m_isDefaultTheme; }
     inline void setDefaultTheme(bool isDefault) { m_isDefaultTheme = isDefault; }
 
-    // If m_forcePredefinedType is true, it means we should forcibly update all properties
-    // of the theme to those of the predefined theme, when setting the theme type. Otherwise
-    // we only change the properties that haven't been explicitly changed since last render cycle.
-    // Defaults to true, and is only ever set to false by DeclarativeTheme3D to enable using
-    // predefined themes as base for custom themes, since the order of initial property sets cannot
+    // If m_forcePredefinedType is true, it means we should forcibly update all
+    // properties of the theme to those of the predefined theme, when setting the
+    // theme type. Otherwise we only change the properties that haven't been
+    // explicitly changed since last render cycle. Defaults to true, and is only
+    // ever set to false by DeclarativeTheme3D to enable using predefined themes
+    // as base for custom themes, since the order of initial property sets cannot
     // be easily controlled in QML.
     inline bool isForcePredefinedType() { return m_forcePredefinedType; }
     inline void setForcePredefinedType(bool enable) { m_forcePredefinedType = enable; }
 
+    // QML API spcific methods
+    void clearDummyColors();
+    void clearDummyGradients();
+    void setThemeGradient(QJSValue gradient, GradientType type);
+    QLinearGradient convertGradient(QJSValue gradient);
+
 Q_SIGNALS:
     void needRender();
+
+public Q_SLOTS:
+    // QML API specific slots
+    void handleTypeChange(Q3DTheme::Theme themeType);
+    void handleBaseColorUpdate();
+    void handleBaseGradientUpdate();
+    void handleSingleHLGradientUpdate();
+    void handleMultiHLGradientUpdate();
 
 public:
     Q3DTheme::Theme m_themeId;
@@ -132,6 +148,14 @@ public:
     float m_highlightLightStrength;
     float m_lightStrength;
     float m_shadowStrength;
+
+    // QML API specific variables
+    QList<DeclarativeColor *> m_colors;
+    QList<QQuickGradient *> m_gradients;
+    QJSValue m_singleHLGradient;
+    QJSValue m_multiHLGradient;
+
+    bool m_dummyColors = false;
 
 protected:
     Q3DTheme *q_ptr;

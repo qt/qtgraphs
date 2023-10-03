@@ -11,14 +11,14 @@ import "."
 Item {
     id: mainview
     width: 1280
-    height: 720
+    height: 820
 
     property var customTheme: customSurfaceTheme
 
     Gradient {
         id: customGradient
-        GradientStop { position: 0.0; color: "red" }
-        GradientStop { position: 1.0; color: "green" }
+        GradientStop { id: redstop; position: 0.0; color: "red" }
+        GradientStop { id: greenstop; position: 1.0; color: "green" }
     }
 
     Gradient {
@@ -33,13 +33,18 @@ Item {
         GradientStop { position: 1.0; color: "blue" }
     }
 
+    ThemeColor {
+        id: barColor
+        color: "blue"
+    }
+
     Theme3D {
         id: customSurfaceTheme
         type: Theme3D.Theme.UserDefined
         colorStyle: Theme3D.ColorStyle.ObjectGradient
         backgroundColor: "gray"
         gridLineColor: "lightGray"
-        multiHighlightColor: "blue"
+        multiHighlightColor: "orange"
         singleHighlightColor: "yellow"
         multiHighlightGradient: multiGradient
         singleHighlightGradient: singleGradient
@@ -49,9 +54,10 @@ Item {
         id: customBarsTheme
         type: Theme3D.Theme.UserDefined
         colorStyle: Theme3D.ColorStyle.ObjectGradient
+        baseColors: [barColor]
         backgroundColor: "gray"
         gridLineColor: "lightGray"
-        multiHighlightColor: "blue"
+        multiHighlightColor: "orange"
         singleHighlightColor: "yellow"
         multiHighlightGradient: multiGradient
         singleHighlightGradient: singleGradient
@@ -101,7 +107,6 @@ Item {
             Bar3DSeries {
                 id: barsSeries
                 baseGradient: customGradient
-                baseColor: "white"
                 ItemModelBarDataProxy {
                     id: barProxy
                     itemModel: ListModel {
@@ -194,36 +199,40 @@ Item {
         }
 
         Label {
-            text: "Light Color; Red"
+            text: testgradientchange.checked ? "Gradient Color, Red" : "Light Color; Red"
             color: "gray"
         }
         Slider {
             from: 0.0
             to: 1.0
-            value: customTheme.lightColor.r
-            onValueChanged: customTheme.lightColor.r = value
+            value: testgradientchange.checked ? 1.0 : customTheme.lightColor.r
+            onValueChanged: testgradientchange.checked ? (redstop.color.r = value)
+                                                       : (customTheme.lightColor.r = value)
         }
 
         Label {
-            text: "Light Color; Green"
+            text: testgradientchange.checked ? "Gradient Color, Green" : "Light Color; Green"
             color: "gray"
         }
         Slider {
             from: 0.0
             to: 1.0
-            value: customTheme.lightColor.g
-            onValueChanged: customTheme.lightColor.g = value
+            value: testgradientchange.checked ? 0.5 : customTheme.lightColor.g
+            onValueChanged: testgradientchange.checked ? (greenstop.color.g = value)
+                                                       : (customTheme.lightColor.g = value)
         }
 
         Label {
-            text: "Light Color; Blue"
+            text: testgradientchange.checked ? "Bar Color, Blue" : "Light Color; Blue"
             color: "gray"
         }
         Slider {
             from: 0.0
             to: 1.0
-            value: customTheme.lightColor.b
-            onValueChanged: customTheme.lightColor.b = value
+            value: testgradientchange.checked ? barColor.color.b
+                                              : customTheme.lightColor.b
+            onValueChanged: testgradientchange.checked ? barColor.color.b  = value
+                                                       : customTheme.lightColor.b = value
         }
 
         Label {
@@ -294,5 +303,15 @@ Item {
                 customTheme.labelBorderEnabled = checked
             }
         }
+
+        Label {
+            text: "Test Theme Color/Gradient Change"
+            color: "gray"
+        }
+        CheckBox {
+            id: testgradientchange
+            checked: false
+        }
+
     }
 }

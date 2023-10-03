@@ -5,17 +5,18 @@
 #include "qquickgraphsitem_p.h"
 
 #include "abstract3dcontroller_p.h"
-#include "declarativetheme_p.h"
+//#include "declarativetheme_p.h"
 #include "declarativescene_p.h"
 #include "q3dscene_p.h"
-#include "qcustom3dlabel.h"
+#include "q3dtheme_p.h"
+#include "qcategory3daxis.h"
 #include "qcustom3ditem.h"
 #include "qcustom3ditem_p.h"
+#include "qcustom3dlabel.h"
+#include "qcustom3dvolume.h"
 #include "qtouch3dinputhandler.h"
 #include "qvalue3daxis.h"
-#include "qcategory3daxis.h"
 #include "utils_p.h"
-#include "qcustom3dvolume.h"
 
 #include <QtGui/QGuiApplication>
 
@@ -628,12 +629,6 @@ void QQuickGraphsItem::setSharedController(Abstract3DController *controller)
     Q_ASSERT(controller);
     m_controller = controller;
     m_controller->m_qml = this;
-
-    // Reset default theme, as the default C++ theme is Q3DTheme, not DeclarativeTheme3D.
-    DeclarativeTheme3D *defaultTheme = new DeclarativeTheme3D;
-    defaultTheme->d_func()->setDefaultTheme(true);
-    defaultTheme->setType(Q3DTheme::Theme::Qt);
-    m_controller->setActiveTheme(defaultTheme);
 
     QObject::connect(m_controller.data(), &Abstract3DController::shadowQualityChanged, this,
                      &QQuickGraphsItem::handleShadowQualityChange);

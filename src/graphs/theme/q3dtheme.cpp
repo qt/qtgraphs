@@ -1,6 +1,9 @@
 // Copyright (C) 2023 The Qt Company Ltd.
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 
+#include <QtQuick/private/qquickrectangle_p.h>
+#include "../qml/declarativecolor_p.h"
+#include "QtQml/qjsengine.h"
 #include "q3dtheme_p.h"
 #include "thememanager_p.h"
 #include "utils_p.h"
@@ -485,8 +488,8 @@ Q3DTheme::Q3DTheme(QObject *parent)
  * constructor.
  */
 Q3DTheme::Q3DTheme(Theme themeType, QObject *parent)
-    : QObject(parent),
-      d_ptr(new Q3DThemePrivate(this))
+    : QObject(parent)
+    , d_ptr(new Q3DThemePrivate(this))
 {
     setType(themeType);
 }
@@ -494,10 +497,9 @@ Q3DTheme::Q3DTheme(Theme themeType, QObject *parent)
 /*!
  * \internal
  */
-Q3DTheme::Q3DTheme(Q3DThemePrivate *d, Theme themeType,
-                   QObject *parent) :
-    QObject(parent),
-    d_ptr(d)
+Q3DTheme::Q3DTheme(Q3DThemePrivate *d, Theme themeType, QObject *parent)
+    : QObject(parent)
+    , d_ptr(d)
 {
     setType(themeType);
 }
@@ -505,9 +507,7 @@ Q3DTheme::Q3DTheme(Q3DThemePrivate *d, Theme themeType,
 /*!
  * Destroys the theme.
  */
-Q3DTheme::~Q3DTheme()
-{
-}
+Q3DTheme::~Q3DTheme() {}
 
 /*!
  * \property Q3DTheme::baseColors
@@ -829,7 +829,8 @@ void Q3DTheme::setLightStrength(float strength)
     Q_D(Q3DTheme);
     d->m_dirtyBits.lightStrengthDirty = true;
     if (strength < 0.0f || strength > 10.0f) {
-        qWarning("Invalid value. Valid range for lightStrength is between 0.0f and 10.0f");
+        qWarning("Invalid value. Valid range for lightStrength is between 0.0f and "
+                 "10.0f");
     } else if (d->m_lightStrength != strength) {
         d->m_lightStrength = strength;
         emit lightStrengthChanged(strength);
@@ -858,7 +859,8 @@ void Q3DTheme::setAmbientLightStrength(float strength)
     Q_D(Q3DTheme);
     d->m_dirtyBits.ambientLightStrengthDirty = true;
     if (strength < 0.0f || strength > 1.0f) {
-        qWarning("Invalid value. Valid range for ambientLightStrength is between 0.0f and 1.0f");
+        qWarning("Invalid value. Valid range for ambientLightStrength is between "
+                 "0.0f and 1.0f");
     } else if (d->m_ambientLightStrength != strength) {
         d->m_ambientLightStrength = strength;
         emit ambientLightStrengthChanged(strength);
@@ -884,7 +886,8 @@ void Q3DTheme::setHighlightLightStrength(float strength)
     Q_D(Q3DTheme);
     d->m_dirtyBits.highlightLightStrengthDirty = true;
     if (strength < 0.0f || strength > 10.0f) {
-        qWarning("Invalid value. Valid range for highlightLightStrength is between 0.0f and 10.0f");
+        qWarning("Invalid value. Valid range for highlightLightStrength is between "
+                 "0.0f and 10.0f");
     } else if (d->m_highlightLightStrength != strength) {
         d->m_highlightLightStrength = strength;
         emit highlightLightStrengthChanged(strength);
@@ -1106,8 +1109,8 @@ Q3DTheme::Theme Q3DTheme::type() const
  *
  * \brief The shadow strength for the whole graph.
  *
- * The higher the number, the darker the shadows will be. The value must be between \c 0.0 and
- * \c 100.0.
+ * The higher the number, the darker the shadows will be. The value must be
+ * between \c 0.0 and \c 100.0.
  *
  * This value affects the light specified in Q3DScene.
  */
@@ -1116,7 +1119,8 @@ void Q3DTheme::setShadowStrength(float strength)
     Q_D(Q3DTheme);
     d->m_dirtyBits.shadowStrengthDirty = true;
     if (strength < 0.0f || strength > 100.0f) {
-        qWarning("Invalid value. Valid range for shadowStrength is between 0.0f and 100.0f");
+        qWarning("Invalid value. Valid range for shadowStrength is between 0.0f "
+                 "and 100.0f");
     } else if (d->m_shadowStrength != strength) {
         d->m_shadowStrength = strength;
         emit shadowStrengthChanged(strength);
@@ -1130,48 +1134,364 @@ float Q3DTheme::shadowStrength() const
     return d->m_shadowStrength;
 }
 
+/*
+ * \internal
+ */
+QQmlListProperty<QObject> Q3DTheme::themeChildren()
+{
+    return QQmlListProperty<QObject>(this, this, &Q3DTheme::appendThemeChildren, 0, 0, 0);
+}
+
+/*
+ * \internal
+ */
+void Q3DTheme::appendThemeChildren(QQmlListProperty<QObject> *list, QObject *element)
+{
+    Q_UNUSED(list);
+    Q_UNUSED(element);
+    // Nothing to do, themeChildren is there only to enable scoping gradient items
+    // in Theme3D item.
+}
+
+/*
+ * \internal
+ */
+void Q3DTheme::setSingleHighlightGradient(QJSValue gradient)
+{
+    Q_D(Q3DTheme);
+    // connect new / disconnect old
+    if (gradient.isQObject() && !gradient.equals(d->m_singleHLGradient)) {
+        auto quickGradient = qobject_cast<QQuickGradient *>(d->m_singleHLGradient.toQObject());
+        if (quickGradient)
+            QObject::disconnect(quickGradient, 0, this, 0);
+
+        d->m_singleHLGradient = gradient;
+
+        const int signalIndex = QMetaMethod::fromSignal(&QQuickGradient::updated).methodIndex();
+
+        if (quickGradient) {
+            QMetaObject::connect(quickGradient,
+                                 signalIndex,
+                                 this,
+                                 this->metaObject()->indexOfSlot(
+                                     "handleSingleHighlightGradientUpdate()"));
+        }
+
+        emit singleHighlightGradientQMLChanged(d->m_singleHLGradient);
+    }
+
+    if (!d->m_singleHLGradient.isNull())
+        d->setThemeGradient(d->m_singleHLGradient, Q3DThemePrivate::GradientType::SingleHL);
+}
+
+/*
+ * \internal
+ */
+QJSValue Q3DTheme::singleHighlightGradientQML() const
+{
+    const Q_D(Q3DTheme);
+    return d->m_singleHLGradient;
+}
+
+/*
+ * \internal
+ */
+void Q3DTheme::setMultiHighlightGradient(QJSValue gradient)
+{
+    Q_D(Q3DTheme);
+    // connect new / disconnect old
+    if (gradient.isQObject() && !gradient.equals(d->m_multiHLGradient)) {
+        auto quickGradient = qobject_cast<QQuickGradient *>(d->m_multiHLGradient.toQObject());
+        if (quickGradient)
+            QObject::disconnect(quickGradient, 0, this, 0);
+
+        d->m_multiHLGradient = gradient;
+
+        const int signalIndex = QMetaMethod::fromSignal(&QQuickGradient::updated).methodIndex();
+
+        if (quickGradient) {
+            QMetaObject::connect(quickGradient,
+                                 signalIndex,
+                                 this,
+                                 this->metaObject()->indexOfSlot(
+                                     "handleMultiHighlightGradientUpdate()"));
+        }
+
+        emit multiHighlightGradientChangedQML(d->m_multiHLGradient);
+    }
+
+    if (!d->m_multiHLGradient.isNull())
+        d->setThemeGradient(d->m_multiHLGradient, Q3DThemePrivate::GradientType::MultiHL);
+}
+
+/*
+ * \internal
+ */
+QJSValue Q3DTheme::multiHighlightGradientQML() const
+{
+    const Q_D(Q3DTheme);
+    return d->m_multiHLGradient;
+}
+
+/*
+ * \internal
+ */
+void Q3DTheme::classBegin()
+{
+    Q_D(Q3DTheme);
+    // Turn off predefined type forcing for the duration of initial class
+    // construction so that predefined type customization can be done.
+    d->setForcePredefinedType(false);
+}
+
+/*
+ * \internal
+ */
+void Q3DTheme::componentComplete()
+{
+    Q_D(Q3DTheme);
+    d->setForcePredefinedType(true);
+}
+
+/*
+ * \internal
+ */
+QQmlListProperty<DeclarativeColor> Q3DTheme::baseColorsQML()
+{
+    return QQmlListProperty<DeclarativeColor>(this,
+                                              this,
+                                              &Q3DTheme::appendBaseColorsFunc,
+                                              &Q3DTheme::countBaseColorsFunc,
+                                              &Q3DTheme::atBaseColorsFunc,
+                                              &Q3DTheme::clearBaseColorsFunc);
+}
+
+/*
+ * \internal
+ */
+void Q3DTheme::appendBaseColorsFunc(QQmlListProperty<DeclarativeColor> *list,
+                                    DeclarativeColor *color)
+{
+    reinterpret_cast<Q3DTheme *>(list->data)->addColor(color);
+}
+
+/*
+ * \internal
+ */
+qsizetype Q3DTheme::countBaseColorsFunc(QQmlListProperty<DeclarativeColor> *list)
+{
+    return reinterpret_cast<Q3DTheme *>(list->data)->colorList().size();
+}
+
+/*
+ * \internal
+ */
+DeclarativeColor *Q3DTheme::atBaseColorsFunc(QQmlListProperty<DeclarativeColor> *list,
+                                             qsizetype index)
+{
+    return reinterpret_cast<Q3DTheme *>(list->data)->colorList().at(index);
+}
+
+/*
+ * \internal
+ */
+void Q3DTheme::clearBaseColorsFunc(QQmlListProperty<DeclarativeColor> *list)
+{
+    reinterpret_cast<Q3DTheme *>(list->data)->clearColors();
+}
+
+/*
+ * \internal
+ */
+QQmlListProperty<QObject> Q3DTheme::baseGradientsQML()
+{
+    return QQmlListProperty<QObject>(this,
+                                     this,
+                                     &Q3DTheme::appendBaseGradientsFunc,
+                                     &Q3DTheme::countBaseGradientsFunc,
+                                     &Q3DTheme::atBaseGradientsFunc,
+                                     &Q3DTheme::clearBaseGradientsFunc);
+}
+
+/*
+ * \internal
+ */
+void Q3DTheme::appendBaseGradientsFunc(QQmlListProperty<QObject> *list, QObject *gradient)
+{
+    QJSEngine engine;
+    QJSValue value = engine.newQObject(gradient);
+    reinterpret_cast<Q3DTheme *>(list->data)->addGradient(value);
+}
+
+/*
+ * \internal
+ */
+qsizetype Q3DTheme::countBaseGradientsFunc(QQmlListProperty<QObject> *list)
+{
+    return reinterpret_cast<Q3DTheme *>(list->data)->gradientList().size();
+}
+
+/*
+ * \internal
+ */
+QObject *Q3DTheme::atBaseGradientsFunc(QQmlListProperty<QObject> *list, qsizetype index)
+{
+    return reinterpret_cast<Q3DTheme *>(list->data)->gradientList().at(index);
+}
+
+/*
+ * \internal
+ */
+void Q3DTheme::clearBaseGradientsFunc(QQmlListProperty<QObject> *list)
+{
+    reinterpret_cast<Q3DTheme *>(list->data)->clearGradients();
+}
+
+/*
+ * \internal
+ */
+void Q3DTheme::addColor(DeclarativeColor *color)
+{
+    Q_D(Q3DTheme);
+    if (!color) {
+        qWarning("Color is invalid, use ThemeColor");
+        return;
+    }
+    d->clearDummyColors();
+    d->m_colors.append(color);
+    connect(color, &DeclarativeColor::colorChanged, d, &Q3DThemePrivate::handleBaseColorUpdate);
+    QList<QColor> list = baseColors();
+    list.append(color->color());
+    setBaseColors(list);
+}
+
+/*
+ * \internal
+ */
+QList<DeclarativeColor *> Q3DTheme::colorList()
+{
+    Q_D(Q3DTheme);
+    if (d->m_colors.isEmpty()) {
+        // Create dummy ThemeColors from theme's colors
+        d->m_dummyColors = true;
+        QList<QColor> list = baseColors();
+        for (const QColor &item : list) {
+            DeclarativeColor *color = new DeclarativeColor(this);
+            color->setColor(item);
+            d->m_colors.append(color);
+            connect(color,
+                    &DeclarativeColor::colorChanged,
+                    d,
+                    &Q3DThemePrivate::handleBaseColorUpdate);
+        }
+    }
+    return d->m_colors;
+}
+
+/*
+ * \internal
+ */
+void Q3DTheme::clearColors()
+{
+    Q_D(Q3DTheme);
+    d->clearDummyColors();
+    for (DeclarativeColor *item : d->m_colors)
+        disconnect(item, 0, this, 0);
+    d->m_colors.clear();
+    setBaseColors(QList<QColor>());
+}
+
+/*
+ * \internal
+ */
+void Q3DThemePrivate::clearDummyColors()
+{
+    if (m_dummyColors) {
+        for (DeclarativeColor *item : m_colors)
+            delete item;
+        m_colors.clear();
+        m_dummyColors = false;
+    }
+}
+
+/*
+ * \internal
+ */
+void Q3DTheme::addGradient(QJSValue gradient)
+{
+    Q_D(Q3DTheme);
+    auto quickGradient = qobject_cast<QQuickGradient *>(gradient.toQObject());
+    d->m_gradients.append(quickGradient);
+
+    const int updatedIndex = QMetaMethod::fromSignal(&QQuickGradient::updated).methodIndex();
+
+    QMetaObject::connect(quickGradient,
+                         updatedIndex,
+                         this,
+                         this->metaObject()->indexOfSlot("handleBaseGradientUpdate()"));
+
+    QList<QLinearGradient> list = baseGradients();
+    list.append(d->convertGradient(gradient));
+    setBaseGradients(list);
+}
+
+/*
+ * \internal
+ */
+QList<QQuickGradient *> Q3DTheme::gradientList()
+{
+    Q_D(Q3DTheme);
+    return d->m_gradients;
+}
+
+void Q3DTheme::clearGradients()
+{
+    Q_D(Q3DTheme);
+    d->m_gradients.clear();
+    setBaseGradients(QList<QLinearGradient>());
+}
+
 // Q3DThemePrivate
 
 Q3DThemePrivate::Q3DThemePrivate(Q3DTheme *q)
-    : m_themeId(Q3DTheme::Theme::UserDefined),
-      m_colorStyle(Q3DTheme::ColorStyle::Uniform),
-      m_backgroundColor(Qt::black),
-      m_gridLineColor(Qt::white),
-      m_lightColor(Qt::white),
-      m_multiHighlightColor(Qt::blue),
-      m_singleHighlightColor(Qt::red),
-      m_textBackgroundColor(Qt::gray),
-      m_textColor(Qt::white),
-      m_windowColor(Qt::black),
-      m_font(QFont()),
-      m_multiHighlightGradient(QLinearGradient(gradientTextureWidth,
-                                               gradientTextureHeight,
-                                               0.0, 0.0)),
-      m_singleHighlightGradient(QLinearGradient(gradientTextureWidth,
-                                                gradientTextureHeight,
-                                                0.0, 0.0)),
-      m_backgoundEnabled(true),
-      m_forcePredefinedType(true),
-      m_gridEnabled(true),
-      m_isDefaultTheme(false),
-      m_labelBackground(true),
-      m_labelBorders(true),
-      m_labelsEnabled(true),
-      m_ambientLightStrength(0.25f),
-      m_highlightLightStrength(7.5f),
-      m_lightStrength(5.0f),
-      m_shadowStrength(25.0f),
-      q_ptr(q)
+    : m_themeId(Q3DTheme::Theme::UserDefined)
+    , m_colorStyle(Q3DTheme::ColorStyle::Uniform)
+    , m_backgroundColor(Qt::black)
+    , m_gridLineColor(Qt::white)
+    , m_lightColor(Qt::white)
+    , m_multiHighlightColor(Qt::blue)
+    , m_singleHighlightColor(Qt::red)
+    , m_textBackgroundColor(Qt::gray)
+    , m_textColor(Qt::white)
+    , m_windowColor(Qt::black)
+    , m_font(QFont())
+    , m_multiHighlightGradient(
+          QLinearGradient(gradientTextureWidth, gradientTextureHeight, 0.0, 0.0))
+    , m_singleHighlightGradient(
+          QLinearGradient(gradientTextureWidth, gradientTextureHeight, 0.0, 0.0))
+    , m_backgoundEnabled(true)
+    , m_forcePredefinedType(true)
+    , m_gridEnabled(true)
+    , m_isDefaultTheme(false)
+    , m_labelBackground(true)
+    , m_labelBorders(true)
+    , m_labelsEnabled(true)
+    , m_ambientLightStrength(0.25f)
+    , m_highlightLightStrength(7.5f)
+    , m_lightStrength(5.0f)
+    , m_shadowStrength(25.0f)
+    , m_colors(QList<DeclarativeColor *>())
+    , m_gradients(QList<QQuickGradient *>())
+    , m_singleHLGradient(QJSValue(0))
+    , m_multiHLGradient(QJSValue(0))
+    , m_dummyColors(false)
+    , q_ptr(q)
 {
     m_baseColors.append(QColor(Qt::black));
-    m_baseGradients.append(QLinearGradient(gradientTextureWidth,
-                                           gradientTextureHeight,
-                                           0.0, 0.0));
+    m_baseGradients.append(QLinearGradient(gradientTextureWidth, gradientTextureHeight, 0.0, 0.0));
 }
 
-Q3DThemePrivate::~Q3DThemePrivate()
-{
-}
+Q3DThemePrivate::~Q3DThemePrivate() {}
 
 void Q3DThemePrivate::resetDirtyBits()
 {
@@ -1302,6 +1622,112 @@ bool Q3DThemePrivate::sync(Q3DThemePrivate &other)
     }
 
     return updateDrawer;
+}
+
+void Q3DThemePrivate::setThemeGradient(QJSValue gradient, GradientType type)
+{
+    Q_Q(Q3DTheme);
+    QLinearGradient linearGradient = convertGradient(gradient);
+
+    switch (type) {
+    case GradientType::SingleHL:
+        q->setSingleHighlightGradient(linearGradient);
+        break;
+    case GradientType::MultiHL:
+        q->setMultiHighlightGradient(linearGradient);
+        break;
+    default:
+        qWarning("Incorrect usage. Type may be GradientType::SingleHL or "
+                 "GradientType::MultiHL.");
+        break;
+    }
+}
+
+QLinearGradient Q3DThemePrivate::convertGradient(QJSValue gradient)
+{
+    // Create QLinearGradient out of QJSValue
+    QLinearGradient newGradient;
+    if (gradient.isQObject()) {
+        auto quickGradient = qobject_cast<QQuickGradient *>(gradient.toQObject());
+        newGradient.setStops(quickGradient->gradientStops());
+    }
+    return newGradient;
+}
+
+void Q3DThemePrivate::handleTypeChange(Q3DTheme::Theme themeType)
+{
+    Q_UNUSED(themeType);
+
+    // Theme changed, disconnect base color/gradient connections
+    if (!m_colors.isEmpty()) {
+        for (DeclarativeColor *item : m_colors)
+            disconnect(item, 0, this, 0);
+        m_colors.clear();
+    }
+    if (!m_gradients.isEmpty()) {
+        for (auto item : m_gradients)
+            disconnect(item, 0, this, 0);
+        m_gradients.clear();
+    }
+}
+
+void Q3DThemePrivate::handleBaseColorUpdate()
+{
+    Q_Q(Q3DTheme);
+    int colorCount = m_colors.size();
+    int changed = 0;
+    // Check which one changed
+    DeclarativeColor *color = qobject_cast<DeclarativeColor *>(QObject::sender());
+    for (int i = 0; i < colorCount; i++) {
+        if (color == m_colors.at(i)) {
+            changed = i;
+            break;
+        }
+    }
+    // Update the changed one from the list
+    QList<QColor> list = q->baseColors();
+    list[changed] = m_colors.at(changed)->color();
+    // Set the changed list
+    q->setBaseColors(list);
+}
+
+void Q3DThemePrivate::handleBaseGradientUpdate()
+{
+    Q_Q(Q3DTheme);
+    // Find out which gradient has changed, and update the list with it
+    int gradientCount = m_gradients.size();
+    int changed = 0;
+
+    // Check which one changed
+    QQuickGradient *newGradient = qobject_cast<QQuickGradient *>(QObject::sender());
+    QJSEngine engine;
+    QJSValue updatedGradient = engine.newQObject(newGradient);
+
+    for (int i = 0; i < gradientCount; ++i) {
+        if (newGradient == m_gradients.at(i)) {
+            changed = i;
+            break;
+        }
+    }
+
+    // Update the changed one from the list
+    QList<QLinearGradient> list = q->baseGradients();
+    list[changed] = convertGradient(updatedGradient);
+
+    // Set the changed list
+    q->setBaseGradients(list);
+}
+
+void Q3DThemePrivate::handleSingleHLGradientUpdate()
+{
+    if (!m_singleHLGradient.isNull())
+        setThemeGradient(m_singleHLGradient, Q3DThemePrivate::GradientType::SingleHL);
+}
+
+void Q3DThemePrivate::handleMultiHLGradientUpdate()
+{
+    if (!m_multiHLGradient.isNull())
+        setThemeGradient(m_multiHLGradient, Q3DThemePrivate::GradientType::MultiHL);
 }
 
 QT_END_NAMESPACE

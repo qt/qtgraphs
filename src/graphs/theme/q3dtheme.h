@@ -4,51 +4,75 @@
 #ifndef Q3DTHEME_H
 #define Q3DTHEME_H
 
-#include <QtGraphs/qgraphsglobal.h>
 #include <QtCore/QObject>
-#include <QtGui/QLinearGradient>
-#include <QtGui/QFont>
+#include <QtGraphs/qgraphsglobal.h>
 #include <QtGui/QColor>
+#include <QtGui/QFont>
+#include <QtGui/QLinearGradient>
+
+#include <QtQml/qqml.h>
+#include <QtQml/qqmlparserstatus.h>
 
 QT_BEGIN_NAMESPACE
 
 class Q3DThemePrivate;
+class DeclarativeColor;
+class QQuickGradient;
 
-class Q_GRAPHS_EXPORT Q3DTheme : public QObject
+class Q_GRAPHS_EXPORT Q3DTheme : public QObject, public QQmlParserStatus
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(Q3DTheme)
-    Q_PROPERTY(Q3DTheme::ColorStyle colorStyle READ colorStyle WRITE setColorStyle NOTIFY colorStyleChanged)
-    Q_PROPERTY(QColor backgroundColor READ backgroundColor WRITE setBackgroundColor NOTIFY backgroundColorChanged)
-    Q_PROPERTY(QColor gridLineColor READ gridLineColor WRITE setGridLineColor NOTIFY gridLineColorChanged)
-    Q_PROPERTY(QColor labelBackgroundColor READ labelBackgroundColor WRITE setLabelBackgroundColor NOTIFY labelBackgroundColorChanged)
-    Q_PROPERTY(QColor labelTextColor READ labelTextColor WRITE setLabelTextColor NOTIFY labelTextColorChanged)
+    Q_PROPERTY(Q3DTheme::ColorStyle colorStyle READ colorStyle WRITE setColorStyle NOTIFY
+                   colorStyleChanged)
+    Q_PROPERTY(QColor backgroundColor READ backgroundColor WRITE setBackgroundColor NOTIFY
+                   backgroundColorChanged)
+    Q_PROPERTY(
+        QColor gridLineColor READ gridLineColor WRITE setGridLineColor NOTIFY gridLineColorChanged)
+    Q_PROPERTY(QColor labelBackgroundColor READ labelBackgroundColor WRITE setLabelBackgroundColor
+                   NOTIFY labelBackgroundColorChanged)
+    Q_PROPERTY(QColor labelTextColor READ labelTextColor WRITE setLabelTextColor NOTIFY
+                   labelTextColorChanged)
     Q_PROPERTY(QColor lightColor READ lightColor WRITE setLightColor NOTIFY lightColorChanged)
-    Q_PROPERTY(QColor multiHighlightColor READ multiHighlightColor WRITE setMultiHighlightColor NOTIFY multiHighlightColorChanged)
-    Q_PROPERTY(QColor singleHighlightColor READ singleHighlightColor WRITE setSingleHighlightColor NOTIFY singleHighlightColorChanged)
+    Q_PROPERTY(QColor multiHighlightColor READ multiHighlightColor WRITE setMultiHighlightColor
+                   NOTIFY multiHighlightColorChanged)
+    Q_PROPERTY(QColor singleHighlightColor READ singleHighlightColor WRITE setSingleHighlightColor
+                   NOTIFY singleHighlightColorChanged)
     Q_PROPERTY(QColor windowColor READ windowColor WRITE setWindowColor NOTIFY windowColorChanged)
     Q_PROPERTY(QFont font READ font WRITE setFont NOTIFY fontChanged)
-    Q_PROPERTY(QLinearGradient multiHighlightGradient READ multiHighlightGradient WRITE setMultiHighlightGradient NOTIFY multiHighlightGradientChanged)
-    Q_PROPERTY(QLinearGradient singleHighlightGradient READ singleHighlightGradient WRITE setSingleHighlightGradient NOTIFY singleHighlightGradientChanged)
-    Q_PROPERTY(QList<QColor> baseColors READ baseColors WRITE setBaseColors NOTIFY baseColorsChanged)
-    Q_PROPERTY(QList<QLinearGradient> baseGradients READ baseGradients WRITE setBaseGradients NOTIFY baseGradientsChanged)
     Q_PROPERTY(Q3DTheme::Theme type READ type WRITE setType NOTIFY typeChanged)
-    Q_PROPERTY(bool backgroundEnabled READ isBackgroundEnabled WRITE setBackgroundEnabled NOTIFY backgroundEnabledChanged)
+    Q_PROPERTY(bool backgroundEnabled READ isBackgroundEnabled WRITE setBackgroundEnabled NOTIFY
+                   backgroundEnabledChanged)
     Q_PROPERTY(bool gridEnabled READ isGridEnabled WRITE setGridEnabled NOTIFY gridEnabledChanged)
-    Q_PROPERTY(bool labelBackgroundEnabled READ isLabelBackgroundEnabled WRITE setLabelBackgroundEnabled NOTIFY labelBackgroundEnabledChanged)
-    Q_PROPERTY(bool labelBorderEnabled READ isLabelBorderEnabled WRITE setLabelBorderEnabled NOTIFY labelBorderEnabledChanged)
-    Q_PROPERTY(bool labelsEnabled READ isLabelsEnabled WRITE setLabelsEnabled NOTIFY labelsEnabledChanged)
-    Q_PROPERTY(float ambientLightStrength READ ambientLightStrength WRITE setAmbientLightStrength NOTIFY ambientLightStrengthChanged)
-    Q_PROPERTY(float highlightLightStrength READ highlightLightStrength WRITE setHighlightLightStrength NOTIFY highlightLightStrengthChanged)
-    Q_PROPERTY(float lightStrength READ lightStrength WRITE setLightStrength NOTIFY lightStrengthChanged)
-    Q_PROPERTY(float shadowStrength READ shadowStrength WRITE setShadowStrength NOTIFY shadowStrengthChanged)
+    Q_PROPERTY(bool labelBackgroundEnabled READ isLabelBackgroundEnabled WRITE
+                   setLabelBackgroundEnabled NOTIFY labelBackgroundEnabledChanged)
+    Q_PROPERTY(bool labelBorderEnabled READ isLabelBorderEnabled WRITE setLabelBorderEnabled NOTIFY
+                   labelBorderEnabledChanged)
+    Q_PROPERTY(
+        bool labelsEnabled READ isLabelsEnabled WRITE setLabelsEnabled NOTIFY labelsEnabledChanged)
+    Q_PROPERTY(float ambientLightStrength READ ambientLightStrength WRITE setAmbientLightStrength
+                   NOTIFY ambientLightStrengthChanged)
+    Q_PROPERTY(float highlightLightStrength READ highlightLightStrength WRITE
+                   setHighlightLightStrength NOTIFY highlightLightStrengthChanged)
+    Q_PROPERTY(
+        float lightStrength READ lightStrength WRITE setLightStrength NOTIFY lightStrengthChanged)
+    Q_PROPERTY(float shadowStrength READ shadowStrength WRITE setShadowStrength NOTIFY
+                   shadowStrengthChanged)
+
+    // QML API specific properties
+    Q_INTERFACES(QQmlParserStatus)
+    Q_PROPERTY(QQmlListProperty<QObject> themeChildren READ themeChildren CONSTANT)
+    Q_PROPERTY(QQmlListProperty<DeclarativeColor> baseColors READ baseColorsQML CONSTANT)
+    Q_PROPERTY(QQmlListProperty<QObject> baseGradients READ baseGradientsQML CONSTANT)
+    Q_PROPERTY(QJSValue singleHighlightGradient READ singleHighlightGradientQML WRITE
+                   setSingleHighlightGradient NOTIFY singleHighlightGradientQMLChanged)
+    Q_PROPERTY(QJSValue multiHighlightGradient READ multiHighlightGradientQML WRITE
+                   setMultiHighlightGradient NOTIFY multiHighlightGradientChangedQML)
+    Q_CLASSINFO("DefaultProperty", "themeChildren")
+    QML_NAMED_ELEMENT(Theme3D)
 
 public:
-    enum class ColorStyle {
-        Uniform = 0,
-        ObjectGradient,
-        RangeGradient
-    };
+    enum class ColorStyle { Uniform = 0, ObjectGradient, RangeGradient };
     Q_ENUM(ColorStyle)
 
     enum class Theme {
@@ -140,6 +164,43 @@ public:
     void setShadowStrength(float strength);
     float shadowStrength() const;
 
+    // Functions for the QML API
+private:
+    QQmlListProperty<QObject> themeChildren();
+    static void appendThemeChildren(QQmlListProperty<QObject> *list, QObject *element);
+
+    QQmlListProperty<DeclarativeColor> baseColorsQML();
+    static void appendBaseColorsFunc(QQmlListProperty<DeclarativeColor> *list,
+                                     DeclarativeColor *color);
+    static qsizetype countBaseColorsFunc(QQmlListProperty<DeclarativeColor> *list);
+    static DeclarativeColor *atBaseColorsFunc(QQmlListProperty<DeclarativeColor> *list,
+                                              qsizetype index);
+    static void clearBaseColorsFunc(QQmlListProperty<DeclarativeColor> *list);
+
+    QQmlListProperty<QObject> baseGradientsQML();
+    static void appendBaseGradientsFunc(QQmlListProperty<QObject> *list, QObject *gradient);
+    static qsizetype countBaseGradientsFunc(QQmlListProperty<QObject> *list);
+    static QObject *atBaseGradientsFunc(QQmlListProperty<QObject> *list, qsizetype index);
+    static void clearBaseGradientsFunc(QQmlListProperty<QObject> *list);
+
+    void setSingleHighlightGradient(QJSValue gradient);
+    QJSValue singleHighlightGradientQML() const;
+
+    void setMultiHighlightGradient(QJSValue gradient);
+    QJSValue multiHighlightGradientQML() const;
+
+    void addColor(DeclarativeColor *color);
+    QList<DeclarativeColor *> colorList();
+    void clearColors();
+
+    void addGradient(QJSValue gradient);
+    QList<QQuickGradient *> gradientList();
+    void clearGradients();
+
+    // From QQmlParserStatus
+    void classBegin() override;
+    void componentComplete() override;
+
 Q_SIGNALS:
     void typeChanged(Q3DTheme::Theme themeType);
     void baseColorsChanged(const QList<QColor> &colors);
@@ -166,6 +227,10 @@ Q_SIGNALS:
     void labelsEnabledChanged(bool enabled);
     void shadowStrengthChanged(float strength);
 
+    // QML API specific signals
+    void singleHighlightGradientQMLChanged(QJSValue gradient);
+    void multiHighlightGradientChangedQML(QJSValue gradient);
+
 protected:
     explicit Q3DTheme(Q3DThemePrivate *d, Theme themeType, QObject *parent = nullptr);
 
@@ -178,7 +243,6 @@ private:
     friend class QQuickGraphsBars;
     friend class Abstract3DController;
     friend class QQuickGraphsItem;
-    friend class DeclarativeTheme3D;
 };
 
 QT_END_NAMESPACE
