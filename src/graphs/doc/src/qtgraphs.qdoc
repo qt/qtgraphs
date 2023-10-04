@@ -5,7 +5,7 @@
     \module QtGraphs
     \title Qt Graphs C++ Classes
     \ingroup modules
-    \qtcmakepackage graphs
+    \qtcmakepackage Graphs
     \qtvariable graphs
     \modulestate Technical Preview
 
