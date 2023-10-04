@@ -281,7 +281,7 @@ void QQuickGraphsScatter::updateScatterGraphItemVisuals(ScatterModel *graphModel
             graphModel->instancing->setCustomData(customData);
         }
 
-        if (selectedItemInSeries(graphModel->series) && !m_selectionActive) {
+        if (selectedItemInSeries(graphModel->series)) {
             // Selection indicator
             if (!rangeGradient) {
                 updateItemMaterial(graphModel->selectionIndicator, useGradient, rangeGradient,
@@ -307,7 +307,6 @@ void QQuickGraphsScatter::updateScatterGraphItemVisuals(ScatterModel *graphModel
             graphModel->selectionIndicator->setVisible(true);
             graphModel->instancing->hideDataItem(m_scatterController->m_selectedItem);
             updateItemLabel(graphModel->selectionIndicator->position());
-            m_selectionActive = true;
             graphModel->instancing->markDataDirty();
         } else if ((m_scatterController->m_selectedItem == -1
                     || m_scatterController->m_selectedItemSeries != graphModel->series)
@@ -370,9 +369,7 @@ void QQuickGraphsScatter::updateInstancedMaterialProperties(ScatterModel *graphM
     if (isHighlight) {
         textureInput->setTexture(highlightTexture);
 
-        if ((m_scatterController->m_selectedItem != -1
-             && m_scatterController->m_selectedItemSeries == graphModel->series)
-                && !m_selectionActive) {
+        if (selectedItemInSeries(graphModel->series)) {
             m_selectedGradientPos = graphModel->instancing->customData().at(
                         m_scatterController->m_selectedItem);
         }
@@ -922,7 +919,6 @@ void QQuickGraphsScatter::setSelected(QQuick3DModel *newSelected)
         if (graphModel) {
             qsizetype index = graphModel->dataItems.indexOf(m_selected);
             setSelectedItem(index, series);
-            m_selectionActive = false;
             m_scatterController->setSeriesVisualsDirty();
             m_scatterController->setSelectedItemChanged(true);
         }
@@ -937,7 +933,6 @@ void QQuickGraphsScatter::setSelected(QQuick3DModel *root, qsizetype index)
         m_scatterController->setSeriesVisualsDirty();
         setSelectedItem(index, series);
         m_scatterController->setSelectedItemChanged(true);
-        m_selectionActive = false;
     }
 }
 

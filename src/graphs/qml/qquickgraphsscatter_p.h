@@ -117,7 +117,6 @@ private:
 
     bool m_polarGraph = false;
 
-    bool m_selectionActive = false;
     float m_selectedGradientPos = 0.0f;
     int m_selectedItem;
     QScatter3DSeries *m_selectedItemSeries; // Points to the series for which the bar is selected
