@@ -424,7 +424,8 @@ void QQuickGraphsBars::synchData()
         itemLabel()->setVisible(false);
 }
 
-void QQuickGraphsBars::updateParameters() {
+void QQuickGraphsBars::updateParameters()
+{
     int cachedMinRow = m_minRow;
     int cachedMinCol = m_minCol;
     m_minRow = m_barsController->m_axisZ->min();
@@ -1324,10 +1325,11 @@ bool QQuickGraphsBars::doPicking(const QPointF &position)
                         selectedModel = picked.objectHit();
                         break;
                     } else if (optimizationHint() == QAbstract3DGraph::OptimizationHint::Default) {
-                        selectedModel = picked.objectHit();
+                        BarInstancing *barIns = static_cast<BarInstancing *>(
+                            picked.objectHit()->instancing());
                         // Prevents to select bars with a height of 0 which affect picking.
-                        if (selectedModel->instancing()->instancePosition(picked.instanceIndex()).y()
-                            != 0) {
+                        if (barIns->dataArray().at(picked.instanceIndex())->heightValue != 0) {
+                            selectedModel = picked.objectHit();
                             instanceInd = picked.instanceIndex();
                             break;
                         }
