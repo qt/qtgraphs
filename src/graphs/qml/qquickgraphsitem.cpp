@@ -3932,7 +3932,7 @@ void QQuickGraphsItem::setCameraPreset(QAbstract3DGraph::CameraPreset preset)
         break;
     }
     default:
-        preset = QAbstract3DGraph::CameraPreset::None;
+        preset = QAbstract3DGraph::CameraPreset::NoPreset;
         break;
     }
 

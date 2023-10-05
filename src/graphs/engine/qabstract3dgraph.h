@@ -100,7 +100,7 @@ public:
     Q_ENUM(RenderingMode)
 
     enum class CameraPreset {
-        None = -1,
+        NoPreset = -1,
         FrontLow = 0,
         Front,
         FrontHigh,

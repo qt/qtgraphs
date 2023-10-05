@@ -142,7 +142,7 @@ QT_BEGIN_NAMESPACE
  *
  * Predefined positions for camera.
  *
- * \value None
+ * \value NoPreset
  *        Used to indicate a preset has not been set, or the scene has been rotated freely.
  * \value FrontLow
  * \value Front
@@ -741,8 +741,8 @@ void QAbstract3DGraph::setCameraTargetPosition(const QVector3D &target)
         newTarget.setZ(1.0f);
 
     if (m_graphsItem->cameraTargetPosition() != newTarget) {
-        if (m_graphsItem->cameraPreset() != CameraPreset::None)
-            m_graphsItem->setCameraPreset(CameraPreset::None);
+        if (m_graphsItem->cameraPreset() != QAbstract3DGraph::CameraPreset::NoPreset)
+            m_graphsItem->setCameraPreset(QAbstract3DGraph::CameraPreset::NoPreset);
         m_graphsItem->setCameraTargetPosition(newTarget);
     }
 }
