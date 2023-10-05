@@ -10,7 +10,7 @@
 #include "surfaceselectioninstancing_p.h"
 #include "qvalue3daxis_p.h"
 #include "qcategory3daxis_p.h"
-#include "quickgraphstexturedata_p.h"
+#include "qquickgraphstexturedata_p.h"
 
 #include <QtQuick3D/private/qquick3dprincipledmaterial_p.h>
 #include <QtQuick3D/private/qquick3ddefaultmaterial_p.h>
@@ -905,7 +905,7 @@ void QQuickGraphsSurface::updateMaterial(SurfaceModel *model)
 
         QVariant textureInputAsVariant = material->property("custex");
         QQuick3DShaderUtilsTextureInput *textureInput = textureInputAsVariant.value<QQuick3DShaderUtilsTextureInput *>();
-        auto textureData = static_cast<QuickGraphsTextureData *>(model->texture->textureData());
+        auto textureData = static_cast<QQuickGraphsTextureData *>(model->texture->textureData());
         textureData->createGradient(model->series->baseGradient());
         textureInput->setTexture(model->texture);
 
@@ -932,7 +932,7 @@ void QQuickGraphsSurface::updateMaterial(SurfaceModel *model)
         } else if (!model->series->texture().isNull()) {
             QImage image = model->series->texture();
             image.convertTo(QImage::Format_RGBA32FPx4);
-            auto textureData = static_cast<QuickGraphsTextureData *>(model->texture->textureData());
+            auto textureData = static_cast<QQuickGraphsTextureData *>(model->texture->textureData());
             textureData->setFormat(QQuick3DTextureData::RGBA32F);
             textureData->setSize(image.size());
             textureData->setTextureData(QByteArray(reinterpret_cast<const char*>(image.bits()),
@@ -1368,7 +1368,7 @@ void QQuickGraphsSurface::addModel(QSurface3DSeries *series)
     QQuick3DTexture *texture = new QQuick3DTexture();
     texture->setHorizontalTiling(QQuick3DTexture::ClampToEdge);
     texture->setVerticalTiling(QQuick3DTexture::ClampToEdge);
-    QuickGraphsTextureData *textureData = new QuickGraphsTextureData();
+    QQuickGraphsTextureData *textureData = new QQuickGraphsTextureData();
     textureData->setParent(texture);
     textureData->setParentItem(texture);
     texture->setTextureData(textureData);

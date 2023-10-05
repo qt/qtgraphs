@@ -2,17 +2,17 @@
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 
 #include "graphsglobal_p.h"
-#include "quickgraphstexturedata_p.h"
+#include "qquickgraphstexturedata_p.h"
 
-QuickGraphsTextureData::QuickGraphsTextureData()
+QQuickGraphsTextureData::QQuickGraphsTextureData()
 {
 }
 
-QuickGraphsTextureData::~QuickGraphsTextureData()
+QQuickGraphsTextureData::~QQuickGraphsTextureData()
 {
 }
 
-void QuickGraphsTextureData::createGradient(QLinearGradient gradient)
+void QQuickGraphsTextureData::createGradient(QLinearGradient gradient)
 {
     setSize(QSize(gradientTextureWidth, gradientTextureHeight));
     setFormat(QQuick3DTextureData::RGBA8);
@@ -49,7 +49,7 @@ void QuickGraphsTextureData::createGradient(QLinearGradient gradient)
     setTextureData(imageData);
 }
 
-QColor QuickGraphsTextureData::linearInterpolate(QColor startColor, QColor endColor, float value)
+QColor QQuickGraphsTextureData::linearInterpolate(QColor startColor, QColor endColor, float value)
 {
     QColor output;
 

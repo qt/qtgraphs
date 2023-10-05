@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 
 #include "qquickgraphsbars_p.h"
-#include "quickgraphstexturedata_p.h"
+#include "qquickgraphstexturedata_p.h"
 #include "bars3dcontroller_p.h"
 #include "declarativescene_p.h"
 #include "qbar3dseries_p.h"
@@ -14,7 +14,7 @@
 #include "q3dtheme_p.h"
 
 #include <QtQuick3D/private/qquick3dprincipledmaterial_p.h>
-#include "quickgraphstexturedata_p.h"
+#include "qquickgraphstexturedata_p.h"
 #include <QtQuick3D/private/qquick3dcustommaterial_p.h>
 
 QQuickGraphsBars::QQuickGraphsBars(QQuickItem *parent)
@@ -769,7 +769,7 @@ void QQuickGraphsBars::generateBars(QList<QBar3DSeries *> &barSeriesList)
         QQuick3DTexture *texture = createTexture();
         texture->setParent(this);
         auto gradient = barSeries->baseGradient();
-        auto textureData = static_cast<QuickGraphsTextureData *>(texture->textureData());
+        auto textureData = static_cast<QQuickGraphsTextureData *>(texture->textureData());
         textureData->createGradient(gradient);
 
         bool visible = barSeries->isVisible();
@@ -1116,11 +1116,11 @@ void QQuickGraphsBars::updateBarVisuals(QBar3DSeries *series)
         }
         auto highlightGradient = series->singleHighlightGradient();
         auto highlightTextureData
-            = static_cast<QuickGraphsTextureData *>(m_highlightTexture->textureData());
+            = static_cast<QQuickGraphsTextureData *>(m_highlightTexture->textureData());
         highlightTextureData->createGradient(highlightGradient);
         auto multiHighlightGradient = series->multiHighlightGradient();
         auto multiHighlightTextureData
-            = static_cast<QuickGraphsTextureData *>(m_multiHighlightTexture->textureData());
+            = static_cast<QQuickGraphsTextureData *>(m_multiHighlightTexture->textureData());
         multiHighlightTextureData->createGradient(multiHighlightGradient);
     } else {
         if (m_hasHighlightTexture) {
@@ -1266,7 +1266,7 @@ QQuick3DTexture *QQuickGraphsBars::createTexture()
     texture->setRotationUV(-90.0f);
     texture->setHorizontalTiling(QQuick3DTexture::ClampToEdge);
     texture->setVerticalTiling(QQuick3DTexture::ClampToEdge);
-    QuickGraphsTextureData *textureData = new QuickGraphsTextureData();
+    QQuickGraphsTextureData *textureData = new QQuickGraphsTextureData();
     textureData->setParent(texture);
     textureData->setParentItem(texture);
     texture->setTextureData(textureData);

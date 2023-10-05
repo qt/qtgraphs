@@ -90,7 +90,7 @@ qt_internal_add_qml_module(Graphs
         qml/qquickgraphsbars.cpp qml/qquickgraphsbars_p.h
         qml/qquickgraphssurface.cpp qml/qquickgraphssurface_p.h
         qml/qquickgraphsscatter.cpp qml/qquickgraphsscatter_p.h
-        qml/quickgraphstexturedata.cpp qml/quickgraphstexturedata_p.h
+        qml/qquickgraphstexturedata.cpp qml/qquickgraphstexturedata_p.h
     NO_UNITY_BUILD_SOURCES
         # Symbol collision with, `qtouch3dinputhandler.cpp`
         # TODO: Resolve `rotationSpeed` symbol redefinition

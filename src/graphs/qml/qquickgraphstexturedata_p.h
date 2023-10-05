@@ -12,19 +12,19 @@
 //
 // We mean it.
 
-#ifndef QUICKGRAPHSTEXTUREDATA_P_H
-#define QUICKGRAPHSTEXTUREDATA_P_H
+#ifndef QQUICKGRAPHSTEXTUREDATA_P_H
+#define QQUICKGRAPHSTEXTUREDATA_P_H
 #include <QtQuick3D/qquick3dtexturedata.h>
 #include <QList>
 #include <QLinearGradient>
 
-class QuickGraphsTextureData : public QQuick3DTextureData
+class QQuickGraphsTextureData : public QQuick3DTextureData
 {
     Q_OBJECT
 
 public:
-    QuickGraphsTextureData();
-    ~QuickGraphsTextureData();
+    QQuickGraphsTextureData();
+    ~QQuickGraphsTextureData();
 
     void createGradient(QLinearGradient gradient);
 
@@ -33,4 +33,4 @@ private:
 
 };
 
-#endif // QUICKGRAPHSTEXTUREDATA_P_H
+#endif // QQUICKGRAPHSTEXTUREDATA_P_H

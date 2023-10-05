@@ -7,7 +7,7 @@
 #include "qvalue3daxis_p.h"
 #include "qcategory3daxis_p.h"
 #include "axis/qvalue3daxisformatter_p.h"
-#include "quickgraphstexturedata_p.h"
+#include "qquickgraphstexturedata_p.h"
 
 #include <QtCore/QMutexLocker>
 #include <QColor>
@@ -208,7 +208,7 @@ void QQuickGraphsScatter::updateScatterGraphItemVisuals(ScatterModel *graphModel
         }
 
         QLinearGradient gradient = graphModel->series->baseGradient();
-        auto textureData = static_cast<QuickGraphsTextureData *>(
+        auto textureData = static_cast<QQuickGraphsTextureData *>(
                     graphModel->seriesTexture->textureData());
         textureData->createGradient(gradient);
 
@@ -218,7 +218,7 @@ void QQuickGraphsScatter::updateScatterGraphItemVisuals(ScatterModel *graphModel
         }
 
         QLinearGradient highlightGradient = graphModel->series->singleHighlightGradient();
-        auto highlightTextureData = static_cast<QuickGraphsTextureData *>(
+        auto highlightTextureData = static_cast<QQuickGraphsTextureData *>(
                     graphModel->highlightTexture->textureData());
         highlightTextureData->createGradient(highlightGradient);
     } else {
@@ -408,7 +408,7 @@ QQuick3DTexture *QQuickGraphsScatter::createTexture()
     texture->setRotationUV(-90.0f);
     texture->setHorizontalTiling(QQuick3DTexture::ClampToEdge);
     texture->setVerticalTiling(QQuick3DTexture::ClampToEdge);
-    QuickGraphsTextureData *textureData = new QuickGraphsTextureData();
+    QQuickGraphsTextureData *textureData = new QQuickGraphsTextureData();
     textureData->setParent(texture);
     textureData->setParentItem(texture);
     texture->setTextureData(textureData);
