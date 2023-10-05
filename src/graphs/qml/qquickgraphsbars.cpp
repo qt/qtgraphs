@@ -426,8 +426,6 @@ void QQuickGraphsBars::synchData()
 
 void QQuickGraphsBars::updateParameters()
 {
-    int cachedMinRow = m_minRow;
-    int cachedMinCol = m_minCol;
     m_minRow = m_barsController->m_axisZ->min();
     m_maxRow = m_barsController->m_axisZ->max();
     m_minCol = m_barsController->m_axisX->min();
@@ -435,7 +433,6 @@ void QQuickGraphsBars::updateParameters()
     m_newRows = m_maxRow - m_minRow + 1;
     m_newCols = m_maxCol - m_minCol + 1;
 
-    QList<QBar3DSeries *> barSeriesList = m_barsController->barSeriesList();
     if (m_cachedRowCount!= m_newRows || m_cachedColumnCount != m_newCols) {
         m_barsController->m_changeTracker.selectedBarChanged = true;
         m_cachedColumnCount = m_newCols;
@@ -453,8 +450,8 @@ void QQuickGraphsBars::updateParameters()
         removeSelectedModels();
     }
 
-    if (cachedMinRow != m_minRow || cachedMinCol != m_minCol)
-        removeBarModels();
+    if (m_newRows < m_selectedBarCoord.x() || m_newCols < m_selectedBarCoord.y())
+        resetClickedStatus();
 
     m_axisRangeChanged = true;
     m_barsController->setDataDirty(true);
