@@ -948,7 +948,7 @@ void QQuickGraphsItem::synchData()
         updateGrid();
         updateLabels();
         updateCustomData();
-        if (m_sliceView) {
+        if (m_sliceView && isSliceEnabled()) {
             updateSliceGrid();
             updateSliceLabels();
         }
@@ -1108,7 +1108,7 @@ void QQuickGraphsItem::synchData()
         m_titleLabelZ->setProperty("labelTextColor", labelTextColor);
         m_itemLabel->setProperty("labelTextColor", labelTextColor);
 
-        if (m_sliceView) {
+        if (m_sliceView && isSliceEnabled()) {
             changeLabelTextColor(m_sliceHorizontalLabelRepeater, labelTextColor);
             changeLabelTextColor(m_sliceVerticalLabelRepeater, labelTextColor);
             m_sliceItemLabel->setProperty("labelTextColor", labelTextColor);
@@ -1129,7 +1129,7 @@ void QQuickGraphsItem::synchData()
         m_itemLabel->setProperty("labelFont", font);
         updateLabels();
 
-        if (m_sliceView) {
+        if (m_sliceView && isSliceEnabled()) {
             changeLabelFont(m_sliceHorizontalLabelRepeater, font);
             changeLabelFont(m_sliceVerticalLabelRepeater, font);
             m_sliceItemLabel->setProperty("labelFont", font);
