@@ -161,7 +161,8 @@ void QQuickGraphsScatter::updateScatterGraphItemPositions(ScatterModel *graphMod
                 dataPoint->setVisible(false);
             }
         }
-    } else if (m_scatterController->optimizationHint() == QAbstract3DGraph::OptimizationHint::Default)  {
+    } else if (m_scatterController->optimizationHint()
+               == QAbstract3DGraph::OptimizationHint::Default) {
         int count = dataProxy->itemCount();
         QList<DataItemHolder> positions;
 
@@ -190,8 +191,21 @@ void QQuickGraphsScatter::updateScatterGraphItemPositions(ScatterModel *graphMod
             }
         }
         graphModel->instancing->setDataArray(positions);
-        if (selectedItemInSeries(graphModel->series))
+
+        if (selectedItemInSeries(graphModel->series)) {
+            QQuaternion totalRotation;
+
+            if (graphModel->series->mesh() != QAbstract3DSeries::Mesh::Point) {
+                totalRotation = graphModel->instancing->dataArray()
+                                    .at(m_scatterController->m_selectedItem)
+                                    .rotation
+                                * meshRotation;
+            } else {
+                totalRotation = cameraTarget()->rotation();
+            }
+            graphModel->selectionIndicator->setRotation(totalRotation);
             graphModel->instancing->hideDataItem(m_scatterController->m_selectedItem);
+        }
     }
 }
 
