@@ -1016,13 +1016,7 @@ void QQuickGraphsBars::updateBarPositions(QBar3DSeries *series)
                     for (int col = 0; col < newColSize; col++) {
                         const QBarDataItem &item = dataRow.at(dataColIndex);
                         float heightValue = updateBarHeightParameters(&item);
-
-                        float angle = item.rotation();
                         BarItemHolder *bih = new BarItemHolder();
-                        if (angle)
-                            bih->rotation = QQuaternion::fromAxisAndAngle(upVector, angle);
-                        else
-                            bih->rotation = QQuaternion();
 
                         if (heightValue < 0.f) {
                             const QVector3D eulerRot = barList.at(i)->model->eulerRotation();
@@ -1475,6 +1469,7 @@ void QQuickGraphsBars::updateSelectedBar()
                             selectedModel->setVisible(true);
                             selectedModel->setPosition(bih->position);
                             selectedModel->setScale(bih->scale);
+                            selectedModel->setEulerRotation(bih->eulerRotation);
 
                             updateItemMaterial(selectedModel, useGradient, rangeGradient,
                                                QStringLiteral(":/materials/BarsMaterial"));
@@ -1524,6 +1519,7 @@ void QQuickGraphsBars::updateSelectedBar()
                             selectedModel->setVisible(true);
                             selectedModel->setPosition(bih->position);
                             selectedModel->setScale(bih->scale);
+                            selectedModel->setEulerRotation(bih->eulerRotation);
 
                             updateItemMaterial(selectedModel, useGradient, rangeGradient,
                                                QStringLiteral(":/materials/BarsMaterial"));
