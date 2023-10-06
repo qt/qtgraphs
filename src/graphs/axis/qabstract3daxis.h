@@ -18,6 +18,7 @@ class Q_GRAPHS_EXPORT QAbstract3DAxis : public QObject
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(QAbstract3DAxis)
+    Q_CLASSINFO("RegisterEnumClassesUnscoped", "false")
     Q_PROPERTY(QString title READ title WRITE setTitle NOTIFY titleChanged)
     Q_PROPERTY(QStringList labels READ labels WRITE setLabels NOTIFY labelsChanged)
     Q_PROPERTY(QAbstract3DAxis::AxisOrientation orientation READ orientation NOTIFY orientationChanged)

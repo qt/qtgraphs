@@ -21,6 +21,7 @@ class Q_GRAPHS_EXPORT QAbstract3DInputHandler : public QObject
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(QAbstract3DInputHandler)
+    Q_CLASSINFO("RegisterEnumClassesUnscoped", "false")
     Q_PROPERTY(QAbstract3DInputHandler::InputView inputView READ inputView WRITE setInputView NOTIFY inputViewChanged)
     Q_PROPERTY(QPoint inputPosition READ inputPosition WRITE setInputPosition NOTIFY positionChanged)
     Q_PROPERTY(Q3DScene *scene READ scene WRITE setScene NOTIFY sceneChanged)

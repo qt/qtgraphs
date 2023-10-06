@@ -17,6 +17,7 @@ class Q_GRAPHS_EXPORT QItemModelSurfaceDataProxy : public QSurfaceDataProxy
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(QItemModelSurfaceDataProxy)
+    Q_CLASSINFO("RegisterEnumClassesUnscoped", "false")
     Q_PROPERTY(QAbstractItemModel* itemModel READ itemModel WRITE setItemModel NOTIFY itemModelChanged)
     Q_PROPERTY(QString rowRole READ rowRole WRITE setRowRole NOTIFY rowRoleChanged)
     Q_PROPERTY(QString columnRole READ columnRole WRITE setColumnRole NOTIFY columnRoleChanged)

@@ -21,6 +21,7 @@ class QQuickGraphsItem;
 class Q_GRAPHS_EXPORT QAbstract3DGraph : public QQuickWidget
 {
     Q_OBJECT
+    Q_CLASSINFO("RegisterEnumClassesUnscoped", "false")
     Q_PROPERTY(QAbstract3DInputHandler *activeInputHandler READ activeInputHandler WRITE
                    setActiveInputHandler NOTIFY activeInputHandlerChanged)
     Q_PROPERTY(Q3DTheme *activeTheme READ activeTheme WRITE setActiveTheme NOTIFY activeThemeChanged)

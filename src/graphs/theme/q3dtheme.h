@@ -23,6 +23,7 @@ class Q_GRAPHS_EXPORT Q3DTheme : public QObject, public QQmlParserStatus
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(Q3DTheme)
+    Q_CLASSINFO("RegisterEnumClassesUnscoped", "false")
     Q_PROPERTY(Q3DTheme::ColorStyle colorStyle READ colorStyle WRITE setColorStyle NOTIFY
                    colorStyleChanged)
     Q_PROPERTY(QColor backgroundColor READ backgroundColor WRITE setBackgroundColor NOTIFY

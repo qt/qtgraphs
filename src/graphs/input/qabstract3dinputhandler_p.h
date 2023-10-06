@@ -26,6 +26,7 @@ class QAbstract3DInputHandlerPrivate : public QObject
 {
     Q_OBJECT
     Q_DECLARE_PUBLIC(QAbstract3DInputHandler)
+    Q_CLASSINFO("RegisterEnumClassesUnscoped", "false")
 
 public:
     QAbstract3DInputHandlerPrivate(QAbstract3DInputHandler *q);

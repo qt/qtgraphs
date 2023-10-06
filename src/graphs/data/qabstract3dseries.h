@@ -19,6 +19,7 @@ class Q_GRAPHS_EXPORT QAbstract3DSeries : public QObject
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(QAbstract3DSeries)
+    Q_CLASSINFO("RegisterEnumClassesUnscoped", "false")
     Q_PROPERTY(QAbstract3DSeries::SeriesType type READ type CONSTANT)
     Q_PROPERTY(QString itemLabelFormat READ itemLabelFormat WRITE setItemLabelFormat NOTIFY itemLabelFormatChanged)
     Q_PROPERTY(bool visible READ isVisible WRITE setVisible NOTIFY visibilityChanged)
