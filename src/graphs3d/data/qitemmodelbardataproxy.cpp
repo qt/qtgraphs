@@ -236,10 +236,11 @@ QT_BEGIN_NAMESPACE
  */
 
 /*!
- * \qmlproperty ItemModelBarDataProxy.MultiMatchBehavior
- * ItemModelBarDataProxy::multiMatchBehavior Defines how multiple matches for
- * each row/column combination are handled. Defaults to
- * \l{QItemModelBarDataProxy::MultiMatchBehavior::Last}{ItemModelBarDataProxy.MultiMatchBehavior.Last}.
+ * \qmlproperty enumeration ItemModelBarDataProxy::multiMatchBehavior
+ * Defines how multiple matches for each row/column combination are handled.
+ * Defaults to
+ * \l{QItemModelBarDataProxy::MultiMatchBehavior::Last}
+ *   {ItemModelBarDataProxy.MultiMatchBehavior.Last}.
  * The chosen behavior affects both bar value and rotation.
  *
  * For example, you might have an item model with timestamped data taken at
@@ -247,7 +248,8 @@ QT_BEGIN_NAMESPACE
  * each day with a bar graph. This can be done by specifying row and column
  * categories so that each bar represents a day, and setting multiMatchBehavior
  * to
- * \l{QItemModelBarDataProxy::MultiMatchBehavior::Cumulative}{ItemModelBarDataProxy.MultiMatchBehavior.Cumulative}.
+ * \l{QItemModelBarDataProxy::MultiMatchBehavior::Cumulative}
+ * {ItemModelBarDataProxy.MultiMatchBehavior.Cumulative}.
  */
 
 /*!

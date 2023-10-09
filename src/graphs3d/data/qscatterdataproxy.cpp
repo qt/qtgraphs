@@ -87,11 +87,7 @@ QScatter3DSeries *QScatterDataProxy::series() const
 }
 
 /*!
- * Takes ownership of the array \a newArray. Clears the existing array if the
- * new array differs from it. If the arrays are the same, this function
- * just triggers the arrayReset() signal.
- *
- * Passing a null array deletes the old array and creates a new empty array.
+ * Clears the existing array and triggers the arrayReset() signal.
  */
 void QScatterDataProxy::resetArray()
 {
@@ -102,6 +98,10 @@ void QScatterDataProxy::resetArray()
     emit itemCountChanged(itemCount());
 }
 
+/*!
+ * Sets the array from \a newArray. If the new array is equal to the
+ * existing one, this function simply triggers the arrayReset() signal.
+ */
 void QScatterDataProxy::resetArray(QScatterDataArray newArray)
 {
     Q_D(QScatterDataProxy);

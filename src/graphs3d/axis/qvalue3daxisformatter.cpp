@@ -271,7 +271,7 @@ const QList<float> &QValue3DAxisFormatter::gridPositions() const
 }
 
 /*!
- * Sets a list of new gridpositions.
+ * Sets a list of new grid positions from \a gridPositions.
  * The values should be between \c 0.0 (the minimum value) and \c 1.0 (the
  * maximum value), inclusive.
  *
@@ -284,7 +284,7 @@ void QValue3DAxisFormatter::setGridPoitions(QList<float> gridPositions)
 }
 
 /*!
- * Returns a reference to the array of normalized subgrid line positions.
+ * Returns a reference to the array of normalized sub-grid line positions.
  * The default array size is equal to the segment count of the parent axis times
  * the sub-segment count of the parent axis minus one, but a subclassed
  * implementation of the recalculate() method may resize the array differently.
@@ -298,7 +298,7 @@ const QList<float> &QValue3DAxisFormatter::subGridPositions() const
 }
 
 /*!
- * Sets a list of new subgridpositions.
+ * Sets a list of new sub-grid positions from \a subGridPositions.
  * The values should be between \c 0.0 (the minimum value) and \c 1.0 (the
  * maximum value), inclusive.
  *
@@ -327,12 +327,12 @@ const QList<float> &QValue3DAxisFormatter::labelPositions() const
 }
 
 /*!
- * Sets a list of new labelPositions.
+ * Sets a list of new label positions from \a labelPositions.
  * The values should be between \c 0.0 (the minimum value) and
  * \c 1.0 (the maximum value), inclusive.
  *
  * \sa QValue3DAxis::segmentCount, QAbstract3DAxis::labels, recalculate(),
- * labelPosittions()
+ * labelPositions()
  */
 void QValue3DAxisFormatter::setlabelPositions(QList<float> labelPositions)
 {
@@ -352,7 +352,7 @@ const QStringList &QValue3DAxisFormatter::labelStrings() const
 }
 
 /*!
- * Sets a list of new labelStrings.
+ * Sets a list of new label strings from \a labelStrings.
  * The array size must be equal to the size of the label positions array, which
  * the indexes also correspond to.
  * \sa labelPositions(), labelStrings()

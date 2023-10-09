@@ -129,7 +129,7 @@ QT_BEGIN_NAMESPACE
 /*!
  * \qmlproperty string ItemModelSurfaceDataProxy::zPosRole
  * The item model role to map to the Z position. If this role is not defined,
- * rowRole is used to determine the Z-coordinate value of the resolved 
+ * rowRole is used to determine the Z-coordinate value of the resolved
  * \c QSurfaceDataItem items.
  */
 
@@ -287,17 +287,19 @@ QT_BEGIN_NAMESPACE
  */
 
 /*!
- * \qmlproperty ItemModelSurfaceDataProxy.MultiMatchBehavior
- * ItemModelSurfaceDataProxy::multiMatchBehavior Defines how multiple matches
- * for each row/column combination are handled. Defaults to
- * \l{QItemModelSurfaceDataProxy::MultiMatchBehavior::Last}{ItemModelSurfaceDataProxy.MultiMatchBehavior.Last}.
+ * \qmlproperty enumeration ItemModelSurfaceDataProxy::multiMatchBehavior
+ * Defines how multiple matches for each row/column combination are handled.
+ * Defaults to
+ * \l{QItemModelSurfaceDataProxy::MultiMatchBehavior::Last}
+ * {ItemModelSurfaceDataProxy.MultiMatchBehavior.Last}.
  *
  * For example, you might have an item model with timestamped data taken at
  * irregular intervals and you want to visualize an average position of data
  * items on each hour with a surface graph. This can be done by specifying row
  * and column categories so that each surface point represents an hour, and
  * setting multiMatchBehavior to
- * \l{QItemModelSurfaceDataProxy::MultiMatchBehavior::Average}{ItemModelSurfaceDataProxy.MultiMatchBehavior.Average}.
+ * \l{QItemModelSurfaceDataProxy::MultiMatchBehavior::Average}
+ * {ItemModelSurfaceDataProxy.MultiMatchBehavior.Average}.
  */
 
 /*!
@@ -330,7 +332,7 @@ QItemModelSurfaceDataProxy::QItemModelSurfaceDataProxy(QObject *parent)
 }
 
 /*!
- * Constructs QItemModelSurfaceDataProxy with \a itemModel and optional \a parent. 
+ * Constructs QItemModelSurfaceDataProxy with \a itemModel and optional \a parent.
  * Proxy doesn't take ownership of the \a itemModel, as typically item
  * models are owned by other controls.
  */
@@ -344,7 +346,7 @@ QItemModelSurfaceDataProxy::QItemModelSurfaceDataProxy(QAbstractItemModel *itemM
 }
 
 /*!
- * Constructs QItemModelSurfaceDataProxy with \a itemModel and optional \a parent. 
+ * Constructs QItemModelSurfaceDataProxy with \a itemModel and optional \a parent.
  * Proxy doesn't take ownership of the \a itemModel, as typically item
  * models are owned by other controls. The yPosRole role is set to \a yPosRole.
  * This constructor is meant to be used with models that have data properly
@@ -364,9 +366,9 @@ QItemModelSurfaceDataProxy::QItemModelSurfaceDataProxy(QAbstractItemModel *itemM
 }
 
 /*!
- * Constructs QItemModelSurfaceDataProxy with \a itemModel and optional \a parent. 
+ * Constructs QItemModelSurfaceDataProxy with \a itemModel and optional \a parent.
  * Proxy doesn't take ownership of the \a itemModel, as typically item
- * models are owned by other controls. The role mappings are set with \a rowRole, 
+ * models are owned by other controls. The role mappings are set with \a rowRole,
  * \a columnRole, and \a yPosRole. The zPosRole and the xPosRole are
  * set to \a rowRole and \a columnRole, respectively.
  */
@@ -388,9 +390,9 @@ QItemModelSurfaceDataProxy::QItemModelSurfaceDataProxy(QAbstractItemModel *itemM
 }
 
 /*!
- * Constructs QItemModelSurfaceDataProxy with \a itemModel and optional \a parent. 
+ * Constructs QItemModelSurfaceDataProxy with \a itemModel and optional \a parent.
  * Proxy doesn't take ownership of the \a itemModel, as typically item
- * models are owned by other controls. The role mappings are set with \a rowRole, 
+ * models are owned by other controls. The role mappings are set with \a rowRole,
  * \a columnRole, \a xPosRole, \a yPosRole, and \a zPosRole.
  */
 QItemModelSurfaceDataProxy::QItemModelSurfaceDataProxy(QAbstractItemModel *itemModel,
@@ -413,9 +415,9 @@ QItemModelSurfaceDataProxy::QItemModelSurfaceDataProxy(QAbstractItemModel *itemM
 }
 
 /*!
- * Constructs QItemModelSurfaceDataProxy with \a itemModel and optional \a parent. 
+ * Constructs QItemModelSurfaceDataProxy with \a itemModel and optional \a parent.
  * Proxy doesn't take ownership of the \a itemModel, as typically item
- * models are owned by other controls. The role mappings are set with \a rowRole, 
+ * models are owned by other controls. The role mappings are set with \a rowRole,
  * \a columnRole, and \a yPosRole. The zPosRole and the xPosRole are
  * set to \a rowRole and \a columnRole, respectively. Row and column categories
  * are set with \a rowCategories and \a columnCategories. This constructor also
@@ -445,9 +447,9 @@ QItemModelSurfaceDataProxy::QItemModelSurfaceDataProxy(QAbstractItemModel *itemM
 }
 
 /*!
- * Constructs QItemModelSurfaceDataProxy with \a itemModel and optional \a parent. 
+ * Constructs QItemModelSurfaceDataProxy with \a itemModel and optional \a parent.
  * Proxy doesn't take ownership of the \a itemModel, as typically item
- * models are owned by other controls. The role mappings are set with \a rowRole, 
+ * models are owned by other controls. The role mappings are set with \a rowRole,
  * \a columnRole, \a xPosRole, \a yPosRole, and \a zPosRole. Row and
  * column categories are set with \a rowCategories and \a columnCategories. This
  * constructor also sets autoRowCategories and autoColumnCategories to false.

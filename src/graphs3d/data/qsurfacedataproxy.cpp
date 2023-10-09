@@ -128,12 +128,7 @@ QSurface3DSeries *QSurfaceDataProxy::series() const
 }
 
 /*!
- * Takes ownership of the array \a newArray. Clears the existing array if the
- * new array differs from it. If the arrays are the same, this function
- * just triggers the arrayReset() signal.
- *
- * Passing a null array deletes the old array and creates a new empty array.
- * All rows in \a newArray must be of same length.
+ * Clears the existing array and triggers the arrayReset() signal.
  */
 void QSurfaceDataProxy::resetArray()
 {
@@ -145,6 +140,10 @@ void QSurfaceDataProxy::resetArray()
     emit columnCountChanged(columnCount());
 }
 
+/*!
+ * Sets the array from \a newArray. If the new array is equal to the
+ * existing one, this function simply triggers the arrayReset() signal.
+*/
 void QSurfaceDataProxy::resetArray(QSurfaceDataArray newArray)
 {
     Q_D(QSurfaceDataProxy);
