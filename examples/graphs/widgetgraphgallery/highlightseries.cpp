@@ -47,16 +47,16 @@ void HighlightSeries::handlePositionChange(const QPoint &position)
     int halfWidth = m_width / 2;
     int halfHeight = m_height / 2;
 
-    int startX = position.y() - halfWidth;
+    int startX = position.x() - halfWidth;
     if (startX < 0 )
         startX = 0;
-    int endX = position.y() + halfWidth;
+    int endX = position.x() + halfWidth;
     if (endX > (m_srcWidth - 1))
         endX = m_srcWidth - 1;
-    int startZ = position.x() - halfHeight;
+    int startZ = position.y() - halfHeight;
     if (startZ < 0 )
         startZ = 0;
-    int endZ = position.x() + halfHeight;
+    int endZ = position.y() + halfHeight;
     if (endZ > (m_srcHeight - 1))
         endZ = m_srcHeight - 1;
 

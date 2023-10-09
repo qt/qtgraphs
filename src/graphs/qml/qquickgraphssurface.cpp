@@ -993,9 +993,9 @@ void QQuickGraphsSurface::updateModel(SurfaceModel *model)
         int columnLimit = sampleSpace.right() + 1;
 
         QPoint selC = model->selectedVertex.coord;
-        selC.setX(qMin(selC.x(), rowCount - 1));
-        selC.setY(qMin(selC.y(), columnCount - 1));
-        QVector3D selP = array.at(selC.x()).at(selC.y()).position();
+        selC.setX(qMin(selC.x(), columnCount - 1));
+        selC.setY(qMin(selC.y(), rowCount - 1));
+        QVector3D selP = array.at(selC.y()).at(selC.x()).position();
 
         bool pickOutOfRange = false;
         if (selP.x() < axisX()->min() || selP.x() > axisX()->max() || selP.z() < axisZ()->min()
@@ -1069,7 +1069,7 @@ void QQuickGraphsSurface::updateModel(SurfaceModel *model)
                 SurfaceVertex vertex;
                 vertex.position = pos;
                 vertex.uv = QVector2D(j * uvX, i * uvY);
-                vertex.coord = QPoint(i, j);
+                vertex.coord = QPoint(j, i);
                 model->vertices.push_back(vertex);
                 if (boundsMin.isNull())
                     boundsMin = pos;
@@ -1104,7 +1104,7 @@ void QQuickGraphsSurface::updateModel(SurfaceModel *model)
                     QVector3D pos = getNormalizedVertex(row.at(j), isPolar(), false);
                     vertex.position = pos;
                     vertex.uv = QVector2D(j * uvX, i * uvY);
-                    vertex.coord = QPoint(i, j);
+                    vertex.coord = QPoint(j, i);
                     vertices.push_back(vertex);
                 }
             }
@@ -1437,6 +1437,14 @@ void QQuickGraphsSurface::updateSliceGraph()
     if (!sliceView()->isVisible())
         return;
 
+    QPointF worldCoord;
+    for (auto model : m_model) {
+        if (model->picked) {
+            QPoint coords = model->selectedVertex.coord;
+            worldCoord = mapCoordsToWorldSpace(model, coords);
+        }
+    }
+
     for (auto model : m_model) {
         bool visible = model->series->isVisible();
 
@@ -1464,9 +1472,15 @@ void QQuickGraphsSurface::updateSliceGraph()
         int rowCount = sampleSpace.height();
         int columnCount = sampleSpace.width();
 
+        QPoint coord;
+        if (model->picked)
+            coord = model->selectedVertex.coord;
+        else
+            coord = mapCoordsToSampleSpace(model, worldCoord);
+
         int indexCount = 0;
-        if (selectionMode().testFlag(QAbstract3DGraph::SelectionRow)) {
-            int selectedRow = (model->selectedVertex.coord.x() - rowStart) * columnCount;
+        if (selectionMode().testFlag(QAbstract3DGraph::SelectionRow) && coord.y() != -1) {
+            int selectedRow = (coord.y() - rowStart) * columnCount;
             selectedSeries.reserve(columnCount * 2);
             QVector<SurfaceVertex> list;
             for (int i = 0; i < columnCount; i++) {
@@ -1481,8 +1495,8 @@ void QQuickGraphsSurface::updateSliceGraph()
             indexCount = columnCount - 1;
         }
 
-        if (selectionMode().testFlag(QAbstract3DGraph::SelectionColumn)) {
-            int selectedColumn = model->selectedVertex.coord.y() - columnStart;
+        if (selectionMode().testFlag(QAbstract3DGraph::SelectionColumn) && coord.x() != -1) {
+            int selectedColumn = coord.x() - columnStart;
             selectedSeries.reserve(rowCount * 2);
             QVector<SurfaceVertex> list;
             for (int i = 0; i < rowCount; i++) {
@@ -1553,6 +1567,46 @@ void QQuickGraphsSurface::updateSliceGraph()
     }
 }
 
+QPointF QQuickGraphsSurface::mapCoordsToWorldSpace(SurfaceModel *model, const QPointF &coords)
+{
+    const QSurfaceDataArray &array = model->series->dataProxy()->array();
+    QSurfaceDataItem item = array.at(coords.y()).at(coords.x());
+    return QPointF(item.x(), item.z());
+}
+
+QPoint QQuickGraphsSurface::mapCoordsToSampleSpace(SurfaceModel *model, const QPointF &coords)
+{
+    const QSurfaceDataArray &array = model->series->dataProxy()->array();
+    int maxRow = array.size() - 1;
+    int maxCol = array.at(0).size() - 1;
+    const bool ascendingX = array.at(0).at(0).x() < array.at(0).at(maxCol).x();
+    const bool ascendingZ = array.at(0).at(0).z() < array.at(maxRow).at(0).z();
+    int botX = ascendingX ? 0 : maxCol;
+    int botZ = ascendingZ ? 0 : maxRow;
+    int topX = ascendingX ? maxCol : 0;
+    int topZ = ascendingZ ? maxRow : 0;
+
+    QPoint point(-1, -1);
+
+    QSurfaceDataItem bottomLeft = array.at(botZ).at(botX);
+    QSurfaceDataItem topRight = array.at(topZ).at(topX);
+
+    QPointF pointBL(bottomLeft.x(), bottomLeft.z());
+    QPointF pointTR(topRight.x(), topRight.z());
+
+    QPointF pointF = coords - pointBL;
+    QPointF span = pointTR - pointBL;
+    QPointF step = QPointF(span.x() / float(maxCol), span.y() / float(maxRow));
+    QPoint sample = QPoint((pointF.x() + (step.x() / 2.0)) / step.x(),
+                           (pointF.y() + (step.y() / 2.0)) / step.y());
+
+    if (bottomLeft.x() <= coords.x() && topRight.x() >= coords.x())
+        point.setX(ascendingX ? sample.x() : maxCol - sample.x());
+
+    if (bottomLeft.z() <= coords.y() && topRight.z() >= coords.y())
+        point.setY(ascendingZ ? sample.y() : maxRow - sample.y());
+    return point;
+}
 
 void QQuickGraphsSurface::createIndices(SurfaceModel *model, int columnCount, int rowCount)
 {
@@ -1725,14 +1779,29 @@ void QQuickGraphsSurface::updateSelectedPoint()
     m_instancing->resetPositions();
     if (sliceView() && sliceView()->isVisible())
         m_sliceInstancing->resetPositions();
+
+    QPointF worldCoord;
+    for (auto model : m_model) {
+        if (model->picked) {
+            QPoint coords = model->selectedVertex.coord;
+            worldCoord = mapCoordsToWorldSpace(model, coords);
+        }
+    }
     for (auto model : m_model) {
         if ((!selectionMode().testFlag(QAbstract3DGraph::SelectionMultiSeries) &&
                 !model->picked)|| model->selectedVertex.position.isNull())
             continue;
-        QPoint selectedCoord = model->selectedVertex.coord;
-        int coordX = selectedCoord.x() - model->sampleSpace.top();
-        int coordY = selectedCoord.y() - model->sampleSpace.left();
-        int index = coordX * model->sampleSpace.width() + coordY;
+        QPoint selectedCoord;
+        if (model->picked)
+            selectedCoord = model->selectedVertex.coord;
+        else
+            selectedCoord = mapCoordsToSampleSpace(model, worldCoord);
+        if (selectedCoord.x() == -1 || selectedCoord.y() == -1)
+            continue;
+
+        int coordX = selectedCoord.x() - model->sampleSpace.left();
+        int coordY = selectedCoord.y() - model->sampleSpace.top();
+        int index = coordY * model->sampleSpace.width() + coordX;
         SurfaceVertex selectedVertex = model->vertices.at(index);
         if (model->series->isVisible() &&
                 !selectedVertex.position.isNull() &&
