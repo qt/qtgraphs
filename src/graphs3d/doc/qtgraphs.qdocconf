@@ -49,3 +49,6 @@ navigation.cppclassespage = Qt Graphs C++ Classes
 navigation.qmltypespage = Qt Graphs QML Types
 
 manifestmeta.highlighted.names = "QtGraphs/Surface Graph Gallery"
+
+# Enforce zero documentation warnings
+warninglimit = 0
