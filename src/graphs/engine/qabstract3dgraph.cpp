@@ -4,6 +4,7 @@
 #include "qabstract3dgraph.h"
 #include "q3dscene_p.h"
 #include "qquickgraphsitem_p.h"
+#include "qquickitemgrabresult.h"
 #ifdef Q_OS_DARWIN
 #include <QtQuick3D/qquick3d.h>
 #endif
@@ -538,23 +539,41 @@ QAbstract3DGraph::ElementType QAbstract3DGraph::selectedElement() const
 
 /*!
  * Renders current frame to an image of \a imageSize. Default size is the window
- * size. Image is rendered with antialiasing level given in \a msaaSamples.
- * Default level is \c{0}.
+ * size. Identifying name for the image can be given in \a name. If the name is
+ * not given, a timestamp is created. Image is rendered with the current
+ * antialiasing settings. The \c imageCaptured signal is emitted when the capture
+ * is ready.
  *
- * Returns the rendered image.
- *
- * \note OpenGL ES2 does not support anitialiasing, so \a msaaSamples is always
- * forced to \c{0}.
+ * \note OpenGL ES2 does not support anitialiasing.
  */
-QImage QAbstract3DGraph::renderToImage(int msaaSamples, const QSize &imageSize)
+void QAbstract3DGraph::renderToImage(const QSize &imageSize, QString name)
 {
-    // TODO: API missing in QQuickGraphsItem (QTBUG-111712)
-    Q_UNUSED(msaaSamples)
+    if (name.isEmpty())
+        name = QString::number(QDateTime::currentMSecsSinceEpoch());
+
+    auto grabResultPointer = m_graphsItem->grabToImage(imageSize);
+    QObject::connect(grabResultPointer.data(),
+                     &QQuickItemGrabResult::ready,
+                     this,
+                     [grabResultPointer, this, name]() {
+                         emit this->imageCaptured(grabResultPointer.data()->image(), name);
+                     });
+}
+
+/*!
+ * Renders current frame to an image of \a imageSize.
+ * Returns a shared pointer to grab resut which can be used to access the
+ * rendered image when it's ready.
+ *
+ * \sa QQuickItem::grabToImage, renderToImage()
+ */
+QSharedPointer<QQuickItemGrabResult> QAbstract3DGraph::renderToImage(const QSize &imageSize)
+{
     QSize renderSize = imageSize;
     if (renderSize.isEmpty())
         renderSize = size();
-    // TODO: API missing in QQuickGraphsItem (QTBUG-111712)
-    return {};//m_graphsItem->renderToImage(msaaSamples, renderSize);
+
+    return m_graphsItem->grabToImage(renderSize);
 }
 
 QAbstract3DGraph::CameraPreset QAbstract3DGraph::cameraPreset() const
@@ -796,6 +815,25 @@ void QAbstract3DGraph::setWrapCameraYRotation(bool wrap)
 void QAbstract3DGraph::setCameraPosition(float horizontal, float vertical, float zoom)
 {
     m_graphsItem->setCameraPosition(horizontal, vertical, zoom);
+}
+
+/*!
+ * \property QAbstract3DGraph::msaaSamples
+ *
+ * \brief The number of used samples in MSAA.
+ *
+ * Sets the number of used MSAA samples to \a samples. The number of samples can
+ * be either 0, 2, 4, or 8.
+ *
+ */
+int QAbstract3DGraph::msaaSamples() const
+{
+    return m_graphsItem->msaaSamples();
+}
+
+void QAbstract3DGraph::setMsaaSamples(int samples)
+{
+    m_graphsItem->setMsaaSamples(samples);
 }
 
 /*!

@@ -17,6 +17,7 @@ class QCustom3DItem;
 class QAbstract3DAxis;
 class QAbstract3DSeries;
 class QQuickGraphsItem;
+class QQuickItemGrabResult;
 
 class Q_GRAPHS_EXPORT QAbstract3DGraph : public QQuickWidget
 {
@@ -68,6 +69,7 @@ class Q_GRAPHS_EXPORT QAbstract3DGraph : public QQuickWidget
                    wrapCameraYRotationChanged)
     Q_PROPERTY(QVector3D cameraTargetPosition READ cameraTargetPosition WRITE
                    setCameraTargetPosition NOTIFY cameraTargetPositionChanged)
+    Q_PROPERTY(int msaaSamples READ msaaSamples WRITE setMsaaSamples NOTIFY msaaSamplesChanged)
 
     QML_NAMED_ELEMENT(AbstractGraph3D)
     QML_UNCREATABLE("Trying to create uncreatable: AbstractGraph3D.")
@@ -204,7 +206,8 @@ public:
     int selectedCustomItemIndex() const;
     QCustom3DItem *selectedCustomItem() const;
 
-    QImage renderToImage(int msaaSamples = 0, const QSize &imageSize = QSize());
+    void renderToImage(const QSize &imageSize = QSize(), QString name = QStringLiteral(""));
+    QSharedPointer<QQuickItemGrabResult> renderToImage(const QSize &imageSize = QSize());
 
     QAbstract3DGraph::CameraPreset cameraPreset() const;
     void setCameraPreset(QAbstract3DGraph::CameraPreset preset);
@@ -243,6 +246,9 @@ public:
     void setWrapCameraYRotation(bool wrap);
 
     void setCameraPosition(float horizontal, float vertical, float zoom = 100.0f);
+
+    int msaaSamples() const;
+    void setMsaaSamples(int samples);
 
     virtual ~QAbstract3DGraph();
 
@@ -292,6 +298,8 @@ Q_SIGNALS:
     void maxCameraYRotationChanged(float rotation);
     void wrapCameraXRotationChanged(bool wrap);
     void wrapCameraYRotationChanged(bool wrap);
+    void imageCaptured(QImage image, const QString &name);
+    void msaaSamplesChanged(int samples);
 
 private:
     Q_DISABLE_COPY(QAbstract3DGraph)

@@ -92,6 +92,10 @@ Q3DSurface::Q3DSurface()
                      &QQuickGraphsItem::selectedElementChanged,
                      this,
                      &QAbstract3DGraph::selectedElementChanged);
+    QObject::connect(m_graphsItem.data(),
+                     &QQuickGraphsItem::msaaSamplesChanged,
+                     this,
+                     &QAbstract3DGraph::msaaSamplesChanged);
 }
 
 /*!

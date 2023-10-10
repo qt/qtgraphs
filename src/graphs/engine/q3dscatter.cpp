@@ -74,6 +74,10 @@ Q3DScatter::Q3DScatter()
                      &QQuickGraphsItem::selectedElementChanged,
                      this,
                      &QAbstract3DGraph::selectedElementChanged);
+    QObject::connect(m_graphsItem.data(),
+                     &QQuickGraphsItem::msaaSamplesChanged,
+                     this,
+                     &QAbstract3DGraph::msaaSamplesChanged);
 }
 
 /*!
