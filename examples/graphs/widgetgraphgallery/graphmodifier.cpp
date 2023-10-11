@@ -90,16 +90,15 @@ GraphModifier::GraphModifier(Q3DBars *bargraph, QObject *parent) :
 
     // Set up property animations for zooming to the selected bar
     //! [11]
-    QAbstract3DInputHandler *inputHandler = m_graph->activeInputHandler();
     m_defaultAngleX = m_graph->cameraXRotation();
     m_defaultAngleY = m_graph->cameraYRotation();
     m_defaultZoom = m_graph->cameraZoomLevel();
     m_defaultTarget = m_graph->cameraTargetPosition();
 
-    m_animationCameraX.setTargetObject(inputHandler);
-    m_animationCameraY.setTargetObject(inputHandler);
-    m_animationCameraZoom.setTargetObject(inputHandler);
-    m_animationCameraTarget.setTargetObject(inputHandler);
+    m_animationCameraX.setTargetObject(m_graph);
+    m_animationCameraY.setTargetObject(m_graph);
+    m_animationCameraZoom.setTargetObject(m_graph);
+    m_animationCameraTarget.setTargetObject(m_graph);
 
     m_animationCameraX.setPropertyName("cameraXRotation");
     m_animationCameraY.setPropertyName("cameraYRotation");
