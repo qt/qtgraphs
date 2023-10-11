@@ -1708,7 +1708,7 @@ void QQuickGraphsItem::synchData()
     updateCamera();
 
     QVector3D forward = camera()->forward();
-    auto targetRotation = cameraTarget()->rotation();
+    auto targetRotation = cameraTarget()->eulerRotation();
     if (m_yFlipped != (targetRotation.x() > 0)) {
         m_yFlipped = (targetRotation.x() > 0);
         axisDirty = true;
