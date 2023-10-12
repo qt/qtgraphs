@@ -14,9 +14,10 @@ QT_BEGIN_NAMESPACE
  * A value axis can be given a range of values and segment and subsegment
  * counts to divide the range into.
  *
- * Labels are drawn between each segment. Grid lines are drawn between each segment and each
- * subsegment. \note If visible, there will always be at least two grid lines and labels indicating
- * the minimum and the maximum values of the range, as there is always at least one segment.
+ * Labels are drawn between each segment. Grid lines are drawn between each
+ * segment and each subsegment. \note If visible, there will always be at least
+ * two grid lines and labels indicating the minimum and the maximum values of
+ * the range, as there is always at least one segment.
  */
 
 /*!
@@ -27,26 +28,25 @@ QT_BEGIN_NAMESPACE
  * \inherits AbstractAxis3D
  * \brief Manipulates an axis of a graph.
  *
- * This type provides an axis that can be given a range of values and segment and subsegment
- * counts to divide the range into.
+ * This type provides an axis that can be given a range of values and segment
+ * and subsegment counts to divide the range into.
  */
-
 
 /*!
  * \qmlproperty int ValueAxis3D::segmentCount
  *
- * The number of segments on the axis. This indicates how many labels are drawn. The number
- * of grid lines to be drawn is calculated with the following formula:
- * \c {segments * subsegments + 1}.
- * The preset default is \c 5. The value cannot be below \c 1.
+ * The number of segments on the axis. This indicates how many labels are drawn.
+ * The number of grid lines to be drawn is calculated with the following
+ * formula: \c {segments * subsegments + 1}. The preset default is \c 5. The
+ * value cannot be below \c 1.
  */
 
 /*!
  * \qmlproperty int ValueAxis3D::subSegmentCount
  *
- * The number of subsegments inside each segment on the axis. Grid lines are drawn between
- * each subsegment, in addition to each segment.
- * The preset default is \c 1. The value cannot be below \c 1.
+ * The number of subsegments inside each segment on the axis. Grid lines are
+ * drawn between each subsegment, in addition to each segment. The preset
+ * default is \c 1. The value cannot be below \c 1.
  */
 
 /*!
@@ -69,8 +69,8 @@ QT_BEGIN_NAMESPACE
 /*!
  * \qmlproperty ValueAxis3DFormatter ValueAxis3D::formatter
  *
- * The axis formatter to be used. Any existing formatter is deleted when a new formatter
- * is set.
+ * The axis formatter to be used. Any existing formatter is deleted when a new
+ * formatter is set.
  *
  */
 
@@ -85,8 +85,8 @@ QT_BEGIN_NAMESPACE
 /*!
  * Constructs QValue3DAxis with the given \a parent.
  */
-QValue3DAxis::QValue3DAxis(QObject *parent) :
-    QAbstract3DAxis(new QValue3DAxisPrivate(this), parent)
+QValue3DAxis::QValue3DAxis(QObject *parent)
+    : QAbstract3DAxis(new QValue3DAxisPrivate(this), parent)
 {
     setFormatter(new QValue3DAxisFormatter);
 }
@@ -94,9 +94,7 @@ QValue3DAxis::QValue3DAxis(QObject *parent) :
 /*!
  * Destroys QValue3DAxis.
  */
-QValue3DAxis::~QValue3DAxis()
-{
-}
+QValue3DAxis::~QValue3DAxis() {}
 
 /*!
  * \property QValue3DAxis::segmentCount
@@ -104,8 +102,8 @@ QValue3DAxis::~QValue3DAxis()
  * \brief The number of segments on the axis.
  *
  * This indicates how many labels are drawn. The number
- * of grid lines to be drawn is calculated with formula: \c {segments * subsegments + 1}.
- * The preset default is \c 5. The value cannot be below \c 1.
+ * of grid lines to be drawn is calculated with formula: \c {segments *
+ * subsegments + 1}. The preset default is \c 5. The value cannot be below \c 1.
  *
  * \sa setSubSegmentCount()
  */
@@ -113,7 +111,8 @@ void QValue3DAxis::setSegmentCount(int count)
 {
     Q_D(QValue3DAxis);
     if (count <= 0) {
-        qWarning() << "Warning: Illegal segment count automatically adjusted to a legal one:"
+        qWarning() << "Warning: Illegal segment count automatically adjusted to a "
+                      "legal one:"
                    << count << "-> 1";
         count = 1;
     }
@@ -145,7 +144,8 @@ void QValue3DAxis::setSubSegmentCount(int count)
 {
     Q_D(QValue3DAxis);
     if (count <= 0) {
-        qWarning() << "Warning: Illegal subsegment count automatically adjusted to a legal one:"
+        qWarning() << "Warning: Illegal subsegment count automatically adjusted to "
+                      "a legal one:"
                    << count << "-> 1";
         count = 1;
     }
@@ -231,9 +231,9 @@ QValue3DAxisFormatter *QValue3DAxis::formatter() const
  *
  * \brief Whether the axis is rendered in reverse.
  *
- * If \c{true}, the axis will be rendered in reverse, i.e. the positions of minimum and maximum
- * values are swapped when the graph is rendered. This property doesn't affect the actual
- * minimum and maximum values of the axis.
+ * If \c{true}, the axis will be rendered in reverse, i.e. the positions of
+ * minimum and maximum values are swapped when the graph is rendered. This
+ * property doesn't affect the actual minimum and maximum values of the axis.
  */
 void QValue3DAxis::setReversed(bool enable)
 {
@@ -291,19 +291,16 @@ QString QValue3DAxis::stringForValue(float x)
 }
 
 QValue3DAxisPrivate::QValue3DAxisPrivate(QValue3DAxis *q)
-    : QAbstract3DAxisPrivate(q, QAbstract3DAxis::AxisType::Value),
-      m_segmentCount(5),
-      m_subSegmentCount(1),
-      m_labelFormat(Utils::defaultLabelFormat()),
-      m_labelsDirty(true),
-      m_formatter(0),
-      m_reversed(false)
-{
-}
+    : QAbstract3DAxisPrivate(q, QAbstract3DAxis::AxisType::Value)
+    , m_segmentCount(5)
+    , m_subSegmentCount(1)
+    , m_labelFormat(Utils::defaultLabelFormat())
+    , m_labelsDirty(true)
+    , m_formatter(0)
+    , m_reversed(false)
+{}
 
-QValue3DAxisPrivate::~QValue3DAxisPrivate()
-{
-}
+QValue3DAxisPrivate::~QValue3DAxisPrivate() {}
 
 void QValue3DAxisPrivate::setRange(float min, float max, bool suppressWarnings)
 {

@@ -33,7 +33,7 @@ public:
 
     virtual void setRange(float min, float max, bool suppressWarnings = false);
     virtual void setMin(float min);
-    virtual void setMax (float max);
+    virtual void setMax(float max);
 
 protected:
     virtual void updateLabels();

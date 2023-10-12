@@ -14,8 +14,8 @@
 #ifndef QVALUE3DAXIS_P_H
 #define QVALUE3DAXIS_P_H
 
-#include "qvalue3daxis.h"
 #include "qabstract3daxis_p.h"
+#include "qvalue3daxis.h"
 
 QT_BEGIN_NAMESPACE
 
@@ -29,7 +29,7 @@ public:
 
     void setRange(float min, float max, bool suppressWarnings = false) override;
     void setMin(float min) override;
-    void setMax (float max) override;
+    void setMax(float max) override;
 
     void emitLabelsChanged();
     void emitFormatterDirty();

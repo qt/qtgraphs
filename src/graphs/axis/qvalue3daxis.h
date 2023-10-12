@@ -16,9 +16,11 @@ class Q_GRAPHS_EXPORT QValue3DAxis : public QAbstract3DAxis
     Q_OBJECT
     Q_DECLARE_PRIVATE(QValue3DAxis)
     Q_PROPERTY(int segmentCount READ segmentCount WRITE setSegmentCount NOTIFY segmentCountChanged)
-    Q_PROPERTY(int subSegmentCount READ subSegmentCount WRITE setSubSegmentCount NOTIFY subSegmentCountChanged)
+    Q_PROPERTY(int subSegmentCount READ subSegmentCount WRITE setSubSegmentCount NOTIFY
+                   subSegmentCountChanged)
     Q_PROPERTY(QString labelFormat READ labelFormat WRITE setLabelFormat NOTIFY labelFormatChanged)
-    Q_PROPERTY(QValue3DAxisFormatter* formatter READ formatter WRITE setFormatter NOTIFY formatterChanged)
+    Q_PROPERTY(
+        QValue3DAxisFormatter *formatter READ formatter WRITE setFormatter NOTIFY formatterChanged)
     Q_PROPERTY(bool reversed READ reversed WRITE setReversed NOTIFY reversedChanged)
 
 public:

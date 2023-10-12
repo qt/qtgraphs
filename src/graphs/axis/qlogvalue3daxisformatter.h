@@ -16,10 +16,12 @@ class Q_GRAPHS_EXPORT QLogValue3DAxisFormatter : public QValue3DAxisFormatter
     Q_DECLARE_PRIVATE(QLogValue3DAxisFormatter)
     Q_PROPERTY(qreal base READ base WRITE setBase NOTIFY baseChanged)
     Q_PROPERTY(bool autoSubGrid READ autoSubGrid WRITE setAutoSubGrid NOTIFY autoSubGridChanged)
-    Q_PROPERTY(bool showEdgeLabels READ showEdgeLabels WRITE setShowEdgeLabels NOTIFY showEdgeLabelsChanged)
+    Q_PROPERTY(bool showEdgeLabels READ showEdgeLabels WRITE setShowEdgeLabels NOTIFY
+                   showEdgeLabelsChanged)
 
 protected:
     explicit QLogValue3DAxisFormatter(QLogValue3DAxisFormatterPrivate *d, QObject *parent = nullptr);
+
 public:
     explicit QLogValue3DAxisFormatter(QObject *parent = nullptr);
     virtual ~QLogValue3DAxisFormatter();

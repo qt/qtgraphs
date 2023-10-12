@@ -4,12 +4,12 @@
 #ifndef QVALUE3DAXISFORMATTER_H
 #define QVALUE3DAXISFORMATTER_H
 
-#include <QtGraphs/qgraphsglobal.h>
 #include <QtCore/QList>
 #include <QtCore/QLocale>
 #include <QtCore/QObject>
 #include <QtCore/QScopedPointer>
 #include <QtCore/QStringList>
+#include <QtGraphs/qgraphsglobal.h>
 
 QT_BEGIN_NAMESPACE
 
@@ -23,6 +23,7 @@ class Q_GRAPHS_EXPORT QValue3DAxisFormatter : public QObject
 
 protected:
     explicit QValue3DAxisFormatter(QValue3DAxisFormatterPrivate *d, QObject *parent = nullptr);
+
 public:
     explicit QValue3DAxisFormatter(QObject *parent = nullptr);
     virtual ~QValue3DAxisFormatter();

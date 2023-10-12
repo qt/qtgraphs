@@ -11,11 +11,12 @@ QT_BEGIN_NAMESPACE
  * \inmodule QtGraphs
  * \brief The QCategory3DAxis class manipulates an axis of a graph.
  *
- * QCategory3DAxis provides an axis that can be given labels. The axis is divided into equal-sized
- * categories based on the data window size defined by setting the axis range.
+ * QCategory3DAxis provides an axis that can be given labels. The axis is
+ * divided into equal-sized categories based on the data window size defined by
+ * setting the axis range.
  *
- * Grid lines are drawn between categories, if visible. Labels are drawn to positions of categories
- * if provided.
+ * Grid lines are drawn between categories, if visible. Labels are drawn to
+ * positions of categories if provided.
  */
 
 /*!
@@ -32,25 +33,23 @@ QT_BEGIN_NAMESPACE
 /*!
  * \qmlproperty list CategoryAxis3D::labels
  *
- * The labels for the axis applied to categories. If there are fewer labels than categories, the
- * remaining ones do not have a label. If category labels are not defined explicitly, labels are
- * generated from the data row (or column) labels of the primary series of the graph.
+ * The labels for the axis applied to categories. If there are fewer labels than
+ * categories, the remaining ones do not have a label. If category labels are
+ * not defined explicitly, labels are generated from the data row (or column)
+ * labels of the primary series of the graph.
  */
 
 /*!
  * Constructs a category 3D axis with the parent \a parent.
  */
-QCategory3DAxis::QCategory3DAxis(QObject *parent) :
-    QAbstract3DAxis(new QCategory3DAxisPrivate(this), parent)
-{
-}
+QCategory3DAxis::QCategory3DAxis(QObject *parent)
+    : QAbstract3DAxis(new QCategory3DAxisPrivate(this), parent)
+{}
 
 /*!
  * Destroys the category 3D axis.
  */
-QCategory3DAxis::~QCategory3DAxis()
-{
-}
+QCategory3DAxis::~QCategory3DAxis() {}
 
 /*!
  * \property QCategory3DAxis::labels
@@ -58,8 +57,9 @@ QCategory3DAxis::~QCategory3DAxis()
  * \brief The labels for the axis applied to categories.
  *
  * If there are fewer labels than categories, the
- * remaining ones do not have a label. If category labels are not defined explicitly, labels are
- * generated from the data row (or column) labels of the primary series of the graph.
+ * remaining ones do not have a label. If category labels are not defined
+ * explicitly, labels are generated from the data row (or column) labels of the
+ * primary series of the graph.
  */
 QStringList QCategory3DAxis::labels() const
 {
@@ -72,7 +72,8 @@ void QCategory3DAxis::setLabels(const QStringList &labels)
     d->m_labelsExplicitlySet = !labels.isEmpty();
     bool labelsFromData = false;
 
-    // Get labels from data proxy if axis is attached to a bar graph and an active axis there
+    // Get labels from data proxy if axis is attached to a bar graph and an active
+    // axis there
     if (labels.isEmpty()) {
         QQuickGraphsBars *graph = qobject_cast<QQuickGraphsBars *>(parent());
         if (graph) {
@@ -96,19 +97,17 @@ void QCategory3DAxis::setLabels(const QStringList &labels)
  * \internal
  */
 QCategory3DAxisPrivate::QCategory3DAxisPrivate(QCategory3DAxis *q)
-    : QAbstract3DAxisPrivate(q, QAbstract3DAxis::AxisType::Category),
-      m_labelsExplicitlySet(false)
-{
-}
+    : QAbstract3DAxisPrivate(q, QAbstract3DAxis::AxisType::Category)
+    , m_labelsExplicitlySet(false)
+{}
 
-QCategory3DAxisPrivate::~QCategory3DAxisPrivate()
-{
-}
+QCategory3DAxisPrivate::~QCategory3DAxisPrivate() {}
 
 /*!
  * \internal
  * Graph uses this function to set labels from data proxy as category labels.
- * If the labels have been set explicitly by the user, data proxy labels are not used.
+ * If the labels have been set explicitly by the user, data proxy labels are not
+ * used.
  */
 void QCategory3DAxisPrivate::setDataLabels(const QStringList &labels)
 {

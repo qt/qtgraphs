@@ -1,8 +1,8 @@
 // Copyright (C) 2023 The Qt Company Ltd.
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 
-#include "qvalue3daxisformatter_p.h"
 #include "qvalue3daxis_p.h"
+#include "qvalue3daxisformatter_p.h"
 
 QT_BEGIN_NAMESPACE
 
@@ -12,11 +12,12 @@ QT_BEGIN_NAMESPACE
  * \brief The QValue3DAxisFormatter class is a base class for value axis
  * formatters.
  *
- * This class provides formatting rules for a linear value 3D axis. Subclass it if you
- * want to implement custom value axes.
+ * This class provides formatting rules for a linear value 3D axis. Subclass it
+ * if you want to implement custom value axes.
  *
- * The base class has no public API beyond constructors and destructors. It is meant to be only
- * used internally. However, subclasses may implement public properties as needed.
+ * The base class has no public API beyond constructors and destructors. It is
+ * meant to be only used internally. However, subclasses may implement public
+ * properties as needed.
  *
  * \sa QValue3DAxis, QLogValue3DAxisFormatter
  */
@@ -29,8 +30,8 @@ QT_BEGIN_NAMESPACE
  * \brief A base type for value axis formatters.
  *
  * This type provides formatting rules for a linear value 3D axis.
- * This type is the default type for ValueAxis3D and thus never needs to be explicitly created.
- * This type has no public functionality.
+ * This type is the default type for ValueAxis3D and thus never needs to be
+ * explicitly created. This type has no public functionality.
  *
  * \sa ValueAxis3D
  */
@@ -38,27 +39,23 @@ QT_BEGIN_NAMESPACE
 /*!
  * \internal
  */
-QValue3DAxisFormatter::QValue3DAxisFormatter(QValue3DAxisFormatterPrivate *d, QObject *parent) :
-    QObject(parent),
-    d_ptr(d)
-{
-}
+QValue3DAxisFormatter::QValue3DAxisFormatter(QValue3DAxisFormatterPrivate *d, QObject *parent)
+    : QObject(parent)
+    , d_ptr(d)
+{}
 
 /*!
  * Constructs a new value 3D axis formatter with the optional parent \a parent.
  */
-QValue3DAxisFormatter::QValue3DAxisFormatter(QObject *parent) :
-    QObject(parent),
-    d_ptr(new QValue3DAxisFormatterPrivate(this))
-{
-}
+QValue3DAxisFormatter::QValue3DAxisFormatter(QObject *parent)
+    : QObject(parent)
+    , d_ptr(new QValue3DAxisFormatterPrivate(this))
+{}
 
 /*!
  * Deletes the value 3D axis formatter.
  */
-QValue3DAxisFormatter::~QValue3DAxisFormatter()
-{
-}
+QValue3DAxisFormatter::~QValue3DAxisFormatter() {}
 
 /*!
  * Allows the parent axis to have negative values if \a allow is \c true.
@@ -106,17 +103,25 @@ void QValue3DAxisFormatter::setAxis(QValue3DAxis *axis)
     Q_ASSERT(axis);
     Q_D(QValue3DAxisFormatter);
 
-    // These signals are all connected to markDirtyNoLabelChange slot, even though most of them
-    // do require labels to be regenerated. This is because the label regeneration is triggered
-    // elsewhere in these cases.
-    connect(axis, &QValue3DAxis::segmentCountChanged,
-            this, &QValue3DAxisFormatter::markDirtyNoLabelChange);
-    connect(axis, &QValue3DAxis::subSegmentCountChanged,
-            this, &QValue3DAxisFormatter::markDirtyNoLabelChange);
-    connect(axis, &QValue3DAxis::labelFormatChanged,
-            this, &QValue3DAxisFormatter::markDirtyNoLabelChange);
-    connect(axis, &QAbstract3DAxis::rangeChanged,
-            this, &QValue3DAxisFormatter::markDirtyNoLabelChange);
+    // These signals are all connected to markDirtyNoLabelChange slot, even though
+    // most of them do require labels to be regenerated. This is because the label
+    // regeneration is triggered elsewhere in these cases.
+    connect(axis,
+            &QValue3DAxis::segmentCountChanged,
+            this,
+            &QValue3DAxisFormatter::markDirtyNoLabelChange);
+    connect(axis,
+            &QValue3DAxis::subSegmentCountChanged,
+            this,
+            &QValue3DAxisFormatter::markDirtyNoLabelChange);
+    connect(axis,
+            &QValue3DAxis::labelFormatChanged,
+            this,
+            &QValue3DAxisFormatter::markDirtyNoLabelChange);
+    connect(axis,
+            &QAbstract3DAxis::rangeChanged,
+            this,
+            &QValue3DAxisFormatter::markDirtyNoLabelChange);
 
     d->setAxis(axis);
 }
@@ -147,12 +152,15 @@ QValue3DAxisFormatter *QValue3DAxisFormatter::createNewInstance() const
  * strings array, as well as calculates any values needed to map a value to its
  * position. The parent axis can be accessed from inside this function.
  *
- * This method must be reimplemented in a subclass if the default array contents are not suitable.
+ * This method must be reimplemented in a subclass if the default array contents
+ * are not suitable.
  *
- * See gridPositions(), subGridPositions(), labelPositions(), and labelStrings() methods for
- * documentation about the arrays that need to be resized and populated.
+ * See gridPositions(), subGridPositions(), labelPositions(), and labelStrings()
+ * methods for documentation about the arrays that need to be resized and
+ * populated.
  *
- * \sa gridPositions(), subGridPositions(), labelPositions(), labelStrings(), axis()
+ * \sa gridPositions(), subGridPositions(), labelPositions(), labelStrings(),
+ * axis()
  */
 void QValue3DAxisFormatter::recalculate()
 {
@@ -164,9 +172,9 @@ void QValue3DAxisFormatter::recalculate()
  * Returns the formatted label string using the specified \a value and
  * \a format.
  *
- * Reimplement this method in a subclass to resolve the formatted string for a given \a value
- * if the default formatting rules specified for QValue3DAxis::labelFormat property are not
- * sufficient.
+ * Reimplement this method in a subclass to resolve the formatted string for a
+ * given \a value if the default formatting rules specified for
+ * QValue3DAxis::labelFormat property are not sufficient.
  *
  * \sa recalculate(), labelStrings(), QValue3DAxis::labelFormat
  */
@@ -225,10 +233,11 @@ void QValue3DAxisFormatter::populateCopy(QValue3DAxisFormatter &copy)
 }
 
 /*!
- * Marks this formatter dirty, prompting the renderer to make a new copy of its cache on the next
- * renderer synchronization. This method should be called by a subclass whenever the formatter
- * is changed in a way that affects the resolved values. Set \a labelsChange to
- * \c true if the change requires regenerating the parent axis label strings.
+ * Marks this formatter dirty, prompting the renderer to make a new copy of its
+ * cache on the next renderer synchronization. This method should be called by a
+ * subclass whenever the formatter is changed in a way that affects the resolved
+ * values. Set \a labelsChange to \c true if the change requires regenerating
+ * the parent axis label strings.
  */
 void QValue3DAxisFormatter::markDirty(bool labelsChange)
 {
@@ -237,8 +246,9 @@ void QValue3DAxisFormatter::markDirty(bool labelsChange)
 }
 
 /*!
- * Returns the parent axis. The parent axis must only be accessed in the recalculate()
- * method to maintain thread safety in environments using a threaded renderer.
+ * Returns the parent axis. The parent axis must only be accessed in the
+ * recalculate() method to maintain thread safety in environments using a
+ * threaded renderer.
  *
  * \sa recalculate()
  */
@@ -250,8 +260,9 @@ QValue3DAxis *QValue3DAxisFormatter::axis() const
 
 /*!
  * Returns a reference to the array of normalized grid line positions.
- * The default array size is equal to the segment count of the parent axis plus one, but
- * a subclassed implementation of the recalculate() method may resize the array differently.
+ * The default array size is equal to the segment count of the parent axis plus
+ * one, but a subclassed implementation of the recalculate() method may resize
+ * the array differently.
  *
  * \sa QValue3DAxis::segmentCount, recalculate()
  */
@@ -293,7 +304,8 @@ const QList<float> &QValue3DAxisFormatter::subGridPositions() const
  * The values should be between \c 0.0 (the minimum value) and \c 1.0 (the
  * maximum value), inclusive.
  *
- * \sa QValue3DAxis::segmentCount, QValue3DAxis::subSegmentCount, recalculate(), subGridPositions
+ * \sa QValue3DAxis::segmentCount, QValue3DAxis::subSegmentCount, recalculate(),
+ * subGridPositions
  */
 void QValue3DAxisFormatter::setSubGridPositions(QList<float> subGridPositions)
 {
@@ -303,10 +315,10 @@ void QValue3DAxisFormatter::setSubGridPositions(QList<float> subGridPositions)
 
 /*!
  * Returns a reference to the array of normalized label positions.
- * The default array size is equal to the segment count of the parent axis plus one, but
- * a subclassed implementation of the recalculate() method may resize the array
- * differently. By default, the label at the index zero corresponds to the minimum value
- * of the axis.
+ * The default array size is equal to the segment count of the parent axis plus
+ * one, but a subclassed implementation of the recalculate() method may resize
+ * the array differently. By default, the label at the index zero corresponds to
+ * the minimum value of the axis.
  *
  * \sa QValue3DAxis::segmentCount, QAbstract3DAxis::labels, recalculate()
  */
@@ -321,7 +333,8 @@ const QList<float> &QValue3DAxisFormatter::labelPositions() const
  * The values should be between \c 0.0 (the minimum value) and
  * \c 1.0 (the maximum value), inclusive.
  *
- * \sa QValue3DAxis::segmentCount, QAbstract3DAxis::labels, recalculate(), labelPosittions()
+ * \sa QValue3DAxis::segmentCount, QAbstract3DAxis::labels, recalculate(),
+ * labelPosittions()
  */
 void QValue3DAxisFormatter::setlabelPositions(QList<float> labelPositions)
 {
@@ -354,9 +367,10 @@ void QValue3DAxisFormatter::setLabelStrings(QStringList labelStrings)
 
 /*!
  * Sets the \a locale that this formatter uses.
- * The graph automatically sets the formatter's locale to a graph's locale whenever the parent axis
- * is set as an active axis of the graph, the axis formatter is set to an axis attached to
- * the graph, or the graph's locale changes.
+ * The graph automatically sets the formatter's locale to a graph's locale
+ * whenever the parent axis is set as an active axis of the graph, the axis
+ * formatter is set to an axis attached to the graph, or the graph's locale
+ * changes.
  *
  * \sa locale(), QAbstract3DGraph::locale
  */
@@ -378,24 +392,22 @@ QLocale QValue3DAxisFormatter::locale() const
 
 // QValue3DAxisFormatterPrivate
 QValue3DAxisFormatterPrivate::QValue3DAxisFormatterPrivate(QValue3DAxisFormatter *q)
-    : q_ptr(q),
-      m_needsRecalculate(true),
-      m_min(0.0f),
-      m_max(0.0f),
-      m_rangeNormalizer(0.0f),
-      m_axis(0),
-      m_preparsedParamType(Utils::ParamType::Unknown),
-      m_allowNegatives(true),
-      m_allowZero(true),
-      m_formatPrecision(6), // 6 and 'g' are defaults in Qt API for format precision and spec
-      m_formatSpec('g'),
-      m_cLocaleInUse(true)
-{
-}
+    : q_ptr(q)
+    , m_needsRecalculate(true)
+    , m_min(0.0f)
+    , m_max(0.0f)
+    , m_rangeNormalizer(0.0f)
+    , m_axis(0)
+    , m_preparsedParamType(Utils::ParamType::Unknown)
+    , m_allowNegatives(true)
+    , m_allowZero(true)
+    , m_formatPrecision(6)
+    , // 6 and 'g' are defaults in Qt API for format precision and spec
+    m_formatSpec('g')
+    , m_cLocaleInUse(true)
+{}
 
-QValue3DAxisFormatterPrivate::~QValue3DAxisFormatterPrivate()
-{
-}
+QValue3DAxisFormatterPrivate::~QValue3DAxisFormatterPrivate() {}
 
 void QValue3DAxisFormatterPrivate::recalculate()
 {
@@ -417,7 +429,7 @@ void QValue3DAxisFormatterPrivate::doRecalculate()
     Q_Q(QValue3DAxisFormatter);
     int segmentCount = m_axis->segmentCount();
     int subGridCount = m_axis->subSegmentCount() - 1;
-    QString labelFormat =  m_axis->labelFormat();
+    QString labelFormat = m_axis->labelFormat();
 
     m_gridPositions.resize(segmentCount + 1);
     m_subGridPositions.resize(segmentCount * subGridCount);
@@ -426,7 +438,8 @@ void QValue3DAxisFormatterPrivate::doRecalculate()
     m_labelStrings.clear();
     m_labelStrings.reserve(segmentCount + 1);
 
-    // Use qreals for intermediate calculations for better accuracy on label values
+    // Use qreals for intermediate calculations for better accuracy on label
+    // values
     qreal segmentStep = 1.0 / qreal(segmentCount);
     qreal subSegmentStep = 0;
     if (subGridCount > 0)
@@ -438,8 +451,7 @@ void QValue3DAxisFormatterPrivate::doRecalculate()
         qreal gridValue = segmentStep * qreal(i);
         m_gridPositions[i] = float(gridValue);
         m_labelPositions[i] = float(gridValue);
-        m_labelStrings << q->stringForValue(gridValue * rangeNormalizer + qreal(m_min),
-                                                labelFormat);
+        m_labelStrings << q->stringForValue(gridValue * rangeNormalizer + qreal(m_min), labelFormat);
         if (m_subGridPositions.size()) {
             for (int j = 0; j < subGridCount; j++)
                 m_subGridPositions[i * subGridCount + j] = gridValue + subSegmentStep * (j + 1);
@@ -476,15 +488,23 @@ QString QValue3DAxisFormatterPrivate::stringForValue(qreal value, const QString 
         // Format string different than the previous one used, reparse it
         m_labelFormatArray = format.toUtf8();
         m_previousLabelFormat = format;
-        m_preparsedParamType = Utils::preParseFormat(format, m_formatPreStr, m_formatPostStr,
-                                                     m_formatPrecision, m_formatSpec);
+        m_preparsedParamType = Utils::preParseFormat(format,
+                                                     m_formatPreStr,
+                                                     m_formatPostStr,
+                                                     m_formatPrecision,
+                                                     m_formatSpec);
     }
 
     if (m_cLocaleInUse) {
         return Utils::formatLabelSprintf(m_labelFormatArray, m_preparsedParamType, value);
     } else {
-        return Utils::formatLabelLocalized(m_preparsedParamType, value, m_locale, m_formatPreStr,
-                                           m_formatPostStr, m_formatPrecision, m_formatSpec,
+        return Utils::formatLabelLocalized(m_preparsedParamType,
+                                           value,
+                                           m_locale,
+                                           m_formatPreStr,
+                                           m_formatPostStr,
+                                           m_formatPrecision,
+                                           m_formatSpec,
                                            m_labelFormatArray);
     }
 }

@@ -4,11 +4,11 @@
 #ifndef QABSTRACT3DAXIS_H
 #define QABSTRACT3DAXIS_H
 
-#include <QtCore/qtclasshelpermacros.h>
-#include <QtGraphs/qgraphsglobal.h>
 #include <QtCore/QObject>
 #include <QtCore/QScopedPointer>
 #include <QtCore/QStringList>
+#include <QtCore/qtclasshelpermacros.h>
+#include <QtGraphs/qgraphsglobal.h>
 
 QT_BEGIN_NAMESPACE
 
@@ -21,29 +21,24 @@ class Q_GRAPHS_EXPORT QAbstract3DAxis : public QObject
     Q_CLASSINFO("RegisterEnumClassesUnscoped", "false")
     Q_PROPERTY(QString title READ title WRITE setTitle NOTIFY titleChanged)
     Q_PROPERTY(QStringList labels READ labels WRITE setLabels NOTIFY labelsChanged)
-    Q_PROPERTY(QAbstract3DAxis::AxisOrientation orientation READ orientation NOTIFY orientationChanged)
+    Q_PROPERTY(
+        QAbstract3DAxis::AxisOrientation orientation READ orientation NOTIFY orientationChanged)
     Q_PROPERTY(QAbstract3DAxis::AxisType type READ type CONSTANT)
     Q_PROPERTY(float min READ min WRITE setMin NOTIFY minChanged)
     Q_PROPERTY(float max READ max WRITE setMax NOTIFY maxChanged)
-    Q_PROPERTY(bool autoAdjustRange READ isAutoAdjustRange WRITE setAutoAdjustRange NOTIFY autoAdjustRangeChanged)
-    Q_PROPERTY(float labelAutoRotation READ labelAutoRotation WRITE setLabelAutoRotation NOTIFY labelAutoRotationChanged)
-    Q_PROPERTY(bool titleVisible READ isTitleVisible WRITE setTitleVisible NOTIFY titleVisibilityChanged)
+    Q_PROPERTY(bool autoAdjustRange READ isAutoAdjustRange WRITE setAutoAdjustRange NOTIFY
+                   autoAdjustRangeChanged)
+    Q_PROPERTY(float labelAutoRotation READ labelAutoRotation WRITE setLabelAutoRotation NOTIFY
+                   labelAutoRotationChanged)
+    Q_PROPERTY(
+        bool titleVisible READ isTitleVisible WRITE setTitleVisible NOTIFY titleVisibilityChanged)
     Q_PROPERTY(bool titleFixed READ isTitleFixed WRITE setTitleFixed NOTIFY titleFixedChanged)
 
 public:
-    enum class AxisOrientation {
-        None = 0,
-        X = 1,
-        Y = 2,
-        Z = 4
-    };
+    enum class AxisOrientation { None = 0, X = 1, Y = 2, Z = 4 };
     Q_ENUM(AxisOrientation)
 
-    enum class AxisType {
-        None = 0,
-        Category = 1,
-        Value = 2
-    };
+    enum class AxisType { None = 0, Category = 1, Value = 2 };
     Q_ENUM(AxisType)
 
 protected:

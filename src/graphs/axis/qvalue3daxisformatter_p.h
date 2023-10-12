@@ -23,7 +23,7 @@ QT_BEGIN_NAMESPACE
 
 class QValue3DAxis;
 
-class QValue3DAxisFormatterPrivate// : public QObjectPrivate
+class QValue3DAxisFormatterPrivate
 {
     Q_DECLARE_PUBLIC(QValue3DAxisFormatter)
 

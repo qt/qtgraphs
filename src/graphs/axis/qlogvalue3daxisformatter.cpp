@@ -34,10 +34,10 @@ QT_BEGIN_NAMESPACE
 /*!
  * \qmlproperty real LogValueAxis3DFormatter::base
  *
- * The base of the logarithm used to map axis values. If the base is non-zero, the parent axis
- * segment count will be ignored when the grid line and label positions are calculated.
- * If you want the range to be divided into equal segments like a normal value axis, set this
- * property value to zero.
+ * The base of the logarithm used to map axis values. If the base is non-zero,
+ * the parent axis segment count will be ignored when the grid line and label
+ * positions are calculated. If you want the range to be divided into equal
+ * segments like a normal value axis, set this property value to zero.
  *
  * The base has to be zero or a positive value and it cannot be equal to one.
  * Defaults to ten.
@@ -50,10 +50,10 @@ QT_BEGIN_NAMESPACE
  *
  * Defines whether sub-grid positions are generated automatically.
  *
- * If this property value is set to \c true, the parent axis sub-segment count is ignored
- * when calculating sub-grid line positions. The sub-grid positions are generated automatically
- * according to the \l base property value.
- * The number of sub-grid lines is set to the base value minus one, rounded down.
+ * If this property value is set to \c true, the parent axis sub-segment count
+ * is ignored when calculating sub-grid line positions. The sub-grid positions
+ * are generated automatically according to the \l base property value. The
+ * number of sub-grid lines is set to the base value minus one, rounded down.
  * This property is ignored when the base value is zero.
  * Defaults to \c true.
  *
@@ -67,11 +67,11 @@ QT_BEGIN_NAMESPACE
  *
  * When the \l base property value is non-zero, the whole axis range is often
  * not equally divided into
- * segments. The first and last segments are often smaller than the other segments.
- * In extreme cases, this can lead to overlapping labels on the first and last two grid lines.
- * By setting this property to \c false, you can suppress showing the minimum and maximum labels
- * for the axis in cases where the segments do not exactly fit the axis.
- * Defaults to \c true.
+ * segments. The first and last segments are often smaller than the other
+ * segments. In extreme cases, this can lead to overlapping labels on the first
+ * and last two grid lines. By setting this property to \c false, you can
+ * suppress showing the minimum and maximum labels for the axis in cases where
+ * the segments do not exactly fit the axis. Defaults to \c true.
  *
  * \sa base, AbstractAxis3D::labels
  */
@@ -80,8 +80,8 @@ QT_BEGIN_NAMESPACE
  * \internal
  */
 QLogValue3DAxisFormatter::QLogValue3DAxisFormatter(QLogValue3DAxisFormatterPrivate *d,
-                                                   QObject *parent) :
-    QValue3DAxisFormatter(d, parent)
+                                                   QObject *parent)
+    : QValue3DAxisFormatter(d, parent)
 {
     setAllowNegatives(false);
     setAllowZero(false);
@@ -91,8 +91,8 @@ QLogValue3DAxisFormatter::QLogValue3DAxisFormatter(QLogValue3DAxisFormatterPriva
  * Constructs a new logarithmic value 3D axis formatter with the optional
  * parent \a parent.
  */
-QLogValue3DAxisFormatter::QLogValue3DAxisFormatter(QObject *parent) :
-    QValue3DAxisFormatter(new QLogValue3DAxisFormatterPrivate(this), parent)
+QLogValue3DAxisFormatter::QLogValue3DAxisFormatter(QObject *parent)
+    : QValue3DAxisFormatter(new QLogValue3DAxisFormatterPrivate(this), parent)
 {
     setAllowNegatives(false);
     setAllowZero(false);
@@ -101,9 +101,7 @@ QLogValue3DAxisFormatter::QLogValue3DAxisFormatter(QObject *parent) :
 /*!
  * Deletes the logarithmic value 3D axis formatter.
  */
-QLogValue3DAxisFormatter::~QLogValue3DAxisFormatter()
-{
-}
+QLogValue3DAxisFormatter::~QLogValue3DAxisFormatter() {}
 
 /*!
  * \property QLogValue3DAxisFormatter::base
@@ -111,9 +109,9 @@ QLogValue3DAxisFormatter::~QLogValue3DAxisFormatter()
  * \brief The base of the logarithm used to map axis values.
  *
  * If the base is non-zero, the parent axis
- * segment count will be ignored when the grid line and label positions are calculated.
- * If you want the range to be divided into equal segments like a normal value axis, set this
- * property value to zero.
+ * segment count will be ignored when the grid line and label positions are
+ * calculated. If you want the range to be divided into equal segments like a
+ * normal value axis, set this property value to zero.
  *
  * The base has to be zero or a positive value and it cannot be equal to one.
  * Defaults to ten.
@@ -124,7 +122,8 @@ void QLogValue3DAxisFormatter::setBase(qreal base)
 {
     Q_D(QLogValue3DAxisFormatter);
     if (base < 0.0f || base == 1.0f) {
-        qWarning() << "Warning: The logarithm base must be greater than 0 and not equal to 1,"
+        qWarning() << "Warning: The logarithm base must be greater than 0 and not "
+                      "equal to 1,"
                    << "attempted:" << base;
         return;
     }
@@ -146,12 +145,11 @@ qreal QLogValue3DAxisFormatter::base() const
  *
  * \brief Whether sub-grid positions are generated automatically.
  *
- * If this property value is set to \c true, the parent axis sub-segment count is ignored
- * when calculating sub-grid line positions. The sub-grid positions are generated automatically
- * according to the \l base property value. The number of sub-grid lines is set
- * to the base value minus one, rounded down. This property is ignored when the
- * base value is zero.
- * Defaults to \c true.
+ * If this property value is set to \c true, the parent axis sub-segment count
+ * is ignored when calculating sub-grid line positions. The sub-grid positions
+ * are generated automatically according to the \l base property value. The
+ * number of sub-grid lines is set to the base value minus one, rounded down.
+ * This property is ignored when the base value is zero. Defaults to \c true.
  *
  * \sa base, QValue3DAxis::subSegmentCount
  */
@@ -178,11 +176,11 @@ bool QLogValue3DAxisFormatter::autoSubGrid() const
  *
  * When the \l base property value is non-zero, the whole axis range is often
  * not equally divided into
- * segments. The first and last segments are often smaller than the other segments.
- * In extreme cases, this can lead to overlapping labels on the first and last two grid lines.
- * By setting this property to \c false, you can suppress showing the minimum and maximum labels
- * for the axis in cases where the segments do not exactly fit the axis.
- * Defaults to \c true.
+ * segments. The first and last segments are often smaller than the other
+ * segments. In extreme cases, this can lead to overlapping labels on the first
+ * and last two grid lines. By setting this property to \c false, you can
+ * suppress showing the minimum and maximum labels for the axis in cases where
+ * the segments do not exactly fit the axis. Defaults to \c true.
  *
  * \sa base, QAbstract3DAxis::labels
  */
@@ -249,33 +247,31 @@ void QLogValue3DAxisFormatter::populateCopy(QValue3DAxisFormatter &copy)
 
 // QLogValue3DAxisFormatterPrivate
 QLogValue3DAxisFormatterPrivate::QLogValue3DAxisFormatterPrivate(QLogValue3DAxisFormatter *q)
-    : QValue3DAxisFormatterPrivate(q),
-      m_base(10.0),
-      m_logMin(0.0),
-      m_logMax(0.0),
-      m_logRangeNormalizer(0.0),
-      m_autoSubGrid(true),
-      m_showEdgeLabels(true),
-      m_evenMinSegment(true),
-      m_evenMaxSegment(true)
-{
-}
+    : QValue3DAxisFormatterPrivate(q)
+    , m_base(10.0)
+    , m_logMin(0.0)
+    , m_logMax(0.0)
+    , m_logRangeNormalizer(0.0)
+    , m_autoSubGrid(true)
+    , m_showEdgeLabels(true)
+    , m_evenMinSegment(true)
+    , m_evenMaxSegment(true)
+{}
 
-QLogValue3DAxisFormatterPrivate::~QLogValue3DAxisFormatterPrivate()
-{
-}
+QLogValue3DAxisFormatterPrivate::~QLogValue3DAxisFormatterPrivate() {}
 
 void QLogValue3DAxisFormatterPrivate::recalculate()
 {
     Q_Q(QLogValue3DAxisFormatter);
-    // When doing position/value mappings, base doesn't matter, so just use natural logarithm
+    // When doing position/value mappings, base doesn't matter, so just use
+    // natural logarithm
     m_logMin = qLn(qreal(m_min));
     m_logMax = qLn(qreal(m_max));
     m_logRangeNormalizer = m_logMax - m_logMin;
 
     int subGridCount = m_axis->subSegmentCount() - 1;
     int segmentCount = m_axis->segmentCount();
-    QString labelFormat =  m_axis->labelFormat();
+    QString labelFormat = m_axis->labelFormat();
     qreal segmentStep;
     if (m_base > 0.0) {
         // Update parent axis segment counts
@@ -326,7 +322,7 @@ void QLogValue3DAxisFormatterPrivate::recalculate()
             m_gridPositions[index] = gridValue;
             m_labelPositions[index] = gridValue;
             m_labelStrings << q->stringForValue(qPow(m_base, minDiff + qreal(i) + logMin),
-                                                    labelFormat);
+                                                labelFormat);
             index++;
         }
         // Ensure max value doesn't suffer from any rounding errors
@@ -341,8 +337,8 @@ void QLogValue3DAxisFormatterPrivate::recalculate()
         else
             m_labelStrings << finalLabel;
     } else {
-        // Grid lines and label positions are the same as the parent class, so call parent impl
-        // first to populate those
+        // Grid lines and label positions are the same as the parent class, so call
+        // parent impl first to populate those
         QValue3DAxisFormatterPrivate::doRecalculate();
 
         // Label string list needs to be repopulated
@@ -350,9 +346,9 @@ void QLogValue3DAxisFormatterPrivate::recalculate()
 
         m_labelStrings << q->stringForValue(qreal(m_min), labelFormat);
         for (int i = 1; i < m_labelPositions.size() - 1; i++)
-            m_labelStrings[i] = q->stringForValue(qExp(segmentStep * qreal(i)
-                                                           * m_logRangeNormalizer + m_logMin),
-                                                      labelFormat);
+            m_labelStrings[i] = q->stringForValue(qExp(segmentStep * qreal(i) * m_logRangeNormalizer
+                                                       + m_logMin),
+                                                  labelFormat);
         m_labelStrings << q->stringForValue(qreal(m_max), labelFormat);
 
         m_evenMaxSegment = true;
@@ -364,8 +360,9 @@ void QLogValue3DAxisFormatterPrivate::recalculate()
         float oneSegmentRange = valueAt(float(segmentStep)) - m_min;
         float subSegmentStep = oneSegmentRange / float(subGridCount + 1);
 
-        // Since the logarithm has the same curvature across whole axis range, we can just calculate
-        // subgrid positions for the first segment and replicate them to other segments.
+        // Since the logarithm has the same curvature across whole axis range, we
+        // can just calculate subgrid positions for the first segment and replicate
+        // them to other segments.
         QList<float> actualSubSegmentSteps(subGridCount);
 
         for (int i = 0; i < subGridCount; i++) {
