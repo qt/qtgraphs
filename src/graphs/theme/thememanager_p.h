@@ -14,7 +14,6 @@
 #ifndef THEMEMANAGER_P_H
 #define THEMEMANAGER_P_H
 
-//#include "graphsglobal_p.h"
 #include "q3dtheme.h"
 
 QT_BEGIN_NAMESPACE

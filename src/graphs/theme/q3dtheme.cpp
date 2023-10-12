@@ -120,7 +120,8 @@ QT_BEGIN_NAMESPACE
  *
  * \snippet doc_src_q3dtheme.cpp 2
  *
- * Creating a built-in theme and modifying some properties after it has been set:
+ * Creating a built-in theme and modifying some properties after it has been
+ * set:
  *
  * \snippet doc_src_q3dtheme.cpp 3
  *
@@ -174,8 +175,8 @@ QT_BEGIN_NAMESPACE
  * \instantiates Q3DTheme
  * \brief A visual style for graphs.
  *
- * This type is used to specify visual properties that affect the whole graph. There are several
- * built-in themes that can be used as is or modified freely.
+ * This type is used to specify visual properties that affect the whole graph.
+ * There are several built-in themes that can be used as is or modified freely.
  *
  * The following properties can be overridden by using Abstract3DSeries
  * properties to set them explicitly in the series:
@@ -282,9 +283,10 @@ QT_BEGIN_NAMESPACE
 /*!
  * \qmlproperty list<ThemeColor> Theme3D::baseColors
  *
- * The list of base colors to be used for all the objects in the graph, series by series. If there
- * are more series than colors, color list wraps and starts again with the first color in the list.
- * Has no immediate effect if colorStyle is not \c Theme3D.ColorStyle.Uniform.
+ * The list of base colors to be used for all the objects in the graph, series
+ * by series. If there are more series than colors, color list wraps and starts
+ * again with the first color in the list. Has no immediate effect if colorStyle
+ * is not \c Theme3D.ColorStyle.Uniform.
  *
  * This can be overridden by setting \l{Abstract3DSeries::baseColor}
  * {Abstract3DSeries.baseColor} explicitly in the series.
@@ -311,7 +313,8 @@ QT_BEGIN_NAMESPACE
 /*!
  * \qmlproperty color Theme3D::labelBackgroundColor
  *
- * The color of the label backgrounds. Has no effect if labelBackgroundEnabled is \c false.
+ * The color of the label backgrounds. Has no effect if labelBackgroundEnabled
+ * is \c false.
  */
 
 /*!
@@ -449,8 +452,8 @@ QT_BEGIN_NAMESPACE
 /*!
  * \qmlproperty bool Theme3D::labelsEnabled
  *
- * Defines whether labels are drawn at all. If this is \c{false}, all other label properties
- * have no effect.
+ * Defines whether labels are drawn at all. If this is \c{false}, all other
+ * label properties have no effect.
  */
 
 /*!
@@ -458,16 +461,17 @@ QT_BEGIN_NAMESPACE
  *
  * The type of the theme. If no type is set, the type is
  * \l{Q3DTheme::Theme::UserDefined}{Theme3D.Theme.UserDefined}.
- * Changing the theme type after the item has been constructed will change all other properties
- * of the theme to what the predefined theme specifies. Changing the theme type of the active theme
- * of the graph will also reset all attached series to use the new theme.
+ * Changing the theme type after the item has been constructed will change all
+ * other properties of the theme to what the predefined theme specifies.
+ * Changing the theme type of the active theme of the graph will also reset all
+ * attached series to use the new theme.
  */
 
 /*!
  * \qmlproperty real Theme3D::shadowStrength
  *
- * The shadow strength for the whole graph. The higher the number, the darker the shadows will be.
- * The value must be between \c 0.0 and \c 100.0.
+ * The shadow strength for the whole graph. The higher the number, the darker
+ * the shadows will be. The value must be between \c 0.0 and \c 100.0.
  *
  * This value affects the light specified in Scene3D.
  */
@@ -477,15 +481,14 @@ QT_BEGIN_NAMESPACE
  * can be given and is then passed to QObject constructor.
  */
 Q3DTheme::Q3DTheme(QObject *parent)
-    : QObject(parent),
-      d_ptr(new Q3DThemePrivate(this))
-{
-}
+    : QObject(parent)
+    , d_ptr(new Q3DThemePrivate(this))
+{}
 
 /*!
- * Constructs a new theme with \a themeType, which can be one of the built-in themes from
- * \l Theme. An optional \a parent parameter can be given and is then passed to QObject
- * constructor.
+ * Constructs a new theme with \a themeType, which can be one of the built-in
+ * themes from \l Theme. An optional \a parent parameter can be given and is
+ * then passed to QObject constructor.
  */
 Q3DTheme::Q3DTheme(Theme themeType, QObject *parent)
     : QObject(parent)

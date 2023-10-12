@@ -19,31 +19,32 @@
 
 QT_BEGIN_NAMESPACE
 
-struct Q3DThemeDirtyBitField {
-    bool ambientLightStrengthDirty     : 1;
-    bool backgroundColorDirty          : 1;
-    bool backgroundEnabledDirty        : 1;
-    bool baseColorDirty                : 1;
-    bool baseGradientDirty             : 1;
-    bool colorStyleDirty               : 1;
-    bool fontDirty                     : 1;
-    bool gridEnabledDirty              : 1;
-    bool gridLineColorDirty            : 1;
-    bool highlightLightStrengthDirty   : 1;
-    bool labelBackgroundColorDirty     : 1;
-    bool labelBackgroundEnabledDirty   : 1;
-    bool labelBorderEnabledDirty       : 1;
-    bool labelTextColorDirty           : 1;
-    bool labelsEnabledDirty            : 1;
-    bool lightColorDirty               : 1;
-    bool lightStrengthDirty            : 1;
-    bool multiHighlightColorDirty      : 1;
-    bool multiHighlightGradientDirty   : 1;
-    bool shadowStrengthDirty           : 1;
-    bool singleHighlightColorDirty     : 1;
-    bool singleHighlightGradientDirty  : 1;
-    bool themeIdDirty                  : 1;
-    bool windowColorDirty              : 1;
+struct Q3DThemeDirtyBitField
+{
+    bool ambientLightStrengthDirty : 1;
+    bool backgroundColorDirty : 1;
+    bool backgroundEnabledDirty : 1;
+    bool baseColorDirty : 1;
+    bool baseGradientDirty : 1;
+    bool colorStyleDirty : 1;
+    bool fontDirty : 1;
+    bool gridEnabledDirty : 1;
+    bool gridLineColorDirty : 1;
+    bool highlightLightStrengthDirty : 1;
+    bool labelBackgroundColorDirty : 1;
+    bool labelBackgroundEnabledDirty : 1;
+    bool labelBorderEnabledDirty : 1;
+    bool labelTextColorDirty : 1;
+    bool labelsEnabledDirty : 1;
+    bool lightColorDirty : 1;
+    bool lightStrengthDirty : 1;
+    bool multiHighlightColorDirty : 1;
+    bool multiHighlightGradientDirty : 1;
+    bool shadowStrengthDirty : 1;
+    bool singleHighlightColorDirty : 1;
+    bool singleHighlightGradientDirty : 1;
+    bool themeIdDirty : 1;
+    bool windowColorDirty : 1;
 
     Q3DThemeDirtyBitField()
         : ambientLightStrengthDirty(false)

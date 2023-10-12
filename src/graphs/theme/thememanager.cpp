@@ -8,17 +8,14 @@
 QT_BEGIN_NAMESPACE
 
 const float defaultBuiltInColorLevel = 0.7f; // for built-in gradient themes
-const float defaultColorLevel = 0.5f; // for built-in uniform themes
+const float defaultColorLevel = 0.5f;        // for built-in uniform themes
 
 ThemeManager::ThemeManager(QQuickGraphsItem *graph)
-    : m_activeTheme(0),
-      m_graph(graph)
-{
-}
+    : m_activeTheme(0)
+    , m_graph(graph)
+{}
 
-ThemeManager::~ThemeManager()
-{
-}
+ThemeManager::~ThemeManager() {}
 
 void ThemeManager::addTheme(Q3DTheme *theme)
 {
@@ -95,25 +92,43 @@ QList<Q3DTheme *> ThemeManager::themes() const
 
 void ThemeManager::connectThemeSignals()
 {
-    connect(m_activeTheme, &Q3DTheme::colorStyleChanged,
-            m_graph, &QQuickGraphsItem::handleThemeColorStyleChanged);
-    connect(m_activeTheme, &Q3DTheme::baseColorsChanged,
-            m_graph, &QQuickGraphsItem::handleThemeBaseColorsChanged);
-    connect(m_activeTheme, &Q3DTheme::singleHighlightColorChanged,
-            m_graph, &QQuickGraphsItem::handleThemeSingleHighlightColorChanged);
-    connect(m_activeTheme, &Q3DTheme::multiHighlightColorChanged,
-            m_graph, &QQuickGraphsItem::handleThemeMultiHighlightColorChanged);
-    connect(m_activeTheme, &Q3DTheme::baseGradientsChanged,
-            m_graph, &QQuickGraphsItem::handleThemeBaseGradientsChanged);
-    connect(m_activeTheme, &Q3DTheme::singleHighlightGradientChanged,
-            m_graph, &QQuickGraphsItem::handleThemeSingleHighlightGradientChanged);
-    connect(m_activeTheme, &Q3DTheme::multiHighlightGradientChanged,
-            m_graph, &QQuickGraphsItem::handleThemeMultiHighlightGradientChanged);
-    connect(m_activeTheme, &Q3DTheme::typeChanged,
-            m_graph, &QQuickGraphsItem::handleThemeTypeChanged);
+    connect(m_activeTheme,
+            &Q3DTheme::colorStyleChanged,
+            m_graph,
+            &QQuickGraphsItem::handleThemeColorStyleChanged);
+    connect(m_activeTheme,
+            &Q3DTheme::baseColorsChanged,
+            m_graph,
+            &QQuickGraphsItem::handleThemeBaseColorsChanged);
+    connect(m_activeTheme,
+            &Q3DTheme::singleHighlightColorChanged,
+            m_graph,
+            &QQuickGraphsItem::handleThemeSingleHighlightColorChanged);
+    connect(m_activeTheme,
+            &Q3DTheme::multiHighlightColorChanged,
+            m_graph,
+            &QQuickGraphsItem::handleThemeMultiHighlightColorChanged);
+    connect(m_activeTheme,
+            &Q3DTheme::baseGradientsChanged,
+            m_graph,
+            &QQuickGraphsItem::handleThemeBaseGradientsChanged);
+    connect(m_activeTheme,
+            &Q3DTheme::singleHighlightGradientChanged,
+            m_graph,
+            &QQuickGraphsItem::handleThemeSingleHighlightGradientChanged);
+    connect(m_activeTheme,
+            &Q3DTheme::multiHighlightGradientChanged,
+            m_graph,
+            &QQuickGraphsItem::handleThemeMultiHighlightGradientChanged);
+    connect(m_activeTheme,
+            &Q3DTheme::typeChanged,
+            m_graph,
+            &QQuickGraphsItem::handleThemeTypeChanged);
 
-    connect(m_activeTheme->d_func(), &Q3DThemePrivate::needRender,
-            m_graph, &QQuickGraphsItem::needRender);
+    connect(m_activeTheme->d_func(),
+            &Q3DThemePrivate::needRender,
+            m_graph,
+            &QQuickGraphsItem::needRender);
 }
 
 void ThemeManager::setPredefinedPropertiesToTheme(Q3DTheme *theme, Q3DTheme::Theme type)
@@ -154,10 +169,8 @@ void ThemeManager::setPredefinedPropertiesToTheme(Q3DTheme *theme, Q3DTheme::The
         setLabelsEnabled(theme, true);
         setColorStyle(theme, Q3DTheme::ColorStyle::Uniform);
         setBaseGradients(theme, baseGradients);
-        setSingleHighlightGradient(theme, createGradient(QColor(QRgb(0x14aaff)),
-                                                         defaultColorLevel));
-        setMultiHighlightGradient(theme, createGradient(QColor(QRgb(0x6400aa)),
-                                                        defaultColorLevel));
+        setSingleHighlightGradient(theme, createGradient(QColor(QRgb(0x14aaff)), defaultColorLevel));
+        setMultiHighlightGradient(theme, createGradient(QColor(QRgb(0x6400aa)), defaultColorLevel));
         break;
     }
 
@@ -194,10 +207,8 @@ void ThemeManager::setPredefinedPropertiesToTheme(Q3DTheme *theme, Q3DTheme::The
         setLabelsEnabled(theme, true);
         setColorStyle(theme, Q3DTheme::ColorStyle::Uniform);
         setBaseGradients(theme, baseGradients);
-        setSingleHighlightGradient(theme, createGradient(QColor(QRgb(0x27beee)),
-                                                         defaultColorLevel));
-        setMultiHighlightGradient(theme, createGradient(QColor(QRgb(0xee1414)),
-                                                        defaultColorLevel));
+        setSingleHighlightGradient(theme, createGradient(QColor(QRgb(0x27beee)), defaultColorLevel));
+        setMultiHighlightGradient(theme, createGradient(QColor(QRgb(0xee1414)), defaultColorLevel));
         break;
     }
 
@@ -234,10 +245,8 @@ void ThemeManager::setPredefinedPropertiesToTheme(Q3DTheme *theme, Q3DTheme::The
         setLabelsEnabled(theme, true);
         setColorStyle(theme, Q3DTheme::ColorStyle::Uniform);
         setBaseGradients(theme, baseGradients);
-        setSingleHighlightGradient(theme, createGradient(QColor(QRgb(0xfbf6d6)),
-                                                         defaultColorLevel));
-        setMultiHighlightGradient(theme, createGradient(QColor(QRgb(0x442f20)),
-                                                        defaultColorLevel));
+        setSingleHighlightGradient(theme, createGradient(QColor(QRgb(0xfbf6d6)), defaultColorLevel));
+        setMultiHighlightGradient(theme, createGradient(QColor(QRgb(0x442f20)), defaultColorLevel));
         break;
     }
 
@@ -274,10 +283,10 @@ void ThemeManager::setPredefinedPropertiesToTheme(Q3DTheme *theme, Q3DTheme::The
         setLabelsEnabled(theme, true);
         setColorStyle(theme, Q3DTheme::ColorStyle::ObjectGradient);
         setBaseGradients(theme, baseGradients);
-        setSingleHighlightGradient(theme, createGradient(QColor(QRgb(0x2aa2f9)),
-                                                         defaultBuiltInColorLevel));
-        setMultiHighlightGradient(theme, createGradient(QColor(QRgb(0x103753)),
-                                                        defaultBuiltInColorLevel));
+        setSingleHighlightGradient(theme,
+                                   createGradient(QColor(QRgb(0x2aa2f9)), defaultBuiltInColorLevel));
+        setMultiHighlightGradient(theme,
+                                  createGradient(QColor(QRgb(0x103753)), defaultBuiltInColorLevel));
         break;
     }
 
@@ -314,10 +323,10 @@ void ThemeManager::setPredefinedPropertiesToTheme(Q3DTheme *theme, Q3DTheme::The
         setLabelsEnabled(theme, true);
         setColorStyle(theme, Q3DTheme::ColorStyle::ObjectGradient);
         setBaseGradients(theme, baseGradients);
-        setSingleHighlightGradient(theme, createGradient(QColor(QRgb(0x8ea317)),
-                                                         defaultBuiltInColorLevel));
-        setMultiHighlightGradient(theme, createGradient(QColor(QRgb(0xc25708)),
-                                                        defaultBuiltInColorLevel));
+        setSingleHighlightGradient(theme,
+                                   createGradient(QColor(QRgb(0x8ea317)), defaultBuiltInColorLevel));
+        setMultiHighlightGradient(theme,
+                                  createGradient(QColor(QRgb(0xc25708)), defaultBuiltInColorLevel));
         break;
     }
 
@@ -354,10 +363,8 @@ void ThemeManager::setPredefinedPropertiesToTheme(Q3DTheme *theme, Q3DTheme::The
         setLabelsEnabled(theme, true);
         setColorStyle(theme, Q3DTheme::ColorStyle::Uniform);
         setBaseGradients(theme, baseGradients);
-        setSingleHighlightGradient(theme, createGradient(QColor(QRgb(0xf5dc0d)),
-                                                         defaultColorLevel));
-        setMultiHighlightGradient(theme, createGradient(QColor(QRgb(0xd72222)),
-                                                        defaultColorLevel));
+        setSingleHighlightGradient(theme, createGradient(QColor(QRgb(0xf5dc0d)), defaultColorLevel));
+        setMultiHighlightGradient(theme, createGradient(QColor(QRgb(0xd72222)), defaultColorLevel));
         break;
     }
 
@@ -394,10 +401,8 @@ void ThemeManager::setPredefinedPropertiesToTheme(Q3DTheme *theme, Q3DTheme::The
         setLabelsEnabled(theme, true);
         setColorStyle(theme, Q3DTheme::ColorStyle::Uniform);
         setBaseGradients(theme, baseGradients);
-        setSingleHighlightGradient(theme, createGradient(QColor(QRgb(0xfff7cc)),
-                                                         defaultColorLevel));
-        setMultiHighlightGradient(theme, createGradient(QColor(QRgb(0xde0a0a)),
-                                                        defaultColorLevel));
+        setSingleHighlightGradient(theme, createGradient(QColor(QRgb(0xfff7cc)), defaultColorLevel));
+        setMultiHighlightGradient(theme, createGradient(QColor(QRgb(0xde0a0a)), defaultColorLevel));
         break;
     }
     default:
@@ -410,7 +415,8 @@ QLinearGradient ThemeManager::createGradient(const QColor &color, float colorLev
     QColor startColor;
     QLinearGradient gradient = QLinearGradient(qreal(gradientTextureWidth),
                                                qreal(gradientTextureHeight),
-                                               0.0, 0.0);;
+                                               0.0,
+                                               0.0);
     startColor.setRed(color.red() * colorLevel);
     startColor.setGreen(color.green() * colorLevel);
     startColor.setBlue(color.blue() * colorLevel);
@@ -427,8 +433,10 @@ void ThemeManager::setBaseColors(Q3DTheme *theme, const QList<QColor> &colors)
 
 void ThemeManager::setBackgroundColor(Q3DTheme *theme, const QColor &color)
 {
-    if (theme->d_func()->isForcePredefinedType() || !theme->d_func()->m_dirtyBits.backgroundColorDirty)
+    if (theme->d_func()->isForcePredefinedType()
+        || !theme->d_func()->m_dirtyBits.backgroundColorDirty) {
         theme->setBackgroundColor(color);
+    }
 }
 
 void ThemeManager::setWindowColor(Q3DTheme *theme, const QColor &color)
@@ -439,14 +447,18 @@ void ThemeManager::setWindowColor(Q3DTheme *theme, const QColor &color)
 
 void ThemeManager::setTextColor(Q3DTheme *theme, const QColor &color)
 {
-    if (theme->d_func()->isForcePredefinedType() || !theme->d_func()->m_dirtyBits.labelTextColorDirty)
+    if (theme->d_func()->isForcePredefinedType()
+        || !theme->d_func()->m_dirtyBits.labelTextColorDirty) {
         theme->setLabelTextColor(color);
+    }
 }
 
 void ThemeManager::setTextBackgroundColor(Q3DTheme *theme, const QColor &color)
 {
-    if (theme->d_func()->isForcePredefinedType() || !theme->d_func()->m_dirtyBits.labelBackgroundColorDirty)
+    if (theme->d_func()->isForcePredefinedType()
+        || !theme->d_func()->m_dirtyBits.labelBackgroundColorDirty) {
         theme->setLabelBackgroundColor(color);
+    }
 }
 
 void ThemeManager::setGridLineColor(Q3DTheme *theme, const QColor &color)
@@ -457,14 +469,18 @@ void ThemeManager::setGridLineColor(Q3DTheme *theme, const QColor &color)
 
 void ThemeManager::setSingleHighlightColor(Q3DTheme *theme, const QColor &color)
 {
-    if (theme->d_func()->isForcePredefinedType() || !theme->d_func()->m_dirtyBits.singleHighlightColorDirty)
+    if (theme->d_func()->isForcePredefinedType()
+        || !theme->d_func()->m_dirtyBits.singleHighlightColorDirty) {
         theme->setSingleHighlightColor(color);
+    }
 }
 
 void ThemeManager::setMultiHighlightColor(Q3DTheme *theme, const QColor &color)
 {
-    if (theme->d_func()->isForcePredefinedType() || !theme->d_func()->m_dirtyBits.multiHighlightColorDirty)
+    if (theme->d_func()->isForcePredefinedType()
+        || !theme->d_func()->m_dirtyBits.multiHighlightColorDirty) {
         theme->setMultiHighlightColor(color);
+    }
 }
 
 void ThemeManager::setLightColor(Q3DTheme *theme, const QColor &color)
@@ -481,14 +497,18 @@ void ThemeManager::setBaseGradients(Q3DTheme *theme, const QList<QLinearGradient
 
 void ThemeManager::setSingleHighlightGradient(Q3DTheme *theme, const QLinearGradient &gradient)
 {
-    if (theme->d_func()->isForcePredefinedType() || !theme->d_func()->m_dirtyBits.singleHighlightGradientDirty)
+    if (theme->d_func()->isForcePredefinedType()
+        || !theme->d_func()->m_dirtyBits.singleHighlightGradientDirty) {
         theme->setSingleHighlightGradient(gradient);
+    }
 }
 
 void ThemeManager::setMultiHighlightGradient(Q3DTheme *theme, const QLinearGradient &gradient)
 {
-    if (theme->d_func()->isForcePredefinedType() || !theme->d_func()->m_dirtyBits.multiHighlightGradientDirty)
+    if (theme->d_func()->isForcePredefinedType()
+        || !theme->d_func()->m_dirtyBits.multiHighlightGradientDirty) {
         theme->setMultiHighlightGradient(gradient);
+    }
 }
 
 void ThemeManager::setLightStrength(Q3DTheme *theme, float strength)
@@ -499,20 +519,26 @@ void ThemeManager::setLightStrength(Q3DTheme *theme, float strength)
 
 void ThemeManager::setAmbientLightStrength(Q3DTheme *theme, float strength)
 {
-    if (theme->d_func()->isForcePredefinedType() || !theme->d_func()->m_dirtyBits.ambientLightStrengthDirty)
+    if (theme->d_func()->isForcePredefinedType()
+        || !theme->d_func()->m_dirtyBits.ambientLightStrengthDirty) {
         theme->setAmbientLightStrength(strength);
+    }
 }
 
 void ThemeManager::setHighlightLightStrength(Q3DTheme *theme, float strength)
 {
-    if (theme->d_func()->isForcePredefinedType() || !theme->d_func()->m_dirtyBits.highlightLightStrengthDirty)
+    if (theme->d_func()->isForcePredefinedType()
+        || !theme->d_func()->m_dirtyBits.highlightLightStrengthDirty) {
         theme->setHighlightLightStrength(strength);
+    }
 }
 
 void ThemeManager::setLabelBorderEnabled(Q3DTheme *theme, bool enabled)
 {
-    if (theme->d_func()->isForcePredefinedType() || !theme->d_func()->m_dirtyBits.labelBorderEnabledDirty)
+    if (theme->d_func()->isForcePredefinedType()
+        || !theme->d_func()->m_dirtyBits.labelBorderEnabledDirty) {
         theme->setLabelBorderEnabled(enabled);
+    }
 }
 
 void ThemeManager::setFont(Q3DTheme *theme, const QFont &font)
@@ -523,8 +549,10 @@ void ThemeManager::setFont(Q3DTheme *theme, const QFont &font)
 
 void ThemeManager::setBackgroundEnabled(Q3DTheme *theme, bool enabled)
 {
-    if (theme->d_func()->isForcePredefinedType() || !theme->d_func()->m_dirtyBits.backgroundEnabledDirty)
+    if (theme->d_func()->isForcePredefinedType()
+        || !theme->d_func()->m_dirtyBits.backgroundEnabledDirty) {
         theme->setBackgroundEnabled(enabled);
+    }
 }
 
 void ThemeManager::setGridEnabled(Q3DTheme *theme, bool enabled)
@@ -535,8 +563,10 @@ void ThemeManager::setGridEnabled(Q3DTheme *theme, bool enabled)
 
 void ThemeManager::setLabelBackgroundEnabled(Q3DTheme *theme, bool enabled)
 {
-    if (theme->d_func()->isForcePredefinedType() || !theme->d_func()->m_dirtyBits.labelBackgroundEnabledDirty)
+    if (theme->d_func()->isForcePredefinedType()
+        || !theme->d_func()->m_dirtyBits.labelBackgroundEnabledDirty) {
         theme->setLabelBackgroundEnabled(enabled);
+    }
 }
 
 void ThemeManager::setColorStyle(Q3DTheme *theme, Q3DTheme::ColorStyle style)
