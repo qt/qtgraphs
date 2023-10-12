@@ -14,8 +14,8 @@
 #ifndef QBAR3DSERIES_P_H
 #define QBAR3DSERIES_P_H
 
-#include "qbar3dseries.h"
 #include "qabstract3dseries_p.h"
+#include "qbar3dseries.h"
 
 QT_BEGIN_NAMESPACE
 

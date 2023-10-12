@@ -14,8 +14,8 @@
 #ifndef QSURFACEDATAPROXY_P_H
 #define QSURFACEDATAPROXY_P_H
 
-#include "qsurfacedataproxy.h"
 #include "qabstractdataproxy_p.h"
+#include "qsurfacedataproxy.h"
 
 QT_BEGIN_NAMESPACE
 
@@ -38,8 +38,11 @@ public:
     void insertRow(int rowIndex, QSurfaceDataRow &&row);
     void insertRows(int rowIndex, QSurfaceDataArray &&rows);
     void removeRows(int rowIndex, int removeCount);
-    void limitValues(QVector3D &minValues, QVector3D &maxValues, QAbstract3DAxis *axisX,
-                     QAbstract3DAxis *axisY, QAbstract3DAxis *axisZ) const;
+    void limitValues(QVector3D &minValues,
+                     QVector3D &maxValues,
+                     QAbstract3DAxis *axisX,
+                     QAbstract3DAxis *axisY,
+                     QAbstract3DAxis *axisZ) const;
     bool isValidValue(float value, QAbstract3DAxis *axis) const;
 
     void setSeries(QAbstract3DSeries *series) override;

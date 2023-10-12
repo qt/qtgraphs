@@ -14,8 +14,8 @@
 #ifndef QITEMMODELBARDATAPROXY_P_H
 #define QITEMMODELBARDATAPROXY_P_H
 
-#include "qitemmodelbardataproxy.h"
 #include "qbardataproxy_p.h"
+#include "qitemmodelbardataproxy.h"
 
 QT_BEGIN_NAMESPACE
 
@@ -39,7 +39,8 @@ private:
     QString m_valueRole;
     QString m_rotationRole;
 
-    // For row/column items, sort items into these categories. Other categories are ignored.
+    // For row/column items, sort items into these categories. Other categories
+    // are ignored.
     QStringList m_rowCategories;
     QStringList m_columnCategories;
 

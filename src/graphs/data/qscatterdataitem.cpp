@@ -8,8 +8,8 @@ QT_BEGIN_NAMESPACE
 /*!
  * \class QScatterDataItem
  * \inmodule QtGraphs
- * \brief The QScatterDataItem class provides a container for resolved data to be added to scatter
- * graphs.
+ * \brief The QScatterDataItem class provides a container for resolved data to
+ * be added to scatter graphs.
  *
  * A scatter data item holds the data for a single rendered item in a scatter
  * graph. Scatter data proxies parse data into QScatterDataItem instances for
@@ -24,28 +24,25 @@ QT_BEGIN_NAMESPACE
 QScatterDataItem::QScatterDataItem()
     : d_ptr(0) // private data doesn't exist by default (optimization)
 
-{
-}
+{}
 
 /*!
  * Constructs a scatter data item at the position \a position.
  */
 QScatterDataItem::QScatterDataItem(const QVector3D &position)
-    : d_ptr(0),
-      m_position(position)
-{
-}
+    : d_ptr(0)
+    , m_position(position)
+{}
 
 /*!
  * Constructs a scatter data item at the position \a position with the rotation
  * \a rotation.
  */
 QScatterDataItem::QScatterDataItem(const QVector3D &position, const QQuaternion &rotation)
-    : d_ptr(0),
-      m_position(position),
-      m_rotation(rotation)
-{
-}
+    : d_ptr(0)
+    , m_position(position)
+    , m_rotation(rotation)
+{}
 
 /*!
  * Constructs a copy of \a other.
@@ -63,9 +60,7 @@ QScatterDataItem::QScatterDataItem(QScatterDataItem &&other) noexcept
 /*!
  * Deletes a scatter data item.
  */
-QScatterDataItem::~QScatterDataItem()
-{
-}
+QScatterDataItem::~QScatterDataItem() {}
 
 /*!
  *  Assigns a copy of \a other to this object.
@@ -157,12 +152,8 @@ void QScatterDataItem::createExtraData()
         d_ptr = new QScatterDataItemPrivate;
 }
 
-QScatterDataItemPrivate::QScatterDataItemPrivate()
-{
-}
+QScatterDataItemPrivate::QScatterDataItemPrivate() {}
 
-QScatterDataItemPrivate::~QScatterDataItemPrivate()
-{
-}
+QScatterDataItemPrivate::~QScatterDataItemPrivate() {}
 
 QT_END_NAMESPACE

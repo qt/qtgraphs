@@ -23,62 +23,62 @@ QT_BEGIN_NAMESPACE
 class QAbstractDataProxy;
 class QQuickGraphsItem;
 
-struct QAbstract3DSeriesChangeBitField {
-    bool meshChanged                    : 1;
-    bool meshSmoothChanged              : 1;
-    bool meshRotationChanged            : 1;
-    bool userDefinedMeshChanged         : 1;
-    bool colorStyleChanged              : 1;
-    bool baseColorChanged               : 1;
-    bool baseGradientChanged            : 1;
-    bool singleHighlightColorChanged    : 1;
+struct QAbstract3DSeriesChangeBitField
+{
+    bool meshChanged : 1;
+    bool meshSmoothChanged : 1;
+    bool meshRotationChanged : 1;
+    bool userDefinedMeshChanged : 1;
+    bool colorStyleChanged : 1;
+    bool baseColorChanged : 1;
+    bool baseGradientChanged : 1;
+    bool singleHighlightColorChanged : 1;
     bool singleHighlightGradientChanged : 1;
-    bool multiHighlightColorChanged     : 1;
-    bool multiHighlightGradientChanged  : 1;
-    bool nameChanged                    : 1;
-    bool itemLabelChanged               : 1;
-    bool itemLabelVisibilityChanged     : 1;
-    bool visibilityChanged              : 1;
+    bool multiHighlightColorChanged : 1;
+    bool multiHighlightGradientChanged : 1;
+    bool nameChanged : 1;
+    bool itemLabelChanged : 1;
+    bool itemLabelVisibilityChanged : 1;
+    bool visibilityChanged : 1;
 
     QAbstract3DSeriesChangeBitField()
-        : meshChanged(true),
-          meshSmoothChanged(true),
-          meshRotationChanged(true),
-          userDefinedMeshChanged(true),
-          colorStyleChanged(true),
-          baseColorChanged(true),
-          baseGradientChanged(true),
-          singleHighlightColorChanged(true),
-          singleHighlightGradientChanged(true),
-          multiHighlightColorChanged(true),
-          multiHighlightGradientChanged(true),
-          nameChanged(true),
-          itemLabelChanged(true),
-          itemLabelVisibilityChanged(true),
-          visibilityChanged(true)
-    {
-    }
+        : meshChanged(true)
+        , meshSmoothChanged(true)
+        , meshRotationChanged(true)
+        , userDefinedMeshChanged(true)
+        , colorStyleChanged(true)
+        , baseColorChanged(true)
+        , baseGradientChanged(true)
+        , singleHighlightColorChanged(true)
+        , singleHighlightGradientChanged(true)
+        , multiHighlightColorChanged(true)
+        , multiHighlightGradientChanged(true)
+        , nameChanged(true)
+        , itemLabelChanged(true)
+        , itemLabelVisibilityChanged(true)
+        , visibilityChanged(true)
+    {}
 };
 
-struct QAbstract3DSeriesThemeOverrideBitField {
-    bool colorStyleOverride              : 1;
-    bool baseColorOverride               : 1;
-    bool baseGradientOverride            : 1;
-    bool singleHighlightColorOverride    : 1;
+struct QAbstract3DSeriesThemeOverrideBitField
+{
+    bool colorStyleOverride : 1;
+    bool baseColorOverride : 1;
+    bool baseGradientOverride : 1;
+    bool singleHighlightColorOverride : 1;
     bool singleHighlightGradientOverride : 1;
-    bool multiHighlightColorOverride     : 1;
-    bool multiHighlightGradientOverride  : 1;
+    bool multiHighlightColorOverride : 1;
+    bool multiHighlightGradientOverride : 1;
 
     QAbstract3DSeriesThemeOverrideBitField()
-        : colorStyleOverride(false),
-          baseColorOverride(false),
-          baseGradientOverride(false),
-          singleHighlightColorOverride(false),
-          singleHighlightGradientOverride(false),
-          multiHighlightColorOverride(false),
-          multiHighlightGradientOverride(false)
-    {
-    }
+        : colorStyleOverride(false)
+        , baseColorOverride(false)
+        , baseGradientOverride(false)
+        , singleHighlightColorOverride(false)
+        , singleHighlightGradientOverride(false)
+        , multiHighlightColorOverride(false)
+        , multiHighlightGradientOverride(false)
+    {}
 };
 
 class QAbstract3DSeriesPrivate

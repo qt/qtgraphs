@@ -14,8 +14,8 @@
 #ifndef QBARDATAPROXY_P_H
 #define QBARDATAPROXY_P_H
 
-#include "qbardataproxy.h"
 #include "qabstractdataproxy_p.h"
+#include "qbardataproxy.h"
 
 QT_BEGIN_NAMESPACE
 
@@ -27,8 +27,7 @@ public:
     QBarDataProxyPrivate(QBarDataProxy *q);
     virtual ~QBarDataProxyPrivate();
 
-    void resetArray(QBarDataArray &&newArray, QStringList &&rowLabels,
-                    QStringList &&columnLabels);
+    void resetArray(QBarDataArray &&newArray, QStringList &&rowLabels, QStringList &&columnLabels);
     void setRow(int rowIndex, QBarDataRow &&row, QString &&label);
     void setRows(int rowIndex, QBarDataArray &&rows, QStringList &&labels);
     void setItem(int rowIndex, int columnIndex, QBarDataItem &&item);
@@ -38,7 +37,9 @@ public:
     void insertRows(int rowIndex, QBarDataArray &&rows, QStringList &&labels);
     void removeRows(int rowIndex, int removeCount, bool removeLabels);
 
-    QPair<float, float> limitValues(int startRow, int startColumn, int rowCount,
+    QPair<float, float> limitValues(int startRow,
+                                    int startColumn,
+                                    int rowCount,
                                     int columnCount) const;
 
     void setSeries(QAbstract3DSeries *series) override;

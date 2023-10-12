@@ -4,11 +4,11 @@
 #ifndef QCUSTOM3DITEM_H
 #define QCUSTOM3DITEM_H
 
+#include <QtCore/QObject>
 #include <QtGraphs/qgraphsglobal.h>
 #include <QtGui/QImage>
-#include <QtGui/QVector3D>
 #include <QtGui/QQuaternion>
-#include <QtCore/QObject>
+#include <QtGui/QVector3D>
 
 QT_BEGIN_NAMESPACE
 
@@ -21,18 +21,24 @@ class Q_GRAPHS_EXPORT QCustom3DItem : public QObject
     Q_PROPERTY(QString meshFile READ meshFile WRITE setMeshFile NOTIFY meshFileChanged)
     Q_PROPERTY(QString textureFile READ textureFile WRITE setTextureFile NOTIFY textureFileChanged)
     Q_PROPERTY(QVector3D position READ position WRITE setPosition NOTIFY positionChanged)
-    Q_PROPERTY(bool positionAbsolute READ isPositionAbsolute WRITE setPositionAbsolute NOTIFY positionAbsoluteChanged)
+    Q_PROPERTY(bool positionAbsolute READ isPositionAbsolute WRITE setPositionAbsolute NOTIFY
+                   positionAbsoluteChanged)
     Q_PROPERTY(QVector3D scaling READ scaling WRITE setScaling NOTIFY scalingChanged)
     Q_PROPERTY(QQuaternion rotation READ rotation WRITE setRotation NOTIFY rotationChanged)
     Q_PROPERTY(bool visible READ isVisible WRITE setVisible NOTIFY visibleChanged)
-    Q_PROPERTY(bool shadowCasting READ isShadowCasting WRITE setShadowCasting NOTIFY shadowCastingChanged)
-    Q_PROPERTY(bool scalingAbsolute READ isScalingAbsolute WRITE setScalingAbsolute NOTIFY scalingAbsoluteChanged)
+    Q_PROPERTY(
+        bool shadowCasting READ isShadowCasting WRITE setShadowCasting NOTIFY shadowCastingChanged)
+    Q_PROPERTY(bool scalingAbsolute READ isScalingAbsolute WRITE setScalingAbsolute NOTIFY
+                   scalingAbsoluteChanged)
 
 public:
     explicit QCustom3DItem(QObject *parent = nullptr);
-    explicit QCustom3DItem(const QString &meshFile, const QVector3D &position,
-                           const QVector3D &scaling, const QQuaternion &rotation,
-                           const QImage &texture, QObject *parent = nullptr);
+    explicit QCustom3DItem(const QString &meshFile,
+                           const QVector3D &position,
+                           const QVector3D &scaling,
+                           const QQuaternion &rotation,
+                           const QImage &texture,
+                           QObject *parent = nullptr);
     virtual ~QCustom3DItem();
 
     void setMeshFile(const QString &meshFile);

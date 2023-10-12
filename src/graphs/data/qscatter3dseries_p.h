@@ -14,8 +14,8 @@
 #ifndef QSCATTER3DSERIES_P_H
 #define QSCATTER3DSERIES_P_H
 
-#include "qscatter3dseries.h"
 #include "qabstract3dseries_p.h"
+#include "qscatter3dseries.h"
 
 QT_BEGIN_NAMESPACE
 

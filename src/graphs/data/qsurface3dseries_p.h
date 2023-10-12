@@ -14,8 +14,8 @@
 #ifndef QSURFACE3DSERIES_P_H
 #define QSURFACE3DSERIES_P_H
 
-#include "qsurface3dseries.h"
 #include "qabstract3dseries_p.h"
+#include "qsurface3dseries.h"
 
 QT_BEGIN_NAMESPACE
 

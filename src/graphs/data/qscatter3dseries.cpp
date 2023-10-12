@@ -1,10 +1,10 @@
 // Copyright (C) 2023 The Qt Company Ltd.
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 
-#include "qscatter3dseries_p.h"
-#include "qquickgraphsscatter_p.h"
-#include "qvalue3daxis.h"
 #include "qcategory3daxis.h"
+#include "qquickgraphsscatter_p.h"
+#include "qscatter3dseries_p.h"
+#include "qvalue3daxis.h"
 
 QT_BEGIN_NAMESPACE
 
@@ -17,8 +17,9 @@ QT_BEGIN_NAMESPACE
  * This class manages the series specific visual elements, as well as the series
  * data (via a data proxy).
  *
- * If no data proxy is set explicitly for the series, the series creates a default
- * proxy. Setting another proxy will destroy the existing proxy and all data added to it.
+ * If no data proxy is set explicitly for the series, the series creates a
+ * default proxy. Setting another proxy will destroy the existing proxy and all
+ * data added to it.
  *
  * QScatter3DSeries supports the following format tags for QAbstract3DSeries::setItemLabelFormat():
  * \table
@@ -79,12 +80,12 @@ QT_BEGIN_NAMESPACE
  *
  * The item that is selected at the index in the data array of the series.
  * Only one item can be selected at a time.
- * To clear selection from this series, invalidSelectionIndex is set as the index.
- * If this series is added to a graph, the graph can adjust the selection according to user
- * interaction or if it becomes invalid. Selecting an item on another added series will also
- * clear the selection.
- * Removing items from or inserting items to the series before the selected item
- * will adjust the selection so that the same item will stay selected.
+ * To clear selection from this series, invalidSelectionIndex is set as the
+ * index. If this series is added to a graph, the graph can adjust the selection
+ * according to user interaction or if it becomes invalid. Selecting an item on
+ * another added series will also clear the selection. Removing items from or
+ * inserting items to the series before the selected item will adjust the
+ * selection so that the same item will stay selected.
  *
  * \sa AbstractGraph3D::clearSelection()
  */
@@ -109,8 +110,8 @@ QT_BEGIN_NAMESPACE
 /*!
  * Constructs a scatter 3D series with the parent \a parent.
  */
-QScatter3DSeries::QScatter3DSeries(QObject *parent) :
-    QAbstract3DSeries(new QScatter3DSeriesPrivate(this), parent)
+QScatter3DSeries::QScatter3DSeries(QObject *parent)
+    : QAbstract3DSeries(new QScatter3DSeriesPrivate(this), parent)
 {
     Q_D(QScatter3DSeries);
     // Default proxy
@@ -121,8 +122,8 @@ QScatter3DSeries::QScatter3DSeries(QObject *parent) :
  * Constructs a scatter 3D series with the data proxy \a dataProxy and the
  * parent \a parent.
  */
-QScatter3DSeries::QScatter3DSeries(QScatterDataProxy *dataProxy, QObject *parent) :
-    QAbstract3DSeries(new QScatter3DSeriesPrivate(this), parent)
+QScatter3DSeries::QScatter3DSeries(QScatterDataProxy *dataProxy, QObject *parent)
+    : QAbstract3DSeries(new QScatter3DSeriesPrivate(this), parent)
 {
     Q_D(QScatter3DSeries);
     d->setDataProxy(dataProxy);
@@ -131,17 +132,14 @@ QScatter3DSeries::QScatter3DSeries(QScatterDataProxy *dataProxy, QObject *parent
 /*!
  * \internal
  */
-QScatter3DSeries::QScatter3DSeries(QScatter3DSeriesPrivate *d, QObject *parent) :
-    QAbstract3DSeries(d, parent)
-{
-}
+QScatter3DSeries::QScatter3DSeries(QScatter3DSeriesPrivate *d, QObject *parent)
+    : QAbstract3DSeries(d, parent)
+{}
 
 /*!
  * Deletes the scatter 3D series.
  */
-QScatter3DSeries::~QScatter3DSeries()
-{
-}
+QScatter3DSeries::~QScatter3DSeries() {}
 
 /*!
  * \property QScatter3DSeries::dataProxy
@@ -177,10 +175,10 @@ QScatterDataProxy *QScatter3DSeries::dataProxy() const
  * Selects the item at the index \a index in the data array of the series.
  * Only one item can be selected at a time.
  *
- * To clear selection from this series, invalidSelectionIndex() is set as \a index.
- * If this series is added to a graph, the graph can adjust the selection according to user
- * interaction or if it becomes invalid. Selecting an item on another added series will also
- * clear the selection.
+ * To clear selection from this series, invalidSelectionIndex() is set as \a
+ * index. If this series is added to a graph, the graph can adjust the selection
+ * according to user interaction or if it becomes invalid. Selecting an item on
+ * another added series will also clear the selection.
  *
  * Removing items from or inserting items to the series before the selected item
  * will adjust the selection so that the same item will stay selected.
@@ -190,7 +188,8 @@ QScatterDataProxy *QScatter3DSeries::dataProxy() const
 void QScatter3DSeries::setSelectedItem(int index)
 {
     Q_D(QScatter3DSeries);
-    // Don't do this in private to avoid loops, as that is used for callback from graph.
+    // Don't do this in private to avoid loops, as that is used for callback from
+    // graph.
     if (d->m_graph)
         static_cast<QQuickGraphsScatter *>(d->m_graph)->setSelectedItem(index, this);
     else
@@ -245,17 +244,15 @@ int QScatter3DSeries::invalidSelectionIndex()
 // QScatter3DSeriesPrivate
 
 QScatter3DSeriesPrivate::QScatter3DSeriesPrivate(QScatter3DSeries *q)
-    : QAbstract3DSeriesPrivate(q, QAbstract3DSeries::SeriesType::Scatter),
-      m_selectedItem(QQuickGraphsScatter::invalidSelectionIndex()),
-      m_itemSize(0.0f)
+    : QAbstract3DSeriesPrivate(q, QAbstract3DSeries::SeriesType::Scatter)
+    , m_selectedItem(QQuickGraphsScatter::invalidSelectionIndex())
+    , m_itemSize(0.0f)
 {
     m_itemLabelFormat = QStringLiteral("@xLabel, @yLabel, @zLabel");
     m_mesh = QAbstract3DSeries::Mesh::Sphere;
 }
 
-QScatter3DSeriesPrivate::~QScatter3DSeriesPrivate()
-{
-}
+QScatter3DSeriesPrivate::~QScatter3DSeriesPrivate() {}
 
 void QScatter3DSeriesPrivate::setDataProxy(QAbstractDataProxy *proxy)
 {
@@ -273,25 +270,37 @@ void QScatter3DSeriesPrivate::connectGraphAndProxy(QQuickGraphsItem *newGraph)
     QScatterDataProxy *scatterDataProxy = static_cast<QScatterDataProxy *>(m_dataProxy);
 
     if (m_graph && scatterDataProxy) {
-        //Disconnect old graph/old proxy
+        // Disconnect old graph/old proxy
         QObject::disconnect(scatterDataProxy, 0, m_graph, 0);
         QObject::disconnect(q_ptr, 0, m_graph, 0);
     }
 
     if (newGraph && scatterDataProxy) {
         QQuickGraphsScatter *graph = static_cast<QQuickGraphsScatter *>(newGraph);
-        QObject::connect(scatterDataProxy, &QScatterDataProxy::arrayReset,
-                         graph, &QQuickGraphsScatter::handleArrayReset);
-        QObject::connect(scatterDataProxy, &QScatterDataProxy::itemsAdded,
-                         graph, &QQuickGraphsScatter::handleItemsAdded);
-        QObject::connect(scatterDataProxy, &QScatterDataProxy::itemsChanged,
-                         graph, &QQuickGraphsScatter::handleItemsChanged);
-        QObject::connect(scatterDataProxy, &QScatterDataProxy::itemsRemoved,
-                         graph, &QQuickGraphsScatter::handleItemsRemoved);
-        QObject::connect(scatterDataProxy, &QScatterDataProxy::itemsInserted,
-                         graph, &QQuickGraphsScatter::handleItemsInserted);
-        QObject::connect(q, &QScatter3DSeries::dataProxyChanged,
-                         graph, &QQuickGraphsScatter::handleArrayReset);
+        QObject::connect(scatterDataProxy,
+                         &QScatterDataProxy::arrayReset,
+                         graph,
+                         &QQuickGraphsScatter::handleArrayReset);
+        QObject::connect(scatterDataProxy,
+                         &QScatterDataProxy::itemsAdded,
+                         graph,
+                         &QQuickGraphsScatter::handleItemsAdded);
+        QObject::connect(scatterDataProxy,
+                         &QScatterDataProxy::itemsChanged,
+                         graph,
+                         &QQuickGraphsScatter::handleItemsChanged);
+        QObject::connect(scatterDataProxy,
+                         &QScatterDataProxy::itemsRemoved,
+                         graph,
+                         &QQuickGraphsScatter::handleItemsRemoved);
+        QObject::connect(scatterDataProxy,
+                         &QScatterDataProxy::itemsInserted,
+                         graph,
+                         &QQuickGraphsScatter::handleItemsInserted);
+        QObject::connect(q,
+                         &QScatter3DSeries::dataProxyChanged,
+                         graph,
+                         &QQuickGraphsScatter::handleArrayReset);
     }
 }
 
@@ -323,18 +332,18 @@ void QScatter3DSeriesPrivate::createItemLabel()
     m_itemLabel.replace(zTitleTag, axisZ->title());
 
     if (m_itemLabel.contains(xLabelTag)) {
-        QString valueLabelText = axisX->formatter()->stringForValue(
-                    qreal(selectedPosition.x()), axisX->labelFormat());
+        QString valueLabelText = axisX->formatter()->stringForValue(qreal(selectedPosition.x()),
+                                                                    axisX->labelFormat());
         m_itemLabel.replace(xLabelTag, valueLabelText);
     }
     if (m_itemLabel.contains(yLabelTag)) {
-        QString valueLabelText = axisY->formatter()->stringForValue(
-                    qreal(selectedPosition.y()), axisY->labelFormat());
+        QString valueLabelText = axisY->formatter()->stringForValue(qreal(selectedPosition.y()),
+                                                                    axisY->labelFormat());
         m_itemLabel.replace(yLabelTag, valueLabelText);
     }
     if (m_itemLabel.contains(zLabelTag)) {
-        QString valueLabelText = axisZ->formatter()->stringForValue(
-                    qreal(selectedPosition.z()), axisZ->labelFormat());
+        QString valueLabelText = axisZ->formatter()->stringForValue(qreal(selectedPosition.z()),
+                                                                    axisZ->labelFormat());
         m_itemLabel.replace(zLabelTag, valueLabelText);
     }
     m_itemLabel.replace(seriesNameTag, m_name);

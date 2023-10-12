@@ -8,21 +8,18 @@ QT_BEGIN_NAMESPACE
 static const int noRoleIndex = -1;
 
 SurfaceItemModelHandler::SurfaceItemModelHandler(QItemModelSurfaceDataProxy *proxy, QObject *parent)
-    : AbstractItemModelHandler(parent),
-      m_proxy(proxy),
-      m_proxyArray(0),
-      m_xPosRole(noRoleIndex),
-      m_yPosRole(noRoleIndex),
-      m_zPosRole(noRoleIndex),
-      m_haveXPosPattern(false),
-      m_haveYPosPattern(false),
-      m_haveZPosPattern(false)
-{
-}
+    : AbstractItemModelHandler(parent)
+    , m_proxy(proxy)
+    , m_proxyArray(0)
+    , m_xPosRole(noRoleIndex)
+    , m_yPosRole(noRoleIndex)
+    , m_zPosRole(noRoleIndex)
+    , m_haveXPosPattern(false)
+    , m_haveYPosPattern(false)
+    , m_haveZPosPattern(false)
+{}
 
-SurfaceItemModelHandler::~SurfaceItemModelHandler()
-{
-}
+SurfaceItemModelHandler::~SurfaceItemModelHandler() {}
 
 void SurfaceItemModelHandler::handleDataChanged(const QModelIndex &topLeft,
                                                 const QModelIndex &bottomRight,
@@ -31,7 +28,8 @@ void SurfaceItemModelHandler::handleDataChanged(const QModelIndex &topLeft,
     // Do nothing if full reset already pending
     if (!m_fullReset) {
         if (!m_proxy->useModelCategories()) {
-            // If the data model doesn't directly map rows and columns, we cannot optimize
+            // If the data model doesn't directly map rows and columns, we cannot
+            // optimize
             AbstractItemModelHandler::handleDataChanged(topLeft, bottomRight, roles);
         } else {
             int startRow = qMin(topLeft.row(), bottomRight.row());
@@ -51,10 +49,13 @@ void SurfaceItemModelHandler::handleDataChanged(const QModelIndex &topLeft,
                     float yPos;
                     float zPos;
                     if (m_xPosRole != noRoleIndex) {
-                        if (m_haveXPosPattern)
-                            xPos = xValueVar.toString().replace(m_xPosPattern, m_xPosReplace).toFloat();
-                        else
+                        if (m_haveXPosPattern) {
+                            xPos = xValueVar.toString()
+                                       .replace(m_xPosPattern, m_xPosReplace)
+                                       .toFloat();
+                        } else {
                             xPos = xValueVar.toFloat();
+                        }
                     } else {
                         xPos = oldItem.x();
                     }
@@ -65,10 +66,13 @@ void SurfaceItemModelHandler::handleDataChanged(const QModelIndex &topLeft,
                         yPos = yValueVar.toFloat();
 
                     if (m_zPosRole != noRoleIndex) {
-                        if (m_haveZPosPattern)
-                            zPos = zValueVar.toString().replace(m_zPosPattern, m_zPosReplace).toFloat();
-                        else
+                        if (m_haveZPosPattern) {
+                            zPos = zValueVar.toString()
+                                       .replace(m_zPosPattern, m_zPosReplace)
+                                       .toFloat();
+                        } else {
                             zPos = zValueVar.toFloat();
+                        }
                     } else {
                         zPos = oldItem.z();
                     }
@@ -90,13 +94,14 @@ void SurfaceItemModelHandler::resolveModel()
     }
 
     if (!m_proxy->useModelCategories()
-            && (m_proxy->rowRole().isEmpty() || m_proxy->columnRole().isEmpty())) {
+        && (m_proxy->rowRole().isEmpty() || m_proxy->columnRole().isEmpty())) {
         m_proxy->resetArray();
         m_proxyArray.clear();
         return;
     }
 
-    // Position patterns can be reused on single item changes, so store them to member variables.
+    // Position patterns can be reused on single item changes, so store them to
+    // member variables.
     QRegularExpression rowPattern(m_proxy->rowRolePattern());
     QRegularExpression colPattern(m_proxy->columnRolePattern());
     m_xPosPattern = m_proxy->xPosRolePattern();
@@ -125,7 +130,7 @@ void SurfaceItemModelHandler::resolveModel()
     if (m_proxy->useModelCategories()) {
         // If dimensions have changed, recreate the array
         if (m_proxyArray.data() != m_proxy->array().data() || columnCount != m_proxy->columnCount()
-                || rowCount != m_proxyArray.size()) {
+            || rowCount != m_proxyArray.size()) {
             m_proxyArray.clear();
             m_proxyArray.reserve(rowCount);
             for (int i = 0; i < rowCount; i++)
@@ -192,22 +197,26 @@ void SurfaceItemModelHandler::resolveModel()
 
         QStringList rowList;
         QStringList columnList;
-        // For detecting duplicates in categories generation, using QHashes should be faster than
-        // simple QStringList::contains() check.
+        // For detecting duplicates in categories generation, using QHashes should
+        // be faster than simple QStringList::contains() check.
         QHash<QString, bool> rowListHash;
         QHash<QString, bool> columnListHash;
 
-        bool cumulative = m_proxy->multiMatchBehavior() == QItemModelSurfaceDataProxy::MultiMatchBehavior::Average
-                || m_proxy->multiMatchBehavior() == QItemModelSurfaceDataProxy::MultiMatchBehavior::CumulativeY;
-        bool average = m_proxy->multiMatchBehavior() == QItemModelSurfaceDataProxy::MultiMatchBehavior::Average;
-        bool takeFirst = m_proxy->multiMatchBehavior() == QItemModelSurfaceDataProxy::MultiMatchBehavior::First;
-        QHash<QString, QHash<QString, int> > *matchCountMap = 0;
+        bool cumulative = m_proxy->multiMatchBehavior()
+                              == QItemModelSurfaceDataProxy::MultiMatchBehavior::Average
+                          || m_proxy->multiMatchBehavior()
+                                 == QItemModelSurfaceDataProxy::MultiMatchBehavior::CumulativeY;
+        bool average = m_proxy->multiMatchBehavior()
+                       == QItemModelSurfaceDataProxy::MultiMatchBehavior::Average;
+        bool takeFirst = m_proxy->multiMatchBehavior()
+                         == QItemModelSurfaceDataProxy::MultiMatchBehavior::First;
+        QHash<QString, QHash<QString, int>> *matchCountMap = 0;
         if (cumulative)
-            matchCountMap = new QHash<QString, QHash<QString, int> >;
+            matchCountMap = new QHash<QString, QHash<QString, int>>;
 
         // Sort values into rows and columns
         typedef QHash<QString, QVector3D> ColumnValueMap;
-        QHash <QString, ColumnValueMap> itemValueMap;
+        QHash<QString, ColumnValueMap> itemValueMap;
         for (int i = 0; i < rowCount; i++) {
             for (int j = 0; j < columnCount; j++) {
                 QModelIndex index = m_itemModel->index(i, j);
@@ -273,8 +282,9 @@ void SurfaceItemModelHandler::resolveModel()
             columnList = m_proxy->columnCategories();
 
         // If dimensions have changed, recreate the array
-        if (m_proxyArray.data() != m_proxy->array().data() || columnList.size() != m_proxy->columnCount()
-                || rowList.size() != m_proxyArray.size()) {
+        if (m_proxyArray.data() != m_proxy->array().data()
+            || columnList.size() != m_proxy->columnCount()
+            || rowList.size() != m_proxyArray.size()) {
             m_proxyArray.clear();
             m_proxyArray.reserve(rowList.size());
             for (int i = 0; i < rowList.size(); i++)

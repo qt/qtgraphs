@@ -15,13 +15,15 @@ const float defaultMaxValue = 10.0f;
  * \inmodule QtGraphs
  * \brief Base proxy class for Q3DSurface.
  *
- * QHeightMapSurfaceDataProxy takes care of surface related height map data handling. It provides a
- * way to give a height map to be visualized as a surface plot.
+ * QHeightMapSurfaceDataProxy takes care of surface related height map data
+ * handling. It provides a way to give a height map to be visualized as a
+ * surface plot.
  *
- * Since height maps do not contain values for X or Z axes, those values need to be given
- * separately using minXValue, maxXValue, minZValue, and maxZValue properties. X-value corresponds
- * to image horizontal direction and Z-value to the vertical. Setting any of these
- * properties triggers asynchronous re-resolving of any existing height map.
+ * Since height maps do not contain values for X or Z axes, those values need to
+ * be given separately using minXValue, maxXValue, minZValue, and maxZValue
+ * properties. X-value corresponds to image horizontal direction and Z-value to
+ * the vertical. Setting any of these properties triggers asynchronous
+ * re-resolving of any existing height map.
  *
  * \sa QSurfaceDataProxy, {Qt Graphs Data Handling}
  */
@@ -34,8 +36,9 @@ const float defaultMaxValue = 10.0f;
  * \inherits SurfaceDataProxy
  * \brief Base proxy type for Surface3D.
  *
- * HeightMapSurfaceDataProxy takes care of surface related height map data handling. It provides a
- * way to give a height map to be visualized as a surface plot.
+ * HeightMapSurfaceDataProxy takes care of surface related height map data
+ * handling. It provides a way to give a height map to be visualized as a
+ * surface plot.
  *
  * For more complete description, see QHeightMapSurfaceDataProxy.
  *
@@ -45,24 +48,26 @@ const float defaultMaxValue = 10.0f;
 /*!
  * \qmlproperty string HeightMapSurfaceDataProxy::heightMapFile
  *
- * A file with a height map image to be visualized. Setting this property replaces current data
- * with height map data.
+ * A file with a height map image to be visualized. Setting this property
+ * replaces current data with height map data.
  *
- * There are several formats the image file can be given in, but if it is not in a directly usable
- * format, a conversion is made.
+ * There are several formats the image file can be given in, but if it is not in
+ * a directly usable format, a conversion is made.
  *
  * \note If the result seems wrong, the automatic conversion failed
- * and you should try converting the image yourself before setting it. Preferred format is
- * QImage::Format_RGB32 in grayscale.
+ * and you should try converting the image yourself before setting it. Preferred
+ * format is QImage::Format_RGB32 in grayscale.
  *
- * The height of the image is read from the red component of the pixels if the image is in grayscale,
- * otherwise it is an average calculated from red, green and blue components of the pixels. Using
- * grayscale images may improve data conversion speed for large images.
+ * The height of the image is read from the red component of the pixels if the
+ * image is in grayscale, otherwise it is an average calculated from red, green
+ * and blue components of the pixels. Using grayscale images may improve data
+ * conversion speed for large images.
  *
- * Since height maps do not contain values for X or Z axes, those values need to be given
- * separately using minXValue, maxXValue, minZValue, and maxZValue properties. X-value corresponds
- * to image horizontal direction and Z-value to the vertical. Setting any of these
- * properties triggers asynchronous re-resolving of any existing height map.
+ * Since height maps do not contain values for X or Z axes, those values need to
+ * be given separately using minXValue, maxXValue, minZValue, and maxZValue
+ * properties. X-value corresponds to image horizontal direction and Z-value to
+ * the vertical. Setting any of these properties triggers asynchronous
+ * re-resolving of any existing height map.
  *
  * Not recommended formats: all mono formats (for example QImage::Format_Mono).
  */
@@ -71,113 +76,117 @@ const float defaultMaxValue = 10.0f;
  * \qmlproperty real HeightMapSurfaceDataProxy::minXValue
  *
  * The minimum X value for the generated surface points. Defaults to \c{0.0}.
- * When setting this property the corresponding maximum value is adjusted if necessary,
- * to ensure that the range remains valid.
+ * When setting this property the corresponding maximum value is adjusted if
+ * necessary, to ensure that the range remains valid.
  */
 
 /*!
  * \qmlproperty real HeightMapSurfaceDataProxy::maxXValue
  *
  * The maximum X value for the generated surface points. Defaults to \c{10.0}.
- * When setting this property the corresponding minimum value is adjusted if necessary,
- * to ensure that the range remains valid.
+ * When setting this property the corresponding minimum value is adjusted if
+ * necessary, to ensure that the range remains valid.
  */
 
 /*!
  * \qmlproperty real HeightMapSurfaceDataProxy::minZValue
  *
  * The minimum Z value for the generated surface points. Defaults to \c{0.0}.
- * When setting this property the corresponding maximum value is adjusted if necessary,
- * to ensure that the range remains valid.
+ * When setting this property the corresponding maximum value is adjusted if
+ * necessary, to ensure that the range remains valid.
  */
 
 /*!
  * \qmlproperty real HeightMapSurfaceDataProxy::maxZValue
  *
  * The maximum Z value for the generated surface points. Defaults to \c{10.0}.
- * When setting this property the corresponding minimum value is adjusted if necessary,
- * to ensure that the range remains valid.
+ * When setting this property the corresponding minimum value is adjusted if
+ * necessary, to ensure that the range remains valid.
  */
 
 /*!
  * \qmlproperty real HeightMapSurfaceDataProxy::minYValue
  *
  * The minimum Y value for the generated surface points. Defaults to \c{0.0}.
- * When setting this property the corresponding maximum value is adjusted if necessary,
- * to ensure that the range remains valid.
+ * When setting this property the corresponding maximum value is adjusted if
+ * necessary, to ensure that the range remains valid.
  */
 
 /*!
  * \qmlproperty real HeightMapSurfaceDataProxy::maxYValue
  *
  * The maximum Y value for the generated surface points. Defaults to \c{10.0}.
- * When setting this property the corresponding minimum value is adjusted if necessary,
- * to ensure that the range remains valid.
+ * When setting this property the corresponding minimum value is adjusted if
+ * necessary, to ensure that the range remains valid.
  */
 
 /*!
  * \qmlproperty real HeightMapSurfaceDataProxy::autoScaleY
  *
- * Scale height values to Y-axis. Defaults to \c{false}. When this property is set to \c{true},
- * the height values are scaled to fit on the Y-axis between \c{minYValue} and \c{maxYValue}.
+ * Scale height values to Y-axis. Defaults to \c{false}. When this property is
+ * set to \c{true}, the height values are scaled to fit on the Y-axis between
+ * \c{minYValue} and \c{maxYValue}.
  */
 
 /*!
  * Constructs QHeightMapSurfaceDataProxy with the given \a parent.
  */
-QHeightMapSurfaceDataProxy::QHeightMapSurfaceDataProxy(QObject *parent) :
-    QSurfaceDataProxy(new QHeightMapSurfaceDataProxyPrivate(this), parent)
+QHeightMapSurfaceDataProxy::QHeightMapSurfaceDataProxy(QObject *parent)
+    : QSurfaceDataProxy(new QHeightMapSurfaceDataProxyPrivate(this), parent)
 {
     Q_D(QHeightMapSurfaceDataProxy);
-    QObject::connect(&d->m_resolveTimer, &QTimer::timeout,
-                     this, &QHeightMapSurfaceDataProxy::handlePendingResolve);
+    QObject::connect(&d->m_resolveTimer,
+                     &QTimer::timeout,
+                     this,
+                     &QHeightMapSurfaceDataProxy::handlePendingResolve);
 }
 
 /*!
- * Constructs QHeightMapSurfaceDataProxy with the given \a image and \a parent. Height map is set
- * by calling setHeightMap() with \a image.
+ * Constructs QHeightMapSurfaceDataProxy with the given \a image and \a parent.
+ * Height map is set by calling setHeightMap() with \a image.
  *
  * \sa heightMap
  */
-QHeightMapSurfaceDataProxy::QHeightMapSurfaceDataProxy(const QImage &image, QObject *parent) :
-    QSurfaceDataProxy(new QHeightMapSurfaceDataProxyPrivate(this), parent)
+QHeightMapSurfaceDataProxy::QHeightMapSurfaceDataProxy(const QImage &image, QObject *parent)
+    : QSurfaceDataProxy(new QHeightMapSurfaceDataProxyPrivate(this), parent)
 {
     Q_D(QHeightMapSurfaceDataProxy);
-    QObject::connect(&d->m_resolveTimer, &QTimer::timeout,
-                     this, &QHeightMapSurfaceDataProxy::handlePendingResolve);
+    QObject::connect(&d->m_resolveTimer,
+                     &QTimer::timeout,
+                     this,
+                     &QHeightMapSurfaceDataProxy::handlePendingResolve);
     setHeightMap(image);
 }
 
 /*!
- * Constructs QHeightMapSurfaceDataProxy from the given image \a filename and \a parent. Height map is set
- * by calling setHeightMapFile() with \a filename.
+ * Constructs QHeightMapSurfaceDataProxy from the given image \a filename and \a
+ * parent. Height map is set by calling setHeightMapFile() with \a filename.
  *
  * \sa heightMapFile
  */
-QHeightMapSurfaceDataProxy::QHeightMapSurfaceDataProxy(const QString &filename, QObject *parent) :
-    QSurfaceDataProxy(new QHeightMapSurfaceDataProxyPrivate(this), parent)
+QHeightMapSurfaceDataProxy::QHeightMapSurfaceDataProxy(const QString &filename, QObject *parent)
+    : QSurfaceDataProxy(new QHeightMapSurfaceDataProxyPrivate(this), parent)
 {
     Q_D(QHeightMapSurfaceDataProxy);
-    QObject::connect(&d->m_resolveTimer, &QTimer::timeout,
-                     this, &QHeightMapSurfaceDataProxy::handlePendingResolve);
+    QObject::connect(&d->m_resolveTimer,
+                     &QTimer::timeout,
+                     this,
+                     &QHeightMapSurfaceDataProxy::handlePendingResolve);
     setHeightMapFile(filename);
 }
 
 /*!
  * \internal
  */
-QHeightMapSurfaceDataProxy::QHeightMapSurfaceDataProxy(
-        QHeightMapSurfaceDataProxyPrivate *d, QObject *parent) :
-    QSurfaceDataProxy(d, parent)
-{
-}
+QHeightMapSurfaceDataProxy::QHeightMapSurfaceDataProxy(QHeightMapSurfaceDataProxyPrivate *d,
+                                                       QObject *parent)
+    : QSurfaceDataProxy(d, parent)
+{}
 
 /*!
  * Destroys QHeightMapSurfaceDataProxy.
  */
-QHeightMapSurfaceDataProxy::~QHeightMapSurfaceDataProxy()
-{
-}
+QHeightMapSurfaceDataProxy::~QHeightMapSurfaceDataProxy() {}
 
 /*!
  * \property QHeightMapSurfaceDataProxy::heightMap
@@ -188,28 +197,30 @@ QHeightMapSurfaceDataProxy::~QHeightMapSurfaceDataProxy()
 /*!
  * Replaces current data with the height map data specified by \a image.
  *
- * There are several formats the \a image can be given in, but if it is not in a directly usable
- * format, a conversion is made.
+ * There are several formats the \a image can be given in, but if it is not in a
+ * directly usable format, a conversion is made.
  *
  * \note If the result seems wrong, the automatic conversion failed
- * and you should try converting the \a image yourself before setting it. Preferred format is
- * QImage::Format_RGB32 in grayscale.
+ * and you should try converting the \a image yourself before setting it.
+ * Preferred format is QImage::Format_RGB32 in grayscale.
  *
- * The height of the \a image is read from the red component of the pixels if the \a image is in
- * grayscale, otherwise it is an average calculated from red, green, and blue components of the
- * pixels. Using grayscale images may improve data conversion speed for large images.
+ * The height of the \a image is read from the red component of the pixels if
+ * the \a image is in grayscale, otherwise it is an average calculated from red,
+ * green, and blue components of the pixels. Using grayscale images may improve
+ * data conversion speed for large images.
  *
  * Not recommended formats: all mono formats (for example QImage::Format_Mono).
  *
- * The height map is resolved asynchronously. QSurfaceDataProxy::arrayReset() is emitted when the
- * data has been resolved.
+ * The height map is resolved asynchronously. QSurfaceDataProxy::arrayReset() is
+ * emitted when the data has been resolved.
  */
 void QHeightMapSurfaceDataProxy::setHeightMap(const QImage &image)
 {
     Q_D(QHeightMapSurfaceDataProxy);
     d->m_heightMap = image;
 
-    // We do resolving asynchronously to make qml onArrayReset handlers actually get the initial reset
+    // We do resolving asynchronously to make qml onArrayReset handlers actually
+    // get the initial reset
     if (!d->m_resolveTimer.isActive())
         d->m_resolveTimer.start(0);
 }
@@ -247,9 +258,11 @@ QString QHeightMapSurfaceDataProxy::heightMapFile() const
 }
 
 /*!
- * A convenience function for setting all minimum (\a minX and \a minZ) and maximum
- * (\a maxX and \a maxZ) values at the same time. The minimum values must be smaller than the
- * corresponding maximum value. Otherwise the values get adjusted so that they are valid.
+ * A convenience function for setting all minimum (\a minX and \a minZ) and
+ * maximum
+ * (\a maxX and \a maxZ) values at the same time. The minimum values must be
+ * smaller than the corresponding maximum value. Otherwise the values get
+ * adjusted so that they are valid.
  */
 void QHeightMapSurfaceDataProxy::setValueRanges(float minX, float maxX, float minZ, float maxZ)
 {
@@ -264,8 +277,8 @@ void QHeightMapSurfaceDataProxy::setValueRanges(float minX, float maxX, float mi
  *
  * Defaults to \c{0.0}.
  *
- * When setting this property the corresponding maximum value is adjusted if necessary,
- * to ensure that the range remains valid.
+ * When setting this property the corresponding maximum value is adjusted if
+ * necessary, to ensure that the range remains valid.
  */
 void QHeightMapSurfaceDataProxy::setMinXValue(float min)
 {
@@ -286,8 +299,8 @@ float QHeightMapSurfaceDataProxy::minXValue() const
  *
  * Defaults to \c{10.0}.
  *
- * When setting this property the corresponding minimum value is adjusted if necessary,
- * to ensure that the range remains valid.
+ * When setting this property the corresponding minimum value is adjusted if
+ * necessary, to ensure that the range remains valid.
  */
 void QHeightMapSurfaceDataProxy::setMaxXValue(float max)
 {
@@ -308,8 +321,8 @@ float QHeightMapSurfaceDataProxy::maxXValue() const
  *
  * Defaults to \c{0.0}.
  *
- * When setting this property the corresponding maximum value is adjusted if necessary,
- * to ensure that the range remains valid.
+ * When setting this property the corresponding maximum value is adjusted if
+ * necessary, to ensure that the range remains valid.
  */
 void QHeightMapSurfaceDataProxy::setMinZValue(float min)
 {
@@ -330,8 +343,8 @@ float QHeightMapSurfaceDataProxy::minZValue() const
  *
  * Defaults to \c{10.0}.
  *
- * When setting this property the corresponding minimum value is adjusted if necessary,
- * to ensure that the range remains valid.
+ * When setting this property the corresponding minimum value is adjusted if
+ * necessary, to ensure that the range remains valid.
  */
 void QHeightMapSurfaceDataProxy::setMaxZValue(float max)
 {
@@ -352,8 +365,8 @@ float QHeightMapSurfaceDataProxy::maxZValue() const
  *
  * Defaults to \c{0.0}.
  *
- * When setting this property the corresponding maximum value is adjusted if necessary,
- * to ensure that the range remains valid.
+ * When setting this property the corresponding maximum value is adjusted if
+ * necessary, to ensure that the range remains valid.
  *
  * \sa autoScaleY
  */
@@ -376,8 +389,8 @@ float QHeightMapSurfaceDataProxy::minYValue() const
  *
  * Defaults to \c{10.0}.
  *
- * When setting this property the corresponding minimum value is adjusted if necessary,
- * to ensure that the range remains valid.
+ * When setting this property the corresponding minimum value is adjusted if
+ * necessary, to ensure that the range remains valid.
  *
  * \sa autoScaleY
  */
@@ -401,7 +414,8 @@ float QHeightMapSurfaceDataProxy::maxYValue() const
  * Defaults to \c{false}.
  *
  * When this property is set to \c{true},
- * the height values are scaled to fit on the Y-axis between minYValue and maxYValue.
+ * the height values are scaled to fit on the Y-axis between minYValue and
+ * maxYValue.
  *
  * \sa minYValue, maxYValue
  */
@@ -429,24 +443,24 @@ void QHeightMapSurfaceDataProxy::handlePendingResolve()
 //  QHeightMapSurfaceDataProxyPrivate
 
 QHeightMapSurfaceDataProxyPrivate::QHeightMapSurfaceDataProxyPrivate(QHeightMapSurfaceDataProxy *q)
-    : QSurfaceDataProxyPrivate(q),
-      m_minXValue(defaultMinValue),
-      m_maxXValue(defaultMaxValue),
-      m_minZValue(defaultMinValue),
-      m_maxZValue(defaultMaxValue),
-      m_minYValue(defaultMinValue),
-      m_maxYValue(defaultMaxValue),
-      m_autoScaleY(false)
+    : QSurfaceDataProxyPrivate(q)
+    , m_minXValue(defaultMinValue)
+    , m_maxXValue(defaultMaxValue)
+    , m_minZValue(defaultMinValue)
+    , m_maxZValue(defaultMaxValue)
+    , m_minYValue(defaultMinValue)
+    , m_maxYValue(defaultMaxValue)
+    , m_autoScaleY(false)
 {
     m_resolveTimer.setSingleShot(true);
 }
 
-QHeightMapSurfaceDataProxyPrivate::~QHeightMapSurfaceDataProxyPrivate()
-{
-}
+QHeightMapSurfaceDataProxyPrivate::~QHeightMapSurfaceDataProxyPrivate() {}
 
-void QHeightMapSurfaceDataProxyPrivate::setValueRanges(float minX, float maxX,
-                                                       float minZ, float maxZ)
+void QHeightMapSurfaceDataProxyPrivate::setValueRanges(float minX,
+                                                       float maxX,
+                                                       float minZ,
+                                                       float maxZ)
 {
     Q_Q(QHeightMapSurfaceDataProxy);
     bool minXChanged = false;
@@ -505,9 +519,10 @@ void QHeightMapSurfaceDataProxyPrivate::setMinXValue(float min)
         if (min >= m_maxXValue) {
             float oldMax = m_maxXValue;
             m_maxXValue = min + 1.0f;
-            qWarning() << "Warning: Tried to set minimum X to equal or larger than maximum X for"
+            qWarning() << "Warning: Tried to set minimum X to equal or larger than maximum "
+                          "X for"
                           " value range. Maximum automatically adjusted to a valid one:"
-                       << oldMax <<  "-->" << m_maxXValue;
+                       << oldMax << "-->" << m_maxXValue;
             maxChanged = true;
         }
         m_minXValue = min;
@@ -528,9 +543,10 @@ void QHeightMapSurfaceDataProxyPrivate::setMaxXValue(float max)
         if (max <= m_minXValue) {
             float oldMin = m_minXValue;
             m_minXValue = max - 1.0f;
-            qWarning() << "Warning: Tried to set maximum X to equal or smaller than minimum X for"
+            qWarning() << "Warning: Tried to set maximum X to equal or smaller than minimum "
+                          "X for"
                           " value range. Minimum automatically adjusted to a valid one:"
-                       << oldMin <<  "-->" << m_minXValue;
+                       << oldMin << "-->" << m_minXValue;
             minChanged = true;
         }
         m_maxXValue = max;
@@ -551,9 +567,10 @@ void QHeightMapSurfaceDataProxyPrivate::setMinZValue(float min)
         if (min >= m_maxZValue) {
             float oldMax = m_maxZValue;
             m_maxZValue = min + 1.0f;
-            qWarning() << "Warning: Tried to set minimum Z to equal or larger than maximum Z for"
+            qWarning() << "Warning: Tried to set minimum Z to equal or larger than maximum "
+                          "Z for"
                           " value range. Maximum automatically adjusted to a valid one:"
-                       << oldMax <<  "-->" << m_maxZValue;
+                       << oldMax << "-->" << m_maxZValue;
             maxChanged = true;
         }
         m_minZValue = min;
@@ -574,9 +591,10 @@ void QHeightMapSurfaceDataProxyPrivate::setMaxZValue(float max)
         if (max <= m_minZValue) {
             float oldMin = m_minZValue;
             m_minZValue = max - 1.0f;
-            qWarning() << "Warning: Tried to set maximum Z to equal or smaller than minimum Z for"
+            qWarning() << "Warning: Tried to set maximum Z to equal or smaller than minimum "
+                          "Z for"
                           " value range. Minimum automatically adjusted to a valid one:"
-                       << oldMin <<  "-->" << m_minZValue;
+                       << oldMin << "-->" << m_minZValue;
             minChanged = true;
         }
         m_maxZValue = max;
@@ -597,9 +615,10 @@ void QHeightMapSurfaceDataProxyPrivate::setMinYValue(float min)
         if (min >= m_maxYValue) {
             float oldMax = m_maxYValue;
             m_maxYValue = min + 1.0f;
-            qWarning() << "Warning: Tried to set minimum Y to equal or larger than maximum Y for"
+            qWarning() << "Warning: Tried to set minimum Y to equal or larger than maximum "
+                          "Y for"
                           " value range. Maximum automatically adjusted to a valid one:"
-                       << oldMax <<  "-->" << m_maxYValue;
+                       << oldMax << "-->" << m_maxYValue;
             maxChanged = true;
         }
         m_minYValue = min;
@@ -620,9 +639,10 @@ void QHeightMapSurfaceDataProxyPrivate::setMaxYValue(float max)
         if (max <= m_minYValue) {
             float oldMin = m_minYValue;
             m_minYValue = max - 1.0f;
-            qWarning() << "Warning: Tried to set maximum Y to equal or smaller than minimum Y for"
+            qWarning() << "Warning: Tried to set maximum Y to equal or smaller than minimum "
+                          "Y for"
                           " value range. Minimum automatically adjusted to a valid one:"
-                       << oldMin <<  "-->" << m_minYValue;
+                       << oldMin << "-->" << m_minYValue;
             minChanged = true;
         }
         m_maxYValue = max;
@@ -711,18 +731,14 @@ void QHeightMapSurfaceDataProxyPrivate::handlePendingResolve()
             float yVal = 0;
             uchar *pixelptr;
             for (; j < lastCol; j++) {
-                pixelptr  = (uchar *)(bits + bitCount + (j * 4 * bytesInChannel));
+                pixelptr = (uchar *) (bits + bitCount + (j * 4 * bytesInChannel));
                 if (!m_autoScaleY)
                     yVal = *pixelptr;
                 else
                     yVal = float(*pixelptr) * yMul + m_minYValue;
-                newRow[j].setPosition(QVector3D((float(j) * xMul) + m_minXValue,
-                                                yVal,
-                                                zVal));
+                newRow[j].setPosition(QVector3D((float(j) * xMul) + m_minXValue, yVal, zVal));
             }
-            newRow[j].setPosition(QVector3D(m_maxXValue,
-                                            yVal,
-                                            zVal));
+            newRow[j].setPosition(QVector3D(m_maxXValue, yVal, zVal));
         }
     } else {
         // Not grayscale, we'll need to calculate height from RGB
@@ -737,28 +753,24 @@ void QHeightMapSurfaceDataProxyPrivate::handlePendingResolve()
             float yVal = 0;
             for (; j < lastCol; j++) {
                 int nextpixel = j * 4 * bytesInChannel;
-                uchar *pixelptr = (uchar *)(bits + bitCount + nextpixel);
+                uchar *pixelptr = (uchar *) (bits + bitCount + nextpixel);
                 if (is16bit) {
-                    height = float(*((ushort *)pixelptr))
-                        + float(*(((ushort *)pixelptr) + 1))
-                        + float(*(((ushort *)pixelptr) + 2));
+                    height = (float(*((ushort *) pixelptr))
+                              + float(*(((ushort *) pixelptr) + 1))
+                              + float(*(((ushort *) pixelptr) + 2)));
                 } else {
                     height = (float(*pixelptr)
-                            + float(*(pixelptr + 1))
-                            + float(*(pixelptr + 2)));
+                              + float(*(pixelptr + 1))
+                              + float(*(pixelptr + 2)));
                 }
                 if (!m_autoScaleY)
                     yVal = height / 3.0f;
                 else
                     yVal = (height / 3.0f * yMul) + m_minYValue;
 
-                newRow[j].setPosition(QVector3D((float(j) * xMul) + m_minXValue,
-                                                yVal,
-                                                zVal));
+                newRow[j].setPosition(QVector3D((float(j) * xMul) + m_minXValue, yVal, zVal));
             }
-            newRow[j].setPosition(QVector3D(m_maxXValue,
-                                            yVal,
-                                            zVal));
+            newRow[j].setPosition(QVector3D(m_maxXValue, yVal, zVal));
         }
     }
 

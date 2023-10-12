@@ -11,15 +11,15 @@ QT_BEGIN_NAMESPACE
  * \inmodule QtGraphs
  * \brief Proxy class for presenting data in item models with Q3DSurface.
  *
- * QItemModelSurfaceDataProxy allows you to use QAbstractItemModel derived models as a data source
- * for Q3DSurface. It uses the defined mappings to map data from the model to rows, columns, and
- * surface points of Q3DSurface graph.
+ * QItemModelSurfaceDataProxy allows you to use QAbstractItemModel derived
+ * models as a data source for Q3DSurface. It uses the defined mappings to map
+ * data from the model to rows, columns, and surface points of Q3DSurface graph.
  *
  * Data is resolved asynchronously whenever the mapping or the model changes.
  * QSurfaceDataProxy::arrayReset() is emitted when the data has been resolved.
- * However, when useModelCategories property is set to \c true, single item changes are resolved
- * synchronously, unless the same frame also contains a change that causes the whole model to be
- * resolved.
+ * However, when useModelCategories property is set to \c true, single item
+ * changes are resolved synchronously, unless the same frame also contains a
+ * change that causes the whole model to be resolved.
  *
  * Mappings can be used in the following ways:
  *
@@ -52,15 +52,17 @@ QT_BEGIN_NAMESPACE
  *
  * \snippet doc_src_qtgraphs.cpp 5
  *
- * If the fields of the model do not contain the data in the exact format you need, you can specify
- * a search pattern regular expression and a replace rule for each role to get the value in a
- * format you need. For more information how the replace using regular expressions works, see
- * QString::replace(const QRegularExpression &rx, const QString &after) function documentation. Note that
- * using regular expressions has an impact on the performance, so it's more efficient to utilize
- * item models where doing search and replace is not necessary to get the desired values.
+ * If the fields of the model do not contain the data in the exact format you
+ * need, you can specify a search pattern regular expression and a replace rule
+ * for each role to get the value in a format you need. For more information how
+ * the replace using regular expressions works, see QString::replace(const
+ * QRegularExpression &rx, const QString &after) function documentation. Note
+ * that using regular expressions has an impact on the performance, so it's more
+ * efficient to utilize item models where doing search and replace is not
+ * necessary to get the desired values.
  *
- * For example about using the search patterns in conjunction with the roles, see
- * ItemModelBarDataProxy usage in \l{Simple Bar Graph}.
+ * For example about using the search patterns in conjunction with the roles,
+ * see ItemModelBarDataProxy usage in \l{Simple Bar Graph}.
  *
  * \sa {Qt Graphs Data Handling}
  */
@@ -78,7 +80,8 @@ QT_BEGIN_NAMESPACE
  *
  * Data is resolved asynchronously whenever the mapping or the model changes.
  *
- * For ItemModelSurfaceDataProxy enums, see \l{QItemModelSurfaceDataProxy::MultiMatchBehavior}.
+ * For ItemModelSurfaceDataProxy enums, see
+ * \l{QItemModelSurfaceDataProxy::MultiMatchBehavior}.
  *
  * For more details, see QItemModelSurfaceDataProxy documentation.
  *
@@ -97,24 +100,25 @@ QT_BEGIN_NAMESPACE
 /*!
  * \qmlproperty string ItemModelSurfaceDataProxy::rowRole
  * The item model role to map to the row category.
- * In addition to defining which row the data belongs to, the value indicated by the row role
- * is also set as the Z-coordinate value of QSurfaceDataItem when model data is resolved,
- * unless a separate z position role is also defined.
+ * In addition to defining which row the data belongs to, the value indicated by
+ * the row role is also set as the Z-coordinate value of QSurfaceDataItem when
+ * model data is resolved, unless a separate z position role is also defined.
  */
 
 /*!
  * \qmlproperty string ItemModelSurfaceDataProxy::columnRole
  * The item model role to map to the column category.
- * In addition to defining which column the data belongs to, the value indicated by the column role
- * is also set as the X-coordinate value of QSurfaceDataItem when model data is resolved,
- * unless a separate x position role is also defined.
+ * In addition to defining which column the data belongs to, the value indicated
+ * by the column role is also set as the X-coordinate value of QSurfaceDataItem
+ * when model data is resolved, unless a separate x position role is also
+ * defined.
  */
 
 /*!
  * \qmlproperty string ItemModelSurfaceDataProxy::xPosRole
- * The item model role to map to the X position. If this role is not defined, columnRole is
- * used to determine the X-coordinate value of the resolved \c QSurfaceDataItem
- * items.
+ * The item model role to map to the X position. If this role is not defined,
+ * columnRole is used to determine the X-coordinate value of the resolved \c
+ * QSurfaceDataItem items.
  */
 
 /*!
@@ -124,52 +128,56 @@ QT_BEGIN_NAMESPACE
 
 /*!
  * \qmlproperty string ItemModelSurfaceDataProxy::zPosRole
- * The item model role to map to the Z position. If this role is not defined, rowRole is
- * used to determine the Z-coordinate value of the resolved \c QSurfaceDataItem
- * items.
+ * The item model role to map to the Z position. If this role is not defined,
+ * rowRole is used to determine the Z-coordinate value of the resolved 
+ * \c QSurfaceDataItem items.
  */
 
 /*!
  * \qmlproperty list<String> ItemModelSurfaceDataProxy::rowCategories
- * The row categories of the mapping. Only items with row roles that are found in this list are
- * included when data is resolved. The rows are ordered in the same order as they are in this list.
+ * The row categories of the mapping. Only items with row roles that are found
+ * in this list are included when data is resolved. The rows are ordered in the
+ * same order as they are in this list.
  */
 
 /*!
  * \qmlproperty list<String> ItemModelSurfaceDataProxy::columnCategories
- * The column categories of the mapping. Only items with column roles that are found in this
- * list are included when data is resolved. The columns are ordered in the same order as they are
- * in this list.
+ * The column categories of the mapping. Only items with column roles that are
+ * found in this list are included when data is resolved. The columns are
+ * ordered in the same order as they are in this list.
  */
 
 /*!
  * \qmlproperty bool ItemModelSurfaceDataProxy::useModelCategories
- * When set to \c true, the mapping ignores row and column roles and categories, and uses
- * the rows and columns from the model instead. Defaults to \c{false}.
+ * When set to \c true, the mapping ignores row and column roles and categories,
+ * and uses the rows and columns from the model instead. Defaults to \c{false}.
  */
 
 /*!
  * \qmlproperty bool ItemModelSurfaceDataProxy::autoRowCategories
  * When set to \c true, the mapping ignores any explicitly set row categories
  * and overwrites them with automatically generated ones whenever the
- * data from the model is resolved. Proxy minimum and maximum row values are also
- * autogenerated from the data when this is set to \c true. Defaults to \c{true}.
+ * data from the model is resolved. Proxy minimum and maximum row values are
+ * also autogenerated from the data when this is set to \c true. Defaults to
+ * \c{true}.
  */
 
 /*!
  * \qmlproperty bool ItemModelSurfaceDataProxy::autoColumnCategories
  * When set to \c true, the mapping ignores any explicitly set column categories
  * and overwrites them with automatically generated ones whenever the
- * data from the model is resolved. Proxy minimum and maximum column values are also
- * autogenerated from the data when this is set to \c true. Defaults to \c{true}.
+ * data from the model is resolved. Proxy minimum and maximum column values are
+ * also autogenerated from the data when this is set to \c true. Defaults to
+ * \c{true}.
  */
 
 /*!
  * \qmlproperty regExp ItemModelSurfaceDataProxy::rowRolePattern
  *
- * When set, a search and replace is done on the value mapped by the row role before it is used as
- * a row category. This property specifies the regular expression to find the portion of the
- * mapped value to replace and the rowRoleReplace property contains the replacement string.
+ * When set, a search and replace is done on the value mapped by the row role
+ * before it is used as a row category. This property specifies the regular
+ * expression to find the portion of the mapped value to replace and the
+ * rowRoleReplace property contains the replacement string.
  *
  * \sa rowRole, rowRoleReplace
  */
@@ -177,9 +185,10 @@ QT_BEGIN_NAMESPACE
 /*!
  * \qmlproperty regExp ItemModelSurfaceDataProxy::columnRolePattern
  *
- * When set, a search and replace is done on the value mapped by the column role before it is used
- * as a column category. This property specifies the regular expression to find the portion of the
- * mapped value to replace and the columnRoleReplace property contains the replacement string.
+ * When set, a search and replace is done on the value mapped by the column role
+ * before it is used as a column category. This property specifies the regular
+ * expression to find the portion of the mapped value to replace and the
+ * columnRoleReplace property contains the replacement string.
  *
  * \sa columnRole, columnRoleReplace
  */
@@ -278,14 +287,16 @@ QT_BEGIN_NAMESPACE
  */
 
 /*!
- * \qmlproperty ItemModelSurfaceDataProxy.MultiMatchBehavior ItemModelSurfaceDataProxy::multiMatchBehavior
- * Defines how multiple matches for each row/column combination are handled.
- * Defaults to \l{QItemModelSurfaceDataProxy::MultiMatchBehavior::Last}{ItemModelSurfaceDataProxy.MultiMatchBehavior.Last}.
+ * \qmlproperty ItemModelSurfaceDataProxy.MultiMatchBehavior
+ * ItemModelSurfaceDataProxy::multiMatchBehavior Defines how multiple matches
+ * for each row/column combination are handled. Defaults to
+ * \l{QItemModelSurfaceDataProxy::MultiMatchBehavior::Last}{ItemModelSurfaceDataProxy.MultiMatchBehavior.Last}.
  *
- * For example, you might have an item model with timestamped data taken at irregular intervals
- * and you want to visualize an average position of data items on each hour with a surface graph.
- * This can be done by specifying row and column categories so that each surface point represents
- * an hour, and setting multiMatchBehavior to
+ * For example, you might have an item model with timestamped data taken at
+ * irregular intervals and you want to visualize an average position of data
+ * items on each hour with a surface graph. This can be done by specifying row
+ * and column categories so that each surface point represents an hour, and
+ * setting multiMatchBehavior to
  * \l{QItemModelSurfaceDataProxy::MultiMatchBehavior::Average}{ItemModelSurfaceDataProxy.MultiMatchBehavior.Average}.
  */
 
@@ -319,8 +330,9 @@ QItemModelSurfaceDataProxy::QItemModelSurfaceDataProxy(QObject *parent)
 }
 
 /*!
- * Constructs QItemModelSurfaceDataProxy with \a itemModel and optional \a parent. Proxy doesn't take
- * ownership of the \a itemModel, as typically item models are owned by other controls.
+ * Constructs QItemModelSurfaceDataProxy with \a itemModel and optional \a parent. 
+ * Proxy doesn't take ownership of the \a itemModel, as typically item
+ * models are owned by other controls.
  */
 QItemModelSurfaceDataProxy::QItemModelSurfaceDataProxy(QAbstractItemModel *itemModel,
                                                        QObject *parent)
@@ -332,11 +344,12 @@ QItemModelSurfaceDataProxy::QItemModelSurfaceDataProxy(QAbstractItemModel *itemM
 }
 
 /*!
- * Constructs QItemModelSurfaceDataProxy with \a itemModel and optional \a parent. Proxy doesn't take
- * ownership of the \a itemModel, as typically item models are owned by other controls.
- * The yPosRole role is set to \a yPosRole.
- * This constructor is meant to be used with models that have data properly sorted
- * in rows and columns already, so it also sets useModelCategories property to \c true.
+ * Constructs QItemModelSurfaceDataProxy with \a itemModel and optional \a parent. 
+ * Proxy doesn't take ownership of the \a itemModel, as typically item
+ * models are owned by other controls. The yPosRole role is set to \a yPosRole.
+ * This constructor is meant to be used with models that have data properly
+ * sorted in rows and columns already, so it also sets useModelCategories
+ * property to \c true.
  */
 QItemModelSurfaceDataProxy::QItemModelSurfaceDataProxy(QAbstractItemModel *itemModel,
                                                        const QString &yPosRole,
@@ -351,10 +364,11 @@ QItemModelSurfaceDataProxy::QItemModelSurfaceDataProxy(QAbstractItemModel *itemM
 }
 
 /*!
- * Constructs QItemModelSurfaceDataProxy with \a itemModel and optional \a parent. Proxy doesn't take
- * ownership of the \a itemModel, as typically item models are owned by other controls.
- * The role mappings are set with \a rowRole, \a columnRole, and \a yPosRole.
- * The zPosRole and the xPosRole are set to \a rowRole and \a columnRole, respectively.
+ * Constructs QItemModelSurfaceDataProxy with \a itemModel and optional \a parent. 
+ * Proxy doesn't take ownership of the \a itemModel, as typically item
+ * models are owned by other controls. The role mappings are set with \a rowRole, 
+ * \a columnRole, and \a yPosRole. The zPosRole and the xPosRole are
+ * set to \a rowRole and \a columnRole, respectively.
  */
 QItemModelSurfaceDataProxy::QItemModelSurfaceDataProxy(QAbstractItemModel *itemModel,
                                                        const QString &rowRole,
@@ -374,10 +388,10 @@ QItemModelSurfaceDataProxy::QItemModelSurfaceDataProxy(QAbstractItemModel *itemM
 }
 
 /*!
- * Constructs QItemModelSurfaceDataProxy with \a itemModel and optional \a parent. Proxy doesn't take
- * ownership of the \a itemModel, as typically item models are owned by other controls.
- * The role mappings are set with \a rowRole, \a columnRole, \a xPosRole, \a yPosRole, and
- * \a zPosRole.
+ * Constructs QItemModelSurfaceDataProxy with \a itemModel and optional \a parent. 
+ * Proxy doesn't take ownership of the \a itemModel, as typically item
+ * models are owned by other controls. The role mappings are set with \a rowRole, 
+ * \a columnRole, \a xPosRole, \a yPosRole, and \a zPosRole.
  */
 QItemModelSurfaceDataProxy::QItemModelSurfaceDataProxy(QAbstractItemModel *itemModel,
                                                        const QString &rowRole,
@@ -399,12 +413,13 @@ QItemModelSurfaceDataProxy::QItemModelSurfaceDataProxy(QAbstractItemModel *itemM
 }
 
 /*!
- * Constructs QItemModelSurfaceDataProxy with \a itemModel and optional \a parent. Proxy doesn't take
- * ownership of the \a itemModel, as typically item models are owned by other controls.
- * The role mappings are set with \a rowRole, \a columnRole, and \a yPosRole.
- * The zPosRole and the xPosRole are set to \a rowRole and \a columnRole, respectively.
- * Row and column categories are set with \a rowCategories and \a columnCategories.
- * This constructor also sets autoRowCategories and autoColumnCategories to false.
+ * Constructs QItemModelSurfaceDataProxy with \a itemModel and optional \a parent. 
+ * Proxy doesn't take ownership of the \a itemModel, as typically item
+ * models are owned by other controls. The role mappings are set with \a rowRole, 
+ * \a columnRole, and \a yPosRole. The zPosRole and the xPosRole are
+ * set to \a rowRole and \a columnRole, respectively. Row and column categories
+ * are set with \a rowCategories and \a columnCategories. This constructor also
+ * sets autoRowCategories and autoColumnCategories to false.
  */
 QItemModelSurfaceDataProxy::QItemModelSurfaceDataProxy(QAbstractItemModel *itemModel,
                                                        const QString &rowRole,
@@ -430,12 +445,12 @@ QItemModelSurfaceDataProxy::QItemModelSurfaceDataProxy(QAbstractItemModel *itemM
 }
 
 /*!
- * Constructs QItemModelSurfaceDataProxy with \a itemModel and optional \a parent. Proxy doesn't take
- * ownership of the \a itemModel, as typically item models are owned by other controls.
- * The role mappings are set with \a rowRole, \a columnRole, \a xPosRole, \a yPosRole,
- * and \a zPosRole.
- * Row and column categories are set with \a rowCategories and \a columnCategories.
- * This constructor also sets autoRowCategories and autoColumnCategories to false.
+ * Constructs QItemModelSurfaceDataProxy with \a itemModel and optional \a parent. 
+ * Proxy doesn't take ownership of the \a itemModel, as typically item
+ * models are owned by other controls. The role mappings are set with \a rowRole, 
+ * \a columnRole, \a xPosRole, \a yPosRole, and \a zPosRole. Row and
+ * column categories are set with \a rowCategories and \a columnCategories. This
+ * constructor also sets autoRowCategories and autoColumnCategories to false.
  */
 QItemModelSurfaceDataProxy::QItemModelSurfaceDataProxy(QAbstractItemModel *itemModel,
                                                        const QString &rowRole,
@@ -465,9 +480,7 @@ QItemModelSurfaceDataProxy::QItemModelSurfaceDataProxy(QAbstractItemModel *itemM
 /*!
  * Destroys QItemModelSurfaceDataProxy.
  */
-QItemModelSurfaceDataProxy::~QItemModelSurfaceDataProxy()
-{
-}
+QItemModelSurfaceDataProxy::~QItemModelSurfaceDataProxy() {}
 
 /*!
  * \property QItemModelSurfaceDataProxy::itemModel
@@ -496,9 +509,9 @@ QAbstractItemModel *QItemModelSurfaceDataProxy::itemModel() const
  *
  * \brief The item model role to map to the row category.
  *
- * In addition to defining which row the data belongs to, the value indicated by the row role
- * is also set as the Z-coordinate value of QSurfaceDataItem when model data is resolved,
- * unless a separate z position role is also defined.
+ * In addition to defining which row the data belongs to, the value indicated by
+ * the row role is also set as the Z-coordinate value of QSurfaceDataItem when
+ * model data is resolved, unless a separate z position role is also defined.
  */
 void QItemModelSurfaceDataProxy::setRowRole(const QString &role)
 {
@@ -520,9 +533,10 @@ QString QItemModelSurfaceDataProxy::rowRole() const
  *
  * \brief The item model role to map to the column category.
  *
- * In addition to defining which column the data belongs to, the value indicated by the column
- * role is also set as the X-coordinate value of QSurfaceDataItem when model data is resolved,
- * unless a separate x position role is also defined.
+ * In addition to defining which column the data belongs to, the value indicated
+ * by the column role is also set as the X-coordinate value of QSurfaceDataItem
+ * when model data is resolved, unless a separate x position role is also
+ * defined.
  */
 void QItemModelSurfaceDataProxy::setColumnRole(const QString &role)
 {
@@ -650,8 +664,8 @@ QStringList QItemModelSurfaceDataProxy::columnCategories() const
  *
  * \brief Whether row and column roles and categories are used for mapping.
  *
- * When set to \c true, the mapping ignores row and column roles and categories, and uses
- * the rows and columns from the model instead. Defaults to \c{false}.
+ * When set to \c true, the mapping ignores row and column roles and categories,
+ * and uses the rows and columns from the model instead. Defaults to \c{false}.
  */
 void QItemModelSurfaceDataProxy::setUseModelCategories(bool enable)
 {
@@ -741,7 +755,8 @@ void QItemModelSurfaceDataProxy::remap(const QString &rowRole,
  * Returns the index of the specified \a category in the row categories list.
  * If the row categories list is empty, -1 is returned.
  * \note If the automatic row categories generation is in use, this method will
- * not return a valid index before the data in the model is resolved for the first time.
+ * not return a valid index before the data in the model is resolved for the
+ * first time.
  */
 int QItemModelSurfaceDataProxy::rowCategoryIndex(const QString &category)
 {
@@ -752,8 +767,9 @@ int QItemModelSurfaceDataProxy::rowCategoryIndex(const QString &category)
 /*!
  * Returns the index of the specified \a category in the column categories list.
  * If the category is not found, -1 is returned.
- * \note If the automatic column categories generation is in use, this method will
- * not return a valid index before the data in the model is resolved for the first time.
+ * \note If the automatic column categories generation is in use, this method
+ * will not return a valid index before the data in the model is resolved for
+ * the first time.
  */
 int QItemModelSurfaceDataProxy::columnCategoryIndex(const QString &category)
 {
@@ -902,9 +918,9 @@ QRegularExpression QItemModelSurfaceDataProxy::zPosRolePattern() const
  * \brief The replace content to be used in conjunction with the row role
  * pattern.
  *
- * Defaults to an empty string. For more information on how the search and replace using regular
- * expressions works, see QString::replace(const QRegularExpression &rx, const QString &after)
- * function documentation.
+ * Defaults to an empty string. For more information on how the search and
+ * replace using regular expressions works, see QString::replace(const
+ * QRegularExpression &rx, const QString &after) function documentation.
  *
  * \sa rowRole, rowRolePattern
  */
@@ -1042,13 +1058,15 @@ QString QItemModelSurfaceDataProxy::zPosRoleReplace() const
  *
  * Defaults to Last.
  *
- * For example, you might have an item model with timestamped data taken at irregular intervals
- * and you want to visualize an average position of data items on each hour with a surface graph.
- * This can be done by specifying row and column categories so that each surface point represents
- * an hour, and setting this property to Average.
+ * For example, you might have an item model with timestamped data taken at
+ * irregular intervals and you want to visualize an average position of data
+ * items on each hour with a surface graph. This can be done by specifying row
+ * and column categories so that each surface point represents an hour, and
+ * setting this property to Average.
  */
 
-void QItemModelSurfaceDataProxy::setMultiMatchBehavior(QItemModelSurfaceDataProxy::MultiMatchBehavior behavior)
+void QItemModelSurfaceDataProxy::setMultiMatchBehavior(
+    QItemModelSurfaceDataProxy::MultiMatchBehavior behavior)
 {
     Q_D(QItemModelSurfaceDataProxy);
     if (d->m_multiMatchBehavior != behavior) {
@@ -1066,14 +1084,13 @@ QItemModelSurfaceDataProxy::MultiMatchBehavior QItemModelSurfaceDataProxy::multi
 // QItemModelSurfaceDataProxyPrivate
 
 QItemModelSurfaceDataProxyPrivate::QItemModelSurfaceDataProxyPrivate(QItemModelSurfaceDataProxy *q)
-    : QSurfaceDataProxyPrivate(q),
-      m_itemModelHandler(new SurfaceItemModelHandler(q)),
-      m_useModelCategories(false),
-      m_autoRowCategories(true),
-      m_autoColumnCategories(true),
-      m_multiMatchBehavior(QItemModelSurfaceDataProxy::MultiMatchBehavior::Last)
-{
-}
+    : QSurfaceDataProxyPrivate(q)
+    , m_itemModelHandler(new SurfaceItemModelHandler(q))
+    , m_useModelCategories(false)
+    , m_autoRowCategories(true)
+    , m_autoColumnCategories(true)
+    , m_multiMatchBehavior(QItemModelSurfaceDataProxy::MultiMatchBehavior::Last)
+{}
 
 QItemModelSurfaceDataProxyPrivate::~QItemModelSurfaceDataProxyPrivate()
 {
@@ -1083,50 +1100,94 @@ QItemModelSurfaceDataProxyPrivate::~QItemModelSurfaceDataProxyPrivate()
 void QItemModelSurfaceDataProxyPrivate::connectItemModelHandler()
 {
     Q_Q(QItemModelSurfaceDataProxy);
-    QObject::connect(m_itemModelHandler, &SurfaceItemModelHandler::itemModelChanged,
-                     q, &QItemModelSurfaceDataProxy::itemModelChanged);
-    QObject::connect(q, &QItemModelSurfaceDataProxy::rowRoleChanged,
-                     m_itemModelHandler, &AbstractItemModelHandler::handleMappingChanged);
-    QObject::connect(q, &QItemModelSurfaceDataProxy::columnRoleChanged,
-                     m_itemModelHandler, &AbstractItemModelHandler::handleMappingChanged);
-    QObject::connect(q, &QItemModelSurfaceDataProxy::xPosRoleChanged,
-                     m_itemModelHandler, &AbstractItemModelHandler::handleMappingChanged);
-    QObject::connect(q, &QItemModelSurfaceDataProxy::yPosRoleChanged,
-                     m_itemModelHandler, &AbstractItemModelHandler::handleMappingChanged);
-    QObject::connect(q, &QItemModelSurfaceDataProxy::zPosRoleChanged,
-                     m_itemModelHandler, &AbstractItemModelHandler::handleMappingChanged);
-    QObject::connect(q, &QItemModelSurfaceDataProxy::rowCategoriesChanged,
-                     m_itemModelHandler, &AbstractItemModelHandler::handleMappingChanged);
-    QObject::connect(q, &QItemModelSurfaceDataProxy::columnCategoriesChanged,
-                     m_itemModelHandler, &AbstractItemModelHandler::handleMappingChanged);
-    QObject::connect(q, &QItemModelSurfaceDataProxy::useModelCategoriesChanged,
-                     m_itemModelHandler, &AbstractItemModelHandler::handleMappingChanged);
-    QObject::connect(q, &QItemModelSurfaceDataProxy::autoRowCategoriesChanged,
-                     m_itemModelHandler, &AbstractItemModelHandler::handleMappingChanged);
-    QObject::connect(q, &QItemModelSurfaceDataProxy::autoColumnCategoriesChanged,
-                     m_itemModelHandler, &AbstractItemModelHandler::handleMappingChanged);
-    QObject::connect(q, &QItemModelSurfaceDataProxy::rowRolePatternChanged,
-                     m_itemModelHandler, &AbstractItemModelHandler::handleMappingChanged);
-    QObject::connect(q, &QItemModelSurfaceDataProxy::columnRolePatternChanged,
-                     m_itemModelHandler, &AbstractItemModelHandler::handleMappingChanged);
-    QObject::connect(q, &QItemModelSurfaceDataProxy::xPosRolePatternChanged,
-                     m_itemModelHandler, &AbstractItemModelHandler::handleMappingChanged);
-    QObject::connect(q, &QItemModelSurfaceDataProxy::yPosRolePatternChanged,
-                     m_itemModelHandler, &AbstractItemModelHandler::handleMappingChanged);
-    QObject::connect(q, &QItemModelSurfaceDataProxy::zPosRolePatternChanged,
-                     m_itemModelHandler, &AbstractItemModelHandler::handleMappingChanged);
-    QObject::connect(q, &QItemModelSurfaceDataProxy::rowRoleReplaceChanged,
-                     m_itemModelHandler, &AbstractItemModelHandler::handleMappingChanged);
-    QObject::connect(q, &QItemModelSurfaceDataProxy::columnRoleReplaceChanged,
-                     m_itemModelHandler, &AbstractItemModelHandler::handleMappingChanged);
-    QObject::connect(q, &QItemModelSurfaceDataProxy::xPosRoleReplaceChanged,
-                     m_itemModelHandler, &AbstractItemModelHandler::handleMappingChanged);
-    QObject::connect(q, &QItemModelSurfaceDataProxy::yPosRoleReplaceChanged,
-                     m_itemModelHandler, &AbstractItemModelHandler::handleMappingChanged);
-    QObject::connect(q, &QItemModelSurfaceDataProxy::zPosRoleReplaceChanged,
-                     m_itemModelHandler, &AbstractItemModelHandler::handleMappingChanged);
-    QObject::connect(q, &QItemModelSurfaceDataProxy::multiMatchBehaviorChanged,
-                     m_itemModelHandler, &AbstractItemModelHandler::handleMappingChanged);
+    QObject::connect(m_itemModelHandler,
+                     &SurfaceItemModelHandler::itemModelChanged,
+                     q,
+                     &QItemModelSurfaceDataProxy::itemModelChanged);
+    QObject::connect(q,
+                     &QItemModelSurfaceDataProxy::rowRoleChanged,
+                     m_itemModelHandler,
+                     &AbstractItemModelHandler::handleMappingChanged);
+    QObject::connect(q,
+                     &QItemModelSurfaceDataProxy::columnRoleChanged,
+                     m_itemModelHandler,
+                     &AbstractItemModelHandler::handleMappingChanged);
+    QObject::connect(q,
+                     &QItemModelSurfaceDataProxy::xPosRoleChanged,
+                     m_itemModelHandler,
+                     &AbstractItemModelHandler::handleMappingChanged);
+    QObject::connect(q,
+                     &QItemModelSurfaceDataProxy::yPosRoleChanged,
+                     m_itemModelHandler,
+                     &AbstractItemModelHandler::handleMappingChanged);
+    QObject::connect(q,
+                     &QItemModelSurfaceDataProxy::zPosRoleChanged,
+                     m_itemModelHandler,
+                     &AbstractItemModelHandler::handleMappingChanged);
+    QObject::connect(q,
+                     &QItemModelSurfaceDataProxy::rowCategoriesChanged,
+                     m_itemModelHandler,
+                     &AbstractItemModelHandler::handleMappingChanged);
+    QObject::connect(q,
+                     &QItemModelSurfaceDataProxy::columnCategoriesChanged,
+                     m_itemModelHandler,
+                     &AbstractItemModelHandler::handleMappingChanged);
+    QObject::connect(q,
+                     &QItemModelSurfaceDataProxy::useModelCategoriesChanged,
+                     m_itemModelHandler,
+                     &AbstractItemModelHandler::handleMappingChanged);
+    QObject::connect(q,
+                     &QItemModelSurfaceDataProxy::autoRowCategoriesChanged,
+                     m_itemModelHandler,
+                     &AbstractItemModelHandler::handleMappingChanged);
+    QObject::connect(q,
+                     &QItemModelSurfaceDataProxy::autoColumnCategoriesChanged,
+                     m_itemModelHandler,
+                     &AbstractItemModelHandler::handleMappingChanged);
+    QObject::connect(q,
+                     &QItemModelSurfaceDataProxy::rowRolePatternChanged,
+                     m_itemModelHandler,
+                     &AbstractItemModelHandler::handleMappingChanged);
+    QObject::connect(q,
+                     &QItemModelSurfaceDataProxy::columnRolePatternChanged,
+                     m_itemModelHandler,
+                     &AbstractItemModelHandler::handleMappingChanged);
+    QObject::connect(q,
+                     &QItemModelSurfaceDataProxy::xPosRolePatternChanged,
+                     m_itemModelHandler,
+                     &AbstractItemModelHandler::handleMappingChanged);
+    QObject::connect(q,
+                     &QItemModelSurfaceDataProxy::yPosRolePatternChanged,
+                     m_itemModelHandler,
+                     &AbstractItemModelHandler::handleMappingChanged);
+    QObject::connect(q,
+                     &QItemModelSurfaceDataProxy::zPosRolePatternChanged,
+                     m_itemModelHandler,
+                     &AbstractItemModelHandler::handleMappingChanged);
+    QObject::connect(q,
+                     &QItemModelSurfaceDataProxy::rowRoleReplaceChanged,
+                     m_itemModelHandler,
+                     &AbstractItemModelHandler::handleMappingChanged);
+    QObject::connect(q,
+                     &QItemModelSurfaceDataProxy::columnRoleReplaceChanged,
+                     m_itemModelHandler,
+                     &AbstractItemModelHandler::handleMappingChanged);
+    QObject::connect(q,
+                     &QItemModelSurfaceDataProxy::xPosRoleReplaceChanged,
+                     m_itemModelHandler,
+                     &AbstractItemModelHandler::handleMappingChanged);
+    QObject::connect(q,
+                     &QItemModelSurfaceDataProxy::yPosRoleReplaceChanged,
+                     m_itemModelHandler,
+                     &AbstractItemModelHandler::handleMappingChanged);
+    QObject::connect(q,
+                     &QItemModelSurfaceDataProxy::zPosRoleReplaceChanged,
+                     m_itemModelHandler,
+                     &AbstractItemModelHandler::handleMappingChanged);
+    QObject::connect(q,
+                     &QItemModelSurfaceDataProxy::multiMatchBehaviorChanged,
+                     m_itemModelHandler,
+                     &AbstractItemModelHandler::handleMappingChanged);
 }
 
 QT_END_NAMESPACE

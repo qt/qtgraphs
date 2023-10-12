@@ -1,9 +1,9 @@
 // Copyright (C) 2023 The Qt Company Ltd.
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 
-#include "qsurfacedataproxy_p.h"
-#include "qsurface3dseries_p.h"
 #include "qabstract3daxis_p.h"
+#include "qsurface3dseries_p.h"
+#include "qsurfacedataproxy_p.h"
 
 QT_BEGIN_NAMESPACE
 
@@ -27,23 +27,23 @@ QT_BEGIN_NAMESPACE
  * array to the proxy, the appropriate signal must be emitted to update the
  * graph.
  *
- * To make a sensible surface, the x-value of each successive item in all rows must be
- * either ascending or descending throughout the row.
- * Similarly, the z-value of each successive item in all columns must be either ascending or
+ * To make a sensible surface, the x-value of each successive item in all rows
+ * must be either ascending or descending throughout the row. Similarly, the
+ * z-value of each successive item in all columns must be either ascending or
  * descending throughout the column.
  *
- * \note Currently only surfaces with straight rows and columns are fully supported. Any row
- * with items that do not have the exact same z-value or any column with items
- * that do not have the exact same x-value may get clipped incorrectly if the
- * whole surface does not completely fit within the visible x-axis or z-axis
- * ranges.
+ * \note Currently only surfaces with straight rows and columns are fully
+ * supported. Any row with items that do not have the exact same z-value or any
+ * column with items that do not have the exact same x-value may get clipped
+ * incorrectly if the whole surface does not completely fit within the visible
+ * x-axis or z-axis ranges.
  *
- * \note Surfaces with less than two rows or columns are not considered valid surfaces and will
- * not be rendered.
+ * \note Surfaces with less than two rows or columns are not considered valid
+ * surfaces and will not be rendered.
  *
- * \note On some environments, surfaces with a lot of visible vertices may not render, because
- * they exceed the per-draw vertex count supported by the graphics driver.
- * This is mostly an issue on 32-bit and OpenGL ES2 platforms.
+ * \note On some environments, surfaces with a lot of visible vertices may not
+ * render, because they exceed the per-draw vertex count supported by the
+ * graphics driver. This is mostly an issue on 32-bit and OpenGL ES2 platforms.
  *
  * \sa {Qt Graphs Data Handling}
  */
@@ -70,10 +70,11 @@ QT_BEGIN_NAMESPACE
  * \inherits AbstractDataProxy
  * \brief The data proxy for a 3D surface graph.
  *
- * This type handles surface data items. The data is arranged into rows and columns, and all rows must have
- * the same number of columns.
+ * This type handles surface data items. The data is arranged into rows and
+ * columns, and all rows must have the same number of columns.
  *
- * This type is uncreatable, but contains properties that are exposed via subtypes.
+ * This type is uncreatable, but contains properties that are exposed via
+ * subtypes.
  *
  * For a more complete description, see QSurfaceDataProxy.
  *
@@ -99,25 +100,21 @@ QT_BEGIN_NAMESPACE
 /*!
  * Constructs QSurfaceDataProxy with the given \a parent.
  */
-QSurfaceDataProxy::QSurfaceDataProxy(QObject *parent) :
-    QAbstractDataProxy(new QSurfaceDataProxyPrivate(this), parent)
-{
-}
+QSurfaceDataProxy::QSurfaceDataProxy(QObject *parent)
+    : QAbstractDataProxy(new QSurfaceDataProxyPrivate(this), parent)
+{}
 
 /*!
  * \internal
  */
-QSurfaceDataProxy::QSurfaceDataProxy(QSurfaceDataProxyPrivate *d, QObject *parent) :
-    QAbstractDataProxy(d, parent)
-{
-}
+QSurfaceDataProxy::QSurfaceDataProxy(QSurfaceDataProxyPrivate *d, QObject *parent)
+    : QAbstractDataProxy(d, parent)
+{}
 
 /*!
  * Deletes the surface data proxy.
  */
-QSurfaceDataProxy::~QSurfaceDataProxy()
-{
-}
+QSurfaceDataProxy::~QSurfaceDataProxy() {}
 
 /*!
  * \property QSurfaceDataProxy::series
@@ -400,8 +397,7 @@ int QSurfaceDataProxy::columnCount() const
 
 QSurfaceDataProxyPrivate::QSurfaceDataProxyPrivate(QSurfaceDataProxy *q)
     : QAbstractDataProxyPrivate(q, QAbstractDataProxy::DataType::Surface)
-{
-}
+{}
 
 QSurfaceDataProxyPrivate::~QSurfaceDataProxyPrivate()
 {
@@ -452,8 +448,7 @@ void QSurfaceDataProxyPrivate::setItem(int rowIndex, int columnIndex, QSurfaceDa
 
 int QSurfaceDataProxyPrivate::addRow(QSurfaceDataRow &&row)
 {
-    Q_ASSERT(m_dataArray.isEmpty()
-             || m_dataArray.at(0).size() == row.size());
+    Q_ASSERT(m_dataArray.isEmpty() || m_dataArray.at(0).size() == row.size());
     int currentSize = m_dataArray.size();
     m_dataArray.append(row);
     return currentSize;
@@ -463,8 +458,7 @@ int QSurfaceDataProxyPrivate::addRows(QSurfaceDataArray &&rows)
 {
     int currentSize = m_dataArray.size();
     for (int i = 0; i < rows.size(); i++) {
-        Q_ASSERT(m_dataArray.isEmpty()
-                 || m_dataArray.at(0).size() == rows.at(i).size());
+        Q_ASSERT(m_dataArray.isEmpty() || m_dataArray.at(0).size() == rows.at(i).size());
         m_dataArray.append(rows.at(i));
     }
     return currentSize;
@@ -473,8 +467,7 @@ int QSurfaceDataProxyPrivate::addRows(QSurfaceDataArray &&rows)
 void QSurfaceDataProxyPrivate::insertRow(int rowIndex, QSurfaceDataRow &&row)
 {
     Q_ASSERT(rowIndex >= 0 && rowIndex <= m_dataArray.size());
-    Q_ASSERT(m_dataArray.isEmpty()
-             || m_dataArray.at(0).size() == row.size());
+    Q_ASSERT(m_dataArray.isEmpty() || m_dataArray.at(0).size() == row.size());
     m_dataArray.insert(rowIndex, row);
 }
 
@@ -483,8 +476,7 @@ void QSurfaceDataProxyPrivate::insertRows(int rowIndex, QSurfaceDataArray &&rows
     Q_ASSERT(rowIndex >= 0 && rowIndex <= m_dataArray.size());
 
     for (int i = 0; i < rows.size(); i++) {
-        Q_ASSERT(m_dataArray.isEmpty()
-                 || m_dataArray.at(0).size() == rows.at(i).size());
+        Q_ASSERT(m_dataArray.isEmpty() || m_dataArray.at(0).size() == rows.at(i).size());
         m_dataArray.insert(rowIndex++, rows.at(i));
     }
 }
@@ -500,8 +492,10 @@ void QSurfaceDataProxyPrivate::removeRows(int rowIndex, int removeCount)
     }
 }
 
-void QSurfaceDataProxyPrivate::limitValues(QVector3D &minValues, QVector3D &maxValues,
-                                           QAbstract3DAxis *axisX, QAbstract3DAxis *axisY,
+void QSurfaceDataProxyPrivate::limitValues(QVector3D &minValues,
+                                           QVector3D &maxValues,
+                                           QAbstract3DAxis *axisX,
+                                           QAbstract3DAxis *axisY,
                                            QAbstract3DAxis *axisZ) const
 {
     float min = 0.0f;
@@ -525,10 +519,10 @@ void QSurfaceDataProxyPrivate::limitValues(QVector3D &minValues, QVector3D &maxV
                 if (qIsNaN(itemValue) || qIsInf(itemValue))
                     continue;
                 if ((min > itemValue || (qIsNaN(min) || qIsInf(min)))
-                        && isValidValue(itemValue, axisY)) {
+                    && isValidValue(itemValue, axisY)) {
                     min = itemValue;
                 }
-                if (max < itemValue  || (qIsNaN(max) || qIsInf(max)))
+                if (max < itemValue || (qIsNaN(max) || qIsInf(max)))
                     max = itemValue;
             }
         }
@@ -549,7 +543,7 @@ void QSurfaceDataProxyPrivate::limitValues(QVector3D &minValues, QVector3D &maxV
                 if (qIsNaN(zItemValue) || qIsInf(zItemValue))
                     continue;
                 else if (isValidValue(zItemValue, axisZ))
-                    zLow = qMin(zLow,zItemValue);
+                    zLow = qMin(zLow, zItemValue);
             }
             if (!qIsNaN(zLow) && !qIsInf(zLow))
                 break;
@@ -559,8 +553,7 @@ void QSurfaceDataProxyPrivate::limitValues(QVector3D &minValues, QVector3D &maxV
                 float zItemValue = m_dataArray.at(i).at(j).z();
                 if (qIsNaN(zItemValue) || qIsInf(zItemValue))
                     continue;
-                else if (isValidValue(zItemValue, axisZ))
-                {
+                else if (isValidValue(zItemValue, axisZ)) {
                     if (!qIsNaN(zHigh) && !qIsInf(zHigh))
                         zHigh = qMax(zHigh, zItemValue);
                     else
@@ -570,7 +563,7 @@ void QSurfaceDataProxyPrivate::limitValues(QVector3D &minValues, QVector3D &maxV
             if (!qIsNaN(zHigh) && !qIsInf(zHigh))
                 break;
         }
-        for (int j = 0; j<columns; j++){
+        for (int j = 0; j < columns; j++) {
             for (int i = 0; i < rows; i++) {
                 float xItemValue = m_dataArray.at(i).at(j).x();
                 if (qIsNaN(xItemValue) || qIsInf(xItemValue))
@@ -581,13 +574,12 @@ void QSurfaceDataProxyPrivate::limitValues(QVector3D &minValues, QVector3D &maxV
             if (!qIsNaN(xLow) && !qIsInf(xLow))
                 break;
         }
-        for (int j = columns-1; j >= 0; j--){
+        for (int j = columns - 1; j >= 0; j--) {
             for (int i = 0; i < rows; i++) {
                 float xItemValue = m_dataArray.at(i).at(j).x();
-                if (qIsNaN(xItemValue) || qIsInf(xItemValue))
+                if (qIsNaN(xItemValue) || qIsInf(xItemValue)) {
                     continue;
-                else if (isValidValue(xItemValue, axisX))
-                {
+                } else if (isValidValue(xItemValue, axisX)) {
                     if (!qIsNaN(xHigh) && !qIsInf(xHigh))
                         xHigh = qMax(xHigh, xItemValue);
                     else

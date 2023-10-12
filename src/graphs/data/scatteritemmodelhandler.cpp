@@ -8,23 +8,20 @@ QT_BEGIN_NAMESPACE
 static const int noRoleIndex = -1;
 
 ScatterItemModelHandler::ScatterItemModelHandler(QItemModelScatterDataProxy *proxy, QObject *parent)
-    : AbstractItemModelHandler(parent),
-      m_proxy(proxy),
-      m_proxyArray(0),
-      m_xPosRole(noRoleIndex),
-      m_yPosRole(noRoleIndex),
-      m_zPosRole(noRoleIndex),
-      m_rotationRole(noRoleIndex),
-      m_haveXPosPattern(false),
-      m_haveYPosPattern(false),
-      m_haveZPosPattern(false),
-      m_haveRotationPattern(false)
-{
-}
+    : AbstractItemModelHandler(parent)
+    , m_proxy(proxy)
+    , m_proxyArray(0)
+    , m_xPosRole(noRoleIndex)
+    , m_yPosRole(noRoleIndex)
+    , m_zPosRole(noRoleIndex)
+    , m_rotationRole(noRoleIndex)
+    , m_haveXPosPattern(false)
+    , m_haveYPosPattern(false)
+    , m_haveZPosPattern(false)
+    , m_haveRotationPattern(false)
+{}
 
-ScatterItemModelHandler::~ScatterItemModelHandler()
-{
-}
+ScatterItemModelHandler::~ScatterItemModelHandler() {}
 
 void ScatterItemModelHandler::handleDataChanged(const QModelIndex &topLeft,
                                                 const QModelIndex &bottomRight,
@@ -33,7 +30,8 @@ void ScatterItemModelHandler::handleDataChanged(const QModelIndex &topLeft,
     // Do nothing if full reset already pending
     if (!m_fullReset) {
         if (m_itemModel->columnCount() > 1) {
-            // If the data model is multi-column, do full asynchronous reset to simplify things
+            // If the data model is multi-column, do full asynchronous reset to
+            // simplify things
             AbstractItemModelHandler::handleDataChanged(topLeft, bottomRight, roles);
         } else {
             int start = qMin(topLeft.row(), bottomRight.row());
@@ -54,9 +52,9 @@ void ScatterItemModelHandler::handleRowsInserted(const QModelIndex &parent, int 
     // Do nothing if full reset already pending
     if (!m_fullReset) {
         if (!m_proxy->itemCount() || m_itemModel->columnCount() > 1) {
-            // If inserting into an empty array, do full asynchronous reset to avoid multiple
-            // separate inserts when initializing the model.
-            // If the data model is multi-column, do full asynchronous reset to simplify things
+            // If inserting into an empty array, do full asynchronous reset to avoid
+            // multiple separate inserts when initializing the model. If the data
+            // model is multi-column, do full asynchronous reset to simplify things
             AbstractItemModelHandler::handleRowsInserted(parent, start, end);
         } else {
             QScatterDataArray array(end - start + 1);
@@ -76,7 +74,8 @@ void ScatterItemModelHandler::handleRowsRemoved(const QModelIndex &parent, int s
     // Do nothing if full reset already pending
     if (!m_fullReset) {
         if (m_itemModel->columnCount() > 1) {
-            // If the data model is multi-column, do full asynchronous reset to simplify things
+            // If the data model is multi-column, do full asynchronous reset to
+            // simplify things
             AbstractItemModelHandler::handleRowsRemoved(parent, start, end);
         } else {
             m_proxy->removeItems(start, end - start + 1);
@@ -119,7 +118,8 @@ static inline QQuaternion toQuaternion(const QVariant &variant)
     return QQuaternion();
 }
 
-void ScatterItemModelHandler::modelPosToScatterItem(int modelRow, int modelColumn,
+void ScatterItemModelHandler::modelPosToScatterItem(int modelRow,
+                                                    int modelColumn,
                                                     QScatterDataItem &item)
 {
     QModelIndex index = m_itemModel->index(modelRow, modelColumn);
@@ -156,10 +156,8 @@ void ScatterItemModelHandler::modelPosToScatterItem(int modelRow, int modelColum
     if (m_rotationRole != noRoleIndex) {
         QVariant rotationVar = index.data(m_rotationRole);
         if (m_haveRotationPattern) {
-            item.setRotation(
-                        toQuaternion(
-                            QVariant(rotationVar.toString().replace(m_rotationPattern,
-                                                                    m_rotationReplace))));
+            item.setRotation(toQuaternion(
+                QVariant(rotationVar.toString().replace(m_rotationPattern, m_rotationReplace))));
         } else {
             item.setRotation(toQuaternion(rotationVar));
         }
@@ -189,7 +187,8 @@ void ScatterItemModelHandler::resolveModel()
     m_haveXPosPattern = !m_xPosPattern.namedCaptureGroups().isEmpty() && m_xPosPattern.isValid();
     m_haveYPosPattern = !m_yPosPattern.namedCaptureGroups().isEmpty() && m_yPosPattern.isValid();
     m_haveZPosPattern = !m_zPosPattern.namedCaptureGroups().isEmpty() && m_zPosPattern.isValid();
-    m_haveRotationPattern = !m_rotationPattern.namedCaptureGroups().isEmpty() && m_rotationPattern.isValid();
+    m_haveRotationPattern = !m_rotationPattern.namedCaptureGroups().isEmpty()
+                            && m_rotationPattern.isValid();
 
     QHash<int, QByteArray> roleHash = m_itemModel->roleNames();
     m_xPosRole = roleHash.key(m_proxy->xPosRole().toLatin1(), noRoleIndex);

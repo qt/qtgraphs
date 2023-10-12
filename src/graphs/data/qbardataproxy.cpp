@@ -1,8 +1,8 @@
 // Copyright (C) 2023 The Qt Company Ltd.
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 
-#include "qbardataproxy_p.h"
 #include "qbar3dseries_p.h"
+#include "qbardataproxy_p.h"
 
 QT_BEGIN_NAMESPACE
 
@@ -23,11 +23,12 @@ QT_BEGIN_NAMESPACE
  * array to the proxy, the appropriate signal must be emitted to update the
  * graph.
  *
- * QBarDataProxy optionally keeps track of row and column labels, which QCategory3DAxis can utilize
- * to show axis labels. The row and column labels are stored in a separate array from the data and
- * row manipulation methods provide alternate versions that do not affect the row labels.
- * This enables the option of having row labels that relate to the position of the data in the
- * array rather than the data itself.
+ * QBarDataProxy optionally keeps track of row and column labels, which
+ * QCategory3DAxis can utilize to show axis labels. The row and column labels
+ * are stored in a separate array from the data and row manipulation methods
+ * provide alternate versions that do not affect the row labels. This enables
+ * the option of having row labels that relate to the position of the data in
+ * the array rather than the data itself.
  *
  * \sa {Qt Graphs Data Handling}
  */
@@ -54,9 +55,11 @@ QT_BEGIN_NAMESPACE
  * \inherits AbstractDataProxy
  * \brief The data proxy for a 3D bars graph.
  *
- * This type handles adding, inserting, changing, and removing rows of data with Qt Quick 2.
+ * This type handles adding, inserting, changing, and removing rows of data with
+ * Qt Quick 2.
  *
- * This type is uncreatable, but contains properties that are exposed via subtypes.
+ * This type is uncreatable, but contains properties that are exposed via
+ * subtypes.
  *
  * For a more complete description, see QBarDataProxy.
  *
@@ -79,8 +82,9 @@ QT_BEGIN_NAMESPACE
 /*!
  * \qmlproperty list BarDataProxy::columnLabels
  *
- * The optional column labels for the array. Indexes in this array match column indexes in rows.
- * If the list is shorter than the longest row, all columns will not get labels.
+ * The optional column labels for the array. Indexes in this array match column
+ * indexes in rows. If the list is shorter than the longest row, all columns
+ * will not get labels.
  */
 
 /*!
@@ -92,25 +96,21 @@ QT_BEGIN_NAMESPACE
 /*!
  * Constructs a bar data proxy with the given \a parent.
  */
-QBarDataProxy::QBarDataProxy(QObject *parent) :
-    QAbstractDataProxy(new QBarDataProxyPrivate(this), parent)
-{
-}
+QBarDataProxy::QBarDataProxy(QObject *parent)
+    : QAbstractDataProxy(new QBarDataProxyPrivate(this), parent)
+{}
 
 /*!
  * \internal
  */
-QBarDataProxy::QBarDataProxy(QBarDataProxyPrivate *d, QObject *parent) :
-    QAbstractDataProxy(d, parent)
-{
-}
+QBarDataProxy::QBarDataProxy(QBarDataProxyPrivate *d, QObject *parent)
+    : QAbstractDataProxy(d, parent)
+{}
 
 /*!
  * Deletes the bar data proxy.
  */
-QBarDataProxy::~QBarDataProxy()
-{
-}
+QBarDataProxy::~QBarDataProxy() {}
 
 /*!
  * \property QBarDataProxy::series
@@ -160,9 +160,11 @@ void QBarDataProxy::resetArray(QBarDataArray newArray)
  *
  * Passing a null array deletes the old array and creates a new empty array.
  *
- * The \a rowLabels and \a columnLabels lists specify the new labels for rows and columns.
+ * The \a rowLabels and \a columnLabels lists specify the new labels for rows
+ * and columns.
  */
-void QBarDataProxy::resetArray(QBarDataArray newArray, QStringList rowLabels,
+void QBarDataProxy::resetArray(QBarDataArray newArray,
+                               QStringList rowLabels,
                                QStringList columnLabels)
 {
     Q_D(QBarDataProxy);
@@ -312,8 +314,8 @@ int QBarDataProxy::addRows(QBarDataArray rows, QStringList labels)
  * If \a rowIndex is equal to the array size, the rows are added to the end of
  * the array.
  * The existing row labels are not affected.
- * \note The row labels array will be out of sync with the row array after this call
- *       if there were labeled rows beyond the inserted row.
+ * \note The row labels array will be out of sync with the row array after this
+ * call if there were labeled rows beyond the inserted row.
  */
 void QBarDataProxy::insertRow(int rowIndex, QBarDataRow row)
 {
@@ -342,8 +344,8 @@ void QBarDataProxy::insertRow(int rowIndex, QBarDataRow row, QString label)
  * Inserts new \a rows into \a rowIndex.
  * If \a rowIndex is equal to the array size, the rows are added to the end of
  * the array. The existing row labels are not affected.
- * \note The row labels array will be out of sync with the row array after this call
- *       if there were labeled rows beyond the inserted rows.
+ * \note The row labels array will be out of sync with the row array after this
+ * call if there were labeled rows beyond the inserted rows.
  */
 void QBarDataProxy::insertRows(int rowIndex, QBarDataArray rows)
 {
@@ -467,8 +469,8 @@ const QBarDataArray &QBarDataProxy::array() const
 }
 
 /*!
- * Returns the reference to the row at the position \a rowIndex. It is guaranteed
- * to be valid only until the next call that modifies data.
+ * Returns the reference to the row at the position \a rowIndex. It is
+ * guaranteed to be valid only until the next call that modifies data.
  */
 const QBarDataRow &QBarDataProxy::rowAt(int rowIndex) const
 {
@@ -479,9 +481,9 @@ const QBarDataRow &QBarDataProxy::rowAt(int rowIndex) const
 }
 
 /*!
- * Returns the reference to the item at the position specified by \a rowIndex and
- * \a columnIndex. It is guaranteed to be valid only
- * until the next call that modifies data.
+ * Returns the reference to the item at the position specified by \a rowIndex
+ * and \a columnIndex. It is guaranteed to be valid only until the next call
+ * that modifies data.
  */
 const QBarDataItem &QBarDataProxy::itemAt(int rowIndex, int columnIndex) const
 {
@@ -562,16 +564,16 @@ const QBarDataItem &QBarDataProxy::itemAt(const QPoint &position) const
 // QBarDataProxyPrivate
 
 QBarDataProxyPrivate::QBarDataProxyPrivate(QBarDataProxy *q)
-: QAbstractDataProxyPrivate(q, QAbstractDataProxy::DataType::Bar)
-{
-}
+    : QAbstractDataProxyPrivate(q, QAbstractDataProxy::DataType::Bar)
+{}
 
 QBarDataProxyPrivate::~QBarDataProxyPrivate()
 {
     clearArray();
 }
 
-void QBarDataProxyPrivate::resetArray(QBarDataArray &&newArray, QStringList &&rowLabels,
+void QBarDataProxyPrivate::resetArray(QBarDataArray &&newArray,
+                                      QStringList &&rowLabels,
                                       QStringList &&columnLabels)
 {
     Q_Q(QBarDataProxy);
@@ -595,8 +597,7 @@ void QBarDataProxyPrivate::setRow(int rowIndex, QBarDataRow &&row, QString &&lab
     }
 }
 
-void QBarDataProxyPrivate::setRows(int rowIndex, QBarDataArray &&rows,
-                                   QStringList &&labels)
+void QBarDataProxyPrivate::setRows(int rowIndex, QBarDataArray &&rows, QStringList &&labels)
 {
     QBarDataArray &dataArray = m_dataArray;
     Q_ASSERT(rowIndex >= 0 && (rowIndex + rows.size()) <= dataArray.size());
@@ -643,8 +644,7 @@ void QBarDataProxyPrivate::insertRow(int rowIndex, QBarDataRow &&row, QString &&
     m_dataArray.insert(rowIndex, row);
 }
 
-void QBarDataProxyPrivate::insertRows(int rowIndex, QBarDataArray &&rows,
-                                      QStringList &&labels)
+void QBarDataProxyPrivate::insertRows(int rowIndex, QBarDataArray &&rows, QStringList &&labels)
 {
     Q_ASSERT(rowIndex >= 0 && rowIndex <= m_dataArray.size());
 
@@ -686,7 +686,9 @@ void QBarDataProxyPrivate::clearArray()
  * \internal
  * Fixes the row label array to include specified labels.
  */
-void QBarDataProxyPrivate::fixRowLabels(int startIndex, int count, const QStringList &newLabels,
+void QBarDataProxyPrivate::fixRowLabels(int startIndex,
+                                        int count,
+                                        const QStringList &newLabels,
                                         bool isInsert)
 {
     Q_Q(QBarDataProxy);
@@ -695,12 +697,13 @@ void QBarDataProxyPrivate::fixRowLabels(int startIndex, int count, const QString
 
     int newSize = newLabels.size();
     if (startIndex >= currentSize) {
-        // Adding labels past old label array, create empty strings to fill intervening space
+        // Adding labels past old label array, create empty strings to fill
+        // intervening space
         if (newSize) {
             for (int i = currentSize; i < startIndex; i++)
                 m_rowLabels << QString();
-            // Doesn't matter if insert, append, or just change when there were no existing
-            // strings, just append new strings.
+            // Doesn't matter if insert, append, or just change when there were no
+            // existing strings, just append new strings.
             m_rowLabels << newLabels;
             changed = true;
         }
@@ -716,7 +719,8 @@ void QBarDataProxyPrivate::fixRowLabels(int startIndex, int count, const QString
                     m_rowLabels.insert(insertIndex++, QString());
             }
         } else {
-            // Either append or change, replace labels up to array end and then add new ones
+            // Either append or change, replace labels up to array end and then add
+            // new ones
             int lastChangeIndex = count + startIndex;
             int newIndex = 0;
             for (int i = startIndex; i < lastChangeIndex; i++) {
@@ -749,8 +753,10 @@ void QBarDataProxyPrivate::fixRowLabels(int startIndex, int count, const QString
         emit q->rowLabelsChanged();
 }
 
-QPair<float, float> QBarDataProxyPrivate::limitValues(int startRow, int endRow,
-                                                      int startColumn, int endColumn) const
+QPair<float, float> QBarDataProxyPrivate::limitValues(int startRow,
+                                                      int endRow,
+                                                      int startColumn,
+                                                      int endColumn) const
 {
     QPair<float, float> limits = qMakePair(0.0f, 0.0f);
     endRow = qMin(endRow, m_dataArray.size() - 1);

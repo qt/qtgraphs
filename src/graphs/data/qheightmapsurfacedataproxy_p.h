@@ -36,6 +36,7 @@ public:
     void setMinYValue(float min);
     void setMaxYValue(float max);
     void setAutoScaleY(bool enabled);
+
 private:
     void handlePendingResolve();
 

@@ -4,9 +4,9 @@
 #ifndef QABSTRACTDATAPROXY_H
 #define QABSTRACTDATAPROXY_H
 
-#include <QtGraphs/qgraphsglobal.h>
 #include <QtCore/QObject>
 #include <QtCore/QScopedPointer>
+#include <QtGraphs/qgraphsglobal.h>
 
 QT_BEGIN_NAMESPACE
 
@@ -20,12 +20,7 @@ class Q_GRAPHS_EXPORT QAbstractDataProxy : public QObject
     Q_PROPERTY(QAbstractDataProxy::DataType type READ type CONSTANT)
 
 public:
-    enum class DataType {
-        None = 0,
-        Bar = 1,
-        Scatter = 2,
-        Surface = 4
-    };
+    enum class DataType { None = 0, Bar = 1, Scatter = 2, Surface = 4 };
     Q_ENUM(DataType)
 
 protected:

@@ -1,12 +1,12 @@
 // Copyright (C) 2023 The Qt Company Ltd.
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 
-#include "qbar3dseries_p.h"
-#include "qquickgraphsbars_p.h"
-#include "qabstract3daxis_p.h"
-#include "qvalue3daxis_p.h"
-#include "qcategory3daxis_p.h"
 #include <QtCore/qmath.h>
+#include "qabstract3daxis_p.h"
+#include "qbar3dseries_p.h"
+#include "qcategory3daxis_p.h"
+#include "qquickgraphsbars_p.h"
+#include "qvalue3daxis_p.h"
 
 QT_BEGIN_NAMESPACE
 
@@ -18,8 +18,9 @@ QT_BEGIN_NAMESPACE
  * This class manages the series specific visual elements, as well as the series
  * data (via a data proxy).
  *
- * If no data proxy is set explicitly for the series, the series creates a default
- * proxy. Setting another proxy will destroy the existing proxy and all data added to it.
+ * If no data proxy is set explicitly for the series, the series creates a
+ * default proxy. Setting another proxy will destroy the existing proxy and all
+ * data added to it.
  *
  * QBar3DSeries supports the following format tags for QAbstract3DSeries::setItemLabelFormat():
  * \table
@@ -74,8 +75,8 @@ QT_BEGIN_NAMESPACE
  * \qmlproperty BarDataProxy Bar3DSeries::dataProxy
  *
  * The active data proxy. The series assumes ownership of any proxy set to
- * it and deletes any previously set proxy when a new one is added. The proxy cannot be null or
- * set to another series.
+ * it and deletes any previously set proxy when a new one is added. The proxy
+ * cannot be null or set to another series.
  */
 
 /*!
@@ -88,14 +89,16 @@ QT_BEGIN_NAMESPACE
  *
  * Only one bar can be selected at a time.
  *
- * To clear selection from this series, set invalidSelectionPosition as the position.
+ * To clear selection from this series, set invalidSelectionPosition as the
+ * position.
  *
- * If this series is added to a graph, the graph can adjust the selection according to user
- * interaction or if it becomes invalid. Selecting a bar on another added series will also
- * clear the selection.
+ * If this series is added to a graph, the graph can adjust the selection
+ * according to user interaction or if it becomes invalid. Selecting a bar on
+ * another added series will also clear the selection.
  *
- * Removing rows from or inserting rows to the series before the row of the selected bar
- * will adjust the selection so that the same bar will stay selected.
+ * Removing rows from or inserting rows to the series before the row of the
+ * selected bar will adjust the selection so that the same bar will stay
+ * selected.
  *
  * \sa {AbstractGraph3D::clearSelection()}{AbstractGraph3D.clearSelection()}
  */
@@ -116,7 +119,8 @@ QT_BEGIN_NAMESPACE
  *
  * \note When reading this property, it is calculated from the
  * \l{Abstract3DSeries::meshRotation}{Abstract3DSeries.meshRotation} value
- * using floating point precision and always returns a value from zero to 360 degrees.
+ * using floating point precision and always returns a value from zero to 360
+ * degrees.
  *
  * \sa {Abstract3DSeries::meshRotation}{Abstract3DSeries.meshRotation}
  */
@@ -135,8 +139,8 @@ QT_BEGIN_NAMESPACE
 /*!
  * Constructsa bar 3D series with the parent \a parent.
  */
-QBar3DSeries::QBar3DSeries(QObject *parent) :
-    QAbstract3DSeries(new QBar3DSeriesPrivate(this), parent)
+QBar3DSeries::QBar3DSeries(QObject *parent)
+    : QAbstract3DSeries(new QBar3DSeriesPrivate(this), parent)
 {
     Q_D(QBar3DSeries);
     // Default proxy
@@ -148,8 +152,8 @@ QBar3DSeries::QBar3DSeries(QObject *parent) :
  * Constructs a bar 3D series with the data proxy \a dataProxy and the parent
  * \a parent.
  */
-QBar3DSeries::QBar3DSeries(QBarDataProxy *dataProxy, QObject *parent) :
-    QAbstract3DSeries(new QBar3DSeriesPrivate(this), parent)
+QBar3DSeries::QBar3DSeries(QBarDataProxy *dataProxy, QObject *parent)
+    : QAbstract3DSeries(new QBar3DSeriesPrivate(this), parent)
 {
     Q_D(QBar3DSeries);
     d->setDataProxy(dataProxy);
@@ -159,9 +163,7 @@ QBar3DSeries::QBar3DSeries(QBarDataProxy *dataProxy, QObject *parent) :
 /*!
  * Deletes a bar 3D series.
  */
-QBar3DSeries::~QBar3DSeries()
-{
-}
+QBar3DSeries::~QBar3DSeries() {}
 
 /*!
  * \property QBar3DSeries::dataProxy
@@ -200,19 +202,21 @@ QBarDataProxy *QBar3DSeries::dataProxy() const
  * To clear selection from this series, invalidSelectionPosition() is set as
  * \a position.
  *
- * If this series is added to a graph, the graph can adjust the selection according to user
- * interaction or if it becomes invalid. Selecting a bar on another added series will also
- * clear the selection.
+ * If this series is added to a graph, the graph can adjust the selection
+ * according to user interaction or if it becomes invalid. Selecting a bar on
+ * another added series will also clear the selection.
  *
- * Removing rows from or inserting rows to the series before the row of the selected bar
- * will adjust the selection so that the same bar will stay selected.
+ * Removing rows from or inserting rows to the series before the row of the
+ * selected bar will adjust the selection so that the same bar will stay
+ * selected.
  *
  * \sa QAbstract3DGraph::clearSelection()
  */
 void QBar3DSeries::setSelectedBar(const QPoint &position)
 {
     Q_D(QBar3DSeries);
-    // Don't do this in private to avoid loops, as that is used for callback from graph.
+    // Don't do this in private to avoid loops, as that is used for callback from
+    // graph.
     if (d->m_graph)
         static_cast<QQuickGraphsBars *>(d->m_graph)->setSelectedBar(position, this, true);
     else
@@ -301,7 +305,9 @@ QList<QColor> QBar3DSeries::rowColors() const
  */
 void QBar3DSeries::connectSignals()
 {
-    QObject::connect(this, &QAbstract3DSeries::meshRotationChanged, this,
+    QObject::connect(this,
+                     &QAbstract3DSeries::meshRotationChanged,
+                     this,
                      &QBar3DSeries::handleMeshRotationChanged);
 }
 
@@ -316,16 +322,14 @@ void QBar3DSeries::handleMeshRotationChanged(const QQuaternion &rotation)
 // QBar3DSeriesPrivate
 
 QBar3DSeriesPrivate::QBar3DSeriesPrivate(QBar3DSeries *q)
-    : QAbstract3DSeriesPrivate(q, QAbstract3DSeries::SeriesType::Bar),
-      m_selectedBar(QQuickGraphsBars::invalidSelectionPosition())
+    : QAbstract3DSeriesPrivate(q, QAbstract3DSeries::SeriesType::Bar)
+    , m_selectedBar(QQuickGraphsBars::invalidSelectionPosition())
 {
     m_itemLabelFormat = QStringLiteral("@valueLabel");
     m_mesh = QAbstract3DSeries::Mesh::BevelBar;
 }
 
-QBar3DSeriesPrivate::~QBar3DSeriesPrivate()
-{
-}
+QBar3DSeriesPrivate::~QBar3DSeriesPrivate() {}
 
 void QBar3DSeriesPrivate::setDataProxy(QAbstractDataProxy *proxy)
 {
@@ -350,25 +354,45 @@ void QBar3DSeriesPrivate::connectGraphAndProxy(QQuickGraphsItem *newGraph)
 
     if (newGraph && barDataProxy) {
         QQuickGraphsBars *graph = static_cast<QQuickGraphsBars *>(newGraph);
-        QObject::connect(barDataProxy, &QBarDataProxy::arrayReset, graph,
+        QObject::connect(barDataProxy,
+                         &QBarDataProxy::arrayReset,
+                         graph,
                          &QQuickGraphsBars::handleArrayReset);
-        QObject::connect(barDataProxy, &QBarDataProxy::rowsAdded, graph,
+        QObject::connect(barDataProxy,
+                         &QBarDataProxy::rowsAdded,
+                         graph,
                          &QQuickGraphsBars::handleRowsAdded);
-        QObject::connect(barDataProxy, &QBarDataProxy::rowsChanged, graph,
+        QObject::connect(barDataProxy,
+                         &QBarDataProxy::rowsChanged,
+                         graph,
                          &QQuickGraphsBars::handleRowsChanged);
-        QObject::connect(barDataProxy, &QBarDataProxy::rowsRemoved, graph,
+        QObject::connect(barDataProxy,
+                         &QBarDataProxy::rowsRemoved,
+                         graph,
                          &QQuickGraphsBars::handleRowsRemoved);
-        QObject::connect(barDataProxy, &QBarDataProxy::rowsInserted, graph,
+        QObject::connect(barDataProxy,
+                         &QBarDataProxy::rowsInserted,
+                         graph,
                          &QQuickGraphsBars::handleRowsInserted);
-        QObject::connect(barDataProxy, &QBarDataProxy::itemChanged, graph,
+        QObject::connect(barDataProxy,
+                         &QBarDataProxy::itemChanged,
+                         graph,
                          &QQuickGraphsBars::handleItemChanged);
-        QObject::connect(barDataProxy, &QBarDataProxy::rowLabelsChanged, graph,
+        QObject::connect(barDataProxy,
+                         &QBarDataProxy::rowLabelsChanged,
+                         graph,
                          &QQuickGraphsBars::handleDataRowLabelsChanged);
-        QObject::connect(barDataProxy, &QBarDataProxy::columnLabelsChanged, graph,
+        QObject::connect(barDataProxy,
+                         &QBarDataProxy::columnLabelsChanged,
+                         graph,
                          &QQuickGraphsBars::handleDataColumnLabelsChanged);
-        QObject::connect(q, &QBar3DSeries::dataProxyChanged, graph,
+        QObject::connect(q,
+                         &QBar3DSeries::dataProxyChanged,
+                         graph,
                          &QQuickGraphsBars::handleArrayReset);
-        QObject::connect(q, &QBar3DSeries::rowColorsChanged, graph,
+        QObject::connect(q,
+                         &QBar3DSeries::rowColorsChanged,
+                         graph,
                          &QQuickGraphsBars::handleRowColorsChanged);
     }
 }

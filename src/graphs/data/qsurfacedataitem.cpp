@@ -8,8 +8,8 @@ QT_BEGIN_NAMESPACE
 /*!
  * \class QSurfaceDataItem
  * \inmodule QtGraphs
- * \brief The QSurfaceDataItem class provides a container for resolved data to be added to surface
- * graphs.
+ * \brief The QSurfaceDataItem class provides a container for resolved data to
+ * be added to surface graphs.
  *
  * A surface data item holds the data for a single vertex in a surface graph.
  * Surface data proxies parse data into QSurfaceDataItem instances for
@@ -24,17 +24,15 @@ QT_BEGIN_NAMESPACE
 QSurfaceDataItem::QSurfaceDataItem()
     : d_ptr(0) // private data doesn't exist by default (optimization)
 
-{
-}
+{}
 
 /*!
  * Constructs a surface data item at the position \a position.
  */
 QSurfaceDataItem::QSurfaceDataItem(const QVector3D &position)
-    : d_ptr(0),
-      m_position(position)
-{
-}
+    : d_ptr(0)
+    , m_position(position)
+{}
 
 /*!
  * Constructs a copy of \a other.
@@ -52,9 +50,7 @@ QSurfaceDataItem::QSurfaceDataItem(QSurfaceDataItem &&other) noexcept
 /*!
  * Deletes a surface data item.
  */
-QSurfaceDataItem::~QSurfaceDataItem()
-{
-}
+QSurfaceDataItem::~QSurfaceDataItem() {}
 
 /*!
  *  Assigns a copy of \a other to this object.
@@ -131,12 +127,8 @@ void QSurfaceDataItem::createExtraData()
         d_ptr = new QSurfaceDataItemPrivate;
 }
 
-QSurfaceDataItemPrivate::QSurfaceDataItemPrivate()
-{
-}
+QSurfaceDataItemPrivate::QSurfaceDataItemPrivate() {}
 
-QSurfaceDataItemPrivate::~QSurfaceDataItemPrivate()
-{
-}
+QSurfaceDataItemPrivate::~QSurfaceDataItemPrivate() {}
 
 QT_END_NAMESPACE

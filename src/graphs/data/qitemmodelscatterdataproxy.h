@@ -4,10 +4,10 @@
 #ifndef QITEMMODELSCATTERDATAPROXY_H
 #define QITEMMODELSCATTERDATAPROXY_H
 
-#include <QtGraphs/qscatterdataproxy.h>
 #include <QtCore/QAbstractItemModel>
-#include <QtCore/QString>
 #include <QtCore/QRegularExpression>
+#include <QtCore/QString>
+#include <QtGraphs/qscatterdataproxy.h>
 
 QT_BEGIN_NAMESPACE
 
@@ -17,29 +17,43 @@ class Q_GRAPHS_EXPORT QItemModelScatterDataProxy : public QScatterDataProxy
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(QItemModelScatterDataProxy)
-    Q_PROPERTY(QAbstractItemModel* itemModel READ itemModel WRITE setItemModel NOTIFY itemModelChanged)
+    Q_PROPERTY(
+        QAbstractItemModel *itemModel READ itemModel WRITE setItemModel NOTIFY itemModelChanged)
     Q_PROPERTY(QString xPosRole READ xPosRole WRITE setXPosRole NOTIFY xPosRoleChanged)
     Q_PROPERTY(QString yPosRole READ yPosRole WRITE setYPosRole NOTIFY yPosRoleChanged)
     Q_PROPERTY(QString zPosRole READ zPosRole WRITE setZPosRole NOTIFY zPosRoleChanged)
-    Q_PROPERTY(QString rotationRole READ rotationRole WRITE setRotationRole NOTIFY rotationRoleChanged)
-    Q_PROPERTY(QRegularExpression xPosRolePattern READ xPosRolePattern WRITE setXPosRolePattern NOTIFY xPosRolePatternChanged)
-    Q_PROPERTY(QRegularExpression yPosRolePattern READ yPosRolePattern WRITE setYPosRolePattern NOTIFY yPosRolePatternChanged)
-    Q_PROPERTY(QRegularExpression zPosRolePattern READ zPosRolePattern WRITE setZPosRolePattern NOTIFY zPosRolePatternChanged)
-    Q_PROPERTY(QRegularExpression rotationRolePattern READ rotationRolePattern WRITE setRotationRolePattern NOTIFY rotationRolePatternChanged)
-    Q_PROPERTY(QString xPosRoleReplace READ xPosRoleReplace WRITE setXPosRoleReplace NOTIFY xPosRoleReplaceChanged)
-    Q_PROPERTY(QString yPosRoleReplace READ yPosRoleReplace WRITE setYPosRoleReplace NOTIFY yPosRoleReplaceChanged)
-    Q_PROPERTY(QString zPosRoleReplace READ zPosRoleReplace WRITE setZPosRoleReplace NOTIFY zPosRoleReplaceChanged)
-    Q_PROPERTY(QString rotationRoleReplace READ rotationRoleReplace WRITE setRotationRoleReplace NOTIFY rotationRoleReplaceChanged)
+    Q_PROPERTY(
+        QString rotationRole READ rotationRole WRITE setRotationRole NOTIFY rotationRoleChanged)
+    Q_PROPERTY(QRegularExpression xPosRolePattern READ xPosRolePattern WRITE setXPosRolePattern
+                   NOTIFY xPosRolePatternChanged)
+    Q_PROPERTY(QRegularExpression yPosRolePattern READ yPosRolePattern WRITE setYPosRolePattern
+                   NOTIFY yPosRolePatternChanged)
+    Q_PROPERTY(QRegularExpression zPosRolePattern READ zPosRolePattern WRITE setZPosRolePattern
+                   NOTIFY zPosRolePatternChanged)
+    Q_PROPERTY(QRegularExpression rotationRolePattern READ rotationRolePattern WRITE
+                   setRotationRolePattern NOTIFY rotationRolePatternChanged)
+    Q_PROPERTY(QString xPosRoleReplace READ xPosRoleReplace WRITE setXPosRoleReplace NOTIFY
+                   xPosRoleReplaceChanged)
+    Q_PROPERTY(QString yPosRoleReplace READ yPosRoleReplace WRITE setYPosRoleReplace NOTIFY
+                   yPosRoleReplaceChanged)
+    Q_PROPERTY(QString zPosRoleReplace READ zPosRoleReplace WRITE setZPosRoleReplace NOTIFY
+                   zPosRoleReplaceChanged)
+    Q_PROPERTY(QString rotationRoleReplace READ rotationRoleReplace WRITE setRotationRoleReplace
+                   NOTIFY rotationRoleReplaceChanged)
 
 public:
     explicit QItemModelScatterDataProxy(QObject *parent = nullptr);
     explicit QItemModelScatterDataProxy(QAbstractItemModel *itemModel, QObject *parent = nullptr);
     explicit QItemModelScatterDataProxy(QAbstractItemModel *itemModel,
-                                        const QString &xPosRole, const QString &yPosRole,
-                                        const QString &zPosRole, QObject *parent = nullptr);
+                                        const QString &xPosRole,
+                                        const QString &yPosRole,
+                                        const QString &zPosRole,
+                                        QObject *parent = nullptr);
     explicit QItemModelScatterDataProxy(QAbstractItemModel *itemModel,
-                                        const QString &xPosRole, const QString &yPosRole,
-                                        const QString &zPosRole, const QString &rotationRole,
+                                        const QString &xPosRole,
+                                        const QString &yPosRole,
+                                        const QString &zPosRole,
+                                        const QString &rotationRole,
                                         QObject *parent = nullptr);
     virtual ~QItemModelScatterDataProxy();
 
@@ -55,7 +69,9 @@ public:
     void setRotationRole(const QString &role);
     QString rotationRole() const;
 
-    void remap(const QString &xPosRole, const QString &yPosRole, const QString &zPosRole,
+    void remap(const QString &xPosRole,
+               const QString &yPosRole,
+               const QString &zPosRole,
                const QString &rotationRole);
 
     void setXPosRolePattern(const QRegularExpression &pattern);
@@ -77,7 +93,7 @@ public:
     QString rotationRoleReplace() const;
 
 Q_SIGNALS:
-    void itemModelChanged(const QAbstractItemModel* itemModel);
+    void itemModelChanged(const QAbstractItemModel *itemModel);
     void xPosRoleChanged(const QString &role);
     void yPosRoleChanged(const QString &role);
     void zPosRoleChanged(const QString &role);

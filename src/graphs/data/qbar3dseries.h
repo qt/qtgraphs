@@ -4,9 +4,9 @@
 #ifndef QBAR3DSERIES_H
 #define QBAR3DSERIES_H
 
+#include <QtCore/QPoint>
 #include <QtGraphs/qabstract3dseries.h>
 #include <QtGraphs/qbardataproxy.h>
-#include <QtCore/QPoint>
 
 QT_BEGIN_NAMESPACE
 

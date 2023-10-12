@@ -4,12 +4,12 @@
 #ifndef QCUSTOMLABELITEM_H
 #define QCUSTOMLABELITEM_H
 
-#include <QtGraphs/qgraphsglobal.h>
 #include <QtGraphs/QCustom3DItem>
-#include <QtGui/QVector3D>
-#include <QtGui/QQuaternion>
-#include <QtGui/QFont>
+#include <QtGraphs/qgraphsglobal.h>
 #include <QtGui/QColor>
+#include <QtGui/QFont>
+#include <QtGui/QQuaternion>
+#include <QtGui/QVector3D>
 
 QT_BEGIN_NAMESPACE
 
@@ -22,15 +22,21 @@ class Q_GRAPHS_EXPORT QCustom3DLabel : public QCustom3DItem
     Q_PROPERTY(QString text READ text WRITE setText NOTIFY textChanged)
     Q_PROPERTY(QFont font READ font WRITE setFont NOTIFY fontChanged)
     Q_PROPERTY(QColor textColor READ textColor WRITE setTextColor NOTIFY textColorChanged)
-    Q_PROPERTY(QColor backgroundColor READ backgroundColor WRITE setBackgroundColor NOTIFY backgroundColorChanged)
-    Q_PROPERTY(bool borderEnabled READ isBorderEnabled WRITE setBorderEnabled NOTIFY borderEnabledChanged)
-    Q_PROPERTY(bool backgroundEnabled READ isBackgroundEnabled WRITE setBackgroundEnabled NOTIFY backgroundEnabledChanged)
+    Q_PROPERTY(QColor backgroundColor READ backgroundColor WRITE setBackgroundColor NOTIFY
+                   backgroundColorChanged)
+    Q_PROPERTY(
+        bool borderEnabled READ isBorderEnabled WRITE setBorderEnabled NOTIFY borderEnabledChanged)
+    Q_PROPERTY(bool backgroundEnabled READ isBackgroundEnabled WRITE setBackgroundEnabled NOTIFY
+                   backgroundEnabledChanged)
     Q_PROPERTY(bool facingCamera READ isFacingCamera WRITE setFacingCamera NOTIFY facingCameraChanged)
 
 public:
     explicit QCustom3DLabel(QObject *parent = nullptr);
-    explicit QCustom3DLabel(const QString &text, const QFont &font, const QVector3D &position,
-                            const QVector3D &scaling, const QQuaternion &rotation,
+    explicit QCustom3DLabel(const QString &text,
+                            const QFont &font,
+                            const QVector3D &position,
+                            const QVector3D &scaling,
+                            const QQuaternion &rotation,
                             QObject *parent = nullptr);
     virtual ~QCustom3DLabel();
 

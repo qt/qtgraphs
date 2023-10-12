@@ -15,7 +15,11 @@ class Q_GRAPHS_EXPORT QBarDataItem
 public:
     constexpr QBarDataItem() noexcept {};
     constexpr QBarDataItem(float value) noexcept { m_value = value; };
-    constexpr QBarDataItem(float value, float angle) noexcept{ m_value = value; m_angle = angle; };
+    constexpr QBarDataItem(float value, float angle) noexcept
+    {
+        m_value = value;
+        m_angle = angle;
+    };
     QBarDataItem(const QBarDataItem &other);
     QBarDataItem(QBarDataItem &&other) noexcept;
     ~QBarDataItem();

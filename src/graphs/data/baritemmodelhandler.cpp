@@ -8,28 +8,27 @@ QT_BEGIN_NAMESPACE
 static const int noRoleIndex = -1;
 
 BarItemModelHandler::BarItemModelHandler(QItemModelBarDataProxy *proxy, QObject *parent)
-    : AbstractItemModelHandler(parent),
-      m_proxy(proxy),
-      m_proxyArray(0),
-      m_columnCount(0),
-      m_valueRole(noRoleIndex),
-      m_rotationRole(noRoleIndex),
-      m_haveValuePattern(false),
-      m_haveRotationPattern(false)
-{
-}
+    : AbstractItemModelHandler(parent)
+    , m_proxy(proxy)
+    , m_proxyArray(0)
+    , m_columnCount(0)
+    , m_valueRole(noRoleIndex)
+    , m_rotationRole(noRoleIndex)
+    , m_haveValuePattern(false)
+    , m_haveRotationPattern(false)
+{}
 
-BarItemModelHandler::~BarItemModelHandler()
-{
-}
+BarItemModelHandler::~BarItemModelHandler() {}
 
 void BarItemModelHandler::handleDataChanged(const QModelIndex &topLeft,
-                                            const QModelIndex &bottomRight, const QList<int> &roles)
+                                            const QModelIndex &bottomRight,
+                                            const QList<int> &roles)
 {
     // Do nothing if full reset already pending
     if (!m_fullReset) {
         if (!m_proxy->useModelCategories()) {
-            // If the data model doesn't directly map rows and columns, we cannot optimize
+            // If the data model doesn't directly map rows and columns, we cannot
+            // optimize
             AbstractItemModelHandler::handleDataChanged(topLeft, bottomRight, roles);
         } else {
             int startRow = qMin(topLeft.row(), bottomRight.row());
@@ -52,8 +51,9 @@ void BarItemModelHandler::handleDataChanged(const QModelIndex &topLeft,
                         QVariant rotationVar = index.data(m_rotationRole);
                         float rotation;
                         if (m_haveRotationPattern) {
-                            rotation = rotationVar.toString().replace(m_rotationPattern,
-                                                                      m_rotationReplace).toFloat();
+                            rotation = rotationVar.toString()
+                                           .replace(m_rotationPattern, m_rotationReplace)
+                                           .toFloat();
                         } else {
                             rotation = rotationVar.toFloat();
                         }
@@ -75,7 +75,7 @@ void BarItemModelHandler::resolveModel()
     }
 
     if (!m_proxy->useModelCategories()
-            && (m_proxy->rowRole().isEmpty() || m_proxy->columnRole().isEmpty())) {
+        && (m_proxy->rowRole().isEmpty() || m_proxy->columnRole().isEmpty())) {
         m_proxy->resetArray();
         return;
     }
@@ -93,7 +93,8 @@ void BarItemModelHandler::resolveModel()
     bool haveRowPattern = !rowPattern.namedCaptureGroups().isEmpty() && rowPattern.isValid();
     bool haveColPattern = !colPattern.namedCaptureGroups().isEmpty() && colPattern.isValid();
     m_haveValuePattern = !m_valuePattern.namedCaptureGroups().isEmpty() && m_valuePattern.isValid();
-    m_haveRotationPattern = !m_rotationPattern.namedCaptureGroups().isEmpty() && m_rotationPattern.isValid();
+    m_haveRotationPattern = !m_rotationPattern.namedCaptureGroups().isEmpty()
+                            && m_rotationPattern.isValid();
 
     QStringList rowLabels;
     QStringList columnLabels;
@@ -109,8 +110,7 @@ void BarItemModelHandler::resolveModel()
     if (m_proxy->useModelCategories()) {
         // If dimensions have changed, recreate the array
         if (m_proxyArray.data() != m_proxy->array().data() || columnCount != m_columnCount
-                || rowCount != m_proxyArray.size()) {
-
+            || rowCount != m_proxyArray.size()) {
             m_proxyArray.reserve(rowCount);
             for (int i = 0; i < rowCount; i++)
                 m_proxyArray.append(QBarDataRow(columnCount));
@@ -130,8 +130,9 @@ void BarItemModelHandler::resolveModel()
                     QVariant rotationVar = index.data(m_rotationRole);
                     float rotation;
                     if (m_haveRotationPattern) {
-                        rotation = rotationVar.toString().replace(m_rotationPattern,
-                                                                  m_rotationReplace).toFloat();
+                        rotation = rotationVar.toString()
+                                       .replace(m_rotationPattern, m_rotationReplace)
+                                       .toFloat();
                     } else {
                         rotation = rotationVar.toFloat();
                     }
@@ -153,8 +154,8 @@ void BarItemModelHandler::resolveModel()
         bool generateColumns = m_proxy->autoColumnCategories();
         QStringList rowList;
         QStringList columnList;
-        // For detecting duplicates in categories generation, using QHashes should be faster than
-        // simple QStringList::contains() check.
+        // For detecting duplicates in categories generation, using QHashes should
+        // be faster than simple QStringList::contains() check.
         QHash<QString, bool> rowListHash;
         QHash<QString, bool> columnListHash;
 
@@ -163,13 +164,17 @@ void BarItemModelHandler::resolveModel()
         QHash<QString, ColumnValueMap> itemValueMap;
         QHash<QString, ColumnValueMap> itemRotationMap;
 
-        bool cumulative = m_proxy->multiMatchBehavior() == QItemModelBarDataProxy::MultiMatchBehavior::Average
-                || m_proxy->multiMatchBehavior() == QItemModelBarDataProxy::MultiMatchBehavior::Cumulative;
-        bool countMatches = m_proxy->multiMatchBehavior() == QItemModelBarDataProxy::MultiMatchBehavior::Average;
-        bool takeFirst = m_proxy->multiMatchBehavior() == QItemModelBarDataProxy::MultiMatchBehavior::First;
-        QHash<QString, QHash<QString, int> > *matchCountMap = 0;
+        bool cumulative = m_proxy->multiMatchBehavior()
+                              == QItemModelBarDataProxy::MultiMatchBehavior::Average
+                          || m_proxy->multiMatchBehavior()
+                                 == QItemModelBarDataProxy::MultiMatchBehavior::Cumulative;
+        bool countMatches = m_proxy->multiMatchBehavior()
+                            == QItemModelBarDataProxy::MultiMatchBehavior::Average;
+        bool takeFirst = m_proxy->multiMatchBehavior()
+                         == QItemModelBarDataProxy::MultiMatchBehavior::First;
+        QHash<QString, QHash<QString, int>> *matchCountMap = 0;
         if (countMatches)
-            matchCountMap = new QHash<QString, QHash<QString, int> >;
+            matchCountMap = new QHash<QString, QHash<QString, int>>;
 
         for (int i = 0; i < rowCount; i++) {
             for (int j = 0; j < columnCount; j++) {
@@ -203,8 +208,9 @@ void BarItemModelHandler::resolveModel()
                     QVariant rotationVar = index.data(m_rotationRole);
                     float rotation;
                     if (m_haveRotationPattern) {
-                        rotation = rotationVar.toString().replace(m_rotationPattern,
-                                                                  m_rotationReplace).toFloat();
+                        rotation = rotationVar.toString()
+                                       .replace(m_rotationPattern, m_rotationReplace)
+                                       .toFloat();
                     } else {
                         rotation = rotationVar.toFloat();
                     }
@@ -239,7 +245,7 @@ void BarItemModelHandler::resolveModel()
 
         // If dimensions have changed, recreate the array
         if (m_proxyArray.data() != m_proxy->array().data() || columnList.size() != m_columnCount
-                || rowList.size() != m_proxyArray.size()) {
+            || rowList.size() != m_proxyArray.size()) {
             m_proxyArray.clear();
             m_proxyArray.reserve(rowList.size());
             for (int i = 0; i < rowList.size(); i++)

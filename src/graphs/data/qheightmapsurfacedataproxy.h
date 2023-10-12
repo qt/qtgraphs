@@ -4,9 +4,9 @@
 #ifndef QHEIGHTMAPSURFACEDATAPROXY_H
 #define QHEIGHTMAPSURFACEDATAPROXY_H
 
+#include <QtCore/QString>
 #include <QtGraphs/qsurfacedataproxy.h>
 #include <QtGui/QImage>
-#include <QtCore/QString>
 
 QT_BEGIN_NAMESPACE
 
@@ -17,7 +17,8 @@ class Q_GRAPHS_EXPORT QHeightMapSurfaceDataProxy : public QSurfaceDataProxy
     Q_OBJECT
     Q_DECLARE_PRIVATE(QHeightMapSurfaceDataProxy)
     Q_PROPERTY(QImage heightMap READ heightMap WRITE setHeightMap NOTIFY heightMapChanged)
-    Q_PROPERTY(QString heightMapFile READ heightMapFile WRITE setHeightMapFile NOTIFY heightMapFileChanged)
+    Q_PROPERTY(
+        QString heightMapFile READ heightMapFile WRITE setHeightMapFile NOTIFY heightMapFileChanged)
     Q_PROPERTY(float minXValue READ minXValue WRITE setMinXValue NOTIFY minXValueChanged)
     Q_PROPERTY(float maxXValue READ maxXValue WRITE setMaxXValue NOTIFY maxXValueChanged)
     Q_PROPERTY(float minZValue READ minZValue WRITE setMinZValue NOTIFY minZValueChanged)
@@ -65,7 +66,8 @@ Q_SIGNALS:
     void autoScaleYChanged(bool enabled);
 
 protected:
-    explicit QHeightMapSurfaceDataProxy(QHeightMapSurfaceDataProxyPrivate *d, QObject *parent = nullptr);
+    explicit QHeightMapSurfaceDataProxy(QHeightMapSurfaceDataProxyPrivate *d,
+                                        QObject *parent = nullptr);
     void handlePendingResolve();
 
 private:

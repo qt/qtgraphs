@@ -18,7 +18,7 @@ public:
     QScatterDataItem(const QVector3D &position);
     QScatterDataItem(const QVector3D &position, const QQuaternion &rotation);
     QScatterDataItem(const QScatterDataItem &other);
-    QScatterDataItem(QScatterDataItem &&other) noexcept ;
+    QScatterDataItem(QScatterDataItem &&other) noexcept;
     ~QScatterDataItem();
 
     QScatterDataItem &operator=(const QScatterDataItem &other);

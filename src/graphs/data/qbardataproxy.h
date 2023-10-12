@@ -4,12 +4,12 @@
 #ifndef QBARDATAPROXY_H
 #define QBARDATAPROXY_H
 
-#include <QtGraphs/qabstractdataproxy.h>
-#include <QtGraphs/qbardataitem.h>
 #include <QtCore/QList>
 #include <QtCore/QStringList>
+#include <QtGraphs/qabstractdataproxy.h>
+#include <QtGraphs/qbardataitem.h>
 
-Q_MOC_INCLUDE(<QtGraphs/qbar3dseries.h>)
+Q_MOC_INCLUDE(<QtGraphs / qbar3dseries.h>)
 
 QT_BEGIN_NAMESPACE
 
@@ -26,7 +26,8 @@ class Q_GRAPHS_EXPORT QBarDataProxy : public QAbstractDataProxy
     Q_PROPERTY(int rowCount READ rowCount NOTIFY rowCountChanged)
     Q_PROPERTY(int colCount READ colCount NOTIFY colCountChanged)
     Q_PROPERTY(QStringList rowLabels READ rowLabels WRITE setRowLabels NOTIFY rowLabelsChanged)
-    Q_PROPERTY(QStringList columnLabels READ columnLabels WRITE setColumnLabels NOTIFY columnLabelsChanged)
+    Q_PROPERTY(
+        QStringList columnLabels READ columnLabels WRITE setColumnLabels NOTIFY columnLabelsChanged)
     Q_PROPERTY(QBar3DSeries *series READ series NOTIFY seriesChanged)
 public:
     explicit QBarDataProxy(QObject *parent = nullptr);
@@ -48,8 +49,7 @@ public:
 
     void resetArray();
     void resetArray(QBarDataArray newArray);
-    void resetArray(QBarDataArray newArray, QStringList rowLabels,
-                    QStringList columnLabels);
+    void resetArray(QBarDataArray newArray, QStringList rowLabels, QStringList columnLabels);
 
     void setRow(int rowIndex, QBarDataRow row);
     void setRow(int rowIndex, QBarDataRow row, QString label);

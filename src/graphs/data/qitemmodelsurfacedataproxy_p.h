@@ -40,7 +40,8 @@ private:
     QString m_yPosRole;
     QString m_zPosRole;
 
-    // For row/column items, sort items into these categories. Other categories are ignored.
+    // For row/column items, sort items into these categories. Other categories
+    // are ignored.
     QStringList m_rowCategories;
     QStringList m_columnCategories;
 

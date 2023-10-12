@@ -14,30 +14,30 @@
 #ifndef QCUSTOM3DVOLUME_P_H
 #define QCUSTOM3DVOLUME_P_H
 
-#include "qcustom3dvolume.h"
 #include "qcustom3ditem_p.h"
+#include "qcustom3dvolume.h"
 
 QT_BEGIN_NAMESPACE
 
-struct QCustomVolumeDirtyBitField {
+struct QCustomVolumeDirtyBitField
+{
     bool textureDimensionsDirty : 1;
-    bool slicesDirty            : 1;
-    bool colorTableDirty        : 1;
-    bool textureDataDirty       : 1;
-    bool textureFormatDirty     : 1;
-    bool alphaDirty             : 1;
-    bool shaderDirty            : 1;
+    bool slicesDirty : 1;
+    bool colorTableDirty : 1;
+    bool textureDataDirty : 1;
+    bool textureFormatDirty : 1;
+    bool alphaDirty : 1;
+    bool shaderDirty : 1;
 
     QCustomVolumeDirtyBitField()
-        : textureDimensionsDirty(false),
-          slicesDirty(false),
-          colorTableDirty(false),
-          textureDataDirty(false),
-          textureFormatDirty(false),
-          alphaDirty(false),
-          shaderDirty(false)
-    {
-    }
+        : textureDimensionsDirty(false)
+        , slicesDirty(false)
+        , colorTableDirty(false)
+        , textureDataDirty(false)
+        , textureFormatDirty(false)
+        , alphaDirty(false)
+        , shaderDirty(false)
+    {}
 };
 
 class QCustom3DVolumePrivate : public QCustom3DItemPrivate
@@ -46,10 +46,16 @@ class QCustom3DVolumePrivate : public QCustom3DItemPrivate
 
 public:
     QCustom3DVolumePrivate(QCustom3DVolume *q);
-    QCustom3DVolumePrivate(QCustom3DVolume *q, const QVector3D &position, const QVector3D &scaling,
-                           const QQuaternion &rotation, int textureWidth, int textureHeight,
-                           int textureDepth, QList<uchar> *textureData,
-                           QImage::Format textureFormat, const QList<QRgb> &colorTable);
+    QCustom3DVolumePrivate(QCustom3DVolume *q,
+                           const QVector3D &position,
+                           const QVector3D &scaling,
+                           const QQuaternion &rotation,
+                           int textureWidth,
+                           int textureHeight,
+                           int textureDepth,
+                           QList<uchar> *textureData,
+                           QImage::Format textureFormat,
+                           const QList<QRgb> &colorTable);
     virtual ~QCustom3DVolumePrivate();
 
     void resetDirtyBits();

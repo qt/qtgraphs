@@ -27,7 +27,8 @@ public:
     virtual ~ScatterItemModelHandler();
 
 public Q_SLOTS:
-    void handleDataChanged(const QModelIndex &topLeft, const QModelIndex &bottomRight,
+    void handleDataChanged(const QModelIndex &topLeft,
+                           const QModelIndex &bottomRight,
                            const QList<int> &roles = QList<int>()) override;
     void handleRowsInserted(const QModelIndex &parent, int start, int end) override;
     void handleRowsRemoved(const QModelIndex &parent, int start, int end) override;

@@ -4,10 +4,10 @@
 #ifndef QABSTRACT3DSERIES_H
 #define QABSTRACT3DSERIES_H
 
-#include <QtGraphs/q3dtheme.h>
 #include <QtCore/QObject>
 #include <QtCore/QScopedPointer>
 #include <QtCore/QString>
+#include <QtGraphs/q3dtheme.h>
 #include <QtGui/QLinearGradient>
 #include <QtGui/QQuaternion>
 
@@ -21,30 +21,35 @@ class Q_GRAPHS_EXPORT QAbstract3DSeries : public QObject
     Q_DECLARE_PRIVATE(QAbstract3DSeries)
     Q_CLASSINFO("RegisterEnumClassesUnscoped", "false")
     Q_PROPERTY(QAbstract3DSeries::SeriesType type READ type CONSTANT)
-    Q_PROPERTY(QString itemLabelFormat READ itemLabelFormat WRITE setItemLabelFormat NOTIFY itemLabelFormatChanged)
+    Q_PROPERTY(QString itemLabelFormat READ itemLabelFormat WRITE setItemLabelFormat NOTIFY
+                   itemLabelFormatChanged)
     Q_PROPERTY(bool visible READ isVisible WRITE setVisible NOTIFY visibilityChanged)
     Q_PROPERTY(QAbstract3DSeries::Mesh mesh READ mesh WRITE setMesh NOTIFY meshChanged)
     Q_PROPERTY(bool meshSmooth READ isMeshSmooth WRITE setMeshSmooth NOTIFY meshSmoothChanged)
-    Q_PROPERTY(QQuaternion meshRotation READ meshRotation WRITE setMeshRotation NOTIFY meshRotationChanged)
-    Q_PROPERTY(QString userDefinedMesh READ userDefinedMesh WRITE setUserDefinedMesh NOTIFY userDefinedMeshChanged)
-    Q_PROPERTY(Q3DTheme::ColorStyle colorStyle READ colorStyle WRITE setColorStyle NOTIFY colorStyleChanged)
+    Q_PROPERTY(
+        QQuaternion meshRotation READ meshRotation WRITE setMeshRotation NOTIFY meshRotationChanged)
+    Q_PROPERTY(QString userDefinedMesh READ userDefinedMesh WRITE setUserDefinedMesh NOTIFY
+                   userDefinedMeshChanged)
+    Q_PROPERTY(Q3DTheme::ColorStyle colorStyle READ colorStyle WRITE setColorStyle NOTIFY
+                   colorStyleChanged)
     Q_PROPERTY(QColor baseColor READ baseColor WRITE setBaseColor NOTIFY baseColorChanged)
-    Q_PROPERTY(QLinearGradient baseGradient READ baseGradient WRITE setBaseGradient NOTIFY baseGradientChanged)
-    Q_PROPERTY(QColor singleHighlightColor READ singleHighlightColor WRITE setSingleHighlightColor NOTIFY singleHighlightColorChanged)
-    Q_PROPERTY(QLinearGradient singleHighlightGradient READ singleHighlightGradient WRITE setSingleHighlightGradient NOTIFY singleHighlightGradientChanged)
-    Q_PROPERTY(QColor multiHighlightColor READ multiHighlightColor WRITE setMultiHighlightColor NOTIFY multiHighlightColorChanged)
-    Q_PROPERTY(QLinearGradient multiHighlightGradient READ multiHighlightGradient WRITE setMultiHighlightGradient NOTIFY multiHighlightGradientChanged)
+    Q_PROPERTY(QLinearGradient baseGradient READ baseGradient WRITE setBaseGradient NOTIFY
+                   baseGradientChanged)
+    Q_PROPERTY(QColor singleHighlightColor READ singleHighlightColor WRITE setSingleHighlightColor
+                   NOTIFY singleHighlightColorChanged)
+    Q_PROPERTY(QLinearGradient singleHighlightGradient READ singleHighlightGradient WRITE
+                   setSingleHighlightGradient NOTIFY singleHighlightGradientChanged)
+    Q_PROPERTY(QColor multiHighlightColor READ multiHighlightColor WRITE setMultiHighlightColor
+                   NOTIFY multiHighlightColorChanged)
+    Q_PROPERTY(QLinearGradient multiHighlightGradient READ multiHighlightGradient WRITE
+                   setMultiHighlightGradient NOTIFY multiHighlightGradientChanged)
     Q_PROPERTY(QString name READ name WRITE setName NOTIFY nameChanged)
     Q_PROPERTY(QString itemLabel READ itemLabel NOTIFY itemLabelChanged)
-    Q_PROPERTY(bool itemLabelVisible READ isItemLabelVisible WRITE setItemLabelVisible NOTIFY itemLabelVisibilityChanged)
+    Q_PROPERTY(bool itemLabelVisible READ isItemLabelVisible WRITE setItemLabelVisible NOTIFY
+                   itemLabelVisibilityChanged)
 
 public:
-    enum class SeriesType {
-        None = 0,
-        Bar = 1,
-        Scatter = 2,
-        Surface = 4
-    };
+    enum class SeriesType { None = 0, Bar = 1, Scatter = 2, Surface = 4 };
     Q_ENUM(SeriesType)
 
     enum class Mesh {

@@ -35,8 +35,8 @@ QT_BEGIN_NAMESPACE
 
 /*! \qmlproperty string Custom3DItem::textureFile
  *
- * The texture file name for the item. If left unset, a solid gray texture will be
- * used.
+ * The texture file name for the item. If left unset, a solid gray texture will
+ * be used.
  *
  * \note To conserve memory, the QImage loaded from the file is cleared after a
  * texture is created.
@@ -44,25 +44,28 @@ QT_BEGIN_NAMESPACE
 
 /*! \qmlproperty vector3d Custom3DItem::position
  *
- * The item position as a \l [QtQuick] vector3d. Defaults to \c {vector3d(0.0, 0.0, 0.0)}.
+ * The item position as a \l [QtQuick] vector3d. Defaults to \c {vector3d(0.0,
+ * 0.0, 0.0)}.
  *
  * Item position is specified either in data coordinates or in absolute
  * coordinates, depending on the value of the positionAbsolute property. When
  * using absolute coordinates, values between \c{-1.0...1.0} are
  * within axis ranges.
  *
- * \note Items positioned outside any axis range are not rendered if positionAbsolute is \c{false},
- * unless the item is a Custom3DVolume that would be partially visible and scalingAbsolute is also
- * \c{false}. In that case, the visible portion of the volume will be rendered.
+ * \note Items positioned outside any axis range are not rendered if
+ * positionAbsolute is \c{false}, unless the item is a Custom3DVolume that would
+ * be partially visible and scalingAbsolute is also \c{false}. In that case, the
+ * visible portion of the volume will be rendered.
  *
  * \sa positionAbsolute, scalingAbsolute
  */
 
 /*! \qmlproperty bool Custom3DItem::positionAbsolute
  *
- * Defines whether item position is to be handled in data coordinates or in absolute
- * coordinates. Defaults to \c{false}. Items with absolute coordinates will always be rendered,
- * whereas items with data coordinates are only rendered if they are within axis ranges.
+ * Defines whether item position is to be handled in data coordinates or in
+ * absolute coordinates. Defaults to \c{false}. Items with absolute coordinates
+ * will always be rendered, whereas items with data coordinates are only
+ * rendered if they are within axis ranges.
  *
  * \sa position
  */
@@ -75,8 +78,8 @@ QT_BEGIN_NAMESPACE
  * Item scaling is specified either in data values or in absolute values,
  * depending on the value of the scalingAbsolute property. The default vector
  * interpreted as absolute values sets the item to
- * 10% of the height of the graph, provided the item mesh is normalized and the graph aspect ratios
- * have not been changed from the defaults.
+ * 10% of the height of the graph, provided the item mesh is normalized and the
+ * graph aspect ratios have not been changed from the defaults.
  *
  * \sa scalingAbsolute
  */
@@ -84,18 +87,19 @@ QT_BEGIN_NAMESPACE
 /*! \qmlproperty bool Custom3DItem::scalingAbsolute
  *
  * Defines whether item scaling is to be handled in data values or in absolute
- * values. Defaults to \c{true}. Items with absolute scaling will be rendered at the same
- * size, regardless of axis ranges. Items with data scaling will change their apparent size
- * according to the axis ranges. If positionAbsolute is \c{true}, this property is ignored
- * and scaling is interpreted as an absolute value. If the item has rotation, the data scaling
- * is calculated on the unrotated item. Similarly, for Custom3DVolume items, the range clipping
- * is calculated on the unrotated item.
+ * values. Defaults to \c{true}. Items with absolute scaling will be rendered at
+ * the same size, regardless of axis ranges. Items with data scaling will change
+ * their apparent size according to the axis ranges. If positionAbsolute is
+ * \c{true}, this property is ignored and scaling is interpreted as an absolute
+ * value. If the item has rotation, the data scaling is calculated on the
+ * unrotated item. Similarly, for Custom3DVolume items, the range clipping is
+ * calculated on the unrotated item.
  *
- * \note Only absolute scaling is supported for Custom3DLabel items or for custom items used in
- * \l{AbstractGraph3D::polar}{polar} graphs.
+ * \note Only absolute scaling is supported for Custom3DLabel items or for
+ * custom items used in \l{AbstractGraph3D::polar}{polar} graphs.
  *
- * \note The custom item's mesh must be normalized to the range \c{[-1 ,1]}, or the data
- * scaling will not be accurate.
+ * \note The custom item's mesh must be normalized to the range \c{[-1 ,1]}, or
+ * the data scaling will not be accurate.
  *
  * \sa scaling, positionAbsolute
  */
@@ -119,7 +123,8 @@ QT_BEGIN_NAMESPACE
  */
 
 /*!
- * \qmlmethod void Custom3DItem::setRotationAxisAndAngle(vector3d axis, real angle)
+ * \qmlmethod void Custom3DItem::setRotationAxisAndAngle(vector3d axis, real
+ * angle)
  *
  * A convenience function to construct the rotation quaternion from \a axis and
  * \a angle.
@@ -130,9 +135,9 @@ QT_BEGIN_NAMESPACE
 /*!
  * Constructs a custom 3D item with the specified \a parent.
  */
-QCustom3DItem::QCustom3DItem(QObject *parent) :
-    QObject(parent),
-    d_ptr(new QCustom3DItemPrivate(this))
+QCustom3DItem::QCustom3DItem(QObject *parent)
+    : QObject(parent)
+    , d_ptr(new QCustom3DItemPrivate(this))
 {
     setTextureImage(QImage());
 }
@@ -140,22 +145,25 @@ QCustom3DItem::QCustom3DItem(QObject *parent) :
 /*!
  * \internal
  */
-QCustom3DItem::QCustom3DItem(QCustom3DItemPrivate *d, QObject *parent) :
-    QObject(parent),
-    d_ptr(d)
+QCustom3DItem::QCustom3DItem(QCustom3DItemPrivate *d, QObject *parent)
+    : QObject(parent)
+    , d_ptr(d)
 {
     setTextureImage(QImage());
 }
 
 /*!
- * Constructs a custom 3D item with the specified \a meshFile, \a position, \a scaling,
- * \a rotation, \a texture image, and optional \a parent.
+ * Constructs a custom 3D item with the specified \a meshFile, \a position, \a
+ * scaling, \a rotation, \a texture image, and optional \a parent.
  */
-QCustom3DItem::QCustom3DItem(const QString &meshFile, const QVector3D &position,
-                             const QVector3D &scaling, const QQuaternion &rotation,
-                             const QImage &texture, QObject *parent) :
-    QObject(parent),
-    d_ptr(new QCustom3DItemPrivate(this, meshFile, position, scaling, rotation))
+QCustom3DItem::QCustom3DItem(const QString &meshFile,
+                             const QVector3D &position,
+                             const QVector3D &scaling,
+                             const QQuaternion &rotation,
+                             const QImage &texture,
+                             QObject *parent)
+    : QObject(parent)
+    , d_ptr(new QCustom3DItemPrivate(this, meshFile, position, scaling, rotation))
 {
     setTextureImage(texture);
 }
@@ -163,9 +171,7 @@ QCustom3DItem::QCustom3DItem(const QString &meshFile, const QVector3D &position,
 /*!
  * Deletes the custom 3D item.
  */
-QCustom3DItem::~QCustom3DItem()
-{
-}
+QCustom3DItem::~QCustom3DItem() {}
 
 /*! \property QCustom3DItem::meshFile
  *
@@ -201,12 +207,13 @@ QString QCustom3DItem::meshFile() const
  *
  * Item position is specified either in data coordinates or in absolute
  * coordinates, depending on the
- * positionAbsolute property. When using absolute coordinates, values between \c{-1.0...1.0} are
- * within axis ranges.
+ * positionAbsolute property. When using absolute coordinates, values between
+ * \c{-1.0...1.0} are within axis ranges.
  *
- * \note Items positioned outside any axis range are not rendered if positionAbsolute is \c{false},
- * unless the item is a QCustom3DVolume that would be partially visible and scalingAbsolute is also
- * \c{false}. In that case, the visible portion of the volume will be rendered.
+ * \note Items positioned outside any axis range are not rendered if
+ * positionAbsolute is \c{false}, unless the item is a QCustom3DVolume that
+ * would be partially visible and scalingAbsolute is also \c{false}. In that
+ * case, the visible portion of the volume will be rendered.
  *
  * \sa positionAbsolute
  */
@@ -229,11 +236,12 @@ QVector3D QCustom3DItem::position() const
 
 /*! \property QCustom3DItem::positionAbsolute
  *
- * \brief Whether item position is to be handled in data coordinates or in absolute
- * coordinates.
+ * \brief Whether item position is to be handled in data coordinates or in
+ * absolute coordinates.
  *
- * Defaults to \c{false}. Items with absolute coordinates will always be rendered,
- * whereas items with data coordinates are only rendered if they are within axis ranges.
+ * Defaults to \c{false}. Items with absolute coordinates will always be
+ * rendered, whereas items with data coordinates are only rendered if they are
+ * within axis ranges.
  *
  * \sa position
  */
@@ -261,9 +269,10 @@ bool QCustom3DItem::isPositionAbsolute() const
  * Defaults to \c {QVector3D(0.1, 0.1, 0.1)}.
  *
  * Item scaling is either in data values or in absolute values, depending on the
- * scalingAbsolute property. The default vector interpreted as absolute values sets the item to
- * 10% of the height of the graph, provided the item mesh is normalized and the graph aspect ratios
- * have not been changed from the defaults.
+ * scalingAbsolute property. The default vector interpreted as absolute values
+ * sets the item to 10% of the height of the graph, provided the item mesh is
+ * normalized and the graph aspect ratios have not been changed from the
+ * defaults.
  *
  * \sa scalingAbsolute
  */
@@ -292,17 +301,18 @@ QVector3D QCustom3DItem::scaling() const
  * Defaults to \c{true}.
  *
  * Items with absolute scaling will be rendered at the same
- * size, regardless of axis ranges. Items with data scaling will change their apparent size
- * according to the axis ranges. If positionAbsolute is \c{true}, this property is ignored
- * and scaling is interpreted as an absolute value. If the item has rotation, the data scaling
- * is calculated on the unrotated item. Similarly, for QCustom3DVolume items, the range clipping
- * is calculated on the unrotated item.
+ * size, regardless of axis ranges. Items with data scaling will change their
+ * apparent size according to the axis ranges. If positionAbsolute is \c{true},
+ * this property is ignored and scaling is interpreted as an absolute value. If
+ * the item has rotation, the data scaling is calculated on the unrotated item.
+ * Similarly, for QCustom3DVolume items, the range clipping is calculated on the
+ * unrotated item.
  *
- * \note Only absolute scaling is supported for QCustom3DLabel items or for custom items used in
- * \l{QAbstract3DGraph::polar}{polar} graphs.
+ * \note Only absolute scaling is supported for QCustom3DLabel items or for
+ * custom items used in \l{QAbstract3DGraph::polar}{polar} graphs.
  *
- * \note The custom item's mesh must be normalized to the range \c{[-1 ,1]}, or the data
- * scaling will not be accurate.
+ * \note The custom item's mesh must be normalized to the range \c{[-1 ,1]}, or
+ * the data scaling will not be accurate.
  *
  * \sa scaling, positionAbsolute
  */
@@ -371,13 +381,13 @@ bool QCustom3DItem::isVisible() const
     return d->m_visible;
 }
 
-
 /*! \property QCustom3DItem::shadowCasting
  *
  * \brief Whether shadow casting for the item is enabled.
  *
  * Defaults to \c{true}.
- * If \c{false}, the item does not cast shadows regardless of QAbstract3DGraph::ShadowQuality.
+ * If \c{false}, the item does not cast shadows regardless of
+ * QAbstract3DGraph::ShadowQuality.
  */
 void QCustom3DItem::setShadowCasting(bool enabled)
 {
@@ -468,42 +478,40 @@ QString QCustom3DItem::textureFile() const
     return d->m_textureFile;
 }
 
-QCustom3DItemPrivate::QCustom3DItemPrivate(QCustom3DItem *q) :
-    m_textureImage(QImage(1, 1, QImage::Format_ARGB32)),
-    m_position(QVector3D(0.0f, 0.0f, 0.0f)),
-    m_positionAbsolute(false),
-    m_scaling(QVector3D(0.1f, 0.1f, 0.1f)),
-    m_scalingAbsolute(true),
-    m_rotation(QQuaternion()),
-    m_visible(true),
-    m_shadowCasting(true),
-    m_isLabelItem(false),
-    m_isVolumeItem(false),
-    q_ptr(q)
-{
-}
+QCustom3DItemPrivate::QCustom3DItemPrivate(QCustom3DItem *q)
+    : m_textureImage(QImage(1, 1, QImage::Format_ARGB32))
+    , m_position(QVector3D(0.0f, 0.0f, 0.0f))
+    , m_positionAbsolute(false)
+    , m_scaling(QVector3D(0.1f, 0.1f, 0.1f))
+    , m_scalingAbsolute(true)
+    , m_rotation(QQuaternion())
+    , m_visible(true)
+    , m_shadowCasting(true)
+    , m_isLabelItem(false)
+    , m_isVolumeItem(false)
+    , q_ptr(q)
+{}
 
-QCustom3DItemPrivate::QCustom3DItemPrivate(QCustom3DItem *q, const QString &meshFile,
-                                           const QVector3D &position, const QVector3D &scaling,
-                                           const QQuaternion &rotation) :
-    m_textureImage(QImage(1, 1, QImage::Format_ARGB32)),
-    m_meshFile(meshFile),
-    m_position(position),
-    m_positionAbsolute(false),
-    m_scaling(scaling),
-    m_scalingAbsolute(true),
-    m_rotation(rotation),
-    m_visible(true),
-    m_shadowCasting(true),
-    m_isLabelItem(false),
-    m_isVolumeItem(false),
-    q_ptr(q)
-{
-}
+QCustom3DItemPrivate::QCustom3DItemPrivate(QCustom3DItem *q,
+                                           const QString &meshFile,
+                                           const QVector3D &position,
+                                           const QVector3D &scaling,
+                                           const QQuaternion &rotation)
+    : m_textureImage(QImage(1, 1, QImage::Format_ARGB32))
+    , m_meshFile(meshFile)
+    , m_position(position)
+    , m_positionAbsolute(false)
+    , m_scaling(scaling)
+    , m_scalingAbsolute(true)
+    , m_rotation(rotation)
+    , m_visible(true)
+    , m_shadowCasting(true)
+    , m_isLabelItem(false)
+    , m_isVolumeItem(false)
+    , q_ptr(q)
+{}
 
-QCustom3DItemPrivate::~QCustom3DItemPrivate()
-{
-}
+QCustom3DItemPrivate::~QCustom3DItemPrivate() {}
 
 QImage QCustom3DItemPrivate::textureImage()
 {

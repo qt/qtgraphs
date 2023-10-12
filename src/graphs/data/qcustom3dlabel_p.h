@@ -14,8 +14,8 @@
 #ifndef QCUSTOMLABELITEM_P_H
 #define QCUSTOMLABELITEM_P_H
 
-#include "qcustom3dlabel.h"
 #include "qcustom3ditem_p.h"
+#include "qcustom3dlabel.h"
 
 QT_BEGIN_NAMESPACE
 
@@ -25,8 +25,11 @@ class QCustom3DLabelPrivate : public QCustom3DItemPrivate
 
 public:
     QCustom3DLabelPrivate(QCustom3DLabel *q);
-    QCustom3DLabelPrivate(QCustom3DLabel *q, const QString &text, const QFont &font,
-                          const QVector3D &position, const QVector3D &scaling,
+    QCustom3DLabelPrivate(QCustom3DLabel *q,
+                          const QString &text,
+                          const QFont &font,
+                          const QVector3D &position,
+                          const QVector3D &scaling,
                           const QQuaternion &rotation);
     virtual ~QCustom3DLabelPrivate();
 

@@ -18,25 +18,25 @@
 
 QT_BEGIN_NAMESPACE
 
-struct QCustomItemDirtyBitField {
-    bool textureDirty               : 1;
-    bool meshDirty                  : 1;
-    bool positionDirty              : 1;
-    bool scalingDirty               : 1;
-    bool rotationDirty              : 1;
-    bool visibleDirty               : 1;
-    bool shadowCastingDirty         : 1;
+struct QCustomItemDirtyBitField
+{
+    bool textureDirty : 1;
+    bool meshDirty : 1;
+    bool positionDirty : 1;
+    bool scalingDirty : 1;
+    bool rotationDirty : 1;
+    bool visibleDirty : 1;
+    bool shadowCastingDirty : 1;
 
     QCustomItemDirtyBitField()
-        : textureDirty(false),
-          meshDirty(false),
-          positionDirty(false),
-          scalingDirty(false),
-          rotationDirty(false),
-          visibleDirty(false),
-          shadowCastingDirty(false)
-    {
-    }
+        : textureDirty(false)
+        , meshDirty(false)
+        , positionDirty(false)
+        , scalingDirty(false)
+        , rotationDirty(false)
+        , visibleDirty(false)
+        , shadowCastingDirty(false)
+    {}
 };
 
 class QCustom3DItemPrivate
@@ -45,8 +45,11 @@ class QCustom3DItemPrivate
 
 public:
     QCustom3DItemPrivate(QCustom3DItem *q);
-    QCustom3DItemPrivate(QCustom3DItem *q, const QString &meshFile, const QVector3D &position,
-                         const QVector3D &scaling, const QQuaternion &rotation);
+    QCustom3DItemPrivate(QCustom3DItem *q,
+                         const QString &meshFile,
+                         const QVector3D &position,
+                         const QVector3D &scaling,
+                         const QQuaternion &rotation);
     virtual ~QCustom3DItemPrivate();
 
     QImage textureImage();

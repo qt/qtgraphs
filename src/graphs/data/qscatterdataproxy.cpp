@@ -1,9 +1,9 @@
 // Copyright (C) 2023 The Qt Company Ltd.
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 
-#include "qscatterdataproxy_p.h"
-#include "qscatter3dseries_p.h"
 #include "qabstract3daxis_p.h"
+#include "qscatter3dseries_p.h"
+#include "qscatterdataproxy_p.h"
 
 QT_BEGIN_NAMESPACE
 
@@ -39,7 +39,8 @@ QT_BEGIN_NAMESPACE
  *
  * This type handles adding, inserting, changing, and removing data items.
  *
- * This type is uncreatable, but contains properties that are exposed via subtypes.
+ * This type is uncreatable, but contains properties that are exposed via
+ * subtypes.
  *
  * \sa ItemModelScatterDataProxy, {Qt Graphs Data Handling}
  */
@@ -58,25 +59,21 @@ QT_BEGIN_NAMESPACE
 /*!
  * Constructs QScatterDataProxy with the given \a parent.
  */
-QScatterDataProxy::QScatterDataProxy(QObject *parent) :
-    QAbstractDataProxy(new QScatterDataProxyPrivate(this), parent)
-{
-}
+QScatterDataProxy::QScatterDataProxy(QObject *parent)
+    : QAbstractDataProxy(new QScatterDataProxyPrivate(this), parent)
+{}
 
 /*!
  * \internal
  */
-QScatterDataProxy::QScatterDataProxy(QScatterDataProxyPrivate *d, QObject *parent) :
-    QAbstractDataProxy(d, parent)
-{
-}
+QScatterDataProxy::QScatterDataProxy(QScatterDataProxyPrivate *d, QObject *parent)
+    : QAbstractDataProxy(d, parent)
+{}
 
 /*!
  * Deletes the scatter data proxy.
  */
-QScatterDataProxy::~QScatterDataProxy()
-{
-}
+QScatterDataProxy::~QScatterDataProxy() {}
 
 /*!
  * \property QScatterDataProxy::series
@@ -283,8 +280,7 @@ const QScatterDataItem &QScatterDataProxy::itemAt(int index) const
 
 QScatterDataProxyPrivate::QScatterDataProxyPrivate(QScatterDataProxy *q)
     : QAbstractDataProxyPrivate(q, QAbstractDataProxy::DataType::Scatter)
-{
-}
+{}
 
 QScatterDataProxyPrivate::~QScatterDataProxyPrivate()
 {
@@ -346,8 +342,10 @@ void QScatterDataProxyPrivate::removeItems(int index, int removeCount)
     m_dataArray.remove(index, removeCount);
 }
 
-void QScatterDataProxyPrivate::limitValues(QVector3D &minValues, QVector3D &maxValues,
-                                           QAbstract3DAxis *axisX, QAbstract3DAxis *axisY,
+void QScatterDataProxyPrivate::limitValues(QVector3D &minValues,
+                                           QVector3D &maxValues,
+                                           QAbstract3DAxis *axisX,
+                                           QAbstract3DAxis *axisY,
                                            QAbstract3DAxis *axisZ) const
 {
     if (m_dataArray.isEmpty())
@@ -401,12 +399,13 @@ void QScatterDataProxyPrivate::limitValues(QVector3D &minValues, QVector3D &maxV
     maxValues.setZ(maxZ);
 }
 
-bool QScatterDataProxyPrivate::isValidValue(float axisValue, float value,
+bool QScatterDataProxyPrivate::isValidValue(float axisValue,
+                                            float value,
                                             QAbstract3DAxis *axis) const
 {
-    return (axisValue > value && (value > 0.0f
-                                  || (value == 0.0f && axis->d_func()->allowZero())
-                                  || (value < 0.0f && axis->d_func()->allowNegatives())));
+    return (axisValue > value
+            && (value > 0.0f || (value == 0.0f && axis->d_func()->allowZero())
+                || (value < 0.0f && axis->d_func()->allowNegatives())));
 }
 
 void QScatterDataProxyPrivate::setSeries(QAbstract3DSeries *series)

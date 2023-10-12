@@ -46,13 +46,14 @@ QT_BEGIN_NAMESPACE
 
 /*! \qmlproperty font Custom3DLabel::font
  *
- * The font to be used for the label. Defaults to \c{Font {family: "Arial"; pointSize: 20}}.
- * Special formatting (for example, outlined) is not supported.
+ * The font to be used for the label. Defaults to \c{Font {family: "Arial";
+ * pointSize: 20}}. Special formatting (for example, outlined) is not supported.
  */
 
 /*! \qmlproperty color Custom3DLabel::textColor
  *
- * The color for the label text. Also affects label border, if enabled. Defaults to \c{"white"}.
+ * The color for the label text. Also affects label border, if enabled. Defaults
+ * to \c{"white"}.
  *
  * \sa borderEnabled
  */
@@ -84,32 +85,30 @@ QT_BEGIN_NAMESPACE
 /*!
  * Constructs a custom 3D label with the given \a parent.
  */
-QCustom3DLabel::QCustom3DLabel(QObject *parent) :
-    QCustom3DItem(new QCustom3DLabelPrivate(this), parent)
-{
-}
+QCustom3DLabel::QCustom3DLabel(QObject *parent)
+    : QCustom3DItem(new QCustom3DLabelPrivate(this), parent)
+{}
 
 /*!
- * Constructs a custom 3D label with the given \a text, \a font, \a position, \a scaling,
- * \a rotation, and optional \a parent.
+ * Constructs a custom 3D label with the given \a text, \a font, \a position, \a
+ * scaling, \a rotation, and optional \a parent.
  *
  * \note Setting the same x- and y-coordinates for \a scaling retains the
  * original font dimensions.
  */
-QCustom3DLabel::QCustom3DLabel(const QString &text, const QFont &font,
-                               const QVector3D &position, const QVector3D &scaling,
-                               const QQuaternion &rotation, QObject *parent) :
-    QCustom3DItem(new QCustom3DLabelPrivate(this, text, font, position, scaling, rotation),
-                  parent)
-{
-}
+QCustom3DLabel::QCustom3DLabel(const QString &text,
+                               const QFont &font,
+                               const QVector3D &position,
+                               const QVector3D &scaling,
+                               const QQuaternion &rotation,
+                               QObject *parent)
+    : QCustom3DItem(new QCustom3DLabelPrivate(this, text, font, position, scaling, rotation), parent)
+{}
 
 /*!
  * Deletes the custom 3D label.
  */
-QCustom3DLabel::~QCustom3DLabel()
-{
-}
+QCustom3DLabel::~QCustom3DLabel() {}
 
 /*! \property QCustom3DLabel::text
  *
@@ -277,44 +276,44 @@ bool QCustom3DLabel::isFacingCamera() const
     return d->m_facingCamera;
 }
 
-QCustom3DLabelPrivate::QCustom3DLabelPrivate(QCustom3DLabel *q) :
-    QCustom3DItemPrivate(q),
-    m_font(QFont(QStringLiteral("Arial"), 20)),
-    m_bgrColor(Qt::gray),
-    m_txtColor(Qt::white),
-    m_background(true),
-    m_borders(true),
-    m_facingCamera(false),
-    m_customVisuals(false),
-    m_facingCameraDirty(false)
+QCustom3DLabelPrivate::QCustom3DLabelPrivate(QCustom3DLabel *q)
+    : QCustom3DItemPrivate(q)
+    , m_font(QFont(QStringLiteral("Arial"), 20))
+    , m_bgrColor(Qt::gray)
+    , m_txtColor(Qt::white)
+    , m_background(true)
+    , m_borders(true)
+    , m_facingCamera(false)
+    , m_customVisuals(false)
+    , m_facingCameraDirty(false)
 {
     m_isLabelItem = true;
     m_shadowCasting = false;
     m_meshFile = QStringLiteral(":/defaultMeshes/plane");
 }
 
-QCustom3DLabelPrivate::QCustom3DLabelPrivate(QCustom3DLabel *q, const QString &text,
-                                             const QFont &font, const QVector3D &position,
+QCustom3DLabelPrivate::QCustom3DLabelPrivate(QCustom3DLabel *q,
+                                             const QString &text,
+                                             const QFont &font,
+                                             const QVector3D &position,
                                              const QVector3D &scaling,
-                                             const QQuaternion &rotation) :
-    QCustom3DItemPrivate(q, QStringLiteral(":/defaultMeshes/plane"), position, scaling, rotation),
-    m_text(text),
-    m_font(font),
-    m_bgrColor(Qt::gray),
-    m_txtColor(Qt::white),
-    m_background(true),
-    m_borders(true),
-    m_facingCamera(false),
-    m_customVisuals(false),
-    m_facingCameraDirty(false)
+                                             const QQuaternion &rotation)
+    : QCustom3DItemPrivate(q, QStringLiteral(":/defaultMeshes/plane"), position, scaling, rotation)
+    , m_text(text)
+    , m_font(font)
+    , m_bgrColor(Qt::gray)
+    , m_txtColor(Qt::white)
+    , m_background(true)
+    , m_borders(true)
+    , m_facingCamera(false)
+    , m_customVisuals(false)
+    , m_facingCameraDirty(false)
 {
     m_isLabelItem = true;
     m_shadowCasting = false;
 }
 
-QCustom3DLabelPrivate::~QCustom3DLabelPrivate()
-{
-}
+QCustom3DLabelPrivate::~QCustom3DLabelPrivate() {}
 
 void QCustom3DLabelPrivate::resetDirtyBits()
 {

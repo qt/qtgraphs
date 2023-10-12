@@ -6,18 +6,18 @@
 QT_BEGIN_NAMESPACE
 
 AbstractItemModelHandler::AbstractItemModelHandler(QObject *parent)
-    : QObject(parent),
-      resolvePending(0),
-      m_fullReset(true)
+    : QObject(parent)
+    , resolvePending(0)
+    , m_fullReset(true)
 {
     m_resolveTimer.setSingleShot(true);
-    QObject::connect(&m_resolveTimer, &QTimer::timeout,
-                     this, &AbstractItemModelHandler::handlePendingResolve);
+    QObject::connect(&m_resolveTimer,
+                     &QTimer::timeout,
+                     this,
+                     &AbstractItemModelHandler::handlePendingResolve);
 }
 
-AbstractItemModelHandler::~AbstractItemModelHandler()
-{
-}
+AbstractItemModelHandler::~AbstractItemModelHandler() {}
 
 void AbstractItemModelHandler::setItemModel(QAbstractItemModel *itemModel)
 {
@@ -28,24 +28,42 @@ void AbstractItemModelHandler::setItemModel(QAbstractItemModel *itemModel)
         m_itemModel = itemModel;
 
         if (!m_itemModel.isNull()) {
-            QObject::connect(m_itemModel.data(), &QAbstractItemModel::columnsInserted,
-                             this, &AbstractItemModelHandler::handleColumnsInserted);
-            QObject::connect(m_itemModel.data(), &QAbstractItemModel::columnsMoved,
-                             this, &AbstractItemModelHandler::handleColumnsMoved);
-            QObject::connect(m_itemModel.data(), &QAbstractItemModel::columnsRemoved,
-                             this, &AbstractItemModelHandler::handleColumnsRemoved);
-            QObject::connect(m_itemModel.data(), &QAbstractItemModel::dataChanged,
-                             this, &AbstractItemModelHandler::handleDataChanged);
-            QObject::connect(m_itemModel.data(), &QAbstractItemModel::layoutChanged,
-                             this, &AbstractItemModelHandler::handleLayoutChanged);
-            QObject::connect(m_itemModel.data(), &QAbstractItemModel::modelReset,
-                             this, &AbstractItemModelHandler::handleModelReset);
-            QObject::connect(m_itemModel.data(), &QAbstractItemModel::rowsInserted,
-                             this, &AbstractItemModelHandler::handleRowsInserted);
-            QObject::connect(m_itemModel.data(), &QAbstractItemModel::rowsMoved,
-                             this, &AbstractItemModelHandler::handleRowsMoved);
-            QObject::connect(m_itemModel.data(), &QAbstractItemModel::rowsRemoved,
-                             this, &AbstractItemModelHandler::handleRowsRemoved);
+            QObject::connect(m_itemModel.data(),
+                             &QAbstractItemModel::columnsInserted,
+                             this,
+                             &AbstractItemModelHandler::handleColumnsInserted);
+            QObject::connect(m_itemModel.data(),
+                             &QAbstractItemModel::columnsMoved,
+                             this,
+                             &AbstractItemModelHandler::handleColumnsMoved);
+            QObject::connect(m_itemModel.data(),
+                             &QAbstractItemModel::columnsRemoved,
+                             this,
+                             &AbstractItemModelHandler::handleColumnsRemoved);
+            QObject::connect(m_itemModel.data(),
+                             &QAbstractItemModel::dataChanged,
+                             this,
+                             &AbstractItemModelHandler::handleDataChanged);
+            QObject::connect(m_itemModel.data(),
+                             &QAbstractItemModel::layoutChanged,
+                             this,
+                             &AbstractItemModelHandler::handleLayoutChanged);
+            QObject::connect(m_itemModel.data(),
+                             &QAbstractItemModel::modelReset,
+                             this,
+                             &AbstractItemModelHandler::handleModelReset);
+            QObject::connect(m_itemModel.data(),
+                             &QAbstractItemModel::rowsInserted,
+                             this,
+                             &AbstractItemModelHandler::handleRowsInserted);
+            QObject::connect(m_itemModel.data(),
+                             &QAbstractItemModel::rowsMoved,
+                             this,
+                             &AbstractItemModelHandler::handleRowsMoved);
+            QObject::connect(m_itemModel.data(),
+                             &QAbstractItemModel::rowsRemoved,
+                             this,
+                             &AbstractItemModelHandler::handleRowsRemoved);
         }
         if (!m_resolveTimer.isActive())
             m_resolveTimer.start(0);
@@ -59,15 +77,15 @@ QAbstractItemModel *AbstractItemModelHandler::itemModel() const
     return m_itemModel.data();
 }
 
-void AbstractItemModelHandler::handleColumnsInserted(const QModelIndex &parent,
-                                                     int start, int end)
+void AbstractItemModelHandler::handleColumnsInserted(const QModelIndex &parent, int start, int end)
 {
     Q_UNUSED(parent);
     Q_UNUSED(start);
     Q_UNUSED(end);
 
-    // Manipulating columns changes all rows in proxies that map rows/columns directly,
-    // and its effects are not clearly defined in others -> always do full reset.
+    // Manipulating columns changes all rows in proxies that map rows/columns
+    // directly, and its effects are not clearly defined in others -> always do
+    // full reset.
     if (!m_resolveTimer.isActive()) {
         m_fullReset = true;
         m_resolveTimer.start(0);
@@ -86,23 +104,24 @@ void AbstractItemModelHandler::handleColumnsMoved(const QModelIndex &sourceParen
     Q_UNUSED(destinationParent);
     Q_UNUSED(destinationColumn);
 
-    // Manipulating columns changes all rows in proxies that map rows/columns directly,
-    // and its effects are not clearly defined in others -> always do full reset.
+    // Manipulating columns changes all rows in proxies that map rows/columns
+    // directly, and its effects are not clearly defined in others -> always do
+    // full reset.
     if (!m_resolveTimer.isActive()) {
         m_fullReset = true;
         m_resolveTimer.start(0);
     }
 }
 
-void AbstractItemModelHandler::handleColumnsRemoved(const QModelIndex &parent,
-                                                    int start, int end)
+void AbstractItemModelHandler::handleColumnsRemoved(const QModelIndex &parent, int start, int end)
 {
     Q_UNUSED(parent);
     Q_UNUSED(start);
     Q_UNUSED(end);
 
-    // Manipulating columns changes all rows in proxies that map rows/columns directly,
-    // and its effects are not clearly defined in others -> always do full reset.
+    // Manipulating columns changes all rows in proxies that map rows/columns
+    // directly, and its effects are not clearly defined in others -> always do
+    // full reset.
     if (!m_resolveTimer.isActive()) {
         m_fullReset = true;
         m_resolveTimer.start(0);
@@ -117,9 +136,9 @@ void AbstractItemModelHandler::handleDataChanged(const QModelIndex &topLeft,
     Q_UNUSED(bottomRight);
     Q_UNUSED(roles);
 
-    // Default handling for dataChanged is to do full reset, as it cannot be optimized
-    // in a general case, where we do not know which row/column/index the item model item
-    // actually ended up to in the proxy.
+    // Default handling for dataChanged is to do full reset, as it cannot be
+    // optimized in a general case, where we do not know which row/column/index
+    // the item model item actually ended up to in the proxy.
     if (!m_resolveTimer.isActive()) {
         m_fullReset = true;
         m_resolveTimer.start(0);
@@ -154,9 +173,9 @@ void AbstractItemModelHandler::handleRowsInserted(const QModelIndex &parent, int
     Q_UNUSED(start);
     Q_UNUSED(end);
 
-    // Default handling for rowsInserted is to do full reset, as it cannot be optimized
-    // in a general case, where we do not know which row/column/index the item model item
-    // actually ended up to in the proxy.
+    // Default handling for rowsInserted is to do full reset, as it cannot be
+    // optimized in a general case, where we do not know which row/column/index
+    // the item model item actually ended up to in the proxy.
     if (!m_resolveTimer.isActive()) {
         m_fullReset = true;
         m_resolveTimer.start(0);
@@ -175,9 +194,9 @@ void AbstractItemModelHandler::handleRowsMoved(const QModelIndex &sourceParent,
     Q_UNUSED(destinationParent);
     Q_UNUSED(destinationRow);
 
-    // Default handling for rowsMoved is to do full reset, as it cannot be optimized
-    // in a general case, where we do not know which row/column/index the item model item
-    // actually ended up to in the proxy.
+    // Default handling for rowsMoved is to do full reset, as it cannot be
+    // optimized in a general case, where we do not know which row/column/index
+    // the item model item actually ended up to in the proxy.
     if (!m_resolveTimer.isActive()) {
         m_fullReset = true;
         m_resolveTimer.start(0);
@@ -190,9 +209,9 @@ void AbstractItemModelHandler::handleRowsRemoved(const QModelIndex &parent, int 
     Q_UNUSED(start);
     Q_UNUSED(end);
 
-    // Default handling for rowsRemoved is to do full reset, as it cannot be optimized
-    // in a general case, where we do not know which row/column/index the item model item
-    // actually ended up to in the proxy.
+    // Default handling for rowsRemoved is to do full reset, as it cannot be
+    // optimized in a general case, where we do not know which row/column/index
+    // the item model item actually ended up to in the proxy.
     if (!m_resolveTimer.isActive()) {
         m_fullReset = true;
         m_resolveTimer.start(0);

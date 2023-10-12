@@ -4,8 +4,8 @@
 #ifndef QCUSTOM3DVOLUME_H
 #define QCUSTOM3DVOLUME_H
 
-#include <QtGraphs/qgraphsglobal.h>
 #include <QtGraphs/QCustom3DItem>
+#include <QtGraphs/qgraphsglobal.h>
 #include <QtGui/QColor>
 #include <QtGui/QImage>
 
@@ -18,31 +18,44 @@ class Q_GRAPHS_EXPORT QCustom3DVolume : public QCustom3DItem
     Q_OBJECT
     Q_DECLARE_PRIVATE(QCustom3DVolume)
     Q_PROPERTY(int textureWidth READ textureWidth WRITE setTextureWidth NOTIFY textureWidthChanged)
-    Q_PROPERTY(int textureHeight READ textureHeight WRITE setTextureHeight NOTIFY textureHeightChanged)
+    Q_PROPERTY(
+        int textureHeight READ textureHeight WRITE setTextureHeight NOTIFY textureHeightChanged)
     Q_PROPERTY(int textureDepth READ textureDepth WRITE setTextureDepth NOTIFY textureDepthChanged)
     Q_PROPERTY(int sliceIndexX READ sliceIndexX WRITE setSliceIndexX NOTIFY sliceIndexXChanged)
     Q_PROPERTY(int sliceIndexY READ sliceIndexY WRITE setSliceIndexY NOTIFY sliceIndexYChanged)
     Q_PROPERTY(int sliceIndexZ READ sliceIndexZ WRITE setSliceIndexZ NOTIFY sliceIndexZChanged)
     Q_PROPERTY(QList<QRgb> colorTable READ colorTable WRITE setColorTable NOTIFY colorTableChanged)
-    Q_PROPERTY(QList<uchar> *textureData READ textureData WRITE setTextureData NOTIFY
-                       textureDataChanged)
-    Q_PROPERTY(float alphaMultiplier READ alphaMultiplier WRITE setAlphaMultiplier NOTIFY alphaMultiplierChanged)
-    Q_PROPERTY(bool preserveOpacity READ preserveOpacity WRITE setPreserveOpacity NOTIFY preserveOpacityChanged)
-    Q_PROPERTY(bool useHighDefShader READ useHighDefShader WRITE setUseHighDefShader NOTIFY useHighDefShaderChanged)
+    Q_PROPERTY(
+        QList<uchar> *textureData READ textureData WRITE setTextureData NOTIFY textureDataChanged)
+    Q_PROPERTY(float alphaMultiplier READ alphaMultiplier WRITE setAlphaMultiplier NOTIFY
+                   alphaMultiplierChanged)
+    Q_PROPERTY(bool preserveOpacity READ preserveOpacity WRITE setPreserveOpacity NOTIFY
+                   preserveOpacityChanged)
+    Q_PROPERTY(bool useHighDefShader READ useHighDefShader WRITE setUseHighDefShader NOTIFY
+                   useHighDefShaderChanged)
     Q_PROPERTY(bool drawSlices READ drawSlices WRITE setDrawSlices NOTIFY drawSlicesChanged)
-    Q_PROPERTY(bool drawSliceFrames READ drawSliceFrames WRITE setDrawSliceFrames NOTIFY drawSliceFramesChanged)
-    Q_PROPERTY(QColor sliceFrameColor READ sliceFrameColor WRITE setSliceFrameColor NOTIFY sliceFrameColorChanged)
-    Q_PROPERTY(QVector3D sliceFrameWidths READ sliceFrameWidths WRITE setSliceFrameWidths NOTIFY sliceFrameWidthsChanged)
-    Q_PROPERTY(QVector3D sliceFrameGaps READ sliceFrameGaps WRITE setSliceFrameGaps NOTIFY sliceFrameGapsChanged)
-    Q_PROPERTY(QVector3D sliceFrameThicknesses READ sliceFrameThicknesses WRITE setSliceFrameThicknesses NOTIFY sliceFrameThicknessesChanged)
+    Q_PROPERTY(bool drawSliceFrames READ drawSliceFrames WRITE setDrawSliceFrames NOTIFY
+                   drawSliceFramesChanged)
+    Q_PROPERTY(QColor sliceFrameColor READ sliceFrameColor WRITE setSliceFrameColor NOTIFY
+                   sliceFrameColorChanged)
+    Q_PROPERTY(QVector3D sliceFrameWidths READ sliceFrameWidths WRITE setSliceFrameWidths NOTIFY
+                   sliceFrameWidthsChanged)
+    Q_PROPERTY(QVector3D sliceFrameGaps READ sliceFrameGaps WRITE setSliceFrameGaps NOTIFY
+                   sliceFrameGapsChanged)
+    Q_PROPERTY(QVector3D sliceFrameThicknesses READ sliceFrameThicknesses WRITE
+                   setSliceFrameThicknesses NOTIFY sliceFrameThicknessesChanged)
 
 public:
-
     explicit QCustom3DVolume(QObject *parent = nullptr);
-    explicit QCustom3DVolume(const QVector3D &position, const QVector3D &scaling,
-                             const QQuaternion &rotation, int textureWidth, int textureHeight,
-                             int textureDepth, QList<uchar> *textureData,
-                             QImage::Format textureFormat, const QList<QRgb> &colorTable,
+    explicit QCustom3DVolume(const QVector3D &position,
+                             const QVector3D &scaling,
+                             const QQuaternion &rotation,
+                             int textureWidth,
+                             int textureHeight,
+                             int textureDepth,
+                             QList<uchar> *textureData,
+                             QImage::Format textureFormat,
+                             const QList<QRgb> &colorTable,
                              QObject *parent = nullptr);
     virtual ~QCustom3DVolume();
 

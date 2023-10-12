@@ -99,9 +99,10 @@ QT_BEGIN_NAMESPACE
 /*!
  * \qmlproperty string Abstract3DSeries::itemLabelFormat
  *
- * The label format for data items in this series. This format is used for single item labels,
- * for example, when an item is selected. How the format is interpreted depends
- * on series type: Bar3DSeries, Scatter3DSeries, Surface3DSeries.
+ * The label format for data items in this series. This format is used for
+ * single item labels, for example, when an item is selected. How the format is
+ * interpreted depends on series type: Bar3DSeries, Scatter3DSeries,
+ * Surface3DSeries.
  */
 
 /*!
@@ -113,9 +114,10 @@ QT_BEGIN_NAMESPACE
  * \qmlproperty Abstract3DSeries.Mesh Abstract3DSeries::mesh
  *
  * Sets the mesh of the items in the series, or the selection pointer in case of
- * Surface3DSeries. If the mesh is \l{QAbstract3DSeries::Mesh::UserDefined}{Abstract3DSeries.Mesh.UserDefined},
- * then the userDefinedMesh property must also be set for items to render properly.
- * The default value depends on the graph type.
+ * Surface3DSeries. If the mesh is
+ * \l{QAbstract3DSeries::Mesh::UserDefined}{Abstract3DSeries.Mesh.UserDefined},
+ * then the userDefinedMesh property must also be set for items to render
+ * properly. The default value depends on the graph type.
  *
  * \sa QAbstract3DSeries::Mesh
  */
@@ -123,8 +125,9 @@ QT_BEGIN_NAMESPACE
 /*!
  * \qmlproperty bool Abstract3DSeries::meshSmooth
  *
- * If \c true, smooth versions of predefined meshes set via the \l mesh property are used.
- * This property does not affect custom meshes used when the mesh is set to
+ * If \c true, smooth versions of predefined meshes set via the \l mesh property
+ * are used. This property does not affect custom meshes used when the mesh is
+ * set to
  * \l{QAbstract3DSeries::Mesh::UserDefined}{Abstract3DSeries.Mesh.UserDefined}.
  * Defaults to \c{false}.
  */
@@ -144,8 +147,9 @@ QT_BEGIN_NAMESPACE
 /*!
  * \qmlproperty string Abstract3DSeries::userDefinedMesh
  *
- * Sets the filename for a user defined custom mesh for objects that is used when \l mesh
- * is \l{QAbstract3DSeries::Mesh::UserDefined}{Abstract3DSeries.Mesh.UserDefined}.
+ * Sets the filename for a user defined custom mesh for objects that is used
+ * when \l mesh is
+ * \l{QAbstract3DSeries::Mesh::UserDefined}{Abstract3DSeries.Mesh.UserDefined}.
  * \note The file needs to be in the Wavefront OBJ format and include
  * vertices, normals, and UVs. It also needs to be in triangles.
  */
@@ -187,7 +191,8 @@ QT_BEGIN_NAMESPACE
  *
  * Sets the single item highlight gradient of the series.
  *
- * \sa colorStyle, {Theme3D::singleHighlightGradient}{Theme3D.singleHighlightGradient}
+ * \sa colorStyle,
+ * {Theme3D::singleHighlightGradient}{Theme3D.singleHighlightGradient}
  */
 
 /*!
@@ -203,7 +208,8 @@ QT_BEGIN_NAMESPACE
  *
  * Sets the multiple item highlight gradient of the series.
  *
- * \sa colorStyle, {Theme3D::multiHighlightGradient}{Theme3D.multiHighlightGradient}
+ * \sa colorStyle,
+ * {Theme3D::multiHighlightGradient}{Theme3D.multiHighlightGradient}
  */
 
 /*!
@@ -218,8 +224,8 @@ QT_BEGIN_NAMESPACE
 /*!
  * \qmlproperty string Abstract3DSeries::itemLabel
  *
- * The formatted item label. If there is no selected item or the selected item is not
- * visible, returns an empty string.
+ * The formatted item label. If there is no selected item or the selected item
+ * is not visible, returns an empty string.
  *
  * \sa itemLabelFormat
  */
@@ -235,7 +241,8 @@ QT_BEGIN_NAMESPACE
  */
 
 /*!
- * \qmlmethod void Abstract3DSeries::setMeshAxisAndAngle(vector3d axis, real angle)
+ * \qmlmethod void Abstract3DSeries::setMeshAxisAndAngle(vector3d axis, real
+ * angle)
  *
  * A convenience function to construct a mesh rotation quaternion from \a axis
  * and \a angle.
@@ -246,18 +253,15 @@ QT_BEGIN_NAMESPACE
 /*!
  * \internal
  */
-QAbstract3DSeries::QAbstract3DSeries(QAbstract3DSeriesPrivate *d, QObject *parent) :
-    QObject(parent),
-    d_ptr(d)
-{
-}
+QAbstract3DSeries::QAbstract3DSeries(QAbstract3DSeriesPrivate *d, QObject *parent)
+    : QObject(parent)
+    , d_ptr(d)
+{}
 
 /*!
  * Deletes the abstract 3D series.
  */
-QAbstract3DSeries::~QAbstract3DSeries()
-{
-}
+QAbstract3DSeries::~QAbstract3DSeries() {}
 
 /*!
  * \property QAbstract3DSeries::type
@@ -325,14 +329,15 @@ bool QAbstract3DSeries::isVisible() const
  * For QSurface3DSeries, this property holds the selection pointer.
  *
  * If the mesh is MeshUserDefined, then the userDefinedMesh property
- * must also be set for items to render properly. The default value depends on the graph type.
+ * must also be set for items to render properly. The default value depends on
+ * the graph type.
  */
 void QAbstract3DSeries::setMesh(QAbstract3DSeries::Mesh mesh)
 {
     Q_D(QAbstract3DSeries);
     if ((mesh == QAbstract3DSeries::Mesh::Point || mesh == QAbstract3DSeries::Mesh::Minimal
          || mesh == QAbstract3DSeries::Mesh::Arrow)
-            && type() != QAbstract3DSeries::SeriesType::Scatter) {
+        && type() != QAbstract3DSeries::SeriesType::Scatter) {
         qWarning() << "Specified style is only supported for QScatter3DSeries.";
     } else if (d->m_mesh != mesh) {
         d->setMesh(mesh);
@@ -598,7 +603,8 @@ QLinearGradient QAbstract3DSeries::multiHighlightGradient() const
  *
  * \brief The series name.
  *
- * The series name can be used in item label format with the tag \c{@seriesName}.
+ * The series name can be used in item label format with the tag
+ * \c{@seriesName}.
  *
  * \sa itemLabelFormat
  */
@@ -663,25 +669,22 @@ bool QAbstract3DSeries::isItemLabelVisible() const
 
 QAbstract3DSeriesPrivate::QAbstract3DSeriesPrivate(QAbstract3DSeries *q,
                                                    QAbstract3DSeries::SeriesType type)
-    : q_ptr(q),
-      m_type(type),
-      m_dataProxy(0),
-      m_visible(true),
-      m_graph(0),
-      m_mesh(QAbstract3DSeries::Mesh::Cube),
-      m_meshSmooth(false),
-      m_colorStyle(Q3DTheme::ColorStyle::Uniform),
-      m_baseColor(Qt::black),
-      m_singleHighlightColor(Qt::black),
-      m_multiHighlightColor(Qt::black),
-      m_itemLabelDirty(true),
-      m_itemLabelVisible(true)
-{
-}
+    : q_ptr(q)
+    , m_type(type)
+    , m_dataProxy(0)
+    , m_visible(true)
+    , m_graph(0)
+    , m_mesh(QAbstract3DSeries::Mesh::Cube)
+    , m_meshSmooth(false)
+    , m_colorStyle(Q3DTheme::ColorStyle::Uniform)
+    , m_baseColor(Qt::black)
+    , m_singleHighlightColor(Qt::black)
+    , m_multiHighlightColor(Qt::black)
+    , m_itemLabelDirty(true)
+    , m_itemLabelVisible(true)
+{}
 
-QAbstract3DSeriesPrivate::~QAbstract3DSeriesPrivate()
-{
-}
+QAbstract3DSeriesPrivate::~QAbstract3DSeriesPrivate() {}
 
 QAbstractDataProxy *QAbstract3DSeriesPrivate::dataProxy() const
 {
