@@ -47,8 +47,8 @@ Q_SIGNALS:
     void selectedSeriesChanged(QScatter3DSeries *series);
 
 private:
-    QQuickGraphsScatter *dptr();
-    const QQuickGraphsScatter *dptrc() const;
+    QQuickGraphsScatter *graphScatter();
+    const QQuickGraphsScatter *graphScatterc() const;
     Q_DISABLE_COPY(Q3DScatter)
 };
 

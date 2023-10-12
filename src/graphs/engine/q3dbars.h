@@ -87,8 +87,8 @@ Q_SIGNALS:
     void floorLevelChanged(float level);
 
 private:
-    QQuickGraphsBars *dptr();
-    const QQuickGraphsBars *dptrc() const;
+    QQuickGraphsBars *graphBars();
+    const QQuickGraphsBars *graphBarsc() const;
 };
 
 QT_END_NAMESPACE

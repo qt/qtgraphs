@@ -53,8 +53,8 @@ Q_SIGNALS:
     void flipHorizontalGridChanged(bool flip);
 
 private:
-    QQuickGraphsSurface *dptr();
-    const QQuickGraphsSurface *dptrc() const;
+    QQuickGraphsSurface *graphSurface();
+    const QQuickGraphsSurface *graphSurfacec() const;
 };
 
 QT_END_NAMESPACE

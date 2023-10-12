@@ -91,7 +91,7 @@ Q3DScatter::~Q3DScatter() {}
  */
 void Q3DScatter::addSeries(QScatter3DSeries *series)
 {
-    dptr()->addSeries(series);
+    graphScatter()->addSeries(series);
 }
 
 /*!
@@ -101,7 +101,7 @@ void Q3DScatter::addSeries(QScatter3DSeries *series)
  */
 void Q3DScatter::removeSeries(QScatter3DSeries *series)
 {
-    dptr()->removeSeries(series);
+    graphScatter()->removeSeries(series);
 }
 
 /*!
@@ -112,7 +112,7 @@ void Q3DScatter::removeSeries(QScatter3DSeries *series)
 QList<QScatter3DSeries *> Q3DScatter::seriesList() const
 {
     QList<QScatter3DSeries *> scatterSeriesList;
-    for (QAbstract3DSeries *abstractSeries : dptrc()->m_seriesList) {
+    for (QAbstract3DSeries *abstractSeries : graphScatterc()->m_seriesList) {
         QScatter3DSeries *scatterSeries = qobject_cast<QScatter3DSeries *>(abstractSeries);
         if (scatterSeries)
             scatterSeriesList.append(scatterSeries);
@@ -137,12 +137,12 @@ QList<QScatter3DSeries *> Q3DScatter::seriesList() const
  */
 void Q3DScatter::setAxisX(QValue3DAxis *axis)
 {
-    dptr()->setAxisX(axis);
+    graphScatter()->setAxisX(axis);
 }
 
 QValue3DAxis *Q3DScatter::axisX() const
 {
-    return static_cast<QValue3DAxis *>(dptrc()->axisX());
+    return static_cast<QValue3DAxis *>(graphScatterc()->axisX());
 }
 
 /*!
@@ -161,12 +161,12 @@ QValue3DAxis *Q3DScatter::axisX() const
  */
 void Q3DScatter::setAxisY(QValue3DAxis *axis)
 {
-    dptr()->setAxisY(axis);
+    graphScatter()->setAxisY(axis);
 }
 
 QValue3DAxis *Q3DScatter::axisY() const
 {
-    return static_cast<QValue3DAxis *>(dptrc()->axisY());
+    return static_cast<QValue3DAxis *>(graphScatterc()->axisY());
 }
 
 /*!
@@ -185,12 +185,12 @@ QValue3DAxis *Q3DScatter::axisY() const
  */
 void Q3DScatter::setAxisZ(QValue3DAxis *axis)
 {
-    dptr()->setAxisZ(axis);
+    graphScatter()->setAxisZ(axis);
 }
 
 QValue3DAxis *Q3DScatter::axisZ() const
 {
-    return static_cast<QValue3DAxis *>(dptrc()->axisZ());
+    return static_cast<QValue3DAxis *>(graphScatterc()->axisZ());
 }
 
 /*!
@@ -200,7 +200,7 @@ QValue3DAxis *Q3DScatter::axisZ() const
  */
 QScatter3DSeries *Q3DScatter::selectedSeries() const
 {
-    return dptrc()->selectedSeries();
+    return graphScatterc()->selectedSeries();
 }
 
 /*!
@@ -212,7 +212,7 @@ QScatter3DSeries *Q3DScatter::selectedSeries() const
  */
 void Q3DScatter::addAxis(QValue3DAxis *axis)
 {
-    dptr()->addAxis(axis);
+    graphScatter()->addAxis(axis);
 }
 
 /*!
@@ -227,7 +227,7 @@ void Q3DScatter::addAxis(QValue3DAxis *axis)
  */
 void Q3DScatter::releaseAxis(QValue3DAxis *axis)
 {
-    dptr()->releaseAxis(axis);
+    graphScatter()->releaseAxis(axis);
 }
 
 /*!
@@ -237,7 +237,7 @@ void Q3DScatter::releaseAxis(QValue3DAxis *axis)
  */
 QList<QValue3DAxis *> Q3DScatter::axes() const
 {
-    QList<QAbstract3DAxis *> abstractAxes = dptrc()->axes();
+    QList<QAbstract3DAxis *> abstractAxes = graphScatterc()->axes();
     QList<QValue3DAxis *> retList;
     for (QAbstract3DAxis *axis : abstractAxes)
         retList.append(static_cast<QValue3DAxis *>(axis));
@@ -248,7 +248,7 @@ QList<QValue3DAxis *> Q3DScatter::axes() const
 /*!
  * \internal
  */
-QQuickGraphsScatter *Q3DScatter::dptr()
+QQuickGraphsScatter *Q3DScatter::graphScatter()
 {
     return static_cast<QQuickGraphsScatter *>(m_graphsItem.data());
 }
@@ -256,7 +256,7 @@ QQuickGraphsScatter *Q3DScatter::dptr()
 /*!
  * \internal
  */
-const QQuickGraphsScatter *Q3DScatter::dptrc() const
+const QQuickGraphsScatter *Q3DScatter::graphScatterc() const
 {
     return static_cast<const QQuickGraphsScatter *>(m_graphsItem.data());
 }

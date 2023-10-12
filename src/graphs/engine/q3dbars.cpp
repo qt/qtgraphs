@@ -115,13 +115,13 @@ Q3DBars::~Q3DBars() {}
  */
 void Q3DBars::setPrimarySeries(QBar3DSeries *series)
 {
-    dptr()->setPrimarySeries(series);
+    graphBars()->setPrimarySeries(series);
     emit primarySeriesChanged(series);
 }
 
 QBar3DSeries *Q3DBars::primarySeries() const
 {
-    return dptrc()->primarySeries();
+    return graphBarsc()->primarySeries();
 }
 
 /*!
@@ -138,7 +138,7 @@ QBar3DSeries *Q3DBars::primarySeries() const
  */
 void Q3DBars::addSeries(QBar3DSeries *series)
 {
-    dptr()->addSeries(series);
+    graphBars()->addSeries(series);
 }
 
 /*!
@@ -148,7 +148,7 @@ void Q3DBars::addSeries(QBar3DSeries *series)
  */
 void Q3DBars::removeSeries(QBar3DSeries *series)
 {
-    dptr()->removeSeries(series);
+    graphBars()->removeSeries(series);
 }
 
 /*!
@@ -163,7 +163,7 @@ void Q3DBars::removeSeries(QBar3DSeries *series)
  */
 void Q3DBars::insertSeries(int index, QBar3DSeries *series)
 {
-    dptr()->insertSeries(index, series);
+    graphBars()->insertSeries(index, series);
 }
 
 /*!
@@ -174,7 +174,7 @@ void Q3DBars::insertSeries(int index, QBar3DSeries *series)
 QList<QBar3DSeries *> Q3DBars::seriesList() const
 {
     QList<QBar3DSeries *> barSeriesList;
-    for (QAbstract3DSeries *abstractSeries : dptrc()->m_seriesList) {
+    for (QAbstract3DSeries *abstractSeries : graphBarsc()->m_seriesList) {
         QBar3DSeries *barSeries = qobject_cast<QBar3DSeries *>(abstractSeries);
         if (barSeries)
             barSeriesList.append(barSeries);
@@ -194,13 +194,13 @@ QList<QBar3DSeries *> Q3DBars::seriesList() const
  */
 void Q3DBars::setMultiSeriesUniform(bool uniform)
 {
-    dptr()->setMultiSeriesUniform(uniform);
+    graphBars()->setMultiSeriesUniform(uniform);
     emit multiSeriesUniformChanged(uniform);
 }
 
 bool Q3DBars::isMultiSeriesUniform() const
 {
-    return dptrc()->isMultiSeriesUniform();
+    return graphBarsc()->isMultiSeriesUniform();
 }
 
 /*!
@@ -213,13 +213,13 @@ bool Q3DBars::isMultiSeriesUniform() const
  */
 void Q3DBars::setBarThickness(float thicknessRatio)
 {
-    dptr()->setBarThickness(thicknessRatio);
+    graphBars()->setBarThickness(thicknessRatio);
     emit barThicknessChanged(thicknessRatio);
 }
 
 float Q3DBars::barThickness() const
 {
-    return dptrc()->barThickness();
+    return graphBarsc()->barThickness();
 }
 
 /*!
@@ -234,13 +234,13 @@ float Q3DBars::barThickness() const
  */
 void Q3DBars::setBarSpacing(const QSizeF &spacing)
 {
-    dptr()->setBarSpacing(spacing);
+    graphBars()->setBarSpacing(spacing);
     emit barSpacingChanged(spacing);
 }
 
 QSizeF Q3DBars::barSpacing() const
 {
-    return dptrc()->barSpacing();
+    return graphBarsc()->barSpacing();
 }
 
 /*!
@@ -254,13 +254,13 @@ QSizeF Q3DBars::barSpacing() const
  */
 void Q3DBars::setBarSpacingRelative(bool relative)
 {
-    dptr()->setBarSpacingRelative(relative);
+    graphBars()->setBarSpacingRelative(relative);
     emit barSpacingRelativeChanged(relative);
 }
 
 bool Q3DBars::isBarSpacingRelative() const
 {
-    return dptrc()->isBarSpacingRelative();
+    return graphBarsc()->isBarSpacingRelative();
 }
 
 /*!
@@ -277,13 +277,13 @@ bool Q3DBars::isBarSpacingRelative() const
  */
 void Q3DBars::setBarSeriesMargin(const QSizeF &margin)
 {
-    dptr()->setBarSeriesMargin(margin);
+    graphBars()->setBarSeriesMargin(margin);
     emit barSeriesMarginChanged(margin);
 }
 
 QSizeF Q3DBars::barSeriesMargin() const
 {
-    return dptrc()->barSeriesMargin();
+    return graphBarsc()->barSeriesMargin();
 }
 
 /*!
@@ -302,13 +302,13 @@ QSizeF Q3DBars::barSeriesMargin() const
  */
 void Q3DBars::setRowAxis(QCategory3DAxis *axis)
 {
-    dptr()->setRowAxis(axis);
+    graphBars()->setRowAxis(axis);
     emit rowAxisChanged(axis);
 }
 
 QCategory3DAxis *Q3DBars::rowAxis() const
 {
-    return dptrc()->rowAxis();
+    return graphBarsc()->rowAxis();
 }
 
 /*!
@@ -327,13 +327,13 @@ QCategory3DAxis *Q3DBars::rowAxis() const
  */
 void Q3DBars::setColumnAxis(QCategory3DAxis *axis)
 {
-    dptr()->setColumnAxis(axis);
+    graphBars()->setColumnAxis(axis);
     emit columnAxisChanged(axis);
 }
 
 QCategory3DAxis *Q3DBars::columnAxis() const
 {
-    return dptrc()->columnAxis();
+    return graphBarsc()->columnAxis();
 }
 
 /*!
@@ -351,13 +351,13 @@ QCategory3DAxis *Q3DBars::columnAxis() const
  */
 void Q3DBars::setValueAxis(QValue3DAxis *axis)
 {
-    dptr()->setValueAxis(axis);
+    graphBars()->setValueAxis(axis);
     emit valueAxisChanged(axis);
 }
 
 QValue3DAxis *Q3DBars::valueAxis() const
 {
-    return dptrc()->valueAxis();
+    return graphBarsc()->valueAxis();
 }
 
 /*!
@@ -370,7 +370,7 @@ QValue3DAxis *Q3DBars::valueAxis() const
  */
 QBar3DSeries *Q3DBars::selectedSeries() const
 {
-    return dptrc()->selectedSeries();
+    return graphBarsc()->selectedSeries();
 }
 
 /*!
@@ -384,13 +384,13 @@ QBar3DSeries *Q3DBars::selectedSeries() const
  */
 void Q3DBars::setFloorLevel(float level)
 {
-    dptr()->setFloorLevel(level);
+    graphBars()->setFloorLevel(level);
     emit floorLevelChanged(level);
 }
 
 float Q3DBars::floorLevel() const
 {
-    return dptrc()->floorLevel();
+    return graphBarsc()->floorLevel();
 }
 
 /*!
@@ -402,7 +402,7 @@ float Q3DBars::floorLevel() const
  */
 void Q3DBars::addAxis(QAbstract3DAxis *axis)
 {
-    dptr()->addAxis(axis);
+    graphBars()->addAxis(axis);
 }
 
 /*!
@@ -417,7 +417,7 @@ void Q3DBars::addAxis(QAbstract3DAxis *axis)
  */
 void Q3DBars::releaseAxis(QAbstract3DAxis *axis)
 {
-    dptr()->releaseAxis(axis);
+    graphBars()->releaseAxis(axis);
 }
 
 /*!
@@ -427,13 +427,13 @@ void Q3DBars::releaseAxis(QAbstract3DAxis *axis)
  */
 QList<QAbstract3DAxis *> Q3DBars::axes() const
 {
-    return dptrc()->axes();
+    return graphBarsc()->axes();
 }
 
 /*!
  * \internal
  */
-QQuickGraphsBars *Q3DBars::dptr()
+QQuickGraphsBars *Q3DBars::graphBars()
 {
     return static_cast<QQuickGraphsBars *>(m_graphsItem.data());
 }
@@ -441,7 +441,7 @@ QQuickGraphsBars *Q3DBars::dptr()
 /*!
  * \internal
  */
-const QQuickGraphsBars *Q3DBars::dptrc() const
+const QQuickGraphsBars *Q3DBars::graphBarsc() const
 {
     return static_cast<const QQuickGraphsBars *>(m_graphsItem.data());
 }
