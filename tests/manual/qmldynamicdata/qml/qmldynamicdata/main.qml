@@ -75,7 +75,7 @@ Item {
         }
     }
 
-    ThemeColor {
+    Color {
         id: dynamicColor
         ColorAnimation on color {
             from: "red"

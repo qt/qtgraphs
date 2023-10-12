@@ -16,7 +16,7 @@
 QT_BEGIN_NAMESPACE
 
 class Q3DThemePrivate;
-class DeclarativeColor;
+class QQuickGraphsColor;
 class QQuickGradient;
 
 class Q_GRAPHS_EXPORT Q3DTheme : public QObject, public QQmlParserStatus
@@ -63,7 +63,7 @@ class Q_GRAPHS_EXPORT Q3DTheme : public QObject, public QQmlParserStatus
     // QML API specific properties
     Q_INTERFACES(QQmlParserStatus)
     Q_PROPERTY(QQmlListProperty<QObject> themeChildren READ themeChildren CONSTANT)
-    Q_PROPERTY(QQmlListProperty<DeclarativeColor> baseColors READ baseColorsQML CONSTANT)
+    Q_PROPERTY(QQmlListProperty<QQuickGraphsColor> baseColors READ baseColorsQML CONSTANT)
     Q_PROPERTY(QQmlListProperty<QObject> baseGradients READ baseGradientsQML CONSTANT)
     Q_PROPERTY(QJSValue singleHighlightGradient READ singleHighlightGradientQML WRITE
                    setSingleHighlightGradient NOTIFY singleHighlightGradientQMLChanged)
@@ -169,14 +169,14 @@ public:
 private:
     QQmlListProperty<QObject> themeChildren();
     static void appendThemeChildren(QQmlListProperty<QObject> *list, QObject *element);
-
-    QQmlListProperty<DeclarativeColor> baseColorsQML();
-    static void appendBaseColorsFunc(QQmlListProperty<DeclarativeColor> *list,
-                                     DeclarativeColor *color);
-    static qsizetype countBaseColorsFunc(QQmlListProperty<DeclarativeColor> *list);
-    static DeclarativeColor *atBaseColorsFunc(QQmlListProperty<DeclarativeColor> *list,
-                                              qsizetype index);
-    static void clearBaseColorsFunc(QQmlListProperty<DeclarativeColor> *list);
+    
+    QQmlListProperty<QQuickGraphsColor> baseColorsQML();
+    static void appendBaseColorsFunc(QQmlListProperty<QQuickGraphsColor> *list,
+                                     QQuickGraphsColor *color);
+    static qsizetype countBaseColorsFunc(QQmlListProperty<QQuickGraphsColor> *list);
+    static QQuickGraphsColor *atBaseColorsFunc(QQmlListProperty<QQuickGraphsColor> *list,
+                                               qsizetype index);
+    static void clearBaseColorsFunc(QQmlListProperty<QQuickGraphsColor> *list);
 
     QQmlListProperty<QObject> baseGradientsQML();
     static void appendBaseGradientsFunc(QQmlListProperty<QObject> *list, QObject *gradient);
@@ -189,9 +189,9 @@ private:
 
     void setMultiHighlightGradient(QJSValue gradient);
     QJSValue multiHighlightGradientQML() const;
-
-    void addColor(DeclarativeColor *color);
-    QList<DeclarativeColor *> colorList();
+    
+    void addColor(QQuickGraphsColor *color);
+    QList<QQuickGraphsColor *> colorList();
     void clearColors();
 
     void addGradient(QJSValue gradient);

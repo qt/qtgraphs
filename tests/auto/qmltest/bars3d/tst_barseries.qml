@@ -38,16 +38,16 @@ Item {
         ]
     }
 
-    ThemeColor {
+    Color {
         id: rowColor1
         color: "green"
     }
 
-    ThemeColor {
+    Color {
         id: rowColor2
         color: "blue"
     }
-    ThemeColor {
+    Color {
         id: rowColor3
         color: "red"
     }

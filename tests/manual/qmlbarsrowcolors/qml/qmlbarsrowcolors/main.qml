@@ -87,32 +87,32 @@ Item {
         id: graphAxes
     }
 
-    ThemeColor {
+    Color {
         id: color1
         color: "green"
     }
 
-    ThemeColor {
+    Color {
         id: color2
         color: "blue"
     }
 
-    ThemeColor {
+    Color {
         id: color3
         color: "red"
     }
 
-    ThemeColor {
+    Color {
         id: color4
         color: "yellow"
     }
 
-    ThemeColor {
+    Color {
         id: color5
         color: "purple"
     }
 
-    ThemeColor {
+    Color {
         id: color6
         color: "orange"
     }

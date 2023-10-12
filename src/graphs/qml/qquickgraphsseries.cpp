@@ -144,34 +144,34 @@ QJSValue QQuickGraphsBar3DSeries::multiHighlightGradient() const
     return m_multiHighlightGradient;
 }
 
-QQmlListProperty<DeclarativeColor> QQuickGraphsBar3DSeries::rowColors()
+QQmlListProperty<QQuickGraphsColor> QQuickGraphsBar3DSeries::rowColors()
 {
-    return QQmlListProperty<DeclarativeColor>(this,
-                                              this,
-                                              &QQuickGraphsBar3DSeries::appendRowColorsFunc,
-                                              &QQuickGraphsBar3DSeries::countRowColorsFunc,
-                                              &QQuickGraphsBar3DSeries::atRowColorsFunc,
-                                              &QQuickGraphsBar3DSeries::clearRowColorsFunc);
+    return QQmlListProperty<QQuickGraphsColor>(this,
+                                               this,
+                                               &QQuickGraphsBar3DSeries::appendRowColorsFunc,
+                                               &QQuickGraphsBar3DSeries::countRowColorsFunc,
+                                               &QQuickGraphsBar3DSeries::atRowColorsFunc,
+                                               &QQuickGraphsBar3DSeries::clearRowColorsFunc);
 }
 
-void QQuickGraphsBar3DSeries::appendRowColorsFunc(QQmlListProperty<DeclarativeColor> *list,
-                                                 DeclarativeColor *color)
+void QQuickGraphsBar3DSeries::appendRowColorsFunc(QQmlListProperty<QQuickGraphsColor> *list,
+                                                  QQuickGraphsColor *color)
 {
     reinterpret_cast<QQuickGraphsBar3DSeries *>(list->data)->addColor(color);
 }
 
-qsizetype QQuickGraphsBar3DSeries::countRowColorsFunc(QQmlListProperty<DeclarativeColor> *list)
+qsizetype QQuickGraphsBar3DSeries::countRowColorsFunc(QQmlListProperty<QQuickGraphsColor> *list)
 {
     return reinterpret_cast<QQuickGraphsBar3DSeries *>(list->data)->colorList().size();
 }
 
-DeclarativeColor *QQuickGraphsBar3DSeries::atRowColorsFunc(QQmlListProperty<DeclarativeColor> *list,
-                                                          qsizetype index)
+QQuickGraphsColor *QQuickGraphsBar3DSeries::atRowColorsFunc(
+    QQmlListProperty<QQuickGraphsColor> *list, qsizetype index)
 {
     return reinterpret_cast<QQuickGraphsBar3DSeries *>(list->data)->colorList().at(index);
 }
 
-void QQuickGraphsBar3DSeries::clearRowColorsFunc(QQmlListProperty<DeclarativeColor> *list)
+void QQuickGraphsBar3DSeries::clearRowColorsFunc(QQmlListProperty<QQuickGraphsColor> *list)
 {
     reinterpret_cast<QQuickGraphsBar3DSeries *>(list->data)->clearColors();
 }
@@ -198,8 +198,8 @@ void QQuickGraphsBar3DSeries::handleRowColorUpdate()
 {
     int colorCount = m_rowColors.size();
     int changed = 0;
-
-    DeclarativeColor *color = qobject_cast<DeclarativeColor *>(QObject::sender());
+    
+    QQuickGraphsColor *color = qobject_cast<QQuickGraphsColor *>(QObject::sender());
     for (int i = 0; i < colorCount; i++) {
         if (color == m_rowColors.at(i)) {
             changed = i;
@@ -211,16 +211,16 @@ void QQuickGraphsBar3DSeries::handleRowColorUpdate()
     QBar3DSeries::setRowColors(list);
 }
 
-void QQuickGraphsBar3DSeries::addColor(DeclarativeColor *color)
+void QQuickGraphsBar3DSeries::addColor(QQuickGraphsColor *color)
 {
     if (!color) {
-        qWarning("Color is invalid, use ThemeColor");
+        qWarning("Color is invalid, use Color");
         return;
     }
     clearDummyColors();
     m_rowColors.append(color);
     connect(color,
-            &DeclarativeColor::colorChanged,
+            &QQuickGraphsColor::colorChanged,
             this,
             &QQuickGraphsBar3DSeries::handleRowColorUpdate);
     QList<QColor> list = QBar3DSeries::rowColors();
@@ -228,17 +228,17 @@ void QQuickGraphsBar3DSeries::addColor(DeclarativeColor *color)
     QBar3DSeries::setRowColors(list);
 }
 
-QList<DeclarativeColor *> QQuickGraphsBar3DSeries::colorList()
+QList<QQuickGraphsColor *> QQuickGraphsBar3DSeries::colorList()
 {
     if (m_rowColors.isEmpty()) {
         m_dummyColors = true;
         const QList<QColor> list = QBar3DSeries::rowColors();
         for (const QColor &item : list) {
-            DeclarativeColor *color = new DeclarativeColor(this);
+            QQuickGraphsColor *color = new QQuickGraphsColor(this);
             color->setColor(item);
             m_rowColors.append(color);
             connect(color,
-                    &DeclarativeColor::colorChanged,
+                    &QQuickGraphsColor::colorChanged,
                     this,
                     &QQuickGraphsBar3DSeries::handleRowColorUpdate);
         }

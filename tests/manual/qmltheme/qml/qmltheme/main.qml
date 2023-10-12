@@ -33,7 +33,7 @@ Item {
         GradientStop { position: 1.0; color: "blue" }
     }
 
-    ThemeColor {
+    Color {
         id: barColor
         color: "blue"
     }

@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 
 #include <QtQuick/private/qquickrectangle_p.h>
-#include "../qml/declarativecolor_p.h"
+#include "../qml/qquickgraphscolor_p.h"
 #include "QtQml/qjsengine.h"
 #include "q3dtheme_p.h"
 #include "thememanager_p.h"
@@ -281,7 +281,7 @@ QT_BEGIN_NAMESPACE
  */
 
 /*!
- * \qmlproperty list<ThemeColor> Theme3D::baseColors
+ * \qmlproperty list<Color> Theme3D::baseColors
  *
  * The list of base colors to be used for all the objects in the graph, series
  * by series. If there are more series than colors, color list wraps and starts
@@ -1259,21 +1259,21 @@ void Q3DTheme::componentComplete()
 /*
  * \internal
  */
-QQmlListProperty<DeclarativeColor> Q3DTheme::baseColorsQML()
+QQmlListProperty<QQuickGraphsColor> Q3DTheme::baseColorsQML()
 {
-    return QQmlListProperty<DeclarativeColor>(this,
-                                              this,
-                                              &Q3DTheme::appendBaseColorsFunc,
-                                              &Q3DTheme::countBaseColorsFunc,
-                                              &Q3DTheme::atBaseColorsFunc,
-                                              &Q3DTheme::clearBaseColorsFunc);
+    return QQmlListProperty<QQuickGraphsColor>(this,
+                                               this,
+                                               &Q3DTheme::appendBaseColorsFunc,
+                                               &Q3DTheme::countBaseColorsFunc,
+                                               &Q3DTheme::atBaseColorsFunc,
+                                               &Q3DTheme::clearBaseColorsFunc);
 }
 
 /*
  * \internal
  */
-void Q3DTheme::appendBaseColorsFunc(QQmlListProperty<DeclarativeColor> *list,
-                                    DeclarativeColor *color)
+void Q3DTheme::appendBaseColorsFunc(QQmlListProperty<QQuickGraphsColor> *list,
+                                    QQuickGraphsColor *color)
 {
     reinterpret_cast<Q3DTheme *>(list->data)->addColor(color);
 }
@@ -1281,7 +1281,7 @@ void Q3DTheme::appendBaseColorsFunc(QQmlListProperty<DeclarativeColor> *list,
 /*
  * \internal
  */
-qsizetype Q3DTheme::countBaseColorsFunc(QQmlListProperty<DeclarativeColor> *list)
+qsizetype Q3DTheme::countBaseColorsFunc(QQmlListProperty<QQuickGraphsColor> *list)
 {
     return reinterpret_cast<Q3DTheme *>(list->data)->colorList().size();
 }
@@ -1289,8 +1289,8 @@ qsizetype Q3DTheme::countBaseColorsFunc(QQmlListProperty<DeclarativeColor> *list
 /*
  * \internal
  */
-DeclarativeColor *Q3DTheme::atBaseColorsFunc(QQmlListProperty<DeclarativeColor> *list,
-                                             qsizetype index)
+QQuickGraphsColor *Q3DTheme::atBaseColorsFunc(QQmlListProperty<QQuickGraphsColor> *list,
+                                              qsizetype index)
 {
     return reinterpret_cast<Q3DTheme *>(list->data)->colorList().at(index);
 }
@@ -1298,7 +1298,7 @@ DeclarativeColor *Q3DTheme::atBaseColorsFunc(QQmlListProperty<DeclarativeColor> 
 /*
  * \internal
  */
-void Q3DTheme::clearBaseColorsFunc(QQmlListProperty<DeclarativeColor> *list)
+void Q3DTheme::clearBaseColorsFunc(QQmlListProperty<QQuickGraphsColor> *list)
 {
     reinterpret_cast<Q3DTheme *>(list->data)->clearColors();
 }
@@ -1353,16 +1353,16 @@ void Q3DTheme::clearBaseGradientsFunc(QQmlListProperty<QObject> *list)
 /*
  * \internal
  */
-void Q3DTheme::addColor(DeclarativeColor *color)
+void Q3DTheme::addColor(QQuickGraphsColor *color)
 {
     Q_D(Q3DTheme);
     if (!color) {
-        qWarning("Color is invalid, use ThemeColor");
+        qWarning("Color is invalid, use Color");
         return;
     }
     d->clearDummyColors();
     d->m_colors.append(color);
-    connect(color, &DeclarativeColor::colorChanged, d, &Q3DThemePrivate::handleBaseColorUpdate);
+    connect(color, &QQuickGraphsColor::colorChanged, d, &Q3DThemePrivate::handleBaseColorUpdate);
     QList<QColor> list = baseColors();
     list.append(color->color());
     setBaseColors(list);
@@ -1371,19 +1371,19 @@ void Q3DTheme::addColor(DeclarativeColor *color)
 /*
  * \internal
  */
-QList<DeclarativeColor *> Q3DTheme::colorList()
+QList<QQuickGraphsColor *> Q3DTheme::colorList()
 {
     Q_D(Q3DTheme);
     if (d->m_colors.isEmpty()) {
-        // Create dummy ThemeColors from theme's colors
+        // Create dummy Colors from theme's colors
         d->m_dummyColors = true;
         QList<QColor> list = baseColors();
         for (const QColor &item : list) {
-            DeclarativeColor *color = new DeclarativeColor(this);
+            QQuickGraphsColor *color = new QQuickGraphsColor(this);
             color->setColor(item);
             d->m_colors.append(color);
             connect(color,
-                    &DeclarativeColor::colorChanged,
+                    &QQuickGraphsColor::colorChanged,
                     d,
                     &Q3DThemePrivate::handleBaseColorUpdate);
         }
@@ -1398,7 +1398,7 @@ void Q3DTheme::clearColors()
 {
     Q_D(Q3DTheme);
     d->clearDummyColors();
-    for (DeclarativeColor *item : d->m_colors)
+    for (QQuickGraphsColor *item : d->m_colors)
         disconnect(item, 0, this, 0);
     d->m_colors.clear();
     setBaseColors(QList<QColor>());
@@ -1410,7 +1410,7 @@ void Q3DTheme::clearColors()
 void Q3DThemePrivate::clearDummyColors()
 {
     if (m_dummyColors) {
-        for (DeclarativeColor *item : m_colors)
+        for (QQuickGraphsColor *item : m_colors)
             delete item;
         m_colors.clear();
         m_dummyColors = false;
@@ -1483,7 +1483,7 @@ Q3DThemePrivate::Q3DThemePrivate(Q3DTheme *q)
     , m_highlightLightStrength(7.5f)
     , m_lightStrength(5.0f)
     , m_shadowStrength(25.0f)
-    , m_colors(QList<DeclarativeColor *>())
+    , m_colors(QList<QQuickGraphsColor *>())
     , m_gradients(QList<QQuickGradient *>())
     , m_singleHLGradient(QJSValue(0))
     , m_multiHLGradient(QJSValue(0))
@@ -1663,7 +1663,7 @@ void Q3DThemePrivate::handleTypeChange(Q3DTheme::Theme themeType)
 
     // Theme changed, disconnect base color/gradient connections
     if (!m_colors.isEmpty()) {
-        for (DeclarativeColor *item : m_colors)
+        for (QQuickGraphsColor *item : m_colors)
             disconnect(item, 0, this, 0);
         m_colors.clear();
     }
@@ -1680,7 +1680,7 @@ void Q3DThemePrivate::handleBaseColorUpdate()
     int colorCount = m_colors.size();
     int changed = 0;
     // Check which one changed
-    DeclarativeColor *color = qobject_cast<DeclarativeColor *>(QObject::sender());
+    QQuickGraphsColor *color = qobject_cast<QQuickGraphsColor *>(QObject::sender());
     for (int i = 0; i < colorCount; i++) {
         if (color == m_colors.at(i)) {
             changed = i;

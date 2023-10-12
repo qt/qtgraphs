@@ -152,7 +152,7 @@ public:
     float m_shadowStrength;
 
     // QML API specific variables
-    QList<DeclarativeColor *> m_colors;
+    QList<QQuickGraphsColor *> m_colors;
     QList<QQuickGradient *> m_gradients;
     QJSValue m_singleHLGradient;
     QJSValue m_multiHLGradient;

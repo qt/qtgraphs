@@ -1,16 +1,16 @@
 // Copyright (C) 2023 The Qt Company Ltd.
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 
-#include "declarativecolor_p.h"
+#include "qquickgraphscolor_p.h"
 
 QT_BEGIN_NAMESPACE
 
-DeclarativeColor::DeclarativeColor(QObject *parent)
+QQuickGraphsColor::QQuickGraphsColor(QObject *parent)
     : QObject(parent)
 {
 }
 
-void DeclarativeColor::setColor(const QColor &color)
+void QQuickGraphsColor::setColor(const QColor &color)
 {
     if (m_color != color) {
         m_color = color;
@@ -18,7 +18,7 @@ void DeclarativeColor::setColor(const QColor &color)
     }
 }
 
-QColor DeclarativeColor::color() const
+QColor QQuickGraphsColor::color() const
 {
     return m_color;
 }

@@ -38,12 +38,12 @@ Item {
         ]
     }
 
-    ThemeColor {
+    Color {
         id: color1
         color: "red"
     }
 
-    ThemeColor {
+    Color {
         id: color2
         color: "blue"
     }
@@ -157,7 +157,7 @@ Item {
     TestCase {
         name: "Theme3D Change"
 
-        ThemeColor {
+        Color {
             id: color3
             color: "red"
         }

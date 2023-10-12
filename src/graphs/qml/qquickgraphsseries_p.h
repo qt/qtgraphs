@@ -14,7 +14,7 @@
 #ifndef QQUICKGRAPHSSERIES_P_H
 #define QQUICKGRAPHSSERIES_P_H
 
-#include "declarativecolor_p.h"
+#include "qquickgraphscolor_p.h"
 #include "qbar3dseries.h"
 #include "qscatter3dseries.h"
 #include "qsurface3dseries.h"
@@ -42,7 +42,7 @@ class QQuickGraphsBar3DSeries : public QBar3DSeries
                    setSingleHighlightGradient NOTIFY singleHighlightGradientChanged)
     Q_PROPERTY(QJSValue multiHighlightGradient READ multiHighlightGradient WRITE
                    setMultiHighlightGradient NOTIFY multiHighlightGradientChanged)
-    Q_PROPERTY(QQmlListProperty<DeclarativeColor> rowColors READ rowColors CONSTANT)
+    Q_PROPERTY(QQmlListProperty<QQuickGraphsColor> rowColors READ rowColors CONSTANT)
     Q_CLASSINFO("DefaultProperty", "seriesChildren")
 
     QML_NAMED_ELEMENT(Bar3DSeries)
@@ -64,14 +64,14 @@ public:
     QJSValue singleHighlightGradient() const;
     void setMultiHighlightGradient(QJSValue gradient);
     QJSValue multiHighlightGradient() const;
-
-    QQmlListProperty<DeclarativeColor> rowColors();
-    static void appendRowColorsFunc(QQmlListProperty<DeclarativeColor> *list,
-                                    DeclarativeColor *color);
-    static qsizetype countRowColorsFunc(QQmlListProperty<DeclarativeColor> *list);
-    static DeclarativeColor *atRowColorsFunc(QQmlListProperty<DeclarativeColor> *list,
-                                             qsizetype index);
-    static void clearRowColorsFunc(QQmlListProperty<DeclarativeColor> *list);
+    
+    QQmlListProperty<QQuickGraphsColor> rowColors();
+    static void appendRowColorsFunc(QQmlListProperty<QQuickGraphsColor> *list,
+                                    QQuickGraphsColor *color);
+    static qsizetype countRowColorsFunc(QQmlListProperty<QQuickGraphsColor> *list);
+    static QQuickGraphsColor *atRowColorsFunc(QQmlListProperty<QQuickGraphsColor> *list,
+                                              qsizetype index);
+    static void clearRowColorsFunc(QQmlListProperty<QQuickGraphsColor> *list);
 
 public Q_SLOTS:
     void handleBaseGradientUpdate();
@@ -89,12 +89,12 @@ private:
     QJSValue m_baseGradient;            // Not owned
     QJSValue m_singleHighlightGradient; // Not owned
     QJSValue m_multiHighlightGradient;  // Not owned
-
-    QList<DeclarativeColor *> m_rowColors;
+    
+    QList<QQuickGraphsColor *> m_rowColors;
     bool m_dummyColors;
-
-    void addColor(DeclarativeColor *color);
-    QList<DeclarativeColor *> colorList();
+    
+    void addColor(QQuickGraphsColor *color);
+    QList<QQuickGraphsColor *> colorList();
     void clearColors();
     void clearDummyColors();
 };

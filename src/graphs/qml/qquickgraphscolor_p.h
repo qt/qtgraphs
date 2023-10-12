@@ -11,8 +11,8 @@
 //
 // We mean it.
 
-#ifndef DECLARATIVECOLOR_P_H
-#define DECLARATIVECOLOR_P_H
+#ifndef QQUICKGRAPHSCOLOR_P_H
+#define QQUICKGRAPHSCOLOR_P_H
 
 #include <private/graphsglobal_p.h>
 #include <QtGui/QColor>
@@ -20,15 +20,15 @@
 
 QT_BEGIN_NAMESPACE
 
-class DeclarativeColor : public QObject
+class QQuickGraphsColor : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(QColor color READ color WRITE setColor NOTIFY colorChanged)
 
-    QML_NAMED_ELEMENT(ThemeColor)
+    QML_NAMED_ELEMENT(Color)
 
 public:
-    DeclarativeColor(QObject *parent = 0);
+    QQuickGraphsColor(QObject *parent = 0);
 
     void setColor(const QColor &color);
     QColor color() const;
