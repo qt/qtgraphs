@@ -131,7 +131,7 @@ public:
     void setFloorLevel(float level);
     float floorLevel() const;
 
-    void setSelectedBar(const QPoint &position, QBar3DSeries *series, bool enterSlice);
+    void setSelectedBar(const QPoint &coord, QBar3DSeries *series, bool enterSlice);
 
     void setMultiSeriesScaling(bool uniform);
     bool multiSeriesScaling() const;
@@ -208,8 +208,6 @@ private:
     QList<ChangeItem> m_changedItems;
     QList<ChangeRow> m_changedRows;
 
-    // Interaction
-    QPoint m_selectedBar; // Points to row & column in data window.
     // Category axis labels are taken from the primary series
     QBar3DSeries *m_primarySeries = nullptr;
 
@@ -276,7 +274,7 @@ private:
 
     // Selected bar
     QBar3DSeries *m_selectedBarSeries;
-    QPoint m_selectedBarCoord;
+    QPoint m_selectedBar; // Points to row & column in data window.
     QVector3D m_selectedBarPos;
 
     // Generate bars
@@ -335,7 +333,6 @@ private:
     void deleteBarModels(BarModel *barModel);
     void deleteBarItemHolders();
     QQuick3DTexture *createTexture();
-    void setSelectedBar(QBar3DSeries *series, const QPoint &coord);
     void createSelectedModels(QBar3DSeries *series);
     void updateSelectedBar();
     QQuickGraphsItem::SelectionType isSelected(int row, int bar, QBar3DSeries *series);
