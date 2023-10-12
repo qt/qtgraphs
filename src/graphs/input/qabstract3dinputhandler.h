@@ -4,13 +4,13 @@
 #ifndef QABSTRACT3DINPUTHANDLER_H
 #define QABSTRACT3DINPUTHANDLER_H
 
-#include <QtGraphs/qgraphsglobal.h>
-#include <QtGraphs/q3dscene.h>
 #include <QtCore/QObject>
 #include <QtCore/QPoint>
-#include <QtGui/QWheelEvent>
+#include <QtGraphs/q3dscene.h>
+#include <QtGraphs/qgraphsglobal.h>
 #include <QtGui/QMouseEvent>
 #include <QtGui/QTouchEvent>
+#include <QtGui/QWheelEvent>
 
 QT_BEGIN_NAMESPACE
 
@@ -22,16 +22,13 @@ class Q_GRAPHS_EXPORT QAbstract3DInputHandler : public QObject
     Q_OBJECT
     Q_DECLARE_PRIVATE(QAbstract3DInputHandler)
     Q_CLASSINFO("RegisterEnumClassesUnscoped", "false")
-    Q_PROPERTY(QAbstract3DInputHandler::InputView inputView READ inputView WRITE setInputView NOTIFY inputViewChanged)
+    Q_PROPERTY(QAbstract3DInputHandler::InputView inputView READ inputView WRITE setInputView NOTIFY
+                   inputViewChanged)
     Q_PROPERTY(QPoint inputPosition READ inputPosition WRITE setInputPosition NOTIFY positionChanged)
     Q_PROPERTY(Q3DScene *scene READ scene WRITE setScene NOTIFY sceneChanged)
 
 public:
-    enum class InputView {
-        None = 0,
-        OnPrimary,
-        OnSecondary
-    };
+    enum class InputView { None = 0, OnPrimary, OnSecondary };
     Q_ENUM(InputView)
 
 protected:
@@ -61,7 +58,7 @@ public:
     void setScene(Q3DScene *scene);
 
     QQuickGraphsItem *item() const;
-    void setItem(QQuickGraphsItem* item);
+    void setItem(QQuickGraphsItem *item);
 
 Q_SIGNALS:
     void positionChanged(const QPoint &position);

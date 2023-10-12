@@ -1,16 +1,16 @@
 // Copyright (C) 2023 The Qt Company Ltd.
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 
-#include "qtouch3dinputhandler_p.h"
-#include "qquickgraphsitem_p.h"
 #include <QtCore/QTimer>
 #include <QtCore/qmath.h>
+#include "qquickgraphsitem_p.h"
+#include "qtouch3dinputhandler_p.h"
 
 QT_BEGIN_NAMESPACE
 
 static const float maxTapAndHoldJitter = 20.0f;
 static const int maxPinchJitter = 10;
-#if defined (Q_OS_ANDROID) || defined(Q_OS_IOS)
+#if defined(Q_OS_ANDROID) || defined(Q_OS_IOS)
 static const int maxSelectionJitter = 10;
 #else
 static const int maxSelectionJitter = 5;
@@ -48,7 +48,8 @@ static const float touchZoomDrift = 0.02f;
  *      \row
  *          \li Tap on the primary view when the secondary view is visible
  *          \li Closes the secondary view.
- *          \note Secondary view is available only for Q3DBars and Q3DSurface graphs.
+ *          \note Secondary view is available only for Q3DBars and Q3DSurface
+ *          graphs. 
  * \endtable
  *
  * Rotation, zoom, and selection can each be individually disabled using
@@ -69,20 +70,17 @@ static const float touchZoomDrift = 0.02f;
  */
 
 /*!
- * Constructs the basic touch display input handler. An optional \a parent parameter can be given
- * and is then passed to QObject constructor.
+ * Constructs the basic touch display input handler. An optional \a parent
+ * parameter can be given and is then passed to QObject constructor.
  */
 QTouch3DInputHandler::QTouch3DInputHandler(QObject *parent)
     : Q3DInputHandler(new QTouch3DInputHandlerPrivate(this), parent)
-{
-}
+{}
 
 /*!
  *  Destroys the input handler.
  */
-QTouch3DInputHandler::~QTouch3DInputHandler()
-{
-}
+QTouch3DInputHandler::~QTouch3DInputHandler() {}
 
 /*!
  * Override this to change handling of touch events.
@@ -133,8 +131,7 @@ void QTouch3DInputHandler::touchEvent(QTouchEvent *event)
             d->m_holdTimer->stop();
             // Handle possible selection
             if (!scene()->isSlicingActive()
-                    && QAbstract3DInputHandlerPrivate::InputState::Pinching
-                    != d->m_inputState) {
+                && QAbstract3DInputHandlerPrivate::InputState::Pinching != d->m_inputState) {
                 d->handleSelection(pointerPos);
             }
         } else if (event->type() == QEvent::TouchUpdate) {
@@ -150,8 +147,8 @@ void QTouch3DInputHandler::touchEvent(QTouchEvent *event)
 }
 
 QTouch3DInputHandlerPrivate::QTouch3DInputHandlerPrivate(QTouch3DInputHandler *q)
-    : Q3DInputHandlerPrivate(q),
-      m_holdTimer(0)
+    : Q3DInputHandlerPrivate(q)
+    , m_holdTimer(0)
 {
     m_holdTimer = new QTimer();
     m_holdTimer->setSingleShot(true);
@@ -234,16 +231,16 @@ void QTouch3DInputHandlerPrivate::handleRotation(const QPointF &position)
 {
     Q_Q(QTouch3DInputHandler);
     if (q->isRotationEnabled()
-            && QAbstract3DInputHandlerPrivate::InputState::Rotating == m_inputState) {
+        && QAbstract3DInputHandlerPrivate::InputState::Rotating == m_inputState) {
         Q3DScene *scene = q->scene();
         QQuickGraphsItem *item = q->item();
         float xRotation = item->cameraXRotation();
         float yRotation = item->cameraYRotation();
         QPointF inputPos = q->inputPosition();
         float mouseMoveX = float(inputPos.x() - position.x())
-                / (scene->viewport().width() / rotationSpeed);
+                           / (scene->viewport().width() / rotationSpeed);
         float mouseMoveY = float(inputPos.y() - position.y())
-                / (scene->viewport().height() / rotationSpeed);
+                           / (scene->viewport().height() / rotationSpeed);
         xRotation -= mouseMoveX;
         yRotation -= mouseMoveY;
         item->setCameraXRotation(xRotation);

@@ -14,8 +14,8 @@
 #ifndef Q3DINPUTHANDLER_P_H
 #define Q3DINPUTHANDLER_P_H
 
-#include "qabstract3dinputhandler_p.h"
 #include "q3dinputhandler.h"
+#include "qabstract3dinputhandler_p.h"
 
 QT_BEGIN_NAMESPACE
 

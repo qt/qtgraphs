@@ -7,17 +7,17 @@
 
 QT_BEGIN_NAMESPACE
 
-static const int halfSizeZoomLevel      = 50;
-static const int oneToOneZoomLevel      = 100;
+static const int halfSizeZoomLevel = 50;
+static const int oneToOneZoomLevel = 100;
 static const int driftTowardCenterLevel = 175;
-static const float wheelZoomDrift       = 0.1f;
+static const float wheelZoomDrift = 0.1f;
 
 static const int nearZoomRangeDivider = 12;
-static const int midZoomRangeDivider  = 60;
-static const int farZoomRangeDivider  = 120;
+static const int midZoomRangeDivider = 60;
+static const int farZoomRangeDivider = 120;
 
 #if !defined(Q_OS_IOS)
-static const float rotationSpeed      = 100.0f;
+static const float rotationSpeed = 100.0f;
 #endif
 
 /*!
@@ -25,7 +25,8 @@ static const float rotationSpeed      = 100.0f;
  * \inmodule QtGraphs
  * \brief Basic wheel mouse based input handler.
  *
- * Q3DInputHandler is the basic input handler for wheel mouse type of input devices.
+ * Q3DInputHandler is the basic input handler for wheel mouse type of input
+ * devices.
  *
  * Default input handler has the following functionalty:
  * \table
@@ -60,7 +61,8 @@ static const float rotationSpeed      = 100.0f;
  * \instantiates Q3DInputHandler
  * \brief Basic wheel mouse based input handler.
  *
- * InputHandler3D is the basic input handler for wheel mouse type of input devices.
+ * InputHandler3D is the basic input handler for wheel mouse type of input
+ * devices.
  *
  * See Q3DInputHandler documentation for more details.
  */
@@ -89,41 +91,40 @@ static const float rotationSpeed      = 100.0f;
 /*!
  * \qmlproperty bool InputHandler3D::zoomAtTargetEnabled
  *
- * Defines whether zooming changes the camera target to the position of the input
- * at the time of the zoom.
- * Defaults to \c{true}.
+ * Defines whether zooming changes the camera target to the position of the
+ * input at the time of the zoom. Defaults to \c{true}.
  */
 
 /*!
  * \internal
  */
-Q3DInputHandler::Q3DInputHandler(Q3DInputHandlerPrivate *d, QObject *parent) :
-    QAbstract3DInputHandler(d, parent)
+Q3DInputHandler::Q3DInputHandler(Q3DInputHandlerPrivate *d, QObject *parent)
+    : QAbstract3DInputHandler(d, parent)
 {
-    QObject::connect(this, &QAbstract3DInputHandler::sceneChanged,
-                     d, &Q3DInputHandlerPrivate::handleSceneChange);
+    QObject::connect(this,
+                     &QAbstract3DInputHandler::sceneChanged,
+                     d,
+                     &Q3DInputHandlerPrivate::handleSceneChange);
 }
 
 /*!
- * Constructs the basic mouse input handler. An optional \a parent parameter can be given
- * and is then passed to QObject constructor.
+ * Constructs the basic mouse input handler. An optional \a parent parameter can
+ * be given and is then passed to QObject constructor.
  */
-Q3DInputHandler::Q3DInputHandler(QObject *parent) :
-    QAbstract3DInputHandler(new Q3DInputHandlerPrivate(this), parent)
-{
-}
+Q3DInputHandler::Q3DInputHandler(QObject *parent)
+    : QAbstract3DInputHandler(new Q3DInputHandlerPrivate(this), parent)
+{}
 
 /*!
  *  Destroys the input handler.
  */
-Q3DInputHandler::~Q3DInputHandler()
-{
-}
+Q3DInputHandler::~Q3DInputHandler() {}
 
 // Input event listeners
 /*!
  * Override this to change handling of mouse press events.
- * Mouse press event is given in the \a event and the mouse position in \a mousePos.
+ * Mouse press event is given in the \a event and the mouse position in \a
+ * mousePos.
  */
 void Q3DInputHandler::mousePressEvent(QMouseEvent *event, const QPoint &mousePos)
 {
@@ -142,7 +143,8 @@ void Q3DInputHandler::mousePressEvent(QMouseEvent *event, const QPoint &mousePos
                 else
                     setInputView(QAbstract3DInputHandler::InputView::None);
             } else {
-                // update mouse positions to prevent jumping when releasing or repressing a button
+                // update mouse positions to prevent jumping when releasing or
+                // repressing a button
                 d->m_inputState = QAbstract3DInputHandlerPrivate::InputState::Selecting;
                 setInputPosition(mousePos);
                 scene()->setSelectionQueryPosition(mousePos);
@@ -159,7 +161,8 @@ void Q3DInputHandler::mousePressEvent(QMouseEvent *event, const QPoint &mousePos
             // disable rotating when in slice view
             if (!scene()->isSlicingActive())
                 d->m_inputState = QAbstract3DInputHandlerPrivate::InputState::Rotating;
-            // update mouse positions to prevent jumping when releasing or repressing a button
+            // update mouse positions to prevent jumping when releasing or repressing
+            // a button
             setInputPosition(mousePos);
         }
     }
@@ -168,7 +171,8 @@ void Q3DInputHandler::mousePressEvent(QMouseEvent *event, const QPoint &mousePos
 
 /*!
  * Override this to change handling of mouse release events.
- * Mouse release event is given in the \a event and the mouse position in \a mousePos.
+ * Mouse release event is given in the \a event and the mouse position in \a
+ * mousePos.
  */
 void Q3DInputHandler::mouseReleaseEvent(QMouseEvent *event, const QPoint &mousePos)
 {
@@ -178,7 +182,8 @@ void Q3DInputHandler::mouseReleaseEvent(QMouseEvent *event, const QPoint &mouseP
 #else
     Q_D(Q3DInputHandler);
     if (QAbstract3DInputHandlerPrivate::InputState::Rotating == d->m_inputState) {
-        // update mouse positions to prevent jumping when releasing or repressing a button
+        // update mouse positions to prevent jumping when releasing or repressing a
+        // button
         setInputPosition(mousePos);
     }
     d->m_inputState = QAbstract3DInputHandlerPrivate::InputState::None;
@@ -188,7 +193,8 @@ void Q3DInputHandler::mouseReleaseEvent(QMouseEvent *event, const QPoint &mouseP
 
 /*!
  * Override this to change handling of mouse move events.
- * Mouse move event is given in the \a event and the mouse position in \a mousePos.
+ * Mouse move event is given in the \a event and the mouse position in \a
+ * mousePos.
  */
 void Q3DInputHandler::mouseMoveEvent(QMouseEvent *event, const QPoint &mousePos)
 {
@@ -198,15 +204,15 @@ void Q3DInputHandler::mouseMoveEvent(QMouseEvent *event, const QPoint &mousePos)
 #else
     Q_D(Q3DInputHandler);
     if (QAbstract3DInputHandlerPrivate::InputState::Rotating == d->m_inputState
-            && isRotationEnabled()) {
+        && isRotationEnabled()) {
         QQuickGraphsItem *item = this->item();
         // Calculate mouse movement since last frame
         float xRotation = item->cameraXRotation();
         float yRotation = item->cameraYRotation();
         float mouseMoveX = float(inputPosition().x() - mousePos.x())
-                / (scene()->viewport().width() / rotationSpeed);
+                           / (scene()->viewport().width() / rotationSpeed);
         float mouseMoveY = float(inputPosition().y() - mousePos.y())
-                / (scene()->viewport().height() / rotationSpeed);
+                           / (scene()->viewport().height() / rotationSpeed);
         // Apply to rotations
         xRotation -= mouseMoveX;
         yRotation -= mouseMoveY;
@@ -331,8 +337,8 @@ bool Q3DInputHandler::isSelectionEnabled() const
 /*!
  * \property Q3DInputHandler::zoomAtTargetEnabled
  *
- * \brief Whether zooming should change the camera target so that the zoomed point
- * of the graph stays at the same location after the zoom.
+ * \brief Whether zooming should change the camera target so that the zoomed
+ * point of the graph stays at the same location after the zoom.
  *
  * Defaults to \c{true}.
  */
@@ -352,34 +358,35 @@ bool Q3DInputHandler::isZoomAtTargetEnabled() const
 }
 
 Q3DInputHandlerPrivate::Q3DInputHandlerPrivate(Q3DInputHandler *q)
-    : QAbstract3DInputHandlerPrivate(q),
-      m_rotationEnabled(true),
-      m_zoomEnabled(true),
-      m_selectionEnabled(true),
-      m_zoomAtTargetEnabled(true),
-      m_zoomAtTargetPending(false),
-      m_graph(0),
-      m_requestedZoomLevel(0.0f),
-      m_driftMultiplier(0.0f)
-{
-}
+    : QAbstract3DInputHandlerPrivate(q)
+    , m_rotationEnabled(true)
+    , m_zoomEnabled(true)
+    , m_selectionEnabled(true)
+    , m_zoomAtTargetEnabled(true)
+    , m_zoomAtTargetPending(false)
+    , m_graph(0)
+    , m_requestedZoomLevel(0.0f)
+    , m_driftMultiplier(0.0f)
+{}
 
-Q3DInputHandlerPrivate::~Q3DInputHandlerPrivate()
-{
-}
+Q3DInputHandlerPrivate::~Q3DInputHandlerPrivate() {}
 
 void Q3DInputHandlerPrivate::handleSceneChange(Q3DScene *scene)
 {
     if (scene) {
         if (m_graph) {
-            QObject::disconnect(m_graph, &QQuickGraphsItem::queriedGraphPositionChanged,
-                                this, &Q3DInputHandlerPrivate::handleQueriedGraphPositionChange);
+            QObject::disconnect(m_graph,
+                                &QQuickGraphsItem::queriedGraphPositionChanged,
+                                this,
+                                &Q3DInputHandlerPrivate::handleQueriedGraphPositionChange);
         }
 
         m_graph = qobject_cast<QQuickGraphsItem *>(scene->parent());
         if (m_graph) {
-            QObject::connect(m_graph, &QQuickGraphsItem::queriedGraphPositionChanged,
-                             this, &Q3DInputHandlerPrivate::handleQueriedGraphPositionChange);
+            QObject::connect(m_graph,
+                             &QQuickGraphsItem::queriedGraphPositionChanged,
+                             this,
+                             &Q3DInputHandlerPrivate::handleQueriedGraphPositionChange);
         }
     }
 }
@@ -396,12 +403,11 @@ void Q3DInputHandlerPrivate::handleQueriedGraphPositionChange()
 
         // If zooming in/out outside the graph, or zooming out after certain point,
         // move towards the center.
-        if ((qAbs(newTarget.x()) > 2.0f
-             || qAbs(newTarget.y()) > 2.0f
-             || qAbs(newTarget.z()) > 2.0f)
-                || (previousZoom > currentZoom && currentZoom <= driftTowardCenterLevel)) {
+        if ((qAbs(newTarget.x()) > 2.0f || qAbs(newTarget.y()) > 2.0f || qAbs(newTarget.z()) > 2.0f)
+            || (previousZoom > currentZoom && currentZoom <= driftTowardCenterLevel)) {
             newTarget = zeroVector;
-            // Add some extra correction so that we actually reach the center eventually
+            // Add some extra correction so that we actually reach the center
+            // eventually
             diffAdj = m_driftMultiplier;
             if (previousZoom > currentZoom)
                 diffAdj *= 2.0f; // Correct towards center little more when zooming out
@@ -409,7 +415,8 @@ void Q3DInputHandlerPrivate::handleQueriedGraphPositionChange()
 
         float zoomFraction = 1.0f - (previousZoom / currentZoom);
 
-        // Adjust camera towards the zoom point, attempting to keep the cursor at same graph point
+        // Adjust camera towards the zoom point, attempting to keep the cursor at
+        // same graph point
         QVector3D oldTarget = q_ptr->item()->cameraTargetPosition();
         QVector3D origDiff = newTarget - oldTarget;
         QVector3D diff = origDiff * zoomFraction + (origDiff.normalized() * diffAdj);

@@ -14,10 +14,13 @@ class Q_GRAPHS_EXPORT Q3DInputHandler : public QAbstract3DInputHandler
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(Q3DInputHandler)
-    Q_PROPERTY(bool rotationEnabled READ isRotationEnabled WRITE setRotationEnabled NOTIFY rotationEnabledChanged)
+    Q_PROPERTY(bool rotationEnabled READ isRotationEnabled WRITE setRotationEnabled NOTIFY
+                   rotationEnabledChanged)
     Q_PROPERTY(bool zoomEnabled READ isZoomEnabled WRITE setZoomEnabled NOTIFY zoomEnabledChanged)
-    Q_PROPERTY(bool selectionEnabled READ isSelectionEnabled WRITE setSelectionEnabled NOTIFY selectionEnabledChanged)
-    Q_PROPERTY(bool zoomAtTargetEnabled READ isZoomAtTargetEnabled WRITE setZoomAtTargetEnabled NOTIFY zoomAtTargetEnabledChanged)
+    Q_PROPERTY(bool selectionEnabled READ isSelectionEnabled WRITE setSelectionEnabled NOTIFY
+                   selectionEnabledChanged)
+    Q_PROPERTY(bool zoomAtTargetEnabled READ isZoomAtTargetEnabled WRITE setZoomAtTargetEnabled
+                   NOTIFY zoomAtTargetEnabledChanged)
 
 protected:
     explicit Q3DInputHandler(Q3DInputHandlerPrivate *d, QObject *parent = nullptr);
