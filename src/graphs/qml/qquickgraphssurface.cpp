@@ -1044,7 +1044,7 @@ void QQuickGraphsSurface::updateModel(SurfaceModel *model)
             if (dimensionsChanged)
                 heightMapData->setSize(QSize(sampleSpace.width(), sampleSpace.height()));
         }
-        if (heightMapData->size().width() < 2 || heightMapData->size().height() < 2) {
+        if (heightMapData->size().width() < 1 || heightMapData->size().height() < 1) {
             heightMapData->setTextureData(QByteArray());
             heightMap->setTextureData(heightMapData);
             heightInput->setTexture(heightMap);
