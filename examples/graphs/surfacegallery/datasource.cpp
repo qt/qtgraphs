@@ -5,9 +5,9 @@
 #include <QtCore/qmath.h>
 #include <QtCore/qrandom.h>
 
-DataSource::DataSource(QObject *parent) :
-    QObject(parent),
-    m_index(-1)
+DataSource::DataSource(QObject *parent)
+    : QObject(parent)
+    , m_index(-1)
 {
     //! [3]
     qRegisterMetaType<QSurface3DSeries *>();
@@ -19,10 +19,15 @@ DataSource::~DataSource()
     clearData();
 }
 
-void DataSource::generateData(int cacheCount, int rowCount, int columnCount,
-                              float xMin, float xMax,
-                              float yMin, float yMax,
-                              float zMin, float zMax)
+void DataSource::generateData(int cacheCount,
+                              int rowCount,
+                              int columnCount,
+                              float xMin,
+                              float xMax,
+                              float yMin,
+                              float yMax,
+                              float zMin,
+                              float zMax)
 {
     if (!cacheCount || !rowCount || !columnCount)
         return;
@@ -56,16 +61,15 @@ void DataSource::generateData(int cacheCount, int rowCount, int columnCount,
             float yRangeMod = yRange * rowMod;
             float zRangeMod = zRange * rowMod;
             float z = zRangeMod + zMin;
-            qreal rowColWaveAngleMul = M_PI * M_PI * rowMod;
-            float rowColWaveMul = yRangeMod * 0.2f;
+            qreal waveAngleMul = M_PI * M_PI * rowMod;
+            float waveMul = yRangeMod * 0.2f;
             for (int k = 0; k < columnCount; k++) {
                 float colMod = (float(k)) / float(columnCount);
                 float xRangeMod = xRange * colMod;
                 float x = xRangeMod + xMin + cacheXAdjustment;
                 float colWave = float(qSin((2.0 * M_PI * colMod) - (1.0 / 2.0 * M_PI)) + 1.0);
-                float y = (colWave * ((float(qSin(rowColWaveAngleMul * colMod) + 1.0))))
-                        * rowColWaveMul
-                        + QRandomGenerator::global()->bounded(0.15f) * yRangeMod;
+                float y = (colWave * ((float(qSin(waveAngleMul * colMod) + 1.0)))) * waveMul
+                          + QRandomGenerator::global()->bounded(0.15f) * yRangeMod;
 
                 int index = k + cacheIndexAdjustment;
                 if (index >= columnCount) {
@@ -96,7 +100,7 @@ void DataSource::update(QSurface3DSeries *series)
         // If the first time or the dimensions of the cache array have changed,
         // reconstruct the reset array
         if (m_resetArray.isEmpty() || series->dataProxy()->rowCount() != newRowCount
-                || series->dataProxy()->columnCount() != newColumnCount) {
+            || series->dataProxy()->columnCount() != newColumnCount) {
             m_resetArray.clear();
             m_resetArray.reserve(newRowCount);
             for (int i = 0; i < newRowCount; i++)

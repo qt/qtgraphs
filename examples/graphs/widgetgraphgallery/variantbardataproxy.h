@@ -4,10 +4,10 @@
 #ifndef VARIANTBARDATAPROXY_H
 #define VARIANTBARDATAPROXY_H
 
-#include "variantdataset.h"
-#include "variantbardatamapping.h"
-#include <QtGraphs/qbardataproxy.h>
 #include <QtCore/qpointer.h>
+#include <QtGraphs/qbardataproxy.h>
+#include "variantbardatamapping.h"
+#include "variantdataset.h"
 
 //! [0]
 class VariantBarDataProxy : public QBarDataProxy
@@ -20,13 +20,15 @@ public:
     virtual ~VariantBarDataProxy();
 
     //! [1]
-    // Doesn't gain ownership of the dataset, but does connect to it to listen for data changes.
+    // Doesn't gain ownership of the dataset, but does connect to it to listen for
+    // data changes.
     void setDataSet(VariantDataSet *newSet);
     VariantDataSet *dataSet();
 
     // Map key (row, column, value) to value index in data item (VariantItem).
-    // Doesn't gain ownership of mapping, but does connect to it to listen for mapping changes.
-    // Modifying mapping that is set to proxy will trigger dataset re-resolving.
+    // Doesn't gain ownership of mapping, but does connect to it to listen for
+    // mapping changes. Modifying mapping that is set to proxy will trigger
+    // dataset re-resolving.
     void setMapping(VariantBarDataMapping *mapping);
     VariantBarDataMapping *mapping();
     //! [1]

@@ -14,17 +14,13 @@ class AxesInputHandler : public Q3DInputHandler
 {
     Q_OBJECT
 
-    enum InputState {
-        StateNormal = 0,
-        StateDraggingX,
-        StateDraggingZ,
-        StateDraggingY
-    };
+    enum InputState { StateNormal = 0, StateDraggingX, StateDraggingZ, StateDraggingY };
 
 public:
     explicit AxesInputHandler(QAbstract3DGraph *graph, QObject *parent = 0);
 
-    inline void setAxes(QValue3DAxis *axisX, QValue3DAxis *axisZ, QValue3DAxis *axisY) {
+    inline void setAxes(QValue3DAxis *axisX, QValue3DAxis *axisZ, QValue3DAxis *axisY)
+    {
         m_axisX = axisX;
         m_axisZ = axisZ;
         m_axisY = axisY;

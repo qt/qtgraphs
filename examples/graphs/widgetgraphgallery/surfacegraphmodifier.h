@@ -4,16 +4,16 @@
 #ifndef SURFACEGRAPHMODIFIER_H
 #define SURFACEGRAPHMODIFIER_H
 
+#include <QtCore/qpropertyanimation.h>
+#include <QtGraphs/q3dinputhandler.h>
 #include <QtGraphs/q3dsurface.h>
-#include <QtGraphs/qsurfacedataproxy.h>
-#include <QtGraphs/qheightmapsurfacedataproxy.h>
-#include <QtGraphs/qsurface3dseries.h>
 #include <QtGraphs/qcustom3ditem.h>
 #include <QtGraphs/qcustom3dlabel.h>
-#include <QtGraphs/q3dinputhandler.h>
-#include <QtWidgets/qslider.h>
+#include <QtGraphs/qheightmapsurfacedataproxy.h>
+#include <QtGraphs/qsurface3dseries.h>
+#include <QtGraphs/qsurfacedataproxy.h>
 #include <QtWidgets/qlabel.h>
-#include <QtCore/qpropertyanimation.h>
+#include <QtWidgets/qslider.h>
 
 class TopographicSeries;
 class HighlightSeries;
@@ -29,12 +29,18 @@ public:
     //! [0]
     void toggleModeNone() { m_graph->setSelectionMode(QAbstract3DGraph::SelectionNone); }
     void toggleModeItem() { m_graph->setSelectionMode(QAbstract3DGraph::SelectionItem); }
-    void toggleModeSliceRow() { m_graph->setSelectionMode(QAbstract3DGraph::SelectionItemAndRow
-                                                          | QAbstract3DGraph::SelectionSlice
-                                                          | QAbstract3DGraph::SelectionMultiSeries); }
-    void toggleModeSliceColumn() { m_graph->setSelectionMode(QAbstract3DGraph::SelectionItemAndColumn
-                                                             | QAbstract3DGraph::SelectionSlice
-                                                             | QAbstract3DGraph::SelectionMultiSeries); }
+    void toggleModeSliceRow()
+    {
+        m_graph->setSelectionMode(QAbstract3DGraph::SelectionItemAndRow
+                                  | QAbstract3DGraph::SelectionSlice
+                                  | QAbstract3DGraph::SelectionMultiSeries);
+    }
+    void toggleModeSliceColumn()
+    {
+        m_graph->setSelectionMode(QAbstract3DGraph::SelectionItemAndColumn
+                                  | QAbstract3DGraph::SelectionSlice
+                                  | QAbstract3DGraph::SelectionMultiSeries);
+    }
     //! [0]
 
     void setBlackToYellowGradient();

@@ -3,7 +3,9 @@
 
 #include "variantbardatamapping.h"
 
-VariantBarDataMapping::VariantBarDataMapping(int rowIndex, int columnIndex, int valueIndex,
+VariantBarDataMapping::VariantBarDataMapping(int rowIndex,
+                                             int columnIndex,
+                                             int valueIndex,
                                              const QStringList &rowCategories,
                                              const QStringList &columnCategories)
     : QObject(nullptr)
@@ -72,7 +74,9 @@ const QStringList &VariantBarDataMapping::columnCategories() const
     return m_columnCategories;
 }
 
-void VariantBarDataMapping::remap(int rowIndex, int columnIndex, int valueIndex,
+void VariantBarDataMapping::remap(int rowIndex,
+                                  int columnIndex,
+                                  int valueIndex,
                                   const QStringList &rowCategories,
                                   const QStringList &columnCategories)
 {

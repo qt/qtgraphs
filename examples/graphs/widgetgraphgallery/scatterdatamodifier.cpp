@@ -2,32 +2,33 @@
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR BSD-3-Clause
 
 #include "scatterdatamodifier.h"
-#include <QtGraphs/qscatterdataproxy.h>
-#include <QtGraphs/qvalue3daxis.h>
-#include <QtGraphs/q3dscene.h>
-#include <QtGraphs/qscatter3dseries.h>
-#include <QtGraphs/q3dtheme.h>
 #include <QtCore/qmath.h>
 #include <QtCore/qrandom.h>
+#include <QtGraphs/q3dscene.h>
+#include <QtGraphs/q3dtheme.h>
+#include <QtGraphs/qscatter3dseries.h>
+#include <QtGraphs/qscatterdataproxy.h>
+#include <QtGraphs/qvalue3daxis.h>
 #include <QtWidgets/qcombobox.h>
 
 using namespace Qt::StringLiterals;
 
-//#define RANDOM_SCATTER // Uncomment this to switch to random scatter
+// #define RANDOM_SCATTER // Uncomment this to switch to random scatter
 
 const int numberOfItems = 10000;
 const float curveDivider = 7.5f;
 const int lowerNumberOfItems = 900;
 const float lowerCurveDivider = 0.75f;
 
-ScatterDataModifier::ScatterDataModifier(Q3DScatter *scatter, QObject *parent) :
-      QObject(parent),
-      m_graph(scatter),
-      m_itemCount(lowerNumberOfItems),
-      m_curveDivider(lowerCurveDivider),
-      //! [7]
-      m_inputHandler(new AxesInputHandler(scatter))
-      //! [7]
+ScatterDataModifier::ScatterDataModifier(Q3DScatter *scatter, QObject *parent)
+    : QObject(parent)
+    , m_graph(scatter)
+    , m_itemCount(lowerNumberOfItems)
+    , m_curveDivider(lowerCurveDivider)
+    ,
+    //! [7]
+    m_inputHandler(new AxesInputHandler(scatter))
+//! [7]
 {
     //! [0]
     m_graph->activeTheme()->setType(Q3DTheme::Theme::StoneMoss);
@@ -59,9 +60,7 @@ ScatterDataModifier::ScatterDataModifier(Q3DScatter *scatter, QObject *parent) :
     //! [2]
 }
 
-ScatterDataModifier::~ScatterDataModifier()
-{
-}
+ScatterDataModifier::~ScatterDataModifier() {}
 
 void ScatterDataModifier::addData()
 {
@@ -128,7 +127,7 @@ void ScatterDataModifier::changePresetCamera()
 {
     static int preset = int(QAbstract3DGraph::CameraPreset::FrontLow);
 
-    m_graph->setCameraPreset((QAbstract3DGraph::CameraPreset)preset);
+    m_graph->setCameraPreset((QAbstract3DGraph::CameraPreset) preset);
 
     if (++preset > int(QAbstract3DGraph::CameraPreset::DirectlyBelow))
         preset = int(QAbstract3DGraph::CameraPreset::FrontLow);
@@ -148,12 +147,12 @@ void ScatterDataModifier::changeShadowQuality(int quality)
 
 void ScatterDataModifier::setBackgroundEnabled(int enabled)
 {
-    m_graph->activeTheme()->setBackgroundEnabled((bool)enabled);
+    m_graph->activeTheme()->setBackgroundEnabled((bool) enabled);
 }
 
 void ScatterDataModifier::setGridEnabled(int enabled)
 {
-    m_graph->activeTheme()->setGridEnabled((bool)enabled);
+    m_graph->activeTheme()->setGridEnabled((bool) enabled);
 }
 
 void ScatterDataModifier::toggleItemCount()
@@ -210,7 +209,8 @@ QVector3D ScatterDataModifier::randVector()
 {
     auto *generator = QRandomGenerator::global();
     const auto x = float(generator->bounded(100)) / 2.0f - float(generator->bounded(100)) / 2.0f;
-    const auto y = float(generator->bounded(100)) / 100.0f - float(generator->bounded(100)) / 100.0f;
+    const auto y = float(generator->bounded(100)) / 100.0f
+                   - float(generator->bounded(100)) / 100.0f;
     const auto z = float(generator->bounded(100)) / 2.0f - float(generator->bounded(100)) / 2.0f;
     return {x, y, z};
 }

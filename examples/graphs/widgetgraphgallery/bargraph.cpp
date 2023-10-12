@@ -3,15 +3,15 @@
 
 #include "bargraph.h"
 
+#include <QtGui/qfontdatabase.h>
 #include <QtWidgets/qboxlayout.h>
-#include <QtWidgets/qpushbutton.h>
+#include <QtWidgets/qbuttongroup.h>
 #include <QtWidgets/qcheckbox.h>
-#include <QtWidgets/qslider.h>
 #include <QtWidgets/qfontcombobox.h>
 #include <QtWidgets/qlabel.h>
+#include <QtWidgets/qpushbutton.h>
 #include <QtWidgets/qradiobutton.h>
-#include <QtWidgets/qbuttongroup.h>
-#include <QtGui/qfontdatabase.h>
+#include <QtWidgets/qslider.h>
 
 using namespace Qt::StringLiterals;
 
@@ -62,12 +62,18 @@ void BarGraph::initialize()
     int index = metaObj.indexOfEnumerator("Mesh");
     QMetaEnum metaEnum = metaObj.enumerator(index);
     barStyleList->addItem(u"Bar"_s, metaEnum.value(static_cast<int>(QAbstract3DSeries::Mesh::Bar)));
-    barStyleList->addItem(u"Pyramid"_s, metaEnum.value(static_cast<int>(QAbstract3DSeries::Mesh::Pyramid)));
-    barStyleList->addItem(u"Cone"_s, metaEnum.value(static_cast<int>(QAbstract3DSeries::Mesh::Cone)));
-    barStyleList->addItem(u"Cylinder"_s, metaEnum.value(static_cast<int>(QAbstract3DSeries::Mesh::Cylinder)));
-    barStyleList->addItem(u"Bevel bar"_s, metaEnum.value(static_cast<int>(QAbstract3DSeries::Mesh::BevelBar)));
-    barStyleList->addItem(u"Sphere"_s, metaEnum.value(static_cast<int>(QAbstract3DSeries::Mesh::Sphere)));
-    barStyleList->addItem(u"UserDefined"_s, metaEnum.value(static_cast<int>(QAbstract3DSeries::Mesh::UserDefined)));
+    barStyleList->addItem(u"Pyramid"_s,
+                          metaEnum.value(static_cast<int>(QAbstract3DSeries::Mesh::Pyramid)));
+    barStyleList->addItem(u"Cone"_s,
+                          metaEnum.value(static_cast<int>(QAbstract3DSeries::Mesh::Cone)));
+    barStyleList->addItem(u"Cylinder"_s,
+                          metaEnum.value(static_cast<int>(QAbstract3DSeries::Mesh::Cylinder)));
+    barStyleList->addItem(u"Bevel bar"_s,
+                          metaEnum.value(static_cast<int>(QAbstract3DSeries::Mesh::BevelBar)));
+    barStyleList->addItem(u"Sphere"_s,
+                          metaEnum.value(static_cast<int>(QAbstract3DSeries::Mesh::Sphere)));
+    barStyleList->addItem(u"UserDefined"_s,
+                          metaEnum.value(static_cast<int>(QAbstract3DSeries::Mesh::UserDefined)));
     barStyleList->setCurrentIndex(4);
 
     auto *cameraButton = new QPushButton(m_barsWidget);
@@ -77,38 +83,37 @@ void BarGraph::initialize()
     zoomToSelectedButton->setText(u"Zoom to selected bar"_s);
 
     auto *selectionModeList = new QComboBox(m_barsWidget);
-    selectionModeList->addItem(u"None"_s,
-                               int(QAbstract3DGraph::SelectionNone));
-    selectionModeList->addItem(u"Bar"_s,
-                               int(QAbstract3DGraph::SelectionItem));
-    selectionModeList->addItem(u"Row"_s,
-                               int(QAbstract3DGraph::SelectionRow));
-    selectionModeList->addItem(u"Bar and Row"_s,
-                               int(QAbstract3DGraph::SelectionItemAndRow));
-    selectionModeList->addItem(u"Column"_s,
-                               int(QAbstract3DGraph::SelectionColumn));
-    selectionModeList->addItem(u"Bar and Column"_s,
-                               int(QAbstract3DGraph::SelectionItemAndColumn));
-    selectionModeList->addItem(u"Row and Column"_s,
-                               int(QAbstract3DGraph::SelectionRowAndColumn));
+    selectionModeList->addItem(u"None"_s, int(QAbstract3DGraph::SelectionNone));
+    selectionModeList->addItem(u"Bar"_s, int(QAbstract3DGraph::SelectionItem));
+    selectionModeList->addItem(u"Row"_s, int(QAbstract3DGraph::SelectionRow));
+    selectionModeList->addItem(u"Bar and Row"_s, int(QAbstract3DGraph::SelectionItemAndRow));
+    selectionModeList->addItem(u"Column"_s, int(QAbstract3DGraph::SelectionColumn));
+    selectionModeList->addItem(u"Bar and Column"_s, int(QAbstract3DGraph::SelectionItemAndColumn));
+    selectionModeList->addItem(u"Row and Column"_s, int(QAbstract3DGraph::SelectionRowAndColumn));
     selectionModeList->addItem(u"Bar, Row and Column"_s,
                                int(QAbstract3DGraph::SelectionItemRowAndColumn));
     selectionModeList->addItem(u"Slice into Row"_s,
-                               int(QAbstract3DGraph::SelectionSlice | QAbstract3DGraph::SelectionRow));
+                               int(QAbstract3DGraph::SelectionSlice
+                                   | QAbstract3DGraph::SelectionRow));
     selectionModeList->addItem(u"Slice into Row and Item"_s,
-                               int(QAbstract3DGraph::SelectionSlice | QAbstract3DGraph::SelectionItemAndRow));
+                               int(QAbstract3DGraph::SelectionSlice
+                                   | QAbstract3DGraph::SelectionItemAndRow));
     selectionModeList->addItem(u"Slice into Column"_s,
-                               int(QAbstract3DGraph::SelectionSlice | QAbstract3DGraph::SelectionColumn));
+                               int(QAbstract3DGraph::SelectionSlice
+                                   | QAbstract3DGraph::SelectionColumn));
     selectionModeList->addItem(u"Slice into Column and Item"_s,
-                               int(QAbstract3DGraph::SelectionSlice | QAbstract3DGraph::SelectionItemAndColumn));
+                               int(QAbstract3DGraph::SelectionSlice
+                                   | QAbstract3DGraph::SelectionItemAndColumn));
     selectionModeList->addItem(u"Multi: Bar, Row, Col"_s,
                                int(QAbstract3DGraph::SelectionItemRowAndColumn
                                    | QAbstract3DGraph::SelectionMultiSeries));
     selectionModeList->addItem(u"Multi, Slice: Row, Item"_s,
-                               int(QAbstract3DGraph::SelectionSlice | QAbstract3DGraph::SelectionItemAndRow
+                               int(QAbstract3DGraph::SelectionSlice
+                                   | QAbstract3DGraph::SelectionItemAndRow
                                    | QAbstract3DGraph::SelectionMultiSeries));
     selectionModeList->addItem(u"Multi, Slice: Col, Item"_s,
-                               int(QAbstract3DGraph::SelectionSlice | QAbstract3DGraph::SelectionItemAndColumn
+                               int(QAbstract3DGraph::SelectionSlice
+                                   | QAbstract3DGraph::SelectionItemAndColumn
                                    | QAbstract3DGraph::SelectionMultiSeries));
     selectionModeList->setCurrentIndex(1);
 
@@ -249,80 +254,135 @@ void BarGraph::initialize()
     //! [5]
     QObject::connect(rotationSliderY, &QSlider::valueChanged, m_modifier, &GraphModifier::rotateY);
 
-    QObject::connect(labelButton, &QPushButton::clicked, m_modifier,
+    QObject::connect(labelButton,
+                     &QPushButton::clicked,
+                     m_modifier,
                      &GraphModifier::changeLabelBackground);
-    QObject::connect(cameraButton, &QPushButton::clicked, m_modifier,
+    QObject::connect(cameraButton,
+                     &QPushButton::clicked,
+                     m_modifier,
                      &GraphModifier::changePresetCamera);
-    QObject::connect(zoomToSelectedButton, &QPushButton::clicked, m_modifier,
+    QObject::connect(zoomToSelectedButton,
+                     &QPushButton::clicked,
+                     m_modifier,
                      &GraphModifier::zoomToSelectedBar);
 
-    QObject::connect(backgroundCheckBox, &QCheckBox::stateChanged, m_modifier,
+    QObject::connect(backgroundCheckBox,
+                     &QCheckBox::stateChanged,
+                     m_modifier,
                      &GraphModifier::setBackgroundEnabled);
-    QObject::connect(gridCheckBox, &QCheckBox::stateChanged, m_modifier,
+    QObject::connect(gridCheckBox,
+                     &QCheckBox::stateChanged,
+                     m_modifier,
                      &GraphModifier::setGridEnabled);
-    QObject::connect(smoothCheckBox, &QCheckBox::stateChanged, m_modifier,
+    QObject::connect(smoothCheckBox,
+                     &QCheckBox::stateChanged,
+                     m_modifier,
                      &GraphModifier::setSmoothBars);
-    QObject::connect(seriesCheckBox, &QCheckBox::stateChanged, m_modifier,
+    QObject::connect(seriesCheckBox,
+                     &QCheckBox::stateChanged,
+                     m_modifier,
                      &GraphModifier::setSeriesVisibility);
-    QObject::connect(reverseValueAxisCheckBox, &QCheckBox::stateChanged, m_modifier,
+    QObject::connect(reverseValueAxisCheckBox,
+                     &QCheckBox::stateChanged,
+                     m_modifier,
                      &GraphModifier::setReverseValueAxis);
-    QObject::connect(reflectionCheckBox, &QCheckBox::stateChanged, m_modifier,
+    QObject::connect(reflectionCheckBox,
+                     &QCheckBox::stateChanged,
+                     m_modifier,
                      &GraphModifier::setReflection);
 
-    QObject::connect(m_modifier, &GraphModifier::backgroundEnabledChanged,
-                     backgroundCheckBox, &QCheckBox::setChecked);
-    QObject::connect(m_modifier, &GraphModifier::gridEnabledChanged,
-                     gridCheckBox, &QCheckBox::setChecked);
+    QObject::connect(m_modifier,
+                     &GraphModifier::backgroundEnabledChanged,
+                     backgroundCheckBox,
+                     &QCheckBox::setChecked);
+    QObject::connect(m_modifier,
+                     &GraphModifier::gridEnabledChanged,
+                     gridCheckBox,
+                     &QCheckBox::setChecked);
 
-    QObject::connect(rangeList, &QComboBox::currentIndexChanged, m_modifier,
+    QObject::connect(rangeList,
+                     &QComboBox::currentIndexChanged,
+                     m_modifier,
                      &GraphModifier::changeRange);
 
-    QObject::connect(barStyleList, &QComboBox::currentIndexChanged, m_modifier,
+    QObject::connect(barStyleList,
+                     &QComboBox::currentIndexChanged,
+                     m_modifier,
                      &GraphModifier::changeStyle);
 
-    QObject::connect(selectionModeList, &QComboBox::currentIndexChanged, m_modifier,
+    QObject::connect(selectionModeList,
+                     &QComboBox::currentIndexChanged,
+                     m_modifier,
                      &GraphModifier::changeSelectionMode);
 
-    QObject::connect(themeList, &QComboBox::currentIndexChanged, m_modifier,
+    QObject::connect(themeList,
+                     &QComboBox::currentIndexChanged,
+                     m_modifier,
                      &GraphModifier::changeTheme);
 
-    QObject::connect(shadowQuality, &QComboBox::currentIndexChanged, m_modifier,
+    QObject::connect(shadowQuality,
+                     &QComboBox::currentIndexChanged,
+                     m_modifier,
                      &GraphModifier::changeShadowQuality);
 
-    QObject::connect(m_modifier, &GraphModifier::shadowQualityChanged, shadowQuality,
+    QObject::connect(m_modifier,
+                     &GraphModifier::shadowQualityChanged,
+                     shadowQuality,
                      &QComboBox::setCurrentIndex);
-    QObject::connect(m_barsGraph, &Q3DBars::shadowQualityChanged, m_modifier,
+    QObject::connect(m_barsGraph,
+                     &Q3DBars::shadowQualityChanged,
+                     m_modifier,
                      &GraphModifier::shadowQualityUpdatedByVisual);
 
-    QObject::connect(fontSizeSlider, &QSlider::valueChanged, m_modifier,
+    QObject::connect(fontSizeSlider,
+                     &QSlider::valueChanged,
+                     m_modifier,
                      &GraphModifier::changeFontSize);
-    QObject::connect(fontList, &QFontComboBox::currentFontChanged, m_modifier,
+    QObject::connect(fontList,
+                     &QFontComboBox::currentFontChanged,
+                     m_modifier,
                      &GraphModifier::changeFont);
 
-    QObject::connect(m_modifier, &GraphModifier::fontSizeChanged, fontSizeSlider,
+    QObject::connect(m_modifier,
+                     &GraphModifier::fontSizeChanged,
+                     fontSizeSlider,
                      &QSlider::setValue);
-    QObject::connect(m_modifier, &GraphModifier::fontChanged, fontList,
+    QObject::connect(m_modifier,
+                     &GraphModifier::fontChanged,
+                     fontList,
                      &QFontComboBox::setCurrentFont);
 
-    QObject::connect(axisTitlesVisibleCB, &QCheckBox::stateChanged, m_modifier,
+    QObject::connect(axisTitlesVisibleCB,
+                     &QCheckBox::stateChanged,
+                     m_modifier,
                      &GraphModifier::setAxisTitleVisibility);
-    QObject::connect(axisTitlesFixedCB, &QCheckBox::stateChanged, m_modifier,
+    QObject::connect(axisTitlesFixedCB,
+                     &QCheckBox::stateChanged,
+                     m_modifier,
                      &GraphModifier::setAxisTitleFixed);
-    QObject::connect(axisLabelRotationSlider, &QSlider::valueChanged, m_modifier,
+    QObject::connect(axisLabelRotationSlider,
+                     &QSlider::valueChanged,
+                     m_modifier,
                      &GraphModifier::changeLabelRotation);
 
-    QObject::connect(modeWeather, &QRadioButton::toggled, m_modifier,
+    QObject::connect(modeWeather,
+                     &QRadioButton::toggled,
+                     m_modifier,
                      &GraphModifier::setDataModeToWeather);
-    QObject::connect(modeCustomProxy, &QRadioButton::toggled, m_modifier,
+    QObject::connect(modeCustomProxy,
+                     &QRadioButton::toggled,
+                     m_modifier,
                      &GraphModifier::setDataModeToCustom);
-    QObject::connect(modeWeather, &QRadioButton::toggled, seriesCheckBox,
+    QObject::connect(modeWeather, &QRadioButton::toggled, seriesCheckBox, &QCheckBox::setEnabled);
+    QObject::connect(modeWeather, &QRadioButton::toggled, rangeList, &QComboBox::setEnabled);
+    QObject::connect(modeWeather,
+                     &QRadioButton::toggled,
+                     axisTitlesVisibleCB,
                      &QCheckBox::setEnabled);
-    QObject::connect(modeWeather, &QRadioButton::toggled, rangeList,
-                     &QComboBox::setEnabled);
-    QObject::connect(modeWeather, &QRadioButton::toggled, axisTitlesVisibleCB,
-                     &QCheckBox::setEnabled);
-    QObject::connect(modeWeather, &QRadioButton::toggled, axisTitlesFixedCB,
-                     &QCheckBox::setEnabled);
-    QObject::connect(modeWeather, &QRadioButton::toggled, axisLabelRotationSlider,
+    QObject::connect(modeWeather, &QRadioButton::toggled, axisTitlesFixedCB, &QCheckBox::setEnabled);
+    QObject::connect(modeWeather,
+                     &QRadioButton::toggled,
+                     axisLabelRotationSlider,
                      &QSlider::setEnabled);
 }

@@ -20,10 +20,15 @@ public:
     virtual ~DataSource();
 
     //! [1]
-    Q_INVOKABLE void generateData(int cacheCount, int rowCount, int columnCount,
-                                  float xMin, float xMax,
-                                  float yMin, float yMax,
-                                  float zMin, float zMax);
+    Q_INVOKABLE void generateData(int cacheCount,
+                                  int rowCount,
+                                  int columnCount,
+                                  float xMin,
+                                  float xMax,
+                                  float yMin,
+                                  float yMax,
+                                  float zMin,
+                                  float zMax);
 
     Q_INVOKABLE void update(QSurface3DSeries *series);
     //! [1]

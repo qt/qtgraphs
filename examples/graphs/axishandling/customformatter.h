@@ -4,8 +4,8 @@
 #ifndef CUSTOMFORMATTER_H
 #define CUSTOMFORMATTER_H
 
-#include <QtGraphs/qvalue3daxisformatter.h>
 #include <QtCore/qdatetime.h>
+#include <QtGraphs/qvalue3daxisformatter.h>
 #include <QtQml/qqmlregistration.h>
 
 //! [2]
@@ -19,7 +19,8 @@ class CustomFormatter : public QValue3DAxisFormatter
     Q_PROPERTY(QDate originDate READ originDate WRITE setOriginDate NOTIFY originDateChanged)
     //! [1]
     //! [3]
-    Q_PROPERTY(QString selectionFormat READ selectionFormat WRITE setSelectionFormat NOTIFY selectionFormatChanged)
+    Q_PROPERTY(QString selectionFormat READ selectionFormat WRITE setSelectionFormat NOTIFY
+                   selectionFormatChanged)
     //! [3]
 public:
     explicit CustomFormatter(QObject *parent = 0);

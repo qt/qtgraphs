@@ -7,15 +7,13 @@
 
 static const qreal oneDayMs = 60.0 * 60.0 * 24.0 * 1000.0;
 
-CustomFormatter::CustomFormatter(QObject *parent) :
-    QValue3DAxisFormatter(parent)
+CustomFormatter::CustomFormatter(QObject *parent)
+    : QValue3DAxisFormatter(parent)
 {
     qRegisterMetaType<QValue3DAxisFormatter *>();
 }
 
-CustomFormatter::~CustomFormatter()
-{
-}
+CustomFormatter::~CustomFormatter() {}
 
 //! [1]
 QValue3DAxisFormatter *CustomFormatter::createNewInstance() const
@@ -86,9 +84,9 @@ void CustomFormatter::recalculate()
             for (int j = 0; j < subGridCount; j++) {
                 float position;
                 if (i)
-                    position =  gridPositions.at(i - 1) + subSegmentStep * (j + 1);
+                    position = gridPositions.at(i - 1) + subSegmentStep * (j + 1);
                 else
-                    position =  gridPositions.at(0) - segmentStep + subSegmentStep * (j + 1);
+                    position = gridPositions.at(0) - segmentStep + subSegmentStep * (j + 1);
                 if (position > 1.0f || position < 0.0f)
                     position = gridPositions.at(0);
                 subGridPositions[i * subGridCount + j] = position;

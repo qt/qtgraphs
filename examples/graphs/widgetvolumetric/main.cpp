@@ -3,16 +3,16 @@
 
 #include "volumetric.h"
 
+#include <QtGui/qscreen.h>
 #include <QtWidgets/qapplication.h>
-#include <QtWidgets/qwidget.h>
 #include <QtWidgets/qboxlayout.h>
+#include <QtWidgets/qcheckbox.h>
+#include <QtWidgets/qgroupbox.h>
+#include <QtWidgets/qlabel.h>
+#include <QtWidgets/qmessagebox.h>
 #include <QtWidgets/qradiobutton.h>
 #include <QtWidgets/qslider.h>
-#include <QtWidgets/qcheckbox.h>
-#include <QtWidgets/qlabel.h>
-#include <QtWidgets/qgroupbox.h>
-#include <QtWidgets/qmessagebox.h>
-#include <QtGui/qscreen.h>
+#include <QtWidgets/qwidget.h>
 
 int main(int argc, char **argv)
 {
@@ -152,9 +152,9 @@ int main(int argc, char **argv)
     usePerspectiveCamera->setText(QStringLiteral("Use perspective camera"));
     usePerspectiveCamera->setChecked(false);
 
-    QLabel *performanceNoteLabel =
-            new QLabel(QStringLiteral(
-                           "Note: A high end graphics card is\nrecommended with the HD shader\nwhen the volume contains a lot of\ntransparent areas."));
+    QLabel *performanceNoteLabel = new QLabel(
+        QStringLiteral("Note: A high end graphics card is\nrecommended with the HD shader\nwhen "
+                       "the volume contains a lot of\ntransparent areas."));
     performanceNoteLabel->setFrameShape(QFrame::Box);
 
     QCheckBox *drawSliceFramesCheckBox = new QCheckBox(widget);
@@ -193,45 +193,85 @@ int main(int argc, char **argv)
     modifier->setAlphaMultiplierLabel(alphaMultiplierLabel);
     modifier->setTransparentGround(transparentGroundCheckBox->isChecked());
 
-    QObject::connect(fpsCheckBox, &QCheckBox::stateChanged, modifier,
+    QObject::connect(fpsCheckBox,
+                     &QCheckBox::stateChanged,
+                     modifier,
                      &VolumetricModifier::setFpsMeasurement);
-    QObject::connect(sliceXCheckBox, &QCheckBox::stateChanged, modifier,
+    QObject::connect(sliceXCheckBox,
+                     &QCheckBox::stateChanged,
+                     modifier,
                      &VolumetricModifier::sliceX);
-    QObject::connect(sliceYCheckBox, &QCheckBox::stateChanged, modifier,
+    QObject::connect(sliceYCheckBox,
+                     &QCheckBox::stateChanged,
+                     modifier,
                      &VolumetricModifier::sliceY);
-    QObject::connect(sliceZCheckBox, &QCheckBox::stateChanged, modifier,
+    QObject::connect(sliceZCheckBox,
+                     &QCheckBox::stateChanged,
+                     modifier,
                      &VolumetricModifier::sliceZ);
-    QObject::connect(sliceXSlider, &QSlider::valueChanged, modifier,
+    QObject::connect(sliceXSlider,
+                     &QSlider::valueChanged,
+                     modifier,
                      &VolumetricModifier::adjustSliceX);
-    QObject::connect(sliceYSlider, &QSlider::valueChanged, modifier,
+    QObject::connect(sliceYSlider,
+                     &QSlider::valueChanged,
+                     modifier,
                      &VolumetricModifier::adjustSliceY);
-    QObject::connect(sliceZSlider, &QSlider::valueChanged, modifier,
+    QObject::connect(sliceZSlider,
+                     &QSlider::valueChanged,
+                     modifier,
                      &VolumetricModifier::adjustSliceZ);
-    QObject::connect(lowDetailRB, &QRadioButton::toggled, modifier,
+    QObject::connect(lowDetailRB,
+                     &QRadioButton::toggled,
+                     modifier,
                      &VolumetricModifier::toggleLowDetail);
-    QObject::connect(mediumDetailRB, &QRadioButton::toggled, modifier,
+    QObject::connect(mediumDetailRB,
+                     &QRadioButton::toggled,
+                     modifier,
                      &VolumetricModifier::toggleMediumDetail);
-    QObject::connect(highDetailRB, &QRadioButton::toggled, modifier,
+    QObject::connect(highDetailRB,
+                     &QRadioButton::toggled,
+                     modifier,
                      &VolumetricModifier::toggleHighDetail);
-    QObject::connect(colorTableCheckBox, &QCheckBox::stateChanged, modifier,
+    QObject::connect(colorTableCheckBox,
+                     &QCheckBox::stateChanged,
+                     modifier,
                      &VolumetricModifier::changeColorTable);
-    QObject::connect(preserveOpacityCheckBox, &QCheckBox::stateChanged, modifier,
+    QObject::connect(preserveOpacityCheckBox,
+                     &QCheckBox::stateChanged,
+                     modifier,
                      &VolumetricModifier::setPreserveOpacity);
-    QObject::connect(transparentGroundCheckBox, &QCheckBox::stateChanged, modifier,
+    QObject::connect(transparentGroundCheckBox,
+                     &QCheckBox::stateChanged,
+                     modifier,
                      &VolumetricModifier::setTransparentGround);
-    QObject::connect(useHighDefShaderCheckBox, &QCheckBox::stateChanged, modifier,
+    QObject::connect(useHighDefShaderCheckBox,
+                     &QCheckBox::stateChanged,
+                     modifier,
                      &VolumetricModifier::setUseHighDefShader);
-    QObject::connect(usePerspectiveCamera, &QCheckBox::stateChanged, modifier,
+    QObject::connect(usePerspectiveCamera,
+                     &QCheckBox::stateChanged,
+                     modifier,
                      &VolumetricModifier::setUsePerspectiveCamera);
-    QObject::connect(alphaMultiplierSlider, &QSlider::valueChanged, modifier,
+    QObject::connect(alphaMultiplierSlider,
+                     &QSlider::valueChanged,
+                     modifier,
                      &VolumetricModifier::adjustAlphaMultiplier);
-    QObject::connect(areaAllRB, &QRadioButton::toggled, modifier,
+    QObject::connect(areaAllRB,
+                     &QRadioButton::toggled,
+                     modifier,
                      &VolumetricModifier::toggleAreaAll);
-    QObject::connect(areaMineRB, &QRadioButton::toggled, modifier,
+    QObject::connect(areaMineRB,
+                     &QRadioButton::toggled,
+                     modifier,
                      &VolumetricModifier::toggleAreaMine);
-    QObject::connect(areaMountainRB, &QRadioButton::toggled, modifier,
+    QObject::connect(areaMountainRB,
+                     &QRadioButton::toggled,
+                     modifier,
                      &VolumetricModifier::toggleAreaMountain);
-    QObject::connect(drawSliceFramesCheckBox, &QCheckBox::stateChanged, modifier,
+    QObject::connect(drawSliceFramesCheckBox,
+                     &QCheckBox::stateChanged,
+                     modifier,
                      &VolumetricModifier::setDrawSliceFrames);
 
     widget->show();

@@ -2,11 +2,11 @@
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR BSD-3-Clause
 
 #include "rainfalldata.h"
-#include <QtGraphs/q3dscene.h>
-#include <QtGraphs/qbar3dseries.h>
-#include <QtGraphs/q3dtheme.h>
-#include <QtCore/qtextstream.h>
 #include <QtCore/qfile.h>
+#include <QtCore/qtextstream.h>
+#include <QtGraphs/q3dscene.h>
+#include <QtGraphs/q3dtheme.h>
+#include <QtGraphs/qbar3dseries.h>
 
 using namespace Qt::StringLiterals;
 
@@ -37,9 +37,18 @@ RainfallData::RainfallData()
     m_valueAxis->setAutoAdjustRange(true);
 
     // Set axis labels and titles
-    QStringList months{"January", "February", "March", "April",
-                       "May", "June", "July", "August", "September", "October",
-                       "November","December"};
+    QStringList months{"January",
+                       "February",
+                       "March",
+                       "April",
+                       "May",
+                       "June",
+                       "July",
+                       "August",
+                       "September",
+                       "October",
+                       "November",
+                       "December"};
     m_rowAxis->setTitle("Year");
     m_colAxis->setTitle("Month");
     m_valueAxis->setTitle("rainfall (mm)");
@@ -72,7 +81,7 @@ void RainfallData::updateYearsList(int start, int end)
 void RainfallData::addDataSet()
 {
     // Create a new variant data set and data item list
-    m_dataSet =  new VariantDataSet;
+    m_dataSet = new VariantDataSet;
     auto *itemList = new VariantDataItemList;
 
     // Read data from a data file into the data item list

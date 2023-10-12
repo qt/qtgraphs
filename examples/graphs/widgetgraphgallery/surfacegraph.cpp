@@ -3,14 +3,14 @@
 
 #include "surfacegraph.h"
 
+#include <QtGui/qpainter.h>
 #include <QtWidgets/qboxlayout.h>
 #include <QtWidgets/qcheckbox.h>
 #include <QtWidgets/qcombobox.h>
-#include <QtWidgets/qradiobutton.h>
+#include <QtWidgets/qcommandlinkbutton.h>
 #include <QtWidgets/qgroupbox.h>
 #include <QtWidgets/qlabel.h>
-#include <QtWidgets/qcommandlinkbutton.h>
-#include <QtGui/qpainter.h>
+#include <QtWidgets/qradiobutton.h>
 
 using namespace Qt::StringLiterals;
 
@@ -267,71 +267,113 @@ void SurfaceGraph::initialize()
     m_modifier = new SurfaceGraphModifier(m_surfaceGraph, labelSelectedItem, this);
 
     // Connect widget controls to controller
-    QObject::connect(heightMapModelRB, &QRadioButton::toggled,
-                     m_modifier, &SurfaceGraphModifier::enableHeightMapModel);
-    QObject::connect(sqrtSinModelRB, &QRadioButton::toggled,
-                     m_modifier, &SurfaceGraphModifier::enableSqrtSinModel);
-    QObject::connect(texturedModelRB, &QRadioButton::toggled,
-                     m_modifier, &SurfaceGraphModifier::enableTopographyModel);
+    QObject::connect(heightMapModelRB,
+                     &QRadioButton::toggled,
+                     m_modifier,
+                     &SurfaceGraphModifier::enableHeightMapModel);
+    QObject::connect(sqrtSinModelRB,
+                     &QRadioButton::toggled,
+                     m_modifier,
+                     &SurfaceGraphModifier::enableSqrtSinModel);
+    QObject::connect(texturedModelRB,
+                     &QRadioButton::toggled,
+                     m_modifier,
+                     &SurfaceGraphModifier::enableTopographyModel);
 
-    QObject::connect(modeNoneRB, &QRadioButton::toggled,
-                     m_modifier, &SurfaceGraphModifier::toggleModeNone);
-    QObject::connect(modeItemRB,  &QRadioButton::toggled,
-                     m_modifier, &SurfaceGraphModifier::toggleModeItem);
-    QObject::connect(modeSliceRowRB,  &QRadioButton::toggled,
-                     m_modifier, &SurfaceGraphModifier::toggleModeSliceRow);
-    QObject::connect(modeSliceColumnRB,  &QRadioButton::toggled,
-                     m_modifier, &SurfaceGraphModifier::toggleModeSliceColumn);
+    QObject::connect(modeNoneRB,
+                     &QRadioButton::toggled,
+                     m_modifier,
+                     &SurfaceGraphModifier::toggleModeNone);
+    QObject::connect(modeItemRB,
+                     &QRadioButton::toggled,
+                     m_modifier,
+                     &SurfaceGraphModifier::toggleModeItem);
+    QObject::connect(modeSliceRowRB,
+                     &QRadioButton::toggled,
+                     m_modifier,
+                     &SurfaceGraphModifier::toggleModeSliceRow);
+    QObject::connect(modeSliceColumnRB,
+                     &QRadioButton::toggled,
+                     m_modifier,
+                     &SurfaceGraphModifier::toggleModeSliceColumn);
 
-    QObject::connect(axisMinSliderX, &QSlider::valueChanged,
-                     m_modifier, &SurfaceGraphModifier::adjustXMin);
-    QObject::connect(axisMaxSliderX, &QSlider::valueChanged,
-                     m_modifier, &SurfaceGraphModifier::adjustXMax);
-    QObject::connect(axisMinSliderZ, &QSlider::valueChanged,
-                     m_modifier, &SurfaceGraphModifier::adjustZMin);
-    QObject::connect(axisMaxSliderZ, &QSlider::valueChanged,
-                     m_modifier, &SurfaceGraphModifier::adjustZMax);
+    QObject::connect(axisMinSliderX,
+                     &QSlider::valueChanged,
+                     m_modifier,
+                     &SurfaceGraphModifier::adjustXMin);
+    QObject::connect(axisMaxSliderX,
+                     &QSlider::valueChanged,
+                     m_modifier,
+                     &SurfaceGraphModifier::adjustXMax);
+    QObject::connect(axisMinSliderZ,
+                     &QSlider::valueChanged,
+                     m_modifier,
+                     &SurfaceGraphModifier::adjustZMin);
+    QObject::connect(axisMaxSliderZ,
+                     &QSlider::valueChanged,
+                     m_modifier,
+                     &SurfaceGraphModifier::adjustZMax);
 
     // Mode dependent connections
-    QObject::connect(gradientBtoYPB, &QPushButton::pressed,
-                     m_modifier, &SurfaceGraphModifier::setBlackToYellowGradient);
-    QObject::connect(gradientGtoRPB, &QPushButton::pressed,
-                     m_modifier, &SurfaceGraphModifier::setGreenToRedGradient);
+    QObject::connect(gradientBtoYPB,
+                     &QPushButton::pressed,
+                     m_modifier,
+                     &SurfaceGraphModifier::setBlackToYellowGradient);
+    QObject::connect(gradientGtoRPB,
+                     &QPushButton::pressed,
+                     m_modifier,
+                     &SurfaceGraphModifier::setGreenToRedGradient);
 
-    QObject::connect(checkboxShowOilRigOne, &QCheckBox::stateChanged,
-                     m_modifier, &SurfaceGraphModifier::toggleItemOne);
-    QObject::connect(checkboxShowOilRigTwo, &QCheckBox::stateChanged,
-                     m_modifier, &SurfaceGraphModifier::toggleItemTwo);
-    QObject::connect(checkboxShowRefinery, &QCheckBox::stateChanged,
-                     m_modifier, &SurfaceGraphModifier::toggleItemThree);
+    QObject::connect(checkboxShowOilRigOne,
+                     &QCheckBox::stateChanged,
+                     m_modifier,
+                     &SurfaceGraphModifier::toggleItemOne);
+    QObject::connect(checkboxShowOilRigTwo,
+                     &QCheckBox::stateChanged,
+                     m_modifier,
+                     &SurfaceGraphModifier::toggleItemTwo);
+    QObject::connect(checkboxShowRefinery,
+                     &QCheckBox::stateChanged,
+                     m_modifier,
+                     &SurfaceGraphModifier::toggleItemThree);
 
-    QObject::connect(checkboxVisualsSeeThrough, &QCheckBox::stateChanged,
-                     m_modifier, &SurfaceGraphModifier::toggleSeeThrough);
-    QObject::connect(checkboxHighlightOil, &QCheckBox::stateChanged,
-                     m_modifier, &SurfaceGraphModifier::toggleOilHighlight);
-    QObject::connect(checkboxShowShadows, &QCheckBox::stateChanged,
-                     m_modifier, &SurfaceGraphModifier::toggleShadows);
+    QObject::connect(checkboxVisualsSeeThrough,
+                     &QCheckBox::stateChanged,
+                     m_modifier,
+                     &SurfaceGraphModifier::toggleSeeThrough);
+    QObject::connect(checkboxHighlightOil,
+                     &QCheckBox::stateChanged,
+                     m_modifier,
+                     &SurfaceGraphModifier::toggleOilHighlight);
+    QObject::connect(checkboxShowShadows,
+                     &QCheckBox::stateChanged,
+                     m_modifier,
+                     &SurfaceGraphModifier::toggleShadows);
 
-    QObject::connect(enableTexture, &QCheckBox::stateChanged,
-                     m_modifier, &SurfaceGraphModifier::toggleSurfaceTexture);
+    QObject::connect(enableTexture,
+                     &QCheckBox::stateChanged,
+                     m_modifier,
+                     &SurfaceGraphModifier::toggleSurfaceTexture);
 
     // Connections to disable features depending on mode
-    QObject::connect(sqrtSinModelRB, &QRadioButton::toggled,
-                     colorGroupBox, &QGroupBox::setVisible);
+    QObject::connect(sqrtSinModelRB, &QRadioButton::toggled, colorGroupBox, &QGroupBox::setVisible);
 
-    QObject::connect(heightMapModelRB, &QRadioButton::toggled,
-                     showGroupBox, &QGroupBox::setVisible);
-    QObject::connect(heightMapModelRB, &QRadioButton::toggled,
-                     visualsGroupBox, &QGroupBox::setVisible);
-    QObject::connect(heightMapModelRB, &QRadioButton::toggled,
-                     labelSelection, &QLabel::setVisible);
-    QObject::connect(heightMapModelRB, &QRadioButton::toggled,
-                     labelSelectedItem, &QLabel::setVisible);
+    QObject::connect(heightMapModelRB, &QRadioButton::toggled, showGroupBox, &QGroupBox::setVisible);
+    QObject::connect(heightMapModelRB,
+                     &QRadioButton::toggled,
+                     visualsGroupBox,
+                     &QGroupBox::setVisible);
+    QObject::connect(heightMapModelRB, &QRadioButton::toggled, labelSelection, &QLabel::setVisible);
+    QObject::connect(heightMapModelRB,
+                     &QRadioButton::toggled,
+                     labelSelectedItem,
+                     &QLabel::setVisible);
 
-    QObject::connect(texturedModelRB, &QRadioButton::toggled,
-                     enableTexture, &QLabel::setVisible);
-    QObject::connect(texturedModelRB, &QRadioButton::toggled,
-                     heightMapGroupBox, &QGroupBox::setVisible);
+    QObject::connect(texturedModelRB, &QRadioButton::toggled, enableTexture, &QLabel::setVisible);
+    QObject::connect(texturedModelRB,
+                     &QRadioButton::toggled,
+                     heightMapGroupBox,
+                     &QGroupBox::setVisible);
 
     m_modifier->setAxisMinSliderX(axisMinSliderX);
     m_modifier->setAxisMaxSliderX(axisMaxSliderX);

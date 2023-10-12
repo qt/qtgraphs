@@ -2,14 +2,14 @@
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR BSD-3-Clause
 
 #include "surfacegraphmodifier.h"
+#include "custominputhandler.h"
 #include "highlightseries.h"
 #include "topographicseries.h"
-#include "custominputhandler.h"
 
-#include <QtGraphs/qvalue3daxis.h>
-#include <QtGraphs/q3dtheme.h>
-#include <QtGui/qimage.h>
 #include <QtCore/qmath.h>
+#include <QtGraphs/q3dtheme.h>
+#include <QtGraphs/qvalue3daxis.h>
+#include <QtGui/qimage.h>
 
 using namespace Qt::StringLiterals;
 
@@ -25,10 +25,10 @@ const float areaHeight = 8000.f;
 const float aspectRatio = 0.1389f;
 const float minRange = areaWidth * 0.49f;
 
-SurfaceGraphModifier::SurfaceGraphModifier(Q3DSurface *surface, QLabel *label, QObject *parent) :
-      QObject(parent),
-      m_graph(surface),
-      m_textField(label)
+SurfaceGraphModifier::SurfaceGraphModifier(Q3DSurface *surface, QLabel *label, QObject *parent)
+    : QObject(parent)
+    , m_graph(surface)
+    , m_textField(label)
 {
     m_graph->setCameraZoomLevel(85.f);
     m_graph->setCameraPreset(QAbstract3DGraph::CameraPreset::IsometricRight);
@@ -99,8 +99,10 @@ SurfaceGraphModifier::SurfaceGraphModifier(Q3DSurface *surface, QLabel *label, Q
     m_heightMapSeriesThree->setColorStyle(Q3DTheme::ColorStyle::RangeGradient);
 
     // Custom items and label
-    connect(m_graph, &QAbstract3DGraph::selectedElementChanged,
-            this, &SurfaceGraphModifier::handleElementSelected);
+    connect(m_graph,
+            &QAbstract3DGraph::selectedElementChanged,
+            this,
+            &SurfaceGraphModifier::handleElementSelected);
 
     m_selectionAnimation = new QPropertyAnimation(this);
     m_selectionAnimation->setPropertyName("scaling");
@@ -109,7 +111,8 @@ SurfaceGraphModifier::SurfaceGraphModifier(Q3DSurface *surface, QLabel *label, Q
 
     QFont titleFont = QFont("Century Gothic", 30);
     titleFont.setBold(true);
-    m_titleLabel = new QCustom3DLabel("Oil Rigs on Imaginary Sea", titleFont,
+    m_titleLabel = new QCustom3DLabel("Oil Rigs on Imaginary Sea",
+                                      titleFont,
                                       QVector3D(0.f, 1.2f, 0.f),
                                       QVector3D(1.f, 1.f, 0.f),
                                       QQuaternion());
@@ -135,8 +138,10 @@ SurfaceGraphModifier::SurfaceGraphModifier(Q3DSurface *surface, QLabel *label, Q
     m_highlight->setMinHeight(minRange * aspectRatio);
     m_highlight->handleGradientChange(areaWidth * aspectRatio);
     //! [16]
-    QObject::connect(m_graph->axisY(), &QValue3DAxis::maxChanged,
-                     m_highlight, &HighlightSeries::handleGradientChange);
+    QObject::connect(m_graph->axisY(),
+                     &QValue3DAxis::maxChanged,
+                     m_highlight,
+                     &HighlightSeries::handleGradientChange);
     //! [16]
 
     m_customInputHandler = new CustomInputHandler(m_graph);
@@ -146,9 +151,7 @@ SurfaceGraphModifier::SurfaceGraphModifier(Q3DSurface *surface, QLabel *label, Q
     m_customInputHandler->setAspectRatio(aspectRatio);
 }
 
-SurfaceGraphModifier::~SurfaceGraphModifier()
-{
-}
+SurfaceGraphModifier::~SurfaceGraphModifier() {}
 
 void SurfaceGraphModifier::fillSqrtSinProxy()
 {
@@ -158,11 +161,11 @@ void SurfaceGraphModifier::fillSqrtSinProxy()
     //! [1]
     QSurfaceDataArray dataArray;
     dataArray.reserve(sampleCountZ);
-    for (int i = 0 ; i < sampleCountZ ; ++i) {
+    for (int i = 0; i < sampleCountZ; ++i) {
         QSurfaceDataRow newRow;
         newRow.reserve(sampleCountX);
-        // Keep values within range bounds, since just adding step can cause minor drift due
-        // to the rounding errors.
+        // Keep values within range bounds, since just adding step can cause minor
+        // drift due to the rounding errors.
         float z = qMin(sampleMax, (i * stepZ + sampleMin));
         for (int j = 0; j < sampleCountX; ++j) {
             float x = qMin(sampleMax, (j * stepX + sampleMin));
@@ -452,15 +455,17 @@ void SurfaceGraphModifier::toggleItemOne(bool show)
         color.fill(Qt::red);
         //! [9]
         //! [11]
-        auto *item = new QCustom3DItem(":/data/oilrig.mesh", positionOne,
-                                                QVector3D(0.025f, 0.025f, 0.025f),
-                                                QQuaternion::fromAxisAndAngle(0.f, 1.f, 0.f, 45.f),
-                                                color);
+        auto *item = new QCustom3DItem(":/data/oilrig.mesh",
+                                       positionOne,
+                                       QVector3D(0.025f, 0.025f, 0.025f),
+                                       QQuaternion::fromAxisAndAngle(0.f, 1.f, 0.f, 45.f),
+                                       color);
         //! [11]
         //! [12]
         m_graph->addCustomItem(item);
         //! [12]
-        item = new QCustom3DItem(":/data/pipe.mesh", positionOnePipe,
+        item = new QCustom3DItem(":/data/pipe.mesh",
+                                 positionOnePipe,
                                  QVector3D(0.005f, 0.5f, 0.005f),
                                  QQuaternion(),
                                  color);
@@ -499,7 +504,8 @@ void SurfaceGraphModifier::toggleItemTwo(bool show)
         item->setRotation(QQuaternion::fromAxisAndAngle(0.f, 1.f, 0.f, 25.f));
         item->setTextureImage(color);
         m_graph->addCustomItem(item);
-        item = new QCustom3DItem(":/data/pipe.mesh", positionTwoPipe,
+        item = new QCustom3DItem(":/data/pipe.mesh",
+                                 positionTwoPipe,
                                  QVector3D(0.005f, 0.5f, 0.005f),
                                  QQuaternion(),
                                  color);

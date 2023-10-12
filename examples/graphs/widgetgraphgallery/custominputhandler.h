@@ -14,17 +14,13 @@ class CustomInputHandler : public Q3DInputHandler
 {
     Q_OBJECT
 
-    enum InputState {
-        StateNormal = 0,
-        StateDraggingX,
-        StateDraggingZ,
-        StateDraggingY
-    };
+    enum InputState { StateNormal = 0, StateDraggingX, StateDraggingZ, StateDraggingY };
 
 public:
     explicit CustomInputHandler(QAbstract3DGraph *graph, QObject *parent = 0);
 
-    inline void setLimits(float min, float max, float minRange) {
+    inline void setLimits(float min, float max, float minRange)
+    {
         m_areaMinValue = min;
         m_areaMaxValue = max;
         m_axisXMinValue = m_areaMinValue;
@@ -34,7 +30,8 @@ public:
         m_axisXMinRange = minRange;
         m_axisZMinRange = minRange;
     }
-    inline void setAxes(QValue3DAxis *axisX, QValue3DAxis *axisY, QValue3DAxis *axisZ) {
+    inline void setAxes(QValue3DAxis *axisX, QValue3DAxis *axisY, QValue3DAxis *axisZ)
+    {
         m_axisX = axisX;
         m_axisY = axisY;
         m_axisZ = axisZ;

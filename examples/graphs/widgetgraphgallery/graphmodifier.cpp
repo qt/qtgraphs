@@ -4,13 +4,13 @@
 #include "graphmodifier.h"
 #include "rainfalldata.h"
 
+#include <QtCore/qmath.h>
+#include <QtGraphs/q3dscene.h>
+#include <QtGraphs/q3dtheme.h>
+#include <QtGraphs/qbar3dseries.h>
+#include <QtGraphs/qbardataproxy.h>
 #include <QtGraphs/qcategory3daxis.h>
 #include <QtGraphs/qvalue3daxis.h>
-#include <QtGraphs/qbardataproxy.h>
-#include <QtGraphs/q3dscene.h>
-#include <QtGraphs/qbar3dseries.h>
-#include <QtGraphs/q3dtheme.h>
-#include <QtCore/qmath.h>
 #include <QtWidgets/qcombobox.h>
 
 using namespace Qt::StringLiterals;
@@ -18,18 +18,19 @@ using namespace Qt::StringLiterals;
 // TODO: Many of the values do not affect custom proxy series now - should be fixed
 
 //! [0]
-GraphModifier::GraphModifier(Q3DBars *bargraph, QObject *parent) :
-      QObject(parent),
-      m_graph(bargraph),
-      //! [0]
-      //! [1]
-      m_temperatureAxis(new QValue3DAxis),
-      m_yearAxis(new QCategory3DAxis),
-      m_monthAxis(new QCategory3DAxis),
-      m_primarySeries(new QBar3DSeries),
-      m_secondarySeries(new QBar3DSeries),
-      m_celsiusString(u"°C"_s)
+GraphModifier::GraphModifier(Q3DBars *bargraph, QObject *parent)
+    : QObject(parent)
+    , m_graph(bargraph)
+    ,
+    //! [0]
     //! [1]
+    m_temperatureAxis(new QValue3DAxis)
+    , m_yearAxis(new QCategory3DAxis)
+    , m_monthAxis(new QCategory3DAxis)
+    , m_primarySeries(new QBar3DSeries)
+    , m_secondarySeries(new QBar3DSeries)
+    , m_celsiusString(u"°C"_s)
+//! [1]
 {
     //! [2]
     m_graph->setShadowQuality(QAbstract3DGraph::ShadowQuality::SoftMedium);
@@ -39,8 +40,18 @@ GraphModifier::GraphModifier(Q3DBars *bargraph, QObject *parent) :
     m_graph->setMultiSeriesUniform(true);
     //! [2]
 
-    m_months = {"January", "February", "March", "April", "May", "June" , "July",
-                "August", "September", "October" , "November", "December"};
+    m_months = {"January",
+                "February",
+                "March",
+                "April",
+                "May",
+                "June",
+                "July",
+                "August",
+                "September",
+                "October",
+                "November",
+                "December"};
     m_years = {"2015", "2016", "2017", "2018", "2019", "2020", "2021", "2022"};
 
     //! [3]
@@ -133,26 +144,26 @@ void GraphModifier::resetTemperatureData()
     //! [9a]
     // Set up data
     static const float tempOulu[8][12] = {
-        {-7.4f, -2.4f, 0.0f, 3.0f, 8.2f, 11.6f, 14.7f, 15.4f, 11.4f, 4.2f, 2.1f, -2.3f},       // 2015
-        {-13.4f, -3.9f, -1.8f, 3.1f, 10.6f, 13.7f, 17.8f, 13.6f, 10.7f, 3.5f, -3.1f, -4.2f},   // 2016
+        {-7.4f, -2.4f, 0.0f, 3.0f, 8.2f, 11.6f, 14.7f, 15.4f, 11.4f, 4.2f, 2.1f, -2.3f},     // 2015
+        {-13.4f, -3.9f, -1.8f, 3.1f, 10.6f, 13.7f, 17.8f, 13.6f, 10.7f, 3.5f, -3.1f, -4.2f}, // 2016
         //! [9a]
-        {-5.7f, -6.7f, -3.0f, -0.1f, 4.7f, 12.4f, 16.1f, 14.1f, 9.4f, 3.0f, -0.3f, -3.2f},     // 2017
-        {-6.4f, -11.9f, -7.4f, 1.9f, 11.4f, 12.4f, 21.5f, 16.1f, 11.0f, 4.4f, 2.1f, -4.1f},    // 2018
-        {-11.7f, -6.1f, -2.4f, 3.9f, 7.2f, 14.5f, 15.6f, 14.4f, 8.5f, 2.0f, -3.0f, -1.5f},     // 2019
-        {-2.1f, -3.4f, -1.8f, 0.6f, 7.0f, 17.1f, 15.6f, 15.4f, 11.1f, 5.6f, 1.9f, -1.7f},      // 2020
-        {-9.6f, -11.6f, -3.2f, 2.4f, 7.8f, 17.3f, 19.4f, 14.2f, 8.0f, 5.2f, -2.2f, -8.6f},     // 2021
-        {-7.3f, -6.4f, -1.8f, 1.3f, 8.1f, 15.5f, 17.6f, 17.6f, 9.1f, 5.4f, -1.5f, -4.4f}       // 2022
+        {-5.7f, -6.7f, -3.0f, -0.1f, 4.7f, 12.4f, 16.1f, 14.1f, 9.4f, 3.0f, -0.3f, -3.2f},  // 2017
+        {-6.4f, -11.9f, -7.4f, 1.9f, 11.4f, 12.4f, 21.5f, 16.1f, 11.0f, 4.4f, 2.1f, -4.1f}, // 2018
+        {-11.7f, -6.1f, -2.4f, 3.9f, 7.2f, 14.5f, 15.6f, 14.4f, 8.5f, 2.0f, -3.0f, -1.5f},  // 2019
+        {-2.1f, -3.4f, -1.8f, 0.6f, 7.0f, 17.1f, 15.6f, 15.4f, 11.1f, 5.6f, 1.9f, -1.7f},   // 2020
+        {-9.6f, -11.6f, -3.2f, 2.4f, 7.8f, 17.3f, 19.4f, 14.2f, 8.0f, 5.2f, -2.2f, -8.6f},  // 2021
+        {-7.3f, -6.4f, -1.8f, 1.3f, 8.1f, 15.5f, 17.6f, 17.6f, 9.1f, 5.4f, -1.5f, -4.4f}    // 2022
     };
 
     static const float tempHelsinki[8][12] = {
-        {-2.0f, -0.1f, 1.8f, 5.1f, 9.7f, 13.7f, 16.3f, 17.3f, 12.7f, 5.4f, 4.6f, 2.1f},        // 2015
-        {-10.3f, -0.6f, 0.0f, 4.9f, 14.3f, 15.7f, 17.7f, 16.0f, 12.7f, 4.6f, -1.0f, -0.9f},    // 2016
-        {-2.9f, -3.3f, 0.7f, 2.3f, 9.9f, 13.8f, 16.1f, 15.9f, 11.4f, 5.0f, 2.7f, 0.7f},        // 2017
-        {-2.2f, -8.4f, -4.7f, 5.0f, 15.3f, 15.8f, 21.2f, 18.2f, 13.3f, 6.7f, 2.8f, -2.0f},     // 2018
-        {-6.2f, -0.5f, -0.3f, 6.8f, 10.6f, 17.9f, 17.5f, 16.8f, 11.3f, 5.2f, 1.8f, 1.4f},      // 2019
-        {1.9f, 0.5f, 1.7f, 4.5f, 9.5f, 18.4f, 16.5f, 16.8f, 13.0f, 8.2f, 4.4f, 0.9f},          // 2020
-        {-4.7f, -8.1f, -0.9f, 4.5f, 10.4f, 19.2f, 20.9f, 15.4f, 9.5f, 8.0f, 1.5f, -6.7f},      // 2021
-        {-3.3f, -2.2f, -0.2f, 3.3f, 9.6f, 16.9f, 18.1f, 18.9f, 9.2f, 7.6f, 2.3f, -3.4f}        // 2022
+        {-2.0f, -0.1f, 1.8f, 5.1f, 9.7f, 13.7f, 16.3f, 17.3f, 12.7f, 5.4f, 4.6f, 2.1f},     // 2015
+        {-10.3f, -0.6f, 0.0f, 4.9f, 14.3f, 15.7f, 17.7f, 16.0f, 12.7f, 4.6f, -1.0f, -0.9f}, // 2016
+        {-2.9f, -3.3f, 0.7f, 2.3f, 9.9f, 13.8f, 16.1f, 15.9f, 11.4f, 5.0f, 2.7f, 0.7f},     // 2017
+        {-2.2f, -8.4f, -4.7f, 5.0f, 15.3f, 15.8f, 21.2f, 18.2f, 13.3f, 6.7f, 2.8f, -2.0f},  // 2018
+        {-6.2f, -0.5f, -0.3f, 6.8f, 10.6f, 17.9f, 17.5f, 16.8f, 11.3f, 5.2f, 1.8f, 1.4f},   // 2019
+        {1.9f, 0.5f, 1.7f, 4.5f, 9.5f, 18.4f, 16.5f, 16.8f, 13.0f, 8.2f, 4.4f, 0.9f},       // 2020
+        {-4.7f, -8.1f, -0.9f, 4.5f, 10.4f, 19.2f, 20.9f, 15.4f, 9.5f, 8.0f, 1.5f, -6.7f},   // 2021
+        {-3.3f, -2.2f, -0.2f, 3.3f, 9.6f, 16.9f, 18.1f, 18.9f, 9.2f, 7.6f, 2.3f, -3.4f}     // 2022
     };
 
     // Create data arrays
@@ -218,7 +229,7 @@ void GraphModifier::changePresetCamera()
     //! [7]
     static int preset = int(QAbstract3DGraph::CameraPreset::Front);
 
-    m_graph->setCameraPreset((QAbstract3DGraph::CameraPreset)preset);
+    m_graph->setCameraPreset((QAbstract3DGraph::CameraPreset) preset);
 
     if (++preset > int(QAbstract3DGraph::CameraPreset::DirectlyBelow))
         preset = int(QAbstract3DGraph::CameraPreset::FrontLow);
@@ -237,7 +248,8 @@ void GraphModifier::changeTheme(int theme)
 
 void GraphModifier::changeLabelBackground()
 {
-    m_graph->activeTheme()->setLabelBackgroundEnabled(!m_graph->activeTheme()->isLabelBackgroundEnabled());
+    m_graph->activeTheme()->setLabelBackgroundEnabled(
+        !m_graph->activeTheme()->isLabelBackgroundEnabled());
 }
 
 void GraphModifier::changeSelectionMode(int selectionMode)
@@ -308,9 +320,8 @@ void GraphModifier::zoomToSelectedBar()
     m_animationCameraZoom.setStartValue(QVariant::fromValue(currentZoom));
     m_animationCameraTarget.setStartValue(QVariant::fromValue(currentTarget));
 
-    QPoint selectedBar = m_graph->selectedSeries()
-            ? m_graph->selectedSeries()->selectedBar()
-            : QBar3DSeries::invalidSelectionPosition();
+    QPoint selectedBar = m_graph->selectedSeries() ? m_graph->selectedSeries()->selectedBar()
+                                                   : QBar3DSeries::invalidSelectionPosition();
 
     if (selectedBar != QBar3DSeries::invalidSelectionPosition()) {
         // Normalize selected bar position within axis range to determine target coordinates
@@ -329,8 +340,10 @@ void GraphModifier::zoomToSelectedBar()
         qreal endAngleX = 90.0 - qRadiansToDegrees(qAtan(qreal(endTarget.z() / endTarget.x())));
         if (endTarget.x() > 0.0f)
             endAngleX -= 180.0f;
-        float barValue = m_graph->selectedSeries()->dataProxy()->itemAt(selectedBar.x(),
-                                                                        selectedBar.y()).value();
+        float barValue = m_graph->selectedSeries()
+                             ->dataProxy()
+                             ->itemAt(selectedBar.x(), selectedBar.y())
+                             .value();
         float endAngleY = barValue >= 0.0f ? 30.0f : -30.0f;
         if (m_graph->valueAxis()->reversed())
             endAngleY *= -1.0f;

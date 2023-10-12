@@ -4,8 +4,8 @@
 #ifndef BARGRAPH_H
 #define BARGRAPH_H
 
-#include <QtGraphs/q3dbars.h>
 #include <QtCore/qobject.h>
+#include <QtGraphs/q3dbars.h>
 #include "graphmodifier.h"
 
 class BarGraph : public QObject

@@ -14,12 +14,16 @@ class VariantBarDataMapping : public QObject
     Q_PROPERTY(int rowIndex READ rowIndex WRITE setRowIndex NOTIFY rowIndexChanged)
     Q_PROPERTY(int columnIndex READ columnIndex WRITE setColumnIndex NOTIFY columnIndexChanged)
     Q_PROPERTY(int valueIndex READ valueIndex WRITE setValueIndex NOTIFY valueIndexChanged)
-    Q_PROPERTY(QStringList rowCategories READ rowCategories WRITE setRowCategories NOTIFY rowCategoriesChanged)
-    Q_PROPERTY(QStringList columnCategories READ columnCategories WRITE setColumnCategories NOTIFY columnCategoriesChanged)
+    Q_PROPERTY(QStringList rowCategories READ rowCategories WRITE setRowCategories NOTIFY
+                   rowCategoriesChanged)
+    Q_PROPERTY(QStringList columnCategories READ columnCategories WRITE setColumnCategories NOTIFY
+                   columnCategoriesChanged)
     //! [0]
 public:
     //! [1]
-    explicit VariantBarDataMapping(int rowIndex, int columnIndex, int valueIndex,
+    explicit VariantBarDataMapping(int rowIndex,
+                                   int columnIndex,
+                                   int valueIndex,
                                    const QStringList &rowCategories,
                                    const QStringList &columnCategories);
     //! [1]
@@ -38,7 +42,9 @@ public:
     const QStringList &columnCategories() const;
 
     //! [2]
-    void remap(int rowIndex, int columnIndex, int valueIndex,
+    void remap(int rowIndex,
+               int columnIndex,
+               int valueIndex,
                const QStringList &rowCategories,
                const QStringList &columnCategories);
     //! [2]
@@ -58,7 +64,8 @@ private:
     int m_columnIndex = 1;
     int m_valueIndex = 2;
 
-    // For row/column items, sort items into these categories. Other categories are ignored.
+    // For row/column items, sort items into these categories. Other categories
+    // are ignored.
     QStringList m_rowCategories = {};
     QStringList m_columnCategories = {};
 };

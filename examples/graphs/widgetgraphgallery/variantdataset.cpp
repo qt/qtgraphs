@@ -23,7 +23,7 @@ void VariantDataSet::clear()
 int VariantDataSet::addItem(VariantDataItem *item)
 {
     m_variantData.append(item);
-    int addIndex =  m_variantData.size();
+    int addIndex = m_variantData.size();
 
     emit itemsAdded(addIndex, 1);
     return addIndex;

@@ -6,8 +6,8 @@
 #include <QtWidgets/qboxlayout.h>
 #include <QtWidgets/qcheckbox.h>
 #include <QtWidgets/qcombobox.h>
-#include <QtWidgets/qlabel.h>
 #include <QtWidgets/qcommandlinkbutton.h>
+#include <QtWidgets/qlabel.h>
 
 using namespace Qt::StringLiterals;
 
@@ -75,10 +75,14 @@ void ScatterGraph::initialize()
     const QMetaObject &metaObj = QAbstract3DSeries::staticMetaObject;
     int index = metaObj.indexOfEnumerator("Mesh");
     QMetaEnum metaEnum = metaObj.enumerator(index);
-    itemStyleList->addItem(u"Sphere"_s, metaEnum.value(static_cast<int>(QAbstract3DSeries::Mesh::Sphere)));
-    itemStyleList->addItem(u"Cube"_s, metaEnum.value(static_cast<int>(QAbstract3DSeries::Mesh::Cube)));
-    itemStyleList->addItem(u"Minimal"_s, metaEnum.value(static_cast<int>(QAbstract3DSeries::Mesh::Minimal)));
-    itemStyleList->addItem(u"Point"_s, metaEnum.value(static_cast<int>(QAbstract3DSeries::Mesh::Point)));
+    itemStyleList->addItem(u"Sphere"_s,
+                           metaEnum.value(static_cast<int>(QAbstract3DSeries::Mesh::Sphere)));
+    itemStyleList->addItem(u"Cube"_s,
+                           metaEnum.value(static_cast<int>(QAbstract3DSeries::Mesh::Cube)));
+    itemStyleList->addItem(u"Minimal"_s,
+                           metaEnum.value(static_cast<int>(QAbstract3DSeries::Mesh::Minimal)));
+    itemStyleList->addItem(u"Point"_s,
+                           metaEnum.value(static_cast<int>(QAbstract3DSeries::Mesh::Point)));
     itemStyleList->setCurrentIndex(0);
 
     auto *themeList = new QComboBox(m_scatterWidget);
@@ -122,40 +126,70 @@ void ScatterGraph::initialize()
 
     m_modifier = new ScatterDataModifier(m_scatterGraph, this);
 
-    QObject::connect(cameraButton, &QCommandLinkButton::clicked, m_modifier,
+    QObject::connect(cameraButton,
+                     &QCommandLinkButton::clicked,
+                     m_modifier,
                      &ScatterDataModifier::changePresetCamera);
-    QObject::connect(itemCountButton, &QCommandLinkButton::clicked, m_modifier,
+    QObject::connect(itemCountButton,
+                     &QCommandLinkButton::clicked,
+                     m_modifier,
                      &ScatterDataModifier::toggleItemCount);
-    QObject::connect(rangeButton, &QCommandLinkButton::clicked, m_modifier,
+    QObject::connect(rangeButton,
+                     &QCommandLinkButton::clicked,
+                     m_modifier,
                      &ScatterDataModifier::toggleRanges);
 
-    QObject::connect(rangeMinSlider, &QSlider::valueChanged, m_modifier,
+    QObject::connect(rangeMinSlider,
+                     &QSlider::valueChanged,
+                     m_modifier,
                      &ScatterDataModifier::adjustMinimumRange);
-    QObject::connect(rangeMaxSlider, &QSlider::valueChanged, m_modifier,
+    QObject::connect(rangeMaxSlider,
+                     &QSlider::valueChanged,
+                     m_modifier,
                      &ScatterDataModifier::adjustMaximumRange);
 
-    QObject::connect(backgroundCheckBox, &QCheckBox::stateChanged, m_modifier,
+    QObject::connect(backgroundCheckBox,
+                     &QCheckBox::stateChanged,
+                     m_modifier,
                      &ScatterDataModifier::setBackgroundEnabled);
-    QObject::connect(gridCheckBox, &QCheckBox::stateChanged, m_modifier,
+    QObject::connect(gridCheckBox,
+                     &QCheckBox::stateChanged,
+                     m_modifier,
                      &ScatterDataModifier::setGridEnabled);
-    QObject::connect(smoothCheckBox, &QCheckBox::stateChanged, m_modifier,
+    QObject::connect(smoothCheckBox,
+                     &QCheckBox::stateChanged,
+                     m_modifier,
                      &ScatterDataModifier::setSmoothDots);
 
-    QObject::connect(m_modifier, &ScatterDataModifier::backgroundEnabledChanged,
-                     backgroundCheckBox, &QCheckBox::setChecked);
-    QObject::connect(m_modifier, &ScatterDataModifier::gridEnabledChanged,
-                     gridCheckBox, &QCheckBox::setChecked);
-    QObject::connect(itemStyleList, &QComboBox::currentIndexChanged, m_modifier,
+    QObject::connect(m_modifier,
+                     &ScatterDataModifier::backgroundEnabledChanged,
+                     backgroundCheckBox,
+                     &QCheckBox::setChecked);
+    QObject::connect(m_modifier,
+                     &ScatterDataModifier::gridEnabledChanged,
+                     gridCheckBox,
+                     &QCheckBox::setChecked);
+    QObject::connect(itemStyleList,
+                     &QComboBox::currentIndexChanged,
+                     m_modifier,
                      &ScatterDataModifier::changeStyle);
 
-    QObject::connect(themeList, &QComboBox::currentIndexChanged, m_modifier,
+    QObject::connect(themeList,
+                     &QComboBox::currentIndexChanged,
+                     m_modifier,
                      &ScatterDataModifier::changeTheme);
 
-    QObject::connect(shadowQuality, &QComboBox::currentIndexChanged, m_modifier,
+    QObject::connect(shadowQuality,
+                     &QComboBox::currentIndexChanged,
+                     m_modifier,
                      &ScatterDataModifier::changeShadowQuality);
 
-    QObject::connect(m_modifier, &ScatterDataModifier::shadowQualityChanged, shadowQuality,
+    QObject::connect(m_modifier,
+                     &ScatterDataModifier::shadowQualityChanged,
+                     shadowQuality,
                      &QComboBox::setCurrentIndex);
-    QObject::connect(m_scatterGraph, &Q3DScatter::shadowQualityChanged, m_modifier,
+    QObject::connect(m_scatterGraph,
+                     &Q3DScatter::shadowQualityChanged,
+                     m_modifier,
                      &ScatterDataModifier::shadowQualityUpdatedByVisual);
 }

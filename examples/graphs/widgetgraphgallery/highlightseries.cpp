@@ -18,9 +18,7 @@ HighlightSeries::HighlightSeries()
     setVisible(false);
 }
 
-HighlightSeries::~HighlightSeries()
-{
-}
+HighlightSeries::~HighlightSeries() {}
 
 //! [0]
 void HighlightSeries::setTopographicSeries(TopographicSeries *series)
@@ -29,8 +27,10 @@ void HighlightSeries::setTopographicSeries(TopographicSeries *series)
     m_srcWidth = m_topographicSeries->dataProxy()->array().at(0).size();
     m_srcHeight = m_topographicSeries->dataProxy()->array().size();
 
-    QObject::connect(m_topographicSeries, &QSurface3DSeries::selectedPointChanged,
-                     this, &HighlightSeries::handlePositionChange);
+    QObject::connect(m_topographicSeries,
+                     &QSurface3DSeries::selectedPointChanged,
+                     this,
+                     &HighlightSeries::handlePositionChange);
 }
 //! [0]
 
@@ -48,13 +48,13 @@ void HighlightSeries::handlePositionChange(const QPoint &position)
     int halfHeight = m_height / 2;
 
     int startX = position.x() - halfWidth;
-    if (startX < 0 )
+    if (startX < 0)
         startX = 0;
     int endX = position.x() + halfWidth;
     if (endX > (m_srcWidth - 1))
         endX = m_srcWidth - 1;
     int startZ = position.y() - halfHeight;
-    if (startZ < 0 )
+    if (startZ < 0)
         startZ = 0;
     int endZ = position.y() + halfHeight;
     if (endZ > (m_srcHeight - 1))

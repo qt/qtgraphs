@@ -4,10 +4,10 @@
 #ifndef GRAPHMODIFIER_H
 #define GRAPHMODIFIER_H
 
-#include <QtGraphs/q3dbars.h>
-#include <QtGraphs/qbardataproxy.h>
-#include <QtGraphs/qabstract3dseries.h>
 #include <QtCore/qpropertyanimation.h>
+#include <QtGraphs/q3dbars.h>
+#include <QtGraphs/qabstract3dseries.h>
+#include <QtGraphs/qbardataproxy.h>
 
 class RainfallData;
 

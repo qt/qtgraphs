@@ -2,9 +2,9 @@
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR BSD-3-Clause
 
 #include <QtGui/qguiapplication.h>
-#include <QtQuick/qquickview.h>
 #include <QtQml/qqmlengine.h>
 #include <QtQml>
+#include <QtQuick/qquickview.h>
 
 #ifdef QMAKE_BUILD
 #include "customformatter.h"
@@ -21,15 +21,15 @@ int main(int argc, char *argv[])
 
     QQuickView viewer;
 
-    // The following are needed to make examples run without having to install the module
-    // in desktop environments.
+    // The following are needed to make examples run without having to install the
+    // module in desktop environments.
 #ifdef Q_OS_WIN
     QString extraImportPath(QStringLiteral("%1/../../../../%2"));
 #else
     QString extraImportPath(QStringLiteral("%1/../../../%2"));
 #endif
-    viewer.engine()->addImportPath(extraImportPath.arg(QGuiApplication::applicationDirPath(),
-                                      QString::fromLatin1("qml")));
+    viewer.engine()->addImportPath(
+        extraImportPath.arg(QGuiApplication::applicationDirPath(), QString::fromLatin1("qml")));
     QObject::connect(viewer.engine(), &QQmlEngine::quit, &viewer, &QWindow::close);
 
     viewer.setTitle(QStringLiteral("Axis Handling"));

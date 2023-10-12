@@ -4,13 +4,13 @@
 #ifndef VOLUMETRICMODIFIER_H
 #define VOLUMETRICMODIFIER_H
 
+#include <QtCore/qtimer.h>
 #include <QtGraphs/q3dscatter.h>
 #include <QtGraphs/qcustom3dvolume.h>
-#include <QtCore/qtimer.h>
 #include <QtGui/qrgb.h>
 #include <QtWidgets/qlabel.h>
-#include <QtWidgets/qslider.h>
 #include <QtWidgets/qradiobutton.h>
+#include <QtWidgets/qslider.h>
 
 class VolumetricModifier : public QObject
 {

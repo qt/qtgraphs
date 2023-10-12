@@ -6,8 +6,8 @@
 #include "surfacegraph.h"
 
 #include <QtWidgets/qapplication.h>
-#include <QtWidgets/qwidget.h>
 #include <QtWidgets/qtabwidget.h>
+#include <QtWidgets/qwidget.h>
 
 using namespace Qt::StringLiterals;
 

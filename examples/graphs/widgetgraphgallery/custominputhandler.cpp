@@ -5,11 +5,13 @@
 
 #include <QtCore/qmath.h>
 
-CustomInputHandler::CustomInputHandler(QAbstract3DGraph *graph, QObject *parent) :
-    Q3DInputHandler(parent)
+CustomInputHandler::CustomInputHandler(QAbstract3DGraph *graph, QObject *parent)
+    : Q3DInputHandler(parent)
 {
     // Connect to the item selection signal from graph
-    connect(graph, &QAbstract3DGraph::selectedElementChanged, this,
+    connect(graph,
+            &QAbstract3DGraph::selectedElementChanged,
+            this,
             &CustomInputHandler::handleElementSelected);
 }
 

@@ -4,12 +4,14 @@
 #include "axesinputhandler.h"
 #include <QtCore/qmath.h>
 
-AxesInputHandler::AxesInputHandler(QAbstract3DGraph *graph, QObject *parent) :
-    Q3DInputHandler(parent)
+AxesInputHandler::AxesInputHandler(QAbstract3DGraph *graph, QObject *parent)
+    : Q3DInputHandler(parent)
 {
     //! [3]
     // Connect to the item selection signal from graph
-    connect(graph, &QAbstract3DGraph::selectedElementChanged, this,
+    connect(graph,
+            &QAbstract3DGraph::selectedElementChanged,
+            this,
             &AxesInputHandler::handleElementSelected);
     //! [3]
 }

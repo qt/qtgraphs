@@ -18,9 +18,13 @@ void VariantBarDataProxy::setDataSet(VariantDataSet *newSet)
     m_dataSet = newSet;
 
     if (!m_dataSet.isNull()) {
-        QObject::connect(m_dataSet.data(), &VariantDataSet::itemsAdded, this,
+        QObject::connect(m_dataSet.data(),
+                         &VariantDataSet::itemsAdded,
+                         this,
                          &VariantBarDataProxy::handleItemsAdded);
-        QObject::connect(m_dataSet.data(), &VariantDataSet::dataCleared, this,
+        QObject::connect(m_dataSet.data(),
+                         &VariantDataSet::dataCleared,
+                         this,
                          &VariantBarDataProxy::handleDataCleared);
     }
     resolveDataSet();
@@ -34,14 +38,18 @@ VariantDataSet *VariantBarDataProxy::dataSet()
 void VariantBarDataProxy::setMapping(VariantBarDataMapping *mapping)
 {
     if (!m_mapping.isNull()) {
-        QObject::disconnect(m_mapping.data(), &VariantBarDataMapping::mappingChanged, this,
+        QObject::disconnect(m_mapping.data(),
+                            &VariantBarDataMapping::mappingChanged,
+                            this,
                             &VariantBarDataProxy::handleMappingChanged);
     }
 
     m_mapping = mapping;
 
     if (!m_mapping.isNull()) {
-        QObject::connect(m_mapping.data(), &VariantBarDataMapping::mappingChanged, this,
+        QObject::connect(m_mapping.data(),
+                         &VariantBarDataMapping::mappingChanged,
+                         this,
                          &VariantBarDataProxy::handleMappingChanged);
     }
 
@@ -77,9 +85,10 @@ void VariantBarDataProxy::handleMappingChanged()
 //! [0]
 void VariantBarDataProxy::resolveDataSet()
 {
-    // If we have no data or mapping, or the categories are not defined, simply clear the array
+    // If we have no data or mapping, or the categories are not defined, simply
+    // clear the array
     if (m_dataSet.isNull() || m_mapping.isNull() || !m_mapping->rowCategories().size()
-            || !m_mapping->columnCategories().size()) {
+        || !m_mapping->columnCategories().size()) {
         resetArray();
         return;
     }
@@ -93,10 +102,10 @@ void VariantBarDataProxy::resolveDataSet()
 
     // Sort values into rows and columns
     using ColumnValueMap = QHash<QString, float>;
-    QHash <QString, ColumnValueMap> itemValueMap;
+    QHash<QString, ColumnValueMap> itemValueMap;
     for (const VariantDataItem *item : itemList) {
         itemValueMap[item->at(rowIndex).toString()][item->at(columnIndex).toString()]
-                = item->at(valueIndex).toReal();
+            = item->at(valueIndex).toReal();
     }
 
     // Create a new data array in format the parent class understands
