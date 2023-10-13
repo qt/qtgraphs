@@ -4981,7 +4981,7 @@ void QQuickGraphsItem::updateSliceGrid()
                 linePosX = axis->gridPositionAt(i) * scale * 2.0f - translate;
             else
                 linePosX = axis->subGridPositionAt(i - axis->gridSize()) * scale * 2.0f - translate;
-            lineNode->setProperty("lineColor", QColor(0, 0, 0));
+            lineNode->setProperty("lineColor", theme()->gridLineColor());
             positionAndScaleLine(lineNode, verticalScale, QVector3D(linePosX, linePosY, linePosZ));
         }
     }
@@ -5001,7 +5001,7 @@ void QQuickGraphsItem::updateSliceGrid()
         } else if (verticalAxis->type() == QAbstract3DAxis::AxisType::Category) {
             linePosY = calculateCategoryGridLinePosition(verticalAxis, i);
         }
-        lineNode->setProperty("lineColor", QColor(0, 0, 0));
+        lineNode->setProperty("lineColor", theme()->gridLineColor());
         positionAndScaleLine(lineNode, horizontalScale, QVector3D(linePosX, linePosY, linePosZ));
     }
 }
