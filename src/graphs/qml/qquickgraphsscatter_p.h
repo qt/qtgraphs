@@ -12,8 +12,8 @@
 #ifndef QQUICKGRAPHSSCATTER_P_H
 #define QQUICKGRAPHSSCATTER_P_H
 
-#include "qscatter3dseries.h"
 #include "qquickgraphsitem_p.h"
+#include "qscatter3dseries.h"
 #include "qvalue3daxis.h"
 #include "scatterinstancing_p.h"
 
@@ -24,15 +24,15 @@ QT_BEGIN_NAMESPACE
 
 class Q3DScatter;
 
-struct Scatter3DChangeBitField {
+struct Scatter3DChangeBitField
+{
     bool selectedItemChanged : 1;
-    bool itemChanged         : 1;
+    bool itemChanged : 1;
 
-    Scatter3DChangeBitField() :
-        selectedItemChanged(true),
-        itemChanged(false)
-    {
-    }
+    Scatter3DChangeBitField()
+        : selectedItemChanged(true)
+        , itemChanged(false)
+    {}
 };
 
 class QQuickGraphsScatter : public QQuickGraphsItem
@@ -51,7 +51,8 @@ public:
     explicit QQuickGraphsScatter(QQuickItem *parent = 0);
     ~QQuickGraphsScatter();
 
-    struct ChangeItem {
+    struct ChangeItem
+    {
         QScatter3DSeries *series;
         int index;
     };
@@ -79,12 +80,15 @@ public:
     virtual void setSelectionMode(QAbstract3DGraph::SelectionFlags mode) override;
 
     inline bool hasSelectedItemChanged() const { return m_changeTracker.selectedItemChanged; }
-    inline void setSelectedItemChanged(bool changed) { m_changeTracker.selectedItemChanged = changed; }
+    inline void setSelectedItemChanged(bool changed)
+    {
+        m_changeTracker.selectedItemChanged = changed;
+    }
     inline bool hasItemChanged() const { return m_changeTracker.itemChanged; }
     inline void setItemChanged(bool changed) { m_changeTracker.itemChanged = changed; }
 
-    void handleAxisAutoAdjustRangeChangedInOrientation(
-        QAbstract3DAxis::AxisOrientation orientation, bool autoAdjust) override;
+    void handleAxisAutoAdjustRangeChangedInOrientation(QAbstract3DAxis::AxisOrientation orientation,
+                                                       bool autoAdjust) override;
     void handleAxisRangeChangedBySender(QObject *sender) override;
     void adjustAxisRanges() override;
     inline bool hasChangedSeriesList() const { return !m_changedSeriesList.empty(); }
@@ -125,32 +129,34 @@ private:
     Scatter3DChangeBitField m_changeTracker;
     QList<ChangeItem> m_changedItems;
 
-    struct InsertRemoveRecord {
+    struct InsertRemoveRecord
+    {
         bool m_isInsert;
         int m_startIndex;
         int m_count;
         QAbstract3DSeries *m_series;
 
-        InsertRemoveRecord() :
-            m_isInsert(false),
-            m_startIndex(0),
-            m_count(0),
-            m_series(0)
+        InsertRemoveRecord()
+            : m_isInsert(false)
+            , m_startIndex(0)
+            , m_count(0)
+            , m_series(0)
         {}
 
-        InsertRemoveRecord(bool isInsert, int startIndex, int count, QAbstract3DSeries *series) :
-            m_isInsert(isInsert),
-            m_startIndex(startIndex),
-            m_count(count),
-            m_series(series)
+        InsertRemoveRecord(bool isInsert, int startIndex, int count, QAbstract3DSeries *series)
+            : m_isInsert(isInsert)
+            , m_startIndex(startIndex)
+            , m_count(count)
+            , m_series(series)
         {}
     };
 
     QList<InsertRemoveRecord> m_insertRemoveRecords;
     bool m_recordInsertsAndRemoves;
 
-    struct ScatterModel {
-        QList <QQuick3DModel *> dataItems;
+    struct ScatterModel
+    {
+        QList<QQuick3DModel *> dataItems;
         QQuick3DTexture *seriesTexture;
         QQuick3DTexture *highlightTexture;
         QScatter3DSeries *series;
@@ -159,7 +165,6 @@ private:
         ScatterInstancing *instancing = nullptr;
         QQuick3DModel *instancingRootItem = nullptr;
         QQuick3DModel *selectionIndicator = nullptr;
-
     };
 
     float m_maxItemSize = 0.0f;
@@ -184,8 +189,8 @@ private:
 
     float m_selectedGradientPos = 0.0f;
     int m_selectedItem;
-    QScatter3DSeries *m_selectedItemSeries; // Points to the series for which the bar is selected
-                                            // in single series selection cases.
+    QScatter3DSeries *m_selectedItemSeries; // Points to the series for which the bar is
+                                            // selected in single series selection cases.
     QQuick3DModel *m_selected = nullptr;
     QQuick3DModel *m_previousSelected = nullptr;
 
@@ -202,12 +207,17 @@ private:
 
     float m_dotSizedScale = 1.0f;
 
-    void updateInstancedMaterialProperties(ScatterModel *graphModel, bool isHighlight = false,
+    void updateInstancedMaterialProperties(ScatterModel *graphModel,
+                                           bool isHighlight = false,
                                            QQuick3DTexture *seriesTexture = nullptr,
                                            QQuick3DTexture *highlightTexture = nullptr);
-    void updateItemMaterial(QQuick3DModel *item, bool useGradient, bool rangeGradient,
-                            bool usePoint, const QString &materialName);
-    void updateMaterialProperties(QQuick3DModel *item, QQuick3DTexture *texture,
+    void updateItemMaterial(QQuick3DModel *item,
+                            bool useGradient,
+                            bool rangeGradient,
+                            bool usePoint,
+                            const QString &materialName);
+    void updateMaterialProperties(QQuick3DModel *item,
+                                  QQuick3DTexture *texture,
                                   const QColor &color = Qt::white);
     QQuick3DTexture *createTexture();
     QQuick3DModel *createDataItemModel(QAbstract3DSeries::Mesh meshType);

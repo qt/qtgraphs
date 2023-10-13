@@ -18,6 +18,7 @@
 
 #include <QtCore/qabstractitemmodel.h>
 
+#include <QtCore/private/qglobal_p.h>
 #include <QtGraphs/q3dinputhandler.h>
 #include <QtGraphs/q3dscene.h>
 #include <QtGraphs/q3dtheme.h>
@@ -43,15 +44,14 @@
 #include <QtGraphs/qtouch3dinputhandler.h>
 #include <QtGraphs/qvalue3daxis.h>
 #include <QtGraphs/qvalue3daxisformatter.h>
-#include <QtCore/private/qglobal_p.h>
 
 QT_BEGIN_NAMESPACE
 
 #define DEFINE_FOREIGN_BASE_ATTRIBUTES(type, name, minor) \
-        Q_GADGET \
-        QML_NAMED_ELEMENT(name) \
-        QML_FOREIGN(type) \
-        QML_ADDED_IN_VERSION(6, minor) \
+    Q_GADGET \
+    QML_NAMED_ELEMENT(name) \
+    QML_FOREIGN(type) \
+    QML_ADDED_IN_VERSION(6, minor)
 
 #define DEFINE_FOREIGN_UNCREATABLE_TYPE(type, name) \
     struct type##GraphsForeign \

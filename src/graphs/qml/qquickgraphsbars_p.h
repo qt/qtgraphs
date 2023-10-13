@@ -15,11 +15,11 @@
 #define QQUICKGRAPHSBARS_H
 
 #include "axishelper_p.h"
+#include "barinstancing_p.h"
+#include "qabstract3daxis.h"
 #include "qbar3dseries.h"
 #include "qcategory3daxis.h"
 #include "qquickgraphsitem_p.h"
-#include "barinstancing_p.h"
-#include "qabstract3daxis.h"
 
 #include <QtQuick3D/private/qquick3dmaterial_p.h>
 
@@ -27,25 +27,25 @@ QT_BEGIN_NAMESPACE
 
 class Q3DBars;
 
-struct Bars3DChangeBitField {
-    bool multiSeriesScalingChanged  : 1;
-    bool barSpecsChanged            : 1;
-    bool selectedBarChanged         : 1;
-    bool rowsChanged                : 1;
-    bool itemChanged                : 1;
-    bool floorLevelChanged          : 1;
-    bool barSeriesMarginChanged     : 1;
+struct Bars3DChangeBitField
+{
+    bool multiSeriesScalingChanged : 1;
+    bool barSpecsChanged : 1;
+    bool selectedBarChanged : 1;
+    bool rowsChanged : 1;
+    bool itemChanged : 1;
+    bool floorLevelChanged : 1;
+    bool barSeriesMarginChanged : 1;
 
-    Bars3DChangeBitField() :
-        multiSeriesScalingChanged(true),
-        barSpecsChanged(true),
-        selectedBarChanged(true),
-        rowsChanged(false),
-        itemChanged(false),
-        floorLevelChanged(false),
-        barSeriesMarginChanged(false)
-    {
-    }
+    Bars3DChangeBitField()
+        : multiSeriesScalingChanged(true)
+        , barSpecsChanged(true)
+        , selectedBarChanged(true)
+        , rowsChanged(false)
+        , itemChanged(false)
+        , floorLevelChanged(false)
+        , barSeriesMarginChanged(false)
+    {}
 };
 
 class QQuickGraphsBars : public QQuickGraphsItem
@@ -53,15 +53,20 @@ class QQuickGraphsBars : public QQuickGraphsItem
     Q_OBJECT
     Q_PROPERTY(QCategory3DAxis *rowAxis READ rowAxis WRITE setRowAxis NOTIFY rowAxisChanged)
     Q_PROPERTY(QValue3DAxis *valueAxis READ valueAxis WRITE setValueAxis NOTIFY valueAxisChanged)
-    Q_PROPERTY(QCategory3DAxis *columnAxis READ columnAxis WRITE setColumnAxis NOTIFY columnAxisChanged)
-    Q_PROPERTY(bool multiSeriesUniform READ isMultiSeriesUniform WRITE setMultiSeriesUniform NOTIFY multiSeriesUniformChanged)
+    Q_PROPERTY(
+        QCategory3DAxis *columnAxis READ columnAxis WRITE setColumnAxis NOTIFY columnAxisChanged)
+    Q_PROPERTY(bool multiSeriesUniform READ isMultiSeriesUniform WRITE setMultiSeriesUniform NOTIFY
+                   multiSeriesUniformChanged)
     Q_PROPERTY(float barThickness READ barThickness WRITE setBarThickness NOTIFY barThicknessChanged)
     Q_PROPERTY(QSizeF barSpacing READ barSpacing WRITE setBarSpacing NOTIFY barSpacingChanged)
-    Q_PROPERTY(bool barSpacingRelative READ isBarSpacingRelative WRITE setBarSpacingRelative NOTIFY barSpacingRelativeChanged)
-    Q_PROPERTY(QSizeF barSeriesMargin READ barSeriesMargin WRITE setBarSeriesMargin NOTIFY barSeriesMarginChanged)
+    Q_PROPERTY(bool barSpacingRelative READ isBarSpacingRelative WRITE setBarSpacingRelative NOTIFY
+                   barSpacingRelativeChanged)
+    Q_PROPERTY(QSizeF barSeriesMargin READ barSeriesMargin WRITE setBarSeriesMargin NOTIFY
+                   barSeriesMarginChanged)
     Q_PROPERTY(QQmlListProperty<QBar3DSeries> seriesList READ seriesList CONSTANT)
     Q_PROPERTY(QBar3DSeries *selectedSeries READ selectedSeries NOTIFY selectedSeriesChanged)
-    Q_PROPERTY(QBar3DSeries *primarySeries READ primarySeries WRITE setPrimarySeries NOTIFY primarySeriesChanged)
+    Q_PROPERTY(QBar3DSeries *primarySeries READ primarySeries WRITE setPrimarySeries NOTIFY
+                   primarySeriesChanged)
     Q_PROPERTY(float floorLevel READ floorLevel WRITE setFloorLevel NOTIFY floorLevelChanged)
     Q_CLASSINFO("DefaultProperty", "seriesList")
 
@@ -71,11 +76,13 @@ public:
     explicit QQuickGraphsBars(QQuickItem *parent = 0);
     ~QQuickGraphsBars();
 
-    struct ChangeItem {
+    struct ChangeItem
+    {
         QBar3DSeries *series;
         QPoint point;
     };
-    struct ChangeRow {
+    struct ChangeRow
+    {
         QBar3DSeries *series;
         int row;
     };
@@ -115,11 +122,11 @@ public:
     void setPrimarySeries(QBar3DSeries *series);
     QBar3DSeries *primarySeries() const;
     QBar3DSeries *selectedSeries() const;
-    static inline QPoint invalidSelectionPosition(){ return QPoint(-1, -1); }
+    static inline QPoint invalidSelectionPosition() { return QPoint(-1, -1); }
     virtual void setSelectionMode(QAbstract3DGraph::SelectionFlags mode) override;
 
-    void handleAxisAutoAdjustRangeChangedInOrientation(
-            QAbstract3DAxis::AxisOrientation orientation, bool autoAdjust) override;
+    void handleAxisAutoAdjustRangeChangedInOrientation(QAbstract3DAxis::AxisOrientation orientation,
+                                                       bool autoAdjust) override;
     void handleSeriesVisibilityChangedBySender(QObject *sender) override;
 
     void setAxisX(QAbstract3DAxis *axis);
@@ -158,7 +165,8 @@ protected:
     void updateAxisReversed(bool enable) override;
     void updateLightStrength() override;
     void calculateSceneScalingFactors() override;
-    QVector3D calculateCategoryLabelPosition(QAbstract3DAxis *axis, QVector3D labelPosition,
+    QVector3D calculateCategoryLabelPosition(QAbstract3DAxis *axis,
+                                             QVector3D labelPosition,
                                              int index) override;
     float calculateCategoryGridLinePosition(QAbstract3DAxis *axis, int index) override;
     bool handleMousePressedEvent(QMouseEvent *event) override;
@@ -177,7 +185,7 @@ public Q_SLOTS:
     void handleSeriesMeshChanged(QAbstract3DSeries::Mesh mesh);
     void handleMeshSmoothChanged(bool enable);
     void handleRowCountChanged();
-    void handleColCountChanged();;
+    void handleColCountChanged();
     void handleCameraRotationChanged();
     void handleArrayReset();
     void handleRowsAdded(int startIndex, int count);
@@ -287,7 +295,7 @@ private:
         float heightValue;
         QQuick3DTexture *texture;
 
-        //instancing
+        // instancing
         BarInstancing *instancing = nullptr;
     };
 
@@ -324,10 +332,14 @@ private:
     void updateBarPositions(QBar3DSeries *series);
     float updateBarHeightParameters(const QBarDataItem *item);
     void updateBarVisuals(QBar3DSeries *series);
-    void updateItemMaterial(QQuick3DModel *item, bool useGradient, bool rangeGradient,
+    void updateItemMaterial(QQuick3DModel *item,
+                            bool useGradient,
+                            bool rangeGradient,
                             const QString &materialName);
-    void updateMaterialProperties(QQuick3DModel *item, bool isHighlight,
-                                  bool isMultiHighlight, QQuick3DTexture *texture,
+    void updateMaterialProperties(QQuick3DModel *item,
+                                  bool isHighlight,
+                                  bool isMultiHighlight,
+                                  QQuick3DTexture *texture,
                                   const QColor &color);
     void removeBarModels();
     void deleteBarModels(BarModel *barModel);

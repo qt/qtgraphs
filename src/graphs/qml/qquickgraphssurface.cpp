@@ -5,17 +5,17 @@
 #include "qquickgraphssurface_p.h"
 #include <QtCore/QMutexLocker>
 
+#include "qcategory3daxis_p.h"
 #include "qquickgraphssurface_p.h"
+#include "qquickgraphstexturedata_p.h"
 #include "qsurface3dseries_p.h"
 #include "qsurfacedataproxy_p.h"
-#include "surfaceselectioninstancing_p.h"
 #include "qvalue3daxis_p.h"
-#include "qcategory3daxis_p.h"
-#include "qquickgraphstexturedata_p.h"
+#include "surfaceselectioninstancing_p.h"
 
-#include <QtQuick3D/private/qquick3dprincipledmaterial_p.h>
-#include <QtQuick3D/private/qquick3ddefaultmaterial_p.h>
 #include <QtQuick3D/private/qquick3dcustommaterial_p.h>
+#include <QtQuick3D/private/qquick3ddefaultmaterial_p.h>
+#include <QtQuick3D/private/qquick3dprincipledmaterial_p.h>
 
 QT_BEGIN_NAMESPACE
 
@@ -99,10 +99,8 @@ void QQuickGraphsSurface::handleWireframeColorChanged()
 
 void QQuickGraphsSurface::handleFlipHorizontalGridChanged(bool flip)
 {
-    if (!segmentLineRepeaterX()
-            || !segmentLineRepeaterZ()) {
+    if (!segmentLineRepeaterX() || !segmentLineRepeaterZ())
         return;
-    }
     int gridLineCountX = segmentLineRepeaterX()->count();
     int subGridLineCountX = subsegmentLineRepeaterX()->count();
     int gridLineCountZ = segmentLineRepeaterZ()->count();
@@ -183,13 +181,17 @@ void QQuickGraphsSurface::adjustAxisRanges()
         float maxValueZ = 0.0f;
         int seriesCount = m_seriesList.size();
         for (int series = 0; series < seriesCount; series++) {
-            const QSurface3DSeries *surfaceSeries =
-                    static_cast<QSurface3DSeries *>(m_seriesList.at(series));
+            const QSurface3DSeries *surfaceSeries = static_cast<QSurface3DSeries *>(
+                m_seriesList.at(series));
             const QSurfaceDataProxy *proxy = surfaceSeries->dataProxy();
             if (surfaceSeries->isVisible() && proxy) {
                 QVector3D minLimits;
                 QVector3D maxLimits;
-                proxy->d_func()->limitValues(minLimits, maxLimits, valueAxisX, valueAxisY, valueAxisZ);
+                proxy->d_func()->limitValues(minLimits,
+                                             maxLimits,
+                                             valueAxisX,
+                                             valueAxisY,
+                                             valueAxisZ);
                 if (adjustX) {
                     if (first) {
                         // First series initializes the values
@@ -232,7 +234,8 @@ void QQuickGraphsSurface::adjustAxisRanges()
             float adjustment = 0.0f;
             if (minValueX == maxValueX) {
                 if (adjustZ) {
-                    // X and Z are linked to have similar unit size, so choose the valid range based on it
+                    // X and Z are linked to have similar unit size, so choose the valid
+                    // range based on it
                     if (minValueZ == maxValueZ)
                         adjustment = defaultAdjustment;
                     else
@@ -259,7 +262,8 @@ void QQuickGraphsSurface::adjustAxisRanges()
             float adjustment = 0.0f;
             if (minValueZ == maxValueZ) {
                 if (adjustX) {
-                    // X and Z are linked to have similar unit size, so choose the valid range based on it
+                    // X and Z are linked to have similar unit size, so choose the valid
+                    // range based on it
                     if (minValueX == maxValueX)
                         adjustment = defaultAdjustment;
                     else
@@ -299,7 +303,8 @@ void QQuickGraphsSurface::handleArrayReset()
 
 void QQuickGraphsSurface::handleFlatShadingSupportedChange(bool supported)
 {
-    // Handle renderer flat surface support indicator signal. This happens exactly once per renderer.
+    // Handle renderer flat surface support indicator signal. This happens exactly
+    // once per renderer.
     if (m_flatShadingSupported != supported) {
         m_flatShadingSupported = supported;
         // Emit the change for all added surfaces
@@ -443,7 +448,8 @@ QPoint QQuickGraphsSurface::invalidSelectionPosition()
     return invalidSelectionPoint;
 }
 
-void QQuickGraphsSurface::setSelectedPoint(const QPoint &position, QSurface3DSeries *series,
+void QQuickGraphsSurface::setSelectedPoint(const QPoint &position,
+                                           QSurface3DSeries *series,
                                            bool enterSlice)
 {
     // If the selection targets non-existent point, clear selection instead.
@@ -472,15 +478,16 @@ void QQuickGraphsSurface::setSelectedPoint(const QPoint &position, QSurface3DSer
         if (pos == invalidSelectionPosition() || !series->isVisible()) {
             scene()->setSlicingActive(false);
         } else {
-            // If the selected point is outside data window, or there is no selected point, disable slicing
+            // If the selected point is outside data window, or there is no selected
+            // point, disable slicing
             float axisMinX = m_axisX->min();
             float axisMaxX = m_axisX->max();
             float axisMinZ = m_axisZ->min();
             float axisMaxZ = m_axisZ->max();
 
             QSurfaceDataItem item = proxy->array().at(pos.x()).at(pos.y());
-            if (item.x() < axisMinX || item.x() > axisMaxX
-                    || item.z() < axisMinZ || item.z() > axisMaxZ) {
+            if (item.x() < axisMinX || item.x() > axisMaxX || item.z() < axisMinZ
+                || item.z() > axisMaxZ) {
                 scene()->setSlicingActive(false);
             } else if (enterSlice) {
                 scene()->setSlicingActive(true);
@@ -495,7 +502,8 @@ void QQuickGraphsSurface::setSelectedPoint(const QPoint &position, QSurface3DSer
         m_selectedSeries = series;
         m_changeTracker.selectedPointChanged = true;
 
-        // Clear selection from other series and finally set new selection to the specified series
+        // Clear selection from other series and finally set new selection to the
+        // specified series
         for (QAbstract3DSeries *otherSeries : m_seriesList) {
             QSurface3DSeries *surfaceSeries = static_cast<QSurface3DSeries *>(otherSeries);
             if (surfaceSeries != m_selectedSeries)
@@ -516,7 +524,7 @@ void QQuickGraphsSurface::setSelectionMode(QAbstract3DGraph::SelectionFlags mode
     // Currently surface only supports row and column modes when also slicing
     if ((mode.testFlag(QAbstract3DGraph::SelectionRow)
          || mode.testFlag(QAbstract3DGraph::SelectionColumn))
-            && !mode.testFlag(QAbstract3DGraph::SelectionSlice)) {
+        && !mode.testFlag(QAbstract3DGraph::SelectionSlice)) {
         qWarning("Unsupported selection mode.");
         return;
     } else if (mode.testFlag(QAbstract3DGraph::SelectionSlice)
@@ -530,14 +538,14 @@ void QQuickGraphsSurface::setSelectionMode(QAbstract3DGraph::SelectionFlags mode
         QQuickGraphsItem::setSelectionMode(mode);
 
         if (mode != oldMode) {
-            // Refresh selection upon mode change to ensure slicing is correctly updated
-            // according to series the visibility.
+            // Refresh selection upon mode change to ensure slicing is correctly
+            // updated according to series the visibility.
             setSelectedPoint(m_selectedPoint, m_selectedSeries, true);
 
             // Special case: Always deactivate slicing when changing away from slice
             // automanagement, as this can't be handled in setSelectedBar.
             if (!mode.testFlag(QAbstract3DGraph::SelectionSlice)
-                    && oldMode.testFlag(QAbstract3DGraph::SelectionSlice)) {
+                && oldMode.testFlag(QAbstract3DGraph::SelectionSlice)) {
                 scene()->setSlicingActive(false);
             }
         }
@@ -615,7 +623,8 @@ void QQuickGraphsSurface::updateSurfaceTexture(QSurface3DSeries *series)
 
 QQmlListProperty<QSurface3DSeries> QQuickGraphsSurface::seriesList()
 {
-    return QQmlListProperty<QSurface3DSeries>(this, this,
+    return QQmlListProperty<QSurface3DSeries>(this,
+                                              this,
                                               &QQuickGraphsSurface::appendSeriesFunc,
                                               &QQuickGraphsSurface::countSeriesFunc,
                                               &QQuickGraphsSurface::atSeriesFunc,
@@ -786,14 +795,16 @@ void QQuickGraphsSurface::updateGraph()
             model->gridModel->setVisible(seriesVisible);
         if (model->model->visible() != seriesVisible)
             model->model->setVisible(seriesVisible);
-        model->gridModel->setVisible(model->series->drawMode().testFlag(QSurface3DSeries::DrawWireframe));
+        model->gridModel->setVisible(
+            model->series->drawMode().testFlag(QSurface3DSeries::DrawWireframe));
         if (model->series->drawMode().testFlag(QSurface3DSeries::DrawSurface))
             model->model->setLocalOpacity(1.f);
         else
             model->model->setLocalOpacity(.0f);
 
         if (sliceView() && sliceView()->isVisible()) {
-            model->sliceGridModel->setVisible(model->series->drawMode().testFlag(QSurface3DSeries::DrawWireframe));
+            model->sliceGridModel->setVisible(
+                model->series->drawMode().testFlag(QSurface3DSeries::DrawWireframe));
             if (model->series->drawMode().testFlag(QSurface3DSeries::DrawSurface))
                 model->sliceModel->setLocalOpacity(1.f);
             else
@@ -803,9 +814,7 @@ void QQuickGraphsSurface::updateGraph()
     }
 
     setSeriesVisibilityDirty(false);
-    if (isDataDirty() ||
-            isSeriesVisualsDirty()) {
-
+    if (isDataDirty() || isSeriesVisualsDirty()) {
         clearSelection();
 
         if (hasChangedSeriesList()) {
@@ -849,7 +858,12 @@ inline static float getDataValue(const QSurfaceDataArray &array, bool searchRow,
         return array.at(index).at(0).z();
 }
 
-inline static int binarySearchArray(const QSurfaceDataArray &array, int maxIndex, float limitValue, bool searchRow, bool lowBound, bool ascending)
+inline static int binarySearchArray(const QSurfaceDataArray &array,
+                                    int maxIndex,
+                                    float limitValue,
+                                    bool searchRow,
+                                    bool lowBound,
+                                    bool ascending)
 {
     int min = 0;
     int max = maxIndex;
@@ -865,7 +879,7 @@ inline static int binarySearchArray(const QSurfaceDataArray &array, int maxIndex
             if (arrayValue < limitValue)
                 min = mid + 1;
             else
-                max = mid -1;
+                max = mid - 1;
         } else {
             if (arrayValue > limitValue)
                 min = mid + 1;
@@ -961,7 +975,7 @@ void QQuickGraphsSurface::updateModel(SurfaceModel *model)
         int rowCount = array.size();
         int columnCount = array.at(0).size();
 
-        const int maxSize = 4096; //maximum texture size
+        const int maxSize = 4096; // maximum texture size
         columnCount = qMin(maxSize, columnCount);
         rowCount = qMin(maxSize, rowCount);
 
@@ -1167,7 +1181,7 @@ void QQuickGraphsSurface::updateProxyModel(SurfaceModel *model)
     if (rowCount == 0 || columnCount == 0)
         return;
 
-    //calculate decimate factor based on the order of magnitude of total vertices
+    // calculate decimate factor based on the order of magnitude of total vertices
     float totalSize = rowCount * columnCount;
     int decimateFactor = qFloor(std::log10(qMax(10.0, totalSize)));
 
@@ -1303,7 +1317,6 @@ void QQuickGraphsSurface::createProxyModel(SurfaceModel *model)
                            QQuick3DGeometry::Attribute::U32Type);
     proxyModel->setGeometry(geometry);
 
-
     QQmlListReference materialRef(proxyModel, "materials");
     QQuick3DPrincipledMaterial *material = new QQuick3DPrincipledMaterial();
     material->setParent(proxyModel);
@@ -1328,36 +1341,36 @@ void QQuickGraphsSurface::updateMaterial(SurfaceModel *model)
 
     bool textured = !(model->series->texture().isNull() && model->series->textureFile().isEmpty());
 
-    if (isSeriesVisualsDirty()
-        || !textured) {
-
+    if (isSeriesVisualsDirty() || !textured) {
         float minY = model->boundsMin.y();
         float maxY = model->boundsMax.y();
         float range = maxY - minY;
 
         switch (model->series->colorStyle()) {
-        case(Q3DTheme::ColorStyle::ObjectGradient):
+        case (Q3DTheme::ColorStyle::ObjectGradient):
             material->setProperty("colorStyle", 0);
             material->setProperty("gradientMin", -(minY / range));
             material->setProperty("gradientHeight", 1.0f / range);
             break;
-        case(Q3DTheme::ColorStyle::RangeGradient):
+        case (Q3DTheme::ColorStyle::RangeGradient):
             material->setProperty("colorStyle", 1);
             break;
-        case(Q3DTheme::ColorStyle::Uniform):
+        case (Q3DTheme::ColorStyle::Uniform):
             material->setProperty("colorStyle", 2);
-            material->setProperty("uniformColor",model->series->baseColor());
+            material->setProperty("uniformColor", model->series->baseColor());
             break;
         }
 
         QVariant textureInputAsVariant = material->property("custex");
-        QQuick3DShaderUtilsTextureInput *textureInput = textureInputAsVariant.value<QQuick3DShaderUtilsTextureInput *>();
+        QQuick3DShaderUtilsTextureInput *textureInput
+            = textureInputAsVariant.value<QQuick3DShaderUtilsTextureInput *>();
         auto textureData = static_cast<QQuickGraphsTextureData *>(model->texture->textureData());
         textureData->createGradient(model->series->baseGradient());
         textureInput->setTexture(model->texture);
 
         QVariant heightInputAsVariant = material->property("height");
-        QQuick3DShaderUtilsTextureInput *heightInput = heightInputAsVariant.value<QQuick3DShaderUtilsTextureInput *>();
+        QQuick3DShaderUtilsTextureInput *heightInput
+            = heightInputAsVariant.value<QQuick3DShaderUtilsTextureInput *>();
         heightInput->setTexture(model->heightTexture);
         material->setParent(model->model);
         material->setParentItem(model->model);
@@ -1367,7 +1380,8 @@ void QQuickGraphsSurface::updateMaterial(SurfaceModel *model)
 
     if (textured) {
         material->setProperty("colorStyle", 3);
-        QQuick3DShaderUtilsTextureInput *texInput = material->property("baseColor").value<QQuick3DShaderUtilsTextureInput *>();
+        QQuick3DShaderUtilsTextureInput *texInput = material->property("baseColor")
+                                                        .value<QQuick3DShaderUtilsTextureInput *>();
         if (!texInput->texture()) {
             QQuick3DTexture *texture = new QQuick3DTexture();
             texture->setParent(material);
@@ -1382,8 +1396,8 @@ void QQuickGraphsSurface::updateMaterial(SurfaceModel *model)
             auto textureData = static_cast<QQuickGraphsTextureData *>(model->texture->textureData());
             textureData->setFormat(QQuick3DTextureData::RGBA32F);
             textureData->setSize(image.size());
-            textureData->setTextureData(QByteArray(reinterpret_cast<const char*>(image.bits()),
-                                                   image.sizeInBytes()));
+            textureData->setTextureData(
+                QByteArray(reinterpret_cast<const char *>(image.bits()), image.sizeInBytes()));
             texInput->texture()->setTextureData(textureData);
             texInput->texture()->setVerticalTiling(QQuick3DTexture::ClampToEdge);
             texInput->texture()->setHorizontalTiling(QQuick3DTexture::ClampToEdge);
@@ -1394,13 +1408,15 @@ void QQuickGraphsSurface::updateMaterial(SurfaceModel *model)
     material->update();
 }
 
-QVector3D QQuickGraphsSurface::getNormalizedVertex(const QSurfaceDataItem &data, bool polar, bool flipXZ)
+QVector3D QQuickGraphsSurface::getNormalizedVertex(const QSurfaceDataItem &data,
+                                                   bool polar,
+                                                   bool flipXZ)
 {
     Q_UNUSED(flipXZ);
 
-    QValue3DAxis* axisXValue = static_cast<QValue3DAxis *>(axisX());
-    QValue3DAxis* axisYValue = static_cast<QValue3DAxis *>(axisY());
-    QValue3DAxis* axisZValue = static_cast<QValue3DAxis *>(axisZ());
+    QValue3DAxis *axisXValue = static_cast<QValue3DAxis *>(axisX());
+    QValue3DAxis *axisYValue = static_cast<QValue3DAxis *>(axisY());
+    QValue3DAxis *axisZValue = static_cast<QValue3DAxis *>(axisZ());
 
     float normalizedX = axisXValue->positionAt(data.x());
     float normalizedY;
@@ -1450,13 +1466,13 @@ void QQuickGraphsSurface::updateSliceGraph()
         model->sliceModel->setVisible(visible);
         model->sliceGridModel->setVisible(visible);
 
-        if (!selectionMode().testFlag(QAbstract3DGraph::SelectionMultiSeries)
-                && !model->picked) {
+        if (!selectionMode().testFlag(QAbstract3DGraph::SelectionMultiSeries) && !model->picked) {
             model->sliceModel->setVisible(false);
             model->sliceGridModel->setVisible(false);
             continue;
         } else {
-            model->sliceGridModel->setVisible(model->series->drawMode().testFlag(QSurface3DSeries::DrawWireframe));
+            model->sliceGridModel->setVisible(
+                model->series->drawMode().testFlag(QSurface3DSeries::DrawWireframe));
             if (model->series->drawMode().testFlag(QSurface3DSeries::DrawSurface))
                 model->sliceModel->setLocalOpacity(1.f);
             else
@@ -1610,7 +1626,7 @@ QPoint QQuickGraphsSurface::mapCoordsToSampleSpace(SurfaceModel *model, const QP
 void QQuickGraphsSurface::createIndices(SurfaceModel *model, int columnCount, int rowCount)
 {
     int endX = columnCount - 1;
-    int endY = rowCount -1;
+    int endY = rowCount - 1;
 
     int indexCount = 6 * endX * endY;
     QVector<quint32> *indices = &model->indices;
@@ -1619,10 +1635,10 @@ void QQuickGraphsSurface::createIndices(SurfaceModel *model, int columnCount, in
     indices->resize(indexCount);
 
     int rowEnd = endY * columnCount;
-    for (int row = 0; row < rowEnd ; row += columnCount) {
-        for (int j = 0 ; j < endX ; j++) {
+    for (int row = 0; row < rowEnd; row += columnCount) {
+        for (int j = 0; j < endX; j++) {
             if (dataDimensions() == QQuickGraphsSurface::BothAscending
-                    || dataDimensions() == QQuickGraphsSurface::BothDescending) {
+                || dataDimensions() == QQuickGraphsSurface::BothDescending) {
                 indices->push_back(row + j + 1);
                 indices->push_back(row + columnCount + j);
                 indices->push_back(row + j);
@@ -1671,14 +1687,14 @@ void QQuickGraphsSurface::createGridlineIndices(SurfaceModel *model, int x, int 
     model->gridIndices.clear();
     model->gridIndices.resize(gridIndexCount);
 
-    for (int i = y, row = columnCount * y ; i <= endY ; i++, row += columnCount) {
-        for (int j = x ; j < endX ; j++) {
+    for (int i = y, row = columnCount * y; i <= endY; i++, row += columnCount) {
+        for (int j = x; j < endX; j++) {
             model->gridIndices.push_back(row + j);
             model->gridIndices.push_back(row + j + 1);
         }
     }
-    for (int i = y, row = columnCount * y ; i < endY ; i++, row += columnCount) {
-        for (int j = x ; j <= endX ; j++) {
+    for (int i = y, row = columnCount * y; i < endY; i++, row += columnCount) {
+        for (int j = x; j <= endX; j++) {
             model->gridIndices.push_back(row + j);
             model->gridIndices.push_back(row + j + columnCount);
         }
@@ -1724,7 +1740,7 @@ bool QQuickGraphsSurface::doPicking(const QPointF &position)
 
         for (auto picked : pickResult) {
             if (picked.objectHit()
-                    && picked.objectHit()->objectName().contains(QStringLiteral("ProxyModel"))) {
+                && picked.objectHit()->objectName().contains(QStringLiteral("ProxyModel"))) {
                 pickedPos = picked.position();
                 pickedModel = qobject_cast<QQuick3DModel *>(picked.objectHit()->parentItem());
                 bool visible = false;
@@ -1759,8 +1775,7 @@ bool QQuickGraphsSurface::doPicking(const QPointF &position)
                     }
                 }
                 model->selectedVertex = selectedVertex;
-                if (!selectedVertex.position.isNull()
-                    && model->picked) {
+                if (!selectedVertex.position.isNull() && model->picked) {
                     model->series->setSelectedPoint(selectedVertex.coord);
                     setSlicingActive(false);
                     if (isSliceEnabled())
@@ -1787,8 +1802,8 @@ void QQuickGraphsSurface::updateSelectedPoint()
         }
     }
     for (auto model : m_model) {
-        if ((!selectionMode().testFlag(QAbstract3DGraph::SelectionMultiSeries) &&
-                !model->picked)|| model->selectedVertex.position.isNull())
+        if ((!selectionMode().testFlag(QAbstract3DGraph::SelectionMultiSeries) && !model->picked)
+            || model->selectedVertex.position.isNull())
             continue;
         QPoint selectedCoord;
         if (model->picked)
@@ -1802,9 +1817,8 @@ void QQuickGraphsSurface::updateSelectedPoint()
         int coordY = selectedCoord.y() - model->sampleSpace.top();
         int index = coordY * model->sampleSpace.width() + coordX;
         SurfaceVertex selectedVertex = model->vertices.at(index);
-        if (model->series->isVisible() &&
-                !selectedVertex.position.isNull() &&
-                selectionMode().testFlag(QAbstract3DGraph::SelectionItem)) {
+        if (model->series->isVisible() && !selectedVertex.position.isNull()
+            && selectionMode().testFlag(QAbstract3DGraph::SelectionItem)) {
             m_instancing->addPosition(selectedVertex.position);
             QVector3D slicePosition = selectedVertex.position;
             if (sliceView() && sliceView()->isVisible()) {
@@ -1876,7 +1890,6 @@ void QQuickGraphsSurface::addModel(QSurface3DSeries *series)
                            QQuick3DGeometry::Attribute::U32Type);
     model->setGeometry(geometry);
 
-
     QQuick3DTexture *texture = new QQuick3DTexture();
     texture->setHorizontalTiling(QQuick3DTexture::ClampToEdge);
     texture->setVerticalTiling(QQuick3DTexture::ClampToEdge);
@@ -1887,13 +1900,15 @@ void QQuickGraphsSurface::addModel(QSurface3DSeries *series)
 
     QQmlListReference materialRef(model, "materials");
 
-    QQuick3DCustomMaterial *customMaterial = createQmlCustomMaterial(QStringLiteral(":/materials/SurfaceMaterial"));
+    QQuick3DCustomMaterial *customMaterial = createQmlCustomMaterial(
+        QStringLiteral(":/materials/SurfaceMaterial"));
 
     customMaterial->setParent(model);
     customMaterial->setParentItem(model);
     customMaterial->setCullMode(QQuick3DMaterial::NoCulling);
     QVariant textureInputAsVariant = customMaterial->property("custex");
-    QQuick3DShaderUtilsTextureInput *textureInput = textureInputAsVariant.value<QQuick3DShaderUtilsTextureInput *>();
+    QQuick3DShaderUtilsTextureInput *textureInput = textureInputAsVariant
+                                                        .value<QQuick3DShaderUtilsTextureInput *>();
     textureInput->setTexture(texture);
 
     texture->setParent(customMaterial);
@@ -2001,7 +2016,8 @@ void QQuickGraphsSurface::addSliceModel(SurfaceModel *model)
     auto material = createQmlCustomMaterial(QStringLiteral(":/materials/SurfaceSliceMaterial"));
     material->setCullMode(QQuick3DMaterial::NoCulling);
     QVariant textureInputAsVariant = material->property("custex");
-    QQuick3DShaderUtilsTextureInput *textureInput = textureInputAsVariant.value<QQuick3DShaderUtilsTextureInput *>();
+    QQuick3DShaderUtilsTextureInput *textureInput = textureInputAsVariant
+                                                        .value<QQuick3DShaderUtilsTextureInput *>();
     QQuick3DTexture *texture = model->texture;
     textureInput->setTexture(texture);
     materialRef.append(material);
@@ -2046,8 +2062,7 @@ void QQuickGraphsSurface::updateLightStrength()
     for (auto model : m_model) {
         QQmlListReference materialRef(model->model, "materials");
         QQuick3DCustomMaterial *material = qobject_cast<QQuick3DCustomMaterial *>(materialRef.at(0));
-        material->setProperty("specularBrightness",
-                              theme()->lightStrength() * 0.05);
+        material->setProperty("specularBrightness", theme()->lightStrength() * 0.05);
     }
 }
 

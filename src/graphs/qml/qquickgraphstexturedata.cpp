@@ -4,13 +4,9 @@
 #include "graphsglobal_p.h"
 #include "qquickgraphstexturedata_p.h"
 
-QQuickGraphsTextureData::QQuickGraphsTextureData()
-{
-}
+QQuickGraphsTextureData::QQuickGraphsTextureData() {}
 
-QQuickGraphsTextureData::~QQuickGraphsTextureData()
-{
-}
+QQuickGraphsTextureData::~QQuickGraphsTextureData() {}
 
 void QQuickGraphsTextureData::createGradient(QLinearGradient gradient)
 {

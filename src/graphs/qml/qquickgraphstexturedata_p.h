@@ -1,7 +1,6 @@
 // Copyright (C) 2023 The Qt Company Ltd.
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 
-
 //
 //  W A R N I N G
 //  -------------
@@ -14,9 +13,9 @@
 
 #ifndef QQUICKGRAPHSTEXTUREDATA_P_H
 #define QQUICKGRAPHSTEXTUREDATA_P_H
-#include <QtQuick3D/qquick3dtexturedata.h>
-#include <QList>
 #include <QLinearGradient>
+#include <QList>
+#include <QtQuick3D/qquick3dtexturedata.h>
 
 class QQuickGraphsTextureData : public QQuick3DTextureData
 {
@@ -30,7 +29,6 @@ public:
 
 private:
     QColor linearInterpolate(QColor startColor, QColor endColor, float value);
-
 };
 
 #endif // QQUICKGRAPHSTEXTUREDATA_P_H

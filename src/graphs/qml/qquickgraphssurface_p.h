@@ -27,21 +27,21 @@ class QQuickGraphsSurface;
 class SurfaceSelectionInstancing;
 class Q3DSurface;
 
-struct Surface3DChangeBitField {
-    bool selectedPointChanged      : 1;
-    bool rowsChanged               : 1;
-    bool itemChanged               : 1;
+struct Surface3DChangeBitField
+{
+    bool selectedPointChanged : 1;
+    bool rowsChanged : 1;
+    bool itemChanged : 1;
     bool flipHorizontalGridChanged : 1;
-    bool surfaceTextureChanged     : 1;
+    bool surfaceTextureChanged : 1;
 
-    Surface3DChangeBitField() :
-        selectedPointChanged(true),
-        rowsChanged(false),
-        itemChanged(false),
-        flipHorizontalGridChanged(true),
-        surfaceTextureChanged(true)
-    {
-    }
+    Surface3DChangeBitField()
+        : selectedPointChanged(true)
+        , rowsChanged(false)
+        , itemChanged(false)
+        , flipHorizontalGridChanged(true)
+        , surfaceTextureChanged(true)
+    {}
 };
 
 class QQuickGraphsSurface : public QQuickGraphsItem
@@ -52,7 +52,8 @@ class QQuickGraphsSurface : public QQuickGraphsItem
     Q_PROPERTY(QValue3DAxis *axisZ READ axisZ WRITE setAxisZ NOTIFY axisZChanged)
     Q_PROPERTY(QSurface3DSeries *selectedSeries READ selectedSeries NOTIFY selectedSeriesChanged)
     Q_PROPERTY(QQmlListProperty<QSurface3DSeries> seriesList READ seriesList CONSTANT)
-    Q_PROPERTY(bool flipHorizontalGrid READ flipHorizontalGrid WRITE setFlipHorizontalGrid NOTIFY flipHorizontalGridChanged)
+    Q_PROPERTY(bool flipHorizontalGrid READ flipHorizontalGrid WRITE setFlipHorizontalGrid NOTIFY
+                   flipHorizontalGridChanged)
     Q_CLASSINFO("DefaultProperty", "seriesList")
 
     QML_NAMED_ELEMENT(Surface3D)
@@ -61,11 +62,13 @@ public:
     explicit QQuickGraphsSurface(QQuickItem *parent = 0);
     ~QQuickGraphsSurface();
 
-    struct ChangeItem {
+    struct ChangeItem
+    {
         QSurface3DSeries *series;
         QPoint point;
     };
-    struct ChangeRow {
+    struct ChangeRow
+    {
         QSurface3DSeries *series;
         int row;
     };
@@ -122,15 +125,21 @@ public:
     void setSelectedPointChanged(bool changed) { m_changeTracker.selectedPointChanged = changed; }
 
     bool isFlipHorizontalGridChanged() const { return m_changeTracker.flipHorizontalGridChanged; }
-    void setFlipHorizontalGridChanged(bool changed) { m_changeTracker.flipHorizontalGridChanged = changed; }
+    void setFlipHorizontalGridChanged(bool changed)
+    {
+        m_changeTracker.flipHorizontalGridChanged = changed;
+    }
 
     bool isSurfaceTextureChanged() const { return m_changeTracker.surfaceTextureChanged; }
     void setSurfaceTextureChanged(bool changed) { m_changeTracker.surfaceTextureChanged = changed; }
     bool isChangedTexturesEmpty() const { return m_changedTextures.empty(); }
-    bool hasSeriesToChangeTexture(QSurface3DSeries *series) const { return m_changedTextures.contains(series); }
+    bool hasSeriesToChangeTexture(QSurface3DSeries *series) const
+    {
+        return m_changedTextures.contains(series);
+    }
 
-    void handleAxisAutoAdjustRangeChangedInOrientation(
-        QAbstract3DAxis::AxisOrientation orientation, bool autoAdjust) override;
+    void handleAxisAutoAdjustRangeChangedInOrientation(QAbstract3DAxis::AxisOrientation orientation,
+                                                       bool autoAdjust) override;
     void handleAxisRangeChangedBySender(QObject *sender) override;
     void handleSeriesVisibilityChangedBySender(QObject *sender) override;
     void adjustAxisRanges() override;
@@ -175,13 +184,15 @@ Q_SIGNALS:
     void flipHorizontalGridChanged(bool flip);
 
 private:
-    struct SurfaceVertex {
+    struct SurfaceVertex
+    {
         QVector3D position;
         QVector2D uv;
         QPoint coord;
     };
 
-    struct SurfaceModel {
+    struct SurfaceModel
+    {
         QQuick3DModel *model;
         QQuick3DModel *gridModel;
         QQuick3DModel *sliceModel;
@@ -234,8 +245,9 @@ private:
 
     Surface3DChangeBitField m_changeTracker;
     QPoint m_selectedPoint;
-    QSurface3DSeries *m_selectedSeries = nullptr; // Points to the series for which the point is selected in
-                                                  // single series selection cases.
+    QSurface3DSeries *m_selectedSeries
+        = nullptr; // Points to the series for which the point is selected in
+                   // single series selection cases.
     bool m_flatShadingSupported = true;
     QList<ChangeItem> m_changedItems;
     QList<ChangeRow> m_changedRows;

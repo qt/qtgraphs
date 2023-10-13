@@ -14,8 +14,8 @@
 #ifndef QQUICKGRAPHSSERIES_P_H
 #define QQUICKGRAPHSSERIES_P_H
 
-#include "qquickgraphscolor_p.h"
 #include "qbar3dseries.h"
+#include "qquickgraphscolor_p.h"
 #include "qscatter3dseries.h"
 #include "qsurface3dseries.h"
 
@@ -31,8 +31,9 @@ class QQuickGraphsBar3DSeries : public QBar3DSeries
 {
     Q_OBJECT
     Q_PROPERTY(QQmlListProperty<QObject> seriesChildren READ seriesChildren CONSTANT)
-    // This property is overloaded to use QPointF instead of QPoint to work around qml bug
-    // where Qt.point(0, 0) can't be assigned due to error "Cannot assign QPointF to QPoint".
+    // This property is overloaded to use QPointF instead of QPoint to work around
+    // qml bug where Qt.point(0, 0) can't be assigned due to error "Cannot assign
+    // QPointF to QPoint".
     Q_PROPERTY(QPointF selectedBar READ selectedBar WRITE setSelectedBar NOTIFY selectedBarChanged)
     // This is static method in parent class, overload as constant property for qml.
     Q_PROPERTY(QPointF invalidSelectionPosition READ invalidSelectionPosition CONSTANT)
@@ -64,7 +65,7 @@ public:
     QJSValue singleHighlightGradient() const;
     void setMultiHighlightGradient(QJSValue gradient);
     QJSValue multiHighlightGradient() const;
-    
+
     QQmlListProperty<QQuickGraphsColor> rowColors();
     static void appendRowColorsFunc(QQmlListProperty<QQuickGraphsColor> *list,
                                     QQuickGraphsColor *color);
@@ -89,10 +90,10 @@ private:
     QJSValue m_baseGradient;            // Not owned
     QJSValue m_singleHighlightGradient; // Not owned
     QJSValue m_multiHighlightGradient;  // Not owned
-    
+
     QList<QQuickGraphsColor *> m_rowColors;
     bool m_dummyColors;
-    
+
     void addColor(QQuickGraphsColor *color);
     QList<QQuickGraphsColor *> colorList();
     void clearColors();

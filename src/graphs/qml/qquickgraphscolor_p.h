@@ -14,9 +14,9 @@
 #ifndef QQUICKGRAPHSCOLOR_P_H
 #define QQUICKGRAPHSCOLOR_P_H
 
-#include <private/graphsglobal_p.h>
 #include <QtGui/QColor>
 #include <QtQml/qqml.h>
+#include <private/graphsglobal_p.h>
 
 QT_BEGIN_NAMESPACE
 

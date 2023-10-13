@@ -198,7 +198,7 @@ void QQuickGraphsBar3DSeries::handleRowColorUpdate()
 {
     int colorCount = m_rowColors.size();
     int changed = 0;
-    
+
     QQuickGraphsColor *color = qobject_cast<QQuickGraphsColor *>(QObject::sender());
     for (int i = 0; i < colorCount; i++) {
         if (color == m_rowColors.at(i)) {
@@ -285,7 +285,7 @@ QQmlListProperty<QObject> QQuickGraphsScatter3DSeries::seriesChildren()
 }
 
 void QQuickGraphsScatter3DSeries::appendSeriesChildren(QQmlListProperty<QObject> *list,
-                                                      QObject *element)
+                                                       QObject *element)
 {
     QScatterDataProxy *proxy = qobject_cast<QScatterDataProxy *>(element);
     if (proxy)
@@ -385,7 +385,7 @@ QQmlListProperty<QObject> QQuickGraphsSurface3DSeries::seriesChildren()
 }
 
 void QQuickGraphsSurface3DSeries::appendSeriesChildren(QQmlListProperty<QObject> *list,
-                                                      QObject *element)
+                                                       QObject *element)
 {
     QSurfaceDataProxy *proxy = qobject_cast<QSurfaceDataProxy *>(element);
     if (proxy)

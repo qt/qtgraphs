@@ -7,8 +7,7 @@ QT_BEGIN_NAMESPACE
 
 QQuickGraphsColor::QQuickGraphsColor(QObject *parent)
     : QObject(parent)
-{
-}
+{}
 
 void QQuickGraphsColor::setColor(const QColor &color)
 {
