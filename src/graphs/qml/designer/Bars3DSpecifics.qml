@@ -1,10 +1,11 @@
 // Copyright (C) 2023 The Qt Company Ltd.
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 
-import QtQuick 2.0
-import HelperWidgets 2.0
-import QtQuick.Layouts 1.0
-import QtQuick.Controls 1.1 as Controls
+import QtQuick
+import HelperWidgets
+import QtQuick.Layouts
+import StudioTheme 1.0 as StudioTheme
+import QtQuick.Controls as Controls
 
 Column {
     anchors.left: parent.left
@@ -13,12 +14,12 @@ Column {
     Section {
         anchors.left: parent.left
         anchors.right: parent.right
-        caption: qsTr("Bars3D")
+        caption: qsTr("Bars")
 
         SectionLayout {
-            Label {
-                text: qsTr("multiSeriesUniform")
-                tooltip: qsTr("Multiseries Uniform")
+            PropertyLabel {
+                text: qsTr("Uniform Scaling")
+                tooltip: qsTr("Proportionally scale multiple series")
                 Layout.fillWidth: true
             }
             SecondColumnLayout {
@@ -27,9 +28,9 @@ Column {
                     Layout.fillWidth: true
                 }
             }
-            Label {
-                text: qsTr("barThickness")
-                tooltip: qsTr("Bar Thickness Ratio")
+            PropertyLabel {
+                text: qsTr("Thickness")
+                tooltip: qsTr("Thickness ratio between X and Z dimension")
                 Layout.fillWidth: true
             }
             SecondColumnLayout {
@@ -42,14 +43,14 @@ Column {
                     Layout.fillWidth: true
                 }
             }
-            Label {
-                text: qsTr("barSpacing")
-                tooltip: qsTr("Bar Spacing")
+
+            PropertyLabel {
+                text: qsTr("Spacing")
+                tooltip: qsTr("Bar spacing in the X and Z dimensions")
                 Layout.fillWidth: true
             }
             SecondColumnLayout {
                 SpinBox {
-                    prefix: "col: "
                     backendValue: backendValues.barSpacing_width
                     minimumValue: 0.0
                     maximumValue: 10.0
@@ -57,8 +58,12 @@ Column {
                     decimals: 2
                     Layout.fillWidth: true
                 }
+                ControlLabel {
+                    text: qsTr("col")
+                    width: StudioTheme.Values.actionIndicatorWidth
+                }
+
                 SpinBox {
-                    prefix: "row: "
                     backendValue: backendValues.barSpacing_height
                     minimumValue: 0.0
                     maximumValue: 10.0
@@ -66,10 +71,15 @@ Column {
                     decimals: 2
                     Layout.fillWidth: true
                 }
+                ControlLabel {
+                    text: qsTr("row")
+                    width: StudioTheme.Values.actionIndicatorWidth
+                }
+
             }
-            Label {
-                text: qsTr("barSpacingRelative")
-                tooltip: qsTr("Bar Spacing Relative")
+            PropertyLabel {
+                text: qsTr("Relative Spacing")
+                tooltip: qsTr("Set bar spacing relative to thickness")
                 Layout.fillWidth: true
             }
             SecondColumnLayout {
@@ -78,49 +88,54 @@ Column {
                     Layout.fillWidth: true
                 }
             }
-            Label {
-                text: qsTr("renderingMode")
-                tooltip: qsTr("Rendering Mode")
+            PropertyLabel {
+                text: qsTr("Series Margin")
+                tooltip: qsTr("Margin between series columns in X and Z dimensions")
                 Layout.fillWidth: true
             }
             SecondColumnLayout {
-                ComboBox {
-                    backendValue: backendValues.renderingMode
-                    model: ["Indirect", "DirectToBackground"]
+                SpinBox {
+                    backendValue: backendValues.barSeriesMargin_width
+                    minimumValue: 0.0
+                    maximumValue: 1.0
+                    stepSize: 0.01
+                    decimals: 2
                     Layout.fillWidth: true
-                    scope: "AbstractGraph3D"
                 }
+                ControlLabel {
+                    text: qsTr("col")
+                    width: StudioTheme.Values.actionIndicatorWidth
+                }
+
+                SpinBox {
+                    backendValue: backendValues.barSeriesMargin_height
+                    minimumValue: 0.0
+                    maximumValue: 1.0
+                    stepSize: 0.01
+                    decimals: 2
+                    Layout.fillWidth: true
+                }
+                ControlLabel {
+                    text: qsTr("row")
+                    width: StudioTheme.Values.actionIndicatorWidth
+                }
+
             }
-            Label {
-                text: qsTr("msaaSamples")
-                tooltip: qsTr("MSAA Sample Count")
-                Layout.fillWidth: true
-            }
-            SpinBox {
-                suffix: " x MSAA"
-                backendValue: backendValues.msaaSamples
-                minimumValue: 0
-                maximumValue: 16
-                Layout.fillWidth: true
-            }
-            Label {
-                text: qsTr("shadowQuality")
-                tooltip: qsTr("Shadow Quality")
+            PropertyLabel {
+                text: qsTr("Floor Level")
+                tooltip: qsTr("Floor level in Y-axis data coordinates")
                 Layout.fillWidth: true
             }
             SecondColumnLayout {
-                ComboBox {
-                    backendValue: backendValues.shadowQuality
-                    model: ["None", "Low", "Medium",
-                        "High", "SoftLow", "SoftMedium",
-                        "SoftHigh"]
+                LineEdit {
+                    backendValue: backendValues.floorLevel
+                    inputMethodHints: Qt.ImhFormattedNumbersOnly
                     Layout.fillWidth: true
-                    scope: "AbstractGraph3D"
                 }
             }
-            Label {
-                text: qsTr("selectionMode")
-                tooltip: qsTr("Selection Mode")
+            PropertyLabel {
+                text: qsTr("Selection Mode")
+                tooltip: qsTr("Bar selection mode")
                 Layout.fillWidth: true
             }
             SecondColumnLayout {
@@ -200,7 +215,6 @@ Column {
 
                     Controls.CheckBox {
                         id: selectionItemBox
-                        style: checkBox.style
                         text: "SelectionItem"
                         Layout.fillWidth: true
                         onClicked: {
@@ -210,7 +224,6 @@ Column {
                     }
                     Controls.CheckBox {
                         id: selectionRowBox
-                        style: checkBox.style
                         text: "SelectionRow"
                         Layout.fillWidth: true
                         onClicked: {
@@ -220,7 +233,6 @@ Column {
                     }
                     Controls.CheckBox {
                         id: selectionColumnBox
-                        style: checkBox.style
                         text: "SelectionColumn"
                         Layout.fillWidth: true
                         onClicked: {
@@ -230,7 +242,6 @@ Column {
                     }
                     Controls.CheckBox {
                         id: selectionSliceBox
-                        style: checkBox.style
                         text: "SelectionSlice"
                         Layout.fillWidth: true
                         onClicked: {
@@ -240,7 +251,6 @@ Column {
                     }
                     Controls.CheckBox {
                         id: selectionMultiSeriesBox
-                        style: checkBox.style
                         text: "SelectionMultiSeries"
                         Layout.fillWidth: true
                         onClicked: {
@@ -250,137 +260,10 @@ Column {
                     }
                 }
             }
-            Label {
-                text: qsTr("measureFps")
-                tooltip: qsTr("Measure Frames Per Second")
-                Layout.fillWidth: true
-            }
-            SecondColumnLayout {
-                CheckBox {
-                    backendValue: backendValues.measureFps
-                    Layout.fillWidth: true
-                }
-            }
-            Label {
-                text: qsTr("orthoProjection")
-                tooltip: qsTr("Use Orthographic Projection")
-                Layout.fillWidth: true
-            }
-            SecondColumnLayout {
-                CheckBox {
-                    backendValue: backendValues.orthoProjection
-                    Layout.fillWidth: true
-                }
-            }
-            Label {
-                text: qsTr("aspectRatio")
-                tooltip: qsTr("Aspect Ratio")
-                Layout.fillWidth: true
-            }
-            SecondColumnLayout {
-                SpinBox {
-                    backendValue: backendValues.aspectRatio
-                    minimumValue: 0.01
-                    maximumValue: 100.0
-                    stepSize: 0.01
-                    decimals: 2
-                    Layout.fillWidth: true
-                }
-            }
-            Label {
-                text: qsTr("floorLevel")
-                tooltip: qsTr("Floor Level")
-                Layout.fillWidth: true
-            }
-            SecondColumnLayout {
-                LineEdit {
-                    backendValue: backendValues.floorLevel
-                    inputMethodHints: Qt.ImhFormattedNumbersOnly
-                    Layout.fillWidth: true
-                }
-            }
-            Label {
-                text: qsTr("horizontalAspectRatio")
-                tooltip: qsTr("Horizontal Aspect Ratio")
-                Layout.fillWidth: true
-            }
-            SecondColumnLayout {
-                SpinBox {
-                    backendValue: backendValues.horizontalAspectRatio
-                    minimumValue: 0.0
-                    maximumValue: 100.0
-                    stepSize: 0.01
-                    decimals: 2
-                    Layout.fillWidth: true
-                }
-            }
-            Label {
-                text: qsTr("reflection")
-                tooltip: qsTr("Reflection")
-                Layout.fillWidth: true
-            }
-            SecondColumnLayout {
-                CheckBox {
-                    id: reflectionCheckbox
-                    backendValue: backendValues.reflection
-                    Layout.fillWidth: true
-                }
-            }
-            Label {
-                text: qsTr("reflectivity")
-                tooltip: qsTr("Reflectivity")
-                Layout.fillWidth: true
-                visible: reflectionCheckbox.checked
-            }
-            SecondColumnLayout {
-                visible: reflectionCheckbox.checked
-                SpinBox {
-                    backendValue: backendValues.reflectivity
-                    minimumValue: 0.0
-                    maximumValue: 1.0
-                    stepSize: 0.01
-                    decimals: 1
-                    Layout.fillWidth: true
-                }
-            }
-            Label {
-                text: qsTr("margin")
-                tooltip: qsTr("Graph Margin")
-                Layout.fillWidth: true
-            }
-            SecondColumnLayout {
-                SpinBox {
-                    backendValue: backendValues.margin
-                    minimumValue: -1.0
-                    maximumValue: 100.0
-                    stepSize: 0.1
-                    decimals: 1
-                    Layout.fillWidth: true
-                }
-            }
-
-            // Kept for debugging
-            Label { }
-            SecondColumnLayout {
-                TextEdit {
-                    id: debugLabel
-                    Layout.fillWidth: true
-                    wrapMode: TextEdit.WordWrap
-                    textFormat: TextEdit.RichText
-                    width: 400
-                    visible: false
-                }
-            }
-            Controls.CheckBox {
-                property color textColor: colorLogic.textColor
-                id: checkBox
-                style: CustomCheckBoxStyle {}
-                visible: false
-                ColorLogic {
-                    id: colorLogic
-                    backendValue: backendValues.selectionMode
-                }
-            }
         }
     }
+
+    GraphsSection {}
+
+    GraphsCameraSection {}
 }
