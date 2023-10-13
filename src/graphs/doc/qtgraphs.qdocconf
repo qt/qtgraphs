@@ -48,4 +48,4 @@ navigation.landingpage = Qt Graphs
 navigation.cppclassespage = Qt Graphs C++ Classes
 navigation.qmltypespage = Qt Graphs QML Types
 
-manifestmeta.highlighted.names = "QtGraphs/Graph Gallery"
+manifestmeta.highlighted.names = "QtGraphs/Surface Graph Gallery"
