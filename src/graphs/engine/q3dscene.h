@@ -7,6 +7,7 @@
 #include <QtCore/QObject>
 #include <QtCore/QRect>
 #include <QtGraphs/qgraphsglobal.h>
+#include "qqmlintegration.h"
 
 QT_BEGIN_NAMESPACE
 
@@ -31,6 +32,10 @@ class Q_GRAPHS_EXPORT Q3DScene : public QObject
                    devicePixelRatioChanged)
     Q_PROPERTY(QPoint graphPositionQuery READ graphPositionQuery WRITE setGraphPositionQuery NOTIFY
                    graphPositionQueryChanged)
+    Q_PROPERTY(QPoint invalidSelectionPoint READ invalidSelectionPoint CONSTANT)
+
+    QML_NAMED_ELEMENT(Scene3D)
+    QML_UNCREATABLE("Trying to create uncreatable: Scene3D.")
 
 public:
     explicit Q3DScene(QObject *parent = nullptr);
@@ -47,8 +52,7 @@ public:
     bool isPointInSecondarySubView(const QPoint &point);
 
     void setSelectionQueryPosition(const QPoint &point);
-    QPoint selectionQueryPosition() const;
-    static QPoint invalidSelectionPoint();
+    const QPoint selectionQueryPosition() const;
 
     void setGraphPositionQuery(const QPoint &point);
     QPoint graphPositionQuery() const;
@@ -61,6 +65,8 @@ public:
 
     float devicePixelRatio() const;
     void setDevicePixelRatio(float pixelRatio);
+
+    QPoint invalidSelectionPoint() const;
 
 Q_SIGNALS:
     void viewportChanged(const QRect &viewport);

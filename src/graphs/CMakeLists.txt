@@ -80,7 +80,6 @@ qt_internal_add_qml_module(Graphs
 
         qml/foreigntypes_p.h
         qml/qquickgraphscolor.cpp qml/qquickgraphscolor_p.h
-        qml/declarativescene.cpp qml/declarativescene_p.h
         qml/qquickgraphsseries.cpp qml/qquickgraphsseries_p.h
         qml/qquickgraphsitem.cpp qml/qquickgraphsitem_p.h
         qml/qquickgraphsbars.cpp qml/qquickgraphsbars_p.h

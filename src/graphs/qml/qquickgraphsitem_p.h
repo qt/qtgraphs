@@ -24,7 +24,6 @@
 
 QT_BEGIN_NAMESPACE
 
-class Declarative3DScene;
 class Q3DTheme;
 class QAbstract3DAxis;
 class QAbstract3DInputHandler;
@@ -148,7 +147,7 @@ class QQuickGraphsItem : public QQuick3DViewport
     Q_PROPERTY(QAbstract3DGraph::SelectionFlags selectionMode READ selectionMode WRITE setSelectionMode NOTIFY selectionModeChanged)
     Q_PROPERTY(QAbstract3DGraph::ShadowQuality shadowQuality READ shadowQuality WRITE setShadowQuality NOTIFY shadowQualityChanged)
     Q_PROPERTY(int msaaSamples READ msaaSamples WRITE setMsaaSamples NOTIFY msaaSamplesChanged)
-    Q_PROPERTY(Declarative3DScene *scene READ scene NOTIFY sceneChanged)
+    Q_PROPERTY(Q3DScene *scene READ scene NOTIFY sceneChanged)
     Q_PROPERTY(QAbstract3DInputHandler *inputHandler READ inputHandler WRITE setInputHandler NOTIFY inputHandlerChanged)
     Q_PROPERTY(Q3DTheme *theme READ theme WRITE setTheme NOTIFY themeChanged)
     Q_PROPERTY(QAbstract3DGraph::RenderingMode renderingMode READ renderingMode WRITE setRenderingMode NOTIFY renderingModeChanged)
@@ -266,7 +265,7 @@ public:
     bool isCustomLabelItem(QCustom3DItem *item) const;
     bool isCustomVolumeItem(QCustom3DItem *item) const;
     QImage customTextureImage(QCustom3DItem *item);
-    Declarative3DScene *scene();
+    Q3DScene *scene();
 
     Q_INVOKABLE virtual bool hasSeries(QAbstract3DSeries *series);
     Q_INVOKABLE virtual void clearSelection() = 0;
@@ -642,7 +641,7 @@ protected:
 
     QMap<QCustom3DVolume *, Volume> m_customVolumes;
 
-    Declarative3DScene *m_scene = nullptr;
+    Q3DScene *m_scene = nullptr;
     // Active axes
     QAbstract3DAxis *m_axisX = nullptr;
     QAbstract3DAxis *m_axisY = nullptr;

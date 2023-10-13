@@ -424,7 +424,7 @@ void Q3DInputHandlerPrivate::handleQueriedGraphPositionChange()
             diff = origDiff;
         q_ptr->item()->setCameraTargetPosition(oldTarget + diff);
 
-        if (q_ptr->scene()->selectionQueryPosition() == Q3DScene::invalidSelectionPoint())
+        if (q_ptr->scene()->selectionQueryPosition() == q_ptr->scene()->invalidSelectionPoint())
             m_zoomAtTargetPending = false;
     }
 }

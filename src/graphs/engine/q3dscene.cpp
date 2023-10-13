@@ -336,7 +336,7 @@ void Q3DScene::setSelectionQueryPosition(const QPoint &point)
     }
 }
 
-QPoint Q3DScene::selectionQueryPosition() const
+const QPoint Q3DScene::selectionQueryPosition() const
 {
     const Q_D(Q3DScene);
     return d->m_selectionQueryPosition;
@@ -345,7 +345,7 @@ QPoint Q3DScene::selectionQueryPosition() const
 /*!
  * \return a QPoint signifying an invalid selection position.
  */
-QPoint Q3DScene::invalidSelectionPoint()
+QPoint Q3DScene::invalidSelectionPoint() const
 {
     static const QPoint invalidSelectionPos(-1, -1);
     return invalidSelectionPos;
@@ -481,8 +481,8 @@ Q3DScenePrivate::Q3DScenePrivate(Q3DScene *q)
     , m_devicePixelRatio(1.f)
     , m_isUnderSideCameraEnabled(false)
     , m_isSlicingActive(false)
-    , m_selectionQueryPosition(Q3DScene::invalidSelectionPoint())
-    , m_graphPositionQueryPosition(Q3DScene::invalidSelectionPoint())
+    , m_selectionQueryPosition(q->invalidSelectionPoint())
+    , m_graphPositionQueryPosition(q->invalidSelectionPoint())
     , m_windowSize(QSize(0, 0))
     , m_sceneDirty(true)
 {}

@@ -4,8 +4,6 @@
 #include "qabstract3dinputhandler_p.h"
 #include "qquickgraphsitem_p.h"
 
-//#include "declarativetheme_p.h"
-#include "declarativescene_p.h"
 #include "q3dscene_p.h"
 #include "q3dtheme_p.h"
 #include "qcategory3daxis.h"
@@ -49,7 +47,7 @@ QQuickGraphsItem::QQuickGraphsItem(QQuickItem *parent) :
     m_locale(QLocale::c())
 {
     if (!m_scene)
-        m_scene = new Declarative3DScene;
+        m_scene = new Q3DScene;
     m_scene->setParent(this);
 
     m_qml = this;
@@ -1122,7 +1120,7 @@ QImage QQuickGraphsItem::customTextureImage(QCustom3DItem *item)
     return item->d_ptr->textureImage();
 }
 
-Declarative3DScene *QQuickGraphsItem::scene()
+Q3DScene *QQuickGraphsItem::scene()
 {
     return m_scene;
 }
@@ -2808,7 +2806,7 @@ void QQuickGraphsItem::graphPositionAt(const QPoint &point)
     emit queriedGraphPositionChanged(queriedGraphPosition());
     emit queriedGraphPositionChanged(queriedGraphPosition());
     setGraphPositionQueryPending(false);
-    scene()->setGraphPositionQuery(Q3DScene::invalidSelectionPoint());
+    scene()->setGraphPositionQuery(scene()->invalidSelectionPoint());
 }
 
 void QQuickGraphsItem::updateShadowQuality(QAbstract3DGraph::ShadowQuality quality)

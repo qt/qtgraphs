@@ -5,7 +5,6 @@
 #include "qquickgraphssurface_p.h"
 #include <QtCore/QMutexLocker>
 
-#include "declarativescene_p.h"
 #include "qquickgraphssurface_p.h"
 #include "qsurface3dseries_p.h"
 #include "qsurfacedataproxy_p.h"

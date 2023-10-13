@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 
 #include "qml/qquickgraphsscatter_p.h"
-#include "qml/declarativescene_p.h"
 #include "data/qscatter3dseries_p.h"
 #include "qscatterdataproxy_p.h"
 #include "qvalue3daxis_p.h"
@@ -1152,7 +1151,7 @@ void QQuickGraphsScatter::startRecordingRemovesAndInserts()
 {
     m_recordInsertsAndRemoves = false;
 
-    if (m_scene->selectionQueryPosition() != Q3DScene::invalidSelectionPoint()) {
+    if (m_scene->selectionQueryPosition() != m_scene->invalidSelectionPoint()) {
         m_recordInsertsAndRemoves = true;
         if (m_insertRemoveRecords.size()) {
             m_insertRemoveRecords.clear();
