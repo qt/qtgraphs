@@ -43,8 +43,9 @@ QSurfaceDataItem::QSurfaceDataItem(const QSurfaceDataItem &other)
 }
 
 QSurfaceDataItem::QSurfaceDataItem(QSurfaceDataItem &&other) noexcept
+    : d_ptr(std::exchange(other.d_ptr, nullptr))
+    , m_position(other.m_position) // Trivial copy
 {
-    *this = std::move(other);
 }
 
 /*!
@@ -63,17 +64,6 @@ QSurfaceDataItem &QSurfaceDataItem::operator=(const QSurfaceDataItem &other)
         createExtraData();
     else
         d_ptr = 0;
-
-    return *this;
-}
-
-QSurfaceDataItem &QSurfaceDataItem::operator=(QSurfaceDataItem &&other) noexcept
-{
-    m_position = other.m_position;
-
-    QSurfaceDataItemPrivate *temp = std::move(other.d_ptr);
-    other.d_ptr = nullptr;
-    d_ptr = temp;
 
     return *this;
 }
@@ -125,6 +115,12 @@ void QSurfaceDataItem::createExtraData()
 {
     if (!d_ptr)
         d_ptr = new QSurfaceDataItemPrivate;
+}
+
+void QSurfaceDataItem::swap(QSurfaceDataItem &other) noexcept
+{
+    std::swap(m_position, other.m_position);
+    qt_ptr_swap(d_ptr, other.d_ptr);
 }
 
 QSurfaceDataItemPrivate::QSurfaceDataItemPrivate() {}

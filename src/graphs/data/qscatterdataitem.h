@@ -22,7 +22,7 @@ public:
     ~QScatterDataItem();
 
     QScatterDataItem &operator=(const QScatterDataItem &other);
-    QScatterDataItem &operator=(QScatterDataItem &&other) noexcept;
+    QT_MOVE_ASSIGNMENT_OPERATOR_IMPL_VIA_MOVE_AND_SWAP(QScatterDataItem)
 
     constexpr inline void setPosition(const QVector3D &pos) noexcept { m_position = pos; }
     constexpr inline QVector3D position() const noexcept { return m_position; }
@@ -43,6 +43,8 @@ protected:
 private:
     QVector3D m_position;
     QQuaternion m_rotation;
+
+    void swap(QScatterDataItem &other) noexcept;
 };
 
 QT_END_NAMESPACE

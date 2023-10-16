@@ -25,7 +25,7 @@ public:
     ~QBarDataItem();
 
     QBarDataItem &operator=(const QBarDataItem &other);
-    QBarDataItem &operator=(QBarDataItem &&other) noexcept;
+    QT_MOVE_ASSIGNMENT_OPERATOR_IMPL_VIA_MOVE_AND_SWAP(QBarDataItem)
 
     constexpr inline void setValue(float val) noexcept { m_value = val; }
     constexpr inline float value() const noexcept { return m_value; }
@@ -40,6 +40,8 @@ protected:
 private:
     float m_value = 0.f;
     float m_angle = 0.f;
+
+    void swap(QBarDataItem &other) noexcept;
 };
 
 QT_END_NAMESPACE

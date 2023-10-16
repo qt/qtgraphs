@@ -41,8 +41,10 @@ QBarDataItem::QBarDataItem(const QBarDataItem &other)
 }
 
 QBarDataItem::QBarDataItem(QBarDataItem &&other) noexcept
+    : d_ptr(std::exchange(other.d_ptr, nullptr))
+    , m_value(other.m_value) // Trivial copy
+    , m_angle(other.m_angle) // Trivial copy
 {
-    *this = std::move(other);
 }
 
 /*!
@@ -64,17 +66,6 @@ QBarDataItem &QBarDataItem::operator=(const QBarDataItem &other)
         createExtraData();
     else
         d_ptr = 0;
-    return *this;
-}
-
-QBarDataItem &QBarDataItem::operator=(QBarDataItem &&other) noexcept
-{
-    m_value = other.m_value;
-    m_angle = other.m_angle;
-
-    std::swap(d_ptr, other.d_ptr);
-    other.d_ptr = nullptr;
-
     return *this;
 }
 
@@ -105,6 +96,13 @@ void QBarDataItem::createExtraData()
 {
     if (!d_ptr)
         d_ptr = new QBarDataItemPrivate;
+}
+
+void QBarDataItem::swap(QBarDataItem &other) noexcept
+{
+    std::swap(m_value, other.m_value);
+    std::swap(m_angle, other.m_angle);
+    qt_ptr_swap(d_ptr, other.d_ptr);
 }
 
 QBarDataItemPrivate::QBarDataItemPrivate() {}

@@ -53,8 +53,10 @@ QScatterDataItem::QScatterDataItem(const QScatterDataItem &other)
 }
 
 QScatterDataItem::QScatterDataItem(QScatterDataItem &&other) noexcept
+    : d_ptr(std::exchange(other.d_ptr, nullptr))
+    , m_position(other.m_position) // Trivial copy
+    , m_rotation(other.m_rotation) // Trivial copy
 {
-    *this = std::move(other);
 }
 
 /*!
@@ -74,17 +76,6 @@ QScatterDataItem &QScatterDataItem::operator=(const QScatterDataItem &other)
         createExtraData();
     else
         d_ptr = 0;
-
-    return *this;
-}
-
-QScatterDataItem &QScatterDataItem::operator=(QScatterDataItem &&other) noexcept
-{
-    m_position = std::move(other.m_position);
-    m_rotation = std::move(other.m_rotation);
-
-    std::swap(d_ptr, other.d_ptr);
-    other.d_ptr = nullptr;
 
     return *this;
 }
@@ -150,6 +141,13 @@ void QScatterDataItem::createExtraData()
 {
     if (!d_ptr)
         d_ptr = new QScatterDataItemPrivate;
+}
+
+void QScatterDataItem::swap(QScatterDataItem &other) noexcept
+{
+    std::swap(m_position, other.m_position);
+    std::swap(m_rotation, other.m_rotation);
+    qt_ptr_swap(d_ptr, other.d_ptr);
 }
 
 QScatterDataItemPrivate::QScatterDataItemPrivate() {}

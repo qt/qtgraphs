@@ -21,7 +21,7 @@ public:
     ~QSurfaceDataItem();
 
     QSurfaceDataItem &operator=(const QSurfaceDataItem &other);
-    QSurfaceDataItem &operator=(QSurfaceDataItem &&other) noexcept;
+    QT_MOVE_ASSIGNMENT_OPERATOR_IMPL_VIA_MOVE_AND_SWAP(QSurfaceDataItem)
 
     constexpr inline void setPosition(const QVector3D &pos) noexcept { m_position = pos; }
     constexpr inline QVector3D position() const noexcept { return m_position; }
@@ -39,6 +39,8 @@ protected:
 
 private:
     QVector3D m_position;
+
+    void swap(QSurfaceDataItem &other) noexcept;
 };
 
 QT_END_NAMESPACE
