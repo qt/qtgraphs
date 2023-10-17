@@ -4508,14 +4508,28 @@ bool QQuickGraphsItem::doPicking(const QPointF &point)
             if (!result.objectHit())
                 continue;
             QString objName = result.objectHit()->objectName();
-            if (objName.contains(QStringLiteral("ElementAxisXLabel")))
+            if (objName.contains(QStringLiteral("ElementAxisXLabel"))) {
+                for (int i = 0; i < repeaterX()->count(); i++) {
+                    auto obj = static_cast<QQuick3DNode *>(repeaterX()->objectAt(i));
+                    if (result.objectHit() == obj)
+                        m_selectedLabelIndex = i;
+                }
                 handleSelectedElementChange(QAbstract3DGraph::ElementType::AxisXLabel);
-            else if (objName.contains(QStringLiteral("ElementAxisYLabel")))
+                break;
+            } else if (objName.contains(QStringLiteral("ElementAxisYLabel"))) {
                 handleSelectedElementChange(QAbstract3DGraph::ElementType::AxisYLabel);
-            else if (objName.contains(QStringLiteral("ElementAxisZLabel")))
+                break;
+            } else if (objName.contains(QStringLiteral("ElementAxisZLabel"))) {
+                for (int i = 0; i < repeaterX()->count(); i++) {
+                    auto obj = static_cast<QQuick3DNode *>(repeaterZ()->objectAt(i));
+                    if (result.objectHit() == obj)
+                        m_selectedLabelIndex = i;
+                }
                 handleSelectedElementChange(QAbstract3DGraph::ElementType::AxisZLabel);
-            else
+                break;
+            } else {
                 continue;
+            }
         }
         return true;
     }
