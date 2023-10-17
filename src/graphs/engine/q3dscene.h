@@ -7,7 +7,7 @@
 #include <QtCore/QObject>
 #include <QtCore/QRect>
 #include <QtGraphs/qgraphsglobal.h>
-#include "qqmlintegration.h"
+#include <QtQmlIntegration/qqmlintegration.h>
 
 QT_BEGIN_NAMESPACE
 
