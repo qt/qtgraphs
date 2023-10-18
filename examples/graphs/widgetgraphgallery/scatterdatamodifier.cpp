@@ -87,7 +87,7 @@ void ScatterDataModifier::addData()
             const float x = float(i) + 0.5f;
             const float y = qCos(qDegreesToRadians(float(i * j) / m_curveDivider));
             const float z = float(j) + 0.5f;
-            dataArray.append(QScatterDataItem({x, y, z}));
+            dataArray.append(QScatterDataItem(x, y, z));
         }
     }
     //! [5]

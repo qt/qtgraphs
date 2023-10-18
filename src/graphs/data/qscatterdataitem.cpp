@@ -1,10 +1,6 @@
 // Copyright (C) 2023 The Qt Company Ltd.
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 
-#include "qscatterdataitem_p.h"
-
-QT_BEGIN_NAMESPACE
-
 /*!
  * \class QScatterDataItem
  * \inmodule QtGraphs
@@ -19,66 +15,25 @@ QT_BEGIN_NAMESPACE
  */
 
 /*!
- * Constructs a scatter data item.
+ * \fn QScatterDataItem::QScatterDataItem()
+ * Default constructor for scatter data item.
  */
-QScatterDataItem::QScatterDataItem()
-    : d_ptr(0) // private data doesn't exist by default (optimization)
-
-{}
 
 /*!
- * Constructs a scatter data item at the position \a position.
+ * \fn QScatterDataItem::QScatterDataItem(const QVector3D &position)
+ * Constructs scatter data item with position \a position.
  */
-QScatterDataItem::QScatterDataItem(const QVector3D &position)
-    : d_ptr(0)
-    , m_position(position)
-{}
 
 /*!
- * Constructs a scatter data item at the position \a position with the rotation
- * \a rotation.
+ * \fn QScatterDataItem::QScatterDataItem(float x, float y, float z)
+ * Constructs a scatter data item at the position specified by \a x, \a y, and \a z.
  */
-QScatterDataItem::QScatterDataItem(const QVector3D &position, const QQuaternion &rotation)
-    : d_ptr(0)
-    , m_position(position)
-    , m_rotation(rotation)
-{}
 
 /*!
- * Constructs a copy of \a other.
+ * \fn QScatterDataItem::QScatterDataItem(const QVector3D &position, const QQuaternion &rotation)
+ * Constructs scatter data item with position \a position
+ * and rotation \a rotation.
  */
-QScatterDataItem::QScatterDataItem(const QScatterDataItem &other)
-{
-    operator=(other);
-}
-
-QScatterDataItem::QScatterDataItem(QScatterDataItem &&other) noexcept
-    : d_ptr(std::exchange(other.d_ptr, nullptr))
-    , m_position(other.m_position) // Trivial copy
-    , m_rotation(other.m_rotation) // Trivial copy
-{
-}
-
-/*!
- * Deletes a scatter data item.
- */
-QScatterDataItem::~QScatterDataItem() {}
-
-/*!
- *  Assigns a copy of \a other to this object.
- */
-QScatterDataItem &QScatterDataItem::operator=(const QScatterDataItem &other)
-{
-    m_position = other.m_position;
-    m_rotation = other.m_rotation;
-
-    if (other.d_ptr)
-        createExtraData();
-    else
-        d_ptr = 0;
-
-    return *this;
-}
 
 /*!
  * \fn void QScatterDataItem::setPosition(const QVector3D &pos)
@@ -133,25 +88,3 @@ QScatterDataItem &QScatterDataItem::operator=(const QScatterDataItem &other)
  * \fn float QScatterDataItem::z() const
  * Returns the z-coordinate of the position of this data item.
  */
-
-/*!
- * \internal
- */
-void QScatterDataItem::createExtraData()
-{
-    if (!d_ptr)
-        d_ptr = new QScatterDataItemPrivate;
-}
-
-void QScatterDataItem::swap(QScatterDataItem &other) noexcept
-{
-    std::swap(m_position, other.m_position);
-    std::swap(m_rotation, other.m_rotation);
-    qt_ptr_swap(d_ptr, other.d_ptr);
-}
-
-QScatterDataItemPrivate::QScatterDataItemPrivate() {}
-
-QScatterDataItemPrivate::~QScatterDataItemPrivate() {}
-
-QT_END_NAMESPACE

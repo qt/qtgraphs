@@ -38,7 +38,8 @@ QScatter3DSeries *newSeries()
 {
     QScatter3DSeries *series = new QScatter3DSeries;
     QScatterDataArray data;
-    data << QVector3D(0.5f, 0.5f, 0.5f) << QVector3D(-0.3f, -0.5f, -0.4f) << QVector3D(0.0f, -0.3f, 0.2f);
+    data << QScatterDataItem(0.5f, 0.5f, 0.5f) << QScatterDataItem(-0.3f, -0.5f, -0.4f)
+         << QScatterDataItem(0.0f, -0.3f, 0.2f);
     series->dataProxy()->addItems(data);
     return series;
 }

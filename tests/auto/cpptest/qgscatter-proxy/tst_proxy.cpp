@@ -64,7 +64,7 @@ void tst_proxy::initializeProperties()
     QVERIFY(m_proxy);
 
     QScatterDataArray data;
-    data << QVector3D(0.5f, 0.5f, 0.5f) << QVector3D(-0.3f, -0.5f, -0.4f);
+    data << QScatterDataItem(0.5f, 0.5f, 0.5f) << QScatterDataItem(-0.3f, -0.5f, -0.4f);
     m_proxy->addItems(data);
 
     QCOMPARE(m_proxy->itemCount(), 2);
