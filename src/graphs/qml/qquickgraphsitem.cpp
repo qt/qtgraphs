@@ -4840,8 +4840,21 @@ void QQuickGraphsItem::setCameraPreset(QAbstract3DGraph::CameraPreset preset)
         m_activePreset = preset;
         emit cameraPresetChanged(preset);
     }
-    if (camera())
+    if (camera()) {
         updateCamera();
+        connect(this,
+                &QQuickGraphsItem::cameraXRotationChanged,
+                m_scene->d_func(),
+                &Q3DScenePrivate::needRender);
+        connect(this,
+                &QQuickGraphsItem::cameraYRotationChanged,
+                m_scene->d_func(),
+                &Q3DScenePrivate::needRender);
+        connect(this,
+                &QQuickGraphsItem::cameraZoomLevelChanged,
+                m_scene->d_func(),
+                &Q3DScenePrivate::needRender);
+    }
 }
 
 void QQuickGraphsItem::setCameraXRotation(float rotation)

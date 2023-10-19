@@ -338,7 +338,7 @@ void GraphModifier::zoomToSelectedBar()
 
         m_animationCameraX.setEndValue(QVariant::fromValue(float(endAngleX)));
         m_animationCameraY.setEndValue(QVariant::fromValue(endAngleY));
-        m_animationCameraZoom.setEndValue(QVariant::fromValue(250));
+        m_animationCameraZoom.setEndValue(QVariant::fromValue(100));
         //! [13]
         m_animationCameraTarget.setEndValue(QVariant::fromValue(endTarget));
         //! [13]
