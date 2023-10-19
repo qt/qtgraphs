@@ -473,7 +473,7 @@ QQuick3DModel *QQuickGraphsScatter::createDataItem(QAbstract3DSeries *series)
     auto model = new QQuick3DModel();
     model->setParent(this);
     model->setParentItem(QQuick3DViewport::scene());
-    QString fileName = getMeshFileName(series->mesh());
+    QString fileName = getMeshFileName(series);
     if (fileName.isEmpty())
         fileName = series->userDefinedMesh();
 
@@ -578,10 +578,11 @@ QVector3D QQuickGraphsScatter::selectedItemPosition()
     return position;
 }
 
-void QQuickGraphsScatter::fixMeshFileName(QString &fileName, QAbstract3DSeries::Mesh meshType)
+void QQuickGraphsScatter::fixMeshFileName(QString &fileName, QAbstract3DSeries *series)
 {
+    auto meshType = series->mesh();
     // Should it be smooth?
-    if (m_smooth && meshType != QAbstract3DSeries::Mesh::Point
+    if (series->isMeshSmooth() && meshType != QAbstract3DSeries::Mesh::Point
         && meshType != QAbstract3DSeries::Mesh::UserDefined) {
         fileName += QStringLiteral("Smooth");
     }
@@ -595,10 +596,10 @@ void QQuickGraphsScatter::fixMeshFileName(QString &fileName, QAbstract3DSeries::
     }
 }
 
-QString QQuickGraphsScatter::getMeshFileName(QAbstract3DSeries::Mesh meshType)
+QString QQuickGraphsScatter::getMeshFileName(QAbstract3DSeries *series)
 {
     QString fileName = {};
-    switch (meshType) {
+    switch (series->mesh()) {
     case QAbstract3DSeries::Mesh::Sphere:
         fileName = QStringLiteral("defaultMeshes/sphereMesh");
         break;
@@ -636,7 +637,7 @@ QString QQuickGraphsScatter::getMeshFileName(QAbstract3DSeries::Mesh meshType)
         fileName = QStringLiteral("defaultMeshes/sphereMesh");
     }
 
-    fixMeshFileName(fileName, meshType);
+    fixMeshFileName(fileName, series);
 
     return fileName;
 }
@@ -860,7 +861,7 @@ void QQuickGraphsScatter::handleSeriesMeshChanged()
 
 void QQuickGraphsScatter::handleMeshSmoothChanged(bool enable)
 {
-    m_smooth = enable;
+    Q_UNUSED(enable);
     recreateDataItems();
 }
 
@@ -1211,8 +1212,6 @@ void QQuickGraphsScatter::componentComplete()
 
 void QQuickGraphsScatter::connectSeries(QScatter3DSeries *series)
 {
-    m_smooth = series->isMeshSmooth();
-
     QObject::connect(series,
                      &QScatter3DSeries::meshChanged,
                      this,

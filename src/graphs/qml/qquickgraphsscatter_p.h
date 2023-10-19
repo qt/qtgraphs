@@ -203,8 +203,6 @@ private:
     qsizetype getItemIndex(QQuick3DModel *item);
     QVector3D selectedItemPosition();
 
-    bool m_smooth = false;
-
     float m_dotSizedScale = 1.0f;
 
     void updateInstancedMaterialProperties(ScatterModel *graphModel,
@@ -225,8 +223,8 @@ private:
     QQuick3DModel *createDataItem(QAbstract3DSeries *series);
     void removeDataItems(ScatterModel *graphModel,
                          QAbstract3DGraph::OptimizationHint optimizationHint);
-    void fixMeshFileName(QString &fileName, QAbstract3DSeries::Mesh meshType);
-    QString getMeshFileName(QAbstract3DSeries::Mesh meshType);
+    void fixMeshFileName(QString &fileName, QAbstract3DSeries *series);
+    QString getMeshFileName(QAbstract3DSeries *series);
 
     void deleteDataItem(QQuick3DModel *item);
     void removeDataItems(QList<QQuick3DModel *> &items, qsizetype count);
