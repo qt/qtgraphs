@@ -9,7 +9,7 @@ QT_BEGIN_NAMESPACE
 /*!
  * \class QAbstractDataProxy
  * \inmodule QtGraphs
- * \brief The QAbstractDataProxy class is a base class for all graphs proxies.
+ * \brief The QAbstractDataProxy class is a base class for all 3D graph proxies.
  *
  * The following graphs type specific inherited classes are used instead
  * of the base class: QBarDataProxy, QScatterDataProxy, and QSurfaceDataProxy.
@@ -19,10 +19,10 @@ QT_BEGIN_NAMESPACE
 
 /*!
  * \qmltype AbstractDataProxy
- * \inqmlmodule QtGraphs
+ * \inqmlmodule QtGraphs3D
  * \ingroup graphs_qml
  * \instantiates QAbstractDataProxy
- * \brief Base type for all QtGraphs data proxies.
+ * \brief Base type for all 3D graph data proxies.
  *
  * This type is uncreatable, but contains properties that are exposed via the
  * following subtypes: BarDataProxy, ScatterDataProxy, SurfaceDataProxy.

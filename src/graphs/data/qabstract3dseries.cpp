@@ -11,7 +11,7 @@ QT_BEGIN_NAMESPACE
 /*!
  * \class QAbstract3DSeries
  * \inmodule QtGraphs
- * \brief The QAbstract3DSeries class is a base class for all data series.
+ * \brief The QAbstract3DSeries class is a base class for all 3D data series.
  *
  * There are inherited classes for each supported series type: QBar3DSeries,
  * QScatter3DSeries, and QSurface3DSeries.
@@ -31,10 +31,10 @@ QT_BEGIN_NAMESPACE
 
 /*!
  * \qmltype Abstract3DSeries
- * \inqmlmodule QtGraphs
+ * \inqmlmodule QtGraphs3D
  * \ingroup graphs_qml
  * \instantiates QAbstract3DSeries
- * \brief A base type for all data series.
+ * \brief A base type for all 3D data series.
  *
  * This type is uncreatable, but contains properties that are exposed via the
  * following subtypes: Bar3DSeries, Scatter3DSeries, and Surface3DSeries.

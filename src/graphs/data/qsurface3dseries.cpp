@@ -56,7 +56,7 @@ QT_BEGIN_NAMESPACE
 
 /*!
  * \qmltype Surface3DSeries
- * \inqmlmodule QtGraphs
+ * \inqmlmodule QtGraphs3D
  * \ingroup graphs_qml
  * \instantiates QSurface3DSeries
  * \inherits Abstract3DSeries

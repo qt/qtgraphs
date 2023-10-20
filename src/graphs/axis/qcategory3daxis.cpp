@@ -21,7 +21,7 @@ QT_BEGIN_NAMESPACE
 
 /*!
  * \qmltype CategoryAxis3D
- * \inqmlmodule QtGraphs
+ * \inqmlmodule QtGraphs3D
  * \ingroup graphs_qml
  * \instantiates QCategory3DAxis
  * \inherits AbstractAxis3D

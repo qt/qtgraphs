@@ -9,7 +9,7 @@ QT_BEGIN_NAMESPACE
 /*!
  * \class QAbstract3DAxis
  * \inmodule QtGraphs
- * \brief The QAbstract3DAxis class is a base class for the axes of a graph.
+ * \brief The QAbstract3DAxis class is a base class for the axes of a 3D graph.
  *
  * This class specifies the enumerations, properties, and functions shared by
  * graph axes. It should not be used directly, but one of its subclasses should
@@ -20,10 +20,10 @@ QT_BEGIN_NAMESPACE
 
 /*!
  * \qmltype AbstractAxis3D
- * \inqmlmodule QtGraphs
+ * \inqmlmodule QtGraphs3D
  * \ingroup graphs_qml
  * \instantiates QAbstract3DAxis
- * \brief A base type for the axes of a graph.
+ * \brief A base type for the axes of a 3D graph.
  *
  * This type is uncreatable, but contains properties that are exposed via
  * subtypes.

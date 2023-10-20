@@ -21,7 +21,7 @@ QT_BEGIN_NAMESPACE
 
 /*!
  * \qmltype LogValueAxis3DFormatter
- * \inqmlmodule QtGraphs
+ * \inqmlmodule QtGraphs3D
  * \ingroup graphs_qml
  * \instantiates QLogValue3DAxisFormatter
  * \inherits ValueAxis3DFormatter

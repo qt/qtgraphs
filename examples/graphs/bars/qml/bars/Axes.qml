@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR BSD-3-Clause
 
 import QtQuick
-import QtGraphs
+import QtGraphs3D
 
 Item {
     property alias column: columnAxis

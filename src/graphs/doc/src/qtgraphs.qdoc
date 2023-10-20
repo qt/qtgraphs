@@ -15,7 +15,7 @@
 */
 
 /*!
-    \qmlmodule QtGraphs \QtMajorVersion.\QtMinorVersion
+    \qmlmodule QtGraphs3D \QtMajorVersion.\QtMinorVersion
     \title Qt Graphs QML Types
     \ingroup qmlmodules
     \modulestate Technical Preview
@@ -254,7 +254,7 @@
     \endcode
     has to be changed to:
     \code
-    import QtGraphs
+    import QtGraphs3D
     \endcode
     for Qt Graphs.
 

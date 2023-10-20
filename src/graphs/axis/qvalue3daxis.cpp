@@ -22,7 +22,7 @@ QT_BEGIN_NAMESPACE
 
 /*!
  * \qmltype ValueAxis3D
- * \inqmlmodule QtGraphs
+ * \inqmlmodule QtGraphs3D
  * \ingroup graphs_qml
  * \instantiates QValue3DAxis
  * \inherits AbstractAxis3D

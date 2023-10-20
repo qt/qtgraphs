@@ -33,7 +33,7 @@ QT_BEGIN_NAMESPACE
 
 /*!
  * \qmltype Scene3D
- * \inqmlmodule QtGraphs
+ * \inqmlmodule QtGraphs3D
  * \ingroup graphs_qml
  * \instantiates Q3DScene
  * \brief Scene3D type provides description of the 3D scene being visualized.

@@ -8,7 +8,7 @@ QT_BEGIN_NAMESPACE
 /*!
  * \class QAbstract3DInputHandler
  * \inmodule QtGraphs
- * \brief The base class for implementations of input handlers.
+ * \brief The base class for implementations of 3D input handlers.
  *
  * QAbstract3DInputHandler is the base class that is subclassed by different
  * input handling implementations that take input events and translate those to
@@ -32,10 +32,10 @@ QT_BEGIN_NAMESPACE
 
 /*!
  * \qmltype AbstractInputHandler3D
- * \inqmlmodule QtGraphs
+ * \inqmlmodule QtGraphs3D
  * \ingroup graphs_qml
  * \instantiates QAbstract3DInputHandler
- * \brief Base type for all QtGraphs input handlers.
+ * \brief Base type for all 3D graph input handlers.
  *
  * This type is uncreatable.
  *

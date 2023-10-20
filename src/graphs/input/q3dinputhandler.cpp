@@ -56,7 +56,7 @@ static const float rotationSpeed = 100.0f;
 
 /*!
  * \qmltype InputHandler3D
- * \inqmlmodule QtGraphs
+ * \inqmlmodule QtGraphs3D
  * \ingroup graphs_qml
  * \instantiates Q3DInputHandler
  * \brief Basic wheel mouse based input handler.

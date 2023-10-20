@@ -3,7 +3,7 @@
 
 /*!
     \qmltype ThemeColor
-    \inqmlmodule QtGraphs
+    \inqmlmodule QtGraphs3D
     \ingroup graphs_qml
     \brief Defines the color in a Theme3D.
 

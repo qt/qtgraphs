@@ -36,7 +36,7 @@ QT_BEGIN_NAMESPACE
 
 /*!
  * \qmltype Custom3DVolume
- * \inqmlmodule QtGraphs
+ * \inqmlmodule QtGraphs3D
  * \ingroup graphs_qml
  * \instantiates QCustom3DVolume
  * \inherits Custom3DItem

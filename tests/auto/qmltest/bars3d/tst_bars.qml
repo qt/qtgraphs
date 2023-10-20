@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 
 import QtQuick 2.0
-import QtGraphs
+import QtGraphs3D
 import QtTest 1.0
 
 Item {
@@ -15,7 +15,7 @@ Item {
 //    function constructBars() {
 //        bars3d = Qt.createQmlObject("
 //        import QtQuick 2.2
-//        import QtGraphs
+//        import QtGraphs3D
 //        Bars3D {
 //            anchors.fill: parent
 //        }", top)
@@ -87,7 +87,7 @@ Item {
 //    function constructBarsWithCustomItemList() {
 //        bars3d = Qt.createQmlObject("
 //        import QtQuick 2.2
-//        import QtGraphs
+//        import QtGraphs3D
 //        Bars3D {
 //            anchors.fill: parent
 //            customItemList: [item1, item2]

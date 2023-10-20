@@ -4,7 +4,7 @@
 //! [0]
 import QtQuick
 import QtQuick.Controls
-import QtGraphs
+import QtGraphs3D
 //! [0]
 
 //! [1]

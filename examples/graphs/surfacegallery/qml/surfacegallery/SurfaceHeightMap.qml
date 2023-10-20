@@ -3,7 +3,7 @@
 
 import QtQuick
 import QtQuick.Controls
-import QtGraphs
+import QtGraphs3D
 
 Rectangle {
     id: heightMapView

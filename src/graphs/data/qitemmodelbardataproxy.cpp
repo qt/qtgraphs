@@ -63,7 +63,7 @@ QT_BEGIN_NAMESPACE
 
 /*!
  * \qmltype ItemModelBarDataProxy
- * \inqmlmodule QtGraphs
+ * \inqmlmodule QtGraphs3D
  * \ingroup graphs_qml
  * \instantiates QItemModelBarDataProxy
  * \inherits BarDataProxy

@@ -30,7 +30,7 @@ const float defaultMaxValue = 10.0f;
 
 /*!
  * \qmltype HeightMapSurfaceDataProxy
- * \inqmlmodule QtGraphs
+ * \inqmlmodule QtGraphs3D
  * \ingroup graphs_qml
  * \instantiates QHeightMapSurfaceDataProxy
  * \inherits SurfaceDataProxy

@@ -24,7 +24,7 @@ QT_BEGIN_NAMESPACE
 
 /*!
  * \qmltype Custom3DLabel
- * \inqmlmodule QtGraphs
+ * \inqmlmodule QtGraphs3D
  * \ingroup graphs_qml
  * \instantiates QCustom3DLabel
  * \inherits Custom3DItem

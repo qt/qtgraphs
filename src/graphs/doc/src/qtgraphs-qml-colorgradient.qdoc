@@ -3,7 +3,7 @@
 
 /*!
     \qmltype ColorGradientStop
-    \inqmlmodule QtGraphs
+    \inqmlmodule QtGraphs3D
     \ingroup graphs_qml
     \brief Defines the color at a position in ColorGradient.
 
@@ -34,7 +34,7 @@
 
 /*!
     \qmltype ColorGradient
-    \inqmlmodule QtGraphs
+    \inqmlmodule QtGraphs3D
     \ingroup graphs_qml
     \brief Defines a color gradient.
 

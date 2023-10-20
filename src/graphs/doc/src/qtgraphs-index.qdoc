@@ -19,7 +19,7 @@
 
     \section2 QML API
 
-    \include {module-use.qdocinc} {using the qml api} {QtGraphs}
+    \include {module-use.qdocinc} {using the qml api} {QtGraphs3D}
 
     \section2 C++ API
 

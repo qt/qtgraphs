@@ -58,7 +58,7 @@ static const float touchZoomDrift = 0.02f;
 
 /*!
  * \qmltype TouchInputHandler3D
- * \inqmlmodule QtGraphs
+ * \inqmlmodule QtGraphs3D
  * \ingroup graphs_qml
  * \instantiates QTouch3DInputHandler
  * \inherits InputHandler3D

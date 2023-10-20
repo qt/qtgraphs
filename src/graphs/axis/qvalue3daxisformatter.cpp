@@ -9,7 +9,7 @@ QT_BEGIN_NAMESPACE
 /*!
  * \class QValue3DAxisFormatter
  * \inmodule QtGraphs
- * \brief The QValue3DAxisFormatter class is a base class for value axis
+ * \brief The QValue3DAxisFormatter class is a base class for 3D value axis
  * formatters.
  *
  * This class provides formatting rules for a linear value 3D axis. Subclass it
@@ -24,10 +24,10 @@ QT_BEGIN_NAMESPACE
 
 /*!
  * \qmltype ValueAxis3DFormatter
- * \inqmlmodule QtGraphs
+ * \inqmlmodule QtGraphs3D
  * \ingroup graphs_qml
  * \instantiates QValue3DAxisFormatter
- * \brief A base type for value axis formatters.
+ * \brief A base type for 3D value axis formatters.
  *
  * This type provides formatting rules for a linear value 3D axis.
  * This type is the default type for ValueAxis3D and thus never needs to be

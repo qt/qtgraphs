@@ -31,7 +31,7 @@ QT_BEGIN_NAMESPACE
 
 /*!
  * \qmltype ScatterDataProxy
- * \inqmlmodule QtGraphs
+ * \inqmlmodule QtGraphs3D
  * \ingroup graphs_qml
  * \instantiates QScatterDataProxy
  * \inherits AbstractDataProxy

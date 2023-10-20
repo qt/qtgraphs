@@ -170,7 +170,7 @@ QT_BEGIN_NAMESPACE
 
 /*!
  * \qmltype Theme3D
- * \inqmlmodule QtGraphs
+ * \inqmlmodule QtGraphs3D
  * \ingroup graphs_qml
  * \instantiates Q3DTheme
  * \brief A visual style for graphs.

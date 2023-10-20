@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 
 import QtQuick 2.0
-import QtGraphs
+import QtGraphs3D
 import QtTest 1.0
 
 Item {
@@ -18,7 +18,7 @@ Item {
 //    function constructEmpty() {
 //        empty = Qt.createQmlObject("
 //        import QtQuick 2.2
-//        import QtGraphs
+//        import QtGraphs3D
 //        Bars3D {
 //        }", top)
 //    }
@@ -26,7 +26,7 @@ Item {
 //    function constructBasic() {
 //        basic = Qt.createQmlObject("
 //        import QtQuick 2.2
-//        import QtGraphs
+//        import QtGraphs3D
 //        Bars3D {
 //            anchors.fill: parent
 //            multiSeriesUniform: true
@@ -44,7 +44,7 @@ Item {
 //    function constructCommon() {
 //        common = Qt.createQmlObject("
 //        import QtQuick 2.2
-//        import QtGraphs
+//        import QtGraphs3D
 //        Bars3D {
 //            anchors.fill: parent
 //        }", top)
@@ -54,7 +54,7 @@ Item {
 //    function constructCommonInit() {
 //        common_init = Qt.createQmlObject("
 //        import QtQuick 2.2
-//        import QtGraphs
+//        import QtGraphs3D
 //        Bars3D {
 //            anchors.fill: parent
 //            selectionMode: AbstractGraph3D.SelectionNone

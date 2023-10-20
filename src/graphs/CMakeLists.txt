@@ -17,7 +17,7 @@ set_source_files_properties(${qml_files} PROPERTIES
 )
 
 qt_internal_add_qml_module(Graphs
-    URI "QtGraphs"
+    URI "QtGraphs3D"
     TARGET_PRODUCT "Qt Graphs (Qt $$QT_VERSION)"
     TARGET_DESCRIPTION "Qt Graphs 3D Visualization component for Qt."
     VERSION "${PROJECT_VERSION}"

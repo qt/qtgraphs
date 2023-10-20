@@ -4,7 +4,7 @@
 /*!
   \qmltype Surface3D
   \inherits AbstractGraph3D
-  \inqmlmodule QtGraphs
+  \inqmlmodule QtGraphs3D
   \ingroup graphs_qml
   \brief Describes the usage of the 3D surface graph.
 

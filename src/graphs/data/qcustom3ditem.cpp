@@ -18,7 +18,7 @@ QT_BEGIN_NAMESPACE
 
 /*!
  * \qmltype Custom3DItem
- * \inqmlmodule QtGraphs
+ * \inqmlmodule QtGraphs3D
  * \ingroup graphs_qml
  * \instantiates QCustom3DItem
  * \brief Adds a custom item to a graph.
