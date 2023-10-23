@@ -22,6 +22,10 @@ Item {
             name: "Bar Themes"
             file: "BarThemes.qml"
         }
+        ListElement {
+            name: "Line Properties"
+            file: "LineProperties.qml"
+        }
     }
 
     Component {

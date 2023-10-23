@@ -42,8 +42,10 @@ qt6_add_qml_module(testbed
     QML_FILES
         qml/testbed/main.qml
         qml/testbed/StartupView.qml
-        qml/testbed/images/arrow_icon.png
         qml/testbed/BarThemes.qml
+        qml/testbed/LineProperties.qml
+    RESOURCES
+        qml/testbed/images/arrow_icon.png
 )
 
 install(TARGETS testbed

@@ -18,6 +18,9 @@ qt_internal_add_qml_module(Graphs2D
         barchart/qbarseries.cpp barchart/qbarseries.h barchart/qbarseries_p.h
         barchart/qabstractbarseries.cpp barchart/qabstractbarseries.h barchart/qabstractbarseries_p.h
         barchart/qbarset.cpp barchart/qbarset.h barchart/qbarset_p.h
+        linechart/qlineseries.cpp linechart/qlineseries.h linechart/qlineseries_p.h
+        xychart/qxyseries.cpp xychart/qxyseries.h xychart/qxyseries_p.h
+        xychart/qxypoint.cpp xychart/qxypoint_p.h
         axis/qabstractaxis.cpp axis/qabstractaxis.h axis/qabstractaxis_p.h
         axis/barcategoryaxis/qbarcategoryaxis.cpp axis/barcategoryaxis/qbarcategoryaxis.h axis/barcategoryaxis/qbarcategoryaxis_p.h
         axis/axisgrid.cpp axis/axisgrid_p.h
@@ -27,11 +30,13 @@ qt_internal_add_qml_module(Graphs2D
     NO_PCH_SOURCES
         barchart/qabstractbarseries.cpp
         axis/barcategoryaxis/qbarcategoryaxis.cpp
+        xychart/qxyseries.cpp
     PUBLIC_LIBRARIES
         Qt::Core
         Qt::Gui
         Qt::Quick
         Qt::QuickPrivate
+        Qt::QuickShapesPrivate
     GENERATE_CPP_EXPORTS
 )
 

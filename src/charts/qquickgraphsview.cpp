@@ -5,6 +5,7 @@
 #include <QtGraphs2D/qbarseries.h>
 #include <QtGraphs2D/qbarset.h>
 #include <QtGraphs2D/QBarCategoryAxis>
+#include <QtGraphs2D/qlineseries.h>
 
 QT_BEGIN_NAMESPACE
 
@@ -12,6 +13,11 @@ QQuickGraphs2DView::QQuickGraphs2DView(QQuickItem *parent) :
     QQuickItem(parent)
 {
     setFlag(QQuickItem::ItemHasContents);
+    m_shape.setParentItem(this);
+    m_shape.setPreferredRendererType(QQuickShape::CurveRenderer);
+
+    auto data = m_shape.data();
+    data.append(&data, &m_shapePath);
 }
 
 QQuickGraphs2DView::~QQuickGraphs2DView()
@@ -111,6 +117,9 @@ QSGNode *QQuickGraphs2DView::updatePaintNode(QSGNode *oldNode, QQuickItem::Updat
         // TODO: Currently supporting just barseries.
         if (auto barSeries = qobject_cast<QBarSeries*>(series))
             updateBarSeries(barSeries);
+
+        if (auto lineSeries = qobject_cast<QLineSeries*>(series))
+            updateLineSeries(lineSeries);
     }
 
     // Now possibly dirty theme has been taken into use
@@ -385,6 +394,54 @@ void QQuickGraphs2DView::updateBarSeries(QBarSeries *series)
         }
         posInSet += barWidth + barMargin;
         barSerieIndex++;
+    }
+}
+
+void QQuickGraphs2DView::updateLineSeries(QLineSeries *series)
+{
+    if (series->points().isEmpty())
+        return;
+
+    int pointCount = series->points().size() - 1;
+    int currentSize = m_linePaths.size();
+    if (currentSize < pointCount) {
+        auto pathElements = m_shapePath.pathElements();
+        for (int i = currentSize; i < pointCount; ++i) {
+            auto linePath = new QQuickPathLine();
+            //m_backgroundNode->appendChildNode(linePath); TODO: Check if needed
+            pathElements.append(&pathElements, linePath);
+            m_linePaths << linePath;
+        }
+    }
+
+    m_shapePath.setStrokeColor(series->color()); // TODO: Check why changing color causes a crash in QuickShapes
+    m_shapePath.setStrokeWidth(series->width());
+    m_shapePath.setFillColor(QColorConstants::Transparent);
+
+    Qt::PenCapStyle capStyle = series->capStyle();
+    if (capStyle == Qt::PenCapStyle::SquareCap) {
+        m_shapePath.setCapStyle(QQuickShapePath::CapStyle::SquareCap);
+    } else if (capStyle == Qt::PenCapStyle::FlatCap) {
+        m_shapePath.setCapStyle(QQuickShapePath::CapStyle::FlatCap);
+    } else if (capStyle == Qt::PenCapStyle::RoundCap) {
+        m_shapePath.setCapStyle(QQuickShapePath::CapStyle::RoundCap);
+    }
+
+    // Sizes required of axis labels
+    float axisHeight = 20;
+    float axisWidth = 40;
+    // Bars area width & hight
+    float w = width() - m_marginLeft - m_marginRight - axisWidth;
+    float h = height() - m_marginTop - m_marginBottom - axisHeight;
+
+    auto &&points = series->points();
+    if (points.count() > 0) {
+        m_shapePath.setStartX(m_marginLeft + axisWidth + w * points[0].x() * 0.05f);
+        m_shapePath.setStartY(m_marginTop + h - h * points[0].y() * 0.05f);
+        for (int i = 1; i < points.count(); ++i) {
+            m_linePaths[i - 1]->setX(m_marginLeft + axisWidth + w * points[i].x() * 0.05f);
+            m_linePaths[i - 1]->setY(m_marginTop + h - h * points[i].y() * 0.05f);
+        }
     }
 }
 

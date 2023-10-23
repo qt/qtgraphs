@@ -26,11 +26,13 @@
 #include <private/axisgrid_p.h>
 #include <private/axisticker_p.h>
 #include <QtGraphs2D/graphtheme.h>
+#include <QtQuickShapes/private/qquickshape_p.h>
 
 QT_BEGIN_NAMESPACE
 
 class QBarSeries;
 class QBarCategoryAxis;
+class QLineSeries;
 
 // KG: TODO
 class QChartPrivate
@@ -110,6 +112,7 @@ private:
     void updateBarXAxis(QBarCategoryAxis *axis, const QRectF &rect);
     void updateBarYAxis(QBarCategoryAxis *axis, const QRectF &rect);
     void updateBarSeries(QBarSeries *series);
+    void updateLineSeries(QLineSeries *series);
 
 private:
     QList<QObject *> m_seriesList;
@@ -117,6 +120,9 @@ private:
     //QSGDefaultInternalRectangleNode *m_backgroundNode = nullptr;
     QSGNode *m_backgroundNode = nullptr;
     QList<QSGDefaultInternalRectangleNode *> m_rectNodes;
+    QQuickShape m_shape;
+    QQuickShapePath m_shapePath;
+    QList<QQuickPathLine *> m_linePaths;
     QList<QQuickText *> m_xAxisTextItems;
     QList<QQuickText *> m_yAxisTextItems;
     AxisGrid *m_axisGrid = nullptr;
