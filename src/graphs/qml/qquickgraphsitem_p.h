@@ -617,6 +617,7 @@ protected:
     void updateSliceLabels();
     virtual void updateShadowQuality(QAbstract3DGraph::ShadowQuality quality);
     void updateItemLabel(const QVector3D &position);
+    virtual void updateSliceItemLabel(QString label, const QVector3D &position);
 
     struct Volume
     {

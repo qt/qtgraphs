@@ -1943,6 +1943,7 @@ void QQuickGraphsItem::synchData()
             updateSliceLabels();
         }
         theme()->d_func()->m_dirtyBits.fontDirty = false;
+        m_isSeriesVisualsDirty = true;
     }
 
     if (theme()->d_func()->m_dirtyBits.labelsEnabledDirty) {
@@ -2934,6 +2935,12 @@ void QQuickGraphsItem::updateItemLabel(const QVector3D &position)
     pos2d.setY(pos2d.y() - (m_itemLabel->height() / 2.f)
                - (m_itemLabel->height() * m_itemLabel->scale()));
     m_itemLabel->setPosition(pos2d.toPointF());
+}
+
+void QQuickGraphsItem::updateSliceItemLabel(QString label, const QVector3D &position)
+{
+    Q_UNUSED(label);
+    Q_UNUSED(position);
 }
 
 void QQuickGraphsItem::createVolumeMaterial(QCustom3DVolume *volume, Volume &volumeItem)
@@ -5200,6 +5207,7 @@ void QQuickGraphsItem::updateSliceLabels()
         for (int i = 0; i < m_sliceHorizontalLabelRepeater->count(); i++) {
             auto obj = static_cast<QQuick3DNode *>(m_sliceHorizontalLabelRepeater->objectAt(i));
             labelTrans.setX(valueAxis->labelPositionAt(i) * scale * 2.0f - translate);
+            labelTrans.setY(-yPos - adjustment);
             obj->setScale(fontScaled);
             obj->setPosition(labelTrans);
             obj->setProperty("labelText", labels[i]);
@@ -5215,7 +5223,7 @@ void QQuickGraphsItem::updateSliceLabels()
     } else if (horizontalAxis->type() == QAbstract3DAxis::AxisType::Category) {
         for (int i = 0; i < m_sliceHorizontalLabelRepeater->count(); i++) {
             labelTrans = calculateCategoryLabelPosition(horizontalAxis, labelTrans, i);
-            labelTrans.setY(labelTrans.y() - (adjustment / 1.5f));
+            labelTrans.setY(-yPos - (adjustment / 2.f));
             if (selectionMode().testFlag(QAbstract3DGraph::SelectionColumn))
                 labelTrans.setX(labelTrans.z());
             labelTrans.setZ(1.0f); // Bring the labels on top of bars and grid
@@ -5238,12 +5246,15 @@ void QQuickGraphsItem::updateSliceLabels()
     translate = backgroundScale.y() - m_backgroundScaleMargin.y();
     labels = verticalAxis->labels();
     labelsMaxWidth = float(findLabelsMaxWidth(labels)) + textPadding;
+    // Since labelsMaxWidth changes for each axis, these needs to be recalculated for scaling.
+    fontRatio = labelsMaxWidth / labelHeight;
+    fontScaled.setX(scaleFactor * fontRatio);
     adjustment = labelsMaxWidth * scaleFactor;
     float xPos = 0.0f;
     if (selectionMode().testFlag(QAbstract3DGraph::SelectionRow))
-        xPos = backgroundScale.x() + adjustment;
+        xPos = backgroundScale.x() + (adjustment * 1.5f);
     else if (selectionMode().testFlag(QAbstract3DGraph::SelectionColumn))
-        xPos = backgroundScale.z() + adjustment;
+        xPos = backgroundScale.z() + (adjustment * 1.5f);
     labelTrans = QVector3D(xPos, 0.0f, 0.0f);
 
     if (verticalAxis->type() == QAbstract3DAxis::AxisType::Value) {
@@ -5288,7 +5299,7 @@ void QQuickGraphsItem::updateSliceLabels()
         xPos = backgroundScale.x() + adjustment;
     else if (selectionMode().testFlag(QAbstract3DGraph::SelectionColumn))
         xPos = backgroundScale.z() + adjustment;
-    labelTrans = QVector3D(-xPos, 0.0f, 0.0f);
+    labelTrans = QVector3D(-(xPos + adjustment), 0.0f, 0.0f);
 
     if (!verticalAxis->title().isEmpty()) {
         m_sliceVerticalTitleLabel->setScale(vTitleScale);
@@ -5311,7 +5322,7 @@ void QQuickGraphsItem::updateSliceLabels()
     QVector3D hTitleScale = fontScaled;
     hTitleScale.setX(fontScaled.y() * labelWidth / labelHeight);
     adjustment = labelHeight * scaleFactor;
-    yPos = backgroundScale.y() * 1.5f + adjustment;
+    yPos = backgroundScale.y() * 1.5f + (adjustment * 6.f);
     labelTrans = QVector3D(0.0f, -yPos, 0.0f);
 
     if (!horizontalAxis->title().isEmpty()) {

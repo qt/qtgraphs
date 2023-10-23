@@ -157,6 +157,7 @@ protected:
     bool doPicking(const QPointF &position) override;
 
     void createSliceView() override;
+    void updateSliceItemLabel(QString label, const QVector3D &position) override;
 
 public Q_SLOTS:
     void handleAxisXChanged(QAbstract3DAxis *axis) override;

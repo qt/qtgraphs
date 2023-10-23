@@ -1835,23 +1835,8 @@ void QQuickGraphsSurface::updateSelectedPoint()
                 updateItemLabel(labelPosition);
                 itemLabel()->setProperty("labelText", label);
                 labelVisible = true;
-
-                if (sliceView() && sliceView()->isVisible()) {
-                    QFontMetrics fm(theme()->font());
-                    float textPadding = 12.0f;
-                    float labelHeight = fm.height() + textPadding;
-                    float labelWidth = fm.horizontalAdvance(label) + textPadding;
-                    QVector3D scale = sliceItemLabel()->scale();
-                    scale.setX(scale.y() * labelWidth / labelHeight);
-                    sliceItemLabel()->setProperty("labelWidth", labelWidth);
-                    sliceItemLabel()->setProperty("labelHeight", labelHeight);
-                    sliceItemLabel()->setScale(scale);
-                    labelPosition = slicePosition;
-                    labelPosition.setZ(.1f);
-                    labelPosition.setY(labelPosition.y() + .05f);
-                    sliceItemLabel()->setPosition(labelPosition);
-                    sliceItemLabel()->setProperty("labelText", label);
-                }
+                if (sliceView() && sliceView()->isVisible())
+                    updateSliceItemLabel(label, slicePosition);
             }
         }
     }
@@ -1985,6 +1970,24 @@ void QQuickGraphsSurface::createSliceView()
     m_sliceInstancing->setScale(QVector3D(0.001f, 0.001f, 0.001f));
     m_sliceSelectionPointer->setInstancing(m_sliceInstancing);
     m_sliceInstancing->setColor(theme()->singleHighlightColor());
+}
+
+void QQuickGraphsSurface::updateSliceItemLabel(QString label, const QVector3D &position)
+{
+    QFontMetrics fm(theme()->font());
+    float textPadding = 12.0f;
+    float labelHeight = fm.height() + textPadding;
+    float labelWidth = fm.horizontalAdvance(label) + textPadding;
+    QVector3D scale = sliceItemLabel()->scale();
+    scale.setX(scale.y() * labelWidth / labelHeight);
+    sliceItemLabel()->setProperty("labelWidth", labelWidth);
+    sliceItemLabel()->setProperty("labelHeight", labelHeight);
+    sliceItemLabel()->setScale(scale);
+    QVector3D labelPosition = position;
+    labelPosition.setZ(.1f);
+    labelPosition.setY(position.y() + .05f);
+    sliceItemLabel()->setPosition(labelPosition);
+    sliceItemLabel()->setProperty("labelText", label);
 }
 
 void QQuickGraphsSurface::addSliceModel(SurfaceModel *model)

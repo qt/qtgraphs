@@ -1917,6 +1917,7 @@ void QQuickGraphsBars::setSelectedBar(const QPoint &coord, QBar3DSeries *series,
         m_selectedBar = pos;
         m_selectedBarSeries = series;
         m_changeTracker.selectedBarChanged = true;
+        checkSliceEnabled();
 
         // Clear selection from other series and finally set new selection to the
         // specified series
@@ -1972,28 +1973,8 @@ void QQuickGraphsBars::updateSelectedBar()
                         updateItemLabel(m_selectedBarPos);
                         itemLabel()->setVisible(true);
                         itemLabel()->setProperty("labelText", label);
-
-                        if (isSliceEnabled()) {
-                            QFontMetrics fm(theme()->font());
-                            float textPadding = theme()->font().pointSizeF() * .5f;
-                            float labelHeight = fm.height() + textPadding;
-                            float labelWidth = fm.horizontalAdvance(label) + textPadding;
-                            QVector3D scale = sliceItemLabel()->scale();
-                            scale.setX(scale.y() * labelWidth / labelHeight);
-                            sliceItemLabel()->setProperty("labelWidth", labelWidth);
-                            sliceItemLabel()->setProperty("labelHeight", labelHeight);
-                            QVector3D slicePos = barList->model->position();
-                            if (selectionMode().testFlag(QAbstract3DGraph::SelectionColumn))
-                                slicePos.setX(slicePos.z() - .1f);
-                            else if (selectionMode().testFlag(QAbstract3DGraph::SelectionRow))
-                                slicePos.setX(slicePos.x() - .1f);
-                            slicePos.setZ(.0f);
-                            slicePos.setY(slicePos.y() + 1.5f);
-                            sliceItemLabel()->setPosition(slicePos);
-                            sliceItemLabel()->setProperty("labelText", label);
-                            sliceItemLabel()->setEulerRotation(QVector3D(0.0f, 0.0f, 90.0f));
-                            sliceItemLabel()->setVisible(true);
-                        }
+                        if (isSliceEnabled())
+                            updateSliceItemLabel(label, m_selectedBarPos);
                         break;
                     }
                     case QQuickGraphsBars::SelectionRow:
@@ -2053,28 +2034,8 @@ void QQuickGraphsBars::updateSelectedBar()
                             updateItemLabel(m_selectedBarPos);
                             itemLabel()->setVisible(true);
                             itemLabel()->setProperty("labelText", label);
-
-                            if (isSliceEnabled()) {
-                                QFontMetrics fm(theme()->font());
-                                float textPadding = theme()->font().pointSizeF() * .5f;
-                                float labelHeight = fm.height() + textPadding;
-                                float labelWidth = fm.horizontalAdvance(label) + textPadding;
-                                QVector3D scale = sliceItemLabel()->scale();
-                                scale.setX(scale.y() * labelWidth / labelHeight);
-                                sliceItemLabel()->setProperty("labelWidth", labelWidth);
-                                sliceItemLabel()->setProperty("labelHeight", labelHeight);
-                                QVector3D slicePos = bih->position;
-                                if (selectionMode().testFlag(QAbstract3DGraph::SelectionColumn))
-                                    slicePos.setX(slicePos.z() - .1f);
-                                else if (selectionMode().testFlag(QAbstract3DGraph::SelectionRow))
-                                    slicePos.setX(slicePos.x() - .1f);
-                                slicePos.setZ(.0f);
-                                slicePos.setY(slicePos.y() + 1.5f);
-                                sliceItemLabel()->setPosition(slicePos);
-                                sliceItemLabel()->setProperty("labelText", label);
-                                sliceItemLabel()->setEulerRotation(QVector3D(0.0f, 0.0f, 90.0f));
-                                sliceItemLabel()->setVisible(true);
-                            }
+                            if (isSliceEnabled())
+                                updateSliceItemLabel(label, m_selectedBarPos);
                             ++index;
                         }
                         break;
@@ -2159,6 +2120,30 @@ QQuickGraphsItem::SelectionType QQuickGraphsBars::isSelected(int row, int bar, Q
     }
 
     return isSelectedType;
+}
+
+void QQuickGraphsBars::updateSliceItemLabel(QString label, const QVector3D &position)
+{
+    QFontMetrics fm(theme()->font());
+    float textPadding = theme()->font().pointSizeF() * .7f;
+    float labelHeight = fm.height() + textPadding;
+    float labelWidth = fm.horizontalAdvance(label) + textPadding;
+    QVector3D scale = sliceItemLabel()->scale();
+    scale.setX(scale.y() * labelWidth / labelHeight);
+    sliceItemLabel()->setProperty("labelWidth", labelWidth);
+    sliceItemLabel()->setProperty("labelHeight", labelHeight);
+    sliceItemLabel()->setScale(scale);
+    QVector3D slicePos = position;
+    if (selectionMode().testFlag(QAbstract3DGraph::SelectionColumn))
+        slicePos.setX(slicePos.z());
+    else if (selectionMode().testFlag(QAbstract3DGraph::SelectionRow))
+        slicePos.setX(slicePos.x());
+    slicePos.setZ(.0f);
+    slicePos.setY(slicePos.y() + 1.2f);
+    sliceItemLabel()->setPosition(slicePos);
+    sliceItemLabel()->setProperty("labelText", label);
+    sliceItemLabel()->setEulerRotation(QVector3D(0.0f, 0.0f, 90.0f));
+    sliceItemLabel()->setVisible(true);
 }
 
 void QQuickGraphsBars::resetClickedStatus()
@@ -2281,6 +2266,8 @@ void QQuickGraphsBars::updateSliceGraph()
                                              highlightBar
                                                  ? m_selectedBarSeries->singleHighlightColor()
                                                  : m_selectedBarSeries->baseColor());
+                    if (selectionMode().testFlag(QAbstract3DGraph::SelectionItem))
+                        updateSliceItemLabel(m_selectedBarSeries->itemLabel(), m_selectedBarPos);
                 } else {
                     setSliceEnabled(false);
                     QQuickGraphsItem::updateSliceGraph();
@@ -2325,6 +2312,8 @@ void QQuickGraphsBars::updateSliceGraph()
                                                  highlightBar
                                                      ? m_selectedBarSeries->singleHighlightColor()
                                                      : m_selectedBarSeries->baseColor());
+                        if (selectionMode().testFlag(QAbstract3DGraph::SelectionItem))
+                            updateSliceItemLabel(m_selectedBarSeries->itemLabel(), m_selectedBarPos);
                     } else {
                         setSliceEnabled(false);
                         QQuickGraphsItem::updateSliceGraph();
@@ -2418,6 +2407,8 @@ void QQuickGraphsBars::updateSelectionMode(QAbstract3DGraph::SelectionFlags mode
 
     setSeriesVisualsDirty(true);
     itemLabel()->setVisible(false);
+    if (sliceView() && sliceView()->isVisible())
+        sliceItemLabel()->setVisible(false);
 }
 
 void QQuickGraphsBars::updateBarSpecs(float thicknessRatio, const QSizeF &spacing, bool relative)
