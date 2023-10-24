@@ -121,6 +121,7 @@ public:
     void setAxisXLabelsFont(const QFont &newAxisXLabelsFont);
 
 Q_SIGNALS:
+    void update();
     void colorThemeChanged();
     void gridMajorBarsWidthChanged();
     void gridMinorBarsWidthChanged();
@@ -150,6 +151,7 @@ protected:
     void componentComplete() override;
 
 private:
+    void updateTheme();
     void setColorThemeLight();
     void setColorThemeDark();
 

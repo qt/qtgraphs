@@ -132,7 +132,6 @@ Rectangle {
         anchors.bottom: parent.bottom
         anchors.top: graphToolbar.bottom
         anchors.margins: 10
-        backgroundColor: "#202020"
         theme: GraphTheme {
             id: myTheme
             colorTheme: GraphTheme.ColorThemeDark
@@ -152,7 +151,6 @@ Rectangle {
             BarSet { id: set3; label: "James"; values: [4+3*Math.sin(fA.elapsedTime), 5+5*Math.sin(fA.elapsedTime), 6+2*Math.sin(fA.elapsedTime), 13+2*Math.sin(fA.elapsedTime), 4+3*Math.sin(fA.elapsedTime), 8+4*Math.sin(fA.elapsedTime)] }
             BarSet { id: set4; label: "Frank"; values: [3, 3, 5, 8, 4, 2] }
         }
-        // TEMP
         FrameAnimation {
             id: fA
             running: true
@@ -160,5 +158,9 @@ Rectangle {
         }
     }
 
+    MouseArea {
+        anchors.fill: chartView
+        onClicked: fA.paused = !fA.paused;
+    }
 
 }

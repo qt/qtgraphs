@@ -333,6 +333,7 @@ void QBarSet::setLabel(const QString label)
     if (d_ptr->m_label != label) {
         d_ptr->m_label = label;
         d_ptr->setLabelsDirty(true);
+        update();
         emit labelChanged();
     }
 }
@@ -513,6 +514,7 @@ void QBarSet::setColor(QColor color)
 {
     if (d_ptr->m_color != color) {
         d_ptr->m_color = color;
+        update();
         emit colorChanged(color);
     }
 }
@@ -532,6 +534,7 @@ void QBarSet::setBorderColor(QColor color)
 {
     if (d_ptr->m_borderColor != color) {
         d_ptr->m_borderColor = color;
+        update();
         emit borderColorChanged(color);
     }
 }
@@ -551,6 +554,7 @@ void QBarSet::setLabelColor(QColor color)
 {
     if (d_ptr->m_labelColor != color) {
         d_ptr->m_labelColor = color;
+        update();
         emit labelColorChanged(color);
     }
 }
@@ -576,6 +580,7 @@ void QBarSet::setSelectedColor(const QColor &color)
     if (d_ptr->m_selectedColor != color) {
         d_ptr->m_selectedColor = color;
         d_ptr->setLabelsDirty(true);
+        update();
         emit d_ptr->updatedBars();
         emit selectedColorChanged(color);
     }
@@ -591,6 +596,7 @@ void QBarSet::setBorderWidth(qreal width)
 {
     if (d_ptr->m_borderWidth != width) {
         d_ptr->m_borderWidth = width;
+        update();
         emit borderWidthChanged(width);
     }
 }
@@ -636,6 +642,7 @@ void QBarSet::setValues(QVariantList values)
                 QBarSet::append(values[i].toDouble());
         }
     }
+    update();
 }
 
 

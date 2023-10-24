@@ -442,9 +442,11 @@ bool QAbstractBarSeries::append(QBarSet *set)
         QList<QBarSet *> sets;
         sets.append(set);
         set->setParent(this);
+        QObject::connect(set, &QBarSet::update, this, &QAbstractBarSeries::update);
         emit barsetsAdded(sets);
         emit countChanged();
     }
+    update();
     return success;
 }
 
@@ -460,6 +462,7 @@ bool QAbstractBarSeries::remove(QBarSet *set)
         QList<QBarSet *> sets;
         sets.append(set);
         set->setParent(0);
+        QObject::disconnect(set, &QBarSet::update, this, &QAbstractBarSeries::update);
         emit barsetsRemoved(sets);
         emit countChanged();
         delete set;
@@ -482,6 +485,7 @@ bool QAbstractBarSeries::take(QBarSet *set)
     if (success) {
         QList<QBarSet *> sets;
         sets.append(set);
+        QObject::disconnect(set, &QBarSet::update, this, &QAbstractBarSeries::update);
         emit barsetsRemoved(sets);
         emit countChanged();
     }
@@ -501,8 +505,10 @@ bool QAbstractBarSeries::append(const QList<QBarSet *> &sets)
     if (!d->append(sets))
         return false;
 
-    for (auto *set : sets)
+    for (auto *set : sets) {
         set->setParent(this);
+        QObject::connect(set, &QBarSet::update, this, &QAbstractBarSeries::update);
+    }
 
     emit barsetsAdded(sets);
     emit countChanged();
@@ -522,6 +528,7 @@ bool QAbstractBarSeries::insert(int index, QBarSet *set)
     if (success) {
         QList<QBarSet *> sets;
         sets.append(set);
+        QObject::connect(set, &QBarSet::update, this, &QAbstractBarSeries::update);
         emit barsetsAdded(sets);
         emit countChanged();
     }
@@ -539,8 +546,10 @@ void QAbstractBarSeries::clear()
     if (success) {
         emit barsetsRemoved(sets);
         emit countChanged();
-        foreach (QBarSet *set, sets)
+        foreach (QBarSet *set, sets) {
+            QObject::disconnect(set, &QBarSet::update, this, &QAbstractBarSeries::update);
             delete set;
+        }
     }
 }
 

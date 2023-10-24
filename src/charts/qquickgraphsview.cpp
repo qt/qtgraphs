@@ -40,7 +40,7 @@ void QQuickGraphs2DView::addSeries(QObject *series)
 
 void QQuickGraphs2DView::insertSeries(int index, QObject *object)
 {
-    if (auto series = reinterpret_cast<QQuickGraphs2DView *>(object)) {
+    if (auto series = qobject_cast<QAbstractSeries *>(object)) {
         if (m_seriesList.contains(series)) {
             int oldIndex = m_seriesList.indexOf(series);
             if (index != oldIndex) {
@@ -52,6 +52,8 @@ void QQuickGraphs2DView::insertSeries(int index, QObject *object)
         } else {
             int oldSize = m_seriesList.size();
             m_seriesList.insert(index, series);
+            QObject::connect(series, &QAbstractSeries::update, this, &QQuickItem::update);
+            QObject::connect(series->theme(), &SeriesTheme::update, this, &QQuickItem::update);
             //QObject::connect(series, &QAbstractSeries::visibilityChanged,
             //                 this, &Abstract3DController::handleSeriesVisibilityChanged);
             //series->resetToTheme(*m_themeManager->activeTheme(), oldSize, false);
@@ -85,6 +87,7 @@ void QQuickGraphs2DView::componentComplete()
     if (!m_theme) {
         qDebug() << "Using default theme!";
         m_theme = new GraphTheme(this);
+        QObject::connect(m_theme, &GraphTheme::update, this, &QQuickItem::update);
         m_theme->resetColorTheme();
     }
     QQuickItem::componentComplete();
@@ -432,7 +435,15 @@ void QQuickGraphs2DView::setTheme(GraphTheme *newTheme)
 {
     if (m_theme == newTheme)
         return;
+
+    if (m_theme)
+        QObject::disconnect(m_theme, nullptr, this, nullptr);
+
     m_theme = newTheme;
+
+    if (m_theme)
+        QObject::connect(m_theme, &GraphTheme::update, this, &QQuickItem::update);
+
     emit themeChanged();
 }
 

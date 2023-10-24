@@ -75,6 +75,7 @@ public:
     QList<int> selectedBars() const;
 
 Q_SIGNALS:
+    void update();
     void clicked(int index);
     void hovered(bool status, int index);
     void pressed(int index);

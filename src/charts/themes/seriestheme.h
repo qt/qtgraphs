@@ -43,6 +43,7 @@ protected:
     void componentComplete() ;
 
 Q_SIGNALS:
+    void update();
     void colorThemeChanged();
 
 private:

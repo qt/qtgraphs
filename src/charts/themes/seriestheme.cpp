@@ -38,6 +38,7 @@ void SeriesTheme::setColorTheme(const SeriesTheme::SeriesColorTheme &newColorThe
 
     if (m_colorTheme == newColorTheme && !m_themeDirty && m_componentComplete)
         return;
+
     m_colorTheme = newColorTheme;
 
     if (m_colorTheme == SeriesTheme::SeriesTheme1) {
@@ -46,6 +47,7 @@ void SeriesTheme::setColorTheme(const SeriesTheme::SeriesColorTheme &newColorThe
         setColorTheme2();
     }
 
+    emit update();
     emit colorThemeChanged();
 }
 

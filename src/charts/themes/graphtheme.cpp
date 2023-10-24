@@ -21,6 +21,12 @@ void GraphTheme::componentComplete()
     m_componentComplete = true;
 }
 
+void GraphTheme::updateTheme()
+{
+    m_themeDirty = true;
+    emit update();
+}
+
 void GraphTheme::resetColorTheme()
 {
     setColorTheme(GraphTheme::ColorThemeDark);
@@ -49,6 +55,7 @@ void GraphTheme::setColorTheme(const ColorTheme &newColorTheme)
         setColorThemeDark();
     }
 
+    update();
     emit colorThemeChanged();
 }
 
@@ -104,6 +111,7 @@ void GraphTheme::setGridMajorBarsWidth(qreal newGridMajorBarsWidth)
     if (qFuzzyCompare(m_gridMajorBarsWidth, newGridMajorBarsWidth))
         return;
     m_gridMajorBarsWidth = newGridMajorBarsWidth;
+    updateTheme();
     emit gridMajorBarsWidthChanged();
 }
 
@@ -117,6 +125,7 @@ void GraphTheme::setGridMinorBarsWidth(qreal newGridMinorBarsWidth)
     if (qFuzzyCompare(m_gridMinorBarsWidth, newGridMinorBarsWidth))
         return;
     m_gridMinorBarsWidth = newGridMinorBarsWidth;
+    updateTheme();
     emit gridMinorBarsWidthChanged();
 }
 
@@ -130,6 +139,7 @@ void GraphTheme::setGridSmoothing(qreal newGridSmoothing)
     if (qFuzzyCompare(m_gridSmoothing, newGridSmoothing))
         return;
     m_gridSmoothing = newGridSmoothing;
+    updateTheme();
     emit gridSmoothingChanged();
 }
 
@@ -144,7 +154,7 @@ void GraphTheme::setGridMajorBarsColor(const QColor &newGridMajorBarsColor)
         return;
     m_gridMajorBarsColor = newGridMajorBarsColor;
     m_customFlags.gridMajorBarsColor = true;
-    m_themeDirty = true;
+    updateTheme();
     emit gridMajorBarsColorChanged();
 }
 
@@ -159,7 +169,7 @@ void GraphTheme::setGridMinorBarsColor(const QColor &newGridMinorBarsColor)
         return;
     m_gridMinorBarsColor = newGridMinorBarsColor;
     m_customFlags.gridMinorBarsColor = true;
-    m_themeDirty = true;
+    updateTheme();
     emit gridMinorBarsColorChanged();
 }
 
@@ -174,7 +184,7 @@ void GraphTheme::setAxisYMajorColor(const QColor &newAxisYMajorColor)
         return;
     m_axisYMajorColor = newAxisYMajorColor;
     m_customFlags.axisYMajorColor = true;
-    m_themeDirty = true;
+    updateTheme();
     emit axisYMajorColorChanged();
 }
 
@@ -189,7 +199,7 @@ void GraphTheme::setAxisYMinorColor(const QColor &newAxisYMinorColor)
         return;
     m_axisYMinorColor = newAxisYMinorColor;
     m_customFlags.axisYMinorColor = true;
-    m_themeDirty = true;
+    updateTheme();
     emit axisYMinorColorChanged();
 }
 
@@ -203,6 +213,7 @@ void GraphTheme::setAxisYMajorBarWidth(qreal newAxisYMajorBarWidth)
     if (qFuzzyCompare(m_axisYMajorBarWidth, newAxisYMajorBarWidth))
         return;
     m_axisYMajorBarWidth = newAxisYMajorBarWidth;
+    updateTheme();
     emit axisYMajorBarWidthChanged();
 }
 
@@ -216,6 +227,7 @@ void GraphTheme::setAxisYMinorBarWidth(qreal newAxisYMinorBarWidth)
     if (qFuzzyCompare(m_axisYMinorBarWidth, newAxisYMinorBarWidth))
         return;
     m_axisYMinorBarWidth = newAxisYMinorBarWidth;
+    updateTheme();
     emit axisYMinorBarWidthChanged();
 }
 
@@ -229,6 +241,7 @@ void GraphTheme::setAxisYSmoothing(qreal newAxisYSmoothing)
     if (qFuzzyCompare(m_axisYSmoothing, newAxisYSmoothing))
         return;
     m_axisYSmoothing = newAxisYSmoothing;
+    updateTheme();
     emit axisYSmoothingChanged();
 }
 
@@ -243,7 +256,7 @@ void GraphTheme::setAxisYLabelsColor(const QColor &newAxisYLabelsColor)
         return;
     m_axisYLabelsColor = newAxisYLabelsColor;
     m_customFlags.axisYLabelsColor = true;
-    m_themeDirty = true;
+    updateTheme();
     emit axisYLabelsColorChanged();
 }
 
@@ -257,6 +270,7 @@ void GraphTheme::setAxisYLabelsFont(const QFont &newAxisYLabelsFont)
     if (m_axisYLabelsFont == newAxisYLabelsFont)
         return;
     m_axisYLabelsFont = newAxisYLabelsFont;
+    updateTheme();
     emit axisYLabelsFontChanged();
 }
 
@@ -271,7 +285,7 @@ void GraphTheme::setAxisXMajorColor(const QColor &newAxisXMajorColor)
         return;
     m_axisXMajorColor = newAxisXMajorColor;
     m_customFlags.axisXMajorColor = true;
-    m_themeDirty = true;
+    updateTheme();
     emit axisXMajorColorChanged();
 }
 
@@ -286,7 +300,7 @@ void GraphTheme::setAxisXMinorColor(const QColor &newAxisXMinorColor)
         return;
     m_axisXMinorColor = newAxisXMinorColor;
     m_customFlags.axisXMinorColor = true;
-    m_themeDirty = true;
+    updateTheme();
     emit axisXMinorColorChanged();
 }
 
@@ -300,6 +314,7 @@ void GraphTheme::setAxisXMajorBarWidth(qreal newAxisXMajorBarWidth)
     if (qFuzzyCompare(m_axisXMajorBarWidth, newAxisXMajorBarWidth))
         return;
     m_axisXMajorBarWidth = newAxisXMajorBarWidth;
+    updateTheme();
     emit axisXMajorBarWidthChanged();
 }
 
@@ -313,6 +328,7 @@ void GraphTheme::setAxisXMinorBarWidth(qreal newAxisXMinorBarWidth)
     if (qFuzzyCompare(m_axisXMinorBarWidth, newAxisXMinorBarWidth))
         return;
     m_axisXMinorBarWidth = newAxisXMinorBarWidth;
+    updateTheme();
     emit axisXMinorBarWidthChanged();
 }
 
@@ -326,6 +342,7 @@ void GraphTheme::setAxisXSmoothing(qreal newAxisXSmoothing)
     if (qFuzzyCompare(m_axisXSmoothing, newAxisXSmoothing))
         return;
     m_axisXSmoothing = newAxisXSmoothing;
+    updateTheme();
     emit axisXSmoothingChanged();
 }
 
@@ -340,7 +357,7 @@ void GraphTheme::setAxisXLabelsColor(const QColor &newAxisXLabelsColor)
         return;
     m_axisXLabelsColor = newAxisXLabelsColor;
     m_customFlags.axisXLabelsColor = true;
-    m_themeDirty = true;
+    updateTheme();
     emit axisXLabelsColorChanged();
 }
 
@@ -354,6 +371,7 @@ void GraphTheme::setAxisXLabelsFont(const QFont &newAxisXLabelsFont)
     if (m_axisXLabelsFont == newAxisXLabelsFont)
         return;
     m_axisXLabelsFont = newAxisXLabelsFont;
+    updateTheme();
     emit axisXLabelsFontChanged();
 }
 
