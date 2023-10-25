@@ -1,10 +1,10 @@
 // Copyright (C) 2023 The Qt Company Ltd.
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 
-import QtQuick 2.0
-import HelperWidgets 2.0
-import QtQuick.Layouts 1.0
-import QtQuick.Controls 1.1 as Controls
+import QtQuick
+import HelperWidgets
+import QtQuick.Layouts
+import QtQuick.Controls as Controls
 
 Column {
     anchors.left: parent.left
@@ -13,52 +13,52 @@ Column {
     Section {
         anchors.left: parent.left
         anchors.right: parent.right
-        caption: qsTr("Surface3D")
+        caption: qsTr("Surface")
 
         SectionLayout {
-            Label {
-                text: qsTr("renderingMode")
-                tooltip: qsTr("Rendering Mode")
+            PropertyLabel {
+                text: qsTr("Flip Grid")
+                tooltip: qsTr("Flip horizontal grid")
                 Layout.fillWidth: true
             }
             SecondColumnLayout {
-                ComboBox {
-                    backendValue: backendValues.renderingMode
-                    model: ["RenderIndirect", "RenderDirectToBackground"]
+                CheckBox {
+                    backendValue: backendValues.flipHorizontalGrid
                     Layout.fillWidth: true
-                    scope: "AbstractGraph3D"
                 }
             }
-            Label {
-                text: qsTr("msaaSamples")
-                tooltip: qsTr("MSAA Sample Count")
-                Layout.fillWidth: true
-            }
-            SpinBox {
-                suffix: " x MSAA"
-                backendValue: backendValues.msaaSamples
-                minimumValue: 0
-                maximumValue: 16
-                Layout.fillWidth: true
-            }
-            Label {
-                text: qsTr("shadowQuality")
-                tooltip: qsTr("Shadow Quality")
+            PropertyLabel {
+                text: qsTr("Polar Coordinates")
+                tooltip: qsTr("Use polar coordinates")
                 Layout.fillWidth: true
             }
             SecondColumnLayout {
-                ComboBox {
-                    backendValue: backendValues.shadowQuality
-                    model: ["ShadowQualityNone", "ShadowQualityLow", "ShadowQualityMedium",
-                        "ShadowQualityHigh", "ShadowQualitySoftLow", "ShadowQualitySoftMedium",
-                        "ShadowQualitySoftHigh"]
+                CheckBox {
+                    id: polarCheckbox
+                    backendValue: backendValues.polar
                     Layout.fillWidth: true
-                    scope: "AbstractGraph3D"
                 }
             }
-            Label {
-                text: qsTr("selectionMode")
-                tooltip: qsTr("Selection Mode")
+            PropertyLabel {
+                text: qsTr("Label Offset")
+                tooltip: qsTr("Normalized horizontal radial label offset")
+                Layout.fillWidth: true
+                visible: polarCheckbox.checked
+            }
+            SecondColumnLayout {
+                visible: polarCheckbox.checked
+                SpinBox {
+                    backendValue: backendValues.radialLabelOffset
+                    minimumValue: 0.0
+                    maximumValue: 1.0
+                    stepSize: 0.01
+                    decimals: 2
+                    Layout.fillWidth: true
+                }
+            }
+            PropertyLabel {
+                text: qsTr("Selection Mode")
+                tooltip: qsTr("Surface point selection mode")
                 Layout.fillWidth: true
             }
             SecondColumnLayout {
@@ -138,7 +138,6 @@ Column {
 
                     Controls.CheckBox {
                         id: selectionItemBox
-                        style: checkBox.style
                         text: "SelectionItem"
                         Layout.fillWidth: true
                         onClicked: {
@@ -148,7 +147,6 @@ Column {
                     }
                     Controls.CheckBox {
                         id: selectionRowBox
-                        style: checkBox.style
                         text: "SelectionRow"
                         Layout.fillWidth: true
                         onClicked: {
@@ -158,7 +156,6 @@ Column {
                     }
                     Controls.CheckBox {
                         id: selectionColumnBox
-                        style: checkBox.style
                         text: "SelectionColumn"
                         Layout.fillWidth: true
                         onClicked: {
@@ -168,7 +165,6 @@ Column {
                     }
                     Controls.CheckBox {
                         id: selectionSliceBox
-                        style: checkBox.style
                         text: "SelectionSlice"
                         Layout.fillWidth: true
                         onClicked: {
@@ -178,7 +174,6 @@ Column {
                     }
                     Controls.CheckBox {
                         id: selectionMultiSeriesBox
-                        style: checkBox.style
                         text: "SelectionMultiSeries"
                         Layout.fillWidth: true
                         onClicked: {
@@ -188,136 +183,10 @@ Column {
                     }
                 }
             }
-            Label {
-                text: qsTr("measureFps")
-                tooltip: qsTr("Measure Frames Per Second")
-                Layout.fillWidth: true
-            }
-            SecondColumnLayout {
-                CheckBox {
-                    backendValue: backendValues.measureFps
-                    Layout.fillWidth: true
-                }
-            }
-            Label {
-                text: qsTr("orthoProjection")
-                tooltip: qsTr("Use Orthographic Projection")
-                Layout.fillWidth: true
-            }
-            SecondColumnLayout {
-                CheckBox {
-                    backendValue: backendValues.orthoProjection
-                    Layout.fillWidth: true
-                }
-            }
-            Label {
-                text: qsTr("aspectRatio")
-                tooltip: qsTr("Horizontal to Vertical Aspect Ratio")
-                Layout.fillWidth: true
-            }
-            SecondColumnLayout {
-                SpinBox {
-                    backendValue: backendValues.aspectRatio
-                    minimumValue: 0.1
-                    maximumValue: 10.0
-                    stepSize: 0.1
-                    decimals: 1
-                    Layout.fillWidth: true
-                }
-            }
-            Label {
-                text: qsTr("flipHorizontalGrid")
-                tooltip: qsTr("Flip Horizontal Grid")
-                Layout.fillWidth: true
-            }
-            SecondColumnLayout {
-                CheckBox {
-                    backendValue: backendValues.flipHorizontalGrid
-                    Layout.fillWidth: true
-                }
-            }
-            Label {
-                text: qsTr("polar")
-                tooltip: qsTr("Use Polar Coordinates")
-                Layout.fillWidth: true
-            }
-            SecondColumnLayout {
-                CheckBox {
-                    id: polarCheckbox
-                    backendValue: backendValues.polar
-                    Layout.fillWidth: true
-                }
-            }
-            Label {
-                text: qsTr("radialLabelOffset")
-                tooltip: qsTr("Radial Label Offset")
-                Layout.fillWidth: true
-                visible: polarCheckbox.checked
-            }
-            SecondColumnLayout {
-                visible: polarCheckbox.checked
-                SpinBox {
-                    backendValue: backendValues.radialLabelOffset
-                    minimumValue: 0.0
-                    maximumValue: 1.0
-                    stepSize: 0.01
-                    decimals: 2
-                    Layout.fillWidth: true
-                }
-            }
-            Label {
-                text: qsTr("horizontalAspectRatio")
-                tooltip: qsTr("Horizontal Aspect Ratio")
-                Layout.fillWidth: true
-            }
-            SecondColumnLayout {
-                SpinBox {
-                    backendValue: backendValues.horizontalAspectRatio
-                    minimumValue: 0.0
-                    maximumValue: 100.0
-                    stepSize: 0.01
-                    decimals: 2
-                    Layout.fillWidth: true
-                }
-            }
-            Label {
-                text: qsTr("margin")
-                tooltip: qsTr("Graph Margin")
-                Layout.fillWidth: true
-            }
-            SecondColumnLayout {
-                SpinBox {
-                    backendValue: backendValues.margin
-                    minimumValue: -1.0
-                    maximumValue: 100.0
-                    stepSize: 0.1
-                    decimals: 1
-                    Layout.fillWidth: true
-                }
-            }
-
-            // Kept for debugging
-            Label { }
-            SecondColumnLayout {
-                TextEdit {
-                    id: debugLabel
-                    Layout.fillWidth: true
-                    wrapMode: TextEdit.WordWrap
-                    textFormat: TextEdit.RichText
-                    width: 400
-                    visible: false
-                }
-            }
-            Controls.CheckBox {
-                property color textColor: colorLogic.textColor
-                id: checkBox
-                style: CustomCheckBoxStyle {}
-                visible: false
-                ColorLogic {
-                    id: colorLogic
-                    backendValue: backendValues.selectionMode
-                }
-            }
         }
     }
+
+    GraphsSection {}
+
+    GraphsCameraSection {}
 }

@@ -1,9 +1,9 @@
 // Copyright (C) 2023 The Qt Company Ltd.
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 
-import QtQuick 2.0
-import HelperWidgets 2.0
-import QtQuick.Layouts 1.0
+import QtQuick
+import HelperWidgets
+import QtQuick.Layouts
 
 Column {
     anchors.left: parent.left
@@ -12,115 +12,12 @@ Column {
     Section {
         anchors.left: parent.left
         anchors.right: parent.right
-        caption: qsTr("Scatter3D")
+        caption: qsTr("Scatter")
 
         SectionLayout {
-            Label {
-                text: qsTr("renderingMode")
-                tooltip: qsTr("Rendering Mode")
-                Layout.fillWidth: true
-            }
-            SecondColumnLayout {
-                ComboBox {
-                    backendValue: backendValues.renderingMode
-                    model: ["RenderIndirect", "RenderDirectToBackground"]
-                    Layout.fillWidth: true
-                    scope: "AbstractGraph3D"
-                }
-            }
-            Label {
-                text: qsTr("msaaSamples")
-                tooltip: qsTr("MSAA Sample Count")
-                Layout.fillWidth: true
-            }
-            SpinBox {
-                suffix: " x MSAA"
-                backendValue: backendValues.msaaSamples
-                minimumValue: 0
-                maximumValue: 16
-                Layout.fillWidth: true
-            }
-            Label {
-                text: qsTr("shadowQuality")
-                tooltip: qsTr("Shadow Quality")
-                Layout.fillWidth: true
-            }
-            SecondColumnLayout {
-                ComboBox {
-                    backendValue: backendValues.shadowQuality
-                    model: ["ShadowQualityNone", "ShadowQualityLow", "ShadowQualityMedium",
-                        "ShadowQualityHigh", "ShadowQualitySoftLow", "ShadowQualitySoftMedium",
-                        "ShadowQualitySoftHigh"]
-                    Layout.fillWidth: true
-                    scope: "AbstractGraph3D"
-                }
-            }
-            Label {
-                text: qsTr("selectionMode")
-                tooltip: qsTr("Selection Mode")
-                Layout.fillWidth: true
-            }
-            SecondColumnLayout {
-                ComboBox {
-                    backendValue: backendValues.selectionMode
-                    model: ["SelectionNone", "SelectionItem"]
-                    Layout.fillWidth: true
-                    scope: "AbstractGraph3D"
-                }
-            }
-            Label {
-                text: qsTr("measureFps")
-                tooltip: qsTr("Measure Frames Per Second")
-                Layout.fillWidth: true
-            }
-            SecondColumnLayout {
-                CheckBox {
-                    backendValue: backendValues.measureFps
-                    Layout.fillWidth: true
-                }
-            }
-            Label {
-                text: qsTr("orthoProjection")
-                tooltip: qsTr("Use Orthographic Projection")
-                Layout.fillWidth: true
-            }
-            SecondColumnLayout {
-                CheckBox {
-                    backendValue: backendValues.orthoProjection
-                    Layout.fillWidth: true
-                }
-            }
-            Label {
-                text: qsTr("aspectRatio")
-                tooltip: qsTr("Horizontal to Vertical Aspect Ratio")
-                Layout.fillWidth: true
-            }
-            SecondColumnLayout {
-                SpinBox {
-                    backendValue: backendValues.aspectRatio
-                    minimumValue: 0.1
-                    maximumValue: 10.0
-                    stepSize: 0.1
-                    decimals: 1
-                    Layout.fillWidth: true
-                }
-            }
-            Label {
-                text: qsTr("optimizationHints")
-                tooltip: qsTr("Optimization Hints")
-                Layout.fillWidth: true
-            }
-            SecondColumnLayout {
-                ComboBox {
-                    backendValue: backendValues.optimizationHints
-                    model: ["OptimizationDefault", "OptimizationStatic", "OptimizationLegacy"]
-                    Layout.fillWidth: true
-                    scope: "AbstractGraph3D"
-                }
-            }
-            Label {
-                text: qsTr("polar")
-                tooltip: qsTr("Use Polar Coordinates")
+            PropertyLabel {
+                text: qsTr("Polar Coordinates")
+                tooltip: qsTr("Use polar coordinates")
                 Layout.fillWidth: true
             }
             SecondColumnLayout {
@@ -130,9 +27,9 @@ Column {
                     Layout.fillWidth: true
                 }
             }
-            Label {
-                text: qsTr("radialLabelOffset")
-                tooltip: qsTr("Radial Label Offset")
+            PropertyLabel {
+                text: qsTr("Label Offset")
+                tooltip: qsTr("Normalized horizontal radial label offset")
                 Layout.fillWidth: true
                 visible: polarCheckbox.checked
             }
@@ -147,36 +44,23 @@ Column {
                     Layout.fillWidth: true
                 }
             }
-            Label {
-                text: qsTr("horizontalAspectRatio")
-                tooltip: qsTr("Horizontal Aspect Ratio")
+            PropertyLabel {
+                text: qsTr("Selection Mode")
+                tooltip: qsTr("Scatter item selection mode")
                 Layout.fillWidth: true
             }
             SecondColumnLayout {
-                SpinBox {
-                    backendValue: backendValues.horizontalAspectRatio
-                    minimumValue: 0.0
-                    maximumValue: 100.0
-                    stepSize: 0.01
-                    decimals: 2
+                ComboBox {
+                    backendValue: backendValues.selectionMode
+                    model: ["SelectionNone", "SelectionItem"]
                     Layout.fillWidth: true
-                }
-            }
-            Label {
-                text: qsTr("margin")
-                tooltip: qsTr("Graph Margin")
-                Layout.fillWidth: true
-            }
-            SecondColumnLayout {
-                SpinBox {
-                    backendValue: backendValues.margin
-                    minimumValue: -1.0
-                    maximumValue: 100.0
-                    stepSize: 0.1
-                    decimals: 1
-                    Layout.fillWidth: true
+                    scope: "AbstractGraph3D"
                 }
             }
         }
     }
+
+    GraphsSection {}
+
+    GraphsCameraSection {}
 }

@@ -5,6 +5,8 @@ set(qml_files
     "qml/designer/Bars3DSpecifics.qml"
     "qml/designer/Scatter3DSpecifics.qml"
     "qml/designer/Surface3DSpecifics.qml"
+    "qml/designer/GraphsCameraSection.qml"
+    "qml/designer/GraphsSection.qml"
     "qml/designer/default/Bars3D.qml"
     "qml/designer/default/Scatter3D.qml"
     "qml/designer/default/Surface3D.qml"
@@ -211,15 +213,6 @@ set_source_files_properties("qml/resources/VolumeSliceMaterial.qml"
 
 set_source_files_properties("qml/resources/VolumeFrameMaterial.qml"
     PROPERTIES QT_RESOURCE_ALIAS "VolumeFrameMaterial"
-)
-
-set(qml_files
-    "qml/designer/Bars3DSpecifics.qml"
-    "qml/designer/Scatter3DSpecifics.qml"
-    "qml/designer/Surface3DSpecifics.qml"
-    "qml/designer/default/Bars3D.qml"
-    "qml/designer/default/Scatter3D.qml"
-    "qml/designer/default/Surface3D.qml"
 )
 
 set(qml_component_resources
