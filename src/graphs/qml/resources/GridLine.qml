@@ -16,6 +16,7 @@ Component {
             source: "#Cylinder"
             depthBias: 1
             eulerRotation: Qt.vector3d(0., 0., 90.)
+            castsShadows: false
             scale: Qt.vector3d(1., 1., 1.5)
             materials: [ DefaultMaterial {
                     diffuseColor: lineColor
