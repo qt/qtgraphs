@@ -69,10 +69,8 @@ public:
     QColor m_borderColor = QColor(Qt::transparent);
     QColor m_labelColor = QColor(Qt::transparent);
     QColor m_selectedColor = QColor(Qt::transparent);
-    // TODO!
     // By default border width is -1, meaning that use the one from theme
-    // qreal m_borderWidth = -1;
-    qreal m_borderWidth = 0;
+    qreal m_borderWidth = -1;
     bool m_visualsDirty;
     bool m_labelsDirty;
 

@@ -362,10 +362,12 @@ void QQuickGraphs2DView::updateBarSeries(QBarSeries *series)
                 c.setAlpha(c.alpha() * series->opacity());
                 barItem->setColor(c);
                 qreal borderWidth = s->borderWidth();
-                //if (borderWidth <= -1.0)
-                //    borderWidth = 5.0;
+                if (qFuzzyCompare(borderWidth, -1.0))
+                    borderWidth = seriesTheme->borderWidth();
                 barItem->setPenWidth(borderWidth);
                 QColor borderColor = s->borderColor();
+                if (borderColor.alpha() == 0)
+                    borderColor = seriesTheme->graphSeriesBorderColor(barSerieIndex);
                 borderColor.setAlpha(borderColor.alpha() * series->opacity());
                 barItem->setPenColor(borderColor);
                 // TODO: Required because of QTBUG-117892

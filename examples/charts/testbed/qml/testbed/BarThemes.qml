@@ -18,6 +18,14 @@ Rectangle {
         set2.color = Qt.rgba(0, 0, 0, 0);
         set3.color = Qt.rgba(0, 0, 0, 0);
         set4.color = Qt.rgba(0, 0, 0, 0);
+        set1.borderColor = Qt.rgba(0, 0, 0, 0);
+        set2.borderColor = Qt.rgba(0, 0, 0, 0);
+        set3.borderColor = Qt.rgba(0, 0, 0, 0);
+        set4.borderColor = Qt.rgba(0, 0, 0, 0);
+        set1.borderWidth = -1;
+        set2.borderWidth = -1;
+        set3.borderWidth = -1;
+        set4.borderWidth = -1;
     }
 
     Text {
@@ -38,17 +46,17 @@ Rectangle {
         anchors.leftMargin: 60
         spacing: 10
         Button {
-            text: "Light"
-            onClicked: {
-                background.color = "#eeeeee";
-                myTheme.colorTheme = GraphTheme.ColorThemeLight;
-            }
-        }
-        Button {
             text: "Dark"
             onClicked: {
                 background.color = "#202020";
                 myTheme.colorTheme = GraphTheme.ColorThemeDark;
+            }
+        }
+        Button {
+            text: "Light"
+            onClicked: {
+                background.color = "#eeeeee";
+                myTheme.colorTheme = GraphTheme.ColorThemeLight;
             }
         }
         Button {
@@ -95,6 +103,7 @@ Rectangle {
             text: "Theme1"
             onClicked: {
                 mainView.resetCustomSetColors();
+                mySeries.theme = seriesTheme;
                 seriesTheme.colorTheme = SeriesTheme.SeriesTheme1;
             }
         }
@@ -102,7 +111,15 @@ Rectangle {
             text: "Theme2"
             onClicked: {
                 mainView.resetCustomSetColors();
+                mySeries.theme = seriesTheme;
                 seriesTheme.colorTheme = SeriesTheme.SeriesTheme2;
+            }
+        }
+        Button {
+            text: "CustomBW"
+            onClicked: {
+                mainView.resetCustomSetColors();
+                mySeries.theme = customSeriesTheme;
             }
         }
         Button {
@@ -112,6 +129,16 @@ Rectangle {
                 set2.color = Qt.rgba(Math.random(), Math.random(), Math.random(), 1.0);
                 set3.color = Qt.rgba(Math.random(), Math.random(), Math.random(), 1.0);
                 set4.color = Qt.rgba(Math.random(), Math.random(), Math.random(), 1.0);
+                // Borders a bit lighter/darker than main colors
+                var borderMod = 0.5 + Math.random();
+                set1.borderColor = Qt.lighter(set1.color, borderMod);
+                set2.borderColor = Qt.lighter(set2.color, borderMod);
+                set3.borderColor = Qt.lighter(set3.color, borderMod);
+                set4.borderColor = Qt.lighter(set4.color, borderMod);
+                set1.borderWidth = 2;
+                set2.borderWidth = 2;
+                set3.borderWidth = 2;
+                set4.borderWidth = 2;
             }
         }
     }
@@ -137,7 +164,12 @@ Rectangle {
             colorTheme: GraphTheme.ColorThemeDark
             axisXLabelsFont.pixelSize: 20
         }
-
+        SeriesTheme {
+            id: customSeriesTheme
+            colors: ["#444444", "#555555", "#666666", "#777777"]
+            borderColors: ["#888888", "#999999", "#aaaaaa", "#bbbbbb"]
+            borderWidth: 4
+        }
         BarSeries {
             id: mySeries
             axisX: BarCategoryAxis { categories: ["2007", "2008", "2009", "2010", "2011", "2012"] }
