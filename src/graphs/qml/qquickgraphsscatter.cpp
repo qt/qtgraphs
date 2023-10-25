@@ -862,7 +862,12 @@ void QQuickGraphsScatter::handleSeriesMeshChanged()
 void QQuickGraphsScatter::handleMeshSmoothChanged(bool enable)
 {
     Q_UNUSED(enable);
-    recreateDataItems();
+    QScatter3DSeries *series = qobject_cast<QScatter3DSeries *>(sender());
+    for (auto &model : std::as_const(m_scatterGraphs)) {
+        if (model->series == series)
+            removeDataItems(model, optimizationHint());
+    }
+    markDataDirty();
 }
 
 void QQuickGraphsScatter::handleArrayReset()
