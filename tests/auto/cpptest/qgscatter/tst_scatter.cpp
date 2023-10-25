@@ -92,8 +92,6 @@ void tst_scatter::initialProperties()
     QCOMPARE(m_graph->isPolar(), false);
     QCOMPARE(m_graph->radialLabelOffset(), 1.0);
     QCOMPARE(m_graph->horizontalAspectRatio(), 0.0);
-    QCOMPARE(m_graph->isReflection(), false);
-    QCOMPARE(m_graph->reflectivity(), 0.5);
     QCOMPARE(m_graph->locale(), QLocale("C"));
     QCOMPARE(m_graph->queriedGraphPosition(), QVector3D(0, 0, 0));
     QCOMPARE(m_graph->margin(), -1.0);
@@ -113,8 +111,6 @@ void tst_scatter::initializeProperties()
     m_graph->setPolar(true);
     m_graph->setRadialLabelOffset(0.1f);
     m_graph->setHorizontalAspectRatio(1.0);
-    m_graph->setReflection(true);
-    m_graph->setReflectivity(0.1);
     m_graph->setLocale(QLocale("FI"));
     m_graph->setMargin(1.0);
 
@@ -128,8 +124,6 @@ void tst_scatter::initializeProperties()
     QCOMPARE(m_graph->isPolar(), true);
     QCOMPARE(m_graph->radialLabelOffset(), 0.1f);
     QCOMPARE(m_graph->horizontalAspectRatio(), 1.0);
-    //QCOMPARE(m_graph->isReflection(), true); // TODO: QTBUG-99816
-    QCOMPARE(m_graph->reflectivity(), 0.1);
     QCOMPARE(m_graph->locale(), QLocale("FI"));
     QCOMPARE(m_graph->margin(), 1.0);
 }
@@ -139,13 +133,11 @@ void tst_scatter::invalidProperties()
     m_graph->setSelectionMode(QAbstract3DGraph::SelectionColumn | QAbstract3DGraph::SelectionRow | QAbstract3DGraph::SelectionSlice);
     m_graph->setAspectRatio(-1.0);
     m_graph->setHorizontalAspectRatio(-1.0);
-    m_graph->setReflectivity(-1.0);
     m_graph->setLocale(QLocale("XX"));
 
     QCOMPARE(m_graph->selectionMode(), QAbstract3DGraph::SelectionItem);
     QCOMPARE(m_graph->aspectRatio(), -1.0/*2.0*/); // TODO: Fix once QTRD-3367 is done
     QCOMPARE(m_graph->horizontalAspectRatio(), -1.0/*0.0*/); // TODO: Fix once QTRD-3367 is done
-    QCOMPARE(m_graph->reflectivity(), -1.0/*0.5*/); // TODO: Fix once QTRD-3367 is done
     QCOMPARE(m_graph->locale(), QLocale("C"));
 }
 

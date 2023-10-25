@@ -62,8 +62,6 @@ Item {
             polar: false
             radialLabelOffset: 2
             horizontalAspectRatio: 0.2
-            reflection: true
-            reflectivity: 0.1
             locale: Qt.locale(\"UK\")
             margin: 0.2
         }", top)
@@ -136,8 +134,6 @@ Item {
 //            compare(common.polar, false, "polar")
 //            compare(common.radialLabelOffset, 1, "radialLabelOffset")
 //            compare(common.horizontalAspectRatio, 0, "horizontalAspectRatio")
-//            compare(common.reflection, false, "reflection")
-//            compare(common.reflectivity, 0.5, "reflectivity")
 //            compare(common.locale, Qt.locale("C"), "locale")
 //            compare(common.queriedGraphPosition, Qt.vector3d(0, 0, 0), "queriedGraphPosition")
 //            compare(common.margin, -1, "margin")
@@ -159,8 +155,6 @@ Item {
 //            common.polar = true
 //            common.radialLabelOffset = 2
 //            common.horizontalAspectRatio = 1
-//            common.reflection = true
-//            common.reflectivity = 1.0
 //            common.locale = Qt.locale("FI")
 //            common.margin = 1.0
 //            compare(common.selectionMode, AbstractGraph3D.SelectionItem | AbstractGraph3D.SelectionRow | AbstractGraph3D.SelectionSlice, "selectionMode")
@@ -175,8 +169,6 @@ Item {
 //            compare(common.polar, true, "polar")
 //            compare(common.radialLabelOffset, 2, "radialLabelOffset")
 //            compare(common.horizontalAspectRatio, 1, "horizontalAspectRatio")
-//            compare(common.reflection, true, "reflection")
-//            compare(common.reflectivity, 1.0, "reflectivity")
 //            compare(common.locale, Qt.locale("FI"), "locale")
 //            compare(common.margin, 1.0, "margin")
 //            waitForRendering(top)
@@ -191,14 +183,11 @@ Item {
 //            common.aspectRatio = -1.0
 //            common.polar = false
 //            common.horizontalAspectRatio = -2
-//            common.reflection = false
-//            common.reflectivity = -1.0
 //            compare(common.selectionMode, AbstractGraph3D.SelectionItem | AbstractGraph3D.SelectionRow | AbstractGraph3D.SelectionSlice, "selectionMode")
 //            compare(common.theme.type, -2/*Theme3D.Theme.Retro*/, "theme") // TODO: Fix once QTRD-3367 is done
 //            compare(common.renderingMode, -1/*AbstractGraph3D.RenderingMode.DirectToBackground*/, "renderingMode") // TODO: Fix once QTRD-3367 is done
 //            compare(common.aspectRatio, -1.0/*1.0*/, "aspectRatio") // TODO: Fix once QTRD-3367 is done
 //            compare(common.horizontalAspectRatio, -2/*1*/, "horizontalAspectRatio") // TODO: Fix once QTRD-3367 is done
-//            compare(common.reflectivity, -1.0/*1.0*/, "reflectivity") // TODO: Fix once QTRD-3367 is done
 
 //            waitForRendering(top)
 //            common.destroy()
@@ -221,8 +210,6 @@ Item {
 //            compare(common_init.polar, false, "polar")
 //            compare(common_init.radialLabelOffset, 2, "radialLabelOffset")
 //            compare(common_init.horizontalAspectRatio, 0.2, "horizontalAspectRatio")
-//            compare(common_init.reflection, true, "reflection")
-//            compare(common_init.reflectivity, 0.1, "reflectivity")
 //            compare(common_init.locale, Qt.locale("UK"), "locale")
 //            compare(common_init.margin, 0.2, "margin")
 

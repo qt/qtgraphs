@@ -411,31 +411,6 @@
  */
 
 /*!
- * \qmlproperty bool AbstractGraph3D::reflection
- *
- * Sets floor reflections on or off. Defaults to \c{false}.
- *
- * \note Affects only Bars3D. However, in Bars3D graphs holding both positive
- * and negative values, reflections are not supported
- * for custom items that intersect the floor plane. In that case, reflections should be turned off
- * to avoid incorrect rendering.
- *
- * \sa reflectivity
- */
-
-/*!
- * \qmlproperty real AbstractGraph3D::reflectivity
- *
- * Sets floor reflectivity. Larger numbers make the floor more reflective. The
- * valid range is \c{[0...1]}.
- * Defaults to \c{0.5}.
- *
- * \note Affects only Bars3D.
- *
- * \sa reflection
- */
-
-/*!
  * \qmlproperty locale AbstractGraph3D::locale
  *
  * Sets the locale used for formatting various numeric labels.

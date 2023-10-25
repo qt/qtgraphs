@@ -224,7 +224,6 @@
         \li Slice view is sometimes empty in Bars3D - \l https://bugreports.qt.io/browse/QTBUG-113675
         \li Selection is sometimes incorrect in Bars3D - \l https://bugreports.qt.io/browse/QTBUG-113650
         \li renderToImage does nothing - \l https://bugreports.qt.io/browse/QTBUG-111712
-        \li Reflection support does not work - \l https://bugreports.qt.io/browse/QTBUG-99816
     \endlist
 */
 

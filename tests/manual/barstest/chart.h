@@ -83,8 +83,6 @@ public:
     void setInputHandlerZoomEnabled(int enabled);
     void setInputHandlerSelectionEnabled(int enabled);
     void setInputHandlerZoomAtTargetEnabled(int enabled);
-    void setReflection(int enabled);
-    void setReflectivity(int value);
     void toggleCustomItem();
 
 public Q_SLOTS:

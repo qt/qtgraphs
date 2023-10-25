@@ -45,8 +45,6 @@ class Q_GRAPHS_EXPORT QAbstract3DGraph : public QQuickWidget
                    radialLabelOffsetChanged)
     Q_PROPERTY(qreal horizontalAspectRatio READ horizontalAspectRatio WRITE setHorizontalAspectRatio
                    NOTIFY horizontalAspectRatioChanged)
-    Q_PROPERTY(bool reflection READ isReflection WRITE setReflection NOTIFY reflectionChanged)
-    Q_PROPERTY(qreal reflectivity READ reflectivity WRITE setReflectivity NOTIFY reflectivityChanged)
     Q_PROPERTY(QLocale locale READ locale WRITE setLocale NOTIFY localeChanged)
     Q_PROPERTY(
         QVector3D queriedGraphPosition READ queriedGraphPosition NOTIFY queriedGraphPositionChanged)
@@ -175,12 +173,6 @@ public:
     void setHorizontalAspectRatio(qreal ratio);
     qreal horizontalAspectRatio() const;
 
-    void setReflection(bool enable);
-    bool isReflection() const;
-
-    void setReflectivity(qreal reflectivity);
-    qreal reflectivity() const;
-
     void setLocale(const QLocale &locale);
     QLocale locale() const;
 
@@ -280,8 +272,6 @@ Q_SIGNALS:
     void polarChanged(bool enabled);
     void radialLabelOffsetChanged(float offset);
     void horizontalAspectRatioChanged(qreal ratio);
-    void reflectionChanged(bool enabled);
-    void reflectivityChanged(qreal reflectivity);
     void localeChanged(const QLocale &locale);
     void queriedGraphPositionChanged(const QVector3D &data);
     void marginChanged(qreal margin);

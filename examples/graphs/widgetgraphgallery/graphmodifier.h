@@ -30,7 +30,6 @@ public:
     void setSmoothBars(int smooth);
     void setSeriesVisibility(int enabled);
     void setReverseValueAxis(int enabled);
-    void setReflection(bool enabled);
     void changeDataMode(bool customData);
 
 public Q_SLOTS:

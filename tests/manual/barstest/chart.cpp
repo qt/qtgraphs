@@ -1742,17 +1742,6 @@ void GraphModifier::toggleMultiseriesScaling()
     m_graph->setMultiSeriesUniform(!m_graph->isMultiSeriesUniform());
 }
 
-void GraphModifier::setReflection(int enabled)
-{
-    m_graph->setReflection(enabled);
-}
-
-void GraphModifier::setReflectivity(int value)
-{
-    qreal reflectivity = (qreal)value / 100.0;
-    m_graph->setReflectivity(reflectivity);
-}
-
 void GraphModifier::toggleCustomItem()
 {
     static int counter = 0;

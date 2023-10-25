@@ -1034,57 +1034,6 @@ qreal QAbstract3DGraph::horizontalAspectRatio() const
 }
 
 /*!
- * \property QAbstract3DGraph::reflection
- *
- * \brief Whether floor reflections are on or off.
- *
- * Defaults to \c{false}.
- *
- * Affects only Q3DBars. However, in Q3DBars graphs holding both positive and
- * negative values, reflections are not supported for custom items that
- * intersect the floor plane. In that case, reflections should be turned off
- * to avoid incorrect rendering.
- *
- * If using a custom surface format, the stencil buffer needs to be defined
- * (QSurfaceFormat::setStencilBufferSize()) for reflections to work.
- *
- * \sa reflectivity
- */
-void QAbstract3DGraph::setReflection(bool enable)
-{
-    m_graphsItem->setReflection(enable);
-}
-
-bool QAbstract3DGraph::isReflection() const
-{
-    // TODO: API missing in QQuickGraphsItem (QTBUG-99816)
-    return false;
-    //    return m_graphsItem->reflection();
-}
-
-/*!
- * \property QAbstract3DGraph::reflectivity
- *
- * \brief Floor reflectivity.
- *
- * Larger numbers make the floor more reflective. The valid range is
- * \c{[0...1]}. Defaults to \c{0.5}.
- *
- * \note Affects only Q3DBars.
- *
- * \sa reflection
- */
-void QAbstract3DGraph::setReflectivity(qreal reflectivity)
-{
-    m_graphsItem->setReflectivity(reflectivity);
-}
-
-qreal QAbstract3DGraph::reflectivity() const
-{
-    return m_graphsItem->reflectivity();
-}
-
-/*!
  * \property QAbstract3DGraph::locale
  *
  * \brief The locale used for formatting various numeric labels.

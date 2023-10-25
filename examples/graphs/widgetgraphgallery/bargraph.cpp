@@ -133,10 +133,6 @@ void BarGraph::initialize()
     reverseValueAxisCheckBox->setText(u"Reverse value axis"_s);
     reverseValueAxisCheckBox->setChecked(false);
 
-    auto *reflectionCheckBox = new QCheckBox(m_barsWidget);
-    reflectionCheckBox->setText(u"Show reflections"_s);
-    reflectionCheckBox->setChecked(false);
-
     //! [3]
     auto *rotationSliderX = new QSlider(Qt::Horizontal, m_barsWidget);
     rotationSliderX->setTickInterval(30);
@@ -218,7 +214,6 @@ void BarGraph::initialize()
     vLayout->addWidget(backgroundCheckBox);
     vLayout->addWidget(gridCheckBox);
     vLayout->addWidget(smoothCheckBox);
-    vLayout->addWidget(reflectionCheckBox);
     vLayout->addWidget(seriesCheckBox);
     vLayout->addWidget(reverseValueAxisCheckBox);
     vLayout->addWidget(axisTitlesVisibleCB);
@@ -287,10 +282,6 @@ void BarGraph::initialize()
                      &QCheckBox::stateChanged,
                      m_modifier,
                      &GraphModifier::setReverseValueAxis);
-    QObject::connect(reflectionCheckBox,
-                     &QCheckBox::stateChanged,
-                     m_modifier,
-                     &GraphModifier::setReflection);
 
     QObject::connect(m_modifier,
                      &GraphModifier::backgroundEnabledChanged,

@@ -4309,36 +4309,6 @@ qreal QQuickGraphsItem::horizontalAspectRatio() const
     return m_horizontalAspectRatio;
 }
 
-void QQuickGraphsItem::setReflection(bool enable)
-{
-    if (m_reflectionEnabled != enable) {
-        m_reflectionEnabled = enable;
-        m_changeTracker.reflectionChanged = true;
-        emit reflectionChanged(m_reflectionEnabled);
-        emitNeedRender();
-    }
-}
-
-bool QQuickGraphsItem::isReflection() const
-{
-    return m_reflectionEnabled;
-}
-
-void QQuickGraphsItem::setReflectivity(qreal reflectivity)
-{
-    if (m_reflectivity != reflectivity) {
-        m_reflectivity = reflectivity;
-        m_changeTracker.reflectivityChanged = true;
-        emit reflectivityChanged(m_reflectivity);
-        emitNeedRender();
-    }
-}
-
-qreal QQuickGraphsItem::reflectivity() const
-{
-    return m_reflectivity;
-}
-
 void QQuickGraphsItem::setLocale(const QLocale &locale)
 {
     if (m_locale != locale) {

@@ -120,35 +120,6 @@ Section {
                 Layout.fillWidth: true
             }
         }
-        PropertyLabel {
-            text: qsTr("Reflections")
-            tooltip: qsTr("Use reflections on the graph background")
-            Layout.fillWidth: true
-        }
-        SecondColumnLayout {
-            CheckBox {
-                id: reflectionCheckbox
-                backendValue: backendValues.reflection
-                Layout.fillWidth: true
-            }
-        }
-        PropertyLabel {
-            text: qsTr("Reflectivity")
-            tooltip: qsTr("Reflectivity of the graph background")
-            Layout.fillWidth: true
-            visible: reflectionCheckbox.checked
-        }
-        SecondColumnLayout {
-            visible: reflectionCheckbox.checked
-            SpinBox {
-                backendValue: backendValues.reflectivity
-                minimumValue: 0.0
-                maximumValue: 1.0
-                stepSize: 0.01
-                decimals: 1
-                Layout.fillWidth: true
-            }
-        }
     }
 }
 
