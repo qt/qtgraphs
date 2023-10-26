@@ -1,10 +1,6 @@
 // Copyright (C) 2023 The Qt Company Ltd.
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 
-#include "qsurfacedataitem_p.h"
-
-QT_BEGIN_NAMESPACE
-
 /*!
  * \class QSurfaceDataItem
  * \inmodule QtGraphs
@@ -19,54 +15,19 @@ QT_BEGIN_NAMESPACE
  */
 
 /*!
+ * \fn constexpr QSurfaceDataItem::QSurfaceDataItem() noexcept
  * Constructs a surface data item.
  */
-QSurfaceDataItem::QSurfaceDataItem()
-    : d_ptr(0) // private data doesn't exist by default (optimization)
-
-{}
 
 /*!
+ * \fn explicit constexpr QSurfaceDataItem::QSurfaceDataItem(const QVector3D &position) noexcept
  * Constructs a surface data item at the position \a position.
  */
-QSurfaceDataItem::QSurfaceDataItem(const QVector3D &position)
-    : d_ptr(0)
-    , m_position(position)
-{}
 
 /*!
- * Constructs a copy of \a other.
+ * \fn constexpr QSurfaceDataItem::QSurfaceDataItem(float x, float y, float z) noexcept
+ * Constructs a surface data item at the position specified by \a x, \a y, and \a z.
  */
-QSurfaceDataItem::QSurfaceDataItem(const QSurfaceDataItem &other)
-{
-    operator=(other);
-}
-
-QSurfaceDataItem::QSurfaceDataItem(QSurfaceDataItem &&other) noexcept
-    : d_ptr(std::exchange(other.d_ptr, nullptr))
-    , m_position(other.m_position) // Trivial copy
-{
-}
-
-/*!
- * Deletes a surface data item.
- */
-QSurfaceDataItem::~QSurfaceDataItem() {}
-
-/*!
- *  Assigns a copy of \a other to this object.
- */
-QSurfaceDataItem &QSurfaceDataItem::operator=(const QSurfaceDataItem &other)
-{
-    m_position = other.m_position;
-
-    if (other.d_ptr)
-        createExtraData();
-    else
-        d_ptr = 0;
-
-    return *this;
-}
 
 /*!
  * \fn void QSurfaceDataItem::setPosition(const QVector3D &pos)
@@ -107,24 +68,3 @@ QSurfaceDataItem &QSurfaceDataItem::operator=(const QSurfaceDataItem &other)
  * \fn float QSurfaceDataItem::z() const
  * Returns the z-coordinate of the position of this data item.
  */
-
-/*!
- * \internal
- */
-void QSurfaceDataItem::createExtraData()
-{
-    if (!d_ptr)
-        d_ptr = new QSurfaceDataItemPrivate;
-}
-
-void QSurfaceDataItem::swap(QSurfaceDataItem &other) noexcept
-{
-    std::swap(m_position, other.m_position);
-    qt_ptr_swap(d_ptr, other.d_ptr);
-}
-
-QSurfaceDataItemPrivate::QSurfaceDataItemPrivate() {}
-
-QSurfaceDataItemPrivate::~QSurfaceDataItemPrivate() {}
-
-QT_END_NAMESPACE

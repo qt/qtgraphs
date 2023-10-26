@@ -52,7 +52,7 @@ qt_internal_add_qml_module(Graphs
         data/qscatterdataitem.cpp data/qscatterdataitem.h data/qscatterdataitem_p.h
         data/qscatterdataproxy.cpp data/qscatterdataproxy.h data/qscatterdataproxy_p.h
         data/qsurface3dseries.cpp data/qsurface3dseries.h data/qsurface3dseries_p.h
-        data/qsurfacedataitem.cpp data/qsurfacedataitem.h data/qsurfacedataitem_p.h
+        data/qsurfacedataitem.cpp data/qsurfacedataitem.h
         data/qsurfacedataproxy.cpp data/qsurfacedataproxy.h data/qsurfacedataproxy_p.h
         data/scatteritemmodelhandler.cpp data/scatteritemmodelhandler_p.h
         data/surfaceitemmodelhandler.cpp data/surfaceitemmodelhandler_p.h

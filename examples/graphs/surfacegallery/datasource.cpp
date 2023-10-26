@@ -77,7 +77,7 @@ void DataSource::generateData(int cacheCount,
                     index -= columnCount;
                     x -= xRange;
                 }
-                row[index] = QVector3D(x, y, z);
+                row[index] = QSurfaceDataItem(x, y, z);
             }
         }
     }

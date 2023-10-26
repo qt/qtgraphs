@@ -171,7 +171,7 @@ void SurfaceGraphModifier::fillSqrtSinProxy()
             float x = qMin(sampleMax, (j * stepX + sampleMin));
             float R = qSqrt(z * z + x * x) + 0.01f;
             float y = (qSin(R) / R + 0.24f) * 1.61f;
-            newRow.append(QSurfaceDataItem({x, y, z}));
+            newRow.append(QSurfaceDataItem(x, y, z));
         }
         dataArray.append(newRow);
     }

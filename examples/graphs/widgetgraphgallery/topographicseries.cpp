@@ -41,7 +41,7 @@ void TopographicSeries::setTopographyFile(const QString file, float width, float
             uchar gg = bits[p + 2];
             uint color = uint((gg << 16) + (rr << 8) + aa);
             float y = float(color) / packingFactor;
-            newRow.append(QSurfaceDataItem({float(j) * stepX, y, z}));
+            newRow.append(QSurfaceDataItem(float(j) * stepX, y, z));
             p += 4;
         }
         dataArray.append(newRow);
