@@ -67,7 +67,7 @@ void tst_proxy::initializeProperties()
 
     m_proxy->setColumnLabels(QStringList() << "1" << "2" << "3");
     QBarDataRow data;
-    data << 1.0f << 3.0f << 7.5f;
+    data << QBarDataItem(1.0f) << QBarDataItem(3.0f) << QBarDataItem(7.5f);
     m_proxy->addRow(data);
     m_proxy->setRowLabels(QStringList() << "1");
 

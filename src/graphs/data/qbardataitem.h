@@ -8,40 +8,26 @@
 
 QT_BEGIN_NAMESPACE
 
-class QBarDataItemPrivate;
-
-class Q_GRAPHS_EXPORT QBarDataItem
+class QBarDataItem
 {
 public:
     constexpr QBarDataItem() noexcept {};
-    constexpr QBarDataItem(float value) noexcept { m_value = value; };
-    constexpr QBarDataItem(float value, float angle) noexcept
-    {
-        m_value = value;
-        m_angle = angle;
-    };
-    QBarDataItem(const QBarDataItem &other);
-    QBarDataItem(QBarDataItem &&other) noexcept;
-    ~QBarDataItem();
+    explicit constexpr QBarDataItem(float value) noexcept
+        : m_value(value)
+    {}
+    explicit constexpr QBarDataItem(float value, float angle) noexcept
+        : m_value(value)
+        , m_angle(angle)
+    {}
 
-    QBarDataItem &operator=(const QBarDataItem &other);
-    QT_MOVE_ASSIGNMENT_OPERATOR_IMPL_VIA_MOVE_AND_SWAP(QBarDataItem)
-
-    constexpr inline void setValue(float val) noexcept { m_value = val; }
-    constexpr inline float value() const noexcept { return m_value; }
-    constexpr inline void setRotation(float angle) noexcept { m_angle = angle; }
-    constexpr inline float rotation() const noexcept { return m_angle; }
-
-protected:
-    void createExtraData();
-
-    QBarDataItemPrivate *d_ptr = nullptr;
+    constexpr void setValue(float val) noexcept { m_value = val; }
+    constexpr float value() const noexcept { return m_value; }
+    constexpr void setRotation(float angle) noexcept { m_angle = angle; }
+    constexpr float rotation() const noexcept { return m_angle; }
 
 private:
     float m_value = 0.f;
     float m_angle = 0.f;
-
-    void swap(QBarDataItem &other) noexcept;
 };
 
 QT_END_NAMESPACE

@@ -20,7 +20,8 @@ int main(int argc, char **argv)
     //! [1]
     QBar3DSeries *series = new QBar3DSeries;
     QBarDataRow data;
-    data << 1.0f << 3.0f << 7.5f << 5.0f << 2.2f;
+    data << QBarDataItem(1.0f) << QBarDataItem(3.0f) << QBarDataItem(7.5f) << QBarDataItem(5.0f)
+         << QBarDataItem(2.2f);
     series->dataProxy()->addRow(data);
     bars.addSeries(series);
     //! [1]

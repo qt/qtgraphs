@@ -1,10 +1,6 @@
 // Copyright (C) 2023 The Qt Company Ltd.
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 
-#include "qbardataitem_p.h"
-
-QT_BEGIN_NAMESPACE
-
 /*!
  * \class QBarDataItem
  * \inmodule QtGraphs
@@ -18,56 +14,19 @@ QT_BEGIN_NAMESPACE
  */
 
 /*!
- * \fn QBarDataItem::QBarDataItem()
+ * \fn constexpr QBarDataItem::QBarDataItem() noexcept
  * Constructs a bar data item.
  */
 
 /*!
- * \fn QBarDataItem::QBarDataItem(float value)
+ * \fn explicit constexpr QBarDataItem::QBarDataItem(float value) noexcept
  * Constructs a bar data item with the value \a value.
  */
 
 /*!
- * \fn QBarDataItem::QBarDataItem(float value, float angle)
+ * \fn explicit constexpr QBarDataItem::QBarDataItem(float value, float angle) noexcept
  * Constructs a bar data item with the value \a value and angle \a angle.
  */
-
-/*!
- * Constructs a copy of \a other.
- */
-QBarDataItem::QBarDataItem(const QBarDataItem &other)
-{
-    operator=(other);
-}
-
-QBarDataItem::QBarDataItem(QBarDataItem &&other) noexcept
-    : d_ptr(std::exchange(other.d_ptr, nullptr))
-    , m_value(other.m_value) // Trivial copy
-    , m_angle(other.m_angle) // Trivial copy
-{
-}
-
-/*!
- * Deletes a bar data item.
- */
-QBarDataItem::~QBarDataItem()
-{
-    delete d_ptr;
-}
-
-/*!
- *  Assigns a copy of \a other to this object.
- */
-QBarDataItem &QBarDataItem::operator=(const QBarDataItem &other)
-{
-    m_value = other.m_value;
-    m_angle = other.m_angle;
-    if (other.d_ptr)
-        createExtraData();
-    else
-        d_ptr = 0;
-    return *this;
-}
 
 /*!
  * \fn void QBarDataItem::setValue(float val)
@@ -88,25 +47,3 @@ QBarDataItem &QBarDataItem::operator=(const QBarDataItem &other)
  * \fn float QBarDataItem::rotation() const
  * Returns the rotation angle in degrees for this data item.
  */
-
-/*!
- * \internal
- */
-void QBarDataItem::createExtraData()
-{
-    if (!d_ptr)
-        d_ptr = new QBarDataItemPrivate;
-}
-
-void QBarDataItem::swap(QBarDataItem &other) noexcept
-{
-    std::swap(m_value, other.m_value);
-    std::swap(m_angle, other.m_angle);
-    qt_ptr_swap(d_ptr, other.d_ptr);
-}
-
-QBarDataItemPrivate::QBarDataItemPrivate() {}
-
-QBarDataItemPrivate::~QBarDataItemPrivate() {}
-
-QT_END_NAMESPACE

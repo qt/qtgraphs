@@ -214,7 +214,7 @@ void Data::setData(const QImage &image)
         for (int i = 0; i < imageHeight; i++, bitCount -= widthBits) {
             QBarDataRow &newRow = dataArray[i];
             for (int j = 0; j < imageWidth; j++)
-                newRow[j] = float(bits[bitCount + (j * 4)]);
+                newRow[j] = QBarDataItem(float(bits[bitCount + (j * 4)]));
         }
 
         m_bars->seriesList().at(0)->dataProxy()->resetArray(dataArray);

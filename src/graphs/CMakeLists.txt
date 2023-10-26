@@ -39,7 +39,7 @@ qt_internal_add_qml_module(Graphs
         data/qabstract3dseries.cpp data/qabstract3dseries.h data/qabstract3dseries_p.h
         data/qabstractdataproxy.cpp data/qabstractdataproxy.h data/qabstractdataproxy_p.h
         data/qbar3dseries.cpp data/qbar3dseries.h data/qbar3dseries_p.h
-        data/qbardataitem.cpp data/qbardataitem.h data/qbardataitem_p.h
+        data/qbardataitem.cpp data/qbardataitem.h
         data/qbardataproxy.cpp data/qbardataproxy.h data/qbardataproxy_p.h
         data/qcustom3ditem.cpp data/qcustom3ditem.h data/qcustom3ditem_p.h
         data/qcustom3dlabel.cpp data/qcustom3dlabel.h data/qcustom3dlabel_p.h
