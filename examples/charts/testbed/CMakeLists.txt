@@ -42,10 +42,17 @@ qt6_add_qml_module(testbed
     QML_FILES
         qml/testbed/main.qml
         qml/testbed/StartupView.qml
+        qml/testbed/SettingsView.qml
+        qml/testbed/CustomCheckBox.qml
+        qml/testbed/CustomLabel.qml
+        qml/testbed/CustomSelectionBox.qml
+        qml/testbed/CustomSlider.qml
         qml/testbed/BarThemes.qml
         qml/testbed/LineProperties.qml
+        qml/testbed/AxisGridSetup.qml
     RESOURCES
         qml/testbed/images/arrow_icon.png
+        qml/testbed/images/icon_settings.png
 )
 
 install(TARGETS testbed

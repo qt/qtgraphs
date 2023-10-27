@@ -962,6 +962,11 @@ Qt::Orientation QAbstractAxis::orientation() const
     return d_ptr->orientation();
 }
 
+void QAbstractAxis::setOrientation(Qt::Orientation orientation)
+{
+    d_ptr->m_orientation = orientation;
+}
+
 Qt::Alignment QAbstractAxis::alignment() const
 {
     return d_ptr->alignment();

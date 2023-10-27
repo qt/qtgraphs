@@ -15,7 +15,7 @@
 QT_BEGIN_NAMESPACE
 
 class QAbstractSeriesPrivate;
-class QChart;
+class QQuickGraphs2DView;
 
 class QAbstractSeries : public QObject, public QQmlParserStatus
 {
@@ -74,7 +74,8 @@ public:
     //void setUseOpenGL(bool enable = true);
     //bool useOpenGL() const;
 
-    QChart *chart() const;
+    QQuickGraphs2DView *chart() const;
+    void setChart(QQuickGraphs2DView *chart);
 
     bool attachAxis(QAbstractAxis *axis);
     bool detachAxis(QAbstractAxis *axis);

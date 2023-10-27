@@ -4,5 +4,12 @@
         <file>qml/testbed/BarThemes.qml</file>
         <file>qml/testbed/StartupView.qml</file>
         <file>qml/testbed/images/arrow_icon.png</file>
+        <file>qml/testbed/AxisGridSetup.qml</file>
+        <file>qml/testbed/CustomCheckBox.qml</file>
+        <file>qml/testbed/CustomLabel.qml</file>
+        <file>qml/testbed/CustomSelectionBox.qml</file>
+        <file>qml/testbed/CustomSlider.qml</file>
+        <file>qml/testbed/LineProperties.qml</file>
+        <file>qml/testbed/images/icon_settings.png</file>
     </qresource>
 </RCC>

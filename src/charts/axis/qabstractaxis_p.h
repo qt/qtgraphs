@@ -76,6 +76,7 @@ Q_SIGNALS:
 
 protected:
     QAbstractAxis *q_ptr;
+    // TODO: Used?
     QQuickGraphs2DView *m_chart = nullptr;
 //    std::unique_ptr<ChartAxisElement> m_item;
 

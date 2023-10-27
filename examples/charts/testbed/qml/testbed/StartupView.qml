@@ -23,6 +23,10 @@ Item {
             file: "BarThemes.qml"
         }
         ListElement {
+            name: "Axis & Grid Setup"
+            file: "AxisGridSetup.qml"
+        }
+        ListElement {
             name: "Line Properties"
             file: "LineProperties.qml"
         }
@@ -48,7 +52,7 @@ Item {
                 horizontalAlignment: Text.AlignHCenter
                 verticalAlignment: Text.AlignVCenter
                 color: "#f0f0f0"
-                font.pointSize: rootWindow.fontSizeSmall
+                font.pointSize: settings.fontSizeSmall
                 text: button.name
             }
 
@@ -65,7 +69,7 @@ Item {
         anchors.topMargin: 20
         text: qsTr("QtGraphs - Testbed")
         color: "#f0f0f0"
-        font.pointSize: rootWindow.fontSizeLarge
+        font.pointSize: settings.fontSizeLarge
     }
 
     Row {

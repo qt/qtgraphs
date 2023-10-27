@@ -245,8 +245,10 @@ QAbstractSeries::QAbstractSeries(QAbstractSeriesPrivate &d, QObject *parent) :
 */
 QAbstractSeries::~QAbstractSeries()
 {
+    //if (d_ptr->m_chart)
+    //    qFatal("Series still bound to a chart when destroyed!");
     if (d_ptr->m_chart)
-        qFatal("Series still bound to a chart when destroyed!");
+        d_ptr->m_chart->removeSeries(this);
 }
 
 SeriesTheme *QAbstractSeries::theme() const
@@ -341,10 +343,22 @@ bool QAbstractSeries::useOpenGL() const
     Set automatically when the series is added to the chart,
     and unset when the series is removed from the chart.
 */
-/*QChart *QAbstractSeries::chart() const
+QQuickGraphs2DView *QAbstractSeries::chart() const
 {
     return d_ptr->m_chart;
-}*/
+}
+
+void QAbstractSeries::setChart(QQuickGraphs2DView *chart)
+{
+    d_ptr->m_chart = chart;
+    if (d_ptr->m_chart) {
+        // Attach pending axes
+        for (auto axis : d_ptr->m_axes) {
+            d_ptr->m_chart->addAxis(axis);
+            QObject::connect(axis, &QAbstractAxis::update, d_ptr->m_chart, &QQuickItem::update);
+        }
+    }
+}
 
 /*!
     Sets the visibility of the series to \c true.
@@ -381,7 +395,13 @@ bool QAbstractSeries::attachAxis(QAbstractAxis* axis)
 //    if (d_ptr->m_chart)
 //        return d_ptr->m_chart->d_ptr->m_dataset->attachAxis(this, axis);
 
-    qWarning("Series not in the chart. Please addSeries to chart first.");
+    d_ptr->m_axes.append(axis);
+    if (d_ptr->m_chart) {
+        d_ptr->m_chart->addAxis(axis);
+        QObject::connect(axis, &QAbstractAxis::update, d_ptr->m_chart, &QQuickItem::update);
+        return true;
+    }
+    //qWarning("Series not in the chart. Please addSeries to chart first.");
     return false;
 }
 
@@ -397,7 +417,13 @@ bool QAbstractSeries::detachAxis(QAbstractAxis* axis)
 //    if (d_ptr->m_chart)
 //        return d_ptr->m_chart->d_ptr->m_dataset->detachAxis(this, axis);
 
-    qWarning("Series not in the chart. Please addSeries to chart first.");
+    d_ptr->m_axes.removeAll(axis);
+    if (d_ptr->m_chart) {
+        d_ptr->m_chart->removeAxis(axis);
+        QObject::disconnect(axis, &QAbstractAxis::update, d_ptr->m_chart, &QQuickItem::update);
+        return true;
+    }
+    //qWarning("Series not in the chart. Please addSeries to chart first.");
     return false;
 }
 

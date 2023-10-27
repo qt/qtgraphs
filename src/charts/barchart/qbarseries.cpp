@@ -13,6 +13,7 @@
 #include <QtGraphs2D/qbarseries.h>
 #include <private/qbarseries_p.h>
 #include <QtGraphs2D/QBarCategoryAxis>
+#include <private/qquickgraphsview_p.h>
 
 QT_BEGIN_NAMESPACE
 
@@ -71,8 +72,8 @@ QAbstractSeries::SeriesType QBarSeries::type() const
 QBarSeries::~QBarSeries()
 {
     Q_D(QBarSeries);
-    //if (d->m_chart)
-    //    d->m_chart->removeSeries(this);
+    if (d->m_chart)
+        d->m_chart->removeSeries(this);
 }
 
 
@@ -82,8 +83,10 @@ QAbstractAxis *QBarSeries::axisX() {
 }
 void QBarSeries::setAxisX(QAbstractAxis *axis) {
     Q_D(QBarSeries);
+    detachAxis(d->m_axisX);
+    axis->setOrientation(Qt::Horizontal);
     d->m_axisX = axis;
-    d->m_axes << axis;
+    attachAxis(axis);
 }
 QAbstractAxis *QBarSeries::axisY() {
     Q_D(const QBarSeries);
@@ -91,8 +94,10 @@ QAbstractAxis *QBarSeries::axisY() {
 }
 void QBarSeries::setAxisY(QAbstractAxis *axis) {
     Q_D(QBarSeries);
+    detachAxis(d->m_axisY);
+    axis->setOrientation(Qt::Vertical);
     d->m_axisY = axis;
-    d->m_axes << axis;
+    attachAxis(axis);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

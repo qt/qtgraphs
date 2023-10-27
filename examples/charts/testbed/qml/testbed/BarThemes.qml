@@ -173,7 +173,7 @@ Rectangle {
         BarSeries {
             id: mySeries
             axisX: BarCategoryAxis { categories: ["2007", "2008", "2009", "2010", "2011", "2012"] }
-            axisY: BarCategoryAxis { }
+            axisY: ValueAxis { }
             theme: SeriesTheme {
                 id: seriesTheme
                 colorTheme: SeriesTheme.SeriesTheme1

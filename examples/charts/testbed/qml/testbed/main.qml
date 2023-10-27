@@ -7,11 +7,16 @@ import QtQuick.Controls
 Window {
     id: rootWindow
 
-    readonly property url startupView: "qrc:/qml/testbed/StartupView.qml"
     readonly property real px: Math.max(width, height) / 1280
-    readonly property real iconSize: 30 + 30 * px
-    readonly property real fontSizeSmall: 16 * px
-    readonly property real fontSizeLarge: 26 * px
+
+    QtObject {
+        id: settings
+        readonly property url startupView: "qrc:/qml/testbed/StartupView.qml"
+        readonly property real iconSize: 30 + 30 * px
+        readonly property real fontSizeSmall: 12 * px
+        readonly property real fontSizeLarge: 26 * px
+        property bool showSettingsView: true
+    }
 
     width: 1280
     height: 720
@@ -22,16 +27,16 @@ Window {
     Loader {
         id: loader
         anchors.fill: parent
-        Component.onCompleted: setSource(rootWindow.startupView, {loader: loader})
+        Component.onCompleted: setSource(settings.startupView, {loader: loader})
     }
 
     Button {
         id: backButton
         anchors.left: parent.left
         anchors.top: parent.top
-        implicitWidth: rootWindow.iconSize
-        implicitHeight: rootWindow.iconSize
-        opacity: loader.source != "" && loader.source != rootWindow.startupView
+        implicitWidth: settings.iconSize
+        implicitHeight: settings.iconSize
+        opacity: loader.source != "" && loader.source != settings.startupView
         visible: opacity
         icon.source: "qrc:/qml/testbed/images/arrow_icon.png"
         icon.width: backButton.width * 0.3
@@ -41,7 +46,7 @@ Window {
             color: "transparent"
         }
         onClicked: {
-            loader.setSource(rootWindow.startupView, {loader: loader})
+            loader.setSource(settings.startupView, {loader: loader})
         }
         Behavior on opacity {
             NumberAnimation {

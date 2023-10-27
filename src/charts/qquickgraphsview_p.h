@@ -32,6 +32,7 @@ QT_BEGIN_NAMESPACE
 
 class QBarSeries;
 class QBarCategoryAxis;
+class QValueAxis;
 class QLineSeries;
 
 // KG: TODO
@@ -94,6 +95,9 @@ public:
     qreal marginRight() const;
     void setMarginRight(qreal newMarginRight);
 
+    void addAxis(QAbstractAxis *axis);
+    void removeAxis(QAbstractAxis *axis);
+
 protected:
     void componentComplete() override;
     QSGNode *updatePaintNode(QSGNode *oldNode, QQuickItem::UpdatePaintNodeData *updatePaintNodeData) override;
@@ -107,10 +111,11 @@ Q_SIGNALS:
     void marginRightChanged();
 
 private:
+    void updateAxis();
     void updateAxisTickers();
     void updateAxisGrid();
     void updateBarXAxis(QBarCategoryAxis *axis, const QRectF &rect);
-    void updateBarYAxis(QBarCategoryAxis *axis, const QRectF &rect);
+    void updateBarYAxis(QValueAxis *axis, const QRectF &rect);
     void updateBarSeries(QBarSeries *series);
     void updateLineSeries(QLineSeries *series);
 
@@ -125,9 +130,14 @@ private:
     QList<QQuickPathLine *> m_linePaths;
     QList<QQuickText *> m_xAxisTextItems;
     QList<QQuickText *> m_yAxisTextItems;
+    QList<QAbstractAxis *> m_axis;
     AxisGrid *m_axisGrid = nullptr;
+    QAbstractAxis *m_axisVertical = nullptr;
+    QAbstractAxis *m_axisHorizontal = nullptr;
     AxisTicker *m_axisTickerVertical = nullptr;
     AxisTicker *m_axisTickerHorizontal = nullptr;
+    double m_axisVerticalMaxValue = 20;
+    double m_axisVerticalMinValue = 0;
     GraphTheme *m_theme = nullptr;
     qreal m_marginTop = 20;
     qreal m_marginBottom = 20;

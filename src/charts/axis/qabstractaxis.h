@@ -143,6 +143,7 @@ public:
     QColor shadesBorderColor() const;
 
     Qt::Orientation orientation() const;
+    void setOrientation(Qt::Orientation orientation);
     Qt::Alignment alignment() const;
 
     //range handling
@@ -192,6 +193,7 @@ Q_SIGNALS:
     void labelsEditableChanged(bool editable);
     void labelsTruncatedChanged(bool labelsTruncated);
     void truncateLabelsChanged(bool truncateLabels);
+    void update();
 
 protected:
     QScopedPointer<QAbstractAxisPrivate> d_ptr;
