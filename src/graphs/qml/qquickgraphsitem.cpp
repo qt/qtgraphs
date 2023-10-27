@@ -4086,7 +4086,7 @@ void QQuickGraphsItem::handleSelectedElementChange(QAbstract3DGraph::ElementType
 
 void QQuickGraphsItem::handleOptimizationHintChange(QAbstract3DGraph::OptimizationHint hint)
 {
-    emit optimizationHintChanged(hint);
+    Q_UNUSED(hint)
 }
 
 QAbstract3DInputHandler *QQuickGraphsItem::inputHandler() const
@@ -4252,6 +4252,7 @@ void QQuickGraphsItem::setOptimizationHint(QAbstract3DGraph::OptimizationHint hi
         m_optimizationHint = hint;
         m_changeTracker.optimizationHintChanged = true;
         m_isDataDirty = true;
+        handleOptimizationHintChange(m_optimizationHint);
         emit optimizationHintChanged(hint);
         emitNeedRender();
     }

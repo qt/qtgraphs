@@ -257,10 +257,10 @@ private:
 
     void updateGraph() override;
     void synchData() override;
+    void handleOptimizationHintChange(QAbstract3DGraph::OptimizationHint hint) override;
 
 private slots:
     void cameraRotationChanged();
-    void handleOptimizationHintChange(QAbstract3DGraph::OptimizationHint hint) override;
 
     friend class Q3DScatter;
 };

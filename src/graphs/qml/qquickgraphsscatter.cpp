@@ -1468,7 +1468,7 @@ void QQuickGraphsScatter::cameraRotationChanged()
 
 void QQuickGraphsScatter::handleOptimizationHintChange(QAbstract3DGraph::OptimizationHint hint)
 {
+    Q_UNUSED(hint)
     m_optimizationChanged = true;
-    QQuickGraphsItem::handleOptimizationHintChange(hint);
 }
 QT_END_NAMESPACE
