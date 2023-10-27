@@ -94,7 +94,7 @@ public:
     enum class ElementType { None = 0, Series, AxisXLabel, AxisYLabel, AxisZLabel, CustomItem };
     Q_ENUM(ElementType)
 
-    enum class OptimizationHint { Default = 0, Static = 1, Legacy };
+    enum class OptimizationHint { Default = 0, Legacy };
     Q_ENUM(OptimizationHint)
 
     enum class RenderingMode { DirectToBackground = 0, Indirect };

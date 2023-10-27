@@ -420,15 +420,6 @@ void GalaxyData::setFilteredEnabled(bool enabled)
     }
 }
 
-
-void GalaxyData::setStaticEnabled(bool enabled)
-{
-    if (enabled)
-        m_graph->setOptimizationHint(QAbstract3DGraph::OptimizationHint::Default);
-    else
-        m_graph->setOptimizationHint(QAbstract3DGraph::OptimizationHint::Legacy);
-}
-
 void GalaxyData::setStarsVisible(bool enabled)
 {
     m_normalSeries->setVisible(enabled);

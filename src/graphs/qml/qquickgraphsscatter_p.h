@@ -161,7 +161,7 @@ private:
         QQuick3DTexture *highlightTexture;
         QScatter3DSeries *series;
 
-        // For Static optimization
+        // For instanced, i.e. Default optimization
         ScatterInstancing *instancing = nullptr;
         QQuick3DModel *instancingRootItem = nullptr;
         QQuick3DModel *selectionIndicator = nullptr;

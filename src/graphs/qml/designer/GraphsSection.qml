@@ -48,7 +48,7 @@ Section {
         SecondColumnLayout {
             ComboBox {
                 backendValue: backendValues.optimizationHint
-                model: ["Default", "Static", "Legacy"]
+                model: ["Default", "Legacy"]
                 Layout.fillWidth: true
                 scope: "AbstractGraph3D"
             }

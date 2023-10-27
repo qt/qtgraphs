@@ -395,7 +395,6 @@
  * performance on most systems. The static mode optimizes graph rendering and is ideal for
  * large non-changing data sets. It is slower with dynamic data changes and item rotations.
  * Selection is not optimized, so using the static mode with massive data sets is not advisable.
- * Static optimization works only on scatter graphs.
  * Legacy mode renders all items in th graph individually, without instancing. It should be used
  * only if default mode does not work, i.e. if the target system does not support instancing.
  * Defaults to \l{QAbstract3DGraph::OptimizationHint::Default}{Default}.

@@ -230,9 +230,9 @@ int main(int argc, char **argv)
     horizontalAspectRatioSlider->setValue(0);
     horizontalAspectRatioSlider->setMaximum(300);
 
-    QCheckBox *optimizationStaticCB = new QCheckBox(widget);
-    optimizationStaticCB->setText(QStringLiteral("Static optimization"));
-    optimizationStaticCB->setChecked(false);
+    QCheckBox *optimizationLegacyCB = new QCheckBox(widget);
+    optimizationLegacyCB->setText(QStringLiteral("Legacy optimization"));
+    optimizationLegacyCB->setChecked(false);
 
     QCheckBox *orthoCB = new QCheckBox(widget);
     orthoCB->setText(QStringLiteral("Orthographic projection"));
@@ -336,7 +336,7 @@ int main(int argc, char **argv)
     vLayout2->addWidget(new QLabel(QStringLiteral("Adjust horizontal aspect ratio")));
     vLayout2->addWidget(horizontalAspectRatioSlider, 1, Qt::AlignTop);
 
-    vLayout3->addWidget(optimizationStaticCB);
+    vLayout3->addWidget(optimizationLegacyCB);
     vLayout3->addWidget(orthoCB);
     vLayout3->addWidget(polarCB);
     vLayout3->addWidget(axisTitlesVisibleCB);
@@ -391,7 +391,9 @@ int main(int argc, char **argv)
                      &ScatterDataModifier::addSeries);
     QObject::connect(removeSeriesButton, &QPushButton::clicked, modifier,
                      &ScatterDataModifier::removeSeries);
-    QObject::connect(toggleSeriesVisibilityButton, &QPushButton::clicked, modifier,
+    QObject::connect(toggleSeriesVisibilityButton,
+                     &QPushButton::clicked,
+                     modifier,
                      &ScatterDataModifier::toggleSeriesVisibility);
     QObject::connect(changeSeriesNameButton, &QPushButton::clicked, modifier,
                      &ScatterDataModifier::changeSeriesName);
@@ -414,7 +416,9 @@ int main(int argc, char **argv)
 
     QObject::connect(shadowQuality, SIGNAL(currentIndexChanged(int)), modifier,
                      SLOT(changeShadowQuality(int)));
-    QObject::connect(modifier, &ScatterDataModifier::shadowQualityChanged, shadowQuality,
+    QObject::connect(modifier,
+                     &ScatterDataModifier::shadowQualityChanged,
+                     shadowQuality,
                      &QComboBox::setCurrentIndex);
     QObject::connect(fontList, &QFontComboBox::currentFontChanged, modifier,
                      &ScatterDataModifier::changeFont);
@@ -438,8 +442,10 @@ int main(int argc, char **argv)
                      &ScatterDataModifier::setMaxY);
     QObject::connect(maxSliderZ, &QSlider::valueChanged, modifier,
                      &ScatterDataModifier::setMaxZ);
-    QObject::connect(optimizationStaticCB, &QCheckBox::stateChanged, modifier,
-                     &ScatterDataModifier::toggleStatic);
+    QObject::connect(optimizationLegacyCB,
+                     &QCheckBox::stateChanged,
+                     modifier,
+                     &ScatterDataModifier::toggleLegacy);
     QObject::connect(orthoCB, &QCheckBox::stateChanged, modifier,
                      &ScatterDataModifier::toggleOrtho);
     QObject::connect(polarCB, &QCheckBox::stateChanged, modifier,
@@ -452,7 +458,9 @@ int main(int argc, char **argv)
                      &ScatterDataModifier::changeLabelRotation);
     QObject::connect(aspectRatioSlider, &QSlider::valueChanged, modifier,
                      &ScatterDataModifier::setAspectRatio);
-    QObject::connect(horizontalAspectRatioSlider, &QSlider::valueChanged, modifier,
+    QObject::connect(horizontalAspectRatioSlider,
+                     &QSlider::valueChanged,
+                     modifier,
                      &ScatterDataModifier::setHorizontalAspectRatio);
     QObject::connect(radialLabelSlider, &QSlider::valueChanged, modifier,
                      &ScatterDataModifier::changeRadialLabelOffset);

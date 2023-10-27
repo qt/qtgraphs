@@ -79,7 +79,7 @@ public Q_SLOTS:
     void toggleAxisTitleFixed(int enabled);
     void renderToImage();
     void togglePolar(int enable);
-    void toggleStatic(int enable);
+    void toggleLegacy(int enable);
     void toggleOrtho(int enable);
     void setCameraTargetX(int value);
     void setCameraTargetY(int value);

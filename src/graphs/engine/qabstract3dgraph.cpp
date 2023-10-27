@@ -130,9 +130,6 @@ QT_BEGIN_NAMESPACE
 
     \value Default
            Provides the full feature set with instancing at a good performance.
-    \value Static
-           Optimizes the rendering of static data sets at the expense of some features.
-           Usable only with Q3DScatter graphs.
     \value Legacy
            Provides the full feature set at a reasonable performance. To be used if
            OptimizationHint.Default performs poorly or does not work.
