@@ -1495,6 +1495,7 @@ void QQuickGraphsItem::synchData()
 {
     if (!isVisible())
         return;
+
     m_renderPending = false;
 
     if (m_changeTracker.selectionModeChanged) {
@@ -2062,6 +2063,9 @@ void QQuickGraphsItem::synchData()
 
     if (isCustomItemDirty() || forceUpdateCustomVolumes)
         updateCustomVolumes();
+
+    if (m_measureFps)
+        QQuickItem::update();
 }
 
 void QQuickGraphsItem::calculateSceneScalingFactors()
@@ -4183,6 +4187,7 @@ void QQuickGraphsItem::setMeasureFps(bool enable)
                              &QQuick3DRenderStats::fpsChanged,
                              this,
                              &QQuickGraphsItem::handleFpsChanged);
+            emitNeedRender();
         } else {
             QObject::disconnect(renderStats(), 0, this, 0);
         }
