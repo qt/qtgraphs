@@ -10,6 +10,7 @@
 #include <QtGraphs/qabstract3dinputhandler.h>
 #include <QtGraphs/qgraphsglobal.h>
 #include <QtQuickWidgets/qquickwidget.h>
+#include "qquickitemgrabresult.h"
 
 QT_BEGIN_NAMESPACE
 
@@ -17,7 +18,6 @@ class QCustom3DItem;
 class QAbstract3DAxis;
 class QAbstract3DSeries;
 class QQuickGraphsItem;
-class QQuickItemGrabResult;
 
 class Q_GRAPHS_EXPORT QAbstract3DGraph : public QQuickWidget
 {
@@ -198,7 +198,6 @@ public:
     int selectedCustomItemIndex() const;
     QCustom3DItem *selectedCustomItem() const;
 
-    void renderToImage(const QSize &imageSize = QSize(), QString name = QStringLiteral(""));
     QSharedPointer<QQuickItemGrabResult> renderToImage(const QSize &imageSize = QSize());
 
     QAbstract3DGraph::CameraPreset cameraPreset() const;
@@ -288,7 +287,6 @@ Q_SIGNALS:
     void maxCameraYRotationChanged(float rotation);
     void wrapCameraXRotationChanged(bool wrap);
     void wrapCameraYRotationChanged(bool wrap);
-    void imageCaptured(QImage image, const QString &name);
     void msaaSamplesChanged(int samples);
 
 private:

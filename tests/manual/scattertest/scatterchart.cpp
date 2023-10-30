@@ -970,13 +970,15 @@ void ScatterDataModifier::toggleAxisTitleFixed(int enabled)
 
 void ScatterDataModifier::renderToImage()
 {
-    QObject::connect(m_chart,
-                     &QAbstract3DGraph::imageCaptured,
-                     this,
-                     &ScatterDataModifier::imageCaptureReady);
+    QSharedPointer<QQuickItemGrabResult> grabResult = m_chart->renderToImage(QSize());
+    QObject::connect(grabResult.data(), &QQuickItemGrabResult::ready, this, [grabResult]() {
+        grabResult.data()->image().save("./renderedImage.png");
+    });
 
-    m_chart->renderToImage(QSize(), "renderedImage");
-    m_chart->renderToImage(QSize(100, 100), "renderedImageSmall");
+    QSharedPointer<QQuickItemGrabResult> grabResult2 = m_chart->renderToImage(QSize(100, 100));
+    QObject::connect(grabResult2.data(), &QQuickItemGrabResult::ready, this, [grabResult2]() {
+        grabResult2.data()->image().save("./renderedImageSmall.png");
+    });
 }
 
 void ScatterDataModifier::togglePolar(int enable)
@@ -1025,12 +1027,6 @@ void ScatterDataModifier::setGraphMargin(int value)
 {
     m_chart->setMargin(qreal(value) / 100.0);
     qDebug() << "Setting margin:" << m_chart->margin() << value;
-}
-
-void ScatterDataModifier::imageCaptureReady(QImage img, const QString &name)
-{
-    QString path("./" + name + ".png");
-    img.save(path);
 }
 
 void ScatterDataModifier::changeShadowQuality(int quality)

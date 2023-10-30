@@ -86,8 +86,6 @@ public Q_SLOTS:
     void setCameraTargetZ(int value);
     void setGraphMargin(int value);
 
-    void imageCaptureReady(QImage img, const QString &name);
-
 Q_SIGNALS:
     void shadowQualityChanged(int quality);
 

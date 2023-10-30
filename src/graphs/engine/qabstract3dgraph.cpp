@@ -4,7 +4,7 @@
 #include "qabstract3dgraph.h"
 #include "q3dscene_p.h"
 #include "qquickgraphsitem_p.h"
-#include "qquickitemgrabresult.h"
+
 #ifdef Q_OS_DARWIN
 #include <QtQuick3D/qquick3d.h>
 #endif
@@ -535,34 +535,13 @@ QAbstract3DGraph::ElementType QAbstract3DGraph::selectedElement() const
 }
 
 /*!
- * Renders current frame to an image of \a imageSize. Default size is the window
- * size. Identifying name for the image can be given in \a name. If the name is
- * not given, a timestamp is created. Image is rendered with the current
- * antialiasing settings. The \c imageCaptured signal is emitted when the capture
- * is ready.
- *
- * \note OpenGL ES2 does not support anitialiasing.
- */
-void QAbstract3DGraph::renderToImage(const QSize &imageSize, QString name)
-{
-    if (name.isEmpty())
-        name = QString::number(QDateTime::currentMSecsSinceEpoch());
-
-    auto grabResultPointer = m_graphsItem->grabToImage(imageSize);
-    QObject::connect(grabResultPointer.data(),
-                     &QQuickItemGrabResult::ready,
-                     this,
-                     [grabResultPointer, this, name]() {
-                         emit this->imageCaptured(grabResultPointer.data()->image(), name);
-                     });
-}
-
-/*!
  * Renders current frame to an image of \a imageSize.
  * Returns a shared pointer to grab resut which can be used to access the
- * rendered image when it's ready.
+ * rendered image when it's ready. Image is rendered with the current
+ * antialiasing settings.
  *
- * \sa QQuickItem::grabToImage, renderToImage()
+ * \note OpenGL ES2 does not support anitialiasing.
+ * \sa QQuickItem::grabToImage
  */
 QSharedPointer<QQuickItemGrabResult> QAbstract3DGraph::renderToImage(const QSize &imageSize)
 {
