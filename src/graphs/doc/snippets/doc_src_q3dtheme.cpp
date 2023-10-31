@@ -26,7 +26,6 @@ int main(int argc, char **argv)
     theme->setFont(QFont(QStringLiteral("Impact"), 35));
     theme->setGridEnabled(true);
     theme->setGridLineColor(QColor(QRgb(0x99ca53)));
-    theme->setHighlightLightStrength(7.0f);
     theme->setLabelBackgroundColor(QColor(0xf6, 0xa6, 0x25, 0xa0));
     theme->setLabelBackgroundEnabled(true);
     theme->setLabelBorderEnabled(true);
@@ -80,7 +79,6 @@ Surface3D {
         font.pointSize: 35
         gridEnabled: false
         gridLineColor: "black"
-        highlightLightStrength: 0.5
         labelBackgroundColor: "black"
         labelBackgroundEnabled: true
         labelBorderEnabled: false

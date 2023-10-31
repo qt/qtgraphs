@@ -59,7 +59,6 @@ Item {
         font.family: "Arial"
         gridEnabled: false
         gridLineColor: "#00ff00"
-        highlightLightStrength: 5.0
         labelBackgroundColor: "#ff00ff"
         labelBackgroundEnabled: false
         labelBorderEnabled: false
@@ -103,7 +102,6 @@ Item {
             compare(initial.font.family, dummy.font.family)
             compare(initial.gridEnabled, true)
             compare(initial.gridLineColor, "#ffffff")
-            compare(initial.highlightLightStrength, 7.5)
             compare(initial.labelBackgroundColor, "#a0a0a4")
             compare(initial.labelBackgroundEnabled, true)
             compare(initial.labelBorderEnabled, true)
@@ -137,7 +135,6 @@ Item {
             compare(initialized.font.family, "Arial")
             compare(initialized.gridEnabled, false)
             compare(initialized.gridLineColor, "#00ff00")
-            compare(initialized.highlightLightStrength, 5.0)
             compare(initialized.labelBackgroundColor, "#ff00ff")
             compare(initialized.labelBackgroundEnabled, false)
             compare(initialized.labelBorderEnabled, false)
@@ -181,7 +178,6 @@ Item {
             change.font.family = "Arial"
             change.gridEnabled = false
             change.gridLineColor = "#00ff00"
-            change.highlightLightStrength = 5.0
             change.labelBackgroundColor = "#ff00ff"
             change.labelBackgroundEnabled = false
             change.labelBorderEnabled = false
@@ -208,7 +204,6 @@ Item {
             compare(change.font.family, "Arial")
             compare(change.gridEnabled, false)
             compare(change.gridLineColor, "#00ff00")
-            compare(change.highlightLightStrength, 5.0)
             compare(change.labelBackgroundColor, "#ff00ff")
             compare(change.labelBackgroundEnabled, false)
             compare(change.labelBorderEnabled, false)
@@ -244,10 +239,6 @@ Item {
             compare(invalid.ambientLightStrength, 0.25)
             invalid.ambientLightStrength = 1.1
             compare(invalid.ambientLightStrength, 0.25)
-            invalid.highlightLightStrength = -1.0
-            compare(invalid.highlightLightStrength, 7.5)
-            invalid.highlightLightStrength = 10.1
-            compare(invalid.highlightLightStrength, 7.5)
             invalid.lightStrength = -1.0
             compare(invalid.lightStrength, 5.0)
             invalid.lightStrength = 10.1

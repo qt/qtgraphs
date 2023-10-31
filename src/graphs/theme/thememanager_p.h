@@ -52,7 +52,6 @@ protected:
     static void setMultiHighlightGradient(Q3DTheme *theme, const QLinearGradient &gradient);
     static void setLightStrength(Q3DTheme *theme, float strength);
     static void setAmbientLightStrength(Q3DTheme *theme, float strength);
-    static void setHighlightLightStrength(Q3DTheme *theme, float strength);
     static void setLabelBorderEnabled(Q3DTheme *theme, bool enabled);
     static void setFont(Q3DTheme *theme, const QFont &font);
     static void setBackgroundEnabled(Q3DTheme *theme, bool enabled);

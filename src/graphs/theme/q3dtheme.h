@@ -53,8 +53,6 @@ class Q_GRAPHS_EXPORT Q3DTheme : public QObject, public QQmlParserStatus
         bool labelsEnabled READ isLabelsEnabled WRITE setLabelsEnabled NOTIFY labelsEnabledChanged)
     Q_PROPERTY(float ambientLightStrength READ ambientLightStrength WRITE setAmbientLightStrength
                    NOTIFY ambientLightStrengthChanged)
-    Q_PROPERTY(float highlightLightStrength READ highlightLightStrength WRITE
-                   setHighlightLightStrength NOTIFY highlightLightStrengthChanged)
     Q_PROPERTY(
         float lightStrength READ lightStrength WRITE setLightStrength NOTIFY lightStrengthChanged)
     Q_PROPERTY(float shadowStrength READ shadowStrength WRITE setShadowStrength NOTIFY
@@ -138,9 +136,6 @@ public:
     void setAmbientLightStrength(float strength);
     float ambientLightStrength() const;
 
-    void setHighlightLightStrength(float strength);
-    float highlightLightStrength() const;
-
     void setLabelBorderEnabled(bool enabled);
     bool isLabelBorderEnabled() const;
 
@@ -218,7 +213,6 @@ Q_SIGNALS:
     void multiHighlightGradientChanged(const QLinearGradient &gradient);
     void lightStrengthChanged(float strength);
     void ambientLightStrengthChanged(float strength);
-    void highlightLightStrengthChanged(float strength);
     void labelBorderEnabledChanged(bool enabled);
     void fontChanged(const QFont &font);
     void backgroundEnabledChanged(bool enabled);

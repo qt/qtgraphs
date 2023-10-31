@@ -63,9 +63,6 @@ QT_BEGIN_NAMESPACE
  *     \li gridLineColor
  *     \li Qt::white
  *   \row
- *     \li highlightLightStrength
- *     \li 7.5
- *   \row
  *     \li labelBackgroundColor
  *     \li Qt::gray
  *   \row
@@ -222,9 +219,6 @@ QT_BEGIN_NAMESPACE
  *   \row
  *     \li gridLineColor
  *     \li "white"
- *   \row
- *     \li highlightLightStrength
- *     \li 7.5
  *   \row
  *     \li labelBackgroundColor
  *     \li "gray"
@@ -392,13 +386,6 @@ QT_BEGIN_NAMESPACE
  * The ambient light strength for the whole graph. This value determines how
  * evenly and brightly the colors are shown throughout the graph regardless of
  * the light position. The value must be between \c 0.0 and \c 1.0.
- */
-
-/*!
- * \qmlproperty real Theme3D::highlightLightStrength
- *
- * The specular light strength for selected objects. The value must be
- * between \c 0.0 and \c 10.0.
  */
 
 /*!
@@ -875,33 +862,6 @@ float Q3DTheme::ambientLightStrength() const
 {
     const Q_D(Q3DTheme);
     return d->m_ambientLightStrength;
-}
-
-/*!
- * \property Q3DTheme::highlightLightStrength
- *
- * \brief The specular light strength for selected objects.
- *
- * The value must be between \c 0.0f and \c 10.0f.
- */
-void Q3DTheme::setHighlightLightStrength(float strength)
-{
-    Q_D(Q3DTheme);
-    d->m_dirtyBits.highlightLightStrengthDirty = true;
-    if (strength < 0.0f || strength > 10.0f) {
-        qWarning("Invalid value. Valid range for highlightLightStrength is between "
-                 "0.0f and 10.0f");
-    } else if (d->m_highlightLightStrength != strength) {
-        d->m_highlightLightStrength = strength;
-        emit highlightLightStrengthChanged(strength);
-        emit d->needRender();
-    }
-}
-
-float Q3DTheme::highlightLightStrength() const
-{
-    const Q_D(Q3DTheme);
-    return d->m_highlightLightStrength;
 }
 
 /*!
@@ -1480,7 +1440,6 @@ Q3DThemePrivate::Q3DThemePrivate(Q3DTheme *q)
     , m_labelBorders(true)
     , m_labelsEnabled(true)
     , m_ambientLightStrength(0.25f)
-    , m_highlightLightStrength(7.5f)
     , m_lightStrength(5.0f)
     , m_shadowStrength(25.0f)
     , m_colors(QList<QQuickGraphsColor *>())
@@ -1507,7 +1466,6 @@ void Q3DThemePrivate::resetDirtyBits()
     m_dirtyBits.fontDirty = true;
     m_dirtyBits.gridEnabledDirty = true;
     m_dirtyBits.gridLineColorDirty = true;
-    m_dirtyBits.highlightLightStrengthDirty = true;
     m_dirtyBits.labelBackgroundColorDirty = true;
     m_dirtyBits.labelBackgroundEnabledDirty = true;
     m_dirtyBits.labelBorderEnabledDirty = true;
@@ -1562,10 +1520,6 @@ bool Q3DThemePrivate::sync(Q3DThemePrivate &other)
     if (m_dirtyBits.gridLineColorDirty) {
         other.q_func()->setGridLineColor(m_gridLineColor);
         m_dirtyBits.gridLineColorDirty = false;
-    }
-    if (m_dirtyBits.highlightLightStrengthDirty) {
-        other.q_func()->setHighlightLightStrength(m_highlightLightStrength);
-        m_dirtyBits.highlightLightStrengthDirty = false;
     }
     if (m_dirtyBits.labelBackgroundColorDirty) {
         other.q_func()->setLabelBackgroundColor(m_textBackgroundColor);

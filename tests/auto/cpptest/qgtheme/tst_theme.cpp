@@ -64,7 +64,6 @@ void tst_theme::construct()
     QCOMPARE(theme->font(), QFont("Arial"));
     QCOMPARE(theme->isGridEnabled(), true);
     QCOMPARE(theme->gridLineColor(), QColor(QRgb(0x35322f)));
-    QCOMPARE(theme->highlightLightStrength(), 5.0f);
     QCOMPARE(theme->labelBackgroundColor(), QColor(0x00, 0x00, 0x00, 0xcd));
     QCOMPARE(theme->isLabelBackgroundEnabled(), true);
     QCOMPARE(theme->isLabelBorderEnabled(), false);
@@ -97,7 +96,6 @@ void tst_theme::initialProperties()
     QCOMPARE(m_theme->font(), QFont());
     QCOMPARE(m_theme->isGridEnabled(), true);
     QCOMPARE(m_theme->gridLineColor(), QColor(Qt::white));
-    QCOMPARE(m_theme->highlightLightStrength(), 7.5f);
     QCOMPARE(m_theme->labelBackgroundColor(), QColor(Qt::gray));
     QCOMPARE(m_theme->isLabelBackgroundEnabled(), true);
     QCOMPARE(m_theme->isLabelBorderEnabled(), true);
@@ -138,7 +136,6 @@ void tst_theme::initializeProperties()
     m_theme->setFont(QFont("Arial"));
     m_theme->setGridEnabled(false);
     m_theme->setGridLineColor(QColor(Qt::green));
-    m_theme->setHighlightLightStrength(5.0f);
     m_theme->setLabelBackgroundColor(QColor(Qt::gray));
     m_theme->setLabelBackgroundEnabled(false);
     m_theme->setLabelBorderEnabled(false);
@@ -165,7 +162,6 @@ void tst_theme::initializeProperties()
     QCOMPARE(m_theme->font(), QFont("Arial"));
     QCOMPARE(m_theme->isGridEnabled(), false);
     QCOMPARE(m_theme->gridLineColor(), QColor(Qt::green));
-    QCOMPARE(m_theme->highlightLightStrength(), 5.0f);
     QCOMPARE(m_theme->labelBackgroundColor(), QColor(Qt::gray));
     QCOMPARE(m_theme->isLabelBackgroundEnabled(), false);
     QCOMPARE(m_theme->isLabelBorderEnabled(), false);
@@ -187,11 +183,6 @@ void tst_theme::invalidProperties()
     QCOMPARE(m_theme->ambientLightStrength(), 0.25f);
     m_theme->setAmbientLightStrength(1.1f);
     QCOMPARE(m_theme->ambientLightStrength(), 0.25f);
-
-    m_theme->setHighlightLightStrength(-1.0f);
-    QCOMPARE(m_theme->highlightLightStrength(), 7.5f);
-    m_theme->setHighlightLightStrength(10.1f);
-    QCOMPARE(m_theme->highlightLightStrength(), 7.5f);
 
     m_theme->setLightStrength(-1.0f);
     QCOMPARE(m_theme->lightStrength(), 5.0f);

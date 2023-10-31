@@ -30,7 +30,6 @@ struct Q3DThemeDirtyBitField
     bool fontDirty : 1;
     bool gridEnabledDirty : 1;
     bool gridLineColorDirty : 1;
-    bool highlightLightStrengthDirty : 1;
     bool labelBackgroundColorDirty : 1;
     bool labelBackgroundEnabledDirty : 1;
     bool labelBorderEnabledDirty : 1;
@@ -56,7 +55,6 @@ struct Q3DThemeDirtyBitField
         , fontDirty(false)
         , gridEnabledDirty(false)
         , gridLineColorDirty(false)
-        , highlightLightStrengthDirty(false)
         , labelBackgroundColorDirty(false)
         , labelBackgroundEnabledDirty(false)
         , labelBorderEnabledDirty(false)
@@ -147,7 +145,6 @@ public:
     bool m_labelBorders;
     bool m_labelsEnabled;
     float m_ambientLightStrength;
-    float m_highlightLightStrength;
     float m_lightStrength;
     float m_shadowStrength;
 

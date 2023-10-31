@@ -1676,7 +1676,6 @@ void GraphModifier::useOwnTheme(bool checked)
         m_ownTheme->setBaseColors(colors);
         m_ownTheme->setColorStyle(Q3DTheme::ColorStyle::Uniform);
         m_ownTheme->setGridLineColor(QColor(QRgb(0x99ca53)));
-        m_ownTheme->setHighlightLightStrength(7.0f);
         m_ownTheme->setLabelBackgroundEnabled(true);
         m_ownTheme->setLabelBorderEnabled(true);
         m_ownTheme->setLightColor(Qt::white);

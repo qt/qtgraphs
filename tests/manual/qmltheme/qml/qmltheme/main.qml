@@ -175,19 +175,6 @@ Item {
         }
 
         Label {
-            text: "Highlight Light Strength"
-            color: "gray"
-            enabled: barsVisible.checked
-        }
-        Slider {
-            from: 0.0
-            to: 10.0
-            value: customTheme.highlightLightStrength
-            enabled: barsVisible.checked
-            onValueChanged: customTheme.highlightLightStrength = value
-        }
-
-        Label {
             text: "Light Strength"
             color: "gray"
         }
