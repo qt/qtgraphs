@@ -65,7 +65,6 @@ QQuickGraphsBars::~QQuickGraphsBars()
     QMutexLocker locker(m_nodeMutex.data());
     const QMutexLocker locker2(mutex());
     removeBarModels();
-    removeSelectedModels();
     removeSlicedBarModels();
 }
 
@@ -718,7 +717,6 @@ void QQuickGraphsBars::updateParameters()
             calculateSceneScalingFactors();
 
         removeBarModels();
-        removeSelectedModels();
     }
 
     if (m_newRows < m_selectedBar.x() || m_newCols < m_selectedBar.y())
@@ -742,7 +740,6 @@ void QQuickGraphsBars::updateGraph()
     for (const auto &series : std::as_const(barSeriesAsList)) {
         if (series->d_func()->m_changeTracker.meshChanged) {
             removeBarModels();
-            removeSelectedModels();
             series->d_func()->m_changeTracker.meshChanged = false;
             setDataDirty(true);
         }
@@ -1284,6 +1281,10 @@ void QQuickGraphsBars::generateBars(QList<QBar3DSeries *> &barSeriesList)
                 if (barInstancing->instancing == nullptr) {
                     barInstancing->instancing = new BarInstancing;
                     barInstancing->instancing->setParent(barSeries);
+                    barInstancing->selectionIndicator = new BarInstancing;
+                    barInstancing->selectionIndicator->setParent(barSeries);
+                    barInstancing->multiSelectionIndicator = new BarInstancing;
+                    barInstancing->multiSelectionIndicator->setParent(barSeries);
                 }
 
                 if (barInstancing->model == nullptr) {
@@ -1291,17 +1292,29 @@ void QQuickGraphsBars::generateBars(QList<QBar3DSeries *> &barSeriesList)
                     barInstancing->model->setInstancing(barInstancing->instancing);
                     barInstancing->model->setVisible(visible);
                     barInstancing->model->setPickable(true);
+                    barInstancing->selectedModel = createDataItem(scene, barSeries);
+                    barInstancing->selectedModel->setInstancing(barInstancing->selectionIndicator);
+                    barInstancing->selectedModel->setVisible(visible);
+                    barInstancing->selectedModel->setPickable(true);
+                    barInstancing->multiSelectedModel = createDataItem(scene, barSeries);
+                    barInstancing->multiSelectedModel->setInstancing(
+                        barInstancing->multiSelectionIndicator);
+                    barInstancing->multiSelectedModel->setVisible(visible);
+                    barInstancing->multiSelectedModel->setPickable(true);
                 }
 
                 if (!barList->contains(barInstancing)) {
                     barList->append(barInstancing);
                 } else {
                     delete barInstancing->instancing;
+                    delete barInstancing->selectionIndicator;
+                    delete barInstancing->multiSelectionIndicator;
                     delete barInstancing->model;
+                    delete barInstancing->selectedModel;
+                    delete barInstancing->multiSelectedModel;
                     delete barInstancing;
                 }
             }
-            createSelectedModels(barSeries);
         }
 
         if (barSeries->isVisible())
@@ -1381,12 +1394,8 @@ void QQuickGraphsBars::updateBarVisuality(QBar3DSeries *series, int visualIndex)
         barList.at(i)->visualIndex = visualIndex;
         barList.at(i)->model->setVisible(series->isVisible());
         if (optimizationHint() == QAbstract3DGraph::OptimizationHint::Default) {
-            if (m_selectedBarSeries == series && !series->isVisible()) {
-                for (const auto list : std::as_const(m_selectedModels)) {
-                    for (auto selectedModel : *list)
-                        selectedModel->setVisible(false);
-                }
-            }
+            barList.at(0)->selectedModel->setVisible(false);
+            barList.at(0)->multiSelectedModel->setVisible(false);
         }
     }
 
@@ -1707,6 +1716,7 @@ void QQuickGraphsBars::removeBarModels()
     }
 
     m_barModelsMap.clear();
+    setSelectedBar(m_selectedBar, m_selectedBarSeries, false);
 }
 
 void QQuickGraphsBars::deleteBarModels(BarModel *barModel)
@@ -1719,6 +1729,24 @@ void QQuickGraphsBars::deleteBarModels(BarModel *barModel)
         delete material;
     }
     delete barModel->model;
+    if (optimizationHint() == QAbstract3DGraph::OptimizationHint::Default) {
+        barModel->selectedModel->setPickable(false);
+        barModel->selectedModel->setVisible(false);
+        QQmlListReference materialsRef(barModel->selectedModel, "materials");
+        if (materialsRef.size()) {
+            auto material = materialsRef.at(0);
+            delete material;
+        }
+        barModel->multiSelectedModel->setPickable(false);
+        barModel->multiSelectedModel->setVisible(false);
+        QQmlListReference multiMaterialsRef(barModel->multiSelectedModel, "materials");
+        if (multiMaterialsRef.size()) {
+            auto material = multiMaterialsRef.at(0);
+            delete material;
+        }
+        delete barModel->selectedModel;
+        delete barModel->multiSelectedModel;
+    }
     delete barModel;
 }
 
@@ -1729,6 +1757,15 @@ void QQuickGraphsBars::deleteBarItemHolders()
             QList<BarItemHolder *> barItemList = barModel->instancing->dataArray();
             for (auto bih : barItemList)
                 delete bih;
+            barModel->instancing->clearDataArray();
+            QList<BarItemHolder *> selectedList = barModel->selectionIndicator->dataArray();
+            for (auto bih : selectedList)
+                delete bih;
+            barModel->selectionIndicator->clearDataArray();
+            QList<BarItemHolder *> multiSelectedList = barModel->multiSelectionIndicator->dataArray();
+            for (auto bih : multiSelectedList)
+                delete bih;
+            barModel->multiSelectionIndicator->clearDataArray();
         }
     }
 }
@@ -1994,74 +2031,86 @@ void QQuickGraphsBars::updateSelectedBar()
                 bool rangeGradient = (useGradient
                                       && it.key()->d_func()->m_colorStyle
                                              == Q3DTheme::ColorStyle::RangeGradient);
-                int index = 0;
                 QList<BarModel *> barList = *m_barModelsMap.value(it.key());
                 QList<BarItemHolder *> barItemList = barList.at(0)->instancing->dataArray();
+                QList<BarItemHolder *> multiSelectedItems;
+                QList<BarItemHolder *> selectedItem;
+                auto selectedItemList = barList.at(0)->selectionIndicator->dataArray();
+                for (auto bih : selectedItemList)
+                    delete bih;
+                barList.at(0)->selectionIndicator->clearDataArray();
+                auto multiSelectedItemList = barList.at(0)->multiSelectionIndicator->dataArray();
+                for (auto bih : multiSelectedItemList)
+                    delete bih;
+                barList.at(0)->multiSelectionIndicator->clearDataArray();
                 for (auto bih : barItemList) {
                     QQuickGraphsBars::SelectionType selectionType = isSelected(bih->coord.x(),
                                                                                bih->coord.y(),
                                                                                it.key());
                     switch (selectionType) {
                     case QQuickGraphsBars::SelectionItem: {
-                        if (index <= m_selectedModels.value(it.key())->size()) {
-                            bih->selectedBar = true;
-                            QQuick3DModel *selectedModel = m_selectedModels.value(it.key())->at(
-                                index);
-                            selectedModel->setVisible(true);
-                            selectedModel->setPosition(bih->position);
-                            selectedModel->setScale(bih->scale);
-                            selectedModel->setEulerRotation(bih->eulerRotation);
+                        bih->selectedBar = true;
+                        barList.at(0)->selectedModel->setVisible(true);
+                        BarItemHolder *selectedBih = new BarItemHolder();
+                        selectedBih->selectedBar = false;
+                        selectedBih->color = bih->color;
+                        selectedBih->coord = bih->coord;
+                        selectedBih->eulerRotation = bih->eulerRotation;
+                        selectedBih->heightValue = bih->heightValue;
+                        selectedBih->position = bih->position;
+                        selectedBih->scale = bih->scale;
 
-                            updateItemMaterial(selectedModel,
-                                               useGradient,
-                                               rangeGradient,
-                                               QStringLiteral(":/materials/BarsMaterial"));
-                            updateMaterialProperties(selectedModel,
-                                                     true,
-                                                     false,
-                                                     barList.at(0)->texture,
-                                                     it.key()->singleHighlightColor());
-                            m_selectedBarPos = bih->position;
+                        selectedItem.push_back(selectedBih);
+                        barList.at(0)->selectionIndicator->setDataArray(selectedItem);
 
-                            if (bih->heightValue >= 0.0f) {
-                                m_selectedBarPos.setY(m_selectedBarPos.y() + bih->heightValue
-                                                      + 0.2f);
-                            } else {
-                                m_selectedBarPos.setY(m_selectedBarPos.y() + bih->heightValue
-                                                      - 0.2f);
-                            }
+                        updateItemMaterial(barList.at(0)->selectedModel,
+                                           useGradient,
+                                           rangeGradient,
+                                           QStringLiteral(":/materials/BarsMaterialInstancing"));
+                        updateMaterialProperties(barList.at(0)->selectedModel,
+                                                 true,
+                                                 false,
+                                                 barList.at(0)->texture,
+                                                 it.key()->singleHighlightColor());
+                        m_selectedBarPos = bih->position;
 
-                            updateItemLabel(m_selectedBarPos);
-                            itemLabel()->setVisible(true);
-                            itemLabel()->setProperty("labelText", label);
-                            if (isSliceEnabled())
-                                updateSliceItemLabel(label, m_selectedBarPos);
-                            ++index;
-                        }
+                        if (bih->heightValue >= 0.0f)
+                            m_selectedBarPos.setY(m_selectedBarPos.y() + bih->heightValue + 0.2f);
+                        else
+                            m_selectedBarPos.setY(m_selectedBarPos.y() + bih->heightValue - 0.2f);
+
+                        updateItemLabel(m_selectedBarPos);
+                        itemLabel()->setVisible(true);
+                        itemLabel()->setProperty("labelText", label);
+                        if (isSliceEnabled())
+                            updateSliceItemLabel(label, m_selectedBarPos);
                         break;
                     }
                     case QQuickGraphsBars::SelectionRow:
                     case QQuickGraphsBars::SelectionColumn: {
-                        if (index <= m_selectedModels.value(it.key())->size()) {
-                            bih->selectedBar = true;
-                            QQuick3DModel *selectedModel = m_selectedModels.value(it.key())->at(
-                                index);
-                            selectedModel->setVisible(true);
-                            selectedModel->setPosition(bih->position);
-                            selectedModel->setScale(bih->scale);
-                            selectedModel->setEulerRotation(bih->eulerRotation);
+                        bih->selectedBar = true;
+                        barList.at(0)->multiSelectedModel->setVisible(true);
+                        BarItemHolder *selectedBih = new BarItemHolder();
+                        selectedBih->selectedBar = false;
+                        selectedBih->color = bih->color;
+                        selectedBih->coord = bih->coord;
+                        selectedBih->eulerRotation = bih->eulerRotation;
+                        selectedBih->heightValue = bih->heightValue;
+                        selectedBih->position = bih->position;
+                        selectedBih->scale = bih->scale;
 
-                            updateItemMaterial(selectedModel,
-                                               useGradient,
-                                               rangeGradient,
-                                               QStringLiteral(":/materials/BarsMaterial"));
-                            updateMaterialProperties(selectedModel,
-                                                     false,
-                                                     true,
-                                                     barList.at(0)->texture,
-                                                     it.key()->multiHighlightColor());
-                            ++index;
-                        }
+                        multiSelectedItems.push_back(selectedBih);
+                        barList.at(0)->multiSelectionIndicator->setDataArray(multiSelectedItems);
+
+                        updateItemMaterial(barList.at(0)->multiSelectedModel,
+                                           useGradient,
+                                           rangeGradient,
+                                           QStringLiteral(":/materials/BarsMaterialInstancing"));
+                        updateMaterialProperties(barList.at(0)->multiSelectedModel,
+                                                 false,
+                                                 true,
+                                                 barList.at(0)->texture,
+                                                 it.key()->multiHighlightColor());
                         break;
                     }
                     default:
@@ -2070,35 +2119,6 @@ void QQuickGraphsBars::updateSelectedBar()
                 }
             }
         }
-    }
-}
-
-void QQuickGraphsBars::createSelectedModels(QBar3DSeries *series)
-{
-    QList<QQuick3DModel *> *selectedModelsList = m_selectedModels.value(series);
-    if (!selectedModelsList) {
-        selectedModelsList = new QList<QQuick3DModel *>;
-        m_selectedModels[series] = selectedModelsList;
-    }
-    int selectedModelsListSize = 1;
-    int rowCount = series->dataProxy()->rowCount();
-    int colCount = series->dataProxy()->colCount();
-    if (m_selectionMode.testFlag(QAbstract3DGraph::SelectionRow))
-        selectedModelsListSize = colCount;
-    else if (m_selectionMode.testFlag(QAbstract3DGraph::SelectionColumn))
-        selectedModelsListSize = rowCount;
-
-    if (m_selectionMode.testFlag(QAbstract3DGraph::SelectionRow)
-        && m_selectionMode.testFlag(QAbstract3DGraph::SelectionColumn)) {
-        selectedModelsListSize = rowCount + colCount - 1;
-    }
-
-    for (int ind = 0; ind < selectedModelsListSize; ++ind) {
-        QQuick3DModel *model = createDataItem(QQuick3DViewport::scene(), series);
-        model->setVisible(false);
-
-        if (!selectedModelsList->contains(model))
-            selectedModelsList->append(model);
     }
 }
 
@@ -2154,12 +2174,8 @@ void QQuickGraphsBars::resetClickedStatus()
     clearSelection();
 
     if (optimizationHint() == QAbstract3DGraph::OptimizationHint::Default) {
-        for (const auto list : std::as_const(m_selectedModels)) {
-            for (auto selectedModel : *list)
-                selectedModel->setVisible(false);
-        }
-        for (const auto list : std::as_const(m_barModelsMap)) {
-            QList<BarItemHolder *> barItemList = list->at(0)->instancing->dataArray();
+        for (const auto barList : std::as_const(m_barModelsMap)) {
+            QList<BarItemHolder *> barItemList = barList->at(0)->instancing->dataArray();
             for (auto bih : barItemList)
                 bih->selectedBar = false;
         }
@@ -2353,25 +2369,6 @@ void QQuickGraphsBars::removeSlicedBarModels()
     m_slicedBarModels.clear();
 }
 
-void QQuickGraphsBars::removeSelectedModels()
-{
-    for (const auto list : std::as_const(m_selectedModels)) {
-        for (auto selectedModel : *list) {
-            selectedModel->setPickable(false);
-            selectedModel->setVisible(false);
-            QQmlListReference materialsRef(selectedModel, "materials");
-            if (materialsRef.size()) {
-                auto material = materialsRef.at(0);
-                delete material;
-            }
-            delete selectedModel;
-        }
-        delete list;
-    }
-    m_selectedModels.clear();
-    setSelectedBar(m_selectedBar, m_selectedBarSeries, false);
-}
-
 void QQuickGraphsBars::updateSelectionMode(QAbstract3DGraph::SelectionFlags mode)
 {
     checkSliceEnabled();
@@ -2391,18 +2388,13 @@ void QQuickGraphsBars::updateSelectionMode(QAbstract3DGraph::SelectionFlags mode
     m_selectionMode = mode;
 
     if (optimizationHint() == QAbstract3DGraph::OptimizationHint::Default) {
-        for (const auto list : std::as_const(m_barModelsMap)) {
-            QList<BarItemHolder *> barItemList = list->at(0)->instancing->dataArray();
+        for (const auto barList : std::as_const(m_barModelsMap)) {
+            QList<BarItemHolder *> barItemList = barList->at(0)->instancing->dataArray();
             for (auto bih : barItemList)
                 bih->selectedBar = false;
+            barList->at(0)->selectedModel->setVisible(false);
+            barList->at(0)->multiSelectedModel->setVisible(false);
         }
-    }
-
-    removeSelectedModels();
-    QList<QBar3DSeries *> barSeries = barSeriesList();
-    for (const auto &series : std::as_const(barSeries)) {
-        if (m_barModelsMap.contains(series))
-            createSelectedModels(series);
     }
 
     setSeriesVisualsDirty(true);

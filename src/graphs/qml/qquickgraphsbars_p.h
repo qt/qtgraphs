@@ -289,15 +289,20 @@ private:
     // Generate bars
     struct BarModel
     {
-        QQuick3DModel *model;
+        QQuick3DModel *model = nullptr;
         QBarDataItem *barItem;
         QPoint coord;
         int visualIndex;
         float heightValue;
         QQuick3DTexture *texture;
 
-        // instancing
+        // Instancing
         BarInstancing *instancing = nullptr;
+        // Selection instancing
+        BarInstancing *selectionIndicator = nullptr;
+        QQuick3DModel *selectedModel = nullptr;
+        BarInstancing *multiSelectionIndicator = nullptr;
+        QQuick3DModel *multiSelectedModel = nullptr;
     };
 
     QHash<QBar3DSeries *, QList<BarModel *> *> m_barModelsMap;
@@ -318,7 +323,6 @@ private:
     QHash<QBar3DSeries *, QList<QQuick3DModel *> *> m_slicedBarModels;
     bool m_selectionDirty = false;
 
-    QHash<QBar3DSeries *, QList<QQuick3DModel *> *> m_selectedModels;
     QAbstract3DGraph::SelectionFlags m_selectionMode = QAbstract3DGraph::SelectionNone;
 
     void calculateHeightAdjustment();
@@ -346,12 +350,10 @@ private:
     void deleteBarModels(BarModel *barModel);
     void deleteBarItemHolders();
     QQuick3DTexture *createTexture();
-    void createSelectedModels(QBar3DSeries *series);
     void updateSelectedBar();
     QQuickGraphsItem::SelectionType isSelected(int row, int bar, QBar3DSeries *series);
     void resetClickedStatus();
     void removeSlicedBarModels();
-    void removeSelectedModels();
 
     void updateBarSpecs(float thicknessRatio, const QSizeF &spacing, bool relative);
     void updateBarSeriesMargin(const QSizeF &margin);
