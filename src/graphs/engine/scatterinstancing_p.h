@@ -42,6 +42,8 @@ public:
     bool rangeGradient() const;
     void setRangeGradient(bool newRangeGradient);
 
+    bool isDirty() const { return m_dirty; }
+
     // QQuick3DInstancing interface
 
 protected:

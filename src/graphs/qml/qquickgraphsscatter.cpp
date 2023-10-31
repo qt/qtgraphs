@@ -1407,7 +1407,7 @@ void QQuickGraphsScatter::updateGraph()
             updateScatterGraphItemPositions(graphModel);
         }
 
-        if (isSeriesVisualsDirty())
+        if (isSeriesVisualsDirty() || (graphModel->instancing && graphModel->instancing->isDirty()))
             updateScatterGraphItemVisuals(graphModel);
 
         if (m_selectedItemSeries == graphModel->series
