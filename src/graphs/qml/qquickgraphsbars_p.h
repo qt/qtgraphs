@@ -323,8 +323,6 @@ private:
     QHash<QBar3DSeries *, QList<QQuick3DModel *> *> m_slicedBarModels;
     bool m_selectionDirty = false;
 
-    QAbstract3DGraph::SelectionFlags m_selectionMode = QAbstract3DGraph::SelectionNone;
-
     void calculateHeightAdjustment();
     void calculateSeriesStartPosition();
     void connectSeries(QBar3DSeries *series);
