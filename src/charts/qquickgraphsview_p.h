@@ -101,6 +101,7 @@ public:
 protected:
     void componentComplete() override;
     QSGNode *updatePaintNode(QSGNode *oldNode, QQuickItem::UpdatePaintNodeData *updatePaintNodeData) override;
+    void updatePolish() override;
 
 Q_SIGNALS:
     void backgroundColorChanged();
@@ -120,14 +121,18 @@ private:
     void updateLineSeries(QLineSeries *series);
 
 private:
+    struct LinePath {
+        QQuickShapePath *shapePath = nullptr;
+        QList<QQuickPathLine *> paths;
+    };
+
     QList<QObject *> m_seriesList;
     QBrush m_backgroundBrush;
     //QSGDefaultInternalRectangleNode *m_backgroundNode = nullptr;
     QSGNode *m_backgroundNode = nullptr;
     QList<QSGDefaultInternalRectangleNode *> m_rectNodes;
     QQuickShape m_shape;
-    QQuickShapePath m_shapePath;
-    QList<QQuickPathLine *> m_linePaths;
+    QMap<QLineSeries *, LinePath *> m_linePaths;
     QList<QQuickText *> m_xAxisTextItems;
     QList<QQuickText *> m_yAxisTextItems;
     QList<QAbstractAxis *> m_axis;

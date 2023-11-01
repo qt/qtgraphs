@@ -15,14 +15,12 @@ QQuickGraphs2DView::QQuickGraphs2DView(QQuickItem *parent) :
 {
     setFlag(QQuickItem::ItemHasContents);
     m_shape.setParentItem(this);
-    m_shape.setPreferredRendererType(QQuickShape::CurveRenderer);
-
-    auto data = m_shape.data();
-    data.append(&data, &m_shapePath);
 }
 
 QQuickGraphs2DView::~QQuickGraphs2DView()
 {
+    for (auto&& line : std::as_const(m_linePaths))
+        delete line;
 }
 
 void QQuickGraphs2DView::setBackgroundColor(QColor color)
@@ -119,6 +117,7 @@ void QQuickGraphs2DView::componentComplete()
         m_theme->resetColorTheme();
     }
     QQuickItem::componentComplete();
+    ensurePolished();
 }
 
 QSGNode *QQuickGraphs2DView::updatePaintNode(QSGNode *oldNode, QQuickItem::UpdatePaintNodeData *updatePaintNodeData)
@@ -135,7 +134,6 @@ QSGNode *QQuickGraphs2DView::updatePaintNode(QSGNode *oldNode, QQuickItem::Updat
     updateAxis();
 
     for (auto series : std::as_const(m_seriesList)) {
-        // TODO: Currently supporting just barseries.
         if (auto barSeries = qobject_cast<QBarSeries*>(series))
             updateBarSeries(barSeries);
 
@@ -146,7 +144,38 @@ QSGNode *QQuickGraphs2DView::updatePaintNode(QSGNode *oldNode, QQuickItem::Updat
     // Now possibly dirty theme has been taken into use
     m_theme->resetThemeDirty();
 
+    polish();
+
     return oldNode;
+}
+
+void QQuickGraphs2DView::updatePolish()
+{
+    for (auto series : std::as_const(m_seriesList)) {
+        if (auto lineSeries = qobject_cast<QLineSeries*>(series)) {
+            if (!m_linePaths.contains(lineSeries)) {
+                LinePath *linePath = new LinePath();
+                linePath->shapePath = new QQuickShapePath(&m_shape);
+                m_linePaths.insert(lineSeries, linePath);
+
+                auto data = m_shape.data();
+                data.append(&data, m_linePaths.value(lineSeries)->shapePath);
+            }
+
+            auto line = m_linePaths.value(lineSeries);
+
+            int pointCount = lineSeries->points().size();
+            int currentSize = line->paths.size();
+            if (currentSize < pointCount - 1) {
+                auto pathElements = line->shapePath->pathElements();
+                for (int i = currentSize; i < pointCount - 1; ++i) {
+                    auto path = new QQuickPathLine(line->shapePath);
+                    pathElements.append(&pathElements, path);
+                    line->paths << path;
+                }
+            }
+        }
+    }
 }
 
 void QQuickGraphs2DView::updateAxis()
@@ -463,29 +492,22 @@ void QQuickGraphs2DView::updateLineSeries(QLineSeries *series)
     if (series->points().isEmpty())
         return;
 
-    int pointCount = series->points().size() - 1;
-    int currentSize = m_linePaths.size();
-    if (currentSize < pointCount) {
-        auto pathElements = m_shapePath.pathElements();
-        for (int i = currentSize; i < pointCount; ++i) {
-            auto linePath = new QQuickPathLine();
-            //m_backgroundNode->appendChildNode(linePath); TODO: Check if needed
-            pathElements.append(&pathElements, linePath);
-            m_linePaths << linePath;
-        }
-    }
+    if (!m_linePaths.contains(series))
+        return;
 
-    m_shapePath.setStrokeColor(series->color()); // TODO: Check why changing color causes a crash in QuickShapes
-    m_shapePath.setStrokeWidth(series->width());
-    m_shapePath.setFillColor(QColorConstants::Transparent);
+    auto line = m_linePaths.value(series);
+
+    line->shapePath->setStrokeColor(series->color());
+    line->shapePath->setStrokeWidth(series->width());
+    line->shapePath->setFillColor(QColorConstants::Transparent);
 
     Qt::PenCapStyle capStyle = series->capStyle();
     if (capStyle == Qt::PenCapStyle::SquareCap) {
-        m_shapePath.setCapStyle(QQuickShapePath::CapStyle::SquareCap);
+        line->shapePath->setCapStyle(QQuickShapePath::CapStyle::SquareCap);
     } else if (capStyle == Qt::PenCapStyle::FlatCap) {
-        m_shapePath.setCapStyle(QQuickShapePath::CapStyle::FlatCap);
+        line->shapePath->setCapStyle(QQuickShapePath::CapStyle::FlatCap);
     } else if (capStyle == Qt::PenCapStyle::RoundCap) {
-        m_shapePath.setCapStyle(QQuickShapePath::CapStyle::RoundCap);
+        line->shapePath->setCapStyle(QQuickShapePath::CapStyle::RoundCap);
     }
 
     // Sizes required of axis labels
@@ -497,11 +519,11 @@ void QQuickGraphs2DView::updateLineSeries(QLineSeries *series)
 
     auto &&points = series->points();
     if (points.count() > 0) {
-        m_shapePath.setStartX(m_marginLeft + axisWidth + w * points[0].x() * 0.05f);
-        m_shapePath.setStartY(m_marginTop + h - h * points[0].y() * 0.05f);
+        line->shapePath->setStartX(m_marginLeft + axisWidth + w * points[0].x() * 0.05f);
+        line->shapePath->setStartY(m_marginTop + h - h * points[0].y() * 0.05f);
         for (int i = 1; i < points.count(); ++i) {
-            m_linePaths[i - 1]->setX(m_marginLeft + axisWidth + w * points[i].x() * 0.05f);
-            m_linePaths[i - 1]->setY(m_marginTop + h - h * points[i].y() * 0.05f);
+            line->paths[i - 1]->setX(m_marginLeft + axisWidth + w * points[i].x() * 0.05f);
+            line->paths[i - 1]->setY(m_marginTop + h - h * points[i].y() * 0.05f);
         }
     }
 }

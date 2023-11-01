@@ -13,9 +13,15 @@ Rectangle {
     color: "#404040"
 
     ColorDialog {
-        id: colorDialog
-        selectedColor: lineSeries.color
-        onAccepted: lineSeries.color = selectedColor
+        id: colorDialog1
+        selectedColor: lineSeries1.color
+        onAccepted: lineSeries1.color = selectedColor
+    }
+
+    ColorDialog {
+        id: colorDialog2
+        selectedColor: lineSeries2.color
+        onAccepted: lineSeries2.color = selectedColor
     }
 
     Row {
@@ -26,16 +32,46 @@ Rectangle {
         anchors.leftMargin: 60
         spacing: 10
 
-        Slider {
-            id: widthSlider
-            from: 0.1
-            to: 10
-            value: 2
+        Column {
+            Text {
+                text: "Line 1 width"
+                font.pixelSize: 12
+                font.bold: true
+                color: "#ffffff"
+            }
+
+            Slider {
+                id: widthSlider1
+                from: 0.1
+                to: 10
+                value: 2
+            }
+        }
+
+        Column {
+            Text {
+                text: "Line 2 width"
+                font.pixelSize: 12
+                font.bold: true
+                color: "#ffffff"
+            }
+
+            Slider {
+                id: widthSlider2
+                from: 0.1
+                to: 10
+                value: 2
+            }
         }
 
         Button {
-            text: qsTr("Choose color")
-            onClicked: colorDialog.open()
+            text: qsTr("Change Line 1 Color")
+            onClicked: colorDialog1.open()
+        }
+
+        Button {
+            text: qsTr("Change Line 2 Color")
+            onClicked: colorDialog2.open()
         }
     }
 
@@ -50,7 +86,7 @@ Rectangle {
 
     ChartView {
         id: chartView
-        //title: "Bar Chart"
+        //title: "Line Chart"
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.bottom: parent.bottom
@@ -61,9 +97,9 @@ Rectangle {
         //antialiasing: true
 
         LineSeries {
-            id: lineSeries
-            name: "Line"
-            width: widthSlider.value
+            id: lineSeries1
+            name: "First"
+            width: widthSlider1.value
             XYPoint { x: 0; y: 0 }
             XYPoint { x: 1.1; y: 2.1 }
             XYPoint { x: 1.9; y: 3.3 }
@@ -71,6 +107,19 @@ Rectangle {
             XYPoint { x: 2.9; y: 4.9 }
             XYPoint { x: 3.4; y: 3.0 }
             XYPoint { x: 4.1; y: 3.3 }
+        }
+
+        LineSeries {
+            id: lineSeries2
+            name: "Second"
+            width: widthSlider2.value
+            XYPoint { x: 0; y: 1 }
+            XYPoint { x: 1.1; y: 4.1 }
+            XYPoint { x: 1.9; y: 5.3 }
+            XYPoint { x: 2.1; y: 7.1 }
+            XYPoint { x: 2.9; y: 6.9 }
+            XYPoint { x: 3.4; y: 5.0 }
+            XYPoint { x: 4.1; y: 5.3 }
         }
 
         // TEMP
