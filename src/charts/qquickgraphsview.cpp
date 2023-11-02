@@ -196,8 +196,10 @@ void QQuickGraphs2DView::updateAxis()
         if (vaxis->autoScale()) {
             // TODO: Count max from single seried or all or what?
             m_axisVerticalMaxValue = 20;
+            m_axisVerticalMinValue = 0;
         } else {
             m_axisVerticalMaxValue = vaxis->max();
+            m_axisVerticalMinValue = vaxis->min();
         }
     }
     updateAxisTickers();
@@ -218,7 +220,6 @@ void QQuickGraphs2DView::updateAxisTickers()
             m_axisTickerVertical->setZ(-1);
             m_axisTickerVertical->setOrigo(0);
             m_axisTickerVertical->setMinorBarsVisible(true);
-            m_axisTickerVertical->setBarsMovement(0.0);
             m_axisTickerVertical->setMinorTickScale(0.2);
             // TODO: Configurable in theme or axis?
             m_axisTickerVertical->setMinorBarsLength(0.5);
@@ -232,11 +233,15 @@ void QQuickGraphs2DView::updateAxisTickers()
             m_axisTickerVertical->setSmoothing(m_theme->axisYSmoothing());
         }
         // TODO Only when changed
+        m_axisVerticalValueRange = m_axisVerticalMaxValue - m_axisVerticalMinValue;
+        m_axisHorizontalStepPx = (height() - m_marginTop - m_marginBottom - axisHeight) / m_axisVerticalValueRange;
+        m_axisYMovement = (m_axisVerticalMinValue - int(m_axisVerticalMinValue)) * m_axisHorizontalStepPx;
+        m_axisTickerVertical->setBarsMovement(m_axisYMovement);
         m_axisTickerVertical->setX(axisWidth + m_marginLeft - axisTickersWidth);
         m_axisTickerVertical->setY(m_marginTop);
         m_axisTickerVertical->setWidth(axisTickersWidth);
         m_axisTickerVertical->setHeight(height() - m_marginTop - m_marginBottom - axisHeight);
-        m_axisTickerVertical->setSpacing(m_axisTickerVertical->height() / m_axisVerticalMaxValue);
+        m_axisTickerVertical->setSpacing(m_axisTickerVertical->height() / m_axisVerticalValueRange);
     }
 
     if (m_axisHorizontal) {
@@ -279,7 +284,6 @@ void QQuickGraphs2DView::updateAxisGrid()
         m_axisGrid->setupShaders();
         m_axisGrid->setOrigo(0);
         m_axisGrid->setBarsVisibility(QVector4D(1, 1, 0, 1));
-        m_axisGrid->setGridMovement(QPointF(0, 0));
         m_axisGrid->setVerticalMinorTickScale(0.1);
         m_axisGrid->setHorizontalMinorTickScale(0.1);
     }
@@ -294,12 +298,13 @@ void QQuickGraphs2DView::updateAxisGrid()
     // TODO Only when changed
     float axisWidth = 40;
     float axisHeight = 20;
+    m_axisGrid->setGridMovement(QPointF(0, m_axisYMovement));
     m_axisGrid->setX(axisWidth + m_marginLeft);
     m_axisGrid->setY(m_marginTop);
     m_axisGrid->setWidth(width() - m_marginLeft - m_marginRight - axisWidth);
     m_axisGrid->setHeight(height() - m_marginTop - m_marginBottom - axisHeight);
     m_axisGrid->setGridWidth(m_axisGrid->width() / 6);
-    m_axisGrid->setGridHeight(m_axisGrid->height() / 2);
+    m_axisGrid->setGridHeight(m_axisGrid->height() / m_axisVerticalValueRange);
 }
 
 void QQuickGraphs2DView::updateBarXAxis(QBarCategoryAxis *axis, const QRectF &rect)
@@ -335,8 +340,8 @@ void QQuickGraphs2DView::updateBarXAxis(QBarCategoryAxis *axis, const QRectF &re
 
 void QQuickGraphs2DView::updateBarYAxis(QValueAxis *axis, const QRectF &rect)
 {
-    // TODO: No hard-coded item amount
-    double categoriesCountDouble = m_axisVerticalMaxValue + 1;
+    // Create 2 extra text items, one into each end
+    double categoriesCountDouble = m_axisVerticalValueRange + 2;
     int categoriesCount = int(categoriesCountDouble);
     // See if we need more text items
     int currentTextItemsSize = m_yAxisTextItems.size();
@@ -354,24 +359,31 @@ void QQuickGraphs2DView::updateBarYAxis(QValueAxis *axis, const QRectF &rect)
             textItem->setVisible(false);
         }
     }
-    int textIndex = 0;
+
     for (int i = 0;  i < categoriesCount; i++) {
-        auto &textItem = m_yAxisTextItems[textIndex];
+        auto &textItem = m_yAxisTextItems[i];
         // TODO: Not general, fix vertical align to work in all cases
         float fontSize = m_theme->axisYLabelsFont().pixelSize() < 0 ? m_theme->axisYLabelsFont().pointSize() : m_theme->axisYLabelsFont().pixelSize();
         float posX = rect.x();
         textItem->setX(posX);
-        float posY = rect.y() + rect.height() - fontSize * 1.0 - (((float)textIndex) / (categoriesCountDouble-1)) *  rect.height();
+        float posY = rect.y() + rect.height() - (((float)i) / (categoriesCountDouble - 2)) *  rect.height();
+        posY += m_axisYMovement;
+        if (posY > (rect.height() + rect.y()) || posY < rect.y()) {
+            // Hide text item which are outside the axis area
+            textItem->setVisible(false);
+            continue;
+        }
+        // Take font size into account only after hiding
+        posY -= fontSize;
         textItem->setY(posY);
         textItem->setHAlign(QQuickText::HAlignment::AlignRight);
         textItem->setVAlign(QQuickText::VAlignment::AlignBottom);
         textItem->setWidth(rect.width());
-        //textItem->setHeight(rect.height()  / categoriesCount);
         textItem->setFont(m_theme->axisYLabelsFont());
         textItem->setColor(m_theme->axisYLabelsColor());
-        textItem->setText(QString::number(i));
+        int number = i + int(m_axisVerticalMinValue);
+        textItem->setText(QString::number(number));
         textItem->setVisible(true);
-        textIndex++;
     }
 }
 
@@ -445,9 +457,10 @@ void QQuickGraphs2DView::updateBarSeries(QBarSeries *series)
         seriesPos = 0;
         barIndexInSet = 0;
         for (auto variantValue : std::as_const(v)) {
-            float value = variantValue.toReal() * series->valuesMultiplier();
+            float value = (variantValue.toReal() - m_axisVerticalMinValue) * series->valuesMultiplier();
             if (value > 0) {
-                double maxValues = m_axisVerticalMaxValue > 0 ? 1.0 / m_axisVerticalMaxValue : 100.0;
+                double delta = m_axisVerticalMaxValue - m_axisVerticalMinValue;
+                double maxValues = delta > 0 ? 1.0 / delta : 100.0;
                 float barHeight = h * value * maxValues;
                 float barY = m_marginTop + h - barHeight;
                 barX = m_marginLeft + axisWidth + seriesPos + posInSet + barCentering;
@@ -476,6 +489,10 @@ void QQuickGraphs2DView::updateBarSeries(QBarSeries *series)
                 barItem->setBottomRightRadius(-1);
                 barItem->setRadius(4.0);
                 barItem->setAntialiasing(true);
+                barItem->update();
+            } else {
+                auto &barItem = m_rectNodes[barIndex];
+                barItem->setRect(QRect());
                 barItem->update();
             }
             barIndex++;

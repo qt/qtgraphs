@@ -141,8 +141,16 @@ private:
     QAbstractAxis *m_axisHorizontal = nullptr;
     AxisTicker *m_axisTickerVertical = nullptr;
     AxisTicker *m_axisTickerHorizontal = nullptr;
+    // Min value
     double m_axisVerticalMaxValue = 20;
+    // Max value
     double m_axisVerticalMinValue = 0;
+    // Values range, so m_axisVerticalMaxValue - m_axisVerticalMinValue
+    double m_axisVerticalValueRange;
+    // px between major ticks
+    double m_axisHorizontalStepPx = 0;
+    // Ticks movement, between -m_axisHorizontalStepPx .. m_axisHorizontalStepPx.
+    double m_axisYMovement = 0;
     GraphTheme *m_theme = nullptr;
     qreal m_marginTop = 20;
     qreal m_marginBottom = 20;

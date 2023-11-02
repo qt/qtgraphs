@@ -36,11 +36,21 @@ Item {
             text: "Y-coordinate: Max"
         }
         CustomSlider {
-            id: sliderSpeedValue
+            id: sliderYMaxValue
             sliderValue: yAxis.max
-            fromValue: 0
+            fromValue: 0.1
             toValue: 40
             onSliderValueChanged: yAxis.max = sliderValue;
+        }
+        CustomLabel {
+            text: "Y-coordinate: Min"
+        }
+        CustomSlider {
+            id: sliderYMinValue
+            sliderValue: yAxis.min
+            fromValue: -3
+            toValue: 3
+            onSliderValueChanged: yAxis.min = sliderValue;
         }
     }
 }
