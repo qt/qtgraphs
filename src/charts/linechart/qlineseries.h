@@ -37,10 +37,10 @@ public:
     QML_NAMED_ELEMENT(LineSeries)
 
     QAbstractAxis *axisX() const;
-    void setAxisX(QAbstractAxis *newAxisX);
+    void setAxisX(QAbstractAxis *axis);
 
     QAbstractAxis *axisY() const;
-    void setAxisY(QAbstractAxis *newAxisY);
+    void setAxisY(QAbstractAxis *axis);
 
     qreal width() const;
     void setWidth(qreal newWidth);
@@ -50,11 +50,8 @@ public:
 
 signals:
     void axisXChanged();
-
     void axisYChanged();
-
     void widthChanged();
-
     void capStyleChanged();
 
 protected:
@@ -66,10 +63,6 @@ private:
     Q_DECLARE_PRIVATE(QLineSeries)
     Q_DISABLE_COPY(QLineSeries)
     friend class LineChartItem;
-    QAbstractAxis *m_axisX = nullptr;
-    QAbstractAxis *m_axisY = nullptr;
-    qreal m_width = 2.0;
-    Qt::PenCapStyle m_capStyle = Qt::PenCapStyle::SquareCap;
 };
 
 QT_END_NAMESPACE

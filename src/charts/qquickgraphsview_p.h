@@ -151,6 +151,9 @@ private:
     double m_axisHorizontalStepPx = 0;
     // Ticks movement, between -m_axisHorizontalStepPx .. m_axisHorizontalStepPx.
     double m_axisYMovement = 0;
+    double m_axisHorizontalMaxValue = 6;
+    double m_axisHorizontalMinValue = 0;
+    double m_axisHorizontalValueRange;
     GraphTheme *m_theme = nullptr;
     qreal m_marginTop = 20;
     qreal m_marginBottom = 20;

@@ -84,6 +84,29 @@ Rectangle {
         radius: 10
     }
 
+    SettingsView {
+        CustomLabel {
+            text: "X-coordinate: Max"
+        }
+        CustomSlider {
+            id: sliderSpeedValueX
+            sliderValue: xAxis.max
+            fromValue: 0
+            toValue: 40
+            onSliderValueChanged: xAxis.max = sliderValue;
+        }
+        CustomLabel {
+            text: "Y-coordinate: Max"
+        }
+        CustomSlider {
+            id: sliderSpeedValueY
+            sliderValue: yAxis.max
+            fromValue: 0
+            toValue: 40
+            onSliderValueChanged: yAxis.max = sliderValue;
+        }
+    }
+
     ChartView {
         id: chartView
         //title: "Line Chart"
@@ -100,26 +123,36 @@ Rectangle {
             id: lineSeries1
             name: "First"
             width: widthSlider1.value
+            axisX: ValueAxis {
+                id: xAxis
+                max: 4
+                autoScale: false
+            }
+            axisY: ValueAxis {
+                id: yAxis
+                max: 8
+                autoScale: false
+            }
             XYPoint { x: 0; y: 0 }
             XYPoint { x: 1.1; y: 2.1 }
             XYPoint { x: 1.9; y: 3.3 }
             XYPoint { x: 2.1; y: 2.1 }
             XYPoint { x: 2.9; y: 4.9 }
             XYPoint { x: 3.4; y: 3.0 }
-            XYPoint { x: 4.1; y: 3.3 }
+            XYPoint { x: 4.0; y: 3.3 }
         }
 
         LineSeries {
             id: lineSeries2
             name: "Second"
             width: widthSlider2.value
-            XYPoint { x: 0; y: 1 }
-            XYPoint { x: 1.1; y: 4.1 }
-            XYPoint { x: 1.9; y: 5.3 }
-            XYPoint { x: 2.1; y: 7.1 }
-            XYPoint { x: 2.9; y: 6.9 }
-            XYPoint { x: 3.4; y: 5.0 }
-            XYPoint { x: 4.1; y: 5.3 }
+            XYPoint { x: 0; y: 6.6 }
+            XYPoint { x: 0.6; y: 4.1 }
+            XYPoint { x: 1.5; y: 5.3 }
+            XYPoint { x: 2.2; y: 7.1 }
+            XYPoint { x: 3.3; y: 6.9 }
+            XYPoint { x: 3.6; y: 5.0 }
+            XYPoint { x: 4.0; y: 5.3 }
         }
 
         // TEMP

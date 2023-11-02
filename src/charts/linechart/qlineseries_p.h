@@ -27,7 +27,11 @@ public:
     QLineSeriesPrivate(QLineSeries *q);
     void initializeGraphics(QGraphicsItem* parent) override;
 //    void initializeTheme(int index, ChartTheme* theme, bool forced = false) override;
-
+protected:
+    QAbstractAxis *m_axisX = nullptr;
+    QAbstractAxis *m_axisY = nullptr;
+    qreal m_width = 2.0;
+    Qt::PenCapStyle m_capStyle = Qt::PenCapStyle::SquareCap;
 private:
     Q_DECLARE_PUBLIC(QLineSeries)
 };

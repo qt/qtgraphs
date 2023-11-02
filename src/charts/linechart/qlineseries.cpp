@@ -177,53 +177,61 @@ void QLineSeriesPrivate::initializeGraphics(QGraphicsItem *parent)
 
 QAbstractAxis *QLineSeries::axisX() const
 {
-    return m_axisX;
+    Q_D(const QLineSeries);
+    return d->m_axisX;
 }
 
-void QLineSeries::setAxisX(QAbstractAxis *newAxisX)
+void QLineSeries::setAxisX(QAbstractAxis *axis)
 {
-    if (m_axisX == newAxisX)
-        return;
-    m_axisX = newAxisX;
-    emit axisXChanged();
+    Q_D(QLineSeries);
+    detachAxis(d->m_axisX);
+    axis->setOrientation(Qt::Horizontal);
+    d->m_axisX = axis;
+    attachAxis(axis);
 }
 
 QAbstractAxis *QLineSeries::axisY() const
 {
-    return m_axisY;
+    Q_D(const QLineSeries);
+    return d->m_axisY;
 }
 
-void QLineSeries::setAxisY(QAbstractAxis *newAxisY)
+void QLineSeries::setAxisY(QAbstractAxis *axis)
 {
-    if (m_axisY == newAxisY)
-        return;
-    m_axisY = newAxisY;
-    emit axisYChanged();
+    Q_D(QLineSeries);
+    detachAxis(d->m_axisY);
+    axis->setOrientation(Qt::Vertical);
+    d->m_axisY = axis;
+    attachAxis(axis);
 }
 
 qreal QLineSeries::width() const
 {
-    return m_width;
+    Q_D(const QLineSeries);
+    return d->m_width;
 }
 
 void QLineSeries::setWidth(qreal newWidth)
 {
-    if (qFuzzyCompare(m_width, newWidth))
+    Q_D(QLineSeries);
+    if (qFuzzyCompare(d->m_width, newWidth))
         return;
-    m_width = newWidth;
+    d->m_width = newWidth;
     emit widthChanged();
 }
 
 Qt::PenCapStyle QLineSeries::capStyle() const
 {
-    return m_capStyle;
+    Q_D(const QLineSeries);
+    return d->m_capStyle;
 }
 
 void QLineSeries::setCapStyle(const Qt::PenCapStyle &newCapStyle)
 {
-    if (m_capStyle == newCapStyle)
+    Q_D(QLineSeries);
+    if (d->m_capStyle == newCapStyle)
         return;
-    m_capStyle = newCapStyle;
+    d->m_capStyle = newCapStyle;
     emit capStyleChanged();
 }
 

@@ -144,8 +144,6 @@ QSGNode *QQuickGraphs2DView::updatePaintNode(QSGNode *oldNode, QQuickItem::Updat
     // Now possibly dirty theme has been taken into use
     m_theme->resetThemeDirty();
 
-    polish();
-
     return oldNode;
 }
 
@@ -202,6 +200,16 @@ void QQuickGraphs2DView::updateAxis()
             m_axisVerticalMinValue = vaxis->min();
         }
     }
+
+    if (auto haxis = qobject_cast<QValueAxis *>(m_axisHorizontal)) {
+        if (haxis->autoScale()) {
+            // TODO: Count max from single seried or all or what?
+            m_axisHorizontalMaxValue = 20;
+        } else {
+            m_axisHorizontalMaxValue = haxis->max();
+        }
+    }
+
     updateAxisTickers();
     updateAxisGrid();
 }
@@ -212,6 +220,7 @@ void QQuickGraphs2DView::updateAxisTickers()
     float axisWidth = 40;
     float axisHeight = 20;
     float axisTickersWidth = 15;
+    float axisTickersHeight = 15;
 
     if (m_axisVertical) {
         if (!m_axisTickerVertical) {
@@ -266,12 +275,12 @@ void QQuickGraphs2DView::updateAxisTickers()
             m_axisTickerHorizontal->setSmoothing(m_theme->axisXSmoothing());
         }
         // TODO Only when changed
-        float axisTickersHeight = 15;
+        m_axisHorizontalValueRange = m_axisHorizontalMaxValue - m_axisHorizontalMinValue;
         m_axisTickerHorizontal->setX(axisWidth + m_marginLeft);
         m_axisTickerHorizontal->setY(height() - m_marginBottom - axisHeight);
         m_axisTickerHorizontal->setWidth(width() - m_marginLeft - m_marginRight - axisWidth);
         m_axisTickerHorizontal->setHeight(axisTickersHeight);
-        m_axisTickerHorizontal->setSpacing(m_axisTickerHorizontal->width() / 6);
+        m_axisTickerHorizontal->setSpacing(m_axisTickerHorizontal->width() / m_axisHorizontalMaxValue);
     }
 }
 
@@ -303,7 +312,7 @@ void QQuickGraphs2DView::updateAxisGrid()
     m_axisGrid->setY(m_marginTop);
     m_axisGrid->setWidth(width() - m_marginLeft - m_marginRight - axisWidth);
     m_axisGrid->setHeight(height() - m_marginTop - m_marginBottom - axisHeight);
-    m_axisGrid->setGridWidth(m_axisGrid->width() / 6);
+    m_axisGrid->setGridWidth(m_axisGrid->width() / m_axisHorizontalValueRange);
     m_axisGrid->setGridHeight(m_axisGrid->height() / m_axisVerticalValueRange);
 }
 
@@ -536,11 +545,13 @@ void QQuickGraphs2DView::updateLineSeries(QLineSeries *series)
 
     auto &&points = series->points();
     if (points.count() > 0) {
-        line->shapePath->setStartX(m_marginLeft + axisWidth + w * points[0].x() * 0.05f);
-        line->shapePath->setStartY(m_marginTop + h - h * points[0].y() * 0.05f);
+        double maxVertical = m_axisVerticalMaxValue > 0 ? 1.0 / m_axisVerticalMaxValue : 100.0;
+        double maxHorizontal = m_axisHorizontalMaxValue > 0 ? 1.0 / m_axisHorizontalMaxValue : 100.0;
+        line->shapePath->setStartX(m_marginLeft + axisWidth + w * points[0].x() * maxHorizontal);
+        line->shapePath->setStartY(m_marginTop + h - h * points[0].y() * maxVertical);
         for (int i = 1; i < points.count(); ++i) {
-            line->paths[i - 1]->setX(m_marginLeft + axisWidth + w * points[i].x() * 0.05f);
-            line->paths[i - 1]->setY(m_marginTop + h - h * points[i].y() * 0.05f);
+            line->paths[i - 1]->setX(m_marginLeft + axisWidth + w * points[i].x() * maxHorizontal);
+            line->paths[i - 1]->setY(m_marginTop + h - h * points[i].y() * maxVertical);
         }
     }
 }
