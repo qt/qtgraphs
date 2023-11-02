@@ -10,7 +10,7 @@
 #include <QtGraphs/qabstract3dinputhandler.h>
 #include <QtGraphs/qgraphsglobal.h>
 #include <QtQuickWidgets/qquickwidget.h>
-#include "qquickitemgrabresult.h"
+#include <QtQuick/qquickitemgrabresult.h>
 
 QT_BEGIN_NAMESPACE
 
