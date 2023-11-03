@@ -2024,22 +2024,25 @@ QQuickGraphsItem::SelectionType QQuickGraphsBars::isSelected(int row, int bar, Q
 
 void QQuickGraphsBars::updateSliceItemLabel(QString label, const QVector3D &position)
 {
+    QQuickGraphsItem::updateSliceItemLabel(label, position);
+
     QFontMetrics fm(theme()->font());
     float textPadding = theme()->font().pointSizeF() * .7f;
     float labelHeight = fm.height() + textPadding;
     float labelWidth = fm.horizontalAdvance(label) + textPadding;
-    QVector3D scale = sliceItemLabel()->scale();
-    scale.setX(scale.y() * labelWidth / labelHeight);
     sliceItemLabel()->setProperty("labelWidth", labelWidth);
     sliceItemLabel()->setProperty("labelHeight", labelHeight);
-    sliceItemLabel()->setScale(scale);
     QVector3D slicePos = position;
     if (selectionMode().testFlag(QAbstract3DGraph::SelectionColumn))
         slicePos.setX(slicePos.z());
     else if (selectionMode().testFlag(QAbstract3DGraph::SelectionRow))
         slicePos.setX(slicePos.x());
-    slicePos.setZ(.0f);
-    slicePos.setY(slicePos.y() + 1.2f);
+    QValue3DAxis *valueAxis = static_cast<QValue3DAxis *>(axisY());
+    if (valueAxis->reversed())
+        slicePos.setY(slicePos.y() - (textPadding * .045f));
+    else
+        slicePos.setY(slicePos.y() + (textPadding * .045f));
+    slicePos.setZ(1.2f);
     sliceItemLabel()->setPosition(slicePos);
     sliceItemLabel()->setProperty("labelText", label);
     sliceItemLabel()->setEulerRotation(QVector3D(0.0f, 0.0f, 90.0f));
@@ -2177,31 +2180,39 @@ void QQuickGraphsBars::updateSliceGraph()
                             QVector3D(barModel->model->x(), barModel->model->y(), 0.0f));
                     } else {
                         sliceBarModel->model->setX(barModel->model->z()
-                                                   + (barModel->visualIndex * .2f));
+                                                   - (barList.at(0)->visualIndex * .1f));
                         sliceBarModel->model->setY(barModel->model->y());
                         sliceBarModel->model->setZ(0.0f);
                     }
                     sliceBarModel->model->setScale(barModel->model->scale());
-                    bool highlightBar = (ind == (rowMode ? m_selectedBar.y() : m_selectedBar.x()));
+
                     updateItemMaterial(sliceBarModel->model,
                                        useGradient,
                                        rangeGradient,
                                        QStringLiteral(":/materials/BarsMaterial"));
-                    updateMaterialProperties(sliceBarModel->model,
-                                             highlightBar,
-                                             false,
-                                             barList.at(index)->texture,
-                                             highlightBar
-                                                 ? m_selectedBarSeries->singleHighlightColor()
-                                                 : m_selectedBarSeries->baseColor());
-                    if (selectionMode().testFlag(QAbstract3DGraph::SelectionItem))
+
+                    if (barModel->coord == m_selectedBar
+                        && selectionMode().testFlag(QAbstract3DGraph::SelectionItem)) {
+                        updateMaterialProperties(sliceBarModel->model,
+                                                 true,
+                                                 false,
+                                                 barList.at(index)->texture,
+                                                 it.key()->singleHighlightColor());
                         updateSliceItemLabel(m_selectedBarSeries->itemLabel(), m_selectedBarPos);
+                    } else {
+                        updateMaterialProperties(sliceBarModel->model,
+                                                 false,
+                                                 false,
+                                                 barList.at(index)->texture,
+                                                 it.key()->baseColor());
+                    }
                 } else {
                     setSliceEnabled(false);
                     QQuickGraphsItem::updateSliceGraph();
                     return;
                 }
             }
+            setSliceActivatedChanged(false);
         } else if (optimizationHint() == QAbstract3DGraph::OptimizationHint::Default) {
             deleteBarItemHolders(sliceList->at(0)->selectionInstancing);
             deleteBarItemHolders(sliceList->at(0)->multiSelectionInstancing);
@@ -2296,7 +2307,9 @@ void QQuickGraphsBars::createBarItemHolders(QBar3DSeries *series,
 
             QString label = m_selectedBarSeries->itemLabel();
             if (slice) {
-                if (!selectionMode().testFlag(QAbstract3DGraph::SelectionRow)) {
+                if (selectionMode().testFlag(QAbstract3DGraph::SelectionRow)) {
+                    selectedBih->position.setZ(.0f);
+                } else {
                     selectedBih->position.setX(selectedBih->position.z()
                                                - (barList.at(0)->visualIndex * .1f));
                     selectedBih->position.setZ(.0f);
@@ -2375,7 +2388,9 @@ void QQuickGraphsBars::createBarItemHolders(QBar3DSeries *series,
             selectedBih->position = bih->position;
             selectedBih->scale = bih->scale;
 
-            if (!selectionMode().testFlag(QAbstract3DGraph::SelectionRow)) {
+            if (selectionMode().testFlag(QAbstract3DGraph::SelectionRow)) {
+                selectedBih->position.setZ(.0f);
+            } else {
                 selectedBih->position.setX(selectedBih->position.z()
                                            - (barList.at(0)->visualIndex * .1f));
                 selectedBih->position.setZ(.0f);

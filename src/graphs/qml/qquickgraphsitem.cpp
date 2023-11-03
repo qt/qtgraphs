@@ -2943,8 +2943,19 @@ void QQuickGraphsItem::updateItemLabel(const QVector3D &position)
 
 void QQuickGraphsItem::updateSliceItemLabel(QString label, const QVector3D &position)
 {
-    Q_UNUSED(label);
     Q_UNUSED(position);
+
+    QFontMetrics fm(theme()->font());
+    float textPadding = theme()->font().pointSizeF() * .7f;
+    float labelHeight = fm.height() + textPadding;
+    float labelWidth = fm.horizontalAdvance(label) + textPadding;
+
+    float pointSize = theme()->font().pointSizeF();
+    float scaleFactor = fontScaleFactor(pointSize) * pointSize;
+    float fontRatio = labelWidth / labelHeight;
+
+    QVector3D fontScaled = QVector3D(scaleFactor * fontRatio, scaleFactor, 0.00001f);
+    m_sliceItemLabel->setScale(fontScaled);
 }
 
 void QQuickGraphsItem::createVolumeMaterial(QCustom3DVolume *volume, Volume &volumeItem)
@@ -5316,7 +5327,6 @@ void QQuickGraphsItem::updateSliceLabels()
         m_sliceHorizontalTitleLabel->setVisible(false);
     }
 
-    m_sliceItemLabel->setScale(fontScaled);
     m_sliceItemLabel->setProperty("labelFont", font);
     m_sliceItemLabel->setProperty("borderEnabled", borderEnabled);
     m_sliceItemLabel->setProperty("labelTextColor", labelTextColor);

@@ -1974,15 +1974,14 @@ void QQuickGraphsSurface::createSliceView()
 
 void QQuickGraphsSurface::updateSliceItemLabel(QString label, const QVector3D &position)
 {
+    QQuickGraphsItem::updateSliceItemLabel(label, position);
+
     QFontMetrics fm(theme()->font());
     float textPadding = 12.0f;
     float labelHeight = fm.height() + textPadding;
     float labelWidth = fm.horizontalAdvance(label) + textPadding;
-    QVector3D scale = sliceItemLabel()->scale();
-    scale.setX(scale.y() * labelWidth / labelHeight);
     sliceItemLabel()->setProperty("labelWidth", labelWidth);
     sliceItemLabel()->setProperty("labelHeight", labelHeight);
-    sliceItemLabel()->setScale(scale);
     QVector3D labelPosition = position;
     labelPosition.setZ(.1f);
     labelPosition.setY(position.y() + .05f);
