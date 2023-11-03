@@ -33,6 +33,42 @@ Item {
 
     SettingsView {
         CustomLabel {
+            text: "Margin: Left"
+        }
+        CustomSlider {
+            sliderValue: chartView.marginLeft
+            fromValue: 0
+            toValue: 60
+            onSliderValueChanged: chartView.marginLeft = sliderValue;
+        }
+        CustomLabel {
+            text: "Margin: Right"
+        }
+        CustomSlider {
+            sliderValue: chartView.marginRight
+            fromValue: 0
+            toValue: 60
+            onSliderValueChanged: chartView.marginRight = sliderValue;
+        }
+        CustomLabel {
+            text: "Margin: Top"
+        }
+        CustomSlider {
+            sliderValue: chartView.marginTop
+            fromValue: 0
+            toValue: 60
+            onSliderValueChanged: chartView.marginTop = sliderValue;
+        }
+        CustomLabel {
+            text: "Margin: Bottom"
+        }
+        CustomSlider {
+            sliderValue: chartView.marginBottom
+            fromValue: 0
+            toValue: 60
+            onSliderValueChanged: chartView.marginBottom = sliderValue;
+        }
+        CustomLabel {
             text: "Y-coordinate: Max"
         }
         CustomSlider {

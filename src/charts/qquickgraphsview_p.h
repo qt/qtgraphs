@@ -27,6 +27,7 @@
 #include <private/axisticker_p.h>
 #include <QtGraphs2D/graphtheme.h>
 #include <QtQuickShapes/private/qquickshape_p.h>
+#include <QtQuick/QSGClipNode>
 
 QT_BEGIN_NAMESPACE
 
@@ -129,7 +130,7 @@ private:
     QList<QObject *> m_seriesList;
     QBrush m_backgroundBrush;
     //QSGDefaultInternalRectangleNode *m_backgroundNode = nullptr;
-    QSGNode *m_backgroundNode = nullptr;
+    QSGClipNode *m_backgroundNode = nullptr;
     QList<QSGDefaultInternalRectangleNode *> m_rectNodes;
     QQuickShape m_shape;
     QMap<QLineSeries *, LinePath *> m_linePaths;
@@ -159,6 +160,12 @@ private:
     qreal m_marginBottom = 20;
     qreal m_marginLeft = 20;
     qreal m_marginRight = 20;
+    // Sizes required of axis labels
+    // TODO: Should these come from QAbstactAxis?
+    qreal m_axisWidth = 40;
+    qreal m_axisHeight = 20;
+    qreal m_axisTickersWidth = 15;
+    qreal m_axisTickersHeight = 15;
 };
 
 QT_END_NAMESPACE

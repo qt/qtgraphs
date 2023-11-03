@@ -123,12 +123,13 @@ void QQuickGraphs2DView::componentComplete()
 QSGNode *QQuickGraphs2DView::updatePaintNode(QSGNode *oldNode, QQuickItem::UpdatePaintNodeData *updatePaintNodeData)
 {
     if (!m_backgroundNode)
-        m_backgroundNode = new QSGNode();
+        m_backgroundNode = new QSGClipNode();
 
-    // Background node
-    //m_backgroundNode->setRect(boundingRect());
-    //m_backgroundNode->setColor(m_backgroundBrush.color());
-    //m_backgroundNode->update();
+    // Background node, used for clipping
+    QRectF clipRect = boundingRect();
+    clipRect.adjust(m_marginLeft + m_axisWidth, m_marginTop, -m_marginLeft - m_marginRight, -m_marginBottom - m_axisHeight);
+    m_backgroundNode->setClipRect(clipRect);
+    m_backgroundNode->setIsRectangular(true);
     oldNode = m_backgroundNode;
 
     updateAxis();
@@ -216,12 +217,6 @@ void QQuickGraphs2DView::updateAxis()
 
 void QQuickGraphs2DView::updateAxisTickers()
 {
-    // TODO: Get data into AxisTicker from QAbstractAxis
-    float axisWidth = 40;
-    float axisHeight = 20;
-    float axisTickersWidth = 15;
-    float axisTickersHeight = 15;
-
     if (m_axisVertical) {
         if (!m_axisTickerVertical) {
             m_axisTickerVertical = new AxisTicker();
@@ -243,13 +238,13 @@ void QQuickGraphs2DView::updateAxisTickers()
         }
         // TODO Only when changed
         m_axisVerticalValueRange = m_axisVerticalMaxValue - m_axisVerticalMinValue;
-        m_axisHorizontalStepPx = (height() - m_marginTop - m_marginBottom - axisHeight) / m_axisVerticalValueRange;
+        m_axisHorizontalStepPx = (height() - m_marginTop - m_marginBottom - m_axisHeight) / m_axisVerticalValueRange;
         m_axisYMovement = (m_axisVerticalMinValue - int(m_axisVerticalMinValue)) * m_axisHorizontalStepPx;
         m_axisTickerVertical->setBarsMovement(m_axisYMovement);
-        m_axisTickerVertical->setX(axisWidth + m_marginLeft - axisTickersWidth);
+        m_axisTickerVertical->setX(m_axisWidth + m_marginLeft - m_axisTickersWidth);
         m_axisTickerVertical->setY(m_marginTop);
-        m_axisTickerVertical->setWidth(axisTickersWidth);
-        m_axisTickerVertical->setHeight(height() - m_marginTop - m_marginBottom - axisHeight);
+        m_axisTickerVertical->setWidth(m_axisTickersWidth);
+        m_axisTickerVertical->setHeight(height() - m_marginTop - m_marginBottom - m_axisHeight);
         m_axisTickerVertical->setSpacing(m_axisTickerVertical->height() / m_axisVerticalValueRange);
     }
 
@@ -276,10 +271,10 @@ void QQuickGraphs2DView::updateAxisTickers()
         }
         // TODO Only when changed
         m_axisHorizontalValueRange = m_axisHorizontalMaxValue - m_axisHorizontalMinValue;
-        m_axisTickerHorizontal->setX(axisWidth + m_marginLeft);
-        m_axisTickerHorizontal->setY(height() - m_marginBottom - axisHeight);
-        m_axisTickerHorizontal->setWidth(width() - m_marginLeft - m_marginRight - axisWidth);
-        m_axisTickerHorizontal->setHeight(axisTickersHeight);
+        m_axisTickerHorizontal->setX(m_axisWidth + m_marginLeft);
+        m_axisTickerHorizontal->setY(height() - m_marginBottom - m_axisHeight);
+        m_axisTickerHorizontal->setWidth(width() - m_marginLeft - m_marginRight - m_axisWidth);
+        m_axisTickerHorizontal->setHeight(m_axisTickersHeight);
         m_axisTickerHorizontal->setSpacing(m_axisTickerHorizontal->width() / m_axisHorizontalMaxValue);
     }
 }
@@ -305,13 +300,11 @@ void QQuickGraphs2DView::updateAxisGrid()
         m_axisGrid->setSmoothing(m_theme->gridSmoothing() + minimumSmoothing);
     }
     // TODO Only when changed
-    float axisWidth = 40;
-    float axisHeight = 20;
     m_axisGrid->setGridMovement(QPointF(0, m_axisYMovement));
-    m_axisGrid->setX(axisWidth + m_marginLeft);
+    m_axisGrid->setX(m_axisWidth + m_marginLeft);
     m_axisGrid->setY(m_marginTop);
-    m_axisGrid->setWidth(width() - m_marginLeft - m_marginRight - axisWidth);
-    m_axisGrid->setHeight(height() - m_marginTop - m_marginBottom - axisHeight);
+    m_axisGrid->setWidth(width() - m_marginLeft - m_marginRight - m_axisWidth);
+    m_axisGrid->setHeight(height() - m_marginTop - m_marginBottom - m_axisHeight);
     m_axisGrid->setGridWidth(m_axisGrid->width() / m_axisHorizontalValueRange);
     m_axisGrid->setGridHeight(m_axisGrid->height() / m_axisVerticalValueRange);
 }
@@ -416,12 +409,9 @@ void QQuickGraphs2DView::updateBarSeries(QBarSeries *series)
     int valuesPerSet = series->barSets().first()->values().size();
     seriesTheme->setGraphSeriesCount(setCount);
 
-    // Sizes required of axis labels
-    float axisHeight = 20;
-    float axisWidth = 40;
     // Bars area width & hight
-    float w = width() - m_marginLeft - m_marginRight - axisWidth;
-    float h = height() - m_marginTop - m_marginBottom - axisHeight;
+    float w = width() - m_marginLeft - m_marginRight - m_axisWidth;
+    float h = height() - m_marginTop - m_marginBottom - m_axisHeight;
     // Margin between bars.
     float barMargin = 2.0;
     // Max width of a bar if no separation between sets.
@@ -432,13 +422,13 @@ void QQuickGraphs2DView::updateBarSeries(QBarSeries *series)
     float barCentering = (maxBarWidth - barWidth) * setCount * 0.5;
 
     if (QBarCategoryAxis *axisX = qobject_cast<QBarCategoryAxis*>(series->axisX())) {
-        QRectF xAxisRect(m_marginLeft + axisWidth, m_marginTop + h, w, axisHeight);
+        QRectF xAxisRect(m_marginLeft + m_axisWidth, m_marginTop + h, w, m_axisHeight);
         updateBarXAxis(axisX, xAxisRect);
     }
 
     if (QValueAxis *axisY = qobject_cast<QValueAxis*>(series->axisY())) {
         float rightMargin = 20;
-        QRectF yAxisRect(m_marginLeft, m_marginTop, axisWidth - rightMargin, h);
+        QRectF yAxisRect(m_marginLeft, m_marginTop, m_axisWidth - rightMargin, h);
         updateBarYAxis(axisY, yAxisRect);
     }
 
@@ -472,7 +462,7 @@ void QQuickGraphs2DView::updateBarSeries(QBarSeries *series)
                 double maxValues = delta > 0 ? 1.0 / delta : 100.0;
                 float barHeight = h * value * maxValues;
                 float barY = m_marginTop + h - barHeight;
-                barX = m_marginLeft + axisWidth + seriesPos + posInSet + barCentering;
+                barX = m_marginLeft + m_axisWidth + seriesPos + posInSet + barCentering;
                 QRectF barRect(barX, barY, barWidth, barHeight);
                 auto &barItem = m_rectNodes[barIndex];
                 barItem->setRect(barRect);
@@ -536,21 +526,18 @@ void QQuickGraphs2DView::updateLineSeries(QLineSeries *series)
         line->shapePath->setCapStyle(QQuickShapePath::CapStyle::RoundCap);
     }
 
-    // Sizes required of axis labels
-    float axisHeight = 20;
-    float axisWidth = 40;
     // Bars area width & hight
-    float w = width() - m_marginLeft - m_marginRight - axisWidth;
-    float h = height() - m_marginTop - m_marginBottom - axisHeight;
+    float w = width() - m_marginLeft - m_marginRight - m_axisWidth;
+    float h = height() - m_marginTop - m_marginBottom - m_axisHeight;
 
     auto &&points = series->points();
     if (points.count() > 0) {
         double maxVertical = m_axisVerticalMaxValue > 0 ? 1.0 / m_axisVerticalMaxValue : 100.0;
         double maxHorizontal = m_axisHorizontalMaxValue > 0 ? 1.0 / m_axisHorizontalMaxValue : 100.0;
-        line->shapePath->setStartX(m_marginLeft + axisWidth + w * points[0].x() * maxHorizontal);
+        line->shapePath->setStartX(m_marginLeft + m_axisWidth + w * points[0].x() * maxHorizontal);
         line->shapePath->setStartY(m_marginTop + h - h * points[0].y() * maxVertical);
         for (int i = 1; i < points.count(); ++i) {
-            line->paths[i - 1]->setX(m_marginLeft + axisWidth + w * points[i].x() * maxHorizontal);
+            line->paths[i - 1]->setX(m_marginLeft + m_axisWidth + w * points[i].x() * maxHorizontal);
             line->paths[i - 1]->setY(m_marginTop + h - h * points[i].y() * maxVertical);
         }
     }
@@ -627,6 +614,7 @@ void QQuickGraphs2DView::setMarginTop(qreal newMarginTop)
     if (qFuzzyCompare(m_marginTop, newMarginTop))
         return;
     m_marginTop = newMarginTop;
+    update();
     emit marginTopChanged();
 }
 
@@ -640,6 +628,7 @@ void QQuickGraphs2DView::setMarginBottom(qreal newMarginBottom)
     if (qFuzzyCompare(m_marginBottom, newMarginBottom))
         return;
     m_marginBottom = newMarginBottom;
+    update();
     emit marginBottomChanged();
 }
 
@@ -653,6 +642,7 @@ void QQuickGraphs2DView::setMarginLeft(qreal newMarginLeft)
     if (qFuzzyCompare(m_marginLeft, newMarginLeft))
         return;
     m_marginLeft = newMarginLeft;
+    update();
     emit marginLeftChanged();
 }
 
@@ -666,6 +656,7 @@ void QQuickGraphs2DView::setMarginRight(qreal newMarginRight)
     if (qFuzzyCompare(m_marginRight, newMarginRight))
         return;
     m_marginRight = newMarginRight;
+    update();
     emit marginRightChanged();
 }
 

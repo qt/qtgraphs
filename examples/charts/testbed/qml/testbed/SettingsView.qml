@@ -40,12 +40,12 @@ Item {
         leftInset: -10
         topInset: -20
         bottomInset: -20
-        topMargin: 10
+        topMargin: 20
         visible: settings.showSettingsView
 
         background: Rectangle {
-            color: "#80404040"
-            border.color: "#000000"
+            color: "#000000"
+            border.color: "#808080"
             border.width: 1
             opacity: 0.8
         }

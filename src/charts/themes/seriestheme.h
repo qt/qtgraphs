@@ -80,7 +80,7 @@ private:
     //QList<QColor> m_seriesLabelColors;
     QList<QColor> m_colors;
     QList<QColor> m_borderColors;
-    qreal m_borderWidth;
+    qreal m_borderWidth = 0;
 };
 
 #endif // SERIESTHEME_H
