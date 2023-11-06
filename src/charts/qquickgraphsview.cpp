@@ -145,11 +145,14 @@ QSGNode *QQuickGraphs2DView::updatePaintNode(QSGNode *oldNode, QQuickItem::Updat
     // Now possibly dirty theme has been taken into use
     m_theme->resetThemeDirty();
 
+    polish();
+
     return oldNode;
 }
 
 void QQuickGraphs2DView::updatePolish()
 {
+    int lineSeriesIndex = 0;
     for (auto series : std::as_const(m_seriesList)) {
         if (auto lineSeries = qobject_cast<QLineSeries*>(series)) {
             if (!m_linePaths.contains(lineSeries)) {
@@ -173,6 +176,14 @@ void QQuickGraphs2DView::updatePolish()
                     line->paths << path;
                 }
             }
+
+            auto seriesTheme = lineSeries->theme();
+            if (seriesTheme) {
+                auto &&colors = seriesTheme->colors();
+                if (colors.size() > 0)
+                    lineSeries->setColor(colors[lineSeriesIndex % colors.size()]);
+            }
+            lineSeriesIndex++;
         }
     }
 }

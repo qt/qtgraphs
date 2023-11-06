@@ -50,7 +50,7 @@ Rectangle {
 
         Column {
             Text {
-                text: "Line 2 width"
+                text: "Line 2 and 3 width"
                 font.pixelSize: 12
                 font.bold: true
                 color: "#ffffff"
@@ -64,14 +64,21 @@ Rectangle {
             }
         }
 
-        Button {
-            text: qsTr("Change Line 1 Color")
-            onClicked: colorDialog1.open()
-        }
-
-        Button {
-            text: qsTr("Change Line 2 Color")
-            onClicked: colorDialog2.open()
+        Row {
+            id: seriesToolbar
+            spacing: 10
+            Button {
+                text: "Theme1"
+                onClicked: {
+                    seriesTheme.colorTheme = SeriesTheme.SeriesTheme1;
+                }
+            }
+            Button {
+                text: "Theme2"
+                onClicked: {
+                    seriesTheme.colorTheme = SeriesTheme.SeriesTheme2;
+                }
+            }
         }
     }
 
@@ -119,9 +126,15 @@ Rectangle {
         //legend.alignment: Qt.AlignBottom
         //antialiasing: true
 
+        SeriesTheme {
+            id: seriesTheme
+            colorTheme: SeriesTheme.SeriesTheme1
+        }
+
         LineSeries {
             id: lineSeries1
             name: "First"
+            theme: seriesTheme
             width: widthSlider1.value
             axisX: ValueAxis {
                 id: xAxis
@@ -145,6 +158,7 @@ Rectangle {
         LineSeries {
             id: lineSeries2
             name: "Second"
+            theme: seriesTheme
             width: widthSlider2.value
             XYPoint { x: 0; y: 6.6 }
             XYPoint { x: 0.6; y: 4.1 }
@@ -153,6 +167,20 @@ Rectangle {
             XYPoint { x: 3.3; y: 6.9 }
             XYPoint { x: 3.6; y: 5.0 }
             XYPoint { x: 4.0; y: 5.3 }
+        }
+
+        LineSeries {
+            id: lineSeries3
+            name: "Third"
+            theme: seriesTheme
+            width: widthSlider2.value
+            XYPoint { x: 0; y: 2.6 }
+            XYPoint { x: 0.2; y: 3.1 }
+            XYPoint { x: 1.3; y: 6.3 }
+            XYPoint { x: 2.4; y: 5.1 }
+            XYPoint { x: 3.5; y: 6.9 }
+            XYPoint { x: 3.6; y: 5.2 }
+            XYPoint { x: 4.0; y: 3.3 }
         }
 
         // TEMP
