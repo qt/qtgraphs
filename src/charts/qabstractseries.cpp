@@ -290,6 +290,19 @@ bool QAbstractSeries::isVisible() const
     return d_ptr->m_visible;
 }
 
+void QAbstractSeries::setSelectable(bool selectable)
+{
+    if (selectable != d_ptr->m_selectable) {
+        d_ptr->m_selectable = selectable;
+        emit selectableChanged();
+    }
+}
+
+bool QAbstractSeries::selectable() const
+{
+    return d_ptr->m_selectable;
+}
+
 qreal QAbstractSeries::opacity() const
 {
     return d_ptr->m_opacity;

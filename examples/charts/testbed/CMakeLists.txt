@@ -48,6 +48,7 @@ qt6_add_qml_module(testbed
         qml/testbed/CustomSelectionBox.qml
         qml/testbed/CustomSlider.qml
         qml/testbed/BarThemes.qml
+        qml/testbed/BarSelection.qml
         qml/testbed/LineProperties.qml
         qml/testbed/AxisGridSetup.qml
     RESOURCES

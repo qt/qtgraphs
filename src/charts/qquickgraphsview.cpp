@@ -14,6 +14,7 @@ QQuickGraphs2DView::QQuickGraphs2DView(QQuickItem *parent) :
     QQuickItem(parent)
 {
     setFlag(QQuickItem::ItemHasContents);
+    setAcceptedMouseButtons(Qt::LeftButton);
     m_shape.setParentItem(this);
 }
 
@@ -118,6 +119,21 @@ void QQuickGraphs2DView::componentComplete()
     }
     QQuickItem::componentComplete();
     ensurePolished();
+}
+
+void QQuickGraphs2DView::mousePressEvent(QMouseEvent *event)
+{
+    for (auto &barSelection : m_rectNodesInputRects) {
+        int indexInSet = 0;
+        for (auto &rect : barSelection.rects) {
+            if (rect.contains(event->pos())) {
+                // TODO: Currently just toggling selection
+                QList<int> indexList = {indexInSet};
+                barSelection.barSet->toggleSelection(indexList);
+            }
+            indexInSet++;
+        }
+    }
 }
 
 QSGNode *QQuickGraphs2DView::updatePaintNode(QSGNode *oldNode, QQuickItem::UpdatePaintNodeData *updatePaintNodeData)
@@ -453,6 +469,10 @@ void QQuickGraphs2DView::updateBarSeries(QBarSeries *series)
         }
     }
 
+    // Clear the selection rects
+    // These will be filled only if series is selectable
+    m_rectNodesInputRects.clear();
+
     float barX = 0;
     float seriesPos = 0;
     float posInSet = 0;
@@ -466,21 +486,34 @@ void QQuickGraphs2DView::updateBarSeries(QBarSeries *series)
             continue;
         seriesPos = 0;
         barIndexInSet = 0;
+        BarSelectionRect *barSelectionRect = nullptr;
+        if (series->selectable()) {
+            m_rectNodesInputRects << BarSelectionRect();
+            barSelectionRect = &m_rectNodesInputRects.last();
+            barSelectionRect->barSet = s;
+        }
+        const auto selectedBars = s->selectedBars();
         for (auto variantValue : std::as_const(v)) {
             float value = (variantValue.toReal() - m_axisVerticalMinValue) * series->valuesMultiplier();
             if (value > 0) {
+                const bool isSelected = selectedBars.contains(barIndexInSet);
                 double delta = m_axisVerticalMaxValue - m_axisVerticalMinValue;
                 double maxValues = delta > 0 ? 1.0 / delta : 100.0;
                 float barHeight = h * value * maxValues;
                 float barY = m_marginTop + h - barHeight;
                 barX = m_marginLeft + m_axisWidth + seriesPos + posInSet + barCentering;
                 QRectF barRect(barX, barY, barWidth, barHeight);
+                if (barSelectionRect)
+                    barSelectionRect->rects << barRect;
                 auto &barItem = m_rectNodes[barIndex];
                 barItem->setRect(barRect);
                 // Use set colors if available
                 QColor c = s->color();
                 if (c.alpha() == 0)
                     c = seriesTheme->graphSeriesColor(barSerieIndex);
+                // TODO: Theming for selection?
+                if (isSelected)
+                    c = QColor(0,0,0);
                 c.setAlpha(c.alpha() * series->opacity());
                 barItem->setColor(c);
                 qreal borderWidth = s->borderWidth();
@@ -502,7 +535,9 @@ void QQuickGraphs2DView::updateBarSeries(QBarSeries *series)
                 barItem->update();
             } else {
                 auto &barItem = m_rectNodes[barIndex];
-                barItem->setRect(QRect());
+                barItem->setRect(QRectF());
+                if (barSelectionRect)
+                    barSelectionRect->rects << QRectF();
                 barItem->update();
             }
             barIndex++;

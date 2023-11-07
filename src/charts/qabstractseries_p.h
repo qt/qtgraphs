@@ -87,6 +87,7 @@ private:
     QScopedPointer<AbstractDomain> m_domain;
     QString m_name;
     bool m_visible;
+    bool m_selectable = false;
     qreal m_opacity;
     qreal m_valuesMultiplier;
 //    ChartPresenter *m_presenter;

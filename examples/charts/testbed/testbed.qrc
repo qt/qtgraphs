@@ -11,5 +11,6 @@
         <file>qml/testbed/CustomSlider.qml</file>
         <file>qml/testbed/LineProperties.qml</file>
         <file>qml/testbed/images/icon_settings.png</file>
+        <file>qml/testbed/BarSelection.qml</file>
     </qresource>
 </RCC>

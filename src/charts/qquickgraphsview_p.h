@@ -35,6 +35,7 @@ class QBarSeries;
 class QBarCategoryAxis;
 class QValueAxis;
 class QLineSeries;
+class QBarSet;
 
 // KG: TODO
 class QChartPrivate
@@ -101,6 +102,7 @@ public:
 
 protected:
     void componentComplete() override;
+    void mousePressEvent(QMouseEvent *event) override;
     QSGNode *updatePaintNode(QSGNode *oldNode, QQuickItem::UpdatePaintNodeData *updatePaintNodeData) override;
     void updatePolish() override;
 
@@ -126,12 +128,18 @@ private:
         QQuickShapePath *shapePath = nullptr;
         QList<QQuickPathLine *> paths;
     };
+    struct BarSelectionRect {
+        QBarSet *barSet = nullptr;
+        QList<QRectF> rects;
+    };
 
     QList<QObject *> m_seriesList;
     QBrush m_backgroundBrush;
     //QSGDefaultInternalRectangleNode *m_backgroundNode = nullptr;
     QSGClipNode *m_backgroundNode = nullptr;
     QList<QSGDefaultInternalRectangleNode *> m_rectNodes;
+    // QSG nodes rect has no getter so we store these separately.
+    QList<BarSelectionRect> m_rectNodesInputRects;
     QQuickShape m_shape;
     QMap<QLineSeries *, LinePath *> m_linePaths;
     QList<QQuickText *> m_xAxisTextItems;

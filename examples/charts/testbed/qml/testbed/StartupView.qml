@@ -27,6 +27,10 @@ Item {
             file: "AxisGridSetup.qml"
         }
         ListElement {
+            name: "Bar Selection"
+            file: "BarSelection.qml"
+        }
+        ListElement {
             name: "Line Properties"
             file: "LineProperties.qml"
         }

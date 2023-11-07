@@ -24,6 +24,7 @@ class QAbstractSeries : public QObject, public QQmlParserStatus
     Q_PROPERTY(SeriesTheme *theme READ theme WRITE setTheme NOTIFY themeChanged)
     Q_PROPERTY(QString name READ name WRITE setName NOTIFY nameChanged)
     Q_PROPERTY(bool visible READ isVisible WRITE setVisible NOTIFY visibleChanged)
+    Q_PROPERTY(bool selectable READ selectable WRITE setSelectable NOTIFY selectableChanged)
     Q_PROPERTY(qreal opacity READ opacity WRITE setOpacity NOTIFY opacityChanged)
     Q_PROPERTY(qreal valuesMultiplier READ valuesMultiplier WRITE setValuesMultiplier NOTIFY valuesMultiplierChanged)
     Q_PROPERTY(SeriesType type READ type)
@@ -67,6 +68,8 @@ public:
     QString name() const;
     void setVisible(bool visible = true);
     bool isVisible() const;
+    void setSelectable(bool selectable);
+    bool selectable() const;
     qreal opacity() const;
     void setOpacity(qreal opacity);
     qreal valuesMultiplier() const;
@@ -94,6 +97,7 @@ Q_SIGNALS:
     void themeChanged();
     void nameChanged();
     void visibleChanged();
+    void selectableChanged();
     void opacityChanged();
     void valuesMultiplierChanged();
     //void useOpenGLChanged();

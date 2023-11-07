@@ -611,8 +611,14 @@ QVariantList QBarSet::values()
 
 void QBarSet::setValues(QVariantList values)
 {
-    while (count())
-        remove(count() - 1);
+    // See if we can replace values instead of remove & add all.
+    // This way e.g. selections remain.
+    const bool doReplace = count() == values.size();
+
+    if (!doReplace) {
+        while (count())
+            remove(count() - 1);
+    }
 
     if (values.size() > 0 && values.at(0).canConvert<QPoint>()) {
         // Create list of values for appending if the first item is Qt.point
@@ -633,13 +639,21 @@ void QBarSet::setValues(QVariantList values)
             }
         }
 
-        for (int i = 0; i < indexValueList.size(); i++)
-            QBarSet::append(indexValueList.at(i));
+        for (int i = 0; i < indexValueList.size(); i++) {
+            if (doReplace)
+                QBarSet::replace(i, indexValueList.at(i));
+            else
+                QBarSet::append(indexValueList.at(i));
+        }
 
     } else {
         for (int i(0); i < values.size(); i++) {
-            if (values.at(i).canConvert<double>())
-                QBarSet::append(values[i].toDouble());
+            if (values.at(i).canConvert<double>()) {
+                if (doReplace)
+                    QBarSet::replace(i, values[i].toDouble());
+                else
+                    QBarSet::append(values[i].toDouble());
+            }
         }
     }
     update();
@@ -688,6 +702,7 @@ void QBarSet::setBarSelected(int index, bool selected)
 
     if (callSignal)
         emit selectedBarsChanged(selectedBars());
+    update();
 }
 
 /*!
@@ -703,6 +718,7 @@ void QBarSet::selectAllBars()
 
     if (callSignal)
         emit selectedBarsChanged(selectedBars());
+    update();
 }
 
 /*!
@@ -718,6 +734,7 @@ void QBarSet::deselectAllBars()
 
     if (callSignal)
         emit selectedBarsChanged(selectedBars());
+    update();
 }
 
 /*!
@@ -733,6 +750,7 @@ void QBarSet::selectBars(const QList<int> &indexes)
 
     if (callSignal)
         emit selectedBarsChanged(selectedBars());
+    update();
 }
 
 /*!
@@ -748,6 +766,7 @@ void QBarSet::deselectBars(const QList<int> &indexes)
 
     if (callSignal)
         emit selectedBarsChanged(selectedBars());
+    update();
 }
 
 /*!
@@ -763,6 +782,7 @@ void QBarSet::toggleSelection(const QList<int> &indexes)
 
     if (callSignal)
         emit selectedBarsChanged(selectedBars());
+    update();
 }
 
 /*!
@@ -875,6 +895,9 @@ int QBarSetPrivate::remove(const int index, const int count)
 
 void QBarSetPrivate::replace(const int index, const qreal value)
 {
+    if (index < 0 || index >= m_values.size())
+        return;
+
     m_values.replace(index, QPointF(index, value));
     emit valueChanged(index);
 }
