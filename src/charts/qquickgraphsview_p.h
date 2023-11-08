@@ -127,6 +127,7 @@ private:
     struct LinePath {
         QQuickShapePath *shapePath = nullptr;
         QList<QQuickPathLine *> paths;
+        QList<QQuickItem *> markers;
     };
     struct BarSelectionRect {
         QBarSet *barSet = nullptr;

@@ -11,6 +11,7 @@
 #include "qlineseries.h"
 #include "xychart/qxypoint_p.h"
 #include <private/qlineseries_p.h>
+#include <private/qquickgraphsview_p.h>
 
 QT_BEGIN_NAMESPACE
 
@@ -117,8 +118,8 @@ void QLineSeries::componentComplete()
 QLineSeries::~QLineSeries()
 {
     Q_D(QLineSeries);
-//    if (d->m_chart)
-//        d->m_chart->removeSeries(this);
+    if (d->m_chart)
+        d->m_chart->removeSeries(this);
 }
 
 /*!
@@ -233,6 +234,21 @@ void QLineSeries::setCapStyle(const Qt::PenCapStyle &newCapStyle)
         return;
     d->m_capStyle = newCapStyle;
     emit capStyleChanged();
+}
+
+QQmlComponent *QLineSeries::pointMarker() const
+{
+    Q_D(const QLineSeries);
+    return d->m_marker;
+}
+
+void QLineSeries::setPointMarker(QQmlComponent *newPointMarker)
+{
+    Q_D(QLineSeries);
+    if (d->m_marker == newPointMarker)
+        return;
+    d->m_marker = newPointMarker;
+    emit pointMarkerChanged();
 }
 
 QT_END_NAMESPACE

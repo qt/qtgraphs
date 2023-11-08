@@ -146,6 +146,12 @@ Rectangle {
                 max: 8
                 autoScale: false
             }
+            pointMarker: Rectangle {
+                width: 5
+                height: 20
+                color: "white"
+            }
+
             XYPoint { x: 0; y: 0 }
             XYPoint { x: 1.1; y: 2.1 }
             XYPoint { x: 1.9; y: 3.3 }

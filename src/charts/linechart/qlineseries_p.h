@@ -18,8 +18,11 @@
 
 #include <QtGraphs2D/qlineseries.h>
 #include <private/qxyseries_p.h>
+#include <private/qquickrepeater_p.h>
 
 QT_BEGIN_NAMESPACE
+
+class QQmlInstanceModel;
 
 class QLineSeriesPrivate : public QXYSeriesPrivate
 {
@@ -28,10 +31,13 @@ public:
     void initializeGraphics(QGraphicsItem* parent) override;
 //    void initializeTheme(int index, ChartTheme* theme, bool forced = false) override;
 protected:
+    void requestItems();
+
     QAbstractAxis *m_axisX = nullptr;
     QAbstractAxis *m_axisY = nullptr;
     qreal m_width = 2.0;
     Qt::PenCapStyle m_capStyle = Qt::PenCapStyle::SquareCap;
+    QQmlComponent *m_marker = nullptr;
 private:
     Q_DECLARE_PUBLIC(QLineSeries)
 };

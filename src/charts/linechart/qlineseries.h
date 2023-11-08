@@ -28,6 +28,7 @@ class QLineSeries : public QXYSeries
     Q_PROPERTY(qreal width READ width WRITE setWidth NOTIFY widthChanged)
 //    Q_PROPERTY(Qt::PenStyle style READ style WRITE setStyle NOTIFY styleChanged)
     Q_PROPERTY(Qt::PenCapStyle capStyle READ capStyle WRITE setCapStyle NOTIFY capStyleChanged)
+    Q_PROPERTY(QQmlComponent *pointMarker READ pointMarker WRITE setPointMarker NOTIFY pointMarkerChanged FINAL)
 
 public:
     explicit QLineSeries(QObject *parent = nullptr);
@@ -48,11 +49,15 @@ public:
     Qt::PenCapStyle capStyle() const;
     void setCapStyle(const Qt::PenCapStyle &newCapStyle);
 
+    QQmlComponent *pointMarker() const;
+    void setPointMarker(QQmlComponent *newPointMarker);
+
 signals:
     void axisXChanged();
     void axisYChanged();
     void widthChanged();
     void capStyleChanged();
+    void pointMarkerChanged();
 
 protected:
     QLineSeries(QLineSeriesPrivate &d, QObject *parent = nullptr);

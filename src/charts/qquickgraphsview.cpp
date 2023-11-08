@@ -193,6 +193,22 @@ void QQuickGraphs2DView::updatePolish()
                 }
             }
 
+            if (lineSeries->pointMarker()) {
+                int markerCount = line->markers.size();
+                if (markerCount < pointCount) {
+                    for (int i = markerCount; i < pointCount; ++i) {
+                        QQuickItem *item = qobject_cast<QQuickItem *>(lineSeries->pointMarker()->create());
+                        item->setParentItem(this);
+                        line->markers << item;
+                    }
+                }
+            } else if (line->markers.size() > 0) {
+                for (int i = 0; i < line->markers.size(); i++) {
+                    line->markers[i]->deleteLater();
+                }
+                line->markers.clear();
+            }
+
             auto seriesTheme = lineSeries->theme();
             if (seriesTheme) {
                 auto &&colors = seriesTheme->colors();
@@ -599,11 +615,21 @@ void QQuickGraphs2DView::updateLineSeries(QLineSeries *series)
     if (points.count() > 0) {
         double maxVertical = m_axisVerticalMaxValue > 0 ? 1.0 / m_axisVerticalMaxValue : 100.0;
         double maxHorizontal = m_axisHorizontalMaxValue > 0 ? 1.0 / m_axisHorizontalMaxValue : 100.0;
-        line->shapePath->setStartX(m_marginLeft + m_axisWidth + w * points[0].x() * maxHorizontal);
-        line->shapePath->setStartY(m_marginTop + h - h * points[0].y() * maxVertical);
-        for (int i = 1; i < points.count(); ++i) {
-            line->paths[i - 1]->setX(m_marginLeft + m_axisWidth + w * points[i].x() * maxHorizontal);
-            line->paths[i - 1]->setY(m_marginTop + h - h * points[i].y() * maxVertical);
+        for (int i = 0; i < points.count(); ++i) {
+            qreal x = m_marginLeft + m_axisWidth + w * points[i].x() * maxHorizontal;
+            qreal y = m_marginTop + h - h * points[i].y() * maxVertical;
+            if (i == 0) {
+                line->shapePath->setStartX(x);
+                line->shapePath->setStartY(y);
+            } else {
+                line->paths[i - 1]->setX(x);
+                line->paths[i - 1]->setY(y);
+            }
+
+            if (series->pointMarker()) {
+                line->markers[i]->setX(x - line->markers[i]->width() / 2.0);
+                line->markers[i]->setY(y - line->markers[i]->height() / 2.0);
+            }
         }
     }
 }
