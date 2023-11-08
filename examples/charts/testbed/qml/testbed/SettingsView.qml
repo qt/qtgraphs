@@ -52,6 +52,7 @@ Item {
 
         Column {
             id: settingsArea
+            spacing: 10
         }
         enter: Transition {
             NumberAnimation {

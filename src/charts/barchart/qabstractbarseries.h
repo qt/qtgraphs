@@ -64,6 +64,10 @@ public:
     void setLabelsPrecision(int precision);
     int labelsPrecision() const;
 
+public Q_SLOTS:
+    void selectAll();
+    void deselectAll();
+
 protected:
     explicit QAbstractBarSeries(QAbstractBarSeriesPrivate &d, QObject *parent = nullptr);
 

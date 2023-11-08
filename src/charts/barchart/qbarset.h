@@ -23,6 +23,7 @@ class QBarSet : public QObject
     Q_PROPERTY(QVariantList values READ values WRITE setValues)
     Q_PROPERTY(qreal borderWidth READ borderWidth WRITE setBorderWidth NOTIFY borderWidthChanged)
     Q_PROPERTY(int count READ count NOTIFY countChanged)
+    Q_PROPERTY(QList<int> selectedBars READ selectedBars NOTIFY selectedBarsChanged)
     QML_NAMED_ELEMENT(BarSet)
 
 public:
@@ -63,6 +64,7 @@ public:
     qreal borderWidth() const;
     void setBorderWidth(qreal borderWidth);
 
+public Q_SLOTS:
     bool isBarSelected(int index) const;
     void selectBar(int index);
     void deselectBar(int index);

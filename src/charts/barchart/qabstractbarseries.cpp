@@ -655,6 +655,25 @@ int QAbstractBarSeries::labelsPrecision() const
     return d->m_labelsPrecision;
 }
 
+
+// Select all the elements in the series
+void QAbstractBarSeries::selectAll()
+{
+    Q_D(QAbstractBarSeries);
+    for (auto s : d->m_barSets) {
+        s->selectAllBars();
+    }
+}
+
+// Deselect all the elements in the series
+void QAbstractBarSeries::deselectAll()
+{
+    Q_D(QAbstractBarSeries);
+    for (auto s : d->m_barSets) {
+        s->deselectAllBars();
+    }
+}
+
 void QAbstractBarSeries::componentComplete()
 {
     for (auto *child : children()) {
