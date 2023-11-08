@@ -238,6 +238,11 @@ void QQuickGraphs2DView::updateAxis()
         }
     }
 
+    if (auto haxis = qobject_cast<QBarCategoryAxis *>(m_axisHorizontal)) {
+        m_axisHorizontalMaxValue = haxis->categories().size();
+        m_axisVerticalMinValue = 0;
+    }
+
     updateAxisTickers();
     updateAxisGrid();
 }
