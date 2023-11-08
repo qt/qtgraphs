@@ -4,8 +4,9 @@
 import QtQuick
 import QtGraphs2D
 
-Item {
+Rectangle {
     anchors.fill: parent
+    color: "#404040"
 
     ChartView {
         id: chartView
@@ -21,11 +22,16 @@ Item {
             axisX: BarCategoryAxis {
                 id: xAxis
                 categories: [1, 2, 3, 4, 5, 6]
+                gridVisible: checkBoxGridXMajor.checked
+                minorGridVisible: checkBoxGridXMinor.checked
             }
             axisY: ValueAxis {
                 id: yAxis
                 max: 10
                 autoScale: false
+                minorTickCount: 1
+                gridVisible: checkBoxGridYMajor.checked
+                minorGridVisible: checkBoxGridYMinor.checked
             }
 
             BarSet { id: set1; label: "Bob"; values: [1, 2, 3, 4, 5, 6] }
@@ -88,6 +94,38 @@ Item {
             fromValue: -3
             toValue: 3
             onSliderValueChanged: yAxis.min = sliderValue;
+        }
+        CustomCheckBox {
+            id: checkBoxGridYMajor
+            text: "Grid Y: Major lines"
+            checked: true
+        }
+        CustomCheckBox {
+            id: checkBoxGridYMinor
+            text: "Grid Y: Minor lines"
+            checked: true
+        }
+        CustomCheckBox {
+            id: checkBoxGridXMajor
+            text: "Grid X: Major lines"
+            checked: false
+        }
+        CustomCheckBox {
+            id: checkBoxGridXMinor
+            text: "Grid X: Minor lines"
+            checked: false
+        }
+
+        CustomLabel {
+            text: "Y-coordinate: Minor Ticks"
+        }
+        CustomSlider {
+            id: sliderYTicksValue
+            sliderValue: yAxis.minorTickCount
+            sliderStepSize: 1
+            fromValue: 0
+            toValue: 9
+            onSliderValueChanged: yAxis.minorTickCount = sliderValue;
         }
     }
 }

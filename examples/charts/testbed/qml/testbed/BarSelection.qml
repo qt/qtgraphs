@@ -5,8 +5,9 @@ import QtQuick
 import QtGraphs2D
 import QtQuick.Controls.Basic
 
-Item {
+Rectangle {
     anchors.fill: parent
+    color: "#404040"
 
     ChartView {
         id: chartView

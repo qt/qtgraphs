@@ -218,6 +218,15 @@ void QQuickGraphs2DView::updateAxis()
     m_axisVertical = axisVertical;
     m_axisHorizontal = axisHorizontal;
 
+    if (m_axisVertical) {
+        m_gridVerticalMajorTicksVisible = m_axisVertical->isGridLineVisible();
+        m_gridVerticalMinorTicksVisible = m_axisVertical->isMinorGridLineVisible();
+    }
+    if (m_axisHorizontal) {
+        m_gridHorizontalMajorTicksVisible = m_axisHorizontal->isGridLineVisible();
+        m_gridHorizontalMinorTicksVisible = m_axisHorizontal->isMinorGridLineVisible();
+    }
+
     if (auto vaxis = qobject_cast<QValueAxis *>(m_axisVertical)) {
         if (vaxis->autoScale()) {
             // TODO: Count max from single seried or all or what?
@@ -227,6 +236,8 @@ void QQuickGraphs2DView::updateAxis()
             m_axisVerticalMaxValue = vaxis->max();
             m_axisVerticalMinValue = vaxis->min();
         }
+        int axisVerticalMinorTickCount = vaxis->minorTickCount();
+        m_axisVerticalMinorTickScale = axisVerticalMinorTickCount > 0 ? 1.0 / (axisVerticalMinorTickCount + 1) : 1.0;
     }
 
     if (auto haxis = qobject_cast<QValueAxis *>(m_axisHorizontal)) {
@@ -240,7 +251,7 @@ void QQuickGraphs2DView::updateAxis()
 
     if (auto haxis = qobject_cast<QBarCategoryAxis *>(m_axisHorizontal)) {
         m_axisHorizontalMaxValue = haxis->categories().size();
-        m_axisVerticalMinValue = 0;
+        m_axisHorizontalMinValue = 0;
     }
 
     updateAxisTickers();
@@ -255,8 +266,6 @@ void QQuickGraphs2DView::updateAxisTickers()
             m_axisTickerVertical->setParentItem(this);
             m_axisTickerVertical->setZ(-1);
             m_axisTickerVertical->setOrigo(0);
-            m_axisTickerVertical->setMinorBarsVisible(true);
-            m_axisTickerVertical->setMinorTickScale(0.2);
             // TODO: Configurable in theme or axis?
             m_axisTickerVertical->setMinorBarsLength(0.5);
             m_axisTickerVertical->setupShaders();
@@ -278,6 +287,8 @@ void QQuickGraphs2DView::updateAxisTickers()
         m_axisTickerVertical->setWidth(m_axisTickersWidth);
         m_axisTickerVertical->setHeight(height() - m_marginTop - m_marginBottom - m_axisHeight);
         m_axisTickerVertical->setSpacing(m_axisTickerVertical->height() / m_axisVerticalValueRange);
+        m_axisTickerVertical->setMinorBarsVisible(!qFuzzyCompare(m_axisVerticalMinorTickScale, 1.0));
+        m_axisTickerVertical->setMinorTickScale(m_axisVerticalMinorTickScale);
     }
 
     if (m_axisHorizontal) {
@@ -287,9 +298,7 @@ void QQuickGraphs2DView::updateAxisTickers()
             m_axisTickerHorizontal->setZ(-1);
             m_axisTickerHorizontal->setIsHorizontal(true);
             m_axisTickerHorizontal->setOrigo(0);
-            m_axisTickerHorizontal->setMinorBarsVisible(true);
             m_axisTickerHorizontal->setBarsMovement(0.0);
-            m_axisTickerHorizontal->setMinorTickScale(0.5);
             // TODO: Configurable in theme or axis?
             m_axisTickerHorizontal->setMinorBarsLength(0.2);
             m_axisTickerHorizontal->setupShaders();
@@ -308,6 +317,8 @@ void QQuickGraphs2DView::updateAxisTickers()
         m_axisTickerHorizontal->setWidth(width() - m_marginLeft - m_marginRight - m_axisWidth);
         m_axisTickerHorizontal->setHeight(m_axisTickersHeight);
         m_axisTickerHorizontal->setSpacing(m_axisTickerHorizontal->width() / m_axisHorizontalMaxValue);
+        m_axisTickerHorizontal->setMinorBarsVisible(!qFuzzyCompare(m_axisHorizontalMinorTickScale, 1.0));
+        m_axisTickerHorizontal->setMinorTickScale(m_axisHorizontalMinorTickScale);
     }
 }
 
@@ -319,9 +330,6 @@ void QQuickGraphs2DView::updateAxisGrid()
         m_axisGrid->setZ(-1);
         m_axisGrid->setupShaders();
         m_axisGrid->setOrigo(0);
-        m_axisGrid->setBarsVisibility(QVector4D(1, 1, 0, 1));
-        m_axisGrid->setVerticalMinorTickScale(0.1);
-        m_axisGrid->setHorizontalMinorTickScale(0.1);
     }
     if (m_theme->themeDirty()) {
         m_axisGrid->setMajorColor(m_theme->gridMajorBarsColor());
@@ -339,6 +347,12 @@ void QQuickGraphs2DView::updateAxisGrid()
     m_axisGrid->setHeight(height() - m_marginTop - m_marginBottom - m_axisHeight);
     m_axisGrid->setGridWidth(m_axisGrid->width() / m_axisHorizontalValueRange);
     m_axisGrid->setGridHeight(m_axisGrid->height() / m_axisVerticalValueRange);
+    m_axisGrid->setBarsVisibility(QVector4D(m_gridHorizontalMajorTicksVisible,
+                                            m_gridVerticalMajorTicksVisible,
+                                            m_gridHorizontalMinorTicksVisible,
+                                            m_gridVerticalMinorTicksVisible));
+    m_axisGrid->setVerticalMinorTickScale(m_axisVerticalMinorTickScale);
+    m_axisGrid->setHorizontalMinorTickScale(m_axisHorizontalMinorTickScale);
 }
 
 void QQuickGraphs2DView::updateBarXAxis(QBarCategoryAxis *axis, const QRectF &rect)

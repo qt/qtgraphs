@@ -557,6 +557,7 @@ void QAbstractAxis::setGridLineVisible(bool visible)
 {
     if (d_ptr->m_gridLineVisible != visible) {
         d_ptr->m_gridLineVisible = visible;
+        update();
         emit gridVisibleChanged(visible);
     }
 }
@@ -570,6 +571,7 @@ void QAbstractAxis::setMinorGridLineVisible(bool visible)
 {
     if (d_ptr->m_minorGridLineVisible != visible) {
         d_ptr->m_minorGridLineVisible = visible;
+        update();
         emit minorGridVisibleChanged(visible);
     }
 }

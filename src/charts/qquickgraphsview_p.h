@@ -163,6 +163,12 @@ private:
     double m_axisHorizontalMaxValue = 6;
     double m_axisHorizontalMinValue = 0;
     double m_axisHorizontalValueRange;
+    double m_axisVerticalMinorTickScale = 0.5;
+    double m_axisHorizontalMinorTickScale = 0.5;
+    bool m_gridHorizontalMajorTicksVisible = true;
+    bool m_gridVerticalMajorTicksVisible = true;
+    bool m_gridHorizontalMinorTicksVisible = false;
+    bool m_gridVerticalMinorTicksVisible = false;
     GraphTheme *m_theme = nullptr;
     qreal m_marginTop = 20;
     qreal m_marginBottom = 20;

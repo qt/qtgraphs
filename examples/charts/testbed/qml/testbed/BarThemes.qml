@@ -7,8 +7,6 @@ import QtQuick.Controls.Basic
 
 Rectangle {
     id: mainView
-    width: 800
-    height: 600
     color: "#404040"
 
     // Reset the set colors to transparent
@@ -173,7 +171,9 @@ Rectangle {
         BarSeries {
             id: mySeries
             axisX: BarCategoryAxis { categories: ["2007", "2008", "2009", "2010", "2011", "2012"] }
-            axisY: ValueAxis { }
+            axisY: ValueAxis {
+                minorTickCount: 4
+            }
             theme: SeriesTheme {
                 id: seriesTheme
                 colorTheme: SeriesTheme.SeriesTheme1
