@@ -85,8 +85,6 @@ protected:
     QFont m_pointLabelsFont;
     QColor m_pointLabelsColor;
     bool m_pointLabelsClipping;
-    QImage m_lightMarker;
-    QImage m_selectedLightMarker;
 //    QPen m_bestFitLinePen;
     bool m_bestFitLineVisible;
     qreal m_markerSize;

@@ -102,7 +102,9 @@ public:
 
 protected:
     void componentComplete() override;
+    void mouseMoveEvent(QMouseEvent *event) override;
     void mousePressEvent(QMouseEvent *event) override;
+    void mouseReleaseEvent(QMouseEvent *event) override;
     QSGNode *updatePaintNode(QSGNode *oldNode, QQuickItem::UpdatePaintNodeData *updatePaintNodeData) override;
     void updatePolish() override;
 
@@ -125,9 +127,11 @@ private:
 
 private:
     struct LinePath {
+        QLineSeries *series;
         QQuickShapePath *shapePath = nullptr;
         QList<QQuickPathLine *> paths;
         QList<QQuickItem *> markers;
+        QList<QSGDefaultInternalRectangleNode *> selections;
     };
     struct BarSelectionRect {
         QBarSet *barSet = nullptr;
@@ -181,6 +185,12 @@ private:
     qreal m_axisHeight = 20;
     qreal m_axisTickersWidth = 15;
     qreal m_axisTickersHeight = 15;
+    // Line point drag variables
+    bool m_pointPressed = false;
+    bool m_pointDragging = false;
+    QPoint m_pressStart;
+    LinePath *m_pressedLine = nullptr;
+    int m_pressedPointIndex = 0;
 };
 
 QT_END_NAMESPACE

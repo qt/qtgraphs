@@ -147,9 +147,10 @@ Rectangle {
                 autoScale: false
             }
             pointMarker: Rectangle {
+                property bool selected: false
                 width: 5
                 height: 20
-                color: "white"
+                color: selected ? "cyan" : "white"
             }
 
             XYPoint { x: 0; y: 0 }
@@ -166,6 +167,7 @@ Rectangle {
             name: "Second"
             theme: seriesTheme
             width: widthSlider2.value
+
             XYPoint { x: 0; y: 6.6 }
             XYPoint { x: 0.6; y: 4.1 }
             XYPoint { x: 1.5; y: 5.3 }

@@ -121,6 +121,32 @@ void QQuickGraphs2DView::componentComplete()
     ensurePolished();
 }
 
+void QQuickGraphs2DView::mouseMoveEvent(QMouseEvent *event)
+{
+    if (m_pointPressed && m_pressedLine->series->isPointSelected(m_pressedPointIndex)) {
+        float w = width() - m_marginLeft - m_marginRight - m_axisWidth;
+        float h = height() - m_marginTop - m_marginBottom - m_axisHeight;
+        double maxVertical = m_axisVerticalMaxValue > 0 ? 1.0 / m_axisVerticalMaxValue : 100.0;
+        double maxHorizontal = m_axisHorizontalMaxValue > 0 ? 1.0 / m_axisHorizontalMaxValue : 100.0;
+
+        QPoint delta = m_pressStart - event->pos();
+
+        qreal deltaX = -delta.x() / w / maxHorizontal;
+        qreal deltaY = delta.y() / h / maxVertical;
+
+        for (auto &&line : m_linePaths) {
+            auto &&selectedPoints = line->series->selectedPoints();
+            for (int index : selectedPoints) {
+                QPointF point = line->series->at(index) + QPointF(deltaX, deltaY);
+                line->series->replace(index, point);
+            }
+        }
+
+        m_pressStart = event->pos();
+        m_pointDragging = true;
+    }
+}
+
 void QQuickGraphs2DView::mousePressEvent(QMouseEvent *event)
 {
     for (auto &barSelection : m_rectNodesInputRects) {
@@ -134,6 +160,65 @@ void QQuickGraphs2DView::mousePressEvent(QMouseEvent *event)
             indexInSet++;
         }
     }
+
+    const int selectionSize = 20;
+    for (auto &&line : m_linePaths) {
+        QRect startRect(line->shapePath->startX() - selectionSize / 2.0,
+                        line->shapePath->startY() - selectionSize / 2.0,
+                        selectionSize, selectionSize);
+        if (startRect.contains(event->pos())) {
+            if (line->series->isPointSelected(0)) {
+                line->series->deselectPoint(0);
+            } else {
+                line->series->selectPoint(0);
+            }
+
+            m_pointPressed = true;
+            m_pressStart = event->pos();
+            m_pressedLine = line;
+            m_pressedPointIndex = 0;
+        }
+
+        int index = 1;
+        for (auto &&path : line->paths) {
+            QRect rect(path->x() - selectionSize / 2.0,
+                       path->y() - selectionSize / 2.0,
+                       selectionSize, selectionSize);
+            if (rect.contains(event->pos())) {
+                m_pointPressed = true;
+                m_pressStart = event->pos();
+                m_pressedLine = line;
+                m_pressedPointIndex = index;
+            }
+            index++;
+        }
+    }
+}
+
+void QQuickGraphs2DView::mouseReleaseEvent(QMouseEvent *event)
+{
+    if (!m_pointDragging && m_pointPressed && m_pressedLine) {
+        const int selectionSize = 20;
+        QRect rect(m_pressedLine->shapePath->startX() - selectionSize / 2.0,
+                   m_pressedLine->shapePath->startY() - selectionSize / 2.0,
+                   selectionSize, selectionSize);
+
+        if (m_pressedPointIndex > 0) {
+            rect = QRect(m_pressedLine->paths[m_pressedPointIndex - 1]->x() - selectionSize / 2.0,
+                         m_pressedLine->paths[m_pressedPointIndex - 1]->y() - selectionSize / 2.0,
+                         selectionSize, selectionSize);
+        }
+
+        if (rect.contains(event->pos())) {
+            if (m_pressedLine->series->isPointSelected(m_pressedPointIndex)) {
+                m_pressedLine->series->deselectPoint(m_pressedPointIndex);
+            } else {
+                m_pressedLine->series->selectPoint(m_pressedPointIndex);
+            }
+        }
+    }
+    m_pointPressed = false;
+    m_pointDragging = false;
 }
 
 QSGNode *QQuickGraphs2DView::updatePaintNode(QSGNode *oldNode, QQuickItem::UpdatePaintNodeData *updatePaintNodeData)
@@ -173,6 +258,7 @@ void QQuickGraphs2DView::updatePolish()
         if (auto lineSeries = qobject_cast<QLineSeries*>(series)) {
             if (!m_linePaths.contains(lineSeries)) {
                 LinePath *linePath = new LinePath();
+                linePath->series = lineSeries;
                 linePath->shapePath = new QQuickShapePath(&m_shape);
                 m_linePaths.insert(lineSeries, linePath);
 
@@ -207,6 +293,61 @@ void QQuickGraphs2DView::updatePolish()
                     line->markers[i]->deleteLater();
                 }
                 line->markers.clear();
+            }
+
+            if (!lineSeries->pointMarker()) {
+                // Create markers for selected points for a line
+                // without a user defined point marker
+
+                int selectionCount = line->selections.size();
+                if (selectionCount < lineSeries->selectedPoints().size()) {
+                    for (int i = selectionCount; i < lineSeries->selectedPoints().size(); ++i) {
+                        auto selection = new QSGDefaultInternalRectangleNode();
+                        m_backgroundNode->appendChildNode(selection);
+                        line->selections << selection;
+                    }
+                }
+
+                auto &&selectedPoints = lineSeries->selectedPoints();
+                for (int i = 0; i < line->selections.size();) {
+                    if (i < selectedPoints.size()) {
+                        int index = selectedPoints[i];
+                        auto &pointItem = line->selections[i];
+
+                        qreal x = line->shapePath->startX();
+                        qreal y = line->shapePath->startY();
+
+                        if (index > 0) {
+                            x = line->paths[index - 1]->x();
+                            y = line->paths[index - 1]->y();
+                        }
+
+                        qreal markerSize = lineSeries->markerSize();
+                        pointItem->setRect(QRectF(x - markerSize / 2.0, y - markerSize / 2.0,
+                                                  markerSize, markerSize));
+                        QColor c = lineSeries->color();
+                        if (lineSeries->selectedColor().isValid())
+                            c = lineSeries->selectedColor();
+                        c.setAlpha(c.alpha() * lineSeries->opacity());
+                        pointItem->setColor(QColorConstants::Transparent);
+                        pointItem->setPenColor(c);
+                        pointItem->setPenWidth(2.0);
+                        // TODO: Required because of QTBUG-117892
+                        pointItem->setTopLeftRadius(-1);
+                        pointItem->setTopRightRadius(-1);
+                        pointItem->setBottomLeftRadius(-1);
+                        pointItem->setBottomRightRadius(-1);
+                        pointItem->setRadius(180.0);
+                        pointItem->setAntialiasing(true);
+                        pointItem->update();
+
+                        i++;
+                    } else {
+                        m_backgroundNode->removeChildNode(line->selections[i]);
+                        delete line->selections[i];
+                        line->selections.removeAt(i);
+                    }
+                }
             }
 
             auto seriesTheme = lineSeries->theme();
@@ -607,7 +748,7 @@ void QQuickGraphs2DView::updateLineSeries(QLineSeries *series)
         line->shapePath->setCapStyle(QQuickShapePath::CapStyle::RoundCap);
     }
 
-    // Bars area width & hight
+    // Line area width & height
     float w = width() - m_marginLeft - m_marginRight - m_axisWidth;
     float h = height() - m_marginTop - m_marginBottom - m_axisHeight;
 
@@ -627,6 +768,8 @@ void QQuickGraphs2DView::updateLineSeries(QLineSeries *series)
             }
 
             if (series->pointMarker()) {
+                if (line->markers[i]->property("selected").isValid())
+                    line->markers[i]->setProperty("selected", series->isPointSelected(i));
                 line->markers[i]->setX(x - line->markers[i]->width() / 2.0);
                 line->markers[i]->setY(y - line->markers[i]->height() / 2.0);
             }

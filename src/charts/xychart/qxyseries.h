@@ -114,12 +114,6 @@ public:
     void toggleSelection(const QList<int> &indexes);
     QList<int> selectedPoints() const;
 
-    void setLightMarker(const QImage &lightMarker);
-    const QImage &lightMarker() const;
-
-    void setSelectedLightMarker(const QImage &selectedLightMarker);
-    const QImage &selectedLightMarker() const;
-
     void setMarkerSize(qreal size);
     qreal markerSize() const;
 
@@ -168,8 +162,6 @@ Q_SIGNALS:
     void pointsRemoved(int index, int count);
 //    void penChanged(const QPen &pen);
     void selectedPointsChanged();
-    Q_REVISION(6, 2) void lightMarkerChanged(const QImage &lightMarker);
-    Q_REVISION(6, 2) void selectedLightMarkerChanged(const QImage &selectedLightMarker);
     Q_REVISION(6, 2) void bestFitLineVisibilityChanged(bool visible);
 //    Q_REVISION(6, 2) void bestFitLinePenChanged(const QPen &pen);
     Q_REVISION(6, 2) void bestFitLineColorChanged(const QColor &color);
