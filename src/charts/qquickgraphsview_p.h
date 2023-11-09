@@ -25,6 +25,7 @@
 #include <QtQuick/private/qquicktext_p.h>
 #include <private/axisgrid_p.h>
 #include <private/axisticker_p.h>
+#include <private/axisline_p.h>
 #include <QtGraphs2D/graphtheme.h>
 #include <QtQuickShapes/private/qquickshape_p.h>
 #include <QtQuick/QSGClipNode>
@@ -155,6 +156,8 @@ private:
     QAbstractAxis *m_axisHorizontal = nullptr;
     AxisTicker *m_axisTickerVertical = nullptr;
     AxisTicker *m_axisTickerHorizontal = nullptr;
+    AxisLine *m_axisLineVertical = nullptr;
+    AxisLine *m_axisLineHorizontal = nullptr;
     // Min value
     double m_axisVerticalMaxValue = 20;
     // Max value

@@ -418,10 +418,16 @@ void QQuickGraphs2DView::updateAxis()
 void QQuickGraphs2DView::updateAxisTickers()
 {
     if (m_axisVertical) {
+        if (!m_axisLineVertical) {
+            m_axisLineVertical = new AxisLine();
+            m_axisLineVertical->setParentItem(this);
+            m_axisLineVertical->setZ(-1);
+            m_axisLineVertical->setupShaders();
+        }
         if (!m_axisTickerVertical) {
             m_axisTickerVertical = new AxisTicker();
             m_axisTickerVertical->setParentItem(this);
-            m_axisTickerVertical->setZ(-1);
+            m_axisTickerVertical->setZ(-2);
             m_axisTickerVertical->setOrigo(0);
             // TODO: Configurable in theme or axis?
             m_axisTickerVertical->setMinorBarsLength(0.5);
@@ -446,13 +452,28 @@ void QQuickGraphs2DView::updateAxisTickers()
         m_axisTickerVertical->setSpacing(m_axisTickerVertical->height() / m_axisVerticalValueRange);
         m_axisTickerVertical->setMinorBarsVisible(!qFuzzyCompare(m_axisVerticalMinorTickScale, 1.0));
         m_axisTickerVertical->setMinorTickScale(m_axisVerticalMinorTickScale);
+        // Axis line
+        m_axisLineVertical->setColor(m_theme->axisYMajorColor());
+        m_axisLineVertical->setLineWidth(m_theme->axisYMajorBarWidth());
+        m_axisLineVertical->setSmoothing(m_theme->axisYSmoothing());
+        m_axisLineVertical->setX(m_axisTickerVertical->x() + m_axisTickersWidth);
+        m_axisLineVertical->setY(m_axisTickerVertical->y());
+        m_axisLineVertical->setWidth(m_axisLineVertical->lineWidth() + m_axisLineVertical->smoothing());
+        m_axisLineVertical->setHeight(m_axisTickerVertical->height());
     }
 
     if (m_axisHorizontal) {
+        if (!m_axisLineHorizontal) {
+            m_axisLineHorizontal = new AxisLine();
+            m_axisLineHorizontal->setParentItem(this);
+            m_axisLineHorizontal->setZ(-1);
+            m_axisLineHorizontal->setIsHorizontal(true);
+            m_axisLineHorizontal->setupShaders();
+        }
         if (!m_axisTickerHorizontal) {
             m_axisTickerHorizontal = new AxisTicker();
             m_axisTickerHorizontal->setParentItem(this);
-            m_axisTickerHorizontal->setZ(-1);
+            m_axisTickerHorizontal->setZ(-2);
             m_axisTickerHorizontal->setIsHorizontal(true);
             m_axisTickerHorizontal->setOrigo(0);
             m_axisTickerHorizontal->setBarsMovement(0.0);
@@ -476,6 +497,14 @@ void QQuickGraphs2DView::updateAxisTickers()
         m_axisTickerHorizontal->setSpacing(m_axisTickerHorizontal->width() / m_axisHorizontalMaxValue);
         m_axisTickerHorizontal->setMinorBarsVisible(!qFuzzyCompare(m_axisHorizontalMinorTickScale, 1.0));
         m_axisTickerHorizontal->setMinorTickScale(m_axisHorizontalMinorTickScale);
+        // Axis line
+        m_axisLineHorizontal->setColor(m_theme->axisXMajorColor());
+        m_axisLineHorizontal->setLineWidth(m_theme->axisXMajorBarWidth());
+        m_axisLineHorizontal->setSmoothing(m_theme->axisXSmoothing());
+        m_axisLineHorizontal->setX(m_axisTickerHorizontal->x());
+        m_axisLineHorizontal->setY(m_axisTickerHorizontal->y() - m_axisLineHorizontal->lineWidth() - m_axisLineHorizontal->smoothing());
+        m_axisLineHorizontal->setWidth(m_axisTickerHorizontal->width());
+        m_axisLineHorizontal->setHeight(m_axisLineHorizontal->lineWidth() + m_axisLineHorizontal->smoothing());
     }
 }
 

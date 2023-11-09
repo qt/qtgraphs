@@ -25,6 +25,7 @@ qt_internal_add_qml_module(Graphs2D
         axis/barcategoryaxis/qbarcategoryaxis.cpp axis/barcategoryaxis/qbarcategoryaxis.h axis/barcategoryaxis/qbarcategoryaxis_p.h
         axis/axisgrid.cpp axis/axisgrid_p.h
         axis/axisticker.cpp axis/axisticker_p.h
+        axis/axisline.cpp axis/axisline_p.h
         axis/valueaxis/qvalueaxis.cpp axis/valueaxis/qvalueaxis.h axis/valueaxis/qvalueaxis_p.h
         themes/graphtheme.cpp themes/graphtheme.h
         themes/seriestheme.cpp themes/seriestheme.h
@@ -48,6 +49,10 @@ set(shader_resource_files
     "data/tickershader.vert.qsb"
     "data/tickershaderhorizontal.frag.qsb"
     "data/tickershaderhorizontal.vert.qsb"
+    "data/lineshaderhorizontal.frag.qsb"
+    "data/lineshaderhorizontal.vert.qsb"
+    "data/lineshadervertical.frag.qsb"
+    "data/lineshadervertical.vert.qsb"
 )
 
 qt_internal_add_resource(Graphs2D "graphsshaders"
