@@ -24,7 +24,7 @@ class ScatterItemModelHandler : public AbstractItemModelHandler
     Q_OBJECT
 public:
     ScatterItemModelHandler(QItemModelScatterDataProxy *proxy, QObject *parent = 0);
-    virtual ~ScatterItemModelHandler();
+    ~ScatterItemModelHandler() override;
 
 public Q_SLOTS:
     void handleDataChanged(const QModelIndex &topLeft,

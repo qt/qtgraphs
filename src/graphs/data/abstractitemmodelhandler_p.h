@@ -26,7 +26,7 @@ class AbstractItemModelHandler : public QObject
     Q_OBJECT
 public:
     AbstractItemModelHandler(QObject *parent = 0);
-    virtual ~AbstractItemModelHandler();
+    ~AbstractItemModelHandler() override;
 
     virtual void setItemModel(QAbstractItemModel *itemModel);
     virtual QAbstractItemModel *itemModel() const;

@@ -24,7 +24,7 @@ class SurfaceItemModelHandler : public AbstractItemModelHandler
     Q_OBJECT
 public:
     SurfaceItemModelHandler(QItemModelSurfaceDataProxy *proxy, QObject *parent = 0);
-    virtual ~SurfaceItemModelHandler();
+    ~SurfaceItemModelHandler() override;
 
 public Q_SLOTS:
     void handleDataChanged(const QModelIndex &topLeft,

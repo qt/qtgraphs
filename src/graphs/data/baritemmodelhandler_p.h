@@ -24,7 +24,7 @@ class BarItemModelHandler : public AbstractItemModelHandler
     Q_OBJECT
 public:
     BarItemModelHandler(QItemModelBarDataProxy *proxy, QObject *parent = 0);
-    virtual ~BarItemModelHandler();
+    ~BarItemModelHandler() override;
 
 public Q_SLOTS:
     void handleDataChanged(const QModelIndex &topLeft,
