@@ -40,7 +40,7 @@ public:
 
     explicit QSurface3DSeries(QObject *parent = nullptr);
     explicit QSurface3DSeries(QSurfaceDataProxy *dataProxy, QObject *parent = nullptr);
-    virtual ~QSurface3DSeries();
+    ~QSurface3DSeries() override;
 
     void setDataProxy(QSurfaceDataProxy *proxy);
     QSurfaceDataProxy *dataProxy() const;

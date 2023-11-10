@@ -13,7 +13,7 @@ class HighlightSeries : public QSurface3DSeries
     Q_OBJECT
 public:
     explicit HighlightSeries();
-    ~HighlightSeries();
+    ~HighlightSeries() override;
 
     void setTopographicSeries(TopographicSeries *series);
     inline void setMinHeight(float height) { m_minHeight = height; }

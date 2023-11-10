@@ -11,7 +11,7 @@ class TopographicSeries : public QSurface3DSeries
     Q_OBJECT
 public:
     TopographicSeries();
-    ~TopographicSeries();
+    ~TopographicSeries() override;
 
     void setTopographyFile(const QString file, float width, float height);
 

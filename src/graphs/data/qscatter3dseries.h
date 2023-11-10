@@ -22,7 +22,7 @@ class Q_GRAPHS_EXPORT QScatter3DSeries : public QAbstract3DSeries
 public:
     explicit QScatter3DSeries(QObject *parent = nullptr);
     explicit QScatter3DSeries(QScatterDataProxy *dataProxy, QObject *parent = nullptr);
-    virtual ~QScatter3DSeries();
+    ~QScatter3DSeries() override;
 
     void setDataProxy(QScatterDataProxy *proxy);
     QScatterDataProxy *dataProxy() const;

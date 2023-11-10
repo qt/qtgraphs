@@ -24,7 +24,7 @@ class Q_GRAPHS_EXPORT QBar3DSeries : public QAbstract3DSeries
 public:
     explicit QBar3DSeries(QObject *parent = nullptr);
     explicit QBar3DSeries(QBarDataProxy *dataProxy, QObject *parent = nullptr);
-    virtual ~QBar3DSeries();
+    ~QBar3DSeries() override;
 
     void setDataProxy(QBarDataProxy *proxy);
     QBarDataProxy *dataProxy() const;

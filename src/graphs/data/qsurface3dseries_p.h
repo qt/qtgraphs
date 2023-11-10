@@ -25,7 +25,7 @@ class QSurface3DSeriesPrivate : public QAbstract3DSeriesPrivate
 
 public:
     QSurface3DSeriesPrivate(QSurface3DSeries *q);
-    virtual ~QSurface3DSeriesPrivate();
+    ~QSurface3DSeriesPrivate() override;
 
     void setDataProxy(QAbstractDataProxy *proxy) override;
     void connectGraphAndProxy(QQuickGraphsItem *newGraph) override;

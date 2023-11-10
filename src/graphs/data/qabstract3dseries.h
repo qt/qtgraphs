@@ -72,7 +72,7 @@ protected:
     explicit QAbstract3DSeries(QAbstract3DSeriesPrivate &d, QObject *parent = nullptr);
 
 public:
-    virtual ~QAbstract3DSeries();
+    ~QAbstract3DSeries() override;
 
     QAbstract3DSeries::SeriesType type() const;
 

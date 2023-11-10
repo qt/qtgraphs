@@ -50,7 +50,7 @@ class QQuickGraphsBar3DSeries : public QBar3DSeries
 
 public:
     QQuickGraphsBar3DSeries(QObject *parent = 0);
-    virtual ~QQuickGraphsBar3DSeries();
+    ~QQuickGraphsBar3DSeries() override;
 
     QQmlListProperty<QObject> seriesChildren();
     static void appendSeriesChildren(QQmlListProperty<QObject> *list, QObject *element);
@@ -118,7 +118,7 @@ class QQuickGraphsScatter3DSeries : public QScatter3DSeries
 
 public:
     QQuickGraphsScatter3DSeries(QObject *parent = 0);
-    virtual ~QQuickGraphsScatter3DSeries();
+    ~QQuickGraphsScatter3DSeries() override;
 
     QQmlListProperty<QObject> seriesChildren();
     static void appendSeriesChildren(QQmlListProperty<QObject> *list, QObject *element);
@@ -172,7 +172,7 @@ class QQuickGraphsSurface3DSeries : public QSurface3DSeries
 
 public:
     QQuickGraphsSurface3DSeries(QObject *parent = 0);
-    virtual ~QQuickGraphsSurface3DSeries();
+    ~QQuickGraphsSurface3DSeries() override;
 
     void setSelectedPoint(const QPointF &position);
     QPointF selectedPoint() const;
