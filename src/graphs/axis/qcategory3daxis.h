@@ -18,7 +18,7 @@ class Q_GRAPHS_EXPORT QCategory3DAxis : public QAbstract3DAxis
 
 public:
     explicit QCategory3DAxis(QObject *parent = nullptr);
-    virtual ~QCategory3DAxis();
+    ~QCategory3DAxis() override;
 
     void setLabels(const QStringList &labels);
     QStringList labels() const;

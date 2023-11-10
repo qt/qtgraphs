@@ -26,7 +26,7 @@ protected:
 
 public:
     explicit QValue3DAxisFormatter(QObject *parent = nullptr);
-    virtual ~QValue3DAxisFormatter();
+    ~QValue3DAxisFormatter() override;
 
 private Q_SLOTS:
     void markDirtyNoLabelChange();

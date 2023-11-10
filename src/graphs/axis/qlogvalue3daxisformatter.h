@@ -24,7 +24,7 @@ protected:
 
 public:
     explicit QLogValue3DAxisFormatter(QObject *parent = nullptr);
-    virtual ~QLogValue3DAxisFormatter();
+    ~QLogValue3DAxisFormatter() override;
 
     void setBase(qreal base);
     qreal base() const;

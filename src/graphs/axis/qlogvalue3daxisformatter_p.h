@@ -25,7 +25,7 @@ class QLogValue3DAxisFormatterPrivate : public QValue3DAxisFormatterPrivate
 
 public:
     QLogValue3DAxisFormatterPrivate(QLogValue3DAxisFormatter *q);
-    virtual ~QLogValue3DAxisFormatterPrivate();
+    ~QLogValue3DAxisFormatterPrivate() override;
 
     void recalculate();
     void populateCopy(QValue3DAxisFormatter &copy) const;

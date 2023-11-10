@@ -25,7 +25,7 @@ class Q_GRAPHS_EXPORT QValue3DAxis : public QAbstract3DAxis
 
 public:
     explicit QValue3DAxis(QObject *parent = nullptr);
-    virtual ~QValue3DAxis();
+    ~QValue3DAxis() override;
 
     void setSegmentCount(int count);
     int segmentCount() const;

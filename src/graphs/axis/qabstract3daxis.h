@@ -45,7 +45,7 @@ protected:
     explicit QAbstract3DAxis(QAbstract3DAxisPrivate &d, QObject *parent = nullptr);
 
 public:
-    virtual ~QAbstract3DAxis();
+    ~QAbstract3DAxis() override;
 
     void setTitle(const QString &title);
     QString title() const;
