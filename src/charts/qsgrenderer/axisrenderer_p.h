@@ -36,6 +36,7 @@ class AxisRenderer : public QQuickItem
 public:
     AxisRenderer(QQuickItem *parent = nullptr);
 
+    void handlePolish();
     void updateAxis();
     void updateAxisTickers();
     void updateAxisGrid();
@@ -66,7 +67,7 @@ private:
     // Max value
     double m_axisVerticalMinValue = 0;
     // Values range, so m_axisVerticalMaxValue - m_axisVerticalMinValue
-    double m_axisVerticalValueRange;
+    double m_axisVerticalValueRange = 0;
     // px between major ticks
     double m_axisHorizontalStepPx = 0;
     // Ticks movement, between -m_axisHorizontalStepPx .. m_axisHorizontalStepPx.

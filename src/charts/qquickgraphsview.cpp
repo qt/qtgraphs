@@ -106,6 +106,15 @@ void QQuickGraphs2DView::removeAxis(QAbstractAxis *axis)
     }
 }
 
+void QQuickGraphs2DView::updateComponentSizes()
+{
+    if (!m_axisRenderer || !m_barsRenderer)
+        return;
+
+    m_axisRenderer->setSize(size());
+    m_barsRenderer->setSize(size());
+}
+
 void QQuickGraphs2DView::componentComplete()
 {
     if (!m_theme) {
@@ -125,21 +134,15 @@ void QQuickGraphs2DView::geometryChange(const QRectF &newGeometry, const QRectF 
     // TODO: Take margins into account here, so render items
     // sizes already match to their content.
 
-    if (!m_axisRenderer)
+    if (!m_axisRenderer) {
         m_axisRenderer = new AxisRenderer(this);
-
-    m_axisRenderer->setZ(-1);
-    m_axisRenderer->setX(newGeometry.x());
-    m_axisRenderer->setY(newGeometry.x());
-    m_axisRenderer->setSize(newGeometry.size());
+        m_axisRenderer->setZ(-1);
+    }
 
     if (!m_barsRenderer)
         m_barsRenderer = new BarsRenderer(this);
 
-    m_barsRenderer->setX(newGeometry.x());
-    m_barsRenderer->setY(newGeometry.x());
-    m_barsRenderer->setSize(newGeometry.size());
-
+    updateComponentSizes();
 }
 
 void QQuickGraphs2DView::mouseMoveEvent(QMouseEvent *event)
@@ -240,12 +243,10 @@ QSGNode *QQuickGraphs2DView::updatePaintNode(QSGNode *oldNode, QQuickItem::Updat
 
     // Background node, used for clipping
     QRectF clipRect = boundingRect();
-    clipRect.adjust(m_marginLeft + m_axisRenderer->m_axisWidth, m_marginTop, -m_marginLeft - m_marginRight, -m_marginBottom - m_axisRenderer->m_axisHeight);
+    clipRect.adjust(m_marginLeft + m_axisRenderer->m_axisWidth, m_marginTop, -m_marginRight, -m_marginBottom - m_axisRenderer->m_axisHeight);
     m_backgroundNode->setClipRect(clipRect);
     m_backgroundNode->setIsRectangular(true);
     oldNode = m_backgroundNode;
-
-    m_axisRenderer->updateAxis();
 
     for (auto series : std::as_const(m_seriesList)) {
         if (auto barSeries = qobject_cast<QBarSeries*>(series))
@@ -265,6 +266,15 @@ QSGNode *QQuickGraphs2DView::updatePaintNode(QSGNode *oldNode, QQuickItem::Updat
 
 void QQuickGraphs2DView::updatePolish()
 {
+    m_axisRenderer->handlePolish();
+
+    // Polish for all series
+    for (auto series : std::as_const(m_seriesList)) {
+        if (auto barSeries = qobject_cast<QBarSeries*>(series))
+            m_barsRenderer->handlePolish(barSeries);
+    }
+
+    // TODO: Move these into line renderer handlePolish()
     int lineSeriesIndex = 0;
     for (auto series : std::as_const(m_seriesList)) {
         if (auto lineSeries = qobject_cast<QLineSeries*>(series)) {
@@ -499,6 +509,7 @@ void QQuickGraphs2DView::setMarginTop(qreal newMarginTop)
     if (qFuzzyCompare(m_marginTop, newMarginTop))
         return;
     m_marginTop = newMarginTop;
+    updateComponentSizes();
     update();
     emit marginTopChanged();
 }
@@ -513,6 +524,7 @@ void QQuickGraphs2DView::setMarginBottom(qreal newMarginBottom)
     if (qFuzzyCompare(m_marginBottom, newMarginBottom))
         return;
     m_marginBottom = newMarginBottom;
+    updateComponentSizes();
     update();
     emit marginBottomChanged();
 }
@@ -527,6 +539,7 @@ void QQuickGraphs2DView::setMarginLeft(qreal newMarginLeft)
     if (qFuzzyCompare(m_marginLeft, newMarginLeft))
         return;
     m_marginLeft = newMarginLeft;
+    updateComponentSizes();
     update();
     emit marginLeftChanged();
 }
@@ -541,6 +554,7 @@ void QQuickGraphs2DView::setMarginRight(qreal newMarginRight)
     if (qFuzzyCompare(m_marginRight, newMarginRight))
         return;
     m_marginRight = newMarginRight;
+    updateComponentSizes();
     update();
     emit marginRightChanged();
 }

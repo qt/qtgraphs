@@ -18,6 +18,52 @@ GraphTheme *AxisRenderer::theme() {
     return m_graph->m_theme;
 }
 
+void AxisRenderer::handlePolish()
+{
+    if (!m_axisGrid) {
+        m_axisGrid = new AxisGrid();
+        m_axisGrid->setParentItem(this);
+        m_axisGrid->setZ(-1);
+        m_axisGrid->setupShaders();
+        m_axisGrid->setOrigo(0);
+    }
+    if (!m_axisLineVertical) {
+        m_axisLineVertical = new AxisLine();
+        m_axisLineVertical->setParentItem(this);
+        m_axisLineVertical->setZ(-1);
+        m_axisLineVertical->setupShaders();
+    }
+    if (!m_axisTickerVertical) {
+        m_axisTickerVertical = new AxisTicker();
+        m_axisTickerVertical->setParentItem(this);
+        m_axisTickerVertical->setZ(-2);
+        m_axisTickerVertical->setOrigo(0);
+        // TODO: Configurable in theme or axis?
+        m_axisTickerVertical->setMinorBarsLength(0.5);
+        m_axisTickerVertical->setupShaders();
+    }
+    if (!m_axisLineHorizontal) {
+        m_axisLineHorizontal = new AxisLine();
+        m_axisLineHorizontal->setParentItem(this);
+        m_axisLineHorizontal->setZ(-1);
+        m_axisLineHorizontal->setIsHorizontal(true);
+        m_axisLineHorizontal->setupShaders();
+    }
+    if (!m_axisTickerHorizontal) {
+        m_axisTickerHorizontal = new AxisTicker();
+        m_axisTickerHorizontal->setParentItem(this);
+        m_axisTickerHorizontal->setZ(-2);
+        m_axisTickerHorizontal->setIsHorizontal(true);
+        m_axisTickerHorizontal->setOrigo(0);
+        m_axisTickerHorizontal->setBarsMovement(0.0);
+        // TODO: Configurable in theme or axis?
+        m_axisTickerHorizontal->setMinorBarsLength(0.2);
+        m_axisTickerHorizontal->setupShaders();
+    }
+
+    updateAxis();
+}
+
 void AxisRenderer::updateAxis()
 {
     // Update active tickers
@@ -53,6 +99,7 @@ void AxisRenderer::updateAxis()
         int axisVerticalMinorTickCount = vaxis->minorTickCount();
         m_axisVerticalMinorTickScale = axisVerticalMinorTickCount > 0 ? 1.0 / (axisVerticalMinorTickCount + 1) : 1.0;
     }
+    m_axisVerticalValueRange = m_axisVerticalMaxValue - m_axisVerticalMinValue;
 
     if (auto haxis = qobject_cast<QValueAxis *>(m_axisHorizontal)) {
         if (haxis->autoScale()) {
@@ -75,21 +122,6 @@ void AxisRenderer::updateAxis()
 void AxisRenderer::updateAxisTickers()
 {
     if (m_axisVertical) {
-        if (!m_axisLineVertical) {
-            m_axisLineVertical = new AxisLine();
-            m_axisLineVertical->setParentItem(this);
-            m_axisLineVertical->setZ(-1);
-            m_axisLineVertical->setupShaders();
-        }
-        if (!m_axisTickerVertical) {
-            m_axisTickerVertical = new AxisTicker();
-            m_axisTickerVertical->setParentItem(this);
-            m_axisTickerVertical->setZ(-2);
-            m_axisTickerVertical->setOrigo(0);
-            // TODO: Configurable in theme or axis?
-            m_axisTickerVertical->setMinorBarsLength(0.5);
-            m_axisTickerVertical->setupShaders();
-        }
         if (theme()->themeDirty()) {
             m_axisTickerVertical->setMinorColor(theme()->axisYMinorColor());
             m_axisTickerVertical->setMajorColor(theme()->axisYMajorColor());
@@ -98,7 +130,6 @@ void AxisRenderer::updateAxisTickers()
             m_axisTickerVertical->setSmoothing(theme()->axisYSmoothing());
         }
         // TODO Only when changed
-        m_axisVerticalValueRange = m_axisVerticalMaxValue - m_axisVerticalMinValue;
         m_axisHorizontalStepPx = (height() - m_graph->m_marginTop - m_graph->m_marginBottom - m_axisHeight) / m_axisVerticalValueRange;
         m_axisYMovement = (m_axisVerticalMinValue - int(m_axisVerticalMinValue)) * m_axisHorizontalStepPx;
         m_axisTickerVertical->setBarsMovement(m_axisYMovement);
@@ -120,24 +151,6 @@ void AxisRenderer::updateAxisTickers()
     }
 
     if (m_axisHorizontal) {
-        if (!m_axisLineHorizontal) {
-            m_axisLineHorizontal = new AxisLine();
-            m_axisLineHorizontal->setParentItem(this);
-            m_axisLineHorizontal->setZ(-1);
-            m_axisLineHorizontal->setIsHorizontal(true);
-            m_axisLineHorizontal->setupShaders();
-        }
-        if (!m_axisTickerHorizontal) {
-            m_axisTickerHorizontal = new AxisTicker();
-            m_axisTickerHorizontal->setParentItem(this);
-            m_axisTickerHorizontal->setZ(-2);
-            m_axisTickerHorizontal->setIsHorizontal(true);
-            m_axisTickerHorizontal->setOrigo(0);
-            m_axisTickerHorizontal->setBarsMovement(0.0);
-            // TODO: Configurable in theme or axis?
-            m_axisTickerHorizontal->setMinorBarsLength(0.2);
-            m_axisTickerHorizontal->setupShaders();
-        }
         if (theme()->themeDirty()) {
             m_axisTickerHorizontal->setMinorColor(theme()->axisXMinorColor());
             m_axisTickerHorizontal->setMajorColor(theme()->axisXMajorColor());
@@ -167,13 +180,6 @@ void AxisRenderer::updateAxisTickers()
 
 void AxisRenderer::updateAxisGrid()
 {
-    if (!m_axisGrid) {
-        m_axisGrid = new AxisGrid();
-        m_axisGrid->setParentItem(this);
-        m_axisGrid->setZ(-1);
-        m_axisGrid->setupShaders();
-        m_axisGrid->setOrigo(0);
-    }
     if (theme()->themeDirty()) {
         m_axisGrid->setMajorColor(theme()->gridMajorBarsColor());
         m_axisGrid->setMinorColor(theme()->gridMinorBarsColor());

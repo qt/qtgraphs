@@ -96,6 +96,7 @@ public:
     void removeAxis(QAbstractAxis *axis);
 
 protected:
+    void updateComponentSizes();
     void componentComplete() override;
     void geometryChange(const QRectF &newGeometry, const QRectF &oldGeometry) override;
     void mouseMoveEvent(QMouseEvent *event) override;

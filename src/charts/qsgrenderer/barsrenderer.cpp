@@ -15,6 +15,25 @@ BarsRenderer::BarsRenderer(QQuickItem *parent) :
     setFlag(QQuickItem::ItemHasContents);
 }
 
+void BarsRenderer::handlePolish(QBarSeries *series)
+{
+    // TODO: Duplicated from below
+    // Bars area width & height
+    float w = width() - m_graph->m_marginLeft - m_graph->m_marginRight - m_graph->m_axisRenderer->m_axisWidth;
+    float h = height() - m_graph->m_marginTop - m_graph->m_marginBottom - m_graph->m_axisRenderer->m_axisHeight;
+
+    if (QBarCategoryAxis *axisX = qobject_cast<QBarCategoryAxis*>(series->axisX())) {
+        QRectF xAxisRect(m_graph->m_marginLeft + m_graph->m_axisRenderer->m_axisWidth, m_graph->m_marginTop + h, w, m_graph->m_axisRenderer->m_axisHeight);
+        m_graph->m_axisRenderer->updateBarXAxis(axisX, xAxisRect);
+    }
+
+    if (QValueAxis *axisY = qobject_cast<QValueAxis*>(series->axisY())) {
+        float rightMargin = 20;
+        QRectF yAxisRect(m_graph->m_marginLeft, m_graph->m_marginTop, m_graph->m_axisRenderer->m_axisWidth - rightMargin, h);
+        m_graph->m_axisRenderer->updateBarYAxis(axisY, yAxisRect);
+    }
+}
+
 void BarsRenderer::updateBarSeries(QBarSeries *series)
 {
     if (series->barSets().isEmpty())
@@ -35,7 +54,7 @@ void BarsRenderer::updateBarSeries(QBarSeries *series)
     int valuesPerSet = series->barSets().first()->values().size();
     seriesTheme->setGraphSeriesCount(setCount);
 
-    // Bars area width & hight
+    // Bars area width & height
     float w = width() - m_graph->m_marginLeft - m_graph->m_marginRight - m_graph->m_axisRenderer->m_axisWidth;
     float h = height() - m_graph->m_marginTop - m_graph->m_marginBottom - m_graph->m_axisRenderer->m_axisHeight;
     // Margin between bars.
@@ -46,17 +65,6 @@ void BarsRenderer::updateBarSeries(QBarSeries *series)
     float barWidth = maxBarWidth * 0.5;
     // Helper to keep barsets centered when bar width is less than max width.
     float barCentering = (maxBarWidth - barWidth) * setCount * 0.5;
-
-    if (QBarCategoryAxis *axisX = qobject_cast<QBarCategoryAxis*>(series->axisX())) {
-        QRectF xAxisRect(m_graph->m_marginLeft + m_graph->m_axisRenderer->m_axisWidth, m_graph->m_marginTop + h, w, m_graph->m_axisRenderer->m_axisHeight);
-        m_graph->m_axisRenderer->updateBarXAxis(axisX, xAxisRect);
-    }
-
-    if (QValueAxis *axisY = qobject_cast<QValueAxis*>(series->axisY())) {
-        float rightMargin = 20;
-        QRectF yAxisRect(m_graph->m_marginLeft, m_graph->m_marginTop, m_graph->m_axisRenderer->m_axisWidth - rightMargin, h);
-        m_graph->m_axisRenderer->updateBarYAxis(axisY, yAxisRect);
-    }
 
     // See if we need more rectangle nodes
     int currentSize = m_rectNodes.size();

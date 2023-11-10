@@ -28,6 +28,7 @@ class BarsRenderer : public QQuickItem
 public:
     BarsRenderer(QQuickItem *parent = nullptr);
 
+    void handlePolish(QBarSeries *series);
     void updateBarSeries(QBarSeries *series);
     void handleMousePress(QMouseEvent *event);
 
