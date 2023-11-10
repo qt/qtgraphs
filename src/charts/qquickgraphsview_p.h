@@ -21,22 +21,16 @@
 
 #include <QPen>
 #include <QBrush>
-#include <QtQuick/private/qsgdefaultinternalrectanglenode_p.h>
-#include <QtQuick/private/qquicktext_p.h>
-#include <private/axisgrid_p.h>
-#include <private/axisticker_p.h>
-#include <private/axisline_p.h>
+#include <private/barsrenderer_p.h>
+#include <private/axisrenderer_p.h>
 #include <QtGraphs2D/graphtheme.h>
 #include <QtQuickShapes/private/qquickshape_p.h>
 #include <QtQuick/QSGClipNode>
 
 QT_BEGIN_NAMESPACE
 
-class QBarSeries;
-class QBarCategoryAxis;
-class QValueAxis;
+class QAbstractAxis;
 class QLineSeries;
-class QBarSet;
 
 // KG: TODO
 class QChartPrivate
@@ -103,6 +97,7 @@ public:
 
 protected:
     void componentComplete() override;
+    void geometryChange(const QRectF &newGeometry, const QRectF &oldGeometry) override;
     void mouseMoveEvent(QMouseEvent *event) override;
     void mousePressEvent(QMouseEvent *event) override;
     void mouseReleaseEvent(QMouseEvent *event) override;
@@ -118,15 +113,12 @@ Q_SIGNALS:
     void marginRightChanged();
 
 private:
-    void updateAxis();
-    void updateAxisTickers();
-    void updateAxisGrid();
-    void updateBarXAxis(QBarCategoryAxis *axis, const QRectF &rect);
-    void updateBarYAxis(QValueAxis *axis, const QRectF &rect);
-    void updateBarSeries(QBarSeries *series);
     void updateLineSeries(QLineSeries *series);
 
 private:
+    friend class AxisRenderer;
+    friend class BarsRenderer;
+
     struct LinePath {
         QLineSeries *series;
         QQuickShapePath *shapePath = nullptr;
@@ -134,60 +126,24 @@ private:
         QList<QQuickItem *> markers;
         QList<QSGDefaultInternalRectangleNode *> selections;
     };
-    struct BarSelectionRect {
-        QBarSet *barSet = nullptr;
-        QList<QRectF> rects;
-    };
 
+    BarsRenderer *m_barsRenderer = nullptr;
+    AxisRenderer *m_axisRenderer = nullptr;
     QList<QObject *> m_seriesList;
     QBrush m_backgroundBrush;
     //QSGDefaultInternalRectangleNode *m_backgroundNode = nullptr;
     QSGClipNode *m_backgroundNode = nullptr;
-    QList<QSGDefaultInternalRectangleNode *> m_rectNodes;
-    // QSG nodes rect has no getter so we store these separately.
-    QList<BarSelectionRect> m_rectNodesInputRects;
     QQuickShape m_shape;
     QMap<QLineSeries *, LinePath *> m_linePaths;
-    QList<QQuickText *> m_xAxisTextItems;
-    QList<QQuickText *> m_yAxisTextItems;
+
     QList<QAbstractAxis *> m_axis;
-    AxisGrid *m_axisGrid = nullptr;
-    QAbstractAxis *m_axisVertical = nullptr;
-    QAbstractAxis *m_axisHorizontal = nullptr;
-    AxisTicker *m_axisTickerVertical = nullptr;
-    AxisTicker *m_axisTickerHorizontal = nullptr;
-    AxisLine *m_axisLineVertical = nullptr;
-    AxisLine *m_axisLineHorizontal = nullptr;
-    // Min value
-    double m_axisVerticalMaxValue = 20;
-    // Max value
-    double m_axisVerticalMinValue = 0;
-    // Values range, so m_axisVerticalMaxValue - m_axisVerticalMinValue
-    double m_axisVerticalValueRange;
-    // px between major ticks
-    double m_axisHorizontalStepPx = 0;
-    // Ticks movement, between -m_axisHorizontalStepPx .. m_axisHorizontalStepPx.
-    double m_axisYMovement = 0;
-    double m_axisHorizontalMaxValue = 6;
-    double m_axisHorizontalMinValue = 0;
-    double m_axisHorizontalValueRange;
-    double m_axisVerticalMinorTickScale = 0.5;
-    double m_axisHorizontalMinorTickScale = 0.5;
-    bool m_gridHorizontalMajorTicksVisible = true;
-    bool m_gridVerticalMajorTicksVisible = true;
-    bool m_gridHorizontalMinorTicksVisible = false;
-    bool m_gridVerticalMinorTicksVisible = false;
+
     GraphTheme *m_theme = nullptr;
     qreal m_marginTop = 20;
     qreal m_marginBottom = 20;
     qreal m_marginLeft = 20;
     qreal m_marginRight = 20;
-    // Sizes required of axis labels
-    // TODO: Should these come from QAbstactAxis?
-    qreal m_axisWidth = 40;
-    qreal m_axisHeight = 20;
-    qreal m_axisTickersWidth = 15;
-    qreal m_axisTickersHeight = 15;
+
     // Line point drag variables
     bool m_pointPressed = false;
     bool m_pointDragging = false;
