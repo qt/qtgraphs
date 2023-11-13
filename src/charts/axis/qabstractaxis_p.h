@@ -17,7 +17,7 @@
 //#include <private/chartaxiselement_p.h>
 //#include <QtCharts/QChart>
 //#include <QtCharts/private/qchartglobal_p.h>
-#include <private/qquickgraphsview_p.h>
+#include <private/qgraphsview_p.h>
 #include <QtCore/QDebug>
 #include <QBrush>
 #include <QPen>
@@ -77,7 +77,7 @@ Q_SIGNALS:
 protected:
     QAbstractAxis *q_ptr;
     // TODO: Used?
-    QQuickGraphs2DView *m_chart = nullptr;
+    QGraphsView *m_graph = nullptr;
 //    std::unique_ptr<ChartAxisElement> m_item;
 
 private:

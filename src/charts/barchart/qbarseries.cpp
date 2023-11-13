@@ -13,7 +13,7 @@
 #include <QtGraphs2D/qbarseries.h>
 #include <private/qbarseries_p.h>
 #include <QtGraphs2D/QBarCategoryAxis>
-#include <private/qquickgraphsview_p.h>
+#include <private/qgraphsview_p.h>
 
 QT_BEGIN_NAMESPACE
 
@@ -72,8 +72,8 @@ QAbstractSeries::SeriesType QBarSeries::type() const
 QBarSeries::~QBarSeries()
 {
     Q_D(QBarSeries);
-    if (d->m_chart)
-        d->m_chart->removeSeries(this);
+    if (d->m_graph)
+        d->m_graph->removeSeries(this);
 }
 
 

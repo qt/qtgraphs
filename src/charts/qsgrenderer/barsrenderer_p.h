@@ -17,7 +17,7 @@
 #include <QQuickItem>
 #include <QtQuick/private/qsgdefaultinternalrectanglenode_p.h>
 
-class QQuickGraphs2DView;
+class QGraphsView;
 class QBarSeries;
 class QBarSet;
 
@@ -39,7 +39,7 @@ private:
         QBarSet *barSet = nullptr;
         QList<QRectF> rects;
     };
-    QQuickGraphs2DView *m_graph = nullptr;
+    QGraphsView *m_graph = nullptr;
     QList<QSGDefaultInternalRectangleNode *> m_rectNodes;
     // QSG nodes rect has no getter so we store these separately.
     QList<BarSelectionRect> m_rectNodesInputRects;

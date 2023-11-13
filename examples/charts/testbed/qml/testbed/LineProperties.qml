@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR BSD-3-Clause
 
 import QtQuick
-import QtGraphs2D
+import QtGraphs
 import QtQuick.Controls.Basic
 import QtQuick.Dialogs
 
@@ -114,7 +114,7 @@ Rectangle {
         }
     }
 
-    ChartView {
+    GraphsView {
         id: chartView
         //title: "Line Chart"
         anchors.left: parent.left

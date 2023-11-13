@@ -149,8 +149,8 @@ QBarCategoryAxis::QBarCategoryAxis(QObject *parent):
 QBarCategoryAxis::~QBarCategoryAxis()
 {
     Q_D(QBarCategoryAxis);
-//    if (d->m_chart)
-//        d->m_chart->removeAxis(this);
+//    if (d->m_graph)
+//        d->m_graph->removeAxis(this);
 }
 
 /*!

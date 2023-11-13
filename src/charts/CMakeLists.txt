@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only WITH Qt-GPL-exception-1.0
 
 qt_internal_add_qml_module(Graphs2D
-    URI "QtGraphs2D"
+    URI "QtGraphs"
     TARGET_PRODUCT "Qt Graphs 2D (Qt $$QT_VERSION)"
     TARGET_DESCRIPTION "Qt Graphs 2D Visualization component for Qt."
     VERSION "${PROJECT_VERSION}"
@@ -11,7 +11,7 @@ qt_internal_add_qml_module(Graphs2D
         QtQuick
         QtQuickPrivate
     SOURCES
-        qquickgraphsview.cpp qquickgraphsview_p.h
+        qgraphsview.cpp qgraphsview_p.h
         qabstractseries.cpp qabstractseries.h qabstractseries_p.h
         charthelpers_p.h
         domain/abstractdomain.cpp domain/abstractdomain_p.h

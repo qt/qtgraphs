@@ -2,13 +2,13 @@
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR BSD-3-Clause
 
 import QtQuick
-import QtGraphs2D
+import QtGraphs
 
 Rectangle {
     anchors.fill: parent
     color: "#404040"
 
-    ChartView {
+    GraphsView {
         id: chartView
         anchors.fill: parent
         anchors.margins: 20 * px

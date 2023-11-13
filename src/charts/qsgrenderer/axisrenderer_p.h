@@ -24,7 +24,7 @@
 #include <private/axisline_p.h>
 #include <private/qabstractaxis_p.h>
 
-class QQuickGraphs2DView;
+class QGraphsView;
 class QBarCategoryAxis;
 class QValueAxis;
 class GraphTheme;
@@ -46,10 +46,10 @@ public:
 Q_SIGNALS:
 
 private:
-    friend class QQuickGraphs2DView;
+    friend class QGraphsView;
     friend class BarsRenderer;
 
-    QQuickGraphs2DView *m_graph = nullptr;
+    QGraphsView *m_graph = nullptr;
     GraphTheme *theme();
 
     QAbstractAxis *m_axisVertical = nullptr;

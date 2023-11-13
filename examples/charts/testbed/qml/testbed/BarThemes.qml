@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR BSD-3-Clause
 
 import QtQuick
-import QtGraphs2D
+import QtGraphs
 import QtQuick.Controls.Basic
 
 Rectangle {
@@ -150,7 +150,7 @@ Rectangle {
         radius: 10
     }
 
-    ChartView {
+    GraphsView {
         id: chartView
         anchors.left: parent.left
         anchors.right: parent.right

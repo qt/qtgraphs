@@ -1,13 +1,13 @@
 // Copyright (C) 2023 The Qt Company Ltd.
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 
-#include <private/qquickgraphsview_p.h>
+#include <private/qgraphsview_p.h>
 #include <QtGraphs2D/qbarseries.h>
 #include <QtGraphs2D/qlineseries.h>
 
 QT_BEGIN_NAMESPACE
 
-QQuickGraphs2DView::QQuickGraphs2DView(QQuickItem *parent) :
+QGraphsView::QGraphsView(QQuickItem *parent) :
     QQuickItem(parent)
 {
     setFlag(QQuickItem::ItemHasContents);
@@ -15,13 +15,13 @@ QQuickGraphs2DView::QQuickGraphs2DView(QQuickItem *parent) :
     m_shape.setParentItem(this);
 }
 
-QQuickGraphs2DView::~QQuickGraphs2DView()
+QGraphsView::~QGraphsView()
 {
     for (auto&& line : std::as_const(m_linePaths))
         delete line;
 }
 
-void QQuickGraphs2DView::setBackgroundColor(QColor color)
+void QGraphsView::setBackgroundColor(QColor color)
 {
     auto &b = m_backgroundBrush;
     if (b.style() != Qt::SolidPattern || color != b.color()) {
@@ -31,20 +31,20 @@ void QQuickGraphs2DView::setBackgroundColor(QColor color)
     }
 }
 
-QColor QQuickGraphs2DView::backgroundColor()
+QColor QGraphsView::backgroundColor()
 {
     return m_backgroundBrush.color();
 }
 
-void QQuickGraphs2DView::addSeries(QObject *series)
+void QGraphsView::addSeries(QObject *series)
 {
     insertSeries(m_seriesList.size(), series);
 }
 
-void QQuickGraphs2DView::insertSeries(int index, QObject *object)
+void QGraphsView::insertSeries(int index, QObject *object)
 {
     if (auto series = qobject_cast<QAbstractSeries *>(object)) {
-        series->setChart(this);
+        series->setGraph(this);
         if (m_seriesList.contains(series)) {
             int oldIndex = m_seriesList.indexOf(series);
             if (index != oldIndex) {
@@ -69,7 +69,7 @@ void QQuickGraphs2DView::insertSeries(int index, QObject *object)
     }
 }
 
-void QQuickGraphs2DView::removeSeries(QObject *object)
+void QGraphsView::removeSeries(QObject *object)
 {
     if (auto series = reinterpret_cast<QAbstractSeries *>(object)) {
         m_seriesList.removeAll(series);
@@ -85,20 +85,20 @@ void QQuickGraphs2DView::removeSeries(QObject *object)
     }
 }
 
-bool QQuickGraphs2DView::hasSeries(QObject *series)
+bool QGraphsView::hasSeries(QObject *series)
 {
     return m_seriesList.contains(series);
 }
 
 
-void QQuickGraphs2DView::addAxis(QAbstractAxis *axis)
+void QGraphsView::addAxis(QAbstractAxis *axis)
 {
     if (!m_axis.contains(axis)) {
         m_axis << axis;
         update();
     }
 }
-void QQuickGraphs2DView::removeAxis(QAbstractAxis *axis)
+void QGraphsView::removeAxis(QAbstractAxis *axis)
 {
     if (m_axis.contains(axis)) {
         m_axis.removeAll(axis);
@@ -106,7 +106,7 @@ void QQuickGraphs2DView::removeAxis(QAbstractAxis *axis)
     }
 }
 
-void QQuickGraphs2DView::updateComponentSizes()
+void QGraphsView::updateComponentSizes()
 {
     if (!m_axisRenderer || !m_barsRenderer)
         return;
@@ -115,7 +115,7 @@ void QQuickGraphs2DView::updateComponentSizes()
     m_barsRenderer->setSize(size());
 }
 
-void QQuickGraphs2DView::componentComplete()
+void QGraphsView::componentComplete()
 {
     if (!m_theme) {
         qDebug() << "Using default theme!";
@@ -127,7 +127,7 @@ void QQuickGraphs2DView::componentComplete()
     ensurePolished();
 }
 
-void QQuickGraphs2DView::geometryChange(const QRectF &newGeometry, const QRectF &oldGeometry)
+void QGraphsView::geometryChange(const QRectF &newGeometry, const QRectF &oldGeometry)
 {
     QQuickItem::geometryChange(newGeometry, oldGeometry);
 
@@ -145,7 +145,7 @@ void QQuickGraphs2DView::geometryChange(const QRectF &newGeometry, const QRectF 
     updateComponentSizes();
 }
 
-void QQuickGraphs2DView::mouseMoveEvent(QMouseEvent *event)
+void QGraphsView::mouseMoveEvent(QMouseEvent *event)
 {
     if (m_pointPressed && m_pressedLine->series->isPointSelected(m_pressedPointIndex)) {
         float w = width() - m_marginLeft - m_marginRight - m_axisRenderer->m_axisWidth;
@@ -171,7 +171,7 @@ void QQuickGraphs2DView::mouseMoveEvent(QMouseEvent *event)
     }
 }
 
-void QQuickGraphs2DView::mousePressEvent(QMouseEvent *event)
+void QGraphsView::mousePressEvent(QMouseEvent *event)
 {
 
     m_barsRenderer->handleMousePress(event);
@@ -210,7 +210,7 @@ void QQuickGraphs2DView::mousePressEvent(QMouseEvent *event)
     }
 }
 
-void QQuickGraphs2DView::mouseReleaseEvent(QMouseEvent *event)
+void QGraphsView::mouseReleaseEvent(QMouseEvent *event)
 {
     if (!m_pointDragging && m_pointPressed && m_pressedLine) {
         const int selectionSize = 20;
@@ -236,7 +236,7 @@ void QQuickGraphs2DView::mouseReleaseEvent(QMouseEvent *event)
     m_pointDragging = false;
 }
 
-QSGNode *QQuickGraphs2DView::updatePaintNode(QSGNode *oldNode, QQuickItem::UpdatePaintNodeData *updatePaintNodeData)
+QSGNode *QGraphsView::updatePaintNode(QSGNode *oldNode, QQuickItem::UpdatePaintNodeData *updatePaintNodeData)
 {
     if (!m_backgroundNode)
         m_backgroundNode = new QSGClipNode();
@@ -264,7 +264,7 @@ QSGNode *QQuickGraphs2DView::updatePaintNode(QSGNode *oldNode, QQuickItem::Updat
     return oldNode;
 }
 
-void QQuickGraphs2DView::updatePolish()
+void QGraphsView::updatePolish()
 {
     m_axisRenderer->handlePolish();
 
@@ -386,7 +386,7 @@ void QQuickGraphs2DView::updatePolish()
 
 
 
-void QQuickGraphs2DView::updateLineSeries(QLineSeries *series)
+void QGraphsView::updateLineSeries(QLineSeries *series)
 {
     if (series->points().isEmpty())
         return;
@@ -445,45 +445,45 @@ void QQuickGraphs2DView::updateLineSeries(QLineSeries *series)
 
 // ***** Static QQmlListProperty methods *****
 
-QQmlListProperty<QObject> QQuickGraphs2DView::seriesList()
+QQmlListProperty<QObject> QGraphsView::seriesList()
 {
     return QQmlListProperty<QObject>(this, this,
-                                          &QQuickGraphs2DView::appendSeriesFunc,
-                                          &QQuickGraphs2DView::countSeriesFunc,
-                                          &QQuickGraphs2DView::atSeriesFunc,
-                                          &QQuickGraphs2DView::clearSeriesFunc);
+                                          &QGraphsView::appendSeriesFunc,
+                                          &QGraphsView::countSeriesFunc,
+                                          &QGraphsView::atSeriesFunc,
+                                          &QGraphsView::clearSeriesFunc);
 }
 
-void QQuickGraphs2DView::appendSeriesFunc(QQmlListProperty<QObject> *list, QObject *series)
+void QGraphsView::appendSeriesFunc(QQmlListProperty<QObject> *list, QObject *series)
 {
-    reinterpret_cast<QQuickGraphs2DView *>(list->data)->addSeries(series);
+    reinterpret_cast<QGraphsView *>(list->data)->addSeries(series);
 }
 
-qsizetype QQuickGraphs2DView::countSeriesFunc(QQmlListProperty<QObject> *list)
+qsizetype QGraphsView::countSeriesFunc(QQmlListProperty<QObject> *list)
 {
-    return reinterpret_cast<QQuickGraphs2DView *>(list->data)->getSeriesList().size();
+    return reinterpret_cast<QGraphsView *>(list->data)->getSeriesList().size();
 }
 
-QObject *QQuickGraphs2DView::atSeriesFunc(QQmlListProperty<QObject> *list, qsizetype index)
+QObject *QGraphsView::atSeriesFunc(QQmlListProperty<QObject> *list, qsizetype index)
 {
-    return reinterpret_cast<QQuickGraphs2DView *>(list->data)->getSeriesList().at(index);
+    return reinterpret_cast<QGraphsView *>(list->data)->getSeriesList().at(index);
 }
 
-void QQuickGraphs2DView::clearSeriesFunc(QQmlListProperty<QObject> *list)
+void QGraphsView::clearSeriesFunc(QQmlListProperty<QObject> *list)
 {
-    QQuickGraphs2DView *declItems = reinterpret_cast<QQuickGraphs2DView *>(list->data);
+    QGraphsView *declItems = reinterpret_cast<QGraphsView *>(list->data);
     QList<QObject *> realList = declItems->getSeriesList();
     int count = realList.size();
     for (int i = 0; i < count; i++)
         declItems->removeSeries(realList.at(i));
 }
 
-GraphTheme *QQuickGraphs2DView::theme() const
+GraphTheme *QGraphsView::theme() const
 {
     return m_theme;
 }
 
-void QQuickGraphs2DView::setTheme(GraphTheme *newTheme)
+void QGraphsView::setTheme(GraphTheme *newTheme)
 {
     if (m_theme == newTheme)
         return;
@@ -499,12 +499,12 @@ void QQuickGraphs2DView::setTheme(GraphTheme *newTheme)
     emit themeChanged();
 }
 
-qreal QQuickGraphs2DView::marginTop() const
+qreal QGraphsView::marginTop() const
 {
     return m_marginTop;
 }
 
-void QQuickGraphs2DView::setMarginTop(qreal newMarginTop)
+void QGraphsView::setMarginTop(qreal newMarginTop)
 {
     if (qFuzzyCompare(m_marginTop, newMarginTop))
         return;
@@ -514,12 +514,12 @@ void QQuickGraphs2DView::setMarginTop(qreal newMarginTop)
     emit marginTopChanged();
 }
 
-qreal QQuickGraphs2DView::marginBottom() const
+qreal QGraphsView::marginBottom() const
 {
     return m_marginBottom;
 }
 
-void QQuickGraphs2DView::setMarginBottom(qreal newMarginBottom)
+void QGraphsView::setMarginBottom(qreal newMarginBottom)
 {
     if (qFuzzyCompare(m_marginBottom, newMarginBottom))
         return;
@@ -529,12 +529,12 @@ void QQuickGraphs2DView::setMarginBottom(qreal newMarginBottom)
     emit marginBottomChanged();
 }
 
-qreal QQuickGraphs2DView::marginLeft() const
+qreal QGraphsView::marginLeft() const
 {
     return m_marginLeft;
 }
 
-void QQuickGraphs2DView::setMarginLeft(qreal newMarginLeft)
+void QGraphsView::setMarginLeft(qreal newMarginLeft)
 {
     if (qFuzzyCompare(m_marginLeft, newMarginLeft))
         return;
@@ -544,12 +544,12 @@ void QQuickGraphs2DView::setMarginLeft(qreal newMarginLeft)
     emit marginLeftChanged();
 }
 
-qreal QQuickGraphs2DView::marginRight() const
+qreal QGraphsView::marginRight() const
 {
     return m_marginRight;
 }
 
-void QQuickGraphs2DView::setMarginRight(qreal newMarginRight)
+void QGraphsView::setMarginRight(qreal newMarginRight)
 {
     if (qFuzzyCompare(m_marginRight, newMarginRight))
         return;

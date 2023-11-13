@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 
 #include <private/axisrenderer_p.h>
-#include <private/qquickgraphsview_p.h>
+#include <private/qgraphsview_p.h>
 #include <QtGraphs2D/QBarCategoryAxis>
 #include <private/qvalueaxis_p.h>
 #include <QtGraphs2D/graphtheme.h>
@@ -10,7 +10,7 @@
 AxisRenderer::AxisRenderer(QQuickItem *parent) :
       QQuickItem(parent)
 {
-    m_graph = qobject_cast<QQuickGraphs2DView*>(parent);
+    m_graph = qobject_cast<QGraphsView*>(parent);
     setFlag(QQuickItem::ItemHasContents);
 }
 

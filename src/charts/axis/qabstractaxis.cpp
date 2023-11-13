@@ -496,7 +496,7 @@ QAbstractAxis::QAbstractAxis(QAbstractAxisPrivate &d, QObject *parent)
 
 QAbstractAxis::~QAbstractAxis()
 {
-    if (d_ptr->m_chart)
+    if (d_ptr->m_graph)
         qFatal("Still binded axis detected !");
 }
 

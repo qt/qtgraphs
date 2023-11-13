@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 
 #include <private/barsrenderer_p.h>
-#include <private/qquickgraphsview_p.h>
+#include <private/qgraphsview_p.h>
 #include <QtGraphs2D/qbarseries.h>
 #include <QtGraphs2D/qbarset.h>
 #include <QtGraphs2D/QBarCategoryAxis>
@@ -11,7 +11,7 @@
 BarsRenderer::BarsRenderer(QQuickItem *parent) :
       QQuickItem(parent)
 {
-    m_graph = qobject_cast<QQuickGraphs2DView*>(parent);
+    m_graph = qobject_cast<QGraphsView*>(parent);
     setFlag(QQuickItem::ItemHasContents);
 }
 

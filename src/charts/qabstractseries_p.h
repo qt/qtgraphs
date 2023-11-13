@@ -39,7 +39,7 @@ class ChartTheme;
 class ChartAnimation;
 //class ChartItem;
 class BoxPlotChartItem;
-class QQuickGraphs2DView;
+class QGraphsView;
 
 class QAbstractSeriesPrivate : public QObject
 {
@@ -68,7 +68,7 @@ public:
 //    virtual void setPresenter(ChartPresenter *presenter);
 //    ChartPresenter *presenter() const;
 
-//    QChart* chart() { return m_chart; }
+//    QChart* chart() { return m_graph; }
 
     //void setBlockOpenGL(bool enable);
 
@@ -77,8 +77,7 @@ Q_SIGNALS:
 
 protected:
     QAbstractSeries *q_ptr;
-    //QChart *m_chart;
-    QQuickGraphs2DView *m_chart;
+    QGraphsView *m_graph;
     //std::unique_ptr<ChartItem> m_item;
     QList<QAbstractAxis*> m_axes;
 

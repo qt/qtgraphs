@@ -257,8 +257,8 @@ QValueAxis::QValueAxis(QValueAxisPrivate &d, QObject *parent)
 QValueAxis::~QValueAxis()
 {
     Q_D(QValueAxis);
-    if (d->m_chart)
-        d->m_chart->removeAxis(this);
+    if (d->m_graph)
+        d->m_graph->removeAxis(this);
 }
 
 void QValueAxis::setMin(qreal min)
@@ -532,7 +532,7 @@ void QValueAxisPrivate::initializeGraphics(QGraphicsItem *parent)
     Q_Q(QValueAxis);
     ChartAxisElement *axis(0);
 
-    if (m_chart->chartType() == QChart::ChartTypeCartesian) {
+    if (m_graph->chartType() == QChart::ChartTypeCartesian) {
         if (orientation() == Qt::Vertical)
             axis = new ChartValueAxisY(q,parent);
         if (orientation() == Qt::Horizontal)
@@ -540,7 +540,7 @@ void QValueAxisPrivate::initializeGraphics(QGraphicsItem *parent)
         axis->setLabelsEditable(q->labelsEditable());
     }
 
-    if (m_chart->chartType() == QChart::ChartTypePolar) {
+    if (m_graph->chartType() == QChart::ChartTypePolar) {
         if (orientation() == Qt::Vertical)
             axis = new PolarChartValueAxisRadial(q, parent);
         if (orientation() == Qt::Horizontal)

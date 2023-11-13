@@ -1,8 +1,8 @@
 // Copyright (C) 2023 The Qt Company Ltd.
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 
-#ifndef QQUICKGRAPHSITEM_H
-#define QQUICKGRAPHSITEM_H
+#ifndef QGRAPHSVIEW_H
+#define QGRAPHSVIEW_H
 
 //
 //  W A R N I N G
@@ -41,7 +41,7 @@ public:
     static QFont &defaultFont() { static QFont temp; return temp; };
 };
 
-class QQuickGraphs2DView : public QQuickItem
+class QGraphsView : public QQuickItem
 {
     Q_OBJECT
     Q_PROPERTY(GraphTheme *theme READ theme WRITE setTheme NOTIFY themeChanged)
@@ -53,11 +53,11 @@ class QQuickGraphs2DView : public QQuickItem
     Q_PROPERTY(qreal marginLeft READ marginLeft WRITE setMarginLeft NOTIFY marginLeftChanged)
     Q_PROPERTY(qreal marginRight READ marginRight WRITE setMarginRight NOTIFY marginRightChanged)
     Q_CLASSINFO("DefaultProperty", "seriesList")
-    QML_NAMED_ELEMENT(ChartView)
+    QML_NAMED_ELEMENT(GraphsView)
 
 public:
-    explicit QQuickGraphs2DView(QQuickItem *parent = nullptr);
-    virtual ~QQuickGraphs2DView();
+    explicit QGraphsView(QQuickItem *parent = nullptr);
+    virtual ~QGraphsView();
 
     void setBackgroundColor(QColor color);
     QColor backgroundColor();

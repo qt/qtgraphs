@@ -3,7 +3,7 @@
 
 #include <QtGraphs2D/qabstractseries.h>
 #include <private/qabstractseries_p.h>
-#include <private/qquickgraphsview_p.h>
+#include <private/qgraphsview_p.h>
 //#include <QtCharts/QAbstractSeries>
 //#include <private/qabstractseries_p.h>
 //#include <private/chartdataset_p.h>
@@ -245,10 +245,10 @@ QAbstractSeries::QAbstractSeries(QAbstractSeriesPrivate &d, QObject *parent) :
 */
 QAbstractSeries::~QAbstractSeries()
 {
-    //if (d_ptr->m_chart)
+    //if (d_ptr->m_graph)
     //    qFatal("Series still bound to a chart when destroyed!");
-    if (d_ptr->m_chart)
-        d_ptr->m_chart->removeSeries(this);
+    if (d_ptr->m_graph)
+        d_ptr->m_graph->removeSeries(this);
 }
 
 SeriesTheme *QAbstractSeries::theme() const
@@ -333,7 +333,7 @@ void QAbstractSeries::setValuesMultiplier(qreal valuesMultiplier)
 #ifdef QT_NO_OPENGL
     Q_UNUSED(enable);
 #else
-    bool polarChart = d_ptr->m_chart && d_ptr->m_chart->chartType() == QChart::ChartTypePolar;
+    bool polarChart = d_ptr->m_graph && d_ptr->m_graph->chartType() == QChart::ChartTypePolar;
     bool supportedSeries = (type() == SeriesTypeLine || type() == SeriesTypeScatter);
     if ((!enable || !d_ptr->m_blockOpenGL)
             && supportedSeries
@@ -356,19 +356,19 @@ bool QAbstractSeries::useOpenGL() const
     Set automatically when the series is added to the chart,
     and unset when the series is removed from the chart.
 */
-QQuickGraphs2DView *QAbstractSeries::chart() const
+QGraphsView *QAbstractSeries::graph() const
 {
-    return d_ptr->m_chart;
+    return d_ptr->m_graph;
 }
 
-void QAbstractSeries::setChart(QQuickGraphs2DView *chart)
+void QAbstractSeries::setGraph(QGraphsView *graph)
 {
-    d_ptr->m_chart = chart;
-    if (d_ptr->m_chart) {
+    d_ptr->m_graph = graph;
+    if (d_ptr->m_graph) {
         // Attach pending axes
         for (auto axis : d_ptr->m_axes) {
-            d_ptr->m_chart->addAxis(axis);
-            QObject::connect(axis, &QAbstractAxis::update, d_ptr->m_chart, &QQuickItem::update);
+            d_ptr->m_graph->addAxis(axis);
+            QObject::connect(axis, &QAbstractAxis::update, d_ptr->m_graph, &QQuickItem::update);
         }
     }
 }
@@ -405,13 +405,13 @@ void QAbstractSeries::hide()
  */
 bool QAbstractSeries::attachAxis(QAbstractAxis* axis)
 {
-//    if (d_ptr->m_chart)
-//        return d_ptr->m_chart->d_ptr->m_dataset->attachAxis(this, axis);
+//    if (d_ptr->m_graph)
+//        return d_ptr->m_graph->d_ptr->m_dataset->attachAxis(this, axis);
 
     d_ptr->m_axes.append(axis);
-    if (d_ptr->m_chart) {
-        d_ptr->m_chart->addAxis(axis);
-        QObject::connect(axis, &QAbstractAxis::update, d_ptr->m_chart, &QQuickItem::update);
+    if (d_ptr->m_graph) {
+        d_ptr->m_graph->addAxis(axis);
+        QObject::connect(axis, &QAbstractAxis::update, d_ptr->m_graph, &QQuickItem::update);
         return true;
     }
     //qWarning("Series not in the chart. Please addSeries to chart first.");
@@ -427,13 +427,13 @@ bool QAbstractSeries::attachAxis(QAbstractAxis* axis)
  */
 bool QAbstractSeries::detachAxis(QAbstractAxis* axis)
 {
-//    if (d_ptr->m_chart)
-//        return d_ptr->m_chart->d_ptr->m_dataset->detachAxis(this, axis);
+//    if (d_ptr->m_graph)
+//        return d_ptr->m_graph->d_ptr->m_dataset->detachAxis(this, axis);
 
     d_ptr->m_axes.removeAll(axis);
-    if (d_ptr->m_chart) {
-        d_ptr->m_chart->removeAxis(axis);
-        QObject::disconnect(axis, &QAbstractAxis::update, d_ptr->m_chart, &QQuickItem::update);
+    if (d_ptr->m_graph) {
+        d_ptr->m_graph->removeAxis(axis);
+        QObject::disconnect(axis, &QAbstractAxis::update, d_ptr->m_graph, &QQuickItem::update);
         return true;
     }
     //qWarning("Series not in the chart. Please addSeries to chart first.");
@@ -489,7 +489,7 @@ void QAbstractSeries::componentComplete()
 
 QAbstractSeriesPrivate::QAbstractSeriesPrivate(QAbstractSeries *q)
     : q_ptr(q),
-      m_chart(nullptr),
+      m_graph(nullptr),
       //m_item(nullptr),
       //m_domain(new XYDomain()),
       m_visible(true),
