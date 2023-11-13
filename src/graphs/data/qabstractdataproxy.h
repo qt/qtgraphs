@@ -27,7 +27,7 @@ protected:
     explicit QAbstractDataProxy(QAbstractDataProxyPrivate &d, QObject *parent = nullptr);
 
 public:
-    virtual ~QAbstractDataProxy();
+    ~QAbstractDataProxy() override;
 
     QAbstractDataProxy::DataType type() const;
 

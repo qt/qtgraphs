@@ -27,7 +27,7 @@ class Q_GRAPHS_EXPORT QSurfaceDataProxy : public QAbstractDataProxy
 
 public:
     explicit QSurfaceDataProxy(QObject *parent = nullptr);
-    virtual ~QSurfaceDataProxy();
+    ~QSurfaceDataProxy() override;
 
     QSurface3DSeries *series() const;
     int rowCount() const;

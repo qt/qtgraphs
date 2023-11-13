@@ -27,7 +27,7 @@ class QItemModelSurfaceDataProxyPrivate : public QSurfaceDataProxyPrivate
 
 public:
     QItemModelSurfaceDataProxyPrivate(QItemModelSurfaceDataProxy *q);
-    virtual ~QItemModelSurfaceDataProxyPrivate();
+    ~QItemModelSurfaceDataProxyPrivate() override;
 
     void connectItemModelHandler();
 

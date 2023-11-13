@@ -27,7 +27,7 @@ class QItemModelScatterDataProxyPrivate : public QScatterDataProxyPrivate
 
 public:
     QItemModelScatterDataProxyPrivate(QItemModelScatterDataProxy *q);
-    virtual ~QItemModelScatterDataProxyPrivate();
+    ~QItemModelScatterDataProxyPrivate() override;
 
     void connectItemModelHandler();
 

@@ -27,7 +27,7 @@ class QItemModelBarDataProxyPrivate : public QBarDataProxyPrivate
 
 public:
     QItemModelBarDataProxyPrivate(QItemModelBarDataProxy *q);
-    virtual ~QItemModelBarDataProxyPrivate();
+    ~QItemModelBarDataProxyPrivate() override;
 
     void connectItemModelHandler();
 

@@ -17,7 +17,7 @@ class VariantBarDataProxy : public QBarDataProxy
 
 public:
     explicit VariantBarDataProxy();
-    virtual ~VariantBarDataProxy();
+    ~VariantBarDataProxy() override;
 
     //! [1]
     // Doesn't gain ownership of the dataset, but does connect to it to listen for

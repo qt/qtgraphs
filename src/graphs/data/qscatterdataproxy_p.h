@@ -28,7 +28,7 @@ class QScatterDataProxyPrivate : public QAbstractDataProxyPrivate
 
 public:
     QScatterDataProxyPrivate(QScatterDataProxy *q);
-    virtual ~QScatterDataProxyPrivate();
+    ~QScatterDataProxyPrivate() override;
 
     void resetArray(QScatterDataArray &&newArray);
     void setItem(int index, QScatterDataItem &&item);

@@ -27,7 +27,7 @@ class QSurfaceDataProxyPrivate : public QAbstractDataProxyPrivate
 
 public:
     QSurfaceDataProxyPrivate(QSurfaceDataProxy *q);
-    virtual ~QSurfaceDataProxyPrivate();
+    ~QSurfaceDataProxyPrivate() override;
 
     void resetArray(QSurfaceDataArray &&newArray);
     void setRow(int rowIndex, QSurfaceDataRow &&row);

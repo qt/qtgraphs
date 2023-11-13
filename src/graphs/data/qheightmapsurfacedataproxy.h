@@ -31,7 +31,7 @@ public:
     explicit QHeightMapSurfaceDataProxy(QObject *parent = nullptr);
     explicit QHeightMapSurfaceDataProxy(const QImage &image, QObject *parent = nullptr);
     explicit QHeightMapSurfaceDataProxy(const QString &filename, QObject *parent = nullptr);
-    virtual ~QHeightMapSurfaceDataProxy();
+    ~QHeightMapSurfaceDataProxy() override;
 
     void setHeightMap(const QImage &image);
     QImage heightMap() const;

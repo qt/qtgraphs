@@ -88,7 +88,7 @@ public:
                                     const QStringList &rowCategories,
                                     const QStringList &columnCategories,
                                     QObject *parent = nullptr);
-    virtual ~QItemModelBarDataProxy();
+    ~QItemModelBarDataProxy() override;
 
     void setItemModel(QAbstractItemModel *itemModel);
     QAbstractItemModel *itemModel() const;

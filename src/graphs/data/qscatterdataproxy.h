@@ -25,7 +25,7 @@ class Q_GRAPHS_EXPORT QScatterDataProxy : public QAbstractDataProxy
 
 public:
     explicit QScatterDataProxy(QObject *parent = nullptr);
-    virtual ~QScatterDataProxy();
+    ~QScatterDataProxy() override;
 
     QScatter3DSeries *series() const;
     int itemCount() const;

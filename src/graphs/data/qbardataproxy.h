@@ -31,7 +31,7 @@ class Q_GRAPHS_EXPORT QBarDataProxy : public QAbstractDataProxy
     Q_PROPERTY(QBar3DSeries *series READ series NOTIFY seriesChanged)
 public:
     explicit QBarDataProxy(QObject *parent = nullptr);
-    virtual ~QBarDataProxy();
+    ~QBarDataProxy() override;
 
     QBar3DSeries *series() const;
     int rowCount() const;
