@@ -2053,6 +2053,7 @@ void QQuickGraphsItem::synchData()
 
     if (m_isSeriesVisualsDirty) {
         forceUpdateCustomVolumes = true;
+        updateGrid();
         updateLabels();
         updateGraph();
         m_isSeriesVisualsDirty = false;
