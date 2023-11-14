@@ -22,9 +22,9 @@
 #include <QPen>
 #include <QBrush>
 #include <private/barsrenderer_p.h>
+#include <private/linesrenderer_p.h>
 #include <private/axisrenderer_p.h>
 #include <QtGraphs2D/graphtheme.h>
-#include <QtQuickShapes/private/qquickshape_p.h>
 #include <QtQuick/QSGClipNode>
 
 QT_BEGIN_NAMESPACE
@@ -114,28 +114,17 @@ Q_SIGNALS:
     void marginRightChanged();
 
 private:
-    void updateLineSeries(QLineSeries *series);
-
-private:
     friend class AxisRenderer;
     friend class BarsRenderer;
-
-    struct LinePath {
-        QLineSeries *series;
-        QQuickShapePath *shapePath = nullptr;
-        QList<QQuickPathLine *> paths;
-        QList<QQuickItem *> markers;
-        QList<QSGDefaultInternalRectangleNode *> selections;
-    };
+    friend class LinesRenderer;
 
     BarsRenderer *m_barsRenderer = nullptr;
+    LinesRenderer *m_linesRenderer = nullptr;
     AxisRenderer *m_axisRenderer = nullptr;
     QList<QObject *> m_seriesList;
     QBrush m_backgroundBrush;
     //QSGDefaultInternalRectangleNode *m_backgroundNode = nullptr;
     QSGClipNode *m_backgroundNode = nullptr;
-    QQuickShape m_shape;
-    QMap<QLineSeries *, LinePath *> m_linePaths;
 
     QList<QAbstractAxis *> m_axis;
 
@@ -144,13 +133,6 @@ private:
     qreal m_marginBottom = 20;
     qreal m_marginLeft = 20;
     qreal m_marginRight = 20;
-
-    // Line point drag variables
-    bool m_pointPressed = false;
-    bool m_pointDragging = false;
-    QPoint m_pressStart;
-    LinePath *m_pressedLine = nullptr;
-    int m_pressedPointIndex = 0;
 };
 
 QT_END_NAMESPACE

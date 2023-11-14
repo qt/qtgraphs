@@ -48,6 +48,7 @@ Q_SIGNALS:
 private:
     friend class QGraphsView;
     friend class BarsRenderer;
+    friend class LinesRenderer;
 
     QGraphsView *m_graph = nullptr;
     GraphTheme *theme();

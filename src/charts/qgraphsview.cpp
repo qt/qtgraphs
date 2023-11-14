@@ -12,13 +12,10 @@ QGraphsView::QGraphsView(QQuickItem *parent) :
 {
     setFlag(QQuickItem::ItemHasContents);
     setAcceptedMouseButtons(Qt::LeftButton);
-    m_shape.setParentItem(this);
 }
 
 QGraphsView::~QGraphsView()
 {
-    for (auto&& line : std::as_const(m_linePaths))
-        delete line;
 }
 
 void QGraphsView::setBackgroundColor(QColor color)
@@ -108,11 +105,12 @@ void QGraphsView::removeAxis(QAbstractAxis *axis)
 
 void QGraphsView::updateComponentSizes()
 {
-    if (!m_axisRenderer || !m_barsRenderer)
+    if (!m_axisRenderer || !m_barsRenderer || !m_linesRenderer)
         return;
 
     m_axisRenderer->setSize(size());
     m_barsRenderer->setSize(size());
+    m_linesRenderer->setSize(size());
 }
 
 void QGraphsView::componentComplete()
@@ -142,98 +140,26 @@ void QGraphsView::geometryChange(const QRectF &newGeometry, const QRectF &oldGeo
     if (!m_barsRenderer)
         m_barsRenderer = new BarsRenderer(this);
 
+    if (!m_linesRenderer)
+        m_linesRenderer = new LinesRenderer(this);
+
     updateComponentSizes();
 }
 
 void QGraphsView::mouseMoveEvent(QMouseEvent *event)
 {
-    if (m_pointPressed && m_pressedLine->series->isPointSelected(m_pressedPointIndex)) {
-        float w = width() - m_marginLeft - m_marginRight - m_axisRenderer->m_axisWidth;
-        float h = height() - m_marginTop - m_marginBottom - m_axisRenderer->m_axisHeight;
-        double maxVertical = m_axisRenderer->m_axisVerticalMaxValue > 0 ? 1.0 / m_axisRenderer->m_axisVerticalMaxValue : 100.0;
-        double maxHorizontal = m_axisRenderer->m_axisHorizontalMaxValue > 0 ? 1.0 / m_axisRenderer->m_axisHorizontalMaxValue : 100.0;
-
-        QPoint delta = m_pressStart - event->pos();
-
-        qreal deltaX = -delta.x() / w / maxHorizontal;
-        qreal deltaY = delta.y() / h / maxVertical;
-
-        for (auto &&line : m_linePaths) {
-            auto &&selectedPoints = line->series->selectedPoints();
-            for (int index : selectedPoints) {
-                QPointF point = line->series->at(index) + QPointF(deltaX, deltaY);
-                line->series->replace(index, point);
-            }
-        }
-
-        m_pressStart = event->pos();
-        m_pointDragging = true;
-    }
+    m_linesRenderer->handleMouseMove(event);
 }
 
 void QGraphsView::mousePressEvent(QMouseEvent *event)
 {
-
     m_barsRenderer->handleMousePress(event);
-
-    const int selectionSize = 20;
-    for (auto &&line : m_linePaths) {
-        QRect startRect(line->shapePath->startX() - selectionSize / 2.0,
-                        line->shapePath->startY() - selectionSize / 2.0,
-                        selectionSize, selectionSize);
-        if (startRect.contains(event->pos())) {
-            if (line->series->isPointSelected(0)) {
-                line->series->deselectPoint(0);
-            } else {
-                line->series->selectPoint(0);
-            }
-
-            m_pointPressed = true;
-            m_pressStart = event->pos();
-            m_pressedLine = line;
-            m_pressedPointIndex = 0;
-        }
-
-        int index = 1;
-        for (auto &&path : line->paths) {
-            QRect rect(path->x() - selectionSize / 2.0,
-                       path->y() - selectionSize / 2.0,
-                       selectionSize, selectionSize);
-            if (rect.contains(event->pos())) {
-                m_pointPressed = true;
-                m_pressStart = event->pos();
-                m_pressedLine = line;
-                m_pressedPointIndex = index;
-            }
-            index++;
-        }
-    }
+    m_linesRenderer->handleMousePress(event);
 }
 
 void QGraphsView::mouseReleaseEvent(QMouseEvent *event)
 {
-    if (!m_pointDragging && m_pointPressed && m_pressedLine) {
-        const int selectionSize = 20;
-        QRect rect(m_pressedLine->shapePath->startX() - selectionSize / 2.0,
-                   m_pressedLine->shapePath->startY() - selectionSize / 2.0,
-                   selectionSize, selectionSize);
-
-        if (m_pressedPointIndex > 0) {
-            rect = QRect(m_pressedLine->paths[m_pressedPointIndex - 1]->x() - selectionSize / 2.0,
-                         m_pressedLine->paths[m_pressedPointIndex - 1]->y() - selectionSize / 2.0,
-                         selectionSize, selectionSize);
-        }
-
-        if (rect.contains(event->pos())) {
-            if (m_pressedLine->series->isPointSelected(m_pressedPointIndex)) {
-                m_pressedLine->series->deselectPoint(m_pressedPointIndex);
-            } else {
-                m_pressedLine->series->selectPoint(m_pressedPointIndex);
-            }
-        }
-    }
-    m_pointPressed = false;
-    m_pointDragging = false;
+    m_linesRenderer->handleMouseRelease(event);
 }
 
 QSGNode *QGraphsView::updatePaintNode(QSGNode *oldNode, QQuickItem::UpdatePaintNodeData *updatePaintNodeData)
@@ -253,7 +179,7 @@ QSGNode *QGraphsView::updatePaintNode(QSGNode *oldNode, QQuickItem::UpdatePaintN
             m_barsRenderer->updateBarSeries(barSeries);
 
         if (auto lineSeries = qobject_cast<QLineSeries*>(series))
-            updateLineSeries(lineSeries);
+            m_linesRenderer->updateLineSeries(lineSeries);
     }
 
     // Now possibly dirty theme has been taken into use
@@ -272,176 +198,11 @@ void QGraphsView::updatePolish()
     for (auto series : std::as_const(m_seriesList)) {
         if (auto barSeries = qobject_cast<QBarSeries*>(series))
             m_barsRenderer->handlePolish(barSeries);
-    }
 
-    // TODO: Move these into line renderer handlePolish()
-    int lineSeriesIndex = 0;
-    for (auto series : std::as_const(m_seriesList)) {
-        if (auto lineSeries = qobject_cast<QLineSeries*>(series)) {
-            if (!m_linePaths.contains(lineSeries)) {
-                LinePath *linePath = new LinePath();
-                linePath->series = lineSeries;
-                linePath->shapePath = new QQuickShapePath(&m_shape);
-                m_linePaths.insert(lineSeries, linePath);
-
-                auto data = m_shape.data();
-                data.append(&data, m_linePaths.value(lineSeries)->shapePath);
-            }
-
-            auto line = m_linePaths.value(lineSeries);
-
-            int pointCount = lineSeries->points().size();
-            int currentSize = line->paths.size();
-            if (currentSize < pointCount - 1) {
-                auto pathElements = line->shapePath->pathElements();
-                for (int i = currentSize; i < pointCount - 1; ++i) {
-                    auto path = new QQuickPathLine(line->shapePath);
-                    pathElements.append(&pathElements, path);
-                    line->paths << path;
-                }
-            }
-
-            if (lineSeries->pointMarker()) {
-                int markerCount = line->markers.size();
-                if (markerCount < pointCount) {
-                    for (int i = markerCount; i < pointCount; ++i) {
-                        QQuickItem *item = qobject_cast<QQuickItem *>(lineSeries->pointMarker()->create());
-                        item->setParentItem(this);
-                        line->markers << item;
-                    }
-                }
-            } else if (line->markers.size() > 0) {
-                for (int i = 0; i < line->markers.size(); i++) {
-                    line->markers[i]->deleteLater();
-                }
-                line->markers.clear();
-            }
-
-            if (!lineSeries->pointMarker()) {
-                // Create markers for selected points for a line
-                // without a user defined point marker
-
-                int selectionCount = line->selections.size();
-                if (selectionCount < lineSeries->selectedPoints().size()) {
-                    for (int i = selectionCount; i < lineSeries->selectedPoints().size(); ++i) {
-                        auto selection = new QSGDefaultInternalRectangleNode();
-                        m_backgroundNode->appendChildNode(selection);
-                        line->selections << selection;
-                    }
-                }
-
-                auto &&selectedPoints = lineSeries->selectedPoints();
-                for (int i = 0; i < line->selections.size();) {
-                    if (i < selectedPoints.size()) {
-                        int index = selectedPoints[i];
-                        auto &pointItem = line->selections[i];
-
-                        qreal x = line->shapePath->startX();
-                        qreal y = line->shapePath->startY();
-
-                        if (index > 0) {
-                            x = line->paths[index - 1]->x();
-                            y = line->paths[index - 1]->y();
-                        }
-
-                        qreal markerSize = lineSeries->markerSize();
-                        pointItem->setRect(QRectF(x - markerSize / 2.0, y - markerSize / 2.0,
-                                                  markerSize, markerSize));
-                        QColor c = lineSeries->color();
-                        if (lineSeries->selectedColor().isValid())
-                            c = lineSeries->selectedColor();
-                        c.setAlpha(c.alpha() * lineSeries->opacity());
-                        pointItem->setColor(QColorConstants::Transparent);
-                        pointItem->setPenColor(c);
-                        pointItem->setPenWidth(2.0);
-                        // TODO: Required because of QTBUG-117892
-                        pointItem->setTopLeftRadius(-1);
-                        pointItem->setTopRightRadius(-1);
-                        pointItem->setBottomLeftRadius(-1);
-                        pointItem->setBottomRightRadius(-1);
-                        pointItem->setRadius(180.0);
-                        pointItem->setAntialiasing(true);
-                        pointItem->update();
-
-                        i++;
-                    } else {
-                        m_backgroundNode->removeChildNode(line->selections[i]);
-                        delete line->selections[i];
-                        line->selections.removeAt(i);
-                    }
-                }
-            }
-
-            auto seriesTheme = lineSeries->theme();
-            if (seriesTheme) {
-                auto &&colors = seriesTheme->colors();
-                if (colors.size() > 0)
-                    lineSeries->setColor(colors[lineSeriesIndex % colors.size()]);
-            }
-            lineSeriesIndex++;
-        }
+        if (auto lineSeries = qobject_cast<QLineSeries*>(series))
+            m_linesRenderer->handlePolish(lineSeries);
     }
 }
-
-
-
-
-void QGraphsView::updateLineSeries(QLineSeries *series)
-{
-    if (series->points().isEmpty())
-        return;
-
-    if (!m_linePaths.contains(series))
-        return;
-
-    auto line = m_linePaths.value(series);
-
-    line->shapePath->setStrokeColor(series->color());
-    line->shapePath->setStrokeWidth(series->width());
-    line->shapePath->setFillColor(QColorConstants::Transparent);
-
-    Qt::PenCapStyle capStyle = series->capStyle();
-    if (capStyle == Qt::PenCapStyle::SquareCap) {
-        line->shapePath->setCapStyle(QQuickShapePath::CapStyle::SquareCap);
-    } else if (capStyle == Qt::PenCapStyle::FlatCap) {
-        line->shapePath->setCapStyle(QQuickShapePath::CapStyle::FlatCap);
-    } else if (capStyle == Qt::PenCapStyle::RoundCap) {
-        line->shapePath->setCapStyle(QQuickShapePath::CapStyle::RoundCap);
-    }
-
-    // Line area width & height
-    float w = width() - m_marginLeft - m_marginRight - m_axisRenderer->m_axisWidth;
-    float h = height() - m_marginTop - m_marginBottom - m_axisRenderer->m_axisHeight;
-
-    auto &&points = series->points();
-    if (points.count() > 0) {
-        double maxVertical = m_axisRenderer->m_axisVerticalMaxValue > 0 ? 1.0 / m_axisRenderer->m_axisVerticalMaxValue : 100.0;
-        double maxHorizontal = m_axisRenderer->m_axisHorizontalMaxValue > 0 ? 1.0 / m_axisRenderer->m_axisHorizontalMaxValue : 100.0;
-        for (int i = 0; i < points.count(); ++i) {
-            qreal x = m_marginLeft + m_axisRenderer->m_axisWidth + w * points[i].x() * maxHorizontal;
-            qreal y = m_marginTop + h - h * points[i].y() * maxVertical;
-            if (i == 0) {
-                line->shapePath->setStartX(x);
-                line->shapePath->setStartY(y);
-            } else {
-                line->paths[i - 1]->setX(x);
-                line->paths[i - 1]->setY(y);
-            }
-
-            if (series->pointMarker()) {
-                if (line->markers[i]->property("selected").isValid())
-                    line->markers[i]->setProperty("selected", series->isPointSelected(i));
-                line->markers[i]->setX(x - line->markers[i]->width() / 2.0);
-                line->markers[i]->setY(y - line->markers[i]->height() / 2.0);
-            }
-        }
-    }
-}
-
-
-
-
-
 
 // ***** Static QQmlListProperty methods *****
 

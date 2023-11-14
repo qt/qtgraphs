@@ -30,6 +30,7 @@ qt_internal_add_qml_module(Graphs2D
         themes/graphtheme.cpp themes/graphtheme.h
         themes/seriestheme.cpp themes/seriestheme.h
         qsgrenderer/barsrenderer.cpp qsgrenderer/barsrenderer_p.h
+        qsgrenderer/linesrenderer.cpp qsgrenderer/linesrenderer_p.h
         qsgrenderer/axisrenderer.cpp qsgrenderer/axisrenderer_p.h
     NO_PCH_SOURCES
         barchart/qabstractbarseries.cpp
