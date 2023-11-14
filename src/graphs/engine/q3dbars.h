@@ -35,7 +35,7 @@ class Q_GRAPHS_EXPORT Q3DBars : public QAbstract3DGraph
 
 public:
     Q3DBars();
-    ~Q3DBars();
+    ~Q3DBars() override;
 
     void setPrimarySeries(QBar3DSeries *series);
     QBar3DSeries *primarySeries() const;

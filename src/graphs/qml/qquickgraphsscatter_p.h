@@ -49,7 +49,7 @@ class QQuickGraphsScatter : public QQuickGraphsItem
 
 public:
     explicit QQuickGraphsScatter(QQuickItem *parent = 0);
-    ~QQuickGraphsScatter();
+    ~QQuickGraphsScatter() override;
 
     struct ChangeItem
     {

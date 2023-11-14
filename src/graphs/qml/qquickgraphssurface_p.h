@@ -60,7 +60,7 @@ class QQuickGraphsSurface : public QQuickGraphsItem
 
 public:
     explicit QQuickGraphsSurface(QQuickItem *parent = 0);
-    ~QQuickGraphsSurface();
+    ~QQuickGraphsSurface() override;
 
     struct ChangeItem
     {

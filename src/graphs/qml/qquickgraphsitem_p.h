@@ -194,7 +194,7 @@ class QQuickGraphsItem : public QQuick3DViewport
 
 public:
     explicit QQuickGraphsItem(QQuickItem *parent = 0);
-    virtual ~QQuickGraphsItem();
+    ~QQuickGraphsItem() override;
 
     void markDataDirty();
     void markSeriesVisualsDirty();

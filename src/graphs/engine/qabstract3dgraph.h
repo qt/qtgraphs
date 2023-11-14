@@ -241,7 +241,7 @@ public:
     int msaaSamples() const;
     void setMsaaSamples(int samples);
 
-    virtual ~QAbstract3DGraph();
+    ~QAbstract3DGraph() override;
 
 protected:
     QAbstract3DGraph();

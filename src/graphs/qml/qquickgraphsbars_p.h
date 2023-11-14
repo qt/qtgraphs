@@ -74,7 +74,7 @@ class QQuickGraphsBars : public QQuickGraphsItem
 
 public:
     explicit QQuickGraphsBars(QQuickItem *parent = 0);
-    ~QQuickGraphsBars();
+    ~QQuickGraphsBars() override;
 
     struct ChangeItem
     {

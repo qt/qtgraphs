@@ -22,7 +22,7 @@ class Q_GRAPHS_EXPORT Q3DScatter : public QAbstract3DGraph
 
 public:
     Q3DScatter();
-    ~Q3DScatter();
+    ~Q3DScatter() override;
 
     void addSeries(QScatter3DSeries *series);
     void removeSeries(QScatter3DSeries *series);

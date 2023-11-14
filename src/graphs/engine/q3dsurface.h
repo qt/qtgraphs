@@ -24,7 +24,7 @@ class Q_GRAPHS_EXPORT Q3DSurface : public QAbstract3DGraph
 
 public:
     explicit Q3DSurface();
-    virtual ~Q3DSurface();
+    ~Q3DSurface() override;
 
     void addSeries(QSurface3DSeries *series);
     void removeSeries(QSurface3DSeries *series);
