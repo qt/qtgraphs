@@ -470,7 +470,7 @@ void QQuickGraphsSurface::setSelectedPoint(const QPoint &position,
         int maxRow = proxy->rowCount() - 1;
         int maxCol = proxy->columnCount() - 1;
 
-        if (pos.x() < 0 || pos.x() > maxRow || pos.y() < 0 || pos.y() > maxCol)
+        if (pos.y() < 0 || pos.y() > maxRow || pos.x() < 0 || pos.x() > maxCol)
             pos = invalidSelectionPosition();
     }
 
@@ -485,7 +485,7 @@ void QQuickGraphsSurface::setSelectedPoint(const QPoint &position,
             float axisMinZ = m_axisZ->min();
             float axisMaxZ = m_axisZ->max();
 
-            QSurfaceDataItem item = proxy->array().at(pos.x()).at(pos.y());
+            QSurfaceDataItem item = proxy->array().at(pos.y()).at(pos.x());
             if (item.x() < axisMinX || item.x() > axisMaxX || item.z() < axisMinZ
                 || item.z() > axisMaxZ) {
                 scene()->setSlicingActive(false);

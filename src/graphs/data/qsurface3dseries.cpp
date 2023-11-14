@@ -505,7 +505,8 @@ void QSurface3DSeriesPrivate::createItemLabel()
     QValue3DAxis *axisX = static_cast<QValue3DAxis *>(m_graph->axisX());
     QValue3DAxis *axisY = static_cast<QValue3DAxis *>(m_graph->axisY());
     QValue3DAxis *axisZ = static_cast<QValue3DAxis *>(m_graph->axisZ());
-    QVector3D selectedPosition = q->dataProxy()->itemAt(m_selectedPoint).position();
+    QVector3D selectedPosition
+        = q->dataProxy()->itemAt(QPoint(m_selectedPoint.y(), m_selectedPoint.x())).position();
 
     m_itemLabel = m_itemLabelFormat;
 
