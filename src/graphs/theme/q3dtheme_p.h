@@ -79,7 +79,7 @@ class Q_GRAPHS_EXPORT Q3DThemePrivate : public QObject
     Q_CLASSINFO("RegisterEnumClassesUnscoped", "false")
 
 public:
-    enum class GradientType { Base = 0, SingleHL, MultiHL };
+    enum class GradientType { Base, SingleHL, MultiHL };
 
     Q3DThemePrivate(Q3DTheme *q);
     virtual ~Q3DThemePrivate();

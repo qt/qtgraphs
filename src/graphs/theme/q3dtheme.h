@@ -71,7 +71,7 @@ class Q_GRAPHS_EXPORT Q3DTheme : public QObject, public QQmlParserStatus
     QML_NAMED_ELEMENT(Theme3D)
 
 public:
-    enum class ColorStyle { Uniform = 0, ObjectGradient, RangeGradient };
+    enum class ColorStyle { Uniform, ObjectGradient, RangeGradient };
     Q_ENUM(ColorStyle)
 
     enum class Theme {

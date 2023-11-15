@@ -33,7 +33,7 @@ public:
     ~QAbstract3DInputHandlerPrivate();
 
 public:
-    enum class InputState { None = 0, Selecting, Rotating, Pinching };
+    enum class InputState { None, Selecting, Rotating, Pinching };
 
     int m_prevDistance = 0;
     QPoint m_previousInputPos = {};

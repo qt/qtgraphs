@@ -88,21 +88,21 @@ public:
     Q_FLAG(SelectionFlag)
     Q_DECLARE_FLAGS(SelectionFlags, SelectionFlag)
 
-    enum class ShadowQuality { None = 0, Low, Medium, High, SoftLow, SoftMedium, SoftHigh };
+    enum class ShadowQuality { None, Low, Medium, High, SoftLow, SoftMedium, SoftHigh };
     Q_ENUM(ShadowQuality)
 
-    enum class ElementType { None = 0, Series, AxisXLabel, AxisYLabel, AxisZLabel, CustomItem };
+    enum class ElementType { None, Series, AxisXLabel, AxisYLabel, AxisZLabel, CustomItem };
     Q_ENUM(ElementType)
 
-    enum class OptimizationHint { Default = 0, Legacy };
+    enum class OptimizationHint { Default, Legacy };
     Q_ENUM(OptimizationHint)
 
-    enum class RenderingMode { DirectToBackground = 0, Indirect };
+    enum class RenderingMode { DirectToBackground, Indirect };
     Q_ENUM(RenderingMode)
 
     enum class CameraPreset {
-        NoPreset = -1,
-        FrontLow = 0,
+        NoPreset,
+        FrontLow,
         Front,
         FrontHigh,
         LeftLow,
