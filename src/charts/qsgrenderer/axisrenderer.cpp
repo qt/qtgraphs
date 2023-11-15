@@ -66,10 +66,12 @@ void AxisRenderer::handlePolish()
 
 void AxisRenderer::updateAxis()
 {
-    // Update active tickers
+    // Update active axis
     QAbstractAxis *axisVertical = nullptr;
     QAbstractAxis *axisHorizontal = nullptr;
     for (auto a : m_graph->m_axis) {
+        if (!a->isVisible())
+            continue;
         if (a->orientation() == Qt::Vertical)
             axisVertical = a;
         else
@@ -152,6 +154,7 @@ void AxisRenderer::updateAxisTickers()
         m_axisTickerVertical->setSpacing(m_axisTickerVertical->height() / m_axisVerticalValueRange);
         m_axisTickerVertical->setMinorBarsVisible(!qFuzzyCompare(m_axisVerticalMinorTickScale, 1.0));
         m_axisTickerVertical->setMinorTickScale(m_axisVerticalMinorTickScale);
+        m_axisTickerVertical->setVisible(true);
         // Axis line
         m_axisLineVertical->setColor(theme()->axisYMajorColor());
         m_axisLineVertical->setLineWidth(theme()->axisYMajorBarWidth());
@@ -160,6 +163,13 @@ void AxisRenderer::updateAxisTickers()
         m_axisLineVertical->setY(m_axisTickerVertical->y());
         m_axisLineVertical->setWidth(m_axisLineVertical->lineWidth() + m_axisLineVertical->smoothing());
         m_axisLineVertical->setHeight(m_axisTickerVertical->height());
+        m_axisLineVertical->setVisible(m_axisVertical->isLineVisible());
+    } else {
+        // Hide all parts of vertical axis
+        m_axisTickerVertical->setVisible(false);
+        m_axisLineVertical->setVisible(false);
+        for (auto &textItem : m_yAxisTextItems)
+            textItem->setVisible(false);
     }
 
     if (m_axisHorizontal) {
@@ -179,6 +189,7 @@ void AxisRenderer::updateAxisTickers()
         m_axisTickerHorizontal->setSpacing(m_axisTickerHorizontal->width() / m_axisHorizontalMaxValue);
         m_axisTickerHorizontal->setMinorBarsVisible(!qFuzzyCompare(m_axisHorizontalMinorTickScale, 1.0));
         m_axisTickerHorizontal->setMinorTickScale(m_axisHorizontalMinorTickScale);
+        m_axisTickerHorizontal->setVisible(true);
         // Axis line
         m_axisLineHorizontal->setColor(theme()->axisXMajorColor());
         m_axisLineHorizontal->setLineWidth(theme()->axisXMajorBarWidth());
@@ -187,6 +198,13 @@ void AxisRenderer::updateAxisTickers()
         m_axisLineHorizontal->setY(m_axisTickerHorizontal->y() - m_axisLineHorizontal->lineWidth() - m_axisLineHorizontal->smoothing());
         m_axisLineHorizontal->setWidth(m_axisTickerHorizontal->width());
         m_axisLineHorizontal->setHeight(m_axisLineHorizontal->lineWidth() + m_axisLineHorizontal->smoothing());
+        m_axisLineHorizontal->setVisible(m_axisHorizontal->isLineVisible());
+    } else {
+        // Hide all parts of horizontal axis
+        m_axisTickerHorizontal->setVisible(false);
+        m_axisLineHorizontal->setVisible(false);
+        for (auto &textItem : m_xAxisTextItems)
+            textItem->setVisible(false);
     }
 }
 
@@ -232,17 +250,22 @@ void AxisRenderer::updateBarXAxisLabels(QBarCategoryAxis *axis, const QRectF &re
     int textIndex = 0;
     for (auto category : axis->categories()) {
         auto &textItem = m_xAxisTextItems[textIndex];
-        float posX = rect.x() + ((float)textIndex / categoriesCount) *  rect.width();
-        textItem->setX(posX);
-        float posY = rect.y();
-        textItem->setY(posY);
-        textItem->setHAlign(QQuickText::HAlignment::AlignHCenter);
-        textItem->setVAlign(QQuickText::VAlignment::AlignVCenter);
-        textItem->setWidth(rect.width() / categoriesCount);
-        textItem->setHeight(rect.height());
-        textItem->setFont(theme()->axisXLabelsFont());
-        textItem->setColor(theme()->axisXLabelsColor());
-        textItem->setText(category);
+        if (axis->isVisible() && axis->labelsVisible()) {
+            float posX = rect.x() + ((float)textIndex / categoriesCount) *  rect.width();
+            textItem->setX(posX);
+            float posY = rect.y();
+            textItem->setY(posY);
+            textItem->setHAlign(QQuickText::HAlignment::AlignHCenter);
+            textItem->setVAlign(QQuickText::VAlignment::AlignVCenter);
+            textItem->setWidth(rect.width() / categoriesCount);
+            textItem->setHeight(rect.height());
+            textItem->setFont(theme()->axisXLabelsFont());
+            textItem->setColor(theme()->axisXLabelsColor());
+            textItem->setText(category);
+            textItem->setVisible(true);
+        } else {
+            textItem->setVisible(false);
+        }
         textIndex++;
     }
 }
@@ -268,30 +291,33 @@ void AxisRenderer::updateValueYAxisLabels(QValueAxis *axis, const QRectF &rect)
             textItem->setVisible(false);
         }
     }
-
     for (int i = 0;  i < categoriesCount; i++) {
         auto &textItem = m_yAxisTextItems[i];
-        // TODO: Not general, fix vertical align to work in all cases
-        float fontSize = theme()->axisYLabelsFont().pixelSize() < 0 ? theme()->axisYLabelsFont().pointSize() : theme()->axisYLabelsFont().pixelSize();
-        float posX = rect.x();
-        textItem->setX(posX);
-        float posY = rect.y() + rect.height() - (((float)i) / (categoriesCountDouble - 2)) *  rect.height();
-        posY += m_axisYMovement;
-        if (posY > (rect.height() + rect.y()) || posY < rect.y()) {
-            // Hide text item which are outside the axis area
+        if (axis->isVisible() && axis->labelsVisible()) {
+            // TODO: Not general, fix vertical align to work in all cases
+            float fontSize = theme()->axisYLabelsFont().pixelSize() < 0 ? theme()->axisYLabelsFont().pointSize() : theme()->axisYLabelsFont().pixelSize();
+            float posX = rect.x();
+            textItem->setX(posX);
+            float posY = rect.y() + rect.height() - (((float)i) / (categoriesCountDouble - 2)) *  rect.height();
+            posY += m_axisYMovement;
+            if (posY > (rect.height() + rect.y()) || posY < rect.y()) {
+                // Hide text item which are outside the axis area
+                textItem->setVisible(false);
+                continue;
+            }
+            // Take font size into account only after hiding
+            posY -= fontSize;
+            textItem->setY(posY);
+            textItem->setHAlign(QQuickText::HAlignment::AlignRight);
+            textItem->setVAlign(QQuickText::VAlignment::AlignBottom);
+            textItem->setWidth(rect.width());
+            textItem->setFont(theme()->axisYLabelsFont());
+            textItem->setColor(theme()->axisYLabelsColor());
+            int number = i + int(m_axisVerticalMinValue);
+            textItem->setText(QString::number(number));
+            textItem->setVisible(true);
+        } else {
             textItem->setVisible(false);
-            continue;
         }
-        // Take font size into account only after hiding
-        posY -= fontSize;
-        textItem->setY(posY);
-        textItem->setHAlign(QQuickText::HAlignment::AlignRight);
-        textItem->setVAlign(QQuickText::VAlignment::AlignBottom);
-        textItem->setWidth(rect.width());
-        textItem->setFont(theme()->axisYLabelsFont());
-        textItem->setColor(theme()->axisYLabelsColor());
-        int number = i + int(m_axisVerticalMinValue);
-        textItem->setText(QString::number(number));
-        textItem->setVisible(true);
     }
 }

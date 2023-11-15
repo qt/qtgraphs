@@ -21,12 +21,18 @@ Rectangle {
             id: mySeries
             axisX: BarCategoryAxis {
                 id: xAxis
+                visible: checkBoxAxisXVisible.checked
+                lineVisible: checkBoxAxisXLineVisible.checked
+                labelsVisible: checkBoxAxisXLabelsVisible.checked
                 categories: [1, 2, 3, 4, 5, 6]
                 gridVisible: checkBoxGridXMajor.checked
                 minorGridVisible: checkBoxGridXMinor.checked
             }
             axisY: ValueAxis {
                 id: yAxis
+                visible: checkBoxAxisYVisible.checked
+                lineVisible: checkBoxAxisYLineVisible.checked
+                labelsVisible: checkBoxAxisYLabelsVisible.checked
                 max: 10
                 autoScale: false
                 minorTickCount: 1
@@ -94,6 +100,36 @@ Rectangle {
             fromValue: -3
             toValue: 3
             onSliderValueChanged: yAxis.min = sliderValue;
+        }
+        CustomCheckBox {
+            id: checkBoxAxisXVisible
+            text: "Axis X: Visible"
+            checked: true
+        }
+        CustomCheckBox {
+            id: checkBoxAxisXLineVisible
+            text: "Axis X: Line visible"
+            checked: true
+        }
+        CustomCheckBox {
+            id: checkBoxAxisXLabelsVisible
+            text: "Axis X: Labels visible"
+            checked: true
+        }
+        CustomCheckBox {
+            id: checkBoxAxisYVisible
+            text: "Axis Y: Visible"
+            checked: true
+        }
+        CustomCheckBox {
+            id: checkBoxAxisYLineVisible
+            text: "Axis Y: Line visible"
+            checked: true
+        }
+        CustomCheckBox {
+            id: checkBoxAxisYLabelsVisible
+            text: "Axis Y: Labels visible"
+            checked: true
         }
         CustomCheckBox {
             id: checkBoxGridYMajor

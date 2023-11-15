@@ -544,6 +544,7 @@ void QAbstractAxis::setLineVisible(bool visible)
 {
     if (d_ptr->m_arrowVisible != visible) {
         d_ptr->m_arrowVisible = visible;
+        update();
         emit lineVisibleChanged(visible);
     }
 }
@@ -653,6 +654,7 @@ void QAbstractAxis::setLabelsVisible(bool visible)
 {
     if (d_ptr->m_labelsVisible != visible) {
         d_ptr->m_labelsVisible = visible;
+        update();
         emit labelsVisibleChanged(visible);
     }
 }
@@ -904,6 +906,7 @@ void QAbstractAxis::setVisible(bool visible)
 {
     if (d_ptr->m_visible != visible) {
         d_ptr->m_visible = visible;
+        update();
         emit visibleChanged(visible);
     }
 }

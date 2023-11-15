@@ -40,7 +40,7 @@ Item {
         leftInset: -10
         topInset: -20
         bottomInset: -20
-        topMargin: 20
+        topMargin: 0
         visible: settings.showSettingsView
 
         background: Rectangle {
@@ -50,9 +50,18 @@ Item {
             opacity: 0.8
         }
 
-        Column {
-            id: settingsArea
-            spacing: 10
+        ScrollView {
+            id: scrollView
+            anchors.fill: parent
+            ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
+            ScrollBar.vertical.interactive: false
+            contentHeight: settingsArea.height + 40
+            clip: true
+            Column {
+                id: settingsArea
+                y: 20
+                spacing: 10
+            }
         }
         enter: Transition {
             NumberAnimation {
