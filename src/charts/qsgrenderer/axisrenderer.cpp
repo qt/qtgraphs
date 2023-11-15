@@ -78,6 +78,11 @@ void AxisRenderer::updateAxis()
     m_axisVertical = axisVertical;
     m_axisHorizontal = axisHorizontal;
 
+    // Graph series area width & height
+    QRectF seriesRect = m_graph->seriesRect();
+    float w = seriesRect.width();
+    float h = seriesRect.height();
+
     if (m_axisVertical) {
         m_gridVerticalMajorTicksVisible = m_axisVertical->isGridLineVisible();
         m_gridVerticalMinorTicksVisible = m_axisVertical->isMinorGridLineVisible();
@@ -98,6 +103,11 @@ void AxisRenderer::updateAxis()
         }
         int axisVerticalMinorTickCount = vaxis->minorTickCount();
         m_axisVerticalMinorTickScale = axisVerticalMinorTickCount > 0 ? 1.0 / (axisVerticalMinorTickCount + 1) : 1.0;
+
+        float rightMargin = 20;
+        QRectF yAxisRect(m_graph->m_marginLeft, m_graph->m_marginTop, m_axisWidth - rightMargin, h);
+        updateValueYAxisLabels(vaxis, yAxisRect);
+
     }
     m_axisVerticalValueRange = m_axisVerticalMaxValue - m_axisVerticalMinValue;
 
@@ -113,6 +123,8 @@ void AxisRenderer::updateAxis()
     if (auto haxis = qobject_cast<QBarCategoryAxis *>(m_axisHorizontal)) {
         m_axisHorizontalMaxValue = haxis->categories().size();
         m_axisHorizontalMinValue = 0;
+        QRectF xAxisRect(m_graph->m_marginLeft + m_axisWidth, m_graph->m_marginTop + h, w, m_axisHeight);
+        updateBarXAxisLabels(haxis, xAxisRect);
     }
 
     updateAxisTickers();
@@ -204,7 +216,7 @@ void AxisRenderer::updateAxisGrid()
     m_axisGrid->setHorizontalMinorTickScale(m_axisHorizontalMinorTickScale);
 }
 
-void AxisRenderer::updateBarXAxis(QBarCategoryAxis *axis, const QRectF &rect)
+void AxisRenderer::updateBarXAxisLabels(QBarCategoryAxis *axis, const QRectF &rect)
 {
     int categoriesCount =  axis->categories().size();
     // See if we need more text items
@@ -235,7 +247,7 @@ void AxisRenderer::updateBarXAxis(QBarCategoryAxis *axis, const QRectF &rect)
     }
 }
 
-void AxisRenderer::updateBarYAxis(QValueAxis *axis, const QRectF &rect)
+void AxisRenderer::updateValueYAxisLabels(QValueAxis *axis, const QRectF &rect)
 {
     // Create 2 extra text items, one into each end
     double categoriesCountDouble = m_axisVerticalValueRange + 2;

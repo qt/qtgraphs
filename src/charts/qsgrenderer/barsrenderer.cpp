@@ -5,8 +5,6 @@
 #include <private/qgraphsview_p.h>
 #include <QtGraphs2D/qbarseries.h>
 #include <QtGraphs2D/qbarset.h>
-#include <QtGraphs2D/QBarCategoryAxis>
-#include <private/qvalueaxis_p.h>
 
 BarsRenderer::BarsRenderer(QQuickItem *parent) :
       QQuickItem(parent)
@@ -17,21 +15,6 @@ BarsRenderer::BarsRenderer(QQuickItem *parent) :
 
 void BarsRenderer::handlePolish(QBarSeries *series)
 {
-    // TODO: Duplicated from below
-    // Bars area width & height
-    float w = width() - m_graph->m_marginLeft - m_graph->m_marginRight - m_graph->m_axisRenderer->m_axisWidth;
-    float h = height() - m_graph->m_marginTop - m_graph->m_marginBottom - m_graph->m_axisRenderer->m_axisHeight;
-
-    if (QBarCategoryAxis *axisX = qobject_cast<QBarCategoryAxis*>(series->axisX())) {
-        QRectF xAxisRect(m_graph->m_marginLeft + m_graph->m_axisRenderer->m_axisWidth, m_graph->m_marginTop + h, w, m_graph->m_axisRenderer->m_axisHeight);
-        m_graph->m_axisRenderer->updateBarXAxis(axisX, xAxisRect);
-    }
-
-    if (QValueAxis *axisY = qobject_cast<QValueAxis*>(series->axisY())) {
-        float rightMargin = 20;
-        QRectF yAxisRect(m_graph->m_marginLeft, m_graph->m_marginTop, m_graph->m_axisRenderer->m_axisWidth - rightMargin, h);
-        m_graph->m_axisRenderer->updateBarYAxis(axisY, yAxisRect);
-    }
 }
 
 void BarsRenderer::updateBarSeries(QBarSeries *series)
@@ -55,8 +38,9 @@ void BarsRenderer::updateBarSeries(QBarSeries *series)
     seriesTheme->setGraphSeriesCount(setCount);
 
     // Bars area width & height
-    float w = width() - m_graph->m_marginLeft - m_graph->m_marginRight - m_graph->m_axisRenderer->m_axisWidth;
-    float h = height() - m_graph->m_marginTop - m_graph->m_marginBottom - m_graph->m_axisRenderer->m_axisHeight;
+    QRectF seriesRect = m_graph->seriesRect();
+    float w = seriesRect.width();
+    float h = seriesRect.height();
     // Margin between bars.
     float barMargin = 2.0;
     // Max width of a bar if no separation between sets.

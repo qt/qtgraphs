@@ -40,8 +40,8 @@ public:
     void updateAxis();
     void updateAxisTickers();
     void updateAxisGrid();
-    void updateBarXAxis(QBarCategoryAxis *axis, const QRectF &rect);
-    void updateBarYAxis(QValueAxis *axis, const QRectF &rect);
+    void updateBarXAxisLabels(QBarCategoryAxis *axis, const QRectF &rect);
+    void updateValueYAxisLabels(QValueAxis *axis, const QRectF &rect);
 
 Q_SIGNALS:
 

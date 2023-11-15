@@ -103,6 +103,16 @@ void QGraphsView::removeAxis(QAbstractAxis *axis)
     }
 }
 
+QRectF QGraphsView::seriesRect() const
+{
+    // When axis are in left & bottom
+    qreal x = m_marginLeft - m_axisRenderer->m_axisWidth;
+    qreal y = m_marginTop;
+    qreal w = width() - x - m_marginRight;
+    qreal h = height() - y - m_marginBottom - m_axisRenderer->m_axisHeight;
+    return QRectF(x, y, w, h);
+}
+
 void QGraphsView::updateComponentSizes()
 {
     if (!m_axisRenderer || !m_barsRenderer || !m_linesRenderer)

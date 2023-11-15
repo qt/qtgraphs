@@ -95,6 +95,10 @@ public:
     void addAxis(QAbstractAxis *axis);
     void removeAxis(QAbstractAxis *axis);
 
+    // Returns the graph series area.
+    // So graphview - margins - axis.
+    QRectF seriesRect() const;
+
 protected:
     void updateComponentSizes();
     void componentComplete() override;
