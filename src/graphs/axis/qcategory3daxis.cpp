@@ -43,7 +43,7 @@ QT_BEGIN_NAMESPACE
  * Constructs a category 3D axis with the parent \a parent.
  */
 QCategory3DAxis::QCategory3DAxis(QObject *parent)
-    : QAbstract3DAxis(new QCategory3DAxisPrivate(this), parent)
+    : QAbstract3DAxis(*(new QCategory3DAxisPrivate(this)), parent)
 {}
 
 /*!

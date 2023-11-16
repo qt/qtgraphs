@@ -20,7 +20,7 @@ class Q_GRAPHS_EXPORT QLogValue3DAxisFormatter : public QValue3DAxisFormatter
                    showEdgeLabelsChanged)
 
 protected:
-    explicit QLogValue3DAxisFormatter(QLogValue3DAxisFormatterPrivate *d, QObject *parent = nullptr);
+    explicit QLogValue3DAxisFormatter(QLogValue3DAxisFormatterPrivate &d, QObject *parent = nullptr);
 
 public:
     explicit QLogValue3DAxisFormatter(QObject *parent = nullptr);

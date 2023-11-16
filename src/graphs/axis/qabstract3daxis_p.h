@@ -15,10 +15,11 @@
 #define QABSTRACT3DAXIS_P_H
 
 #include "qabstract3daxis.h"
+#include <private/qobject_p.h>
 
 QT_BEGIN_NAMESPACE
 
-class QAbstract3DAxisPrivate
+class QAbstract3DAxisPrivate : public QObjectPrivate
 {
     Q_DECLARE_PUBLIC(QAbstract3DAxis)
 

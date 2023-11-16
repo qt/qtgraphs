@@ -79,7 +79,7 @@ QT_BEGIN_NAMESPACE
 /*!
  * \internal
  */
-QLogValue3DAxisFormatter::QLogValue3DAxisFormatter(QLogValue3DAxisFormatterPrivate *d,
+QLogValue3DAxisFormatter::QLogValue3DAxisFormatter(QLogValue3DAxisFormatterPrivate &d,
                                                    QObject *parent)
     : QValue3DAxisFormatter(d, parent)
 {
@@ -92,7 +92,7 @@ QLogValue3DAxisFormatter::QLogValue3DAxisFormatter(QLogValue3DAxisFormatterPriva
  * parent \a parent.
  */
 QLogValue3DAxisFormatter::QLogValue3DAxisFormatter(QObject *parent)
-    : QValue3DAxisFormatter(new QLogValue3DAxisFormatterPrivate(this), parent)
+    : QValue3DAxisFormatter(*(new QLogValue3DAxisFormatterPrivate(this)), parent)
 {
     setAllowNegatives(false);
     setAllowZero(false);

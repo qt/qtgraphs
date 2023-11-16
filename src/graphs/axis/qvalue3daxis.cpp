@@ -86,7 +86,7 @@ QT_BEGIN_NAMESPACE
  * Constructs QValue3DAxis with the given \a parent.
  */
 QValue3DAxis::QValue3DAxis(QObject *parent)
-    : QAbstract3DAxis(new QValue3DAxisPrivate(this), parent)
+    : QAbstract3DAxis(*(new QValue3DAxisPrivate(this)), parent)
 {
     setFormatter(new QValue3DAxisFormatter);
 }

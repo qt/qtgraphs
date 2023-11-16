@@ -39,17 +39,15 @@ QT_BEGIN_NAMESPACE
 /*!
  * \internal
  */
-QValue3DAxisFormatter::QValue3DAxisFormatter(QValue3DAxisFormatterPrivate *d, QObject *parent)
-    : QObject(parent)
-    , d_ptr(d)
+QValue3DAxisFormatter::QValue3DAxisFormatter(QValue3DAxisFormatterPrivate &d, QObject *parent)
+    : QObject(d, parent)
 {}
 
 /*!
  * Constructs a new value 3D axis formatter with the optional parent \a parent.
  */
 QValue3DAxisFormatter::QValue3DAxisFormatter(QObject *parent)
-    : QObject(parent)
-    , d_ptr(new QValue3DAxisFormatterPrivate(this))
+    : QObject(*(new QValue3DAxisFormatterPrivate(this)), parent)
 {}
 
 /*!

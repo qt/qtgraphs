@@ -138,9 +138,9 @@ QT_BEGIN_NAMESPACE
 /*!
  * \internal
  */
-QAbstract3DAxis::QAbstract3DAxis(QAbstract3DAxisPrivate *d, QObject *parent)
-    : QObject(parent)
-    , d_ptr(d)
+QAbstract3DAxis::QAbstract3DAxis(QAbstract3DAxisPrivate &d, QObject *parent)
+    : QObject(d, parent)
+
 {}
 
 /*!

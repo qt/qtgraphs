@@ -22,7 +22,7 @@ class Q_GRAPHS_EXPORT QValue3DAxisFormatter : public QObject
     Q_DECLARE_PRIVATE(QValue3DAxisFormatter)
 
 protected:
-    explicit QValue3DAxisFormatter(QValue3DAxisFormatterPrivate *d, QObject *parent = nullptr);
+    explicit QValue3DAxisFormatter(QValue3DAxisFormatterPrivate &d, QObject *parent = nullptr);
 
 public:
     explicit QValue3DAxisFormatter(QObject *parent = nullptr);
@@ -59,8 +59,6 @@ protected:
 
     void setLocale(const QLocale &locale);
     QLocale locale() const;
-
-    QScopedPointer<QValue3DAxisFormatterPrivate> d_ptr;
 
 private:
     Q_DISABLE_COPY(QValue3DAxisFormatter)

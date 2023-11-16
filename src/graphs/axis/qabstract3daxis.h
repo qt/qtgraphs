@@ -42,7 +42,7 @@ public:
     Q_ENUM(AxisType)
 
 protected:
-    explicit QAbstract3DAxis(QAbstract3DAxisPrivate *d, QObject *parent = nullptr);
+    explicit QAbstract3DAxis(QAbstract3DAxisPrivate &d, QObject *parent = nullptr);
 
 public:
     virtual ~QAbstract3DAxis();
@@ -88,8 +88,6 @@ Q_SIGNALS:
     void titleVisibilityChanged(bool visible);
     void titleFixedChanged(bool fixed);
 
-protected:
-    QScopedPointer<QAbstract3DAxisPrivate> d_ptr;
 
 private:
     Q_DISABLE_COPY(QAbstract3DAxis)
