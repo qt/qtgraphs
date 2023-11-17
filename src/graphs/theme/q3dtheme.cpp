@@ -468,8 +468,7 @@ QT_BEGIN_NAMESPACE
  * can be given and is then passed to QObject constructor.
  */
 Q3DTheme::Q3DTheme(QObject *parent)
-    : QObject(parent)
-    , d_ptr(new Q3DThemePrivate(this))
+    : QObject(*(new Q3DThemePrivate(this)), parent)
 {}
 
 /*!
@@ -478,8 +477,8 @@ Q3DTheme::Q3DTheme(QObject *parent)
  * then passed to QObject constructor.
  */
 Q3DTheme::Q3DTheme(Theme themeType, QObject *parent)
-    : QObject(parent)
-    , d_ptr(new Q3DThemePrivate(this))
+    : QObject(*(new Q3DThemePrivate(this)), parent)
+
 {
     setType(themeType);
 }
@@ -487,9 +486,8 @@ Q3DTheme::Q3DTheme(Theme themeType, QObject *parent)
 /*!
  * \internal
  */
-Q3DTheme::Q3DTheme(Q3DThemePrivate *d, Theme themeType, QObject *parent)
-    : QObject(parent)
-    , d_ptr(d)
+Q3DTheme::Q3DTheme(Q3DThemePrivate &d, Theme themeType, QObject *parent)
+    : QObject(d, parent)
 {
     setType(themeType);
 }
@@ -546,7 +544,7 @@ void Q3DTheme::setBackgroundColor(const QColor &color)
     if (d->m_backgroundColor != color) {
         d->m_backgroundColor = color;
         emit backgroundColorChanged(color);
-        emit d->needRender();
+        emit needRender();
     }
 }
 
@@ -568,7 +566,7 @@ void Q3DTheme::setWindowColor(const QColor &color)
     if (d->m_windowColor != color) {
         d->m_windowColor = color;
         emit windowColorChanged(color);
-        emit d->needRender();
+        emit needRender();
     }
 }
 
@@ -590,7 +588,7 @@ void Q3DTheme::setLabelTextColor(const QColor &color)
     if (d->m_textColor != color) {
         d->m_textColor = color;
         emit labelTextColorChanged(color);
-        emit d->needRender();
+        emit needRender();
     }
 }
 
@@ -614,7 +612,7 @@ void Q3DTheme::setLabelBackgroundColor(const QColor &color)
     if (d->m_textBackgroundColor != color) {
         d->m_textBackgroundColor = color;
         emit labelBackgroundColorChanged(color);
-        emit d->needRender();
+        emit needRender();
     }
 }
 
@@ -636,7 +634,7 @@ void Q3DTheme::setGridLineColor(const QColor &color)
     if (d->m_gridLineColor != color) {
         d->m_gridLineColor = color;
         emit gridLineColorChanged(color);
-        emit d->needRender();
+        emit needRender();
     }
 }
 
@@ -709,7 +707,7 @@ void Q3DTheme::setLightColor(const QColor &color)
     if (d->m_lightColor != color) {
         d->m_lightColor = color;
         emit lightColorChanged(color);
-        emit d->needRender();
+        emit needRender();
     }
 }
 
@@ -824,7 +822,7 @@ void Q3DTheme::setLightStrength(float strength)
     } else if (d->m_lightStrength != strength) {
         d->m_lightStrength = strength;
         emit lightStrengthChanged(strength);
-        emit d->needRender();
+        emit needRender();
     }
 }
 
@@ -854,7 +852,7 @@ void Q3DTheme::setAmbientLightStrength(float strength)
     } else if (d->m_ambientLightStrength != strength) {
         d->m_ambientLightStrength = strength;
         emit ambientLightStrengthChanged(strength);
-        emit d->needRender();
+        emit needRender();
     }
 }
 
@@ -878,7 +876,7 @@ void Q3DTheme::setLabelBorderEnabled(bool enabled)
     if (d->m_labelBorders != enabled) {
         d->m_labelBorders = enabled;
         emit labelBorderEnabledChanged(enabled);
-        emit d->needRender();
+        emit needRender();
     }
 }
 
@@ -900,7 +898,7 @@ void Q3DTheme::setFont(const QFont &font)
     if (d->m_font != font) {
         d->m_font = font;
         emit fontChanged(font);
-        emit d->needRender();
+        emit needRender();
     }
 }
 
@@ -924,7 +922,7 @@ void Q3DTheme::setBackgroundEnabled(bool enabled)
     if (d->m_backgoundEnabled != enabled) {
         d->m_backgoundEnabled = enabled;
         emit backgroundEnabledChanged(enabled);
-        emit d->needRender();
+        emit needRender();
     }
 }
 
@@ -948,7 +946,7 @@ void Q3DTheme::setGridEnabled(bool enabled)
     if (d->m_gridEnabled != enabled) {
         d->m_gridEnabled = enabled;
         emit gridEnabledChanged(enabled);
-        emit d->needRender();
+        emit needRender();
     }
 }
 
@@ -979,7 +977,7 @@ void Q3DTheme::setLabelBackgroundEnabled(bool enabled)
     if (d->m_labelBackground != enabled) {
         d->m_labelBackground = enabled;
         emit labelBackgroundEnabledChanged(enabled);
-        emit d->needRender();
+        emit needRender();
     }
 }
 
@@ -1029,7 +1027,7 @@ void Q3DTheme::setLabelsEnabled(bool enabled)
     if (d->m_labelsEnabled != enabled) {
         d->m_labelsEnabled = enabled;
         emit labelsEnabledChanged(enabled);
-        emit d->needRender();
+        emit needRender();
     }
 }
 
@@ -1087,7 +1085,7 @@ void Q3DTheme::setShadowStrength(float strength)
     } else if (d->m_shadowStrength != strength) {
         d->m_shadowStrength = strength;
         emit shadowStrengthChanged(strength);
-        emit d->needRender();
+        emit needRender();
     }
 }
 
@@ -1322,7 +1320,7 @@ void Q3DTheme::addColor(QQuickGraphsColor *color)
     }
     d->clearDummyColors();
     d->m_colors.append(color);
-    connect(color, &QQuickGraphsColor::colorChanged, d, &Q3DThemePrivate::handleBaseColorUpdate);
+    connect(color, &QQuickGraphsColor::colorChanged, this, &Q3DTheme::handleBaseColorUpdate);
     QList<QColor> list = baseColors();
     list.append(color->color());
     setBaseColors(list);
@@ -1342,10 +1340,7 @@ QList<QQuickGraphsColor *> Q3DTheme::colorList()
             QQuickGraphsColor *color = new QQuickGraphsColor(this);
             color->setColor(item);
             d->m_colors.append(color);
-            connect(color,
-                    &QQuickGraphsColor::colorChanged,
-                    d,
-                    &Q3DThemePrivate::handleBaseColorUpdate);
+            connect(color, &QQuickGraphsColor::colorChanged, this, &Q3DTheme::handleBaseColorUpdate);
         }
     }
     return d->m_colors;
@@ -1611,48 +1606,48 @@ QLinearGradient Q3DThemePrivate::convertGradient(QJSValue gradient)
     return newGradient;
 }
 
-void Q3DThemePrivate::handleTypeChange(Q3DTheme::Theme themeType)
+void Q3DTheme::handleTypeChange(Q3DTheme::Theme themeType)
 {
     Q_UNUSED(themeType);
-
+    Q_D(Q3DTheme);
     // Theme changed, disconnect base color/gradient connections
-    if (!m_colors.isEmpty()) {
-        for (QQuickGraphsColor *item : m_colors)
+    if (!d->m_colors.isEmpty()) {
+        for (QQuickGraphsColor *item : d->m_colors)
             disconnect(item, 0, this, 0);
-        m_colors.clear();
+        d->m_colors.clear();
     }
-    if (!m_gradients.isEmpty()) {
-        for (auto item : m_gradients)
+    if (!d->m_gradients.isEmpty()) {
+        for (auto item : d->m_gradients)
             disconnect(item, 0, this, 0);
-        m_gradients.clear();
+        d->m_gradients.clear();
     }
 }
 
-void Q3DThemePrivate::handleBaseColorUpdate()
+void Q3DTheme::handleBaseColorUpdate()
 {
-    Q_Q(Q3DTheme);
-    int colorCount = m_colors.size();
+    Q_D(Q3DTheme);
+    int colorCount = d->m_colors.size();
     int changed = 0;
     // Check which one changed
     QQuickGraphsColor *color = qobject_cast<QQuickGraphsColor *>(QObject::sender());
     for (int i = 0; i < colorCount; i++) {
-        if (color == m_colors.at(i)) {
+        if (color == d->m_colors.at(i)) {
             changed = i;
             break;
         }
     }
     // Update the changed one from the list
-    QList<QColor> list = q->baseColors();
-    list[changed] = m_colors.at(changed)->color();
+    QList<QColor> list = baseColors();
+    list[changed] = d->m_colors.at(changed)->color();
     // Set the changed list
-    q->setBaseColors(list);
+    setBaseColors(list);
 }
 
-void Q3DThemePrivate::handleBaseGradientUpdate()
+void Q3DTheme::handleBaseGradientUpdate()
 {
-    Q_Q(Q3DTheme);
+    Q_D(Q3DTheme);
     // Find out which gradient has changed, and update the list with it
-    int gradientCount = m_gradients.size();
+    int gradientCount = d->m_gradients.size();
     int changed = 0;
 
     // Check which one changed
@@ -1661,30 +1656,32 @@ void Q3DThemePrivate::handleBaseGradientUpdate()
     QJSValue updatedGradient = engine.newQObject(newGradient);
 
     for (int i = 0; i < gradientCount; ++i) {
-        if (newGradient == m_gradients.at(i)) {
+        if (newGradient == d->m_gradients.at(i)) {
             changed = i;
             break;
         }
     }
 
     // Update the changed one from the list
-    QList<QLinearGradient> list = q->baseGradients();
-    list[changed] = convertGradient(updatedGradient);
+    QList<QLinearGradient> list = baseGradients();
+    list[changed] = d->convertGradient(updatedGradient);
 
     // Set the changed list
-    q->setBaseGradients(list);
+    setBaseGradients(list);
 }
 
-void Q3DThemePrivate::handleSingleHLGradientUpdate()
+void Q3DTheme::handleSingleHLGradientUpdate()
 {
-    if (!m_singleHLGradient.isNull())
-        setThemeGradient(m_singleHLGradient, Q3DThemePrivate::GradientType::SingleHL);
+    Q_D(Q3DTheme);
+    if (!d->m_singleHLGradient.isNull())
+        d->setThemeGradient(d->m_singleHLGradient, Q3DThemePrivate::GradientType::SingleHL);
 }
 
-void Q3DThemePrivate::handleMultiHLGradientUpdate()
+void Q3DTheme::handleMultiHLGradientUpdate()
 {
-    if (!m_multiHLGradient.isNull())
-        setThemeGradient(m_multiHLGradient, Q3DThemePrivate::GradientType::MultiHL);
+    Q_D(Q3DTheme);
+    if (!d->m_multiHLGradient.isNull())
+        d->setThemeGradient(d->m_multiHLGradient, Q3DThemePrivate::GradientType::MultiHL);
 }
 
 QT_END_NAMESPACE

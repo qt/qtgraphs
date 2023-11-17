@@ -16,6 +16,7 @@
 
 #include "q3dtheme.h"
 #include <private/graphsglobal_p.h>
+#include <private/qobject_p.h>
 
 QT_BEGIN_NAMESPACE
 
@@ -72,12 +73,9 @@ struct Q3DThemeDirtyBitField
     {}
 };
 
-class Q_GRAPHS_EXPORT Q3DThemePrivate : public QObject
+class Q_GRAPHS_EXPORT Q3DThemePrivate : public QObjectPrivate
 {
-    Q_OBJECT
     Q_DECLARE_PUBLIC(Q3DTheme)
-    Q_CLASSINFO("RegisterEnumClassesUnscoped", "false")
-
 public:
     enum class GradientType { Base, SingleHL, MultiHL };
 
@@ -106,17 +104,6 @@ public:
     void clearDummyGradients();
     void setThemeGradient(QJSValue gradient, GradientType type);
     QLinearGradient convertGradient(QJSValue gradient);
-
-Q_SIGNALS:
-    void needRender();
-
-public Q_SLOTS:
-    // QML API specific slots
-    void handleTypeChange(Q3DTheme::Theme themeType);
-    void handleBaseColorUpdate();
-    void handleBaseGradientUpdate();
-    void handleSingleHLGradientUpdate();
-    void handleMultiHLGradientUpdate();
 
 public:
     Q3DTheme::Theme m_themeId;

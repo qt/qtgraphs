@@ -62,7 +62,6 @@ void ThemeManager::setActiveTheme(Q3DTheme *theme)
             oldTheme = 0;
         } else {
             // Disconnect the old theme from use
-            disconnect(m_activeTheme->d_func(), 0, m_graph, 0);
             disconnect(m_activeTheme, 0, m_graph, 0);
         }
     }
@@ -125,10 +124,7 @@ void ThemeManager::connectThemeSignals()
             m_graph,
             &QQuickGraphsItem::handleThemeTypeChanged);
 
-    connect(m_activeTheme->d_func(),
-            &Q3DThemePrivate::needRender,
-            m_graph,
-            &QQuickGraphsItem::needRender);
+    connect(m_activeTheme, &Q3DTheme::needRender, m_graph, &QQuickGraphsItem::needRender);
 }
 
 void ThemeManager::setPredefinedPropertiesToTheme(Q3DTheme *theme, Q3DTheme::Theme type)

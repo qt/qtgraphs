@@ -226,10 +226,18 @@ Q_SIGNALS:
     void singleHighlightGradientQMLChanged(QJSValue gradient);
     void multiHighlightGradientChangedQML(QJSValue gradient);
 
-protected:
-    explicit Q3DTheme(Q3DThemePrivate *d, Theme themeType, QObject *parent = nullptr);
+    void needRender();
 
-    QScopedPointer<Q3DThemePrivate> d_ptr;
+public Q_SLOTS:
+    // QML API specific slots
+    void handleTypeChange(Q3DTheme::Theme themeType);
+    void handleBaseColorUpdate();
+    void handleBaseGradientUpdate();
+    void handleSingleHLGradientUpdate();
+    void handleMultiHLGradientUpdate();
+
+protected:
+    explicit Q3DTheme(Q3DThemePrivate &d, Theme themeType, QObject *parent = nullptr);
 
 private:
     Q_DISABLE_COPY(Q3DTheme)
