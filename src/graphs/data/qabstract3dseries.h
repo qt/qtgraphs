@@ -69,7 +69,7 @@ public:
     Q_ENUM(Mesh)
 
 protected:
-    explicit QAbstract3DSeries(QAbstract3DSeriesPrivate *d, QObject *parent = nullptr);
+    explicit QAbstract3DSeries(QAbstract3DSeriesPrivate &d, QObject *parent = nullptr);
 
 public:
     virtual ~QAbstract3DSeries();
@@ -134,9 +134,6 @@ Q_SIGNALS:
     void nameChanged(const QString &name);
     void itemLabelChanged(const QString &label);
     void itemLabelVisibilityChanged(bool visible);
-
-protected:
-    QScopedPointer<QAbstract3DSeriesPrivate> d_ptr;
 
 private:
     Q_DISABLE_COPY(QAbstract3DSeries)

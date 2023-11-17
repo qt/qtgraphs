@@ -167,7 +167,7 @@ QT_BEGIN_NAMESPACE
  * Constructs a surface 3D series with the parent \a parent.
  */
 QSurface3DSeries::QSurface3DSeries(QObject *parent)
-    : QAbstract3DSeries(new QSurface3DSeriesPrivate(this), parent)
+    : QAbstract3DSeries(*(new QSurface3DSeriesPrivate(this)), parent)
 {
     Q_D(QSurface3DSeries);
     // Default proxy
@@ -179,7 +179,7 @@ QSurface3DSeries::QSurface3DSeries(QObject *parent)
  * parent \a parent.
  */
 QSurface3DSeries::QSurface3DSeries(QSurfaceDataProxy *dataProxy, QObject *parent)
-    : QAbstract3DSeries(new QSurface3DSeriesPrivate(this), parent)
+    : QAbstract3DSeries(*(new QSurface3DSeriesPrivate(this)), parent)
 {
     Q_D(QSurface3DSeries);
     d->setDataProxy(dataProxy);
@@ -188,7 +188,7 @@ QSurface3DSeries::QSurface3DSeries(QSurfaceDataProxy *dataProxy, QObject *parent
 /*!
  * \internal
  */
-QSurface3DSeries::QSurface3DSeries(QSurface3DSeriesPrivate *d, QObject *parent)
+QSurface3DSeries::QSurface3DSeries(QSurface3DSeriesPrivate &d, QObject *parent)
     : QAbstract3DSeries(d, parent)
 {}
 

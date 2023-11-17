@@ -253,9 +253,8 @@ QT_BEGIN_NAMESPACE
 /*!
  * \internal
  */
-QAbstract3DSeries::QAbstract3DSeries(QAbstract3DSeriesPrivate *d, QObject *parent)
-    : QObject(parent)
-    , d_ptr(d)
+QAbstract3DSeries::QAbstract3DSeries(QAbstract3DSeriesPrivate &d, QObject *parent)
+    : QObject(d, parent)
 {}
 
 /*!

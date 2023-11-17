@@ -76,7 +76,7 @@ Q_SIGNALS:
     void wireframeColorChanged(const QColor &color);
 
 protected:
-    explicit QSurface3DSeries(QSurface3DSeriesPrivate *d, QObject *parent = nullptr);
+    explicit QSurface3DSeries(QSurface3DSeriesPrivate &d, QObject *parent = nullptr);
 
 private:
     Q_DISABLE_COPY(QSurface3DSeries)

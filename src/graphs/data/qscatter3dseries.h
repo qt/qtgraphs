@@ -40,7 +40,7 @@ Q_SIGNALS:
     void itemSizeChanged(float size);
 
 protected:
-    explicit QScatter3DSeries(QScatter3DSeriesPrivate *d, QObject *parent = nullptr);
+    explicit QScatter3DSeries(QScatter3DSeriesPrivate &d, QObject *parent = nullptr);
 
 private:
     Q_DISABLE_COPY(QScatter3DSeries)

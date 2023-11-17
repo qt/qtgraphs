@@ -111,7 +111,7 @@ QT_BEGIN_NAMESPACE
  * Constructs a scatter 3D series with the parent \a parent.
  */
 QScatter3DSeries::QScatter3DSeries(QObject *parent)
-    : QAbstract3DSeries(new QScatter3DSeriesPrivate(this), parent)
+    : QAbstract3DSeries(*(new QScatter3DSeriesPrivate(this)), parent)
 {
     Q_D(QScatter3DSeries);
     // Default proxy
@@ -123,7 +123,7 @@ QScatter3DSeries::QScatter3DSeries(QObject *parent)
  * parent \a parent.
  */
 QScatter3DSeries::QScatter3DSeries(QScatterDataProxy *dataProxy, QObject *parent)
-    : QAbstract3DSeries(new QScatter3DSeriesPrivate(this), parent)
+    : QAbstract3DSeries(*(new QScatter3DSeriesPrivate(this)), parent)
 {
     Q_D(QScatter3DSeries);
     d->setDataProxy(dataProxy);
@@ -132,7 +132,7 @@ QScatter3DSeries::QScatter3DSeries(QScatterDataProxy *dataProxy, QObject *parent
 /*!
  * \internal
  */
-QScatter3DSeries::QScatter3DSeries(QScatter3DSeriesPrivate *d, QObject *parent)
+QScatter3DSeries::QScatter3DSeries(QScatter3DSeriesPrivate &d, QObject *parent)
     : QAbstract3DSeries(d, parent)
 {}
 

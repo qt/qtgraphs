@@ -15,6 +15,7 @@
 #define QABSTRACT3DSERIES_P_H
 
 #include <private/graphsglobal_p.h>
+#include <private/qobject_p.h>
 
 #include "qabstract3dseries.h"
 
@@ -81,7 +82,7 @@ struct QAbstract3DSeriesThemeOverrideBitField
     {}
 };
 
-class QAbstract3DSeriesPrivate
+class QAbstract3DSeriesPrivate : public QObjectPrivate
 {
     Q_DECLARE_PUBLIC(QAbstract3DSeries)
 

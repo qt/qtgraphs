@@ -140,7 +140,7 @@ QT_BEGIN_NAMESPACE
  * Constructsa bar 3D series with the parent \a parent.
  */
 QBar3DSeries::QBar3DSeries(QObject *parent)
-    : QAbstract3DSeries(new QBar3DSeriesPrivate(this), parent)
+    : QAbstract3DSeries(*(new QBar3DSeriesPrivate(this)), parent)
 {
     Q_D(QBar3DSeries);
     // Default proxy
@@ -153,7 +153,7 @@ QBar3DSeries::QBar3DSeries(QObject *parent)
  * \a parent.
  */
 QBar3DSeries::QBar3DSeries(QBarDataProxy *dataProxy, QObject *parent)
-    : QAbstract3DSeries(new QBar3DSeriesPrivate(this), parent)
+    : QAbstract3DSeries(*(new QBar3DSeriesPrivate(this)), parent)
 {
     Q_D(QBar3DSeries);
     d->setDataProxy(dataProxy);
