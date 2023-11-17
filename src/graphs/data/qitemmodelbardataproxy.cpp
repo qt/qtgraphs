@@ -273,7 +273,7 @@ QT_BEGIN_NAMESPACE
  * Constructs QItemModelBarDataProxy with optional \a parent.
  */
 QItemModelBarDataProxy::QItemModelBarDataProxy(QObject *parent)
-    : QBarDataProxy(new QItemModelBarDataProxyPrivate(this), parent)
+    : QBarDataProxy(*(new QItemModelBarDataProxyPrivate(this)), parent)
 {
     Q_D(QItemModelBarDataProxy);
     d->connectItemModelHandler();
@@ -285,7 +285,7 @@ QItemModelBarDataProxy::QItemModelBarDataProxy(QObject *parent)
  * are owned by other controls.
  */
 QItemModelBarDataProxy::QItemModelBarDataProxy(QAbstractItemModel *itemModel, QObject *parent)
-    : QBarDataProxy(new QItemModelBarDataProxyPrivate(this), parent)
+    : QBarDataProxy(*(new QItemModelBarDataProxyPrivate(this)), parent)
 {
     Q_D(QItemModelBarDataProxy);
     setItemModel(itemModel);
@@ -303,7 +303,7 @@ QItemModelBarDataProxy::QItemModelBarDataProxy(QAbstractItemModel *itemModel, QO
 QItemModelBarDataProxy::QItemModelBarDataProxy(QAbstractItemModel *itemModel,
                                                const QString &valueRole,
                                                QObject *parent)
-    : QBarDataProxy(new QItemModelBarDataProxyPrivate(this), parent)
+    : QBarDataProxy(*(new QItemModelBarDataProxyPrivate(this)), parent)
 {
     Q_D(QItemModelBarDataProxy);
     d->m_itemModelHandler->setItemModel(itemModel);
@@ -323,7 +323,7 @@ QItemModelBarDataProxy::QItemModelBarDataProxy(QAbstractItemModel *itemModel,
                                                const QString &columnRole,
                                                const QString &valueRole,
                                                QObject *parent)
-    : QBarDataProxy(new QItemModelBarDataProxyPrivate(this), parent)
+    : QBarDataProxy(*(new QItemModelBarDataProxyPrivate(this)), parent)
 {
     Q_D(QItemModelBarDataProxy);
     d->m_itemModelHandler->setItemModel(itemModel);
@@ -345,7 +345,7 @@ QItemModelBarDataProxy::QItemModelBarDataProxy(QAbstractItemModel *itemModel,
                                                const QString &valueRole,
                                                const QString &rotationRole,
                                                QObject *parent)
-    : QBarDataProxy(new QItemModelBarDataProxyPrivate(this), parent)
+    : QBarDataProxy(*(new QItemModelBarDataProxyPrivate(this)), parent)
 {
     Q_D(QItemModelBarDataProxy);
     d->m_itemModelHandler->setItemModel(itemModel);
@@ -371,7 +371,7 @@ QItemModelBarDataProxy::QItemModelBarDataProxy(QAbstractItemModel *itemModel,
                                                const QStringList &rowCategories,
                                                const QStringList &columnCategories,
                                                QObject *parent)
-    : QBarDataProxy(new QItemModelBarDataProxyPrivate(this), parent)
+    : QBarDataProxy(*(new QItemModelBarDataProxyPrivate(this)), parent)
 {
     Q_D(QItemModelBarDataProxy);
     d->m_itemModelHandler->setItemModel(itemModel);
@@ -401,7 +401,7 @@ QItemModelBarDataProxy::QItemModelBarDataProxy(QAbstractItemModel *itemModel,
                                                const QStringList &rowCategories,
                                                const QStringList &columnCategories,
                                                QObject *parent)
-    : QBarDataProxy(new QItemModelBarDataProxyPrivate(this), parent)
+    : QBarDataProxy(*(new QItemModelBarDataProxyPrivate(this)), parent)
 {
     Q_D(QItemModelBarDataProxy);
     d->m_itemModelHandler->setItemModel(itemModel);

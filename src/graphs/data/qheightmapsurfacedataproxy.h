@@ -66,7 +66,7 @@ Q_SIGNALS:
     void autoScaleYChanged(bool enabled);
 
 protected:
-    explicit QHeightMapSurfaceDataProxy(QHeightMapSurfaceDataProxyPrivate *d,
+    explicit QHeightMapSurfaceDataProxy(QHeightMapSurfaceDataProxyPrivate &d,
                                         QObject *parent = nullptr);
     void handlePendingResolve();
 

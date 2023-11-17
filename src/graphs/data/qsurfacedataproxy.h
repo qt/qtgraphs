@@ -66,7 +66,7 @@ Q_SIGNALS:
     void seriesChanged(QSurface3DSeries *series);
 
 protected:
-    explicit QSurfaceDataProxy(QSurfaceDataProxyPrivate *d, QObject *parent = nullptr);
+    explicit QSurfaceDataProxy(QSurfaceDataProxyPrivate &d, QObject *parent = nullptr);
 
 private:
     Q_DISABLE_COPY(QSurfaceDataProxy)

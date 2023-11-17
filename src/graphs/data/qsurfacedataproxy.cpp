@@ -101,13 +101,13 @@ QT_BEGIN_NAMESPACE
  * Constructs QSurfaceDataProxy with the given \a parent.
  */
 QSurfaceDataProxy::QSurfaceDataProxy(QObject *parent)
-    : QAbstractDataProxy(new QSurfaceDataProxyPrivate(this), parent)
+    : QAbstractDataProxy(*(new QSurfaceDataProxyPrivate(this)), parent)
 {}
 
 /*!
  * \internal
  */
-QSurfaceDataProxy::QSurfaceDataProxy(QSurfaceDataProxyPrivate *d, QObject *parent)
+QSurfaceDataProxy::QSurfaceDataProxy(QSurfaceDataProxyPrivate &d, QObject *parent)
     : QAbstractDataProxy(d, parent)
 {}
 

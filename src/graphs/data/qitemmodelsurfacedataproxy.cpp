@@ -323,7 +323,7 @@ QT_BEGIN_NAMESPACE
  * Constructs QItemModelSurfaceDataProxy with optional \a parent.
  */
 QItemModelSurfaceDataProxy::QItemModelSurfaceDataProxy(QObject *parent)
-    : QSurfaceDataProxy(new QItemModelSurfaceDataProxyPrivate(this), parent)
+    : QSurfaceDataProxy(*(new QItemModelSurfaceDataProxyPrivate(this)), parent)
 {
     Q_D(QItemModelSurfaceDataProxy);
     d->connectItemModelHandler();
@@ -336,7 +336,7 @@ QItemModelSurfaceDataProxy::QItemModelSurfaceDataProxy(QObject *parent)
  */
 QItemModelSurfaceDataProxy::QItemModelSurfaceDataProxy(QAbstractItemModel *itemModel,
                                                        QObject *parent)
-    : QSurfaceDataProxy(new QItemModelSurfaceDataProxyPrivate(this), parent)
+    : QSurfaceDataProxy(*(new QItemModelSurfaceDataProxyPrivate(this)), parent)
 {
     Q_D(QItemModelSurfaceDataProxy);
     d->m_itemModelHandler->setItemModel(itemModel);
@@ -354,7 +354,7 @@ QItemModelSurfaceDataProxy::QItemModelSurfaceDataProxy(QAbstractItemModel *itemM
 QItemModelSurfaceDataProxy::QItemModelSurfaceDataProxy(QAbstractItemModel *itemModel,
                                                        const QString &yPosRole,
                                                        QObject *parent)
-    : QSurfaceDataProxy(new QItemModelSurfaceDataProxyPrivate(this), parent)
+    : QSurfaceDataProxy(*(new QItemModelSurfaceDataProxyPrivate(this)), parent)
 {
     Q_D(QItemModelSurfaceDataProxy);
     d->m_itemModelHandler->setItemModel(itemModel);
@@ -375,7 +375,7 @@ QItemModelSurfaceDataProxy::QItemModelSurfaceDataProxy(QAbstractItemModel *itemM
                                                        const QString &columnRole,
                                                        const QString &yPosRole,
                                                        QObject *parent)
-    : QSurfaceDataProxy(new QItemModelSurfaceDataProxyPrivate(this), parent)
+    : QSurfaceDataProxy(*(new QItemModelSurfaceDataProxyPrivate(this)), parent)
 {
     Q_D(QItemModelSurfaceDataProxy);
     d->m_itemModelHandler->setItemModel(itemModel);
@@ -400,7 +400,7 @@ QItemModelSurfaceDataProxy::QItemModelSurfaceDataProxy(QAbstractItemModel *itemM
                                                        const QString &yPosRole,
                                                        const QString &zPosRole,
                                                        QObject *parent)
-    : QSurfaceDataProxy(new QItemModelSurfaceDataProxyPrivate(this), parent)
+    : QSurfaceDataProxy(*(new QItemModelSurfaceDataProxyPrivate(this)), parent)
 {
     Q_D(QItemModelSurfaceDataProxy);
     d->m_itemModelHandler->setItemModel(itemModel);
@@ -428,7 +428,7 @@ QItemModelSurfaceDataProxy::QItemModelSurfaceDataProxy(QAbstractItemModel *itemM
                                                        const QStringList &rowCategories,
                                                        const QStringList &columnCategories,
                                                        QObject *parent)
-    : QSurfaceDataProxy(new QItemModelSurfaceDataProxyPrivate(this), parent)
+    : QSurfaceDataProxy(*(new QItemModelSurfaceDataProxyPrivate(this)), parent)
 {
     Q_D(QItemModelSurfaceDataProxy);
     d->m_itemModelHandler->setItemModel(itemModel);
@@ -461,7 +461,7 @@ QItemModelSurfaceDataProxy::QItemModelSurfaceDataProxy(QAbstractItemModel *itemM
                                                        const QStringList &rowCategories,
                                                        const QStringList &columnCategories,
                                                        QObject *parent)
-    : QSurfaceDataProxy(new QItemModelSurfaceDataProxyPrivate(this), parent)
+    : QSurfaceDataProxy(*(new QItemModelSurfaceDataProxyPrivate(this)), parent)
 {
     Q_D(QItemModelSurfaceDataProxy);
     d->m_itemModelHandler->setItemModel(itemModel);

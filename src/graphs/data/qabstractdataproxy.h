@@ -24,15 +24,12 @@ public:
     Q_ENUM(DataType)
 
 protected:
-    explicit QAbstractDataProxy(QAbstractDataProxyPrivate *d, QObject *parent = nullptr);
+    explicit QAbstractDataProxy(QAbstractDataProxyPrivate &d, QObject *parent = nullptr);
 
 public:
     virtual ~QAbstractDataProxy();
 
     QAbstractDataProxy::DataType type() const;
-
-protected:
-    QScopedPointer<QAbstractDataProxyPrivate> d_ptr;
 
 private:
     Q_DISABLE_COPY(QAbstractDataProxy)

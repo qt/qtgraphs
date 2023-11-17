@@ -97,13 +97,13 @@ QT_BEGIN_NAMESPACE
  * Constructs a bar data proxy with the given \a parent.
  */
 QBarDataProxy::QBarDataProxy(QObject *parent)
-    : QAbstractDataProxy(new QBarDataProxyPrivate(this), parent)
+    : QAbstractDataProxy(*(new QBarDataProxyPrivate(this)), parent)
 {}
 
 /*!
  * \internal
  */
-QBarDataProxy::QBarDataProxy(QBarDataProxyPrivate *d, QObject *parent)
+QBarDataProxy::QBarDataProxy(QBarDataProxyPrivate &d, QObject *parent)
     : QAbstractDataProxy(d, parent)
 {}
 

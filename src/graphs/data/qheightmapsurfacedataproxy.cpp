@@ -132,7 +132,7 @@ const float defaultMaxValue = 10.0f;
  * Constructs QHeightMapSurfaceDataProxy with the given \a parent.
  */
 QHeightMapSurfaceDataProxy::QHeightMapSurfaceDataProxy(QObject *parent)
-    : QSurfaceDataProxy(new QHeightMapSurfaceDataProxyPrivate(this), parent)
+    : QSurfaceDataProxy(*(new QHeightMapSurfaceDataProxyPrivate(this)), parent)
 {
     Q_D(QHeightMapSurfaceDataProxy);
     QObject::connect(&d->m_resolveTimer,
@@ -148,7 +148,7 @@ QHeightMapSurfaceDataProxy::QHeightMapSurfaceDataProxy(QObject *parent)
  * \sa heightMap
  */
 QHeightMapSurfaceDataProxy::QHeightMapSurfaceDataProxy(const QImage &image, QObject *parent)
-    : QSurfaceDataProxy(new QHeightMapSurfaceDataProxyPrivate(this), parent)
+    : QSurfaceDataProxy(*(new QHeightMapSurfaceDataProxyPrivate(this)), parent)
 {
     Q_D(QHeightMapSurfaceDataProxy);
     QObject::connect(&d->m_resolveTimer,
@@ -165,7 +165,7 @@ QHeightMapSurfaceDataProxy::QHeightMapSurfaceDataProxy(const QImage &image, QObj
  * \sa heightMapFile
  */
 QHeightMapSurfaceDataProxy::QHeightMapSurfaceDataProxy(const QString &filename, QObject *parent)
-    : QSurfaceDataProxy(new QHeightMapSurfaceDataProxyPrivate(this), parent)
+    : QSurfaceDataProxy(*(new QHeightMapSurfaceDataProxyPrivate(this)), parent)
 {
     Q_D(QHeightMapSurfaceDataProxy);
     QObject::connect(&d->m_resolveTimer,
@@ -178,7 +178,7 @@ QHeightMapSurfaceDataProxy::QHeightMapSurfaceDataProxy(const QString &filename, 
 /*!
  * \internal
  */
-QHeightMapSurfaceDataProxy::QHeightMapSurfaceDataProxy(QHeightMapSurfaceDataProxyPrivate *d,
+QHeightMapSurfaceDataProxy::QHeightMapSurfaceDataProxy(QHeightMapSurfaceDataProxyPrivate &d,
                                                        QObject *parent)
     : QSurfaceDataProxy(d, parent)
 {}

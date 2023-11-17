@@ -53,9 +53,8 @@ QT_BEGIN_NAMESPACE
 /*!
  * \internal
  */
-QAbstractDataProxy::QAbstractDataProxy(QAbstractDataProxyPrivate *d, QObject *parent)
-    : QObject(parent)
-    , d_ptr(d)
+QAbstractDataProxy::QAbstractDataProxy(QAbstractDataProxyPrivate &d, QObject *parent)
+    : QObject(d, parent)
 {}
 
 /*!

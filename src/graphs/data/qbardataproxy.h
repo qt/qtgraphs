@@ -86,7 +86,7 @@ Q_SIGNALS:
     void seriesChanged(QBar3DSeries *series);
 
 protected:
-    explicit QBarDataProxy(QBarDataProxyPrivate *d, QObject *parent = nullptr);
+    explicit QBarDataProxy(QBarDataProxyPrivate &d, QObject *parent = nullptr);
 
 private:
     Q_DISABLE_COPY(QBarDataProxy)

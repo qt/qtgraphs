@@ -16,11 +16,13 @@
 
 #include "qabstractdataproxy.h"
 
+#include <private/qobject_p.h>
+
 QT_BEGIN_NAMESPACE
 
 class QAbstract3DSeries;
 
-class QAbstractDataProxyPrivate
+class QAbstractDataProxyPrivate : public QObjectPrivate
 {
     Q_DECLARE_PUBLIC(QAbstractDataProxy)
 

@@ -201,7 +201,7 @@ QT_BEGIN_NAMESPACE
  * Constructs QItemModelScatterDataProxy with optional \a parent.
  */
 QItemModelScatterDataProxy::QItemModelScatterDataProxy(QObject *parent)
-    : QScatterDataProxy(new QItemModelScatterDataProxyPrivate(this), parent)
+    : QScatterDataProxy(*(new QItemModelScatterDataProxyPrivate(this)), parent)
 {
     Q_D(QItemModelScatterDataProxy);
     d->connectItemModelHandler();
@@ -214,7 +214,7 @@ QItemModelScatterDataProxy::QItemModelScatterDataProxy(QObject *parent)
  */
 QItemModelScatterDataProxy::QItemModelScatterDataProxy(QAbstractItemModel *itemModel,
                                                        QObject *parent)
-    : QScatterDataProxy(new QItemModelScatterDataProxyPrivate(this), parent)
+    : QScatterDataProxy(*(new QItemModelScatterDataProxyPrivate(this)), parent)
 {
     Q_D(QItemModelScatterDataProxy);
     d->m_itemModelHandler->setItemModel(itemModel);
@@ -233,7 +233,7 @@ QItemModelScatterDataProxy::QItemModelScatterDataProxy(QAbstractItemModel *itemM
                                                        const QString &yPosRole,
                                                        const QString &zPosRole,
                                                        QObject *parent)
-    : QScatterDataProxy(new QItemModelScatterDataProxyPrivate(this), parent)
+    : QScatterDataProxy(*(new QItemModelScatterDataProxyPrivate(this)), parent)
 {
     Q_D(QItemModelScatterDataProxy);
     d->m_itemModelHandler->setItemModel(itemModel);
@@ -256,7 +256,7 @@ QItemModelScatterDataProxy::QItemModelScatterDataProxy(QAbstractItemModel *itemM
                                                        const QString &zPosRole,
                                                        const QString &rotationRole,
                                                        QObject *parent)
-    : QScatterDataProxy(new QItemModelScatterDataProxyPrivate(this), parent)
+    : QScatterDataProxy(*(new QItemModelScatterDataProxyPrivate(this)), parent)
 {
     Q_D(QItemModelScatterDataProxy);
     d->m_itemModelHandler->setItemModel(itemModel);

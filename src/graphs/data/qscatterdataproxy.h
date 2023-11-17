@@ -59,7 +59,7 @@ Q_SIGNALS:
     void seriesChanged(QScatter3DSeries *series);
 
 protected:
-    explicit QScatterDataProxy(QScatterDataProxyPrivate *d, QObject *parent = nullptr);
+    explicit QScatterDataProxy(QScatterDataProxyPrivate &d, QObject *parent = nullptr);
 
 private:
     Q_DISABLE_COPY(QScatterDataProxy)
