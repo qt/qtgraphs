@@ -34,6 +34,10 @@ Item {
             name: "Line Properties"
             file: "LineProperties.qml"
         }
+        ListElement {
+            name: "Callout"
+            file: "Callout.qml"
+        }
     }
 
     Component {

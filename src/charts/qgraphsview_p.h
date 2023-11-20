@@ -100,12 +100,16 @@ public:
     QRectF seriesRect() const;
 
 protected:
+    void handleHoverEnter(QString seriesName, QPointF position, QPointF value);
+    void handleHoverExit(QString seriesName, QPointF position);
+    void handleHover(QString seriesName, QPointF position, QPointF value);
     void updateComponentSizes();
     void componentComplete() override;
     void geometryChange(const QRectF &newGeometry, const QRectF &oldGeometry) override;
     void mouseMoveEvent(QMouseEvent *event) override;
     void mousePressEvent(QMouseEvent *event) override;
     void mouseReleaseEvent(QMouseEvent *event) override;
+    void hoverMoveEvent(QHoverEvent *event) override;
     QSGNode *updatePaintNode(QSGNode *oldNode, QQuickItem::UpdatePaintNodeData *updatePaintNodeData) override;
     void updatePolish() override;
 
@@ -116,6 +120,9 @@ Q_SIGNALS:
     void marginBottomChanged();
     void marginLeftChanged();
     void marginRightChanged();
+    void hoverEnter(QString seriesName, QPointF position, QPointF value);
+    void hoverExit(QString seriesName, QPointF position);
+    void hover(QString seriesName, QPointF position, QPointF value);
 
 private:
     friend class AxisRenderer;
@@ -137,6 +144,8 @@ private:
     qreal m_marginBottom = 20;
     qreal m_marginLeft = 20;
     qreal m_marginRight = 20;
+
+    int m_hoverCount = 0;
 };
 
 QT_END_NAMESPACE

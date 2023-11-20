@@ -12,6 +12,7 @@ QGraphsView::QGraphsView(QQuickItem *parent) :
 {
     setFlag(QQuickItem::ItemHasContents);
     setAcceptedMouseButtons(Qt::LeftButton);
+    setAcceptHoverEvents(true);
 }
 
 QGraphsView::~QGraphsView()
@@ -56,6 +57,9 @@ void QGraphsView::insertSeries(int index, QObject *object)
             QObject::connect(series, &QAbstractSeries::update, this, &QQuickItem::update);
             if (series->theme())
                 QObject::connect(series->theme(), &SeriesTheme::update, this, &QQuickItem::update);
+            QObject::connect(series, &QAbstractSeries::hoverEnter, this, &QGraphsView::handleHoverEnter);
+            QObject::connect(series, &QAbstractSeries::hoverExit, this, &QGraphsView::handleHoverExit);
+            QObject::connect(series, &QAbstractSeries::hover, this, &QGraphsView::handleHover);
             //QObject::connect(series, &QAbstractSeries::visibilityChanged,
             //                 this, &Abstract3DController::handleSeriesVisibilityChanged);
             //series->resetToTheme(*m_themeManager->activeTheme(), oldSize, false);
@@ -111,6 +115,25 @@ QRectF QGraphsView::seriesRect() const
     qreal w = width() - x - m_marginRight;
     qreal h = height() - y - m_marginBottom - m_axisRenderer->m_axisHeight;
     return QRectF(x, y, w, h);
+}
+
+void QGraphsView::handleHoverEnter(QString seriesName, QPointF position, QPointF value)
+{
+    if (m_hoverCount == 0)
+        emit hoverEnter(seriesName, position, value);
+    m_hoverCount++;
+}
+
+void QGraphsView::handleHoverExit(QString seriesName, QPointF position)
+{
+    m_hoverCount--;
+    if (m_hoverCount == 0)
+        emit hoverExit(seriesName, position);
+}
+
+void QGraphsView::handleHover(QString seriesName, QPointF position, QPointF value)
+{
+    emit hover(seriesName, position, value);
 }
 
 void QGraphsView::updateComponentSizes()
@@ -170,6 +193,11 @@ void QGraphsView::mousePressEvent(QMouseEvent *event)
 void QGraphsView::mouseReleaseEvent(QMouseEvent *event)
 {
     m_linesRenderer->handleMouseRelease(event);
+}
+
+void QGraphsView::hoverMoveEvent(QHoverEvent *event)
+{
+    m_linesRenderer->handleHoverMove(event);
 }
 
 QSGNode *QGraphsView::updatePaintNode(QSGNode *oldNode, QQuickItem::UpdatePaintNodeData *updatePaintNodeData)

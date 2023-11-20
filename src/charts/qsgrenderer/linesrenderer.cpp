@@ -264,3 +264,77 @@ void LinesRenderer::handleMouseRelease(QMouseEvent *event)
     m_pointPressed = false;
     m_pointDragging = false;
 }
+
+void LinesRenderer::handleHoverMove(QHoverEvent *event)
+{
+    const QPointF &position = event->position();
+
+    const qreal x0 = event->position().x();
+    const qreal y0 = event->position().y();
+
+    for (auto &&line : m_linePaths) {
+        const int hoverSize = line->series->markerSize() / 2;
+        const QString &name = line->series->name();
+        auto &&points = line->series->points();
+
+        if (points.size() >= 2) {
+            bool hovering = false;
+
+            for (int i = 0; i < points.size() - 1; i++) {
+                qreal x1, y1, x2, y2;
+
+                if (i == 0) {
+                    x1 = line->shapePath->startX();
+                    y1 = line->shapePath->startY();
+                    x2 = line->paths[0]->x();
+                    y2 = line->paths[0]->y();
+                } else {
+                    x1 = line->paths[i - 1]->x();
+                    y1 = line->paths[i - 1]->y();
+                    x2 = line->paths[i]->x();
+                    y2 = line->paths[i]->y();
+                }
+
+                qreal denominator = (x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1);
+                if (denominator > 0) {
+                    qreal hoverDistance = qAbs((x2 - x1) * (y1 - y0) - (x1 - x0) * (y2 - y1)) / qSqrt(denominator);
+                    if (hoverDistance < hoverSize) {
+                        qreal alpha = 0;
+                        qreal extrapolation = 0;
+                        if (x2 - x1 >= y2 - y1) {
+                            if (x2 - x1 != 0) {
+                                alpha = ((x2 - x1) - (x0 - x1)) / qAbs(x2 - x1);
+                                extrapolation = hoverSize / qAbs(x2 - x1);
+                            }
+                        } else {
+                            if (y2 - y1 != 0) {
+                                alpha = ((y2 - y1) - (y0 - y1)) / qAbs(y2 - y1);
+                                extrapolation = hoverSize / qAbs(y2 - y1);
+                            }
+                        }
+
+                        if (alpha >= -extrapolation && alpha <= 1.0 + extrapolation) {
+                            const QPointF &point1 = points[i];
+                            const QPointF &point2 = points[i + 1];
+
+                            QPointF point = (point2 * (1.0 - alpha)) + (point1 * alpha);
+
+                            if (!line->hover) {
+                                line->hover = true;
+                                emit line->series->hoverEnter(name, position, point);
+                            }
+
+                            emit line->series->hover(name, position, point);
+                            hovering = true;
+                        }
+                    }
+                }
+            }
+
+            if (!hovering && line->hover) {
+                line->hover = false;
+                emit line->series->hoverExit(name, position);
+            }
+        }
+    }
+}

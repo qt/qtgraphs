@@ -34,6 +34,7 @@ public:
     void handleMouseMove(QMouseEvent *event);
     void handleMousePress(QMouseEvent *event);
     void handleMouseRelease(QMouseEvent *event);
+    void handleHoverMove(QHoverEvent *event);
 
 Q_SIGNALS:
 
@@ -45,6 +46,7 @@ private:
         QList<QQuickItem *> markers;
         QList<QSGDefaultInternalRectangleNode *> selections;
         int colorIndex = -1;
+        bool hover = false;
     };
 
     QGraphsView *m_graph = nullptr;

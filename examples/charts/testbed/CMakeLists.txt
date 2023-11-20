@@ -51,6 +51,7 @@ qt6_add_qml_module(testbed
         qml/testbed/BarSelection.qml
         qml/testbed/LineProperties.qml
         qml/testbed/AxisGridSetup.qml
+        qml/testbed/Callout.qml
     RESOURCES
         qml/testbed/images/arrow_icon.png
         qml/testbed/images/icon_settings.png

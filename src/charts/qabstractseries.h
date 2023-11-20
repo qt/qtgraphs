@@ -100,6 +100,9 @@ Q_SIGNALS:
     void selectableChanged();
     void opacityChanged();
     void valuesMultiplierChanged();
+    void hoverEnter(QString seriesName, QPointF position, QPointF value);
+    void hoverExit(QString seriesName, QPointF position);
+    void hover(QString seriesName, QPointF position, QPointF value);
     //void useOpenGLChanged();
 
 protected:
