@@ -14,10 +14,10 @@
 #ifndef QVALUE3DAXISFORMATTER_P_H
 #define QVALUE3DAXISFORMATTER_P_H
 
-#include "private/qobject_p.h"
+#include <QtCore/QLocale>
+#include <QtCore/private/qobject_p.h>
 #include "qvalue3daxisformatter.h"
 #include "utils_p.h"
-#include <QtCore/QLocale>
 
 QT_BEGIN_NAMESPACE
 

@@ -14,6 +14,7 @@
 #ifndef QCUSTOM3DITEM_P_H
 #define QCUSTOM3DITEM_P_H
 
+#include <QtCore/private/qobject_p.h>
 #include "qcustom3ditem.h"
 
 QT_BEGIN_NAMESPACE
@@ -39,7 +40,7 @@ struct QCustomItemDirtyBitField
     {}
 };
 
-class QCustom3DItemPrivate
+class QCustom3DItemPrivate : public QObjectPrivate
 {
     Q_DECLARE_PUBLIC(QCustom3DItem)
 

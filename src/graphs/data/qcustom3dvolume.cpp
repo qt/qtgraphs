@@ -245,7 +245,7 @@ QT_BEGIN_NAMESPACE
  * Constructs a custom 3D volume with the given \a parent.
  */
 QCustom3DVolume::QCustom3DVolume(QObject *parent)
-    : QCustom3DItem(new QCustom3DVolumePrivate(this), parent)
+    : QCustom3DItem(*(new QCustom3DVolumePrivate(this)), parent)
 {}
 
 /*!
@@ -265,16 +265,16 @@ QCustom3DVolume::QCustom3DVolume(const QVector3D &position,
                                  QImage::Format textureFormat,
                                  const QList<QRgb> &colorTable,
                                  QObject *parent)
-    : QCustom3DItem(new QCustom3DVolumePrivate(this,
-                                               position,
-                                               scaling,
-                                               rotation,
-                                               textureWidth,
-                                               textureHeight,
-                                               textureDepth,
-                                               textureData,
-                                               textureFormat,
-                                               colorTable),
+    : QCustom3DItem(*(new QCustom3DVolumePrivate(this,
+                                                 position,
+                                                 scaling,
+                                                 rotation,
+                                                 textureWidth,
+                                                 textureHeight,
+                                                 textureDepth,
+                                                 textureData,
+                                                 textureFormat,
+                                                 colorTable)),
                     parent)
 {}
 

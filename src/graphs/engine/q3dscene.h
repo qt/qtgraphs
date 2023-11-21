@@ -39,7 +39,7 @@ class Q_GRAPHS_EXPORT Q3DScene : public QObject
 
 public:
     explicit Q3DScene(QObject *parent = nullptr);
-    virtual ~Q3DScene();
+    ~Q3DScene() override;
 
     QRect viewport() const;
 
@@ -77,9 +77,7 @@ Q_SIGNALS:
     void devicePixelRatioChanged(float pixelRatio);
     void selectionQueryPositionChanged(const QPoint &position);
     void graphPositionQueryChanged(const QPoint &position);
-
-protected:
-    QScopedPointer<Q3DScenePrivate> d_ptr;
+    void needRender();
 
 private:
     Q_DISABLE_COPY(Q3DScene)

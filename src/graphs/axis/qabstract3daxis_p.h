@@ -14,8 +14,8 @@
 #ifndef QABSTRACT3DAXIS_P_H
 #define QABSTRACT3DAXIS_P_H
 
+#include <QtCore/private/qobject_p.h>
 #include "qabstract3daxis.h"
-#include <private/qobject_p.h>
 
 QT_BEGIN_NAMESPACE
 

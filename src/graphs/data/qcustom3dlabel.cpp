@@ -86,7 +86,7 @@ QT_BEGIN_NAMESPACE
  * Constructs a custom 3D label with the given \a parent.
  */
 QCustom3DLabel::QCustom3DLabel(QObject *parent)
-    : QCustom3DItem(new QCustom3DLabelPrivate(this), parent)
+    : QCustom3DItem(*(new QCustom3DLabelPrivate(this)), parent)
 {}
 
 /*!
@@ -102,7 +102,8 @@ QCustom3DLabel::QCustom3DLabel(const QString &text,
                                const QVector3D &scaling,
                                const QQuaternion &rotation,
                                QObject *parent)
-    : QCustom3DItem(new QCustom3DLabelPrivate(this, text, font, position, scaling, rotation), parent)
+    : QCustom3DItem(*(new QCustom3DLabelPrivate(this, text, font, position, scaling, rotation)),
+                    parent)
 {}
 
 /*!

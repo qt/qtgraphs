@@ -136,8 +136,7 @@ QT_BEGIN_NAMESPACE
  * Constructs a custom 3D item with the specified \a parent.
  */
 QCustom3DItem::QCustom3DItem(QObject *parent)
-    : QObject(parent)
-    , d_ptr(new QCustom3DItemPrivate(this))
+    : QObject(*(new QCustom3DItemPrivate(this)), parent)
 {
     setTextureImage(QImage());
 }
@@ -145,9 +144,8 @@ QCustom3DItem::QCustom3DItem(QObject *parent)
 /*!
  * \internal
  */
-QCustom3DItem::QCustom3DItem(QCustom3DItemPrivate *d, QObject *parent)
-    : QObject(parent)
-    , d_ptr(d)
+QCustom3DItem::QCustom3DItem(QCustom3DItemPrivate &d, QObject *parent)
+    : QObject(d, parent)
 {
     setTextureImage(QImage());
 }
@@ -162,8 +160,7 @@ QCustom3DItem::QCustom3DItem(const QString &meshFile,
                              const QQuaternion &rotation,
                              const QImage &texture,
                              QObject *parent)
-    : QObject(parent)
-    , d_ptr(new QCustom3DItemPrivate(this, meshFile, position, scaling, rotation))
+    : QObject(*(new QCustom3DItemPrivate(this, meshFile, position, scaling, rotation)), parent)
 {
     setTextureImage(texture);
 }

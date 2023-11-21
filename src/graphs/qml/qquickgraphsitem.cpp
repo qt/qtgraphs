@@ -60,10 +60,7 @@ QQuickGraphsItem::QQuickGraphsItem(QQuickItem *parent)
 
     m_scene->d_func()->setViewport(boundingRect().toRect());
 
-    connect(m_scene->d_func(),
-            &Q3DScenePrivate::needRender,
-            this,
-            &QQuickGraphsItem::emitNeedRender);
+    connect(m_scene, &Q3DScene::needRender, this, &QQuickGraphsItem::emitNeedRender);
 
     m_nodeMutex = QSharedPointer<QMutex>::create();
 
@@ -1138,17 +1135,17 @@ void QQuickGraphsItem::setSlicingActive(bool isSlicing)
 
 bool QQuickGraphsItem::isCustomLabelItem(QCustom3DItem *item) const
 {
-    return item->d_ptr->m_isLabelItem;
+    return item->d_func()->m_isLabelItem;
 }
 
 bool QQuickGraphsItem::isCustomVolumeItem(QCustom3DItem *item) const
 {
-    return item->d_ptr->m_isVolumeItem;
+    return item->d_func()->m_isVolumeItem;
 }
 
 QImage QQuickGraphsItem::customTextureImage(QCustom3DItem *item)
 {
-    return item->d_ptr->textureImage();
+    return item->d_func()->textureImage();
 }
 
 Q3DScene *QQuickGraphsItem::scene()
@@ -4851,18 +4848,9 @@ void QQuickGraphsItem::setCameraPreset(QAbstract3DGraph::CameraPreset preset)
     }
     if (camera()) {
         updateCamera();
-        connect(this,
-                &QQuickGraphsItem::cameraXRotationChanged,
-                m_scene->d_func(),
-                &Q3DScenePrivate::needRender);
-        connect(this,
-                &QQuickGraphsItem::cameraYRotationChanged,
-                m_scene->d_func(),
-                &Q3DScenePrivate::needRender);
-        connect(this,
-                &QQuickGraphsItem::cameraZoomLevelChanged,
-                m_scene->d_func(),
-                &Q3DScenePrivate::needRender);
+        connect(this, &QQuickGraphsItem::cameraXRotationChanged, m_scene, &Q3DScene::needRender);
+        connect(this, &QQuickGraphsItem::cameraYRotationChanged, m_scene, &Q3DScene::needRender);
+        connect(this, &QQuickGraphsItem::cameraZoomLevelChanged, m_scene, &Q3DScene::needRender);
     }
 }
 

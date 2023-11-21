@@ -14,9 +14,9 @@
 #ifndef Q3DTHEME_P_H
 #define Q3DTHEME_P_H
 
+#include <QtCore/private/qobject_p.h>
 #include "q3dtheme.h"
 #include <private/graphsglobal_p.h>
-#include <private/qobject_p.h>
 
 QT_BEGIN_NAMESPACE
 

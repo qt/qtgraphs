@@ -14,8 +14,8 @@
 #ifndef QABSTRACT3DSERIES_P_H
 #define QABSTRACT3DSERIES_P_H
 
+#include <QtCore/private/qobject_p.h>
 #include <private/graphsglobal_p.h>
-#include <private/qobject_p.h>
 
 #include "qabstract3dseries.h"
 

@@ -147,8 +147,7 @@ QT_BEGIN_NAMESPACE
  * constructor.
  */
 Q3DScene::Q3DScene(QObject *parent)
-    : QObject(parent)
-    , d_ptr(new Q3DScenePrivate(this))
+    : QObject(*(new Q3DScenePrivate(this)), parent)
 {}
 
 /*!
@@ -219,7 +218,7 @@ void Q3DScene::setPrimarySubViewport(const QRect &primarySubViewport)
         d->m_sceneDirty = true;
 
         emit primarySubViewportChanged(primarySubViewport);
-        emit d->needRender();
+        emit needRender();
     }
 }
 
@@ -305,7 +304,7 @@ void Q3DScene::setSecondarySubViewport(const QRect &secondarySubViewport)
         d->m_sceneDirty = true;
 
         emit secondarySubViewportChanged(secondarySubViewport);
-        emit d->needRender();
+        emit needRender();
     }
 }
 
@@ -332,7 +331,7 @@ void Q3DScene::setSelectionQueryPosition(const QPoint &point)
         d->m_sceneDirty = true;
 
         emit selectionQueryPositionChanged(point);
-        emit d->needRender();
+        emit needRender();
     }
 }
 
@@ -381,7 +380,7 @@ void Q3DScene::setGraphPositionQuery(const QPoint &point)
         d->m_sceneDirty = true;
 
         emit graphPositionQueryChanged(point);
-        emit d->needRender();
+        emit needRender();
     }
 }
 
@@ -421,7 +420,7 @@ void Q3DScene::setSlicingActive(bool isSlicing)
 
         d->calculateSubViewports();
         emit slicingActiveChanged(isSlicing);
-        emit d->needRender();
+        emit needRender();
     }
 }
 
@@ -445,7 +444,7 @@ void Q3DScene::setSecondarySubviewOnTop(bool isSecondaryOnTop)
         d->m_sceneDirty = true;
 
         emit secondarySubviewOnTopChanged(isSecondaryOnTop);
-        emit d->needRender();
+        emit needRender();
     }
 }
 
@@ -471,7 +470,7 @@ void Q3DScene::setDevicePixelRatio(float pixelRatio)
 
         emit devicePixelRatioChanged(pixelRatio);
         d->updateGLViewport();
-        emit d->needRender();
+        emit needRender();
     }
 }
 
@@ -548,20 +547,22 @@ void Q3DScenePrivate::sync(Q3DScenePrivate &other)
 
 void Q3DScenePrivate::setViewport(const QRect &viewport)
 {
+    Q_Q(Q3DScene);
     if (m_viewport != viewport && viewport.isValid()) {
         m_viewport = viewport;
         calculateSubViewports();
-        emit needRender();
+        emit q->needRender();
     }
 }
 
 void Q3DScenePrivate::setViewportSize(int width, int height)
 {
+    Q_Q(Q3DScene);
     if (m_viewport.width() != width || m_viewport.height() != height) {
         m_viewport.setWidth(width);
         m_viewport.setHeight(height);
         calculateSubViewports();
-        emit needRender();
+        emit q->needRender();
     }
 }
 
@@ -574,11 +575,12 @@ void Q3DScenePrivate::setViewportSize(int width, int height)
  */
 void Q3DScenePrivate::setWindowSize(const QSize &size)
 {
+    Q_Q(Q3DScene);
     if (m_windowSize != size) {
         m_windowSize = size;
         updateGLViewport();
         m_changeTracker.windowSizeChanged = true;
-        emit needRender();
+        emit q->needRender();
     }
 }
 
@@ -670,8 +672,9 @@ QRect Q3DScenePrivate::glSecondarySubViewport()
 
 void Q3DScenePrivate::markDirty()
 {
+    Q_Q(Q3DScene);
     m_sceneDirty = true;
-    emit needRender();
+    emit q->needRender();
 }
 
 bool Q3DScenePrivate::isInArea(const QRect &area, int x, int y) const

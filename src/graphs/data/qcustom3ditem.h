@@ -39,7 +39,7 @@ public:
                            const QQuaternion &rotation,
                            const QImage &texture,
                            QObject *parent = nullptr);
-    virtual ~QCustom3DItem();
+    ~QCustom3DItem() override;
 
     void setMeshFile(const QString &meshFile);
     QString meshFile() const;
@@ -85,9 +85,7 @@ Q_SIGNALS:
     void needUpdate();
 
 protected:
-    QCustom3DItem(QCustom3DItemPrivate *d, QObject *parent = nullptr);
-
-    QScopedPointer<QCustom3DItemPrivate> d_ptr;
+    QCustom3DItem(QCustom3DItemPrivate &d, QObject *parent = nullptr);
 
 private:
     Q_DISABLE_COPY(QCustom3DItem)

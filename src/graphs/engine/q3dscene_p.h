@@ -14,6 +14,7 @@
 #ifndef Q3DSCENE_P_H
 #define Q3DSCENE_P_H
 
+#include <QtCore/private/qobject_p.h>
 #include <QtGraphs/q3dscene.h>
 #include <private/graphsglobal_p.h>
 
@@ -44,9 +45,8 @@ struct Q3DSceneChangeBitField
     {}
 };
 
-class Q_GRAPHS_EXPORT Q3DScenePrivate : public QObject
+class Q3DScenePrivate : public QObjectPrivate
 {
-    Q_OBJECT
     Q_DECLARE_PUBLIC(Q3DScene)
 
 public:
@@ -70,9 +70,6 @@ public:
     void markDirty();
 
     bool isInArea(const QRect &area, int x, int y) const;
-
-Q_SIGNALS:
-    void needRender();
 
 protected:
     Q3DScene *q_ptr;

@@ -14,9 +14,8 @@
 #ifndef QABSTRACTDATAPROXY_P_H
 #define QABSTRACTDATAPROXY_P_H
 
+#include <QtCore/private/qobject_p.h>
 #include "qabstractdataproxy.h"
-
-#include <private/qobject_p.h>
 
 QT_BEGIN_NAMESPACE
 
