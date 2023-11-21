@@ -66,6 +66,7 @@ Rectangle {
             id: lineSeries
             name: "Second"
             theme: seriesTheme
+            hoverable: true
 
             XYPoint { x: 0; y: 6.6 }
             XYPoint { x: 0.6; y: 4.1 }
@@ -80,6 +81,7 @@ Rectangle {
             id: lineSeries2
             name: "Third"
             theme: seriesTheme
+            hoverable: true
 
             XYPoint { x: 0; y: 2.6 }
             XYPoint { x: 0.2; y: 3.1 }

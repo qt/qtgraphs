@@ -213,6 +213,9 @@ void LinesRenderer::handleMousePress(QMouseEvent *event)
 {
     const int selectionSize = 20;
     for (auto &&line : m_linePaths) {
+        if (!line->series->selectable())
+            continue;
+
         QRect startRect(line->shapePath->startX() - selectionSize / 2.0,
                         line->shapePath->startY() - selectionSize / 2.0,
                         selectionSize, selectionSize);
@@ -273,6 +276,9 @@ void LinesRenderer::handleHoverMove(QHoverEvent *event)
     const qreal y0 = event->position().y();
 
     for (auto &&line : m_linePaths) {
+        if (!line->series->hoverable())
+            continue;
+
         const int hoverSize = line->series->markerSize() / 2;
         const QString &name = line->series->name();
         auto &&points = line->series->points();
