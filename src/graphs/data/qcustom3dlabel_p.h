@@ -31,7 +31,7 @@ public:
                           const QVector3D &position,
                           const QVector3D &scaling,
                           const QQuaternion &rotation);
-    virtual ~QCustom3DLabelPrivate();
+    ~QCustom3DLabelPrivate() override;
 
     void resetDirtyBits();
 

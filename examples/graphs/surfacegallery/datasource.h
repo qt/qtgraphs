@@ -17,7 +17,7 @@ class DataSource : public QObject
     //! [2]
 public:
     explicit DataSource(QObject *parent = 0);
-    virtual ~DataSource();
+    ~DataSource() override;
 
     //! [1]
     Q_INVOKABLE void generateData(int cacheCount,

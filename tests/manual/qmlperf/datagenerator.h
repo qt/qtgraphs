@@ -12,7 +12,7 @@ class DataGenerator  : public QObject
     Q_OBJECT
 public:
     DataGenerator(QObject *parent = 0);
-    virtual ~DataGenerator();
+    ~DataGenerator() override;
 
 public Q_SLOTS:
     void generateData(QScatter3DSeries *series, uint count);

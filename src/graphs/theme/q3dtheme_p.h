@@ -80,7 +80,7 @@ public:
     enum class GradientType { Base, SingleHL, MultiHL };
 
     Q3DThemePrivate(Q3DTheme *q);
-    virtual ~Q3DThemePrivate();
+    ~Q3DThemePrivate() override;
 
     void resetDirtyBits();
 

@@ -27,7 +27,7 @@ public:
                                    const QStringList &rowCategories,
                                    const QStringList &columnCategories);
     //! [1]
-    virtual ~VariantBarDataMapping();
+    ~VariantBarDataMapping() override;
 
     void setRowIndex(int index);
     int rowIndex() const;

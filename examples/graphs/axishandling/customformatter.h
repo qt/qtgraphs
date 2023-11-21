@@ -24,13 +24,13 @@ class CustomFormatter : public QValue3DAxisFormatter
     //! [3]
 public:
     explicit CustomFormatter(QObject *parent = 0);
-    virtual ~CustomFormatter();
+    ~CustomFormatter() override;
 
     //! [0]
-    virtual QValue3DAxisFormatter *createNewInstance() const;
-    virtual void populateCopy(QValue3DAxisFormatter &copy);
-    virtual void recalculate();
-    virtual QString stringForValue(qreal value, const QString &format);
+    QValue3DAxisFormatter *createNewInstance() const override;
+    void populateCopy(QValue3DAxisFormatter &copy) override;
+    void recalculate() override;
+    QString stringForValue(qreal value, const QString &format) override;
     //! [0]
 
     QDate originDate() const;

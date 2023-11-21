@@ -56,7 +56,7 @@ public:
                            QList<uchar> *textureData,
                            QImage::Format textureFormat,
                            const QList<QRgb> &colorTable);
-    virtual ~QCustom3DVolumePrivate();
+    ~QCustom3DVolumePrivate() override;
 
     void resetDirtyBits();
     QImage renderSlice(Qt::Axis axis, int index);

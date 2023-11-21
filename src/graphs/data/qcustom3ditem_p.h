@@ -51,7 +51,7 @@ public:
                          const QVector3D &position,
                          const QVector3D &scaling,
                          const QQuaternion &rotation);
-    virtual ~QCustom3DItemPrivate();
+    ~QCustom3DItemPrivate() override;
 
     QImage textureImage();
     void clearTextureImage();

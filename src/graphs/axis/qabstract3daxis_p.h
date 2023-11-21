@@ -25,7 +25,7 @@ class QAbstract3DAxisPrivate : public QObjectPrivate
 
 public:
     QAbstract3DAxisPrivate(QAbstract3DAxis *q, QAbstract3DAxis::AxisType type);
-    virtual ~QAbstract3DAxisPrivate();
+    ~QAbstract3DAxisPrivate() override;
 
     void setOrientation(QAbstract3DAxis::AxisOrientation orientation);
 

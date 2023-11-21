@@ -29,7 +29,7 @@ class QValue3DAxisFormatterPrivate : public QObjectPrivate
 
 public:
     QValue3DAxisFormatterPrivate(QValue3DAxisFormatter *q);
-    virtual ~QValue3DAxisFormatterPrivate();
+    ~QValue3DAxisFormatterPrivate() override;
 
     void recalculate();
     void doRecalculate();

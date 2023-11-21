@@ -38,7 +38,7 @@ public:
                             const QVector3D &scaling,
                             const QQuaternion &rotation,
                             QObject *parent = nullptr);
-    virtual ~QCustom3DLabel();
+    ~QCustom3DLabel() override;
 
     void setText(const QString &text);
     QString text() const;

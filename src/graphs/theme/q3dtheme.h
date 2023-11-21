@@ -89,7 +89,7 @@ public:
 public:
     explicit Q3DTheme(QObject *parent = nullptr);
     explicit Q3DTheme(Theme themeType, QObject *parent = nullptr);
-    virtual ~Q3DTheme();
+    ~Q3DTheme() override;
 
     void setType(Q3DTheme::Theme themeType);
     Q3DTheme::Theme type() const;

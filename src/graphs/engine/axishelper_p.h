@@ -24,7 +24,7 @@ class AxisHelper : public QObject
     Q_OBJECT
 public:
     AxisHelper();
-    virtual ~AxisHelper();
+    ~AxisHelper() override;
     void updatePositions();
 
     inline float scale() { return m_scale; }

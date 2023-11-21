@@ -88,7 +88,7 @@ class QAbstract3DSeriesPrivate : public QObjectPrivate
 
 public:
     QAbstract3DSeriesPrivate(QAbstract3DSeries *q, QAbstract3DSeries::SeriesType type);
-    virtual ~QAbstract3DSeriesPrivate();
+    ~QAbstract3DSeriesPrivate() override;
 
     QAbstractDataProxy *dataProxy() const;
     virtual void setDataProxy(QAbstractDataProxy *proxy);

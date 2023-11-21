@@ -57,7 +57,7 @@ public:
                              QImage::Format textureFormat,
                              const QList<QRgb> &colorTable,
                              QObject *parent = nullptr);
-    virtual ~QCustom3DVolume();
+    ~QCustom3DVolume() override;
 
     void setTextureWidth(int value);
     int textureWidth() const;
