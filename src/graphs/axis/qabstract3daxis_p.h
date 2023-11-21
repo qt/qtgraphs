@@ -24,7 +24,7 @@ class QAbstract3DAxisPrivate : public QObjectPrivate
     Q_DECLARE_PUBLIC(QAbstract3DAxis)
 
 public:
-    QAbstract3DAxisPrivate(QAbstract3DAxis *q, QAbstract3DAxis::AxisType type);
+    QAbstract3DAxisPrivate(QAbstract3DAxis::AxisType type);
     ~QAbstract3DAxisPrivate() override;
 
     void setOrientation(QAbstract3DAxis::AxisOrientation orientation);
@@ -41,8 +41,6 @@ protected:
     virtual bool allowZero() = 0;
     virtual bool allowNegatives() = 0;
     virtual bool allowMinMaxSame() = 0;
-
-    QAbstract3DAxis *q_ptr;
 
     QString m_title;
     QStringList m_labels;

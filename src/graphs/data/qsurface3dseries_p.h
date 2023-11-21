@@ -24,7 +24,7 @@ class QSurface3DSeriesPrivate : public QAbstract3DSeriesPrivate
     Q_DECLARE_PUBLIC(QSurface3DSeries)
 
 public:
-    QSurface3DSeriesPrivate(QSurface3DSeries *q);
+    QSurface3DSeriesPrivate();
     ~QSurface3DSeriesPrivate() override;
 
     void setDataProxy(QAbstractDataProxy *proxy) override;

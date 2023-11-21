@@ -140,7 +140,7 @@ QT_BEGIN_NAMESPACE
  * Constructsa bar 3D series with the parent \a parent.
  */
 QBar3DSeries::QBar3DSeries(QObject *parent)
-    : QAbstract3DSeries(*(new QBar3DSeriesPrivate(this)), parent)
+    : QAbstract3DSeries(*(new QBar3DSeriesPrivate()), parent)
 {
     Q_D(QBar3DSeries);
     // Default proxy
@@ -153,7 +153,7 @@ QBar3DSeries::QBar3DSeries(QObject *parent)
  * \a parent.
  */
 QBar3DSeries::QBar3DSeries(QBarDataProxy *dataProxy, QObject *parent)
-    : QAbstract3DSeries(*(new QBar3DSeriesPrivate(this)), parent)
+    : QAbstract3DSeries(*(new QBar3DSeriesPrivate()), parent)
 {
     Q_D(QBar3DSeries);
     d->setDataProxy(dataProxy);
@@ -321,8 +321,8 @@ void QBar3DSeries::handleMeshRotationChanged(const QQuaternion &rotation)
 
 // QBar3DSeriesPrivate
 
-QBar3DSeriesPrivate::QBar3DSeriesPrivate(QBar3DSeries *q)
-    : QAbstract3DSeriesPrivate(q, QAbstract3DSeries::SeriesType::Bar)
+QBar3DSeriesPrivate::QBar3DSeriesPrivate()
+    : QAbstract3DSeriesPrivate(QAbstract3DSeries::SeriesType::Bar)
     , m_selectedBar(QQuickGraphsBars::invalidSelectionPosition())
 {
     m_itemLabelFormat = QStringLiteral("@valueLabel");
@@ -349,7 +349,7 @@ void QBar3DSeriesPrivate::connectGraphAndProxy(QQuickGraphsItem *newGraph)
     if (m_graph && barDataProxy) {
         // Disconnect old graph/old proxy
         QObject::disconnect(barDataProxy, 0, m_graph, 0);
-        QObject::disconnect(q_ptr, 0, m_graph, 0);
+        QObject::disconnect(q, 0, m_graph, 0);
     }
 
     if (newGraph && barDataProxy) {

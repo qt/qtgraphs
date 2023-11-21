@@ -167,7 +167,7 @@ QT_BEGIN_NAMESPACE
  * Constructs a surface 3D series with the parent \a parent.
  */
 QSurface3DSeries::QSurface3DSeries(QObject *parent)
-    : QAbstract3DSeries(*(new QSurface3DSeriesPrivate(this)), parent)
+    : QAbstract3DSeries(*(new QSurface3DSeriesPrivate()), parent)
 {
     Q_D(QSurface3DSeries);
     // Default proxy
@@ -179,7 +179,7 @@ QSurface3DSeries::QSurface3DSeries(QObject *parent)
  * parent \a parent.
  */
 QSurface3DSeries::QSurface3DSeries(QSurfaceDataProxy *dataProxy, QObject *parent)
-    : QAbstract3DSeries(*(new QSurface3DSeriesPrivate(this)), parent)
+    : QAbstract3DSeries(*(new QSurface3DSeriesPrivate()), parent)
 {
     Q_D(QSurface3DSeries);
     d->setDataProxy(dataProxy);
@@ -418,8 +418,8 @@ QColor QSurface3DSeries::wireframeColor() const
 
 // QSurface3DSeriesPrivate
 
-QSurface3DSeriesPrivate::QSurface3DSeriesPrivate(QSurface3DSeries *q)
-    : QAbstract3DSeriesPrivate(q, QAbstract3DSeries::SeriesType::Surface)
+QSurface3DSeriesPrivate::QSurface3DSeriesPrivate()
+    : QAbstract3DSeriesPrivate(QAbstract3DSeries::SeriesType::Surface)
     , m_selectedPoint(QQuickGraphsSurface::invalidSelectionPosition())
     , m_flatShadingEnabled(true)
     , m_drawMode(QSurface3DSeries::DrawSurfaceAndWireframe)
@@ -449,7 +449,7 @@ void QSurface3DSeriesPrivate::connectGraphAndProxy(QQuickGraphsItem *newGraph)
     if (m_graph && surfaceDataProxy) {
         // Disconnect old graph/old proxy
         QObject::disconnect(surfaceDataProxy, 0, m_graph, 0);
-        QObject::disconnect(q_ptr, 0, m_graph, 0);
+        QObject::disconnect(q, 0, m_graph, 0);
     }
 
     if (newGraph && surfaceDataProxy) {

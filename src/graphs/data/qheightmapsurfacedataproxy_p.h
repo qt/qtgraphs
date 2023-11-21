@@ -25,7 +25,7 @@ class QHeightMapSurfaceDataProxyPrivate : public QSurfaceDataProxyPrivate
     Q_DECLARE_PUBLIC(QHeightMapSurfaceDataProxy)
 
 public:
-    QHeightMapSurfaceDataProxyPrivate(QHeightMapSurfaceDataProxy *q);
+    QHeightMapSurfaceDataProxyPrivate();
     ~QHeightMapSurfaceDataProxyPrivate() override;
 
     void setValueRanges(float minX, float maxX, float minZ, float maxZ);

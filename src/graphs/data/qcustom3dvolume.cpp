@@ -245,7 +245,7 @@ QT_BEGIN_NAMESPACE
  * Constructs a custom 3D volume with the given \a parent.
  */
 QCustom3DVolume::QCustom3DVolume(QObject *parent)
-    : QCustom3DItem(*(new QCustom3DVolumePrivate(this)), parent)
+    : QCustom3DItem(*(new QCustom3DVolumePrivate()), parent)
 {}
 
 /*!
@@ -265,8 +265,7 @@ QCustom3DVolume::QCustom3DVolume(const QVector3D &position,
                                  QImage::Format textureFormat,
                                  const QList<QRgb> &colorTable,
                                  QObject *parent)
-    : QCustom3DItem(*(new QCustom3DVolumePrivate(this,
-                                                 position,
+    : QCustom3DItem(*(new QCustom3DVolumePrivate(position,
                                                  scaling,
                                                  rotation,
                                                  textureWidth,
@@ -1164,9 +1163,8 @@ QImage QCustom3DVolume::renderSlice(Qt::Axis axis, int index)
     return d->renderSlice(axis, index);
 }
 
-QCustom3DVolumePrivate::QCustom3DVolumePrivate(QCustom3DVolume *q)
-    : QCustom3DItemPrivate(q)
-    , m_textureWidth(0)
+QCustom3DVolumePrivate::QCustom3DVolumePrivate()
+    : m_textureWidth(0)
     , m_textureHeight(0)
     , m_textureDepth(0)
     , m_sliceIndexX(-1)
@@ -1188,8 +1186,7 @@ QCustom3DVolumePrivate::QCustom3DVolumePrivate(QCustom3DVolume *q)
     m_meshFile = QStringLiteral(":/defaultMeshes/barMeshFull");
 }
 
-QCustom3DVolumePrivate::QCustom3DVolumePrivate(QCustom3DVolume *q,
-                                               const QVector3D &position,
+QCustom3DVolumePrivate::QCustom3DVolumePrivate(const QVector3D &position,
                                                const QVector3D &scaling,
                                                const QQuaternion &rotation,
                                                int textureWidth,
@@ -1198,8 +1195,7 @@ QCustom3DVolumePrivate::QCustom3DVolumePrivate(QCustom3DVolume *q,
                                                QList<uchar> *textureData,
                                                QImage::Format textureFormat,
                                                const QList<QRgb> &colorTable)
-    : QCustom3DItemPrivate(q,
-                           QStringLiteral(":/defaultMeshes/barMeshFull"),
+    : QCustom3DItemPrivate(QStringLiteral(":/defaultMeshes/barMeshFull"),
                            position,
                            scaling,
                            rotation)

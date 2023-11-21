@@ -27,7 +27,7 @@ class QScatterDataProxyPrivate : public QAbstractDataProxyPrivate
     Q_DECLARE_PUBLIC(QScatterDataProxy)
 
 public:
-    QScatterDataProxyPrivate(QScatterDataProxy *q);
+    QScatterDataProxyPrivate();
     ~QScatterDataProxyPrivate() override;
 
     void resetArray(QScatterDataArray &&newArray);

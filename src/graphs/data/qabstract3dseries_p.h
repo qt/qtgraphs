@@ -87,7 +87,7 @@ class QAbstract3DSeriesPrivate : public QObjectPrivate
     Q_DECLARE_PUBLIC(QAbstract3DSeries)
 
 public:
-    QAbstract3DSeriesPrivate(QAbstract3DSeries *q, QAbstract3DSeries::SeriesType type);
+    QAbstract3DSeriesPrivate(QAbstract3DSeries::SeriesType type);
     ~QAbstract3DSeriesPrivate() override;
 
     QAbstractDataProxy *dataProxy() const;
@@ -120,8 +120,6 @@ public:
     bool isUsingGradient();
 
 protected:
-    QAbstract3DSeries *q_ptr;
-
     QAbstract3DSeriesChangeBitField m_changeTracker;
     QAbstract3DSeriesThemeOverrideBitField m_themeTracker;
     QAbstract3DSeries::SeriesType m_type;

@@ -60,7 +60,7 @@ QT_BEGIN_NAMESPACE
  * Constructs QScatterDataProxy with the given \a parent.
  */
 QScatterDataProxy::QScatterDataProxy(QObject *parent)
-    : QAbstractDataProxy(*(new QScatterDataProxyPrivate(this)), parent)
+    : QAbstractDataProxy(*(new QScatterDataProxyPrivate()), parent)
 {}
 
 /*!
@@ -278,8 +278,8 @@ const QScatterDataItem &QScatterDataProxy::itemAt(int index) const
 
 // QScatterDataProxyPrivate
 
-QScatterDataProxyPrivate::QScatterDataProxyPrivate(QScatterDataProxy *q)
-    : QAbstractDataProxyPrivate(q, QAbstractDataProxy::DataType::Scatter)
+QScatterDataProxyPrivate::QScatterDataProxyPrivate()
+    : QAbstractDataProxyPrivate(QAbstractDataProxy::DataType::Scatter)
 {}
 
 QScatterDataProxyPrivate::~QScatterDataProxyPrivate()

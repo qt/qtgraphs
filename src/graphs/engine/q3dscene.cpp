@@ -147,7 +147,7 @@ QT_BEGIN_NAMESPACE
  * constructor.
  */
 Q3DScene::Q3DScene(QObject *parent)
-    : QObject(*(new Q3DScenePrivate(this)), parent)
+    : QObject(*(new Q3DScenePrivate()), parent)
 {}
 
 /*!
@@ -474,17 +474,18 @@ void Q3DScene::setDevicePixelRatio(float pixelRatio)
     }
 }
 
-Q3DScenePrivate::Q3DScenePrivate(Q3DScene *q)
-    : q_ptr(q)
-    , m_isSecondarySubviewOnTop(true)
+Q3DScenePrivate::Q3DScenePrivate()
+    : m_isSecondarySubviewOnTop(true)
     , m_devicePixelRatio(1.f)
     , m_isUnderSideCameraEnabled(false)
     , m_isSlicingActive(false)
-    , m_selectionQueryPosition(q->invalidSelectionPoint())
-    , m_graphPositionQueryPosition(q->invalidSelectionPoint())
     , m_windowSize(QSize(0, 0))
     , m_sceneDirty(true)
-{}
+{
+    Q_Q(Q3DScene);
+    m_selectionQueryPosition = q->invalidSelectionPoint();
+    m_graphPositionQueryPosition = q->invalidSelectionPoint();
+}
 
 Q3DScenePrivate::~Q3DScenePrivate() {}
 

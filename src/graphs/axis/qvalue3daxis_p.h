@@ -24,7 +24,7 @@ class QValue3DAxisPrivate : public QAbstract3DAxisPrivate
     Q_DECLARE_PUBLIC(QValue3DAxis)
 
 public:
-    QValue3DAxisPrivate(QValue3DAxis *q);
+    QValue3DAxisPrivate();
     ~QValue3DAxisPrivate() override;
 
     void setRange(float min, float max, bool suppressWarnings = false) override;

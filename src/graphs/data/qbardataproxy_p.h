@@ -24,7 +24,7 @@ class QBarDataProxyPrivate : public QAbstractDataProxyPrivate
     Q_DECLARE_PUBLIC(QBarDataProxy)
 
 public:
-    QBarDataProxyPrivate(QBarDataProxy *q);
+    QBarDataProxyPrivate();
     ~QBarDataProxyPrivate() override;
 
     void resetArray(QBarDataArray &&newArray, QStringList &&rowLabels, QStringList &&columnLabels);

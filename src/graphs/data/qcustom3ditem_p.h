@@ -45,9 +45,8 @@ class QCustom3DItemPrivate : public QObjectPrivate
     Q_DECLARE_PUBLIC(QCustom3DItem)
 
 public:
-    QCustom3DItemPrivate(QCustom3DItem *q);
-    QCustom3DItemPrivate(QCustom3DItem *q,
-                         const QString &meshFile,
+    QCustom3DItemPrivate();
+    QCustom3DItemPrivate(const QString &meshFile,
                          const QVector3D &position,
                          const QVector3D &scaling,
                          const QQuaternion &rotation);
@@ -73,9 +72,6 @@ public:
     bool m_isVolumeItem;
 
     QCustomItemDirtyBitField m_dirtyBits;
-
-protected:
-    QCustom3DItem *q_ptr;
 
 private:
     QCustom3DItemPrivate(QCustom3DItemPrivate *d);

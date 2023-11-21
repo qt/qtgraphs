@@ -24,7 +24,7 @@ class QCategory3DAxisPrivate : public QAbstract3DAxisPrivate
     Q_DECLARE_PUBLIC(QCategory3DAxis)
 
 public:
-    QCategory3DAxisPrivate(QCategory3DAxis *q);
+    QCategory3DAxisPrivate();
     ~QCategory3DAxisPrivate() override;
 
     void setDataLabels(const QStringList &labels);

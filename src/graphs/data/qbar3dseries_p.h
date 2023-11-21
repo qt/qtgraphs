@@ -24,7 +24,7 @@ class QBar3DSeriesPrivate : public QAbstract3DSeriesPrivate
     Q_DECLARE_PUBLIC(QBar3DSeries)
 
 public:
-    QBar3DSeriesPrivate(QBar3DSeries *q);
+    QBar3DSeriesPrivate();
     ~QBar3DSeriesPrivate() override;
 
     void setDataProxy(QAbstractDataProxy *proxy) override;

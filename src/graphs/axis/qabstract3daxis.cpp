@@ -389,9 +389,8 @@ bool QAbstract3DAxis::isAutoAdjustRange() const
  */
 
 // QAbstract3DAxisPrivate
-QAbstract3DAxisPrivate::QAbstract3DAxisPrivate(QAbstract3DAxis *q, QAbstract3DAxis::AxisType type)
-    : q_ptr(q)
-    , m_orientation(QAbstract3DAxis::AxisOrientation::None)
+QAbstract3DAxisPrivate::QAbstract3DAxisPrivate(QAbstract3DAxis::AxisType type)
+    : m_orientation(QAbstract3DAxis::AxisOrientation::None)
     , m_type(type)
     , m_isDefaultAxis(false)
     , m_min(0.0f)

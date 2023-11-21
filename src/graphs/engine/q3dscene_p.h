@@ -50,7 +50,7 @@ class Q3DScenePrivate : public QObjectPrivate
     Q_DECLARE_PUBLIC(Q3DScene)
 
 public:
-    Q3DScenePrivate(Q3DScene *q);
+    Q3DScenePrivate();
     ~Q3DScenePrivate();
 
     void sync(Q3DScenePrivate &other);
@@ -70,9 +70,6 @@ public:
     void markDirty();
 
     bool isInArea(const QRect &area, int x, int y) const;
-
-protected:
-    Q3DScene *q_ptr;
 
 public:
     Q3DSceneChangeBitField m_changeTracker;

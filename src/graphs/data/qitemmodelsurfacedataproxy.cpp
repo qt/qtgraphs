@@ -1084,8 +1084,7 @@ QItemModelSurfaceDataProxy::MultiMatchBehavior QItemModelSurfaceDataProxy::multi
 // QItemModelSurfaceDataProxyPrivate
 
 QItemModelSurfaceDataProxyPrivate::QItemModelSurfaceDataProxyPrivate(QItemModelSurfaceDataProxy *q)
-    : QSurfaceDataProxyPrivate(q)
-    , m_itemModelHandler(new SurfaceItemModelHandler(q))
+    : m_itemModelHandler(new SurfaceItemModelHandler(q))
     , m_useModelCategories(false)
     , m_autoRowCategories(true)
     , m_autoColumnCategories(true)

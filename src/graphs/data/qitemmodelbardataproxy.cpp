@@ -927,8 +927,7 @@ QItemModelBarDataProxy::MultiMatchBehavior QItemModelBarDataProxy::multiMatchBeh
 // QItemModelBarDataProxyPrivate
 
 QItemModelBarDataProxyPrivate::QItemModelBarDataProxyPrivate(QItemModelBarDataProxy *q)
-    : QBarDataProxyPrivate(q)
-    , m_itemModelHandler(new BarItemModelHandler(q))
+    : m_itemModelHandler(new BarItemModelHandler(q))
     , m_useModelCategories(false)
     , m_autoRowCategories(true)
     , m_autoColumnCategories(true)

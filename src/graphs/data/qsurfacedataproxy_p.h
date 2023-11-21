@@ -26,7 +26,7 @@ class QSurfaceDataProxyPrivate : public QAbstractDataProxyPrivate
     Q_DECLARE_PUBLIC(QSurfaceDataProxy)
 
 public:
-    QSurfaceDataProxyPrivate(QSurfaceDataProxy *q);
+    QSurfaceDataProxyPrivate();
     ~QSurfaceDataProxyPrivate() override;
 
     void resetArray(QSurfaceDataArray &&newArray);

@@ -47,7 +47,7 @@ QValue3DAxisFormatter::QValue3DAxisFormatter(QValue3DAxisFormatterPrivate &d, QO
  * Constructs a new value 3D axis formatter with the optional parent \a parent.
  */
 QValue3DAxisFormatter::QValue3DAxisFormatter(QObject *parent)
-    : QObject(*(new QValue3DAxisFormatterPrivate(this)), parent)
+    : QObject(*(new QValue3DAxisFormatterPrivate()), parent)
 {}
 
 /*!
@@ -389,9 +389,8 @@ QLocale QValue3DAxisFormatter::locale() const
 }
 
 // QValue3DAxisFormatterPrivate
-QValue3DAxisFormatterPrivate::QValue3DAxisFormatterPrivate(QValue3DAxisFormatter *q)
-    : q_ptr(q)
-    , m_needsRecalculate(true)
+QValue3DAxisFormatterPrivate::QValue3DAxisFormatterPrivate()
+    : m_needsRecalculate(true)
     , m_min(0.0f)
     , m_max(0.0f)
     , m_rangeNormalizer(0.0f)

@@ -79,7 +79,7 @@ class Q_GRAPHS_EXPORT Q3DThemePrivate : public QObjectPrivate
 public:
     enum class GradientType { Base, SingleHL, MultiHL };
 
-    Q3DThemePrivate(Q3DTheme *q);
+    Q3DThemePrivate();
     ~Q3DThemePrivate() override;
 
     void resetDirtyBits();
@@ -142,9 +142,6 @@ public:
     QJSValue m_multiHLGradient;
 
     bool m_dummyColors = false;
-
-protected:
-    Q3DTheme *q_ptr;
 };
 
 QT_END_NAMESPACE

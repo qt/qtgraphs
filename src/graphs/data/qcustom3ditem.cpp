@@ -136,7 +136,7 @@ QT_BEGIN_NAMESPACE
  * Constructs a custom 3D item with the specified \a parent.
  */
 QCustom3DItem::QCustom3DItem(QObject *parent)
-    : QObject(*(new QCustom3DItemPrivate(this)), parent)
+    : QObject(*(new QCustom3DItemPrivate()), parent)
 {
     setTextureImage(QImage());
 }
@@ -160,7 +160,7 @@ QCustom3DItem::QCustom3DItem(const QString &meshFile,
                              const QQuaternion &rotation,
                              const QImage &texture,
                              QObject *parent)
-    : QObject(*(new QCustom3DItemPrivate(this, meshFile, position, scaling, rotation)), parent)
+    : QObject(*(new QCustom3DItemPrivate(meshFile, position, scaling, rotation)), parent)
 {
     setTextureImage(texture);
 }
@@ -475,7 +475,7 @@ QString QCustom3DItem::textureFile() const
     return d->m_textureFile;
 }
 
-QCustom3DItemPrivate::QCustom3DItemPrivate(QCustom3DItem *q)
+QCustom3DItemPrivate::QCustom3DItemPrivate()
     : m_textureImage(QImage(1, 1, QImage::Format_ARGB32))
     , m_position(QVector3D(0.0f, 0.0f, 0.0f))
     , m_positionAbsolute(false)
@@ -486,11 +486,9 @@ QCustom3DItemPrivate::QCustom3DItemPrivate(QCustom3DItem *q)
     , m_shadowCasting(true)
     , m_isLabelItem(false)
     , m_isVolumeItem(false)
-    , q_ptr(q)
 {}
 
-QCustom3DItemPrivate::QCustom3DItemPrivate(QCustom3DItem *q,
-                                           const QString &meshFile,
+QCustom3DItemPrivate::QCustom3DItemPrivate(const QString &meshFile,
                                            const QVector3D &position,
                                            const QVector3D &scaling,
                                            const QQuaternion &rotation)
@@ -505,7 +503,6 @@ QCustom3DItemPrivate::QCustom3DItemPrivate(QCustom3DItem *q,
     , m_shadowCasting(true)
     , m_isLabelItem(false)
     , m_isVolumeItem(false)
-    , q_ptr(q)
 {}
 
 QCustom3DItemPrivate::~QCustom3DItemPrivate() {}

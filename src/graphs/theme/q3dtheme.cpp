@@ -468,7 +468,7 @@ QT_BEGIN_NAMESPACE
  * can be given and is then passed to QObject constructor.
  */
 Q3DTheme::Q3DTheme(QObject *parent)
-    : QObject(*(new Q3DThemePrivate(this)), parent)
+    : QObject(*(new Q3DThemePrivate()), parent)
 {}
 
 /*!
@@ -477,7 +477,7 @@ Q3DTheme::Q3DTheme(QObject *parent)
  * then passed to QObject constructor.
  */
 Q3DTheme::Q3DTheme(Theme themeType, QObject *parent)
-    : QObject(*(new Q3DThemePrivate(this)), parent)
+    : QObject(*(new Q3DThemePrivate()), parent)
 
 {
     setType(themeType);
@@ -1411,7 +1411,7 @@ void Q3DTheme::clearGradients()
 
 // Q3DThemePrivate
 
-Q3DThemePrivate::Q3DThemePrivate(Q3DTheme *q)
+Q3DThemePrivate::Q3DThemePrivate()
     : m_themeId(Q3DTheme::Theme::UserDefined)
     , m_colorStyle(Q3DTheme::ColorStyle::Uniform)
     , m_backgroundColor(Qt::black)
@@ -1442,7 +1442,6 @@ Q3DThemePrivate::Q3DThemePrivate(Q3DTheme *q)
     , m_singleHLGradient(QJSValue(0))
     , m_multiHLGradient(QJSValue(0))
     , m_dummyColors(false)
-    , q_ptr(q)
 {
     m_baseColors.append(QColor(Qt::black));
     m_baseGradients.append(QLinearGradient(gradientTextureWidth, gradientTextureHeight, 0.0, 0.0));

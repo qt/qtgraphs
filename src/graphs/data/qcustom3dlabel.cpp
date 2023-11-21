@@ -86,7 +86,7 @@ QT_BEGIN_NAMESPACE
  * Constructs a custom 3D label with the given \a parent.
  */
 QCustom3DLabel::QCustom3DLabel(QObject *parent)
-    : QCustom3DItem(*(new QCustom3DLabelPrivate(this)), parent)
+    : QCustom3DItem(*(new QCustom3DLabelPrivate()), parent)
 {}
 
 /*!
@@ -102,8 +102,7 @@ QCustom3DLabel::QCustom3DLabel(const QString &text,
                                const QVector3D &scaling,
                                const QQuaternion &rotation,
                                QObject *parent)
-    : QCustom3DItem(*(new QCustom3DLabelPrivate(this, text, font, position, scaling, rotation)),
-                    parent)
+    : QCustom3DItem(*(new QCustom3DLabelPrivate(text, font, position, scaling, rotation)), parent)
 {}
 
 /*!
@@ -277,9 +276,8 @@ bool QCustom3DLabel::isFacingCamera() const
     return d->m_facingCamera;
 }
 
-QCustom3DLabelPrivate::QCustom3DLabelPrivate(QCustom3DLabel *q)
-    : QCustom3DItemPrivate(q)
-    , m_font(QFont(QStringLiteral("Arial"), 20))
+QCustom3DLabelPrivate::QCustom3DLabelPrivate()
+    : m_font(QFont(QStringLiteral("Arial"), 20))
     , m_bgrColor(Qt::gray)
     , m_txtColor(Qt::white)
     , m_background(true)
@@ -293,13 +291,12 @@ QCustom3DLabelPrivate::QCustom3DLabelPrivate(QCustom3DLabel *q)
     m_meshFile = QStringLiteral(":/defaultMeshes/plane");
 }
 
-QCustom3DLabelPrivate::QCustom3DLabelPrivate(QCustom3DLabel *q,
-                                             const QString &text,
+QCustom3DLabelPrivate::QCustom3DLabelPrivate(const QString &text,
                                              const QFont &font,
                                              const QVector3D &position,
                                              const QVector3D &scaling,
                                              const QQuaternion &rotation)
-    : QCustom3DItemPrivate(q, QStringLiteral(":/defaultMeshes/plane"), position, scaling, rotation)
+    : QCustom3DItemPrivate(QStringLiteral(":/defaultMeshes/plane"), position, scaling, rotation)
     , m_text(text)
     , m_font(font)
     , m_bgrColor(Qt::gray)

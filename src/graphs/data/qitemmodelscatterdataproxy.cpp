@@ -613,8 +613,7 @@ void QItemModelScatterDataProxy::remap(const QString &xPosRole,
 // QItemModelScatterDataProxyPrivate
 
 QItemModelScatterDataProxyPrivate::QItemModelScatterDataProxyPrivate(QItemModelScatterDataProxy *q)
-    : QScatterDataProxyPrivate(q)
-    , m_itemModelHandler(new ScatterItemModelHandler(q))
+    : m_itemModelHandler(new ScatterItemModelHandler(q))
 {}
 
 QItemModelScatterDataProxyPrivate::~QItemModelScatterDataProxyPrivate()

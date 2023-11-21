@@ -97,7 +97,7 @@ QT_BEGIN_NAMESPACE
  * Constructs a bar data proxy with the given \a parent.
  */
 QBarDataProxy::QBarDataProxy(QObject *parent)
-    : QAbstractDataProxy(*(new QBarDataProxyPrivate(this)), parent)
+    : QAbstractDataProxy(*(new QBarDataProxyPrivate()), parent)
 {}
 
 /*!
@@ -563,8 +563,8 @@ const QBarDataItem &QBarDataProxy::itemAt(const QPoint &position) const
 
 // QBarDataProxyPrivate
 
-QBarDataProxyPrivate::QBarDataProxyPrivate(QBarDataProxy *q)
-    : QAbstractDataProxyPrivate(q, QAbstractDataProxy::DataType::Bar)
+QBarDataProxyPrivate::QBarDataProxyPrivate()
+    : QAbstractDataProxyPrivate(QAbstractDataProxy::DataType::Bar)
 {}
 
 QBarDataProxyPrivate::~QBarDataProxyPrivate()

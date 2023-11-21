@@ -26,14 +26,13 @@ class QAbstractDataProxyPrivate : public QObjectPrivate
     Q_DECLARE_PUBLIC(QAbstractDataProxy)
 
 public:
-    QAbstractDataProxyPrivate(QAbstractDataProxy *q, QAbstractDataProxy::DataType type);
+    QAbstractDataProxyPrivate(QAbstractDataProxy::DataType type);
     ~QAbstractDataProxyPrivate() override;
 
     inline QAbstract3DSeries *series() const { return m_series; }
     virtual void setSeries(QAbstract3DSeries *series);
 
 protected:
-    QAbstractDataProxy *q_ptr;
     QAbstractDataProxy::DataType m_type;
     QAbstract3DSeries *m_series;
 };

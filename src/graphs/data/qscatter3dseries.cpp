@@ -111,7 +111,7 @@ QT_BEGIN_NAMESPACE
  * Constructs a scatter 3D series with the parent \a parent.
  */
 QScatter3DSeries::QScatter3DSeries(QObject *parent)
-    : QAbstract3DSeries(*(new QScatter3DSeriesPrivate(this)), parent)
+    : QAbstract3DSeries(*(new QScatter3DSeriesPrivate()), parent)
 {
     Q_D(QScatter3DSeries);
     // Default proxy
@@ -123,7 +123,7 @@ QScatter3DSeries::QScatter3DSeries(QObject *parent)
  * parent \a parent.
  */
 QScatter3DSeries::QScatter3DSeries(QScatterDataProxy *dataProxy, QObject *parent)
-    : QAbstract3DSeries(*(new QScatter3DSeriesPrivate(this)), parent)
+    : QAbstract3DSeries(*(new QScatter3DSeriesPrivate()), parent)
 {
     Q_D(QScatter3DSeries);
     d->setDataProxy(dataProxy);
@@ -243,8 +243,8 @@ int QScatter3DSeries::invalidSelectionIndex()
 
 // QScatter3DSeriesPrivate
 
-QScatter3DSeriesPrivate::QScatter3DSeriesPrivate(QScatter3DSeries *q)
-    : QAbstract3DSeriesPrivate(q, QAbstract3DSeries::SeriesType::Scatter)
+QScatter3DSeriesPrivate::QScatter3DSeriesPrivate()
+    : QAbstract3DSeriesPrivate(QAbstract3DSeries::SeriesType::Scatter)
     , m_selectedItem(QQuickGraphsScatter::invalidSelectionIndex())
     , m_itemSize(0.0f)
 {
@@ -272,7 +272,7 @@ void QScatter3DSeriesPrivate::connectGraphAndProxy(QQuickGraphsItem *newGraph)
     if (m_graph && scatterDataProxy) {
         // Disconnect old graph/old proxy
         QObject::disconnect(scatterDataProxy, 0, m_graph, 0);
-        QObject::disconnect(q_ptr, 0, m_graph, 0);
+        QObject::disconnect(q, 0, m_graph, 0);
     }
 
     if (newGraph && scatterDataProxy) {

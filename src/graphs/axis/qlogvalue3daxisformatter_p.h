@@ -24,7 +24,7 @@ class QLogValue3DAxisFormatterPrivate : public QValue3DAxisFormatterPrivate
     Q_DECLARE_PUBLIC(QLogValue3DAxisFormatter)
 
 public:
-    QLogValue3DAxisFormatterPrivate(QLogValue3DAxisFormatter *q);
+    QLogValue3DAxisFormatterPrivate();
     ~QLogValue3DAxisFormatterPrivate() override;
 
     void recalculate();

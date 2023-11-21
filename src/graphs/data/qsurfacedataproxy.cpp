@@ -101,7 +101,7 @@ QT_BEGIN_NAMESPACE
  * Constructs QSurfaceDataProxy with the given \a parent.
  */
 QSurfaceDataProxy::QSurfaceDataProxy(QObject *parent)
-    : QAbstractDataProxy(*(new QSurfaceDataProxyPrivate(this)), parent)
+    : QAbstractDataProxy(*(new QSurfaceDataProxyPrivate()), parent)
 {}
 
 /*!
@@ -395,8 +395,8 @@ int QSurfaceDataProxy::columnCount() const
 
 //  QSurfaceDataProxyPrivate
 
-QSurfaceDataProxyPrivate::QSurfaceDataProxyPrivate(QSurfaceDataProxy *q)
-    : QAbstractDataProxyPrivate(q, QAbstractDataProxy::DataType::Surface)
+QSurfaceDataProxyPrivate::QSurfaceDataProxyPrivate()
+    : QAbstractDataProxyPrivate(QAbstractDataProxy::DataType::Surface)
 {}
 
 QSurfaceDataProxyPrivate::~QSurfaceDataProxyPrivate()

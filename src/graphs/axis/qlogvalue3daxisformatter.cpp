@@ -92,7 +92,7 @@ QLogValue3DAxisFormatter::QLogValue3DAxisFormatter(QLogValue3DAxisFormatterPriva
  * parent \a parent.
  */
 QLogValue3DAxisFormatter::QLogValue3DAxisFormatter(QObject *parent)
-    : QValue3DAxisFormatter(*(new QLogValue3DAxisFormatterPrivate(this)), parent)
+    : QValue3DAxisFormatter(*(new QLogValue3DAxisFormatterPrivate()), parent)
 {
     setAllowNegatives(false);
     setAllowZero(false);
@@ -246,9 +246,8 @@ void QLogValue3DAxisFormatter::populateCopy(QValue3DAxisFormatter &copy)
 }
 
 // QLogValue3DAxisFormatterPrivate
-QLogValue3DAxisFormatterPrivate::QLogValue3DAxisFormatterPrivate(QLogValue3DAxisFormatter *q)
-    : QValue3DAxisFormatterPrivate(q)
-    , m_base(10.0)
+QLogValue3DAxisFormatterPrivate::QLogValue3DAxisFormatterPrivate()
+    : m_base(10.0)
     , m_logMin(0.0)
     , m_logMax(0.0)
     , m_logRangeNormalizer(0.0)

@@ -75,10 +75,8 @@ QAbstractDataProxy::DataType QAbstractDataProxy::type() const
 
 // QAbstractDataProxyPrivate
 
-QAbstractDataProxyPrivate::QAbstractDataProxyPrivate(QAbstractDataProxy *q,
-                                                     QAbstractDataProxy::DataType type)
-    : q_ptr(q)
-    , m_type(type)
+QAbstractDataProxyPrivate::QAbstractDataProxyPrivate(QAbstractDataProxy::DataType type)
+    : m_type(type)
     , m_series(0)
 {}
 
@@ -86,7 +84,8 @@ QAbstractDataProxyPrivate::~QAbstractDataProxyPrivate() {}
 
 void QAbstractDataProxyPrivate::setSeries(QAbstract3DSeries *series)
 {
-    q_ptr->setParent(series);
+    Q_Q(QAbstractDataProxy);
+    q->setParent(series);
     m_series = series;
 }
 

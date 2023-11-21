@@ -86,7 +86,7 @@ QT_BEGIN_NAMESPACE
  * Constructs QValue3DAxis with the given \a parent.
  */
 QValue3DAxis::QValue3DAxis(QObject *parent)
-    : QAbstract3DAxis(*(new QValue3DAxisPrivate(this)), parent)
+    : QAbstract3DAxis(*(new QValue3DAxisPrivate()), parent)
 {
     setFormatter(new QValue3DAxisFormatter);
 }
@@ -290,8 +290,8 @@ QString QValue3DAxis::stringForValue(float x)
     return formatter()->stringForValue(x, labelFormat());
 }
 
-QValue3DAxisPrivate::QValue3DAxisPrivate(QValue3DAxis *q)
-    : QAbstract3DAxisPrivate(q, QAbstract3DAxis::AxisType::Value)
+QValue3DAxisPrivate::QValue3DAxisPrivate()
+    : QAbstract3DAxisPrivate(QAbstract3DAxis::AxisType::Value)
     , m_segmentCount(5)
     , m_subSegmentCount(1)
     , m_labelFormat(Utils::defaultLabelFormat())

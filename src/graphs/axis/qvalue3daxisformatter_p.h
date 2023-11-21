@@ -28,7 +28,7 @@ class QValue3DAxisFormatterPrivate : public QObjectPrivate
     Q_DECLARE_PUBLIC(QValue3DAxisFormatter)
 
 public:
-    QValue3DAxisFormatterPrivate(QValue3DAxisFormatter *q);
+    QValue3DAxisFormatterPrivate();
     ~QValue3DAxisFormatterPrivate() override;
 
     void recalculate();
@@ -44,8 +44,6 @@ public:
     void markDirty(bool labelsChange);
 
 protected:
-    QValue3DAxisFormatter *q_ptr;
-
     bool m_needsRecalculate;
 
     float m_min;

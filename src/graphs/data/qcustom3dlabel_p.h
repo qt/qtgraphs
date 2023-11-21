@@ -24,9 +24,8 @@ class QCustom3DLabelPrivate : public QCustom3DItemPrivate
     Q_DECLARE_PUBLIC(QCustom3DLabel)
 
 public:
-    QCustom3DLabelPrivate(QCustom3DLabel *q);
-    QCustom3DLabelPrivate(QCustom3DLabel *q,
-                          const QString &text,
+    QCustom3DLabelPrivate();
+    QCustom3DLabelPrivate(const QString &text,
                           const QFont &font,
                           const QVector3D &position,
                           const QVector3D &scaling,

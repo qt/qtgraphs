@@ -43,7 +43,7 @@ QT_BEGIN_NAMESPACE
  * Constructs a category 3D axis with the parent \a parent.
  */
 QCategory3DAxis::QCategory3DAxis(QObject *parent)
-    : QAbstract3DAxis(*(new QCategory3DAxisPrivate(this)), parent)
+    : QAbstract3DAxis(*(new QCategory3DAxisPrivate()), parent)
 {}
 
 /*!
@@ -96,8 +96,8 @@ void QCategory3DAxis::setLabels(const QStringList &labels)
 /*!
  * \internal
  */
-QCategory3DAxisPrivate::QCategory3DAxisPrivate(QCategory3DAxis *q)
-    : QAbstract3DAxisPrivate(q, QAbstract3DAxis::AxisType::Category)
+QCategory3DAxisPrivate::QCategory3DAxisPrivate()
+    : QAbstract3DAxisPrivate(QAbstract3DAxis::AxisType::Category)
     , m_labelsExplicitlySet(false)
 {}
 
