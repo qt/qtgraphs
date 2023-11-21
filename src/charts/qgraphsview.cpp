@@ -197,6 +197,7 @@ void QGraphsView::mouseReleaseEvent(QMouseEvent *event)
 
 void QGraphsView::hoverMoveEvent(QHoverEvent *event)
 {
+    m_barsRenderer->handleHoverMove(event);
     m_linesRenderer->handleHoverMove(event);
 }
 

@@ -31,11 +31,13 @@ public:
     void handlePolish(QBarSeries *series);
     void updateBarSeries(QBarSeries *series);
     void handleMousePress(QMouseEvent *event);
+    void handleHoverMove(QHoverEvent *event);
 
 Q_SIGNALS:
 
 private:
     struct BarSelectionRect {
+        QBarSeries *series = nullptr;
         QBarSet *barSet = nullptr;
         QList<QRectF> rects;
     };
@@ -44,6 +46,7 @@ private:
     // QSG nodes rect has no getter so we store these separately.
     QList<BarSelectionRect> m_rectNodesInputRects;
 
+    QBarSeries *m_currentHoverSeries = nullptr;
 };
 
 #endif // BARSRENDERER_H

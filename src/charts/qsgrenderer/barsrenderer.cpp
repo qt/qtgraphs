@@ -78,10 +78,11 @@ void BarsRenderer::updateBarSeries(QBarSeries *series)
         seriesPos = 0;
         barIndexInSet = 0;
         BarSelectionRect *barSelectionRect = nullptr;
-        if (series->selectable()) {
+        if (series->selectable() || series->hoverable()) {
             m_rectNodesInputRects << BarSelectionRect();
             barSelectionRect = &m_rectNodesInputRects.last();
             barSelectionRect->barSet = s;
+            barSelectionRect->series = series;
         }
         const auto selectedBars = s->selectedBars();
         for (auto variantValue : std::as_const(v)) {
@@ -154,3 +155,35 @@ void BarsRenderer::handleMousePress(QMouseEvent *event)
         }
     }
 }
+
+void BarsRenderer::handleHoverMove(QHoverEvent *event)
+{
+    const QPointF &position = event->position();
+
+    bool hovering = false;
+    for (auto &barSelection : m_rectNodesInputRects) {
+        int indexInSet = 0;
+
+        for (auto &rect : barSelection.rects) {
+            if (rect.contains(event->position().toPoint())) {
+                const QString &name = barSelection.series->name();
+                const QPointF point(indexInSet, barSelection.barSet->at(indexInSet));
+
+                if (!m_currentHoverSeries) {
+                    m_currentHoverSeries = barSelection.series;
+                    emit barSelection.series->hoverEnter(name, position, point);
+                }
+
+                emit barSelection.series->hover(name, position, point);
+                hovering = true;
+            }
+            indexInSet++;
+        }
+    }
+
+    if (!hovering && m_currentHoverSeries) {
+        emit m_currentHoverSeries->hoverExit(m_currentHoverSeries->name(), position);
+        m_currentHoverSeries = nullptr;
+    }
+}
+

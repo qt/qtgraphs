@@ -25,6 +25,7 @@ class QAbstractSeries : public QObject, public QQmlParserStatus
     Q_PROPERTY(QString name READ name WRITE setName NOTIFY nameChanged)
     Q_PROPERTY(bool visible READ isVisible WRITE setVisible NOTIFY visibleChanged)
     Q_PROPERTY(bool selectable READ selectable WRITE setSelectable NOTIFY selectableChanged)
+    Q_PROPERTY(bool hoverable READ hoverable WRITE setHoverable NOTIFY hoverableChanged)
     Q_PROPERTY(qreal opacity READ opacity WRITE setOpacity NOTIFY opacityChanged)
     Q_PROPERTY(qreal valuesMultiplier READ valuesMultiplier WRITE setValuesMultiplier NOTIFY valuesMultiplierChanged)
     Q_PROPERTY(SeriesType type READ type)
@@ -89,6 +90,9 @@ public:
 
     QQmlListProperty<QObject> seriesChildren();
 
+    bool hoverable() const;
+    void setHoverable(bool newHoverable);
+
 public Q_SLOTS:
     static void appendSeriesChildren(QQmlListProperty<QObject> *list, QObject *element);
 
@@ -98,6 +102,7 @@ Q_SIGNALS:
     void nameChanged();
     void visibleChanged();
     void selectableChanged();
+    void hoverableChanged();
     void opacityChanged();
     void valuesMultiplierChanged();
     void hoverEnter(QString seriesName, QPointF position, QPointF value);

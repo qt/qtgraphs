@@ -303,6 +303,19 @@ bool QAbstractSeries::selectable() const
     return d_ptr->m_selectable;
 }
 
+void QAbstractSeries::setHoverable(bool hoverable)
+{
+    if (hoverable != d_ptr->m_hoverable) {
+        d_ptr->m_hoverable = hoverable;
+        emit hoverableChanged();
+    }
+}
+
+bool QAbstractSeries::hoverable() const
+{
+    return d_ptr->m_hoverable;
+}
+
 qreal QAbstractSeries::opacity() const
 {
     return d_ptr->m_opacity;

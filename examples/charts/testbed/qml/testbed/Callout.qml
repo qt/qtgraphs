@@ -23,7 +23,6 @@ Rectangle {
 
     GraphsView {
         id: chartView
-        //title: "Line Chart"
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.bottom: parent.bottom
@@ -50,32 +49,21 @@ Rectangle {
             colorTheme: SeriesTheme.SeriesTheme1
         }
 
-        LineSeries {
-            id: lineSeries1
+        BarSeries {
+            id: barSeries
             name: "First"
-            theme: seriesTheme
-            axisX: ValueAxis {
-                id: xAxis
-                max: 4
-                autoScale: false
-            }
+            hoverable: true
+            axisX: BarCategoryAxis { categories: ["2023", "2024", "2025", "2026"] }
             axisY: ValueAxis {
                 id: yAxis
                 max: 8
                 autoScale: false
             }
-
-            XYPoint { x: 0; y: 0 }
-            XYPoint { x: 1.1; y: 2.1 }
-            XYPoint { x: 1.9; y: 3.3 }
-            XYPoint { x: 2.1; y: 2.1 }
-            XYPoint { x: 2.9; y: 4.9 }
-            XYPoint { x: 3.4; y: 3.0 }
-            XYPoint { x: 4.0; y: 3.3 }
+            BarSet { id: set1; label: "Axel"; values: [1, 2, 3, 4] }
         }
 
         LineSeries {
-            id: lineSeries2
+            id: lineSeries
             name: "Second"
             theme: seriesTheme
 
@@ -89,9 +77,10 @@ Rectangle {
         }
 
         LineSeries {
-            id: lineSeries3
+            id: lineSeries2
             name: "Third"
             theme: seriesTheme
+
             XYPoint { x: 0; y: 2.6 }
             XYPoint { x: 0.2; y: 3.1 }
             XYPoint { x: 1.3; y: 6.3 }

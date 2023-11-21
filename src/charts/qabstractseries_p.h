@@ -87,6 +87,7 @@ private:
     QString m_name;
     bool m_visible;
     bool m_selectable = false;
+    bool m_hoverable = false;
     qreal m_opacity;
     qreal m_valuesMultiplier;
 //    ChartPresenter *m_presenter;
