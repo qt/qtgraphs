@@ -6,7 +6,10 @@ import QtGraphs
 
 Rectangle {
     anchors.fill: parent
-    color: "#404040"
+    gradient: Gradient {
+        GradientStop { position: 0.0; color: "#d0d020" }
+        GradientStop { position: 1.0; color: "#406020" }
+    }
 
     GraphsView {
         id: chartView
@@ -17,9 +20,24 @@ Rectangle {
             id: myTheme
             colorTheme: GraphTheme.ColorThemeDark
             axisXLabelsFont.pixelSize: 20
+            gridMajorBarsColor: "#ffffff"
+            gridMinorBarsColor: "#eeeeee"
+            axisYMajorColor: "#ffffff"
+            axisYMinorColor: "#eeeeee"
+            axisXMajorColor: "#ffffff"
+            axisXMinorColor: "#eeeeee"
+            shadowEnabled: checkBoxShadowEnabled.checked
+            shadowColor: "#80404040"
+        }
+        SeriesTheme {
+            id: customSeriesTheme
+            colors: ["#dd444444", "#dd555555", "#dd666666", "#dd777777", "#dd888888"]
+            borderColors: ["#111111", "#222222", "#333333", "#444444", "#555555"]
+            borderWidth: 2
         }
         BarSeries {
             id: mySeries
+            theme: customSeriesTheme
             axisX: BarCategoryAxis {
                 id: xAxis
                 visible: checkBoxAxisXVisible.checked
@@ -42,6 +60,11 @@ Rectangle {
             }
 
             BarSet { id: set1; label: "Bob"; values: [1, 2, 3, 4, 5, 6] }
+            BarSet { id: set2; label: "Frank"; values: [8, 8, 6, 0, 5, 3] }
+            BarSet { id: set3; label: "James"; values: [4, 3, 2, 6, 4, 2] }
+            BarSet { id: set5; label: "Frank"; values: [8, 4, 3, 1, 8, 5] }
+            BarSet { id: set6; label: "James"; values: [5, 2, 5, 7, 1, 2] }
+
         }
     }
 
@@ -164,6 +187,51 @@ Rectangle {
             fromValue: 0
             toValue: 9
             onSliderValueChanged: yAxis.minorTickCount = sliderValue;
+        }
+        CustomCheckBox {
+            id: checkBoxShadowEnabled
+            text: "Shadow: Enabled"
+            checked: true
+        }
+        CustomLabel {
+            text: "Shadow: Opacity"
+        }
+        CustomSlider {
+            id: sliderShadowOpacity
+            sliderValue: myTheme.shadowColor.a
+            fromValue: 0
+            toValue: 1
+            onSliderValueChanged: myTheme.shadowColor.a = sliderValue;
+        }
+        CustomLabel {
+            text: "Shadow: Smoothing"
+        }
+        CustomSlider {
+            id: sliderShadowSmoothing
+            sliderValue: myTheme.shadowSmoothing
+            fromValue: 0
+            toValue: 10
+            onSliderValueChanged: myTheme.shadowSmoothing = sliderValue;
+        }
+        CustomLabel {
+            text: "Shadow: OffsetX"
+        }
+        CustomSlider {
+            id: sliderShadowOffsetX
+            sliderValue: myTheme.shadowXOffset
+            fromValue: -2
+            toValue: 2
+            onSliderValueChanged: myTheme.shadowXOffset = sliderValue;
+        }
+        CustomLabel {
+            text: "Shadow: OffsetY"
+        }
+        CustomSlider {
+            id: sliderShadowOffsetY
+            sliderValue: myTheme.shadowYOffset
+            fromValue: -2
+            toValue: 2
+            onSliderValueChanged: myTheme.shadowYOffset = sliderValue;
         }
     }
 }

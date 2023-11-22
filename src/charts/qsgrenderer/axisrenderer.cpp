@@ -61,6 +61,47 @@ void AxisRenderer::handlePolish()
         m_axisTickerHorizontal->setupShaders();
     }
 
+    // TODO: Create shadows only when needed
+    if (!m_axisGridShadow) {
+        m_axisGridShadow = new AxisGrid();
+        m_axisGridShadow->setParentItem(this);
+        m_axisGridShadow->setZ(-3);
+        m_axisGridShadow->setupShaders();
+        m_axisGridShadow->setOrigo(0);
+    }
+    if (!m_axisLineVerticalShadow) {
+        m_axisLineVerticalShadow = new AxisLine();
+        m_axisLineVerticalShadow->setParentItem(this);
+        m_axisLineVerticalShadow->setZ(-3);
+        m_axisLineVerticalShadow->setupShaders();
+    }
+    if (!m_axisTickerVerticalShadow) {
+        m_axisTickerVerticalShadow = new AxisTicker();
+        m_axisTickerVerticalShadow->setParentItem(this);
+        m_axisTickerVerticalShadow->setZ(-3);
+        m_axisTickerVerticalShadow->setOrigo(0);
+        // TODO: Configurable in theme or axis?
+        m_axisTickerVerticalShadow->setMinorBarsLength(m_axisTickerVertical->minorBarsLength());
+        m_axisTickerVerticalShadow->setupShaders();
+    }
+    if (!m_axisLineHorizontalShadow) {
+        m_axisLineHorizontalShadow = new AxisLine();
+        m_axisLineHorizontalShadow->setParentItem(this);
+        m_axisLineHorizontalShadow->setZ(-3);
+        m_axisLineHorizontalShadow->setupShaders();
+    }
+    if (!m_axisTickerHorizontalShadow) {
+        m_axisTickerHorizontalShadow = new AxisTicker();
+        m_axisTickerHorizontalShadow->setParentItem(this);
+        m_axisTickerHorizontalShadow->setZ(-3);
+        m_axisTickerHorizontalShadow->setIsHorizontal(true);
+        m_axisTickerHorizontalShadow->setOrigo(0);
+        m_axisTickerHorizontalShadow->setBarsMovement(0.0);
+        // TODO: Configurable in theme or axis?
+        m_axisTickerHorizontalShadow->setMinorBarsLength(m_axisTickerHorizontal->minorBarsLength());
+        m_axisTickerHorizontalShadow->setupShaders();
+    }
+
     updateAxis();
 }
 
@@ -130,7 +171,9 @@ void AxisRenderer::updateAxis()
     }
 
     updateAxisTickers();
+    updateAxisTickersShadow();
     updateAxisGrid();
+    updateAxisGridShadow();
 }
 
 void AxisRenderer::updateAxisTickers()
@@ -139,8 +182,8 @@ void AxisRenderer::updateAxisTickers()
         if (theme()->themeDirty()) {
             m_axisTickerVertical->setMinorColor(theme()->axisYMinorColor());
             m_axisTickerVertical->setMajorColor(theme()->axisYMajorColor());
-            m_axisTickerVertical->setMinorBarWidth(theme()->axisYMajorBarWidth());
-            m_axisTickerVertical->setMajorBarWidth(theme()->axisYMinorBarWidth());
+            m_axisTickerVertical->setMajorBarWidth(theme()->axisYMajorBarWidth());
+            m_axisTickerVertical->setMinorBarWidth(theme()->axisYMinorBarWidth());
             m_axisTickerVertical->setSmoothing(theme()->axisYSmoothing());
         }
         // TODO Only when changed
@@ -176,8 +219,8 @@ void AxisRenderer::updateAxisTickers()
         if (theme()->themeDirty()) {
             m_axisTickerHorizontal->setMinorColor(theme()->axisXMinorColor());
             m_axisTickerHorizontal->setMajorColor(theme()->axisXMajorColor());
-            m_axisTickerHorizontal->setMinorBarWidth(theme()->axisXMajorBarWidth());
-            m_axisTickerHorizontal->setMajorBarWidth(theme()->axisXMinorBarWidth());
+            m_axisTickerHorizontal->setMajorBarWidth(theme()->axisXMajorBarWidth());
+            m_axisTickerHorizontal->setMinorBarWidth(theme()->axisXMinorBarWidth());
             m_axisTickerHorizontal->setSmoothing(theme()->axisXSmoothing());
         }
         // TODO Only when changed
@@ -208,6 +251,72 @@ void AxisRenderer::updateAxisTickers()
     }
 }
 
+void AxisRenderer::updateAxisTickersShadow()
+{
+    if (m_axisVertical && theme()->shadowEnabled()) {
+        m_axisTickerVerticalShadow->setMinorColor(theme()->shadowColor());
+        m_axisTickerVerticalShadow->setMajorColor(theme()->shadowColor());
+        m_axisTickerVerticalShadow->setMinorBarWidth(m_axisTickerVertical->minorBarWidth() + theme()->shadowBarWidth());
+        m_axisTickerVerticalShadow->setMajorBarWidth(m_axisTickerVertical->majorBarWidth() + theme()->shadowBarWidth());
+        m_axisTickerVerticalShadow->setSmoothing(m_axisTickerVertical->smoothing() + theme()->shadowSmoothing());
+
+        // TODO Only when changed
+        m_axisTickerVerticalShadow->setBarsMovement(m_axisTickerVertical->barsMovement());
+        m_axisTickerVerticalShadow->setX(m_axisTickerVertical->x() + theme()->shadowXOffset());
+        m_axisTickerVerticalShadow->setY(m_axisTickerVertical->y() + theme()->shadowYOffset());
+        m_axisTickerVerticalShadow->setWidth(m_axisTickerVertical->width());
+        m_axisTickerVerticalShadow->setHeight(m_axisTickerVertical->height());
+        m_axisTickerVerticalShadow->setSpacing(m_axisTickerVertical->spacing());
+        m_axisTickerVerticalShadow->setMinorBarsVisible(m_axisTickerVertical->minorBarsVisible());
+        m_axisTickerVerticalShadow->setMinorTickScale(m_axisTickerVertical->minorTickScale());
+        m_axisTickerVerticalShadow->setVisible(true);
+        // Axis line
+        m_axisLineVerticalShadow->setColor(theme()->shadowColor());
+        m_axisLineVerticalShadow->setLineWidth(m_axisLineVertical->lineWidth() + theme()->shadowBarWidth());
+        m_axisLineVerticalShadow->setSmoothing(m_axisLineVertical->smoothing() + theme()->shadowSmoothing());
+        m_axisLineVerticalShadow->setX(m_axisLineVertical->x() + theme()->shadowXOffset());
+        m_axisLineVerticalShadow->setY(m_axisLineVertical->y() + theme()->shadowYOffset());
+        m_axisLineVerticalShadow->setWidth(m_axisLineVertical->width());
+        m_axisLineVerticalShadow->setHeight(m_axisLineVertical->height());
+        m_axisLineVerticalShadow->setVisible(m_axisLineVertical->isVisible());
+    } else {
+        // Hide all parts of vertical axis
+        m_axisTickerVerticalShadow->setVisible(false);
+        m_axisLineVerticalShadow->setVisible(false);
+    }
+
+    if (m_axisHorizontal && theme()->shadowEnabled()) {
+        m_axisTickerHorizontalShadow->setMinorColor(theme()->shadowColor());
+        m_axisTickerHorizontalShadow->setMajorColor(theme()->shadowColor());
+        m_axisTickerHorizontalShadow->setMinorBarWidth(m_axisTickerHorizontal->minorBarWidth() + theme()->shadowBarWidth());
+        m_axisTickerHorizontalShadow->setMajorBarWidth(m_axisTickerHorizontal->majorBarWidth() + theme()->shadowBarWidth());
+        m_axisTickerHorizontalShadow->setSmoothing(m_axisTickerHorizontal->smoothing() + theme()->shadowSmoothing());
+
+        // TODO Only when changed
+        m_axisTickerHorizontalShadow->setX(m_axisTickerHorizontal->x() + theme()->shadowXOffset());
+        m_axisTickerHorizontalShadow->setY(m_axisTickerHorizontal->y() + theme()->shadowYOffset());
+        m_axisTickerHorizontalShadow->setWidth(m_axisTickerHorizontal->width());
+        m_axisTickerHorizontalShadow->setHeight(m_axisTickerHorizontal->height());
+        m_axisTickerHorizontalShadow->setSpacing(m_axisTickerHorizontal->spacing());
+        m_axisTickerHorizontalShadow->setMinorBarsVisible(m_axisTickerHorizontal->minorBarsVisible());
+        m_axisTickerHorizontalShadow->setMinorTickScale(m_axisTickerHorizontal->minorTickScale());
+        m_axisTickerHorizontalShadow->setVisible(true);
+        // Axis line
+        m_axisLineHorizontalShadow->setColor(theme()->shadowColor());
+        m_axisLineHorizontalShadow->setLineWidth(m_axisLineHorizontal->width() + theme()->shadowBarWidth());
+        m_axisLineHorizontalShadow->setSmoothing(m_axisLineHorizontal->smoothing() + theme()->shadowSmoothing());
+        m_axisLineHorizontalShadow->setX(m_axisLineHorizontal->x() + theme()->shadowXOffset());
+        m_axisLineHorizontalShadow->setY(m_axisLineHorizontal->y() + theme()->shadowYOffset());
+        m_axisLineHorizontalShadow->setWidth(m_axisLineHorizontal->width());
+        m_axisLineHorizontalShadow->setHeight(m_axisLineHorizontal->height());
+        m_axisLineHorizontalShadow->setVisible(m_axisLineHorizontal->isVisible());
+    } else {
+        // Hide all parts of horizontal axis
+        m_axisTickerHorizontalShadow->setVisible(false);
+        m_axisLineHorizontalShadow->setVisible(false);
+    }
+}
+
 void AxisRenderer::updateAxisGrid()
 {
     if (theme()->themeDirty()) {
@@ -232,6 +341,33 @@ void AxisRenderer::updateAxisGrid()
                                             m_gridVerticalMinorTicksVisible));
     m_axisGrid->setVerticalMinorTickScale(m_axisVerticalMinorTickScale);
     m_axisGrid->setHorizontalMinorTickScale(m_axisHorizontalMinorTickScale);
+}
+
+void AxisRenderer::updateAxisGridShadow()
+{
+    if (theme()->shadowEnabled()) {
+        m_axisGridShadow->setMajorColor(theme()->shadowColor());
+        m_axisGridShadow->setMinorColor(theme()->shadowColor());
+        m_axisGridShadow->setMinorBarWidth(m_axisGrid->minorBarWidth() + theme()->shadowBarWidth());
+        m_axisGridShadow->setMajorBarWidth(m_axisGrid->majorBarWidth() + theme()->shadowBarWidth());
+        m_axisGridShadow->setSmoothing(m_axisGrid->smoothing() + theme()->shadowSmoothing());
+
+        // TODO Only when changed
+        m_axisGridShadow->setGridMovement(m_axisGrid->gridMovement());
+
+        m_axisGridShadow->setX(m_axisGrid->x() + theme()->shadowXOffset());
+        m_axisGridShadow->setY(m_axisGrid->y() + theme()->shadowYOffset());
+        m_axisGridShadow->setWidth(m_axisGrid->width());
+        m_axisGridShadow->setHeight(m_axisGrid->height());
+        m_axisGridShadow->setGridWidth(m_axisGrid->gridWidth());
+        m_axisGridShadow->setGridHeight(m_axisGrid->gridHeight());
+        m_axisGridShadow->setBarsVisibility(m_axisGrid->barsVisibility());
+        m_axisGridShadow->setVerticalMinorTickScale(m_axisGrid->verticalMinorTickScale());
+        m_axisGridShadow->setHorizontalMinorTickScale(m_axisGrid->horizontalMinorTickScale());
+        m_axisGridShadow->setVisible(true);
+    } else {
+        m_axisGridShadow->setVisible(false);
+    }
 }
 
 void AxisRenderer::updateBarXAxisLabels(QBarCategoryAxis *axis, const QRectF &rect)

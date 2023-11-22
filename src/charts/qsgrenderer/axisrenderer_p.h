@@ -39,7 +39,9 @@ public:
     void handlePolish();
     void updateAxis();
     void updateAxisTickers();
+    void updateAxisTickersShadow();
     void updateAxisGrid();
+    void updateAxisGridShadow();
     void updateBarXAxisLabels(QBarCategoryAxis *axis, const QRectF &rect);
     void updateValueYAxisLabels(QValueAxis *axis, const QRectF &rect);
 
@@ -62,6 +64,13 @@ private:
     AxisTicker *m_axisTickerHorizontal = nullptr;
     AxisLine *m_axisLineVertical = nullptr;
     AxisLine *m_axisLineHorizontal = nullptr;
+
+    // Shadow
+    AxisGrid *m_axisGridShadow = nullptr;
+    AxisTicker *m_axisTickerVerticalShadow = nullptr;
+    AxisTicker *m_axisTickerHorizontalShadow = nullptr;
+    AxisLine *m_axisLineVerticalShadow = nullptr;
+    AxisLine *m_axisLineHorizontalShadow = nullptr;
 
     // Min value
     double m_axisVerticalMaxValue = 20;

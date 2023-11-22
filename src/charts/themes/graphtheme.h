@@ -39,6 +39,13 @@ class GraphTheme : public QObject, public QQmlParserStatus
     Q_PROPERTY(QColor axisXLabelsColor READ axisXLabelsColor WRITE setAxisXLabelsColor NOTIFY axisXLabelsColorChanged FINAL)
     Q_PROPERTY(QFont axisXLabelsFont READ axisXLabelsFont WRITE setAxisXLabelsFont NOTIFY axisXLabelsFontChanged FINAL)
 
+    Q_PROPERTY(bool shadowEnabled READ shadowEnabled WRITE setShadowEnabled NOTIFY shadowEnabledChanged FINAL)
+    Q_PROPERTY(QColor shadowColor READ shadowColor WRITE setShadowColor NOTIFY shadowColorChanged FINAL)
+    Q_PROPERTY(qreal shadowBarWidth READ shadowBarWidth WRITE setShadowBarWidth NOTIFY shadowBarWidthChanged FINAL)
+    Q_PROPERTY(qreal shadowXOffset READ shadowXOffset WRITE setShadowXOffset NOTIFY shadowXOffsetChanged FINAL)
+    Q_PROPERTY(qreal shadowYOffset READ shadowYOffset WRITE setShadowYOffset NOTIFY shadowYOffsetChanged FINAL)
+    Q_PROPERTY(qreal shadowSmoothing READ shadowSmoothing WRITE setShadowSmoothing NOTIFY shadowSmoothingChanged FINAL)
+
     Q_ENUMS(ColorTheme)
     QML_ELEMENT
 
@@ -120,6 +127,24 @@ public:
     QFont axisXLabelsFont() const;
     void setAxisXLabelsFont(const QFont &newAxisXLabelsFont);
 
+    bool shadowEnabled() const;
+    void setShadowEnabled(bool newShadowEnabled);
+
+    QColor shadowColor() const;
+    void setShadowColor(const QColor &newShadowColor);
+
+    qreal shadowBarWidth() const;
+    void setShadowBarWidth(qreal newShadowBarWidth);
+
+    qreal shadowXOffset() const;
+    void setShadowXOffset(qreal newShadowXOffset);
+
+    qreal shadowYOffset() const;
+    void setShadowYOffset(qreal newShadowYOffset);
+
+    qreal shadowSmoothing() const;
+    void setShadowSmoothing(qreal newShadowSmoothing);
+
 Q_SIGNALS:
     void update();
     void colorThemeChanged();
@@ -144,6 +169,13 @@ Q_SIGNALS:
     void axisXSmoothingChanged();
     void axisXLabelsColorChanged();
     void axisXLabelsFontChanged();
+
+    void shadowEnabledChanged();
+    void shadowColorChanged();
+    void shadowBarWidthChanged();
+    void shadowXOffsetChanged();
+    void shadowYOffsetChanged();
+    void shadowSmoothingChanged();
 
 protected:
     // from QDeclarativeParserStatus
@@ -186,18 +218,24 @@ private:
     QColor m_gridMinorBarsColor;
     QColor m_axisYMajorColor;
     QColor m_axisYMinorColor;
-    qreal m_axisYMajorBarWidth = 1.0;
+    qreal m_axisYMajorBarWidth = 2.0;
     qreal m_axisYMinorBarWidth = 1.0;
     qreal m_axisYSmoothing = 1.0;
     QColor m_axisYLabelsColor;
     QFont m_axisYLabelsFont;
     QColor m_axisXMajorColor;
     QColor m_axisXMinorColor;
-    qreal m_axisXMajorBarWidth = 1.0;
+    qreal m_axisXMajorBarWidth = 2.0;
     qreal m_axisXMinorBarWidth = 1.0;
     qreal m_axisXSmoothing = 1.0;
     QColor m_axisXLabelsColor;
     QFont m_axisXLabelsFont;
+    bool m_shadowEnabled = false;
+    QColor m_shadowColor;
+    qreal m_shadowBarWidth = 0.0;
+    qreal m_shadowXOffset = 0.0;
+    qreal m_shadowYOffset = 0.0;
+    qreal m_shadowSmoothing = 5.0;
 };
 
 QT_END_NAMESPACE

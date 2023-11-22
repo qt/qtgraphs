@@ -375,4 +375,89 @@ void GraphTheme::setAxisXLabelsFont(const QFont &newAxisXLabelsFont)
     emit axisXLabelsFontChanged();
 }
 
+bool GraphTheme::shadowEnabled() const
+{
+    return m_shadowEnabled;
+}
+
+void GraphTheme::setShadowEnabled(bool newShadowEnabled)
+{
+    if (m_shadowEnabled == newShadowEnabled)
+        return;
+    m_shadowEnabled = newShadowEnabled;
+    updateTheme();
+    emit shadowEnabledChanged();
+}
+
+
+QColor GraphTheme::shadowColor() const
+{
+    return m_shadowColor;
+}
+
+void GraphTheme::setShadowColor(const QColor &newShadowColor)
+{
+    if (m_shadowColor == newShadowColor)
+        return;
+    m_shadowColor = newShadowColor;
+    updateTheme();
+    emit shadowColorChanged();
+}
+
+qreal GraphTheme::shadowBarWidth() const
+{
+    return m_shadowBarWidth;
+}
+
+void GraphTheme::setShadowBarWidth(qreal newShadowBarWidth)
+{
+    if (qFuzzyCompare(m_shadowBarWidth, newShadowBarWidth))
+        return;
+    m_shadowBarWidth = newShadowBarWidth;
+    updateTheme();
+    emit shadowBarWidthChanged();
+}
+
+qreal GraphTheme::shadowXOffset() const
+{
+    return m_shadowXOffset;
+}
+
+void GraphTheme::setShadowXOffset(qreal newShadowXOffset)
+{
+    if (qFuzzyCompare(m_shadowXOffset, newShadowXOffset))
+        return;
+    m_shadowXOffset = newShadowXOffset;
+    updateTheme();
+    emit shadowXOffsetChanged();
+}
+
+qreal GraphTheme::shadowYOffset() const
+{
+    return m_shadowYOffset;
+}
+
+void GraphTheme::setShadowYOffset(qreal newShadowYOffset)
+{
+    if (qFuzzyCompare(m_shadowYOffset, newShadowYOffset))
+        return;
+    m_shadowYOffset = newShadowYOffset;
+    updateTheme();
+    emit shadowYOffsetChanged();
+}
+
+qreal GraphTheme::shadowSmoothing() const
+{
+    return m_shadowSmoothing;
+}
+
+void GraphTheme::setShadowSmoothing(qreal newShadowSmoothing)
+{
+    if (qFuzzyCompare(m_shadowSmoothing, newShadowSmoothing))
+        return;
+    m_shadowSmoothing = newShadowSmoothing;
+    updateTheme();
+    emit shadowSmoothingChanged();
+}
+
 QT_END_NAMESPACE
