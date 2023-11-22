@@ -2042,18 +2042,18 @@ void QQuickGraphsItem::synchData()
         m_changedSeriesList.clear();
     }
 
-    if (m_isDataDirty) {
-        forceUpdateCustomVolumes = true;
-        updateGraph();
-        m_isDataDirty = false;
-    }
-
     if (m_isSeriesVisualsDirty) {
         forceUpdateCustomVolumes = true;
         updateGrid();
         updateLabels();
         updateGraph();
         m_isSeriesVisualsDirty = false;
+    }
+
+    if (m_isDataDirty) {
+        forceUpdateCustomVolumes = true;
+        updateGraph();
+        m_isDataDirty = false;
     }
 
     if (m_sliceActivatedChanged)

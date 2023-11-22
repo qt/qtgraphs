@@ -432,11 +432,14 @@ void GraphModifier::setReverseValueAxis(int enabled)
 
 void GraphModifier::changeDataMode(bool customData)
 {
+    int enabled = false;
     // Change between weather data and data from custom proxy
     if (customData) {
         m_graph->removeSeries(m_primarySeries);
         m_graph->removeSeries(m_secondarySeries);
         m_graph->addSeries(m_customData->customSeries());
+        if (m_graph->valueAxis()->reversed())
+            enabled = true;
         m_graph->setValueAxis(m_customData->valueAxis());
         m_graph->setRowAxis(m_customData->rowAxis());
         m_graph->setColumnAxis(m_customData->colAxis());
@@ -444,8 +447,11 @@ void GraphModifier::changeDataMode(bool customData)
         m_graph->removeSeries(m_customData->customSeries());
         m_graph->addSeries(m_primarySeries);
         m_graph->addSeries(m_secondarySeries);
+        if (m_graph->valueAxis()->reversed())
+            enabled = true;
         m_graph->setValueAxis(m_temperatureAxis);
         m_graph->setRowAxis(m_yearAxis);
         m_graph->setColumnAxis(m_monthAxis);
     }
+    setReverseValueAxis(enabled);
 }
