@@ -761,8 +761,6 @@ void QQuickGraphsBars::updateGraph()
         if (isSliceEnabled()) {
             removeSlicedBarModels();
             createSliceView();
-            updateSliceGrid();
-            updateSliceLabels();
 
             for (const auto &barSeries : std::as_const(barSeriesAsList)) {
                 bool visible = !(sliceView()->isVisible() ^ barSeries->isVisible());

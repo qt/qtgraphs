@@ -557,15 +557,15 @@ void QQuickGraphsItem::setAxisHelper(QAbstract3DAxis::AxisOrientation orientatio
                          this,
                          &QQuickGraphsItem::handleAxisReversedChanged);
         // TODO: Handle this somehow (add API to QValue3DAxis?)
-//        QObject::connect(valueAxis->d_func(), &QValue3DAxisPrivate::formatterDirty,
-//                         this, &Abstract3DController::handleAxisFormatterDirty);
+        //        QObject::connect(valueAxis->d_func(), &QValue3DAxisPrivate::formatterDirty,
+        //                         this, &Abstract3DController::handleAxisFormatterDirty);
 
         handleAxisSegmentCountChangedBySender(valueAxis);
         handleAxisSubSegmentCountChangedBySender(valueAxis);
         handleAxisLabelFormatChangedBySender(valueAxis);
         handleAxisReversedChangedBySender(valueAxis);
         // TODO: Handle this somehow (add API to QValue3DAxis?)
-//        handleAxisFormatterDirtyBySender(valueAxis->d_func());
+        //        handleAxisFormatterDirtyBySender(valueAxis->d_func());
 
         valueAxis->formatter()->setLocale(m_locale);
     }
@@ -2046,6 +2046,10 @@ void QQuickGraphsItem::synchData()
         forceUpdateCustomVolumes = true;
         updateGrid();
         updateLabels();
+        if (m_sliceView && isSliceEnabled()) {
+            updateSliceGrid();
+            updateSliceLabels();
+        }
         updateGraph();
         m_isSeriesVisualsDirty = false;
     }
@@ -3848,9 +3852,15 @@ void QQuickGraphsItem::updateCustomData()
                     volumeItem.sliceFrameY->setVisible(true);
                     volumeItem.sliceFrameZ->setVisible(true);
 
-                    QVector3D sliceIndices((float(volume->sliceIndexX()) + 0.5f) / float(volume->textureWidth()) * 2.0 - 1.0,
-                                           (float(volume->sliceIndexY()) + 0.5f) / float(volume->textureHeight()) * 2.0 - 1.0,
-                                           (float(volume->sliceIndexZ()) + 0.5f) / float(volume->textureDepth()) * 2.0 - 1.0);
+                    QVector3D sliceIndices((float(volume->sliceIndexX()) + 0.5f)
+                                                   / float(volume->textureWidth()) * 2.0
+                                               - 1.0,
+                                           (float(volume->sliceIndexY()) + 0.5f)
+                                                   / float(volume->textureHeight()) * 2.0
+                                               - 1.0,
+                                           (float(volume->sliceIndexZ()) + 0.5f)
+                                                   / float(volume->textureDepth()) * 2.0
+                                               - 1.0);
 
                     volumeItem.sliceFrameX->setX(sliceIndices.x());
                     volumeItem.sliceFrameY->setY(-sliceIndices.y());
@@ -5179,10 +5189,13 @@ void QQuickGraphsItem::updateSliceLabels()
     QColor backgroundColor = theme()->labelBackgroundColor();
 
     if (horizontalAxis->type() == QAbstract3DAxis::AxisType::Value) {
-        auto valueAxis = static_cast<QValue3DAxis *>(horizontalAxis);
         for (int i = 0; i < m_sliceHorizontalLabelRepeater->count(); i++) {
             auto obj = static_cast<QQuick3DNode *>(m_sliceHorizontalLabelRepeater->objectAt(i));
-            labelTrans.setX(valueAxis->labelPositionAt(i) * scale * 2.0f - translate);
+            // It is important to use the position of vertical grids so that they can be in the same
+            // position when col/row ranges are updated.
+            QQuick3DNode *lineNode = static_cast<QQuick3DNode *>(
+                m_sliceVerticalGridRepeater->objectAt(i));
+            labelTrans.setX(lineNode->x());
             labelTrans.setY(-yPos - adjustment);
             obj->setScale(fontScaled);
             obj->setPosition(labelTrans);

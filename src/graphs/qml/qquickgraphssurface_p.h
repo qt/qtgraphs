@@ -158,6 +158,7 @@ protected:
 
     void createSliceView() override;
     void updateSliceItemLabel(QString label, const QVector3D &position) override;
+    void updateSelectionMode(QAbstract3DGraph::SelectionFlags mode) override;
 
 public Q_SLOTS:
     void handleAxisXChanged(QAbstract3DAxis *axis) override;
@@ -243,6 +244,7 @@ private:
     SurfaceSelectionInstancing *m_sliceInstancing = nullptr;
 
     bool m_isIndexDirty = true;
+    bool m_selectionDirty = false;
 
     Surface3DChangeBitField m_changeTracker;
     QPoint m_selectedPoint;

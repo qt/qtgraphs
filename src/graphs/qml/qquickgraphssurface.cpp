@@ -1,9 +1,9 @@
 // Copyright (C) 2023 The Qt Company Ltd.
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 
+#include <QtCore/QMutexLocker>
 #include "private/qquick3drepeater_p.h"
 #include "qquickgraphssurface_p.h"
-#include <QtCore/QMutexLocker>
 
 #include "qcategory3daxis_p.h"
 #include "qquickgraphssurface_p.h"
@@ -827,8 +827,18 @@ void QQuickGraphsSurface::updateGraph()
             }
         }
 
-        if (sliceView() && sliceView()->isVisible())
-            updateSliceGraph();
+        if (isSliceEnabled()) {
+            if (!sliceView())
+                createSliceView();
+            QList<QSurface3DSeries *> surfaceSeriesAsList = surfaceSeriesList();
+            for (const auto &surfaceSeries : std::as_const(surfaceSeriesAsList)) {
+                bool visible = !(sliceView()->isVisible() ^ surfaceSeries->isVisible());
+                if (m_selectedSeries == surfaceSeries) {
+                    setSliceActivatedChanged(true);
+                    m_selectionDirty = !visible;
+                }
+            }
+        }
 
         setDataDirty(false);
         setSeriesVisualsDirty(false);
@@ -1021,6 +1031,7 @@ void QQuickGraphsSurface::updateModel(SurfaceModel *model)
             if (sliceView() && sliceView()->isVisible()) {
                 setSlicingActive(false);
                 setSliceActivatedChanged(true);
+                m_selectionDirty = true;
             }
         }
         int totalSize = rowCount * columnCount * 2;
@@ -1442,10 +1453,8 @@ QVector3D QQuickGraphsSurface::getNormalizedVertex(const QSurfaceDataItem &data,
 
 void QQuickGraphsSurface::updateSliceGraph()
 {
-    if (!sliceView())
-        createSliceView();
-
-    QQuickGraphsItem::updateSliceGraph();
+    if (m_selectionDirty)
+        QQuickGraphsItem::updateSliceGraph();
 
     setSelectedPointChanged(true);
 
@@ -1730,6 +1739,7 @@ bool QQuickGraphsSurface::doPicking(const QPointF &position)
     if (!QQuickGraphsItem::doPicking(position))
         return false;
 
+    m_selectionDirty = true;
     auto pickResult = pickAll(position.x(), position.y());
     QVector3D pickedPos(0.0f, 0.0f, 0.0f);
     QQuick3DModel *pickedModel = nullptr;
@@ -1987,6 +1997,26 @@ void QQuickGraphsSurface::updateSliceItemLabel(QString label, const QVector3D &p
     labelPosition.setY(position.y() + .05f);
     sliceItemLabel()->setPosition(labelPosition);
     sliceItemLabel()->setProperty("labelText", label);
+}
+
+void QQuickGraphsSurface::updateSelectionMode(QAbstract3DGraph::SelectionFlags mode)
+{
+    checkSliceEnabled();
+    if (mode.testFlag(QAbstract3DGraph::SelectionSlice)
+        && m_selectedPoint != invalidSelectionPosition()) {
+        setSliceActivatedChanged(true);
+        m_selectionDirty = !(sliceView() && sliceView()->isVisible());
+    } else {
+        if (sliceView() && sliceView()->isVisible()) {
+            m_selectionDirty = true;
+            setSliceActivatedChanged(true);
+        }
+    }
+
+    setSeriesVisualsDirty(true);
+    itemLabel()->setVisible(false);
+    if (sliceView() && sliceView()->isVisible())
+        sliceItemLabel()->setVisible(false);
 }
 
 void QQuickGraphsSurface::addSliceModel(SurfaceModel *model)
