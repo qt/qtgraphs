@@ -12,6 +12,7 @@ Rectangle {
         id: chartView
         anchors.fill: parent
         anchors.margins: 20 * px
+        anchors.rightMargin: settingsView.posX + 20 * px
         theme: GraphTheme {
             id: myTheme
             colorTheme: GraphTheme.ColorThemeDark
@@ -45,6 +46,7 @@ Rectangle {
     }
 
     SettingsView {
+        id: settingsView
         CustomLabel {
             text: "Margin: Left"
         }

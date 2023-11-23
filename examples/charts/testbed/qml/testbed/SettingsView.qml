@@ -7,6 +7,7 @@ import QtQuick.Controls
 Item {
     id: rootItem
     property real showState: settings.showSettingsView ? 1.0 : 0.0
+    readonly property real posX: Window.window.width - settingsDrawer.x
 
     default property alias content: settingsArea.children
 
