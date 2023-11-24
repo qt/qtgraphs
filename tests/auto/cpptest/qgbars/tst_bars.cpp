@@ -5,8 +5,6 @@
 
 #include <QtGraphs/Q3DBars>
 #include <QtGraphs/QCustom3DItem>
-#include <QtGraphs/Q3DInputHandler>
-#include <QtGraphs/QTouch3DInputHandler>
 
 #include "cpptestutil.h"
 
@@ -32,10 +30,6 @@ private slots:
     void removeSeries();
     void removeMultipleSeries();
     void hasSeries();
-
-    // The following tests are not required for scatter or surface, as they are handled identically
-    void addInputHandler();
-    void removeInputHandler();
 
     void addTheme();
     void removeTheme();
@@ -271,46 +265,6 @@ void tst_bars::hasSeries()
     QCOMPARE(m_graph->hasSeries(series1), true);
     QBar3DSeries *series2 = newSeries();
     QCOMPARE(m_graph->hasSeries(series2), false);
-}
-
-// The following tests are not required for scatter or surface, as they are handled identically
-void tst_bars::addInputHandler()
-{
-    Q3DInputHandler *handler = new Q3DInputHandler();
-    QTouch3DInputHandler *handler2 = new QTouch3DInputHandler();
-    QAbstract3DInputHandler *initialHandler = m_graph->activeInputHandler();
-
-    m_graph->addInputHandler(handler);
-    m_graph->addInputHandler(handler2);
-
-    QCOMPARE(m_graph->inputHandlers().size(), 3); // Default, as it is still active, plus added ones
-    QCOMPARE(m_graph->activeInputHandler(), initialHandler);
-    m_graph->setActiveInputHandler(handler2);
-    QCOMPARE(m_graph->activeInputHandler(), handler2);
-
-    m_graph->setActiveInputHandler(nullptr);
-    QVERIFY(!m_graph->activeInputHandler());
-    QCOMPARE(m_graph->inputHandlers().size(), 2);
-}
-
-void tst_bars::removeInputHandler()
-{
-    Q3DInputHandler *handler = new Q3DInputHandler();
-    QTouch3DInputHandler *handler2 = new QTouch3DInputHandler();
-
-    m_graph->addInputHandler(handler);
-    m_graph->addInputHandler(handler2);
-
-    m_graph->setActiveInputHandler(handler2);
-    QCOMPARE(m_graph->inputHandlers().size(), 2); // Default handler removed by previous call
-    QCOMPARE(m_graph->activeInputHandler(), handler2);
-    m_graph->releaseInputHandler(handler2);
-    QCOMPARE(m_graph->inputHandlers().size(), 1);
-    m_graph->releaseInputHandler(handler);
-    QCOMPARE(m_graph->inputHandlers().size(), 0);
-
-    delete handler2;
-    delete handler;
 }
 
 void tst_bars::addTheme()

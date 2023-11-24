@@ -7,7 +7,6 @@
 #include <QtGraphs/qvalue3daxis.h>
 #include <QtGraphs/q3dscene.h>
 #include <QtGraphs/q3dtheme.h>
-#include <QtGraphs/Q3DInputHandler>
 #include <qmath.h>
 #include <qrandom.h>
 
@@ -32,7 +31,7 @@ ScatterDataModifier::ScatterDataModifier(Q3DScatter *scatter)
     m_chart->setAxisY(new QValue3DAxis);
     m_chart->setAxisZ(new QValue3DAxis);
     m_chart->axisY()->setLabelFormat(QStringLiteral("%.7f"));
-    static_cast<Q3DInputHandler *>(m_chart->activeInputHandler())->setZoomAtTargetEnabled(true);
+    m_chart->setZoomAtTargetEnabled(true);
 
     createAndAddSeries();
     createAndAddSeries();

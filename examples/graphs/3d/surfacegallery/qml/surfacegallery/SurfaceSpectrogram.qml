@@ -110,9 +110,7 @@ Rectangle {
             //! [4]
 
             //! [5]
-            inputHandler: TouchInputHandler3D {
-                rotationEnabled: !surfaceGraph.orthoProjection
-            }
+            rotationEnabled: !surfaceGraph.orthoProjection
             //! [5]
 
             theme: customTheme

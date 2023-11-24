@@ -31,10 +31,10 @@ qt_add_executable(widgetgraphgallery
     variantdataset.cpp variantdataset.h
     scattergraph.cpp scattergraph.h
     scatterdatamodifier.cpp scatterdatamodifier.h
-    axesinputhandler.cpp axesinputhandler.h
+
     surfacegraph.cpp surfacegraph.h
     surfacegraphmodifier.cpp surfacegraphmodifier.h
-    custominputhandler.cpp custominputhandler.h
+
     highlightseries.cpp highlightseries.h
     topographicseries.cpp topographicseries.h
 )

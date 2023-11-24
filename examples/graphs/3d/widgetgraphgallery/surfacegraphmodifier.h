@@ -5,7 +5,6 @@
 #define SURFACEGRAPHMODIFIER_H
 
 #include <QtCore/qpropertyanimation.h>
-#include <QtGraphs/q3dinputhandler.h>
 #include <QtGraphs/q3dsurface.h>
 #include <QtGraphs/qcustom3ditem.h>
 #include <QtGraphs/qcustom3dlabel.h>
@@ -17,11 +16,13 @@
 
 class TopographicSeries;
 class HighlightSeries;
-class CustomInputHandler;
 
 class SurfaceGraphModifier : public QObject
 {
     Q_OBJECT
+
+    enum InputState { StateNormal = 0, StateDraggingX, StateDraggingZ, StateDraggingY };
+
 public:
     explicit SurfaceGraphModifier(Q3DSurface *surface, QLabel *label, QObject *parent);
     ~SurfaceGraphModifier();
@@ -69,6 +70,9 @@ public Q_SLOTS:
     void toggleShadows(bool shadows);
     void toggleSurfaceTexture(bool enable);
 
+    void handleAxisDragging(QVector2D delta);
+    void onWheel(QWheelEvent *event);
+
 private:
     void setAxisXRange(float min, float max);
     void setAxisZRange(float min, float max);
@@ -109,8 +113,20 @@ private:
     int m_highlightWidth = 0;
     int m_highlightHeight = 0;
 
-    CustomInputHandler *m_customInputHandler = nullptr;
-    Q3DInputHandler *m_defaultInputHandler = new Q3DInputHandler();
+    bool m_mousePressed = false;
+    InputState m_state = StateNormal;
+    float m_speedModifier = 20.f;
+    float m_aspectRatio = 0.f;
+    float m_axisXMinValue = 0.f;
+    float m_axisXMaxValue = 0.f;
+    float m_axisXMinRange = 0.f;
+    float m_axisZMinValue = 0.f;
+    float m_axisZMaxValue = 0.f;
+    float m_axisZMinRange = 0.f;
+    float m_areaMinValue = 0.f;
+    float m_areaMaxValue = 0.f;
+
+    void checkConstraints();
 };
 
 #endif // SURFACEGRAPHMODIFIER_H

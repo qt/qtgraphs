@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR BSD-3-Clause
 
 #include "surfacegraphmodifier.h"
-#include "custominputhandler.h"
 #include "highlightseries.h"
 #include "topographicseries.h"
 
@@ -144,11 +143,25 @@ SurfaceGraphModifier::SurfaceGraphModifier(Q3DSurface *surface, QLabel *label, Q
                      &HighlightSeries::handleGradientChange);
     //! [16]
 
-    m_customInputHandler = new CustomInputHandler(m_graph);
-    m_customInputHandler->setHighlightSeries(m_highlight);
-    m_customInputHandler->setAxes(m_graph->axisX(), m_graph->axisY(), m_graph->axisZ());
-    m_customInputHandler->setLimits(0.f, areaWidth, minRange);
-    m_customInputHandler->setAspectRatio(aspectRatio);
+    m_areaMinValue = 0.f;
+    m_areaMaxValue = areaWidth;
+    m_axisXMinValue = m_areaMinValue;
+    m_axisXMaxValue = m_areaMaxValue;
+    m_axisZMinValue = m_areaMinValue;
+    m_axisZMaxValue = m_areaMaxValue;
+    m_axisXMinRange = minRange;
+    m_axisZMinRange = minRange;
+    m_aspectRatio = aspectRatio;
+
+    QObject::connect(m_graph,
+                     &QAbstract3DGraph::dragged,
+                     this,
+                     &SurfaceGraphModifier::handleAxisDragging);
+
+    QObject::connect(m_graph,
+                     &QAbstract3DGraph::wheel,
+                     this,
+                     &SurfaceGraphModifier::onWheel);
 }
 
 SurfaceGraphModifier::~SurfaceGraphModifier() {}
@@ -214,7 +227,16 @@ void SurfaceGraphModifier::enableSqrtSinModel(bool enable)
         m_graph->axisY()->setTitle({});
         m_graph->axisZ()->setTitle({});
 
-        m_graph->setActiveInputHandler(m_defaultInputHandler);
+        QObject::disconnect(m_graph,
+                            &QAbstract3DGraph::dragged,
+                            this,
+                            &SurfaceGraphModifier::handleAxisDragging);
+
+        QObject::disconnect(m_graph,
+                            &QAbstract3DGraph::wheel,
+                            this,
+                            &SurfaceGraphModifier::onWheel);
+        m_graph->setDefaultInputHandler();
 
         //! [6]
         // Reset range sliders for Sqrt & Sin
@@ -267,7 +289,16 @@ void SurfaceGraphModifier::enableHeightMapModel(bool enable)
         m_graph->addSeries(m_heightMapSeriesTwo);
         m_graph->addSeries(m_heightMapSeriesThree);
 
-        m_graph->setActiveInputHandler(m_defaultInputHandler);
+        QObject::disconnect(m_graph,
+                            &QAbstract3DGraph::dragged,
+                            this,
+                            &SurfaceGraphModifier::handleAxisDragging);
+
+        QObject::disconnect(m_graph,
+                            &QAbstract3DGraph::wheel,
+                            this,
+                            &SurfaceGraphModifier::onWheel);
+        m_graph->setDefaultInputHandler();
 
         m_titleLabel->setVisible(true);
         m_graph->axisX()->setTitleVisible(true);
@@ -325,7 +356,16 @@ void SurfaceGraphModifier::enableTopographyModel(bool enable)
         m_graph->axisZ()->setTitle({});
 
         //! [5]
-        m_graph->setActiveInputHandler(m_customInputHandler);
+        m_graph->setDragButton(Qt::LeftButton);
+        QObject::connect(m_graph,
+                         &QAbstract3DGraph::dragged,
+                         this,
+                         &SurfaceGraphModifier::handleAxisDragging);
+
+        QObject::connect(m_graph,
+                         &QAbstract3DGraph::wheel,
+                         this,
+                         &SurfaceGraphModifier::onWheel);
         //! [5]
 
         // Reset range sliders for topography map
@@ -656,3 +696,106 @@ void SurfaceGraphModifier::resetSelection()
         m_previouslyAnimatedItem->setScaling(m_previousScaling);
     m_previouslyAnimatedItem = nullptr;
 }
+
+void SurfaceGraphModifier::checkConstraints()
+{
+    //! [19]
+    if (m_axisXMinValue < m_areaMinValue)
+        m_axisXMinValue = m_areaMinValue;
+    if (m_axisXMaxValue > m_areaMaxValue)
+        m_axisXMaxValue = m_areaMaxValue;
+    // Don't allow too much zoom in
+    if ((m_axisXMaxValue - m_axisXMinValue) < m_axisXMinRange) {
+        float adjust = (m_axisXMinRange - (m_axisXMaxValue - m_axisXMinValue)) / 2.f;
+        m_axisXMinValue -= adjust;
+        m_axisXMaxValue += adjust;
+    }
+    //! [19]
+
+    if (m_axisZMinValue < m_areaMinValue)
+        m_axisZMinValue = m_areaMinValue;
+    if (m_axisZMaxValue > m_areaMaxValue)
+        m_axisZMaxValue = m_areaMaxValue;
+    // Don't allow too much zoom in
+    if ((m_axisZMaxValue - m_axisZMinValue) < m_axisZMinRange) {
+        float adjust = (m_axisZMinRange - (m_axisZMaxValue - m_axisZMinValue)) / 2.f;
+        m_axisZMinValue -= adjust;
+        m_axisZMaxValue += adjust;
+    }
+}
+
+void SurfaceGraphModifier::handleAxisDragging(QVector2D delta)
+{
+    float distance = 0.f;
+
+    // Get scene orientation from active camera
+    float xRotation = m_graph->cameraXRotation();
+
+    // Calculate directional drag multipliers based on rotation
+    float xMulX = qCos(qDegreesToRadians(xRotation));
+    float xMulY = qSin(qDegreesToRadians(xRotation));
+    float zMulX = qSin(qDegreesToRadians(xRotation));
+    float zMulY = qCos(qDegreesToRadians(xRotation));
+
+    // Get the drag amount
+    QPoint move = delta.toPoint();
+
+    // Adjust axes
+    switch (m_state) {
+    //! [17]
+    case StateDraggingX:
+        distance = (move.x() * xMulX - move.y() * xMulY) * m_speedModifier;
+        m_axisXMinValue -= distance;
+        m_axisXMaxValue -= distance;
+        if (m_axisXMinValue < m_areaMinValue) {
+            float dist = m_axisXMaxValue - m_axisXMinValue;
+            m_axisXMinValue = m_areaMinValue;
+            m_axisXMaxValue = m_axisXMinValue + dist;
+        }
+        if (m_axisXMaxValue > m_areaMaxValue) {
+            float dist = m_axisXMaxValue - m_axisXMinValue;
+            m_axisXMaxValue = m_areaMaxValue;
+            m_axisXMinValue = m_axisXMaxValue - dist;
+        }
+        m_graph->axisX()->setRange(m_axisXMinValue, m_axisXMaxValue);
+        break;
+        //! [17]
+    case StateDraggingZ:
+        distance = (move.x() * zMulX + move.y() * zMulY) * m_speedModifier;
+        m_axisZMinValue += distance;
+        m_axisZMaxValue += distance;
+        if (m_axisZMinValue < m_areaMinValue) {
+            float dist = m_axisZMaxValue - m_axisZMinValue;
+            m_axisZMinValue = m_areaMinValue;
+            m_axisZMaxValue = m_axisZMinValue + dist;
+        }
+        if (m_axisZMaxValue > m_areaMaxValue) {
+            float dist = m_axisZMaxValue - m_axisZMinValue;
+            m_axisZMaxValue = m_areaMaxValue;
+            m_axisZMinValue = m_axisZMaxValue - dist;
+        }
+        m_graph->axisZ()->setRange(m_axisZMinValue, m_axisZMaxValue);
+        break;
+    default:
+        break;
+    }
+}
+
+//! [18]
+void SurfaceGraphModifier::onWheel(QWheelEvent *event)
+{
+    float delta = float(event->angleDelta().y());
+
+    m_axisXMinValue += delta;
+    m_axisXMaxValue -= delta;
+    m_axisZMinValue += delta;
+    m_axisZMaxValue -= delta;
+    checkConstraints();
+
+    float y = (m_axisXMaxValue - m_axisXMinValue) * m_aspectRatio;
+
+    m_graph->axisX()->setRange(m_axisXMinValue, m_axisXMaxValue);
+    m_graph->axisY()->setRange(100.f, y);
+    m_graph->axisZ()->setRange(m_axisZMinValue, m_axisZMaxValue);
+}
+//! [18]

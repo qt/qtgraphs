@@ -1,7 +1,6 @@
 // Copyright (C) 2023 The Qt Company Ltd.
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 
-#include "qabstract3dinputhandler_p.h"
 #include "qquickgraphsitem_p.h"
 
 #include "q3dscene_p.h"
@@ -15,7 +14,7 @@
 #include "qcustom3ditem_p.h"
 #include "qcustom3dlabel.h"
 #include "qcustom3dvolume.h"
-#include "qtouch3dinputhandler.h"
+#include "qgraphsinputhandler_p.h"
 #include "qvalue3daxis.h"
 #include "qvalue3daxis_p.h"
 #include "thememanager_p.h"
@@ -84,6 +83,10 @@ QQuickGraphsItem::QQuickGraphsItem(QQuickItem *parent)
 
     // Accept touchevents
     setAcceptTouchEvents(true);
+
+    m_inputHandler = new QGraphsInputHandler(this);
+    m_inputHandler->bindableHeight().setBinding([&] { return height(); });
+    m_inputHandler->bindableWidth().setBinding([&] { return width(); });
 }
 
 QQuickGraphsItem::~QQuickGraphsItem()
@@ -276,17 +279,6 @@ void QQuickGraphsItem::handleAxisTitleFixedChanged(bool fixed)
 {
     Q_UNUSED(fixed);
     handleAxisTitleFixedChangedBySender(sender());
-}
-
-void QQuickGraphsItem::handleInputViewChanged(QAbstract3DInputHandler::InputView view)
-{
-    // When in automatic slicing mode, input view change to primary disables slice mode
-    if (m_selectionMode.testFlag(QAbstract3DGraph::SelectionSlice)
-        && view == QAbstract3DInputHandler::InputView::OnPrimary) {
-        setSlicingActive(false);
-    }
-
-    emitNeedRender();
 }
 
 void QQuickGraphsItem::handleInputPositionChanged(const QPoint &position)
@@ -881,7 +873,6 @@ bool QQuickGraphsItem::handleMousePressedEvent(QMouseEvent *event)
             m_sliceActivatedChanged = true;
             return false;
         }
-        checkSliceEnabled();
     }
     return true;
 }
@@ -1107,14 +1098,6 @@ void QQuickGraphsItem::componentComplete()
     if (!m_pendingCustomItemList.isEmpty()) {
         for (const auto &item : std::as_const(m_pendingCustomItemList))
             addCustomItem(item);
-    }
-
-    // Create initial default input handler, if one hasn't already been created by QML
-    if (!activeInputHandler()) {
-        QAbstract3DInputHandler *inputHandler;
-        inputHandler = new QTouch3DInputHandler(this);
-        inputHandler->d_func()->m_isDefaultHandler = true;
-        setActiveInputHandler(inputHandler);
     }
 }
 
@@ -1799,9 +1782,6 @@ void QQuickGraphsItem::synchData()
         modelMatrix.rotate(rotation);
         m_backgroundRotation->setRotation(rotation);
     }
-
-    if (graphPositionQueryPending())
-        graphPositionAt(scene()->graphPositionQuery());
 
     bool forceUpdateCustomVolumes = false;
     if (m_changeTracker.projectionChanged) {
@@ -2895,24 +2875,14 @@ void QQuickGraphsItem::positionAndScaleLine(QQuick3DNode *lineNode,
     lineNode->setPosition(position);
 }
 
-void QQuickGraphsItem::graphPositionAt(const QPoint &point)
+QVector3D QQuickGraphsItem::graphPositionAt(const QPoint &point)
 {
-    bool isHit = false;
     auto result = pick(point.x(), point.y());
-    if (result.objectHit()) {
-        isHit = true;
-        setQueriedGraphPosition(QVector3D(result.scenePosition().x(),
-                                          result.scenePosition().y(),
-                                          result.scenePosition().z()));
-    }
+    QVector3D position = QVector3D();
+    if (result.objectHit())
+        position = result.scenePosition();
 
-    if (!isHit)
-        setQueriedGraphPosition(QVector3D(0, 0, 0));
-
-    emit queriedGraphPositionChanged(queriedGraphPosition());
-    emit queriedGraphPositionChanged(queriedGraphPosition());
-    setGraphPositionQueryPending(false);
-    scene()->setGraphPositionQuery(scene()->invalidSelectionPoint());
+    return position;
 }
 
 void QQuickGraphsItem::updateShadowQuality(QAbstract3DGraph::ShadowQuality quality)
@@ -4143,59 +4113,11 @@ void QQuickGraphsItem::handleOptimizationHintChange(QAbstract3DGraph::Optimizati
     Q_UNUSED(hint)
 }
 
-QAbstract3DInputHandler *QQuickGraphsItem::inputHandler() const
-{
-    return m_activeInputHandler;
-}
-
-void QQuickGraphsItem::setInputHandler(QAbstract3DInputHandler *inputHandler)
-{
-    setActiveInputHandler(inputHandler);
-}
-
-void QQuickGraphsItem::mouseDoubleClickEvent(QMouseEvent *event)
-{
-    if (m_activeInputHandler)
-        m_activeInputHandler->mouseDoubleClickEvent(event);
-}
-
-void QQuickGraphsItem::touchEvent(QTouchEvent *event)
-{
-    if (m_activeInputHandler)
-        m_activeInputHandler->touchEvent(event);
-    handleTouchEvent(event);
-    window()->update();
-}
-
-void QQuickGraphsItem::mousePressEvent(QMouseEvent *event)
-{
-    QPoint mousePos = event->pos();
-    handleMousePressedEvent(event);
-    if (m_activeInputHandler)
-        m_activeInputHandler->mousePressEvent(event, mousePos);
-}
-
-void QQuickGraphsItem::mouseReleaseEvent(QMouseEvent *event)
-{
-    QPoint mousePos = event->pos();
-    if (m_activeInputHandler)
-        m_activeInputHandler->mouseReleaseEvent(event, mousePos);
-}
-
 void QQuickGraphsItem::mouseMoveEvent(QMouseEvent *event)
 {
     QPoint mousePos = event->pos();
-    if (m_activeInputHandler)
-        m_activeInputHandler->mouseMoveEvent(event, mousePos);
+    emit mouseMove(mousePos);
 }
-
-#if QT_CONFIG(wheelevent)
-void QQuickGraphsItem::wheelEvent(QWheelEvent *event)
-{
-    if (m_activeInputHandler)
-        m_activeInputHandler->wheelEvent(event);
-}
-#endif
 
 void QQuickGraphsItem::checkWindowList(QQuickWindow *window)
 {
@@ -4252,14 +4174,6 @@ bool QQuickGraphsItem::measureFps() const
 int QQuickGraphsItem::currentFps() const
 {
     return m_currentFps;
-}
-
-void QQuickGraphsItem::createInitialInputHandler()
-{
-    QAbstract3DInputHandler *inputHandler;
-    inputHandler = new QTouch3DInputHandler(this);
-    inputHandler->d_func()->m_isDefaultHandler = true;
-    setActiveInputHandler(inputHandler);
 }
 
 void QQuickGraphsItem::setOrthoProjection(bool enable)
@@ -4520,55 +4434,52 @@ void QQuickGraphsItem::updateSelectionMode(QAbstract3DGraph::SelectionFlags newM
 
 bool QQuickGraphsItem::doPicking(const QPointF &point)
 {
-    if (m_activeInputHandler->d_func()->m_inputState
-        == QAbstract3DInputHandlerPrivate::InputState::Selecting) {
-        QList<QQuick3DPickResult> results = pickAll(point.x(), point.y());
-        if (!m_customItemList.isEmpty()) {
-            // Try to pick custom item only
-            for (const auto &result : results) {
-                QCustom3DItem *customItem = m_customItemList.key(result.objectHit(), nullptr);
+    checkSliceEnabled();
 
-                if (customItem) {
-                    int selectedIndex = m_customItems.indexOf(customItem);
-                    m_selectedCustomItemIndex = selectedIndex;
-                    handleSelectedElementChange(QAbstract3DGraph::ElementType::CustomItem);
-                    // Don't allow picking in subclasses if custom item is picked
-                    return false;
-                }
-            }
-        }
-
+    QList<QQuick3DPickResult> results = pickAll(point.x(), point.y());
+    if (!m_customItemList.isEmpty()) {
+        // Try to pick custom item only
         for (const auto &result : results) {
-            if (!result.objectHit())
-                continue;
-            QString objName = result.objectHit()->objectName();
-            if (objName.contains(QStringLiteral("ElementAxisXLabel"))) {
-                for (int i = 0; i < repeaterX()->count(); i++) {
-                    auto obj = static_cast<QQuick3DNode *>(repeaterX()->objectAt(i));
-                    if (result.objectHit() == obj)
-                        m_selectedLabelIndex = i;
-                }
-                handleSelectedElementChange(QAbstract3DGraph::ElementType::AxisXLabel);
-                break;
-            } else if (objName.contains(QStringLiteral("ElementAxisYLabel"))) {
-                handleSelectedElementChange(QAbstract3DGraph::ElementType::AxisYLabel);
-                break;
-            } else if (objName.contains(QStringLiteral("ElementAxisZLabel"))) {
-                for (int i = 0; i < repeaterX()->count(); i++) {
-                    auto obj = static_cast<QQuick3DNode *>(repeaterZ()->objectAt(i));
-                    if (result.objectHit() == obj)
-                        m_selectedLabelIndex = i;
-                }
-                handleSelectedElementChange(QAbstract3DGraph::ElementType::AxisZLabel);
-                break;
-            } else {
-                continue;
+            QCustom3DItem *customItem = m_customItemList.key(result.objectHit(), nullptr);
+
+            if (customItem) {
+                int selectedIndex = m_customItems.indexOf(customItem);
+                m_selectedCustomItemIndex = selectedIndex;
+                handleSelectedElementChange(QAbstract3DGraph::ElementType::CustomItem);
+                // Don't allow picking in subclasses if custom item is picked
+                return false;
             }
         }
-        return true;
     }
 
-    return false;
+    for (const auto &result : results) {
+        if (!result.objectHit())
+            continue;
+        QString objName = result.objectHit()->objectName();
+        if (objName.contains(QStringLiteral("ElementAxisXLabel"))) {
+            for (int i = 0; i < repeaterX()->count(); i++) {
+                auto obj = static_cast<QQuick3DNode *>(repeaterX()->objectAt(i));
+                if (result.objectHit() == obj)
+                    m_selectedLabelIndex = i;
+            }
+            handleSelectedElementChange(QAbstract3DGraph::ElementType::AxisXLabel);
+            break;
+        } else if (objName.contains(QStringLiteral("ElementAxisYLabel"))) {
+            handleSelectedElementChange(QAbstract3DGraph::ElementType::AxisYLabel);
+            break;
+        } else if (objName.contains(QStringLiteral("ElementAxisZLabel"))) {
+            for (int i = 0; i < repeaterX()->count(); i++) {
+                auto obj = static_cast<QQuick3DNode *>(repeaterZ()->objectAt(i));
+                if (result.objectHit() == obj)
+                    m_selectedLabelIndex = i;
+            }
+            handleSelectedElementChange(QAbstract3DGraph::ElementType::AxisZLabel);
+            break;
+        } else {
+            continue;
+        }
+    }
+    return true;
 }
 
 void QQuickGraphsItem::minimizeMainGraph()
@@ -4580,6 +4491,9 @@ void QQuickGraphsItem::minimizeMainGraph()
     const float minimizedSize = .2f;
     setWidth(parentItem()->width() * minimizedSize);
     setHeight(parentItem()->height() * minimizedSize);
+
+    m_inputHandler->setX(x());
+    m_inputHandler->setY(y());
 }
 
 void QQuickGraphsItem::updateSliceGraph()
@@ -4602,87 +4516,6 @@ void QQuickGraphsItem::updateSliceGraph()
     }
 
     m_sliceActivatedChanged = false;
-}
-
-void QQuickGraphsItem::addInputHandler(QAbstract3DInputHandler *inputHandler)
-{
-    Q_ASSERT(inputHandler);
-    QQuickGraphsItem *owner = qobject_cast<QQuickGraphsItem *>(inputHandler->parent());
-    if (owner != this) {
-        Q_ASSERT_X(!owner,
-                   "addInputHandler",
-                   "Input handler already attached to another component.");
-        inputHandler->setParent(this);
-    }
-
-    if (!m_inputHandlers.contains(inputHandler))
-        m_inputHandlers.append(inputHandler);
-}
-
-void QQuickGraphsItem::releaseInputHandler(QAbstract3DInputHandler *inputHandler)
-{
-    if (inputHandler && m_inputHandlers.contains(inputHandler)) {
-        // Clear the default status from released default input handler
-        if (inputHandler->d_func()->m_isDefaultHandler)
-            inputHandler->d_func()->m_isDefaultHandler = false;
-
-        // If the input handler is in use, remove it
-        if (m_activeInputHandler == inputHandler)
-            setActiveInputHandler(nullptr);
-
-        m_inputHandlers.removeAll(inputHandler);
-        inputHandler->setParent(nullptr);
-    }
-}
-
-void QQuickGraphsItem::setActiveInputHandler(QAbstract3DInputHandler *inputHandler)
-{
-    if (inputHandler == m_activeInputHandler)
-        return;
-
-    // If existing input handler is the default input handler, delete it
-    if (m_activeInputHandler) {
-        if (m_activeInputHandler->d_func()->m_isDefaultHandler) {
-            m_inputHandlers.removeAll(m_activeInputHandler);
-            delete m_activeInputHandler;
-        } else {
-            // Disconnect the old input handler
-            m_activeInputHandler->setScene(nullptr);
-            QObject::disconnect(m_activeInputHandler, nullptr, this, nullptr);
-            QObject::disconnect(m_activeInputHandler,
-                                &QAbstract3DInputHandler::positionChanged,
-                                this,
-                                &QQuickGraphsItem::doPicking);
-        }
-    }
-
-    // Assume ownership and connect to this graphs scene
-    if (inputHandler)
-        addInputHandler(inputHandler);
-
-    m_activeInputHandler = inputHandler;
-
-    if (m_activeInputHandler) {
-        m_activeInputHandler->setItem(this);
-        m_activeInputHandler->setScene(scene());
-
-        // Connect the input handler
-        QObject::connect(m_activeInputHandler,
-                         &QAbstract3DInputHandler::inputViewChanged,
-                         this,
-                         &QQuickGraphsItem::handleInputViewChanged);
-        QObject::connect(m_activeInputHandler,
-                         &QAbstract3DInputHandler::positionChanged,
-                         this,
-                         &QQuickGraphsItem::handleInputPositionChanged);
-        QObject::connect(m_activeInputHandler,
-                         &QAbstract3DInputHandler::positionChanged,
-                         this,
-                         &QQuickGraphsItem::doPicking);
-    }
-
-    // Notify change of input handler
-    emit inputHandlerChanged(m_activeInputHandler);
 }
 
 void QQuickGraphsItem::windowDestroyed(QObject *obj)
@@ -4954,6 +4787,81 @@ void QQuickGraphsItem::setMaxCameraYRotation(float rotation)
 
     m_maxYRotation = rotation;
     emit maxCameraYRotationChanged(rotation);
+}
+
+void QQuickGraphsItem::setZoomAtTargetEnabled(bool enable)
+{
+    m_inputHandler->setZoomAtTargetEnabled(enable);
+}
+
+bool QQuickGraphsItem::zoomAtTargetEnabled()
+{
+    return m_inputHandler->isZoomAtTargetEnabled();
+}
+
+void QQuickGraphsItem::setZoomEnabled(bool enable)
+{
+    m_inputHandler->setZoomEnabled(enable);
+}
+
+bool QQuickGraphsItem::zoomEnabled()
+{
+    return m_inputHandler->isZoomEnabled();
+}
+
+void QQuickGraphsItem::setSelectionEnabled(bool enable)
+{
+    m_inputHandler->setSelectionEnabled(enable);
+}
+
+bool QQuickGraphsItem::selectionEnabled()
+{
+    return m_inputHandler->isSelectionEnabled();
+}
+
+void QQuickGraphsItem::setRotationEnabled(bool enable)
+{
+    m_inputHandler->setRotationEnabled(enable);
+}
+
+bool QQuickGraphsItem::rotationEnabled()
+{
+    return m_inputHandler->isRotationEnabled();
+}
+
+void QQuickGraphsItem::unsetDefaultInputHandler()
+{
+    m_inputHandler->unsetDefaultInputHandler();
+}
+
+void QQuickGraphsItem::unsetDefaultTapHandler()
+{
+    m_inputHandler->unsetDefaultTapHandler();
+}
+
+void QQuickGraphsItem::unsetDefaultDragHandler()
+{
+    m_inputHandler->unsetDefaultDragHandler();
+}
+
+void QQuickGraphsItem::unsetDefaultWheelHandler()
+{
+    m_inputHandler->unsetDefaultWheelHandler();
+}
+
+void QQuickGraphsItem::unsetDefaultPinchHandler()
+{
+    m_inputHandler->unsetDefaultPinchHandler();
+}
+
+void QQuickGraphsItem::setDragButton(Qt::MouseButtons button)
+{
+    m_inputHandler->setDragButton(button);
+}
+
+void QQuickGraphsItem::setDefaultInputHandler()
+{
+    m_inputHandler->setDefaultInputHandler();
 }
 
 void QQuickGraphsItem::setCameraZoomLevel(float level)

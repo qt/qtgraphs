@@ -26,11 +26,11 @@ QT_BEGIN_NAMESPACE
 
 class Q3DTheme;
 class QAbstract3DAxis;
-class QAbstract3DInputHandler;
 class QAbstract3DSeries;
 class QCustom3DItem;
 class QCustom3DVolume;
 class QCustom3DLabel;
+class QGraphsInputHandler;
 class QQuick3DCustomMaterial;
 class QQuick3DDirectionalLight;
 class QQuick3DPrincipledMaterial;
@@ -146,8 +146,6 @@ class QQuickGraphsItem : public QQuick3DViewport
                    setShadowQuality NOTIFY shadowQualityChanged)
     Q_PROPERTY(int msaaSamples READ msaaSamples WRITE setMsaaSamples NOTIFY msaaSamplesChanged)
     Q_PROPERTY(Q3DScene *scene READ scene NOTIFY sceneChanged)
-    Q_PROPERTY(QAbstract3DInputHandler *inputHandler READ inputHandler WRITE setInputHandler NOTIFY
-                   inputHandlerChanged)
     Q_PROPERTY(Q3DTheme *theme READ theme WRITE setTheme NOTIFY themeChanged)
     Q_PROPERTY(QAbstract3DGraph::RenderingMode renderingMode READ renderingMode WRITE
                    setRenderingMode NOTIFY renderingModeChanged)
@@ -188,6 +186,14 @@ class QQuickGraphsItem : public QQuick3DViewport
                    wrapCameraXRotationChanged)
     Q_PROPERTY(bool wrapCameraYRotation READ wrapCameraYRotation WRITE setWrapCameraYRotation NOTIFY
                    wrapCameraYRotationChanged)
+    Q_PROPERTY(bool rotationEnabled READ rotationEnabled WRITE setRotationEnabled NOTIFY
+                   rotationEnabledChanged)
+    Q_PROPERTY(bool zoomAtTargetEnabled READ zoomAtTargetEnabled WRITE setZoomAtTargetEnabled NOTIFY
+                   zoomAtTargetEnabledChanged)
+    Q_PROPERTY(bool selectionEnabled READ selectionEnabled WRITE setSelectionEnabled NOTIFY
+                   selectionEnabledChanged)
+    Q_PROPERTY(bool zoomEnabled READ zoomEnabled WRITE setZoomEnabled NOTIFY
+                   zoomEnabledChanged)
 
     QML_NAMED_ELEMENT(GraphsItem3D)
     QML_UNCREATABLE("Trying to create uncreatable: GraphsItem3D.")
@@ -258,9 +264,6 @@ public:
     virtual void setMsaaSamples(int samples);
     virtual int msaaSamples() const;
 
-    virtual QAbstract3DInputHandler *inputHandler() const;
-    virtual void setInputHandler(QAbstract3DInputHandler *inputHandler);
-
     virtual void addTheme(Q3DTheme *theme);
     virtual void releaseTheme(Q3DTheme *theme);
     virtual void setTheme(Q3DTheme *theme);
@@ -312,8 +315,6 @@ public:
     void setMeasureFps(bool enable);
     bool measureFps() const;
     int currentFps() const;
-
-    void createInitialInputHandler();
 
     void setOrthoProjection(bool enable);
     bool isOrthoProjection() const;
@@ -420,6 +421,23 @@ public:
     float maxCameraYRotation() const { return m_maxYRotation; }
     void setMaxCameraYRotation(float rotation);
 
+    void setZoomAtTargetEnabled(bool enable);
+    bool zoomAtTargetEnabled();
+    void setZoomEnabled(bool enable);
+    bool zoomEnabled();
+    void setSelectionEnabled(bool enable);
+    bool selectionEnabled();
+    void setRotationEnabled(bool enable);
+    bool rotationEnabled();
+
+    Q_INVOKABLE void setDefaultInputHandler();
+    Q_INVOKABLE void unsetDefaultInputHandler();
+    Q_INVOKABLE void unsetDefaultTapHandler();
+    Q_INVOKABLE void unsetDefaultDragHandler();
+    Q_INVOKABLE void unsetDefaultWheelHandler();
+    Q_INVOKABLE void unsetDefaultPinchHandler();
+    Q_INVOKABLE void setDragButton(Qt::MouseButtons button);
+
     float cameraZoomLevel() const { return m_zoomLevel; }
     void setCameraZoomLevel(float level);
 
@@ -438,6 +456,7 @@ public:
     bool wrapCameraYRotation() const { return m_wrapYRotation; }
     void setWrapCameraYRotation(bool wrap);
 
+    QVector3D graphPositionAt(const QPoint &point);
     void setCameraPosition(float horizontal, float vertical, float zoom = 100.0f);
 
     void changeLabelBackgroundColor(QQuick3DRepeater *repeater, const QColor &color);
@@ -450,7 +469,9 @@ public:
     void updateTitleLabels();
     virtual void updateSelectionMode(QAbstract3DGraph::SelectionFlags newMode);
 
-    virtual bool doPicking(const QPointF &point);
+    void setSliceActivatedChanged(bool changed) { m_sliceActivatedChanged = changed; }
+
+    Q_INVOKABLE virtual bool doPicking(const QPointF &point);
 
     void minimizeMainGraph();
 
@@ -473,7 +494,6 @@ public Q_SLOTS:
     void handleAxisLabelAutoRotationChanged(float angle);
     void handleAxisTitleVisibilityChanged(bool visible);
     void handleAxisTitleFixedChanged(bool fixed);
-    void handleInputViewChanged(QAbstract3DInputHandler::InputView view);
     void handleInputPositionChanged(const QPoint &position);
     void handleSeriesVisibilityChanged(bool visible);
 
@@ -495,7 +515,6 @@ Q_SIGNALS:
     void shadowQualityChanged(QAbstract3DGraph::ShadowQuality quality);
     void shadowsSupportedChanged(bool supported);
     void msaaSamplesChanged(int samples);
-    void inputHandlerChanged(QAbstract3DInputHandler *inputHandler);
     void themeChanged(Q3DTheme *theme);
     void renderingModeChanged(QAbstract3DGraph::RenderingMode mode);
     void measureFpsChanged(bool enabled);
@@ -530,16 +549,25 @@ Q_SIGNALS:
     void axisZChanged(QAbstract3DAxis *axis);
     void activeThemeChanged(Q3DTheme *activeTheme);
 
+    void mousePressed();
+    void mouseReleased();
+    void tapped(QEventPoint eventPoint, Qt::MouseButton button);
+    void doubleTapped(QEventPoint eventPoint, Qt::MouseButton button);
+    void longPressed();
+    void dragged(QVector2D delta);
+    void wheel(QQuickWheelEvent *event);
+    void pinch(qreal delta);
+    void mouseMove(QPoint mousePos);
+
+    void zoomEnabledChanged(bool enable);
+    void zoomAtTargetEnabledChanged(bool enable);
+    void rotationEnabledChanged(bool enable);
+    void selectionEnabledChanged(bool enable);
+
 protected:
     bool event(QEvent *event) override;
-    void mouseDoubleClickEvent(QMouseEvent *event) override;
-    void touchEvent(QTouchEvent *event) override;
-    void mousePressEvent(QMouseEvent *event) override;
-    void mouseReleaseEvent(QMouseEvent *event) override;
     void mouseMoveEvent(QMouseEvent *event) override;
-#if QT_CONFIG(wheelevent)
-    void wheelEvent(QWheelEvent *event) override;
-#endif
+
     virtual void handleWindowChanged(/*QQuickWindow *win*/);
     void itemChange(ItemChange change, const ItemChangeData &value) override;
     virtual void updateWindowParameters();
@@ -629,7 +657,6 @@ protected:
     bool isSliceEnabled() const { return m_sliceEnabled; }
     void setSliceEnabled(bool enabled) { m_sliceEnabled = enabled; }
     bool isSliceActivatedChanged() const { return m_sliceActivatedChanged; }
-    void setSliceActivatedChanged(bool changed) { m_sliceActivatedChanged = changed; }
     virtual void updateSliceGraph();
 
     virtual void updateAxisRange(float min, float max);
@@ -642,11 +669,7 @@ protected:
     bool isGridUpdated() { return m_gridUpdated; }
     void setGridUpdated(bool updated) { m_gridUpdated = updated; }
 
-    void addInputHandler(QAbstract3DInputHandler *inputHandler);
-    void releaseInputHandler(QAbstract3DInputHandler *inputHandler);
-    void setActiveInputHandler(QAbstract3DInputHandler *inputHandler);
-    QAbstract3DInputHandler *activeInputHandler() const { return m_activeInputHandler; };
-    QList<QAbstract3DInputHandler *> inputHandlers() const { return m_inputHandlers; };
+    QGraphsInputHandler *graphsInputHandler() const { return m_inputHandler; }
 
     virtual QAbstract3DAxis *createDefaultAxis(QAbstract3DAxis::AxisOrientation orientation);
     QValue3DAxis *createDefaultValueAxis();
@@ -792,7 +815,6 @@ private:
     float m_initialZoomLevel = -1.0f;
     void setUpCamera();
     void setUpLight();
-    void graphPositionAt(const QPoint &point);
     void updateCamera();
     void updateRadialLabelOffset();
     void handleSegmentLineCountChanged(QAbstract3DAxis *axis, QQuick3DRepeater *repeater);
@@ -832,8 +854,7 @@ private:
 
     QVector3D m_requestedTarget = QVector3D();
 
-    QAbstract3DInputHandler *m_activeInputHandler = nullptr;
-    QList<QAbstract3DInputHandler *> m_inputHandlers = {};
+    QGraphsInputHandler *m_inputHandler = nullptr;
 
     friend class QAbstract3DGraph;
 };

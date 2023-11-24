@@ -5,6 +5,7 @@
 #include "qbar3dseries_p.h"
 #include "qbardataproxy_p.h"
 #include "qcategory3daxis_p.h"
+#include "qgraphsinputhandler_p.h"
 #include "qquickgraphsbars_p.h"
 #include "qquickgraphstexturedata_p.h"
 #include "qvalue3daxis_p.h"
@@ -23,7 +24,6 @@ QQuickGraphsBars::QQuickGraphsBars(QQuickItem *parent)
     setAxisZ(0);
     setAcceptedMouseButtons(Qt::AllButtons);
     setFlags(ItemHasContents);
-    createInitialInputHandler();
     clearSelection();
 }
 
@@ -547,6 +547,8 @@ void QQuickGraphsBars::componentComplete()
                      &QQuick3DNode::rotationChanged,
                      this,
                      &QQuickGraphsBars::handleCameraRotationChanged);
+
+    graphsInputHandler()->setGraphsItem(this);
 }
 
 void QQuickGraphsBars::synchData()
@@ -2330,6 +2332,9 @@ void QQuickGraphsBars::createBarItemHolders(QBar3DSeries *series,
 void QQuickGraphsBars::updateSelectionMode(QAbstract3DGraph::SelectionFlags mode)
 {
     checkSliceEnabled();
+    if (!sliceView())
+        createSliceView();
+
     if (mode.testFlag(QAbstract3DGraph::SelectionSlice) && m_selectedBarSeries) {
         setSliceActivatedChanged(true);
         m_selectionDirty = !(sliceView()->isVisible());
@@ -2354,7 +2359,7 @@ void QQuickGraphsBars::updateSelectionMode(QAbstract3DGraph::SelectionFlags mode
 
     setSeriesVisualsDirty(true);
     itemLabel()->setVisible(false);
-    if (sliceView() && sliceView()->isVisible())
+    if (sliceView() && !mode.testFlag(QAbstract3DGraph::SelectionItem))
         sliceItemLabel()->setVisible(false);
 }
 

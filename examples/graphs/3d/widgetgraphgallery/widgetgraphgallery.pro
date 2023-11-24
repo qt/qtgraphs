@@ -19,10 +19,8 @@ SOURCES += main.cpp \
     variantbardatamapping.cpp \
     scattergraph.cpp \
     scatterdatamodifier.cpp \
-    axesinputhandler.cpp \
     surfacegraph.cpp \
     surfacegraphmodifier.cpp \
-    custominputhandler.cpp \
     highlightseries.cpp \
     topographicseries.cpp
 
@@ -35,10 +33,8 @@ HEADERS += \
     variantbardatamapping.h \
     scattergraph.h \
     scatterdatamodifier.h \
-    axesinputhandler.h \
     surfacegraph.h \
     surfacegraphmodifier.h \
-    custominputhandler.h \
     highlightseries.h \
     topographicseries.h
 

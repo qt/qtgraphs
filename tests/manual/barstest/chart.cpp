@@ -2,14 +2,12 @@
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 
 #include "chart.h"
-#include "custominputhandler.h"
 #include <QtGraphs/qcategory3daxis.h>
 #include <QtGraphs/qvalue3daxis.h>
 #include <QtGraphs/qlogvalue3daxisformatter.h>
 #include <QtGraphs/qbardataproxy.h>
 #include <QtGraphs/q3dscene.h>
 #include <QtGraphs/q3dtheme.h>
-#include <QtGraphs/q3dinputhandler.h>
 #include <QtGraphs/qcustom3ditem.h>
 #include <QtCore/QRandomGenerator>
 #include <QtCore/QElapsedTimer>
@@ -54,10 +52,8 @@ GraphModifier::GraphModifier(Q3DBars *barchart, QColorDialog *colorDialog)
       m_currentAxis(m_fixedRangeAxis),
       m_negativeValuesOn(false),
       m_useNullInputHandler(false),
-      m_defaultInputHandler(0),
       m_ownTheme(0),
       m_builtinTheme(new Q3DTheme(Q3DTheme::Theme::StoneMoss)),
-      m_customInputHandler(new CustomInputHandler),
       m_extraSeries(0)
 {
     m_temperatureData->setObjectName("m_temperatureData");
@@ -189,9 +185,8 @@ GraphModifier::GraphModifier(Q3DBars *barchart, QColorDialog *colorDialog)
     m_graph->activeTheme()->setFont(QFont("Times Roman", 20));
 
     // Release and store the default input handler.
-    m_defaultInputHandler = static_cast<Q3DInputHandler *>(m_graph->activeInputHandler());
-    m_graph->releaseInputHandler(m_defaultInputHandler);
-    m_graph->setActiveInputHandler(m_defaultInputHandler);
+    m_graph->unsetDefaultWheelHandler();
+    m_graph->setDefaultInputHandler();
 
     QObject::connect(m_graph, &Q3DBars::shadowQualityChanged, this,
                      &GraphModifier::shadowQualityUpdatedByVisual);
@@ -233,7 +228,6 @@ GraphModifier::GraphModifier(Q3DBars *barchart, QColorDialog *colorDialog)
 GraphModifier::~GraphModifier()
 {
     delete m_graph;
-    delete m_defaultInputHandler;
 }
 
 void GraphModifier::start()
@@ -716,10 +710,13 @@ void GraphModifier::setUseNullInputHandler(int useNull)
 
     m_useNullInputHandler = useNull;
 
-    if (useNull)
-        m_graph->setActiveInputHandler(0);
-    else
-        m_graph->setActiveInputHandler(m_defaultInputHandler);
+    if (useNull) {
+        m_graph->unsetDefaultInputHandler();
+        QObject::disconnect(m_graph, &QAbstract3DGraph::wheel, this, &GraphModifier::onWheel);
+        QObject::disconnect(m_graph, &QAbstract3DGraph::mouseMove, this, &GraphModifier::onMouseMove);
+    } else {
+        m_graph->setDefaultInputHandler();
+    }
 }
 
 void GraphModifier::handleRowAxisChanged(QCategory3DAxis *axis)
@@ -1009,13 +1006,17 @@ void GraphModifier::insertRemoveTestToggle()
         m_graph->removeSeries(m_dummyData2);
         releaseSeries();
         releaseAxes();
-        m_graph->setActiveInputHandler(m_defaultInputHandler);
+        QObject::disconnect(m_graph, &QAbstract3DGraph::wheel, this, &GraphModifier::onWheel);
+        QObject::disconnect(m_graph, &QAbstract3DGraph::mouseMove, this, &GraphModifier::onMouseMove);
+        m_graph->setDefaultInputHandler();
     } else {
         releaseSeries();
         releaseAxes();
         m_graph->rowAxis()->setRange(0, 32);
         m_graph->columnAxis()->setRange(0, 10);
-        m_graph->setActiveInputHandler(m_customInputHandler);
+        m_graph->unsetDefaultWheelHandler();
+        QObject::connect(m_graph, &QAbstract3DGraph::wheel, this, &GraphModifier::onWheel);
+        QObject::connect(m_graph, &QAbstract3DGraph::mouseMove, this, &GraphModifier::onMouseMove);
         m_graph->addSeries(m_dummyData);
         m_graph->addSeries(m_dummyData2);
         m_insertRemoveStep = 0;
@@ -1405,22 +1406,22 @@ void GraphModifier::reverseValueAxis(int enabled)
 
 void GraphModifier::setInputHandlerRotationEnabled(int enabled)
 {
-    m_defaultInputHandler->setRotationEnabled(enabled);
+    m_graph->setRotationEnabled(enabled);
 }
 
 void GraphModifier::setInputHandlerZoomEnabled(int enabled)
 {
-    m_defaultInputHandler->setZoomEnabled(enabled);
+    m_graph->setZoomEnabled(enabled);
 }
 
 void GraphModifier::setInputHandlerSelectionEnabled(int enabled)
 {
-    m_defaultInputHandler->setSelectionEnabled(enabled);
+    m_graph->setSelectionEnabled(enabled);
 }
 
 void GraphModifier::setInputHandlerZoomAtTargetEnabled(int enabled)
 {
-    m_defaultInputHandler->setZoomAtTargetEnabled(enabled);
+    m_graph->setZoomAtTargetEnabled(enabled);
 }
 
 void GraphModifier::changeValueAxisSegments(int value)
@@ -1466,7 +1467,7 @@ void GraphModifier::insertRemoveTimerTimeout()
 
 void GraphModifier::triggerSelection()
 {
-    m_graph->scene()->setSelectionQueryPosition(m_customInputHandler->inputPosition());
+    m_graph->doPicking(m_mousePos);
 }
 
 void GraphModifier::triggerRotation()
@@ -1531,6 +1532,29 @@ void GraphModifier::setGraphMargin(int value)
 {
     m_graph->setMargin(qreal(value) / 100.0);
     qDebug() << "Setting margin:" << m_graph->margin() << value;
+}
+
+void GraphModifier::onWheel(QWheelEvent *event)
+{
+    int zoomLevel = m_graph->cameraZoomLevel();
+    if (zoomLevel > 100)
+        zoomLevel += event->angleDelta().y() / 12;
+    else if (zoomLevel > 50)
+        zoomLevel += event->angleDelta().y() / 60;
+    else
+        zoomLevel += event->angleDelta().y() / 120;
+    if (zoomLevel > 500)
+        zoomLevel = 500;
+    else if (zoomLevel < 10)
+        zoomLevel = 10;
+
+    m_graph->setCameraZoomLevel(zoomLevel);
+}
+
+void GraphModifier::onMouseMove(QPoint mousePos)
+{
+    m_mousePos = mousePos;
+    m_graph->doPicking(mousePos);
 }
 
 void GraphModifier::populateFlatSeries(QBar3DSeries *series, int rows, int columns, float value)

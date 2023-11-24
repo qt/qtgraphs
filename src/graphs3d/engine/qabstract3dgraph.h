@@ -7,7 +7,6 @@
 #include <QtCore/qlocale.h>
 #include <QtGraphs/q3dscene.h>
 #include <QtGraphs/q3dtheme.h>
-#include <QtGraphs/qabstract3dinputhandler.h>
 #include <QtGraphs/qgraphsglobal.h>
 #include <QtQuickWidgets/qquickwidget.h>
 #include <QtQuick/qquickitemgrabresult.h>
@@ -18,13 +17,13 @@ class QCustom3DItem;
 class QAbstract3DAxis;
 class QAbstract3DSeries;
 class QQuickGraphsItem;
+class QQuickItemGrabResult;
+class QQuickWheelEvent;
 
 class Q_GRAPHS_EXPORT QAbstract3DGraph : public QQuickWidget
 {
     Q_OBJECT
     Q_CLASSINFO("RegisterEnumClassesUnscoped", "false")
-    Q_PROPERTY(QAbstract3DInputHandler *activeInputHandler READ activeInputHandler WRITE
-                   setActiveInputHandler NOTIFY activeInputHandlerChanged)
     Q_PROPERTY(Q3DTheme *activeTheme READ activeTheme WRITE setActiveTheme NOTIFY activeThemeChanged)
     Q_PROPERTY(QAbstract3DGraph::SelectionFlags selectionMode READ selectionMode WRITE
                    setSelectionMode NOTIFY selectionModeChanged)
@@ -65,9 +64,25 @@ class Q_GRAPHS_EXPORT QAbstract3DGraph : public QQuickWidget
                    wrapCameraXRotationChanged)
     Q_PROPERTY(bool wrapCameraYRotation READ wrapCameraYRotation WRITE setWrapCameraYRotation NOTIFY
                    wrapCameraYRotationChanged)
+    Q_PROPERTY(float minCameraXRotation READ minCameraXRotation WRITE setMinCameraXRotation NOTIFY
+                       minCameraXRotationChanged)
+    Q_PROPERTY(float maxCameraXRotation READ maxCameraXRotation WRITE setMaxCameraXRotation NOTIFY
+                       maxCameraXRotationChanged)
+    Q_PROPERTY(float minCameraYRotation READ minCameraYRotation WRITE setMinCameraYRotation NOTIFY
+                       minCameraYRotationChanged)
+    Q_PROPERTY(float maxCameraYRotation READ maxCameraYRotation WRITE setMaxCameraYRotation NOTIFY
+                       maxCameraYRotationChanged)
     Q_PROPERTY(QVector3D cameraTargetPosition READ cameraTargetPosition WRITE
                    setCameraTargetPosition NOTIFY cameraTargetPositionChanged)
     Q_PROPERTY(int msaaSamples READ msaaSamples WRITE setMsaaSamples NOTIFY msaaSamplesChanged)
+    Q_PROPERTY(bool rotationEnabled READ rotationEnabled WRITE setRotationEnabled NOTIFY
+                   rotationEnabledChanged)
+    Q_PROPERTY(bool zoomAtTargetEnabled READ zoomAtTargetEnabled WRITE setZoomAtTargetEnabled NOTIFY
+                   zoomAtTargetEnabledChanged)
+    Q_PROPERTY(bool selectionEnabled READ selectionEnabled WRITE setSelectionEnabled NOTIFY
+                   selectionEnabledChanged)
+    Q_PROPERTY(bool zoomEnabled READ zoomEnabled WRITE setZoomEnabled NOTIFY
+                   zoomEnabledChanged)
 
     QML_NAMED_ELEMENT(AbstractGraph3D)
     QML_UNCREATABLE("Trying to create uncreatable: AbstractGraph3D.")
@@ -128,12 +143,6 @@ public:
         DirectlyBelow
     };
     Q_ENUM(CameraPreset)
-
-    void addInputHandler(QAbstract3DInputHandler *inputHandler);
-    void releaseInputHandler(QAbstract3DInputHandler *inputHandler);
-    void setActiveInputHandler(QAbstract3DInputHandler *inputHandler);
-    QAbstract3DInputHandler *activeInputHandler() const;
-    QList<QAbstract3DInputHandler *> inputHandlers() const;
 
     void addTheme(Q3DTheme *theme);
     void releaseTheme(Q3DTheme *theme);
@@ -218,6 +227,23 @@ public:
     float maxCameraYRotation();
     void setMaxCameraYRotation(float rotation);
 
+    void setZoomAtTargetEnabled(bool enable);
+    bool zoomAtTargetEnabled();
+    void setZoomEnabled(bool enable);
+    bool zoomEnabled();
+    void setSelectionEnabled(bool enable);
+    bool selectionEnabled();
+    void setRotationEnabled(bool enable);
+    bool rotationEnabled();
+
+    void setDefaultInputHandler();
+    void unsetDefaultInputHandler();
+    void unsetDefaultTapHandler();
+    void unsetDefaultDragHandler();
+    void unsetDefaultWheelHandler();
+    void unsetDefaultPinchHandler();
+    void setDragButton(Qt::MouseButtons button);
+
     float cameraZoomLevel();
     void setCameraZoomLevel(float level);
 
@@ -241,24 +267,19 @@ public:
     int msaaSamples() const;
     void setMsaaSamples(int samples);
 
-    ~QAbstract3DGraph() override;
+    void doPicking(QPoint point);
+
+    virtual ~QAbstract3DGraph();
 
 protected:
-    QAbstract3DGraph();
+    QAbstract3DGraph(const QString &graph);
 
     bool event(QEvent *event) override;
     void resizeEvent(QResizeEvent *event) override;
 
-    void mouseDoubleClickEvent(QMouseEvent *event) override;
-    void mousePressEvent(QMouseEvent *event) override;
-    void mouseReleaseEvent(QMouseEvent *event) override;
     void mouseMoveEvent(QMouseEvent *event) override;
-#if QT_CONFIG(wheelevent)
-    void wheelEvent(QWheelEvent *event) override;
-#endif
 
 Q_SIGNALS:
-    void activeInputHandlerChanged(QAbstract3DInputHandler *inputHandler);
     void activeThemeChanged(Q3DTheme *activeTheme);
     void shadowQualityChanged(QAbstract3DGraph::ShadowQuality quality);
     void selectionModeChanged(const QAbstract3DGraph::SelectionFlags selectionMode);
@@ -289,9 +310,24 @@ Q_SIGNALS:
     void wrapCameraYRotationChanged(bool wrap);
     void msaaSamplesChanged(int samples);
 
+    void tapped(QEventPoint eventPoint, Qt::MouseButton button);
+    void doubleTapped(QEventPoint eventPoint, Qt::MouseButton button);
+    void longPressed();
+    void dragged(QVector2D delta);
+    void wheel(QWheelEvent *event);
+    void pinch(qreal delta);
+    void mouseMove(QPoint mousePos);
+
+    void zoomEnabledChanged(bool enable);
+    void zoomAtTargetEnabledChanged(bool enable);
+    void rotationEnabledChanged(bool enable);
+    void selectionEnabledChanged(bool enable);
+
 private:
     Q_DISABLE_COPY(QAbstract3DGraph)
     QScopedPointer<QQuickGraphsItem> m_graphsItem;
+
+    void onWheel(QQuickWheelEvent *event);
 
     friend class Q3DBars;
     friend class Q3DScatter;

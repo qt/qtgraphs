@@ -31,9 +31,7 @@ else()
             global/graphsglobal_p.h
             global/qgraphsglobal.h
 
-            input/q3dinputhandler.cpp input/q3dinputhandler.h input/q3dinputhandler_p.h
-            input/qabstract3dinputhandler.cpp input/qabstract3dinputhandler.h input/qabstract3dinputhandler_p.h
-            input/qtouch3dinputhandler.cpp input/qtouch3dinputhandler.h input/qtouch3dinputhandler_p.h
+            input/qgraphsinputhandler.cpp  input/qgraphsinputhandler_p.h
 
             theme/q3dtheme.cpp theme/q3dtheme.h theme/q3dtheme_p.h
             theme/thememanager.cpp theme/thememanager_p.h

@@ -77,23 +77,8 @@ QT_BEGIN_NAMESPACE
  * Constructs a new 3D bar graph.
  */
 Q3DBars::Q3DBars()
-    : QAbstract3DGraph()
-{
-    QQmlComponent *component = new QQmlComponent(engine(), this);
-    component->setData("import QtQuick; import QtGraphs; Bars3D { anchors.fill: parent; }", QUrl());
-    m_graphsItem.reset(qobject_cast<QQuickGraphsBars *>(component->create()));
-    setContent(component->url(), component, m_graphsItem.data());
-
-    QObject::connect(m_graphsItem.data(),
-                     &QQuickGraphsItem::selectedElementChanged,
-                     this,
-                     &QAbstract3DGraph::selectedElementChanged);
-    QObject::connect(m_graphsItem.data(),
-                     &QQuickGraphsItem::msaaSamplesChanged,
-                     this,
-                     &QAbstract3DGraph::msaaSamplesChanged);
-}
-
+    : QAbstract3DGraph(QStringLiteral("Bars3D"))
+{}
 /*!
  * Destroys the 3D bar graph.
  */

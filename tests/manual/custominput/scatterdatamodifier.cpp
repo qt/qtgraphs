@@ -14,8 +14,7 @@
 #include <QtCore/QDebug>
 
 ScatterDataModifier::ScatterDataModifier(Q3DScatter *scatter)
-    : m_graph(scatter),
-      m_inputHandler(new CustomInputHandler())
+    : m_graph(scatter)
 {
     m_graph->activeTheme()->setType(Q3DTheme::Theme::PrimaryColors);
     m_graph->setShadowQuality(QAbstract3DGraph::ShadowQuality::Medium);
@@ -65,17 +64,10 @@ ScatterDataModifier::ScatterDataModifier(Q3DScatter *scatter)
 
     // Give ownership of the handler to the graph and make it the active handler
     //! [0]
-    m_graph->setActiveInputHandler(m_inputHandler);
+    m_graph->unsetDefaultWheelHandler();
+    QObject::connect(m_graph, &QAbstract3DGraph::wheel, this, &ScatterDataModifier::onWheel);
+    QObject::connect(m_graph, &QAbstract3DGraph::mouseMove, this, &ScatterDataModifier::onMouseMove);
     //! [0]
-
-    //! [1]
-    m_selectionTimer = new QTimer(this);
-    m_selectionTimer->setInterval(10);
-    m_selectionTimer->setSingleShot(false);
-    QObject::connect(m_selectionTimer, &QTimer::timeout, this,
-                     &ScatterDataModifier::triggerSelection);
-    m_selectionTimer->start();
-    //! [1]
 }
 
 ScatterDataModifier::~ScatterDataModifier()
@@ -137,9 +129,28 @@ void ScatterDataModifier::toggleCameraAnimation()
     }
 }
 
-void ScatterDataModifier::triggerSelection()
+void ScatterDataModifier::onWheel(QWheelEvent *event)
 {
-    m_graph->scene()->setSelectionQueryPosition(m_inputHandler->inputPosition());
+    // Adjust zoom level based on what zoom range we're in.
+    int zoomLevel = m_graph->cameraZoomLevel();
+    if (zoomLevel > 100)
+        zoomLevel += event->angleDelta().y() / 12;
+    else if (zoomLevel > 50)
+        zoomLevel += event->angleDelta().y() / 60;
+    else
+        zoomLevel += event->angleDelta().y() / 120;
+    if (zoomLevel > 500)
+        zoomLevel = 500;
+    else if (zoomLevel < 10)
+        zoomLevel = 10;
+
+    m_graph->setCameraZoomLevel(zoomLevel);
+}
+
+void ScatterDataModifier::onMouseMove(QPoint mousePos)
+{
+    m_mousePos = mousePos;
+    m_graph->doPicking(mousePos);
 }
 
 void ScatterDataModifier::shadowQualityUpdatedByVisual(QAbstract3DGraph::ShadowQuality sq)

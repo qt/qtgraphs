@@ -4,14 +4,15 @@
 #ifndef SCATTERDATAMODIFIER_H
 #define SCATTERDATAMODIFIER_H
 
-#include "axesinputhandler.h"
-
 #include <QtGraphs/q3dscatter.h>
 #include <QtGraphs/qabstract3dseries.h>
 
 class ScatterDataModifier : public QObject
 {
     Q_OBJECT
+
+    enum InputState { StateNormal = 0, StateDraggingX, StateDraggingZ, StateDraggingY };
+
 public:
     explicit ScatterDataModifier(Q3DScatter *scatter, QObject *parent);
     ~ScatterDataModifier();
@@ -31,6 +32,8 @@ public Q_SLOTS:
     void changeTheme(int theme);
     void changeShadowQuality(int quality);
     void shadowQualityUpdatedByVisual(QAbstract3DGraph::ShadowQuality shadowQuality);
+    void handleElementSelected(QAbstract3DGraph::ElementType type);
+    void handleAxisDragging(QVector2D delta);
 
 Q_SIGNALS:
     void backgroundEnabledChanged(bool enabled);
@@ -45,8 +48,10 @@ private:
     int m_itemCount;
     float m_curveDivider;
 
-    AxesInputHandler *m_inputHandler;
     bool m_autoAdjust = true;
+
+    InputState m_state = StateNormal;
+    float m_dragSpeedModifier = 15.f;
 };
 
 #endif

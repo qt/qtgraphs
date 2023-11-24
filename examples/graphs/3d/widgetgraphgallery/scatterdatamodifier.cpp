@@ -25,10 +25,6 @@ ScatterDataModifier::ScatterDataModifier(Q3DScatter *scatter, QObject *parent)
     , m_graph(scatter)
     , m_itemCount(lowerNumberOfItems)
     , m_curveDivider(lowerCurveDivider)
-    ,
-    //! [7]
-    m_inputHandler(new AxesInputHandler(scatter))
-//! [7]
 {
     //! [0]
     m_graph->activeTheme()->setType(Q3DTheme::Theme::StoneMoss);
@@ -45,15 +41,19 @@ ScatterDataModifier::ScatterDataModifier(Q3DScatter *scatter, QObject *parent)
     m_graph->addSeries(series);
     //! [1]
 
-    //! [8]
-    // Give ownership of the handler to the graph and make it the active handler
-    m_graph->setActiveInputHandler(m_inputHandler);
-    //! [8]
 
-    //! [9]
-    // Give our axes to the input handler
-    m_inputHandler->setAxes(m_graph->axisX(), m_graph->axisZ(), m_graph->axisY());
-    //! [9]
+    // Give ownership of the handler to the graph and make it the active handler
+    //! [8]
+    connect(m_graph,
+            &QAbstract3DGraph::selectedElementChanged,
+            this,
+            &ScatterDataModifier::handleElementSelected);
+    connect(m_graph,
+            &QAbstract3DGraph::dragged,
+            this,
+            &ScatterDataModifier::handleAxisDragging);
+    m_graph->setDragButton(Qt::LeftButton);
+    //! [8]
 
     //! [2]
     addData();
@@ -139,6 +139,79 @@ void ScatterDataModifier::shadowQualityUpdatedByVisual(QAbstract3DGraph::ShadowQ
     emit shadowQualityChanged(quality); // connected to a checkbox in scattergraph.cpp
 }
 
+void ScatterDataModifier::handleElementSelected(QAbstract3DGraph::ElementType type)
+{
+    //! [9]
+    switch (type) {
+    case QAbstract3DGraph::ElementType::AxisXLabel:
+        m_state = StateDraggingX;
+        break;
+    case QAbstract3DGraph::ElementType::AxisYLabel:
+        m_state = StateDraggingY;
+        break;
+    case QAbstract3DGraph::ElementType::AxisZLabel:
+        m_state = StateDraggingZ;
+        break;
+    default:
+        m_state = StateNormal;
+        break;
+    }
+    //! [9]
+}
+
+//! [10]
+void ScatterDataModifier::handleAxisDragging(QVector2D delta)
+{
+    //! [10]
+    float distance = 0.0f;
+
+    //! [11]
+    // Get scene orientation from active camera
+    float xRotation = m_graph->cameraXRotation();
+    float yRotation = m_graph->cameraYRotation();
+    //! [11]
+
+    //! [12]
+    // Calculate directional drag multipliers based on rotation
+    float xMulX = qCos(qDegreesToRadians(xRotation));
+    float xMulY = qSin(qDegreesToRadians(xRotation));
+    float zMulX = qSin(qDegreesToRadians(xRotation));
+    float zMulY = qCos(qDegreesToRadians(xRotation));
+    //! [12]
+
+    //! [13]
+    // Get the drag amount
+    QPoint move = delta.toPoint();
+
+    // Flip the effect of y movement if we're viewing from below
+    float yMove = (yRotation < 0) ? -move.y() : move.y();
+    //! [13]
+
+    //! [14]
+    // Adjust axes
+    QValue3DAxis *axis = nullptr;
+    switch (m_state) {
+    case StateDraggingX:
+        axis = m_graph->axisX();
+        distance = (move.x() * xMulX - yMove * xMulY) / m_dragSpeedModifier;
+        axis->setRange(axis->min() - distance, axis->max() - distance);
+        break;
+    case StateDraggingZ:
+        axis = m_graph->axisZ();
+        distance = (move.x() * zMulX + yMove * zMulY) / m_dragSpeedModifier;
+        axis->setRange(axis->min() + distance, axis->max() + distance);
+        break;
+    case StateDraggingY:
+        axis = m_graph->axisY();
+        distance = move.y() / m_dragSpeedModifier; // No need to use adjusted y move here
+        axis->setRange(axis->min() + distance, axis->max() + distance);
+        break;
+    default:
+        break;
+    }
+    //! [14]
+}
+
 void ScatterDataModifier::changeShadowQuality(int quality)
 {
     QAbstract3DGraph::ShadowQuality sq = QAbstract3DGraph::ShadowQuality(quality);
@@ -173,12 +246,12 @@ void ScatterDataModifier::toggleRanges()
     if (!m_autoAdjust) {
         m_graph->axisX()->setAutoAdjustRange(true);
         m_graph->axisZ()->setAutoAdjustRange(true);
-        m_inputHandler->setDragSpeedModifier(1.5f);
+        m_dragSpeedModifier = 1.5f;
         m_autoAdjust = true;
     } else {
         m_graph->axisX()->setRange(-10.0f, 10.0f);
         m_graph->axisZ()->setRange(-10.0f, 10.0f);
-        m_inputHandler->setDragSpeedModifier(15.0f);
+        m_dragSpeedModifier = 15.0f;
         m_autoAdjust = false;
     }
 }

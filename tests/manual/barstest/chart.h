@@ -5,7 +5,6 @@
 #define CHARTMODIFIER_H
 
 #include <QtGraphs/q3dbars.h>
-#include <QtGraphs/q3dinputhandler.h>
 #include <QtGraphs/qbar3dseries.h>
 #include <QtGraphs/q3dtheme.h>
 #include <QFont>
@@ -111,6 +110,9 @@ public Q_SLOTS:
     void setFloorLevel(int value);
     void setGraphMargin(int value);
 
+    void onWheel(QWheelEvent *event);
+    void onMouseMove(QPoint mousePos);
+
 Q_SIGNALS:
     void shadowQualityChanged(int quality);
 
@@ -156,17 +158,16 @@ private:
     QValue3DAxis *m_currentAxis;
     bool m_negativeValuesOn;
     bool m_useNullInputHandler;
-    Q3DInputHandler *m_defaultInputHandler;
     Q3DTheme *m_ownTheme;
     Q3DTheme *m_builtinTheme;
     QTimer m_insertRemoveTimer;
     int m_insertRemoveStep;
-    QAbstract3DInputHandler *m_customInputHandler;
     QTimer m_selectionTimer;
     QTimer m_rotationTimer;
     QLabel *m_fpsLabel;
     QBar3DSeries *m_extraSeries;
     QVector3D m_cameraTarget;
+    QPoint m_mousePos;
 };
 
 #endif

@@ -100,8 +100,7 @@ Item {
                 baseColors: [dynamicColor]
             }
             shadowQuality: AbstractGraph3D.ShadowQuality.SoftMedium
-            scene.activeCamera.yRotation: 30.0
-            inputHandler: null
+            cameraYRotation: 30.0
             axisX.min: 0
             axisY.min: 0
             axisZ.min: 0
@@ -121,6 +120,10 @@ Item {
                     zPosRole: "zPos"
                     rotationRole: "rotation"
                 }
+            }
+
+            Component.onCompleted: {
+                scatterGraph.unsetDefaultInputHandler();
             }
         }
 

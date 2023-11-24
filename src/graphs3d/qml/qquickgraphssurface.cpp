@@ -6,6 +6,7 @@
 #include "qquickgraphssurface_p.h"
 
 #include "qcategory3daxis_p.h"
+#include "qgraphsinputhandler_p.h"
 #include "qquickgraphssurface_p.h"
 #include "qquickgraphstexturedata_p.h"
 #include "qsurface3dseries_p.h"
@@ -26,7 +27,6 @@ QQuickGraphsSurface::QQuickGraphsSurface(QQuickItem *parent)
     setAxisY(0);
     setAxisZ(0);
     setAcceptedMouseButtons(Qt::AllButtons);
-    createInitialInputHandler();
     clearSelection();
 }
 
@@ -747,6 +747,8 @@ void QQuickGraphsSurface::componentComplete()
     m_instancing = new SurfaceSelectionInstancing();
     m_instancing->setScale(QVector3D(0.001f, 0.001f, 0.001f));
     m_selectionPointer->setInstancing(m_instancing);
+
+    graphsInputHandler()->setGraphsItem(this);
 }
 
 void QQuickGraphsSurface::synchData()

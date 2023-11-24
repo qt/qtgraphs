@@ -4,6 +4,7 @@
 #include "qquickgraphsscatter_p.h"
 #include "qquickgraphstexturedata_p.h"
 #include "qscatter3dseries_p.h"
+#include "qgraphsinputhandler_p.h"
 #include "qscatterdataproxy_p.h"
 #include "qvalue3daxis_p.h"
 
@@ -29,7 +30,6 @@ QQuickGraphsScatter::QQuickGraphsScatter(QQuickItem *parent)
     setAxisZ(0);
     setAcceptedMouseButtons(Qt::AllButtons);
     setFlag(ItemHasContents);
-    createInitialInputHandler();
     clearSelection();
 }
 
@@ -1227,6 +1227,8 @@ void QQuickGraphsScatter::componentComplete()
                      &QQuick3DNode::rotationChanged,
                      this,
                      &QQuickGraphsScatter::cameraRotationChanged);
+
+    graphsInputHandler()->setGraphsItem(this);
 }
 
 void QQuickGraphsScatter::connectSeries(QScatter3DSeries *series)

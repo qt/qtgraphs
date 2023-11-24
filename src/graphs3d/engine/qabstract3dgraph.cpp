@@ -175,82 +175,80 @@ QT_BEGIN_NAMESPACE
 /*!
  * \internal
  */
-QAbstract3DGraph::QAbstract3DGraph()
+QAbstract3DGraph::QAbstract3DGraph(const QString &graphType)
 {
 #ifdef Q_OS_DARWIN
     // Take care of widget users (or CI) wanting to use OpenGL backend on macOS
     if (QQuickWindow::graphicsApi() == QSGRendererInterface::OpenGL)
         QSurfaceFormat::setDefaultFormat(QQuick3D::idealSurfaceFormat(4));
 #endif
+
+    QString qmlData = "import QtQuick; import QtGraphs; " + graphType + " { anchors.fill: parent; }";
+    QQmlComponent *component = new QQmlComponent(engine(), this);
+    component->setData(qmlData.toUtf8(), QUrl());
+    m_graphsItem.reset(qobject_cast<QQuickGraphsItem *>(component->create()));
+    setContent(component->url(), component, m_graphsItem.data());
+
+    QObject::connect(m_graphsItem.data(),
+                     &QQuickGraphsItem::selectedElementChanged,
+                     this,
+                     &QAbstract3DGraph::selectedElementChanged);
+    QObject::connect(m_graphsItem.data(),
+                     &QQuickGraphsItem::msaaSamplesChanged,
+                     this,
+                     &QAbstract3DGraph::msaaSamplesChanged);
+
+    QObject::connect(m_graphsItem.data(),
+                     &QQuickGraphsItem::tapped,
+                     this,
+                     &QAbstract3DGraph::tapped);
+    QObject::connect(m_graphsItem.data(),
+                     &QQuickGraphsItem::doubleTapped,
+                     this,
+                     &QAbstract3DGraph::doubleTapped);
+    QObject::connect(m_graphsItem.data(),
+                     &QQuickGraphsItem::longPressed,
+                     this,
+                     &QAbstract3DGraph::longPressed);
+    QObject::connect(m_graphsItem.data(),
+                     &QQuickGraphsItem::dragged,
+                     this,
+                     &QAbstract3DGraph::dragged);
+    QObject::connect(m_graphsItem.data(),
+                     &QQuickGraphsItem::wheel,
+                     this,
+                     &QAbstract3DGraph::onWheel);
+    QObject::connect(m_graphsItem.data(),
+                     &QQuickGraphsItem::pinch,
+                     this,
+                     &QAbstract3DGraph::pinch);
+    QObject::connect(m_graphsItem.data(),
+                     &QQuickGraphsItem::mouseMove,
+                     this,
+                     &QAbstract3DGraph::mouseMove);
+
+    QObject::connect(m_graphsItem.data(),
+                     &QQuickGraphsItem::zoomEnabledChanged,
+                     this,
+                     &QAbstract3DGraph::zoomEnabledChanged);
+    QObject::connect(m_graphsItem.data(),
+                     &QQuickGraphsItem::zoomAtTargetEnabledChanged,
+                     this,
+                     &QAbstract3DGraph::zoomAtTargetEnabledChanged);
+    QObject::connect(m_graphsItem.data(),
+                     &QQuickGraphsItem::rotationEnabledChanged,
+                     this,
+                     &QAbstract3DGraph::rotationEnabledChanged);
+    QObject::connect(m_graphsItem.data(),
+                     &QQuickGraphsItem::selectionEnabledChanged,
+                     this,
+                     &QAbstract3DGraph::selectionEnabledChanged);
 }
 
 /*!
  * Destroys QAbstract3DGraph.
  */
 QAbstract3DGraph::~QAbstract3DGraph() {}
-
-/*!
- * Adds the given \a inputHandler to the graph. The input handlers added via
- * addInputHandler are not taken in to use directly. Only the ownership of the
- * \a inputHandler is given to the graph. The \a inputHandler must not be null
- * or already added to another graph.
- *
- * \sa releaseInputHandler(), setActiveInputHandler()
- */
-void QAbstract3DGraph::addInputHandler(QAbstract3DInputHandler *inputHandler)
-{
-    m_graphsItem->addInputHandler(inputHandler);
-}
-
-/*!
- * Releases the ownership of the \a inputHandler back to the caller, if it was
- * added to this graph. If the released \a inputHandler is in use there will be
- * no input handler active after this call.
- *
- * If the default input handler is released and added back later, it behaves as
- * any other input handler would.
- *
- * \sa addInputHandler(), setActiveInputHandler()
- */
-void QAbstract3DGraph::releaseInputHandler(QAbstract3DInputHandler *inputHandler)
-{
-    m_graphsItem->releaseInputHandler(inputHandler);
-}
-
-/*!
- * \property QAbstract3DGraph::activeInputHandler
- *
- * \brief The active input handler used in the graph.
- */
-
-/*!
- * Sets \a inputHandler as the active input handler used in the graph.
- * Implicitly calls addInputHandler() to transfer ownership of \a inputHandler
- * to this graph.
- *
- * If \a inputHandler is null, no input handler will be active after this call.
- *
- * \sa addInputHandler(), releaseInputHandler()
- */
-void QAbstract3DGraph::setActiveInputHandler(QAbstract3DInputHandler *inputHandler)
-{
-    m_graphsItem->setActiveInputHandler(inputHandler);
-}
-
-QAbstract3DInputHandler *QAbstract3DGraph::activeInputHandler() const
-{
-    return m_graphsItem->activeInputHandler();
-}
-
-/*!
- * Returns the list of all added input handlers.
- *
- * \sa addInputHandler()
- */
-QList<QAbstract3DInputHandler *> QAbstract3DGraph::inputHandlers() const
-{
-    return m_graphsItem->inputHandlers();
-}
 
 /*!
  * Adds the given \a theme to the graph. The themes added via addTheme are not
@@ -592,6 +590,11 @@ void QAbstract3DGraph::setCameraYRotation(float rotation)
     m_graphsItem->setCameraYRotation(rotation);
 }
 
+/*!
+ * \property QAbstract3DGraph::minCameraXRotation
+ *
+ * \brief The minimum X-rotation angle of the camera around the target point in degrees.
+ */
 float QAbstract3DGraph::minCameraXRotation()
 {
     return m_graphsItem->minCameraXRotation();
@@ -602,6 +605,11 @@ void QAbstract3DGraph::setMinCameraXRotation(float rotation)
     m_graphsItem->setMinCameraXRotation(rotation);
 }
 
+/*!
+ * \property QAbstract3DGraph::maxCameraXRotation
+ *
+ * \brief The maximum X-rotation angle of the camera around the target point in degrees.
+ */
 float QAbstract3DGraph::maxCameraXRotation()
 {
     return m_graphsItem->maxCameraXRotation();
@@ -612,6 +620,11 @@ void QAbstract3DGraph::setMaxCameraXRotation(float rotation)
     m_graphsItem->setMaxCameraXRotation(rotation);
 }
 
+/*!
+ * \property QAbstract3DGraph::minCameraYRotation
+ *
+ * \brief The minimum Y-rotation angle of the camera around the target point in degrees.
+ */
 float QAbstract3DGraph::minCameraYRotation()
 {
     return m_graphsItem->minCameraYRotation();
@@ -622,6 +635,11 @@ void QAbstract3DGraph::setMinCameraYRotation(float rotation)
     m_graphsItem->setMinCameraYRotation(rotation);
 }
 
+/*!
+ * \property QAbstract3DGraph::maxCameraYRotation
+ *
+ * \brief The maximum Y-rotation angle of the camera around the target point in degrees.
+ */
 float QAbstract3DGraph::maxCameraYRotation()
 {
     return m_graphsItem->maxCameraYRotation();
@@ -630,6 +648,110 @@ float QAbstract3DGraph::maxCameraYRotation()
 void QAbstract3DGraph::setMaxCameraYRotation(float rotation)
 {
     m_graphsItem->setMaxCameraYRotation(rotation);
+}
+
+/*!
+ * \property QAbstract3DGraph::zoomAtTargetEnabled
+ *
+ * \brief Whether zooming should change the camera target so that the zoomed point
+ * of the graph stays at the same location after the zoom.
+ *
+ * Defaults to \c{true}.
+ */
+bool QAbstract3DGraph::zoomAtTargetEnabled()
+{
+    return m_graphsItem->zoomAtTargetEnabled();
+}
+
+void QAbstract3DGraph::setZoomAtTargetEnabled(bool enable)
+{
+    m_graphsItem->setZoomAtTargetEnabled(enable);
+}
+
+/*!
+ * \property QAbstract3DGraph::zoomEnabled
+ *
+ * \brief Whether this input handler allows graph zooming.
+ *
+ * Defaults to \c{true}.
+ */
+bool QAbstract3DGraph::zoomEnabled()
+{
+    return m_graphsItem->zoomEnabled();
+}
+
+void QAbstract3DGraph::setZoomEnabled(bool enable)
+{
+    m_graphsItem->setZoomEnabled(enable);
+}
+
+/*!
+ * \property QAbstract3DGraph::selectionEnabled
+ *
+ * \brief Whether this input handler allows selection from the graph.
+ *
+ * Defaults to \c{true}.
+ */
+bool QAbstract3DGraph::selectionEnabled()
+{
+    return m_graphsItem->selectionEnabled();
+}
+
+void QAbstract3DGraph::setSelectionEnabled(bool enable)
+{
+    m_graphsItem->setSelectionEnabled(enable);
+}
+
+/*!
+ * \property QAbstract3DGraph::rotationEnabled
+ *
+ * \brief Whether this input handler allows graph rotation.
+ *
+ * Defaults to \c{true}.
+ */
+bool QAbstract3DGraph::rotationEnabled()
+{
+    return m_graphsItem->rotationEnabled();
+}
+
+void QAbstract3DGraph::setRotationEnabled(bool enable)
+{
+    m_graphsItem->setRotationEnabled(enable);
+}
+
+void QAbstract3DGraph::setDefaultInputHandler()
+{
+    m_graphsItem->setDefaultInputHandler();
+}
+
+void QAbstract3DGraph::unsetDefaultInputHandler()
+{
+    m_graphsItem->unsetDefaultInputHandler();
+}
+
+void QAbstract3DGraph::unsetDefaultTapHandler()
+{
+    m_graphsItem->unsetDefaultTapHandler();
+}
+
+void QAbstract3DGraph::unsetDefaultDragHandler()
+{
+    m_graphsItem->unsetDefaultDragHandler();
+}
+
+void QAbstract3DGraph::unsetDefaultWheelHandler()
+{
+    m_graphsItem->unsetDefaultWheelHandler();
+}
+
+void QAbstract3DGraph::unsetDefaultPinchHandler()
+{
+    m_graphsItem->unsetDefaultPinchHandler();
+}
+
+void QAbstract3DGraph::setDragButton(Qt::MouseButtons button)
+{
+    m_graphsItem->setDragButton(button);
 }
 
 /*!
@@ -651,6 +773,7 @@ float QAbstract3DGraph::cameraZoomLevel()
 void QAbstract3DGraph::setCameraZoomLevel(float level)
 {
     m_graphsItem->setCameraZoomLevel(level);
+    m_graphsItem->update();
 }
 
 /*!
@@ -811,6 +934,11 @@ int QAbstract3DGraph::msaaSamples() const
 void QAbstract3DGraph::setMsaaSamples(int samples)
 {
     m_graphsItem->setMsaaSamples(samples);
+}
+
+void QAbstract3DGraph::doPicking(QPoint point)
+{
+    m_graphsItem->doPicking(point);
 }
 
 /*!
@@ -1121,28 +1249,19 @@ void QAbstract3DGraph::resizeEvent(QResizeEvent *event)
     }
 }
 
-/*!
- * \internal
- */
-void QAbstract3DGraph::mouseDoubleClickEvent(QMouseEvent *event)
+void QAbstract3DGraph::onWheel(QQuickWheelEvent *event)
 {
-    m_graphsItem->mouseDoubleClickEvent(event);
-}
-
-/*!
- * \internal
- */
-void QAbstract3DGraph::mousePressEvent(QMouseEvent *event)
-{
-    m_graphsItem->mousePressEvent(event);
-}
-
-/*!
- * \internal
- */
-void QAbstract3DGraph::mouseReleaseEvent(QMouseEvent *event)
-{
-    m_graphsItem->mouseReleaseEvent(event);
+    QWheelEvent *ev = new QWheelEvent(QPointF(event->x(), event->y()),
+                                      QPointF(event->x(), event->y()),
+                                      event->pixelDelta(),
+                                      event->angleDelta(),
+                                      static_cast<Qt::MouseButton>(event->buttons()),
+                                      static_cast<Qt::KeyboardModifier>(event->modifiers()),
+                                      event->phase(),
+                                      event->inverted(),
+                                      Qt::MouseEventSynthesizedBySystem,
+                                      event->pointingDevice());
+    emit wheel(ev);
 }
 
 /*!
@@ -1150,17 +1269,8 @@ void QAbstract3DGraph::mouseReleaseEvent(QMouseEvent *event)
  */
 void QAbstract3DGraph::mouseMoveEvent(QMouseEvent *event)
 {
+    QQuickWidget::mouseMoveEvent(event);
     m_graphsItem->mouseMoveEvent(event);
 }
-
-#if QT_CONFIG(wheelevent)
-/*!
- * \internal
- */
-void QAbstract3DGraph::wheelEvent(QWheelEvent *event)
-{
-    m_graphsItem->wheelEvent(event);
-}
-#endif
 
 QT_END_NAMESPACE

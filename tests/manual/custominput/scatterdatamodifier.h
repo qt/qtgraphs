@@ -4,8 +4,6 @@
 #ifndef SCATTERDATAMODIFIER_H
 #define SCATTERDATAMODIFIER_H
 
-#include "custominputhandler.h"
-
 #include <QtGraphs/q3dscatter.h>
 #include <QtGui/QFont>
 #include <QtCore/QTimer>
@@ -27,17 +25,17 @@ public:
 public Q_SLOTS:
     void changeShadowQuality(int quality);
     void shadowQualityUpdatedByVisual(QAbstract3DGraph::ShadowQuality shadowQuality);
-    void triggerSelection();
+    void onWheel(QWheelEvent *event);
+    void onMouseMove(QPoint mousePos);
 
 Q_SIGNALS:
     void shadowQualityChanged(int quality);
 
 private:
+    QPoint m_mousePos;
     Q3DScatter *m_graph;
     QPropertyAnimation *m_animationCameraX;
     QSequentialAnimationGroup *m_animationCameraY;
-    CustomInputHandler *m_inputHandler;
-    QTimer *m_selectionTimer;
 };
 
 #endif

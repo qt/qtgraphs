@@ -99,7 +99,6 @@ Item {
     //! [0]
     Scatter3D {
         id: scatterGraph
-        inputHandler: null
         //! [0]
         anchors.fill: parent
         theme: dynamicColorTheme
@@ -142,6 +141,10 @@ Item {
             }
         }
         //! [5]
+
+        Component.onCompleted: {
+            unsetDefaultInputHandler();
+        }
     }
 
     //! [1]
@@ -168,7 +171,7 @@ Item {
 
         //! [2]
         onPressed: (mouse)=> {
-                       scatterGraph.scene.selectionQueryPosition = Qt.point(mouse.x, mouse.y);
+                       scatterGraph.doPicking(Qt.point(mouse.x, mouse.y));
                    }
         //! [2]
 

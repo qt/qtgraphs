@@ -9,7 +9,6 @@ qt_internal_add_manual_test(tst_barstest
         chart.cpp chart.h
         sliderwrapper.cpp sliderwrapper.h
         buttonwrapper.cpp buttonwrapper.h
-        custominputhandler.cpp custominputhandler.h
         main.cpp
     )
 target_link_libraries(tst_barstest PUBLIC

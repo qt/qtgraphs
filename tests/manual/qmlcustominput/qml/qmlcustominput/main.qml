@@ -29,7 +29,6 @@ Item {
             theme: Theme3D { type: Theme3D.Theme.Ebony }
             shadowQuality: AbstractGraph3D.ShadowQuality.Medium
             cameraYRotation: 30.0
-            inputHandler: null
 
             Scatter3DSeries {
                 id: scatterSeriesOne
@@ -68,6 +67,10 @@ Item {
                     yPosRole: "yPos"
                     zPosRole: "zPos"
                 }
+            }
+
+            Component.onCompleted: {
+                scatterGraph.unsetDefaultInputHandler();
             }
         }
 

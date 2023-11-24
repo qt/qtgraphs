@@ -6,7 +6,6 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 qt_internal_add_manual_test(tst_custominput
     GUI
     SOURCES
-        custominputhandler.cpp custominputhandler.h
         main.cpp
         scatterdatamodifier.cpp scatterdatamodifier.h
 )

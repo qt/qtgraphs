@@ -6,7 +6,6 @@
 #include <QtGraphs/QSurfaceDataProxy>
 #include <QtGraphs/QSurface3DSeries>
 #include <QtGraphs/Q3DTheme>
-#include <QtGraphs/Q3DInputHandler>
 
 #include <qmath.h>
 #include <qrandom.h>
@@ -87,7 +86,7 @@ GraphModifier::GraphModifier(Q3DSurface *graph)
     m_graph->axisY()->setRange(m_minY, m_minY + m_rangeY);
     m_graph->axisZ()->setRange(m_minZ, m_minZ + m_rangeZ);
 
-    static_cast<Q3DInputHandler *>(m_graph->activeInputHandler())->setZoomAtTargetEnabled(true);
+    m_graph->setZoomAtTargetEnabled(true);
 
     for (int i = 0; i < 4; i++) {
         m_multiseries[i] = new QSurface3DSeries;
