@@ -827,19 +827,6 @@ void QQuickGraphsSurface::updateGraph()
             }
         }
 
-        if (isSliceEnabled()) {
-            if (!sliceView())
-                createSliceView();
-            QList<QSurface3DSeries *> surfaceSeriesAsList = surfaceSeriesList();
-            for (const auto &surfaceSeries : std::as_const(surfaceSeriesAsList)) {
-                bool visible = !(sliceView()->isVisible() ^ surfaceSeries->isVisible());
-                if (m_selectedSeries == surfaceSeries) {
-                    setSliceActivatedChanged(true);
-                    m_selectionDirty = !visible;
-                }
-            }
-        }
-
         setDataDirty(false);
         setSeriesVisualsDirty(false);
     }
@@ -1848,6 +1835,14 @@ void QQuickGraphsSurface::updateSelectedPoint()
                 if (sliceView() && sliceView()->isVisible())
                     updateSliceItemLabel(label, slicePosition);
             }
+        }
+        if (isSliceEnabled()) {
+            if (!sliceView())
+                createSliceView();
+
+            bool visible = !(sliceView()->isVisible() ^ model->series->isVisible());
+            setSliceActivatedChanged(true);
+            m_selectionDirty = !visible;
         }
     }
     itemLabel()->setVisible(labelVisible);
