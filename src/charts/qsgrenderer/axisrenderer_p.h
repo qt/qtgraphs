@@ -51,6 +51,7 @@ private:
     friend class QGraphsView;
     friend class BarsRenderer;
     friend class LinesRenderer;
+    friend class PointRenderer;
 
     QGraphsView *m_graph = nullptr;
     GraphTheme *theme();

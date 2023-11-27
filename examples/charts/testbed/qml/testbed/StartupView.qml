@@ -35,6 +35,10 @@ Item {
             file: "LineProperties.qml"
         }
         ListElement {
+            name: "Scatter Properties"
+            file: "ScatterProperties.qml"
+        }
+        ListElement {
             name: "Callout"
             file: "Callout.qml"
         }

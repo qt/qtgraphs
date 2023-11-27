@@ -147,11 +147,11 @@ Rectangle {
                 max: 8
                 autoScale: false
             }
-            pointMarker: Rectangle {
+            pointMarker: Image {
                 property bool selected: false
-                width: 5
-                height: 20
-                color: selected ? "cyan" : "white"
+                source: "images/happy_box.png"
+                width: selected ? 96 : 64
+                height: selected ? 96 : 64
             }
 
             XYPoint { x: 0; y: 0 }
@@ -191,13 +191,6 @@ Rectangle {
             XYPoint { x: 3.5; y: 6.9 }
             XYPoint { x: 3.6; y: 5.2 }
             XYPoint { x: 4.0; y: 3.3 }
-        }
-
-        // TEMP
-        FrameAnimation {
-            id: fA
-            running: true
-            onTriggered: chartView.update();
         }
     }
 }

@@ -10,29 +10,27 @@
 //
 // We mean it.
 
-#ifndef QLINESERIES_P_H
-#define QLINESERIES_P_H
+#ifndef QSCATTERSERIES_P_H
+#define QSCATTERSERIES_P_H
 
-#include <QtGraphs2D/qlineseries.h>
+#include <QtGraphs2D/qscatterseries.h>
 #include <private/qxyseries_p.h>
 
 QT_BEGIN_NAMESPACE
 
-class QLineSeriesPrivate : public QXYSeriesPrivate
+class QScatterSeriesPrivate : public QXYSeriesPrivate
 {
 public:
-    QLineSeriesPrivate(QLineSeries *q);
+    QScatterSeriesPrivate(QScatterSeries *q);
     void initializeGraphics(QGraphicsItem* parent) override;
 protected:
     void requestItems();
 
     QAbstractAxis *m_axisX = nullptr;
     QAbstractAxis *m_axisY = nullptr;
-    qreal m_width = 2.0;
-    Qt::PenCapStyle m_capStyle = Qt::PenCapStyle::SquareCap;
     QQmlComponent *m_marker = nullptr;
 private:
-    Q_DECLARE_PUBLIC(QLineSeries)
+    Q_DECLARE_PUBLIC(QScatterSeries)
 };
 
 QT_END_NAMESPACE

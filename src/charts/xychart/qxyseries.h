@@ -24,29 +24,12 @@ class QXYModelMapper;
 class QXYSeries : public QAbstractSeries
 {
     Q_OBJECT
-    Q_PROPERTY(bool pointsVisible READ pointsVisible WRITE setPointsVisible)
     Q_PROPERTY(QColor color READ color WRITE setColor NOTIFY colorChanged)
     Q_PROPERTY(QColor selectedColor READ color WRITE setSelectedColor NOTIFY selectedColorChanged)
-    Q_PROPERTY(QString pointLabelsFormat READ pointLabelsFormat WRITE setPointLabelsFormat NOTIFY pointLabelsFormatChanged)
-    Q_PROPERTY(bool pointLabelsVisible READ pointLabelsVisible WRITE setPointLabelsVisible NOTIFY pointLabelsVisibilityChanged)
-    Q_PROPERTY(QFont pointLabelsFont READ pointLabelsFont WRITE setPointLabelsFont NOTIFY pointLabelsFontChanged)
-    Q_PROPERTY(QColor pointLabelsColor READ pointLabelsColor WRITE setPointLabelsColor NOTIFY pointLabelsColorChanged)
-    Q_PROPERTY(bool pointLabelsClipping READ pointLabelsClipping WRITE setPointLabelsClipping NOTIFY pointLabelsClippingChanged)
-    Q_PROPERTY(bool bestFitLineVisible READ bestFitLineVisible WRITE setBestFitLineVisible NOTIFY bestFitLineVisibilityChanged)
-    Q_PROPERTY(QColor bestFitLineColor READ bestFitLineColor WRITE setBestFitLineColor NOTIFY bestFitLineColorChanged)
+    Q_PROPERTY(qreal markerSize READ markerSize WRITE setMarkerSize NOTIFY markerSizeChanged)
 
 protected:
     explicit QXYSeries(QXYSeriesPrivate &d, QObject *parent = nullptr);
-
-public:
-    enum class PointConfiguration {
-        Color = 0,
-        Size,
-        Visibility,
-        LabelVisibility,
-        LabelFormat
-    };
-    Q_ENUM(PointConfiguration)
 
 public:
     ~QXYSeries();
@@ -57,6 +40,7 @@ public:
     void replace(const QPointF &oldPoint, const QPointF &newPoint);
     void replace(int index, qreal newX, qreal newY);
     void replace(int index, const QPointF &newPoint);
+    void replace(const QList<QPointF> &points);
     void remove(qreal x, qreal y);
     void remove(const QPointF &point);
     void remove(int index);
@@ -71,37 +55,11 @@ public:
     QXYSeries &operator<<(const QPointF &point);
     QXYSeries &operator<<(const QList<QPointF> &points);
 
-//    virtual void setPen(const QPen &pen);
-//    QPen pen() const;
-
-//    virtual void setBrush(const QBrush &brush);
-//    QBrush brush() const;
-
     virtual void setColor(const QColor &newColor);
     virtual QColor color() const;
 
     void setSelectedColor(const QColor &color);
     QColor selectedColor() const;
-
-    void setPointsVisible(bool visible = true);
-    bool pointsVisible() const;
-
-    void setPointLabelsFormat(const QString &format);
-    QString pointLabelsFormat() const;
-
-    void setPointLabelsVisible(bool visible = true);
-    bool pointLabelsVisible() const;
-
-    void setPointLabelsFont(const QFont &font);
-    QFont pointLabelsFont() const;
-
-    void setPointLabelsColor(const QColor &color);
-    QColor pointLabelsColor() const;
-
-    void setPointLabelsClipping(bool enabled = true);
-    bool pointLabelsClipping() const;
-
-    void replace(const QList<QPointF> &points);
 
     bool isPointSelected(int index);
     void selectPoint(int index);
@@ -117,56 +75,15 @@ public:
     void setMarkerSize(qreal size);
     qreal markerSize() const;
 
-    void setBestFitLineVisible(bool visible = true);
-    bool bestFitLineVisible() const;
-    QPair<qreal, qreal> bestFitLineEquation(bool &ok) const;
-
-//    void setBestFitLinePen(const QPen &pen);
-//    QPen bestFitLinePen() const;
-    void setBestFitLineColor(const QColor &color);
-    QColor bestFitLineColor() const;
-
-    void clearPointConfiguration(const int index);
-    void clearPointConfiguration(const int index, const PointConfiguration key);
-    void clearPointsConfiguration();
-    void clearPointsConfiguration(const PointConfiguration key);
-    void setPointConfiguration(const int index,
-                               const QHash<PointConfiguration, QVariant> &configuration);
-    void setPointConfiguration(const int index, const PointConfiguration key,
-                               const QVariant &value);
-    void setPointsConfiguration(
-            const QHash<int, QHash<QXYSeries::PointConfiguration, QVariant>> &pointsConfiguration);
-    QHash<PointConfiguration, QVariant> pointConfiguration(const int index) const;
-    QHash<int, QHash<PointConfiguration, QVariant>> pointsConfiguration() const;
-
-    void sizeBy(const QList<qreal> &sourceData, const qreal minSize, const qreal maxSize);
-    void colorBy(const QList<qreal> &sourceData, const QLinearGradient &gradient = QLinearGradient());
-
 Q_SIGNALS:
-    void clicked(const QPointF &point);
-    void hovered(const QPointF &point, bool state);
-    void pressed(const QPointF &point);
-    void released(const QPointF &point);
-    void doubleClicked(const QPointF &point);
     void pointReplaced(int index);
     void pointRemoved(int index);
     void pointAdded(int index);
     void colorChanged(QColor color);
-    Q_REVISION(6, 2) void selectedColorChanged(const QColor &color);
+    void selectedColorChanged(const QColor &color);
     void pointsReplaced();
-    void pointLabelsFormatChanged(const QString &format);
-    void pointLabelsVisibilityChanged(bool visible);
-    void pointLabelsFontChanged(const QFont &font);
-    void pointLabelsColorChanged(const QColor &color);
-    void pointLabelsClippingChanged(bool clipping);
     void pointsRemoved(int index, int count);
-//    void penChanged(const QPen &pen);
     void selectedPointsChanged();
-    Q_REVISION(6, 2) void bestFitLineVisibilityChanged(bool visible);
-//    Q_REVISION(6, 2) void bestFitLinePenChanged(const QPen &pen);
-    Q_REVISION(6, 2) void bestFitLineColorChanged(const QColor &color);
-    Q_REVISION(6, 2) void pointsConfigurationChanged(
-            const QHash<int, QHash<PointConfiguration, QVariant>> &configuration);
     void markerSizeChanged(qreal size);
 
 private:

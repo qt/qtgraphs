@@ -4,6 +4,7 @@
 #include <private/qgraphsview_p.h>
 #include <QtGraphs2D/qbarseries.h>
 #include <QtGraphs2D/qlineseries.h>
+#include <QtGraphs2D/qscatterseries.h>
 
 QT_BEGIN_NAMESPACE
 
@@ -138,12 +139,12 @@ void QGraphsView::handleHover(QString seriesName, QPointF position, QPointF valu
 
 void QGraphsView::updateComponentSizes()
 {
-    if (!m_axisRenderer || !m_barsRenderer || !m_linesRenderer)
+    if (!m_axisRenderer || !m_barsRenderer || !m_pointRenderer)
         return;
 
     m_axisRenderer->setSize(size());
     m_barsRenderer->setSize(size());
-    m_linesRenderer->setSize(size());
+    m_pointRenderer->setSize(size());
 }
 
 void QGraphsView::componentComplete()
@@ -155,6 +156,7 @@ void QGraphsView::componentComplete()
         m_theme->resetColorTheme();
     }
     QQuickItem::componentComplete();
+
     ensurePolished();
 }
 
@@ -173,32 +175,40 @@ void QGraphsView::geometryChange(const QRectF &newGeometry, const QRectF &oldGeo
     if (!m_barsRenderer)
         m_barsRenderer = new BarsRenderer(this);
 
-    if (!m_linesRenderer)
-        m_linesRenderer = new LinesRenderer(this);
+    if (!m_pointRenderer)
+        m_pointRenderer = new PointRenderer(this);
 
     updateComponentSizes();
+
+    ensurePolished();
 }
 
 void QGraphsView::mouseMoveEvent(QMouseEvent *event)
 {
-    m_linesRenderer->handleMouseMove(event);
+    m_pointRenderer->handleMouseMove(event);
+
+    polish();
 }
 
 void QGraphsView::mousePressEvent(QMouseEvent *event)
 {
     m_barsRenderer->handleMousePress(event);
-    m_linesRenderer->handleMousePress(event);
+    m_pointRenderer->handleMousePress(event);
+
+    polish();
 }
 
 void QGraphsView::mouseReleaseEvent(QMouseEvent *event)
 {
-    m_linesRenderer->handleMouseRelease(event);
+    m_pointRenderer->handleMouseRelease(event);
+
+    polish();
 }
 
 void QGraphsView::hoverMoveEvent(QHoverEvent *event)
 {
     m_barsRenderer->handleHoverMove(event);
-    m_linesRenderer->handleHoverMove(event);
+    m_pointRenderer->handleHoverMove(event);
 }
 
 QSGNode *QGraphsView::updatePaintNode(QSGNode *oldNode, QQuickItem::UpdatePaintNodeData *updatePaintNodeData)
@@ -218,7 +228,10 @@ QSGNode *QGraphsView::updatePaintNode(QSGNode *oldNode, QQuickItem::UpdatePaintN
             m_barsRenderer->updateBarSeries(barSeries);
 
         if (auto lineSeries = qobject_cast<QLineSeries*>(series))
-            m_linesRenderer->updateLineSeries(lineSeries);
+            m_pointRenderer->updateSeries(lineSeries);
+
+        if (auto scatterSeries = qobject_cast<QScatterSeries*>(series))
+            m_pointRenderer->updateSeries(scatterSeries);
     }
 
     // Now possibly dirty theme has been taken into use
@@ -239,7 +252,10 @@ void QGraphsView::updatePolish()
             m_barsRenderer->handlePolish(barSeries);
 
         if (auto lineSeries = qobject_cast<QLineSeries*>(series))
-            m_linesRenderer->handlePolish(lineSeries);
+            m_pointRenderer->handlePolish(lineSeries);
+
+        if (auto scatterSeries = qobject_cast<QScatterSeries*>(series))
+            m_pointRenderer->handlePolish(scatterSeries);
     }
 }
 

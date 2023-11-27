@@ -21,16 +21,15 @@
 
 #include <QPen>
 #include <QBrush>
-#include <private/barsrenderer_p.h>
-#include <private/linesrenderer_p.h>
 #include <private/axisrenderer_p.h>
+#include <private/barsrenderer_p.h>
+#include <private/pointrenderer_p.h>
 #include <QtGraphs2D/graphtheme.h>
 #include <QtQuick/QSGClipNode>
 
 QT_BEGIN_NAMESPACE
 
 class QAbstractAxis;
-class QLineSeries;
 
 // KG: TODO
 class QChartPrivate
@@ -127,11 +126,11 @@ Q_SIGNALS:
 private:
     friend class AxisRenderer;
     friend class BarsRenderer;
-    friend class LinesRenderer;
+    friend class PointRenderer;
 
-    BarsRenderer *m_barsRenderer = nullptr;
-    LinesRenderer *m_linesRenderer = nullptr;
     AxisRenderer *m_axisRenderer = nullptr;
+    BarsRenderer *m_barsRenderer = nullptr;
+    PointRenderer *m_pointRenderer = nullptr;
     QList<QObject *> m_seriesList;
     QBrush m_backgroundBrush;
     //QSGDefaultInternalRectangleNode *m_backgroundNode = nullptr;

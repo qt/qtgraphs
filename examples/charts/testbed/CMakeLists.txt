@@ -52,9 +52,11 @@ qt6_add_qml_module(testbed
         qml/testbed/LineProperties.qml
         qml/testbed/AxisGridSetup.qml
         qml/testbed/Callout.qml
+        qml/testbed/ScatterProperties.qml
     RESOURCES
         qml/testbed/images/arrow_icon.png
         qml/testbed/images/icon_settings.png
+        qml/testbed/images/happy_box.png
 )
 
 install(TARGETS testbed

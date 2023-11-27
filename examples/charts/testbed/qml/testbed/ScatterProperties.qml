@@ -12,6 +12,32 @@ Rectangle {
     height: 600
     color: "#404040"
 
+    Row {
+        id: toolbar
+        anchors.top: parent.top
+        anchors.margins: 10
+        anchors.left: parent.left
+        anchors.leftMargin: 60
+        spacing: 10
+
+        Row {
+            id: seriesToolbar
+            spacing: 10
+            Button {
+                text: "Theme1"
+                onClicked: {
+                    seriesTheme.colorTheme = SeriesTheme.SeriesTheme1;
+                }
+            }
+            Button {
+                text: "Theme2"
+                onClicked: {
+                    seriesTheme.colorTheme = SeriesTheme.SeriesTheme2;
+                }
+            }
+        }
+    }
+
     Rectangle {
         id: background
         anchors.fill: chartView
@@ -26,47 +52,51 @@ Rectangle {
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.bottom: parent.bottom
-        anchors.top: parent.top
+        anchors.top: toolbar.bottom
         anchors.margins: 10
         backgroundColor: "#202020"
-
-        onHoverEnter: {
-            tooltip.visible = true;
-        }
-
-        onHoverExit: {
-            tooltip.visible = false;
-        }
-
-        onHover: (seriesName, position, value) => {
-            tooltip.x = position.x + 1;
-            tooltip.y = position.y + 1;
-            tooltip.text = "Series: " + seriesName + ", X: " + value.x.toFixed(1) + ", Y: " + value.y.toFixed(1);
-        }
 
         SeriesTheme {
             id: seriesTheme
             colorTheme: SeriesTheme.SeriesTheme1
         }
 
-        BarSeries {
-            id: barSeries
+        ScatterSeries {
+            id: lineSeries1
             name: "First"
-            hoverable: true
-            axisX: BarCategoryAxis { categories: ["2023", "2024", "2025", "2026"] }
+            theme: seriesTheme
+            selectable: true
+            axisX: ValueAxis {
+                id: xAxis
+                max: 4
+                autoScale: false
+            }
             axisY: ValueAxis {
                 id: yAxis
                 max: 8
                 autoScale: false
             }
-            BarSet { id: set1; label: "Axel"; values: [1, 2, 3, 4] }
+            pointMarker: Image {
+                property bool selected: false
+                source: "images/happy_box.png"
+                width: selected ? 96 : 64
+                height: selected ? 96 : 64
+            }
+
+            XYPoint { x: 0; y: 0 }
+            XYPoint { x: 1.1; y: 2.1 }
+            XYPoint { x: 1.9; y: 3.3 }
+            XYPoint { x: 2.1; y: 2.1 }
+            XYPoint { x: 2.9; y: 4.9 }
+            XYPoint { x: 3.4; y: 3.0 }
+            XYPoint { x: 4.0; y: 3.3 }
         }
 
-        LineSeries {
-            id: lineSeries
+        ScatterSeries {
+            id: scatterSeries2
             name: "Second"
             theme: seriesTheme
-            hoverable: true
+            selectable: true
 
             XYPoint { x: 0; y: 6.6 }
             XYPoint { x: 0.6; y: 4.1 }
@@ -78,11 +108,9 @@ Rectangle {
         }
 
         ScatterSeries {
-            id: scatterSeries
+            id: scatterSeries3
             name: "Third"
             theme: seriesTheme
-            hoverable: true
-
             XYPoint { x: 0; y: 2.6 }
             XYPoint { x: 0.2; y: 3.1 }
             XYPoint { x: 1.3; y: 6.3 }
@@ -90,10 +118,6 @@ Rectangle {
             XYPoint { x: 3.5; y: 6.9 }
             XYPoint { x: 3.6; y: 5.2 }
             XYPoint { x: 4.0; y: 3.3 }
-        }
-
-        ToolTip {
-            id: tooltip
         }
     }
 }

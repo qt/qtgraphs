@@ -19,6 +19,7 @@ qt_internal_add_qml_module(Graphs2D
         barchart/qabstractbarseries.cpp barchart/qabstractbarseries.h barchart/qabstractbarseries_p.h
         barchart/qbarset.cpp barchart/qbarset.h barchart/qbarset_p.h
         linechart/qlineseries.cpp linechart/qlineseries.h linechart/qlineseries_p.h
+        scatterchart/qscatterseries.cpp scatterchart/qscatterseries.h scatterchart/qscatterseries_p.h
         xychart/qxyseries.cpp xychart/qxyseries.h xychart/qxyseries_p.h
         xychart/qxypoint.cpp xychart/qxypoint_p.h
         axis/qabstractaxis.cpp axis/qabstractaxis.h axis/qabstractaxis_p.h
@@ -30,7 +31,7 @@ qt_internal_add_qml_module(Graphs2D
         themes/graphtheme.cpp themes/graphtheme.h
         themes/seriestheme.cpp themes/seriestheme.h
         qsgrenderer/barsrenderer.cpp qsgrenderer/barsrenderer_p.h
-        qsgrenderer/linesrenderer.cpp qsgrenderer/linesrenderer_p.h
+        qsgrenderer/pointrenderer.cpp qsgrenderer/pointrenderer_p.h
         qsgrenderer/axisrenderer.cpp qsgrenderer/axisrenderer_p.h
     NO_PCH_SOURCES
         barchart/qabstractbarseries.cpp

@@ -37,5 +37,3 @@ QXYPoint::QXYPoint(QObject *parent) :
 }
 
 QT_END_NAMESPACE
-
-#include "moc_qxypoint_p.cpp"
