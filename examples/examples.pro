@@ -1,2 +1,2 @@
 TEMPLATE = subdirs
-SUBDIRS += graphs
+SUBDIRS += graphs3d
