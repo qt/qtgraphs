@@ -177,14 +177,6 @@ private:
     const float m_indicatorScaleAdjustment = 1.1f;
     const float m_rangeGradientYHelper = 0.5f;
 
-    float m_scaleX = 1.0f;
-    float m_scaleY = 1.0f;
-    float m_scaleZ = 1.0f;
-
-    float m_requestedMargin = -1.0f;
-    float m_vBackgroundMargin = 0.1f;
-    float m_hBackgroundMargin = 0.1f;
-
     bool m_polarGraph = false;
 
     float m_selectedGradientPos = 0.0f;

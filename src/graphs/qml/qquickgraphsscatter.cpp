@@ -300,7 +300,8 @@ void QQuickGraphsScatter::updateScatterGraphItemVisuals(ScatterModel *graphModel
                                               graphModel->seriesTexture,
                                               graphModel->highlightTexture);
 
-            float rangeGradientYScaler = m_rangeGradientYHelper / m_scaleY;
+            const float scaleY = scaleWithBackground().y();
+            float rangeGradientYScaler = m_rangeGradientYHelper / scaleY;
 
             QList<float> customData;
             customData.resize(itemCount);
@@ -308,7 +309,7 @@ void QQuickGraphsScatter::updateScatterGraphItemVisuals(ScatterModel *graphModel
             QList<DataItemHolder> instancingData = graphModel->instancing->dataArray();
             for (int i = 0; i < instancingData.size(); i++) {
                 auto dih = instancingData.at(i);
-                float value = (dih.position.y() + m_scaleY) * rangeGradientYScaler;
+                float value = (dih.position.y() + scaleY) * rangeGradientYScaler;
                 customData[i] = value;
             }
             graphModel->instancing->setCustomData(customData);
@@ -439,8 +440,9 @@ void QQuickGraphsScatter::updateMaterialProperties(QQuick3DModel *item,
 
         textureInput->setTexture(texture);
 
-        float rangeGradientYScaler = m_rangeGradientYHelper / m_scaleY;
-        float value = (item->y() + m_scaleY) * rangeGradientYScaler;
+        const float scaleY = scaleWithBackground().y();
+        float rangeGradientYScaler = m_rangeGradientYHelper / scaleY;
+        float value = (item->y() + scaleY) * rangeGradientYScaler;
         customMaterial->setProperty("gradientPos", value);
     }
 }
@@ -1229,51 +1231,47 @@ void QQuickGraphsScatter::connectSeries(QScatter3DSeries *series)
 
 void QQuickGraphsScatter::calculateSceneScalingFactors()
 {
-    if (m_requestedMargin < 0.0f) {
+    float marginV = 0.0f;
+    float marginH = 0.0f;
+    if (margin() < 0.0f) {
         if (m_maxItemSize > m_defaultMaxSize)
-            m_hBackgroundMargin = m_maxItemSize / m_itemScaler;
+            marginH = m_maxItemSize / m_itemScaler;
         else
-            m_hBackgroundMargin = m_defaultMaxSize;
-        m_vBackgroundMargin = m_hBackgroundMargin;
+            marginH = m_defaultMaxSize;
+        marginV = marginH;
     } else {
-        m_hBackgroundMargin = m_requestedMargin;
-        m_vBackgroundMargin = m_requestedMargin;
+        marginH = margin();
+        marginV = margin();
     }
 
-    float hAspectRatio = horizontalAspectRatio();
-
     QSizeF areaSize;
-    auto *axisXValue = static_cast<QValue3DAxis *>(axisX());
-    auto *axisZValue = static_cast<QValue3DAxis *>(axisZ());
-
-    if (qFuzzyIsNull(hAspectRatio)) {
-        areaSize.setHeight(axisZValue->max() - axisZValue->min());
-        areaSize.setWidth(axisXValue->max() - axisXValue->min());
+    if (qFuzzyIsNull(horizontalAspectRatio())) {
+        areaSize.setHeight(axisZ()->max() - axisZ()->min());
+        areaSize.setWidth(axisX()->max() - axisX()->min());
     } else {
         areaSize.setHeight(1.0f);
-        areaSize.setWidth(hAspectRatio);
+        areaSize.setWidth(horizontalAspectRatio());
     }
 
     float horizontalMaxDimension;
-    float graphAspectRatio = aspectRatio();
-
-    if (graphAspectRatio > 2.0f) {
+    float scaleY = 0.0f;
+    if (aspectRatio() > 2.0f) {
         horizontalMaxDimension = 2.0f;
-        m_scaleY = 2.0f / graphAspectRatio;
+        scaleY = 2.0f / aspectRatio();
     } else {
-        horizontalMaxDimension = graphAspectRatio;
-        m_scaleY = 1.0f;
+        horizontalMaxDimension = aspectRatio();
+        scaleY = 1.0f;
     }
+
     float scaleFactor = qMax(areaSize.width(), areaSize.height());
-    m_scaleX = horizontalMaxDimension * areaSize.width() / scaleFactor;
-    m_scaleZ = horizontalMaxDimension * areaSize.height() / scaleFactor;
+    float scaleX = horizontalMaxDimension * areaSize.width() / scaleFactor;
+    float scaleZ = horizontalMaxDimension * areaSize.height() / scaleFactor;
 
-    setBackgroundScaleMargin({m_hBackgroundMargin, m_vBackgroundMargin, m_hBackgroundMargin});
+    setBackgroundScaleMargin({marginH, marginV, marginH});
 
-    setLineLengthScaleFactor(0.02f);
-    setScaleWithBackground({m_scaleX, m_scaleY, m_scaleZ});
-    setScale({m_scaleX * 2.0f, m_scaleY * 2.0f, m_scaleZ * -2.0f});
-    setTranslate({-m_scaleX, -m_scaleY, m_scaleZ});
+    setScaleWithBackground({scaleX, scaleY, scaleZ});
+    setScale({scaleX * 2.0f, scaleY * 2.0f, scaleZ * -2.0f});
+    setTranslate({-scaleX, -scaleY, scaleZ});
 }
 
 float QQuickGraphsScatter::calculatePointScaleSize()
