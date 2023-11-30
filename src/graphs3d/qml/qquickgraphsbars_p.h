@@ -14,11 +14,9 @@
 #ifndef QQUICKGRAPHSBARS_H
 #define QQUICKGRAPHSBARS_H
 
-#include "axishelper_p.h"
 #include "barinstancing_p.h"
 #include "qabstract3daxis.h"
 #include "qbar3dseries.h"
-#include "qcategory3daxis.h"
 #include "qquickgraphsitem_p.h"
 
 #include <QtQuick3D/private/qquick3dmaterial_p.h>
@@ -26,6 +24,7 @@
 QT_BEGIN_NAMESPACE
 
 class Q3DBars;
+class QCategory3DAxis;
 
 struct Bars3DChangeBitField
 {
@@ -109,6 +108,16 @@ public:
     void setBarSeriesMargin(const QSizeF &margin);
     QSizeF barSeriesMargin() const;
 
+    void setMultiSeriesScaling(bool uniform);
+    bool multiSeriesScaling() const;
+
+    void setBarSpecs(float thicknessRatio = 1.0f,
+                     const QSizeF &spacing = QSizeF(1.0, 1.0),
+                     bool relative = true);
+
+    void setFloorLevel(float level);
+    float floorLevel() const;
+
     QQmlListProperty<QBar3DSeries> seriesList();
     static void appendSeriesFunc(QQmlListProperty<QBar3DSeries> *list, QBar3DSeries *series);
     static qsizetype countSeriesFunc(QQmlListProperty<QBar3DSeries> *list);
@@ -135,21 +144,10 @@ public:
     void handleAxisRangeChangedBySender(QObject *sender) override;
     void adjustAxisRanges() override;
 
-    void setFloorLevel(float level);
-    float floorLevel() const;
-
     void setSelectedBar(const QPoint &coord, QBar3DSeries *series, bool enterSlice);
-
-    void setMultiSeriesScaling(bool uniform);
-    bool multiSeriesScaling() const;
-
-    void setBarSpecs(float thicknessRatio = 1.0f,
-                     const QSizeF &spacing = QSizeF(1.0, 1.0),
-                     bool relative = true);
 
     QList<QBar3DSeries *> barSeriesList();
 
-    bool hasChangedSeriesList() { return !m_changedSeriesList.isEmpty(); }
     bool isSeriesVisualsDirty() const { return m_isSeriesVisualsDirty; }
     void setSeriesVisualsDirty(bool dirty) { m_isSeriesVisualsDirty = dirty; }
     bool isDataDirty() const { return m_isDataDirty; }
@@ -217,46 +215,36 @@ private:
     QList<ChangeItem> m_changedItems;
     QList<ChangeRow> m_changedRows;
 
-    // Category axis labels are taken from the primary series
     QBar3DSeries *m_primarySeries = nullptr;
 
-    // Look'n'feel
     bool m_isMultiSeriesUniform = false;
     bool m_isBarSpecRelative = true;
     float m_barThicknessRatio = 1.0f;
-    QSizeF m_barSpacing;
+    QSizeF m_barSpacing = QSizeF(1.0f, 1.0f);
     float m_floorLevel = 0.0f;
-    QSizeF m_barSeriesMargin;
+    QSizeF m_barSeriesMargin = QSizeF(0.0f, 0.0f);
 
-    int m_cachedRowCount;
-    int m_cachedColumnCount;
-    int m_minRow;
-    int m_maxRow;
-    int m_minCol;
-    int m_maxCol;
-    int m_newRows;
-    int m_newCols;
+    int m_cachedRowCount = 0;
+    int m_cachedColumnCount = 0;
+    int m_minRow = 0;
+    int m_maxRow = 0;
+    int m_minCol = 0;
+    int m_maxCol = 0;
+    int m_newRows = 0;
+    int m_newCols = 0;
 
-    float m_maxSceneSize;
-    float m_rowWidth;
-    float m_columnDepth;
-    float m_maxDimension;
-    float m_scaleFactor;
-    float m_xScaleFactor;
-    float m_zScaleFactor;
+    float m_maxSceneSize = 40.f;
+    float m_rowWidth = 0.0f;
+    float m_columnDepth = 0.0f;
+    float m_maxDimension = 0.0f;
+    float m_scaleFactor = 0.0f;
+    float m_xScaleFactor = 1.f;
+    float m_zScaleFactor = 1.f;
 
-    QSizeF m_cachedBarSeriesMargin;
-    QSizeF m_cachedBarThickness;
-    QSizeF m_cachedBarSpacing;
+    QSizeF m_cachedBarSeriesMargin = QSizeF(0.0f, 0.0f);
+    QSizeF m_cachedBarThickness = QSizeF(1.0f, 1.0f);
+    QSizeF m_cachedBarSpacing = QSizeF(1.0f, 1.0f);
 
-    // Testing sketching
-    AxisHelper m_helperAxisX;
-    AxisHelper m_helperAxisY;
-    AxisHelper m_helperAxisZ;
-
-    float m_scaleXWithBackground = scaleWithBackground().x();
-    float m_scaleYWithBackground = scaleWithBackground().y();
-    float m_scaleZWithBackground = scaleWithBackground().z();
     float m_xScale = scale().x();
     float m_yScale = scale().y();
     float m_zScale = scale().z();
@@ -265,15 +253,11 @@ private:
     float m_vBackgroundMargin = 0.1f;
     float m_hBackgroundMargin = 0.1f;
 
-    bool m_hasNegativeValues;
-    bool m_noZeroInRange;
-    float m_actualFloorLevel;
-    float m_heightNormalizer;
-    float m_gradientFraction;
-    float m_backgroundAdjustment;
-
-    float m_minHeight;
-    float m_maxHeight;
+    bool m_hasNegativeValues = false;
+    bool m_noZeroInRange = false;
+    float m_actualFloorLevel = 0.0f;
+    float m_heightNormalizer = 1.0f;
+    float m_backgroundAdjustment = 0.0f;
 
     bool m_axisRangeChanged = false;
 
@@ -281,12 +265,10 @@ private:
     QQuick3DNode *m_floorBackgroundScale = nullptr;
     QQuick3DNode *m_floorBackgroundRotation = nullptr;
 
-    // Selected bar
-    QBar3DSeries *m_selectedBarSeries;
-    QPoint m_selectedBar; // Points to row & column in data window.
-    QVector3D m_selectedBarPos;
+    QBar3DSeries *m_selectedBarSeries = nullptr;
+    QPoint m_selectedBar = invalidSelectionPosition(); // Points to row & column in data window.
+    QVector3D m_selectedBarPos = QVector3D(0.0f, 0.0f, 0.0f);
 
-    // Generate bars
     struct BarModel
     {
         QQuick3DModel *model = nullptr;
@@ -295,10 +277,7 @@ private:
         int visualIndex;
         float heightValue;
         QQuick3DTexture *texture;
-
-        // Instancing
         BarInstancing *instancing = nullptr;
-        // Selection instancing
         BarInstancing *selectionInstancing = nullptr;
         QQuick3DModel *selectedModel = nullptr;
         BarInstancing *multiSelectionInstancing = nullptr;
@@ -308,16 +287,14 @@ private:
     QHash<QBar3DSeries *, QList<BarModel *> *> m_barModelsMap;
     QAbstract3DSeries::Mesh m_meshType = QAbstract3DSeries::Mesh::Sphere;
     bool m_smooth = false;
-    bool m_keepSeriesUniform;
+    bool m_keepSeriesUniform = false;
     bool m_hasHighlightTexture = false;
-    bool m_selectionActive = false;
-    float m_seriesScaleX;
-    float m_seriesScaleZ;
-    float m_seriesStep;
-    float m_seriesStart;
-    float m_zeroPosition;
-    int m_visibleSeriesCount;
-    QQuaternion m_meshRotation;
+    float m_seriesScaleX = 0.0f;
+    float m_seriesScaleZ = 0.0f;
+    float m_seriesStep = 0.0f;
+    float m_seriesStart = 0.0f;
+    float m_zeroPosition = 0.0f;
+    int m_visibleSeriesCount = 0;
     QQuick3DTexture *m_highlightTexture = nullptr;
     QQuick3DTexture *m_multiHighlightTexture = nullptr;
     QHash<QBar3DSeries *, QList<BarModel *> *> m_slicedBarModels;
