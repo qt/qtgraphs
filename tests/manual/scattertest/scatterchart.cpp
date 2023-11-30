@@ -1029,6 +1029,31 @@ void ScatterDataModifier::setGraphMargin(int value)
     qDebug() << "Setting margin:" << m_chart->margin() << value;
 }
 
+void ScatterDataModifier::setXAxisSegemntCount(int count)
+{
+    m_chart->axisX()->setSegmentCount(count);
+}
+void ScatterDataModifier::setYAxisSegemntCount(int count)
+{
+    m_chart->axisY()->setSegmentCount(count);
+}
+void ScatterDataModifier::setZAxisSegemntCount(int count)
+{
+    m_chart->axisZ()->setSegmentCount(count);
+}
+
+void ScatterDataModifier::setXAxisSubsegemntCount(int count)
+{
+    m_chart->axisX()->setSubSegmentCount(count);
+}
+void ScatterDataModifier::setYAxisSubsegemntCount(int count)
+{
+    m_chart->axisY()->setSubSegmentCount(count);
+}
+void ScatterDataModifier::setZAxisSubsegemntCount(int count)
+{
+    m_chart->axisZ()->setSubSegmentCount(count);
+}
 void ScatterDataModifier::changeShadowQuality(int quality)
 {
     QAbstract3DGraph::ShadowQuality sq = QAbstract3DGraph::ShadowQuality(quality);

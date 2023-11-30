@@ -285,6 +285,32 @@ int main(int argc, char **argv)
     marginSlider->setValue(-1);
     marginSlider->setMaximum(100);
 
+    QSlider *xSegmentSlider = new QSlider(Qt::Horizontal, widget);
+    xSegmentSlider->setMinimum(1);
+    xSegmentSlider->setValue(2);
+    xSegmentSlider->setMaximum(10);
+    QSlider *ySegmentSlider = new QSlider(Qt::Horizontal, widget);
+    ySegmentSlider->setMinimum(1);
+    ySegmentSlider->setValue(2);
+    ySegmentSlider->setMaximum(10);
+    QSlider *zSegmentSlider = new QSlider(Qt::Horizontal, widget);
+    zSegmentSlider->setMinimum(1);
+    zSegmentSlider->setValue(2);
+    zSegmentSlider->setMaximum(10);
+
+    QSlider *xSubsegmentSlider = new QSlider(Qt::Horizontal, widget);
+    xSubsegmentSlider->setMinimum(1);
+    xSubsegmentSlider->setValue(2);
+    xSubsegmentSlider->setMaximum(10);
+    QSlider *ySubsegmentSlider = new QSlider(Qt::Horizontal, widget);
+    ySubsegmentSlider->setMinimum(1);
+    ySubsegmentSlider->setValue(2);
+    ySubsegmentSlider->setMaximum(10);
+    QSlider *zSubsegmentSlider = new QSlider(Qt::Horizontal, widget);
+    zSubsegmentSlider->setMinimum(1);
+    zSubsegmentSlider->setValue(2);
+    zSubsegmentSlider->setMaximum(10);
+
     vLayout->addWidget(themeButton, 0, Qt::AlignTop);
     vLayout->addWidget(labelButton, 0, Qt::AlignTop);
     vLayout->addWidget(styleButton, 0, Qt::AlignTop);
@@ -351,6 +377,16 @@ int main(int argc, char **argv)
     vLayout3->addWidget(cameraTargetSliderZ, 0, Qt::AlignTop);
     vLayout3->addWidget(new QLabel(QStringLiteral("Adjust margin")), 0, Qt::AlignTop);
     vLayout3->addWidget(marginSlider, 1, Qt::AlignTop);
+
+    vLayout3->addWidget(new QLabel(QStringLiteral("Adjust X-axis segments")), 0, Qt::AlignTop);
+    vLayout3->addWidget(xSegmentSlider, 1, Qt::AlignTop);
+    vLayout3->addWidget(xSubsegmentSlider, 1, Qt::AlignTop);
+    vLayout3->addWidget(new QLabel(QStringLiteral("Adjust Y-axis segments")), 0, Qt::AlignTop);
+    vLayout3->addWidget(ySegmentSlider, 1, Qt::AlignTop);
+    vLayout3->addWidget(ySubsegmentSlider, 1, Qt::AlignTop);
+    vLayout3->addWidget(new QLabel(QStringLiteral("Adjust Z-axis segments")), 0, Qt::AlignTop);
+    vLayout3->addWidget(zSegmentSlider, 1, Qt::AlignTop);
+    vLayout3->addWidget(zSubsegmentSlider, 1, Qt::AlignTop);
 
     ScatterDataModifier *modifier = new ScatterDataModifier(chart);
 
@@ -472,6 +508,30 @@ int main(int argc, char **argv)
                      &ScatterDataModifier::setCameraTargetZ);
     QObject::connect(marginSlider, &QSlider::valueChanged, modifier,
                      &ScatterDataModifier::setGraphMargin);
+    QObject::connect(xSegmentSlider,
+                     &QSlider::valueChanged,
+                     modifier,
+                     &ScatterDataModifier::setXAxisSegemntCount);
+    QObject::connect(ySegmentSlider,
+                     &QSlider::valueChanged,
+                     modifier,
+                     &ScatterDataModifier::setYAxisSegemntCount);
+    QObject::connect(zSegmentSlider,
+                     &QSlider::valueChanged,
+                     modifier,
+                     &ScatterDataModifier::setZAxisSegemntCount);
+    QObject::connect(xSubsegmentSlider,
+                     &QSlider::valueChanged,
+                     modifier,
+                     &ScatterDataModifier::setXAxisSubsegemntCount);
+    QObject::connect(ySubsegmentSlider,
+                     &QSlider::valueChanged,
+                     modifier,
+                     &ScatterDataModifier::setYAxisSubsegemntCount);
+    QObject::connect(zSubsegmentSlider,
+                     &QSlider::valueChanged,
+                     modifier,
+                     &ScatterDataModifier::setZAxisSubsegemntCount);
 
     modifier->setFpsLabel(fpsLabel);
 
