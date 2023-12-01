@@ -834,6 +834,36 @@ void GraphModifier::setGraphMargin(int value)
     qDebug() << "Setting margin:" << m_graph->margin() << value;
 }
 
+void GraphModifier::setXAxisSegemntCount(int count)
+{
+    m_graph->axisX()->setSegmentCount(count);
+}
+
+void GraphModifier::setYAxisSegemntCount(int count)
+{
+    m_graph->axisY()->setSegmentCount(count);
+}
+
+void GraphModifier::setZAxisSegemntCount(int count)
+{
+    m_graph->axisZ()->setSegmentCount(count);
+}
+
+void GraphModifier::setXAxisSubsegemntCount(int count)
+{
+    m_graph->axisX()->setSubSegmentCount(count);
+}
+
+void GraphModifier::setYAxisSubsegemntCount(int count)
+{
+    m_graph->axisY()->setSubSegmentCount(count);
+}
+
+void GraphModifier::setZAxisSubsegemntCount(int count)
+{
+    m_graph->axisZ()->setSubSegmentCount(count);
+}
+
 void GraphModifier::resetArrayAndSliders(QSurfaceDataArray array, float minZ, float maxZ, float minX, float maxX)
 {
     m_axisMinSliderX->setValue(minX);

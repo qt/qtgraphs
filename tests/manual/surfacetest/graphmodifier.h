@@ -122,6 +122,13 @@ public Q_SLOTS:
     void setCameraTargetZ(int value);
     void setGraphMargin(int value);
 
+    void setXAxisSegemntCount(int count);
+    void setYAxisSegemntCount(int count);
+    void setZAxisSegemntCount(int count);
+    void setXAxisSubsegemntCount(int count);
+    void setYAxisSubsegemntCount(int count);
+    void setZAxisSubsegemntCount(int count);
+
 private:
     void fillSeries();
     void resetArrayAndSliders(QSurfaceDataArray array, float minZ, float maxZ, float minX,
