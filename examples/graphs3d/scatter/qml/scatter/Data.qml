@@ -4,17 +4,17 @@
 import QtQuick
 
 Item {
-    //! [1]
+    //! [0]
     property alias model: dataModel
     property alias modelTwo: dataModelTwo
     property alias modelThree: dataModelThree
-    //! [1]
-
     //! [0]
+
+    //! [1]
     ListModel {
         id: dataModel
         ListElement{ xPos: -10.0; yPos: 5.0; zPos: -5.0 }
-        //! [0]
+        //! [1]
         ListElement{ xPos: -9.0; yPos: 3.0; zPos: -4.5 }
         ListElement{ xPos: -8.5; yPos: 4.1; zPos: -4.0 }
         ListElement{ xPos: -8.0; yPos: 4.75; zPos: -3.9 }
@@ -36,12 +36,14 @@ Item {
         ListElement{ xPos: -7.18 ; yPos: 3.32 ; zPos: -4.04 }
         ListElement{ xPos: -7.9 ; yPos: 3.4 ; zPos: -2.78 }
         ListElement{ xPos: -7.4 ; yPos: 3.12 ; zPos: -3.1 }
+        //! [2]
         ListElement{ xPos: -7.54 ; yPos: 2.8 ; zPos: -3.68 }
     }
 
     ListModel {
         id: dataModelTwo
         ListElement{ xPos: 2.25 ; yPos: 1.36 ; zPos: -1.3 }
+        //! [2]
         ListElement{ xPos: -2 ; yPos: -0.08 ; zPos: 1 }
         ListElement{ xPos: 2.65 ; yPos: -1.2 ; zPos: 2.7 }
         ListElement{ xPos: -2.55 ; yPos: 3.48 ; zPos: -0.45 }
@@ -1040,12 +1042,14 @@ Item {
         ListElement{ xPos: -2.35 ; yPos: -1.76 ; zPos: -0.2 }
         ListElement{ xPos: 0.85 ; yPos: -2.92 ; zPos: 3.4 }
         ListElement{ xPos: -0.7 ; yPos: 2.52 ; zPos: 1 }
+        //! [3]
         ListElement{ xPos: -3.4 ; yPos: 0.6 ; zPos: 0.9 }
     }
 
     ListModel {
         id: dataModelThree
         ListElement{ xPos: 8.0; yPos: -2.0; zPos: 4.0 }
+        //! [3]
         ListElement{ xPos: 7.8; yPos: -2.2; zPos: 5.0 }
         ListElement{ xPos: 7.6; yPos: -2.4; zPos: 4.5 }
         ListElement{ xPos: 9.4; yPos: -2.6; zPos: 3.8 }
@@ -1079,6 +1083,8 @@ Item {
         ListElement{ xPos: 7 ; yPos: -4.42 ; zPos: 2.62 }
         ListElement{ xPos: 5.32 ; yPos: -3.28 ; zPos: 3.34 }
         ListElement{ xPos: 6.4 ; yPos: -4.6 ; zPos: 2.4 }
+        //! [4]
         ListElement{ xPos: 5.66 ; yPos: -4.98 ; zPos: 3.72 }
     }
+    //! [4]
 }

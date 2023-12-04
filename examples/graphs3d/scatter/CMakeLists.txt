@@ -41,8 +41,19 @@ qt6_add_qml_module(scatter
     URI Scatter
     NO_RESOURCE_TARGET_PATH
     QML_FILES
-        qml/scatter/Data.qml
-        qml/scatter/main.qml
+        "qml/scatter/Data.qml"
+        "qml/scatter/Graph.qml"
+        "qml/scatter/main.qml"
+    RESOURCES
+        "images/background.svg"
+        "images/background_hide.svg"
+        "images/camera.svg"
+        "images/camera2.svg"
+        "images/flatten.svg"
+        "images/shadow.svg"
+        "images/shadow_hide.svg"
+        "images/smooth_curve.svg"
+        "images/theme.svg"
 )
 
 install(TARGETS scatter

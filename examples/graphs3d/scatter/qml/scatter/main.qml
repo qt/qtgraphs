@@ -4,224 +4,165 @@
 //! [0]
 import QtQuick
 import QtQuick.Controls
+import QtQuick.Layouts
 import QtGraphs3D
 //! [0]
 
-//! [1]
 Item {
     id: mainView
+    width: 800
+    height: 600
+
+    property int iconDimension: 38
+    property int margin: 30
+    property int spacing: 10
+    property int radius: 6
+    property int buttonMinWidth: 175
+
     //! [1]
-    width: 1600
-    height: 1200
-
-    property bool portraitMode: width < height
-    // Adjust the button width based on screen orientation:
-    // If we're in portrait mode, just fit two buttons side-by-side, otherwise
-    // fit all of the buttons side-by-side.
-    property real buttonWidth: mainView.portraitMode ? (mainView.width / 2 - 8)
-                                                     : (mainView.width / 6 - 6)
-
-    //! [4]
     Data {
         id: seriesData
     }
-    //! [4]
+    //! [1]
 
-    //! [13]
+    //! [2]
     Theme3D {
         id: themeQt
         type: Theme3D.Theme.Qt
         font.pointSize: 40
     }
-    //! [13]
 
     Theme3D {
         id: themeRetro
         type: Theme3D.Theme.Retro
     }
+    //! [2]
 
-    //! [8]
-    //! [9]
-    Item {
-        id: dataView
-        anchors.bottom: parent.bottom
+    //! [5]
+    component CustomButton : RoundButton {
+        id: buttonRoot
+        //! [5]
+        //! [6]
+        property alias source: iconImage.source
+
+        Layout.minimumWidth: buttonMinWidth
+        Layout.fillWidth: true
+
+        radius: mainView.radius
+
+        background: Rectangle {
+            radius: mainView.radius
+            color: "white"
+            border.color: "black"
+        }
+        //! [6]
+        //! [7]
+        contentItem: Row {
+            id :content
+            IconImage {
+                id: iconImage
+                width: iconDimension
+                height: iconDimension
+                color: "transparent"
+            }
+            Label {
+                text: buttonRoot.text
+                horizontalAlignment: Text.AlignLeft
+                anchors.verticalCenter: parent.verticalCenter
+            }
+        }
+        //! [7]
+    }
+
+    //! [3]
+    ColumnLayout {
+        id: mainLayout
+        anchors.fill: parent
+        anchors.margins: margin
+        spacing: spacing
+        //! [3]
+        //! [4]
+        GridLayout {
+            Layout.fillWidth: true
+            rowSpacing: spacing
+            columnSpacing: spacing
+
+            columns: mainView.width < mainView.buttonMinWidth * 2 + mainView.spacing + mainView.margin * 2 // width of 2 buttons
+                     ? 1
+                     : (mainView.width < mainView.buttonMinWidth * 4 + mainView.spacing * 3 + mainView.margin * 2 // width of 4 buttons
+                        ? 2
+                        : 4)
+            //! [4]
+            //! [8]
+            CustomButton {
+                id: shadowButton
+                text: graph.shadowQuality === AbstractGraph3D.ShadowQuality.None ?
+                          qsTr("Show Shadows") : qsTr("Hide Shadows")
+                source: graph.shadowQuality === AbstractGraph3D.ShadowQuality.None ?
+                            "qrc:/images/shadow.svg" : "qrc:/images/shadow_hide.svg"
+                onClicked: {
+                    graph.shadowQuality = graph.shadowQuality === AbstractGraph3D.ShadowQuality.None ?
+                                AbstractGraph3D.ShadowQuality.High :
+                                AbstractGraph3D.ShadowQuality.None
+                }
+            }
+            //! [8]
+
+            CustomButton {
+                id: smoothButton
+                text: qsTr("Smooth Series One")
+                source: graph.meshSmooth ?
+                            "qrc:/images/flatten.svg" : "qrc:/images/smooth_curve.svg"
+                onClicked: {
+                    text = graph.meshSmooth ? qsTr("Smooth Series One") : qsTr("Flat Series One")
+                    graph.meshSmooth = !graph.meshSmooth
+                }
+            }
+
+            CustomButton {
+                id: cameraButton
+                text: qsTr("Camera Placement")
+                source: graph.cameraPreset === AbstractGraph3D.CameraPreset.Front ?
+                                        "qrc:/images/camera.svg" : "qrc:/images/camera2.svg"
+                onClicked: {
+                    graph.cameraPreset = graph.cameraPreset === AbstractGraph3D.CameraPreset.Front ?
+                                AbstractGraph3D.CameraPreset.IsometricRightHigh :
+                                AbstractGraph3D.CameraPreset.Front
+                }
+            }
+
+            CustomButton {
+                id: backgroundButton
+                text: qsTr("Hide Background")
+                source: graph.theme.backgroundEnabled ?
+                                        "qrc:/images/background_hide.svg" : "qrc:/images/background.svg"
+                onClicked: {
+                    graph.theme.backgroundEnabled = !graph.theme.backgroundEnabled
+                    text = graph.theme.backgroundEnabled ? qsTr("Hide Background") : qsTr("Show Background")
+                }
+            }
+        }
+
         //! [9]
-        width: parent.width
-        // Adjust the space based on screen orientation:
-        // If we're in portrait mode, we have 3 rows of buttons, otherwise they are all in one row.
-        height: parent.height - (mainView.portraitMode ? shadowToggle.implicitHeight * 3 + 25
-                                                       : shadowToggle.implicitHeight + 10)
-        //! [8]
+        Graph {
+            id: graph
+            Layout.fillWidth: true
+            Layout.fillHeight: true
+        }
+        //! [9]
 
-        //! [2]
-        Scatter3D {
-            id: scatterGraph
-            anchors.fill: parent
-            //! [2]
-            //! [3]
-            theme: themeQt
-            shadowQuality: AbstractGraph3D.ShadowQuality.High
-            cameraPreset: AbstractGraph3D.CameraPreset.Front
-            //! [3]
-            //! [6]
-            axisX.segmentCount: 3
-            axisX.subSegmentCount: 2
-            axisX.labelFormat: "%.2f"
-            axisZ.segmentCount: 2
-            axisZ.subSegmentCount: 2
-            axisZ.labelFormat: "%.2f"
-            axisY.segmentCount: 2
-            axisY.subSegmentCount: 2
-            axisY.labelFormat: "%.2f"
-            //! [6]
-            //! [5]
-            Scatter3DSeries {
-                id: scatterSeries
-                //! [5]
-                //! [10]
-                itemLabelFormat: "Series 1: X:@xLabel Y:@yLabel Z:@zLabel"
-                //! [10]
-
-                //! [11]
-                ItemModelScatterDataProxy {
-                    itemModel: seriesData.model
-                    xPosRole: "xPos"
-                    yPosRole: "yPos"
-                    zPosRole: "zPos"
-                }
-                //! [11]
-            }
-
-            //! [12]
-            Scatter3DSeries {
-                id: scatterSeriesTwo
-                itemLabelFormat: "Series 2: X:@xLabel Y:@yLabel Z:@zLabel"
-                itemSize: 0.05
-                mesh: Abstract3DSeries.Mesh.Cube
-                //! [12]
-
-                ItemModelScatterDataProxy {
-                    itemModel: seriesData.modelTwo
-                    xPosRole: "xPos"
-                    yPosRole: "yPos"
-                    zPosRole: "zPos"
-                }
-            }
-            Scatter3DSeries {
-                id: scatterSeriesThree
-                itemLabelFormat: "Series 3: X:@xLabel Y:@yLabel Z:@zLabel"
-                itemSize: 0.1
-                mesh: Abstract3DSeries.Mesh.Minimal
-
-                ItemModelScatterDataProxy {
-                    itemModel: seriesData.modelThree
-                    xPosRole: "xPos"
-                    yPosRole: "yPos"
-                    zPosRole: "zPos"
-                }
+        //! [10]
+        CustomButton {
+            id: themeButton
+            Layout.alignment: Qt.AlignLeft
+            Layout.fillWidth: false
+            //! [10]
+            text: qsTr("Change Theme")
+            source: "qrc:/images/theme.svg"
+            onClicked: {
+                graph.theme = graph.theme.type === Theme3D.Theme.Retro ? themeQt : themeRetro
+                backgroundButton.text = graph.theme.backgroundEnabled ? qsTr("Hide Background") : qsTr("Show Background")
             }
         }
-    }
-
-    //! [7]
-    Button {
-        id: shadowToggle
-        width: mainView.buttonWidth // Calculated elsewhere based on screen orientation
-        anchors.left: parent.left
-        anchors.top: parent.top
-        anchors.margins: 5
-        text: "Hide Shadows"
-        onClicked: {
-            if (scatterGraph.shadowQuality === AbstractGraph3D.ShadowQuality.None) {
-                scatterGraph.shadowQuality = AbstractGraph3D.ShadowQuality.High;
-                text = "Hide Shadows";
-            } else {
-                scatterGraph.shadowQuality = AbstractGraph3D.ShadowQuality.None;
-                text = "Show Shadows";
-            }
-        }
-    }
-    //! [7]
-
-    Button {
-        id: smoothToggle
-        width: mainView.buttonWidth
-        anchors.left: shadowToggle.right
-        anchors.top: parent.top
-        anchors.margins: 5
-        text: "Use Smooth for Series One"
-        onClicked: {
-            if (!scatterSeries.meshSmooth) {
-                text = "Use Flat for Series One";
-                scatterSeries.meshSmooth = true;
-            } else {
-                text = "Use Smooth for Series One";
-                scatterSeries.meshSmooth = false;
-            }
-        }
-    }
-
-    Button {
-        id: cameraToggle
-        width: mainView.buttonWidth
-        anchors.left: mainView.portraitMode ? parent.left : smoothToggle.right
-        anchors.top: mainView.portraitMode ? smoothToggle.bottom : parent.top
-        anchors.margins: 5
-        text: "Change Camera Placement"
-        onClicked: {
-            if (scatterGraph.cameraPreset === AbstractGraph3D.CameraPreset.Front) {
-                scatterGraph.cameraPreset =
-                        AbstractGraph3D.CameraPreset.IsometricRightHigh;
-            } else {
-                scatterGraph.cameraPreset = AbstractGraph3D.CameraPreset.Front;
-            }
-        }
-    }
-
-    Button {
-        id: themeToggle
-        width: mainView.buttonWidth
-        anchors.left: cameraToggle.right
-        anchors.top: mainView.portraitMode ? smoothToggle.bottom : parent.top
-        anchors.margins: 5
-        text: "Change Theme"
-        onClicked: {
-            if (scatterGraph.theme.type === Theme3D.Theme.Retro)
-                scatterGraph.theme = themeQt;
-            else
-                scatterGraph.theme = themeRetro;
-            if (scatterGraph.theme.backgroundEnabled)
-                backgroundToggle.text = "Hide Background";
-            else
-                backgroundToggle.text = "Show Background";
-        }
-    }
-
-    Button {
-        id: backgroundToggle
-        width: mainView.buttonWidth
-        anchors.left: mainView.portraitMode ? parent.left : themeToggle.right
-        anchors.top: mainView.portraitMode ? themeToggle.bottom : parent.top
-        anchors.margins: 5
-        text: "Hide Background"
-        onClicked: {
-            if (scatterGraph.theme.backgroundEnabled) {
-                scatterGraph.theme.backgroundEnabled = false;
-                text = "Show Background";
-            } else {
-                scatterGraph.theme.backgroundEnabled = true;
-                text = "Hide Background";
-            }
-        }
-    }
-
-    Button {
-        id: exitButton
-        width: mainView.buttonWidth
-        anchors.left: backgroundToggle.right
-        anchors.top: mainView.portraitMode ? themeToggle.bottom : parent.top
-        anchors.margins: 5
-        text: "Quit"
-        onClicked: Qt.quit();
     }
 }
