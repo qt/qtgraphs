@@ -290,7 +290,7 @@ void QQuickGraphsSurface::handleArrayReset()
 
     if (series->isVisible()) {
         adjustAxisRanges();
-        m_isDataDirty = true;
+        setDataDirty(true);
     }
     if (!m_changedSeriesList.contains(series))
         m_changedSeriesList.append(series);
@@ -385,7 +385,7 @@ void QQuickGraphsSurface::handleRowsAdded(int startIndex, int count)
     QSurface3DSeries *series = static_cast<QSurfaceDataProxy *>(sender())->series();
     if (series->isVisible()) {
         adjustAxisRanges();
-        m_isDataDirty = true;
+        setDataDirty(true);
     }
     if (!m_changedSeriesList.contains(series))
         m_changedSeriesList.append(series);
@@ -408,7 +408,7 @@ void QQuickGraphsSurface::handleRowsInserted(int startIndex, int count)
 
     if (series->isVisible()) {
         adjustAxisRanges();
-        m_isDataDirty = true;
+        setDataDirty(true);
     }
     if (!m_changedSeriesList.contains(series))
         m_changedSeriesList.append(series);
@@ -436,7 +436,7 @@ void QQuickGraphsSurface::handleRowsRemoved(int startIndex, int count)
 
     if (series->isVisible()) {
         adjustAxisRanges();
-        m_isDataDirty = true;
+        setDataDirty(true);
     }
     if (!m_changedSeriesList.contains(series))
         m_changedSeriesList.append(series);
@@ -575,7 +575,7 @@ void QQuickGraphsSurface::handleSeriesVisibilityChangedBySender(QObject *sender)
 {
     QQuickGraphsItem::handleSeriesVisibilityChangedBySender(sender);
 
-    m_isSeriesVisibilityDirty = true;
+    setSeriesVisibilityDirty(true);
     // Visibility changes may require disabling slicing,
     // so just reset selection to ensure everything is still valid.
     setSelectedPoint(m_selectedPoint, m_selectedSeries, false);
@@ -999,11 +999,11 @@ void QQuickGraphsSurface::updateModel(SurfaceModel *model)
 
         if (model->rowCount != rowCount) {
             model->rowCount = rowCount;
-            m_isIndexDirty = true;
+            setIndexDirty(true);
         }
         if (model->columnCount != columnCount) {
             model->columnCount = columnCount;
-            m_isIndexDirty = true;
+            setIndexDirty(true);
         }
 
         bool polarChanged = false;

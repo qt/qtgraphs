@@ -118,6 +118,8 @@ public:
     void setDataDirty(bool dirty) { m_isDataDirty = dirty; }
     bool isSeriesVisualsDirty() const { return m_isSeriesVisualsDirty; }
     void setSeriesVisualsDirty(bool dirty) { m_isSeriesVisualsDirty = dirty; }
+    bool isIndexDirty() const { return m_isIndexDirty; }
+    void setIndexDirty(bool dirty) { m_isIndexDirty = dirty; }
 
     QList<QAbstract3DSeries *> changedSeriesList() { return m_changedSeriesList; }
 
@@ -201,13 +203,11 @@ private:
         QQuick3DModel *sliceGridModel;
         QQuick3DModel *proxyModel;
         QVector<SurfaceVertex> vertices;
-        QVector<SurfaceVertex> coarceVertices;
         QVector<quint32> indices;
         QVector<quint32> gridIndices;
         QSurface3DSeries *series;
         QQuick3DTexture *texture;
         QQuick3DTexture *heightTexture;
-        QQuick3DCustomMaterial *texturedMaterial;
         QQuick3DCustomMaterial *customMaterial;
         int columnCount;
         int rowCount;
@@ -216,8 +216,6 @@ private:
         bool polar;
         QVector3D boundsMin;
         QVector3D boundsMax;
-        QVector2D rangeMin;
-        QVector2D rangeMax;
         QRect sampleSpace;
     };
 
@@ -226,7 +224,6 @@ private:
     QPointF mapCoordsToWorldSpace(SurfaceModel *model, const QPointF &coords);
     QPoint mapCoordsToSampleSpace(SurfaceModel *model, const QPointF &coords);
     void createIndices(SurfaceModel *model, int columnCount, int rowCount);
-    void createCoarseVertices(SurfaceModel *model, int x, int y, int endX, int endY);
     void createGridlineIndices(SurfaceModel *model, int x, int y, int endX, int endY);
     void handleChangedSeries();
     void updateModel(SurfaceModel *model);
