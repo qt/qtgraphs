@@ -21,21 +21,16 @@ int main(int argc, char *argv[])
 #endif
     viewer.engine()->addImportPath(
         extraImportPath.arg(QGuiApplication::applicationDirPath(), QString::fromLatin1("qml")));
-    //! [4]
-    QObject::connect(viewer.engine(), &QQmlEngine::quit, &viewer, &QWindow::close);
-    //! [4]
 
     viewer.setTitle(QStringLiteral("Simple Scatter Graph"));
 
-    //! [3]
+    //! [0]
     viewer.setSource(QUrl("qrc:/qml/scatter/main.qml"));
-    //! [3]
+    //! [0]
 
     viewer.setResizeMode(QQuickView::SizeRootObjectToView);
 
-    //! [2]
-    viewer.showMaximized();
-    //! [2]
+    viewer.show();
 
     return app.exec();
 }
