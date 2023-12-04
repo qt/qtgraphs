@@ -66,7 +66,6 @@ private:
     friend class QValue3DAxisFormatterPrivate;
     friend class QValue3DAxis;
     friend class QValue3DAxisPrivate;
-    friend class AxisHelper;
     friend class QBar3DSeriesPrivate;
     friend class QScatter3DSeriesPrivate;
     friend class QSurface3DSeriesPrivate;

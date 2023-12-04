@@ -57,7 +57,6 @@ qt_internal_add_qml_module(Graphs
         data/scatteritemmodelhandler.cpp data/scatteritemmodelhandler_p.h
         data/surfaceitemmodelhandler.cpp data/surfaceitemmodelhandler_p.h
 
-        engine/axishelper.cpp engine/axishelper_p.h
         engine/barinstancing.cpp engine/barinstancing_p.h
         engine/scatterinstancing.cpp engine/scatterinstancing_p.h
         engine/q3dbars.cpp engine/q3dbars.h
