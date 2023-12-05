@@ -94,7 +94,7 @@ public:
     static void clearSeriesFunc(QQmlListProperty<QSurface3DSeries> *list);
     Q_INVOKABLE void addSeries(QSurface3DSeries *series);
     Q_INVOKABLE void removeSeries(QSurface3DSeries *series);
-    Q_INVOKABLE virtual void clearSelection() override;
+    Q_INVOKABLE void clearSelection() override;
 
     void setFlipHorizontalGrid(bool flip);
     bool flipHorizontalGrid() const;
@@ -106,7 +106,7 @@ public:
     void setSelectedPoint(const QPoint &position, QSurface3DSeries *series, bool enterSlice);
 
     inline QSurface3DSeries *selectedSeries() const { return m_selectedSeries; }
-    virtual void setSelectionMode(QAbstract3DGraph::SelectionFlags mode) override;
+    void setSelectionMode(QAbstract3DGraph::SelectionFlags mode) override;
 
     void setDataDimensions(DataDimensions dimension) { m_dataDimensions = dimension; }
     DataDimensions dataDimensions() { return m_dataDimensions; }

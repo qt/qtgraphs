@@ -69,7 +69,7 @@ public:
     static qsizetype countSeriesFunc(QQmlListProperty<QScatter3DSeries> *list);
     static QScatter3DSeries *atSeriesFunc(QQmlListProperty<QScatter3DSeries> *list, qsizetype index);
     static void clearSeriesFunc(QQmlListProperty<QScatter3DSeries> *list);
-    Q_INVOKABLE virtual void clearSelection() override;
+    Q_INVOKABLE void clearSelection() override;
     Q_INVOKABLE void addSeries(QScatter3DSeries *series);
     Q_INVOKABLE void removeSeries(QScatter3DSeries *series);
     QList<QScatter3DSeries *> scatterSeriesList();
@@ -77,7 +77,7 @@ public:
     QScatter3DSeries *selectedSeries() const;
     void setSelectedItem(int index, QScatter3DSeries *series);
     static inline int invalidSelectionIndex() { return -1; }
-    virtual void setSelectionMode(QAbstract3DGraph::SelectionFlags mode) override;
+    void setSelectionMode(QAbstract3DGraph::SelectionFlags mode) override;
 
     inline bool hasSelectedItemChanged() const { return m_changeTracker.selectedItemChanged; }
     inline void setSelectedItemChanged(bool changed)

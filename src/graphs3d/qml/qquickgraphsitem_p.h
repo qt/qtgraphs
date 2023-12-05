@@ -547,7 +547,7 @@ protected:
     virtual void handleShadowQualityChange(QAbstract3DGraph::ShadowQuality quality);
     virtual void handleSelectedElementChange(QAbstract3DGraph::ElementType type);
     virtual void handleOptimizationHintChange(QAbstract3DGraph::OptimizationHint hint);
-    virtual void keyPressEvent(QKeyEvent *ev) override;
+    void keyPressEvent(QKeyEvent *ev) override;
     virtual bool handleMousePressedEvent(QMouseEvent *event);
     virtual bool handleTouchEvent(QTouchEvent *event);
     virtual void handleThemeTypeChange();

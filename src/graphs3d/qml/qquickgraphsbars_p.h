@@ -126,13 +126,13 @@ public:
     Q_INVOKABLE void addSeries(QBar3DSeries *series);
     Q_INVOKABLE void removeSeries(QBar3DSeries *series);
     Q_INVOKABLE void insertSeries(int index, QBar3DSeries *series);
-    Q_INVOKABLE virtual void clearSelection() override;
+    Q_INVOKABLE void clearSelection() override;
 
     void setPrimarySeries(QBar3DSeries *series);
     QBar3DSeries *primarySeries() const;
     QBar3DSeries *selectedSeries() const;
     static inline QPoint invalidSelectionPosition() { return QPoint(-1, -1); }
-    virtual void setSelectionMode(QAbstract3DGraph::SelectionFlags mode) override;
+    void setSelectionMode(QAbstract3DGraph::SelectionFlags mode) override;
 
     void handleAxisAutoAdjustRangeChangedInOrientation(QAbstract3DAxis::AxisOrientation orientation,
                                                        bool autoAdjust) override;
