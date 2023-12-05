@@ -4,6 +4,6 @@
 qt_examples_build_begin(EXTERNAL_BUILD)
 
 add_subdirectory(graphs)
-add_subdirectory(charts)
+add_subdirectory(graphs2d)
 
 qt_examples_build_end()
