@@ -31,15 +31,6 @@ QT_BEGIN_NAMESPACE
 
 class QAbstractAxis;
 
-// KG: TODO
-class QChartPrivate
-{
-public:
-    static QPen &defaultPen() { static QPen temp; return temp; };
-    static QBrush &defaultBrush() { static QBrush temp; return temp; };
-    static QFont &defaultFont() { static QFont temp; return temp; };
-};
-
 class QGraphsView : public QQuickItem
 {
     Q_OBJECT

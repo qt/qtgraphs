@@ -16,8 +16,7 @@
 #include <QtGraphs2D/QAbstractAxis>
 #include <private/qgraphsview_p.h>
 #include <QtCore/QDebug>
-#include <QBrush>
-#include <QPen>
+#include <QColor>
 
 #include <memory>
 
@@ -77,17 +76,15 @@ private:
     bool m_visible = true;
 
     bool m_arrowVisible = true;
-    QPen m_axisPen;
-    QBrush m_axisBrush;
 
     bool m_gridLineVisible = true;
-    QPen m_gridLinePen;
+    QColor m_gridLineColor;
     bool m_minorGridLineVisible = true;
-    QPen m_minorGridLinePen;
+    QColor m_minorGridLineColor;
 
     bool m_labelsVisible = true;
     bool m_labelsEditable = false;
-    QBrush m_labelsBrush;
+    QColor m_labelsColor;
     QFont m_labelsFont;
     int m_labelsAngle = 0;
 
@@ -95,14 +92,9 @@ private:
     bool m_truncateLabels = true;
 
     bool m_titleVisible = true;
-    QBrush m_titleBrush;
+    QColor m_titleColor;
     QFont m_titleFont;
     QString m_title;
-
-    bool m_shadesVisible = false;
-    QPen m_shadesPen;
-    QBrush m_shadesBrush;
-    qreal m_shadesOpacity = 1;
 
     bool m_dirty = false;
 

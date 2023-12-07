@@ -16,7 +16,7 @@ QT_BEGIN_NAMESPACE
     QValueAxis and QLogValueAxis on the same orientation.
 
     The properties and visibility of various axis elements, such as axis line, title, labels,
-    grid lines, and shades, can be individually controlled.
+    and grid lines, can be individually controlled.
 */
 /*!
     \qmltype AbstractAxis
@@ -28,7 +28,7 @@ QT_BEGIN_NAMESPACE
     Each series can be bound to only one horizontal and vertical axis.
 
     The properties and visibility of various axis elements, such as axis line, title, labels,
-    grid lines, and shades, can be individually controlled.
+    and grid lines, can be individually controlled.
 */
 
 /*!
@@ -60,11 +60,6 @@ QT_BEGIN_NAMESPACE
 */
 
 /*!
-  \property QAbstractAxis::linePen
-  \brief The pen used to draw the line.
-*/
-
-/*!
   \property QAbstractAxis::labelsVisible
   \brief Whether axis labels are visible.
 */
@@ -74,10 +69,8 @@ QT_BEGIN_NAMESPACE
 */
 
 /*!
-  \property QAbstractAxis::labelsBrush
-  \brief The brush used to draw the labels.
-
-  Only the color of the brush is relevant.
+  \property QAbstractAxis::labelsColor
+  \brief The color used to draw the labels.
 */
 
 /*!
@@ -117,18 +110,6 @@ QT_BEGIN_NAMESPACE
 /*!
   \qmlproperty color AbstractAxis::color
   The color of the axis and tick marks.
-*/
-
-/*!
-  \property QAbstractAxis::gridLinePen
-  \brief The pen used to draw the grid line.
-*/
-
-/*!
-  \property QAbstractAxis::minorGridLinePen
-  \brief The pen used to draw the minor grid line.
-
-  Applies only to axes that support minor grid lines.
 */
 
 /*!
@@ -215,43 +196,6 @@ QT_BEGIN_NAMESPACE
 */
 
 /*!
-  \property QAbstractAxis::shadesVisible
-  \brief The visibility of the axis shades.
-*/
-/*!
-  \qmlproperty bool AbstractAxis::shadesVisible
-  The visibility of the axis shades.
-*/
-
-/*!
-  \property QAbstractAxis::shadesColor
-  \brief The fill (brush) color of the axis shades.
-*/
-/*!
-  \qmlproperty color AbstractAxis::shadesColor
-  The fill (brush) color of the axis shades.
-*/
-
-/*!
-  \property QAbstractAxis::shadesBorderColor
-  \brief The border (pen) color of the axis shades.
-*/
-/*!
-  \qmlproperty color AbstractAxis::shadesBorderColor
-  The border (pen) color of the axis shades.
-*/
-
-/*!
-  \property QAbstractAxis::shadesPen
-  \brief The pen used to draw the axis shades (the area between the grid lines).
-*/
-
-/*!
-  \property QAbstractAxis::shadesBrush
-  \brief The brush used to draw the axis shades (the area between the grid lines).
-*/
-
-/*!
   \property QAbstractAxis::titleVisible
   \brief The visibility of the axis title.
 
@@ -274,10 +218,8 @@ QT_BEGIN_NAMESPACE
 */
 
 /*!
-  \property QAbstractAxis::titleBrush
-  \brief The brush used to draw the title text.
-
-  Only the color of the brush is relevant.
+  \property QAbstractAxis::titleColor
+  \brief The color used to draw the title text.
 */
 
 /*!
@@ -339,11 +281,6 @@ QT_BEGIN_NAMESPACE
 */
 
 /*!
-  \fn void QAbstractAxis::linePenChanged(const QPen& pen)
-  This signal is emitted when the pen used to draw the line of the axis changes to \a pen.
-*/
-
-/*!
   \fn void QAbstractAxis::lineVisibleChanged(bool visible)
   This signal is emitted when the visibility of the axis line changes to \a visible.
 */
@@ -359,8 +296,8 @@ QT_BEGIN_NAMESPACE
 */
 
 /*!
-  \fn void QAbstractAxis::labelsBrushChanged(const QBrush& brush)
-  This signal is emitted when the brush used to draw the axis labels changes to \a brush.
+  \fn void QAbstractAxis::labelsColorChanged(const QColor& color)
+  This signal is emitted when the color used to draw the axis labels changes to \a color.
 */
 
 /*!
@@ -400,23 +337,13 @@ QT_BEGIN_NAMESPACE
 */
 
 /*!
-  \fn void QAbstractAxis::gridLinePenChanged(const QPen& pen)
-  This signal is emitted when the pen used to draw the grid line changes to \a pen.
-*/
-
-/*!
-  \fn void QAbstractAxis::minorGridLinePenChanged(const QPen& pen)
-  This signal is emitted when the pen used to draw the minor grid line changes to \a pen.
-*/
-
-/*!
   \fn void QAbstractAxis::gridLineColorChanged(const QColor &color)
-  This signal is emitted when the color of the pen used to draw the grid line changes to \a color.
+  This signal is emitted when the color of the grid line changes to \a color.
 */
 
 /*!
   \fn void QAbstractAxis::minorGridLineColorChanged(const QColor &color)
-  This signal is emitted when the color of the pen used to draw the minor grid line changes
+  This signal is emitted when the color of the minor grid line changes
   to \a color.
 */
 
@@ -441,38 +368,13 @@ QT_BEGIN_NAMESPACE
 */
 
 /*!
-  \fn void QAbstractAxis::titleBrushChanged(const QBrush& brush)
-  This signal is emitted when the brush used to draw the axis title changes to \a brush.
+  \fn void QAbstractAxis::titleColorChanged(const QColor& color)
+  This signal is emitted when the color used to draw the axis title changes to \a color.
 */
 
 /*!
   \fn void QAbstractAxis::titleFontChanged(const QFont& font)
   This signal is emitted when the font of the axis title changes to \a font.
-*/
-
-/*!
-  \fn void QAbstractAxis::shadesVisibleChanged(bool)
-  This signal is emitted when the visibility of the axis shades changes to \a visible.
-*/
-
-/*!
-  \fn void QAbstractAxis::shadesColorChanged(QColor color)
-  This signal is emitted when the color of the axis shades changes to \a color.
-*/
-
-/*!
-  \fn void QAbstractAxis::shadesBorderColorChanged(QColor color)
-  This signal is emitted when the border color of the axis shades changes to \a color.
-*/
-
-/*!
-  \fn void QAbstractAxis::shadesBrushChanged(const QBrush& brush)
-  This signal is emitted when the brush used to draw the axis shades changes to \a brush.
-*/
-
-/*!
-  \fn void QAbstractAxis::shadesPenChanged(const QPen& pen)
-  This signal is emitted when the pen used to draw the axis shades changes to \a pen.
 */
 
 /*!
@@ -495,43 +397,6 @@ QAbstractAxis::~QAbstractAxis()
 {
     if (d_ptr->m_graph)
         qFatal("Still binded axis detected !");
-}
-
-/*!
-  Sets the pen used to draw the axis line and tick marks to \a pen.
- */
-void QAbstractAxis::setLinePen(const QPen &pen)
-{
-    if (d_ptr->m_axisPen != pen) {
-        d_ptr->m_axisPen = pen;
-        emit linePenChanged(pen);
-    }
-}
-
-/*!
-  Returns the pen used to draw the axis line and tick marks.
-*/
-QPen QAbstractAxis::linePen() const
-{
-    if (d_ptr->m_axisPen == QChartPrivate::defaultPen())
-        return QPen();
-    else
-        return d_ptr->m_axisPen;
-}
-
-void QAbstractAxis::setLinePenColor(QColor color)
-{
-    QPen p = linePen();
-    if (p.color() != color || d_ptr->m_axisPen == QChartPrivate::defaultPen()) {
-        p.setColor(color);
-        setLinePen(p);
-        emit colorChanged(color);
-    }
-}
-
-QColor QAbstractAxis::linePenColor() const
-{
-    return linePen().color();
 }
 
 /*!
@@ -579,72 +444,30 @@ bool QAbstractAxis::isMinorGridLineVisible() const
     return d_ptr->m_minorGridLineVisible;
 }
 
-/*!
-  Sets the pen used to draw the grid lines to \a pen.
-*/
-void QAbstractAxis::setGridLinePen(const QPen &pen)
-{
-    if (d_ptr->m_gridLinePen != pen) {
-        d_ptr->m_gridLinePen = pen;
-        emit gridLinePenChanged(pen);
-    }
-}
-
-/*!
-  Returns the pen used to draw the grid.
-*/
-QPen QAbstractAxis::gridLinePen() const
-{
-    if (d_ptr->m_gridLinePen == QChartPrivate::defaultPen())
-        return QPen();
-    else
-        return d_ptr->m_gridLinePen;
-}
-
-void QAbstractAxis::setMinorGridLinePen(const QPen &pen)
-{
-    if (d_ptr->m_minorGridLinePen != pen) {
-        d_ptr->m_minorGridLinePen = pen;
-        emit minorGridLinePenChanged(pen);
-    }
-}
-
-QPen QAbstractAxis::minorGridLinePen() const
-{
-    if (d_ptr->m_minorGridLinePen == QChartPrivate::defaultPen())
-        return QPen();
-    else
-        return d_ptr->m_minorGridLinePen;
-}
-
 void QAbstractAxis::setGridLineColor(const QColor &color)
 {
-    QPen pen = gridLinePen();
-    if (color != pen.color() || d_ptr->m_gridLinePen == QChartPrivate::defaultPen()) {
-        pen.setColor(color);
-        setGridLinePen(pen);
+    if (color != d_ptr->m_gridLineColor) {
+        d_ptr->m_gridLineColor = color;
         emit gridLineColorChanged(color);
     }
 }
 
 QColor QAbstractAxis::gridLineColor()
 {
-    return gridLinePen().color();
+    return d_ptr->m_gridLineColor;
 }
 
 void QAbstractAxis::setMinorGridLineColor(const QColor &color)
 {
-    QPen pen = minorGridLinePen();
-    if (color != pen.color() || d_ptr->m_minorGridLinePen == QChartPrivate::defaultPen()) {
-        pen.setColor(color);
-        setMinorGridLinePen(pen);
+    if (color != d_ptr->m_minorGridLineColor) {
+        d_ptr->m_minorGridLineColor = color;
         emit minorGridLineColorChanged(color);
     }
 }
 
 QColor QAbstractAxis::minorGridLineColor()
 {
-    return minorGridLinePen().color();
+    return d_ptr->m_minorGridLineColor;
 }
 
 void QAbstractAxis::setLabelsVisible(bool visible)
@@ -659,28 +482,6 @@ void QAbstractAxis::setLabelsVisible(bool visible)
 bool QAbstractAxis::labelsVisible() const
 {
     return d_ptr->m_labelsVisible;
-}
-
-/*!
-  Sets the brush used to draw labels to \a brush.
- */
-void QAbstractAxis::setLabelsBrush(const QBrush &brush)
-{
-    if (d_ptr->m_labelsBrush != brush) {
-        d_ptr->m_labelsBrush = brush;
-        emit labelsBrushChanged(brush);
-    }
-}
-
-/*!
-  Returns the brush used to draw labels.
-*/
-QBrush  QAbstractAxis::labelsBrush() const
-{
-    if (d_ptr->m_labelsBrush == QChartPrivate::defaultBrush())
-        return QBrush();
-    else
-        return d_ptr->m_labelsBrush;
 }
 
 /*!
@@ -699,10 +500,7 @@ void QAbstractAxis::setLabelsFont(const QFont &font)
 */
 QFont QAbstractAxis::labelsFont() const
 {
-    if (d_ptr->m_labelsFont == QChartPrivate::defaultFont())
-        return QFont();
-    else
-        return d_ptr->m_labelsFont;
+    return d_ptr->m_labelsFont;
 }
 
 void QAbstractAxis::setLabelsAngle(int angle)
@@ -719,17 +517,15 @@ int QAbstractAxis::labelsAngle() const
 }
 void QAbstractAxis::setLabelsColor(QColor color)
 {
-    QBrush b = labelsBrush();
-    if (b.color() != color || d_ptr->m_labelsBrush == QChartPrivate::defaultBrush()) {
-        b.setColor(color);
-        setLabelsBrush(b);
+    if (d_ptr->m_labelsColor != color) {
+        d_ptr->m_labelsColor = color;
         emit labelsColorChanged(color);
     }
 }
 
 QColor QAbstractAxis::labelsColor() const
 {
-    return labelsBrush().color();
+    return d_ptr->m_labelsColor;
 }
 
 void QAbstractAxis::setTitleVisible(bool visible)
@@ -746,25 +542,22 @@ bool QAbstractAxis::isTitleVisible() const
 }
 
 /*!
-  Sets the brush used to draw titles to \a brush.
+  Sets the color used to draw titles to \a color.
  */
-void QAbstractAxis::setTitleBrush(const QBrush &brush)
+void QAbstractAxis::setTitleColor(const QColor &color)
 {
-    if (d_ptr->m_titleBrush != brush) {
-        d_ptr->m_titleBrush = brush;
-        emit titleBrushChanged(brush);
+    if (d_ptr->m_titleColor != color) {
+        d_ptr->m_titleColor = color;
+        emit titleColorChanged(color);
     }
 }
 
 /*!
-  Returns the brush used to draw titles.
+  Returns the color used to draw titles.
 */
-QBrush QAbstractAxis::titleBrush() const
+QColor QAbstractAxis::titleColor() const
 {
-    if (d_ptr->m_titleBrush == QChartPrivate::defaultBrush())
-        return QBrush();
-    else
-        return d_ptr->m_titleBrush;
+    return d_ptr->m_titleColor;
 }
 
 /*!
@@ -783,10 +576,7 @@ void QAbstractAxis::setTitleFont(const QFont &font)
 */
 QFont QAbstractAxis::titleFont() const
 {
-    if (d_ptr->m_titleFont == QChartPrivate::defaultFont())
-        return QFont();
-    else
-        return d_ptr->m_titleFont;
+    return d_ptr->m_titleFont;
 }
 
 void QAbstractAxis::setTitleText(const QString &title)
@@ -802,102 +592,13 @@ QString QAbstractAxis::titleText() const
     return d_ptr->m_title;
 }
 
-
-void QAbstractAxis::setShadesVisible(bool visible)
-{
-    if (d_ptr->m_shadesVisible != visible) {
-        d_ptr->m_shadesVisible = visible;
-        emit shadesVisibleChanged(visible);
-    }
-}
-
-bool QAbstractAxis::shadesVisible() const
-{
-    return d_ptr->m_shadesVisible;
-}
-
-/*!
-  Sets the pen used to draw shades to \a pen.
-*/
-void QAbstractAxis::setShadesPen(const QPen &pen)
-{
-    if (d_ptr->m_shadesPen != pen) {
-        d_ptr->m_shadesPen = pen;
-        emit shadesPenChanged(pen);
-    }
-}
-
-/*!
-  Returns the pen used to draw shades.
-*/
-QPen QAbstractAxis::shadesPen() const
-{
-    if (d_ptr->m_shadesPen == QChartPrivate::defaultPen())
-        return QPen();
-    else
-        return d_ptr->m_shadesPen;
-}
-
-/*!
-  Sets the brush used to draw shades to \a brush.
-*/
-void QAbstractAxis::setShadesBrush(const QBrush &brush)
-{
-    if (d_ptr->m_shadesBrush != brush) {
-        d_ptr->m_shadesBrush = brush;
-        emit shadesBrushChanged(brush);
-    }
-}
-
-/*!
-   Returns the brush used to draw shades.
-*/
-QBrush QAbstractAxis::shadesBrush() const
-{
-    if (d_ptr->m_shadesBrush == QChartPrivate::defaultBrush())
-        return QBrush(Qt::SolidPattern);
-    else
-        return d_ptr->m_shadesBrush;
-}
-
-void QAbstractAxis::setShadesColor(QColor color)
-{
-    QBrush b = shadesBrush();
-    if (b.color() != color || d_ptr->m_shadesBrush == QChartPrivate::defaultBrush()) {
-        b.setColor(color);
-        setShadesBrush(b);
-        emit shadesColorChanged(color);
-    }
-}
-
-QColor QAbstractAxis::shadesColor() const
-{
-    return shadesBrush().color();
-}
-
-void QAbstractAxis::setShadesBorderColor(QColor color)
-{
-    QPen p = shadesPen();
-    if (p.color() != color || d_ptr->m_shadesPen == QChartPrivate::defaultPen()) {
-        p.setColor(color);
-        setShadesPen(p);
-        emit shadesColorChanged(color);
-    }
-}
-
-QColor QAbstractAxis::shadesBorderColor() const
-{
-    return shadesPen().color();
-}
-
-
 bool QAbstractAxis::isVisible() const
 {
     return d_ptr->m_visible;
 }
 
 /*!
-  Sets the visibility of the axis, shades, labels, and grid lines to \a visible.
+  Sets the visibility of the axis, labels, and grid lines to \a visible.
 */
 void QAbstractAxis::setVisible(bool visible)
 {
@@ -910,7 +611,7 @@ void QAbstractAxis::setVisible(bool visible)
 
 
 /*!
-  Makes the axis, shades, labels, and grid lines visible.
+  Makes the axis, labels, and grid lines visible.
 */
 void QAbstractAxis::show()
 {
@@ -918,7 +619,7 @@ void QAbstractAxis::show()
 }
 
 /*!
-  Makes the axis, shades, labels, and grid lines invisible.
+  Makes the axis, labels, and grid lines invisible.
 */
 void QAbstractAxis::hide()
 {
@@ -1041,17 +742,7 @@ void QAbstractAxis::setReverse(bool reverse)
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 QAbstractAxisPrivate::QAbstractAxisPrivate(QAbstractAxis *q)
-    : q_ptr(q),
-      m_axisPen(QChartPrivate::defaultPen()),
-      m_axisBrush(QChartPrivate::defaultBrush()),
-      m_gridLinePen(QChartPrivate::defaultPen()),
-      m_minorGridLinePen(QChartPrivate::defaultPen()),
-      m_labelsBrush(QChartPrivate::defaultBrush()),
-      m_labelsFont(QChartPrivate::defaultFont()),
-      m_titleBrush(QChartPrivate::defaultBrush()),
-      m_titleFont(QChartPrivate::defaultFont()),
-      m_shadesPen(QChartPrivate::defaultPen()),
-      m_shadesBrush(QChartPrivate::defaultBrush())
+    : q_ptr(q)
 {
 }
 
