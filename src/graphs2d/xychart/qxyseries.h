@@ -1,0 +1,95 @@
+// Copyright (C) 2023 The Qt Company Ltd.
+// SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
+
+#ifndef QXYSERIES_H
+#define QXYSERIES_H
+
+#include <QtGraphs2D/qabstractseries.h>
+#include <QtGraphs2D/qtgraphs2dexports.h>
+
+QT_BEGIN_NAMESPACE
+class QModelIndex;
+QT_END_NAMESPACE
+
+QT_BEGIN_NAMESPACE
+
+class QXYSeriesPrivate;
+class QXYModelMapper;
+
+class Q_GRAPHS2D_EXPORT QXYSeries : public QAbstractSeries
+{
+    Q_OBJECT
+    Q_PROPERTY(QColor color READ color WRITE setColor NOTIFY colorChanged)
+    Q_PROPERTY(QColor selectedColor READ color WRITE setSelectedColor NOTIFY selectedColorChanged)
+    Q_PROPERTY(qreal markerSize READ markerSize WRITE setMarkerSize NOTIFY markerSizeChanged)
+
+protected:
+    explicit QXYSeries(QXYSeriesPrivate &d, QObject *parent = nullptr);
+
+public:
+    ~QXYSeries();
+    void append(qreal x, qreal y);
+    void append(const QPointF &point);
+    void append(const QList<QPointF> &points);
+    void replace(qreal oldX, qreal oldY, qreal newX, qreal newY);
+    void replace(const QPointF &oldPoint, const QPointF &newPoint);
+    void replace(int index, qreal newX, qreal newY);
+    void replace(int index, const QPointF &newPoint);
+    void replace(const QList<QPointF> &points);
+    void remove(qreal x, qreal y);
+    void remove(const QPointF &point);
+    void remove(int index);
+    void removePoints(int index, int count);
+    void insert(int index, const QPointF &point);
+    void clear();
+
+    int count() const;
+    QList<QPointF> points() const;
+    const QPointF &at(int index) const;
+
+    QXYSeries &operator<<(const QPointF &point);
+    QXYSeries &operator<<(const QList<QPointF> &points);
+
+    virtual void setColor(const QColor &newColor);
+    virtual QColor color() const;
+
+    void setSelectedColor(const QColor &color);
+    QColor selectedColor() const;
+
+    bool isPointSelected(int index);
+    void selectPoint(int index);
+    void deselectPoint(int index);
+    void setPointSelected(int index, bool selected);
+    void selectAllPoints();
+    void deselectAllPoints();
+    void selectPoints(const QList<int> &indexes);
+    void deselectPoints(const QList<int> &indexes);
+    void toggleSelection(const QList<int> &indexes);
+    QList<int> selectedPoints() const;
+
+    void setMarkerSize(qreal size);
+    qreal markerSize() const;
+
+Q_SIGNALS:
+    void pointReplaced(int index);
+    void pointRemoved(int index);
+    void pointAdded(int index);
+    void colorChanged(QColor color);
+    void selectedColorChanged(const QColor &color);
+    void pointsReplaced();
+    void pointsRemoved(int index, int count);
+    void selectedPointsChanged();
+    void markerSizeChanged(qreal size);
+
+private:
+    Q_DECLARE_PRIVATE(QXYSeries)
+    Q_DISABLE_COPY(QXYSeries)
+    friend class QXYLegendMarkerPrivate;
+    friend class XYLegendMarker;
+    friend class XYChart;
+    friend class QColorAxisPrivate;
+};
+
+QT_END_NAMESPACE
+
+#endif // QXYSERIES_H
