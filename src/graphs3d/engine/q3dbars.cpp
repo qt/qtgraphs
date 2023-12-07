@@ -307,7 +307,7 @@ QSizeF Q3DBars::barSeriesMargin() const
 void Q3DBars::setRowAxis(QCategory3DAxis *axis)
 {
     graphBars()->setRowAxis(axis);
-    emit rowAxisChanged(axis);
+    emit rowAxisChanged(rowAxis());
 }
 
 QCategory3DAxis *Q3DBars::rowAxis() const
@@ -332,7 +332,7 @@ QCategory3DAxis *Q3DBars::rowAxis() const
 void Q3DBars::setColumnAxis(QCategory3DAxis *axis)
 {
     graphBars()->setColumnAxis(axis);
-    emit columnAxisChanged(axis);
+    emit columnAxisChanged(columnAxis());
 }
 
 QCategory3DAxis *Q3DBars::columnAxis() const
@@ -356,7 +356,7 @@ QCategory3DAxis *Q3DBars::columnAxis() const
 void Q3DBars::setValueAxis(QValue3DAxis *axis)
 {
     graphBars()->setValueAxis(axis);
-    emit valueAxisChanged(axis);
+    emit valueAxisChanged(valueAxis());
 }
 
 QValue3DAxis *Q3DBars::valueAxis() const

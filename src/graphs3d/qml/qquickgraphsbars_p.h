@@ -138,9 +138,6 @@ public:
                                                        bool autoAdjust) override;
     void handleSeriesVisibilityChangedBySender(QObject *sender) override;
 
-    void setAxisX(QAbstract3DAxis *axis);
-    void setAxisZ(QAbstract3DAxis *axis);
-
     void handleAxisRangeChangedBySender(QObject *sender) override;
     void adjustAxisRanges() override;
 
