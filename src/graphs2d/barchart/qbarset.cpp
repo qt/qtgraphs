@@ -9,7 +9,7 @@ QT_BEGIN_NAMESPACE
 
 /*!
     \class QBarSet
-    \inmodule QtCharts
+    \inmodule QtGraphs
     \brief The QBarSet class represents one set of bars in a bar chart.
 
     A bar set contains one data value for each category. The first value of a set is assumed to
@@ -24,7 +24,7 @@ QT_BEGIN_NAMESPACE
 /*!
     \qmltype BarSet
     \instantiates QBarSet
-    \inqmlmodule QtCharts
+    \inqmlmodule QtGraphs
 
     \brief Represents one set of bars in a bar chart.
 

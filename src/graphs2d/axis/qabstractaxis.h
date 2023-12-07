@@ -26,8 +26,8 @@ class QAbstractAxis : public QObject
     Q_PROPERTY(int labelsAngle READ labelsAngle WRITE setLabelsAngle NOTIFY labelsAngleChanged)
     Q_PROPERTY(QFont labelsFont READ labelsFont WRITE setLabelsFont NOTIFY labelsFontChanged)
     Q_PROPERTY(QColor labelsColor READ labelsColor WRITE setLabelsColor NOTIFY labelsColorChanged)
-    Q_PROPERTY(bool labelsTruncated READ labelsTruncated NOTIFY labelsTruncatedChanged REVISION(6, 2))
-    Q_PROPERTY(bool truncateLabels READ truncateLabels WRITE setTruncateLabels NOTIFY truncateLabelsChanged REVISION(6, 2))
+    Q_PROPERTY(bool labelsTruncated READ labelsTruncated NOTIFY labelsTruncatedChanged)
+    Q_PROPERTY(bool truncateLabels READ truncateLabels WRITE setTruncateLabels NOTIFY truncateLabelsChanged)
     //grid
     Q_PROPERTY(bool gridVisible READ isGridLineVisible WRITE setGridLineVisible NOTIFY gridVisibleChanged)
     Q_PROPERTY(bool minorGridVisible READ isMinorGridLineVisible WRITE setMinorGridLineVisible NOTIFY minorGridVisibleChanged)
@@ -44,6 +44,7 @@ class QAbstractAxis : public QObject
     Q_PROPERTY(Qt::Alignment alignment READ alignment)
     Q_PROPERTY(bool reverse READ isReverse WRITE setReverse NOTIFY reverseChanged)
     QML_FOREIGN(QAbstractAxis)
+    QML_NAMED_ELEMENT(AbstractAxis)
 
 public:
 

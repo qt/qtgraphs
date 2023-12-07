@@ -10,30 +10,16 @@
 QT_BEGIN_NAMESPACE
 /*!
     \class QValueAxis
-    \inmodule QtCharts
+    \inmodule QtGraphs
     \brief The QValueAxis class adds values to a chart's axes.
 
     A value axis can be set up to show an axis line with tick marks, grid lines, and shades.
     The values on the axis are drawn at the positions of tick marks.
-
-    The following example code illustrates how to use the QValueAxis class:
-    \code
-    QChartView *chartView = new QChartView;
-    QLineSeries *series = new QLineSeries;
-    // ...
-    chartView->chart()->addSeries(series);
-
-    QValueAxis *axisX = new QValueAxis;
-    axisX->setRange(10, 20.5);
-    axisX->setTickCount(10);
-    axisX->setLabelFormat("%.2f");
-    chartView->chart()->setAxisX(axisX, series);
-    \endcode
 */
 /*!
     \qmltype ValueAxis
     \instantiates QValueAxis
-    \inqmlmodule QtCharts
+    \inqmlmodule QtGraphs
 
     \inherits AbstractAxis
     \brief Adds values to a chart's axes.
@@ -108,23 +94,19 @@ QT_BEGIN_NAMESPACE
 
 /*!
   \property QValueAxis::tickAnchor
-  \since 5.12
   \brief The base value where the dynamically placed tick marks and labels are started from.
 */
 /*!
   \qmlproperty real ValueAxis::tickAnchor
-  \since QtCharts 2.3
   The base value where the dynamically placed tick marks and labels are started from.
 */
 
 /*!
   \property QValueAxis::tickInterval
-  \since 5.12
   \brief The interval between dynamically placed tick marks and labels.
 */
 /*!
   \qmlproperty real ValueAxis::tickInterval
-  \since QtCharts 2.3
   The interval between dynamically placed tick marks and labels.
 */
 
@@ -139,12 +121,10 @@ QT_BEGIN_NAMESPACE
  */
 /*!
   \property QValueAxis::tickType
-  \since 5.12
   \brief The positioning method of tick and labels.
 */
 /*!
   \qmlproperty enumeration ValueAxis::tickType
-  \since QtCharts 2.3
 
   The positioning method of tick and labels.
 
@@ -160,10 +140,6 @@ QT_BEGIN_NAMESPACE
 
   The format string supports the following conversion specifiers, length modifiers, and flags
   provided by \c printf() in the standard C++ library: d, i, o, x, X, f, F, e, E, g, G, c.
-
-  If QChart::localizeNumbers is \c true, the supported specifiers are limited to:
-  d, e, E, f, g, G, and i. Also, only the precision modifier is supported. The rest of the
-  formatting comes from the default QLocale of the application.
 
   \sa QString::asprintf()
 */

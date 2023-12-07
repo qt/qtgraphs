@@ -9,7 +9,7 @@ QT_BEGIN_NAMESPACE
 
 /*!
     \class QAbstractSeries
-    \inmodule QtCharts
+    \inmodule QtGraphs
     \brief The QAbstractSeries class is a base class for all Qt Chart series.
 
     Usually, the series type specific inherited classes are used instead of the base class.
@@ -21,7 +21,7 @@ QT_BEGIN_NAMESPACE
 /*!
     \qmltype AbstractSeries
     \instantiates QAbstractSeries
-    \inqmlmodule QtCharts
+    \inqmlmodule QtGraphs
 
     \brief Base type for all Qt Chart series types.
 
@@ -383,7 +383,7 @@ void QAbstractSeries::hide()
     \note If multiple axes of the same orientation are attached to the same series,
     they will have the same minimum and maximum values.
 
- \sa QChart::addAxis(), QChart::createDefaultAxes()
+ \sa QGraphsView::addAxis()
  */
 bool QAbstractSeries::attachAxis(QAbstractAxis* axis)
 {
@@ -402,7 +402,7 @@ bool QAbstractSeries::attachAxis(QAbstractAxis* axis)
 
     Returns \c true if the axis was detached successfully, \c false otherwise.
 
- \sa QChart::removeAxis()
+ \sa QGraphsView::removeAxis()
  */
 bool QAbstractSeries::detachAxis(QAbstractAxis* axis)
 {

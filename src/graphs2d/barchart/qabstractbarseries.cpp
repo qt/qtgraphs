@@ -13,7 +13,7 @@ QT_BEGIN_NAMESPACE
 
 /*!
     \class QAbstractBarSeries
-    \inmodule QtCharts
+    \inmodule QtGraphs
     \brief The QAbstractBarSeries class is an abstract parent class for all bar series classes.
 
     In bar charts, bars are defined as bar sets that contain one data value for each category.
@@ -34,7 +34,7 @@ QT_BEGIN_NAMESPACE
 /*!
     \qmltype AbstractBarSeries
     \instantiates QAbstractBarSeries
-    \inqmlmodule QtCharts
+    \inqmlmodule QtGraphs
 
     \inherits AbstractSeries
 

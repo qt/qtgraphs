@@ -11,34 +11,19 @@
 QT_BEGIN_NAMESPACE
 /*!
     \class QBarCategoryAxis
-    \inmodule QtCharts
+    \inmodule QtGraphs
     \brief The QBarCategoryAxis class adds categories to a chart's axes.
 
     QBarCategoryAxis can be set up to show an axis line with tick marks, grid lines, and shades.
     Categories are drawn between the ticks. It can be used also with a line series, as demonstrated
     by the \l {Charts with Widgets Gallery}.
-
-    The following code illustrates how to use QBarCategoryAxis:
-    \code
-    QChartView *chartView = new QChartView;
-    QBarSeries *series = new QBarSeries;
-    // ...
-    chartView->chart()->addSeries(series);
-    chartView->chart()->createDefaultAxes();
-
-    QBarCategoryAxis *axisX = new QBarCategoryAxis;
-    QStringList categories;
-    categories << "Jan" << "Feb" << "Mar" << "Apr" << "May" << "Jun";
-    axisX->append(categories);
-    axisX->setRange("Feb", "May");
-    chartView->chart()->setAxisX(axisX, series);
     \endcode
 */
 
 /*!
     \qmltype BarCategoryAxis
     \instantiates QBarCategoryAxis
-    \inqmlmodule QtCharts
+    \inqmlmodule QtGraphs
 
     \inherits AbstractAxis
 

@@ -8,7 +8,7 @@ QT_BEGIN_NAMESPACE
 
 /*!
     \class QAbstractAxis
-    \inmodule QtCharts
+    \inmodule QtGraphs
     \brief The QAbstractAxis class is a base class used for specialized axis classes.
 
     Each series can be bound to one or more horizontal and vertical axes, but mixing axis types
@@ -21,7 +21,7 @@ QT_BEGIN_NAMESPACE
 /*!
     \qmltype AbstractAxis
     \instantiates QAbstractAxis
-    \inqmlmodule QtCharts
+    \inqmlmodule QtGraphs
 
     \brief A base type used for specialized axis types.
 
@@ -307,13 +307,11 @@ QT_BEGIN_NAMESPACE
 
 /*!
   \fn void QAbstractAxis::labelsEditableChanged(bool editable)
-  \since 5.13
   This signal is emitted when the \a editable state of the label changes.
 */
 
 /*!
   \fn void QAbstractAxis::labelsTruncatedChanged(bool labelsTruncated)
-  \since 6.2
   This signal is emitted in two cases; when the axis changes from having one or more truncated
   labels to having no truncated labels, and when the axis changes from having no truncated
   labels to having one or more truncated labels. Current state is identified by \a labelsTruncated.
@@ -321,7 +319,6 @@ QT_BEGIN_NAMESPACE
 
 /*!
   \fn void QAbstractAxis::truncateLabelsChanged(bool truncateLabels)
-  \since 6.2
   This signal is emitted when the truncation of the labels changes to \a truncateLabels.
 */
 
@@ -380,7 +377,7 @@ QT_BEGIN_NAMESPACE
 /*!
  \internal
   Constructs a new axis object that is a child of \a parent. The ownership is taken by
-  QChart when the axis is added.
+  graph when the axis is added.
 */
 
 QAbstractAxis::QAbstractAxis(QAbstractAxisPrivate &d, QObject *parent)
@@ -688,7 +685,6 @@ bool QAbstractAxis::isReverse() const
   for the QValueAxis and the QDateTimeAxis.
 
   By default, labels are not editable.
-  \since 5.13
 */
 void QAbstractAxis::setLabelsEditable(bool editable)
 {
@@ -706,7 +702,6 @@ void QAbstractAxis::setLabelsEditable(bool editable)
 
 /*!
   Returns \c true if axis labels are editable.
-  \since 5.13
 */
 bool QAbstractAxis::labelsEditable() const
 {

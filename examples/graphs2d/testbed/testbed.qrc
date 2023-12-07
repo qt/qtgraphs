@@ -12,5 +12,9 @@
         <file>qml/testbed/LineProperties.qml</file>
         <file>qml/testbed/images/icon_settings.png</file>
         <file>qml/testbed/BarSelection.qml</file>
+        <file>qml/testbed/SettingsView.qml</file>
+        <file>qml/testbed/images/happy_box.png</file>
+        <file>qml/testbed/ScatterProperties.qml</file>
+        <file>qml/testbed/Callout.qml</file>
     </qresource>
 </RCC>

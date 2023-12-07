@@ -10,7 +10,7 @@ QT_BEGIN_NAMESPACE
 
 /*!
     \class QBarSeries
-    \inmodule QtCharts
+    \inmodule QtGraphs
     \brief The QBarSeries class presents a series of data as vertical bars grouped by category.
 
     This class draws data as a series of vertical bars grouped by category, with one bar per
@@ -25,7 +25,7 @@ QT_BEGIN_NAMESPACE
 /*!
     \qmltype BarSeries
     \instantiates QBarSeries
-    \inqmlmodule QtCharts
+    \inqmlmodule QtGraphs
 
     \inherits AbstractBarSeries
 

@@ -26,12 +26,8 @@ QT_END_NAMESPACE
 
 QT_BEGIN_NAMESPACE
 
-class ChartPresenter;
 class AbstractDomain;
-class QChart;
 class QAbstractSeries;
-class ChartTheme;
-class ChartElement;
 
 class QAbstractAxisPrivate : public QObject
 {
@@ -102,9 +98,6 @@ private:
 
     Q_DECLARE_PUBLIC(QAbstractAxis)
     friend class QAbstractAxis;
-    friend class QColorAxisPrivate;
-    friend class ChartDataSet;
-    friend class ChartPresenter;
 };
 
 QT_END_NAMESPACE
