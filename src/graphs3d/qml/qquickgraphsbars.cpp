@@ -42,7 +42,8 @@ QCategory3DAxis *QQuickGraphsBars::rowAxis() const
 
 void QQuickGraphsBars::setRowAxis(QCategory3DAxis *axis)
 {
-    setAxisZ(axis);
+    QQuickGraphsItem::setAxisZ(axis);
+    handleDataRowLabelsChanged();
     // labelsChanged and rangeChanged signals are required to update the row and
     // column numbers. The same situation exists in the barscontroller. (see
     // setAxisZ and setAxisHelper) A better implementation may apply once
@@ -75,7 +76,8 @@ QCategory3DAxis *QQuickGraphsBars::columnAxis() const
 
 void QQuickGraphsBars::setColumnAxis(QCategory3DAxis *axis)
 {
-    setAxisX(axis);
+    QQuickGraphsItem::setAxisX(axis);
+    handleDataColumnLabelsChanged();
     QObject::connect(axis,
                      &QAbstract3DAxis::labelsChanged,
                      this,
@@ -375,18 +377,6 @@ void QQuickGraphsBars::handleSeriesVisibilityChangedBySender(QObject *sender)
     // Visibility changes may require disabling slicing,
     // so just reset selection to ensure everything is still valid.
     setSelectedBar(m_selectedBar, m_selectedBarSeries, false);
-}
-
-void QQuickGraphsBars::setAxisX(QAbstract3DAxis *axis)
-{
-    QQuickGraphsItem::setAxisX(axis);
-    handleDataColumnLabelsChanged();
-}
-
-void QQuickGraphsBars::setAxisZ(QAbstract3DAxis *axis)
-{
-    QQuickGraphsItem::setAxisZ(axis);
-    handleDataRowLabelsChanged();
 }
 
 void QQuickGraphsBars::handleAxisRangeChangedBySender(QObject *sender)
