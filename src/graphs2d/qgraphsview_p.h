@@ -133,7 +133,6 @@ private:
     PointRenderer *m_pointRenderer = nullptr;
     QList<QObject *> m_seriesList;
     QBrush m_backgroundBrush;
-    //QSGDefaultInternalRectangleNode *m_backgroundNode = nullptr;
     QSGClipNode *m_backgroundNode = nullptr;
 
     QList<QAbstractAxis *> m_axis;

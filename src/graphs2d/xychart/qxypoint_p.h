@@ -14,8 +14,6 @@
 #define DECLARATIVE_XY_POINT_H
 
 #include <QtQml/qqmlregistration.h>
-//#include <QtCharts/QChartGlobal>
-//#include <private/declarativechartglobal_p.h>
 #include <QtCore/QObject>
 #include <QtCore/QPointF>
 

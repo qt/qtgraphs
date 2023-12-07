@@ -61,13 +61,7 @@ void QGraphsView::insertSeries(int index, QObject *object)
             QObject::connect(series, &QAbstractSeries::hoverEnter, this, &QGraphsView::handleHoverEnter);
             QObject::connect(series, &QAbstractSeries::hoverExit, this, &QGraphsView::handleHoverExit);
             QObject::connect(series, &QAbstractSeries::hover, this, &QGraphsView::handleHover);
-            //QObject::connect(series, &QAbstractSeries::visibilityChanged,
-            //                 this, &Abstract3DController::handleSeriesVisibilityChanged);
-            //series->resetToTheme(*m_themeManager->activeTheme(), oldSize, false);
         }
-//        if (series->isVisible())
-//            handleSeriesVisibilityChangedBySender(series);
-
     }
 }
 
@@ -77,13 +71,6 @@ void QGraphsView::removeSeries(QObject *object)
         m_seriesList.removeAll(series);
         for (auto a : series->attachedAxes())
             m_axis.removeAll(a);
-
-        //QObject::disconnect(series, &QAbstractSeries::visibilityChanged,
-        //                    this, &Abstract3DController::handleSeriesVisibilityChanged);
-        //series->d_func()->setController(0);
-        //m_isDataDirty = true;
-        //m_isSeriesVisualsDirty = true;
-        //emitNeedRender();
     }
 }
 

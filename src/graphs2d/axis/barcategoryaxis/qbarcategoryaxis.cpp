@@ -5,10 +5,7 @@
 
 #include <QtGraphs2D/QBarCategoryAxis>
 #include <private/qbarcategoryaxis_p.h>
-//#include <private/chartbarcategoryaxisx_p.h>
-//#include <private/chartbarcategoryaxisy_p.h>
 #include <private/abstractdomain_p.h>
-//#include <QtCharts/QChart>
 #include <QtCore/QtMath>
 
 QT_BEGIN_NAMESPACE
@@ -545,19 +542,6 @@ void  QBarCategoryAxisPrivate::setRange(const QString &minCategory, const QStrin
         emit rangeChanged(m_min,m_max);
     }
 }
-/*
-void QBarCategoryAxisPrivate::initializeGraphics(QGraphicsItem* parent)
-{
-    Q_Q(QBarCategoryAxis);
-    ChartAxisElement* axis(0);
-    if (orientation() == Qt::Vertical)
-        axis = new ChartBarCategoryAxisY(q,parent);
-    if (orientation() == Qt::Horizontal)
-        axis = new ChartBarCategoryAxisX(q,parent);
-
-    m_item.reset(axis);
-    QAbstractAxisPrivate::initializeGraphics(parent);
-}*/
 
 void QBarCategoryAxisPrivate::updateCategoryDomain()
 {
@@ -578,31 +562,6 @@ void QBarCategoryAxisPrivate::updateCategoryDomain()
     if (changed)
         emit rangeChanged(m_min,m_max);
 }
-
-/*
-void QBarCategoryAxisPrivate::initializeDomain(AbstractDomain *domain)
-{
-    Q_Q(QBarCategoryAxis);
-    if (m_max == m_min) {
-        int min;
-        int max;
-        if (orientation() == Qt::Vertical) {
-            min = domain->minY() + 0.5;
-            max = domain->maxY() - 0.5;
-        } else {
-            min = domain->minX() + 0.5;
-            max = domain->maxX() - 0.5;
-        }
-
-        if (min > 0 && min < m_categories.size() && max > 0 && max < m_categories.size())
-            q->setRange(m_categories.at(min), m_categories.at(max));
-    } else {
-        if (orientation() == Qt::Vertical)
-            domain->setRangeY(m_min, m_max);
-        else
-            domain->setRangeX(m_min, m_max);
-    }
-}*/
 
 QT_END_NAMESPACE
 

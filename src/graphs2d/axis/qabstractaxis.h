@@ -4,7 +4,6 @@
 #ifndef QABSTRACTAXIS_H
 #define QABSTRACTAXIS_H
 
-//#include <QtCharts/QChartGlobal>
 #include <QtGui/QPen>
 #include <QtGui/QFont>
 #include <QtCore/QVariant>
@@ -56,7 +55,6 @@ class QAbstractAxis : public QObject
     Q_PROPERTY(Qt::Alignment alignment READ alignment)
     Q_PROPERTY(bool reverse READ isReverse WRITE setReverse NOTIFY reverseChanged)
     QML_FOREIGN(QAbstractAxis)
-    //QML_NAMED_ELEMENT(AbstractAxis)
 
 public:
 

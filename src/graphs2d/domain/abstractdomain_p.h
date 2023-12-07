@@ -12,8 +12,7 @@
 
 #ifndef ABSTRACTDOMAIN_H
 #define ABSTRACTDOMAIN_H
-//#include <QtCharts/QChartGlobal>
-//#include <QtCharts/private/qchartglobal_p.h>
+
 #include <QtCore/QRectF>
 #include <QtCore/QSizeF>
 #include <QtCore/QDebug>
@@ -80,9 +79,6 @@ public:
     virtual QPointF calculateGeometryPoint(const QPointF &point, bool &ok) const = 0;
     virtual QPointF calculateDomainPoint(const QPointF &point) const = 0;
     virtual QList<QPointF> calculateGeometryPoints(const QList<QPointF> &list) const = 0;
-
-//    virtual bool attachAxis(QAbstractAxis *axis);
-//    virtual bool detachAxis(QAbstractAxis *axis);
 
     static void looseNiceNumbers(qreal &min, qreal &max, int &ticksCount);
     static qreal niceNumber(qreal x, bool ceiling);

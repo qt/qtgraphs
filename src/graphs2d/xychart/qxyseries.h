@@ -4,12 +4,6 @@
 #ifndef QXYSERIES_H
 #define QXYSERIES_H
 
-/*#include <QtCharts/QAbstractSeries>
-#include <QtCharts/QChartGlobal>
-#include <QtGui/QBrush>
-#include <QtGui/QImage>
-#include <QtGui/QPen>*/
-
 #include <QtGraphs2D/qabstractseries.h>
 
 QT_BEGIN_NAMESPACE

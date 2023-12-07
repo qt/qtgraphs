@@ -15,7 +15,6 @@
 
 #include <QtGraphs2D/QValueAxis>
 #include <private/qabstractaxis_p.h>
-//#include <QtGraphs2D/private/qchartglobal_p.h>
 
 QT_BEGIN_NAMESPACE
 
@@ -27,9 +26,6 @@ public:
     ~QValueAxisPrivate();
 
 public:
-    //void initializeGraphics(QGraphicsItem* parent) override;
-    //void initializeDomain(AbstractDomain *domain) override;
-
     qreal min() override { return m_min; }
     qreal max() override { return m_max; }
     void setRange(qreal min,qreal max) override;

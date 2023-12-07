@@ -16,9 +16,6 @@
 
 #include <QtGraphs2D/qabstractseries.h>
 #include <private/abstractdomain_p.h>
-//#include <QtCharts/QChart>
-//#include <private/abstractdomain_p.h>
-//#include <QtCharts/private/qchartglobal_p.h>
 
 #include <memory>
 
@@ -37,7 +34,6 @@ class QAbstractAxis;
 class QLegendMarker;
 class ChartTheme;
 class ChartAnimation;
-//class ChartItem;
 class BoxPlotChartItem;
 class QGraphsView;
 
@@ -50,27 +46,10 @@ public:
 
     virtual void initializeDomain() = 0;
     virtual void initializeAxes() = 0;
-    //virtual void initializeTheme(int index, ChartTheme* theme, bool forced = false) = 0;
     virtual void initializeGraphics(QGraphicsItem* parent) = 0;
-//    virtual void initializeAnimations(QChart::AnimationOptions options, int duration,
-//                                      QEasingCurve &curve) = 0;
-
-//    virtual QList<QLegendMarker*> createLegendMarkers(QLegend* legend) = 0;
-
-//    virtual QAbstractAxis::AxisType defaultAxisType(Qt::Orientation) const = 0;
-//    virtual QAbstractAxis* createDefaultAxis(Qt::Orientation) const = 0;
-
-//    ChartItem* chartItem() { return m_item.get(); }
 
     virtual void setDomain(AbstractDomain* domain);
     AbstractDomain* domain() { return m_domain.data(); }
-
-//    virtual void setPresenter(ChartPresenter *presenter);
-//    ChartPresenter *presenter() const;
-
-//    QChart* chart() { return m_graph; }
-
-    //void setBlockOpenGL(bool enable);
 
 Q_SIGNALS:
     void countChanged();
@@ -78,7 +57,6 @@ Q_SIGNALS:
 protected:
     QAbstractSeries *q_ptr;
     QGraphsView *m_graph;
-    //std::unique_ptr<ChartItem> m_item;
     QList<QAbstractAxis*> m_axes;
 
 private:
@@ -90,9 +68,6 @@ private:
     bool m_hoverable = false;
     qreal m_opacity;
     qreal m_valuesMultiplier;
-//    ChartPresenter *m_presenter;
- //   bool m_useOpenGL;
-//    bool m_blockOpenGL;
 
     friend class QAbstractSeries;
     friend class ChartDataSet;

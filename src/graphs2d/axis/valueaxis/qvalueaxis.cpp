@@ -1,19 +1,6 @@
 // Copyright (C) 2023 The Qt Company Ltd.
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 
-/*
-#include <QtCharts/QValueAxis>
-#include <private/qvalueaxis_p.h>
-#include <private/chartvalueaxisx_p.h>
-#include <private/chartvalueaxisy_p.h>
-#include <private/abstractdomain_p.h>
-#include <private/polarchartvalueaxisangular_p.h>
-#include <private/polarchartvalueaxisradial_p.h>
-#include <private/chartdataset_p.h>
-#include <private/chartpresenter_p.h>
-#include <private/charttheme_p.h>
-#include <private/charthelpers_p.h>
-*/
 #include <QtGraphs2D/QValueAxis>
 #include <private/qvalueaxis_p.h>
 #include <private/abstractdomain_p.h>
@@ -526,48 +513,7 @@ void QValueAxisPrivate::setRange(qreal min, qreal max)
         emit q->rangeChanged(min, max);
     }
 }
-/*
-void QValueAxisPrivate::initializeGraphics(QGraphicsItem *parent)
-{
-    Q_Q(QValueAxis);
-    ChartAxisElement *axis(0);
 
-    if (m_graph->chartType() == QChart::ChartTypeCartesian) {
-        if (orientation() == Qt::Vertical)
-            axis = new ChartValueAxisY(q,parent);
-        if (orientation() == Qt::Horizontal)
-            axis = new ChartValueAxisX(q,parent);
-        axis->setLabelsEditable(q->labelsEditable());
-    }
-
-    if (m_graph->chartType() == QChart::ChartTypePolar) {
-        if (orientation() == Qt::Vertical)
-            axis = new PolarChartValueAxisRadial(q, parent);
-        if (orientation() == Qt::Horizontal)
-            axis = new PolarChartValueAxisAngular(q, parent);
-    }
-
-    m_item.reset(axis);
-    QAbstractAxisPrivate::initializeGraphics(parent);
-}
-
-
-void QValueAxisPrivate::initializeDomain(AbstractDomain *domain)
-{
-    if (orientation() == Qt::Vertical) {
-        if (!qFuzzyIsNull(m_max - m_min))
-            domain->setRangeY(m_min, m_max);
-        else
-            setRange(domain->minY(), domain->maxY());
-    }
-    if (orientation() == Qt::Horizontal) {
-        if (!qFuzzyIsNull(m_max - m_min))
-            domain->setRangeX(m_min, m_max);
-        else
-            setRange(domain->minX(), domain->maxX());
-    }
-}
-*/
 QT_END_NAMESPACE
 
 #include "moc_qvalueaxis.cpp"

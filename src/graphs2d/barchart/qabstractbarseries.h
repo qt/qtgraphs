@@ -4,7 +4,6 @@
 #ifndef QABSTRACTBARSERIES_H
 #define QABSTRACTBARSERIES_H
 
-//#include <QtCharts/QAbstractSeries>
 #include <QtGraphs2D/qabstractseries.h>
 #include <QtCore/QStringList>
 #include <QtQml/QQmlEngine>

@@ -15,7 +15,6 @@
 
 #include <QtGraphs2D/QBarCategoryAxis>
 #include <private/qabstractaxis_p.h>
-//#include <QtCharts/private/qchartglobal_p.h>
 
 QT_BEGIN_NAMESPACE
 
@@ -30,8 +29,6 @@ public:
     ~QBarCategoryAxisPrivate();
 
 public:
-//    void initializeGraphics(QGraphicsItem* parent) override;
-//    void initializeDomain(AbstractDomain *domain) override;
     void updateCategoryDomain();
 
     //interface for manipulating range form base class

@@ -13,8 +13,6 @@
 #ifndef QBARSET_P_H
 #define QBARSET_P_H
 
-//#include <QtCharts/QBarSet>
-//#include <QtCharts/private/qchartglobal_p.h>
 #include <QtGraphs2D/qbarset.h>
 #include <QtCore/QMap>
 #include <QtGui/QPen>

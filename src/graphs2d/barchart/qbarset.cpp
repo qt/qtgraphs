@@ -1,12 +1,6 @@
 // Copyright (C) 2023 The Qt Company Ltd.
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 
-/*
-#include <QtCharts/QBarSet>
-#include <private/qbarset_p.h>
-#include <private/charthelpers_p.h>
-#include <private/qchart_p.h>
-*/
 #include <QtGraphs2D/qbarset.h>
 #include <private/qbarset_p.h>
 #include <private/charthelpers_p.h>
@@ -799,9 +793,6 @@ QList<int> QBarSet::selectedBars() const
 QBarSetPrivate::QBarSetPrivate(const QString label, QBarSet *parent) : QObject(parent),
     q_ptr(parent),
     m_label(label),
-//    m_pen(QChartPrivate::defaultPen()),
-//    m_brush(QChartPrivate::defaultBrush()),
-//    m_labelBrush(QChartPrivate::defaultBrush()),
     m_visualsDirty(true)
 {
 }

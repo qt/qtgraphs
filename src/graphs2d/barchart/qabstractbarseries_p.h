@@ -13,14 +13,10 @@
 #ifndef QABSTRACTBARSERIES_P_H
 #define QABSTRACTBARSERIES_P_H
 
-//#include <QtCharts/QAbstractBarSeries>
-//#include <private/qabstractseries_p.h>
 #include <QtGraphs2D/qabstractbarseries.h>
 #include <private/qabstractseries_p.h>
 #include <QtGraphs2D//qabstractseries.h>
 #include <QtCore/QStringList>
-//#include <QtCharts/QAbstractSeries>
-//#include <QtCharts/private/qchartglobal_p.h>
 
 QT_BEGIN_NAMESPACE
 
@@ -43,13 +39,6 @@ public:
 
     void initializeDomain() override;
     void initializeAxes() override;
-    //void initializeAnimations(QChart::AnimationOptions options, int duration, QEasingCurve &curve) override;
-    //void initializeTheme(int index, ChartTheme* theme, bool forced = false) override;
-
-    //QList<QLegendMarker*> createLegendMarkers(QLegend *legend) override;
-
-    //virtual QAbstractAxis::AxisType defaultAxisType(Qt::Orientation orientation) const override;
-    //QAbstractAxis* createDefaultAxis(Qt::Orientation orientation) const override;
 
     bool append(QBarSet *set);
     bool remove(QBarSet *set);
@@ -98,9 +87,6 @@ private Q_SLOTS:
     void handleSetValueChange(int index);
     void handleSetValueAdd(int index, int count);
     void handleSetValueRemove(int index, int count);
-
-private:
-    //void populateCategories(QBarCategoryAxis *axis);
 
 protected:
     QList<QBarSet *> m_barSets;

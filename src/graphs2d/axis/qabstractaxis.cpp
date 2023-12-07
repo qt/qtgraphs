@@ -3,9 +3,6 @@
 
 #include <QtGraphs2D/QAbstractAxis>
 #include <private/qabstractaxis_p.h>
-//#include <private/chartdataset_p.h>
-//#include <private/charttheme_p.h>
-//#include <private/qchart_p.h>
 
 QT_BEGIN_NAMESPACE
 
@@ -1088,70 +1085,12 @@ void QAbstractAxisPrivate::setLabelsTruncated(bool labelsTruncated)
         emit q->labelsTruncatedChanged(m_labelsTruncated);
     }
 }
-/*
-void QAbstractAxisPrivate::initializeTheme(ChartTheme* theme, bool forced)
-{
-    if (forced || QChartPrivate::defaultPen() == m_axisPen)
-        q_ptr->setLinePen(theme->axisLinePen());
 
-    if (forced || QChartPrivate::defaultPen() == m_gridLinePen)
-        q_ptr->setGridLinePen(theme->gridLinePen());
-    if (forced || QChartPrivate::defaultPen() == m_minorGridLinePen)
-        q_ptr->setMinorGridLinePen(theme->minorGridLinePen());
-
-    if (forced || QChartPrivate::defaultBrush() == m_labelsBrush)
-        q_ptr->setLabelsBrush(theme->labelBrush());
-    if (forced || QChartPrivate::defaultFont() == m_labelsFont)
-        q_ptr->setLabelsFont(theme->labelFont());
-
-    if (forced || QChartPrivate::defaultBrush() == m_titleBrush)
-        q_ptr->setTitleBrush(theme->labelBrush());
-    if (forced || QChartPrivate::defaultFont() == m_titleFont) {
-        QFont font(m_labelsFont);
-        font.setBold(true);
-        q_ptr->setTitleFont(font);
-    }
-
-    if (forced || QChartPrivate::defaultBrush() == m_shadesBrush)
-        q_ptr->setShadesBrush(theme->backgroundShadesBrush());
-    if (forced || QChartPrivate::defaultPen() == m_shadesPen)
-        q_ptr->setShadesPen(theme->backgroundShadesPen());
-
-    bool axisX = m_orientation == Qt::Horizontal;
-    if (forced && (theme->backgroundShades() == ChartTheme::BackgroundShadesBoth
-            || (theme->backgroundShades() == ChartTheme::BackgroundShadesVertical && axisX)
-            || (theme->backgroundShades() == ChartTheme::BackgroundShadesHorizontal && !axisX))) {
-         q_ptr->setShadesVisible(true);
-    } else if (forced) {
-        q_ptr->setShadesVisible(false);
-    }
-}
-*/
 void QAbstractAxisPrivate::handleRangeChanged(qreal min, qreal max)
 {
     setRange(min,max);
 }
-/*
-void QAbstractAxisPrivate::initializeGraphics(QGraphicsItem* parent)
-{
-    Q_UNUSED(parent);
-}
 
-void QAbstractAxisPrivate::initializeAnimations(QChart::AnimationOptions options, int duration,
-                                                QEasingCurve &curve)
-{
-    ChartAxisElement *axis = m_item.get();
-    Q_ASSERT(axis);
-    if (axis->animation())
-        axis->animation()->stopAndDestroyLater();
-
-    if (options.testFlag(QChart::GridAxisAnimations))
-        axis->setAnimation(new AxisAnimation(axis, duration, curve));
-    else
-        axis->setAnimation(0);
-}
-*/
 QT_END_NAMESPACE
 
-//#include "moc_qabstractaxis.cpp"
-//#include "moc_qabstractaxis_p.cpp"
+

@@ -4,7 +4,6 @@
 #ifndef QBARSERIES_H
 #define QBARSERIES_H
 
-//#include <QtCharts/QAbstractBarSeries>
 #include <QtGraphs2D/qabstractbarseries.h>
 #include <QtGraphs2D/qabstractaxis.h>
 
@@ -17,10 +16,7 @@ class QBarSeries : public QAbstractBarSeries
     Q_OBJECT
     Q_PROPERTY(QAbstractAxis *axisX READ axisX WRITE setAxisX NOTIFY axisXChanged)
     Q_PROPERTY(QAbstractAxis *axisY READ axisY WRITE setAxisY NOTIFY axisYChanged)
-    //Q_PROPERTY(QAbstractAxis *axisXTop READ axisXTop WRITE setAxisXTop NOTIFY axisXTopChanged REVISION(1, 2))
-    //Q_PROPERTY(QAbstractAxis *axisYRight READ axisYRight WRITE setAxisYRight NOTIFY axisYRightChanged REVISION(1, 2))
     QML_NAMED_ELEMENT(BarSeries)
-    //Q_CLASSINFO("DefaultProperty", "children")
 
 public:
     explicit QBarSeries(QObject *parent = nullptr);
@@ -31,11 +27,7 @@ public:
     void setAxisX(QAbstractAxis *axis);
     QAbstractAxis *axisY();
     void setAxisY(QAbstractAxis *axis);
-    /*QAbstractAxis *axisXTop() { return m_axes->axisXTop(); }
-    void setAxisXTop(QAbstractAxis *axis) { m_axes->setAxisXTop(axis); }
-    QAbstractAxis *axisYRight() { return m_axes->axisYRight(); }
-    void setAxisYRight(QAbstractAxis *axis) { m_axes->setAxisYRight(axis); }
-*/
+
 Q_SIGNALS:
     void axisXChanged(QAbstractAxis *axis);
     void axisYChanged(QAbstractAxis *axis);

@@ -15,7 +15,6 @@
 
 #include <QtCore/QtNumeric>
 #include <QtCore/QPointF>
-//#include <QtCore/private/qglobal_p.h>
 
 static inline bool isValidValue(qreal value)
 {

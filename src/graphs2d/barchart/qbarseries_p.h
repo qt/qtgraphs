@@ -12,11 +12,7 @@
 
 #ifndef QBARSERIES_P_H
 #define QBARSERIES_P_H
-/*
-#include <private/qabstractbarseries_p.h>
-#include <private/abstractdomain_p.h>
-#include <QtCharts/private/qchartglobal_p.h>
-*/
+
 #include <private/qabstractbarseries_p.h>
 #include <private/abstractdomain_p.h>
 

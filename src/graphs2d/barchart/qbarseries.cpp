@@ -1,15 +1,6 @@
 // Copyright (C) 2023 The Qt Company Ltd.
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 
-/*
-#include <QtCharts/QBarSeries>
-#include <private/qbarseries_p.h>
-#include <private/barchartitem_p.h>
-#include <private/chartdataset_p.h>
-#include <private/charttheme_p.h>
-#include <QtCharts/QValueAxis>
-#include <QtCharts/QBarCategoryAxis>
-*/
 #include <QtGraphs2D/qbarseries.h>
 #include <private/qbarseries_p.h>
 #include <QtGraphs2D/QBarCategoryAxis>
@@ -127,8 +118,6 @@ void QBarSeriesPrivate::initializeDomain()
 void QBarSeriesPrivate::initializeGraphics(QGraphicsItem* parent)
 {
     Q_Q(QBarSeries);
-    //BarChartItem *bar = new BarChartItem(q,parent);
-    //m_item.reset(bar);
     QAbstractSeriesPrivate::initializeGraphics(parent);
 }
 

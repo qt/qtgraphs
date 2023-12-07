@@ -4,7 +4,6 @@
 #ifndef QABSTRACTSERIES_H
 #define QABSTRACTSERIES_H
 
-//#include <QtCharts/QChartGlobal>
 #include <QtGraphs2D/QAbstractAxis>
 #include <QtCore/QObject>
 #include <QtGui/QPen>
@@ -29,7 +28,6 @@ class QAbstractSeries : public QObject, public QQmlParserStatus
     Q_PROPERTY(qreal opacity READ opacity WRITE setOpacity NOTIFY opacityChanged)
     Q_PROPERTY(qreal valuesMultiplier READ valuesMultiplier WRITE setValuesMultiplier NOTIFY valuesMultiplierChanged)
     Q_PROPERTY(SeriesType type READ type)
-    //Q_PROPERTY(bool useOpenGL READ useOpenGL WRITE setUseOpenGL NOTIFY useOpenGLChanged)
     Q_PROPERTY(QQmlListProperty<QObject> seriesChildren READ seriesChildren)
     Q_CLASSINFO("DefaultProperty", "seriesChildren")
     Q_ENUMS(SeriesType)
@@ -75,8 +73,6 @@ public:
     void setOpacity(qreal opacity);
     qreal valuesMultiplier() const;
     void setValuesMultiplier(qreal valuesMultiplier);
-    //void setUseOpenGL(bool enable = true);
-    //bool useOpenGL() const;
 
     QGraphsView *graph() const;
     void setGraph(QGraphsView *graph);
@@ -108,7 +104,6 @@ Q_SIGNALS:
     void hoverEnter(QString seriesName, QPointF position, QPointF value);
     void hoverExit(QString seriesName, QPointF position);
     void hover(QString seriesName, QPointF position, QPointF value);
-    //void useOpenGLChanged();
 
 protected:
     QScopedPointer<QAbstractSeriesPrivate> d_ptr;

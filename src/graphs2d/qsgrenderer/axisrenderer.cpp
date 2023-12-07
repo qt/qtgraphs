@@ -377,7 +377,6 @@ void AxisRenderer::updateBarXAxisLabels(QBarCategoryAxis *axis, const QRectF &re
     int currentTextItemsSize = m_xAxisTextItems.size();
     if (currentTextItemsSize < categoriesCount) {
         for (int i = currentTextItemsSize; i <= categoriesCount; i++) {
-            //auto bi = new QSGTextNode();
             auto bi = new QQuickText();
             bi->setParentItem(this);
             m_xAxisTextItems << bi;
@@ -415,7 +414,6 @@ void AxisRenderer::updateValueYAxisLabels(QValueAxis *axis, const QRectF &rect)
     int currentTextItemsSize = m_yAxisTextItems.size();
     if (currentTextItemsSize < categoriesCount) {
         for (int i = currentTextItemsSize; i <= categoriesCount; i++) {
-            //auto bi = new QSGTextNode();
             auto bi = new QQuickText();
             bi->setParentItem(this);
             m_yAxisTextItems << bi;

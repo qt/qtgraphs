@@ -3,21 +3,6 @@
 
 #undef QT_NO_FOREACH // this file contains unported legacy Q_FOREACH uses
 
-/*#include <QtCharts/QAbstractBarSeries>
-#include <private/qabstractbarseries_p.h>
-#include <QtCharts/QBarSet>
-#include <private/qbarset_p.h>
-#include <private/abstractdomain_p.h>
-#include <private/chartdataset_p.h>
-#include <private/charttheme_p.h>
-#include <QtCharts/QValueAxis>
-#include <QtCharts/QBarCategoryAxis>
-#include <QtCharts/QBarLegendMarker>
-#include <private/baranimation_p.h>
-#include <private/abstractbarchartitem_p.h>
-#include <private/qchart_p.h>
-*/
-
 #include <QtGraphs2D/qabstractbarseries.h>
 #include <private/qabstractbarseries_p.h>
 #include <QtGraphs2D/qbarset.h>
@@ -962,19 +947,6 @@ void QAbstractBarSeriesPrivate::initializeDomain()
     domain()->setRange(minX, maxX, minY, maxY);
 }
 
-/*QList<QLegendMarker*> QAbstractBarSeriesPrivate::createLegendMarkers(QLegend* legend)
-{
-    Q_Q(QAbstractBarSeries);
-    QList<QLegendMarker*> markers;
-
-    foreach (QBarSet* set, q->barSets()) {
-        QBarLegendMarker* marker = new QBarLegendMarker(q,set,legend);
-        markers << marker;
-    }
-    return markers;
-}*/
-
-
 bool QAbstractBarSeriesPrivate::append(QBarSet *set)
 {
     if ((m_barSets.contains(set)) || (set == 0))
@@ -1130,33 +1102,6 @@ void QAbstractBarSeriesPrivate::initializeAxes()
     //    item->resetAnimation();
 }
 
-/*QAbstractAxis::AxisType QAbstractBarSeriesPrivate::defaultAxisType(Qt::Orientation orientation) const
-{
-    Q_Q(const QAbstractBarSeries);
-
-    switch (q->type()) {
-    case QAbstractSeries::SeriesTypeHorizontalBar:
-    case QAbstractSeries::SeriesTypeHorizontalPercentBar:
-    case QAbstractSeries::SeriesTypeHorizontalStackedBar:
-        if (orientation == Qt::Vertical)
-            return QAbstractAxis::AxisTypeBarCategory;
-        break;
-    case QAbstractSeries::SeriesTypeBar:
-    case QAbstractSeries::SeriesTypePercentBar:
-    case QAbstractSeries::SeriesTypeStackedBar:
-    case QAbstractSeries::SeriesTypeBoxPlot:
-    case QAbstractSeries::SeriesTypeCandlestick:
-        if (orientation == Qt::Horizontal)
-            return QAbstractAxis::AxisTypeBarCategory;
-        break;
-    default:
-        qWarning() << "Unexpected series type";
-        break;
-    }
-    return QAbstractAxis::AxisTypeValue;
-
-}*/
-
 void QAbstractBarSeriesPrivate::handleSetValueChange(int index)
 {
     QBarSetPrivate *priv = qobject_cast<QBarSetPrivate *>(sender());
@@ -1177,121 +1122,7 @@ void QAbstractBarSeriesPrivate::handleSetValueRemove(int index, int count)
     if (priv)
         emit setValueRemoved(index, count, priv->q_ptr);
 }
-/*
-void QAbstractBarSeriesPrivate::populateCategories(QBarCategoryAxis *axis)
-{
-    QStringList categories;
-    if (axis->categories().isEmpty()) {
-        for (int i(1); i < categoryCount() + 1; i++)
-            categories << presenter()->numberToString(i);
-        axis->append(categories);
-    }
-}
 
-QAbstractAxis* QAbstractBarSeriesPrivate::createDefaultAxis(Qt::Orientation orientation) const
-{
-    if (defaultAxisType(orientation) == QAbstractAxis::AxisTypeBarCategory)
-        return new QBarCategoryAxis;
-    else
-        return new QValueAxis;
-}
-*/
-/*
-void QAbstractBarSeriesPrivate::initializeTheme(int index, ChartTheme* theme, bool forced)
-{
-    m_blockBarUpdate = true; // Ensures that the bars are not updated before the theme is ready
-
-    const QList<QGradient> gradients = theme->seriesGradients();
-
-    // Since each bar series uses different number of colors, we need to account for other
-    // bar series in the chart that are also themed when choosing colors.
-    // First series count is used to determine the color stepping to keep old applications
-    // with single bar series with a lot of sets colored as they always have been.
-    int actualIndex = 0;
-    int firstSeriesSetCount = m_barSets.size();
-    if (m_item) {
-        auto seriesMap = m_item->themeManager()->seriesMap();
-        int lowestSeries = index;
-        for (auto it = seriesMap.cbegin(), end = seriesMap.cend(); it != end; ++it) {
-            if (it.value() != index) {
-                auto barSeries = qobject_cast<QAbstractBarSeries *>(it.key());
-                if (barSeries) {
-                    actualIndex += barSeries->count();
-                    if (it.value() < lowestSeries) {
-                        firstSeriesSetCount = qMax(barSeries->count(), gradients.size());
-                        lowestSeries = it.value();
-                    }
-                }
-            }
-        }
-    }
-
-    qreal takeAtPos = 0.5;
-    qreal step = 0.2;
-    if (firstSeriesSetCount > 1) {
-        step = 1.0 / qreal(firstSeriesSetCount);
-        if (firstSeriesSetCount % gradients.size())
-            step *= gradients.size();
-        else
-            step *= (gradients.size() - 1);
-        if (index > 0) {
-            // Take necessary amount of initial steps
-            int initialStepper = actualIndex;
-            while (initialStepper > gradients.size()) {
-                initialStepper -= gradients.size();
-                takeAtPos += step;
-                if (takeAtPos == 1.0)
-                    takeAtPos += step;
-                takeAtPos -= int(takeAtPos);
-            }
-        }
-    }
-
-    for (int i(0); i < m_barSets.size(); i++) {
-        int colorIndex = (actualIndex + i) % gradients.size();
-        if ((actualIndex + i) > 0 && (actualIndex + i) % gradients.size() == 0) {
-            // There is no dedicated base color for each sets, generate more colors
-            takeAtPos += step;
-            if (takeAtPos == 1.0)
-            takeAtPos += step;
-            takeAtPos -= (int) takeAtPos;
-        }
-        if (forced || QChartPrivate::defaultBrush() == m_barSets.at(i)->d_ptr->m_brush)
-            m_barSets.at(i)->setBrush(ChartThemeManager::colorAt(gradients.at(colorIndex), takeAtPos));
-
-        // Pick label color from the opposite end of the gradient.
-        // 0.3 as a boundary seems to work well.
-        if (forced || QChartPrivate::defaultBrush() == m_barSets.at(i)->d_ptr->m_labelBrush) {
-            if (takeAtPos < 0.3)
-                m_barSets.at(i)->setLabelBrush(ChartThemeManager::colorAt(gradients.at(actualIndex % gradients.size()), 1));
-            else
-                m_barSets.at(i)->setLabelBrush(ChartThemeManager::colorAt(gradients.at(actualIndex % gradients.size()), 0));
-        }
-        if (forced || QChartPrivate::defaultPen() == m_barSets.at(i)->d_ptr->m_pen) {
-            QColor c = ChartThemeManager::colorAt(gradients.at(actualIndex % gradients.size()), 0.0);
-            m_barSets.at(i)->setPen(c);
-        }
-    }
-    m_blockBarUpdate = false;
-    emit updatedBars();
-}
-*/
-/*
-void QAbstractBarSeriesPrivate::initializeAnimations(QChart::AnimationOptions options, int duration,
-                                                     QEasingCurve &curve)
-{
-    AbstractBarChartItem *bar = static_cast<AbstractBarChartItem *>(m_item.get());
-    Q_ASSERT(bar);
-    if (bar->animation())
-        bar->animation()->stopAndDestroyLater();
-
-    if (options.testFlag(QChart::SeriesAnimations))
-        bar->setAnimation(new BarAnimation(bar, duration, curve));
-    else
-        bar->setAnimation(0);
-    QAbstractSeriesPrivate::initializeAnimations(options, duration, curve);
-}
-*/
 QT_END_NAMESPACE
 
 #include "moc_qabstractbarseries.cpp"

@@ -14,9 +14,6 @@
 #define QABSTRACTAXIS_P_H
 
 #include <QtGraphs2D/QAbstractAxis>
-//#include <private/chartaxiselement_p.h>
-//#include <QtCharts/QChart>
-//#include <QtCharts/private/qchartglobal_p.h>
 #include <private/qgraphsview_p.h>
 #include <QtCore/QDebug>
 #include <QBrush>
@@ -50,12 +47,6 @@ public:
     void setAlignment(Qt::Alignment alignment);
     void setLabelsTruncated(bool labelsTruncated);
 
-//    virtual void initializeDomain(AbstractDomain *domain) = 0;
-//    virtual void initializeGraphics(QGraphicsItem *parent) = 0;
-//    virtual void initializeTheme(ChartTheme* theme, bool forced = false);
-//    virtual void initializeAnimations(QChart::AnimationOptions options, int duration,
-//                                      QEasingCurve &curve);
-
     //interface for manipulating range form base class
     virtual void setMin(const QVariant &min) = 0;
     virtual void setMax(const QVariant &max) = 0;
@@ -65,8 +56,6 @@ public:
     virtual void setRange(qreal min, qreal max) = 0;
     virtual qreal min() = 0;
     virtual qreal max() = 0;
-
-//    ChartAxisElement *axisItem() { return m_item.get(); }
 
 public Q_SLOTS:
     void handleRangeChanged(qreal min, qreal max);
@@ -78,7 +67,6 @@ protected:
     QAbstractAxis *q_ptr;
     // TODO: Used?
     QGraphsView *m_graph = nullptr;
-//    std::unique_ptr<ChartAxisElement> m_item;
 
 private:
     QList<QAbstractSeries*> m_series;

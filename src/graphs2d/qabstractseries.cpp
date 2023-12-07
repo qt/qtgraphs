@@ -4,16 +4,6 @@
 #include <QtGraphs2D/qabstractseries.h>
 #include <private/qabstractseries_p.h>
 #include <private/qgraphsview_p.h>
-//#include <QtCharts/QAbstractSeries>
-//#include <private/qabstractseries_p.h>
-//#include <private/chartdataset_p.h>
-//#include <QtCharts/QChart>
-//#include <private/qchart_p.h>
-//#include <private/chartitem_p.h>
-//#include <private/xydomain_p.h>
-//#include <private/xlogydomain_p.h>
-//#include <private/logxydomain_p.h>
-//#include <private/logxlogydomain_p.h>
 
 QT_BEGIN_NAMESPACE
 
@@ -341,28 +331,7 @@ void QAbstractSeries::setValuesMultiplier(qreal valuesMultiplier)
         emit valuesMultiplierChanged();
     }
 }
-/*void QAbstractSeries::setUseOpenGL(bool enable)
-{
-#ifdef QT_NO_OPENGL
-    Q_UNUSED(enable);
-#else
-    bool polarChart = d_ptr->m_graph && d_ptr->m_graph->chartType() == QChart::ChartTypePolar;
-    bool supportedSeries = (type() == SeriesTypeLine || type() == SeriesTypeScatter);
-    if ((!enable || !d_ptr->m_blockOpenGL)
-            && supportedSeries
-            && enable != d_ptr->m_useOpenGL
-            && (!enable || !polarChart)) {
-        d_ptr->m_useOpenGL = enable;
-        emit useOpenGLChanged();
-    }
-#endif
-}
 
-bool QAbstractSeries::useOpenGL() const
-{
-    return d_ptr->m_useOpenGL;
-}
-*/
 /*!
     Returns the chart that the series belongs to.
 
@@ -418,9 +387,6 @@ void QAbstractSeries::hide()
  */
 bool QAbstractSeries::attachAxis(QAbstractAxis* axis)
 {
-//    if (d_ptr->m_graph)
-//        return d_ptr->m_graph->d_ptr->m_dataset->attachAxis(this, axis);
-
     d_ptr->m_axes.append(axis);
     if (d_ptr->m_graph) {
         d_ptr->m_graph->addAxis(axis);
@@ -440,9 +406,6 @@ bool QAbstractSeries::attachAxis(QAbstractAxis* axis)
  */
 bool QAbstractSeries::detachAxis(QAbstractAxis* axis)
 {
-//    if (d_ptr->m_graph)
-//        return d_ptr->m_graph->d_ptr->m_dataset->detachAxis(this, axis);
-
     d_ptr->m_axes.removeAll(axis);
     if (d_ptr->m_graph) {
         d_ptr->m_graph->removeAxis(axis);
@@ -481,17 +444,6 @@ void QAbstractSeries::classBegin()
 
 void QAbstractSeries::componentComplete()
 {
-    /*foreach (QObject *child, children()) {
-        if (qobject_cast<DeclarativeBarSet *>(child)) {
-            QAbstractBarSeries::append(qobject_cast<DeclarativeBarSet *>(child));
-        } else if (qobject_cast<QVBarModelMapper *>(child)) {
-            QVBarModelMapper *mapper = qobject_cast<QVBarModelMapper *>(child);
-            mapper->setSeries(this);
-        } else if (qobject_cast<QHBarModelMapper *>(child)) {
-            QHBarModelMapper *mapper = qobject_cast<QHBarModelMapper *>(child);
-            mapper->setSeries(this);
-        }
-    }*/
     if (!d_ptr->m_theme) {
         qDebug() << "Using default seriestheme!";
         d_ptr->m_theme = new SeriesTheme(this);
@@ -503,13 +455,9 @@ void QAbstractSeries::componentComplete()
 QAbstractSeriesPrivate::QAbstractSeriesPrivate(QAbstractSeries *q)
     : q_ptr(q),
       m_graph(nullptr),
-      //m_item(nullptr),
-      //m_domain(new XYDomain()),
       m_visible(true),
       m_opacity(1.0),
       m_valuesMultiplier(1.0)
-//      m_useOpenGL(false),
-//      m_blockOpenGL(false)
 {
 }
 
@@ -519,51 +467,12 @@ QAbstractSeriesPrivate::~QAbstractSeriesPrivate()
 
 void QAbstractSeriesPrivate::setDomain(AbstractDomain* domain)
 {
-    /*Q_ASSERT(domain);
-    if (m_domain.data() ! =domain) {
-        if (m_item)
-            QObject::disconnect(m_domain.data(), SIGNAL(updated()), m_item.get(), SLOT(handleDomainUpdated()));
-        m_domain.reset(domain);
-        if (m_item) {
-            QObject::connect(m_domain.data(), SIGNAL(updated()), m_item.get(), SLOT(handleDomainUpdated()));
-            m_item->handleDomainUpdated();
-        }
-    }*/
-}
-/*
-void QAbstractSeriesPrivate::setPresenter(ChartPresenter *presenter)
-{
-    m_presenter = presenter;
 }
 
-ChartPresenter *QAbstractSeriesPrivate::presenter() const
-{
-    return m_presenter;
-}
-*/
 void QAbstractSeriesPrivate::initializeGraphics(QGraphicsItem* parent)
 {
-    //Q_ASSERT(m_item);
     Q_UNUSED(parent);
-    //QObject::connect(m_domain.data(), SIGNAL(updated()), m_item.get(), SLOT(handleDomainUpdated()));
 }
-
-/*void QAbstractSeriesPrivate::initializeAnimations(QChart::AnimationOptions options, int duration,
-                                                  QEasingCurve &curve)
-{
-    Q_UNUSED(options);
-    Q_UNUSED(duration);
-    Q_UNUSED(curve);
-}*/
-
-// This function can be used to explicitly block OpenGL use from some otherwise supported series,
-// such as the line series used as edge series of an area series.
-/*void QAbstractSeriesPrivate::setBlockOpenGL(bool enable)
-{
-    m_blockOpenGL = enable;
-    if (enable)
-        q_ptr->setUseOpenGL(false);
-}*/
 
 QT_END_NAMESPACE
 

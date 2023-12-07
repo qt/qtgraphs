@@ -1,13 +1,6 @@
 // Copyright (C) 2016 The Qt Company Ltd.
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 
-/*#include <QtCharts/QLineSeries>
-#include <private/chartdataset_p.h>
-#include <private/charttheme_p.h>
-#include <private/linechartitem_p.h>
-#include <private/qchart_p.h>
-#include <private/qlineseries_p.h>*/
-
 #include "qlineseries.h"
 #include "xychart/qxypoint_p.h"
 #include <private/qlineseries_p.h>
