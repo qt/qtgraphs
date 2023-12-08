@@ -2003,7 +2003,7 @@ void QQuickGraphsItem::synchData()
         m_subsegmentLineRepeaterY->setVisible(enabled);
         m_subsegmentLineRepeaterZ->setVisible(enabled);
 
-        if (m_sliceEnabled && isSlicingActive()) {
+        if (m_sliceView && isSliceEnabled()) {
             m_sliceHorizontalGridRepeater->setVisible(enabled);
             m_sliceVerticalGridRepeater->setVisible(enabled);
         }
@@ -5028,9 +5028,11 @@ void QQuickGraphsItem::createSliceView()
 
     m_sliceHorizontalGridRepeater = createRepeater(scene);
     m_sliceHorizontalGridRepeater->setDelegate(gridDelegate);
+    m_sliceHorizontalGridRepeater->setVisible(theme()->isGridEnabled());
 
     m_sliceVerticalGridRepeater = createRepeater(scene);
     m_sliceVerticalGridRepeater->setDelegate(gridDelegate);
+    m_sliceVerticalGridRepeater->setVisible(theme()->isGridEnabled());
 
     m_sliceHorizontalLabelRepeater = createRepeater(scene);
     m_sliceHorizontalLabelRepeater->setDelegate(labelDelegate);
