@@ -515,7 +515,7 @@ void QQuickGraphsBars::componentComplete()
     wallBackground->setSource(wallUrl);
     setBackground(wallBackground);
 
-    QUrl floorUrl = QUrl(QStringLiteral(":/defaultMeshes/planeMesh"));
+    QUrl floorUrl = QUrl(QStringLiteral(":/defaultMeshes/barMeshFull"));
     m_floorBackground = new QQuick3DModel();
     m_floorBackgroundScale = new QQuick3DNode();
     m_floorBackgroundRotation = new QQuick3DNode();
@@ -543,8 +543,6 @@ void QQuickGraphsBars::componentComplete()
 
 void QQuickGraphsBars::synchData()
 {
-    Q3DTheme *activeTheme = theme();
-
     if (!m_noZeroInRange) {
         setMinCameraYRotation(-90.0f);
         setMaxCameraYRotation(90.0f);
@@ -563,8 +561,7 @@ void QQuickGraphsBars::synchData()
         m_changeTracker.barSpecsChanged = false;
     }
 
-    // Floor level update requires data update, so do before qquickgraphicsitem
-    // sync
+    // Floor level update requires data update, so do before qquickgraphicsitem sync
     if (m_changeTracker.floorLevelChanged) {
         updateFloorLevel(m_floorLevel);
         m_changeTracker.floorLevelChanged = false;
@@ -576,10 +573,9 @@ void QQuickGraphsBars::synchData()
         m_changeTracker.multiSeriesScalingChanged = false;
     }
 
-    // Do not clear dirty flag, we need to react to it in qquickgraphicsitem as
-    // well
-    if (activeTheme->d_func()->m_dirtyBits.backgroundEnabledDirty) {
-        m_floorBackground->setVisible(activeTheme->isBackgroundEnabled());
+    // Do not clear dirty flag, we need to react to it in qquickgraphicsitem as well
+    if (theme()->d_func()->m_dirtyBits.backgroundEnabledDirty) {
+        m_floorBackground->setVisible(theme()->isBackgroundEnabled());
         setSeriesVisualsDirty(true);
         for (auto it = m_barModelsMap.begin(); it != m_barModelsMap.end(); it++)
             it.key()->d_func()->m_changeTracker.meshChanged = true;
@@ -591,39 +587,33 @@ void QQuickGraphsBars::synchData()
     }
 
     if (m_axisRangeChanged) {
-        activeTheme->d_func()->resetDirtyBits();
+        theme()->d_func()->resetDirtyBits();
         m_axisRangeChanged = false;
     }
 
     QQuickGraphsItem::synchData();
 
-    QMatrix4x4 modelMatrix;
-
     // Draw floor
     m_floorBackground->setPickable(false);
-    m_floorBackgroundScale->setScale(scaleWithBackground());
-    modelMatrix.scale(scaleWithBackground());
+    auto min = qMin(scaleWithBackground().x(), scaleWithBackground().z());
+    m_floorBackgroundScale->setScale(
+        QVector3D(scaleWithBackground().x(), min * gridOffset(), scaleWithBackground().z()));
     m_floorBackgroundScale->setPosition(QVector3D(0.0f, -m_backgroundAdjustment, 0.0f));
 
     QQuaternion m_xRightAngleRotation(QQuaternion::fromAxisAndAngle(1.0f, 0.0f, 0.0f, 90.0f));
     QQuaternion m_xRightAngleRotationNeg(QQuaternion::fromAxisAndAngle(1.0f, 0.0f, 0.0f, -90.0f));
 
-    if (isYFlipped()) {
+    if (isYFlipped())
         m_floorBackgroundRotation->setRotation(m_xRightAngleRotation);
-        modelMatrix.rotate(m_xRightAngleRotation);
-    } else {
+    else
         m_floorBackgroundRotation->setRotation(m_xRightAngleRotationNeg);
-        modelMatrix.rotate(m_xRightAngleRotationNeg);
-    }
 
-    auto bgFloor = m_floorBackground;
-    bgFloor->setPickable(false);
-    QQmlListReference materialsRefF(bgFloor, "materials");
+    m_floorBackground->setPickable(false);
+    QQmlListReference materialsRefF(m_floorBackground, "materials");
     QQuick3DPrincipledMaterial *bgMatFloor;
-
     if (!materialsRefF.size()) {
         bgMatFloor = new QQuick3DPrincipledMaterial();
-        bgMatFloor->setParent(bgFloor);
+        bgMatFloor->setParent(m_floorBackground);
         bgMatFloor->setMetalness(0.f);
         bgMatFloor->setRoughness(.3f);
         bgMatFloor->setEmissiveFactor(QVector3D(.001f, .001f, .001f));
@@ -631,7 +621,7 @@ void QQuickGraphsBars::synchData()
     } else {
         bgMatFloor = static_cast<QQuick3DPrincipledMaterial *>(materialsRefF.at(0));
     }
-    bgMatFloor->setBaseColor(activeTheme->backgroundColor());
+    bgMatFloor->setBaseColor(theme()->backgroundColor());
 
     if (m_selectedBarPos.isNull())
         itemLabel()->setVisible(false);
@@ -1332,6 +1322,10 @@ void QQuickGraphsBars::updateBarPositions(QBar3DSeries *series)
     int newColSize = qMin(dataProxy->colCount() - dataColIndex, m_newCols);
     int col = 0;
     for (int i = 0; i < barList.count(); i++) {
+        float seriesPos = m_seriesStart + 0.5f
+                          + (m_seriesStep
+                             * (barList.at(i)->visualIndex
+                                - (barList.at(i)->visualIndex * m_cachedBarSeriesMargin.width())));
         if (optimizationHint() == QAbstract3DGraph::OptimizationHint::Legacy) {
             QBarDataItem *item = barList.at(i)->barItem;
             QQuick3DModel *model = barList.at(i)->model;
@@ -1348,26 +1342,29 @@ void QQuickGraphsBars::updateBarPositions(QBar3DSeries *series)
                 model->setEulerRotation(QVector3D(-180.f, rot.y(), rot.z()));
             }
 
-            float seriesPos = m_seriesStart + 0.5f
-                              + (m_seriesStep
-                                 * (barList.at(i)->visualIndex
-                                    - (barList.at(i)->visualIndex
-                                       * m_cachedBarSeriesMargin.width())));
-
             float colPos = (col + seriesPos) * m_cachedBarSpacing.width();
             float xPos = (colPos - m_rowWidth) / m_scaleFactor;
             float rowPos = (row + 0.5f) * (m_cachedBarSpacing.height());
             float zPos = (m_columnDepth - rowPos) / m_scaleFactor;
+            float yPos;
+
+            if (heightValue < 0.f)
+                yPos = heightValue - m_backgroundAdjustment - 0.015f;
+            else
+                yPos = heightValue - m_backgroundAdjustment + 0.015f;
 
             barList.at(i)->heightValue = heightValue;
-            model->setPosition(QVector3D(xPos, heightValue - m_backgroundAdjustment, zPos));
-            model->setScale(
-                QVector3D(m_xScale * m_seriesScaleX, qAbs(heightValue), m_zScale * m_seriesScaleZ));
+            model->setPosition(QVector3D(xPos, yPos, zPos));
 
-            if (heightValue == 0)
+            if (heightValue == 0) {
+                model->setScale(QVector3D(.0f, .0f, .0f));
                 model->setPickable(false);
-            else
+            } else {
+                model->setScale(QVector3D(m_xScale * m_seriesScaleX,
+                                          qAbs(heightValue),
+                                          m_zScale * m_seriesScaleZ));
                 model->setPickable(true);
+            }
 
             if (col < newColSize - 1) {
                 ++col;
@@ -1396,18 +1393,18 @@ void QQuickGraphsBars::updateBarPositions(QBar3DSeries *series)
                             bih->eulerRotation = QVector3D(-180.f, eulerRot.y(), eulerRot.z());
                         }
 
-                        float seriesPos = m_seriesStart + 0.5f
-                                          + (m_seriesStep
-                                             * (barList.at(i)->visualIndex
-                                                - (barList.at(i)->visualIndex
-                                                   * m_cachedBarSeriesMargin.width())));
-
                         float colPos = (col + seriesPos) * m_cachedBarSpacing.width();
                         float xPos = (colPos - m_rowWidth) / m_scaleFactor;
                         float rowPos = (row + 0.5f) * (m_cachedBarSpacing.height());
                         float zPos = (m_columnDepth - rowPos) / m_scaleFactor;
+                        float yPos;
 
-                        bih->position = {xPos, (heightValue - m_backgroundAdjustment), zPos};
+                        if (heightValue < 0.f)
+                            yPos = heightValue - m_backgroundAdjustment - 0.01f;
+                        else
+                            yPos = heightValue - m_backgroundAdjustment + 0.01f;
+
+                        bih->position = {xPos, yPos, zPos};
                         bih->coord = QPoint(row, col);
 
                         if (heightValue == 0) {
