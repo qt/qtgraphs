@@ -608,7 +608,6 @@ void QQuickGraphsBars::synchData()
     else
         m_floorBackgroundRotation->setRotation(m_xRightAngleRotationNeg);
 
-    m_floorBackground->setPickable(false);
     QQmlListReference materialsRefF(m_floorBackground, "materials");
     QQuick3DPrincipledMaterial *bgMatFloor;
     if (!materialsRefF.size()) {
@@ -1400,9 +1399,9 @@ void QQuickGraphsBars::updateBarPositions(QBar3DSeries *series)
                         float yPos;
 
                         if (heightValue < 0.f)
-                            yPos = heightValue - m_backgroundAdjustment - 0.01f;
+                            yPos = heightValue - m_backgroundAdjustment - 0.015f;
                         else
-                            yPos = heightValue - m_backgroundAdjustment + 0.01f;
+                            yPos = heightValue - m_backgroundAdjustment + 0.015f;
 
                         bih->position = {xPos, yPos, zPos};
                         bih->coord = QPoint(row, col);
@@ -1882,7 +1881,7 @@ void QQuickGraphsBars::updateSelectedBar()
                         }
 
                         updateItemLabel(m_selectedBarPos);
-                        itemLabel()->setVisible(true);
+                        itemLabel()->setVisible(theme()->isLabelsEnabled());
                         itemLabel()->setProperty("labelText", label);
                         if (isSliceEnabled())
                             updateSliceItemLabel(label, m_selectedBarPos);
@@ -1955,7 +1954,7 @@ void QQuickGraphsBars::updateSliceItemLabel(QString label, const QVector3D &posi
     sliceItemLabel()->setPosition(slicePos);
     sliceItemLabel()->setProperty("labelText", label);
     sliceItemLabel()->setEulerRotation(QVector3D(0.0f, 0.0f, 90.0f));
-    sliceItemLabel()->setVisible(true);
+    sliceItemLabel()->setVisible(theme()->isLabelsEnabled());
 }
 
 void QQuickGraphsBars::resetClickedStatus()
@@ -2246,7 +2245,7 @@ void QQuickGraphsBars::createBarItemHolders(QBar3DSeries *series,
                 m_selectedBarPos.setY(m_selectedBarPos.y() + bih->heightValue - 0.2f);
 
             updateItemLabel(m_selectedBarPos);
-            itemLabel()->setVisible(true);
+            itemLabel()->setVisible(theme()->isLabelsEnabled());
             itemLabel()->setProperty("labelText", label);
             if (isSliceEnabled())
                 updateSliceItemLabel(label, m_selectedBarPos);
