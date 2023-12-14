@@ -189,7 +189,17 @@ void QQuickGraphsScatter::updateScatterGraphItemPositions(ScatterModel *graphMod
                     totalRotation = cameraTarget()->rotation();
 
                 DataItemHolder dih;
-                dih.position = {posX, posY, posZ};
+                if (isPolar()) {
+                    float x;
+                    float z;
+                    calculatePolarXZ(axisX()->positionAt(dotPos.x()),
+                                     axisZ()->positionAt(dotPos.z()),
+                                     x,
+                                     z);
+                    dih.position = {x, posY, z};
+                } else {
+                    dih.position = {posX, posY, posZ};
+                }
                 dih.rotation = totalRotation;
                 dih.scale = {itemSize, itemSize, itemSize};
 
@@ -1289,6 +1299,18 @@ float QQuickGraphsScatter::calculatePointScaleSize()
 void QQuickGraphsScatter::updatePointScaleSize()
 {
     m_pointScale = calculatePointScaleSize();
+}
+
+void QQuickGraphsScatter::calculatePolarXZ(const float posX,
+                                           const float posZ,
+                                           float &x,
+                                           float &z) const
+{
+    const qreal angle = posX * (M_PI * 2.0f);
+    const qreal radius = posZ;
+
+    x = static_cast<float>(radius * qSin(angle)) * m_polarRadius;
+    z = -static_cast<float>(radius * qCos(angle)) * m_polarRadius;
 }
 
 QQuick3DModel *QQuickGraphsScatter::selected() const
