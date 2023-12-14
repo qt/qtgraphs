@@ -2201,12 +2201,21 @@ void QQuickGraphsBars::createBarItemHolders(QBar3DSeries *series,
                                                                    series);
         switch (selectionType) {
         case QQuickGraphsBars::SelectionItem: {
+            updateItemMaterial(selectedModel,
+                               useGradient,
+                               rangeGradient,
+                               QStringLiteral(":/materials/BarsMaterialInstancing"));
+            updateMaterialProperties(selectedModel,
+                                     true,
+                                     false,
+                                     barList.at(0)->texture,
+                                     QColor(Qt::white));
             if (!slice)
                 bih->selectedBar = true;
             selectedModel->setVisible(visible);
             BarItemHolder *selectedBih = new BarItemHolder();
             selectedBih->selectedBar = false;
-            selectedBih->color = bih->color;
+            selectedBih->color = series->singleHighlightColor();
             selectedBih->coord = bih->coord;
             selectedBih->eulerRotation = bih->eulerRotation;
             selectedBih->heightValue = bih->heightValue;
@@ -2228,15 +2237,6 @@ void QQuickGraphsBars::createBarItemHolders(QBar3DSeries *series,
             selectedItem.push_back(selectedBih);
             instancing->setDataArray(selectedItem);
 
-            updateItemMaterial(selectedModel,
-                               useGradient,
-                               rangeGradient,
-                               QStringLiteral(":/materials/BarsMaterialInstancing"));
-            updateMaterialProperties(selectedModel,
-                                     true,
-                                     false,
-                                     barList.at(0)->texture,
-                                     series->singleHighlightColor());
             m_selectedBarPos = bih->position;
 
             if (bih->heightValue >= 0.0f)
@@ -2253,21 +2253,6 @@ void QQuickGraphsBars::createBarItemHolders(QBar3DSeries *series,
         }
         case QQuickGraphsBars::SelectionRow:
         case QQuickGraphsBars::SelectionColumn: {
-            if (!slice)
-                bih->selectedBar = true;
-            multiSelectedModel->setVisible(visible);
-            BarItemHolder *selectedBih = new BarItemHolder();
-            selectedBih->selectedBar = false;
-            selectedBih->color = bih->color;
-            selectedBih->coord = bih->coord;
-            selectedBih->eulerRotation = bih->eulerRotation;
-            selectedBih->heightValue = bih->heightValue;
-            selectedBih->position = bih->position;
-            selectedBih->scale = bih->scale;
-
-            multiSelectedItems.push_back(selectedBih);
-            multiInstancing->setDataArray(multiSelectedItems);
-
             updateItemMaterial(multiSelectedModel,
                                useGradient,
                                rangeGradient,
@@ -2276,7 +2261,21 @@ void QQuickGraphsBars::createBarItemHolders(QBar3DSeries *series,
                                      false,
                                      true,
                                      barList.at(0)->texture,
-                                     series->multiHighlightColor());
+                                     QColor(Qt::white));
+            if (!slice)
+                bih->selectedBar = true;
+            multiSelectedModel->setVisible(visible);
+            BarItemHolder *selectedBih = new BarItemHolder();
+            selectedBih->selectedBar = false;
+            selectedBih->color = series->multiHighlightColor();
+            selectedBih->coord = bih->coord;
+            selectedBih->eulerRotation = bih->eulerRotation;
+            selectedBih->heightValue = bih->heightValue;
+            selectedBih->position = bih->position;
+            selectedBih->scale = bih->scale;
+
+            multiSelectedItems.push_back(selectedBih);
+            multiInstancing->setDataArray(multiSelectedItems);
             break;
         }
         default:
@@ -2286,10 +2285,20 @@ void QQuickGraphsBars::createBarItemHolders(QBar3DSeries *series,
 
     if (slice) {
         for (const auto bih : std::as_const(multiBarItemList)) {
+            updateItemMaterial(multiSelectedModel,
+                               useGradient,
+                               rangeGradient,
+                               QStringLiteral(":/materials/BarsMaterialInstancing"));
+            updateMaterialProperties(multiSelectedModel,
+                                     false,
+                                     false,
+                                     barList.at(0)->texture,
+                                     QColor(Qt::white));
+
             multiSelectedModel->setVisible(visible);
             BarItemHolder *selectedBih = new BarItemHolder();
             selectedBih->selectedBar = false;
-            selectedBih->color = bih->color;
+            selectedBih->color = series->baseColor();
             selectedBih->coord = bih->coord;
             selectedBih->eulerRotation = bih->eulerRotation;
             selectedBih->heightValue = bih->heightValue;
@@ -2306,16 +2315,6 @@ void QQuickGraphsBars::createBarItemHolders(QBar3DSeries *series,
 
             multiSelectedItems.push_back(selectedBih);
             multiInstancing->setDataArray(multiSelectedItems);
-
-            updateItemMaterial(multiSelectedModel,
-                               useGradient,
-                               rangeGradient,
-                               QStringLiteral(":/materials/BarsMaterialInstancing"));
-            updateMaterialProperties(multiSelectedModel,
-                                     false,
-                                     false,
-                                     barList.at(0)->texture,
-                                     series->baseColor());
         }
     }
 }
