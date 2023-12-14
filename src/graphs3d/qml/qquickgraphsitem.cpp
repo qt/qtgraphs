@@ -2133,9 +2133,9 @@ void QQuickGraphsItem::updateGrid()
     QVector3D scaleY(lineWidthScaleFactor(),
                      backgroundScale.y() * lineLengthScaleFactor(),
                      lineWidthScaleFactor());
-    QVector3D scaleZ(backgroundScale.z() * lineLengthScaleFactor(),
-                     lineWidthScaleFactor(),
-                     lineWidthScaleFactor());
+    const QVector3D scaleZ(backgroundScale.z() * lineLengthScaleFactor(),
+                           lineWidthScaleFactor(),
+                           lineWidthScaleFactor());
 
     const bool xFlipped = isXFlipped();
     const bool yFlipped = isYFlipped();
@@ -2275,6 +2275,7 @@ void QQuickGraphsItem::updateGrid()
         rotation.setZ(180.0f);
     }
     scale = m_scaleWithBackground.x();
+    const float scaleAngularSublineAdjustment = .5f;
     for (int i = 0; i < subGridLineCountX; i++) {
         QQuick3DNode *lineNode = static_cast<QQuick3DNode *>(subsegmentLineRepeaterX()->objectAt(i));
         if (axisX()->type() == QAbstract3DAxis::AxisType::Value) {
@@ -2285,14 +2286,23 @@ void QQuickGraphsItem::updateGrid()
             linePosY = calculateCategoryGridLinePosition(axisY(), i);
         }
         if (isPolar()) {
-            lineNode->setPosition(QVector3D(.0f, linePosY, .0f));
-            rotation.setY(static_cast<QValue3DAxis *>(axisX())->gridPositionAt(i) * 360.0f);
+            auto model = lineNode->findChild<QQuick3DModel *>();
+            model->setX(angularLineOffset);
+
+            lineNode->setPosition(QVector3D(0.0f, linePosY, 0.0f));
+            rotation.setY(static_cast<QValue3DAxis *>(m_axisX)->subGridPositionAt(i) * 360.0f
+                          - rotationOffset);
+            lineNode->setScale(
+                QVector3D(scaleZ.x() * scaleAngularSublineAdjustment, scaleZ.y(), scaleZ.z()));
         } else {
+            auto model = lineNode->findChild<QQuick3DModel *>();
+            model->setX(0);
             positionAndScaleLine(lineNode, scaleZ, QVector3D(linePosX, linePosY, linePosZ));
         }
         lineRotation = Utils::calculateRotation(rotation);
         lineNode->setRotation(lineRotation);
     }
+    const float scaleAngularLineAdjustment = .5f;
     for (int i = 0; i < gridLineCountX; i++) {
         QQuick3DNode *lineNode = static_cast<QQuick3DNode *>(segmentLineRepeaterX()->objectAt(i));
         if (axisX()->type() == QAbstract3DAxis::AxisType::Value) {
@@ -2303,9 +2313,17 @@ void QQuickGraphsItem::updateGrid()
             linePosY = calculateCategoryGridLinePosition(axisY(), i);
         }
         if (isPolar()) {
-            lineNode->setPosition(QVector3D(.0f, linePosY, .0f));
-            rotation.setY(static_cast<QValue3DAxis *>(axisX())->gridPositionAt(i) * 360.0f);
+            auto model = lineNode->findChild<QQuick3DModel *>();
+            model->setX(angularLineOffset);
+
+            const float lineRotation = static_cast<QValue3DAxis *>(m_axisX)->gridPositionAt(i);
+            lineNode->setPosition(QVector3D(0, linePosY, 0));
+            rotation.setY((lineRotation * 360.0f - rotationOffset));
+            lineNode->setScale(
+                QVector3D(scaleZ.x() * scaleAngularLineAdjustment, scaleZ.y(), scaleZ.z()));
         } else {
+            auto model = lineNode->findChild<QQuick3DModel *>();
+            model->setX(0);
             positionAndScaleLine(lineNode, scaleZ, QVector3D(linePosX, linePosY, linePosZ));
         }
         lineRotation = Utils::calculateRotation(rotation);
@@ -4292,6 +4310,7 @@ void QQuickGraphsItem::setPolar(bool enable)
     if (enable != m_isPolar) {
         m_isPolar = enable;
         m_changeTracker.polarChanged = true;
+        setVerticalSegmentLine(!m_isPolar);
         m_isDataDirty = true;
         emit polarChanged(m_isPolar);
         emitNeedRender();

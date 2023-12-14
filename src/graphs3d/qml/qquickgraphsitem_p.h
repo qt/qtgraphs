@@ -674,6 +674,7 @@ protected:
     bool m_renderPending = false;
     bool m_isPolar = false;
     float m_radialLabelOffset = 1.0f;
+    float m_polarRadius = 2.0f;
 
     QList<QAbstract3DSeries *> m_seriesList;
 
@@ -690,6 +691,9 @@ protected:
     QQuickGraphsItem *m_qml = nullptr;
 
 private:
+    // This is the same as the minimum bound of GridLine model.
+    const float angularLineOffset = -49.98f;
+    const float rotationOffset = 90.0f;
     Abstract3DChangeBitField m_changeTracker;
     ThemeManager *m_themeManager = nullptr;
     QAbstract3DGraph::SelectionFlags m_selectionMode = QAbstract3DGraph::SelectionItem;
