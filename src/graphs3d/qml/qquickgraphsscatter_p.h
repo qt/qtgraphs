@@ -234,6 +234,7 @@ private:
     QQmlComponent *createRepeaterDelegate(QAbstract3DSeries::Mesh MeshType);
     float calculatePointScaleSize();
     void updatePointScaleSize();
+    void calculatePolarXZ(const float posX, const float posZ, float &x, float &z) const;
 
     void generatePointsForScatterModel(ScatterModel *series);
     void updateScatterGraphItemPositions(ScatterModel *graphModel);
