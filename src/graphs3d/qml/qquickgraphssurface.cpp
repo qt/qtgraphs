@@ -978,11 +978,11 @@ void QQuickGraphsSurface::updateModel(SurfaceModel *model)
 
         if (model->rowCount != rowCount) {
             model->rowCount = rowCount;
-            setDataDirty(true);
+            setIndexDirty(true);
         }
         if (model->columnCount != columnCount) {
             model->columnCount = columnCount;
-            setDataDirty(true);
+            setIndexDirty(true);
         }
 
         bool polarChanged = false;
