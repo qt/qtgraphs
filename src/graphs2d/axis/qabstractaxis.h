@@ -45,6 +45,7 @@ class Q_GRAPHS2D_EXPORT QAbstractAxis : public QObject
     Q_PROPERTY(Qt::Alignment alignment READ alignment)
     Q_PROPERTY(bool reverse READ isReverse WRITE setReverse NOTIFY reverseChanged)
     QML_FOREIGN(QAbstractAxis)
+    QML_UNCREATABLE("Trying to create uncreatable: AbstractAxis.")
     QML_NAMED_ELEMENT(AbstractAxis)
 
 public:
