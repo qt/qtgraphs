@@ -10,7 +10,7 @@ void MAIN()
     if (UV.x > (1.0 - xDiff))
         uvR = UV - vec2(xDiff, 0.0);
     vec2 uvU = UV + vec2(0.0, yDiff);
-    if (UV.y > (2.0 - yDiff))
+    if (UV.y > (1.0 - yDiff))
         uvU = UV - vec2(0.0, yDiff);
     vec3 v1 = texture(height, UV).rgb;
     vec3 v2 = texture(height, uvR).rgb;
