@@ -19,7 +19,7 @@ set(INSTALL_EXAMPLEDIR "${INSTALL_EXAMPLESDIR}")
 find_package(Qt6 COMPONENTS Core)
 find_package(Qt6 COMPONENTS Gui)
 find_package(Qt6 COMPONENTS Quick)
-find_package(Qt6 COMPONENTS Graphs)
+find_package(Qt6 COMPONENTS Graphs2D)
 
 qt_add_executable(testbed
     main.cpp
@@ -33,12 +33,14 @@ target_link_libraries(testbed PUBLIC
     Qt::Core
     Qt::Gui
     Qt::Quick
-    Qt::Graphs
+    Qt::Graphs2D
 )
 
 qt6_add_qml_module(testbed
     URI Testbed
     NO_RESOURCE_TARGET_PATH
+    SOURCES
+        custombarseries.h custombarseries.cpp
     QML_FILES
         qml/testbed/main.qml
         qml/testbed/StartupView.qml
@@ -53,6 +55,7 @@ qt6_add_qml_module(testbed
         qml/testbed/AxisGridSetup.qml
         qml/testbed/Callout.qml
         qml/testbed/ScatterProperties.qml
+        qml/testbed/CppBarSeries.qml
     RESOURCES
         qml/testbed/images/arrow_icon.png
         qml/testbed/images/icon_settings.png
