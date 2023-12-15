@@ -1104,23 +1104,29 @@ void QAbstractBarSeriesPrivate::initializeAxes()
 
 void QAbstractBarSeriesPrivate::handleSetValueChange(int index)
 {
+    Q_Q(QAbstractBarSeries);
     QBarSetPrivate *priv = qobject_cast<QBarSetPrivate *>(sender());
     if (priv)
         emit setValueChanged(index, priv->q_ptr);
+    q->update();
 }
 
 void QAbstractBarSeriesPrivate::handleSetValueAdd(int index, int count)
 {
+    Q_Q(QAbstractBarSeries);
     QBarSetPrivate *priv = qobject_cast<QBarSetPrivate *>(sender());
     if (priv)
         emit setValueAdded(index, count, priv->q_ptr);
+    q->update();
 }
 
 void QAbstractBarSeriesPrivate::handleSetValueRemove(int index, int count)
 {
+    Q_Q(QAbstractBarSeries);
     QBarSetPrivate *priv = qobject_cast<QBarSetPrivate *>(sender());
     if (priv)
         emit setValueRemoved(index, count, priv->q_ptr);
+    q->update();
 }
 
 QT_END_NAMESPACE
