@@ -69,12 +69,10 @@ Rectangle {
             axisX: ValueAxis {
                 id: xAxis
                 max: 4
-                autoScale: false
             }
             axisY: ValueAxis {
                 id: yAxis
                 max: 8
-                autoScale: false
             }
             pointMarker: Image {
                 property bool selected: false

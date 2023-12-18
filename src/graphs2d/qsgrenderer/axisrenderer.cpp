@@ -139,14 +139,9 @@ void AxisRenderer::updateAxis()
     }
 
     if (auto vaxis = qobject_cast<QValueAxis *>(m_axisVertical)) {
-        if (vaxis->autoScale()) {
-            // TODO: Count max from single seried or all or what?
-            m_axisVerticalMaxValue = 20;
-            m_axisVerticalMinValue = 0;
-        } else {
-            m_axisVerticalMaxValue = vaxis->max();
-            m_axisVerticalMinValue = vaxis->min();
-        }
+        m_axisVerticalMaxValue = vaxis->max();
+        m_axisVerticalMinValue = vaxis->min();
+
         int axisVerticalMinorTickCount = vaxis->minorTickCount();
         m_axisVerticalMinorTickScale = axisVerticalMinorTickCount > 0 ? 1.0 / (axisVerticalMinorTickCount + 1) : 1.0;
 
@@ -158,12 +153,8 @@ void AxisRenderer::updateAxis()
     m_axisVerticalValueRange = m_axisVerticalMaxValue - m_axisVerticalMinValue;
 
     if (auto haxis = qobject_cast<QValueAxis *>(m_axisHorizontal)) {
-        if (haxis->autoScale()) {
-            // TODO: Count max from single seried or all or what?
-            m_axisHorizontalMaxValue = 20;
-        } else {
-            m_axisHorizontalMaxValue = haxis->max();
-        }
+        m_axisHorizontalMaxValue = haxis->max();
+        m_axisHorizontalMinValue = haxis->min();
     }
 
     if (auto haxis = qobject_cast<QBarCategoryAxis *>(m_axisHorizontal)) {

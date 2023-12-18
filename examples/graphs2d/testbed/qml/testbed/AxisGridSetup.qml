@@ -53,7 +53,6 @@ Rectangle {
                 lineVisible: checkBoxAxisYLineVisible.checked
                 labelsVisible: checkBoxAxisYLabelsVisible.checked
                 max: 10
-                autoScale: false
                 minorTickCount: 1
                 gridVisible: checkBoxGridYMajor.checked
                 minorGridVisible: checkBoxGridYMinor.checked

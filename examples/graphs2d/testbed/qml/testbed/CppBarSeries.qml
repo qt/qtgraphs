@@ -25,7 +25,6 @@ Rectangle {
                 categories: ["2023", "2024"]
             }
             axisY: ValueAxis {
-                autoScale: false
                 max: 30
             }
         }

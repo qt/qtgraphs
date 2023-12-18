@@ -173,6 +173,7 @@ Rectangle {
             axisX: BarCategoryAxis { categories: ["2007", "2008", "2009", "2010", "2011", "2012"] }
             axisY: ValueAxis {
                 minorTickCount: 4
+                max: 20
             }
             theme: SeriesTheme {
                 id: seriesTheme
