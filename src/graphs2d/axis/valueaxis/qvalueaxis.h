@@ -23,7 +23,6 @@ class Q_GRAPHS2D_EXPORT QValueAxis : public QAbstractAxis
     Q_PROPERTY(qreal tickAnchor READ tickAnchor WRITE setTickAnchor NOTIFY tickAnchorChanged)
     Q_PROPERTY(qreal tickInterval READ tickInterval WRITE setTickInterval NOTIFY tickIntervalChanged)
     Q_PROPERTY(TickType tickType READ tickType WRITE setTickType NOTIFY tickTypeChanged)
-    Q_PROPERTY(bool autoScale READ autoScale WRITE setAutoScale NOTIFY autoScaleChanged)
     Q_ENUMS(TickType)
     QML_NAMED_ELEMENT(ValueAxis)
 
@@ -65,9 +64,6 @@ public:
     void setLabelFormat(const QString &format);
     QString labelFormat() const;
 
-    bool autoScale() const;
-    void setAutoScale(bool newAutoScale);
-
 public Q_SLOTS:
     void applyNiceNumbers();
 
@@ -81,7 +77,6 @@ Q_SIGNALS:
     void tickIntervalChanged(qreal interval);
     void tickAnchorChanged(qreal anchor);
     void tickTypeChanged(QValueAxis::TickType type);
-    void autoScaleChanged();
 
 private:
     Q_DECLARE_PRIVATE(QValueAxis)

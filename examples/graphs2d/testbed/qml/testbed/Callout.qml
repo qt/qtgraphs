@@ -57,7 +57,6 @@ Rectangle {
             axisY: ValueAxis {
                 id: yAxis
                 max: 8
-                autoScale: false
             }
             BarSet { id: set1; label: "Axel"; values: [1, 2, 3, 4] }
         }

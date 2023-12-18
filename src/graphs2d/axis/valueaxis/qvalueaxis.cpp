@@ -46,6 +46,7 @@ QT_BEGIN_NAMESPACE
 
   When setting this property, the maximum value is adjusted if necessary, to ensure that
   the range remains valid.
+  The default value is 0.0
 */
 /*!
   \qmlproperty real ValueAxis::min
@@ -53,6 +54,7 @@ QT_BEGIN_NAMESPACE
 
   When setting this property, the maximum value is adjusted if necessary, to ensure that
   the range remains valid.
+  The default value is 0.0
 */
 
 /*!
@@ -61,6 +63,7 @@ QT_BEGIN_NAMESPACE
 
   When setting this property, the minimum value is adjusted if necessary, to ensure that
   the range remains valid.
+  The default value is 10.0
 */
 /*!
   \qmlproperty real ValueAxis::max
@@ -68,6 +71,7 @@ QT_BEGIN_NAMESPACE
 
   When setting this property, the minimum value is adjusted if necessary, to ensure that
   the range remains valid.
+  The default value is 10.0
 */
 
 /*!
@@ -354,22 +358,6 @@ QString QValueAxis::labelFormat() const
     return d->m_format;
 }
 
-bool QValueAxis::autoScale() const
-{
-    Q_D(const QValueAxis);
-    return d->m_autoScale;
-}
-
-void QValueAxis::setAutoScale(bool newAutoScale)
-{
-    Q_D(QValueAxis);
-    if (d->m_autoScale == newAutoScale)
-        return;
-    d->m_autoScale = newAutoScale;
-    update();
-    emit autoScaleChanged();
-}
-
 /*!
   Returns the type of the axis.
 */
@@ -412,7 +400,7 @@ void QValueAxis::applyNiceNumbers()
 QValueAxisPrivate::QValueAxisPrivate(QValueAxis *q)
     : QAbstractAxisPrivate(q),
       m_min(0),
-      m_max(0),
+      m_max(10),
       m_tickCount(5),
       m_minorTickCount(0),
       m_format(),

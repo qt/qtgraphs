@@ -48,7 +48,6 @@ private:
     qreal m_tickInterval;
     qreal m_tickAnchor;
     QValueAxis::TickType m_tickType;
-    bool m_autoScale = true;
     Q_DECLARE_PUBLIC(QValueAxis)
 };
 
