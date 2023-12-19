@@ -7,7 +7,7 @@ in layout(location = 9) flat vec3 nF;
 
 void MAIN()
 {
-    if (any(greaterThan(UV, vec2(1))))
+    if (any(greaterThan(UV, vec2(1.01))))
         discard;
     vec3 color;
     vec2 gradientUV;
