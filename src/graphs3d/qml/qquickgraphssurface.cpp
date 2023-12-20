@@ -342,6 +342,7 @@ void QQuickGraphsSurface::handleRowsChanged(int startIndex, int count)
     }
     if (count) {
         m_changeTracker.rowsChanged = true;
+        setDataDirty(true);
 
         if (series->isVisible())
             adjustAxisRanges();
@@ -366,6 +367,7 @@ void QQuickGraphsSurface::handleItemChanged(int rowIndex, int columnIndex)
         ChangeItem newItem = {series, candidate};
         m_changedItems.append(newItem);
         m_changeTracker.itemChanged = true;
+        setDataDirty(true);
 
         if (series == m_selectedSeries && m_selectedPoint == candidate)
             series->d_func()->markItemLabelDirty();
