@@ -4,40 +4,34 @@
 cmake_minimum_required(VERSION 3.16)
 project(scatter LANGUAGES CXX)
 
-set(CMAKE_INCLUDE_CURRENT_DIR ON)
-
-set(CMAKE_AUTOMOC ON)
-set(CMAKE_AUTORCC ON)
-set(CMAKE_AUTOUIC ON)
-
 if(NOT DEFINED INSTALL_EXAMPLESDIR)
   set(INSTALL_EXAMPLESDIR "examples")
 endif()
 
 set(INSTALL_EXAMPLEDIR "${INSTALL_EXAMPLESDIR}")
 
-find_package(Qt6 COMPONENTS Core)
-find_package(Qt6 COMPONENTS Gui)
-find_package(Qt6 COMPONENTS Quick)
-find_package(Qt6 COMPONENTS Quick3D)
-find_package(Qt6 COMPONENTS Graphs)
+find_package(Qt6 6.7 REQUIRED COMPONENTS Core Gui Quick Quick3D Graphs)
+
+qt_standard_project_setup(REQUIRES 6.7)
 
 qt_add_executable(scatter
     main.cpp
 )
+
 set_target_properties(scatter PROPERTIES
     WIN32_EXECUTABLE TRUE
     MACOSX_BUNDLE TRUE
 )
-target_link_libraries(scatter PUBLIC
-    Qt::Core
-    Qt::Gui
-    Qt::Quick
-    Qt::Quick3D
-    Qt::Graphs
+
+target_link_libraries(scatter PRIVATE
+    Qt6::Core
+    Qt6::Gui
+    Qt6::Quick
+    Qt6::Quick3D
+    Qt6::Graphs
 )
 
-qt6_add_qml_module(scatter
+qt_add_qml_module(scatter
     URI Scatter
     NO_RESOURCE_TARGET_PATH
     QML_FILES
