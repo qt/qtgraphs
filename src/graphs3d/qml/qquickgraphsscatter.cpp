@@ -646,13 +646,15 @@ QString QQuickGraphsScatter::getMeshFileName(QAbstract3DSeries *series)
 
 void QQuickGraphsScatter::deleteDataItem(QQuick3DModel *item)
 {
-    QQmlListReference materialsRef(item, "materials");
-    if (materialsRef.size()) {
-        QObject *material = materialsRef.at(0);
-        delete material;
+    if (item) {
+        QQmlListReference materialsRef(item, "materials");
+        if (materialsRef.size()) {
+            QObject *material = materialsRef.at(0);
+            delete material;
+        }
+        item->deleteLater();
+        item = nullptr;
     }
-    item->deleteLater();
-    item = nullptr;
 }
 
 void QQuickGraphsScatter::handleSeriesChanged(QList<QAbstract3DSeries *> changedSeries)

@@ -691,7 +691,8 @@ void QQuickGraphsSurface::removeSeries(QSurface3DSeries *series)
         if (m_model[i]->series == series) {
             m_model[i]->model->deleteLater();
             m_model[i]->gridModel->deleteLater();
-            m_model[i]->proxyModel->deleteLater();
+            if (const auto &proxy = m_model[i]->proxyModel)
+                proxy->deleteLater();
             if (sliceView()) {
                 m_model[i]->sliceModel->deleteLater();
                 m_model[i]->sliceGridModel->deleteLater();
