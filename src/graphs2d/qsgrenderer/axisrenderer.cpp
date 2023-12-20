@@ -141,16 +141,34 @@ void AxisRenderer::updateAxis()
     if (auto vaxis = qobject_cast<QValueAxis *>(m_axisVertical)) {
         m_axisVerticalMaxValue = vaxis->max();
         m_axisVerticalMinValue = vaxis->min();
+        double step = vaxis->tickInterval();
 
+        m_axisVerticalValueRange = m_axisVerticalMaxValue - m_axisVerticalMinValue;
+        // If step is not manually defined (or it is invalid), calculate autostep
+        if (step <= 0)
+            step = getValueStepsFromRange(m_axisVerticalValueRange);
+
+        // Get smallest tick label value
+        double minLabel = vaxis->tickAnchor();
+        while (minLabel < m_axisVerticalMinValue)
+            minLabel += step;
+        while (minLabel >= (m_axisVerticalMinValue + step))
+            minLabel -= step;
+        m_axisVerticalMinLabel = minLabel;
+
+        m_axisVerticalValueStep = step;
         int axisVerticalMinorTickCount = vaxis->minorTickCount();
         m_axisVerticalMinorTickScale = axisVerticalMinorTickCount > 0 ? 1.0 / (axisVerticalMinorTickCount + 1) : 1.0;
 
+        m_axisVerticalStepPx = (height() - m_graph->m_marginTop - m_graph->m_marginBottom - m_axisHeight) / (m_axisVerticalValueRange / m_axisVerticalValueStep);
+        double axisVerticalValueDiff = m_axisVerticalMinLabel - m_axisVerticalMinValue;
+        m_axisYMovement = -(axisVerticalValueDiff / m_axisVerticalValueStep) * m_axisVerticalStepPx;
+
+        // Update value labels
         float rightMargin = 20;
         QRectF yAxisRect(m_graph->m_marginLeft, m_graph->m_marginTop, m_axisWidth - rightMargin, h);
         updateValueYAxisLabels(vaxis, yAxisRect);
-
     }
-    m_axisVerticalValueRange = m_axisVerticalMaxValue - m_axisVerticalMinValue;
 
     if (auto haxis = qobject_cast<QValueAxis *>(m_axisHorizontal)) {
         m_axisHorizontalMaxValue = haxis->max();
@@ -181,14 +199,12 @@ void AxisRenderer::updateAxisTickers()
             m_axisTickerVertical->setSmoothing(theme()->axisYSmoothing());
         }
         // TODO Only when changed
-        m_axisHorizontalStepPx = (height() - m_graph->m_marginTop - m_graph->m_marginBottom - m_axisHeight) / m_axisVerticalValueRange;
-        m_axisYMovement = (m_axisVerticalMinValue - int(m_axisVerticalMinValue)) * m_axisHorizontalStepPx;
         m_axisTickerVertical->setBarsMovement(m_axisYMovement);
         m_axisTickerVertical->setX(m_axisWidth + m_graph->m_marginLeft - m_axisTickersWidth);
         m_axisTickerVertical->setY(m_graph->m_marginTop);
         m_axisTickerVertical->setWidth(m_axisTickersWidth);
         m_axisTickerVertical->setHeight(height() - m_graph->m_marginTop - m_graph->m_marginBottom - m_axisHeight);
-        m_axisTickerVertical->setSpacing(m_axisTickerVertical->height() / m_axisVerticalValueRange);
+        m_axisTickerVertical->setSpacing(m_axisTickerVertical->height() / (m_axisVerticalValueRange / m_axisVerticalValueStep));
         m_axisTickerVertical->setMinorBarsVisible(!qFuzzyCompare(m_axisVerticalMinorTickScale, 1.0));
         m_axisTickerVertical->setMinorTickScale(m_axisVerticalMinorTickScale);
         m_axisTickerVertical->setVisible(true);
@@ -328,7 +344,7 @@ void AxisRenderer::updateAxisGrid()
     m_axisGrid->setWidth(width() - m_graph->m_marginLeft - m_graph->m_marginRight - m_axisWidth);
     m_axisGrid->setHeight(height() - m_graph->m_marginTop - m_graph->m_marginBottom - m_axisHeight);
     m_axisGrid->setGridWidth(m_axisGrid->width() / m_axisHorizontalValueRange);
-    m_axisGrid->setGridHeight(m_axisGrid->height() / m_axisVerticalValueRange);
+    m_axisGrid->setGridHeight(m_axisGrid->height() / (m_axisVerticalValueRange / m_axisVerticalValueStep));
     m_axisGrid->setBarsVisibility(QVector4D(m_gridHorizontalMajorTicksVisible,
                                             m_gridVerticalMajorTicksVisible,
                                             m_gridHorizontalMinorTicksVisible,
@@ -348,7 +364,6 @@ void AxisRenderer::updateAxisGridShadow()
 
         // TODO Only when changed
         m_axisGridShadow->setGridMovement(m_axisGrid->gridMovement());
-
         m_axisGridShadow->setX(m_axisGrid->x() + theme()->shadowXOffset());
         m_axisGridShadow->setY(m_axisGrid->y() + theme()->shadowYOffset());
         m_axisGridShadow->setWidth(m_axisGrid->width());
@@ -401,9 +416,16 @@ void AxisRenderer::updateBarXAxisLabels(QBarCategoryAxis *axis, const QRectF &re
 
 void AxisRenderer::updateValueYAxisLabels(QValueAxis *axis, const QRectF &rect)
 {
-    // Create 2 extra text items, one into each end
-    double categoriesCountDouble = m_axisVerticalValueRange + 2;
-    int categoriesCount = int(categoriesCountDouble);
+    // Create label values in the range
+    QList<double> yAxisLabelValues;
+    const int MAX_LABELS_COUNT = 100;
+    for (double i = m_axisVerticalMinLabel; i <= m_axisVerticalMaxValue; i += m_axisVerticalValueStep) {
+        yAxisLabelValues << i;
+        if (yAxisLabelValues.size() >= MAX_LABELS_COUNT)
+            break;
+    }
+    int categoriesCount = yAxisLabelValues.size();
+
     // See if we need more text items
     int currentTextItemsSize = m_yAxisTextItems.size();
     if (currentTextItemsSize < categoriesCount) {
@@ -426,9 +448,9 @@ void AxisRenderer::updateValueYAxisLabels(QValueAxis *axis, const QRectF &rect)
             float fontSize = theme()->axisYLabelsFont().pixelSize() < 0 ? theme()->axisYLabelsFont().pointSize() : theme()->axisYLabelsFont().pixelSize();
             float posX = rect.x();
             textItem->setX(posX);
-            float posY = rect.y() + rect.height() - (((float)i) / (categoriesCountDouble - 2)) *  rect.height();
-            posY += m_axisYMovement;
-            if (posY > (rect.height() + rect.y()) || posY < rect.y()) {
+            float posY = rect.y() + rect.height() - (((float)i) * m_axisVerticalStepPx) + m_axisYMovement;
+            const double titleMargin = 0.01;
+            if ((posY - titleMargin) > (rect.height() + rect.y()) || (posY + titleMargin) < rect.y()) {
                 // Hide text item which are outside the axis area
                 textItem->setVisible(false);
                 continue;
@@ -441,13 +463,43 @@ void AxisRenderer::updateValueYAxisLabels(QValueAxis *axis, const QRectF &rect)
             textItem->setWidth(rect.width());
             textItem->setFont(theme()->axisYLabelsFont());
             textItem->setColor(theme()->axisYLabelsColor());
-            int number = i + int(m_axisVerticalMinValue);
-            textItem->setText(QString::number(number));
+            double number = yAxisLabelValues.at(i);
+            // Format the number
+            int decimals = axis->labelDecimals();
+            if (decimals < 0)
+                decimals = getValueDecimalsFromRange(m_axisVerticalValueRange);
+            const QString f = axis->labelFormat();
+            char format = f.isEmpty() ? 'f' : f.front().toLatin1();
+            textItem->setText(QString::number(number, format, decimals));
             textItem->setVisible(true);
         } else {
             textItem->setVisible(false);
         }
     }
+}
+
+// Calculate suitable major step based on range
+double AxisRenderer::getValueStepsFromRange(double range)
+{
+    int digits = std::ceil(std::log10(range));
+    double r = std::pow(10.0, -digits);
+    r *= 10.0;
+    double v = std::ceil(range * r) / r;
+    double step = v * 0.1;
+    // Step must always be bigger than 0
+    step = qMax(0.0001, step);
+    return step;
+}
+
+// Calculate suitable decimals amount based on range
+int AxisRenderer::getValueDecimalsFromRange(double range)
+{
+    if (range <= 0)
+        return 0;
+    int decimals = std::ceil(std::log10(10.0 / range));
+    // Decimals must always be at least 0
+    decimals = qMax(0, decimals);
+    return decimals;
 }
 
 QT_END_NAMESPACE

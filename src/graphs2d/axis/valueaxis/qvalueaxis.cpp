@@ -75,17 +75,6 @@ QT_BEGIN_NAMESPACE
 */
 
 /*!
-  \property QValueAxis::tickCount
-  \brief The number of tick marks on the axis. This indicates how many grid lines are drawn on the
-  chart. The default value is 5, and the number cannot be less than 2.
-*/
-/*!
-  \qmlproperty int ValueAxis::tickCount
-  The number of tick marks on the axis. This indicates how many grid lines are drawn on the
-  chart. The default value is 5, and the number cannot be less than 2.
-*/
-
-/*!
   \property QValueAxis::minorTickCount
   \brief The number of minor tick marks on the axis. This indicates how many grid lines are drawn
   between major ticks on the chart. Labels are not drawn for minor ticks. The default value is 0.
@@ -99,11 +88,13 @@ QT_BEGIN_NAMESPACE
 /*!
   \property QValueAxis::tickAnchor
   \brief The base value where the dynamically placed tick marks and labels are started from.
-*/
+  The default value is 0.
+ */
 /*!
   \qmlproperty real ValueAxis::tickAnchor
   The base value where the dynamically placed tick marks and labels are started from.
-*/
+  The default value is 0.
+ */
 
 /*!
   \property QValueAxis::tickInterval
@@ -112,30 +103,6 @@ QT_BEGIN_NAMESPACE
 /*!
   \qmlproperty real ValueAxis::tickInterval
   The interval between dynamically placed tick marks and labels.
-*/
-
-/*!
- \enum QValueAxis::TickType
-
- This enum describes how the ticks and labels are positioned on the axis.
-
- \value TicksDynamic Ticks are placed according to tickAnchor and tickInterval values.
- \value TicksFixed Ticks are placed evenly across the axis range. The tickCount value
- specifies the number of ticks.
- */
-/*!
-  \property QValueAxis::tickType
-  \brief The positioning method of tick and labels.
-*/
-/*!
-  \qmlproperty enumeration ValueAxis::tickType
-
-  The positioning method of tick and labels.
-
- \value ValueAxis.TicksDynamic
-        Ticks are placed according to tickAnchor and tickInterval values.
- \value ValueAxis.TicksFixed
-        Ticks are placed evenly across the axis range. The tickCount value specifies the number of ticks.
 */
 
 /*!
@@ -158,6 +125,17 @@ QT_BEGIN_NAMESPACE
   supported. The rest of the formatting comes from the default QLocale of the application.
 
   \sa QString::asprintf()
+*/
+
+/*!
+  \property QValueAxis::labelDecimals
+  \brief The number of decimals used for showing the labels. When set to -1, decimal amount
+  is adjusted automatically based on the values range. The default value is -1.
+*/
+/*!
+  \qmlproperty int ValueAxis::labelDecimals
+  The number of decimals used for showing the labels. When set to -1, decimal amount
+  is adjusted automatically based on the values range. The default value is -1.
 */
 
 /*!
@@ -265,24 +243,8 @@ qreal QValueAxis::max() const
 void QValueAxis::setRange(qreal min, qreal max)
 {
     Q_D(QValueAxis);
-    update();
     d->setRange(min,max);
-}
-
-void QValueAxis::setTickCount(int count)
-{
-    Q_D(QValueAxis);
-    if (d->m_tickCount != count && count >= 2) {
-        d->m_tickCount = count;
-        update();
-        emit tickCountChanged(count);
-    }
-}
-
-int QValueAxis::tickCount() const
-{
-    Q_D(const QValueAxis);
-    return d->m_tickCount;
+    update();
 }
 
 void QValueAxis::setMinorTickCount(int count)
@@ -301,6 +263,21 @@ int QValueAxis::minorTickCount() const
     return d->m_minorTickCount;
 }
 
+void QValueAxis::setTickAnchor(qreal anchor)
+{
+    Q_D(QValueAxis);
+    if (d->m_tickAnchor != anchor) {
+        d->m_tickAnchor = anchor;
+        update();
+        emit tickAnchorChanged(anchor);
+    }
+}
+
+qreal QValueAxis::tickAnchor() const
+{
+    Q_D(const QValueAxis);
+    return d->m_tickAnchor;
+}
 
 void QValueAxis::setTickInterval(qreal interval)
 {
@@ -318,38 +295,6 @@ qreal QValueAxis::tickInterval() const
     return d->m_tickInterval;
 }
 
-void QValueAxis::setTickAnchor(qreal anchor)
-{
-    Q_D(QValueAxis);
-    if (d->m_tickAnchor != anchor) {
-        d->m_tickAnchor = anchor;
-        update();
-        emit tickAnchorChanged(anchor);
-    }
-}
-
-qreal QValueAxis::tickAnchor() const
-{
-    Q_D(const QValueAxis);
-    return d->m_tickAnchor;
-}
-
-void QValueAxis::setTickType(QValueAxis::TickType type)
-{
-    Q_D(QValueAxis);
-    if (d->m_tickType != type) {
-        d->m_tickType = type;
-        update();
-        emit tickTypeChanged(type);
-    }
-}
-
-QValueAxis::TickType QValueAxis::tickType() const
-{
-    Q_D(const QValueAxis);
-    return d->m_tickType;
-}
-
 void QValueAxis::setLabelFormat(const QString &format)
 {
     Q_D(QValueAxis);
@@ -364,6 +309,22 @@ QString QValueAxis::labelFormat() const
     return d->m_format;
 }
 
+void QValueAxis::setLabelDecimals(int decimals)
+{
+    Q_D(QValueAxis);
+    if (d->m_decimals != decimals) {
+        d->m_decimals = decimals;
+        update();
+        emit labelDecimalsChanged(decimals);
+    }
+}
+
+int QValueAxis::labelDecimals() const
+{
+    Q_D(const QValueAxis);
+    return d->m_decimals;
+}
+
 /*!
   Returns the type of the axis.
 */
@@ -372,48 +333,17 @@ QAbstractAxis::AxisType QValueAxis::type() const
     return AxisTypeValue;
 }
 
-/*!
-    \qmlmethod ValueAxis::applyNiceNumbers()
-    Modifies the current range and number of tick marks on the axis to look
-    \e nice. The algorithm considers numbers that can be expressed as a form of
-    1*10^n, 2* 10^n, or 5*10^n to be nice numbers. These numbers are used for
-    setting spacing for the tick marks.
-*/
-
-/*!
-    Modifies the current range and number of tick marks on the axis to look \e nice. The algorithm
-    considers numbers that can be expressed as a form of 1*10^n, 2* 10^n, or 5*10^n to be
-    nice numbers. These numbers are used for setting spacing for the tick marks.
-
-    \sa setRange(), setTickCount()
-*/
-void QValueAxis::applyNiceNumbers()
-{
-    Q_D(QValueAxis);
-    if (d->m_applying) return;
-    qreal min = d->m_min;
-    qreal max = d->m_max;
-    int ticks = d->m_tickCount;
-    AbstractDomain::looseNiceNumbers(min,max,ticks);
-    d->m_applying=true;
-    d->setRange(min,max);
-    setTickCount(ticks);
-    d->m_applying=false;
-}
-
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 QValueAxisPrivate::QValueAxisPrivate(QValueAxis *q)
     : QAbstractAxisPrivate(q),
       m_min(0),
       m_max(10),
-      m_tickCount(5),
       m_minorTickCount(0),
       m_format(),
-      m_applying(false),
-      m_tickInterval(0.0),
+      m_decimals(-1),
       m_tickAnchor(0.0),
-      m_tickType(QValueAxis::TicksFixed)
+      m_tickInterval(0.0)
 {
 
 }

@@ -30,9 +30,6 @@ public:
     qreal max() override { return m_max; }
     void setRange(qreal min,qreal max) override;
 
-    qreal tickInterval() { return m_tickInterval; }
-    qreal tickAnchor() { return m_tickAnchor; }
-
 protected:
     void setMin(const QVariant &min) override;
     void setMax(const QVariant &max) override;
@@ -41,13 +38,11 @@ protected:
 private:
     qreal m_min;
     qreal m_max;
-    int m_tickCount;
     int m_minorTickCount;
     QString m_format;
-    bool m_applying;
-    qreal m_tickInterval;
+    int m_decimals;
     qreal m_tickAnchor;
-    QValueAxis::TickType m_tickType;
+    qreal m_tickInterval;
     Q_DECLARE_PUBLIC(QValueAxis)
 };
 
