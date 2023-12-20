@@ -54,6 +54,10 @@ Rectangle {
                 labelsVisible: checkBoxAxisYLabelsVisible.checked
                 max: 10
                 minorTickCount: 1
+                // Alternative tick formatting
+                //tickInterval: 1.0
+                //labelFormat: "g"
+                //labelDecimals: 3
                 gridVisible: checkBoxGridYMajor.checked
                 minorGridVisible: checkBoxGridYMinor.checked
             }
@@ -112,7 +116,7 @@ Rectangle {
             id: sliderYMaxValue
             sliderValue: yAxis.max
             fromValue: 0.1
-            toValue: 40
+            toValue: 110
             onSliderValueChanged: yAxis.max = sliderValue;
         }
         CustomLabel {
@@ -124,6 +128,27 @@ Rectangle {
             fromValue: -3
             toValue: 3
             onSliderValueChanged: yAxis.min = sliderValue;
+        }
+        CustomLabel {
+            text: "Y-coordinate: Anchor"
+        }
+        CustomSlider {
+            id: sliderYAnchorValue
+            sliderValue: yAxis.tickAnchor
+            fromValue: -10
+            toValue: 10
+            onSliderValueChanged: yAxis.tickAnchor = sliderValue;
+        }
+        CustomLabel {
+            text: "Y-coordinate: Decimals"
+        }
+        CustomSlider {
+            id: sliderYAnchorDecimals
+            sliderValue: yAxis.labelDecimals
+            sliderStepSize: 1
+            fromValue: -1
+            toValue: 4
+            onSliderValueChanged: yAxis.labelDecimals = sliderValue;
         }
         CustomCheckBox {
             id: checkBoxAxisXVisible

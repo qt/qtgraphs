@@ -55,6 +55,9 @@ private:
     friend class LinesRenderer;
     friend class PointRenderer;
 
+    double getValueStepsFromRange(double range);
+    int getValueDecimalsFromRange(double range);
+
     QGraphsView *m_graph = nullptr;
     GraphTheme *theme();
 
@@ -81,10 +84,15 @@ private:
     double m_axisVerticalMinValue = 0;
     // Values range, so m_axisVerticalMaxValue - m_axisVerticalMinValue
     double m_axisVerticalValueRange = 0;
+    // How much each major value step is
+    double m_axisVerticalValueStep = 1.0;
     // px between major ticks
-    double m_axisHorizontalStepPx = 0;
+    double m_axisVerticalStepPx = 0;
     // Ticks movement, between -m_axisHorizontalStepPx .. m_axisHorizontalStepPx.
     double m_axisYMovement = 0;
+    // The value of smallest label
+    double m_axisVerticalMinLabel = 0;
+
     double m_axisHorizontalMaxValue = 6;
     double m_axisHorizontalMinValue = 0;
     double m_axisHorizontalValueRange;
