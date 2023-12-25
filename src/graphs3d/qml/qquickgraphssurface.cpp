@@ -777,15 +777,20 @@ void QQuickGraphsSurface::updateGraph()
         if (isSeriesVisibilityDirty()) {
             bool graphVisible = (model->model->visible() || model->gridModel->visible());
 
-            if (seriesVisible != graphVisible && isSlicingActive()) {
+            if (seriesVisible != graphVisible && isSlicingActive())
                 setSliceActivatedChanged(true);
-            }
+
             if (!seriesVisible) {
                 model->model->setVisible(seriesVisible);
                 model->gridModel->setVisible(seriesVisible);
                 if (sliceView()) {
                     model->sliceModel->setVisible(seriesVisible);
                     model->sliceGridModel->setVisible(seriesVisible);
+
+                    if (m_selectedSeries == model->series) {
+                        setSliceActivatedChanged(true);
+                        m_selectionDirty = !seriesVisible;
+                    }
                 }
                 continue;
             }
@@ -824,6 +829,20 @@ void QQuickGraphsSurface::updateGraph()
                 bool visible = model->series->isVisible();
                 if (visible)
                     updateModel(model);
+            }
+        }
+
+        if (isSliceEnabled()) {
+            if (!sliceView())
+                createSliceView();
+
+            QList<QSurface3DSeries *> surfaceSeriesAsList = surfaceSeriesList();
+            for (const auto &surfaceSeries : std::as_const(surfaceSeriesAsList)) {
+                bool visible = !(sliceView()->isVisible() ^ surfaceSeries->isVisible());
+                if (m_selectedSeries == surfaceSeries) {
+                    setSliceActivatedChanged(true);
+                    m_selectionDirty = !visible;
+                }
             }
         }
 
@@ -1835,14 +1854,6 @@ void QQuickGraphsSurface::updateSelectedPoint()
                 if (sliceView() && sliceView()->isVisible())
                     updateSliceItemLabel(label, slicePosition);
             }
-        }
-        if (isSliceEnabled()) {
-            if (!sliceView())
-                createSliceView();
-
-            bool visible = !(sliceView()->isVisible() ^ model->series->isVisible());
-            setSliceActivatedChanged(true);
-            m_selectionDirty = !visible;
         }
     }
     itemLabel()->setVisible(labelVisible);
