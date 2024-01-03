@@ -20,20 +20,13 @@ class Q_GRAPHS2D_EXPORT QAbstractAxis : public QObject
     Q_OBJECT
     //visibility
     Q_PROPERTY(bool visible READ isVisible WRITE setVisible NOTIFY visibleChanged)
-    //arrow
     Q_PROPERTY(bool lineVisible READ isLineVisible WRITE setLineVisible NOTIFY lineVisibleChanged)
     //labels
     Q_PROPERTY(bool labelsVisible READ labelsVisible WRITE setLabelsVisible NOTIFY labelsVisibleChanged)
-    Q_PROPERTY(int labelsAngle READ labelsAngle WRITE setLabelsAngle NOTIFY labelsAngleChanged)
-    Q_PROPERTY(QFont labelsFont READ labelsFont WRITE setLabelsFont NOTIFY labelsFontChanged)
-    Q_PROPERTY(QColor labelsColor READ labelsColor WRITE setLabelsColor NOTIFY labelsColorChanged)
-    Q_PROPERTY(bool labelsTruncated READ labelsTruncated NOTIFY labelsTruncatedChanged)
-    Q_PROPERTY(bool truncateLabels READ truncateLabels WRITE setTruncateLabels NOTIFY truncateLabelsChanged)
+    Q_PROPERTY(qreal labelsAngle READ labelsAngle WRITE setLabelsAngle NOTIFY labelsAngleChanged)
     //grid
     Q_PROPERTY(bool gridVisible READ isGridLineVisible WRITE setGridLineVisible NOTIFY gridVisibleChanged)
     Q_PROPERTY(bool minorGridVisible READ isMinorGridLineVisible WRITE setMinorGridLineVisible NOTIFY minorGridVisibleChanged)
-    Q_PROPERTY(QColor gridLineColor READ gridLineColor WRITE setGridLineColor NOTIFY gridLineColorChanged)
-    Q_PROPERTY(QColor minorGridLineColor READ minorGridLineColor WRITE setMinorGridLineColor NOTIFY minorGridLineColorChanged)
     //title
     Q_PROPERTY(QString titleText READ titleText WRITE setTitleText NOTIFY titleTextChanged)
     Q_PROPERTY(QColor titleColor READ titleColor WRITE setTitleColor NOTIFY titleColorChanged)
@@ -43,7 +36,6 @@ class Q_GRAPHS2D_EXPORT QAbstractAxis : public QObject
     Q_PROPERTY(Qt::Orientation orientation READ orientation)
     //alignment
     Q_PROPERTY(Qt::Alignment alignment READ alignment)
-    Q_PROPERTY(bool reverse READ isReverse WRITE setReverse NOTIFY reverseChanged)
     QML_FOREIGN(QAbstractAxis)
     QML_UNCREATABLE("Trying to create uncreatable: AbstractAxis.")
     QML_NAMED_ELEMENT(AbstractAxis)
@@ -85,20 +77,12 @@ public:
     void setGridLineVisible(bool visible = true);
     bool isMinorGridLineVisible() const;
     void setMinorGridLineVisible(bool visible = true);
-    void setGridLineColor(const QColor &color);
-    QColor gridLineColor();
-    void setMinorGridLineColor(const QColor &color);
-    QColor minorGridLineColor();
 
     //labels handling
     bool labelsVisible() const;
     void setLabelsVisible(bool visible = true);
-    void setLabelsFont(const QFont &font);
-    QFont labelsFont() const;
-    void setLabelsAngle(int angle);
-    int labelsAngle() const;
-    void setLabelsColor(QColor color);
-    QColor labelsColor() const;
+    void setLabelsAngle(qreal angle);
+    qreal labelsAngle() const;
 
     //title handling
     bool isTitleVisible() const;
@@ -119,39 +103,18 @@ public:
     void setMax(const QVariant &max);
     void setRange(const QVariant &min, const QVariant &max);
 
-    //reverse handling
-    void setReverse(bool reverse = true);
-    bool isReverse() const;
-
-    //label editable handling
-    void setLabelsEditable(bool editable = true);
-    bool labelsEditable() const;
-
-    bool labelsTruncated() const;
-
-    void setTruncateLabels(bool truncateLabels = true);
-    bool truncateLabels() const;
-
 Q_SIGNALS:
     void visibleChanged(bool visible);
     void lineVisibleChanged(bool visible);
     void labelsVisibleChanged(bool visible);
-    void labelsFontChanged(const QFont &font);
-    void labelsAngleChanged(int angle);
+    void labelsAngleChanged(qreal angle);
     void gridVisibleChanged(bool visible);
     void minorGridVisibleChanged(bool visible);
-    void gridLineColorChanged(const QColor &color);
-    void minorGridLineColorChanged(const QColor &color);
     void colorChanged(QColor color);
-    void labelsColorChanged(QColor color);
     void titleTextChanged(const QString &title);
     void titleColorChanged(const QColor &color);
     void titleVisibleChanged(bool visible);
     void titleFontChanged(const QFont &font);
-    void reverseChanged(bool reverse);
-    void labelsEditableChanged(bool editable);
-    void labelsTruncatedChanged(bool labelsTruncated);
-    void truncateLabelsChanged(bool truncateLabels);
     void update();
 
 protected:
