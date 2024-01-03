@@ -62,6 +62,7 @@ qt6_add_qml_module(testbed
         qml/testbed/images/arrow_icon.png
         qml/testbed/images/icon_settings.png
         qml/testbed/images/happy_box.png
+        qml/testbed/images/Sevillana-Regular.ttf
 )
 
 install(TARGETS testbed

@@ -71,11 +71,6 @@ QT_BEGIN_NAMESPACE
 */
 
 /*!
-  \property QAbstractAxis::labelsColor
-  \brief The color used to draw the labels.
-*/
-
-/*!
   \property QAbstractAxis::visible
   \brief The visibility of the axis.
 */
@@ -116,82 +111,12 @@ QT_BEGIN_NAMESPACE
 */
 
 /*!
-  \property QAbstractAxis::gridLineColor
-  \brief The color of the grid line.
-*/
-
-/*!
-  \qmlproperty color AbstractAxis::gridLineColor
-  The color of the grid line.
-*/
-
-/*!
-  \property QAbstractAxis::minorGridLineColor
-  \brief The color of the minor grid line.
-
-  Applies only to axes that support minor grid lines.
-*/
-
-/*!
-  \qmlproperty color AbstractAxis::minorGridLineColor
-  The color of the minor grid line.
-
-  Applies only to axes that support minor grid lines.
-*/
-
-/*!
-  \property QAbstractAxis::labelsFont
-  \brief The font of the axis labels.
-*/
-
-/*!
-  \qmlproperty font AbstractAxis::labelsFont
-  The font of the axis labels.
-
-  For more information, see \l [QML]{font}.
-*/
-
-/*!
-  \qmlproperty color AbstractAxis::labelsColor
-  The color of the axis labels.
-*/
-
-/*!
   \property QAbstractAxis::labelsAngle
   \brief The angle of the axis labels in degrees.
 */
 /*!
-  \qmlproperty int AbstractAxis::labelsAngle
+  \qmlproperty qreal AbstractAxis::labelsAngle
   The angle of the axis labels in degrees.
-*/
-
-/*!
-  \property QAbstractAxis::labelsTruncated
-  \brief Returns \c true if at least one label on the axis is truncated.
-
-  Returned value will not be accurate before the axis is shown.
-*/
-/*!
-  \qmlproperty int AbstractAxis::labelsTruncated
-  Returns \c true if at least one label on the axis is truncated.
-
-  Returned value will not be accurate before the axis is shown.
-  \readonly
-*/
-
-/*!
-  \property QAbstractAxis::truncateLabels
-  \brief The truncation state of labels.
-
-  Indicates whether labels should be truncated if there is no enough space for full text.
-  It is equal to \c true by default.
-*/
-/*!
-  \qmlproperty int AbstractAxis::truncateLabels
-  The truncation state of labels.
-
-  Indicates whether labels should be truncated if there is no enough space for full text.
-  It is equal to \c true by default.
 */
 
 /*!
@@ -256,25 +181,6 @@ QT_BEGIN_NAMESPACE
 */
 
 /*!
-  \property QAbstractAxis::reverse
-  \brief Whether a reverse axis is used.
-
-  By default, the value is \c false.
-
-  The reverse axis is supported with a line, spline, and scatter series, as well as an area series
-  with a cartesian chart. All axes of the same orientation attached to the same series must be
-  reversed if one is reversed or the behavior is undefined.
-*/
-/*!
-  \qmlproperty alignment AbstractAxis::reverse
-  Defines whether a reverse axis is used. By default, the value is \c false.
-
-  The reverse axis is supported with a line, spline, and scatter series, as well as an area series
-  with a cartesian chart. All axes of the same orientation attached to the same series must be
-  reversed if one is reversed or the behavior is undefined.
-*/
-
-/*!
   \internal TODO: Causes build errors, find out why
   \fn void QAbstractAxis::visibleChanged(bool visible)
   This signal is emitted when the visibility of the axis changes to \a visible.
@@ -294,40 +200,8 @@ QT_BEGIN_NAMESPACE
 
 /*!
   \internal TODO: Causes build errors, find out why
-  \fn void QAbstractAxis::labelsFontChanged(const QFont& font)
-  This signal is emitted when the font of the axis labels changes to \a font.
-*/
-
-/*!
-  \internal TODO: Causes build errors, find out why
-  \fn void QAbstractAxis::labelsColorChanged(const QColor& color)
-  This signal is emitted when the color used to draw the axis labels changes to \a color.
-*/
-
-/*!
-  \internal TODO: Causes build errors, find out why
-  \fn void QAbstractAxis::labelsAngleChanged(int angle)
+  \fn void QAbstractAxis::labelsAngleChanged(qreal angle)
   This signal is emitted when the angle of the axis labels changes to \a angle.
-*/
-
-/*!
-  \internal TODO: Causes build errors, find out why
-  \fn void QAbstractAxis::labelsEditableChanged(bool editable)
-  This signal is emitted when the \a editable state of the label changes.
-*/
-
-/*!
-  \internal TODO: Causes build errors, find out why
-  \fn void QAbstractAxis::labelsTruncatedChanged(bool labelsTruncated)
-  This signal is emitted in two cases; when the axis changes from having one or more truncated
-  labels to having no truncated labels, and when the axis changes from having no truncated
-  labels to having one or more truncated labels. Current state is identified by \a labelsTruncated.
-*/
-
-/*!
-  \internal TODO: Causes build errors, find out why
-  \fn void QAbstractAxis::truncateLabelsChanged(bool truncateLabels)
-  This signal is emitted when the truncation of the labels changes to \a truncateLabels.
 */
 
 /*!
@@ -345,27 +219,8 @@ QT_BEGIN_NAMESPACE
 
 /*!
   \internal TODO: Causes build errors, find out why
-  \fn void QAbstractAxis::gridLineColorChanged(const QColor &color)
-  This signal is emitted when the color of the grid line changes to \a color.
-*/
-
-/*!
-  \internal TODO: Causes build errors, find out why
-  \fn void QAbstractAxis::minorGridLineColorChanged(const QColor &color)
-  This signal is emitted when the color of the minor grid line changes
-  to \a color.
-*/
-
-/*!
-  \internal TODO: Causes build errors, find out why
   \fn void QAbstractAxis::colorChanged(QColor color)
   This signal is emitted when the color of the axis changes to \a color.
-*/
-
-/*!
-  \internal TODO: Causes build errors, find out why
-  \fn void QAbstractAxis::labelsColorChanged(QColor color)
-  This signal is emitted when the color of the axis labels changes to \a color.
 */
 
 /*!
@@ -459,32 +314,6 @@ bool QAbstractAxis::isMinorGridLineVisible() const
     return d_ptr->m_minorGridLineVisible;
 }
 
-void QAbstractAxis::setGridLineColor(const QColor &color)
-{
-    if (color != d_ptr->m_gridLineColor) {
-        d_ptr->m_gridLineColor = color;
-        emit gridLineColorChanged(color);
-    }
-}
-
-QColor QAbstractAxis::gridLineColor()
-{
-    return d_ptr->m_gridLineColor;
-}
-
-void QAbstractAxis::setMinorGridLineColor(const QColor &color)
-{
-    if (color != d_ptr->m_minorGridLineColor) {
-        d_ptr->m_minorGridLineColor = color;
-        emit minorGridLineColorChanged(color);
-    }
-}
-
-QColor QAbstractAxis::minorGridLineColor()
-{
-    return d_ptr->m_minorGridLineColor;
-}
-
 void QAbstractAxis::setLabelsVisible(bool visible)
 {
     if (d_ptr->m_labelsVisible != visible) {
@@ -499,54 +328,25 @@ bool QAbstractAxis::labelsVisible() const
     return d_ptr->m_labelsVisible;
 }
 
-/*!
-  Sets the font used to draw labels to \a font.
-*/
-void QAbstractAxis::setLabelsFont(const QFont &font)
-{
-    if (d_ptr->m_labelsFont != font) {
-        d_ptr->m_labelsFont = font;
-        emit labelsFontChanged(font);
-    }
-}
-
-/*!
-  Returns the font used to draw labels.
-*/
-QFont QAbstractAxis::labelsFont() const
-{
-    return d_ptr->m_labelsFont;
-}
-
-void QAbstractAxis::setLabelsAngle(int angle)
+void QAbstractAxis::setLabelsAngle(qreal angle)
 {
     if (d_ptr->m_labelsAngle != angle) {
         d_ptr->m_labelsAngle = angle;
+        update();
         emit labelsAngleChanged(angle);
     }
 }
 
-int QAbstractAxis::labelsAngle() const
+qreal QAbstractAxis::labelsAngle() const
 {
     return d_ptr->m_labelsAngle;
-}
-void QAbstractAxis::setLabelsColor(QColor color)
-{
-    if (d_ptr->m_labelsColor != color) {
-        d_ptr->m_labelsColor = color;
-        emit labelsColorChanged(color);
-    }
-}
-
-QColor QAbstractAxis::labelsColor() const
-{
-    return d_ptr->m_labelsColor;
 }
 
 void QAbstractAxis::setTitleVisible(bool visible)
 {
     if (d_ptr->m_titleVisible != visible) {
         d_ptr->m_titleVisible = visible;
+        update();
         emit titleVisibleChanged(visible);
     }
 }
@@ -563,6 +363,7 @@ void QAbstractAxis::setTitleColor(const QColor &color)
 {
     if (d_ptr->m_titleColor != color) {
         d_ptr->m_titleColor = color;
+        update();
         emit titleColorChanged(color);
     }
 }
@@ -582,6 +383,7 @@ void QAbstractAxis::setTitleFont(const QFont &font)
 {
     if (d_ptr->m_titleFont != font) {
         d_ptr->m_titleFont = font;
+        update();
         emit titleFontChanged(font);
     }
 }
@@ -598,6 +400,7 @@ void QAbstractAxis::setTitleText(const QString &title)
 {
     if (d_ptr->m_title != title) {
         d_ptr->m_title = title;
+        update();
         emit titleTextChanged(title);
     }
 }
@@ -690,68 +493,6 @@ Qt::Alignment QAbstractAxis::alignment() const
     return d_ptr->alignment();
 }
 
-bool QAbstractAxis::isReverse() const
-{
-    return d_ptr->m_reverse;
-}
-
-/*!
-  Sets axis labels editability to \a editable.
-
-  When the labels are editable the user will be able to change the range of the
-  axis conveniently by editing any of the labels. This feature is only supported
-  for the QValueAxis and the QDateTimeAxis.
-
-  By default, labels are not editable.
-*/
-void QAbstractAxis::setLabelsEditable(bool editable)
-{
-    if (d_ptr->m_labelsEditable != editable) {
-        // In the case if the axis already added to a chart
-        // set the labels editability on the axisItem().
-        // Otherwise the labels editability will be set in the
-        // QValueAxisPrivate::initializeGraphics.
-//        if (d_ptr->axisItem() != nullptr)
-//            d_ptr->axisItem()->setLabelsEditable(editable);
-        d_ptr->m_labelsEditable = editable;
-        emit labelsEditableChanged(editable);
-    }
-}
-
-/*!
-  Returns \c true if axis labels are editable.
-*/
-bool QAbstractAxis::labelsEditable() const
-{
-    return d_ptr->m_labelsEditable;
-}
-
-bool QAbstractAxis::labelsTruncated() const
-{
-    return d_ptr->m_labelsTruncated;
-}
-
-void QAbstractAxis::setTruncateLabels(bool truncateLabels)
-{
-    if (d_ptr->m_truncateLabels != truncateLabels) {
-        d_ptr->m_truncateLabels = truncateLabels;
-        emit truncateLabelsChanged(d_ptr->m_truncateLabels);
-    }
-}
-
-bool QAbstractAxis::truncateLabels() const
-{
-    return d_ptr->m_truncateLabels;
-}
-
-void QAbstractAxis::setReverse(bool reverse)
-{
-    if (d_ptr->m_reverse != reverse && type() != QAbstractAxis::AxisTypeBarCategory) {
-        d_ptr->m_reverse = reverse;
-        emit reverseChanged(reverse);
-    }
-}
-
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 QAbstractAxisPrivate::QAbstractAxisPrivate(QAbstractAxis *q)
@@ -779,15 +520,6 @@ void QAbstractAxisPrivate::setAlignment(Qt::Alignment alignment)
         break;
     }
     m_alignment = alignment;
-}
-
-void QAbstractAxisPrivate::setLabelsTruncated(bool labelsTruncated)
-{
-    Q_Q(QAbstractAxis);
-    if (m_labelsTruncated != labelsTruncated) {
-        m_labelsTruncated = labelsTruncated;
-        emit q->labelsTruncatedChanged(m_labelsTruncated);
-    }
 }
 
 void QAbstractAxisPrivate::handleRangeChanged(qreal min, qreal max)

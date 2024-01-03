@@ -39,7 +39,6 @@ public:
     Qt::Alignment alignment() const { return m_alignment; }
     Qt::Orientation orientation() const { return m_orientation; }
     void setAlignment(Qt::Alignment alignment);
-    void setLabelsTruncated(bool labelsTruncated);
 
     //interface for manipulating range form base class
     virtual void setMin(const QVariant &min) = 0;
@@ -73,18 +72,10 @@ private:
     bool m_arrowVisible = true;
 
     bool m_gridLineVisible = true;
-    QColor m_gridLineColor;
     bool m_minorGridLineVisible = true;
-    QColor m_minorGridLineColor;
 
     bool m_labelsVisible = true;
-    bool m_labelsEditable = false;
-    QColor m_labelsColor;
-    QFont m_labelsFont;
-    int m_labelsAngle = 0;
-
-    bool m_labelsTruncated = false;
-    bool m_truncateLabels = true;
+    qreal m_labelsAngle = 0;
 
     bool m_titleVisible = true;
     QColor m_titleColor;
@@ -92,8 +83,6 @@ private:
     QString m_title;
 
     bool m_dirty = false;
-
-    bool m_reverse = false;
 
     Q_DECLARE_PUBLIC(QAbstractAxis)
     friend class QAbstractAxis;

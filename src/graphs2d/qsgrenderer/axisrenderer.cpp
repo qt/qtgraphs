@@ -405,6 +405,7 @@ void AxisRenderer::updateBarXAxisLabels(QBarCategoryAxis *axis, const QRectF &re
             textItem->setHeight(rect.height());
             textItem->setFont(theme()->axisXLabelsFont());
             textItem->setColor(theme()->axisXLabelsColor());
+            textItem->setRotation(axis->labelsAngle());
             textItem->setText(category);
             textItem->setVisible(true);
         } else {
@@ -463,6 +464,7 @@ void AxisRenderer::updateValueYAxisLabels(QValueAxis *axis, const QRectF &rect)
             textItem->setWidth(rect.width());
             textItem->setFont(theme()->axisYLabelsFont());
             textItem->setColor(theme()->axisYLabelsColor());
+            textItem->setRotation(axis->labelsAngle());
             double number = yAxisLabelValues.at(i);
             // Format the number
             int decimals = axis->labelDecimals();

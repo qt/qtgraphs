@@ -26,6 +26,16 @@ Rectangle {
         set4.borderWidth = -1;
     }
 
+    function resetCustomGraphTheme() {
+        myTheme.gridSmoothing = 1;
+        myTheme.axisYLabelsFont.family = undefined;
+    }
+
+    FontLoader {
+        id: customFont
+        source: "images/Sevillana-Regular.ttf"
+    }
+
     Text {
         id: graphToolbarTitle
         anchors.horizontalCenter: graphToolbar.horizontalCenter
@@ -46,6 +56,7 @@ Rectangle {
         Button {
             text: "Dark"
             onClicked: {
+                mainView.resetCustomGraphTheme();
                 background.color = "#202020";
                 myTheme.colorTheme = GraphTheme.ColorThemeDark;
             }
@@ -53,6 +64,7 @@ Rectangle {
         Button {
             text: "Light"
             onClicked: {
+                mainView.resetCustomGraphTheme();
                 background.color = "#eeeeee";
                 myTheme.colorTheme = GraphTheme.ColorThemeLight;
             }
@@ -76,6 +88,7 @@ Rectangle {
                 myTheme.axisYMinorBarWidth = 1 + 1 * Math.random();
                 myTheme.axisXMinorBarWidth = 1 + 1 * Math.random();
                 myTheme.axisYSmoothing = 2 * Math.random();
+                myTheme.axisYLabelsFont.family = customFont.font.family;
             }
         }
     }
@@ -161,6 +174,7 @@ Rectangle {
             id: myTheme
             colorTheme: GraphTheme.ColorThemeDark
             axisXLabelsFont.pixelSize: 20
+            axisYLabelsFont.pixelSize: 16
         }
         SeriesTheme {
             id: customSeriesTheme
