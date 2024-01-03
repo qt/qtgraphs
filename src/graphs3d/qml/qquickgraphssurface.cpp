@@ -778,11 +778,6 @@ void QQuickGraphsSurface::updateGraph()
     for (auto model : m_model) {
         bool seriesVisible = model->series->isVisible();
         if (isSeriesVisibilityDirty()) {
-            bool graphVisible = (model->model->visible() || model->gridModel->visible());
-
-            if (seriesVisible != graphVisible && isSlicingActive())
-                setSliceActivatedChanged(true);
-
             if (!seriesVisible) {
                 model->model->setVisible(seriesVisible);
                 model->gridModel->setVisible(seriesVisible);
@@ -791,6 +786,7 @@ void QQuickGraphsSurface::updateGraph()
                     model->sliceGridModel->setVisible(seriesVisible);
 
                     if (m_selectedSeries == model->series) {
+                        clearSelection();
                         setSliceActivatedChanged(true);
                         m_selectionDirty = !seriesVisible;
                     }
@@ -823,7 +819,6 @@ void QQuickGraphsSurface::updateGraph()
 
     setSeriesVisibilityDirty(false);
     if (isDataDirty() || isSeriesVisualsDirty()) {
-        clearSelection();
 
         if (hasChangedSeriesList()) {
             handleChangedSeries();
@@ -839,13 +834,12 @@ void QQuickGraphsSurface::updateGraph()
             if (!sliceView())
                 createSliceView();
 
-            QList<QSurface3DSeries *> surfaceSeriesAsList = surfaceSeriesList();
-            for (const auto &surfaceSeries : std::as_const(surfaceSeriesAsList)) {
-                bool visible = !(sliceView()->isVisible() ^ surfaceSeries->isVisible());
-                if (m_selectedSeries == surfaceSeries) {
+            if (sliceView()->isVisible()) {
+                if (!m_selectedSeries) {
+                    m_selectionDirty = true;
                     setSliceActivatedChanged(true);
-                    m_selectionDirty = !visible;
                 }
+                updateSliceGraph();
             }
         }
 
@@ -1041,7 +1035,7 @@ void QQuickGraphsSurface::updateModel(SurfaceModel *model)
 
         if (m_isIndexDirty || pickOutOfRange) {
             model->selectedVertex = SurfaceVertex();
-            if (sliceView() && sliceView()->isVisible()) {
+            if (sliceView() && sliceView()->isVisible() && model->series == m_selectedSeries) {
                 setSlicingActive(false);
                 setSliceActivatedChanged(true);
                 m_selectionDirty = true;
@@ -1794,8 +1788,10 @@ bool QQuickGraphsSurface::doPicking(const QPointF &position)
                 float min = -1.0f;
 
                 for (auto model : m_model) {
-                    if (!model->series->isVisible())
+                    if (!model->series->isVisible()) {
+                        model->picked = false;
                         continue;
+                    }
 
                     model->picked = (model->model == pickedModel);
 
@@ -2033,15 +2029,18 @@ void QQuickGraphsSurface::updateSliceItemLabel(QString label, const QVector3D &p
 void QQuickGraphsSurface::updateSelectionMode(QAbstract3DGraph::SelectionFlags mode)
 {
     checkSliceEnabled();
-    if (mode.testFlag(QAbstract3DGraph::SelectionSlice)
-        && m_selectedPoint != invalidSelectionPosition()) {
-        setSliceActivatedChanged(true);
-        m_selectionDirty = !(sliceView() && sliceView()->isVisible());
-    } else {
-        if (sliceView() && sliceView()->isVisible()) {
+    bool validSlice = mode.testFlag(QAbstract3DGraph::SelectionSlice)
+                      && m_selectedPoint != invalidSelectionPosition();
+    if (sliceView() && sliceView()->isVisible()) {
+        if (validSlice) {
+            updateSliceGraph();
+        } else {
             m_selectionDirty = true;
             setSliceActivatedChanged(true);
         }
+    } else if (validSlice) {
+        m_selectionDirty = true;
+        setSliceActivatedChanged(true);
     }
 
     setSeriesVisualsDirty(true);
