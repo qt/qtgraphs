@@ -14,7 +14,6 @@
 #define QBARSERIES_P_H
 
 #include <private/qabstractbarseries_p.h>
-#include <private/abstractdomain_p.h>
 
 QT_BEGIN_NAMESPACE
 
@@ -24,7 +23,6 @@ class QBarSeriesPrivate : public QAbstractBarSeriesPrivate
 public:
     QBarSeriesPrivate(QBarSeries *q);
     void initializeGraphics(QGraphicsItem* parent) override;
-    void initializeDomain() override;
 
 private:
     Q_DECLARE_PUBLIC(QBarSeries)

@@ -37,7 +37,6 @@ public:
     void setVisible(bool visible);
     void setLabelsVisible(bool visible);
 
-    void initializeDomain() override;
     void initializeAxes() override;
 
     bool append(QBarSet *set);

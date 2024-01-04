@@ -26,7 +26,6 @@ QT_END_NAMESPACE
 
 QT_BEGIN_NAMESPACE
 
-class AbstractDomain;
 class QAbstractSeries;
 
 class QAbstractAxisPrivate : public QObject

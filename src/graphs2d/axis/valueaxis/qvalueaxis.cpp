@@ -3,7 +3,6 @@
 
 #include <QtGraphs2D/QValueAxis>
 #include <private/qvalueaxis_p.h>
-#include <private/abstractdomain_p.h>
 #include <private/charthelpers_p.h>
 #include <QtCore/QtMath>
 

@@ -470,11 +470,6 @@ QAbstractSeriesPrivate::~QAbstractSeriesPrivate()
 {
 }
 
-void QAbstractSeriesPrivate::setDomain(AbstractDomain* domain)
-{
-    Q_UNUSED(domain);
-}
-
 void QAbstractSeriesPrivate::initializeGraphics(QGraphicsItem* parent)
 {
     Q_UNUSED(parent);

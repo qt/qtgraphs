@@ -102,23 +102,6 @@ QBarSeriesPrivate::QBarSeriesPrivate(QBarSeries *q) : QAbstractBarSeriesPrivate(
 
 }
 
-void QBarSeriesPrivate::initializeDomain()
-{
-    qreal minX(domain()->minX());
-    qreal minY(domain()->minY());
-    qreal maxX(domain()->maxX());
-    qreal maxY(domain()->maxY());
-
-    qreal x = categoryCount();
-    minX = qMin(minX, - (qreal)0.5);
-    minY = qMin(minY, min());
-    maxX = qMax(maxX, x - (qreal)0.5);
-    maxY = qMax(maxY, max());
-
-    domain()->setRange(minX, maxX, minY, maxY);
-}
-
-
 void QBarSeriesPrivate::initializeGraphics(QGraphicsItem* parent)
 {
     QAbstractSeriesPrivate::initializeGraphics(parent);
