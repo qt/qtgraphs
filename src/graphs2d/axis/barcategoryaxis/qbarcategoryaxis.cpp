@@ -5,7 +5,6 @@
 
 #include <QtGraphs2D/QBarCategoryAxis>
 #include <private/qbarcategoryaxis_p.h>
-#include <private/abstractdomain_p.h>
 #include <QtCore/QtMath>
 
 QT_BEGIN_NAMESPACE
@@ -228,8 +227,6 @@ void QBarCategoryAxis::remove(const QString &category)
                 setRange(d->m_categories.first(), d->m_maxCategory);
             } else if (d->m_maxCategory == category) {
                 setRange(d->m_minCategory, d->m_categories.last());
-            } else {
-                d->updateCategoryDomain();
             }
         } else {
             setRange(QString(), QString());
@@ -262,8 +259,6 @@ void QBarCategoryAxis::insert(int index, const QString &category)
         setRange(d->m_categories.first(), d->m_maxCategory);
     } else if (index == count) {
         setRange(d->m_minCategory, d->m_categories.last());
-    } else {
-        d->updateCategoryDomain();
     }
 
     emit categoriesChanged();
@@ -530,26 +525,6 @@ void  QBarCategoryAxisPrivate::setRange(const QString &minCategory, const QStrin
         emit q->rangeChanged(m_minCategory, m_maxCategory);
         emit rangeChanged(m_min,m_max);
     }
-}
-
-void QBarCategoryAxisPrivate::updateCategoryDomain()
-{
-    bool changed = false;
-
-    qreal tmpMin = m_categories.indexOf(m_minCategory) - 0.5;
-    if (!qFuzzyIsNull(m_min - tmpMin)) {
-        m_min = tmpMin;
-        changed = true;
-    }
-    qreal tmpMax = m_categories.indexOf(m_maxCategory) + 0.5;
-    if (!qFuzzyIsNull(m_max - tmpMax)) {
-        m_max = tmpMax;
-        changed = true;
-    }
-    m_count = m_max - m_min;
-
-    if (changed)
-        emit rangeChanged(m_min,m_max);
 }
 
 QT_END_NAMESPACE

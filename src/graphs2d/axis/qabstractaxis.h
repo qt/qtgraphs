@@ -122,7 +122,6 @@ protected:
     friend class ChartDataSet;
     friend class ChartPresenter;
     friend class ChartThemeManager;
-    friend class AbstractDomain;
     friend class ChartAxisElement;
     friend class HorizontalAxis;
     friend class VerticalAxis;

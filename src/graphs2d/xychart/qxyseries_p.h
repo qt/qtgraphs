@@ -27,7 +27,6 @@ class QXYSeriesPrivate : public QAbstractSeriesPrivate
 public:
     QXYSeriesPrivate(QXYSeries *q);
 
-    void initializeDomain() override;
     void initializeAxes() override;
 
     void setPointSelected(int index, bool selected, bool &callSignal);

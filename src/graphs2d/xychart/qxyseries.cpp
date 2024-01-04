@@ -345,36 +345,6 @@ QXYSeriesPrivate::QXYSeriesPrivate(QXYSeries *q)
 {
 }
 
-void QXYSeriesPrivate::initializeDomain()
-{
-    qreal minX(0);
-    qreal minY(0);
-    qreal maxX(1);
-    qreal maxY(1);
-
-    Q_Q(QXYSeries);
-
-    const QList<QPointF> &points = q->points();
-
-    if (!points.isEmpty()) {
-        minX = points[0].x();
-        minY = points[0].y();
-        maxX = minX;
-        maxY = minY;
-
-        for (int i = 0; i < points.size(); i++) {
-            qreal x = points[i].x();
-            qreal y = points[i].y();
-            minX = qMin(minX, x);
-            minY = qMin(minY, y);
-            maxX = qMax(maxX, x);
-            maxY = qMax(maxY, y);
-        }
-    }
-
-    domain()->setRange(minX, maxX, minY, maxY);
-}
-
 void QXYSeriesPrivate::initializeAxes()
 {
 }

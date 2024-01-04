@@ -15,7 +15,6 @@
 // We mean it.
 
 #include <QtGraphs2D/qabstractseries.h>
-#include <private/abstractdomain_p.h>
 
 #include <memory>
 
@@ -44,12 +43,8 @@ public:
     QAbstractSeriesPrivate(QAbstractSeries *q);
     ~QAbstractSeriesPrivate();
 
-    virtual void initializeDomain() = 0;
     virtual void initializeAxes() = 0;
     virtual void initializeGraphics(QGraphicsItem* parent) = 0;
-
-    virtual void setDomain(AbstractDomain* domain);
-    AbstractDomain* domain() { return m_domain.data(); }
 
 Q_SIGNALS:
     void countChanged();
@@ -61,7 +56,6 @@ protected:
 
 private:
     SeriesTheme *m_theme = nullptr;
-    QScopedPointer<AbstractDomain> m_domain;
     QString m_name;
     bool m_visible;
     bool m_selectable = false;

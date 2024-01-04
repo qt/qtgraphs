@@ -18,8 +18,6 @@
 
 QT_BEGIN_NAMESPACE
 
-class AbstractDomain;
-
 class QBarCategoryAxisPrivate : public QAbstractAxisPrivate
 {
     Q_OBJECT
@@ -29,8 +27,6 @@ public:
     ~QBarCategoryAxisPrivate();
 
 public:
-    void updateCategoryDomain();
-
     //interface for manipulating range form base class
     void setRange(const QVariant &min, const QVariant &max) override;
     void setMin(const QVariant &min) override;

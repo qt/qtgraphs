@@ -947,24 +947,6 @@ qreal QAbstractBarSeriesPrivate::labelsAngle() const
     return m_labelsAngle;
 }
 
-void QAbstractBarSeriesPrivate::initializeDomain()
-{
-    qreal minX(domain()->minX());
-    qreal minY(domain()->minY());
-    qreal maxX(domain()->maxX());
-    qreal maxY(domain()->maxY());
-
-    qreal seriesMinX = this->minX();
-    qreal seriesMaxX = this->maxX();
-    qreal y = max();
-    minX = qMin(minX, seriesMinX - (qreal)0.5);
-    minY = qMin(minY, y);
-    maxX = qMax(maxX, seriesMaxX + (qreal)0.5);
-    maxY = qMax(maxY, y);
-
-    domain()->setRange(minX, maxX, minY, maxY);
-}
-
 bool QAbstractBarSeriesPrivate::append(QBarSet *set)
 {
     if ((m_barSets.contains(set)) || (set == 0))

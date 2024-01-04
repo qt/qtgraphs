@@ -14,7 +14,6 @@ qt_internal_add_qml_module(Graphs2D
         qgraphsview.cpp qgraphsview_p.h
         qabstractseries.cpp qabstractseries.h qabstractseries_p.h
         charthelpers_p.h
-        domain/abstractdomain.cpp domain/abstractdomain_p.h
         barchart/qbarseries.cpp barchart/qbarseries.h barchart/qbarseries_p.h
         barchart/qabstractbarseries.cpp barchart/qabstractbarseries.h barchart/qabstractbarseries_p.h
         barchart/qbarset.cpp barchart/qbarset.h barchart/qbarset_p.h
