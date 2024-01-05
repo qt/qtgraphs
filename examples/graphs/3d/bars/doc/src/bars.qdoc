@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GFDL-1.3-no-invariants-only
 
 /*!
-    \example bars
+    \example 3d/bars
     \meta tags {Graphs, Barsr3D, Multiple Series}
     \examplecategory {Data Visualization & 3D}
     \title Simple Bar Graph

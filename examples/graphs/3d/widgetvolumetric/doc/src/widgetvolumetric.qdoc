@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GFDL-1.3-no-invariants-only
 
 /*!
-    \example widgetvolumetric
+    \example 3d/widgetvolumetric
     \meta tags {Graphs, QCustom3DVolume, Custom Item}
     \examplecategory {Data Visualization & 3D}
     \title Volumetric Rendering

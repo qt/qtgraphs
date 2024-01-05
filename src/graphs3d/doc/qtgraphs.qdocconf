@@ -8,7 +8,10 @@ buildversion        = Qt Graphs | Commercial or GPLv3
 moduleheader        = QtGraphs
 
 examplesinstallpath = graphs
-exampledirs += ../../../examples/graphs3d \
+
+# TODO: Unify
+exampledirs += ../../../examples/graphs/ \
+               ../../../examples/graphs/3d \
                snippets
 
 {headerdirs,sourcedirs} += ..

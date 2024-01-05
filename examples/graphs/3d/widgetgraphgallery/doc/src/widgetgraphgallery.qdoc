@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GFDL-1.3-no-invariants-only
 
 /*!
-    \example widgetgraphgallery
+    \example 3d/widgetgraphgallery
     \meta tags {Graphs, Q3DBars, Bar Graph, Custom Proxy, Q3DScatter, Scatter Graph, Custom Input Handler, Q3DSurface, Surface Graph, QCustom3DItem, Textured Surface}
     \examplecategory {Data Visualization & 3D}
     \title Graph Gallery

@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GFDL-1.3-no-invariants-only
 
 /*!
-    \example surfacegallery
+    \example 3d/surfacegallery
     \meta tags {Graphs, Surface3D, Dynamic Data, Surface Graph, Height Map, Polar Graph}
     \examplecategory {Data Visualization & 3D}
     \title Surface Graph Gallery
