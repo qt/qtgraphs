@@ -1697,8 +1697,14 @@ void QQuickGraphsItem::synchData()
     }
 
     if (m_changeTracker.polarChanged) {
-        axisDirty = true;
-        m_changeTracker.polarChanged = false;
+      handleSegmentLineCountChanged(axisX(), m_segmentLineRepeaterX);
+      handleSegmentLineCountChanged(axisZ(), m_segmentLineRepeaterZ);
+
+      handleSubSegmentLineCountChanged(axisX(), m_subsegmentLineRepeaterX);
+      handleSubSegmentLineCountChanged(axisZ(), m_subsegmentLineRepeaterZ);
+
+      axisDirty = true;
+      m_changeTracker.polarChanged = false;
     }
 
     if (m_changeTracker.axisXLabelAutoRotationChanged) {
@@ -2119,7 +2125,7 @@ void QQuickGraphsItem::updateGrid()
     int gridLineCountZ = segmentLineRepeaterZ()->count();
     int subGridLineCountZ = subsegmentLineRepeaterZ()->count();
 
-    if (!m_isFloorGridInRange) {
+    if (!m_isFloorGridInRange && !m_isPolar) {
         gridLineCountX /= 2;
         subGridLineCountX /= 2;
         gridLineCountZ /= 2;
@@ -3696,10 +3702,14 @@ void QQuickGraphsItem::handleSegmentLineCountChanged(QAbstract3DAxis *axis,
     int gridLineCount = 0;
     if (axis->type() == QAbstract3DAxis::AxisType::Value) {
         auto valueAxis = static_cast<QValue3DAxis *>(axis);
-        gridLineCount = 2 * valueAxis->gridSize();
+        if (valueAxis->orientation() != QAbstract3DAxis::AxisOrientation::Y && m_isPolar)
+            gridLineCount = valueAxis->gridSize();
+        else
+            gridLineCount = 2 * valueAxis->gridSize();
     } else if (axis->type() == QAbstract3DAxis::AxisType::Category) {
         gridLineCount = axis->labels().size();
     }
+
     repeater->setModel(gridLineCount);
     changeGridLineColor(repeater, theme()->gridLineColor());
     handleAxisSubSegmentCountChangedBySender(axis);
@@ -3712,7 +3722,10 @@ void QQuickGraphsItem::handleSubSegmentLineCountChanged(QAbstract3DAxis *axis,
 
     if (axis->type() == QAbstract3DAxis::AxisType::Value) {
         QValue3DAxis *valueAxis = static_cast<QValue3DAxis *>(axis);
-        subGridLineCount = 2 * valueAxis->subGridSize();
+        if (valueAxis->orientation() != QAbstract3DAxis::AxisOrientation::Y && m_isPolar)
+            subGridLineCount = valueAxis->subGridSize();
+        else
+            subGridLineCount = 2 * valueAxis->subGridSize();
     } else if (axis->type() == QAbstract3DAxis::AxisType::Category) {
         subGridLineCount = 0;
     }
