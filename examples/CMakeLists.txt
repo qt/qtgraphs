@@ -3,7 +3,7 @@
 
 qt_examples_build_begin(EXTERNAL_BUILD)
 
-add_subdirectory(graphs3d)
-add_subdirectory(graphs2d)
+add_subdirectory(graphs/3d)
+add_subdirectory(graphs/2d)
 
 qt_examples_build_end()

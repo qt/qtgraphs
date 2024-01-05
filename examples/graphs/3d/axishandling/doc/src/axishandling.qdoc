@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GFDL-1.3-no-invariants-only
 
 /*!
-    \example axishandling
+    \example 3d/axishandling
     \meta tags {Graphs, Scatter3D, Custom Input Handler, Dynamic Data, Custom Axis Formatter, Scatter Graph}
     \examplecategory {Data Visualization & 3D}
     \title Axis Handling

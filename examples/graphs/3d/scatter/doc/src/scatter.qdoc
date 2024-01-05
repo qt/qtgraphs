@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GFDL-1.3-no-invariants-only
 
 /*!
-    \example scatter
+    \example 3d/scatter
     \meta tags {Graphs, Scatter3D, Multiple Series}
     \examplecategory {Data Visualization & 3D}
     \title Simple Scatter Graph
