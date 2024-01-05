@@ -794,12 +794,11 @@ void QQuickGraphsSurface::updateGraph()
             }
         }
 
-        if (model->gridModel->visible() != seriesVisible)
-            model->gridModel->setVisible(seriesVisible);
         if (model->model->visible() != seriesVisible)
             model->model->setVisible(seriesVisible);
+
         model->gridModel->setVisible(
-            model->series->drawMode().testFlag(QSurface3DSeries::DrawWireframe));
+            model->series->drawMode().testFlag(QSurface3DSeries::DrawWireframe) && seriesVisible);
         if (model->series->drawMode().testFlag(QSurface3DSeries::DrawSurface))
             model->model->setLocalOpacity(1.f);
         else
