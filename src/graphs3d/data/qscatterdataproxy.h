@@ -29,7 +29,6 @@ public:
 
     QScatter3DSeries *series() const;
     int itemCount() const;
-    const QScatterDataArray &array() const;
     const QScatterDataItem &itemAt(int index) const;
 
     void resetArray();

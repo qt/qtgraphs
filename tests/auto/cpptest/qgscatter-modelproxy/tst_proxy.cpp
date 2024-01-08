@@ -26,6 +26,7 @@ private slots:
 
 private:
     QItemModelScatterDataProxy *m_proxy;
+    QScatter3DSeries *m_series;
 };
 
 void tst_proxy::initTestCase()
@@ -39,45 +40,60 @@ void tst_proxy::cleanupTestCase()
 void tst_proxy::init()
 {
     m_proxy = new QItemModelScatterDataProxy();
+    m_series = new QScatter3DSeries(m_proxy);
 }
 
 void tst_proxy::cleanup()
 {
     delete m_proxy;
+    m_series = 0;
 }
 
 void tst_proxy::construct()
 {
     QItemModelScatterDataProxy *proxy = new QItemModelScatterDataProxy();
+    QScatter3DSeries *series = new QScatter3DSeries(proxy);
     QVERIFY(proxy);
+    QVERIFY(series);
     delete proxy;
+    delete series;
 
     QTableWidget *table = new QTableWidget();
 
     proxy = new QItemModelScatterDataProxy(table->model());
+    series = new QScatter3DSeries(proxy);
     QVERIFY(proxy);
+    QVERIFY(series);
     delete proxy;
+    delete series;
 
     proxy = new QItemModelScatterDataProxy(table->model(), "x", "y", "z");
+    series = new QScatter3DSeries(proxy);
     QVERIFY(proxy);
+    QVERIFY(series);
     QCOMPARE(proxy->xPosRole(), QString("x"));
     QCOMPARE(proxy->yPosRole(), QString("y"));
     QCOMPARE(proxy->zPosRole(), QString("z"));
     QCOMPARE(proxy->rotationRole(), QString(""));
     delete proxy;
+    delete series;
 
     proxy = new QItemModelScatterDataProxy(table->model(), "x", "y", "z", "rot");
+    series = new QScatter3DSeries(proxy);
     QVERIFY(proxy);
+    QVERIFY(series);
     QCOMPARE(proxy->xPosRole(), QString("x"));
     QCOMPARE(proxy->yPosRole(), QString("y"));
     QCOMPARE(proxy->zPosRole(), QString("z"));
     QCOMPARE(proxy->rotationRole(), QString("rot"));
     delete proxy;
+    delete series;
 }
 
 void tst_proxy::initialProperties()
 {
     QVERIFY(m_proxy);
+    QVERIFY(m_series);
 
     QVERIFY(!m_proxy->itemModel());
     QCOMPARE(m_proxy->rotationRole(), QString());
@@ -94,7 +110,6 @@ void tst_proxy::initialProperties()
     QCOMPARE(m_proxy->zPosRoleReplace(), QString());
 
     QCOMPARE(m_proxy->itemCount(), 0);
-    QVERIFY(!m_proxy->series());
 
     QCOMPARE(m_proxy->type(), QAbstractDataProxy::DataType::Scatter);
 }
@@ -102,6 +117,7 @@ void tst_proxy::initialProperties()
 void tst_proxy::initializeProperties()
 {
     QVERIFY(m_proxy);
+    QVERIFY(m_series);
 
     QTableWidget table;
 
@@ -164,15 +180,13 @@ void tst_proxy::addModel()
     m_proxy->setZPosRoleReplace(QStringLiteral("\\1"));
     QCoreApplication::processEvents();
 
-    QScatter3DSeries *series = new QScatter3DSeries(m_proxy);
-    Q_UNUSED(series);
-
     QCoreApplication::processEvents();
 
     QCOMPARE(m_proxy->itemCount(), 2);
     QVERIFY(m_proxy->series());
+    QCOMPARE(m_proxy->series(), m_series);
 
-    delete series;
+    delete m_series;
     m_proxy = 0; // proxy gets deleted with series
 }
 

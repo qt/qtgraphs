@@ -18,6 +18,7 @@ class Q_GRAPHS_EXPORT QScatter3DSeries : public QAbstract3DSeries
     Q_PROPERTY(QScatterDataProxy *dataProxy READ dataProxy WRITE setDataProxy NOTIFY dataProxyChanged)
     Q_PROPERTY(int selectedItem READ selectedItem WRITE setSelectedItem NOTIFY selectedItemChanged)
     Q_PROPERTY(float itemSize READ itemSize WRITE setItemSize NOTIFY itemSizeChanged)
+    Q_PROPERTY(QScatterDataArray dataArray READ dataArray WRITE setDataArray NOTIFY dataArrayChanged)
 
 public:
     explicit QScatter3DSeries(QObject *parent = nullptr);
@@ -34,10 +35,15 @@ public:
     void setItemSize(float size);
     float itemSize() const;
 
+    void setDataArray(const QScatterDataArray &newDataArray);
+    void clearArray();
+    const QScatterDataArray &dataArray() const;
+
 Q_SIGNALS:
     void dataProxyChanged(QScatterDataProxy *proxy);
     void selectedItemChanged(int index);
     void itemSizeChanged(float size);
+    void dataArrayChanged(const QScatterDataArray *array);
 
 protected:
     explicit QScatter3DSeries(QScatter3DSeriesPrivate &d, QObject *parent = nullptr);
@@ -45,7 +51,6 @@ protected:
 private:
     Q_DISABLE_COPY(QScatter3DSeries)
 
-    friend class QQuickGraphsScatter;
     friend class QQuickGraphsScatter;
 };
 

@@ -1,6 +1,7 @@
 // Copyright (C) 2023 The Qt Company Ltd.
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 
+#include "qscatter3dseries_p.h"
 #include "scatteritemmodelhandler_p.h"
 
 QT_BEGIN_NAMESPACE
@@ -199,8 +200,10 @@ void ScatterItemModelHandler::resolveModel()
     int runningCount = 0;
 
     // If dimensions have changed, recreate the array
-    if (m_proxyArray.data() != m_proxy->array().data() || totalCount != m_proxyArray.size())
+    if (m_proxyArray.data() != m_proxy->series()->dataArray().data()
+        || totalCount != m_proxyArray.size()) {
         m_proxyArray.resize(totalCount);
+    }
 
     // Parse data into newProxyArray
     for (int i = 0; i < rowCount; i++) {

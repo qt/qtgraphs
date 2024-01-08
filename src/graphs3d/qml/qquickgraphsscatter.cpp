@@ -1275,7 +1275,7 @@ float QQuickGraphsScatter::calculatePointScaleSize()
     int totalDataSize = 0;
     for (const auto &scatterSeries : std::as_const(series)) {
         if (scatterSeries->isVisible())
-            totalDataSize += scatterSeries->dataProxy()->array().size();
+            totalDataSize += scatterSeries->dataArray().size();
     }
 
     return qBound(m_defaultMinSize, 2.0f / float(qSqrt(qreal(totalDataSize))), m_defaultMaxSize);

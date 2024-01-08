@@ -84,6 +84,8 @@ QScatterDataProxy::~QScatterDataProxy() {}
 QScatter3DSeries *QScatterDataProxy::series() const
 {
     const Q_D(QScatterDataProxy);
+    if (!d->series())
+        qWarning("Series needs to be created to access data members");
     return static_cast<QScatter3DSeries *>(d->series());
 }
 
@@ -92,8 +94,7 @@ QScatter3DSeries *QScatterDataProxy::series() const
  */
 void QScatterDataProxy::resetArray()
 {
-    Q_D(QScatterDataProxy);
-    d->m_dataArray.clear();
+    series()->clearArray();
 
     emit arrayReset();
     emit itemCountChanged(itemCount());
@@ -106,7 +107,10 @@ void QScatterDataProxy::resetArray()
 void QScatterDataProxy::resetArray(QScatterDataArray newArray)
 {
     Q_D(QScatterDataProxy);
-    if (d->m_dataArray.data() != newArray.data())
+    if (!series())
+        return;
+
+    if (series()->dataArray().data() != newArray.data())
         d->resetArray(std::move(newArray));
 
     emit arrayReset();
@@ -193,10 +197,10 @@ void QScatterDataProxy::insertItems(int index, QScatterDataArray items)
  */
 void QScatterDataProxy::removeItems(int index, int removeCount)
 {
-    Q_D(QScatterDataProxy);
-    if (index >= d->m_dataArray.size())
+    if (index >= series()->dataArray().size())
         return;
 
+    Q_D(QScatterDataProxy);
     d->removeItems(index, removeCount);
     emit itemsRemoved(index, removeCount);
     emit itemCountChanged(itemCount());
@@ -209,17 +213,10 @@ void QScatterDataProxy::removeItems(int index, int removeCount)
  */
 int QScatterDataProxy::itemCount() const
 {
-    const Q_D(QScatterDataProxy);
-    return d->m_dataArray.size();
-}
-
-/*!
- * Returns the pointer to the data array.
- */
-const QScatterDataArray &QScatterDataProxy::array() const
-{
-    const Q_D(QScatterDataProxy);
-    return d->m_dataArray;
+    if (series())
+        return series()->dataArray().size();
+    else
+        return 0;
 }
 
 /*!
@@ -228,8 +225,7 @@ const QScatterDataArray &QScatterDataProxy::array() const
  */
 const QScatterDataItem &QScatterDataProxy::itemAt(int index) const
 {
-    const Q_D(QScatterDataProxy);
-    return d->m_dataArray.at(index);
+    return series()->dataArray().at(index);
 }
 
 /*!
@@ -283,64 +279,85 @@ QScatterDataProxyPrivate::QScatterDataProxyPrivate()
     : QAbstractDataProxyPrivate(QAbstractDataProxy::DataType::Scatter)
 {}
 
-QScatterDataProxyPrivate::~QScatterDataProxyPrivate()
-{
-    m_dataArray.clear();
-}
+QScatterDataProxyPrivate::~QScatterDataProxyPrivate() {}
 
 void QScatterDataProxyPrivate::resetArray(QScatterDataArray &&newArray)
 {
-    if (newArray.data() != m_dataArray.data()) {
-        m_dataArray = newArray;
-    }
+    auto *scatterSeries = static_cast<QScatter3DSeries *>(series());
+    if (newArray.data() != scatterSeries->dataArray().data())
+        scatterSeries->setDataArray(newArray);
 }
 
 void QScatterDataProxyPrivate::setItem(int index, QScatterDataItem &&item)
 {
-    Q_ASSERT(index >= 0 && index < m_dataArray.size());
-    m_dataArray[index] = item;
+    auto *scatterSeries = static_cast<QScatter3DSeries *>(series());
+    Q_ASSERT(index >= 0 && index < scatterSeries->dataArray().size());
+    QScatterDataArray array = scatterSeries->dataArray();
+    array[index] = item;
+    scatterSeries->setDataArray(array);
 }
 
 void QScatterDataProxyPrivate::setItems(int index, QScatterDataArray &&items)
 {
-    Q_ASSERT(index >= 0 && (index + items.size()) <= m_dataArray.size());
+    auto *scatterSeries = static_cast<QScatter3DSeries *>(series());
+    Q_ASSERT(index >= 0 && (index + items.size()) <= scatterSeries->dataArray().size());
+    QScatterDataArray array = scatterSeries->dataArray();
     for (int i = 0; i < items.size(); i++)
-        m_dataArray[index++] = items[i];
+        array[index++] = items[i];
+    scatterSeries->setDataArray(array);
 }
 
 int QScatterDataProxyPrivate::addItem(QScatterDataItem &&item)
 {
-    int currentSize = m_dataArray.size();
-    m_dataArray.append(item);
+    auto *scatterSeries = static_cast<QScatter3DSeries *>(series());
+    int currentSize = scatterSeries->dataArray().size();
+    QScatterDataArray array = scatterSeries->dataArray();
+    array.append(item);
+    scatterSeries->setDataArray(array);
     return currentSize;
 }
 
 int QScatterDataProxyPrivate::addItems(QScatterDataArray &&items)
 {
-    int currentSize = m_dataArray.size();
-    m_dataArray += items;
+    auto *scatterSeries = static_cast<QScatter3DSeries *>(series());
+    int currentSize = 0;
+    if (scatterSeries) {
+        currentSize = scatterSeries->dataArray().size();
+        QScatterDataArray array = scatterSeries->dataArray();
+        array += items;
+        scatterSeries->setDataArray(array);
+    }
     return currentSize;
 }
 
 void QScatterDataProxyPrivate::insertItem(int index, QScatterDataItem &&item)
 {
-    Q_ASSERT(index >= 0 && index <= m_dataArray.size());
-    m_dataArray.insert(index, item);
+    auto *scatterSeries = static_cast<QScatter3DSeries *>(series());
+    Q_ASSERT(index >= 0 && index <= scatterSeries->dataArray().size());
+    QScatterDataArray array = scatterSeries->dataArray();
+    array.insert(index, item);
+    scatterSeries->setDataArray(array);
 }
 
 void QScatterDataProxyPrivate::insertItems(int index, QScatterDataArray &&items)
 {
-    Q_ASSERT(index >= 0 && index <= m_dataArray.size());
+    auto *scatterSeries = static_cast<QScatter3DSeries *>(series());
+    Q_ASSERT(index >= 0 && index <= scatterSeries->dataArray().size());
+    QScatterDataArray array = scatterSeries->dataArray();
     for (int i = 0; i < items.size(); i++)
-        m_dataArray.insert(index++, items.at(i));
+        array.insert(index++, items.at(i));
+    scatterSeries->setDataArray(array);
 }
 
 void QScatterDataProxyPrivate::removeItems(int index, int removeCount)
 {
+    auto *scatterSeries = static_cast<QScatter3DSeries *>(series());
     Q_ASSERT(index >= 0);
-    int maxRemoveCount = m_dataArray.size() - index;
+    int maxRemoveCount = scatterSeries->dataArray().size() - index;
     removeCount = qMin(removeCount, maxRemoveCount);
-    m_dataArray.remove(index, removeCount);
+    QScatterDataArray array = scatterSeries->dataArray();
+    array.remove(index, removeCount);
+    scatterSeries->setDataArray(array);
 }
 
 void QScatterDataProxyPrivate::limitValues(QVector3D &minValues,
@@ -349,10 +366,11 @@ void QScatterDataProxyPrivate::limitValues(QVector3D &minValues,
                                            QAbstract3DAxis *axisY,
                                            QAbstract3DAxis *axisZ) const
 {
-    if (m_dataArray.isEmpty())
+    auto *scatterSeries = static_cast<QScatter3DSeries *>(series());
+    if (scatterSeries->dataArray().isEmpty())
         return;
 
-    const QVector3D &firstPos = m_dataArray.at(0).position();
+    const QVector3D &firstPos = scatterSeries->dataArray().at(0).position();
 
     float minX = firstPos.x();
     float maxX = minX;
@@ -361,9 +379,9 @@ void QScatterDataProxyPrivate::limitValues(QVector3D &minValues,
     float minZ = firstPos.z();
     float maxZ = minZ;
 
-    if (m_dataArray.size() > 1) {
-        for (int i = 1; i < m_dataArray.size(); i++) {
-            const QVector3D &pos = m_dataArray.at(i).position();
+    if (scatterSeries->dataArray().size() > 1) {
+        for (int i = 1; i < scatterSeries->dataArray().size(); i++) {
+            const QVector3D &pos = scatterSeries->dataArray().at(i).position();
 
             float value = pos.x();
             if (qIsNaN(value) || qIsInf(value))

@@ -656,7 +656,8 @@ void ScatterDataModifier::addOne()
 
     QScatterDataItem item(randVector());
     int addIndex = m_targetSeries->dataProxy()->addItem(item);
-    qDebug() << m_loopCounter << "added one to index:" << addIndex << "array size:" << m_targetSeries->dataProxy()->array().size();
+    qDebug() << m_loopCounter << "added one to index:" << addIndex
+             << "array size:" << m_targetSeries->dataArray().size();
 }
 
 void ScatterDataModifier::addBunch()
@@ -668,7 +669,8 @@ void ScatterDataModifier::addBunch()
     for (int i = 0; i < items.size(); i++)
         items[i].setPosition(randVector());
     int addIndex = m_targetSeries->dataProxy()->addItems(items);
-    qDebug() << m_loopCounter << "added bunch to index:" << addIndex << "array size:" << m_targetSeries->dataProxy()->array().size();
+    qDebug() << m_loopCounter << "added bunch to index:" << addIndex
+             << "array size:" << m_targetSeries->dataArray().size();
 }
 
 void ScatterDataModifier::insertOne()
@@ -678,7 +680,7 @@ void ScatterDataModifier::insertOne()
 
     QScatterDataItem item(randVector());
     m_targetSeries->dataProxy()->insertItem(0, item);
-    qDebug() << m_loopCounter << "Inserted one, array size:" << m_targetSeries->dataProxy()->array().size();
+    qDebug() << m_loopCounter << "Inserted one, array size:" << m_targetSeries->dataArray().size();
 }
 
 void ScatterDataModifier::insertBunch()
@@ -690,7 +692,8 @@ void ScatterDataModifier::insertBunch()
     for (int i = 0; i < items.size(); i++)
         items[i].setPosition(randVector());
     m_targetSeries->dataProxy()->insertItems(0, items);
-    qDebug() << m_loopCounter << "Inserted bunch, array size:" << m_targetSeries->dataProxy()->array().size();
+    qDebug() << m_loopCounter
+             << "Inserted bunch, array size:" << m_targetSeries->dataArray().size();
 }
 
 void ScatterDataModifier::changeOne()
@@ -701,7 +704,8 @@ void ScatterDataModifier::changeOne()
     if (m_selectedItem >= 0 && m_selectedItem < m_targetSeries->dataProxy()->itemCount()) {
         QScatterDataItem item(randVector());
         m_targetSeries->dataProxy()->setItem(m_selectedItem, item);
-        qDebug() << m_loopCounter << "Changed one, array size:" << m_targetSeries->dataProxy()->array().size();
+        qDebug() << m_loopCounter
+                 << "Changed one, array size:" << m_targetSeries->dataArray().size();
     }
 }
 
@@ -710,8 +714,8 @@ void ScatterDataModifier::changeBunch()
     if (!m_targetSeries)
         createAndAddSeries();
 
-    if (m_targetSeries->dataProxy()->array().size()) {
-        int amount = qMin(m_targetSeries->dataProxy()->array().size(), 100);
+    if (m_targetSeries->dataArray().size()) {
+        int amount = qMin(m_targetSeries->dataArray().size(), 100);
         QScatterDataArray items(amount);
         for (int i = 0; i < items.size(); i++) {
             items[i].setPosition(randVector());
@@ -732,7 +736,8 @@ void ScatterDataModifier::changeBunch()
         }
 
         m_targetSeries->dataProxy()->setItems(0, items);
-        qDebug() << m_loopCounter << "Changed bunch, array size:" << m_targetSeries->dataProxy()->array().size();
+        qDebug() << m_loopCounter
+                 << "Changed bunch, array size:" << m_targetSeries->dataArray().size();
     }
 }
 
@@ -743,7 +748,8 @@ void ScatterDataModifier::removeOne()
 
     if (m_selectedItem >= 0) {
         m_targetSeries->dataProxy()->removeItems(m_selectedItem, 1);
-        qDebug() << m_loopCounter << "Removed one, array size:" << m_targetSeries->dataProxy()->array().size();
+        qDebug() << m_loopCounter
+                 << "Removed one, array size:" << m_targetSeries->dataArray().size();
     }
 }
 
@@ -753,7 +759,7 @@ void ScatterDataModifier::removeBunch()
         createAndAddSeries();
 
     m_targetSeries->dataProxy()->removeItems(0, 100);
-    qDebug() << m_loopCounter << "Removed bunch, array size:" << m_targetSeries->dataProxy()->array().size();
+    qDebug() << m_loopCounter << "Removed bunch, array size:" << m_targetSeries->dataArray().size();
 }
 
 void ScatterDataModifier::timeout()

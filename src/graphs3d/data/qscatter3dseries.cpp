@@ -109,6 +109,18 @@ QT_BEGIN_NAMESPACE
  */
 
 /*!
+ * \qmlproperty ScatterDataArray Scatter3DSeries::dataArray
+ *
+ * Holds the reference to the data array.
+ *
+ * dataArrayChanged signal is emitted when data array is set, unless \a newDataArray
+ * is identical to the previous one.
+ *
+ * \note Before doing anything regarding the data array, a series must be created for
+ * the relevant proxy.
+ */
+
+/*!
  * Constructs a scatter 3D series with the parent \a parent.
  */
 QScatter3DSeries::QScatter3DSeries(QObject *parent)
@@ -146,9 +158,7 @@ QScatter3DSeries::~QScatter3DSeries() {}
  * \property QScatter3DSeries::dataProxy
  *
  * \brief The active data proxy.
- */
-
-/*!
+ *
  * Sets the active data proxy for the series to \a proxy. The series assumes
  * ownership of any proxy set to it and deletes any previously set proxy when
  * a new one is added. The \a proxy argument cannot be null or set to another
@@ -170,9 +180,7 @@ QScatterDataProxy *QScatter3DSeries::dataProxy() const
  * \property QScatter3DSeries::selectedItem
  *
  * \brief The item that is selected in the series.
- */
-
-/*!
+ *
  * Selects the item at the index \a index in the data array of the series.
  * Only one item can be selected at a time.
  *
@@ -232,6 +240,45 @@ float QScatter3DSeries::itemSize() const
 }
 
 /*!
+ * \property QScatter3DSeries::dataArray
+ *
+ * \brief Data array for the series.
+ *
+ * Holds the reference to the data array.
+ *
+ * dataArrayChanged signal is emitted when data array is set, unless \a newDataArray
+ * is identical to the previous one.
+ *
+ * \note Before doing anything regarding the data array, a series must be created for
+ * the relevant proxy.
+ *
+ * \sa clearArray()
+ */
+void QScatter3DSeries::setDataArray(const QScatterDataArray &newDataArray)
+{
+    Q_D(QScatter3DSeries);
+    if (d->m_dataArray.data() != newDataArray.data()) {
+        d->setDataArray(newDataArray);
+        emit dataArrayChanged(&newDataArray);
+    }
+}
+
+/*!
+ * Clears the data array.
+ */
+void QScatter3DSeries::clearArray()
+{
+    Q_D(QScatter3DSeries);
+    d->clearArray();
+}
+
+const QScatterDataArray &QScatter3DSeries::dataArray() const
+{
+    const Q_D(QScatter3DSeries);
+    return d->m_dataArray;
+}
+
+/*!
  * Returns an invalid index for selection. This index is set to the selectedItem
  * property to clear the selection from this series.
  *
@@ -253,7 +300,10 @@ QScatter3DSeriesPrivate::QScatter3DSeriesPrivate()
     m_mesh = QAbstract3DSeries::Mesh::Sphere;
 }
 
-QScatter3DSeriesPrivate::~QScatter3DSeriesPrivate() {}
+QScatter3DSeriesPrivate::~QScatter3DSeriesPrivate()
+{
+    clearArray();
+}
 
 void QScatter3DSeriesPrivate::setDataProxy(QAbstractDataProxy *proxy)
 {
@@ -365,6 +415,16 @@ void QScatter3DSeriesPrivate::setItemSize(float size)
     m_itemSize = size;
     if (m_graph)
         m_graph->markSeriesVisualsDirty();
+}
+
+void QScatter3DSeriesPrivate::setDataArray(const QScatterDataArray &newDataArray)
+{
+    m_dataArray = newDataArray;
+}
+
+void QScatter3DSeriesPrivate::clearArray()
+{
+    m_dataArray.clear();
 }
 
 QT_END_NAMESPACE

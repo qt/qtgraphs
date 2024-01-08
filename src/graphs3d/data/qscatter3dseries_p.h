@@ -34,9 +34,13 @@ public:
     void setSelectedItem(int index);
     void setItemSize(float size);
 
+    void setDataArray(const QScatterDataArray &newDataArray);
+    void clearArray();
+
 private:
     int m_selectedItem;
     float m_itemSize;
+    QScatterDataArray m_dataArray;
 
     friend class QQuickGraphsScatter;
 };

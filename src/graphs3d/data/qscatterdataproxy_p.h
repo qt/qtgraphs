@@ -46,9 +46,6 @@ public:
     bool isValidValue(float axisValue, float value, QAbstract3DAxis *axis) const;
 
     void setSeries(QAbstract3DSeries *series) override;
-
-private:
-    QScatterDataArray m_dataArray;
 };
 
 QT_END_NAMESPACE

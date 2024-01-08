@@ -83,6 +83,7 @@ Item {
 
     Scatter3DSeries {
         id: change
+        dataProxy: proxy1
     }
 
     Scatter3DSeries {
@@ -154,7 +155,6 @@ Item {
         name: "Scatter3DSeries Change"
 
         function test_1_change() {
-            change.dataProxy = proxy1
             change.itemSize = 0.5
             change.selectedItem = 0
         }

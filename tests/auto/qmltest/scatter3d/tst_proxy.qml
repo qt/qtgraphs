@@ -10,30 +10,36 @@ Item {
     height: 150
     width: 150
 
-    ItemModelScatterDataProxy {
-        id: initial
+   Scatter3DSeries {
+       dataProxy: ItemModelScatterDataProxy {
+           id: initial
+       }
+   }
+
+    Scatter3DSeries {
+        dataProxy: ItemModelScatterDataProxy {
+            id: initialized
+
+            itemModel: ListModel { objectName: "model1" }
+            rotationRole: "rot"
+            rotationRolePattern: /-/
+            rotationRoleReplace: "\\1"
+            xPosRole: "x"
+            xPosRolePattern: /^.*-(\d\d)$/
+            xPosRoleReplace: "\\1"
+            yPosRole: "y"
+            yPosRolePattern: /^(\d\d\d\d).*$/
+            yPosRoleReplace: "\\1"
+            zPosRole: "z"
+            zPosRolePattern: /-/
+            zPosRoleReplace: "\\1"
+        }
     }
 
-    ItemModelScatterDataProxy {
-        id: initialized
-
-        itemModel: ListModel { objectName: "model1" }
-        rotationRole: "rot"
-        rotationRolePattern: /-/
-        rotationRoleReplace: "\\1"
-        xPosRole: "x"
-        xPosRolePattern: /^.*-(\d\d)$/
-        xPosRoleReplace: "\\1"
-        yPosRole: "y"
-        yPosRolePattern: /^(\d\d\d\d).*$/
-        yPosRoleReplace: "\\1"
-        zPosRole: "z"
-        zPosRolePattern: /-/
-        zPosRoleReplace: "\\1"
-    }
-
-    ItemModelScatterDataProxy {
-        id: change
+    Scatter3DSeries {
+        dataProxy: ItemModelScatterDataProxy {
+            id: change
+        }
     }
 
     TestCase {
@@ -55,7 +61,7 @@ Item {
             compare(initial.zPosRoleReplace, "")
 
             compare(initial.itemCount, 0)
-            verify(!initial.series)
+            verify(initial.series)
 
             compare(initial.type, AbstractDataProxy.DataType.Scatter)
         }
