@@ -23,6 +23,6 @@ macro(assertTargets)
     endforeach()
 endmacro()
 
-assertTargets(Gui Widgets Quick QuickTest QuickWidgets Test Quick3D)
+assertTargets(Gui Widgets Quick QuickTest QuickWidgets Test)
 
 qt_build_repo()

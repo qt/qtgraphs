@@ -2,14 +2,14 @@
 # SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only WITH Qt-GPL-exception-1.0
 
 set(qml_files
-    "qml/designer/Bars3DSpecifics.qml"
-    "qml/designer/Scatter3DSpecifics.qml"
-    "qml/designer/Surface3DSpecifics.qml"
-    "qml/designer/GraphsCameraSection.qml"
-    "qml/designer/GraphsSection.qml"
-    "qml/designer/default/Bars3D.qml"
-    "qml/designer/default/Scatter3D.qml"
-    "qml/designer/default/Surface3D.qml"
+    qml/designer/Bars3DSpecifics.qml
+    qml/designer/Scatter3DSpecifics.qml
+    qml/designer/Surface3DSpecifics.qml
+    qml/designer/GraphsCameraSection.qml
+    qml/designer/GraphsSection.qml
+    qml/designer/default/Bars3D.qml
+    qml/designer/default/Scatter3D.qml
+    qml/designer/default/Surface3D.qml
 )
 
 set_source_files_properties(${qml_files} PROPERTIES
@@ -25,8 +25,8 @@ qt_internal_add_qml_module(Graphs
     DEPENDENCIES
         QtQuick
         QtQuick3D
-        QML_FILES
-            ${qml_files}
+    QML_FILES
+        ${qml_files}
     SOURCES
         axis/qabstract3daxis.cpp axis/qabstract3daxis.h axis/qabstract3daxis_p.h
         axis/qcategory3daxis.cpp axis/qcategory3daxis.h axis/qcategory3daxis_p.h
@@ -124,6 +124,7 @@ qt_internal_add_qml_module(Graphs
         Qt::Quick3DRuntimeRenderPrivate
     GENERATE_CPP_EXPORTS
 )
+
 set_source_files_properties("qml/resources/DatapointSphere.qml"
     PROPERTIES QT_RESOURCE_ALIAS "DatapointSphere"
 )
@@ -513,6 +514,7 @@ qt_internal_extend_target(Graphs CONDITION MACOS
     PRIVATE_MODULE_INTERFACE
         Qt::GuiPrivate
 )
+
 qt_internal_add_docs(Graphs
     doc/qtgraphs.qdocconf
 )
