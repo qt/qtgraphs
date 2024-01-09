@@ -12,18 +12,6 @@ Rectangle {
     height: 600
     color: "#404040"
 
-    ColorDialog {
-        id: colorDialog1
-        selectedColor: lineSeries1.color
-        onAccepted: lineSeries1.color = selectedColor
-    }
-
-    ColorDialog {
-        id: colorDialog2
-        selectedColor: lineSeries2.color
-        onAccepted: lineSeries2.color = selectedColor
-    }
-
     Row {
         id: toolbar
         anchors.top: parent.top
@@ -116,15 +104,12 @@ Rectangle {
 
     GraphsView {
         id: chartView
-        //title: "Line Chart"
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.bottom: parent.bottom
         anchors.top: toolbar.bottom
         anchors.margins: 10
         backgroundColor: "#202020"
-        //legend.alignment: Qt.AlignBottom
-        //antialiasing: true
 
         SeriesTheme {
             id: seriesTheme
