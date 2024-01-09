@@ -60,6 +60,10 @@ void QGraphsView::insertSeries(int index, QObject *object)
             QObject::connect(series, &QAbstractSeries::hoverEnter, this, &QGraphsView::handleHoverEnter);
             QObject::connect(series, &QAbstractSeries::hoverExit, this, &QGraphsView::handleHoverExit);
             QObject::connect(series, &QAbstractSeries::hover, this, &QGraphsView::handleHover);
+            QObject::connect(series, &QAbstractSeries::themeChanged, [this, series] {
+                if (series->theme())
+                    QObject::connect(series->theme(), &SeriesTheme::update, this, &QQuickItem::update);
+            });
         }
     }
 }
