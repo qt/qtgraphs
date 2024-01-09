@@ -22,7 +22,7 @@ QT_BEGIN_NAMESPACE
     \qmltype AbstractSeries
     \instantiates QAbstractSeries
     \inqmlmodule QtGraphs
-
+    \ingroup graphs_qml
     \brief Base type for all Qt Chart series types.
 
     This type cannot be instantiated directly. Instead, one of the following derived types
@@ -88,6 +88,7 @@ QT_BEGIN_NAMESPACE
 */
 
 /*!
+  \internal TODO: Causes build errors, find out why
     \fn void QAbstractSeries::nameChanged()
     This signal is emitted when the series name changes.
 */
@@ -104,6 +105,7 @@ QT_BEGIN_NAMESPACE
 */
 
 /*!
+  \internal TODO: Causes build errors, find out why
     \fn void QAbstractSeries::visibleChanged()
     This signal is emitted when the series visibility changes.
 */
@@ -121,11 +123,13 @@ QT_BEGIN_NAMESPACE
 */
 
 /*!
+  \internal TODO: Causes build errors, find out why
     \fn void QAbstractSeries::opacityChanged()
     This signal is emitted when the opacity of the series changes.
 */
 
 /*!
+    \internal TODO: Causes build errors, find out why
     \property QAbstractSeries::useOpenGL
     \brief Specifies whether or not drawing the series is accelerated by using OpenGL.
 
@@ -215,6 +219,7 @@ QT_BEGIN_NAMESPACE
 */
 
 /*!
+  \internal TODO: Causes build errors, find out why
     \fn void QAbstractSeries::useOpenGLChanged()
     This signal is emitted when accelerating the drawing of the series by using OpenGL
     is enabled or disabled.

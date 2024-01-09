@@ -21,7 +21,7 @@ QT_BEGIN_NAMESPACE
 /*!
  * \qmltype AbstractAxis3D
  * \inqmlmodule QtGraphs3D
- * \ingroup graphs_qml
+ * \ingroup graphs_qml_3D
  * \instantiates QAbstract3DAxis
  * \brief A base type for the axes of a 3D graph.
  *

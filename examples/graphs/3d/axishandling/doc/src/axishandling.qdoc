@@ -6,7 +6,7 @@
     \meta tags {Graphs, Scatter3D, Custom Input Handler, Dynamic Data, Custom Axis Formatter, Scatter Graph}
     \examplecategory {Data Visualization & 3D}
     \title Axis Handling
-    \ingroup qtgraphs_qmlexamples
+    \ingroup qtgraphs_qmlexamples_3D
     \brief Implementing axis dragging with a custom input handler in QML, and creating a custom axis formatter.
 
     \e {Axis Handling} demonstrates two different custom features with axes. The features have their

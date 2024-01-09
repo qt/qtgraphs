@@ -16,9 +16,11 @@ QT_BEGIN_NAMESPACE
     This class draws data as a series of vertical bars grouped by category, with one bar per
     category from each bar set added to the series.
 
+    \omit
     See the \l {Creating Bar Charts} {bar chart example} to learn how to create
     a grouped bar chart.
     \image examples_barchart.png
+    \endomit
 
     \sa QBarSet, QPercentBarSeries, QAbstractBarSeries, QStackedBarSeries
 */
@@ -26,7 +28,7 @@ QT_BEGIN_NAMESPACE
     \qmltype BarSeries
     \instantiates QBarSeries
     \inqmlmodule QtGraphs
-
+    \ingroup graphs_qml
     \inherits AbstractBarSeries
 
     \brief Presents a series of data as vertical bars grouped by category.
@@ -34,10 +36,12 @@ QT_BEGIN_NAMESPACE
     The data is drawn as a series of vertical bars grouped by category, with one bar per
     category from each bar set added to the series.
 
+    \omit TODO: Causes build errors - missing snippet and image
     The following QML code snippet shows how to create a simple grouped bar
     chart:
     \snippet qmlchartsgallery/qml/BarSeries.qml 1
     \image examples_qmlchart6.png
+    \endomit
 */
 
 /*!

@@ -5,7 +5,7 @@
   \qmltype Scatter3D
   \inherits AbstractGraph3D
   \inqmlmodule QtGraphs3D
-  \ingroup graphs_qml
+  \ingroup graphs_qml_3D
   \brief 3D scatter graph.
 
   This type enables developers to render scatter graphs in 3D with Qt Quick.

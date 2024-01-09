@@ -17,7 +17,11 @@
 
     \section1 Using the Module
 
-    \section2 QML API
+    \section2 QtGraphs 2D QML API
+
+    \include {module-use.qdocinc} {using the qml api} {QtGraphs}
+
+    \section2 QtGraphs 3D QML API
 
     \include {module-use.qdocinc} {using the qml api} {QtGraphs3D}
 
@@ -35,22 +39,25 @@
 
     \section1 Articles and Guides
     \list
-        \li \l{Qt Graphs Overview}{Overview}
+        \li \l{Qt Graphs 2D Overview}{2D Overview}
+        \li \l{Qt Graphs 3D Overview}{3D Overview}
         \li \l{Qt Graphs Data Handling}{Data Handling}
         \li \l{Qt Graphs Interacting with Data}{Interacting with Data}
-        \li \l{Qt Graphs Migration from Qt DataVisualization}{Migration Guide from Qt DataVisualization}
+        \li \l{Qt Graphs 3D Migration from Qt DataVisualization}{Migration Guide from Qt DataVisualization}
         \li \l{Qt Graphs Known Issues}{Known Issues}
     \endlist
 
     \section1 Examples
     \list
-        \li \l{Qt Graphs Examples}
+        \li \l{Qt Graphs 2D Examples}
+        \li \l{Qt Graphs 3D Examples}
     \endlist
 
     \section1 API Reference
     \list
         \li \l{Qt Graphs C++ Classes}
-        \li \l{Qt Graphs QML Types}
+        \li \l{Qt Graphs 2D QML Types}
+        \li \l{Qt Graphs 3D QML Types}
     \endlist
 
     \section1 Licenses and Attributions

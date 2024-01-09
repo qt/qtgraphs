@@ -2,9 +2,9 @@
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GFDL-1.3-no-invariants-only
 
 /*!
-    \title Qt Graphs Overview
-    \page qtgraphs-overview.html
-    \brief An overview of the Qt Graphs module.
+    \title Qt Graphs 3D Overview
+    \page qtgraphs-overview-3D.html
+    \brief An overview of the 3D graphs in the Qt Graphs module.
 
     The Qt Graphs module provides a way to develop rapidly
     responding, complex, and dynamic 3D graphs for analytical demanding

@@ -6,7 +6,7 @@
     \meta tags {Graphs, QCustom3DVolume, Custom Item}
     \examplecategory {Data Visualization & 3D}
     \title Volumetric Rendering
-    \ingroup qtgraphs_examples
+    \ingroup qtgraphs_examples_3D
     \brief Rendering volumetric objects.
 
     \e {Volumetric Rendering} shows how to use QCustom3DVolume to display volumetric data.

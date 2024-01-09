@@ -22,6 +22,7 @@ QT_BEGIN_NAMESPACE
     \qmltype AbstractAxis
     \instantiates QAbstractAxis
     \inqmlmodule QtGraphs
+    \ingroup graphs_qml
 
     \brief A base type used for specialized axis types.
 
@@ -46,6 +47,7 @@ QT_BEGIN_NAMESPACE
 */
 
 /*!
+  \internal TODO: Causes build errors, find out why
   \fn void QAbstractAxis::type() const
   Returns the type of the axis.
 */
@@ -104,6 +106,7 @@ QT_BEGIN_NAMESPACE
 */
 
 /*!
+  \internal TODO: Causes build errors, find out why
   \property QAbstractAxis::color
   \brief The color of the axis and tick marks.
 */
@@ -148,10 +151,6 @@ QT_BEGIN_NAMESPACE
   For more information, see \l [QML]{font}.
 */
 
-/*!
-  \property QAbstractAxis::labelsColor
-  \brief The color of the axis labels.
-*/
 /*!
   \qmlproperty color AbstractAxis::labelsColor
   The color of the axis labels.
@@ -276,41 +275,49 @@ QT_BEGIN_NAMESPACE
 */
 
 /*!
+  \internal TODO: Causes build errors, find out why
   \fn void QAbstractAxis::visibleChanged(bool visible)
   This signal is emitted when the visibility of the axis changes to \a visible.
 */
 
 /*!
+  \internal TODO: Causes build errors, find out why
   \fn void QAbstractAxis::lineVisibleChanged(bool visible)
   This signal is emitted when the visibility of the axis line changes to \a visible.
 */
 
 /*!
+  \internal TODO: Causes build errors, find out why
   \fn void QAbstractAxis::labelsVisibleChanged(bool visible)
   This signal is emitted when the visibility of the labels of the axis changes to \a visible.
 */
 
 /*!
+  \internal TODO: Causes build errors, find out why
   \fn void QAbstractAxis::labelsFontChanged(const QFont& font)
   This signal is emitted when the font of the axis labels changes to \a font.
 */
 
 /*!
+  \internal TODO: Causes build errors, find out why
   \fn void QAbstractAxis::labelsColorChanged(const QColor& color)
   This signal is emitted when the color used to draw the axis labels changes to \a color.
 */
 
 /*!
+  \internal TODO: Causes build errors, find out why
   \fn void QAbstractAxis::labelsAngleChanged(int angle)
   This signal is emitted when the angle of the axis labels changes to \a angle.
 */
 
 /*!
+  \internal TODO: Causes build errors, find out why
   \fn void QAbstractAxis::labelsEditableChanged(bool editable)
   This signal is emitted when the \a editable state of the label changes.
 */
 
 /*!
+  \internal TODO: Causes build errors, find out why
   \fn void QAbstractAxis::labelsTruncatedChanged(bool labelsTruncated)
   This signal is emitted in two cases; when the axis changes from having one or more truncated
   labels to having no truncated labels, and when the axis changes from having no truncated
@@ -318,58 +325,69 @@ QT_BEGIN_NAMESPACE
 */
 
 /*!
+  \internal TODO: Causes build errors, find out why
   \fn void QAbstractAxis::truncateLabelsChanged(bool truncateLabels)
   This signal is emitted when the truncation of the labels changes to \a truncateLabels.
 */
 
 /*!
+  \internal TODO: Causes build errors, find out why
   \fn void QAbstractAxis::gridVisibleChanged(bool visible)
   This signal is emitted when the visibility of the grid lines of the axis changes to \a visible.
 */
 
 /*!
+  \internal TODO: Causes build errors, find out why
   \fn void QAbstractAxis::minorGridVisibleChanged(bool visible)
   This signal is emitted when the visibility of the minor grid lines of the axis
   changes to \a visible.
 */
 
 /*!
+  \internal TODO: Causes build errors, find out why
   \fn void QAbstractAxis::gridLineColorChanged(const QColor &color)
   This signal is emitted when the color of the grid line changes to \a color.
 */
 
 /*!
+  \internal TODO: Causes build errors, find out why
   \fn void QAbstractAxis::minorGridLineColorChanged(const QColor &color)
   This signal is emitted when the color of the minor grid line changes
   to \a color.
 */
 
 /*!
+  \internal TODO: Causes build errors, find out why
   \fn void QAbstractAxis::colorChanged(QColor color)
   This signal is emitted when the color of the axis changes to \a color.
 */
 
 /*!
+  \internal TODO: Causes build errors, find out why
   \fn void QAbstractAxis::labelsColorChanged(QColor color)
   This signal is emitted when the color of the axis labels changes to \a color.
 */
 
 /*!
+  \internal TODO: Causes build errors, find out why
   \fn void QAbstractAxis::titleVisibleChanged(bool visible)
   This signal is emitted when the visibility of the title text of the axis changes to \a visible.
 */
 
 /*!
+  \internal TODO: Causes build errors, find out why
   \fn void QAbstractAxis::titleTextChanged(const QString& text)
   This signal is emitted when the text of the axis title changes to \a text.
 */
 
 /*!
+  \internal TODO: Causes build errors, find out why
   \fn void QAbstractAxis::titleColorChanged(const QColor& color)
   This signal is emitted when the color used to draw the axis title changes to \a color.
 */
 
 /*!
+  \internal TODO: Causes build errors, find out why
   \fn void QAbstractAxis::titleFontChanged(const QFont& font)
   This signal is emitted when the font of the axis title changes to \a font.
 */

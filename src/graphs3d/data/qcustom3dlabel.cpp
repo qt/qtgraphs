@@ -25,7 +25,7 @@ QT_BEGIN_NAMESPACE
 /*!
  * \qmltype Custom3DLabel
  * \inqmlmodule QtGraphs3D
- * \ingroup graphs_qml
+ * \ingroup graphs_qml_3D
  * \instantiates QCustom3DLabel
  * \inherits Custom3DItem
  * \brief Adds a custom label to a graph.

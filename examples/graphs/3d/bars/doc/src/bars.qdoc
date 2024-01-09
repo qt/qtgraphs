@@ -3,10 +3,10 @@
 
 /*!
     \example 3d/bars
-    \meta tags {Graphs, Barsr3D, Multiple Series}
+    \meta tags {Graphs, Bars3D, Multiple Series}
     \examplecategory {Data Visualization & 3D}
     \title Simple Bar Graph
-    \ingroup qtgraphs_qmlexamples
+    \ingroup qtgraphs_qmlexamples_3D
     \brief Using Bars3D in a QML application.
 
     \e {Simple Bar Graph} shows how to make a simple 3D bar graph using Bars3D and QML.

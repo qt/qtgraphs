@@ -20,7 +20,7 @@ QT_BEGIN_NAMESPACE
     \qmltype ValueAxis
     \instantiates QValueAxis
     \inqmlmodule QtGraphs
-
+    \ingroup graphs_qml
     \inherits AbstractAxis
     \brief Adds values to a chart's axes.
 
@@ -161,28 +161,33 @@ QT_BEGIN_NAMESPACE
 */
 
 /*!
+  \internal TODO: Causes build errors, find out why
   \fn void QValueAxis::minChanged(qreal min)
   This signal is emitted when the minimum value of the axis, specified by \a min, changes.
 */
 
 /*!
+  \internal TODO: Causes build errors, find out why
   \fn void QValueAxis::maxChanged(qreal max)
   This signal is emitted when the maximum value of the axis, specified by \a max, changes.
 */
 
 /*!
+  \internal TODO: Causes build errors, find out why
   \fn void QValueAxis::tickCountChanged(int tickCount)
   This signal is emitted when the number of tick marks on the axis, specified by \a tickCount,
   changes.
 */
 
 /*!
+  \internal TODO: Causes build errors, find out why
   \fn void QValueAxis::minorTickCountChanged(int minorTickCount)
   This signal is emitted when the number of minor tick marks on the axis, specified by
   \a minorTickCount, changes.
 */
 
 /*!
+  \internal TODO: Causes build errors, find out why
   \fn void QValueAxis::rangeChanged(qreal min, qreal max)
   This signal is emitted when the minimum or maximum value of the axis, specified by \a min
   and \a max, changes.
@@ -196,6 +201,7 @@ QT_BEGIN_NAMESPACE
 */
 
 /*!
+  \internal TODO: Causes build errors, find out why
   \fn void QValueAxis::labelFormatChanged(const QString &format)
   This signal is emitted when the \a format of axis labels changes.
 */

@@ -25,7 +25,7 @@ QT_BEGIN_NAMESPACE
     \qmltype BarSet
     \instantiates QBarSet
     \inqmlmodule QtGraphs
-
+    \ingroup graphs_qml
     \brief Represents one set of bars in a bar chart.
 
     A bar set contains one data value for each category. The first value of a set is assumed to
@@ -49,28 +49,8 @@ QT_BEGIN_NAMESPACE
 */
 
 /*!
-    \property QBarSet::pen
-    \brief The pen used to draw the lines of bars in the bar set.
-*/
-
-/*!
-    \property QBarSet::brush
-    \brief The brush used to fill the bars in the bar set.
-*/
-
-/*!
     \qmlproperty string BarSet::brushFilename
     The name of the file used as a brush for the set.
-*/
-
-/*!
-    \property QBarSet::labelBrush
-    \brief The brush used to draw the bar set's label.
-*/
-
-/*!
-    \property QBarSet::labelFont
-    \brief The font used to draw the bar set's label.
 */
 
 /*!
@@ -113,6 +93,7 @@ QT_BEGIN_NAMESPACE
 */
 
 /*!
+  \internal TODO: Causes build errors, find out why
     \fn void QBarSet::clicked(int index)
 
     This signal is emitted when the user clicks the bar specified by \a index in a bar set.
@@ -128,6 +109,7 @@ QT_BEGIN_NAMESPACE
 */
 
 /*!
+  \internal TODO: Causes build errors, find out why
     \fn void QBarSet::pressed(int index)
 
     This signal is emitted when the user clicks the bar specified by \a index in a bar set
@@ -144,6 +126,7 @@ QT_BEGIN_NAMESPACE
 */
 
 /*!
+  \internal TODO: Causes build errors, find out why
     \fn void QBarSet::released(int index)
 
     This signal is emitted when the user releases the mouse press on the bar specified by
@@ -160,6 +143,7 @@ QT_BEGIN_NAMESPACE
 */
 
 /*!
+  \internal TODO: Causes build errors, find out why
     \fn void QBarSet::doubleClicked(int index)
 
     This signal is emitted when the user double-clicks the bar specified by \a index in a bar set.
@@ -175,6 +159,7 @@ QT_BEGIN_NAMESPACE
 */
 
 /*!
+  \internal TODO: Causes build errors, find out why
     \fn void QBarSet::hovered(bool status, int index)
 
     This signal is emitted when a mouse is hovered over the bar specified by \a index in a bar set.
@@ -182,53 +167,61 @@ QT_BEGIN_NAMESPACE
     it turns \c false.
 */
 
-
 /*!
+  \internal TODO: Causes build errors, find out why
     \fn void QBarSet::labelChanged()
     This signal is emitted when the label of the bar set changes.
     \sa label
 */
 
 /*!
+  \internal TODO: Causes build errors, find out why
     \fn void QBarSet::penChanged()
     This signal is emitted when the pen used to draw the bar set changes.
     \sa pen
 */
 
 /*!
+  \internal TODO: Causes build errors, find out why
     \fn void QBarSet::brushChanged()
     This signal is emitted when the brush used to draw the bar set changes.
     \sa brush
 */
 
 /*!
+  \internal TODO: Causes build errors, find out why
     \fn void QBarSet::labelBrushChanged()
     This signal is emitted when the brush used to draw the bar set's label changes.
     \sa labelBrush
 */
 
 /*!
+  \internal TODO: Causes build errors, find out why
     \fn void QBarSet::labelFontChanged()
     This signal is emitted when the font of the bar set's label changes.
     \sa labelBrush
 */
 
 /*!
+  \internal TODO: Causes build errors, find out why
     \fn void QBarSet::colorChanged(QColor)
     This signal is emitted when the fill (brush) color of the bar set changes to \a color.
 */
 
 /*!
+  \internal TODO: Causes build errors, find out why
     \fn void QBarSet::borderColorChanged(QColor)
     This signal is emitted when the line (pen) color of the bar set changes to \a color.
 */
 
 /*!
+  \internal TODO: Causes build errors, find out why
     \fn void QBarSet::labelColorChanged(QColor)
     This signal is emitted when the text (label) color of the bar set changes to \a color.
 */
 
 /*!
+  \internal TODO: Causes build errors, find out why
     \fn void QBarSet::valuesAdded(int index, int count)
     This signal is emitted when new values are added to the bar set.
     \a index indicates the position of the first inserted value, and \a count is the number
@@ -245,6 +238,7 @@ QT_BEGIN_NAMESPACE
 */
 
 /*!
+  \internal TODO: Causes build errors, find out why
     \fn void QBarSet::valuesRemoved(int index, int count)
     This signal is emitted when values are removed from the bar set.
     \a index indicates the position of the first removed value, and \a count is the number
@@ -261,6 +255,7 @@ QT_BEGIN_NAMESPACE
 */
 
 /*!
+  \internal TODO: Causes build errors, find out why
     \fn void QBarSet::valueChanged(int index)
     This signal is emitted when the value at the position specified by \a index is modified.
     \sa at()

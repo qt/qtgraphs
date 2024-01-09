@@ -1,0 +1,16 @@
+// Copyright (C) 2024 The Qt Company Ltd.
+// SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GFDL-1.3-no-invariants-only
+
+/*!
+    \title Qt Graphs 2D Overview
+    \page qtgraphs-overview-2D.html
+    \brief An overview of the 2D graphs in the Qt Graphs module.
+
+    \section1 Graph Types
+
+    The Qt Graphs module provides the following 2D graph types:
+
+    \list
+        \li TODO
+    \endlist
+*/

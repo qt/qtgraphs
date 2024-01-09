@@ -1,0 +1,15 @@
+// Copyright (C) 2024 The Qt Company Ltd.
+// SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GFDL-1.3-no-invariants-only
+
+/*!
+    \example 2d/testbed
+    \meta tags {Graphs}
+    \examplecategory {Data Visualization & 3D}
+    \title Testbed
+    \ingroup qtgraphs_qmlexamples
+    \brief TODO Write stuff here.
+
+    TODO
+
+    \image testbed.png
+*/

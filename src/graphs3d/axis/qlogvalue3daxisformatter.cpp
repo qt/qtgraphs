@@ -22,7 +22,7 @@ QT_BEGIN_NAMESPACE
 /*!
  * \qmltype LogValueAxis3DFormatter
  * \inqmlmodule QtGraphs3D
- * \ingroup graphs_qml
+ * \ingroup graphs_qml_3D
  * \instantiates QLogValue3DAxisFormatter
  * \inherits ValueAxis3DFormatter
  * \brief Provides formatting rules for a logarithmic value axis.
