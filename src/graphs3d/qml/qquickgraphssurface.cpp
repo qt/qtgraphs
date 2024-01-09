@@ -1502,6 +1502,8 @@ void QQuickGraphsSurface::updateSliceGraph()
         QRect sampleSpace = model->sampleSpace;
         int rowStart = sampleSpace.top();
         int columnStart = sampleSpace.left();
+        int rowEnd = sampleSpace.bottom() + 1;
+        int columnEnd = sampleSpace.right() + 1;
         int rowCount = sampleSpace.height();
         int columnCount = sampleSpace.width();
 
@@ -1512,12 +1514,15 @@ void QQuickGraphsSurface::updateSliceGraph()
             coord = mapCoordsToSampleSpace(model, worldCoord);
 
         int indexCount = 0;
+        const QSurfaceDataArray &array = model->series->dataProxy()->array();
         if (selectionMode().testFlag(QAbstract3DGraph::SelectionRow) && coord.y() != -1) {
-            int selectedRow = (coord.y() - rowStart) * columnCount;
             selectedSeries.reserve(columnCount * 2);
             QVector<SurfaceVertex> list;
-            for (int i = 0; i < columnCount; i++) {
-                SurfaceVertex vertex = model->vertices.at(selectedRow + i);
+            QSurfaceDataRow row = array.at(coord.y());
+            for (int i = columnStart; i < columnEnd; i++) {
+                QVector3D pos = getNormalizedVertex(row.at(i), false, false);
+                SurfaceVertex vertex;
+                vertex.position = pos;
                 vertex.position.setY(vertex.position.y() - .025f);
                 vertex.position.setZ(.0f);
                 selectedSeries.append(vertex);
@@ -1529,11 +1534,12 @@ void QQuickGraphsSurface::updateSliceGraph()
         }
 
         if (selectionMode().testFlag(QAbstract3DGraph::SelectionColumn) && coord.x() != -1) {
-            int selectedColumn = coord.x() - columnStart;
             selectedSeries.reserve(rowCount * 2);
             QVector<SurfaceVertex> list;
-            for (int i = 0; i < rowCount; i++) {
-                SurfaceVertex vertex = model->vertices.at((i * columnCount) + selectedColumn);
+            for (int i = rowStart; i < rowEnd; i++) {
+                QVector3D pos = getNormalizedVertex(array.at(i).at(coord.x()), false, false);
+                SurfaceVertex vertex;
+                vertex.position = pos;
                 vertex.position.setX(-vertex.position.z());
                 vertex.position.setY(vertex.position.y() - .025f);
                 vertex.position.setZ(0);
@@ -1843,10 +1849,11 @@ void QQuickGraphsSurface::updateSelectedPoint()
         if (selectedCoord.x() == -1 || selectedCoord.y() == -1)
             continue;
 
-        int coordX = selectedCoord.x() - model->sampleSpace.left();
-        int coordY = selectedCoord.y() - model->sampleSpace.top();
-        int index = coordY * model->sampleSpace.width() + coordX;
-        SurfaceVertex selectedVertex = model->vertices.at(index);
+        const QSurfaceDataItem &dataPos
+            = model->series->dataProxy()->array().at(selectedCoord.y()).at(selectedCoord.x());
+        QVector3D pos = getNormalizedVertex(dataPos, false, false);
+        SurfaceVertex selectedVertex;
+        selectedVertex.position = pos;
         if (model->series->isVisible() && !selectedVertex.position.isNull()
             && selectionMode().testFlag(QAbstract3DGraph::SelectionItem)) {
             m_instancing->addPosition(selectedVertex.position);
