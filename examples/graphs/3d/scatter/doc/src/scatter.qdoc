@@ -6,7 +6,7 @@
     \meta tags {Graphs, Scatter3D, Multiple Series}
     \examplecategory {Data Visualization & 3D}
     \title Simple Scatter Graph
-    \ingroup qtgraphs_qmlexamples
+    \ingroup qtgraphs_qmlexamples_3D
     \brief Using Scatter3D in a QML application.
 
     \e {Simple Scatter Graph} shows how to make a simple scatter graph visualization using

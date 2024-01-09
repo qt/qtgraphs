@@ -25,8 +25,10 @@ QT_BEGIN_NAMESPACE
     If a QValueAxis is used instead of QBarCategoryAxis for the main bar axis, the bars are
     grouped around the index value of the category.
 
+    \omit
     See the \l {Charts with Widgets Gallery} to learn how to use the QBarSeries class to create a simple bar chart.
     \image examples_barchart.png
+    \endomit
 
     \sa QBarSet, QBarSeries, QStackedBarSeries, QPercentBarSeries
     \sa QHorizontalBarSeries, QHorizontalStackedBarSeries, QHorizontalPercentBarSeries
@@ -35,7 +37,7 @@ QT_BEGIN_NAMESPACE
     \qmltype AbstractBarSeries
     \instantiates QAbstractBarSeries
     \inqmlmodule QtGraphs
-
+    \ingroup graphs_qml
     \inherits AbstractSeries
 
     \brief An abstract parent type for all bar series types.
@@ -50,6 +52,8 @@ QT_BEGIN_NAMESPACE
     If a ValueAxis type is used instead of a BarCategoryAxis type for the main bar axis, the
     bars are grouped around the index value of the category.
 
+    \omit
+    TODO: Causes build error (missing snippet and image)
     The following QML code snippet shows how to use the BarSeries and BarCategoryAxis type
     to create a simple bar chart:
     \snippet qmlchartsgallery/qml/BarSeries.qml 1
@@ -58,6 +62,7 @@ QT_BEGIN_NAMESPACE
     \image examples_qmlchart6.png
     \endfloat
     \clearfloat
+    \endomit
 */
 
 /*!
@@ -161,6 +166,7 @@ QT_BEGIN_NAMESPACE
     \sa QAbstractBarSeries::labelsFormat, labelsVisible, labelsPosition
 */
 /*!
+  \internal TODO: Causes build errors, find out why
     \fn void QAbstractBarSeries::labelsFormatChanged(const QString &format)
     This signal is emitted when the \a format of data value labels changes.
 */
@@ -199,6 +205,7 @@ QT_BEGIN_NAMESPACE
     \sa labelsVisible, labelsFormat
 */
 /*!
+  \internal TODO: Causes build errors, find out why
     \fn void QAbstractBarSeries::labelsPositionChanged(QAbstractBarSeries::LabelsPosition position)
     This signal is emitted when the \a position of value labels changes.
 */
@@ -212,6 +219,7 @@ QT_BEGIN_NAMESPACE
     The angle of the value labels in degrees.
 */
 /*!
+  \internal TODO: Causes build errors, find out why
     \fn void QAbstractBarSeries::labelsAngleChanged(qreal angle)
     This signal is emitted when the \a angle of the value labels changes.
 */
@@ -229,11 +237,13 @@ QT_BEGIN_NAMESPACE
     Default value is 6.
 */
 /*!
+  \internal TODO: Causes build errors, find out why
     \fn void QAbstractBarSeries::labelsPrecisionChanged(int precision)
     This signal is emitted when the \a precision of the value labels changes.
 */
 
 /*!
+  \internal TODO: Causes build errors, find out why
     \fn void QAbstractBarSeries::clicked(int index, QBarSet *barset)
     This signal is emitted when the user clicks the bar specified by \a index
     in the bar set specified by \a barset.
@@ -247,6 +257,7 @@ QT_BEGIN_NAMESPACE
 */
 
 /*!
+  \internal TODO: Causes build errors, find out why
     \fn void QAbstractBarSeries::pressed(int index, QBarSet *barset)
     This signal is emitted when the user clicks the bar specified by \a index
     in the bar set specified by \a barset and holds down the mouse button.
@@ -260,6 +271,7 @@ QT_BEGIN_NAMESPACE
 */
 
 /*!
+  \internal TODO: Causes build errors, find out why
     \fn void QAbstractBarSeries::released(int index, QBarSet *barset)
     This signal is emitted when the user releases the mouse press on the bar
     specified by \a index in the bar set specified by \a barset.
@@ -273,6 +285,7 @@ QT_BEGIN_NAMESPACE
 */
 
 /*!
+  \internal TODO: Causes build errors, find out why
     \fn void QAbstractBarSeries::doubleClicked(int index, QBarSet *barset)
     This signal is emitted when the user double-clicks the bar specified by \a index
     in the bar set specified by \a barset.
@@ -286,6 +299,7 @@ QT_BEGIN_NAMESPACE
 */
 
 /*!
+  \internal TODO: Causes build errors, find out why
     \fn void QAbstractBarSeries::hovered(bool status, int index, QBarSet* barset)
 
     This signal is emitted when a mouse is hovered over the bar specified by \a index in the
@@ -303,18 +317,21 @@ QT_BEGIN_NAMESPACE
 */
 
 /*!
+  \internal TODO: Causes build errors, find out why
     \fn void QAbstractBarSeries::countChanged()
     This signal is emitted when the number of bar sets is changed, for example by append() or
     remove().
 */
 
 /*!
+  \internal TODO: Causes build errors, find out why
     \fn void QAbstractBarSeries::labelsVisibleChanged()
     This signal is emitted when the labels' visibility changes.
     \sa isLabelsVisible(), setLabelsVisible()
 */
 
 /*!
+  \internal TODO: Causes build errors, find out why
     \fn void QAbstractBarSeries::barsetsAdded(const QList<QBarSet *> &sets)
     This signal is emitted when the bar sets specified by \a sets are added to the series.
     \sa append(), insert()
@@ -327,6 +344,7 @@ QT_BEGIN_NAMESPACE
 */
 
 /*!
+  \internal TODO: Causes build errors, find out why
     \fn void QAbstractBarSeries::barsetsRemoved(const QList<QBarSet *> &sets)
     This signal is emitted when the bar sets specified by \a sets are removed from the series.
     \sa remove()

@@ -50,7 +50,7 @@ QT_BEGIN_NAMESPACE
 /*!
  * \qmltype ItemModelScatterDataProxy
  * \inqmlmodule QtGraphs3D
- * \ingroup graphs_qml
+ * \ingroup graphs_qml_3D
  * \instantiates QItemModelScatterDataProxy
  * \inherits ScatterDataProxy
  * \brief Proxy class for presenting data in item models with Scatter3D.

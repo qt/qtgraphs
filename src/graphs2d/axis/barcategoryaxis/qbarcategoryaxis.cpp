@@ -17,14 +17,13 @@ QT_BEGIN_NAMESPACE
     QBarCategoryAxis can be set up to show an axis line with tick marks, grid lines, and shades.
     Categories are drawn between the ticks. It can be used also with a line series, as demonstrated
     by the \l {Charts with Widgets Gallery}.
-    \endcode
 */
 
 /*!
     \qmltype BarCategoryAxis
     \instantiates QBarCategoryAxis
     \inqmlmodule QtGraphs
-
+    \ingroup graphs_qml
     \inherits AbstractAxis
 
     \brief Adds categories to a chart's axes.
@@ -81,26 +80,31 @@ QT_BEGIN_NAMESPACE
 */
 
 /*!
+  \internal TODO: Causes build errors, find out why
   \fn void QBarCategoryAxis::categoriesChanged()
   This signal is emitted when the categories of the axis change.
 */
 
 /*!
+  \internal TODO: Causes build errors, find out why
   \fn void QBarCategoryAxis::minChanged(const QString &min)
   This signal is emitted when the \a min value of the axis changes.
 */
 
 /*!
+  \internal TODO: Causes build errors, find out why
   \fn void QBarCategoryAxis::maxChanged(const QString &max)
   This signal is emitted when the \a max value of the axis changes.
 */
 
 /*!
+  \internal TODO: Causes build errors, find out why
   \fn void QBarCategoryAxis::countChanged()
   This signal is emitted when the number of categories of an axis changes.
 */
 
 /*!
+  \internal TODO: Causes build errors, find out why
   \fn void QBarCategoryAxis::rangeChanged(const QString &min, const QString &max)
   This signal is emitted when \a min or \a max value of the axis changes.
 */

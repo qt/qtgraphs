@@ -16,25 +16,54 @@
 
 /*!
     \qmlmodule QtGraphs3D \QtMajorVersion.\QtMinorVersion
-    \title Qt Graphs QML Types
+    \title Qt Graphs 3D QML Types
     \ingroup qmlmodules
     \modulestate Technical Preview
 
-    \brief QML types for the Qt Graphs API.
+    \brief QML types for the Qt Graphs 3D API.
 
-    The Qt Graphs functionality can be accessed via these QML types.
+    The Qt Graphs 3D functionality can be accessed via these QML types.
 
     \section1 QML Types
 */
 
 /*!
-    \group graphs_examples
-    \ingroup all-examples
-    \title Qt Graphs Examples
+    \qmlmodule QtGraphs \QtMajorVersion.\QtMinorVersion
+    \title Qt Graphs 2D QML Types
+    \ingroup qmlmodules
+    \modulestate Technical Preview
 
-    \brief Examples for the Qt Graphs.
+    \brief QML types for the Qt Graphs 2D API.
 
-    For some code examples, see one of the Qt Graphs examples:
+    The Qt Graphs 2D functionality can be accessed via these QML types.
+
+    \section1 QML Types
+*/
+
+/*!
+    \group graphs_examples_3D
+    \ingroup all-examples-3D
+    \title Qt Graphs 3D Examples
+
+    \brief Examples for the Qt Graphs 3D.
+
+    For some code examples, see one of the Qt Graphs 3D examples:
+
+    \section1 Examples
+
+    \annotatedlist qtgraphs_qmlexamples_3D
+    The following example shows how to use widgets to visualize data:
+    \annotatedlist qtgraphs_examples_3D
+*/
+
+/*!
+    \group graphs_examples_2D
+    \ingroup all-examples-2D
+    \title Qt Graphs 2D Examples
+
+    \brief Examples for the Qt Graphs 2D.
+
+    For some code examples, see one of the Qt Graphs 2D examples:
 
     \section1 Examples
 
@@ -196,7 +225,12 @@
     \page qtgraphs_known_issues.html
     \title Qt Graphs Known Issues
 
-    \section1 Generic issues
+    \section1 Qt Graphs 2D issues
+
+    \list
+    \endlist
+
+    \section1 Qt Graphs 3D issues
 
     \list
         \li Surfaces with non-straight rows and columns do not always render properly.
@@ -208,28 +242,13 @@
             QML plugin has a dependency to Qt Graphs C++ library, which Qt Creator
             doesn't automatically add to the deployment package.
     \endlist
-
-    \section1 Unresolved JIRA tickets in Qt 6.6.0
-    \list
-        \li Main graph enlarges on top of slice view for a one frame - \l https://bugreports.qt.io/browse/QTBUG-116628
-        \li Item label is shown as an empty label in topography example - \l https://bugreports.qt.io/browse/QTBUG-116602
-        \li Highlighting the selection does not work correctly in texture topography example - \l https://bugreports.qt.io/browse/QTBUG-116479
-        \li widgetgraphgallery: surfacegraph should open slice view immediately - \l https://bugreports.qt.io/browse/QTBUG-116429
-        \li Toggling surface grid on causes labels to jump out of place - \l https://bugreports.qt.io/browse/QTBUG-116397
-        \li Shadows do not work on Surface3D - \l https://bugreports.qt.io/browse/QTBUG-115780
-        \li Graph goes to empty slice view automatically - \l https://bugreports.qt.io/browse/QTBUG-115772
-        \li Vertical grids are still visible on top view - \l https://bugreports.qt.io/browse/QTBUG-115736
-        \li tst_itemmodel: selection from table does not work - \l https://bugreports.qt.io/browse/QTBUG-114122
-        \li Volume texture formats not handled - \l https://bugreports.qt.io/browse/QTBUG-113837
-        \li Slice view is sometimes empty in Bars3D - \l https://bugreports.qt.io/browse/QTBUG-113675
-        \li Selection is sometimes incorrect in Bars3D - \l https://bugreports.qt.io/browse/QTBUG-113650
-        \li renderToImage does nothing - \l https://bugreports.qt.io/browse/QTBUG-111712
-    \endlist
 */
 
 /*!
     \page qtgraphs_migration_guide.html
-    \title Qt Graphs Migration from Qt DataVisualization
+    \title Qt Graphs 3D Migration from Qt DataVisualization
+
+    TODO: UPDATE THIS PAGE (QTBUG-120656)
 
     The API and functionality between Qt DataVisualization and Qt Graphs has been kept mostly
     unchanged. However, there are some differences that need to be taken into consideration

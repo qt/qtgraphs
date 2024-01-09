@@ -70,7 +70,7 @@ QT_BEGIN_NAMESPACE
 /*!
  * \qmltype ItemModelSurfaceDataProxy
  * \inqmlmodule QtGraphs3D
- * \ingroup graphs_qml
+ * \ingroup graphs_qml_3D
  * \instantiates QItemModelSurfaceDataProxy
  * \inherits SurfaceDataProxy
  * \brief Proxy class for presenting data in item models with Surface3D.

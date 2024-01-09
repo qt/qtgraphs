@@ -168,7 +168,7 @@ QT_BEGIN_NAMESPACE
 /*!
  * \qmltype Theme3D
  * \inqmlmodule QtGraphs3D
- * \ingroup graphs_qml
+ * \ingroup graphs_qml_3D
  * \instantiates Q3DTheme
  * \brief A visual style for graphs.
  *

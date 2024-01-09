@@ -4,7 +4,7 @@
 /*!
   \qmltype AbstractGraph3D
   \inqmlmodule QtGraphs3D
-  \ingroup graphs_qml
+  \ingroup graphs_qml_3D
   \brief Base type for 3D graphs.
 
   The base type for all 3D graphs in QtGraphs.

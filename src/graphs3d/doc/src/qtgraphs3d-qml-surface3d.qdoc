@@ -5,7 +5,7 @@
   \qmltype Surface3D
   \inherits AbstractGraph3D
   \inqmlmodule QtGraphs3D
-  \ingroup graphs_qml
+  \ingroup graphs_qml_3D
   \brief Describes the usage of the 3D surface graph.
 
   This type enables developers to render surface plots in 3D with Qt Quick.
