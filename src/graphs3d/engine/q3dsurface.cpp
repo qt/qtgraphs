@@ -9,6 +9,7 @@ QT_BEGIN_NAMESPACE
 /*!
  * \class Q3DSurface
  * \inmodule QtGraphs
+ * \ingroup graphs_3D
  * \brief The Q3DSurface class provides methods for rendering 3D surface plots.
  *
  * This class enables developers to render 3D surface plots and to view them by
@@ -73,7 +74,7 @@ QT_BEGIN_NAMESPACE
  * provided, like the \l{Surface Graph Gallery}.
  *
  *
- * \sa Q3DBars, Q3DScatter, {Qt Graphs C++ Classes}
+ * \sa Q3DBars, Q3DScatter, {Qt Graphs 3D C++ Classes}
  */
 
 /*!

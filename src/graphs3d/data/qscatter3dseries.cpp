@@ -11,6 +11,7 @@ QT_BEGIN_NAMESPACE
 /*!
  * \class QScatter3DSeries
  * \inmodule QtGraphs
+ * \ingroup graphs_3D
  * \brief The QScatter3DSeries class represents a data series in a 3D scatter
  * graph.
  *

@@ -9,6 +9,7 @@ QT_BEGIN_NAMESPACE
 /*!
  * \class QAbstractDataProxy
  * \inmodule QtGraphs
+ * \ingroup graphs_3D
  * \brief The QAbstractDataProxy class is a base class for all 3D graph proxies.
  *
  * The following graphs type specific inherited classes are used instead

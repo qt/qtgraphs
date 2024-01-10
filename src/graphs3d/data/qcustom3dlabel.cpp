@@ -9,6 +9,7 @@ QT_BEGIN_NAMESPACE
 /*!
  * \class QCustom3DLabel
  * \inmodule QtGraphs
+ * \ingroup graphs_3D
  * \brief The QCustom3DLabel class adds a custom label to a graph.
  *
  * The text, font, position, scaling, rotation, and colors of a custom label can

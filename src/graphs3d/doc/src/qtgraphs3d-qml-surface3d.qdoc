@@ -20,7 +20,7 @@
 
   See \l{Surface Graph Gallery} for more thorough usage example.
 
-  \sa Surface3DSeries, ItemModelSurfaceDataProxy, Bars3D, Scatter3D, {Qt Graphs C++ Classes}
+  \sa Surface3DSeries, ItemModelSurfaceDataProxy, Bars3D, Scatter3D, {Qt Graphs 3D C++ Classes}
  */
 
 /*!

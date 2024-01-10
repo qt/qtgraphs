@@ -9,6 +9,7 @@ QT_BEGIN_NAMESPACE
 /*!
  * \class QValue3DAxis
  * \inmodule QtGraphs
+ * \ingroup graphs_3D
  * \brief The QValue3DAxis class manipulates an axis of a graph.
  *
  * A value axis can be given a range of values and segment and subsegment

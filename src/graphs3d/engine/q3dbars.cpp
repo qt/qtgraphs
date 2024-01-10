@@ -9,6 +9,7 @@ QT_BEGIN_NAMESPACE
 /*!
  * \class Q3DBars
  * \inmodule QtGraphs
+ * \ingroup graphs_3D
  * \brief The Q3DBars class provides methods for rendering 3D bar graphs.
  *
  * This class enables developers to render bar graphs in 3D and to view them by
@@ -69,7 +70,7 @@ QT_BEGIN_NAMESPACE
  * can learn more by familiarizing yourself with the examples provided, like the
  * \l{Simple Bar Graph}.
  *
- * \sa Q3DScatter, Q3DSurface, {Qt Graphs C++ Classes}
+ * \sa Q3DScatter, Q3DSurface, {Qt Graphs 3D C++ Classes}
  */
 
 /*!

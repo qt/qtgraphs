@@ -96,7 +96,3 @@ qt_internal_extend_target(Graphs CONDITION MACOS
         Qt::GuiPrivate
 )
 
-qt_internal_add_docs(Graphs
-    doc/qtgraphs.qdocconf
-)
-

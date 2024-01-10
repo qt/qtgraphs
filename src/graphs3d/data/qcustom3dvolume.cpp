@@ -9,6 +9,7 @@ QT_BEGIN_NAMESPACE
 /*!
  * \class QCustom3DVolume
  * \inmodule QtGraphs
+ * \ingroup graphs_3D
  * \brief The QCustom3DVolume class adds a volume rendered object to a graph.
  *
  * A volume rendered

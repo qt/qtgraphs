@@ -10,6 +10,7 @@ QT_BEGIN_NAMESPACE
 /*!
  * \class QLogValue3DAxisFormatter
  * \inmodule QtGraphs
+ * \ingroup graphs_3D
  * \brief The QLogValue3DAxisFormatter class provides formatting rules for a
  * logarithmic value axis.
  *

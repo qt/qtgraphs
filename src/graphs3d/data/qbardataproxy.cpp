@@ -9,6 +9,7 @@ QT_BEGIN_NAMESPACE
 /*!
  * \class QBarDataProxy
  * \inmodule QtGraphs
+ * \ingroup graphs_3D
  * \brief The QBarDataProxy class is the data proxy for a 3D bars graph.
  *
  * A bar data proxy handles adding, inserting, changing, and removing rows of

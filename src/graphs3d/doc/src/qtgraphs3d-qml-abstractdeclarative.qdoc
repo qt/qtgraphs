@@ -12,7 +12,7 @@
   This type is uncreatable, but it contains properties that are shared between
   the 3D graphs types.
 
-  \sa Bars3D, Scatter3D, Surface3D, {Qt Graphs C++ Classes}
+  \sa Bars3D, Scatter3D, Surface3D, {Qt Graphs 3D C++ Classes}
  */
 
 /*!

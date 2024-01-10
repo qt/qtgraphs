@@ -9,6 +9,7 @@ QT_BEGIN_NAMESPACE
 /*!
  * \class Q3DScatter
  * \inmodule QtGraphs
+ * \ingroup graphs_3D
  * \brief The Q3DScatter class provides methods for rendering 3D scatter graphs.
  *
  * This class enables developers to render scatter graphs in 3D and to view them
@@ -55,7 +56,7 @@ QT_BEGIN_NAMESPACE
  * example. You can learn more by familiarizing yourself with the examples
  * provided, like the \l{Simple Scatter Graph}.
  *
- * \sa Q3DBars, Q3DSurface, {Qt Graphs C++ Classes}
+ * \sa Q3DBars, Q3DSurface, {Qt Graphs 3D C++ Classes}
  */
 
 /*!

@@ -10,6 +10,7 @@ QT_BEGIN_NAMESPACE
 /*!
     \class QAbstractSeries
     \inmodule QtGraphs
+    \ingroup graphs_2D
     \brief The QAbstractSeries class is a base class for all Qt Chart series.
 
     Usually, the series type specific inherited classes are used instead of the base class.

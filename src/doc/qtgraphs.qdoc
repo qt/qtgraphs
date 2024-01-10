@@ -3,11 +3,14 @@
 
 /*!
     \module QtGraphs
-    \title Qt Graphs C++ Classes
-    \ingroup modules
     \qtcmakepackage Graphs
     \qtvariable graphs
     \modulestate Technical Preview
+*/
+
+/*!
+    \title Qt Graphs C++ Classes
+    \group graphs
 
     \brief C++ classes for the Qt Graphs API.
 
@@ -15,13 +18,43 @@
 */
 
 /*!
-    \qmlmodule QtGraphs \QtMajorVersion.\QtMinorVersion
+    \title Qt Graphs 2D C++ Classes
+    \group graphs_2D
+    \ingroup graphs
+
+    \brief C++ classes for the Qt Graphs 2D API.
+
+    The Qt Graphs 2D functionality can be accessed via these C++ classes.
+*/
+
+/*!
+    \title Qt Graphs 3D C++ Classes
+    \group graphs_3D
+    \ingroup graphs
+
+    \brief C++ classes for the Qt Graphs 3D API.
+
+    The Qt Graphs 3D functionality can be accessed via these C++ classes.
+*/
+
+/*!
+    \qmlmodule QtGraphs
     \modulestate Technical Preview
 */
 
 /*!
-    \group graphs_qml_3D
+    \title Qt Graphs QML Types
+    \group graphs_qml
+
+    \brief QML types for the Qt Graphs API.
+
+    The Qt Graphs functionality can be accessed via these QML types.
+*/
+
+/*!
     \title Qt Graphs 3D QML Types
+    \group graphs_qml_3D
+    \ingroup graphs_qml
 
     \brief QML types for the Qt Graphs 3D API.
 
@@ -31,8 +64,9 @@
 */
 
 /*!
-    \group graphs_qml_2D
     \title Qt Graphs 2D QML Types
+    \group graphs_qml_2D
+    \ingroup graphs_qml
 
     \brief QML types for the Qt Graphs 2D API.
 
@@ -42,8 +76,18 @@
 */
 
 /*!
-    \group graphs_examples_3D
+    \group graphs_examples
+    \title Qt Graphs Examples
+
+    \brief Examples for the Qt Graphs.
+
+    For some code examples, see one of the Qt Graphs examples:
+*/
+
+/*!
     \title Qt Graphs 3D Examples
+    \group graphs_examples_3D
+    \ingroup graphs_examples
 
     \brief Examples for the Qt Graphs 3D.
 
@@ -57,8 +101,9 @@
 */
 
 /*!
-    \group graphs_examples_2D
     \title Qt Graphs 2D Examples
+    \group graphs_examples_2D
+    \ingroup graphs_examples
 
     \brief Examples for the Qt Graphs 2D.
 

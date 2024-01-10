@@ -9,6 +9,7 @@ QT_BEGIN_NAMESPACE
 /*!
  * \class QItemModelBarDataProxy
  * \inmodule QtGraphs
+ * \ingroup graphs_3D
  * \brief Proxy class for presenting data in item models with Q3DBars.
  *
  * QItemModelBarDataProxy allows you to use QAbstractItemModel derived models as

@@ -11,6 +11,7 @@ QT_BEGIN_NAMESPACE
 /*!
     \class QBarSeries
     \inmodule QtGraphs
+    \ingroup graphs_2D
     \brief The QBarSeries class presents a series of data as vertical bars grouped by category.
 
     This class draws data as a series of vertical bars grouped by category, with one bar per

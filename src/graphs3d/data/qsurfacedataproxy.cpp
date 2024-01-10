@@ -10,6 +10,7 @@ QT_BEGIN_NAMESPACE
 /*!
  * \class QSurfaceDataProxy
  * \inmodule QtGraphs
+ * \ingroup graphs_3D
  * \brief The QSurfaceDataProxy class is the data proxy for a 3D surface graph.
  *
  * A surface data proxy handles surface related data in rows. For this it

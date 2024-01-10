@@ -13,6 +13,7 @@ const float defaultMaxValue = 10.0f;
 /*!
  * \class QHeightMapSurfaceDataProxy
  * \inmodule QtGraphs
+ * \ingroup graphs_3D
  * \brief Base proxy class for Q3DSurface.
  *
  * QHeightMapSurfaceDataProxy takes care of surface related height map data

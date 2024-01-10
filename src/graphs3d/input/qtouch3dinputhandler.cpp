@@ -22,6 +22,7 @@ static const float touchZoomDrift = 0.02f;
 /*!
  * \class QTouch3DInputHandler
  * \inmodule QtGraphs
+ * \ingroup graphs_3D
  * \brief Basic touch display based input handler.
  *
  * QTouch3DInputHandler is the basic input handler for touch screen devices.

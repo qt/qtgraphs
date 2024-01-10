@@ -9,6 +9,7 @@ QT_BEGIN_NAMESPACE
 /*!
  * \class QValue3DAxisFormatter
  * \inmodule QtGraphs
+ * \ingroup graphs_3D
  * \brief The QValue3DAxisFormatter class is a base class for 3D value axis
  * formatters.
  *
