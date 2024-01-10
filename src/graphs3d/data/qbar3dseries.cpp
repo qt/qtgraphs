@@ -13,6 +13,7 @@ QT_BEGIN_NAMESPACE
 /*!
  * \class QBar3DSeries
  * \inmodule QtGraphs
+ * \ingroup graphs_3D
  * \brief The QBar3DSeries class represents a data series in a 3D bar graph.
  *
  * This class manages the series specific visual elements, as well as the series

@@ -13,6 +13,7 @@ QT_BEGIN_NAMESPACE
 /*!
  * \class Q3DTheme
  * \inmodule QtGraphs
+ * \ingroup graphs_3D
  * \brief Q3DTheme class provides a visual style for graphs.
  *
  * Specifies visual properties that affect the whole graph. There are several

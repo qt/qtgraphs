@@ -8,6 +8,7 @@ QT_BEGIN_NAMESPACE
 /*!
  * \class Q3DScene
  * \inmodule QtGraphs
+ * \ingroup graphs_3D
  * \brief Q3DScene class provides description of the 3D scene being visualized.
  *
  * The 3D scene contains a single active camera and a single active light

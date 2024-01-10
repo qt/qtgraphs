@@ -4,6 +4,7 @@
 /*!
  * \class QScatterDataItem
  * \inmodule QtGraphs
+ * \ingroup graphs_3D
  * \brief The QScatterDataItem class provides a container for resolved data to
  * be added to scatter graphs.
  *
@@ -11,7 +12,7 @@
  * graph. Scatter data proxies parse data into QScatterDataItem instances for
  * scatter graphs.
  *
- * \sa QScatterDataProxy, {Qt Graphs C++ Classes}
+ * \sa QScatterDataProxy, {Qt Graphs 3D C++ Classes}
  */
 
 /*!

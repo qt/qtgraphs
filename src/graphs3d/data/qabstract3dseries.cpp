@@ -11,6 +11,7 @@ QT_BEGIN_NAMESPACE
 /*!
  * \class QAbstract3DSeries
  * \inmodule QtGraphs
+ * \ingroup graphs_3D
  * \brief The QAbstract3DSeries class is a base class for all 3D data series.
  *
  * There are inherited classes for each supported series type: QBar3DSeries,

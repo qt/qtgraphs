@@ -9,6 +9,7 @@ QT_BEGIN_NAMESPACE
 /*!
  * \class QCategory3DAxis
  * \inmodule QtGraphs
+ * \ingroup graphs_3D
  * \brief The QCategory3DAxis class manipulates an axis of a graph.
  *
  * QCategory3DAxis provides an axis that can be given labels. The axis is

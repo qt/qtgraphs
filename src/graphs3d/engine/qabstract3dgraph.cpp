@@ -14,6 +14,7 @@ QT_BEGIN_NAMESPACE
 /*!
  * \class QAbstract3DGraph
  * \inmodule QtGraphs
+ * \ingroup graphs_3D
  * \brief The QAbstract3DGraph class provides a window and render loop for
  * graphs.
  *
@@ -39,7 +40,7 @@ QT_BEGIN_NAMESPACE
  *  graphWindow->setFlags(graphWindow->flags() ^ Qt::FramelessWindowHint);
  * \endcode
  *
- * \sa Q3DBars, Q3DScatter, Q3DSurface, {Qt Graphs C++ Classes}
+ * \sa Q3DBars, Q3DScatter, Q3DSurface, {Qt Graphs 3D C++ Classes}
  */
 
 /*!

@@ -4,6 +4,7 @@
 /*!
  * \class QSurfaceDataItem
  * \inmodule QtGraphs
+ * \ingroup graphs_3D
  * \brief The QSurfaceDataItem class provides a container for resolved data to
  * be added to surface graphs.
  *
@@ -11,7 +12,7 @@
  * Surface data proxies parse data into QSurfaceDataItem instances for
  * surface graphs.
  *
- * \sa QSurfaceDataProxy, {Qt Graphs C++ Classes}
+ * \sa QSurfaceDataProxy, {Qt Graphs 3D C++ Classes}
  */
 
 /*!

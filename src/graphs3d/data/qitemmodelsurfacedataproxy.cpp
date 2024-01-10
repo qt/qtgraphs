@@ -9,6 +9,7 @@ QT_BEGIN_NAMESPACE
 /*!
  * \class QItemModelSurfaceDataProxy
  * \inmodule QtGraphs
+ * \ingroup graphs_3D
  * \brief Proxy class for presenting data in item models with Q3DSurface.
  *
  * QItemModelSurfaceDataProxy allows you to use QAbstractItemModel derived

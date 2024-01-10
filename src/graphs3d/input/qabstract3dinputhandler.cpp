@@ -8,6 +8,7 @@ QT_BEGIN_NAMESPACE
 /*!
  * \class QAbstract3DInputHandler
  * \inmodule QtGraphs
+ * \ingroup graphs_3D
  * \brief The base class for implementations of 3D input handlers.
  *
  * QAbstract3DInputHandler is the base class that is subclassed by different

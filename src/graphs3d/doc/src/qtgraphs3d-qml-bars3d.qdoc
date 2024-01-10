@@ -20,7 +20,7 @@
  *
  * See \l{Simple Bar Graph} for more thorough usage example.
  *
- * \sa Bar3DSeries, ItemModelBarDataProxy, Scatter3D, Surface3D, {Qt Graphs C++ Classes}
+ * \sa Bar3DSeries, ItemModelBarDataProxy, Scatter3D, Surface3D, {Qt Graphs 3D C++ Classes}
  */
 
 /*!

@@ -9,6 +9,7 @@ QT_BEGIN_NAMESPACE
 /*!
     \class QAbstractAxis
     \inmodule QtGraphs
+    \ingroup graphs_2D
     \brief The QAbstractAxis class is a base class used for specialized axis classes.
 
     Each series can be bound to one or more horizontal and vertical axes, but mixing axis types
@@ -18,6 +19,7 @@ QT_BEGIN_NAMESPACE
     The properties and visibility of various axis elements, such as axis line, title, labels,
     and grid lines, can be individually controlled.
 */
+
 /*!
     \qmltype AbstractAxis
     \instantiates QAbstractAxis

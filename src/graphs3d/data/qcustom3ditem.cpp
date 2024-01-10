@@ -8,6 +8,7 @@ QT_BEGIN_NAMESPACE
 /*!
  * \class QCustom3DItem
  * \inmodule QtGraphs
+ * \ingroup graphs_3D
  * \brief The QCustom3DItem class adds a custom item to a graph.
  *
  * A custom item has a custom mesh, position, scaling, rotation, and an optional

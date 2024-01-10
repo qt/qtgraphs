@@ -11,6 +11,7 @@ QT_BEGIN_NAMESPACE
 /*!
  * \class QSurface3DSeries
  * \inmodule QtGraphs
+ * \ingroup graphs_3D
  * \brief The QSurface3DSeries class represents a data series in a 3D surface
  * graph.
  *

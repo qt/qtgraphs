@@ -20,7 +20,7 @@
 
   See \l{Simple Scatter Graph} for more thorough usage example.
 
-  \sa Scatter3DSeries, ScatterDataProxy, Bars3D, Surface3D, {Qt Graphs C++ Classes}
+  \sa Scatter3DSeries, ScatterDataProxy, Bars3D, Surface3D, {Qt Graphs 3D C++ Classes}
  */
 
 /*!

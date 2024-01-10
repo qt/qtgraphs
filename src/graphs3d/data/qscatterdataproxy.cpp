@@ -10,6 +10,7 @@ QT_BEGIN_NAMESPACE
 /*!
  * \class QScatterDataProxy
  * \inmodule QtGraphs
+ * \ingroup graphs_3D
  * \brief The QScatterDataProxy class is the data proxy for 3D scatter graphs.
  *
  * A scatter data proxy handles adding, inserting, changing, and removing data

@@ -4,13 +4,14 @@
 /*!
  * \class QBarDataItem
  * \inmodule QtGraphs
+ * \ingroup graphs_3D
  * \brief The QBarDataItem class provides a container for resolved data to be
  * added to bar graphs.
  *
  * A bar data item holds the data for a single rendered bar in a graph.
  * Bar data proxies parse data into QBarDataItem instances for bar graphs.
  *
- * \sa QBarDataProxy, {Qt Graphs C++ Classes}
+ * \sa QBarDataProxy, {Qt Graphs 3D C++ Classes}
  */
 
 /*!

@@ -523,3 +523,6 @@ if(QT_FEATURE_graphs_2d)
     add_subdirectory(graphs2d)
 endif()
 
+qt_internal_add_docs(Graphs
+    doc/qtgraphs.qdocconf
+)
