@@ -950,6 +950,7 @@ QRect QQuickGraphsSurface::calculateSampleSpace(const QSurfaceDataArray &array)
                     sampleSpace.setRight(idx);
             } else {
                 sampleSpace.setWidth(-1);
+                return sampleSpace;
             }
 
             idx = binarySearchArray(array, maxColumn, axisX()->max(), true, false, ascendingX);
@@ -960,6 +961,7 @@ QRect QQuickGraphsSurface::calculateSampleSpace(const QSurfaceDataArray &array)
                     sampleSpace.setLeft(idx);
             } else {
                 sampleSpace.setWidth(-1); // to indicate nothing needs to be shown
+                return sampleSpace;
             }
 
             idx = binarySearchArray(array, maxRow, axisZ()->min(), false, true, ascendingZ);
@@ -970,6 +972,7 @@ QRect QQuickGraphsSurface::calculateSampleSpace(const QSurfaceDataArray &array)
                     sampleSpace.setBottom(idx);
             } else {
                 sampleSpace.setWidth(-1); // to indicate nothing needs to be shown
+                return sampleSpace;
             }
 
             idx = binarySearchArray(array, maxRow, axisZ()->max(), false, false, ascendingZ);
@@ -980,6 +983,7 @@ QRect QQuickGraphsSurface::calculateSampleSpace(const QSurfaceDataArray &array)
                     sampleSpace.setTop(idx);
             } else {
                 sampleSpace.setWidth(-1); // to indicate nothing needs to be shown
+                return sampleSpace;
             }
         }
     }
