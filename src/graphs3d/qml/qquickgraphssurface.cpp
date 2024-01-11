@@ -1512,12 +1512,17 @@ void QQuickGraphsSurface::updateSliceGraph()
 
         int indexCount = 0;
         const QSurfaceDataArray &array = model->series->dataProxy()->array();
+        const int maxRow = array.size() - 1;
+        const int maxColumn = array.at(0).size() - 1;
+        const bool ascendingX = array.at(0).at(0).x() < array.at(0).at(maxColumn).x();
+        const bool ascendingZ = array.at(0).at(0).z() < array.at(maxRow).at(0).z();
         if (selectionMode().testFlag(QAbstract3DGraph::SelectionRow) && coord.y() != -1) {
             selectedSeries.reserve(columnCount * 2);
             QVector<SurfaceVertex> list;
             QSurfaceDataRow row = array.at(coord.y());
             for (int i = columnStart; i < columnEnd; i++) {
-                QVector3D pos = getNormalizedVertex(row.at(i), false, false);
+                int index = ascendingX ? i : rowEnd - i - rowStart - 1;
+                QVector3D pos = getNormalizedVertex(row.at(index), false, false);
                 SurfaceVertex vertex;
                 vertex.position = pos;
                 vertex.position.setY(vertex.position.y() - .025f);
@@ -1534,7 +1539,8 @@ void QQuickGraphsSurface::updateSliceGraph()
             selectedSeries.reserve(rowCount * 2);
             QVector<SurfaceVertex> list;
             for (int i = rowStart; i < rowEnd; i++) {
-                QVector3D pos = getNormalizedVertex(array.at(i).at(coord.x()), false, false);
+                int index = ascendingZ ? i : rowEnd - i - rowStart - 1;
+                QVector3D pos = getNormalizedVertex(array.at(index).at(coord.x()), false, false);
                 SurfaceVertex vertex;
                 vertex.position = pos;
                 vertex.position.setX(-vertex.position.z());
