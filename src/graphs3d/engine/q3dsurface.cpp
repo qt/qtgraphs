@@ -83,7 +83,7 @@ Q3DSurface::Q3DSurface()
     : QAbstract3DGraph()
 {
     QQmlComponent *component = new QQmlComponent(engine(), this);
-    component->setData("import QtQuick; import QtGraphs3D; Surface3D { anchors.fill: parent; }",
+    component->setData("import QtQuick; import QtGraphs; Surface3D { anchors.fill: parent; }",
                        QUrl());
     m_graphsItem.reset(qobject_cast<QQuickGraphsSurface *>(component->create()));
     setContent(component->url(), component, m_graphsItem.data());

@@ -1,7 +1,7 @@
 // Copyright (C) 2023 The Qt Company Ltd.
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 
-#include <QtGraphs2D/QValueAxis>
+#include <QtGraphs/QValueAxis>
 #include <private/qvalueaxis_p.h>
 #include <private/charthelpers_p.h>
 #include <QtCore/QtMath>
@@ -19,7 +19,7 @@ QT_BEGIN_NAMESPACE
     \qmltype ValueAxis
     \instantiates QValueAxis
     \inqmlmodule QtGraphs
-    \ingroup graphs_qml
+    \ingroup graphs_qml_2D
     \inherits AbstractAxis
     \brief Adds values to a chart's axes.
 

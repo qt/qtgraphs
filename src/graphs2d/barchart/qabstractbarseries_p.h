@@ -13,9 +13,9 @@
 #ifndef QABSTRACTBARSERIES_P_H
 #define QABSTRACTBARSERIES_P_H
 
-#include <QtGraphs2D/qabstractbarseries.h>
+#include <QtGraphs/qabstractbarseries.h>
 #include <private/qabstractseries_p.h>
-#include <QtGraphs2D//qabstractseries.h>
+#include <QtGraphs//qabstractseries.h>
 #include <QtCore/QStringList>
 
 QT_BEGIN_NAMESPACE

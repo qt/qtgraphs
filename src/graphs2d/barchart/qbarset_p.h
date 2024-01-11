@@ -13,7 +13,7 @@
 #ifndef QBARSET_P_H
 #define QBARSET_P_H
 
-#include <QtGraphs2D/qbarset.h>
+#include <QtGraphs/qbarset.h>
 #include <QtCore/QMap>
 #include <QtGui/QPen>
 #include <QtGui/QBrush>

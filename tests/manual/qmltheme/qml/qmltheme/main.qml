@@ -4,7 +4,7 @@
 import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls
-import QtGraphs3D
+import QtGraphs
 //import QtDataVisualization
 import "."
 

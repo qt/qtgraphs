@@ -4,9 +4,9 @@
 #include <private/axisrenderer_p.h>
 #include <private/qabstractaxis_p.h>
 #include <private/qgraphsview_p.h>
-#include <QtGraphs2D/QBarCategoryAxis>
+#include <QtGraphs/QBarCategoryAxis>
 #include <private/qvalueaxis_p.h>
-#include <QtGraphs2D/graphtheme.h>
+#include <QtGraphs/graphtheme.h>
 
 QT_BEGIN_NAMESPACE
 

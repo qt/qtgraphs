@@ -24,7 +24,7 @@ QT_BEGIN_NAMESPACE
 
 /*!
  * \qmltype ValueAxis3DFormatter
- * \inqmlmodule QtGraphs3D
+ * \inqmlmodule QtGraphs
  * \ingroup graphs_qml_3D
  * \instantiates QValue3DAxisFormatter
  * \brief A base type for 3D value axis formatters.

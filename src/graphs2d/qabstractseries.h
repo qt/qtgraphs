@@ -4,20 +4,20 @@
 #ifndef QABSTRACTSERIES_H
 #define QABSTRACTSERIES_H
 
-#include <QtGraphs2D/QAbstractAxis>
+#include <QtGraphs/QAbstractAxis>
 #include <QtCore/QObject>
 #include <QtGui/QPen>
 #include <QtQml/QQmlParserStatus>
 #include <QtQml/QQmlListProperty>
-#include <QtGraphs2D/seriestheme.h>
-#include <QtGraphs2D/qtgraphs2dexports.h>
+#include <QtGraphs/seriestheme.h>
+#include <QtGraphs/qgraphsglobal.h>
 
 QT_BEGIN_NAMESPACE
 
 class QAbstractSeriesPrivate;
 class QGraphsView;
 
-class Q_GRAPHS2D_EXPORT QAbstractSeries : public QObject, public QQmlParserStatus
+class Q_GRAPHS_EXPORT QAbstractSeries : public QObject, public QQmlParserStatus
 {
     Q_OBJECT
     Q_INTERFACES(QQmlParserStatus)

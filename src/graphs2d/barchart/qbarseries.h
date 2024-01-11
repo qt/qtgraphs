@@ -4,15 +4,15 @@
 #ifndef QBARSERIES_H
 #define QBARSERIES_H
 
-#include <QtGraphs2D/qabstractbarseries.h>
-#include <QtGraphs2D/qabstractaxis.h>
-#include <QtGraphs2D/qtgraphs2dexports.h>
+#include <QtGraphs/qabstractbarseries.h>
+#include <QtGraphs/qabstractaxis.h>
+#include <QtGraphs/qgraphsglobal.h>
 
 QT_BEGIN_NAMESPACE
 
 class QBarSeriesPrivate;
 
-class Q_GRAPHS2D_EXPORT QBarSeries : public QAbstractBarSeries
+class Q_GRAPHS_EXPORT QBarSeries : public QAbstractBarSeries
 {
     Q_OBJECT
     Q_PROPERTY(QAbstractAxis *axisX READ axisX WRITE setAxisX NOTIFY axisXChanged)

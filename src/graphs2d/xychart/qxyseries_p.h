@@ -13,7 +13,7 @@
 #ifndef QXYSERIES_P_H
 #define QXYSERIES_P_H
 
-#include <QtGraphs2D/qxyseries.h>
+#include <QtGraphs/qxyseries.h>
 #include <private/qabstractseries_p.h>
 
 QT_BEGIN_NAMESPACE

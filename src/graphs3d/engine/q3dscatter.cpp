@@ -65,7 +65,7 @@ Q3DScatter::Q3DScatter()
     : QAbstract3DGraph()
 {
     QQmlComponent *component = new QQmlComponent(engine(), this);
-    component->setData("import QtQuick; import QtGraphs3D; Scatter3D { anchors.fill: parent; }",
+    component->setData("import QtQuick; import QtGraphs; Scatter3D { anchors.fill: parent; }",
                        QUrl());
     m_graphsItem.reset(qobject_cast<QQuickGraphsScatter *>(component->create()));
     setContent(component->url(), component, m_graphsItem.data());

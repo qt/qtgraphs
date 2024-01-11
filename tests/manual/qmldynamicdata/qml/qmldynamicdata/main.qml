@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 
 import QtQuick
-import QtGraphs3D
+import QtGraphs
 import QtQuick.Controls
 import "."
 

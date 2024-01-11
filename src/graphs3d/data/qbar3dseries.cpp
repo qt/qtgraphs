@@ -57,7 +57,7 @@ QT_BEGIN_NAMESPACE
 
 /*!
  * \qmltype Bar3DSeries
- * \inqmlmodule QtGraphs3D
+ * \inqmlmodule QtGraphs
  * \ingroup graphs_qml_3D
  * \instantiates QBar3DSeries
  * \inherits Abstract3DSeries

@@ -4,15 +4,15 @@
 #ifndef QBARCATEGORYAXIS_H
 #define QBARCATEGORYAXIS_H
 
-#include <QtGraphs2D/QAbstractAxis>
+#include <QtGraphs/QAbstractAxis>
+#include <QtGraphs/qgraphsglobal.h>
 #include <QtQml/QQmlEngine>
-#include <QtGraphs2D/qtgraphs2dexports.h>
 
 QT_BEGIN_NAMESPACE
 
 class QBarCategoryAxisPrivate;
 
-class Q_GRAPHS2D_EXPORT QBarCategoryAxis : public QAbstractAxis
+class Q_GRAPHS_EXPORT QBarCategoryAxis : public QAbstractAxis
 {
     Q_OBJECT
     Q_PROPERTY(QStringList categories READ categories WRITE setCategories NOTIFY categoriesChanged)

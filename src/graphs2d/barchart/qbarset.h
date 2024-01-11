@@ -4,18 +4,18 @@
 #ifndef QBARSET_H
 #define QBARSET_H
 
-#include <QtQml/QQmlEngine>
-#include <QtGui/qpen.h>
+#include <QtCore/qobject.h>
+#include <QtGraphs/qgraphsglobal.h>
 #include <QtGui/qbrush.h>
 #include <QtGui/qfont.h>
-#include <QtCore/qobject.h>
-#include <QtGraphs2D/qtgraphs2dexports.h>
+#include <QtGui/qpen.h>
+#include <QtQml/QQmlEngine>
 
 QT_BEGIN_NAMESPACE
 
 class QBarSetPrivate;
 
-class Q_GRAPHS2D_EXPORT QBarSet : public QObject
+class Q_GRAPHS_EXPORT QBarSet : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(QString label READ label WRITE setLabel NOTIFY labelChanged)

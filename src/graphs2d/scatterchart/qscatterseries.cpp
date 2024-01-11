@@ -1,7 +1,7 @@
 // Copyright (C) 2023 The Qt Company Ltd.
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 
-#include <QtGraphs2D/qscatterseries.h>
+#include <QtGraphs/qscatterseries.h>
 #include <private/qxypoint_p.h>
 #include <private/qscatterseries_p.h>
 #include <private/qgraphsview_p.h>

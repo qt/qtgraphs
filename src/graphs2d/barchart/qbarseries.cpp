@@ -1,9 +1,9 @@
 // Copyright (C) 2023 The Qt Company Ltd.
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 
-#include <QtGraphs2D/qbarseries.h>
+#include <QtGraphs/qbarseries.h>
 #include <private/qbarseries_p.h>
-#include <QtGraphs2D/QBarCategoryAxis>
+#include <QtGraphs/QBarCategoryAxis>
 #include <private/qgraphsview_p.h>
 
 QT_BEGIN_NAMESPACE
@@ -28,7 +28,7 @@ QT_BEGIN_NAMESPACE
     \qmltype BarSeries
     \instantiates QBarSeries
     \inqmlmodule QtGraphs
-    \ingroup graphs_qml
+    \ingroup graphs_qml_2D
     \inherits AbstractBarSeries
 
     \brief Presents a series of data as vertical bars grouped by category.

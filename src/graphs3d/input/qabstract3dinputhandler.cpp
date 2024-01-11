@@ -32,7 +32,7 @@ QT_BEGIN_NAMESPACE
 
 /*!
  * \qmltype AbstractInputHandler3D
- * \inqmlmodule QtGraphs3D
+ * \inqmlmodule QtGraphs
  * \ingroup graphs_qml_3D
  * \instantiates QAbstract3DInputHandler
  * \brief Base type for all 3D graph input handlers.

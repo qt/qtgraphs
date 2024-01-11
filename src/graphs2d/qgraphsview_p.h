@@ -17,14 +17,14 @@
 #include <QtQuick/QQuickItem>
 #include <QList>
 #include <QQmlListProperty>
-#include <QtGraphs2D/qabstractseries.h>
+#include <QtGraphs/qabstractseries.h>
 
 #include <QPen>
 #include <QBrush>
 #include <private/axisrenderer_p.h>
 #include <private/barsrenderer_p.h>
 #include <private/pointrenderer_p.h>
-#include <QtGraphs2D/graphtheme.h>
+#include <QtGraphs/graphtheme.h>
 #include <QtQuick/QSGClipNode>
 
 QT_BEGIN_NAMESPACE

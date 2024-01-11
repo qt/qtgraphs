@@ -1,15 +1,7 @@
 # Copyright (C) 2023 The Qt Company Ltd.
 # SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only WITH Qt-GPL-exception-1.0
 
-qt_internal_add_qml_module(Graphs2D
-    URI "QtGraphs"
-    TARGET_PRODUCT "Qt Graphs 2D (Qt $$QT_VERSION)"
-    TARGET_DESCRIPTION "Qt Graphs 2D Visualization component for Qt."
-    VERSION "${PROJECT_VERSION}"
-    PAST_MAJOR_VERSIONS 1
-    DEPENDENCIES
-        QtQuick
-        QtQuickPrivate
+qt_internal_extend_target(Graphs
     SOURCES
         qgraphsview.cpp qgraphsview_p.h
         qabstractseries.cpp qabstractseries.h qabstractseries_p.h
@@ -36,33 +28,4 @@ qt_internal_add_qml_module(Graphs2D
         barchart/qabstractbarseries.cpp
         axis/barcategoryaxis/qbarcategoryaxis.cpp
         xychart/qxyseries.cpp
-    PUBLIC_LIBRARIES
-        Qt::Core
-        Qt::Gui
-        Qt::Quick
-        Qt::QuickPrivate
-        Qt::QuickShapesPrivate
-    GENERATE_CPP_EXPORTS
-)
-
-set(shader_resource_files
-    "data/gridshader.frag.qsb"
-    "data/gridshader.vert.qsb"
-    "data/tickershader.frag.qsb"
-    "data/tickershader.vert.qsb"
-    "data/tickershaderhorizontal.frag.qsb"
-    "data/tickershaderhorizontal.vert.qsb"
-    "data/lineshaderhorizontal.frag.qsb"
-    "data/lineshaderhorizontal.vert.qsb"
-    "data/lineshadervertical.frag.qsb"
-    "data/lineshadervertical.vert.qsb"
-)
-
-qt_internal_add_resource(Graphs2D "graphsshaders"
-    PREFIX
-        "/shaders"
-    BASE
-        "data"
-    FILES
-        ${shader_resource_files}
 )

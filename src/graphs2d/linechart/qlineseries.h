@@ -4,14 +4,14 @@
 #ifndef QLINESERIES_H
 #define QLINESERIES_H
 
-#include <QtGraphs2D/qxyseries.h>
-#include <QtGraphs2D/qtgraphs2dexports.h>
+#include <QtGraphs/qxyseries.h>
+#include <QtGraphs/qgraphsglobal.h>
 
 QT_BEGIN_NAMESPACE
 
 class QLineSeriesPrivate;
 
-class Q_GRAPHS2D_EXPORT QLineSeries : public QXYSeries
+class Q_GRAPHS_EXPORT QLineSeries : public QXYSeries
 {
     Q_OBJECT
     Q_PROPERTY(QAbstractAxis *axisX READ axisX WRITE setAxisX NOTIFY axisXChanged)

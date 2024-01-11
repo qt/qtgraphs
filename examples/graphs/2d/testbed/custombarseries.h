@@ -5,8 +5,8 @@
 #define CUSTOMBARSERIES_H
 
 #include <QQmlEngine>
-#include <QtGraphs2D/qbarseries.h>
-#include <QtGraphs2D/qbarset.h>
+#include <QtGraphs/qbarseries.h>
+#include <QtGraphs/qbarset.h>
 #include <QList>
 #include <QTimer>
 

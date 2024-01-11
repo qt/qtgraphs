@@ -13,7 +13,7 @@
 #ifndef QVALUEAXIS_P_H
 #define QVALUEAXIS_P_H
 
-#include <QtGraphs2D/QValueAxis>
+#include <QtGraphs/QValueAxis>
 #include <private/qabstractaxis_p.h>
 
 QT_BEGIN_NAMESPACE

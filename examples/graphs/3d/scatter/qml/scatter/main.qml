@@ -5,7 +5,7 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
-import QtGraphs3D
+import QtGraphs
 //! [0]
 
 Item {

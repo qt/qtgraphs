@@ -9,11 +9,11 @@
 #include <QtCore/QObject>
 #include <QtQml/QQmlEngine>
 #include <QtQml/QQmlParserStatus>
-#include <QtGraphs2D/qtgraphs2dexports.h>
+#include <QtGraphs/qgraphsglobal.h>
 
 QT_BEGIN_NAMESPACE
 
-class Q_GRAPHS2D_EXPORT GraphTheme : public QObject, public QQmlParserStatus
+class Q_GRAPHS_EXPORT GraphTheme : public QObject, public QQmlParserStatus
 {
     Q_OBJECT
     Q_INTERFACES(QQmlParserStatus)

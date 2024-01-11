@@ -1,7 +1,7 @@
 // Copyright (C) 2023 The Qt Company Ltd.
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 
-#include <QtGraphs2D/qbarset.h>
+#include <QtGraphs/qbarset.h>
 #include <private/qbarset_p.h>
 #include <private/charthelpers_p.h>
 
@@ -25,7 +25,7 @@ QT_BEGIN_NAMESPACE
     \qmltype BarSet
     \instantiates QBarSet
     \inqmlmodule QtGraphs
-    \ingroup graphs_qml
+    \ingroup graphs_qml_2D
     \brief Represents one set of bars in a bar chart.
 
     A bar set contains one data value for each category. The first value of a set is assumed to

@@ -1,9 +1,9 @@
 // Copyright (C) 2023 The Qt Company Ltd.
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 
-#include "data/qscatter3dseries_p.h"
-#include "qml/qquickgraphsscatter_p.h"
+#include "qquickgraphsscatter_p.h"
 #include "qquickgraphstexturedata_p.h"
+#include "qscatter3dseries_p.h"
 #include "qscatterdataproxy_p.h"
 #include "qvalue3daxis_p.h"
 

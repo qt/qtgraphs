@@ -3,8 +3,8 @@
 
 #include <private/pointrenderer_p.h>
 #include <private/qgraphsview_p.h>
-#include <QtGraphs2D/qscatterseries.h>
-#include <QtGraphs2D/qlineseries.h>
+#include <QtGraphs/qscatterseries.h>
+#include <QtGraphs/qlineseries.h>
 
 QT_BEGIN_NAMESPACE
 

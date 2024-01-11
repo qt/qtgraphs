@@ -19,7 +19,7 @@ QT_BEGIN_NAMESPACE
 
 /*!
  * \qmltype AbstractDataProxy
- * \inqmlmodule QtGraphs3D
+ * \inqmlmodule QtGraphs
  * \ingroup graphs_qml_3D
  * \instantiates QAbstractDataProxy
  * \brief Base type for all 3D graph data proxies.

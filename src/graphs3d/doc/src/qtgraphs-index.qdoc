@@ -12,18 +12,14 @@
     received from multiple sensors. The look and feel of graphs can be
     customized by using themes or by adding custom items and labels.
 
-    Qt Graphs is built on Qt 6 and Qt Quick 3D to take advantage of
+    Qt Graphs is built on Qt 6 and the 3D graphs on Qt Quick 3D to take advantage of
     hardware acceleration and Qt Quick.
 
     \section1 Using the Module
 
-    \section2 QtGraphs 2D QML API
+    \section2 QtGraphs QML API
 
     \include {module-use.qdocinc} {using the qml api} {QtGraphs}
-
-    \section2 QtGraphs 3D QML API
-
-    \include {module-use.qdocinc} {using the qml api} {QtGraphs3D}
 
     \section2 C++ API
 

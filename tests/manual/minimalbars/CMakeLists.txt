@@ -4,7 +4,7 @@
 qt_internal_add_manual_test(tst_minimalbars
     GUI
     SOURCES
-        ../../../src/graphs3d/doc/snippets/doc_src_q3dbars_construction.cpp
+        ../../../src/doc/snippets/doc_src_q3dbars_construction.cpp
     )
 target_link_libraries(tst_minimalbars PUBLIC
     Qt::Gui
