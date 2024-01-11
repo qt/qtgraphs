@@ -758,7 +758,7 @@ void GraphModifier::toggleXAscending(int enabled)
             // Flip each row
             for (int i = 0; i < rowCount; i++) {
                 QSurfaceDataRow oldRow = array.at(i);
-                QSurfaceDataRow newRow = newArray.at(i);
+                QSurfaceDataRow &newRow = newArray[i];
                 for (int j = 0; j < columnCount; j++)
                     newRow[j] = oldRow.at(columnCount - 1 - j);
             }
@@ -789,7 +789,7 @@ void GraphModifier::toggleZAscending(int enabled)
             // Flip each column
             for (int i = 0; i < rowCount; i++) {
                 QSurfaceDataRow oldRow = array.at(rowCount - 1 - i);
-                QSurfaceDataRow newRow = newArray.at(i);
+                QSurfaceDataRow &newRow = newArray[i];
                 for (int j = 0; j < columnCount; j++)
                     newRow[j] = oldRow.at(j);
             }
