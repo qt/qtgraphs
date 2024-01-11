@@ -4,7 +4,7 @@
 qt_internal_add_manual_test(tst_minimalscatter
     GUI
     SOURCES
-        ../../../src/graphs3d/doc/snippets/doc_src_q3dscatter_construction.cpp
+        ../../../src/doc/snippets/doc_src_q3dscatter_construction.cpp
     )
 target_link_libraries(tst_minimalscatter PUBLIC
     Qt::Gui

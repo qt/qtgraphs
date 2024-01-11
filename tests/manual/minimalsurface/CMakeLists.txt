@@ -4,7 +4,7 @@
 qt_internal_add_manual_test(tst_minimalsurface
     GUI
     SOURCES
-        ../../../src/graphs3d/doc/snippets/doc_src_q3dsurface_construction.cpp
+        ../../../src/doc/snippets/doc_src_q3dsurface_construction.cpp
     )
 target_link_libraries(tst_minimalsurface PUBLIC
     Qt::Gui

@@ -4,7 +4,7 @@
 import QtQuick
 import QtQuick.Layouts
 import QtQuick.Window
-import QtGraphs3D
+import QtGraphs
 
 Rectangle {
     //! [0]

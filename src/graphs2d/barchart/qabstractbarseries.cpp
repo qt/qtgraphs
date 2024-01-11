@@ -3,9 +3,9 @@
 
 #undef QT_NO_FOREACH // this file contains unported legacy Q_FOREACH uses
 
-#include <QtGraphs2D/qabstractbarseries.h>
+#include <QtGraphs/qabstractbarseries.h>
 #include <private/qabstractbarseries_p.h>
-#include <QtGraphs2D/qbarset.h>
+#include <QtGraphs/qbarset.h>
 #include <private/qbarset_p.h>
 #include <QForeach>
 
@@ -37,7 +37,7 @@ QT_BEGIN_NAMESPACE
     \qmltype AbstractBarSeries
     \instantiates QAbstractBarSeries
     \inqmlmodule QtGraphs
-    \ingroup graphs_qml
+    \ingroup graphs_qml_2D
     \inherits AbstractSeries
 
     \brief An abstract parent type for all bar series types.

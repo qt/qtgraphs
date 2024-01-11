@@ -14,8 +14,7 @@
 //
 // We mean it.
 
-#include <QtGraphs2D/qabstractseries.h>
-
+#include <QtGraphs/qabstractseries.h>
 #include <memory>
 
 QT_BEGIN_NAMESPACE

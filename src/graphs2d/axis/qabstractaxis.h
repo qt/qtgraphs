@@ -4,18 +4,18 @@
 #ifndef QABSTRACTAXIS_H
 #define QABSTRACTAXIS_H
 
+#include <QtCore/QObject>
+#include <QtCore/QVariant>
+#include <QtGraphs/qgraphsglobal.h>
 #include <QtGui/QColor>
 #include <QtGui/QFont>
-#include <QtCore/QVariant>
-#include <QtCore/QObject>
 #include <QtQml/QQmlEngine>
-#include <QtGraphs2D/qtgraphs2dexports.h>
 
 QT_BEGIN_NAMESPACE
 
 class QAbstractAxisPrivate;
 
-class Q_GRAPHS2D_EXPORT QAbstractAxis : public QObject
+class Q_GRAPHS_EXPORT QAbstractAxis : public QObject
 {
     Q_OBJECT
     //visibility

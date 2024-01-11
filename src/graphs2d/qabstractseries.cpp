@@ -1,7 +1,7 @@
 // Copyright (C) 2023 The Qt Company Ltd.
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 
-#include <QtGraphs2D/qabstractseries.h>
+#include <QtGraphs/qabstractseries.h>
 #include <private/qabstractseries_p.h>
 #include <private/qgraphsview_p.h>
 
@@ -22,7 +22,7 @@ QT_BEGIN_NAMESPACE
     \qmltype AbstractSeries
     \instantiates QAbstractSeries
     \inqmlmodule QtGraphs
-    \ingroup graphs_qml
+    \ingroup graphs_qml_2D
     \brief Base type for all Qt Chart series types.
 
     This type cannot be instantiated directly. Instead, one of the following derived types

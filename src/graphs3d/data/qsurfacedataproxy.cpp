@@ -64,7 +64,7 @@ QT_BEGIN_NAMESPACE
 
 /*!
  * \qmltype SurfaceDataProxy
- * \inqmlmodule QtGraphs3D
+ * \inqmlmodule QtGraphs
  * \ingroup graphs_qml_3D
  * \instantiates QSurfaceDataProxy
  * \inherits AbstractDataProxy

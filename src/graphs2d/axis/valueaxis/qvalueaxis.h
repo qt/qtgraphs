@@ -4,15 +4,15 @@
 #ifndef QVALUEAXIS_H
 #define QVALUEAXIS_H
 
-#include <QtGraphs2D/QAbstractAxis>
+#include <QtGraphs/QAbstractAxis>
+#include <QtGraphs/qgraphsglobal.h>
 #include <QtQml/QQmlEngine>
-#include <QtGraphs2D/qtgraphs2dexports.h>
 
 QT_BEGIN_NAMESPACE
 
 class QValueAxisPrivate;
 
-class Q_GRAPHS2D_EXPORT QValueAxis : public QAbstractAxis
+class Q_GRAPHS_EXPORT QValueAxis : public QAbstractAxis
 {
     Q_OBJECT
     Q_PROPERTY(qreal min READ min WRITE setMin NOTIFY minChanged)

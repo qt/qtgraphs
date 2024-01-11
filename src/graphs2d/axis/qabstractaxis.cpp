@@ -1,7 +1,7 @@
 // Copyright (C) 2023 The Qt Company Ltd.
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 
-#include <QtGraphs2D/QAbstractAxis>
+#include <QtGraphs/QAbstractAxis>
 #include <private/qabstractaxis_p.h>
 
 QT_BEGIN_NAMESPACE
@@ -22,7 +22,7 @@ QT_BEGIN_NAMESPACE
     \qmltype AbstractAxis
     \instantiates QAbstractAxis
     \inqmlmodule QtGraphs
-    \ingroup graphs_qml
+    \ingroup graphs_qml_2D
 
     \brief A base type used for specialized axis types.
 

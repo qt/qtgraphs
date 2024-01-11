@@ -3,7 +3,7 @@
 
 import QtQuick
 import QtQuick.Controls
-import QtGraphs3D
+import QtGraphs
 
 Item {
     id: axisDragView

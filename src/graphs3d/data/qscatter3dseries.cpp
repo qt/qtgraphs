@@ -53,7 +53,7 @@ QT_BEGIN_NAMESPACE
 
 /*!
  * \qmltype Scatter3DSeries
- * \inqmlmodule QtGraphs3D
+ * \inqmlmodule QtGraphs
  * \ingroup graphs_qml_3D
  * \instantiates QScatter3DSeries
  * \inherits Abstract3DSeries

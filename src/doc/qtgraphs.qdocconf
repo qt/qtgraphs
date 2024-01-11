@@ -8,16 +8,16 @@ buildversion        = Qt Graphs | Commercial or GPLv3
 moduleheader        = QtGraphs
 
 examplesinstallpath = graphs
-exampledirs += ../../../examples/graphs/3d \
-               ../../../examples/graphs/2d \
-               ../../../examples/graphs \
+exampledirs += ../../examples/graphs/3d \
+               ../../examples/graphs/2d \
+               ../../examples/graphs \
                snippets
 
 {headerdirs,sourcedirs} += .. \
-                           ../../graphs2d
+                           ../graphs2d \
+                           ../graphs3d
 
-imagedirs  += ../images \
-              images
+imagedirs  += images
 
 depends = qtcore qtgui qtqml qtquick qtdoc qtcmake qtwidgets qtquick3d
 

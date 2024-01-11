@@ -31,7 +31,7 @@ QT_BEGIN_NAMESPACE
 
 /*!
  * \qmltype Abstract3DSeries
- * \inqmlmodule QtGraphs3D
+ * \inqmlmodule QtGraphs
  * \ingroup graphs_qml_3D
  * \instantiates QAbstract3DSeries
  * \brief A base type for all 3D data series.

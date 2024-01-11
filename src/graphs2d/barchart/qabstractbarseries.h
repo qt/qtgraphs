@@ -4,10 +4,10 @@
 #ifndef QABSTRACTBARSERIES_H
 #define QABSTRACTBARSERIES_H
 
-#include <QtGraphs2D/qabstractseries.h>
+#include <QtGraphs/qabstractseries.h>
 #include <QtCore/QStringList>
 #include <QtQml/QQmlEngine>
-#include <QtGraphs2D/qtgraphs2dexports.h>
+#include <QtGraphs/qgraphsglobal.h>
 
 QT_BEGIN_NAMESPACE
 
@@ -15,7 +15,7 @@ class QBarSet;
 class QAbstractBarSeriesPrivate;
 
 // Container for series
-class Q_GRAPHS2D_EXPORT QAbstractBarSeries : public QAbstractSeries
+class Q_GRAPHS_EXPORT QAbstractBarSeries : public QAbstractSeries
 {
     Q_OBJECT
     Q_PROPERTY(qreal barWidth READ barWidth WRITE setBarWidth)

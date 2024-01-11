@@ -15,10 +15,13 @@
 */
 
 /*!
-    \qmlmodule QtGraphs3D \QtMajorVersion.\QtMinorVersion
-    \title Qt Graphs 3D QML Types
-    \ingroup qmlmodules
+    \qmlmodule QtGraphs \QtMajorVersion.\QtMinorVersion
     \modulestate Technical Preview
+*/
+
+/*!
+    \group graphs_qml_3D
+    \title Qt Graphs 3D QML Types
 
     \brief QML types for the Qt Graphs 3D API.
 
@@ -28,10 +31,8 @@
 */
 
 /*!
-    \qmlmodule QtGraphs \QtMajorVersion.\QtMinorVersion
+    \group graphs_qml_2D
     \title Qt Graphs 2D QML Types
-    \ingroup qmlmodules
-    \modulestate Technical Preview
 
     \brief QML types for the Qt Graphs 2D API.
 
@@ -42,7 +43,6 @@
 
 /*!
     \group graphs_examples_3D
-    \ingroup all-examples-3D
     \title Qt Graphs 3D Examples
 
     \brief Examples for the Qt Graphs 3D.
@@ -58,7 +58,6 @@
 
 /*!
     \group graphs_examples_2D
-    \ingroup all-examples-2D
     \title Qt Graphs 2D Examples
 
     \brief Examples for the Qt Graphs 2D.
@@ -272,7 +271,7 @@
     \endcode
     has to be changed to:
     \code
-    import QtGraphs3D
+    import QtGraphs
     \endcode
     for Qt Graphs.
 

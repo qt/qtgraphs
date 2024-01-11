@@ -3,7 +3,7 @@
 
 #undef QT_NO_FOREACH // this file contains unported legacy Q_FOREACH uses
 
-#include <QtGraphs2D/qxyseries.h>
+#include <QtGraphs/qxyseries.h>
 #include <private/qxyseries_p.h>
 #include <private/charthelpers_p.h>
 

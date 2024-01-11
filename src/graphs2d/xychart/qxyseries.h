@@ -4,8 +4,8 @@
 #ifndef QXYSERIES_H
 #define QXYSERIES_H
 
-#include <QtGraphs2D/qabstractseries.h>
-#include <QtGraphs2D/qtgraphs2dexports.h>
+#include <QtGraphs/qabstractseries.h>
+#include <QtGraphs/qgraphsglobal.h>
 
 QT_BEGIN_NAMESPACE
 class QModelIndex;
@@ -16,7 +16,7 @@ QT_BEGIN_NAMESPACE
 class QXYSeriesPrivate;
 class QXYModelMapper;
 
-class Q_GRAPHS2D_EXPORT QXYSeries : public QAbstractSeries
+class Q_GRAPHS_EXPORT QXYSeries : public QAbstractSeries
 {
     Q_OBJECT
     Q_PROPERTY(QColor color READ color WRITE setColor NOTIFY colorChanged)

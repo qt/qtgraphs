@@ -2,9 +2,9 @@
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 
 #include <private/qgraphsview_p.h>
-#include <QtGraphs2D/qbarseries.h>
-#include <QtGraphs2D/qlineseries.h>
-#include <QtGraphs2D/qscatterseries.h>
+#include <QtGraphs/qbarseries.h>
+#include <QtGraphs/qlineseries.h>
+#include <QtGraphs/qscatterseries.h>
 
 QT_BEGIN_NAMESPACE
 

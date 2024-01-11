@@ -13,7 +13,7 @@
 #ifndef QSCATTERSERIES_P_H
 #define QSCATTERSERIES_P_H
 
-#include <QtGraphs2D/qscatterseries.h>
+#include <QtGraphs/qscatterseries.h>
 #include <private/qxyseries_p.h>
 
 QT_BEGIN_NAMESPACE

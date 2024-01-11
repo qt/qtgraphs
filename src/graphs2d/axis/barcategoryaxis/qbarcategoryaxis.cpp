@@ -3,7 +3,7 @@
 
 #undef QT_NO_FOREACH // this file contains unported legacy Q_FOREACH uses
 
-#include <QtGraphs2D/QBarCategoryAxis>
+#include <QtGraphs/QBarCategoryAxis>
 #include <private/qbarcategoryaxis_p.h>
 #include <QtCore/QtMath>
 
@@ -22,7 +22,7 @@ QT_BEGIN_NAMESPACE
     \qmltype BarCategoryAxis
     \instantiates QBarCategoryAxis
     \inqmlmodule QtGraphs
-    \ingroup graphs_qml
+    \ingroup graphs_qml_2D
     \inherits AbstractAxis
 
     \brief Adds categories to a chart's axes.

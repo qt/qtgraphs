@@ -4,10 +4,10 @@
 #ifndef CUSTOMLINESERIES_H
 #define CUSTOMLINESERIES_H
 
-#include <QQmlEngine>
-#include <QtGraphs2D/qlineseries.h>
 #include <QList>
+#include <QQmlEngine>
 #include <QTimer>
+#include <QtGraphs/qlineseries.h>
 
 class CustomLineSeries : public QLineSeries
 {

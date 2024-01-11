@@ -3,8 +3,8 @@
 
 #include <private/barsrenderer_p.h>
 #include <private/qgraphsview_p.h>
-#include <QtGraphs2D/qbarseries.h>
-#include <QtGraphs2D/qbarset.h>
+#include <QtGraphs/qbarseries.h>
+#include <QtGraphs/qbarset.h>
 
 QT_BEGIN_NAMESPACE
 

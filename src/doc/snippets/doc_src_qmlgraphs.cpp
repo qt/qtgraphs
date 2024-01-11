@@ -2,12 +2,12 @@
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 
 //! [0]
-import QtGraphs3D
+import QtGraphs
 //! [0]
 
 //! [1]
 import QtQuick
-import QtGraphs3D
+import QtGraphs
 
 Item {
     width: 640
@@ -46,7 +46,7 @@ Item {
 
 //! [2]
 import QtQuick
-import QtGraphs3D
+import QtGraphs
 
 Item {
     width: 640
@@ -79,7 +79,7 @@ Item {
 
 //! [3]
 import QtQuick
-import QtGraphs3D
+import QtGraphs
 
 Item {
     width: 640

@@ -9,7 +9,7 @@ QT_BEGIN_NAMESPACE
 /*!
     \qmltype XYPoint
     \inqmlmodule QtGraphs
-    \ingroup graphs_qml
+    \ingroup graphs_qml_2D
     \brief Initializes XY-series coordinate data.
 
     The XYPoint type is a convenience type for initializing line, spline, and

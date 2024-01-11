@@ -13,7 +13,7 @@
 #ifndef QABSTRACTAXIS_P_H
 #define QABSTRACTAXIS_P_H
 
-#include <QtGraphs2D/QAbstractAxis>
+#include <QtGraphs/QAbstractAxis>
 #include <private/qgraphsview_p.h>
 #include <QtCore/QDebug>
 #include <QColor>
