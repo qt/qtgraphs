@@ -1498,6 +1498,8 @@ void QQuickGraphsSurface::updateSliceGraph()
         QRect sampleSpace = model->sampleSpace;
         int rowStart = sampleSpace.top();
         int columnStart = sampleSpace.left();
+        int rowEnd = sampleSpace.bottom() + 1;
+        int columnEnd = sampleSpace.right() + 1;
         int rowCount = sampleSpace.height();
         int columnCount = sampleSpace.width();
 
@@ -1508,12 +1510,20 @@ void QQuickGraphsSurface::updateSliceGraph()
             coord = mapCoordsToSampleSpace(model, worldCoord);
 
         int indexCount = 0;
+        const QSurfaceDataArray &array = model->series->dataProxy()->array();
+        const int maxRow = array.size() - 1;
+        const int maxColumn = array.at(0).size() - 1;
+        const bool ascendingX = array.at(0).at(0).x() < array.at(0).at(maxColumn).x();
+        const bool ascendingZ = array.at(0).at(0).z() < array.at(maxRow).at(0).z();
         if (selectionMode().testFlag(QAbstract3DGraph::SelectionRow) && coord.y() != -1) {
-            int selectedRow = (coord.y() - rowStart) * columnCount;
             selectedSeries.reserve(columnCount * 2);
             QVector<SurfaceVertex> list;
-            for (int i = 0; i < columnCount; i++) {
-                SurfaceVertex vertex = model->vertices.at(selectedRow + i);
+            QSurfaceDataRow row = array.at(coord.y());
+            for (int i = columnStart; i < columnEnd; i++) {
+                int index = ascendingX ? i : rowEnd - i - rowStart - 1;
+                QVector3D pos = getNormalizedVertex(row.at(index), false, false);
+                SurfaceVertex vertex;
+                vertex.position = pos;
                 vertex.position.setY(vertex.position.y() - .025f);
                 vertex.position.setZ(.0f);
                 selectedSeries.append(vertex);
@@ -1525,11 +1535,13 @@ void QQuickGraphsSurface::updateSliceGraph()
         }
 
         if (selectionMode().testFlag(QAbstract3DGraph::SelectionColumn) && coord.x() != -1) {
-            int selectedColumn = coord.x() - columnStart;
             selectedSeries.reserve(rowCount * 2);
             QVector<SurfaceVertex> list;
-            for (int i = 0; i < rowCount; i++) {
-                SurfaceVertex vertex = model->vertices.at((i * columnCount) + selectedColumn);
+            for (int i = rowStart; i < rowEnd; i++) {
+                int index = ascendingZ ? i : rowEnd - i - rowStart - 1;
+                QVector3D pos = getNormalizedVertex(array.at(index).at(coord.x()), false, false);
+                SurfaceVertex vertex;
+                vertex.position = pos;
                 vertex.position.setX(-vertex.position.z());
                 vertex.position.setY(vertex.position.y() - .025f);
                 vertex.position.setZ(0);
