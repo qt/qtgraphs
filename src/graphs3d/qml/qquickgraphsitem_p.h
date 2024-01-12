@@ -371,14 +371,6 @@ public:
     QQuick3DNode *titleLabelY() const { return m_titleLabelY; }
     QQuick3DNode *titleLabelZ() const { return m_titleLabelZ; }
 
-    QQuick3DRepeater *segmentLineRepeaterX() const { return m_segmentLineRepeaterX; }
-    QQuick3DRepeater *segmentLineRepeaterY() const { return m_segmentLineRepeaterY; }
-    QQuick3DRepeater *segmentLineRepeaterZ() const { return m_segmentLineRepeaterZ; }
-
-    QQuick3DRepeater *subsegmentLineRepeaterX() const { return m_subsegmentLineRepeaterX; }
-    QQuick3DRepeater *subsegmentLineRepeaterY() const { return m_subsegmentLineRepeaterY; }
-    QQuick3DRepeater *subsegmentLineRepeaterZ() const { return m_subsegmentLineRepeaterZ; }
-
     bool isXFlipped() const { return m_xFlipped; }
     void setXFlipped(bool xFlipped) { m_xFlipped = xFlipped; }
     bool isYFlipped() const { return m_yFlipped; }
@@ -474,6 +466,9 @@ public:
     Q_INVOKABLE virtual bool doPicking(const QPointF &point);
 
     void minimizeMainGraph();
+
+    int horizontalFlipFactor() const;
+    void setHorizontalFlipFactor(int newHorizontalFlipFactor);
 
 public Q_SLOTS:
     virtual void handleAxisXChanged(QAbstract3DAxis *axis) = 0;
@@ -713,6 +708,9 @@ private:
     // This is the same as the minimum bound of GridLine model.
     const float angularLineOffset = -49.98f;
     const float rotationOffset = 90.0f;
+
+    QQuick3DModel *m_gridGeometryModel = nullptr;
+    QQuick3DModel *m_sliceGridGeometryModel = nullptr;
     Abstract3DChangeBitField m_changeTracker;
     ThemeManager *m_themeManager = nullptr;
     QAbstract3DGraph::SelectionFlags m_selectionMode = QAbstract3DGraph::SelectionItem;
@@ -743,16 +741,8 @@ private:
     QQuickItem *m_itemLabel = nullptr;
     QQuick3DNode *m_sliceItemLabel = nullptr;
 
-    QQuick3DRepeater *m_segmentLineRepeaterX = nullptr;
-    QQuick3DRepeater *m_subsegmentLineRepeaterX = nullptr;
-    QQuick3DRepeater *m_segmentLineRepeaterY = nullptr;
-    QQuick3DRepeater *m_subsegmentLineRepeaterY = nullptr;
-    QQuick3DRepeater *m_segmentLineRepeaterZ = nullptr;
-    QQuick3DRepeater *m_subsegmentLineRepeaterZ = nullptr;
-
     QQuick3DViewport *m_sliceView = nullptr;
-    QQuick3DRepeater *m_sliceHorizontalGridRepeater = nullptr;
-    QQuick3DRepeater *m_sliceVerticalGridRepeater = nullptr;
+
     QQuick3DRepeater *m_sliceHorizontalLabelRepeater = nullptr;
     QQuick3DRepeater *m_sliceVerticalLabelRepeater = nullptr;
 
@@ -777,6 +767,7 @@ private:
     bool m_zFlipped = false;
 
     bool m_flipScales;
+    int m_horizontalFlipFactor = 1;
 
     bool m_isFloorGridInRange = false;
     bool m_hasVerticalSegmentLine = true;
@@ -813,13 +804,12 @@ private:
     void setUpLight();
     void updateCamera();
     void updateRadialLabelOffset();
-    void handleSegmentLineCountChanged(QAbstract3DAxis *axis, QQuick3DRepeater *repeater);
-    void handleSubSegmentLineCountChanged(QAbstract3DAxis *axis, QQuick3DRepeater *repeater);
     QVector3D calculateLabelRotation(float labelAutoAngle);
     void updateCustomData();
     void updateCustomLabelsRotation();
     float fontScaleFactor(float pointSize);
     float labelAdjustment(float width);
+    void gridLineCountHelper(QAbstract3DAxis *axis, int &lineCount, int &sublineCount);
 
     void createVolumeMaterial(QCustom3DVolume *volume, Volume &volumeItem);
     QQuick3DModel *createSliceFrame(Volume &volumeItem);
@@ -847,6 +837,8 @@ private:
     float m_zoomLevel = 100.0f;
     float m_minZoomLevel = 10.0f;
     float m_maxZoomLevel = 500.0f;
+
+    bool m_gridUpdate = false;
 
     QVector3D m_requestedTarget = QVector3D();
 
