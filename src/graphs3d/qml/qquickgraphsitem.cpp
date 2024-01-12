@@ -42,6 +42,9 @@
 
 QT_BEGIN_NAMESPACE
 
+constexpr float doublePi = static_cast<float>(M_PI) * 2.0f;
+constexpr float polarRoundness = 64.0f;
+
 QQuickGraphsItem::QQuickGraphsItem(QQuickItem *parent)
     : QQuick3DViewport(parent)
     , m_locale(QLocale::c())
@@ -98,30 +101,8 @@ QQuickGraphsItem::~QQuickGraphsItem()
     m_repeaterY->deleteLater();
     m_repeaterZ->deleteLater();
 
-    m_segmentLineRepeaterX->model().clear();
-    m_segmentLineRepeaterY->model().clear();
-    m_segmentLineRepeaterZ->model().clear();
-    m_segmentLineRepeaterX->deleteLater();
-    m_segmentLineRepeaterY->deleteLater();
-    m_segmentLineRepeaterZ->deleteLater();
-
-    m_subsegmentLineRepeaterX->model().clear();
-    m_subsegmentLineRepeaterY->model().clear();
-    m_subsegmentLineRepeaterZ->model().clear();
-    m_subsegmentLineRepeaterX->deleteLater();
-    m_subsegmentLineRepeaterY->deleteLater();
-    m_subsegmentLineRepeaterZ->deleteLater();
-
-    if (m_sliceVerticalGridRepeater) {
-        m_sliceVerticalGridRepeater->model().clear();
-        m_sliceHorizontalGridRepeater->model().clear();
-        m_sliceHorizontalLabelRepeater->model().clear();
-        m_sliceVerticalLabelRepeater->model().clear();
-        m_sliceVerticalGridRepeater->deleteLater();
-        m_sliceHorizontalGridRepeater->deleteLater();
-        m_sliceHorizontalLabelRepeater->deleteLater();
-        m_sliceVerticalLabelRepeater->deleteLater();
-    }
+    delete m_gridGeometryModel;
+    delete m_sliceGridGeometryModel;
 
     // Make sure not deleting locked mutex
     QMutexLocker locker(&m_mutex);
@@ -576,6 +557,17 @@ void QQuickGraphsItem::startRecordingRemovesAndInserts()
     // Default implementation does nothing
 }
 
+int QQuickGraphsItem::horizontalFlipFactor() const
+{
+    return m_horizontalFlipFactor;
+}
+
+void QQuickGraphsItem::setHorizontalFlipFactor(int newHorizontalFlipFactor)
+{
+    m_gridUpdate = true;
+    m_horizontalFlipFactor = newHorizontalFlipFactor;
+}
+
 void QQuickGraphsItem::emitNeedRender()
 {
     if (!m_renderPending) {
@@ -1017,90 +1009,32 @@ void QQuickGraphsItem::componentComplete()
     m_titleLabelZ->setVisible(axisZ()->isTitleVisible());
     m_titleLabelZ->setProperty("labelText", axisZ()->title());
 
-    // Testing gridline
-
-    // X lines
-    m_segmentLineRepeaterX = createRepeater();
-
-    auto segmentLineDelegate = createRepeaterDelegateComponent(QStringLiteral(":/axis/GridLine"));
-    m_segmentLineRepeaterX->setDelegate(segmentLineDelegate);
-
-    m_subsegmentLineRepeaterX = createRepeater();
-
-    auto subsegmentLineDelegate = createRepeaterDelegateComponent(
-        QStringLiteral(":/axis/GridLine"));
-    m_subsegmentLineRepeaterX->setDelegate(subsegmentLineDelegate);
-
-    // Y lines
-    m_segmentLineRepeaterY = createRepeater();
-
-    segmentLineDelegate = createRepeaterDelegateComponent(QStringLiteral(":/axis/GridLine"));
-    m_segmentLineRepeaterY->setDelegate(segmentLineDelegate);
-
-    m_subsegmentLineRepeaterY = createRepeater();
-
-    subsegmentLineDelegate = createRepeaterDelegateComponent(QStringLiteral(":/axis/GridLine"));
-    m_subsegmentLineRepeaterY->setDelegate(subsegmentLineDelegate);
-
-    // Z lines
-    m_segmentLineRepeaterZ = createRepeater();
-
-    segmentLineDelegate = createRepeaterDelegateComponent(QStringLiteral(":/axis/GridLine"));
-    m_segmentLineRepeaterZ->setDelegate(segmentLineDelegate);
-
-    m_subsegmentLineRepeaterZ = createRepeater();
-
-    subsegmentLineDelegate = createRepeaterDelegateComponent(QStringLiteral(":/axis/GridLine"));
-    m_subsegmentLineRepeaterZ->setDelegate(subsegmentLineDelegate);
+    // Grid with geometry
+    m_gridGeometryModel = new QQuick3DModel(m_graphNode);
+    m_gridGeometryModel->setCastsShadows(false);
+    auto gridGeometry = new QQuick3DGeometry(m_gridGeometryModel);
+    gridGeometry->setStride(sizeof(QVector3D));
+    gridGeometry->setPrimitiveType(QQuick3DGeometry::PrimitiveType::Lines);
+    gridGeometry->addAttribute(QQuick3DGeometry::Attribute::PositionSemantic, 0,
+                               QQuick3DGeometry::Attribute::F32Type);
+    m_gridGeometryModel->setGeometry(gridGeometry);
+    QQmlListReference gridMaterialRef(m_gridGeometryModel, "materials");
+    auto gridMaterial = new QQuick3DPrincipledMaterial(m_gridGeometryModel);
+    gridMaterial->setLighting(QQuick3DPrincipledMaterial::Lighting::NoLighting);
+    gridMaterial->setCullMode(QQuick3DMaterial::CullMode::BackFaceCulling);
+    gridMaterialRef.append(gridMaterial);
 
     createItemLabel();
 
     auto axis = axisX();
-    int segmentCount = 0;
-    int subSegmentCount = 0;
-    int gridLineCount = 0;
-    int subGridLineCount = 0;
-    if (axis->type() == QAbstract3DAxis::AxisType::Value) {
-        QValue3DAxis *valueAxis = static_cast<QValue3DAxis *>(axis);
-        segmentCount = valueAxis->segmentCount();
-        subSegmentCount = valueAxis->subSegmentCount();
-        gridLineCount = 2 * (segmentCount + 1);
-        subGridLineCount = 2 * (segmentCount * (subSegmentCount - 1));
-    } else if (axis->type() == QAbstract3DAxis::AxisType::Category) {
-        gridLineCount = axis->labels().size();
-    }
-    m_segmentLineRepeaterX->setModel(gridLineCount);
-    m_subsegmentLineRepeaterX->setModel(subGridLineCount);
     m_repeaterX->setModel(axis->labels().size());
     handleAxisLabelsChangedBySender(axisX());
 
     axis = axisY();
-    if (axis->type() == QAbstract3DAxis::AxisType::Value) {
-        QValue3DAxis *valueAxis = static_cast<QValue3DAxis *>(axis);
-        segmentCount = valueAxis->segmentCount();
-        subSegmentCount = valueAxis->subSegmentCount();
-        gridLineCount = 2 * (segmentCount + 1);
-        subGridLineCount = 2 * (segmentCount * (subSegmentCount - 1));
-    } else if (axis->type() == QAbstract3DAxis::AxisType::Category) {
-        gridLineCount = axis->labels().size();
-    }
-    m_segmentLineRepeaterY->setModel(gridLineCount);
-    m_subsegmentLineRepeaterY->setModel(subGridLineCount);
     m_repeaterY->setModel(2 * axis->labels().size());
     handleAxisLabelsChangedBySender(axisY());
 
     axis = axisZ();
-    if (axis->type() == QAbstract3DAxis::AxisType::Value) {
-        QValue3DAxis *valueAxis = static_cast<QValue3DAxis *>(axis);
-        segmentCount = valueAxis->segmentCount();
-        subSegmentCount = valueAxis->subSegmentCount();
-        gridLineCount = 2 * (segmentCount + 1);
-        subGridLineCount = 2 * (segmentCount * (subSegmentCount - 1));
-    } else if (axis->type() == QAbstract3DAxis::AxisType::Category) {
-        gridLineCount = axis->labels().size();
-    }
-    m_segmentLineRepeaterZ->setModel(gridLineCount);
-    m_subsegmentLineRepeaterZ->setModel(subGridLineCount);
     m_repeaterZ->setModel(axis->labels().size());
     handleAxisLabelsChangedBySender(axisZ());
 
@@ -1555,7 +1489,6 @@ void QQuickGraphsItem::synchData()
             QValue3DAxis *valueAxisX = static_cast<QValue3DAxis *>(axisX());
             valueAxisX->recalculate();
         }
-        handleSegmentLineCountChanged(axisX(), m_segmentLineRepeaterX);
         m_changeTracker.axisXSegmentCountChanged = false;
         axisDirty = true;
     }
@@ -1565,7 +1498,6 @@ void QQuickGraphsItem::synchData()
             QValue3DAxis *valueAxisY = static_cast<QValue3DAxis *>(axisY());
             valueAxisY->recalculate();
         }
-        handleSegmentLineCountChanged(axisY(), m_segmentLineRepeaterY);
         m_changeTracker.axisYSegmentCountChanged = false;
         axisDirty = true;
     }
@@ -1575,7 +1507,6 @@ void QQuickGraphsItem::synchData()
             QValue3DAxis *valueAxisZ = static_cast<QValue3DAxis *>(axisZ());
             valueAxisZ->recalculate();
         }
-        handleSegmentLineCountChanged(axisZ(), m_segmentLineRepeaterZ);
         m_changeTracker.axisZSegmentCountChanged = false;
         axisDirty = true;
     }
@@ -1585,7 +1516,6 @@ void QQuickGraphsItem::synchData()
             QValue3DAxis *valueAxisX = static_cast<QValue3DAxis *>(axisX());
             valueAxisX->recalculate();
         }
-        handleSubSegmentLineCountChanged(axisX(), m_subsegmentLineRepeaterX);
         m_changeTracker.axisXSubSegmentCountChanged = false;
         axisDirty = true;
     }
@@ -1595,7 +1525,6 @@ void QQuickGraphsItem::synchData()
             QValue3DAxis *valueAxisY = static_cast<QValue3DAxis *>(axisY());
             valueAxisY->recalculate();
         }
-        handleSubSegmentLineCountChanged(axisY(), m_subsegmentLineRepeaterY);
         m_changeTracker.axisYSubSegmentCountChanged = false;
         axisDirty = true;
     }
@@ -1605,7 +1534,6 @@ void QQuickGraphsItem::synchData()
             QValue3DAxis *valueAxisZ = static_cast<QValue3DAxis *>(axisZ());
             valueAxisZ->recalculate();
         }
-        handleSubSegmentLineCountChanged(axisZ(), m_subsegmentLineRepeaterZ);
         m_changeTracker.axisZSubSegmentCountChanged = false;
         axisDirty = true;
     }
@@ -1620,8 +1548,6 @@ void QQuickGraphsItem::synchData()
             repeaterX()->setModel(categoryAxis->labels().size());
         }
 
-        handleSegmentLineCountChanged(axisX(), segmentLineRepeaterX());
-        handleSubSegmentLineCountChanged(axisX(), subsegmentLineRepeaterX());
         m_changeTracker.axisXLabelsChanged = false;
         handleLabelCountChanged(m_repeaterX);
         axisDirty = true;
@@ -1637,8 +1563,6 @@ void QQuickGraphsItem::synchData()
             repeaterY()->setModel(2 * categoryAxis->labels().size());
         }
 
-        handleSegmentLineCountChanged(axisY(), segmentLineRepeaterY());
-        handleSubSegmentLineCountChanged(axisY(), subsegmentLineRepeaterY());
         m_changeTracker.axisYLabelsChanged = false;
         handleLabelCountChanged(m_repeaterY);
         axisDirty = true;
@@ -1654,8 +1578,6 @@ void QQuickGraphsItem::synchData()
             repeaterZ()->setModel(categoryAxis->labels().size());
         }
 
-        handleSegmentLineCountChanged(axisZ(), segmentLineRepeaterZ());
-        handleSubSegmentLineCountChanged(axisZ(), subsegmentLineRepeaterZ());
         m_changeTracker.axisZLabelsChanged = false;
         handleLabelCountChanged(m_repeaterZ);
         axisDirty = true;
@@ -1697,12 +1619,6 @@ void QQuickGraphsItem::synchData()
     }
 
     if (m_changeTracker.polarChanged) {
-      handleSegmentLineCountChanged(axisX(), m_segmentLineRepeaterX);
-      handleSegmentLineCountChanged(axisZ(), m_segmentLineRepeaterZ);
-
-      handleSubSegmentLineCountChanged(axisX(), m_subsegmentLineRepeaterX);
-      handleSubSegmentLineCountChanged(axisZ(), m_subsegmentLineRepeaterZ);
-
       axisDirty = true;
       m_changeTracker.polarChanged = false;
     }
@@ -1995,29 +1911,21 @@ void QQuickGraphsItem::synchData()
 
     if (theme()->d_func()->m_dirtyBits.gridEnabledDirty) {
         bool enabled = theme()->isGridEnabled();
-        m_segmentLineRepeaterX->setVisible(enabled);
-        m_segmentLineRepeaterY->setVisible(enabled);
-        m_segmentLineRepeaterZ->setVisible(enabled);
 
-        m_subsegmentLineRepeaterX->setVisible(enabled);
-        m_subsegmentLineRepeaterY->setVisible(enabled);
-        m_subsegmentLineRepeaterZ->setVisible(enabled);
+        m_gridGeometryModel->setVisible(enabled);
+        if (m_sliceView && isSliceEnabled())
+            m_sliceGridGeometryModel->setVisible(enabled);
 
-        if (m_sliceView && isSliceEnabled()) {
-            m_sliceHorizontalGridRepeater->setVisible(enabled);
-            m_sliceVerticalGridRepeater->setVisible(enabled);
-        }
         theme()->d_func()->m_dirtyBits.gridEnabledDirty = false;
     }
 
     if (theme()->d_func()->m_dirtyBits.gridLineColorDirty) {
         QColor gridLineColor = theme()->gridLineColor();
-        changeGridLineColor(m_segmentLineRepeaterX, gridLineColor);
-        changeGridLineColor(m_subsegmentLineRepeaterX, gridLineColor);
-        changeGridLineColor(m_segmentLineRepeaterY, gridLineColor);
-        changeGridLineColor(m_subsegmentLineRepeaterY, gridLineColor);
-        changeGridLineColor(m_segmentLineRepeaterZ, gridLineColor);
-        changeGridLineColor(m_subsegmentLineRepeaterZ, gridLineColor);
+
+        QQmlListReference materialRef(m_gridGeometryModel, "materials");
+        Q_ASSERT(materialRef.size());
+        auto *material = static_cast<QQuick3DPrincipledMaterial *>(materialRef.at(0));
+        material->setBaseColor(gridLineColor);
         theme()->d_func()->m_dirtyBits.gridLineColorDirty = false;
     }
 
@@ -2059,6 +1967,9 @@ void QQuickGraphsItem::synchData()
         updateGraph();
         m_isSeriesVisualsDirty = false;
     }
+
+    if (m_gridUpdate)
+        updateGrid();
 
     if (m_isDataDirty) {
         forceUpdateCustomVolumes = true;
@@ -2118,19 +2029,17 @@ void QQuickGraphsItem::calculateSceneScalingFactors()
 
 void QQuickGraphsItem::updateGrid()
 {
-    int gridLineCountX = segmentLineRepeaterX()->count();
-    int subGridLineCountX = subsegmentLineRepeaterX()->count();
-    int gridLineCountY = segmentLineRepeaterY()->count() / 2;
-    int subGridLineCountY = subsegmentLineRepeaterY()->count() / 2;
-    int gridLineCountZ = segmentLineRepeaterZ()->count();
-    int subGridLineCountZ = subsegmentLineRepeaterZ()->count();
+    int gridLineCountX = 0;
+    int subGridLineCountX = 0;
+    gridLineCountHelper(axisX(), gridLineCountX, subGridLineCountX);
 
-    if (!m_isFloorGridInRange && !m_isPolar) {
-        gridLineCountX /= 2;
-        subGridLineCountX /= 2;
-        gridLineCountZ /= 2;
-        subGridLineCountZ /= 2;
-    }
+    int gridLineCountY = 0;
+    int subGridLineCountY = 0;
+    gridLineCountHelper(axisY(), gridLineCountY, subGridLineCountY);
+
+    int gridLineCountZ = 0;
+    int subGridLineCountZ = 0;
+    gridLineCountHelper(axisZ(), gridLineCountZ, subGridLineCountZ);
 
     auto backgroundScale = m_scaleWithBackground + m_backgroundScaleMargin;
     QVector3D scaleX(backgroundScale.x() * lineLengthScaleFactor(),
@@ -2147,8 +2056,37 @@ void QQuickGraphsItem::updateGrid()
     const bool yFlipped = isYFlipped();
     const bool zFlipped = isZFlipped();
 
+    const float lineOffset = 0.01f;
+    const float backOffsetAdjustment = 0.005f;
+
     QQuaternion lineRotation(.0f, .0f, .0f, .0f);
     QVector3D rotation(90.0f, 0.0f, 0.0f);
+
+    QByteArray vertices;
+    int verticalXCount = gridLineCountX + subGridLineCountX;
+    int horizontalZCount = gridLineCountZ + subGridLineCountZ;
+    int horizontalYCount = gridLineCountY + subGridLineCountY;
+    int calculatedSize = 0;
+    if (!isPolar()) {
+        int factor = m_hasVerticalSegmentLine ? 2 : 1;
+        calculatedSize = (factor * verticalXCount + factor * horizontalZCount + 2 * horizontalYCount)
+                         * 2 * sizeof(QVector3D);
+    } else {
+        int radialMainGridSize = static_cast<QValue3DAxis *>(axisZ())->gridSize() * polarRoundness;
+        int radialSubGridSize = static_cast<QValue3DAxis *>(axisZ())->subGridSize()
+                                * polarRoundness;
+
+        int angularMainGridsize = static_cast<QValue3DAxis *>(axisX())->gridSize();
+        int angularSubGridsize = static_cast<QValue3DAxis *>(axisX())->subGridSize();
+
+        int yLines = 2 * horizontalYCount;
+
+        calculatedSize = (radialSubGridSize + radialMainGridSize + angularMainGridsize
+                          + angularSubGridsize + yLines - 1)
+                         * 2 * sizeof(QVector3D);
+    }
+    vertices.resize(calculatedSize);
+    QVector3D *data = reinterpret_cast<QVector3D *>(vertices.data());
 
     // Floor horizontal line
     float linePosX = 0.0f;
@@ -2156,229 +2094,191 @@ void QQuickGraphsItem::updateGrid()
     float linePosZ = 0.0f;
     float scale = m_scaleWithBackground.z();
 
+    float x0 = backgroundScale.x();
+    float x1 = -backgroundScale.x();
+
+    float tempLineOffset = -lineOffset;
     if (!yFlipped) {
         linePosY *= -1.0f;
         rotation.setZ(180.0f);
+        tempLineOffset *= -1.0f;
     }
     lineRotation = Utils::calculateRotation(rotation);
-    for (int i = 0; i < subGridLineCountZ; i++) {
-        QQuick3DNode *lineNode = static_cast<QQuick3DNode *>(subsegmentLineRepeaterZ()->objectAt(i));
-        if (axisZ()->type() == QAbstract3DAxis::AxisType::Value) {
-            linePosZ = static_cast<QValue3DAxis *>(axisZ())->subGridPositionAt(i) * -scale * 2.0f
-                       + scale;
-        } else if (axisZ()->type() == QAbstract3DAxis::AxisType::Category) {
-            linePosZ = calculateCategoryGridLinePosition(axisZ(), i);
-            linePosY = calculateCategoryGridLinePosition(axisY(), i);
+    linePosY *= m_horizontalFlipFactor;
+    tempLineOffset *= m_horizontalFlipFactor;
+    if (!isPolar()) {
+        for (int i = 0; i < subGridLineCountZ; i++) {
+            if (axisZ()->type() == QAbstract3DAxis::AxisType::Value) {
+                linePosZ = static_cast<QValue3DAxis *>(axisZ())->subGridPositionAt(i) * -scale
+                               * 2.0f
+                           + scale;
+            } else if (axisZ()->type() == QAbstract3DAxis::AxisType::Category) {
+                linePosZ = calculateCategoryGridLinePosition(axisZ(), i);
+                linePosY = calculateCategoryGridLinePosition(axisY(), i);
+            }
+
+            *data++ = QVector3D(x0, linePosY + tempLineOffset, linePosZ);
+            *data++ = QVector3D(x1, linePosY + tempLineOffset, linePosZ);
         }
-        if (isPolar()) {
-            lineNode->setPosition(QVector3D(0.0f, linePosY, 0.0f));
-            lineNode->setScale(QVector3D(scaleX.x() * .5f, scaleX.x() * .5f, scaleX.z()));
-            lineNode->setProperty("polarRadius",
-                                  static_cast<QValue3DAxis *>(axisZ())->subGridPositionAt(i)
-                                      / (scaleX.x() * .5f) * 2.0f);
-        } else {
-            positionAndScaleLine(lineNode, scaleX, QVector3D(linePosX, linePosY, linePosZ));
+    } else {
+        auto valueAxisZ = static_cast<QValue3DAxis *>(axisZ());
+
+        for (int k = 0; k < subGridLineCountZ; k++) {
+            float degrees = 0.0f;
+            const float r = (m_polarRadius / 2.0f) * valueAxisZ->subGridPositionAt(k);
+            QVector3D lastPoint(r * qCos(degrees), linePosY, r * qSin(degrees));
+            for (int i = 1; i <= polarRoundness; i++) {
+                degrees = doublePi * i / polarRoundness;
+                const float xPos = qCos(degrees);
+                const float zPos = qSin(degrees);
+
+                const QVector3D pos(r * xPos, linePosY, r * zPos);
+                *data++ = lastPoint;
+                *data++ = pos;
+                lastPoint = pos;
+            }
         }
-        lineNode->setRotation(lineRotation);
-        lineNode->setProperty("isPolar", isPolar());
     }
 
-    for (int i = 0; i < gridLineCountZ; i++) {
-        QQuick3DNode *lineNode = static_cast<QQuick3DNode *>(segmentLineRepeaterZ()->objectAt(i));
-        if (axisZ()->type() == QAbstract3DAxis::AxisType::Value) {
-            linePosZ = static_cast<QValue3DAxis *>(axisZ())->gridPositionAt(i) * -scale * 2.0f
-                       + scale;
-        } else if (axisZ()->type() == QAbstract3DAxis::AxisType::Category) {
-            linePosZ = calculateCategoryGridLinePosition(axisZ(), i);
-            linePosY = calculateCategoryGridLinePosition(axisY(), i);
+    if (!isPolar()) {
+        for (int i = 0; i < gridLineCountZ; i++) {
+            if (axisZ()->type() == QAbstract3DAxis::AxisType::Value) {
+                linePosZ = static_cast<QValue3DAxis *>(axisZ())->gridPositionAt(i) * -scale * 2.0f
+                           + scale;
+            } else if (axisZ()->type() == QAbstract3DAxis::AxisType::Category) {
+                linePosZ = calculateCategoryGridLinePosition(axisZ(), i);
+                linePosY = calculateCategoryGridLinePosition(axisY(), i);
+            }
+
+            *data++ = QVector3D(x0, linePosY + tempLineOffset, linePosZ);
+            *data++ = QVector3D(x1, linePosY + tempLineOffset, linePosZ);
         }
-        if (isPolar()) {
-            lineNode->setPosition(QVector3D(0.0f, linePosY, 0.0f));
-            lineNode->setScale(QVector3D(scaleX.x() * .5f, scaleX.x() * .5f, scaleX.z()));
-            lineNode->setProperty("polarRadius",
-                                  static_cast<QValue3DAxis *>(axisZ())->gridPositionAt(i)
-                                      / (scaleX.x() * .5f) * 2.0f);
-        } else {
-            positionAndScaleLine(lineNode, scaleX, QVector3D(linePosX, linePosY, linePosZ));
+    } else {
+        auto valueAxisZ = static_cast<QValue3DAxis *>(axisZ());
+        for (int k = 0; k < gridLineCountZ; k++) {
+            float degrees = 0.0f;
+            const float r = scale * valueAxisZ->gridPositionAt(k);
+            QVector3D lastPoint(r * qCos(degrees), linePosY, r * qSin(degrees));
+
+            for (int i = 1; i <= polarRoundness; i++) {
+                degrees = doublePi * i / polarRoundness;
+                const float xPos = qCos(degrees);
+                const float zPos = qSin(degrees);
+
+                const QVector3D pos(r * xPos, linePosY, r * zPos);
+                *data++ = lastPoint;
+                *data++ = pos;
+                lastPoint = pos;
+            }
         }
-        lineNode->setRotation(lineRotation);
-        lineNode->setProperty("isPolar", isPolar());
     }
 
     // Side vertical line
     linePosX = -backgroundScale.x();
     linePosY = 0.0f;
     rotation = QVector3D(0.0f, 90.0f, 0.0f);
+
+    float y0 = -backgroundScale.y();
+    float y1 = backgroundScale.y();
+
+    x0 = -backgroundScale.x();
+    x1 = -backgroundScale.x();
+
+    tempLineOffset = lineOffset;
+
     if (xFlipped) {
         linePosX *= -1.0f;
         rotation.setY(-90.0f);
+        tempLineOffset *= -1.0f;
+        x0 *= -1.0f;
+        x1 *= -1.0f;
     }
     lineRotation = Utils::calculateRotation(rotation);
     if (m_hasVerticalSegmentLine) {
         for (int i = 0; i < subGridLineCountZ; i++) {
-            QQuick3DNode *lineNode = static_cast<QQuick3DNode *>(
-                subsegmentLineRepeaterZ()->objectAt(i + subGridLineCountZ));
             if (axisZ()->type() == QAbstract3DAxis::AxisType::Value) {
                 linePosZ = static_cast<QValue3DAxis *>(axisZ())->subGridPositionAt(i) * scale * 2.0f
                            - scale;
-            } else if (axisZ()->type() == QAbstract3DAxis::AxisType::Category) {
-                linePosX = calculateCategoryGridLinePosition(axisZ(), i);
-                linePosY = calculateCategoryGridLinePosition(axisY(), i);
             }
-            positionAndScaleLine(lineNode, scaleY, QVector3D(linePosX, linePosY, linePosZ));
-            lineNode->setRotation(lineRotation);
+
+            *data++ = QVector3D(x0 + tempLineOffset, y0, linePosZ);
+            *data++ = QVector3D(x1 + tempLineOffset, y1, linePosZ);
         }
+
         for (int i = 0; i < gridLineCountZ; i++) {
-            QQuick3DNode *lineNode = static_cast<QQuick3DNode *>(
-                segmentLineRepeaterZ()->objectAt(i + gridLineCountZ));
             if (axisZ()->type() == QAbstract3DAxis::AxisType::Value) {
                 linePosZ = static_cast<QValue3DAxis *>(axisZ())->gridPositionAt(i) * scale * 2.0f
                            - scale;
-            } else if (axisZ()->type() == QAbstract3DAxis::AxisType::Category) {
-                linePosX = calculateCategoryGridLinePosition(axisZ(), i);
-                linePosY = calculateCategoryGridLinePosition(axisY(), i);
             }
-            positionAndScaleLine(lineNode, scaleY, QVector3D(linePosX, linePosY, linePosZ));
-            lineNode->setRotation(lineRotation);
+
+            *data++ = QVector3D(x0 + tempLineOffset, y0, linePosZ);
+            *data++ = QVector3D(x1 + tempLineOffset, y1, linePosZ);
         }
     }
 
     // Side horizontal line
-    linePosZ = 0.0f;
     scale = m_scaleWithBackground.y();
     rotation = QVector3D(180.0f, -90.0f, 0.0f);
-    if (xFlipped)
+
+    float z0 = backgroundScale.z();
+    float z1 = -backgroundScale.z();
+
+    x0 = -backgroundScale.x();
+    x1 = -backgroundScale.x();
+
+    tempLineOffset = lineOffset;
+
+    if (xFlipped) {
         rotation.setY(90.0f);
+        tempLineOffset *= -1.0f;
+        x0 *= -1.0f;
+        x1 *= -1.0f;
+    }
     lineRotation = Utils::calculateRotation(rotation);
     for (int i = 0; i < gridLineCountY; i++) {
-        QQuick3DNode *lineNode = static_cast<QQuick3DNode *>(segmentLineRepeaterY()->objectAt(i));
-        if (axisY()->type() == QAbstract3DAxis::AxisType::Value)
+        if (axisY()->type() == QAbstract3DAxis::AxisType::Value) {
             linePosY = static_cast<QValue3DAxis *>(axisY())->gridPositionAt(i) * scale * 2.0f
                        - scale;
-        else if (axisY()->type() == QAbstract3DAxis::AxisType::Category)
+        } else if (axisY()->type() == QAbstract3DAxis::AxisType::Category) {
             linePosY = calculateCategoryGridLinePosition(axisY(), i);
-        positionAndScaleLine(lineNode, scaleZ, QVector3D(linePosX, linePosY, linePosZ));
-        lineNode->setRotation(lineRotation);
+        }
+
+        *data++ = QVector3D(x0 + tempLineOffset, linePosY, z0);
+        *data++ = QVector3D(x1 + tempLineOffset, linePosY, z1);
     }
 
     for (int i = 0; i < subGridLineCountY; i++) {
-        QQuick3DNode *lineNode = static_cast<QQuick3DNode *>(subsegmentLineRepeaterY()->objectAt(i));
-        if (axisY()->type() == QAbstract3DAxis::AxisType::Value)
+        if (axisY()->type() == QAbstract3DAxis::AxisType::Value) {
             linePosY = static_cast<QValue3DAxis *>(axisY())->subGridPositionAt(i) * scale * 2.0f
                        - scale;
-        else if (axisY()->type() == QAbstract3DAxis::AxisType::Category)
+        } else if (axisY()->type() == QAbstract3DAxis::AxisType::Category) {
             linePosY = calculateCategoryGridLinePosition(axisY(), i);
-        positionAndScaleLine(lineNode, scaleZ, QVector3D(linePosX, linePosY, linePosZ));
-        lineNode->setRotation(lineRotation);
+        }
+
+        *data++ = QVector3D(x0 + tempLineOffset, linePosY, z0);
+        *data++ = QVector3D(x1 + tempLineOffset, linePosY, z1);
     }
 
     // Floor vertical line
-    linePosZ = 0.0f;
     linePosY = -backgroundScale.y();
     rotation = QVector3D(-90.0f, 90.0f, 0.0f);
+
+    tempLineOffset = lineOffset;
+    z0 = backgroundScale.z();
+    z1 = -backgroundScale.z();
+
     if (yFlipped) {
         linePosY *= -1.0f;
         rotation.setZ(180.0f);
+        tempLineOffset *= -1.0f;
     }
     scale = m_scaleWithBackground.x();
-    for (int i = 0; i < subGridLineCountX; i++) {
-        QQuick3DNode *lineNode = static_cast<QQuick3DNode *>(subsegmentLineRepeaterX()->objectAt(i));
-        if (axisX()->type() == QAbstract3DAxis::AxisType::Value) {
-            linePosX = static_cast<QValue3DAxis *>(axisX())->subGridPositionAt(i) * scale * 2.0f
-                       - scale;
-        } else if (axisX()->type() == QAbstract3DAxis::AxisType::Category) {
-            linePosX = calculateCategoryGridLinePosition(axisX(), i);
-            linePosY = calculateCategoryGridLinePosition(axisY(), i);
-        }
-        if (isPolar()) {
-            lineNode->setPosition(QVector3D(.0f, linePosY, .0f));
-            rotation.setY(static_cast<QValue3DAxis *>(axisX())->gridPositionAt(i) * 360.0f);
-        } else {
-            positionAndScaleLine(lineNode, scaleZ, QVector3D(linePosX, linePosY, linePosZ));
-        }
-        lineRotation = Utils::calculateRotation(rotation);
-        lineNode->setRotation(lineRotation);
-    }
-    for (int i = 0; i < gridLineCountX; i++) {
-        QQuick3DNode *lineNode = static_cast<QQuick3DNode *>(segmentLineRepeaterX()->objectAt(i));
-        if (axisX()->type() == QAbstract3DAxis::AxisType::Value) {
-            linePosX = static_cast<QValue3DAxis *>(axisX())->gridPositionAt(i) * scale * 2.0f
-                       - scale;
-        } else if (axisX()->type() == QAbstract3DAxis::AxisType::Category) {
-            linePosX = calculateCategoryGridLinePosition(axisX(), i);
-            linePosY = calculateCategoryGridLinePosition(axisY(), i);
-        }
-        if (isPolar()) {
-            lineNode->setPosition(QVector3D(.0f, linePosY, .0f));
-            rotation.setY(static_cast<QValue3DAxis *>(axisX())->gridPositionAt(i) * 360.0f);
-        } else {
-            positionAndScaleLine(lineNode, scaleZ, QVector3D(linePosX, linePosY, linePosZ));
-        }
-        lineRotation = Utils::calculateRotation(rotation);
-        lineNode->setRotation(lineRotation);
-    }
 
-    // Back horizontal line
-    linePosX = 0.0f;
-    linePosZ = -backgroundScale.z();
-    rotation = QVector3D(0.0f, 0.0f, 0.0f);
-    if (zFlipped) {
-        linePosZ *= -1.0f;
-        rotation.setX(180.0f);
-    }
-    lineRotation = Utils::calculateRotation(rotation);
-    scale = m_scaleWithBackground.y();
-    for (int i = 0; i < subGridLineCountY; i++) {
-        QQuick3DNode *lineNode = static_cast<QQuick3DNode *>(
-            subsegmentLineRepeaterY()->objectAt(i + subGridLineCountY));
-        if (axisY()->type() == QAbstract3DAxis::AxisType::Value) {
-            linePosY = static_cast<QValue3DAxis *>(axisY())->subGridPositionAt(i) * scale * 2.0f
-                       - scale;
-        } else if (axisY()->type() == QAbstract3DAxis::AxisType::Category) {
-            linePosY = calculateCategoryGridLinePosition(axisY(), i);
-        }
-        positionAndScaleLine(lineNode, scaleX, QVector3D(linePosX, linePosY, linePosZ));
-        lineNode->setRotation(lineRotation);
-    }
+    linePosY *= m_horizontalFlipFactor;
+    tempLineOffset *= m_horizontalFlipFactor;
 
-    for (int i = 0; i < gridLineCountY; i++) {
-        QQuick3DNode *lineNode = static_cast<QQuick3DNode *>(
-            segmentLineRepeaterY()->objectAt(i + gridLineCountY));
-        if (axisY()->type() == QAbstract3DAxis::AxisType::Value) {
-            linePosY = static_cast<QValue3DAxis *>(axisY())->gridPositionAt(i) * scale * 2.0f
-                       - scale;
-        } else if (axisY()->type() == QAbstract3DAxis::AxisType::Category) {
-            linePosY = calculateCategoryGridLinePosition(axisY(), i);
-        }
-        positionAndScaleLine(lineNode, scaleX, QVector3D(linePosX, linePosY, linePosZ));
-        lineNode->setRotation(lineRotation);
-    }
-
-    // Back vertical line
-    linePosY = 0.0f;
-    scale = m_scaleWithBackground.x();
-    rotation = QVector3D(0.0f, 0.0f, 0.0f);
-    if (zFlipped)
-        rotation.setY(180.0f);
-    lineRotation = Utils::calculateRotation(rotation);
-    if (m_hasVerticalSegmentLine) {
-        for (int i = 0; i < gridLineCountX; i++) {
-            QQuick3DNode *lineNode = static_cast<QQuick3DNode *>(
-                segmentLineRepeaterX()->objectAt(i + gridLineCountX));
-            if (axisX()->type() == QAbstract3DAxis::AxisType::Value) {
-                linePosX = static_cast<QValue3DAxis *>(axisX())->gridPositionAt(i) * scale * 2.0f
-                           - scale;
-            } else if (axisX()->type() == QAbstract3DAxis::AxisType::Category) {
-                linePosX = calculateCategoryGridLinePosition(axisX(), i);
-                linePosY = calculateCategoryGridLinePosition(axisY(), i);
-            }
-            positionAndScaleLine(lineNode, scaleY, QVector3D(linePosX, linePosY, linePosZ));
-            lineNode->setRotation(lineRotation);
-        }
-
+    if (!isPolar()) {
         for (int i = 0; i < subGridLineCountX; i++) {
-            QQuick3DNode *lineNode = static_cast<QQuick3DNode *>(
-                subsegmentLineRepeaterX()->objectAt(i + subGridLineCountX));
             if (axisX()->type() == QAbstract3DAxis::AxisType::Value) {
                 linePosX = static_cast<QValue3DAxis *>(axisX())->subGridPositionAt(i) * scale * 2.0f
                            - scale;
@@ -2386,10 +2286,137 @@ void QQuickGraphsItem::updateGrid()
                 linePosX = calculateCategoryGridLinePosition(axisX(), i);
                 linePosY = calculateCategoryGridLinePosition(axisY(), i);
             }
-            positionAndScaleLine(lineNode, scaleY, QVector3D(linePosX, linePosY, linePosZ));
-            lineNode->setRotation(lineRotation);
+
+            *data++ = QVector3D(linePosX, linePosY + tempLineOffset, z0);
+            *data++ = QVector3D(linePosX, linePosY + tempLineOffset, z1);
+        }
+    } else {
+        auto valueAxisX = static_cast<QValue3DAxis *>(axisX());
+        const float halfRatio = ((m_polarRadius) + (m_labelMargin * 0.5f)) * 0.5f;
+        const QVector3D center(0.0f, linePosY, 0.0f);
+        for (int i = 0; i < subGridLineCountX; i++) {
+            float angle = valueAxisX->subGridPositionAt(i) * 360.0f - rotationOffset;
+            float posX = halfRatio * qCos(qDegreesToRadians(angle));
+            float posZ = halfRatio * qSin(qDegreesToRadians(angle));
+            *data++ = center;
+            *data++ = QVector3D(posX, linePosY, posZ);
         }
     }
+
+    if (!isPolar()) {
+        for (int i = 0; i < gridLineCountX; i++) {
+            if (axisX()->type() == QAbstract3DAxis::AxisType::Value) {
+                linePosX = static_cast<QValue3DAxis *>(axisX())->gridPositionAt(i) * scale * 2.0f
+                           - scale;
+            } else if (axisX()->type() == QAbstract3DAxis::AxisType::Category) {
+                linePosX = calculateCategoryGridLinePosition(axisX(), i);
+                linePosY = calculateCategoryGridLinePosition(axisY(), i);
+            }
+
+            *data++ = QVector3D(linePosX, linePosY + tempLineOffset, backgroundScale.z());
+            *data++ = QVector3D(linePosX, linePosY + tempLineOffset, -backgroundScale.z());
+        }
+    } else {
+        auto valueAxisX = static_cast<QValue3DAxis *>(axisX());
+        const float halfRatio = ((m_polarRadius) + (m_labelMargin * 0.5f)) * 0.5f;
+        const QVector3D center(0.0f, linePosY, 0.0f);
+        for (int i = 0; i < gridLineCountX - 1; i++) {
+            float angle = valueAxisX->gridPositionAt(i) * 360.0f - rotationOffset;
+            float posX = halfRatio * qCos(qDegreesToRadians(angle));
+            float posZ = halfRatio * qSin(qDegreesToRadians(angle));
+            *data++ = center;
+            *data++ = QVector3D(posX, linePosY, posZ);
+        }
+    }
+
+    // Back horizontal line
+    linePosX = 0.0f;
+    rotation = QVector3D(0.0f, 0.0f, 0.0f);
+
+    x0 = -backgroundScale.x();
+    x1 = backgroundScale.x();
+
+    z0 = -backgroundScale.z();
+    z1 = -backgroundScale.z();
+
+    tempLineOffset = lineOffset;
+    float tempBackOffsetAdjustment = backOffsetAdjustment;
+
+    if (zFlipped) {
+        rotation.setX(180.0f);
+        z0 *= -1.0f;
+        z1 *= -1.0f;
+        tempLineOffset *= -1.0f;
+        tempBackOffsetAdjustment *= -1.0f;
+    }
+    lineRotation = Utils::calculateRotation(rotation);
+    scale = m_scaleWithBackground.y();
+    for (int i = 0; i < subGridLineCountY; i++) {
+        if (axisY()->type() == QAbstract3DAxis::AxisType::Value) {
+            linePosY = static_cast<QValue3DAxis *>(axisY())->subGridPositionAt(i) * scale * 2.0f
+                       - scale;
+        } else if (axisY()->type() == QAbstract3DAxis::AxisType::Category) {
+            linePosY = calculateCategoryGridLinePosition(axisY(), i);
+        }
+        *data++ = QVector3D(x0, linePosY, z0 + tempLineOffset + tempBackOffsetAdjustment);
+        *data++ = QVector3D(x1, linePosY, z1 + tempLineOffset + tempBackOffsetAdjustment);
+    }
+
+    for (int i = 0; i < gridLineCountY; i++) {
+        if (axisY()->type() == QAbstract3DAxis::AxisType::Value) {
+            linePosY = static_cast<QValue3DAxis *>(axisY())->gridPositionAt(i) * scale * 2.0f
+                       - scale;
+        } else if (axisY()->type() == QAbstract3DAxis::AxisType::Category) {
+            linePosY = calculateCategoryGridLinePosition(axisY(), i);
+        }
+        *data++ = QVector3D(x0, linePosY, z0 + tempLineOffset + tempBackOffsetAdjustment);
+        *data++ = QVector3D(x1, linePosY, z1 + tempLineOffset + tempBackOffsetAdjustment);
+    }
+
+    // Back vertical line
+    scale = m_scaleWithBackground.x();
+    rotation = QVector3D(0.0f, 0.0f, 0.0f);
+
+    y0 = -backgroundScale.y();
+    y1 = backgroundScale.y();
+
+    z0 = -backgroundScale.z();
+    z1 = -backgroundScale.z();
+
+    tempLineOffset = lineOffset;
+    tempBackOffsetAdjustment = backOffsetAdjustment;
+
+    if (zFlipped) {
+        rotation.setY(180.0f);
+        z0 *= -1.0f;
+        z1 *= -1.0f;
+        tempLineOffset *= -1.0f;
+        tempBackOffsetAdjustment *= -1.0f;
+    }
+    lineRotation = Utils::calculateRotation(rotation);
+    if (m_hasVerticalSegmentLine) {
+        for (int i = 0; i < gridLineCountX; i++) {
+            if (axisX()->type() == QAbstract3DAxis::AxisType::Value) {
+                linePosX = static_cast<QValue3DAxis *>(axisX())->gridPositionAt(i) * scale * 2.0f
+                           - scale;
+            }
+            *data++ = QVector3D(linePosX, y0, z0 + tempLineOffset + tempBackOffsetAdjustment);
+            *data++ = QVector3D(linePosX, y1, z1 + tempLineOffset + tempBackOffsetAdjustment);
+        }
+
+        for (int i = 0; i < subGridLineCountX; i++) {
+            if (axisX()->type() == QAbstract3DAxis::AxisType::Value) {
+                linePosX = static_cast<QValue3DAxis *>(axisX())->subGridPositionAt(i) * scale * 2.0f
+                           - scale;
+            }
+            *data++ = QVector3D(linePosX, y0, z0 + tempLineOffset + tempBackOffsetAdjustment);
+            *data++ = QVector3D(linePosX, y1, z1 + tempLineOffset + tempBackOffsetAdjustment);
+        }
+    }
+    QQuick3DGeometry *gridGeometry = m_gridGeometryModel->geometry();
+    gridGeometry->setVertexData(vertices);
+    gridGeometry->update();
+    m_gridUpdate = false;
 }
 
 float QQuickGraphsItem::fontScaleFactor(float pointSize)
@@ -2409,6 +2436,18 @@ float QQuickGraphsItem::labelAdjustment(float width)
 #endif
     float ret = width * .5f * factor;
     return ret;
+}
+
+void QQuickGraphsItem::gridLineCountHelper(QAbstract3DAxis *axis, int &lineCount, int &sublineCount)
+{
+    if (axis->type() == QAbstract3DAxis::AxisType::Value) {
+        auto valueAxis = static_cast<QValue3DAxis *>(axis);
+        lineCount = valueAxis->gridSize();
+        sublineCount = valueAxis->subGridSize();
+    } else if (axis->type() == QAbstract3DAxis::AxisType::Category) {
+        lineCount = axis->labels().size();
+        sublineCount = 0;
+    }
 }
 
 void QQuickGraphsItem::updateLabels()
@@ -3676,44 +3715,6 @@ void QQuickGraphsItem::updateCamera()
     m_pCamera->setZ(zoom);
     updateCustomLabelsRotation();
     updateItemLabel(m_labelPosition);
-}
-
-void QQuickGraphsItem::handleSegmentLineCountChanged(QAbstract3DAxis *axis,
-                                                     QQuick3DRepeater *repeater)
-{
-    int gridLineCount = 0;
-    if (axis->type() == QAbstract3DAxis::AxisType::Value) {
-        auto valueAxis = static_cast<QValue3DAxis *>(axis);
-        if (valueAxis->orientation() != QAbstract3DAxis::AxisOrientation::Y && m_isPolar)
-            gridLineCount = valueAxis->gridSize();
-        else
-            gridLineCount = 2 * valueAxis->gridSize();
-    } else if (axis->type() == QAbstract3DAxis::AxisType::Category) {
-        gridLineCount = axis->labels().size();
-    }
-
-    repeater->setModel(gridLineCount);
-    changeGridLineColor(repeater, theme()->gridLineColor());
-    handleAxisSubSegmentCountChangedBySender(axis);
-}
-
-void QQuickGraphsItem::handleSubSegmentLineCountChanged(QAbstract3DAxis *axis,
-                                                        QQuick3DRepeater *repeater)
-{
-    int subGridLineCount = 0;
-
-    if (axis->type() == QAbstract3DAxis::AxisType::Value) {
-        QValue3DAxis *valueAxis = static_cast<QValue3DAxis *>(axis);
-        if (valueAxis->orientation() != QAbstract3DAxis::AxisOrientation::Y && m_isPolar)
-            subGridLineCount = valueAxis->subGridSize();
-        else
-            subGridLineCount = 2 * valueAxis->subGridSize();
-    } else if (axis->type() == QAbstract3DAxis::AxisType::Category) {
-        subGridLineCount = 0;
-    }
-
-    repeater->setModel(subGridLineCount);
-    changeGridLineColor(repeater, theme()->gridLineColor());
 }
 
 void QQuickGraphsItem::handleLabelCountChanged(QQuick3DRepeater *repeater)
@@ -5023,16 +5024,25 @@ void QQuickGraphsItem::createSliceView()
     light->setParent(camera);
     light->setParentItem(camera);
 
-    auto gridDelegate = createRepeaterDelegateComponent(QStringLiteral(":/axis/GridLine"));
+    // auto gridDelegate = createRepeaterDelegateComponent(QStringLiteral(":/axis/GridLine"));
     auto labelDelegate = createRepeaterDelegateComponent(QStringLiteral(":/axis/AxisLabel"));
 
-    m_sliceHorizontalGridRepeater = createRepeater(scene);
-    m_sliceHorizontalGridRepeater->setDelegate(gridDelegate);
-    m_sliceHorizontalGridRepeater->setVisible(theme()->isGridEnabled());
+    m_sliceGridGeometryModel = new QQuick3DModel(scene);
 
-    m_sliceVerticalGridRepeater = createRepeater(scene);
-    m_sliceVerticalGridRepeater->setDelegate(gridDelegate);
-    m_sliceVerticalGridRepeater->setVisible(theme()->isGridEnabled());
+    auto sliceGridGeometry = new QQuick3DGeometry(m_sliceGridGeometryModel);
+    sliceGridGeometry->setStride(sizeof(QVector3D));
+    sliceGridGeometry->setPrimitiveType(QQuick3DGeometry::PrimitiveType::Lines);
+    sliceGridGeometry->addAttribute(QQuick3DGeometry::Attribute::PositionSemantic,
+                                    0,
+                                    QQuick3DGeometry::Attribute::F32Type);
+    m_sliceGridGeometryModel->setGeometry(sliceGridGeometry);
+
+    QQmlListReference gridMaterialRef(m_sliceGridGeometryModel, "materials");
+    auto gridMaterial = new QQuick3DPrincipledMaterial(m_sliceGridGeometryModel);
+    gridMaterial->setLighting(QQuick3DPrincipledMaterial::Lighting::NoLighting);
+    gridMaterial->setCullMode(QQuick3DMaterial::CullMode::BackFaceCulling);
+    gridMaterial->setBaseColor(Qt::red);
+    gridMaterialRef.append(gridMaterial);
 
     m_sliceHorizontalLabelRepeater = createRepeater(scene);
     m_sliceHorizontalLabelRepeater->setDelegate(labelDelegate);
@@ -5058,22 +5068,16 @@ void QQuickGraphsItem::updateSliceGrid()
     float scale;
     float translate;
 
-    QVector3D horizontalScale = QVector3D(.0f, .0f, .0f);
-    QVector3D verticalScale = QVector3D(lineWidthScaleFactor(),
-                                        backgroundScale.y() * lineLengthScaleFactor(),
-                                        lineWidthScaleFactor());
+    float horizontalScale = 0.0f;
+
     if (selectionMode().testFlag(QAbstract3DGraph::SelectionRow)) {
         horizontalAxis = axisX();
-        horizontalScale = QVector3D(backgroundScale.x() * lineLengthScaleFactor(),
-                                    lineWidthScaleFactor(),
-                                    lineWidthScaleFactor());
+        horizontalScale = backgroundScale.x();
         scale = m_scaleWithBackground.x();
         translate = m_scaleWithBackground.x();
     } else if (selectionMode().testFlag(QAbstract3DGraph::SelectionColumn)) {
         horizontalAxis = axisZ();
-        horizontalScale = QVector3D(backgroundScale.z() * lineLengthScaleFactor(),
-                                    lineWidthScaleFactor(),
-                                    lineWidthScaleFactor());
+        horizontalScale = backgroundScale.z();
         scale = m_scaleWithBackground.z();
         translate = m_scaleWithBackground.z();
     }
@@ -5082,64 +5086,80 @@ void QQuickGraphsItem::updateSliceGrid()
         qWarning("Invalid axis type");
         return;
     }
-
-    if (horizontalAxis->type() == QAbstract3DAxis::AxisType::Value) {
-        QValue3DAxis *valueAxis = static_cast<QValue3DAxis *>(horizontalAxis);
-        m_sliceVerticalGridRepeater->model().clear();
-        m_sliceVerticalGridRepeater->setModel(valueAxis->gridSize() + valueAxis->subGridSize());
-    } else if (horizontalAxis->type() == QAbstract3DAxis::AxisType::Category) {
-        m_sliceVerticalGridRepeater->model().clear();
-        m_sliceVerticalGridRepeater->setModel(horizontalAxis->labels().size());
+    int lineCount = 0;
+    if (m_hasVerticalSegmentLine || isPolar()) {
+        if (horizontalAxis->type() == QAbstract3DAxis::AxisType::Value) {
+            QValue3DAxis *valueAxis = static_cast<QValue3DAxis *>(horizontalAxis);
+            lineCount += valueAxis->gridSize() + valueAxis->subGridSize();
+        } else if (horizontalAxis->type() == QAbstract3DAxis::AxisType::Category) {
+            lineCount += horizontalAxis->labels().size();
+        }
     }
 
     if (verticalAxis->type() == QAbstract3DAxis::AxisType::Value) {
         QValue3DAxis *valueAxis = static_cast<QValue3DAxis *>(verticalAxis);
-        m_sliceHorizontalGridRepeater->model().clear();
-        m_sliceHorizontalGridRepeater->setModel(valueAxis->gridSize() + valueAxis->subGridSize());
+        lineCount += valueAxis->gridSize() + valueAxis->subGridSize();
     } else if (horizontalAxis->type() == QAbstract3DAxis::AxisType::Category) {
-        m_sliceHorizontalGridRepeater->model().clear();
-        m_sliceHorizontalGridRepeater->setModel(verticalAxis->labels().size());
+        lineCount += verticalAxis->labels().size();
     }
 
+    QByteArray vertices;
+    vertices.resize(lineCount * 2 * sizeof(QVector3D));
+    auto data = reinterpret_cast<QVector3D *>(vertices.data());
     float linePosX = .0f;
     float linePosY = .0f;
-    float linePosZ = -1.f; // Draw grid lines behind slice (especially for surface)
+    const float linePosZ = -1.f; // Draw grid lines behind slice (especially for surface)
 
-    if (horizontalAxis->type() == QAbstract3DAxis::AxisType::Category) {
-        m_sliceVerticalGridRepeater->setVisible(false);
-    } else if (horizontalAxis->type() == QAbstract3DAxis::AxisType::Value) {
-        for (int i = 0; i < m_sliceVerticalGridRepeater->count(); i++) {
-            QQuick3DNode *lineNode = static_cast<QQuick3DNode *>(
-                m_sliceVerticalGridRepeater->objectAt(i));
-            auto axis = static_cast<QValue3DAxis *>(horizontalAxis);
-            if (i < axis->gridSize())
-                linePosX = axis->gridPositionAt(i) * scale * 2.0f - translate;
-            else
-                linePosX = axis->subGridPositionAt(i - axis->gridSize()) * scale * 2.0f - translate;
-            lineNode->setProperty("lineColor", theme()->gridLineColor());
-            positionAndScaleLine(lineNode, verticalScale, QVector3D(linePosX, linePosY, linePosZ));
+    float x0, x1;
+    float y0, y1;
+    y0 = -backgroundScale.y();
+    y1 = backgroundScale.y();
+    if (horizontalAxis->type() == QAbstract3DAxis::AxisType::Value) {
+        auto axis = static_cast<QValue3DAxis *>(horizontalAxis);
+        for (int i = 0; i < axis->subGridSize(); i++) {
+            linePosX = axis->subGridPositionAt(i) * scale * 2.0f - translate;
+            *data++ = QVector3D(linePosX, y0, linePosZ);
+            *data++ = QVector3D(linePosX, y1, linePosZ);
+        }
+        for (int i = 0; i < axis->gridSize(); i++) {
+            linePosX = axis->gridPositionAt(i) * scale * 2.0f - translate;
+            *data++ = QVector3D(linePosX, y0, linePosZ);
+            *data++ = QVector3D(linePosX, y1, linePosZ);
         }
     }
 
-    linePosX = 0;
     scale = m_scaleWithBackground.y();
     translate = m_scaleWithBackground.y();
 
-    for (int i = 0; i < m_sliceHorizontalGridRepeater->count(); i++) {
-        QQuick3DNode *lineNode = static_cast<QQuick3DNode *>(
-            m_sliceHorizontalGridRepeater->objectAt(i));
-        if (verticalAxis->type() == QAbstract3DAxis::AxisType::Value) {
-            auto axis = static_cast<QValue3DAxis *>(verticalAxis);
-            if (i < axis->gridSize())
-                linePosY = axis->gridPositionAt(i) * scale * 2.0f - translate;
-            else
-                linePosY = axis->subGridPositionAt(i - axis->gridSize()) * scale * 2.0f - translate;
-        } else if (verticalAxis->type() == QAbstract3DAxis::AxisType::Category) {
-            linePosY = calculateCategoryGridLinePosition(verticalAxis, i);
+    x0 = horizontalScale;
+    x1 = -horizontalScale;
+    if (verticalAxis->type() == QAbstract3DAxis::AxisType::Value) {
+        auto axis = static_cast<QValue3DAxis *>(verticalAxis);
+        for (int i = 0; i < axis->gridSize(); i++) {
+            linePosY = axis->gridPositionAt(i) * scale * 2.0f - translate;
+            *data++ = QVector3D(x0, linePosY, linePosZ);
+            *data++ = QVector3D(x1, linePosY, linePosZ);
         }
-        lineNode->setProperty("lineColor", theme()->gridLineColor());
-        positionAndScaleLine(lineNode, horizontalScale, QVector3D(linePosX, linePosY, linePosZ));
+        for (int i = 0; i < axis->subGridSize(); i++) {
+            linePosY = axis->subGridPositionAt(i) * scale * 2.0f - translate;
+            *data++ = QVector3D(x0, linePosY, linePosZ);
+            *data++ = QVector3D(x1, linePosY, linePosZ);
+        }
+    } else if (verticalAxis->type() == QAbstract3DAxis::AxisType::Category) {
+        for (int i = 0; i < verticalAxis->labels().size(); i++) {
+            linePosY = calculateCategoryGridLinePosition(verticalAxis, i);
+            *data++ = QVector3D(x0, linePosY, linePosZ);
+            *data++ = QVector3D(x1, linePosY, linePosZ);
+        }
     }
+
+    auto geometry = m_sliceGridGeometryModel->geometry();
+    geometry->setVertexData(vertices);
+    geometry->update();
+
+    QQmlListReference materialRef(m_sliceGridGeometryModel, "materials");
+    auto material = static_cast<QQuick3DPrincipledMaterial *>(materialRef.at(0));
+    material->setBaseColor(theme()->gridLineColor());
 }
 
 void QQuickGraphsItem::updateSliceLabels()
@@ -5150,13 +5170,15 @@ void QQuickGraphsItem::updateSliceLabels()
     float scale;
     float translate;
 
-    if (selectionMode().testFlag(QAbstract3DGraph::SelectionRow))
+    if (selectionMode().testFlag(QAbstract3DGraph::SelectionRow)) {
         horizontalAxis = axisX();
-    else if (selectionMode().testFlag(QAbstract3DGraph::SelectionColumn))
+        scale = backgroundScale.x() - m_backgroundScaleMargin.x();
+        translate = backgroundScale.x() - m_backgroundScaleMargin.x();
+    } else if (selectionMode().testFlag(QAbstract3DGraph::SelectionColumn)) {
         horizontalAxis = axisZ();
-
-    scale = backgroundScale.x() - m_backgroundScaleMargin.x();
-    translate = backgroundScale.x() - m_backgroundScaleMargin.x();
+        scale = backgroundScale.z() - m_backgroundScaleMargin.z();
+        translate = backgroundScale.z() - m_backgroundScaleMargin.z();
+    }
 
     if (horizontalAxis == nullptr) {
         qWarning("Invalid selection mode");
@@ -5208,9 +5230,10 @@ void QQuickGraphsItem::updateSliceLabels()
             auto obj = static_cast<QQuick3DNode *>(m_sliceHorizontalLabelRepeater->objectAt(i));
             // It is important to use the position of vertical grids so that they can be in the same
             // position when col/row ranges are updated.
-            QQuick3DNode *lineNode = static_cast<QQuick3DNode *>(
-                m_sliceVerticalGridRepeater->objectAt(i));
-            labelTrans.setX(lineNode->x());
+            float linePosX = static_cast<QValue3DAxis *>(horizontalAxis)->gridPositionAt(i) * scale
+                                 * 2.0f
+                             - translate;
+            labelTrans.setX(linePosX);
             labelTrans.setY(-yPos - adjustment);
             obj->setScale(fontScaled);
             obj->setPosition(labelTrans);

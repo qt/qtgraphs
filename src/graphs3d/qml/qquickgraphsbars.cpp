@@ -889,8 +889,6 @@ void QQuickGraphsBars::handleRowCountChanged()
     QCategory3DAxis *categoryAxisZ = static_cast<QCategory3DAxis *>(axisZ());
     if (repeaterZ()) {
         updateParameters();
-        segmentLineRepeaterZ()->model().clear();
-        segmentLineRepeaterZ()->setModel(m_cachedRowCount);
         repeaterZ()->model().clear();
         repeaterZ()->setModel(categoryAxisZ->labels().size());
     }
@@ -901,8 +899,6 @@ void QQuickGraphsBars::handleColCountChanged()
     QCategory3DAxis *categoryAxisX = static_cast<QCategory3DAxis *>(axisX());
     if (repeaterX()) {
         updateParameters();
-        segmentLineRepeaterX()->model().clear();
-        segmentLineRepeaterX()->setModel(m_cachedColumnCount);
         repeaterX()->model().clear();
         repeaterX()->setModel(categoryAxisX->labels().size());
     }

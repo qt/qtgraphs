@@ -99,41 +99,9 @@ void QQuickGraphsSurface::handleWireframeColorChanged()
 
 void QQuickGraphsSurface::handleFlipHorizontalGridChanged(bool flip)
 {
-    if (!segmentLineRepeaterX() || !segmentLineRepeaterZ())
-        return;
-    int gridLineCountX = segmentLineRepeaterX()->count();
-    int subGridLineCountX = subsegmentLineRepeaterX()->count();
-    int gridLineCountZ = segmentLineRepeaterZ()->count();
-    int subGridLineCountZ = subsegmentLineRepeaterZ()->count();
-
     float factor = -1.0f;
     if (isGridUpdated())
         factor = flip ? -1.0f : 1.0f;
-
-    for (int i = 0; i < subGridLineCountZ; i++) {
-        QQuick3DNode *lineNode = static_cast<QQuick3DNode *>(subsegmentLineRepeaterZ()->objectAt(i));
-        QVector3D pos = lineNode->position();
-        pos.setY(pos.y() * factor);
-        lineNode->setPosition(pos);
-    }
-    for (int i = 0; i < gridLineCountZ; i++) {
-        QQuick3DNode *lineNode = static_cast<QQuick3DNode *>(segmentLineRepeaterZ()->objectAt(i));
-        QVector3D pos = lineNode->position();
-        pos.setY(pos.y() * factor);
-        lineNode->setPosition(pos);
-    }
-    for (int i = 0; i < subGridLineCountX; i++) {
-        QQuick3DNode *lineNode = static_cast<QQuick3DNode *>(subsegmentLineRepeaterX()->objectAt(i));
-        QVector3D pos = lineNode->position();
-        pos.setY(pos.y() * factor);
-        lineNode->setPosition(pos);
-    }
-    for (int i = 0; i < gridLineCountX; i++) {
-        QQuick3DNode *lineNode = static_cast<QQuick3DNode *>(segmentLineRepeaterX()->objectAt(i));
-        QVector3D pos = lineNode->position();
-        pos.setY(pos.y() * factor);
-        lineNode->setPosition(pos);
-    }
 
     for (int i = 0; i < repeaterX()->count(); i++) {
         QQuick3DNode *obj = static_cast<QQuick3DNode *>(repeaterX()->objectAt(i));
@@ -750,6 +718,9 @@ void QQuickGraphsSurface::componentComplete()
 
 void QQuickGraphsSurface::synchData()
 {
+    if (isFlipHorizontalGridChanged())
+        setHorizontalFlipFactor(flipHorizontalGrid() ? -1 : 1);
+
     QQuickGraphsItem::synchData();
 
     if (isSelectedPointChanged()) {
