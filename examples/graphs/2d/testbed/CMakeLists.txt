@@ -41,6 +41,7 @@ qt6_add_qml_module(testbed
     NO_RESOURCE_TARGET_PATH
     SOURCES
         custombarseries.h custombarseries.cpp
+        customlineseries.h customlineseries.cpp
     QML_FILES
         qml/testbed/main.qml
         qml/testbed/StartupView.qml
@@ -56,6 +57,7 @@ qt6_add_qml_module(testbed
         qml/testbed/Callout.qml
         qml/testbed/ScatterProperties.qml
         qml/testbed/CppBarSeries.qml
+        qml/testbed/CppLineSeries.qml
     RESOURCES
         qml/testbed/images/arrow_icon.png
         qml/testbed/images/icon_settings.png
