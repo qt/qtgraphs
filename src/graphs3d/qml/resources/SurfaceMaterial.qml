@@ -21,6 +21,9 @@ CustomMaterial {
     property bool flatShading: false
     property int colorStyle: 0
 
+    property bool flipU: false
+    property bool flipV: false
+
     property real specularBrightness: 0.25
     readonly property real shininess: (1.0 - specularBrightness) * 100
 
