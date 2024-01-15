@@ -81,11 +81,17 @@ void PointRenderer::handlePolish(QScatterSeries *series)
 
     auto &&points = series->points();
     if (points.count() > 0) {
-        double maxVertical = m_graph->m_axisRenderer->m_axisVerticalMaxValue > 0 ? 1.0 / m_graph->m_axisRenderer->m_axisVerticalMaxValue : 100.0;
-        double maxHorizontal = m_graph->m_axisRenderer->m_axisHorizontalMaxValue > 0 ? 1.0 / m_graph->m_axisRenderer->m_axisHorizontalMaxValue : 100.0;
+        double maxVertical = m_graph->m_axisRenderer->m_axisVerticalValueRange > 0
+                                 ? 1.0 / m_graph->m_axisRenderer->m_axisVerticalValueRange : 100.0;
+        double maxHorizontal = m_graph->m_axisRenderer->m_axisHorizontalValueRange > 0
+                                   ? 1.0 / m_graph->m_axisRenderer->m_axisHorizontalValueRange : 100.0;
+        double verticalOffset = (m_graph->m_axisRenderer->m_axisVerticalMinValue
+                                 / m_graph->m_axisRenderer->m_axisVerticalValueRange) * h;
+        double horizontalOffset = (m_graph->m_axisRenderer->m_axisHorizontalMinValue
+                                   / m_graph->m_axisRenderer->m_axisHorizontalValueRange) * w;
         for (int i = 0; i < points.count(); ++i) {
-            qreal x = m_graph->m_marginLeft + m_graph->m_axisRenderer->m_axisWidth + w * points[i].x() * maxHorizontal;
-            qreal y = m_graph->m_marginTop + h - h * points[i].y() * maxVertical;
+            qreal x = m_graph->m_marginLeft + m_graph->m_axisRenderer->m_axisWidth + w * points[i].x() * maxHorizontal - horizontalOffset;
+            qreal y = m_graph->m_marginTop + h - h * points[i].y() * maxVertical + verticalOffset;
 
             if (series->pointMarker()) {
                 if (scatter->markers[i]->property("selected").isValid())
@@ -209,11 +215,17 @@ void PointRenderer::handlePolish(QLineSeries *series)
 
     auto &&points = series->points();
     if (points.count() > 0) {
-        double maxVertical = m_graph->m_axisRenderer->m_axisVerticalMaxValue > 0 ? 1.0 / m_graph->m_axisRenderer->m_axisVerticalMaxValue : 100.0;
-        double maxHorizontal = m_graph->m_axisRenderer->m_axisHorizontalMaxValue > 0 ? 1.0 / m_graph->m_axisRenderer->m_axisHorizontalMaxValue : 100.0;
+        double maxVertical = m_graph->m_axisRenderer->m_axisVerticalValueRange > 0
+                                 ? 1.0 / m_graph->m_axisRenderer->m_axisVerticalValueRange : 100.0;
+        double maxHorizontal = m_graph->m_axisRenderer->m_axisHorizontalValueRange > 0
+                                   ? 1.0 / m_graph->m_axisRenderer->m_axisHorizontalValueRange : 100.0;
+        double verticalOffset = (m_graph->m_axisRenderer->m_axisVerticalMinValue
+                                 / m_graph->m_axisRenderer->m_axisVerticalValueRange) * h;
+        double horizontalOffset = (m_graph->m_axisRenderer->m_axisHorizontalMinValue
+                                   / m_graph->m_axisRenderer->m_axisHorizontalValueRange) * w;
         for (int i = 0; i < points.count(); ++i) {
-            qreal x = m_graph->m_marginLeft + m_graph->m_axisRenderer->m_axisWidth + w * points[i].x() * maxHorizontal;
-            qreal y = m_graph->m_marginTop + h - h * points[i].y() * maxVertical;
+            qreal x = m_graph->m_marginLeft + m_graph->m_axisRenderer->m_axisWidth + w * points[i].x() * maxHorizontal - horizontalOffset;
+            qreal y = m_graph->m_marginTop + h - h * points[i].y() * maxVertical + verticalOffset;
 
             if (i == 0) {
                 line->shapePath->setStartX(x);
@@ -283,10 +295,10 @@ void PointRenderer::handleMouseMove(QMouseEvent *event)
     if (m_pointPressed && m_pressedGroup->series->isPointSelected(m_pressedPointIndex)) {
         float w = width() - m_graph->m_marginLeft - m_graph->m_marginRight - m_graph->m_axisRenderer->m_axisWidth;
         float h = height() - m_graph->m_marginTop - m_graph->m_marginBottom - m_graph->m_axisRenderer->m_axisHeight;
-        double maxVertical = m_graph->m_axisRenderer->m_axisVerticalMaxValue > 0
-                                 ? 1.0 / m_graph->m_axisRenderer->m_axisVerticalMaxValue : 100.0;
-        double maxHorizontal = m_graph->m_axisRenderer->m_axisHorizontalMaxValue > 0
-                                   ? 1.0 / m_graph->m_axisRenderer->m_axisHorizontalMaxValue : 100.0;
+        double maxVertical = m_graph->m_axisRenderer->m_axisVerticalValueRange > 0
+                                 ? 1.0 / m_graph->m_axisRenderer->m_axisVerticalValueRange : 100.0;
+        double maxHorizontal = m_graph->m_axisRenderer->m_axisHorizontalValueRange > 0
+                                   ? 1.0 / m_graph->m_axisRenderer->m_axisHorizontalValueRange : 100.0;
 
         QPoint delta = m_pressStart - event->pos();
 
