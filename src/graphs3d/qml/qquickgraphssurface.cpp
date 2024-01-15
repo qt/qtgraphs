@@ -1420,6 +1420,14 @@ void QQuickGraphsSurface::updateMaterial(SurfaceModel *model)
         } else {
             texInput->texture()->setSource(QUrl());
         }
+
+        const QSurfaceDataArray &array = model->series->dataProxy()->array();
+        int maxRow = array.size() - 1;
+        int maxCol = array.at(0).size() - 1;
+        const bool ascendingX = array.at(0).at(0).x() < array.at(0).at(maxCol).x();
+        const bool ascendingZ = array.at(0).at(0).z() < array.at(maxRow).at(0).z();
+        material->setProperty("flipU", !ascendingX);
+        material->setProperty("flipV", !ascendingZ);
     }
     material->update();
 }

@@ -26,8 +26,12 @@ void MAIN()
     case 3: // Textured model
         vec2 rangeMinUV = rangeMin * (1 / (vertices - 1));
         vec2 offsetUV = UV0 + rangeMinUV;
-        vec2 flippedUV = vec2(offsetUV.x, 1 - offsetUV.y);
-        color = texture(baseColor, flippedUV).xyz;
+        vec2 texUV = vec2(offsetUV.x, 1 - offsetUV.y);
+        if(flipU)
+            texUV.x = -(texUV.x -1);
+        if(flipV)
+            texUV.y = -(texUV.y -1);
+        color = texture(baseColor, texUV).xyz;
         break;
     }
     diffuse = vec4(color, 1.0);
