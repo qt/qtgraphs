@@ -81,6 +81,16 @@ Rectangle {
 
     SettingsView {
         CustomLabel {
+            text: "X-coordinate: Min"
+        }
+        CustomSlider {
+            id: sliderMinValueX
+            sliderValue: xAxis.min
+            fromValue: -40
+            toValue: 0
+            onSliderValueChanged: xAxis.min = sliderValue;
+        }
+        CustomLabel {
             text: "X-coordinate: Max"
         }
         CustomSlider {
@@ -89,6 +99,16 @@ Rectangle {
             fromValue: 0
             toValue: 40
             onSliderValueChanged: xAxis.max = sliderValue;
+        }
+        CustomLabel {
+            text: "Y-coordinate: Min"
+        }
+        CustomSlider {
+            id: sliderMinValueY
+            sliderValue: yAxis.min
+            fromValue: -40
+            toValue: 0
+            onSliderValueChanged: yAxis.min = sliderValue;
         }
         CustomLabel {
             text: "Y-coordinate: Max"
