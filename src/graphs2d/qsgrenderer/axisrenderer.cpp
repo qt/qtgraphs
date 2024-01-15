@@ -10,10 +10,10 @@
 
 QT_BEGIN_NAMESPACE
 
-AxisRenderer::AxisRenderer(QQuickItem *parent) :
-      QQuickItem(parent)
+AxisRenderer::AxisRenderer(QQuickItem *parent)
+    : QQuickItem(parent)
 {
-    m_graph = qobject_cast<QGraphsView*>(parent);
+    m_graph = qobject_cast<QGraphsView *>(parent);
     setFlag(QQuickItem::ItemHasContents);
 }
 

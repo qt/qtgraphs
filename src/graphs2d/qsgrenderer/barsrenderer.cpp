@@ -9,10 +9,10 @@
 
 QT_BEGIN_NAMESPACE
 
-BarsRenderer::BarsRenderer(QQuickItem *parent) :
-      QQuickItem(parent)
+BarsRenderer::BarsRenderer(QQuickItem *parent)
+    : QQuickItem(parent)
 {
-    m_graph = qobject_cast<QGraphsView*>(parent);
+    m_graph = qobject_cast<QGraphsView *>(parent);
     setFlag(QQuickItem::ItemHasContents);
 }
 
@@ -21,7 +21,7 @@ void BarsRenderer::handlePolish(QBarSeries *series)
     Q_UNUSED(series);
 }
 
-void BarsRenderer::updateBarSeries(QBarSeries *series)
+void BarsRenderer::updateSeries(QBarSeries *series)
 {
     if (series->barSets().isEmpty())
         return;

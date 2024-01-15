@@ -24,6 +24,7 @@
 #include <private/axisrenderer_p.h>
 #include <private/barsrenderer_p.h>
 #include <private/pointrenderer_p.h>
+#include <private/pierenderer_p.h>
 #include <QtGraphs/qgraphtheme.h>
 #include <QtQuick/QSGClipNode>
 
@@ -92,6 +93,7 @@ public:
     void createBarsRenderer();
     void createAxisRenderer();
     void createPointRenderer();
+    void createPieRenderer();
 
 protected:
     void handleHoverEnter(QString seriesName, QPointF position, QPointF value);
@@ -128,6 +130,7 @@ private:
     AxisRenderer *m_axisRenderer = nullptr;
     BarsRenderer *m_barsRenderer = nullptr;
     PointRenderer *m_pointRenderer = nullptr;
+    PieRenderer *m_pieRenderer = nullptr;
     QList<QObject *> m_seriesList;
     QBrush m_backgroundBrush;
     QSGClipNode *m_backgroundNode = nullptr;

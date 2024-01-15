@@ -31,7 +31,7 @@ public:
     BarsRenderer(QQuickItem *parent = nullptr);
 
     void handlePolish(QBarSeries *series);
-    void updateBarSeries(QBarSeries *series);
+    void updateSeries(QBarSeries *series);
     void handleMousePress(QMouseEvent *event);
     void handleHoverMove(QHoverEvent *event);
 

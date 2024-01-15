@@ -85,9 +85,10 @@ QT_BEGIN_NAMESPACE
 
     This enum describes the type of the series.
 
-    \value SeriesTypeLine A line chart.
-    \value SeriesTypeBar A vertical bar chart.
-    \value SeriesTypeScatter A scatter chart.
+    \value SeriesTypeLine A line graph.
+    \value SeriesTypeBar A vertical bar graph.
+    \value SeriesTypeScatter A scatter graph.
+    \value SeriesTypePie A pie graph.
 */
 
 /*!
@@ -404,6 +405,8 @@ void QAbstractSeries::setGraph(QGraphsView *graph)
         graph->createPointRenderer();
         graph->createAxisRenderer();
         break;
+    case QAbstractSeries::SeriesTypePie:
+        graph->createPieRenderer();
     default:
         break;
     }

@@ -50,6 +50,10 @@ Item {
             name: "Callout"
             file: "Callout.qml"
         }
+        ListElement {
+            name: "Pie Chart"
+            file: "PieChart.qml"
+        }
     }
 
     Component {

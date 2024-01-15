@@ -58,6 +58,7 @@ qt6_add_qml_module(testbed
         qml/testbed/ScatterProperties.qml
         qml/testbed/CppBarSeries.qml
         qml/testbed/CppLineSeries.qml
+        qml/testbed/PieChart.qml
     RESOURCES
         qml/testbed/images/arrow_icon.png
         qml/testbed/images/icon_settings.png

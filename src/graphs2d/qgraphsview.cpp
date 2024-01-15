@@ -5,6 +5,7 @@
 #include <QtGraphs/qbarseries.h>
 #include <QtGraphs/qlineseries.h>
 #include <QtGraphs/qscatterseries.h>
+#include <QtGraphs/qpieseries.h>
 
 QT_BEGIN_NAMESPACE
 
@@ -166,6 +167,12 @@ void QGraphsView::createPointRenderer()
         m_pointRenderer = new PointRenderer(this);
 }
 
+void QGraphsView::createPieRenderer()
+{
+    if (!m_pieRenderer)
+        m_pieRenderer = new PieRenderer(this);
+}
+
 void QGraphsView::handleHoverEnter(QString seriesName, QPointF position, QPointF value)
 {
     if (m_hoverCount == 0)
@@ -195,6 +202,9 @@ void QGraphsView::updateComponentSizes()
 
     if (m_pointRenderer)
         m_pointRenderer->setSize(size());
+
+    if (m_pieRenderer)
+        m_pieRenderer->setSize(size());
 }
 
 void QGraphsView::componentComplete()
@@ -279,16 +289,21 @@ QSGNode *QGraphsView::updatePaintNode(QSGNode *oldNode, QQuickItem::UpdatePaintN
 
     for (auto series : std::as_const(m_seriesList)) {
         if (m_barsRenderer) {
-            if (auto barSeries = qobject_cast<QBarSeries*>(series))
-                m_barsRenderer->updateBarSeries(barSeries);
+            if (auto barSeries = qobject_cast<QBarSeries *>(series))
+                m_barsRenderer->updateSeries(barSeries);
         }
 
         if (m_pointRenderer) {
-            if (auto lineSeries = qobject_cast<QLineSeries*>(series))
+            if (auto lineSeries = qobject_cast<QLineSeries *>(series))
                 m_pointRenderer->updateSeries(lineSeries);
 
-            if (auto scatterSeries = qobject_cast<QScatterSeries*>(series))
+            if (auto scatterSeries = qobject_cast<QScatterSeries *>(series))
                 m_pointRenderer->updateSeries(scatterSeries);
+        }
+
+        if (m_pieRenderer) {
+            if (auto pieSeries = qobject_cast<QPieSeries *>(series))
+                m_pieRenderer->updateSeries(pieSeries);
         }
     }
 
@@ -311,11 +326,16 @@ void QGraphsView::updatePolish()
         }
 
         if (m_pointRenderer) {
-            if (auto lineSeries = qobject_cast<QLineSeries*>(series))
+            if (auto lineSeries = qobject_cast<QLineSeries *>(series))
                 m_pointRenderer->handlePolish(lineSeries);
 
-            if (auto scatterSeries = qobject_cast<QScatterSeries*>(series))
+            if (auto scatterSeries = qobject_cast<QScatterSeries *>(series))
                 m_pointRenderer->handlePolish(scatterSeries);
+        }
+
+        if (m_pieRenderer) {
+            if (auto pieSeries = qobject_cast<QPieSeries *>(series))
+                m_pieRenderer->handlePolish(pieSeries);
         }
     }
 }

@@ -53,7 +53,7 @@ public:
         SeriesTypeBar,
         //SeriesTypeStackedBar,
         //SeriesTypePercentBar,
-        //SeriesTypePie,
+        SeriesTypePie,
         SeriesTypeScatter,
         //SeriesTypeSpline,
         //SeriesTypeHorizontalBar,
