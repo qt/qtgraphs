@@ -35,6 +35,10 @@ Item {
             file: "CppBarSeries.qml"
         }
         ListElement {
+            name: "C++ Line Series"
+            file: "CppLineSeries.qml"
+        }
+        ListElement {
             name: "Line Properties"
             file: "LineProperties.qml"
         }
