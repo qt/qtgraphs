@@ -1,13 +1,10 @@
 // Copyright (C) 2023 The Qt Company Ltd.
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 
-#undef QT_NO_FOREACH // this file contains unported legacy Q_FOREACH uses
-
 #include <QtGraphs/qabstractbarseries.h>
 #include <private/qabstractbarseries_p.h>
 #include <QtGraphs/qbarset.h>
 #include <private/qbarset_p.h>
-#include <QForeach>
 
 QT_BEGIN_NAMESPACE
 
@@ -544,12 +541,12 @@ bool QAbstractBarSeries::insert(int index, QBarSet *set)
 void QAbstractBarSeries::clear()
 {
     Q_D(QAbstractBarSeries);
-    QList<QBarSet *> sets = barSets();
+    const QList<QBarSet *> sets = barSets();
     bool success = d->remove(sets);
     if (success) {
         emit barsetsRemoved(sets);
         emit countChanged();
-        foreach (QBarSet *set, sets) {
+        for (QBarSet *set : sets) {
             QObject::disconnect(set, &QBarSet::update, this, &QAbstractBarSeries::update);
             delete set;
         }
@@ -1021,14 +1018,14 @@ bool QAbstractBarSeriesPrivate::remove(const QList<QBarSet *> &sets)
     if (sets.size() == 0)
         return false;
 
-    foreach (QBarSet *set, sets) {
+    for (QBarSet *set : sets) {
         if ((set == 0) || (!m_barSets.contains(set)))
             return false; // Fail if any of the sets is null or is not in series
         if (sets.count(set) != 1)
             return false; // Also fail if same set is more than once in given list.
     }
 
-    foreach (QBarSet *set, sets) {
+    for (QBarSet *set : sets) {
         m_barSets.removeOne(set);
         QObject::disconnect(set->d_ptr.data(), &QBarSetPrivate::updatedBars,
                             this, &QAbstractBarSeriesPrivate::updatedBars);
@@ -1070,36 +1067,6 @@ bool QAbstractBarSeriesPrivate::insert(int index, QBarSet *set)
 
 void QAbstractBarSeriesPrivate::initializeAxes()
 {
-//    Q_Q(QAbstractBarSeries);
-/*
-    foreach (QAbstractAxis* axis, m_axes) {
-        if (axis->type() == QAbstractAxis::AxisTypeBarCategory) {
-            switch (q->type()) {
-            case QAbstractSeries::SeriesTypeHorizontalBar:
-            case QAbstractSeries::SeriesTypeHorizontalPercentBar:
-            case QAbstractSeries::SeriesTypeHorizontalStackedBar:
-                if (axis->orientation() == Qt::Vertical)
-                populateCategories(qobject_cast<QBarCategoryAxis *>(axis));
-            break;
-            case QAbstractSeries::SeriesTypeBar:
-            case QAbstractSeries::SeriesTypePercentBar:
-            case QAbstractSeries::SeriesTypeStackedBar:
-            case QAbstractSeries::SeriesTypeBoxPlot:
-            case QAbstractSeries::SeriesTypeCandlestick:
-                if (axis->orientation() == Qt::Horizontal)
-                    populateCategories(qobject_cast<QBarCategoryAxis *>(axis));
-            break;
-            default:
-                qWarning() << "Unexpected series type";
-            break;
-            }
-        }
-    }
-*/
-    // Make sure series animations are reset when axes change
-    //AbstractBarChartItem *item = qobject_cast<AbstractBarChartItem *>(m_item.get());
-    //if (item)
-    //    item->resetAnimation();
 }
 
 void QAbstractBarSeriesPrivate::handleSetValueChange(int index)
