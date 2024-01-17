@@ -20,6 +20,8 @@
 
 QT_BEGIN_NAMESPACE
 
+enum class GradientType { Base, Single, Multi };
+
 class QQuickGraphsColor : public QObject
 {
     Q_OBJECT

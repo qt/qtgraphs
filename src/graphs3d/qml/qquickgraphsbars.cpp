@@ -56,6 +56,10 @@ void QQuickGraphsBars::setRowAxis(QCategory3DAxis *axis)
                      &QAbstract3DAxis::rangeChanged,
                      this,
                      &QQuickGraphsBars::handleRowCountChanged);
+    QObject::connect(axis,
+                     &QCategory3DAxis::rowLabelsChanged,
+                     this,
+                     &QQuickGraphsBars::handleDataRowLabelsChanged);
     handleRowCountChanged();
 }
 
@@ -86,6 +90,10 @@ void QQuickGraphsBars::setColumnAxis(QCategory3DAxis *axis)
                      &QAbstract3DAxis::rangeChanged,
                      this,
                      &QQuickGraphsBars::handleColCountChanged);
+    QObject::connect(axis,
+                     &QCategory3DAxis::columnLabelsChanged,
+                     this,
+                     &QQuickGraphsBars::handleDataColumnLabelsChanged);
     handleColCountChanged();
 }
 

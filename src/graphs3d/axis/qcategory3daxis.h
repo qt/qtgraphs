@@ -23,6 +23,10 @@ public:
     void setLabels(const QStringList &labels);
     QStringList labels() const;
 
+Q_SIGNALS:
+    void rowLabelsChanged();
+    void columnLabelsChanged();
+
 private:
     Q_DISABLE_COPY(QCategory3DAxis)
 
