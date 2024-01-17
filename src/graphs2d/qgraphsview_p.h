@@ -89,6 +89,10 @@ public:
     // So graphview - margins - axis.
     QRectF seriesRect() const;
 
+    void createBarsRenderer();
+    void createAxisRenderer();
+    void createPointRenderer();
+
 protected:
     void handleHoverEnter(QString seriesName, QPointF position, QPointF value);
     void handleHoverExit(QString seriesName, QPointF position);

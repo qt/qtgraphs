@@ -101,11 +101,35 @@ void QGraphsView::removeAxis(QAbstractAxis *axis)
 QRectF QGraphsView::seriesRect() const
 {
     // When axis are in left & bottom
-    qreal x = m_marginLeft + m_axisRenderer->m_axisWidth;
+    qreal x = m_marginLeft;
+    if (m_axisRenderer)
+        x += m_axisRenderer->m_axisWidth;
     qreal y = m_marginTop;
     qreal w = width() - x - m_marginRight;
-    qreal h = height() - y - m_marginBottom - m_axisRenderer->m_axisHeight;
+    qreal h = height() - y - m_marginBottom;
+    if (m_axisRenderer)
+        h -= m_axisRenderer->m_axisHeight;
     return QRectF(x, y, w, h);
+}
+
+void QGraphsView::createBarsRenderer()
+{
+    if (!m_barsRenderer)
+        m_barsRenderer = new BarsRenderer(this);
+}
+
+void QGraphsView::createAxisRenderer()
+{
+    if (!m_axisRenderer) {
+        m_axisRenderer = new AxisRenderer(this);
+        m_axisRenderer->setZ(-1);
+    }
+}
+
+void QGraphsView::createPointRenderer()
+{
+    if (!m_pointRenderer)
+        m_pointRenderer = new PointRenderer(this);
 }
 
 void QGraphsView::handleHoverEnter(QString seriesName, QPointF position, QPointF value)
@@ -129,12 +153,14 @@ void QGraphsView::handleHover(QString seriesName, QPointF position, QPointF valu
 
 void QGraphsView::updateComponentSizes()
 {
-    if (!m_axisRenderer || !m_barsRenderer || !m_pointRenderer)
-        return;
+    if (m_axisRenderer)
+        m_axisRenderer->setSize(size());
 
-    m_axisRenderer->setSize(size());
-    m_barsRenderer->setSize(size());
-    m_pointRenderer->setSize(size());
+    if (m_barsRenderer)
+        m_barsRenderer->setSize(size());
+
+    if (m_pointRenderer)
+        m_pointRenderer->setSize(size());
 }
 
 void QGraphsView::componentComplete()
@@ -157,17 +183,6 @@ void QGraphsView::geometryChange(const QRectF &newGeometry, const QRectF &oldGeo
     // TODO: Take margins into account here, so render items
     // sizes already match to their content.
 
-    if (!m_axisRenderer) {
-        m_axisRenderer = new AxisRenderer(this);
-        m_axisRenderer->setZ(-1);
-    }
-
-    if (!m_barsRenderer)
-        m_barsRenderer = new BarsRenderer(this);
-
-    if (!m_pointRenderer)
-        m_pointRenderer = new PointRenderer(this);
-
     updateComponentSizes();
 
     ensurePolished();
@@ -175,30 +190,38 @@ void QGraphsView::geometryChange(const QRectF &newGeometry, const QRectF &oldGeo
 
 void QGraphsView::mouseMoveEvent(QMouseEvent *event)
 {
-    m_pointRenderer->handleMouseMove(event);
+    if (m_pointRenderer)
+        m_pointRenderer->handleMouseMove(event);
 
     polish();
 }
 
 void QGraphsView::mousePressEvent(QMouseEvent *event)
 {
-    m_barsRenderer->handleMousePress(event);
-    m_pointRenderer->handleMousePress(event);
+    if (m_barsRenderer)
+        m_barsRenderer->handleMousePress(event);
+
+    if (m_pointRenderer)
+        m_pointRenderer->handleMousePress(event);
 
     polish();
 }
 
 void QGraphsView::mouseReleaseEvent(QMouseEvent *event)
 {
-    m_pointRenderer->handleMouseRelease(event);
+    if (m_pointRenderer)
+        m_pointRenderer->handleMouseRelease(event);
 
     polish();
 }
 
 void QGraphsView::hoverMoveEvent(QHoverEvent *event)
 {
-    m_barsRenderer->handleHoverMove(event);
-    m_pointRenderer->handleHoverMove(event);
+    if (m_barsRenderer)
+        m_barsRenderer->handleHoverMove(event);
+
+    if (m_pointRenderer)
+        m_pointRenderer->handleHoverMove(event);
 }
 
 QSGNode *QGraphsView::updatePaintNode(QSGNode *oldNode, QQuickItem::UpdatePaintNodeData *updatePaintNodeData)
@@ -210,20 +233,30 @@ QSGNode *QGraphsView::updatePaintNode(QSGNode *oldNode, QQuickItem::UpdatePaintN
 
     // Background node, used for clipping
     QRectF clipRect = boundingRect();
-    clipRect.adjust(m_marginLeft + m_axisRenderer->m_axisWidth, m_marginTop, -m_marginRight, -m_marginBottom - m_axisRenderer->m_axisHeight);
+    qreal widthAdjustment = .0f;
+    qreal heightAdjustment = .0f;
+    if (m_axisRenderer) {
+        widthAdjustment = m_axisRenderer->m_axisWidth;
+        heightAdjustment = m_axisRenderer->m_axisHeight;
+    }
+    clipRect.adjust(m_marginLeft + widthAdjustment, m_marginTop, -m_marginRight, -m_marginBottom - heightAdjustment);
     m_backgroundNode->setClipRect(clipRect);
     m_backgroundNode->setIsRectangular(true);
     oldNode = m_backgroundNode;
 
     for (auto series : std::as_const(m_seriesList)) {
-        if (auto barSeries = qobject_cast<QBarSeries*>(series))
-            m_barsRenderer->updateBarSeries(barSeries);
+        if (m_barsRenderer) {
+            if (auto barSeries = qobject_cast<QBarSeries*>(series))
+                m_barsRenderer->updateBarSeries(barSeries);
+        }
 
-        if (auto lineSeries = qobject_cast<QLineSeries*>(series))
-            m_pointRenderer->updateSeries(lineSeries);
+        if (m_pointRenderer) {
+            if (auto lineSeries = qobject_cast<QLineSeries*>(series))
+                m_pointRenderer->updateSeries(lineSeries);
 
-        if (auto scatterSeries = qobject_cast<QScatterSeries*>(series))
-            m_pointRenderer->updateSeries(scatterSeries);
+            if (auto scatterSeries = qobject_cast<QScatterSeries*>(series))
+                m_pointRenderer->updateSeries(scatterSeries);
+        }
     }
 
     // Now possibly dirty theme has been taken into use
@@ -236,18 +269,23 @@ QSGNode *QGraphsView::updatePaintNode(QSGNode *oldNode, QQuickItem::UpdatePaintN
 
 void QGraphsView::updatePolish()
 {
-    m_axisRenderer->handlePolish();
+    if (m_axisRenderer)
+        m_axisRenderer->handlePolish();
 
     // Polish for all series
     for (auto series : std::as_const(m_seriesList)) {
-        if (auto barSeries = qobject_cast<QBarSeries*>(series))
-            m_barsRenderer->handlePolish(barSeries);
+        if (m_barsRenderer) {
+            if (auto barSeries = qobject_cast<QBarSeries*>(series))
+                m_barsRenderer->handlePolish(barSeries);
+        }
 
-        if (auto lineSeries = qobject_cast<QLineSeries*>(series))
-            m_pointRenderer->handlePolish(lineSeries);
+        if (m_pointRenderer) {
+            if (auto lineSeries = qobject_cast<QLineSeries*>(series))
+                m_pointRenderer->handlePolish(lineSeries);
 
-        if (auto scatterSeries = qobject_cast<QScatterSeries*>(series))
-            m_pointRenderer->handlePolish(scatterSeries);
+            if (auto scatterSeries = qobject_cast<QScatterSeries*>(series))
+                m_pointRenderer->handlePolish(scatterSeries);
+        }
     }
 }
 
