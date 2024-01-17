@@ -24,8 +24,4 @@ qt_internal_extend_target(Graphs
         qsgrenderer/barsrenderer.cpp qsgrenderer/barsrenderer_p.h
         qsgrenderer/pointrenderer.cpp qsgrenderer/pointrenderer_p.h
         qsgrenderer/axisrenderer.cpp qsgrenderer/axisrenderer_p.h
-    NO_PCH_SOURCES
-        barchart/qabstractbarseries.cpp
-        axis/barcategoryaxis/qbarcategoryaxis.cpp
-        xychart/qxyseries.cpp
 )

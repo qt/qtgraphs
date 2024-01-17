@@ -1,8 +1,6 @@
 // Copyright (C) 2023 The Qt Company Ltd.
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 
-#undef QT_NO_FOREACH // this file contains unported legacy Q_FOREACH uses
-
 #include <QtGraphs/QBarCategoryAxis>
 #include <private/qbarcategoryaxis_p.h>
 #include <QtCore/QtMath>
@@ -165,7 +163,7 @@ void QBarCategoryAxis::append(const QStringList &categories)
 
     int count = d->m_categories.size();
 
-    foreach (QString category, categories) {
+    for (const auto &category : categories) {
         if (!d->m_categories.contains(category) && !category.isNull()) {
             d->m_categories.append(category);
         }

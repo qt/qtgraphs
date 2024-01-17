@@ -1,8 +1,6 @@
 // Copyright (C) 2023 The Qt Company Ltd.
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 
-#undef QT_NO_FOREACH // this file contains unported legacy Q_FOREACH uses
-
 #include <QtGraphs/qxyseries.h>
 #include <private/qxyseries_p.h>
 #include <private/charthelpers_p.h>
@@ -35,7 +33,7 @@ void QXYSeries::append(const QPointF &point)
 
 void QXYSeries::append(const QList<QPointF> &points)
 {
-    foreach (const QPointF &point , points)
+    for (const QPointF &point : points)
         append(point);
 }
 
