@@ -26,21 +26,11 @@
 #include <QtGraphs/qabstract3dinputhandler.h>
 #include <QtGraphs/qabstract3dseries.h>
 #include <QtGraphs/qabstractdataproxy.h>
-#include <QtGraphs/qbar3dseries.h>
-#include <QtGraphs/qbardataproxy.h>
 #include <QtGraphs/qcategory3daxis.h>
 #include <QtGraphs/qcustom3ditem.h>
 #include <QtGraphs/qcustom3dlabel.h>
 #include <QtGraphs/qcustom3dvolume.h>
-#include <QtGraphs/qheightmapsurfacedataproxy.h>
-#include <QtGraphs/qitemmodelbardataproxy.h>
-#include <QtGraphs/qitemmodelscatterdataproxy.h>
-#include <QtGraphs/qitemmodelsurfacedataproxy.h>
 #include <QtGraphs/qlogvalue3daxisformatter.h>
-#include <QtGraphs/qscatter3dseries.h>
-#include <QtGraphs/qscatterdataproxy.h>
-#include <QtGraphs/qsurface3dseries.h>
-#include <QtGraphs/qsurfacedataproxy.h>
 #include <QtGraphs/qtouch3dinputhandler.h>
 #include <QtGraphs/qvalue3daxis.h>
 #include <QtGraphs/qvalue3daxisformatter.h>
@@ -81,10 +71,6 @@ struct Q3DSceneForeign
 };
 
 DEFINE_FOREIGN_CREATABLE_TYPE(QCategory3DAxis, CategoryAxis3D, 6)
-DEFINE_FOREIGN_CREATABLE_TYPE(QHeightMapSurfaceDataProxy, HeightMapSurfaceDataProxy, 6)
-DEFINE_FOREIGN_CREATABLE_TYPE(QItemModelBarDataProxy, ItemModelBarDataProxy, 6)
-DEFINE_FOREIGN_CREATABLE_TYPE(QItemModelScatterDataProxy, ItemModelScatterDataProxy, 6)
-DEFINE_FOREIGN_CREATABLE_TYPE(QItemModelSurfaceDataProxy, ItemModelSurfaceDataProxy, 6)
 DEFINE_FOREIGN_CREATABLE_TYPE(QValue3DAxis, ValueAxis3D, 6)
 
 DEFINE_FOREIGN_CREATABLE_TYPE(QCustom3DItem, Custom3DItem, 6)
@@ -97,18 +83,11 @@ DEFINE_FOREIGN_CREATABLE_TYPE(QCustom3DVolume, Custom3DVolume, 6)
 DEFINE_FOREIGN_CREATABLE_TYPE(QTouch3DInputHandler, TouchInputHandler3D, 6)
 DEFINE_FOREIGN_CREATABLE_TYPE(Q3DTheme, Theme3D, 6)
 
-DEFINE_FOREIGN_REPLACED_TYPE(QBar3DSeries, QBar3DSeries, Bar3DSeries)
-DEFINE_FOREIGN_REPLACED_TYPE(QScatter3DSeries, QScatter3DSeries, Scatter3DSeries)
-DEFINE_FOREIGN_REPLACED_TYPE(QSurface3DSeries, QSurface3DSeries, Surface3DSeries)
-
 DEFINE_FOREIGN_UNCREATABLE_TYPE(QAbstract3DAxis, AbstractAxis3D)
 DEFINE_FOREIGN_UNCREATABLE_TYPE(QAbstract3DInputHandler, AbstractInputHandler3D)
 DEFINE_FOREIGN_UNCREATABLE_TYPE(QAbstract3DSeries, Abstract3DSeries)
 DEFINE_FOREIGN_UNCREATABLE_TYPE(QAbstractDataProxy, AbstractDataProxy)
 DEFINE_FOREIGN_UNCREATABLE_TYPE(QAbstractItemModel, AbstractItemModel)
-DEFINE_FOREIGN_UNCREATABLE_TYPE(QBarDataProxy, BarDataProxy)
-DEFINE_FOREIGN_UNCREATABLE_TYPE(QScatterDataProxy, ScatterDataProxy)
-DEFINE_FOREIGN_UNCREATABLE_TYPE(QSurfaceDataProxy, SurfaceDataProxy)
 
 QT_END_NAMESPACE
 

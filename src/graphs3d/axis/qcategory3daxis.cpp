@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 
 #include "qcategory3daxis_p.h"
-#include "qquickgraphsbars_p.h"
+#include "qquickgraphsitem_p.h"
 
 QT_BEGIN_NAMESPACE
 
@@ -76,13 +76,15 @@ void QCategory3DAxis::setLabels(const QStringList &labels)
     // Get labels from data proxy if axis is attached to a bar graph and an active
     // axis there
     if (labels.isEmpty()) {
-        QQuickGraphsBars *graph = qobject_cast<QQuickGraphsBars *>(parent());
+        QQuickGraphsItem *graph = qobject_cast<QQuickGraphsItem *>(parent());
+        // TODO: QCategory3DAxis is only used with QBars3D, so is it still necessary to check if
+        // the item is bars or something else?
         if (graph) {
             if (graph->axisX() == this) {
-                graph->handleDataRowLabelsChanged();
+                emit rowLabelsChanged();
                 labelsFromData = true;
             } else if (graph->axisZ() == this) {
-                graph->handleDataColumnLabelsChanged();
+                emit columnLabelsChanged();
                 labelsFromData = true;
             }
         }
