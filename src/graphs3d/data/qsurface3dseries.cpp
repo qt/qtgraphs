@@ -151,6 +151,18 @@ QT_BEGIN_NAMESPACE
  */
 
 /*!
+* \qmlproperty SurfaceDataArray Surface3DSeries::dataArray
+ *
+ * Holds the reference of the data array.
+ *
+ * dataArrayChanged signal is emitted when data array is set, unless \a newDataArray
+ * is identical to the previous one.
+ *
+ * \note Before doing anything regarding the dataArray, a series must be created for
+ * the relevant proxy.
+ */
+
+/*!
  * \enum QSurface3DSeries::DrawFlag
  *
  * The drawing mode of the surface. Values of this enumeration can be combined
@@ -223,9 +235,7 @@ QSurfaceDataProxy *QSurface3DSeries::dataProxy() const
  * \property QSurface3DSeries::selectedPoint
  *
  * \brief The surface grid point that is selected in the series.
- */
-
-/*!
+ *
  * Selects a surface grid point at the position \a position in the data array of
  * the series specified by a row and a column.
  *
@@ -417,6 +427,56 @@ QColor QSurface3DSeries::wireframeColor() const
     return d->m_wireframeColor;
 }
 
+/*!
+ * \property QSurface3DSeries::dataArray
+ *
+ * \brief Data array for the series.
+ *
+ * Holds the reference of the data array.
+ *
+ * dataArrayChanged signal is emitted when data array is set, unless \a newDataArray
+ * is identical to the previous one.
+ *
+ * \note Before doing anything regarding the dataArray, a series must be created for
+ * the relevant proxy.
+ *
+ *\sa clearRow(int rowIndex)
+ *
+ *\sa clearArray()
+ */
+void QSurface3DSeries::setDataArray(const QSurfaceDataArray &newDataArray)
+{
+    Q_D(QSurface3DSeries);
+    if (d->m_dataArray.data() != newDataArray.data()) {
+        d->setDataArray(newDataArray);
+        emit dataArrayChanged(&newDataArray);
+    }
+}
+
+/*!
+ * Clears the existing row in the array according to given \a rowIndex.
+ */
+void QSurface3DSeries::clearRow(int rowIndex)
+{
+    Q_D(QSurface3DSeries);
+    d->clearRow(rowIndex);
+}
+
+/*!
+ * Clears the existing array.
+ */
+void QSurface3DSeries::clearArray()
+{
+    Q_D(QSurface3DSeries);
+    d->clearArray();
+}
+
+const QSurfaceDataArray &QSurface3DSeries::dataArray() const
+{
+    const Q_D(QSurface3DSeries);
+    return d->m_dataArray;
+}
+
 // QSurface3DSeriesPrivate
 
 QSurface3DSeriesPrivate::QSurface3DSeriesPrivate()
@@ -430,7 +490,10 @@ QSurface3DSeriesPrivate::QSurface3DSeriesPrivate()
     m_mesh = QAbstract3DSeries::Mesh::Sphere;
 }
 
-QSurface3DSeriesPrivate::~QSurface3DSeriesPrivate() {}
+QSurface3DSeriesPrivate::~QSurface3DSeriesPrivate()
+{
+    clearArray();
+}
 
 void QSurface3DSeriesPrivate::setDataProxy(QAbstractDataProxy *proxy)
 {
@@ -575,6 +638,21 @@ void QSurface3DSeriesPrivate::setWireframeColor(const QColor &color)
     m_wireframeColor = color;
     if (m_graph)
         m_graph->markSeriesVisualsDirty();
+}
+
+void QSurface3DSeriesPrivate::setDataArray(const QSurfaceDataArray &newDataArray)
+{
+    m_dataArray = newDataArray;
+}
+
+void QSurface3DSeriesPrivate::clearRow(int rowIndex)
+{
+    m_dataArray[rowIndex].clear();
+}
+
+void QSurface3DSeriesPrivate::clearArray()
+{
+    m_dataArray.clear();
 }
 
 QT_END_NAMESPACE

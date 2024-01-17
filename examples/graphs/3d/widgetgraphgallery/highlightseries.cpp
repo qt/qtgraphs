@@ -24,8 +24,8 @@ HighlightSeries::~HighlightSeries() {}
 void HighlightSeries::setTopographicSeries(TopographicSeries *series)
 {
     m_topographicSeries = series;
-    m_srcWidth = m_topographicSeries->dataProxy()->array().at(0).size();
-    m_srcHeight = m_topographicSeries->dataProxy()->array().size();
+    m_srcWidth = m_topographicSeries->dataArray().at(0).size();
+    m_srcHeight = m_topographicSeries->dataArray().size();
 
     QObject::connect(m_topographicSeries,
                      &QSurface3DSeries::selectedPointChanged,
@@ -60,8 +60,7 @@ void HighlightSeries::handlePositionChange(const QPoint &position)
     if (endZ > (m_srcHeight - 1))
         endZ = m_srcHeight - 1;
 
-    QSurfaceDataProxy *srcProxy = m_topographicSeries->dataProxy();
-    const QSurfaceDataArray &srcArray = srcProxy->array();
+    const QSurfaceDataArray &srcArray = m_topographicSeries->dataArray();
 
     QSurfaceDataArray dataArray;
     dataArray.reserve(endZ - startZ);

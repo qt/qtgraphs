@@ -86,6 +86,7 @@ Item {
 
     Surface3DSeries {
         id: change
+        dataProxy: proxy1
     }
 
     TestCase {
@@ -159,7 +160,6 @@ Item {
         name: "Surface3DSeries Change"
 
         function test_1_change() {
-            change.dataProxy = proxy1
             change.drawMode = Surface3DSeries.DrawSurface
             change.flatShadingEnabled = false
             change.selectedPoint = Qt.point(0, 0)

@@ -743,7 +743,7 @@ void GraphModifier::toggleXAscending(int enabled)
 
     const auto surfaceSeriesList = m_graph->seriesList();
     for (const auto &series : surfaceSeriesList) {
-        QSurfaceDataArray &array = const_cast<QSurfaceDataArray &>(series->dataProxy()->array());
+        QSurfaceDataArray &array = const_cast<QSurfaceDataArray &>(series->dataArray());
         const int rowCount = array.size();
         const int columnCount = array.at(0).size();
         const bool dataAscending = array.at(0).at(0).x() < array.at(0).at(columnCount - 1).x();
@@ -774,7 +774,7 @@ void GraphModifier::toggleZAscending(int enabled)
     // Flip data array contents if necessary
     const auto surfaceSeriesList = m_graph->seriesList();
     for (const auto &series : surfaceSeriesList) {
-        QSurfaceDataArray &array = const_cast<QSurfaceDataArray &>(series->dataProxy()->array());
+        QSurfaceDataArray &array = const_cast<QSurfaceDataArray &>(series->dataArray());
         const int rowCount = array.size();
         const int columnCount = array.at(0).size();
         const bool dataAscending = array.at(0).at(0).z() < array.at(rowCount - 1).at(0).z();

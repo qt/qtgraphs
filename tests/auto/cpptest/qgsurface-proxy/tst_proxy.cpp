@@ -3,6 +3,7 @@
 
 #include <QtTest/QtTest>
 
+#include <QtGraphs/QSurface3DSeries>
 #include <QtGraphs/QSurfaceDataProxy>
 
 class tst_proxy: public QObject
@@ -23,6 +24,7 @@ private slots:
 
 private:
     QSurfaceDataProxy *m_proxy;
+    QSurface3DSeries *m_series;
 };
 
 void tst_proxy::initTestCase()
@@ -36,27 +38,32 @@ void tst_proxy::cleanupTestCase()
 void tst_proxy::init()
 {
     m_proxy = new QSurfaceDataProxy();
+    m_series = new QSurface3DSeries(m_proxy);
 }
 
 void tst_proxy::cleanup()
 {
-    delete m_proxy;
+    delete m_series;
+    m_proxy = 0; // proxy gets deleted with series
 }
 
 void tst_proxy::construct()
 {
     QSurfaceDataProxy *proxy = new QSurfaceDataProxy();
     QVERIFY(proxy);
-    delete proxy;
+    QSurface3DSeries *series = new QSurface3DSeries(proxy);
+    QVERIFY(series);
+    delete series;
+    proxy = 0; // proxy gets deleted with series
 }
 
 void tst_proxy::initialProperties()
 {
     QVERIFY(m_proxy);
+    QVERIFY(m_series);
 
     QCOMPARE(m_proxy->columnCount(), 0);
     QCOMPARE(m_proxy->rowCount(), 0);
-    QVERIFY(!m_proxy->series());
 
     QCOMPARE(m_proxy->type(), QAbstractDataProxy::DataType::Surface);
 }
@@ -64,6 +71,7 @@ void tst_proxy::initialProperties()
 void tst_proxy::initializeProperties()
 {
     QVERIFY(m_proxy);
+    QVERIFY(m_series);
 
     QSurfaceDataArray data;
     QSurfaceDataRow dataRow1;
@@ -81,8 +89,10 @@ void tst_proxy::initializeProperties()
 void tst_proxy::initialRow()
 {
     QSurfaceDataProxy proxy;
-    QSurfaceDataRow row{QSurfaceDataItem{QVector3D{0, 0, 0}},
-                        QSurfaceDataItem{QVector3D{1, 1, 1}}};
+    QSurface3DSeries *series = new QSurface3DSeries(&proxy);
+    Q_UNUSED(series);
+
+    QSurfaceDataRow row{QSurfaceDataItem{QVector3D{0, 0, 0}}, QSurfaceDataItem{QVector3D{1, 1, 1}}};
     proxy.addRow(QSurfaceDataRow(row));
     proxy.addRow(QSurfaceDataRow(row));
 }

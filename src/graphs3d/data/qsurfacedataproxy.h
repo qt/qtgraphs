@@ -32,7 +32,6 @@ public:
     QSurface3DSeries *series() const;
     int rowCount() const;
     int columnCount() const;
-    const QSurfaceDataArray &array() const;
     const QSurfaceDataItem &itemAt(int rowIndex, int columnIndex) const;
     const QSurfaceDataItem &itemAt(const QPoint &position) const;
 

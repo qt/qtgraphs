@@ -10,38 +10,44 @@ Item {
     height: 150
     width: 150
 
-    ItemModelSurfaceDataProxy {
-        id: initial
+    Surface3DSeries {
+        dataProxy: ItemModelSurfaceDataProxy {
+            id: initial
+        }
     }
 
-    ItemModelSurfaceDataProxy {
-        id: initialized
+    Surface3DSeries {
+        dataProxy: ItemModelSurfaceDataProxy {
+            id: initialized
 
-        autoColumnCategories: false
-        autoRowCategories: false
-        columnCategories: ["colcat1", "colcat2"]
-        columnRole: "col"
-        columnRolePattern: /^.*-(\d\d)$/
-        columnRoleReplace: "\\1"
-        itemModel: ListModel { objectName: "model1" }
-        multiMatchBehavior: ItemModelSurfaceDataProxy.MultiMatchBehavior.Average
-        rowCategories: ["rowcat1", "rowcat2"]
-        rowRole: "row"
-        rowRolePattern: /^(\d\d\d\d).*$/
-        rowRoleReplace: "\\1"
-        xPosRole: "x"
-        xPosRolePattern: /^.*-(\d\d)$/
-        xPosRoleReplace: "\\1"
-        yPosRole: "y"
-        yPosRolePattern: /^(\d\d\d\d).*$/
-        yPosRoleReplace: "\\1"
-        zPosRole: "z"
-        zPosRolePattern: /-/
-        zPosRoleReplace: "\\1"
+            autoColumnCategories: false
+            autoRowCategories: false
+            columnCategories: ["colcat1", "colcat2"]
+            columnRole: "col"
+            columnRolePattern: /^.*-(\d\d)$/
+            columnRoleReplace: "\\1"
+            itemModel: ListModel { objectName: "model1" }
+            multiMatchBehavior: ItemModelSurfaceDataProxy.MultiMatchBehavior.Average
+            rowCategories: ["rowcat1", "rowcat2"]
+            rowRole: "row"
+            rowRolePattern: /^(\d\d\d\d).*$/
+            rowRoleReplace: "\\1"
+            xPosRole: "x"
+            xPosRolePattern: /^.*-(\d\d)$/
+            xPosRoleReplace: "\\1"
+            yPosRole: "y"
+            yPosRolePattern: /^(\d\d\d\d).*$/
+            yPosRoleReplace: "\\1"
+            zPosRole: "z"
+            zPosRolePattern: /-/
+            zPosRoleReplace: "\\1"
+        }
     }
 
-    ItemModelSurfaceDataProxy {
-        id: change
+    Surface3DSeries {
+        dataProxy: ItemModelSurfaceDataProxy {
+            id: change
+        }
     }
 
     TestCase {
@@ -73,7 +79,7 @@ Item {
 
             compare(initial.columnCount, 0)
             compare(initial.rowCount, 0)
-            verify(!initial.series)
+            verify(initial.series)
 
             compare(initial.type, AbstractDataProxy.DataType.Surface)
         }

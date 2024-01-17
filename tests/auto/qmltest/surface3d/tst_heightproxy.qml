@@ -10,25 +10,32 @@ Item {
     height: 150
     width: 150
 
-    HeightMapSurfaceDataProxy {
-        id: initial
+    Surface3DSeries {
+        dataProxy: HeightMapSurfaceDataProxy {
+            id: initial
+        }
     }
 
-    HeightMapSurfaceDataProxy {
-        id: initialized
-        heightMapFile: ":/customtexture.jpg"
-        maxXValue: 10.0
-        maxZValue: 10.0
-        minXValue: -10.0
-        minZValue: -10.0
+    Surface3DSeries {
+        dataProxy: HeightMapSurfaceDataProxy {
+            id: initialized
+            heightMapFile: ":/customtexture.jpg"
+            maxXValue: 10.0
+            maxZValue: 10.0
+            minXValue: -10.0
+            minZValue: -10.0
+        }
     }
 
-    HeightMapSurfaceDataProxy {
-        id: change
+    Surface3DSeries {
+        dataProxy: HeightMapSurfaceDataProxy {
+            id: change
+        }
     }
-
-    HeightMapSurfaceDataProxy {
-        id: invalid
+    Surface3DSeries {
+        dataProxy: HeightMapSurfaceDataProxy {
+            id: invalid
+        }
     }
 
     TestCase {
@@ -43,7 +50,7 @@ Item {
 
             compare(initial.columnCount, 0)
             compare(initial.rowCount, 0)
-            verify(!initial.series)
+            verify(initial.series)
 
             compare(initial.type, AbstractDataProxy.DataType.Surface)
         }

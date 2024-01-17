@@ -455,7 +455,7 @@ void QQuickGraphsSurface::setSelectedPoint(const QPoint &position,
             float axisMinZ = m_axisZ->min();
             float axisMaxZ = m_axisZ->max();
 
-            QSurfaceDataItem item = proxy->array().at(pos.y()).at(pos.x());
+            QSurfaceDataItem item = series->dataArray().at(pos.y()).at(pos.x());
             if (item.x() < axisMinX || item.x() > axisMaxX || item.z() < axisMinZ
                 || item.z() > axisMaxZ) {
                 scene()->setSlicingActive(false);
@@ -958,7 +958,7 @@ QRect QQuickGraphsSurface::calculateSampleSpace(const QSurfaceDataArray &array)
 
 void QQuickGraphsSurface::updateModel(SurfaceModel *model)
 {
-    const QSurfaceDataArray &array = model->series->dataProxy()->array();
+    const QSurfaceDataArray &array = model->series->dataArray();
 
     if (!array.isEmpty()) {
         int rowCount = array.size();
@@ -1157,7 +1157,7 @@ void QQuickGraphsSurface::updateProxyModel(SurfaceModel *model)
     if (!model->proxyModel)
         createProxyModel(model);
 
-    const QSurfaceDataArray &array = model->series->dataProxy()->array();
+    const QSurfaceDataArray &array = model->series->dataArray();
     if (array.isEmpty())
         return;
 
@@ -1395,7 +1395,7 @@ void QQuickGraphsSurface::updateMaterial(SurfaceModel *model)
             texInput->texture()->setSource(QUrl());
         }
 
-        const QSurfaceDataArray &array = model->series->dataProxy()->array();
+        const QSurfaceDataArray &array = model->series->dataArray();
         int maxRow = array.size() - 1;
         int maxCol = array.at(0).size() - 1;
         const bool ascendingX = array.at(0).at(0).x() < array.at(0).at(maxCol).x();
@@ -1492,7 +1492,7 @@ void QQuickGraphsSurface::updateSliceGraph()
             coord = mapCoordsToSampleSpace(model, worldCoord);
 
         int indexCount = 0;
-        const QSurfaceDataArray &array = model->series->dataProxy()->array();
+        const QSurfaceDataArray &array = model->series->dataArray();
         const int maxRow = array.size() - 1;
         const int maxColumn = array.at(0).size() - 1;
         const bool ascendingX = array.at(0).at(0).x() < array.at(0).at(maxColumn).x();
@@ -1592,14 +1592,14 @@ void QQuickGraphsSurface::updateSliceGraph()
 
 QPointF QQuickGraphsSurface::mapCoordsToWorldSpace(SurfaceModel *model, const QPointF &coords)
 {
-    const QSurfaceDataArray &array = model->series->dataProxy()->array();
+    const QSurfaceDataArray &array = model->series->dataArray();
     QSurfaceDataItem item = array.at(coords.y()).at(coords.x());
     return QPointF(item.x(), item.z());
 }
 
 QPoint QQuickGraphsSurface::mapCoordsToSampleSpace(SurfaceModel *model, const QPointF &coords)
 {
-    const QSurfaceDataArray &array = model->series->dataProxy()->array();
+    const QSurfaceDataArray &array = model->series->dataArray();
     int maxRow = array.size() - 1;
     int maxCol = array.at(0).size() - 1;
     const bool ascendingX = array.at(0).at(0).x() < array.at(0).at(maxCol).x();
@@ -1812,7 +1812,7 @@ void QQuickGraphsSurface::updateSelectedPoint()
             continue;
 
         const QSurfaceDataItem &dataPos
-            = model->series->dataProxy()->array().at(selectedCoord.y()).at(selectedCoord.x());
+            = model->series->dataArray().at(selectedCoord.y()).at(selectedCoord.x());
         QVector3D pos = getNormalizedVertex(dataPos, false, false);
         SurfaceVertex selectedVertex;
         selectedVertex.position = pos;

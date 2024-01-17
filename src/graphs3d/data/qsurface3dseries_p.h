@@ -37,7 +37,12 @@ public:
     void setTexture(const QImage &texture);
     void setWireframeColor(const QColor &color);
 
+    void setDataArray(const QSurfaceDataArray &newDataArray);
+    void clearRow(int rowIndex);
+    void clearArray();
+
 private:
+    QSurfaceDataArray m_dataArray;
     QPoint m_selectedPoint;
     bool m_flatShadingEnabled;
     QSurface3DSeries::DrawFlags m_drawMode;

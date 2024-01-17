@@ -3,6 +3,7 @@
 
 #include <QtCore/qdebug.h>
 #include "qheightmapsurfacedataproxy_p.h"
+#include "qsurface3dseries_p.h"
 
 QT_BEGIN_NAMESPACE
 
@@ -699,7 +700,7 @@ void QHeightMapSurfaceDataProxyPrivate::handlePendingResolve()
     float height = 0;
 
     // Do not recreate array if dimensions have not changed
-    QSurfaceDataArray dataArray = m_dataArray;
+    QSurfaceDataArray dataArray = q->series()->dataArray();
     if (imageWidth != q->columnCount() || imageHeight != dataArray.size()) {
         dataArray.clear();
         dataArray.reserve(imageHeight);
@@ -755,13 +756,10 @@ void QHeightMapSurfaceDataProxyPrivate::handlePendingResolve()
                 int nextpixel = j * 4 * bytesInChannel;
                 uchar *pixelptr = (uchar *) (bits + bitCount + nextpixel);
                 if (is16bit) {
-                    height = (float(*((ushort *) pixelptr))
-                              + float(*(((ushort *) pixelptr) + 1))
+                    height = (float(*((ushort *) pixelptr)) + float(*(((ushort *) pixelptr) + 1))
                               + float(*(((ushort *) pixelptr) + 2)));
                 } else {
-                    height = (float(*pixelptr)
-                              + float(*(pixelptr + 1))
-                              + float(*(pixelptr + 2)));
+                    height = (float(*pixelptr) + float(*(pixelptr + 1)) + float(*(pixelptr + 2)));
                 }
                 if (!m_autoScaleY)
                     yVal = height / 3.0f;

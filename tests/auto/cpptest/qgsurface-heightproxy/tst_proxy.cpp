@@ -4,6 +4,7 @@
 #include <QtTest/QtTest>
 
 #include <QtGraphs/QHeightMapSurfaceDataProxy>
+#include <QtGraphs/QSurface3DSeries>
 
 class tst_proxy: public QObject
 {
@@ -23,6 +24,7 @@ private slots:
 
 private:
     QHeightMapSurfaceDataProxy *m_proxy;
+    QSurface3DSeries *m_series;
 };
 
 void tst_proxy::initTestCase()
@@ -36,41 +38,53 @@ void tst_proxy::cleanupTestCase()
 void tst_proxy::init()
 {
     m_proxy = new QHeightMapSurfaceDataProxy();
+    m_series = new QSurface3DSeries(m_proxy);
 }
 
 void tst_proxy::cleanup()
 {
-    delete m_proxy;
+    delete m_series;
+    m_proxy = 0;
 }
 
 void tst_proxy::construct()
 {
     QHeightMapSurfaceDataProxy *proxy = new QHeightMapSurfaceDataProxy();
+    QSurface3DSeries *series = new QSurface3DSeries(proxy);
     QVERIFY(proxy);
-    delete proxy;
+    QVERIFY(series);
+    delete series;
+    proxy = 0;
 
     QImage image(QSize(10, 10), QImage::Format_ARGB32);
     image.fill(0);
     proxy = new QHeightMapSurfaceDataProxy(image);
+    series = new QSurface3DSeries(proxy);
     QCoreApplication::processEvents();
     QVERIFY(proxy);
+    QVERIFY(series);
     QCoreApplication::processEvents();
     QCOMPARE(proxy->columnCount(), 10);
     QCOMPARE(proxy->rowCount(), 10);
-    delete proxy;
+    delete series;
+    proxy = 0;
 
     proxy = new QHeightMapSurfaceDataProxy(":/customtexture.jpg");
+    series = new QSurface3DSeries(proxy);
     QCoreApplication::processEvents();
     QVERIFY(proxy);
+    QVERIFY(series);
     QCoreApplication::processEvents();
     QCOMPARE(proxy->columnCount(), 24);
     QCOMPARE(proxy->rowCount(), 24);
-    delete proxy;
+    delete series;
+    proxy = 0;
 }
 
 void tst_proxy::initialProperties()
 {
     QVERIFY(m_proxy);
+    QVERIFY(m_series);
 
     QCOMPARE(m_proxy->heightMap(), QImage());
     QCOMPARE(m_proxy->heightMapFile(), QString(""));
@@ -81,7 +95,6 @@ void tst_proxy::initialProperties()
 
     QCOMPARE(m_proxy->columnCount(), 0);
     QCOMPARE(m_proxy->rowCount(), 0);
-    QVERIFY(!m_proxy->series());
 
     QCOMPARE(m_proxy->type(), QAbstractDataProxy::DataType::Surface);
 }
@@ -89,6 +102,7 @@ void tst_proxy::initialProperties()
 void tst_proxy::initializeProperties()
 {
     QVERIFY(m_proxy);
+    QVERIFY(m_series);
 
     m_proxy->setHeightMapFile(":/customtexture.jpg");
     m_proxy->setMaxXValue(11.0f);

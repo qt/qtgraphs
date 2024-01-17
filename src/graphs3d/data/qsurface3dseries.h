@@ -28,6 +28,7 @@ class Q_GRAPHS_EXPORT QSurface3DSeries : public QAbstract3DSeries
     Q_PROPERTY(QString textureFile READ textureFile WRITE setTextureFile NOTIFY textureFileChanged)
     Q_PROPERTY(QColor wireframeColor READ wireframeColor WRITE setWireframeColor NOTIFY
                    wireframeColorChanged)
+    Q_PROPERTY(QSurfaceDataArray dataArray READ dataArray WRITE setDataArray NOTIFY dataArrayChanged)
 
 public:
     enum DrawFlag {
@@ -65,6 +66,11 @@ public:
     void setWireframeColor(const QColor &color);
     QColor wireframeColor() const;
 
+    void setDataArray(const QSurfaceDataArray &newDataArray);
+    void clearRow(int rowIndex);
+    void clearArray();
+    const QSurfaceDataArray &dataArray() const;
+
 Q_SIGNALS:
     void dataProxyChanged(QSurfaceDataProxy *proxy);
     void selectedPointChanged(const QPoint &position);
@@ -74,6 +80,7 @@ Q_SIGNALS:
     void textureChanged(const QImage &image);
     void textureFileChanged(const QString &filename);
     void wireframeColorChanged(const QColor &color);
+    void dataArrayChanged(const QSurfaceDataArray *array);
 
 protected:
     explicit QSurface3DSeries(QSurface3DSeriesPrivate &d, QObject *parent = nullptr);

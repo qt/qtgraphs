@@ -46,13 +46,6 @@ public:
     bool isValidValue(float value, QAbstract3DAxis *axis) const;
 
     void setSeries(QAbstract3DSeries *series) override;
-
-protected:
-    QSurfaceDataArray m_dataArray;
-
-private:
-    void clearRow(int rowIndex);
-    void clearArray();
 };
 
 QT_END_NAMESPACE
