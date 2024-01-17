@@ -352,6 +352,20 @@ QGraphsView *QAbstractSeries::graph() const
 void QAbstractSeries::setGraph(QGraphsView *graph)
 {
     d_ptr->m_graph = graph;
+    switch (type()) {
+    case QAbstractSeries::SeriesTypeBar:
+        graph->createBarsRenderer();
+        graph->createAxisRenderer();
+        break;
+    case QAbstractSeries::SeriesTypeScatter:
+    case QAbstractSeries::SeriesTypeLine:
+        graph->createPointRenderer();
+        graph->createAxisRenderer();
+        break;
+    default:
+        break;
+    }
+
     if (d_ptr->m_graph) {
         // Attach pending axes
         for (auto axis : d_ptr->m_axes) {
