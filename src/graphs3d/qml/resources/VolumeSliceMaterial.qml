@@ -20,6 +20,6 @@ CustomMaterial {
     shadingMode: CustomMaterial.Unshaded
     sourceBlend: CustomMaterial.SrcAlpha
     destinationBlend: CustomMaterial.OneMinusSrcAlpha
-    vertexShader: "qrc:/shaders/vertexTexture3D"
-    fragmentShader: "qrc:/shaders/fragmentTexture3DSlice"
+    vertexShader: "qrc:/shaders/texture3dvert"
+    fragmentShader: "qrc:/shaders/texture3dslicefrag"
 }

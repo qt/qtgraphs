@@ -11,6 +11,6 @@ CustomMaterial {
     property vector2d vertices
     property vector2d range
 
-    vertexShader: "qrc:/shaders/vertexSurfaceGrid"
-    fragmentShader: "qrc:/shaders/fragSurfaceGrid"
+    vertexShader: "qrc:/shaders/surfaceGridvert"
+    fragmentShader: "qrc:/shaders/surfaceGridfrag"
 }

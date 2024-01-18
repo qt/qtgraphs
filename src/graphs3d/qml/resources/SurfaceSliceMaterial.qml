@@ -9,6 +9,6 @@ CustomMaterial {
     property TextureInput custex: TextureInput {}
 
     shadingMode: CustomMaterial.Shaded
-    vertexShader: "qrc:/shaders/vertexSurfaceSlice"
-    fragmentShader: "qrc:/shaders/fragmentrangegradient"
+    vertexShader: "qrc:/shaders/surfaceSlicevert"
+    fragmentShader: "qrc:/shaders/rangegradientfrag"
 }

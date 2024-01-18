@@ -8,6 +8,6 @@ CustomMaterial {
     property TextureInput custex: TextureInput {}
 
     shadingMode: CustomMaterial.Shaded
-    fragmentShader: "qrc:/shaders/fragmentobjectgradientinstancing"
-    vertexShader: "qrc:/shaders/vertexobjectgradientinstancing"
+    fragmentShader: "qrc:/shaders/objectgradientinstancingfrag"
+    vertexShader: "qrc:/shaders/objectgradientinstancingvert"
 }
