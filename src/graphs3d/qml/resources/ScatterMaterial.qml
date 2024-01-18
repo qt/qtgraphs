@@ -15,6 +15,6 @@ CustomMaterial {
     readonly property real shininess: (1.0 - specularBrightness) * 100
 
     shadingMode: CustomMaterial.Shaded
-    vertexShader: "qrc:/shaders/vertexScatter"
-    fragmentShader: "qrc:/shaders/fragmentScatter"
+    vertexShader: "qrc:/shaders/scattervert"
+    fragmentShader: "qrc:/shaders/scatterfrag"
 }
