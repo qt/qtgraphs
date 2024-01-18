@@ -292,8 +292,6 @@
     \page qtgraphs_migration_guide.html
     \title Qt Graphs 3D Migration from Qt DataVisualization
 
-    TODO: UPDATE THIS PAGE (QTBUG-120656)
-
     The API and functionality between Qt DataVisualization and Qt Graphs has been kept mostly
     unchanged. However, there are some differences that need to be taken into consideration
     when migrating your application from Qt DataVisualization to Qt Graphs:
@@ -304,6 +302,7 @@
         \li qmake module inclusion
         \li Widget application creation
         \li Requirement to use OpenGL backend
+        \li Removed classes
         \li Removed APIs
         \li Changed APIs
     \endlist
@@ -371,11 +370,21 @@
     is no longer required. Qt Graphs uses Qt Quick 3D for rendering, and as such supports the
     rendering backends native to the platform it is being run on.
 
+    \section1 Removed classes
+
+    \list
+        \li Q3DCamera
+        \li Q3DLight
+        \li Q3DObject
+    \endlist
+
     \section1 Removed APIs
 
     \list
         \li hasContext
         \li shadowsSupported
+        \li reflection
+        \li reflectivity
      \endlist
 
     \section1 Changed APIs
@@ -383,6 +392,12 @@
     \list
         \li optimizationHint
         \li renderingMode
+        \li renderToImage
+        \li ColorGradient and ColorGradientStop
+        \li ThemeColor
+        \li Data APIs
+        \li Camera APIs
+        \li Enums
     \endlist
 
     \section2 optimizationHint
@@ -394,6 +409,48 @@
 
     \c RenderDirectToBackground_NoClear has been removed, as it was already obsolete in
     QtDataVisualization in Qt 6.
+
+    \section2 renderToImage
+
+    \c renderToImage now returns \c{QSharedPointer<QQuickItemGrabResult>} instead of
+    a \c{QImage}, and does not take \c msaaSamples as a parameter anymore.
+
+    \section2 ColorGradient and ColorGradientStop
+
+    \c ColorGradient is now \c Gradient and \c ColorGradientStop \c{GradientStop}.
+
+    \section2 ThemeColor
+
+    \c ThemeColor is now \c{Color}.
+
+    \section2 Data APIs
+
+    No need to create data arrays with \c new anymore. For example, when data was created for
+    bar graph in QtDataVisualization, it was done like this:
+
+    \code
+    QBarDataRow *data = new QBarDataRow;
+    *data << 1.0f << 3.0f << 7.5f << 5.0f << 2.2f;
+    \endcode
+
+    Now, it is done like this:
+
+    \code
+    QBarDataRow data;
+    data << 1.0f << 3.0f << 7.5f << 5.0f << 2.2f;
+    series->dataProxy()->addRow(data);
+    \endcode
+
+    \section2 Camera APIs
+
+    As Q3DCamera has been removed, the required functions from it have been moved.
+    \c{cameraPreset, cameraTargetPosition, cameraXRotation, cameraYRotation, cameraZoomLevel,
+    wrapCameraXRotation, and wrapCameraYRotation} can now be found from AbstractGraph3D.
+
+    \section2 Enums
+
+    All enums have been turned into scoped enums, for example \c{QAbstract3DGraph::ShadowQualityLow}
+    has been converted to \c{QAbstract3DGraph::ShadowQuality::Low}.
 */
 
 /*!
