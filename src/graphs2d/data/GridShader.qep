@@ -42,15 +42,15 @@
                     "    gl_Position = qt_Matrix * vec4(vertCoord, 0.0, 1.0);",
                     "}"
                 ],
-                "x": 248,
-                "y": 52.29999923706055
+                "x": 140,
+                "y": 35.400001525878906
             },
             {
                 "name": "Output",
                 "nodeId": 1,
                 "type": 1,
-                "x": 248,
-                "y": 913.7000122070312
+                "x": 140,
+                "y": 592.5999755859375
             },
             {
                 "description": "This is an empty node for creating custom effects.",
@@ -58,9 +58,9 @@
                     "float createBars(float coord, float spacing, float strokeWidth) {",
                     "    float sbar = 1.0 / spacing;// * 0.5;",
                     "    float barWidth = strokeWidth / spacing;// * 0.5;",
-                    "    //float firstPos = -(barWidth * 0.5);",
-                    "    //float p = firstPos + coord * sbar;",
-                    "    float p = (coord - 0.5) * sbar;",
+                    "    float firstPos = -((majorBarWidth / spacing) * 0.5);",
+                    "    float p = firstPos + coord * sbar;",
+                    "    //float p = (coord - 0.5) * sbar;",
                     "    float bar = abs(2.0 * fract(p) - 1.0);",
                     "    float barSmoothness = smoothing / spacing;",
                     "    bar = smoothstep(1.0 - barWidth - barSmoothness, 1.0 - barWidth + barSmoothness, bar);",
@@ -187,8 +187,8 @@
                     }
                 ],
                 "type": 2,
-                "x": 213,
-                "y": 498
+                "x": 105,
+                "y": 129.55999755859375
             }
         ],
         "version": 1
