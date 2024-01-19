@@ -212,6 +212,32 @@ Rectangle {
             toValue: 9
             onSliderValueChanged: yAxis.minorTickCount = sliderValue;
         }
+        CustomLabel {
+            text: "Major bars width"
+        }
+        CustomSlider {
+            sliderValue: myTheme.gridMajorBarsWidth
+            fromValue: 1.0
+            toValue: 4.0
+            onSliderValueChanged: {
+                myTheme.gridMajorBarsWidth = sliderValue;
+                myTheme.axisYMajorBarWidth = sliderValue;
+                myTheme.axisXMajorBarWidth = sliderValue;
+            }
+        }
+        CustomLabel {
+            text: "Minor bars width"
+        }
+        CustomSlider {
+            sliderValue: myTheme.gridMinorBarsWidth
+            fromValue: 1.0
+            toValue: 4.0
+            onSliderValueChanged: {
+                myTheme.gridMinorBarsWidth = sliderValue;
+                myTheme.axisYMinorBarWidth = sliderValue;
+                myTheme.axisXMinorBarWidth = sliderValue;
+            }
+        }
         CustomCheckBox {
             id: checkBoxShadowEnabled
             text: "Shadow: Enabled"

@@ -191,20 +191,25 @@ void AxisRenderer::updateAxis()
 void AxisRenderer::updateAxisTickers()
 {
     if (m_axisVertical) {
-        if (theme()->themeDirty()) {
+        // Note: Fix before enabling, see QTBUG-121207 and QTBUG-121211
+        //if (theme()->themeDirty()) {
             m_axisTickerVertical->setMinorColor(theme()->axisYMinorColor());
             m_axisTickerVertical->setMajorColor(theme()->axisYMajorColor());
             m_axisTickerVertical->setMajorBarWidth(theme()->axisYMajorBarWidth());
             m_axisTickerVertical->setMinorBarWidth(theme()->axisYMinorBarWidth());
             m_axisTickerVertical->setSmoothing(theme()->axisYSmoothing());
-        }
+        //}
+        float topPadding = m_axisGrid->majorBarWidth() * 0.5;
+        float bottomPadding = topPadding;
         // TODO Only when changed
         m_axisTickerVertical->setBarsMovement(m_axisYMovement);
         m_axisTickerVertical->setX(m_axisWidth + m_graph->m_marginLeft - m_axisTickersWidth);
-        m_axisTickerVertical->setY(m_graph->m_marginTop);
+        m_axisTickerVertical->setY(m_graph->m_marginTop - topPadding);
         m_axisTickerVertical->setWidth(m_axisTickersWidth);
-        m_axisTickerVertical->setHeight(height() - m_graph->m_marginTop - m_graph->m_marginBottom - m_axisHeight);
-        m_axisTickerVertical->setSpacing(m_axisTickerVertical->height() / (m_axisVerticalValueRange / m_axisVerticalValueStep));
+        m_axisTickerVertical->setHeight(height() - m_graph->m_marginTop - m_graph->m_marginBottom
+                                        - m_axisHeight + topPadding + bottomPadding);
+        m_axisTickerVertical->setSpacing((m_axisTickerVertical->height() - topPadding - bottomPadding)
+                                         / (m_axisVerticalValueRange / m_axisVerticalValueStep));
         m_axisTickerVertical->setMinorBarsVisible(!qFuzzyCompare(m_axisVerticalMinorTickScale, 1.0));
         m_axisTickerVertical->setMinorTickScale(m_axisVerticalMinorTickScale);
         m_axisTickerVertical->setVisible(true);
@@ -212,7 +217,9 @@ void AxisRenderer::updateAxisTickers()
         m_axisLineVertical->setColor(theme()->axisYMajorColor());
         m_axisLineVertical->setLineWidth(theme()->axisYMajorBarWidth());
         m_axisLineVertical->setSmoothing(theme()->axisYSmoothing());
-        m_axisLineVertical->setX(m_axisTickerVertical->x() + m_axisTickersWidth);
+
+        float xMovement = 0.5 * (m_axisLineVertical->lineWidth() + m_axisLineVertical->smoothing());
+        m_axisLineVertical->setX(m_axisTickerVertical->x() + m_axisTickersWidth - xMovement);
         m_axisLineVertical->setY(m_axisTickerVertical->y());
         m_axisLineVertical->setWidth(m_axisLineVertical->lineWidth() + m_axisLineVertical->smoothing());
         m_axisLineVertical->setHeight(m_axisTickerVertical->height());
@@ -233,13 +240,15 @@ void AxisRenderer::updateAxisTickers()
             m_axisTickerHorizontal->setMinorBarWidth(theme()->axisXMinorBarWidth());
             m_axisTickerHorizontal->setSmoothing(theme()->axisXSmoothing());
         }
+        float leftPadding = m_axisGrid->majorBarWidth() * 0.5;
+        float rightPadding = leftPadding;
         // TODO Only when changed
         m_axisHorizontalValueRange = m_axisHorizontalMaxValue - m_axisHorizontalMinValue;
-        m_axisTickerHorizontal->setX(m_axisWidth + m_graph->m_marginLeft);
+        m_axisTickerHorizontal->setX(m_axisWidth + m_graph->m_marginLeft - leftPadding);
         m_axisTickerHorizontal->setY(height() - m_graph->m_marginBottom - m_axisHeight);
-        m_axisTickerHorizontal->setWidth(width() - m_graph->m_marginLeft - m_graph->m_marginRight - m_axisWidth);
+        m_axisTickerHorizontal->setWidth(width() - m_graph->m_marginLeft - m_graph->m_marginRight - m_axisWidth + leftPadding + rightPadding);
         m_axisTickerHorizontal->setHeight(m_axisTickersHeight);
-        m_axisTickerHorizontal->setSpacing(m_axisTickerHorizontal->width() / m_axisHorizontalMaxValue);
+        m_axisTickerHorizontal->setSpacing((m_axisTickerHorizontal->width() - leftPadding - rightPadding) / m_axisHorizontalMaxValue);
         m_axisTickerHorizontal->setMinorBarsVisible(!qFuzzyCompare(m_axisHorizontalMinorTickScale, 1.0));
         m_axisTickerHorizontal->setMinorTickScale(m_axisHorizontalMinorTickScale);
         m_axisTickerHorizontal->setVisible(true);
@@ -248,7 +257,8 @@ void AxisRenderer::updateAxisTickers()
         m_axisLineHorizontal->setLineWidth(theme()->axisXMajorBarWidth());
         m_axisLineHorizontal->setSmoothing(theme()->axisXSmoothing());
         m_axisLineHorizontal->setX(m_axisTickerHorizontal->x());
-        m_axisLineHorizontal->setY(m_axisTickerHorizontal->y() - m_axisLineHorizontal->lineWidth() - m_axisLineHorizontal->smoothing());
+        float yMovement = 0.5 * (m_axisLineHorizontal->lineWidth() + m_axisLineHorizontal->smoothing());
+        m_axisLineHorizontal->setY(m_axisTickerHorizontal->y() - yMovement);
         m_axisLineHorizontal->setWidth(m_axisTickerHorizontal->width());
         m_axisLineHorizontal->setHeight(m_axisLineHorizontal->lineWidth() + m_axisLineHorizontal->smoothing());
         m_axisLineHorizontal->setVisible(m_axisHorizontal->isLineVisible());
@@ -329,22 +339,32 @@ void AxisRenderer::updateAxisTickersShadow()
 
 void AxisRenderer::updateAxisGrid()
 {
-    if (theme()->themeDirty()) {
+    //if (theme()->themeDirty()) {
         m_axisGrid->setMajorColor(theme()->gridMajorBarsColor());
         m_axisGrid->setMinorColor(theme()->gridMinorBarsColor());
         m_axisGrid->setMinorBarWidth(theme()->gridMinorBarsWidth());
         m_axisGrid->setMajorBarWidth(theme()->gridMajorBarsWidth());
         const double minimumSmoothing = 0.05;
         m_axisGrid->setSmoothing(theme()->gridSmoothing() + minimumSmoothing);
-    }
+    //}
+    float topPadding = m_axisGrid->majorBarWidth() * 0.5;
+    float bottomPadding = topPadding;
+    float leftPadding = topPadding;
+    float rightPadding = topPadding;
     // TODO Only when changed
     m_axisGrid->setGridMovement(QPointF(0, m_axisYMovement));
-    m_axisGrid->setX(m_axisWidth + m_graph->m_marginLeft);
-    m_axisGrid->setY(m_graph->m_marginTop);
-    m_axisGrid->setWidth(width() - m_graph->m_marginLeft - m_graph->m_marginRight - m_axisWidth);
-    m_axisGrid->setHeight(height() - m_graph->m_marginTop - m_graph->m_marginBottom - m_axisHeight);
-    m_axisGrid->setGridWidth(m_axisGrid->width() / m_axisHorizontalValueRange);
-    m_axisGrid->setGridHeight(m_axisGrid->height() / (m_axisVerticalValueRange / m_axisVerticalValueStep));
+    m_axisGrid->setX(m_axisWidth + m_graph->m_marginLeft - leftPadding);
+    m_axisGrid->setY(m_graph->m_marginTop - topPadding);
+    m_axisGrid->setWidth(width() - m_graph->m_marginLeft
+                         - m_graph->m_marginRight - m_axisWidth
+                         + leftPadding + rightPadding);
+    m_axisGrid->setHeight(height() - m_graph->m_marginTop
+                          - m_graph->m_marginBottom - m_axisHeight
+                          + topPadding + bottomPadding);
+    m_axisGrid->setGridWidth((m_axisGrid->width() - leftPadding - rightPadding)
+                             / m_axisHorizontalValueRange);
+    m_axisGrid->setGridHeight((m_axisGrid->height() - topPadding - bottomPadding)
+                              / (m_axisVerticalValueRange / m_axisVerticalValueStep));
     m_axisGrid->setBarsVisibility(QVector4D(m_gridHorizontalMajorTicksVisible,
                                             m_gridVerticalMajorTicksVisible,
                                             m_gridHorizontalMinorTicksVisible,
