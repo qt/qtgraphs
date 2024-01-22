@@ -21,7 +21,8 @@ int main(int argc, char **argv)
     theme->setAmbientLightStrength(0.3f);
     theme->setBackgroundColor(QColor(QRgb(0x99ca53)));
     theme->setBackgroundEnabled(true);
-    theme->setBaseColor(QColor(QRgb(0x209fdf)));
+    QList<QColor> colors = {QColor(QRgb(0x209fdf))};
+    theme->setBaseColors(colors);
     theme->setColorStyle(Q3DTheme::ColorStyleUniform);
     theme->setFont(QFont(QStringLiteral("Impact"), 35));
     theme->setGridEnabled(true);
@@ -74,7 +75,7 @@ Surface3D {
         ambientLightStrength: 0.5
         backgroundColor: "red"
         backgroundEnabled: true
-        baseColor: "blue"
+        baseColors: ["blue"]
         colorStyle: Theme3D.ColorStyleUniform
         font.family: "Lucida Handwriting"
         font.pointSize: 35
