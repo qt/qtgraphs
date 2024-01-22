@@ -97,6 +97,7 @@ Item {
 
     Bar3DSeries {
         id: change
+        dataProxy: proxy1
     }
 
     TestCase {
@@ -165,7 +166,6 @@ Item {
         name: "Bar3DSeries Change"
 
         function test_1_change() {
-            change.dataProxy = proxy1
             change.meshAngle = 15.0
             change.selectedBar = Qt.point(0, 0)
             change.rowColors = [rowColor1, rowColor2, rowColor3]

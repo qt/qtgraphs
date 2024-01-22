@@ -25,9 +25,6 @@ class Q_GRAPHS_EXPORT QBarDataProxy : public QAbstractDataProxy
     Q_DECLARE_PRIVATE(QBarDataProxy)
     Q_PROPERTY(int rowCount READ rowCount NOTIFY rowCountChanged)
     Q_PROPERTY(int colCount READ colCount NOTIFY colCountChanged)
-    Q_PROPERTY(QStringList rowLabels READ rowLabels WRITE setRowLabels NOTIFY rowLabelsChanged)
-    Q_PROPERTY(
-        QStringList columnLabels READ columnLabels WRITE setColumnLabels NOTIFY columnLabelsChanged)
     Q_PROPERTY(QBar3DSeries *series READ series NOTIFY seriesChanged)
 public:
     explicit QBarDataProxy(QObject *parent = nullptr);
@@ -37,12 +34,6 @@ public:
     int rowCount() const;
     int colCount() const;
 
-    QStringList rowLabels() const;
-    void setRowLabels(const QStringList &labels);
-    QStringList columnLabels() const;
-    void setColumnLabels(const QStringList &labels);
-
-    const QBarDataArray &array() const;
     const QBarDataRow &rowAt(int rowIndex) const;
     const QBarDataItem &itemAt(int rowIndex, int columnIndex) const;
     const QBarDataItem &itemAt(const QPoint &position) const;
@@ -81,8 +72,6 @@ Q_SIGNALS:
 
     void rowCountChanged(int count);
     void colCountChanged(int count);
-    void rowLabelsChanged();
-    void columnLabelsChanged();
     void seriesChanged(QBar3DSeries *series);
 
 protected:

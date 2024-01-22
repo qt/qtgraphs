@@ -43,15 +43,6 @@ public:
                                     int columnCount) const;
 
     void setSeries(QAbstract3DSeries *series) override;
-
-private:
-    void clearRow(int rowIndex);
-    void clearArray();
-    void fixRowLabels(int startIndex, int count, const QStringList &newLabels, bool isInsert);
-
-    QBarDataArray m_dataArray;
-    QStringList m_rowLabels;
-    QStringList m_columnLabels;
 };
 
 QT_END_NAMESPACE

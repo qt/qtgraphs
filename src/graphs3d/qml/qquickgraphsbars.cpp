@@ -438,7 +438,7 @@ void QQuickGraphsBars::adjustAxisRanges()
                     }
 
                     if (adjustX && proxy) {
-                        const QBarDataArray &array = proxy->array();
+                        const QBarDataArray &array = barSeries->dataArray();
                         int columnCount = 0;
                         for (int i = 0; i < array.size(); i++) {
                             if (columnCount < array.at(i).size())
@@ -1071,7 +1071,7 @@ void QQuickGraphsBars::handleDataRowLabelsChanged()
         int count = int(m_axisZ->max()) - min + 1;
         QStringList subList;
         if (m_primarySeries && m_primarySeries->dataProxy())
-            subList = m_primarySeries->dataProxy()->rowLabels().mid(min, count);
+            subList = m_primarySeries->rowLabels().mid(min, count);
         static_cast<QCategory3DAxis *>(m_axisZ)->d_func()->setDataLabels(subList);
     }
 }
@@ -1083,11 +1083,8 @@ void QQuickGraphsBars::handleDataColumnLabelsChanged()
         int min = int(m_axisX->min());
         int count = int(m_axisX->max()) - min + 1;
         QStringList subList;
-        if (m_primarySeries && m_primarySeries->dataProxy()) {
-            subList = static_cast<QBarDataProxy *>(m_primarySeries->dataProxy())
-                          ->columnLabels()
-                          .mid(min, count);
-        }
+        if (m_primarySeries && m_primarySeries->dataProxy())
+            subList = m_primarySeries->columnLabels().mid(min, count);
         static_cast<QCategory3DAxis *>(m_axisX)->d_func()->setDataLabels(subList);
     }
 }

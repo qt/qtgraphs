@@ -35,7 +35,17 @@ public:
 
     void setRowColors(const QList<QColor> &colors);
 
+    void setDataArray(const QBarDataArray &newDataArray);
+    void clearRow(int rowIndex);
+    void clearArray();
+
+    void setRowLabels(const QStringList &labels);
+    void setColumnLabels(const QStringList &labels);
+
 private:
+    QBarDataArray m_dataArray;
+    QStringList m_rowLabels;
+    QStringList m_columnLabels;
     QPoint m_selectedBar;
     QList<QColor> m_rowColors;
 

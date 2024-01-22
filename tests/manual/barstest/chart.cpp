@@ -138,7 +138,7 @@ GraphModifier::GraphModifier(Q3DBars *barchart, QColorDialog *colorDialog)
     m_dummyData4->setItemLabelFormat(QStringLiteral("@seriesName: @valueLabel"));
     m_dummyData5->setItemLabelFormat(QStringLiteral("@seriesName: @valueLabel"));
 
-    m_genericData->dataProxy()->setColumnLabels(genericColumnLabels);
+    m_genericData->setColumnLabels(genericColumnLabels);
 
     m_temperatureData->setBaseColor(Qt::red);
     m_temperatureData->setSingleHighlightColor(Qt::cyan);

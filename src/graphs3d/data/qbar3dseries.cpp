@@ -138,6 +138,34 @@ QT_BEGIN_NAMESPACE
  */
 
 /*!
+ * \qmlproperty list Bar3DSeries::rowLabels
+ *
+ * The optional row labels for the array. Indexes in this array match the row
+ * indexes in the data array.
+ * If the list is shorter than the number of rows, all rows will not get labels.
+ */
+
+/*!
+ * \qmlproperty list Bar3DSeries::columnLabels
+ *
+ * The optional column labels for the array. Indexes in this array match column
+ * indexes in rows. If the list is shorter than the longest row, all columns
+ * will not get labels.
+ */
+
+/*!
+ * \qmlproperty BarDataArray Bar3DSeries::dataArray
+ *
+ * Holds the reference of the data array.
+ *
+ * dataArrayChanged signal is emitted when data array is set, unless \a newDataArray
+ * is identical to the previous one.
+ *
+ * \note Before doing anything regarding the dataArray, a series must be created for
+ * the relevant proxy.
+ */
+
+/*!
  * Constructsa bar 3D series with the parent \a parent.
  */
 QBar3DSeries::QBar3DSeries(QObject *parent)
@@ -164,7 +192,10 @@ QBar3DSeries::QBar3DSeries(QBarDataProxy *dataProxy, QObject *parent)
 /*!
  * Deletes a bar 3D series.
  */
-QBar3DSeries::~QBar3DSeries() {}
+QBar3DSeries::~QBar3DSeries()
+{
+    clearArray();
+}
 
 /*!
  * \property QBar3DSeries::dataProxy
@@ -295,6 +326,171 @@ void QBar3DSeries::setRowColors(const QList<QColor> &colors)
     Q_D(QBar3DSeries);
     d->setRowColors(colors);
 }
+
+/*!
+ * \property QBar3DSeries::dataArray
+ *
+ * \brief Data array for the series.
+ *
+ * Holds the reference of the data array.
+ *
+ * dataArrayChanged signal is emitted when data array is set, unless \a newDataArray
+ * is identical to the previous one.
+ *
+ * \note Before doing anything regarding the dataArray, a series must be created for
+ * the relevant proxy.
+ *
+ *\sa clearRow(int rowIndex)
+ *
+ *\sa clearArray()
+ */
+void QBar3DSeries::setDataArray(const QBarDataArray &newDataArray)
+{
+    Q_D(QBar3DSeries);
+    if (d->m_dataArray.data() != newDataArray.data())
+        d->m_dataArray = newDataArray;
+}
+
+/*!
+ * Clears the existing row in the array according to given \a rowIndex.
+ */
+void QBar3DSeries::clearRow(int rowIndex)
+{
+    Q_D(QBar3DSeries);
+    d->clearRow(rowIndex);
+}
+
+/*!
+ * Clears the existing array.
+ */
+void QBar3DSeries::clearArray()
+{
+    Q_D(QBar3DSeries);
+    d->clearArray();
+}
+
+const QBarDataArray &QBar3DSeries::dataArray() const
+{
+    const Q_D(QBar3DSeries);
+    return d->m_dataArray;
+}
+
+/*!
+ * \property QBar3DSeries::rowLabels
+ *
+ * \brief The optional row labels for the array.
+ *
+ * Indexes in this array match the row indexes in the data array.
+ * If the list is shorter than the number of rows, all rows will not get labels.
+ */
+QStringList QBar3DSeries::rowLabels() const
+{
+    const Q_D(QBar3DSeries);
+    return d->m_rowLabels;
+}
+
+void QBar3DSeries::setRowLabels(const QStringList &labels)
+{
+    Q_D(QBar3DSeries);
+    if (rowLabels() != labels) {
+        d->setRowLabels(labels);
+        emit rowLabelsChanged();
+    }
+}
+
+/*!
+ * \property QBar3DSeries::columnLabels
+ *
+ * \brief The optional column labels for the array.
+ *
+ * Indexes in this array match column indexes in rows.
+ * If the list is shorter than the longest row, all columns will not get labels.
+ */
+QStringList QBar3DSeries::columnLabels() const
+{
+    const Q_D(QBar3DSeries);
+    return d->m_columnLabels;
+}
+
+void QBar3DSeries::setColumnLabels(const QStringList &labels)
+{
+    Q_D(QBar3DSeries);
+    if (columnLabels() != labels) {
+        d->setColumnLabels(labels);
+        emit columnLabelsChanged();
+    }
+}
+
+/*!
+ * \internal
+ * Fixes the row label array to include specified labels.
+ */
+void QBar3DSeries::fixRowLabels(int startIndex,
+                                int count,
+                                const QStringList &newLabels,
+                                bool isInsert)
+{
+    bool changed = false;
+    int currentSize = rowLabels().size();
+
+    int newSize = newLabels.size();
+    if (startIndex >= currentSize) {
+        // Adding labels past old label array, create empty strings to fill
+        // intervening space
+        if (newSize) {
+            for (int i = currentSize; i < startIndex; i++)
+                rowLabels() << QString();
+            // Doesn't matter if insert, append, or just change when there were no
+            // existing strings, just append new strings.
+            rowLabels() << newLabels;
+            changed = true;
+        }
+    } else {
+        if (isInsert) {
+            int insertIndex = startIndex;
+            if (count)
+                changed = true;
+            for (int i = 0; i < count; i++) {
+                if (i < newSize)
+                    rowLabels().insert(insertIndex++, newLabels.at(i));
+                else
+                    rowLabels().insert(insertIndex++, QString());
+            }
+        } else {
+            // Either append or change, replace labels up to array end and then add
+            // new ones
+            int lastChangeIndex = count + startIndex;
+            int newIndex = 0;
+            for (int i = startIndex; i < lastChangeIndex; i++) {
+                if (i >= currentSize) {
+                    // Label past the current size, so just append the new label
+                    if (newSize < newIndex) {
+                        changed = true;
+                        rowLabels() << newLabels.at(newIndex);
+                    } else {
+                        break; // No point appending empty strings, so just exit
+                    }
+                } else if (newSize > newIndex) {
+                    // Replace existing label
+                    if (rowLabels().at(i) != newLabels.at(newIndex)) {
+                        changed = true;
+                        rowLabels()[i] = newLabels.at(newIndex);
+                    }
+                } else {
+                    // No more new labels, so clear existing label
+                    if (!rowLabels().at(i).isEmpty()) {
+                        changed = true;
+                        rowLabels()[i] = QString();
+                    }
+                }
+                newIndex++;
+            }
+        }
+    }
+
+    if (changed)
+        emit rowLabelsChanged();
+}
 QList<QColor> QBar3DSeries::rowColors() const
 {
     const Q_D(QBar3DSeries);
@@ -379,12 +575,12 @@ void QBar3DSeriesPrivate::connectGraphAndProxy(QQuickGraphsItem *newGraph)
                          &QBarDataProxy::itemChanged,
                          graph,
                          &QQuickGraphsBars::handleItemChanged);
-        QObject::connect(barDataProxy,
-                         &QBarDataProxy::rowLabelsChanged,
+        QObject::connect(q,
+                         &QBar3DSeries::rowLabelsChanged,
                          graph,
                          &QQuickGraphsBars::handleDataRowLabelsChanged);
-        QObject::connect(barDataProxy,
-                         &QBarDataProxy::columnLabelsChanged,
+        QObject::connect(q,
+                         &QBar3DSeries::columnLabelsChanged,
                          graph,
                          &QQuickGraphsBars::handleDataColumnLabelsChanged);
         QObject::connect(q,
@@ -472,6 +668,31 @@ void QBar3DSeriesPrivate::setRowColors(const QList<QColor> &colors)
         m_rowColors = colors;
         emit q->rowColorsChanged(m_rowColors);
     }
+}
+
+void QBar3DSeriesPrivate::setDataArray(const QBarDataArray &newDataArray)
+{
+    m_dataArray = newDataArray;
+}
+
+void QBar3DSeriesPrivate::clearRow(int rowIndex)
+{
+    m_dataArray[rowIndex].clear();
+}
+
+void QBar3DSeriesPrivate::clearArray()
+{
+    m_dataArray.clear();
+}
+
+void QBar3DSeriesPrivate::setRowLabels(const QStringList &labels)
+{
+    m_rowLabels = labels;
+}
+
+void QBar3DSeriesPrivate::setColumnLabels(const QStringList &labels)
+{
+    m_columnLabels = labels;
 }
 
 QT_END_NAMESPACE

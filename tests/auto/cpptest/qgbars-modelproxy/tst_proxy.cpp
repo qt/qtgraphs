@@ -28,6 +28,7 @@ private slots:
 
 private:
     QItemModelBarDataProxy *m_proxy;
+    QBar3DSeries *m_series;
 };
 
 void tst_proxy::initTestCase()
@@ -41,36 +42,48 @@ void tst_proxy::cleanupTestCase()
 void tst_proxy::init()
 {
     m_proxy = new QItemModelBarDataProxy();
+    m_series = new QBar3DSeries(m_proxy);
 }
 
 void tst_proxy::cleanup()
 {
-    delete m_proxy;
+    delete m_series;
+    m_proxy = 0;
 }
 
 void tst_proxy::construct()
 {
     QItemModelBarDataProxy *proxy = new QItemModelBarDataProxy();
+    QBar3DSeries *series = new QBar3DSeries(proxy);
     QVERIFY(proxy);
-    delete proxy;
+    QVERIFY(series);
+    delete series;
+    proxy = 0;
 
     QTableWidget *table = new QTableWidget();
 
     proxy = new QItemModelBarDataProxy(table->model());
+    series = new QBar3DSeries(proxy);
     QVERIFY(proxy);
-    delete proxy;
+    QVERIFY(series);
+    delete series;
+    proxy = 0;
 
     proxy = new QItemModelBarDataProxy(table->model(), "val");
+    series = new QBar3DSeries(proxy);
     QVERIFY(proxy);
+    QVERIFY(series);
     QCOMPARE(proxy->rowRole(), QString(""));
     QCOMPARE(proxy->columnRole(), QString(""));
     QCOMPARE(proxy->valueRole(), QString("val"));
     QCOMPARE(proxy->rotationRole(), QString(""));
     QCOMPARE(proxy->rowCategories().size(), 0);
     QCOMPARE(proxy->columnCategories().size(), 0);
-    delete proxy;
+    delete series;
+    proxy = 0;
 
     proxy = new QItemModelBarDataProxy(table->model(), "row", "col", "val");
+    series = new QBar3DSeries(proxy);
     QVERIFY(proxy);
     QCOMPARE(proxy->rowRole(), QString("row"));
     QCOMPARE(proxy->columnRole(), QString("col"));
@@ -78,44 +91,55 @@ void tst_proxy::construct()
     QCOMPARE(proxy->rotationRole(), QString(""));
     QCOMPARE(proxy->rowCategories().size(), 0);
     QCOMPARE(proxy->columnCategories().size(), 0);
-    delete proxy;
+    delete series;
+    proxy = 0;
 
     proxy = new QItemModelBarDataProxy(table->model(), "row", "col", "val", "rot");
+    series = new QBar3DSeries(proxy);
     QVERIFY(proxy);
+    QVERIFY(series);
     QCOMPARE(proxy->rowRole(), QString("row"));
     QCOMPARE(proxy->columnRole(), QString("col"));
     QCOMPARE(proxy->valueRole(), QString("val"));
     QCOMPARE(proxy->rotationRole(), QString("rot"));
     QCOMPARE(proxy->rowCategories().size(), 0);
     QCOMPARE(proxy->columnCategories().size(), 0);
-    delete proxy;
+    delete series;
+    proxy = 0;
 
     proxy = new QItemModelBarDataProxy(table->model(), "row", "col", "val",
                                        QStringList() << "rowCat", QStringList() << "colCat");
+    series = new QBar3DSeries(proxy);
     QVERIFY(proxy);
+    QVERIFY(series);
     QCOMPARE(proxy->rowRole(), QString("row"));
     QCOMPARE(proxy->columnRole(), QString("col"));
     QCOMPARE(proxy->valueRole(), QString("val"));
     QCOMPARE(proxy->rotationRole(), QString(""));
     QCOMPARE(proxy->rowCategories().size(), 1);
     QCOMPARE(proxy->columnCategories().size(), 1);
-    delete proxy;
+    delete series;
+    proxy = 0;
 
     proxy = new QItemModelBarDataProxy(table->model(), "row", "col", "val", "rot",
                                        QStringList() << "rowCat", QStringList() << "colCat");
+    series = new QBar3DSeries(proxy);
     QVERIFY(proxy);
+    QVERIFY(series);
     QCOMPARE(proxy->rowRole(), QString("row"));
     QCOMPARE(proxy->columnRole(), QString("col"));
     QCOMPARE(proxy->valueRole(), QString("val"));
     QCOMPARE(proxy->rotationRole(), QString("rot"));
     QCOMPARE(proxy->rowCategories().size(), 1);
     QCOMPARE(proxy->columnCategories().size(), 1);
-    delete proxy;
+    delete series;
+    proxy = 0;
 }
 
 void tst_proxy::initialProperties()
 {
     QVERIFY(m_proxy);
+    QVERIFY(m_series);
 
     QCOMPARE(m_proxy->autoColumnCategories(), true);
     QCOMPARE(m_proxy->autoRowCategories(), true);
@@ -137,10 +161,9 @@ void tst_proxy::initialProperties()
     QCOMPARE(m_proxy->valueRolePattern(), QRegularExpression());
     QCOMPARE(m_proxy->valueRoleReplace(), QString());
 
-    QCOMPARE(m_proxy->columnLabels().size(), 0);
+    QCOMPARE(m_proxy->series()->columnLabels().size(), 0);
     QCOMPARE(m_proxy->rowCount(), 0);
-    QCOMPARE(m_proxy->rowLabels().size(), 0);
-    QVERIFY(!m_proxy->series());
+    QCOMPARE(m_proxy->series()->rowLabels().size(), 0);
 
     QCOMPARE(m_proxy->type(), QAbstractDataProxy::DataType::Bar);
 }
@@ -148,6 +171,7 @@ void tst_proxy::initialProperties()
 void tst_proxy::initializeProperties()
 {
     QVERIFY(m_proxy);
+    QVERIFY(m_series);
 
     QTableWidget table;
 
@@ -227,9 +251,7 @@ void tst_proxy::multiMatch()
     m_proxy->setColumnRoleReplace(QStringLiteral("\\1"));
     QCoreApplication::processEvents();
 
-    QBar3DSeries *series = new QBar3DSeries(m_proxy);
-
-    graph.addSeries(series);
+    graph.addSeries(m_series);
 
     QCoreApplication::processEvents();
     QCOMPARE(graph.valueAxis()->max(), 6.5f);
@@ -246,11 +268,12 @@ void tst_proxy::multiMatch()
     QCoreApplication::processEvents();
     QCOMPARE(graph.valueAxis()->max(), 15.0f);
 
-    QCOMPARE(m_proxy->columnLabels().size(), 1);
+    QCOMPARE(m_proxy->series()->columnLabels().size(), 1);
     QCOMPARE(m_proxy->rowCount(), 1);
-    QCOMPARE(m_proxy->rowLabels().size(), 1);
+    QCOMPARE(m_proxy->series()->rowLabels().size(), 1);
     QVERIFY(m_proxy->series());
 
+    m_series = 0;
     m_proxy = 0; // Proxy gets deleted as graph gets deleted
 }
 

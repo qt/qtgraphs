@@ -20,6 +20,10 @@ class Q_GRAPHS_EXPORT QBar3DSeries : public QAbstract3DSeries
     Q_PROPERTY(QPoint selectedBar READ selectedBar WRITE setSelectedBar NOTIFY selectedBarChanged)
     Q_PROPERTY(float meshAngle READ meshAngle WRITE setMeshAngle NOTIFY meshAngleChanged)
     Q_PROPERTY(QList<QColor> rowColors READ rowColors WRITE setRowColors NOTIFY rowColorsChanged)
+    Q_PROPERTY(QStringList rowLabels READ rowLabels WRITE setRowLabels NOTIFY rowLabelsChanged)
+    Q_PROPERTY(
+        QStringList columnLabels READ columnLabels WRITE setColumnLabels NOTIFY columnLabelsChanged)
+    Q_PROPERTY(QBarDataArray dataArray READ dataArray WRITE setDataArray NOTIFY dataArrayChanged)
 
 public:
     explicit QBar3DSeries(QObject *parent = nullptr);
@@ -39,11 +43,24 @@ public:
     QList<QColor> rowColors() const;
     void setRowColors(const QList<QColor> &colors);
 
+    void setDataArray(const QBarDataArray &newDataArray);
+    void clearRow(int rowIndex);
+    void clearArray();
+    const QBarDataArray &dataArray() const;
+    QStringList rowLabels() const;
+    void setRowLabels(const QStringList &labels);
+    QStringList columnLabels() const;
+    void setColumnLabels(const QStringList &labels);
+    void fixRowLabels(int startIndex, int count, const QStringList &newLabels, bool isInsert);
+
 Q_SIGNALS:
     void dataProxyChanged(QBarDataProxy *proxy);
     void selectedBarChanged(const QPoint &position);
     void meshAngleChanged(float angle);
     void rowColorsChanged(const QList<QColor> &rowcolors);
+    void rowLabelsChanged();
+    void columnLabelsChanged();
+    void dataArrayChanged(const QBarDataArray *array);
 
 private:
     Q_DISABLE_COPY(QBar3DSeries)
