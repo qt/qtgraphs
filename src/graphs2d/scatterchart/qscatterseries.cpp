@@ -8,6 +8,41 @@
 
 QT_BEGIN_NAMESPACE
 
+/*!
+    \class QScatterSeries
+    \inmodule QtGraphs
+    \ingroup graphs_2D
+    \brief The QScatterSeries class presents data in scatter charts.
+
+    The scatter data is displayed as a collection of points on the chart. For
+    each point, two values are specified that determine its position on the
+    horizontal axis and the vertical axis.
+*/
+/*!
+    \qmltype ScatterSeries
+    \instantiates QScatterSeries
+    \inqmlmodule QtGraphs
+    \ingroup graphs_qml_2D
+    \inherits XYSeries
+
+    \brief The ScatterSeries type presents data in scatter charts.
+
+    The scatter data is displayed as a collection of points on the chart. For
+    each point, two values are specified that determine its position on the
+    horizontal axis and the vertical axis.
+*/
+
+/*!
+    \qmlproperty Component ScatterSeries::pointMarker
+    Marks the point with the given QML component.
+
+    \code
+        pointMarker: Image {
+            source: "images/happy_box.png"
+        }
+    \endcode
+*/
+
 QScatterSeries::QScatterSeries(QObject *parent)
     : QXYSeries(*new QScatterSeriesPrivate(this), parent)
 {

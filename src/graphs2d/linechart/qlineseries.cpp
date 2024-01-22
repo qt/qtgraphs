@@ -8,6 +8,53 @@
 
 QT_BEGIN_NAMESPACE
 
+/*!
+    \class QLineSeries
+    \inmodule QtGraphs
+    \ingroup graphs_2D
+    \brief The QLineSeries class presents data in line charts.
+
+    A line chart is used to show information as a series of data points
+    connected by straight lines.
+*/
+/*!
+    \qmltype LineSeries
+    \instantiates QLineSeries
+    \inqmlmodule QtGraphs
+    \ingroup graphs_qml_2D
+    \inherits XYSeries
+
+    \brief Presents data in line charts.
+
+    A line chart is used to show information as a series of data points
+    connected by straight lines.
+*/
+
+/*!
+    \qmlproperty real LineSeries::width
+    The width of the line. By default, the width is 2.0.
+*/
+
+/*!
+    \qmlproperty Qt::PenCapStyle LineSeries::capStyle
+    Controls the cap style of the line. Set to one of \l{Qt::FlatCap}{Qt.FlatCap},
+    \l{Qt::SquareCap}{Qt.SquareCap} or \l{Qt::RoundCap}{Qt.RoundCap}. By
+    default the cap style is Qt.SquareCap.
+
+    \sa Qt::PenCapStyle
+*/
+
+/*!
+    \qmlproperty Component LineSeries::pointMarker
+    Marks the point with the given QML component.
+
+    \code
+        pointMarker: Image {
+            source: "images/happy_box.png"
+        }
+    \endcode
+*/
+
 QLineSeries::QLineSeries(QObject *parent)
     : QXYSeries(*new QLineSeriesPrivate(this), parent)
 {
