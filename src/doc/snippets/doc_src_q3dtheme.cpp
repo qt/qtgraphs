@@ -21,7 +21,8 @@ int main(int argc, char **argv)
     theme->setAmbientLightStrength(0.3f);
     theme->setBackgroundColor(QColor(QRgb(0x99ca53)));
     theme->setBackgroundEnabled(true);
-    theme->setBaseColor(QColor(QRgb(0x209fdf)));
+    QList<QColor> colors = { QColor(QRgb(0x209fdf)) };
+    theme->setBaseColors(colors);
     theme->setColorStyle(Q3DTheme::ColorStyle::Uniform);
     theme->setFont(QFont(QStringLiteral("Impact"), 35));
     theme->setGridEnabled(true);
@@ -40,7 +41,8 @@ int main(int argc, char **argv)
     //! [3]
     Q3DBars *graph = new Q3DBars();
     graph->activeTheme()->setType(Q3DTheme::Theme::PrimaryColors);
-    graph->activeTheme()->setBaseColor(Qt::red);
+    QList<QColor> color = { QColor(Qt::red) };
+    graph->activeTheme()->setBaseColors(color);
     graph->activeTheme()->setSingleHighlightColor(Qt::yellow);
     //! [3]
 }
@@ -73,7 +75,7 @@ Surface3D {
         ambientLightStrength: 0.5
         backgroundColor: "red"
         backgroundEnabled: true
-        baseColor: "blue"
+        baseColors: ["blue"]
         colorStyle: Theme3D.ColorStyle.Uniform
         font.family: "Lucida Handwriting"
         font.pointSize: 35
