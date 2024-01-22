@@ -111,6 +111,7 @@ void QLineSeries::setAxisX(QAbstractAxis *axis)
     axis->setOrientation(Qt::Horizontal);
     d->m_axisX = axis;
     attachAxis(axis);
+    update();
 }
 
 QAbstractAxis *QLineSeries::axisY() const
@@ -126,6 +127,7 @@ void QLineSeries::setAxisY(QAbstractAxis *axis)
     axis->setOrientation(Qt::Vertical);
     d->m_axisY = axis;
     attachAxis(axis);
+    update();
 }
 
 qreal QLineSeries::width() const
@@ -141,6 +143,7 @@ void QLineSeries::setWidth(qreal newWidth)
         return;
     d->m_width = newWidth;
     emit widthChanged();
+    update();
 }
 
 Qt::PenCapStyle QLineSeries::capStyle() const
@@ -156,6 +159,7 @@ void QLineSeries::setCapStyle(const Qt::PenCapStyle &newCapStyle)
         return;
     d->m_capStyle = newCapStyle;
     emit capStyleChanged();
+    update();
 }
 
 QQmlComponent *QLineSeries::pointMarker() const
@@ -171,6 +175,7 @@ void QLineSeries::setPointMarker(QQmlComponent *newPointMarker)
         return;
     d->m_marker = newPointMarker;
     emit pointMarkerChanged();
+    update();
 }
 
 QT_END_NAMESPACE

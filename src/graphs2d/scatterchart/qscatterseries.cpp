@@ -99,6 +99,7 @@ void QScatterSeries::setAxisX(QAbstractAxis *axis)
     axis->setOrientation(Qt::Horizontal);
     d->m_axisX = axis;
     attachAxis(axis);
+    update();
 }
 
 QAbstractAxis *QScatterSeries::axisY() const
@@ -114,6 +115,7 @@ void QScatterSeries::setAxisY(QAbstractAxis *axis)
     axis->setOrientation(Qt::Vertical);
     d->m_axisY = axis;
     attachAxis(axis);
+    update();
 }
 
 QQmlComponent *QScatterSeries::pointMarker() const
@@ -129,6 +131,7 @@ void QScatterSeries::setPointMarker(QQmlComponent *newPointMarker)
         return;
     d->m_marker = newPointMarker;
     emit pointMarkerChanged();
+    update();
 }
 
 QT_END_NAMESPACE
