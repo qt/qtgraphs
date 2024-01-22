@@ -210,6 +210,15 @@ else()
         )
 
         # CMake 3.16 forces these to be added here instead of the graphs3d folder
+         qt_internal_add_resource(Graphs "graphsshaders2D"
+            PREFIX
+                "/shaders"
+            BASE
+                "graphs2d/data"
+            FILES
+                ${shader_resource_files_2D}
+        )
+
         qt_internal_add_resource(Graphs "graphsshaders"
             PREFIX
                 "/shaders"
