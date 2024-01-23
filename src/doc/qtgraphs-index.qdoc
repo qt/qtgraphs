@@ -52,6 +52,7 @@
         \li \l{Qt Graphs 3D Data Handling}{Data Handling}
         \li \l{Qt Graphs 3D Interacting with Data}{Interacting with Data}
         \li \l{Qt Graphs 3D Migration from Qt DataVisualization}{Migration Guide from Qt DataVisualization}
+        \li \l{Qt Graphs 3D Integration with Qt Quick 3D}{Integration with Qt Quick 3D}
         \li \l{Qt Graphs Known Issues}{Known Issues}
     \endlist
 
