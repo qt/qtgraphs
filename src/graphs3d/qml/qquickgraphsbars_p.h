@@ -164,8 +164,6 @@ protected:
                                              QVector3D labelPosition,
                                              int index) override;
     float calculateCategoryGridLinePosition(QAbstract3DAxis *axis, int index) override;
-    bool handleMousePressedEvent(QMouseEvent *event) override;
-    bool handleTouchEvent(QTouchEvent *event) override;
     void createSliceView() override;
     void updateSliceGraph() override;
     void handleLabelCountChanged(QQuick3DRepeater *repeater) override;

@@ -1666,34 +1666,6 @@ QQuick3DTexture *QQuickGraphsBars::createTexture()
     return texture;
 }
 
-bool QQuickGraphsBars::handleMousePressedEvent(QMouseEvent *event)
-{
-    if (!QQuickGraphsItem::handleMousePressedEvent(event))
-        return true;
-
-    createSliceView();
-
-    if (Qt::LeftButton == event->button())
-        doPicking(event->pos());
-
-    return true;
-}
-
-bool QQuickGraphsBars::handleTouchEvent(QTouchEvent *event)
-{
-    if (!QQuickGraphsItem::handleTouchEvent(event))
-        return true;
-
-    createSliceView();
-
-    if (scene()->selectionQueryPosition() != scene()->invalidSelectionPoint()
-        && !event->isUpdateEvent()) {
-        doPicking(event->point(0).position());
-        scene()->setSelectionQueryPosition(scene()->invalidSelectionPoint());
-    }
-    return true;
-}
-
 bool QQuickGraphsBars::doPicking(const QPointF &position)
 {
     if (!QQuickGraphsItem::doPicking(position))

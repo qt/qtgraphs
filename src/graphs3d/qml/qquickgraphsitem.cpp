@@ -866,29 +866,6 @@ void QQuickGraphsItem::keyPressEvent(QKeyEvent *ev)
     update();
 }
 
-bool QQuickGraphsItem::handleMousePressedEvent(QMouseEvent *event)
-{
-    if (Qt::LeftButton == event->button()) {
-        if (scene()->isSlicingActive()) {
-            m_sliceActivatedChanged = true;
-            return false;
-        }
-    }
-    return true;
-}
-
-bool QQuickGraphsItem::handleTouchEvent(QTouchEvent *event)
-{
-    if (!event->isUpdateEvent()) {
-        if (scene()->isSlicingActive()) {
-            m_sliceActivatedChanged = true;
-            return false;
-        }
-        checkSliceEnabled();
-    }
-    return true;
-}
-
 void QQuickGraphsItem::checkSliceEnabled()
 {
     if (selectionMode().testFlag(QAbstract3DGraph::SelectionSlice)

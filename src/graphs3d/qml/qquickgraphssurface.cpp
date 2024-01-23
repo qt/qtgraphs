@@ -1729,30 +1729,6 @@ void QQuickGraphsSurface::createGridlineIndices(SurfaceModel *model, int x, int 
         }
     }
 }
-bool QQuickGraphsSurface::handleMousePressedEvent(QMouseEvent *event)
-{
-    if (!QQuickGraphsItem::handleMousePressedEvent(event))
-        return true;
-
-    if (Qt::LeftButton == event->button())
-        doPicking(event->pos());
-
-    return true;
-}
-
-bool QQuickGraphsSurface::handleTouchEvent(QTouchEvent *event)
-{
-    if (!QQuickGraphsItem::handleTouchEvent(event))
-        return true;
-
-    if (scene()->selectionQueryPosition() != scene()->invalidSelectionPoint()
-        && !event->isUpdateEvent()) {
-        doPicking(event->point(0).position());
-        scene()->setSelectionQueryPosition(scene()->invalidSelectionPoint());
-    }
-
-    return true;
-}
 
 bool QQuickGraphsSurface::doPicking(const QPointF &position)
 {

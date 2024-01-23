@@ -28,9 +28,9 @@ QGraphsInputHandler::QGraphsInputHandler(QQuickItem *parent)
     m_dragHandler->setAcceptedButtons(Qt::MouseButton::RightButton);
     m_wheelHandler->setAcceptedDevices(QInputDevice::DeviceType::Mouse | QInputDevice::DeviceType::TouchPad);
     QObject::connect(m_tapHandler,
-                     &QQuickTapHandler::pressedChanged,
+                     &QQuickTapHandler::tapped,
                      this,
-                     &QGraphsInputHandler::onPressedChanged);
+                     &QGraphsInputHandler::onTapped);
     QObject::connect(m_dragHandler,
                      &QQuickDragHandler::translationChanged,
                      this,
@@ -114,9 +114,9 @@ bool QGraphsInputHandler::isSelectionEnabled()
 void QGraphsInputHandler::setDefaultInputHandler()
 {
     QObject::connect(m_tapHandler,
-                     &QQuickTapHandler::pressedChanged,
+                     &QQuickTapHandler::tapped,
                      this,
-                     &QGraphsInputHandler::onPressedChanged);
+                     &QGraphsInputHandler::onTapped);
     QObject::connect(m_dragHandler,
                      &QQuickDragHandler::translationChanged,
                      this,
@@ -134,9 +134,9 @@ void QGraphsInputHandler::setDefaultInputHandler()
 void QGraphsInputHandler::unsetDefaultInputHandler()
 {
     QObject::disconnect(m_tapHandler,
-                        &QQuickTapHandler::pressedChanged,
+                        &QQuickTapHandler::tapped,
                         this,
-                        &QGraphsInputHandler::onPressedChanged);
+                        &QGraphsInputHandler::onTapped);
     QObject::disconnect(m_dragHandler,
                         &QQuickDragHandler::translationChanged,
                         this,
@@ -154,9 +154,9 @@ void QGraphsInputHandler::unsetDefaultInputHandler()
 void QGraphsInputHandler::unsetDefaultTapHandler()
 {
     QObject::disconnect(m_tapHandler,
-                        &QQuickTapHandler::pressedChanged,
+                        &QQuickTapHandler::tapped,
                         this,
-                        &QGraphsInputHandler::onPressedChanged);
+                        &QGraphsInputHandler::onTapped);
 }
 
 void QGraphsInputHandler::unsetDefaultDragHandler()
@@ -217,17 +217,11 @@ void QGraphsInputHandler::setGraphsItem(QQuickGraphsItem *item)
                      &QQuickGraphsItem::pinch);
 }
 
-void QGraphsInputHandler::onPressedChanged()
+void QGraphsInputHandler::onTapped()
 {
     if (!m_selectionEnabled)
         return;
 
-    if (!m_tapHandler->isPressed()) {
-        emit m_graphsItem->mouseReleased();
-        return;
-    }
-
-    emit m_graphsItem->mousePressed();
     if (m_graphsItem->isSlicingActive()) {
         m_graphsItem->setSliceActivatedChanged(true);
         m_graphsItem->update();

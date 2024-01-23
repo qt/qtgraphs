@@ -151,11 +151,9 @@ protected:
     void synchData() override;
     void updateGraph() override;
     void updateSliceGraph() override;
-    bool handleMousePressedEvent(QMouseEvent *event) override;
     void updateSingleHighlightColor() override;
     void updateLightStrength() override;
     void handleThemeTypeChange() override;
-    bool handleTouchEvent(QTouchEvent *event) override;
     bool doPicking(const QPointF &position) override;
 
     void createSliceView() override;

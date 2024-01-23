@@ -54,7 +54,7 @@ public:
     void unsetDefaultPinchHandler();
     void setDragButton(Qt::MouseButtons button);
 
-    void onPressedChanged();
+    void onTapped();
     void onTranslationChanged(QVector2D delta);
     void onGrabChanged(QPointingDevice::GrabTransition transition, QEventPoint point);
     void onWheel(QQuickWheelEvent *event);

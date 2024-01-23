@@ -117,9 +117,7 @@ Q_SIGNALS:
 
 protected:
     void calculateSceneScalingFactors() override;
-    bool handleMousePressedEvent(QMouseEvent *event) override;
     void componentComplete() override;
-    bool handleTouchEvent(QTouchEvent *event) override;
     bool doPicking(const QPointF &position) override;
     void updateShadowQuality(QAbstract3DGraph::ShadowQuality quality) override;
     void updateLightStrength() override;

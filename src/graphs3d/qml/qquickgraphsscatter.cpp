@@ -1128,25 +1128,6 @@ void QQuickGraphsScatter::handleItemsInserted(int startIndex, int count)
     emitNeedRender();
 }
 
-bool QQuickGraphsScatter::handleMousePressedEvent(QMouseEvent *event)
-{
-    if (Qt::LeftButton == event->button())
-        doPicking(event->pos());
-
-    return true;
-}
-
-bool QQuickGraphsScatter::handleTouchEvent(QTouchEvent *event)
-{
-    if (scene()->selectionQueryPosition() != scene()->invalidSelectionPoint()
-        && !event->isUpdateEvent()) {
-        doPicking(event->point(0).position());
-        scene()->setSelectionQueryPosition(scene()->invalidSelectionPoint());
-    }
-
-    return true;
-}
-
 bool QQuickGraphsScatter::doPicking(const QPointF &position)
 {
     if (!QQuickGraphsItem::doPicking(position))

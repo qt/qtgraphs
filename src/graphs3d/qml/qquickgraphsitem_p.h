@@ -549,8 +549,6 @@ Q_SIGNALS:
     void axisZChanged(QAbstract3DAxis *axis);
     void activeThemeChanged(Q3DTheme *activeTheme);
 
-    void mousePressed();
-    void mouseReleased();
     void tapped(QEventPoint eventPoint, Qt::MouseButton button);
     void doubleTapped(QEventPoint eventPoint, Qt::MouseButton button);
     void longPressed();
@@ -576,8 +574,6 @@ protected:
     virtual void handleSelectedElementChange(QAbstract3DGraph::ElementType type);
     virtual void handleOptimizationHintChange(QAbstract3DGraph::OptimizationHint hint);
     void keyPressEvent(QKeyEvent *ev) override;
-    virtual bool handleMousePressedEvent(QMouseEvent *event);
-    virtual bool handleTouchEvent(QTouchEvent *event);
     virtual void handleThemeTypeChange();
     virtual void handleParentWidthChange();
     virtual void handleParentHeightChange();
