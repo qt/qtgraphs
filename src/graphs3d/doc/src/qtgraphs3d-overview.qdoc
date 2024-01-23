@@ -22,13 +22,12 @@
     Qt Graphs offers ready-made data proxies that can be used to
     visualize data from Qt item models and height maps. Each graph type has a
     basic proxy type, which accepts data in a format suitable for that
-    graph. For more information, see \l{Qt Graphs Data
-    Handling}.
+    graph. For more information, see \l{Qt Graphs 3D Data Handling}.
 
     End users can interact with the data presented by graphs in several ways,
     including rotating graphs, zooming into and out of data, selecting items,
     and viewing 2D slices of the 3D data for increased readability. For more
-    information, see \l{Qt Graphs Interacting with Data}.
+    information, see \l{Qt Graphs 3D Interacting with Data}.
 
     \section1 Graph Types
 

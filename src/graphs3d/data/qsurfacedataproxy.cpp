@@ -46,7 +46,7 @@ QT_BEGIN_NAMESPACE
  * render, because they exceed the per-draw vertex count supported by the
  * graphics driver. This is mostly an issue on 32-bit and OpenGL ES2 platforms.
  *
- * \sa {Qt Graphs Data Handling}
+ * \sa {Qt Graphs 3D Data Handling}
  */
 
 /*!
@@ -79,7 +79,7 @@ QT_BEGIN_NAMESPACE
  *
  * For a more complete description, see QSurfaceDataProxy.
  *
- * \sa ItemModelSurfaceDataProxy, {Qt Graphs Data Handling}
+ * \sa ItemModelSurfaceDataProxy, {Qt Graphs 3D Data Handling}
  */
 
 /*!

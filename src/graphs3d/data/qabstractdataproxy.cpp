@@ -15,7 +15,7 @@ QT_BEGIN_NAMESPACE
  * The following graphs type specific inherited classes are used instead
  * of the base class: QBarDataProxy, QScatterDataProxy, and QSurfaceDataProxy.
  *
- * For more information, see \l{Qt Graphs Data Handling}.
+ * For more information, see \l{Qt Graphs 3D Data Handling}.
  */
 
 /*!
@@ -28,7 +28,7 @@ QT_BEGIN_NAMESPACE
  * This type is uncreatable, but contains properties that are exposed via the
  * following subtypes: BarDataProxy, ScatterDataProxy, SurfaceDataProxy.
  *
- * For more information, see \l {Qt Graphs Data Handling}.
+ * For more information, see \l {Qt Graphs 3D Data Handling}.
  */
 
 /*!

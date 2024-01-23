@@ -45,7 +45,7 @@ QT_BEGIN_NAMESPACE
  * For example about using the search patterns in conjunction with the roles,
  * see ItemModelBarDataProxy usage in \l{Simple Bar Graph}.
  *
- * \sa {Qt Graphs Data Handling}
+ * \sa {Qt Graphs 3D Data Handling}
  */
 
 /*!
@@ -69,7 +69,7 @@ QT_BEGIN_NAMESPACE
  *
  * \snippet doc_src_qmlgraphs.cpp 8
  *
- * \sa ScatterDataProxy, {Qt Graphs Data Handling}
+ * \sa ScatterDataProxy, {Qt Graphs 3D Data Handling}
  */
 
 /*!
