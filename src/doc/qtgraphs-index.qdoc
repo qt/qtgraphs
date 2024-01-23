@@ -37,11 +37,20 @@
     \include {module-use.qdocinc} {building_with_qmake} {graphs}
 
     \section1 Articles and Guides
+
+    \section2 Qt Graphs 2D
+
     \list
-        \li \l{Qt Graphs 2D Overview}{2D Overview}
-        \li \l{Qt Graphs 3D Overview}{3D Overview}
-        \li \l{Qt Graphs Data Handling}{Data Handling}
-        \li \l{Qt Graphs Interacting with Data}{Interacting with Data}
+        \li \l{Qt Graphs 2D Overview}{Overview}
+        \li \l{Qt Graphs Known Issues}{Known Issues}
+    \endlist
+
+    \section2 Qt Graphs 3D
+
+    \list
+        \li \l{Qt Graphs 3D Overview}{Overview}
+        \li \l{Qt Graphs 3D Data Handling}{Data Handling}
+        \li \l{Qt Graphs 3D Interacting with Data}{Interacting with Data}
         \li \l{Qt Graphs 3D Migration from Qt DataVisualization}{Migration Guide from Qt DataVisualization}
         \li \l{Qt Graphs Known Issues}{Known Issues}
     \endlist

@@ -31,7 +31,7 @@ QT_BEGIN_NAMESPACE
  * the option of having row labels that relate to the position of the data in
  * the array rather than the data itself.
  *
- * \sa {Qt Graphs Data Handling}
+ * \sa {Qt Graphs 3D Data Handling}
  */
 
 /*!
@@ -64,7 +64,7 @@ QT_BEGIN_NAMESPACE
  *
  * For a more complete description, see QBarDataProxy.
  *
- * \sa ItemModelBarDataProxy, {Qt Graphs Data Handling}
+ * \sa ItemModelBarDataProxy, {Qt Graphs 3D Data Handling}
  */
 
 /*!
