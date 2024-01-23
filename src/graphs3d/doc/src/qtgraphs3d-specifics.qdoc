@@ -2,6 +2,96 @@
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GFDL-1.3-no-invariants-only
 
 /*!
+    \page qtgraphs_and_qtquick3d_integration_guide.html
+    \title Qt Graphs 3D Integration with Qt Quick 3D
+
+    As Qt Graphs 3D is based on Qt Quick 3D, it is possible to integrate Qt Quick 3D scenes into
+    the graphs.
+
+    \section1 Scene Environment
+
+    Adjusting a Qt Quick 3D scene environment in a graph requires defining either
+    \c SceneEnvironment or \c ExtendedSceneEnvironment in the \c environment property
+    of the graph as follows:
+
+    \badcode
+    environment: ExtendedSceneEnvironment {
+        aoEnabled: true
+        aoDither: true
+        ditheringEnabled: true
+        lightProbe: Texture {
+            textureData: ProceduralSkyTextureData {
+                groundBottomColor: "black"
+                skyTopColor: "white"
+            }
+        }
+        backgroundMode: SceneEnvironment.SkyBox
+        lensFlareEnabled: true
+        lensFlareGhostCount: 10
+        lensFlareApplyStarburstTexture: true
+        lensFlareBloomBias: 0.4
+    }
+    \endcode
+
+    \section2 Non-supported Features
+
+    Overriding anti-aliasing mode or scene clear color do not work, which means that setting
+    value for \c{SceneEnvironment.antialiasingMode} and \c{SceneEnvironment.clearColor} does
+    nothing. However, if the \c backgroundMode is not \c{SceneEnvironment.Color}, background
+    will be affected by the settings.
+
+    \section1 Scene Integration
+
+    Integrating a Qt Quick 3D scene into a graph requires setting a \c Node into the
+    \c importScene property of the graph as follows:
+
+    \badcode
+    importScene: Node {
+        Model {
+            scale: Qt.vector3d(0.01, 0.01, 0.01)
+            source: "#Sphere"
+            x: 2.5
+            z: 2
+            y: 1
+            castsReflections: false
+            receivesReflections: true
+            materials: [
+                PrincipledMaterial {
+                    baseColor: "gold"
+                    metalness: 1.0
+                    roughness: 0.1
+                }
+            ]
+            ReflectionProbe {
+                boxSize: Qt.vector3d(6, 3, 5)
+                boxOffset: Qt.vector3d(-1.5, -1, -1.5)
+                parallaxCorrection: true
+                quality: ReflectionProbe.High
+            }
+        }
+        Model {
+            scale: Qt.vector3d(0.01, 0.01, 0.01)
+            source: "#Sphere"
+            x: -2.5
+            z: -2
+            y: 1
+            castsReflections: false
+            receivesReflections: true
+            materials: [
+                PrincipledMaterial {
+                    baseColor: "white"
+                    metalness: 0.0
+                    roughness: 0.0
+                    transmissionFactor: 1.0
+                    thicknessFactor: 50
+                }
+            ]
+        }
+    }
+    \endcode
+*/
+
+/*!
     \page qtgraphs_data_handling.html
     \title Qt Graphs 3D Data Handling
 
