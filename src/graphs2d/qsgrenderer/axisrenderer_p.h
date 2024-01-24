@@ -46,6 +46,7 @@ public:
     void updateAxisGridShadow();
     void updateBarXAxisLabels(QBarCategoryAxis *axis, const QRectF &rect);
     void updateValueYAxisLabels(QValueAxis *axis, const QRectF &rect);
+    void updateValueXAxisLabels(QValueAxis *axis, const QRectF &rect);
 
 Q_SIGNALS:
 
@@ -78,9 +79,10 @@ private:
     AxisLine *m_axisLineVerticalShadow = nullptr;
     AxisLine *m_axisLineHorizontalShadow = nullptr;
 
-    // Min value
-    double m_axisVerticalMaxValue = 20;
+    // Vertical axis
     // Max value
+    double m_axisVerticalMaxValue = 20;
+    // Min value
     double m_axisVerticalMinValue = 0;
     // Values range, so m_axisVerticalMaxValue - m_axisVerticalMinValue
     double m_axisVerticalValueRange = 0;
@@ -93,9 +95,23 @@ private:
     // The value of smallest label
     double m_axisVerticalMinLabel = 0;
 
-    double m_axisHorizontalMaxValue = 6;
+
+    // Horizontal axis
+    // Max value
+    double m_axisHorizontalMaxValue = 20;
+    // Min value
     double m_axisHorizontalMinValue = 0;
-    double m_axisHorizontalValueRange;
+    // Values range, so m_axisHorizontalMaxValue - m_axisHorizontalMinValue
+    double m_axisHorizontalValueRange = 0;
+    // How much each major value step is
+    double m_axisHorizontalValueStep = 1.0;
+    // px between major ticks
+    double m_axisHorizontalStepPx = 0;
+    // Ticks movement, between -m_axisHorizontalStepPx .. m_axisHorizontalStepPx.
+    double m_axisXMovement = 0;
+    // The value of smallest label
+    double m_axisHorizontalMinLabel = 0;
+
     double m_axisVerticalMinorTickScale = 0.5;
     double m_axisHorizontalMinorTickScale = 0.5;
     bool m_gridHorizontalMajorTicksVisible = true;
@@ -106,7 +122,7 @@ private:
     // Sizes required of axis labels
     // TODO: Should these come from QAbstactAxis?
     qreal m_axisWidth = 40;
-    qreal m_axisHeight = 20;
+    qreal m_axisHeight = 40;
     qreal m_axisTickersWidth = 15;
     qreal m_axisTickersHeight = 15;
 };

@@ -13,7 +13,7 @@
         ],
         "exportDirectory": ".",
         "exportFlags": 2,
-        "exportName": "tickershader",
+        "exportName": "tickershaderhorizontal",
         "nodes": [
             {
                 "fragmentCode": [
@@ -36,7 +36,11 @@
                     "        fragCoord = vec2(iResolution.x - qt_Vertex.x, qt_Vertex.y);",
                     "    else",
                     "        fragCoord = vec2(iResolution.x - qt_Vertex.x, iResolution.y - qt_Vertex.y);",
+                    "#if (HORIZONTAL == 1)",
+                    "    fragCoord.x += barsMovement;",
+                    "#else",
                     "    fragCoord.y += barsMovement;",
+                    "#endif",
                     "    vec2 vertCoord = qt_Vertex.xy;",
                     "    @nodes",
                     "    gl_Position = qt_Matrix * vec4(vertCoord, 0.0, 1.0);",
@@ -186,7 +190,7 @@
                 ],
                 "type": 2,
                 "x": 105,
-                "y": 129.55999755859375
+                "y": 128.89332580566406
             }
         ],
         "version": 1
