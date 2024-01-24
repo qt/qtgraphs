@@ -980,6 +980,7 @@ void QQuickGraphsItem::componentComplete()
     // Grid with geometry
     m_gridGeometryModel = new QQuick3DModel(m_graphNode);
     m_gridGeometryModel->setCastsShadows(false);
+    m_gridGeometryModel->setReceivesShadows(false);
     auto gridGeometry = new QQuick3DGeometry(m_gridGeometryModel);
     gridGeometry->setStride(sizeof(QVector3D));
     gridGeometry->setPrimitiveType(QQuick3DGeometry::PrimitiveType::Lines);
@@ -1410,6 +1411,11 @@ void QQuickGraphsItem::synchData()
         m_changeTracker.marginChanged = false;
     }
 
+    if (m_changeTracker.polarChanged) {
+        recalculateScale = true;
+        m_changeTracker.polarChanged = false;
+    }
+
     if (recalculateScale)
         calculateSceneScalingFactors();
 
@@ -1576,11 +1582,6 @@ void QQuickGraphsItem::synchData()
             QValue3DAxis *valueAxisY = static_cast<QValue3DAxis *>(m_axisY);
             updateAxisReversed(valueAxisY->reversed());
         }
-    }
-
-    if (m_changeTracker.polarChanged) {
-      axisDirty = true;
-      m_changeTracker.polarChanged = false;
     }
 
     if (m_changeTracker.axisXLabelAutoRotationChanged) {
@@ -2077,27 +2078,7 @@ void QQuickGraphsItem::updateGrid()
             *data++ = QVector3D(x0, linePosY + tempLineOffset, linePosZ);
             *data++ = QVector3D(x1, linePosY + tempLineOffset, linePosZ);
         }
-    } else {
-        auto valueAxisZ = static_cast<QValue3DAxis *>(axisZ());
 
-        for (int k = 0; k < subGridLineCountZ; k++) {
-            float degrees = 0.0f;
-            const float r = (m_polarRadius / 2.0f) * valueAxisZ->subGridPositionAt(k);
-            QVector3D lastPoint(r * qCos(degrees), linePosY, r * qSin(degrees));
-            for (int i = 1; i <= polarRoundness; i++) {
-                degrees = doublePi * i / polarRoundness;
-                const float xPos = qCos(degrees);
-                const float zPos = qSin(degrees);
-
-                const QVector3D pos(r * xPos, linePosY, r * zPos);
-                *data++ = lastPoint;
-                *data++ = pos;
-                lastPoint = pos;
-            }
-        }
-    }
-
-    if (!isPolar()) {
         for (int i = 0; i < gridLineCountZ; i++) {
             if (axisZ()->type() == QAbstract3DAxis::AxisType::Value) {
                 linePosZ = static_cast<QValue3DAxis *>(axisZ())->gridPositionAt(i) * -scale * 2.0f
@@ -2112,17 +2093,34 @@ void QQuickGraphsItem::updateGrid()
         }
     } else {
         auto valueAxisZ = static_cast<QValue3DAxis *>(axisZ());
+
+        for (int k = 0; k < subGridLineCountZ; k++) {
+            float degrees = 0.0f;
+            const float r = (m_polarRadius) *valueAxisZ->subGridPositionAt(k);
+            QVector3D lastPoint(r * qCos(degrees), linePosY + tempLineOffset, r * qSin(degrees));
+            for (int i = 1; i <= polarRoundness; i++) {
+                degrees = doublePi * i / polarRoundness;
+                const float xPos = qCos(degrees);
+                const float zPos = qSin(degrees);
+
+                const QVector3D pos(r * xPos, linePosY + tempLineOffset, r * zPos);
+                *data++ = lastPoint;
+                *data++ = pos;
+                lastPoint = pos;
+            }
+        }
+
         for (int k = 0; k < gridLineCountZ; k++) {
             float degrees = 0.0f;
-            const float r = scale * valueAxisZ->gridPositionAt(k);
-            QVector3D lastPoint(r * qCos(degrees), linePosY, r * qSin(degrees));
+            const float r = (m_polarRadius) *valueAxisZ->gridPositionAt(k);
+            QVector3D lastPoint(r * qCos(degrees), linePosY + tempLineOffset, r * qSin(degrees));
 
             for (int i = 1; i <= polarRoundness; i++) {
                 degrees = doublePi * i / polarRoundness;
                 const float xPos = qCos(degrees);
                 const float zPos = qSin(degrees);
 
-                const QVector3D pos(r * xPos, linePosY, r * zPos);
+                const QVector3D pos(r * xPos, linePosY + tempLineOffset, r * zPos);
                 *data++ = lastPoint;
                 *data++ = pos;
                 lastPoint = pos;
@@ -2246,20 +2244,7 @@ void QQuickGraphsItem::updateGrid()
             *data++ = QVector3D(linePosX, linePosY + tempLineOffset, z0);
             *data++ = QVector3D(linePosX, linePosY + tempLineOffset, z1);
         }
-    } else {
-        auto valueAxisX = static_cast<QValue3DAxis *>(axisX());
-        const float halfRatio = ((m_polarRadius) + (m_labelMargin * 0.5f)) * 0.5f;
-        const QVector3D center(0.0f, linePosY, 0.0f);
-        for (int i = 0; i < subGridLineCountX; i++) {
-            float angle = valueAxisX->subGridPositionAt(i) * 360.0f - rotationOffset;
-            float posX = halfRatio * qCos(qDegreesToRadians(angle));
-            float posZ = halfRatio * qSin(qDegreesToRadians(angle));
-            *data++ = center;
-            *data++ = QVector3D(posX, linePosY, posZ);
-        }
-    }
 
-    if (!isPolar()) {
         for (int i = 0; i < gridLineCountX; i++) {
             if (axisX()->type() == QAbstract3DAxis::AxisType::Value) {
                 linePosX = static_cast<QValue3DAxis *>(axisX())->gridPositionAt(i) * scale * 2.0f
@@ -2274,14 +2259,23 @@ void QQuickGraphsItem::updateGrid()
         }
     } else {
         auto valueAxisX = static_cast<QValue3DAxis *>(axisX());
-        const float halfRatio = ((m_polarRadius) + (m_labelMargin * 0.5f)) * 0.5f;
-        const QVector3D center(0.0f, linePosY, 0.0f);
+        const QVector3D center(0.0f, linePosY + tempLineOffset, 0.0f);
+        const float halfRatio = ((m_polarRadius) + (m_labelMargin * 0.5f));
+
+        for (int i = 0; i < subGridLineCountX; i++) {
+            float angle = valueAxisX->subGridPositionAt(i) * 360.0f - rotationOffset;
+            float posX = halfRatio * qCos(qDegreesToRadians(angle));
+            float posZ = halfRatio * qSin(qDegreesToRadians(angle));
+            *data++ = center;
+            *data++ = QVector3D(posX, linePosY + tempLineOffset, posZ);
+        }
+
         for (int i = 0; i < gridLineCountX - 1; i++) {
             float angle = valueAxisX->gridPositionAt(i) * 360.0f - rotationOffset;
             float posX = halfRatio * qCos(qDegreesToRadians(angle));
             float posZ = halfRatio * qSin(qDegreesToRadians(angle));
             *data++ = center;
-            *data++ = QVector3D(posX, linePosY, posZ);
+            *data++ = QVector3D(posX, linePosY + tempLineOffset, posZ);
         }
     }
 
@@ -2495,7 +2489,7 @@ void QQuickGraphsItem::updateLabels()
     }
     if (isPolar())
         labelRotation.setY(0.0f);
-    auto totalRotation = Utils::calculateRotation(labelRotation);
+    QQuaternion totalRotation = Utils::calculateRotation(labelRotation);
 
     float scale = backgroundScale.x() - m_backgroundScaleMargin.x();
 
@@ -2509,22 +2503,26 @@ void QQuickGraphsItem::updateLabels()
 
     float scaleFactor = fontScaleFactor(pointSize) * pointSize;
     float fontRatio = labelsMaxWidth / labelHeight;
-    QVector3D fontScaled = QVector3D(scaleFactor * fontRatio, scaleFactor, 0.00001f);
-    auto adjustment = labelAdjustment(labelsMaxWidth);
+    m_fontScaled = QVector3D(scaleFactor * fontRatio, scaleFactor, 0.00001f);
+    float adjustment = labelAdjustment(labelsMaxWidth);
     zPos = backgroundScale.z() + adjustment + m_labelMargin;
 
     adjustment *= qAbs(qSin(qDegreesToRadians(labelRotation.z())));
     yPos = backgroundScale.y() + adjustment;
 
-    if (!yFlipped)
+    float yOffset = -0.1f;
+    if (!yFlipped) {
         yPos *= -1.0f;
+        yOffset *= -1.0f;
+    }
 
     if (zFlipped)
         zPos *= -1.0f;
 
     auto labelTrans = QVector3D(0.0f, yPos, zPos);
-    float polarLabelZPos = 0.0f;
+    float angularLabelZPos = 0.0f;
 
+    const float angularAdjustment{1.1f};
     if (axisX()->type() == QAbstract3DAxis::AxisType::Value) {
         auto valueAxisX = static_cast<QValue3DAxis *>(axisX());
         for (int i = 0; i < repeaterX()->count(); i++) {
@@ -2537,16 +2535,25 @@ void QQuickGraphsItem::updateLabels()
                     break;
                 }
                 float rad = qDegreesToRadians(valueAxisX->labelPositionAt(i) * 360.0f);
-                labelTrans.setX(-qSin(rad) * -scale + qSin(rad) * m_labelMargin * 2.0f);
-                labelTrans.setY(yPos);
-                labelTrans.setZ(qCos(rad) * -scale - qCos(rad) * m_labelMargin * 2.0f);
-                if (i == 0)
-                    polarLabelZPos = labelTrans.z();
+                labelTrans.setX((-qSin(rad) * -scale + qSin(rad) * m_labelMargin * m_polarRadius)
+                                * angularAdjustment);
+                labelTrans.setY(yPos + yOffset);
+                labelTrans.setZ((qCos(rad) * -scale - qCos(rad) * m_labelMargin * m_polarRadius)
+                                * angularAdjustment);
+                if (i == 0) {
+                    angularLabelZPos = labelTrans.z();
+                    rad = qDegreesToRadians(valueAxisX->labelPositionAt(i) * 360.0f);
+                    labelTrans.setX(
+                        (-qSin(rad) * -scale + qSin(rad) * m_labelMargin * m_polarRadius));
+                    labelTrans.setY(yPos + yOffset);
+                    labelTrans.setZ(
+                        (qCos(rad) * -scale - qCos(rad) * m_labelMargin * m_polarRadius));
+                }
             } else {
                 labelTrans.setX(valueAxisX->labelPositionAt(i) * scale * 2.0f - scale);
             }
             obj->setObjectName(QStringLiteral("ElementAxisXLabel"));
-            obj->setScale(fontScaled);
+            obj->setScale(m_fontScaled);
             obj->setPosition(labelTrans);
             obj->setRotation(totalRotation);
             obj->setProperty("labelText", labels[i]);
@@ -2560,7 +2567,7 @@ void QQuickGraphsItem::updateLabels()
             labelTrans = calculateCategoryLabelPosition(axisX(), labelTrans, i);
             auto obj = static_cast<QQuick3DNode *>(repeaterX()->objectAt(i));
             obj->setObjectName(QStringLiteral("ElementAxisXLabel"));
-            obj->setScale(fontScaled);
+            obj->setScale(m_fontScaled);
             obj->setPosition(labelTrans);
             obj->setRotation(totalRotation);
             obj->setProperty("labelText", labels[i]);
@@ -2571,9 +2578,9 @@ void QQuickGraphsItem::updateLabels()
 
     float x = labelTrans.x();
     labelTrans.setX(0.0f);
-    updateXTitle(labelRotation, labelTrans, totalRotation, labelsMaxWidth, fontScaled);
+    updateXTitle(labelRotation, labelTrans, totalRotation, labelsMaxWidth, m_fontScaled);
     if (isPolar()) {
-        m_titleLabelX->setZ(polarLabelZPos - m_labelMargin * 2.0f);
+        m_titleLabelX->setZ(angularLabelZPos - m_labelMargin * 2.0f);
         m_titleLabelX->setRotation(totalRotation);
     }
     labelTrans.setX(x);
@@ -2617,7 +2624,7 @@ void QQuickGraphsItem::updateLabels()
     scale = backgroundScale.y() - m_backgroundScaleMargin.y();
     labelsMaxWidth = float(findLabelsMaxWidth(axisY()->labels())) + textPadding;
     fontRatio = labelsMaxWidth / labelHeight;
-    fontScaled = QVector3D(scaleFactor * fontRatio, scaleFactor, 0.00001f);
+    m_fontScaled = QVector3D(scaleFactor * fontRatio, scaleFactor, 0.00001f);
 
     xPos = backgroundScale.x();
     if (!xFlipped)
@@ -2637,7 +2644,7 @@ void QQuickGraphsItem::updateLabels()
         labelTrans.setY(static_cast<QValue3DAxis *>(axisY())->labelPositionAt(i) * scale * 2.0f
                         - scale);
         obj->setObjectName(QStringLiteral("ElementAxisYLabel"));
-        obj->setScale(fontScaled);
+        obj->setScale(m_fontScaled);
         obj->setPosition(labelTrans);
         obj->setRotation(totalRotation);
         obj->setProperty("labelText", labels[i]);
@@ -2733,7 +2740,7 @@ void QQuickGraphsItem::updateLabels()
     scale = backgroundScale.z() - m_backgroundScaleMargin.z();
     labelsMaxWidth = float(findLabelsMaxWidth(axisZ()->labels())) + textPadding;
     fontRatio = labelsMaxWidth / labelHeight;
-    fontScaled = QVector3D(scaleFactor * fontRatio, scaleFactor, 0.00001f);
+    m_fontScaled = QVector3D(scaleFactor * fontRatio, scaleFactor, 0.00001f);
     adjustment = labelAdjustment(labelsMaxWidth);
     xPos = backgroundScale.x() + adjustment + m_labelMargin;
     if (xFlipped)
@@ -2745,26 +2752,29 @@ void QQuickGraphsItem::updateLabels()
         yPos *= -1.0f;
 
     labelTrans = QVector3D(xPos, yPos, 0.0f);
-
     if (axisZ()->type() == QAbstract3DAxis::AxisType::Value) {
         auto valueAxisZ = static_cast<QValue3DAxis *>(axisZ());
-        float offset = radialLabelOffset();
+        float offsetAdjustment = 0.05f;
+        float offset = radialLabelOffset() + offsetAdjustment;
         for (int i = 0; i < repeaterZ()->count(); i++) {
             if (labelCount <= i)
                 break;
+
             auto obj = static_cast<QQuick3DNode *>(repeaterZ()->objectAt(i));
             if (isPolar()) {
+                // RADIAL LABELS
                 float polarX = backgroundScale.x() * offset + m_labelMargin * 2.0f;
                 if (xFlipped)
                     polarX *= -1;
                 labelTrans.setX(polarX);
-                labelTrans.setY(yPos);
-                labelTrans.setZ(-valueAxisZ->labelPositionAt(i));
+                labelTrans.setY(yPos + yOffset);
+
+                labelTrans.setZ(-valueAxisZ->labelPositionAt(i) * m_polarRadius);
             } else {
                 labelTrans.setZ(valueAxisZ->labelPositionAt(i) * scale * -2.0f + scale);
             }
             obj->setObjectName(QStringLiteral("ElementAxisZLabel"));
-            obj->setScale(fontScaled);
+            obj->setScale(m_fontScaled);
             obj->setPosition(labelTrans);
             obj->setRotation(totalRotation);
             obj->setProperty("labelText", labels[i]);
@@ -2778,7 +2788,7 @@ void QQuickGraphsItem::updateLabels()
             labelTrans = calculateCategoryLabelPosition(axisZ(), labelTrans, i);
             auto obj = static_cast<QQuick3DNode *>(repeaterZ()->objectAt(i));
             obj->setObjectName(QStringLiteral("ElementAxisZLabel"));
-            obj->setScale(fontScaled);
+            obj->setScale(m_fontScaled);
             obj->setPosition(labelTrans);
             obj->setRotation(totalRotation);
             obj->setProperty("labelText", labels[i]);
@@ -2789,7 +2799,7 @@ void QQuickGraphsItem::updateLabels()
 
     float z = labelTrans.z();
     labelTrans.setZ(0.0f);
-    updateZTitle(labelRotation, labelTrans, totalRotation, labelsMaxWidth, fontScaled);
+    updateZTitle(labelRotation, labelTrans, totalRotation, labelsMaxWidth, m_fontScaled);
     labelTrans.setZ(z);
 
     labels = axisY()->labels();
@@ -2798,7 +2808,7 @@ void QQuickGraphsItem::updateLabels()
     scale = backgroundScale.y() - m_backgroundScaleMargin.y();
     labelsMaxWidth = float(findLabelsMaxWidth(axisY()->labels())) + textPadding;
     fontRatio = labelsMaxWidth / labelHeight;
-    fontScaled = QVector3D(scaleFactor * fontRatio, scaleFactor, 0.00001f);
+    m_fontScaled = QVector3D(scaleFactor * fontRatio, scaleFactor, 0.00001f);
     adjustment = labelAdjustment(labelsMaxWidth);
 
     xPos = backgroundScale.x() + adjustment + m_labelMargin;
@@ -2818,7 +2828,7 @@ void QQuickGraphsItem::updateLabels()
             repeaterY()->objectAt(i + (repeaterY()->count() / 2)));
         labelTrans.setY(static_cast<QValue3DAxis *>(axisY())->labelPositionAt(i) * scale * 2.0f
                         - scale);
-        obj->setScale(fontScaled);
+        obj->setScale(m_fontScaled);
         obj->setPosition(labelTrans);
         obj->setRotation(totalRotation);
         obj->setProperty("labelText", labels[i]);
@@ -2826,8 +2836,8 @@ void QQuickGraphsItem::updateLabels()
         obj->setProperty("labelHeight", labelHeight);
     }
 
-    auto backLabelTrans = labelTrans;
-    auto totalBackLabelRotation = totalRotation;
+    QVector3D backLabelTrans = labelTrans;
+    QQuaternion totalBackLabelRotation = totalRotation;
     updateYTitle(sideLabelRotation,
                  backLabelRotation,
                  sideLabelTrans,
@@ -2835,7 +2845,7 @@ void QQuickGraphsItem::updateLabels()
                  totalSideLabelRotation,
                  totalBackLabelRotation,
                  labelsMaxWidth,
-                 fontScaled);
+                 m_fontScaled);
 }
 
 void QQuickGraphsItem::updateRadialLabelOffset()
@@ -3394,6 +3404,36 @@ float QQuickGraphsItem::calculateCategoryGridLinePosition(QAbstract3DAxis *axis,
     Q_UNUSED(axis);
     Q_UNUSED(index);
     return 0.0f;
+}
+
+float QQuickGraphsItem::calculatePolarBackgroundMargin()
+{
+    // Check each extents of each angular label
+    // Calculate angular position
+    auto valueAxisX = static_cast<QValue3DAxis *>(axisX());
+    auto labelPositions = const_cast<QList<float> &>(valueAxisX->formatter()->labelPositions());
+    float actualLabelHeight = m_fontScaled.y() * 2.0f; // All labels are same height
+    float maxNeededMargin = 0.0f;
+
+    // Axis title needs to be accounted for
+    if (valueAxisX->isTitleVisible())
+        maxNeededMargin = 2.0f * actualLabelHeight + 3.0f * labelMargin();
+
+    for (int label = 0; label < labelPositions.size(); label++) {
+        QSizeF labelSize{m_fontScaled.x(), m_fontScaled.z()};
+        float actualLabelWidth = actualLabelHeight / labelSize.height() * labelSize.width();
+        float labelPosition = labelPositions.at(label);
+        qreal angle = labelPosition * M_PI * 2.0;
+        float x = qAbs((m_polarRadius + labelMargin()) * float(qSin(angle))) + actualLabelWidth
+                  - m_polarRadius + labelMargin();
+        float z = qAbs(-(m_polarRadius + labelMargin()) * float(qCos(angle))) + actualLabelHeight
+                  - m_polarRadius + labelMargin();
+        float neededMargin = qMax(x, z);
+        maxNeededMargin = qMax(maxNeededMargin, neededMargin);
+    }
+
+    maxNeededMargin *= 0.2f;
+    return maxNeededMargin;
 }
 
 void QQuickGraphsItem::updateXTitle(const QVector3D &labelRotation,

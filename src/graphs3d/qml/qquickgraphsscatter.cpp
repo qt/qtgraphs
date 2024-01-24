@@ -1238,14 +1238,24 @@ void QQuickGraphsScatter::calculateSceneScalingFactors()
         marginH = margin();
         marginV = margin();
     }
+    if (isPolar()) {
+        float polarMargin = calculatePolarBackgroundMargin();
+        marginH = qMax(marginH, polarMargin);
+    }
+
+    float tHorizontalAspectRatio;
+    if (isPolar())
+        tHorizontalAspectRatio = 1.0f;
+    else
+        tHorizontalAspectRatio = horizontalAspectRatio();
 
     QSizeF areaSize;
-    if (qFuzzyIsNull(horizontalAspectRatio())) {
+    if (qFuzzyIsNull(tHorizontalAspectRatio)) {
         areaSize.setHeight(axisZ()->max() - axisZ()->min());
         areaSize.setWidth(axisX()->max() - axisX()->min());
     } else {
         areaSize.setHeight(1.0f);
-        areaSize.setWidth(horizontalAspectRatio());
+        areaSize.setWidth(tHorizontalAspectRatio);
     }
 
     float horizontalMaxDimension;
@@ -1257,6 +1267,9 @@ void QQuickGraphsScatter::calculateSceneScalingFactors()
         horizontalMaxDimension = aspectRatio();
         scaleY = 1.0f;
     }
+
+    if (isPolar())
+        m_polarRadius = horizontalMaxDimension;
 
     float scaleFactor = qMax(areaSize.width(), areaSize.height());
     float scaleX = horizontalMaxDimension * areaSize.width() / scaleFactor;

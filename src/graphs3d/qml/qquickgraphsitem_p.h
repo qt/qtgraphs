@@ -611,6 +611,7 @@ protected:
                                                      QVector3D labelPosition,
                                                      int index);
     virtual float calculateCategoryGridLinePosition(QAbstract3DAxis *axis, int index);
+    float calculatePolarBackgroundMargin();
     void setFloorGridInRange(bool inRange) { m_isFloorGridInRange = inRange; }
     void setVerticalSegmentLine(bool hasVerticalLine)
     {
@@ -798,6 +799,7 @@ private:
     bool m_gridUpdated = false;
 
     QVector3D m_labelPosition = QVector3D();
+    QVector3D m_fontScaled = QVector3D();
 
     float m_initialZoomLevel = -1.0f;
     void setUpCamera();
