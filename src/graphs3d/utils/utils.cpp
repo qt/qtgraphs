@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 
 #include "QtGui/qbrush.h"
+#include "private/qquickrectangle_p.h"
 #include "utils_p.h"
 
 #include <QtCore/QRegularExpression>
@@ -145,6 +146,67 @@ void Utils::verifyGradientCompleteness(QLinearGradient &gradient)
         const QColor lastColor = stops.last().second;
         gradient.setColorAt(1., lastColor);
     }
+}
+
+void Utils::setSeriesGradient(QAbstract3DSeries *series, QJSValue gradient, GradientType type)
+{
+    auto newGradient = qobject_cast<QQuickGradient *>(gradient.toQObject());
+    QLinearGradient linearGradient;
+    linearGradient.setStops(newGradient->gradientStops());
+
+    switch (type) {
+    case GradientType::Base:
+        series->setBaseGradient(linearGradient);
+        break;
+    case GradientType::Single:
+        series->setSingleHighlightGradient(linearGradient);
+        break;
+    case GradientType::Multi:
+        series->setMultiHighlightGradient(linearGradient);
+        break;
+    default: // Never goes here
+        break;
+    }
+}
+
+void Utils::connectSeriesGradient(QAbstract3DSeries *series,
+                                  QJSValue newGradient,
+                                  GradientType type,
+                                  QJSValue &memberGradient)
+{
+    // connect new / disconnect old
+    if (newGradient.isQObject() && !newGradient.equals(memberGradient)) {
+        auto quickGradient = qobject_cast<QQuickGradient *>(memberGradient.toQObject());
+        if (quickGradient)
+            QObject::disconnect(quickGradient, 0, series, 0);
+
+        memberGradient = newGradient;
+        quickGradient = qobject_cast<QQuickGradient *>(memberGradient.toQObject());
+
+        const int updatedIndex = QMetaMethod::fromSignal(&QQuickGradient::updated).methodIndex();
+
+        int handleIndex = -1;
+        switch (type) {
+        case GradientType::Base:
+            handleIndex = series->metaObject()->indexOfSlot("handleBaseGradientUpdate()");
+            break;
+        case GradientType::Single:
+            handleIndex = series->metaObject()->indexOfSlot(
+                "handleSingleHighlightGradientUpdate()");
+            break;
+        case GradientType::Multi:
+            handleIndex = series->metaObject()->indexOfSlot("handleMultiHighlightGradientUpdate()");
+            break;
+        default: // Never goes here
+            break;
+        }
+
+        if (quickGradient)
+            QMetaObject::connect(quickGradient, updatedIndex, series, handleIndex);
+    }
+
+    if (!memberGradient.isNull())
+        setSeriesGradient(series, memberGradient, type);
 }
 
 QT_END_NAMESPACE

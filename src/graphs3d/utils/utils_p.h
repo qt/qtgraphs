@@ -17,6 +17,8 @@
 #include <QtCore/qlocale.h>
 #include <QtGui/qimage.h>
 #include <QtGui/qquaternion.h>
+#include "qabstract3dseries.h"
+#include "qquickgraphscolor_p.h"
 #include <private/graphsglobal_p.h>
 
 QT_FORWARD_DECLARE_CLASS(QLinearGradient)
@@ -44,6 +46,11 @@ public:
     static float wrapValue(float value, float min, float max);
     static QQuaternion calculateRotation(const QVector3D &xyzRotations);
     static void verifyGradientCompleteness(QLinearGradient &gradient);
+    static void setSeriesGradient(QAbstract3DSeries *series, QJSValue gradient, GradientType type);
+    static void connectSeriesGradient(QAbstract3DSeries *series,
+                                      QJSValue newGradient,
+                                      GradientType type,
+                                      QJSValue &memberGradient);
 
 private:
     static ParamType mapFormatCharToParamType(char formatSpec);
