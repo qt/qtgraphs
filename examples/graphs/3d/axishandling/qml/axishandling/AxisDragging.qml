@@ -96,10 +96,8 @@ Item {
         labelTextColor: "black"
     }
 
-    //! [0]
     Scatter3D {
         id: scatterGraph
-        //! [0]
         anchors.fill: parent
         theme: dynamicColorTheme
         shadowQuality: AbstractGraph3D.ShadowQuality.Medium
@@ -143,7 +141,9 @@ Item {
         //! [5]
 
         Component.onCompleted: {
+            //! [0]
             unsetDefaultInputHandler();
+            //! [0]
         }
     }
 

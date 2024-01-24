@@ -123,7 +123,7 @@
 
     To enforce the 2D effect, disable graph rotation in orthographic mode by overriding the default
     input handler with a custom one, which automatically toggles the
-    \l{InputHandler3D::rotationEnabled}{rotationEnabled} property based on the projection mode:
+    \l{AbstractGraph3D::rotationEnabled}{rotationEnabled} property based on the projection mode:
 
     \snippet surfacegallery/qml/surfacegallery/SurfaceSpectrogram.qml 5
 

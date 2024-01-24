@@ -155,7 +155,7 @@
     a logarithmic value 3D axis.
 
     Polar horizontal axes can be used for surface and scatter graphs by setting
-    the \l{QAbstract3DGraph::}{polar} property.
+    the \l{AbstractGraph3D::polar}{polar} property.
 
     \section1 3D Themes
 

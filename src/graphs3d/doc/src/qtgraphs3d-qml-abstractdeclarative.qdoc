@@ -54,6 +54,39 @@
  */
 
 /*!
+ * \qmlproperty bool AbstractGraph3D::zoomAtTargetEnabled
+ *
+ * Whether zooming should change the camera target so that the zoomed point
+ * of the graph stays at the same location after the zoom.
+ *
+ * Defaults to \c{true}.
+ */
+
+/*!
+ * \qmlproperty bool AbstractGraph3D::zoomEnabled
+ *
+ * Whether this input handler allows graph zooming.
+ *
+ * Defaults to \c{true}.
+ */
+
+/*!
+ * \qmlproperty bool AbstractGraph3D::selectionEnabled
+ *
+ * Whether this input handler allows selection from the graph.
+ *
+ * Defaults to \c{true}.
+ */
+
+/*!
+ * \qmlproperty bool AbstractGraph3D::rotationEnabled
+ *
+ * Whether this input handler allows graph rotation.
+ *
+ * Defaults to \c{true}.
+ */
+
+/*!
  * \qmlproperty float AbstractGraph3D::cameraZoomLevel
  *
  * The camera zoom level in percentage. The default value of \c{100.0}
@@ -132,12 +165,6 @@
   scene elements, such as the active camera.
 
   This property is read-only.
- */
-
-/*!
-  \qmlproperty AbstractInputHandler3D AbstractGraph3D::inputHandler
-  The active input handler used in the graph. You can disable default input
-  handlers by setting this property to null.
  */
 
 /*!

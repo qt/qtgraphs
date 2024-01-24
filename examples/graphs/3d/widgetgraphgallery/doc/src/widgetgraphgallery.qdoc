@@ -290,7 +290,7 @@
     \list
         \li Set up Q3DScatter graph
         \li Use QScatterDataProxy to set data to the graph
-        \li Create a custom input handler by extending Q3DInputHandler
+        \li Create and add a custom input handler
     \endlist
 
     For basic application creation, see \l {Bar Graph}.

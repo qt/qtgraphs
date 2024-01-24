@@ -52,7 +52,7 @@
 
 /*!
  * \qmlproperty Surface3DSeries Surface3D::selectedSeries
- * The selected series or null. If \l {QAbstract3DGraph::selectionMode}{selectionMode} has the
+ * The selected series or null. If \l {AbstractGraph3D::selectionMode}{selectionMode} has the
  * \c SelectionMultiSeries flag set, this property holds the series which owns the selected point.
  */
 
