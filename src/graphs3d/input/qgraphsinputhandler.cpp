@@ -113,42 +113,12 @@ bool QGraphsInputHandler::isSelectionEnabled()
 
 void QGraphsInputHandler::setDefaultInputHandler()
 {
-    QObject::connect(m_tapHandler,
-                     &QQuickTapHandler::tapped,
-                     this,
-                     &QGraphsInputHandler::onTapped);
-    QObject::connect(m_dragHandler,
-                     &QQuickDragHandler::translationChanged,
-                     this,
-                     &QGraphsInputHandler::onTranslationChanged);
-    QObject::connect(m_wheelHandler,
-                     &QQuickWheelHandler::wheel,
-                     this,
-                     &QGraphsInputHandler::onWheel);
-    QObject::connect(m_pinchHandler,
-                     &QQuickPinchHandler::scaleChanged,
-                     this,
-                     &QGraphsInputHandler::onPinchScaleChanged);
+    setVisible(true);
 }
 
 void QGraphsInputHandler::unsetDefaultInputHandler()
 {
-    QObject::disconnect(m_tapHandler,
-                        &QQuickTapHandler::tapped,
-                        this,
-                        &QGraphsInputHandler::onTapped);
-    QObject::disconnect(m_dragHandler,
-                        &QQuickDragHandler::translationChanged,
-                        this,
-                        &QGraphsInputHandler::onTranslationChanged);
-    QObject::disconnect(m_wheelHandler,
-                        &QQuickWheelHandler::wheel,
-                        this,
-                        &QGraphsInputHandler::onWheel);
-    QObject::disconnect(m_pinchHandler,
-                        &QQuickPinchHandler::scaleChanged,
-                        this,
-                        &QGraphsInputHandler::onPinchScaleChanged);
+    setVisible(false);
 }
 
 void QGraphsInputHandler::unsetDefaultTapHandler()
