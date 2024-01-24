@@ -67,6 +67,7 @@ protected:
     bool resolvePending;
     QTimer m_resolveTimer;
     bool m_fullReset;
+    const int noRoleIndex = -1;
 
 private:
     Q_DISABLE_COPY(AbstractItemModelHandler)

@@ -74,10 +74,6 @@ else()
             qml/foreigntypesbars_p.h
             qml/qquickgraphsbars.cpp qml/qquickgraphsbars_p.h
             qml/qquickgraphsbarsseries.cpp qml/qquickgraphsbarsseries_p.h
-        NO_UNITY_BUILD_SOURCES
-            # Symbol collision with, `surfaceitemmodelhandler.cpp`
-            # TODO: Resolve `noRoleIndex` symbol redefinition
-            data/baritemmodelhandler.cpp
         INCLUDE_DIRECTORIES
             data
             engine
@@ -98,10 +94,6 @@ else()
             qml/foreigntypesscatter_p.h
             qml/qquickgraphsscatter.cpp qml/qquickgraphsscatter_p.h
             qml/qquickgraphsscatterseries.cpp qml/qquickgraphsscatterseries_p.h
-        NO_UNITY_BUILD_SOURCES
-            # Symbol collision with, `surfaceitemmodelhandler.cpp`
-            # TODO: Resolve `noRoleIndex` symbol redefinition
-            data/scatteritemmodelhandler.cpp
         INCLUDE_DIRECTORIES
             data
             engine
