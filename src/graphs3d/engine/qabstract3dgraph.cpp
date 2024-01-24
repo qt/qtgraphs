@@ -183,7 +183,15 @@ QAbstract3DGraph::QAbstract3DGraph(const QString &graphType)
         QSurfaceFormat::setDefaultFormat(QQuick3D::idealSurfaceFormat(4));
 #endif
 
-    QString qmlData = "import QtQuick; import QtGraphs; " + graphType + " { anchors.fill: parent; }";
+    const QString qmlData = QLatin1StringView(R"QML(
+        import QtQuick;
+        import QtGraphs;
+
+        %1
+        {
+            anchors.fill: parent;
+        }
+    )QML").arg(graphType);
     QQmlComponent *component = new QQmlComponent(engine(), this);
     component->setData(qmlData.toUtf8(), QUrl());
     m_graphsItem.reset(qobject_cast<QQuickGraphsItem *>(component->create()));
