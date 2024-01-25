@@ -28,6 +28,13 @@ QT_BEGIN_NAMESPACE
 
     A line chart is used to show information as a series of data points
     connected by straight lines.
+
+    \image graphs2d-line.png
+
+    LineSeries uses mostly the same API as ScatterSeries so see ScatterSeries
+    documentation for further usage examples.
+
+    \sa ScatterSeries
 */
 
 /*!
