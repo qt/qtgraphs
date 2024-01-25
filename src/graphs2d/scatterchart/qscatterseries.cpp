@@ -30,11 +30,71 @@ QT_BEGIN_NAMESPACE
     The scatter data is displayed as a collection of points on the chart. For
     each point, two values are specified that determine its position on the
     horizontal axis and the vertical axis.
+
+    \image graphs2d-scatter.png
+
+    You can represent scatter data by creating a ScatterSeries inside
+    GraphsView. Axis types should be then defined for ScatterSeries
+    using axisX and axisY properties. Finally data can be added
+    to the chart by creating XYPoints as children for the ScatterSeries
+    that define the x and y values of each point.
+
+    \code
+    GraphsView {
+        anchors.fill: parent
+        ScatterSeries {
+            color: "#00ff00"
+            axisX: ValueAxis {
+                max: 3
+            }
+            axisY: ValueAxis {
+                max: 3
+            }
+
+            XYPoint { x: 0.5; y: 0.5 }
+            XYPoint { x: 1; y: 1 }
+            XYPoint { x: 2; y: 2 }
+            XYPoint { x: 2.5; y: 1.5 }
+        }
+    }
+    \endcode
+
+    Multiple scatter charts can be created by adding multiple ScatterSeries
+    as children of GraphsView. In such cases only one series should define
+    the axis used as multiple definitions only override the earlier ones.
+
+    \code
+    GraphsView {
+        anchors.fill: parent
+        ScatterSeries {
+            color: "#00ff00"
+            axisX: ValueAxis {
+                max: 3
+            }
+            axisY: ValueAxis {
+                max: 3
+            }
+
+            XYPoint { x: 0.5; y: 0.5 }
+            XYPoint { x: 1; y: 1 }
+            XYPoint { x: 2; y: 2 }
+            XYPoint { x: 2.5; y: 1.5 }
+        }
+
+        ScatterSeries {
+            color: "#ff0000"
+            XYPoint { x: 0.5; y: 3 }
+            XYPoint { x: 1; y: 2 }
+            XYPoint { x: 2; y: 2.5 }
+            XYPoint { x: 2.5; y: 1 }
+        }
+    }
+    \endcode
 */
 
 /*!
     \qmlproperty Component ScatterSeries::pointMarker
-    Marks the point with the given QML component.
+    Marks points with the given QML component.
 
     \code
         pointMarker: Image {
