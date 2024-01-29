@@ -8,6 +8,28 @@
 
 QT_BEGIN_NAMESPACE
 
+/*!
+    \qmltype GraphsView
+    \instantiates QGraphsView
+    \inqmlmodule QtGraphs
+    \ingroup graphs_qml_2D
+    \brief Base type for all Qt Graphs views.
+
+This class collects the series and theming together and draws the graphs.
+You will need to import Qt Graphs module to use this type:
+
+\snippet doc_src_qmlgraphs.cpp 0
+
+After that you can use GraphsView in your qml files:
+
+\snippet doc_src_qmlgraphs.cpp 10
+
+\image graphsview-minimal.png
+
+See \l{Testbed} for more thorough usage examples.
+
+\sa BarSeries, LineSeries, BarCategoryAxis, ValueAxis, GraphTheme
+*/
 QGraphsView::QGraphsView(QQuickItem *parent) :
     QQuickItem(parent)
 {
@@ -166,7 +188,6 @@ void QGraphsView::updateComponentSizes()
 void QGraphsView::componentComplete()
 {
     if (!m_theme) {
-        qDebug() << "Using default theme!";
         m_theme = new QGraphTheme(this);
         QObject::connect(m_theme, &QGraphTheme::update, this, &QQuickItem::update);
         m_theme->resetColorTheme();
@@ -291,6 +312,16 @@ void QGraphsView::updatePolish()
 
 // ***** Static QQmlListProperty methods *****
 
+/*!
+    \qmlproperty list GraphsView::seriesList
+
+    List of series that are rendered by the GraphsView. Filled automatically
+    with the series type children of the GraphsView.
+
+    This is the default property, so child elements are automatically added
+    into the series list.
+    \sa BarSeries, LineSeries, ScatterSeries
+*/
 QQmlListProperty<QObject> QGraphsView::seriesList()
 {
     return QQmlListProperty<QObject>(this, this,
@@ -324,6 +355,12 @@ void QGraphsView::clearSeriesFunc(QQmlListProperty<QObject> *list)
         declItems->removeSeries(realList.at(i));
 }
 
+/*!
+    \qmlproperty GraphTheme GraphsView::theme
+    The theme used by the graph. Determines coloring,
+    axis lines, fonts etc. If theme has not been set,
+    the default theme is used.
+*/
 QGraphTheme *QGraphsView::theme() const
 {
     return m_theme;
@@ -345,6 +382,11 @@ void QGraphsView::setTheme(QGraphTheme *newTheme)
     emit themeChanged();
 }
 
+/*!
+    \qmlproperty real GraphsView::marginTop
+    The amount of empty space on the top of the graph.
+    By default, the margin is 20.
+*/
 qreal QGraphsView::marginTop() const
 {
     return m_marginTop;
@@ -360,6 +402,11 @@ void QGraphsView::setMarginTop(qreal newMarginTop)
     emit marginTopChanged();
 }
 
+/*!
+    \qmlproperty real GraphsView::marginBottom
+    The amount of empty space on the bottom of the graph.
+    By default, the margin is 20.
+*/
 qreal QGraphsView::marginBottom() const
 {
     return m_marginBottom;
@@ -375,6 +422,11 @@ void QGraphsView::setMarginBottom(qreal newMarginBottom)
     emit marginBottomChanged();
 }
 
+/*!
+    \qmlproperty real GraphsView::marginLeft
+    The amount of empty space on the left of the graph.
+    By default, the margin is 20.
+*/
 qreal QGraphsView::marginLeft() const
 {
     return m_marginLeft;
@@ -390,6 +442,11 @@ void QGraphsView::setMarginLeft(qreal newMarginLeft)
     emit marginLeftChanged();
 }
 
+/*!
+    \qmlproperty real GraphsView::marginRight
+    The amount of empty space on the right of the graph.
+    By default, the margin is 20.
+*/
 qreal QGraphsView::marginRight() const
 {
     return m_marginRight;

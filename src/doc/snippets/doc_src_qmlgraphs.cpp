@@ -152,3 +152,36 @@ ItemModelSurfaceDataProxy {
     valueRole: "pop_density"
 }
 //! [9]
+
+//! [10]
+import QtQuick
+import QtGraphs
+
+GraphsView {
+    anchors.fill: parent
+    theme: GraphTheme {
+        colorTheme: GraphTheme.ColorThemeDark
+        gridMajorBarsColor: "#ccccff"
+        gridMinorBarsColor: "#eeeeff"
+        axisYMajorColor: "#ccccff"
+        axisYMinorColor: "#eeeeff"
+    }
+    BarSeries {
+        axisX: BarCategoryAxis {
+            categories: ["2023", "2024", "2025"]
+            lineVisible: false
+        }
+        axisY: ValueAxis {
+            min: 0
+            max: 10
+            minorTickCount: 4
+        }
+        BarSet {
+            values: [7, 6, 9]
+        }
+        BarSet {
+            values: [9, 8, 6]
+        }
+    }
+}
+//! [10]
