@@ -5,6 +5,164 @@
 
 QT_BEGIN_NAMESPACE
 
+/*!
+    \class QGraphTheme
+    \inmodule QtGraphs
+    \ingroup graphs_2D
+    \brief The QGraphTheme class handles theming of the graph.
+
+    Graph theme handles grid, axis and shadow properties. Grid and axes are
+    divided to major and minor bars and ticks. Major bars and ticks are located
+    on the values for ValueAxis and between categories for CategoryAxis. Minor
+    bars and ticks are located between the major ones.
+*/
+/*!
+    \qmltype GraphTheme
+    \instantiates QGraphTheme
+    \inqmlmodule QtGraphs
+    \ingroup graphs_qml_2D
+
+    \brief Handles theming of the graph.
+
+    Graph theme handles grid, axis and shadow properties.
+
+    \sa SeriesTheme
+*/
+
+/*!
+    \qmlproperty ColorTheme GraphTheme::colorTheme
+    List of premade themes that determine values for properties of this class.
+*/
+
+/*!
+    \qmlproperty real GraphTheme::gridMajorBarsWidth
+    Sets the width of major bars of the grid.
+*/
+
+/*!
+    \qmlproperty real GraphTheme::gridMinorBarsWidth
+    Sets the width of minor bars of the grid.
+*/
+
+/*!
+    \qmlproperty real GraphTheme::gridSmoothing
+    Sets the amount of smoothing for the bars of the grid.
+    Use this to antialias thin lines.
+*/
+
+/*!
+    \qmlproperty color GraphTheme::gridMajorBarsColor
+    Sets the color of major bars of the grid.
+*/
+
+/*!
+    \qmlproperty color GraphTheme::gridMinorBarsColor
+    Sets the color of minor bars of the grid.
+*/
+
+/*!
+    \qmlproperty color GraphTheme::axisYMajorColor
+    Sets the color of major ticks of the y axis.
+*/
+
+/*!
+    \qmlproperty color GraphTheme::axisYMinorColor
+    Sets the color of minor ticks of the y axis.
+*/
+
+/*!
+    \qmlproperty real GraphTheme::axisYMajorBarWidth
+    Sets the width of major ticks of the y axis.
+*/
+
+/*!
+    \qmlproperty real GraphTheme::axisYMinorBarWidth
+    Sets the width of minor ticks of the y axis.
+*/
+
+/*!
+    \qmlproperty real GraphTheme::axisYSmoothing
+    Sets the amount of smoothing for the ticks of the y axis.
+    Use this to antialias thin lines.
+*/
+
+/*!
+    \qmlproperty color GraphTheme::axisYLabelsColor
+    Sets the color of the label for the y axis.
+*/
+
+/*!
+    \qmlproperty font GraphTheme::axisYLabelsFont
+    Sets the font of the label for the y axis.
+*/
+
+/*!
+    \qmlproperty color GraphTheme::axisXMajorColor
+    Sets the color of major ticks of the x axis.
+*/
+
+/*!
+    \qmlproperty color GraphTheme::axisXMinorColor
+    Sets the color of minor ticks of the x axis.
+*/
+
+/*!
+    \qmlproperty real GraphTheme::axisXMajorBarWidth
+    Sets the width of major ticks of the x axis.
+*/
+
+/*!
+    \qmlproperty real GraphTheme::axisXMinorBarWidth
+    Sets the width of minor ticks of the x axis.
+*/
+
+/*!
+    \qmlproperty real GraphTheme::axisXSmoothing
+    Sets the amount of smoothing for the ticks of the x axis.
+    Use this to antialias thin lines.
+*/
+
+/*!
+    \qmlproperty color GraphTheme::axisXLabelsColor
+    Sets the color of the label for the x axis.
+*/
+
+/*!
+    \qmlproperty font GraphTheme::axisXLabelsFont
+    Sets the font of the label for the x axis.
+*/
+
+/*!
+    \qmlproperty bool GraphTheme::shadowEnable
+    Sets shadows on and off for axex and grid.
+*/
+
+/*!
+    \qmlproperty color GraphTheme::shadowColor
+    Sets the color of shadows.
+*/
+
+/*!
+    \qmlproperty real GraphTheme::shadowBarWidth
+    Sets the width of shadow bars.
+*/
+
+/*!
+    \qmlproperty real GraphTheme::shadowXOffset
+    Sets the offset of shadows in x axis.
+*/
+
+/*!
+    \qmlproperty real GraphTheme::shadowYOffset
+    Sets the offset of shadows in y axis.
+*/
+
+/*!
+    \qmlproperty real GraphTheme::shadowSmoothing
+    Sets the amount of smoothing for the shadows.
+    Use this to antialias thin lines.
+*/
+
 QGraphTheme::QGraphTheme(QObject *parent)
     : QObject{parent}
 {
