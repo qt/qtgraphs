@@ -5,6 +5,47 @@
 
 QT_BEGIN_NAMESPACE
 
+/*!
+    \class QSeriesTheme
+    \inmodule QtGraphs
+    \ingroup graphs_2D
+    \brief The QSeriesTheme class handles theming of series.
+
+    Series theme is used to handle color, border color and border width.
+*/
+/*!
+    \qmltype SeriesTheme
+    \instantiates QSeriesTheme
+    \inqmlmodule QtGraphs
+    \ingroup graphs_qml_2D
+
+    \brief Handles theming of series.
+
+    Series theme is used to handle color, border color and border width.
+
+    \sa GraphTheme
+*/
+
+/*!
+    \qmlproperty SeriesColorTheme SeriesTheme::colorTheme
+    List of premade themes that determine values for properties of this class.
+*/
+
+/*!
+    \qmlproperty list SeriesTheme::colors
+    List of colors used to pick color of the series or set.
+*/
+
+/*!
+    \qmlproperty list SeriesTheme::borderColors
+    List of colors used to pick border color of the series or set.
+*/
+
+/*!
+    \qmlproperty real SeriesTheme::borderWidth
+    Sets the width of the border of the series.
+*/
+
 QSeriesTheme::QSeriesTheme(QObject *parent)
     : QObject{parent}
 {
