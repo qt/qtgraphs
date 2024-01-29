@@ -29,7 +29,7 @@ class QAbstractAxis;
 class QGraphsView;
 class QBarCategoryAxis;
 class QValueAxis;
-class GraphTheme;
+class QGraphTheme;
 
 class AxisRenderer : public QQuickItem
 {
@@ -60,7 +60,7 @@ private:
     int getValueDecimalsFromRange(double range);
 
     QGraphsView *m_graph = nullptr;
-    GraphTheme *theme();
+    QGraphTheme *theme();
 
     QAbstractAxis *m_axisVertical = nullptr;
     QAbstractAxis *m_axisHorizontal = nullptr;

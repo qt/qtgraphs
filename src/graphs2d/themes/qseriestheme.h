@@ -13,7 +13,7 @@
 
 QT_BEGIN_NAMESPACE
 
-class Q_GRAPHS_EXPORT SeriesTheme : public QObject, public QQmlParserStatus
+class Q_GRAPHS_EXPORT QSeriesTheme : public QObject, public QQmlParserStatus
 {
     Q_OBJECT
     Q_INTERFACES(QQmlParserStatus)
@@ -22,7 +22,7 @@ class Q_GRAPHS_EXPORT SeriesTheme : public QObject, public QQmlParserStatus
     Q_PROPERTY(QList<QColor> borderColors READ borderColors WRITE setBorderColors NOTIFY borderColorsChanged FINAL)
     Q_PROPERTY(qreal borderWidth READ borderWidth WRITE setBorderWidth NOTIFY borderWidthChanged FINAL)
     Q_ENUMS(SeriesColorTheme)
-    QML_ELEMENT
+    QML_NAMED_ELEMENT(SeriesTheme)
 
 public:
     enum SeriesColorTheme {
@@ -30,7 +30,7 @@ public:
         SeriesTheme2
     };
 
-    explicit SeriesTheme(QObject *parent = nullptr);
+    explicit QSeriesTheme(QObject *parent = nullptr);
 
     void resetColorTheme();
 
@@ -40,8 +40,8 @@ public:
     QColor graphSeriesColor(int index) const;
     QColor graphSeriesBorderColor(int index) const;
 
-    SeriesTheme::SeriesColorTheme colorTheme() const;
-    void setColorTheme(const SeriesTheme::SeriesColorTheme &newColorTheme);
+    QSeriesTheme::SeriesColorTheme colorTheme() const;
+    void setColorTheme(const QSeriesTheme::SeriesColorTheme &newColorTheme);
 
     QList<QColor> colors() const;
     void setColors(const QList<QColor> &newColors);

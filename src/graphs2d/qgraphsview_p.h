@@ -24,7 +24,7 @@
 #include <private/axisrenderer_p.h>
 #include <private/barsrenderer_p.h>
 #include <private/pointrenderer_p.h>
-#include <QtGraphs/graphtheme.h>
+#include <QtGraphs/qgraphtheme.h>
 #include <QtQuick/QSGClipNode>
 
 QT_BEGIN_NAMESPACE
@@ -34,7 +34,7 @@ class QAbstractAxis;
 class QGraphsView : public QQuickItem
 {
     Q_OBJECT
-    Q_PROPERTY(GraphTheme *theme READ theme WRITE setTheme NOTIFY themeChanged)
+    Q_PROPERTY(QGraphTheme *theme READ theme WRITE setTheme NOTIFY themeChanged)
     Q_PROPERTY(QQmlListProperty<QObject> seriesList READ seriesList CONSTANT)
     // TODO: Remove this?
     Q_PROPERTY(QColor backgroundColor READ backgroundColor WRITE setBackgroundColor NOTIFY backgroundColorChanged)
@@ -67,8 +67,8 @@ public:
     static QObject *atSeriesFunc(QQmlListProperty<QObject> *list, qsizetype index);
     static void clearSeriesFunc(QQmlListProperty<QObject> *list);
 
-    GraphTheme *theme() const;
-    void setTheme(GraphTheme *newTheme);
+    QGraphTheme *theme() const;
+    void setTheme(QGraphTheme *newTheme);
 
     qreal marginTop() const;
     void setMarginTop(qreal newMarginTop);
@@ -132,7 +132,7 @@ private:
 
     QList<QAbstractAxis *> m_axis;
 
-    GraphTheme *m_theme = nullptr;
+    QGraphTheme *m_theme = nullptr;
     qreal m_marginTop = 20;
     qreal m_marginBottom = 20;
     qreal m_marginLeft = 20;

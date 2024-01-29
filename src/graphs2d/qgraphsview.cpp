@@ -56,13 +56,13 @@ void QGraphsView::insertSeries(int index, QObject *object)
             m_seriesList.insert(index, series);
             QObject::connect(series, &QAbstractSeries::update, this, &QQuickItem::update);
             if (series->theme())
-                QObject::connect(series->theme(), &SeriesTheme::update, this, &QQuickItem::update);
+                QObject::connect(series->theme(), &QSeriesTheme::update, this, &QQuickItem::update);
             QObject::connect(series, &QAbstractSeries::hoverEnter, this, &QGraphsView::handleHoverEnter);
             QObject::connect(series, &QAbstractSeries::hoverExit, this, &QGraphsView::handleHoverExit);
             QObject::connect(series, &QAbstractSeries::hover, this, &QGraphsView::handleHover);
             QObject::connect(series, &QAbstractSeries::themeChanged, [this, series] {
                 if (series->theme())
-                    QObject::connect(series->theme(), &SeriesTheme::update, this, &QQuickItem::update);
+                    QObject::connect(series->theme(), &QSeriesTheme::update, this, &QQuickItem::update);
             });
         }
     }
@@ -167,8 +167,8 @@ void QGraphsView::componentComplete()
 {
     if (!m_theme) {
         qDebug() << "Using default theme!";
-        m_theme = new GraphTheme(this);
-        QObject::connect(m_theme, &GraphTheme::update, this, &QQuickItem::update);
+        m_theme = new QGraphTheme(this);
+        QObject::connect(m_theme, &QGraphTheme::update, this, &QQuickItem::update);
         m_theme->resetColorTheme();
     }
     QQuickItem::componentComplete();
@@ -324,12 +324,12 @@ void QGraphsView::clearSeriesFunc(QQmlListProperty<QObject> *list)
         declItems->removeSeries(realList.at(i));
 }
 
-GraphTheme *QGraphsView::theme() const
+QGraphTheme *QGraphsView::theme() const
 {
     return m_theme;
 }
 
-void QGraphsView::setTheme(GraphTheme *newTheme)
+void QGraphsView::setTheme(QGraphTheme *newTheme)
 {
     if (m_theme == newTheme)
         return;
@@ -340,7 +340,7 @@ void QGraphsView::setTheme(GraphTheme *newTheme)
     m_theme = newTheme;
 
     if (m_theme)
-        QObject::connect(m_theme, &GraphTheme::update, this, &QQuickItem::update);
+        QObject::connect(m_theme, &QGraphTheme::update, this, &QQuickItem::update);
 
     emit themeChanged();
 }

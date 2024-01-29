@@ -6,7 +6,7 @@
 #include <private/qgraphsview_p.h>
 #include <QtGraphs/QBarCategoryAxis>
 #include <private/qvalueaxis_p.h>
-#include <QtGraphs/graphtheme.h>
+#include <QtGraphs/qgraphtheme.h>
 
 QT_BEGIN_NAMESPACE
 
@@ -17,7 +17,7 @@ AxisRenderer::AxisRenderer(QQuickItem *parent) :
     setFlag(QQuickItem::ItemHasContents);
 }
 
-GraphTheme *AxisRenderer::theme() {
+QGraphTheme *AxisRenderer::theme() {
     return m_graph->m_theme;
 }
 
