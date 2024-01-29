@@ -112,8 +112,6 @@ void AxisRenderer::updateAxis()
     QAbstractAxis *axisVertical = nullptr;
     QAbstractAxis *axisHorizontal = nullptr;
     for (auto a : m_graph->m_axis) {
-        if (!a->isVisible())
-            continue;
         if (a->orientation() == Qt::Vertical)
             axisVertical = a;
         else
@@ -241,7 +239,7 @@ void AxisRenderer::updateAxisTickers()
                                          / (m_axisVerticalValueRange / m_axisVerticalValueStep));
         m_axisTickerVertical->setMinorBarsVisible(!qFuzzyCompare(m_axisVerticalMinorTickScale, 1.0));
         m_axisTickerVertical->setMinorTickScale(m_axisVerticalMinorTickScale);
-        m_axisTickerVertical->setVisible(true);
+        m_axisTickerVertical->setVisible(m_axisVertical->isVisible());
         // Axis line
         m_axisLineVertical->setColor(theme()->axisYMajorColor());
         m_axisLineVertical->setLineWidth(theme()->axisYMajorBarWidth());
@@ -282,7 +280,7 @@ void AxisRenderer::updateAxisTickers()
                                          / (m_axisHorizontalValueRange / m_axisHorizontalValueStep));
         m_axisTickerHorizontal->setMinorBarsVisible(!qFuzzyCompare(m_axisHorizontalMinorTickScale, 1.0));
         m_axisTickerHorizontal->setMinorTickScale(m_axisHorizontalMinorTickScale);
-        m_axisTickerHorizontal->setVisible(true);
+        m_axisTickerHorizontal->setVisible(m_axisHorizontal->isVisible());
         // Axis line
         m_axisLineHorizontal->setColor(theme()->axisXMajorColor());
         m_axisLineHorizontal->setLineWidth(theme()->axisXMajorBarWidth());
@@ -320,7 +318,7 @@ void AxisRenderer::updateAxisTickersShadow()
         m_axisTickerVerticalShadow->setSpacing(m_axisTickerVertical->spacing());
         m_axisTickerVerticalShadow->setMinorBarsVisible(m_axisTickerVertical->minorBarsVisible());
         m_axisTickerVerticalShadow->setMinorTickScale(m_axisTickerVertical->minorTickScale());
-        m_axisTickerVerticalShadow->setVisible(true);
+        m_axisTickerVerticalShadow->setVisible(m_axisTickerVertical->isVisible());
         // Axis line
         m_axisLineVerticalShadow->setColor(theme()->shadowColor());
         m_axisLineVerticalShadow->setLineWidth(m_axisLineVertical->lineWidth() + theme()->shadowBarWidth());
@@ -352,7 +350,7 @@ void AxisRenderer::updateAxisTickersShadow()
         m_axisTickerHorizontalShadow->setSpacing(m_axisTickerHorizontal->spacing());
         m_axisTickerHorizontalShadow->setMinorBarsVisible(m_axisTickerHorizontal->minorBarsVisible());
         m_axisTickerHorizontalShadow->setMinorTickScale(m_axisTickerHorizontal->minorTickScale());
-        m_axisTickerHorizontalShadow->setVisible(true);
+        m_axisTickerHorizontalShadow->setVisible(m_axisTickerHorizontal->isVisible());
         // Axis line
         m_axisLineHorizontalShadow->setColor(theme()->shadowColor());
         m_axisLineHorizontalShadow->setLineWidth(m_axisLineHorizontal->width() + theme()->shadowBarWidth());
