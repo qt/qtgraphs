@@ -21,8 +21,19 @@ else()
         "graphs2d/data/lineshadervertical.vert.qsb"
     )
 
+    set(qml_designer_2d_files
+       "graphs2d/qml/designer/GraphsViewSpecifics.qml"
+       "graphs2d/qml/designer/default/BarSeries.qml"
+       "graphs2d/qml/designer/default/LineSeries.qml"
+       "graphs2d/qml/designer/default/ScatterSeries.qml"
+    )
+
+    set_source_files_properties(${qml_designer_2d_files} PROPERTIES
+        QT_QML_SKIP_QMLDIR_ENTRY TRUE
+    )
+
     # 3D specific resources
-     set(qml_files
+     set(qml_designer_3d_files
         "graphs3d/qml/designer/Bars3DSpecifics.qml"
         "graphs3d/qml/designer/Scatter3DSpecifics.qml"
         "graphs3d/qml/designer/Surface3DSpecifics.qml"
@@ -33,7 +44,7 @@ else()
         "graphs3d/qml/designer/default/Surface3D.qml"
     )
 
-    set_source_files_properties(${qml_files} PROPERTIES
+    set_source_files_properties(${qml_designer_3d_files} PROPERTIES
         QT_QML_SKIP_QMLDIR_ENTRY TRUE
     )
 
@@ -188,7 +199,8 @@ else()
                 # 3D specific
                 QtQuick3D
             QML_FILES
-                ${qml_files}
+                ${qml_designer_3d_files}
+                ${qml_designer_2d_files}
             LIBRARIES
                 # 2D specific
                 Qt::QuickPrivate
@@ -276,7 +288,7 @@ else()
                     QtQuick
                     QtQuick3D
                 QML_FILES
-                    ${qml_files}
+                    ${qml_designer_3d_files}
                 LIBRARIES
                     Qt::Quick3DPrivate
                     Qt::Quick3DRuntimeRenderPrivate
@@ -348,6 +360,8 @@ else()
                 DEPENDENCIES
                     QtQuick
                     QtQuickPrivate
+                QML_FILES
+                    ${qml_designer_2d_files}
                 LIBRARIES
                     Qt::QuickPrivate
                     Qt::QuickShapesPrivate
