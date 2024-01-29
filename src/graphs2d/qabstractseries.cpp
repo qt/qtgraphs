@@ -247,12 +247,12 @@ QAbstractSeries::~QAbstractSeries()
         d_ptr->m_graph->removeSeries(this);
 }
 
-SeriesTheme *QAbstractSeries::theme() const
+QSeriesTheme *QAbstractSeries::theme() const
 {
     return d_ptr->m_theme;
 }
 
-void QAbstractSeries::setTheme(SeriesTheme *newTheme)
+void QAbstractSeries::setTheme(QSeriesTheme *newTheme)
 {
     if (d_ptr->m_theme == newTheme)
         return;
@@ -466,7 +466,7 @@ void QAbstractSeries::componentComplete()
 {
     if (!d_ptr->m_theme) {
         qDebug() << "Using default seriestheme!";
-        d_ptr->m_theme = new SeriesTheme(this);
+        d_ptr->m_theme = new QSeriesTheme(this);
         d_ptr->m_theme->resetColorTheme();
     }
 }

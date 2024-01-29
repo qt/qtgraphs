@@ -13,7 +13,7 @@
 
 QT_BEGIN_NAMESPACE
 
-class Q_GRAPHS_EXPORT GraphTheme : public QObject, public QQmlParserStatus
+class Q_GRAPHS_EXPORT QGraphTheme : public QObject, public QQmlParserStatus
 {
     Q_OBJECT
     Q_INTERFACES(QQmlParserStatus)
@@ -48,7 +48,7 @@ class Q_GRAPHS_EXPORT GraphTheme : public QObject, public QQmlParserStatus
     Q_PROPERTY(qreal shadowSmoothing READ shadowSmoothing WRITE setShadowSmoothing NOTIFY shadowSmoothingChanged FINAL)
 
     Q_ENUMS(ColorTheme)
-    QML_ELEMENT
+    QML_NAMED_ELEMENT(GraphTheme)
 
 public:
     enum ColorTheme {
@@ -58,7 +58,7 @@ public:
         ColorThemeQt
     };
 
-    explicit GraphTheme(QObject *parent = nullptr);
+    explicit QGraphTheme(QObject *parent = nullptr);
 
     bool themeDirty() const { return m_themeDirty; };
     void resetThemeDirty() { m_themeDirty = false; };
@@ -68,7 +68,7 @@ public:
     void setGraphSeriesCount(int count);
     QColor graphSeriesColor(int index) const;
 
-    GraphTheme::ColorTheme colorTheme() const;
+    QGraphTheme::ColorTheme colorTheme() const;
     void setColorTheme(const ColorTheme &newColorTheme);
 
     qreal gridMajorBarsWidth() const;
@@ -211,7 +211,7 @@ private:
     bool m_themeDirty = true;
     CustomFlags m_customFlags;
 
-    ColorTheme m_colorTheme = GraphTheme::ColorThemeDark;
+    ColorTheme m_colorTheme = QGraphTheme::ColorThemeDark;
     qreal m_gridMajorBarsWidth = 2.0;
     qreal m_gridMinorBarsWidth = 1.0;
     qreal m_gridSmoothing = 1.0;

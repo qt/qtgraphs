@@ -54,7 +54,7 @@ protected:
     QList<QAbstractAxis*> m_axes;
 
 private:
-    SeriesTheme *m_theme = nullptr;
+    QSeriesTheme *m_theme = nullptr;
     QString m_name;
     bool m_visible;
     bool m_selectable = false;

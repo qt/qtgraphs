@@ -9,7 +9,7 @@
 #include <QtGui/QPen>
 #include <QtQml/QQmlParserStatus>
 #include <QtQml/QQmlListProperty>
-#include <QtGraphs/seriestheme.h>
+#include <QtGraphs/qseriestheme.h>
 #include <QtGraphs/qgraphsglobal.h>
 
 QT_BEGIN_NAMESPACE
@@ -21,7 +21,7 @@ class Q_GRAPHS_EXPORT QAbstractSeries : public QObject, public QQmlParserStatus
 {
     Q_OBJECT
     Q_INTERFACES(QQmlParserStatus)
-    Q_PROPERTY(SeriesTheme *theme READ theme WRITE setTheme NOTIFY themeChanged)
+    Q_PROPERTY(QSeriesTheme *theme READ theme WRITE setTheme NOTIFY themeChanged)
     Q_PROPERTY(QString name READ name WRITE setName NOTIFY nameChanged)
     Q_PROPERTY(bool visible READ isVisible WRITE setVisible NOTIFY visibleChanged)
     Q_PROPERTY(bool selectable READ selectable WRITE setSelectable NOTIFY selectableChanged)
@@ -61,8 +61,8 @@ public:
     ~QAbstractSeries();
     virtual SeriesType type() const = 0;
 
-    SeriesTheme *theme() const;
-    void setTheme(SeriesTheme *newTheme);
+    QSeriesTheme *theme() const;
+    void setTheme(QSeriesTheme *newTheme);
 
     void setName(const QString &name);
     QString name() const;
