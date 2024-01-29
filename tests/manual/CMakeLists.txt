@@ -1,5 +1,14 @@
-# Copyright (C) 2023 The Qt Company Ltd.
+# Copyright (C) 2024 The Qt Company Ltd.
 # SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only WITH Qt-GPL-exception-1.0
+
+# Graph2D Tests
+if(QT_FEATURE_graphs_2d)
+    if(TARGET Qt::Quick)
+        if(WIN32)
+            add_subdirectory(qmlbarscatter)
+        endif()
+    endif()
+endif()
 
 if(QT_FEATURE_graphs_3d)
     if(TARGET Qt::Quick)
