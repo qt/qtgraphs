@@ -1,10 +1,11 @@
 // Copyright (C) 2023 The Qt Company Ltd.
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 
-#include <private/barsrenderer_p.h>
-#include <private/qgraphsview_p.h>
 #include <QtGraphs/qbarseries.h>
 #include <QtGraphs/qbarset.h>
+#include <private/barsrenderer_p.h>
+#include <private/qbarseries_p.h>
+#include <private/qgraphsview_p.h>
 
 QT_BEGIN_NAMESPACE
 
@@ -73,6 +74,7 @@ void BarsRenderer::updateBarSeries(QBarSeries *series)
     int barIndex = 0;
     int barIndexInSet = 0;
     int barSerieIndex = 0;
+    QList<QLegendData> legendDataList;
     for (auto s : series->barSets()) {
         QVariantList v = s->values();
         int valuesCount = v.size();
@@ -87,6 +89,20 @@ void BarsRenderer::updateBarSeries(QBarSeries *series)
             barSelectionRect->barSet = s;
             barSelectionRect->series = series;
         }
+        // Use set colors if available
+        QColor color = s->color().alpha() != 0 ?
+                s->color() : seriesTheme->graphSeriesColor(barSerieIndex);
+        QColor borderColor = s->borderColor().alpha() != 0 ?
+                s->borderColor() : seriesTheme->graphSeriesBorderColor(barSerieIndex);
+        // Update legendData
+        legendDataList.push_back({
+                color,
+                borderColor,
+                s->label()
+        });
+        // Apply series opacity
+        color.setAlpha(color.alpha() * series->opacity());
+        borderColor.setAlpha(borderColor.alpha() * series->opacity());
         const auto selectedBars = s->selectedBars();
         for (auto variantValue : std::as_const(v)) {
             float value = (variantValue.toReal() - m_graph->m_axisRenderer->m_axisVerticalMinValue) * series->valuesMultiplier();
@@ -102,23 +118,14 @@ void BarsRenderer::updateBarSeries(QBarSeries *series)
                     barSelectionRect->rects << barRect;
                 auto &barItem = m_rectNodes[barIndex];
                 barItem->setRect(barRect);
-                // Use set colors if available
-                QColor c = s->color();
-                if (c.alpha() == 0)
-                    c = seriesTheme->graphSeriesColor(barSerieIndex);
                 // TODO: Theming for selection?
                 if (isSelected)
-                    c = QColor(0,0,0);
-                c.setAlpha(c.alpha() * series->opacity());
-                barItem->setColor(c);
+                    color = QColor(0,0,0);
+                barItem->setColor(color);
                 qreal borderWidth = s->borderWidth();
                 if (qFuzzyCompare(borderWidth, -1.0))
                     borderWidth = seriesTheme->borderWidth();
                 barItem->setPenWidth(borderWidth);
-                QColor borderColor = s->borderColor();
-                if (borderColor.alpha() == 0)
-                    borderColor = seriesTheme->graphSeriesBorderColor(barSerieIndex);
-                borderColor.setAlpha(borderColor.alpha() * series->opacity());
                 barItem->setPenColor(borderColor);
                 // TODO: Required because of QTBUG-117892
                 barItem->setTopLeftRadius(-1);
@@ -128,6 +135,7 @@ void BarsRenderer::updateBarSeries(QBarSeries *series)
                 barItem->setRadius(4.0);
                 barItem->setAntialiasing(true);
                 barItem->update();
+
             } else {
                 auto &barItem = m_rectNodes[barIndex];
                 barItem->setRect(QRectF());
@@ -142,6 +150,7 @@ void BarsRenderer::updateBarSeries(QBarSeries *series)
         posInSet += barWidth + barMargin;
         barSerieIndex++;
     }
+    series->d_ptr->setLegendData(legendDataList);
 }
 
 void BarsRenderer::handleMousePress(QMouseEvent *event)

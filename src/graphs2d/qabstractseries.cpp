@@ -29,6 +29,58 @@ QT_BEGIN_NAMESPACE
 */
 
 /*!
+    \class QLegendData
+    \inmodule QtGraphs
+    \ingroup graphs_2D
+    \brief The QLegendData struct contains information to display on a sets
+    legend marker.
+
+    The information needed to make a visual association between a set and a
+    marker include properties such as color, border color, and a name of a set.
+
+    \sa QLineSeries, QScatterSeries, QBarSeries, QAbstractBarSeries, QXYSeries
+*/
+
+/*!
+    \qmltype LegendData
+    \instantiates QLegendData
+    \inqmlmodule QtGraphs
+    \ingroup graphs_qml__2D
+    \brief The LegendData struct contains information to display on a sets
+    legend marker.
+
+    The information needed to make a visual association between a set and a
+    marker include properties such as color, border color, and a name of a set.
+*/
+
+/*!
+    \property QLegendData::color
+    \brief A legend marker's color.
+*/
+/*!
+    \qmlproperty color LegendData::color
+    \brief A legend marker's color.
+*/
+
+/*!
+    \property QLegendData::borderColor
+    \brief A border color of a legend marker.
+*/
+/*!
+    \qmlproperty color LegendData::borderColor
+    \brief A border color of a legend marker.
+*/
+
+/*!
+    \property QLegendData::label
+    \brief A name of a legend marker.
+*/
+/*!
+    \qmlproperty string LegendData::label
+    \brief A name of a legend marker.
+*/
+
+/*!
     \enum QAbstractSeries::SeriesType
 
     This enum describes the type of the series.
@@ -135,6 +187,21 @@ QT_BEGIN_NAMESPACE
     \qmlproperty real AbstractSeries::valuesMultiplier
     This variable can be used for animating the series values so they scale from 0 to actual value size.
     By default, the valuesMultiplier is 1.0. The valid values range from 0.0 (height 0) to 1.0 (full value).
+*/
+
+/*!
+    \property QAbstractSeries::legendData
+    \brief Contains information needed to create a legend marker for a data set in a graph.
+    \sa QLegendData
+ */
+/*!
+    \qmlproperty list<LegendData> QAbstractSeries::legendData
+    Contains information needed to create a legend marker for a data set in a graph.
+*/
+
+/*!
+    \fn void QAbstractSeries::legendDataChanged()
+    This signal is emitted when legend data changes.
 */
 
 /*!
@@ -417,6 +484,19 @@ QList<QAbstractAxis*> QAbstractSeries::attachedAxes()
     return d_ptr->m_axes;
 }
 
+const QList<QLegendData> QAbstractSeries::legendData() const
+{
+    return d_ptr->m_legendData;
+}
+
+void QAbstractSeriesPrivate::setLegendData(const QList<QLegendData> &legendData)
+{
+    if (legendData.data() != m_legendData.data()) {
+        m_legendData = legendData;
+        emit q_ptr->legendDataChanged();
+    }
+}
+
 QQmlListProperty<QObject> QAbstractSeries::seriesChildren()
 {
     return QQmlListProperty<QObject>(this, 0, &QAbstractSeries::appendSeriesChildren ,0,0,0);
@@ -441,13 +521,29 @@ void QAbstractSeries::componentComplete()
     }
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+// QQmlListProperty<QAbstractSeries::QLegendData> QAbstractSeries::legendDataQML()
+// {
+//     return QQmlListProperty<QLegendData>(this,
+//                                          this,
+//                                          &QAbstractSeries::countLegendDataFunc,
+//                                          &QAbstractSeries::atLegendDataFunc);
+// }
+// qsizetype QAbstractSeries::countLegendDataFunc(QQmlListProperty<QLegendData> *list)
+// {
+//     return reinterpret_cast<QAbstractSeries *>(list->data)->legendData().size();
+// }
+// const QAbstractSeries::QLegendData *QAbstractSeries::atLegendDataFunc(
+//     QQmlListProperty<QLegendData> *list, qsizetype index)
+// {
+//     return reinterpret_cast<QAbstractSeries *>(list->data)->legendData().at(index);
+// }
 
 QAbstractSeriesPrivate::QAbstractSeriesPrivate(QAbstractSeries *q)
-    : q_ptr(q),
-      m_graph(nullptr),
-      m_visible(true),
-      m_opacity(1.0),
-      m_valuesMultiplier(1.0)
+    : q_ptr(q)
+    , m_graph(nullptr)
+    , m_visible(true)
+    , m_opacity(1.0)
+    , m_valuesMultiplier(1.0)
 {
 }
 

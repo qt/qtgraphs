@@ -17,6 +17,19 @@ QT_BEGIN_NAMESPACE
 class QAbstractSeriesPrivate;
 class QGraphsView;
 
+struct Q_GRAPHS_EXPORT QLegendData
+{
+    Q_GADGET
+    Q_PROPERTY(QColor color MEMBER color)
+    Q_PROPERTY(QColor borderColor MEMBER borderColor)
+    Q_PROPERTY(QString label MEMBER label)
+
+public:
+    QColor color;
+    QColor borderColor;
+    QString label;
+};
+
 class Q_GRAPHS_EXPORT QAbstractSeries : public QObject, public QQmlParserStatus
 {
     Q_OBJECT
@@ -30,6 +43,7 @@ class Q_GRAPHS_EXPORT QAbstractSeries : public QObject, public QQmlParserStatus
     Q_PROPERTY(qreal valuesMultiplier READ valuesMultiplier WRITE setValuesMultiplier NOTIFY valuesMultiplierChanged)
     Q_PROPERTY(SeriesType type READ type CONSTANT)
     Q_PROPERTY(QQmlListProperty<QObject> seriesChildren READ seriesChildren CONSTANT)
+    Q_PROPERTY(QList<QLegendData> legendData READ legendData NOTIFY legendDataChanged FINAL)
     Q_CLASSINFO("DefaultProperty", "seriesChildren")
 
 public:
@@ -85,6 +99,8 @@ public:
     bool detachAxis(QAbstractAxis *axis);
     QList<QAbstractAxis*> attachedAxes();
 
+    const QList<QLegendData> legendData() const;
+
     void show();
     void hide();
 
@@ -105,14 +121,18 @@ Q_SIGNALS:
     void hoverableChanged();
     void opacityChanged();
     void valuesMultiplierChanged();
+    void legendDataChanged();
     void hoverEnter(QString seriesName, QPointF position, QPointF value);
     void hoverExit(QString seriesName, QPointF position);
     void hover(QString seriesName, QPointF position, QPointF value);
 
 protected:
     QScopedPointer<QAbstractSeriesPrivate> d_ptr;
+    friend class BarsRenderer;
 };
 
 QT_END_NAMESPACE
+
+Q_DECLARE_METATYPE(QLegendData)
 
 #endif // QABSTRACTSERIES_H

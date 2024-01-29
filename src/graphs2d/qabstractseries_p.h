@@ -30,6 +30,7 @@ public:
     ~QAbstractSeriesPrivate();
 
     virtual void initializeAxes() = 0;
+    void setLegendData(const QList<QLegendData> &legendData);
 
 Q_SIGNALS:
     void countChanged();
@@ -47,6 +48,7 @@ private:
     bool m_hoverable = false;
     qreal m_opacity;
     qreal m_valuesMultiplier;
+    QList<QLegendData> m_legendData;
 
     friend class QAbstractSeries;
 };
