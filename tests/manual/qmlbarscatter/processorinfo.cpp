@@ -1,0 +1,24 @@
+// Copyright (C) 2024 The Qt Company Ltd.
+// SPDX-License-Identifier: LicenseRef-Qt-Commercial OR BSD-3-Clause
+
+#include "processorinfo.h"
+
+ProcessorInfo::ProcessorInfo()
+    : m_normalizedUsage(1.0)
+{
+    PdhOpenQuery(NULL, NULL, &m_cpuQuery);
+    PdhAddEnglishCounter(m_cpuQuery, L"\\Processor(_Total)\\% Processor Time", NULL, &m_cpuTotal);
+    PdhCollectQueryData(m_cpuQuery);
+}
+
+double ProcessorInfo::updateTime()
+{
+    PDH_FMT_COUNTERVALUE cVal;
+
+    PdhCollectQueryData(m_cpuQuery);
+    PdhGetFormattedCounterValue(m_cpuTotal, PDH_FMT_DOUBLE, NULL, &cVal);
+
+    m_normalizedUsage = (((maxSamples - 1) * m_normalizedUsage) + cVal.doubleValue) / maxSamples;
+
+    return m_normalizedUsage;
+}
