@@ -2,9 +2,8 @@
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 
 #include <QtGui/QGuiApplication>
-#include <QtCore/QDir>
-#include <QtQuick/QQuickView>
 #include <QtQml/QQmlEngine>
+#include <QtQuick/QQuickView>
 
 int main(int argc, char *argv[])
 {
@@ -19,8 +18,8 @@ int main(int argc, char *argv[])
 #else
     QString extraImportPath(QStringLiteral("%1/../../%2"));
 #endif
-    viewer.engine()->addImportPath(extraImportPath.arg(QGuiApplication::applicationDirPath(),
-                                                       QString::fromLatin1("qml")));
+    viewer.engine()->addImportPath(
+        extraImportPath.arg(QGuiApplication::applicationDirPath(), QString::fromLatin1("qml")));
     QObject::connect(viewer.engine(), &QQmlEngine::quit, &viewer, &QWindow::close);
 
     viewer.setTitle(QStringLiteral("QML Graphs 2D Bar/Scatter test"));

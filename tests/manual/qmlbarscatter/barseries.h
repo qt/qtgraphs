@@ -6,10 +6,11 @@
 
 #include "cpuusageupdater.h"
 
-#include <QObject>
-#include <QQmlEngine>
-#include <QtGraphs/QBarSeries>
+#include <QtCore/QObject>
 #include <QtCore/QTimer>
+#include <QtGraphs/QBarCategoryAxis>
+#include <QtGraphs/QBarSeries>
+#include <QtGraphs/QValueAxis>
 
 class BarSeries : public QBarSeries
 {
@@ -17,15 +18,18 @@ class BarSeries : public QBarSeries
     QML_NAMED_ELEMENT(CustomBar)
 
 public:
-    BarSeries(QBarSeries *parent = nullptr);
+    BarSeries(QObject *parent = nullptr);
+
+public Q_SLOTS:
+    void frameUpdate();
 
 private:
-    QBarSeries *m_barSeries;
-    QList<QBarSet *> m_barList;
+    QBarSet *m_barList;
     QTimer m_timer;
     CpuUsageUpdater m_cpuUpdater;
-
-    void frameUpdate();
+    QBarCategoryAxis m_axis1;
+    QValueAxis m_axis2;
+    int m_counter;
 };
 
 #endif // BARSERIESHELPER_H

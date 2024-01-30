@@ -12,12 +12,12 @@ class ProcessorInfo
 {
 public:
     ProcessorInfo();
+    ~ProcessorInfo();
 
     double updateTime();
 
 private:
-    const double maxSamples = 15.0;
-    int m_currentSample;
+    const double m_maxSamples = 15.0;
     double m_normalizedUsage;
 
     PDH_HQUERY m_cpuQuery;

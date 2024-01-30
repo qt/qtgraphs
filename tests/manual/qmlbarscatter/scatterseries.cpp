@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR BSD-3-Clause
 
 #include "scatterseries.h"
-#include <QtGraphs/QValueAxis>
 
 ScatterSeries::ScatterSeries(QScatterSeries *series)
     : m_cpuUpdater(this)
@@ -17,13 +16,12 @@ ScatterSeries::ScatterSeries(QScatterSeries *series)
 void ScatterSeries::frameUpdate()
 {
     auto reading = m_cpuUpdater.update();
-    static int counter = 0;
 
-    replace(counter, counter, reading);
-    counter++;
+    replace(m_counter, m_counter, reading);
+    m_counter++;
 
     emit update();
 
-    if (counter == 5)
-        counter = 0;
+    if (m_counter == 5)
+        m_counter = 0;
 }

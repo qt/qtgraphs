@@ -8,7 +8,11 @@ ProcessorInfo::ProcessorInfo()
 {
     PdhOpenQuery(NULL, NULL, &m_cpuQuery);
     PdhAddEnglishCounter(m_cpuQuery, L"\\Processor(_Total)\\% Processor Time", NULL, &m_cpuTotal);
-    PdhCollectQueryData(m_cpuQuery);
+}
+
+ProcessorInfo::~ProcessorInfo()
+{
+    PdhCloseQuery(m_cpuQuery);
 }
 
 double ProcessorInfo::updateTime()
@@ -18,7 +22,8 @@ double ProcessorInfo::updateTime()
     PdhCollectQueryData(m_cpuQuery);
     PdhGetFormattedCounterValue(m_cpuTotal, PDH_FMT_DOUBLE, NULL, &cVal);
 
-    m_normalizedUsage = (((maxSamples - 1) * m_normalizedUsage) + cVal.doubleValue) / maxSamples;
+    m_normalizedUsage = (((m_maxSamples - 1) * m_normalizedUsage) + cVal.doubleValue)
+                        / m_maxSamples;
 
     return m_normalizedUsage;
 }

@@ -6,7 +6,6 @@
 
 #include <QtCore/QObject>
 #include <QtQml/QQmlEngine>
-#include <QtCore/QTimer>
 
 #include "processorinfo.h"
 
