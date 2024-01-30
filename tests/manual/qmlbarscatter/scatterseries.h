@@ -6,24 +6,26 @@
 
 #include "cpuusageupdater.h"
 
-#include <QObject>
-#include <QQmlEngine>
-#include <QScatterSeries>
+#include <QtCore/QObject>
 #include <QtCore/QTimer>
+#include <QtGraphs/QScatterSeries>
+#include <QtQml/QQmlEngine>
 
 class ScatterSeries : public QScatterSeries
 {
     Q_OBJECT
     QML_NAMED_ELEMENT(CustomScatter)
+
 public:
     ScatterSeries(QScatterSeries *series = nullptr);
 
+public Q_SLOTS:
+    void frameUpdate();
+
 private:
-    QList<QPointF> m_points;
     QTimer m_timer;
     CpuUsageUpdater m_cpuUpdater;
-
-    void frameUpdate();
+    int m_counter;
 };
 
 #endif // SCATTERSERIES_H
