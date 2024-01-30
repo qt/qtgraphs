@@ -205,6 +205,7 @@ void AxisRenderer::updateAxis()
     if (auto haxis = qobject_cast<QBarCategoryAxis *>(m_axisHorizontal)) {
         m_axisHorizontalMaxValue = haxis->categories().size();
         m_axisHorizontalMinValue = 0;
+        m_axisHorizontalValueRange = m_axisHorizontalMaxValue - m_axisHorizontalMinValue;
         QRectF xAxisRect(m_graph->m_marginLeft + m_axisWidth, m_graph->m_marginTop + h, w, m_axisHeight);
         updateBarXAxisLabels(haxis, xAxisRect);
     }
