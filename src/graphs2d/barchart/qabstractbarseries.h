@@ -40,6 +40,7 @@ public:
     void setBarWidth(qreal width);
     qreal barWidth() const;
 
+    // TODO: Consider making these slots, available from QML.
     bool append(QBarSet *set);
     bool remove(QBarSet *set);
     bool take(QBarSet *set);
@@ -91,14 +92,6 @@ Q_SIGNALS:
 
 protected:
     Q_DECLARE_PRIVATE(QAbstractBarSeries)
-    friend class AbstractBarChartItem;
-    friend class PercentBarChartItem;
-    friend class StackedBarChartItem;
-    friend class BoxPlotChartItem;
-    friend class BarChartItem;
-    friend class HorizontalBarChartItem;
-    friend class HorizontalStackedBarChartItem;
-    friend class HorizontalPercentBarChartItem;
     friend class BarSet;
 };
 
