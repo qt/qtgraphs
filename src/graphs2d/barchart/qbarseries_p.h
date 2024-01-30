@@ -22,7 +22,6 @@ class QBarSeriesPrivate : public QAbstractBarSeriesPrivate
 {
 public:
     QBarSeriesPrivate(QBarSeries *q);
-    void initializeGraphics(QGraphicsItem* parent) override;
 
 private:
     Q_DECLARE_PUBLIC(QBarSeries)

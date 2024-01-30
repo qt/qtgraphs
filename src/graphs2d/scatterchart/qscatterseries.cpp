@@ -141,11 +141,6 @@ QScatterSeriesPrivate::QScatterSeriesPrivate(QScatterSeries *q)
 {
 }
 
-void QScatterSeriesPrivate::initializeGraphics(QGraphicsItem *parent)
-{
-    QAbstractSeriesPrivate::initializeGraphics(parent);
-}
-
 QAbstractAxis *QScatterSeries::axisX() const
 {
     Q_D(const QScatterSeries);

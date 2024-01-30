@@ -22,7 +22,7 @@ class QScatterSeriesPrivate : public QXYSeriesPrivate
 {
 public:
     QScatterSeriesPrivate(QScatterSeries *q);
-    void initializeGraphics(QGraphicsItem* parent) override;
+
 protected:
     void requestItems();
 

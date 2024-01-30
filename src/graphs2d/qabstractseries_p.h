@@ -18,21 +18,8 @@
 #include <memory>
 
 QT_BEGIN_NAMESPACE
-class QGraphicsItem;
-QT_END_NAMESPACE
 
-QT_BEGIN_NAMESPACE
-
-class ChartPresenter;
-class ChartElement;
-class LegendMarker;
-class QLegend;
-class ChartDataSet;
 class QAbstractAxis;
-class QLegendMarker;
-class ChartTheme;
-class ChartAnimation;
-class BoxPlotChartItem;
 class QGraphsView;
 
 class QAbstractSeriesPrivate : public QObject
@@ -43,7 +30,6 @@ public:
     ~QAbstractSeriesPrivate();
 
     virtual void initializeAxes() = 0;
-    virtual void initializeGraphics(QGraphicsItem* parent) = 0;
 
 Q_SIGNALS:
     void countChanged();
@@ -63,10 +49,6 @@ private:
     qreal m_valuesMultiplier;
 
     friend class QAbstractSeries;
-    friend class ChartDataSet;
-    friend class ChartPresenter;
-    friend class QLegendPrivate;
-    friend class BoxPlotChartItem;
 };
 
 QT_END_NAMESPACE
