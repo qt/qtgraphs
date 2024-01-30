@@ -32,8 +32,6 @@ public:
 Q_SIGNALS:
     void axisXChanged(QAbstractAxis *axis);
     void axisYChanged(QAbstractAxis *axis);
-    void axisXTopChanged(QAbstractAxis *axis);
-    void axisYRightChanged(QAbstractAxis *axis);
 
 private:
     Q_DECLARE_PRIVATE(QBarSeries)

@@ -41,6 +41,7 @@ public:
 
     QBarSet &operator << (const qreal &value);
 
+    // TODO: Consider making these slots, available from QML.
     void insert(const int index, const qreal value);
     void remove(const int index, const int count = 1);
     void replace(const int index, const qreal value);
@@ -80,11 +81,6 @@ public Q_SLOTS:
 
 Q_SIGNALS:
     void update();
-    void clicked(int index);
-    void hovered(bool status, int index);
-    void pressed(int index);
-    void released(int index);
-    void doubleClicked(int index);
     void labelChanged();
     void colorChanged(QColor color);
     void borderColorChanged(QColor color);
@@ -104,16 +100,7 @@ private:
     QScopedPointer<QBarSetPrivate> d_ptr;
     Q_DISABLE_COPY(QBarSet)
     friend class QAbstractBarSeries;
-    friend class BarLegendMarker;
-    friend class AbstractBarChartItem;
     friend class QAbstractBarSeriesPrivate;
-    friend class StackedBarChartItem;
-    friend class PercentBarChartItem;
-    friend class BarChartItem;
-    friend class HorizontalBarChartItem;
-    friend class HorizontalStackedBarChartItem;
-    friend class HorizontalPercentBarChartItem;
-    friend class BoxPlotChartItem;
 };
 
 QT_END_NAMESPACE

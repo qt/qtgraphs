@@ -20,10 +20,6 @@
 
 QT_BEGIN_NAMESPACE
 
-class QBarModelMapper;
-class QBarCategoryAxis;
-class QLegendMarker;
-
 class QAbstractBarSeriesPrivate : public QAbstractSeriesPrivate
 {
     Q_OBJECT
@@ -102,8 +98,6 @@ protected:
 
 private:
     Q_DECLARE_PUBLIC(QAbstractBarSeries)
-    friend class HorizontalBarChartItem;
-    friend class BarChartItem;
 };
 
 QT_END_NAMESPACE

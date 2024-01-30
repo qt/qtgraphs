@@ -19,8 +19,7 @@ QT_BEGIN_NAMESPACE
     of the set. For missing values in the middle of a set, the numerical value of zero is used.
     Labels for zero value sets are not shown.
 
-    \sa QAbstractBarSeries, QBarSeries, QStackedBarSeries, QPercentBarSeries
-    \sa QHorizontalBarSeries, QHorizontalStackedBarSeries, QHorizontalPercentBarSeries
+    \sa QAbstractBarSeries, QBarSeries
 */
 /*!
     \qmltype BarSet
@@ -35,9 +34,7 @@ QT_BEGIN_NAMESPACE
     of the set. For missing values in the middle of a set, the numerical value of zero is used.
     Labels for zero value sets are not shown.
 
-    \sa AbstractBarSeries, BarSeries, StackedBarSeries, PercentBarSeries
-    \sa HorizontalBarSeries, HorizontalStackedBarSeries, HorizontalPercentBarSeries
-
+    \sa AbstractBarSeries, BarSeries
 */
 
 /*!
@@ -50,38 +47,40 @@ QT_BEGIN_NAMESPACE
 */
 
 /*!
-    \qmlproperty string BarSet::brushFilename
-    The name of the file used as a brush for the set.
-*/
-
-/*!
-    \qmlproperty font BarSet::labelFont
-    The font used to draw the bar set's label.
-
-    For more information, see \l [QML]{font}.
-*/
-
-/*!
     \property QBarSet::color
-    \brief The fill (brush) color of the bar set.
+    \brief The fill color of the bar set.
 */
 /*!
     \qmlproperty color BarSet::color
-    The fill (brush) color of the bar set.
+    The fill color of the bar set.
 */
 
 /*!
     \property QBarSet::borderColor
-    \brief The line (pen) color of the bar set.
+    \brief The border color of the bar set.
 */
 /*!
     \qmlproperty color BarSet::borderColor
-    The line (pen) color of the bar set.
+    The border color of the bar set.
 */
 
 /*!
+    \property QBarSet::borderWidth
+    \brief The width of the border line.
+    By default, the width is -1, meaning the border width is defined by the theme.
+*/
+/*!
     \qmlproperty real BarSet::borderWidth
-    The width of the border line. By default, the width is 2.0.
+     By default, the width is -1, meaning the border width is defined by the theme.
+*/
+
+/*!
+    \property QBarSet::count
+    \brief The number of values in the bar set.
+*/
+/*!
+    \qmlproperty int BarSet::count
+    The number of values in the bar set.
 */
 
 /*!
@@ -94,183 +93,12 @@ QT_BEGIN_NAMESPACE
 */
 
 /*!
-  \internal TODO: Causes build errors, find out why
-    \fn void QBarSet::clicked(int index)
-
-    This signal is emitted when the user clicks the bar specified by \a index in a bar set.
-*/
-
-/*!
-    \qmlmethod BarSet::clicked(int index)
-
-    This signal is emitted when the user clicks the bar specified by \a index
-    in a bar set.
-
-    The corresponding signal handler is \c onClicked.
-*/
-
-/*!
-  \internal TODO: Causes build errors, find out why
-    \fn void QBarSet::pressed(int index)
-
-    This signal is emitted when the user clicks the bar specified by \a index in a bar set
-    and holds down the mouse button.
-*/
-
-/*!
-    \qmlmethod BarSet::pressed(int index)
-
-    This signal is emitted when the user clicks the bar specified by \a index in
-    a bar set and holds down the mouse button.
-
-    The corresponding signal handler is \c onPressed.
-*/
-
-/*!
-  \internal TODO: Causes build errors, find out why
-    \fn void QBarSet::released(int index)
-
-    This signal is emitted when the user releases the mouse press on the bar specified by
-    \a index in a bar set.
-*/
-
-/*!
-    \qmlmethod BarSet::released(int index)
-
-    This signal is emitted when the user releases the mouse press on the bar
-    specified by \a index in a bar set.
-
-    The corresponding signal handler is \c onReleased.
-*/
-
-/*!
-  \internal TODO: Causes build errors, find out why
-    \fn void QBarSet::doubleClicked(int index)
-
-    This signal is emitted when the user double-clicks the bar specified by \a index in a bar set.
-*/
-
-/*!
-    \qmlmethod BarSet::doubleClicked(int index)
-
-    This signal is emitted when the user double-clicks the bar specified by
-    \a index in a bar set.
-
-    The corresponding signal handler is \c onDoubleClicked.
-*/
-
-/*!
-  \internal TODO: Causes build errors, find out why
-    \fn void QBarSet::hovered(bool status, int index)
-
-    This signal is emitted when a mouse is hovered over the bar specified by \a index in a bar set.
-    When the mouse moves over the bar, \a status turns \c true, and when the mouse moves away again,
-    it turns \c false.
-*/
-
-/*!
-  \internal TODO: Causes build errors, find out why
-    \fn void QBarSet::labelChanged()
-    This signal is emitted when the label of the bar set changes.
-    \sa label
-*/
-
-/*!
-  \internal TODO: Causes build errors, find out why
-    \fn void QBarSet::penChanged()
-    This signal is emitted when the pen used to draw the bar set changes.
-    \sa pen
-*/
-
-/*!
-  \internal TODO: Causes build errors, find out why
-    \fn void QBarSet::brushChanged()
-    This signal is emitted when the brush used to draw the bar set changes.
-    \sa brush
-*/
-
-/*!
-  \internal TODO: Causes build errors, find out why
-    \fn void QBarSet::labelBrushChanged()
-    This signal is emitted when the brush used to draw the bar set's label changes.
-    \sa labelBrush
-*/
-
-/*!
-  \internal TODO: Causes build errors, find out why
-    \fn void QBarSet::labelFontChanged()
-    This signal is emitted when the font of the bar set's label changes.
-    \sa labelBrush
-*/
-
-/*!
-  \internal TODO: Causes build errors, find out why
-    \fn void QBarSet::colorChanged(QColor)
-    This signal is emitted when the fill (brush) color of the bar set changes to \a color.
-*/
-
-/*!
-  \internal TODO: Causes build errors, find out why
-    \fn void QBarSet::borderColorChanged(QColor)
-    This signal is emitted when the line (pen) color of the bar set changes to \a color.
-*/
-
-/*!
-  \internal TODO: Causes build errors, find out why
-    \fn void QBarSet::labelColorChanged(QColor)
-    This signal is emitted when the text (label) color of the bar set changes to \a color.
-*/
-
-/*!
-  \internal TODO: Causes build errors, find out why
-    \fn void QBarSet::valuesAdded(int index, int count)
-    This signal is emitted when new values are added to the bar set.
-    \a index indicates the position of the first inserted value, and \a count is the number
-    of inserted values.
-    \sa append(), insert()
+    \property QBarSet::selectedBars
+    \brief The indexes of the bars which are currently selected.
 */
 /*!
-    \qmlsignal BarSet::valuesAdded(int index, int count)
-    This signal is emitted when new values are added to the bar set.
-    \a index indicates the position of the first inserted value, and \a count is the number
-    of inserted values.
-
-    The corresponding signal handler is \c onValuesAdded.
-*/
-
-/*!
-  \internal TODO: Causes build errors, find out why
-    \fn void QBarSet::valuesRemoved(int index, int count)
-    This signal is emitted when values are removed from the bar set.
-    \a index indicates the position of the first removed value, and \a count is the number
-    of removed values.
-    \sa remove()
-*/
-/*!
-    \qmlsignal BarSet::valuesRemoved(int index, int count)
-    This signal is emitted when values are removed from the bar set.
-    \a index indicates the position of the first removed value, and \a count is the number
-    of removed values.
-
-    The corresponding signal handler is \c onValuesRemoved.
-*/
-
-/*!
-  \internal TODO: Causes build errors, find out why
-    \fn void QBarSet::valueChanged(int index)
-    This signal is emitted when the value at the position specified by \a index is modified.
-    \sa at()
-*/
-/*!
-    \qmlsignal BarSet::valueChanged(int index)
-    This signal is emitted when the value at the position specified by \a index is modified.
-
-    The corresponding signal handler is \c onValueChanged.
-*/
-
-/*!
-    \qmlproperty int BarSet::count
-    The number of values in the bar set.
+    \qmlproperty list BarSet::selectedBars
+    The indexes of the bars which are currently selected.
 */
 
 /*!
@@ -290,6 +118,71 @@ QT_BEGIN_NAMESPACE
         myBarSet1.values = [5, 0, 1, 5];
         myBarSet2.values = [Qt.point(0, 5), Qt.point(2, 1), Qt.point(3, 5)];
     \endcode
+*/
+
+/*!
+    \fn void QBarSet::labelChanged()
+    This signal is emitted when the label of the bar set changes.
+    \sa label
+*/
+
+/*!
+    \fn void QBarSet::colorChanged(QColor)
+    This signal is emitted when the fill color of the bar set changes to \a color.
+*/
+
+/*!
+    \fn void QBarSet::borderColorChanged(QColor)
+    This signal is emitted when the border color of the bar set changes to \a color.
+*/
+
+/*!
+    \fn void QBarSet::labelColorChanged(QColor)
+    This signal is emitted when the text (label) color of the bar set changes to \a color.
+*/
+
+/*!
+    \fn void QBarSet::valuesAdded(int index, int count)
+    This signal is emitted when new values are added to the bar set.
+    \a index indicates the position of the first inserted value, and \a count is the number
+    of inserted values.
+    \sa append(), insert()
+*/
+/*!
+    \qmlsignal BarSet::valuesAdded(int index, int count)
+    This signal is emitted when new values are added to the bar set.
+    \a index indicates the position of the first inserted value, and \a count is the number
+    of inserted values.
+
+    The corresponding signal handler is \c onValuesAdded.
+*/
+
+/*!
+    \fn void QBarSet::valuesRemoved(int index, int count)
+    This signal is emitted when values are removed from the bar set.
+    \a index indicates the position of the first removed value, and \a count is the number
+    of removed values.
+    \sa remove()
+*/
+/*!
+    \qmlsignal BarSet::valuesRemoved(int index, int count)
+    This signal is emitted when values are removed from the bar set.
+    \a index indicates the position of the first removed value, and \a count is the number
+    of removed values.
+
+    The corresponding signal handler is \c onValuesRemoved.
+*/
+
+/*!
+    \fn void QBarSet::valueChanged(int index)
+    This signal is emitted when the value at the position specified by \a index is modified.
+    \sa at()
+*/
+/*!
+    \qmlsignal BarSet::valueChanged(int index)
+    This signal is emitted when the value at the position specified by \a index is modified.
+
+    The corresponding signal handler is \c onValueChanged.
 */
 
 QBarSet::QBarSet(QObject *parent)

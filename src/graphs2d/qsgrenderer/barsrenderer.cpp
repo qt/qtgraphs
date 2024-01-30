@@ -49,7 +49,7 @@ void BarsRenderer::updateBarSeries(QBarSeries *series)
     // Max width of a bar if no separation between sets.
     float maxBarWidth = w / (setCount * valuesPerSet) - barMargin;
     // Actual bar width.
-    float barWidth = maxBarWidth * 0.5;
+    float barWidth = maxBarWidth * series->barWidth();
     // Helper to keep barsets centered when bar width is less than max width.
     float barCentering = (maxBarWidth - barWidth) * setCount * 0.5;
 

@@ -17,13 +17,7 @@ QT_BEGIN_NAMESPACE
     This class draws data as a series of vertical bars grouped by category, with one bar per
     category from each bar set added to the series.
 
-    \omit
-    See the \l {Creating Bar Charts} {bar chart example} to learn how to create
-    a grouped bar chart.
-    \image examples_barchart.png
-    \endomit
-
-    \sa QBarSet, QPercentBarSeries, QAbstractBarSeries, QStackedBarSeries
+    \sa QBarSet, QAbstractBarSeries
 */
 /*!
     \qmltype BarSeries
@@ -36,13 +30,6 @@ QT_BEGIN_NAMESPACE
 
     The data is drawn as a series of vertical bars grouped by category, with one bar per
     category from each bar set added to the series.
-
-    \omit TODO: Causes build errors - missing snippet and image
-    The following QML code snippet shows how to create a simple grouped bar
-    chart:
-    \snippet qmlchartsgallery/qml/BarSeries.qml 1
-    \image examples_qmlchart6.png
-    \endomit
 */
 
 /*!
@@ -72,7 +59,17 @@ QBarSeries::~QBarSeries()
         d->m_graph->removeSeries(this);
 }
 
+/*!
+    \property QBarSeries::axisX
+    \brief X-axis of the series.
 
+    The x-axis used for the series. This should be QBarCategoryAxis.
+*/
+/*!
+    \qmlproperty AbstractAxis BarSeries::axisX
+    The x-axis used for the series. This should be BarCategoryAxis.
+    \sa axisY
+*/
 QAbstractAxis *QBarSeries::axisX() {
     Q_D(const QBarSeries);
     return d->m_axisX;
@@ -84,6 +81,18 @@ void QBarSeries::setAxisX(QAbstractAxis *axis) {
     d->m_axisX = axis;
     attachAxis(axis);
 }
+
+/*!
+    \property QBarSeries::axisY
+    \brief Y-axis of the series.
+
+    The y-axis used for the series. This should be QValueAxis.
+*/
+/*!
+    \qmlproperty AbstractAxis BarSeries::axisY
+    The y-axis used for the series. This should be ValueAxis.
+    \sa axisX
+*/
 QAbstractAxis *QBarSeries::axisY() {
     Q_D(const QBarSeries);
     return d->m_axisY;
