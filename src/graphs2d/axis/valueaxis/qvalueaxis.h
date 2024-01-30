@@ -62,8 +62,8 @@ Q_SIGNALS:
     void minorTickCountChanged(int tickCount);
     void labelFormatChanged(const QString &format);
     void labelDecimalsChanged(int decimals);
-    void tickAnchorChanged(qreal anchor);
-    void tickIntervalChanged(qreal interval);
+    void tickAnchorChanged(qreal tickAnchor);
+    void tickIntervalChanged(qreal tickInterval);
 
 private:
     Q_DECLARE_PRIVATE(QValueAxis)
