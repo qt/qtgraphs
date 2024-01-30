@@ -76,16 +76,27 @@ void QGraphsView::insertSeries(int index, QObject *object)
             }
         } else {
             m_seriesList.insert(index, series);
-            QObject::connect(series, &QAbstractSeries::update, this, &QQuickItem::update);
-            if (series->theme())
-                QObject::connect(series->theme(), &QSeriesTheme::update, this, &QQuickItem::update);
-            QObject::connect(series, &QAbstractSeries::hoverEnter, this, &QGraphsView::handleHoverEnter);
-            QObject::connect(series, &QAbstractSeries::hoverExit, this, &QGraphsView::handleHoverExit);
-            QObject::connect(series, &QAbstractSeries::hover, this, &QGraphsView::handleHover);
-            QObject::connect(series, &QAbstractSeries::themeChanged, [this, series] {
-                if (series->theme())
-                    QObject::connect(series->theme(), &QSeriesTheme::update, this, &QQuickItem::update);
+
+            QObject::connect(series, &QAbstractSeries::update,
+                             this, &QGraphsView::polishAndUpdate);
+            if (series->theme()) {
+                QObject::connect(series->theme(), &QSeriesTheme::update,
+                                 this, &QGraphsView::polishAndUpdate);
+            }
+            QObject::connect(series, &QAbstractSeries::themeChanged,
+                             [this, series] {
+                if (series->theme()) {
+                    QObject::connect(series->theme(), &QSeriesTheme::update,
+                                     this, &QGraphsView::polishAndUpdate);
+                }
             });
+
+            QObject::connect(series, &QAbstractSeries::hoverEnter,
+                             this, &QGraphsView::handleHoverEnter);
+            QObject::connect(series, &QAbstractSeries::hoverExit,
+                             this, &QGraphsView::handleHoverExit);
+            QObject::connect(series, &QAbstractSeries::hover,
+                             this, &QGraphsView::handleHover);
         }
     }
 }
@@ -109,14 +120,15 @@ void QGraphsView::addAxis(QAbstractAxis *axis)
 {
     if (!m_axis.contains(axis)) {
         m_axis << axis;
-        update();
+        polishAndUpdate();
+        QObject::connect(axis, &QAbstractAxis::update, this, &QGraphsView::polishAndUpdate);
     }
 }
 void QGraphsView::removeAxis(QAbstractAxis *axis)
 {
     if (m_axis.contains(axis)) {
         m_axis.removeAll(axis);
-        update();
+        polishAndUpdate();
     }
 }
 
@@ -283,8 +295,6 @@ QSGNode *QGraphsView::updatePaintNode(QSGNode *oldNode, QQuickItem::UpdatePaintN
     // Now possibly dirty theme has been taken into use
     m_theme->resetThemeDirty();
 
-    polish();
-
     return oldNode;
 }
 
@@ -308,6 +318,12 @@ void QGraphsView::updatePolish()
                 m_pointRenderer->handlePolish(scatterSeries);
         }
     }
+}
+
+void QGraphsView::polishAndUpdate()
+{
+    polish();
+    update();
 }
 
 // ***** Static QQmlListProperty methods *****
@@ -398,7 +414,7 @@ void QGraphsView::setMarginTop(qreal newMarginTop)
         return;
     m_marginTop = newMarginTop;
     updateComponentSizes();
-    update();
+    polishAndUpdate();
     emit marginTopChanged();
 }
 
@@ -418,7 +434,7 @@ void QGraphsView::setMarginBottom(qreal newMarginBottom)
         return;
     m_marginBottom = newMarginBottom;
     updateComponentSizes();
-    update();
+    polishAndUpdate();
     emit marginBottomChanged();
 }
 
@@ -438,7 +454,7 @@ void QGraphsView::setMarginLeft(qreal newMarginLeft)
         return;
     m_marginLeft = newMarginLeft;
     updateComponentSizes();
-    update();
+    polishAndUpdate();
     emit marginLeftChanged();
 }
 
@@ -458,7 +474,7 @@ void QGraphsView::setMarginRight(qreal newMarginRight)
         return;
     m_marginRight = newMarginRight;
     updateComponentSizes();
-    update();
+    polishAndUpdate();
     emit marginRightChanged();
 }
 
