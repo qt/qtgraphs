@@ -189,7 +189,7 @@ Item {
             // TODO: Should limit to a positive or zero value? QTBUG-121687
             //compare(initialized.width, 0.0)
             // TODO: Invalid value should be set to default? QTBUG-121688
-            //compare(initialized.capStyle, Qt.SquareCap)
+            // compare(initialized.capStyle, Qt.SquareCap)
             // TODO: QTBUG-121721
             // compare(initialized.valuesMultiplier, 1.0)
 
