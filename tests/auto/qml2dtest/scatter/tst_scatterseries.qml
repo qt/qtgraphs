@@ -166,7 +166,6 @@ Item {
             verify(!initialized.axisY)
         }*/
 
-        // TODO: Test invalid changes, if there are any?
         function test_4_initialized_change_to_invalid() {
             // initialized.axisX = marker
             // initialized.axisY = marker
