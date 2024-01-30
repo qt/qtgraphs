@@ -123,6 +123,8 @@ private:
     friend class BarsRenderer;
     friend class PointRenderer;
 
+    void polishAndUpdate();
+
     AxisRenderer *m_axisRenderer = nullptr;
     BarsRenderer *m_barsRenderer = nullptr;
     PointRenderer *m_pointRenderer = nullptr;
