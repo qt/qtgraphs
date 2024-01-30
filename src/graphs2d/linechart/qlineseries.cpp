@@ -100,11 +100,6 @@ QLineSeriesPrivate::QLineSeriesPrivate(QLineSeries *q)
 {
 }
 
-void QLineSeriesPrivate::initializeGraphics(QGraphicsItem *parent)
-{
-    QAbstractSeriesPrivate::initializeGraphics(parent);
-}
-
 QAbstractAxis *QLineSeries::axisX() const
 {
     Q_D(const QLineSeries);

@@ -36,18 +36,17 @@ class Q_GRAPHS_EXPORT QAbstractSeries : public QObject, public QQmlParserStatus
 public:
     enum SeriesType {
         SeriesTypeLine,
-        SeriesTypeArea,
+        //SeriesTypeArea,
         SeriesTypeBar,
-        SeriesTypeStackedBar,
-        SeriesTypePercentBar,
-        SeriesTypePie,
+        //SeriesTypeStackedBar,
+        //SeriesTypePercentBar,
+        //SeriesTypePie,
         SeriesTypeScatter,
-        SeriesTypeSpline,
-        SeriesTypeHorizontalBar,
-        SeriesTypeHorizontalStackedBar,
-        SeriesTypeHorizontalPercentBar,
-        SeriesTypeBoxPlot,
-        SeriesTypeCandlestick
+        //SeriesTypeSpline,
+        //SeriesTypeHorizontalBar,
+        //SeriesTypeHorizontalStackedBar,
+        //SeriesTypeHorizontalPercentBar,
+        //SeriesTypeBoxPlot,
     };
 
 protected:
@@ -64,14 +63,18 @@ public:
     QSeriesTheme *theme() const;
     void setTheme(QSeriesTheme *newTheme);
 
-    void setName(const QString &name);
     QString name() const;
-    void setVisible(bool visible = true);
+    void setName(const QString &name);
+
     bool isVisible() const;
-    void setSelectable(bool selectable);
+    void setVisible(bool visible = true);
+
     bool selectable() const;
+    void setSelectable(bool selectable);
+
     qreal opacity() const;
     void setOpacity(qreal opacity);
+
     qreal valuesMultiplier() const;
     void setValuesMultiplier(qreal valuesMultiplier);
 
@@ -108,13 +111,6 @@ Q_SIGNALS:
 
 protected:
     QScopedPointer<QAbstractSeriesPrivate> d_ptr;
-    friend class ChartDataSet;
-    friend class ChartPresenter;
-    friend class ChartThemeManager;
-    friend class QLegendPrivate;
-    friend class DeclarativeChart;
-    friend class QAreaSeries;
-    friend class GLWidget;
 };
 
 QT_END_NAMESPACE

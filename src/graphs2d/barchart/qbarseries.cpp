@@ -103,12 +103,6 @@ QBarSeriesPrivate::QBarSeriesPrivate(QBarSeries *q) : QAbstractBarSeriesPrivate(
 
 }
 
-void QBarSeriesPrivate::initializeGraphics(QGraphicsItem* parent)
-{
-    QAbstractSeriesPrivate::initializeGraphics(parent);
-}
-
-
 QT_END_NAMESPACE
 
 #include "moc_qbarseries.cpp"

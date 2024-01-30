@@ -11,13 +11,11 @@ QT_BEGIN_NAMESPACE
     \class QAbstractSeries
     \inmodule QtGraphs
     \ingroup graphs_2D
-    \brief The QAbstractSeries class is a base class for all Qt Chart series.
+    \brief The QAbstractSeries class is a base class for all Qt Graphs 2D series.
 
     Usually, the series type specific inherited classes are used instead of the base class.
 
-    \sa QXYSeries, QLineSeries, QSplineSeries, QScatterSeries, QAreaSeries, QAbstractBarSeries
-    \sa QBarSeries, QStackedBarSeries, QPercentBarSeries, QHorizontalBarSeries
-    \sa QHorizontalStackedBarSeries, QHorizontalPercentBarSeries, QPieSeries
+    \sa QLineSeries, QScatterSeries, QBarSeries, QAbstractBarSeries, QXYSeries
 */
 /*!
     \qmltype AbstractSeries
@@ -27,9 +25,7 @@ QT_BEGIN_NAMESPACE
     \brief Base type for all Qt Chart series types.
 
     This type cannot be instantiated directly. Instead, one of the following derived types
-    should be used to create a series: LineSeries, AreaSeries, BarSeries, StackedBarSeries,
-    PercentBarSeries, HorizontalBarSeries, HorizontalStackedBarSeries, HorizontalPercentBarSeries,
-    PieSeries, ScatterSeries, SplineSeries, BoxPlotSeries, or CandlestickSeries.
+    should be used to create a series: LineSeries, BarSeries, or ScatterSeries.
 */
 
 /*!
@@ -38,18 +34,8 @@ QT_BEGIN_NAMESPACE
     This enum describes the type of the series.
 
     \value SeriesTypeLine A line chart.
-    \value SeriesTypeArea An area chart.
     \value SeriesTypeBar A vertical bar chart.
-    \value SeriesTypeStackedBar A vertical stacked bar chart.
-    \value SeriesTypePercentBar A vertical percent bar chart.
-    \value SeriesTypePie A pie chart.
     \value SeriesTypeScatter A scatter chart.
-    \value SeriesTypeSpline A spline chart.
-    \value SeriesTypeHorizontalBar A horizontal bar chart.
-    \value SeriesTypeHorizontalStackedBar A horizontal stacked bar chart.
-    \value SeriesTypeHorizontalPercentBar A horizontal percent bar chart.
-    \value SeriesTypeBoxPlot A box plot chart.
-    \value SeriesTypeCandlestick A candlestick chart.
 */
 
 /*!
@@ -62,18 +48,19 @@ QT_BEGIN_NAMESPACE
     The type of the series.
 
     \value AbstractSeries.SeriesTypeLine A line chart.
-    \value AbstractSeries.SeriesTypeArea An area chart.
     \value AbstractSeries.SeriesTypeBar A vertical bar chart.
-    \value AbstractSeries.SeriesTypeStackedBar A vertical stacked bar chart.
-    \value AbstractSeries.SeriesTypePercentBar A vertical percent bar chart.
-    \value AbstractSeries.SeriesTypePie A pie chart.
     \value AbstractSeries.SeriesTypeScatter A scatter chart.
-    \value AbstractSeries.SeriesTypeSpline A spline chart.
-    \value AbstractSeries.SeriesTypeHorizontalBar A horizontal bar chart.
-    \value AbstractSeries.SeriesTypeHorizontalStackedBar A horizontal stacked bar chart.
-    \value AbstractSeries.SeriesTypeHorizontalPercentBar A horizontal percent bar chart.
-    \value AbstractSeries.SeriesTypeBoxPlot A box plot chart.
-    \value AbstractSeries.SeriesTypeCandlestick A candlestick chart.
+*/
+
+/*!
+    \property QAbstractSeries::theme
+    \brief The theme of the series.
+
+    The theme used for this series.
+*/
+/*!
+    \qmlproperty QSeriesTheme AbstractSeries::theme
+    The theme used for this series.
 */
 
 /*!
@@ -89,26 +76,40 @@ QT_BEGIN_NAMESPACE
 */
 
 /*!
-  \internal TODO: Causes build errors, find out why
-    \fn void QAbstractSeries::nameChanged()
-    This signal is emitted when the series name changes.
-*/
-
-/*!
     \property QAbstractSeries::visible
-    \brief whether the series is visible or not.
+    \brief Visibility of the series.
 
-    By default, \c true.
+    The visibility used for this series. By default, \a visible is set to \c true.
 */
 /*!
     \qmlproperty bool AbstractSeries::visible
-    Visibility of the series. By default, \c true.
+    The visibility used for this series. By default, \a visible is set to \c true.
 */
 
 /*!
-  \internal TODO: Causes build errors, find out why
-    \fn void QAbstractSeries::visibleChanged()
-    This signal is emitted when the series visibility changes.
+    \property QAbstractSeries::selectable
+    \brief Controls if the series is selectable.
+
+    Controls if the series can be selected with mouse/touch.
+    By default, \a selectable is set to \c false.
+*/
+/*!
+    \qmlproperty bool AbstractSeries::selectable
+    Controls if the series can be selected with mouse/touch.
+    By default, \a selectable is set to \c false.
+*/
+
+/*!
+    \property QAbstractSeries::hoverable
+    \brief Controls if the series is hoverable.
+
+    Controls if the series can be hovered with mouse/touch.
+    By default, \a hoverable is set to \c false.
+*/
+/*!
+    \qmlproperty bool AbstractSeries::hoverable
+    Controls if the series can be hovered with mouse/touch.
+    By default, \a hoverable is set to \c false.
 */
 
 /*!
@@ -124,106 +125,72 @@ QT_BEGIN_NAMESPACE
 */
 
 /*!
-  \internal TODO: Causes build errors, find out why
+    \property QAbstractSeries::valuesMultiplier
+    \brief Controls the series values effective visible value.
+
+    This variable can be used for animating the series values so they scale from 0 to actual value size.
+    By default, the valuesMultiplier is 1.0. The valid values range from 0.0 (height 0) to 1.0 (full value).
+*/
+/*!
+    \qmlproperty real AbstractSeries::valuesMultiplier
+    This variable can be used for animating the series values so they scale from 0 to actual value size.
+    By default, the valuesMultiplier is 1.0. The valid values range from 0.0 (height 0) to 1.0 (full value).
+*/
+
+/*!
+    \fn void QAbstractSeries::themeChanged()
+    This signal is emitted when the series theme changes.
+*/
+
+/*!
+    \fn void QAbstractSeries::nameChanged()
+    This signal is emitted when the series name changes.
+*/
+
+/*!
+    \fn void QAbstractSeries::visibleChanged()
+    This signal is emitted when the series visibility changes.
+*/
+
+/*!
+    \fn void QAbstractSeries::selectableChanged()
+    This signal is emitted when the series selectable changes.
+*/
+
+/*!
+    \fn void QAbstractSeries::hoverableChanged()
+    This signal is emitted when the series hoverable changes.
+*/
+
+/*!
     \fn void QAbstractSeries::opacityChanged()
     This signal is emitted when the opacity of the series changes.
 */
 
 /*!
-    \internal TODO: Causes build errors, find out why
-    \property QAbstractSeries::useOpenGL
-    \brief Specifies whether or not drawing the series is accelerated by using OpenGL.
-
-    Acceleration using OpenGL is supported only for QLineSeries and QScatterSeries.
-    A line series used as an edge series for QAreaSeries cannot use OpenGL acceleration.
-    When a chart contains any series that are drawn with OpenGL, a transparent QOpenGLWidget
-    is created on top of the chart plot area. The accelerated series are not drawn on the underlying
-    QGraphicsView, but are instead drawn on the created QOpenGLWidget.
-
-    Performance gained from using OpenGL to accelerate series drawing depends on the underlying
-    hardware, but in most cases it is significant. For example, on a standard desktop computer,
-    enabling OpenGL acceleration for a series typically allows rendering at least a hundred times
-    more points without reduction on the frame rate.
-    Chart size also has less effect on the frame rate.
-
-    The OpenGL acceleration of series drawing is meant for use cases that need fast drawing of
-    large numbers of points. It is optimized for efficiency, and therefore the series using
-    it lack support for many features available to non-accelerated series:
-
-    \list
-    \li Series animations are not supported for accelerated series.
-    \li Point labels are not supported for accelerated series.
-    \li Pen styles, marker shapes and light markers are ignored for accelerated series.
-        Only solid lines and plain scatter dots are supported.
-        The scatter dots may be circular or rectangular, depending on the underlying graphics
-        hardware and drivers.
-    \li Polar charts do not support accelerated series.
-    \li Enabling chart drop shadow or using transparent chart background color is not recommended
-        when using accelerated series, as that can slow the frame rate down significantly.
-    \endlist
-
-    These additional restrictions stem from the fact that the accelerated series is drawn on a
-    separate widget on top of the chart:
-
-    \list
-    \li If you draw any graphics items on top of a chart containing an accelerated series,
-        the accelerated series is drawn over those items.
-    \li To enable QOpenGLWidget to be partially transparent, it needs to be stacked on top of
-        all other widgets. This means you cannot have other widgets partially covering the
-        chart when using accelerated series.
-    \li Accelerated series are not supported for use cases where the graphics scene has more than
-        one graphics view attached to it.
-    \li Accelerated series are not supported for use cases where the chart has non-default geometry.
-        For example, adding transforms to the graphics view causes the accelerated series to
-        be drawn in an incorrect position related to the chart.
-    \endlist
-
-    The default value is \c{false}.
-*/
-/*!
-    \qmlproperty bool AbstractSeries::useOpenGL
-    Specifies whether or not the series is drawn with OpenGL.
-
-    Acceleration using OpenGL is supported only for LineSeries and ScatterSeries.
-    A line series used as an edge series for a AreaSeries cannot use OpenGL acceleration.
-    When a chart contains any series that are drawn with OpenGL, an additional transparent child
-    node is created for the ChartView node. The accelerated series are not drawn on the
-    ChartView node, but are instead drawn on the child node.
-
-    Performance gained from using OpenGL to accelerate series drawing depends on the underlying
-    hardware, but in most cases it is significant. For example, on a standard desktop computer,
-    enabling OpenGL acceleration for a series typically allows rendering at least hundred times
-    more points without reduction on the frame rate.
-    Chart size also has less effect on the frame rate.
-    The biggest performance sink when rendering ChartView is rendering and uploading the underlying
-    chart texture. If the underlying chart itself is not changing rapidly, significant extra
-    performance is gained from not needing to regenerate the chart texture for each frame.
-
-    The OpenGL acceleration of series drawing is meant for use cases that need fast drawing of
-    large numbers of points. It is optimized for efficiency, and therefore the series using
-    it lack support for many features available to non-accelerated series:
-
-    \list
-    \li Series animations are not supported for accelerated series.
-    \li Point labels are not supported for accelerated series.
-    \li Pen styles, marker shapes and light markers are ignored for accelerated series.
-        Only solid lines and plain scatter dots are supported.
-        The scatter dots may be circular or rectangular, depending on the underlying graphics
-        hardware and drivers.
-    \li Polar charts do not support accelerated series.
-    \li Mouse events for series are reported asynchronously.
-    \li Enabling chart drop shadow or using transparent chart background color is not recommended
-        when using accelerated series, as that can slow the frame rate down significantly.
-    \endlist
-
-    The default value is \c{false}.
+    \fn void QAbstractSeries::valuesMultiplierChanged()
+    This signal is emitted when the valuesMultiplier of the series changes.
 */
 
 /*!
-  \internal TODO: Causes build errors, find out why
-    \fn void QAbstractSeries::useOpenGLChanged()
-    This signal is emitted when accelerating the drawing of the series by using OpenGL
-    is enabled or disabled.
+    \fn void QAbstractSeries::hoverEnter(QString seriesName, QPointF position, QPointF value)
+    This signal is emitted when the series hovering starts. The name of the series is in \a seriesName,
+    the mouse/touch position in \a position, and the series value in \a value.
+    \note This signal is only emitted when \l hoverable is set to true.
+*/
+
+/*!
+    \fn void QAbstractSeries::hoverExit(QString seriesName, QPointF position)
+    This signal is emitted when the series hovering ends. The name of the series is in \a seriesName,
+    and the mouse/touch position in \a position.
+    \note This signal is only emitted when \l hoverable is set to true.
+*/
+
+/*!
+    \fn void QAbstractSeries::hover(QString seriesName, QPointF position, QPointF value)
+    This signal is emitted when the series hovering changes. The name of the series is in \a seriesName,
+    the mouse/touch position in \a position, and the series value in \a value.
+    \note This signal is only emitted when \l hoverable is set to true.
 */
 
 /*!
@@ -260,6 +227,11 @@ void QAbstractSeries::setTheme(QSeriesTheme *newTheme)
     emit themeChanged();
 }
 
+QString QAbstractSeries::name() const
+{
+    return d_ptr->m_name;
+}
+
 void QAbstractSeries::setName(const QString &name)
 {
     if (name != d_ptr->m_name) {
@@ -268,9 +240,9 @@ void QAbstractSeries::setName(const QString &name)
     }
 }
 
-QString QAbstractSeries::name() const
+bool QAbstractSeries::isVisible() const
 {
-    return d_ptr->m_name;
+    return d_ptr->m_visible;
 }
 
 void QAbstractSeries::setVisible(bool visible)
@@ -281,9 +253,9 @@ void QAbstractSeries::setVisible(bool visible)
     }
 }
 
-bool QAbstractSeries::isVisible() const
+bool QAbstractSeries::selectable() const
 {
-    return d_ptr->m_visible;
+    return d_ptr->m_selectable;
 }
 
 void QAbstractSeries::setSelectable(bool selectable)
@@ -294,9 +266,9 @@ void QAbstractSeries::setSelectable(bool selectable)
     }
 }
 
-bool QAbstractSeries::selectable() const
+bool QAbstractSeries::hoverable() const
 {
-    return d_ptr->m_selectable;
+    return d_ptr->m_hoverable;
 }
 
 void QAbstractSeries::setHoverable(bool hoverable)
@@ -305,11 +277,6 @@ void QAbstractSeries::setHoverable(bool hoverable)
         d_ptr->m_hoverable = hoverable;
         emit hoverableChanged();
     }
-}
-
-bool QAbstractSeries::hoverable() const
-{
-    return d_ptr->m_hoverable;
 }
 
 qreal QAbstractSeries::opacity() const
@@ -339,10 +306,10 @@ void QAbstractSeries::setValuesMultiplier(qreal valuesMultiplier)
 }
 
 /*!
-    Returns the chart that the series belongs to.
+    Returns the graph that the series belongs to.
 
-    Set automatically when the series is added to the chart,
-    and unset when the series is removed from the chart.
+    Set automatically when the series is added to the graph,
+    and unset when the series is removed from the graph.
 */
 QGraphsView *QAbstractSeries::graph() const
 {
@@ -402,9 +369,7 @@ void QAbstractSeries::hide()
 
     \note If multiple axes of the same orientation are attached to the same series,
     they will have the same minimum and maximum values.
-
- \sa QGraphsView::addAxis()
- */
+*/
 bool QAbstractSeries::attachAxis(QAbstractAxis* axis)
 {
     d_ptr->m_axes.append(axis);
@@ -421,9 +386,7 @@ bool QAbstractSeries::attachAxis(QAbstractAxis* axis)
     Detaches the axis specified by \a axis from the series.
 
     Returns \c true if the axis was detached successfully, \c false otherwise.
-
- \sa QGraphsView::removeAxis()
- */
+*/
 bool QAbstractSeries::detachAxis(QAbstractAxis* axis)
 {
     d_ptr->m_axes.removeAll(axis);
@@ -465,7 +428,6 @@ void QAbstractSeries::classBegin()
 void QAbstractSeries::componentComplete()
 {
     if (!d_ptr->m_theme) {
-        qDebug() << "Using default seriestheme!";
         d_ptr->m_theme = new QSeriesTheme(this);
         d_ptr->m_theme->resetColorTheme();
     }
@@ -483,11 +445,6 @@ QAbstractSeriesPrivate::QAbstractSeriesPrivate(QAbstractSeries *q)
 
 QAbstractSeriesPrivate::~QAbstractSeriesPrivate()
 {
-}
-
-void QAbstractSeriesPrivate::initializeGraphics(QGraphicsItem* parent)
-{
-    Q_UNUSED(parent);
 }
 
 QT_END_NAMESPACE
