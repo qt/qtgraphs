@@ -29,14 +29,19 @@ QT_BEGIN_NAMESPACE
 
     The following example code illustrates how to use the ValueAxis type:
     \code
-        ChartView {
-            ValueAxis {
-                id: xAxis
-                min: 0
+    GraphsView {
+        LineSeries {
+            axisX: ValueAxis {
                 max: 10
+                tickInterval: 1
             }
-        // Add a few series...
+            axisY: ValueAxis {
+                min -20
+                max: 40
+            }
+            // Add a few XYPoint data...
         }
+    }
     \endcode
 */
 
@@ -99,10 +104,14 @@ QT_BEGIN_NAMESPACE
 /*!
   \property QValueAxis::tickInterval
   \brief The interval between dynamically placed tick marks and labels.
+  The default value is 0, which means that intervals are automatically calculated
+  based on the min and max range.
 */
 /*!
   \qmlproperty real ValueAxis::tickInterval
   The interval between dynamically placed tick marks and labels.
+  The default value is 0, which means that intervals are automatically calculated
+  based on the min and max range.
 */
 
 /*!
@@ -112,6 +121,8 @@ QT_BEGIN_NAMESPACE
   The format string supports the following conversion specifiers, length modifiers, and flags
   provided by \c printf() in the standard C++ library: d, i, o, x, X, f, F, e, E, g, G, c.
 
+  The default value is empty, in which case 'f' format is used.
+
   \sa QString::asprintf()
 */
 /*!
@@ -120,9 +131,7 @@ QT_BEGIN_NAMESPACE
   The format string supports the following conversion specifiers, length modifiers, and flags
   provided by \c printf() in the standard C++ library: d, i, o, x, X, f, F, e, E, g, G, c.
 
-  If \l{ChartView::localizeNumbers}{ChartView.localizeNumbers} is \c true, the supported
-  specifiers are limited to: d, e, E, f, g, G, and i. Also, only the precision modifier is
-  supported. The rest of the formatting comes from the default QLocale of the application.
+  The default value is empty, in which case 'f' format is used.
 
   \sa QString::asprintf()
 */
@@ -139,33 +148,22 @@ QT_BEGIN_NAMESPACE
 */
 
 /*!
-  \internal TODO: Causes build errors, find out why
   \fn void QValueAxis::minChanged(qreal min)
   This signal is emitted when the minimum value of the axis, specified by \a min, changes.
 */
 
 /*!
-  \internal TODO: Causes build errors, find out why
   \fn void QValueAxis::maxChanged(qreal max)
   This signal is emitted when the maximum value of the axis, specified by \a max, changes.
 */
 
 /*!
-  \internal TODO: Causes build errors, find out why
-  \fn void QValueAxis::tickCountChanged(int tickCount)
-  This signal is emitted when the number of tick marks on the axis, specified by \a tickCount,
-  changes.
-*/
-
-/*!
-  \internal TODO: Causes build errors, find out why
   \fn void QValueAxis::minorTickCountChanged(int minorTickCount)
   This signal is emitted when the number of minor tick marks on the axis, specified by
   \a minorTickCount, changes.
 */
 
 /*!
-  \internal TODO: Causes build errors, find out why
   \fn void QValueAxis::rangeChanged(qreal min, qreal max)
   This signal is emitted when the minimum or maximum value of the axis, specified by \a min
   and \a max, changes.
@@ -179,9 +177,25 @@ QT_BEGIN_NAMESPACE
 */
 
 /*!
-  \internal TODO: Causes build errors, find out why
   \fn void QValueAxis::labelFormatChanged(const QString &format)
   This signal is emitted when the \a format of axis labels changes.
+*/
+
+/*!
+  \fn void QValueAxis::labelDecimalsChanged(int decimals)
+  This signal is emitted when the \a decimals amount of axis labels changes.
+*/
+
+/*!
+  \fn void QValueAxis::tickAnchorChanged(qreal tickAnchor)
+  This signal is emitted when the tick anchoring value, specified by
+  \a tickAnchor, changes.
+*/
+
+/*!
+  \fn void QValueAxis::tickIntervalChanged(qreal tickInterval)
+  This signal is emitted when the tick interval value, specified by
+  \a tickInterval, changes.
 */
 
 /*!
