@@ -190,19 +190,16 @@ Item {
             initialized.barWidth = 2.0 // range 0...1
             initialized.valuesMultiplier = 2.0 // range 0...1
 
-            // TODO: QTBUG-121719
-            // compare(initialized.barWidth, 0.0)
+            compare(initialized.barWidth, 1.0)
             // TODO: QTBUG-121720
             // compare(initialized.axisX, null)
             // compare(initialized.axisY, null)
-            // TODO: QTBUG-121721
-            // compare(initialized.valuesMultiplier, 1.0)
+            compare(initialized.valuesMultiplier, 1.0)
 
             initialized.barWidth = -1.0 // range 0...1
             initialized.valuesMultiplier = -1.0 // range 0...1
             compare(initialized.barWidth, 0.0)
-            // TODO: QTBUG-121721
-            // compare(initialized.valuesMultiplier, 0.0)
+            compare(initialized.valuesMultiplier, 0.0)
         }
     }
 }

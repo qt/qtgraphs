@@ -224,6 +224,7 @@ void QAbstractSeries::setTheme(QSeriesTheme *newTheme)
     if (d_ptr->m_theme == newTheme)
         return;
     d_ptr->m_theme = newTheme;
+    update();
     emit themeChanged();
 }
 
@@ -236,6 +237,7 @@ void QAbstractSeries::setName(const QString &name)
 {
     if (name != d_ptr->m_name) {
         d_ptr->m_name = name;
+        update();
         emit nameChanged();
     }
 }
@@ -249,6 +251,7 @@ void QAbstractSeries::setVisible(bool visible)
 {
     if (visible != d_ptr->m_visible) {
         d_ptr->m_visible = visible;
+        update();
         emit visibleChanged();
     }
 }
@@ -262,6 +265,7 @@ void QAbstractSeries::setSelectable(bool selectable)
 {
     if (selectable != d_ptr->m_selectable) {
         d_ptr->m_selectable = selectable;
+        update();
         emit selectableChanged();
     }
 }
@@ -275,6 +279,7 @@ void QAbstractSeries::setHoverable(bool hoverable)
 {
     if (hoverable != d_ptr->m_hoverable) {
         d_ptr->m_hoverable = hoverable;
+        update();
         emit hoverableChanged();
     }
 }
@@ -288,6 +293,7 @@ void QAbstractSeries::setOpacity(qreal opacity)
 {
     if (opacity != d_ptr->m_opacity) {
         d_ptr->m_opacity = opacity;
+        update();
         emit opacityChanged();
     }
 }
@@ -299,8 +305,10 @@ qreal QAbstractSeries::valuesMultiplier() const
 
 void QAbstractSeries::setValuesMultiplier(qreal valuesMultiplier)
 {
+    valuesMultiplier = std::clamp(valuesMultiplier, 0.0, 1.0);
     if (valuesMultiplier != d_ptr->m_valuesMultiplier) {
         d_ptr->m_valuesMultiplier = valuesMultiplier;
+        update();
         emit valuesMultiplierChanged();
     }
 }

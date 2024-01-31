@@ -139,17 +139,14 @@ void tst_bars::invalidProperties()
     // TODO: QTBUG-121720
     // QCOMPARE(m_series->axisX(), nullptr);
     // QCOMPARE(m_series->axisY(), nullptr);
-    // TODO: QTBUG-121719
-    // QCOMPARE(m_series->barWidth(), 1.0);
-    // TODO: QTBUG-121721
-    // QCOMPARE(m_series->valuesMultiplier(), 1.0);
+    QCOMPARE(m_series->barWidth(), 1.0);
+    QCOMPARE(m_series->valuesMultiplier(), 1.0);
 
     m_series->setBarWidth(-1.0); // range 0...1
     m_series->setValuesMultiplier(-1.0); // range 0...1
 
     QCOMPARE(m_series->barWidth(), 0.0);
-    // TODO: QTBUG-121721
-    // QCOMPARE(m_series->valuesMultiplier(), 0.0);
+    QCOMPARE(m_series->valuesMultiplier(), 0.0);
 }
 
 QTEST_MAIN(tst_bars)
