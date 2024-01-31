@@ -12,9 +12,7 @@ QT_BEGIN_NAMESPACE
     \ingroup graphs_2D
     \brief The QAbstractAxis class is a base class used for specialized axis classes.
 
-    Each series can be bound to one or more horizontal and vertical axes, but mixing axis types
-    that would result in different domains is not supported, such as specifying
-    QValueAxis and QLogValueAxis on the same orientation.
+    Each series can be bound to only one horizontal and vertical axis.
 
     The properties and visibility of various axis elements, such as axis line, title, labels,
     and grid lines, can be individually controlled.
@@ -42,217 +40,200 @@ QT_BEGIN_NAMESPACE
     \value AxisTypeNoAxis
     \value AxisTypeValue
     \value AxisTypeBarCategory
-    \value AxisTypeCategory
-    \value AxisTypeDateTime
-    \value AxisTypeLogValue
-    \value AxisTypeColor
 */
 
 /*!
-  \internal TODO: Causes build errors, find out why
-  \fn void QAbstractAxis::type() const
-  Returns the type of the axis.
+    \fn void QAbstractAxis::type() const
+    Returns the type of the axis.
 */
 
 /*!
-  \property QAbstractAxis::lineVisible
-  \brief The visibility of the axis line.
+    \property QAbstractAxis::visible
+    \brief The visibility of the axis.
+    By default, the value is \c true.
 */
 /*!
-  \qmlproperty bool AbstractAxis::lineVisible
-  The visibility of the axis line.
-*/
-
-/*!
-  \property QAbstractAxis::labelsVisible
-  \brief Whether axis labels are visible.
-*/
-/*!
-  \qmlproperty bool AbstractAxis::labelsVisible
-  The visibility of axis labels.
+    \qmlproperty bool AbstractAxis::visible
+    The visibility of the axis. By default, the value is \c true.
 */
 
 /*!
-  \property QAbstractAxis::visible
-  \brief The visibility of the axis.
+    \property QAbstractAxis::lineVisible
+    \brief The visibility of the axis line.
+    By default, the value is \c true.
 */
 /*!
-  \qmlproperty bool AbstractAxis::visible
-  The visibility of the axis.
-*/
-
-/*!
-  \property QAbstractAxis::gridVisible
-  \brief The visibility of the grid lines.
-*/
-/*!
-  \qmlproperty bool AbstractAxis::gridVisible
-  The visibility of the grid lines.
+    \qmlproperty bool AbstractAxis::lineVisible
+    The visibility of the axis line. By default, the value is \c true.
 */
 
 /*!
-  \property QAbstractAxis::minorGridVisible
-  \brief The visibility of the minor grid lines.
-
-  Applies only to axes that support minor grid lines.
+    \property QAbstractAxis::labelsVisible
+    \brief Whether axis labels are visible.
+    By default, the value is \c true.
 */
 /*!
-  \qmlproperty bool AbstractAxis::minorGridVisible
-  The visibility of the minor grid lines. Applies only to axes that support
-  minor grid lines.
+    \qmlproperty bool AbstractAxis::labelsVisible
+    The visibility of axis labels. By default, the value is \c true.
 */
 
 /*!
-  \internal TODO: Causes build errors, find out why
-  \property QAbstractAxis::color
-  \brief The color of the axis and tick marks.
+    \property QAbstractAxis::labelsAngle
+    \brief The angle of the axis labels in degrees.
 */
 /*!
-  \qmlproperty color AbstractAxis::color
-  The color of the axis and tick marks.
-*/
-
-/*!
-  \property QAbstractAxis::labelsAngle
-  \brief The angle of the axis labels in degrees.
-*/
-/*!
-  \qmlproperty qreal AbstractAxis::labelsAngle
-  The angle of the axis labels in degrees.
+    \qmlproperty qreal AbstractAxis::labelsAngle
+    The angle of the axis labels in degrees.
 */
 
 /*!
-  \property QAbstractAxis::titleVisible
-  \brief The visibility of the axis title.
+    \property QAbstractAxis::gridVisible
+    \brief The visibility of the grid lines.
+    By default, the value is \c true.
+*/
+/*!
+    \qmlproperty bool AbstractAxis::gridVisible
+    The visibility of the grid lines. By default, the value is \c true.
+*/
+
+/*!
+    \property QAbstractAxis::minorGridVisible
+    \brief The visibility of the minor grid lines.
+
+    Applies only to axes that support minor grid lines.
+    By default, the value is \c true.
+*/
+/*!
+    \qmlproperty bool AbstractAxis::minorGridVisible
+    The visibility of the minor grid lines. Applies only to axes that support
+    minor grid lines. By default, the value is \c true.
+*/
+
+/*!
+    \property QAbstractAxis::titleText
+    \brief The title of the axis.
+
+    Empty by default. Axis titles support HTML formatting.
+*/
+/*!
+    \qmlproperty string AbstractAxis::titleText
+    The title of the axis. Empty by default. Axis titles support HTML formatting.
+*/
+
+/*!
+    \property QAbstractAxis::titleColor
+    \brief The color used to draw the title text.
+*/
+/*!
+    \qmlproperty color AbstractAxis::titleColor
+    The color used to draw the title text.
+*/
+
+/*!
+    \property QAbstractAxis::titleVisible
+    \brief The visibility of the axis title.
 
     By default, the value is \c true.
 */
 /*!
-  \qmlproperty bool AbstractAxis::titleVisible
-  The visibility of the axis title. By default, the value is \c true.
+    \qmlproperty bool AbstractAxis::titleVisible
+    The visibility of the axis title. By default, the value is \c true.
 */
 
 /*!
-  \property QAbstractAxis::titleText
-  \brief The title of the axis.
-
-  Empty by default. Axis titles support HTML formatting.
+    \property QAbstractAxis::titleFont
+    \brief The font of the title of the axis.
 */
 /*!
-  \qmlproperty string AbstractAxis::titleText
-  The title of the axis. Empty by default. Axis titles support HTML formatting.
+    \qmlproperty font AbstractAxis::titleFont
+    The font of the title of the axis.
 */
 
 /*!
-  \property QAbstractAxis::titleColor
-  \brief The color used to draw the title text.
+    \property QAbstractAxis::orientation
+    \brief The orientation of the axis.
+
+    Fixed to either Qt::Horizontal or Qt::Vertical when the axis is added to a chart.
+*/
+/*!
+    \qmlproperty Qt.Orientation AbstractAxis::orientation
+    The orientation of the axis. Fixed to either \l {Qt::Horizontal}{Qt.Horizontal}
+    or \l{Qt::Vertical}{Qt.Vertical} when the axis is set to a series.
 */
 
 /*!
-  \property QAbstractAxis::titleFont
-  \brief The font of the title of the axis.
+    \property QAbstractAxis::alignment
+    \brief The alignment of the axis.
+
+    Can be Qt::AlignLeft, Qt::AlignRight, Qt::AlignBottom, or Qt::AlignTop.
 */
 /*!
-  \qmlproperty font AbstractAxis::titleFont
-  The font of the title of the axis.
+    \qmlproperty alignment AbstractAxis::alignment
+    The alignment of the axis. Can be \l{Qt::AlignLeft}{Qt.AlignLeft},
+    \l{Qt::AlignRight}{Qt.AlignRight}, \l{Qt::AlignBottom}{Qt.AlignBottom}, or
+    \l{Qt::AlignTop}{Qt.AlignTop}.
 */
 
 /*!
-  \property QAbstractAxis::orientation
-  \brief The orientation of the axis.
-
-  Fixed to either Qt::Horizontal or Qt::Vertical when the axis is added to a chart.
-*/
-/*!
-  \qmlproperty Qt.Orientation AbstractAxis::orientation
-  The orientation of the axis. Fixed to either \l {Qt::Horizontal}{Qt.Horizontal}
-  or \l{Qt::Vertical}{Qt.Vertical} when the axis is set to a series.
+    \fn void QAbstractAxis::visibleChanged(bool visible)
+    This signal is emitted when the visibility of the axis changes to \a visible.
 */
 
 /*!
-  \property QAbstractAxis::alignment
-  \brief The alignment of the axis.
-
-  Can be Qt::AlignLeft, Qt::AlignRight, Qt::AlignBottom, or Qt::AlignTop.
-*/
-/*!
-  \qmlproperty alignment AbstractAxis::alignment
-  The alignment of the axis. Can be \l{Qt::AlignLeft}{Qt.AlignLeft},
-  \l{Qt::AlignRight}{Qt.AlignRight}, \l{Qt::AlignBottom}{Qt.AlignBottom}, or
-  \l{Qt::AlignTop}{Qt.AlignTop}.
+    \fn void QAbstractAxis::lineVisibleChanged(bool visible)
+    This signal is emitted when the visibility of the axis line changes to \a visible.
 */
 
 /*!
-  \internal TODO: Causes build errors, find out why
-  \fn void QAbstractAxis::visibleChanged(bool visible)
-  This signal is emitted when the visibility of the axis changes to \a visible.
+    \fn void QAbstractAxis::labelsVisibleChanged(bool visible)
+    This signal is emitted when the visibility of the labels of the axis changes to \a visible.
 */
 
 /*!
-  \internal TODO: Causes build errors, find out why
-  \fn void QAbstractAxis::lineVisibleChanged(bool visible)
-  This signal is emitted when the visibility of the axis line changes to \a visible.
+    \fn void QAbstractAxis::labelsAngleChanged(qreal angle)
+    This signal is emitted when the angle of the axis labels changes to \a angle.
 */
 
 /*!
-  \internal TODO: Causes build errors, find out why
-  \fn void QAbstractAxis::labelsVisibleChanged(bool visible)
-  This signal is emitted when the visibility of the labels of the axis changes to \a visible.
+    \fn void QAbstractAxis::gridVisibleChanged(bool visible)
+    This signal is emitted when the visibility of the grid lines of the axis changes to \a visible.
 */
 
 /*!
-  \internal TODO: Causes build errors, find out why
-  \fn void QAbstractAxis::labelsAngleChanged(qreal angle)
-  This signal is emitted when the angle of the axis labels changes to \a angle.
+    \fn void QAbstractAxis::minorGridVisibleChanged(bool visible)
+    This signal is emitted when the visibility of the minor grid lines of the axis
+    changes to \a visible.
 */
 
 /*!
-  \internal TODO: Causes build errors, find out why
-  \fn void QAbstractAxis::gridVisibleChanged(bool visible)
-  This signal is emitted when the visibility of the grid lines of the axis changes to \a visible.
+    \fn void QAbstractAxis::titleTextChanged(const QString &text)
+    This signal is emitted when the text of the axis title changes to \a text.
 */
 
 /*!
-  \internal TODO: Causes build errors, find out why
-  \fn void QAbstractAxis::minorGridVisibleChanged(bool visible)
-  This signal is emitted when the visibility of the minor grid lines of the axis
-  changes to \a visible.
+    \fn void QAbstractAxis::titleColorChanged(const QColor &color)
+    This signal is emitted when the color used to draw the axis title changes to \a color.
 */
 
 /*!
-  \internal TODO: Causes build errors, find out why
-  \fn void QAbstractAxis::colorChanged(QColor color)
-  This signal is emitted when the color of the axis changes to \a color.
+    \fn void QAbstractAxis::titleVisibleChanged(bool visible)
+    This signal is emitted when the visibility of the title text of the axis changes to \a visible.
 */
 
 /*!
-  \internal TODO: Causes build errors, find out why
-  \fn void QAbstractAxis::titleVisibleChanged(bool visible)
-  This signal is emitted when the visibility of the title text of the axis changes to \a visible.
+    \fn void QAbstractAxis::titleFontChanged(const QFont &font)
+    This signal is emitted when the font of the axis title changes to \a font.
 */
 
 /*!
-  \internal TODO: Causes build errors, find out why
-  \fn void QAbstractAxis::titleTextChanged(const QString& text)
-  This signal is emitted when the text of the axis title changes to \a text.
+    \fn void QAbstractAxis::update()
+    This signal is emitted when the axis needs to be updated.
 */
 
 /*!
-  \internal TODO: Causes build errors, find out why
-  \fn void QAbstractAxis::titleColorChanged(const QColor& color)
-  This signal is emitted when the color used to draw the axis title changes to \a color.
-*/
-
-/*!
-  \internal TODO: Causes build errors, find out why
-  \fn void QAbstractAxis::titleFontChanged(const QFont& font)
-  This signal is emitted when the font of the axis title changes to \a font.
-*/
-
-/*!
- \internal
-  Constructs a new axis object that is a child of \a parent. The ownership is taken by
-  graph when the axis is added.
+    \internal
+    Constructs a new axis object that is a child of \a parent. The ownership is taken by
+    graph when the axis is added.
 */
 
 QAbstractAxis::QAbstractAxis(QAbstractAxisPrivate &d, QObject *parent)
@@ -276,8 +257,8 @@ QAbstractAxis::~QAbstractAxis()
  */
 void QAbstractAxis::setLineVisible(bool visible)
 {
-    if (d_ptr->m_arrowVisible != visible) {
-        d_ptr->m_arrowVisible = visible;
+    if (d_ptr->m_lineVisible != visible) {
+        d_ptr->m_lineVisible = visible;
         update();
         emit lineVisibleChanged(visible);
     }
@@ -285,7 +266,7 @@ void QAbstractAxis::setLineVisible(bool visible)
 
 bool QAbstractAxis::isLineVisible() const
 {
-    return d_ptr->m_arrowVisible;
+    return d_ptr->m_lineVisible;
 }
 
 void QAbstractAxis::setGridLineVisible(bool visible)

@@ -29,6 +29,7 @@ protected:
     QBarCategoryAxis(QBarCategoryAxisPrivate &d, QObject *parent = nullptr);
 
 public:
+    // TODO: Consider making these slots, available from QML.
     AxisType type() const override;
     void append(const QStringList &categories);
     void append(const QString &category);
@@ -58,8 +59,6 @@ Q_SIGNALS:
 private:
     Q_DECLARE_PRIVATE(QBarCategoryAxis)
     Q_DISABLE_COPY(QBarCategoryAxis)
-    friend class ChartBarCategoryAxisX;
-    friend class ChartBarCategoryAxisY;
 };
 
 QT_END_NAMESPACE

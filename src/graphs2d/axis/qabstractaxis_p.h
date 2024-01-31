@@ -21,12 +21,6 @@
 #include <memory>
 
 QT_BEGIN_NAMESPACE
-class QGraphicsItem;
-QT_END_NAMESPACE
-
-QT_BEGIN_NAMESPACE
-
-class QAbstractSeries;
 
 class QAbstractAxisPrivate : public QObject
 {
@@ -62,14 +56,12 @@ protected:
     QGraphsView *m_graph = nullptr;
 
 private:
-    QList<QAbstractSeries*> m_series;
-
     Qt::Alignment m_alignment;
     Qt::Orientation m_orientation = Qt::Orientation(0);
 
     bool m_visible = true;
 
-    bool m_arrowVisible = true;
+    bool m_lineVisible = true;
 
     bool m_gridLineVisible = true;
     bool m_minorGridLineVisible = true;
@@ -81,8 +73,6 @@ private:
     QColor m_titleColor;
     QFont m_titleFont;
     QString m_title;
-
-    bool m_dirty = false;
 
     Q_DECLARE_PUBLIC(QAbstractAxis)
     friend class QAbstractAxis;

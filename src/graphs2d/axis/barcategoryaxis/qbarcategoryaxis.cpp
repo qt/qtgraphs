@@ -13,8 +13,7 @@ QT_BEGIN_NAMESPACE
     \brief The QBarCategoryAxis class adds categories to a chart's axes.
 
     QBarCategoryAxis can be set up to show an axis line with tick marks, grid lines, and shades.
-    Categories are drawn between the ticks. It can be used also with a line series, as demonstrated
-    by the \l {Charts with Widgets Gallery}.
+    Categories are drawn between the ticks.
 */
 
 /*!
@@ -27,96 +26,97 @@ QT_BEGIN_NAMESPACE
     \brief Adds categories to a chart's axes.
 
     The BarCategoryAxis type can be set up to show an axis line with tick marks, grid lines, and
-    shades. Categories are drawn between the ticks. It can be used also with a line series.
+    shades. Categories are drawn between the ticks.
 
     The following QML snippet illustrates how to use BarCategoryAxis:
     \code
-        ChartView {
-            BarCategoryAxis {
-                id: categoryAxis
-                categories: ["Jan", "Feb", "Mar", "Apr", "May", "Jun" ]
+        GraphsView {
+            anchors.fill: parent
+            BarSeries {
+                axisX: BarCategoryAxis {
+                    categories: ["2023", "2024", "2025"]
+                    lineVisible: false
+                }
+                axisY: ValueAxis { }
+                BarSet {
+                    values: [7, 6, 9]
+                }
             }
-        // Add a few series...
         }
     \endcode
 */
 
 /*!
-  \property QBarCategoryAxis::categories
-  \brief The categories of an axis.
+    \property QBarCategoryAxis::categories
+    \brief The categories of an axis.
 */
 /*!
-  \qmlproperty QStringList BarCategoryAxis::categories
-  The categories of an axis.
-*/
-
-/*!
-  \property QBarCategoryAxis::min
-  \brief The minimum value on the axis.
-*/
-/*!
-  \qmlproperty string BarCategoryAxis::min
-  The minimum value on the axis.
+    \qmlproperty list BarCategoryAxis::categories
+    The categories of an axis.
 */
 
 /*!
-  \property QBarCategoryAxis::max
-  \brief The maximum value on the axis.
+    \property QBarCategoryAxis::min
+    \brief The minimum value on the axis.
 */
 /*!
-  \qmlproperty string BarCategoryAxis::max
-  The maximum value on the axis.
-*/
-
-/*!
-  \property QBarCategoryAxis::count
-  \brief The number of categories of an axis.
-*/
-/*!
-  \qmlproperty int BarCategoryAxis::count
-  The number of categories of an axis.
+    \qmlproperty string BarCategoryAxis::min
+    The minimum value on the axis.
 */
 
 /*!
-  \internal TODO: Causes build errors, find out why
-  \fn void QBarCategoryAxis::categoriesChanged()
-  This signal is emitted when the categories of the axis change.
+    \property QBarCategoryAxis::max
+    \brief The maximum value on the axis.
+*/
+/*!
+    \qmlproperty string BarCategoryAxis::max
+    The maximum value on the axis.
 */
 
 /*!
-  \internal TODO: Causes build errors, find out why
-  \fn void QBarCategoryAxis::minChanged(const QString &min)
-  This signal is emitted when the \a min value of the axis changes.
+    \property QBarCategoryAxis::count
+    \brief The number of categories of an axis.
+*/
+/*!
+    \qmlproperty int BarCategoryAxis::count
+    The number of categories of an axis.
 */
 
 /*!
-  \internal TODO: Causes build errors, find out why
-  \fn void QBarCategoryAxis::maxChanged(const QString &max)
-  This signal is emitted when the \a max value of the axis changes.
+    \fn void QBarCategoryAxis::categoriesChanged()
+    This signal is emitted when the categories of the axis change.
 */
 
 /*!
-  \internal TODO: Causes build errors, find out why
-  \fn void QBarCategoryAxis::countChanged()
-  This signal is emitted when the number of categories of an axis changes.
+    \fn void QBarCategoryAxis::minChanged(const QString &min)
+    This signal is emitted when the \a min value of the axis changes.
 */
 
 /*!
-  \internal TODO: Causes build errors, find out why
-  \fn void QBarCategoryAxis::rangeChanged(const QString &min, const QString &max)
-  This signal is emitted when \a min or \a max value of the axis changes.
+    \fn void QBarCategoryAxis::maxChanged(const QString &max)
+    This signal is emitted when the \a max value of the axis changes.
 */
 
 /*!
-  \qmlsignal BarCategoryAxis::rangeChanged(string min, string max)
-  This signal is emitted when \a min or \a max value of the axis changes.
-
-  The corresponding signal handler is \c onRangeChanged.
+    \fn void QBarCategoryAxis::countChanged()
+    This signal is emitted when the number of categories of an axis changes.
 */
 
 /*!
-  \qmlmethod void BarCategoryAxis::clear()
-  Removes all categories. Sets the maximum and minimum values of the axis range to QString::null.
+    \fn void QBarCategoryAxis::rangeChanged(const QString &min, const QString &max)
+    This signal is emitted when \a min or \a max value of the axis changes.
+*/
+
+/*!
+    \qmlsignal BarCategoryAxis::rangeChanged(string min, string max)
+    This signal is emitted when \a min or \a max value of the axis changes.
+
+    The corresponding signal handler is \c onRangeChanged.
+*/
+
+/*!
+    \qmlmethod void BarCategoryAxis::clear()
+    Removes all categories. Sets the maximum and minimum values of the axis range to QString::null.
 */
 
 /*!
@@ -132,9 +132,6 @@ QBarCategoryAxis::QBarCategoryAxis(QObject *parent):
 */
 QBarCategoryAxis::~QBarCategoryAxis()
 {
-//    Q_D(QBarCategoryAxis);
-//    if (d->m_graph)
-//        d->m_graph->removeAxis(this);
 }
 
 /*!

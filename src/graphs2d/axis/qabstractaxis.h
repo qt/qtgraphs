@@ -46,10 +46,6 @@ public:
         AxisTypeNoAxis = 0x0,
         AxisTypeValue = 0x1,
         AxisTypeBarCategory = 0x2,
-        AxisTypeCategory = 0x4,
-        AxisTypeDateTime = 0x8,
-        AxisTypeLogValue = 0x10,
-        AxisTypeColor = 0x20
     };
 
     Q_DECLARE_FLAGS(AxisTypes, AxisType)
@@ -110,7 +106,6 @@ Q_SIGNALS:
     void labelsAngleChanged(qreal angle);
     void gridVisibleChanged(bool visible);
     void minorGridVisibleChanged(bool visible);
-    void colorChanged(QColor color);
     void titleTextChanged(const QString &title);
     void titleColorChanged(const QColor &color);
     void titleVisibleChanged(bool visible);
@@ -119,13 +114,6 @@ Q_SIGNALS:
 
 protected:
     QScopedPointer<QAbstractAxisPrivate> d_ptr;
-    friend class ChartDataSet;
-    friend class ChartPresenter;
-    friend class ChartThemeManager;
-    friend class ChartAxisElement;
-    friend class HorizontalAxis;
-    friend class VerticalAxis;
-    friend class XYChart;
 
 private:
     Q_DISABLE_COPY(QAbstractAxis)
