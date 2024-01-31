@@ -1633,7 +1633,17 @@ void QQuickGraphsItem::synchData()
     }
 
     if (axisDirty) {
-        updateGrid();
+        QQmlListReference materialsRef(m_background, "materials");
+        if (!materialsRef.size()) {
+            QQuick3DCustomMaterial *bgMat
+                    = createQmlCustomMaterial(QStringLiteral(":/materials/BackgroundMaterial"));
+            bgMat->setParent(m_background);
+            materialsRef.append(bgMat);
+        }
+        if (m_shaderGridEnabled)
+            updateShaderGrid();
+        else
+            updateGrid();
         updateLabels();
         updateCustomData();
         if (m_sliceView && isSliceEnabled()) {
@@ -1847,31 +1857,37 @@ void QQuickGraphsItem::synchData()
 
     // Grid and background adjustments
     if (theme()->d_func()->m_dirtyBits.backgroundColorDirty) {
-        QQmlListReference materialsRef(m_background, "materials");
-        QQuick3DPrincipledMaterial *bgMat;
-        if (!materialsRef.size()) {
-            bgMat = new QQuick3DPrincipledMaterial();
-            bgMat->setParent(m_background);
-            bgMat->setMetalness(0.f);
-            bgMat->setRoughness(.3f);
-            bgMat->setEmissiveFactor(QVector3D(.001f, .001f, .001f));
-            materialsRef.append(bgMat);
-        } else {
-            bgMat = static_cast<QQuick3DPrincipledMaterial *>(materialsRef.at(0));
-        }
-        bgMat->setBaseColor(theme()->backgroundColor());
+        QQmlListReference materialRef(m_background, "materials");
+        Q_ASSERT(materialRef.size());
+        auto material = static_cast<QQuick3DCustomMaterial *>(materialRef.at(0));
+        material->setProperty("baseColor", theme()->backgroundColor());
         theme()->d_func()->m_dirtyBits.backgroundColorDirty = false;
     }
 
     if (theme()->d_func()->m_dirtyBits.backgroundEnabledDirty) {
-        m_background->setLocalOpacity(theme()->isBackgroundEnabled());
+        QQmlListReference materialRef(m_background, "materials");
+        Q_ASSERT(materialRef.size());
+        auto *material = static_cast<QQuick3DCustomMaterial *>(materialRef.at(0));
+        material->setProperty("baseVisible", theme()->isBackgroundEnabled());
         theme()->d_func()->m_dirtyBits.backgroundEnabledDirty = false;
+    }
+
+    if (theme()->d_func()->m_dirtyBits.shaderGridEnabledDirty) {
+        m_shaderGridEnabled = theme()->isShaderGridEnabled();
+        theme()->d_func()->m_dirtyBits.gridEnabledDirty = true;
+        theme()->d_func()->m_dirtyBits.gridLineColorDirty = true;
+        m_gridUpdate = true;
+        theme()->d_func()->m_dirtyBits.shaderGridEnabledDirty = false;
     }
 
     if (theme()->d_func()->m_dirtyBits.gridEnabledDirty) {
         bool enabled = theme()->isGridEnabled();
+        QQmlListReference materialRef(m_background, "materials");
+        Q_ASSERT(materialRef.size());
+        auto *material = static_cast<QQuick3DCustomMaterial *>(materialRef.at(0));
+        material->setProperty("gridVisible", enabled && m_shaderGridEnabled);
+        m_gridGeometryModel->setVisible(enabled &! m_shaderGridEnabled);
 
-        m_gridGeometryModel->setVisible(enabled);
         if (m_sliceView && isSliceEnabled())
             m_sliceGridGeometryModel->setVisible(enabled);
 
@@ -1880,11 +1896,12 @@ void QQuickGraphsItem::synchData()
 
     if (theme()->d_func()->m_dirtyBits.gridLineColorDirty) {
         QColor gridLineColor = theme()->gridLineColor();
-
-        QQmlListReference materialRef(m_gridGeometryModel, "materials");
-        Q_ASSERT(materialRef.size());
-        auto *material = static_cast<QQuick3DPrincipledMaterial *>(materialRef.at(0));
-        material->setBaseColor(gridLineColor);
+        QQmlListReference backgroundRef(m_background, "materials");
+        auto *backgroundMaterial = static_cast<QQuick3DCustomMaterial *>(backgroundRef.at(0));
+        backgroundMaterial->setProperty("lineColor", gridLineColor);
+        QQmlListReference gridRef(m_gridGeometryModel, "materials");
+        auto *gridMaterial = static_cast<QQuick3DPrincipledMaterial *>(gridRef.at(0));
+        gridMaterial->setBaseColor(gridLineColor);
         theme()->d_func()->m_dirtyBits.gridLineColorDirty = false;
     }
 
@@ -1917,7 +1934,10 @@ void QQuickGraphsItem::synchData()
 
     if (m_isSeriesVisualsDirty) {
         forceUpdateCustomVolumes = true;
-        updateGrid();
+        if (m_shaderGridEnabled)
+            updateShaderGrid();
+        else
+            updateGrid();
         updateLabels();
         if (m_sliceView && isSliceEnabled()) {
             updateSliceGrid();
@@ -1927,8 +1947,12 @@ void QQuickGraphsItem::synchData()
         m_isSeriesVisualsDirty = false;
     }
 
-    if (m_gridUpdate)
-        updateGrid();
+    if (m_gridUpdate) {
+        if (m_shaderGridEnabled)
+            updateShaderGrid();
+        else
+            updateGrid();
+    }
 
     if (m_isDataDirty) {
         forceUpdateCustomVolumes = true;
@@ -1948,6 +1972,10 @@ void QQuickGraphsItem::synchData()
 
 void QQuickGraphsItem::updateGrid()
 {
+
+    QQmlListReference materialsRef(m_background, "materials");
+    auto *bgMat = static_cast<QQuick3DCustomMaterial *>(materialsRef.at(0));
+    bgMat->setProperty("scale", m_scaleWithBackground);
     int gridLineCountX = 0;
     int subGridLineCountX = 0;
     gridLineCountHelper(axisX(), gridLineCountX, subGridLineCountX);
@@ -2331,6 +2359,130 @@ void QQuickGraphsItem::updateGrid()
     gridGeometry->setVertexData(vertices);
     gridGeometry->update();
     m_gridUpdate = false;
+}
+
+void QQuickGraphsItem::updateShaderGrid()
+{
+    const int textureSize = 4096;
+    QVector<QVector4D> grid(textureSize, QVector4D(0, 0, 0, 0));
+    QQmlListReference materialsRef(m_background, "materials");
+    QQuick3DCustomMaterial *bgMat;
+    if (!materialsRef.size()) {
+        bgMat = createQmlCustomMaterial(QStringLiteral(":/materials/BackgroundMaterial"));
+        bgMat->setParent(m_background);
+        materialsRef.append(bgMat);
+    } else {
+        bgMat = static_cast<QQuick3DCustomMaterial *>(materialsRef.at(0));
+    }
+
+    QVariant texAsVariant = bgMat->property("gridTex");
+    auto *texinput = texAsVariant.value<QQuick3DShaderUtilsTextureInput *>();
+    QQuick3DTexture *texMap = texinput->texture();
+    QQuick3DTextureData *mapData = nullptr;
+    if (!texMap) {
+        texMap = new QQuick3DTexture();
+        texMap->setParent(this);
+        texMap->setHorizontalTiling(QQuick3DTexture::MirroredRepeat);
+        texMap->setVerticalTiling(QQuick3DTexture::MirroredRepeat);
+        texMap->setMinFilter(QQuick3DTexture::Linear);
+        texMap->setMagFilter(QQuick3DTexture::Nearest);
+        mapData = new QQuick3DTextureData();
+        mapData->setSize(QSize(textureSize, 1));
+        mapData->setFormat(QQuick3DTextureData::RGBA32F);
+        mapData->setParent(texMap);
+        mapData->setParentItem(texMap);
+    } else {
+        mapData = texMap->textureData();
+    }
+
+    QVector<int> lineCounts(6);
+    gridLineCountHelper(axisX(), lineCounts[0], lineCounts[3]);
+    gridLineCountHelper(axisY(), lineCounts[1], lineCounts[4]);
+    gridLineCountHelper(axisZ(), lineCounts[2], lineCounts[5]);
+
+    float baseWidth = 100;
+    QVector<int> lineWidths(3);
+    lineWidths[0] = baseWidth / m_scaleWithBackground.x();
+    lineWidths[1] = baseWidth / m_scaleWithBackground.y();
+    lineWidths[2] = baseWidth / m_scaleWithBackground.z();
+
+    QVector<QVector4D> axisMask = {QVector4D(1, 0, 0, 0),
+                                   QVector4D(0, 1, 0, 0),
+                                   QVector4D(0, 0, 1, 0)};
+
+    bgMat->setProperty("scale", m_scaleWithBackground);
+    bgMat->setProperty("polar", isPolar());
+    bool xCat = axisX()->type() == QAbstract3DAxis::AxisType::Category;
+    bool zCat = axisZ()->type() == QAbstract3DAxis::AxisType::Category;
+    bgMat->setProperty("xCategory", xCat);
+    bgMat->setProperty("zCategory", zCat);
+    bgMat->setProperty("margin", backgroundScaleMargin());
+
+    for (int i = 0; i < lineCounts.size(); i++) {
+        int lineCount = lineCounts[i];
+        int axis = i % 3;
+        QVector4D mask = axisMask.at(axis);
+        QVector4D revMask = QVector4D(1, 1, 1, 0) - mask;
+        for (int j = 0; j < lineCount; j++) {
+            float linePos = -1;
+            switch (i) {
+            case 0:
+                if (!xCat)
+                    linePos = static_cast<QValue3DAxis *>(axisX())->gridPositionAt(j);
+                else
+                    linePos = float(j) / float(lineCount);
+                break;
+            case 1:
+                if (axisY()->type() == QAbstract3DAxis::AxisType::Value)
+                    linePos = static_cast<QValue3DAxis *>(axisY())->gridPositionAt(j);
+                else
+                    linePos = float(j) / float(lineCount);
+                break;
+            case 2:
+                if (!zCat)
+                    linePos = static_cast<QValue3DAxis *>(axisZ())->gridPositionAt(j);
+                else
+                    linePos = float(j) / float(lineCount);
+                break;
+            case 3:
+                if (!xCat)
+                    linePos = static_cast<QValue3DAxis *>(axisX())->subGridPositionAt(j);
+                break;
+            case 4:
+                if (axisY()->type() == QAbstract3DAxis::AxisType::Value)
+                    linePos = static_cast<QValue3DAxis *>(axisY())->subGridPositionAt(j);
+                break;
+            case 5:
+                if (!zCat)
+                    linePos = static_cast<QValue3DAxis *>(axisZ())->subGridPositionAt(j);
+                break;
+            }
+            if (linePos < 0)
+                continue;
+
+            int index = (textureSize - 1) * linePos;
+            for (int k = 0; k < lineWidths[axis]; k++) {
+                float nextIdx = qMin(index + k, textureSize - 1);
+                float prevIdx = qMax(index - k, 0);
+
+                float dist = float(lineWidths[axis] - k) / float(lineWidths[axis]);
+                float curDist = (grid[nextIdx] * mask).length();
+
+                if (dist > curDist)
+                    grid[nextIdx] = grid[nextIdx] * revMask + dist * mask;
+
+                curDist = (grid[prevIdx] * mask).length();
+                if (dist > curDist)
+                    grid[prevIdx] = grid[prevIdx] * revMask + dist * mask;
+            }
+        }
+    }
+
+    QByteArray data = QByteArray(reinterpret_cast<char *>(grid.data()),
+                                 grid.size() * sizeof(QVector4D));
+    mapData->setTextureData(data);
+    texMap->setTextureData(mapData);
+    texinput->setTexture(texMap);
 }
 
 float QQuickGraphsItem::fontScaleFactor(float pointSize)

@@ -745,6 +745,49 @@ void QQuickGraphsSurface::synchData()
         }
         setSurfaceTextureChanged(false);
     }
+
+    if (theme()->isShaderGridEnabled()) {
+        if (!m_topGrid) {
+            //add horizontal top grid
+            QUrl topGridUrl = QUrl(QStringLiteral(":/defaultMeshes/barMeshFull"));
+            m_topGrid = new QQuick3DModel();
+            m_topGridScale = new QQuick3DNode();
+            m_topGridRotation = new QQuick3DNode();
+
+            m_topGridScale->setParent(rootNode());
+            m_topGridScale->setParentItem(rootNode());
+
+            m_topGridRotation->setParent(m_topGridScale);
+            m_topGridRotation->setParentItem(m_topGridScale);
+
+            m_topGrid->setObjectName("Top Grid");
+            m_topGrid->setParent(m_topGridRotation);
+            m_topGrid->setParentItem(m_topGridRotation);
+
+            m_topGrid->setSource(topGridUrl);
+            m_topGrid->setPickable(false);
+        }
+        auto min = qMin(scaleWithBackground().x() + backgroundScaleMargin().x(),
+                        scaleWithBackground().z() + backgroundScaleMargin().z());
+        m_topGridScale->setScale(QVector3D(scaleWithBackground().x() + backgroundScaleMargin().x(),
+                                           min * gridOffset(),
+                                           scaleWithBackground().z() + backgroundScaleMargin().z()));
+        m_topGridScale->setPosition(
+            QVector3D(0.0f, scaleWithBackground().y() + backgroundScaleMargin().y(), 0.0f));
+
+        m_topGrid->setVisible(m_flipHorizontalGrid);
+        QQmlListReference materialsRefF(m_topGrid, "materials");
+        QQmlListReference bbRef(background(), "materials");
+        QQuick3DCustomMaterial *bgMatFloor;
+        if (!materialsRefF.size() && bbRef.size()) {
+            bgMatFloor = static_cast<QQuick3DCustomMaterial *>(bbRef.at(0));
+            materialsRefF.append(bgMatFloor);
+            bgMatFloor->setProperty("gridOnTop", m_flipHorizontalGrid);
+        } else if (materialsRefF.size()) {
+            bgMatFloor = static_cast<QQuick3DCustomMaterial *>(materialsRefF.at(0));
+            bgMatFloor->setProperty("gridOnTop", m_flipHorizontalGrid);
+        }
+    }
 }
 
 void QQuickGraphsSurface::updateGraph()

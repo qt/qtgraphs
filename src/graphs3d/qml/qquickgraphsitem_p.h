@@ -379,6 +379,7 @@ public:
     bool isZFlipped() const { return m_zFlipped; }
     void setZFlipped(bool zFlipped) { m_zFlipped = zFlipped; }
     QVector3D scaleWithBackground() const { return m_scaleWithBackground; }
+    QVector3D backgroundScaleMargin() const { return m_backgroundScaleMargin; }
     void setScaleWithBackground(const QVector3D &scale) { m_scaleWithBackground = scale; }
     void setBackgroundScaleMargin(const QVector3D &margin) { m_backgroundScaleMargin = margin; }
     QVector3D rotation() const { return m_rot; }
@@ -620,6 +621,7 @@ protected:
         m_hasVerticalSegmentLine = hasVerticalLine;
     }
     void updateGrid();
+    void updateShaderGrid();
     void updateLabels();
     void updateSliceGrid();
     void updateSliceLabels();
@@ -799,6 +801,7 @@ private:
     bool m_sliceActivatedChanged = false;
 
     bool m_gridUpdated = false;
+    bool m_shaderGridEnabled = false;
 
     QVector3D m_labelPosition = QVector3D();
     QVector3D m_fontScaled = QVector3D();

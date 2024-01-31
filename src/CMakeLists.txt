@@ -90,6 +90,7 @@ else()
         "graphs3d/qml/resources/VolumeLowDefMaterial.qml"
         "graphs3d/qml/resources/VolumeSliceMaterial.qml"
         "graphs3d/qml/resources/VolumeFrameMaterial.qml"
+        "graphs3d/qml/resources/BackgroundMaterial.qml"
     )
 
     foreach(file IN LISTS qml_material_resources)
@@ -174,6 +175,7 @@ else()
         "graphs3d/engine/shaders/texture3d.vert"
         "graphs3d/engine/shaders/texture3dlowdef.frag"
         "graphs3d/engine/shaders/texture3dslice.frag"
+        "graphs3d/engine/shaders/backgroundgrid.frag"
     )
 
     foreach(file IN LISTS shader_resource_files)

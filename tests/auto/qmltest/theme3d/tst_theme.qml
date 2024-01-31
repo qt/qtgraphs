@@ -58,6 +58,7 @@ Item {
         colorStyle: Theme3D.ColorStyle.RangeGradient
         font.family: "Arial"
         gridEnabled: false
+        shaderGridEnabled: true
         gridLineColor: "#00ff00"
         labelBackgroundColor: "#ff00ff"
         labelBackgroundEnabled: false
@@ -101,6 +102,7 @@ Item {
             // Initial font needs to be tested like this, as different platforms have different default font (QFont())
             compare(initial.font.family, dummy.font.family)
             compare(initial.gridEnabled, true)
+            compare(initial.shaderGridEnabled, false)
             compare(initial.gridLineColor, "#ffffff")
             compare(initial.labelBackgroundColor, "#a0a0a4")
             compare(initial.labelBackgroundEnabled, true)
@@ -134,6 +136,7 @@ Item {
             compare(initialized.colorStyle, Theme3D.ColorStyle.RangeGradient)
             compare(initialized.font.family, "Arial")
             compare(initialized.gridEnabled, false)
+            compare(initialized.shaderGridEnabled, true)
             compare(initialized.gridLineColor, "#00ff00")
             compare(initialized.labelBackgroundColor, "#ff00ff")
             compare(initialized.labelBackgroundEnabled, false)
@@ -177,6 +180,7 @@ Item {
             change.colorStyle = Theme3D.ColorStyle.ObjectGradient
             change.font.family = "Arial"
             change.gridEnabled = false
+            change.shaderGridEnabled = true
             change.gridLineColor = "#00ff00"
             change.labelBackgroundColor = "#ff00ff"
             change.labelBackgroundEnabled = false
@@ -203,6 +207,7 @@ Item {
             compare(change.colorStyle, Theme3D.ColorStyle.ObjectGradient)
             compare(change.font.family, "Arial")
             compare(change.gridEnabled, false)
+            compare(change.shaderGridEnabled, true)
             compare(change.gridLineColor, "#00ff00")
             compare(change.labelBackgroundColor, "#ff00ff")
             compare(change.labelBackgroundEnabled, false)

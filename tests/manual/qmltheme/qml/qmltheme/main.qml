@@ -48,6 +48,7 @@ Item {
         singleHighlightColor: "yellow"
         multiHighlightGradient: multiGradient
         singleHighlightGradient: singleGradient
+        shaderGridEnabled: testgridChange.checked
     }
 
     Theme3D {
@@ -61,6 +62,7 @@ Item {
         singleHighlightColor: "yellow"
         multiHighlightGradient: multiGradient
         singleHighlightGradient: singleGradient
+        shaderGridEnabled: testgridChange.checked
     }
 
     Item {
@@ -259,6 +261,15 @@ Item {
         }
 
         Label {
+            text: "Geometry/Shader Grid"
+            color: "gray"
+        }
+        CheckBox {
+            id: testgridChange
+            checked: false
+        }
+
+        Label {
             text: "Labels"
             color: "gray"
         }
@@ -299,6 +310,5 @@ Item {
             id: testgradientchange
             checked: false
         }
-
     }
 }

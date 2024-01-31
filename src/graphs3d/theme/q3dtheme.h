@@ -45,6 +45,8 @@ class Q_GRAPHS_EXPORT Q3DTheme : public QObject, public QQmlParserStatus
     Q_PROPERTY(bool backgroundEnabled READ isBackgroundEnabled WRITE setBackgroundEnabled NOTIFY
                    backgroundEnabledChanged)
     Q_PROPERTY(bool gridEnabled READ isGridEnabled WRITE setGridEnabled NOTIFY gridEnabledChanged)
+    Q_PROPERTY(bool shaderGridEnabled READ isShaderGridEnabled WRITE setShaderGridEnabled NOTIFY
+                   shaderGridEnabledChanged)
     Q_PROPERTY(bool labelBackgroundEnabled READ isLabelBackgroundEnabled WRITE
                    setLabelBackgroundEnabled NOTIFY labelBackgroundEnabledChanged)
     Q_PROPERTY(bool labelBorderEnabled READ isLabelBorderEnabled WRITE setLabelBorderEnabled NOTIFY
@@ -148,6 +150,9 @@ public:
     void setGridEnabled(bool enabled);
     bool isGridEnabled() const;
 
+    void setShaderGridEnabled(bool enabled);
+    bool isShaderGridEnabled() const;
+
     void setLabelBackgroundEnabled(bool enabled);
     bool isLabelBackgroundEnabled() const;
 
@@ -217,6 +222,7 @@ Q_SIGNALS:
     void fontChanged(const QFont &font);
     void backgroundEnabledChanged(bool enabled);
     void gridEnabledChanged(bool enabled);
+    void shaderGridEnabledChanged(bool enabled);
     void labelBackgroundEnabledChanged(bool enabled);
     void colorStyleChanged(Q3DTheme::ColorStyle style);
     void labelsEnabledChanged(bool enabled);

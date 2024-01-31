@@ -61,6 +61,9 @@ QT_BEGIN_NAMESPACE
  *     \li gridEnabled
  *     \li \c true
  *   \row
+ *     \li shaderGridEnabled
+ *     \li \c false
+ *   \row
  *     \li gridLineColor
  *     \li Qt::white
  *   \row
@@ -217,6 +220,9 @@ QT_BEGIN_NAMESPACE
  *   \row
  *     \li gridEnabled
  *     \li \c true
+ *   \row
+ *     \li shaderGridEnabled
+ *     \li \c false
  *   \row
  *     \li gridLineColor
  *     \li "white"
@@ -413,6 +419,13 @@ QT_BEGIN_NAMESPACE
  * \qmlproperty bool Theme3D::gridEnabled
  *
  * Defines whether the grid lines are drawn. This value affects all grid lines.
+ */
+
+/*!
+ * \qmlproperty bool Theme3D::shaderGridEnabled
+ *
+ * Defines whether the grid lines are drawn inside a shader instead of lines.
+ * This value affects all grid lines.
  */
 
 /*!
@@ -958,6 +971,30 @@ bool Q3DTheme::isGridEnabled() const
 }
 
 /*!
+ * \property Q3DTheme::shaderGridEnabled
+ *
+ * \brief Whether the grid lines are drawn inside a shader instead of lines.
+ *
+ * This value affects all grid lines.
+ */
+void Q3DTheme::setShaderGridEnabled(bool enabled)
+{
+    Q_D(Q3DTheme);
+    d->m_dirtyBits.shaderGridEnabledDirty = true;
+    if (d->m_shaderGridEnabled != enabled) {
+        d->m_shaderGridEnabled = enabled;
+        emit shaderGridEnabledChanged(enabled);
+        emit needRender();
+    }
+}
+
+bool Q3DTheme::isShaderGridEnabled() const
+{
+    const Q_D(Q3DTheme);
+    return d->m_shaderGridEnabled;
+}
+
+/*!
  * \property Q3DTheme::labelBackgroundEnabled
  *
  *\brief Whether the label is drawn with a color background or with a fully
@@ -1431,6 +1468,7 @@ Q3DThemePrivate::Q3DThemePrivate()
     , m_backgoundEnabled(true)
     , m_forcePredefinedType(true)
     , m_gridEnabled(true)
+    , m_shaderGridEnabled(false)
     , m_isDefaultTheme(false)
     , m_labelBackground(true)
     , m_labelBorders(true)
@@ -1511,6 +1549,10 @@ bool Q3DThemePrivate::sync(Q3DThemePrivate &other)
     if (m_dirtyBits.gridEnabledDirty) {
         other.q_func()->setGridEnabled(m_gridEnabled);
         m_dirtyBits.gridEnabledDirty = false;
+    }
+    if (m_dirtyBits.shaderGridEnabledDirty) {
+        other.q_func()->setGridEnabled(m_shaderGridEnabled);
+        m_dirtyBits.shaderGridEnabledDirty = false;
     }
     if (m_dirtyBits.gridLineColorDirty) {
         other.q_func()->setGridLineColor(m_gridLineColor);

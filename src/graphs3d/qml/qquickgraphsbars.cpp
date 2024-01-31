@@ -589,7 +589,6 @@ void QQuickGraphsBars::synchData()
 
     // Do not clear dirty flag, we need to react to it in qquickgraphicsitem as well
     if (theme()->d_func()->m_dirtyBits.backgroundEnabledDirty) {
-        m_floorBackground->setVisible(theme()->isBackgroundEnabled());
         setSeriesVisualsDirty(true);
         for (auto it = m_barModelsMap.begin(); it != m_barModelsMap.end(); it++)
             it.key()->d_func()->m_changeTracker.meshChanged = true;
@@ -608,10 +607,16 @@ void QQuickGraphsBars::synchData()
     QQuickGraphsItem::synchData();
 
     // Draw floor
+
+    //margin for a line to be fully visible on the edge in the grid shader
+    const float halfLineWidth = 50.0;
+    const float gridTextureSize = 4096.0;
+    const float gridMargin = halfLineWidth / gridTextureSize;
     m_floorBackground->setPickable(false);
     auto min = qMin(scaleWithBackground().x(), scaleWithBackground().z());
-    m_floorBackgroundScale->setScale(
-        QVector3D(scaleWithBackground().x(), min * gridOffset(), scaleWithBackground().z()));
+    m_floorBackgroundScale->setScale(QVector3D(scaleWithBackground().x() + gridMargin,
+                                               min * gridOffset(),
+                                               scaleWithBackground().z() + gridMargin));
     m_floorBackgroundScale->setPosition(QVector3D(0.0f, -m_backgroundAdjustment, 0.0f));
 
     QQuaternion m_xRightAngleRotation(QQuaternion::fromAxisAndAngle(1.0f, 0.0f, 0.0f, 90.0f));
@@ -623,19 +628,12 @@ void QQuickGraphsBars::synchData()
         m_floorBackgroundRotation->setRotation(m_xRightAngleRotationNeg);
 
     QQmlListReference materialsRefF(m_floorBackground, "materials");
-    QQuick3DPrincipledMaterial *bgMatFloor;
-    if (!materialsRefF.size()) {
-        bgMatFloor = new QQuick3DPrincipledMaterial();
-        bgMatFloor->setParent(m_floorBackground);
-        bgMatFloor->setMetalness(0.f);
-        bgMatFloor->setRoughness(.3f);
-        bgMatFloor->setEmissiveFactor(QVector3D(.001f, .001f, .001f));
+    QQmlListReference bbRef(background(), "materials");
+    QQuick3DCustomMaterial *bgMatFloor;
+    if (!materialsRefF.size() && bbRef.size()) {
+        bgMatFloor = static_cast<QQuick3DCustomMaterial *>(bbRef.at(0));
         materialsRefF.append(bgMatFloor);
-    } else {
-        bgMatFloor = static_cast<QQuick3DPrincipledMaterial *>(materialsRefF.at(0));
     }
-    bgMatFloor->setBaseColor(theme()->backgroundColor());
-
     if (m_selectedBarPos.isNull())
         itemLabel()->setVisible(false);
 }

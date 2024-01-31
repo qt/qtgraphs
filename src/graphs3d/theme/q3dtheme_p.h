@@ -30,6 +30,7 @@ struct Q3DThemeDirtyBitField
     bool colorStyleDirty : 1;
     bool fontDirty : 1;
     bool gridEnabledDirty : 1;
+    bool shaderGridEnabledDirty : 1;
     bool gridLineColorDirty : 1;
     bool labelBackgroundColorDirty : 1;
     bool labelBackgroundEnabledDirty : 1;
@@ -55,6 +56,7 @@ struct Q3DThemeDirtyBitField
         , colorStyleDirty(false)
         , fontDirty(false)
         , gridEnabledDirty(false)
+        , shaderGridEnabledDirty(false)
         , gridLineColorDirty(false)
         , labelBackgroundColorDirty(false)
         , labelBackgroundEnabledDirty(false)
@@ -127,6 +129,7 @@ public:
     bool m_backgoundEnabled;
     bool m_forcePredefinedType;
     bool m_gridEnabled;
+    bool m_shaderGridEnabled;
     bool m_isDefaultTheme;
     bool m_labelBackground;
     bool m_labelBorders;

@@ -254,6 +254,10 @@ private:
     QList<QSurface3DSeries *> m_changedTextures;
     bool m_isSeriesVisibilityDirty = false;
 
+    QQuick3DModel *m_topGrid = nullptr;
+    QQuick3DNode *m_topGridScale = nullptr;
+    QQuick3DNode *m_topGridRotation = nullptr;
+
     DataDimensions m_dataDimensions;
 
     friend class Q3DSurface;
