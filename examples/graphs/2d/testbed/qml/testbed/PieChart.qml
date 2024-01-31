@@ -31,15 +31,39 @@ Item {
 
         PieSeries {
             id: pieSeries
-            PieSlice { label: "Volkswagen"; value: 13.5 }
-            PieSlice { label: "Toyota"; value: 10.9 }
-            PieSlice { label: "Ford"; value: 8.6 }
-            PieSlice { label: "Skoda"; value: 8.2 }
-            PieSlice { label: "Volvo"; value: 6.8 }
+            PieSlice {
+                label: "Volkswagen"
+                labelVisible: true
+                value: 13.5
+            }
+            PieSlice {
+                label: "Toyota"
+                labelVisible: true
+                labelPosition: PieSlice.LabelInsideHorizontal
+                value: 10.9
+            }
+            PieSlice {
+                label: "Ford"
+                labelVisible: true
+                labelPosition: PieSlice.LabelInsideNormal
+                value: 8.6
+            }
+            PieSlice {
+                label: "Skoda"
+                labelVisible: true
+                labelPosition: PieSlice.LabelInsideTangential
+                value: 8.2
+            }
+            PieSlice {
+                label: "Volvo"
+                labelVisible: true
+                value: 6.8
+            }
         }
 
         Component.onCompleted: {
             otherSlice = pieSeries.append("Others", 52.0);
+            otherSlice.labelVisible = true;
             pieSeries.find("Volkswagen").exploded = true;
         }
     }

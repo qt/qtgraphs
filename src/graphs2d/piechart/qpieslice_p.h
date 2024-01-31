@@ -13,24 +13,28 @@
 //
 // We mean it.
 
+#include <QtCore/private/qobject_p.h>
+#include <QtGui/QColor>
+#include <QtGui/QFont>
 #include <QtGraphs/qpieslice.h>
-#include <QtQuick/private/qquickitem_p.h>
 
 QT_BEGIN_NAMESPACE
 
 class PieRenderer;
+class QColor;
+class QFont;
 class QPieSeries;
-class QQuickShapePath;
 class QQuickPathArc;
 class QQuickPathLine;
+class QQuickShape;
+class QQuickShapePath;
+class QQuickText;
 
-class QPieSlicePrivate : public QQuickItemPrivate
+class QPieSlicePrivate : public QObjectPrivate
 {
 public:
     QPieSlicePrivate();
     ~QPieSlicePrivate();
-
-    static QPieSlicePrivate *fromSlice(QPieSlice *slice);
 
     void setPercentage(qreal percentage);
     void setStartAngle(qreal angle);
@@ -38,9 +42,18 @@ public:
 
 private:
     friend class QPieSeries;
+    friend class QPieSeriesPrivate;
     friend class PieRenderer;
 
+    void setLabelVisible(bool visible);
+    void setLabelPosition(QPieSlice::LabelPosition position);
+
     QString m_labelText;
+    bool m_isLabelVisible;
+    QPieSlice::LabelPosition m_labelPosition;
+    QColor m_labelColor;
+    QFont m_labelFont;
+    qreal m_labelArmLengthFactor;
     qreal m_value;
     qreal m_percentage;
     qreal m_startAngle;
@@ -48,10 +61,18 @@ private:
     bool m_isExploded;
     qreal m_explodeDistanceFactor;
 
+    bool m_labelDirty;
+
     QQuickShapePath *m_shapePath;
     QQuickPathArc *m_arc;
     QQuickPathLine *m_lineToCenter;
     QQuickPathLine *m_lineFromCenter;
+
+    QQuickText *m_labelItem;
+    QQuickShape *m_labelShape;
+    QQuickShapePath *m_labelPath;
+    QQuickPathLine *m_labelArm;
+    QQuickPathLine *m_labelUnderline;
 
     QPieSeries *m_series;
 

@@ -11,7 +11,6 @@
 
 PieRenderer::PieRenderer(QQuickItem *parent)
     : QQuickItem(parent)
-    , m_needUpdate(false)
 {
     m_graph = qobject_cast<QGraphsView *>(parent);
 
@@ -30,28 +29,22 @@ void PieRenderer::setSize(QSizeF size)
 void PieRenderer::handlePolish(QPieSeries *series)
 {
     for (QPieSlice *slice : series->slices()) {
-        QPieSlicePrivate *d = QPieSlicePrivate::fromSlice(slice);
-        if (!d->m_shapePath)
-            d->m_shapePath = new QQuickShapePath(m_shape);
+        QPieSlicePrivate *d = slice->d_func();
         QQuickShapePath *shapePath = d->m_shapePath;
+        if (shapePath->parent())
+            shapePath->setParent(m_shape);
         auto data = m_shape->data();
         data.append(&data, shapePath);
 
-        auto pathElements = shapePath->pathElements();
-
-        if (!d->m_arc) {
-            d->m_arc = new QQuickPathArc(shapePath);
-            pathElements.append(&pathElements, d->m_arc);
+        if (!d->m_labelItem->parent()) {
+            d->m_labelItem->setParent(m_graph);
+            d->m_labelItem->setParentItem(m_graph);
         }
 
-        if (!d->m_lineToCenter) {
-            d->m_lineToCenter = new QQuickPathLine(shapePath);
-            pathElements.append(&pathElements, d->m_lineToCenter);
-        }
-
-        if (!d->m_lineFromCenter) {
-            d->m_lineFromCenter = new QQuickPathLine(shapePath);
-            pathElements.append(&pathElements, d->m_lineFromCenter);
+        QQuickShape *labelShape = d->m_labelShape;
+        if (!labelShape->parent()) {
+            labelShape->setParent(this);
+            labelShape->setParentItem(this);
         }
     }
 }
@@ -63,9 +56,6 @@ void PieRenderer::updateSeries(QPieSeries *series)
     qreal radius = size().width() > size().height() ? size().height() : size().width();
     radius *= (.5 * series->size());
 
-    qreal startX = qQNaN();
-    qreal startY = qQNaN();
-
     QSeriesTheme *theme = series->theme();
     if (!theme)
         return;
@@ -74,21 +64,19 @@ void PieRenderer::updateSeries(QPieSeries *series)
     int sliceIndex = 0;
     QList<QLegendData> legendDataList;
     for (QPieSlice *slice : series->slices()) {
-        QPieSlicePrivate *d = QPieSlicePrivate::fromSlice(slice);
+        QPieSlicePrivate *d = slice->d_func();
+
+        // update slice
         QQuickShapePath *shapePath = d->m_shapePath;
-        auto data = m_shape->data();
-        data.append(&data, shapePath);
+
         QColor borderColor = theme->graphSeriesBorderColor(sliceIndex);
         QColor color = theme->graphSeriesColor(sliceIndex);
         shapePath->setStrokeWidth(theme->borderWidth());
         shapePath->setStrokeColor(borderColor);
         shapePath->setFillColor(color);
-        qreal radian = .0;
-        if (qIsNaN(startX) || qIsNaN(startY)) {
-            radian = qDegreesToRadians(slice->startAngle());
-            startX = radius * qSin(radian);
-            startY = radius * qCos(radian);
-        }
+        qreal radian = qDegreesToRadians(slice->startAngle());
+        qreal startX = radius * qSin(radian);
+        qreal startY = radius * qCos(radian);
 
         qreal explodeDistance = .0;
         if (slice->isExploded())
@@ -120,8 +108,22 @@ void PieRenderer::updateSeries(QPieSeries *series)
         pathLine->setX(xShift + startX);
         pathLine->setY(yShift - startY);
 
-        startX = pointX;
-        startY = pointY;
+        // Update label
+        QQuickShapePath *labelPath = d->m_labelPath;
+        radian = qDegreesToRadians(slice->startAngle() + (slice->angleSpan() * .5));
+        startX = radius * qSin(radian);
+        startY = radius * qCos(radian);
+        labelPath->setStartX(xShift + startX);
+        labelPath->setStartY(yShift - startY);
+
+        QQuickPathLine *labelArm = d->m_labelArm;
+        pointX = radius * (1.0 + d->m_labelArmLengthFactor) * qSin(radian);
+        pointY = radius * (1.0 + d->m_labelArmLengthFactor) * qCos(radian);
+        labelArm->setX(xShift + pointX);
+        labelArm->setY(yShift - pointY);
+
+        d->setLabelPosition(d->m_labelPosition);
+
         sliceIndex++;
         legendDataList.push_back({color, borderColor, d->m_labelText});
     }

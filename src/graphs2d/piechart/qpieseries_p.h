@@ -29,6 +29,7 @@ public:
     void initializeAxes() override;
 
     void updateData();
+    void updateLabels();
     void setSizes(qreal innerSize, qreal outerSize);
 
 public Q_SLOTS:

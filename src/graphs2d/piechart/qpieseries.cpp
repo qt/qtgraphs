@@ -86,6 +86,12 @@ QT_BEGIN_NAMESPACE
 */
 
 /*!
+    \qmlsignal PieSeries::horizontalPositionChanged()
+    This signal is emitted when the horizontal position changes.
+    \sa horizontalPosition
+*/
+
+/*!
     \property QPieSeries::verticalPosition
     \brief The vertical position of the pie.
 
@@ -112,6 +118,11 @@ QT_BEGIN_NAMESPACE
     \endlist
     The default value is 0.5 (center).
     \sa horizontalPosition
+*/
+/*!
+    \qmlsignal PieSeries::verticalPositionChanged()
+    This signal is emitted when the vertical position changes.
+    \sa verticalPosition
 */
 
 /*!
@@ -148,6 +159,11 @@ QT_BEGIN_NAMESPACE
 
     The default value is 0.7.
 */
+/*!
+    \qmlsignal PieSeries::sizeChanged()
+    This signal is emitted when the size changes.
+    \sa size
+*/
 
 /*!
     \property QPieSeries::startAngle
@@ -166,6 +182,11 @@ QT_BEGIN_NAMESPACE
     A full pie is 360 degrees, where 0 degrees is at 12 o'clock.
 
     The default value is 0.
+*/
+/*!
+    \qmlsignal PieSeries::startAngleChanged()
+    This signal is emitted when the start angle changes.
+    \sa startAngle
 */
 
 /*!
@@ -186,6 +207,11 @@ QT_BEGIN_NAMESPACE
 
     The default value is 360.
 */
+/*!
+    \qmlsignal PieSeries::endAngleChanged()
+    This signal is emitted when the end angle changes.
+    \sa endAngle
+*/
 
 /*!
     \property QPieSeries::count
@@ -200,7 +226,7 @@ QT_BEGIN_NAMESPACE
 */
 
 /*!
-    \fn void QPieSeries::countChanged()
+    \qmlsignal PieSeries::countChanged()
     This signal is emitted when the slice count changes.
     \sa count
 */
@@ -222,7 +248,7 @@ QT_BEGIN_NAMESPACE
 */
 
 /*!
-    \fn void QPieSeries::sumChanged()
+    \qmlsignal PieSeries::sumChanged()
     This signal is emitted when the sum of all slices changes.
     \sa sum
 */
@@ -232,13 +258,11 @@ QT_BEGIN_NAMESPACE
 
     This signal is emitted when the slices specified by \a slices are added to the series.
 
-    \sa append(), insert()
+    \sa append()
 */
 /*!
     \qmlsignal PieSeries::added(list<PieSlice> slices)
     This signal is emitted when the slices specified by \a slices are added to the series.
-
-    The corresponding signal handler is \c onAdded.
 */
 
 /*!
@@ -249,22 +273,6 @@ QT_BEGIN_NAMESPACE
 /*!
     \qmlsignal PieSeries::removed(list<PieSlice> slices)
     This signal is emitted when the slices specified by \a slices are removed from the series.
-
-    The corresponding signal handler is \c onRemoved.
-*/
-
-/*!
-    \qmlsignal PieSeries::sliceAdded(PieSlice slice)
-    This signal is emitted when the slice specified by \a slice is added to the series.
-
-    The corresponding signal handler is \c onSliceAdded.
-*/
-
-/*!
-    \qmlsignal PieSeries::sliceRemoved(PieSlice slice)
-    This signal is emitted when the slice specified by \a slice is removed from the series.
-
-    The corresponding signal handler is \c onSliceRemoved.
 */
 
 /*!
@@ -372,16 +380,14 @@ bool QPieSeries::append(const QList<QPieSlice *> &slices)
 
     for (auto *s : slices) {
         s->setParent(this);
-        QPieSlicePrivate::fromSlice(s)->m_series = this;
+        s->d_func()->m_series = this;
         d->m_slices << s;
     }
 
     d->updateData();
 
-    for (auto *s : slices) {
-        connect(s, SIGNAL(sliceChanged()), d, SLOT(handleSliceChange()));
-        connect(s, SIGNAL(labelChanged()), d, SLOT(handleSliceChange())); // label can be updated separately
-    }
+    for (auto *s : slices)
+        QObject::connect(s, SIGNAL(sliceChanged()), d, SLOT(handleSliceChange()));
 
     emit added(slices);
     emit countChanged();
@@ -441,13 +447,12 @@ bool QPieSeries::insert(int index, QPieSlice *slice)
         return false;
 
     slice->setParent(this);
-    QPieSlicePrivate::fromSlice(slice)->m_series = this;
+    slice->d_func()->m_series = this;
     d->m_slices.insert(index, slice);
 
     d->updateData();
 
     connect(slice, SIGNAL(sliceChanged()), d, SLOT(handleSliceChange()));
-    connect(slice, SIGNAL(labelChanged()), d, SLOT(handleSliceChange())); // label can be updated separately
 
     emit added(QList<QPieSlice *>() << slice);
     emit countChanged();
@@ -497,7 +502,7 @@ bool QPieSeries::take(QPieSlice *slice)
     if (!d->m_slices.removeOne(slice))
         return false;
 
-    QPieSlicePrivate::fromSlice(slice)->m_series = 0;
+    slice->d_func()->m_series = 0;
     slice->disconnect(d);
 
     d->updateData();
@@ -717,37 +722,35 @@ void QPieSeries::componentComplete()
     QAbstractSeries::componentComplete();
 }
 
-// TODO : Label Support (QTBUG-121694)
-// /*!
-//     Sets the visibility of all slice labels to \a visible.
+/*!
+    Sets the visibility of all slice labels to \a visible.
 
-//  \note This function affects only the current slices in the series.
-//  If a new slice is added, the default label visibility is \c false.
+    \note This function affects only the current slices in the series.
+    If a new slice is added, the default label visibility is \c false.
 
-//  \sa QPieSlice::isLabelVisible(), QPieSlice::setLabelVisible()
-// */
-// void QPieSeries::setLabelsVisible(bool visible)
-// {
-//     Q_D(QPieSeries);
-//     foreach (QPieSlice *s, d->m_slices)
-//         s->setLabelVisible(visible);
-// }
+    \sa QPieSlice::isLabelVisible(), QPieSlice::setLabelVisible()
+*/
+void QPieSeries::setLabelsVisible(bool visible)
+{
+    Q_D(QPieSeries);
+    for (QPieSlice *s : d->m_slices)
+        s->setLabelVisible(visible);
+}
 
-// TODO : Label Support (QTBUG-121694)
-// /*!
-//     Sets the position of all the slice labels to \a position.
+/*!
+    Sets the position of all the slice labels to \a position.
 
-//  \note This function affects only the current slices in the series.
-//  If a new slice is added, the default label position is QPieSlice::LabelOutside.
+    \note This function affects only the current slices in the series.
+    If a new slice is added, the default label position is QPieSlice::LabelOutside.
 
-//  \sa QPieSlice::labelPosition(), QPieSlice::setLabelPosition()
-// */
-// void QPieSeries::setLabelsPosition(QPieSlice::LabelPosition position)
-// {
-//     Q_D(QPieSeries);
-//     foreach (QPieSlice *s, d->m_slices)
-//         s->setLabelPosition(position);
-// }
+    \sa QPieSlice::labelPosition(), QPieSlice::setLabelPosition()
+*/
+void QPieSeries::setLabelsPosition(QPieSlice::LabelPosition position)
+{
+    Q_D(QPieSeries);
+    for (QPieSlice *s : d->m_slices)
+        s->setLabelPosition(position);
+}
 
 QPieSeriesPrivate::QPieSeriesPrivate(QPieSeries *q)
     : QAbstractSeriesPrivate(q)
@@ -762,7 +765,8 @@ QPieSeriesPrivate::QPieSeriesPrivate(QPieSeries *q)
 
 void QPieSeriesPrivate::handleSliceChange()
 {
-    Q_ASSERT(m_slices.contains(qobject_cast<QPieSlice *>(sender())));
+    QPieSlice *pSlice = qobject_cast<QPieSlice *>(sender());
+    Q_ASSERT(m_slices.contains(pSlice));
     updateData();
 }
 
@@ -788,12 +792,19 @@ void QPieSeriesPrivate::updateData()
     qreal sliceAngle = m_pieStartAngle;
     qreal pieSpan = m_pieEndAngle - m_pieStartAngle;
     for (QPieSlice *s : m_slices) {
-        QPieSlicePrivate *d = QPieSlicePrivate::fromSlice(s);
+        QPieSlicePrivate *d = s->d_func();
         d->setPercentage(s->value() / m_sum);
         d->setStartAngle(sliceAngle);
         d->setAngleSpan(pieSpan * s->percentage());
         sliceAngle += s->angleSpan();
     }
+
+    emit q->update();
+}
+
+void QPieSeriesPrivate::updateLabels()
+{
+    Q_Q(QPieSeries);
 
     emit q->update();
 }

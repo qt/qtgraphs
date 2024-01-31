@@ -6,12 +6,11 @@
 
 #include <QtGraphs/qabstractseries.h>
 #include <QtGraphs/qgraphsglobal.h>
-Q_MOC_INCLUDE(<QtGraphs/qpieslice.h>)
+#include <QtGraphs/qpieslice.h>
 
 QT_BEGIN_NAMESPACE
 
 class QPieSeriesPrivate;
-class QPieSlice;
 
 class Q_GRAPHS_EXPORT QPieSeries : public QAbstractSeries
 {
@@ -65,6 +64,9 @@ public:
 
     void setEndAngle(qreal endAngle);
     qreal endAngle() const;
+
+    void setLabelsVisible(bool visible);
+    void setLabelsPosition(QPieSlice::LabelPosition position);
 
 protected:
     void componentComplete() override;

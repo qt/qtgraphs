@@ -21,7 +21,6 @@ QT_BEGIN_NAMESPACE
 class QGraphsView;
 class QPieSeries;
 class QQuickShape;
-class QQuickShapePath;
 
 class PieRenderer : public QQuickItem
 {
@@ -35,8 +34,6 @@ public:
     void setSize(QSizeF size);
 
 private:
-    bool m_needUpdate;
-
     QGraphsView *m_graph;
     QQuickShape *m_shape;
 };

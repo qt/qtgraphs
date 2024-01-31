@@ -2,6 +2,8 @@
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 
 #include <private/qpieslice_p.h>
+#include <QtQuick/private/qquicktext_p.h>
+#include <QtQuickShapes/private/qquickshape_p.h>
 
 QT_BEGIN_NAMESPACE
 
@@ -53,12 +55,12 @@ QT_BEGIN_NAMESPACE
     Alternatively, slices can be added to a pie series by using the \l{PieSeries::append()}
     {PieSeries.append()} method.
 
-    In that case, \l{PieSeries::at()}{PieSeries.at()} or \l {PieSeries::find}
-    {PieSeries.find} can be used to access the properties of an individual PieSlice instance.
+    In that case, \l{PieSeries::at()}{PieSeries.at()} or \l {PieSeries::find()}
+    {PieSeries.find()} can be used to access the properties of an individual PieSlice instance.
     \sa PieSeries
 */
 
-/* TODO: Label implementation (QTBUG-121694)
+/*!
     \enum QPieSlice::LabelPosition
 
     This enum describes the position of the slice label.
@@ -81,9 +83,7 @@ QT_BEGIN_NAMESPACE
     \brief The label of the slice.
     \note The string can be HTML formatted.
 
-    \omit TODO: Label implementation (QTBUG-121694)
-    \sa labelVisible, labelBrush, labelFont, labelArmLengthFactor
-    \endomit
+    \sa labelVisible, labelFont, labelArmLengthFactor
 */
 /*!
     \qmlproperty string PieSlice::label
@@ -92,7 +92,7 @@ QT_BEGIN_NAMESPACE
 */
 
 /*!
-    \fn void QPieSlice::labelChanged()
+    \qmlsignal PieSlice::labelChanged()
     This signal is emitted when the slice label changes.
     \sa label
 */
@@ -111,68 +111,55 @@ QT_BEGIN_NAMESPACE
 */
 
 /*!
-    \fn void QPieSlice::valueChanged()
+    \qmlsignal PieSlice::valueChanged()
     This signal is emitted when the slice value changes.
     \sa value
 */
 
-/* TODO: Label implementation (QTBUG-121694)
+/*!
     \property QPieSlice::labelVisible
     \brief The visibility of the slice label. By default, the label is not visible.
-    \sa label, labelBrush, labelFont, labelArmLengthFactor
+    \sa label, labelFont, labelArmLengthFactor
 */
-/* TODO: Label implementation (QTBUG-121694)
+/*!
     \qmlproperty bool PieSlice::labelVisible
     The visibility of the slice label. By default, the label is not visible.
 */
 
-/* TODO: Label implementation (QTBUG-121694)
-    \fn void QPieSlice::labelVisibleChanged()
+/*!
+    \qmlsignal PieSlice::labelVisibleChanged()
     This signal is emitted when the visibility of the slice label changes.
     \sa labelVisible
 */
 
 /*!
-    \property QPieSlice::exploded
-    \brief Whether the slice is separated from the pie.
-    \sa explodeDistanceFactor
-*/
-/*!
-    \qmlproperty bool PieSlice::exploded
-    Whether the slice is separated from the pie.
-    \sa explodeDistanceFactor
-*/
-
-/* TODO: Label implementation (QTBUG-121694)
     \property QPieSlice::labelColor
     \brief The color used to draw the slice label.
-    This is a convenience property for modifying the slice label brush.
-    \sa labelBrush
 */
-/* TODO: Label implementation (QTBUG-121694)
+/*!
     \qmlproperty color PieSlice::labelColor
     The color used to draw the slice label.
 */
 
-/* TODO: Label implementation (QTBUG-121694)
-    \fn void QPieSlice::labelColorChanged()
+/*!
+    \qmlsignal PieSlice::labelColorChanged()
     This signal is emitted when the slice label color changes.
     \sa labelColor
 */
 
-/* TODO: Label implementation (QTBUG-121694)
+/*!
     \property QPieSlice::labelFont
     \brief The font used for drawing the label text.
     \sa label, labelVisible, labelArmLengthFactor
 */
 
-/* TODO: Label implementation (QTBUG-121694)
-    \fn void QPieSlice::labelFontChanged()
+/*!
+    \qmlsignal PieSlice::labelFontChanged()
     This signal is emitted when the label font of the slice changes.
     \sa labelFont
 */
 
-/* TODO: Label implementation (QTBUG-121694)
+/*!
     \qmlproperty font PieSlice::labelFont
 
     The font used for the slice label.
@@ -181,13 +168,18 @@ QT_BEGIN_NAMESPACE
 
     \sa labelVisible, labelPosition
 */
+/*!
+    \qmlsignal PieSlice::labelFontChanged()
+    This signal is emitted when the label font changes.
+    \sa labelFont
+*/
 
-/* TODO: Label implementation (QTBUG-121694)
+/*!
     \property QPieSlice::labelPosition
     \brief The position of the slice label.
     \sa label, labelVisible
 */
-/* TODO: Label implementation (QTBUG-121694)
+/*!
     \qmlproperty enumeration PieSlice::labelPosition
 
     Describes the position of the slice label.
@@ -206,8 +198,13 @@ QT_BEGIN_NAMESPACE
 
     \sa labelVisible
 */
+/*!
+    \qmlsignal PieSlice::labelPositionChanged()
+    This signal is emitted when the label position changes.
+    \sa labelPosition
+*/
 
-/* TODO: Label implementation (QTBUG-121694)
+/*!
     \property QPieSlice::labelArmLengthFactor
     \brief The length of the label arm.
     The factor is relative to the pie radius. For example:
@@ -216,9 +213,9 @@ QT_BEGIN_NAMESPACE
         \li 0.5 means that the length is half of the radius.
     \endlist
     By default, the arm length is 0.15
-    \sa label, labelVisible, labelBrush, labelFont
+    \sa label, labelVisible, labelFont
 */
-/* TODO: Label implementation (QTBUG-121694)
+/*!
     \qmlproperty real PieSlice::labelArmLengthFactor
     The length of the label arm.
     The factor is relative to the pie radius. For example:
@@ -229,6 +226,27 @@ QT_BEGIN_NAMESPACE
     By default, the arm length is 0.15
 
     \sa labelVisible
+*/
+/*!
+    \qmlsignal PieSlice::labelArmLengthFactorChanged()
+    This signal is emitted when the label arm length factor changes.
+    \sa labelArmLengthFactor
+*/
+
+/*!
+    \property QPieSlice::exploded
+    \brief Whether the slice is separated from the pie.
+    \sa explodeDistanceFactor
+*/
+/*!
+    \qmlproperty bool PieSlice::exploded
+    Whether the slice is separated from the pie.
+    \sa explodeDistanceFactor
+*/
+/*!
+    \qmlsignal PieSlice::explodedChanged()
+    This signal is emitted when the exploded property changes.
+    \sa exploded
 */
 
 /*!
@@ -252,6 +270,11 @@ QT_BEGIN_NAMESPACE
 
     \sa exploded
 */
+/*!
+    \qmlsignal PieSlice::explodeDistanceFactorChanged()
+    This signal is emitted when the explode distance factor changes.
+    \sa explodeDistanceFactor
+*/
 
 /*!
     \property QPieSlice::percentage
@@ -268,7 +291,7 @@ QT_BEGIN_NAMESPACE
 */
 
 /*!
-    \fn void QPieSlice::percentageChanged()
+    \qmlsignal PieSlice::percentageChanged()
     This signal is emitted when the percentage of the slice changes.
     \sa percentage
 */
@@ -287,7 +310,7 @@ QT_BEGIN_NAMESPACE
 */
 
 /*!
-    \fn void QPieSlice::startAngleChanged()
+    \qmlsignal PieSlice::startAngleChanged()
     This signal is emitted when the starting angle of the slice changes.
     \sa startAngle
 */
@@ -306,7 +329,7 @@ QT_BEGIN_NAMESPACE
 */
 
 /*!
-    \fn void QPieSlice::angleSpanChanged()
+    \qmlsignal PieSlice::angleSpanChanged()
     This signal is emitted when the angle span of the slice changes.
     \sa angleSpan
 */
@@ -315,8 +338,8 @@ QT_BEGIN_NAMESPACE
     Constructs an empty slice with the parent \a parent.
     \sa QPieSeries::append(), QPieSeries::insert()
 */
-QPieSlice::QPieSlice(QQuickItem *parent)
-    : QQuickItem(*(new QPieSlicePrivate), parent)
+QPieSlice::QPieSlice(QObject *parent)
+    : QObject(*(new QPieSlicePrivate), parent)
 {
 }
 
@@ -324,12 +347,11 @@ QPieSlice::QPieSlice(QQuickItem *parent)
     Constructs an empty slice with the specified \a value, \a label, and \a parent.
     \sa QPieSeries::append(), QPieSeries::insert()
 */
-QPieSlice::QPieSlice(const QString &label, qreal value, QQuickItem *parent)
-    : QQuickItem(*(new QPieSlicePrivate), parent)
+QPieSlice::QPieSlice(const QString &label, qreal value, QObject *parent)
+    : QObject(*(new QPieSlicePrivate), parent)
 {
-    Q_D(QPieSlice);
-    d->m_labelText = label;
-    d->m_value = value;
+    setLabel(label);
+    setValue(value);
 }
 
 /*!
@@ -374,6 +396,7 @@ void QPieSlice::setLabel(const QString &label)
     if (d->m_labelText == label)
         return;
     d->m_labelText = label;
+    d->m_labelItem->setText(label);
     emit labelChanged();
 }
 
@@ -381,6 +404,83 @@ QString QPieSlice::label() const
 {
     const Q_D(QPieSlice);
     return d->m_labelText;
+}
+
+void QPieSlice::setLabelVisible(bool visible)
+{
+    Q_D(QPieSlice);
+    if (d->m_isLabelVisible == visible)
+        return;
+
+    d->setLabelVisible(visible);
+    emit labelVisibleChanged();
+}
+
+bool QPieSlice::isLabelVisible() const
+{
+    const Q_D(QPieSlice);
+    return d->m_isLabelVisible;
+}
+
+void QPieSlice::setLabelPosition(LabelPosition position)
+{
+    Q_D(QPieSlice);
+    if (d->m_labelPosition == position)
+        return;
+
+    d->setLabelPosition(position);
+}
+
+QPieSlice::LabelPosition QPieSlice::labelPosition()
+{
+    Q_D(QPieSlice);
+    return d->m_labelPosition;
+}
+
+void QPieSlice::setLabelColor(QColor color)
+{
+    Q_D(QPieSlice);
+    if (d->m_labelColor == color)
+        return;
+
+    d->m_labelColor = color;
+    emit labelColorChanged();
+}
+
+QColor QPieSlice::labelColor()
+{
+    Q_D(QPieSlice);
+    return d->m_labelColor;
+}
+
+void QPieSlice::setLabelFont(const QFont &font)
+{
+    Q_D(QPieSlice);
+    d->m_labelFont = font;
+    d->m_labelItem->setFont(font);
+    emit labelFontChanged();
+}
+
+QFont QPieSlice::labelFont() const
+{
+    const Q_D(QPieSlice);
+    return d->m_labelFont;
+}
+
+void QPieSlice::setLabelArmLengthFactor(qreal factor)
+{
+    Q_D(QPieSlice);
+
+    if (qFuzzyCompare(d->m_labelArmLengthFactor, factor))
+        return;
+
+    d->m_labelArmLengthFactor = factor;
+}
+
+qreal QPieSlice::labelArmLengthFactor() const
+{
+    const Q_D(QPieSlice);
+    return d->m_labelArmLengthFactor;
 }
 
 void QPieSlice::setValue(qreal value)
@@ -438,26 +538,47 @@ qreal QPieSlice::explodeDistanceFactor() const
 }
 
 QPieSlicePrivate::QPieSlicePrivate()
-    : m_value(0)
+    : m_isLabelVisible(false)
+    , m_labelPosition(QPieSlice::LabelOutside)
+    , m_labelArmLengthFactor(.15)
+    , m_value(0)
     , m_percentage(0)
     , m_startAngle(0)
     , m_angleSpan(0)
     , m_isExploded(false)
     , m_explodeDistanceFactor(.15)
-    , m_shapePath(0)
-    , m_arc(0)
-    , m_lineToCenter(0)
-    , m_lineFromCenter(0)
+    , m_labelDirty(false)
+    , m_shapePath(new QQuickShapePath)
+    , m_arc(new QQuickPathArc(m_shapePath))
+    , m_lineToCenter(new QQuickPathLine(m_shapePath))
+    , m_lineFromCenter(new QQuickPathLine(m_shapePath))
+    , m_labelItem(new QQuickText)
+    , m_labelShape(new QQuickShape)
+    , m_labelPath(new QQuickShapePath)
+    , m_labelArm(new QQuickPathLine(m_labelPath))
+    , m_labelUnderline(new QQuickPathLine(m_labelPath))
     , m_series(0)
-{}
+{
+    m_labelItem->setColor(Qt::white);
+    m_labelItem->setVisible(m_isLabelVisible);
+
+    auto pathElements = m_shapePath->pathElements();
+    pathElements.append(&pathElements, m_arc);
+    pathElements.append(&pathElements, m_lineToCenter);
+    pathElements.append(&pathElements, m_lineFromCenter);
+
+    m_labelShape->setVisible(m_isLabelVisible);
+    m_labelPath->setParent(m_labelShape);
+    auto data = m_labelShape->data();
+    data.append(&data, m_labelPath);
+    m_labelPath->setFillColor(Qt::transparent);
+    auto labelElements = m_labelPath->pathElements();
+    labelElements.append(&labelElements, m_labelArm);
+    labelElements.append(&labelElements, m_labelUnderline);
+}
 
 QPieSlicePrivate::~QPieSlicePrivate()
 {}
-
-QPieSlicePrivate *QPieSlicePrivate::fromSlice(QPieSlice *slice)
-{
-    return slice->d_func();
-}
 
 void QPieSlicePrivate::setPercentage(qreal percentage)
 {
@@ -486,5 +607,49 @@ void QPieSlicePrivate::setAngleSpan(qreal span)
     emit q->angleSpanChanged();
 }
 
+void QPieSlicePrivate::setLabelVisible(bool visible)
+{
+    m_isLabelVisible = visible;
+    m_labelItem->setVisible(visible);
+    if (m_labelPosition == QPieSlice::LabelOutside)
+        m_labelShape->setVisible(visible);
+}
+
+void QPieSlicePrivate::setLabelPosition(QPieSlice::LabelPosition position)
+{
+    m_labelPosition = position;
+
+    if (position == QPieSlice::LabelOutside) {
+        m_labelShape->setVisible(m_isLabelVisible);
+        qreal radian = qDegreesToRadians(m_startAngle + (m_angleSpan * .5));
+        QQuickText *labelItem = m_labelItem;
+        qreal height = labelItem->height();
+        qreal labelWidth = radian > M_PI ? -labelItem->width() : labelItem->width();
+        if (labelWidth > 0)
+            labelItem->setX(m_labelArm->x());
+        else
+            labelItem->setX(m_labelArm->x() + labelWidth);
+        labelItem->setY(m_labelArm->y() - height);
+        labelItem->setRotation(0);
+
+        m_labelUnderline->setX(m_labelArm->x() + labelWidth);
+        m_labelUnderline->setY(m_labelArm->y());
+    } else {
+        m_labelShape->setVisible(false);
+        qreal centerX = (m_shapePath->startX() + m_arc->x() + m_lineToCenter->x()) / 3.0;
+        qreal centerY = (m_shapePath->startY() + m_arc->y() + m_lineToCenter->y()) / 3.0;
+        QQuickText *labelItem = m_labelItem;
+        centerX -= labelItem->width() * .5;
+        centerY -= labelItem->height() * .5;
+        labelItem->setPosition(QPointF(centerX, centerY));
+
+        if (position == QPieSlice::LabelInsideHorizontal)
+            labelItem->setRotation(0);
+        else if (position == QPieSlice::LabelInsideNormal)
+            labelItem->setRotation(m_startAngle + (m_angleSpan * .5));
+        else if (position == QPieSlice::LabelInsideTangential)
+            labelItem->setRotation(m_startAngle + (m_angleSpan * .5) - 90);
+    }
+}
 
 QT_END_NAMESPACE
