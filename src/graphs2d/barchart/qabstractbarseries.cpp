@@ -652,10 +652,12 @@ int QAbstractBarSeriesPrivate::categoryCount() const
 
 void QAbstractBarSeriesPrivate::setBarWidth(qreal width)
 {
-    if (width < 0.0)
-        width = 0.0;
-    m_barWidth = width;
-    emit updatedLayout();
+    Q_Q(QAbstractBarSeries);
+    width = std::clamp(width, 0.0, 1.0);
+    if (!qFuzzyCompare(width, m_barWidth)) {
+        m_barWidth = width;
+        q->update();
+    }
 }
 
 qreal QAbstractBarSeriesPrivate::barWidth() const
