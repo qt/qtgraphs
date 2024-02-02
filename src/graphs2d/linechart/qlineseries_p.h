@@ -24,13 +24,9 @@ public:
     QLineSeriesPrivate(QLineSeries *q);
 
 protected:
-    void requestItems();
-
-    QAbstractAxis *m_axisX = nullptr;
-    QAbstractAxis *m_axisY = nullptr;
     qreal m_width = 2.0;
     Qt::PenCapStyle m_capStyle = Qt::PenCapStyle::SquareCap;
-    QQmlComponent *m_marker = nullptr;
+
 private:
     Q_DECLARE_PUBLIC(QLineSeries)
 };

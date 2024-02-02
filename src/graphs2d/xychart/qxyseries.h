@@ -19,15 +19,19 @@ class QXYModelMapper;
 class Q_GRAPHS_EXPORT QXYSeries : public QAbstractSeries
 {
     Q_OBJECT
+    Q_PROPERTY(QAbstractAxis *axisX READ axisX WRITE setAxisX NOTIFY axisXChanged)
+    Q_PROPERTY(QAbstractAxis *axisY READ axisY WRITE setAxisY NOTIFY axisYChanged)
     Q_PROPERTY(QColor color READ color WRITE setColor NOTIFY colorChanged)
     Q_PROPERTY(QColor selectedColor READ color WRITE setSelectedColor NOTIFY selectedColorChanged)
     Q_PROPERTY(qreal markerSize READ markerSize WRITE setMarkerSize NOTIFY markerSizeChanged)
+    Q_PROPERTY(QQmlComponent *pointMarker READ pointMarker WRITE setPointMarker NOTIFY pointMarkerChanged FINAL)
 
 protected:
     explicit QXYSeries(QXYSeriesPrivate &d, QObject *parent = nullptr);
 
 public:
     ~QXYSeries();
+    // TODO: Consider making these slots, available from QML.
     void append(qreal x, qreal y);
     void append(const QPointF &point);
     void append(const QList<QPointF> &points);
@@ -70,6 +74,15 @@ public:
     void setMarkerSize(qreal size);
     qreal markerSize() const;
 
+    QAbstractAxis *axisX() const;
+    void setAxisX(QAbstractAxis *axis);
+
+    QAbstractAxis *axisY() const;
+    void setAxisY(QAbstractAxis *axis);
+
+    QQmlComponent *pointMarker() const;
+    void setPointMarker(QQmlComponent *newPointMarker);
+
 Q_SIGNALS:
     void pointReplaced(int index);
     void pointRemoved(int index);
@@ -80,14 +93,13 @@ Q_SIGNALS:
     void pointsRemoved(int index, int count);
     void selectedPointsChanged();
     void markerSizeChanged(qreal size);
+    void axisXChanged();
+    void axisYChanged();
+    void pointMarkerChanged();
 
 private:
     Q_DECLARE_PRIVATE(QXYSeries)
     Q_DISABLE_COPY(QXYSeries)
-    friend class QXYLegendMarkerPrivate;
-    friend class XYLegendMarker;
-    friend class XYChart;
-    friend class QColorAxisPrivate;
 };
 
 QT_END_NAMESPACE

@@ -133,7 +133,7 @@ QScatterSeries::~QScatterSeries()
 
 QAbstractSeries::SeriesType QScatterSeries::type() const
 {
-    return QAbstractSeries::SeriesTypeLine;
+    return QAbstractSeries::SeriesTypeScatter;
 }
 
 QScatterSeriesPrivate::QScatterSeriesPrivate(QScatterSeries *q)
@@ -141,52 +141,5 @@ QScatterSeriesPrivate::QScatterSeriesPrivate(QScatterSeries *q)
 {
 }
 
-QAbstractAxis *QScatterSeries::axisX() const
-{
-    Q_D(const QScatterSeries);
-    return d->m_axisX;
-}
-
-void QScatterSeries::setAxisX(QAbstractAxis *axis)
-{
-    Q_D(QScatterSeries);
-    detachAxis(d->m_axisX);
-    axis->setOrientation(Qt::Horizontal);
-    d->m_axisX = axis;
-    attachAxis(axis);
-    update();
-}
-
-QAbstractAxis *QScatterSeries::axisY() const
-{
-    Q_D(const QScatterSeries);
-    return d->m_axisY;
-}
-
-void QScatterSeries::setAxisY(QAbstractAxis *axis)
-{
-    Q_D(QScatterSeries);
-    detachAxis(d->m_axisY);
-    axis->setOrientation(Qt::Vertical);
-    d->m_axisY = axis;
-    attachAxis(axis);
-    update();
-}
-
-QQmlComponent *QScatterSeries::pointMarker() const
-{
-    Q_D(const QScatterSeries);
-    return d->m_marker;
-}
-
-void QScatterSeries::setPointMarker(QQmlComponent *newPointMarker)
-{
-    Q_D(QScatterSeries);
-    if (d->m_marker == newPointMarker)
-        return;
-    d->m_marker = newPointMarker;
-    emit pointMarkerChanged();
-    update();
-}
 
 QT_END_NAMESPACE

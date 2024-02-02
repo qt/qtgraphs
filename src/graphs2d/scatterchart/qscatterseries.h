@@ -14,9 +14,6 @@ class QScatterSeriesPrivate;
 class Q_GRAPHS_EXPORT QScatterSeries : public QXYSeries
 {
     Q_OBJECT
-    Q_PROPERTY(QAbstractAxis *axisX READ axisX WRITE setAxisX NOTIFY axisXChanged)
-    Q_PROPERTY(QAbstractAxis *axisY READ axisY WRITE setAxisY NOTIFY axisYChanged)
-    Q_PROPERTY(QQmlComponent *pointMarker READ pointMarker WRITE setPointMarker NOTIFY pointMarkerChanged FINAL)
 
 public:
     explicit QScatterSeries(QObject *parent = nullptr);
@@ -24,20 +21,6 @@ public:
     QAbstractSeries::SeriesType type() const override;
 
     QML_NAMED_ELEMENT(ScatterSeries)
-
-    QAbstractAxis *axisX() const;
-    void setAxisX(QAbstractAxis *axis);
-
-    QAbstractAxis *axisY() const;
-    void setAxisY(QAbstractAxis *axis);
-
-    QQmlComponent *pointMarker() const;
-    void setPointMarker(QQmlComponent *newPointMarker);
-
-Q_SIGNALS:
-    void axisXChanged();
-    void axisYChanged();
-    void pointMarkerChanged();
 
 protected:
     QScatterSeries(QScatterSeriesPrivate &d, QObject *parent = nullptr);

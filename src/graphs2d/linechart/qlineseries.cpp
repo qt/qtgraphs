@@ -100,38 +100,6 @@ QLineSeriesPrivate::QLineSeriesPrivate(QLineSeries *q)
 {
 }
 
-QAbstractAxis *QLineSeries::axisX() const
-{
-    Q_D(const QLineSeries);
-    return d->m_axisX;
-}
-
-void QLineSeries::setAxisX(QAbstractAxis *axis)
-{
-    Q_D(QLineSeries);
-    detachAxis(d->m_axisX);
-    axis->setOrientation(Qt::Horizontal);
-    d->m_axisX = axis;
-    attachAxis(axis);
-    update();
-}
-
-QAbstractAxis *QLineSeries::axisY() const
-{
-    Q_D(const QLineSeries);
-    return d->m_axisY;
-}
-
-void QLineSeries::setAxisY(QAbstractAxis *axis)
-{
-    Q_D(QLineSeries);
-    detachAxis(d->m_axisY);
-    axis->setOrientation(Qt::Vertical);
-    d->m_axisY = axis;
-    attachAxis(axis);
-    update();
-}
-
 qreal QLineSeries::width() const
 {
     Q_D(const QLineSeries);
@@ -161,22 +129,6 @@ void QLineSeries::setCapStyle(const Qt::PenCapStyle &newCapStyle)
         return;
     d->m_capStyle = newCapStyle;
     emit capStyleChanged();
-    update();
-}
-
-QQmlComponent *QLineSeries::pointMarker() const
-{
-    Q_D(const QLineSeries);
-    return d->m_marker;
-}
-
-void QLineSeries::setPointMarker(QQmlComponent *newPointMarker)
-{
-    Q_D(QLineSeries);
-    if (d->m_marker == newPointMarker)
-        return;
-    d->m_marker = newPointMarker;
-    emit pointMarkerChanged();
     update();
 }
 
