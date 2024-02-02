@@ -45,6 +45,9 @@ protected:
     QColor m_selectedColor;
     qreal m_markerSize;
     bool m_markerSizeDefault = true;
+    QAbstractAxis *m_axisX = nullptr;
+    QAbstractAxis *m_axisY = nullptr;
+    QQmlComponent *m_marker = nullptr;
 
 private:
     Q_DECLARE_PUBLIC(QXYSeries)

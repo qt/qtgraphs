@@ -16,7 +16,7 @@ QT_BEGIN_NAMESPACE
     scatter series with static coordinate data. To manipulate a series
     dynamically, use the data manipulation functions it inherits from the
     XYSeries type, instead.
-    \sa XYSeries, LineSeries, AreaSeries, ScatterSeries, SplineSeries
+    \sa XYSeries, LineSeries, ScatterSeries
 */
 
 /*!

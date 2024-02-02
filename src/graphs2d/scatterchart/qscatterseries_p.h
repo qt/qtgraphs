@@ -23,12 +23,6 @@ class QScatterSeriesPrivate : public QXYSeriesPrivate
 public:
     QScatterSeriesPrivate(QScatterSeries *q);
 
-protected:
-    void requestItems();
-
-    QAbstractAxis *m_axisX = nullptr;
-    QAbstractAxis *m_axisY = nullptr;
-    QQmlComponent *m_marker = nullptr;
 private:
     Q_DECLARE_PUBLIC(QScatterSeries)
 };
