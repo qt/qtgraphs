@@ -41,4 +41,18 @@ MetaInfo {
             QmlSource { source: "default/ScatterSeries.qml" }
         }
     }
+    Type {
+        name: "QtGraphs.GraphsView"
+        icon: "images/splineseries-chart-icon16.png"
+
+        ItemLibraryEntry {
+            name: "Spline"
+            category: "Qt Graphs - GraphsView"
+            libraryIcon: "images/splineseries-chart-icon.png"
+            version: "1.0"
+            requiredImport: "QtGraphs"
+
+            QmlSource { source: "default/SplineSeries.qml" }
+        }
+    }
 }

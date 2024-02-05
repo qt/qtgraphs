@@ -89,6 +89,7 @@ QT_BEGIN_NAMESPACE
     \value SeriesTypeBar A vertical bar graph.
     \value SeriesTypeScatter A scatter graph.
     \value SeriesTypePie A pie graph.
+    \value SeriesTypeSpline A spline graph.
 */
 
 /*!
@@ -402,6 +403,7 @@ void QAbstractSeries::setGraph(QGraphsView *graph)
         break;
     case QAbstractSeries::SeriesTypeScatter:
     case QAbstractSeries::SeriesTypeLine:
+    case QAbstractSeries::SeriesTypeSpline:
         graph->createPointRenderer();
         graph->createAxisRenderer();
         break;

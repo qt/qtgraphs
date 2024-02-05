@@ -26,6 +26,7 @@ else()
        "graphs2d/qml/designer/default/BarSeries.qml"
        "graphs2d/qml/designer/default/LineSeries.qml"
        "graphs2d/qml/designer/default/ScatterSeries.qml"
+       "graphs2d/qml/designer/default/SplineSeries.qml"
     )
 
     set_source_files_properties(${qml_designer_2d_files} PROPERTIES

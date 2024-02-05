@@ -54,6 +54,10 @@ Item {
             name: "Pie Graph"
             file: "PieChart.qml"
         }
+        ListElement {
+            name: "Spline"
+            file: "SplineSeries.qml"
+        }
     }
 
     Component {

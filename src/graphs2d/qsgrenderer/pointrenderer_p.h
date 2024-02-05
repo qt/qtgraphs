@@ -24,6 +24,7 @@ class QGraphsView;
 class QXYSeries;
 class QLineSeries;
 class QScatterSeries;
+class QSplineSeries;
 
 class PointRenderer : public QQuickItem
 {
@@ -35,6 +36,7 @@ public:
 
     void handlePolish(QLineSeries *series);
     void handlePolish(QScatterSeries *series);
+    void handlePolish(QSplineSeries *series);
     void updateSeries(QXYSeries *series);
     void handleMouseMove(QMouseEvent *event);
     void handleMousePress(QMouseEvent *event);
@@ -47,7 +49,7 @@ private:
     struct PointGroup {
         QXYSeries *series;
         QQuickShapePath *shapePath = nullptr;
-        QList<QQuickPathLine *> paths;
+        QList<QQuickCurve *> paths;
         QList<QQuickItem *> markers;
         QList<QSGDefaultInternalRectangleNode *> nodes;
         QList<QRectF> rects;
@@ -66,6 +68,10 @@ private:
     QPoint m_pressStart;
     PointGroup *m_pressedGroup = nullptr;
     int m_pressedPointIndex = 0;
+
+    // Curve fitting from QtCharts
+    QList<QPointF> fitCubicSpline(const QList<QPointF> &points);
+    QList<qreal> firstControlPoints(const QList<qreal> &list);
 };
 
 QT_END_NAMESPACE

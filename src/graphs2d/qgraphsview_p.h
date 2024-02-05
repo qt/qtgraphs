@@ -19,14 +19,14 @@
 #include <QQmlListProperty>
 #include <QtGraphs/qabstractseries.h>
 
-#include <QPen>
 #include <QBrush>
-#include <private/axisrenderer_p.h>
-#include <private/barsrenderer_p.h>
-#include <private/pointrenderer_p.h>
-#include <private/pierenderer_p.h>
+#include <QPen>
 #include <QtGraphs/qgraphtheme.h>
 #include <QtQuick/QSGClipNode>
+#include <private/axisrenderer_p.h>
+#include <private/barsrenderer_p.h>
+#include <private/pierenderer_p.h>
+#include <private/pointrenderer_p.h>
 
 QT_BEGIN_NAMESPACE
 

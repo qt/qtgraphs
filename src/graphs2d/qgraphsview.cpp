@@ -1,11 +1,12 @@
 // Copyright (C) 2023 The Qt Company Ltd.
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 
-#include <private/qgraphsview_p.h>
 #include <QtGraphs/qbarseries.h>
 #include <QtGraphs/qlineseries.h>
-#include <QtGraphs/qscatterseries.h>
 #include <QtGraphs/qpieseries.h>
+#include <QtGraphs/qscatterseries.h>
+#include <QtGraphs/qsplineseries.h>
+#include <private/qgraphsview_p.h>
 
 QT_BEGIN_NAMESPACE
 
@@ -115,7 +116,6 @@ bool QGraphsView::hasSeries(QObject *series)
 {
     return m_seriesList.contains(series);
 }
-
 
 void QGraphsView::addAxis(QAbstractAxis *axis)
 {
@@ -299,6 +299,9 @@ QSGNode *QGraphsView::updatePaintNode(QSGNode *oldNode, QQuickItem::UpdatePaintN
 
             if (auto scatterSeries = qobject_cast<QScatterSeries *>(series))
                 m_pointRenderer->updateSeries(scatterSeries);
+
+            if (auto splineSeries = qobject_cast<QSplineSeries *>(series))
+                m_pointRenderer->updateSeries(splineSeries);
         }
 
         if (m_pieRenderer) {
@@ -331,6 +334,10 @@ void QGraphsView::updatePolish()
 
             if (auto scatterSeries = qobject_cast<QScatterSeries *>(series))
                 m_pointRenderer->handlePolish(scatterSeries);
+
+            if (auto splineSeries = qobject_cast<QSplineSeries *>(series)) {
+                m_pointRenderer->handlePolish(splineSeries);
+            }
         }
 
         if (m_pieRenderer) {

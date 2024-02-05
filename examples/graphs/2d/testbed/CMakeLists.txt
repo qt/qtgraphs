@@ -59,6 +59,7 @@ qt6_add_qml_module(testbed
         qml/testbed/CppBarSeries.qml
         qml/testbed/CppLineSeries.qml
         qml/testbed/PieChart.qml
+        qml/testbed/SplineSeries.qml
     RESOURCES
         qml/testbed/images/arrow_icon.png
         qml/testbed/images/icon_settings.png
