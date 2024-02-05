@@ -66,6 +66,10 @@ Item {
             name: "Area"
             file: "AreaSeries.qml"
         }
+        ListElement {
+            name: "Dynamic Spline"
+            file: "DynamicSplineSeries.qml"
+        }
     }
 
     Component {

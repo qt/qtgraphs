@@ -47,15 +47,34 @@ QT_BEGIN_NAMESPACE
 */
 
 QSplineSeries::QSplineSeries(QObject *parent)
-    : QXYSeries(*new QSplineSeriesPrivate(this), parent)
+    : QXYSeries(*new QSplineSeriesPrivate(parent, this), parent)
+{
+}
+
+QSplineSeries::QSplineSeries(QSplineSeriesPrivate &d, QObject *parent)
+    : QXYSeries(d, parent)
 {}
 
 void QSplineSeries::componentComplete()
 {
+    Q_D(QSplineSeries);
+
     for (auto *child : children()) {
         if (auto point = qobject_cast<QXYPoint *>(child))
             append(point->x(), point->y());
     }
+
+    d->calculateSplinePoints();
+
+    connect(this, &QSplineSeries::pointAdded, this, [d, this]([[maybe_unused]] int index) {
+        d->calculateSplinePoints();
+
+        if (animated())
+            d->m_animation->animate();
+
+        emit update();
+    });
+
     QAbstractSeries::componentComplete();
 }
 
@@ -64,6 +83,9 @@ QSplineSeries::~QSplineSeries()
     Q_D(QSplineSeries);
     if (d->m_graph)
         d->m_graph->removeSeries(this);
+
+    if (animated())
+        d->m_animation->stop();
 }
 
 QAbstractSeries::SeriesType QSplineSeries::type() const
@@ -71,13 +93,11 @@ QAbstractSeries::SeriesType QSplineSeries::type() const
     return QAbstractSeries::SeriesTypeSpline;
 }
 
-QSplineSeriesPrivate::QSplineSeriesPrivate(QSplineSeries *q)
-    : QXYSeriesPrivate(q)
-{}
-
-QSplineSeries::QSplineSeries(QSplineSeriesPrivate &d, QObject *parent)
-    : QXYSeries(d, parent)
-{}
+QList<QPointF> &QSplineSeries::getControlPoints()
+{
+    Q_D(QSplineSeries);
+    return d->m_controlPoints;
+}
 
 qreal QSplineSeries::width() const
 {
@@ -113,6 +133,131 @@ void QSplineSeries::setCapStyle(Qt::PenCapStyle newCapStyle)
     d->m_capStyle = newCapStyle;
     emit capStyleChanged();
     emit update();
+}
+
+bool QSplineSeries::animated() const
+{
+    Q_D(const QSplineSeries);
+    return d->m_animated;
+}
+
+void QSplineSeries::setAnimated(bool isAnimated)
+{
+    Q_D(QSplineSeries);
+    if (d->m_animated == isAnimated)
+        return;
+    d->m_animated = isAnimated;
+
+    emit animatedChanged();
+}
+
+QSplineSeriesPrivate::QSplineSeriesPrivate(QObject *q, QSplineSeries *spline)
+    : QXYSeriesPrivate(spline)
+    , m_width(1.0)
+    , m_animated(false)
+    , m_capStyle(Qt::PenCapStyle::SquareCap)
+    , m_controlPoints()
+    , m_animation(new QSplineAnimation(q, spline))
+{}
+
+void QSplineSeriesPrivate::calculateSplinePoints()
+{
+    if (m_points.size() == 0) {
+        return;
+    } else if (m_points.size() == 1) {
+        m_controlPoints = {m_points[0], m_points[0]};
+        return;
+    }
+
+    QList<QPointF> controlPoints;
+    controlPoints.resize(m_points.size() * 2 - 2);
+
+    int n = m_points.size() - 1;
+
+    if (n == 1) {
+        //for n==1
+        controlPoints[0].setX((2 * m_points[0].x() + m_points[1].x()) / 3);
+        controlPoints[0].setY((2 * m_points[0].y() + m_points[1].y()) / 3);
+        controlPoints[1].setX(2 * controlPoints[0].x() - m_points[0].x());
+        controlPoints[1].setY(2 * controlPoints[0].y() - m_points[0].y());
+        m_controlPoints = controlPoints;
+    }
+
+    // Calculate first Bezier control points
+    // Set of equations for P0 to Pn points.
+    //
+    //  |   2   1   0   0   ... 0   0   0   ... 0   0   0   |   |   P1_1    |   |   P1 + 2 * P0             |
+    //  |   1   4   1   0   ... 0   0   0   ... 0   0   0   |   |   P1_2    |   |   4 * P1 + 2 * P2         |
+    //  |   0   1   4   1   ... 0   0   0   ... 0   0   0   |   |   P1_3    |   |   4 * P2 + 2 * P3         |
+    //  |   .   .   .   .   .   .   .   .   .   .   .   .   |   |   ...     |   |   ...                     |
+    //  |   0   0   0   0   ... 1   4   1   ... 0   0   0   | * |   P1_i    | = |   4 * P(i-1) + 2 * Pi     |
+    //  |   .   .   .   .   .   .   .   .   .   .   .   .   |   |   ...     |   |   ...                     |
+    //  |   0   0   0   0   0   0   0   0   ... 1   4   1   |   |   P1_(n-1)|   |   4 * P(n-2) + 2 * P(n-1) |
+    //  |   0   0   0   0   0   0   0   0   ... 0   2   7   |   |   P1_n    |   |   8 * P(n-1) + Pn         |
+    //
+    QList<qreal> list;
+    list.resize(n);
+
+    list[0] = m_points[0].x() + 2 * m_points[1].x();
+
+    for (int i = 1; i < n - 1; ++i)
+        list[i] = 4 * m_points[i].x() + 2 * m_points[i + 1].x();
+
+    list[n - 1] = (8 * m_points[n - 1].x() + m_points[n].x()) / 2.0;
+
+    const QList<qreal> xControl = calculateControlPoints(list);
+
+    list[0] = m_points[0].y() + 2 * m_points[1].y();
+
+    for (int i = 1; i < n - 1; ++i)
+        list[i] = 4 * m_points[i].y() + 2 * m_points[i + 1].y();
+
+    list[n - 1] = (8 * m_points[n - 1].y() + m_points[n].y()) / 2.0;
+
+    const QList<qreal> yControl = calculateControlPoints(list);
+
+    for (int i = 0, j = 0; i < n; ++i, ++j) {
+        controlPoints[j].setX(xControl[i]);
+        controlPoints[j].setY(yControl[i]);
+
+        j++;
+
+        if (i < n - 1) {
+            controlPoints[j].setX(2 * m_points[i + 1].x() - xControl[i + 1]);
+            controlPoints[j].setY(2 * m_points[i + 1].y() - yControl[i + 1]);
+        } else {
+            controlPoints[j].setX((m_points[n].x() + xControl[n - 1]) / 2);
+            controlPoints[j].setY((m_points[n].y() + yControl[n - 1]) / 2);
+        }
+    }
+
+    m_controlPoints = controlPoints;
+}
+
+QList<qreal> QSplineSeriesPrivate::calculateControlPoints(const QList<qreal> &list)
+{
+    QList<qreal> result;
+
+    int count = list.size();
+    result.resize(count);
+    result[0] = list[0] / 2.0;
+
+    QList<qreal> temp;
+    temp.resize(count);
+    temp[0] = 0;
+
+    qreal b = 2.0;
+
+    for (int i = 1; i < count; i++) {
+        temp[i] = 1 / b;
+        b = (i < count - 1 ? 4.0 : 3.5) - temp[i];
+        result[i] = (list[i] - result[i - 1]) / b;
+    }
+
+    for (int i = 1; i < count; i++)
+        result[count - i - 1] -= temp[count - i] * result[count - i];
+
+    return result;
 }
 
 QT_END_NAMESPACE

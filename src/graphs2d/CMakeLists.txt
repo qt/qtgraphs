@@ -31,4 +31,6 @@ qt_internal_extend_target(Graphs
         qsgrenderer/arearenderer.cpp qsgrenderer/arearenderer_p.h
         splinechart/qsplineseries.cpp splinechart/qsplineseries.h splinechart/qsplineseries_p.h
         areachart/qareaseries.cpp areachart/qareaseries.h areachart/qareaseries_p.h
+        animator/qgraphanimation.cpp animator/qgraphanimation_p.h
+        splinechart/qsplineanimation.cpp splinechart/qsplineanimation_p.h
 )

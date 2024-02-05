@@ -17,6 +17,7 @@ class Q_GRAPHS_EXPORT QSplineSeries : public QXYSeries
     Q_OBJECT
     Q_PROPERTY(qreal width READ width WRITE setWidth NOTIFY widthChanged)
     Q_PROPERTY(Qt::PenCapStyle capStyle READ capStyle WRITE setCapStyle NOTIFY capStyleChanged)
+    Q_PROPERTY(bool animated READ animated WRITE setAnimated NOTIFY animatedChanged)
 
 public:
     explicit QSplineSeries(QObject *parent = nullptr);
@@ -31,9 +32,15 @@ public:
     Qt::PenCapStyle capStyle() const;
     void setCapStyle(Qt::PenCapStyle newCapStyle);
 
+    bool animated() const;
+    void setAnimated(bool isAnimated);
+
+    QList<QPointF> &getControlPoints();
+
 Q_SIGNALS:
     void widthChanged();
     void capStyleChanged();
+    void animatedChanged();
 
 protected:
     QSplineSeries(QSplineSeriesPrivate &d, QObject *parent = nullptr);

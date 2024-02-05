@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 
 #include <QtGraphs/qareaseries.h>
+#include <QtGraphs/qsplineseries.h>
 #include <private/arearenderer_p.h>
 #include <private/pointrenderer_p.h>
 #include <private/qabstractseries_p.h>
@@ -140,7 +141,7 @@ void AreaRenderer::handlePolish(QAreaSeries *series)
     auto &&upperPoints = upper->points();
     QList<QPointF> fittedPoints;
     if (upper->type() == QAbstractSeries::SeriesTypeSpline)
-        fittedPoints = PointRenderer::fitCubicSpline(upperPoints);
+        fittedPoints = qobject_cast<QSplineSeries *>(upper)->getControlPoints();
 
     int extraPointCount = lower ? 0 : 3;
     for (int i = 0, j = 0; i < upperPoints.size() + extraPointCount; ++i, ++j) {
@@ -185,7 +186,7 @@ void AreaRenderer::handlePolish(QAreaSeries *series)
         auto &&lowerPoints = lower->points();
         QList<QPointF> fittedPoints;
         if (upper->type() == QAbstractSeries::SeriesTypeSpline)
-            fittedPoints = PointRenderer::fitCubicSpline(lowerPoints);
+            fittedPoints = qobject_cast<QSplineSeries *>(upper)->getControlPoints();
 
         for (int i = 0, j = 0; i < lowerPoints.size(); ++i, ++j) {
             qreal x, y;

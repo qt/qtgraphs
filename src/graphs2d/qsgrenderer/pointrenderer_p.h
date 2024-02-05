@@ -43,10 +43,6 @@ public:
     bool handleMouseRelease(QMouseEvent *event);
     bool handleHoverMove(QHoverEvent *event);
 
-    // Curve fitting from QtCharts
-    static QList<QPointF> fitCubicSpline(const QList<QPointF> &points);
-    static QList<qreal> firstControlPoints(const QList<qreal> &list);
-
 Q_SIGNALS:
 
 private:
@@ -87,6 +83,7 @@ private:
     void updatePointMarker(QXYSeries *series, PointGroup *group, int pointIndex, qreal x, qreal y);
     void updateRenderablePoint(QXYSeries *series, PointGroup *group, int pointIndex);
     void updateLegendData(QXYSeries *series, QLegendData &legendData);
+
     void updateScatterSeries(QScatterSeries *scatter, QLegendData &legendData);
     void updateLineSeries(QLineSeries *line, QLegendData &legendData);
     void updateSplineSeries(QSplineSeries *spline, QLegendData &legendData);

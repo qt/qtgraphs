@@ -4,8 +4,8 @@
 #include <QtGraphs/qlineseries.h>
 #include <QtGraphs/qscatterseries.h>
 #include <QtGraphs/qsplineseries.h>
-#include <private/qabstractseries_p.h>
 #include <private/pointrenderer_p.h>
+#include <private/qabstractseries_p.h>
 #include <private/qgraphsview_p.h>
 
 QT_BEGIN_NAMESPACE
@@ -184,7 +184,7 @@ void PointRenderer::updateSplineSeries(QSplineSeries *series, QLegendData &legen
 
     auto &&points = series->points();
     if (points.count() > 0) {
-        auto fittedPoints = fitCubicSpline(points);
+        auto fittedPoints = series->getControlPoints();
 
         for (int i = 0, j = 0; i < points.count(); ++i, ++j) {
             qreal x, y;
@@ -277,7 +277,7 @@ void PointRenderer::handlePolish(QXYSeries *series)
     int pointCount = series->points().size();
     int currentSize = group->rects.size();
     if (currentSize < pointCount) {
-        for (int i = currentSize; i < pointCount; ++i) {
+        for (int i = std::max(0, currentSize - 1); i < pointCount; ++i) {
             if (i < pointCount - 1) {
                 QQuickCurve *path = nullptr;
                 if (series->type() == QAbstractSeries::SeriesTypeLine)
@@ -292,7 +292,8 @@ void PointRenderer::handlePolish(QXYSeries *series)
                 }
             }
 
-            group->rects << QRectF();
+            if (currentSize == 0 || (currentSize > 0 && i < pointCount - 1))
+                group->rects << QRectF();
         }
     }
 
@@ -525,101 +526,6 @@ bool PointRenderer::handleHoverMove(QHoverEvent *event)
         }
     }
     return handled;
-}
-
-QList<QPointF> PointRenderer::fitCubicSpline(const QList<QPointF> &points)
-{
-    if (points.size() == 1)
-        return {points[0], points[0]};
-
-    QList<QPointF> controlPoints;
-    controlPoints.resize(points.size() * 2 - 2);
-
-    int n = points.size() - 1;
-
-    if (n == 1) {
-        //for n==1
-        controlPoints[0].setX((2 * points[0].x() + points[1].x()) / 3);
-        controlPoints[0].setY((2 * points[0].y() + points[1].y()) / 3);
-        controlPoints[1].setX(2 * controlPoints[0].x() - points[0].x());
-        controlPoints[1].setY(2 * controlPoints[0].y() - points[0].y());
-        return controlPoints;
-    }
-
-    // Calculate first Bezier control points
-    // Set of equations for P0 to Pn points.
-    //
-    //  |   2   1   0   0   ... 0   0   0   ... 0   0   0   |   |   P1_1    |   |   P1 + 2 * P0             |
-    //  |   1   4   1   0   ... 0   0   0   ... 0   0   0   |   |   P1_2    |   |   4 * P1 + 2 * P2         |
-    //  |   0   1   4   1   ... 0   0   0   ... 0   0   0   |   |   P1_3    |   |   4 * P2 + 2 * P3         |
-    //  |   .   .   .   .   .   .   .   .   .   .   .   .   |   |   ...     |   |   ...                     |
-    //  |   0   0   0   0   ... 1   4   1   ... 0   0   0   | * |   P1_i    | = |   4 * P(i-1) + 2 * Pi     |
-    //  |   .   .   .   .   .   .   .   .   .   .   .   .   |   |   ...     |   |   ...                     |
-    //  |   0   0   0   0   0   0   0   0   ... 1   4   1   |   |   P1_(n-1)|   |   4 * P(n-2) + 2 * P(n-1) |
-    //  |   0   0   0   0   0   0   0   0   ... 0   2   7   |   |   P1_n    |   |   8 * P(n-1) + Pn         |
-    //
-    QList<qreal> list;
-    list.resize(n);
-
-    list[0] = points[0].x() + 2 * points[1].x();
-
-    for (int i = 1; i < n - 1; ++i)
-        list[i] = 4 * points[i].x() + 2 * points[i + 1].x();
-
-    list[n - 1] = (8 * points[n - 1].x() + points[n].x()) / 2.0;
-
-    const QList<qreal> xControl = firstControlPoints(list);
-
-    list[0] = points[0].y() + 2 * points[1].y();
-
-    for (int i = 1; i < n - 1; ++i)
-        list[i] = 4 * points[i].y() + 2 * points[i + 1].y();
-
-    list[n - 1] = (8 * points[n - 1].y() + points[n].y()) / 2.0;
-
-    const QList<qreal> yControl = firstControlPoints(list);
-
-    for (int i = 0, j = 0; i < n; ++i, ++j) {
-        controlPoints[j].setX(xControl[i]);
-        controlPoints[j].setY(yControl[i]);
-
-        j++;
-
-        if (i < n - 1) {
-            controlPoints[j].setX(2 * points[i + 1].x() - xControl[i + 1]);
-            controlPoints[j].setY(2 * points[i + 1].y() - yControl[i + 1]);
-        } else {
-            controlPoints[j].setX((points[n].x() + xControl[n - 1]) / 2);
-            controlPoints[j].setY((points[n].y() + yControl[n - 1]) / 2);
-        }
-    }
-    return controlPoints;
-}
-
-QList<qreal> PointRenderer::firstControlPoints(const QList<qreal> &list)
-{
-    QList<qreal> result;
-
-    int count = list.size();
-    result.resize(count);
-    result[0] = list[0] / 2.0;
-
-    QList<qreal> temp;
-    temp.resize(count);
-    temp[0] = 0;
-
-    qreal b = 2.0;
-
-    for (int i = 1; i < count; i++) {
-        temp[i] = 1 / b;
-        b = (i < count - 1 ? 4.0 : 3.5) - temp[i];
-        result[i] = (list[i] - result[i - 1]) / b;
-    }
-
-    for (int i = 1; i < count; i++)
-        result[count - i - 1] -= temp[count - i] * result[count - i];
-
-    return result;
 }
 
 QT_END_NAMESPACE
