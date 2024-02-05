@@ -184,72 +184,71 @@ Item {
         }
     }
 
-//    TODO: Needs either redoing, or fixing the code; see QTBUG-110000 & QTBUG-110001
-//    TestCase {
-//        name: "ItemModelSurfaceDataProxy MultiMatchBehaviour"
+    TestCase {
+        name: "ItemModelSurfaceDataProxy MultiMatchBehaviour"
 
-//        Surface3D {
-//            id: surface1
-//            Surface3DSeries {
-//                ItemModelSurfaceDataProxy {
-//                    id: surfaceProxy
-//                    itemModel: ListModel {
-//                        ListElement{ coords: "0,0"; data: "5"; }
-//                        ListElement{ coords: "0,0"; data: "15"; }
-//                        ListElement{ coords: "0,1"; data: "5"; }
-//                        ListElement{ coords: "0,1"; data: "15"; }
-//                        ListElement{ coords: "1,0"; data: "5"; }
-//                        ListElement{ coords: "1,0"; data: "15"; }
-//                        ListElement{ coords: "1,1"; data: "0"; }
-//                    }
-//                    rowRole: "coords"
-//                    columnRole: "coords"
-//                    yPosRole: "data"
-//                    rowRolePattern: /(\d),\d/
-//                    columnRolePattern: /(\d),(\d)/
-//                    rowRoleReplace: "\\1"
-//                    columnRoleReplace: "\\2"
-//                }
-//            }
-//        }
+        Surface3D {
+            id: surface1
+            Surface3DSeries {
+                ItemModelSurfaceDataProxy {
+                    id: surfaceProxy
+                    itemModel: ListModel {
+                        ListElement{ coords: "0,0"; data: "5"; }
+                        ListElement{ coords: "0,0"; data: "15"; }
+                        ListElement{ coords: "0,1"; data: "5"; }
+                        ListElement{ coords: "0,1"; data: "15"; }
+                        ListElement{ coords: "1,0"; data: "5"; }
+                        ListElement{ coords: "1,0"; data: "15"; }
+                        ListElement{ coords: "1,1"; data: "0"; }
+                    }
+                    rowRole: "coords"
+                    columnRole: "coords"
+                    yPosRole: "data"
+                    rowRolePattern: /(\d),\d/
+                    columnRolePattern: /(\d),(\d)/
+                    rowRoleReplace: "\\1"
+                    columnRoleReplace: "\\2"
+                }
+            }
+        }
 
-//        function test_0_async_dummy() {
-//        }
+        function test_0_async_dummy() {
+        }
 
-//        function test_1_test_multimatch() {
-//            compare(surface1.axisY.max, 15)
-//        }
+        function test_1_test_multimatch() {
+            compare(surface1.axisY.max, 15)
+        }
 
-//        function test_2_multimatch() {
-//            surfaceProxy.multiMatchBehavior = ItemModelSurfaceDataProxy.MultiMatchBehavior.First
-//        }
+        function test_2_multimatch() {
+            surfaceProxy.multiMatchBehavior = ItemModelSurfaceDataProxy.MultiMatchBehavior.First
+        }
 
-//        function test_3_test_multimatch() {
-//            compare(surface1.axisY.max, 5)
-//        }
+        function test_3_test_multimatch() {
+            compare(surface1.axisY.max, 5)
+        }
 
-//        function test_4_multimatch() {
-//            surfaceProxy.multiMatchBehavior = ItemModelSurfaceDataProxy.MultiMatchBehavior.Last
-//        }
+        function test_4_multimatch() {
+            surfaceProxy.multiMatchBehavior = ItemModelSurfaceDataProxy.MultiMatchBehavior.Last
+        }
 
-//        function test_5_test_multimatch() {
-//            compare(surface1.axisY.max, 15)
-//        }
+        function test_5_test_multimatch() {
+            compare(surface1.axisY.max, 15)
+        }
 
-//        function test_6_multimatch() {
-//            surfaceProxy.multiMatchBehavior = ItemModelSurfaceDataProxy.MultiMatchBehavior.Average
-//        }
+        function test_6_multimatch() {
+            surfaceProxy.multiMatchBehavior = ItemModelSurfaceDataProxy.MultiMatchBehavior.Average
+        }
 
-//        function test_7_test_multimatch() {
-//            compare(surface1.axisY.max, 10)
-//        }
+        function test_7_test_multimatch() {
+            compare(surface1.axisY.max, 10)
+        }
 
-//        function test_8_multimatch() {
-//            surfaceProxy.multiMatchBehavior = ItemModelSurfaceDataProxy.MultiMatchBehavior.CumulativeY
-//        }
+        function test_8_multimatch() {
+            surfaceProxy.multiMatchBehavior = ItemModelSurfaceDataProxy.MultiMatchBehavior.CumulativeY
+        }
 
-//        function test_9_test_multimatch() {
-//            compare(surface1.axisY.max, 20)
-//        }
-//    }
+        function test_9_test_multimatch() {
+            compare(surface1.axisY.max, 20)
+        }
+    }
 }
