@@ -47,7 +47,6 @@ class Q_GRAPHS_EXPORT QGraphTheme : public QObject, public QQmlParserStatus
     Q_PROPERTY(qreal shadowYOffset READ shadowYOffset WRITE setShadowYOffset NOTIFY shadowYOffsetChanged FINAL)
     Q_PROPERTY(qreal shadowSmoothing READ shadowSmoothing WRITE setShadowSmoothing NOTIFY shadowSmoothingChanged FINAL)
 
-    Q_ENUMS(ColorTheme)
     QML_NAMED_ELEMENT(GraphTheme)
 
 public:
@@ -57,6 +56,7 @@ public:
         ColorThemeHighContrast,
         ColorThemeQt
     };
+    Q_ENUM(ColorTheme)
 
     explicit QGraphTheme(QObject *parent = nullptr);
 

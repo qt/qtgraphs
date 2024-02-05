@@ -28,10 +28,9 @@ class Q_GRAPHS_EXPORT QAbstractSeries : public QObject, public QQmlParserStatus
     Q_PROPERTY(bool hoverable READ hoverable WRITE setHoverable NOTIFY hoverableChanged)
     Q_PROPERTY(qreal opacity READ opacity WRITE setOpacity NOTIFY opacityChanged)
     Q_PROPERTY(qreal valuesMultiplier READ valuesMultiplier WRITE setValuesMultiplier NOTIFY valuesMultiplierChanged)
-    Q_PROPERTY(SeriesType type READ type)
-    Q_PROPERTY(QQmlListProperty<QObject> seriesChildren READ seriesChildren)
+    Q_PROPERTY(SeriesType type READ type CONSTANT)
+    Q_PROPERTY(QQmlListProperty<QObject> seriesChildren READ seriesChildren CONSTANT)
     Q_CLASSINFO("DefaultProperty", "seriesChildren")
-    Q_ENUMS(SeriesType)
 
 public:
     enum SeriesType {
@@ -48,6 +47,7 @@ public:
         //SeriesTypeHorizontalPercentBar,
         //SeriesTypeBoxPlot,
     };
+    Q_ENUM(SeriesType)
 
 protected:
     QAbstractSeries(QAbstractSeriesPrivate &d, QObject *parent = nullptr);

@@ -113,7 +113,7 @@ void QLineSeries::setWidth(qreal newWidth)
         return;
     d->m_width = newWidth;
     emit widthChanged();
-    update();
+    emit update();
 }
 
 Qt::PenCapStyle QLineSeries::capStyle() const
@@ -129,7 +129,7 @@ void QLineSeries::setCapStyle(const Qt::PenCapStyle &newCapStyle)
         return;
     d->m_capStyle = newCapStyle;
     emit capStyleChanged();
-    update();
+    emit update();
 }
 
 QT_END_NAMESPACE

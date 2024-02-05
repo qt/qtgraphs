@@ -33,9 +33,9 @@ class Q_GRAPHS_EXPORT QAbstractAxis : public QObject
     Q_PROPERTY(bool titleVisible READ isTitleVisible WRITE setTitleVisible NOTIFY titleVisibleChanged)
     Q_PROPERTY(QFont titleFont READ titleFont WRITE setTitleFont NOTIFY titleFontChanged)
     //orientation
-    Q_PROPERTY(Qt::Orientation orientation READ orientation)
+    Q_PROPERTY(Qt::Orientation orientation READ orientation CONSTANT)
     //alignment
-    Q_PROPERTY(Qt::Alignment alignment READ alignment)
+    Q_PROPERTY(Qt::Alignment alignment READ alignment CONSTANT)
     QML_FOREIGN(QAbstractAxis)
     QML_UNCREATABLE("Trying to create uncreatable: AbstractAxis.")
     QML_NAMED_ELEMENT(AbstractAxis)

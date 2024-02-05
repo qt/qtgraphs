@@ -18,14 +18,13 @@ class QAbstractBarSeriesPrivate;
 class Q_GRAPHS_EXPORT QAbstractBarSeries : public QAbstractSeries
 {
     Q_OBJECT
-    Q_PROPERTY(qreal barWidth READ barWidth WRITE setBarWidth)
+    Q_PROPERTY(qreal barWidth READ barWidth WRITE setBarWidth NOTIFY barWidthChanged)
     Q_PROPERTY(int count READ count NOTIFY countChanged)
     Q_PROPERTY(bool labelsVisible READ isLabelsVisible WRITE setLabelsVisible NOTIFY labelsVisibleChanged)
     Q_PROPERTY(QString labelsFormat READ labelsFormat WRITE setLabelsFormat NOTIFY labelsFormatChanged)
     Q_PROPERTY(LabelsPosition labelsPosition READ labelsPosition WRITE setLabelsPosition NOTIFY labelsPositionChanged)
     Q_PROPERTY(qreal labelsAngle READ labelsAngle WRITE setLabelsAngle NOTIFY labelsAngleChanged)
     Q_PROPERTY(int labelsPrecision READ labelsPrecision WRITE setLabelsPrecision NOTIFY labelsPrecisionChanged)
-    Q_ENUMS(LabelsPosition)
 public:
     enum LabelsPosition {
         LabelsCenter = 0,
@@ -33,6 +32,7 @@ public:
         LabelsInsideBase,
         LabelsOutsideEnd
     };
+    Q_ENUM(LabelsPosition)
 
 public:
     virtual ~QAbstractBarSeries();
@@ -81,6 +81,7 @@ Q_SIGNALS:
     void released(int index, QBarSet *barset);
     void doubleClicked(int index, QBarSet *barset);
     void countChanged();
+    void barWidthChanged();
     void labelsVisibleChanged();
     void labelsFormatChanged(const QString &format);
     void labelsPositionChanged(QAbstractBarSeries::LabelsPosition position);

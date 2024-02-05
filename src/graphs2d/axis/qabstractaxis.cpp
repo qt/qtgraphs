@@ -259,7 +259,7 @@ void QAbstractAxis::setLineVisible(bool visible)
 {
     if (d_ptr->m_lineVisible != visible) {
         d_ptr->m_lineVisible = visible;
-        update();
+        emit update();
         emit lineVisibleChanged(visible);
     }
 }
@@ -273,7 +273,7 @@ void QAbstractAxis::setGridLineVisible(bool visible)
 {
     if (d_ptr->m_gridLineVisible != visible) {
         d_ptr->m_gridLineVisible = visible;
-        update();
+        emit update();
         emit gridVisibleChanged(visible);
     }
 }
@@ -287,7 +287,7 @@ void QAbstractAxis::setMinorGridLineVisible(bool visible)
 {
     if (d_ptr->m_minorGridLineVisible != visible) {
         d_ptr->m_minorGridLineVisible = visible;
-        update();
+        emit update();
         emit minorGridVisibleChanged(visible);
     }
 }
@@ -301,7 +301,7 @@ void QAbstractAxis::setLabelsVisible(bool visible)
 {
     if (d_ptr->m_labelsVisible != visible) {
         d_ptr->m_labelsVisible = visible;
-        update();
+        emit update();
         emit labelsVisibleChanged(visible);
     }
 }
@@ -315,7 +315,7 @@ void QAbstractAxis::setLabelsAngle(qreal angle)
 {
     if (d_ptr->m_labelsAngle != angle) {
         d_ptr->m_labelsAngle = angle;
-        update();
+        emit update();
         emit labelsAngleChanged(angle);
     }
 }
@@ -329,7 +329,7 @@ void QAbstractAxis::setTitleVisible(bool visible)
 {
     if (d_ptr->m_titleVisible != visible) {
         d_ptr->m_titleVisible = visible;
-        update();
+        emit update();
         emit titleVisibleChanged(visible);
     }
 }
@@ -346,7 +346,7 @@ void QAbstractAxis::setTitleColor(const QColor &color)
 {
     if (d_ptr->m_titleColor != color) {
         d_ptr->m_titleColor = color;
-        update();
+        emit update();
         emit titleColorChanged(color);
     }
 }
@@ -366,7 +366,7 @@ void QAbstractAxis::setTitleFont(const QFont &font)
 {
     if (d_ptr->m_titleFont != font) {
         d_ptr->m_titleFont = font;
-        update();
+        emit update();
         emit titleFontChanged(font);
     }
 }
@@ -383,7 +383,7 @@ void QAbstractAxis::setTitleText(const QString &title)
 {
     if (d_ptr->m_title != title) {
         d_ptr->m_title = title;
-        update();
+        emit update();
         emit titleTextChanged(title);
     }
 }
@@ -405,7 +405,7 @@ void QAbstractAxis::setVisible(bool visible)
 {
     if (d_ptr->m_visible != visible) {
         d_ptr->m_visible = visible;
-        update();
+        emit update();
         emit visibleChanged(visible);
     }
 }

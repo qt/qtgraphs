@@ -21,7 +21,6 @@ class Q_GRAPHS_EXPORT QSeriesTheme : public QObject, public QQmlParserStatus
     Q_PROPERTY(QList<QColor> colors READ colors WRITE setColors NOTIFY colorsChanged FINAL)
     Q_PROPERTY(QList<QColor> borderColors READ borderColors WRITE setBorderColors NOTIFY borderColorsChanged FINAL)
     Q_PROPERTY(qreal borderWidth READ borderWidth WRITE setBorderWidth NOTIFY borderWidthChanged FINAL)
-    Q_ENUMS(SeriesColorTheme)
     QML_NAMED_ELEMENT(SeriesTheme)
 
 public:
@@ -29,6 +28,7 @@ public:
         SeriesTheme1 = 0,
         SeriesTheme2
     };
+    Q_ENUM(SeriesColorTheme)
 
     explicit QSeriesTheme(QObject *parent = nullptr);
 
