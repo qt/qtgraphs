@@ -263,6 +263,11 @@ QT_BEGIN_NAMESPACE
 */
 
 /*!
+    \fn void QAbstractBarSeries::barWidthChanged()
+    This signal is emitted when the bar width changes.
+*/
+
+/*!
     \fn void QAbstractBarSeries::labelsVisibleChanged()
     This signal is emitted when the labels' visibility changes.
     \sa isLabelsVisible(), setLabelsVisible()
@@ -355,7 +360,10 @@ QAbstractBarSeries::QAbstractBarSeries(QAbstractBarSeriesPrivate &o, QObject *pa
 void QAbstractBarSeries::setBarWidth(qreal width)
 {
     Q_D(QAbstractBarSeries);
-    d->setBarWidth(width);
+    if (d->barWidth() != width) {
+        d->setBarWidth(width);
+        emit barWidthChanged();
+    }
 }
 
 /*!
@@ -385,7 +393,7 @@ bool QAbstractBarSeries::append(QBarSet *set)
         emit barsetsAdded(sets);
         emit countChanged();
     }
-    update();
+    emit update();
     return success;
 }
 
@@ -1016,7 +1024,7 @@ void QAbstractBarSeriesPrivate::handleSetValueChange(int index)
     QBarSetPrivate *priv = qobject_cast<QBarSetPrivate *>(sender());
     if (priv)
         emit setValueChanged(index, priv->q_ptr);
-    q->update();
+    emit q->update();
 }
 
 void QAbstractBarSeriesPrivate::handleSetValueAdd(int index, int count)
@@ -1025,7 +1033,7 @@ void QAbstractBarSeriesPrivate::handleSetValueAdd(int index, int count)
     QBarSetPrivate *priv = qobject_cast<QBarSetPrivate *>(sender());
     if (priv)
         emit setValueAdded(index, count, priv->q_ptr);
-    q->update();
+    emit q->update();
 }
 
 void QAbstractBarSeriesPrivate::handleSetValueRemove(int index, int count)
@@ -1034,7 +1042,7 @@ void QAbstractBarSeriesPrivate::handleSetValueRemove(int index, int count)
     QBarSetPrivate *priv = qobject_cast<QBarSetPrivate *>(sender());
     if (priv)
         emit setValueRemoved(index, count, priv->q_ptr);
-    q->update();
+    emit q->update();
 }
 
 QT_END_NAMESPACE

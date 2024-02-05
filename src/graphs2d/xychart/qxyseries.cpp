@@ -533,7 +533,7 @@ void QXYSeries::setAxisX(QAbstractAxis *axis)
     axis->setOrientation(Qt::Horizontal);
     d->m_axisX = axis;
     attachAxis(axis);
-    update();
+    emit update();
 }
 
 /*!
@@ -560,7 +560,7 @@ void QXYSeries::setAxisY(QAbstractAxis *axis)
     axis->setOrientation(Qt::Vertical);
     d->m_axisY = axis;
     attachAxis(axis);
-    update();
+    emit update();
 }
 
 /*!
@@ -584,7 +584,7 @@ void QXYSeries::setPointMarker(QQmlComponent *newPointMarker)
         return;
     d->m_marker = newPointMarker;
     emit pointMarkerChanged();
-    update();
+    emit update();
 }
 
 QXYSeries &QXYSeries::operator<< (const QPointF &point)

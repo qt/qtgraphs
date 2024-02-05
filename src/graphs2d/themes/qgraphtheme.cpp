@@ -213,7 +213,7 @@ void QGraphTheme::setColorTheme(const ColorTheme &newColorTheme)
         setColorThemeDark();
     }
 
-    update();
+    emit update();
     emit colorThemeChanged();
 }
 

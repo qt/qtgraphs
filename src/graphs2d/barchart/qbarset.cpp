@@ -121,6 +121,11 @@ QT_BEGIN_NAMESPACE
 */
 
 /*!
+    \fn void QBarSet::valuesChanged()
+    This signal is emitted when the values of the bar set change.
+*/
+
+/*!
     \fn void QBarSet::labelChanged()
     This signal is emitted when the label of the bar set changes.
     \sa label
@@ -216,7 +221,7 @@ void QBarSet::setLabel(const QString label)
     if (d_ptr->m_label != label) {
         d_ptr->m_label = label;
         d_ptr->setLabelsDirty(true);
-        update();
+        emit update();
         emit labelChanged();
     }
 }
@@ -397,7 +402,7 @@ void QBarSet::setColor(QColor color)
 {
     if (d_ptr->m_color != color) {
         d_ptr->m_color = color;
-        update();
+        emit update();
         emit colorChanged(color);
     }
 }
@@ -417,7 +422,7 @@ void QBarSet::setBorderColor(QColor color)
 {
     if (d_ptr->m_borderColor != color) {
         d_ptr->m_borderColor = color;
-        update();
+        emit update();
         emit borderColorChanged(color);
     }
 }
@@ -437,7 +442,7 @@ void QBarSet::setLabelColor(QColor color)
 {
     if (d_ptr->m_labelColor != color) {
         d_ptr->m_labelColor = color;
-        update();
+        emit update();
         emit labelColorChanged(color);
     }
 }
@@ -463,7 +468,7 @@ void QBarSet::setSelectedColor(const QColor &color)
     if (d_ptr->m_selectedColor != color) {
         d_ptr->m_selectedColor = color;
         d_ptr->setLabelsDirty(true);
-        update();
+        emit update();
         emit d_ptr->updatedBars();
         emit selectedColorChanged(color);
     }
@@ -479,7 +484,7 @@ void QBarSet::setBorderWidth(qreal width)
 {
     if (d_ptr->m_borderWidth != width) {
         d_ptr->m_borderWidth = width;
-        update();
+        emit update();
         emit borderWidthChanged(width);
     }
 }
@@ -494,6 +499,7 @@ QVariantList QBarSet::values()
 
 void QBarSet::setValues(QVariantList values)
 {
+    bool valuesUpdated = false;
     // See if we can replace values instead of remove & add all.
     // This way e.g. selections remain.
     const bool doReplace = count() == values.size();
@@ -501,6 +507,7 @@ void QBarSet::setValues(QVariantList values)
     if (!doReplace) {
         while (count())
             remove(count() - 1);
+        valuesUpdated = true;
     }
 
     if (values.size() > 0 && values.at(0).canConvert<QPoint>()) {
@@ -517,9 +524,8 @@ void QBarSet::setValues(QVariantList values)
         indexValueList.resize(maxValue + 1);
 
         for (int i = 0; i < values.size(); i++) {
-            if (values.at(i).canConvert<QPoint>()) {
+            if (values.at(i).canConvert<QPoint>())
                 indexValueList.replace(values.at(i).toPoint().x(), values.at(i).toPointF().y());
-            }
         }
 
         for (int i = 0; i < indexValueList.size(); i++) {
@@ -527,6 +533,7 @@ void QBarSet::setValues(QVariantList values)
                 QBarSet::replace(i, indexValueList.at(i));
             else
                 QBarSet::append(indexValueList.at(i));
+            valuesUpdated = true;
         }
 
     } else {
@@ -536,10 +543,13 @@ void QBarSet::setValues(QVariantList values)
                     QBarSet::replace(i, values[i].toDouble());
                 else
                     QBarSet::append(values[i].toDouble());
+                valuesUpdated = true;
             }
         }
     }
-    update();
+    emit update();
+    if (valuesUpdated)
+        emit valuesChanged();
 }
 
 
@@ -585,7 +595,7 @@ void QBarSet::setBarSelected(int index, bool selected)
 
     if (callSignal)
         emit selectedBarsChanged(selectedBars());
-    update();
+    emit update();
 }
 
 /*!
@@ -601,7 +611,7 @@ void QBarSet::selectAllBars()
 
     if (callSignal)
         emit selectedBarsChanged(selectedBars());
-    update();
+    emit update();
 }
 
 /*!
@@ -617,7 +627,7 @@ void QBarSet::deselectAllBars()
 
     if (callSignal)
         emit selectedBarsChanged(selectedBars());
-    update();
+    emit update();
 }
 
 /*!
@@ -633,7 +643,7 @@ void QBarSet::selectBars(const QList<int> &indexes)
 
     if (callSignal)
         emit selectedBarsChanged(selectedBars());
-    update();
+    emit update();
 }
 
 /*!
@@ -649,7 +659,7 @@ void QBarSet::deselectBars(const QList<int> &indexes)
 
     if (callSignal)
         emit selectedBarsChanged(selectedBars());
-    update();
+    emit update();
 }
 
 /*!
@@ -665,7 +675,7 @@ void QBarSet::toggleSelection(const QList<int> &indexes)
 
     if (callSignal)
         emit selectedBarsChanged(selectedBars());
-    update();
+    emit update();
 }
 
 /*!

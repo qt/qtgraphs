@@ -258,7 +258,7 @@ void QValueAxis::setRange(qreal min, qreal max)
 {
     Q_D(QValueAxis);
     d->setRange(min,max);
-    update();
+    emit update();
 }
 
 void QValueAxis::setMinorTickCount(int count)
@@ -266,7 +266,7 @@ void QValueAxis::setMinorTickCount(int count)
     Q_D(QValueAxis);
     if (d->m_minorTickCount != count && count >= 0) {
         d->m_minorTickCount = count;
-        update();
+        emit update();
         emit minorTickCountChanged(count);
     }
 }
@@ -282,7 +282,7 @@ void QValueAxis::setTickAnchor(qreal anchor)
     Q_D(QValueAxis);
     if (d->m_tickAnchor != anchor) {
         d->m_tickAnchor = anchor;
-        update();
+        emit update();
         emit tickAnchorChanged(anchor);
     }
 }
@@ -298,7 +298,7 @@ void QValueAxis::setTickInterval(qreal interval)
     Q_D(QValueAxis);
     if (d->m_tickInterval != interval) {
         d->m_tickInterval = interval;
-        update();
+        emit update();
         emit tickIntervalChanged(interval);
     }
 }
@@ -313,7 +313,7 @@ void QValueAxis::setLabelFormat(const QString &format)
 {
     Q_D(QValueAxis);
     d->m_format = format;
-    update();
+    emit update();
     emit labelFormatChanged(format);
 }
 
@@ -328,7 +328,7 @@ void QValueAxis::setLabelDecimals(int decimals)
     Q_D(QValueAxis);
     if (d->m_decimals != decimals) {
         d->m_decimals = decimals;
-        update();
+        emit update();
         emit labelDecimalsChanged(decimals);
     }
 }

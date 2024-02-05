@@ -22,7 +22,7 @@ class Q_GRAPHS_EXPORT QBarSet : public QObject
     Q_PROPERTY(QColor color READ color WRITE setColor NOTIFY colorChanged)
     Q_PROPERTY(QColor borderColor READ borderColor WRITE setBorderColor NOTIFY borderColorChanged)
     Q_PROPERTY(QColor labelColor READ labelColor WRITE setLabelColor NOTIFY labelColorChanged)
-    Q_PROPERTY(QVariantList values READ values WRITE setValues)
+    Q_PROPERTY(QVariantList values READ values WRITE setValues NOTIFY valuesChanged)
     Q_PROPERTY(qreal borderWidth READ borderWidth WRITE setBorderWidth NOTIFY borderWidthChanged)
     Q_PROPERTY(int count READ count NOTIFY countChanged)
     Q_PROPERTY(QList<int> selectedBars READ selectedBars NOTIFY selectedBarsChanged)
@@ -67,8 +67,10 @@ public:
     qreal borderWidth() const;
     void setBorderWidth(qreal borderWidth);
 
-public Q_SLOTS:
     bool isBarSelected(int index) const;
+    QList<int> selectedBars() const;
+
+public Q_SLOTS:
     void selectBar(int index);
     void deselectBar(int index);
     void setBarSelected(int index, bool selected);
@@ -77,7 +79,6 @@ public Q_SLOTS:
     void selectBars(const QList<int> &indexes);
     void deselectBars(const QList<int> &indexes);
     void toggleSelection(const QList<int> &indexes);
-    QList<int> selectedBars() const;
 
 Q_SIGNALS:
     void update();
@@ -85,6 +86,7 @@ Q_SIGNALS:
     void colorChanged(QColor color);
     void borderColorChanged(QColor color);
     void labelColorChanged(QColor color);
+    void valuesChanged();
     void selectedColorChanged(const QColor &color);
     void countChanged();
 
