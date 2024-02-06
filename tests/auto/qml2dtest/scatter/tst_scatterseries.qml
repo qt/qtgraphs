@@ -39,7 +39,8 @@ Item {
     // Values used for changing the properties
     ValueAxis { id: axisx; max: 10 }
     ValueAxis { id: axisy; max: 10 }
-    Rectangle { id: marker; width: 10; height: 10 }
+
+    Component { id: marker; Rectangle { width: 10; height: 10 } }
 
     TestCase {
         name: "ScatterSeries Initial"
@@ -53,7 +54,7 @@ Item {
         function test_2_initial_common() {
             // Properties from QXYSeries
             compare(initial.color, "#ffffff")
-            compare(initial.selectedColor, "#ffffff")
+            compare(initial.selectedColor, "#000000")
             compare(initial.markerSize, 15.0)
 
             // Properties from QAbstractSeries
@@ -69,8 +70,7 @@ Item {
         function test_3_initial_change() {
             initial.axisX = axisx
             initial.axisY = axisy
-            // TODO: This fails for some reason
-            //initial.pointMarker = marker
+            initial.pointMarker = marker
 
             initial.color = "#ff00ff"
             initial.selectedColor = "#00ff00"
@@ -87,11 +87,10 @@ Item {
             compare(initial.axisY, axisy)
             compare(initial.axisX.max, 10)
             compare(initial.axisY.max, 10)
-            //compare(initial.pointMarker, marker)
+            compare(initial.pointMarker, marker)
 
             compare(initial.color, "#ff00ff")
-            // TODO: This gives the color, not selectedColor - QTBUG-121695
-            //compare(initial.selectedColor, "#00ff00")
+            compare(initial.selectedColor, "#00ff00")
             compare(initial.markerSize, 5.0)
 
             compare(initial.name, "Scatter")
@@ -112,8 +111,7 @@ Item {
             verify(initialized.pointMarker)
 
             compare(initialized.color, "#ff00ff")
-            // TODO: This gives the color, not selectedColor - QTBUG-121695
-            //compare(initialized.selectedColor, "#00ff00")
+            compare(initialized.selectedColor, "#00ff00")
             compare(initialized.markerSize, 5.0)
 
             compare(initialized.name, "ScatterSeries")
@@ -145,8 +143,7 @@ Item {
             verify(!initialized.pointMarker)
 
             compare(initialized.color, "#0000ff")
-            // TODO: This gives the color, not selectedColor - QTBUG-121695
-            //compare(initialized.selectedColor, "#ff0000")
+            compare(initialized.selectedColor, "#ff0000")
             compare(initialized.markerSize, 10.0)
 
             compare(initialized.name, "Scatter")
@@ -157,14 +154,13 @@ Item {
             compare(initialized.valuesMultiplier, 0.25)
         }
 
-        // TODO: Crashes - QTBUG-121680
-        /*function test_3_initialized_change_to_null() {
+        function test_3_initialized_change_to_null() {
             initialized.axisX = null
             initialized.axisY = null
 
             verify(!initialized.axisX)
             verify(!initialized.axisY)
-        }*/
+        }
 
         function test_4_initialized_change_to_invalid() {
             // initialized.axisX = marker
@@ -173,12 +169,10 @@ Item {
 
             // verify(!initialized.axisX)
             // verify(!initialized.axisY)
-            // TODO: QTBUG-121721
-            // compare(initialized.valuesMultiplier, 1.0)
+            compare(initialized.valuesMultiplier, 1.0)
 
             initialized.valuesMultiplier = -1.0 // range 0...1
-            // TODO: QTBUG-121721
-            // compare(initialized.valuesMultiplier, 0.0)
+            compare(initialized.valuesMultiplier, 0.0)
         }
     }
 }

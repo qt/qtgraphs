@@ -175,14 +175,13 @@ Item {
             compare(initialized.valuesMultiplier, 0.5)
         }
 
-        // TODO: Crashes - QTBUG-121680
-        /*function test_3_initialized_change_to_null() {
+        function test_3_initialized_change_to_null() {
             initialized.axisX = null
             initialized.axisY = null
 
             verify(!initialized.axisX)
             verify(!initialized.axisY)
-        }*/
+        }
 
         function test_4_initialized_change_to_invalid() {
             initialized.axisX = axisy // wrong axis type

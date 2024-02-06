@@ -60,8 +60,7 @@ void tst_lines::initialProperties()
 
     // Properties from QXYSeries
     QCOMPARE(m_series->color(), "#ffffff");
-    // TODO: QTBUG-121695
-    //QCOMPARE(m_series->selectedColor(), "#ff000000");
+    QCOMPARE(m_series->selectedColor(), QColor::Invalid);
     QCOMPARE(m_series->markerSize(), 15.0);
 
     // Properties from QAbstractSeries
@@ -127,14 +126,11 @@ void tst_lines::invalidProperties()
     m_series->setWidth(-10.0);
     m_series->setValuesMultiplier(2.0); // range 0...1
 
-    // TODO: Should limit to a positive or zero value? QTBUG-121687
-    // QCOMPARE(m_series->width(), 0.0);
-    // TODO: QTBUG-121721
-    // QCOMPARE(m_series->valuesMultiplier(), 1.0);
+    QCOMPARE(m_series->width(), 0.0);
+    QCOMPARE(m_series->valuesMultiplier(), 1.0);
 
     m_series->setValuesMultiplier(-1.0); // range 0...1
-    // TODO: QTBUG-121721
-    // QCOMPARE(m_series->valuesMultiplier(), 0.0);
+    QCOMPARE(m_series->valuesMultiplier(), 0.0);
 }
 
 QTEST_MAIN(tst_lines)
