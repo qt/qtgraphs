@@ -52,9 +52,7 @@ class Q_GRAPHS_EXPORT QGraphTheme : public QObject, public QQmlParserStatus
 public:
     enum ColorTheme {
         ColorThemeLight = 0,
-        ColorThemeDark,
-        ColorThemeHighContrast,
-        ColorThemeQt
+        ColorThemeDark
     };
     Q_ENUM(ColorTheme)
 
@@ -189,6 +187,7 @@ private:
     void setColorThemeDark();
 
 private:
+    friend class tst_graphtheme; // For autotests
 
     struct CustomFlags {
         // All properties should have this to inform they have been set
