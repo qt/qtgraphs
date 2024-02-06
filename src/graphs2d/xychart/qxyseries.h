@@ -22,7 +22,7 @@ class Q_GRAPHS_EXPORT QXYSeries : public QAbstractSeries
     Q_PROPERTY(QAbstractAxis *axisX READ axisX WRITE setAxisX NOTIFY axisXChanged)
     Q_PROPERTY(QAbstractAxis *axisY READ axisY WRITE setAxisY NOTIFY axisYChanged)
     Q_PROPERTY(QColor color READ color WRITE setColor NOTIFY colorChanged)
-    Q_PROPERTY(QColor selectedColor READ color WRITE setSelectedColor NOTIFY selectedColorChanged)
+    Q_PROPERTY(QColor selectedColor READ selectedColor WRITE setSelectedColor NOTIFY selectedColorChanged)
     Q_PROPERTY(qreal markerSize READ markerSize WRITE setMarkerSize NOTIFY markerSizeChanged)
     Q_PROPERTY(QQmlComponent *pointMarker READ pointMarker WRITE setPointMarker NOTIFY pointMarkerChanged FINAL)
 

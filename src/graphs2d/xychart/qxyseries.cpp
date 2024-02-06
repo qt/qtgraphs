@@ -530,9 +530,11 @@ void QXYSeries::setAxisX(QAbstractAxis *axis)
 {
     Q_D(QXYSeries);
     detachAxis(d->m_axisX);
-    axis->setOrientation(Qt::Horizontal);
     d->m_axisX = axis;
-    attachAxis(axis);
+    if (axis) {
+        axis->setOrientation(Qt::Horizontal);
+        attachAxis(axis);
+    }
     emit update();
 }
 
@@ -557,9 +559,11 @@ void QXYSeries::setAxisY(QAbstractAxis *axis)
 {
     Q_D(QXYSeries);
     detachAxis(d->m_axisY);
-    axis->setOrientation(Qt::Vertical);
     d->m_axisY = axis;
-    attachAxis(axis);
+    if (axis) {
+        axis->setOrientation(Qt::Vertical);
+        attachAxis(axis);
+    }
     emit update();
 }
 

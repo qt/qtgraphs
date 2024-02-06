@@ -39,14 +39,16 @@ QT_BEGIN_NAMESPACE
 
 /*!
     \qmlproperty real LineSeries::width
-    The width of the line. By default, the width is 2.0.
+    The width of the line. By default, the width is 2.0. Widths lower than 0
+    are invalid and are automatically set to 0.
 */
 
 /*!
     \qmlproperty Qt::PenCapStyle LineSeries::capStyle
     Controls the cap style of the line. Set to one of \l{Qt::FlatCap}{Qt.FlatCap},
     \l{Qt::SquareCap}{Qt.SquareCap} or \l{Qt::RoundCap}{Qt.RoundCap}. By
-    default the cap style is Qt.SquareCap.
+    default the cap style is Qt.SquareCap. Invalid values are automatically set
+    to the default value.
 
     \sa Qt::PenCapStyle
 */
@@ -109,6 +111,8 @@ qreal QLineSeries::width() const
 void QLineSeries::setWidth(qreal newWidth)
 {
     Q_D(QLineSeries);
+    if (newWidth < 0.0)
+        newWidth = 0.0;
     if (qFuzzyCompare(d->m_width, newWidth))
         return;
     d->m_width = newWidth;
@@ -125,9 +129,15 @@ Qt::PenCapStyle QLineSeries::capStyle() const
 void QLineSeries::setCapStyle(const Qt::PenCapStyle &newCapStyle)
 {
     Q_D(QLineSeries);
-    if (d->m_capStyle == newCapStyle)
+    Qt::PenCapStyle validCapStyle = newCapStyle;
+    if (validCapStyle != Qt::PenCapStyle::FlatCap && validCapStyle != Qt::PenCapStyle::SquareCap
+        && validCapStyle != Qt::PenCapStyle::RoundCap
+        && validCapStyle != Qt::PenCapStyle::MPenCapStyle) {
+        validCapStyle = Qt::PenCapStyle::SquareCap;
+    }
+    if (d->m_capStyle == validCapStyle)
         return;
-    d->m_capStyle = newCapStyle;
+    d->m_capStyle = validCapStyle;
     emit capStyleChanged();
     emit update();
 }

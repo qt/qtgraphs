@@ -46,8 +46,7 @@ void tst_xyseries::initialProperties()
 
     // Properties from QXYSeries
     QCOMPARE(m_series->color(), "#ffffff");
-    // TODO: QTBUG-121695
-    //QCOMPARE(m_series->selectedColor(), "#ff000000");
+    QCOMPARE(m_series->selectedColor(), QColor::Invalid);
     QCOMPARE(m_series->markerSize(), 15.0);
 }
 
