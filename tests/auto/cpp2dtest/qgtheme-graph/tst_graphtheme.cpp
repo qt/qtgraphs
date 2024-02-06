@@ -134,6 +134,9 @@ void tst_graphtheme::overrideProperties()
 {
     QVERIFY(m_theme);
 
+    // Calling this manually to initialize the theming
+    m_theme->componentComplete();
+
     // Set a theme
     m_theme->setColorTheme(QGraphTheme::ColorThemeLight);
 
@@ -170,21 +173,23 @@ void tst_graphtheme::overrideProperties()
     // Override with a theme
     m_theme->setColorTheme(QGraphTheme::ColorThemeDark);
 
-    // TODO: QTBUG-121806
-    // QCOMPARE(m_theme->colorTheme(), QGraphTheme::ColorThemeDark);
-    // QCOMPARE(m_theme->gridMajorBarsColor(), "#fffafafa");
-    // QCOMPARE(m_theme->gridMinorBarsColor(), "#ff969696");
-    // QCOMPARE(m_theme->axisYMajorColor(), "#fffafafa");
-    // QCOMPARE(m_theme->axisYMinorColor(), "#ff969696");
-    // QCOMPARE(m_theme->axisXMajorColor(), "#fffafafa");
-    // QCOMPARE(m_theme->axisXMinorColor(), "#ff969696");
-    // QCOMPARE(m_theme->axisYLabelsColor(), "#fffafafa");
-    // QCOMPARE(m_theme->axisXLabelsColor(), "#fffafafa");
+    QCOMPARE(m_theme->colorTheme(), QGraphTheme::ColorThemeDark);
+    QCOMPARE(m_theme->gridMajorBarsColor(), "#fffafafa");
+    QCOMPARE(m_theme->gridMinorBarsColor(), "#ff969696");
+    QCOMPARE(m_theme->axisYMajorColor(), "#fffafafa");
+    QCOMPARE(m_theme->axisYMinorColor(), "#ff969696");
+    QCOMPARE(m_theme->axisXMajorColor(), "#fffafafa");
+    QCOMPARE(m_theme->axisXMinorColor(), "#ff969696");
+    QCOMPARE(m_theme->axisYLabelsColor(), "#fffafafa");
+    QCOMPARE(m_theme->axisXLabelsColor(), "#fffafafa");
 }
 
 void tst_graphtheme::setReset()
 {
     QVERIFY(m_theme);
+
+    // Calling this manually to initialize the theming
+    m_theme->componentComplete();
 
     // Set a theme
     m_theme->setColorTheme(QGraphTheme::ColorThemeLight);
@@ -202,43 +207,28 @@ void tst_graphtheme::setReset()
     // Reset theme
     m_theme->resetColorTheme();
 
-    // TODO: QTBUG-121806
-    // QCOMPARE(m_theme->colorTheme(), QGraphTheme::ColorThemeDark);
-    // QCOMPARE(m_theme->gridMajorBarsColor(), "#fffafafa");
-    // QCOMPARE(m_theme->gridMinorBarsColor(), "#ff969696");
-    // QCOMPARE(m_theme->axisYMajorColor(), "#fffafafa");
-    // QCOMPARE(m_theme->axisYMinorColor(), "#ff969696");
-    // QCOMPARE(m_theme->axisXMajorColor(), "#fffafafa");
-    // QCOMPARE(m_theme->axisXMinorColor(), "#ff969696");
-    // QCOMPARE(m_theme->axisYLabelsColor(), "#fffafafa");
-    // QCOMPARE(m_theme->axisXLabelsColor(), "#fffafafa");
+    QCOMPARE(m_theme->colorTheme(), QGraphTheme::ColorThemeDark);
+    QCOMPARE(m_theme->gridMajorBarsColor(), "#fffafafa");
+    QCOMPARE(m_theme->gridMinorBarsColor(), "#ff969696");
+    QCOMPARE(m_theme->axisYMajorColor(), "#fffafafa");
+    QCOMPARE(m_theme->axisYMinorColor(), "#ff969696");
+    QCOMPARE(m_theme->axisXMajorColor(), "#fffafafa");
+    QCOMPARE(m_theme->axisXMinorColor(), "#ff969696");
+    QCOMPARE(m_theme->axisYLabelsColor(), "#fffafafa");
+    QCOMPARE(m_theme->axisXLabelsColor(), "#fffafafa");
 
     // Set another theme
-    m_theme->setColorTheme(QGraphTheme::ColorThemeHighContrast);
+    m_theme->setColorTheme(QGraphTheme::ColorThemeLight);
 
-    // TODO: QTBUG-121805
-    // QCOMPARE(m_theme->colorTheme(), QGraphTheme::ColorThemeHighContrast);
-    // QCOMPARE(m_theme->gridMajorBarsColor(), "#ff141414");
-    // QCOMPARE(m_theme->gridMinorBarsColor(), "#ff323232");
-    // QCOMPARE(m_theme->axisYMajorColor(), "#ff141414");
-    // QCOMPARE(m_theme->axisYMinorColor(), "#ff323232");
-    // QCOMPARE(m_theme->axisXMajorColor(), "#ff141414");
-    // QCOMPARE(m_theme->axisXMinorColor(), "#ff323232");
-    // QCOMPARE(m_theme->axisYLabelsColor(), "#ff141414");
-    // QCOMPARE(m_theme->axisXLabelsColor(), "#ff141414");
-
-    // // Set another theme
-    // m_theme->setColorTheme(QGraphTheme::ColorThemeQt);
-
-    // QCOMPARE(m_theme->colorTheme(), QGraphTheme::ColorThemeQt);
-    // QCOMPARE(m_theme->gridMajorBarsColor(), "#ff141414");
-    // QCOMPARE(m_theme->gridMinorBarsColor(), "#ff323232");
-    // QCOMPARE(m_theme->axisYMajorColor(), "#ff141414");
-    // QCOMPARE(m_theme->axisYMinorColor(), "#ff323232");
-    // QCOMPARE(m_theme->axisXMajorColor(), "#ff141414");
-    // QCOMPARE(m_theme->axisXMinorColor(), "#ff323232");
-    // QCOMPARE(m_theme->axisYLabelsColor(), "#ff141414");
-    // QCOMPARE(m_theme->axisXLabelsColor(), "#ff141414");
+    QCOMPARE(m_theme->colorTheme(), QGraphTheme::ColorThemeLight);
+    QCOMPARE(m_theme->gridMajorBarsColor(), "#ff141414");
+    QCOMPARE(m_theme->gridMinorBarsColor(), "#ff323232");
+    QCOMPARE(m_theme->axisYMajorColor(), "#ff141414");
+    QCOMPARE(m_theme->axisYMinorColor(), "#ff323232");
+    QCOMPARE(m_theme->axisXMajorColor(), "#ff141414");
+    QCOMPARE(m_theme->axisXMinorColor(), "#ff323232");
+    QCOMPARE(m_theme->axisYLabelsColor(), "#ff141414");
+    QCOMPARE(m_theme->axisXLabelsColor(), "#ff141414");
 }
 
 QTEST_MAIN(tst_graphtheme)
