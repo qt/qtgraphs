@@ -26,7 +26,6 @@ void ScatterGraph::initialize()
     m_scatterGraph->setMaximumSize(screenSize);
     m_scatterGraph->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     m_scatterGraph->setFocusPolicy(Qt::StrongFocus);
-    m_scatterGraph->setResizeMode(QQuickWidget::SizeRootObjectToView);
     hLayout->addWidget(m_scatterGraph, 1);
 
     auto *vLayout = new QVBoxLayout();

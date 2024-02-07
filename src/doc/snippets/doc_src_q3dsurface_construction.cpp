@@ -11,7 +11,6 @@ int main(int argc, char **argv)
     //! [0]
     Q3DSurface surface;
     surface.setMinimumSize(QSize(256, 256));
-    surface.setResizeMode(QQuickWidget::SizeRootObjectToView);
     //! [0]
     //! [1]
     QSurfaceDataArray data;

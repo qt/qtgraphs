@@ -33,7 +33,6 @@ void BarGraph::initialize()
     m_barsGraph->setMaximumSize(screenSize);
     m_barsGraph->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     m_barsGraph->setFocusPolicy(Qt::StrongFocus);
-    m_barsGraph->setResizeMode(QQuickWidget::SizeRootObjectToView);
     hLayout->addWidget(m_barsGraph, 1);
 
     auto *vLayout = new QVBoxLayout();

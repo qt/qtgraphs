@@ -47,7 +47,6 @@ int main(int argc, char **argv)
     widgetchart->setMaximumSize(screenSize);
     widgetchart->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     widgetchart->setFocusPolicy(Qt::StrongFocus);
-    widgetchart->setResizeMode(QQuickWidget::SizeRootObjectToView);
 
     widget->setWindowTitle(QStringLiteral("Average temperatures in Oulu, Finland (2006-2012)"));
 

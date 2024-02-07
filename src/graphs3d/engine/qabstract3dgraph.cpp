@@ -177,6 +177,8 @@ QT_BEGIN_NAMESPACE
  */
 QAbstract3DGraph::QAbstract3DGraph()
 {
+    setResizeMode(QQuickWidget::SizeRootObjectToView);
+
 #ifdef Q_OS_DARWIN
     // Take care of widget users (or CI) wanting to use OpenGL backend on macOS
     if (QQuickWindow::graphicsApi() == QSGRendererInterface::OpenGL)
