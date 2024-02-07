@@ -11,7 +11,6 @@ int main(int argc, char **argv)
     //! [4]
     Q3DBars bars;
     bars.setMinimumSize(QSize(256, 256));
-    bars.setResizeMode(QQuickWidget::SizeRootObjectToView);
     //! [4]
     //! [0]
     bars.rowAxis()->setRange(0, 4);

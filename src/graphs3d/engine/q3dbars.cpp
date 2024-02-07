@@ -79,6 +79,7 @@ QT_BEGIN_NAMESPACE
 Q3DBars::Q3DBars()
     : QAbstract3DGraph(QStringLiteral("Bars3D"))
 {}
+
 /*!
  * Destroys the 3D bar graph.
  */

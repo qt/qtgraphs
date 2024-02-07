@@ -3,12 +3,12 @@
 
 #include <QtTest/QtTest>
 
-#include <QtGraphs/Q3DScene>
 #include <QtGraphs/Q3DBars>
+#include <QtGraphs/Q3DScene>
 
 #include "cpptestutil.h"
 
-class tst_scene: public QObject
+class tst_scene : public QObject
 {
     Q_OBJECT
 
@@ -30,13 +30,9 @@ private:
     Q3DScene *m_scene;
 };
 
-void tst_scene::initTestCase()
-{
-}
+void tst_scene::initTestCase() {}
 
-void tst_scene::cleanupTestCase()
-{
-}
+void tst_scene::cleanupTestCase() {}
 
 void tst_scene::init()
 {
@@ -82,11 +78,13 @@ void tst_scene::initializeProperties()
     m_scene->setSelectionQueryPosition(QPoint(0, 0));
 
     QCOMPARE(m_scene->devicePixelRatio(), 2.0f);
-    QCOMPARE(m_scene->graphPositionQuery(), QPoint(0, 0)); // TODO: When doing signal checks, add tests to check that queries return something (asynchronously)
+    // TODO: When doing signal checks, add tests to check that queries return something (asynchronously)
+    QCOMPARE(m_scene->graphPositionQuery(), QPoint(0, 0));
     QCOMPARE(m_scene->primarySubViewport(), QRect(0, 0, 50, 50));
     QCOMPARE(m_scene->secondarySubViewport(), QRect(50, 50, 100, 100));
     QCOMPARE(m_scene->isSecondarySubviewOnTop(), false);
-    QCOMPARE(m_scene->selectionQueryPosition(), QPoint(0, 0)); // TODO: When doing signal checks, add tests to check that queries return something (asynchronously)
+    // TODO: When doing signal checks, add tests to check that queries return something (asynchronously)
+    QCOMPARE(m_scene->selectionQueryPosition(), QPoint(0, 0));
     QCOMPARE(m_scene->isSlicingActive(), true);
     QCOMPARE(m_scene->viewport(), QRect(0, 0, 150, 150));
 
@@ -112,9 +110,9 @@ void tst_scene::subViews()
 
     Q3DBars graph;
     graph.setMinimumSize(QSize(200, 200));
-    graph.setResizeMode(QQuickWidget::SizeRootObjectToView);
 
     Q3DScene *scene = graph.scene();
+    graph.show();
 
     QCoreApplication::processEvents();
 

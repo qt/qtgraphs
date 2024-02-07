@@ -11,7 +11,6 @@ int main(int argc, char **argv)
     //! [0]
     Q3DScatter scatter;
     scatter.setMinimumSize(QSize(256, 256));
-    scatter.setResizeMode(QQuickWidget::SizeRootObjectToView);
     //! [0]
     //! [1]
     QScatter3DSeries *series = new QScatter3DSeries;

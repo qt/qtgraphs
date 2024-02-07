@@ -88,7 +88,6 @@ void SurfaceGraph::initialize()
     m_surfaceGraph->setMaximumSize(screenSize);
     m_surfaceGraph->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     m_surfaceGraph->setFocusPolicy(Qt::StrongFocus);
-    m_surfaceGraph->setResizeMode(QQuickWidget::SizeRootObjectToView);
     hLayout->addWidget(m_surfaceGraph, 1);
 
     auto *vLayout = new QVBoxLayout();

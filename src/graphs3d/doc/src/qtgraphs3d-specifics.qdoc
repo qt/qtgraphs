@@ -310,7 +310,6 @@
     QApplication app(argc, argv);
     Q3DScatter scatter;
     scatter.setMinimumSize(QSize(256, 256));
-    scatter.setResizeMode(QQuickWidget::SizeRootObjectToView);
     \endcode
 
     \section1 Requirement to Use OpenGL Backend
