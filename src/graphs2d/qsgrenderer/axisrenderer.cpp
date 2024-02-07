@@ -343,7 +343,7 @@ void AxisRenderer::updateAxisTickersShadow()
         m_axisTickerHorizontalShadow->setSmoothing(m_axisTickerHorizontal->smoothing() + theme()->shadowSmoothing());
 
         // TODO Only when changed
-        m_axisTickerVerticalShadow->setBarsMovement(m_axisTickerHorizontal->barsMovement());
+        m_axisTickerHorizontalShadow->setBarsMovement(m_axisTickerHorizontal->barsMovement());
         m_axisTickerHorizontalShadow->setX(m_axisTickerHorizontal->x() + theme()->shadowXOffset());
         m_axisTickerHorizontalShadow->setY(m_axisTickerHorizontal->y() + theme()->shadowYOffset());
         m_axisTickerHorizontalShadow->setWidth(m_axisTickerHorizontal->width());
