@@ -1945,46 +1945,6 @@ void QQuickGraphsItem::synchData()
         QQuickItem::update();
 }
 
-void QQuickGraphsItem::calculateSceneScalingFactors()
-{
-    float scaleX, scaleY, scaleZ;
-    float marginH, marginV;
-
-    if (margin() < 0.0f) {
-        marginH = .1f;
-        marginV = .1f;
-    } else {
-        marginH = margin();
-        marginV = margin();
-    }
-
-    QSizeF areaSize;
-    if (qFuzzyIsNull(horizontalAspectRatio())) {
-        areaSize.setHeight(axisZ()->max() - axisZ()->min());
-        areaSize.setWidth(axisX()->max() - axisX()->min());
-    } else {
-        areaSize.setHeight(1.0);
-        areaSize.setWidth(horizontalAspectRatio());
-    }
-
-    float horizontalMaxDimension;
-    if (aspectRatio() > 2.0f) {
-        horizontalMaxDimension = 2.0f;
-        scaleY = 2.0f / aspectRatio();
-    } else {
-        horizontalMaxDimension = aspectRatio();
-        scaleY = 1.0f;
-    }
-
-    float scaleFactor = qMax(areaSize.width(), areaSize.height());
-    scaleX = horizontalMaxDimension * areaSize.width() / scaleFactor;
-    scaleZ = horizontalMaxDimension * areaSize.height() / scaleFactor;
-
-    m_scale = QVector3D(scaleX, scaleY, scaleZ);
-    m_scaleWithBackground = QVector3D(scaleX, scaleY, scaleZ);
-    m_backgroundScaleMargin = QVector3D(marginH, marginV, marginH);
-}
-
 void QQuickGraphsItem::updateGrid()
 {
     int gridLineCountX = 0;
