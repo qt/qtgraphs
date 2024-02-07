@@ -580,7 +580,7 @@ protected:
                       float labelsMaxWidth,
                       const QVector3D &scale);
 
-    virtual void calculateSceneScalingFactors();
+    virtual void calculateSceneScalingFactors() = 0;
     void positionAndScaleLine(QQuick3DNode *lineNode, QVector3D scale, QVector3D position);
     int findLabelsMaxWidth(const QStringList &labels);
     virtual QVector3D calculateCategoryLabelPosition(QAbstract3DAxis *axis,

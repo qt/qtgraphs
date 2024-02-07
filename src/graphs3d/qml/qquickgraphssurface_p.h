@@ -150,6 +150,7 @@ protected:
     void componentComplete() override;
     void synchData() override;
     void updateGraph() override;
+    void calculateSceneScalingFactors() override;
     void updateSliceGraph() override;
     bool handleMousePressedEvent(QMouseEvent *event) override;
     void updateSingleHighlightColor() override;
