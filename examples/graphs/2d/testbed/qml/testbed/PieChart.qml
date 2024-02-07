@@ -9,7 +9,7 @@ Item {
 
     Text {
         id: title
-        text: "Simple Pie Chart"
+        text: "Simple Pie Graph"
         anchors.horizontalCenter: parent.horizontalCenter
         color: "#f0f0f0"
         y: parent.height * .1

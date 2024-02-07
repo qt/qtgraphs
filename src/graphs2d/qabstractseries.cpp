@@ -22,7 +22,7 @@ QT_BEGIN_NAMESPACE
     \instantiates QAbstractSeries
     \inqmlmodule QtGraphs
     \ingroup graphs_qml_2D
-    \brief Base type for all Qt Chart series types.
+    \brief Base type for all Qt Graph series types.
 
     This type cannot be instantiated directly. Instead, one of the following derived types
     should be used to create a series: LineSeries, BarSeries, or ScatterSeries.
@@ -100,9 +100,9 @@ QT_BEGIN_NAMESPACE
 
     The type of the series.
 
-    \value AbstractSeries.SeriesTypeLine A line chart.
-    \value AbstractSeries.SeriesTypeBar A vertical bar chart.
-    \value AbstractSeries.SeriesTypeScatter A scatter chart.
+    \value AbstractSeries.SeriesTypeLine A line graph.
+    \value AbstractSeries.SeriesTypeBar A vertical bar graph.
+    \value AbstractSeries.SeriesTypeScatter A scatter graph.
 */
 
 /*!
@@ -272,12 +272,12 @@ QAbstractSeries::QAbstractSeries(QAbstractSeriesPrivate &d, QObject *parent) :
 }
 
 /*!
-    \brief Virtual destructor for the chart series.
+    \brief Virtual destructor for the graph series.
 */
 QAbstractSeries::~QAbstractSeries()
 {
     //if (d_ptr->m_graph)
-    //    qFatal("Series still bound to a chart when destroyed!");
+    //    qFatal("Series still bound to a graph when destroyed!");
     if (d_ptr->m_graph)
         d_ptr->m_graph->removeSeries(this);
 }
@@ -456,7 +456,7 @@ bool QAbstractSeries::attachAxis(QAbstractAxis* axis)
         QObject::connect(axis, &QAbstractAxis::update, d_ptr->m_graph, &QQuickItem::update);
         return true;
     }
-    //qWarning("Series not in the chart. Please addSeries to chart first.");
+    //qWarning("Series not in the graph. Please addSeries to graph first.");
     return false;
 }
 
@@ -473,7 +473,7 @@ bool QAbstractSeries::detachAxis(QAbstractAxis* axis)
         QObject::disconnect(axis, &QAbstractAxis::update, d_ptr->m_graph, &QQuickItem::update);
         return true;
     }
-    //qWarning("Series not in the chart. Please addSeries to chart first.");
+    //qWarning("Series not in the graph. Please addSeries to graph first.");
     return false;
 }
 

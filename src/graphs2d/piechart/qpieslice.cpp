@@ -80,7 +80,10 @@ QT_BEGIN_NAMESPACE
     \property QPieSlice::label
     \brief The label of the slice.
     \note The string can be HTML formatted.
+
+    \omit TODO: Label implementation (QTBUG-121694)
     \sa labelVisible, labelBrush, labelFont, labelArmLengthFactor
+    \endomit
 */
 /*!
     \qmlproperty string PieSlice::label

@@ -10,7 +10,7 @@ QT_BEGIN_NAMESPACE
     \class QBarCategoryAxis
     \inmodule QtGraphs
     \ingroup graphs_2D
-    \brief The QBarCategoryAxis class adds categories to a chart's axes.
+    \brief The QBarCategoryAxis class adds categories to a graph's axes.
 
     QBarCategoryAxis can be set up to show an axis line with tick marks, grid lines, and shades.
     Categories are drawn between the ticks.
@@ -23,7 +23,7 @@ QT_BEGIN_NAMESPACE
     \ingroup graphs_qml_2D
     \inherits AbstractAxis
 
-    \brief Adds categories to a chart's axes.
+    \brief Adds categories to a graph's axes.
 
     The BarCategoryAxis type can be set up to show an axis line with tick marks, grid lines, and
     shades. Categories are drawn between the ticks.

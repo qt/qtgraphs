@@ -11,7 +11,7 @@ QT_BEGIN_NAMESPACE
     \class QValueAxis
     \inmodule QtGraphs
     \ingroup graphs_2D
-    \brief The QValueAxis class adds values to a chart's axes.
+    \brief The QValueAxis class adds values to a graph's axes.
 
     A value axis can be set up to show an axis line with tick marks, grid lines, and shades.
     The values on the axis are drawn at the positions of tick marks.
@@ -22,7 +22,7 @@ QT_BEGIN_NAMESPACE
     \inqmlmodule QtGraphs
     \ingroup graphs_qml_2D
     \inherits AbstractAxis
-    \brief Adds values to a chart's axes.
+    \brief Adds values to a graph's axes.
 
     The ValueAxis type can be set up to show an axis line with tick marks, grid lines, and shades.
     The values on the axis are drawn at the positions of tick marks.
@@ -82,12 +82,12 @@ QT_BEGIN_NAMESPACE
 /*!
   \property QValueAxis::minorTickCount
   \brief The number of minor tick marks on the axis. This indicates how many grid lines are drawn
-  between major ticks on the chart. Labels are not drawn for minor ticks. The default value is 0.
+  between major ticks on the graph. Labels are not drawn for minor ticks. The default value is 0.
 */
 /*!
   \qmlproperty int ValueAxis::minorTickCount
   The number of minor tick marks on the axis. This indicates how many grid lines are drawn
-  between major ticks on the chart. Labels are not drawn for minor ticks. The default value is 0.
+  between major ticks on the graph. Labels are not drawn for minor ticks. The default value is 0.
 */
 
 /*!

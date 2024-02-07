@@ -11,7 +11,7 @@ QT_BEGIN_NAMESPACE
     \class QBarSet
     \inmodule QtGraphs
     \ingroup graphs_2D
-    \brief The QBarSet class represents one set of bars in a bar chart.
+    \brief The QBarSet class represents one set of bars in a bar graph.
 
     A bar set contains one data value for each category. The first value of a set is assumed to
     belong to the first category, the second one to the second category, and so on. If the set has
@@ -26,7 +26,7 @@ QT_BEGIN_NAMESPACE
     \instantiates QBarSet
     \inqmlmodule QtGraphs
     \ingroup graphs_qml_2D
-    \brief Represents one set of bars in a bar chart.
+    \brief Represents one set of bars in a bar graph.
 
     A bar set contains one data value for each category. The first value of a set is assumed to
     belong to the first category, the second one to the second category, and so on. If the set has

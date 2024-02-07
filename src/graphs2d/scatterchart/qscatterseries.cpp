@@ -12,9 +12,9 @@ QT_BEGIN_NAMESPACE
     \class QScatterSeries
     \inmodule QtGraphs
     \ingroup graphs_2D
-    \brief The QScatterSeries class presents data in scatter charts.
+    \brief The QScatterSeries class presents data in scatter graphs.
 
-    The scatter data is displayed as a collection of points on the chart. For
+    The scatter data is displayed as a collection of points on the graph. For
     each point, two values are specified that determine its position on the
     horizontal axis and the vertical axis.
 */
@@ -25,9 +25,9 @@ QT_BEGIN_NAMESPACE
     \ingroup graphs_qml_2D
     \inherits XYSeries
 
-    \brief The ScatterSeries type presents data in scatter charts.
+    \brief The ScatterSeries type presents data in scatter graphs.
 
-    The scatter data is displayed as a collection of points on the chart. For
+    The scatter data is displayed as a collection of points on the graph. For
     each point, two values are specified that determine its position on the
     horizontal axis and the vertical axis.
 
@@ -36,7 +36,7 @@ QT_BEGIN_NAMESPACE
     You can represent scatter data by creating a ScatterSeries inside
     GraphsView. Axis types should be then defined for ScatterSeries
     using axisX and axisY properties. Finally data can be added
-    to the chart by creating XYPoints as children for the ScatterSeries
+    to the graph by creating XYPoints as children for the ScatterSeries
     that define the x and y values of each point.
 
     \code
@@ -59,7 +59,7 @@ QT_BEGIN_NAMESPACE
     }
     \endcode
 
-    Multiple scatter charts can be created by adding multiple ScatterSeries
+    Multiple scatter graphs can be created by adding multiple ScatterSeries
     as children of GraphsView. In such cases only one series should define
     the axis used as multiple definitions only override the earlier ones.
 

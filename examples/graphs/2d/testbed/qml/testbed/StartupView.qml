@@ -51,7 +51,7 @@ Item {
             file: "Callout.qml"
         }
         ListElement {
-            name: "Pie Chart"
+            name: "Pie Graph"
             file: "PieChart.qml"
         }
     }

@@ -27,7 +27,7 @@ QT_BEGIN_NAMESPACE
     by setting a starting angle and angle span for the series.
     A full pie is 360 degrees, where 0 is at 12 a'clock.
 
-    \sa QPieSlice, QGraphView
+    \sa QPieSlice
 */
 /*!
     \qmltype PieSeries
