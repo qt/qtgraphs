@@ -26,7 +26,6 @@ int main(int argc, char **argv)
     graph->setMaximumSize(screenSize);
     graph->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     graph->setFocusPolicy(Qt::StrongFocus);
-    graph->setResizeMode(QQuickWidget::SizeRootObjectToView);
 
     QWidget *widget = new QWidget;
     QHBoxLayout *hLayout = new QHBoxLayout(widget);

@@ -230,12 +230,10 @@ int main(int argc, char **argv)
     barGraph->setMaximumSize(screenSize);
     barGraph->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     barGraph->setFocusPolicy(Qt::StrongFocus);
-    barGraph->setResizeMode(QQuickWidget::SizeRootObjectToView);
     surfaceGraph->setMinimumSize(QSize(screenSize.width() / 4, screenSize.height() / 4));
     surfaceGraph->setMaximumSize(screenSize);
     surfaceGraph->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     surfaceGraph->setFocusPolicy(Qt::StrongFocus);
-    surfaceGraph->setResizeMode(QQuickWidget::SizeRootObjectToView);
 
     QWidget widget;
     QVBoxLayout *mainLayout = new QVBoxLayout(&widget);

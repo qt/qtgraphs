@@ -33,21 +33,18 @@ int main(int argc, char **argv)
     surface->setMaximumSize(screenSize);
     surface->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     surface->setFocusPolicy(Qt::StrongFocus);
-    surface->setResizeMode(QQuickWidget::SizeRootObjectToView);
 
     scatter->setMinimumSize(QSize(screenSize.height() / 1.2, screenSize.height() / 1.2));
     scatter->setMaximumSize(screenSize);
     scatter->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     scatter->setFocusPolicy(Qt::StrongFocus);
     scatter->setVisible(false);
-    scatter->setResizeMode(QQuickWidget::SizeRootObjectToView);
 
     bars->setMinimumSize(QSize(screenSize.height() / 1.2, screenSize.height() / 1.2));
     bars->setMaximumSize(screenSize);
     bars->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     bars->setFocusPolicy(Qt::StrongFocus);
     bars->setVisible(false);
-    bars->setResizeMode(QQuickWidget::SizeRootObjectToView);
 
     widget->setWindowTitle(QStringLiteral("Test switching graphs on the fly"));
 
