@@ -153,7 +153,7 @@ QT_BEGIN_NAMESPACE
     \property QAbstractAxis::orientation
     \brief The orientation of the axis.
 
-    Fixed to either Qt::Horizontal or Qt::Vertical when the axis is added to a chart.
+    Fixed to either Qt::Horizontal or Qt::Vertical when the axis is added to a graph.
 */
 /*!
     \qmlproperty Qt.Orientation AbstractAxis::orientation
@@ -243,7 +243,7 @@ QAbstractAxis::QAbstractAxis(QAbstractAxisPrivate &d, QObject *parent)
 }
 
 /*!
-  Destructs the axis object. When the axis is added to a chart, the chart object takes ownership.
+  Destructs the axis object. When the axis is added to a graph, the graph object takes ownership.
 */
 
 QAbstractAxis::~QAbstractAxis()

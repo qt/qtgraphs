@@ -50,7 +50,7 @@ QAbstractSeries::SeriesType QBarSeries::type() const
 }
 
 /*!
-    Removes the bar series from the chart.
+    Removes the bar series from the graph.
 */
 QBarSeries::~QBarSeries()
 {

@@ -29,18 +29,18 @@ int main(int argc, char **argv)
     QVBoxLayout *vLayout2 = new QVBoxLayout();
     QVBoxLayout *vLayout3 = new QVBoxLayout();
 
-    Q3DScatter *chart = new Q3DScatter();
-    QSize screenSize = chart->screen()->size();
+    Q3DScatter *graph = new Q3DScatter();
+    QSize screenSize = graph->screen()->size();
 
-    chart->setMinimumSize(QSize(screenSize.width() / 2, screenSize.height() / 2));
-    chart->setMaximumSize(screenSize);
-    chart->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-    chart->setFocusPolicy(Qt::StrongFocus);
-    chart->setResizeMode(QQuickWidget::SizeRootObjectToView);
+    graph->setMinimumSize(QSize(screenSize.width() / 2, screenSize.height() / 2));
+    graph->setMaximumSize(screenSize);
+    graph->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    graph->setFocusPolicy(Qt::StrongFocus);
+    graph->setResizeMode(QQuickWidget::SizeRootObjectToView);
 
     widget->setWindowTitle(QStringLiteral("values of some things in something"));
 
-    hLayout->addWidget(chart, 1);
+    hLayout->addWidget(graph, 1);
     hLayout->addLayout(vLayout);
     hLayout->addLayout(vLayout2);
     hLayout->addLayout(vLayout3);
@@ -58,7 +58,7 @@ int main(int argc, char **argv)
     cameraButton->setText(QStringLiteral("Change camera preset"));
 
     QPushButton *clearButton = new QPushButton(widget);
-    clearButton->setText(QStringLiteral("Clear chart"));
+    clearButton->setText(QStringLiteral("Clear graph"));
 
     QPushButton *resetButton = new QPushButton(widget);
     resetButton->setText(QStringLiteral("Reset axes"));
@@ -388,7 +388,7 @@ int main(int argc, char **argv)
     vLayout3->addWidget(zSegmentSlider, 1, Qt::AlignTop);
     vLayout3->addWidget(zSubsegmentSlider, 1, Qt::AlignTop);
 
-    ScatterDataModifier *modifier = new ScatterDataModifier(chart);
+    ScatterDataModifier *modifier = new ScatterDataModifier(graph);
 
     QObject::connect(fontSizeSlider, &QSlider::valueChanged, modifier,
                      &ScatterDataModifier::changeFontSize);
@@ -535,7 +535,7 @@ int main(int argc, char **argv)
 
     modifier->setFpsLabel(fpsLabel);
 
-    chart->setGeometry(QRect(0, 0, 800, 800));
+    graph->setGeometry(QRect(0, 0, 800, 800));
 
     modifier->start();
     //modifier->renderToImage(); // Initial hidden render

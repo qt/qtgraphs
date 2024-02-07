@@ -163,7 +163,7 @@
     the visual elements of a graph, such as the colors, fonts, and visibility of
     the elements, as well as the strenght of the light and ambient light.
 
-    Qt Charts comes with the following predefined themes that can be used as
+    Qt Graphs comes with the following predefined themes that can be used as
     basis for custom themes:
 
     \list

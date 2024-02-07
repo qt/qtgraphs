@@ -14,11 +14,11 @@ QT_BEGIN_NAMESPACE
     \ingroup graphs_2D
     \brief The QAbstractBarSeries class is an abstract parent class for all bar series classes.
 
-    In bar charts, bars are defined as bar sets that contain one data value for each category.
+    In bar graphs, bars are defined as bar sets that contain one data value for each category.
     The position of a bar is specified by the category and its height by the data value. Bar
     series that contain multiple bar sets group together bars that belong to the same category.
     The way the bars are displayed is determined by the subclass of this class chosen to create
-    the bar chart.
+    the bar graph.
 
     \sa QBarSet, QBarSeries
 */
@@ -31,11 +31,11 @@ QT_BEGIN_NAMESPACE
 
     \brief An abstract parent type for all bar series types.
 
-    In bar charts, bars are defined as bar sets that contain one data value for each category.
+    In bar graphs, bars are defined as bar sets that contain one data value for each category.
     The position of a bar is specified by the category and its height by the data value. Bar
     series that contain multiple bar sets group together bars that belong to the same category.
     The way the bars are displayed is determined by the subclass of this class chosen to create
-    the bar chart.
+    the bar graph.
 */
 
 /*!

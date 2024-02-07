@@ -12,9 +12,9 @@ QT_BEGIN_NAMESPACE
     \class QLineSeries
     \inmodule QtGraphs
     \ingroup graphs_2D
-    \brief The QLineSeries class presents data in line charts.
+    \brief The QLineSeries class presents data in line graphs.
 
-    A line chart is used to show information as a series of data points
+    A line graph is used to show information as a series of data points
     connected by straight lines.
 */
 /*!
@@ -24,9 +24,9 @@ QT_BEGIN_NAMESPACE
     \ingroup graphs_qml_2D
     \inherits XYSeries
 
-    \brief Presents data in line charts.
+    \brief Presents data in line graphs.
 
-    A line chart is used to show information as a series of data points
+    A line graph is used to show information as a series of data points
     connected by straight lines.
 
     \image graphs2d-line.png

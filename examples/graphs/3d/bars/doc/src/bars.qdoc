@@ -29,7 +29,7 @@
 
     Each data item has three roles: timestamp, income, and expenses. The timestamp value is in
     format: \c{<four digit year>-<two digit month>}. Usually, you would map years and months to rows
-    and columns of a bar chart, but you can only show either income or expenses as the value.
+    and columns of a bar graph, but you can only show either income or expenses as the value.
 
     Now, add the data to the Bars3D graph. Create two Bar3DSeries inside it, starting with a series
     for the income:

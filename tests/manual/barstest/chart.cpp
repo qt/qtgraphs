@@ -410,7 +410,7 @@ void GraphModifier::resetTemperatureData()
         dataSet2.append(dataRow);
     }
 
-    // Add data to chart (chart assumes ownership)
+    // Add data to graph (graph assumes ownership)
     m_temperatureData->dataProxy()->resetArray(dataSet, m_years, m_months);
     m_temperatureData2->dataProxy()->resetArray(dataSet2, m_years, m_months);
 }
