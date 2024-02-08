@@ -4306,6 +4306,7 @@ void QQuickGraphsItem::setPolar(bool enable)
     if (enable != m_isPolar) {
         m_isPolar = enable;
         m_changeTracker.polarChanged = true;
+        setVerticalSegmentLine(!m_isPolar);
         m_isDataDirty = true;
         emit polarChanged(m_isPolar);
         emitNeedRender();
