@@ -8,6 +8,44 @@
 
 QT_BEGIN_NAMESPACE
 
+/*!
+    \class QSplineSeries
+    \inmodule QtGraphs
+    \ingroup graphs_2D
+    \brief QSplineSeries presents data in spline graphs.
+
+    The graph displays smooth spline segments that moves through all the points
+    defined in the graph.
+ */
+/*!
+    \qmltype SplineSeries
+    \instantiates QSplineSeries
+    \inqmlmodule QtGraphs
+    \ingroup graphs_qml_2D
+    \inherits QXYSeries
+
+    \brief SplineSeries presents data in spline graphs.
+
+    The graph displays smooth spline segments that moves through all the points
+    defined in the graph.
+
+    \image graphs2d-spline.png
+*/
+
+/*!
+    \qmlproperty real SplineSeries::width
+    The width of the line. By default, the width is 2.0.
+*/
+
+/*!
+    \qmlproperty Qt::PenCapStyle SplineSeries::capStyle
+    Controls the cap style of the line. Set to one of \l{Qt::FlatCap}{Qt.FlatCap},
+    \l{Qt::SquareCap}{Qt.SquareCap} or \l{Qt::RoundCap}{Qt.RoundCap}. By
+    default the cap style is Qt.SquareCap.
+
+    \sa Qt::PenCapStyle
+*/
+
 QSplineSeries::QSplineSeries(QObject *parent)
     : QXYSeries(*new QSplineSeriesPrivate(this), parent)
 {}

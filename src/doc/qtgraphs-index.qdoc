@@ -13,7 +13,7 @@
     The look and feel of graphs can be customized by using themes or by adding
     custom items and labels.
 
-    In the 2D realm, there is support for bars, lines, and scatter graphs, and
+    In the 2D realm, there is support for bars, lines, splines, and scatter graphs, and
     it is easily combinable with any other QML content.
 
     Qt Graphs is built on Qt 6 and the 3D graphs on Qt Quick 3D to take advantage of

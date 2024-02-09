@@ -15,7 +15,7 @@ QT_BEGIN_NAMESPACE
 
     Usually, the series type specific inherited classes are used instead of the base class.
 
-    \sa QLineSeries, QScatterSeries, QBarSeries, QAbstractBarSeries, QXYSeries
+    \sa QLineSeries, QSplineSeries, QScatterSeries, QBarSeries, QAbstractBarSeries, QXYSeries
 */
 /*!
     \qmltype AbstractSeries
@@ -25,7 +25,7 @@ QT_BEGIN_NAMESPACE
     \brief Base type for all Qt Graph series types.
 
     This type cannot be instantiated directly. Instead, one of the following derived types
-    should be used to create a series: LineSeries, BarSeries, or ScatterSeries.
+    should be used to create a series: LineSeries, SplineSeries, BarSeries, or ScatterSeries.
 */
 
 /*!
@@ -38,7 +38,7 @@ QT_BEGIN_NAMESPACE
     The information needed to make a visual association between a set and a
     marker include properties such as color, border color, and a name of a set.
 
-    \sa QLineSeries, QScatterSeries, QBarSeries, QAbstractBarSeries, QXYSeries
+    \sa QLineSeries, QSplineSeries, QScatterSeries, QBarSeries, QAbstractBarSeries, QXYSeries
 */
 
 /*!
@@ -101,9 +101,10 @@ QT_BEGIN_NAMESPACE
 
     The type of the series.
 
-    \value AbstractSeries.SeriesTypeLine A line graph.
+    \value AbstractSeries.SeriesTypeLine A line graph.    
     \value AbstractSeries.SeriesTypeBar A vertical bar graph.
     \value AbstractSeries.SeriesTypeScatter A scatter graph.
+    \value AbstractSeries.SeriesTypeSpline A spline graph.
 */
 
 /*!
