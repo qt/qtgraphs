@@ -183,6 +183,20 @@ QT_BEGIN_NAMESPACE
     Default value is 6.
 */
 /*!
+    \property QAbstractBarSeries::barComponent
+    \brief A custom QML component used for visualizing each of the bars.
+    Instance of this component is created for each of the bar.
+    To get access into bars properties, use \l BarComponent.
+    When this is not defined, a default rectangle visualization for bars is used.
+*/
+/*!
+    \qmlproperty Component AbstractBarSeries::barComponent
+    A custom QML component used for visualizing each of the bars.
+    Instance of this component is created for each of the bar.
+    To get access into bars properties, use \l BarComponent.
+    When this is not defined, a default rectangle visualization for bars is used.
+*/
+/*!
     \fn void QAbstractBarSeries::labelsPrecisionChanged(int precision)
     This signal is emitted when the \a precision of the value labels changes.
 */
@@ -602,6 +616,21 @@ int QAbstractBarSeries::labelsPrecision() const
     return d->m_labelsPrecision;
 }
 
+QQmlComponent *QAbstractBarSeries::barComponent() const
+{
+    Q_D(const QAbstractBarSeries);
+    return d->m_barComponent;
+}
+
+void QAbstractBarSeries::setBarComponent(QQmlComponent *newBarComponent)
+{
+    Q_D(QAbstractBarSeries);
+    if (d->m_barComponent == newBarComponent)
+        return;
+    d->m_barComponent = newBarComponent;
+    emit barComponentChanged();
+    emit update();
+}
 
 // Select all the elements in the series
 void QAbstractBarSeries::selectAll()
@@ -1046,6 +1075,3 @@ void QAbstractBarSeriesPrivate::handleSetValueRemove(int index, int count)
 }
 
 QT_END_NAMESPACE
-
-#include "moc_qabstractbarseries.cpp"
-#include "moc_qabstractbarseries_p.cpp"

@@ -16,6 +16,10 @@
 
 #include <QQuickItem>
 #include <QtQuick/private/qsgdefaultinternalrectanglenode_p.h>
+#include <QtCore/QHash>
+#include <QtCore/QList>
+#include <QtCore/QRectF>
+#include <QtGui/QColor>
 
 QT_BEGIN_NAMESPACE
 
@@ -43,10 +47,19 @@ private:
         QBarSet *barSet = nullptr;
         QList<QRectF> rects;
     };
+    struct BarSeriesData {
+        QRectF rect;
+        QColor color;
+        QColor borderColor;
+        float borderWidth;
+        bool isSelected;
+    };
     QGraphsView *m_graph = nullptr;
     QList<QSGDefaultInternalRectangleNode *> m_rectNodes;
     // QSG nodes rect has no getter so we store these separately.
     QList<BarSelectionRect> m_rectNodesInputRects;
+    QList<QQuickItem *> m_barItems;
+    QHash<int, BarSeriesData> m_seriesData;
 
     QBarSeries *m_currentHoverSeries = nullptr;
     int m_colorIndex = -1;

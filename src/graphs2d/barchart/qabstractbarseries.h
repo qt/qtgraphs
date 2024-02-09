@@ -25,6 +25,8 @@ class Q_GRAPHS_EXPORT QAbstractBarSeries : public QAbstractSeries
     Q_PROPERTY(LabelsPosition labelsPosition READ labelsPosition WRITE setLabelsPosition NOTIFY labelsPositionChanged)
     Q_PROPERTY(qreal labelsAngle READ labelsAngle WRITE setLabelsAngle NOTIFY labelsAngleChanged)
     Q_PROPERTY(int labelsPrecision READ labelsPrecision WRITE setLabelsPrecision NOTIFY labelsPrecisionChanged)
+    Q_PROPERTY(QQmlComponent *barComponent READ barComponent WRITE setBarComponent NOTIFY barComponentChanged FINAL)
+
 public:
     enum LabelsPosition {
         LabelsCenter = 0,
@@ -65,6 +67,9 @@ public:
     void setLabelsPrecision(int precision);
     int labelsPrecision() const;
 
+    QQmlComponent *barComponent() const;
+    void setBarComponent(QQmlComponent *newBarComponent);
+
 public Q_SLOTS:
     void selectAll();
     void deselectAll();
@@ -87,6 +92,7 @@ Q_SIGNALS:
     void labelsPositionChanged(QAbstractBarSeries::LabelsPosition position);
     void labelsAngleChanged(qreal angle);
     void labelsPrecisionChanged(int precision);
+    void barComponentChanged();
 
     void barsetsAdded(const QList<QBarSet *> &sets);
     void barsetsRemoved(const QList<QBarSet *> &sets);

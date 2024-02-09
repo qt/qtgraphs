@@ -39,6 +39,18 @@ Item {
     // Values used for changing the properties
     BarCategoryAxis { id: axisx; max: "10" }
     ValueAxis { id: axisy; max: 10 }
+    Component {
+        id: customBarComponent
+        BarComponent {
+            id: comp
+            Rectangle {
+                anchors.fill: parent
+                color: comp.barColor
+                border.color: comp.barBorderColor
+                border.width: comp.barBorderWidth
+            }
+        }
+    }
 
     TestCase {
         name: "BarSeries Initial"
@@ -67,11 +79,13 @@ Item {
             compare(initial.hoverable, false)
             compare(initial.opacity, 1.0)
             compare(initial.valuesMultiplier, 1.0)
+            compare(initial.barComponent, null)
         }
 
         function test_3_initial_change() {
             initial.axisX = axisx
             initial.axisY = axisy
+            initial.barComponent = customBarComponent
 
             initial.barWidth = 0.1
             // TODO: How to add a set dynamically?
@@ -91,6 +105,7 @@ Item {
 
             compare(initial.axisX, axisx)
             compare(initial.axisY, axisy)
+            compare(initial.barComponent, customBarComponent)
 
             compare(initial.barWidth, 0.1)
             // TODO: How to add a set dynamically?

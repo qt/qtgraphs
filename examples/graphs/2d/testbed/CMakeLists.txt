@@ -60,11 +60,22 @@ qt6_add_qml_module(testbed
         qml/testbed/CppLineSeries.qml
         qml/testbed/PieChart.qml
         qml/testbed/SplineSeries.qml
+        qml/testbed/CustomBars.qml
+        qml/testbed/BarsEffect/export/BarsEffect.qml
     RESOURCES
         qml/testbed/images/arrow_icon.png
         qml/testbed/images/icon_settings.png
         qml/testbed/images/happy_box.png
         qml/testbed/images/Sevillana-Regular.ttf
+        qml/testbed/images/bar_fg_l.png
+        qml/testbed/images/bar_fg_r.png
+        qml/testbed/images/bar_fg_c.png
+        qml/testbed/images/bar_mask_l.png
+        qml/testbed/images/bar_mask_r.png
+        qml/testbed/images/bar_mask_c.png
+        qml/testbed/BarsEffect/export/barseffect.frag.qsb
+        qml/testbed/BarsEffect/export/barseffect.vert.qsb
+        qml/testbed/BarsEffect/export/bar_mask.png
 )
 
 install(TARGETS testbed

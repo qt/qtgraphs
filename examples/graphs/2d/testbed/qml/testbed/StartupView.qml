@@ -23,6 +23,10 @@ Item {
             file: "BarThemes.qml"
         }
         ListElement {
+            name: "Custom Bars"
+            file: "CustomBars.qml"
+        }
+        ListElement {
             name: "Axis & Grid Setup"
             file: "AxisGridSetup.qml"
         }

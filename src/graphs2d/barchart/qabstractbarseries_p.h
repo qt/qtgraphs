@@ -95,6 +95,7 @@ protected:
     int m_labelsPrecision;
     bool m_visualsDirty;
     bool m_labelsDirty;
+    QQmlComponent *m_barComponent = nullptr;
 
 private:
     Q_DECLARE_PUBLIC(QAbstractBarSeries)
