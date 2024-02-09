@@ -129,6 +129,7 @@ Q_SIGNALS:
 protected:
     QScopedPointer<QAbstractSeriesPrivate> d_ptr;
     friend class BarsRenderer;
+    friend class PointRenderer;
 };
 
 QT_END_NAMESPACE

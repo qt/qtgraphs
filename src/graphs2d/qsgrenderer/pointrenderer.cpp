@@ -4,6 +4,7 @@
 #include <QtGraphs/qlineseries.h>
 #include <QtGraphs/qscatterseries.h>
 #include <QtGraphs/qsplineseries.h>
+#include <private/qabstractseries_p.h>
 #include <private/pointrenderer_p.h>
 #include <private/qgraphsview_p.h>
 
@@ -132,6 +133,13 @@ void PointRenderer::handlePolish(QScatterSeries *series)
             }
         }
     }
+    QLegendData legendData;
+    // TODO: When fill color is added to the scatterseries use it instead for the color.
+    legendData.color = series->color();
+    legendData.borderColor = series->color();
+    legendData.label = series->name();
+    QList<QLegendData> legendDataList = {legendData};
+    series->d_ptr->setLegendData(legendDataList);
 }
 
 void PointRenderer::handlePolish(QSplineSeries *series)
@@ -448,6 +456,11 @@ void PointRenderer::handlePolish(QLineSeries *series)
             }
         }
     }
+    QLegendData legendData;
+    legendData.color = series->color();
+    legendData.label = series->name();
+    QList<QLegendData> legendDataList = {legendData};
+    series->d_ptr->setLegendData(legendDataList);
 }
 
 void PointRenderer::updateSeries(QXYSeries *series)
