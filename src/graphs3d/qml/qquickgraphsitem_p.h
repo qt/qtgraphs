@@ -17,6 +17,7 @@
 #include "../theme/thememanager_p.h"
 #include "qabstract3daxis.h"
 #include "qabstract3dgraph.h"
+#include "qabstract3dseries.h"
 #include "qcategory3daxis.h"
 #include "qvalue3daxis.h"
 
@@ -560,6 +561,7 @@ protected:
     QQuick3DRepeater *createRepeater(QQuick3DNode *parent = nullptr);
     QQuick3DNode *createTitleLabel(QQuick3DNode *parent = nullptr);
     void createItemLabel();
+    QAbstract3DSeries::SeriesType m_graphType = QAbstract3DSeries::SeriesType::None;
 
     void updateXTitle(const QVector3D &labelRotation,
                       const QVector3D &labelTrans,

@@ -18,6 +18,7 @@
 QQuickGraphsBars::QQuickGraphsBars(QQuickItem *parent)
     : QQuickGraphsItem(parent)
 {
+    m_graphType = QAbstract3DSeries::SeriesType::Bar;
     setAxisX(0);
     setAxisY(0);
     setAxisZ(0);

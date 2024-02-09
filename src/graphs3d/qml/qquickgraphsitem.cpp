@@ -1016,7 +1016,8 @@ void QQuickGraphsItem::componentComplete()
     auto gridGeometry = new QQuick3DGeometry(m_gridGeometryModel);
     gridGeometry->setStride(sizeof(QVector3D));
     gridGeometry->setPrimitiveType(QQuick3DGeometry::PrimitiveType::Lines);
-    gridGeometry->addAttribute(QQuick3DGeometry::Attribute::PositionSemantic, 0,
+    gridGeometry->addAttribute(QQuick3DGeometry::Attribute::PositionSemantic,
+                               0,
                                QQuick3DGeometry::Attribute::F32Type);
     m_gridGeometryModel->setGeometry(gridGeometry);
     QQmlListReference gridMaterialRef(m_gridGeometryModel, "materials");
@@ -2028,7 +2029,10 @@ void QQuickGraphsItem::updateGrid()
     int horizontalZCount = gridLineCountZ + subGridLineCountZ;
     int horizontalYCount = gridLineCountY + subGridLineCountY;
     int calculatedSize = 0;
-    if (!isPolar()) {
+
+    bool usePolar = isPolar() && (m_graphType != QAbstract3DSeries::SeriesType::Bar);
+
+    if (!usePolar) {
         int factor = m_hasVerticalSegmentLine ? 2 : 1;
         calculatedSize = (factor * verticalXCount + factor * horizontalZCount + 2 * horizontalYCount)
                          * 2 * sizeof(QVector3D);
@@ -2067,7 +2071,7 @@ void QQuickGraphsItem::updateGrid()
     lineRotation = Utils::calculateRotation(rotation);
     linePosY *= m_horizontalFlipFactor;
     tempLineOffset *= m_horizontalFlipFactor;
-    if (!isPolar()) {
+    if (!usePolar) {
         for (int i = 0; i < subGridLineCountZ; i++) {
             if (axisZ()->type() == QAbstract3DAxis::AxisType::Value) {
                 linePosZ = static_cast<QValue3DAxis *>(axisZ())->subGridPositionAt(i) * -scale
@@ -2235,7 +2239,7 @@ void QQuickGraphsItem::updateGrid()
     linePosY *= m_horizontalFlipFactor;
     tempLineOffset *= m_horizontalFlipFactor;
 
-    if (!isPolar()) {
+    if (!usePolar) {
         for (int i = 0; i < subGridLineCountX; i++) {
             if (axisX()->type() == QAbstract3DAxis::AxisType::Value) {
                 linePosX = static_cast<QValue3DAxis *>(axisX())->subGridPositionAt(i) * scale * 2.0f
@@ -4304,6 +4308,8 @@ QAbstract3DGraph::OptimizationHint QQuickGraphsItem::optimizationHint() const
 void QQuickGraphsItem::setPolar(bool enable)
 {
     if (enable != m_isPolar) {
+        if (m_graphType == QAbstract3DSeries::SeriesType::Bar)
+            qWarning("Polar type with bars is not supported.");
         m_isPolar = enable;
         m_changeTracker.polarChanged = true;
         setVerticalSegmentLine(!m_isPolar);
