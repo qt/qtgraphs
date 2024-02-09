@@ -25,6 +25,7 @@ static const int insertRemoveRecordReserveSize = 31;
 QQuickGraphsScatter::QQuickGraphsScatter(QQuickItem *parent)
     : QQuickGraphsItem(parent)
 {
+    m_graphType = QAbstract3DSeries::SeriesType::Scatter;
     setAxisX(0);
     setAxisY(0);
     setAxisZ(0);

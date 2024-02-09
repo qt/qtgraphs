@@ -17,61 +17,61 @@ Item {
 
     function constructEmpty() {
         empty = Qt.createQmlObject("
-       import QtQuick 2.2
-       import QtGraphs
-       Bars3D {
-       }", top)
+        import QtQuick 2.2
+        import QtGraphs
+        Bars3D {
+        }", top)
     }
 
     function constructBasic() {
         basic = Qt.createQmlObject("
-       import QtQuick 2.2
-       import QtGraphs
-       Bars3D {
-           anchors.fill: parent
-           multiSeriesUniform: true
-           barThickness: 0.1
-           barSpacing.width: 0.1
-           barSpacing.height: 0.1
-           barSeriesMargin.width: 0.3
-           barSeriesMargin.height: 0.3
-           barSpacingRelative: false
-           floorLevel: 1.0
-       }", top)
+        import QtQuick 2.2
+        import QtGraphs
+        Bars3D {
+            anchors.fill: parent
+            multiSeriesUniform: true
+            barThickness: 0.1
+            barSpacing.width: 0.1
+            barSpacing.height: 0.1
+            barSeriesMargin.width: 0.3
+            barSeriesMargin.height: 0.3
+            barSpacingRelative: false
+            floorLevel: 1.0
+        }", top)
         basic.anchors.fill = top
     }
 
     function constructCommon() {
         common = Qt.createQmlObject("
-       import QtQuick 2.2
-       import QtGraphs
-       Bars3D {
-           anchors.fill: parent
-       }", top)
+        import QtQuick 2.2
+        import QtGraphs
+        Bars3D {
+            anchors.fill: parent
+        }", top)
         common.anchors.fill = top
     }
 
     function constructCommonInit() {
         common_init = Qt.createQmlObject("
-       import QtQuick 2.2
-       import QtGraphs
-       Bars3D {
-           anchors.fill: parent
-           selectionMode: AbstractGraph3D.SelectionNone
-           shadowQuality: AbstractGraph3D.ShadowQuality.Low
-           msaaSamples: 2
-           theme: Theme3D { }
-           renderingMode: AbstractGraph3D.RenderingMode.Indirect
-           measureFps: true
-           orthoProjection: false
-           aspectRatio: 3.0
-           optimizationHint: AbstractGraph3D.OptimizationHint.Default
-           polar: false
-           radialLabelOffset: 2
-           horizontalAspectRatio: 0.2
-           locale: Qt.locale(\"UK\")
-           margin: 0.2
-       }", top)
+        import QtQuick 2.2
+        import QtGraphs
+        Bars3D {
+            anchors.fill: parent
+            selectionMode: AbstractGraph3D.SelectionNone
+            shadowQuality: AbstractGraph3D.ShadowQuality.Low
+            msaaSamples: 2
+            theme: Theme3D { }
+            renderingMode: AbstractGraph3D.RenderingMode.Indirect
+            measureFps: true
+            orthoProjection: false
+            aspectRatio: 3.0
+            optimizationHint: AbstractGraph3D.OptimizationHint.Default
+            polar: false
+            radialLabelOffset: 2
+            horizontalAspectRatio: 0.2
+            locale: Qt.locale(\"UK\")
+            margin: 0.2
+        }", top)
         common_init.anchors.fill = top
     }
 
@@ -188,8 +188,7 @@ Item {
             common.orthoProjection = true
             common.aspectRatio = 1.0
             common.optimizationHint = AbstractGraph3D.OptimizationHint.Default
-            // TODO: Crashes on Windows - QTBUG-122112
-            // common.polar = true
+            common.polar = true
             common.radialLabelOffset = 2
             common.horizontalAspectRatio = 1
             common.locale = Qt.locale("FI")
@@ -205,8 +204,7 @@ Item {
             compare(common.orthoProjection, true, "orthoProjection")
             compare(common.aspectRatio, 1.0, "aspectRatio")
             compare(common.optimizationHint, AbstractGraph3D.OptimizationHint.Default, "optimizationHint")
-            // TODO: Crashes on Windows - QTBUG-122112
-            // compare(common.polar, true, "polar")
+            compare(common.polar, true, "polar")
             compare(common.radialLabelOffset, 2, "radialLabelOffset")
             compare(common.horizontalAspectRatio, 1, "horizontalAspectRatio")
             compare(common.locale, Qt.locale("FI"), "locale")

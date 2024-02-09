@@ -23,6 +23,7 @@ QT_BEGIN_NAMESPACE
 QQuickGraphsSurface::QQuickGraphsSurface(QQuickItem *parent)
     : QQuickGraphsItem(parent)
 {
+    m_graphType = QAbstract3DSeries::SeriesType::Surface;
     setAxisX(0);
     setAxisY(0);
     setAxisZ(0);
