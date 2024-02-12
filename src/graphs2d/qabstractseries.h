@@ -130,6 +130,7 @@ protected:
     QScopedPointer<QAbstractSeriesPrivate> d_ptr;
     friend class BarsRenderer;
     friend class PointRenderer;
+    friend class PieRenderer;
 };
 
 QT_END_NAMESPACE

@@ -1,6 +1,7 @@
 // Copyright (C) 2024 The Qt Company Ltd.
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 
+#include <private/qabstractseries_p.h>
 #include <private/qgraphsview_p.h>
 #include <private/pierenderer_p.h>
 #include <private/qquickshape_p.h>
@@ -71,15 +72,17 @@ void PieRenderer::updateSeries(QPieSeries *series)
     theme->setGraphSeriesCount(series->slices().size());
 
     int sliceIndex = 0;
-
+    QList<QLegendData> legendDataList;
     for (QPieSlice *slice : series->slices()) {
         QPieSlicePrivate *d = QPieSlicePrivate::fromSlice(slice);
         QQuickShapePath *shapePath = d->m_shapePath;
         auto data = m_shape->data();
         data.append(&data, shapePath);
+        QColor borderColor = theme->graphSeriesBorderColor(sliceIndex);
+        QColor color = theme->graphSeriesColor(sliceIndex);
         shapePath->setStrokeWidth(theme->borderWidth());
-        shapePath->setStrokeColor(theme->graphSeriesBorderColor(sliceIndex));
-        shapePath->setFillColor(theme->graphSeriesColor(sliceIndex));
+        shapePath->setStrokeColor(borderColor);
+        shapePath->setFillColor(color);
         qreal radian = .0;
         if (qIsNaN(startX) || qIsNaN(startY)) {
             radian = qDegreesToRadians(slice->startAngle());
@@ -120,5 +123,7 @@ void PieRenderer::updateSeries(QPieSeries *series)
         startX = pointX;
         startY = pointY;
         sliceIndex++;
+        legendDataList.push_back({color, borderColor, d->m_labelText});
     }
+    series->d_ptr->setLegendData(legendDataList);
 }
