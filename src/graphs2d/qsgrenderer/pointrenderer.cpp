@@ -42,7 +42,8 @@ void PointRenderer::handlePolish(QScatterSeries *series)
         int markerCount = scatter->markers.size();
         if (markerCount < pointCount) {
             for (int i = markerCount; i < pointCount; ++i) {
-                QQuickItem *item = qobject_cast<QQuickItem *>(series->pointMarker()->create());
+                QQuickItem *item = qobject_cast<QQuickItem *>(
+                    series->pointMarker()->create(series->pointMarker()->creationContext()));
                 item->setParentItem(this);
                 scatter->markers << item;
                 scatter->rects << QRectF();
@@ -180,7 +181,8 @@ void PointRenderer::handlePolish(QSplineSeries *series)
         int markerCount = line->markers.size();
         if (markerCount < pointCount) {
             for (int i = markerCount; i < pointCount; ++i) {
-                QQuickItem *item = qobject_cast<QQuickItem *>(series->pointMarker()->create());
+                QQuickItem *item = qobject_cast<QQuickItem *>(
+                    series->pointMarker()->create(series->pointMarker()->creationContext()));
                 item->setParentItem(this);
                 line->markers << item;
                 line->rects << QRectF();
@@ -354,7 +356,8 @@ void PointRenderer::handlePolish(QLineSeries *series)
         int markerCount = line->markers.size();
         if (markerCount < pointCount) {
             for (int i = markerCount; i < pointCount; ++i) {
-                QQuickItem *item = qobject_cast<QQuickItem *>(series->pointMarker()->create());
+                QQuickItem *item = qobject_cast<QQuickItem *>(
+                    series->pointMarker()->create(series->pointMarker()->creationContext()));
                 item->setParentItem(this);
                 line->markers << item;
                 line->rects << QRectF();
