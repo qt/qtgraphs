@@ -4,6 +4,7 @@
 # Graph2D Tests
 if(QT_FEATURE_graphs_2d)
     if(TARGET Qt::Quick)
+        add_subdirectory(testbed)
         if(WIN32)
             add_subdirectory(qmlbarscatter)
         endif()
