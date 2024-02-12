@@ -1867,13 +1867,14 @@ void QQuickGraphsSurface::updateSelectedPoint()
 
         const QSurfaceDataItem &dataPos
             = model->series->dataArray().at(selectedCoord.y()).at(selectedCoord.x());
-        QVector3D pos = getNormalizedVertex(dataPos, false, false);
+        QVector3D pos = getNormalizedVertex(dataPos, isPolar(), false);
+
         SurfaceVertex selectedVertex;
         selectedVertex.position = pos;
         if (model->series->isVisible() && !selectedVertex.position.isNull()
             && selectionMode().testFlag(QAbstract3DGraph::SelectionItem)) {
             m_instancing->addPosition(selectedVertex.position);
-            QVector3D slicePosition = selectedVertex.position;
+            QVector3D slicePosition = getNormalizedVertex(dataPos, false, false);
             if (sliceView() && sliceView()->isVisible()) {
                 if (selectionMode().testFlag(QAbstract3DGraph::SelectionColumn))
                     slicePosition.setX(-slicePosition.z());
