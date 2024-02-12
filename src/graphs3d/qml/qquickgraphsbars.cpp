@@ -243,6 +243,9 @@ void QQuickGraphsBars::addSeries(QBar3DSeries *series)
 
 void QQuickGraphsBars::removeSeries(QBar3DSeries *series)
 {
+    if (!series)
+        return;
+
     bool wasVisible = (series && series->d_func()->m_graph == this && series->isVisible());
 
     QQuickGraphsItem::removeSeriesInternal(series);
