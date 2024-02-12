@@ -1886,14 +1886,16 @@ void QQuickGraphsSurface::updateSelectedPoint()
         if (selectedCoord.x() == -1 || selectedCoord.y() == -1)
             continue;
 
-        int coordX = selectedCoord.x() - model->sampleSpace.left();
-        int coordY = selectedCoord.y() - model->sampleSpace.top();
-        int index = coordY * model->sampleSpace.width() + coordX;
-        SurfaceVertex selectedVertex = model->vertices.at(index);
+        const QSurfaceDataItem &dataPos
+            = model->series->dataProxy()->array().at(selectedCoord.y()).at(selectedCoord.x());
+        QVector3D pos = getNormalizedVertex(dataPos, isPolar(), false);
+
+        SurfaceVertex selectedVertex;
+        selectedVertex.position = pos;
         if (model->series->isVisible() && !selectedVertex.position.isNull()
             && selectionMode().testFlag(QAbstract3DGraph::SelectionItem)) {
             m_instancing->addPosition(selectedVertex.position);
-            QVector3D slicePosition = selectedVertex.position;
+            QVector3D slicePosition = getNormalizedVertex(dataPos, false, false);
             if (sliceView() && sliceView()->isVisible()) {
                 if (selectionMode().testFlag(QAbstract3DGraph::SelectionColumn))
                     slicePosition.setX(-slicePosition.z());
