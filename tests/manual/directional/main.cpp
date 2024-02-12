@@ -111,14 +111,14 @@ int main(int argc, char **argv)
     QObject::connect(labelButton, &QPushButton::clicked, modifier,
                      &ScatterDataModifier::changeLabelStyle);
 
-    QObject::connect(backgroundCheckBox, &QCheckBox::stateChanged, modifier,
+    QObject::connect(backgroundCheckBox, &QCheckBox::checkStateChanged, modifier,
                      &ScatterDataModifier::setBackgroundEnabled);
-    QObject::connect(gridCheckBox, &QCheckBox::stateChanged, modifier,
+    QObject::connect(gridCheckBox, &QCheckBox::checkStateChanged, modifier,
                      &ScatterDataModifier::setGridEnabled);
 
     QObject::connect(modifier, &ScatterDataModifier::backgroundEnabledChanged,
                      backgroundCheckBox, &QCheckBox::setChecked);
-    QObject::connect(optimizationCheckBox, &QCheckBox::stateChanged,
+    QObject::connect(optimizationCheckBox, &QCheckBox::checkStateChanged,
                      modifier, &ScatterDataModifier::enableOptimization);
     QObject::connect(modifier, &ScatterDataModifier::gridEnabledChanged,
                      gridCheckBox, &QCheckBox::setChecked);

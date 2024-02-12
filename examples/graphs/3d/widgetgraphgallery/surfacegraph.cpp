@@ -324,33 +324,33 @@ void SurfaceGraph::initialize()
                      &SurfaceGraphModifier::setGreenToRedGradient);
 
     QObject::connect(checkboxShowOilRigOne,
-                     &QCheckBox::stateChanged,
+                     &QCheckBox::checkStateChanged,
                      m_modifier,
                      &SurfaceGraphModifier::toggleItemOne);
     QObject::connect(checkboxShowOilRigTwo,
-                     &QCheckBox::stateChanged,
+                     &QCheckBox::checkStateChanged,
                      m_modifier,
                      &SurfaceGraphModifier::toggleItemTwo);
     QObject::connect(checkboxShowRefinery,
-                     &QCheckBox::stateChanged,
+                     &QCheckBox::checkStateChanged,
                      m_modifier,
                      &SurfaceGraphModifier::toggleItemThree);
 
     QObject::connect(checkboxVisualsSeeThrough,
-                     &QCheckBox::stateChanged,
+                     &QCheckBox::checkStateChanged,
                      m_modifier,
                      &SurfaceGraphModifier::toggleSeeThrough);
     QObject::connect(checkboxHighlightOil,
-                     &QCheckBox::stateChanged,
+                     &QCheckBox::checkStateChanged,
                      m_modifier,
                      &SurfaceGraphModifier::toggleOilHighlight);
     QObject::connect(checkboxShowShadows,
-                     &QCheckBox::stateChanged,
+                     &QCheckBox::checkStateChanged,
                      m_modifier,
                      &SurfaceGraphModifier::toggleShadows);
 
     QObject::connect(enableTexture,
-                     &QCheckBox::stateChanged,
+                     &QCheckBox::checkStateChanged,
                      m_modifier,
                      &SurfaceGraphModifier::toggleSurfaceTexture);
 

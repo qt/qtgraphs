@@ -262,23 +262,23 @@ void BarGraph::initialize()
                      &GraphModifier::zoomToSelectedBar);
 
     QObject::connect(backgroundCheckBox,
-                     &QCheckBox::stateChanged,
+                     &QCheckBox::checkStateChanged,
                      m_modifier,
                      &GraphModifier::setBackgroundEnabled);
     QObject::connect(gridCheckBox,
-                     &QCheckBox::stateChanged,
+                     &QCheckBox::checkStateChanged,
                      m_modifier,
                      &GraphModifier::setGridEnabled);
     QObject::connect(smoothCheckBox,
-                     &QCheckBox::stateChanged,
+                     &QCheckBox::checkStateChanged,
                      m_modifier,
                      &GraphModifier::setSmoothBars);
     QObject::connect(seriesCheckBox,
-                     &QCheckBox::stateChanged,
+                     &QCheckBox::checkStateChanged,
                      m_modifier,
                      &GraphModifier::setSeriesVisibility);
     QObject::connect(reverseValueAxisCheckBox,
-                     &QCheckBox::stateChanged,
+                     &QCheckBox::checkStateChanged,
                      m_modifier,
                      &GraphModifier::setReverseValueAxis);
 
@@ -344,11 +344,11 @@ void BarGraph::initialize()
                      &QFontComboBox::setCurrentFont);
 
     QObject::connect(axisTitlesVisibleCB,
-                     &QCheckBox::stateChanged,
+                     &QCheckBox::checkStateChanged,
                      m_modifier,
                      &GraphModifier::setAxisTitleVisibility);
     QObject::connect(axisTitlesFixedCB,
-                     &QCheckBox::stateChanged,
+                     &QCheckBox::checkStateChanged,
                      m_modifier,
                      &GraphModifier::setAxisTitleFixed);
     QObject::connect(axisLabelRotationSlider,

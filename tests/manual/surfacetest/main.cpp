@@ -553,55 +553,55 @@ int main(int argc, char *argv[])
     GraphModifier *modifier = new GraphModifier(surfaceGraph);
 
     // Connect controls to slots on modifier
-    QObject::connect(smoothCB, &QCheckBox::stateChanged,
+    QObject::connect(smoothCB, &QCheckBox::checkStateChanged,
                      modifier, &GraphModifier::toggleSmooth);
-    QObject::connect(surfaceGridCB, &QCheckBox::stateChanged,
+    QObject::connect(surfaceGridCB, &QCheckBox::checkStateChanged,
                      modifier, &GraphModifier::toggleSurfaceGrid);
-    QObject::connect(surfaceCB, &QCheckBox::stateChanged,
+    QObject::connect(surfaceCB, &QCheckBox::checkStateChanged,
                      modifier, &GraphModifier::toggleSurface);
-    QObject::connect(seriesVisibleCB, &QCheckBox::stateChanged,
+    QObject::connect(seriesVisibleCB, &QCheckBox::checkStateChanged,
                      modifier, &GraphModifier::toggleSeriesVisible);
 #ifdef MULTI_SERIES
-    QObject::connect(smoothS2CB, &QCheckBox::stateChanged,
+    QObject::connect(smoothS2CB, &QCheckBox::checkStateChanged,
                      modifier, &GraphModifier::toggleSmoothS2);
-    QObject::connect(surfaceGridS2CB, &QCheckBox::stateChanged,
+    QObject::connect(surfaceGridS2CB, &QCheckBox::checkStateChanged,
                      modifier, &GraphModifier::toggleSurfaceGridS2);
-    QObject::connect(surfaceS2CB, &QCheckBox::stateChanged,
+    QObject::connect(surfaceS2CB, &QCheckBox::checkStateChanged,
                      modifier, &GraphModifier::toggleSurfaceS2);
-    QObject::connect(series2VisibleCB, &QCheckBox::stateChanged,
+    QObject::connect(series2VisibleCB, &QCheckBox::checkStateChanged,
                      modifier, &GraphModifier::toggleSeries2Visible);
 
-    QObject::connect(smoothS3CB, &QCheckBox::stateChanged,
+    QObject::connect(smoothS3CB, &QCheckBox::checkStateChanged,
                      modifier, &GraphModifier::toggleSmoothS3);
-    QObject::connect(surfaceGridS3CB, &QCheckBox::stateChanged,
+    QObject::connect(surfaceGridS3CB, &QCheckBox::checkStateChanged,
                      modifier, &GraphModifier::toggleSurfaceGridS3);
-    QObject::connect(surfaceS3CB, &QCheckBox::stateChanged,
+    QObject::connect(surfaceS3CB, &QCheckBox::checkStateChanged,
                      modifier, &GraphModifier::toggleSurfaceS3);
-    QObject::connect(series3VisibleCB, &QCheckBox::stateChanged,
+    QObject::connect(series3VisibleCB, &QCheckBox::checkStateChanged,
                      modifier, &GraphModifier::toggleSeries3Visible);
 
-    QObject::connect(smoothS4CB, &QCheckBox::stateChanged,
+    QObject::connect(smoothS4CB, &QCheckBox::checkStateChanged,
                      modifier, &GraphModifier::toggleSmoothS4);
-    QObject::connect(surfaceGridS4CB, &QCheckBox::stateChanged,
+    QObject::connect(surfaceGridS4CB, &QCheckBox::checkStateChanged,
                      modifier, &GraphModifier::toggleSurfaceGridS4);
-    QObject::connect(surfaceS4CB, &QCheckBox::stateChanged,
+    QObject::connect(surfaceS4CB, &QCheckBox::checkStateChanged,
                      modifier, &GraphModifier::toggleSurfaceS4);
-    QObject::connect(series4VisibleCB, &QCheckBox::stateChanged,
+    QObject::connect(series4VisibleCB, &QCheckBox::checkStateChanged,
                      modifier, &GraphModifier::toggleSeries4Visible);
 
     CheckBoxWrapper *series1SmoothCBWrapper = new CheckBoxWrapper(smoothCB);
     CheckBoxWrapper *series1SurfaceGridCBWrapper = new CheckBoxWrapper(surfaceGridCB);
     CheckBoxWrapper *series1surfaceCBWrapper = new CheckBoxWrapper(surfaceCB);
     CheckBoxWrapper *series1VisibleCBWrapper = new CheckBoxWrapper(seriesVisibleCB);
-    QObject::connect(series1CB, &QCheckBox::stateChanged,
+    QObject::connect(series1CB, &QCheckBox::checkStateChanged,
                      modifier, &GraphModifier::toggleSeries1);
-    QObject::connect(series1CB, &QCheckBox::stateChanged,
+    QObject::connect(series1CB, &QCheckBox::checkStateChanged,
                      series1SmoothCBWrapper, &CheckBoxWrapper::setEnabled);
-    QObject::connect(series1CB, &QCheckBox::stateChanged,
+    QObject::connect(series1CB, &QCheckBox::checkStateChanged,
                      series1SurfaceGridCBWrapper, &CheckBoxWrapper::setEnabled);
-    QObject::connect(series1CB, &QCheckBox::stateChanged,
+    QObject::connect(series1CB, &QCheckBox::checkStateChanged,
                      series1surfaceCBWrapper, &CheckBoxWrapper::setEnabled);
-    QObject::connect(series1CB, &QCheckBox::stateChanged,
+    QObject::connect(series1CB, &QCheckBox::checkStateChanged,
                      series1VisibleCBWrapper, &CheckBoxWrapper::setEnabled);
 
 
@@ -609,45 +609,45 @@ int main(int argc, char *argv[])
     CheckBoxWrapper *series2SurfaceGridCBWrapper = new CheckBoxWrapper(surfaceGridS2CB);
     CheckBoxWrapper *series2surfaceCBWrapper = new CheckBoxWrapper(surfaceS2CB);
     CheckBoxWrapper *series2VisibleCBWrapper = new CheckBoxWrapper(series2VisibleCB);
-    QObject::connect(series2CB, &QCheckBox::stateChanged,
+    QObject::connect(series2CB, &QCheckBox::checkStateChanged,
                      modifier, &GraphModifier::toggleSeries2);
-    QObject::connect(series2CB, &QCheckBox::stateChanged,
+    QObject::connect(series2CB, &QCheckBox::checkStateChanged,
                      series2SmoothCBWrapper, &CheckBoxWrapper::setEnabled);
-    QObject::connect(series2CB, &QCheckBox::stateChanged,
+    QObject::connect(series2CB, &QCheckBox::checkStateChanged,
                      series2SurfaceGridCBWrapper, &CheckBoxWrapper::setEnabled);
-    QObject::connect(series2CB, &QCheckBox::stateChanged,
+    QObject::connect(series2CB, &QCheckBox::checkStateChanged,
                      series2surfaceCBWrapper, &CheckBoxWrapper::setEnabled);
-    QObject::connect(series2CB, &QCheckBox::stateChanged,
+    QObject::connect(series2CB, &QCheckBox::checkStateChanged,
                      series2VisibleCBWrapper, &CheckBoxWrapper::setEnabled);
 
     CheckBoxWrapper *series3SmoothCBWrapper = new CheckBoxWrapper(smoothS3CB);
     CheckBoxWrapper *series3SurfaceGridCBWrapper = new CheckBoxWrapper(surfaceGridS3CB);
     CheckBoxWrapper *series3surfaceCBWrapper = new CheckBoxWrapper(surfaceS3CB);
     CheckBoxWrapper *series3VisibleCBWrapper = new CheckBoxWrapper(series3VisibleCB);
-    QObject::connect(series3CB, &QCheckBox::stateChanged,
+    QObject::connect(series3CB, &QCheckBox::checkStateChanged,
                      modifier, &GraphModifier::toggleSeries3);
-    QObject::connect(series3CB, &QCheckBox::stateChanged,
+    QObject::connect(series3CB, &QCheckBox::checkStateChanged,
                      series3SmoothCBWrapper, &CheckBoxWrapper::setEnabled);
-    QObject::connect(series3CB, &QCheckBox::stateChanged,
+    QObject::connect(series3CB, &QCheckBox::checkStateChanged,
                      series3SurfaceGridCBWrapper, &CheckBoxWrapper::setEnabled);
-    QObject::connect(series3CB, &QCheckBox::stateChanged,
+    QObject::connect(series3CB, &QCheckBox::checkStateChanged,
                      series3surfaceCBWrapper, &CheckBoxWrapper::setEnabled);
-    QObject::connect(series3CB, &QCheckBox::stateChanged,
+    QObject::connect(series3CB, &QCheckBox::checkStateChanged,
                      series3VisibleCBWrapper, &CheckBoxWrapper::setEnabled);
 
     CheckBoxWrapper *series4SmoothCBWrapper = new CheckBoxWrapper(smoothS4CB);
     CheckBoxWrapper *series4SurfaceGridCBWrapper = new CheckBoxWrapper(surfaceGridS4CB);
     CheckBoxWrapper *series4surfaceCBWrapper = new CheckBoxWrapper(surfaceS4CB);
     CheckBoxWrapper *series4VisibleCBWrapper = new CheckBoxWrapper(series4VisibleCB);
-    QObject::connect(series4CB, &QCheckBox::stateChanged,
+    QObject::connect(series4CB, &QCheckBox::checkStateChanged,
                      modifier, &GraphModifier::toggleSeries4);
-    QObject::connect(series4CB, &QCheckBox::stateChanged,
+    QObject::connect(series4CB, &QCheckBox::checkStateChanged,
                      series4SmoothCBWrapper, &CheckBoxWrapper::setEnabled);
-    QObject::connect(series4CB, &QCheckBox::stateChanged,
+    QObject::connect(series4CB, &QCheckBox::checkStateChanged,
                      series4SurfaceGridCBWrapper, &CheckBoxWrapper::setEnabled);
-    QObject::connect(series4CB, &QCheckBox::stateChanged,
+    QObject::connect(series4CB, &QCheckBox::checkStateChanged,
                      series4surfaceCBWrapper, &CheckBoxWrapper::setEnabled);
-    QObject::connect(series4CB, &QCheckBox::stateChanged,
+    QObject::connect(series4CB, &QCheckBox::checkStateChanged,
                      series4VisibleCBWrapper, &CheckBoxWrapper::setEnabled);
 #else
     QObject::connect(sqrtSinCB, &QRadioButton::toggled,
@@ -656,7 +656,7 @@ int main(int argc, char *argv[])
                      modifier, &GraphModifier::togglePlane);
     QObject::connect(heightMapCB, &QCheckBox::toggled,
                      modifier, &GraphModifier::setHeightMapData);
-    QObject::connect(gridSlidersLockCB, &QCheckBox::stateChanged,
+    QObject::connect(gridSlidersLockCB, &QCheckBox::checkStateChanged,
                      modifier, &GraphModifier::toggleGridSliderLock);
     QObject::connect(gridSliderX, &QSlider::valueChanged,
                      modifier, &GraphModifier::adjustXCount);
@@ -725,24 +725,24 @@ int main(int argc, char *argv[])
                      modifier, &GraphModifier::testAxisReverse);
     QObject::connect(testDataOrderingButton, &QPushButton::clicked,
                      modifier, &GraphModifier::testDataOrdering);
-    QObject::connect(axisTitlesVisibleCB, &QCheckBox::stateChanged,
+    QObject::connect(axisTitlesVisibleCB, &QCheckBox::checkStateChanged,
                      modifier, &GraphModifier::toggleAxisTitleVisibility);
-    QObject::connect(axisTitlesFixedCB, &QCheckBox::stateChanged,
+    QObject::connect(axisTitlesFixedCB, &QCheckBox::checkStateChanged,
                      modifier, &GraphModifier::toggleAxisTitleFixed);
     QObject::connect(axisLabelRotationSlider, &QSlider::valueChanged, modifier,
                      &GraphModifier::changeLabelRotation);
-    QObject::connect(xAscendingCB, &QCheckBox::stateChanged,
+    QObject::connect(xAscendingCB, &QCheckBox::checkStateChanged,
                      modifier, &GraphModifier::toggleXAscending);
-    QObject::connect(zAscendingCB, &QCheckBox::stateChanged,
+    QObject::connect(zAscendingCB, &QCheckBox::checkStateChanged,
                      modifier, &GraphModifier::toggleZAscending);
-    QObject::connect(polarCB, &QCheckBox::stateChanged,
+    QObject::connect(polarCB, &QCheckBox::checkStateChanged,
                      modifier, &GraphModifier::togglePolar);
 
     QObject::connect(aspectRatioSlider, &QSlider::valueChanged,
                      modifier, &GraphModifier::setAspectRatio);
     QObject::connect(horizontalAspectRatioSlider, &QSlider::valueChanged,
                      modifier, &GraphModifier::setHorizontalAspectRatio);
-    QObject::connect(surfaceTextureCB, &QCheckBox::stateChanged,
+    QObject::connect(surfaceTextureCB, &QCheckBox::checkStateChanged,
                      modifier, &GraphModifier::setSurfaceTexture);
     QObject::connect(cameraTargetSliderX, &QSlider::valueChanged, modifier,
                      &GraphModifier::setCameraTargetX);

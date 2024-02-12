@@ -459,11 +459,11 @@ int main(int argc, char **argv)
     QObject::connect(fontList, &QFontComboBox::currentFontChanged, modifier,
                      &ScatterDataModifier::changeFont);
 
-    QObject::connect(fpsCheckBox, &QCheckBox::stateChanged, modifier,
+    QObject::connect(fpsCheckBox, &QCheckBox::checkStateChanged, modifier,
                      &ScatterDataModifier::setFpsMeasurement);
-    QObject::connect(backgroundCheckBox, &QCheckBox::stateChanged, modifier,
+    QObject::connect(backgroundCheckBox, &QCheckBox::checkStateChanged, modifier,
                      &ScatterDataModifier::setBackgroundEnabled);
-    QObject::connect(gridCheckBox, &QCheckBox::stateChanged, modifier,
+    QObject::connect(gridCheckBox, &QCheckBox::checkStateChanged, modifier,
                      &ScatterDataModifier::setGridEnabled);
 
     QObject::connect(minSliderX, &QSlider::valueChanged, modifier,
@@ -479,16 +479,16 @@ int main(int argc, char **argv)
     QObject::connect(maxSliderZ, &QSlider::valueChanged, modifier,
                      &ScatterDataModifier::setMaxZ);
     QObject::connect(optimizationLegacyCB,
-                     &QCheckBox::stateChanged,
+                     &QCheckBox::checkStateChanged,
                      modifier,
                      &ScatterDataModifier::toggleLegacy);
-    QObject::connect(orthoCB, &QCheckBox::stateChanged, modifier,
+    QObject::connect(orthoCB, &QCheckBox::checkStateChanged, modifier,
                      &ScatterDataModifier::toggleOrtho);
-    QObject::connect(polarCB, &QCheckBox::stateChanged, modifier,
+    QObject::connect(polarCB, &QCheckBox::checkStateChanged, modifier,
                      &ScatterDataModifier::togglePolar);
-    QObject::connect(axisTitlesVisibleCB, &QCheckBox::stateChanged, modifier,
+    QObject::connect(axisTitlesVisibleCB, &QCheckBox::checkStateChanged, modifier,
                      &ScatterDataModifier::toggleAxisTitleVisibility);
-    QObject::connect(axisTitlesFixedCB, &QCheckBox::stateChanged, modifier,
+    QObject::connect(axisTitlesFixedCB, &QCheckBox::checkStateChanged, modifier,
                      &ScatterDataModifier::toggleAxisTitleFixed);
     QObject::connect(axisLabelRotationSlider, &QSlider::valueChanged, modifier,
                      &ScatterDataModifier::changeLabelRotation);

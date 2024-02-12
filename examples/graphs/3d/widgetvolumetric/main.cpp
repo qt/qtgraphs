@@ -193,19 +193,19 @@ int main(int argc, char **argv)
     modifier->setTransparentGround(transparentGroundCheckBox->isChecked());
 
     QObject::connect(fpsCheckBox,
-                     &QCheckBox::stateChanged,
+                     &QCheckBox::checkStateChanged,
                      modifier,
                      &VolumetricModifier::setFpsMeasurement);
     QObject::connect(sliceXCheckBox,
-                     &QCheckBox::stateChanged,
+                     &QCheckBox::checkStateChanged,
                      modifier,
                      &VolumetricModifier::sliceX);
     QObject::connect(sliceYCheckBox,
-                     &QCheckBox::stateChanged,
+                     &QCheckBox::checkStateChanged,
                      modifier,
                      &VolumetricModifier::sliceY);
     QObject::connect(sliceZCheckBox,
-                     &QCheckBox::stateChanged,
+                     &QCheckBox::checkStateChanged,
                      modifier,
                      &VolumetricModifier::sliceZ);
     QObject::connect(sliceXSlider,
@@ -233,23 +233,23 @@ int main(int argc, char **argv)
                      modifier,
                      &VolumetricModifier::toggleHighDetail);
     QObject::connect(colorTableCheckBox,
-                     &QCheckBox::stateChanged,
+                     &QCheckBox::checkStateChanged,
                      modifier,
                      &VolumetricModifier::changeColorTable);
     QObject::connect(preserveOpacityCheckBox,
-                     &QCheckBox::stateChanged,
+                     &QCheckBox::checkStateChanged,
                      modifier,
                      &VolumetricModifier::setPreserveOpacity);
     QObject::connect(transparentGroundCheckBox,
-                     &QCheckBox::stateChanged,
+                     &QCheckBox::checkStateChanged,
                      modifier,
                      &VolumetricModifier::setTransparentGround);
     QObject::connect(useHighDefShaderCheckBox,
-                     &QCheckBox::stateChanged,
+                     &QCheckBox::checkStateChanged,
                      modifier,
                      &VolumetricModifier::setUseHighDefShader);
     QObject::connect(usePerspectiveCamera,
-                     &QCheckBox::stateChanged,
+                     &QCheckBox::checkStateChanged,
                      modifier,
                      &VolumetricModifier::setUsePerspectiveCamera);
     QObject::connect(alphaMultiplierSlider,
@@ -269,7 +269,7 @@ int main(int argc, char **argv)
                      modifier,
                      &VolumetricModifier::toggleAreaMountain);
     QObject::connect(drawSliceFramesCheckBox,
-                     &QCheckBox::stateChanged,
+                     &QCheckBox::checkStateChanged,
                      modifier,
                      &VolumetricModifier::setDrawSliceFrames);
 

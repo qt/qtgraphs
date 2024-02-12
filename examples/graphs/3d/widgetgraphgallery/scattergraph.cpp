@@ -148,15 +148,15 @@ void ScatterGraph::initialize()
                      &ScatterDataModifier::adjustMaximumRange);
 
     QObject::connect(backgroundCheckBox,
-                     &QCheckBox::stateChanged,
+                     &QCheckBox::checkStateChanged,
                      m_modifier,
                      &ScatterDataModifier::setBackgroundEnabled);
     QObject::connect(gridCheckBox,
-                     &QCheckBox::stateChanged,
+                     &QCheckBox::checkStateChanged,
                      m_modifier,
                      &ScatterDataModifier::setGridEnabled);
     QObject::connect(smoothCheckBox,
-                     &QCheckBox::stateChanged,
+                     &QCheckBox::checkStateChanged,
                      m_modifier,
                      &ScatterDataModifier::setSmoothDots);
 

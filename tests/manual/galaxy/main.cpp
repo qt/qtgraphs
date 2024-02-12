@@ -119,13 +119,13 @@ int main(int argc, char **argv)
                      modifier, &GalaxyData::eccentricityOuterChanged);
     QObject::connect(resetButton, &QPushButton::clicked,
                      modifier, &GalaxyData::resetValues);
-    QObject::connect(filteredCheckBox, &QCheckBox::stateChanged,
+    QObject::connect(filteredCheckBox, &QCheckBox::checkStateChanged,
                      modifier, &GalaxyData::setFilteredEnabled);
-    QObject::connect(starsCheckBox, &QCheckBox::stateChanged,
+    QObject::connect(starsCheckBox, &QCheckBox::checkStateChanged,
                      modifier, &GalaxyData::setStarsVisible);
-    QObject::connect(dustCheckBox, &QCheckBox::stateChanged,
+    QObject::connect(dustCheckBox, &QCheckBox::checkStateChanged,
                      modifier, &GalaxyData::setDustVisible);
-    QObject::connect(H2CheckBox, &QCheckBox::stateChanged,
+    QObject::connect(H2CheckBox, &QCheckBox::checkStateChanged,
                      modifier, &GalaxyData::setH2Visible);
 
     modifier->setSliders(radiusGalaxySlider, radiusCoreSlider, angleOffsetSlider,

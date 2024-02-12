@@ -125,11 +125,11 @@ int main(int argc, char **argv)
     modifier->setFpsLabel(fpsLabel);
     modifier->setSliceLabels(sliceImageXLabel, sliceImageYLabel, sliceImageZLabel);
 
-    QObject::connect(sliceXCheckBox, &QCheckBox::stateChanged, modifier,
+    QObject::connect(sliceXCheckBox, &QCheckBox::checkStateChanged, modifier,
                      &VolumetricModifier::sliceX);
-    QObject::connect(sliceYCheckBox, &QCheckBox::stateChanged, modifier,
+    QObject::connect(sliceYCheckBox, &QCheckBox::checkStateChanged, modifier,
                      &VolumetricModifier::sliceY);
-    QObject::connect(sliceZCheckBox, &QCheckBox::stateChanged, modifier,
+    QObject::connect(sliceZCheckBox, &QCheckBox::checkStateChanged, modifier,
                      &VolumetricModifier::sliceZ);
     QObject::connect(sliceXSlider, &QSlider::valueChanged, modifier,
                      &VolumetricModifier::adjustSliceX);
