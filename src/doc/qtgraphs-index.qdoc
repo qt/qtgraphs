@@ -41,6 +41,13 @@
 
     \section1 Articles and Guides
 
+    \section2 Limiting Features
+
+    In cases the target of an application is some embedded hardware with limited
+    specifications, it is possible to build only 2D or 3D support into the module.
+
+    For more information, see \l{Qt Graphs Configure Options}{configuring Qt Graphs}.
+
     \section2 Qt Graphs for 2D
 
     \list
