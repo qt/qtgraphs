@@ -47,6 +47,7 @@ public:
     void updateBarXAxisLabels(QBarCategoryAxis *axis, const QRectF &rect);
     void updateValueYAxisLabels(QValueAxis *axis, const QRectF &rect);
     void updateValueXAxisLabels(QValueAxis *axis, const QRectF &rect);
+    void initialize();
 
 Q_SIGNALS:
 
@@ -61,6 +62,7 @@ private:
 
     QGraphsView *m_graph = nullptr;
     QGraphTheme *theme();
+    bool m_initialized = false;
 
     QAbstractAxis *m_axisVertical = nullptr;
     QAbstractAxis *m_axisHorizontal = nullptr;

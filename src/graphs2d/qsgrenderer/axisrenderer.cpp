@@ -21,6 +21,33 @@ QGraphTheme *AxisRenderer::theme() {
     return m_graph->m_theme;
 }
 
+void AxisRenderer::initialize() {
+    if (m_initialized)
+        return;
+
+    if (m_axisGrid)
+        m_axisGrid->componentComplete();
+    if (m_axisLineVertical)
+        m_axisLineVertical->componentComplete();
+    if (m_axisTickerVertical)
+        m_axisTickerVertical->componentComplete();
+    if (m_axisLineHorizontal)
+        m_axisLineHorizontal->componentComplete();
+    if (m_axisTickerHorizontal)
+        m_axisTickerHorizontal->componentComplete();
+    if (m_axisGridShadow)
+        m_axisGridShadow->componentComplete();
+    if (m_axisLineVerticalShadow)
+        m_axisLineVerticalShadow->componentComplete();
+    if (m_axisTickerVerticalShadow)
+        m_axisTickerVerticalShadow->componentComplete();
+    if (m_axisLineHorizontalShadow)
+        m_axisLineHorizontalShadow->componentComplete();
+    if (m_axisTickerHorizontalShadow)
+        m_axisTickerHorizontalShadow->componentComplete();
+    m_initialized = true;
+}
+
 void AxisRenderer::handlePolish()
 {
     if (!m_axisGrid) {

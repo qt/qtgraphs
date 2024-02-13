@@ -97,6 +97,7 @@ Q_SIGNALS:
     void horizontalMinorTickScaleChanged();
 
 private:
+    friend class AxisRenderer;
     qreal m_smoothing = 1.0;
     QVector3D m_iResolution;
     int m_origo = 0;

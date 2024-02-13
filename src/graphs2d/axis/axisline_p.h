@@ -58,6 +58,7 @@ Q_SIGNALS:
     void isHorizontalChanged();
 
 private:
+    friend class AxisRenderer;
     QVector3D m_iResolution;
     qreal m_smoothing;
     QColor m_color;

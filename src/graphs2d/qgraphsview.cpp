@@ -269,6 +269,7 @@ QSGNode *QGraphsView::updatePaintNode(QSGNode *oldNode, QQuickItem::UpdatePaintN
     qreal widthAdjustment = .0f;
     qreal heightAdjustment = .0f;
     if (m_axisRenderer) {
+        m_axisRenderer->initialize();
         widthAdjustment = m_axisRenderer->m_axisWidth;
         heightAdjustment = m_axisRenderer->m_axisHeight;
     }
