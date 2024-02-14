@@ -56,7 +56,7 @@ QT_BEGIN_NAMESPACE
  * example. You can learn more by familiarizing yourself with the examples
  * provided, like the \l{Simple Scatter Graph}.
  *
- * \sa Q3DBars, Q3DSurface, {Qt Graphs 3D C++ Classes}
+ * \sa Q3DBars, Q3DSurface, {Qt Graphs C++ Classes for 3D}
  */
 
 /*!

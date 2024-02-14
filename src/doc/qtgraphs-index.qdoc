@@ -59,10 +59,10 @@
 
     \list
         \li \l{Qt Graphs Overview for 3D}{Overview}
-        \li \l{Qt Graphs 3D Data Handling}{Data Handling}
-        \li \l{Qt Graphs 3D Interacting with Data}{Interacting with Data}
-        \li \l{Qt Graphs 3D Migration from Qt DataVisualization}{Migration Guide from Qt DataVisualization}
-        \li \l{Qt Graphs 3D Integration with Qt Quick 3D}{Integration with Qt Quick 3D}
+        \li \l{Qt Graphs Data Handling with 3D}{Data Handling}
+        \li \l{Qt Graphs Interacting with Data in 3D}{Interacting with Data}
+        \li \l{Qt Graphs Migration from Qt DataVisualization}{Migration Guide from Qt DataVisualization}
+        \li \l{Qt Graphs Integration with Qt Quick 3D}{Integration with Qt Quick 3D}
         \li \l{Qt Graphs Known Issues}{Known Issues}
     \endlist
 

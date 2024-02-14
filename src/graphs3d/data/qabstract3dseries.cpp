@@ -17,7 +17,7 @@ QT_BEGIN_NAMESPACE
  * There are inherited classes for each supported series type: QBar3DSeries,
  * QScatter3DSeries, and QSurface3DSeries.
  *
- * For more information, see \l{Qt Graphs 3D Data Handling}.
+ * For more information, see \l{Qt Graphs Data Handling with 3D}.
  */
 
 /*!
@@ -40,7 +40,7 @@ QT_BEGIN_NAMESPACE
  * This type is uncreatable, but contains properties that are exposed via the
  * following subtypes: Bar3DSeries, Scatter3DSeries, and Surface3DSeries.
  *
- * For more information, see \l{Qt Graphs 3D Data Handling}.
+ * For more information, see \l{Qt Graphs Data Handling with 3D}.
  */
 
 /*!

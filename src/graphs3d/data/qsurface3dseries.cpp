@@ -52,7 +52,7 @@ QT_BEGIN_NAMESPACE
  * For example:
  * \snippet doc_src_qtgraphs.cpp 1
  *
- * \sa {Qt Graphs 3D Data Handling}
+ * \sa {Qt Graphs Data Handling with 3D}
  */
 
 /*!
@@ -68,7 +68,7 @@ QT_BEGIN_NAMESPACE
  *
  * For a more complete description, see QSurface3DSeries.
  *
- * \sa {Qt Graphs 3D Data Handling}
+ * \sa {Qt Graphs Data Handling with 3D}
  */
 
 /*!

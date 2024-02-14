@@ -70,7 +70,7 @@ QT_BEGIN_NAMESPACE
  * can learn more by familiarizing yourself with the examples provided, like the
  * \l{Simple Bar Graph}.
  *
- * \sa Q3DScatter, Q3DSurface, {Qt Graphs 3D C++ Classes}
+ * \sa Q3DScatter, Q3DSurface, {Qt Graphs C++ Classes for 3D}
  */
 
 /*!

@@ -3,9 +3,9 @@
 
 /*!
     \page qtgraphs_and_qtquick3d_integration_guide.html
-    \title Qt Graphs 3D Integration with Qt Quick 3D
+    \title Qt Graphs Integration with Qt Quick 3D
 
-    As Qt Graphs 3D is based on Qt Quick 3D, it is possible to integrate Qt Quick 3D scenes into
+    As Qt Graphs for 3D is based on Qt Quick 3D, it is possible to integrate Qt Quick 3D scenes into
     the graphs.
 
     \section1 Scene Environment
@@ -93,7 +93,7 @@
 
 /*!
     \page qtgraphs_data_handling.html
-    \title Qt Graphs 3D Data Handling
+    \title Qt Graphs Data Handling with 3D
 
     \section1 Series
 
@@ -196,7 +196,7 @@
 
 /*!
     \page qtgraphs_interacting_with_data.html
-    \title Qt Graphs 3D Interacting with Data
+    \title Qt Graphs Interacting with Data in 3D
 
     \section1 Interacting with Data
 
@@ -238,7 +238,7 @@
 
 /*!
     \page qtgraphs_migration_guide.html
-    \title Qt Graphs 3D Migration from Qt DataVisualization
+    \title Qt Graphs Migration from Qt DataVisualization
 
     The API and functionality between Qt DataVisualization and Qt Graphs has been kept mostly
     unchanged. However, there are some differences that need to be taken into consideration
@@ -432,6 +432,4 @@
  * QQuickView viewer;
  * viewer.setFormat(qDefaultSurfaceFormat(true));
  * \endcode
- *
- * \note Antialiasing is not supported in OpenGL ES2 environments.
  */

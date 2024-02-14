@@ -20,7 +20,7 @@ QT_BEGIN_NAMESPACE
  * QtGraphs::QScatterDataArray and QScatterDataItem objects passed to
  * it.
  *
- * \sa {Qt Graphs 3D Data Handling}
+ * \sa {Qt Graphs Data Handling with 3D}
  */
 
 /*!
@@ -43,7 +43,7 @@ QT_BEGIN_NAMESPACE
  * This type is uncreatable, but contains properties that are exposed via
  * subtypes.
  *
- * \sa ItemModelScatterDataProxy, {Qt Graphs 3D Data Handling}
+ * \sa ItemModelScatterDataProxy, {Qt Graphs Data Handling with 3D}
  */
 
 /*!

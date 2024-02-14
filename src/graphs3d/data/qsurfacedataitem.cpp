@@ -12,7 +12,7 @@
  * Surface data proxies parse data into QSurfaceDataItem instances for
  * surface graphs.
  *
- * \sa QSurfaceDataProxy, {Qt Graphs 3D C++ Classes}
+ * \sa QSurfaceDataProxy, {Qt Graphs C++ Classes for 3D}
  */
 
 /*!

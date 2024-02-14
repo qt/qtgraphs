@@ -18,23 +18,23 @@
 */
 
 /*!
-    \title Qt Graphs 2D C++ Classes
+    \title Qt Graphs C++ Classes for 2D
     \group graphs_2D
     \ingroup graphs
 
-    \brief C++ classes for the Qt Graphs 2D API.
+    \brief C++ classes for the Qt Graphs for 2D API.
 
-    The Qt Graphs 2D functionality can be accessed via these C++ classes.
+    The Qt Graphs for 2D functionality can be accessed via these C++ classes.
 */
 
 /*!
-    \title Qt Graphs 3D C++ Classes
+    \title Qt Graphs C++ Classes for 3D
     \group graphs_3D
     \ingroup graphs
 
-    \brief C++ classes for the Qt Graphs 3D API.
+    \brief C++ classes for the Qt Graphs for 3D API.
 
-    The Qt Graphs 3D functionality can be accessed via these C++ classes.
+    The Qt Graphs for 3D functionality can be accessed via these C++ classes.
 */
 
 /*!
@@ -52,25 +52,25 @@
 */
 
 /*!
-    \title Qt Graphs 3D QML Types
+    \title Qt Graphs QML Types for 3D
     \group graphs_qml_3D
     \ingroup graphs_qml
 
-    \brief QML types for the Qt Graphs 3D API.
+    \brief QML types for the Qt Graphs for 3D API.
 
-    The Qt Graphs 3D functionality can be accessed via these QML types.
+    The Qt Graphs for 3D functionality can be accessed via these QML types.
 
     \section1 QML Types
 */
 
 /*!
-    \title Qt Graphs 2D QML Types
+    \title Qt Graphs QML Types for 2D
     \group graphs_qml_2D
     \ingroup graphs_qml
 
-    \brief QML types for the Qt Graphs 2D API.
+    \brief QML types for the Qt Graphs for 2D API.
 
-    The Qt Graphs 2D functionality can be accessed via these QML types.
+    The Qt Graphs for 2D functionality can be accessed via these QML types.
 
     \section1 QML Types
 */
@@ -85,13 +85,13 @@
 */
 
 /*!
-    \title Qt Graphs 3D Examples
+    \title Qt Graphs Examples for 3D
     \group graphs_examples_3D
     \ingroup graphs_examples
 
-    \brief Examples for the Qt Graphs 3D.
+    \brief Examples for the Qt Graphs for 3D.
 
-    For some code examples, see one of the Qt Graphs 3D examples:
+    For some code examples, see one of the Qt Graphs for 3D examples:
 
     \section1 Examples
 
@@ -101,13 +101,13 @@
 */
 
 /*!
-    \title Qt Graphs 2D Examples
+    \title Qt Graphs Examples for 2D
     \group graphs_examples_2D
     \ingroup graphs_examples
 
-    \brief Examples for the Qt Graphs 2D.
+    \brief Examples for the Qt Graphs for 2D.
 
-    For some code examples, see one of the Qt Graphs 2D examples:
+    For some code examples, see one of the Qt Graphs for 2D examples:
 
     \section1 Examples
 
@@ -133,7 +133,7 @@
         to CMake.
     \endlist
 
-    \section1 Qt Graphs 3D Features
+    \section1 Qt Graphs for 3D Features
 
     When toggling 3D features, disabling all will result in a module that is not usable for
     anything. These do not have any effect if \c QT_FEATURE_graphs_3d is disabled.
@@ -155,12 +155,12 @@
     \page qtgraphs_known_issues.html
     \title Qt Graphs Known Issues
 
-    \section1 Qt Graphs 2D issues
+    \section1 Qt Graphs for 2D Issues
 
     \list
     \endlist
 
-    \section1 Qt Graphs 3D issues
+    \section1 Qt Graphs for 3D Issues
 
     \list
         \li Surfaces with non-straight rows and columns do not always render properly.

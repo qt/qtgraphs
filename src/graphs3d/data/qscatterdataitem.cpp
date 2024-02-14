@@ -12,7 +12,7 @@
  * graph. Scatter data proxies parse data into QScatterDataItem instances for
  * scatter graphs.
  *
- * \sa QScatterDataProxy, {Qt Graphs 3D C++ Classes}
+ * \sa QScatterDataProxy, {Qt Graphs C++ Classes for 3D}
  */
 
 /*!
