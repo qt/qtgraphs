@@ -204,16 +204,12 @@
     touch to rotate, zoom, or select data. Graphs can be rotated freely by
     holding down the right mouse button and moving the mouse. Zooming is done by
     rolling the mouse wheel. Selecting, if enabled, is done by pressing the left
-    mouse button. The scene can be reset to the default camera view by clicking
-    the mouse wheel. In touch devices, rotation is done by tap-and-move,
+    mouse button. In touch devices, rotation is done by tap-and-move,
     selection by tap-and-hold, and zoom by pinch.
 
-    Qt Graphs has default handlers for mouse actions and touch
-    gestures. For the default mouse controls, see Q3DInputHandler, and for
-    the default touch controls, see QTouch3DInputHandler. The default handlers
-    must be disabled when using customized input handlers.
-
-    The \l{Graph Gallery} example, under \uicontrol {Scatter Graph} tab, illustrates how to use
+    Qt Graphs has default handlers for mouse actions and touch gestures. The default
+    handlers must be disabled when using customized input handlers. The \l{Axis Handling}
+    example, under \uicontrol {Axis Dragging} tab, illustrates how to use
     a custom input handler to drag an axis label to move the visible part of the data.
 
     In addition to perspective projection, orthographic projection can be used
@@ -223,16 +219,16 @@
 
     \section1 Data Selection Modes
 
-    All graphs types support selecting a single data item - a bar, a scatter item, or a surface
-    vertex - using mouse, touch, and programmatically via the series APIs. The selected item is highlighted
-    in the rendered graph, and selecting causes emission of a series specific signal for this purpose,
+    All graph types support selecting a single data item - a bar, a scatter item, or a surface
+    point - using mouse, touch, and programmatically via the series APIs. The selected item is highlighted
+    in the rendered graph, and selecting causes the emission of a series-specific signal for this purpose,
     for example, QBar3DSeries::selectedBarChanged(), which the application can handle.
 
     Bar and surface graphs support slice selection modes, where the selected row or column is drawn
     in a separate viewport as a pseudo-2D graph. This makes it easier to see the actual values of
     a single row or column.
 
-    Bar graph additionally supports simply highlighting the whole row and/or column of the selected bar
+    Bar graph additionally supports highlighting the whole row and/or column of the selected bar
     without opening the slice view. Bar graph also supports selecting/slicing a whole row and/or
     column by clicking the axis label, based on selection mode.
 
