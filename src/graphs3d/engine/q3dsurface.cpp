@@ -74,7 +74,7 @@ QT_BEGIN_NAMESPACE
  * provided, like the \l{Surface Graph Gallery}.
  *
  *
- * \sa Q3DBars, Q3DScatter, {Qt Graphs 3D C++ Classes}
+ * \sa Q3DBars, Q3DScatter, {Qt Graphs C++ Classes for 3D}
  */
 
 /*!

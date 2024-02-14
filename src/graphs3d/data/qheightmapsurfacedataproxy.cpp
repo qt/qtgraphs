@@ -26,7 +26,7 @@ const float defaultMaxValue = 10.0f;
  * the vertical. Setting any of these properties triggers asynchronous
  * re-resolving of any existing height map.
  *
- * \sa QSurfaceDataProxy, {Qt Graphs 3D Data Handling}
+ * \sa QSurfaceDataProxy, {Qt Graphs Data Handling with 3D}
  */
 
 /*!
@@ -43,7 +43,7 @@ const float defaultMaxValue = 10.0f;
  *
  * For more complete description, see QHeightMapSurfaceDataProxy.
  *
- * \sa {Qt Graphs 3D Data Handling}
+ * \sa {Qt Graphs Data Handling with 3D}
  */
 
 /*!

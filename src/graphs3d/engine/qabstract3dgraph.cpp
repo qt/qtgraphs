@@ -40,7 +40,7 @@ QT_BEGIN_NAMESPACE
  *  graphWindow->setFlags(graphWindow->flags() ^ Qt::FramelessWindowHint);
  * \endcode
  *
- * \sa Q3DBars, Q3DScatter, Q3DSurface, {Qt Graphs 3D C++ Classes}
+ * \sa Q3DBars, Q3DScatter, Q3DSurface, {Qt Graphs C++ Classes for 3D}
  */
 
 /*!
