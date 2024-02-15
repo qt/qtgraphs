@@ -25,6 +25,7 @@ class QXYSeries;
 class QLineSeries;
 class QScatterSeries;
 class QSplineSeries;
+class AxisRenderer;
 
 class PointRenderer : public QQuickItem
 {
@@ -34,9 +35,7 @@ public:
     PointRenderer(QQuickItem *parent = nullptr);
     virtual ~PointRenderer();
 
-    void handlePolish(QLineSeries *series);
-    void handlePolish(QScatterSeries *series);
-    void handlePolish(QSplineSeries *series);
+    void handlePolish(QXYSeries *series);
     void updateSeries(QXYSeries *series);
     void handleMouseMove(QMouseEvent *event);
     void handleMousePress(QMouseEvent *event);
@@ -46,7 +45,8 @@ public:
 Q_SIGNALS:
 
 private:
-    struct PointGroup {
+    struct PointGroup
+    {
         QXYSeries *series;
         QQuickShapePath *shapePath = nullptr;
         QList<QQuickCurve *> paths;
@@ -68,6 +68,23 @@ private:
     QPoint m_pressStart;
     PointGroup *m_pressedGroup = nullptr;
     int m_pressedPointIndex = 0;
+
+    // Render area variables
+    qreal m_maxVertical = 0;
+    qreal m_maxHorizontal = 0;
+    qreal m_verticalOffset = 0;
+    qreal m_horizontalOffset = 0;
+    qreal m_areaWidth = 0;
+    qreal m_areaHeight = 0;
+
+    void updatePointMarker(QXYSeries *series, PointGroup *group, int pointIndex, qreal x, qreal y);
+    void updateRenderablePoint(QXYSeries *series, PointGroup *group, int pointIndex);
+    void updateLegendData(QXYSeries *series);
+    void calculateRenderCoordinates(
+        AxisRenderer *axisRenderer, qreal origX, qreal origY, qreal *renderX, qreal *renderY);
+    void updateScatterSeries(QScatterSeries *scatter);
+    void updateLineSeries(QLineSeries *line);
+    void updateSplineSeries(QSplineSeries *spline);
 
     // Curve fitting from QtCharts
     QList<QPointF> fitCubicSpline(const QList<QPointF> &points);

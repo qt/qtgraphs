@@ -19,121 +19,58 @@ PointRenderer::PointRenderer(QQuickItem *parent)
     m_shape.setPreferredRendererType(QQuickShape::CurveRenderer);
 }
 
-PointRenderer::~PointRenderer()
+PointRenderer::~PointRenderer() {}
+
+void PointRenderer::updatePointMarker(
+    QXYSeries *series, PointGroup *group, int pointIndex, qreal x, qreal y)
 {
+    auto marker = group->markers[pointIndex];
+    auto &rect = group->rects[pointIndex];
+
+    if (marker->property("selected").isValid())
+        marker->setProperty("selected", series->isPointSelected(pointIndex));
+    marker->setX(x - marker->width() / 2.0);
+    marker->setY(y - marker->height() / 2.0);
+
+    rect = QRectF(x - marker->width() / 2.0,
+                  y - marker->height() / 2.0,
+                  marker->width(),
+                  marker->height());
 }
 
-void PointRenderer::handlePolish(QScatterSeries *series)
+void PointRenderer::updateRenderablePoint(QXYSeries *series,
+                                          PointRenderer::PointGroup *group,
+                                          int pointIndex)
 {
-    if (series->points().isEmpty())
-        return;
+    auto &node = group->nodes[pointIndex];
+    if (!node->parent() && m_graph->m_backgroundNode)
+        m_graph->m_backgroundNode->appendChildNode(node);
 
-    if (!m_groups.contains(series)) {
-        PointGroup *group = new PointGroup();
-        group->series = series;
-        m_groups.insert(series, group);
-    }
+    node->setRect(group->rects[pointIndex]);
+    QColor c = series->color();
+    if (series->isPointSelected(pointIndex) && series->selectedColor().isValid())
+        c = series->selectedColor();
+    c.setAlpha(c.alpha() * series->opacity());
 
-    auto scatter = m_groups.value(series);
+    if (series->isPointSelected(pointIndex))
+        node->setColor(c);
+    else
+        node->setColor(QColorConstants::Transparent);
 
-    int pointCount = series->points().size();
+    node->setPenColor(c);
+    node->setPenWidth(2.0);
+    // TODO: Required because of QTBUG-117892
+    node->setTopLeftRadius(-1);
+    node->setTopRightRadius(-1);
+    node->setBottomLeftRadius(-1);
+    node->setBottomRightRadius(-1);
+    node->setRadius(180.0);
+    node->setAntialiasing(true);
+    node->update();
+}
 
-    if (series->pointMarker()) {
-        int markerCount = scatter->markers.size();
-        if (markerCount < pointCount) {
-            for (int i = markerCount; i < pointCount; ++i) {
-                QQuickItem *item = qobject_cast<QQuickItem *>(
-                    series->pointMarker()->create(series->pointMarker()->creationContext()));
-                item->setParentItem(this);
-                scatter->markers << item;
-                scatter->rects << QRectF();
-            }
-        }
-    } else if (scatter->markers.size() > 0) {
-        for (int i = 0; i < scatter->markers.size(); i++) {
-            scatter->markers[i]->deleteLater();
-        }
-        scatter->markers.clear();
-    }
-
-    if (!series->pointMarker()) {
-        int rectCount = scatter->nodes.size();
-        if (rectCount < series->points().size()) {
-            for (int i = rectCount; i < series->points().size(); ++i) {
-                auto rect = new QSGDefaultInternalRectangleNode();
-                scatter->nodes << rect;
-                scatter->rects << QRectF();
-            }
-        }
-    }
-
-    if (scatter->colorIndex < 0) {
-        scatter->colorIndex = m_currentColorIndex;
-        m_currentColorIndex++;
-    }
-
-    auto seriesTheme = series->theme();
-    if (seriesTheme) {
-        auto &&colors = seriesTheme->colors();
-        if (colors.size() > 0)
-            series->setColor(colors[scatter->colorIndex % colors.size()]);
-    }
-
-    float w = width() - m_graph->m_marginLeft - m_graph->m_marginRight - m_graph->m_axisRenderer->m_axisWidth;
-    float h = height() - m_graph->m_marginTop - m_graph->m_marginBottom - m_graph->m_axisRenderer->m_axisHeight;
-
-    auto &&points = series->points();
-    if (points.count() > 0) {
-        double maxVertical = m_graph->m_axisRenderer->m_axisVerticalValueRange > 0
-                                 ? 1.0 / m_graph->m_axisRenderer->m_axisVerticalValueRange : 100.0;
-        double maxHorizontal = m_graph->m_axisRenderer->m_axisHorizontalValueRange > 0
-                                   ? 1.0 / m_graph->m_axisRenderer->m_axisHorizontalValueRange : 100.0;
-        double verticalOffset = (m_graph->m_axisRenderer->m_axisVerticalMinValue
-                                 / m_graph->m_axisRenderer->m_axisVerticalValueRange) * h;
-        double horizontalOffset = (m_graph->m_axisRenderer->m_axisHorizontalMinValue
-                                   / m_graph->m_axisRenderer->m_axisHorizontalValueRange) * w;
-        for (int i = 0; i < points.count(); ++i) {
-            qreal x = m_graph->m_marginLeft + m_graph->m_axisRenderer->m_axisWidth + w * points[i].x() * maxHorizontal - horizontalOffset;
-            qreal y = m_graph->m_marginTop + h - h * points[i].y() * maxVertical + verticalOffset;
-
-            if (series->pointMarker()) {
-                if (scatter->markers[i]->property("selected").isValid())
-                    scatter->markers[i]->setProperty("selected", series->isPointSelected(i));
-                scatter->markers[i]->setX(x - scatter->markers[i]->width() / 2.0);
-                scatter->markers[i]->setY(y - scatter->markers[i]->height() / 2.0);
-
-                scatter->rects[i] = QRectF(x - scatter->markers[i]->width() / 2.0, y - scatter->markers[i]->height() / 2.0,
-                                           scatter->markers[i]->width(), scatter->markers[i]->height());
-            } else {
-                auto &pointItem = scatter->nodes[i];
-
-                qreal markerSize = series->markerSize();
-                scatter->rects[i] = QRectF(x - markerSize / 2.0, y - markerSize / 2.0, markerSize, markerSize);
-
-                pointItem->setRect(scatter->rects[i]);
-                QColor c = series->color();
-                if (series->isPointSelected(i) && series->selectedColor().isValid())
-                    c = series->selectedColor();
-                c.setAlpha(c.alpha() * series->opacity());
-
-                if (series->isPointSelected(i))
-                    pointItem->setColor(c);
-                else
-                    pointItem->setColor(QColorConstants::Transparent);
-
-                pointItem->setPenColor(c);
-                pointItem->setPenWidth(2.0);
-                // TODO: Required because of QTBUG-117892
-                pointItem->setTopLeftRadius(-1);
-                pointItem->setTopRightRadius(-1);
-                pointItem->setBottomLeftRadius(-1);
-                pointItem->setBottomRightRadius(-1);
-                pointItem->setRadius(180.0);
-                pointItem->setAntialiasing(true);
-                pointItem->update();
-            }
-        }
-    }
+void PointRenderer::updateLegendData(QXYSeries *series)
+{
     QLegendData legendData;
     // TODO: When fill color is added to the scatterseries use it instead for the color.
     legendData.color = series->color();
@@ -143,124 +80,122 @@ void PointRenderer::handlePolish(QScatterSeries *series)
     series->d_ptr->setLegendData(legendDataList);
 }
 
-void PointRenderer::handlePolish(QSplineSeries *series)
+void PointRenderer::calculateRenderCoordinates(
+    AxisRenderer *axisRenderer, qreal origX, qreal origY, qreal *renderX, qreal *renderY)
 {
-    if (series->points().isEmpty())
-        return;
+    *renderX = m_graph->m_marginLeft + axisRenderer->m_axisWidth
+               + m_areaWidth * origX * m_maxHorizontal - m_horizontalOffset;
+    *renderY = m_graph->m_marginTop + m_areaHeight - m_areaHeight * origY * m_maxVertical
+               + m_verticalOffset;
+}
 
-    if (!m_groups.contains(series)) {
-        PointGroup *group = new PointGroup();
-        group->series = series;
-        group->shapePath = new QQuickShapePath(&m_shape);
-        m_groups.insert(series, group);
+void PointRenderer::updateScatterSeries(QScatterSeries *series)
+{
+    auto group = m_groups.value(series);
 
-        auto data = m_shape.data();
-        data.append(&data, m_groups.value(series)->shapePath);
-    }
+    auto &&points = series->points();
+    if (points.count() > 0) {
+        for (int i = 0; i < points.count(); ++i) {
+            qreal x, y;
+            calculateRenderCoordinates(m_graph->m_axisRenderer, points[i].x(), points[i].y(), &x, &y);
 
-    auto line = m_groups.value(series);
-
-    int pointCount = series->points().size();
-    int currentSize = line->nodes.size();
-    if (currentSize < pointCount) {
-        auto pathElements = line->shapePath->pathElements();
-        for (int i = currentSize; i < pointCount; ++i) {
-            if (i < pointCount - 1) {
-                auto path = new QQuickPathCubic(line->shapePath);
-                pathElements.append(&pathElements, path);
-                line->paths << path;
-            }
-
-            auto node = new QSGDefaultInternalRectangleNode();
-            line->nodes << node;
-            line->rects << QRectF();
-        }
-    }
-
-    if (series->pointMarker()) {
-        int markerCount = line->markers.size();
-        if (markerCount < pointCount) {
-            for (int i = markerCount; i < pointCount; ++i) {
-                QQuickItem *item = qobject_cast<QQuickItem *>(
-                    series->pointMarker()->create(series->pointMarker()->creationContext()));
-                item->setParentItem(this);
-                line->markers << item;
-                line->rects << QRectF();
+            if (series->pointMarker()) {
+                updatePointMarker(series, group, i, x, y);
+            } else {
+                qreal markerSize = series->markerSize();
+                group->rects[i] = QRectF(x - markerSize / 2.0,
+                                         y - markerSize / 2.0,
+                                         markerSize,
+                                         markerSize);
             }
         }
-    } else if (line->markers.size() > 0) {
-        for (int i = 0; i < line->markers.size(); i++)
-            line->markers[i]->deleteLater();
-
-        line->markers.clear();
     }
+}
 
-    if (line->colorIndex < 0) {
-        line->colorIndex = m_currentColorIndex;
-        m_currentColorIndex++;
-    }
+void PointRenderer::updateLineSeries(QLineSeries *series)
+{
+    auto group = m_groups.value(series);
 
-    auto seriesTheme = series->theme();
-    if (seriesTheme) {
-        auto &&colors = seriesTheme->colors();
-        if (colors.size() > 0)
-            series->setColor(colors[line->colorIndex % colors.size()]);
-    }
-
-    line->shapePath->setStrokeColor(series->color());
-    line->shapePath->setStrokeWidth(series->width());
-    line->shapePath->setFillColor(QColorConstants::Transparent);
+    group->shapePath->setStrokeColor(series->color());
+    group->shapePath->setStrokeWidth(series->width());
+    group->shapePath->setFillColor(QColorConstants::Transparent);
 
     Qt::PenCapStyle capStyle = series->capStyle();
     if (capStyle == Qt::PenCapStyle::SquareCap)
-        line->shapePath->setCapStyle(QQuickShapePath::CapStyle::SquareCap);
+        group->shapePath->setCapStyle(QQuickShapePath::CapStyle::SquareCap);
     else if (capStyle == Qt::PenCapStyle::FlatCap)
-        line->shapePath->setCapStyle(QQuickShapePath::CapStyle::FlatCap);
+        group->shapePath->setCapStyle(QQuickShapePath::CapStyle::FlatCap);
     else if (capStyle == Qt::PenCapStyle::RoundCap)
-        line->shapePath->setCapStyle(QQuickShapePath::CapStyle::RoundCap);
+        group->shapePath->setCapStyle(QQuickShapePath::CapStyle::RoundCap);
 
-    // Line area width & height
-    float w = width() - m_graph->m_marginLeft - m_graph->m_marginRight
-              - m_graph->m_axisRenderer->m_axisWidth;
-    float h = height() - m_graph->m_marginTop - m_graph->m_marginBottom
-              - m_graph->m_axisRenderer->m_axisHeight;
+    auto &&points = series->points();
+    if (points.count() > 0) {
+        for (int i = 0; i < points.count(); ++i) {
+            qreal x, y;
+            calculateRenderCoordinates(m_graph->m_axisRenderer, points[i].x(), points[i].y(), &x, &y);
+
+            if (i == 0) {
+                group->shapePath->setStartX(x);
+                group->shapePath->setStartY(y);
+            } else {
+                group->paths[i - 1]->setX(x);
+                group->paths[i - 1]->setY(y);
+            }
+
+            if (series->pointMarker()) {
+                updatePointMarker(series, group, i, x, y);
+            } else if (series->selectable()) {
+                qreal markerSize = series->markerSize();
+                group->rects[i] = QRectF(x - markerSize / 2.0,
+                                         y - markerSize / 2.0,
+                                         markerSize,
+                                         markerSize);
+            }
+        }
+    }
+}
+
+void PointRenderer::updateSplineSeries(QSplineSeries *series)
+{
+    auto group = m_groups.value(series);
+
+    group->shapePath->setStrokeColor(series->color());
+    group->shapePath->setStrokeWidth(series->width());
+    group->shapePath->setFillColor(QColorConstants::Transparent);
+
+    Qt::PenCapStyle capStyle = series->capStyle();
+    if (capStyle == Qt::PenCapStyle::SquareCap)
+        group->shapePath->setCapStyle(QQuickShapePath::CapStyle::SquareCap);
+    else if (capStyle == Qt::PenCapStyle::FlatCap)
+        group->shapePath->setCapStyle(QQuickShapePath::CapStyle::FlatCap);
+    else if (capStyle == Qt::PenCapStyle::RoundCap)
+        group->shapePath->setCapStyle(QQuickShapePath::CapStyle::RoundCap);
 
     auto &&points = series->points();
     if (points.count() > 0) {
         auto fittedPoints = fitCubicSpline(points);
 
-        double maxVertical = m_graph->m_axisRenderer->m_axisVerticalValueRange > 0
-                                 ? 1.0 / m_graph->m_axisRenderer->m_axisVerticalValueRange
-                                 : 100.0;
-        double maxHorizontal = m_graph->m_axisRenderer->m_axisHorizontalValueRange > 0
-                                   ? 1.0 / m_graph->m_axisRenderer->m_axisHorizontalValueRange
-                                   : 100.0;
-        double verticalOffset = (m_graph->m_axisRenderer->m_axisVerticalMinValue
-                                 / m_graph->m_axisRenderer->m_axisVerticalValueRange)
-                                * h;
-        double horizontalOffset = (m_graph->m_axisRenderer->m_axisHorizontalMinValue
-                                   / m_graph->m_axisRenderer->m_axisHorizontalValueRange)
-                                  * w;
-
         for (int i = 0, j = 0; i < points.count(); ++i, ++j) {
-            qreal x = m_graph->m_marginLeft + m_graph->m_axisRenderer->m_axisWidth
-                      + w * points[i].x() * maxHorizontal - horizontalOffset;
-            qreal y = m_graph->m_marginTop + h - h * points[i].y() * maxVertical + verticalOffset;
+            qreal x, y;
+            calculateRenderCoordinates(m_graph->m_axisRenderer, points[i].x(), points[i].y(), &x, &y);
 
             if (i == 0) {
-                line->shapePath->setStartX(x);
-                line->shapePath->setStartY(y);
+                group->shapePath->setStartX(x);
+                group->shapePath->setStartY(y);
             } else {
-                auto *cubicPath = qobject_cast<QQuickPathCubic *>(line->paths[i - 1]);
+                auto *cubicPath = qobject_cast<QQuickPathCubic *>(group->paths[i - 1]);
 
-                qreal x1 = m_graph->m_marginLeft + m_graph->m_axisRenderer->m_axisWidth
-                           + w * fittedPoints[j - 1].x() * maxHorizontal - horizontalOffset;
-                qreal y1 = m_graph->m_marginTop + h - h * fittedPoints[j - 1].y() * maxVertical
-                           + verticalOffset;
-                qreal x2 = m_graph->m_marginLeft + m_graph->m_axisRenderer->m_axisWidth
-                           + w * fittedPoints[j].x() * maxHorizontal - horizontalOffset;
-                qreal y2 = m_graph->m_marginTop + h - h * fittedPoints[j].y() * maxVertical
-                           + verticalOffset;
+                qreal x1, y1, x2, y2;
+                calculateRenderCoordinates(m_graph->m_axisRenderer,
+                                           fittedPoints[j - 1].x(),
+                                           fittedPoints[j - 1].y(),
+                                           &x1,
+                                           &y1);
+                calculateRenderCoordinates(m_graph->m_axisRenderer,
+                                           fittedPoints[j].x(),
+                                           fittedPoints[j].y(),
+                                           &x2,
+                                           &y2);
 
                 ++j;
 
@@ -274,51 +209,19 @@ void PointRenderer::handlePolish(QSplineSeries *series)
             }
 
             if (series->pointMarker()) {
-                if (line->markers[i]->property("selected").isValid())
-                    line->markers[i]->setProperty("selected", series->isPointSelected(i));
-                line->markers[i]->setX(x - line->markers[i]->width() / 2.0);
-                line->markers[i]->setY(y - line->markers[i]->height() / 2.0);
-
-                line->rects[i] = QRectF(x - line->markers[i]->width() / 2.0,
-                                        y - line->markers[i]->height() / 2.0,
-                                        line->markers[i]->width(),
-                                        line->markers[i]->height());
+                updatePointMarker(series, group, i, x, y);
             } else if (series->selectable()) {
-                auto &pointItem = line->nodes[i];
-
                 qreal markerSize = series->markerSize();
-                line->rects[i] = QRectF(x - markerSize / 2.0,
-                                        y - markerSize / 2.0,
-                                        markerSize,
-                                        markerSize);
-
-                pointItem->setRect(line->rects[i]);
-                QColor c = series->color();
-                if (series->isPointSelected(i) && series->selectedColor().isValid())
-                    c = series->selectedColor();
-                c.setAlpha(c.alpha() * series->opacity());
-
-                if (series->isPointSelected(i))
-                    pointItem->setColor(c);
-                else
-                    pointItem->setColor(QColorConstants::Transparent);
-
-                pointItem->setPenColor(c);
-                pointItem->setPenWidth(2.0);
-                // TODO: Required because of QTBUG-117892
-                pointItem->setTopLeftRadius(-1);
-                pointItem->setTopRightRadius(-1);
-                pointItem->setBottomLeftRadius(-1);
-                pointItem->setBottomRightRadius(-1);
-                pointItem->setRadius(180.0);
-                pointItem->setAntialiasing(true);
-                pointItem->update();
+                group->rects[i] = QRectF(x - markerSize / 2.0,
+                                         y - markerSize / 2.0,
+                                         markerSize,
+                                         markerSize);
             }
         }
     }
 }
 
-void PointRenderer::handlePolish(QLineSeries *series)
+void PointRenderer::handlePolish(QXYSeries *series)
 {
     if (series->points().isEmpty())
         return;
@@ -326,52 +229,57 @@ void PointRenderer::handlePolish(QLineSeries *series)
     if (!m_groups.contains(series)) {
         PointGroup *group = new PointGroup();
         group->series = series;
-        group->shapePath = new QQuickShapePath(&m_shape);
         m_groups.insert(series, group);
 
-        auto data = m_shape.data();
-        data.append(&data, m_groups.value(series)->shapePath);
+        if (series->type() != QAbstractSeries::SeriesTypeScatter) {
+            group->shapePath = new QQuickShapePath(&m_shape);
+            auto data = m_shape.data();
+            data.append(&data, m_groups.value(series)->shapePath);
+        }
     }
 
-    auto line = m_groups.value(series);
+    auto group = m_groups.value(series);
 
     int pointCount = series->points().size();
-    int currentSize = line->nodes.size();
+    int currentSize = group->rects.size();
     if (currentSize < pointCount) {
-        auto pathElements = line->shapePath->pathElements();
         for (int i = currentSize; i < pointCount; ++i) {
             if (i < pointCount - 1) {
-                auto path = new QQuickPathLine(line->shapePath);
-                pathElements.append(&pathElements, path);
-                line->paths << path;
+                QQuickCurve *path = nullptr;
+                if (series->type() == QAbstractSeries::SeriesTypeLine)
+                    path = new QQuickPathLine(group->shapePath);
+                else if (series->type() == QAbstractSeries::SeriesTypeSpline)
+                    path = new QQuickPathCubic(group->shapePath);
+
+                if (path) {
+                    auto pathElements = group->shapePath->pathElements();
+                    pathElements.append(&pathElements, path);
+                    group->paths << path;
+                }
             }
 
-            auto node = new QSGDefaultInternalRectangleNode();
-            line->nodes << node;
-            line->rects << QRectF();
+            group->rects << QRectF();
         }
     }
 
     if (series->pointMarker()) {
-        int markerCount = line->markers.size();
+        int markerCount = group->markers.size();
         if (markerCount < pointCount) {
             for (int i = markerCount; i < pointCount; ++i) {
                 QQuickItem *item = qobject_cast<QQuickItem *>(
                     series->pointMarker()->create(series->pointMarker()->creationContext()));
                 item->setParentItem(this);
-                line->markers << item;
-                line->rects << QRectF();
+                group->markers << item;
             }
         }
-    } else if (line->markers.size() > 0) {
-        for (int i = 0; i < line->markers.size(); i++) {
-            line->markers[i]->deleteLater();
-        }
-        line->markers.clear();
+    } else if (group->markers.size() > 0) {
+        for (int i = 0; i < group->markers.size(); i++)
+            group->markers[i]->deleteLater();
+        group->markers.clear();
     }
 
-    if (line->colorIndex < 0) {
-        line->colorIndex = m_currentColorIndex;
+    if (group->colorIndex < 0) {
+        group->colorIndex = m_currentColorIndex;
         m_currentColorIndex++;
     }
 
@@ -379,117 +287,68 @@ void PointRenderer::handlePolish(QLineSeries *series)
     if (seriesTheme) {
         auto &&colors = seriesTheme->colors();
         if (colors.size() > 0)
-            series->setColor(colors[line->colorIndex % colors.size()]);
+            series->setColor(colors[group->colorIndex % colors.size()]);
     }
 
-    line->shapePath->setStrokeColor(series->color());
-    line->shapePath->setStrokeWidth(series->width());
-    line->shapePath->setFillColor(QColorConstants::Transparent);
+    m_areaWidth = width() - m_graph->m_marginLeft - m_graph->m_marginRight
+                  - m_graph->m_axisRenderer->m_axisWidth;
+    m_areaHeight = height() - m_graph->m_marginTop - m_graph->m_marginBottom
+                   - m_graph->m_axisRenderer->m_axisHeight;
 
-    Qt::PenCapStyle capStyle = series->capStyle();
-    if (capStyle == Qt::PenCapStyle::SquareCap) {
-        line->shapePath->setCapStyle(QQuickShapePath::CapStyle::SquareCap);
-    } else if (capStyle == Qt::PenCapStyle::FlatCap) {
-        line->shapePath->setCapStyle(QQuickShapePath::CapStyle::FlatCap);
-    } else if (capStyle == Qt::PenCapStyle::RoundCap) {
-        line->shapePath->setCapStyle(QQuickShapePath::CapStyle::RoundCap);
-    }
+    m_maxVertical = m_graph->m_axisRenderer->m_axisVerticalValueRange > 0
+                        ? 1.0 / m_graph->m_axisRenderer->m_axisVerticalValueRange
+                        : 100.0;
+    m_maxHorizontal = m_graph->m_axisRenderer->m_axisHorizontalValueRange > 0
+                          ? 1.0 / m_graph->m_axisRenderer->m_axisHorizontalValueRange
+                          : 100.0;
+    m_verticalOffset = (m_graph->m_axisRenderer->m_axisVerticalMinValue
+                        / m_graph->m_axisRenderer->m_axisVerticalValueRange)
+                       * m_areaHeight;
+    m_horizontalOffset = (m_graph->m_axisRenderer->m_axisHorizontalMinValue
+                          / m_graph->m_axisRenderer->m_axisHorizontalValueRange)
+                         * m_areaWidth;
 
-    // Line area width & height
-    float w = width() - m_graph->m_marginLeft - m_graph->m_marginRight - m_graph->m_axisRenderer->m_axisWidth;
-    float h = height() - m_graph->m_marginTop - m_graph->m_marginBottom - m_graph->m_axisRenderer->m_axisHeight;
+    if (auto scatter = qobject_cast<QScatterSeries *>(series))
+        updateScatterSeries(scatter);
+    else if (auto line = qobject_cast<QLineSeries *>(series))
+        updateLineSeries(line);
+    else if (auto spline = qobject_cast<QSplineSeries *>(series))
+        updateSplineSeries(spline);
 
-    auto &&points = series->points();
-    if (points.count() > 0) {
-        double maxVertical = m_graph->m_axisRenderer->m_axisVerticalValueRange > 0
-                                 ? 1.0 / m_graph->m_axisRenderer->m_axisVerticalValueRange : 100.0;
-        double maxHorizontal = m_graph->m_axisRenderer->m_axisHorizontalValueRange > 0
-                                   ? 1.0 / m_graph->m_axisRenderer->m_axisHorizontalValueRange : 100.0;
-        double verticalOffset = (m_graph->m_axisRenderer->m_axisVerticalMinValue
-                                 / m_graph->m_axisRenderer->m_axisVerticalValueRange) * h;
-        double horizontalOffset = (m_graph->m_axisRenderer->m_axisHorizontalMinValue
-                                   / m_graph->m_axisRenderer->m_axisHorizontalValueRange) * w;
-        for (int i = 0; i < points.count(); ++i) {
-            qreal x = m_graph->m_marginLeft + m_graph->m_axisRenderer->m_axisWidth + w * points[i].x() * maxHorizontal - horizontalOffset;
-            qreal y = m_graph->m_marginTop + h - h * points[i].y() * maxVertical + verticalOffset;
-
-            if (i == 0) {
-                line->shapePath->setStartX(x);
-                line->shapePath->setStartY(y);
-            } else {
-                line->paths[i - 1]->setX(x);
-                line->paths[i - 1]->setY(y);
-            }
-
-            if (series->pointMarker()) {
-                if (line->markers[i]->property("selected").isValid())
-                    line->markers[i]->setProperty("selected", series->isPointSelected(i));
-                line->markers[i]->setX(x - line->markers[i]->width() / 2.0);
-                line->markers[i]->setY(y - line->markers[i]->height() / 2.0);
-
-                line->rects[i] = QRectF(x - line->markers[i]->width() / 2.0, y - line->markers[i]->height() / 2.0,
-                                        line->markers[i]->width(), line->markers[i]->height());
-            } else if (series->selectable()) {
-                auto &pointItem = line->nodes[i];
-
-                qreal markerSize = series->markerSize();
-                line->rects[i] = QRectF(x - markerSize / 2.0, y - markerSize / 2.0, markerSize, markerSize);
-
-                pointItem->setRect(line->rects[i]);
-                QColor c = series->color();
-                if (series->isPointSelected(i) && series->selectedColor().isValid())
-                    c = series->selectedColor();
-                c.setAlpha(c.alpha() * series->opacity());
-
-                if (series->isPointSelected(i))
-                    pointItem->setColor(c);
-                else
-                    pointItem->setColor(QColorConstants::Transparent);
-
-                pointItem->setPenColor(c);
-                pointItem->setPenWidth(2.0);
-                // TODO: Required because of QTBUG-117892
-                pointItem->setTopLeftRadius(-1);
-                pointItem->setTopRightRadius(-1);
-                pointItem->setBottomLeftRadius(-1);
-                pointItem->setBottomRightRadius(-1);
-                pointItem->setRadius(180.0);
-                pointItem->setAntialiasing(true);
-                pointItem->update();
-            }
-        }
-    }
-    QLegendData legendData;
-    legendData.color = series->color();
-    legendData.label = series->name();
-    QList<QLegendData> legendDataList = {legendData};
-    series->d_ptr->setLegendData(legendDataList);
+    updateLegendData(series);
 }
 
 void PointRenderer::updateSeries(QXYSeries *series)
 {
-    auto group = m_groups.value(series);
-    auto &&points = series->points();
-
-    if (group->nodes.size() != points.size())
+    if (series->pointMarker()
+        || (series->type() != QAbstractSeries::SeriesTypeScatter && !series->selectable())) {
         return;
-
-    for (int i = 0; i < points.count(); ++i) {
-        auto &pointItem = group->nodes[i];
-        if (!pointItem->parent() && m_graph->m_backgroundNode)
-            m_graph->m_backgroundNode->appendChildNode(pointItem);
     }
+
+    auto group = m_groups.value(series);
+    int nodeCount = group->nodes.size();
+    int pointCount = series->points().size();
+
+    for (int i = nodeCount; i < pointCount; ++i)
+        group->nodes << new QSGDefaultInternalRectangleNode();
+
+    for (int i = 0; i < pointCount; ++i)
+        updateRenderablePoint(series, group, i);
 }
 
 void PointRenderer::handleMouseMove(QMouseEvent *event)
 {
     if (m_pointPressed && m_pressedGroup->series->isPointSelected(m_pressedPointIndex)) {
-        float w = width() - m_graph->m_marginLeft - m_graph->m_marginRight - m_graph->m_axisRenderer->m_axisWidth;
-        float h = height() - m_graph->m_marginTop - m_graph->m_marginBottom - m_graph->m_axisRenderer->m_axisHeight;
+        float w = width() - m_graph->m_marginLeft - m_graph->m_marginRight
+                  - m_graph->m_axisRenderer->m_axisWidth;
+        float h = height() - m_graph->m_marginTop - m_graph->m_marginBottom
+                  - m_graph->m_axisRenderer->m_axisHeight;
         double maxVertical = m_graph->m_axisRenderer->m_axisVerticalValueRange > 0
-                                 ? 1.0 / m_graph->m_axisRenderer->m_axisVerticalValueRange : 100.0;
+                                 ? 1.0 / m_graph->m_axisRenderer->m_axisVerticalValueRange
+                                 : 100.0;
         double maxHorizontal = m_graph->m_axisRenderer->m_axisHorizontalValueRange > 0
-                                   ? 1.0 / m_graph->m_axisRenderer->m_axisHorizontalValueRange : 100.0;
+                                   ? 1.0 / m_graph->m_axisRenderer->m_axisHorizontalValueRange
+                                   : 100.0;
 
         QPoint delta = m_pressStart - event->pos();
 
@@ -551,7 +410,7 @@ void PointRenderer::handleHoverMove(QHoverEvent *event)
         if (!group->series->hoverable())
             continue;
 
-        if (qobject_cast<QScatterSeries*>(group->series)) {
+        if (group->series->type() == QAbstractSeries::SeriesTypeScatter) {
             const QString &name = group->series->name();
 
             bool hovering = false;
@@ -601,7 +460,8 @@ void PointRenderer::handleHoverMove(QHoverEvent *event)
 
                     qreal denominator = (x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1);
                     if (denominator > 0) {
-                        qreal hoverDistance = qAbs((x2 - x1) * (y1 - y0) - (x1 - x0) * (y2 - y1)) / qSqrt(denominator);
+                        qreal hoverDistance = qAbs((x2 - x1) * (y1 - y0) - (x1 - x0) * (y2 - y1))
+                                              / qSqrt(denominator);
                         if (hoverDistance < hoverSize) {
                             qreal alpha = 0;
                             qreal extrapolation = 0;
