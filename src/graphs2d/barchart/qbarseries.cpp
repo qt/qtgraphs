@@ -1,9 +1,10 @@
 // Copyright (C) 2023 The Qt Company Ltd.
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 
+#include <QtGraphs/QBarCategoryAxis>
+#include <QtGraphs/QValueAxis>
 #include <QtGraphs/qbarseries.h>
 #include <private/qbarseries_p.h>
-#include <QtGraphs/QBarCategoryAxis>
 #include <private/qgraphsview_p.h>
 
 QT_BEGIN_NAMESPACE
@@ -74,7 +75,11 @@ QAbstractAxis *QBarSeries::axisX() {
     Q_D(const QBarSeries);
     return d->m_axisX;
 }
+
 void QBarSeries::setAxisX(QAbstractAxis *axis) {
+    if (axis != nullptr && !qobject_cast<QBarCategoryAxis *>(axis))
+        return;
+
     Q_D(QBarSeries);
     detachAxis(d->m_axisX);
     d->m_axisX = axis;
@@ -99,7 +104,11 @@ QAbstractAxis *QBarSeries::axisY() {
     Q_D(const QBarSeries);
     return d->m_axisY;
 }
+
 void QBarSeries::setAxisY(QAbstractAxis *axis) {
+    if (axis != nullptr && !qobject_cast<QValueAxis *>(axis))
+        return;
+
     Q_D(QBarSeries);
     detachAxis(d->m_axisY);
     d->m_axisY = axis;

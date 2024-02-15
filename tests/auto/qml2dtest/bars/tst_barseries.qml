@@ -190,9 +190,8 @@ Item {
             initialized.valuesMultiplier = 2.0 // range 0...1
 
             compare(initialized.barWidth, 1.0)
-            // TODO: QTBUG-121720
-            // compare(initialized.axisX, null)
-            // compare(initialized.axisY, null)
+            compare(initialized.axisX, null)
+            compare(initialized.axisY, null)
             compare(initialized.valuesMultiplier, 1.0)
 
             initialized.barWidth = -1.0 // range 0...1

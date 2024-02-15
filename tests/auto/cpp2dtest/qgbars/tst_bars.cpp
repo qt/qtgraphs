@@ -136,9 +136,8 @@ void tst_bars::invalidProperties()
     m_series->setBarWidth(2.0); // range 0...1
     m_series->setValuesMultiplier(2.0); // range 0...1
 
-    // TODO: QTBUG-121720
-    // QCOMPARE(m_series->axisX(), nullptr);
-    // QCOMPARE(m_series->axisY(), nullptr);
+    QCOMPARE(m_series->axisX(), nullptr);
+    QCOMPARE(m_series->axisY(), nullptr);
     QCOMPARE(m_series->barWidth(), 1.0);
     QCOMPARE(m_series->valuesMultiplier(), 1.0);
 
