@@ -1871,6 +1871,7 @@ void QQuickGraphsSurface::updateSelectedPoint()
 
         SurfaceVertex selectedVertex;
         selectedVertex.position = pos;
+        selectedVertex.coord = model->selectedVertex.coord;
         if (model->series->isVisible() && !selectedVertex.position.isNull()
             && selectionMode().testFlag(QAbstract3DGraph::SelectionItem)) {
             m_instancing->addPosition(selectedVertex.position);
