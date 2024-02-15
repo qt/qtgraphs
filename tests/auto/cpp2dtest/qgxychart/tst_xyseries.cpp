@@ -70,24 +70,31 @@ void tst_xyseries::selectDeselect()
     QList<QPointF> points = {{0, 0}, {1, 1}, {2, 2}};
     QList<int> allselected = {0, 1, 2};
 
+    m_series->append(points);
+
     QCOMPARE(m_series->selectedPoints(), {});
 
     m_series->selectAllPoints();
 
-    // TODO: QTBUG-121770
-    // QCOMPARE(m_series->selectedPoints(), allselected);
+    QCOMPARE(m_series->selectedPoints().size(), allselected.size());
+    for (int i = 0; i < allselected.size(); i++) {
+        QCOMPARE(m_series->selectedPoints().contains(allselected[i]), true);
+    }
 
-    // m_series->deselectAllPoints();
+    m_series->deselectAllPoints();
 
-    // QCOMPARE(m_series->selectedPoints(), {});
+    QCOMPARE(m_series->selectedPoints(), {});
 
-    // m_series->selectPoints(allselected);
+    m_series->selectPoints(allselected);
 
-    // QCOMPARE(m_series->selectedPoints(), allselected);
+    QCOMPARE(m_series->selectedPoints().size(), allselected.size());
+    for (int i = 0; i < allselected.size(); i++) {
+        QCOMPARE(m_series->selectedPoints().contains(allselected[i]), true);
+    }
 
-    // m_series->toggleSelection(allselected);
+    m_series->toggleSelection(allselected);
 
-    // QCOMPARE(m_series->selectedPoints(), {});
+    QCOMPARE(m_series->selectedPoints(), {});
 }
 
 void tst_xyseries::appendInsertRemove()
