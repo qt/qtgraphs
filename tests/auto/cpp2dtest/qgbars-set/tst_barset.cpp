@@ -89,8 +89,8 @@ void tst_barset::selectDeselectSum()
     QVERIFY(m_set);
 
     QVariantList vals = {10, 20, 30};
-    QList<int> selectedsome = {1, 3};
-    QList<int> selectedall = {1, 2, 3};
+    QList<int> selectedsome = {0, 2};
+    QList<int> selectedall = {0, 1, 2};
 
     m_set->setValues(vals);
 
@@ -113,21 +113,31 @@ void tst_barset::selectDeselectSum()
 
     QCOMPARE(m_set->selectedBars(), {1});
 
-    // TODO: QTBUG-121739
-    // Select two
-    // m_set->selectBars(selectedsome);
+    m_set->deselectAllBars();
 
-    // QCOMPARE(m_set->selectedBars(), selectedsome);
+    // Select two
+    m_set->selectBars(selectedsome);
+
+    QCOMPARE(m_set->selectedBars().size(), selectedsome.size());
+    for (int i = 0; i < selectedsome.size(); i++) {
+        QCOMPARE(m_set->selectedBars().contains(selectedsome[i]), true);
+    }
 
     // Select all
-    // m_set->selectAllBars();
+    m_set->selectAllBars();
 
-    // QCOMPARE(m_set->selectedBars(), selectedall);
+    QCOMPARE(m_set->selectedBars().size(), selectedall.size());
+    for (int i = 0; i < selectedsome.size(); i++) {
+        QCOMPARE(m_set->selectedBars().contains(selectedall[i]), true);
+    }
 
     // Deselect one
-    // m_set->deselectBar(2);
+    m_set->deselectBar(1);
 
-    // QCOMPARE(m_set->selectedBars(), selectedsome);
+    QCOMPARE(m_set->selectedBars().size(), selectedsome.size());
+    for (int i = 0; i < selectedsome.size(); i++) {
+        QCOMPARE(m_set->selectedBars().contains(selectedsome[i]), true);
+    }
 
     // Deselect all
     m_set->deselectAllBars();
