@@ -105,7 +105,7 @@
     This code snippet shows how to use QBar3DSeries to render bars as cylinders and with a
     gradient instead of a uniform color:
 
-    \snippet doc_src_qtgraphs.cpp 11
+    \snippet doc_src_qtgraphs.cpp seriesexample
 
     \section1 Data Proxies
 
@@ -120,7 +120,7 @@
     This code snippet shows how to use basic proxy when your data is stored in some hypothetical
     \c myData object:
 
-    \snippet doc_src_qtgraphs.cpp 10
+    \snippet doc_src_qtgraphs.cpp proxyexample
 
     \note Series objects can own only a single proxy at a time. The existing proxy is deleted
     when another is set to the series. Graphs can contain multiple series, though.

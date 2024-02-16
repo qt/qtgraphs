@@ -47,7 +47,7 @@ QT_BEGIN_NAMESPACE
  * \endtable
  *
  * For example:
- * \snippet doc_src_qtgraphs.cpp 1
+ * \snippet doc_src_qtgraphs.cpp labelformat
  *
  * \sa {Qt Graphs Data Handling with 3D}
  */

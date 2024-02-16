@@ -1,19 +1,11 @@
 // Copyright (C) 2023 The Qt Company Ltd.
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 
-//! [0]
-#include <QtGraphs>
-//! [0]
-
-//! [1]
+//! [labelformat]
 proxy->setItemLabelFormat(QStringLiteral("@valueTitle for (@rowLabel, @colLabel): %.1f"));
-//! [1]
+//! [labelformat]
 
-//! [2]
-proxy->setItemLabelFormat(QStringLiteral("@xTitle: @xValue, @yTitle: @yValue, @zTitle: @zValue"));
-//! [2]
-
-//! [3]
+//! [barmodelproxy]
 // By defining row and column categories, you tell the mapping which row and column each item
 // belongs to. The categories must match the data stored in the model in the roles you define
 // for row and column mapping. In this example we expect "year" role to return four digit year
@@ -21,7 +13,7 @@ proxy->setItemLabelFormat(QStringLiteral("@xTitle: @xValue, @yTitle: @yValue, @z
 //
 // An example of an item in model would be:
 // Requested role -> Returned data
-// "year" -> "2006" // Matches the first row category, so this item is added to the first row.
+// "year" -> "2016" // Matches the first row category, so this item is added to the first row.
 // "month" -> "jan" // Matches the first column category, so this item is added as first item in the row.
 // "income" -> "12.1"
 // "expenses" -> "9.2"
@@ -41,46 +33,24 @@ QItemModelBarDataProxy *proxy = new QItemModelBarDataProxy(customModel,
 
 // To display different data later, you can simply change the mapping.
 proxy->setValueRole(QStringLiteral("expenses"));
-//! [3]
+//! [barmodelproxy]
 
-//! [4]
+//! [scattermodelproxy]
 // Map "density" value to X-axis, "hardness" to Y-axis and "conductivity" to Z-axis.
 QItemModelScatterDataProxy *proxy = new QItemModelScatterDataProxy(customModel,
                                                                    QStringLiteral("density"),
                                                                    QStringLiteral("hardness"),
                                                                    QStringLiteral("conductivity"));
-//! [4]
+//! [scattermodelproxy]
 
-//! [5]
+//! [surfacemodelproxy]
 QItemModelSurfaceDataProxy *proxy = new QItemModelSurfaceDataProxy(customModel,
                                                                    QStringLiteral("longitude"), // Row role
                                                                    QStringLiteral("latitude"), // Column role
                                                                    QStringLiteral("height")); // Y-position role
-//! [5]
+//! [surfacemodelproxy]
 
-//! [6]
-qmake
-make
-make install
-//! [6]
-
-//! [7]
-qmake CONFIG+=static
-make
-make install
-//! [7]
-
-//! [8]
-qmake
-make
-./qmlsurface
-//! [8]
-
-//! [9]
-Q3DBars *graph = new Q3DBars();
-//! [9]
-
-//! [10]
+//! [proxyexample]
 Q3DBars graph;
 QBarDataProxy *newProxy = new QBarDataProxy;
 
@@ -93,11 +63,10 @@ for (int i = 0; i < 10; i++) {
     dataArray->append(dataRow);
 }
 
-newProxy->resetArray(dataArray);
-graph->addSeries(new QBar3DSeries(newProxy));
-//! [10]
+graph.addSeries(series);
+//! [proxyexample]
 
-//! [11]
+//! [seriesexample]
 Q3DBars graph;
 QBar3DSeries *series = new QBar3DSeries;
 QLinearGradient barGradient(0, 0, 1, 100);
@@ -108,5 +77,5 @@ series->setBaseGradient(barGradient);
 series->setColorStyle(Q3DTheme::ColorStyle::ObjectGradient);
 series->setMesh(QAbstract3DSeries::Mesh::Cylinder);
 
-graph->addSeries(series);
-//! [11]
+graph.addSeries(series);
+//! [seriesexample]

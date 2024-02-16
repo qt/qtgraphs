@@ -45,7 +45,7 @@ QT_BEGIN_NAMESPACE
  * Each item in the model has the roles "year", "month", "income", and "expenses".
  * You could do the following to display the data in a bar graph:
  *
- * \snippet doc_src_qtgraphs.cpp 3
+ * \snippet doc_src_qtgraphs.cpp barmodelproxy
  *
  * If the fields of the model do not contain the data in the exact format you
  * need, you can specify a search pattern regular expression and a replace rule
