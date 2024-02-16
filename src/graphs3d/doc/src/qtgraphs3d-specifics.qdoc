@@ -97,10 +97,11 @@
 
     \section1 Series
 
-    A series is a combination of a logically connected set of data items (handled by a data proxy)
+    A series combines a logically connected set of data items
     and visual properties that describe how the data items should be rendered, such as item
-    meshes and colors. Each graphs type has its own series type. For example, bar graphs
-    use QBar3DSeries. All graphs can have multiple series added simultaneously.
+    meshes and colors. Each graph's type has its own series type. For example, bar graphs
+    use QBar3DSeries. All graphs can have multiple series added simultaneously. Each
+    series owns its data.
 
     This code snippet shows how to use QBar3DSeries to render bars as cylinders and with a
     gradient instead of a uniform color:
@@ -109,33 +110,35 @@
 
     \section1 Data Proxies
 
-    The data that users wish to visualize comes in many formats, all of which cannot obviously be
-    directly supported. Therefore, Qt Graphs implements data proxies into which
-    user can feed their data in a known format. Each graphs type has a basic proxy type,
-    which takes data in a format suitable for that graph.
-    For example, the basic proxy for QBar3DSeries is QBarDataProxy, which stores rows of QBarDataItem
-    objects. Each QBarDataItem stores a single bar value. Additional typedefs are provided for
-    \c QBarDataArray and \c QBarDataRow containers.
+    The data users wish to visualize comes in many formats, all of which cannot be
+    directly supported. Therefore, Qt Graphs implements data proxies, into which
+    user can feed their data in a known format. Each graph has a basic proxy type
+    in its series, which takes data in a format suitable for that graph and can be directly
+    used by the series.
 
-    This code snippet shows how to use basic proxy when your data is stored in some hypothetical
-    \c myData object:
+    For example, the basic proxy for QBar3DSeries is QBarDataProxy, which is used to add
+    data to the series as QBarDataItem objects. Each QBarDataItem holds a single bar value.
+    Additional typedefs are provided for \l QBarDataArray and \l QBarDataRow containers.
+
+    This code snippet shows how to use basic proxy when your data is stored in a hypothetical
+    \c myData object, which returns the data as \l{QBarDataItem}{QBarDataItems}:
 
     \snippet doc_src_qtgraphs.cpp proxyexample
 
     \note Series objects can own only a single proxy at a time. The existing proxy is deleted
     when another is set to the series. Graphs can contain multiple series, though.
     If you need to switch back and forth between two different sets of data,
-    it is usually more efficient to store each set in a different series and just change the series,
-    rather than reset the data in one proxy every time you need to switch.
+    it is usually more efficient to store each set in a different series and just change the
+    series, rather than reset the data in the series using a proxy every time you need to switch.
 
     \section1 Item Models and Data Mapping
 
     For common use cases, Qt Graphs offers specialized proxies. One such case is having
     data in an item model (QAbstractItemModel subclass), which is a common way to store data in
-    Qt applications. Each of the graphs types offers a special proxy class for this purpose,
+    Qt applications. Each of the graph's types offers a special proxy class for this purpose,
     for example, QItemModelBarDataProxy for QBar3DSeries.
-    These proxies are simple to use: just give them a pointer to the item model containing the
-    data and the rules how to map the data into format the basic proxy can digest.
+    These proxies are simple to use: give them a pointer to the item model containing the
+    data, and the rules on how to map the data into a format the basic proxy can digest.
 
     Mapping works with item model roles. Each data item in the model can have different
     values for different roles. For example, with QItemModelBarDataProxy you can specify which
@@ -145,12 +148,12 @@
 
     Often the item models will have a single role that contains information you want to map to
     multiple values. A typical example of this is a timestamp field when generating a bar graph
-    with two time related axes, for example years and months. To enable mapping a single item
-    model role to more than one data field, pattern matching and replacing mechanism is provided
+    with two time-related axes, for example, years and months. To enable mapping a single item
+    model role to more than one data field, a pattern matching, and replacing mechanism is provided
     by item model proxies. You can also use this mechanism to reformat data even in one-to-one
     mapping cases.
 
-    Depending on the grpahs type, proxies may support other functionalities as well,
+    Depending on the graph's type, proxies may support other functionalities as well,
     such as QItemModelBarDataProxy optionally mapping QAbstractItemModel rows and columns directly
     into bar graph rows and columns.
 
@@ -180,18 +183,19 @@
     rows with a single QBarDataProxy::addRows() call is much more efficient than ten
     separate QBarDataProxy::addRow() calls.
 
-    Bars renderer is optimized to access only data that is within the data window and thus
-    should not suffer noticeable slowdown even if more data is continually added to the proxy.
+    Bars3D is optimized to access only data that is within the data window and thus
+    should not suffer a noticeable slowdown even if more data is continually added
+    to the series using the proxy.
 
     Due to the unsorted nature of the scatter data, any change in the data window ranges requires
-    all data points to be checked for visibility, which can cause increasing slowdown if data is
+    all data points to be checked for visibility, which can cause an increasing slowdown if data is
     continually added to the proxy. For the best performance with the scatter graphs, only keep
     the data you need in the proxy.
 
     Surface data, while on item level similar to scatter data, is already assigned into rows and
     columns, so the surface renderer can optimize drawing by making the assumption that
     the data in the rows and columns is sorted along their respective axes. It is not quite as
-    efficient as in the bars case, but nearly so.
+    efficient as in the case of the bars, but nearly so.
 */
 
 /*!
