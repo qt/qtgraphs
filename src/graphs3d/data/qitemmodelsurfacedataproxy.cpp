@@ -51,7 +51,7 @@ QT_BEGIN_NAMESPACE
  * autogeneration.
  * You could do the following to display the data in a surface graph:
  *
- * \snippet doc_src_qtgraphs.cpp 5
+ * \snippet doc_src_qtgraphs.cpp surfacemodelproxy
  *
  * If the fields of the model do not contain the data in the exact format you
  * need, you can specify a search pattern regular expression and a replace rule

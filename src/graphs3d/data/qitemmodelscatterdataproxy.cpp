@@ -31,7 +31,7 @@ QT_BEGIN_NAMESPACE
  * as "density", "hardness", and "conductivity". You could visualize these
  * properties on a scatter graph using this proxy:
  *
- * \snippet doc_src_qtgraphs.cpp 4
+ * \snippet doc_src_qtgraphs.cpp scattermodelproxy
  *
  * If the fields of the model do not contain the data in the exact format you
  * need, you can specify a search pattern regular expression and a replace rule
