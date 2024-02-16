@@ -52,15 +52,13 @@ QItemModelSurfaceDataProxy *proxy = new QItemModelSurfaceDataProxy(customModel,
 
 //! [proxyexample]
 Q3DBars graph;
-QBarDataProxy *newProxy = new QBarDataProxy;
+QBar3DSeries *series = new QBar3DSeries;
 
-QBarDataArray *dataArray = new QBarDataArray;
-dataArray->reserve(10);
-for (int i = 0; i < 10; i++) {
-    QBarDataRow *dataRow = new QBarDataRow(5);
-    for (int j = 0; j < 5; j++)
-        (*dataRow)[j].setValue(myData->getValue(i, j));
-    dataArray->append(dataRow);
+for (int i = 0; i < 10; ++i) {
+    QBarDataRow dataRow;
+    for (int j = 0; j < 5; ++j)
+        dataRow.append(myData->getValue(i, j));
+    series->dataProxy()->addRow(dataRow);
 }
 
 graph.addSeries(series);
@@ -69,6 +67,7 @@ graph.addSeries(series);
 //! [seriesexample]
 Q3DBars graph;
 QBar3DSeries *series = new QBar3DSeries;
+
 QLinearGradient barGradient(0, 0, 1, 100);
 barGradient.setColorAt(1.0, Qt::white);
 barGradient.setColorAt(0.0, Qt::black);
