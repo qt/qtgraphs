@@ -36,33 +36,22 @@ void PointRenderer::handlePolish(QScatterSeries *series)
 
     int pointCount = series->points().size();
 
+    int rectCount = scatter->rects.size();
+    for (int i = rectCount; i < pointCount; ++i)
+        scatter->rects << QRectF();
+
     if (series->pointMarker()) {
         int markerCount = scatter->markers.size();
-        if (markerCount < pointCount) {
-            for (int i = markerCount; i < pointCount; ++i) {
-                QQuickItem *item = qobject_cast<QQuickItem *>(
-                    series->pointMarker()->create(series->pointMarker()->creationContext()));
-                item->setParentItem(this);
-                scatter->markers << item;
-                scatter->rects << QRectF();
-            }
+        for (int i = markerCount; i < pointCount; ++i) {
+            QQuickItem *item = qobject_cast<QQuickItem *>(
+                series->pointMarker()->create(series->pointMarker()->creationContext()));
+            item->setParentItem(this);
+            scatter->markers << item;
         }
     } else if (scatter->markers.size() > 0) {
-        for (int i = 0; i < scatter->markers.size(); i++) {
+        for (int i = 0; i < scatter->markers.size(); i++)
             scatter->markers[i]->deleteLater();
-        }
         scatter->markers.clear();
-    }
-
-    if (!series->pointMarker()) {
-        int rectCount = scatter->nodes.size();
-        if (rectCount < series->points().size()) {
-            for (int i = rectCount; i < series->points().size(); ++i) {
-                auto rect = new QSGDefaultInternalRectangleNode();
-                scatter->nodes << rect;
-                scatter->rects << QRectF();
-            }
-        }
     }
 
     if (scatter->colorIndex < 0) {
@@ -103,32 +92,11 @@ void PointRenderer::handlePolish(QScatterSeries *series)
                 scatter->rects[i] = QRectF(x - scatter->markers[i]->width() / 2.0, y - scatter->markers[i]->height() / 2.0,
                                            scatter->markers[i]->width(), scatter->markers[i]->height());
             } else {
-                auto &pointItem = scatter->nodes[i];
-
                 qreal markerSize = series->markerSize();
-                scatter->rects[i] = QRectF(x - markerSize / 2.0, y - markerSize / 2.0, markerSize, markerSize);
-
-                pointItem->setRect(scatter->rects[i]);
-                QColor c = series->color();
-                if (series->isPointSelected(i) && series->selectedColor().isValid())
-                    c = series->selectedColor();
-                c.setAlpha(c.alpha() * series->opacity());
-
-                if (series->isPointSelected(i))
-                    pointItem->setColor(c);
-                else
-                    pointItem->setColor(QColorConstants::Transparent);
-
-                pointItem->setPenColor(c);
-                pointItem->setPenWidth(2.0);
-                // TODO: Required because of QTBUG-117892
-                pointItem->setTopLeftRadius(-1);
-                pointItem->setTopRightRadius(-1);
-                pointItem->setBottomLeftRadius(-1);
-                pointItem->setBottomRightRadius(-1);
-                pointItem->setRadius(180.0);
-                pointItem->setAntialiasing(true);
-                pointItem->update();
+                scatter->rects[i] = QRectF(x - markerSize / 2.0,
+                                           y - markerSize / 2.0,
+                                           markerSize,
+                                           markerSize);
             }
         }
     }
@@ -152,7 +120,7 @@ void PointRenderer::handlePolish(QLineSeries *series)
     auto line = m_groups.value(series);
 
     int pointCount = series->points().size();
-    int currentSize = line->nodes.size();
+    int currentSize = line->rects.size();
     if (currentSize < pointCount) {
         auto pathElements = line->shapePath->pathElements();
         for (int i = currentSize; i < pointCount; ++i) {
@@ -162,27 +130,21 @@ void PointRenderer::handlePolish(QLineSeries *series)
                 line->paths << path;
             }
 
-            auto node = new QSGDefaultInternalRectangleNode();
-            line->nodes << node;
             line->rects << QRectF();
         }
     }
 
     if (series->pointMarker()) {
         int markerCount = line->markers.size();
-        if (markerCount < pointCount) {
-            for (int i = markerCount; i < pointCount; ++i) {
-                QQuickItem *item = qobject_cast<QQuickItem *>(
-                    series->pointMarker()->create(series->pointMarker()->creationContext()));
-                item->setParentItem(this);
-                line->markers << item;
-                line->rects << QRectF();
-            }
+        for (int i = markerCount; i < pointCount; ++i) {
+            QQuickItem *item = qobject_cast<QQuickItem *>(
+                series->pointMarker()->create(series->pointMarker()->creationContext()));
+            item->setParentItem(this);
+            line->markers << item;
         }
     } else if (line->markers.size() > 0) {
-        for (int i = 0; i < line->markers.size(); i++) {
+        for (int i = 0; i < line->markers.size(); i++)
             line->markers[i]->deleteLater();
-        }
         line->markers.clear();
     }
 
@@ -246,32 +208,11 @@ void PointRenderer::handlePolish(QLineSeries *series)
                 line->rects[i] = QRectF(x - line->markers[i]->width() / 2.0, y - line->markers[i]->height() / 2.0,
                                         line->markers[i]->width(), line->markers[i]->height());
             } else if (series->selectable()) {
-                auto &pointItem = line->nodes[i];
-
                 qreal markerSize = series->markerSize();
-                line->rects[i] = QRectF(x - markerSize / 2.0, y - markerSize / 2.0, markerSize, markerSize);
-
-                pointItem->setRect(line->rects[i]);
-                QColor c = series->color();
-                if (series->isPointSelected(i) && series->selectedColor().isValid())
-                    c = series->selectedColor();
-                c.setAlpha(c.alpha() * series->opacity());
-
-                if (series->isPointSelected(i))
-                    pointItem->setColor(c);
-                else
-                    pointItem->setColor(QColorConstants::Transparent);
-
-                pointItem->setPenColor(c);
-                pointItem->setPenWidth(2.0);
-                // TODO: Required because of QTBUG-117892
-                pointItem->setTopLeftRadius(-1);
-                pointItem->setTopRightRadius(-1);
-                pointItem->setBottomLeftRadius(-1);
-                pointItem->setBottomRightRadius(-1);
-                pointItem->setRadius(180.0);
-                pointItem->setAntialiasing(true);
-                pointItem->update();
+                line->rects[i] = QRectF(x - markerSize / 2.0,
+                                        y - markerSize / 2.0,
+                                        markerSize,
+                                        markerSize);
             }
         }
     }
@@ -279,16 +220,44 @@ void PointRenderer::handlePolish(QLineSeries *series)
 
 void PointRenderer::updateSeries(QXYSeries *series)
 {
-    auto group = m_groups.value(series);
-    auto &&points = series->points();
-
-    if (group->nodes.size() != points.size())
+    if (series->pointMarker()
+        || (series->type() != QAbstractSeries::SeriesTypeScatter && !series->selectable())) {
         return;
+    }
 
-    for (int i = 0; i < points.count(); ++i) {
+    auto group = m_groups.value(series);
+    int nodeCount = group->nodes.size();
+    int pointCount = series->points().size();
+
+    for (int i = nodeCount; i < pointCount; ++i)
+        group->nodes << new QSGDefaultInternalRectangleNode();
+
+    for (int i = 0; i < pointCount; ++i) {
         auto &pointItem = group->nodes[i];
         if (!pointItem->parent() && m_graph->m_backgroundNode)
             m_graph->m_backgroundNode->appendChildNode(pointItem);
+
+        pointItem->setRect(group->rects[i]);
+        QColor c = series->color();
+        if (series->isPointSelected(i) && series->selectedColor().isValid())
+            c = series->selectedColor();
+        c.setAlpha(c.alpha() * series->opacity());
+
+        if (series->isPointSelected(i))
+            pointItem->setColor(c);
+        else
+            pointItem->setColor(QColorConstants::Transparent);
+
+        pointItem->setPenColor(c);
+        pointItem->setPenWidth(2.0);
+        // TODO: Required because of QTBUG-117892
+        pointItem->setTopLeftRadius(-1);
+        pointItem->setTopRightRadius(-1);
+        pointItem->setBottomLeftRadius(-1);
+        pointItem->setBottomRightRadius(-1);
+        pointItem->setRadius(180.0);
+        pointItem->setAntialiasing(true);
+        pointItem->update();
     }
 }
 

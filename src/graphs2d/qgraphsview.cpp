@@ -226,7 +226,7 @@ void QGraphsView::mouseMoveEvent(QMouseEvent *event)
     if (m_pointRenderer)
         m_pointRenderer->handleMouseMove(event);
 
-    polish();
+    polishAndUpdate();
 }
 
 void QGraphsView::mousePressEvent(QMouseEvent *event)
@@ -237,7 +237,7 @@ void QGraphsView::mousePressEvent(QMouseEvent *event)
     if (m_pointRenderer)
         m_pointRenderer->handleMousePress(event);
 
-    polish();
+    polishAndUpdate();
 }
 
 void QGraphsView::mouseReleaseEvent(QMouseEvent *event)
@@ -245,7 +245,7 @@ void QGraphsView::mouseReleaseEvent(QMouseEvent *event)
     if (m_pointRenderer)
         m_pointRenderer->handleMouseRelease(event);
 
-    polish();
+    polishAndUpdate();
 }
 
 void QGraphsView::hoverMoveEvent(QHoverEvent *event)
