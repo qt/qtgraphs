@@ -7,6 +7,7 @@
 #include <QtGraphs/qscatterseries.h>
 #include <QtGraphs/qsplineseries.h>
 #include <private/qgraphsview_p.h>
+#include <QTimer>
 
 QT_BEGIN_NAMESPACE
 
@@ -279,7 +280,6 @@ QSGNode *QGraphsView::updatePaintNode(QSGNode *oldNode, QQuickItem::UpdatePaintN
     qreal widthAdjustment = .0f;
     qreal heightAdjustment = .0f;
     if (m_axisRenderer) {
-        m_axisRenderer->initialize();
         widthAdjustment = m_axisRenderer->m_axisWidth;
         heightAdjustment = m_axisRenderer->m_axisHeight;
     }
@@ -319,9 +319,11 @@ QSGNode *QGraphsView::updatePaintNode(QSGNode *oldNode, QQuickItem::UpdatePaintN
 
 void QGraphsView::updatePolish()
 {
-    if (m_axisRenderer)
+    if (m_axisRenderer) {
         m_axisRenderer->handlePolish();
-
+        // Initialize shaders after system's event queue
+        QTimer::singleShot(0, m_axisRenderer, &AxisRenderer::initialize);
+    }
     // Polish for all series
     for (auto series : std::as_const(m_seriesList)) {
         if (m_barsRenderer) {
