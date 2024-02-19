@@ -117,7 +117,13 @@ Item {
         //! [3]
         GroupBox {
             Layout.fillWidth: true
+            background: Rectangle {
+                anchors.fill: parent
+                color: "white"
+            }
+
             Column {
+                padding: 10
                 spacing: 10
 
                 Label {
@@ -150,9 +156,14 @@ Item {
         //! [5]
         GroupBox {
             Layout.fillWidth: true
-            Column {
-                spacing: 10
+            background: Rectangle {
+                anchors.fill: parent
+                color: "white"
+            }
 
+            Column {
+                padding: 10
+                spacing: 10
                 Label {
                     font.pointSize: fontSize
                     font.bold: true
