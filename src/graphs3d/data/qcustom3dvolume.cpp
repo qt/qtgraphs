@@ -26,13 +26,10 @@ QT_BEGIN_NAMESPACE
  * volume contents, consider turning the high definition shader off by setting
  * the useHighDefShader property to \c{false}.
  *
- * \note Volumetric objects are only supported with orthographic projection.
- *
  * \note Volumetric objects utilize 3D textures, which are not supported in
  * OpenGL ES2 environments.
  *
- * \sa QAbstract3DGraph::addCustomItem(), QAbstract3DGraph::orthoProjection,
- * useHighDefShader
+ * \sa QAbstract3DGraph::addCustomItem(), useHighDefShader
  */
 
 /*!
@@ -62,12 +59,10 @@ QT_BEGIN_NAMESPACE
  * supported from QML. Create a hybrid QML/C++ application if you want to use
  * volume objects with a Qt Quick UI.
  *
- * \note Volumetric objects are only supported with orthographic projection.
- *
  * \note Volumetric objects utilize 3D textures, which are not supported in
  * OpenGL ES2 environments.
  *
- * \sa AbstractGraph3D::orthoProjection, useHighDefShader
+ * \sa useHighDefShader
  */
 
 /*! \qmlproperty int Custom3DVolume::textureWidth
