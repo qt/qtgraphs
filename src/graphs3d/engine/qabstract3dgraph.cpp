@@ -370,7 +370,7 @@ void QAbstract3DGraph::setShadowQuality(const QAbstract3DGraph::ShadowQuality &s
  * \property QAbstract3DGraph::scene
  *
  * \brief The Q3DScene pointer that can be used to manipulate the scene and
- * access the scene elements, such as the active camera.
+ * access the scene elements.
  *
  * This property is read-only.
  */

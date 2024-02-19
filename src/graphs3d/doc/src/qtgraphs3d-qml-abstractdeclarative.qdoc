@@ -162,7 +162,7 @@
 /*!
   \qmlproperty Scene3D AbstractGraph3D::scene
   The Scene3D pointer that can be used to manipulate the scene and access the
-  scene elements, such as the active camera.
+  scene elements.
 
   This property is read-only.
  */
