@@ -32,8 +32,8 @@ public:
 
     void handlePolish(QBarSeries *series);
     void updateBarSeries(QBarSeries *series);
-    void handleMousePress(QMouseEvent *event);
-    void handleHoverMove(QHoverEvent *event);
+    bool handleMousePress(QMouseEvent *event);
+    bool handleHoverMove(QHoverEvent *event);
 
 Q_SIGNALS:
 

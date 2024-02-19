@@ -261,8 +261,9 @@ void PointRenderer::updateSeries(QXYSeries *series)
     }
 }
 
-void PointRenderer::handleMouseMove(QMouseEvent *event)
+bool PointRenderer::handleMouseMove(QMouseEvent *event)
 {
+    bool handled = false;
     if (m_pointPressed && m_pressedGroup->series->isPointSelected(m_pressedPointIndex)) {
         float w = width() - m_graph->m_marginLeft - m_graph->m_marginRight - m_graph->m_axisRenderer->m_axisWidth;
         float h = height() - m_graph->m_marginTop - m_graph->m_marginBottom - m_graph->m_axisRenderer->m_axisHeight;
@@ -281,16 +282,19 @@ void PointRenderer::handleMouseMove(QMouseEvent *event)
             for (int index : selectedPoints) {
                 QPointF point = group->series->at(index) + QPointF(deltaX, deltaY);
                 group->series->replace(index, point);
+                handled = true;
             }
         }
 
         m_pressStart = event->pos();
         m_pointDragging = true;
     }
+    return handled;
 }
 
-void PointRenderer::handleMousePress(QMouseEvent *event)
+bool PointRenderer::handleMousePress(QMouseEvent *event)
 {
+    bool handled = false;
     for (auto &&group : m_groups) {
         if (!group->series->selectable())
             continue;
@@ -302,14 +306,17 @@ void PointRenderer::handleMousePress(QMouseEvent *event)
                 m_pressStart = event->pos();
                 m_pressedGroup = group;
                 m_pressedPointIndex = index;
+                handled = true;
             }
             index++;
         }
     }
+    return handled;
 }
 
-void PointRenderer::handleMouseRelease(QMouseEvent *event)
+bool PointRenderer::handleMouseRelease(QMouseEvent *event)
 {
+    bool handled = false;
     if (!m_pointDragging && m_pointPressed && m_pressedGroup) {
         if (m_pressedGroup->rects[m_pressedPointIndex].contains(event->pos())) {
             if (m_pressedGroup->series->isPointSelected(m_pressedPointIndex)) {
@@ -317,14 +324,17 @@ void PointRenderer::handleMouseRelease(QMouseEvent *event)
             } else {
                 m_pressedGroup->series->selectPoint(m_pressedPointIndex);
             }
+            handled = true;
         }
     }
     m_pointPressed = false;
     m_pointDragging = false;
+    return handled;
 }
 
-void PointRenderer::handleHoverMove(QHoverEvent *event)
+bool PointRenderer::handleHoverMove(QHoverEvent *event)
 {
+    bool handled = false;
     const QPointF &position = event->position();
 
     for (auto &&group : m_groups) {
@@ -410,6 +420,7 @@ void PointRenderer::handleHoverMove(QHoverEvent *event)
 
                                 emit group->series->hover(name, position, point);
                                 hovering = true;
+                                handled = true;
                             }
                         }
                     }
@@ -418,10 +429,12 @@ void PointRenderer::handleHoverMove(QHoverEvent *event)
                 if (!hovering && group->hover) {
                     group->hover = false;
                     emit group->series->hoverExit(name, position);
+                    handled = true;
                 }
             }
         }
     }
+    return handled;
 }
 
 QT_END_NAMESPACE

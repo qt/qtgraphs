@@ -227,38 +227,58 @@ void QGraphsView::geometryChange(const QRectF &newGeometry, const QRectF &oldGeo
 
 void QGraphsView::mouseMoveEvent(QMouseEvent *event)
 {
-    if (m_pointRenderer)
-        m_pointRenderer->handleMouseMove(event);
+    bool handled = false;
 
-    polishAndUpdate();
+    if (m_pointRenderer)
+        handled |= m_pointRenderer->handleMouseMove(event);
+
+    if (!handled)
+        event->ignore();
+    else
+        polishAndUpdate();
 }
 
 void QGraphsView::mousePressEvent(QMouseEvent *event)
 {
+    bool handled = false;
+
     if (m_barsRenderer)
-        m_barsRenderer->handleMousePress(event);
+        handled |= m_barsRenderer->handleMousePress(event);
 
     if (m_pointRenderer)
-        m_pointRenderer->handleMousePress(event);
+        handled |= m_pointRenderer->handleMousePress(event);
 
-    polishAndUpdate();
+    if (!handled)
+        event->ignore();
+    else
+        polishAndUpdate();
 }
 
 void QGraphsView::mouseReleaseEvent(QMouseEvent *event)
 {
-    if (m_pointRenderer)
-        m_pointRenderer->handleMouseRelease(event);
+    bool handled = false;
 
-    polishAndUpdate();
+    if (m_pointRenderer)
+        handled |= m_pointRenderer->handleMouseRelease(event);
+
+    if (!handled)
+        event->ignore();
+    else
+        polishAndUpdate();
 }
 
 void QGraphsView::hoverMoveEvent(QHoverEvent *event)
 {
+    bool handled = false;
+
     if (m_barsRenderer)
-        m_barsRenderer->handleHoverMove(event);
+        handled |= m_barsRenderer->handleHoverMove(event);
 
     if (m_pointRenderer)
-        m_pointRenderer->handleHoverMove(event);
+        handled |= m_pointRenderer->handleHoverMove(event);
+
+    if (!handled)
+        event->ignore();
 }
 
 QSGNode *QGraphsView::updatePaintNode(QSGNode *oldNode, QQuickItem::UpdatePaintNodeData *updatePaintNodeData)
