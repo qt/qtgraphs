@@ -94,7 +94,7 @@
 
     \snippet widgetgraphgallery/graphmodifier.cpp 7
 
-    For more information about using scene and cameras, see Q3DScene and Q3DCamera.
+    For more information about using scene, see Q3DScene.
 
     \section2 Adding Data to the Graph
 
@@ -179,7 +179,8 @@
     \snippet widgetgraphgallery/graphmodifier.cpp 11
 
     Function \c{GraphModifier::zoomToSelectedBar()} contains the zooming functionality.
-    QPropertyAnimation \c m_animationCameraTarget targets Q3DCamera::target property,
+    QPropertyAnimation \c m_animationCameraTarget targets
+    \l {QAbstract3DGraph::cameraTargetPosition}{cameraTargetPosition} property,
     which takes a value normalized to the range (-1, 1).
 
     Figure out where the selected bar is relative to axes, and use that as the end value for
