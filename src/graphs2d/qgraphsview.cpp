@@ -39,6 +39,7 @@ QGraphsView::QGraphsView(QQuickItem *parent) :
     setFlag(QQuickItem::ItemHasContents);
     setAcceptedMouseButtons(Qt::LeftButton);
     setAcceptHoverEvents(true);
+    setClip(true);
 }
 
 QGraphsView::~QGraphsView()
