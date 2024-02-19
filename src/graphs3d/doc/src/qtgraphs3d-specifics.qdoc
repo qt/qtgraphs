@@ -8,6 +8,8 @@
     As Qt Graphs for 3D is based on Qt Quick 3D, it is possible to integrate Qt Quick 3D scenes into
     the graphs.
 
+    \image q3dbars-qtquick3d-integration.png
+
     \section1 Scene Environment
 
     Adjusting a Qt Quick 3D scene environment in a graph requires defining either
