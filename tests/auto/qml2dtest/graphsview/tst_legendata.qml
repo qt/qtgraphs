@@ -54,6 +54,57 @@ Item {
                 values: [1, 2, 3, 4, 5, 6]
             }
         }
+        LineSeries {
+            id: lineInitial
+            XYPoint {
+                x: 0
+                y: 6.6
+            }
+        }
+
+        LineSeries {
+            id: lineInitialized
+            name: "Second"
+            theme: theme1
+
+            axisX: ValueAxis {
+                id: xAxis
+                max: 4
+            }
+            axisY: ValueAxis {
+                id: yAxis
+                max: 8
+            }
+
+            XYPoint {
+                x: 0
+                y: 6.6
+            }
+            XYPoint {
+                x: 0.6
+                y: 4.1
+            }
+            XYPoint {
+                x: 1.5
+                y: 5.3
+            }
+            XYPoint {
+                x: 2.2
+                y: 7.1
+            }
+            XYPoint {
+                x: 3.3
+                y: 6.9
+            }
+            XYPoint {
+                x: 3.6
+                y: 5.0
+            }
+            XYPoint {
+                x: 4.0
+                y: 5.3
+            }
+        }
     }
 
     SeriesTheme {
@@ -64,12 +115,12 @@ Item {
 
     SeriesTheme {
         id: theme2
-        colors: ["#0000ff", "#ff0000"]
-        borderColors: ["#00ffff", "#00ff00"]
+        colors: ["#0000ff", "#ff00ff"]
+        borderColors: ["#00ffff", "#ffff00"]
     }
 
     TestCase {
-        name: "LegendData BarSeries Initial"
+        name: "LegendData BarsRenderer Initial"
 
         function test_1_initial() {
             // Properties from QBarSeries
@@ -78,14 +129,16 @@ Item {
 
         function test_1_initial_change() {
             barInitial.theme = theme1
+            waitForRendering(top)
             compare(barInitial.legendData.length, 0)
         }
     }
 
     TestCase {
-        name: "LegendData BarSeries Initialized"
+        name: "LegendData BarsRenderer Initialized"
 
         function test_1_initialized() {
+            waitForRendering(top)
             compare(barInitialized.legendData.length, 1)
 
             compare(barInitialized.legendData[0].color, "#ff0000")
@@ -100,8 +153,8 @@ Item {
             compare(barInitialized2.legendData[0].borderColor, "#00ffff")
             compare(barInitialized2.legendData[0].label, "Set1")
 
-            compare(barInitialized2.legendData[1].color, "#ff0000")
-            compare(barInitialized2.legendData[1].borderColor, "#00ff00")
+            compare(barInitialized2.legendData[1].color, "#ff00ff")
+            compare(barInitialized2.legendData[1].borderColor, "#ffff00")
             compare(barInitialized2.legendData[1].label, "Set2")
         }
 
@@ -125,6 +178,51 @@ Item {
             compare(barInitialized2.legendData[1].color, "#ff0000")
             compare(barInitialized2.legendData[1].borderColor, "#00ff00")
             compare(barInitialized2.legendData[1].label, "Set2")
+        }
+    }
+    TestCase {
+        name: "LegendData PointRenderer Initial"
+
+        function test_1_Initial() {
+            compare(lineInitial.legendData.length, 1)
+            // TODO: Change this to test fillcolor after QTBUG-122434
+            compare(lineInitial.legendData[0].color, "#3d9c73")
+            compare(lineInitial.legendData[0].borderColor, "#3d9c73")
+            compare(lineInitial.legendData[0].label, "")
+        }
+        function test_2_Initial_change() {
+            lineInitial.theme = theme1
+            waitForRendering(top)
+
+            compare(lineInitial.legendData.length, 1)
+            // TODO: Change this to test fillcolor after QTBUG-122434
+            compare(lineInitial.legendData[0].color, "#ff0000")
+            compare(lineInitial.legendData[0].borderColor, "#ff0000")
+            compare(lineInitial.legendData[0].label, "")
+        }
+    }
+
+    TestCase {
+        name: "LegendData PointRenderer Initialized"
+
+        function test_1_Initialized() {
+            waitForRendering(top)
+            compare(lineInitialized.legendData.length, 1)
+
+            // TODO: Change this to test fillcolor after QTBUG-122434
+            compare(lineInitialized.legendData[0].color, "#ff0000")
+            compare(lineInitialized.legendData[0].borderColor, "#ff0000")
+            compare(lineInitialized.legendData[0].label, "Second")
+        }
+
+        function test_2_Initialized_Change() {
+            lineInitialized.theme = theme2
+            waitForRendering(top)
+            compare(lineInitialized.legendData.length, 1)
+            // TODO: Change this to test fillcolor after QTBUG-122434
+            compare(lineInitialized.legendData[0].color, "#ff00ff")
+            compare(lineInitialized.legendData[0].borderColor, "#ff00ff")
+            compare(lineInitialized.legendData[0].label, "Second")
         }
     }
 }
