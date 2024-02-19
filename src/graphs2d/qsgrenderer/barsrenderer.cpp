@@ -153,23 +153,29 @@ void BarsRenderer::updateSeries(QBarSeries *series)
     series->d_ptr->setLegendData(legendDataList);
 }
 
-void BarsRenderer::handleMousePress(QMouseEvent *event)
+bool BarsRenderer::handleMousePress(QMouseEvent *event)
 {
+    bool handled = false;
     for (auto &barSelection : m_rectNodesInputRects) {
+        if (!barSelection.series->selectable())
+            continue;
         int indexInSet = 0;
         for (auto &rect : barSelection.rects) {
             if (rect.contains(event->pos())) {
                 // TODO: Currently just toggling selection
                 QList<int> indexList = {indexInSet};
                 barSelection.barSet->toggleSelection(indexList);
+                handled = true;
             }
             indexInSet++;
         }
     }
+    return handled;
 }
 
-void BarsRenderer::handleHoverMove(QHoverEvent *event)
+bool BarsRenderer::handleHoverMove(QHoverEvent *event)
 {
+    bool handled = false;
     const QPointF &position = event->position();
 
     bool hovering = false;
@@ -188,6 +194,7 @@ void BarsRenderer::handleHoverMove(QHoverEvent *event)
 
                 emit barSelection.series->hover(name, position, point);
                 hovering = true;
+                handled = true;
             }
             indexInSet++;
         }
@@ -196,7 +203,9 @@ void BarsRenderer::handleHoverMove(QHoverEvent *event)
     if (!hovering && m_currentHoverSeries) {
         emit m_currentHoverSeries->hoverExit(m_currentHoverSeries->name(), position);
         m_currentHoverSeries = nullptr;
+        handled = true;
     }
+    return handled;
 }
 
 QT_END_NAMESPACE

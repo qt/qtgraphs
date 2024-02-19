@@ -37,10 +37,10 @@ public:
 
     void handlePolish(QXYSeries *series);
     void updateSeries(QXYSeries *series);
-    void handleMouseMove(QMouseEvent *event);
-    void handleMousePress(QMouseEvent *event);
-    void handleMouseRelease(QMouseEvent *event);
-    void handleHoverMove(QHoverEvent *event);
+    bool handleMouseMove(QMouseEvent *event);
+    bool handleMousePress(QMouseEvent *event);
+    bool handleMouseRelease(QMouseEvent *event);
+    bool handleHoverMove(QHoverEvent *event);
 
 Q_SIGNALS:
 
