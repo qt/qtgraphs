@@ -47,9 +47,13 @@ void PointRenderer::updateRenderablePoint(QXYSeries *series,
         m_graph->m_backgroundNode->appendChildNode(node);
 
     node->setRect(group->rects[pointIndex]);
-    QColor c = series->color();
-    if (series->isPointSelected(pointIndex) && series->selectedColor().isValid())
+
+    QColor c = series->color().alpha() != 0 ? series->color()
+                                            : series->theme()->graphSeriesColor(group->colorIndex);
+
+    if (series->isPointSelected(pointIndex) && series->selectedColor().alpha() != 0)
         c = series->selectedColor();
+
     c.setAlpha(c.alpha() * series->opacity());
 
     if (series->isPointSelected(pointIndex))
@@ -116,7 +120,11 @@ void PointRenderer::updateLineSeries(QLineSeries *series)
 {
     auto group = m_groups.value(series);
 
-    group->shapePath->setStrokeColor(series->color());
+    QColor color = series->color().alpha() != 0
+                       ? series->color()
+                       : series->theme()->graphSeriesColor(group->colorIndex);
+
+    group->shapePath->setStrokeColor(color);
     group->shapePath->setStrokeWidth(series->width());
     group->shapePath->setFillColor(QColorConstants::Transparent);
 
@@ -159,7 +167,11 @@ void PointRenderer::updateSplineSeries(QSplineSeries *series)
 {
     auto group = m_groups.value(series);
 
-    group->shapePath->setStrokeColor(series->color());
+    QColor color = series->color().alpha() != 0
+                       ? series->color()
+                       : series->theme()->graphSeriesColor(group->colorIndex);
+
+    group->shapePath->setStrokeColor(color);
     group->shapePath->setStrokeWidth(series->width());
     group->shapePath->setFillColor(QColorConstants::Transparent);
 
@@ -223,8 +235,30 @@ void PointRenderer::updateSplineSeries(QSplineSeries *series)
 
 void PointRenderer::handlePolish(QXYSeries *series)
 {
+    auto seriesTheme = series->theme();
+    if (!seriesTheme)
+        return;
+
     if (series->points().isEmpty())
         return;
+
+    m_areaWidth = width() - m_graph->m_marginLeft - m_graph->m_marginRight
+                  - m_graph->m_axisRenderer->m_axisWidth;
+    m_areaHeight = height() - m_graph->m_marginTop - m_graph->m_marginBottom
+                   - m_graph->m_axisRenderer->m_axisHeight;
+
+    m_maxVertical = m_graph->m_axisRenderer->m_axisVerticalValueRange > 0
+                        ? 1.0 / m_graph->m_axisRenderer->m_axisVerticalValueRange
+                        : 100.0;
+    m_maxHorizontal = m_graph->m_axisRenderer->m_axisHorizontalValueRange > 0
+                          ? 1.0 / m_graph->m_axisRenderer->m_axisHorizontalValueRange
+                          : 100.0;
+    m_verticalOffset = (m_graph->m_axisRenderer->m_axisVerticalMinValue
+                        / m_graph->m_axisRenderer->m_axisVerticalValueRange)
+                       * m_areaHeight;
+    m_horizontalOffset = (m_graph->m_axisRenderer->m_axisHorizontalMinValue
+                          / m_graph->m_axisRenderer->m_axisHorizontalValueRange)
+                         * m_areaWidth;
 
     if (!m_groups.contains(series)) {
         PointGroup *group = new PointGroup();
@@ -279,34 +313,9 @@ void PointRenderer::handlePolish(QXYSeries *series)
     }
 
     if (group->colorIndex < 0) {
-        group->colorIndex = m_currentColorIndex;
-        m_currentColorIndex++;
+        group->colorIndex = seriesTheme->graphSeriesCount();
+        seriesTheme->setGraphSeriesCount(group->colorIndex + 1);
     }
-
-    auto seriesTheme = series->theme();
-    if (seriesTheme) {
-        auto &&colors = seriesTheme->colors();
-        if (colors.size() > 0)
-            series->setColor(colors[group->colorIndex % colors.size()]);
-    }
-
-    m_areaWidth = width() - m_graph->m_marginLeft - m_graph->m_marginRight
-                  - m_graph->m_axisRenderer->m_axisWidth;
-    m_areaHeight = height() - m_graph->m_marginTop - m_graph->m_marginBottom
-                   - m_graph->m_axisRenderer->m_axisHeight;
-
-    m_maxVertical = m_graph->m_axisRenderer->m_axisVerticalValueRange > 0
-                        ? 1.0 / m_graph->m_axisRenderer->m_axisVerticalValueRange
-                        : 100.0;
-    m_maxHorizontal = m_graph->m_axisRenderer->m_axisHorizontalValueRange > 0
-                          ? 1.0 / m_graph->m_axisRenderer->m_axisHorizontalValueRange
-                          : 100.0;
-    m_verticalOffset = (m_graph->m_axisRenderer->m_axisVerticalMinValue
-                        / m_graph->m_axisRenderer->m_axisVerticalValueRange)
-                       * m_areaHeight;
-    m_horizontalOffset = (m_graph->m_axisRenderer->m_axisHorizontalMinValue
-                          / m_graph->m_axisRenderer->m_axisHorizontalValueRange)
-                         * m_areaWidth;
 
     if (auto scatter = qobject_cast<QScatterSeries *>(series))
         updateScatterSeries(scatter);

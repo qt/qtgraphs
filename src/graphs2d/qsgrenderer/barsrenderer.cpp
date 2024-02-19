@@ -18,7 +18,15 @@ BarsRenderer::BarsRenderer(QQuickItem *parent)
 
 void BarsRenderer::handlePolish(QBarSeries *series)
 {
-    Q_UNUSED(series);
+    auto seriesTheme = series->theme();
+    if (!seriesTheme)
+        return;
+
+    int setCount = series->barSets().size();
+
+    if (m_colorIndex < 0)
+        m_colorIndex = seriesTheme->graphSeriesCount();
+    seriesTheme->setGraphSeriesCount(m_colorIndex + setCount);
 }
 
 void BarsRenderer::updateSeries(QBarSeries *series)
@@ -39,7 +47,6 @@ void BarsRenderer::updateSeries(QBarSeries *series)
     // TODO: Make these themeable
     int setCount = series->barSets().size();
     int valuesPerSet = series->barSets().first()->values().size();
-    seriesTheme->setGraphSeriesCount(setCount);
 
     // Bars area width & height
     QRectF seriesRect = m_graph->seriesRect();
@@ -90,10 +97,12 @@ void BarsRenderer::updateSeries(QBarSeries *series)
             barSelectionRect->series = series;
         }
         // Use set colors if available
-        QColor color = s->color().alpha() != 0 ?
-                s->color() : seriesTheme->graphSeriesColor(barSerieIndex);
-        QColor borderColor = s->borderColor().alpha() != 0 ?
-                s->borderColor() : seriesTheme->graphSeriesBorderColor(barSerieIndex);
+        QColor color = s->color().alpha() != 0
+                           ? s->color()
+                           : seriesTheme->graphSeriesColor(m_colorIndex + barSerieIndex);
+        QColor borderColor = s->borderColor().alpha() != 0
+                                 ? s->borderColor()
+                                 : seriesTheme->graphSeriesBorderColor(m_colorIndex + barSerieIndex);
         // Update legendData
         legendDataList.push_back({
                 color,

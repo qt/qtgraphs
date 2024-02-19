@@ -131,11 +131,12 @@ int QSeriesTheme::graphSeriesCount() const
 {
     return m_seriesCount;
 }
+
 void QSeriesTheme::setGraphSeriesCount(int count)
 {
-    m_seriesCount = count;
+    if (count > m_seriesCount)
+        m_seriesCount = count;
 }
-
 
 QColor QSeriesTheme::graphSeriesColor(int index) const
 {

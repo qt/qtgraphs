@@ -59,7 +59,10 @@ void PieRenderer::updateSeries(QPieSeries *series)
     QSeriesTheme *theme = series->theme();
     if (!theme)
         return;
-    theme->setGraphSeriesCount(series->slices().size());
+
+    if (m_colorIndex < 0)
+        m_colorIndex = theme->graphSeriesCount();
+    theme->setGraphSeriesCount(m_colorIndex + series->slices().size());
 
     int sliceIndex = 0;
     QList<QLegendData> legendDataList;

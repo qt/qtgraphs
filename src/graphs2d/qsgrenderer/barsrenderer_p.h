@@ -49,6 +49,7 @@ private:
     QList<BarSelectionRect> m_rectNodesInputRects;
 
     QBarSeries *m_currentHoverSeries = nullptr;
+    int m_colorIndex = -1;
 };
 
 QT_END_NAMESPACE
