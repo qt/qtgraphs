@@ -12,46 +12,47 @@ QT_BEGIN_NAMESPACE
  * \ingroup graphs_3D
  * \brief The Q3DBars class provides methods for rendering 3D bar graphs.
  *
- * This class enables developers to render bar graphs in 3D and to view them by
- * rotating the scene freely. Rotation is done by holding down the right mouse
- * button and moving the mouse. Zooming is done by mouse wheel. Selection, if
- * enabled, is done by left mouse button. The scene can be reset to default
- * camera view by clicking mouse wheel. In touch devices rotation is done by
- * tap-and-move, selection by tap-and-hold and zoom by pinch.
+ * This class enables developers to render 3D bar graphs and view them by
+ * freely rotating the scene. Rotation is achieved by holding down the right
+ * mouse button and moving the mouse, while zooming is accomplished using
+ * the mouse wheel. If enabled, selection is performed with the left mouse
+ * button. The scene can be reset to the default camera view by clicking the
+ * mouse wheel. On touch devices, rotation is achieved by tap-and-move,
+ * selection by tap-and-hold, and zooming by pinch.
  *
- * If no axes are set explicitly to Q3DBars, temporary default axes with no
+ * If no axes are set explicitly for Q3DBars, temporary default axes without
  * labels are created. These default axes can be modified via axis accessors,
- * but as soon any axis is set explicitly for the orientation, the default axis
- * for that orientation is destroyed.
+ * but as soon as any axis is set explicitly for the orientation, the default
+ * axis for that orientation is destroyed.
  *
- * Q3DBars supports more than one series visible at the same time. It is not
- * necessary for all series to have the same amount of rows and columns. Row and
- * column labels are taken from the first added series, unless explicitly
- * defined to row and column axes.
+ * Q3DBars supports more than one visible series at the same time. All series
+ * don't need to have the same number of rows and columns. Row and column
+ * labels are taken from the first added series unless explicitly defined
+ * for row and column axes.
  *
  * \section1 How to construct a minimal Q3DBars graph
  *
  * First, construct an instance of Q3DBars. Since we are running the graph as
- * top level window in this example, we need to clear the \c
- * Qt::FramelessWindowHint flag, which gets set by default:
+ * a top-level window in this example, we need to clear the \c
+ * Qt::FramelessWindowHint flag, which is set by default:
  *
  * \snippet doc_src_q3dbars_construction.cpp 4
  *
  * After constructing Q3DBars, you can set the data window by changing the range
- * on the row and column axes. It is not mandatory, as data window will default
+ * on the row and column axes. It is not mandatory, as the data window will default
  * to showing all of the data in the series. If the amount of data is large, it
- * is usually preferable to show just a portion of it. For the example, let's
- * set the data window to show first five rows and columns:
+ * is usually preferable to show just a portion of it. For example, let's set
+ * the data window to display the first five rows and columns:
  *
  * \snippet doc_src_q3dbars_construction.cpp 0
  *
- * Now Q3DBars is ready to receive data to be rendered. Create a series with one
+ * Now, Q3DBars is ready to receive data to be rendered. Create a series with one
  * row of 5 values:
  *
  * \snippet doc_src_q3dbars_construction.cpp 1
  *
  * \note We set the data window to 5 x 5, but we are adding only one row of
- * data. This is ok, the rest of the rows will just be blank.
+ * data. This is okay; the rest of the rows will just be blank.
  *
  * Finally you will need to set it visible:
  *
@@ -66,9 +67,9 @@ QT_BEGIN_NAMESPACE
  * \image q3dbars-minimal.png
  *
  * The scene can be rotated, zoomed into, and a bar can be selected to view its
- * value, but no other interaction is included in this minimal code example. You
- * can learn more by familiarizing yourself with the examples provided, like the
- * \l{Simple Bar Graph}.
+ * value, but no other interactions are included in this minimal code example.
+ * You can learn more by familiarizing yourself with the examples provided, like
+ * the \l{Simple Bar Graph}.
  *
  * \sa Q3DScatter, Q3DSurface, {Qt Graphs C++ Classes for 3D}
  */
@@ -120,7 +121,7 @@ QBar3DSeries *Q3DBars::primarySeries() const
  * only one set of axes, so the rows and columns of all series must match for
  * the visualized data to be meaningful. If the graph has multiple visible
  * series, only the primary series will generate the row or column labels on the
- * axes in cases where the labels are not explicitly set to the axes. If the
+ * axes in cases where the labels are not explicitly set for the axes. If the
  * newly added series has specified a selected bar, it will be highlighted and
  * any existing selection will be cleared. Only one added series can have an
  * active selection.
@@ -147,8 +148,8 @@ void Q3DBars::removeSeries(QBar3DSeries *series)
  * If the \a series has already been added to the list, it is moved to the
  * new \a index.
  * \note When moving a series to a new \a index that is after its old index,
- * the new position in list is calculated as if the series was still in its old
- * index, so the final index is actually the \a index decremented by one.
+ * the new position in the list is calculated as if the series was still in its
+ * old index, so the final index is actually the \a index decremented by one.
  *
  * \sa addSeries(), seriesList(), QAbstract3DGraph::hasSeries()
  */
