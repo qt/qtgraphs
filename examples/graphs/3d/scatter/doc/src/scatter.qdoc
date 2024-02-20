@@ -4,7 +4,7 @@
 /*!
     \example 3d/scatter
     \meta tags {Graphs, Scatter3D, Multiple Series}
-    \examplecategory {Data Visualization & 3D}
+    \examplecategory {Data Visualization}
     \title Simple Scatter Graph
     \ingroup qtgraphs_qmlexamples_3D
     \brief Using Scatter3D in a QML application.
