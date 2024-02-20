@@ -12,12 +12,13 @@ QT_BEGIN_NAMESPACE
  * \ingroup graphs_3D
  * \brief The Q3DScatter class provides methods for rendering 3D scatter graphs.
  *
- * This class enables developers to render scatter graphs in 3D and to view them
- * by rotating the scene freely. Rotation is done by holding down the right
- * mouse button and moving the mouse. Zooming is done by mouse wheel. Selection,
- * if enabled, is done by left mouse button. The scene can be reset to default
- * camera view by clicking mouse wheel. In touch devices rotation is done by
- * tap-and-move, selection by tap-and-hold and zoom by pinch.
+ * This class enables developers to render 3D scatter graphs and view them by freely
+ * rotating the scene. Rotation is achieved by holding down the right mouse button
+ * and moving the mouse, while zooming is accomplished using the mouse wheel. If
+ * enabled, selection is performed with the left mouse button. The scene can be
+ * reset to the default camera view by clicking the mouse wheel. On touch devices,
+ * rotation is achieved by tap-and-move, selection by tap-and-hold, and zooming
+ * by pinch.
  *
  * If no axes are set explicitly to Q3DScatter, temporary default axes with no
  * labels are created. These default axes can be modified via axis accessors,
@@ -28,14 +29,18 @@ QT_BEGIN_NAMESPACE
  *
  * \section1 How to construct a minimal Q3DScatter graph
  *
- * First, construct Q3DScatter. Since we are running the graph as top level
+ * First, construct Q3DScatter. Since we are running the graph as the top-level
  * window in this example, we need to clear the \c Qt::FramelessWindowHint flag,
- * which gets set by default:
+ * which is set by default:
  *
  * \snippet doc_src_q3dscatter_construction.cpp 0
  *
  * Now Q3DScatter is ready to receive data to be rendered. Add one series of 3
  * QVector3D items:
+ *
+ * \note In the new proxy-series relationship, data is held in series.
+ * Therefore, for the proxy to be able to add, delete, or edit the data, it is
+ * a prerequisite to create a series first.
  *
  * \snippet doc_src_q3dscatter_construction.cpp 1
  *
@@ -52,7 +57,7 @@ QT_BEGIN_NAMESPACE
  * \image q3dscatter-minimal.png
  *
  * The scene can be rotated, zoomed into, and an item can be selected to view
- * its position, but no other interaction is included in this minimal code
+ * its position, but no other interactions are included in this minimal code
  * example. You can learn more by familiarizing yourself with the examples
  * provided, like the \l{Simple Scatter Graph}.
  *
