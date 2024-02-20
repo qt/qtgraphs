@@ -4,7 +4,7 @@
 /*!
     \example 3d/widgetvolumetric
     \meta tags {Graphs, QCustom3DVolume, Custom Item}
-    \examplecategory {Data Visualization & 3D}
+    \examplecategory {Data Visualization}
     \title Volumetric Rendering
     \ingroup qtgraphs_examples_3D
     \brief Rendering volumetric objects.

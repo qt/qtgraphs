@@ -4,7 +4,7 @@
 /*!
     \example 2d/hellographs
     \meta tags {Graphs, GraphsView, BarSeries, LineSeries}
-    \examplecategory {Data Visualization & 3D}
+    \examplecategory {Data Visualization}
     \title HelloGraphs
     \ingroup qtgraphs_qmlexamples
     \brief Using Graphs for 2D in a Qt Quick application.

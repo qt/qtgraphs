@@ -4,7 +4,7 @@
 /*!
     \example 3d/widgetgraphgallery
     \meta tags {Graphs, Q3DBars, Bar Graph, Custom Proxy, Q3DScatter, Scatter Graph, Custom Input Handler, Q3DSurface, Surface Graph, QCustom3DItem, Textured Surface}
-    \examplecategory {Data Visualization & 3D}
+    \examplecategory {Data Visualization}
     \title Graph Gallery
     \ingroup qtgraphs_examples_3D
     \brief Gallery of Bar, Scatter, and Surface graphs.

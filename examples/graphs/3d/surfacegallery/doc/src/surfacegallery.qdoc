@@ -4,7 +4,7 @@
 /*!
     \example 3d/surfacegallery
     \meta tags {Graphs, Surface3D, Dynamic Data, Surface Graph, Height Map, Polar Graph}
-    \examplecategory {Data Visualization & 3D}
+    \examplecategory {Data Visualization}
     \title Surface Graph Gallery
     \ingroup qtgraphs_qmlexamples_3D
     \brief Gallery with three different ways to use a Surface3D graph.
