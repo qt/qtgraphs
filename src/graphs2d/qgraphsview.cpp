@@ -44,6 +44,9 @@ QGraphsView::QGraphsView(QQuickItem *parent) :
 
 QGraphsView::~QGraphsView()
 {
+    const auto slist = m_seriesList;
+    for (const auto &s : slist)
+        removeSeries(s);
 }
 
 void QGraphsView::setBackgroundColor(QColor color)
