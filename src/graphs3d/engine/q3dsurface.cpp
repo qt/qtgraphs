@@ -17,33 +17,37 @@ QT_BEGIN_NAMESPACE
  * mode and shading can be controlled via QSurface3DSeries.
  *
  * The Q3DSurface supports selection by showing a highlighted ball on the data
- * point where the user has clicked with left mouse button (when default input
- * handler is in use) or selected via QSurface3DSeries. The selection pointer is
- * accompanied with a label which in default case shows the value of the data
+ * point where the user has clicked with the left mouse button (when the default
+ * input handler is in use) or selected via QSurface3DSeries. The selection pointer
+ * is accompanied by a label, which in the default case shows the value of the data
  * point and the coordinates of the point.
  *
  * The value range and the label format shown on the axis can be controlled
  * through QValue3DAxis.
  *
  * To rotate the graph, hold down the right mouse button and move the mouse.
- * Zooming is done using mouse wheel. Both assume the default input handler is
- * in use.
+ * Zooming is done using the mouse wheel. Both actions assume the default input
+ * handler is in use.
  *
- * If no axes are set explicitly to Q3DSurface, temporary default axes with no
+ * If no axes are set explicitly for Q3DSurface, temporary default axes with no
  * labels are created. These default axes can be modified via axis accessors,
- * but as soon any axis is set explicitly for the orientation, the default axis
- * for that orientation is destroyed.
+ * but as soon as any axis is set explicitly for the orientation, the default
+ * axis for that orientation is destroyed.
  *
  * \section1 How to construct a minimal Q3DSurface graph
  *
- * First, construct Q3DSurface. Since we are running the graph as top level
+ * First, construct Q3DSurface. Since we are running the graph as a top-level
  * window in this example, we need to clear the \c Qt::FramelessWindowHint flag,
- * which gets set by default:
+ * which is set by default:
  *
  * \snippet doc_src_q3dsurface_construction.cpp 0
  *
  * Now Q3DSurface is ready to receive data to be rendered. Create data elements
  * to receive values:
+ *
+ * \note In the new proxy-series relationship, data is held in series.
+ * Therefore, for the proxy to be able to add, delete, or edit the data, it is
+ * a prerequisite to create a series first.
  *
  * \snippet doc_src_q3dsurface_construction.cpp 1
  *
@@ -69,7 +73,7 @@ QT_BEGIN_NAMESPACE
  * \image q3dsurface-minimal.png
  *
  * The scene can be rotated, zoomed into, and a surface point can be selected to
- * view its position, but no other interaction is included in this minimal code
+ * view its position, but no other interactions are included in this minimal code
  * example. You can learn more by familiarizing yourself with the examples
  * provided, like the \l{Surface Graph Gallery}.
  *
@@ -226,10 +230,10 @@ QSurface3DSeries *Q3DSurface::selectedSeries() const
  * \brief Whether the horizontal axis grid is displayed on top of the graph
  * rather than on the bottom.
  *
- * In some use cases the horizontal axis grid is mostly covered by the surface,
+ * In some use cases, the horizontal axis grid is mostly covered by the surface,
  * so it can be more useful to display the horizontal axis grid on top of the
  * graph rather than on the bottom. A typical use case for this is showing 2D
- * spectrograms using orthoGraphic projection with a top-down viewpoint.
+ * spectrograms using orthographic projection with a top-down viewpoint.
  *
  * If \c{false}, the horizontal axis grid and labels are drawn on the horizontal
  * background of the graph. If \c{true}, the horizontal axis grid and labels are
