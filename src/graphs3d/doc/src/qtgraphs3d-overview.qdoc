@@ -7,10 +7,10 @@
     \brief An overview of the 3D graphs in the Qt Graphs module.
 
     The Qt Graphs module provides a way to develop rapidly
-    responding, complex, and dynamic 3D graphs for analytical demanding
+    responding, complex, and dynamic 3D graphs for analytically demanding
     industries such as academic research and medical. Qt Graphs
     provides 3D bars, scatter, and surface graphs. Combining user
-    interaction and real time 3D drawing graphs enables creating user
+    interaction and real-time 3D drawing graphs enables creating user
     interfaces that use space effectively. Changing between 3D and 2D
     presentation enables truly utilizing the value of 3D in visualizing data.
 
@@ -47,7 +47,7 @@
     \section2 3D Bar Graphs
 
     3D bar graphs present data as 3D bars that are grouped by category. The
-    Q3DBars class is used to create a graph and the QBar3DSeries and
+    Q3DBars class is used to create a graph, and the QBar3DSeries and
     QBarDataProxy classes are used to set data to the graph, as well as to
     control the visual properties of the graph, such as draw mode and shading.
     In QML, the corresponding types are Bars3D, Bar3DSeries, and BarDataProxy.
@@ -60,7 +60,7 @@
     \section2 3D Scatter Graphs
 
     3D scatter graphs present data as a collection of points. The Q3DScatter
-    class is used to create a graph and the QScatter3DSeries and
+    class is used to create a graph, and the QScatter3DSeries and
     QScatterDataProxy classes are used to set data to the graph, as well as to
     control the visual properties of the graph. In QML, the corresponding types
     are Scatter3D, Scatter3DSeries, and ScatterDataProxy.
@@ -73,7 +73,7 @@
     \section2 3D Surface Graphs
 
     3D surface graphs present data as 3D surface plots. The Q3DSurface class is
-    used to create a graph and the QSurface3DSeries and QSurfaceDataProxy
+    used to create a graph, and the QSurface3DSeries and QSurfaceDataProxy
     classes are used to set data to the graph, as well as to control the visual
     properties of the graph. In QML, the corresponding types are Surface3D,
     Surface3DSeries, and SurfaceDataProxy.
@@ -192,21 +192,21 @@
     \section1 Customizing Items
 
     Qt Graphs has predefined mesh types for bars and scatter items. The mesh type determines
-    how a bar, or a scatter item, looks on a graph. In addition to the pre-defined
+    how a bar or a scatter item looks on a graph. In addition to the pre-defined
     meshes, a user-defined geometry can be specified as a mesh file. For more information,
     see QAbstract3DSeries::userDefinedMesh().
     For more variety, a quaternion can be set for mesh rotation.
 
     In addition to customizing individual items, the QCustom3DItem class or the
     Custom3DItem QML type can be used to add custom items to graphs. The items
-    have a custom mesh, position, scaling, rotation, and an optional texture.
+    have custom mesh, position, scaling, rotation, and an optional texture.
 
     The QCustom3DVolume class and the Custom3DVolume QML type can be used to
-    create volume rendered objects to be added to a graph. A volume rendered
+    create volume-rendered objects to be added to a graph. A volume-rendered
     object is a box with a 3D texture. Three slice planes are supported for the
     volume, one along each main axis of the volume.
 
-    The The QCustom3DLabel class and the Custom3DLabel QML type implement custom
+    The QCustom3DLabel class and the Custom3DLabel QML type implement custom
     labels with the specified text, font, position, scaling, and rotation. Label
     colors, borders, and background are determined by the active theme.
 */
