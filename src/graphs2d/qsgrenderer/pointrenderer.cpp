@@ -73,13 +73,8 @@ void PointRenderer::updateRenderablePoint(QXYSeries *series,
     node->update();
 }
 
-void PointRenderer::updateLegendData(QXYSeries *series)
+void PointRenderer::updateLegendData(QXYSeries *series, QLegendData &legendData)
 {
-    QLegendData legendData;
-    // TODO: When fill color is added to the scatterseries use it instead for the color.
-    legendData.color = series->color();
-    legendData.borderColor = series->color();
-    legendData.label = series->name();
     QList<QLegendData> legendDataList = {legendData};
     series->d_ptr->setLegendData(legendDataList);
 }
@@ -93,7 +88,7 @@ void PointRenderer::calculateRenderCoordinates(
                + m_verticalOffset;
 }
 
-void PointRenderer::updateScatterSeries(QScatterSeries *series)
+void PointRenderer::updateScatterSeries(QScatterSeries *series, QLegendData &legendData)
 {
     auto group = m_groups.value(series);
 
@@ -114,9 +109,12 @@ void PointRenderer::updateScatterSeries(QScatterSeries *series)
             }
         }
     }
+    // TODO: When fill color is added to the scatterseries use it instead for
+    // the color. QTBUG-122434
+    legendData = {series->color(), series->color(), series->name()};
 }
 
-void PointRenderer::updateLineSeries(QLineSeries *series)
+void PointRenderer::updateLineSeries(QLineSeries *series, QLegendData &legendData)
 {
     auto group = m_groups.value(series);
 
@@ -161,9 +159,10 @@ void PointRenderer::updateLineSeries(QLineSeries *series)
             }
         }
     }
+    legendData = {color, color, series->name()};
 }
 
-void PointRenderer::updateSplineSeries(QSplineSeries *series)
+void PointRenderer::updateSplineSeries(QSplineSeries *series, QLegendData &legendData)
 {
     auto group = m_groups.value(series);
 
@@ -231,6 +230,7 @@ void PointRenderer::updateSplineSeries(QSplineSeries *series)
             }
         }
     }
+    legendData = {color, color, series->name()};
 }
 
 void PointRenderer::handlePolish(QXYSeries *series)
@@ -317,14 +317,15 @@ void PointRenderer::handlePolish(QXYSeries *series)
         seriesTheme->setGraphSeriesCount(group->colorIndex + 1);
     }
 
+    QLegendData legendData;
     if (auto scatter = qobject_cast<QScatterSeries *>(series))
-        updateScatterSeries(scatter);
+        updateScatterSeries(scatter, legendData);
     else if (auto line = qobject_cast<QLineSeries *>(series))
-        updateLineSeries(line);
+        updateLineSeries(line, legendData);
     else if (auto spline = qobject_cast<QSplineSeries *>(series))
-        updateSplineSeries(spline);
+        updateSplineSeries(spline, legendData);
 
-    updateLegendData(series);
+    updateLegendData(series, legendData);
 }
 
 void PointRenderer::updateSeries(QXYSeries *series)

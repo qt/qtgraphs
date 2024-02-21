@@ -26,6 +26,7 @@ class QLineSeries;
 class QScatterSeries;
 class QSplineSeries;
 class AxisRenderer;
+struct QLegendData;
 
 class PointRenderer : public QQuickItem
 {
@@ -79,12 +80,12 @@ private:
 
     void updatePointMarker(QXYSeries *series, PointGroup *group, int pointIndex, qreal x, qreal y);
     void updateRenderablePoint(QXYSeries *series, PointGroup *group, int pointIndex);
-    void updateLegendData(QXYSeries *series);
+    void updateLegendData(QXYSeries *series, QLegendData &legendData);
     void calculateRenderCoordinates(
         AxisRenderer *axisRenderer, qreal origX, qreal origY, qreal *renderX, qreal *renderY);
-    void updateScatterSeries(QScatterSeries *scatter);
-    void updateLineSeries(QLineSeries *line);
-    void updateSplineSeries(QSplineSeries *spline);
+    void updateScatterSeries(QScatterSeries *scatter, QLegendData &legendData);
+    void updateLineSeries(QLineSeries *line, QLegendData &legendData);
+    void updateSplineSeries(QSplineSeries *spline, QLegendData &legendData);
 
     // Curve fitting from QtCharts
     QList<QPointF> fitCubicSpline(const QList<QPointF> &points);
