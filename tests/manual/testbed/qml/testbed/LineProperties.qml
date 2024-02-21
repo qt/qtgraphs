@@ -80,6 +80,7 @@ Rectangle {
     }
 
     SettingsView {
+        id: settingsView
         CustomLabel {
             text: "X-coordinate: Min"
         }
@@ -129,6 +130,7 @@ Rectangle {
         anchors.bottom: parent.bottom
         anchors.top: toolbar.bottom
         anchors.margins: 10
+        anchors.rightMargin: settingsView.posX + 20 * px
         backgroundColor: "#202020"
 
         SeriesTheme {

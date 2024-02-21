@@ -7,7 +7,7 @@ import QtQuick.Controls
 Item {
     id: rootItem
     property real showState: settings.showSettingsView ? 1.0 : 0.0
-    readonly property real posX: Window.window.width - settingsDrawer.x
+    readonly property real posX: settingsDrawer.visible ? Window.window.width - settingsDrawer.x : 0
 
     default property alias content: settingsArea.children
 
@@ -64,6 +64,7 @@ Item {
                 spacing: 10
             }
         }
+
         enter: Transition {
             NumberAnimation {
                 property: "position"
