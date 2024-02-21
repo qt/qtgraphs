@@ -57,8 +57,8 @@ void tst_scatter::initialProperties()
     QCOMPARE(m_series->pointMarker(), nullptr);
 
     // Properties from QXYSeries
-    QCOMPARE(m_series->color(), "#ffffff");
-    QCOMPARE(m_series->selectedColor(), QColor::Invalid);
+    QCOMPARE(m_series->color(), QColor(Qt::transparent));
+    QCOMPARE(m_series->selectedColor(), QColor(Qt::transparent));
     QCOMPARE(m_series->markerSize(), 15.0);
 
     // Properties from QAbstractSeries

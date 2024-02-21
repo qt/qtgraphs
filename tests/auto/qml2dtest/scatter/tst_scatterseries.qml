@@ -53,8 +53,8 @@ Item {
 
         function test_2_initial_common() {
             // Properties from QXYSeries
-            compare(initial.color, "#ffffff")
-            compare(initial.selectedColor, "#000000")
+            compare(initial.color, "#00000000")
+            compare(initial.selectedColor, "#00000000")
             compare(initial.markerSize, 15.0)
 
             // Properties from QAbstractSeries

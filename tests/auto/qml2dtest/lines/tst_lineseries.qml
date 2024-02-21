@@ -57,12 +57,12 @@ Item {
 
         function test_2_initial_common() {
             // Properties from QXYSeries
-            compare(initial.color, "#ffffff")
-            compare(initial.selectedColor, "#000000")
+            compare(initial.color, "#00000000")
+            compare(initial.selectedColor, "#00000000")
             compare(initial.markerSize, 15.0)
 
             // Properties from QAbstractSeries
-            compare(initial.theme, null)
+            verify(initial.theme)
             compare(initial.name, "")
             compare(initial.visible, true)
             compare(initial.selectable, false)
