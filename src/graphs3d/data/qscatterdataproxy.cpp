@@ -14,7 +14,9 @@ QT_BEGIN_NAMESPACE
  * \brief The QScatterDataProxy class is the data proxy for 3D scatter graphs.
  *
  * A scatter data proxy handles adding, inserting, changing, and removing data
- * items.
+ * items. Since data is stored in series, it is necessary
+ * to create a series associated with the proxy before using these functions for
+ * the dataset.
  *
  * QScatterDataProxy takes ownership of all
  * QtGraphs::QScatterDataArray and QScatterDataItem objects passed to
@@ -239,8 +241,8 @@ const QScatterDataItem &QScatterDataProxy::itemAt(int index) const
 /*!
  * \fn void QScatterDataProxy::itemsAdded(int startIndex, int count)
  *
- * This signal is emitted when the number of items specified by \a count is
- * added starting at the position \a startIndex.
+ * This signal is emitted when the number of items specified by \a count are
+ * added, starting at the position \a startIndex.
  * If items are added to the array without calling addItem() or addItems(),
  * this signal needs to be emitted to update the graph.
  */
@@ -248,8 +250,8 @@ const QScatterDataItem &QScatterDataProxy::itemAt(int index) const
 /*!
  * \fn void QScatterDataProxy::itemsChanged(int startIndex, int count)
  *
- * This signal is emitted when the number of items specified by \a count is
- * changed starting at the position \a startIndex.
+ * This signal is emitted when the number of items specified by \a count are
+ * changed, starting at the position \a startIndex.
  * If items are changed in the array without calling setItem() or setItems(),
  * this signal needs to be emitted to update the graph.
  */
@@ -257,8 +259,8 @@ const QScatterDataItem &QScatterDataProxy::itemAt(int index) const
 /*!
  * \fn void QScatterDataProxy::itemsRemoved(int startIndex, int count)
  *
- * This signal is emitted when the number of rows specified by \a count is
- * removed starting at the position \a startIndex.
+ * This signal is emitted when the number of rows specified by \a count are
+ * removed, starting at the position \a startIndex.
  * The index may be larger than the current array size if items are removed from
  * the end. If items are removed from the array without calling removeItems(),
  * this signal needs to be emitted to update the graph.
@@ -267,8 +269,8 @@ const QScatterDataItem &QScatterDataProxy::itemAt(int index) const
 /*!
  * \fn void QScatterDataProxy::itemsInserted(int startIndex, int count)
  *
- * This signal is emitted when the number of items specified by \a count is
- * inserted starting at the position \a startIndex.
+ * This signal is emitted when the number of items specified by \a count are
+ * inserted, starting at the position \a startIndex.
  * If items are inserted into the array without calling insertItem() or
  * insertItems(), this signal needs to be emitted to update the graph.
  */

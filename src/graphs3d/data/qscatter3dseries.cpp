@@ -15,12 +15,19 @@ QT_BEGIN_NAMESPACE
  * \brief The QScatter3DSeries class represents a data series in a 3D scatter
  * graph.
  *
- * This class manages the series specific visual elements, as well as the series
+ * This class manages the series-specific visual elements, as well as the series
  * data (via a data proxy).
+ *
+ * Regarding the proxy-series relationship, it is crucial to highlight
+ * a couple of key points. In this context, data is stored in series and
+ * users can access the dataset through the series. This series is controlled
+ * or represented by a proxy object. Thus, the proxy can be used to manage various
+ * operations on the data and update the actual dataset. However, it is necessary
+ * to create a series associated with this proxy to edit the dataset.
  *
  * If no data proxy is set explicitly for the series, the series creates a
  * default proxy. Setting another proxy will destroy the existing proxy and all
- * data added to it.
+ * data added to the series.
  *
  * QScatter3DSeries supports the following format tags for QAbstract3DSeries::setItemLabelFormat():
  * \table
@@ -81,11 +88,11 @@ QT_BEGIN_NAMESPACE
  *
  * The item that is selected at the index in the data array of the series.
  * Only one item can be selected at a time.
- * To clear selection from this series, invalidSelectionIndex is set as the
+ * To clear the selection from this series, the invalidSelectionIndex is set as the
  * index. If this series is added to a graph, the graph can adjust the selection
  * according to user interaction or if it becomes invalid. Selecting an item on
  * another added series will also clear the selection. Removing items from or
- * inserting items to the series before the selected item will adjust the
+ * inserting items into the series before the selected item will adjust the
  * selection so that the same item will stay selected.
  *
  * \sa AbstractGraph3D::clearSelection()
@@ -184,12 +191,12 @@ QScatterDataProxy *QScatter3DSeries::dataProxy() const
  * Selects the item at the index \a index in the data array of the series.
  * Only one item can be selected at a time.
  *
- * To clear selection from this series, invalidSelectionIndex() is set as \a
+ * To clear the selection from this series, invalidSelectionIndex() is set as \a
  * index. If this series is added to a graph, the graph can adjust the selection
  * according to user interaction or if it becomes invalid. Selecting an item on
  * another added series will also clear the selection.
  *
- * Removing items from or inserting items to the series before the selected item
+ * Removing items from or inserting items into the series before the selected item
  * will adjust the selection so that the same item will stay selected.
  *
  * \sa QAbstract3DGraph::clearSelection()
