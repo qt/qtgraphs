@@ -62,10 +62,6 @@ public:
     void resetThemeDirty() { m_themeDirty = false; };
     void resetColorTheme();
 
-    int graphSeriesCount() const;
-    void setGraphSeriesCount(int count);
-    QColor graphSeriesColor(int index) const;
-
     QGraphTheme::ColorTheme colorTheme() const;
     void setColorTheme(const ColorTheme &newColorTheme);
 
