@@ -105,6 +105,27 @@ Item {
                 y: 5.3
             }
         }
+
+        PieSeries {
+            id: pieInitial
+        }
+
+        PieSeries {
+            id: pieInitialized
+            theme: theme1
+
+            PieSlice {
+                label: "Volkswagen"
+                labelVisible: true
+                value: 13.5
+            }
+            PieSlice {
+                label: "Toyota"
+                labelVisible: true
+                labelPosition: PieSlice.LabelInsideHorizontal
+                value: 10.9
+            }
+        }
     }
 
     SeriesTheme {
@@ -223,6 +244,53 @@ Item {
             compare(lineInitialized.legendData[0].color, "#ff00ff")
             compare(lineInitialized.legendData[0].borderColor, "#ff00ff")
             compare(lineInitialized.legendData[0].label, "Second")
+        }
+    }
+
+    TestCase {
+        name: "LegendData PieRenderer Initial"
+
+        function test_1_initial() {
+            waitForRendering(top)
+
+            compare(pieInitial.legendData.length, 0)
+        }
+
+        function test_2_initial_change() {
+            pieInitial.theme = theme1
+            waitForRendering(top)
+            compare(pieInitial.legendData.length, 0)
+        }
+    }
+
+    TestCase {
+        name: "LegendData PieRenderer Initialized"
+
+        function test_1_initialized() {
+            waitForRendering(top)
+            compare(pieInitialized.legendData.length, 2)
+
+            compare(pieInitialized.legendData[0].color, "#ff0000")
+            compare(pieInitialized.legendData[0].borderColor, "#00ff00")
+            compare(pieInitialized.legendData[0].label, "Volkswagen")
+
+            compare(pieInitialized.legendData[1].color, "#ff0000")
+            compare(pieInitialized.legendData[1].borderColor, "#00ff00")
+            compare(pieInitialized.legendData[1].label, "Toyota")
+        }
+
+        function test_2_initialized_change() {
+            pieInitialized.theme = theme2
+            waitForRendering(top)
+            compare(pieInitialized.legendData.length, 2)
+
+            compare(pieInitialized.legendData[0].color, "#0000ff")
+            compare(pieInitialized.legendData[0].borderColor, "#00ffff")
+            compare(pieInitialized.legendData[0].label, "Volkswagen")
+
+            compare(pieInitialized.legendData[1].color, "#ff00ff")
+            compare(pieInitialized.legendData[1].borderColor, "#ffff00")
+            compare(pieInitialized.legendData[1].label, "Toyota")
         }
     }
 }
