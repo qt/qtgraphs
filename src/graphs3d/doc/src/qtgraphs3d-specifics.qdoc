@@ -115,8 +115,12 @@
     The data users wish to visualize comes in many formats, all of which cannot be
     directly supported. Therefore, Qt Graphs implements data proxies, into which
     user can feed their data in a known format. Each graph has a basic proxy type
-    in its series, which takes data in a format suitable for that graph and can be directly
-    used by the series.
+    in its series, which takes data in a format suitable for that graph. With the
+    proxy-series relationship, since data is stored in series, it's important to mention
+    a few points. Firstly, with this implementation, users can access data through the
+    series. If a user wants to perform operations on this data, such as adding or removing,
+    they can still carry out these operations through the proxy. However, in order to
+    perform these operations, it is necessary to create a series associated with this proxy.
 
     For example, the basic proxy for QBar3DSeries is QBarDataProxy, which is used to add
     data to the series as QBarDataItem objects. Each QBarDataItem holds a single bar value.
@@ -139,19 +143,19 @@
     data in an item model (QAbstractItemModel subclass), which is a common way to store data in
     Qt applications. Each of the graph's types offers a special proxy class for this purpose,
     for example, QItemModelBarDataProxy for QBar3DSeries.
-    These proxies are simple to use: give them a pointer to the item model containing the
-    data, and the rules on how to map the data into a format the basic proxy can digest.
+    These proxies are simple to use: provide them a pointer to the item model containing the
+    data, and specify the rules on how to map the data into a format the basic proxy can digest.
 
     Mapping works with item model roles. Each data item in the model can have different
-    values for different roles. For example, with QItemModelBarDataProxy you can specify which
+    values for different roles. For example, with QItemModelBarDataProxy, you can specify which
     role is used to determine which row the item belongs to, which role does the same for columns,
     and which role specifies the value of the item. When the proxy resolves the data from the model,
     it uses these mappings to generate the rows and columns of the bar graph.
 
-    Often the item models will have a single role that contains information you want to map to
+    Often, the item models will have a single role that contains information you want to map to
     multiple values. A typical example of this is a timestamp field when generating a bar graph
     with two time-related axes, for example, years and months. To enable mapping a single item
-    model role to more than one data field, a pattern matching, and replacing mechanism is provided
+    model role to more than one data field, a pattern matching and replacing mechanism is provided
     by item model proxies. You can also use this mechanism to reformat data even in one-to-one
     mapping cases.
 
@@ -178,7 +182,7 @@
     ensure good performance. Since memory allocation is a costly operation, always use
     QList::reserve() and QList::resize() where possible to avoid unnecessary reallocations when
     constructing the array to give to the proxy. If you need to change the entire data set
-    for each frame, it is in most cases best to reuse the existing array - especially if the
+    for each frame, it is in most cases best to reuse the existing array, especially if the
     array dimensions do not change. If you need to add, insert, remove, or change several
     rows or items for each frame, it is always more efficient to do it with one method call
     instead of multiple calls affecting a single row or item each. For example, adding ten
@@ -194,10 +198,10 @@
     continually added to the proxy. For the best performance with the scatter graphs, only keep
     the data you need in the proxy.
 
-    Surface data, while on item level similar to scatter data, is already assigned into rows and
-    columns, so the surface renderer can optimize drawing by making the assumption that
-    the data in the rows and columns is sorted along their respective axes. It is not quite as
-    efficient as in the case of the bars, but nearly so.
+    Surface data, while on the item level similar to scatter data, is already assigned into rows
+    and columns. Therefore, the surface renderer can optimize drawing by making the assumption
+    that the data in the rows and columns is sorted along their respective axes. It is not quite
+    as efficient as in the case of the bars, but nearly so.
 */
 
 /*!
@@ -210,7 +214,7 @@
     touch to rotate, zoom, or select data. Graphs can be rotated freely by
     holding down the right mouse button and moving the mouse. Zooming is done by
     rolling the mouse wheel. Selecting, if enabled, is done by pressing the left
-    mouse button. In touch devices, rotation is done by tap-and-move,
+    mouse button. On touch devices, rotation is achieved by tap-and-move,
     selection by tap-and-hold, and zoom by pinch.
 
     Qt Graphs has default handlers for mouse actions and touch gestures. The default
@@ -226,27 +230,29 @@
     \section1 Data Selection Modes
 
     All graph types support selecting a single data item - a bar, a scatter item, or a surface
-    point - using mouse, touch, and programmatically via the series APIs. The selected item is highlighted
-    in the rendered graph, and selecting causes the emission of a series-specific signal for this purpose,
-    for example, QBar3DSeries::selectedBarChanged(), which the application can handle.
+    point - using the mouse, touch, and programmatically via the series APIs. The selected item is
+    highlighted in the rendered graph, and selection causes the emission of a series-specific signal
+    for this purpose, for example, QBar3DSeries::selectedBarChanged(), which the application can
+    handle.
 
     Bar and surface graphs support slice selection modes, where the selected row or column is drawn
     in a separate viewport as a pseudo-2D graph. This makes it easier to see the actual values of
     a single row or column.
 
-    Bar graph additionally supports highlighting the whole row and/or column of the selected bar
-    without opening the slice view. Bar graph also supports selecting/slicing a whole row and/or
-    column by clicking the axis label, based on selection mode.
+    Additionally, the bar graph supports highlighting the whole row and/or
+    column of the selected bar without opening the slice view. The bar graph also supports
+    selecting/slicing a whole row and/or column by clicking the axis label, based on the selection
+    mode.
 
-    When multiple series are added to a graph, selecting an item in one of them will clear the selection
-    on other series.
+    When multiple series are added to a graph, selecting an item in one of them will clear the
+    selection on the other series.
 */
 
 /*!
     \page qtgraphs_migration_guide.html
     \title Qt Graphs Migration from Qt DataVisualization
 
-    The API and functionality between Qt DataVisualization and Qt Graphs has been kept mostly
+    The API and functionality between Qt DataVisualization and Qt Graphs have been kept mostly
     unchanged. However, there are some differences that need to be taken into consideration
     when migrating your application from Qt DataVisualization to Qt Graphs:
 
