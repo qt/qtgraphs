@@ -25,11 +25,15 @@ QT_BEGIN_NAMESPACE
  * graph.
  *
  * QBarDataProxy optionally keeps track of row and column labels, which
- * QCategory3DAxis can utilize to show axis labels. The row and column labels
- * are stored in a separate array from the data and row manipulation methods
- * provide alternate versions that do not affect the row labels. This enables
+ * QCategory3DAxis can utilize to show axis labels.
+ *
+ * The row and column labels are stored in a separate array from the data in the
+ * series rather. Row processing methods are available in the proxy and provide
+ * alternative versions that do not affect row labels. This enables
  * the option of having row labels that relate to the position of the data in
- * the array rather than the data itself.
+ * the array rather than the data itself. Since the series holds the data and
+ * row and column labels, it is necessary to create a series associated with the
+ * proxy before using these functions for them.
  *
  * \sa {Qt Graphs Data Handling with 3D}
  */
@@ -455,7 +459,7 @@ const QBarDataItem &QBarDataProxy::itemAt(const QPoint &position) const
  * \fn void QBarDataProxy::rowsAdded(int startIndex, int count)
  *
  * This signal is emitted when the number of rows specified by \a count is
- * added starting at the position \a startIndex.
+ * added, starting at the position \a startIndex.
  * If rows are added to the array without calling addRow() or addRows(),
  * this signal needs to be emitted to update the graph.
  */
@@ -464,7 +468,7 @@ const QBarDataItem &QBarDataProxy::itemAt(const QPoint &position) const
  * \fn void QBarDataProxy::rowsChanged(int startIndex, int count)
  *
  * This signal is emitted when the number of rows specified by \a count is
- * changed starting at the position \a startIndex.
+ * changed, starting at the position \a startIndex.
  * If rows are changed in the array without calling setRow() or setRows(),
  * this signal needs to be emitted to update the graph.
  */
@@ -473,7 +477,7 @@ const QBarDataItem &QBarDataProxy::itemAt(const QPoint &position) const
  * \fn void QBarDataProxy::rowsRemoved(int startIndex, int count)
  *
  * This signal is emitted when the number of rows specified by \a count is
- * removed starting at the position \a startIndex.
+ * removed, starting at the position \a startIndex.
  *
  * The index is the current array size if the rows were removed from the end of
  * the array. If rows are removed from the array without calling removeRows(),

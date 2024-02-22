@@ -19,9 +19,16 @@ QT_BEGIN_NAMESPACE
  * This class manages the series specific visual elements, as well as the series
  * data (via a data proxy).
  *
+ * Regarding the proxy-series relationship, it is crucial to highlight
+ * a couple of key points. In this context, data is stored in series and
+ * users can access the dataset through the series. This series is controlled
+ * or represented by a proxy object. Thus, the proxy can be used to manage various
+ * operations on the data and update the actual dataset. However, it is necessary
+ * to create a series associated with this proxy to edit the dataset.
+ *
  * If no data proxy is set explicitly for the series, the series creates a
  * default proxy. Setting another proxy will destroy the existing proxy and all
- * data added to it.
+ * data added to the series.
  *
  * QBar3DSeries supports the following format tags for QAbstract3DSeries::setItemLabelFormat():
  * \table
@@ -90,14 +97,14 @@ QT_BEGIN_NAMESPACE
  *
  * Only one bar can be selected at a time.
  *
- * To clear selection from this series, set invalidSelectionPosition as the
+ * To clear the selection from this series, set invalidSelectionPosition as the
  * position.
  *
  * If this series is added to a graph, the graph can adjust the selection
  * according to user interaction or if it becomes invalid. Selecting a bar on
  * another added series will also clear the selection.
  *
- * Removing rows from or inserting rows to the series before the row of the
+ * Removing rows from or inserting rows into the series before the row of the
  * selected bar will adjust the selection so that the same bar will stay
  * selected.
  *
@@ -231,14 +238,14 @@ QBarDataProxy *QBar3DSeries::dataProxy() const
  *
  * Only one bar can be selected at a time.
  *
- * To clear selection from this series, invalidSelectionPosition() is set as
+ * To clear the selection from this series, invalidSelectionPosition() is set as
  * \a position.
  *
  * If this series is added to a graph, the graph can adjust the selection
  * according to user interaction or if it becomes invalid. Selecting a bar on
  * another added series will also clear the selection.
  *
- * Removing rows from or inserting rows to the series before the row of the
+ * Removing rows from or inserting rows into the series before the row of the
  * selected bar will adjust the selection so that the same bar will stay
  * selected.
  *
