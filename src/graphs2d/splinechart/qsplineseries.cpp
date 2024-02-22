@@ -88,6 +88,10 @@ qreal QSplineSeries::width() const
 void QSplineSeries::setWidth(qreal newWidth)
 {
     Q_D(QSplineSeries);
+
+    if (newWidth < 0)
+        newWidth = 0;
+
     if (qFuzzyCompare(d->m_width, newWidth))
         return;
     d->m_width = newWidth;
