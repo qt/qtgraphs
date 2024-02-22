@@ -126,6 +126,64 @@ Item {
                 value: 10.9
             }
         }
+        AreaSeries {
+            id: areaInitial
+        }
+        AreaSeries {
+            id: areaInitialized
+            theme: theme1
+            upperSeries: SplineSeries {
+                XYPoint {
+                    x: 6
+                    y: 1
+                }
+                XYPoint {
+                    x: 7
+                    y: 0.5
+                }
+                XYPoint {
+                    x: 8
+                    y: 2
+                }
+            }
+            name: "First"
+        }
+        AreaSeries {
+            id: areaInitialized2
+            color: "#aabbcc"
+            borderColor: "#bbffcc"
+
+            upperSeries: SplineSeries {
+                XYPoint {
+                    x: 6
+                    y: 2
+                }
+                XYPoint {
+                    x: 7
+                    y: 3.5
+                }
+                XYPoint {
+                    x: 8
+                    y: 3.8
+                }
+            }
+
+            lowerSeries: SplineSeries {
+                XYPoint {
+                    x: 6.4
+                    y: 1.5
+                }
+                XYPoint {
+                    x: 7
+                    y: 2.5
+                }
+                XYPoint {
+                    x: 8
+                    y: 3
+                }
+            }
+            name: "Second"
+        }
     }
 
     SeriesTheme {
@@ -291,6 +349,60 @@ Item {
             compare(pieInitialized.legendData[1].color, "#ff00ff")
             compare(pieInitialized.legendData[1].borderColor, "#ffff00")
             compare(pieInitialized.legendData[1].label, "Toyota")
+        }
+    }
+    TestCase {
+        name: "LegendData AreaSeries Initial"
+        function initTestCase() {
+            waitForRendering(top)
+        }
+
+        function test_1_initial() {
+            compare(areaInitial.legendData.length, 0)
+        }
+
+        function test_2_initial_change() {
+            areaInitial.theme = theme1
+            waitForRendering(top)
+
+            compare(areaInitial.legendData.length, 0)
+        }
+    }
+    TestCase {
+        name: "LegendData AreaSeries Initialized"
+        function initTestCase() {
+            waitForRendering(top)
+        }
+
+        function test_1_initialized() {
+            compare(areaInitialized.legendData.length, 1)
+            compare(areaInitialized2.legendData.length, 1)
+
+            compare(areaInitialized.legendData[0].color, "#ff0000")
+            compare(areaInitialized.legendData[0].borderColor, "#00ff00")
+            compare(areaInitialized.legendData[0].label, "First")
+
+            compare(areaInitialized2.legendData[0].color, "#aabbcc")
+            compare(areaInitialized2.legendData[0].borderColor, "#bbffcc")
+            compare(areaInitialized2.legendData[0].label, "Second")
+        }
+
+        function test_2_initialized_change() {
+            areaInitialized.theme = theme2
+            areaInitialized2.color = "#ffffff"
+            areaInitialized2.borderColor = "#dddddd"
+            waitForRendering(top)
+
+            compare(areaInitialized.legendData.length, 1)
+            compare(areaInitialized2.legendData.length, 1)
+
+            compare(areaInitialized.legendData[0].color, "#ff00ff")
+            compare(areaInitialized.legendData[0].borderColor, "#ffff00")
+            compare(areaInitialized.legendData[0].label, "First")
+
+            compare(areaInitialized2.legendData[0].color, "#ffffff")
+            compare(areaInitialized2.legendData[0].borderColor, "#dddddd")
+            compare(areaInitialized2.legendData[0].label, "Second")
         }
     }
 }
