@@ -18,7 +18,9 @@ QT_BEGIN_NAMESPACE
  * QtGraphs::QSurfaceDataRow. \c QSurfaceDataArray is a QList that
  * controls the rows. \c QSurfaceDataRow is a QList that contains
  * QSurfaceDataItem objects. For more information about how to feed the data to
- * the proxy, see the sample code in the Q3DSurface documentation.
+ * the proxy, see the sample code in the Q3DSurface documentation. Since data is
+ * stored in series, it is necessary to create a series associated with the
+ * proxy before using these functions for the dataset.
  *
  * All rows must have the same number of items.
  *
@@ -344,7 +346,7 @@ int QSurfaceDataProxy::columnCount() const
  * \fn void QSurfaceDataProxy::rowsAdded(int startIndex, int count)
  *
  * This signal is emitted when the number of rows specified by \a count is
- * added starting at the position \a startIndex.
+ * added, starting at the position \a startIndex.
  * If rows are added to the array without calling addRow() or addRows(),
  * this signal needs to be emitted to update the graph.
  */
@@ -353,7 +355,7 @@ int QSurfaceDataProxy::columnCount() const
  * \fn void QSurfaceDataProxy::rowsChanged(int startIndex, int count)
  *
  * This signal is emitted when the number of rows specified by \a count is
- * changed starting at the position \a startIndex.
+ * changed, starting at the position \a startIndex.
  * If rows are changed in the array without calling setRow() or setRows(),
  * this signal needs to be emitted to update the graph.
  */
@@ -362,7 +364,7 @@ int QSurfaceDataProxy::columnCount() const
  * \fn void QSurfaceDataProxy::rowsRemoved(int startIndex, int count)
  *
  * This signal is emitted when the number of rows specified by \a count is
- * removed starting at the position \a startIndex.
+ * removed, starting at the position \a startIndex.
  *
  * The index is the current array size if the rows were removed from the end of
  * the array. If rows are removed from the array without calling removeRows(),

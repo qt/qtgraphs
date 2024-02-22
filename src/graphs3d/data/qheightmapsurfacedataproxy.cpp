@@ -17,15 +17,15 @@ const float defaultMaxValue = 10.0f;
  * \ingroup graphs_3D
  * \brief Base proxy class for Q3DSurface.
  *
- * QHeightMapSurfaceDataProxy takes care of surface related height map data
- * handling. It provides a way to give a height map to be visualized as a
+ * QHeightMapSurfaceDataProxy takes care of the processing of height map data
+ * related to surfaces. It provides the visualization of a height map as a
  * surface plot.
  *
  * Since height maps do not contain values for X or Z axes, those values need to
- * be given separately using minXValue, maxXValue, minZValue, and maxZValue
- * properties. X-value corresponds to image horizontal direction and Z-value to
- * the vertical. Setting any of these properties triggers asynchronous
- * re-resolving of any existing height map.
+ * be given separately using the minXValue, maxXValue, minZValue, and maxZValue
+ * properties. The X-value corresponds to image horizontal direction and the Z-value
+ * to the vertical. Setting any of these properties triggers an asynchronous
+ * re-resolution of any existing height map.
  *
  * \sa QSurfaceDataProxy, {Qt Graphs Data Handling with 3D}
  */
@@ -38,8 +38,8 @@ const float defaultMaxValue = 10.0f;
  * \inherits SurfaceDataProxy
  * \brief Base proxy type for Surface3D.
  *
- * HeightMapSurfaceDataProxy takes care of surface related height map data
- * handling. It provides a way to give a height map to be visualized as a
+ * QHeightMapSurfaceDataProxy takes care of the processing of height map data
+ * related to surfaces. It provides the visualization of a height map as a
  * surface plot.
  *
  * For more complete description, see QHeightMapSurfaceDataProxy.
@@ -61,15 +61,15 @@ const float defaultMaxValue = 10.0f;
  * format is QImage::Format_RGB32 in grayscale.
  *
  * The height of the image is read from the red component of the pixels if the
- * image is in grayscale, otherwise it is an average calculated from red, green
+ * image is in grayscale. Otherwise, it is an average calculated from the red, green,
  * and blue components of the pixels. Using grayscale images may improve data
  * conversion speed for large images.
  *
- * Since height maps do not contain values for X or Z axes, those values need to
- * be given separately using minXValue, maxXValue, minZValue, and maxZValue
- * properties. X-value corresponds to image horizontal direction and Z-value to
- * the vertical. Setting any of these properties triggers asynchronous
- * re-resolving of any existing height map.
+ * Since height maps do not contain values for X or Z axes, these values need to
+ * be given separately using the minXValue, maxXValue, minZValue, and maxZValue
+ * properties. The X-value corresponds to the image's horizontal direction,
+ * and the Z-value to the vertical. Setting any of these properties triggers
+ * an asynchronous re-resolution of any existing height map.
  *
  * Not recommended formats: all mono formats (for example QImage::Format_Mono).
  */
@@ -207,7 +207,7 @@ QHeightMapSurfaceDataProxy::~QHeightMapSurfaceDataProxy() {}
  * Preferred format is QImage::Format_RGB32 in grayscale.
  *
  * The height of the \a image is read from the red component of the pixels if
- * the \a image is in grayscale, otherwise it is an average calculated from red,
+ * the \a image is in grayscale. Otherwise it is an average calculated from the red,
  * green, and blue components of the pixels. Using grayscale images may improve
  * data conversion speed for large images.
  *
