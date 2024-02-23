@@ -15,9 +15,9 @@ QT_BEGIN_NAMESPACE
  * A value axis can be given a range of values and segment and subsegment
  * counts to divide the range into.
  *
- * Labels are drawn between each segment. Grid lines are drawn between each
+ * Labels are drawn between each segment, and grid lines are drawn between each
  * segment and each subsegment. \note If visible, there will always be at least
- * two grid lines and labels indicating the minimum and the maximum values of
+ * two grid lines and labels indicating the minimum and maximum values of
  * the range, as there is always at least one segment.
  */
 

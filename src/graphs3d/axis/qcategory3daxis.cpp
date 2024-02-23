@@ -34,9 +34,9 @@ QT_BEGIN_NAMESPACE
 /*!
  * \qmlproperty list CategoryAxis3D::labels
  *
- * The labels for the axis applied to categories. If there are fewer labels than
- * categories, the remaining ones do not have a label. If category labels are
- * not defined explicitly, labels are generated from the data row (or column)
+ * The labels for the axis are applied to categories. If there are fewer labels
+ * than categories, the remaining ones do not have a label. If category labels
+ * are not defined explicitly, labels are generated from the data row (or column)
  * labels of the primary series of the graph.
  */
 
@@ -108,9 +108,10 @@ QCategory3DAxisPrivate::~QCategory3DAxisPrivate() {}
 
 /*!
  * \internal
- * Graph uses this function to set labels from data proxy as category labels.
- * If the labels have been set explicitly by the user, data proxy labels are not
- * used.
+ * The graph uses this function to set labels from the data proxy as category
+ * labels.
+ * If the labels have been set explicitly by the user, data proxy labels
+ * are not used.
  */
 void QCategory3DAxisPrivate::setDataLabels(const QStringList &labels)
 {

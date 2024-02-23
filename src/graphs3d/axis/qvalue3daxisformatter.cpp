@@ -232,7 +232,7 @@ void QValue3DAxisFormatter::populateCopy(QValue3DAxisFormatter &copy)
 }
 
 /*!
- * Marks this formatter dirty, prompting the renderer to make a new copy of its
+ * Marks this formatter as dirty, prompting the renderer to make a new copy of its
  * cache on the next renderer synchronization. This method should be called by a
  * subclass whenever the formatter is changed in a way that affects the resolved
  * values. Set \a labelsChange to \c true if the change requires regenerating
