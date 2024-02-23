@@ -227,6 +227,8 @@ void AreaRenderer::handlePolish(QAreaSeries *series)
         group->paths[upperPoints.size() + lowerPoints.size() - 1]->setX(x);
         group->paths[upperPoints.size() + lowerPoints.size() - 1]->setY(y);
     }
+    QList<QLegendData> legendDataList = {{color, borderColor, series->name()}};
+    series->d_ptr->setLegendData(legendDataList);
 }
 
 void AreaRenderer::updateSeries(QAreaSeries *series)
