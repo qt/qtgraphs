@@ -118,19 +118,19 @@ void QQuickGraphsBar3DSeries::clearRowColorsFunc(QQmlListProperty<QQuickGraphsCo
 
 void QQuickGraphsBar3DSeries::handleBaseGradientUpdate()
 {
-    if (m_baseGradient.isNull())
+    if (!m_baseGradient.isNull())
         Utils::setSeriesGradient(this, m_baseGradient, GradientType::Base);
 }
 
 void QQuickGraphsBar3DSeries::handleSingleHighlightGradientUpdate()
 {
-    if (m_singleHighlightGradient.isNull())
+    if (!m_singleHighlightGradient.isNull())
         Utils::setSeriesGradient(this, m_singleHighlightGradient, GradientType::Single);
 }
 
 void QQuickGraphsBar3DSeries::handleMultiHighlightGradientUpdate()
 {
-    if (m_multiHighlightGradient.isNull())
+    if (!m_multiHighlightGradient.isNull())
         Utils::setSeriesGradient(this, m_multiHighlightGradient, GradientType::Multi);
 }
 

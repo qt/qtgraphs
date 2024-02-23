@@ -1504,10 +1504,14 @@ void QQuickGraphsBars::updateBarVisuals(QBar3DSeries *series)
                           && series->d_func()->m_colorStyle == Q3DTheme::ColorStyle::RangeGradient);
     QColor baseColor = series->baseColor();
     QColor barColor;
+    QLinearGradient gradient = series->baseGradient();
 
     if (optimizationHint() == QAbstract3DGraph::OptimizationHint::Legacy) {
         for (int i = 0; i < barList.count(); i++) {
             QQuick3DModel *model = barList.at(i)->model;
+            auto textureData = static_cast<QQuickGraphsTextureData *>(
+                barList.at(i)->texture->textureData());
+            textureData->createGradient(series->baseGradient());
             updateItemMaterial(model,
                                useGradient,
                                rangeGradient,
@@ -1532,6 +1536,9 @@ void QQuickGraphsBars::updateBarVisuals(QBar3DSeries *series)
     } else if (optimizationHint() == QAbstract3DGraph::OptimizationHint::Default) {
         for (int i = 0; i < barList.count(); i++) {
             barList.at(i)->instancing->setRangeGradient(rangeGradient);
+            auto textureData = static_cast<QQuickGraphsTextureData *>(
+                barList.at(i)->texture->textureData());
+            textureData->createGradient(series->baseGradient());
             updateItemMaterial(barList.at(i)->model,
                                useGradient,
                                rangeGradient,
@@ -1594,7 +1601,6 @@ void QQuickGraphsBars::updateMaterialProperties(QQuick3DModel *item,
                                                         .value<QQuick3DShaderUtilsTextureInput *>();
 
     int colorStyle = customMaterial->property("colorStyle").value<int>();
-
     if (colorStyle == 0) {
         customMaterial->setProperty("uniformColor", color);
     } else {
