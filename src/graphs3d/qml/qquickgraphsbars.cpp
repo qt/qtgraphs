@@ -1508,6 +1508,9 @@ void QQuickGraphsBars::updateBarVisuals(QBar3DSeries *series)
     QLinearGradient gradient = series->baseGradient();
 
     if (optimizationHint() == QAbstract3DGraph::OptimizationHint::Legacy) {
+        // Release resources that might not have been deleted even though deleteLater had been set
+        window()->releaseResources();
+
         for (int i = 0; i < barList.count(); i++) {
             QQuick3DModel *model = barList.at(i)->model;
             auto textureData = static_cast<QQuickGraphsTextureData *>(
