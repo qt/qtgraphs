@@ -56,6 +56,7 @@ private:
     friend class BarsRenderer;
     friend class LinesRenderer;
     friend class PointRenderer;
+    friend class AreaRenderer;
 
     double getValueStepsFromRange(double range);
     int getValueDecimalsFromRange(double range);

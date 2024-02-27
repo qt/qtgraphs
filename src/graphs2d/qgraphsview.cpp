@@ -1,6 +1,7 @@
 // Copyright (C) 2023 The Qt Company Ltd.
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 
+#include <QtGraphs/qareaseries.h>
 #include <QtGraphs/qbarseries.h>
 #include <QtGraphs/qlineseries.h>
 #include <QtGraphs/qpieseries.h>
@@ -178,6 +179,12 @@ void QGraphsView::createPieRenderer()
         m_pieRenderer = new PieRenderer(this);
 }
 
+void QGraphsView::createAreaRenderer()
+{
+    if (!m_areaRenderer)
+        m_areaRenderer = new AreaRenderer(this);
+}
+
 void QGraphsView::handleHoverEnter(QString seriesName, QPointF position, QPointF value)
 {
     if (m_hoverCount == 0)
@@ -210,6 +217,9 @@ void QGraphsView::updateComponentSizes()
 
     if (m_pieRenderer)
         m_pieRenderer->setSize(size());
+
+    if (m_areaRenderer)
+        m_areaRenderer->setSize(size());
 }
 
 void QGraphsView::componentComplete()
@@ -259,6 +269,9 @@ void QGraphsView::mousePressEvent(QMouseEvent *event)
     if (m_pointRenderer)
         handled |= m_pointRenderer->handleMousePress(event);
 
+    if (m_areaRenderer)
+        handled |= m_areaRenderer->handleMousePress(event);
+
     if (!handled)
         event->ignore();
     else
@@ -287,6 +300,9 @@ void QGraphsView::hoverMoveEvent(QHoverEvent *event)
 
     if (m_pointRenderer)
         handled |= m_pointRenderer->handleHoverMove(event);
+
+    if (m_areaRenderer)
+        handled |= m_areaRenderer->handleHoverMove(event);
 
     if (!handled)
         event->ignore();
@@ -333,6 +349,11 @@ QSGNode *QGraphsView::updatePaintNode(QSGNode *oldNode, QQuickItem::UpdatePaintN
             if (auto pieSeries = qobject_cast<QPieSeries *>(series))
                 m_pieRenderer->updateSeries(pieSeries);
         }
+
+        if (m_areaRenderer) {
+            if (auto areaSeries = qobject_cast<QAreaSeries *>(series))
+                m_areaRenderer->updateSeries(areaSeries);
+        }
     }
 
     // Now possibly dirty theme has been taken into use
@@ -370,6 +391,11 @@ void QGraphsView::updatePolish()
         if (m_pieRenderer) {
             if (auto pieSeries = qobject_cast<QPieSeries *>(series))
                 m_pieRenderer->handlePolish(pieSeries);
+        }
+
+        if (m_areaRenderer) {
+            if (auto areaSeries = qobject_cast<QAreaSeries *>(series))
+                m_areaRenderer->handlePolish(areaSeries);
         }
     }
 }

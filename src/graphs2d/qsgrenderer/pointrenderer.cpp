@@ -13,13 +13,22 @@ QT_BEGIN_NAMESPACE
 PointRenderer::PointRenderer(QQuickItem *parent)
     : QQuickItem(parent)
 {
-    m_graph = qobject_cast<QGraphsView*>(parent);
+    m_graph = qobject_cast<QGraphsView *>(parent);
     setFlag(QQuickItem::ItemHasContents);
     m_shape.setParentItem(this);
     m_shape.setPreferredRendererType(QQuickShape::CurveRenderer);
 }
 
 PointRenderer::~PointRenderer() {}
+
+void PointRenderer::calculateRenderCoordinates(
+    AxisRenderer *axisRenderer, qreal origX, qreal origY, qreal *renderX, qreal *renderY)
+{
+    *renderX = m_graph->m_marginLeft + axisRenderer->m_axisWidth
+               + m_areaWidth * origX * m_maxHorizontal - m_horizontalOffset;
+    *renderY = m_graph->m_marginTop + m_areaHeight - m_areaHeight * origY * m_maxVertical
+               + m_verticalOffset;
+}
 
 void PointRenderer::updatePointMarker(
     QXYSeries *series, PointGroup *group, int pointIndex, qreal x, qreal y)
@@ -77,15 +86,6 @@ void PointRenderer::updateLegendData(QXYSeries *series, QLegendData &legendData)
 {
     QList<QLegendData> legendDataList = {legendData};
     series->d_ptr->setLegendData(legendDataList);
-}
-
-void PointRenderer::calculateRenderCoordinates(
-    AxisRenderer *axisRenderer, qreal origX, qreal origY, qreal *renderX, qreal *renderY)
-{
-    *renderX = m_graph->m_marginLeft + axisRenderer->m_axisWidth
-               + m_areaWidth * origX * m_maxHorizontal - m_horizontalOffset;
-    *renderY = m_graph->m_marginTop + m_areaHeight - m_areaHeight * origY * m_maxVertical
-               + m_verticalOffset;
 }
 
 void PointRenderer::updateScatterSeries(QScatterSeries *series, QLegendData &legendData)

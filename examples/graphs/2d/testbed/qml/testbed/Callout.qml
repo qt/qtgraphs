@@ -51,7 +51,8 @@ Rectangle {
 
         BarSeries {
             id: barSeries
-            name: "First"
+            name: "Bars"
+            theme: seriesTheme
             hoverable: true
             axisX: BarCategoryAxis { categories: ["2023", "2024", "2025", "2026"] }
             axisY: ValueAxis {
@@ -59,11 +60,12 @@ Rectangle {
                 max: 8
             }
             BarSet { id: set1; label: "Axel"; values: [1, 2, 3, 4] }
+            BarSet { id: set2; label: "Bob"; values: [4, 3, 2, 1] }
         }
 
         LineSeries {
             id: lineSeries
-            name: "Second"
+            name: "Lines"
             theme: seriesTheme
             hoverable: true
 
@@ -78,7 +80,7 @@ Rectangle {
 
         ScatterSeries {
             id: scatterSeries
-            name: "Third"
+            name: "Points"
             theme: seriesTheme
             hoverable: true
 
@@ -89,6 +91,33 @@ Rectangle {
             XYPoint { x: 3.5; y: 6.9 }
             XYPoint { x: 3.6; y: 5.2 }
             XYPoint { x: 4.0; y: 3.3 }
+        }
+
+        AreaSeries {
+            id: areaSeries
+            name: "Batman"
+            theme: seriesTheme
+            hoverable: true
+
+            upperSeries: LineSeries {
+                XYPoint { x: 1; y: 5 }
+                XYPoint { x: 1.25; y: 6 }
+                XYPoint { x: 1.75; y: 5.5 }
+                XYPoint { x: 2; y: 6 }
+                XYPoint { x: 2.375; y: 5.5 }
+                XYPoint { x: 2.875; y: 6 }
+                XYPoint { x: 3.375; y: 5 }
+            }
+
+            lowerSeries: LineSeries {
+                XYPoint { x: 1; y: 4 }
+                XYPoint { x: 1.25; y: 4.5 }
+                XYPoint { x: 1.75; y: 4 }
+                XYPoint { x: 1.875; y: 3.5 }
+                XYPoint { x: 2.375; y: 4 }
+                XYPoint { x: 3; y: 4.5 }
+                XYPoint { x: 3.375; y: 4 }
+            }
         }
 
         ToolTip {

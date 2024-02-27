@@ -90,6 +90,7 @@ QT_BEGIN_NAMESPACE
     \value SeriesTypeScatter A scatter graph.
     \value SeriesTypePie A pie graph.
     \value SeriesTypeSpline A spline graph.
+    \value SeriesTypeArea An area graph.
 */
 
 /*!
@@ -410,6 +411,11 @@ void QAbstractSeries::setGraph(QGraphsView *graph)
         break;
     case QAbstractSeries::SeriesTypePie:
         graph->createPieRenderer();
+        break;
+    case QAbstractSeries::SeriesTypeArea:
+        graph->createAreaRenderer();
+        graph->createAxisRenderer();
+        break;
     default:
         break;
     }

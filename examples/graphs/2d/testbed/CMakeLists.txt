@@ -62,6 +62,7 @@ qt6_add_qml_module(testbed
         qml/testbed/SplineSeries.qml
         qml/testbed/CustomBars.qml
         qml/testbed/BarsEffect/export/BarsEffect.qml
+        qml/testbed/AreaSeries.qml
     RESOURCES
         qml/testbed/images/arrow_icon.png
         qml/testbed/images/icon_settings.png

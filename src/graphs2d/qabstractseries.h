@@ -49,7 +49,7 @@ class Q_GRAPHS_EXPORT QAbstractSeries : public QObject, public QQmlParserStatus
 public:
     enum SeriesType {
         SeriesTypeLine,
-        //SeriesTypeArea,
+        SeriesTypeArea,
         SeriesTypeBar,
         //SeriesTypeStackedBar,
         //SeriesTypePercentBar,
@@ -131,6 +131,7 @@ protected:
     friend class BarsRenderer;
     friend class PointRenderer;
     friend class PieRenderer;
+    friend class AreaRenderer;
 };
 
 QT_END_NAMESPACE

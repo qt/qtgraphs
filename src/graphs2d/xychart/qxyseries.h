@@ -83,6 +83,9 @@ public:
     QQmlComponent *pointMarker() const;
     void setPointMarker(QQmlComponent *newPointMarker);
 
+    QML_ELEMENT
+    QML_UNCREATABLE("XYSeries is an abstract base class.")
+
 Q_SIGNALS:
     void pointReplaced(int index);
     void pointRemoved(int index);

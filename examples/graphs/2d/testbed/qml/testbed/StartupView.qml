@@ -62,6 +62,10 @@ Item {
             name: "Spline"
             file: "SplineSeries.qml"
         }
+        ListElement {
+            name: "Area"
+            file: "AreaSeries.qml"
+        }
     }
 
     Component {

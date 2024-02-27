@@ -28,5 +28,7 @@ qt_internal_extend_target(Graphs
         qsgrenderer/pointrenderer.cpp qsgrenderer/pointrenderer_p.h
         qsgrenderer/axisrenderer.cpp qsgrenderer/axisrenderer_p.h
         qsgrenderer/pierenderer.cpp qsgrenderer/pierenderer_p.h
+        qsgrenderer/arearenderer.cpp qsgrenderer/arearenderer_p.h
         splinechart/qsplineseries.cpp splinechart/qsplineseries.h splinechart/qsplineseries_p.h
+        areachart/qareaseries.cpp areachart/qareaseries.h areachart/qareaseries_p.h
 )

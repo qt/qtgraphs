@@ -23,6 +23,7 @@
 #include <QPen>
 #include <QtGraphs/qgraphtheme.h>
 #include <QtQuick/QSGClipNode>
+#include <private/arearenderer_p.h>
 #include <private/axisrenderer_p.h>
 #include <private/barsrenderer_p.h>
 #include <private/pierenderer_p.h>
@@ -94,6 +95,7 @@ public:
     void createAxisRenderer();
     void createPointRenderer();
     void createPieRenderer();
+    void createAreaRenderer();
 
 protected:
     void handleHoverEnter(QString seriesName, QPointF position, QPointF value);
@@ -124,6 +126,7 @@ private:
     friend class AxisRenderer;
     friend class BarsRenderer;
     friend class PointRenderer;
+    friend class AreaRenderer;
 
     void polishAndUpdate();
 
@@ -131,6 +134,7 @@ private:
     BarsRenderer *m_barsRenderer = nullptr;
     PointRenderer *m_pointRenderer = nullptr;
     PieRenderer *m_pieRenderer = nullptr;
+    AreaRenderer *m_areaRenderer = nullptr;
     QList<QObject *> m_seriesList;
     QBrush m_backgroundBrush;
     QSGClipNode *m_backgroundNode = nullptr;
