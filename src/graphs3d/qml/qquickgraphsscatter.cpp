@@ -269,6 +269,9 @@ void QQuickGraphsScatter::updateScatterGraphItemVisuals(ScatterModel *graphModel
                              : false;
 
     if (optimizationHint() == QAbstract3DGraph::OptimizationHint::Legacy) {
+        // Release resources that might not have been deleted even though deleteLater had been set
+        window()->releaseResources();
+
         if (itemCount != graphModel->dataItems.size())
             qWarning() << __func__ << "Item count differs from itemList count";
 
