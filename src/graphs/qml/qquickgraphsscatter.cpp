@@ -233,6 +233,8 @@ void QQuickGraphsScatter::updateScatterGraphItemVisuals(ScatterModel *graphModel
                           == Q3DTheme::ColorStyleRangeGradient) ? true : false;
 
     if (m_scatterController->optimizationHints() == QAbstract3DGraph::OptimizationLegacy) {
+        // Release resources that might not have been deleted even though deleteLater had been set
+        window()->releaseResources();
 
         if (itemCount != graphModel->dataItems.size())
             qWarning() << __func__ << "Item count differs from itemList count";

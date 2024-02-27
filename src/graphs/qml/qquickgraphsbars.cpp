@@ -1129,6 +1129,9 @@ void QQuickGraphsBars::updateBarVisuals(QBar3DSeries *series)
     QColor barColor;
 
     if (m_barsController->optimizationHints() == QAbstract3DGraph::OptimizationLegacy) {
+        // Release resources that might not have been deleted even though deleteLater had been set
+        window()->releaseResources();
+
         if (!rangeGradient) {
             for (int i = 0; i < barList.count(); i++) {
                 QQuick3DModel *model = barList.at(i)->model;
