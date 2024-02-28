@@ -20,7 +20,6 @@
 
 #include <QtCore/private/qglobal_p.h>
 #include <QtGraphs/q3dscene.h>
-#include <QtGraphs/q3dtheme.h>
 #include <QtGraphs/qabstract3daxis.h>
 #include <QtGraphs/qabstract3dseries.h>
 #include <QtGraphs/qabstractdataproxy.h>
@@ -80,7 +79,6 @@ DEFINE_FOREIGN_CREATABLE_TYPE(QLogValue3DAxisFormatter, LogValueAxis3DFormatter,
 DEFINE_FOREIGN_CREATABLE_TYPE(QValue3DAxisFormatter, ValueAxis3DFormatter, 6)
 
 DEFINE_FOREIGN_CREATABLE_TYPE(QCustom3DVolume, Custom3DVolume, 6)
-DEFINE_FOREIGN_CREATABLE_TYPE(Q3DTheme, Theme3D, 6)
 
 DEFINE_FOREIGN_UNCREATABLE_TYPE(QAbstract3DAxis, AbstractAxis3D)
 DEFINE_FOREIGN_UNCREATABLE_TYPE(QAbstract3DSeries, Abstract3DSeries)
