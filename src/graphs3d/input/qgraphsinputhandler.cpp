@@ -3,9 +3,9 @@
 
 #include "qgraphsinputhandler_p.h"
 
-#include <QtQuick/private/qquicktaphandler_p.h>
 #include <QtQuick/private/qquickdraghandler_p.h>
 #include <QtQuick/private/qquickpinchhandler_p.h>
+#include <QtQuick/private/qquicktaphandler_p.h>
 #include <QtQuick/private/qquickwheelhandler_p.h>
 
 #include "qquickgraphsitem_p.h"
@@ -26,11 +26,9 @@ QGraphsInputHandler::QGraphsInputHandler(QQuickItem *parent)
     m_wheelHandler = new QQuickWheelHandler(this);
 
     m_dragHandler->setAcceptedButtons(Qt::MouseButton::RightButton);
-    m_wheelHandler->setAcceptedDevices(QInputDevice::DeviceType::Mouse | QInputDevice::DeviceType::TouchPad);
-    QObject::connect(m_tapHandler,
-                     &QQuickTapHandler::tapped,
-                     this,
-                     &QGraphsInputHandler::onTapped);
+    m_wheelHandler->setAcceptedDevices(QInputDevice::DeviceType::Mouse
+                                       | QInputDevice::DeviceType::TouchPad);
+    QObject::connect(m_tapHandler, &QQuickTapHandler::tapped, this, &QGraphsInputHandler::onTapped);
     QObject::connect(m_dragHandler,
                      &QQuickDragHandler::translationChanged,
                      this,
@@ -161,10 +159,7 @@ void QGraphsInputHandler::setDragButton(Qt::MouseButtons button)
 void QGraphsInputHandler::setGraphsItem(QQuickGraphsItem *item)
 {
     m_graphsItem = item;
-    QObject::connect(m_tapHandler,
-                     &QQuickTapHandler::tapped,
-                     item,
-                     &QQuickGraphsItem::tapped);
+    QObject::connect(m_tapHandler, &QQuickTapHandler::tapped, item, &QQuickGraphsItem::tapped);
     QObject::connect(m_tapHandler,
                      &QQuickTapHandler::doubleTapped,
                      item,
@@ -177,10 +172,7 @@ void QGraphsInputHandler::setGraphsItem(QQuickGraphsItem *item)
                      &QQuickDragHandler::translationChanged,
                      item,
                      &QQuickGraphsItem::dragged);
-    QObject::connect(m_wheelHandler,
-                     &QQuickWheelHandler::wheel,
-                     item,
-                     &QQuickGraphsItem::wheel);
+    QObject::connect(m_wheelHandler, &QQuickWheelHandler::wheel, item, &QQuickGraphsItem::wheel);
     QObject::connect(m_pinchHandler,
                      &QQuickPinchHandler::scaleChanged,
                      item,
@@ -223,15 +215,21 @@ void QGraphsInputHandler::onTranslationChanged(QVector2D delta)
     item->setCameraYRotation(yRotation);
 }
 
-void QGraphsInputHandler::onGrabChanged(QPointingDevice::GrabTransition transition, QEventPoint point)
+void QGraphsInputHandler::onGrabChanged(QPointingDevice::GrabTransition transition,
+                                        QEventPoint point)
 {
-    Q_UNUSED(point);
-
-    if (transition == QPointingDevice::UngrabExclusive
-        || transition == QPointingDevice::UngrabPassive) {
+    static QPointF pickPoint;
+    if (transition == QPointingDevice::GrabPassive) {
+        pickPoint = point.position().toPoint();
+    } else if (transition == QPointingDevice::GrabExclusive) {
+        m_graphsItem->doPicking(pickPoint);
+    } else if (transition == QPointingDevice::UngrabExclusive
+               || transition == QPointingDevice::UngrabPassive) {
         setPosition(QPointF(.0f, .0f));
         setScale(1.f);
         setRotation(.0f);
+        emit m_graphsItem->selectedElementChanged(QAbstract3DGraph::ElementType::None);
+        pickPoint = QPointF();
     }
 }
 
@@ -275,8 +273,7 @@ void QGraphsInputHandler::onWheel(QQuickWheelEvent *event)
 
         // If zooming in/out outside the graph, or zooming out after certain point,
         // move towards the center.
-        if ((qAbs(targetPosition.x()) > 2.0f
-             || qAbs(targetPosition.y()) > 2.0f
+        if ((qAbs(targetPosition.x()) > 2.0f || qAbs(targetPosition.y()) > 2.0f
              || qAbs(targetPosition.z()) > 2.0f)
             || (previousZoom > zoomLevel && zoomLevel <= driftTowardCenterLevel)) {
             targetPosition = QVector3D();
@@ -324,15 +321,15 @@ void QGraphsInputHandler::onPinchScaleChanged(qreal delta)
         zoomLevel -= zoomRate;
     zoomLevel = qBound(minZoomLevel, zoomLevel, maxZoomLevel);
     if (m_zoomAtTarget) {
-        QVector3D targetPosition = item->graphPositionAt(m_pinchHandler->centroid().position().toPoint());
+        QVector3D targetPosition = item->graphPositionAt(
+            m_pinchHandler->centroid().position().toPoint());
         item->setCameraZoomLevel(zoomLevel);
 
         float diffAdj = 0.0f;
 
         // If zooming in/out outside the graph, or zooming out after certain point,
         // move towards the center.
-        if ((qAbs(targetPosition.x()) > 2.0f
-             || qAbs(targetPosition.y()) > 2.0f
+        if ((qAbs(targetPosition.x()) > 2.0f || qAbs(targetPosition.y()) > 2.0f
              || qAbs(targetPosition.z()) > 2.0f)
             || (m_pinchDiff > .0f && zoomLevel <= driftTowardCenterLevel)) {
             targetPosition = QVector3D();

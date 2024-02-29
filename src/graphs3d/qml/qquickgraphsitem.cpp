@@ -2601,17 +2601,16 @@ void QQuickGraphsItem::updateLabels()
         zPos *= -1.0f;
     labelTrans.setZ(zPos);
 
-    for (int i = 0; i < repeaterY()->count() / 2; i++) {
-        if (labelCount <= i)
-            break;
+    for (int i = 0; i < repeaterY()->count(); i++) {
         auto obj = static_cast<QQuick3DNode *>(repeaterY()->objectAt(i));
-        labelTrans.setY(static_cast<QValue3DAxis *>(axisY())->labelPositionAt(i) * scale * 2.0f
+        labelTrans.setY(static_cast<QValue3DAxis *>(axisY())->labelPositionAt(i % labelCount)
+                            * scale * 2.0f
                         - scale);
         obj->setObjectName(QStringLiteral("ElementAxisYLabel"));
         obj->setScale(m_fontScaled);
         obj->setPosition(labelTrans);
         obj->setRotation(totalRotation);
-        obj->setProperty("labelText", labels[i]);
+        obj->setProperty("labelText", labels[i % labelCount]);
         obj->setProperty("labelWidth", labelsMaxWidth);
         obj->setProperty("labelHeight", labelHeight);
     }

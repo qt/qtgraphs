@@ -48,10 +48,7 @@ ScatterDataModifier::ScatterDataModifier(Q3DScatter *scatter, QObject *parent)
             &QAbstract3DGraph::selectedElementChanged,
             this,
             &ScatterDataModifier::handleElementSelected);
-    connect(m_graph,
-            &QAbstract3DGraph::dragged,
-            this,
-            &ScatterDataModifier::handleAxisDragging);
+    connect(m_graph, &QAbstract3DGraph::dragged, this, &ScatterDataModifier::handleAxisDragging);
     m_graph->setDragButton(Qt::LeftButton);
     //! [8]
 
@@ -164,7 +161,6 @@ void ScatterDataModifier::handleAxisDragging(QVector2D delta)
 {
     //! [10]
     float distance = 0.0f;
-
     //! [11]
     // Get scene orientation from active camera
     float xRotation = m_graph->cameraXRotation();
