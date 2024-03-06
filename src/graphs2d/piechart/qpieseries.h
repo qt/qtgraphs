@@ -24,6 +24,7 @@ class Q_GRAPHS_EXPORT QPieSeries : public QAbstractSeries
     Q_PROPERTY(qreal endAngle READ endAngle WRITE setEndAngle NOTIFY endAngleChanged)
     Q_PROPERTY(int count READ count NOTIFY countChanged)
     Q_PROPERTY(qreal sum READ sum NOTIFY sumChanged)
+    Q_PROPERTY(qreal holeSize READ holeSize WRITE setHoleSize NOTIFY holeSizeChanged)
     QML_NAMED_ELEMENT(PieSeries)
 
 public:
@@ -65,6 +66,9 @@ public:
     void setEndAngle(qreal endAngle);
     qreal endAngle() const;
 
+    void setHoleSize(qreal holeSize);
+    qreal holeSize() const;
+
     void setLabelsVisible(bool visible);
     void setLabelsPosition(QPieSlice::LabelPosition position);
 
@@ -81,6 +85,7 @@ Q_SIGNALS:
     void endAngleChanged();
     void horizontalPositionChanged();
     void verticalPositionChanged();
+    void holeSizeChanged();
 
 private:
     Q_DECLARE_PRIVATE(QPieSeries)

@@ -51,6 +51,7 @@ private:
     QString m_labelText;
     bool m_isLabelVisible;
     QPieSlice::LabelPosition m_labelPosition;
+    QColor m_color;
     QColor m_labelColor;
     QFont m_labelFont;
     qreal m_labelArmLengthFactor;
@@ -63,9 +64,13 @@ private:
 
     bool m_labelDirty;
 
+    QColor m_borderColor;
+    qreal m_borderWidth;
+
     QQuickShapePath *m_shapePath;
-    QQuickPathArc *m_arc;
+    QQuickPathArc *m_largeArc;
     QQuickPathLine *m_lineToCenter;
+    QQuickPathArc *m_smallArc;
     QQuickPathLine *m_lineFromCenter;
 
     QQuickText *m_labelItem;

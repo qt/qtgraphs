@@ -20,10 +20,15 @@ class Q_GRAPHS_EXPORT QPieSlice : public QObject
     Q_CLASSINFO("RegisterEnumClassesUnscoped", "false")
     Q_PROPERTY(QString label READ label WRITE setLabel NOTIFY labelChanged)
     Q_PROPERTY(bool labelVisible READ isLabelVisible WRITE setLabelVisible NOTIFY labelVisibleChanged)
-    Q_PROPERTY(LabelPosition labelPosition READ labelPosition WRITE setLabelPosition)
+    Q_PROPERTY(LabelPosition labelPosition READ labelPosition WRITE
+                       setLabelPosition NOTIFY labelPositionChanged)
     Q_PROPERTY(QColor labelColor READ labelColor WRITE setLabelColor NOTIFY labelColorChanged)
     Q_PROPERTY(QFont labelFont READ labelFont WRITE setLabelFont NOTIFY labelFontChanged)
-    Q_PROPERTY(qreal labelArmLengthFactor READ labelArmLengthFactor WRITE setLabelArmLengthFactor)
+    Q_PROPERTY(qreal labelArmLengthFactor READ labelArmLengthFactor WRITE
+                       setLabelArmLengthFactor NOTIFY labelArmLengthFactorChanged)
+    Q_PROPERTY(QColor color READ color WRITE setColor NOTIFY colorChanged)
+    Q_PROPERTY(QColor borderColor READ borderColor WRITE setBorderColor NOTIFY borderColorChanged)
+    Q_PROPERTY(qreal borderWidth READ borderWidth WRITE setBorderWidth NOTIFY borderWidthChanged)
     Q_PROPERTY(qreal value READ value WRITE setValue NOTIFY valueChanged)
     Q_PROPERTY(bool exploded READ isExploded WRITE setExploded NOTIFY explodedChanged)
     Q_PROPERTY(qreal explodeDistanceFactor READ explodeDistanceFactor WRITE
@@ -53,11 +58,19 @@ public:
     void setLabelPosition(LabelPosition position);
     LabelPosition labelPosition();
     void setLabelColor(QColor color);
-    QColor labelColor();
+    QColor labelColor() const;
     void setLabelFont(const QFont &font);
     QFont labelFont() const;
     void setLabelArmLengthFactor(qreal factor);
     qreal labelArmLengthFactor() const;
+
+    void setColor(QColor color);
+    QColor color() const;
+
+    void setBorderColor(QColor color);
+    QColor borderColor() const;
+    void setBorderWidth(qreal borderWidth);
+    qreal borderWidth() const;
 
     void setValue(qreal value);
     qreal value() const;
@@ -85,6 +98,11 @@ Q_SIGNALS:
     void startAngleChanged();
     void angleSpanChanged();
     void sliceChanged();
+    void labelPositionChanged();
+    void labelArmLengthFactorChanged();
+    void colorChanged();
+    void borderColorChanged();
+    void borderWidthChanged();
 
 private:
     friend class PieRenderer;

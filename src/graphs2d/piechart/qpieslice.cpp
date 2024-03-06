@@ -234,6 +234,58 @@ QT_BEGIN_NAMESPACE
 */
 
 /*!
+    \property QPieSlice::color
+    \brief The fill color of the slice.
+    This is a convenience property for modifying the slice fill color.
+*/
+/*!
+    \qmlproperty color PieSlice::color
+    The fill color of the slice.
+*/
+
+/*!
+    \qmlsignal PieSlice::colorChanged()
+    This signal is emitted when the slice color changes.
+*/
+
+/*!
+    \property QPieSlice::borderColor
+    \brief The color used to draw the slice border.
+    This is a convenience property for modifying the slice.
+    \sa borderWidth
+*/
+/*!
+    \qmlproperty color PieSlice::borderColor
+    The color used to draw the slice border.
+    \sa borderWidth
+*/
+
+/*!
+    \qmlsignal PieSlice::borderColorChanged()
+    This signal is emitted when the slice border color changes.
+    \sa borderColor
+*/
+
+/*!
+    \property QPieSlice::borderWidth
+    \brief The width of the slice border.
+    This is a convenience property for modifying the slice border width.
+    \sa borderColor
+*/
+/*!
+    \qmlproperty qreal PieSlice::borderWidth
+    The width of the slice border.
+    This is a convenience property for modifying the slice border width.
+    \sa borderColor
+*/
+
+/*!
+    \qmlsignal PieSlice::borderWidthChanged()
+    This signal is emitted when the slice border width changes.
+    \sa borderWidth
+*/
+
+/*!
     \property QPieSlice::exploded
     \brief Whether the slice is separated from the pie.
     \sa explodeDistanceFactor
@@ -429,6 +481,7 @@ void QPieSlice::setLabelPosition(LabelPosition position)
         return;
 
     d->setLabelPosition(position);
+    emit labelPositionChanged();
 }
 
 QPieSlice::LabelPosition QPieSlice::labelPosition()
@@ -443,13 +496,14 @@ void QPieSlice::setLabelColor(QColor color)
     if (d->m_labelColor == color)
         return;
 
+    d->m_labelItem->setColor(color);
     d->m_labelColor = color;
     emit labelColorChanged();
 }
 
-QColor QPieSlice::labelColor()
+QColor QPieSlice::labelColor() const
 {
-    Q_D(QPieSlice);
+    const Q_D(QPieSlice);
     return d->m_labelColor;
 }
 
@@ -475,6 +529,7 @@ void QPieSlice::setLabelArmLengthFactor(qreal factor)
         return;
 
     d->m_labelArmLengthFactor = factor;
+    emit labelArmLengthFactorChanged();
 }
 
 qreal QPieSlice::labelArmLengthFactor() const
@@ -537,20 +592,70 @@ qreal QPieSlice::explodeDistanceFactor() const
     return d->m_explodeDistanceFactor;
 }
 
+void QPieSlice::setColor(QColor color)
+{
+    Q_D(QPieSlice);
+    if (d->m_color == color)
+        return;
+
+    d->m_color = color;
+    emit colorChanged();
+}
+
+QColor QPieSlice::color() const
+{
+    const Q_D(QPieSlice);
+    return d->m_color;
+}
+
+void QPieSlice::setBorderColor(QColor borderColor)
+{
+    Q_D(QPieSlice);
+    if (d->m_borderColor == borderColor)
+        return;
+
+    d->m_borderColor = borderColor;
+    emit borderColorChanged();
+}
+
+QColor QPieSlice::borderColor() const
+{
+    const Q_D(QPieSlice);
+    return d->m_borderColor;
+}
+
+void QPieSlice::setBorderWidth(qreal borderWidth)
+{
+    Q_D(QPieSlice);
+    if (d->m_borderWidth == borderWidth)
+        return;
+
+    d->m_borderWidth = borderWidth;
+    emit borderWidthChanged();
+}
+
+qreal QPieSlice::borderWidth() const
+{
+    const Q_D(QPieSlice);
+    return d->m_borderWidth;
+}
+
 QPieSlicePrivate::QPieSlicePrivate()
     : m_isLabelVisible(false)
     , m_labelPosition(QPieSlice::LabelOutside)
     , m_labelArmLengthFactor(.15)
-    , m_value(0)
-    , m_percentage(0)
-    , m_startAngle(0)
-    , m_angleSpan(0)
+    , m_value(0.0)
+    , m_percentage(0.0)
+    , m_startAngle(0.0)
+    , m_angleSpan(0.0)
     , m_isExploded(false)
     , m_explodeDistanceFactor(.15)
     , m_labelDirty(false)
+    , m_borderWidth(0.0)
     , m_shapePath(new QQuickShapePath)
-    , m_arc(new QQuickPathArc(m_shapePath))
+    , m_largeArc(new QQuickPathArc(m_shapePath))
     , m_lineToCenter(new QQuickPathLine(m_shapePath))
+    , m_smallArc(new QQuickPathArc(m_shapePath))
     , m_lineFromCenter(new QQuickPathLine(m_shapePath))
     , m_labelItem(new QQuickText)
     , m_labelShape(new QQuickShape)
@@ -563,8 +668,9 @@ QPieSlicePrivate::QPieSlicePrivate()
     m_labelItem->setVisible(m_isLabelVisible);
 
     auto pathElements = m_shapePath->pathElements();
-    pathElements.append(&pathElements, m_arc);
+    pathElements.append(&pathElements, m_largeArc);
     pathElements.append(&pathElements, m_lineToCenter);
+    pathElements.append(&pathElements, m_smallArc);
     pathElements.append(&pathElements, m_lineFromCenter);
 
     m_labelShape->setVisible(m_isLabelVisible);
@@ -636,19 +742,25 @@ void QPieSlicePrivate::setLabelPosition(QPieSlice::LabelPosition position)
         m_labelUnderline->setY(m_labelArm->y());
     } else {
         m_labelShape->setVisible(false);
-        qreal centerX = (m_shapePath->startX() + m_arc->x() + m_lineToCenter->x()) / 3.0;
-        qreal centerY = (m_shapePath->startY() + m_arc->y() + m_lineToCenter->y()) / 3.0;
+        qreal centerX = (m_shapePath->startX() + m_largeArc->x() + m_lineToCenter->x()) / 3.0;
+        qreal centerY = (m_shapePath->startY() + m_largeArc->y() + m_lineToCenter->y()) / 3.0;
         QQuickText *labelItem = m_labelItem;
         centerX -= labelItem->width() * .5;
         centerY -= labelItem->height() * .5;
         labelItem->setPosition(QPointF(centerX, centerY));
 
-        if (position == QPieSlice::LabelInsideHorizontal)
+        if (position == QPieSlice::LabelInsideHorizontal) {
             labelItem->setRotation(0);
-        else if (position == QPieSlice::LabelInsideNormal)
+        } else if (position == QPieSlice::LabelInsideTangential) {
             labelItem->setRotation(m_startAngle + (m_angleSpan * .5));
-        else if (position == QPieSlice::LabelInsideTangential)
-            labelItem->setRotation(m_startAngle + (m_angleSpan * .5) - 90);
+        } else if (position == QPieSlice::LabelInsideNormal) {
+            qreal angle = m_startAngle + (m_angleSpan * .5);
+            if (angle > 180)
+                angle += 90;
+            else
+                angle -= 90;
+            labelItem->setRotation(angle);
+        }
     }
 }
 

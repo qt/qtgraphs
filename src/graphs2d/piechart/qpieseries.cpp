@@ -752,6 +752,19 @@ void QPieSeries::setLabelsPosition(QPieSlice::LabelPosition position)
         s->setLabelPosition(position);
 }
 
+void QPieSeries::setHoleSize(qreal holeSize)
+{
+    Q_D(QPieSeries);
+    holeSize = qBound((qreal)0.0, holeSize, (qreal)1.0);
+    d->setSizes(holeSize, qMax(d->m_pieRelativeSize, holeSize));
+}
+
+qreal QPieSeries::holeSize() const
+{
+    const Q_D(QPieSeries);
+    return d->m_holeRelativeSize;
+}
+
 QPieSeriesPrivate::QPieSeriesPrivate(QPieSeries *q)
     : QAbstractSeriesPrivate(q)
     , m_pieRelativeHorPos(.5)
@@ -812,8 +825,10 @@ void QPieSeriesPrivate::updateLabels()
 void QPieSeriesPrivate::setSizes(qreal innerSize, qreal outerSize)
 {
     Q_Q(QPieSeries);
-    if (!qFuzzyCompare(m_holeRelativeSize, innerSize))
+    if (!qFuzzyCompare(m_holeRelativeSize, innerSize)) {
         m_holeRelativeSize = innerSize;
+        emit q->holeSizeChanged();
+    }
 
     if (!qFuzzyCompare(m_pieRelativeSize, outerSize)) {
         m_pieRelativeSize = outerSize;

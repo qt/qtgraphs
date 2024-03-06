@@ -40,18 +40,21 @@ Item {
                 label: "Toyota"
                 labelVisible: true
                 labelPosition: PieSlice.LabelInsideHorizontal
+                labelColor: 'black'
                 value: 10.9
             }
             PieSlice {
                 label: "Ford"
                 labelVisible: true
                 labelPosition: PieSlice.LabelInsideNormal
+                labelColor: 'black'
                 value: 8.6
             }
             PieSlice {
                 label: "Skoda"
                 labelVisible: true
                 labelPosition: PieSlice.LabelInsideTangential
+                labelColor: 'black'
                 value: 8.2
             }
             PieSlice {

@@ -73,13 +73,23 @@ void PieRenderer::updateSeries(QPieSeries *series)
         QQuickShapePath *shapePath = d->m_shapePath;
 
         QColor borderColor = theme->graphSeriesBorderColor(sliceIndex);
+        if (d->m_borderColor.isValid())
+            borderColor = d->m_borderColor;
+        qreal borderWidth = theme->borderWidth();
+        if (d->m_borderWidth > 0.0)
+            borderWidth = d->m_borderWidth;
         QColor color = theme->graphSeriesColor(sliceIndex);
-        shapePath->setStrokeWidth(theme->borderWidth());
+        if (d->m_color.isValid())
+            color = d->m_color;
+        shapePath->setStrokeWidth(borderWidth);
         shapePath->setStrokeColor(borderColor);
         shapePath->setFillColor(color);
         qreal radian = qDegreesToRadians(slice->startAngle());
-        qreal startX = radius * qSin(radian);
-        qreal startY = radius * qCos(radian);
+        qreal startBigX = radius * qSin(radian);
+        qreal startBigY = radius * qCos(radian);
+
+        qreal startSmallX = startBigX * series->holeSize();
+        qreal startSmallY = startBigY * series->holeSize();
 
         qreal explodeDistance = .0;
         if (slice->isExploded())
@@ -87,13 +97,13 @@ void PieRenderer::updateSeries(QPieSeries *series)
         radian = qDegreesToRadians(slice->startAngle() + (slice->angleSpan() * .5));
         qreal xShift = center.x() + (explodeDistance * qSin(radian));
         qreal yShift = center.y() - (explodeDistance * qCos(radian));
-        shapePath->setStartX(xShift + startX);
-        shapePath->setStartY(yShift - startY);
+        shapePath->setStartX(xShift + startBigX);
+        shapePath->setStartY(yShift - startBigY);
 
-        QQuickPathArc *pathArc = d->m_arc;
+        QQuickPathArc *pathArc = d->m_largeArc;
         radian = qDegreesToRadians(slice->angleSpan());
-        qreal pointX = startY * qSin(radian) + startX * qCos(radian);
-        qreal pointY = startY * qCos(radian) - startX * qSin(radian);
+        qreal pointX = startBigY * qSin(radian) + startBigX * qCos(radian);
+        qreal pointY = startBigY * qCos(radian) - startBigX * qSin(radian);
         pathArc->setX(xShift + pointX);
         pathArc->setY(yShift - pointY);
         pathArc->setRadiusX(radius);
@@ -103,21 +113,35 @@ void PieRenderer::updateSeries(QPieSeries *series)
         else
             pathArc->setUseLargeArc(false);
 
+        pointX = startSmallY * qSin(radian) + startSmallX * qCos(radian);
+        pointY = startSmallY * qCos(radian) - startSmallX * qSin(radian);
+
         QQuickPathLine *pathLine = d->m_lineToCenter;
-        pathLine->setX(xShift);
-        pathLine->setY(yShift);
+        pathLine->setX(xShift + pointX);
+        pathLine->setY(yShift - pointY);
+
+        pathArc = d->m_smallArc;
+        pathArc->setDirection(QQuickPathArc::Counterclockwise);
+        pathArc->setX(xShift + startSmallX);
+        pathArc->setY(yShift - startSmallY);
+        pathArc->setRadiusX(radius * series->holeSize());
+        pathArc->setRadiusY(radius * series->holeSize());
+        if (slice->angleSpan() > 180)
+            pathArc->setUseLargeArc(true);
+        else
+            pathArc->setUseLargeArc(false);
 
         pathLine = d->m_lineFromCenter;
-        pathLine->setX(xShift + startX);
-        pathLine->setY(yShift - startY);
+        pathLine->setX(xShift + startBigX);
+        pathLine->setY(yShift - startBigY);
 
         // Update label
         QQuickShapePath *labelPath = d->m_labelPath;
         radian = qDegreesToRadians(slice->startAngle() + (slice->angleSpan() * .5));
-        startX = radius * qSin(radian);
-        startY = radius * qCos(radian);
-        labelPath->setStartX(xShift + startX);
-        labelPath->setStartY(yShift - startY);
+        startBigX = radius * qSin(radian);
+        startBigY = radius * qCos(radian);
+        labelPath->setStartX(xShift + startBigX);
+        labelPath->setStartY(yShift - startBigY);
 
         QQuickPathLine *labelArm = d->m_labelArm;
         pointX = radius * (1.0 + d->m_labelArmLengthFactor) * qSin(radian);

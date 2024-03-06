@@ -16,5 +16,6 @@
         <file>qml/testbed/images/happy_box.png</file>
         <file>qml/testbed/ScatterProperties.qml</file>
         <file>qml/testbed/Callout.qml</file>
+        <file>qml/testbed/Donut.qml</file>
     </qresource>
 </RCC>

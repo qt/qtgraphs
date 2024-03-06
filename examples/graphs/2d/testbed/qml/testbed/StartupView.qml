@@ -70,6 +70,10 @@ Item {
             name: "Dynamic Spline"
             file: "DynamicSplineSeries.qml"
         }
+        ListElement {
+            name: "Donut"
+            file: "Donut.qml"
+        }
     }
 
     Component {
