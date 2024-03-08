@@ -63,6 +63,10 @@ QQuickGraphsItem::QQuickGraphsItem(QQuickItem *parent)
     m_scene->d_func()->setViewport(boundingRect().toRect());
 
     connect(m_scene, &Q3DScene::needRender, this, &QQuickGraphsItem::emitNeedRender);
+    connect(m_scene,
+            &Q3DScene::graphPositionQueryChanged,
+            this,
+            &QQuickGraphsItem::handleQueryPositionChanged);
 
     m_nodeMutex = QSharedPointer<QMutex>::create();
 
@@ -278,6 +282,14 @@ void QQuickGraphsItem::handleSeriesVisibilityChanged(bool visible)
 void QQuickGraphsItem::handleRequestShadowQuality(QAbstract3DGraph::ShadowQuality quality)
 {
     setShadowQuality(quality);
+}
+
+void QQuickGraphsItem::handleQueryPositionChanged(const QPoint &position)
+{
+    QVector3D data = graphPositionAt(position);
+    setGraphPositionQueryPending(false);
+    setQueriedGraphPosition(data);
+    emit queriedGraphPositionChanged(data);
 }
 
 void QQuickGraphsItem::handleAxisLabelFormatChangedBySender(QObject *sender)

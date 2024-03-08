@@ -253,6 +253,10 @@ QAbstract3DGraph::QAbstract3DGraph(const QString &graphType)
                      &QQuickGraphsItem::selectionEnabledChanged,
                      this,
                      &QAbstract3DGraph::selectionEnabledChanged);
+    QObject::connect(m_graphsItem.data(),
+                     &QQuickGraphsItem::queriedGraphPositionChanged,
+                     this,
+                     &QAbstract3DGraph::queriedGraphPositionChanged);
 }
 
 /*!

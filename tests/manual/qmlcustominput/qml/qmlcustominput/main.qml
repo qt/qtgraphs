@@ -72,6 +72,9 @@ Item {
             Component.onCompleted: {
                 scatterGraph.unsetDefaultInputHandler();
             }
+
+            onQueriedGraphPositionChanged:
+                console.log("Queried Position : " + queriedGraphPosition)
         }
 
         MouseArea {
@@ -95,6 +98,10 @@ Item {
                     zoomLevel = 10;
 
                 scatterGraph.zoomLevel = zoomLevel;
+            }
+            onClicked: {
+                console.log("Queried at: " + Qt.point(mouseX, mouseY))
+                scatterGraph.scene.graphPositionQuery = Qt.point(mouseX, mouseY)
             }
         }
 

@@ -19,6 +19,7 @@ private slots:
 
     void initialProperties();
     void initializeProperties();
+    void setQuery();
 
 private:
     Q3DBars *m_input;
@@ -74,6 +75,16 @@ void tst_input::initializeProperties()
     QCOMPARE(m_input->selectionEnabled(), false);
 }
 
+void tst_input::setQuery()
+{
+    QSignalSpy spy(m_input, &QAbstract3DGraph::queriedGraphPositionChanged);
+    m_input->scene()->setGraphPositionQuery(QPoint());
+
+    //signal was emitted one time
+    QCOMPARE(spy.count(), 1);
+    QList<QVariant> arguments = spy.takeFirst();
+    QVERIFY(arguments.at(0).typeName() == QStringLiteral("QVector3D"));
+}
 // TODO: QTRD-3380 (mouse events)
 
 QTEST_MAIN(tst_input)

@@ -67,6 +67,11 @@ ScatterDataModifier::ScatterDataModifier(Q3DScatter *scatter)
     m_graph->unsetDefaultWheelHandler();
     QObject::connect(m_graph, &QAbstract3DGraph::wheel, this, &ScatterDataModifier::onWheel);
     QObject::connect(m_graph, &QAbstract3DGraph::mouseMove, this, &ScatterDataModifier::onMouseMove);
+    QObject::connect(m_graph, &QAbstract3DGraph::tapped, this, &ScatterDataModifier::onTapped);
+    QObject::connect(m_graph,
+                     &QAbstract3DGraph::queriedGraphPositionChanged,
+                     this,
+                     &ScatterDataModifier::onPositionQueryChanged);
     //! [0]
 }
 
@@ -151,6 +156,20 @@ void ScatterDataModifier::onMouseMove(QPoint mousePos)
 {
     m_mousePos = mousePos;
     m_graph->doPicking(mousePos);
+}
+
+void ScatterDataModifier::onTapped(QEventPoint eventPoint, Qt::MouseButton button)
+{
+    Q_UNUSED(button);
+    QPoint point = eventPoint.position().toPoint();
+    qDebug() << "Queried at: " << point;
+    m_graph->scene()->setGraphPositionQuery(point);
+}
+
+void ScatterDataModifier::onPositionQueryChanged(const QVector3D &position)
+{
+    qDebug() << "Queried Position from signal:" << position;
+    qDebug() << "Queried Position from graph :" << m_graph->queriedGraphPosition();
 }
 
 void ScatterDataModifier::shadowQualityUpdatedByVisual(QAbstract3DGraph::ShadowQuality sq)
