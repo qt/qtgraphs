@@ -554,6 +554,8 @@ protected:
 
     virtual void createSliceView();
 
+    void handleQueryPositionChanged(const QPoint &position);
+
     QQuick3DNode *graphNode() { return m_graphNode; }
     QQuick3DViewport *sliceView() { return m_sliceView; }
 

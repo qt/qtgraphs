@@ -244,7 +244,7 @@ public:
     ~QAbstract3DGraph() override;
 
 protected:
-    QAbstract3DGraph();
+    QAbstract3DGraph(const QString &graphType);
 
     bool event(QEvent *event) override;
     void resizeEvent(QResizeEvent *event) override;

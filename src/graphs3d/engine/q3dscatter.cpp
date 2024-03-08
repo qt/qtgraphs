@@ -63,23 +63,8 @@ QT_BEGIN_NAMESPACE
  * Constructs a new 3D scatter graph.
  */
 Q3DScatter::Q3DScatter()
-    : QAbstract3DGraph()
-{
-    QQmlComponent *component = new QQmlComponent(engine(), this);
-    component->setData("import QtQuick; import QtGraphs; Scatter3D { anchors.fill: parent; }",
-                       QUrl());
-    m_graphsItem.reset(qobject_cast<QQuickGraphsScatter *>(component->create()));
-    setContent(component->url(), component, m_graphsItem.data());
-
-    QObject::connect(m_graphsItem.data(),
-                     &QQuickGraphsItem::selectedElementChanged,
-                     this,
-                     &QAbstract3DGraph::selectedElementChanged);
-    QObject::connect(m_graphsItem.data(),
-                     &QQuickGraphsItem::msaaSamplesChanged,
-                     this,
-                     &QAbstract3DGraph::msaaSamplesChanged);
-}
+    : QAbstract3DGraph(QStringLiteral("Scatter3D"))
+{}
 
 /*!
  * Destroys the 3D scatter graph.

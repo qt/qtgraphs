@@ -14,8 +14,8 @@
 #include <QtCore/QDebug>
 
 ScatterDataModifier::ScatterDataModifier(Q3DScatter *scatter)
-    : m_graph(scatter),
-      m_inputHandler(new CustomInputHandler())
+    : m_graph(scatter)
+    , m_inputHandler(new CustomInputHandler(m_graph))
 {
     m_graph->activeTheme()->setType(Q3DTheme::Theme::PrimaryColors);
     m_graph->setShadowQuality(QAbstract3DGraph::ShadowQuality::Medium);
@@ -66,13 +66,13 @@ ScatterDataModifier::ScatterDataModifier(Q3DScatter *scatter)
     // Give ownership of the handler to the graph and make it the active handler
     //! [0]
     m_graph->setActiveInputHandler(m_inputHandler);
-    //! [0]
 
-    //! [1]
     m_selectionTimer = new QTimer(this);
-    m_selectionTimer->setInterval(10);
+    m_selectionTimer->setInterval(1000);
     m_selectionTimer->setSingleShot(false);
-    QObject::connect(m_selectionTimer, &QTimer::timeout, this,
+    QObject::connect(m_selectionTimer,
+                     &QTimer::timeout,
+                     this,
                      &ScatterDataModifier::triggerSelection);
     m_selectionTimer->start();
     //! [1]

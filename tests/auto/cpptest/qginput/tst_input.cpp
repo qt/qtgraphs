@@ -3,6 +3,7 @@
 
 #include <QtTest/QtTest>
 
+#include <QtGraphs/Q3DBars>>
 #include <QtGraphs/Q3DInputHandler>
 
 class tst_input: public QObject
@@ -19,9 +20,11 @@ private slots:
 
     void initialProperties();
     void initializeProperties();
+    void setQuery();
 
 private:
     Q3DInputHandler *m_input;
+    Q3DBars *m_graph;
 };
 
 void tst_input::initTestCase()
@@ -35,11 +38,13 @@ void tst_input::cleanupTestCase()
 void tst_input::init()
 {
     m_input = new Q3DInputHandler();
+    m_graph = new Q3DBars();
 }
 
 void tst_input::cleanup()
 {
     delete m_input;
+    delete m_graph;
 }
 
 void tst_input::construct()
@@ -86,6 +91,16 @@ void tst_input::initializeProperties()
     QCOMPARE(m_input->inputView(), QAbstract3DInputHandler::InputView::OnPrimary);
 }
 
+void tst_input::setQuery()
+{
+    QSignalSpy spy(m_graph, &QAbstract3DGraph::queriedGraphPositionChanged);
+    m_graph->scene()->setGraphPositionQuery(QPoint());
+
+    //signal was emitted one time
+    QCOMPARE(spy.count(), 2);
+    QList<QVariant> arguments = spy.takeFirst();
+    QVERIFY(arguments.at(0).typeName() == QStringLiteral("QVector3D"));
+}
 // TODO: QTRD-3380 (mouse events)
 
 QTEST_MAIN(tst_input)

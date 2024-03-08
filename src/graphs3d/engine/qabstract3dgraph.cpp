@@ -175,7 +175,7 @@ QT_BEGIN_NAMESPACE
 /*!
  * \internal
  */
-QAbstract3DGraph::QAbstract3DGraph()
+QAbstract3DGraph::QAbstract3DGraph(const QString &graphType)
 {
     setResizeMode(QQuickWidget::SizeRootObjectToView);
 
@@ -184,6 +184,26 @@ QAbstract3DGraph::QAbstract3DGraph()
     if (QQuickWindow::graphicsApi() == QSGRendererInterface::OpenGL)
         QSurfaceFormat::setDefaultFormat(QQuick3D::idealSurfaceFormat(4));
 #endif
+
+    QString qmlData = "import QtQuick; import QtGraphs; " + graphType
+                      + " { anchors.fill: parent; }";
+    QQmlComponent *component = new QQmlComponent(engine(), this);
+    component->setData(qmlData.toUtf8(), QUrl());
+    m_graphsItem.reset(qobject_cast<QQuickGraphsItem *>(component->create()));
+    setContent(component->url(), component, m_graphsItem.data());
+
+    QObject::connect(m_graphsItem.data(),
+                     &QQuickGraphsItem::selectedElementChanged,
+                     this,
+                     &QAbstract3DGraph::selectedElementChanged);
+    QObject::connect(m_graphsItem.data(),
+                     &QQuickGraphsItem::msaaSamplesChanged,
+                     this,
+                     &QAbstract3DGraph::msaaSamplesChanged);
+    QObject::connect(m_graphsItem.data(),
+                     &QQuickGraphsItem::queriedGraphPositionChanged,
+                     this,
+                     &QAbstract3DGraph::queriedGraphPositionChanged);
 }
 
 /*!
