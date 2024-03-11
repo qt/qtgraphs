@@ -121,6 +121,7 @@ void QScatterSeries::componentComplete()
         if (auto point = qobject_cast<QXYPoint *>(child))
             append(point->x(), point->y());
     }
+    QAbstractSeries::componentComplete();
 }
 
 QScatterSeries::~QScatterSeries()

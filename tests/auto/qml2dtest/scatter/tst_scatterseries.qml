@@ -58,7 +58,7 @@ Item {
             compare(initial.markerSize, 15.0)
 
             // Properties from QAbstractSeries
-            compare(initial.theme, null)
+            verify(initial.theme)
             compare(initial.name, "")
             compare(initial.visible, true)
             compare(initial.selectable, false)
