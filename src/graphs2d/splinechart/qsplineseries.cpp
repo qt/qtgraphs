@@ -66,13 +66,16 @@ void QSplineSeries::componentComplete()
 
     d->calculateSplinePoints();
 
-    connect(this, &QSplineSeries::pointAdded, this, [d, this]([[maybe_unused]] int index) {
-        d->calculateSplinePoints();
+    connect(this, &QSplineSeries::pointAdded, this, [d]([[maybe_unused]] int index) {
+        d->submitAnimation();
+    });
 
-        if (animated())
-            d->m_animation->animate();
+    connect(this, &QSplineSeries::pointRemoved, this, [d]([[maybe_unused]] int index) {
+        d->submitAnimation();
+    });
 
-        emit update();
+    connect(this, &QSplineSeries::pointReplaced, this, [d]([[maybe_unused]] int index) {
+        d->submitAnimation();
     });
 
     QAbstractSeries::componentComplete();
@@ -159,6 +162,21 @@ QSplineSeriesPrivate::QSplineSeriesPrivate(QObject *q, QSplineSeries *spline)
     , m_controlPoints()
     , m_animation(new QSplineAnimation(q, spline))
 {}
+
+void QSplineSeriesPrivate::submitAnimation()
+{
+    Q_Q(QSplineSeries);
+
+    if (m_animation->animating() == QGraphAnimation::AnimationState::Playing)
+        return;
+
+    calculateSplinePoints();
+
+    if (q->animated())
+        m_animation->animate();
+
+    emit q->update();
+}
 
 void QSplineSeriesPrivate::calculateSplinePoints()
 {

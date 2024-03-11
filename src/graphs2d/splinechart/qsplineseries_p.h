@@ -31,6 +31,7 @@ protected:
     QList<QPointF> m_controlPoints;
     QSplineAnimation *m_animation;
 
+    void submitAnimation();
     void calculateSplinePoints();
     QList<qreal> calculateControlPoints(const QList<qreal> &list);
 

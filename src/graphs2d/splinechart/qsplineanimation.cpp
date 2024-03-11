@@ -41,6 +41,8 @@ QVariant QSplineAnimation::interpolated(const QVariant &start,
 
 void QSplineAnimation::animate()
 {
+    setAnimating(QGraphAnimation::AnimationState::Playing);
+
     auto pointList = m_series->points();
     auto cPoints = m_series->getControlPoints();
 
@@ -86,6 +88,5 @@ void QSplineAnimation::valueUpdated(const QVariant &value)
     m_series->replace(points.size() - 1, pointValue);
     cPoints.replace(cPoints.size() - 1, firstCurveHandleValue);
     cPoints.replace(cPoints.size() - 2, secondCurveHandleValue);
-
     emit m_series->update();
 }

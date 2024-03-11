@@ -21,6 +21,9 @@ class QGraphAnimation : public QVariantAnimation
 {
     Q_OBJECT
 
+    Q_PROPERTY(
+        AnimationState animating READ animating WRITE setAnimating NOTIFY animatingChanged FINAL)
+
 public:
     enum class AnimationState { Playing, Stopped };
     Q_ENUM(AnimationState);
@@ -32,8 +35,17 @@ public:
     QVariant interpolated(const QVariant &start, const QVariant &end, qreal progress) const override
         = 0;
 
+    AnimationState animating() const;
+    void setAnimating(const AnimationState &newAnimating);
+
 public Q_SLOTS:
     virtual void valueUpdated(const QVariant &value) = 0;
+
+signals:
+    void animatingChanged();
+
+private:
+    AnimationState m_animating;
 };
 
 QT_END_NAMESPACE
