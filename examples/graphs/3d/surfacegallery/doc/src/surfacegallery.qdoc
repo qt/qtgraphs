@@ -52,8 +52,8 @@
 
     Use the buttons to control other Surface3D features.
 
-    The first button toggles on and off the surface grid. The draw mode cannot
-    be cleared completely, so unless the surface itself is visible, the surface grid cannot be
+    The first button toggles the surface grid on and off. The draw mode cannot
+    be cleared completely; so unless the surface itself is visible, the surface grid cannot be
     hidden:
 
     \snippet surfacegallery/qml/surfacegallery/SurfaceHeightMap.qml 3
@@ -81,9 +81,9 @@
     orthographic projection to show them in 2D.
 
     A spectrogram is a surface graph with a range gradient used to emphasize the different
-    values. Typically, spectrograms are shown with two-dimensional surfaces, which is simulated
+    values. Typically, spectrograms are shown with two-dimensional surfaces, which are simulated
     with a top-down orthographic view of the graph. To enforce the 2D effect, disable the
-    graph rotation via mouse or touch when in the orthographic mode.
+    graph rotation via mouse or touch when in orthographic mode.
 
     \section2 Creating a Spectrogram
 
@@ -113,11 +113,12 @@
 
     \snippet surfacegallery/qml/surfacegallery/SurfaceSpectrogram.qml 3
 
-    In the polar mode, X-axis is converted into the angular polar axis, and Z-axis is converted into
-    a radial polar axis. The surface points are recalculated according to the new axes.
+    In the polar mode, the X-axis is converted into the angular polar axis, and the Z-axis is
+    converted into a radial polar axis. The surface points are recalculated according to the new
+    axes.
 
-    The radial axis labels are drawn outside the graph by default. To draw them right next to the 0
-    degree angular axis inside the graph, define only a small offset for them:
+    The radial axis labels are drawn outside the graph by default. To draw them right next to the
+    0-degree angular axis inside the graph, define only a small offset for them:
 
     \snippet surfacegallery/qml/surfacegallery/SurfaceSpectrogram.qml 4
 
@@ -134,10 +135,10 @@
 
     \section2 Data Source in C++
 
-    The item model based proxies are good for simple or static graphs, but use basic proxies to
-    achieve the best performance when displaying data changing in realtime.
-    These are not supported in QML, as the data items they store do not inherit \l{QObject} and
-    cannot therefore be directly manipulated from QML code.
+    Item model-based proxies are good for simple or static graphs, but use basic proxies to
+    achieve the best performance when displaying data changing in real-time.
+    These are not supported in QML, as the data items they store do not inherit \l{QObject} and,
+    therefore, cannot be directly manipulated from QML code.
     To overcome this limitation, implement a simple \c DataSource class in C++ to populate the
     data proxy of the series.
 
@@ -153,12 +154,12 @@
     \snippet surfacegallery/datasource.cpp 0
 
     The second method, \c update(), copies one set of the cached data into another array, which is
-    set to the data proxy of the series by calling QSurfaceDataProxy::resetArray().
+    set to the series by calling QSurfaceDataProxy::resetArray().
     To minimize overhead, reuse the same array if the array dimensions have not changed:
 
     \snippet surfacegallery/datasource.cpp 1
 
-    Even though we are operating on the array pointer previously set to the proxy,
+    Even though we are operating on the array pointer previously set to the series,
     QSurfaceDataProxy::resetArray() still needs to be called after changing the data in it to prompt
     the graph to render the data.
 
@@ -180,7 +181,7 @@
     )
     \endcode
 
-    To use QSurface3DSeries pointers as parameters for the \c DataSource class methods on all
+    To use QSurface3DSeries pointers as parameters for the \c DataSource class methods in all
     environments and builds, make sure the meta type is registered:
 
     \snippet surfacegallery/datasource.cpp 3
