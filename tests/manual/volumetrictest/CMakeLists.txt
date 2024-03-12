@@ -16,11 +16,11 @@ target_link_libraries(tst_volumetrictest PUBLIC
     Qt::Graphs
     )
 
-set_source_files_properties("cubeFilledFlat.obj"
+set_source_files_properties("cubeFilledFlat.mesh"
     PROPERTIES QT_RESOURCE_ALIAS "mesh"
     )
 set(volumetrictest_resource_files
-    "cubeFilledFlat.obj"
+    "cubeFilledFlat.mesh"
     "logo.png"
     "logo_no_padding.png"
     )
