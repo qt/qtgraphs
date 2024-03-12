@@ -206,7 +206,7 @@ Rectangle {
             height: 1
         }
         CustomLabel {
-            text: "Bars width"
+            text: "Effect angle"
         }
         CustomSlider {
             id: barsAngleSlider
