@@ -66,6 +66,8 @@ public:
     bool labelsDirty() const { return m_labelsDirty; }
 
 protected:
+    QAbstractAxis *m_axisX = nullptr;
+    QAbstractAxis *m_axisY = nullptr;
     QList<QBarSet *> m_barSets;
     qreal m_barWidth;
     bool m_labelsVisible;

@@ -18,6 +18,8 @@ class QAbstractBarSeriesPrivate;
 class Q_GRAPHS_EXPORT QAbstractBarSeries : public QAbstractSeries
 {
     Q_OBJECT
+    Q_PROPERTY(QAbstractAxis *axisX READ axisX WRITE setAxisX NOTIFY axisXChanged)
+    Q_PROPERTY(QAbstractAxis *axisY READ axisY WRITE setAxisY NOTIFY axisYChanged)
     Q_PROPERTY(qreal barWidth READ barWidth WRITE setBarWidth NOTIFY barWidthChanged)
     Q_PROPERTY(int count READ count NOTIFY countChanged)
     Q_PROPERTY(bool labelsVisible READ isLabelsVisible WRITE setLabelsVisible NOTIFY labelsVisibleChanged)
@@ -38,6 +40,11 @@ public:
 
 public:
     ~QAbstractBarSeries() override;
+
+    QAbstractAxis *axisX();
+    void setAxisX(QAbstractAxis *axis);
+    QAbstractAxis *axisY();
+    void setAxisY(QAbstractAxis *axis);
 
     void setBarWidth(qreal width);
     qreal barWidth() const;
@@ -89,6 +96,8 @@ Q_SIGNALS:
     void updatedLayout();
     void restructuredBars();
     void countChanged();
+    void axisXChanged(QAbstractAxis *axis);
+    void axisYChanged(QAbstractAxis *axis);
     void barWidthChanged();
     void labelsVisibleChanged(bool visible);
     void labelsFormatChanged(const QString &format);

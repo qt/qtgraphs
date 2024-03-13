@@ -5,6 +5,8 @@
 #include <private/qabstractbarseries_p.h>
 #include <QtGraphs/qbarset.h>
 #include <private/qbarset_p.h>
+#include <private/qbarcategoryaxis_p.h>
+#include <private/qvalueaxis_p.h>
 
 QT_BEGIN_NAMESPACE
 
@@ -385,7 +387,12 @@ QT_BEGIN_NAMESPACE
 /*!
     Removes the abstract bar series and the bar sets owned by it.
 */
-QAbstractBarSeries::~QAbstractBarSeries() {}
+QAbstractBarSeries::~QAbstractBarSeries()
+{
+    Q_D(QAbstractBarSeries);
+    if (d->m_graph)
+        d->m_graph->removeSeries(this);
+}
 
 /*!
     \internal
@@ -394,6 +401,69 @@ QAbstractBarSeries::~QAbstractBarSeries() {}
 QAbstractBarSeries::QAbstractBarSeries(QAbstractBarSeriesPrivate &dd, QObject *parent)
     : QAbstractSeries{dd, parent}
 {}
+
+
+/*!
+    \property QAbstractBarSeries::axisX
+    \brief X-axis of the series.
+
+ The x-axis used for the series. This should be QBarCategoryAxis.
+*/
+/*!
+    \qmlproperty AbstractAxis AbstractBarSeries::axisX
+    The x-axis used for the series. This should be BarCategoryAxis.
+    \sa axisY
+*/
+QAbstractAxis *QAbstractBarSeries::axisX()
+{
+    Q_D(const QAbstractBarSeries);
+    return d->m_axisX;
+}
+
+void QAbstractBarSeries::setAxisX(QAbstractAxis *axis)
+{
+    if (axis != nullptr && !qobject_cast<QBarCategoryAxis *>(axis))
+        return;
+
+    Q_D(QAbstractBarSeries);
+    detachAxis(d->m_axisX);
+    d->m_axisX = axis;
+    if (axis) {
+        axis->setOrientation(Qt::Horizontal);
+        attachAxis(axis);
+    }
+}
+
+/*!
+    \property QAbstractBarSeries::axisY
+    \brief Y-axis of the series.
+
+ The y-axis used for the series. This should be QValueAxis.
+*/
+/*!
+    \qmlproperty AbstractAxis AbstractBarSeries::axisY
+    The y-axis used for the series. This should be ValueAxis.
+    \sa axisX
+*/
+QAbstractAxis *QAbstractBarSeries::axisY()
+{
+    Q_D(const QAbstractBarSeries);
+    return d->m_axisY;
+}
+
+void QAbstractBarSeries::setAxisY(QAbstractAxis *axis)
+{
+    if (axis != nullptr && !qobject_cast<QValueAxis *>(axis))
+        return;
+
+    Q_D(QAbstractBarSeries);
+    detachAxis(d->m_axisY);
+    d->m_axisY = axis;
+    if (axis) {
+        axis->setOrientation(Qt::Vertical);
+        attachAxis(axis);
+    }
+}
 
 /*!
     Sets the width of the bars of the series to \a width.

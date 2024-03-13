@@ -25,8 +25,6 @@ public:
 
 private:
     Q_DECLARE_PUBLIC(QBarSeries)
-    QAbstractAxis *m_axisX = nullptr;
-    QAbstractAxis *m_axisY = nullptr;
 };
 
 QT_END_NAMESPACE

@@ -15,23 +15,11 @@ class QBarSeriesPrivate;
 class Q_GRAPHS_EXPORT QBarSeries : public QAbstractBarSeries
 {
     Q_OBJECT
-    Q_PROPERTY(QAbstractAxis *axisX READ axisX WRITE setAxisX NOTIFY axisXChanged)
-    Q_PROPERTY(QAbstractAxis *axisY READ axisY WRITE setAxisY NOTIFY axisYChanged)
     QML_NAMED_ELEMENT(BarSeries)
 
 public:
     explicit QBarSeries(QObject *parent = nullptr);
-    ~QBarSeries();
     QAbstractSeries::SeriesType type() const override;
-
-    QAbstractAxis *axisX();
-    void setAxisX(QAbstractAxis *axis);
-    QAbstractAxis *axisY();
-    void setAxisY(QAbstractAxis *axis);
-
-Q_SIGNALS:
-    void axisXChanged(QAbstractAxis *axis);
-    void axisYChanged(QAbstractAxis *axis);
 
 protected:
     QBarSeries(QBarSeriesPrivate &dd, QObject *parent = nullptr);
