@@ -56,6 +56,30 @@ QT_BEGIN_NAMESPACE
     that of a single bar.
     \sa QBarSeries
 */
+
+/*!
+    \enum QAbstractBarSeries::BarsType
+
+    This enum value describes the type of the bar series:
+
+    \value BarsGroups Bar sets are grouped by category.
+    \value BarsStacked Bar sets are stacked after each other by category.
+*/
+/*!
+    \property QAbstractBarSeries::barsType
+    \brief The type of the bar series.
+*/
+/*!
+    \qmlproperty enumeration AbstractBarSeries::barsType
+
+    The type of the bar series:
+
+    \value AbstractBarSeries.BarsGroups
+        Bar sets are grouped by category.
+    \value AbstractBarSeries.BarsStacked
+        Bar sets are stacked after each other by category.
+*/
+
 /*!
     \qmlproperty real AbstractBarSeries::barWidth
     The unit of width is the unit of the x-axis. The minimum width for bars is zero, and negative
@@ -463,6 +487,21 @@ void QAbstractBarSeries::setAxisY(QAbstractAxis *axis)
         axis->setOrientation(Qt::Vertical);
         attachAxis(axis);
     }
+}
+
+void QAbstractBarSeries::setBarsType(QAbstractBarSeries::BarsType type)
+{
+    Q_D(QAbstractBarSeries);
+    if (d->m_barsType != type) {
+        d->m_barsType = type;
+        emit barsTypeChanged(type);
+    }
+}
+
+QAbstractBarSeries::BarsType QAbstractBarSeries::barsType() const
+{
+    Q_D(const QAbstractBarSeries);
+    return d->m_barsType;
 }
 
 /*!

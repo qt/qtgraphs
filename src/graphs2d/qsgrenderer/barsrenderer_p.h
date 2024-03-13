@@ -24,7 +24,7 @@
 QT_BEGIN_NAMESPACE
 
 class QGraphsView;
-class QBarSeries;
+class QAbstractBarSeries;
 class QBarSet;
 
 class BarsRenderer : public QQuickItem
@@ -34,8 +34,8 @@ class BarsRenderer : public QQuickItem
 public:
     BarsRenderer(QQuickItem *parent = nullptr);
 
-    void handlePolish(QBarSeries *series);
-    void updateSeries(QBarSeries *series);
+    void handlePolish(QAbstractBarSeries *series);
+    void updateSeries(QAbstractBarSeries *series);
     bool handleMousePress(QMouseEvent *event);
     bool handleHoverMove(QHoverEvent *event);
 
@@ -43,7 +43,7 @@ Q_SIGNALS:
 
 private:
     struct BarSelectionRect {
-        QBarSeries *series = nullptr;
+        QAbstractBarSeries *series = nullptr;
         QBarSet *barSet = nullptr;
         QList<QRectF> rects;
     };
@@ -61,7 +61,7 @@ private:
     QList<QQuickItem *> m_barItems;
     QHash<int, BarSeriesData> m_seriesData;
 
-    QBarSeries *m_currentHoverSeries = nullptr;
+    QAbstractBarSeries *m_currentHoverSeries = nullptr;
     int m_colorIndex = -1;
 };
 

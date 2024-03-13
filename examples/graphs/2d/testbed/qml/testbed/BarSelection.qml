@@ -22,7 +22,7 @@ Rectangle {
         BarSeries {
             id: barSeries
             axisX: BarCategoryAxis { categories: ["2023", "2024", "2025", "2026"] }
-            axisY: ValueAxis { }
+            axisY: ValueAxis { id: axisY; max: 10 }
             selectable: true
             BarSet { id: set1; label: "Axel"; values: [1, 2, 3, 4] }
             BarSet { id: set2; label: "Frank"; values: [8, 2, 6, 0] }
@@ -83,6 +83,19 @@ Rectangle {
             width: 250
             text: "Toggle Set 3, bars 1 and 2"
             onClicked: set3.toggleSelection([1, 2]);
+        }
+        Button {
+            width: 250
+            text: "Grouped/Stacked bars"
+            onClicked: {
+                if (barSeries.barsType == BarSeries.BarsStacked) {
+                    barSeries.barsType = BarSeries.BarsGroups
+                    axisY.max = 10
+                } else {
+                    barSeries.barsType = BarSeries.BarsStacked
+                    axisY.max = 25
+                }
+            }
         }
     }
 }

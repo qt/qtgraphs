@@ -1,10 +1,10 @@
 // Copyright (C) 2023 The Qt Company Ltd.
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 
-#include <QtGraphs/qbarseries.h>
+#include <QtGraphs/qabstractbarseries.h>
 #include <QtGraphs/qbarset.h>
 #include <private/barsrenderer_p.h>
-#include <private/qbarseries_p.h>
+#include <private/qabstractbarseries_p.h>
 #include <private/qgraphsview_p.h>
 #include <private/barcomponent_p.h>
 
@@ -17,16 +17,17 @@ BarsRenderer::BarsRenderer(QQuickItem *parent)
     setFlag(QQuickItem::ItemHasContents);
 }
 
-void BarsRenderer::handlePolish(QBarSeries *series)
+void BarsRenderer::handlePolish(QAbstractBarSeries *series)
 {
     auto seriesTheme = series->theme();
     if (!seriesTheme)
         return;
 
-    if (series->barSets().isEmpty())
+    int setCount = series->barSets().size();
+    if (setCount == 0)
         return;
 
-    int setCount = series->barSets().size();
+    bool stacked = series->barsType() == QAbstractBarSeries::BarsStacked;
 
     if (m_colorIndex < 0)
         m_colorIndex = seriesTheme->graphSeriesCount();
@@ -52,17 +53,24 @@ void BarsRenderer::handlePolish(QBarSeries *series)
     float barMargin = 2.0;
     // Max width of a bar if no separation between sets.
     float maxBarWidth = w / (setCount * valuesPerSet) - barMargin;
+    if (stacked)
+        maxBarWidth = w / valuesPerSet;
     // Actual bar width.
     float barWidth = maxBarWidth * series->barWidth();
     // Helper to keep barsets centered when bar width is less than max width.
     float barCentering = (maxBarWidth - barWidth) * setCount * 0.5;
+    if (stacked)
+        barCentering = (maxBarWidth - barWidth) * 0.5;
 
     // Clear the selection rects
     // These will be filled only if series is selectable
     m_rectNodesInputRects.clear();
 
     float seriesPos = 0;
-    float posInSet = 0;
+    float posXInSet = 0;
+    QList<float> posYListInSet;
+    if (stacked)
+        posYListInSet.fill(0, valuesPerSet);
     int barIndex = 0;
     int barIndexInSet = 0;
     int barSerieIndex = 0;
@@ -109,7 +117,11 @@ void BarsRenderer::handlePolish(QBarSeries *series)
             double maxValues = delta > 0 ? 1.0 / delta : 100.0;
             float barHeight = h * value * maxValues;
             float barY = m_graph->m_marginTop + h - barHeight;
-            float barX = m_graph->m_marginLeft + m_graph->m_axisRenderer->m_axisWidth + seriesPos + posInSet + barCentering;
+            float barX = m_graph->m_marginLeft + m_graph->m_axisRenderer->m_axisWidth + seriesPos + posXInSet + barCentering;
+            if (stacked) {
+                barY = m_graph->m_marginTop + h - barHeight - posYListInSet[barIndexInSet];
+                barX = m_graph->m_marginLeft + m_graph->m_axisRenderer->m_axisWidth + seriesPos + barCentering;
+            }
             QRectF barRect(barX, barY, barWidth, barHeight);
             if (barSelectionRect)
                 barSelectionRect->rects << barRect;
@@ -154,17 +166,19 @@ void BarsRenderer::handlePolish(QBarSeries *series)
                 m_seriesData[barIndex] = d;
             }
 
+            if (stacked)
+                posYListInSet[barIndexInSet] += barHeight;
             barIndex++;
             barIndexInSet++;
             seriesPos = ((float)barIndexInSet / valuesPerSet) * w;
         }
-        posInSet += barWidth + barMargin;
+        posXInSet += barWidth + barMargin;
         barSerieIndex++;
     }
     series->d_func()->setLegendData(legendDataList);
 }
 
-void BarsRenderer::updateSeries(QBarSeries *series)
+void BarsRenderer::updateSeries(QAbstractBarSeries *series)
 {
     if (series->barSets().isEmpty())
         return;

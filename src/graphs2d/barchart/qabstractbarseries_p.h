@@ -74,6 +74,7 @@ protected:
     bool m_visible;
     bool m_blockBarUpdate;
     QString m_labelsFormat;
+    QAbstractBarSeries::BarsType m_barsType = QAbstractBarSeries::BarsGroups;
     QAbstractBarSeries::LabelsPosition m_labelsPosition;
     qreal m_labelsAngle;
     int m_labelsPrecision;
