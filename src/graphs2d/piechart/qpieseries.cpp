@@ -405,7 +405,6 @@ QPieSeries &QPieSeries::operator << (QPieSlice *slice)
     return *this;
 }
 
-
 /*!
     Appends a single slice with the specified \a value and \a label to the series.
     Slice ownership is passed to the series.
@@ -443,7 +442,7 @@ bool QPieSeries::insert(int index, QPieSlice *slice)
     if (slice->series()) // already added to some series
         return false;
 
-    if (!(qIsNaN(slice->value()) || qIsInf(slice->value())))
+    if (qIsNaN(slice->value()) || qIsInf(slice->value()))
         return false;
 
     slice->setParent(this);
@@ -572,21 +571,6 @@ qreal QPieSeries::sum() const
     const Q_D(QPieSeries);
     return d->m_sum;
 }
-
-// TODO : Donut implementation (QTBUG-121625)
-// void QPieSeries::setHoleSize(qreal holeSize)
-// {
-//     Q_D(QPieSeries);
-//     holeSize = qBound((qreal)0.0, holeSize, (qreal)1.0);
-//     d->setSizes(holeSize, qMax(d->m_pieRelativeSize, holeSize));
-// }
-
-// TODO : Donut implementation (QTBUG-121625)
-// qreal QPieSeries::holeSize() const
-// {
-//     Q_D(const QPieSeries);
-//     return d->m_holeRelativeSize;
-// }
 
 void QPieSeries::setHorizontalPosition(qreal relativePosition)
 {
