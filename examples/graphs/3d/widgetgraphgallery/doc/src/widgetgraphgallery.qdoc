@@ -102,7 +102,7 @@
 
     \snippet widgetgraphgallery/graphmodifier.cpp 8
 
-    This method adds data to the proxies of the two series:
+    This method adds data to the relevant series using proxies of the two series:
 
     \snippet widgetgraphgallery/graphmodifier.cpp 9a
     \dots 0
@@ -202,17 +202,17 @@
 
     Define a simple flexible data set, \c{VariantDataSet}, where each data item is
     a variant list. Each item can have multiple values, identified by their index in
-    the list. In this case, the data set is storing monthly rainfall data, where the value in
-    index zero is the year, the value in index one is the month, and the value in index two is
-    the amount of rainfall in that month.
+    the list. In this case, the data set is designed to store monthly rainfall data.
+    The value in index zero represents the year, the value in index one represents the month,
+    and the value in index two represents the amount of rainfall in that month.
 
-    The custom proxy is similar to itemmodel-based proxies provided by Qt Data Visualization, and
-    it requires mapping to interpret the data.
+    The custom proxy is similar to itemmodel-based proxies, QItemModelBarDataProxy, provided
+    by QtGraphs, and it requires mapping to interpret the data.
 
     \section3 VariantDataSet
 
     Define the data items as QVariantList objects. Add functionality for clearing the data set and
-    querying for a reference to the data contained in the set. Also, add signals to be emitted when
+    querying a reference to the data contained in the set. Also, add signals to be emitted when
     data is added or the set is cleared:
 
     \snippet widgetgraphgallery/variantdataset.h 0
@@ -230,13 +230,13 @@
     \codeline
     \snippet widgetgraphgallery/variantbardataproxy.h 1
 
-    The proxy listens for the changes in the data set and the mapping, and resolves the data set
-    if any changes are detected. This is not a particularly efficient implementation, as any change
-    will cause re-resolving of the entire data set, but that is not an issue for this example.
+    The proxy listens for changes in the data set and the mapping, resolving the data set if any
+    changes are detected. While this implementation may not be particularly efficient, as any
+    change triggers the re-resolving of the entire data set, it is not a concern for this example.
 
-    In \c resolveDataSet() method, sort the variant data values into rows and columns based on the
-    mapping. This is very similar to how QItemModelBarDataProxy handles mapping, except you use
-    list indexes instead of item model roles here. Once the values are sorted, generate
+    In the \c resolveDataSet() method, sort the variant data values into rows and columns based on
+    the mapping. This is very similar to how the QItemModelBarDataProxy handles mapping, except you
+    use list indexes instead of item model roles here. Once the values are sorted, generate a
     \c QBarDataArray out of them, and call the \c resetArray() method in the parent class:
 
     \snippet widgetgraphgallery/variantbardataproxy.cpp 0
@@ -259,10 +259,10 @@
     \snippet widgetgraphgallery/variantbardatamapping.h 3
 
     The primary way to use a \c VariantBarDataMapping object is to give the mappings in the
-    constructor, though you can use the \c remap() method to set them later, either individually or
-    all together. Emit a signal if mapping changes. The outcome is a simplified version of the
-    mapping functionality of QItemModelBarDataProxy, adapted to work with variant lists instead of
-    item models.
+    constructor, though you can also use the \c remap() method to set them later, either
+    individually or all together. Emit a signal if mapping changes. The outcome is a simplified
+    version of the mapping functionality of QItemModelBarDataProxy, adapted to work with variant
+    lists instead of item models.
 
     \section3 RainfallData
 
@@ -275,7 +275,7 @@
     \snippet widgetgraphgallery/rainfalldata.cpp 1
     \dots
 
-    Add the data set to the custom proxy and set the mapping:
+    Use the custom proxy functions to add the data set to the series and set the mapping:
 
     \snippet widgetgraphgallery/rainfalldata.cpp 2
 
@@ -303,8 +303,8 @@
 
     \snippet widgetgraphgallery/scatterdatamodifier.cpp 0
 
-    None of these are mandatory, but are used to override graph defaults. You can try how it looks
-    with the preset defaults by commenting out the block above.
+    None of these settings are mandatory, but they serve to override graph defaults. To observe
+    the appearance with the preset defaults, the block above can be commented out.
 
     Next, create a QScatterDataProxy and the associated QScatter3DSeries. Set a custom label format
     and mesh smoothing for the series and add it to the graph:
@@ -437,13 +437,13 @@
     called \c{Elevation Model 2 m}, which is suitable for this example.
     The topography data is from Levi fell. The accuracy of the data is well beyond the need, and
     therefore it is compressed and encoded into a PNG file. The height value of the original
-    ASCII data is encoded into RGB format using a multiplier, which you will see later in
-    a code extract. The multiplier is calculated by dividing the largest 24-bit value with the
+    ASCII data is encoded into RGB format using a multiplier,  as demonstrated in the upcoming
+    code extract. The multiplier is calculated by dividing the largest 24-bit value with the
     highest point in Finland.
 
     QHeightMapSurfaceDataProxy converts only one-byte values. To utilize the higher accuracy of
     the data from the National Land Survey of Finland, read the data from the PNG file and decode
-    it into QSurface3DSeries.
+    it into a QSurface3DSeries.
 
     First, define the encoding multiplier:
 
@@ -457,7 +457,7 @@
 
     \section2 Selecting the Data Set
 
-    To demonstrate different proxies, \uicontrol {Surface Graph} has three radio buttons to
+    To demonstrate different proxies, the \uicontrol {Surface Graph} has three radio buttons to
     switch between the series.
 
     With \uicontrol {Sqrt & Sin}, the simple generated series is activated. First, set
@@ -469,13 +469,13 @@
     \snippet widgetgraphgallery/surfacegraphmodifier.cpp 3
 
     With \uicontrol {Multiseries Height Map}, the height map series are activated and others
-    disabled. Auto-adjusting Y-axis range works well for the height map surface, so ensure it is
-    set.
+    are disabled. Auto-adjusting the Y-axis range works well for the height map surface, so ensure
+    it is set.
 
     \snippet widgetgraphgallery/surfacegraphmodifier.cpp 4
 
-    With \uicontrol {Textured Topography}, the topographic series is activated and others disabled.
-    Activate a custom input handler for this series, to be able to highlight areas on it:
+    With \uicontrol {Textured Topography}, the topographic series is activated and others are
+    disabled. Activate a custom input handler for this series, to be able to highlight areas on it:
 
     \snippet widgetgraphgallery/surfacegraphmodifier.cpp 5
 
@@ -495,7 +495,7 @@
 
     \section2 Axis Ranges for Studying the Graph
 
-    The example has four slider controls for adjusting the min and max values for X and Z
+    The example has four slider controls for adjusting the min and max values for the X and Z
     axes. When selecting the proxy, these sliders are adjusted to match the axis ranges of the
     current data set:
 
@@ -612,7 +612,7 @@
     highlight the selection on the graph and allow panning the graph.
 
     The panning implementation is similar to the one shown in \l{Implementing Axis Dragging}.
-    The difference is that, in this example, you follow only the X and Z axes and don't allow
+    The difference is that, in this example, you only follow the X and Z axes and don't allow
     dragging the surface outside the graph. To limit the dragging, follow the limits of the axes
     and do nothing if going outside the graph:
 
@@ -650,7 +650,7 @@
 
     \section2 A Gradient to the Highlight Series
 
-    Since the \c HighlightSeries is QSurface3DSeries, all the decoration methods a series can
+    Since the \c HighlightSeries is a QSurface3DSeries, all the decoration methods a series can
     have are available. In this example, add a gradient to emphasize the elevation. Because the
     suitable gradient style depends on the range of the Y axis and we change the range when
     zooming, the gradient color positions need to be adjusted as the range changes. Do this by
