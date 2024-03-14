@@ -25,6 +25,7 @@ else()
        "graphs2d/qml/designer/GraphsViewSpecifics.qml"
        "graphs2d/qml/designer/default/BarSeries.qml"
        "graphs2d/qml/designer/default/LineSeries.qml"
+       "graphs2d/qml/designer/default/PieSeries.qml"
        "graphs2d/qml/designer/default/ScatterSeries.qml"
        "graphs2d/qml/designer/default/SplineSeries.qml"
     )
