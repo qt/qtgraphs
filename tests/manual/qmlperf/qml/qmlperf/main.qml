@@ -131,7 +131,7 @@ Item {
                     } else {
                         scatterSeries.mesh = Abstract3DSeries.Mesh.Sphere
                         mesh = "Sphere"
-                        }
+                    }
                 }
             }
 
@@ -168,7 +168,6 @@ Item {
 
                     gridEnabled = surfaceSeries.drawMode & Surface3DSeries.DrawWireframe
                 }
-
             }
 
             ColumnLayout {
@@ -183,13 +182,18 @@ Item {
                     Layout.fillWidth: true
                     horizontalAlignment: Text.AlignHCenter
                 }
-
                 Slider {
                     from: 0.0
                     to: 1.0
                     Layout.preferredWidth: parent.width
                     value: 1.0
                     onValueChanged: {
+                        // change scattergradient alpha
+                        scatterYGreenstop.color.a = value
+                        scatterYBluestop.color.a = value
+                        scatterYRedstop.color.a = value
+                        scatterYellowstop.color.a = value
+                        // change bargradient alpha
                         barBlueStop.color.a = value
                         barRedStop.color.a = value
                     }
@@ -202,7 +206,6 @@ Item {
                 Layout.preferredHeight: 50
                 Layout.margins: 10
                 Layout.alignment: Qt.AlignCenter
-
 
                 Text {
                     id: spinboxTitle
@@ -447,10 +450,10 @@ Item {
 
                     Gradient {
                         id: scatterGradient
-                        GradientStop { position: 1.0; color: "yellow" }
-                        GradientStop { position: 0.6; color: "red" }
-                        GradientStop { position: 0.4; color: "blue" }
-                        GradientStop { position: 0.0; color: "green" }
+                        GradientStop { id: scatterYellowstop; position: 1.0; color: "yellow" }
+                        GradientStop { id: scatterYRedstop; position: 0.6; color: "red" }
+                        GradientStop { id: scatterYBluestop; position: 0.4; color: "blue" }
+                        GradientStop { id: scatterYGreenstop; position: 0.0; color: "green" }
                     }
                 }
                 Scatter3DSeries {
@@ -496,8 +499,6 @@ Item {
                 onCurrentFpsChanged: {
                     tests.currentFps = currentFps
                 }
-
-
             }
         }
     }

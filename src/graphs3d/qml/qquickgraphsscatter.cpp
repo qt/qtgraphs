@@ -299,6 +299,11 @@ void QQuickGraphsScatter::updateScatterGraphItemVisuals(ScatterModel *graphModel
     } else if (optimizationHint() == QAbstract3DGraph::OptimizationHint::Default) {
         graphModel->instancing->setRangeGradient(rangeGradient);
         if (!rangeGradient) {
+            if ((graphModel->series->baseColor().alphaF() < 1.0))
+                graphModel->instancing->setTransparency(true);
+            else
+                graphModel->instancing->setTransparency(false);
+
             updateItemMaterial(graphModel->instancingRootItem,
                                useGradient,
                                rangeGradient,
@@ -308,6 +313,13 @@ void QQuickGraphsScatter::updateScatterGraphItemVisuals(ScatterModel *graphModel
                                      graphModel->seriesTexture,
                                      graphModel->series->baseColor());
         } else {
+            auto textureData = static_cast<QQuickGraphsTextureData *>(
+                graphModel->seriesTexture->textureData());
+            if (textureData->hasTransparency())
+                graphModel->instancing->setTransparency(true);
+            else
+                graphModel->instancing->setTransparency(false);
+
             updateItemMaterial(graphModel->instancingRootItem,
                                useGradient,
                                rangeGradient,

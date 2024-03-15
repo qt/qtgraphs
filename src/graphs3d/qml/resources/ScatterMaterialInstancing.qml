@@ -15,6 +15,10 @@ CustomMaterial {
     readonly property real shininess: (1.0 - specularBrightness) * 100
 
     shadingMode: CustomMaterial.Shaded
+    sourceBlend: CustomMaterial.SrcAlpha
+    destinationBlend: CustomMaterial.OneMinusSrcAlpha
+    depthDrawMode: Material.OpaquePrePassDepthDraw
+
     vertexShader: "qrc:/shaders/scatterinstancingvert"
     fragmentShader: "qrc:/shaders/scatterinstancingfrag"
 }

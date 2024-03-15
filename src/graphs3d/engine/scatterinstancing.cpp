@@ -52,6 +52,11 @@ void ScatterInstancing::setRangeGradient(bool newRangeGradient)
     m_rangeGradient = newRangeGradient;
 }
 
+void ScatterInstancing::setTransparency(bool transparency)
+{
+    setDepthSortingEnabled(transparency);
+}
+
 const QList<float> &ScatterInstancing::customData() const
 {
     return m_customData;
