@@ -2836,6 +2836,7 @@ void QQuickGraphsItem::updateLabels()
             repeaterY()->objectAt(i + (repeaterY()->count() / 2)));
         labelTrans.setY(static_cast<QValue3DAxis *>(axisY())->labelPositionAt(i) * scale * 2.0f
                         - scale);
+        obj->setObjectName(QStringLiteral("ElementAxisYLabel"));
         obj->setScale(m_fontScaled);
         obj->setPosition(labelTrans);
         obj->setRotation(totalRotation);
