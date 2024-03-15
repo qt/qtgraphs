@@ -152,6 +152,8 @@ void AxisRenderer::updateAxis()
     float w = seriesRect.width();
     float h = seriesRect.height();
 
+    QRectF xAxisRect, yAxisRect;
+
     if (m_axisVertical) {
         m_gridVerticalMajorTicksVisible = m_axisVertical->isGridLineVisible();
         m_gridVerticalMinorTicksVisible = m_axisVertical->isMinorGridLineVisible();
@@ -189,7 +191,7 @@ void AxisRenderer::updateAxis()
 
         // Update value labels
         float rightMargin = 20;
-        QRectF yAxisRect(m_graph->m_marginLeft, m_graph->m_marginTop, m_axisWidth - rightMargin, h);
+        yAxisRect = {m_graph->m_marginLeft, m_graph->m_marginTop, m_axisWidth - rightMargin, h};
         updateValueYAxisLabels(vaxis, yAxisRect);
     }
 
@@ -222,10 +224,10 @@ void AxisRenderer::updateAxis()
 
         // Update value labels
         float topMargin = 20;
-        QRectF xAxisRect(m_graph->m_marginLeft + m_axisWidth,
-                         m_graph->m_marginTop + h - m_graph->m_marginBottom + topMargin,
-                         w,
-                         m_axisHeight);
+        xAxisRect = {m_graph->m_marginLeft + m_axisWidth,
+                     m_graph->m_marginTop + h - m_graph->m_marginBottom + topMargin,
+                     w,
+                     m_axisHeight};
         updateValueXAxisLabels(haxis, xAxisRect);
     }
 
@@ -233,7 +235,7 @@ void AxisRenderer::updateAxis()
         m_axisHorizontalMaxValue = haxis->categories().size();
         m_axisHorizontalMinValue = 0;
         m_axisHorizontalValueRange = m_axisHorizontalMaxValue - m_axisHorizontalMinValue;
-        QRectF xAxisRect(m_graph->m_marginLeft + m_axisWidth, m_graph->m_marginTop + h, w, m_axisHeight);
+        xAxisRect = {m_graph->m_marginLeft + m_axisWidth, m_graph->m_marginTop + h, w, m_axisHeight};
         updateBarXAxisLabels(haxis, xAxisRect);
     }
 
@@ -241,6 +243,7 @@ void AxisRenderer::updateAxis()
     updateAxisTickersShadow();
     updateAxisGrid();
     updateAxisGridShadow();
+    updateAxisTitles(xAxisRect, yAxisRect);
 }
 
 void AxisRenderer::updateAxisTickers()
@@ -454,6 +457,48 @@ void AxisRenderer::updateAxisGridShadow()
         m_axisGridShadow->setVisible(true);
     } else {
         m_axisGridShadow->setVisible(false);
+    }
+}
+
+void AxisRenderer::updateAxisTitles(const QRectF &xAxisRect, const QRectF &yAxisRect)
+{
+    if (!m_xAxisTitle) {
+        m_xAxisTitle = new QQuickText();
+        m_xAxisTitle->setParentItem(this);
+        m_xAxisTitle->setVAlign(QQuickText::AlignBottom);
+        m_xAxisTitle->setHAlign(QQuickText::AlignHCenter);
+    }
+
+    if (!m_yAxisTitle) {
+        m_yAxisTitle = new QQuickText();
+        m_yAxisTitle->setParentItem(this);
+        m_yAxisTitle->setVAlign(QQuickText::AlignVCenter);
+        m_yAxisTitle->setHAlign(QQuickText::AlignHCenter);
+    }
+
+    if (m_axisHorizontal && m_axisHorizontal->isTitleVisible()) {
+        m_xAxisTitle->setText(m_axisHorizontal->titleText());
+        m_xAxisTitle->setX((2 * xAxisRect.x() - m_xAxisTitle->contentWidth() + xAxisRect.width())
+                           * 0.5);
+        m_xAxisTitle->setY(xAxisRect.y() + xAxisRect.height());
+        m_xAxisTitle->setColor(m_axisHorizontal->titleColor());
+        m_xAxisTitle->setFont(m_axisHorizontal->titleFont());
+        m_xAxisTitle->setVisible(true);
+    } else {
+        m_xAxisTitle->setVisible(false);
+    }
+
+    if (m_axisVertical && m_axisVertical->isTitleVisible()) {
+        m_yAxisTitle->setText(m_axisVertical->titleText());
+        m_yAxisTitle->setX(0 - m_yAxisTitle->height());
+        m_yAxisTitle->setY((2 * yAxisRect.y() - m_yAxisTitle->contentHeight() + yAxisRect.height())
+                           * 0.5);
+        m_yAxisTitle->setRotation(-90);
+        m_yAxisTitle->setColor(m_axisVertical->titleColor());
+        m_yAxisTitle->setFont(m_axisVertical->titleFont());
+        m_yAxisTitle->setVisible(true);
+    } else {
+        m_yAxisTitle->setVisible(false);
     }
 }
 

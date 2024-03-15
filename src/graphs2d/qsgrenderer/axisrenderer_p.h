@@ -44,6 +44,7 @@ public:
     void updateAxisTickersShadow();
     void updateAxisGrid();
     void updateAxisGridShadow();
+    void updateAxisTitles(const QRectF &xAxisRect, const QRectF &yAxisRect);
     void updateBarXAxisLabels(QBarCategoryAxis *axis, const QRectF &rect);
     void updateValueYAxisLabels(QValueAxis *axis, const QRectF &rect);
     void updateValueXAxisLabels(QValueAxis *axis, const QRectF &rect);
@@ -69,6 +70,8 @@ private:
     QAbstractAxis *m_axisHorizontal = nullptr;
     QList<QQuickText *> m_xAxisTextItems;
     QList<QQuickText *> m_yAxisTextItems;
+    QQuickText *m_xAxisTitle = nullptr;
+    QQuickText *m_yAxisTitle = nullptr;
     AxisGrid *m_axisGrid = nullptr;
     AxisTicker *m_axisTickerVertical = nullptr;
     AxisTicker *m_axisTickerHorizontal = nullptr;
