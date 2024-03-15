@@ -60,10 +60,10 @@ Q_SIGNALS:
 private:
     friend class AxisRenderer;
     QVector3D m_iResolution;
-    qreal m_smoothing;
-    QColor m_color;
-    qreal m_lineWidth;
-    bool m_isHorizontal;
+    qreal m_smoothing = 1.0;
+    QColor m_color = QColor(255, 255, 255);
+    qreal m_lineWidth = 2.0;
+    bool m_isHorizontal = false;
 };
 
 QT_END_NAMESPACE
