@@ -34,3 +34,5 @@ qt_internal_extend_target(Graphs
         animator/qgraphanimation.cpp animator/qgraphanimation_p.h
         splinechart/qsplineanimation.cpp splinechart/qsplineanimation_p.h
 )
+
+add_subdirectory(qml/designer)
