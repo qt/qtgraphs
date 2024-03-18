@@ -129,5 +129,7 @@ else()
         PRIVATE_MODULE_INTERFACE
             Qt::GuiPrivate
     )
+
+    add_subdirectory(qml/designer)
 endif()
 

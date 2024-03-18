@@ -25,3 +25,5 @@ qt_internal_extend_target(Graphs
         qsgrenderer/pointrenderer.cpp qsgrenderer/pointrenderer_p.h
         qsgrenderer/axisrenderer.cpp qsgrenderer/axisrenderer_p.h
 )
+
+add_subdirectory(qml/designer)
