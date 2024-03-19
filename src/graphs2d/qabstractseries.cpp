@@ -367,6 +367,12 @@ void QAbstractSeries::setHoverable(bool hoverable)
     }
 }
 
+bool QAbstractSeries::hasLoaded() const
+{
+    Q_D(const QAbstractSeries);
+    return d->m_loaded;
+}
+
 qreal QAbstractSeries::opacity() const
 {
     const Q_D(QAbstractSeries);
@@ -547,6 +553,8 @@ void QAbstractSeries::componentComplete()
         d->m_theme = new QSeriesTheme(this);
         d->m_theme->resetColorTheme();
     }
+
+    d->m_loaded = true;
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 

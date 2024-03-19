@@ -105,6 +105,8 @@ public:
     bool hoverable() const;
     void setHoverable(bool newHoverable);
 
+    bool hasLoaded() const;
+
 public Q_SLOTS:
     static void appendSeriesChildren(QQmlListProperty<QObject> *list, QObject *element);
 

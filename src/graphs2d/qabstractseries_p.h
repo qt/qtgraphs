@@ -41,6 +41,7 @@ private:
     QSeriesTheme *m_theme = nullptr;
     QString m_name;
     bool m_visible;
+    bool m_loaded = false;
     bool m_selectable = false;
     bool m_hoverable = false;
     qreal m_opacity;

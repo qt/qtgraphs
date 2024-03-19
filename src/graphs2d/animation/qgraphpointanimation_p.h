@@ -10,34 +10,36 @@
 //
 // We mean it.
 
-#ifndef QSPLINEANIMATION_P_H
-#define QSPLINEANIMATION_P_H
+#ifndef QGRAPHPOINTANIMATION_H
+#define QGRAPHPOINTANIMATION_H
 
-#include <private/qgraphanimation_p.h>
+#include <QtCore/QPointF>
+#include "private/qgraphanimation_p.h"
+#include "private/qxyseriesanimation_p.h"
+#include "qqmlintegration.h"
 
 QT_BEGIN_NAMESPACE
 
-class QSplineSeries;
+class QXYSeries;
 
-class QSplineAnimation : public QGraphAnimation
+class QGraphPointAnimation : public QXYSeriesAnimation
 {
     Q_OBJECT
+    QML_NAMED_ELEMENT(GraphPointAnimation)
 
-public:
-    explicit QSplineAnimation(QObject *parent, QSplineSeries *spline);
+public:    
+    explicit QGraphPointAnimation(QObject *parent = nullptr);
 
     void setAnimatingValue(QVariant &start, QVariant &end) override;
     QVariant interpolated(const QVariant &start, const QVariant &end, qreal progress) const override;
 
     void animate() override;
+    void end() override;
 
 public Q_SLOTS:
     void valueUpdated(const QVariant &value) override;
-
-private:
-    QSplineSeries *m_series;
 };
 
 QT_END_NAMESPACE
 
-#endif // QSPLINEANIMATION_P_H
+#endif // QGRAPHPOINTANIMATION_H

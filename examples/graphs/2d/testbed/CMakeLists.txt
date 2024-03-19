@@ -42,7 +42,6 @@ qt6_add_qml_module(testbed
     SOURCES
         custombarseries.h custombarseries.cpp
         customlineseries.h customlineseries.cpp
-        dynamicsplineseries.h dynamicsplineseries.cpp
     QML_FILES
         qml/testbed/main.qml
         qml/testbed/StartupView.qml
@@ -65,7 +64,7 @@ qt6_add_qml_module(testbed
         qml/testbed/CustomBars.qml
         qml/testbed/BarsEffect/export/BarsEffect.qml
         qml/testbed/AreaSeries.qml
-        qml/testbed/DynamicSplineSeries.qml
+        qml/testbed/DynamicSeries.qml
         qml/testbed/Donut.qml
     RESOURCES
         qml/testbed/images/arrow_icon.png

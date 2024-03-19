@@ -15,6 +15,7 @@
 
 #include <QtGraphs/qxyseries.h>
 #include <private/qabstractseries_p.h>
+#include <private/qgraphtransition_p.h>
 
 QT_BEGIN_NAMESPACE
 
@@ -43,9 +44,13 @@ protected:
     QAbstractAxis *m_axisX = nullptr;
     QAbstractAxis *m_axisY = nullptr;
     QQmlComponent *m_marker = nullptr;
+    QGraphTransition *m_graphTransition = nullptr;
 
 private:
     Q_DECLARE_PUBLIC(QXYSeries)
+
+    friend class QGraphPointAnimation;
+    friend class QGraphTransition;
 };
 
 QT_END_NAMESPACE

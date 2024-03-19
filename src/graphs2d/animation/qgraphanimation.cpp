@@ -6,15 +6,15 @@
 
 QGraphAnimation::QGraphAnimation(QObject *parent)
     : QVariantAnimation(parent)
+    , m_animating(AnimationState::Stopped)
 {
     connect(this, &QVariantAnimation::valueChanged, this, &QGraphAnimation::valueUpdated);
-    connect(this,
-            &QVariantAnimation::stateChanged,
-            this,
-            [this](State newState, [[maybe_unused]] State oldState) {
-                if (newState != State::Running)
-                    setAnimating(AnimationState::Stopped);
-            });
+    connect(this, &QVariantAnimation::finished, this, &QGraphAnimation::end);
+}
+
+QGraphAnimation::~QGraphAnimation()
+{
+    stop();
 }
 
 QGraphAnimation::AnimationState QGraphAnimation::animating() const

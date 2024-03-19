@@ -14,6 +14,7 @@
 #define QGRAPHANIMATION_H
 
 #include <QtCore/QVariantAnimation>
+#include "private/qgraphtransition_p.h"
 
 QT_BEGIN_NAMESPACE
 
@@ -30,9 +31,11 @@ public:
     Q_ENUM(AnimationState);
 
     explicit QGraphAnimation(QObject *parent = nullptr);
+    ~QGraphAnimation();
 
     virtual void setAnimatingValue(QVariant &start, QVariant &end) = 0;
     virtual void animate() = 0;
+    virtual void end() = 0;
     QVariant interpolated(const QVariant &start, const QVariant &end, qreal progress) const override
         = 0;
 

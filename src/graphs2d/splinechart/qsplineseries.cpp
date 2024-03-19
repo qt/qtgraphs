@@ -47,7 +47,7 @@ QT_BEGIN_NAMESPACE
 */
 
 QSplineSeries::QSplineSeries(QObject *parent)
-    : QXYSeries(*(new QSplineSeriesPrivate(parent, this)), parent)
+    : QXYSeries(*(new QSplineSeriesPrivate()), parent)
 {}
 
 QSplineSeries::QSplineSeries(QSplineSeriesPrivate &dd, QObject *parent)
@@ -65,16 +65,34 @@ void QSplineSeries::componentComplete()
 
     d->calculateSplinePoints();
 
+    if (d->m_graphTransition)
+        d->m_graphTransition->initialize();
+
     connect(this, &QSplineSeries::pointAdded, this, [d]([[maybe_unused]] int index) {
-        d->submitAnimation();
+        if (d->m_graphTransition) {
+            d->m_graphTransition->onPointChanged(QGraphTransition::TransitionType::PointAdded,
+                                                 index);
+        } else {
+            d->calculateSplinePoints();
+        }
     });
 
     connect(this, &QSplineSeries::pointRemoved, this, [d]([[maybe_unused]] int index) {
-        d->submitAnimation();
+        if (d->m_graphTransition) {
+            d->m_graphTransition->onPointChanged(QGraphTransition::TransitionType::PointRemoved,
+                                                 index);
+        } else {
+            d->calculateSplinePoints();
+        }
     });
 
     connect(this, &QSplineSeries::pointReplaced, this, [d]([[maybe_unused]] int index) {
-        d->submitAnimation();
+        if (d->m_graphTransition) {
+            d->m_graphTransition->onPointChanged(QGraphTransition::TransitionType::PointReplaced,
+                                                 index);
+        } else {
+            d->calculateSplinePoints();
+        }
     });
 
     QAbstractSeries::componentComplete();
@@ -85,9 +103,6 @@ QSplineSeries::~QSplineSeries()
     Q_D(QSplineSeries);
     if (d->m_graph)
         d->m_graph->removeSeries(this);
-
-    if (animated())
-        d->m_animation->stop();
 }
 
 QAbstractSeries::SeriesType QSplineSeries::type() const
@@ -137,46 +152,12 @@ void QSplineSeries::setCapStyle(Qt::PenCapStyle newCapStyle)
     emit update();
 }
 
-bool QSplineSeries::animated() const
-{
-    Q_D(const QSplineSeries);
-    return d->m_animated;
-}
-
-void QSplineSeries::setAnimated(bool isAnimated)
-{
-    Q_D(QSplineSeries);
-    if (d->m_animated == isAnimated)
-        return;
-    d->m_animated = isAnimated;
-
-    emit animatedChanged();
-}
-
-QSplineSeriesPrivate::QSplineSeriesPrivate(QObject *parent, QSplineSeries *q)
-    : m_width(1.0)
-    , m_animated(false)
+QSplineSeriesPrivate::QSplineSeriesPrivate()
+    : QXYSeriesPrivate()
+    , m_width(1.0)
     , m_capStyle(Qt::PenCapStyle::SquareCap)
     , m_controlPoints()
-    , m_animation(new QSplineAnimation(parent, q))
-
-{
-}
-
-void QSplineSeriesPrivate::submitAnimation()
-{
-    Q_Q(QSplineSeries);
-
-    if (m_animation->animating() == QGraphAnimation::AnimationState::Playing)
-        return;
-
-    calculateSplinePoints();
-
-    if (q->animated())
-        m_animation->animate();
-
-    emit q->update();
-}
+{}
 
 void QSplineSeriesPrivate::calculateSplinePoints()
 {

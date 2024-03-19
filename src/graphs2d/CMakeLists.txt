@@ -30,8 +30,11 @@ qt_internal_extend_target(Graphs
         qsgrenderer/arearenderer.cpp qsgrenderer/arearenderer_p.h
         splinechart/qsplineseries.cpp splinechart/qsplineseries.h splinechart/qsplineseries_p.h
         areachart/qareaseries.cpp areachart/qareaseries.h areachart/qareaseries_p.h
-        animator/qgraphanimation.cpp animator/qgraphanimation_p.h
-        splinechart/qsplineanimation.cpp splinechart/qsplineanimation_p.h
+        animation/qgraphanimation.cpp animation/qgraphanimation_p.h
+        animation/qsplinecontrolanimation.cpp animation/qsplinecontrolanimation_p.h
+        animation/qgraphpointanimation.cpp animation/qgraphpointanimation_p.h
+        animation/qgraphtransition_p.h animation/qgraphtransition.cpp
+        animation/qxyseriesanimation_p.h animation/qxyseriesanimation.cpp
 )
 
 add_subdirectory(qml/designer)

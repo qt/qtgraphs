@@ -64,6 +64,9 @@ void QXYSeries::append(const QPointF &point)
     Q_D(QXYSeries);
 
     if (isValidValue(point)) {
+        if (d->m_graphTransition)
+            d->m_graphTransition->stop();
+
         d->m_points << point;
         emit pointAdded(d->m_points.size() - 1);
     }
@@ -120,6 +123,9 @@ void QXYSeries::replace(int index, const QPointF &newPoint)
 {
     Q_D(QXYSeries);
     if (isValidValue(newPoint)) {
+        if (d->m_graphTransition)
+            d->m_graphTransition->stop();
+
         d->m_points[index] = newPoint;
         emit pointReplaced(index);
     }

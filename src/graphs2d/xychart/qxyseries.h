@@ -32,17 +32,17 @@ protected:
 public:
     ~QXYSeries() override;
     // TODO: Consider making these slots, available from QML.
-    void append(qreal x, qreal y);
+    Q_INVOKABLE void append(qreal x, qreal y);
     void append(const QPointF &point);
     void append(const QList<QPointF> &points);
     void replace(qreal oldX, qreal oldY, qreal newX, qreal newY);
     void replace(const QPointF &oldPoint, const QPointF &newPoint);
-    void replace(int index, qreal newX, qreal newY);
+    Q_INVOKABLE void replace(int index, qreal newX, qreal newY);
     void replace(int index, const QPointF &newPoint);
     void replace(const QList<QPointF> &points);
     void remove(qreal x, qreal y);
     void remove(const QPointF &point);
-    void remove(int index);
+    Q_INVOKABLE void remove(int index);
     void removePoints(int index, int count);
     void insert(int index, const QPointF &point);
     void clear();
@@ -103,6 +103,8 @@ Q_SIGNALS:
 
 private:
     friend class PointRenderer;
+    friend class QGraphPointAnimation;
+    friend class QGraphTransition;
     Q_DECLARE_PRIVATE(QXYSeries)
     Q_DISABLE_COPY(QXYSeries)
 };

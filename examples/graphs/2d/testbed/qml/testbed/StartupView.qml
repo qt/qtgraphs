@@ -71,8 +71,8 @@ Item {
             file: "AreaSeries.qml"
         }
         ListElement {
-            name: "Dynamic Spline"
-            file: "DynamicSplineSeries.qml"
+            name: "Dynamic Series"
+            file: "DynamicSeries.qml"
         }
         ListElement {
             name: "Donut"

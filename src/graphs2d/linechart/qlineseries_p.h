@@ -14,6 +14,7 @@
 #define QLINESERIES_P_H
 
 #include <QtGraphs/qlineseries.h>
+#include <private/qgraphpointanimation_p.h>
 #include <private/qxyseries_p.h>
 
 QT_BEGIN_NAMESPACE

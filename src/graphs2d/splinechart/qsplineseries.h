@@ -17,7 +17,6 @@ class Q_GRAPHS_EXPORT QSplineSeries : public QXYSeries
     Q_OBJECT
     Q_PROPERTY(qreal width READ width WRITE setWidth NOTIFY widthChanged)
     Q_PROPERTY(Qt::PenCapStyle capStyle READ capStyle WRITE setCapStyle NOTIFY capStyleChanged)
-    Q_PROPERTY(bool animated READ animated WRITE setAnimated NOTIFY animatedChanged)
 
 public:
     explicit QSplineSeries(QObject *parent = nullptr);
@@ -50,6 +49,9 @@ protected:
 private:
     Q_DECLARE_PRIVATE(QSplineSeries)
     Q_DISABLE_COPY(QSplineSeries)
+
+    friend class QSplineControlAnimation;
+    friend class QGraphTransition;
 };
 
 QT_END_NAMESPACE

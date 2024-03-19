@@ -14,7 +14,7 @@
 #define QSPLINESERIES_P_H
 
 #include <QtGraphs/QSplineSeries>
-#include <private/qsplineanimation_p.h>
+#include <private/qsplinecontrolanimation_p.h>
 #include <private/qxyseries_p.h>
 
 QT_BEGIN_NAMESPACE
@@ -22,21 +22,21 @@ QT_BEGIN_NAMESPACE
 class QSplineSeriesPrivate : public QXYSeriesPrivate
 {
 public:
-    QSplineSeriesPrivate(QObject *parent, QSplineSeries *q);
+    QSplineSeriesPrivate();
 
 protected:
     qreal m_width;
-    bool m_animated;
     Qt::PenCapStyle m_capStyle;
     QList<QPointF> m_controlPoints;
-    QSplineAnimation *m_animation;
 
-    void submitAnimation();
     void calculateSplinePoints();
     QList<qreal> calculateControlPoints(const QList<qreal> &list);
 
 private:
     Q_DECLARE_PUBLIC(QSplineSeries)
+
+    friend class QSplineControlAnimation;
+    friend class QGraphTransition;
 };
 
 QT_END_NAMESPACE
