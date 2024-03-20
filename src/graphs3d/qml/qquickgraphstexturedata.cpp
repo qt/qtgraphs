@@ -30,13 +30,17 @@ void QQuickGraphsTextureData::createGradient(QLinearGradient gradient)
         QColor endColor = stops.at(i).second;
         int w = 0;
         w = (stops.at(i).first - stops.at(i - 1).first) * gradientTextureWidth;
+
+        if (startColor.alphaF() < 1.0 || endColor.alphaF() < 1.0)
+            setHasTransparency(true);
+
         for (int t = 0; t <= w; t++) {
             QColor color = linearInterpolate(startColor, endColor, t / float(w));
             int offset = x * 4;
             gradientScanline.data()[offset + 0] = char(color.red());
             gradientScanline.data()[offset + 1] = char(color.green());
             gradientScanline.data()[offset + 2] = char(color.blue());
-            gradientScanline.data()[offset + 3] = char(255);
+            gradientScanline.data()[offset + 3] = char(color.alpha());
             x++;
         }
     }
@@ -52,6 +56,7 @@ QColor QQuickGraphsTextureData::linearInterpolate(QColor startColor, QColor endC
     output.setRedF(startColor.redF() + (value * (endColor.redF() - startColor.redF())));
     output.setGreenF(startColor.greenF() + (value * (endColor.greenF() - startColor.greenF())));
     output.setBlueF(startColor.blueF() + (value * (endColor.blueF() - startColor.blueF())));
+    output.setAlphaF(startColor.alphaF() + (value * (endColor.alphaF() - startColor.alphaF())));
 
     return output;
 }

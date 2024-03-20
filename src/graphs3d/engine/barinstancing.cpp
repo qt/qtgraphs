@@ -18,6 +18,12 @@ QByteArray BarInstancing::getInstanceBuffer(int *instanceCount)
 
         for (int i = 0; i < m_dataArray.size(); ++i) {
             auto item = m_dataArray.at(i);
+
+            if ((item->color.alphaF() < 1.0) || transparency())
+                setDepthSortingEnabled(true);
+            else
+                setDepthSortingEnabled(false);
+
             if (!item->selectedBar) {
                 auto entry = calculateTableEntry(item->position,
                                                  item->scale,
@@ -46,14 +52,14 @@ QByteArray BarInstancing::getInstanceBuffer(int *instanceCount)
     return m_instanceData;
 }
 
-bool BarInstancing::rangeGradient() const
+bool BarInstancing::transparency() const
 {
-    return m_rangeGradient;
+    return m_transparency;
 }
 
-void BarInstancing::setRangeGradient(bool newRangeGradient)
+void BarInstancing::setTransparency(bool newTransparencyValue)
 {
-    m_rangeGradient = newRangeGradient;
+    m_transparency = newTransparencyValue;
 }
 
 void BarInstancing::clearDataArray()

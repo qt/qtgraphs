@@ -39,8 +39,8 @@ public:
     void setDataArray(const QList<BarItemHolder *> &newDataArray);
 
     void markDataDirty();
-    bool rangeGradient() const;
-    void setRangeGradient(bool newRangeGradient);
+    bool transparency() const;
+    void setTransparency(bool newTransparencyValue);
 
     void clearDataArray();
 
@@ -52,7 +52,7 @@ private:
     QList<BarItemHolder *> m_dataArray;
     int m_instanceCount = 0;
     bool m_dirty = true;
-    bool m_rangeGradient = false;
+    bool m_transparency = false;
 };
 
 #endif // BARINSTANCING_H

@@ -1536,10 +1536,10 @@ void QQuickGraphsBars::updateBarVisuals(QBar3DSeries *series)
         }
     } else if (optimizationHint() == QAbstract3DGraph::OptimizationHint::Default) {
         for (int i = 0; i < barList.count(); i++) {
-            barList.at(i)->instancing->setRangeGradient(rangeGradient);
             auto textureData = static_cast<QQuickGraphsTextureData *>(
                 barList.at(i)->texture->textureData());
             textureData->createGradient(series->baseGradient());
+            barList.at(i)->instancing->setTransparency(textureData->hasTransparency());
             updateItemMaterial(barList.at(i)->model,
                                useGradient,
                                rangeGradient,

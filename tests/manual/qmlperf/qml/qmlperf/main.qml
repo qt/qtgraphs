@@ -172,6 +172,31 @@ Item {
             }
 
             ColumnLayout {
+                id: transparencyContainer
+                Layout.fillWidth: true
+                Layout.preferredHeight: 30
+                Layout.margins: 10
+                Layout.alignment: Qt.AlignCenter
+
+                Text {
+                    text: "Transparency"
+                    Layout.fillWidth: true
+                    horizontalAlignment: Text.AlignHCenter
+                }
+
+                Slider {
+                    from: 0.0
+                    to: 1.0
+                    Layout.preferredWidth: parent.width
+                    value: 1.0
+                    onValueChanged: {
+                        barBlueStop.color.a = value
+                        barRedStop.color.a = value
+                    }
+                }
+            }
+
+            ColumnLayout {
                 id: pointSetContainer
                 Layout.fillWidth: true
                 Layout.preferredHeight: 50
@@ -456,8 +481,8 @@ Item {
 
                     Gradient {
                         id: barGradient
-                        GradientStop { position: 1.0; color: "red" }
-                        GradientStop { position: 0.0; color: "blue" }
+                        GradientStop { id: barRedStop; position: 1.0; color: "red" }
+                        GradientStop { id: barBlueStop; position: 0.0; color: "blue" }
                     }
                 }
 

@@ -2,10 +2,8 @@
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 
 #define PI 3.1415926
-SHARED_VARS {
-    float grid;
-    vec3 gridDiff;
-};
+float grid;
+vec3 gridDiff;
 
 void MAIN()
 {
@@ -56,10 +54,10 @@ void MAIN()
     float lines = mix(linesXZ, 1.0, grid3.y) * float(gridVisible);
 
     //keep grid factor const if background not visible
-    SHARED.grid = mix(step(0.1, lines), lines, float(baseVisible));
+    grid = mix(step(0.1, lines), lines, float(baseVisible));
 
     float alpha = mix(float(baseVisible),float(gridVisible), lines);
-    vec3 color = mix(baseColor.rgb, lineColor.rgb, SHARED.grid);
+    vec3 color = mix(baseColor.rgb, lineColor.rgb, grid);
 
     //remove backround from top grid
     if ((1 - lines) * step(0.5, VAR_WORLD_POSITION.y * abs(NORMAL.y) * float(gridOnTop)) > 0.3)
@@ -68,7 +66,7 @@ void MAIN()
     if (alpha < 0.8)
         discard;
 
-    SHARED.gridDiff = color.rgb;
+    gridDiff = color.rgb;
     BASE_COLOR = vec4(color.rgb, alpha);
     EMISSIVE_COLOR = color.rgb * 0.3;
     ROUGHNESS = 0.3;
@@ -77,6 +75,6 @@ void MAIN()
 void POST_PROCESS()
 {
     vec3 sumBack = vec3(DIFFUSE.rgb + SPECULAR + EMISSIVE);
-    vec3 sumGrid = SHARED.gridDiff;
-    COLOR_SUM = vec4(mix(sumBack, sumGrid, SHARED.grid), DIFFUSE.a);
+    vec3 sumGrid = gridDiff;
+    COLOR_SUM = vec4(mix(sumBack, sumGrid, grid), DIFFUSE.a);
 }

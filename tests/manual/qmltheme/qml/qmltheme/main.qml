@@ -102,7 +102,7 @@ Item {
             shadowQuality: AbstractGraph3D.ShadowQuality.None
             selectionMode: AbstractGraph3D.SelectionItemAndRow
             cameraPreset: AbstractGraph3D.CameraPreset.IsometricLeft
-            msaaSamples: 8
+            msaaSamples: 4
             aspectRatio: 3.0
             visible: barsVisible.checked
 
@@ -242,10 +242,50 @@ Item {
         }
 
         Label {
+            visible: !colorStyle.checked
+            text: "Gradient green alpha"
+            color: "gray"
+        }
+        Slider {
+            visible: !colorStyle.checked
+            from: 0.0
+            to: 1.0
+            value: 1.0
+            onValueChanged: greenstop.color.a = value
+        }
+
+        Label {
+            visible: !colorStyle.checked
+            text: "Gradient red alpha"
+            color: "gray"
+        }
+        Slider {
+            visible: !colorStyle.checked
+            from: 0.0
+            to: 1.0
+            value: 1.0
+            onValueChanged: redstop.color.a = value
+        }
+
+        Label {
+            visible: colorStyle.checked
+            text: "Bar Color alpha"
+            color: "gray"
+        }
+        Slider {
+            visible: colorStyle.checked
+            from: 0.0
+            to: 1.0
+            value: 1.0
+            onValueChanged: barColor.color.a = value
+        }
+
+        Label {
             text: "Color Style Uniform"
             color: "gray"
         }
         CheckBox {
+            id: colorStyle
             checked: (customTheme.colorStyle === Theme3D.ColorStyle.Uniform)
             onCheckedChanged: {
                 if (checked)
