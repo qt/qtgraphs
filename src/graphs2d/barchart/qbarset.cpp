@@ -121,8 +121,8 @@ QT_BEGIN_NAMESPACE
 */
 
 /*!
-    \fn void QBarSet::valuesChanged()
-    This signal is emitted when the values of the bar set change.
+    \fn void QBarSet::update()
+    This signal is emitted when the barset is updated.
 */
 
 /*!
@@ -144,6 +144,28 @@ QT_BEGIN_NAMESPACE
 /*!
     \fn void QBarSet::labelColorChanged(QColor)
     This signal is emitted when the text (label) color of the bar set changes to \a color.
+*/
+
+/*!
+    \fn void QBarSet::valuesChanged()
+    This signal is emitted when the values of the bar set change.
+*/
+
+/*!
+    \fn void QBarSet::selectedColorChanged(const QColor &color)
+    This signal is emitted when the selected bar color changes. The new color is
+    indicated by \a color.
+*/
+
+/*!
+    \fn void QBarSet::countChanged()
+    This signal is emitted when the barset's value count changes.
+*/
+
+/*!
+    \fn void QBarSet::borderWidthChanged(qreal width)
+    This signal is emitted when the barset's border width changes.
+    The new width is \a width.
 */
 
 /*!
@@ -190,20 +212,41 @@ QT_BEGIN_NAMESPACE
     The corresponding signal handler is \c onValueChanged.
 */
 
+/*!
+    \fn void QBarSet::updatedBars()
+    This signal is emitted when the bars in this set are updated.
+*/
+
+/*!
+    \fn void QBarSet::valueAdded(int index, int count)
+    This signal is emitted when new values are added to the bar set.
+    \a index indicates the position of the first inserted value, and \a count is the number
+    of inserted values.
+*/
+
+/*!
+    \fn void QBarSet::valueRemoved(int index, int count)
+    This signal is emitted when values are removed from the bar set.
+    \a index indicates the position of the first removed value, and \a count is the number
+    of removed values.
+*/
+
+/*!
+    \fn void QBarSet::selectedBarsChanged(const QList<int> &indexes)
+    This signal is emitted when the selected bar changes. \a indexes is
+    a list selected bar indexes.
+*/
+
 QBarSet::QBarSet(QObject *parent)
-    : QObject(parent),
-      d_ptr(new QBarSetPrivate(QString(), this))
-{
-}
+    : QBarSet(QString(), parent)
+{}
 
 /*!
     Constructs a bar set with the label \a label and the parent \a parent.
 */
 QBarSet::QBarSet(const QString label, QObject *parent)
-    : QObject(parent),
-      d_ptr(new QBarSetPrivate(label, this))
-{
-}
+    : QObject(*(new QBarSetPrivate(label)), parent)
+{}
 
 /*!
     Removes the bar set.
@@ -218,9 +261,10 @@ QBarSet::~QBarSet()
 */
 void QBarSet::setLabel(const QString label)
 {
-    if (d_ptr->m_label != label) {
-        d_ptr->m_label = label;
-        d_ptr->setLabelsDirty(true);
+    Q_D(QBarSet);
+    if (d->m_label != label) {
+        d->m_label = label;
+        d->setLabelsDirty(true);
         emit update();
         emit labelChanged();
     }
@@ -231,7 +275,8 @@ void QBarSet::setLabel(const QString label)
 */
 QString QBarSet::label() const
 {
-    return d_ptr->m_label;
+    const Q_D(QBarSet);
+    return d->m_label;
 }
 
 /*!
@@ -244,9 +289,10 @@ QString QBarSet::label() const
 */
 void QBarSet::append(const qreal value)
 {
+    Q_D(QBarSet);
     // Convert to QPointF
-    int index = d_ptr->m_values.size();
-    d_ptr->append(QPointF(d_ptr->m_values.size(), value));
+    int index = d->m_values.size();
+    d->append(QPointF(d->m_values.size(), value));
     emit valuesAdded(index, 1);
 }
 
@@ -257,8 +303,9 @@ void QBarSet::append(const qreal value)
 */
 void QBarSet::append(const QList<qreal> &values)
 {
-    int index = d_ptr->m_values.size();
-    d_ptr->append(values);
+    Q_D(QBarSet);
+    int index = d->m_values.size();
+    d->append(values);
     emit valuesAdded(index, values.size());
 }
 
@@ -282,13 +329,14 @@ QBarSet &QBarSet::operator << (const qreal &value)
 */
 void QBarSet::insert(const int index, const qreal value)
 {
-    d_ptr->insert(index, value);
+    Q_D(QBarSet);
+    d->insert(index, value);
 
     bool callSignal = false;
-    if (!d_ptr->m_selectedBars.isEmpty()) {
+    if (!d->m_selectedBars.isEmpty()) {
         // if value was inserted we need to move already selected bars by 1
         QSet<int> selectedAfterInsert;
-        for (const auto &value : std::as_const(d_ptr->m_selectedBars)) {
+        for (const auto &value : std::as_const(d->m_selectedBars)) {
             if (value >= index) {
                 selectedAfterInsert << value + 1;
                 callSignal = true;
@@ -296,7 +344,7 @@ void QBarSet::insert(const int index, const qreal value)
                 selectedAfterInsert << value;
             }
         }
-        d_ptr->m_selectedBars = selectedAfterInsert;
+        d->m_selectedBars = selectedAfterInsert;
     }
 
     emit valuesAdded(index, 1);
@@ -319,7 +367,8 @@ void QBarSet::insert(const int index, const qreal value)
 */
 void QBarSet::remove(const int index, const int count)
 {
-    int removedCount = d_ptr->remove(index, count);
+    Q_D(QBarSet);
+    int removedCount = d->remove(index, count);
     if (removedCount > 0)
         emit valuesRemoved(index, removedCount);
     return;
@@ -336,8 +385,9 @@ void QBarSet::remove(const int index, const int count)
 */
 void QBarSet::replace(const int index, const qreal value)
 {
-    if (index >= 0 && index < d_ptr->m_values.size()) {
-        d_ptr->replace(index, value);
+    Q_D(QBarSet);
+    if (index >= 0 && index < d->m_values.size()) {
+        d->replace(index, value);
         emit valueChanged(index);
     }
 }
@@ -354,9 +404,10 @@ void QBarSet::replace(const int index, const qreal value)
 */
 qreal QBarSet::at(const int index) const
 {
-    if (index < 0 || index >= d_ptr->m_values.size())
+    const Q_D(QBarSet);
+    if (index < 0 || index >= d->m_values.size())
         return 0;
-    return d_ptr->m_values.at(index).y();
+    return d->m_values.at(index).y();
 }
 
 /*!
@@ -373,7 +424,8 @@ qreal QBarSet::operator [](const int index) const
 */
 int QBarSet::count() const
 {
-    return d_ptr->m_values.size();
+    const Q_D(QBarSet);
+    return d->m_values.size();
 }
 
 /*!
@@ -381,9 +433,10 @@ int QBarSet::count() const
 */
 qreal QBarSet::sum() const
 {
+    const Q_D(QBarSet);
     qreal total(0);
-    for (int i = 0; i < d_ptr->m_values.size(); i++)
-        total += d_ptr->m_values.at(i).y();
+    for (int i = 0; i < d->m_values.size(); i++)
+        total += d->m_values.at(i).y();
     return total;
 }
 
@@ -392,7 +445,8 @@ qreal QBarSet::sum() const
 */
 QColor QBarSet::color()
 {
-    return d_ptr->m_color;
+    Q_D(QBarSet);
+    return d->m_color;
 }
 
 /*!
@@ -400,8 +454,9 @@ QColor QBarSet::color()
 */
 void QBarSet::setColor(QColor color)
 {
-    if (d_ptr->m_color != color) {
-        d_ptr->m_color = color;
+    Q_D(QBarSet);
+    if (d->m_color != color) {
+        d->m_color = color;
         emit update();
         emit colorChanged(color);
     }
@@ -412,7 +467,8 @@ void QBarSet::setColor(QColor color)
 */
 QColor QBarSet::borderColor()
 {
-    return d_ptr->m_borderColor;
+    Q_D(QBarSet);
+    return d->m_borderColor;
 }
 
 /*!
@@ -420,8 +476,9 @@ QColor QBarSet::borderColor()
 */
 void QBarSet::setBorderColor(QColor color)
 {
-    if (d_ptr->m_borderColor != color) {
-        d_ptr->m_borderColor = color;
+    Q_D(QBarSet);
+    if (d->m_borderColor != color) {
+        d->m_borderColor = color;
         emit update();
         emit borderColorChanged(color);
     }
@@ -432,7 +489,8 @@ void QBarSet::setBorderColor(QColor color)
 */
 QColor QBarSet::labelColor()
 {
-    return d_ptr->m_labelColor;
+    Q_D(QBarSet);
+    return d->m_labelColor;
 }
 
 /*!
@@ -440,8 +498,9 @@ QColor QBarSet::labelColor()
 */
 void QBarSet::setLabelColor(QColor color)
 {
-    if (d_ptr->m_labelColor != color) {
-        d_ptr->m_labelColor = color;
+    Q_D(QBarSet);
+    if (d->m_labelColor != color) {
+        d->m_labelColor = color;
         emit update();
         emit labelColorChanged(color);
     }
@@ -456,7 +515,8 @@ void QBarSet::setLabelColor(QColor color)
 */
 QColor QBarSet::selectedColor() const
 {
-    return d_ptr->m_selectedColor;
+    const Q_D(QBarSet);
+    return d->m_selectedColor;
 }
 
 /*!
@@ -465,11 +525,12 @@ QColor QBarSet::selectedColor() const
 */
 void QBarSet::setSelectedColor(const QColor &color)
 {
-    if (d_ptr->m_selectedColor != color) {
-        d_ptr->m_selectedColor = color;
-        d_ptr->setLabelsDirty(true);
+    Q_D(QBarSet);
+    if (d->m_selectedColor != color) {
+        d->m_selectedColor = color;
+        d->setLabelsDirty(true);
         emit update();
-        emit d_ptr->updatedBars();
+        emit updatedBars();
         emit selectedColorChanged(color);
     }
 }
@@ -477,13 +538,15 @@ void QBarSet::setSelectedColor(const QColor &color)
 
 qreal QBarSet::borderWidth() const
 {
-    return d_ptr->m_borderWidth;
+    const Q_D(QBarSet);
+    return d->m_borderWidth;
 }
 
 void QBarSet::setBorderWidth(qreal width)
 {
-    if (d_ptr->m_borderWidth != width) {
-        d_ptr->m_borderWidth = width;
+    Q_D(QBarSet);
+    if (d->m_borderWidth != width) {
+        d->m_borderWidth = width;
         emit update();
         emit borderWidthChanged(width);
     }
@@ -560,7 +623,8 @@ void QBarSet::setValues(QVariantList values)
  */
 bool QBarSet::isBarSelected(int index) const
 {
-    return d_ptr->isBarSelected(index);
+    const Q_D(QBarSet);
+    return d->isBarSelected(index);
 }
 
 /*!
@@ -590,8 +654,9 @@ void QBarSet::deselectBar(int index)
  */
 void QBarSet::setBarSelected(int index, bool selected)
 {
+    Q_D(QBarSet);
     bool callSignal = false;
-    d_ptr->setBarSelected(index, selected, callSignal);
+    d->setBarSelected(index, selected, callSignal);
 
     if (callSignal)
         emit selectedBarsChanged(selectedBars());
@@ -605,9 +670,10 @@ void QBarSet::setBarSelected(int index, bool selected)
  */
 void QBarSet::selectAllBars()
 {
+    Q_D(QBarSet);
     bool callSignal = false;
-    for (int i = 0; i < d_ptr->m_values.size(); ++i)
-        d_ptr->setBarSelected(i, true, callSignal);
+    for (int i = 0; i < d->m_values.size(); ++i)
+        d->setBarSelected(i, true, callSignal);
 
     if (callSignal)
         emit selectedBarsChanged(selectedBars());
@@ -621,9 +687,10 @@ void QBarSet::selectAllBars()
  */
 void QBarSet::deselectAllBars()
 {
+    Q_D(QBarSet);
     bool callSignal = false;
-    for (int i = 0; i < d_ptr->m_values.size(); ++i)
-        d_ptr->setBarSelected(i, false, callSignal);
+    for (int i = 0; i < d->m_values.size(); ++i)
+        d->setBarSelected(i, false, callSignal);
 
     if (callSignal)
         emit selectedBarsChanged(selectedBars());
@@ -637,9 +704,10 @@ void QBarSet::deselectAllBars()
  */
 void QBarSet::selectBars(const QList<int> &indexes)
 {
+    Q_D(QBarSet);
     bool callSignal = false;
     for (const int &index : indexes)
-        d_ptr->setBarSelected(index, true, callSignal);
+        d->setBarSelected(index, true, callSignal);
 
     if (callSignal)
         emit selectedBarsChanged(selectedBars());
@@ -653,9 +721,10 @@ void QBarSet::selectBars(const QList<int> &indexes)
  */
 void QBarSet::deselectBars(const QList<int> &indexes)
 {
+    Q_D(QBarSet);
     bool callSignal = false;
     for (const int &index : indexes)
-        d_ptr->setBarSelected(index, false, callSignal);
+        d->setBarSelected(index, false, callSignal);
 
     if (callSignal)
         emit selectedBarsChanged(selectedBars());
@@ -669,9 +738,10 @@ void QBarSet::deselectBars(const QList<int> &indexes)
  */
 void QBarSet::toggleSelection(const QList<int> &indexes)
 {
+    Q_D(QBarSet);
     bool callSignal = false;
     for (const int &index : indexes)
-        d_ptr->setBarSelected(index, !isBarSelected(index), callSignal);
+        d->setBarSelected(index, !isBarSelected(index), callSignal);
 
     if (callSignal)
         emit selectedBarsChanged(selectedBars());
@@ -684,27 +754,25 @@ void QBarSet::toggleSelection(const QList<int> &indexes)
  */
 QList<int> QBarSet::selectedBars() const
 {
-    return QList<int>(d_ptr->m_selectedBars.begin(), d_ptr->m_selectedBars.end());
+    const Q_D(QBarSet);
+    return QList<int>(d->m_selectedBars.begin(), d->m_selectedBars.end());
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-QBarSetPrivate::QBarSetPrivate(const QString label, QBarSet *parent) : QObject(parent),
-    q_ptr(parent),
-    m_label(label),
-    m_visualsDirty(true)
-{
-}
+QBarSetPrivate::QBarSetPrivate(const QString label)
+    : m_label(label)
+    , m_visualsDirty(true)
+{}
 
-QBarSetPrivate::~QBarSetPrivate()
-{
-}
+QBarSetPrivate::~QBarSetPrivate() {}
 
 void QBarSetPrivate::append(QPointF value)
 {
     if (isValidValue(value)) {
+        Q_Q(QBarSet);
         m_values.append(value);
-        emit valueAdded(m_values.size() - 1, 1);
+        emit q->valueAdded(m_values.size() - 1, 1);
     }
 }
 
@@ -715,7 +783,8 @@ void QBarSetPrivate::append(const QList<QPointF> &values)
         if (isValidValue(value))
             m_values.append(value);
     }
-    emit valueAdded(originalIndex, values.size());
+    Q_Q(QBarSet);
+    emit q->valueAdded(originalIndex, values.size());
 }
 
 void QBarSetPrivate::append(const QList<qreal> &values)
@@ -728,19 +797,22 @@ void QBarSetPrivate::append(const QList<qreal> &values)
             index++;
         }
     }
-    emit valueAdded(originalIndex, values.size());
+    Q_Q(QBarSet);
+    emit q->valueAdded(originalIndex, values.size());
 }
 
 void QBarSetPrivate::insert(const int index, const qreal value)
 {
     m_values.insert(index, QPointF(index, value));
-    emit valueAdded(index, 1);
+    Q_Q(QBarSet);
+    emit q->valueAdded(index, 1);
 }
 
 void QBarSetPrivate::insert(const int index, const QPointF value)
 {
     m_values.insert(index, value);
-    emit valueAdded(index, 1);
+    Q_Q(QBarSet);
+    emit q->valueAdded(index, 1);
 }
 
 int QBarSetPrivate::remove(const int index, const int count)
@@ -775,10 +847,10 @@ int QBarSetPrivate::remove(const int index, const int count)
 
         m_selectedBars = selectedAfterRemoving;
     }
-
-    emit valueRemoved(index, removeCount);
+    Q_Q(QBarSet);
+    emit q->valueRemoved(index, removeCount);
     if (callSignal)
-        emit q_ptr->selectedBarsChanged(q_ptr->selectedBars());
+        emit q->selectedBarsChanged(q->selectedBars());
 
     return removeCount;
 }
@@ -789,7 +861,8 @@ void QBarSetPrivate::replace(const int index, const qreal value)
         return;
 
     m_values.replace(index, QPointF(index, value));
-    emit valueChanged(index);
+    Q_Q(QBarSet);
+    emit q->valueChanged(index);
 }
 
 qreal QBarSetPrivate::pos(const int index)
@@ -835,4 +908,3 @@ bool QBarSetPrivate::isBarSelected(int index) const
 QT_END_NAMESPACE
 
 #include "moc_qbarset.cpp"
-#include "moc_qbarset_p.cpp"

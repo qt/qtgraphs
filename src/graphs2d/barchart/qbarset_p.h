@@ -13,22 +13,22 @@
 #ifndef QBARSET_P_H
 #define QBARSET_P_H
 
-#include <QtGraphs/qbarset.h>
+#include <QSet>
 #include <QtCore/QMap>
-#include <QtGui/QPen>
+#include <QtGraphs/qbarset.h>
 #include <QtGui/QBrush>
 #include <QtGui/QFont>
-#include <QSet>
+#include <QtGui/QPen>
+#include <private/qobject_p.h>
 
 QT_BEGIN_NAMESPACE
 
-class QBarSetPrivate : public QObject
+class QBarSetPrivate : public QObjectPrivate
 {
-    Q_OBJECT
-
+    Q_DECLARE_PUBLIC(QBarSet)
 public:
-    QBarSetPrivate(const QString label, QBarSet *parent);
-    ~QBarSetPrivate();
+    QBarSetPrivate(const QString label);
+    ~QBarSetPrivate() override;
 
     void append(QPointF value);
     void append(const QList<QPointF> &values);
@@ -51,14 +51,7 @@ public:
     void setBarSelected(int index, bool selected, bool &callSignal);
     bool isBarSelected(int index) const;
 
-Q_SIGNALS:
-    void updatedBars();
-    void valueChanged(int index);
-    void valueAdded(int index, int count);
-    void valueRemoved(int index, int count);
-
 public:
-    QBarSet * const q_ptr;
     QString m_label;
     QList<QPointF> m_values;
     QSet<int> m_selectedBars;
@@ -72,7 +65,7 @@ public:
     bool m_visualsDirty;
     bool m_labelsDirty;
 
-    friend class QBarSet;
+    friend class QAbstractBarSeries;
 };
 
 QT_END_NAMESPACE

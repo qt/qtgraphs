@@ -27,11 +27,12 @@ class Q_GRAPHS_EXPORT QBarSet : public QObject
     Q_PROPERTY(int count READ count NOTIFY countChanged)
     Q_PROPERTY(QList<int> selectedBars READ selectedBars NOTIFY selectedBarsChanged)
     QML_NAMED_ELEMENT(BarSet)
+    Q_DECLARE_PRIVATE(QBarSet)
 
 public:
     explicit QBarSet(QObject *parent = nullptr);
     explicit QBarSet(const QString label, QObject *parent = nullptr);
-    virtual ~QBarSet();
+    ~QBarSet() override;
 
     void setLabel(const QString label);
     QString label() const;
@@ -96,10 +97,13 @@ Q_SIGNALS:
     void valuesRemoved(int index, int count);
     void valueChanged(int index);
 
+    void updatedBars();
+    void valueAdded(int index, int count);
+    void valueRemoved(int index, int count);
+
     void selectedBarsChanged(const QList<int> &indexes);
 
 private:
-    QScopedPointer<QBarSetPrivate> d_ptr;
     Q_DISABLE_COPY(QBarSet)
     friend class QAbstractBarSeries;
     friend class QAbstractBarSeriesPrivate;
