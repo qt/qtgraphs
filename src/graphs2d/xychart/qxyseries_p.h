@@ -22,10 +22,8 @@ class QAbstractAxis;
 
 class QXYSeriesPrivate : public QAbstractSeriesPrivate
 {
-    Q_OBJECT
-
 public:
-    QXYSeriesPrivate(QXYSeries *q);
+    QXYSeriesPrivate();
 
     void initializeAxes() override;
 
@@ -34,9 +32,6 @@ public:
 
     bool isMarkerSizeDefault();
     void setMarkerSize(qreal markerSize);
-
-Q_SIGNALS:
-    void seriesUpdated();
 
 protected:
     QList<QPointF> m_points;

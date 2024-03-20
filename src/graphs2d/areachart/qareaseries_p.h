@@ -21,7 +21,7 @@ QT_BEGIN_NAMESPACE
 class QAreaSeriesPrivate : public QAbstractSeriesPrivate
 {
 public:
-    QAreaSeriesPrivate(QAreaSeries *q);
+    QAreaSeriesPrivate();
     void initializeAxes() override;
 
 protected:

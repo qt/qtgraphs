@@ -37,7 +37,7 @@ public:
     Q_ENUM(LabelsPosition)
 
 public:
-    virtual ~QAbstractBarSeries();
+    ~QAbstractBarSeries() override;
 
     void setBarWidth(qreal width);
     qreal barWidth() const;
@@ -75,7 +75,7 @@ public Q_SLOTS:
     void deselectAll();
 
 protected:
-    explicit QAbstractBarSeries(QAbstractBarSeriesPrivate &d, QObject *parent = nullptr);
+    explicit QAbstractBarSeries(QAbstractBarSeriesPrivate &dd, QObject *parent = nullptr);
 
     void componentComplete() override;
 
@@ -85,9 +85,12 @@ Q_SIGNALS:
     void pressed(int index, QBarSet *barset);
     void released(int index, QBarSet *barset);
     void doubleClicked(int index, QBarSet *barset);
+    void updatedBars();
+    void updatedLayout();
+    void restructuredBars();
     void countChanged();
     void barWidthChanged();
-    void labelsVisibleChanged();
+    void labelsVisibleChanged(bool visible);
     void labelsFormatChanged(const QString &format);
     void labelsPositionChanged(QAbstractBarSeries::LabelsPosition position);
     void labelsAngleChanged(qreal angle);
@@ -96,6 +99,14 @@ Q_SIGNALS:
 
     void barsetsAdded(const QList<QBarSet *> &sets);
     void barsetsRemoved(const QList<QBarSet *> &sets);
+    void setValueChanged(int index, QBarSet *barset);
+    void setValueAdded(int index, int count, QBarSet *barset);
+    void setValueRemoved(int index, int count, QBarSet *barset);
+
+private Q_SLOTS:
+    void handleSetValueChange(int index);
+    void handleSetValueAdd(int index, int count);
+    void handleSetValueRemove(int index, int count);
 
 protected:
     Q_DECLARE_PRIVATE(QAbstractBarSeries)

@@ -161,7 +161,7 @@ void BarsRenderer::handlePolish(QBarSeries *series)
         posInSet += barWidth + barMargin;
         barSerieIndex++;
     }
-    series->d_ptr->setLegendData(legendDataList);
+    series->d_func()->setLegendData(legendDataList);
 }
 
 void BarsRenderer::updateSeries(QBarSeries *series)

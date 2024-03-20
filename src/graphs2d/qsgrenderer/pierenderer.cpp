@@ -1,13 +1,14 @@
 // Copyright (C) 2024 The Qt Company Ltd.
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 
-#include <private/qabstractseries_p.h>
-#include <private/qgraphsview_p.h>
-#include <private/pierenderer_p.h>
-#include <private/qquickshape_p.h>
-#include <private/qpieslice_p.h>
 #include <QtGraphs/qpieseries.h>
 #include <QtGraphs/qpieslice.h>
+#include <private/pierenderer_p.h>
+#include <private/qabstractseries_p.h>
+#include <private/qgraphsview_p.h>
+#include <private/qpieseries_p.h>
+#include <private/qpieslice_p.h>
+#include <private/qquickshape_p.h>
 
 PieRenderer::PieRenderer(QQuickItem *parent)
     : QQuickItem(parent)
@@ -154,5 +155,5 @@ void PieRenderer::updateSeries(QPieSeries *series)
         sliceIndex++;
         legendDataList.push_back({color, borderColor, d->m_labelText});
     }
-    series->d_ptr->setLegendData(legendDataList);
+    series->d_func()->setLegendData(legendDataList);
 }

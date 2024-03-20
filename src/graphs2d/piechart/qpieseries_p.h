@@ -20,10 +20,8 @@ QT_BEGIN_NAMESPACE
 
 class QPieSeriesPrivate : public QAbstractSeriesPrivate
 {
-    Q_OBJECT
-
 public:
-    QPieSeriesPrivate(QPieSeries *q);
+    QPieSeriesPrivate();
     ~QPieSeriesPrivate() = default;
 
     void initializeAxes() override;
@@ -31,9 +29,6 @@ public:
     void updateData();
     void updateLabels();
     void setSizes(qreal innerSize, qreal outerSize);
-
-public Q_SLOTS:
-    void handleSliceChange();
 
 private:
     QList<QPieSlice *> m_slices;

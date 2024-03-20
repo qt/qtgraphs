@@ -16,27 +16,24 @@
 
 #include <QtGraphs/qabstractseries.h>
 #include <memory>
+#include <private/qobject_p.h>
 
 QT_BEGIN_NAMESPACE
 
 class QAbstractAxis;
 class QGraphsView;
 
-class QAbstractSeriesPrivate : public QObject
+class QAbstractSeriesPrivate : public QObjectPrivate
 {
-    Q_OBJECT
+    Q_DECLARE_PUBLIC(QAbstractSeries)
 public:
-    QAbstractSeriesPrivate(QAbstractSeries *q);
-    ~QAbstractSeriesPrivate();
+    explicit QAbstractSeriesPrivate();
+    ~QAbstractSeriesPrivate() override;
 
-    virtual void initializeAxes() = 0;
+    virtual void initializeAxes(){};
     void setLegendData(const QList<QLegendData> &legendData);
 
-Q_SIGNALS:
-    void countChanged();
-
 protected:
-    QAbstractSeries *q_ptr;
     QGraphsView *m_graph;
     QList<QAbstractAxis*> m_axes;
 
@@ -49,8 +46,6 @@ private:
     qreal m_opacity;
     qreal m_valuesMultiplier;
     QList<QLegendData> m_legendData;
-
-    friend class QAbstractSeries;
 };
 
 QT_END_NAMESPACE

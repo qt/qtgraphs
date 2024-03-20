@@ -268,46 +268,50 @@ QT_BEGIN_NAMESPACE
     \internal
     \brief Constructs QAbstractSeries object with \a parent.
 */
-QAbstractSeries::QAbstractSeries(QAbstractSeriesPrivate &d, QObject *parent) :
-    QObject(parent),
-    d_ptr(&d)
-{
-}
+
+QAbstractSeries::QAbstractSeries(QAbstractSeriesPrivate &dd, QObject *parent)
+    : QObject(dd, parent)
+{}
 
 /*!
     \brief Virtual destructor for the graph series.
 */
 QAbstractSeries::~QAbstractSeries()
 {
-    //if (d_ptr->m_graph)
+    //if (d->m_graph)
     //    qFatal("Series still bound to a graph when destroyed!");
-    if (d_ptr->m_graph)
-        d_ptr->m_graph->removeSeries(this);
+    Q_D(QAbstractSeries);
+    if (d->m_graph)
+        d->m_graph->removeSeries(this);
 }
 
 QSeriesTheme *QAbstractSeries::theme() const
 {
-    return d_ptr->m_theme;
+    const Q_D(QAbstractSeries);
+    return d->m_theme;
 }
 
 void QAbstractSeries::setTheme(QSeriesTheme *newTheme)
 {
-    if (d_ptr->m_theme == newTheme)
+    Q_D(QAbstractSeries);
+    if (d->m_theme == newTheme)
         return;
-    d_ptr->m_theme = newTheme;
+    d->m_theme = newTheme;
     update();
     emit themeChanged();
 }
 
 QString QAbstractSeries::name() const
 {
-    return d_ptr->m_name;
+    const Q_D(QAbstractSeries);
+    return d->m_name;
 }
 
 void QAbstractSeries::setName(const QString &name)
 {
-    if (name != d_ptr->m_name) {
-        d_ptr->m_name = name;
+    Q_D(QAbstractSeries);
+    if (name != d->m_name) {
+        d->m_name = name;
         update();
         emit nameChanged();
     }
@@ -315,13 +319,15 @@ void QAbstractSeries::setName(const QString &name)
 
 bool QAbstractSeries::isVisible() const
 {
-    return d_ptr->m_visible;
+    const Q_D(QAbstractSeries);
+    return d->m_visible;
 }
 
 void QAbstractSeries::setVisible(bool visible)
 {
-    if (visible != d_ptr->m_visible) {
-        d_ptr->m_visible = visible;
+    Q_D(QAbstractSeries);
+    if (visible != d->m_visible) {
+        d->m_visible = visible;
         update();
         emit visibleChanged();
     }
@@ -329,13 +335,15 @@ void QAbstractSeries::setVisible(bool visible)
 
 bool QAbstractSeries::selectable() const
 {
-    return d_ptr->m_selectable;
+    const Q_D(QAbstractSeries);
+    return d->m_selectable;
 }
 
 void QAbstractSeries::setSelectable(bool selectable)
 {
-    if (selectable != d_ptr->m_selectable) {
-        d_ptr->m_selectable = selectable;
+    Q_D(QAbstractSeries);
+    if (selectable != d->m_selectable) {
+        d->m_selectable = selectable;
         update();
         emit selectableChanged();
     }
@@ -343,13 +351,15 @@ void QAbstractSeries::setSelectable(bool selectable)
 
 bool QAbstractSeries::hoverable() const
 {
-    return d_ptr->m_hoverable;
+    const Q_D(QAbstractSeries);
+    return d->m_hoverable;
 }
 
 void QAbstractSeries::setHoverable(bool hoverable)
 {
-    if (hoverable != d_ptr->m_hoverable) {
-        d_ptr->m_hoverable = hoverable;
+    Q_D(QAbstractSeries);
+    if (hoverable != d->m_hoverable) {
+        d->m_hoverable = hoverable;
         update();
         emit hoverableChanged();
     }
@@ -357,13 +367,15 @@ void QAbstractSeries::setHoverable(bool hoverable)
 
 qreal QAbstractSeries::opacity() const
 {
-    return d_ptr->m_opacity;
+    const Q_D(QAbstractSeries);
+    return d->m_opacity;
 }
 
 void QAbstractSeries::setOpacity(qreal opacity)
 {
-    if (opacity != d_ptr->m_opacity) {
-        d_ptr->m_opacity = opacity;
+    Q_D(QAbstractSeries);
+    if (opacity != d->m_opacity) {
+        d->m_opacity = opacity;
         update();
         emit opacityChanged();
     }
@@ -371,14 +383,16 @@ void QAbstractSeries::setOpacity(qreal opacity)
 
 qreal QAbstractSeries::valuesMultiplier() const
 {
-    return d_ptr->m_valuesMultiplier;
+    const Q_D(QAbstractSeries);
+    return d->m_valuesMultiplier;
 }
 
 void QAbstractSeries::setValuesMultiplier(qreal valuesMultiplier)
 {
+    Q_D(QAbstractSeries);
     valuesMultiplier = std::clamp(valuesMultiplier, 0.0, 1.0);
-    if (valuesMultiplier != d_ptr->m_valuesMultiplier) {
-        d_ptr->m_valuesMultiplier = valuesMultiplier;
+    if (valuesMultiplier != d->m_valuesMultiplier) {
+        d->m_valuesMultiplier = valuesMultiplier;
         update();
         emit valuesMultiplierChanged();
     }
@@ -392,12 +406,14 @@ void QAbstractSeries::setValuesMultiplier(qreal valuesMultiplier)
 */
 QGraphsView *QAbstractSeries::graph() const
 {
-    return d_ptr->m_graph;
+    const Q_D(QAbstractSeries);
+    return d->m_graph;
 }
 
 void QAbstractSeries::setGraph(QGraphsView *graph)
 {
-    d_ptr->m_graph = graph;
+    Q_D(QAbstractSeries);
+    d->m_graph = graph;
     switch (type()) {
     case QAbstractSeries::SeriesTypeBar:
         graph->createBarsRenderer();
@@ -420,11 +436,11 @@ void QAbstractSeries::setGraph(QGraphsView *graph)
         break;
     }
 
-    if (d_ptr->m_graph) {
+    if (d->m_graph) {
         // Attach pending axes
-        for (auto axis : d_ptr->m_axes) {
-            d_ptr->m_graph->addAxis(axis);
-            QObject::connect(axis, &QAbstractAxis::update, d_ptr->m_graph, &QQuickItem::update);
+        for (auto axis : d->m_axes) {
+            d->m_graph->addAxis(axis);
+            QObject::connect(axis, &QAbstractAxis::update, d->m_graph, &QQuickItem::update);
         }
     }
 }
@@ -459,10 +475,11 @@ void QAbstractSeries::hide()
 */
 bool QAbstractSeries::attachAxis(QAbstractAxis* axis)
 {
-    d_ptr->m_axes.append(axis);
-    if (d_ptr->m_graph) {
-        d_ptr->m_graph->addAxis(axis);
-        QObject::connect(axis, &QAbstractAxis::update, d_ptr->m_graph, &QQuickItem::update);
+    Q_D(QAbstractSeries);
+    d->m_axes.append(axis);
+    if (d->m_graph) {
+        d->m_graph->addAxis(axis);
+        QObject::connect(axis, &QAbstractAxis::update, d->m_graph, &QQuickItem::update);
         return true;
     }
     //qWarning("Series not in the graph. Please addSeries to graph first.");
@@ -476,10 +493,11 @@ bool QAbstractSeries::attachAxis(QAbstractAxis* axis)
 */
 bool QAbstractSeries::detachAxis(QAbstractAxis* axis)
 {
-    d_ptr->m_axes.removeAll(axis);
-    if (d_ptr->m_graph) {
-        d_ptr->m_graph->removeAxis(axis);
-        QObject::disconnect(axis, &QAbstractAxis::update, d_ptr->m_graph, &QQuickItem::update);
+    Q_D(QAbstractSeries);
+    d->m_axes.removeAll(axis);
+    if (d->m_graph) {
+        d->m_graph->removeAxis(axis);
+        QObject::disconnect(axis, &QAbstractAxis::update, d->m_graph, &QQuickItem::update);
         return true;
     }
     //qWarning("Series not in the graph. Please addSeries to graph first.");
@@ -493,20 +511,14 @@ bool QAbstractSeries::detachAxis(QAbstractAxis* axis)
  */
 QList<QAbstractAxis*> QAbstractSeries::attachedAxes()
 {
-    return d_ptr->m_axes;
+    Q_D(QAbstractSeries);
+    return d->m_axes;
 }
 
 const QList<QLegendData> QAbstractSeries::legendData() const
 {
-    return d_ptr->m_legendData;
-}
-
-void QAbstractSeriesPrivate::setLegendData(const QList<QLegendData> &legendData)
-{
-    if (legendData.data() != m_legendData.data()) {
-        m_legendData = legendData;
-        emit q_ptr->legendDataChanged();
-    }
+    const Q_D(QAbstractSeries);
+    return d->m_legendData;
 }
 
 QQmlListProperty<QObject> QAbstractSeries::seriesChildren()
@@ -527,32 +539,17 @@ void QAbstractSeries::classBegin()
 
 void QAbstractSeries::componentComplete()
 {
-    if (!d_ptr->m_theme) {
-        d_ptr->m_theme = new QSeriesTheme(this);
-        d_ptr->m_theme->resetColorTheme();
+    Q_D(QAbstractSeries);
+
+    if (!d->m_theme) {
+        d->m_theme = new QSeriesTheme(this);
+        d->m_theme->resetColorTheme();
     }
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-// QQmlListProperty<QAbstractSeries::QLegendData> QAbstractSeries::legendDataQML()
-// {
-//     return QQmlListProperty<QLegendData>(this,
-//                                          this,
-//                                          &QAbstractSeries::countLegendDataFunc,
-//                                          &QAbstractSeries::atLegendDataFunc);
-// }
-// qsizetype QAbstractSeries::countLegendDataFunc(QQmlListProperty<QLegendData> *list)
-// {
-//     return reinterpret_cast<QAbstractSeries *>(list->data)->legendData().size();
-// }
-// const QAbstractSeries::QLegendData *QAbstractSeries::atLegendDataFunc(
-//     QQmlListProperty<QLegendData> *list, qsizetype index)
-// {
-//     return reinterpret_cast<QAbstractSeries *>(list->data)->legendData().at(index);
-// }
 
-QAbstractSeriesPrivate::QAbstractSeriesPrivate(QAbstractSeries *q)
-    : q_ptr(q)
-    , m_graph(nullptr)
+QAbstractSeriesPrivate::QAbstractSeriesPrivate()
+    : m_graph(nullptr)
     , m_visible(true)
     , m_opacity(1.0)
     , m_valuesMultiplier(1.0)
@@ -561,6 +558,15 @@ QAbstractSeriesPrivate::QAbstractSeriesPrivate(QAbstractSeries *q)
 
 QAbstractSeriesPrivate::~QAbstractSeriesPrivate()
 {
+}
+
+void QAbstractSeriesPrivate::setLegendData(const QList<QLegendData> &legendData)
+{
+    Q_Q(QAbstractSeries);
+    if (legendData.data() != m_legendData.data()) {
+        m_legendData = legendData;
+        emit q->legendDataChanged();
+    }
 }
 
 QT_END_NAMESPACE

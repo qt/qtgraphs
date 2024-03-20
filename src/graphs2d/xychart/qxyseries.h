@@ -27,10 +27,10 @@ class Q_GRAPHS_EXPORT QXYSeries : public QAbstractSeries
     Q_PROPERTY(QQmlComponent *pointMarker READ pointMarker WRITE setPointMarker NOTIFY pointMarkerChanged FINAL)
 
 protected:
-    explicit QXYSeries(QXYSeriesPrivate &d, QObject *parent = nullptr);
+    explicit QXYSeries(QXYSeriesPrivate &dd, QObject *parent = nullptr);
 
 public:
-    ~QXYSeries();
+    ~QXYSeries() override;
     // TODO: Consider making these slots, available from QML.
     void append(qreal x, qreal y);
     void append(const QPointF &point);
@@ -99,8 +99,10 @@ Q_SIGNALS:
     void axisXChanged();
     void axisYChanged();
     void pointMarkerChanged();
+    void seriesUpdated();
 
 private:
+    friend class PointRenderer;
     Q_DECLARE_PRIVATE(QXYSeries)
     Q_DISABLE_COPY(QXYSeries)
 };

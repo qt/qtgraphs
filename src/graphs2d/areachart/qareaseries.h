@@ -78,9 +78,10 @@ Q_SIGNALS:
     void lowerSeriesChanged();
 
 protected:
-    QAreaSeries(QAreaSeriesPrivate &d, QObject *parent = nullptr);
+    QAreaSeries(QAreaSeriesPrivate &dd, QObject *parent = nullptr);
 
 private:
+    friend class AreaRenderer;
     Q_DECLARE_PRIVATE(QAreaSeries)
     Q_DISABLE_COPY(QAreaSeries)
 };

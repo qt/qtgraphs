@@ -307,7 +307,7 @@ QT_BEGIN_NAMESPACE
     Constructs a series object that is a child of \a parent.
 */
 QPieSeries::QPieSeries(QObject *parent)
-    : QAbstractSeries(*new QPieSeriesPrivate(this), parent)
+    : QAbstractSeries(*(new QPieSeriesPrivate()), parent)
 {}
 
 
@@ -387,7 +387,7 @@ bool QPieSeries::append(const QList<QPieSlice *> &slices)
     d->updateData();
 
     for (auto *s : slices)
-        QObject::connect(s, SIGNAL(sliceChanged()), d, SLOT(handleSliceChange()));
+        QObject::connect(s, SIGNAL(sliceChanged()), this, SLOT(handleSliceChange()));
 
     emit added(slices);
     emit countChanged();
@@ -451,7 +451,7 @@ bool QPieSeries::insert(int index, QPieSlice *slice)
 
     d->updateData();
 
-    connect(slice, SIGNAL(sliceChanged()), d, SLOT(handleSliceChange()));
+    connect(slice, SIGNAL(sliceChanged()), this, SLOT(handleSliceChange()));
 
     emit added(QList<QPieSlice *>() << slice);
     emit countChanged();
@@ -502,7 +502,7 @@ bool QPieSeries::take(QPieSlice *slice)
         return false;
 
     slice->d_func()->m_series = 0;
-    slice->disconnect(d);
+    slice->disconnect(this);
 
     d->updateData();
 
@@ -736,6 +736,18 @@ void QPieSeries::setLabelsPosition(QPieSlice::LabelPosition position)
         s->setLabelPosition(position);
 }
 
+void QPieSeries::handleSliceChange()
+{
+    QPieSlice *pSlice = qobject_cast<QPieSlice *>(sender());
+    Q_D(QPieSeries);
+    Q_ASSERT(d->m_slices.contains(pSlice));
+    d->updateData();
+}
+
+QPieSeries::QPieSeries(QPieSeriesPrivate &dd, QObject *parent)
+    : QAbstractSeries(dd, parent)
+{}
+
 void QPieSeries::setHoleSize(qreal holeSize)
 {
     Q_D(QPieSeries);
@@ -749,9 +761,8 @@ qreal QPieSeries::holeSize() const
     return d->m_holeRelativeSize;
 }
 
-QPieSeriesPrivate::QPieSeriesPrivate(QPieSeries *q)
-    : QAbstractSeriesPrivate(q)
-    , m_pieRelativeHorPos(.5)
+QPieSeriesPrivate::QPieSeriesPrivate()
+    : m_pieRelativeHorPos(.5)
     , m_pieRelativeVerPos(.5)
     , m_pieRelativeSize(.7)
     , m_pieStartAngle(0)
@@ -759,13 +770,6 @@ QPieSeriesPrivate::QPieSeriesPrivate(QPieSeries *q)
     , m_sum(0)
     , m_holeRelativeSize(.0)
 {}
-
-void QPieSeriesPrivate::handleSliceChange()
-{
-    QPieSlice *pSlice = qobject_cast<QPieSlice *>(sender());
-    Q_ASSERT(m_slices.contains(pSlice));
-    updateData();
-}
 
 void QPieSeriesPrivate::updateData()
 {

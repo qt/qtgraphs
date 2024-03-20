@@ -22,9 +22,10 @@ QT_BEGIN_NAMESPACE
 
 class QAbstractBarSeriesPrivate : public QAbstractSeriesPrivate
 {
-    Q_OBJECT
+    Q_DECLARE_PUBLIC(QAbstractBarSeries)
+
 public:
-    QAbstractBarSeriesPrivate(QAbstractBarSeries *parent);
+    explicit QAbstractBarSeriesPrivate();
     int categoryCount() const;
 
     void setBarWidth(qreal width);
@@ -64,25 +65,6 @@ public:
     void setLabelsDirty(bool dirty) { m_labelsDirty = dirty; }
     bool labelsDirty() const { return m_labelsDirty; }
 
-Q_SIGNALS:
-    void clicked(int index, QBarSet *barset);
-    void pressed(int index, QBarSet *barset);
-    void released(int index, QBarSet *barset);
-    void doubleClicked(int index, QBarSet *barset);
-    void updatedBars();
-    void updatedLayout();
-    void restructuredBars();
-    void labelsVisibleChanged(bool visible);
-    void visibleChanged();
-    void setValueChanged(int index, QBarSet *barset);
-    void setValueAdded(int index, int count, QBarSet *barset);
-    void setValueRemoved(int index, int count, QBarSet *barset);
-
-private Q_SLOTS:
-    void handleSetValueChange(int index);
-    void handleSetValueAdd(int index, int count);
-    void handleSetValueRemove(int index, int count);
-
 protected:
     QList<QBarSet *> m_barSets;
     qreal m_barWidth;
@@ -97,8 +79,6 @@ protected:
     bool m_labelsDirty;
     QQmlComponent *m_barComponent = nullptr;
 
-private:
-    Q_DECLARE_PUBLIC(QAbstractBarSeries)
 };
 
 QT_END_NAMESPACE

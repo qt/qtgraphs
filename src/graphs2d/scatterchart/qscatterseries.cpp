@@ -104,16 +104,12 @@ QT_BEGIN_NAMESPACE
 */
 
 QScatterSeries::QScatterSeries(QObject *parent)
-    : QXYSeries(*new QScatterSeriesPrivate(this), parent)
-{
+    : QXYSeries(*(new QScatterSeriesPrivate()), parent)
+{}
 
-}
-
-QScatterSeries::QScatterSeries(QScatterSeriesPrivate &d, QObject *parent)
-    : QXYSeries(d, parent)
-{
-
-}
+QScatterSeries::QScatterSeries(QScatterSeriesPrivate &dd, QObject *parent)
+    : QXYSeries(dd, parent)
+{}
 
 void QScatterSeries::componentComplete()
 {
@@ -137,10 +133,8 @@ QAbstractSeries::SeriesType QScatterSeries::type() const
     return QAbstractSeries::SeriesTypeScatter;
 }
 
-QScatterSeriesPrivate::QScatterSeriesPrivate(QScatterSeries *q)
-    : QXYSeriesPrivate(q)
+QScatterSeriesPrivate::QScatterSeriesPrivate()
 {
 }
-
 
 QT_END_NAMESPACE

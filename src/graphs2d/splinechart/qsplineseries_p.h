@@ -22,7 +22,7 @@ QT_BEGIN_NAMESPACE
 class QSplineSeriesPrivate : public QXYSeriesPrivate
 {
 public:
-    QSplineSeriesPrivate(QObject *q, QSplineSeries *series);
+    QSplineSeriesPrivate(QObject *parent, QSplineSeries *q);
 
 protected:
     qreal m_width;

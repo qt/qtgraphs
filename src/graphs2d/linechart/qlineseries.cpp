@@ -65,16 +65,12 @@ QT_BEGIN_NAMESPACE
 */
 
 QLineSeries::QLineSeries(QObject *parent)
-    : QXYSeries(*new QLineSeriesPrivate(this), parent)
-{
+    : QXYSeries(*(new QLineSeriesPrivate()), parent)
+{}
 
-}
-
-QLineSeries::QLineSeries(QLineSeriesPrivate &d, QObject *parent)
-    : QXYSeries(d, parent)
-{
-
-}
+QLineSeries::QLineSeries(QLineSeriesPrivate &dd, QObject *parent)
+    : QXYSeries(dd, parent)
+{}
 
 void QLineSeries::componentComplete()
 {
@@ -98,10 +94,7 @@ QAbstractSeries::SeriesType QLineSeries::type() const
     return QAbstractSeries::SeriesTypeLine;
 }
 
-QLineSeriesPrivate::QLineSeriesPrivate(QLineSeries *q)
-    : QXYSeriesPrivate(q)
-{
-}
+QLineSeriesPrivate::QLineSeriesPrivate() {}
 
 qreal QLineSeries::width() const
 {

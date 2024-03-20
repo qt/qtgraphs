@@ -33,9 +33,14 @@ Q_SIGNALS:
     void axisXChanged(QAbstractAxis *axis);
     void axisYChanged(QAbstractAxis *axis);
 
+protected:
+    QBarSeries(QBarSeriesPrivate &dd, QObject *parent = nullptr);
+
 private:
     Q_DECLARE_PRIVATE(QBarSeries)
     Q_DISABLE_COPY(QBarSeries)
+
+    friend class BarsRenderer;
 };
 
 QT_END_NAMESPACE

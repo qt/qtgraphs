@@ -43,7 +43,7 @@ Q_SIGNALS:
     void animatedChanged();
 
 protected:
-    QSplineSeries(QSplineSeriesPrivate &d, QObject *parent = nullptr);
+    QSplineSeries(QSplineSeriesPrivate &dd, QObject *parent = nullptr);
 
     void componentComplete() override;
 

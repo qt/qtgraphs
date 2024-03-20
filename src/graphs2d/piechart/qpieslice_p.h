@@ -34,7 +34,7 @@ class QPieSlicePrivate : public QObjectPrivate
 {
 public:
     QPieSlicePrivate();
-    ~QPieSlicePrivate();
+    ~QPieSlicePrivate() override;
 
     void setPercentage(qreal percentage);
     void setStartAngle(qreal angle);

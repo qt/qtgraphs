@@ -35,7 +35,7 @@ Q_SIGNALS:
     void capStyleChanged();
 
 protected:
-    QLineSeries(QLineSeriesPrivate &d, QObject *parent = nullptr);
+    QLineSeries(QLineSeriesPrivate &dd, QObject *parent = nullptr);
 
     void componentComplete() override;
 

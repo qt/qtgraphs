@@ -37,10 +37,12 @@ QT_BEGIN_NAMESPACE
     Constructs an empty bar series that is a QObject and a child of \a parent.
 */
 QBarSeries::QBarSeries(QObject *parent)
-    : QAbstractBarSeries(*new QBarSeriesPrivate(this), parent)
-{
+    : QAbstractBarSeries(*(new QBarSeriesPrivate()), parent)
+{}
 
-}
+QBarSeries::QBarSeries(QBarSeriesPrivate &dd, QObject *parent)
+    : QAbstractBarSeries(dd, parent)
+{}
 
 /*!
     Returns the bar series.
@@ -120,10 +122,7 @@ void QBarSeries::setAxisY(QAbstractAxis *axis) {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-QBarSeriesPrivate::QBarSeriesPrivate(QBarSeries *q) : QAbstractBarSeriesPrivate(q)
-{
-
-}
+QBarSeriesPrivate::QBarSeriesPrivate() {}
 
 QT_END_NAMESPACE
 

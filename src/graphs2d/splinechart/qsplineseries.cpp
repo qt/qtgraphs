@@ -47,12 +47,11 @@ QT_BEGIN_NAMESPACE
 */
 
 QSplineSeries::QSplineSeries(QObject *parent)
-    : QXYSeries(*new QSplineSeriesPrivate(parent, this), parent)
-{
-}
+    : QXYSeries(*(new QSplineSeriesPrivate(parent, this)), parent)
+{}
 
-QSplineSeries::QSplineSeries(QSplineSeriesPrivate &d, QObject *parent)
-    : QXYSeries(d, parent)
+QSplineSeries::QSplineSeries(QSplineSeriesPrivate &dd, QObject *parent)
+    : QXYSeries(dd, parent)
 {}
 
 void QSplineSeries::componentComplete()
@@ -154,14 +153,15 @@ void QSplineSeries::setAnimated(bool isAnimated)
     emit animatedChanged();
 }
 
-QSplineSeriesPrivate::QSplineSeriesPrivate(QObject *q, QSplineSeries *spline)
-    : QXYSeriesPrivate(spline)
-    , m_width(1.0)
+QSplineSeriesPrivate::QSplineSeriesPrivate(QObject *parent, QSplineSeries *q)
+    : m_width(1.0)
     , m_animated(false)
     , m_capStyle(Qt::PenCapStyle::SquareCap)
     , m_controlPoints()
-    , m_animation(new QSplineAnimation(q, spline))
-{}
+    , m_animation(new QSplineAnimation(parent, q))
+
+{
+}
 
 void QSplineSeriesPrivate::submitAnimation()
 {

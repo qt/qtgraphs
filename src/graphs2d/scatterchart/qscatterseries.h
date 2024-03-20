@@ -23,7 +23,7 @@ public:
     QML_NAMED_ELEMENT(ScatterSeries)
 
 protected:
-    QScatterSeries(QScatterSeriesPrivate &d, QObject *parent = nullptr);
+    QScatterSeries(QScatterSeriesPrivate &dd, QObject *parent = nullptr);
 
     void componentComplete() override;
 

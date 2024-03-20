@@ -6,6 +6,7 @@
 #include <private/arearenderer_p.h>
 #include <private/pointrenderer_p.h>
 #include <private/qabstractseries_p.h>
+#include <private/qareaseries_p.h>
 #include <private/qgraphsview_p.h>
 #include <private/qxyseries_p.h>
 
@@ -228,7 +229,7 @@ void AreaRenderer::handlePolish(QAreaSeries *series)
         group->paths[upperPoints.size() + lowerPoints.size() - 1]->setY(y);
     }
     QList<QLegendData> legendDataList = {{color, borderColor, series->name()}};
-    series->d_ptr->setLegendData(legendDataList);
+    series->d_func()->setLegendData(legendDataList);
 }
 
 void AreaRenderer::updateSeries(QAreaSeries *series)

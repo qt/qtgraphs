@@ -77,11 +77,11 @@ QT_BEGIN_NAMESPACE
 */
 
 QAreaSeries::QAreaSeries(QObject *parent)
-    : QAbstractSeries(*new QAreaSeriesPrivate(this), parent)
+    : QAbstractSeries(*(new QAreaSeriesPrivate()), parent)
 {}
 
-QAreaSeries::QAreaSeries(QAreaSeriesPrivate &d, QObject *parent)
-    : QAbstractSeries(d, parent)
+QAreaSeries::QAreaSeries(QAreaSeriesPrivate &dd, QObject *parent)
+    : QAbstractSeries(dd, parent)
 {}
 
 QAreaSeries::~QAreaSeries()
@@ -252,9 +252,7 @@ void QAreaSeries::setLowerSeries(QXYSeries *newLowerSeries)
     emit lowerSeriesChanged();
 }
 
-QAreaSeriesPrivate::QAreaSeriesPrivate(QAreaSeries *q)
-    : QAbstractSeriesPrivate(q)
-{}
+QAreaSeriesPrivate::QAreaSeriesPrivate() {}
 
 void QAreaSeriesPrivate::initializeAxes() {}
 

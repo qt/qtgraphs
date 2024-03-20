@@ -33,6 +33,7 @@ public:
 class Q_GRAPHS_EXPORT QAbstractSeries : public QObject, public QQmlParserStatus
 {
     Q_OBJECT
+    Q_DECLARE_PRIVATE(QAbstractSeries)
     Q_INTERFACES(QQmlParserStatus)
     Q_PROPERTY(QSeriesTheme *theme READ theme WRITE setTheme NOTIFY themeChanged)
     Q_PROPERTY(QString name READ name WRITE setName NOTIFY nameChanged)
@@ -64,14 +65,14 @@ public:
     Q_ENUM(SeriesType)
 
 protected:
-    QAbstractSeries(QAbstractSeriesPrivate &d, QObject *parent = nullptr);
+    explicit QAbstractSeries(QAbstractSeriesPrivate &dd, QObject *parent = nullptr);
 
     // from QDeclarativeParserStatus
     void classBegin() override;
     void componentComplete() override;
 
 public:
-    ~QAbstractSeries();
+    ~QAbstractSeries() override;
     virtual SeriesType type() const = 0;
 
     QSeriesTheme *theme() const;
@@ -127,7 +128,6 @@ Q_SIGNALS:
     void hover(QString seriesName, QPointF position, QPointF value);
 
 protected:
-    QScopedPointer<QAbstractSeriesPrivate> d_ptr;
     friend class BarsRenderer;
     friend class PointRenderer;
     friend class PieRenderer;

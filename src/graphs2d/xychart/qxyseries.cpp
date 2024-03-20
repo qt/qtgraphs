@@ -42,14 +42,11 @@ QT_BEGIN_NAMESPACE
     The corresponding signal handler is \c onPointReplaced().
 */
 
-QXYSeries::QXYSeries(QXYSeriesPrivate &d, QObject *parent)
-    : QAbstractSeries(d, parent)
-{
-}
+QXYSeries::QXYSeries(QXYSeriesPrivate &dd, QObject *parent)
+    : QAbstractSeries(dd, parent)
+{}
 
-QXYSeries::~QXYSeries()
-{
-}
+QXYSeries::~QXYSeries() {}
 
 /*!
     Appends a point with the coordinates \a x and \a y to the series.
@@ -498,7 +495,7 @@ void QXYSeries::setMarkerSize(qreal size)
     if (!qFuzzyCompare(d->m_markerSize, size)) {
         d->m_markerSizeDefault = false;
         d->setMarkerSize(size);
-        emit d->seriesUpdated();
+        emit seriesUpdated();
         emit markerSizeChanged(size);
     }
 }
@@ -603,9 +600,8 @@ QXYSeries &QXYSeries::operator<< (const QList<QPointF>& points)
     return *this;
 }
 
-QXYSeriesPrivate::QXYSeriesPrivate(QXYSeries *q)
-    : QAbstractSeriesPrivate(q),
-      m_markerSize(15.0)
+QXYSeriesPrivate::QXYSeriesPrivate()
+    : m_markerSize(15.0)
 {
 }
 

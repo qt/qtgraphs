@@ -29,7 +29,7 @@ class Q_GRAPHS_EXPORT QPieSeries : public QAbstractSeries
 
 public:
     explicit QPieSeries(QObject *parent = nullptr);
-    ~QPieSeries();
+    ~QPieSeries() override;
     QAbstractSeries::SeriesType type() const override;
 
     Q_INVOKABLE QPieSlice *at(int index);
@@ -72,7 +72,11 @@ public:
     void setLabelsVisible(bool visible);
     void setLabelsPosition(QPieSlice::LabelPosition position);
 
+public Q_SLOTS:
+    void handleSliceChange();
+
 protected:
+    QPieSeries(QPieSeriesPrivate &dd, QObject *parent = nullptr);
     void componentComplete() override;
 
 Q_SIGNALS:
@@ -88,6 +92,7 @@ Q_SIGNALS:
     void holeSizeChanged();
 
 private:
+    friend class PieRenderer;
     Q_DECLARE_PRIVATE(QPieSeries)
     Q_DISABLE_COPY(QPieSeries)
 };

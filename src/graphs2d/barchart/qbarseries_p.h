@@ -13,15 +13,15 @@
 #ifndef QBARSERIES_P_H
 #define QBARSERIES_P_H
 
+#include "graphs2d/barchart/qbarseries.h"
 #include <private/qabstractbarseries_p.h>
 
 QT_BEGIN_NAMESPACE
 
-class QBarSeries;
 class QBarSeriesPrivate : public QAbstractBarSeriesPrivate
 {
 public:
-    QBarSeriesPrivate(QBarSeries *q);
+    QBarSeriesPrivate();
 
 private:
     Q_DECLARE_PUBLIC(QBarSeries)

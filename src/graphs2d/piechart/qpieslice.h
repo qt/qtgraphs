@@ -49,7 +49,7 @@ public:
 
     explicit QPieSlice(QObject *parent = nullptr);
     QPieSlice(const QString &label, qreal value, QObject *parent = nullptr);
-    virtual ~QPieSlice();
+    ~QPieSlice() override;
 
     void setLabel(const QString &label);
     QString label() const;

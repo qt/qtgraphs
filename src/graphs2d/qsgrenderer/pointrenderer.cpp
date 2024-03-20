@@ -7,6 +7,7 @@
 #include <private/pointrenderer_p.h>
 #include <private/qabstractseries_p.h>
 #include <private/qgraphsview_p.h>
+#include <private/qxyseries_p.h>
 
 QT_BEGIN_NAMESPACE
 
@@ -85,7 +86,7 @@ void PointRenderer::updateRenderablePoint(QXYSeries *series,
 void PointRenderer::updateLegendData(QXYSeries *series, QLegendData &legendData)
 {
     QList<QLegendData> legendDataList = {legendData};
-    series->d_ptr->setLegendData(legendDataList);
+    series->d_func()->setLegendData(legendDataList);
 }
 
 void PointRenderer::updateScatterSeries(QScatterSeries *series, QLegendData &legendData)
