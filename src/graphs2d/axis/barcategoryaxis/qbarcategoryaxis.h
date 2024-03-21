@@ -26,7 +26,7 @@ public:
     ~QBarCategoryAxis();
 
 protected:
-    QBarCategoryAxis(QBarCategoryAxisPrivate &d, QObject *parent = nullptr);
+    QBarCategoryAxis(QBarCategoryAxisPrivate &dd, QObject *parent = nullptr);
 
 public:
     // TODO: Consider making these slots, available from QML.
@@ -53,7 +53,7 @@ Q_SIGNALS:
     void categoriesChanged();
     void minChanged(const QString &min);
     void maxChanged(const QString &max);
-    void rangeChanged(const QString &min, const QString &max);
+    void categoryRangeChanged(const QString &min, const QString &max);
     void countChanged();
 
 private:

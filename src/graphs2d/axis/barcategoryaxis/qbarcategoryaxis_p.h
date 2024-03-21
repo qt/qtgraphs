@@ -20,11 +20,9 @@ QT_BEGIN_NAMESPACE
 
 class QBarCategoryAxisPrivate : public QAbstractAxisPrivate
 {
-    Q_OBJECT
-
 public:
-    QBarCategoryAxisPrivate(QBarCategoryAxis *q);
-    ~QBarCategoryAxisPrivate();
+    QBarCategoryAxisPrivate();
+    ~QBarCategoryAxisPrivate() override;
 
 public:
     //interface for manipulating range form base class

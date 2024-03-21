@@ -103,15 +103,15 @@ QT_BEGIN_NAMESPACE
 */
 
 /*!
-    \fn void QBarCategoryAxis::rangeChanged(const QString &min, const QString &max)
+    \fn void QBarCategoryAxis::categoryRangeChanged(const QString &min, const QString &max)
     This signal is emitted when \a min or \a max value of the axis changes.
 */
 
 /*!
-    \qmlsignal BarCategoryAxis::rangeChanged(string min, string max)
+    \qmlsignal BarCategoryAxis::categoryRangeChanged(string min, string max)
     This signal is emitted when \a min or \a max value of the axis changes.
 
-    The corresponding signal handler is \c onRangeChanged.
+    The corresponding signal handler is \c onCategoryRangeChanged.
 */
 
 /*!
@@ -122,8 +122,8 @@ QT_BEGIN_NAMESPACE
 /*!
     Constructs an axis object that is the child of \a parent.
 */
-QBarCategoryAxis::QBarCategoryAxis(QObject *parent):
-    QAbstractAxis(*new QBarCategoryAxisPrivate(this), parent)
+QBarCategoryAxis::QBarCategoryAxis(QObject *parent)
+    : QAbstractAxis(*(new QBarCategoryAxisPrivate), parent)
 {
 }
 
@@ -137,8 +137,8 @@ QBarCategoryAxis::~QBarCategoryAxis()
 /*!
     \internal
 */
-QBarCategoryAxis::QBarCategoryAxis(QBarCategoryAxisPrivate &d, QObject *parent)
-    : QAbstractAxis(d, parent)
+QBarCategoryAxis::QBarCategoryAxis(QBarCategoryAxisPrivate &dd, QObject *parent)
+    : QAbstractAxis(dd, parent)
 {
 
 }
@@ -397,11 +397,10 @@ QAbstractAxis::AxisType QBarCategoryAxis::type() const
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-QBarCategoryAxisPrivate::QBarCategoryAxisPrivate(QBarCategoryAxis *q)
-    : QAbstractAxisPrivate(q),
-      m_min(0.0),
-      m_max(0.0),
-      m_count(0)
+QBarCategoryAxisPrivate::QBarCategoryAxisPrivate()
+    : m_min(0.0)
+    , m_max(0.0)
+    , m_count(0)
 {
 
 }
@@ -470,11 +469,11 @@ void QBarCategoryAxisPrivate::setRange(qreal min, qreal max)
     }
 
     if (categoryChanged){
-        emit q->rangeChanged(m_minCategory, m_maxCategory);
+        emit q->categoryRangeChanged(m_minCategory, m_maxCategory);
     }
 
     if (changed) {
-        emit rangeChanged(m_min,m_max);
+        emit q->rangeChanged(m_min, m_max);
     }
 }
 
@@ -492,8 +491,8 @@ void  QBarCategoryAxisPrivate::setRange(const QString &minCategory, const QStrin
         m_count = 0;
         emit q->minChanged(minCategory);
         emit q->maxChanged(maxCategory);
-        emit q->rangeChanged(m_minCategory, m_maxCategory);
-        emit rangeChanged(m_min,m_max);
+        emit q->categoryRangeChanged(m_minCategory, m_maxCategory);
+        emit q->rangeChanged(m_min, m_max);
         return;
     }
 
@@ -518,12 +517,11 @@ void  QBarCategoryAxisPrivate::setRange(const QString &minCategory, const QStrin
 
     if (changed) {
         m_count = m_max - m_min;
-        emit q->rangeChanged(m_minCategory, m_maxCategory);
-        emit rangeChanged(m_min,m_max);
+        emit q->categoryRangeChanged(m_minCategory, m_maxCategory);
+        emit q->rangeChanged(m_min, m_max);
     }
 }
 
 QT_END_NAMESPACE
 
 #include "moc_qbarcategoryaxis.cpp"
-#include "moc_qbarcategoryaxis_p.cpp"

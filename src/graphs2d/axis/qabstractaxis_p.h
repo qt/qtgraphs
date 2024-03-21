@@ -22,12 +22,11 @@
 
 QT_BEGIN_NAMESPACE
 
-class QAbstractAxisPrivate : public QObject
+class QAbstractAxisPrivate : public QObjectPrivate
 {
-    Q_OBJECT
 public:
-    QAbstractAxisPrivate(QAbstractAxis *q);
-    ~QAbstractAxisPrivate();
+    QAbstractAxisPrivate();
+    ~QAbstractAxisPrivate() override;
 
 public:
     Qt::Alignment alignment() const { return m_alignment; }
@@ -47,11 +46,7 @@ public:
 public Q_SLOTS:
     void handleRangeChanged(qreal min, qreal max);
 
-Q_SIGNALS:
-    void rangeChanged(qreal min, qreal max);
-
 protected:
-    QAbstractAxis *q_ptr;
     // TODO: Used?
     QGraphsView *m_graph = nullptr;
 
@@ -75,7 +70,6 @@ private:
     QString m_title;
 
     Q_DECLARE_PUBLIC(QAbstractAxis)
-    friend class QAbstractAxis;
 };
 
 QT_END_NAMESPACE

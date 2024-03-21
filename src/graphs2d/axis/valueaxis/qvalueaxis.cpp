@@ -201,20 +201,16 @@ QT_BEGIN_NAMESPACE
 /*!
     Constructs an axis object that is a child of \a parent.
 */
-QValueAxis::QValueAxis(QObject *parent) :
-    QAbstractAxis(*new QValueAxisPrivate(this), parent)
-{
-
-}
+QValueAxis::QValueAxis(QObject *parent)
+    : QAbstractAxis(*(new QValueAxisPrivate), parent)
+{}
 
 /*!
     \internal
 */
 QValueAxis::QValueAxis(QValueAxisPrivate &d, QObject *parent)
     : QAbstractAxis(d, parent)
-{
-
-}
+{}
 
 /*!
     Destroys the object.
@@ -349,23 +345,17 @@ QAbstractAxis::AxisType QValueAxis::type() const
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-QValueAxisPrivate::QValueAxisPrivate(QValueAxis *q)
-    : QAbstractAxisPrivate(q),
-      m_min(0),
-      m_max(10),
-      m_minorTickCount(0),
-      m_format(),
-      m_decimals(-1),
-      m_tickAnchor(0.0),
-      m_tickInterval(0.0)
-{
+QValueAxisPrivate::QValueAxisPrivate()
+    : m_min(0)
+    , m_max(10)
+    , m_minorTickCount(0)
+    , m_format()
+    , m_decimals(-1)
+    , m_tickAnchor(0.0)
+    , m_tickInterval(0.0)
+{}
 
-}
-
-QValueAxisPrivate::~QValueAxisPrivate()
-{
-
-}
+QValueAxisPrivate::~QValueAxisPrivate() {}
 
 void QValueAxisPrivate::setMin(const QVariant &min)
 {
@@ -405,8 +395,8 @@ void QValueAxisPrivate::setRange(qreal min, qreal max)
         return;
 
     if (!isValidValue(min, max)) {
-        qWarning() << "Attempting to set invalid range for value axis: ["
-                   << min << " - " << max << "]";
+        qWarning() << "Attempting to set invalid range for value axis: [" << min << " - " << max
+                   << "]";
         return;
     }
 
@@ -422,13 +412,10 @@ void QValueAxisPrivate::setRange(qreal min, qreal max)
         emit q->maxChanged(max);
     }
 
-    if (changed) {
-        emit rangeChanged(min,max);
+    if (changed)
         emit q->rangeChanged(min, max);
-    }
 }
 
 QT_END_NAMESPACE
 
 #include "moc_qvalueaxis.cpp"
-#include "moc_qvalueaxis_p.cpp"

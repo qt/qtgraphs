@@ -231,16 +231,20 @@ QT_BEGIN_NAMESPACE
 */
 
 /*!
+    \fn void QAbstractAxis::rangeChanged(qreal min, qreal max)
+    This signal is emitted when the axis range changes. \a min and \a max are
+    the min and max of the new range.
+*/
+
+/*!
     \internal
     Constructs a new axis object that is a child of \a parent. The ownership is taken by
     graph when the axis is added.
 */
 
-QAbstractAxis::QAbstractAxis(QAbstractAxisPrivate &d, QObject *parent)
-    : QObject(parent),
-      d_ptr(&d)
-{
-}
+QAbstractAxis::QAbstractAxis(QAbstractAxisPrivate &dd, QObject *parent)
+    : QObject(dd, parent)
+{}
 
 /*!
   Destructs the axis object. When the axis is added to a graph, the graph object takes ownership.
@@ -248,7 +252,8 @@ QAbstractAxis::QAbstractAxis(QAbstractAxisPrivate &d, QObject *parent)
 
 QAbstractAxis::~QAbstractAxis()
 {
-    if (d_ptr->m_graph)
+    Q_D(QAbstractAxis);
+    if (d->m_graph)
         qFatal("Still binded axis detected !");
 }
 
@@ -257,8 +262,9 @@ QAbstractAxis::~QAbstractAxis()
  */
 void QAbstractAxis::setLineVisible(bool visible)
 {
-    if (d_ptr->m_lineVisible != visible) {
-        d_ptr->m_lineVisible = visible;
+    Q_D(QAbstractAxis);
+    if (d->m_lineVisible != visible) {
+        d->m_lineVisible = visible;
         emit update();
         emit lineVisibleChanged(visible);
     }
@@ -266,13 +272,15 @@ void QAbstractAxis::setLineVisible(bool visible)
 
 bool QAbstractAxis::isLineVisible() const
 {
-    return d_ptr->m_lineVisible;
+    const Q_D(QAbstractAxis);
+    return d->m_lineVisible;
 }
 
 void QAbstractAxis::setGridLineVisible(bool visible)
 {
-    if (d_ptr->m_gridLineVisible != visible) {
-        d_ptr->m_gridLineVisible = visible;
+    Q_D(QAbstractAxis);
+    if (d->m_gridLineVisible != visible) {
+        d->m_gridLineVisible = visible;
         emit update();
         emit gridVisibleChanged(visible);
     }
@@ -280,13 +288,15 @@ void QAbstractAxis::setGridLineVisible(bool visible)
 
 bool QAbstractAxis::isGridLineVisible() const
 {
-    return d_ptr->m_gridLineVisible;
+    const Q_D(QAbstractAxis);
+    return d->m_gridLineVisible;
 }
 
 void QAbstractAxis::setMinorGridLineVisible(bool visible)
 {
-    if (d_ptr->m_minorGridLineVisible != visible) {
-        d_ptr->m_minorGridLineVisible = visible;
+    Q_D(QAbstractAxis);
+    if (d->m_minorGridLineVisible != visible) {
+        d->m_minorGridLineVisible = visible;
         emit update();
         emit minorGridVisibleChanged(visible);
     }
@@ -294,13 +304,15 @@ void QAbstractAxis::setMinorGridLineVisible(bool visible)
 
 bool QAbstractAxis::isMinorGridLineVisible() const
 {
-    return d_ptr->m_minorGridLineVisible;
+    const Q_D(QAbstractAxis);
+    return d->m_minorGridLineVisible;
 }
 
 void QAbstractAxis::setLabelsVisible(bool visible)
 {
-    if (d_ptr->m_labelsVisible != visible) {
-        d_ptr->m_labelsVisible = visible;
+    Q_D(QAbstractAxis);
+    if (d->m_labelsVisible != visible) {
+        d->m_labelsVisible = visible;
         emit update();
         emit labelsVisibleChanged(visible);
     }
@@ -308,13 +320,15 @@ void QAbstractAxis::setLabelsVisible(bool visible)
 
 bool QAbstractAxis::labelsVisible() const
 {
-    return d_ptr->m_labelsVisible;
+    const Q_D(QAbstractAxis);
+    return d->m_labelsVisible;
 }
 
 void QAbstractAxis::setLabelsAngle(qreal angle)
 {
-    if (d_ptr->m_labelsAngle != angle) {
-        d_ptr->m_labelsAngle = angle;
+    Q_D(QAbstractAxis);
+    if (d->m_labelsAngle != angle) {
+        d->m_labelsAngle = angle;
         emit update();
         emit labelsAngleChanged(angle);
     }
@@ -322,13 +336,15 @@ void QAbstractAxis::setLabelsAngle(qreal angle)
 
 qreal QAbstractAxis::labelsAngle() const
 {
-    return d_ptr->m_labelsAngle;
+    const Q_D(QAbstractAxis);
+    return d->m_labelsAngle;
 }
 
 void QAbstractAxis::setTitleVisible(bool visible)
 {
-    if (d_ptr->m_titleVisible != visible) {
-        d_ptr->m_titleVisible = visible;
+    Q_D(QAbstractAxis);
+    if (d->m_titleVisible != visible) {
+        d->m_titleVisible = visible;
         emit update();
         emit titleVisibleChanged(visible);
     }
@@ -336,7 +352,8 @@ void QAbstractAxis::setTitleVisible(bool visible)
 
 bool QAbstractAxis::isTitleVisible() const
 {
-    return d_ptr->m_titleVisible;
+    const Q_D(QAbstractAxis);
+    return d->m_titleVisible;
 }
 
 /*!
@@ -344,8 +361,9 @@ bool QAbstractAxis::isTitleVisible() const
  */
 void QAbstractAxis::setTitleColor(const QColor &color)
 {
-    if (d_ptr->m_titleColor != color) {
-        d_ptr->m_titleColor = color;
+    Q_D(QAbstractAxis);
+    if (d->m_titleColor != color) {
+        d->m_titleColor = color;
         emit update();
         emit titleColorChanged(color);
     }
@@ -356,7 +374,8 @@ void QAbstractAxis::setTitleColor(const QColor &color)
 */
 QColor QAbstractAxis::titleColor() const
 {
-    return d_ptr->m_titleColor;
+    const Q_D(QAbstractAxis);
+    return d->m_titleColor;
 }
 
 /*!
@@ -364,8 +383,9 @@ QColor QAbstractAxis::titleColor() const
 */
 void QAbstractAxis::setTitleFont(const QFont &font)
 {
-    if (d_ptr->m_titleFont != font) {
-        d_ptr->m_titleFont = font;
+    Q_D(QAbstractAxis);
+    if (d->m_titleFont != font) {
+        d->m_titleFont = font;
         emit update();
         emit titleFontChanged(font);
     }
@@ -376,13 +396,15 @@ void QAbstractAxis::setTitleFont(const QFont &font)
 */
 QFont QAbstractAxis::titleFont() const
 {
-    return d_ptr->m_titleFont;
+    const Q_D(QAbstractAxis);
+    return d->m_titleFont;
 }
 
 void QAbstractAxis::setTitleText(const QString &title)
 {
-    if (d_ptr->m_title != title) {
-        d_ptr->m_title = title;
+    Q_D(QAbstractAxis);
+    if (d->m_title != title) {
+        d->m_title = title;
         emit update();
         emit titleTextChanged(title);
     }
@@ -390,12 +412,14 @@ void QAbstractAxis::setTitleText(const QString &title)
 
 QString QAbstractAxis::titleText() const
 {
-    return d_ptr->m_title;
+    const Q_D(QAbstractAxis);
+    return d->m_title;
 }
 
 bool QAbstractAxis::isVisible() const
 {
-    return d_ptr->m_visible;
+    const Q_D(QAbstractAxis);
+    return d->m_visible;
 }
 
 /*!
@@ -403,8 +427,9 @@ bool QAbstractAxis::isVisible() const
 */
 void QAbstractAxis::setVisible(bool visible)
 {
-    if (d_ptr->m_visible != visible) {
-        d_ptr->m_visible = visible;
+    Q_D(QAbstractAxis);
+    if (d->m_visible != visible) {
+        d->m_visible = visible;
         emit update();
         emit visibleChanged(visible);
     }
@@ -434,7 +459,8 @@ void QAbstractAxis::hide()
 */
 void QAbstractAxis::setMin(const QVariant &min)
 {
-    d_ptr->setMin(min);
+    Q_D(QAbstractAxis);
+    d->setMin(min);
 }
 
 /*!
@@ -444,7 +470,8 @@ void QAbstractAxis::setMin(const QVariant &min)
 */
 void QAbstractAxis::setMax(const QVariant &max)
 {
-    d_ptr->setMax(max);
+    Q_D(QAbstractAxis);
+    d->setMax(max);
 }
 
 /*!
@@ -454,7 +481,8 @@ void QAbstractAxis::setMax(const QVariant &max)
 */
 void QAbstractAxis::setRange(const QVariant &min, const QVariant &max)
 {
-    d_ptr->setRange(min, max);
+    Q_D(QAbstractAxis);
+    d->setRange(min, max);
 }
 
 
@@ -463,25 +491,25 @@ void QAbstractAxis::setRange(const QVariant &min, const QVariant &max)
 */
 Qt::Orientation QAbstractAxis::orientation() const
 {
-    return d_ptr->orientation();
+    const Q_D(QAbstractAxis);
+    return d->orientation();
 }
 
 void QAbstractAxis::setOrientation(Qt::Orientation orientation)
 {
-    d_ptr->m_orientation = orientation;
+    Q_D(QAbstractAxis);
+    d->m_orientation = orientation;
 }
 
 Qt::Alignment QAbstractAxis::alignment() const
 {
-    return d_ptr->alignment();
+    const Q_D(QAbstractAxis);
+    return d->alignment();
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-QAbstractAxisPrivate::QAbstractAxisPrivate(QAbstractAxis *q)
-    : q_ptr(q)
-{
-}
+QAbstractAxisPrivate::QAbstractAxisPrivate() {}
 
 QAbstractAxisPrivate::~QAbstractAxisPrivate()
 {

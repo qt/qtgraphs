@@ -20,10 +20,9 @@ QT_BEGIN_NAMESPACE
 
 class QValueAxisPrivate : public QAbstractAxisPrivate
 {
-    Q_OBJECT
 public:
-    QValueAxisPrivate(QValueAxis *q);
-    ~QValueAxisPrivate();
+    QValueAxisPrivate();
+    ~QValueAxisPrivate() override;
 
 public:
     qreal min() override { return m_min; }

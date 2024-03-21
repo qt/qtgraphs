@@ -39,6 +39,7 @@ class Q_GRAPHS_EXPORT QAbstractAxis : public QObject
     QML_FOREIGN(QAbstractAxis)
     QML_UNCREATABLE("Trying to create uncreatable: AbstractAxis.")
     QML_NAMED_ELEMENT(AbstractAxis)
+    Q_DECLARE_PRIVATE(QAbstractAxis)
 
 public:
 
@@ -51,10 +52,10 @@ public:
     Q_DECLARE_FLAGS(AxisTypes, AxisType)
 
 protected:
-    explicit QAbstractAxis(QAbstractAxisPrivate &d, QObject *parent = nullptr);
+    explicit QAbstractAxis(QAbstractAxisPrivate &dd, QObject *parent = nullptr);
 
 public:
-    ~QAbstractAxis();
+    ~QAbstractAxis() override;
 
     virtual AxisType type() const = 0;
 
@@ -111,9 +112,7 @@ Q_SIGNALS:
     void titleVisibleChanged(bool visible);
     void titleFontChanged(const QFont &font);
     void update();
-
-protected:
-    QScopedPointer<QAbstractAxisPrivate> d_ptr;
+    void rangeChanged(qreal min, qreal max);
 
 private:
     Q_DISABLE_COPY(QAbstractAxis)

@@ -26,7 +26,7 @@ class Q_GRAPHS_EXPORT QValueAxis : public QAbstractAxis
 
 public:
     explicit QValueAxis(QObject *parent = nullptr);
-    ~QValueAxis();
+    ~QValueAxis() override;
 
 protected:
     QValueAxis(QValueAxisPrivate &d, QObject *parent = nullptr);
