@@ -781,6 +781,8 @@ private:
 
     bool m_gridUpdated = false;
 
+    bool m_validVolumeSlice = false;
+
     QVector3D m_labelPosition = QVector3D();
     QVector3D m_fontScaled = QVector3D();
 
@@ -796,6 +798,7 @@ private:
     float fontScaleFactor(float pointSize);
     float labelAdjustment(float width);
     void gridLineCountHelper(QAbstract3DAxis *axis, int &lineCount, int &sublineCount);
+    QVector3D graphPosToAbsolute(const QVector3D &position);
 
     void createVolumeMaterial(QCustom3DVolume *volume, Volume &volumeItem);
     QQuick3DModel *createSliceFrame(Volume &volumeItem);
