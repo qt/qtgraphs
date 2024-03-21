@@ -2536,6 +2536,37 @@ void QQuickGraphsItem::gridLineCountHelper(QAbstract3DAxis *axis, int &lineCount
     }
 }
 
+QVector3D QQuickGraphsItem::graphPosToAbsolute(const QVector3D &position)
+{
+    QVector3D pos = position;
+    const int maxX = axisX()->max();
+    const int minX = axisX()->min();
+    const int maxY = axisY()->max();
+    const int minY = axisY()->min();
+    const int maxZ = axisZ()->max();
+    const int minZ = axisZ()->min();
+    const QVector3D adjustment = m_scaleWithBackground * QVector3D(1.0f, 1.0f, -1.0f);
+
+    float xNormalizer = maxX - minX;
+    float xPos = (pos.x() - minX) / xNormalizer;
+    float yNormalizer = maxY - minY;
+    float yPos = (pos.y() - minY) / yNormalizer;
+    float zNormalizer = maxZ - minZ;
+    float zPos = (pos.z() - minZ) / zNormalizer;
+    pos = QVector3D(xPos, yPos, zPos);
+    if (isPolar()) {
+        float angle = xPos * M_PI * 2.0f;
+        float radius = zPos;
+        xPos = radius * qSin(angle) * 1.0f;
+        zPos = -(radius * qCos(angle)) * 1.0f;
+        yPos = yPos * adjustment.y() * 2.0f - adjustment.y();
+        pos = QVector3D(xPos, yPos, zPos);
+    } else {
+        pos = pos * adjustment * 2.0f - adjustment;
+    }
+    return pos;
+}
+
 void QQuickGraphsItem::updateLabels()
 {
     auto labels = axisX()->labels();
@@ -3178,7 +3209,7 @@ void QQuickGraphsItem::createVolumeMaterial(QCustom3DVolume *volume, Volume &vol
 
     QQuick3DCustomMaterial *material = nullptr;
 
-    if (volume->drawSlices())
+    if (volume->drawSlices() && m_validVolumeSlice)
         material = createQmlCustomMaterial(QStringLiteral(":/materials/VolumeSliceMaterial"));
     else if (volume->useHighDefShader())
         material = createQmlCustomMaterial(QStringLiteral(":/materials/VolumeMaterial"));
@@ -3203,7 +3234,7 @@ void QQuickGraphsItem::createVolumeMaterial(QCustom3DVolume *volume, Volume &vol
     materialsRef.append(material);
 
     volumeItem.useHighDefShader = volume->useHighDefShader();
-    volumeItem.drawSlices = volume->drawSlices();
+    volumeItem.drawSlices = volume->drawSlices() && m_validVolumeSlice;
 }
 
 QQuick3DModel *QQuickGraphsItem::createSliceFrame(Volume &volumeItem)
@@ -3290,49 +3321,12 @@ void QQuickGraphsItem::updateSliceFrameMaterials(QCustom3DVolume *volume, Volume
 
 void QQuickGraphsItem::updateCustomVolumes()
 {
-    int maxX = axisX()->max();
-    int minX = axisX()->min();
-    int maxY = axisY()->max();
-    int minY = axisY()->min();
-    int maxZ = axisZ()->max();
-    int minZ = axisZ()->min();
-    QVector3D adjustment = m_scaleWithBackground * QVector3D(1.0f, 1.0f, -1.0f);
-
     auto itemIterator = m_customItemList.constBegin();
     while (itemIterator != m_customItemList.constEnd()) {
         QCustom3DItem *item = itemIterator.key();
         QQuick3DModel *model = itemIterator.value();
 
         if (auto volume = qobject_cast<QCustom3DVolume *>(item)) {
-            QVector3D pos = item->position();
-            if (!item->isPositionAbsolute()) {
-                if (item->position().x() < minX || item->position().x() > maxX
-                    || item->position().y() < minY || item->position().y() > maxY
-                    || item->position().z() < minZ || item->position().z() > maxZ) {
-                    model->setVisible(false);
-                    ++itemIterator;
-                    continue;
-                }
-                float xNormalizer = maxX - minX;
-                float xPos = (pos.x() - minX) / xNormalizer;
-                float yNormalizer = maxY - minY;
-                float yPos = (pos.y() - minY) / yNormalizer;
-                float zNormalizer = maxZ - minZ;
-                float zPos = (pos.z() - minZ) / zNormalizer;
-                pos = QVector3D(xPos, yPos, zPos);
-                if (isPolar()) {
-                    float angle = xPos * M_PI * 2.0f;
-                    float radius = zPos;
-                    xPos = radius * qSin(angle) * 1.0f;
-                    zPos = -(radius * qCos(angle)) * 1.0f;
-                    yPos = yPos * adjustment.y() * 2.0f - adjustment.y();
-                    pos = QVector3D(xPos, yPos, zPos);
-                } else {
-                    pos = pos * adjustment * 2.0f - adjustment;
-                }
-            }
-            model->setPosition(pos);
-
             auto &&volumeItem = m_customVolumes[volume];
 
             QQmlListReference materialsRef(model, "materials");
@@ -3341,7 +3335,11 @@ void QQuickGraphsItem::updateCustomVolumes()
                 createVolumeMaterial(volume, volumeItem);
             }
 
-            if (volumeItem.drawSlices != volume->drawSlices()) {
+            m_validVolumeSlice = volume->sliceIndexX() >= 0
+                    || volume->sliceIndexY() >= 0
+                    || volume->sliceIndexZ() >= 0;
+
+            if (volumeItem.drawSlices != (volume->drawSlices() && m_validVolumeSlice)) {
                 materialsRef.clear();
                 createVolumeMaterial(volume, volumeItem);
             }
@@ -3370,43 +3368,68 @@ void QQuickGraphsItem::updateCustomVolumes()
             }
 
             auto material = materialsRef.at(0);
-
             QVector3D minBounds(-1, 1, 1);
             QVector3D maxBounds(1, -1, -1);
             QVector3D translation(0, 0, 0);
             QVector3D scaling(1, 1, 1);
 
+            model->setVisible(volume->isVisible());
             if (!volume->isScalingAbsolute() && !volume->isPositionAbsolute()) {
-                if (axisX()->type() == QAbstract3DAxis::AxisType::Value) {
-                    auto axis = static_cast<QValue3DAxis *>(axisX());
-                    translation.setX(axis->positionAt(volume->position().x())
-                                     + translate().x() / scale().x());
-                    scaling.setX((axis->max() - axis->min()) / volume->scaling().x());
-                    minBounds.setX(minBounds.x() * scaling.x() - translation.x());
-                    maxBounds.setX(maxBounds.x() * scaling.x() - translation.x());
-                }
 
-                if (axisY()->type() == QAbstract3DAxis::AxisType::Value) {
-                    auto axis = static_cast<QValue3DAxis *>(axisY());
-                    translation.setY(axis->positionAt(volume->position().y())
-                                     + translate().y() / scale().y());
-                    scaling.setY((axis->max() - axis->min()) / volume->scaling().y());
-                    minBounds.setY(minBounds.y() * scaling.y() + translation.y());
-                    maxBounds.setY(maxBounds.y() * scaling.y() + translation.y());
-                }
+                QVector3D pos = volume->position();
+                QVector3D scale = volume->scaling() / 2;
 
-                if (axisZ()->type() == QAbstract3DAxis::AxisType::Value) {
-                    auto axis = static_cast<QValue3DAxis *>(axisZ());
-                    translation.setZ(axis->positionAt(volume->position().z())
-                                     + translate().z() / scale().z());
-                    scaling.setZ((axis->max() - axis->min()) / volume->scaling().z());
-                    minBounds.setZ(minBounds.z() * scaling.z() - translation.z());
-                    maxBounds.setZ(maxBounds.z() * scaling.z() - translation.z());
-                }
+                QVector3D minGraphBounds(pos.x() - scale.x(),
+                                    pos.y() - scale.y(),
+                                    pos.z() + scale.z());
+                QVector3D maxGraphBounds(pos.x() + scale.x(),
+                                    pos.y() + scale.y(),
+                                    pos.z() - scale.z());
 
-                model->setPosition(QVector3D());
-                model->setScale(
-                    QVector3D(qAbs(scale().x()) / 2, qAbs(scale().y()) / 2, qAbs(scale().z()) / 2));
+                QVector3D minCorner = graphPosToAbsolute(minGraphBounds);
+                QVector3D maxCorner = graphPosToAbsolute(maxGraphBounds);
+
+                scale = QVector3D(qAbs(maxCorner.x() - minCorner.x()),
+                                  qAbs(maxCorner.y() - minCorner.y()),
+                                  qAbs(maxCorner.z() - minCorner.z())) / 2.0f;
+
+                const QVector3D mScale = scaleWithBackground();
+                const QVector3D itemRange = maxCorner - minCorner;
+                if (minCorner.x() < -mScale.x())
+                    minBounds.setX(-1.0f + (2.0f * qAbs(minCorner.x() + mScale.x()) / itemRange.x()));
+                if (minCorner.y() < -mScale.y())
+                    minBounds.setY(-(-1.0f + (2.0f * qAbs(minCorner.y() + mScale.y()) / itemRange.y())));
+                if (minCorner.z() < -mScale.z())
+                    minBounds.setZ(-(-1.0f + (2.0f * qAbs(minCorner.z() + mScale.z()) / itemRange.z())));
+
+                if (maxCorner.x() > mScale.x())
+                    maxBounds.setX(1.0f - (2.0f * qAbs(maxCorner.x() - mScale.x()) / itemRange.x()));
+                if (maxCorner.y() > mScale.y())
+                    maxBounds.setY(-(1.0f - (2.0f * qAbs(maxCorner.y() - mScale.y()) / itemRange.y())));
+                if (maxCorner.z() > mScale.z())
+                    maxBounds.setZ(-(1.0f - (2.0f * qAbs(maxCorner.z() - mScale.z()) / itemRange.z())));
+
+                QVector3D minBoundsNorm = minBounds;
+                QVector3D maxBoundsNorm = maxBounds;
+
+                minBoundsNorm.setY(-minBoundsNorm.y());
+                minBoundsNorm.setZ(-minBoundsNorm.z());
+                minBoundsNorm = 0.5f * (minBoundsNorm + QVector3D(1,1,1));
+
+                maxBoundsNorm.setY(-maxBoundsNorm.y());
+                maxBoundsNorm.setZ(-maxBoundsNorm.z());
+                maxBoundsNorm = 0.5f * (maxBoundsNorm + QVector3D(1,1,1));
+
+                QVector3D adjScaling = scale * (maxBoundsNorm - minBoundsNorm);
+                model->setScale(adjScaling);
+
+                QVector3D adjPos = volume->position();
+                QVector3D dataExtents = (maxGraphBounds - minGraphBounds) / 2.0f;
+
+                adjPos = adjPos + (dataExtents * minBoundsNorm)
+                        - (dataExtents * (QVector3D(1,1,1) - maxBoundsNorm));
+                adjPos = graphPosToAbsolute(adjPos);
+                model->setPosition(adjPos);
             } else {
                 model->setScale(volume->scaling());
             }
@@ -3872,7 +3895,6 @@ void QQuickGraphsItem::updateCustomData()
     int minY = axisY()->min();
     int maxZ = axisZ()->max();
     int minZ = axisZ()->min();
-    QVector3D adjustment = m_scaleWithBackground * QVector3D(1.0f, 1.0f, -1.0f);
 
     auto labelIterator = m_customLabelList.constBegin();
     while (labelIterator != m_customLabelList.constEnd()) {
@@ -3888,24 +3910,7 @@ void QQuickGraphsItem::updateCustomData()
                 ++labelIterator;
                 continue;
             }
-
-            float xNormalizer = maxX - minX;
-            float xPos = (pos.x() - minX) / xNormalizer;
-            float yNormalizer = maxY - minY;
-            float yPos = (pos.y() - minY) / yNormalizer;
-            float zNormalizer = maxZ - minZ;
-            float zPos = (pos.z() - minZ) / zNormalizer;
-            pos = QVector3D(xPos, yPos, zPos);
-            if (isPolar()) {
-                float angle = xPos * M_PI * 2.0f;
-                float radius = zPos;
-                xPos = radius * qSin(angle) * 1.0f;
-                zPos = -(radius * qCos(angle)) * 1.0f;
-                yPos = yPos * adjustment.y() * 2.0f - adjustment.y();
-                pos = QVector3D(xPos, yPos, zPos);
-            } else {
-                pos = pos * adjustment * 2.0f - adjustment;
-            }
+            pos = graphPosToAbsolute(pos);
         }
 
         QFontMetrics fm(label->font());
@@ -3940,6 +3945,10 @@ void QQuickGraphsItem::updateCustomData()
         QQuick3DModel *model = itemIterator.value();
 
         QVector3D pos = item->position();
+        QVector<QAbstract3DAxis *> axes{axisX(), axisY(), axisZ()};
+        QVector<float> bScales{scaleWithBackground().x(),
+                    scaleWithBackground().y(),
+                    scaleWithBackground().z()};
         if (!item->isPositionAbsolute()) {
             if (item->position().x() < minX || item->position().x() > maxX
                 || item->position().y() < minY || item->position().y() > maxY
@@ -3948,25 +3957,24 @@ void QQuickGraphsItem::updateCustomData()
                 ++itemIterator;
                 continue;
             }
-            float xNormalizer = maxX - minX;
-            float xPos = (pos.x() - minX) / xNormalizer;
-            float yNormalizer = maxY - minY;
-            float yPos = (pos.y() - minY) / yNormalizer;
-            float zNormalizer = maxZ - minZ;
-            float zPos = (pos.z() - minZ) / zNormalizer;
-            pos = QVector3D(xPos, yPos, zPos);
-            if (isPolar()) {
-                float angle = xPos * M_PI * 2.0f;
-                float radius = zPos;
-                xPos = radius * qSin(angle) * 1.0f;
-                zPos = -(radius * qCos(angle)) * 1.0f;
-                yPos = yPos * adjustment.y() * 2.0f - adjustment.y();
-                pos = QVector3D(xPos, yPos, zPos);
-            } else {
-                pos = pos * adjustment * 2.0f - adjustment;
-            }
+            pos = graphPosToAbsolute(pos);
         }
         model->setPosition(pos);
+
+        if (!item->isScalingAbsolute()) {
+            QVector<float> iScales{item->scaling().x(), item->scaling().y(), item->scaling().z()};
+            for (int i = 0; i < axes.count(); i++) {
+                if (auto vAxis = static_cast<QValue3DAxis *>(axes.at(i))) {
+                    float axisRange = vAxis->max() - vAxis->min();
+                    float realRange = bScales.at(i);
+                    float ratio = realRange / axisRange;
+                    iScales[i] *= ratio;
+                }
+            }
+            model->setScale(QVector3D(iScales.at(0), iScales.at(1), iScales.at(2)));
+        } else {
+            model->setScale(item->scaling());
+        }
 
         if (auto volume = qobject_cast<QCustom3DVolume *>(item)) {
             if (!m_customVolumes.contains(volume)) {
@@ -3976,7 +3984,12 @@ void QQuickGraphsItem::updateCustomData()
                 model->setSource(QUrl(volume->meshFile()));
 
                 volumeItem.useHighDefShader = volume->useHighDefShader();
-                volumeItem.drawSlices = volume->drawSlices();
+
+                m_validVolumeSlice = volume->sliceIndexX() >= 0
+                        || volume->sliceIndexY() >= 0
+                        || volume->sliceIndexZ() >= 0;
+
+                volumeItem.drawSlices = volume->drawSlices() && m_validVolumeSlice;
 
                 createVolumeMaterial(volume, volumeItem);
 
@@ -4046,7 +4059,6 @@ void QQuickGraphsItem::updateCustomData()
                                textureImage.sizeInBytes()));
             }
             model->setRotation(item->rotation());
-            model->setScale(item->scaling());
             model->setVisible(item->isVisible());
         }
         ++itemIterator;
