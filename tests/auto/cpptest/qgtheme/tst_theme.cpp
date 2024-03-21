@@ -65,6 +65,7 @@ void tst_theme::construct()
     QCOMPARE(theme->isGridEnabled(), true);
     QCOMPARE(theme->isShaderGridEnabled(), false);
     QCOMPARE(theme->gridLineColor(), QColor(QRgb(0x35322f)));
+    QCOMPARE(theme->gridWidth(), 0.25f);
     QCOMPARE(theme->labelBackgroundColor(), QColor(0x00, 0x00, 0x00, 0xcd));
     QCOMPARE(theme->isLabelBackgroundEnabled(), true);
     QCOMPARE(theme->isLabelBorderEnabled(), false);
@@ -98,6 +99,7 @@ void tst_theme::initialProperties()
     QCOMPARE(m_theme->isGridEnabled(), true);
     QCOMPARE(m_theme->isShaderGridEnabled(), false);
     QCOMPARE(m_theme->gridLineColor(), QColor(Qt::white));
+    QCOMPARE(m_theme->gridWidth(), 0.25f);
     QCOMPARE(m_theme->labelBackgroundColor(), QColor(Qt::gray));
     QCOMPARE(m_theme->isLabelBackgroundEnabled(), true);
     QCOMPARE(m_theme->isLabelBorderEnabled(), true);
@@ -139,6 +141,7 @@ void tst_theme::initializeProperties()
     m_theme->setGridEnabled(false);
     m_theme->setShaderGridEnabled(true);
     m_theme->setGridLineColor(QColor(Qt::green));
+    m_theme->setGridWidth(0.8f);
     m_theme->setLabelBackgroundColor(QColor(Qt::gray));
     m_theme->setLabelBackgroundEnabled(false);
     m_theme->setLabelBorderEnabled(false);
@@ -166,6 +169,7 @@ void tst_theme::initializeProperties()
     QCOMPARE(m_theme->isGridEnabled(), false);
     QCOMPARE(m_theme->isShaderGridEnabled(), true);
     QCOMPARE(m_theme->gridLineColor(), QColor(Qt::green));
+    QCOMPARE(m_theme->gridWidth(), 0.8f);
     QCOMPARE(m_theme->labelBackgroundColor(), QColor(Qt::gray));
     QCOMPARE(m_theme->isLabelBackgroundEnabled(), false);
     QCOMPARE(m_theme->isLabelBorderEnabled(), false);
@@ -197,6 +201,11 @@ void tst_theme::invalidProperties()
     QCOMPARE(m_theme->shadowStrength(), 25.0f);
     m_theme->setShadowStrength(100.1f);
     QCOMPARE(m_theme->shadowStrength(), 25.0f);
+
+    m_theme->setGridWidth(2.0f);
+    QCOMPARE(m_theme->gridWidth(), 0.25f);
+    m_theme->setGridWidth(-0.2f);
+    QCOMPARE(m_theme->gridWidth(), 0.25f);
 }
 
 QTEST_MAIN(tst_theme)

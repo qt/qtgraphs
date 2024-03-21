@@ -32,6 +32,7 @@ struct Q3DThemeDirtyBitField
     bool gridEnabledDirty : 1;
     bool shaderGridEnabledDirty : 1;
     bool gridLineColorDirty : 1;
+    bool gridWidthDirty : 1;
     bool labelBackgroundColorDirty : 1;
     bool labelBackgroundEnabledDirty : 1;
     bool labelBorderEnabledDirty : 1;
@@ -58,6 +59,7 @@ struct Q3DThemeDirtyBitField
         , gridEnabledDirty(false)
         , shaderGridEnabledDirty(false)
         , gridLineColorDirty(false)
+        , gridWidthDirty(false)
         , labelBackgroundColorDirty(false)
         , labelBackgroundEnabledDirty(false)
         , labelBorderEnabledDirty(false)
@@ -137,6 +139,7 @@ public:
     float m_ambientLightStrength;
     float m_lightStrength;
     float m_shadowStrength;
+    float m_gridWidth;
 
     // QML API specific variables
     QList<QQuickGraphsColor *> m_colors;

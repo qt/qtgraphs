@@ -9,6 +9,7 @@ CustomMaterial {
     property vector3d margin
     property color lineColor
     property color baseColor
+    property real gridWidth: 0.25
     property bool polar
     property bool xCategory
     property bool zCategory

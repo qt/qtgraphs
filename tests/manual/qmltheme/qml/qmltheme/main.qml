@@ -225,6 +225,23 @@ Item {
         }
 
         Label {
+            visible: testgridChange.checked
+            text: "Grid Width"
+            color: "gray"
+        }
+        Slider {
+            visible: testgridChange.checked
+            from: 0.0
+            to: 1.0
+            value: customTheme.gridWidth
+            onValueChanged: {
+                if (testgridChange.checked) {
+                    customTheme.gridWidth = value
+                }
+            }
+        }
+
+        Label {
             text: "Color Style Uniform"
             color: "gray"
         }

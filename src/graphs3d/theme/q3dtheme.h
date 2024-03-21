@@ -59,6 +59,7 @@ class Q_GRAPHS_EXPORT Q3DTheme : public QObject, public QQmlParserStatus
         float lightStrength READ lightStrength WRITE setLightStrength NOTIFY lightStrengthChanged)
     Q_PROPERTY(float shadowStrength READ shadowStrength WRITE setShadowStrength NOTIFY
                    shadowStrengthChanged)
+    Q_PROPERTY(float gridWidth READ gridWidth WRITE setGridWidth NOTIFY gridWidthChanged)
 
     // QML API specific properties
     Q_INTERFACES(QQmlParserStatus)
@@ -165,6 +166,9 @@ public:
     void setShadowStrength(float strength);
     float shadowStrength() const;
 
+    void setGridWidth(float width);
+    float gridWidth() const;
+
     // Functions for the QML API
 private:
     QQmlListProperty<QObject> themeChildren();
@@ -227,6 +231,7 @@ Q_SIGNALS:
     void colorStyleChanged(Q3DTheme::ColorStyle style);
     void labelsEnabledChanged(bool enabled);
     void shadowStrengthChanged(float strength);
+    void gridWidthChanged(float width);
 
     // QML API specific signals
     void singleHighlightGradientQMLChanged(QJSValue gradient);

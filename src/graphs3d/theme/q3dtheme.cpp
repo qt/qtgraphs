@@ -67,6 +67,9 @@ QT_BEGIN_NAMESPACE
  *     \li gridLineColor
  *     \li Qt::white
  *   \row
+ *     \li gridWidth
+ *     \li 0.25
+ *   \row
  *     \li labelBackgroundColor
  *     \li Qt::gray
  *   \row
@@ -322,6 +325,17 @@ QT_BEGIN_NAMESPACE
  * \qmlproperty color Theme3D::gridLineColor
  *
  * The color of the grid lines.
+ */
+
+/*!
+ * \qmlproperty color Theme3D::gridWidth
+ *
+ * The width of the grid lines
+ *
+ * The higher the number, the wider the grid lines will be.
+ * The value must be between \c 0.0 and \c 1.0. 
+ *
+ * Only has effect if \l{Q3DTheme::shaderGridEnabled} is \c true
  */
 
 /*!
@@ -1133,6 +1147,38 @@ float Q3DTheme::shadowStrength() const
     return d->m_shadowStrength;
 }
 
+/*!
+ * \property Q3DTheme::gridWidth
+ *
+ * \brief The width of the grid lines
+ *
+ * The higher the number, the wider the grid lines will be.
+ * The value must be between \c 0.0 and \c 1.0. 
+ *
+ * Only has effect if \l{Q3DTheme::shaderGridEnabled} is \c true
+ */
+void Q3DTheme::setGridWidth(float width)
+{
+    Q_D(Q3DTheme);
+    d->m_dirtyBits.gridWidthDirty = true;
+    if (width < 0.0f || width > 1.0f) {
+        qWarning("Invalid value. Valid range for grid width is between 0.0 "
+                 "and 1.0");
+    } else if (d->m_gridWidth != width) {
+        if (!d->m_shaderGridEnabled)
+            qWarning(
+                "Changes to grid line width will only be visible when using the shader grid lines");
+        d->m_gridWidth = width;
+        emit gridWidthChanged(width);
+        emit needRender();
+    }
+}
+
+float Q3DTheme::gridWidth() const
+{
+    const Q_D(Q3DTheme);
+    return d->m_gridWidth;
+}
 /*
  * \internal
  */
@@ -1476,6 +1522,7 @@ Q3DThemePrivate::Q3DThemePrivate()
     , m_ambientLightStrength(0.25f)
     , m_lightStrength(5.0f)
     , m_shadowStrength(25.0f)
+    , m_gridWidth(0.25f)
     , m_colors(QList<QQuickGraphsColor *>())
     , m_gradients(QList<QQuickGradient *>())
     , m_singleHLGradient(QJSValue(0))

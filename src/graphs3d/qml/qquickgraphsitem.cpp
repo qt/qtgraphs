@@ -1743,6 +1743,14 @@ void QQuickGraphsItem::synchData()
         theme()->d_func()->m_dirtyBits.shadowStrengthDirty = false;
     }
 
+    if (theme()->d_func()->m_dirtyBits.gridWidthDirty) {
+        QQmlListReference materialRef(m_background, "materials");
+        Q_ASSERT(materialRef.size());
+        auto *material = static_cast<QQuick3DCustomMaterial *>(materialRef.at(0));
+        material->setProperty("gridWidth", theme()->gridWidth());
+        theme()->d_func()->m_dirtyBits.gridWidthDirty = false;
+    }
+
     // label Adjustments
     if (theme()->d_func()->m_dirtyBits.labelBackgroundColorDirty) {
         QColor labelBackgroundColor = theme()->labelBackgroundColor();

@@ -38,7 +38,7 @@ void MAIN()
                 length(vec2(diffX.y, diffY.y)),
                 length(vec2(diffX.z, diffY.z)));
 
-    vec3 lineWidth = vec3(0.3);
+    vec3 lineWidth = vec3(gridWidth);
     if (polar) {
         //keep angle line width more constant
         float angleWidth = lineWidth.x  * min(scale.x, scale.z)/ PI;
@@ -49,7 +49,7 @@ void MAIN()
     }
     vec3 drawWidth = max(lineWidth, posDeriv);
     vec3 lineAA = lineWidth * 0.5 + vec3(length(posDeriv)) * 1.5;
-    vec3 grid3 = smoothstep(drawWidth + lineAA, drawWidth - lineAA, dist);
+    vec3 grid3 = smoothstep(min(drawWidth + lineAA, 1), drawWidth - lineAA, dist);
     grid3 *= clamp(lineWidth.x / drawWidth.x, 0,1);
 
     float linesXZ = mix(grid3.x, 1.0, grid3.z);
