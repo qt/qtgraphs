@@ -17,42 +17,82 @@ BarsRenderer::BarsRenderer(QQuickItem *parent)
     setFlag(QQuickItem::ItemHasContents);
 }
 
-void BarsRenderer::handlePolish(QAbstractBarSeries *series)
+QColor BarsRenderer::getSetColor(QAbstractBarSeries *series, QBarSet *set, int barSerieIndex)
 {
     auto seriesTheme = series->theme();
-    if (!seriesTheme)
-        return;
+    QColor color = set->color().alpha() != 0
+            ? set->color()
+            : seriesTheme->graphSeriesColor(m_colorIndex + barSerieIndex);
+    return color;
+}
 
-    int setCount = series->barSets().size();
-    if (setCount == 0)
-        return;
+QColor BarsRenderer::getSetBorderColor(QAbstractBarSeries *series, QBarSet *set, int barSerieIndex)
+{
+    auto seriesTheme = series->theme();
+    QColor color = set->borderColor().alpha() != 0
+            ? set->borderColor()
+            : seriesTheme->graphSeriesBorderColor(m_colorIndex + barSerieIndex);
+    return color;
+}
 
-    bool stacked = series->barsType() == QAbstractBarSeries::BarsStacked;
+qreal BarsRenderer::getSetBorderWidth(QAbstractBarSeries *series, QBarSet *set)
+{
+    auto seriesTheme = series->theme();
+    qreal borderWidth = set->borderWidth();
+    if (qFuzzyCompare(borderWidth, -1.0))
+        borderWidth = seriesTheme->borderWidth();
+    return borderWidth;
+}
 
-    if (m_colorIndex < 0)
-        m_colorIndex = seriesTheme->graphSeriesCount();
-    seriesTheme->setGraphSeriesCount(m_colorIndex + setCount);
-
-    if (!series->barComponent() && !m_barItems.isEmpty()) {
-        // If we have switched from custom bar component to rectangle nodes,
-        // remove the redundant items.
-        for (int i = 0; i < m_barItems.size(); i++) {
-            m_barItems[i]->deleteLater();
+void BarsRenderer::updateComponents(QAbstractBarSeries *series)
+{
+    if (series->barComponent()) {
+        // Update default rectangle nodes
+        int barIndex = 0;
+        for (auto i = m_seriesData.cbegin(), end = m_seriesData.cend(); i != end; ++i) {
+            if (m_barItems.size() <= barIndex) {
+                // Create more custom components as needed
+                QQuickItem *item = qobject_cast<QQuickItem *>(
+                        series->barComponent()->create(series->barComponent()->creationContext()));
+                if (item) {
+                    item->setParent(this);
+                    item->setParentItem(this);
+                    m_barItems << item;
+                }
+            }
+            if (m_barItems.size() > barIndex) {
+                // Set custom bar components
+                BarSeriesData d = *i;
+                auto &barItem = m_barItems[barIndex];
+                barItem->setX(d.rect.x());
+                barItem->setY(d.rect.y());
+                barItem->setWidth(d.rect.width());
+                barItem->setHeight(d.rect.height());
+                auto barComponent = qobject_cast<BarComponent *>(barItem);
+                if (barComponent) {
+                    barComponent->setBarColor(d.color);
+                    barComponent->setBarBorderColor(d.borderColor);
+                    barComponent->setBarBorderWidth(d.borderWidth);
+                    barComponent->setBarSelected(d.isSelected);
+                    barComponent->setBarValue(d.value);
+                    barComponent->setBarLabel(d.label);
+                }
+                barItem->update();
+            }
+            barIndex++;
         }
-        m_barItems.clear();
     }
+}
 
-    // Get bars values
-    int valuesPerSet = series->barSets().first()->values().size();
-
+void BarsRenderer::updateVerticalBars(QAbstractBarSeries *series, int setCount, int valuesPerSet)
+{
+    bool stacked = series->barsType() == QAbstractBarSeries::BarsStacked;
     // Bars area width & height
     QRectF seriesRect = m_graph->seriesRect();
     float w = seriesRect.width();
     float h = seriesRect.height();
-    // Margin between bars.
-    float barMargin = 2.0;
     // Max width of a bar if no separation between sets.
-    float maxBarWidth = w / (setCount * valuesPerSet) - barMargin;
+    float maxBarWidth = w / (setCount * valuesPerSet) - m_barMargin;
     if (stacked)
         maxBarWidth = w / valuesPerSet;
     // Actual bar width.
@@ -89,16 +129,10 @@ void BarsRenderer::handlePolish(QAbstractBarSeries *series)
             barSelectionRect->barSet = s;
             barSelectionRect->series = series;
         }
-        // Use set colors if available
-        QColor color = s->color().alpha() != 0
-                ? s->color()
-                : seriesTheme->graphSeriesColor(m_colorIndex + barSerieIndex);
-        QColor borderColor = s->borderColor().alpha() != 0
-                ? s->borderColor()
-                : seriesTheme->graphSeriesBorderColor(m_colorIndex + barSerieIndex);
-        qreal borderWidth = s->borderWidth();
-        if (qFuzzyCompare(borderWidth, -1.0))
-            borderWidth = seriesTheme->borderWidth();
+
+        QColor color = getSetColor(series, s, barSerieIndex);
+        QColor borderColor = getSetBorderColor(series, s, barSerieIndex);
+        qreal borderWidth = getSetBorderWidth(series, s);
         // Update legendData
         legendDataList.push_back({
                 color,
@@ -115,67 +149,168 @@ void BarsRenderer::handlePolish(QAbstractBarSeries *series)
             const bool isSelected = selectedBars.contains(barIndexInSet);
             double delta = m_graph->m_axisRenderer->m_axisVerticalMaxValue - m_graph->m_axisRenderer->m_axisVerticalMinValue;
             double maxValues = delta > 0 ? 1.0 / delta : 100.0;
-            float barHeight = h * value * maxValues;
-            float barY = m_graph->m_marginTop + h - barHeight;
+            float barLength = h * value * maxValues;
+            float barY = m_graph->m_marginTop + h - barLength;
             float barX = m_graph->m_marginLeft + m_graph->m_axisRenderer->m_axisWidth + seriesPos + posXInSet + barCentering;
             if (stacked) {
-                barY = m_graph->m_marginTop + h - barHeight - posYListInSet[barIndexInSet];
+                barY = m_graph->m_marginTop + h - barLength - posYListInSet[barIndexInSet];
                 barX = m_graph->m_marginLeft + m_graph->m_axisRenderer->m_axisWidth + seriesPos + barCentering;
             }
-            QRectF barRect(barX, barY, barWidth, barHeight);
+            QRectF barRect(barX, barY, barWidth, barLength);
             if (barSelectionRect)
                 barSelectionRect->rects << barRect;
-            if (series->barComponent()) {
-                // Set custom bar components
-                if (m_barItems.size() <= barIndex) {
-                    // Create more custom components as needed
-                    QQuickItem *item = qobject_cast<QQuickItem *>(
-                            series->barComponent()->create(series->barComponent()->creationContext()));
-                    if (item) {
-                        item->setParent(this);
-                        item->setParentItem(this);
-                        m_barItems << item;
-                    }
-                }
-                if (m_barItems.size() > barIndex) {
-                    auto &barItem = m_barItems[barIndex];
-                    barItem->setX(barRect.x());
-                    barItem->setY(barRect.y());
-                    barItem->setWidth(barRect.width());
-                    barItem->setHeight(barRect.height());
-                    auto barComponent = qobject_cast<BarComponent *>(barItem);
-                    if (barComponent) {
-                        barComponent->setBarColor(color);
-                        barComponent->setBarBorderColor(borderColor);
-                        barComponent->setBarBorderWidth(borderWidth);
-                        barComponent->setBarSelected(isSelected);
-                        barComponent->setBarValue(realValue);
-                        barComponent->setBarLabel(s->label());
-                    }
-                    barItem->update();
-                }
-            } else {
-                // Not using custom components.
-                // Collect data for default rectangle nodes.
-                BarSeriesData d;
-                d.rect = barRect;
-                d.color = color;
-                d.borderColor = borderColor;
-                d.borderWidth = borderWidth;
-                d.isSelected = isSelected;
-                m_seriesData[barIndex] = d;
-            }
+
+            // Collect the series data
+            BarSeriesData d;
+            d.rect = barRect;
+            d.color = color;
+            d.borderColor = borderColor;
+            d.borderWidth = borderWidth;
+            d.isSelected = isSelected;
+            d.label = s->label();
+            d.value = realValue;
+            m_seriesData[barIndex] = d;
 
             if (stacked)
-                posYListInSet[barIndexInSet] += barHeight;
+                posYListInSet[barIndexInSet] += barLength;
             barIndex++;
             barIndexInSet++;
             seriesPos = ((float)barIndexInSet / valuesPerSet) * w;
         }
-        posXInSet += barWidth + barMargin;
+        posXInSet += barWidth + m_barMargin;
         barSerieIndex++;
     }
     series->d_func()->setLegendData(legendDataList);
+}
+
+void BarsRenderer::updateHorizontalBars(QAbstractBarSeries *series, int setCount, int valuesPerSet)
+{
+    bool stacked = series->barsType() == QAbstractBarSeries::BarsStacked;
+    // Bars area width & height
+    QRectF seriesRect = m_graph->seriesRect();
+    float w = seriesRect.width();
+    float h = seriesRect.height();
+    // Max width of a bar if no separation between sets.
+    float maxBarWidth = h / (setCount * valuesPerSet) - m_barMargin;
+    if (stacked)
+        maxBarWidth = h / valuesPerSet;
+    // Actual bar width.
+    float barWidth = maxBarWidth * series->barWidth();
+    // Helper to keep barsets centered when bar width is less than max width.
+    float barCentering = (maxBarWidth - barWidth) * setCount * 0.5;
+    if (stacked)
+        barCentering = (maxBarWidth - barWidth) * 0.5;
+
+    // Clear the selection rects
+    // These will be filled only if series is selectable
+    m_rectNodesInputRects.clear();
+
+    float seriesPos = 0;
+    float posYInSet = 0;
+    QList<float> posXListInSet;
+    if (stacked)
+        posXListInSet.fill(0, valuesPerSet);
+    int barIndex = 0;
+    int barIndexInSet = 0;
+    int barSerieIndex = 0;
+    QList<QLegendData> legendDataList;
+    for (auto s : series->barSets()) {
+        QVariantList v = s->values();
+        int valuesCount = v.size();
+        if (valuesCount == 0)
+            continue;
+        seriesPos = 0;
+        barIndexInSet = 0;
+        BarSelectionRect *barSelectionRect = nullptr;
+        if (series->selectable() || series->hoverable()) {
+            m_rectNodesInputRects << BarSelectionRect();
+            barSelectionRect = &m_rectNodesInputRects.last();
+            barSelectionRect->barSet = s;
+            barSelectionRect->series = series;
+        }
+
+        QColor color = getSetColor(series, s, barSerieIndex);
+        QColor borderColor = getSetBorderColor(series, s, barSerieIndex);
+        qreal borderWidth = getSetBorderWidth(series, s);
+        // Update legendData
+        legendDataList.push_back({
+                color,
+                borderColor,
+                s->label()
+        });
+        // Apply series opacity
+        color.setAlpha(color.alpha() * series->opacity());
+        borderColor.setAlpha(borderColor.alpha() * series->opacity());
+        const auto selectedBars = s->selectedBars();
+        for (auto variantValue : std::as_const(v)) {
+            const float realValue = variantValue.toReal();
+            float value = (realValue - m_graph->m_axisRenderer->m_axisHorizontalMinValue) * series->valuesMultiplier();
+            const bool isSelected = selectedBars.contains(barIndexInSet);
+            double delta = m_graph->m_axisRenderer->m_axisHorizontalMaxValue - m_graph->m_axisRenderer->m_axisHorizontalMinValue;
+            double maxValues = delta > 0 ? 1.0 / delta : 100.0;
+            float barLength = w * value * maxValues;
+            float barY = m_graph->m_marginTop + seriesPos + posYInSet + barCentering;
+            float barX = m_graph->m_marginLeft + m_graph->m_axisRenderer->m_axisWidth;
+            if (stacked) {
+                barY = m_graph->m_marginTop + seriesPos + barCentering;
+                barX = m_graph->m_marginLeft + m_graph->m_axisRenderer->m_axisWidth + posXListInSet[barIndexInSet];
+            }
+            QRectF barRect(barX, barY, barLength, barWidth);
+            if (barSelectionRect)
+                barSelectionRect->rects << barRect;
+
+            // Collect the series data
+            BarSeriesData d;
+            d.rect = barRect;
+            d.color = color;
+            d.borderColor = borderColor;
+            d.borderWidth = borderWidth;
+            d.isSelected = isSelected;
+            d.label = s->label();
+            d.value = realValue;
+            m_seriesData[barIndex] = d;
+
+            if (stacked)
+                posXListInSet[barIndexInSet] += barLength;
+            barIndex++;
+            barIndexInSet++;
+            seriesPos = ((float)barIndexInSet / valuesPerSet) * h;
+        }
+        posYInSet += barWidth + m_barMargin;
+        barSerieIndex++;
+    }
+    series->d_func()->setLegendData(legendDataList);
+}
+
+void BarsRenderer::handlePolish(QAbstractBarSeries *series)
+{
+    auto seriesTheme = series->theme();
+    if (!seriesTheme)
+        return;
+
+    int setCount = series->barSets().size();
+    if (setCount == 0)
+        return;
+
+    if (m_colorIndex < 0)
+        m_colorIndex = seriesTheme->graphSeriesCount();
+    seriesTheme->setGraphSeriesCount(m_colorIndex + setCount);
+
+    if (!series->barComponent() && !m_barItems.isEmpty()) {
+        // If we have switched from custom bar component to rectangle nodes,
+        // remove the redundant items.
+        for (int i = 0; i < m_barItems.size(); i++)
+            m_barItems[i]->deleteLater();
+        m_barItems.clear();
+    }
+
+    // Get bars values
+    int valuesPerSet = series->barSets().first()->values().size();
+    if (series->barsOrientation() == QAbstractBarSeries::BarsVertical)
+        updateVerticalBars(series, setCount, valuesPerSet);
+    else
+        updateHorizontalBars(series, setCount, valuesPerSet);
+    updateComponents(series);
 }
 
 void BarsRenderer::updateSeries(QAbstractBarSeries *series)

@@ -46,6 +46,7 @@ public:
     void updateAxisGridShadow();
     void updateAxisTitles(const QRectF &xAxisRect, const QRectF &yAxisRect);
     void updateBarXAxisLabels(QBarCategoryAxis *axis, const QRectF &rect);
+    void updateBarYAxisLabels(QBarCategoryAxis *axis, const QRectF &rect);
     void updateValueYAxisLabels(QValueAxis *axis, const QRectF &rect);
     void updateValueXAxisLabels(QValueAxis *axis, const QRectF &rect);
     void initialize();
@@ -61,6 +62,7 @@ private:
 
     double getValueStepsFromRange(double range);
     int getValueDecimalsFromRange(double range);
+    void updateAxisLabelItems(QList<QQuickText *> &textItems, int neededSize);
 
     QGraphsView *m_graph = nullptr;
     QGraphTheme *theme();

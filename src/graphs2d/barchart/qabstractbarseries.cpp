@@ -81,6 +81,29 @@ QT_BEGIN_NAMESPACE
 */
 
 /*!
+    \enum QAbstractBarSeries::BarsOrientation
+
+    This enum value describes the orientation of the bar series:
+
+    \value BarsVertical Bars appear vertically.
+    \value BarsHorizontal Bars appear horizontally.
+*/
+/*!
+    \property QAbstractBarSeries::barsOrientation
+    \brief The orientation of the bar series. By default the bars appear vertically.
+*/
+/*!
+    \qmlproperty enumeration AbstractBarSeries::barsOrientation
+
+    The orientation of the bar series:
+
+    \value AbstractBarSeries.BarsVertical
+        Bars appear vertically. This is the default value.
+    \value AbstractBarSeries.BarsHorizontal
+        Bars appear horizontally.
+*/
+
+/*!
     \qmlproperty real AbstractBarSeries::barWidth
     The unit of width is the unit of the x-axis. The minimum width for bars is zero, and negative
     values are treated as zero. Setting the width to zero means that the width of the bar on the
@@ -495,6 +518,7 @@ void QAbstractBarSeries::setBarsType(QAbstractBarSeries::BarsType type)
     if (d->m_barsType != type) {
         d->m_barsType = type;
         emit barsTypeChanged(type);
+        emit update();
     }
 }
 
@@ -502,6 +526,22 @@ QAbstractBarSeries::BarsType QAbstractBarSeries::barsType() const
 {
     Q_D(const QAbstractBarSeries);
     return d->m_barsType;
+}
+
+void QAbstractBarSeries::setBarsOrientation(QAbstractBarSeries::BarsOrientation orientation)
+{
+    Q_D(QAbstractBarSeries);
+    if (d->m_barsOrientation != orientation) {
+        d->m_barsOrientation = orientation;
+        emit barsOrientationChanged(orientation);
+        emit update();
+    }
+}
+
+QAbstractBarSeries::BarsOrientation QAbstractBarSeries::barsOrientation() const
+{
+    Q_D(const QAbstractBarSeries);
+    return d->m_barsOrientation;
 }
 
 /*!

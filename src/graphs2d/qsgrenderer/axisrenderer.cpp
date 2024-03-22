@@ -3,6 +3,7 @@
 
 #include <private/axisrenderer_p.h>
 #include <private/qabstractaxis_p.h>
+#include <private/qabstractbarseries_p.h>
 #include <private/qgraphsview_p.h>
 #include <QtGraphs/QBarCategoryAxis>
 #include <private/qvalueaxis_p.h>
@@ -144,8 +145,20 @@ void AxisRenderer::updateAxis()
         else
             axisHorizontal = a;
     }
-    m_axisVertical = axisVertical;
-    m_axisHorizontal = axisHorizontal;
+
+    // See if series is horizontal, so axis should also switch places.
+    bool vertical = true;
+    if (auto barSeries = qobject_cast<QAbstractBarSeries*>(m_graph->m_seriesList.first())) {
+        if (barSeries->barsOrientation() == QAbstractBarSeries::BarsHorizontal)
+            vertical = false;
+    }
+    if (vertical) {
+        m_axisVertical = axisVertical;
+        m_axisHorizontal = axisHorizontal;
+    } else {
+        m_axisVertical = axisHorizontal;
+        m_axisHorizontal = axisVertical;
+    }
 
     // Graph series area width & height
     QRectF seriesRect = m_graph->seriesRect();
@@ -237,6 +250,14 @@ void AxisRenderer::updateAxis()
         m_axisHorizontalValueRange = m_axisHorizontalMaxValue - m_axisHorizontalMinValue;
         xAxisRect = {m_graph->m_marginLeft + m_axisWidth, m_graph->m_marginTop + h, w, m_axisHeight};
         updateBarXAxisLabels(haxis, xAxisRect);
+    }
+    if (auto vaxis = qobject_cast<QBarCategoryAxis *>(m_axisVertical)) {
+        m_axisVerticalMaxValue = vaxis->categories().size();
+        m_axisVerticalMinValue = 0;
+        float rightMargin = 20;
+        m_axisVerticalValueRange = m_axisVerticalMaxValue - m_axisVerticalMinValue;
+        yAxisRect = {m_graph->m_marginLeft, m_graph->m_marginTop, m_axisWidth - rightMargin, h};
+        updateBarYAxisLabels(vaxis, yAxisRect);
     }
 
     updateAxisTickers();
@@ -502,18 +523,30 @@ void AxisRenderer::updateAxisTitles(const QRectF &xAxisRect, const QRectF &yAxis
     }
 }
 
+void AxisRenderer::updateAxisLabelItems(QList<QQuickText *> &textItems, int neededSize)
+{
+    int currentTextItemsSize = textItems.size();
+    if (currentTextItemsSize < neededSize) {
+        for (int i = currentTextItemsSize; i <= neededSize; i++) {
+            auto bi = new QQuickText();
+            bi->setParentItem(this);
+            textItems << bi;
+        }
+    } else if (neededSize < currentTextItemsSize) {
+        // Hide unused text items
+        for (int i = neededSize;  i < currentTextItemsSize; i++) {
+            auto textItem = textItems[i];
+            textItem->setVisible(false);
+        }
+    }
+}
+
 void AxisRenderer::updateBarXAxisLabels(QBarCategoryAxis *axis, const QRectF &rect)
 {
     int categoriesCount =  axis->categories().size();
     // See if we need more text items
-    int currentTextItemsSize = m_xAxisTextItems.size();
-    if (currentTextItemsSize < categoriesCount) {
-        for (int i = currentTextItemsSize; i <= categoriesCount; i++) {
-            auto bi = new QQuickText();
-            bi->setParentItem(this);
-            m_xAxisTextItems << bi;
-        }
-    }
+    updateAxisLabelItems(m_xAxisTextItems, categoriesCount);
+
     int textIndex = 0;
     for (auto category : axis->categories()) {
         auto &textItem = m_xAxisTextItems[textIndex];
@@ -526,6 +559,36 @@ void AxisRenderer::updateBarXAxisLabels(QBarCategoryAxis *axis, const QRectF &re
             textItem->setVAlign(QQuickText::VAlignment::AlignVCenter);
             textItem->setWidth(rect.width() / categoriesCount);
             textItem->setHeight(rect.height());
+            textItem->setFont(theme()->axisXLabelsFont());
+            textItem->setColor(theme()->axisXLabelsColor());
+            textItem->setRotation(axis->labelsAngle());
+            textItem->setText(category);
+            textItem->setVisible(true);
+        } else {
+            textItem->setVisible(false);
+        }
+        textIndex++;
+    }
+}
+
+void AxisRenderer::updateBarYAxisLabels(QBarCategoryAxis *axis, const QRectF &rect)
+{
+    int categoriesCount =  axis->categories().size();
+    // See if we need more text items
+    updateAxisLabelItems(m_yAxisTextItems, categoriesCount);
+
+    int textIndex = 0;
+    for (auto category : axis->categories()) {
+        auto &textItem = m_yAxisTextItems[textIndex];
+        if (axis->isVisible() && axis->labelsVisible()) {
+            float posX = rect.x();
+            textItem->setX(posX);
+            float posY = rect.y() + ((float)textIndex / categoriesCount) *  rect.height();
+            textItem->setY(posY);
+            textItem->setHAlign(QQuickText::HAlignment::AlignHCenter);
+            textItem->setVAlign(QQuickText::VAlignment::AlignVCenter);
+            textItem->setWidth(rect.width());
+            textItem->setHeight(rect.height() / categoriesCount);
             textItem->setFont(theme()->axisXLabelsFont());
             textItem->setColor(theme()->axisXLabelsColor());
             textItem->setRotation(axis->labelsAngle());
@@ -551,20 +614,8 @@ void AxisRenderer::updateValueYAxisLabels(QValueAxis *axis, const QRectF &rect)
     int categoriesCount = yAxisLabelValues.size();
 
     // See if we need more text items
-    int currentTextItemsSize = m_yAxisTextItems.size();
-    if (currentTextItemsSize < categoriesCount) {
-        for (int i = currentTextItemsSize; i <= categoriesCount; i++) {
-            auto bi = new QQuickText();
-            bi->setParentItem(this);
-            m_yAxisTextItems << bi;
-        }
-    } else if (categoriesCount < currentTextItemsSize) {
-        // Hide unused text items
-        for (int i = categoriesCount;  i < currentTextItemsSize; i++) {
-            auto &textItem = m_yAxisTextItems[i];
-            textItem->setVisible(false);
-        }
-    }
+    updateAxisLabelItems(m_yAxisTextItems, categoriesCount);
+
     for (int i = 0;  i < categoriesCount; i++) {
         auto &textItem = m_yAxisTextItems[i];
         if (axis->isVisible() && axis->labelsVisible()) {
@@ -585,6 +636,7 @@ void AxisRenderer::updateValueYAxisLabels(QValueAxis *axis, const QRectF &rect)
             textItem->setHAlign(QQuickText::HAlignment::AlignRight);
             textItem->setVAlign(QQuickText::VAlignment::AlignBottom);
             textItem->setWidth(rect.width());
+            textItem->setHeight(textItem->contentHeight());
             textItem->setFont(theme()->axisYLabelsFont());
             textItem->setColor(theme()->axisYLabelsColor());
             textItem->setRotation(axis->labelsAngle());
@@ -616,20 +668,8 @@ void AxisRenderer::updateValueXAxisLabels(QValueAxis *axis, const QRectF &rect)
     int categoriesCount = axisLabelValues.size();
 
     // See if we need more text items
-    int currentTextItemsSize = m_xAxisTextItems.size();
-    if (currentTextItemsSize < categoriesCount) {
-        for (int i = currentTextItemsSize; i <= categoriesCount; i++) {
-            auto bi = new QQuickText();
-            bi->setParentItem(this);
-            m_xAxisTextItems << bi;
-        }
-    } else if (categoriesCount < currentTextItemsSize) {
-        // Hide unused text items
-        for (int i = categoriesCount;  i < currentTextItemsSize; i++) {
-            auto &textItem = m_xAxisTextItems[i];
-            textItem->setVisible(false);
-        }
-    }
+    updateAxisLabelItems(m_xAxisTextItems, categoriesCount);
+
     for (int i = 0;  i < categoriesCount; i++) {
         auto &textItem = m_xAxisTextItems[i];
         if (axis->isVisible() && axis->labelsVisible()) {

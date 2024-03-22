@@ -42,6 +42,13 @@ public:
 Q_SIGNALS:
 
 private:
+    void updateVerticalBars(QAbstractBarSeries *series, int setCount, int valuesPerSet);
+    void updateHorizontalBars(QAbstractBarSeries *series, int setCount, int valuesPerSet);
+    QColor getSetColor(QAbstractBarSeries *series, QBarSet *set, int barSerieIndex);
+    QColor getSetBorderColor(QAbstractBarSeries *series, QBarSet *set, int barSerieIndex);
+    qreal getSetBorderWidth(QAbstractBarSeries *series, QBarSet *set);
+    void updateComponents(QAbstractBarSeries *series);
+
     struct BarSelectionRect {
         QAbstractBarSeries *series = nullptr;
         QBarSet *barSet = nullptr;
@@ -51,6 +58,8 @@ private:
         QRectF rect;
         QColor color;
         QColor borderColor;
+        QString label;
+        float value;
         float borderWidth;
         bool isSelected;
     };
@@ -63,6 +72,8 @@ private:
 
     QAbstractBarSeries *m_currentHoverSeries = nullptr;
     int m_colorIndex = -1;
+    // Margin between bars.
+    float m_barMargin = 2.0;
 };
 
 QT_END_NAMESPACE

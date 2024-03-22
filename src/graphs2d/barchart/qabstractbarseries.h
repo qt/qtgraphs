@@ -21,6 +21,7 @@ class Q_GRAPHS_EXPORT QAbstractBarSeries : public QAbstractSeries
     Q_PROPERTY(QAbstractAxis *axisX READ axisX WRITE setAxisX NOTIFY axisXChanged)
     Q_PROPERTY(QAbstractAxis *axisY READ axisY WRITE setAxisY NOTIFY axisYChanged)
     Q_PROPERTY(BarsType barsType READ barsType WRITE setBarsType NOTIFY barsTypeChanged)
+    Q_PROPERTY(BarsOrientation barsOrientation READ barsOrientation WRITE setBarsOrientation NOTIFY barsOrientationChanged)
     Q_PROPERTY(qreal barWidth READ barWidth WRITE setBarWidth NOTIFY barWidthChanged)
     Q_PROPERTY(int count READ count NOTIFY countChanged)
     Q_PROPERTY(bool labelsVisible READ isLabelsVisible WRITE setLabelsVisible NOTIFY labelsVisibleChanged)
@@ -45,6 +46,12 @@ public:
     };
     Q_ENUM(BarsType)
 
+    enum BarsOrientation {
+        BarsVertical = 0,
+        BarsHorizontal
+    };
+    Q_ENUM(BarsOrientation)
+
 public:
     ~QAbstractBarSeries() override;
 
@@ -55,6 +62,9 @@ public:
 
     void setBarsType(QAbstractBarSeries::BarsType type);
     QAbstractBarSeries::BarsType barsType() const;
+
+    void setBarsOrientation(QAbstractBarSeries::BarsOrientation orientation);
+    QAbstractBarSeries::BarsOrientation barsOrientation() const;
 
     void setBarWidth(qreal width);
     qreal barWidth() const;
@@ -113,6 +123,7 @@ Q_SIGNALS:
     void labelsFormatChanged(const QString &format);
     void labelsPositionChanged(QAbstractBarSeries::LabelsPosition position);
     void barsTypeChanged(QAbstractBarSeries::BarsType type);
+    void barsOrientationChanged(QAbstractBarSeries::BarsOrientation orientation);
     void labelsAngleChanged(qreal angle);
     void labelsPrecisionChanged(int precision);
     void barComponentChanged();

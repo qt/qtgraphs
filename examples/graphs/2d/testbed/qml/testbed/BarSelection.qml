@@ -21,8 +21,15 @@ Rectangle {
         }
         BarSeries {
             id: barSeries
-            axisX: BarCategoryAxis { categories: ["2023", "2024", "2025", "2026"] }
-            axisY: ValueAxis { id: axisY; max: 10 }
+            axisX: BarCategoryAxis {
+                categories: ["2023", "2024", "2025", "2026"]
+                minorGridVisible: false
+            }
+            axisY: ValueAxis {
+                id: axisY
+                max: 10
+                minorTickCount: 9
+            }
             selectable: true
             BarSet { id: set1; label: "Axel"; values: [1, 2, 3, 4] }
             BarSet { id: set2; label: "Frank"; values: [8, 2, 6, 0] }
@@ -95,6 +102,16 @@ Rectangle {
                     barSeries.barsType = BarSeries.BarsStacked
                     axisY.max = 25
                 }
+            }
+        }
+        Button {
+            width: 250
+            text: "Vertical/Horizontal bars"
+            onClicked: {
+                if (barSeries.barsOrientation == BarSeries.BarsVertical)
+                    barSeries.barsOrientation = BarSeries.BarsHorizontal
+                else
+                    barSeries.barsOrientation = BarSeries.BarsVertical
             }
         }
     }
