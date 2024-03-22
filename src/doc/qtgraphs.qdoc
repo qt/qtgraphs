@@ -5,7 +5,6 @@
     \module QtGraphs
     \qtcmakepackage Graphs
     \qtvariable graphs
-    \modulestate Technical Preview
 */
 
 /*!
@@ -39,7 +38,6 @@
 
 /*!
     \qmlmodule QtGraphs
-    \modulestate Technical Preview
 */
 
 /*!

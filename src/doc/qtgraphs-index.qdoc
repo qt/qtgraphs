@@ -20,8 +20,6 @@
     Qt Graphs is built on Qt 6 and the 3D graphs on Qt Quick 3D to take advantage of
     hardware acceleration and Qt Quick.
 
-    \note This module is in Technical Preview
-
     \section1 Using the Module
 
     \section2 QtGraphs QML API
