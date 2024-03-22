@@ -34,12 +34,12 @@ Item {
             selectedSeries = series;
 
         // Set tableView current row to selected bar
-        var rowRole = series.dataProxy.rowLabels[position.x];
+        var rowRole = series.rowLabels[position.x];
         var colRole;
         if (barGraph.columnAxis == graphAxes.total)
             colRole = "01";
         else
-            colRole = series.dataProxy.columnLabels[position.y];
+            colRole = series.columnLabels[position.y];
         var checkTimestamp = rowRole + "-" + colRole;
 
         if (currentRow === -1 || checkTimestamp !== graphData.model.get(currentRow).timestamp) {
