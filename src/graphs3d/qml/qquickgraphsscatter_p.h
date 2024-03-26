@@ -252,6 +252,8 @@ private:
     void synchData() override;
     void handleOptimizationHintChange(QAbstract3DGraph::OptimizationHint hint) override;
 
+    bool selectedItemInRange(const ScatterModel *graphModel);
+
 private slots:
     void cameraRotationChanged();
 
