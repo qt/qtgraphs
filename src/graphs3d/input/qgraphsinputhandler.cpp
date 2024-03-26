@@ -219,10 +219,12 @@ void QGraphsInputHandler::onGrabChanged(QPointingDevice::GrabTransition transiti
                                         QEventPoint point)
 {
     static QPointF pickPoint;
+
     if (transition == QPointingDevice::GrabPassive) {
         pickPoint = point.position().toPoint();
     } else if (transition == QPointingDevice::GrabExclusive) {
-        m_graphsItem->doPicking(pickPoint);
+        if (m_dragHandler->centroid().pressedButtons().testFlag(Qt::LeftButton))
+            m_graphsItem->doPicking(pickPoint);
     } else if (transition == QPointingDevice::UngrabExclusive
                || transition == QPointingDevice::UngrabPassive) {
         setPosition(QPointF(.0f, .0f));
