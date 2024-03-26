@@ -168,8 +168,8 @@ void QQuickGraphsScatter::updateScatterGraphItemPositions(ScatterModel *graphMod
         QList<DataItemHolder> positions;
 
         for (int i = 0; i < count; i++) {
-            auto item = dataProxy->itemAt(i);
-            auto dotPos = item.position();
+            const QScatterDataItem &item = dataProxy->itemAt(i);
+            QVector3D dotPos = item.position();
 
             if (isDotPositionInAxisRange(dotPos)) {
                 auto posX = static_cast<QValue3DAxis *>(axisX())->positionAt(dotPos.x())
@@ -204,6 +204,10 @@ void QQuickGraphsScatter::updateScatterGraphItemPositions(ScatterModel *graphMod
                 dih.rotation = totalRotation;
                 dih.scale = {itemSize, itemSize, itemSize};
 
+                positions.push_back(dih);
+            } else {
+                DataItemHolder dih;
+                dih.hide = true;
                 positions.push_back(dih);
             }
         }
@@ -700,7 +704,7 @@ void QQuickGraphsScatter::setSelectedItem(int index, QScatter3DSeries *series)
 
     // Series may already have been removed, so check it before setting the selection.
     if (!m_seriesList.contains(series))
-        series = 0;
+        series = nullptr;
 
     if (series)
         proxy = series->dataProxy();
@@ -1432,8 +1436,11 @@ void QQuickGraphsScatter::updateGraph()
         if (isSeriesVisualsDirty() || (graphModel->instancing && graphModel->instancing->isDirty()))
             updateScatterGraphItemVisuals(graphModel);
 
-        if (m_selectedItemSeries == graphModel->series
-            && m_selectedItem != invalidSelectionIndex()) {
+        const bool validSelection = (m_selectedItemSeries == graphModel->series
+                                     && m_selectedItem != invalidSelectionIndex())
+                                    && selectedItemInRange(graphModel);
+
+        if (validSelection) {
             QVector3D selectionPosition = {0.0f, 0.0f, 0.0f};
             if (optimizationHint() == QAbstract3DGraph::OptimizationHint::Legacy) {
                 QQuick3DModel *selectedModel = graphModel->dataItems.at(m_selectedItem);
@@ -1492,5 +1499,16 @@ void QQuickGraphsScatter::handleOptimizationHintChange(QAbstract3DGraph::Optimiz
 {
     Q_UNUSED(hint)
     m_optimizationChanged = true;
+}
+
+bool QQuickGraphsScatter::selectedItemInRange(const ScatterModel *graphModel)
+{
+    qsizetype itemCount;
+    if (optimizationHint() == QAbstract3DGraph::OptimizationHint::Default)
+        itemCount = graphModel->instancing->dataArray().count();
+    else
+        itemCount = graphModel->dataItems.count();
+
+    return m_selectedItem >= 0 && m_selectedItem < itemCount;
 }
 QT_END_NAMESPACE
