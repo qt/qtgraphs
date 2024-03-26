@@ -105,8 +105,8 @@ Q_SIGNALS:
 
 private:
     Q_DISABLE_COPY(QBarSet)
-    friend class QAbstractBarSeries;
-    friend class QAbstractBarSeriesPrivate;
+    friend class QBarSeries;
+    friend class QBarSeriesPrivate;
 };
 
 QT_END_NAMESPACE

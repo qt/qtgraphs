@@ -19,7 +19,7 @@ QT_BEGIN_NAMESPACE
     of the set. For missing values in the middle of a set, the numerical value of zero is used.
     Labels for zero value sets are not shown.
 
-    \sa QAbstractBarSeries, QBarSeries
+    \sa QBarSeries
 */
 /*!
     \qmltype BarSet
@@ -34,7 +34,7 @@ QT_BEGIN_NAMESPACE
     of the set. For missing values in the middle of a set, the numerical value of zero is used.
     Labels for zero value sets are not shown.
 
-    \sa AbstractBarSeries, BarSeries
+    \sa BarSeries
 */
 
 /*!

@@ -330,7 +330,7 @@ QSGNode *QGraphsView::updatePaintNode(QSGNode *oldNode, QQuickItem::UpdatePaintN
 
     for (auto series : std::as_const(m_seriesList)) {
         if (m_barsRenderer) {
-            if (auto barSeries = qobject_cast<QAbstractBarSeries *>(series))
+            if (auto barSeries = qobject_cast<QBarSeries *>(series))
                 m_barsRenderer->updateSeries(barSeries);
         }
 
@@ -372,7 +372,7 @@ void QGraphsView::updatePolish()
     // Polish for all series
     for (auto series : std::as_const(m_seriesList)) {
         if (m_barsRenderer) {
-            if (auto barSeries = qobject_cast<QAbstractBarSeries*>(series))
+            if (auto barSeries = qobject_cast<QBarSeries*>(series))
                 m_barsRenderer->handlePolish(barSeries);
         }
 

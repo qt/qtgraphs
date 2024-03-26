@@ -56,12 +56,12 @@ void tst_bars::initialProperties()
     QCOMPARE(m_series->axisX(), nullptr);
     QCOMPARE(m_series->axisY(), nullptr);
 
-    // Properties from QAbstractBarSeries
+    // Properties from QBarSeries
     QCOMPARE(m_series->barWidth(), 0.5);
     QCOMPARE(m_series->count(), 0);
     QCOMPARE(m_series->isLabelsVisible(), false);
     QCOMPARE(m_series->labelsFormat(), "");
-    QCOMPARE(m_series->labelsPosition(), QAbstractBarSeries::LabelsCenter);
+    QCOMPARE(m_series->labelsPosition(), QBarSeries::LabelsCenter);
     QCOMPARE(m_series->labelsAngle(), 0);
     QCOMPARE(m_series->labelsPrecision(), 6);
 
@@ -91,7 +91,7 @@ void tst_bars::initializeProperties()
     m_series->setBarWidth(0.75);
     m_series->setLabelsVisible(true);
     m_series->setLabelsFormat("i");
-    m_series->setLabelsPosition(QAbstractBarSeries::LabelsInsideBase);
+    m_series->setLabelsPosition(QBarSeries::LabelsInsideBase);
     m_series->setLabelsAngle(45.0);
     m_series->setLabelsPrecision(10);
     m_series->append(set);
@@ -111,7 +111,7 @@ void tst_bars::initializeProperties()
     QCOMPARE(m_series->count(), 1);
     QCOMPARE(m_series->isLabelsVisible(), true);
     QCOMPARE(m_series->labelsFormat(), "i");
-    QCOMPARE(m_series->labelsPosition(), QAbstractBarSeries::LabelsInsideBase);
+    QCOMPARE(m_series->labelsPosition(), QBarSeries::LabelsInsideBase);
     QCOMPARE(m_series->labelsAngle(), 45.0);
     QCOMPARE(m_series->labelsPrecision(), 10);
 

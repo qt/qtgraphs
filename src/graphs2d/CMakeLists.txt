@@ -7,7 +7,6 @@ qt_internal_extend_target(Graphs
         qabstractseries.cpp qabstractseries.h qabstractseries_p.h
         charthelpers_p.h
         barchart/qbarseries.cpp barchart/qbarseries.h barchart/qbarseries_p.h
-        barchart/qabstractbarseries.cpp barchart/qabstractbarseries.h barchart/qabstractbarseries_p.h
         barchart/qbarset.cpp barchart/qbarset.h barchart/qbarset_p.h
         barchart/barcomponent.cpp barchart/barcomponent_p.h
         linechart/qlineseries.cpp linechart/qlineseries.h linechart/qlineseries_p.h

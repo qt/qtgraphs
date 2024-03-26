@@ -24,7 +24,7 @@
 QT_BEGIN_NAMESPACE
 
 class QGraphsView;
-class QAbstractBarSeries;
+class QBarSeries;
 class QBarSet;
 
 class BarsRenderer : public QQuickItem
@@ -34,23 +34,23 @@ class BarsRenderer : public QQuickItem
 public:
     BarsRenderer(QQuickItem *parent = nullptr);
 
-    void handlePolish(QAbstractBarSeries *series);
-    void updateSeries(QAbstractBarSeries *series);
+    void handlePolish(QBarSeries *series);
+    void updateSeries(QBarSeries *series);
     bool handleMousePress(QMouseEvent *event);
     bool handleHoverMove(QHoverEvent *event);
 
 Q_SIGNALS:
 
 private:
-    void updateVerticalBars(QAbstractBarSeries *series, int setCount, int valuesPerSet);
-    void updateHorizontalBars(QAbstractBarSeries *series, int setCount, int valuesPerSet);
-    QColor getSetColor(QAbstractBarSeries *series, QBarSet *set, int barSerieIndex);
-    QColor getSetBorderColor(QAbstractBarSeries *series, QBarSet *set, int barSerieIndex);
-    qreal getSetBorderWidth(QAbstractBarSeries *series, QBarSet *set);
-    void updateComponents(QAbstractBarSeries *series);
+    void updateVerticalBars(QBarSeries *series, int setCount, int valuesPerSet);
+    void updateHorizontalBars(QBarSeries *series, int setCount, int valuesPerSet);
+    QColor getSetColor(QBarSeries *series, QBarSet *set, int barSerieIndex);
+    QColor getSetBorderColor(QBarSeries *series, QBarSet *set, int barSerieIndex);
+    qreal getSetBorderWidth(QBarSeries *series, QBarSet *set);
+    void updateComponents(QBarSeries *series);
 
     struct BarSelectionRect {
-        QAbstractBarSeries *series = nullptr;
+        QBarSeries *series = nullptr;
         QBarSet *barSet = nullptr;
         QList<QRectF> rects;
     };
@@ -70,7 +70,7 @@ private:
     QList<QQuickItem *> m_barItems;
     QHash<int, BarSeriesData> m_seriesData;
 
-    QAbstractBarSeries *m_currentHoverSeries = nullptr;
+    QBarSeries *m_currentHoverSeries = nullptr;
     int m_colorIndex = -1;
     // Margin between bars.
     float m_barMargin = 2.0;

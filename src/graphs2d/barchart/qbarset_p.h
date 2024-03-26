@@ -65,7 +65,7 @@ public:
     bool m_visualsDirty;
     bool m_labelsDirty;
 
-    friend class QAbstractBarSeries;
+    friend class QBarSeries;
 };
 
 QT_END_NAMESPACE

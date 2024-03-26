@@ -1,10 +1,10 @@
 // Copyright (C) 2023 The Qt Company Ltd.
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 
-#include <QtGraphs/qabstractbarseries.h>
+#include <QtGraphs/qbarseries.h>
 #include <QtGraphs/qbarset.h>
 #include <private/barsrenderer_p.h>
-#include <private/qabstractbarseries_p.h>
+#include <private/qbarseries_p.h>
 #include <private/qgraphsview_p.h>
 #include <private/barcomponent_p.h>
 
@@ -17,7 +17,7 @@ BarsRenderer::BarsRenderer(QQuickItem *parent)
     setFlag(QQuickItem::ItemHasContents);
 }
 
-QColor BarsRenderer::getSetColor(QAbstractBarSeries *series, QBarSet *set, int barSerieIndex)
+QColor BarsRenderer::getSetColor(QBarSeries *series, QBarSet *set, int barSerieIndex)
 {
     auto seriesTheme = series->theme();
     QColor color = set->color().alpha() != 0
@@ -26,7 +26,7 @@ QColor BarsRenderer::getSetColor(QAbstractBarSeries *series, QBarSet *set, int b
     return color;
 }
 
-QColor BarsRenderer::getSetBorderColor(QAbstractBarSeries *series, QBarSet *set, int barSerieIndex)
+QColor BarsRenderer::getSetBorderColor(QBarSeries *series, QBarSet *set, int barSerieIndex)
 {
     auto seriesTheme = series->theme();
     QColor color = set->borderColor().alpha() != 0
@@ -35,7 +35,7 @@ QColor BarsRenderer::getSetBorderColor(QAbstractBarSeries *series, QBarSet *set,
     return color;
 }
 
-qreal BarsRenderer::getSetBorderWidth(QAbstractBarSeries *series, QBarSet *set)
+qreal BarsRenderer::getSetBorderWidth(QBarSeries *series, QBarSet *set)
 {
     auto seriesTheme = series->theme();
     qreal borderWidth = set->borderWidth();
@@ -44,7 +44,7 @@ qreal BarsRenderer::getSetBorderWidth(QAbstractBarSeries *series, QBarSet *set)
     return borderWidth;
 }
 
-void BarsRenderer::updateComponents(QAbstractBarSeries *series)
+void BarsRenderer::updateComponents(QBarSeries *series)
 {
     if (series->barComponent()) {
         // Update default rectangle nodes
@@ -84,9 +84,9 @@ void BarsRenderer::updateComponents(QAbstractBarSeries *series)
     }
 }
 
-void BarsRenderer::updateVerticalBars(QAbstractBarSeries *series, int setCount, int valuesPerSet)
+void BarsRenderer::updateVerticalBars(QBarSeries *series, int setCount, int valuesPerSet)
 {
-    bool stacked = series->barsType() == QAbstractBarSeries::BarsStacked;
+    bool stacked = series->barsType() == QBarSeries::BarsStacked;
     // Bars area width & height
     QRectF seriesRect = m_graph->seriesRect();
     float w = seriesRect.width();
@@ -183,9 +183,9 @@ void BarsRenderer::updateVerticalBars(QAbstractBarSeries *series, int setCount, 
     series->d_func()->setLegendData(legendDataList);
 }
 
-void BarsRenderer::updateHorizontalBars(QAbstractBarSeries *series, int setCount, int valuesPerSet)
+void BarsRenderer::updateHorizontalBars(QBarSeries *series, int setCount, int valuesPerSet)
 {
-    bool stacked = series->barsType() == QAbstractBarSeries::BarsStacked;
+    bool stacked = series->barsType() == QBarSeries::BarsStacked;
     // Bars area width & height
     QRectF seriesRect = m_graph->seriesRect();
     float w = seriesRect.width();
@@ -282,7 +282,7 @@ void BarsRenderer::updateHorizontalBars(QAbstractBarSeries *series, int setCount
     series->d_func()->setLegendData(legendDataList);
 }
 
-void BarsRenderer::handlePolish(QAbstractBarSeries *series)
+void BarsRenderer::handlePolish(QBarSeries *series)
 {
     auto seriesTheme = series->theme();
     if (!seriesTheme)
@@ -306,14 +306,14 @@ void BarsRenderer::handlePolish(QAbstractBarSeries *series)
 
     // Get bars values
     int valuesPerSet = series->barSets().first()->values().size();
-    if (series->barsOrientation() == QAbstractBarSeries::BarsVertical)
+    if (series->barsOrientation() == QBarSeries::BarsVertical)
         updateVerticalBars(series, setCount, valuesPerSet);
     else
         updateHorizontalBars(series, setCount, valuesPerSet);
     updateComponents(series);
 }
 
-void BarsRenderer::updateSeries(QAbstractBarSeries *series)
+void BarsRenderer::updateSeries(QBarSeries *series)
 {
     if (series->barSets().isEmpty())
         return;

@@ -62,7 +62,7 @@ Item {
         }
 
         function test_2_initial_common() {
-            // Common properties from QAbstractBarSeries
+            // Common properties from QBarSeries
             compare(initial.barWidth, 0.5)
             compare(initial.count, 0)
             compare(initial.labelsVisible, false)

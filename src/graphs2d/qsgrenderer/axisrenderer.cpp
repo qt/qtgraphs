@@ -3,7 +3,7 @@
 
 #include <private/axisrenderer_p.h>
 #include <private/qabstractaxis_p.h>
-#include <private/qabstractbarseries_p.h>
+#include <private/qbarseries_p.h>
 #include <private/qgraphsview_p.h>
 #include <QtGraphs/QBarCategoryAxis>
 #include <private/qvalueaxis_p.h>
@@ -148,8 +148,8 @@ void AxisRenderer::updateAxis()
 
     // See if series is horizontal, so axis should also switch places.
     bool vertical = true;
-    if (auto barSeries = qobject_cast<QAbstractBarSeries*>(m_graph->m_seriesList.first())) {
-        if (barSeries->barsOrientation() == QAbstractBarSeries::BarsHorizontal)
+    if (auto barSeries = qobject_cast<QBarSeries*>(m_graph->m_seriesList.first())) {
+        if (barSeries->barsOrientation() == QBarSeries::BarsHorizontal)
             vertical = false;
     }
     if (vertical) {

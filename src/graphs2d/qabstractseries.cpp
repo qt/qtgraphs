@@ -15,7 +15,7 @@ QT_BEGIN_NAMESPACE
 
     Usually, the series type specific inherited classes are used instead of the base class.
 
-    \sa QLineSeries, QSplineSeries, QScatterSeries, QBarSeries, QAbstractBarSeries, QXYSeries
+    \sa QLineSeries, QSplineSeries, QScatterSeries, QBarSeries, QXYSeries
 */
 /*!
     \qmltype AbstractSeries
@@ -38,7 +38,7 @@ QT_BEGIN_NAMESPACE
     The information needed to make a visual association between a set and a
     marker include properties such as color, border color, and a name of a set.
 
-    \sa QLineSeries, QSplineSeries, QScatterSeries, QBarSeries, QAbstractBarSeries, QXYSeries
+    \sa QLineSeries, QSplineSeries, QScatterSeries, QBarSeries, QXYSeries
 */
 
 /*!
