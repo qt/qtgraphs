@@ -25,8 +25,6 @@ class QXYPoint : public QObject, public QPointF
     Q_PROPERTY(qreal x READ x WRITE setX)
     Q_PROPERTY(qreal y READ y WRITE setY)
     QML_NAMED_ELEMENT(XYPoint)
-    QML_ADDED_IN_VERSION(1, 0)
-    QML_EXTRA_VERSION(2, 0)
 
 public:
     explicit QXYPoint(QObject *parent = 0);
