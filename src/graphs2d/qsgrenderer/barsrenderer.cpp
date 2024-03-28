@@ -84,9 +84,25 @@ void BarsRenderer::updateComponents(QBarSeries *series)
     }
 }
 
+void calculateCategoryTotalValues(QBarSeries *series, QList<float> &totalValues, int valuesPerSet)
+{
+    totalValues.fill(0, valuesPerSet);
+    for (auto s : series->barSets()) {
+        QVariantList v = s->values();
+        int setIndex = 0;
+        for (auto variantValue : std::as_const(v)) {
+            if (setIndex < totalValues.size())
+                totalValues[setIndex] += variantValue.toReal();
+            setIndex++;
+        }
+    }
+}
+
 void BarsRenderer::updateVerticalBars(QBarSeries *series, int setCount, int valuesPerSet)
 {
-    bool stacked = series->barsType() == QBarSeries::BarsStacked;
+    bool stacked = series->barsType() == QBarSeries::BarsStacked
+            || series->barsType() == QBarSeries::BarsStackedPercent;
+    bool percent = series->barsType() == QBarSeries::BarsStackedPercent;
     // Bars area width & height
     QRectF seriesRect = m_graph->seriesRect();
     float w = seriesRect.width();
@@ -111,6 +127,10 @@ void BarsRenderer::updateVerticalBars(QBarSeries *series, int setCount, int valu
     QList<float> posYListInSet;
     if (stacked)
         posYListInSet.fill(0, valuesPerSet);
+    QList<float> totalValuesListInSet;
+    if (percent)
+        calculateCategoryTotalValues(series, totalValuesListInSet, valuesPerSet);
+
     int barIndex = 0;
     int barIndexInSet = 0;
     int barSerieIndex = 0;
@@ -146,6 +166,10 @@ void BarsRenderer::updateVerticalBars(QBarSeries *series, int setCount, int valu
         for (auto variantValue : std::as_const(v)) {
             const float realValue = variantValue.toReal();
             float value = (realValue - m_graph->m_axisRenderer->m_axisVerticalMinValue) * series->valuesMultiplier();
+            if (percent) {
+                if (auto totalValue = totalValuesListInSet.at(barIndexInSet))
+                    value *= (100.0 / totalValue);
+            }
             const bool isSelected = selectedBars.contains(barIndexInSet);
             double delta = m_graph->m_axisRenderer->m_axisVerticalMaxValue - m_graph->m_axisRenderer->m_axisVerticalMinValue;
             double maxValues = delta > 0 ? 1.0 / delta : 100.0;
@@ -185,7 +209,9 @@ void BarsRenderer::updateVerticalBars(QBarSeries *series, int setCount, int valu
 
 void BarsRenderer::updateHorizontalBars(QBarSeries *series, int setCount, int valuesPerSet)
 {
-    bool stacked = series->barsType() == QBarSeries::BarsStacked;
+    bool stacked = series->barsType() == QBarSeries::BarsStacked
+            || series->barsType() == QBarSeries::BarsStackedPercent;
+    bool percent = series->barsType() == QBarSeries::BarsStackedPercent;
     // Bars area width & height
     QRectF seriesRect = m_graph->seriesRect();
     float w = seriesRect.width();
@@ -210,6 +236,9 @@ void BarsRenderer::updateHorizontalBars(QBarSeries *series, int setCount, int va
     QList<float> posXListInSet;
     if (stacked)
         posXListInSet.fill(0, valuesPerSet);
+    QList<float> totalValuesListInSet;
+    if (percent)
+        calculateCategoryTotalValues(series, totalValuesListInSet, valuesPerSet);
     int barIndex = 0;
     int barIndexInSet = 0;
     int barSerieIndex = 0;
@@ -245,6 +274,10 @@ void BarsRenderer::updateHorizontalBars(QBarSeries *series, int setCount, int va
         for (auto variantValue : std::as_const(v)) {
             const float realValue = variantValue.toReal();
             float value = (realValue - m_graph->m_axisRenderer->m_axisHorizontalMinValue) * series->valuesMultiplier();
+            if (percent) {
+                if (auto totalValue = totalValuesListInSet.at(barIndexInSet))
+                    value *= (100.0 / totalValue);
+            }
             const bool isSelected = selectedBars.contains(barIndexInSet);
             double delta = m_graph->m_axisRenderer->m_axisHorizontalMaxValue - m_graph->m_axisRenderer->m_axisHorizontalMinValue;
             double maxValues = delta > 0 ? 1.0 / delta : 100.0;

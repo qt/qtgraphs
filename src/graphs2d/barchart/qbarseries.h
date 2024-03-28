@@ -41,7 +41,8 @@ public:
 
     enum BarsType {
         BarsGroups = 0,
-        BarsStacked
+        BarsStacked,
+        BarsStackedPercent
     };
     Q_ENUM(BarsType)
 

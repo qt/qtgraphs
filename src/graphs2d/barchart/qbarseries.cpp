@@ -64,6 +64,9 @@ QT_BEGIN_NAMESPACE
 
     \value BarsGroups Bar sets are grouped by category.
     \value BarsStacked Bar sets are stacked after each other by category.
+    \value BarsStackedPercent Bar sets are stacked after each other by category.
+           The segment size corresponds to the percentage of the segment value
+           compared with the total value of all segments in the stack.
 */
 /*!
     \property QBarSeries::barsType
@@ -75,9 +78,13 @@ QT_BEGIN_NAMESPACE
     The type of the bar series:
 
     \value BarSeries.BarsGroups
-        Bar sets are grouped by category.
+        Bar sets are grouped by category. This is the default value.
     \value BarSeries.BarsStacked
         Bar sets are stacked after each other by category.
+    \value BarSeries.BarsStackedPercent
+        Bar sets are stacked after each other by category. The segment size corresponds
+        to the percentage of the segment value compared with the total value of all
+        segments in the stack.
 */
 
 /*!

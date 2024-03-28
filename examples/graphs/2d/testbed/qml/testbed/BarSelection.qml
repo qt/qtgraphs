@@ -14,6 +14,7 @@ Rectangle {
         anchors.fill: parent
         anchors.margins: 20 * px
         anchors.topMargin: 80 * px
+        anchors.rightMargin: settingsView.posX + 20 * px
         theme: GraphTheme {
             id: myTheme
             colorTheme: GraphTheme.ColorThemeDark
@@ -52,6 +53,7 @@ Rectangle {
     }
 
     SettingsView {
+        id: settingsView
         Item {
             width: 260
             height: 10
@@ -93,11 +95,14 @@ Rectangle {
         }
         Button {
             width: 250
-            text: "Grouped/Stacked bars"
+            text: "Grouped/Stacked/Percent bars"
             onClicked: {
-                if (barSeries.barsType == BarSeries.BarsStacked) {
+                if (barSeries.barsType == BarSeries.BarsStackedPercent) {
                     barSeries.barsType = BarSeries.BarsGroups
                     axisY.max = 10
+                } else if (barSeries.barsType == BarSeries.BarsStacked) {
+                    barSeries.barsType = BarSeries.BarsStackedPercent
+                    axisY.max = 100
                 } else {
                     barSeries.barsType = BarSeries.BarsStacked
                     axisY.max = 25
