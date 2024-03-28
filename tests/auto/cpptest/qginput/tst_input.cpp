@@ -3,7 +3,7 @@
 
 #include <QtTest/QtTest>
 
-#include <QtGraphs/Q3DBars>>
+#include <QtGraphs/Q3DBars>
 #include <QtGraphs/Q3DInputHandler>
 
 class tst_input: public QObject

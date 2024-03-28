@@ -660,12 +660,12 @@ void QQuickGraphsSurface::removeSeries(QSurface3DSeries *series)
     series->setParent(this); // Reparent as removing will leave series parentless
     for (int i = 0; i < m_model.size();) {
         if (m_model[i]->series == series) {
-            m_model[i]->model->deleteLater();
-            m_model[i]->gridModel->deleteLater();
-            m_model[i]->proxyModel->deleteLater();
+            delete3DModel(m_model[i]->model);
+            delete3DModel(m_model[i]->gridModel);
+            delete3DModel(m_model[i]->proxyModel);
             if (sliceView()) {
-                m_model[i]->sliceModel->deleteLater();
-                m_model[i]->sliceGridModel->deleteLater();
+                delete3DModel(m_model[i]->sliceModel);
+                delete3DModel(m_model[i]->sliceGridModel);
             }
             m_model.removeAt(i);
         } else {
@@ -2149,6 +2149,14 @@ void QQuickGraphsSurface::addSliceModel(SurfaceModel *model)
     gridMaterialRef.append(gridMaterial);
 
     model->sliceGridModel = gridModel;
+}
+
+void QQuickGraphsSurface::delete3DModel(QQuick3DModel *model)
+{
+    if (model) {
+        model->deleteLater();
+        model = nullptr;
+    }
 }
 
 void QQuickGraphsSurface::updateSingleHighlightColor()

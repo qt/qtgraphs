@@ -234,6 +234,7 @@ private:
     void updateSelectedPoint();
     void addModel(QSurface3DSeries *series);
     void addSliceModel(SurfaceModel *model);
+    void delete3DModel(QQuick3DModel *model);
 
     QVector<SurfaceModel *> m_model;
     QQuick3DModel *m_selectionPointer = nullptr;
