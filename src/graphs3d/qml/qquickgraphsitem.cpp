@@ -899,7 +899,7 @@ void QQuickGraphsItem::handleParentWidthChange()
     else
         setWidth(parentItem()->width());
 
-    if (m_sliceView) {
+    if (m_sliceView && isSliceOrthoProjection()) {
         const float scale = qMin(m_sliceView->width(), m_sliceView->height());
         QQuick3DOrthographicCamera *camera = static_cast<QQuick3DOrthographicCamera *>(
             m_sliceView->camera());
@@ -917,7 +917,7 @@ void QQuickGraphsItem::handleParentHeightChange()
     else
         setHeight(parentItem()->height());
 
-    if (m_sliceView) {
+    if (m_sliceView && isSliceOrthoProjection()) {
         const float scale = qMin(m_sliceView->width(), m_sliceView->height());
         QQuick3DOrthographicCamera *camera = static_cast<QQuick3DOrthographicCamera *>(
             m_sliceView->camera());
@@ -4229,7 +4229,7 @@ void QQuickGraphsItem::updateWindowParameters()
         }
     }
 
-    if (m_sliceView && m_sliceView->isVisible()) {
+    if (m_sliceView && m_sliceView->isVisible() && isSliceOrthoProjection()) {
         const float scale = qMin(m_sliceView->width(), m_sliceView->height());
         QQuick3DOrthographicCamera *camera = static_cast<QQuick3DOrthographicCamera *>(
             m_sliceView->camera());
@@ -5086,19 +5086,7 @@ void QQuickGraphsItem::createSliceView()
 
     auto scene = m_sliceView->scene();
 
-    auto camera = new QQuick3DOrthographicCamera(scene);
-    camera->setPosition(QVector3D(.0f, .0f, 20.0f));
-    const float scale = qMin(m_sliceView->width(), m_sliceView->height());
-    const float magnificationScaleFactor = 2 * window()->devicePixelRatio()
-                                           * .08f; // this controls the size of the slice view
-    const float magnification = scale * magnificationScaleFactor;
-    camera->setHorizontalMagnification(magnification);
-    camera->setVerticalMagnification(magnification);
-    m_sliceView->setCamera(camera);
-
-    auto light = new QQuick3DDirectionalLight(scene);
-    light->setParent(camera);
-    light->setParentItem(camera);
+    createSliceCamera();
 
     // auto gridDelegate = createRepeaterDelegateComponent(QStringLiteral(":/axis/GridLine"));
     auto labelDelegate = createRepeaterDelegateComponent(QStringLiteral(":/axis/AxisLabel"));
@@ -5134,6 +5122,39 @@ void QQuickGraphsItem::createSliceView()
 
     m_sliceItemLabel = createTitleLabel(scene);
     m_sliceItemLabel->setVisible(false);
+}
+
+void QQuickGraphsItem::createSliceCamera()
+{
+    if (isSliceOrthoProjection()) {
+        auto camera = new QQuick3DOrthographicCamera(sliceView()->scene());
+        camera->setPosition(QVector3D(.0f, .0f, 20.0f));
+        const float scale = qMin(sliceView()->width(), sliceView()->height());
+        const float magnificationScaleFactor = 2 * window()->devicePixelRatio()
+                                               * .08f; // this controls the size of the slice view
+        const float magnification = scale * magnificationScaleFactor;
+        camera->setHorizontalMagnification(magnification);
+        camera->setVerticalMagnification(magnification);
+        sliceView()->setCamera(camera);
+
+        auto light = new QQuick3DDirectionalLight(sliceView()->scene());
+        light->setParent(camera);
+        light->setParentItem(camera);
+    } else {
+        auto camera = new QQuick3DPerspectiveCamera(sliceView()->scene());
+        camera->setFieldOfViewOrientation(
+            QQuick3DPerspectiveCamera::FieldOfViewOrientation::Vertical);
+        camera->setClipNear(0.1f);
+        camera->setClipFar(100.f);
+        camera->setFieldOfView(35.f);
+        camera->setPosition(QVector3D(.0f, .0f, 10.f));
+        sliceView()->setCamera(camera);
+
+        auto light = new QQuick3DDirectionalLight(sliceView()->scene());
+        light->setParent(camera);
+        light->setParentItem(camera);
+        light->setAmbientColor(QColor::fromRgbF(1.f, 1.f, 1.f));
+    }
 }
 
 void QQuickGraphsItem::updateSliceGrid()
@@ -5207,8 +5228,8 @@ void QQuickGraphsItem::updateSliceGrid()
     scale = m_scaleWithBackground.y();
     translate = m_scaleWithBackground.y();
 
-    x0 = horizontalScale;
-    x1 = -horizontalScale;
+    x0 = horizontalScale * 1.1f;
+    x1 = -horizontalScale * 1.1f;
     if (verticalAxis->type() == QAbstract3DAxis::AxisType::Value) {
         auto axis = static_cast<QValue3DAxis *>(verticalAxis);
         for (int i = 0; i < axis->gridSize(); i++) {
@@ -5326,7 +5347,7 @@ void QQuickGraphsItem::updateSliceLabels()
     } else if (horizontalAxis->type() == QAbstract3DAxis::AxisType::Category) {
         for (int i = 0; i < m_sliceHorizontalLabelRepeater->count(); i++) {
             labelTrans = calculateCategoryLabelPosition(horizontalAxis, labelTrans, i);
-            labelTrans.setY(-yPos - (adjustment / 2.f));
+            labelTrans.setY(-yPos /*- (adjustment / 2.f)*/);
             if (selectionMode().testFlag(QAbstract3DGraph::SelectionColumn))
                 labelTrans.setX(labelTrans.z());
             labelTrans.setZ(1.0f); // Bring the labels on top of bars and grid

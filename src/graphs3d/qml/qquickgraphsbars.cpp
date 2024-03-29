@@ -1944,10 +1944,10 @@ void QQuickGraphsBars::updateSliceItemLabel(QString label, const QVector3D &posi
         slicePos.setX(slicePos.x());
     QValue3DAxis *valueAxis = static_cast<QValue3DAxis *>(axisY());
     if (valueAxis->reversed())
-        slicePos.setY(slicePos.y() - (textPadding * .045f));
+        slicePos.setY(slicePos.y() - (textPadding * .06f));
     else
-        slicePos.setY(slicePos.y() + (textPadding * .045f));
-    slicePos.setZ(1.2f);
+        slicePos.setY(slicePos.y() + (textPadding * .06f));
+    slicePos.setZ(.1f);
     sliceItemLabel()->setPosition(slicePos);
     sliceItemLabel()->setProperty("labelText", label);
     sliceItemLabel()->setEulerRotation(QVector3D(0.0f, 0.0f, 90.0f));
@@ -1978,9 +1978,8 @@ void QQuickGraphsBars::resetClickedStatus()
 
 void QQuickGraphsBars::createSliceView()
 {
+    setSliceOrthoProjection(false);
     QQuickGraphsItem::createSliceView();
-
-    QQuick3DViewport *sliceParent = sliceView();
 
     QList<QBar3DSeries *> barSeries = barSeriesList();
     for (const auto &barSeries : std::as_const(barSeries)) {
@@ -2009,7 +2008,7 @@ void QQuickGraphsBars::createSliceView()
                     slicedBarListSize = newRowSize;
 
                 for (int ind = 0; ind < slicedBarListSize; ++ind) {
-                    QQuick3DModel *model = createDataItem(sliceParent->scene(), barSeries);
+                    QQuick3DModel *model = createDataItem(sliceView()->scene(), barSeries);
                     model->setVisible(false);
                     BarModel *barModel = new BarModel();
                     barModel->model = model;
@@ -2028,10 +2027,10 @@ void QQuickGraphsBars::createSliceView()
                 }
 
                 if (barInstancing->selectedModel == nullptr) {
-                    barInstancing->selectedModel = createDataItem(sliceParent->scene(), barSeries);
+                    barInstancing->selectedModel = createDataItem(sliceView()->scene(), barSeries);
                     barInstancing->selectedModel->setInstancing(barInstancing->selectionInstancing);
                     barInstancing->selectedModel->setVisible(false);
-                    barInstancing->multiSelectedModel = createDataItem(sliceParent->scene(),
+                    barInstancing->multiSelectedModel = createDataItem(sliceView()->scene(),
                                                                        barSeries);
                     barInstancing->multiSelectedModel->setInstancing(
                         barInstancing->multiSelectionInstancing);

@@ -2058,6 +2058,7 @@ void QQuickGraphsSurface::addModel(QSurface3DSeries *series)
 
 void QQuickGraphsSurface::createSliceView()
 {
+    setSliceOrthoProjection(true);
     QQuickGraphsItem::createSliceView();
 
     for (auto surfaceModel : m_model)

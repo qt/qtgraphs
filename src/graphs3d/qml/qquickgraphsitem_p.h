@@ -656,6 +656,9 @@ protected:
     void setSliceEnabled(bool enabled) { m_sliceEnabled = enabled; }
     bool isSliceActivatedChanged() const { return m_sliceActivatedChanged; }
     virtual void updateSliceGraph();
+    void createSliceCamera();
+    bool isSliceOrthoProjection() const { return m_sliceUseOrthoProjection; }
+    void setSliceOrthoProjection(bool enable) { m_sliceUseOrthoProjection = enable; }
 
     virtual void updateAxisRange(float min, float max);
     virtual void updateAxisReversed(bool enable);
@@ -827,6 +830,8 @@ private:
     QQuick3DModel *createSliceFrame(Volume &volumeItem);
     void updateSliceFrameMaterials(QCustom3DVolume *volume, Volume &volumeItem);
     void updateCustomVolumes();
+
+    bool m_sliceUseOrthoProjection = false;
 
     QHash<QQuickGraphsItem *, QQuickWindow *> m_graphWindowList = {};
     QHash<QCustom3DLabel *, QQuick3DNode *> m_customLabelList = {};
