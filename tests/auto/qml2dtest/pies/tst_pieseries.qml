@@ -60,7 +60,7 @@ Item {
             compare(slice.labelArmLengthFactor, 0.15);
             verify(slice.labelColor !== undefined);
             compare(slice.labelFont.bold, false);
-            compare(slice.labelPosition, PieSlice.LabelOutside);
+            compare(slice.labelPosition, PieSlice.LabelPosition.Outside);
             compare(slice.labelVisible, false);
             compare(slice.percentage, 1.0);
             compare(slice.startAngle, 0.0);

@@ -37,9 +37,8 @@ QT_BEGIN_NAMESPACE
 
     This enum type specifies the type of the axis object.
 
-    \value AxisTypeNoAxis
-    \value AxisTypeValue
-    \value AxisTypeBarCategory
+    \value Value
+    \value BarCategory
 */
 
 /*!

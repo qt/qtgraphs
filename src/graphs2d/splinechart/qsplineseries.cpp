@@ -92,7 +92,7 @@ QSplineSeries::~QSplineSeries()
 
 QAbstractSeries::SeriesType QSplineSeries::type() const
 {
-    return QAbstractSeries::SeriesTypeSpline;
+    return QAbstractSeries::SeriesType::Spline;
 }
 
 QList<QPointF> &QSplineSeries::getControlPoints()

@@ -18,7 +18,7 @@ Rectangle {
         anchors.rightMargin: settingsView.posX + 20 * px
         theme: GraphTheme {
             id: myTheme
-            colorTheme: GraphTheme.ColorThemeDark
+            colorTheme: GraphTheme.ColorTheme.Dark
             axisXLabelsFont.pixelSize: 20
             gridMajorBarsColor: "#ffffff"
             gridMinorBarsColor: "#eeeeee"

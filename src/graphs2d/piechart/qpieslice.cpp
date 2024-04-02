@@ -65,15 +65,15 @@ QT_BEGIN_NAMESPACE
 
     This enum describes the position of the slice label.
 
-    \value  LabelOutside
+    \value Outside
          The label is located outside the slice connected to it with an arm.
          This is the default value.
-    \value  LabelInsideHorizontal
+    \value InsideHorizontal
          The label is centered within the slice and laid out horizontally.
-    \value  LabelInsideTangential
+    \value InsideTangential
          The label is centered within the slice and rotated to be parallel with
          the tangential of the slice's arc.
-    \value  LabelInsideNormal
+    \value InsideNormal
          The label is centered within the slice and rotated to be parallel with
          the normal of the slice's arc.
 */
@@ -184,15 +184,15 @@ QT_BEGIN_NAMESPACE
 
     Describes the position of the slice label.
 
-    \value  PieSlice.LabelOutside
+    \value PieSlice.LabelPosition.Outside
          The label is located outside the slice connected to it with an arm.
          This is the default value.
-    \value  PieSlice.LabelInsideHorizontal
+    \value PieSlice.LabelPosition.InsideHorizontal
          The label is centered within the slice and laid out horizontally.
-    \value  PieSlice.LabelInsideTangential
+    \value PieSlice.LabelPosition.InsideTangential
          The label is centered within the slice and rotated to be parallel with
          the tangential of the slice's arc.
-    \value  PieSlice.LabelInsideNormal
+    \value PieSlice.LabelPosition.InsideNormal
          The label is centered within the slice and rotated to be parallel with
          the normal of the slice's arc.
 
@@ -642,7 +642,7 @@ qreal QPieSlice::borderWidth() const
 
 QPieSlicePrivate::QPieSlicePrivate()
     : m_isLabelVisible(false)
-    , m_labelPosition(QPieSlice::LabelOutside)
+    , m_labelPosition(QPieSlice::LabelPosition::Outside)
     , m_labelArmLengthFactor(.15)
     , m_value(0.0)
     , m_percentage(0.0)
@@ -717,7 +717,7 @@ void QPieSlicePrivate::setLabelVisible(bool visible)
 {
     m_isLabelVisible = visible;
     m_labelItem->setVisible(visible);
-    if (m_labelPosition == QPieSlice::LabelOutside)
+    if (m_labelPosition == QPieSlice::LabelPosition::Outside)
         m_labelShape->setVisible(visible);
 }
 
@@ -725,7 +725,7 @@ void QPieSlicePrivate::setLabelPosition(QPieSlice::LabelPosition position)
 {
     m_labelPosition = position;
 
-    if (position == QPieSlice::LabelOutside) {
+    if (position == QPieSlice::LabelPosition::Outside) {
         m_labelShape->setVisible(m_isLabelVisible);
         qreal radian = qDegreesToRadians(m_startAngle + (m_angleSpan * .5));
         QQuickText *labelItem = m_labelItem;
@@ -749,11 +749,11 @@ void QPieSlicePrivate::setLabelPosition(QPieSlice::LabelPosition position)
         centerY -= labelItem->height() * .5;
         labelItem->setPosition(QPointF(centerX, centerY));
 
-        if (position == QPieSlice::LabelInsideHorizontal) {
+        if (position == QPieSlice::LabelPosition::InsideHorizontal) {
             labelItem->setRotation(0);
-        } else if (position == QPieSlice::LabelInsideTangential) {
+        } else if (position == QPieSlice::LabelPosition::InsideTangential) {
             labelItem->setRotation(m_startAngle + (m_angleSpan * .5));
-        } else if (position == QPieSlice::LabelInsideNormal) {
+        } else if (position == QPieSlice::LabelPosition::InsideNormal) {
             qreal angle = m_startAngle + (m_angleSpan * .5);
             if (angle > 180)
                 angle += 90;

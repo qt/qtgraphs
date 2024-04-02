@@ -46,7 +46,7 @@ Rectangle {
 
         SeriesTheme {
             id: seriesTheme
-            colorTheme: SeriesTheme.SeriesTheme1
+            colorTheme: SeriesTheme.SeriesColorTheme.SeriesTheme1
         }
 
         BarSeries {

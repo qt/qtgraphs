@@ -266,7 +266,7 @@ void PointRenderer::handlePolish(QXYSeries *series)
         group->series = series;
         m_groups.insert(series, group);
 
-        if (series->type() != QAbstractSeries::SeriesTypeScatter) {
+        if (series->type() != QAbstractSeries::SeriesType::Scatter) {
             group->shapePath = new QQuickShapePath(&m_shape);
             auto data = m_shape.data();
             data.append(&data, m_groups.value(series)->shapePath);
@@ -281,9 +281,9 @@ void PointRenderer::handlePolish(QXYSeries *series)
         for (int i = std::max(0, currentSize - 1); i < pointCount; ++i) {
             if (i < pointCount - 1) {
                 QQuickCurve *path = nullptr;
-                if (series->type() == QAbstractSeries::SeriesTypeLine)
+                if (series->type() == QAbstractSeries::SeriesType::Line)
                     path = new QQuickPathLine(group->shapePath);
-                else if (series->type() == QAbstractSeries::SeriesTypeSpline)
+                else if (series->type() == QAbstractSeries::SeriesType::Spline)
                     path = new QQuickPathCubic(group->shapePath);
 
                 if (path) {
@@ -333,7 +333,7 @@ void PointRenderer::handlePolish(QXYSeries *series)
 void PointRenderer::updateSeries(QXYSeries *series)
 {
     if (series->pointMarker()
-        || (series->type() != QAbstractSeries::SeriesTypeScatter && !series->selectable())) {
+        || (series->type() != QAbstractSeries::SeriesType::Scatter && !series->selectable())) {
         return;
     }
 
@@ -432,7 +432,7 @@ bool PointRenderer::handleHoverMove(QHoverEvent *event)
         if (!group->series->hoverable())
             continue;
 
-        if (group->series->type() == QAbstractSeries::SeriesTypeScatter) {
+        if (group->series->type() == QAbstractSeries::SeriesType::Scatter) {
             const QString &name = group->series->name();
 
             bool hovering = false;

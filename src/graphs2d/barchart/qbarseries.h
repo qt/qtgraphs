@@ -16,6 +16,7 @@ class QBarSeriesPrivate;
 class Q_GRAPHS_EXPORT QBarSeries : public QAbstractSeries
 {
     Q_OBJECT
+    Q_CLASSINFO("RegisterEnumClassesUnscoped", "false")
     Q_PROPERTY(QAbstractAxis *axisX READ axisX WRITE setAxisX NOTIFY axisXChanged)
     Q_PROPERTY(QAbstractAxis *axisY READ axisY WRITE setAxisY NOTIFY axisYChanged)
     Q_PROPERTY(BarsType barsType READ barsType WRITE setBarsType NOTIFY barsTypeChanged)
@@ -31,24 +32,24 @@ class Q_GRAPHS_EXPORT QBarSeries : public QAbstractSeries
     QML_NAMED_ELEMENT(BarSeries)
 
 public:
-    enum LabelsPosition {
-        LabelsCenter = 0,
-        LabelsInsideEnd,
-        LabelsInsideBase,
-        LabelsOutsideEnd
+    enum class LabelsPosition {
+        Center,
+        InsideEnd,
+        InsideBase,
+        OutsideEnd
     };
     Q_ENUM(LabelsPosition)
 
-    enum BarsType {
-        BarsGroups = 0,
-        BarsStacked,
-        BarsStackedPercent
+    enum class BarsType {
+        Groups,
+        Stacked,
+        StackedPercent
     };
     Q_ENUM(BarsType)
 
-    enum BarsOrientation {
-        BarsVertical = 0,
-        BarsHorizontal
+    enum class BarsOrientation {
+        Vertical,
+        Horizontal
     };
     Q_ENUM(BarsOrientation)
 

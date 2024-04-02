@@ -22,7 +22,7 @@ Item {
         barWidth: 0.2
         labelsVisible: true
         labelsFormat: "i"
-        labelsPosition: BarSeries.LabelsOutsideEnd
+        labelsPosition: BarSeries.LabelsPosition.OutsideEnd
         labelsAngle: 25.0
         labelsPrecision: 10
 
@@ -67,7 +67,7 @@ Item {
             compare(initial.count, 0)
             compare(initial.labelsVisible, false)
             compare(initial.labelsFormat, "")
-            compare(initial.labelsPosition, BarSeries.LabelsCenter)
+            compare(initial.labelsPosition, BarSeries.LabelsPosition.Center)
             compare(initial.labelsAngle, 0)
             compare(initial.labelsPrecision, 6)
 
@@ -92,7 +92,7 @@ Item {
             //initial.count = 1
             initial.labelsVisible = true
             initial.labelsFormat = "i"
-            initial.labelsPosition = BarSeries.LabelsInsideBase
+            initial.labelsPosition = BarSeries.LabelsPosition.InsideBase
             initial.labelsAngle = 45.0
             initial.labelsPrecision = 3
 
@@ -112,7 +112,7 @@ Item {
             //compare(initial.count, 1)
             compare(initial.labelsVisible, true)
             compare(initial.labelsFormat, "i")
-            compare(initial.labelsPosition, BarSeries.LabelsInsideBase)
+            compare(initial.labelsPosition, BarSeries.LabelsPosition.InsideBase)
             compare(initial.labelsAngle, 45.0)
             compare(initial.labelsPrecision, 3)
 
@@ -137,7 +137,7 @@ Item {
             compare(initialized.count, 1)
             compare(initialized.labelsVisible, true)
             compare(initialized.labelsFormat, "i")
-            compare(initialized.labelsPosition, BarSeries.LabelsOutsideEnd)
+            compare(initialized.labelsPosition, BarSeries.LabelsPosition.OutsideEnd)
             compare(initialized.labelsAngle, 25.0)
             compare(initialized.labelsPrecision, 10)
 
@@ -158,7 +158,7 @@ Item {
             //initialized.count = 2
             initialized.labelsVisible = true
             initialized.labelsFormat = "i"
-            initialized.labelsPosition = BarSeries.LabelsInsideBase
+            initialized.labelsPosition = BarSeries.LabelsPosition.InsideBase
             initialized.labelsAngle = 45.0
             initialized.labelsPrecision = 3
 
@@ -178,7 +178,7 @@ Item {
             //compare(initialized.count, 2)
             compare(initialized.labelsVisible, true)
             compare(initialized.labelsFormat, "i")
-            compare(initialized.labelsPosition, BarSeries.LabelsInsideBase)
+            compare(initialized.labelsPosition, BarSeries.LabelsPosition.InsideBase)
             compare(initialized.labelsAngle, 45.0)
             compare(initialized.labelsPrecision, 3)
 

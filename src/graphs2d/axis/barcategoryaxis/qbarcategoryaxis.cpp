@@ -392,7 +392,7 @@ void QBarCategoryAxis::setRange(const QString &minCategory, const QString &maxCa
 */
 QAbstractAxis::AxisType QBarCategoryAxis::type() const
 {
-    return AxisTypeBarCategory;
+    return QAbstractAxis::AxisType::BarCategory;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

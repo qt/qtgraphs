@@ -20,6 +20,7 @@ QT_BEGIN_NAMESPACE
 class QGraphAnimation : public QVariantAnimation
 {
     Q_OBJECT
+    Q_CLASSINFO("RegisterEnumClassesUnscoped", "false")
 
     Q_PROPERTY(
         AnimationState animating READ animating WRITE setAnimating NOTIFY animatingChanged FINAL)

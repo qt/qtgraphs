@@ -15,7 +15,7 @@ Item {
 
         theme: GraphTheme {
             id: myTheme
-            colorTheme: GraphTheme.ColorThemeDark
+            colorTheme: GraphTheme.ColorTheme.Dark
             axisXLabelsFont.pixelSize: 20
             axisYLabelsFont.pixelSize: 16
         }
@@ -122,7 +122,7 @@ Item {
             PieSlice {
                 label: "Toyota"
                 labelVisible: true
-                labelPosition: PieSlice.LabelInsideHorizontal
+                labelPosition: PieSlice.LabelPosition.InsideHorizontal
                 value: 10.9
             }
         }

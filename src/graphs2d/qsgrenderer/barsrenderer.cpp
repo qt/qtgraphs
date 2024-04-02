@@ -100,9 +100,9 @@ void calculateCategoryTotalValues(QBarSeries *series, QList<float> &totalValues,
 
 void BarsRenderer::updateVerticalBars(QBarSeries *series, int setCount, int valuesPerSet)
 {
-    bool stacked = series->barsType() == QBarSeries::BarsStacked
-            || series->barsType() == QBarSeries::BarsStackedPercent;
-    bool percent = series->barsType() == QBarSeries::BarsStackedPercent;
+    bool stacked = series->barsType() == QBarSeries::BarsType::Stacked
+            || series->barsType() == QBarSeries::BarsType::StackedPercent;
+    bool percent = series->barsType() == QBarSeries::BarsType::StackedPercent;
     // Bars area width & height
     QRectF seriesRect = m_graph->seriesRect();
     float w = seriesRect.width();
@@ -209,9 +209,9 @@ void BarsRenderer::updateVerticalBars(QBarSeries *series, int setCount, int valu
 
 void BarsRenderer::updateHorizontalBars(QBarSeries *series, int setCount, int valuesPerSet)
 {
-    bool stacked = series->barsType() == QBarSeries::BarsStacked
-            || series->barsType() == QBarSeries::BarsStackedPercent;
-    bool percent = series->barsType() == QBarSeries::BarsStackedPercent;
+    bool stacked = series->barsType() == QBarSeries::BarsType::Stacked
+            || series->barsType() == QBarSeries::BarsType::StackedPercent;
+    bool percent = series->barsType() == QBarSeries::BarsType::StackedPercent;
     // Bars area width & height
     QRectF seriesRect = m_graph->seriesRect();
     float w = seriesRect.width();
@@ -339,7 +339,7 @@ void BarsRenderer::handlePolish(QBarSeries *series)
 
     // Get bars values
     int valuesPerSet = series->barSets().first()->values().size();
-    if (series->barsOrientation() == QBarSeries::BarsVertical)
+    if (series->barsOrientation() == QBarSeries::BarsOrientation::Vertical)
         updateVerticalBars(series, setCount, valuesPerSet);
     else
         updateHorizontalBars(series, setCount, valuesPerSet);

@@ -58,13 +58,13 @@ Rectangle {
             Button {
                 text: "Theme1"
                 onClicked: {
-                    seriesTheme.colorTheme = SeriesTheme.SeriesTheme1;
+                    seriesTheme.colorTheme = SeriesTheme.SeriesColorTheme.SeriesTheme1;
                 }
             }
             Button {
                 text: "Theme2"
                 onClicked: {
-                    seriesTheme.colorTheme = SeriesTheme.SeriesTheme2;
+                    seriesTheme.colorTheme = SeriesTheme.SeriesColorTheme.SeriesTheme2;
                 }
             }
         }
@@ -135,7 +135,7 @@ Rectangle {
 
         SeriesTheme {
             id: seriesTheme
-            colorTheme: SeriesTheme.SeriesTheme1
+            colorTheme: SeriesTheme.SeriesColorTheme.SeriesTheme1
         }
 
         LineSeries {

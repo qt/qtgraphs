@@ -130,7 +130,7 @@ QScatterSeries::~QScatterSeries()
 
 QAbstractSeries::SeriesType QScatterSeries::type() const
 {
-    return QAbstractSeries::SeriesTypeScatter;
+    return QAbstractSeries::SeriesType::Scatter;
 }
 
 QScatterSeriesPrivate::QScatterSeriesPrivate()

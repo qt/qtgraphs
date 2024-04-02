@@ -31,7 +31,7 @@ Item {
                 anchors.fill: parent
                 anchors.margins: 16
                 theme: GraphTheme {
-                    colorTheme: GraphTheme.ColorThemeDark
+                    colorTheme: GraphTheme.ColorTheme.Dark
                 }
                 //! [bargraph]
                 //! [barseries]
@@ -76,7 +76,7 @@ Item {
                     readonly property color c1: "#DBEB00"
                     readonly property color c2: "#373F26"
                     readonly property color c3: Qt.lighter(c2, 1.5)
-                    colorTheme: GraphTheme.ColorThemeDark
+                    colorTheme: GraphTheme.ColorTheme.Dark
                     gridMajorBarsColor: c3
                     gridMinorBarsColor: c2
                     axisXMajorColor: c3

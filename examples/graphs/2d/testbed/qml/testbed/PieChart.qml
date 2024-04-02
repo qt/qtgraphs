@@ -26,7 +26,7 @@ Item {
 
         theme: GraphTheme {
             id: myTheme
-            colorTheme: GraphTheme.ColorThemeDark
+            colorTheme: GraphTheme.ColorTheme.Dark
         }
 
         PieSeries {
@@ -39,21 +39,21 @@ Item {
             PieSlice {
                 label: "Toyota"
                 labelVisible: true
-                labelPosition: PieSlice.LabelInsideHorizontal
+                labelPosition: PieSlice.LabelPosition.InsideHorizontal
                 labelColor: 'black'
                 value: 10.9
             }
             PieSlice {
                 label: "Ford"
                 labelVisible: true
-                labelPosition: PieSlice.LabelInsideNormal
+                labelPosition: PieSlice.LabelPosition.InsideNormal
                 labelColor: 'black'
                 value: 8.6
             }
             PieSlice {
                 label: "Skoda"
                 labelVisible: true
-                labelPosition: PieSlice.LabelInsideTangential
+                labelPosition: PieSlice.LabelPosition.InsideTangential
                 labelColor: 'black'
                 value: 8.2
             }

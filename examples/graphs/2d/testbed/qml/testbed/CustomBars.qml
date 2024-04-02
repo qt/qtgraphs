@@ -54,7 +54,7 @@ Rectangle {
         anchors.topMargin: 20 * px
         theme: GraphTheme {
             id: myTheme
-            colorTheme: GraphTheme.ColorThemeDark
+            colorTheme: GraphTheme.ColorTheme.Dark
             axisXLabelsFont.pixelSize: 20
         }
         BarSeries {
@@ -218,14 +218,14 @@ Rectangle {
             width: 250
             text: "Theme 1"
             onClicked: {
-                barSeries.theme.colorTheme = SeriesTheme.SeriesTheme1;
+                barSeries.theme.colorTheme = SeriesTheme.SeriesColorTheme.SeriesTheme1;
             }
         }
         Button {
             width: 250
             text: "Theme 2"
             onClicked: {
-                barSeries.theme.colorTheme = SeriesTheme.SeriesTheme2;
+                barSeries.theme.colorTheme = SeriesTheme.SeriesColorTheme.SeriesTheme2;
             }
         }
         Button {

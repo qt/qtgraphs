@@ -187,7 +187,7 @@ void QGraphTheme::updateTheme()
 
 void QGraphTheme::resetColorTheme()
 {
-    setColorTheme(QGraphTheme::ColorThemeDark);
+    setColorTheme(ColorTheme::Dark);
 }
 
 QGraphTheme::ColorTheme QGraphTheme::colorTheme() const
@@ -207,7 +207,7 @@ void QGraphTheme::setColorTheme(const ColorTheme &newColorTheme)
         return;
     m_colorTheme = newColorTheme;
 
-    if (m_colorTheme == QGraphTheme::ColorThemeLight) {
+    if (m_colorTheme == ColorTheme::Light) {
         setColorThemeLight();
     } else {
         setColorThemeDark();

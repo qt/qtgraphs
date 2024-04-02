@@ -97,16 +97,16 @@ void AreaRenderer::handlePolish(QAreaSeries *series)
         QQuickCurve *path = nullptr;
 
         if (!lower || (lower && i < pointCount - 1)) {
-            if (upper->type() == QAbstractSeries::SeriesTypeLine || (!lower && i >= pointCount - 1))
+            if (upper->type() == QAbstractSeries::SeriesType::Line || (!lower && i >= pointCount - 1))
                 path = new QQuickPathLine(group->shapePath);
-            else if (upper->type() == QAbstractSeries::SeriesTypeSpline)
+            else if (upper->type() == QAbstractSeries::SeriesType::Spline)
                 path = new QQuickPathCubic(group->shapePath);
         } else if (lower && (i == pointCount - 1 || i == pointCount + extraCount - 1)) {
             path = new QQuickPathLine(group->shapePath);
         } else {
-            if (lower->type() == QAbstractSeries::SeriesTypeLine)
+            if (lower->type() == QAbstractSeries::SeriesType::Line)
                 path = new QQuickPathLine(group->shapePath);
-            else if (lower->type() == QAbstractSeries::SeriesTypeSpline)
+            else if (lower->type() == QAbstractSeries::SeriesType::Spline)
                 path = new QQuickPathCubic(group->shapePath);
         }
 
@@ -141,7 +141,7 @@ void AreaRenderer::handlePolish(QAreaSeries *series)
 
     auto &&upperPoints = upper->points();
     QList<QPointF> fittedPoints;
-    if (upper->type() == QAbstractSeries::SeriesTypeSpline)
+    if (upper->type() == QAbstractSeries::SeriesType::Spline)
         fittedPoints = qobject_cast<QSplineSeries *>(upper)->getControlPoints();
 
     int extraPointCount = lower ? 0 : 3;
@@ -186,7 +186,7 @@ void AreaRenderer::handlePolish(QAreaSeries *series)
     if (lower) {
         auto &&lowerPoints = lower->points();
         QList<QPointF> fittedPoints;
-        if (upper->type() == QAbstractSeries::SeriesTypeSpline)
+        if (upper->type() == QAbstractSeries::SeriesType::Spline)
             fittedPoints = qobject_cast<QSplineSeries *>(upper)->getControlPoints();
 
         for (int i = 0, j = 0; i < lowerPoints.size(); ++i, ++j) {

@@ -324,7 +324,7 @@ QPieSeries::~QPieSeries()
 */
 QAbstractSeries::SeriesType QPieSeries::type() const
 {
-    return QAbstractSeries::SeriesTypePie;
+    return QAbstractSeries::SeriesType::Pie;
 }
 
 QPieSlice *QPieSeries::at(int index)

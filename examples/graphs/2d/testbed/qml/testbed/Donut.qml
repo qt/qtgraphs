@@ -51,12 +51,12 @@ Item {
         Component.onCompleted: {
             // Set the common slice properties dynamically for convenience
             for (var i = 0; i < pieOuter.count; i++) {
-                pieOuter.at(i).labelPosition = PieSlice.LabelOutside;
+                pieOuter.at(i).labelPosition = PieSlice.LabelPosition.Outside;
                 pieOuter.at(i).labelVisible = true;
                 pieOuter.at(i).borderWidth = 3;
             }
             for (var i = 0; i < pieInner.count; i++) {
-                pieInner.at(i).labelPosition = PieSlice.LabelInsideNormal;
+                pieInner.at(i).labelPosition = PieSlice.LabelPosition.InsideNormal;
                 pieInner.at(i).labelVisible = true;
                 pieInner.at(i).borderWidth = 2;
             }

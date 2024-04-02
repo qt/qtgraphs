@@ -61,7 +61,7 @@ void tst_qgpieseries::properties()
     QSignalSpy sumSpy(m_series, SIGNAL(sumChanged()));
     QSignalSpy opacitySpy(m_series, SIGNAL(opacityChanged()));
 
-    QVERIFY(m_series->type() == QAbstractSeries::SeriesTypePie);
+    QVERIFY(m_series->type() == QAbstractSeries::SeriesType::Pie);
     QVERIFY(m_series->count() == 0);
     QVERIFY(m_series->isEmpty());
     QCOMPARE(m_series->sum(), 0.0);

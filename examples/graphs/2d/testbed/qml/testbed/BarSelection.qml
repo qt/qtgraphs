@@ -17,7 +17,7 @@ Rectangle {
         anchors.rightMargin: settingsView.posX + 20 * px
         theme: GraphTheme {
             id: myTheme
-            colorTheme: GraphTheme.ColorThemeDark
+            colorTheme: GraphTheme.ColorTheme.Dark
             axisXLabelsFont.pixelSize: 20
         }
         BarSeries {
@@ -97,14 +97,14 @@ Rectangle {
             width: 250
             text: "Grouped/Stacked/Percent bars"
             onClicked: {
-                if (barSeries.barsType == BarSeries.BarsStackedPercent) {
-                    barSeries.barsType = BarSeries.BarsGroups
+                if (barSeries.barsType == BarSeries.BarsType.StackedPercent) {
+                    barSeries.barsType = BarSeries.BarsType.Groups
                     axisY.max = 10
-                } else if (barSeries.barsType == BarSeries.BarsStacked) {
-                    barSeries.barsType = BarSeries.BarsStackedPercent
+                } else if (barSeries.barsType == BarSeries.BarsType.Stacked) {
+                    barSeries.barsType = BarSeries.BarsType.StackedPercent
                     axisY.max = 100
                 } else {
-                    barSeries.barsType = BarSeries.BarsStacked
+                    barSeries.barsType = BarSeries.BarsType.Stacked
                     axisY.max = 25
                 }
             }
@@ -113,10 +113,10 @@ Rectangle {
             width: 250
             text: "Vertical/Horizontal bars"
             onClicked: {
-                if (barSeries.barsOrientation == BarSeries.BarsVertical)
-                    barSeries.barsOrientation = BarSeries.BarsHorizontal
+                if (barSeries.barsOrientation == BarSeries.BarsOrientation.Vertical)
+                    barSeries.barsOrientation = BarSeries.BarsOrientation.Horizontal
                 else
-                    barSeries.barsOrientation = BarSeries.BarsVertical
+                    barSeries.barsOrientation = BarSeries.BarsOrientation.Vertical
             }
         }
     }

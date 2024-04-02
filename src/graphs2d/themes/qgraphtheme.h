@@ -16,6 +16,7 @@ QT_BEGIN_NAMESPACE
 class Q_GRAPHS_EXPORT QGraphTheme : public QObject, public QQmlParserStatus
 {
     Q_OBJECT
+    Q_CLASSINFO("RegisterEnumClassesUnscoped", "false")
     Q_INTERFACES(QQmlParserStatus)
     Q_PROPERTY(ColorTheme colorTheme READ colorTheme WRITE setColorTheme NOTIFY colorThemeChanged FINAL)
     Q_PROPERTY(qreal gridMajorBarsWidth READ gridMajorBarsWidth WRITE setGridMajorBarsWidth NOTIFY gridMajorBarsWidthChanged FINAL)
@@ -50,9 +51,9 @@ class Q_GRAPHS_EXPORT QGraphTheme : public QObject, public QQmlParserStatus
     QML_NAMED_ELEMENT(GraphTheme)
 
 public:
-    enum ColorTheme {
-        ColorThemeLight = 0,
-        ColorThemeDark
+    enum class ColorTheme {
+        Light,
+        Dark
     };
     Q_ENUM(ColorTheme)
 
@@ -206,7 +207,7 @@ private:
     bool m_themeDirty = true;
     CustomFlags m_customFlags;
 
-    ColorTheme m_colorTheme = QGraphTheme::ColorThemeDark;
+    ColorTheme m_colorTheme = ColorTheme::Dark;
     qreal m_gridMajorBarsWidth = 2.0;
     qreal m_gridMinorBarsWidth = 1.0;
     qreal m_gridSmoothing = 1.0;

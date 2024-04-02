@@ -16,6 +16,7 @@ QT_BEGIN_NAMESPACE
 class Q_GRAPHS_EXPORT QSeriesTheme : public QObject, public QQmlParserStatus
 {
     Q_OBJECT
+    Q_CLASSINFO("RegisterEnumClassesUnscoped", "false")
     Q_INTERFACES(QQmlParserStatus)
     Q_PROPERTY(SeriesColorTheme colorTheme READ colorTheme WRITE setColorTheme NOTIFY colorThemeChanged FINAL)
     Q_PROPERTY(QList<QColor> colors READ colors WRITE setColors NOTIFY colorsChanged FINAL)
@@ -24,8 +25,9 @@ class Q_GRAPHS_EXPORT QSeriesTheme : public QObject, public QQmlParserStatus
     QML_NAMED_ELEMENT(SeriesTheme)
 
 public:
-    enum SeriesColorTheme {
-        SeriesTheme1 = 0,
+    enum class SeriesColorTheme {
+        // Note: These will be replaced with proper theme names
+        SeriesTheme1,
         SeriesTheme2
     };
     Q_ENUM(SeriesColorTheme)

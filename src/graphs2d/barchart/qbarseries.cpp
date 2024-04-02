@@ -62,9 +62,9 @@ QT_BEGIN_NAMESPACE
 
     This enum value describes the type of the bar series:
 
-    \value BarsGroups Bar sets are grouped by category.
-    \value BarsStacked Bar sets are stacked after each other by category.
-    \value BarsStackedPercent Bar sets are stacked after each other by category.
+    \value Groups Bar sets are grouped by category.
+    \value Stacked Bar sets are stacked after each other by category.
+    \value StackedPercent Bar sets are stacked after each other by category.
            The segment size corresponds to the percentage of the segment value
            compared with the total value of all segments in the stack.
 */
@@ -77,11 +77,11 @@ QT_BEGIN_NAMESPACE
 
     The type of the bar series:
 
-    \value BarSeries.BarsGroups
+    \value BarSeries.BarsType.Groups
         Bar sets are grouped by category. This is the default value.
-    \value BarSeries.BarsStacked
+    \value BarSeries.BarsType.Stacked
         Bar sets are stacked after each other by category.
-    \value BarSeries.BarsStackedPercent
+    \value BarSeries.BarsType.StackedPercent
         Bar sets are stacked after each other by category. The segment size corresponds
         to the percentage of the segment value compared with the total value of all
         segments in the stack.
@@ -92,8 +92,8 @@ QT_BEGIN_NAMESPACE
 
     This enum value describes the orientation of the bar series:
 
-    \value BarsVertical Bars appear vertically.
-    \value BarsHorizontal Bars appear horizontally.
+    \value Vertical Bars appear vertically.
+    \value Horizontal Bars appear horizontally.
 */
 /*!
     \property QBarSeries::barsOrientation
@@ -104,9 +104,9 @@ QT_BEGIN_NAMESPACE
 
     The orientation of the bar series:
 
-    \value BarSeries.BarsVertical
+    \value BarSeries.BarsOrientation.Vertical
         Bars appear vertically. This is the default value.
-    \value BarSeries.BarsHorizontal
+    \value BarSeries.BarsOrientation.Horizontal
         Bars appear horizontally.
 */
 
@@ -180,10 +180,10 @@ QT_BEGIN_NAMESPACE
 
     This enum value describes the position of the data value labels:
 
-    \value LabelsCenter Label is located in the center of the bar.
-    \value LabelsInsideEnd Label is located inside the bar at the top.
-    \value LabelsInsideBase Label is located inside the bar at the bottom.
-    \value LabelsOutsideEnd Label is located outside the bar at the top.
+    \value Center Label is located in the center of the bar.
+    \value InsideEnd Label is located inside the bar at the top.
+    \value InsideBase Label is located inside the bar at the bottom.
+    \value OutsideEnd Label is located outside the bar at the top.
 */
 
 /*!
@@ -197,13 +197,13 @@ QT_BEGIN_NAMESPACE
 
     The position of the data value labels:
 
-    \value  BarSeries.LabelsCenter
+    \value  BarSeries.LabelsPosition.Center
         Label is located in the center of the bar.
-    \value  BarSeries.LabelsInsideEnd
+    \value  BarSeries.LabelsPosition.InsideEnd
         Label is located inside the bar at the top.
-    \value  BarSeries.LabelsInsideBase
+    \value  BarSeries.LabelsPosition.InsideBase
         Label is located inside the bar at the bottom.
-    \value  BarSeries.LabelsOutsideEnd
+    \value  BarSeries.LabelsPosition.OutsideEnd
         Label is located outside the bar at the top.
 
     \sa labelsVisible, labelsFormat
@@ -468,7 +468,7 @@ QBarSeries::~QBarSeries()
 */
 QAbstractSeries::SeriesType QBarSeries::type() const
 {
-    return QAbstractSeries::SeriesTypeBar;
+    return QAbstractSeries::SeriesType::Bar;
 }
 
 /*!
@@ -886,7 +886,6 @@ QBarSeriesPrivate::QBarSeriesPrivate()
       , m_visible(true)
       , m_blockBarUpdate(false)
       , m_labelsFormat()
-      , m_labelsPosition(QBarSeries::LabelsCenter)
       , m_labelsAngle(0)
       , m_labelsPrecision(6)
       , m_visualsDirty(true)

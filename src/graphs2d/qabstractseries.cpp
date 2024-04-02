@@ -85,12 +85,12 @@ QT_BEGIN_NAMESPACE
 
     This enum describes the type of the series.
 
-    \value SeriesTypeLine A line graph.
-    \value SeriesTypeBar A vertical bar graph.
-    \value SeriesTypeScatter A scatter graph.
-    \value SeriesTypePie A pie graph.
-    \value SeriesTypeSpline A spline graph.
-    \value SeriesTypeArea An area graph.
+    \value Line A line graph.
+    \value Bar A bar graph.
+    \value Scatter A scatter graph.
+    \value Pie A pie graph.
+    \value Spline A spline graph.
+    \value Area An area graph.
 */
 
 /*!
@@ -102,10 +102,12 @@ QT_BEGIN_NAMESPACE
 
     The type of the series.
 
-    \value AbstractSeries.SeriesTypeLine A line graph.    
-    \value AbstractSeries.SeriesTypeBar A vertical bar graph.
-    \value AbstractSeries.SeriesTypeScatter A scatter graph.
-    \value AbstractSeries.SeriesTypeSpline A spline graph.
+    \value AbstractSeries.SeriesType.Line A line graph.
+    \value AbstractSeries.SeriesType.Bar A bar graph.
+    \value AbstractSeries.SeriesType.Scatter A scatter graph.
+    \value AbstractSeries.SeriesType.Pie A pie graph.
+    \value AbstractSeries.SeriesType.Spline A spline graph.
+    \value AbstractSeries.SeriesType.Area An area graph.
 */
 
 /*!
@@ -415,20 +417,20 @@ void QAbstractSeries::setGraph(QGraphsView *graph)
     Q_D(QAbstractSeries);
     d->m_graph = graph;
     switch (type()) {
-    case QAbstractSeries::SeriesTypeBar:
+    case SeriesType::Bar:
         graph->createBarsRenderer();
         graph->createAxisRenderer();
         break;
-    case QAbstractSeries::SeriesTypeScatter:
-    case QAbstractSeries::SeriesTypeLine:
-    case QAbstractSeries::SeriesTypeSpline:
+    case SeriesType::Scatter:
+    case SeriesType::Line:
+    case SeriesType::Spline:
         graph->createPointRenderer();
         graph->createAxisRenderer();
         break;
-    case QAbstractSeries::SeriesTypePie:
+    case SeriesType::Pie:
         graph->createPieRenderer();
         break;
-    case QAbstractSeries::SeriesTypeArea:
+    case SeriesType::Area:
         graph->createAreaRenderer();
         graph->createAxisRenderer();
         break;

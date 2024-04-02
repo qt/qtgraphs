@@ -91,7 +91,7 @@ QLineSeries::~QLineSeries()
 
 QAbstractSeries::SeriesType QLineSeries::type() const
 {
-    return QAbstractSeries::SeriesTypeLine;
+    return QAbstractSeries::SeriesType::Line;
 }
 
 QLineSeriesPrivate::QLineSeriesPrivate() {}

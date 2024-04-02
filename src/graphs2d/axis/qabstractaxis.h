@@ -18,6 +18,7 @@ class QAbstractAxisPrivate;
 class Q_GRAPHS_EXPORT QAbstractAxis : public QObject
 {
     Q_OBJECT
+    Q_CLASSINFO("RegisterEnumClassesUnscoped", "false")
     //visibility
     Q_PROPERTY(bool visible READ isVisible WRITE setVisible NOTIFY visibleChanged)
     Q_PROPERTY(bool lineVisible READ isLineVisible WRITE setLineVisible NOTIFY lineVisibleChanged)
@@ -43,13 +44,11 @@ class Q_GRAPHS_EXPORT QAbstractAxis : public QObject
 
 public:
 
-    enum AxisType {
-        AxisTypeNoAxis = 0x0,
-        AxisTypeValue = 0x1,
-        AxisTypeBarCategory = 0x2,
+    enum class AxisType {
+        Value,
+        BarCategory
     };
-
-    Q_DECLARE_FLAGS(AxisTypes, AxisType)
+    Q_ENUM(AxisType)
 
 protected:
     explicit QAbstractAxis(QAbstractAxisPrivate &dd, QObject *parent = nullptr);

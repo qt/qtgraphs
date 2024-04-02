@@ -83,7 +83,7 @@ void QSeriesTheme::setColorTheme(const QSeriesTheme::SeriesColorTheme &newColorT
 
     m_colorTheme = newColorTheme;
 
-    if (m_colorTheme == QSeriesTheme::SeriesTheme1) {
+    if (m_colorTheme == SeriesColorTheme::SeriesTheme1) {
         setColorTheme1();
     } else {
         setColorTheme2();

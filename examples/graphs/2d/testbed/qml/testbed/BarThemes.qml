@@ -27,7 +27,7 @@ Rectangle {
 
     function resetCustomGraphTheme() {
         myTheme.gridSmoothing = 1
-        myTheme.axisYLabelsFont.family = undefined
+        myTheme.axisYLabelsFont.family = ""
     }
 
     FontLoader {
@@ -57,7 +57,7 @@ Rectangle {
             onClicked: {
                 mainView.resetCustomGraphTheme()
                 background.color = "#202020"
-                myTheme.colorTheme = GraphTheme.ColorThemeDark
+                myTheme.colorTheme = GraphTheme.ColorTheme.Dark
             }
         }
         Button {
@@ -65,7 +65,7 @@ Rectangle {
             onClicked: {
                 mainView.resetCustomGraphTheme()
                 background.color = "#eeeeee"
-                myTheme.colorTheme = GraphTheme.ColorThemeLight
+                myTheme.colorTheme = GraphTheme.ColorTheme.Light
             }
         }
         Button {
@@ -126,7 +126,7 @@ Rectangle {
             onClicked: {
                 mainView.resetCustomSetColors()
                 mySeries.theme = seriesTheme
-                seriesTheme.colorTheme = SeriesTheme.SeriesTheme1
+                seriesTheme.colorTheme = SeriesTheme.SeriesColorTheme.SeriesTheme1
             }
         }
         Button {
@@ -134,7 +134,7 @@ Rectangle {
             onClicked: {
                 mainView.resetCustomSetColors()
                 mySeries.theme = seriesTheme
-                seriesTheme.colorTheme = SeriesTheme.SeriesTheme2
+                seriesTheme.colorTheme = SeriesTheme.SeriesColorTheme.SeriesTheme2
             }
         }
         Button {
@@ -176,6 +176,7 @@ Rectangle {
         anchors.bottom: parent.bottom
         anchors.top: graphToolbar.bottom
         anchors.margins: 10
+        color: "#202020"
         border.color: "#606060"
         border.width: 2
         radius: 10
@@ -188,7 +189,7 @@ Rectangle {
 
         theme: GraphTheme {
             id: myTheme
-            colorTheme: GraphTheme.ColorThemeDark
+            colorTheme: GraphTheme.ColorTheme.Dark
             axisXLabelsFont.pixelSize: 20
             axisYLabelsFont.pixelSize: 16
         }
@@ -209,7 +210,7 @@ Rectangle {
             }
             theme: SeriesTheme {
                 id: seriesTheme
-                colorTheme: SeriesTheme.SeriesTheme1
+                colorTheme: SeriesTheme.SeriesColorTheme.SeriesTheme1
             }
             BarSet {
                 id: set1

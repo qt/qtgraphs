@@ -39,11 +39,11 @@ class Q_GRAPHS_EXPORT QPieSlice : public QObject
     QML_NAMED_ELEMENT(PieSlice)
 
 public:
-    enum LabelPosition {
-        LabelOutside,
-        LabelInsideHorizontal,
-        LabelInsideTangential,
-        LabelInsideNormal
+    enum class LabelPosition {
+        Outside,
+        InsideHorizontal,
+        InsideTangential,
+        InsideNormal
     };
     Q_ENUM(LabelPosition)
 

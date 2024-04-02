@@ -93,7 +93,7 @@ QAreaSeries::~QAreaSeries()
 
 QAbstractSeries::SeriesType QAreaSeries::type() const
 {
-    return QAbstractSeries::SeriesTypeArea;
+    return QAbstractSeries::SeriesType::Area;
 }
 
 QAbstractAxis *QAreaSeries::axisX() const

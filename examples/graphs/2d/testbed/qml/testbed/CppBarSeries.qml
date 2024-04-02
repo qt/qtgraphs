@@ -16,7 +16,7 @@ Rectangle {
         anchors.topMargin: 80 * px
         theme: GraphTheme {
             id: myTheme
-            colorTheme: GraphTheme.ColorThemeDark
+            colorTheme: GraphTheme.ColorTheme.Dark
             axisXLabelsFont.pixelSize: 20
         }
         CustomBarSeries {

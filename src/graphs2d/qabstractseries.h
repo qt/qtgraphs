@@ -34,6 +34,7 @@ class Q_GRAPHS_EXPORT QAbstractSeries : public QObject, public QQmlParserStatus
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(QAbstractSeries)
+    Q_CLASSINFO("RegisterEnumClassesUnscoped", "false")
     Q_INTERFACES(QQmlParserStatus)
     Q_PROPERTY(QSeriesTheme *theme READ theme WRITE setTheme NOTIFY themeChanged)
     Q_PROPERTY(QString name READ name WRITE setName NOTIFY nameChanged)
@@ -48,19 +49,13 @@ class Q_GRAPHS_EXPORT QAbstractSeries : public QObject, public QQmlParserStatus
     Q_CLASSINFO("DefaultProperty", "seriesChildren")
 
 public:
-    enum SeriesType {
-        SeriesTypeLine,
-        SeriesTypeArea,
-        SeriesTypeBar,
-        //SeriesTypeStackedBar,
-        //SeriesTypePercentBar,
-        SeriesTypePie,
-        SeriesTypeScatter,
-        SeriesTypeSpline,
-        //SeriesTypeHorizontalBar,
-        //SeriesTypeHorizontalStackedBar,
-        //SeriesTypeHorizontalPercentBar,
-        //SeriesTypeBoxPlot,
+    enum class SeriesType {
+        Line,
+        Area,
+        Bar,
+        Pie,
+        Scatter,
+        Spline
     };
     Q_ENUM(SeriesType)
 
