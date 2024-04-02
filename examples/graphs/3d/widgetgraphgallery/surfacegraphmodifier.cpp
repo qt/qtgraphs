@@ -237,6 +237,7 @@ void SurfaceGraphModifier::enableSqrtSinModel(bool enable)
                             this,
                             &SurfaceGraphModifier::onWheel);
         m_graph->setDefaultInputHandler();
+        m_graph->setZoomEnabled(true);
 
         //! [6]
         // Reset range sliders for Sqrt & Sin
@@ -299,6 +300,7 @@ void SurfaceGraphModifier::enableHeightMapModel(bool enable)
                             this,
                             &SurfaceGraphModifier::onWheel);
         m_graph->setDefaultInputHandler();
+        m_graph->setZoomEnabled(true);
 
         m_titleLabel->setVisible(true);
         m_graph->axisX()->setTitleVisible(true);
@@ -366,6 +368,7 @@ void SurfaceGraphModifier::enableTopographyModel(bool enable)
                          &QAbstract3DGraph::wheel,
                          this,
                          &SurfaceGraphModifier::onWheel);
+        m_graph->setZoomEnabled(false);
         //! [5]
 
         // Reset range sliders for topography map
