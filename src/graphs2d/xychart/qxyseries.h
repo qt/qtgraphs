@@ -54,8 +54,8 @@ public:
     QXYSeries &operator<<(const QPointF &point);
     QXYSeries &operator<<(const QList<QPointF> &points);
 
-    virtual void setColor(const QColor &newColor);
-    virtual QColor color() const;
+    void setColor(const QColor &newColor);
+    QColor color() const;
 
     void setSelectedColor(const QColor &color);
     QColor selectedColor() const;

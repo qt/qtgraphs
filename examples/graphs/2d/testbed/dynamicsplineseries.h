@@ -18,7 +18,7 @@ class DynamicSplineSeries : public QSplineSeries
     QML_ELEMENT
 public:
     DynamicSplineSeries(QObject *parent = nullptr);
-    ~DynamicSplineSeries();
+    ~DynamicSplineSeries() override;
 
 public Q_SLOTS:
     void updateData();

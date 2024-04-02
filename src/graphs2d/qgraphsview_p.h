@@ -49,7 +49,7 @@ class QGraphsView : public QQuickItem
 
 public:
     explicit QGraphsView(QQuickItem *parent = nullptr);
-    virtual ~QGraphsView();
+    ~QGraphsView() override;
 
     void setBackgroundColor(QColor color);
     QColor backgroundColor();

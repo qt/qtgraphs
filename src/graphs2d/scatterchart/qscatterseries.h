@@ -17,7 +17,7 @@ class Q_GRAPHS_EXPORT QScatterSeries : public QXYSeries
 
 public:
     explicit QScatterSeries(QObject *parent = nullptr);
-    ~QScatterSeries();
+    ~QScatterSeries() override;
     QAbstractSeries::SeriesType type() const override;
 
     QML_NAMED_ELEMENT(ScatterSeries)

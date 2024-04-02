@@ -34,7 +34,7 @@ class PointRenderer : public QQuickItem
     QML_ELEMENT
 public:
     PointRenderer(QQuickItem *parent = nullptr);
-    virtual ~PointRenderer();
+    ~PointRenderer() override;
 
     void handlePolish(QXYSeries *series);
     void updateSeries(QXYSeries *series);

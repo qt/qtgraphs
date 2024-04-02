@@ -19,7 +19,7 @@ class Q_GRAPHS_EXPORT QLineSeries : public QXYSeries
 
 public:
     explicit QLineSeries(QObject *parent = nullptr);
-    ~QLineSeries();
+    ~QLineSeries() override;
     QAbstractSeries::SeriesType type() const override;
 
     QML_NAMED_ELEMENT(LineSeries)

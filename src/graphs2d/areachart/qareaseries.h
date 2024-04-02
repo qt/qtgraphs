@@ -30,7 +30,7 @@ class Q_GRAPHS_EXPORT QAreaSeries : public QAbstractSeries
 
 public:
     explicit QAreaSeries(QObject *parent = nullptr);
-    ~QAreaSeries();
+    ~QAreaSeries() override;
     QAbstractSeries::SeriesType type() const override;
 
     QML_NAMED_ELEMENT(AreaSeries)

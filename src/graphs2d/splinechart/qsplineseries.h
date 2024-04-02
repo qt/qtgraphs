@@ -21,7 +21,7 @@ class Q_GRAPHS_EXPORT QSplineSeries : public QXYSeries
 
 public:
     explicit QSplineSeries(QObject *parent = nullptr);
-    ~QSplineSeries();
+    ~QSplineSeries() override;
     QAbstractSeries::SeriesType type() const override;
 
     QML_NAMED_ELEMENT(SplineSeries)

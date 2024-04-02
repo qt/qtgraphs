@@ -23,7 +23,7 @@ class Q_GRAPHS_EXPORT QBarCategoryAxis : public QAbstractAxis
 
 public:
     explicit QBarCategoryAxis(QObject *parent = nullptr);
-    ~QBarCategoryAxis();
+    ~QBarCategoryAxis() override;
 
 protected:
     QBarCategoryAxis(QBarCategoryAxisPrivate &dd, QObject *parent = nullptr);

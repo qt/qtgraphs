@@ -29,7 +29,7 @@ class AreaRenderer : public QQuickItem
     QML_ELEMENT
 public:
     AreaRenderer(QQuickItem *parent = nullptr);
-    virtual ~AreaRenderer();
+    ~AreaRenderer() override;
 
     void handlePolish(QAreaSeries *series);
     void updateSeries(QAreaSeries *series);
