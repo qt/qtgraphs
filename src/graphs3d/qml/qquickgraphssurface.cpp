@@ -788,6 +788,11 @@ void QQuickGraphsSurface::synchData()
             bgMatFloor->setProperty("gridOnTop", m_flipHorizontalGrid);
         }
     }
+
+    if (m_pickThisFrame) {
+        doPicking(m_lastPick);
+        m_pickThisFrame = false;
+    }
 }
 
 void QQuickGraphsSurface::updateGraph()
@@ -1074,12 +1079,6 @@ void QQuickGraphsSurface::updateModel(SurfaceModel *model)
             setIndexDirty(true);
         }
 
-        bool polarChanged = false;
-        if (model->polar != isPolar()) {
-            polarChanged = true;
-            model->polar = isPolar();
-        }
-
         bool dimensionsChanged = false;
         QRect sampleSpace = calculateSampleSpace(array);
         if (sampleSpace != model->sampleSpace) {
@@ -1134,6 +1133,8 @@ void QQuickGraphsSurface::updateModel(SurfaceModel *model)
             heightMap->setParent(this);
             heightMap->setHorizontalTiling(QQuick3DTexture::ClampToEdge);
             heightMap->setVerticalTiling(QQuick3DTexture::ClampToEdge);
+            heightMap->setMinFilter(QQuick3DTexture::Nearest);
+            heightMap->setMagFilter(QQuick3DTexture::Nearest);
             heightMapData = new QQuick3DTextureData();
             heightMapData->setSize(QSize(sampleSpace.width(), sampleSpace.height()));
             heightMapData->setFormat(QQuick3DTextureData::RGBA32F);
@@ -1242,8 +1243,7 @@ void QQuickGraphsSurface::updateModel(SurfaceModel *model)
         gridMaterial->setProperty("range", QVector2D(sampleSpace.width(), sampleSpace.height()));
         gridMaterial->setProperty("vertices", QVector2D(columnCount, rowCount));
 
-        if (dimensionsChanged || polarChanged)
-            updateProxyModel(model);
+        m_proxyDirty = true;
     }
     updateMaterial(model);
     updateSelectedPoint();
@@ -1269,8 +1269,10 @@ void QQuickGraphsSurface::updateProxyModel(SurfaceModel *model)
         return;
 
     // calculate decimate factor based on the order of magnitude of total vertices
+
+    int minBeforeDecimate = 1000;
     float totalSize = rowCount * columnCount;
-    int decimateFactor = qFloor(std::log10(qMax(10.0, totalSize)));
+    int decimateFactor = qMax(qFloor(std::log10(qMax(1.0, totalSize - minBeforeDecimate))), 1);
 
     int proxyColumnCount = 0;
     int proxyRowCount = 0;
@@ -1375,6 +1377,7 @@ void QQuickGraphsSurface::updateProxyModel(SurfaceModel *model)
     geometry->setIndexData(indexBuffer);
     geometry->setBounds(boundsMin, boundsMax);
     geometry->update();
+    m_proxyDirty = false;
 }
 
 void QQuickGraphsSurface::createProxyModel(SurfaceModel *model)
@@ -1808,6 +1811,13 @@ void QQuickGraphsSurface::createGridlineIndices(SurfaceModel *model, int x, int 
 
 bool QQuickGraphsSurface::doPicking(const QPointF &position)
 {
+    if (!m_pickThisFrame && m_proxyDirty) {
+        m_pickThisFrame = true;
+        m_lastPick = position;
+        for (auto model : m_model)
+            updateProxyModel(model);
+        return false;
+    }
     if (!QQuickGraphsItem::doPicking(position))
         return false;
 

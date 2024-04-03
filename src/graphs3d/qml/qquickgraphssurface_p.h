@@ -212,7 +212,6 @@ private:
         int rowCount;
         SurfaceVertex selectedVertex;
         bool picked = false;
-        bool polar;
         QVector3D boundsMin;
         QVector3D boundsMax;
         QRect sampleSpace;
@@ -241,6 +240,10 @@ private:
 
     bool m_isIndexDirty = true;
     bool m_selectionDirty = false;
+
+    bool m_pickThisFrame = false;
+    bool m_proxyDirty = false;
+    QPointF m_lastPick;
 
     Surface3DChangeBitField m_changeTracker;
     QPoint m_selectedPoint;
