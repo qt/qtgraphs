@@ -312,10 +312,11 @@ private:
                             bool rangeGradient,
                             const QString &materialName);
     void updateMaterialProperties(QQuick3DModel *item,
-                                  bool isHighlight,
-                                  bool isMultiHighlight,
+                                  const bool isHighlight,
+                                  const bool isMultiHighlight,
                                   QQuick3DTexture *texture,
-                                  const QColor &color);
+                                  const QColor &color,
+                                  const bool transparency = false);
     void removeBarModels();
     void deleteBarModels(QQuick3DModel *model);
     void deleteBarItemHolders(BarInstancing *instancing);

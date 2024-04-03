@@ -9,13 +9,15 @@ CustomMaterial {
     property int colorStyle
     property color uniformColor
     property bool isHighlight
+    property bool transparency: false
+
     property real specularBrightness: 0.25
     readonly property real shininess: (1.0 - specularBrightness) * 100
 
     shadingMode: CustomMaterial.Shaded
-    sourceBlend: CustomMaterial.SrcAlpha
-    destinationBlend: CustomMaterial.OneMinusSrcAlpha
-    depthDrawMode: Material.OpaquePrePassDepthDraw
+    sourceBlend: !transparency ? CustomMaterial.NoBlend : CustomMaterial.SrcAlpha
+    destinationBlend: !transparency ? CustomMaterial.NoBlend : CustomMaterial.OneMinusSrcAlpha
+    depthDrawMode: !transparency ? Material.OpaqueOnlyDepthDraw : Material.OpaquePrePassDepthDraw
 
     vertexShader: "qrc:/shaders/objectgradientvert"
     fragmentShader: "qrc:/shaders/barsfrag"

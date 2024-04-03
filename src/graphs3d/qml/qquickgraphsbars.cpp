@@ -1513,6 +1513,7 @@ void QQuickGraphsBars::updateBarVisuals(QBar3DSeries *series)
             auto textureData = static_cast<QQuickGraphsTextureData *>(
                 barList.at(i)->texture->textureData());
             textureData->createGradient(series->baseGradient());
+            const bool transparency = textureData->hasTransparency();
             updateItemMaterial(model,
                                useGradient,
                                rangeGradient,
@@ -1522,7 +1523,8 @@ void QQuickGraphsBars::updateBarVisuals(QBar3DSeries *series)
                                          false,
                                          false,
                                          barList.at(i)->texture,
-                                         QColor(Qt::white));
+                                         QColor(Qt::white),
+                                         transparency);
             } else {
                 QList<QColor> rowColors = series->rowColors();
                 if (rowColors.size() == 0) {
@@ -1531,7 +1533,13 @@ void QQuickGraphsBars::updateBarVisuals(QBar3DSeries *series)
                     int rowColorIndex = barList.at(i)->coord.x() % rowColors.size();
                     barColor = rowColors[rowColorIndex];
                 }
-                updateMaterialProperties(model, false, false, barList.at(i)->texture, barColor);
+                const bool transparency = barColor.alphaF() < 1.0;
+                updateMaterialProperties(model,
+                                         false,
+                                         false,
+                                         barList.at(i)->texture,
+                                         barColor,
+                                         transparency);
             }
         }
     } else if (optimizationHint() == QAbstract3DGraph::OptimizationHint::Default) {
@@ -1548,7 +1556,8 @@ void QQuickGraphsBars::updateBarVisuals(QBar3DSeries *series)
                                      false,
                                      false,
                                      barList.at(i)->texture,
-                                     QColor(Qt::white));
+                                     QColor(Qt::white),
+                                     textureData->hasTransparency());
         }
     }
 }
@@ -1588,15 +1597,17 @@ void QQuickGraphsBars::updateItemMaterial(QQuick3DModel *item,
 }
 
 void QQuickGraphsBars::updateMaterialProperties(QQuick3DModel *item,
-                                                bool isHighlight,
-                                                bool isMultiHighlight,
+                                                const bool isHighlight,
+                                                const bool isMultiHighlight,
                                                 QQuick3DTexture *texture,
-                                                const QColor &color)
+                                                const QColor &color,
+                                                const bool transparency)
 {
     QQmlListReference materialsRef(item, "materials");
     auto customMaterial = qobject_cast<QQuick3DCustomMaterial *>(materialsRef.at(0));
     if (!customMaterial)
         return;
+    customMaterial->setProperty("transparency", transparency);
     QVariant textureInputAsVariant = customMaterial->property("custex");
     QQuick3DShaderUtilsTextureInput *textureInput = textureInputAsVariant
                                                         .value<QQuick3DShaderUtilsTextureInput *>();
