@@ -135,6 +135,20 @@ Item {
                 }
             }
 
+            Button {
+                id: colorStyleToggle
+                visible: tabBar.currentIndex !== 0
+                property var activeTheme: (tabBar.currentIndex === 1 ? scatterTheme : barTheme);
+                text: qsTr("Color Style: %1").arg(activeTheme.colorStyle)
+                Layout.fillWidth: true
+                Layout.preferredHeight: 50
+                Layout.margins: 10
+                Layout.alignment: Qt.AlignCenter
+                onClicked: {
+                    if (++activeTheme.colorStyle > 2)
+                        activeTheme.colorStyle = 0
+                }
+            }
 
             Button {
                 id: surfaceShadingToggle
@@ -193,9 +207,13 @@ Item {
                         scatterYBluestop.color.a = value
                         scatterYRedstop.color.a = value
                         scatterYellowstop.color.a = value
+                        // change scatter series baseColor alpha
+                        scatterSeries.baseColor.a = value
                         // change bargradient alpha
                         barBlueStop.color.a = value
                         barRedStop.color.a = value
+                        // change bar series baseColor alpha
+                        barSeries.baseColor.a = value
                     }
                 }
             }
@@ -326,7 +344,6 @@ Item {
         onAccepted: dataGenerator.setFilePath(currentFolder)
     }
 
-
     Timer {
         id: rotationTimer
         interval: 15
@@ -369,7 +386,6 @@ Item {
             }
         }
     }
-
 
     StackLayout {
         anchors.top: tabBar.bottom
@@ -433,7 +449,7 @@ Item {
                 shadowQuality: AbstractGraph3D.ShadowQuality.None
                 aspectRatio: 1.0
                 horizontalAspectRatio: 1.0
-                    cameraYRotation: 45.0
+                cameraYRotation: 45.0
 
                 axisY.min: -1
                 axisY.max: 1
@@ -444,6 +460,7 @@ Item {
 
                 measureFps: true
                 theme : Theme3D {
+                    id: scatterTheme
                     type: Theme3D.Theme.Qt
                     colorStyle: Theme3D.ColorStyle.RangeGradient
                     baseGradients: scatterGradient
@@ -478,6 +495,7 @@ Item {
                 valueAxis.max: 1
 
                 theme : Theme3D {
+                    id: barTheme
                     type: Theme3D.Theme.Qt
                     colorStyle: Theme3D.ColorStyle.RangeGradient
                     baseGradients: barGradient
@@ -493,7 +511,6 @@ Item {
                     id: barSeries
                     dataProxy.onArrayReset: tests.dataPoints
                                             = dataProxy.colCount * dataProxy.rowCount
-
                 }
 
                 onCurrentFpsChanged: {

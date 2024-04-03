@@ -279,6 +279,15 @@ void QQuickGraphsScatter::updateScatterGraphItemVisuals(ScatterModel *graphModel
         if (itemCount != graphModel->dataItems.size())
             qWarning() << __func__ << "Item count differs from itemList count";
 
+        bool transparentTexture = false;
+        if (graphModel->seriesTexture) {
+            auto textureData = static_cast<QQuickGraphsTextureData *>(
+                graphModel->seriesTexture->textureData());
+            transparentTexture = textureData->hasTransparency();
+        }
+        const bool transparency = (graphModel->series->baseColor().alphaF() < 1.0)
+                                  || transparentTexture;
+
         for (const auto &obj : std::as_const(graphModel->dataItems)) {
             updateItemMaterial(obj,
                                useGradient,
@@ -287,7 +296,8 @@ void QQuickGraphsScatter::updateScatterGraphItemVisuals(ScatterModel *graphModel
                                QStringLiteral(":/materials/ScatterMaterial"));
             updateMaterialProperties(obj,
                                      graphModel->seriesTexture,
-                                     graphModel->series->baseColor());
+                                     graphModel->series->baseColor(),
+                                     transparency);
         }
 
         if (m_selectedItem != invalidSelectionIndex() && graphModel->series == selectedSeries()) {
@@ -299,7 +309,15 @@ void QQuickGraphsScatter::updateScatterGraphItemVisuals(ScatterModel *graphModel
     } else if (optimizationHint() == QAbstract3DGraph::OptimizationHint::Default) {
         graphModel->instancing->setRangeGradient(rangeGradient);
         if (!rangeGradient) {
-            if ((graphModel->series->baseColor().alphaF() < 1.0))
+            bool transparentTexture = false;
+            if (graphModel->seriesTexture) {
+                auto textureData = static_cast<QQuickGraphsTextureData *>(
+                    graphModel->seriesTexture->textureData());
+                transparentTexture = textureData->hasTransparency();
+            }
+            const bool transparency = (graphModel->series->baseColor().alphaF() < 1.0)
+                                      || transparentTexture;
+            if (transparency)
                 graphModel->instancing->setTransparency(true);
             else
                 graphModel->instancing->setTransparency(false);
@@ -311,7 +329,8 @@ void QQuickGraphsScatter::updateScatterGraphItemVisuals(ScatterModel *graphModel
                                QStringLiteral(":/materials/ScatterMaterialInstancing"));
             updateMaterialProperties(graphModel->instancingRootItem,
                                      graphModel->seriesTexture,
-                                     graphModel->series->baseColor());
+                                     graphModel->series->baseColor(),
+                                     transparency);
         } else {
             auto textureData = static_cast<QQuickGraphsTextureData *>(
                 graphModel->seriesTexture->textureData());
@@ -328,7 +347,8 @@ void QQuickGraphsScatter::updateScatterGraphItemVisuals(ScatterModel *graphModel
             updateInstancedMaterialProperties(graphModel,
                                               false,
                                               graphModel->seriesTexture,
-                                              graphModel->highlightTexture);
+                                              graphModel->highlightTexture,
+                                              textureData->hasTransparency());
 
             const float scaleY = scaleWithBackground().y();
             float rangeGradientYScaler = m_rangeGradientYHelper / scaleY;
@@ -422,9 +442,10 @@ void QQuickGraphsScatter::updateItemMaterial(QQuick3DModel *item,
 }
 
 void QQuickGraphsScatter::updateInstancedMaterialProperties(ScatterModel *graphModel,
-                                                            bool isHighlight,
+                                                            const bool isHighlight,
                                                             QQuick3DTexture *seriesTexture,
-                                                            QQuick3DTexture *highlightTexture)
+                                                            QQuick3DTexture *highlightTexture,
+                                                            const bool transparency)
 {
     QQuick3DModel *model = nullptr;
     if (isHighlight)
@@ -435,6 +456,7 @@ void QQuickGraphsScatter::updateInstancedMaterialProperties(ScatterModel *graphM
     QQmlListReference materialsRef(model, "materials");
 
     auto customMaterial = static_cast<QQuick3DCustomMaterial *>(materialsRef.at(0));
+    customMaterial->setProperty("transparency", transparency);
 
     QVariant textureInputAsVariant = customMaterial->property("custex");
     QQuick3DShaderUtilsTextureInput *textureInput = textureInputAsVariant
@@ -443,9 +465,8 @@ void QQuickGraphsScatter::updateInstancedMaterialProperties(ScatterModel *graphM
     if (isHighlight) {
         textureInput->setTexture(highlightTexture);
 
-        if (selectedItemInSeries(graphModel->series)) {
+        if (selectedItemInSeries(graphModel->series))
             m_selectedGradientPos = graphModel->instancing->customData().at(m_selectedItem);
-        }
 
         customMaterial->setProperty("gradientPos", m_selectedGradientPos);
     } else {
@@ -455,15 +476,17 @@ void QQuickGraphsScatter::updateInstancedMaterialProperties(ScatterModel *graphM
 
 void QQuickGraphsScatter::updateMaterialProperties(QQuick3DModel *item,
                                                    QQuick3DTexture *texture,
-                                                   const QColor &color)
+                                                   const QColor &color,
+                                                   const bool transparency)
 {
     QQmlListReference materialsRef(item, "materials");
     auto customMaterial = static_cast<QQuick3DCustomMaterial *>(materialsRef.at(0));
+    customMaterial->setProperty("transparency", transparency);
 
     int style = customMaterial->property("colorStyle").value<int>();
-    if (style == 0)
+    if (style == 0) {
         customMaterial->setProperty("uColor", color);
-    else {
+    } else {
         QVariant textureInputAsVariant = customMaterial->property("custex");
         QQuick3DShaderUtilsTextureInput *textureInput
             = textureInputAsVariant.value<QQuick3DShaderUtilsTextureInput *>();

@@ -196,9 +196,10 @@ private:
     float m_dotSizedScale = 1.0f;
 
     void updateInstancedMaterialProperties(ScatterModel *graphModel,
-                                           bool isHighlight = false,
+                                           const bool isHighlight = false,
                                            QQuick3DTexture *seriesTexture = nullptr,
-                                           QQuick3DTexture *highlightTexture = nullptr);
+                                           QQuick3DTexture *highlightTexture = nullptr,
+                                           const bool transparency = false);
     void updateItemMaterial(QQuick3DModel *item,
                             bool useGradient,
                             bool rangeGradient,
@@ -206,7 +207,8 @@ private:
                             const QString &materialName);
     void updateMaterialProperties(QQuick3DModel *item,
                                   QQuick3DTexture *texture,
-                                  const QColor &color = Qt::white);
+                                  const QColor &color = Qt::white,
+                                  const bool transparency = false);
     QQuick3DTexture *createTexture();
     QQuick3DModel *createDataItemModel(QAbstract3DSeries::Mesh meshType);
     QQuick3DNode *createSeriesRoot();
