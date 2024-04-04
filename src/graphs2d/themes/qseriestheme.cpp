@@ -182,6 +182,7 @@ qreal QSeriesTheme::borderWidth() const
 
 void QSeriesTheme::setBorderWidth(qreal newBorderWidth)
 {
+    newBorderWidth = qMax(0.0, newBorderWidth);
     if (qFuzzyCompare(m_borderWidth, newBorderWidth))
         return;
     m_borderWidth = newBorderWidth;

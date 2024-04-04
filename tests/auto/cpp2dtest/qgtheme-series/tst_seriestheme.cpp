@@ -81,8 +81,7 @@ void tst_seriestheme::invalidProperties()
 
     m_theme->setBorderWidth(-1.0);
 
-    // TODO: QTBUG-121801
-    // QCOMPARE(m_theme->borderWidth(), 0.0);
+    QCOMPARE(m_theme->borderWidth(), 0.0);
 }
 
 void tst_seriestheme::setResetSeries()

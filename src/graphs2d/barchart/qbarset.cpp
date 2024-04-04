@@ -545,7 +545,8 @@ qreal QBarSet::borderWidth() const
 void QBarSet::setBorderWidth(qreal width)
 {
     Q_D(QBarSet);
-    if (d->m_borderWidth != width) {
+    width = qMax(0.0, width);
+    if (!qFuzzyCompare(d->m_borderWidth, width)) {
         d->m_borderWidth = width;
         emit update();
         emit borderWidthChanged(width);
