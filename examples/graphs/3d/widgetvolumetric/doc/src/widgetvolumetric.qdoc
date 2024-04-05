@@ -21,17 +21,17 @@
     to display volumetric data. The volume items are only supported with orthographic projection,
     so first make sure the graph is using it:
 
-    \snippet widgetvolumetric/volumetric.cpp 0
+    \snippet 3d/widgetvolumetric/volumetric.cpp 0
 
     Create a volumetric item tied to the data ranges of the axes:
 
-    \snippet widgetvolumetric/volumetric.cpp 1
+    \snippet 3d/widgetvolumetric/volumetric.cpp 1
 
     Indicate that the scaling of the volume should follow the changes in the data ranges by setting
     the QCustom3DItem::scalingAbsolute property to \c{false}. Next, define the internal contents of
     the volume:
 
-    \snippet widgetvolumetric/volumetric.cpp 2
+    \snippet 3d/widgetvolumetric/volumetric.cpp 2
 
     Use eight-bit indexed color for the texture, as it is compact and makes it easy to adjust the
     colors without needing to reset the whole texture. For the texture data, use the data created
@@ -44,16 +44,16 @@
     indexes to actual colors. In a typical use case, you would get the color table from the source
     images instead of using one manually defined:
 
-    \snippet widgetvolumetric/volumetric.cpp 3
+    \snippet 3d/widgetvolumetric/volumetric.cpp 3
 
     To have an option to show slice frames around the volume, initialize their properties.
     Initially, the frames will be hidden:
 
-    \snippet widgetvolumetric/volumetric.cpp 4
+    \snippet 3d/widgetvolumetric/volumetric.cpp 4
 
     Finally, add the volume as a custom item to the graph to display it:
 
-    \snippet widgetvolumetric/volumetric.cpp 5
+    \snippet 3d/widgetvolumetric/volumetric.cpp 5
 
     \section1 Slicing into the Volume
 
@@ -63,17 +63,17 @@
     the selected slices in place of the volume. For example, to specify a slice perpendicular to
     the X-axis, use the following method:
 
-    \snippet widgetvolumetric/volumetric.cpp 6
+    \snippet 3d/widgetvolumetric/volumetric.cpp 6
 
     To display the slice specified above, the QCustom3DVolume::drawSlices property must also be set:
 
-    \snippet widgetvolumetric/volumetric.cpp 7
+    \snippet 3d/widgetvolumetric/volumetric.cpp 7
 
     The second way to view slices is to use the QCustom3DVolume::renderSlice() method, which
     produces a QImage from the specified slice. This image can then be displayed on another widget,
     such as a QLabel:
 
-    \snippet widgetvolumetric/volumetric.cpp 8
+    \snippet 3d/widgetvolumetric/volumetric.cpp 8
 
     \section1 Adjusting Volume Transparency
 
@@ -81,9 +81,9 @@
     internal structure. QCustom3DVolume provides two properties that can be used to adjust the
     volume transparency:
 
-    \snippet widgetvolumetric/volumetric.cpp 9
+    \snippet 3d/widgetvolumetric/volumetric.cpp 9
     \dots
-    \snippet widgetvolumetric/volumetric.cpp 10
+    \snippet 3d/widgetvolumetric/volumetric.cpp 10
 
     The QCustom3DVolume::alphaMultiplier is a general multiplier that is applied to the alpha value
     of each voxel of the volume. It makes it possible to add uniform transparency to the already
@@ -95,7 +95,7 @@
     voxels directly. For eight-bit indexed textures, this is done simply by modifying and resetting
     the color table:
 
-    \snippet widgetvolumetric/volumetric.cpp 11
+    \snippet 3d/widgetvolumetric/volumetric.cpp 11
 
     \section1 High Definition vs. Low Definition Shader
 
@@ -109,7 +109,7 @@
     accuracy, so it doesn't guarantee that every voxel of the volume will be sampled. This can lead
     to flickering or other rendering artifacts on the finer details of the volume.
 
-    \snippet widgetvolumetric/volumetric.cpp 12
+    \snippet 3d/widgetvolumetric/volumetric.cpp 12
 
     \section1 Example Contents
 */

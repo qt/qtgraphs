@@ -25,7 +25,7 @@
     dark backgrounds. This theme adjusts the graph background grid and axis lines and
     labels.
 
-    \snippet hellographs/qml/hellographs/main.qml bargraph
+    \snippet 2d/hellographs/qml/hellographs/main.qml bargraph
     \dots
 
     To make this a bar graph, add a \l BarSeries. X axis of the series is
@@ -35,14 +35,14 @@
     Minor ticks will be shown on every 1 values using \l{ValueAxis::minorTickCount}{minorTickCount} \c 9,
     which means that between every major ticks there will be \c 9 minor ones.
 
-    \snippet hellographs/qml/hellographs/main.qml barseries
+    \snippet 2d/hellographs/qml/hellographs/main.qml barseries
     \dots
 
     Then data is added into \l BarSeries using \l BarSet. There are 3 bars, and we define
     custom bars color and border properties. These properties will override the possible
     \l{AbstractSeries::theme}{theme} set for the \l AbstractSeries.
 
-    \snippet hellographs/qml/hellographs/main.qml barset
+    \snippet 2d/hellographs/qml/hellographs/main.qml barset
 
     \section1 LineGraph
 
@@ -51,17 +51,17 @@
     \l GraphTheme offers quite a wide range of customization possibilities for the background
     grid and axis, which get applied after the \l{GraphTheme::colorTheme}{colorTheme}.
 
-    \snippet hellographs/qml/hellographs/main.qml linegraph
+    \snippet 2d/hellographs/qml/hellographs/main.qml linegraph
     \dots
 
     Custom \c Marker component is used to visualize the data points.
 
-    \snippet hellographs/qml/hellographs/main.qml linemarker
+    \snippet 2d/hellographs/qml/hellographs/main.qml linemarker
 
     The previous bar graph didn't define a separate \l SeriesTheme, so it uses the
     default theme. This line graph uses a custom theme with the desired line colors.
 
-    \snippet hellographs/qml/hellographs/main.qml lineseriestheme
+    \snippet 2d/hellographs/qml/hellographs/main.qml lineseriestheme
 
     To make this a line graph, add a \l LineSeries. The first series defines
     \l{XYSeries::axisX}{axisX} and  \l{XYSeries::axisY}{axisY} for this graph.
@@ -69,12 +69,12 @@
     \c Marker component that was created earlier. Data points are added using
     \l XYPoint elements.
 
-    \snippet hellographs/qml/hellographs/main.qml lineseries1
+    \snippet 2d/hellographs/qml/hellographs/main.qml lineseries1
 
     The second line series is similar to the first. The \l{XYSeries::axisX}{axisX}
     and \l{XYSeries::axisY}{axisY} don't need to be defined as the graph already contains them.
     As this is second \l LineSeries inside the \l GraphsView, second color from the \c seriesTheme
     gets automatically picked.
 
-    \snippet hellographs/qml/hellographs/main.qml lineseries2
+    \snippet 2d/hellographs/qml/hellographs/main.qml lineseries2
 */
