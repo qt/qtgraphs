@@ -52,11 +52,12 @@ QT_BEGIN_NAMESPACE
 
     The PieSlice type should be used as a child of a PieSeries type. For example:
 
-    Alternatively, slices can be added to a pie series by using the \l{PieSeries::append()}
+    Alternatively, slices can be added to a pie series by using the \l {QtGraphs::PieSeries::append()}
     {PieSeries.append()} method.
 
-    In that case, \l{PieSeries::at()}{PieSeries.at()} or \l {PieSeries::find()}
+    In that case, \l {QtGraphs::PieSeries::at()}{PieSeries.at()} or \l {QtGraphs::PieSeries::find()}
     {PieSeries.find()} can be used to access the properties of an individual PieSlice instance.
+
     \sa PieSeries
 */
 
