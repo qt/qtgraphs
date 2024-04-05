@@ -26,47 +26,47 @@
     Before diving into the QML code, \c main.cpp sets up the application. The \c main.qml file
     is read from resource (\c{qrc:})
 
-    \snippet scatter/main.cpp 0
+    \snippet 3d/scatter/main.cpp 0
 
     This \c main.qml file is the starting point for the application's QML code. Firstly,
     import all the required QML modules:
 
-    \snippet scatter/qml/scatter/main.qml 0
+    \snippet 3d/scatter/qml/scatter/main.qml 0
 
     Then, create a \c {Data} item which will be the item that holds the data for the graph.
 
-    \snippet scatter/qml/scatter/main.qml 1
+    \snippet 3d/scatter/qml/scatter/main.qml 1
 
     Next, create two \c {Theme3D} items that define two different themes for the graph, a Qt theme
     and a retro theme.
 
-    \snippet scatter/qml/scatter/main.qml 2
+    \snippet 3d/scatter/qml/scatter/main.qml 2
 
     The layout for this application is going to consist of five different buttons to
     toggle different visual options for the graph on and off, and of course the graph itself.
     There are many ways to organize these, one way is to have a \c {GridLayout} containing
     four buttons, the \c {Graph}, and the fifth button, all appearing in a \c {ColumnLayout}.
 
-    \snippet scatter/qml/scatter/main.qml 3
+    \snippet 3d/scatter/qml/scatter/main.qml 3
 
     The \c {GridLayout} is responsive. What this means is that the number of columns used
     depend on the width of the application window. This is done by assigning the \c {columns}
     property a ternary operator, resolving to either 1, 2 or 4, depending on the window width.
 
-    \snippet scatter/qml/scatter/main.qml 4
+    \snippet 3d/scatter/qml/scatter/main.qml 4
 
     In this \c {GridLayout}, four \c {RoundButton}s are instantiated. One for toggling shadows, one for
     mesh smoothing, one for camera position, and finally, one for changing the background of the graph.
     All the buttons follow the same structure. Rather than redefining this structure for all buttons,
     a custom component can be made.
 
-    \snippet scatter/qml/scatter/main.qml 5
+    \snippet 3d/scatter/qml/scatter/main.qml 5
 
     \c CustomButtom extends the \c RoundButton type, but adds a few additions. Properties
     such as \c {Layout.minimumWidth}, \c {Layout.FillWidth}, \c {radius} and \c {background} are set.
     These define the styling and layout of the button.
 
-    \snippet scatter/qml/scatter/main.qml 6
+    \snippet 3d/scatter/qml/scatter/main.qml 6
 
     Whereas the \c {contentItem} defines the content of the button, in this case a \c {Row} type
     containing an icon and some text. The icon is imported using an \c {IconImage} type, and setting
@@ -74,12 +74,12 @@
     property. Two alliases are created for these two properties at the top of the custom component,
     this will allow them to be set when an instance of \c CustomButton is created.
 
-    \snippet scatter/qml/scatter/main.qml 7
+    \snippet 3d/scatter/qml/scatter/main.qml 7
 
     In the \c GridLayout, four \c {CustomButton}s are created. Three properties need to be
     set, the two alliases for the icon image and the text, and the signal \c {onClicked}.
 
-    \snippet scatter/qml/scatter/main.qml 8
+    \snippet 3d/scatter/qml/scatter/main.qml 8
 
     For example, the shadow button sets the \c onClicked sign to toggle the shadow on and off.
 
@@ -88,56 +88,56 @@
     Next in the layout is the \c {Graph}, this is defined in its own QML file \c {Graph.qml}, and
     is instantiated as follows:
 
-    \snippet scatter/qml/scatter/main.qml 9
+    \snippet 3d/scatter/qml/scatter/main.qml 9
 
     Looking at its implementation in \c {Graph.qml}, the graph is of type \c {Scatter3D}, nested
     within an \c {Item} type.
 
-    \snippet scatter/qml/scatter/Graph.qml 0
+    \snippet 3d/scatter/qml/scatter/Graph.qml 0
 
     Before defining the data sets, some of the axes properties are configured.
 
-    \snippet scatter/qml/scatter/Graph.qml 1
+    \snippet 3d/scatter/qml/scatter/Graph.qml 1
 
     \section1 Setting up the Data
 
     The graph shows three datasets, representing the data given in \c {Data.qml}. The datasets are
     stored in \c {ListModel} types
 
-    \snippet scatter/qml/scatter/Data.qml 1
+    \snippet 3d/scatter/qml/scatter/Data.qml 1
     \dots
-    \snippet scatter/qml/scatter/Data.qml 2
+    \snippet 3d/scatter/qml/scatter/Data.qml 2
     \dots
-    \snippet scatter/qml/scatter/Data.qml 3
+    \snippet 3d/scatter/qml/scatter/Data.qml 3
     \dots
-    \snippet scatter/qml/scatter/Data.qml 4
+    \snippet 3d/scatter/qml/scatter/Data.qml 4
 
     and exposed to the other files using \c {property alias}es
 
-    \snippet scatter/qml/scatter/Data.qml 0
+    \snippet 3d/scatter/qml/scatter/Data.qml 0
 
     Before these aliases are used, create a \c {Scatter3DSeries} type, containing a
     \c {ItemModelScatterDataProxy} item.
 
-    \snippet scatter/qml/scatter/Graph.qml 2
+    \snippet 3d/scatter/qml/scatter/Graph.qml 2
 
     This data proxy refers to the datasets in \c {Data.qml} using its \c {itemModel}
     property. The aliases mentioned above are accessed through the \c {id} of the \c {Data} type
     instantiated in \c {main.qml}, \c {seriesData}.
 
-    \snippet scatter/qml/scatter/Graph.qml 3
+    \snippet 3d/scatter/qml/scatter/Graph.qml 3
 
     Repeat this for the remaining two datasets.
 
-    \snippet scatter/qml/scatter/Graph.qml 4
+    \snippet 3d/scatter/qml/scatter/Graph.qml 4
     \dots
-    \snippet scatter/qml/scatter/Graph.qml 5
+    \snippet 3d/scatter/qml/scatter/Graph.qml 5
     \dots
-    \snippet scatter/qml/scatter/Graph.qml 6
+    \snippet 3d/scatter/qml/scatter/Graph.qml 6
     \dots
-    \snippet scatter/qml/scatter/Graph.qml 7
+    \snippet 3d/scatter/qml/scatter/Graph.qml 7
     \dots
-    \snippet scatter/qml/scatter/Graph.qml 8
+    \snippet 3d/scatter/qml/scatter/Graph.qml 8
 
     Great, the scatter graph is now pointing to the three datasets.
 
@@ -146,7 +146,7 @@
     left-hand side of the layout. This is set by defining the \c {Layout.alignment} property
     to \c {Qt.AlignLeft} and \c {Layout.fillWidth} to \c false.
 
-    \snippet scatter/qml/scatter/main.qml 10
+    \snippet 3d/scatter/qml/scatter/main.qml 10
 
     \section1 Example Contents
 */
