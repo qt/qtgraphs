@@ -109,6 +109,7 @@ QQuickGraphsItem::~QQuickGraphsItem()
     m_repeaterZ->deleteLater();
 
     delete m_gridGeometryModel;
+    delete m_subgridGeometryModel;
     delete m_sliceGridGeometryModel;
 
     // Make sure not deleting locked mutex
@@ -1006,6 +1007,24 @@ void QQuickGraphsItem::componentComplete()
     gridMaterial->setCullMode(QQuick3DMaterial::CullMode::BackFaceCulling);
     gridMaterialRef.append(gridMaterial);
 
+    // subgrid with geometry
+    m_subgridGeometryModel = new QQuick3DModel(m_graphNode);
+    m_subgridGeometryModel->setCastsShadows(false);
+    m_subgridGeometryModel->setReceivesShadows(false);
+    auto subgridGeometry = new QQuick3DGeometry(m_subgridGeometryModel);
+    subgridGeometry->setStride(sizeof(QVector3D));
+    subgridGeometry->setPrimitiveType(QQuick3DGeometry::PrimitiveType::Lines);
+    subgridGeometry->addAttribute(QQuick3DGeometry::Attribute::PositionSemantic,
+                               0,
+                               QQuick3DGeometry::Attribute::F32Type);
+    m_subgridGeometryModel->setGeometry(subgridGeometry);
+
+    QQmlListReference subgridMaterialRef(m_subgridGeometryModel, "materials");
+    auto subgridMaterial = new QQuick3DPrincipledMaterial(m_subgridGeometryModel);
+    subgridMaterial->setLighting(QQuick3DPrincipledMaterial::Lighting::NoLighting);
+    subgridMaterial->setCullMode(QQuick3DMaterial::CullMode::BackFaceCulling);
+    subgridMaterialRef.append(subgridMaterial);
+
     createItemLabel();
 
     auto axis = axisX();
@@ -1896,6 +1915,7 @@ void QQuickGraphsItem::synchData()
         m_shaderGridEnabled = theme()->isShaderGridEnabled();
         theme()->d_func()->m_dirtyBits.gridEnabledDirty = true;
         theme()->d_func()->m_dirtyBits.gridLineColorDirty = true;
+        theme()->d_func()->m_dirtyBits.subgridLineColorDirty = true;
         m_gridUpdate = true;
         theme()->d_func()->m_dirtyBits.shaderGridEnabledDirty = false;
     }
@@ -1907,6 +1927,7 @@ void QQuickGraphsItem::synchData()
         auto *material = static_cast<QQuick3DCustomMaterial *>(materialRef.at(0));
         material->setProperty("gridVisible", enabled && m_shaderGridEnabled);
         m_gridGeometryModel->setVisible(enabled &! m_shaderGridEnabled);
+        m_subgridGeometryModel->setVisible(enabled &! m_shaderGridEnabled);
 
         if (m_sliceView && isSliceEnabled())
             m_sliceGridGeometryModel->setVisible(enabled);
@@ -1916,14 +1937,29 @@ void QQuickGraphsItem::synchData()
 
     if (theme()->d_func()->m_dirtyBits.gridLineColorDirty) {
         QColor gridLineColor = theme()->gridLineColor();
-        QQmlListReference backgroundRef(m_background, "materials");
-        auto *backgroundMaterial = static_cast<QQuick3DCustomMaterial *>(backgroundRef.at(0));
-        backgroundMaterial->setProperty("lineColor", gridLineColor);
+        QQmlListReference materialRef(m_background, "materials");
+        Q_ASSERT(materialRef.size());
+        auto *backgroundMaterial = static_cast<QQuick3DCustomMaterial *>(materialRef.at(0));
+        backgroundMaterial->setProperty("gridLineColor", gridLineColor);
+
         QQmlListReference gridRef(m_gridGeometryModel, "materials");
         auto *gridMaterial = static_cast<QQuick3DPrincipledMaterial *>(gridRef.at(0));
         gridMaterial->setBaseColor(gridLineColor);
         theme()->d_func()->m_dirtyBits.gridLineColorDirty = false;
     }
+
+    if (theme()->d_func()->m_dirtyBits.subgridLineColorDirty) {
+        QColor subgridLineColor = theme()->subgridLineColor();
+        QQmlListReference backgroundRef(m_background, "materials");
+        auto *backgroundMaterial = static_cast<QQuick3DCustomMaterial *>(backgroundRef.at(0));
+        backgroundMaterial->setProperty("subgridLineColor", subgridLineColor);
+
+        QQmlListReference gridRef(m_subgridGeometryModel, "materials");
+        auto *subgridMaterial = static_cast<QQuick3DPrincipledMaterial *>(gridRef.at(0));
+        subgridMaterial->setBaseColor(subgridLineColor);
+        theme()->d_func()->m_dirtyBits.subgridLineColorDirty = false;
+    }
+
 
     if (theme()->d_func()->m_dirtyBits.singleHighlightColorDirty) {
         updateSingleHighlightColor();
@@ -2030,16 +2066,18 @@ void QQuickGraphsItem::updateGrid()
     QVector3D rotation(90.0f, 0.0f, 0.0f);
 
     QByteArray vertices;
-    int verticalXCount = gridLineCountX + subGridLineCountX;
-    int horizontalZCount = gridLineCountZ + subGridLineCountZ;
-    int horizontalYCount = gridLineCountY + subGridLineCountY;
     int calculatedSize = 0;
+
+    QByteArray subvertices;
+    int subCalculatedSize = 0;
 
     bool usePolar = isPolar() && (m_graphType != QAbstract3DSeries::SeriesType::Bar);
 
     if (!usePolar) {
         int factor = m_hasVerticalSegmentLine ? 2 : 1;
-        calculatedSize = (factor * verticalXCount + factor * horizontalZCount + 2 * horizontalYCount)
+        calculatedSize = (factor * gridLineCountX + factor * gridLineCountZ + 2 * gridLineCountY)
+                         * 2 * sizeof(QVector3D);
+        subCalculatedSize = (factor * subGridLineCountX + factor * subGridLineCountZ + 2 * subGridLineCountY)
                          * 2 * sizeof(QVector3D);
     } else {
         int radialMainGridSize = static_cast<QValue3DAxis *>(axisZ())->gridSize() * polarRoundness;
@@ -2049,14 +2087,16 @@ void QQuickGraphsItem::updateGrid()
         int angularMainGridsize = static_cast<QValue3DAxis *>(axisX())->gridSize();
         int angularSubGridsize = static_cast<QValue3DAxis *>(axisX())->subGridSize();
 
-        int yLines = 2 * horizontalYCount;
-
-        calculatedSize = (radialSubGridSize + radialMainGridSize + angularMainGridsize
-                          + angularSubGridsize + yLines - 1)
+        calculatedSize = (radialMainGridSize + angularMainGridsize + (2 * gridLineCountY) - 1)
+                         * 2 * sizeof(QVector3D);
+        subCalculatedSize = (radialSubGridSize + + angularSubGridsize + (2 * subGridLineCountY))
                          * 2 * sizeof(QVector3D);
     }
     vertices.resize(calculatedSize);
     QVector3D *data = reinterpret_cast<QVector3D *>(vertices.data());
+
+    subvertices.resize(subCalculatedSize);
+    QVector3D *subdata = reinterpret_cast<QVector3D *>(subvertices.data());
 
     // Floor horizontal line
     float linePosX = 0.0f;
@@ -2087,8 +2127,8 @@ void QQuickGraphsItem::updateGrid()
                 linePosY = calculateCategoryGridLinePosition(axisY(), i);
             }
 
-            *data++ = QVector3D(x0, linePosY + tempLineOffset, linePosZ);
-            *data++ = QVector3D(x1, linePosY + tempLineOffset, linePosZ);
+            *subdata++ = QVector3D(x0, linePosY + tempLineOffset, linePosZ);
+            *subdata++ = QVector3D(x1, linePosY + tempLineOffset, linePosZ);
         }
 
         for (int i = 0; i < gridLineCountZ; i++) {
@@ -2116,8 +2156,8 @@ void QQuickGraphsItem::updateGrid()
                 const float zPos = qSin(degrees);
 
                 const QVector3D pos(r * xPos, linePosY + tempLineOffset, r * zPos);
-                *data++ = lastPoint;
-                *data++ = pos;
+                *subdata++ = lastPoint;
+                *subdata++ = pos;
                 lastPoint = pos;
             }
         }
@@ -2168,8 +2208,8 @@ void QQuickGraphsItem::updateGrid()
                            - scale;
             }
 
-            *data++ = QVector3D(x0 + tempLineOffset, y0, linePosZ);
-            *data++ = QVector3D(x1 + tempLineOffset, y1, linePosZ);
+            *subdata++ = QVector3D(x0 + tempLineOffset, y0, linePosZ);
+            *subdata++ = QVector3D(x1 + tempLineOffset, y1, linePosZ);
         }
 
         for (int i = 0; i < gridLineCountZ; i++) {
@@ -2222,8 +2262,8 @@ void QQuickGraphsItem::updateGrid()
             linePosY = calculateCategoryGridLinePosition(axisY(), i);
         }
 
-        *data++ = QVector3D(x0 + tempLineOffset, linePosY, z0);
-        *data++ = QVector3D(x1 + tempLineOffset, linePosY, z1);
+        *subdata++ = QVector3D(x0 + tempLineOffset, linePosY, z0);
+        *subdata++ = QVector3D(x1 + tempLineOffset, linePosY, z1);
     }
 
     // Floor vertical line
@@ -2253,8 +2293,8 @@ void QQuickGraphsItem::updateGrid()
                 linePosY = calculateCategoryGridLinePosition(axisY(), i);
             }
 
-            *data++ = QVector3D(linePosX, linePosY + tempLineOffset, z0);
-            *data++ = QVector3D(linePosX, linePosY + tempLineOffset, z1);
+            *subdata++ = QVector3D(linePosX, linePosY + tempLineOffset, z0);
+            *subdata++ = QVector3D(linePosX, linePosY + tempLineOffset, z1);
         }
 
         for (int i = 0; i < gridLineCountX; i++) {
@@ -2278,8 +2318,8 @@ void QQuickGraphsItem::updateGrid()
             float angle = valueAxisX->subGridPositionAt(i) * 360.0f - rotationOffset;
             float posX = halfRatio * qCos(qDegreesToRadians(angle));
             float posZ = halfRatio * qSin(qDegreesToRadians(angle));
-            *data++ = center;
-            *data++ = QVector3D(posX, linePosY + tempLineOffset, posZ);
+            *subdata++ = center;
+            *subdata++ = QVector3D(posX, linePosY + tempLineOffset, posZ);
         }
 
         for (int i = 0; i < gridLineCountX - 1; i++) {
@@ -2320,8 +2360,8 @@ void QQuickGraphsItem::updateGrid()
         } else if (axisY()->type() == QAbstract3DAxis::AxisType::Category) {
             linePosY = calculateCategoryGridLinePosition(axisY(), i);
         }
-        *data++ = QVector3D(x0, linePosY, z0 + tempLineOffset + tempBackOffsetAdjustment);
-        *data++ = QVector3D(x1, linePosY, z1 + tempLineOffset + tempBackOffsetAdjustment);
+        *subdata++ = QVector3D(x0, linePosY, z0 + tempLineOffset + tempBackOffsetAdjustment);
+        *subdata++ = QVector3D(x1, linePosY, z1 + tempLineOffset + tempBackOffsetAdjustment);
     }
 
     for (int i = 0; i < gridLineCountY; i++) {
@@ -2371,20 +2411,23 @@ void QQuickGraphsItem::updateGrid()
                 linePosX = static_cast<QValue3DAxis *>(axisX())->subGridPositionAt(i) * scale * 2.0f
                            - scale;
             }
-            *data++ = QVector3D(linePosX, y0, z0 + tempLineOffset + tempBackOffsetAdjustment);
-            *data++ = QVector3D(linePosX, y1, z1 + tempLineOffset + tempBackOffsetAdjustment);
+            *subdata++ = QVector3D(linePosX, y0, z0 + tempLineOffset + tempBackOffsetAdjustment);
+            *subdata++ = QVector3D(linePosX, y1, z1 + tempLineOffset + tempBackOffsetAdjustment);
         }
     }
     QQuick3DGeometry *gridGeometry = m_gridGeometryModel->geometry();
     gridGeometry->setVertexData(vertices);
     gridGeometry->update();
+    QQuick3DGeometry *subgridGeometry = m_subgridGeometryModel->geometry();
+    subgridGeometry->setVertexData(subvertices);
+    subgridGeometry->update();
     m_gridUpdate = false;
 }
 
 void QQuickGraphsItem::updateShaderGrid()
 {
     const int textureSize = 4096;
-    QVector<QVector4D> grid(textureSize, QVector4D(0, 0, 0, 0));
+    QVector<QVector4D> grid(textureSize * 2, QVector4D(0, 0, 0, 0));
     QQmlListReference materialsRef(m_background, "materials");
     QQuick3DCustomMaterial *bgMat;
     if (!materialsRef.size()) {
@@ -2407,7 +2450,7 @@ void QQuickGraphsItem::updateShaderGrid()
         texMap->setMinFilter(QQuick3DTexture::Linear);
         texMap->setMagFilter(QQuick3DTexture::Nearest);
         mapData = new QQuick3DTextureData();
-        mapData->setSize(QSize(textureSize, 1));
+        mapData->setSize(QSize(textureSize, 2));
         mapData->setFormat(QQuick3DTextureData::RGBA32F);
         mapData->setParent(texMap);
         mapData->setParentItem(texMap);
@@ -2426,9 +2469,9 @@ void QQuickGraphsItem::updateShaderGrid()
     lineWidths[1] = baseWidth / m_scaleWithBackground.y();
     lineWidths[2] = baseWidth / m_scaleWithBackground.z();
 
-    QVector<QVector4D> axisMask = {QVector4D(1, 0, 0, 0),
-                                   QVector4D(0, 1, 0, 0),
-                                   QVector4D(0, 0, 1, 0)};
+    QVector<QVector4D> axisMask = {QVector4D(1, 0, 0, 1),
+                                   QVector4D(0, 1, 0, 1),
+                                   QVector4D(0, 0, 1, 1)};
 
     bgMat->setProperty("scale", m_scaleWithBackground);
     bgMat->setProperty("polar", isPolar());
@@ -2441,8 +2484,9 @@ void QQuickGraphsItem::updateShaderGrid()
     for (int i = 0; i < lineCounts.size(); i++) {
         int lineCount = lineCounts[i];
         int axis = i % 3;
+        int subGridOffset = textureSize * float(i > 2);
         QVector4D mask = axisMask.at(axis);
-        QVector4D revMask = QVector4D(1, 1, 1, 0) - mask;
+        QVector4D revMask = QVector4D(1, 1, 1, 1) - mask;
         for (int j = 0; j < lineCount; j++) {
             float linePos = -1;
             switch (i) {
@@ -2480,18 +2524,18 @@ void QQuickGraphsItem::updateShaderGrid()
             if (linePos < 0)
                 continue;
 
-            int index = (textureSize - 1) * linePos;
+            int index = ((textureSize - 1) * linePos) + subGridOffset;
             for (int k = 0; k < lineWidths[axis]; k++) {
-                float nextIdx = qMin(index + k, textureSize - 1);
+                float nextIdx = qMin(index + k, textureSize * 2 - 1);
                 float prevIdx = qMax(index - k, 0);
 
                 float dist = float(lineWidths[axis] - k) / float(lineWidths[axis]);
-                float curDist = (grid[nextIdx] * mask).length();
+                float curDist = (grid[nextIdx] * mask).toVector3D().length();
 
                 if (dist > curDist)
                     grid[nextIdx] = grid[nextIdx] * revMask + dist * mask;
 
-                curDist = (grid[prevIdx] * mask).length();
+                curDist = (grid[prevIdx] * mask).toVector3D().length();
                 if (dist > curDist)
                     grid[prevIdx] = grid[prevIdx] * revMask + dist * mask;
             }
@@ -2503,6 +2547,7 @@ void QQuickGraphsItem::updateShaderGrid()
     mapData->setTextureData(data);
     texMap->setTextureData(mapData);
     texinput->setTexture(texMap);
+    m_gridUpdate = false;
 }
 
 float QQuickGraphsItem::fontScaleFactor(float pointSize)

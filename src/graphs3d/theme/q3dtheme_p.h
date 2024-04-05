@@ -32,6 +32,7 @@ struct Q3DThemeDirtyBitField
     bool gridEnabledDirty : 1;
     bool shaderGridEnabledDirty : 1;
     bool gridLineColorDirty : 1;
+    bool subgridLineColorDirty : 1;
     bool gridWidthDirty : 1;
     bool labelBackgroundColorDirty : 1;
     bool labelBackgroundEnabledDirty : 1;
@@ -117,6 +118,7 @@ public:
     Q3DTheme::ColorStyle m_colorStyle;
     QColor m_backgroundColor;
     QColor m_gridLineColor;
+    QColor m_subgridLineColor;
     QColor m_lightColor;
     QColor m_multiHighlightColor;
     QColor m_singleHighlightColor;

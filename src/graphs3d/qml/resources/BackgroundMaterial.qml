@@ -7,7 +7,8 @@ CustomMaterial {
     property TextureInput gridTex: TextureInput {}
     property vector3d scale
     property vector3d margin
-    property color lineColor
+    property color gridLineColor
+    property color subgridLineColor
     property color baseColor
     property real gridWidth: 0.25
     property bool polar

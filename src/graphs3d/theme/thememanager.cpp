@@ -156,6 +156,7 @@ void ThemeManager::setPredefinedPropertiesToTheme(Q3DTheme *theme, Q3DTheme::The
         setTextColor(theme, QColor(QRgb(0x35322f)));
         setTextBackgroundColor(theme, QColor(0xff, 0xff, 0xff, 0x99));
         setGridLineColor(theme, QColor(QRgb(0xd7d6d5)));
+        setSubgridLineColor(theme, QColor(QRgb(0xd7d6d5)));
         setSingleHighlightColor(theme, QColor(QRgb(0x14aaff)));
         setMultiHighlightColor(theme, QColor(QRgb(0x6400aa)));
         setLightStrength(theme, 5.0f);
@@ -193,6 +194,7 @@ void ThemeManager::setPredefinedPropertiesToTheme(Q3DTheme *theme, Q3DTheme::The
         setTextColor(theme, QColor(QRgb(0x000000)));
         setTextBackgroundColor(theme, QColor(0xff, 0xff, 0xff, 0x99));
         setGridLineColor(theme, QColor(QRgb(0xd7d6d5)));
+        setSubgridLineColor(theme, QColor(QRgb(0xd7d6d5)));
         setSingleHighlightColor(theme, QColor(QRgb(0x27beee)));
         setMultiHighlightColor(theme, QColor(QRgb(0xee1414)));
         setLightStrength(theme, 5.0f);
@@ -230,6 +232,7 @@ void ThemeManager::setPredefinedPropertiesToTheme(Q3DTheme *theme, Q3DTheme::The
         setTextColor(theme, QColor(QRgb(0xffffff)));
         setTextBackgroundColor(theme, QColor(0x4d, 0x4d, 0x4f, 0xcd));
         setGridLineColor(theme, QColor(QRgb(0x3e3e40)));
+        setSubgridLineColor(theme, QColor(QRgb(0x3e3e40)));
         setSingleHighlightColor(theme, QColor(QRgb(0xfbf6d6)));
         setMultiHighlightColor(theme, QColor(QRgb(0x442f20)));
         setLightStrength(theme, 5.0f);
@@ -267,6 +270,7 @@ void ThemeManager::setPredefinedPropertiesToTheme(Q3DTheme *theme, Q3DTheme::The
         setTextColor(theme, QColor(QRgb(0x000000)));
         setTextBackgroundColor(theme, QColor(0xd5, 0xd6, 0xd7, 0xcd));
         setGridLineColor(theme, QColor(QRgb(0xaeadac)));
+        setSubgridLineColor(theme, QColor(QRgb(0xaeadac)));
         setSingleHighlightColor(theme, QColor(QRgb(0x2aa2f9)));
         setMultiHighlightColor(theme, QColor(QRgb(0x103753)));
         setLightStrength(theme, 5.0f);
@@ -306,6 +310,7 @@ void ThemeManager::setPredefinedPropertiesToTheme(Q3DTheme *theme, Q3DTheme::The
         setTextColor(theme, QColor(QRgb(0x000000)));
         setTextBackgroundColor(theme, QColor(0xe9, 0xe2, 0xce, 0xc0));
         setGridLineColor(theme, QColor(QRgb(0xd0c0b0)));
+        setSubgridLineColor(theme, QColor(QRgb(0xd0c0b0)));
         setSingleHighlightColor(theme, QColor(QRgb(0x8ea317)));
         setMultiHighlightColor(theme, QColor(QRgb(0xc25708)));
         setLightStrength(theme, 5.0f);
@@ -345,6 +350,7 @@ void ThemeManager::setPredefinedPropertiesToTheme(Q3DTheme *theme, Q3DTheme::The
         setTextColor(theme, QColor(QRgb(0xaeadac)));
         setTextBackgroundColor(theme, QColor(0x00, 0x00, 0x00, 0xcd));
         setGridLineColor(theme, QColor(QRgb(0x35322f)));
+        setSubgridLineColor(theme, QColor(QRgb(0x35322f)));
         setSingleHighlightColor(theme, QColor(QRgb(0xf5dc0d)));
         setMultiHighlightColor(theme, QColor(QRgb(0xd72222)));
         setLightStrength(theme, 5.0f);
@@ -382,6 +388,7 @@ void ThemeManager::setPredefinedPropertiesToTheme(Q3DTheme *theme, Q3DTheme::The
         setTextColor(theme, QColor(QRgb(0xaeadac)));
         setTextBackgroundColor(theme, QColor(0x00, 0x00, 0x00, 0xc0));
         setGridLineColor(theme, QColor(QRgb(0x35322f)));
+        setSubgridLineColor(theme, QColor(QRgb(0x35322f)));
         setSingleHighlightColor(theme, QColor(QRgb(0xfff7cc)));
         setMultiHighlightColor(theme, QColor(QRgb(0xde0a0a)));
         setLightStrength(theme, 5.0f);
@@ -454,6 +461,14 @@ void ThemeManager::setGridLineColor(Q3DTheme *theme, const QColor &color)
 {
     if (theme->d_func()->isForcePredefinedType() || !theme->d_func()->m_dirtyBits.gridLineColorDirty)
         theme->setGridLineColor(color);
+}
+
+void ThemeManager::setSubgridLineColor(Q3DTheme *theme, const QColor &color)
+{
+    if (theme->d_func()->isForcePredefinedType()
+        || !theme->d_func()->m_dirtyBits.subgridLineColorDirty) {
+        theme->setSubgridLineColor(color);
+    }
 }
 
 void ThemeManager::setSingleHighlightColor(Q3DTheme *theme, const QColor &color)

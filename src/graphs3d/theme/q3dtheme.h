@@ -30,6 +30,8 @@ class Q_GRAPHS_EXPORT Q3DTheme : public QObject, public QQmlParserStatus
                    backgroundColorChanged)
     Q_PROPERTY(
         QColor gridLineColor READ gridLineColor WRITE setGridLineColor NOTIFY gridLineColorChanged)
+    Q_PROPERTY(QColor subgridLineColor READ subgridLineColor WRITE setSubgridLineColor NOTIFY
+                   subgridLineColorChanged)
     Q_PROPERTY(QColor labelBackgroundColor READ labelBackgroundColor WRITE setLabelBackgroundColor
                    NOTIFY labelBackgroundColorChanged)
     Q_PROPERTY(QColor labelTextColor READ labelTextColor WRITE setLabelTextColor NOTIFY
@@ -114,6 +116,9 @@ public:
 
     void setGridLineColor(const QColor &color);
     QColor gridLineColor() const;
+
+    void setSubgridLineColor(const QColor &color);
+    QColor subgridLineColor() const;
 
     void setSingleHighlightColor(const QColor &color);
     QColor singleHighlightColor() const;
@@ -214,6 +219,7 @@ Q_SIGNALS:
     void labelTextColorChanged(const QColor &color);
     void labelBackgroundColorChanged(const QColor &color);
     void gridLineColorChanged(const QColor &color);
+    void subgridLineColorChanged(const QColor &color);
     void singleHighlightColorChanged(const QColor &color);
     void multiHighlightColorChanged(const QColor &color);
     void lightColorChanged(const QColor &color);

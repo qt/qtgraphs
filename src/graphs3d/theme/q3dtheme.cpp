@@ -67,6 +67,9 @@ QT_BEGIN_NAMESPACE
  *     \li gridLineColor
  *     \li Qt::white
  *   \row
+ *     \li subgridLineColor
+ *     \li Qt::white
+ *   \row
  *     \li gridWidth
  *     \li 0.25
  *   \row
@@ -230,6 +233,9 @@ QT_BEGIN_NAMESPACE
  *     \li gridLineColor
  *     \li "white"
  *   \row
+ *     \li subgridLineColor
+ *     \li "white"
+ *   \row
  *     \li labelBackgroundColor
  *     \li "gray"
  *   \row
@@ -325,6 +331,12 @@ QT_BEGIN_NAMESPACE
  * \qmlproperty color Theme3D::gridLineColor
  *
  * The color of the grid lines.
+ */
+
+/*!
+ * \qmlproperty color Theme3D::subgridLineColor
+ *
+ * The color of the subgrid lines.
  */
 
 /*!
@@ -670,6 +682,28 @@ QColor Q3DTheme::gridLineColor() const
 {
     const Q_D(Q3DTheme);
     return d->m_gridLineColor;
+}
+
+/*!
+ * \property Q3DTheme::subgridLineColor
+ *
+ * \brief The color of the subgrid lines.
+ */
+void Q3DTheme::setSubgridLineColor(const QColor &color)
+{
+    Q_D(Q3DTheme);
+    d->m_dirtyBits.subgridLineColorDirty = true;
+    if (d->m_subgridLineColor != color) {
+        d->m_subgridLineColor = color;
+        emit subgridLineColorChanged(color);
+        emit needRender();
+    }
+}
+
+QColor Q3DTheme::subgridLineColor() const
+{
+    const Q_D(Q3DTheme);
+    return d->m_subgridLineColor;
 }
 
 /*!
@@ -1500,6 +1534,7 @@ Q3DThemePrivate::Q3DThemePrivate()
     , m_colorStyle(Q3DTheme::ColorStyle::Uniform)
     , m_backgroundColor(Qt::black)
     , m_gridLineColor(Qt::white)
+    , m_subgridLineColor(Qt::white)
     , m_lightColor(Qt::white)
     , m_multiHighlightColor(Qt::blue)
     , m_singleHighlightColor(Qt::red)
@@ -1546,6 +1581,7 @@ void Q3DThemePrivate::resetDirtyBits()
     m_dirtyBits.fontDirty = true;
     m_dirtyBits.gridEnabledDirty = true;
     m_dirtyBits.gridLineColorDirty = true;
+    m_dirtyBits.subgridLineColorDirty = true;
     m_dirtyBits.labelBackgroundColorDirty = true;
     m_dirtyBits.labelBackgroundEnabledDirty = true;
     m_dirtyBits.labelBorderEnabledDirty = true;
@@ -1603,6 +1639,10 @@ bool Q3DThemePrivate::sync(Q3DThemePrivate &other)
     }
     if (m_dirtyBits.gridLineColorDirty) {
         other.q_func()->setGridLineColor(m_gridLineColor);
+        m_dirtyBits.gridLineColorDirty = false;
+    }
+    if (m_dirtyBits.subgridLineColorDirty) {
+        other.q_func()->setSubgridLineColor(m_subgridLineColor);
         m_dirtyBits.gridLineColorDirty = false;
     }
     if (m_dirtyBits.labelBackgroundColorDirty) {

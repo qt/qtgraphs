@@ -720,6 +720,7 @@ private:
     const float rotationOffset = 90.0f;
 
     QQuick3DModel *m_gridGeometryModel = nullptr;
+    QQuick3DModel *m_subgridGeometryModel = nullptr;
     QQuick3DModel *m_sliceGridGeometryModel = nullptr;
     Abstract3DChangeBitField m_changeTracker;
     ThemeManager *m_themeManager = nullptr;

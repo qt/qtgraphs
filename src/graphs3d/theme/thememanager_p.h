@@ -44,6 +44,7 @@ protected:
     static void setTextColor(Q3DTheme *theme, const QColor &color);
     static void setTextBackgroundColor(Q3DTheme *theme, const QColor &color);
     static void setGridLineColor(Q3DTheme *theme, const QColor &color);
+    static void setSubgridLineColor(Q3DTheme *theme, const QColor &color);
     static void setSingleHighlightColor(Q3DTheme *theme, const QColor &color);
     static void setMultiHighlightColor(Q3DTheme *theme, const QColor &color);
     static void setLightColor(Q3DTheme *theme, const QColor &color);

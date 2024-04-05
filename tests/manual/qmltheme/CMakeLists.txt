@@ -19,6 +19,8 @@ target_link_libraries(tst_qmltheme PUBLIC
 
 set(qmltheme_resource_files
     "qml/qmltheme/main.qml"
+    "qml/qmltheme/GraphModifiers.qml"
+    "qml/qmltheme/BackgroundModifiers.qml"
     "layer_1.png"
 )
 
