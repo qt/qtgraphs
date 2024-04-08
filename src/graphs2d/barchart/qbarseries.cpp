@@ -136,10 +136,12 @@ QT_BEGIN_NAMESPACE
 /*!
     \property QBarSeries::labelsVisible
     \brief The visibility of the labels in a bar series.
+    The default label visibility is \c false.
 */
 /*!
     \qmlproperty bool BarSeries::labelsVisible
     The visibility of the labels in a bar series.
+    The default label visibility is \c false.
 */
 
 /*!
@@ -211,6 +213,25 @@ QT_BEGIN_NAMESPACE
 /*!
     \fn void QBarSeries::labelsPositionChanged(QBarSeries::LabelsPosition position)
     This signal is emitted when the \a position of value labels changes.
+*/
+
+/*!
+    \property QBarSeries::labelsMargin
+    \brief The margin of the value labels in pixels.
+
+    This margin from side is used when \l labelsPosition is set to something else
+    than \c LabelsPosition.Center. The default value is \c 0.
+*/
+/*!
+    \qmlproperty real BarSeries::labelsMargin
+    The margin of the value labels in pixels.
+
+    This margin from side is used when \l labelsPosition is set to something else
+    than \c LabelsPosition.Center. The default value is \c 0.
+*/
+/*!
+    \fn void QBarSeries::labelsMarginChanged(qreal margin)
+    This signal is emitted when the \a margin of the value labels changes.
 */
 
 /*!
@@ -738,6 +759,7 @@ void QBarSeries::setLabelsVisible(bool visible)
     if (d->m_labelsVisible != visible) {
         d->setLabelsVisible(visible);
         emit labelsVisibleChanged(visible);
+        emit update();
     }
 }
 
@@ -757,6 +779,7 @@ void QBarSeries::setLabelsFormat(const QString &format)
         d->m_labelsFormat = format;
         d->setLabelsDirty(true);
         emit labelsFormatChanged(format);
+        emit update();
     }
 }
 
@@ -766,6 +789,23 @@ QString QBarSeries::labelsFormat() const
     return d->m_labelsFormat;
 }
 
+void QBarSeries::setLabelsMargin(qreal margin)
+{
+    Q_D(QBarSeries);
+    if (d->m_labelsMargin != margin) {
+        d->m_labelsMargin = margin;
+        d->setLabelsDirty(true);
+        emit labelsMarginChanged(margin);
+        emit update();
+    }
+}
+
+qreal QBarSeries::labelsMargin() const
+{
+    Q_D(const QBarSeries);
+    return d->m_labelsMargin;
+}
+
 void QBarSeries::setLabelsAngle(qreal angle)
 {
     Q_D(QBarSeries);
@@ -773,6 +813,7 @@ void QBarSeries::setLabelsAngle(qreal angle)
         d->m_labelsAngle = angle;
         d->setLabelsDirty(true);
         emit labelsAngleChanged(angle);
+        emit update();
     }
 }
 
@@ -788,6 +829,7 @@ void QBarSeries::setLabelsPosition(QBarSeries::LabelsPosition position)
     if (d->m_labelsPosition != position) {
         d->m_labelsPosition = position;
         emit labelsPositionChanged(position);
+        emit update();
     }
 }
 
@@ -804,6 +846,7 @@ void QBarSeries::setLabelsPrecision(int precision)
         d->m_labelsPrecision = precision;
         d->setLabelsDirty(true);
         emit labelsPrecisionChanged(precision);
+        emit update();
     }
 }
 
@@ -886,6 +929,7 @@ QBarSeriesPrivate::QBarSeriesPrivate()
       , m_visible(true)
       , m_blockBarUpdate(false)
       , m_labelsFormat()
+      , m_labelsMargin(0)
       , m_labelsAngle(0)
       , m_labelsPrecision(6)
       , m_visualsDirty(true)
@@ -1134,11 +1178,6 @@ qreal QBarSeriesPrivate::bottom()
 bool QBarSeriesPrivate::blockBarUpdate()
 {
     return m_blockBarUpdate;
-}
-
-qreal QBarSeriesPrivate::labelsAngle() const
-{
-    return m_labelsAngle;
 }
 
 bool QBarSeriesPrivate::append(QBarSet *set)

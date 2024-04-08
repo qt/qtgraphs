@@ -17,5 +17,6 @@
         <file>qml/testbed/ScatterProperties.qml</file>
         <file>qml/testbed/Callout.qml</file>
         <file>qml/testbed/Donut.qml</file>
+        <file>qml/testbed/BarLabels.qml</file>
     </qresource>
 </RCC>

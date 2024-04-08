@@ -44,6 +44,62 @@ qreal BarsRenderer::getSetBorderWidth(QBarSeries *series, QBarSet *set)
     return borderWidth;
 }
 
+QString BarsRenderer::generateLabelText(QBarSeries *series, qreal value)
+{
+    static const QString valueTag(QLatin1String("@value"));
+    QString valueString = QString::number(value, 'f', series->labelsPrecision());
+    QString valueLabel;
+    if (series->labelsFormat().isEmpty()) {
+        valueLabel = valueString;
+    } else {
+        valueLabel = series->labelsFormat();
+        valueLabel.replace(valueTag, valueString);
+    }
+    return valueLabel;
+}
+
+void BarsRenderer::positionLabelItem(QBarSeries *series, QQuickText *textItem, const BarSeriesData &d)
+{
+    auto pos = series->labelsPosition();
+    const bool vertical = series->barsOrientation() == QBarSeries::BarsOrientation::Vertical;
+    const float w = textItem->contentWidth() + series->labelsMargin() * 2;
+    const float h = textItem->contentHeight() + series->labelsMargin() * 2;
+    textItem->setWidth(w);
+    textItem->setHeight(h);
+    textItem->setHAlign(QQuickText::HAlignment::AlignHCenter);
+    textItem->setVAlign(QQuickText::VAlignment::AlignVCenter);
+    if (pos == QBarSeries::LabelsPosition::Center) {
+        textItem->setX(d.rect.x() + d.rect.width() * 0.5 - w * 0.5);
+        textItem->setY(d.rect.y() + d.rect.height() * 0.5 - h * 0.5);
+    } else if (pos == QBarSeries::LabelsPosition::InsideEnd) {
+        if (vertical) {
+            textItem->setX(d.rect.x() + d.rect.width() * 0.5 - w * 0.5);
+            textItem->setY(d.rect.y());
+        } else {
+            textItem->setX(d.rect.x() + d.rect.width() - w);
+            textItem->setY(d.rect.y() + d.rect.height() * 0.5 - h * 0.5);
+        }
+    } else if (pos == QBarSeries::LabelsPosition::InsideBase) {
+        if (vertical) {
+            textItem->setX(d.rect.x() + d.rect.width() * 0.5 - w * 0.5);
+            textItem->setY(d.rect.y() + d.rect.height() - h);
+        } else {
+            textItem->setX(d.rect.x());
+            textItem->setY(d.rect.y() + d.rect.height() * 0.5 - h * 0.5);
+        }
+    } else {
+        // OutsideEnd
+        if (vertical) {
+            textItem->setX(d.rect.x() + d.rect.width() * 0.5 - w * 0.5);
+            textItem->setY(d.rect.y() - h);
+        } else {
+            textItem->setX(d.rect.x() + d.rect.width());
+            textItem->setY(d.rect.y() + d.rect.height() * 0.5 - h * 0.5);
+        }
+    }
+    textItem->update();
+}
+
 void BarsRenderer::updateComponents(QBarSeries *series)
 {
     if (series->barComponent()) {
@@ -81,6 +137,47 @@ void BarsRenderer::updateComponents(QBarSeries *series)
             }
             barIndex++;
         }
+    }
+}
+
+void BarsRenderer::updateValueLabels(QBarSeries *series)
+{
+    if (!series->barComponent() && series->isLabelsVisible()) {
+        // Update default value labels
+        int barIndex = 0;
+        for (auto i = m_seriesData.cbegin(), end = m_seriesData.cend(); i != end; ++i) {
+            if (m_labelTextItems.size() <= barIndex) {
+                // Create more label items as needed
+                auto labelItem = new QQuickText();
+                labelItem->setParentItem(this);
+                m_labelTextItems << labelItem;
+            }
+            if (m_labelTextItems.size() > barIndex) {
+                // Set label item values
+                auto &textItem = m_labelTextItems[barIndex];
+                const auto d = *i;
+                if (qFuzzyIsNull(d.value)) {
+                    textItem->setVisible(false);
+                } else {
+                    textItem->setVisible(series->isLabelsVisible());
+                    QString valueLabel = generateLabelText(series, d.value);
+                    textItem->setText(valueLabel);
+                    positionLabelItem(series, textItem, d);
+                    QColor labelColor = d.labelColor;
+                    if (labelColor.alpha() == 0) {
+                        // TODO: Use graphs theme labels color.
+                        labelColor = QColor(255, 255, 255);
+                    }
+                    textItem->setColor(labelColor);
+                    textItem->setRotation(series->labelsAngle());
+                }
+            }
+            barIndex++;
+        }
+    } else {
+        // Hide all possibly existing label items
+        for (auto textItem : m_labelTextItems)
+            textItem->setVisible(false);
     }
 }
 
@@ -192,6 +289,7 @@ void BarsRenderer::updateVerticalBars(QBarSeries *series, int setCount, int valu
             d.borderWidth = borderWidth;
             d.isSelected = isSelected;
             d.label = s->label();
+            d.labelColor = s->labelColor();
             d.value = realValue;
             m_seriesData[barIndex] = d;
 
@@ -300,6 +398,7 @@ void BarsRenderer::updateHorizontalBars(QBarSeries *series, int setCount, int va
             d.borderWidth = borderWidth;
             d.isSelected = isSelected;
             d.label = s->label();
+            d.labelColor = s->labelColor();
             d.value = realValue;
             m_seriesData[barIndex] = d;
 
@@ -344,6 +443,7 @@ void BarsRenderer::handlePolish(QBarSeries *series)
     else
         updateHorizontalBars(series, setCount, valuesPerSet);
     updateComponents(series);
+    updateValueLabels(series);
 }
 
 void BarsRenderer::updateSeries(QBarSeries *series)

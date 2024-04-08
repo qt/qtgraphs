@@ -16,6 +16,7 @@
 
 #include <QQuickItem>
 #include <QtQuick/private/qsgdefaultinternalrectanglenode_p.h>
+#include <QtQuick/private/qquicktext_p.h>
 #include <QtCore/QHash>
 #include <QtCore/QList>
 #include <QtCore/QRectF>
@@ -42,13 +43,6 @@ public:
 Q_SIGNALS:
 
 private:
-    void updateVerticalBars(QBarSeries *series, int setCount, int valuesPerSet);
-    void updateHorizontalBars(QBarSeries *series, int setCount, int valuesPerSet);
-    QColor getSetColor(QBarSeries *series, QBarSet *set, int barSerieIndex);
-    QColor getSetBorderColor(QBarSeries *series, QBarSet *set, int barSerieIndex);
-    qreal getSetBorderWidth(QBarSeries *series, QBarSet *set);
-    void updateComponents(QBarSeries *series);
-
     struct BarSelectionRect {
         QBarSeries *series = nullptr;
         QBarSet *barSet = nullptr;
@@ -59,15 +53,28 @@ private:
         QColor color;
         QColor borderColor;
         QString label;
+        QColor labelColor;
         float value;
         float borderWidth;
         bool isSelected;
     };
+
+    void updateVerticalBars(QBarSeries *series, int setCount, int valuesPerSet);
+    void updateHorizontalBars(QBarSeries *series, int setCount, int valuesPerSet);
+    QColor getSetColor(QBarSeries *series, QBarSet *set, int barSerieIndex);
+    QColor getSetBorderColor(QBarSeries *series, QBarSet *set, int barSerieIndex);
+    qreal getSetBorderWidth(QBarSeries *series, QBarSet *set);
+    QString generateLabelText(QBarSeries *series, qreal value);
+    void positionLabelItem(QBarSeries *series, QQuickText *textItem, const BarSeriesData &d);
+    void updateComponents(QBarSeries *series);
+    void updateValueLabels(QBarSeries *series);
+
     QGraphsView *m_graph = nullptr;
     QList<QSGDefaultInternalRectangleNode *> m_rectNodes;
     // QSG nodes rect has no getter so we store these separately.
     QList<BarSelectionRect> m_rectNodesInputRects;
     QList<QQuickItem *> m_barItems;
+    QList<QQuickText *> m_labelTextItems;
     QHash<int, BarSeriesData> m_seriesData;
 
     QBarSeries *m_currentHoverSeries = nullptr;

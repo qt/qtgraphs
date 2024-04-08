@@ -56,7 +56,6 @@ public:
 
     bool blockBarUpdate();
 
-    qreal labelsAngle() const;
     void setVisualsDirty(bool dirty) { m_visualsDirty = dirty; }
     bool visualsDirty() const { return m_visualsDirty; }
     void setLabelsDirty(bool dirty) { m_labelsDirty = dirty; }
@@ -74,6 +73,7 @@ protected:
     QBarSeries::BarsType m_barsType = QBarSeries::BarsType::Groups;
     QBarSeries::BarsOrientation m_barsOrientation = QBarSeries::BarsOrientation::Vertical;
     QBarSeries::LabelsPosition m_labelsPosition = QBarSeries::LabelsPosition::Center;
+    qreal m_labelsMargin;
     qreal m_labelsAngle;
     int m_labelsPrecision;
     bool m_visualsDirty;

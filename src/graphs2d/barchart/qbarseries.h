@@ -26,6 +26,7 @@ class Q_GRAPHS_EXPORT QBarSeries : public QAbstractSeries
     Q_PROPERTY(bool labelsVisible READ isLabelsVisible WRITE setLabelsVisible NOTIFY labelsVisibleChanged)
     Q_PROPERTY(QString labelsFormat READ labelsFormat WRITE setLabelsFormat NOTIFY labelsFormatChanged)
     Q_PROPERTY(LabelsPosition labelsPosition READ labelsPosition WRITE setLabelsPosition NOTIFY labelsPositionChanged)
+    Q_PROPERTY(qreal labelsMargin READ labelsMargin WRITE setLabelsMargin NOTIFY labelsMarginChanged)
     Q_PROPERTY(qreal labelsAngle READ labelsAngle WRITE setLabelsAngle NOTIFY labelsAngleChanged)
     Q_PROPERTY(int labelsPrecision READ labelsPrecision WRITE setLabelsPrecision NOTIFY labelsPrecisionChanged)
     Q_PROPERTY(QQmlComponent *barComponent READ barComponent WRITE setBarComponent NOTIFY barComponentChanged FINAL)
@@ -87,6 +88,9 @@ public:
     void setLabelsFormat(const QString &format);
     QString labelsFormat() const;
 
+    void setLabelsMargin(qreal margin);
+    qreal labelsMargin() const;
+
     void setLabelsAngle(qreal angle);
     qreal labelsAngle() const;
 
@@ -125,6 +129,7 @@ Q_SIGNALS:
     void labelsPositionChanged(QBarSeries::LabelsPosition position);
     void barsTypeChanged(QBarSeries::BarsType type);
     void barsOrientationChanged(QBarSeries::BarsOrientation orientation);
+    void labelsMarginChanged(qreal margin);
     void labelsAngleChanged(qreal angle);
     void labelsPrecisionChanged(int precision);
     void barComponentChanged();

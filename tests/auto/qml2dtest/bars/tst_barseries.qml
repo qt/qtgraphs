@@ -23,6 +23,7 @@ Item {
         labelsVisible: true
         labelsFormat: "i"
         labelsPosition: BarSeries.LabelsPosition.OutsideEnd
+        labelsMargin: 15.0
         labelsAngle: 25.0
         labelsPrecision: 10
 
@@ -68,6 +69,7 @@ Item {
             compare(initial.labelsVisible, false)
             compare(initial.labelsFormat, "")
             compare(initial.labelsPosition, BarSeries.LabelsPosition.Center)
+            compare(initial.labelsMargin, 0)
             compare(initial.labelsAngle, 0)
             compare(initial.labelsPrecision, 6)
 
@@ -93,6 +95,7 @@ Item {
             initial.labelsVisible = true
             initial.labelsFormat = "i"
             initial.labelsPosition = BarSeries.LabelsPosition.InsideBase
+            initial.labelsMargin = 20.0
             initial.labelsAngle = 45.0
             initial.labelsPrecision = 3
 
@@ -113,6 +116,7 @@ Item {
             compare(initial.labelsVisible, true)
             compare(initial.labelsFormat, "i")
             compare(initial.labelsPosition, BarSeries.LabelsPosition.InsideBase)
+            compare(initial.labelsMargin, 20.0)
             compare(initial.labelsAngle, 45.0)
             compare(initial.labelsPrecision, 3)
 
@@ -138,6 +142,7 @@ Item {
             compare(initialized.labelsVisible, true)
             compare(initialized.labelsFormat, "i")
             compare(initialized.labelsPosition, BarSeries.LabelsPosition.OutsideEnd)
+            compare(initialized.labelsMargin, 15.0)
             compare(initialized.labelsAngle, 25.0)
             compare(initialized.labelsPrecision, 10)
 
@@ -159,6 +164,7 @@ Item {
             initialized.labelsVisible = true
             initialized.labelsFormat = "i"
             initialized.labelsPosition = BarSeries.LabelsPosition.InsideBase
+            initialized.labelsMargin = 35.0
             initialized.labelsAngle = 45.0
             initialized.labelsPrecision = 3
 
@@ -179,6 +185,7 @@ Item {
             compare(initialized.labelsVisible, true)
             compare(initialized.labelsFormat, "i")
             compare(initialized.labelsPosition, BarSeries.LabelsPosition.InsideBase)
+            compare(initialized.labelsMargin, 35.0)
             compare(initialized.labelsAngle, 45.0)
             compare(initialized.labelsPrecision, 3)
 
