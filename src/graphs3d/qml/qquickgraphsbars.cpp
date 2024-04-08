@@ -380,12 +380,6 @@ void QQuickGraphsBars::handleSeriesVisibilityChangedBySender(QObject *sender)
 {
     QQuickGraphsItem::handleSeriesVisibilityChangedBySender(sender);
 
-    QBar3DSeries *series = static_cast<QBar3DSeries *>(sender);
-    if (selectionMode().testFlag(QAbstract3DGraph::SelectionMultiSeries) && !series->isVisible()
-        && m_selectedBarSeries == series) {
-        resetClickedStatus();
-    }
-
     // Visibility changes may require disabling slicing,
     // so just reset selection to ensure everything is still valid.
     setSelectedBar(m_selectedBar, m_selectedBarSeries, false);
@@ -686,24 +680,10 @@ void QQuickGraphsBars::updateGraph()
 
     if (isDataDirty()) {
         removeBarModels();
-        if (sliceView() && sliceView()->isVisible())
-            removeSlicedBarModels();
         generateBars(barSeriesAsList);
     }
 
     if (isSeriesVisualsDirty()) {
-        if (isSliceEnabled()) {
-            removeSlicedBarModels();
-            createSliceView();
-
-            for (const auto &barSeries : std::as_const(barSeriesAsList)) {
-                bool visible = !(sliceView()->isVisible() ^ barSeries->isVisible());
-                if (m_selectedBarSeries == barSeries) {
-                    setSliceActivatedChanged(true);
-                    m_selectionDirty = !visible;
-                }
-            }
-        }
         int visualIndex = 0;
         for (const auto &barSeries : std::as_const(barSeriesAsList)) {
             if (barSeries->isVisible()) {
@@ -715,12 +695,34 @@ void QQuickGraphsBars::updateGraph()
                 updateBarVisuality(barSeries, -1);
             }
         }
+    }
 
-        // Needs to be done after data is set, as it needs to know the visual array.
-        if (m_changeTracker.selectedBarChanged) {
-            updateSelectedBar();
-            m_changeTracker.selectedBarChanged = false;
+    // Needs to be done after data is set, as it needs to know the visual array.
+    if (m_changeTracker.selectedBarChanged) {
+        updateSelectedBar();
+        if (isSliceEnabled()) {
+            createSliceView();
+            for (const auto &series : std::as_const(barSeriesAsList)) {
+                bool visible = (m_selectedBarSeries == series) && series->isVisible();
+                if (sliceView()->isVisible()) {
+                    if (visible) {
+                        removeSlicedBarModels();
+                        createSliceView();
+                        setSliceActivatedChanged(false);
+                        updateSliceGraph();
+                        break;
+                    } else {
+                        setSliceActivatedChanged(true);
+                    }
+                } else {
+                    if (visible) {
+                        m_selectionDirty = true;
+                        setSliceActivatedChanged(true);
+                    }
+                }
+            }
         }
+        m_changeTracker.selectedBarChanged = false;
     }
 
     setDataDirty(false);
@@ -1749,6 +1751,8 @@ bool QQuickGraphsBars::doPicking(const QPointF &position)
                                                 setSelectedBar(bih->coord,
                                                                m_barModelsMap.key(barlist),
                                                                false);
+                                                if (isSliceEnabled())
+                                                    setSliceActivatedChanged(true);
                                             }
                                         }
                                     }
@@ -2338,26 +2342,22 @@ void QQuickGraphsBars::createBarItemHolders(QBar3DSeries *series,
 void QQuickGraphsBars::updateSelectionMode(QAbstract3DGraph::SelectionFlags mode)
 {
     checkSliceEnabled();
-    if (mode.testFlag(QAbstract3DGraph::SelectionSlice) && m_selectedBarSeries) {
-        setSliceActivatedChanged(true);
-        m_selectionDirty = !(sliceView()->isVisible());
-    } else {
-        if (sliceView() && sliceView()->isVisible()) {
+    if (!sliceView())
+        createSliceView();
+
+    bool validSlice = mode.testFlag(QAbstract3DGraph::SelectionSlice) && m_selectedBarSeries;
+    if (sliceView() && sliceView()->isVisible()) {
+        if (validSlice) {
+            removeSlicedBarModels();
+            createSliceView();
+            updateSliceGraph();
+        } else {
             m_selectionDirty = true;
             setSliceActivatedChanged(true);
         }
-    }
-
-    if (optimizationHint() == QAbstract3DGraph::OptimizationHint::Default) {
-        for (const auto barList : std::as_const(m_barModelsMap)) {
-            QList<BarItemHolder *> barItemList = barList->at(0)->instancing->dataArray();
-            for (auto bih : barItemList)
-                bih->selectedBar = false;
-            barList->at(0)->selectedModel->setVisible(false);
-            barList->at(0)->multiSelectedModel->setVisible(false);
-        }
-        if (sliceView() && sliceView()->isVisible())
-            removeSlicedBarModels();
+    } else if (validSlice) {
+        m_selectionDirty = true;
+        setSliceActivatedChanged(true);
     }
 
     setSeriesVisualsDirty(true);
