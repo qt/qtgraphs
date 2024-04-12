@@ -997,13 +997,13 @@ void QQuickGraphsItem::componentComplete()
     m_repeaterY = createRepeater();
     m_repeaterZ = createRepeater();
 
-    auto delegateModelX = createRepeaterDelegateComponent(QStringLiteral(":/axis/AxisLabel"));
-    auto delegateModelY = createRepeaterDelegateComponent(QStringLiteral(":/axis/AxisLabel"));
-    auto delegateModelZ = createRepeaterDelegateComponent(QStringLiteral(":/axis/AxisLabel"));
+    m_delegateModelX.reset(new QQmlComponent(qmlEngine(this), (QStringLiteral(":/axis/AxisLabel"))));
+    m_delegateModelY.reset(new QQmlComponent(qmlEngine(this), (QStringLiteral(":/axis/AxisLabel"))));
+    m_delegateModelZ.reset(new QQmlComponent(qmlEngine(this), (QStringLiteral(":/axis/AxisLabel"))));
 
-    m_repeaterX->setDelegate(delegateModelX);
-    m_repeaterY->setDelegate(delegateModelY);
-    m_repeaterZ->setDelegate(delegateModelZ);
+    m_repeaterX->setDelegate(m_delegateModelX.get());
+    m_repeaterY->setDelegate(m_delegateModelY.get());
+    m_repeaterZ->setDelegate(m_delegateModelZ.get());
 
     // title labels for axes
     m_titleLabelX = createTitleLabel();
@@ -5053,7 +5053,7 @@ void QQuickGraphsItem::createSliceView()
     light->setParentItem(camera);
 
     // auto gridDelegate = createRepeaterDelegateComponent(QStringLiteral(":/axis/GridLine"));
-    auto labelDelegate = createRepeaterDelegateComponent(QStringLiteral(":/axis/AxisLabel"));
+    m_labelDelegate.reset(new QQmlComponent(qmlEngine(this), QStringLiteral(":/axis/AxisLabel")));
 
     m_sliceGridGeometryModel = new QQuick3DModel(scene);
 
@@ -5073,10 +5073,10 @@ void QQuickGraphsItem::createSliceView()
     gridMaterialRef.append(gridMaterial);
 
     m_sliceHorizontalLabelRepeater = createRepeater(scene);
-    m_sliceHorizontalLabelRepeater->setDelegate(labelDelegate);
+    m_sliceHorizontalLabelRepeater->setDelegate(m_labelDelegate.get());
 
     m_sliceVerticalLabelRepeater = createRepeater(scene);
-    m_sliceVerticalLabelRepeater->setDelegate(labelDelegate);
+    m_sliceVerticalLabelRepeater->setDelegate(m_labelDelegate.get());
 
     m_sliceHorizontalTitleLabel = createTitleLabel(scene);
     m_sliceHorizontalTitleLabel->setVisible(true);
