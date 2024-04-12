@@ -50,7 +50,7 @@ private:
     {
         QXYSeries *series;
         QQuickShapePath *shapePath = nullptr;
-        QList<QQuickCurve *> paths;
+        QList<QQuickPathElement *> paths;
         QList<QQuickItem *> markers;
         QList<QSGDefaultInternalRectangleNode *> nodes;
         QList<QRectF> rects;

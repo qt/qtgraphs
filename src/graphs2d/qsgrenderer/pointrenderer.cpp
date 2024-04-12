@@ -94,6 +94,7 @@ void PointRenderer::updateScatterSeries(QScatterSeries *series, QLegendData &leg
     auto group = m_groups.value(series);
 
     auto &&points = series->points();
+    group->rects.resize(points.size());
     if (points.count() > 0) {
         for (int i = 0; i < points.count(); ++i) {
             qreal x, y;
@@ -136,7 +137,10 @@ void PointRenderer::updateLineSeries(QLineSeries *series, QLegendData &legendDat
         group->shapePath->setCapStyle(QQuickShapePath::CapStyle::RoundCap);
 
     auto &&points = series->points();
-    if (points.count() > 0) {
+    int currentPathCount = group->paths.size();
+    group->paths.resize(points.size() - 1);
+    group->rects.resize(points.size());
+    if (points.size() > 0) {
         for (int i = 0; i < points.count(); ++i) {
             qreal x, y;
             calculateRenderCoordinates(m_graph->m_axisRenderer, points[i].x(), points[i].y(), &x, &y);
@@ -145,8 +149,11 @@ void PointRenderer::updateLineSeries(QLineSeries *series, QLegendData &legendDat
                 group->shapePath->setStartX(x);
                 group->shapePath->setStartY(y);
             } else {
-                group->paths[i - 1]->setX(x);
-                group->paths[i - 1]->setY(y);
+                if (i - 1 >= currentPathCount)
+                    group->paths[i - 1] = new QQuickPathLine(group->shapePath);
+                auto linePath = qobject_cast<QQuickPathLine *>(group->paths[i - 1]);
+                linePath->setX(x);
+                linePath->setY(y);
             }
 
             if (series->pointMarker()) {
@@ -160,6 +167,16 @@ void PointRenderer::updateLineSeries(QLineSeries *series, QLegendData &legendDat
             }
         }
     }
+
+    auto pathElements = group->shapePath->pathElements();
+    while (pathElements.count(&pathElements) < group->paths.length()) {
+        pathElements.append(&pathElements, group->paths[pathElements.count(&pathElements)]);
+    }
+
+    while (pathElements.count(&pathElements) > group->paths.length()) {
+        pathElements.removeLast(&pathElements);
+    }
+
     legendData = {color, color, series->name()};
 }
 
@@ -184,6 +201,9 @@ void PointRenderer::updateSplineSeries(QSplineSeries *series, QLegendData &legen
         group->shapePath->setCapStyle(QQuickShapePath::CapStyle::RoundCap);
 
     auto &&points = series->points();
+    int currentPathCount = group->paths.size();
+    group->paths.resize(points.size() - 1);
+    group->rects.resize(points.size());
     if (points.count() > 0) {
         auto fittedPoints = series->getControlPoints();
 
@@ -195,7 +215,9 @@ void PointRenderer::updateSplineSeries(QSplineSeries *series, QLegendData &legen
                 group->shapePath->setStartX(x);
                 group->shapePath->setStartY(y);
             } else {
-                auto *cubicPath = qobject_cast<QQuickPathCubic *>(group->paths[i - 1]);
+                if (i - 1 >= currentPathCount)
+                    group->paths[i - 1] = new QQuickPathCubic(group->shapePath);
+                auto cubicPath = qobject_cast<QQuickPathCubic *>(group->paths[i - 1]);
 
                 qreal x1, y1, x2, y2;
                 calculateRenderCoordinates(m_graph->m_axisRenderer,
@@ -231,6 +253,16 @@ void PointRenderer::updateSplineSeries(QSplineSeries *series, QLegendData &legen
             }
         }
     }
+
+    auto pathElements = group->shapePath->pathElements();
+    while (pathElements.count(&pathElements) < group->paths.length()) {
+        pathElements.append(&pathElements, group->paths[pathElements.count(&pathElements)]);
+    }
+
+    while (pathElements.count(&pathElements) > group->paths.length()) {
+        pathElements.removeLast(&pathElements);
+    }
+
     legendData = {color, color, series->name()};
 }
 
@@ -241,6 +273,9 @@ void PointRenderer::handlePolish(QXYSeries *series)
         return;
 
     if (series->points().isEmpty())
+        return;
+
+    if (width() <= 0 || height() <= 0)
         return;
 
     m_areaWidth = width() - m_graph->m_marginLeft - m_graph->m_marginRight
@@ -276,27 +311,6 @@ void PointRenderer::handlePolish(QXYSeries *series)
     auto group = m_groups.value(series);
 
     int pointCount = series->points().size();
-    int currentSize = group->rects.size();
-    if (currentSize < pointCount) {
-        for (int i = std::max(0, currentSize - 1); i < pointCount; ++i) {
-            if (i < pointCount - 1) {
-                QQuickCurve *path = nullptr;
-                if (series->type() == QAbstractSeries::SeriesType::Line)
-                    path = new QQuickPathLine(group->shapePath);
-                else if (series->type() == QAbstractSeries::SeriesType::Spline)
-                    path = new QQuickPathCubic(group->shapePath);
-
-                if (path) {
-                    auto pathElements = group->shapePath->pathElements();
-                    pathElements.append(&pathElements, path);
-                    group->paths << path;
-                }
-            }
-
-            if (currentSize == 0 || (currentSize > 0 && i < pointCount - 1))
-                group->rects << QRectF();
-        }
-    }
 
     if (series->pointMarker()) {
         int markerCount = group->markers.size();
@@ -471,13 +485,18 @@ bool PointRenderer::handleHoverMove(QHoverEvent *event)
                     if (i == 0) {
                         x1 = group->shapePath->startX();
                         y1 = group->shapePath->startY();
-                        x2 = group->paths[0]->x();
-                        y2 = group->paths[0]->y();
+
+                        auto curve = qobject_cast<QQuickCurve *>(group->paths[0]);
+                        x2 = curve->x();
+                        y2 = curve->y();
                     } else {
-                        x1 = group->paths[i - 1]->x();
-                        y1 = group->paths[i - 1]->y();
-                        x2 = group->paths[i]->x();
-                        y2 = group->paths[i]->y();
+                        auto curve1 = qobject_cast<QQuickCurve *>(group->paths[i - 1]);
+                        x1 = curve1->x();
+                        y1 = curve1->y();
+
+                        auto curve2 = qobject_cast<QQuickCurve *>(group->paths[i]);
+                        x2 = curve2->x();
+                        y2 = curve2->y();
                     }
 
                     qreal denominator = (x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1);

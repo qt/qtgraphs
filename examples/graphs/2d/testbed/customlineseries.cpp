@@ -4,20 +4,16 @@
 #include "customlineseries.h"
 #include <QRandomGenerator>
 
-// Data contains 360 points
 const int POINT_COUNT = 1000;
 const float MAX_X = 4.0f;
 
 CustomLineSeries::CustomLineSeries(QLineSeries *parent)
     : QLineSeries{ parent }
 {
-    for (int i = 0; i < POINT_COUNT; i++) {
-        append(QPointF(i / (POINT_COUNT / MAX_X), 0));
-    }
-
-    updateData();
-
     setColor(QColorConstants::Green);
+
+    for (int i = 0; i < POINT_COUNT; i++)
+        append(QPointF(i / (POINT_COUNT / MAX_X), 0));
 
     // Update data with a timer
     connect(&m_updateTimer, &QTimer::timeout, this, &CustomLineSeries::updateData);
@@ -28,8 +24,8 @@ void CustomLineSeries::updateData()
 {
     for (int i = 0; i < m_scanCount; i++) {
         int index = m_scanIndex + i;
-        if (index >= POINT_COUNT)
-            break;
+        while (index >= POINT_COUNT)
+            index -= POINT_COUNT;
 
         QPointF p(index / (POINT_COUNT / MAX_X), m_amplitude * qSin(2 * M_PI * (m_frequency / POINT_COUNT) * index + m_phase));
         replace(index, p);

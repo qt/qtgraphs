@@ -40,7 +40,7 @@ signals:
 
 private:
     QTimer m_updateTimer;
-    qreal m_frequency = 0.0;
+    qreal m_frequency = 10.0;
     qreal m_amplitude = 1.0;
     qreal m_phase = 0.0;
     int m_scanIndex = 0;
