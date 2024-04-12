@@ -743,6 +743,9 @@ private:
     QQuick3DRepeater *m_repeaterX = nullptr;
     QQuick3DRepeater *m_repeaterY = nullptr;
     QQuick3DRepeater *m_repeaterZ = nullptr;
+    std::unique_ptr<QQmlComponent> m_delegateModelX;
+    std::unique_ptr<QQmlComponent> m_delegateModelY;
+    std::unique_ptr<QQmlComponent> m_delegateModelZ;
 
     QQuick3DNode *m_titleLabelX = nullptr;
     QQuick3DNode *m_titleLabelY = nullptr;
@@ -755,6 +758,7 @@ private:
 
     QQuick3DRepeater *m_sliceHorizontalLabelRepeater = nullptr;
     QQuick3DRepeater *m_sliceVerticalLabelRepeater = nullptr;
+    std::unique_ptr<QQmlComponent> m_labelDelegate;
 
     QQuick3DNode *m_sliceHorizontalTitleLabel = nullptr;
     QQuick3DNode *m_sliceVerticalTitleLabel = nullptr;
