@@ -5,7 +5,7 @@
 #include <QtGraphs/QValue3DAxis>
 #include <QtGraphs/QSurfaceDataProxy>
 #include <QtGraphs/QSurface3DSeries>
-#include <QtGraphs/Q3DTheme>
+#include <QtGraphs/QGraphsTheme>
 
 #include <qmath.h>
 #include <qrandom.h>
@@ -599,16 +599,16 @@ void GraphModifier::adjustZMin(int min)
 
 void GraphModifier::gradientPressed()
 {
-    static Q3DTheme::ColorStyle colorStyle = Q3DTheme::ColorStyle::Uniform;
+    static QGraphsTheme::ColorStyle colorStyle = QGraphsTheme::ColorStyle::Uniform;
 
-    if (colorStyle == Q3DTheme::ColorStyle::RangeGradient) {
-        colorStyle = Q3DTheme::ColorStyle::ObjectGradient;
+    if (colorStyle == QGraphsTheme::ColorStyle::RangeGradient) {
+        colorStyle = QGraphsTheme::ColorStyle::ObjectGradient;
         qDebug() << "Color style: ObjectGradient";
-    } else if (colorStyle == Q3DTheme::ColorStyle::ObjectGradient) {
-        colorStyle = Q3DTheme::ColorStyle::Uniform;
+    } else if (colorStyle == QGraphsTheme::ColorStyle::ObjectGradient) {
+        colorStyle = QGraphsTheme::ColorStyle::Uniform;
         qDebug() << "Color style: Uniform";
     } else {
-        colorStyle = Q3DTheme::ColorStyle::RangeGradient;
+        colorStyle = QGraphsTheme::ColorStyle::RangeGradient;
         qDebug() << "Color style: RangeGradient";
     }
 
@@ -620,7 +620,7 @@ void GraphModifier::gradientPressed()
 
     QList<QLinearGradient> gradients;
     gradients << gradient;
-    m_graph->activeTheme()->setBaseGradients(gradients);
+    m_graph->activeTheme()->setSeriesGradients(gradients);
     m_graph->activeTheme()->setColorStyle(colorStyle);
 
 }
@@ -629,7 +629,7 @@ void GraphModifier::changeFont(const QFont &font)
 {
     QFont newFont = font;
     newFont.setPointSizeF(m_fontSize);
-    m_graph->activeTheme()->setFont(newFont);
+    m_graph->activeTheme()->setLabelFont(newFont);
 }
 
 void GraphModifier::changeStyle()
@@ -652,9 +652,14 @@ void GraphModifier::selectedPointChanged(const QPoint &point)
     m_selectionInfoLabel->setText(labelText);
 }
 
+void GraphModifier::changeColorScheme(int colorScheme)
+{
+    m_graph->activeTheme()->setColorScheme(Qt::ColorScheme(colorScheme + 1));
+}
+
 void GraphModifier::changeTheme(int theme)
 {
-    m_graph->activeTheme()->setType(Q3DTheme::Theme(theme));
+    m_graph->activeTheme()->setTheme(QGraphsTheme::Theme(theme));
 }
 
 

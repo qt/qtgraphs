@@ -15,11 +15,11 @@ Item {
         id: seriesData
     }
 
-    Theme3D {
+    GraphsTheme {
         id: themePrimaryColors
-        type: Theme3D.Theme.PrimaryColors
-        font.family: "Lucida Handwriting"
-        font.pointSize: 40
+        theme: GraphsTheme.Theme.QtGreen
+        labelFont.family: "Lucida Handwriting"
+        labelFont.pointSize: 40
     }
 
     //! [1]

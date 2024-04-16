@@ -85,13 +85,15 @@ void ScatterGraph::initialize()
     itemStyleList->setCurrentIndex(0);
 
     auto *themeList = new QComboBox(m_scatterWidget);
-    themeList->addItem(u"Qt"_s);
-    themeList->addItem(u"Primary Colors"_s);
-    themeList->addItem(u"Stone Moss"_s);
-    themeList->addItem(u"Army Blue"_s);
-    themeList->addItem(u"Retro"_s);
-    themeList->addItem(u"Ebony"_s);
-    themeList->addItem(u"Isabelle"_s);
+    themeList->addItem(u"QtGreen"_s);
+    themeList->addItem(u"QtGreenNeon"_s);
+    themeList->addItem(u"MixSeries"_s);
+    themeList->addItem(u"OrangeSeries"_s);
+    themeList->addItem(u"YellowSeries"_s);
+    themeList->addItem(u"BlueSeries"_s);
+    themeList->addItem(u"PurpleSeries"_s);
+    themeList->addItem(u"GreySeries"_s);
+    themeList->addItem(u"UserDefined"_s);
     themeList->setCurrentIndex(2);
 
     auto *shadowQuality = new QComboBox(m_scatterWidget);
@@ -124,6 +126,7 @@ void ScatterGraph::initialize()
     m_scatterGraph->raise();
 
     m_modifier = new ScatterDataModifier(m_scatterGraph, this);
+    m_modifier->changeTheme(themeList->currentIndex());
 
     QObject::connect(cameraButton,
                      &QCommandLinkButton::clicked,

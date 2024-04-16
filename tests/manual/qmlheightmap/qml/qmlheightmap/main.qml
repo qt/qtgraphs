@@ -30,10 +30,10 @@ Item {
             GradientStop { position: 1.0; color: "red" }
         }
 
-        Theme3D {
+        GraphsTheme {
             id: mainTheme
-            type: Theme3D.Theme.StoneMoss
-            colorStyle: Theme3D.ColorStyle.RangeGradient
+            theme: GraphsTheme.Theme.OrangeSeries
+            colorStyle: GraphsTheme.ColorStyle.RangeGradient
             baseGradients: [surfaceGradient]
         }
 

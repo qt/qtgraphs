@@ -69,7 +69,7 @@ void tst_series::initialProperties()
     // Common properties
     QCOMPARE(m_series->baseColor(), QColor(Qt::black));
     QCOMPARE(m_series->baseGradient(), QLinearGradient());
-    QCOMPARE(m_series->colorStyle(), Q3DTheme::ColorStyle::Uniform);
+    QCOMPARE(m_series->colorStyle(), QGraphsTheme::ColorStyle::Uniform);
     QCOMPARE(m_series->itemLabel(), QString(""));
     QCOMPARE(m_series->itemLabelFormat(), QString("@valueLabel"));
     QCOMPARE(m_series->isItemLabelVisible(), true);
@@ -117,7 +117,7 @@ void tst_series::initializeProperties()
     // Common properties
     m_series->setBaseColor(QColor(Qt::blue));
     m_series->setBaseGradient(gradient1);
-    m_series->setColorStyle(Q3DTheme::ColorStyle::RangeGradient);
+    m_series->setColorStyle(QGraphsTheme::ColorStyle::RangeGradient);
     m_series->setItemLabelFormat("%f");
     m_series->setItemLabelVisible(false);
     m_series->setMesh(QAbstract3DSeries::Mesh::Cone);
@@ -133,7 +133,7 @@ void tst_series::initializeProperties()
     QCOMPARE(m_series->baseColor(), QColor(Qt::blue));
     QCOMPARE(m_series->baseGradient(), gradient1);
     QCOMPARE(m_series->baseGradient().stops().at(0).second, QColor(Qt::red));
-    QCOMPARE(m_series->colorStyle(), Q3DTheme::ColorStyle::RangeGradient);
+    QCOMPARE(m_series->colorStyle(), QGraphsTheme::ColorStyle::RangeGradient);
     QCOMPARE(m_series->itemLabelFormat(), QString("%f"));
     QCOMPARE(m_series->isItemLabelVisible(), false);
     QCOMPARE(m_series->mesh(), QAbstract3DSeries::Mesh::Cone);

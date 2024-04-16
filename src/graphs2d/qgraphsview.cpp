@@ -41,7 +41,7 @@ QGraphsView::QGraphsView(QQuickItem *parent) :
     setAcceptedMouseButtons(Qt::LeftButton);
     setAcceptHoverEvents(true);
     setClip(true);
-    m_defaultTheme = new QGraphTheme(this);
+    m_defaultTheme = new QGraphsTheme();
 }
 
 QGraphsView::~QGraphsView()
@@ -89,13 +89,13 @@ void QGraphsView::insertSeries(int index, QObject *object)
             QObject::connect(series, &QAbstractSeries::update,
                              this, &QGraphsView::polishAndUpdate);
             if (series->theme()) {
-                QObject::connect(series->theme(), &QSeriesTheme::update,
+                QObject::connect(series->theme(), &QGraphsTheme::update,
                                  this, &QGraphsView::polishAndUpdate);
             }
             QObject::connect(series, &QAbstractSeries::themeChanged,
                              [this, series] {
                 if (series->theme()) {
-                    QObject::connect(series->theme(), &QSeriesTheme::update,
+                    QObject::connect(series->theme(), &QGraphsTheme::update,
                                      this, &QGraphsView::polishAndUpdate);
                 }
             });
@@ -138,6 +138,17 @@ void QGraphsView::removeAxis(QAbstractAxis *axis)
         m_axis.removeAll(axis);
         polishAndUpdate();
     }
+}
+
+int QGraphsView::graphSeriesCount() const
+{
+    return m_graphSeriesCount;
+}
+
+void QGraphsView::setGraphSeriesCount(int count)
+{
+    if (count > m_graphSeriesCount)
+        m_graphSeriesCount = count;
 }
 
 QRectF QGraphsView::seriesRect() const
@@ -186,6 +197,124 @@ void QGraphsView::createAreaRenderer()
         m_areaRenderer = new AreaRenderer(this);
 }
 
+qreal QGraphsView::axisXSmoothing() const
+{
+    return m_axisXSmoothing;
+}
+
+void QGraphsView::setAxisXSmoothing(qreal smoothing)
+{
+    if (qFuzzyCompare(m_axisXSmoothing, smoothing))
+        return;
+    m_axisXSmoothing = smoothing;
+    emit axisXSmoothingChanged();
+}
+
+qreal QGraphsView::axisYSmoothing() const
+{
+    return m_axisYSmoothing;
+}
+
+void QGraphsView::setAxisYSmoothing(qreal smoothing)
+{
+    if (qFuzzyCompare(m_axisYSmoothing, smoothing))
+        return;
+    m_axisYSmoothing = smoothing;
+    emit axisYSmoothingChanged();
+}
+
+qreal QGraphsView::gridSmoothing() const
+{
+    return m_gridSmoothing;
+}
+
+void QGraphsView::setGridSmoothing(qreal smoothing)
+{
+    if (qFuzzyCompare(m_gridSmoothing, smoothing))
+        return;
+    m_gridSmoothing = smoothing;
+    emit gridSmoothingChanged();
+}
+
+
+bool QGraphsView::shadowEnabled() const
+{
+    return m_shadowEnabled;
+}
+
+void QGraphsView::setShadowEnabled(bool newShadowEnabled)
+{
+    if (m_shadowEnabled == newShadowEnabled)
+        return;
+    m_shadowEnabled = newShadowEnabled;
+    emit shadowEnabledChanged();
+}
+
+QColor QGraphsView::shadowColor() const
+{
+    return m_shadowColor;
+}
+
+void QGraphsView::setShadowColor(const QColor &newShadowColor)
+{
+    if (m_shadowColor == newShadowColor)
+        return;
+    m_shadowColor = newShadowColor;
+    emit shadowColorChanged();
+}
+
+qreal QGraphsView::shadowBarWidth() const
+{
+    return m_shadowBarWidth;
+}
+
+void QGraphsView::setShadowBarWidth(qreal newShadowBarWidth)
+{
+    if (qFuzzyCompare(m_shadowBarWidth, newShadowBarWidth))
+        return;
+    m_shadowBarWidth = newShadowBarWidth;
+    emit shadowBarWidthChanged();
+}
+
+qreal QGraphsView::shadowXOffset() const
+{
+    return m_shadowXOffset;
+}
+
+void QGraphsView::setShadowXOffset(qreal newShadowXOffset)
+{
+    if (qFuzzyCompare(m_shadowXOffset, newShadowXOffset))
+        return;
+    m_shadowXOffset = newShadowXOffset;
+    emit shadowXOffsetChanged();
+}
+
+qreal QGraphsView::shadowYOffset() const
+{
+    return m_shadowYOffset;
+}
+
+void QGraphsView::setShadowYOffset(qreal newShadowYOffset)
+{
+    if (qFuzzyCompare(m_shadowYOffset, newShadowYOffset))
+        return;
+    m_shadowYOffset = newShadowYOffset;
+    emit shadowYOffsetChanged();
+}
+
+qreal QGraphsView::shadowSmoothing() const
+{
+    return m_shadowSmoothing;
+}
+
+void QGraphsView::setShadowSmoothing(qreal smoothing)
+{
+    if (qFuzzyCompare(m_shadowSmoothing, smoothing))
+        return;
+    m_shadowSmoothing = smoothing;
+    emit shadowSmoothingChanged();
+}
+
 void QGraphsView::handleHoverEnter(QString seriesName, QPointF position, QPointF value)
 {
     if (m_hoverCount == 0)
@@ -227,8 +356,10 @@ void QGraphsView::componentComplete()
 {
     if (!m_theme) {
         m_theme = m_defaultTheme;
-        QObject::connect(m_theme, &QGraphTheme::update, this, &QQuickItem::update);
+        QObject::connect(m_theme, &QGraphsTheme::update, this, &QQuickItem::update);
         m_theme->resetColorTheme();
+        m_theme->setGridMainWidth(2.0);
+        m_theme->setGridSubWidth(1.0);
     }
     QQuickItem::componentComplete();
 
@@ -458,12 +589,12 @@ void QGraphsView::clearSeriesFunc(QQmlListProperty<QObject> *list)
     axis lines, fonts etc. If theme has not been set,
     the default theme is used.
 */
-QGraphTheme *QGraphsView::theme() const
+QGraphsTheme *QGraphsView::theme() const
 {
     return m_theme;
 }
 
-void QGraphsView::setTheme(QGraphTheme *newTheme)
+void QGraphsView::setTheme(QGraphsTheme *newTheme)
 {
     if (m_theme == newTheme)
         return;
@@ -478,7 +609,7 @@ void QGraphsView::setTheme(QGraphTheme *newTheme)
         m_theme->resetColorTheme();
     }
 
-    QObject::connect(m_theme, &QGraphTheme::update, this, &QQuickItem::update);
+    QObject::connect(m_theme, &QGraphsTheme::update, this, &QQuickItem::update);
     emit themeChanged();
 }
 

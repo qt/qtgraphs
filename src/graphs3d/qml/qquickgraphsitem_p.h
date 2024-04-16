@@ -14,7 +14,6 @@
 //
 // We mean it.
 
-#include "../theme/thememanager_p.h"
 #include "qabstract3daxis.h"
 #include "qabstract3dgraph.h"
 #include "qabstract3dseries.h"
@@ -25,13 +24,13 @@
 
 QT_BEGIN_NAMESPACE
 
-class Q3DTheme;
 class QAbstract3DAxis;
 class QAbstract3DSeries;
 class QCustom3DItem;
 class QCustom3DVolume;
 class QCustom3DLabel;
 class QGraphsInputHandler;
+class QGraphsTheme;
 class QQuick3DCustomMaterial;
 class QQuick3DDirectionalLight;
 class QQuick3DPrincipledMaterial;
@@ -153,7 +152,7 @@ class QQuickGraphsItem : public QQuick3DViewport
                    setShadowQuality NOTIFY shadowQualityChanged)
     Q_PROPERTY(int msaaSamples READ msaaSamples WRITE setMsaaSamples NOTIFY msaaSamplesChanged)
     Q_PROPERTY(Q3DScene *scene READ scene NOTIFY sceneChanged)
-    Q_PROPERTY(Q3DTheme *theme READ theme WRITE setTheme NOTIFY themeChanged)
+    Q_PROPERTY(QGraphsTheme *theme READ theme WRITE setTheme NOTIFY themeChanged)
     Q_PROPERTY(QAbstract3DGraph::RenderingMode renderingMode READ renderingMode WRITE
                    setRenderingMode NOTIFY renderingModeChanged)
     Q_PROPERTY(bool measureFps READ measureFps WRITE setMeasureFps NOTIFY measureFpsChanged)
@@ -200,6 +199,12 @@ class QQuickGraphsItem : public QQuick3DViewport
     Q_PROPERTY(bool selectionEnabled READ selectionEnabled WRITE setSelectionEnabled NOTIFY
                    selectionEnabledChanged)
     Q_PROPERTY(bool zoomEnabled READ zoomEnabled WRITE setZoomEnabled NOTIFY zoomEnabledChanged)
+
+    Q_PROPERTY(QColor lightColor READ lightColor WRITE setLightColor NOTIFY lightColorChanged)
+    Q_PROPERTY(float ambientLightStrength READ ambientLightStrength WRITE setAmbientLightStrength NOTIFY ambientLightStrengthChanged)
+    Q_PROPERTY(float lightStrength READ lightStrength WRITE setLightStrength NOTIFY lightStrengthChanged)
+    Q_PROPERTY(float shadowStrength READ shadowStrength WRITE setShadowStrength NOTIFY shadowStrengthChanged)
+    Q_PROPERTY(bool shaderGridEnabled READ shaderGridEnabled WRITE setShaderGridEnabled NOTIFY shaderGridEnabledChanged FINAL)
 
     QML_NAMED_ELEMENT(GraphsItem3D)
     QML_UNCREATABLE("Trying to create uncreatable: GraphsItem3D.")
@@ -271,11 +276,11 @@ public:
     virtual void setMsaaSamples(int samples);
     virtual int msaaSamples() const;
 
-    virtual void addTheme(Q3DTheme *theme);
-    virtual void releaseTheme(Q3DTheme *theme);
-    virtual void setTheme(Q3DTheme *theme);
-    virtual Q3DTheme *theme() const;
-    virtual QList<Q3DTheme *> themes() const;
+    void addTheme(QGraphsTheme *theme);
+    void releaseTheme(QGraphsTheme *theme);
+    void setTheme(QGraphsTheme *theme);
+    QGraphsTheme *theme() const;
+    QList<QGraphsTheme *> themes() const;
 
     bool isSlicingActive() const;
     void setSlicingActive(bool isSlicing);
@@ -478,6 +483,17 @@ public:
     int horizontalFlipFactor() const;
     void setHorizontalFlipFactor(int newHorizontalFlipFactor);
 
+    float ambientLightStrength() const;
+    void setAmbientLightStrength(float newAmbientLightStrength);
+    float lightStrength() const;
+    void setLightStrength(float newLightStrength);
+    float shadowStrength() const;
+    void setShadowStrength(float newShadowStrength);
+    QColor lightColor() const;
+    void setLightColor(const QColor &newLightColor);
+    bool shaderGridEnabled();
+    void setShaderGridEnabled(bool enabled);
+
 public Q_SLOTS:
     virtual void handleAxisXChanged(QAbstract3DAxis *axis) = 0;
     virtual void handleAxisYChanged(QAbstract3DAxis *axis) = 0;
@@ -501,14 +517,14 @@ public Q_SLOTS:
     void handleInputPositionChanged(const QPoint &position);
     void handleSeriesVisibilityChanged(bool visible);
 
-    void handleThemeColorStyleChanged(Q3DTheme::ColorStyle style);
+    void handleThemeColorStyleChanged(QGraphsTheme::ColorStyle style);
     void handleThemeBaseColorsChanged(const QList<QColor> &color);
     void handleThemeBaseGradientsChanged(const QList<QLinearGradient> &gradient);
     void handleThemeSingleHighlightColorChanged(const QColor &color);
     void handleThemeSingleHighlightGradientChanged(const QLinearGradient &gradient);
     void handleThemeMultiHighlightColorChanged(const QColor &color);
     void handleThemeMultiHighlightGradientChanged(const QLinearGradient &gradient);
-    void handleThemeTypeChanged(Q3DTheme::Theme theme);
+    void handleThemeTypeChanged(QGraphsTheme::Theme theme);
 
     void handleRequestShadowQuality(QAbstract3DGraph::ShadowQuality quality);
 
@@ -519,7 +535,7 @@ Q_SIGNALS:
     void shadowQualityChanged(QAbstract3DGraph::ShadowQuality quality);
     void shadowsSupportedChanged(bool supported);
     void msaaSamplesChanged(int samples);
-    void themeChanged(Q3DTheme *theme);
+    void themeChanged(QGraphsTheme *theme);
     void renderingModeChanged(QAbstract3DGraph::RenderingMode mode);
     void measureFpsChanged(bool enabled);
     void currentFpsChanged(int fps);
@@ -551,7 +567,7 @@ Q_SIGNALS:
     void axisXChanged(QAbstract3DAxis *axis);
     void axisYChanged(QAbstract3DAxis *axis);
     void axisZChanged(QAbstract3DAxis *axis);
-    void activeThemeChanged(Q3DTheme *activeTheme);
+    void activeThemeChanged(QGraphsTheme *activeTheme);
 
     void tapped(QEventPoint eventPoint, Qt::MouseButton button);
     void doubleTapped(QEventPoint eventPoint, Qt::MouseButton button);
@@ -565,6 +581,12 @@ Q_SIGNALS:
     void zoomAtTargetEnabledChanged(bool enable);
     void rotationEnabledChanged(bool enable);
     void selectionEnabledChanged(bool enable);
+
+    void ambientLightStrengthChanged();
+    void lightStrengthChanged();
+    void shadowStrengthChanged();
+    void lightColorChanged();
+    void shaderGridEnabledChanged();
 
 protected:
     bool event(QEvent *event) override;
@@ -672,7 +694,7 @@ protected:
     virtual void updateSingleHighlightColor() {}
     virtual void updateLightStrength() {}
 
-    virtual void handleLabelCountChanged(QQuick3DRepeater *repeater);
+    virtual void handleLabelCountChanged(QQuick3DRepeater *repeater, QColor axisLabelColor);
 
     bool isGridUpdated() { return m_gridUpdated; }
     void setGridUpdated(bool updated) { m_gridUpdated = updated; }
@@ -730,7 +752,6 @@ private:
     QQuick3DModel *m_subgridGeometryModel = nullptr;
     QQuick3DModel *m_sliceGridGeometryModel = nullptr;
     Abstract3DChangeBitField m_changeTracker;
-    ThemeManager *m_themeManager = nullptr;
     QAbstract3DGraph::SelectionFlags m_selectionMode = QAbstract3DGraph::SelectionItem;
     QAbstract3DGraph::ShadowQuality m_shadowQuality = QAbstract3DGraph::ShadowQuality::Medium;
     bool m_useOrthoProjection = false;
@@ -819,6 +840,7 @@ private:
 
     bool m_gridUpdated = false;
     bool m_shaderGridEnabled = false;
+    bool m_shaderGridEnabledDirty = false;
 
     bool m_validVolumeSlice = false;
 
@@ -867,11 +889,23 @@ private:
     float m_minZoomLevel = 10.0f;
     float m_maxZoomLevel = 500.0f;
 
+    QColor m_lightColor = QColor(Qt::white);
+    float m_ambientLightStrength = 0.25f;
+    float m_lightStrength = 5.0f;
+    float m_shadowStrength = 25.0f;
+    bool m_lightColorDirty = false;
+    bool m_ambientLightStrengthDirty = false;
+    bool m_lightStrengthDirty = false;
+    bool m_shadowStrengthDirty = false;
+
     bool m_gridUpdate = false;
 
     QVector3D m_requestedTarget = QVector3D();
 
     QGraphsInputHandler *m_inputHandler = nullptr;
+
+    QList<QGraphsTheme *> m_themes;
+    QGraphsTheme *m_activeTheme = nullptr;
 
     friend class QAbstract3DGraph;
 };

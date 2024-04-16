@@ -33,7 +33,7 @@ VolumetricModifier::VolumetricModifier(Q3DScatter *scatter)
       m_sliceIndexY(lowDetailSize / 4),
       m_sliceIndexZ(lowDetailSize / 2)
 {
-    m_graph->activeTheme()->setType(Q3DTheme::Theme::PrimaryColors);
+    m_graph->activeTheme()->setTheme(QGraphsTheme::Theme::QtGreenNeon);
     m_graph->setShadowQuality(QAbstract3DGraph::ShadowQuality::None);
     m_graph->setCameraPreset(QAbstract3DGraph::CameraPreset::IsometricLeft);
     //! [0]

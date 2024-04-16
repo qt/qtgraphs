@@ -9,13 +9,14 @@
 #include <QtGui/QPen>
 #include <QtQml/QQmlParserStatus>
 #include <QtQml/QQmlListProperty>
-#include <QtGraphs/qseriestheme.h>
+#include <QtGraphs/qgraphstheme.h>
 #include <QtGraphs/qgraphsglobal.h>
 
 QT_BEGIN_NAMESPACE
 
 class QAbstractSeriesPrivate;
 class QGraphsView;
+class QGraphsTheme;
 
 struct Q_GRAPHS_EXPORT QLegendData
 {
@@ -36,7 +37,7 @@ class Q_GRAPHS_EXPORT QAbstractSeries : public QObject, public QQmlParserStatus
     Q_DECLARE_PRIVATE(QAbstractSeries)
     Q_CLASSINFO("RegisterEnumClassesUnscoped", "false")
     Q_INTERFACES(QQmlParserStatus)
-    Q_PROPERTY(QSeriesTheme *theme READ theme WRITE setTheme NOTIFY themeChanged)
+    Q_PROPERTY(QGraphsTheme *theme READ theme WRITE setTheme NOTIFY themeChanged)
     Q_PROPERTY(QString name READ name WRITE setName NOTIFY nameChanged)
     Q_PROPERTY(bool visible READ isVisible WRITE setVisible NOTIFY visibleChanged)
     Q_PROPERTY(bool selectable READ selectable WRITE setSelectable NOTIFY selectableChanged)
@@ -70,8 +71,8 @@ public:
     ~QAbstractSeries() override;
     virtual SeriesType type() const = 0;
 
-    QSeriesTheme *theme() const;
-    void setTheme(QSeriesTheme *newTheme);
+    QGraphsTheme *theme() const;
+    void setTheme(QGraphsTheme *newTheme);
 
     QString name() const;
     void setName(const QString &name);

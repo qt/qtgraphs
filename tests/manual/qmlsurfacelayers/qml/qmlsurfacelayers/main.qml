@@ -47,10 +47,10 @@ Item {
             id: surfaceLayers
             width: surfaceView.width
             height: surfaceView.height
-            theme: Theme3D {
-                type: Theme3D.Theme.Ebony
-                font.pointSize: 35
-                colorStyle: Theme3D.ColorStyle.RangeGradient
+            theme: GraphsTheme {
+                theme: GraphsTheme.Theme.QtGreen
+                labelFont.pointSize: 35
+                colorStyle: GraphsTheme.ColorStyle.RangeGradient
             }
             shadowQuality: AbstractGraph3D.ShadowQuality.None
             selectionMode: AbstractGraph3D.SelectionRow | AbstractGraph3D.SelectionSlice

@@ -87,7 +87,7 @@ QT_BEGIN_NAMESPACE
  *         Arrow pointing upwards.
  *  \value Point
  *         2D point. Usable only with Q3DScatter.
- *         Shadows do not affect this style. Color style Q3DTheme::ColorStyle::ObjectGradient
+ *         Shadows do not affect this style. Color style QGraphsTheme::ColorStyle::ObjectGradient
  *         is not supported by this style.
  */
 
@@ -156,11 +156,11 @@ QT_BEGIN_NAMESPACE
  */
 
 /*!
- * \qmlproperty Theme3D.ColorStyle Abstract3DSeries::colorStyle
+ * \qmlproperty GraphsTheme.ColorStyle Abstract3DSeries::colorStyle
  *
  * Sets the color style for the series.
  *
- * \sa {Theme3D::colorStyle}{Theme3D.colorStyle}
+ * \sa {GraphsTheme::ColorStyle}{GraphsTheme.ColorStyle}
  */
 
 /*!
@@ -168,7 +168,7 @@ QT_BEGIN_NAMESPACE
  *
  * Sets the base color of the series.
  *
- * \sa colorStyle, {Theme3D::baseColors}{Theme3D.baseColors}
+ * \sa colorStyle, {GraphsTheme::seriesColors}{GraphsTheme.seriesColors}
  */
 
 /*!
@@ -176,7 +176,7 @@ QT_BEGIN_NAMESPACE
  *
  * Sets the base gradient of the series.
  *
- * \sa colorStyle, {Theme3D::baseGradients}{Theme3D.baseGradients}
+ * \sa colorStyle, {GraphsTheme::seriesGradients}{GraphsTheme.seriesGradients}
  */
 
 /*!
@@ -184,7 +184,7 @@ QT_BEGIN_NAMESPACE
  *
  * Sets the single item highlight color of the series.
  *
- * \sa colorStyle, {Theme3D::singleHighlightColor}{Theme3D.singleHighlightColor}
+ * \sa colorStyle, {GraphsTheme::singleHighlightColor}{GraphsTheme.singleHighlightColor}
  */
 
 /*!
@@ -193,7 +193,7 @@ QT_BEGIN_NAMESPACE
  * Sets the single item highlight gradient of the series.
  *
  * \sa colorStyle,
- * {Theme3D::singleHighlightGradient}{Theme3D.singleHighlightGradient}
+ * {GraphsTheme::singleHighlightGradient}{GraphsTheme.singleHighlightGradient}
  */
 
 /*!
@@ -201,7 +201,7 @@ QT_BEGIN_NAMESPACE
  *
  * Sets the multiple item highlight color of the series.
  *
- * \sa colorStyle, {Theme3D::multiHighlightColor}{Theme3D.multiHighlightColor}
+ * \sa colorStyle, {GraphsTheme::multiHighlightColor}{GraphsTheme.multiHighlightColor}
  */
 
 /*!
@@ -210,7 +210,7 @@ QT_BEGIN_NAMESPACE
  * Sets the multiple item highlight gradient of the series.
  *
  * \sa colorStyle,
- * {Theme3D::multiHighlightGradient}{Theme3D.multiHighlightGradient}
+ * {GraphsTheme::multiHighlightGradient}{GraphsTheme.multiHighlightGradient}
  */
 
 /*!
@@ -442,9 +442,9 @@ QString QAbstract3DSeries::userDefinedMesh() const
  *
  * \brief The color style for the series.
  *
- * \sa Q3DTheme::ColorStyle
+ * \sa QGraphsTheme::ColorStyle
  */
-void QAbstract3DSeries::setColorStyle(Q3DTheme::ColorStyle style)
+void QAbstract3DSeries::setColorStyle(QGraphsTheme::ColorStyle style)
 {
     Q_D(QAbstract3DSeries);
     if (d->m_colorStyle != style) {
@@ -454,7 +454,7 @@ void QAbstract3DSeries::setColorStyle(Q3DTheme::ColorStyle style)
     d->m_themeTracker.colorStyleOverride = true;
 }
 
-Q3DTheme::ColorStyle QAbstract3DSeries::colorStyle() const
+QGraphsTheme::ColorStyle QAbstract3DSeries::colorStyle() const
 {
     const Q_D(QAbstract3DSeries);
     return d->m_colorStyle;
@@ -465,7 +465,7 @@ Q3DTheme::ColorStyle QAbstract3DSeries::colorStyle() const
  *
  * \brief The base color of the series.
  *
- * \sa colorStyle, Q3DTheme::baseColors
+ * \sa colorStyle, QGraphsTheme::seriesColors
  */
 void QAbstract3DSeries::setBaseColor(const QColor &color)
 {
@@ -488,7 +488,7 @@ QColor QAbstract3DSeries::baseColor() const
  *
  * \brief The base gradient of the series.
  *
- * \sa colorStyle, Q3DTheme::baseGradients
+ * \sa colorStyle, QGraphsTheme::seriesGradients
  */
 void QAbstract3DSeries::setBaseGradient(const QLinearGradient &gradient)
 {
@@ -511,7 +511,7 @@ QLinearGradient QAbstract3DSeries::baseGradient() const
  *
  * \brief The single item highlight color of the series.
  *
- * \sa colorStyle, Q3DTheme::singleHighlightColor
+ * \sa colorStyle, QGraphsTheme::singleHighlightColor
  */
 void QAbstract3DSeries::setSingleHighlightColor(const QColor &color)
 {
@@ -534,7 +534,7 @@ QColor QAbstract3DSeries::singleHighlightColor() const
  *
  * \brief The single item highlight gradient of the series.
  *
- * \sa colorStyle, Q3DTheme::singleHighlightGradient
+ * \sa colorStyle, QGraphsTheme::singleHighlightGradient
  */
 void QAbstract3DSeries::setSingleHighlightGradient(const QLinearGradient &gradient)
 {
@@ -557,7 +557,7 @@ QLinearGradient QAbstract3DSeries::singleHighlightGradient() const
  *
  * \brief The multiple item highlight color of the series.
  *
- * \sa colorStyle, Q3DTheme::multiHighlightColor
+ * \sa colorStyle, QGraphsTheme::multiHighlightColor
  */
 void QAbstract3DSeries::setMultiHighlightColor(const QColor &color)
 {
@@ -580,7 +580,7 @@ QColor QAbstract3DSeries::multiHighlightColor() const
  *
  * \brief The multiple item highlight gradient of the series.
  *
- * \sa colorStyle, Q3DTheme::multiHighlightGradient
+ * \sa colorStyle, QGraphsTheme::multiHighlightGradient
  */
 void QAbstract3DSeries::setMultiHighlightGradient(const QLinearGradient &gradient)
 {
@@ -674,7 +674,7 @@ QAbstract3DSeriesPrivate::QAbstract3DSeriesPrivate(QAbstract3DSeries::SeriesType
     , m_graph(0)
     , m_mesh(QAbstract3DSeries::Mesh::Cube)
     , m_meshSmooth(false)
-    , m_colorStyle(Q3DTheme::ColorStyle::Uniform)
+    , m_colorStyle(QGraphsTheme::ColorStyle::Uniform)
     , m_baseColor(Qt::black)
     , m_singleHighlightColor(Qt::black)
     , m_multiHighlightColor(Qt::black)
@@ -774,7 +774,7 @@ void QAbstract3DSeriesPrivate::setUserDefinedMesh(const QString &meshFile)
     }
 }
 
-void QAbstract3DSeriesPrivate::setColorStyle(Q3DTheme::ColorStyle style)
+void QAbstract3DSeriesPrivate::setColorStyle(QGraphsTheme::ColorStyle style)
 {
     m_colorStyle = style;
     m_changeTracker.colorStyleChanged = true;
@@ -840,7 +840,7 @@ void QAbstract3DSeriesPrivate::setName(const QString &name)
     m_changeTracker.nameChanged = true;
 }
 
-void QAbstract3DSeriesPrivate::resetToTheme(const Q3DTheme &theme, int seriesIndex, bool force)
+void QAbstract3DSeriesPrivate::resetToTheme(const QGraphsTheme &theme, int seriesIndex, bool force)
 {
     Q_Q(QAbstract3DSeries);
     int themeIndex = seriesIndex;
@@ -849,15 +849,15 @@ void QAbstract3DSeriesPrivate::resetToTheme(const Q3DTheme &theme, int seriesInd
         m_themeTracker.colorStyleOverride = false;
     }
     if (force || !m_themeTracker.baseColorOverride) {
-        if (theme.baseColors().size() <= seriesIndex)
-            themeIndex = seriesIndex % theme.baseColors().size();
-        q->setBaseColor(theme.baseColors().at(themeIndex));
+        if (theme.seriesColors().size() <= seriesIndex)
+            themeIndex = seriesIndex % theme.seriesColors().size();
+        q->setBaseColor(theme.seriesColors().at(themeIndex));
         m_themeTracker.baseColorOverride = false;
     }
     if (force || !m_themeTracker.baseGradientOverride) {
-        if (theme.baseGradients().size() <= seriesIndex)
-            themeIndex = seriesIndex % theme.baseGradients().size();
-        q->setBaseGradient(theme.baseGradients().at(themeIndex));
+        if (theme.seriesGradients().size() <= seriesIndex)
+            themeIndex = seriesIndex % theme.seriesGradients().size();
+        q->setBaseGradient(theme.seriesGradients().at(themeIndex));
         m_themeTracker.baseGradientOverride = false;
     }
     if (force || !m_themeTracker.singleHighlightColorOverride) {
@@ -911,7 +911,7 @@ void QAbstract3DSeriesPrivate::setItemLabelVisible(bool visible)
 
 bool QAbstract3DSeriesPrivate::isUsingGradient()
 {
-    return m_colorStyle != Q3DTheme::ColorStyle::Uniform ? true : false;
+    return m_colorStyle != QGraphsTheme::ColorStyle::Uniform ? true : false;
 }
 
 QT_END_NAMESPACE

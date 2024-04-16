@@ -5,7 +5,7 @@
 #include <QtCore/qmath.h>
 #include <QtCore/qrandom.h>
 #include <QtGraphs/q3dscene.h>
-#include <QtGraphs/q3dtheme.h>
+#include <QtGraphs/qgraphstheme.h>
 #include <QtGraphs/qscatter3dseries.h>
 #include <QtGraphs/qscatterdataproxy.h>
 #include <QtGraphs/qvalue3daxis.h>
@@ -27,7 +27,7 @@ ScatterDataModifier::ScatterDataModifier(Q3DScatter *scatter, QObject *parent)
     , m_curveDivider(lowerCurveDivider)
 {
     //! [0]
-    m_graph->activeTheme()->setType(Q3DTheme::Theme::StoneMoss);
+    m_graph->activeTheme()->setTheme(QGraphsTheme::Theme::QtGreenNeon);
     m_graph->setShadowQuality(QAbstract3DGraph::ShadowQuality::SoftHigh);
     m_graph->setCameraPreset(QAbstract3DGraph::CameraPreset::Front);
     m_graph->setCameraZoomLevel(80.f);
@@ -114,8 +114,8 @@ void ScatterDataModifier::setSmoothDots(int smooth)
 
 void ScatterDataModifier::changeTheme(int theme)
 {
-    Q3DTheme *currentTheme = m_graph->activeTheme();
-    currentTheme->setType(Q3DTheme::Theme(theme));
+    QGraphsTheme *currentTheme = m_graph->activeTheme();
+    currentTheme->setTheme(QGraphsTheme::Theme(theme));
     emit backgroundEnabledChanged(currentTheme->isBackgroundEnabled());
     emit gridEnabledChanged(currentTheme->isGridEnabled());
 }

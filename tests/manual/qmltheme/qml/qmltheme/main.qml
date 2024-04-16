@@ -14,6 +14,7 @@ Item {
     height: 820
 
     property var customTheme: customSurfaceTheme
+    property var currentGraph: surface
 
     Gradient {
         id: customGradient
@@ -43,34 +44,30 @@ Item {
         color: "white"
     }
 
-    Theme3D {
+    GraphsTheme {
         id: customSurfaceTheme
-        type: Theme3D.Theme.UserDefined
-        colorStyle: Theme3D.ColorStyle.ObjectGradient
-        baseColors: [surfaceColor]
-        baseGradients: [customGradient]
+        theme: GraphsTheme.Theme.QtGreen
+        colorStyle: GraphsTheme.ObjectGradient
         backgroundColor: "gray"
-        gridLineColor: "lightGray"
+        gridMainColor: "lightGray"
         multiHighlightColor: "orange"
         singleHighlightColor: "yellow"
         multiHighlightGradient: multiGradient
         singleHighlightGradient: singleGradient
-        shaderGridEnabled: backMod.testgridChange.checked
     }
 
-    Theme3D {
+    GraphsTheme {
         id: customBarsTheme
-        type: Theme3D.Theme.UserDefined
-        colorStyle: Theme3D.ColorStyle.ObjectGradient
+        theme: GraphsTheme.Theme.UserDefined
+        colorStyle: GraphsTheme.ObjectGradient
         baseColors: [barColor]
         baseGradients: [customGradient]
         backgroundColor: "gray"
-        gridLineColor: "lightGray"
+        gridMainColor: "lightGray"
         multiHighlightColor: "orange"
         singleHighlightColor: "yellow"
         multiHighlightGradient: multiGradient
         singleHighlightGradient: singleGradient
-        shaderGridEnabled: backMod.testgridChange.checked
     }
 
     Item {
@@ -89,6 +86,7 @@ Item {
             msaaSamples: 4
             aspectRatio: 3.0
             visible: !graphMod.barsVisible
+            shaderGridEnabled: backMod.testgridChange.checked
 
             Surface3DSeries {
                 id: surfaceSeries
@@ -115,6 +113,7 @@ Item {
             msaaSamples: 4
             aspectRatio: 3.0
             visible: graphMod.barsVisible
+            shaderGridEnabled: backMod.testgridChange.checked
 
             Bar3DSeries {
                 id: barsSeries

@@ -13,11 +13,11 @@ Item {
         height: top.height
         width: top.width
 
-        theme: GraphTheme {
+        theme: GraphsTheme {
             id: myTheme
-            colorTheme: GraphTheme.ColorTheme.Dark
-            axisXLabelsFont.pixelSize: 20
-            axisYLabelsFont.pixelSize: 16
+            theme: GraphsTheme.Theme.QtGreen
+            axisXLabelFont.pixelSize: 20
+            axisYLabelFont.pixelSize: 16
         }
 
         BarSeries {
@@ -186,15 +186,15 @@ Item {
         }
     }
 
-    SeriesTheme {
+    GraphsTheme {
         id: theme1
-        colors: ["#ff0000"]
+        seriesColors: ["#ff0000"]
         borderColors: ["#00ff00"]
     }
 
-    SeriesTheme {
+    GraphsTheme {
         id: theme2
-        colors: ["#0000ff", "#ff00ff"]
+        seriesColors: ["#0000ff", "#ff00ff"]
         borderColors: ["#00ffff", "#ffff00"]
     }
 
@@ -265,8 +265,8 @@ Item {
         function test_1_Initial() {
             compare(lineInitial.legendData.length, 1)
             // TODO: Change this to test fillcolor after QTBUG-122434
-            compare(lineInitial.legendData[0].color, "#3d9c73")
-            compare(lineInitial.legendData[0].borderColor, "#3d9c73")
+            compare(lineInitial.legendData[0].color, "#7be6b1")
+            compare(lineInitial.legendData[0].borderColor, "#7be6b1")
             compare(lineInitial.legendData[0].label, "")
         }
         function test_2_Initial_change() {
@@ -396,8 +396,8 @@ Item {
             compare(areaInitialized.legendData.length, 1)
             compare(areaInitialized2.legendData.length, 1)
 
-            compare(areaInitialized.legendData[0].color, "#ff00ff")
-            compare(areaInitialized.legendData[0].borderColor, "#ffff00")
+            compare(areaInitialized.legendData[0].color, "#0000ff")
+            compare(areaInitialized.legendData[0].borderColor, "#00ffff")
             compare(areaInitialized.legendData[0].label, "First")
 
             compare(areaInitialized2.legendData[0].color, "#ffffff")

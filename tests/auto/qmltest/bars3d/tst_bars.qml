@@ -106,7 +106,7 @@ Item {
         name: "Bars3D Theme"
         when: windowShown
 
-        Theme3D { id: newTheme }
+        GraphsTheme { id: newTheme }
 
         function test_1_add_theme() {
             constructBars()
@@ -117,8 +117,8 @@ Item {
         }
 
         function test_2_change_theme() {
-            newTheme.type = Theme3D.Theme.PrimaryColors
-            compare(bars3d.theme.type, Theme3D.Theme.PrimaryColors)
+            newTheme.theme = GraphsTheme.Theme.QtGreenNeon
+            compare(bars3d.theme.theme, GraphsTheme.Theme.QtGreenNeon)
 
             waitForRendering(top)
             bars3d.destroy()

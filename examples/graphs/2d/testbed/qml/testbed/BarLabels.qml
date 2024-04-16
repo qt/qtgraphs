@@ -15,10 +15,11 @@ Rectangle {
         anchors.margins: 20 * px
         anchors.topMargin: 80 * px
         anchors.rightMargin: settingsView.posX + 20 * px
-        theme: GraphTheme {
+        theme: GraphsTheme {
             id: myTheme
-            colorTheme: GraphTheme.ColorTheme.Dark
-            axisXLabelsFont.pixelSize: 20
+            colorScheme: Qt.Dark
+            theme: GraphsTheme.QtGreen
+            axisXLabelFont.pixelSize: 20
         }
         BarSeries {
             id: barSeries
@@ -37,7 +38,7 @@ Rectangle {
             labelsMargin: barsMarginSlider.sliderValue
             labelsAngle: barsAngleSlider.sliderValue
             BarSet { id: set2; label: "Frank"; labelColor: "#000000"; values: [8, 2, 6, 0] }
-            BarSet { id: set3; label: "James"; values: [4+3*Math.sin(fA.elapsedTime), 5+3*Math.sin(fA.elapsedTime), 2, 3] }
+            BarSet { id: set3; label: "James"; labelColor: "#ff00ff"; values: [4+3*Math.sin(fA.elapsedTime), 5+3*Math.sin(fA.elapsedTime), 2, 3] }
             FrameAnimation {
                 id: fA
                 running: true

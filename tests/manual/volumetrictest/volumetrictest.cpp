@@ -5,7 +5,7 @@
 #include <QtGraphs/qbar3dseries.h>
 #include <QtGraphs/qvalue3daxis.h>
 #include <QtGraphs/q3dscene.h>
-#include <QtGraphs/q3dtheme.h>
+#include <QtGraphs/qgraphstheme.h>
 #include <QtGraphs/qcustom3dlabel.h>
 #include <QtCore/qmath.h>
 #include <QtGui/QRgb>
@@ -30,7 +30,7 @@ VolumetricModifier::VolumetricModifier(QAbstract3DGraph *scatter)
       m_sliceIndexY(0),
       m_sliceIndexZ(0)
 {
-    m_graph->activeTheme()->setType(Q3DTheme::Theme::Qt);
+    m_graph->activeTheme()->setTheme(QGraphsTheme::Theme::QtGreen);
     //m_graph->activeTheme()->setType(Q3DTheme::Theme::Isabelle);
     m_graph->setShadowQuality(QAbstract3DGraph::ShadowQuality::None);
     m_graph->setCameraPreset(QAbstract3DGraph::CameraPreset::Front);

@@ -26,7 +26,7 @@ Item {
             id: scatterGraph
             width: dataView.width
             height: dataView.height
-            theme: Theme3D { type: Theme3D.Theme.Ebony }
+            theme: GraphsTheme { theme: GraphsTheme.Theme.QtGreen }
             shadowQuality: AbstractGraph3D.ShadowQuality.Medium
             cameraYRotation: 30.0
 

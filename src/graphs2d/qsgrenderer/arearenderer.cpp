@@ -118,15 +118,18 @@ void AreaRenderer::handlePolish(QAreaSeries *series)
     }
 
     if (group->colorIndex < 0) {
-        group->colorIndex = seriesTheme->graphSeriesCount();
-        seriesTheme->setGraphSeriesCount(group->colorIndex + 1);
+        group->colorIndex = m_graph->graphSeriesCount();
+        m_graph->setGraphSeriesCount(group->colorIndex + 1);
     }
 
-    QColor color = series->color().alpha() != 0 ? series->color()
-                                                : seriesTheme->graphSeriesColor(group->colorIndex);
+
+    int index = group->colorIndex % series->theme()->seriesColors().size();
+    QColor color = series->color().alpha() != 0
+            ? series->color()
+            : series->theme()->seriesColors().at(index);
     QColor borderColor = series->borderColor().alpha() != 0
-                             ? series->borderColor()
-                             : seriesTheme->graphSeriesBorderColor(group->colorIndex);
+            ? series->borderColor()
+            : series->theme()->borderColors().at(index);
 
     if (series->selected()) {
         color = series->selectedColor().alpha() != 0 ? series->selectedColor() : color.lighter();

@@ -7,7 +7,7 @@
 #include <QtGraphs/qlogvalue3daxisformatter.h>
 #include <QtGraphs/qbardataproxy.h>
 #include <QtGraphs/q3dscene.h>
-#include <QtGraphs/q3dtheme.h>
+#include <QtGraphs/qgraphstheme.h>
 #include <QtGraphs/qcustom3ditem.h>
 #include <QtCore/QRandomGenerator>
 #include <QtCore/QElapsedTimer>
@@ -53,7 +53,7 @@ GraphModifier::GraphModifier(Q3DBars *barchart, QColorDialog *colorDialog)
       m_negativeValuesOn(false),
       m_useNullInputHandler(false),
       m_ownTheme(0),
-      m_builtinTheme(new Q3DTheme(Q3DTheme::Theme::StoneMoss)),
+      m_builtinTheme(new QGraphsTheme()),
       m_extraSeries(0)
 {
     m_temperatureData->setObjectName("m_temperatureData");
@@ -182,7 +182,7 @@ GraphModifier::GraphModifier(Q3DBars *barchart, QColorDialog *colorDialog)
     m_temperatureData->setSingleHighlightGradient(singleHighlightGradient);
     m_temperatureData->setMultiHighlightGradient(multiHighlightGradient);
 
-    m_graph->activeTheme()->setFont(QFont("Times Roman", 20));
+    m_graph->activeTheme()->setLabelFont(QFont("Times Roman", 20));
 
     // Release and store the default input handler.
     m_graph->unsetDefaultWheelHandler();
@@ -604,42 +604,42 @@ void GraphModifier::changePresetCamera()
 
 void GraphModifier::changeTheme()
 {
-    static int theme = int(Q3DTheme::Theme::Qt);
+    static int theme = int(QGraphsTheme::Theme::QtGreen);
 
-    Q3DTheme *currentTheme = m_graph->activeTheme();
-    m_builtinTheme->setType(Q3DTheme::Theme(theme));
+    QGraphsTheme *currentTheme = m_graph->activeTheme();
+    m_builtinTheme->setTheme(QGraphsTheme::Theme(theme));
     if (currentTheme == m_ownTheme)
         m_graph->setActiveTheme(m_builtinTheme);
 
     switch (theme) {
-    case int(Q3DTheme::Theme::Qt):
-        qDebug() << __FUNCTION__ << "Qt";
+    case int(QGraphsTheme::Theme::QtGreen):
+        qDebug() << __FUNCTION__ << "QtGreen";
         break;
-    case int(Q3DTheme::Theme::PrimaryColors):
-        qDebug() << __FUNCTION__ << "PrimaryColors";
+    case int(QGraphsTheme::Theme::QtGreenNeon):
+        qDebug() << __FUNCTION__ << "QtGreenNeon";
         break;
-    case int(Q3DTheme::Theme::StoneMoss):
-        qDebug() << __FUNCTION__ << "StoneMoss";
+    case int(QGraphsTheme::Theme::MixSeries):
+        qDebug() << __FUNCTION__ << "MixSeries";
         break;
-    case int(Q3DTheme::Theme::ArmyBlue):
-        qDebug() << __FUNCTION__ << "ArmyBlue";
+    case int(QGraphsTheme::Theme::OrangeSeries):
+        qDebug() << __FUNCTION__ << "OrangeSeries";
         break;
-    case int(Q3DTheme::Theme::Retro):
-        qDebug() << __FUNCTION__ << "Retro";
+    case int(QGraphsTheme::Theme::PurpleSeries):
+        qDebug() << __FUNCTION__ << "PurpleSeries";
         break;
-    case int(Q3DTheme::Theme::Ebony):
-        qDebug() << __FUNCTION__ << "Ebony";
+    case int(QGraphsTheme::Theme::YellowSeries):
+        qDebug() << __FUNCTION__ << "YellowSeries";
         break;
-    case int(Q3DTheme::Theme::Isabelle):
-        qDebug() << __FUNCTION__ << "Isabelle";
+    case int(QGraphsTheme::Theme::GreySeries):
+        qDebug() << __FUNCTION__ << "GreySeries";
         break;
     default:
         qDebug() << __FUNCTION__ << "Unknown theme";
         break;
     }
 
-    if (++theme > int(Q3DTheme::Theme::Isabelle))
-        theme = int(Q3DTheme::Theme::Qt);
+    if (++theme > int(QGraphsTheme::Theme::UserDefined))
+        theme = int(QGraphsTheme::Theme::QtGreen);
 }
 
 void GraphModifier::changeLabelStyle()
@@ -663,15 +663,15 @@ void GraphModifier::changeFont(const QFont &font)
 {
     QFont newFont = font;
     newFont.setPointSize(m_fontSize);
-    m_graph->activeTheme()->setFont(newFont);
+    m_graph->activeTheme()->setLabelFont(newFont);
 }
 
 void GraphModifier::changeFontSize(int fontsize)
 {
     m_fontSize = fontsize;
-    QFont font = m_graph->activeTheme()->font();
+    QFont font = m_graph->activeTheme()->labelFont();
     font.setPointSize(m_fontSize);
-    m_graph->activeTheme()->setFont(font);
+    m_graph->activeTheme()->setLabelFont(font);
 }
 
 void GraphModifier::shadowQualityUpdatedByVisual(QAbstract3DGraph::ShadowQuality sq)
@@ -1679,10 +1679,10 @@ void GraphModifier::changeColorStyle(bool checked)
     Q_UNUSED(checked)
     int style = int(m_graph->activeTheme()->colorStyle());
 
-    if (++style > int(Q3DTheme::ColorStyle::RangeGradient))
-        style = int(Q3DTheme::ColorStyle::Uniform);
+    if (++style > int(QGraphsTheme::ColorStyle::RangeGradient))
+        style = int(QGraphsTheme::ColorStyle::Uniform);
 
-    m_graph->activeTheme()->setColorStyle(Q3DTheme::ColorStyle(style));
+    m_graph->activeTheme()->setColorStyle(QGraphsTheme::ColorStyle(style));
 }
 
 void GraphModifier::useOwnTheme(bool checked)
@@ -1690,20 +1690,17 @@ void GraphModifier::useOwnTheme(bool checked)
     Q_UNUSED(checked)
     // Own theme is persistent, any changes to it via UI will be remembered
     if (!m_ownTheme) {
-        m_ownTheme = new Q3DTheme();
+        m_ownTheme = new QGraphsTheme();
         m_ownTheme->setBackgroundEnabled(true);
         m_ownTheme->setGridEnabled(true);
-        m_ownTheme->setAmbientLightStrength(0.3f);
         m_ownTheme->setBackgroundColor(QColor(QRgb(0x99ca53)));
         QList<QColor> colors;
         colors.append(QColor(QRgb(0x209fdf)));
-        m_ownTheme->setBaseColors(colors);
-        m_ownTheme->setColorStyle(Q3DTheme::ColorStyle::Uniform);
-        m_ownTheme->setGridLineColor(QColor(QRgb(0x99ca53)));
+        m_ownTheme->setSeriesColors(colors);
+        m_ownTheme->setColorStyle(QGraphsTheme::ColorStyle::Uniform);
+        m_ownTheme->setGridMainColor(QColor(QRgb(0x99ca53)));
         m_ownTheme->setLabelBackgroundEnabled(true);
         m_ownTheme->setLabelBorderEnabled(true);
-        m_ownTheme->setLightColor(Qt::white);
-        m_ownTheme->setLightStrength(6.0f);
         m_ownTheme->setMultiHighlightColor(QColor(QRgb(0x6d5fd5)));
         m_ownTheme->setSingleHighlightColor(QColor(QRgb(0xf6a625)));
         m_ownTheme->setLabelBackgroundColor(QColor(0xf6, 0xa6, 0x25, 0xa0));
@@ -1721,7 +1718,7 @@ void GraphModifier::changeBaseColor(const QColor &color)
     qDebug() << "base color changed to" << color;
     QList<QColor> colors;
     colors.append(color);
-    m_graph->activeTheme()->setBaseColors(colors);
+    m_graph->activeTheme()->setSeriesColors(colors);
 }
 
 void GraphModifier::setGradient(bool checked)
@@ -1753,11 +1750,11 @@ void GraphModifier::setGradient(bool checked)
 
     QList<QLinearGradient> barGradients;
     barGradients.append(barGradient);
-    m_graph->activeTheme()->setBaseGradients(barGradients);
+    m_graph->activeTheme()->setSeriesGradients(barGradients);
     m_graph->activeTheme()->setSingleHighlightGradient(singleHighlightGradient);
     m_graph->activeTheme()->setMultiHighlightGradient(multiHighlightGradient);
 
-    m_graph->activeTheme()->setColorStyle(Q3DTheme::ColorStyle::ObjectGradient);
+    m_graph->activeTheme()->setColorStyle(QGraphsTheme::ColorStyle::ObjectGradient);
 }
 
 void GraphModifier::toggleMultiseriesScaling()

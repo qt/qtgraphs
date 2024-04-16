@@ -81,7 +81,7 @@ void tst_scatter::initialProperties()
     QCOMPARE(m_graph->axisZ()->orientation(), QAbstract3DAxis::AxisOrientation::Z);
 
     // Common properties
-    QCOMPARE(m_graph->activeTheme()->type(), Q3DTheme::Theme::Qt);
+    QCOMPARE(m_graph->activeTheme()->theme(), QGraphsTheme::Theme::UserDefined);
     QCOMPARE(m_graph->selectionMode(), QAbstract3DGraph::SelectionItem);
     QCOMPARE(m_graph->shadowQuality(), QAbstract3DGraph::ShadowQuality::Medium);
     QVERIFY(m_graph->scene());
@@ -100,7 +100,9 @@ void tst_scatter::initialProperties()
 
 void tst_scatter::initializeProperties()
 {
-    Q3DTheme *theme = new Q3DTheme(Q3DTheme::Theme::Retro);
+    QGraphsTheme *theme = new QGraphsTheme();
+    theme->setColorScheme(Qt::ColorScheme::Light);
+    theme->setTheme(QGraphsTheme::Theme::QtGreenNeon);
     m_graph->setActiveTheme(theme);
     m_graph->setSelectionMode(QAbstract3DGraph::SelectionNone);
     m_graph->setShadowQuality(QAbstract3DGraph::ShadowQuality::SoftHigh);
@@ -115,7 +117,7 @@ void tst_scatter::initializeProperties()
     m_graph->setLocale(QLocale("FI"));
     m_graph->setMargin(1.0);
 
-    QCOMPARE(m_graph->activeTheme()->type(), Q3DTheme::Theme::Retro);
+    QCOMPARE(m_graph->activeTheme()->theme(), QGraphsTheme::Theme::QtGreenNeon);
     QCOMPARE(m_graph->selectionMode(), QAbstract3DGraph::SelectionNone);
     QCOMPARE(m_graph->shadowQuality(), QAbstract3DGraph::ShadowQuality::None); // Ortho disables shadows
     QCOMPARE(m_graph->measureFps(), true);

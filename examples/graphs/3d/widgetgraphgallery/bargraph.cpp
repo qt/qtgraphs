@@ -40,13 +40,14 @@ void BarGraph::initialize()
     //! [1]
 
     auto *themeList = new QComboBox(m_barsWidget);
-    themeList->addItem(u"Qt"_s);
-    themeList->addItem(u"Primary Colors"_s);
-    themeList->addItem(u"Stone Moss"_s);
-    themeList->addItem(u"Army Blue"_s);
-    themeList->addItem(u"Retro"_s);
-    themeList->addItem(u"Ebony"_s);
-    themeList->addItem(u"Isabelle"_s);
+    themeList->addItem(u"QtGreen"_s);
+    themeList->addItem(u"QtGreenNeon"_s);
+    themeList->addItem(u"MixSeries"_s);
+    themeList->addItem(u"OrangeSeries"_s);
+    themeList->addItem(u"YellowSeries"_s);
+    themeList->addItem(u"BlueSeries"_s);
+    themeList->addItem(u"PurpleSeries"_s);
+    themeList->addItem(u"GreySeries"_s);
     themeList->setCurrentIndex(0);
 
     auto *labelButton = new QPushButton(m_barsWidget);
@@ -241,6 +242,7 @@ void BarGraph::initialize()
 
     //! [2]
     m_modifier = new GraphModifier(m_barsGraph, this);
+    m_modifier->changeTheme(themeList->currentIndex());
     //! [2]
 
     //! [5]

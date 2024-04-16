@@ -77,20 +77,20 @@ Item {
         }
     }
 
-    Theme3D {
+    GraphsTheme {
         id: dynamicColorTheme
-        type: Theme3D.Theme.Ebony
+        theme: GraphsTheme.Theme.QtGreen
         baseColors: [dynamicColor]
-        font.pointSize: 50
+        labelFont.pointSize: 50
         labelBorderEnabled: true
         labelBackgroundColor: "gold"
         labelTextColor: "black"
     }
 
-    Theme3D {
+    GraphsTheme {
         id: isabelleTheme
-        type: Theme3D.Theme.Isabelle
-        font.pointSize: 50
+        theme: GraphsTheme.Theme.QtGreenNeon
+        labelFont.pointSize: 50
         labelBorderEnabled: true
         labelBackgroundColor: "gold"
         labelTextColor: "black"

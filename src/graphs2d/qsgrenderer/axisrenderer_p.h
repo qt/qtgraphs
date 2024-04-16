@@ -29,7 +29,7 @@ class QAbstractAxis;
 class QGraphsView;
 class QBarCategoryAxis;
 class QValueAxis;
-class QGraphTheme;
+class QGraphsTheme;
 
 class AxisRenderer : public QQuickItem
 {
@@ -65,7 +65,7 @@ private:
     void updateAxisLabelItems(QList<QQuickText *> &textItems, int neededSize);
 
     QGraphsView *m_graph = nullptr;
-    QGraphTheme *theme();
+    QGraphsTheme *theme();
     bool m_initialized = false;
 
     QAbstractAxis *m_axisVertical = nullptr;

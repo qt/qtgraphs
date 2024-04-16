@@ -18,14 +18,14 @@ Item {
         id: graphData
     }
 
-    Theme3D {
+    GraphsTheme {
         id: firstTheme
-        type: Theme3D.Theme.Qt
+        theme: GraphsTheme.Theme.QtGreen
     }
 
-    Theme3D {
+    GraphsTheme {
         id: secondTheme
-        type: Theme3D.Theme.Ebony
+        theme: GraphsTheme.Theme.PurpleSeries
     }
 
     Item {

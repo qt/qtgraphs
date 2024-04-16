@@ -6,7 +6,6 @@
 #include <QtGraphs/qvalue3daxis.h>
 #include <QtGraphs/q3dscene.h>
 #include <QtGraphs/qscatter3dseries.h>
-#include <QtGraphs/q3dtheme.h>
 #include <QtGraphs/QCustom3DItem>
 #include <QtCore/qmath.h>
 
@@ -41,7 +40,7 @@ ScatterDataModifier::ScatterDataModifier(Q3DScatter *scatter)
     fieldGradient.setColorAt(0.0, Qt::black);
     fieldGradient.setColorAt(1.0, Qt::white);
     m_magneticField->setBaseGradient(fieldGradient);
-    m_magneticField->setColorStyle(Q3DTheme::ColorStyle::RangeGradient);
+    m_magneticField->setColorStyle(QGraphsTheme::ColorStyle::RangeGradient);
     //! [4]
 
     // For 'sun' we use a custom large sphere

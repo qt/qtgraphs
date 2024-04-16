@@ -534,6 +534,45 @@ QT_BEGIN_NAMESPACE
  */
 
 /*!
+ * \qmlproperty bool AbstractGraph3D::shaderGridEnabled
+ *
+ * Defines whether the grid lines are drawn inside a shader instead of lines.
+ * This value affects all grid lines.
+ */
+
+/*!
+ * \qmlproperty real AbstractGraph3D::shadowStrength
+ *
+ * The shadow strength for the whole graph. The higher the number, the darker
+ * the shadows will be. The value must be between \c 0.0 and \c 100.0.
+ *
+ * This value affects the light specified in Scene3D.
+ */
+
+/*!
+ * \qmlproperty real AbstractGraph3D::lightStrength
+ *
+ * The specular light strength for the whole graph. The value must be between
+ * \c 0.0 and \c 10.0.
+ *
+ * This value affects the light specified in Scene3D.
+ */
+
+/*!
+ * \qmlproperty real AbstractGraph3D::ambientLightStrength
+ *
+ * The ambient light strength for the whole graph. This value determines how
+ * evenly and brightly the colors are shown throughout the graph regardless of
+ * the light position. The value must be between \c 0.0 and \c 1.0.
+ */
+
+/*!
+ * \qmlproperty color AbstractGraph3D::lightColor
+ *
+ * The color of the ambient and specular light defined in Scene3D.
+ */
+
+/*!
     \enum QAbstract3DGraph::SelectionFlag
 
     Item selection modes. Values of this enumeration can be combined with OR
@@ -747,6 +786,27 @@ QAbstract3DGraph::QAbstract3DGraph(const QString &graphType)
                      &QQuickGraphsItem::queriedGraphPositionChanged,
                      this,
                      &QAbstract3DGraph::queriedGraphPositionChanged);
+
+    QObject::connect(m_graphsItem.data(),
+                     &QQuickGraphsItem::ambientLightStrengthChanged,
+                     this,
+                     &QAbstract3DGraph::ambientLightStrengthChanged);
+    QObject::connect(m_graphsItem.data(),
+                     &QQuickGraphsItem::lightStrengthChanged,
+                     this,
+                     &QAbstract3DGraph::lightStrengthChanged);
+    QObject::connect(m_graphsItem.data(),
+                     &QQuickGraphsItem::shadowStrengthChanged,
+                     this,
+                     &QAbstract3DGraph::shadowStrengthChanged);
+    QObject::connect(m_graphsItem.data(),
+                     &QQuickGraphsItem::lightColorChanged,
+                     this,
+                     &QAbstract3DGraph::lightColorChanged);
+    QObject::connect(m_graphsItem.data(),
+                     &QQuickGraphsItem::shaderGridEnabledChanged,
+                     this,
+                     &QAbstract3DGraph::shaderGridEnabledChanged);
 }
 
 /*!
@@ -761,7 +821,7 @@ QAbstract3DGraph::~QAbstract3DGraph() {}
  *
  * \sa releaseTheme(), setActiveTheme()
  */
-void QAbstract3DGraph::addTheme(Q3DTheme *theme)
+void QAbstract3DGraph::addTheme(QGraphsTheme *theme)
 {
     m_graphsItem->addTheme(theme);
 }
@@ -776,7 +836,7 @@ void QAbstract3DGraph::addTheme(Q3DTheme *theme)
  *
  * \sa addTheme(), setActiveTheme()
  */
-void QAbstract3DGraph::releaseTheme(Q3DTheme *theme)
+void QAbstract3DGraph::releaseTheme(QGraphsTheme *theme)
 {
     m_graphsItem->releaseTheme(theme);
 }
@@ -794,12 +854,12 @@ void QAbstract3DGraph::releaseTheme(Q3DTheme *theme)
  * of the theme can be modified even after setting it, and the modifications
  * take effect immediately.
  */
-Q3DTheme *QAbstract3DGraph::activeTheme() const
+QGraphsTheme *QAbstract3DGraph::activeTheme() const
 {
     return m_graphsItem->theme();
 }
 
-void QAbstract3DGraph::setActiveTheme(Q3DTheme *activeTheme)
+void QAbstract3DGraph::setActiveTheme(QGraphsTheme *activeTheme)
 {
     m_graphsItem->setTheme(activeTheme);
     emit activeThemeChanged(activeTheme);
@@ -810,7 +870,7 @@ void QAbstract3DGraph::setActiveTheme(Q3DTheme *activeTheme)
  *
  * \sa addTheme()
  */
-QList<Q3DTheme *> QAbstract3DGraph::themes() const
+QList<QGraphsTheme *> QAbstract3DGraph::themes() const
 {
     return m_graphsItem->themes();
 }
@@ -1187,6 +1247,99 @@ bool QAbstract3DGraph::zoomEnabled()
 void QAbstract3DGraph::setZoomEnabled(bool enable)
 {
     m_graphsItem->setZoomEnabled(enable);
+}
+
+/*!
+ * \property QAbstract3DGraph::ambientLightStrength
+ *
+ * \brief The ambient light strength for the whole graph.
+ *
+ * This value determines how evenly and brightly the colors are shown throughout
+ * the graph regardless of the light position.
+ *
+ * The value must be between \c 0.0f and \c 1.0f.
+ */
+float QAbstract3DGraph::ambientLightStrength() const
+{
+    return m_graphsItem->ambientLightStrength();
+}
+
+void QAbstract3DGraph::setAmbientLightStrength(float newAmbientLightStrength)
+{
+    m_graphsItem->setAmbientLightStrength(newAmbientLightStrength);
+}
+
+/*!
+ * \property QAbstract3DGraph::lightStrength
+ *
+ * \brief The specular light strength for the whole graph.
+ *
+ * The value must be between \c 0.0f and \c 10.0f.
+ *
+ * This value affects the light specified in Q3DScene.
+ */
+float QAbstract3DGraph::lightStrength() const
+{
+    return m_graphsItem->lightStrength();
+}
+
+void QAbstract3DGraph::setLightStrength(float newLightStrength)
+{
+    m_graphsItem->setLightStrength(newLightStrength);
+}
+
+/*!
+ * \property QAbstract3DGraph::shadowStrength
+ *
+ * \brief The shadow strength for the whole graph.
+ *
+ * The higher the number, the darker the shadows will be. The value must be
+ * between \c 0.0 and \c 100.0.
+ *
+ * This value affects the light specified in Q3DScene.
+ */
+float QAbstract3DGraph::shadowStrength() const
+{
+    return m_graphsItem->shadowStrength();
+}
+
+void QAbstract3DGraph::setShadowStrength(float newShadowStrength)
+{
+    m_graphsItem->setShadowStrength(newShadowStrength);
+}
+
+/*!
+ * \property QAbstract3DGraph::lightColor
+ *
+ * \brief The color for the ambient and specular light.
+ *
+ * This value affects the light specified in Q3DScene.
+ */
+QColor QAbstract3DGraph::lightColor() const
+{
+    return m_graphsItem->lightColor();
+}
+
+void QAbstract3DGraph::setLightColor(const QColor &newLightColor)
+{
+    m_graphsItem->setLightColor(newLightColor);
+}
+
+/*!
+ * \property QAbstract3DGraph::shaderGridEnabled
+ *
+ * \brief Whether the grid lines are drawn inside a shader instead of lines.
+ *
+ * This value affects all grid lines.
+ */
+bool QAbstract3DGraph::shaderGridEnabled()
+{
+    return m_graphsItem->shaderGridEnabled();
+}
+
+void QAbstract3DGraph::setShaderGridEnabled(bool enable)
+{
+    m_graphsItem->setShaderGridEnabled(enable);
 }
 
 /*!

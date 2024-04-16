@@ -6,7 +6,7 @@
 
 #include <QtGraphs/q3dbars.h>
 #include <QtGraphs/qbar3dseries.h>
-#include <QtGraphs/q3dtheme.h>
+#include <QtGraphs/qgraphstheme.h>
 #include <QFont>
 #include <QDebug>
 #include <QStringList>
@@ -158,8 +158,8 @@ private:
     QValue3DAxis *m_currentAxis;
     bool m_negativeValuesOn;
     bool m_useNullInputHandler;
-    Q3DTheme *m_ownTheme;
-    Q3DTheme *m_builtinTheme;
+    QGraphsTheme *m_ownTheme;
+    QGraphsTheme *m_builtinTheme;
     QTimer m_insertRemoveTimer;
     int m_insertRemoveStep;
     QTimer m_selectionTimer;

@@ -7,7 +7,7 @@
 #include <QtCore/QObject>
 #include <QtCore/QScopedPointer>
 #include <QtCore/QString>
-#include <QtGraphs/q3dtheme.h>
+#include <QtGraphs/qgraphstheme.h>
 #include <QtGui/QLinearGradient>
 #include <QtGui/QQuaternion>
 
@@ -30,7 +30,7 @@ class Q_GRAPHS_EXPORT QAbstract3DSeries : public QObject
         QQuaternion meshRotation READ meshRotation WRITE setMeshRotation NOTIFY meshRotationChanged)
     Q_PROPERTY(QString userDefinedMesh READ userDefinedMesh WRITE setUserDefinedMesh NOTIFY
                    userDefinedMeshChanged)
-    Q_PROPERTY(Q3DTheme::ColorStyle colorStyle READ colorStyle WRITE setColorStyle NOTIFY
+    Q_PROPERTY(QGraphsTheme::ColorStyle colorStyle READ colorStyle WRITE setColorStyle NOTIFY
                    colorStyleChanged)
     Q_PROPERTY(QColor baseColor READ baseColor WRITE setBaseColor NOTIFY baseColorChanged)
     Q_PROPERTY(QLinearGradient baseGradient READ baseGradient WRITE setBaseGradient NOTIFY
@@ -95,8 +95,8 @@ public:
     void setUserDefinedMesh(const QString &fileName);
     QString userDefinedMesh() const;
 
-    void setColorStyle(Q3DTheme::ColorStyle style);
-    Q3DTheme::ColorStyle colorStyle() const;
+    void setColorStyle(QGraphsTheme::ColorStyle style);
+    QGraphsTheme::ColorStyle colorStyle() const;
     void setBaseColor(const QColor &color);
     QColor baseColor() const;
     void setBaseGradient(const QLinearGradient &gradient);
@@ -124,7 +124,7 @@ Q_SIGNALS:
     void meshSmoothChanged(bool enabled);
     void meshRotationChanged(const QQuaternion &rotation);
     void userDefinedMeshChanged(const QString &fileName);
-    void colorStyleChanged(Q3DTheme::ColorStyle style);
+    void colorStyleChanged(QGraphsTheme::ColorStyle style);
     void baseColorChanged(const QColor &color);
     void baseGradientChanged(const QLinearGradient &gradient);
     void singleHighlightColorChanged(const QColor &color);

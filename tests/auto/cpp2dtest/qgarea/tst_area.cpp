@@ -80,7 +80,7 @@ void tst_area::initializeProperties()
 
     auto axisX = new QValueAxis(this);
     auto axisY = new QValueAxis(this);
-    auto theme = new QSeriesTheme(this);
+    auto theme = new QGraphsTheme(this);
     auto upperSeries = new QLineSeries(this);
     auto lowerSeries = new QLineSeries(this);
 

@@ -57,13 +57,13 @@ void PieRenderer::updateSeries(QPieSeries *series)
     qreal radius = size().width() > size().height() ? size().height() : size().width();
     radius *= (.5 * series->size());
 
-    QSeriesTheme *theme = series->theme();
+    QGraphsTheme *theme = series->theme();
     if (!theme)
         return;
 
     if (m_colorIndex < 0)
-        m_colorIndex = theme->graphSeriesCount();
-    theme->setGraphSeriesCount(m_colorIndex + series->slices().size());
+        m_colorIndex = m_graph->graphSeriesCount();
+    m_graph->setGraphSeriesCount(m_colorIndex + series->slices().size());
 
     int sliceIndex = 0;
     QList<QLegendData> legendDataList;
@@ -73,13 +73,15 @@ void PieRenderer::updateSeries(QPieSeries *series)
         // update slice
         QQuickShapePath *shapePath = d->m_shapePath;
 
-        QColor borderColor = theme->graphSeriesBorderColor(sliceIndex);
+        int index = sliceIndex % series->theme()->borderColors().size();
+        QColor borderColor = series->theme()->borderColors().at(index);
         if (d->m_borderColor.isValid())
             borderColor = d->m_borderColor;
         qreal borderWidth = theme->borderWidth();
         if (d->m_borderWidth > 0.0)
             borderWidth = d->m_borderWidth;
-        QColor color = theme->graphSeriesColor(sliceIndex);
+        index = sliceIndex % series->theme()->seriesColors().size();
+        QColor color = series->theme()->seriesColors().at(index);
         if (d->m_color.isValid())
             color = d->m_color;
         shapePath->setStrokeWidth(borderWidth);

@@ -1,7 +1,7 @@
 // Copyright (C) 2023 The Qt Company Ltd.
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 
-#include "q3dtheme_p.h"
+#include "qgraphstheme.h"
 #include "qbar3dseries_p.h"
 #include "qbardataproxy_p.h"
 #include "qcategory3daxis_p.h"
@@ -582,7 +582,7 @@ void QQuickGraphsBars::synchData()
     }
 
     // Do not clear dirty flag, we need to react to it in qquickgraphicsitem as well
-    if (theme()->d_func()->m_dirtyBits.backgroundEnabledDirty) {
+    if (theme()->dirtyBits()->backgroundEnabledDirty) {
         setSeriesVisualsDirty(true);
         for (auto it = m_barModelsMap.begin(); it != m_barModelsMap.end(); it++)
             it.key()->d_func()->m_changeTracker.meshChanged = true;
@@ -594,7 +594,7 @@ void QQuickGraphsBars::synchData()
     }
 
     if (m_axisRangeChanged) {
-        theme()->d_func()->resetDirtyBits();
+        theme()->resetDirtyBits();
         m_axisRangeChanged = false;
     }
 
@@ -750,7 +750,7 @@ void QQuickGraphsBars::updateLightStrength()
             if (materialRef.size()) {
                 QQuick3DCustomMaterial *material = qobject_cast<QQuick3DCustomMaterial *>(
                     materialRef.at(0));
-                material->setProperty("specularBrightness", theme()->lightStrength() * 0.05);
+                material->setProperty("specularBrightness", lightStrength() * 0.05);
             }
         }
     }
@@ -1425,7 +1425,7 @@ void QQuickGraphsBars::updateBarPositions(QBar3DSeries *series)
                         bih->selectedBar = false;
 
                         bool colorStyleIsUniform = (series->colorStyle()
-                                                    == Q3DTheme::ColorStyle::Uniform);
+                                                    == QGraphsTheme::ColorStyle::Uniform);
                         if (colorStyleIsUniform) {
                             QList<QColor> rowColors = series->rowColors();
                             if (rowColors.size() == 0) {
@@ -1501,7 +1501,7 @@ void QQuickGraphsBars::updateBarVisuals(QBar3DSeries *series)
     }
 
     bool rangeGradient = (useGradient
-                          && series->d_func()->m_colorStyle == Q3DTheme::ColorStyle::RangeGradient);
+                          && series->d_func()->m_colorStyle == QGraphsTheme::ColorStyle::RangeGradient);
     QColor baseColor = series->baseColor();
     QColor barColor;
     QLinearGradient gradient = series->baseGradient();
@@ -1637,7 +1637,7 @@ void QQuickGraphsBars::updateMaterialProperties(QQuick3DModel *item,
             textureInput->setTexture(isHighlight ? m_highlightTexture : m_multiHighlightTexture);
         customMaterial->setProperty("isHighlight", isHighlight || isMultiHighlight);
     }
-    customMaterial->setProperty("specularBrightness", theme()->lightStrength() * 0.05);
+    customMaterial->setProperty("specularBrightness", lightStrength() * 0.05);
 }
 
 void QQuickGraphsBars::removeBarModels()
@@ -1948,8 +1948,8 @@ void QQuickGraphsBars::updateSliceItemLabel(QString label, const QVector3D &posi
 {
     QQuickGraphsItem::updateSliceItemLabel(label, position);
 
-    QFontMetrics fm(theme()->font());
-    float textPadding = theme()->font().pointSizeF() * .7f;
+    QFontMetrics fm(theme()->labelFont());
+    float textPadding = theme()->labelFont().pointSizeF() * .7f;
     float labelHeight = fm.height() + textPadding;
     float labelWidth = fm.horizontalAdvance(label) + textPadding;
     sliceItemLabel()->setProperty("labelWidth", labelWidth);
@@ -2078,7 +2078,7 @@ void QQuickGraphsBars::updateSliceGraph()
         bool useGradient = it.key()->d_func()->isUsingGradient();
         bool rangeGradient = (useGradient
                               && it.key()->d_func()->m_colorStyle
-                                     == Q3DTheme::ColorStyle::RangeGradient);
+                                      == QGraphsTheme::ColorStyle::RangeGradient);
         QList<BarModel *> barList = *m_barModelsMap.value(it.key());
         QList<BarModel *> *sliceList = it.value();
         if (optimizationHint() == QAbstract3DGraph::OptimizationHint::Legacy) {
@@ -2143,9 +2143,9 @@ void QQuickGraphsBars::updateSliceGraph()
     }
 }
 
-void QQuickGraphsBars::handleLabelCountChanged(QQuick3DRepeater *repeater)
+void QQuickGraphsBars::handleLabelCountChanged(QQuick3DRepeater *repeater, QColor axisLabelColor)
 {
-    QQuickGraphsItem::handleLabelCountChanged(repeater);
+    QQuickGraphsItem::handleLabelCountChanged(repeater, axisLabelColor);
 
     if (repeater == repeaterX())
         handleColCountChanged();
@@ -2179,7 +2179,7 @@ void QQuickGraphsBars::createBarItemHolders(QBar3DSeries *series,
 {
     bool useGradient = series->d_func()->isUsingGradient();
     bool rangeGradient = (useGradient
-                          && series->d_func()->m_colorStyle == Q3DTheme::ColorStyle::RangeGradient);
+                          && series->d_func()->m_colorStyle == QGraphsTheme::ColorStyle::RangeGradient);
     bool visible = ((m_selectedBarSeries == series
                      || selectionMode().testFlag(QAbstract3DGraph::SelectionMultiSeries))
                     && series->isVisible());

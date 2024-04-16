@@ -7,7 +7,6 @@
 #include <QtGraphs/QValue3DAxis>
 #include <QtGraphs/Q3DScene>
 #include <QtGraphs/QScatter3DSeries>
-#include <QtGraphs/Q3DTheme>
 #include <QtCore/qmath.h>
 #include <QtCore/QFile>
 #include <QtCore/QTextStream>
@@ -16,7 +15,7 @@
 ScatterDataModifier::ScatterDataModifier(Q3DScatter *scatter)
     : m_graph(scatter)
 {
-    m_graph->activeTheme()->setType(Q3DTheme::Theme::PrimaryColors);
+    m_graph->activeTheme()->setTheme(QGraphsTheme::Theme::QtGreen);
     m_graph->setShadowQuality(QAbstract3DGraph::ShadowQuality::Medium);
     m_graph->setCameraPreset(QAbstract3DGraph::CameraPreset::Front);
 

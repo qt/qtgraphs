@@ -117,22 +117,22 @@ Item {
         color: "orange"
     }
 
-    Theme3D {
+    GraphsTheme {
         id: theme1
-        type: Theme3D.Theme.Retro
+        theme: GraphsTheme.Theme.YellowSeries
         labelBorderEnabled: true
-        font.pointSize: 35
+        labelFont.pointSize: 35
         labelBackgroundEnabled: true
-        colorStyle: Theme3D.ColorStyle.Uniform
+        colorStyle: GraphsTheme.ColorStyle.Uniform
     }
 
-    Theme3D {
+    GraphsTheme {
         id: theme2
-        type: Theme3D.Theme.ArmyBlue
+        theme: GraphsTheme.Theme.QtGreenNeon
         labelBorderEnabled: true
-        font.pointSize: 35
+        labelFont.pointSize: 35
         labelBackgroundEnabled: true
-        colorStyle: Theme3D.ColorStyle.Uniform
+        colorStyle: GraphsTheme.ColorStyle.Uniform
     }
 
     ColumnLayout {
@@ -259,9 +259,9 @@ Item {
             clip: true
             from: 0
             to: 100
-            value: barGraph.theme.shadowStrength
+            value: barGraph.shadowStrength
 
-            onValueChanged: barGraph.theme.shadowStrength = value
+            onValueChanged: barGraph.shadowStrength = value
         }
 
         Button {

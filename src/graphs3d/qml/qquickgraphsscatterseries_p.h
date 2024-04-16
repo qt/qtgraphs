@@ -14,7 +14,6 @@
 #ifndef QQUICKGRAPHSSCATTERSERIES_P_H
 #define QQUICKGRAPHSSCATTERSERIES_P_H
 
-#include "qquickgraphscolor_p.h"
 #include "qscatter3dseries.h"
 
 #include <QtQml/qqml.h>

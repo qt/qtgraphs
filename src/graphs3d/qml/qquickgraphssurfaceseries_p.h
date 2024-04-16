@@ -14,7 +14,6 @@
 #ifndef QQUICKGRAPHSSURFACESERIES_P_H
 #define QQUICKGRAPHSSURFACESERIES_P_H
 
-#include "qquickgraphscolor_p.h"
 #include "qsurface3dseries.h"
 
 #include <QtQml/qqml.h>

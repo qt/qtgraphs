@@ -53,7 +53,7 @@ Item {
                 appendRow()
                 appendRow()
                 if (graphModel.count > 5000) {
-                    scatterGraph.theme.type = Theme3D.Theme.Isabelle;
+                    scatterGraph.theme.theme = GraphsTheme.Theme.QtGreenNeon;
                     isIncreasing = false;
                 }
             } else {
@@ -68,7 +68,7 @@ Item {
                 graphModel.remove(Math.random() * (graphModel.count - 1));
                 graphModel.remove(Math.random() * (graphModel.count - 1));
                 if (graphModel.count === 2) {
-                    scatterGraph.theme.type = Theme3D.Theme.PrimaryColors;
+                    scatterGraph.theme.theme = GraphsTheme.Theme.YellowSeries;
                     isIncreasing = true;
                 }
             }
@@ -95,8 +95,8 @@ Item {
             id: scatterGraph
             width: dataView.width
             height: dataView.height
-            theme: Theme3D {
-                type: Theme3D.Theme.Qt
+            theme: GraphsTheme {
+                theme: GraphsTheme.Theme.QtGreen
                 baseColors: [dynamicColor]
             }
             shadowQuality: AbstractGraph3D.ShadowQuality.SoftMedium

@@ -6,7 +6,7 @@
 
 #include <QtCore/qmath.h>
 #include <QtGraphs/q3dscene.h>
-#include <QtGraphs/q3dtheme.h>
+#include <QtGraphs/qgraphstheme.h>
 #include <QtGraphs/qbar3dseries.h>
 #include <QtGraphs/qbardataproxy.h>
 #include <QtGraphs/qcategory3daxis.h>
@@ -35,7 +35,7 @@ GraphModifier::GraphModifier(Q3DBars *bargraph, QObject *parent)
     //! [2]
     m_graph->setShadowQuality(QAbstract3DGraph::ShadowQuality::SoftMedium);
     m_graph->activeTheme()->setBackgroundEnabled(false);
-    m_graph->activeTheme()->setFont(QFont("Times New Roman", m_fontSize));
+    m_graph->activeTheme()->setLabelFont(QFont("Times New Roman", m_fontSize));
     m_graph->activeTheme()->setLabelBackgroundEnabled(true);
     m_graph->setMultiSeriesUniform(true);
     //! [2]
@@ -238,12 +238,12 @@ void GraphModifier::changePresetCamera()
 
 void GraphModifier::changeTheme(int theme)
 {
-    Q3DTheme *currentTheme = m_graph->activeTheme();
-    currentTheme->setType(Q3DTheme::Theme(theme));
+    QGraphsTheme *currentTheme = m_graph->activeTheme();
+    currentTheme->setTheme(QGraphsTheme::Theme(theme));
     emit backgroundEnabledChanged(currentTheme->isBackgroundEnabled());
     emit gridEnabledChanged(currentTheme->isGridEnabled());
-    emit fontChanged(currentTheme->font());
-    emit fontSizeChanged(currentTheme->font().pointSize());
+    emit fontChanged(currentTheme->labelFont());
+    emit fontSizeChanged(currentTheme->labelFont().pointSize());
 }
 
 void GraphModifier::changeLabelBackground()
@@ -264,15 +264,15 @@ void GraphModifier::changeSelectionMode(int selectionMode)
 void GraphModifier::changeFont(const QFont &font)
 {
     QFont newFont = font;
-    m_graph->activeTheme()->setFont(newFont);
+    m_graph->activeTheme()->setLabelFont(newFont);
 }
 
 void GraphModifier::changeFontSize(int fontsize)
 {
     m_fontSize = fontsize;
-    QFont font = m_graph->activeTheme()->font();
+    QFont font = m_graph->activeTheme()->labelFont();
     font.setPointSize(m_fontSize);
-    m_graph->activeTheme()->setFont(font);
+    m_graph->activeTheme()->setLabelFont(font);
 }
 
 void GraphModifier::shadowQualityUpdatedByVisual(QAbstract3DGraph::ShadowQuality sq)

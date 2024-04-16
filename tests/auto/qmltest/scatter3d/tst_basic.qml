@@ -52,7 +52,7 @@ Item {
             selectionMode: AbstractGraph3D.SelectionNone
             shadowQuality: AbstractGraph3D.ShadowQuality.Low
             msaaSamples: 2
-            theme: Theme3D { }
+            theme: GraphsTheme { }
             renderingMode: AbstractGraph3D.RenderingMode.Indirect
             measureFps: true
             orthoProjection: false
@@ -63,6 +63,10 @@ Item {
             horizontalAspectRatio: 0.2
             locale: Qt.locale(\"UK\")
             margin: 0.2
+            lightColor: \"black\"
+            ambientLightStrength: 0.5
+            lightStrength: 10.0
+            shadowStrength: 50.0
         }", top)
         common_init.anchors.fill = top
     }
@@ -112,7 +116,7 @@ Item {
             compare(common.selectionMode, AbstractGraph3D.SelectionItem, "selectionMode")
             compare(common.shadowQuality, AbstractGraph3D.ShadowQuality.Medium, "shadowQuality")
             compare(common.msaaSamples, 4, "msaaSamples")
-            compare(common.theme.type, Theme3D.Theme.Qt, "theme")
+            compare(common.theme.theme, GraphsTheme.Theme.UserDefined, "theme")
             compare(common.renderingMode, AbstractGraph3D.RenderingMode.Indirect, "renderingMode")
             compare(common.measureFps, false, "measureFps")
             compare(common.customItemList.length, 0, "customItemList")
@@ -126,6 +130,10 @@ Item {
             compare(common.locale, Qt.locale("C"), "locale")
             compare(common.queriedGraphPosition, Qt.vector3d(0, 0, 0), "queriedGraphPosition")
             compare(common.margin, -1, "margin")
+            compare(common.lightColor, "#ffffff", "lightColor")
+            compare(common.ambientLightStrength, 0.25, "ambientLightStrength")
+            compare(common.lightStrength, 5.0, "lightStrength")
+            compare(common.shadowStrength, 25.0, "shadowStrength")
         }
 
         function test_2_change_common() {
@@ -134,7 +142,7 @@ Item {
             compare(common.shadowQuality, AbstractGraph3D.ShadowQuality.SoftHigh, "shadowQuality")
             common.msaaSamples = 8
             compare(common.msaaSamples, 8, "msaaSamples")
-            common.theme.type = Theme3D.Theme.Retro
+            common.theme.theme = GraphsTheme.Theme.QtGreen
             // TODO: Seems to be causing crashes in testing - QTBUG-122089
             // common.renderingMode = AbstractGraph3D.RenderingMode.DirectToBackground
             common.measureFps = true
@@ -146,11 +154,15 @@ Item {
             common.horizontalAspectRatio = 1
             common.locale = Qt.locale("FI")
             common.margin = 1.0
+            common.lightColor = "#ff0000"
+            common.ambientLightStrength = 0.5
+            common.lightStrength = 10.0
+            common.shadowStrength = 50.0
             compare(common.selectionMode, AbstractGraph3D.SelectionNone, "selectionMode")
             compare(common.shadowQuality, AbstractGraph3D.ShadowQuality.None, "shadowQuality") // Ortho disables shadows
             // TODO: Seems to be causing crashes in testing - QTBUG-122089
             // compare(common.msaaSamples, 0, "msaaSamples") // Rendering mode changes this to zero
-            compare(common.theme.type, Theme3D.Theme.Retro, "theme")
+            compare(common.theme.theme, GraphsTheme.Theme.QtGreen, "theme")
             // TODO: Seems to be causing crashes in testing - QTBUG-122089
             // compare(common.renderingMode, AbstractGraph3D.RenderingMode.DirectToBackground, "renderingMode")
             compare(common.measureFps, true, "measureFps")
@@ -162,6 +174,10 @@ Item {
             compare(common.horizontalAspectRatio, 1, "horizontalAspectRatio")
             compare(common.locale, Qt.locale("FI"), "locale")
             compare(common.margin, 1.0, "margin")
+            compare(common.lightColor, "#ff0000", "lightColor")
+            compare(common.ambientLightStrength, 0.5, "ambientLightStrength")
+            compare(common.lightStrength, 10.0, "lightStrength")
+            compare(common.shadowStrength, 50.0, "shadowStrength")
         }
 
         function test_3_change_invalid_common() {
@@ -180,6 +196,23 @@ Item {
             compare(common.horizontalAspectRatio, -2/*1*/, "horizontalAspectRatio") // TODO: Fix once QTRD-3367 is done
 
             common.destroy()
+
+            constructCommon()
+
+            common.ambientLightStrength = -1.0
+            compare(common.ambientLightStrength, 0.25, "ambientLightStrength")
+            common.ambientLightStrength = -1.1
+            compare(common.ambientLightStrength, 0.25, "ambientLightStrength")
+            common.lightStrength = 11.0
+            compare(common.lightStrength, 5.0, "lightStrength")
+            common.lightStrength = -1.0
+            compare(common.lightStrength, 5.0, "lightStrength")
+            common.shadowStrength = 101.0
+            compare(common.shadowStrength, 25.0, "shadowStrength")
+            common.shadowStrength = -1.0
+            compare(common.shadowStrength, 25.0, "shadowStrength")
+
+            common.destroy()
         }
 
         function test_4_common_initialized() {
@@ -188,7 +221,7 @@ Item {
             compare(common_init.selectionMode, AbstractGraph3D.SelectionNone, "selectionMode")
             tryCompare(common_init, "shadowQuality", AbstractGraph3D.ShadowQuality.Low)
             compare(common_init.msaaSamples, 2, "msaaSamples")
-            compare(common_init.theme.type, Theme3D.Theme.UserDefined, "theme")
+            compare(common_init.theme.theme, GraphsTheme.Theme.UserDefined, "theme")
             compare(common_init.renderingMode, AbstractGraph3D.RenderingMode.Indirect, "renderingMode")
             compare(common_init.measureFps, true, "measureFps")
             compare(common_init.customItemList.length, 0, "customItemList")
@@ -200,6 +233,10 @@ Item {
             compare(common_init.horizontalAspectRatio, 0.2, "horizontalAspectRatio")
             compare(common_init.locale, Qt.locale("UK"), "locale")
             compare(common_init.margin, 0.2, "margin")
+            compare(common_init.lightColor, "#000000", "lightColor")
+            compare(common_init.ambientLightStrength, 0.5, "ambientLightStrength")
+            compare(common_init.lightStrength, 10.0, "lightStrength")
+            compare(common_init.shadowStrength, 50.0, "shadowStrength")
 
             common_init.destroy();
         }

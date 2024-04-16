@@ -21,10 +21,10 @@ ColumnLayout {
         visible: testgridChange.checked
         from: 0.0
         to: 1.0
-        value: customTheme.gridWidth
+        value: customTheme.gridMainWidth
         onValueChanged: {
             if (testgridChange.checked) {
-                customTheme.gridWidth = value
+                customTheme.gridMainWidth = value
             }
         }
     }
@@ -41,7 +41,7 @@ ColumnLayout {
         Rectangle {
             anchors.fill: parent
             anchors.margins: 5
-            color: customTheme.gridLineColor
+            color: customTheme.gridMainColor
         }
 
         onClicked: gridlineCol.open()
@@ -49,8 +49,8 @@ ColumnLayout {
 
     ColorDialog {
         id: gridlineCol
-        selectedColor: customTheme.gridLineColor
-        onAccepted: customTheme.gridLineColor = selectedColor
+        selectedColor: customTheme.gridMainColor
+        onAccepted: customTheme.gridMainColor = selectedColor
     }
 
     Label {
@@ -65,7 +65,7 @@ ColumnLayout {
         Rectangle {
             anchors.fill: parent
             anchors.margins: 5
-            color: customTheme.subgridLineColor
+            color: customTheme.gridSubColor
         }
 
         onClicked: subgridlineCol.open()
@@ -73,8 +73,8 @@ ColumnLayout {
 
     ColorDialog {
         id: subgridlineCol
-        selectedColor: customTheme.subgridLineColor
-        onAccepted: customTheme.subgridLineColor = selectedColor
+        selectedColor: customTheme.gridSubColor
+        onAccepted: customTheme.gridSubColor = selectedColor
     }
 
     Label {

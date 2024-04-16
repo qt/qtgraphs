@@ -6,7 +6,6 @@
 #include <QtGraphs/qvalue3daxis.h>
 #include <QtGraphs/q3dscene.h>
 #include <QtGraphs/qscatter3dseries.h>
-#include <QtGraphs/q3dtheme.h>
 #include <qmath.h>
 #include <QComboBox>
 
@@ -21,10 +20,10 @@ ScatterDataModifier::ScatterDataModifier(Q3DScatter *scatter)
       m_style(QAbstract3DSeries::Mesh::UserDefined),
       m_smooth(true)
 {
-    m_graph->activeTheme()->setType(Q3DTheme::Theme::Ebony);
-    QFont font = m_graph->activeTheme()->font();
+    m_graph->activeTheme()->setTheme(QGraphsTheme::Theme::QtGreen);
+    QFont font = m_graph->activeTheme()->labelFont();
     font.setPointSize(m_fontSize);
-    m_graph->activeTheme()->setFont(font);
+    m_graph->activeTheme()->setLabelFont(font);
     m_graph->setShadowQuality(QAbstract3DGraph::ShadowQuality::SoftLow);
     m_graph->setCameraPreset(QAbstract3DGraph::CameraPreset::Front);
 
@@ -124,11 +123,11 @@ void ScatterDataModifier::changeStyle(int style)
 
 void ScatterDataModifier::changeTheme(int theme)
 {
-    Q3DTheme *currentTheme = m_graph->activeTheme();
-    currentTheme->setType(Q3DTheme::Theme(theme));
+    QGraphsTheme *currentTheme = m_graph->activeTheme();
+    currentTheme->setTheme(QGraphsTheme::Theme(theme));
     emit backgroundEnabledChanged(currentTheme->isBackgroundEnabled());
     emit gridEnabledChanged(currentTheme->isGridEnabled());
-    emit fontChanged(currentTheme->font());
+    emit fontChanged(currentTheme->labelFont());
 }
 
 void ScatterDataModifier::changePresetCamera()
@@ -150,7 +149,7 @@ void ScatterDataModifier::changeFont(const QFont &font)
 {
     QFont newFont = font;
     newFont.setPointSizeF(m_fontSize);
-    m_graph->activeTheme()->setFont(newFont);
+    m_graph->activeTheme()->setLabelFont(newFont);
 }
 
 void ScatterDataModifier::shadowQualityUpdatedByVisual(QAbstract3DGraph::ShadowQuality sq)

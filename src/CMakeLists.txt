@@ -358,6 +358,8 @@ qt_configure_add_summary_entry(ARGS "graphs-2d")
 qt_configure_add_summary_entry(ARGS "graphs-3d")
 qt_configure_end_summary_section() # end of "Qt Graphs Support" section
 
+add_subdirectory(common)
+
 if(QT_FEATURE_graphs_3d)
     add_subdirectory(graphs3d)
 endif()

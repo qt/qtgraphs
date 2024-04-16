@@ -58,17 +58,17 @@ Item {
             GradientStop { position: 1.0; color: "blueviolet" }
         }
 
-        Theme3D {
+        GraphsTheme {
             id: mainTheme
-            type: Theme3D.Theme.StoneMoss
+            theme: GraphsTheme.Theme.QtGreenNeon
 
-            colorStyle: Theme3D.ColorStyle.RangeGradient
+            colorStyle: GraphsTheme.ColorStyle.RangeGradient
             baseGradients: [mainGradient]
         }
 
-        Theme3D {
+        GraphsTheme {
             id: secondaryTheme
-            type: Theme3D.Theme.ArmyBlue
+            theme: GraphsTheme.Theme.GreySeries
             baseGradients: [secondaryGradient]
         }
 

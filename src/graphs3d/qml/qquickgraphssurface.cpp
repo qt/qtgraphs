@@ -746,7 +746,7 @@ void QQuickGraphsSurface::synchData()
         setSurfaceTextureChanged(false);
     }
 
-    if (theme()->isShaderGridEnabled()) {
+    if (shaderGridEnabled()) {
         if (!m_topGrid) {
             //add horizontal top grid
             QUrl topGridUrl = QUrl(QStringLiteral(":/defaultMeshes/barMeshFull"));
@@ -1437,15 +1437,15 @@ void QQuickGraphsSurface::updateMaterial(SurfaceModel *model)
         float range = maxY - minY;
 
         switch (model->series->colorStyle()) {
-        case (Q3DTheme::ColorStyle::ObjectGradient):
+        case (QGraphsTheme::ColorStyle::ObjectGradient):
             material->setProperty("colorStyle", 0);
             material->setProperty("gradientMin", -(minY / range));
             material->setProperty("gradientHeight", 1.0f / range);
             break;
-        case (Q3DTheme::ColorStyle::RangeGradient):
+        case (QGraphsTheme::ColorStyle::RangeGradient):
             material->setProperty("colorStyle", 1);
             break;
-        case (Q3DTheme::ColorStyle::Uniform):
+        case (QGraphsTheme::ColorStyle::Uniform):
             material->setProperty("colorStyle", 2);
             material->setProperty("uniformColor", model->series->baseColor());
             break;
@@ -2085,7 +2085,7 @@ void QQuickGraphsSurface::updateSliceItemLabel(QString label, const QVector3D &p
 {
     QQuickGraphsItem::updateSliceItemLabel(label, position);
 
-    QFontMetrics fm(theme()->font());
+    QFontMetrics fm(theme()->labelFont());
     float textPadding = 12.0f;
     float labelHeight = fm.height() + textPadding;
     float labelWidth = fm.horizontalAdvance(label) + textPadding;
@@ -2196,7 +2196,7 @@ void QQuickGraphsSurface::updateLightStrength()
     for (auto model : m_model) {
         QQmlListReference materialRef(model->model, "materials");
         QQuick3DCustomMaterial *material = qobject_cast<QQuick3DCustomMaterial *>(materialRef.at(0));
-        material->setProperty("specularBrightness", theme()->lightStrength() * 0.05);
+        material->setProperty("specularBrightness", lightStrength() * 0.05);
     }
 }
 

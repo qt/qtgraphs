@@ -9,7 +9,6 @@
 #include <QtGraphs/qvalue3daxis.h>
 #include <QtGraphs/q3dscene.h>
 #include <QtGraphs/qbar3dseries.h>
-#include <QtGraphs/q3dtheme.h>
 
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QVBoxLayout>
@@ -229,10 +228,12 @@ int main(int argc, char **argv)
     barGraph->setMaximumSize(screenSize);
     barGraph->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     barGraph->setFocusPolicy(Qt::StrongFocus);
+    barGraph->activeTheme()->setTheme(QGraphsTheme::Theme::QtGreen);
     surfaceGraph->setMinimumSize(QSize(screenSize.width() / 4, screenSize.height() / 4));
     surfaceGraph->setMaximumSize(screenSize);
     surfaceGraph->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     surfaceGraph->setFocusPolicy(Qt::StrongFocus);
+    surfaceGraph->activeTheme()->setTheme(QGraphsTheme::Theme::QtGreenNeon);
 
     QWidget widget;
     QVBoxLayout *mainLayout = new QVBoxLayout(&widget);

@@ -14,9 +14,7 @@
 #include <QtGraphs/qscatterdataproxy.h>
 #include <QtGraphs/qvalue3daxis.h>
 #include <QtGraphs/q3dscene.h>
-#include <QtGraphs/q3dcamera.h>
 #include <QtGraphs/qscatter3dseries.h>
-#include <QtGraphs/q3dtheme.h>
 #include <QtCore/qmath.h>
 #include <QtCore/qrandom.h>
 #include <QPainter>
@@ -49,7 +47,7 @@ GalaxyData::GalaxyData(Q3DScatter *scatter,
     m_maxy(-9999.0),
     m_filtered(false)
 {
-    m_graph->activeTheme()->setType(Q3DTheme::Theme::Ebony);
+    m_graph->activeTheme()->setTheme(QGraphsTheme::Theme::QtGreen);
     m_graph->setShadowQuality(QAbstract3DGraph::ShadowQuality::Low);
 
     m_graph->axisX()->setRange(-25000.0f, 25000.0f);
@@ -400,7 +398,7 @@ void GalaxyData::setFilteredEnabled(bool enabled)
         gr.setColorAt(1.0, Qt::red);
 
         m_filteredSeries->setBaseGradient(gr);
-        m_filteredSeries->setColorStyle(Q3DTheme::ColorStyle::RangeGradient);
+        m_filteredSeries->setColorStyle(QGraphsTheme::ColorStyle::RangeGradient);
 
         m_normalSeries->setVisible(false);
 
@@ -408,7 +406,7 @@ void GalaxyData::setFilteredEnabled(bool enabled)
 
         m_filteredSeries->setVisible(true);
     } else {
-        m_normalSeries->setColorStyle(Q3DTheme::ColorStyle::Uniform);
+        m_normalSeries->setColorStyle(QGraphsTheme::ColorStyle::Uniform);
         m_graph->axisY()->setRange(-1.0f, 1.0f);
         m_normalSeries->setItemSize(0.0f);
 

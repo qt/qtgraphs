@@ -29,8 +29,8 @@ ColumnLayout {
     Slider {
         from: 0.0
         to: 1.0
-        value: customTheme.ambientLightStrength
-        onValueChanged: customTheme.ambientLightStrength = value
+        value: currentGraph.ambientLightStrength
+        onValueChanged: currentGraph.ambientLightStrength = value
     }
 
     Label {
@@ -40,8 +40,8 @@ ColumnLayout {
     Slider {
         from: 0.0
         to: 10.0
-        value: customTheme.lightStrength
-        onValueChanged: customTheme.lightStrength = value
+        value: currentGraph.lightStrength
+        onValueChanged: currentGraph.lightStrength = value
     }
 
     Label {
@@ -53,9 +53,9 @@ ColumnLayout {
         visible: !colorStyle.checked
         from: 0.0
         to: 1.0
-        value: testgradientchange.checked ? 1.0 : customTheme.lightColor.r
+        value: testgradientchange.checked ? 1.0 : currentGraph.lightColor.r
         onValueChanged: testgradientchange.checked ? (redstop.color.r = value)
-                                                   : (customTheme.lightColor.r = value)
+                                                   : (currentGraph.lightColor.r = value)
     }
 
     Label {
@@ -67,9 +67,9 @@ ColumnLayout {
         visible: !colorStyle.checked
         from: 0.0
         to: 1.0
-        value: testgradientchange.checked ? 0.5 : customTheme.lightColor.g
+        value: testgradientchange.checked ? 0.5 : currentGraph.lightColor.g
         onValueChanged: testgradientchange.checked ? (greenstop.color.g = value)
-                                                   : (customTheme.lightColor.g = value)
+                                                   : (currentGraph.lightColor.g = value)
     }
 
     Label {
@@ -82,9 +82,9 @@ ColumnLayout {
         from: 0.0
         to: 1.0
         value: testgradientchange.checked ? barColor.color.b
-                                          : customTheme.lightColor.b
+                                          : currentGraph.lightColor.b
         onValueChanged: testgradientchange.checked ? barColor.color.b  = value
-                                                   : customTheme.lightColor.b = value
+                                                   : currentGraph.lightColor.b = value
     }
 
     Label {
@@ -97,9 +97,9 @@ ColumnLayout {
         from: 0.0
         to: 1.0
         value: testgradientchange.checked ? surfaceColor.color.b
-                                          : customTheme.lightColor.b
+                                          : currentGraph.lightColor.b
         onValueChanged: testgradientchange.checked ? surfaceColor.color.b  = value
-                                                   : customTheme.lightColor.b = value
+                                                   : currentGraph.lightColor.b = value
     }
 
     Label {
@@ -147,12 +147,12 @@ ColumnLayout {
     }
     CheckBox {
         id: colorStyle
-        checked: (customTheme.colorStyle === Theme3D.ColorStyle.Uniform)
+        checked: (customTheme.colorStyle === GraphsTheme.ColorStyle.Uniform)
         onCheckedChanged: {
             if (checked)
-                customTheme.colorStyle = Theme3D.ColorStyle.Uniform
+                customTheme.colorStyle = GraphsTheme.ColorStyle.Uniform
             else
-                customTheme.colorStyle = Theme3D.ColorStyle.ObjectGradient
+                customTheme.colorStyle = GraphsTheme.ColorStyle.ObjectGradient
         }
     }
     Label {

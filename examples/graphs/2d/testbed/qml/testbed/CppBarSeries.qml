@@ -14,10 +14,11 @@ Rectangle {
         anchors.fill: parent
         anchors.margins: 20 * px
         anchors.topMargin: 80 * px
-        theme: GraphTheme {
+        theme: GraphsTheme {
             id: myTheme
-            colorTheme: GraphTheme.ColorTheme.Dark
-            axisXLabelsFont.pixelSize: 20
+            colorScheme: Qt.Dark
+            theme: GraphsTheme.Theme.QtGreen
+            axisXLabelFont.pixelSize: 20
         }
         CustomBarSeries {
             id: barSeries

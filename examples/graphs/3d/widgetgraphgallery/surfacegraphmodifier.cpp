@@ -6,7 +6,7 @@
 #include "topographicseries.h"
 
 #include <QtCore/qmath.h>
-#include <QtGraphs/q3dtheme.h>
+#include <QtGraphs/qgraphstheme.h>
 #include <QtGraphs/qvalue3daxis.h>
 #include <QtGui/qimage.h>
 
@@ -31,7 +31,7 @@ SurfaceGraphModifier::SurfaceGraphModifier(Q3DSurface *surface, QLabel *label, Q
 {
     m_graph->setCameraZoomLevel(85.f);
     m_graph->setCameraPreset(QAbstract3DGraph::CameraPreset::IsometricRight);
-    m_graph->activeTheme()->setType(Q3DTheme::Theme::Retro);
+    m_graph->activeTheme()->setTheme(QGraphsTheme::Theme::MixSeries);
 
     m_graph->setAxisX(new QValue3DAxis);
     m_graph->setAxisY(new QValue3DAxis);
@@ -83,19 +83,19 @@ SurfaceGraphModifier::SurfaceGraphModifier(Q3DSurface *surface, QLabel *label, Q
     grOne.setColorAt(0.5, Qt::darkGray);
     grOne.setColorAt(1., Qt::gray);
     m_heightMapSeriesOne->setBaseGradient(grOne);
-    m_heightMapSeriesOne->setColorStyle(Q3DTheme::ColorStyle::RangeGradient);
+    m_heightMapSeriesOne->setColorStyle(QGraphsTheme::ColorStyle::RangeGradient);
 
     QLinearGradient grTwo;
     grTwo.setColorAt(0.39, Qt::blue);
     grTwo.setColorAt(0.4, Qt::white);
     m_heightMapSeriesTwo->setBaseGradient(grTwo);
-    m_heightMapSeriesTwo->setColorStyle(Q3DTheme::ColorStyle::RangeGradient);
+    m_heightMapSeriesTwo->setColorStyle(QGraphsTheme::ColorStyle::RangeGradient);
 
     QLinearGradient grThree;
     grThree.setColorAt(0., Qt::white);
     grThree.setColorAt(0.05, Qt::black);
     m_heightMapSeriesThree->setBaseGradient(grThree);
-    m_heightMapSeriesThree->setColorStyle(Q3DTheme::ColorStyle::RangeGradient);
+    m_heightMapSeriesThree->setColorStyle(QGraphsTheme::ColorStyle::RangeGradient);
 
     // Custom items and label
     connect(m_graph,
@@ -469,7 +469,7 @@ void SurfaceGraphModifier::setBlackToYellowGradient()
     gr.setColorAt(1.f, Qt::yellow);
 
     m_sqrtSinSeries->setBaseGradient(gr);
-    m_sqrtSinSeries->setColorStyle(Q3DTheme::ColorStyle::RangeGradient);
+    m_sqrtSinSeries->setColorStyle(QGraphsTheme::ColorStyle::RangeGradient);
     //! [8]
 }
 
@@ -482,7 +482,7 @@ void SurfaceGraphModifier::setGreenToRedGradient()
     gr.setColorAt(1.f, Qt::darkRed);
 
     m_sqrtSinSeries->setBaseGradient(gr);
-    m_sqrtSinSeries->setColorStyle(Q3DTheme::ColorStyle::RangeGradient);
+    m_sqrtSinSeries->setColorStyle(QGraphsTheme::ColorStyle::RangeGradient);
 }
 
 void SurfaceGraphModifier::toggleItemOne(bool show)

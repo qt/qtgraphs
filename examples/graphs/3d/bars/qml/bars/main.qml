@@ -101,10 +101,10 @@ Item {
                 required property string display
                 implicitHeight: 30
                 implicitWidth: column === 0 ? tableView.width / 2 : tableView.width / 4
-                color: row === mainview.currentRow ? barGraph.theme.gridLineColor
+                color: row === mainview.currentRow ? barGraph.theme.gridMainColor
                                                    : barGraph.theme.windowColor
                 border.color: row === mainview.currentRow ? barGraph.theme.labelTextColor
-                                                          : barGraph.theme.gridLineColor
+                                                          : barGraph.theme.gridMainColor
                 border.width: 1
                 MouseArea {
                     anchors.fill: parent
@@ -212,8 +212,8 @@ Item {
 
             background: Rectangle {
                 opacity: changeDataButton.enabled ? 1 : 0.3
-                color: changeDataButton.down ? barGraph.theme.gridLineColor : barGraph.theme.windowColor
-                border.color: changeDataButton.down ? barGraph.theme.labelTextColor : barGraph.theme.gridLineColor
+                color: changeDataButton.down ? barGraph.theme.gridMainColor : barGraph.theme.windowColor
+                border.color: changeDataButton.down ? barGraph.theme.labelTextColor : barGraph.theme.gridMainColor
                 border.width: 1
                 radius: 2
             }
@@ -245,8 +245,8 @@ Item {
 
             background: Rectangle {
                 opacity: shadowToggle.enabled ? 1 : 0.3
-                color: shadowToggle.down ? barGraph.theme.gridLineColor : barGraph.theme.windowColor
-                border.color: shadowToggle.down ? barGraph.theme.labelTextColor : barGraph.theme.gridLineColor
+                color: shadowToggle.down ? barGraph.theme.gridMainColor : barGraph.theme.windowColor
+                border.color: shadowToggle.down ? barGraph.theme.labelTextColor : barGraph.theme.gridMainColor
                 border.width: 1
                 radius: 2
             }
@@ -288,8 +288,8 @@ Item {
 
             background: Rectangle {
                 opacity: seriesToggle.enabled ? 1 : 0.3
-                color: seriesToggle.down ? barGraph.theme.gridLineColor : barGraph.theme.windowColor
-                border.color: seriesToggle.down ? barGraph.theme.labelTextColor : barGraph.theme.gridLineColor
+                color: seriesToggle.down ? barGraph.theme.gridMainColor : barGraph.theme.windowColor
+                border.color: seriesToggle.down ? barGraph.theme.labelTextColor : barGraph.theme.gridMainColor
                 border.width: 1
                 radius: 2
             }
@@ -324,8 +324,8 @@ Item {
 
             background: Rectangle {
                 opacity: marginToggle.enabled ? 1 : 0.3
-                color: marginToggle.down ? barGraph.theme.gridLineColor : barGraph.theme.windowColor
-                border.color: marginToggle.down ? barGraph.theme.labelTextColor : barGraph.theme.gridLineColor
+                color: marginToggle.down ? barGraph.theme.gridMainColor : barGraph.theme.windowColor
+                border.color: marginToggle.down ? barGraph.theme.labelTextColor : barGraph.theme.gridMainColor
                 border.width: 1
                 radius: 2
             }
@@ -342,12 +342,12 @@ Item {
             anchors.fill: parent
             shadowQuality: AbstractGraph3D.ShadowQuality.SoftHigh
             selectionMode: AbstractGraph3D.SelectionItem
-            theme: Theme3D {
-                type: Theme3D.Theme.Ebony
+            theme: GraphsTheme {
+                theme: GraphsTheme.Theme.QtGreen
                 labelBorderEnabled: true
-                font.pointSize: 35
+                labelFont.pointSize: 35
                 labelBackgroundEnabled: true
-                colorStyle: Theme3D.ColorStyle.RangeGradient
+                colorStyle: GraphsTheme.ColorStyle.RangeGradient
                 singleHighlightGradient: customGradient
 
                 Gradient {

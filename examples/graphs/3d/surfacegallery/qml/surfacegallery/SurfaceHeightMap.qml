@@ -37,11 +37,11 @@ Rectangle {
             height: surfaceView.height
             aspectRatio: 3.0
             //! [2]
-            theme: Theme3D {
-                type: Theme3D.Theme.StoneMoss
-                font.family: "STCaiyun"
-                font.pointSize: 35
-                colorStyle: Theme3D.ColorStyle.ObjectGradient
+            theme: GraphsTheme {
+                theme: GraphsTheme.Theme.QtGreen
+                labelFont.family: "STCaiyun"
+                labelFont.pointSize: 35
+                colorStyle: GraphsTheme.ColorStyle.ObjectGradient
                 baseGradients: [surfaceGradient] // Use the custom gradient
             }
             //! [2]

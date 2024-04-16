@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 
 #include <QtGraphs/qabstractseries.h>
+#include <QtGraphs/QGraphsTheme>
 #include <private/qabstractseries_p.h>
 #include <private/qgraphsview_p.h>
 
@@ -287,13 +288,13 @@ QAbstractSeries::~QAbstractSeries()
         d->m_graph->removeSeries(this);
 }
 
-QSeriesTheme *QAbstractSeries::theme() const
+QGraphsTheme *QAbstractSeries::theme() const
 {
     const Q_D(QAbstractSeries);
     return d->m_theme;
 }
 
-void QAbstractSeries::setTheme(QSeriesTheme *newTheme)
+void QAbstractSeries::setTheme(QGraphsTheme *newTheme)
 {
     Q_D(QAbstractSeries);
     if (d->m_theme == newTheme)
@@ -550,7 +551,7 @@ void QAbstractSeries::componentComplete()
     Q_D(QAbstractSeries);
 
     if (!d->m_theme) {
-        d->m_theme = new QSeriesTheme(this);
+        d->m_theme = new QGraphsTheme(this);
         d->m_theme->resetColorTheme();
     }
 

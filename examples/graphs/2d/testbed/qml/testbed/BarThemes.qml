@@ -26,8 +26,8 @@ Rectangle {
     }
 
     function resetCustomGraphTheme() {
-        myTheme.gridSmoothing = 1
-        myTheme.axisYLabelsFont.family = ""
+        myTheme.axisYLabelFont.family = ""
+        chartView.gridSmoothing = 1
     }
 
     FontLoader {
@@ -57,7 +57,7 @@ Rectangle {
             onClicked: {
                 mainView.resetCustomGraphTheme()
                 background.color = "#202020"
-                myTheme.colorTheme = GraphTheme.ColorTheme.Dark
+                myTheme.colorScheme = Qt.Dark
             }
         }
         Button {
@@ -65,41 +65,41 @@ Rectangle {
             onClicked: {
                 mainView.resetCustomGraphTheme()
                 background.color = "#eeeeee"
-                myTheme.colorTheme = GraphTheme.ColorTheme.Light
+                myTheme.colorScheme = Qt.Light
             }
         }
         Button {
             text: "Customize!"
             onClicked: {
-                myTheme.gridMajorBarsColor = Qt.rgba(Math.random(),
+                myTheme.gridMainColor = Qt.rgba(Math.random(),
                                                      Math.random(),
                                                      Math.random(), 1.0)
-                myTheme.gridMajorBarsWidth = 1 + 3 * Math.random()
-                myTheme.gridMinorBarsColor = Qt.rgba(Math.random(),
+                myTheme.gridMainWidth = 1 + 3 * Math.random()
+                myTheme.gridSubColor = Qt.rgba(Math.random(),
                                                      Math.random(),
                                                      Math.random(), 1.0)
-                myTheme.gridMinorBarsWidth = 1 + 2 * Math.random()
-                myTheme.gridSmoothing = 2 * Math.random()
-                myTheme.axisYMajorColor = Qt.rgba(Math.random(), Math.random(),
+                myTheme.gridSubWidth = 1 + 2 * Math.random()
+                chartView.gridSmoothing = 2 * Math.random()
+                myTheme.axisYMainColor = Qt.rgba(Math.random(), Math.random(),
                                                   Math.random(), 1.0)
-                myTheme.axisXMajorColor = Qt.rgba(Math.random(), Math.random(),
+                myTheme.axisXMainColor = Qt.rgba(Math.random(), Math.random(),
                                                   Math.random(), 1.0)
-                myTheme.axisYMinorColor = Qt.rgba(Math.random(), Math.random(),
+                myTheme.axisYSubColor = Qt.rgba(Math.random(), Math.random(),
                                                   Math.random(), 1.0)
-                myTheme.axisXMinorColor = Qt.rgba(Math.random(), Math.random(),
+                myTheme.axisXSubColor = Qt.rgba(Math.random(), Math.random(),
                                                   Math.random(), 1.0)
-                myTheme.axisYLabelsColor = Qt.rgba(Math.random(),
+                myTheme.labelBackgroundColor = Qt.rgba(Math.random(),
                                                    Math.random(),
                                                    Math.random(), 1.0)
-                myTheme.axisXLabelsColor = Qt.rgba(Math.random(),
+                myTheme.axisXLabelColor = Qt.rgba(Math.random(),
                                                    Math.random(),
                                                    Math.random(), 1.0)
-                myTheme.axisYMajorBarWidth = 1 + 2 * Math.random()
-                myTheme.axisXMajorBarWidth = 1 + 2 * Math.random()
-                myTheme.axisYMinorBarWidth = 1 + 1 * Math.random()
-                myTheme.axisXMinorBarWidth = 1 + 1 * Math.random()
-                myTheme.axisYSmoothing = 2 * Math.random()
-                myTheme.axisYLabelsFont.family = customFont.font.family
+                myTheme.axisYMainWidth = 1 + 2 * Math.random()
+                myTheme.axisXMainWidth = 1 + 2 * Math.random()
+                myTheme.axisYSubWidth = 1 + 1 * Math.random()
+                myTheme.axisXSubWidth = 1 + 1 * Math.random()
+                chartView.axisYSmoothing = 2 * Math.random()
+                myTheme.labelFont.family = customFont.font.family
             }
         }
     }
@@ -126,7 +126,7 @@ Rectangle {
             onClicked: {
                 mainView.resetCustomSetColors()
                 mySeries.theme = seriesTheme
-                seriesTheme.colorTheme = SeriesTheme.SeriesColorTheme.SeriesTheme1
+                seriesTheme.theme = GraphsTheme.Theme.QtGreen
             }
         }
         Button {
@@ -134,7 +134,7 @@ Rectangle {
             onClicked: {
                 mainView.resetCustomSetColors()
                 mySeries.theme = seriesTheme
-                seriesTheme.colorTheme = SeriesTheme.SeriesColorTheme.SeriesTheme2
+                seriesTheme.theme = GraphsTheme.Theme.QtGreenNeon
             }
         }
         Button {
@@ -187,15 +187,16 @@ Rectangle {
         anchors.fill: background
         anchors.leftMargin: 30
 
-        theme: GraphTheme {
+        theme: GraphsTheme {
             id: myTheme
-            colorTheme: GraphTheme.ColorTheme.Dark
-            axisXLabelsFont.pixelSize: 20
-            axisYLabelsFont.pixelSize: 16
+            axisXLabelFont.pixelSize: 20
+            axisYLabelFont.pixelSize: 16
+            colorScheme: Qt.Dark
+            labelFont.pixelSize: 20
         }
-        SeriesTheme {
+        GraphsTheme {
             id: customSeriesTheme
-            colors: ["#444444", "#555555", "#666666", "#777777"]
+            seriesColors: ["#444444", "#555555", "#666666", "#777777"]
             borderColors: ["#888888", "#999999", "#aaaaaa", "#bbbbbb"]
             borderWidth: 4
         }
@@ -208,9 +209,9 @@ Rectangle {
                 minorTickCount: 4
                 max: 20
             }
-            theme: SeriesTheme {
+            theme: GraphsTheme {
                 id: seriesTheme
-                colorTheme: SeriesTheme.SeriesColorTheme.SeriesTheme1
+                theme: GraphsTheme.Theme.QtGreen
             }
             BarSet {
                 id: set1

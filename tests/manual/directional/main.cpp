@@ -36,13 +36,15 @@ int main(int argc, char **argv)
     widget->setWindowTitle(QStringLiteral("Directional scatter"));
 
     QComboBox *themeList = new QComboBox(widget);
-    themeList->addItem(QStringLiteral("Qt"));
-    themeList->addItem(QStringLiteral("Primary Colors"));
-    themeList->addItem(QStringLiteral("Stone Moss"));
-    themeList->addItem(QStringLiteral("Army Blue"));
-    themeList->addItem(QStringLiteral("Retro"));
-    themeList->addItem(QStringLiteral("Ebony"));
-    themeList->addItem(QStringLiteral("Isabelle"));
+    themeList->addItem(QStringLiteral("QtGreen"));
+    themeList->addItem(QStringLiteral("QtGreenNeon"));
+    themeList->addItem(QStringLiteral("MixSeries"));
+    themeList->addItem(QStringLiteral("OrangeSeries"));
+    themeList->addItem(QStringLiteral("YellowSeries"));
+    themeList->addItem(QStringLiteral("BlueSeries"));
+    themeList->addItem(QStringLiteral("PurpleSeries"));
+    themeList->addItem(QStringLiteral("GreySeries"));
+    themeList->addItem(QStringLiteral("UserDefined"));
     themeList->setCurrentIndex(6);
 
     QPushButton *labelButton = new QPushButton(widget);
@@ -127,6 +129,7 @@ int main(int argc, char **argv)
 
     QObject::connect(themeList, SIGNAL(currentIndexChanged(int)), modifier,
                      SLOT(changeTheme(int)));
+    modifier->changeTheme(themeList->currentIndex());
 
     QObject::connect(shadowQuality, SIGNAL(currentIndexChanged(int)), modifier,
                      SLOT(changeShadowQuality(int)));

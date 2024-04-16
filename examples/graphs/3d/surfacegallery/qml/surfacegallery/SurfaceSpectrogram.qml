@@ -62,14 +62,11 @@ Rectangle {
             titleFixed: false
         }
 
-        Theme3D {
+        GraphsTheme {
             id: customTheme
-            type: Theme3D.Theme.Qt
-            // Don't show specular spotlight as we don't want it to distort the colors
-            lightStrength: 0.0
-            ambientLightStrength: 1.0
+            theme: GraphsTheme.Theme.QtGreen
             backgroundEnabled: false
-            gridLineColor: "#AAAAAA"
+            gridMainColor: "#AAAAAA"
             windowColor: "#EEEEEE"
         }
 
@@ -78,12 +75,16 @@ Rectangle {
             id: surfaceGraph
             anchors.fill: parent
 
+            // Don't show specular spotlight as we don't want it to distort the colors
+            lightStrength: 0.0
+            ambientLightStrength: 1.0
+
             Surface3DSeries {
                 id: surfaceSeries
                 flatShadingEnabled: false
                 drawMode: Surface3DSeries.DrawSurface
                 baseGradient: surfaceGradient
-                colorStyle: Theme3D.ColorStyle.RangeGradient
+                colorStyle: GraphsTheme.ColorStyle.RangeGradient
                 itemLabelFormat: "(@xLabel, @zLabel): @yLabel"
 
                 ItemModelSurfaceDataProxy {

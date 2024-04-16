@@ -4,7 +4,7 @@
 #include "graphmodifier.h"
 #include "buttonwrapper.h"
 #include "checkboxwrapper.h"
-#include <QtGraphs/q3dtheme.h>
+#include <QtGraphs/qgraphstheme.h>
 
 #include <QApplication>
 #include <QWidget>
@@ -40,7 +40,7 @@ int main(int argc, char *argv[])
     QSize screenSize = surfaceGraph->screen()->size();
 
     // Set to default, should be same as the initial on themeList
-    surfaceGraph->activeTheme()->setType(Q3DTheme::Theme(initialTheme));
+    surfaceGraph->activeTheme()->setTheme(QGraphsTheme::Theme(initialTheme));
 
     surfaceGraph->setMinimumSize(QSize(screenSize.width() / 2, screenSize.height() / 4));
     surfaceGraph->setMaximumSize(screenSize);
@@ -239,14 +239,20 @@ int main(int argc, char *argv[])
     QPushButton *meshButton = new QPushButton(widget);
     meshButton->setText(QStringLiteral("Change pointer mesh"));
 
+    QComboBox *colorSchemeList = new QComboBox(widget);
+    colorSchemeList->addItem(QStringLiteral("Light"));
+    colorSchemeList->addItem(QStringLiteral("Dark"));
+    colorSchemeList->setCurrentIndex(0);
+
     QComboBox *themeList = new QComboBox(widget);
-    themeList->addItem(QStringLiteral("Qt"));
-    themeList->addItem(QStringLiteral("Primary Colors"));
-    themeList->addItem(QStringLiteral("Stone Moss"));
-    themeList->addItem(QStringLiteral("Army Blue"));
-    themeList->addItem(QStringLiteral("Retro"));
-    themeList->addItem(QStringLiteral("Ebony"));
-    themeList->addItem(QStringLiteral("Isabelle"));
+    themeList->addItem(QStringLiteral("QtGreen"));
+    themeList->addItem(QStringLiteral("QtGreenNeon"));
+    themeList->addItem(QStringLiteral("MixSeries"));
+    themeList->addItem(QStringLiteral("OrangeSeries"));
+    themeList->addItem(QStringLiteral("YellowSeries"));
+    themeList->addItem(QStringLiteral("BlueSeries"));
+    themeList->addItem(QStringLiteral("PurpleSeries"));
+    themeList->addItem(QStringLiteral("GreySeries"));
     themeList->setCurrentIndex(initialTheme);
 
     QComboBox *shadowQuality = new QComboBox(widget);
@@ -509,6 +515,8 @@ int main(int argc, char *argv[])
     vLayout2->addWidget(polarCB);
     vLayout2->addWidget(new QLabel(QStringLiteral("Change font")));
     vLayout2->addWidget(fontList);
+    vLayout2->addWidget(new QLabel(QStringLiteral("Change Color Mode")));
+    vLayout2->addWidget(colorSchemeList);
     vLayout2->addWidget(new QLabel(QStringLiteral("Change theme")));
     vLayout2->addWidget(themeList);
     vLayout2->addWidget(new QLabel(QStringLiteral("Adjust shadow quality")));
@@ -698,6 +706,8 @@ int main(int argc, char *argv[])
                      modifier, &GraphModifier::changeStyle);
     QObject::connect(meshButton, &QPushButton::clicked,
                      modifier, &GraphModifier::changeMesh);
+    QObject::connect(colorSchemeList, SIGNAL(currentIndexChanged(int)),
+                     modifier, SLOT(changeColorScheme(int)));
     QObject::connect(themeList, SIGNAL(currentIndexChanged(int)),
                      modifier, SLOT(changeTheme(int)));
     QObject::connect(shadowQuality, SIGNAL(currentIndexChanged(int)),

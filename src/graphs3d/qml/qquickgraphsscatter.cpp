@@ -268,7 +268,7 @@ void QQuickGraphsScatter::updateScatterGraphItemVisuals(ScatterModel *graphModel
 
     bool rangeGradient = (useGradient
                           && graphModel->series->d_func()->m_colorStyle
-                                 == Q3DTheme::ColorStyle::RangeGradient)
+                                 == QGraphsTheme::ColorStyle::RangeGradient)
                              ? true
                              : false;
 
@@ -1225,7 +1225,7 @@ void QQuickGraphsScatter::updateLightStrength()
         for (const auto &obj : std::as_const(graphModel->dataItems)) {
             QQmlListReference materialsRef(obj, "materials");
             auto material = qobject_cast<QQuick3DCustomMaterial *>(materialsRef.at(0));
-            material->setProperty("specularBrightness", theme()->lightStrength() * 0.05);
+            material->setProperty("specularBrightness", lightStrength() * 0.05);
         }
     }
 }

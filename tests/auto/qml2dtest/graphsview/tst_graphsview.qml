@@ -13,14 +13,13 @@ Item {
         id: initial
     }
 
-    GraphTheme {
+    GraphsTheme {
         id: myTheme
-        colorTheme: GraphTheme.ColorTheme.Light
-        shadowEnabled: true
-        gridSmoothing: 5
+        theme: GraphsTheme.Theme.QtGreen
+        colorScheme: Qt.Light
     }
 
-    GraphTheme {
+    GraphsTheme {
         id: newTheme
     }
 
@@ -61,9 +60,7 @@ Item {
             compare(initial.marginRight, 20)
             compare(initial.seriesList, [])
             // compare some of the contents of the initial theme, as theme itself cannot be
-            compare(initial.theme.colorTheme, GraphTheme.ColorTheme.Dark)
-            compare(initial.theme.shadowEnabled, false)
-            compare(initial.theme.gridSmoothing, 1)
+            compare(initial.theme.theme, GraphsTheme.Theme.QtGreen)
         }
 
         function test_1_initial_change() {

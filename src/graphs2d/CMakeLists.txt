@@ -21,8 +21,6 @@ qt_internal_extend_target(Graphs
         axis/axisticker.cpp axis/axisticker_p.h
         axis/axisline.cpp axis/axisline_p.h
         axis/valueaxis/qvalueaxis.cpp axis/valueaxis/qvalueaxis.h axis/valueaxis/qvalueaxis_p.h
-        themes/qgraphtheme.cpp themes/qgraphtheme.h
-        themes/qseriestheme.cpp themes/qseriestheme.h
         qsgrenderer/barsrenderer.cpp qsgrenderer/barsrenderer_p.h
         qsgrenderer/pointrenderer.cpp qsgrenderer/pointrenderer_p.h
         qsgrenderer/axisrenderer.cpp qsgrenderer/axisrenderer_p.h

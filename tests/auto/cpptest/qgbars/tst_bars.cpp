@@ -98,7 +98,7 @@ void tst_bars::initialProperties()
     QCOMPARE(m_graph->rowAxis()->orientation(), QAbstract3DAxis::AxisOrientation::Z);
 
     // Common properties
-    QCOMPARE(m_graph->activeTheme()->type(), Q3DTheme::Theme::Qt);
+    QCOMPARE(m_graph->activeTheme()->theme(), QGraphsTheme::Theme::UserDefined);
     QCOMPARE(m_graph->selectionMode(), QAbstract3DGraph::SelectionItem);
     QCOMPARE(m_graph->shadowQuality(), QAbstract3DGraph::ShadowQuality::Medium);
     QVERIFY(m_graph->scene());
@@ -113,6 +113,10 @@ void tst_bars::initialProperties()
     QCOMPARE(m_graph->locale(), QLocale("C"));
     QCOMPARE(m_graph->queriedGraphPosition(), QVector3D(0, 0, 0));
     QCOMPARE(m_graph->margin(), -1.0);
+    QCOMPARE(m_graph->ambientLightStrength(), 0.25);
+    QCOMPARE(m_graph->lightColor(), QColor(Qt::white));
+    QCOMPARE(m_graph->lightStrength(), 5.0f);
+    QCOMPARE(m_graph->shadowStrength(), 25.0f);
 }
 
 void tst_bars::initializeProperties()
@@ -133,7 +137,9 @@ void tst_bars::initializeProperties()
     QCOMPARE(m_graph->isBarSpacingRelative(), false);
     QCOMPARE(m_graph->floorLevel(), 1.0f);
 
-    Q3DTheme *theme = new Q3DTheme(Q3DTheme::Theme::PrimaryColors);
+    QGraphsTheme *theme = new QGraphsTheme();
+    theme->setColorScheme(Qt::ColorScheme::Light);
+    theme->setTheme(QGraphsTheme::Theme::QtGreenNeon);
     m_graph->setActiveTheme(theme);
     m_graph->setSelectionMode(QAbstract3DGraph::SelectionItem | QAbstract3DGraph::SelectionRow | QAbstract3DGraph::SelectionSlice);
     m_graph->setShadowQuality(QAbstract3DGraph::ShadowQuality::SoftHigh);
@@ -147,8 +153,12 @@ void tst_bars::initializeProperties()
     m_graph->setHorizontalAspectRatio(1.0);
     m_graph->setLocale(QLocale("FI"));
     m_graph->setMargin(1.0);
+    m_graph->setAmbientLightStrength(0.3f);
+    m_graph->setLightColor(QColor(Qt::yellow));
+    m_graph->setLightStrength(2.5f);
+    m_graph->setShadowStrength(50.f);
 
-    QCOMPARE(m_graph->activeTheme()->type(), Q3DTheme::Theme::PrimaryColors);
+    QCOMPARE(m_graph->activeTheme()->theme(), QGraphsTheme::Theme::QtGreenNeon);
     QCOMPARE(m_graph->selectionMode(), QAbstract3DGraph::SelectionItem | QAbstract3DGraph::SelectionRow | QAbstract3DGraph::SelectionSlice);
     QCOMPARE(m_graph->shadowQuality(), QAbstract3DGraph::ShadowQuality::None); // Ortho disables shadows
     QCOMPARE(m_graph->measureFps(), true);
@@ -160,6 +170,10 @@ void tst_bars::initializeProperties()
     QCOMPARE(m_graph->horizontalAspectRatio(), 1.0);
     QCOMPARE(m_graph->locale(), QLocale("FI"));
     QCOMPARE(m_graph->margin(), 1.0);
+    QCOMPARE(m_graph->ambientLightStrength(), 0.3f);
+    QCOMPARE(m_graph->lightColor(), QColor(Qt::yellow));
+    QCOMPARE(m_graph->lightStrength(), 2.5f);
+    QCOMPARE(m_graph->shadowStrength(), 50.0f);
 }
 
 void tst_bars::invalidProperties()
@@ -173,6 +187,21 @@ void tst_bars::invalidProperties()
     QCOMPARE(m_graph->aspectRatio(), -1.0/*2.0*/); // TODO: Fix once QTRD-3367 is done
     QCOMPARE(m_graph->horizontalAspectRatio(), -1.0/*0.0*/); // TODO: Fix once QTRD-3367 is done
     QCOMPARE(m_graph->locale(), QLocale("C"));
+
+    m_graph->setAmbientLightStrength(-1.0f);
+    QCOMPARE(m_graph->ambientLightStrength(), 0.25f);
+    m_graph->setAmbientLightStrength(1.1f);
+    QCOMPARE(m_graph->ambientLightStrength(), 0.25f);
+
+    m_graph->setLightStrength(-1.0f);
+    QCOMPARE(m_graph->lightStrength(), 5.0f);
+    m_graph->setLightStrength(10.1f);
+    QCOMPARE(m_graph->lightStrength(), 5.0f);
+
+    m_graph->setShadowStrength(-1.0f);
+    QCOMPARE(m_graph->shadowStrength(), 25.0f);
+    m_graph->setShadowStrength(100.1f);
+    QCOMPARE(m_graph->shadowStrength(), 25.0f);
 }
 
 void tst_bars::addSeries()
@@ -269,9 +298,12 @@ void tst_bars::hasSeries()
 
 void tst_bars::addTheme()
 {
-    Q3DTheme *theme = new Q3DTheme(Q3DTheme::Theme::PrimaryColors);
-    Q3DTheme *theme2 = new Q3DTheme();
-    Q3DTheme *initialTheme = m_graph->activeTheme();
+    QGraphsTheme *theme = new QGraphsTheme();
+    theme->setColorScheme(Qt::ColorScheme::Light);
+    theme->setTheme(QGraphsTheme::Theme::QtGreenNeon);
+    QGraphsTheme *theme2 = new QGraphsTheme();
+    theme->setColorScheme(Qt::ColorScheme::Light);
+    QGraphsTheme *initialTheme = m_graph->activeTheme();
     m_graph->addTheme(theme);
     m_graph->addTheme(theme2);
 
@@ -283,8 +315,11 @@ void tst_bars::addTheme()
 
 void tst_bars::removeTheme()
 {
-    Q3DTheme *theme = new Q3DTheme(Q3DTheme::Theme::PrimaryColors);
-    Q3DTheme *theme2 = new Q3DTheme();
+    QGraphsTheme *theme = new QGraphsTheme();
+    theme->setColorScheme(Qt::ColorScheme::Light);
+    theme->setTheme(QGraphsTheme::Theme::QtGreenNeon);
+    QGraphsTheme *theme2 = new QGraphsTheme();
+    theme->setColorScheme(Qt::ColorScheme::Light);
     m_graph->addTheme(theme);
     m_graph->addTheme(theme2);
 

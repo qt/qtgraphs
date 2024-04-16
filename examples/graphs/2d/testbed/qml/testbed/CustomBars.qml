@@ -52,10 +52,10 @@ Rectangle {
         anchors.fill: parent
         anchors.margins: 20 * px
         anchors.topMargin: 20 * px
-        theme: GraphTheme {
+        theme: GraphsTheme {
             id: myTheme
-            colorTheme: GraphTheme.ColorTheme.Dark
-            axisXLabelsFont.pixelSize: 20
+            colorScheme: Qt.Dark
+            axisXLabelFont.pixelSize: 20
         }
         BarSeries {
             id: barSeries
@@ -218,14 +218,14 @@ Rectangle {
             width: 250
             text: "Theme 1"
             onClicked: {
-                barSeries.theme.colorTheme = SeriesTheme.SeriesColorTheme.SeriesTheme1;
+                barSeries.theme.theme = GraphsTheme.Theme.QtGreen;
             }
         }
         Button {
             width: 250
             text: "Theme 2"
             onClicked: {
-                barSeries.theme.colorTheme = SeriesTheme.SeriesColorTheme.SeriesTheme2;
+                barSeries.theme.theme = GraphsTheme.Theme.QtGreenNeon;
             }
         }
         Button {

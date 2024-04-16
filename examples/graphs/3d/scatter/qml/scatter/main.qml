@@ -26,15 +26,15 @@ Item {
     //! [1]
 
     //! [2]
-    Theme3D {
+    GraphsTheme {
         id: themeQt
-        type: Theme3D.Theme.Qt
-        font.pointSize: 40
+        theme: GraphsTheme.Theme.QtGreen
+        labelFont.pointSize: 40
     }
 
-    Theme3D {
+    GraphsTheme {
         id: themeRetro
-        type: Theme3D.Theme.Retro
+        theme: GraphsTheme.Theme.QtGreenNeon
     }
     //! [2]
 
@@ -160,7 +160,7 @@ Item {
             text: qsTr("Change Theme")
             source: "qrc:/images/theme.svg"
             onClicked: {
-                graph.theme = graph.theme.type === Theme3D.Theme.Retro ? themeQt : themeRetro
+                graph.theme = graph.theme.theme === GraphsTheme.Theme.QtGreenNeon ? themeQt : themeRetro
                 backgroundButton.text = graph.theme.backgroundEnabled ? qsTr("Hide Background") : qsTr("Show Background")
             }
         }

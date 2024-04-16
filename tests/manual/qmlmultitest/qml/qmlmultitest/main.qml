@@ -29,7 +29,7 @@ Item {
         Rectangle {
             Layout.fillHeight: true
             Layout.fillWidth: true
-            border.color: surfaceGraph.theme.gridLineColor
+            border.color: surfaceGraph.theme.gridMainColor
             border.width: 2
             color: "#00000000"
 
@@ -37,9 +37,9 @@ Item {
                 id: surfaceGraph
                 anchors.fill: parent
                 anchors.margins: parent.border.width
-                theme: Theme3D {
-                    type: Theme3D.Theme.PrimaryColors
-                    font.pointSize: 60
+                theme: GraphsTheme {
+                    theme: GraphsTheme.Theme.MixSeries
+                    labelFont.pointSize: 60
                 }
                 cameraPreset: AbstractGraph3D.CameraPreset.IsometricLeftHigh
 
@@ -118,7 +118,7 @@ Item {
         Rectangle {
             Layout.fillHeight: true
             Layout.fillWidth: true
-            border.color: scatterGraph.theme.gridLineColor
+            border.color: scatterGraph.theme.gridMainColor
             border.width: 2
             color: "#00000000"
 
@@ -126,9 +126,9 @@ Item {
                 id: scatterGraph
                 anchors.fill: parent
                 anchors.margins: parent.border.width
-                theme: Theme3D {
-                    type: Theme3D.Theme.PrimaryColors
-                    font.pointSize: 60
+                theme: GraphsTheme {
+                    theme: GraphsTheme.Theme.BlueSeries
+                    labelFont.pointSize: 60
                 }
                 cameraPreset: AbstractGraph3D.CameraPreset.IsometricLeftHigh
 
@@ -159,7 +159,7 @@ Item {
         Rectangle {
             Layout.fillHeight: true
             Layout.fillWidth: true
-            border.color: barGraph.theme.gridLineColor
+            border.color: barGraph.theme.gridMainColor
             border.width: 2
             color: "#00000000"
 
@@ -167,9 +167,9 @@ Item {
                 id: barGraph
                 anchors.fill: parent
                 anchors.margins: parent.border.width
-                theme: Theme3D {
-                    type: Theme3D.Theme.Qt
-                    font.pointSize: 60
+                theme: GraphsTheme {
+                    theme: GraphsTheme.Theme.OrangeSeries
+                    labelFont.pointSize: 60
                 }
                 selectionMode: AbstractGraph3D.SelectionItemAndRow | AbstractGraph3D.SelectionSlice
                 cameraPreset: AbstractGraph3D.CameraPreset.IsometricLeftHigh

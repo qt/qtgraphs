@@ -166,7 +166,7 @@ protected:
     float calculateCategoryGridLinePosition(QAbstract3DAxis *axis, int index) override;
     void createSliceView() override;
     void updateSliceGraph() override;
-    void handleLabelCountChanged(QQuick3DRepeater *repeater) override;
+    void handleLabelCountChanged(QQuick3DRepeater *repeater, QColor axisLabelColor) override;
     void updateSelectionMode(QAbstract3DGraph::SelectionFlags mode) override;
     bool doPicking(const QPointF &position) override;
     QAbstract3DAxis *createDefaultAxis(QAbstract3DAxis::AxisOrientation orientation) override;

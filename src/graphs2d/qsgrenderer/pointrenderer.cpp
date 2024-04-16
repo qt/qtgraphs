@@ -65,13 +65,13 @@ void PointRenderer::updatePointMarker(
     auto marker = group->markers[pointIndex];
     auto &rect = group->rects[pointIndex];
 
-    QColor color = series->color().alpha() != 0
-                       ? series->color()
-                       : series->theme()->graphSeriesColor(group->colorIndex);
+    int index = group->colorIndex % series->theme()->seriesColors().size();
+    QColor color = series->color().alpha() != 0 ? series->color()
+                                            : series->theme()->seriesColors().at(index);
 
-    QColor selectedColor = series->selectedColor().alpha() != 0
-                               ? series->selectedColor()
-                               : series->theme()->graphSeriesBorderColor(group->colorIndex);
+    index = group->colorIndex % series->theme()->borderColors().size();
+    QColor selectedColor = series->color().alpha() != 0 ? series->color()
+                                            : series->theme()->borderColors().at(index);
 
     if (marker->property("selected").isValid())
         marker->setProperty("selected", series->isPointSelected(pointIndex));
@@ -124,9 +124,10 @@ void PointRenderer::updateLineSeries(QLineSeries *series, QLegendData &legendDat
 {
     auto group = m_groups.value(series);
 
+    int index = group->colorIndex % series->theme()->seriesColors().size();
     QColor color = series->color().alpha() != 0
                        ? series->color()
-                       : series->theme()->graphSeriesColor(group->colorIndex);
+            : series->theme()->seriesColors().at(index);
 
     group->shapePath->setStrokeColor(color);
     group->shapePath->setStrokeWidth(series->width());
@@ -186,9 +187,10 @@ void PointRenderer::updateSplineSeries(QSplineSeries *series, QLegendData &legen
 {
     auto group = m_groups.value(series);
 
+    int index = group->colorIndex % series->theme()->seriesColors().size();
     QColor color = series->color().alpha() != 0
                        ? series->color()
-                       : series->theme()->graphSeriesColor(group->colorIndex);
+                       : series->theme()->seriesColors().at(index);
 
     group->shapePath->setStrokeColor(color);
     group->shapePath->setStrokeWidth(series->width());
@@ -345,8 +347,8 @@ void PointRenderer::handlePolish(QXYSeries *series)
     }
 
     if (group->colorIndex < 0) {
-        group->colorIndex = seriesTheme->graphSeriesCount();
-        seriesTheme->setGraphSeriesCount(group->colorIndex + 1);
+        group->colorIndex = m_graph->graphSeriesCount();
+        m_graph->setGraphSeriesCount(group->colorIndex + 1);
     }
 
     QLegendData legendData;

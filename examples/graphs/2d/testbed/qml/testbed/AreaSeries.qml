@@ -82,9 +82,10 @@ Rectangle {
         anchors.rightMargin: settingsView.posX + 20 * px
         backgroundColor: "#202020"
 
-        SeriesTheme {
+        GraphsTheme {
             id: seriesTheme
-            colorTheme: SeriesTheme.SeriesColorTheme.SeriesTheme1
+            colorScheme: Qt.Dark
+            theme: GraphsTheme.Theme.QtGreen
         }
 
         AreaSeries {

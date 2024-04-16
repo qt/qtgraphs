@@ -7,7 +7,7 @@
 #include <QtGraphs/qvalue3daxis.h>
 #include <QtGraphs/q3dscene.h>
 #include <QtGraphs/qbar3dseries.h>
-#include <QtGraphs/q3dtheme.h>
+#include <QtGraphs/qgraphstheme.h>
 
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QVBoxLayout>
@@ -78,12 +78,12 @@ GraphDataGenerator::GraphDataGenerator(Q3DBars *bargraph, QTableWidget *tableWid
 #endif
 
     // Set theme
-    m_graph->activeTheme()->setType(Q3DTheme::Theme::PrimaryColors);
+    m_graph->activeTheme()->setTheme(QGraphsTheme::Theme::QtGreen);
 
     // Set font
     QFont font = QFont("Impact", 20);
     font.setStyleHint(QFont::SansSerif);
-    m_graph->activeTheme()->setFont(font);
+    m_graph->activeTheme()->setLabelFont(font);
 
     // Set preset camera position
     m_graph->setCameraPreset(QAbstract3DGraph::CameraPreset::Front);

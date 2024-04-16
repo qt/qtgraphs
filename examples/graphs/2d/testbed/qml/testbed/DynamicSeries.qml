@@ -23,9 +23,9 @@ Rectangle {
         anchors.margins: 10
         backgroundColor: "#202020"
 
-        SeriesTheme {
+        GraphsTheme {
             id: seriesTheme
-            colorTheme: SeriesTheme.SeriesTheme1
+            theme: GraphsTheme.Theme.QtGreen
         }
 
         SplineSeries {

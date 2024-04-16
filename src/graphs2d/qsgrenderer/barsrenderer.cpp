@@ -17,21 +17,25 @@ BarsRenderer::BarsRenderer(QQuickItem *parent)
     setFlag(QQuickItem::ItemHasContents);
 }
 
-QColor BarsRenderer::getSetColor(QBarSeries *series, QBarSet *set, int barSerieIndex)
+QColor BarsRenderer::getSetColor(QBarSeries *series, QBarSet *set, int barSeriesIndex)
 {
     auto seriesTheme = series->theme();
+    int index = m_colorIndex + barSeriesIndex;
+    index = index % seriesTheme->seriesColors().size();
     QColor color = set->color().alpha() != 0
             ? set->color()
-            : seriesTheme->graphSeriesColor(m_colorIndex + barSerieIndex);
+            : seriesTheme->seriesColors().at(index);
     return color;
 }
 
-QColor BarsRenderer::getSetBorderColor(QBarSeries *series, QBarSet *set, int barSerieIndex)
+QColor BarsRenderer::getSetBorderColor(QBarSeries *series, QBarSet *set, int barSeriesIndex)
 {
     auto seriesTheme = series->theme();
+    int index = m_colorIndex + barSeriesIndex;
+    index = index % seriesTheme->borderColors().size();
     QColor color = set->borderColor().alpha() != 0
             ? set->borderColor()
-            : seriesTheme->graphSeriesBorderColor(m_colorIndex + barSerieIndex);
+            : seriesTheme->borderColors().at(index);
     return color;
 }
 
@@ -230,7 +234,7 @@ void BarsRenderer::updateVerticalBars(QBarSeries *series, int setCount, int valu
 
     int barIndex = 0;
     int barIndexInSet = 0;
-    int barSerieIndex = 0;
+    int barSeriesIndex = 0;
     QList<QLegendData> legendDataList;
     for (auto s : series->barSets()) {
         QVariantList v = s->values();
@@ -247,9 +251,10 @@ void BarsRenderer::updateVerticalBars(QBarSeries *series, int setCount, int valu
             barSelectionRect->series = series;
         }
 
-        QColor color = getSetColor(series, s, barSerieIndex);
-        QColor borderColor = getSetBorderColor(series, s, barSerieIndex);
+        QColor color = getSetColor(series, s, barSeriesIndex);
+        QColor borderColor = getSetBorderColor(series, s, barSeriesIndex);
         qreal borderWidth = getSetBorderWidth(series, s);
+
         // Update legendData
         legendDataList.push_back({
                 color,
@@ -300,7 +305,7 @@ void BarsRenderer::updateVerticalBars(QBarSeries *series, int setCount, int valu
             seriesPos = ((float)barIndexInSet / valuesPerSet) * w;
         }
         posXInSet += barWidth + m_barMargin;
-        barSerieIndex++;
+        barSeriesIndex++;
     }
     series->d_func()->setLegendData(legendDataList);
 }
@@ -424,9 +429,10 @@ void BarsRenderer::handlePolish(QBarSeries *series)
     if (setCount == 0)
         return;
 
+
     if (m_colorIndex < 0)
-        m_colorIndex = seriesTheme->graphSeriesCount();
-    seriesTheme->setGraphSeriesCount(m_colorIndex + setCount);
+        m_colorIndex = m_graph->graphSeriesCount();
+    m_graph->setGraphSeriesCount(m_colorIndex + setCount);
 
     if (!series->barComponent() && !m_barItems.isEmpty()) {
         // If we have switched from custom bar component to rectangle nodes,
@@ -469,8 +475,7 @@ void BarsRenderer::updateSeries(QBarSeries *series)
                 auto &barItem = m_rectNodes[barIndex];
                 BarSeriesData d = *i;
                 barItem->setRect(d.rect);
-                // TODO: Theming for selection?
-                QColor barColor = d.isSelected ? QColor(0,0,0) : d.color;
+                QColor barColor = d.isSelected ? m_graph->theme()->singleHighlightColor() : d.color;
                 barItem->setColor(barColor);
                 barItem->setPenWidth(d.borderWidth);
                 barItem->setPenColor(d.borderColor);

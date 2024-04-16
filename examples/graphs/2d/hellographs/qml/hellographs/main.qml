@@ -30,8 +30,9 @@ Item {
             GraphsView {
                 anchors.fill: parent
                 anchors.margins: 16
-                theme: GraphTheme {
-                    colorTheme: GraphTheme.ColorTheme.Dark
+                theme: GraphsTheme {
+                    colorScheme: Qt.Dark
+                    theme: GraphsTheme.Theme.QtGreen
                 }
                 //! [bargraph]
                 //! [barseries]
@@ -72,19 +73,20 @@ Item {
             GraphsView {
                 anchors.fill: parent
                 anchors.margins: 16
-                theme: GraphTheme {
+                theme: GraphsTheme {
                     readonly property color c1: "#DBEB00"
                     readonly property color c2: "#373F26"
                     readonly property color c3: Qt.lighter(c2, 1.5)
-                    colorTheme: GraphTheme.ColorTheme.Dark
-                    gridMajorBarsColor: c3
-                    gridMinorBarsColor: c2
-                    axisXMajorColor: c3
-                    axisYMajorColor: c3
-                    axisXMinorColor: c2
-                    axisYMinorColor: c2
-                    axisXLabelsColor: c1
-                    axisYLabelsColor: c1
+                    colorScheme: Qt.Dark
+                    theme: GraphsTheme.Theme.QtGreenNeon
+                    gridMainColor: c3
+                    gridSubColor: c2
+                    axisXMainColor: c3
+                    axisYMainColor: c3
+                    axisXSubColor: c2
+                    axisYSubColor: c2
+                    axisXLabelColor: c1
+                    axisYLabelColor: c1
                 }
                 //! [linegraph]
 
@@ -100,9 +102,9 @@ Item {
                 //! [linemarker]
 
                 //! [lineseriestheme]
-                SeriesTheme {
+                GraphsTheme {
                     id: seriesTheme
-                    colors: ["#2CDE85", "#DBEB00"]
+                    seriesColors: ["#2CDE85", "#DBEB00"]
                 }
                 //! [lineseriestheme]
 

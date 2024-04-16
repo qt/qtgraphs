@@ -16,22 +16,24 @@ Rectangle {
         anchors.fill: parent
         anchors.margins: 20 * px
         anchors.rightMargin: settingsView.posX + 20 * px
-        theme: GraphTheme {
+        shadowEnabled: checkBoxShadowEnabled.checked
+        shadowColor: "#80404040"
+
+        theme: GraphsTheme {
             id: myTheme
-            colorTheme: GraphTheme.ColorTheme.Dark
-            axisXLabelsFont.pixelSize: 20
-            gridMajorBarsColor: "#ffffff"
-            gridMinorBarsColor: "#eeeeee"
-            axisYMajorColor: "#ffffff"
-            axisYMinorColor: "#eeeeee"
-            axisXMajorColor: "#ffffff"
-            axisXMinorColor: "#eeeeee"
-            shadowEnabled: checkBoxShadowEnabled.checked
-            shadowColor: "#80404040"
+            colorScheme: Qt.Dark
+            theme: GraphsTheme.Theme.QtGreen
+            axisXLabelFont.pixelSize: 20
+            gridMainColor: "#ffffff"
+            gridSubColor: "#eeeeee"
+            axisYMainColor: "#ffffff"
+            axisYSubColor: "#eeeeee"
+            axisXMainColor: "#ffffff"
+            axisXSubColor: "#eeeeee"
         }
-        SeriesTheme {
+        GraphsTheme {
             id: customSeriesTheme
-            colors: ["#dd444444", "#dd555555", "#dd666666", "#dd777777", "#dd888888"]
+            seriesColors: ["#dd444444", "#dd555555", "#dd666666", "#dd777777", "#dd888888"]
             borderColors: ["#111111", "#222222", "#333333", "#444444", "#555555"]
             borderWidth: 2
         }
@@ -216,26 +218,26 @@ Rectangle {
             text: "Major bars width"
         }
         CustomSlider {
-            sliderValue: myTheme.gridMajorBarsWidth
+            sliderValue: myTheme.gridMainWidth
             fromValue: 1.0
             toValue: 4.0
             onSliderValueChanged: {
-                myTheme.gridMajorBarsWidth = sliderValue;
-                myTheme.axisYMajorBarWidth = sliderValue;
-                myTheme.axisXMajorBarWidth = sliderValue;
+                myTheme.gridMainWidth = sliderValue;
+                myTheme.axisYMainWidth = sliderValue;
+                myTheme.axisXMainWidth = sliderValue;
             }
         }
         CustomLabel {
             text: "Minor bars width"
         }
         CustomSlider {
-            sliderValue: myTheme.gridMinorBarsWidth
+            sliderValue: myTheme.gridSubWidth
             fromValue: 1.0
             toValue: 4.0
             onSliderValueChanged: {
-                myTheme.gridMinorBarsWidth = sliderValue;
-                myTheme.axisYMinorBarWidth = sliderValue;
-                myTheme.axisXMinorBarWidth = sliderValue;
+                myTheme.gridSubWidth = sliderValue;
+                myTheme.axisYSubWidth = sliderValue;
+                myTheme.axisXSubWidth = sliderValue;
             }
         }
         CustomCheckBox {
@@ -248,40 +250,40 @@ Rectangle {
         }
         CustomSlider {
             id: sliderShadowOpacity
-            sliderValue: myTheme.shadowColor.a
+            sliderValue: chartView.shadowColor.a
             fromValue: 0
             toValue: 1
-            onSliderValueChanged: myTheme.shadowColor.a = sliderValue;
+            onSliderValueChanged: chartView.shadowColor.a = sliderValue;
         }
         CustomLabel {
             text: "Shadow: Smoothing"
         }
         CustomSlider {
             id: sliderShadowSmoothing
-            sliderValue: myTheme.shadowSmoothing
+            sliderValue: chartView.shadowSmoothing
             fromValue: 0
             toValue: 10
-            onSliderValueChanged: myTheme.shadowSmoothing = sliderValue;
+            onSliderValueChanged: chartView.shadowSmoothing = sliderValue;
         }
         CustomLabel {
             text: "Shadow: OffsetX"
         }
         CustomSlider {
             id: sliderShadowOffsetX
-            sliderValue: myTheme.shadowXOffset
+            sliderValue: chartView.shadowXOffset
             fromValue: -2
             toValue: 2
-            onSliderValueChanged: myTheme.shadowXOffset = sliderValue;
+            onSliderValueChanged: chartView.shadowXOffset = sliderValue;
         }
         CustomLabel {
             text: "Shadow: OffsetY"
         }
         CustomSlider {
             id: sliderShadowOffsetY
-            sliderValue: myTheme.shadowYOffset
+            sliderValue: chartView.shadowYOffset
             fromValue: -2
             toValue: 2
-            onSliderValueChanged: myTheme.shadowYOffset = sliderValue;
+            onSliderValueChanged: chartView.shadowYOffset = sliderValue;
         }
     }
 }

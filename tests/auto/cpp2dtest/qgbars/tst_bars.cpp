@@ -83,7 +83,7 @@ void tst_bars::initializeProperties()
 
     auto axisX = new QBarCategoryAxis(this);
     auto axisY = new QValueAxis(this);
-    auto theme = new QSeriesTheme(this);
+    auto theme = new QGraphsTheme(this);
     auto set = new QBarSet(this);
 
     m_series->setAxisX(axisX);

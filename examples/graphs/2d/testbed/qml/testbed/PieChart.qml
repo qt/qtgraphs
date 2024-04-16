@@ -24,9 +24,10 @@ Item {
 
         property variant otherSlice: 0
 
-        theme: GraphTheme {
+        theme: GraphsTheme {
             id: myTheme
-            colorTheme: GraphTheme.ColorTheme.Dark
+            colorScheme: Qt.Dark
+            theme: GraphsTheme.Theme.QtGreen
         }
 
         PieSeries {

@@ -6,7 +6,7 @@
 
 #include <QtCore/qlocale.h>
 #include <QtGraphs/q3dscene.h>
-#include <QtGraphs/q3dtheme.h>
+#include <QtGraphs/QGraphsTheme>
 #include <QtGraphs/qgraphsglobal.h>
 #include <QtQuickWidgets/qquickwidget.h>
 #include <QtQuick/qquickitemgrabresult.h>
@@ -24,7 +24,7 @@ class Q_GRAPHS_EXPORT QAbstract3DGraph : public QQuickWidget
 {
     Q_OBJECT
     Q_CLASSINFO("RegisterEnumClassesUnscoped", "false")
-    Q_PROPERTY(Q3DTheme *activeTheme READ activeTheme WRITE setActiveTheme NOTIFY activeThemeChanged)
+    Q_PROPERTY(QGraphsTheme *activeTheme READ activeTheme WRITE setActiveTheme NOTIFY activeThemeChanged)
     Q_PROPERTY(QAbstract3DGraph::SelectionFlags selectionMode READ selectionMode WRITE
                    setSelectionMode NOTIFY selectionModeChanged)
     Q_PROPERTY(QAbstract3DGraph::ShadowQuality shadowQuality READ shadowQuality WRITE
@@ -83,6 +83,12 @@ class Q_GRAPHS_EXPORT QAbstract3DGraph : public QQuickWidget
                    selectionEnabledChanged)
     Q_PROPERTY(bool zoomEnabled READ zoomEnabled WRITE setZoomEnabled NOTIFY
                    zoomEnabledChanged)
+
+    Q_PROPERTY(QColor lightColor READ lightColor WRITE setLightColor NOTIFY lightColorChanged)
+    Q_PROPERTY(float ambientLightStrength READ ambientLightStrength WRITE setAmbientLightStrength NOTIFY ambientLightStrengthChanged)
+    Q_PROPERTY(float lightStrength READ lightStrength WRITE setLightStrength NOTIFY lightStrengthChanged)
+    Q_PROPERTY(float shadowStrength READ shadowStrength WRITE setShadowStrength NOTIFY shadowStrengthChanged)
+    Q_PROPERTY(bool shaderGridEnabled READ shaderGridEnabled WRITE setShaderGridEnabled NOTIFY shaderGridEnabledChanged FINAL)
 
     QML_NAMED_ELEMENT(AbstractGraph3D)
     QML_UNCREATABLE("Trying to create uncreatable: AbstractGraph3D.")
@@ -144,11 +150,11 @@ public:
     };
     Q_ENUM(CameraPreset)
 
-    void addTheme(Q3DTheme *theme);
-    void releaseTheme(Q3DTheme *theme);
-    Q3DTheme *activeTheme() const;
-    void setActiveTheme(Q3DTheme *activeTheme);
-    QList<Q3DTheme *> themes() const;
+    void addTheme(QGraphsTheme *theme);
+    void releaseTheme(QGraphsTheme *theme);
+    QGraphsTheme *activeTheme() const;
+    void setActiveTheme(QGraphsTheme *activeTheme);
+    QList<QGraphsTheme *> themes() const;
 
     QAbstract3DGraph::ShadowQuality shadowQuality() const;
     void setShadowQuality(const QAbstract3DGraph::ShadowQuality &shadowQuality);
@@ -269,6 +275,17 @@ public:
 
     void doPicking(QPoint point);
 
+    float ambientLightStrength() const;
+    void setAmbientLightStrength(float newAmbientLightStrength);
+    float lightStrength() const;
+    void setLightStrength(float newLightStrength);
+    float shadowStrength() const;
+    void setShadowStrength(float newShadowStrength);
+    QColor lightColor() const;
+    void setLightColor(const QColor &newLightColor);
+    bool shaderGridEnabled();
+    void setShaderGridEnabled(bool enabled);
+
     virtual ~QAbstract3DGraph();
 
 protected:
@@ -280,7 +297,7 @@ protected:
     void mouseMoveEvent(QMouseEvent *event) override;
 
 Q_SIGNALS:
-    void activeThemeChanged(Q3DTheme *activeTheme);
+    void activeThemeChanged(QGraphsTheme *activeTheme);
     void shadowQualityChanged(QAbstract3DGraph::ShadowQuality quality);
     void selectionModeChanged(const QAbstract3DGraph::SelectionFlags selectionMode);
     void selectedElementChanged(QAbstract3DGraph::ElementType type);
@@ -322,6 +339,12 @@ Q_SIGNALS:
     void zoomAtTargetEnabledChanged(bool enable);
     void rotationEnabledChanged(bool enable);
     void selectionEnabledChanged(bool enable);
+
+    void ambientLightStrengthChanged();
+    void lightStrengthChanged();
+    void shadowStrengthChanged();
+    void lightColorChanged();
+    void shaderGridEnabledChanged();
 
 private:
     Q_DISABLE_COPY(QAbstract3DGraph)

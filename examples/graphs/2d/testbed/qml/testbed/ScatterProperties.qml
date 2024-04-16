@@ -26,13 +26,13 @@ Rectangle {
             Button {
                 text: "Theme1"
                 onClicked: {
-                    seriesTheme.colorTheme = SeriesTheme.SeriesColorTheme.SeriesTheme1;
+                    seriesTheme.theme = GraphsTheme.Theme.QtGreen;
                 }
             }
             Button {
                 text: "Theme2"
                 onClicked: {
-                    seriesTheme.colorTheme = SeriesTheme.SeriesColorTheme.SeriesTheme2;
+                    seriesTheme.theme = GraphsTheme.Theme.QtGreenNeon;
                 }
             }
         }
@@ -56,9 +56,10 @@ Rectangle {
         anchors.margins: 10
         backgroundColor: "#202020"
 
-        SeriesTheme {
+        GraphsTheme {
             id: seriesTheme
-            colorTheme: SeriesTheme.SeriesColorTheme.SeriesTheme1
+            colorScheme: Qt.Dark
+            theme: GraphsTheme.Theme.QtGreen
         }
 
         ScatterSeries {

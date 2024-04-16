@@ -6,7 +6,7 @@
 #include <QtGraphs/qscatter3dseries.h>
 #include <QtGraphs/qvalue3daxis.h>
 #include <QtGraphs/q3dscene.h>
-#include <QtGraphs/q3dtheme.h>
+#include <QtGraphs/qgraphstheme.h>
 #include <qmath.h>
 #include <qrandom.h>
 
@@ -21,10 +21,10 @@ ScatterDataModifier::ScatterDataModifier(Q3DScatter *scatter)
       m_selectedItem(-1),
       m_targetSeries(0)
 {
-    m_chart->activeTheme()->setType(Q3DTheme::Theme::StoneMoss);
-    QFont font = m_chart->activeTheme()->font();
+    m_chart->activeTheme()->setTheme(QGraphsTheme::Theme::QtGreen);
+    QFont font = m_chart->activeTheme()->labelFont();
     font.setPointSize(m_fontSize);
-    m_chart->activeTheme()->setFont(font);
+    m_chart->activeTheme()->setLabelFont(font);
     m_chart->setShadowQuality(QAbstract3DGraph::ShadowQuality::None);
     m_chart->setCameraPreset(QAbstract3DGraph::CameraPreset::Front);
     m_chart->setAxisX(new QValue3DAxis);
@@ -570,12 +570,12 @@ void ScatterDataModifier::changePresetCamera()
 
 void ScatterDataModifier::changeTheme()
 {
-    static int theme = int(Q3DTheme::Theme::Qt);
+    static int theme = int(QGraphsTheme::Theme::QtGreen);
 
-    m_chart->activeTheme()->setType(Q3DTheme::Theme(theme));
+    m_chart->activeTheme()->setTheme(QGraphsTheme::Theme(theme));
 
-    if (++theme > int(Q3DTheme::Theme::Isabelle))
-        theme = int(Q3DTheme::Theme::Qt);
+    if (++theme > int(QGraphsTheme::Theme::UserDefined))
+        theme = int(QGraphsTheme::Theme::QtGreen);
 }
 
 void ScatterDataModifier::changeLabelStyle()
@@ -587,15 +587,15 @@ void ScatterDataModifier::changeFont(const QFont &font)
 {
     QFont newFont = font;
     newFont.setPointSizeF(m_fontSize);
-    m_chart->activeTheme()->setFont(newFont);
+    m_chart->activeTheme()->setLabelFont(newFont);
 }
 
 void ScatterDataModifier::changeFontSize(int fontSize)
 {
     m_fontSize = fontSize;
-    QFont font = m_chart->activeTheme()->font();
+    QFont font = m_chart->activeTheme()->labelFont();
     font.setPointSize(m_fontSize);
-    m_chart->activeTheme()->setFont(font);
+    m_chart->activeTheme()->setLabelFont(font);
 }
 
 void ScatterDataModifier::changePointSize(int pointSize)
@@ -876,13 +876,13 @@ void ScatterDataModifier::setGradient()
         m_targetSeries->setBaseGradient(baseGradient);
         m_targetSeries->setSingleHighlightGradient(singleHighlightGradient);
 
-        Q3DTheme::ColorStyle oldStyle = m_targetSeries->colorStyle();
-        if (oldStyle == Q3DTheme::ColorStyle::Uniform)
-            m_targetSeries->setColorStyle(Q3DTheme::ColorStyle::ObjectGradient);
-        else if (oldStyle == Q3DTheme::ColorStyle::ObjectGradient)
-            m_targetSeries->setColorStyle(Q3DTheme::ColorStyle::RangeGradient);
-        if (oldStyle == Q3DTheme::ColorStyle::RangeGradient)
-            m_targetSeries->setColorStyle(Q3DTheme::ColorStyle::Uniform);
+        QGraphsTheme::ColorStyle oldStyle = m_targetSeries->colorStyle();
+        if (oldStyle == QGraphsTheme::ColorStyle::Uniform)
+            m_targetSeries->setColorStyle(QGraphsTheme::ColorStyle::ObjectGradient);
+        else if (oldStyle == QGraphsTheme::ColorStyle::ObjectGradient)
+            m_targetSeries->setColorStyle(QGraphsTheme::ColorStyle::RangeGradient);
+        if (oldStyle == QGraphsTheme::ColorStyle::RangeGradient)
+            m_targetSeries->setColorStyle(QGraphsTheme::ColorStyle::Uniform);
     }
 }
 

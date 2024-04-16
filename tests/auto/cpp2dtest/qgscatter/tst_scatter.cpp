@@ -77,7 +77,7 @@ void tst_scatter::initializeProperties()
     auto axisX = new QValueAxis(this);
     auto axisY = new QValueAxis(this);
     auto marker = new QQmlComponent(this);
-    auto theme = new QSeriesTheme(this);
+    auto theme = new QGraphsTheme(this);
 
     m_series->setAxisX(axisX);
     m_series->setAxisY(axisY);

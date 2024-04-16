@@ -15,7 +15,6 @@
 #define QQUICKGRAPHSBARSSERIES_P_H
 
 #include "qbar3dseries.h"
-#include "qquickgraphscolor_p.h"
 
 #include <QtQml/qqml.h>
 #include <QtQuick/private/qquickrectangle_p.h>

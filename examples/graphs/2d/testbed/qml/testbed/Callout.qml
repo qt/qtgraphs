@@ -44,9 +44,10 @@ Rectangle {
             tooltip.text = "Series: " + seriesName + ", X: " + value.x.toFixed(1) + ", Y: " + value.y.toFixed(1);
         }
 
-        SeriesTheme {
+        GraphsTheme {
             id: seriesTheme
-            colorTheme: SeriesTheme.SeriesColorTheme.SeriesTheme1
+            colorScheme: Qt.Dark
+            theme: GraphsTheme.Theme.QtGreen
         }
 
         BarSeries {

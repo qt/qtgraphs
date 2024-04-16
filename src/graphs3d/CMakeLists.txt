@@ -33,14 +33,10 @@ else()
 
             input/qgraphsinputhandler.cpp  input/qgraphsinputhandler_p.h
 
-            theme/q3dtheme.cpp theme/q3dtheme.h theme/q3dtheme_p.h
-            theme/thememanager.cpp theme/thememanager_p.h
-
             utils/qutils.h
             utils/utils.cpp utils/utils_p.h
 
             qml/foreigntypes_p.h
-            qml/qquickgraphscolor.cpp qml/qquickgraphscolor_p.h
             qml/qquickgraphsitem.cpp qml/qquickgraphsitem_p.h
             qml/qquickgraphstexturedata.cpp qml/qquickgraphstexturedata_p.h
         NO_UNITY_BUILD_SOURCES
@@ -53,7 +49,6 @@ else()
             engine
             global
             input
-            theme
             utils
             qml
     )

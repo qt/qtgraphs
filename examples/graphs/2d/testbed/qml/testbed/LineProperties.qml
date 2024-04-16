@@ -58,13 +58,13 @@ Rectangle {
             Button {
                 text: "Theme1"
                 onClicked: {
-                    seriesTheme.colorTheme = SeriesTheme.SeriesColorTheme.SeriesTheme1;
+                    seriesTheme.theme = GraphsTheme.Theme.QtGreen;
                 }
             }
             Button {
                 text: "Theme2"
                 onClicked: {
-                    seriesTheme.colorTheme = SeriesTheme.SeriesColorTheme.SeriesTheme2;
+                    seriesTheme.theme = GraphsTheme.Theme.QtGreenNeon;
                 }
             }
         }
@@ -133,9 +133,9 @@ Rectangle {
         anchors.rightMargin: settingsView.posX + 20 * px
         backgroundColor: "#202020"
 
-        SeriesTheme {
+        GraphsTheme {
             id: seriesTheme
-            colorTheme: SeriesTheme.SeriesColorTheme.SeriesTheme1
+            theme: GraphsTheme.Theme.QtGreen
         }
 
         LineSeries {

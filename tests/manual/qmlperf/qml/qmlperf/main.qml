@@ -420,9 +420,9 @@ Item {
                 horizontalAspectRatio: 1.0
 
 
-                theme : Theme3D {
-                    type: Theme3D.Theme.Qt
-                    colorStyle: Theme3D.ColorStyle.RangeGradient
+                theme : GraphsTheme {
+                    theme: GraphsTheme.Theme.QtGreen
+                    colorStyle: GraphsTheme.ColorStyle.RangeGradient
                     baseGradients: surfaceGradient
 
                     Gradient {
@@ -460,10 +460,10 @@ Item {
                 axisZ.max: 1
 
                 measureFps: true
-                theme : Theme3D {
+                theme : GraphsTheme {
                     id: scatterTheme
-                    type: Theme3D.Theme.Qt
-                    colorStyle: Theme3D.ColorStyle.RangeGradient
+                    theme: GraphsTheme.Theme.QtGreen
+                    colorStyle: GraphsTheme.ColorStyle.RangeGradient
                     baseGradients: scatterGradient
 
                     Gradient {
@@ -495,10 +495,10 @@ Item {
                 valueAxis.min: 0
                 valueAxis.max: 1
 
-                theme : Theme3D {
+                theme : GraphsTheme {
                     id: barTheme
-                    type: Theme3D.Theme.Qt
-                    colorStyle: Theme3D.ColorStyle.RangeGradient
+                    theme: GraphsTheme.Theme.QtGreen
+                    colorStyle: GraphsTheme.ColorStyle.RangeGradient
                     baseGradients: barGradient
 
                     Gradient {

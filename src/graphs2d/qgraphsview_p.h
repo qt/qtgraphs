@@ -21,7 +21,7 @@
 
 #include <QBrush>
 #include <QPen>
-#include <QtGraphs/qgraphtheme.h>
+#include <QtGraphs/qgraphstheme.h>
 #include <QtQuick/QSGClipNode>
 #include <private/arearenderer_p.h>
 #include <private/axisrenderer_p.h>
@@ -36,7 +36,7 @@ class QAbstractAxis;
 class QGraphsView : public QQuickItem
 {
     Q_OBJECT
-    Q_PROPERTY(QGraphTheme *theme READ theme WRITE setTheme NOTIFY themeChanged)
+    Q_PROPERTY(QGraphsTheme *theme READ theme WRITE setTheme NOTIFY themeChanged)
     Q_PROPERTY(QQmlListProperty<QObject> seriesList READ seriesList CONSTANT)
     // TODO: Remove this?
     Q_PROPERTY(QColor backgroundColor READ backgroundColor WRITE setBackgroundColor NOTIFY backgroundColorChanged)
@@ -44,6 +44,18 @@ class QGraphsView : public QQuickItem
     Q_PROPERTY(qreal marginBottom READ marginBottom WRITE setMarginBottom NOTIFY marginBottomChanged)
     Q_PROPERTY(qreal marginLeft READ marginLeft WRITE setMarginLeft NOTIFY marginLeftChanged)
     Q_PROPERTY(qreal marginRight READ marginRight WRITE setMarginRight NOTIFY marginRightChanged)
+
+    Q_PROPERTY(qreal axisXSmoothing READ axisXSmoothing WRITE setAxisXSmoothing NOTIFY axisXSmoothingChanged FINAL)
+    Q_PROPERTY(qreal axisYSmoothing READ axisYSmoothing WRITE setAxisYSmoothing NOTIFY axisYSmoothingChanged FINAL)
+    Q_PROPERTY(qreal gridSmoothing READ gridSmoothing WRITE setGridSmoothing NOTIFY gridSmoothingChanged FINAL)
+
+    Q_PROPERTY(bool shadowEnabled READ shadowEnabled WRITE setShadowEnabled NOTIFY shadowEnabledChanged FINAL)
+    Q_PROPERTY(QColor shadowColor READ shadowColor WRITE setShadowColor NOTIFY shadowColorChanged FINAL)
+    Q_PROPERTY(qreal shadowBarWidth READ shadowBarWidth WRITE setShadowBarWidth NOTIFY shadowBarWidthChanged FINAL)
+    Q_PROPERTY(qreal shadowXOffset READ shadowXOffset WRITE setShadowXOffset NOTIFY shadowXOffsetChanged FINAL)
+    Q_PROPERTY(qreal shadowYOffset READ shadowYOffset WRITE setShadowYOffset NOTIFY shadowYOffsetChanged FINAL)
+    Q_PROPERTY(qreal shadowSmoothing READ shadowSmoothing WRITE setShadowSmoothing NOTIFY shadowSmoothingChanged FINAL)
+
     Q_CLASSINFO("DefaultProperty", "seriesList")
     QML_NAMED_ELEMENT(GraphsView)
 
@@ -69,8 +81,8 @@ public:
     static QObject *atSeriesFunc(QQmlListProperty<QObject> *list, qsizetype index);
     static void clearSeriesFunc(QQmlListProperty<QObject> *list);
 
-    QGraphTheme *theme() const;
-    void setTheme(QGraphTheme *newTheme);
+    QGraphsTheme *theme() const;
+    void setTheme(QGraphsTheme *newTheme);
 
     qreal marginTop() const;
     void setMarginTop(qreal newMarginTop);
@@ -87,6 +99,9 @@ public:
     void addAxis(QAbstractAxis *axis);
     void removeAxis(QAbstractAxis *axis);
 
+    int graphSeriesCount() const;
+    void setGraphSeriesCount(int count);
+
     // Returns the graph series area.
     // So graphview - margins - axis.
     QRectF seriesRect() const;
@@ -96,6 +111,26 @@ public:
     void createPointRenderer();
     void createPieRenderer();
     void createAreaRenderer();
+
+    qreal axisXSmoothing() const;
+    void setAxisXSmoothing(qreal smoothing);
+    qreal axisYSmoothing() const;
+    void setAxisYSmoothing(qreal smoothing);
+    qreal gridSmoothing() const;
+    void setGridSmoothing(qreal smoothing);
+
+    bool shadowEnabled() const;
+    void setShadowEnabled(bool newShadowEnabled);
+    QColor shadowColor() const;
+    void setShadowColor(const QColor &newShadowColor);
+    qreal shadowBarWidth() const;
+    void setShadowBarWidth(qreal newShadowBarWidth);
+    qreal shadowXOffset() const;
+    void setShadowXOffset(qreal newShadowXOffset);
+    qreal shadowYOffset() const;
+    void setShadowYOffset(qreal newShadowYOffset);
+    qreal shadowSmoothing() const;
+    void setShadowSmoothing(qreal smoothing);
 
 protected:
     void handleHoverEnter(QString seriesName, QPointF position, QPointF value);
@@ -122,6 +157,17 @@ Q_SIGNALS:
     void hoverExit(QString seriesName, QPointF position);
     void hover(QString seriesName, QPointF position, QPointF value);
 
+    void axisXSmoothingChanged();
+    void axisYSmoothingChanged();
+    void gridSmoothingChanged();
+
+    void shadowEnabledChanged();
+    void shadowColorChanged();
+    void shadowBarWidthChanged();
+    void shadowXOffsetChanged();
+    void shadowYOffsetChanged();
+    void shadowSmoothingChanged();
+
 private:
     friend class AxisRenderer;
     friend class BarsRenderer;
@@ -141,14 +187,28 @@ private:
 
     QList<QAbstractAxis *> m_axis;
 
-    QGraphTheme *m_theme = nullptr;
-    QGraphTheme *m_defaultTheme = nullptr;
+    QGraphsTheme *m_theme = nullptr;
+    QGraphsTheme *m_defaultTheme = nullptr;
+
+    int m_graphSeriesCount = 0;
+
     qreal m_marginTop = 20;
     qreal m_marginBottom = 20;
     qreal m_marginLeft = 20;
     qreal m_marginRight = 20;
 
     int m_hoverCount = 0;
+
+    qreal m_axisXSmoothing = 1.0;
+    qreal m_axisYSmoothing = 1.0;
+    qreal m_gridSmoothing = 1.0;
+
+    bool m_shadowEnabled;
+    QColor m_shadowColor;
+    qreal m_shadowBarWidth = 0.0;
+    qreal m_shadowXOffset = 0.0;
+    qreal m_shadowYOffset = 0.0;
+    qreal m_shadowSmoothing = 5.0;
 };
 
 QT_END_NAMESPACE
