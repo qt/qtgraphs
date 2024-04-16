@@ -1,0 +1,79 @@
+// Copyright (C) 2024 The Qt Company Ltd.
+// SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
+#ifndef QBARMODELMAPPER_H
+#define QBARMODELMAPPER_H
+
+#include <QtCore/qobject.h>
+#include <QtGraphs/qgraphsglobal.h>
+#include <QtQmlIntegration/qqmlintegration.h>
+
+Q_MOC_INCLUDE(<QtCore / qabstractitemmodel.h>)
+Q_MOC_INCLUDE(<QtGraphs / qbarseries.h>)
+
+QT_BEGIN_NAMESPACE
+
+class QAbstractItemModel;
+class QBarSeries;
+class QBarModelMapperPrivate;
+
+class Q_GRAPHS_EXPORT QBarModelMapper : public QObject
+{
+    Q_OBJECT
+    Q_PROPERTY(QBarSeries *series READ series WRITE setSeries NOTIFY seriesChanged)
+    Q_PROPERTY(QAbstractItemModel *model READ model WRITE setModel NOTIFY modelChanged)
+    Q_PROPERTY(int firstBarSetSection READ firstBarSetSection WRITE setFirstBarSetSection NOTIFY
+                   firstBarSetSectionChanged)
+    Q_PROPERTY(int lastBarSetSection READ lastBarSetSection WRITE setLastBarSetSection NOTIFY
+                   lastBarSetSectionChanged)
+    Q_PROPERTY(int first READ first WRITE setFirst NOTIFY firstChanged)
+    Q_PROPERTY(int count READ count WRITE setCount NOTIFY countChanged)
+    Q_PROPERTY(Qt::Orientation orientation READ orientation WRITE setOrientation NOTIFY
+                   orientationChanged FINAL)
+
+    QML_NAMED_ELEMENT(BarModelMapper)
+    Q_DECLARE_PRIVATE(QBarModelMapper)
+public:
+    explicit QBarModelMapper(QObject *parent = nullptr);
+    ~QBarModelMapper() override;
+
+    QAbstractItemModel *model() const;
+    void setModel(QAbstractItemModel *model);
+
+    QBarSeries *series() const;
+    void setSeries(QBarSeries *series);
+
+    int firstBarSetSection() const;
+    void setFirstBarSetSection(int newFirstBarSetSection);
+
+    int lastBarSetSection() const;
+    void setLastBarSetSection(int newLastBarSetSection);
+
+    int count() const;
+    void setCount(int newCount);
+
+    int first() const;
+    void setFirst(int newFirst);
+
+    Qt::Orientation orientation() const;
+    void setOrientation(Qt::Orientation orientation);
+
+Q_SIGNALS:
+    void seriesChanged();
+    void modelChanged();
+    void firstBarSetSectionChanged();
+    void lastBarSetSectionChanged();
+    void firstChanged();
+    void countChanged();
+    void orientationChanged();
+
+protected:
+    QBarModelMapper(QBarModelMapperPrivate &dd, QObject *parent = nullptr);
+
+private Q_SLOTS:
+    void onValuesAdded(int index, int count);
+    void onBarLabelChanged();
+    void onBarValueChanged(int index);
+};
+
+QT_END_NAMESPACE
+#endif // QBARMODELMAPPER_H

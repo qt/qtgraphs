@@ -85,6 +85,10 @@ Item {
             name: "DateTime Axis"
             file: "DateTimeAxis.qml"
         }
+        ListElement {
+            name: "BarModelMapping"
+            file: "BarModelMapping.qml"
+        }
     }
 
     Component {

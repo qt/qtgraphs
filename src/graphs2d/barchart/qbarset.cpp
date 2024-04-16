@@ -862,8 +862,6 @@ void QBarSetPrivate::replace(const int index, const qreal value)
         return;
 
     m_values.replace(index, QPointF(index, value));
-    Q_Q(QBarSet);
-    emit q->valueChanged(index);
 }
 
 qreal QBarSetPrivate::pos(const int index)

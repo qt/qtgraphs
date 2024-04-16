@@ -1,0 +1,77 @@
+// Copyright (C) 2024 The Qt Company Ltd.
+// SPDX-License-Identifier: LicenseRef-Qt-Commercial OR BSD-3-Clause
+
+//  W A R N I N G
+//  -------------
+//
+// This file is not part of the QtGraphs API.  It exists purely as an
+// implementation detail.  This header file may change from version to
+// version without notice, or even be removed.
+//
+// We mean it.
+#ifndef QBARMODELMAPPER_P_H
+#define QBARMODELMAPPER_P_H
+
+#include <QtGraphs/QBarModelMapper>
+#include <QtGraphs/QBarSet>
+#include <private/qabstractitemmodel_p.h>
+#include <private/qobject_p.h>
+
+QT_BEGIN_NAMESPACE
+class QAbstractItemModel;
+
+class QBarModelMapperPrivate : public QObjectPrivate
+{
+    Q_DECLARE_PUBLIC(QBarModelMapper)
+public:
+    QBarModelMapperPrivate();
+    ~QBarModelMapperPrivate() override;
+
+protected:
+    QModelIndex barModelIndex(int barSection, int posInBar);
+    void blockSeriesSignals(const bool block = true);
+    void blockModelSignals(const bool block = true);
+    QBarSet *barSet(QModelIndex index);
+    void insertData(int start, int end);
+    void removeData(int start, int end);
+
+private:
+    QAbstractItemModel *m_model = nullptr;
+    QBarSeries *m_series = nullptr;
+    QList<QBarSet *> m_barSets;
+
+    int m_firstBarSetSection = -1;
+    int m_lastBarSetSection = -1;
+
+    int m_count = -1;
+    int m_first = 0;
+    Qt::Orientation m_orientation = Qt::Vertical;
+    bool m_seriesSignalsBlock = false;
+    bool m_modelSignalsBlock = false;
+
+private Q_SLOTS:
+    void initializeBarsFromModel();
+
+    // for the model
+    void modelUpdated(QModelIndex topLeft, QModelIndex bottomRight);
+    void modelHeaderDataUpdated(Qt::Orientation orientation, int first, int last);
+    void modelRowsAdded(QModelIndex parent, int start, int end);
+    void modelRowsRemoved(QModelIndex parent, int start, int end);
+    void modelColumnsAdded(QModelIndex parent, int start, int end);
+    void modelColumnsRemoved(QModelIndex parent, int start, int end);
+    void handleModelDestroyed();
+
+    // for the series
+    void barSetsAdded(const QList<QBarSet *> &sets);
+    void barSetsRemoved(const QList<QBarSet *> &sets);
+    void valuesRemoved(int index, int count);
+    void handleSeriesDestroyed();
+
+private:
+    void handleValuesAdded(QBarSet *set, int index, int count);
+    void handleBarLabelChanged(QBarSet *set);
+    void handleBarValueChanged(QBarSet *set, int index);
+};
+
+QT_END_NAMESPACE
+#endif // QBARMODELMAPPER_P_H
