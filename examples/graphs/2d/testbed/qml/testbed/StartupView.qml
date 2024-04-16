@@ -81,6 +81,10 @@ Item {
             name: "BarChangingSetCount"
             file: "BarChangingSetCount.qml"
         }
+        ListElement {
+            name: "DateTime Axis"
+            file: "DateTimeAxis.qml"
+        }
     }
 
     Component {

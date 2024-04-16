@@ -4,6 +4,7 @@
 add_subdirectory(qgaxis-abstract)
 add_subdirectory(qgaxis-barcategory)
 add_subdirectory(qgaxis-value)
+add_subdirectory(qgaxis-datetime)
 add_subdirectory(qgbars)
 add_subdirectory(qgbars-set)
 add_subdirectory(qglines)

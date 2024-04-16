@@ -33,6 +33,7 @@ qt_internal_extend_target(Graphs
         animation/qgraphpointanimation.cpp animation/qgraphpointanimation_p.h
         animation/qgraphtransition_p.h animation/qgraphtransition.cpp
         animation/qxyseriesanimation_p.h animation/qxyseriesanimation.cpp
+        axis/datetimeaxis/qdatetimeaxis.h axis/datetimeaxis/qdatetimeaxis.cpp axis/datetimeaxis/qdatetimeaxis_p.h
 )
 
 add_subdirectory(qml/designer)

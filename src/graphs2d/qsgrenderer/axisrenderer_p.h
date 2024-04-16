@@ -30,6 +30,7 @@ class QGraphsView;
 class QBarCategoryAxis;
 class QValueAxis;
 class QGraphsTheme;
+class QDateTimeAxis;
 
 class AxisRenderer : public QQuickItem
 {
@@ -49,6 +50,8 @@ public:
     void updateBarYAxisLabels(QBarCategoryAxis *axis, const QRectF &rect);
     void updateValueYAxisLabels(QValueAxis *axis, const QRectF &rect);
     void updateValueXAxisLabels(QValueAxis *axis, const QRectF &rect);
+    void updateDateTimeYAxisLabels(QDateTimeAxis *axis, const QRectF &rect);
+    void updateDateTimeXAxisLabels(QDateTimeAxis *axis, const QRectF &rect);
     void initialize();
 
 Q_SIGNALS:

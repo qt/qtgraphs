@@ -39,6 +39,7 @@ QT_BEGIN_NAMESPACE
 
     \value Value
     \value BarCategory
+    \value DateTime
 */
 
 /*!

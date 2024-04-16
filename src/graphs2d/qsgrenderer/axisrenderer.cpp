@@ -1,11 +1,13 @@
 // Copyright (C) 2023 The Qt Company Ltd.
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 
+#include <QtGraphs/QBarCategoryAxis>
+#include <QtGraphs/QGraphsTheme>
 #include <private/axisrenderer_p.h>
 #include <private/qabstractaxis_p.h>
 #include <private/qbarseries_p.h>
+#include <private/qdatetimeaxis_p.h>
 #include <private/qgraphsview_p.h>
-#include <QtGraphs/QBarCategoryAxis>
 #include <private/qvalueaxis_p.h>
 
 QT_BEGIN_NAMESPACE
@@ -194,7 +196,6 @@ void AxisRenderer::updateAxis()
         m_axisVerticalValueStep = step;
         int axisVerticalMinorTickCount = vaxis->minorTickCount();
         m_axisVerticalMinorTickScale = axisVerticalMinorTickCount > 0 ? 1.0 / (axisVerticalMinorTickCount + 1) : 1.0;
-
         m_axisVerticalStepPx = (height() - m_graph->m_marginTop - m_graph->m_marginBottom - m_axisHeight) / (m_axisVerticalValueRange / m_axisVerticalValueStep);
         double axisVerticalValueDiff = m_axisVerticalMinLabel - m_axisVerticalMinValue;
         m_axisYMovement = -(axisVerticalValueDiff / m_axisVerticalValueStep) * m_axisVerticalStepPx;
@@ -255,6 +256,80 @@ void AxisRenderer::updateAxis()
         m_axisVerticalValueRange = m_axisVerticalMaxValue - m_axisVerticalMinValue;
         yAxisRect = {m_graph->m_marginLeft, m_graph->m_marginTop, m_axisWidth - rightMargin, h};
         updateBarYAxisLabels(vaxis, yAxisRect);
+    }
+
+    if (auto vaxis = qobject_cast<QDateTimeAxis *>(m_axisVertical)) {
+        // Todo: make constant for all axis, or clamp in class? (QTBUG-124736)
+        const double MAX_DIVS = 100.0;
+
+        double interval = std::clamp(vaxis->tickInterval(), 0.0, MAX_DIVS);
+        m_axisVerticalMaxValue = vaxis->max().toMSecsSinceEpoch();
+        m_axisVerticalMinValue = vaxis->min().toMSecsSinceEpoch();
+        m_axisVerticalValueRange = std::abs(m_axisVerticalMaxValue - m_axisVerticalMinValue);
+
+        // in ms
+        double segment;
+        if (interval <= 0) {
+            segment = getValueStepsFromRange(m_axisVerticalValueRange);
+            interval = m_axisVerticalValueRange / segment;
+        } else {
+            segment = m_axisVerticalValueRange / interval;
+        }
+
+        m_axisVerticalMinLabel = std::clamp(interval, 1.0, MAX_DIVS);
+
+        m_axisVerticalValueStep = segment;
+        int axisVerticalMinorTickCount = vaxis->minorTickCount();
+        m_axisVerticalMinorTickScale = axisVerticalMinorTickCount > 0
+                                           ? 1.0 / (axisVerticalMinorTickCount + 1)
+                                           : 1.0;
+        m_axisVerticalStepPx = (height() - m_graph->m_marginTop - m_graph->m_marginBottom
+                                - m_axisHeight)
+                               / (qFuzzyCompare(segment, 0)
+                                      ? interval
+                                      : (m_axisVerticalValueRange / m_axisVerticalValueStep));
+
+        float rightMargin = 20;
+        yAxisRect = {m_graph->m_marginLeft, m_graph->m_marginTop, m_axisWidth - rightMargin, h};
+        updateDateTimeYAxisLabels(vaxis, yAxisRect);
+    }
+
+    if (auto haxis = qobject_cast<QDateTimeAxis *>(m_axisHorizontal)) {
+        const double MAX_DIVS = 100.0;
+
+        double interval = std::clamp(haxis->tickInterval(), 0.0, MAX_DIVS);
+        m_axisHorizontalMaxValue = haxis->max().toMSecsSinceEpoch();
+        m_axisHorizontalMinValue = haxis->min().toMSecsSinceEpoch();
+        m_axisHorizontalValueRange = std::abs(m_axisHorizontalMaxValue - m_axisHorizontalMinValue);
+
+        // in ms
+        double segment;
+        if (interval <= 0) {
+            segment = getValueStepsFromRange(m_axisHorizontalValueRange);
+            interval = m_axisHorizontalValueRange / segment;
+        } else {
+            segment = m_axisHorizontalValueRange / interval;
+        }
+
+        m_axisHorizontalMinLabel = std::clamp(interval, 1.0, MAX_DIVS);
+
+        m_axisHorizontalValueStep = segment;
+        int axisHorizontalMinorTickCount = haxis->minorTickCount();
+        m_axisHorizontalMinorTickScale = axisHorizontalMinorTickCount > 0
+                                             ? 1.0 / (axisHorizontalMinorTickCount + 1)
+                                             : 1.0;
+        m_axisHorizontalStepPx = (width() - m_graph->m_marginLeft - m_graph->m_marginRight
+                                  - m_axisWidth)
+                                 / (qFuzzyCompare(segment, 0)
+                                        ? interval
+                                        : (m_axisHorizontalValueRange / m_axisHorizontalValueStep));
+
+        float topMargin = 20;
+        xAxisRect = {m_graph->m_marginLeft + m_axisWidth,
+                     m_graph->m_marginTop + h - m_graph->m_marginBottom + topMargin,
+                     w,
+                     m_axisHeight};
+        updateDateTimeXAxisLabels(haxis, xAxisRect);
     }
 
     updateAxisTickers();
@@ -699,6 +774,97 @@ void AxisRenderer::updateValueXAxisLabels(QValueAxis *axis, const QRectF &rect)
             const QString f = axis->labelFormat();
             char format = f.isEmpty() ? 'f' : f.front().toLatin1();
             textItem->setText(QString::number(number, format, decimals));
+            textItem->setVisible(true);
+        } else {
+            textItem->setVisible(false);
+        }
+    }
+}
+
+void AxisRenderer::updateDateTimeYAxisLabels(QDateTimeAxis *axis, const QRectF &rect)
+{
+    auto maxDate = axis->max();
+    auto minDate = axis->min();
+    int dateTimeSize = m_axisVerticalMinLabel + 1;
+    auto segment = (maxDate.toMSecsSinceEpoch() - minDate.toMSecsSinceEpoch())
+                   / m_axisVerticalMinLabel;
+
+    // See if we need more text items
+    updateAxisLabelItems(m_yAxisTextItems, dateTimeSize);
+
+    for (auto i = 0; i < dateTimeSize; ++i) {
+        auto &textItem = m_yAxisTextItems[i];
+        if (axis->isVisible() && axis->labelsVisible()) {
+            // TODO: Not general, fix vertical align to work in all cases
+            float fontSize = theme()->axisYLabelFont().pixelSize() < 0
+                                 ? theme()->axisYLabelFont().pointSize()
+                                 : theme()->axisYLabelFont().pixelSize();
+            float posX = rect.x();
+            textItem->setX(posX);
+            float posY = rect.y() + rect.height() - (((float) i) * m_axisVerticalStepPx);
+            const double titleMargin = 0.01;
+            if ((posY - titleMargin) > (rect.height() + rect.y())
+                || (posY + titleMargin) < rect.y()) {
+                // Hide text item which are outside the axis area
+                textItem->setVisible(false);
+                continue;
+            }
+            // Take font size into account only after hiding
+            posY -= fontSize;
+            textItem->setY(posY);
+            textItem->setHAlign(QQuickText::HAlignment::AlignHCenter);
+            textItem->setVAlign(QQuickText::VAlignment::AlignVCenter);
+            textItem->setHAlign(QQuickText::HAlignment::AlignRight);
+            textItem->setVAlign(QQuickText::VAlignment::AlignBottom);
+            textItem->setWidth(rect.width());
+            textItem->setHeight(textItem->contentHeight());
+            textItem->setFont(theme()->axisYLabelFont());
+            textItem->setColor(theme()->axisYLabelColor());
+            textItem->setRotation(axis->labelsAngle());
+            textItem->setText(minDate.addMSecs(segment * i).toString(axis->labelFormat()));
+            textItem->setVisible(true);
+        } else {
+            textItem->setVisible(false);
+        }
+    }
+}
+
+void AxisRenderer::updateDateTimeXAxisLabels(QDateTimeAxis *axis, const QRectF &rect)
+{
+    auto maxDate = axis->max();
+    auto minDate = axis->min();
+    int dateTimeSize = m_axisHorizontalMinLabel + 1;
+    auto segment = (maxDate.toMSecsSinceEpoch() - minDate.toMSecsSinceEpoch())
+                   / m_axisHorizontalMinLabel;
+
+    // See if we need more text items
+    updateAxisLabelItems(m_xAxisTextItems, dateTimeSize);
+
+    for (auto i = 0; i < dateTimeSize; ++i) {
+        auto &textItem = m_xAxisTextItems[i];
+        if (axis->isVisible() && axis->labelsVisible()) {
+            float posY = rect.y();
+            textItem->setY(posY);
+            float textItemWidth = 20;
+            float posX = rect.x() + (((float) i) * m_axisHorizontalStepPx);
+            const double titleMargin = 0.01;
+            if ((posX - titleMargin) > (rect.width() + rect.x())
+                || (posX + titleMargin) < rect.x()) {
+                // Hide text item which are outside the axis area
+                textItem->setVisible(false);
+                continue;
+            }
+            // Take text size into account only after hiding
+            posX -= 0.5 * textItemWidth;
+            textItem->setX(posX);
+            textItem->setHAlign(QQuickText::HAlignment::AlignHCenter);
+            textItem->setVAlign(QQuickText::VAlignment::AlignBottom);
+            textItem->setWidth(textItemWidth);
+            textItem->setHeight(rect.height());
+            textItem->setFont(theme()->axisYLabelFont());
+            textItem->setColor(theme()->axisYLabelColor());
+            textItem->setRotation(axis->labelsAngle());
+            textItem->setText(minDate.addMSecs(segment * i).toString(axis->labelFormat()));
             textItem->setVisible(true);
         } else {
             textItem->setVisible(false);

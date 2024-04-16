@@ -53,9 +53,15 @@ qreal PointRenderer::defaultSize(QXYSeries *series)
 void PointRenderer::calculateRenderCoordinates(
     AxisRenderer *axisRenderer, qreal origX, qreal origY, qreal *renderX, qreal *renderY)
 {
+    auto flipX = axisRenderer->m_axisHorizontalMaxValue < axisRenderer->m_axisHorizontalMinValue
+                     ? -1
+                     : 1;
+    auto flipY = axisRenderer->m_axisVerticalMaxValue < axisRenderer->m_axisVerticalMinValue ? -1
+                                                                                             : 1;
+
     *renderX = m_graph->m_marginLeft + axisRenderer->m_axisWidth
-               + m_areaWidth * origX * m_maxHorizontal - m_horizontalOffset;
-    *renderY = m_graph->m_marginTop + m_areaHeight - m_areaHeight * origY * m_maxVertical
+               + m_areaWidth * flipX * origX * m_maxHorizontal - m_horizontalOffset;
+    *renderY = m_graph->m_marginTop + m_areaHeight - m_areaHeight * flipY * origY * m_maxVertical
                + m_verticalOffset;
 }
 
@@ -291,12 +297,20 @@ void PointRenderer::handlePolish(QXYSeries *series)
     m_maxHorizontal = m_graph->m_axisRenderer->m_axisHorizontalValueRange > 0
                           ? 1.0 / m_graph->m_axisRenderer->m_axisHorizontalValueRange
                           : 100.0;
-    m_verticalOffset = (m_graph->m_axisRenderer->m_axisVerticalMinValue
-                        / m_graph->m_axisRenderer->m_axisVerticalValueRange)
-                       * m_areaHeight;
-    m_horizontalOffset = (m_graph->m_axisRenderer->m_axisHorizontalMinValue
-                          / m_graph->m_axisRenderer->m_axisHorizontalValueRange)
-                         * m_areaWidth;
+
+    auto vmin = m_graph->m_axisRenderer->m_axisVerticalMinValue
+                        > m_graph->m_axisRenderer->m_axisVerticalMaxValue
+                    ? std::abs(m_graph->m_axisRenderer->m_axisVerticalMinValue)
+                    : m_graph->m_axisRenderer->m_axisVerticalMinValue;
+
+    m_verticalOffset = (vmin / m_graph->m_axisRenderer->m_axisVerticalValueRange) * m_areaHeight;
+
+    auto hmin = m_graph->m_axisRenderer->m_axisHorizontalMinValue
+                        > m_graph->m_axisRenderer->m_axisHorizontalMaxValue
+                    ? std::abs(m_graph->m_axisRenderer->m_axisHorizontalMinValue)
+                    : m_graph->m_axisRenderer->m_axisHorizontalMinValue;
+
+    m_horizontalOffset = (hmin / m_graph->m_axisRenderer->m_axisHorizontalValueRange) * m_areaWidth;
 
     if (!m_groups.contains(series)) {
         PointGroup *group = new PointGroup();
@@ -447,6 +461,12 @@ bool PointRenderer::handleHoverMove(QHoverEvent *event)
         if (!group->series->hoverable())
             continue;
 
+        auto axisRenderer = group->series->graph()->m_axisRenderer;
+        bool isHNegative = axisRenderer->m_axisHorizontalMaxValue
+                           < axisRenderer->m_axisHorizontalMinValue;
+        bool isVNegative = axisRenderer->m_axisVerticalMaxValue
+                           < axisRenderer->m_axisVerticalMinValue;
+
         if (group->series->type() == QAbstractSeries::SeriesType::Scatter) {
             const QString &name = group->series->name();
 
@@ -479,23 +499,26 @@ bool PointRenderer::handleHoverMove(QHoverEvent *event)
 
             if (points.size() >= 2) {
                 bool hovering = false;
-
                 for (int i = 0; i < points.size() - 1; i++) {
                     qreal x1, y1, x2, y2;
 
                     if (i == 0) {
-                        x1 = group->shapePath->startX();
+                        auto curve = qobject_cast<QQuickCurve *>(group->paths[0]);
+
+                        x1 = isHNegative ? curve->x() : group->shapePath->startX();
                         y1 = group->shapePath->startY();
 
-                        auto curve = qobject_cast<QQuickCurve *>(group->paths[0]);
-                        x2 = curve->x();
+                        x2 = isHNegative ? group->shapePath->startX() : curve->x();
                         y2 = curve->y();
                     } else {
-                        auto curve1 = qobject_cast<QQuickCurve *>(group->paths[i - 1]);
+                        bool n = isVNegative | isHNegative;
+
+                        auto curve1 = qobject_cast<QQuickCurve *>(group->paths[n ? i : i - 1]);
+                        auto curve2 = qobject_cast<QQuickCurve *>(group->paths[n ? i - 1 : i]);
+
                         x1 = curve1->x();
                         y1 = curve1->y();
 
-                        auto curve2 = qobject_cast<QQuickCurve *>(group->paths[i]);
                         x2 = curve2->x();
                         y2 = curve2->y();
                     }
@@ -504,6 +527,7 @@ bool PointRenderer::handleHoverMove(QHoverEvent *event)
                     if (denominator > 0) {
                         qreal hoverDistance = qAbs((x2 - x1) * (y1 - y0) - (x1 - x0) * (y2 - y1))
                                               / qSqrt(denominator);
+
                         if (hoverDistance < hoverSize) {
                             qreal alpha = 0;
                             qreal extrapolation = 0;
@@ -520,8 +544,10 @@ bool PointRenderer::handleHoverMove(QHoverEvent *event)
                             }
 
                             if (alpha >= -extrapolation && alpha <= 1.0 + extrapolation) {
-                                const QPointF &point1 = points[i];
-                                const QPointF &point2 = points[i + 1];
+                                bool n = isVNegative | isHNegative;
+
+                                const QPointF &point1 = points[n ? i + 1 : i];
+                                const QPointF &point2 = points[n ? i : i + 1];
 
                                 QPointF point = (point2 * (1.0 - alpha)) + (point1 * alpha);
 
