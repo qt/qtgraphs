@@ -38,10 +38,17 @@ Item {
         color: "blue"
     }
 
+    Color {
+        id: surfaceColor
+        color: "white"
+    }
+
     Theme3D {
         id: customSurfaceTheme
         type: Theme3D.Theme.UserDefined
         colorStyle: Theme3D.ColorStyle.ObjectGradient
+        baseColors: [surfaceColor]
+        baseGradients: [customGradient]
         backgroundColor: "gray"
         gridLineColor: "lightGray"
         multiHighlightColor: "orange"
@@ -56,6 +63,7 @@ Item {
         type: Theme3D.Theme.UserDefined
         colorStyle: Theme3D.ColorStyle.ObjectGradient
         baseColors: [barColor]
+        baseGradients: [customGradient]
         backgroundColor: "gray"
         gridLineColor: "lightGray"
         multiHighlightColor: "orange"
@@ -80,12 +88,13 @@ Item {
             cameraPreset: AbstractGraph3D.CameraPreset.IsometricLeft
             msaaSamples: 4
             aspectRatio: 3.0
-            visible: !graphMod.barsVisible.checked
+            visible: !graphMod.barsVisible
 
             Surface3DSeries {
                 id: surfaceSeries
-                baseGradient: customGradient
-                baseColor: "white"
+                // If you want to check with series colors, uncomment these
+                // baseGradient: customGradient
+                // baseColor: surfaceColor.color
                 HeightMapSurfaceDataProxy {
                     heightMapFile: ":/layer_1.png"
                     autoScaleY: true
@@ -102,13 +111,16 @@ Item {
             shadowQuality: AbstractGraph3D.ShadowQuality.None
             selectionMode: AbstractGraph3D.SelectionItemAndRow
             cameraPreset: AbstractGraph3D.CameraPreset.IsometricLeft
+            //optimizationHint: AbstractGraph3D.OptimizationHint.Legacy
             msaaSamples: 4
             aspectRatio: 3.0
-            visible: graphMod.barsVisible.checked
+            visible: graphMod.barsVisible
 
             Bar3DSeries {
                 id: barsSeries
-                baseGradient: customGradient
+                // If you want to check with series colors, uncomment these
+                // baseGradient: customGradient
+                // baseColor: barColor.color
                 ItemModelBarDataProxy {
                     id: barProxy
                     itemModel: ListModel {
@@ -170,10 +182,7 @@ Item {
         width: 200
         currentIndex: bar.currentIndex
 
-
         GraphModifiers {id : graphMod}
         BackgroundModifiers {id: backMod}
-
-
     }
 }

@@ -9,13 +9,14 @@ import QtGraphs
 ColumnLayout {
     spacing: 10
 
-    property alias barsVisible: barsVisible
+    property bool barsVisible: barsMode.checked
+
     Label {
         text: "Bars3D Graph"
         color: "gray"
     }
     CheckBox {
-        id: barsVisible
+        id: barsMode
         onCheckedChanged: {
             customTheme = (checked ? customBarsTheme : customSurfaceTheme)
         }
@@ -44,10 +45,12 @@ ColumnLayout {
     }
 
     Label {
+        visible: !colorStyle.checked
         text: testgradientchange.checked ? "Gradient Color, Red" : "Light Color; Red"
         color: "gray"
     }
     Slider {
+        visible: !colorStyle.checked
         from: 0.0
         to: 1.0
         value: testgradientchange.checked ? 1.0 : customTheme.lightColor.r
@@ -56,10 +59,12 @@ ColumnLayout {
     }
 
     Label {
+        visible: !colorStyle.checked
         text: testgradientchange.checked ? "Gradient Color, Green" : "Light Color; Green"
         color: "gray"
     }
     Slider {
+        visible: !colorStyle.checked
         from: 0.0
         to: 1.0
         value: testgradientchange.checked ? 0.5 : customTheme.lightColor.g
@@ -68,10 +73,12 @@ ColumnLayout {
     }
 
     Label {
+        visible: colorStyle.checked && barsVisible
         text: testgradientchange.checked ? "Bar Color, Blue" : "Light Color; Blue"
         color: "gray"
     }
     Slider {
+        visible: colorStyle.checked && barsVisible
         from: 0.0
         to: 1.0
         value: testgradientchange.checked ? barColor.color.b
@@ -80,14 +87,28 @@ ColumnLayout {
                                                    : customTheme.lightColor.b = value
     }
 
+    Label {
+        visible: colorStyle.checked && !barsVisible
+        text: testgradientchange.checked ? "Surface Color, Blue" : "Light Color; Blue"
+        color: "gray"
+    }
+    Slider {
+        visible: colorStyle.checked && !barsVisible
+        from: 0.0
+        to: 1.0
+        value: testgradientchange.checked ? surfaceColor.color.b
+                                          : customTheme.lightColor.b
+        onValueChanged: testgradientchange.checked ? surfaceColor.color.b  = value
+                                                   : customTheme.lightColor.b = value
+    }
 
     Label {
-        visible: !colorStyle.checked
+        visible: testgradientchange.checked && !colorStyle.checked && barsVisible
         text: "Gradient green alpha"
         color: "gray"
     }
     Slider {
-        visible: !colorStyle.checked
+        visible: testgradientchange.checked && !colorStyle.checked && barsVisible
         from: 0.0
         to: 1.0
         value: 1.0
@@ -95,12 +116,12 @@ ColumnLayout {
     }
 
     Label {
-        visible: !colorStyle.checked
+        visible: testgradientchange.checked && !colorStyle.checked && barsVisible
         text: "Gradient red alpha"
         color: "gray"
     }
     Slider {
-        visible: !colorStyle.checked
+        visible: testgradientchange.checked && !colorStyle.checked && barsVisible
         from: 0.0
         to: 1.0
         value: 1.0
@@ -108,12 +129,12 @@ ColumnLayout {
     }
 
     Label {
-        visible: colorStyle.checked
+        visible: testgradientchange.checked && colorStyle.checked && barsVisible
         text: "Bar Color alpha"
         color: "gray"
     }
     Slider {
-        visible: colorStyle.checked
+        visible: testgradientchange.checked && colorStyle.checked && barsVisible
         from: 0.0
         to: 1.0
         value: 1.0
