@@ -1554,12 +1554,25 @@ void QQuickGraphsBars::updateBarVisuals(QBar3DSeries *series)
                                useGradient,
                                rangeGradient,
                                QStringLiteral(":/materials/BarsMaterialInstancing"));
-            updateMaterialProperties(barList.at(i)->model,
-                                     false,
-                                     false,
-                                     barList.at(i)->texture,
-                                     QColor(Qt::white),
-                                     textureData->hasTransparency());
+            if (useGradient) {
+                updateMaterialProperties(barList.at(i)->model,
+                                         false,
+                                         false,
+                                         barList.at(i)->texture,
+                                         QColor(Qt::white),
+                                         textureData->hasTransparency());
+            } else {
+                if (!barList.at(i)->instancing->dataArray().isEmpty()) {
+                    const bool transparency
+                        = barList.at(i)->instancing->dataArray().at(0)->color.alphaF() < 1.0;
+                    updateMaterialProperties(barList.at(i)->model,
+                                             false,
+                                             false,
+                                             barList.at(i)->texture,
+                                             QColor(Qt::white),
+                                             transparency);
+                }
+            }
         }
     }
 }
