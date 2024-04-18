@@ -954,6 +954,13 @@ void ScatterDataModifier::changeLabelRotation(int rotation)
     m_chart->axisZ()->setLabelAutoRotation(float(rotation));
 }
 
+void ScatterDataModifier::changeTitleOffset(int offset)
+{
+    m_chart->axisX()->setTitleOffset(float(offset) / 100);
+    m_chart->axisY()->setTitleOffset(float(offset) / 100);
+    m_chart->axisZ()->setTitleOffset(float(offset) / 100);
+}
+
 void ScatterDataModifier::changeRadialLabelOffset(int offset)
 {
     m_chart->setRadialLabelOffset(float(offset) / 100.0f);

@@ -35,6 +35,8 @@ class Q_GRAPHS_EXPORT QAbstract3DAxis : public QObject
     Q_PROPERTY(
         bool titleVisible READ isTitleVisible WRITE setTitleVisible NOTIFY titleVisibilityChanged)
     Q_PROPERTY(bool titleFixed READ isTitleFixed WRITE setTitleFixed NOTIFY titleFixedChanged)
+    Q_PROPERTY(
+        float titleOffset READ titleOffset WRITE setTitleOffset NOTIFY titleOffsetChanged FINAL)
 
 public:
     enum class AxisOrientation { None, X, Y, Z };
@@ -81,6 +83,9 @@ public:
     void setTitleFixed(bool fixed);
     bool isTitleFixed() const;
 
+    void setTitleOffset(float offset);
+    float titleOffset() const;
+
 Q_SIGNALS:
     void titleChanged(const QString &newTitle);
     void labelsChanged();
@@ -93,6 +98,7 @@ Q_SIGNALS:
     void titleVisibilityChanged(bool visible);
     void labelVisibilityChanged(bool visible);
     void titleFixedChanged(bool fixed);
+    void titleOffsetChanged(float offset);
 
 private:
     Q_DISABLE_COPY(QAbstract3DAxis)

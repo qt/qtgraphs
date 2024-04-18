@@ -125,6 +125,17 @@ QT_BEGIN_NAMESPACE
  */
 
 /*!
+ * \qmlproperty bool AbstractAxis3D::titleOffset
+ *
+ * The position of the axis title on the axis.
+ * The value must be between \c -1.0f and \c 1.0f
+ *
+ * Default value is \c{0}.
+ *
+ * \sa title, titleVisible
+ */
+
+/*!
  * \enum QAbstract3DAxis::AxisOrientation
  *
  * The orientation of the axis object.
@@ -415,6 +426,32 @@ bool QAbstract3DAxis::isAutoAdjustRange() const
 }
 
 /*!
+ * \property QAbstract3DAxis::titleOffset
+ *
+ * The position of the axis title on the axis.
+ * The value must be between \c -1.0f and \c 1.0f
+ *
+ * \sa title, titleFixed
+ */
+void QAbstract3DAxis::setTitleOffset(float offset)
+{
+    Q_D(QAbstract3DAxis);
+    if (offset < -1.0f || offset > 1.0f) {
+        qWarning("Invalid value. Valid range for title offset is between "
+                 "-1.0f and 1.0f");
+    } else if (d->m_titleOffset != offset) {
+        d->m_titleOffset = offset;
+        emit titleOffsetChanged(offset);
+    }
+}
+
+float QAbstract3DAxis::titleOffset() const
+{
+    const Q_D(QAbstract3DAxis);
+    return d->m_titleOffset;
+}
+
+/*!
  * \fn QAbstract3DAxis::rangeChanged(float min, float max)
  *
  * Emits the minimum and maximum values of the range, \a min and \a max, when
@@ -430,6 +467,7 @@ QAbstract3DAxisPrivate::QAbstract3DAxisPrivate(QAbstract3DAxis::AxisType type)
     , m_max(10.0f)
     , m_autoAdjust(true)
     , m_labelAutoRotation(0.0f)
+    , m_titleOffset(0.0f)
     , m_titleVisible(false)
     , m_labelsVisible(true)
     , m_titleFixed(true)

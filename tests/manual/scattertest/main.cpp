@@ -257,6 +257,13 @@ int main(int argc, char **argv)
     axisLabelRotationSlider->setValue(0);
     axisLabelRotationSlider->setMaximum(90);
 
+    QSlider *axisTitleOffsetSlider = new QSlider(Qt::Horizontal, widget);
+    axisTitleOffsetSlider->setTickInterval(10);
+    axisTitleOffsetSlider->setTickPosition(QSlider::TicksBelow);
+    axisTitleOffsetSlider->setMinimum(-100);
+    axisTitleOffsetSlider->setValue(0);
+    axisTitleOffsetSlider->setMaximum(100);
+
     QSlider *radialLabelSlider = new QSlider(Qt::Horizontal, widget);
     radialLabelSlider->setTickInterval(10);
     radialLabelSlider->setTickPosition(QSlider::TicksBelow);
@@ -369,6 +376,8 @@ int main(int argc, char **argv)
     vLayout3->addWidget(axisTitlesFixedCB);
     vLayout3->addWidget(new QLabel(QStringLiteral("Axis label rotation")));
     vLayout3->addWidget(axisLabelRotationSlider);
+    vLayout3->addWidget(new QLabel(QStringLiteral("Axis title offset")));
+    vLayout3->addWidget(axisTitleOffsetSlider);
     vLayout3->addWidget(new QLabel(QStringLiteral("Radial label offset")));
     vLayout3->addWidget(radialLabelSlider, 0, Qt::AlignTop);
     vLayout3->addWidget(new QLabel(QStringLiteral("Camera target")), 0, Qt::AlignTop);
@@ -492,7 +501,13 @@ int main(int argc, char **argv)
                      &ScatterDataModifier::toggleAxisTitleFixed);
     QObject::connect(axisLabelRotationSlider, &QSlider::valueChanged, modifier,
                      &ScatterDataModifier::changeLabelRotation);
-    QObject::connect(aspectRatioSlider, &QSlider::valueChanged, modifier,
+    QObject::connect(axisTitleOffsetSlider,
+                     &QSlider::valueChanged,
+                     modifier,
+                     &ScatterDataModifier::changeTitleOffset);
+    QObject::connect(aspectRatioSlider,
+                     &QSlider::valueChanged,
+                     modifier,
                      &ScatterDataModifier::setAspectRatio);
     QObject::connect(horizontalAspectRatioSlider,
                      &QSlider::valueChanged,

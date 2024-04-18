@@ -272,6 +272,12 @@ void QQuickGraphsItem::handleAxisTitleFixedChanged(bool fixed)
     handleAxisTitleFixedChangedBySender(sender());
 }
 
+void QQuickGraphsItem::handleAxisTitleOffsetChanged(float offset)
+{
+    Q_UNUSED(offset);
+    handleAxisTitleFixedChangedBySender(sender());
+}
+
 void QQuickGraphsItem::handleInputPositionChanged(const QPoint &position)
 {
     Q_UNUSED(position);
@@ -409,6 +415,20 @@ void QQuickGraphsItem::handleAxisTitleFixedChangedBySender(QObject *sender)
     emitNeedRender();
 }
 
+void QQuickGraphsItem::handleAxisTitleOffsetChangedBySender(QObject *sender)
+{
+    if (sender == m_axisX)
+        m_changeTracker.axisXTitleOffsetChanged = true;
+    else if (sender == m_axisY)
+        m_changeTracker.axisYTitleOffsetChanged = true;
+    else if (sender == m_axisZ)
+        m_changeTracker.axisZTitleOffsetChanged = true;
+    else
+        qWarning() << __FUNCTION__ << "invoked for invalid axis";
+
+    emitNeedRender();
+}
+
 void QQuickGraphsItem::handleSeriesVisibilityChangedBySender(QObject *sender)
 {
     QAbstract3DSeries *series = static_cast<QAbstract3DSeries *>(sender);
@@ -531,6 +551,10 @@ void QQuickGraphsItem::setAxisHelper(QAbstract3DAxis::AxisOrientation orientatio
                      &QAbstract3DAxis::titleFixedChanged,
                      this,
                      &QQuickGraphsItem::handleAxisTitleFixedChanged);
+    QObject::connect(axis,
+                     &QAbstract3DAxis::titleOffsetChanged,
+                     this,
+                     &QQuickGraphsItem::handleAxisTitleOffsetChanged);
 
     if (orientation == QAbstract3DAxis::AxisOrientation::X)
         m_changeTracker.axisXTypeChanged = true;
@@ -547,6 +571,7 @@ void QQuickGraphsItem::setAxisHelper(QAbstract3DAxis::AxisOrientation orientatio
     handleAxisTitleVisibilityChangedBySender(axis);
     handleAxisLabelVisibilityChangedBySender(axis);
     handleAxisTitleFixedChangedBySender(axis);
+    handleAxisTitleOffsetChangedBySender(axis);
 
     if (axis->type() == QAbstract3DAxis::AxisType::Value) {
         QValue3DAxis *valueAxis = static_cast<QValue3DAxis *>(axis);
@@ -1726,6 +1751,19 @@ void QQuickGraphsItem::synchData()
     if (m_changeTracker.axisZTitleFixedChanged) {
         axisDirty = true;
         m_changeTracker.axisZTitleFixedChanged = false;
+    }
+
+    if (m_changeTracker.axisXTitleOffsetChanged) {
+        axisDirty = true;
+        m_changeTracker.axisXTitleOffsetChanged = false;
+    }
+    if (m_changeTracker.axisYTitleOffsetChanged) {
+        axisDirty = true;
+        m_changeTracker.axisYTitleOffsetChanged = false;
+    }
+    if (m_changeTracker.axisZTitleOffsetChanged) {
+        axisDirty = true;
+        m_changeTracker.axisZTitleOffsetChanged = false;
     }
 
     updateCamera();
@@ -3818,6 +3856,7 @@ void QQuickGraphsItem::updateXTitle(const QVector3D &labelRotation,
 
     QQuaternion offsetRotator = QQuaternion::fromAxisAndAngle(1.0f, 0.0f, 0.0f, offsetRotation);
     QVector3D titleOffsetVector = offsetRotator.rotatedVector(QVector3D(0.0f, 0.0f, titleOffset));
+    titleOffsetVector.setX(axisX()->titleOffset() * scaleWithBackground().x());
 
     QQuaternion titleRotation;
     if (axisX()->isTitleFixed()) {
@@ -3873,6 +3912,7 @@ void QQuickGraphsItem::updateYTitle(const QVector3D &sideLabelRotation,
 
     QQuaternion offsetRotator = QQuaternion::fromAxisAndAngle(0.0f, 1.0f, 0.0f, yRotation);
     QVector3D titleOffsetVector = offsetRotator.rotatedVector(QVector3D(-titleOffset, 0.0f, 0.0f));
+    titleOffsetVector.setY(axisY()->titleOffset() * scaleWithBackground().y());
 
     QQuaternion titleRotation;
     if (axisY()->isTitleFixed()) {
@@ -3959,6 +3999,7 @@ void QQuickGraphsItem::updateZTitle(const QVector3D &labelRotation,
 
     QQuaternion offsetRotator = QQuaternion::fromAxisAndAngle(0.0f, 0.0f, 1.0f, offsetRotation);
     QVector3D titleOffsetVector = offsetRotator.rotatedVector(QVector3D(titleOffset, 0.0f, 0.0f));
+    titleOffsetVector.setZ(axisZ()->titleOffset() * scaleWithBackground().z());
 
     QQuaternion titleRotation;
     if (axisZ()->isTitleFixed()) {

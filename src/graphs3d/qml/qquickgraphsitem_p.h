@@ -86,6 +86,9 @@ struct Abstract3DChangeBitField
     bool axisXTitleFixedChanged : 1;
     bool axisYTitleFixedChanged : 1;
     bool axisZTitleFixedChanged : 1;
+    bool axisXTitleOffsetChanged : 1;
+    bool axisYTitleOffsetChanged : 1;
+    bool axisZTitleOffsetChanged : 1;
     bool polarChanged : 1;
     bool radialLabelOffsetChanged : 1;
     bool marginChanged : 1;
@@ -137,6 +140,9 @@ struct Abstract3DChangeBitField
         , axisXTitleFixedChanged(true)
         , axisYTitleFixedChanged(true)
         , axisZTitleFixedChanged(true)
+        , axisXTitleOffsetChanged(true)
+        , axisYTitleOffsetChanged(true)
+        , axisZTitleOffsetChanged(true)
         , polarChanged(true)
         , radialLabelOffsetChanged(true)
         , marginChanged(true)
@@ -235,6 +241,7 @@ public:
     virtual void handleAxisTitleVisibilityChangedBySender(QObject *sender);
     virtual void handleAxisLabelVisibilityChangedBySender(QObject *sender);
     virtual void handleAxisTitleFixedChangedBySender(QObject *sender);
+    virtual void handleAxisTitleOffsetChangedBySender(QObject *sender);
     virtual void handleSeriesVisibilityChangedBySender(QObject *sender);
     virtual void adjustAxisRanges() = 0;
 
@@ -514,6 +521,7 @@ public Q_SLOTS:
     void handleAxisTitleVisibilityChanged(bool visible);
     void handleAxisLabelVisibilityChanged(bool visible);
     void handleAxisTitleFixedChanged(bool fixed);
+    void handleAxisTitleOffsetChanged(float offset);
     void handleInputPositionChanged(const QPoint &position);
     void handleSeriesVisibilityChanged(bool visible);
 

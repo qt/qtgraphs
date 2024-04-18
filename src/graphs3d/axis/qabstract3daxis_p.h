@@ -51,6 +51,7 @@ protected:
     float m_max;
     bool m_autoAdjust;
     float m_labelAutoRotation;
+    float m_titleOffset;
     bool m_titleVisible;
     bool m_labelsVisible;
     bool m_titleFixed;

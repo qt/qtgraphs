@@ -26,6 +26,7 @@ Item {
         titleFixed: false
         titleVisible: true
         labelsVisible: false
+        titleOffset: 1
     }
 
     CategoryAxis3D {
@@ -51,6 +52,7 @@ Item {
             compare(initial.titleFixed, true)
             compare(initial.titleVisible, false)
             compare(initial.labelsVisible, true)
+            compare(initial.titleOffset, 0)
             compare(initial.type, AbstractAxis3D.AxisType.Category)
         }
     }
@@ -71,6 +73,7 @@ Item {
             compare(initialized.titleFixed, false)
             compare(initialized.titleVisible, true)
             compare(change.labelsVisible, false)
+            compare(initialized.titleOffset, 1)
         }
     }
 
@@ -96,6 +99,7 @@ Item {
             change.titleFixed = false
             change.titleVisible = true
             change.labelsVisible = false
+            change.titleOffset = -1
 
             compare(change.autoAdjustRange, false)
             compare(change.labelAutoRotation, 10.0)
@@ -105,6 +109,7 @@ Item {
             compare(change.titleFixed, false)
             compare(change.titleVisible, true)
             compare(change.labelsVisible, false)
+            compare(change.titleOffset, -1)
         }
     }
 
@@ -120,6 +125,9 @@ Item {
             compare(invalid.min, 0)
             invalid.min = 10
             compare(invalid.max, 11)
+            invalid.titleOffset = 2
+            compare(invalid.titleOffset, 0)
+
         }
     }
 }

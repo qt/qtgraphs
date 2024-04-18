@@ -74,6 +74,7 @@ public Q_SLOTS:
     void handleAxisZChanged(QValue3DAxis *axis);
     void handleFpsChange(int fps);
     void changeLabelRotation(int rotation);
+    void changeTitleOffset(int offset);
     void changeRadialLabelOffset(int offset);
     void toggleAxisTitleVisibility(int enabled);
     void toggleAxisTitleFixed(int enabled);
