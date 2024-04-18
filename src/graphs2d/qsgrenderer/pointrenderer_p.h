@@ -52,11 +52,14 @@ private:
         QQuickShapePath *shapePath = nullptr;
         QList<QQuickPathElement *> paths;
         QList<QQuickItem *> markers;
-        QList<QSGDefaultInternalRectangleNode *> nodes;
+        QQmlComponent *currentMarker = nullptr;
+        QQmlComponent *previousMarker = nullptr;
         QList<QRectF> rects;
         int colorIndex = -1;
         bool hover = false;
     };
+
+    QQmlComponent *m_tempMarker = nullptr;
 
     QGraphsView *m_graph = nullptr;
     QQuickShape m_shape;
@@ -78,10 +81,11 @@ private:
     qreal m_areaWidth = 0;
     qreal m_areaHeight = 0;
 
+    qreal defaultSize(QXYSeries *series = nullptr);
+
     void calculateRenderCoordinates(
         AxisRenderer *axisRenderer, qreal origX, qreal origY, qreal *renderX, qreal *renderY);
     void updatePointMarker(QXYSeries *series, PointGroup *group, int pointIndex, qreal x, qreal y);
-    void updateRenderablePoint(QXYSeries *series, PointGroup *group, int pointIndex);
     void updateLegendData(QXYSeries *series, QLegendData &legendData);
 
     void updateScatterSeries(QScatterSeries *scatter, QLegendData &legendData);

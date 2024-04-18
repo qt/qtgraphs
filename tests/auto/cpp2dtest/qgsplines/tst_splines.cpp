@@ -56,7 +56,6 @@ void tst_splines::initialProperties()
     // Properties from QXYSeries
     QCOMPARE(m_series->color(), "#00000000");
     QCOMPARE(m_series->selectedColor(), "#00000000");
-    QCOMPARE(m_series->markerSize(), 15.0);
     QCOMPARE(m_series->axisX(), nullptr);
     QCOMPARE(m_series->axisY(), nullptr);
     QCOMPARE(m_series->width(), 1.0);
@@ -90,7 +89,6 @@ void tst_splines::initializeProperties()
 
     m_series->setColor("#ff0000");
     m_series->setSelectedColor("#0000ff");
-    m_series->setMarkerSize(5.0);
 
     m_series->setTheme(theme);
     m_series->setName("LineSeries");
@@ -108,7 +106,6 @@ void tst_splines::initializeProperties()
 
     QCOMPARE(m_series->color(), "#ff0000");
     QCOMPARE(m_series->selectedColor(), "#0000ff");
-    QCOMPARE(m_series->markerSize(), 5.0);
 
     QCOMPARE(m_series->theme(), theme);
     QCOMPARE(m_series->name(), "LineSeries");

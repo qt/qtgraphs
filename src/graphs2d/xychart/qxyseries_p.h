@@ -31,16 +31,11 @@ public:
     void setPointSelected(int index, bool selected, bool &callSignal);
     bool isPointSelected(int index);
 
-    bool isMarkerSizeDefault();
-    void setMarkerSize(qreal markerSize);
-
 protected:
     QList<QPointF> m_points;
     QSet<int> m_selectedPoints;
     QColor m_color = QColor(Qt::transparent);
     QColor m_selectedColor = QColor(Qt::transparent);
-    qreal m_markerSize;
-    bool m_markerSizeDefault = true;
     QAbstractAxis *m_axisX = nullptr;
     QAbstractAxis *m_axisY = nullptr;
     QQmlComponent *m_marker = nullptr;

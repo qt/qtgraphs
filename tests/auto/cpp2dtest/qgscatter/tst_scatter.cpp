@@ -59,7 +59,6 @@ void tst_scatter::initialProperties()
     // Properties from QXYSeries
     QCOMPARE(m_series->color(), QColor(Qt::transparent));
     QCOMPARE(m_series->selectedColor(), QColor(Qt::transparent));
-    QCOMPARE(m_series->markerSize(), 15.0);
 
     // Properties from QAbstractSeries
     QCOMPARE(m_series->theme(), nullptr);
@@ -86,7 +85,6 @@ void tst_scatter::initializeProperties()
 
     m_series->setColor("#ff0000");
     m_series->setSelectedColor("#0000ff");
-    m_series->setMarkerSize(5.0);
 
     m_series->setTheme(theme);
     m_series->setName("LineSeries");
@@ -102,7 +100,6 @@ void tst_scatter::initializeProperties()
 
     QCOMPARE(m_series->color(), "#ff0000");
     QCOMPARE(m_series->selectedColor(), "#0000ff");
-    QCOMPARE(m_series->markerSize(), 5.0);
 
     QCOMPARE(m_series->theme(), theme);
     QCOMPARE(m_series->name(), "LineSeries");

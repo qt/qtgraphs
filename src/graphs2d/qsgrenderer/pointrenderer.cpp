@@ -18,9 +18,37 @@ PointRenderer::PointRenderer(QQuickItem *parent)
     setFlag(QQuickItem::ItemHasContents);
     m_shape.setParentItem(this);
     m_shape.setPreferredRendererType(QQuickShape::CurveRenderer);
+
+    const QString qmlData = QLatin1StringView(R"QML(
+        import QtQuick;
+
+        Rectangle {
+            property bool selected
+            property color seriesColor
+            property color seriesSelectedColor
+            color: selected ? seriesSelectedColor : seriesColor
+            width: %1
+            height: %1
+        }
+    )QML")
+                                .arg(QString::number((int) defaultSize()));
+    m_tempMarker = new QQmlComponent(qmlEngine(m_graph), this);
+    m_tempMarker->setData(qmlData.toUtf8(), QUrl());
 }
 
 PointRenderer::~PointRenderer() {}
+
+qreal PointRenderer::defaultSize(QXYSeries *series)
+{
+    qreal size = 16.0;
+    if (series != nullptr) {
+        if (auto line = qobject_cast<QLineSeries *>(series))
+            size = qMax(size, line->width());
+        else if (auto spline = qobject_cast<QSplineSeries *>(series))
+            size = qMax(size, spline->width());
+    }
+    return size;
+}
 
 void PointRenderer::calculateRenderCoordinates(
     AxisRenderer *axisRenderer, qreal origX, qreal origY, qreal *renderX, qreal *renderY)
@@ -37,8 +65,21 @@ void PointRenderer::updatePointMarker(
     auto marker = group->markers[pointIndex];
     auto &rect = group->rects[pointIndex];
 
+    QColor color = series->color().alpha() != 0
+                       ? series->color()
+                       : series->theme()->graphSeriesColor(group->colorIndex);
+
+    QColor selectedColor = series->selectedColor().alpha() != 0
+                               ? series->selectedColor()
+                               : series->theme()->graphSeriesBorderColor(group->colorIndex);
+
     if (marker->property("selected").isValid())
         marker->setProperty("selected", series->isPointSelected(pointIndex));
+    if (marker->property("seriesColor").isValid())
+        marker->setProperty("seriesColor", color);
+    if (marker->property("seriesSelectedColor").isValid())
+        marker->setProperty("seriesSelectedColor", selectedColor);
+
     marker->setX(x - marker->width() / 2.0);
     marker->setY(y - marker->height() / 2.0);
 
@@ -46,41 +87,6 @@ void PointRenderer::updatePointMarker(
                   y - marker->height() / 2.0,
                   marker->width(),
                   marker->height());
-}
-
-void PointRenderer::updateRenderablePoint(QXYSeries *series,
-                                          PointRenderer::PointGroup *group,
-                                          int pointIndex)
-{
-    auto &node = group->nodes[pointIndex];
-    if (!node->parent() && m_graph->m_backgroundNode)
-        m_graph->m_backgroundNode->appendChildNode(node);
-
-    node->setRect(group->rects[pointIndex]);
-
-    QColor c = series->color().alpha() != 0 ? series->color()
-                                            : series->theme()->graphSeriesColor(group->colorIndex);
-
-    if (series->isPointSelected(pointIndex) && series->selectedColor().alpha() != 0)
-        c = series->selectedColor();
-
-    c.setAlpha(c.alpha() * series->opacity());
-
-    if (series->isPointSelected(pointIndex))
-        node->setColor(c);
-    else
-        node->setColor(QColorConstants::Transparent);
-
-    node->setPenColor(c);
-    node->setPenWidth(2.0);
-    // TODO: Required because of QTBUG-117892
-    node->setTopLeftRadius(-1);
-    node->setTopRightRadius(-1);
-    node->setBottomLeftRadius(-1);
-    node->setBottomRightRadius(-1);
-    node->setRadius(180.0);
-    node->setAntialiasing(true);
-    node->update();
 }
 
 void PointRenderer::updateLegendData(QXYSeries *series, QLegendData &legendData)
@@ -100,14 +106,12 @@ void PointRenderer::updateScatterSeries(QScatterSeries *series, QLegendData &leg
             qreal x, y;
             calculateRenderCoordinates(m_graph->m_axisRenderer, points[i].x(), points[i].y(), &x, &y);
 
-            if (series->pointMarker()) {
+            if (group->currentMarker) {
                 updatePointMarker(series, group, i, x, y);
             } else {
-                qreal markerSize = series->markerSize();
-                group->rects[i] = QRectF(x - markerSize / 2.0,
-                                         y - markerSize / 2.0,
-                                         markerSize,
-                                         markerSize);
+                auto &rect = group->rects[i];
+                qreal size = defaultSize(series);
+                rect = QRectF(x - size / 2.0, y - size / 2.0, size, size);
             }
         }
     }
@@ -156,14 +160,12 @@ void PointRenderer::updateLineSeries(QLineSeries *series, QLegendData &legendDat
                 linePath->setY(y);
             }
 
-            if (series->pointMarker()) {
+            if (group->currentMarker) {
                 updatePointMarker(series, group, i, x, y);
-            } else if (series->selectable()) {
-                qreal markerSize = series->markerSize();
-                group->rects[i] = QRectF(x - markerSize / 2.0,
-                                         y - markerSize / 2.0,
-                                         markerSize,
-                                         markerSize);
+            } else {
+                auto &rect = group->rects[i];
+                qreal size = defaultSize(series);
+                rect = QRectF(x - size / 2.0, y - size / 2.0, size, size);
             }
         }
     }
@@ -242,14 +244,12 @@ void PointRenderer::updateSplineSeries(QSplineSeries *series, QLegendData &legen
                 cubicPath->setControl1Y(y1);
             }
 
-            if (series->pointMarker()) {
+            if (group->currentMarker) {
                 updatePointMarker(series, group, i, x, y);
-            } else if (series->selectable()) {
-                qreal markerSize = series->markerSize();
-                group->rects[i] = QRectF(x - markerSize / 2.0,
-                                         y - markerSize / 2.0,
-                                         markerSize,
-                                         markerSize);
+            } else {
+                auto &rect = group->rects[i];
+                qreal size = defaultSize(series);
+                rect = QRectF(x - size / 2.0, y - size / 2.0, size, size);
             }
         }
     }
@@ -312,19 +312,35 @@ void PointRenderer::handlePolish(QXYSeries *series)
 
     int pointCount = series->points().size();
 
-    if (series->pointMarker()) {
+    if ((series->type() == QAbstractSeries::SeriesType::Scatter) && !series->pointMarker())
+        group->currentMarker = m_tempMarker;
+    else if (series->pointMarker())
+        group->currentMarker = series->pointMarker();
+
+    if (group->currentMarker != group->previousMarker) {
+        for (auto &&marker : group->markers)
+            marker->deleteLater();
+        group->markers.clear();
+    }
+    group->previousMarker = group->currentMarker;
+
+    if (group->currentMarker) {
         int markerCount = group->markers.size();
         if (markerCount < pointCount) {
             for (int i = markerCount; i < pointCount; ++i) {
                 QQuickItem *item = qobject_cast<QQuickItem *>(
-                    series->pointMarker()->create(series->pointMarker()->creationContext()));
+                    group->currentMarker->create(group->currentMarker->creationContext()));
                 item->setParentItem(this);
                 group->markers << item;
             }
+        } else if (markerCount > pointCount) {
+            for (int i = pointCount; i < markerCount; ++i)
+                group->markers[i]->deleteLater();
+            group->markers.resize(pointCount);
         }
     } else if (group->markers.size() > 0) {
-        for (int i = 0; i < group->markers.size(); i++)
-            group->markers[i]->deleteLater();
+        for (auto &&marker : group->markers)
+            marker->deleteLater();
         group->markers.clear();
     }
 
@@ -346,20 +362,7 @@ void PointRenderer::handlePolish(QXYSeries *series)
 
 void PointRenderer::updateSeries(QXYSeries *series)
 {
-    if (series->pointMarker()
-        || (series->type() != QAbstractSeries::SeriesType::Scatter && !series->selectable())) {
-        return;
-    }
-
-    auto group = m_groups.value(series);
-    int nodeCount = group->nodes.size();
-    int pointCount = series->points().size();
-
-    for (int i = nodeCount; i < pointCount; ++i)
-        group->nodes << new QSGDefaultInternalRectangleNode();
-
-    for (int i = 0; i < pointCount; ++i)
-        updateRenderablePoint(series, group, i);
+    Q_UNUSED(series);
 }
 
 bool PointRenderer::handleMouseMove(QMouseEvent *event)
@@ -472,7 +475,7 @@ bool PointRenderer::handleHoverMove(QHoverEvent *event)
             const qreal x0 = event->position().x();
             const qreal y0 = event->position().y();
 
-            const int hoverSize = group->series->markerSize() / 2;
+            const qreal hoverSize = defaultSize(group->series) / 2.0;
             const QString &name = group->series->name();
             auto &&points = group->series->points();
 

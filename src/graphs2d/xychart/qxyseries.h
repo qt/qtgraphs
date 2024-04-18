@@ -22,8 +22,8 @@ class Q_GRAPHS_EXPORT QXYSeries : public QAbstractSeries
     Q_PROPERTY(QAbstractAxis *axisX READ axisX WRITE setAxisX NOTIFY axisXChanged)
     Q_PROPERTY(QAbstractAxis *axisY READ axisY WRITE setAxisY NOTIFY axisYChanged)
     Q_PROPERTY(QColor color READ color WRITE setColor NOTIFY colorChanged)
-    Q_PROPERTY(QColor selectedColor READ selectedColor WRITE setSelectedColor NOTIFY selectedColorChanged)
-    Q_PROPERTY(qreal markerSize READ markerSize WRITE setMarkerSize NOTIFY markerSizeChanged)
+    Q_PROPERTY(
+        QColor selectedColor READ selectedColor WRITE setSelectedColor NOTIFY selectedColorChanged)
     Q_PROPERTY(QQmlComponent *pointMarker READ pointMarker WRITE setPointMarker NOTIFY pointMarkerChanged FINAL)
 
 protected:
@@ -71,9 +71,6 @@ public:
     void toggleSelection(const QList<int> &indexes);
     QList<int> selectedPoints() const;
 
-    void setMarkerSize(qreal size);
-    qreal markerSize() const;
-
     QAbstractAxis *axisX() const;
     void setAxisX(QAbstractAxis *axis);
 
@@ -95,7 +92,6 @@ Q_SIGNALS:
     void pointsReplaced();
     void pointsRemoved(int index, int count);
     void selectedPointsChanged();
-    void markerSizeChanged(qreal size);
     void axisXChanged();
     void axisYChanged();
     void pointMarkerChanged();

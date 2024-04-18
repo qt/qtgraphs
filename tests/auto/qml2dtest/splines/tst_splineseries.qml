@@ -24,7 +24,6 @@ Item {
         pointMarker: Rectangle { width: 2; height: 2 }
         color: "#aabbcc"
         selectedColor:  "#aabbcc"
-        markerSize: 2
         visible: false
         selectable: false
         hoverable: true
@@ -48,7 +47,6 @@ Item {
 
             compare(initial.color, "#00000000")
             compare(initial.selectedColor, "#00000000")
-            compare(initial.markerSize, 15.0)
 
             // compare(initial.theme, null) // New theme instantiated in QAbstractSeries
             compare(initial.name, "")
@@ -68,7 +66,6 @@ Item {
 
             initial.color = "#ff00ff"
             initial.selectedColor = "#00ff00"
-            initial.markerSize = 5.0
 
             initial.name = "spline"
             initial.visible = false
@@ -87,7 +84,6 @@ Item {
 
             compare(initial.color, "#ff00ff")
             compare(initial.selectedColor, "#00ff00")
-            compare(initial.markerSize, 5.0)
 
             compare(initial.name, "spline")
             compare(initial.visible, false)
@@ -110,7 +106,6 @@ Item {
 
             compare(initialized.color, "#aabbcc")
             compare(initialized.selectedColor, "#aabbcc")
-            compare(initialized.markerSize, 2)
 
             compare(initialized.name, "spline")
             compare(initialized.visible, false)

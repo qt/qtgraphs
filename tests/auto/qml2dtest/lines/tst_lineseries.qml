@@ -28,7 +28,6 @@ Item {
 
         color: "#ff00ff"
         selectedColor: "#00ff00"
-        markerSize: 5.0
 
         name: "LineSeries"
         visible: false
@@ -59,7 +58,6 @@ Item {
             // Properties from QXYSeries
             compare(initial.color, "#00000000")
             compare(initial.selectedColor, "#00000000")
-            compare(initial.markerSize, 15.0)
 
             // Properties from QAbstractSeries
             verify(initial.theme)
@@ -80,7 +78,6 @@ Item {
 
             initial.color = "#ff00ff"
             initial.selectedColor = "#00ff00"
-            initial.markerSize = 5.0
 
             initial.name = "Lines"
             initial.visible = false
@@ -99,7 +96,6 @@ Item {
 
             compare(initial.color, "#ff00ff")
             compare(initial.selectedColor, "#00ff00")
-            compare(initial.markerSize, 5.0)
 
             compare(initial.name, "Lines")
             compare(initial.visible, false)
@@ -122,7 +118,6 @@ Item {
 
             compare(initialized.color, "#ff00ff")
             compare(initialized.selectedColor, "#00ff00")
-            compare(initialized.markerSize, 5.0)
 
             compare(initialized.name, "LineSeries")
             compare(initialized.visible, false)
@@ -141,7 +136,6 @@ Item {
 
             initialized.color = "#0000ff"
             initialized.selectedColor = "#ff0000"
-            initialized.markerSize = 10.0
 
             initialized.name = "Lines"
             initialized.visible = true
@@ -158,7 +152,6 @@ Item {
 
             compare(initialized.color, "#0000ff")
             compare(initialized.selectedColor, "#ff0000")
-            compare(initialized.markerSize, 10.0)
 
             compare(initialized.name, "Lines")
             compare(initialized.visible, true)

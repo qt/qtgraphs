@@ -485,34 +485,6 @@ QColor QXYSeries::selectedColor() const
 }
 
 /*!
-    \property QXYSeries::markerSize
-    \brief The size of the point marker in pixels when using a default circle as a marker.
-    When using \l pointMarker, the size is defined by the \l pointMarker conponent.
-*/
-/*!
-    \qmlproperty real XYSeries::markerSize
-    The size of the pointMarker in pixels when using a default circle as a marker.
-    When using \l pointMarker, the size is defined by the \l pointMarker conponent.
-*/
-void QXYSeries::setMarkerSize(qreal size)
-{
-    Q_D(QXYSeries);
-
-    if (!qFuzzyCompare(d->m_markerSize, size)) {
-        d->m_markerSizeDefault = false;
-        d->setMarkerSize(size);
-        emit seriesUpdated();
-        emit markerSizeChanged(size);
-    }
-}
-
-qreal QXYSeries::markerSize() const
-{
-    Q_D(const QXYSeries);
-    return d->m_markerSize;
-}
-
-/*!
     \property QXYSeries::axisX
     \brief X-axis of the series.
 
@@ -606,10 +578,7 @@ QXYSeries &QXYSeries::operator<< (const QList<QPointF>& points)
     return *this;
 }
 
-QXYSeriesPrivate::QXYSeriesPrivate()
-    : m_markerSize(15.0)
-{
-}
+QXYSeriesPrivate::QXYSeriesPrivate() {}
 
 void QXYSeriesPrivate::initializeAxes()
 {
@@ -637,16 +606,5 @@ bool QXYSeriesPrivate::isPointSelected(int index)
 {
     return m_selectedPoints.contains(index);
 }
-
-bool QXYSeriesPrivate::isMarkerSizeDefault()
-{
-    return m_markerSizeDefault;
-}
-
-void QXYSeriesPrivate::setMarkerSize(qreal markerSize)
-{
-    m_markerSize = markerSize;
-}
-
 
 QT_END_NAMESPACE
