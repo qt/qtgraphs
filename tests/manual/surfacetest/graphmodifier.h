@@ -113,6 +113,9 @@ public Q_SLOTS:
     void handleFpsChange(int fps);
     void changeLabelRotation(int rotation);
     void toggleAxisTitleVisibility(int enabled);
+    void toggleXAxisLabelsVisibility(int enabled);
+    void toggleYAxisLabelsVisibility(int enabled);
+    void toggleZAxisLabelsVisibility(int enabled);
     void toggleAxisTitleFixed(int enabled);
     void toggleXAscending(int enabled);
     void toggleZAscending(int enabled);

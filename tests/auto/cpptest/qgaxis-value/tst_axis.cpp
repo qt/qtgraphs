@@ -75,6 +75,7 @@ void tst_axis::initialProperties()
     QCOMPARE(m_axis->title(), QString(""));
     QCOMPARE(m_axis->isTitleFixed(), true);
     QCOMPARE(m_axis->isTitleVisible(), false);
+    QCOMPARE(m_axis->isLabelsVisible(), true);
     QCOMPARE(m_axis->type(), QAbstract3DAxis::AxisType::Value);
 }
 
@@ -100,6 +101,7 @@ void tst_axis::initializeProperties()
     m_axis->setTitle("title");
     m_axis->setTitleFixed(false);
     m_axis->setTitleVisible(true);
+    m_axis->setLabelsVisible(false);
 
     QCOMPARE(m_axis->isAutoAdjustRange(), false);
     QCOMPARE(m_axis->labelAutoRotation(), 15.0f);
@@ -112,6 +114,7 @@ void tst_axis::initializeProperties()
     QCOMPARE(m_axis->title(), QString("title"));
     QCOMPARE(m_axis->isTitleFixed(), false);
     QCOMPARE(m_axis->isTitleVisible(), true);
+    QCOMPARE(m_axis->isLabelsVisible(), false);
 }
 
 void tst_axis::invalidProperties()

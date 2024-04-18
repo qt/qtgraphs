@@ -728,6 +728,21 @@ void GraphModifier::toggleAxisTitleVisibility(int enabled)
     m_graph->axisZ()->setTitleVisible(enabled);
 }
 
+void GraphModifier::toggleXAxisLabelsVisibility(int enabled)
+{
+    m_graph->axisX()->setLabelsVisible(enabled);
+}
+
+void GraphModifier::toggleYAxisLabelsVisibility(int enabled)
+{
+    m_graph->axisY()->setLabelsVisible(enabled);
+}
+
+void GraphModifier::toggleZAxisLabelsVisibility(int enabled)
+{
+    m_graph->axisZ()->setLabelsVisible(enabled);
+}
+
 void GraphModifier::toggleAxisTitleFixed(int enabled)
 {
     m_graph->axisX()->setTitleFixed(enabled);

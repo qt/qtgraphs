@@ -81,6 +81,9 @@ struct Abstract3DChangeBitField
     bool axisXTitleVisibilityChanged : 1;
     bool axisYTitleVisibilityChanged : 1;
     bool axisZTitleVisibilityChanged : 1;
+    bool axisXLabelVisibilityChanged : 1;
+    bool axisYLabelVisibilityChanged : 1;
+    bool axisZLabelVisibilityChanged : 1;
     bool axisXTitleFixedChanged : 1;
     bool axisYTitleFixedChanged : 1;
     bool axisZTitleFixedChanged : 1;
@@ -129,6 +132,9 @@ struct Abstract3DChangeBitField
         , axisXTitleVisibilityChanged(true)
         , axisYTitleVisibilityChanged(true)
         , axisZTitleVisibilityChanged(true)
+        , axisXLabelVisibilityChanged(true)
+        , axisYLabelVisibilityChanged(true)
+        , axisZLabelVisibilityChanged(true)
         , axisXTitleFixedChanged(true)
         , axisYTitleFixedChanged(true)
         , axisZTitleFixedChanged(true)
@@ -193,8 +199,7 @@ class QQuickGraphsItem : public QQuick3DViewport
                    zoomAtTargetEnabledChanged)
     Q_PROPERTY(bool selectionEnabled READ selectionEnabled WRITE setSelectionEnabled NOTIFY
                    selectionEnabledChanged)
-    Q_PROPERTY(bool zoomEnabled READ zoomEnabled WRITE setZoomEnabled NOTIFY
-                   zoomEnabledChanged)
+    Q_PROPERTY(bool zoomEnabled READ zoomEnabled WRITE setZoomEnabled NOTIFY zoomEnabledChanged)
 
     QML_NAMED_ELEMENT(GraphsItem3D)
     QML_UNCREATABLE("Trying to create uncreatable: GraphsItem3D.")
@@ -223,6 +228,7 @@ public:
     virtual void handleAxisFormatterDirtyBySender(QObject *sender);
     virtual void handleAxisLabelAutoRotationChangedBySender(QObject *sender);
     virtual void handleAxisTitleVisibilityChangedBySender(QObject *sender);
+    virtual void handleAxisLabelVisibilityChangedBySender(QObject *sender);
     virtual void handleAxisTitleFixedChangedBySender(QObject *sender);
     virtual void handleSeriesVisibilityChangedBySender(QObject *sender);
     virtual void adjustAxisRanges() = 0;
@@ -490,6 +496,7 @@ public Q_SLOTS:
     void handleAxisFormatterDirty();
     void handleAxisLabelAutoRotationChanged(float angle);
     void handleAxisTitleVisibilityChanged(bool visible);
+    void handleAxisLabelVisibilityChanged(bool visible);
     void handleAxisTitleFixedChanged(bool fixed);
     void handleInputPositionChanged(const QPoint &position);
     void handleSeriesVisibilityChanged(bool visible);

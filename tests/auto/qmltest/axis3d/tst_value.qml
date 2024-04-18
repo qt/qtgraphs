@@ -29,6 +29,7 @@ Item {
         title: "initialized"
         titleFixed: false
         titleVisible: true
+        labelsVisible: false
     }
 
     ValueAxis3D {
@@ -57,6 +58,7 @@ Item {
             compare(initial.title, "")
             compare(initial.titleFixed, true)
             compare(initial.titleVisible, false)
+            compare(initial.labelsVisible, true)
             compare(initial.type, AbstractAxis3D.AxisType.Value)
         }
     }
@@ -78,6 +80,7 @@ Item {
             compare(initialized.title, "initialized")
             compare(initialized.titleFixed, false)
             compare(initialized.titleVisible, true)
+            compare(initialized.labelsVisible, false)
         }
     }
 
@@ -106,6 +109,7 @@ Item {
             change.title = "initialized"
             change.titleFixed = false
             change.titleVisible = true
+            change.labelsVisible = false
 
             compare(change.autoAdjustRange, false)
             compare(change.labelAutoRotation, 10.0)
@@ -114,6 +118,7 @@ Item {
             compare(change.title, "initialized")
             compare(change.titleFixed, false)
             compare(change.titleVisible, true)
+            compare(change.labelsVisible, false)
         }
     }
 

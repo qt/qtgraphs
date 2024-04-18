@@ -101,6 +101,15 @@ QT_BEGIN_NAMESPACE
  */
 
 /*!
+ * \qmlproperty bool AbstractAxis3D::labelsVisible
+ *
+ * Defines whether the axis labels are visible in the primary graph view.
+ *
+ * The default value is \c{true}.
+ *
+ */
+
+/*!
  * \qmlproperty bool AbstractAxis3D::titleFixed
  *
  * The rotation of axis titles.
@@ -285,6 +294,29 @@ bool QAbstract3DAxis::isTitleVisible() const
 }
 
 /*!
+ * \property QAbstract3DAxis::labelsVisible
+ *
+ * \brief Whether the axis labels are visible in the primary graph view.
+ *
+ * The default value is \c{true}.
+ *
+ */
+void QAbstract3DAxis::setLabelsVisible(bool visible)
+{
+    Q_D(QAbstract3DAxis);
+    if (d->m_labelsVisible != visible) {
+        d->m_labelsVisible = visible;
+        emit labelVisibilityChanged(visible);
+    }
+}
+
+bool QAbstract3DAxis::isLabelsVisible() const
+{
+    const Q_D(QAbstract3DAxis);
+    return d->m_labelsVisible;
+}
+
+/*!
  * \property QAbstract3DAxis::titleFixed
  *
  * \brief The rotation of the axis titles.
@@ -399,7 +431,9 @@ QAbstract3DAxisPrivate::QAbstract3DAxisPrivate(QAbstract3DAxis::AxisType type)
     , m_autoAdjust(true)
     , m_labelAutoRotation(0.0f)
     , m_titleVisible(false)
+    , m_labelsVisible(true)
     , m_titleFixed(true)
+
 {}
 
 QAbstract3DAxisPrivate::~QAbstract3DAxisPrivate() {}

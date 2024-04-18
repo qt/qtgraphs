@@ -261,6 +261,12 @@ void QQuickGraphsItem::handleAxisTitleVisibilityChanged(bool visible)
     handleAxisTitleVisibilityChangedBySender(sender());
 }
 
+void QQuickGraphsItem::handleAxisLabelVisibilityChanged(bool visible)
+{
+    Q_UNUSED(visible);
+    handleAxisLabelVisibilityChangedBySender(sender());
+}
+
 void QQuickGraphsItem::handleAxisTitleFixedChanged(bool fixed)
 {
     Q_UNUSED(fixed);
@@ -370,6 +376,20 @@ void QQuickGraphsItem::handleAxisTitleVisibilityChangedBySender(QObject *sender)
         m_changeTracker.axisYTitleVisibilityChanged = true;
     else if (sender == m_axisZ)
         m_changeTracker.axisZTitleVisibilityChanged = true;
+    else
+        qWarning() << __FUNCTION__ << "invoked for invalid axis";
+
+    emitNeedRender();
+}
+
+void QQuickGraphsItem::handleAxisLabelVisibilityChangedBySender(QObject *sender)
+{
+    if (sender == m_axisX)
+        m_changeTracker.axisXLabelVisibilityChanged = true;
+    else if (sender == m_axisY)
+        m_changeTracker.axisYLabelVisibilityChanged = true;
+    else if (sender == m_axisZ)
+        m_changeTracker.axisZLabelVisibilityChanged = true;
     else
         qWarning() << __FUNCTION__ << "invoked for invalid axis";
 
@@ -505,6 +525,10 @@ void QQuickGraphsItem::setAxisHelper(QAbstract3DAxis::AxisOrientation orientatio
                      this,
                      &QQuickGraphsItem::handleAxisTitleVisibilityChanged);
     QObject::connect(axis,
+                     &QAbstract3DAxis::labelVisibilityChanged,
+                     this,
+                     &QQuickGraphsItem::handleAxisLabelVisibilityChanged);
+    QObject::connect(axis,
                      &QAbstract3DAxis::titleFixedChanged,
                      this,
                      &QQuickGraphsItem::handleAxisTitleFixedChanged);
@@ -522,6 +546,7 @@ void QQuickGraphsItem::setAxisHelper(QAbstract3DAxis::AxisOrientation orientatio
     handleAxisAutoAdjustRangeChangedInOrientation(axis->orientation(), axis->isAutoAdjustRange());
     handleAxisLabelAutoRotationChangedBySender(axis);
     handleAxisTitleVisibilityChangedBySender(axis);
+    handleAxisLabelVisibilityChangedBySender(axis);
     handleAxisTitleFixedChangedBySender(axis);
 
     if (axis->type() == QAbstract3DAxis::AxisType::Value) {
@@ -1581,6 +1606,20 @@ void QQuickGraphsItem::synchData()
         axisDirty = true;
     }
 
+    if (m_changeTracker.axisXLabelVisibilityChanged) {
+        repeaterX()->setVisible(axisX()->isLabelsVisible());
+        m_changeTracker.axisXLabelVisibilityChanged = false;
+    }
+
+    if (m_changeTracker.axisYLabelVisibilityChanged) {
+        repeaterY()->setVisible(axisY()->isLabelsVisible());
+        m_changeTracker.axisYLabelVisibilityChanged = false;
+    }
+
+    if (m_changeTracker.axisZLabelVisibilityChanged) {
+        repeaterZ()->setVisible(axisZ()->isLabelsVisible());
+        m_changeTracker.axisZLabelVisibilityChanged = false;
+    }
     updateTitleLabels();
 
     if (m_changeTracker.shadowQualityChanged) {
@@ -4618,6 +4657,7 @@ void QQuickGraphsItem::updateTitleLabels()
         m_changeTracker.axisZTitleChanged = false;
     }
 }
+
 
 void QQuickGraphsItem::updateSelectionMode(QAbstract3DGraph::SelectionFlags newMode)
 {

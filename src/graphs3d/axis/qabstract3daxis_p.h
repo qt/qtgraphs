@@ -52,6 +52,7 @@ protected:
     bool m_autoAdjust;
     float m_labelAutoRotation;
     bool m_titleVisible;
+    bool m_labelsVisible;
     bool m_titleFixed;
 
     friend class QScatterDataProxyPrivate;

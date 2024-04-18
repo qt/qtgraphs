@@ -366,6 +366,18 @@ int main(int argc, char *argv[])
     axisTitlesVisibleCB->setText(QStringLiteral("Axis titles visible"));
     axisTitlesVisibleCB->setChecked(false);
 
+    QCheckBox *xAxisLabelsVisibleCB = new QCheckBox(widget);
+    xAxisLabelsVisibleCB->setText(QStringLiteral("X-Axis labels visible"));
+    xAxisLabelsVisibleCB->setChecked(true);
+
+    QCheckBox *yAxisLabelsVisibleCB = new QCheckBox(widget);
+    yAxisLabelsVisibleCB->setText(QStringLiteral("Y-Axis labels visible"));
+    yAxisLabelsVisibleCB->setChecked(true);
+
+    QCheckBox *zAxisLabelsVisibleCB = new QCheckBox(widget);
+    zAxisLabelsVisibleCB->setText(QStringLiteral("Z-Axis labels visible"));
+    zAxisLabelsVisibleCB->setChecked(true);
+
     QCheckBox *axisTitlesFixedCB = new QCheckBox(widget);
     axisTitlesFixedCB->setText(QStringLiteral("Axis titles fixed"));
     axisTitlesFixedCB->setChecked(true);
@@ -535,6 +547,9 @@ int main(int argc, char *argv[])
     vLayout3->addWidget(testReverseButton);
     vLayout3->addWidget(testDataOrderingButton);
     vLayout3->addWidget(axisTitlesVisibleCB);
+    vLayout3->addWidget(xAxisLabelsVisibleCB);
+    vLayout3->addWidget(yAxisLabelsVisibleCB);
+    vLayout3->addWidget(zAxisLabelsVisibleCB);
     vLayout3->addWidget(axisTitlesFixedCB);
     vLayout3->addWidget(new QLabel(QStringLiteral("Axis label rotation")));
     vLayout3->addWidget(axisLabelRotationSlider, 1);
@@ -727,8 +742,22 @@ int main(int argc, char *argv[])
                      modifier, &GraphModifier::testDataOrdering);
     QObject::connect(axisTitlesVisibleCB, &QCheckBox::checkStateChanged,
                      modifier, &GraphModifier::toggleAxisTitleVisibility);
-    QObject::connect(axisTitlesFixedCB, &QCheckBox::checkStateChanged,
-                     modifier, &GraphModifier::toggleAxisTitleFixed);
+    QObject::connect(xAxisLabelsVisibleCB,
+                     &QCheckBox::checkStateChanged,
+                     modifier,
+                     &GraphModifier::toggleXAxisLabelsVisibility);
+    QObject::connect(yAxisLabelsVisibleCB,
+                     &QCheckBox::checkStateChanged,
+                     modifier,
+                     &GraphModifier::toggleYAxisLabelsVisibility);
+    QObject::connect(zAxisLabelsVisibleCB,
+                     &QCheckBox::checkStateChanged,
+                     modifier,
+                     &GraphModifier::toggleZAxisLabelsVisibility);
+    QObject::connect(axisTitlesFixedCB,
+                     &QCheckBox::checkStateChanged,
+                     modifier,
+                     &GraphModifier::toggleAxisTitleFixed);
     QObject::connect(axisLabelRotationSlider, &QSlider::valueChanged, modifier,
                      &GraphModifier::changeLabelRotation);
     QObject::connect(xAscendingCB, &QCheckBox::checkStateChanged,

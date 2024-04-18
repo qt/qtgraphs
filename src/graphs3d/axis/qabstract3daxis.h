@@ -21,6 +21,8 @@ class Q_GRAPHS_EXPORT QAbstract3DAxis : public QObject
     Q_CLASSINFO("RegisterEnumClassesUnscoped", "false")
     Q_PROPERTY(QString title READ title WRITE setTitle NOTIFY titleChanged)
     Q_PROPERTY(QStringList labels READ labels WRITE setLabels NOTIFY labelsChanged)
+    Q_PROPERTY(bool labelsVisible READ isLabelsVisible WRITE setLabelsVisible NOTIFY
+                   labelVisibilityChanged)
     Q_PROPERTY(
         QAbstract3DAxis::AxisOrientation orientation READ orientation NOTIFY orientationChanged)
     Q_PROPERTY(QAbstract3DAxis::AxisType type READ type CONSTANT)
@@ -73,6 +75,9 @@ public:
     void setTitleVisible(bool visible);
     bool isTitleVisible() const;
 
+    void setLabelsVisible(bool visible);
+    bool isLabelsVisible() const;
+
     void setTitleFixed(bool fixed);
     bool isTitleFixed() const;
 
@@ -86,8 +91,8 @@ Q_SIGNALS:
     void autoAdjustRangeChanged(bool autoAdjust);
     void labelAutoRotationChanged(float angle);
     void titleVisibilityChanged(bool visible);
+    void labelVisibilityChanged(bool visible);
     void titleFixedChanged(bool fixed);
-
 
 private:
     Q_DISABLE_COPY(QAbstract3DAxis)
