@@ -144,6 +144,7 @@ Rectangle {
             theme: seriesTheme
             width: widthSlider1.value
             selectable: true
+            draggable: true
             axisX: ValueAxis {
                 id: xAxis
                 max: 4
@@ -173,7 +174,7 @@ Rectangle {
             name: "Second"
             theme: seriesTheme
             width: widthSlider2.value
-            selectable: true
+            draggable: true
 
             XYPoint { x: 0; y: 6.6 }
             XYPoint { x: 0.6; y: 4.1 }

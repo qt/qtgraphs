@@ -24,6 +24,7 @@ Item {
         pointMarker: Rectangle { width: 2; height: 2 }
         color: "#aabbcc"
         selectedColor:  "#aabbcc"
+        draggable: false
         visible: false
         selectable: false
         hoverable: true
@@ -47,6 +48,7 @@ Item {
 
             compare(initial.color, "#00000000")
             compare(initial.selectedColor, "#00000000")
+            compare(initial.draggable, false)
 
             // compare(initial.theme, null) // New theme instantiated in QAbstractSeries
             compare(initial.name, "")
@@ -66,6 +68,7 @@ Item {
 
             initial.color = "#ff00ff"
             initial.selectedColor = "#00ff00"
+            initial.draggable = true
 
             initial.name = "spline"
             initial.visible = false
@@ -84,6 +87,7 @@ Item {
 
             compare(initial.color, "#ff00ff")
             compare(initial.selectedColor, "#00ff00")
+            compare(initial.draggable, true)
 
             compare(initial.name, "spline")
             compare(initial.visible, false)
@@ -106,6 +110,7 @@ Item {
 
             compare(initialized.color, "#aabbcc")
             compare(initialized.selectedColor, "#aabbcc")
+            compare(initialized.draggable, false)
 
             compare(initialized.name, "spline")
             compare(initialized.visible, false)

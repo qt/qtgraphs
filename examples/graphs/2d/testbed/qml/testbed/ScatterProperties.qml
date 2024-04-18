@@ -95,6 +95,7 @@ Rectangle {
             id: scatterSeries2
             name: "Second"
             theme: seriesTheme
+            draggable: true
             selectable: true
 
             XYPoint { x: 0; y: 6.6 }

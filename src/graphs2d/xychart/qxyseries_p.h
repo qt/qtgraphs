@@ -40,6 +40,7 @@ protected:
     QAbstractAxis *m_axisY = nullptr;
     QQmlComponent *m_marker = nullptr;
     QGraphTransition *m_graphTransition = nullptr;
+    bool m_draggable = false;
 
 private:
     Q_DECLARE_PUBLIC(QXYSeries)

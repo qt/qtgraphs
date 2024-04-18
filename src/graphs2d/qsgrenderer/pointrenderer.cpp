@@ -369,8 +369,7 @@ void PointRenderer::updateSeries(QXYSeries *series)
 
 bool PointRenderer::handleMouseMove(QMouseEvent *event)
 {
-    bool handled = false;
-    if (m_pointPressed && m_pressedGroup->series->isPointSelected(m_pressedPointIndex)) {
+    if (m_pointPressed && m_pressedGroup->series->draggable()) {
         float w = width() - m_graph->m_marginLeft - m_graph->m_marginRight
                   - m_graph->m_axisRenderer->m_axisWidth;
         float h = height() - m_graph->m_marginTop - m_graph->m_marginBottom
@@ -387,26 +386,22 @@ bool PointRenderer::handleMouseMove(QMouseEvent *event)
         qreal deltaX = -delta.x() / w / maxHorizontal;
         qreal deltaY = delta.y() / h / maxVertical;
 
-        for (auto &&group : m_groups) {
-            auto &&selectedPoints = group->series->selectedPoints();
-            for (int index : selectedPoints) {
-                QPointF point = group->series->at(index) + QPointF(deltaX, deltaY);
-                group->series->replace(index, point);
-                handled = true;
-            }
-        }
+        QPointF point = m_pressedGroup->series->at(m_pressedPointIndex) + QPointF(deltaX, deltaY);
+        m_pressedGroup->series->replace(m_pressedPointIndex, point);
 
         m_pressStart = event->pos();
         m_pointDragging = true;
+
+        return true;
     }
-    return handled;
+    return false;
 }
 
 bool PointRenderer::handleMousePress(QMouseEvent *event)
 {
     bool handled = false;
     for (auto &&group : m_groups) {
-        if (!group->series->selectable())
+        if (!group->series->selectable() && !group->series->draggable())
             continue;
 
         int index = 0;
@@ -427,7 +422,8 @@ bool PointRenderer::handleMousePress(QMouseEvent *event)
 bool PointRenderer::handleMouseRelease(QMouseEvent *event)
 {
     bool handled = false;
-    if (!m_pointDragging && m_pointPressed && m_pressedGroup) {
+    if (!m_pointDragging && m_pointPressed && m_pressedGroup
+        && m_pressedGroup->series->selectable()) {
         if (m_pressedGroup->rects[m_pressedPointIndex].contains(event->pos())) {
             if (m_pressedGroup->series->isPointSelected(m_pressedPointIndex)) {
                 m_pressedGroup->series->deselectPoint(m_pressedPointIndex);

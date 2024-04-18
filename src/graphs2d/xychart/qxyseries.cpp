@@ -566,6 +566,33 @@ void QXYSeries::setPointMarker(QQmlComponent *newPointMarker)
     emit update();
 }
 
+/*!
+    \property QXYSeries::draggable
+    \brief Controls if the series is draggable.
+
+    Controls if the series can be dragged with mouse/touch.
+    By default, \a draggable is set to \c false.
+*/
+/*!
+    \qmlproperty bool QXYSeries::draggable
+    Controls if the series can be dragged with mouse/touch.
+    By default, \a draggable is set to \c false.
+*/
+bool QXYSeries::draggable() const
+{
+    Q_D(const QXYSeries);
+    return d->m_draggable;
+}
+
+void QXYSeries::setDraggable(bool newDraggable)
+{
+    Q_D(QXYSeries);
+    if (d->m_draggable == newDraggable)
+        return;
+    d->m_draggable = newDraggable;
+    emit draggableChanged();
+}
+
 QXYSeries &QXYSeries::operator<< (const QPointF &point)
 {
     append(point);

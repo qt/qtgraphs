@@ -26,6 +26,7 @@ Item {
 
         color: "#ff00ff"
         selectedColor: "#00ff00"
+        draggable: true
 
         name: "ScatterSeries"
         visible: false
@@ -54,6 +55,7 @@ Item {
             // Properties from QXYSeries
             compare(initial.color, "#00000000")
             compare(initial.selectedColor, "#00000000")
+            compare(initial.draggable, false)
 
             // Properties from QAbstractSeries
             verify(initial.theme)
@@ -72,6 +74,7 @@ Item {
 
             initial.color = "#ff00ff"
             initial.selectedColor = "#00ff00"
+            initial.draggable = true
 
             initial.name = "Scatter"
             initial.visible = false
@@ -108,6 +111,7 @@ Item {
 
             compare(initialized.color, "#ff00ff")
             compare(initialized.selectedColor, "#00ff00")
+            compare(initialized.draggable, true)
 
             compare(initialized.name, "ScatterSeries")
             compare(initialized.visible, false)
@@ -124,6 +128,7 @@ Item {
 
             initialized.color = "#0000ff"
             initialized.selectedColor = "#ff0000"
+            initialized.draggable = false
 
             initialized.name = "Scatter"
             initialized.visible = true
@@ -138,6 +143,7 @@ Item {
 
             compare(initialized.color, "#0000ff")
             compare(initialized.selectedColor, "#ff0000")
+            compare(initialized.draggable, false)
 
             compare(initialized.name, "Scatter")
             compare(initialized.visible, true)

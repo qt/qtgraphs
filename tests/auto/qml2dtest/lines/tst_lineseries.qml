@@ -28,6 +28,7 @@ Item {
 
         color: "#ff00ff"
         selectedColor: "#00ff00"
+        draggable: true
 
         name: "LineSeries"
         visible: false
@@ -58,6 +59,7 @@ Item {
             // Properties from QXYSeries
             compare(initial.color, "#00000000")
             compare(initial.selectedColor, "#00000000")
+            compare(initial.draggable, false)
 
             // Properties from QAbstractSeries
             verify(initial.theme)
@@ -78,6 +80,7 @@ Item {
 
             initial.color = "#ff00ff"
             initial.selectedColor = "#00ff00"
+            initial.draggable = true
 
             initial.name = "Lines"
             initial.visible = false
@@ -96,6 +99,7 @@ Item {
 
             compare(initial.color, "#ff00ff")
             compare(initial.selectedColor, "#00ff00")
+            compare(initial.draggable, true)
 
             compare(initial.name, "Lines")
             compare(initial.visible, false)
@@ -118,6 +122,7 @@ Item {
 
             compare(initialized.color, "#ff00ff")
             compare(initialized.selectedColor, "#00ff00")
+            compare(initialized.draggable, true)
 
             compare(initialized.name, "LineSeries")
             compare(initialized.visible, false)
@@ -136,6 +141,7 @@ Item {
 
             initialized.color = "#0000ff"
             initialized.selectedColor = "#ff0000"
+            initialized.draggable = false
 
             initialized.name = "Lines"
             initialized.visible = true
@@ -152,6 +158,7 @@ Item {
 
             compare(initialized.color, "#0000ff")
             compare(initialized.selectedColor, "#ff0000")
+            compare(initialized.draggable, false)
 
             compare(initialized.name, "Lines")
             compare(initialized.visible, true)

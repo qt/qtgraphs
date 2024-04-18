@@ -29,8 +29,15 @@ Rectangle {
             id: spline
             name: "Spline"
             theme: seriesTheme
-            selectable: true
+            draggable: true
             width: 2
+
+            pointMarker: Rectangle {
+                property color seriesColor
+                color: seriesColor
+                width: 16
+                height: 16
+            }
 
             axisX: ValueAxis {
                 id: xAxis
