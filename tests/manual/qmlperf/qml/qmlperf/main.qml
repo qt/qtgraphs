@@ -186,6 +186,7 @@ Item {
 
             ColumnLayout {
                 id: transparencyContainer
+                visible: tabBar.currentIndex !== 0
                 Layout.fillWidth: true
                 Layout.preferredHeight: 30
                 Layout.margins: 10
