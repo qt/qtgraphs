@@ -87,6 +87,19 @@ QT_BEGIN_NAMESPACE
 */
 
 /*!
+    \property QAbstractAxis::labelsComponent
+    \brief A custom QML Component used as a label for the axis.
+    This component should either be a \a Text component or contain "property string text",
+    so that this property will be assigned the value of the label.
+*/
+/*!
+    \qmlproperty Component AbstractAxis::labelsComponent
+    A custom QML Component used as a label for the axis.
+    This component should either be a \a Text component or contain "property string text",
+    so that this property will be assigned the value of the label.
+*/
+
+/*!
     \property QAbstractAxis::gridVisible
     \brief The visibility of the grid lines.
     By default, the value is \c true.
@@ -338,6 +351,22 @@ qreal QAbstractAxis::labelsAngle() const
 {
     const Q_D(QAbstractAxis);
     return d->m_labelsAngle;
+}
+
+QQmlComponent *QAbstractAxis::labelsComponent() const
+{
+    Q_D(const QAbstractAxis);
+    return d->m_labelsComponent;
+}
+
+void QAbstractAxis::setLabelsComponent(QQmlComponent *newLabelsComponent)
+{
+    Q_D(QAbstractAxis);
+    if (d->m_labelsComponent == newLabelsComponent)
+        return;
+    d->m_labelsComponent = newLabelsComponent;
+    emit labelsComponentChanged();
+    emit update();
 }
 
 void QAbstractAxis::setTitleVisible(bool visible)

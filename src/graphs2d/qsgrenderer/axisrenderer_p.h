@@ -65,16 +65,20 @@ private:
 
     double getValueStepsFromRange(double range);
     int getValueDecimalsFromRange(double range);
-    void updateAxisLabelItems(QList<QQuickText *> &textItems, int neededSize);
+    void setLabelTextProperties(QQuickItem *item, const QString &text, bool xAxis,
+                                QQuickText::HAlignment hAlign = QQuickText::HAlignment::AlignHCenter,
+                                QQuickText::VAlignment vAlign = QQuickText::VAlignment::AlignVCenter);
+    void updateAxisLabelItems(QList<QQuickItem *> &textItems, int neededSize, QQmlComponent *component);
 
     QGraphsView *m_graph = nullptr;
     QGraphsTheme *theme();
     bool m_initialized = false;
+    bool m_wasVertical = false;
 
     QAbstractAxis *m_axisVertical = nullptr;
     QAbstractAxis *m_axisHorizontal = nullptr;
-    QList<QQuickText *> m_xAxisTextItems;
-    QList<QQuickText *> m_yAxisTextItems;
+    QList<QQuickItem *> m_xAxisTextItems;
+    QList<QQuickItem *> m_yAxisTextItems;
     QQuickText *m_xAxisTitle = nullptr;
     QQuickText *m_yAxisTitle = nullptr;
     AxisGrid *m_axisGrid = nullptr;
@@ -132,7 +136,7 @@ private:
 
     // Sizes required of axis labels
     // TODO: Should these come from QAbstactAxis?
-    qreal m_axisWidth = 40;
+    qreal m_axisWidth = 60;
     qreal m_axisHeight = 40;
     qreal m_axisTickersWidth = 15;
     qreal m_axisTickersHeight = 15;

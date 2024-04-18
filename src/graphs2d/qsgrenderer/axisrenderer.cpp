@@ -159,6 +159,19 @@ void AxisRenderer::updateAxis()
         m_axisHorizontal = axisVertical;
     }
 
+    if (vertical != m_wasVertical) {
+        // Orientation has changed, so clear possible custom elements
+        for (auto &item : m_xAxisTextItems)
+            item->deleteLater();
+        m_xAxisTextItems.clear();
+
+        for (auto &item : m_yAxisTextItems)
+            item->deleteLater();
+        m_yAxisTextItems.clear();
+
+        m_wasVertical = vertical;
+    }
+
     // Graph series area width & height
     QRectF seriesRect = m_graph->seriesRect();
     float w = seriesRect.width();
@@ -596,14 +609,21 @@ void AxisRenderer::updateAxisTitles(const QRectF &xAxisRect, const QRectF &yAxis
     }
 }
 
-void AxisRenderer::updateAxisLabelItems(QList<QQuickText *> &textItems, int neededSize)
+void AxisRenderer::updateAxisLabelItems(QList<QQuickItem *> &textItems,
+                                        int neededSize, QQmlComponent *component)
 {
     int currentTextItemsSize = textItems.size();
     if (currentTextItemsSize < neededSize) {
         for (int i = currentTextItemsSize; i <= neededSize; i++) {
-            auto bi = new QQuickText();
-            bi->setParentItem(this);
-            textItems << bi;
+            QQuickItem *item = nullptr;
+            if (component) {
+                item = qobject_cast<QQuickItem *>(
+                    component->create(component->creationContext()));
+            }
+            if (!item)
+                item = new QQuickText();
+            item->setParentItem(this);
+            textItems << item;
         }
     } else if (neededSize < currentTextItemsSize) {
         // Hide unused text items
@@ -614,11 +634,35 @@ void AxisRenderer::updateAxisLabelItems(QList<QQuickText *> &textItems, int need
     }
 }
 
+void AxisRenderer::setLabelTextProperties(QQuickItem *item, const QString &text, bool xAxis,
+                                          QQuickText::HAlignment hAlign, QQuickText::VAlignment vAlign)
+{
+    if (auto textItem = qobject_cast<QQuickText *>(item)) {
+        // If the component is a Text item (default), then text
+        // properties can be set directly.
+        textItem->setText(text);
+        textItem->setHeight(textItem->contentHeight());
+        textItem->setHAlign(hAlign);
+        textItem->setVAlign(vAlign);
+        if (xAxis) {
+            textItem->setFont(theme()->axisXLabelFont());
+            textItem->setColor(theme()->axisXLabelColor());
+        } else {
+            textItem->setFont(theme()->axisYLabelFont());
+            textItem->setColor(theme()->axisYLabelColor());
+        }
+    } else {
+        // Check for specific dynamic properties
+        if (item->property("text").isValid())
+            item->setProperty("text", text);
+    }
+}
+
 void AxisRenderer::updateBarXAxisLabels(QBarCategoryAxis *axis, const QRectF &rect)
 {
-    int categoriesCount =  axis->categories().size();
+    int categoriesCount = axis->categories().size();
     // See if we need more text items
-    updateAxisLabelItems(m_xAxisTextItems, categoriesCount);
+    updateAxisLabelItems(m_xAxisTextItems, categoriesCount, axis->labelsComponent());
 
     int textIndex = 0;
     for (auto category : axis->categories()) {
@@ -628,14 +672,10 @@ void AxisRenderer::updateBarXAxisLabels(QBarCategoryAxis *axis, const QRectF &re
             textItem->setX(posX);
             float posY = rect.y();
             textItem->setY(posY);
-            textItem->setHAlign(QQuickText::HAlignment::AlignHCenter);
-            textItem->setVAlign(QQuickText::VAlignment::AlignVCenter);
             textItem->setWidth(rect.width() / categoriesCount);
             textItem->setHeight(rect.height());
-            textItem->setFont(theme()->axisXLabelFont());
-            textItem->setColor(theme()->axisXLabelColor());
             textItem->setRotation(axis->labelsAngle());
-            textItem->setText(category);
+            setLabelTextProperties(textItem, category, true);
             textItem->setVisible(true);
             theme()->dirtyBits()->axisXLabelColorDirty = false;
         } else {
@@ -647,9 +687,9 @@ void AxisRenderer::updateBarXAxisLabels(QBarCategoryAxis *axis, const QRectF &re
 
 void AxisRenderer::updateBarYAxisLabels(QBarCategoryAxis *axis, const QRectF &rect)
 {
-    int categoriesCount =  axis->categories().size();
+    int categoriesCount = axis->categories().size();
     // See if we need more text items
-    updateAxisLabelItems(m_yAxisTextItems, categoriesCount);
+    updateAxisLabelItems(m_yAxisTextItems, categoriesCount, axis->labelsComponent());
 
     int textIndex = 0;
     for (auto category : axis->categories()) {
@@ -659,14 +699,10 @@ void AxisRenderer::updateBarYAxisLabels(QBarCategoryAxis *axis, const QRectF &re
             textItem->setX(posX);
             float posY = rect.y() + ((float)textIndex / categoriesCount) *  rect.height();
             textItem->setY(posY);
-            textItem->setHAlign(QQuickText::HAlignment::AlignHCenter);
-            textItem->setVAlign(QQuickText::VAlignment::AlignVCenter);
             textItem->setWidth(rect.width());
             textItem->setHeight(rect.height() / categoriesCount);
-            textItem->setFont(theme()->axisYLabelFont());
-            textItem->setColor(theme()->axisYLabelColor());
             textItem->setRotation(axis->labelsAngle());
-            textItem->setText(category);
+            setLabelTextProperties(textItem, category, false);
             textItem->setVisible(true);
             theme()->dirtyBits()->axisYLabelColorDirty = false;
         } else {
@@ -689,7 +725,7 @@ void AxisRenderer::updateValueYAxisLabels(QValueAxis *axis, const QRectF &rect)
     int categoriesCount = yAxisLabelValues.size();
 
     // See if we need more text items
-    updateAxisLabelItems(m_yAxisTextItems, categoriesCount);
+    updateAxisLabelItems(m_yAxisTextItems, categoriesCount, axis->labelsComponent());
 
     for (int i = 0;  i < categoriesCount; i++) {
         auto &textItem = m_yAxisTextItems[i];
@@ -708,12 +744,7 @@ void AxisRenderer::updateValueYAxisLabels(QValueAxis *axis, const QRectF &rect)
             // Take font size into account only after hiding
             posY -= fontSize;
             textItem->setY(posY);
-            textItem->setHAlign(QQuickText::HAlignment::AlignRight);
-            textItem->setVAlign(QQuickText::VAlignment::AlignBottom);
             textItem->setWidth(rect.width());
-            textItem->setHeight(textItem->contentHeight());
-            textItem->setFont(theme()->axisYLabelFont());
-            textItem->setColor(theme()->axisYLabelColor());
             textItem->setRotation(axis->labelsAngle());
             double number = yAxisLabelValues.at(i);
             // Format the number
@@ -722,7 +753,10 @@ void AxisRenderer::updateValueYAxisLabels(QValueAxis *axis, const QRectF &rect)
                 decimals = getValueDecimalsFromRange(m_axisVerticalValueRange);
             const QString f = axis->labelFormat();
             char format = f.isEmpty() ? 'f' : f.front().toLatin1();
-            textItem->setText(QString::number(number, format, decimals));
+            QString label = QString::number(number, format, decimals);
+            setLabelTextProperties(textItem, label, false,
+                                   QQuickText::HAlignment::AlignRight,
+                                   QQuickText::VAlignment::AlignBottom);
             textItem->setVisible(true);
             theme()->dirtyBits()->axisYLabelColorDirty = false;
         } else {
@@ -744,7 +778,7 @@ void AxisRenderer::updateValueXAxisLabels(QValueAxis *axis, const QRectF &rect)
     int categoriesCount = axisLabelValues.size();
 
     // See if we need more text items
-    updateAxisLabelItems(m_xAxisTextItems, categoriesCount);
+    updateAxisLabelItems(m_xAxisTextItems, categoriesCount, axis->labelsComponent());
 
     for (int i = 0;  i < categoriesCount; i++) {
         auto &textItem = m_xAxisTextItems[i];
@@ -762,12 +796,7 @@ void AxisRenderer::updateValueXAxisLabels(QValueAxis *axis, const QRectF &rect)
             // Take text size into account only after hiding
             posX -= 0.5 * textItemWidth;
             textItem->setX(posX);
-            textItem->setHAlign(QQuickText::HAlignment::AlignHCenter);
-            textItem->setVAlign(QQuickText::VAlignment::AlignBottom);
             textItem->setWidth(textItemWidth);
-            textItem->setHeight(rect.height());
-            textItem->setFont(theme()->axisXLabelFont());
-            textItem->setColor(theme()->axisXLabelColor());
             textItem->setRotation(axis->labelsAngle());
             double number = axisLabelValues.at(i);
             // Format the number
@@ -776,7 +805,11 @@ void AxisRenderer::updateValueXAxisLabels(QValueAxis *axis, const QRectF &rect)
                 decimals = getValueDecimalsFromRange(m_axisHorizontalValueRange);
             const QString f = axis->labelFormat();
             char format = f.isEmpty() ? 'f' : f.front().toLatin1();
-            textItem->setText(QString::number(number, format, decimals));
+            QString label = QString::number(number, format, decimals);
+            setLabelTextProperties(textItem, label, true,
+                                   QQuickText::HAlignment::AlignHCenter,
+                                   QQuickText::VAlignment::AlignBottom);
+            textItem->setHeight(rect.height());
             textItem->setVisible(true);
             theme()->dirtyBits()->axisXLabelColorDirty = false;
         } else {
@@ -794,7 +827,7 @@ void AxisRenderer::updateDateTimeYAxisLabels(QDateTimeAxis *axis, const QRectF &
                    / m_axisVerticalMinLabel;
 
     // See if we need more text items
-    updateAxisLabelItems(m_yAxisTextItems, dateTimeSize);
+    updateAxisLabelItems(m_yAxisTextItems, dateTimeSize, axis->labelsComponent());
 
     for (auto i = 0; i < dateTimeSize; ++i) {
         auto &textItem = m_yAxisTextItems[i];
@@ -816,16 +849,13 @@ void AxisRenderer::updateDateTimeYAxisLabels(QDateTimeAxis *axis, const QRectF &
             // Take font size into account only after hiding
             posY -= fontSize;
             textItem->setY(posY);
-            textItem->setHAlign(QQuickText::HAlignment::AlignHCenter);
-            textItem->setVAlign(QQuickText::VAlignment::AlignVCenter);
-            textItem->setHAlign(QQuickText::HAlignment::AlignRight);
-            textItem->setVAlign(QQuickText::VAlignment::AlignBottom);
             textItem->setWidth(rect.width());
-            textItem->setHeight(textItem->contentHeight());
-            textItem->setFont(theme()->axisYLabelFont());
-            textItem->setColor(theme()->axisYLabelColor());
             textItem->setRotation(axis->labelsAngle());
-            textItem->setText(minDate.addMSecs(segment * i).toString(axis->labelFormat()));
+            QString label = minDate.addMSecs(segment * i).toString(axis->labelFormat());
+            setLabelTextProperties(textItem, label, false,
+                                   QQuickText::HAlignment::AlignRight,
+                                   QQuickText::VAlignment::AlignBottom);
+
             textItem->setVisible(true);
         } else {
             textItem->setVisible(false);
@@ -842,7 +872,7 @@ void AxisRenderer::updateDateTimeXAxisLabels(QDateTimeAxis *axis, const QRectF &
                    / m_axisHorizontalMinLabel;
 
     // See if we need more text items
-    updateAxisLabelItems(m_xAxisTextItems, dateTimeSize);
+    updateAxisLabelItems(m_xAxisTextItems, dateTimeSize, axis->labelsComponent());
 
     for (auto i = 0; i < dateTimeSize; ++i) {
         auto &textItem = m_xAxisTextItems[i];
@@ -861,14 +891,13 @@ void AxisRenderer::updateDateTimeXAxisLabels(QDateTimeAxis *axis, const QRectF &
             // Take text size into account only after hiding
             posX -= 0.5 * textItemWidth;
             textItem->setX(posX);
-            textItem->setHAlign(QQuickText::HAlignment::AlignHCenter);
-            textItem->setVAlign(QQuickText::VAlignment::AlignBottom);
             textItem->setWidth(textItemWidth);
-            textItem->setHeight(rect.height());
-            textItem->setFont(theme()->axisYLabelFont());
-            textItem->setColor(theme()->axisYLabelColor());
             textItem->setRotation(axis->labelsAngle());
-            textItem->setText(minDate.addMSecs(segment * i).toString(axis->labelFormat()));
+            QString label = minDate.addMSecs(segment * i).toString(axis->labelFormat());
+            setLabelTextProperties(textItem, label, true,
+                                   QQuickText::HAlignment::AlignHCenter,
+                                   QQuickText::VAlignment::AlignBottom);
+            textItem->setHeight(rect.height());
             textItem->setVisible(true);
         } else {
             textItem->setVisible(false);

@@ -22,6 +22,8 @@
 
 QT_BEGIN_NAMESPACE
 
+class QQmlComponent;
+
 class QAbstractAxisPrivate : public QObjectPrivate
 {
 public:
@@ -63,6 +65,7 @@ private:
 
     bool m_labelsVisible = true;
     qreal m_labelsAngle = 0;
+    QQmlComponent *m_labelsComponent = nullptr;
 
     bool m_titleVisible = true;
     QColor m_titleColor;

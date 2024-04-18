@@ -47,6 +47,7 @@ void tst_abstractaxis::initialProperties()
     QCOMPARE(m_axis->isLineVisible(), true);
     QCOMPARE(m_axis->labelsVisible(), true);
     QCOMPARE(m_axis->labelsAngle(), 0);
+    QCOMPARE(m_axis->labelsComponent(), nullptr);
     QCOMPARE(m_axis->isGridLineVisible(), true);
     QCOMPARE(m_axis->isMinorGridLineVisible(), true);
     QCOMPARE(m_axis->titleText(), QString());
@@ -62,11 +63,13 @@ void tst_abstractaxis::initializeProperties()
     QVERIFY(m_axis);
 
     auto font = QFont("Arial", 20, 2, true);
+    auto labelComponent = new QQmlComponent(this);
 
     m_axis->setVisible(false);
     m_axis->setLineVisible(false);
     m_axis->setLabelsVisible(false);
     m_axis->setLabelsAngle(90.0);
+    m_axis->setLabelsComponent(labelComponent);
     m_axis->setGridLineVisible(false);
     m_axis->setMinorGridLineVisible(false);
     m_axis->setTitleText("Title");
@@ -80,6 +83,7 @@ void tst_abstractaxis::initializeProperties()
     QCOMPARE(m_axis->isLineVisible(), false);
     QCOMPARE(m_axis->labelsVisible(), false);
     QCOMPARE(m_axis->labelsAngle(), 90.0);
+    QCOMPARE(m_axis->labelsComponent(), labelComponent);
     QCOMPARE(m_axis->isGridLineVisible(), false);
     QCOMPARE(m_axis->isMinorGridLineVisible(), false);
     QCOMPARE(m_axis->titleText(), "Title");

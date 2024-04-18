@@ -18,11 +18,40 @@ Rectangle {
         axisX: BarCategoryAxis {
             categories: ["2023", "2024", "2025", "2026"]
             minorGridVisible: false
+            labelsComponent: Item {
+                id: comp
+                property string text
+                Rectangle {
+                    anchors.fill: parent
+                    anchors.margins: 2
+                    color: "#202020"
+                    border.color: mouseArea.containsMouse ?  "#f0f020" : "#d0d0d0"
+                    border.width: 2
+                    radius: 5
+                }
+                Text {
+                    anchors.centerIn: parent
+                    color: "#ffffff"
+                    font.pixelSize: 20
+                    text: comp.text
+                    rotation: chartView.orientation == Qt.Horizontal ? -90 : 0
+                }
+                MouseArea {
+                    id: mouseArea
+                    anchors.fill: parent
+                    hoverEnabled: true
+                }
+            }
         }
         axisY: ValueAxis {
             id: axisY
             max: 10
             minorTickCount: 9
+            labelsComponent: Text {
+                style: Text.Outline
+                styleColor: "#800000"
+                color: "#ffffff"
+            }
         }
         theme: GraphsTheme {
             id: myTheme

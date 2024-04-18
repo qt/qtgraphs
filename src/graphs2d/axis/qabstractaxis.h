@@ -10,6 +10,7 @@
 #include <QtGui/QColor>
 #include <QtGui/QFont>
 #include <QtQml/QQmlEngine>
+#include <QtQml/QQmlComponent>
 
 QT_BEGIN_NAMESPACE
 
@@ -25,6 +26,8 @@ class Q_GRAPHS_EXPORT QAbstractAxis : public QObject
     //labels
     Q_PROPERTY(bool labelsVisible READ labelsVisible WRITE setLabelsVisible NOTIFY labelsVisibleChanged)
     Q_PROPERTY(qreal labelsAngle READ labelsAngle WRITE setLabelsAngle NOTIFY labelsAngleChanged)
+    Q_PROPERTY(QQmlComponent *labelsComponent READ labelsComponent
+                       WRITE setLabelsComponent NOTIFY labelsComponentChanged FINAL)
     //grid
     Q_PROPERTY(bool gridVisible READ isGridLineVisible WRITE setGridLineVisible NOTIFY gridVisibleChanged)
     Q_PROPERTY(bool minorGridVisible READ isMinorGridLineVisible WRITE setMinorGridLineVisible NOTIFY minorGridVisibleChanged)
@@ -75,6 +78,8 @@ public:
     void setLabelsVisible(bool visible = true);
     void setLabelsAngle(qreal angle);
     qreal labelsAngle() const;
+    QQmlComponent *labelsComponent() const;
+    void setLabelsComponent(QQmlComponent *newLabelsComponent);
 
     //title handling
     bool isTitleVisible() const;
@@ -100,6 +105,7 @@ Q_SIGNALS:
     void lineVisibleChanged(bool visible);
     void labelsVisibleChanged(bool visible);
     void labelsAngleChanged(qreal angle);
+    void labelsComponentChanged();
     void gridVisibleChanged(bool visible);
     void minorGridVisibleChanged(bool visible);
     void titleTextChanged(const QString &title);
