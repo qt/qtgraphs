@@ -60,6 +60,7 @@ struct Q3DThemeDirtyBitField
         , gridEnabledDirty(false)
         , shaderGridEnabledDirty(false)
         , gridLineColorDirty(false)
+        , subgridLineColorDirty(false)
         , gridWidthDirty(false)
         , labelBackgroundColorDirty(false)
         , labelBackgroundEnabledDirty(false)
