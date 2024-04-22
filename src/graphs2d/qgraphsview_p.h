@@ -142,6 +142,7 @@ private:
     QList<QAbstractAxis *> m_axis;
 
     QGraphTheme *m_theme = nullptr;
+    QGraphTheme *m_defaultTheme = nullptr;
     qreal m_marginTop = 20;
     qreal m_marginBottom = 20;
     qreal m_marginLeft = 20;

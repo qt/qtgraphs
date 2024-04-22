@@ -131,15 +131,17 @@ Item {
         }
 
         function test_3_initialized_change_to_invalid() {
-            // TODO: Crashes - QTBUG-124503
-            // initialized.theme = null
+            initialized.theme = null
             initialized.addSeries(null)
             initialized.addSeries(myTheme)
 
             waitForRendering(top)
 
             compare(initialized.seriesList, [lineInitial, areaInitial])
-            compare(initialized.theme, newTheme)
+            // Using default theme, so not null and not any of ours.
+            verify(initialized.theme !== null)
+            verify(initialized.theme !== myTheme)
+            verify(initialized.theme !== newTheme)
         }
     }
 }

@@ -41,6 +41,7 @@ QGraphsView::QGraphsView(QQuickItem *parent) :
     setAcceptedMouseButtons(Qt::LeftButton);
     setAcceptHoverEvents(true);
     setClip(true);
+    m_defaultTheme = new QGraphTheme(this);
 }
 
 QGraphsView::~QGraphsView()
@@ -225,7 +226,7 @@ void QGraphsView::updateComponentSizes()
 void QGraphsView::componentComplete()
 {
     if (!m_theme) {
-        m_theme = new QGraphTheme(this);
+        m_theme = m_defaultTheme;
         QObject::connect(m_theme, &QGraphTheme::update, this, &QQuickItem::update);
         m_theme->resetColorTheme();
     }
@@ -472,9 +473,12 @@ void QGraphsView::setTheme(QGraphTheme *newTheme)
 
     m_theme = newTheme;
 
-    if (m_theme)
-        QObject::connect(m_theme, &QGraphTheme::update, this, &QQuickItem::update);
+    if (!m_theme) {
+        m_theme = m_defaultTheme;
+        m_theme->resetColorTheme();
+    }
 
+    QObject::connect(m_theme, &QGraphTheme::update, this, &QQuickItem::update);
     emit themeChanged();
 }
 
