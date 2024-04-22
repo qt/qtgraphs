@@ -27,6 +27,10 @@ QT_BEGIN_NAMESPACE
  *
  * Q3DScatter supports more than one series visible at the same time.
  *
+ * Q3DScatter has transparency support. This feature allows you to adjust
+ * the opacity of the scatter points, making them partially see-through,
+ * fully transparent, or opaque.
+ *
  * \section1 How to construct a minimal Q3DScatter graph
  *
  * First, construct Q3DScatter. Since we are running the graph as the top-level

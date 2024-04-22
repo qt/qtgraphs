@@ -30,6 +30,10 @@ QT_BEGIN_NAMESPACE
  * labels are taken from the first added series unless explicitly defined
  * for row and column axes.
  *
+ * Q3DBars has transparency support. This feature allows you to adjust the
+ * opacity of the bars, making them partially see-through, fully transparent,
+ * or opaque.
+ *
  * \section1 How to construct a minimal Q3DBars graph
  *
  * First, construct an instance of Q3DBars. Since we are running the graph as

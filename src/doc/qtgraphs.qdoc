@@ -164,5 +164,9 @@
             "QT += graphs" in the pro file. This is because Qt Graphs
             QML plugin has a dependency to Qt Graphs C++ library, which Qt Creator
             doesn't automatically add to the deployment package.
+        \li Transparency is not supported for Surface3D due to a limitation with Qt Quick 3D.
+        \li Transparency functionality is not available for highlighted items
+            in Bars3D and Scatter3D.
+
     \endlist
 */
