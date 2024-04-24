@@ -59,13 +59,7 @@ public:
     void setViewportSize(int width, int height);
     void setWindowSize(const QSize &size);
     QSize windowSize() const;
-    void calculateSubViewports();
-    void updateGLViewport();
-    void updateGLSubViewports();
-
-    QRect glViewport();
-    QRect glPrimarySubViewport();
-    QRect glSecondarySubViewport();
+    void updateDefaultViewports();
 
     void markDirty();
 
@@ -84,9 +78,6 @@ public:
     QPoint m_selectionQueryPosition;
     QPoint m_graphPositionQueryPosition;
     QSize m_windowSize;
-    QRect m_glViewport;
-    QRect m_glPrimarySubViewport;
-    QRect m_glSecondarySubViewport;
     bool m_sceneDirty;
     QRect m_defaultSmallViewport;
     QRect m_defaultLargeViewport;

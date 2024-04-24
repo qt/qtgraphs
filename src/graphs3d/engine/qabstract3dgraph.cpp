@@ -1903,6 +1903,7 @@ void QAbstract3DGraph::resizeEvent(QResizeEvent *event)
         scene->d_func()->setViewport(QRect(0, 0, width(), height()));
         if (m_graphsItem->sliceView() && m_graphsItem->sliceView()->isVisible())
             m_graphsItem->minimizeMainGraph();
+        m_graphsItem->updateSubViews();
     }
 }
 

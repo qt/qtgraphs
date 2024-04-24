@@ -668,6 +668,21 @@ void GraphModifier::flipViews()
     m_graph->scene()->setSecondarySubviewOnTop(!m_graph->scene()->isSecondarySubviewOnTop());
 }
 
+void GraphModifier::changeSubView()
+{
+    if (!m_customSubviews) {
+        m_graph->scene()->setPrimarySubViewport(
+            QRect(0, 0, m_graph->width() / 2, m_graph->height()));
+        m_graph->scene()->setSecondarySubViewport(
+            QRect(m_graph->width() / 2, 0, m_graph->width() / 2, m_graph->height()));
+        m_customSubviews = true;
+    } else {
+        m_graph->scene()->setPrimarySubViewport(QRect());
+        m_graph->scene()->setSecondarySubViewport(QRect());
+        m_customSubviews = false;
+    }
+}
+
 void GraphModifier::timeout()
 {
     int rows = m_planeArray.size();

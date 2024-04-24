@@ -105,9 +105,6 @@ void tst_scene::invalidProperties()
 
 void tst_scene::subViews()
 {
-    if (!CpptestUtil::isOpenGLSupported())
-        QSKIP("OpenGL not supported on this platform");
-
     Q3DBars graph;
     graph.setMinimumSize(QSize(200, 200));
 
@@ -117,24 +114,15 @@ void tst_scene::subViews()
     QCoreApplication::processEvents();
 
     QTRY_COMPARE(scene->viewport(), QRect(0, 0, 200, 200));
-    QCOMPARE(scene->primarySubViewport(), QRect(0, 0, 200, 200));
+    QCOMPARE(scene->primarySubViewport(), QRect(0, 0, 40, 40));
     QCOMPARE(scene->secondarySubViewport(), QRect(0, 0, 0, 0));
 
     QCOMPARE(scene->isSecondarySubviewOnTop(), true);
-    QCOMPARE(scene->isPointInPrimarySubView(QPoint(100, 100)), true);
+    QCOMPARE(scene->isPointInPrimarySubView(QPoint(100, 100)), false);
     QCOMPARE(scene->isPointInPrimarySubView(QPoint(201, 201)), false);
     QCOMPARE(scene->isPointInSecondarySubView(QPoint(100, 100)), false);
 
     scene->setSlicingActive(true);
-
-    QCOMPARE(scene->isSecondarySubviewOnTop(), false);
-    QCOMPARE(scene->primarySubViewport(), QRect(0, 0, 40, 40));
-    QCOMPARE(scene->secondarySubViewport(), QRect(0, 0, 200, 200));
-    QCOMPARE(scene->isPointInPrimarySubView(QPoint(100, 100)), false);
-    QCOMPARE(scene->isPointInPrimarySubView(QPoint(30, 30)), true);
-    QCOMPARE(scene->isPointInSecondarySubView(QPoint(100, 100)), true);
-    QCOMPARE(scene->isPointInSecondarySubView(QPoint(30, 30)), false);
-
     scene->setSecondarySubviewOnTop(true);
 
     QCOMPARE(scene->isSecondarySubviewOnTop(), true);
@@ -144,6 +132,16 @@ void tst_scene::subViews()
     QCOMPARE(scene->isPointInPrimarySubView(QPoint(30, 30)), false);
     QCOMPARE(scene->isPointInSecondarySubView(QPoint(100, 100)), true);
     QCOMPARE(scene->isPointInSecondarySubView(QPoint(30, 30)), true);
+
+    scene->setSecondarySubviewOnTop(false);
+
+    QCOMPARE(scene->isSecondarySubviewOnTop(), false);
+    QCOMPARE(scene->primarySubViewport(), QRect(0, 0, 40, 40));
+    QCOMPARE(scene->secondarySubViewport(), QRect(0, 0, 200, 200));
+    QCOMPARE(scene->isPointInPrimarySubView(QPoint(100, 100)), false);
+    QCOMPARE(scene->isPointInPrimarySubView(QPoint(30, 30)), true);
+    QCOMPARE(scene->isPointInSecondarySubView(QPoint(100, 100)), true);
+    QCOMPARE(scene->isPointInSecondarySubView(QPoint(30, 30)), false);
 }
 
 QTEST_MAIN(tst_scene)

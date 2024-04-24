@@ -13,6 +13,7 @@ Item {
     height: 720
 
     property real fontSize: 12
+    property real windowRatio: 4
 
     Item {
         id: surfaceView
@@ -66,6 +67,19 @@ Item {
             axisY.segmentCount: 5
             axisY.subSegmentCount: 2
             axisY.labelFormat: "%i"
+
+
+            scene.primarySubViewport: Qt.rect(primaryViewRect.x * windowRatio,
+                                                  primaryViewRect.y * windowRatio,
+                                                  primaryViewRect.width * windowRatio,
+                                                  primaryViewRect.height * windowRatio)
+
+            scene.secondarySubViewport: Qt.rect(secondaryViewRect.x * windowRatio,
+                                                secondaryViewRect.y * windowRatio,
+                                                secondaryViewRect.width * windowRatio,
+                                                secondaryViewRect.height * windowRatio)
+
+            scene.secondarySubviewOnTop: secondaryOnTop.checked
 
             //! [1]
             //! [2]
@@ -290,4 +304,134 @@ Item {
             text: "Indirect, " + surfaceLayers.msaaSamples + "xMSAA"
         }
     }
+
+    Rectangle {
+        anchors.fill: subviewProps
+        anchors.margins: -10
+        anchors.rightMargin: -3
+    }
+
+    ColumnLayout {
+        id: subviewProps
+        anchors.bottom: sliceView.visible? sliceView.top : parent.bottom
+        anchors.left: parent.left
+        anchors.margins: 10
+
+        RowLayout {
+            CheckBox {
+                id: customSubview
+            }
+            Label {
+                color: "black"
+                text: "Customize subviews"
+                font.bold: true
+            }
+        }
+
+        RowLayout {
+            visible: customSubview.checked
+            CheckBox {
+                id: subviewOutline
+            }
+            Label {
+                color: "black"
+                text: "Show viewport outline"
+            }
+        }
+
+        RowLayout {
+            visible: customSubview.checked
+            CheckBox {
+                id: secondaryOnTop
+                checked: true
+            }
+            Label {
+                color: "black"
+                text: "Secondary view on top"
+            }
+        }
+
+        RowLayout {
+            visible: customSubview.checked
+            Rectangle {
+                color: "steelblue"
+                radius: 3
+                height: 10
+                width: 10
+            }
+
+            Label {
+                text: "Primary subview"
+                color: "black"
+            }
+        }
+        RowLayout {
+            visible: customSubview.checked
+            Rectangle {
+                color: "aquamarine"
+                radius: 3
+                height: 10
+                width: 10
+            }
+
+            Label {
+                text: "Secondary subview"
+                color: "black"
+            }
+        }
+    }
+
+
+    Rectangle {
+        id: sliceView
+        visible: customSubview.checked
+        border.color: "lightgrey"
+        color: "transparent"
+        anchors.bottom: parent.bottom
+        anchors.left: parent.left
+        width: surfaceView.width / windowRatio
+        height: surfaceView.height / windowRatio
+
+
+        ResizableRect {
+            id: primaryViewRect
+            rectangleColor: "steelblue"
+            width: parent.width / 5
+            height: parent.height / 5
+        }
+
+        ResizableRect {
+            id: secondaryViewRect
+            rectangleColor: "aquamarine"
+            width: parent.width
+            height: parent.height
+        }
+    }
+
+    Item {
+        id: vizBoundary
+        anchors.fill: surfaceView
+        Rectangle {
+            id: primaryViz
+            color: "transparent"
+            border.color: "steelblue"
+            visible: surfaceLayers.scene.slicingActive && subviewOutline.checked
+            x: surfaceLayers.scene.primarySubViewport.x
+            y: surfaceLayers.scene.primarySubViewport.y
+            width: surfaceLayers.scene.primarySubViewport.width
+            height: surfaceLayers.scene.primarySubViewport.height
+        }
+
+        Rectangle {
+            id: secondaryViz
+            color: "transparent"
+            border.color: "aquamarine"
+            visible: surfaceLayers.scene.slicingActive && subviewOutline.checked
+            x: surfaceLayers.scene.secondarySubViewport.x
+            y: surfaceLayers.scene.secondarySubViewport.y
+            width: surfaceLayers.scene.secondarySubViewport.width
+            height: surfaceLayers.scene.secondarySubViewport.height
+        }
+    }
+
 }

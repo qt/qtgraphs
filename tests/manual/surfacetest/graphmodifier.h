@@ -104,6 +104,7 @@ public Q_SLOTS:
     void changeColorScheme(int colorScheme);
     void changeTheme(int theme);
     void flipViews();
+    void changeSubView();
     void changeSelectionMode(int mode);
     void timeout();
     void graphQueryTimeout();
@@ -189,6 +190,7 @@ private:
     QTimer m_graphPositionQueryTimer;
     bool m_ascendingX;
     bool m_ascendingZ;
+    bool m_customSubviews = false;
 };
 
 #endif

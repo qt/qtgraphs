@@ -618,6 +618,10 @@ protected:
 
     void handleQueryPositionChanged(const QPoint &position);
 
+    void handlePrimarySubViewportChanged(const QRect &rect);
+    void handleSecondarySubViewportChanged(const QRect &rect);
+    void handleSecondarySubviewOnTopChanged(bool onTop);
+
     QQuick3DNode *graphNode() { return m_graphNode; }
     QQuick3DViewport *sliceView() { return m_sliceView; }
 
@@ -846,6 +850,9 @@ private:
 
     bool m_sliceEnabled = false;
     bool m_sliceActivatedChanged = false;
+    QRect m_primarySubView;
+    QRect m_secondarySubView;
+    bool m_secondarySubViewOnTop = true;
 
     bool m_gridUpdated = false;
     bool m_shaderGridEnabled = false;
@@ -872,6 +879,7 @@ private:
     void createVolumeMaterial(QCustom3DVolume *volume, Volume &volumeItem);
     QQuick3DModel *createSliceFrame(Volume &volumeItem);
     void updateSliceFrameMaterials(QCustom3DVolume *volume, Volume &volumeItem);
+    void updateSubViews();
     void updateCustomVolumes();
 
     bool m_sliceUseOrthoProjection = false;

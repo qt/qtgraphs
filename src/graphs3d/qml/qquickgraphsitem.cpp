@@ -66,6 +66,15 @@ QQuickGraphsItem::QQuickGraphsItem(QQuickItem *parent)
             &Q3DScene::graphPositionQueryChanged,
             this,
             &QQuickGraphsItem::handleQueryPositionChanged);
+    connect(m_scene, &Q3DScene::primarySubViewportChanged,
+            this,
+            &QQuickGraphsItem::handlePrimarySubViewportChanged);
+    connect(m_scene, &Q3DScene::secondarySubViewportChanged,
+            this,
+            &QQuickGraphsItem::handleSecondarySubViewportChanged);
+    connect(m_scene, &Q3DScene::secondarySubviewOnTopChanged,
+            this,
+            &QQuickGraphsItem::handleSecondarySubviewOnTopChanged);
 
     m_nodeMutex = QSharedPointer<QMutex>::create();
 
@@ -302,6 +311,25 @@ void QQuickGraphsItem::handleQueryPositionChanged(const QPoint &position)
     setGraphPositionQueryPending(false);
     setQueriedGraphPosition(data);
     emit queriedGraphPositionChanged(data);
+}
+
+void QQuickGraphsItem::handlePrimarySubViewportChanged(const QRect &rect)
+{
+    m_primarySubView = rect;
+    updateSubViews();
+}
+
+void QQuickGraphsItem::handleSecondarySubViewportChanged(const QRect &rect)
+{
+    m_secondarySubView = rect;
+    updateSubViews();
+}
+
+void QQuickGraphsItem::handleSecondarySubviewOnTopChanged(bool onTop)
+{
+    m_secondarySubViewOnTop = onTop;
+    if (sliceView())
+        sliceView()->setZ(onTop? 1 : -1);
 }
 
 void QQuickGraphsItem::handleAxisLabelFormatChangedBySender(QObject *sender)
@@ -962,38 +990,16 @@ void QQuickGraphsItem::handleFpsChanged()
 
 void QQuickGraphsItem::handleParentWidthChange()
 {
-    if (m_sliceView->isVisible())
-        setWidth(parentItem()->width() * .2f);
-    else
+    updateSubViews();
+    if (!m_sliceView->isVisible())
         setWidth(parentItem()->width());
-
-    if (m_sliceView && isSliceOrthoProjection()) {
-        const float scale = qMin(m_sliceView->width(), m_sliceView->height());
-        QQuick3DOrthographicCamera *camera = static_cast<QQuick3DOrthographicCamera *>(
-            m_sliceView->camera());
-        const float magnificationScaleFactor = .16f; // this controls the size of the slice view
-        const float magnification = scale * magnificationScaleFactor;
-        camera->setHorizontalMagnification(magnification);
-        camera->setVerticalMagnification(magnification);
-    }
 }
 
 void QQuickGraphsItem::handleParentHeightChange()
 {
-    if (m_sliceView->isVisible())
-        setHeight(parentItem()->height() * .2f);
-    else
+    updateSubViews();
+    if (!m_sliceView->isVisible())
         setHeight(parentItem()->height());
-
-    if (m_sliceView && isSliceOrthoProjection()) {
-        const float scale = qMin(m_sliceView->width(), m_sliceView->height());
-        QQuick3DOrthographicCamera *camera = static_cast<QQuick3DOrthographicCamera *>(
-            m_sliceView->camera());
-        const float magnificationScaleFactor = .16f; // this controls the size of the slice view
-        const float magnification = scale * magnificationScaleFactor;
-        camera->setHorizontalMagnification(magnification);
-        camera->setVerticalMagnification(magnification);
-    }
 }
 
 void QQuickGraphsItem::componentComplete()
@@ -4420,16 +4426,6 @@ void QQuickGraphsItem::updateWindowParameters()
                 QRect(0.0, 0.0, m_cachedGeometry.width() + 0.5f, m_cachedGeometry.height() + 0.5f));
         }
     }
-
-    if (m_sliceView && m_sliceView->isVisible() && isSliceOrthoProjection()) {
-        const float scale = qMin(m_sliceView->width(), m_sliceView->height());
-        QQuick3DOrthographicCamera *camera = static_cast<QQuick3DOrthographicCamera *>(
-            m_sliceView->camera());
-        const float magnificationScaleFactor = .16f; // this controls the size of the slice view
-        const float magnification = scale * magnificationScaleFactor;
-        camera->setHorizontalMagnification(magnification);
-        camera->setVerticalMagnification(magnification);
-    }
 }
 
 void QQuickGraphsItem::handleSelectionModeChange(QAbstract3DGraph::SelectionFlags mode)
@@ -4831,10 +4827,6 @@ void QQuickGraphsItem::minimizeMainGraph()
     if (anchor)
         QQuickItemPrivate::get(this)->anchors()->resetFill();
 
-    const float minimizedSize = .2f;
-    setWidth(parentItem()->width() * minimizedSize);
-    setHeight(parentItem()->height() * minimizedSize);
-
     m_inputHandler->setX(x());
     m_inputHandler->setY(y());
 }
@@ -4845,20 +4837,61 @@ void QQuickGraphsItem::updateSliceGraph()
         return;
 
     if (m_sliceView->isVisible()) {
+        setX(0);
+        setY(0);
         setWidth(parentItem()->width());
         setHeight(parentItem()->height());
 
         m_sliceView->setVisible(false);
         setSlicingActive(false);
     } else {
+        setSlicingActive(true);
         minimizeMainGraph();
+        updateSubViews();
         m_sliceView->setVisible(true);
         updateSliceGrid();
         updateSliceLabels();
-        setSlicingActive(true);
     }
 
     m_sliceActivatedChanged = false;
+}
+
+void QQuickGraphsItem::updateSubViews()
+{
+    QRect rect;
+    if (isSlicingActive()){
+        if (m_primarySubView.isNull())
+            rect = QRect(0,0,parentItem()->width() * 0.2, parentItem()->height() * 0.2);
+        else
+            rect = m_primarySubView ;
+
+        setX(rect.x());
+        setY(rect.y());
+        setWidth(rect.width());
+        setHeight(rect.height());
+    }
+
+    if (sliceView()) {
+        if (m_secondarySubView.isNull())
+            rect = QRect(0,0, parentItem()->width(), parentItem()->height());
+        else
+            rect = m_secondarySubView;
+
+        sliceView()->setX(rect.x());
+        sliceView()->setY(rect.y());
+        sliceView()->setWidth(rect.width());
+        sliceView()->setHeight(rect.height());
+
+        if (isSliceOrthoProjection()) {
+            const float scale = qMin(m_sliceView->width(), m_sliceView->height());
+            QQuick3DOrthographicCamera *camera = static_cast<QQuick3DOrthographicCamera *>(
+                        m_sliceView->camera());
+            const float magnificationScaleFactor = .16f; // this controls the size of the slice view
+            const float magnification = scale * magnificationScaleFactor;
+            camera->setHorizontalMagnification(magnification);
+            camera->setVerticalMagnification(magnification);
+        }
+    }
 }
 
 void QQuickGraphsItem::windowDestroyed(QObject *obj)
@@ -5273,9 +5306,9 @@ void QQuickGraphsItem::createSliceView()
     m_sliceView->setParent(parent());
     m_sliceView->setParentItem(parentItem());
     m_sliceView->setVisible(false);
-
-    m_sliceView->bindableHeight().setBinding([&] { return parentItem()->height(); });
-    m_sliceView->bindableWidth().setBinding([&] { return parentItem()->width(); });
+    m_sliceView->setWidth(parentItem()->width());
+    m_sliceView->setHeight(parentItem()->height());
+    m_sliceView->setZ(m_secondarySubViewOnTop? 1 : -1);
 
     auto scene = m_sliceView->scene();
 

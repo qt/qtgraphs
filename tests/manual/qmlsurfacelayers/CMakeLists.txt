@@ -19,6 +19,7 @@ target_link_libraries(tst_qmlsurfacelayers PUBLIC
 
 set(qmlsurfacelayers_resource_files
     "qml/qmlsurfacelayers/main.qml"
+    "qml/qmlsurfacelayers/ResizableRect.qml"
 )
 
 qt6_add_resources(tst_qmlsurfacelayers "qmlsurfacelayers"

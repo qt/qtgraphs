@@ -311,6 +311,8 @@ int main(int argc, char *argv[])
     QLabel *selectionInfoLabel = new QLabel(widget);
 #endif
 
+    QPushButton *changeSubViews = new QPushButton(widget);
+    changeSubViews->setText(QStringLiteral("Change subview"));
     QPushButton *changeRowButton = new QPushButton(widget);
     changeRowButton->setText(QStringLiteral("Change a row"));
 
@@ -539,6 +541,7 @@ int main(int argc, char *argv[])
 #endif
 
     vLayout3->addWidget(colorPB);
+    vLayout3->addWidget(changeSubViews);
     vLayout3->addWidget(changeRowButton);
     vLayout3->addWidget(changeRowsButton);
     vLayout3->addWidget(changeMultipleRowsButton);
@@ -720,8 +723,8 @@ int main(int argc, char *argv[])
     QObject::connect(flipViewsButton, &QPushButton::clicked,
                      modifier, &GraphModifier::flipViews);
 #endif
-    QObject::connect(changeRowButton,&QPushButton::clicked,
-                     modifier, &GraphModifier::changeRow);
+    QObject::connect(changeSubViews, &QPushButton::clicked, modifier, &GraphModifier::changeSubView);
+    QObject::connect(changeRowButton, &QPushButton::clicked, modifier, &GraphModifier::changeRow);
     QObject::connect(changeRowsButton,&QPushButton::clicked,
                      modifier, &GraphModifier::changeRows);
     QObject::connect(changeItemButton,&QPushButton::clicked,
