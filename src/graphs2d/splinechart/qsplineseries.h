@@ -31,15 +31,11 @@ public:
     Qt::PenCapStyle capStyle() const;
     void setCapStyle(Qt::PenCapStyle newCapStyle);
 
-    bool animated() const;
-    void setAnimated(bool isAnimated);
-
     QList<QPointF> &getControlPoints();
 
 Q_SIGNALS:
     void widthChanged();
     void capStyleChanged();
-    void animatedChanged();
 
 protected:
     QSplineSeries(QSplineSeriesPrivate &dd, QObject *parent = nullptr);
