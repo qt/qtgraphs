@@ -40,6 +40,8 @@ class QGraphsView : public QQuickItem
     Q_PROPERTY(QQmlListProperty<QObject> seriesList READ seriesList CONSTANT)
     // TODO: Remove this?
     Q_PROPERTY(QColor backgroundColor READ backgroundColor WRITE setBackgroundColor NOTIFY backgroundColorChanged)
+    Q_PROPERTY(QColor plotAreaBackgroundColor READ plotAreaBackgroundColor
+                       WRITE setPlotAreaBackgroundColor NOTIFY plotAreaBackgroundColorChanged)
     Q_PROPERTY(qreal marginTop READ marginTop WRITE setMarginTop NOTIFY marginTopChanged)
     Q_PROPERTY(qreal marginBottom READ marginBottom WRITE setMarginBottom NOTIFY marginBottomChanged)
     Q_PROPERTY(qreal marginLeft READ marginLeft WRITE setMarginLeft NOTIFY marginLeftChanged)
@@ -70,6 +72,9 @@ public:
 
     void setBackgroundColor(QColor color);
     QColor backgroundColor();
+
+    void setPlotAreaBackgroundColor(const QColor &color);
+    QColor plotAreaBackgroundColor() const;
 
     Q_INVOKABLE void addSeries(QObject *series);
     Q_INVOKABLE void removeSeries(QObject *series);
@@ -162,6 +167,7 @@ protected:
 
 Q_SIGNALS:
     void backgroundColorChanged();
+    void plotAreaBackgroundColorChanged();
     void themeChanged();
     void marginTopChanged();
     void marginBottomChanged();
@@ -202,6 +208,7 @@ private:
     AreaRenderer *m_areaRenderer = nullptr;
     QList<QObject *> m_seriesList;
     QBrush m_backgroundBrush;
+    QColor m_plotAreaBackgroundColor =  QColor(Qt::transparent);
     QSGClipNode *m_backgroundNode = nullptr;
 
     QList<QAbstractAxis *> m_axis;

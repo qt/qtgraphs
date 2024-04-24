@@ -29,6 +29,8 @@ class AxisGrid : public QQuickShaderEffect
     Q_PROPERTY(QPointF gridMovement READ gridMovement WRITE setGridMovement NOTIFY gridMovementChanged FINAL)
     Q_PROPERTY(QColor minorColor READ minorColor WRITE setMinorColor NOTIFY minorColorChanged FINAL)
     Q_PROPERTY(QColor majorColor READ majorColor WRITE setMajorColor NOTIFY majorColorChanged FINAL)
+    Q_PROPERTY(QColor plotAreaBackgroundColor READ plotAreaBackgroundColor
+                       WRITE setPlotAreaBackgroundColor NOTIFY plotAreaBackgroundColorChanged FINAL)
     Q_PROPERTY(qreal minorBarWidth READ minorBarWidth WRITE setMinorBarWidth NOTIFY minorBarWidthChanged FINAL)
     Q_PROPERTY(qreal majorBarWidth READ majorBarWidth WRITE setMajorBarWidth NOTIFY majorBarWidthChanged FINAL)
     Q_PROPERTY(qreal verticalMinorTickScale READ verticalMinorTickScale WRITE setVerticalMinorTickScale NOTIFY verticalMinorTickScaleChanged FINAL)
@@ -65,6 +67,9 @@ public:
     QColor majorColor() const;
     void setMajorColor(const QColor &newMajorColor);
 
+    QColor plotAreaBackgroundColor() const;
+    void setPlotAreaBackgroundColor(const QColor &color);
+
     qreal minorBarWidth() const;
     void setMinorBarWidth(qreal newMinorBarWidth);
 
@@ -91,6 +96,7 @@ Q_SIGNALS:
     void gridMovementChanged();
     void minorColorChanged();
     void majorColorChanged();
+    void plotAreaBackgroundColorChanged();
     void minorBarWidthChanged();
     void majorBarWidthChanged();
     void verticalMinorTickScaleChanged();
@@ -107,6 +113,7 @@ private:
     QPointF m_gridMovement;
     QColor m_minorColor = QColor(150, 150, 150);
     QColor m_majorColor = QColor(255, 255, 255);
+    QColor m_plotAreaBackgroundColor = QColor(0, 0, 0, 0);
     qreal m_minorBarWidth = 1.0;
     qreal m_majorBarWidth = 2.0;
     qreal m_verticalMinorTickScale = 0.1;

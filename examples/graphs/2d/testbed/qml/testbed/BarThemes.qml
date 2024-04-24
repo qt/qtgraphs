@@ -186,7 +186,6 @@ Rectangle {
         id: chartView
         anchors.fill: background
         anchors.leftMargin: 30
-
         axisX: BarCategoryAxis {
             categories: ["2007", "2008", "2009", "2010", "2011", "2012"]
         }
@@ -194,7 +193,6 @@ Rectangle {
             minorTickCount: 4
             max: 20
         }
-
         theme: GraphsTheme {
             id: myTheme
             axisXLabelFont.pixelSize: 20

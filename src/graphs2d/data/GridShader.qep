@@ -82,12 +82,12 @@
                     "    if (barsVisibility.y > 0)",
                     "        bar2 += createBars(fragCoord.y, gridHeight, majorBarWidth) * (1.0 - bar2);",
                     "    // Combine bars, minors below",
-                    "    vec3 barColor = vec3(0.0);",
+                    "    vec3 barColor = plotAreaBackgroundColor.rgb;",
                     "    float majorColorAlpha = bar2 * majorColor.a;",
                     "    float minorColorAlpha = bar1 * minorColor.a;",
                     "    barColor = mix(barColor, minorColor.rgb, minorColorAlpha);",
                     "    barColor = mix(barColor, majorColor.rgb, majorColorAlpha);",
-                    "    fragColor = vec4(barColor, min(1.0, minorColorAlpha + majorColorAlpha));",
+                    "    fragColor = vec4(barColor, min(1.0, minorColorAlpha + majorColorAlpha + plotAreaBackgroundColor.a));",
                     "}"
                 ],
                 "name": "Grids",
@@ -184,6 +184,12 @@
                         "name": "horizontalMinorTickScale",
                         "type": "float",
                         "value": "0.2"
+                    },
+                    {
+                        "defaultValue": "0, 0, 0, 0",
+                        "name": "plotAreaBackgroundColor",
+                        "type": "color",
+                        "value": "0, 0, 0, 0"
                     }
                 ],
                 "type": 2,

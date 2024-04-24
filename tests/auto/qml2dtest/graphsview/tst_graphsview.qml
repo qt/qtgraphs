@@ -29,6 +29,7 @@ Item {
         width: top.width
         theme: myTheme
         backgroundColor: "#fafade"
+        plotAreaBackgroundColor: "#20304050"
         marginBottom: 5
         marginLeft: 10
         marginRight: 10
@@ -74,6 +75,7 @@ Item {
             compare(initial.height, 0)
             compare(initial.width, 0)
             compare(initial.backgroundColor, "#000000")
+            compare(initial.plotAreaBackgroundColor, "#00000000")
             compare(initial.marginTop, 20)
             compare(initial.marginBottom, 20)
             compare(initial.marginLeft, 20)
@@ -89,6 +91,7 @@ Item {
             initial.height = 100
             initial.width = 100
             initial.backgroundColor = "#222222"
+            initial.plotAreaBackgroundColor = "#333333"
             initial.marginTop = 10
             initial.marginBottom = 11
             initial.marginLeft = 12
@@ -103,6 +106,7 @@ Item {
             compare(initial.height, 100)
             compare(initial.width, 100)
             compare(initial.backgroundColor, "#222222")
+            compare(initial.plotAreaBackgroundColor, "#333333")
             compare(initial.marginTop, 10)
             compare(initial.marginBottom, 11)
             compare(initial.marginLeft, 12)
@@ -121,6 +125,7 @@ Item {
             compare(initialized.height, top.height)
             compare(initialized.width, top.width)
             compare(initialized.backgroundColor, "#fafade")
+            compare(initialized.plotAreaBackgroundColor, "#20304050")
             compare(initialized.marginTop, 5)
             compare(initialized.marginBottom, 5)
             compare(initialized.marginLeft, 10)
@@ -135,6 +140,7 @@ Item {
             initialized.height = 100
             initialized.width = 100
             initialized.backgroundColor = "#222222"
+            initialized.plotAreaBackgroundColor = "#333333"
             initialized.marginTop = 10
             initialized.marginBottom = 11
             initialized.marginLeft = 12
@@ -149,6 +155,7 @@ Item {
             compare(initialized.height, 100)
             compare(initialized.width, 100)
             compare(initialized.backgroundColor, "#222222")
+            compare(initialized.plotAreaBackgroundColor, "#333333")
             compare(initialized.marginTop, 10)
             compare(initialized.marginBottom, 11)
             compare(initialized.marginLeft, 12)

@@ -139,6 +139,19 @@ void AxisGrid::setMajorColor(const QColor &newMajorColor)
     emit majorColorChanged();
 }
 
+QColor AxisGrid::plotAreaBackgroundColor() const
+{
+    return m_plotAreaBackgroundColor;
+}
+
+void AxisGrid::setPlotAreaBackgroundColor(const QColor &color)
+{
+    if (m_plotAreaBackgroundColor == color)
+        return;
+    m_plotAreaBackgroundColor = color;
+    emit plotAreaBackgroundColorChanged();
+}
+
 qreal AxisGrid::minorBarWidth() const
 {
     return m_minorBarWidth;

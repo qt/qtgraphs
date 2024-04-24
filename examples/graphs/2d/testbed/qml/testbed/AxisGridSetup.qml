@@ -18,7 +18,6 @@ Rectangle {
         anchors.rightMargin: settingsView.posX + 20 * px
         shadowEnabled: checkBoxShadowEnabled.checked
         shadowColor: "#80404040"
-
         axisX: BarCategoryAxis {
             id: xAxis
             visible: checkBoxAxisXVisible.checked
@@ -42,7 +41,6 @@ Rectangle {
             gridVisible: checkBoxGridYMajor.checked
             minorGridVisible: checkBoxGridYMinor.checked
         }
-
         theme: GraphsTheme {
             id: myTheme
             colorScheme: Qt.Dark

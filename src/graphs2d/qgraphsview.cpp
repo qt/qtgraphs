@@ -67,6 +67,26 @@ QColor QGraphsView::backgroundColor()
     return m_backgroundBrush.color();
 }
 
+/*!
+    \qmlproperty color GraphsView::plotAreaBackgroundColor
+    The background color of the plot area.
+    By default, the color is transparent.
+*/
+
+void QGraphsView::setPlotAreaBackgroundColor(const QColor &color)
+{
+    if (color != m_plotAreaBackgroundColor) {
+        m_plotAreaBackgroundColor = color;
+        emit plotAreaBackgroundColorChanged();
+        polishAndUpdate();
+    }
+}
+
+QColor QGraphsView::plotAreaBackgroundColor() const
+{
+    return m_plotAreaBackgroundColor;
+}
+
 void QGraphsView::addSeries(QObject *series)
 {
     insertSeries(m_seriesList.size(), series);
