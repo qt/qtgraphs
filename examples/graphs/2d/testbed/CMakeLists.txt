@@ -42,6 +42,7 @@ qt6_add_qml_module(testbed
     SOURCES
         custombarseries.h custombarseries.cpp
         customlineseries.h customlineseries.cpp
+        barsetgenerator.h barsetgenerator.cpp
     QML_FILES
         qml/testbed/main.qml
         qml/testbed/StartupView.qml
@@ -53,6 +54,7 @@ qt6_add_qml_module(testbed
         qml/testbed/BarThemes.qml
         qml/testbed/BarSelection.qml
         qml/testbed/BarLabels.qml
+        qml/testbed/BarChangingSetCount.qml
         qml/testbed/LineProperties.qml
         qml/testbed/AxisGridSetup.qml
         qml/testbed/Callout.qml

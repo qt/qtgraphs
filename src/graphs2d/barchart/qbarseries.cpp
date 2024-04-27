@@ -274,6 +274,14 @@ QT_BEGIN_NAMESPACE
     When this is not defined, a default rectangle visualization for bars is used.
 */
 /*!
+    \property QBarSeries::barSets
+    \brief A list of sets added to the series.
+ */
+/*!
+    \qmlproperty list<BarSet> BarSeries::barSets
+    A list of sets added to the series.
+*/
+/*!
     \fn void QBarSeries::labelsPrecisionChanged(int precision)
     This signal is emitted when the \a precision of the value labels changes.
 */
@@ -400,6 +408,11 @@ QT_BEGIN_NAMESPACE
     This signal is emitted when bar sets are removed from the series.
 
     The corresponding signal handler is \c onBarsetsRemoved.
+*/
+
+/*!
+    \qmlsignal BarSeries::barSetsChanged()
+    This signal is emitted when barsets changes.
 */
 
 /*!

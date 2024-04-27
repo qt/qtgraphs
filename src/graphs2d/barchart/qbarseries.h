@@ -30,6 +30,7 @@ class Q_GRAPHS_EXPORT QBarSeries : public QAbstractSeries
     Q_PROPERTY(qreal labelsAngle READ labelsAngle WRITE setLabelsAngle NOTIFY labelsAngleChanged)
     Q_PROPERTY(int labelsPrecision READ labelsPrecision WRITE setLabelsPrecision NOTIFY labelsPrecisionChanged)
     Q_PROPERTY(QQmlComponent *barComponent READ barComponent WRITE setBarComponent NOTIFY barComponentChanged FINAL)
+    Q_PROPERTY(QList<QBarSet *> barSets READ barSets NOTIFY barSetsChanged)
     QML_NAMED_ELEMENT(BarSeries)
 
 public:
@@ -72,15 +73,14 @@ public:
     void setBarWidth(qreal width);
     qreal barWidth() const;
 
-           // TODO: Consider making these slots, available from QML.
-    bool append(QBarSet *set);
-    bool remove(QBarSet *set);
-    bool take(QBarSet *set);
-    bool append(const QList<QBarSet *> &sets);
-    bool insert(int index, QBarSet *set);
-    int count() const;
+    Q_INVOKABLE bool append(QBarSet *set);
+    Q_INVOKABLE bool remove(QBarSet *set);
+    Q_INVOKABLE bool take(QBarSet *set);
+    Q_INVOKABLE bool append(const QList<QBarSet *> &sets);
+    Q_INVOKABLE bool insert(int index, QBarSet *set);
+    Q_INVOKABLE int count() const;
+    Q_INVOKABLE void clear();
     QList<QBarSet *> barSets() const;
-    void clear();
 
     void setLabelsVisible(bool visible = true);
     bool isLabelsVisible() const;
@@ -139,6 +139,7 @@ Q_SIGNALS:
     void setValueChanged(int index, QBarSet *barset);
     void setValueAdded(int index, int count, QBarSet *barset);
     void setValueRemoved(int index, int count, QBarSet *barset);
+    void barSetsChanged();
 
 private Q_SLOTS:
     void handleSetValueChange(int index);

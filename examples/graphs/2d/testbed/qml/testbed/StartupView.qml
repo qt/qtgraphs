@@ -1,7 +1,6 @@
 // Copyright (C) 2023 The Qt Company Ltd.
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR BSD-3-Clause
-
-pragma ComponentBehavior: Bound
+pragma ComponentBehavior
 
 import QtQuick
 import QtQuick.Controls
@@ -77,6 +76,10 @@ Item {
         ListElement {
             name: "Donut"
             file: "Donut.qml"
+        }
+        ListElement {
+            name: "BarChangingSetCount"
+            file: "BarChangingSetCount.qml"
         }
     }
 
