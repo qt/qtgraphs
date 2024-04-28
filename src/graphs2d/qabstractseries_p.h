@@ -33,6 +33,7 @@ public:
 
     virtual void initializeAxes(){};
     void setLegendData(const QList<QLegendData> &legendData);
+    void clearLegendData();
 
 protected:
     QGraphsView *m_graph;

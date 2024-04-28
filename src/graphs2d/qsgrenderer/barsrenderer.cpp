@@ -222,6 +222,7 @@ void BarsRenderer::updateVerticalBars(QBarSeries *series, int setCount, int valu
     // Clear the selection rects
     // These will be filled only if series is selectable
     m_rectNodesInputRects.clear();
+    m_seriesData.clear();
 
     float seriesPos = 0;
     float posXInSet = 0;
@@ -333,6 +334,7 @@ void BarsRenderer::updateHorizontalBars(QBarSeries *series, int setCount, int va
     // Clear the selection rects
     // These will be filled only if series is selectable
     m_rectNodesInputRects.clear();
+    m_seriesData.clear();
 
     float seriesPos = 0;
     float posYInSet = 0;
@@ -426,8 +428,10 @@ void BarsRenderer::handlePolish(QBarSeries *series)
         return;
 
     int setCount = series->barSets().size();
-    if (setCount == 0)
+    if (setCount == 0) {
+        series->d_func()->clearLegendData();
         return;
+    }
 
 
     if (m_colorIndex < 0)
@@ -454,22 +458,33 @@ void BarsRenderer::handlePolish(QBarSeries *series)
 
 void BarsRenderer::updateSeries(QBarSeries *series)
 {
-    if (series->barSets().isEmpty())
+    if (series->barSets().isEmpty()) {
+        auto it = m_rectNodes.begin();
+        while (it != m_rectNodes.end())
+            delete *it++;
+        m_rectNodes.clear();
         return;
+    }
 
     auto seriesTheme = series->theme();
     if (!seriesTheme)
         return;
 
+    int difference = m_seriesData.size() - m_rectNodes.size();
+    for (int i = m_rectNodes.size() - 1; i >= m_seriesData.size(); --i)
+        delete m_rectNodes[i];
+    if (difference != 0)
+        m_rectNodes.resize(m_seriesData.size());
+
     if (!series->barComponent()) {
         // Update default rectangle nodes
         int barIndex = 0;
         for (auto i = m_seriesData.cbegin(), end = m_seriesData.cend(); i != end; ++i) {
-            if (m_rectNodes.size() <= barIndex) {
+            if (m_rectNodes[barIndex] == nullptr) {
                 // Create more rectangle nodes as needed
                 auto bi = new QSGDefaultInternalRectangleNode();
                 m_graph->m_backgroundNode->appendChildNode(bi);
-                m_rectNodes << bi;
+                m_rectNodes[barIndex] = bi;
             }
             if (m_rectNodes.size() > barIndex) {
                 auto &barItem = m_rectNodes[barIndex];

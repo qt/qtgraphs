@@ -526,8 +526,8 @@ bool QBarSeries::append(QBarSet *set)
         QObject::connect(set, &QBarSet::update, this, &QBarSeries::update);
         emit barsetsAdded(sets);
         emit countChanged();
+        emit update();
     }
-    emit update();
     return success;
 }
 
@@ -546,6 +546,7 @@ bool QBarSeries::remove(QBarSet *set)
         QObject::disconnect(set, &QBarSet::update, this, &QBarSeries::update);
         emit barsetsRemoved(sets);
         emit countChanged();
+        emit update();
         delete set;
         set = 0;
     }

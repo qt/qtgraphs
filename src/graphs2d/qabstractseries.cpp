@@ -515,9 +515,18 @@ QAbstractSeriesPrivate::~QAbstractSeriesPrivate()
 
 void QAbstractSeriesPrivate::setLegendData(const QList<QLegendData> &legendData)
 {
-    Q_Q(QAbstractSeries);
     if (legendData.data() != m_legendData.data()) {
+        Q_Q(QAbstractSeries);
         m_legendData = legendData;
+        emit q->legendDataChanged();
+    }
+}
+
+void QAbstractSeriesPrivate::clearLegendData()
+{
+    if (!m_legendData.empty()) {
+        Q_Q(QAbstractSeries);
+        m_legendData.clear();
         emit q->legendDataChanged();
     }
 }
