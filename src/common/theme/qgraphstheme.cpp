@@ -1576,7 +1576,7 @@ void QGraphsTheme::setSingleHighlightGradient(QJSValue gradient)
     }
 
     if (!m_singleHLGradient.isNull())
-        setThemeGradient(m_singleHLGradient, ColorQMLStyle::SingleHL);
+        setThemeGradient(m_singleHLGradient, GradientQMLStyle::SingleHL);
 }
 
 QJSValue QGraphsTheme::singleHighlightGradientQML() const
@@ -1608,7 +1608,7 @@ void QGraphsTheme::setMultiHighlightGradient(QJSValue gradient)
     }
 
     if (!m_multiHLGradient.isNull())
-        setThemeGradient(m_multiHLGradient, ColorQMLStyle::MultiHL);
+        setThemeGradient(m_multiHLGradient, GradientQMLStyle::MultiHL);
 }
 
 QJSValue QGraphsTheme::multiHighlightGradientQML() const
@@ -1616,20 +1616,20 @@ QJSValue QGraphsTheme::multiHighlightGradientQML() const
     return m_multiHLGradient;
 }
 
-void QGraphsTheme::setThemeGradient(QJSValue gradient, ColorQMLStyle type)
+void QGraphsTheme::setThemeGradient(QJSValue gradient, GradientQMLStyle type)
 {
     QLinearGradient linearGradient = convertGradient(gradient);
 
     switch (type) {
-    case ColorQMLStyle::SingleHL:
+    case GradientQMLStyle::SingleHL:
         setSingleHighlightGradient(linearGradient);
         break;
-    case ColorQMLStyle::MultiHL:
+    case GradientQMLStyle::MultiHL:
         setMultiHighlightGradient(linearGradient);
         break;
     default:
-        qWarning("Incorrect usage. Type may be ColorQMLStyle::SingleHL or "
-                 "ColorQMLStyle::MultiHL.");
+        qWarning("Incorrect usage. Type may be GradientQMLStyle::SingleHL or "
+                 "GradientQMLStyle::MultiHL.");
         break;
     }
 }

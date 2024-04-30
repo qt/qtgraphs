@@ -351,7 +351,7 @@ protected:
     void componentComplete() override;
 
 private:
-    enum class ColorQMLStyle { Base, SingleHL, MultiHL };
+    enum class GradientQMLStyle { Base, SingleHL, MultiHL };
 
     void setColorSchemePalette();
     void setThemePalette();
@@ -361,7 +361,7 @@ private:
     QJSValue singleHighlightGradientQML() const;
     void setMultiHighlightGradient(QJSValue gradient);
     QJSValue multiHighlightGradientQML() const;
-    void setThemeGradient(QJSValue gradient, ColorQMLStyle type);
+    void setThemeGradient(QJSValue gradient, GradientQMLStyle type);
     QLinearGradient convertGradient(QJSValue gradient);
 
     QQmlListProperty<QQuickGraphsColor> baseColorsQML();
