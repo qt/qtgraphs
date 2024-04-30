@@ -1277,7 +1277,10 @@ void QGraphsTheme::setLabelBorderEnabled(bool newLabelBorderEnabled)
  */
 QList<QColor> QGraphsTheme::seriesColors() const
 {
-    return m_seriesColors;
+    if (m_seriesColors.size())
+        return m_seriesColors;
+    else
+        return m_seriesThemeColors;
 }
 
 void QGraphsTheme::setSeriesColors(const QList<QColor> &newSeriesColors)
@@ -1286,7 +1289,7 @@ void QGraphsTheme::setSeriesColors(const QList<QColor> &newSeriesColors)
         return;
     m_dirtyBits.seriesColorsDirty = true;
     m_seriesColors = newSeriesColors;
-    emit seriesColorsChanged();
+    emit seriesColorsChanged(m_seriesColors);
 }
 
 /*!
@@ -1329,7 +1332,10 @@ void QGraphsTheme::setBorderColors(const QList<QColor> &newBorderColors)
  */
 QList<QLinearGradient> QGraphsTheme::seriesGradients() const
 {
-    return m_seriesGradients;
+    if (m_seriesGradients.size())
+        return m_seriesGradients;
+    else
+        return m_seriesThemeGradients;
 }
 
 void QGraphsTheme::setSeriesGradients(const QList<QLinearGradient> &newSeriesGradients)
@@ -1466,77 +1472,74 @@ void QGraphsTheme::setColorSchemePalette()
 void QGraphsTheme::setThemePalette()
 {
     float defaultColorLevel = 0.5f;
-    m_seriesColors.clear();
-    m_seriesGradients.clear();
+    m_seriesThemeColors.clear();
     switch (m_theme) {
     case Theme::QtGreen:
-        m_seriesColors.append(QColor(QRgb(0xD5F8E7)));
-        m_seriesColors.append(QColor(QRgb(0xABF2CE)));
-        m_seriesColors.append(QColor(QRgb(0x7BE6B1)));
-        m_seriesColors.append(QColor(QRgb(0x51E098)));
-        m_seriesColors.append(QColor(QRgb(0x22D478)));
+        m_seriesThemeColors.append(QColor(QRgb(0xD5F8E7)));
+        m_seriesThemeColors.append(QColor(QRgb(0xABF2CE)));
+        m_seriesThemeColors.append(QColor(QRgb(0x7BE6B1)));
+        m_seriesThemeColors.append(QColor(QRgb(0x51E098)));
+        m_seriesThemeColors.append(QColor(QRgb(0x22D478)));
         break;
     case Theme::QtGreenNeon:
-        m_seriesColors.append(QColor(QRgb(0x22D478)));
-        m_seriesColors.append(QColor(QRgb(0x00AF80)));
-        m_seriesColors.append(QColor(QRgb(0x00897B)));
-        m_seriesColors.append(QColor(QRgb(0x006468)));
-        m_seriesColors.append(QColor(QRgb(0x00414A)));
+        m_seriesThemeColors.append(QColor(QRgb(0x22D478)));
+        m_seriesThemeColors.append(QColor(QRgb(0x00AF80)));
+        m_seriesThemeColors.append(QColor(QRgb(0x00897B)));
+        m_seriesThemeColors.append(QColor(QRgb(0x006468)));
+        m_seriesThemeColors.append(QColor(QRgb(0x00414A)));
         break;
     case Theme::MixSeries:
-        m_seriesColors.append(QColor(QRgb(0xFFA615)));
-        m_seriesColors.append(QColor(QRgb(0x5E45DF)));
-        m_seriesColors.append(QColor(QRgb(0x759F1C)));
-        m_seriesColors.append(QColor(QRgb(0xF92759)));
-        m_seriesColors.append(QColor(QRgb(0x0128F8)));
+        m_seriesThemeColors.append(QColor(QRgb(0xFFA615)));
+        m_seriesThemeColors.append(QColor(QRgb(0x5E45DF)));
+        m_seriesThemeColors.append(QColor(QRgb(0x759F1C)));
+        m_seriesThemeColors.append(QColor(QRgb(0xF92759)));
+        m_seriesThemeColors.append(QColor(QRgb(0x0128F8)));
         break;
     case Theme::OrangeSeries:
-        m_seriesColors.append(QColor(QRgb(0xFFC290)));
-        m_seriesColors.append(QColor(QRgb(0xFF9C4D)));
-        m_seriesColors.append(QColor(QRgb(0xFF7200)));
-        m_seriesColors.append(QColor(QRgb(0xD86000)));
-        m_seriesColors.append(QColor(QRgb(0xA24900)));
+        m_seriesThemeColors.append(QColor(QRgb(0xFFC290)));
+        m_seriesThemeColors.append(QColor(QRgb(0xFF9C4D)));
+        m_seriesThemeColors.append(QColor(QRgb(0xFF7200)));
+        m_seriesThemeColors.append(QColor(QRgb(0xD86000)));
+        m_seriesThemeColors.append(QColor(QRgb(0xA24900)));
         break;
     case Theme::YellowSeries:
-        m_seriesColors.append(QColor(QRgb(0xFFE380)));
-        m_seriesColors.append(QColor(QRgb(0xFFC500)));
-        m_seriesColors.append(QColor(QRgb(0xE2B000)));
-        m_seriesColors.append(QColor(QRgb(0xB88F00)));
-        m_seriesColors.append(QColor(QRgb(0x8C6D02)));
+        m_seriesThemeColors.append(QColor(QRgb(0xFFE380)));
+        m_seriesThemeColors.append(QColor(QRgb(0xFFC500)));
+        m_seriesThemeColors.append(QColor(QRgb(0xE2B000)));
+        m_seriesThemeColors.append(QColor(QRgb(0xB88F00)));
+        m_seriesThemeColors.append(QColor(QRgb(0x8C6D02)));
         break;
     case Theme::BlueSeries:
-        m_seriesColors.append(QColor(QRgb(0x86AFFF)));
-        m_seriesColors.append(QColor(QRgb(0x4A86FC)));
-        m_seriesColors.append(QColor(QRgb(0x2B6EF1)));
-        m_seriesColors.append(QColor(QRgb(0x0750E9)));
-        m_seriesColors.append(QColor(QRgb(0x0023DB)));
+        m_seriesThemeColors.append(QColor(QRgb(0x86AFFF)));
+        m_seriesThemeColors.append(QColor(QRgb(0x4A86FC)));
+        m_seriesThemeColors.append(QColor(QRgb(0x2B6EF1)));
+        m_seriesThemeColors.append(QColor(QRgb(0x0750E9)));
+        m_seriesThemeColors.append(QColor(QRgb(0x0023DB)));
         break;
     case Theme::PurpleSeries:
-        m_seriesColors.append(QColor(QRgb(0xE682E7)));
-        m_seriesColors.append(QColor(QRgb(0xB646B7)));
-        m_seriesColors.append(QColor(QRgb(0x9035B4)));
-        m_seriesColors.append(QColor(QRgb(0x6C2BA0)));
-        m_seriesColors.append(QColor(QRgb(0x3D2582)));
+        m_seriesThemeColors.append(QColor(QRgb(0xE682E7)));
+        m_seriesThemeColors.append(QColor(QRgb(0xB646B7)));
+        m_seriesThemeColors.append(QColor(QRgb(0x9035B4)));
+        m_seriesThemeColors.append(QColor(QRgb(0x6C2BA0)));
+        m_seriesThemeColors.append(QColor(QRgb(0x3D2582)));
         break;
     case Theme::GreySeries:
-        m_seriesColors.append(QColor(QRgb(0xCCD0D6)));
-        m_seriesColors.append(QColor(QRgb(0xA7AEBB)));
-        m_seriesColors.append(QColor(QRgb(0x7A869A)));
-        m_seriesColors.append(QColor(QRgb(0x566070)));
-        m_seriesColors.append(QColor(QRgb(0x3E4654)));
+        m_seriesThemeColors.append(QColor(QRgb(0xCCD0D6)));
+        m_seriesThemeColors.append(QColor(QRgb(0xA7AEBB)));
+        m_seriesThemeColors.append(QColor(QRgb(0x7A869A)));
+        m_seriesThemeColors.append(QColor(QRgb(0x566070)));
+        m_seriesThemeColors.append(QColor(QRgb(0x3E4654)));
         break;
     default: // UserDefined
-        m_seriesColors.append(QColor(Qt::black));
+        m_seriesThemeColors.append(QColor(Qt::black));
         break;
     }
 
-    m_borderColors = m_seriesColors;
+    m_borderColors = m_seriesThemeColors;
 
-    for (QColor color : m_seriesColors)
-        m_seriesGradients.append(createGradient(color, defaultColorLevel));
-
-    m_dirtyBits.seriesColorsDirty = true;
-    m_dirtyBits.seriesGradientDirty = true;
+    m_seriesThemeGradients.clear();
+    for (QColor color : m_seriesThemeColors)
+        m_seriesThemeGradients.append(createGradient(color, defaultColorLevel));
 }
 
 QLinearGradient QGraphsTheme::createGradient(const QColor &color, float colorLevel)
@@ -1730,7 +1733,7 @@ void QGraphsTheme::addColor(QQuickGraphsColor *color)
     clearDummyColors();
     m_colors.append(color);
     connect(color, &QQuickGraphsColor::colorChanged, this, &QGraphsTheme::handleBaseColorUpdate);
-    QList<QColor> list = seriesColors();
+    QList<QColor> list = m_seriesColors;
     list.append(color->color());
     setSeriesColors(list);
 }
@@ -1780,7 +1783,7 @@ void QGraphsTheme::addGradient(QJSValue gradient)
             this,
             &QGraphsTheme::handleBaseGradientUpdate);
 
-    QList<QLinearGradient> list = seriesGradients();
+    QList<QLinearGradient> list = m_seriesGradients;
     list.append(convertGradient(gradient));
     setSeriesGradients(list);
 }

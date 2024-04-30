@@ -848,13 +848,13 @@ void QAbstract3DSeriesPrivate::resetToTheme(const QGraphsTheme &theme, int serie
         q->setColorStyle(theme.colorStyle());
         m_themeTracker.colorStyleOverride = false;
     }
-    if (force || !m_themeTracker.baseColorOverride) {
+    if (theme.seriesColors().size() && (force || !m_themeTracker.baseColorOverride)) {
         if (theme.seriesColors().size() <= seriesIndex)
             themeIndex = seriesIndex % theme.seriesColors().size();
         q->setBaseColor(theme.seriesColors().at(themeIndex));
         m_themeTracker.baseColorOverride = false;
     }
-    if (force || !m_themeTracker.baseGradientOverride) {
+    if (theme.seriesGradients().size() && (force || !m_themeTracker.baseGradientOverride)) {
         if (theme.seriesGradients().size() <= seriesIndex)
             themeIndex = seriesIndex % theme.seriesGradients().size();
         q->setBaseGradient(theme.seriesGradients().at(themeIndex));

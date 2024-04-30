@@ -646,6 +646,9 @@ void QQuickGraphsItem::handleThemeBaseColorsChanged(const QList<QColor> &colors)
 {
     int colorIdx = 0;
     // Set value for series that have not explicitly set this value
+    if (!colors.size())
+        return;
+
     for (QAbstract3DSeries *series : m_seriesList) {
         if (!series->d_func()->m_themeTracker.baseColorOverride) {
             series->setBaseColor(colors.at(colorIdx));
@@ -1153,13 +1156,8 @@ void QQuickGraphsItem::addTheme(QGraphsTheme *theme)
         Q_ASSERT_X(!owner, "addTheme", "Theme already attached to a graph.");
         theme->setParent(this);
     }
-    if (!m_themes.contains(theme)) {
-        connect(theme, &QGraphsTheme::themeChanged, this, &QQuickGraphsItem::handleThemeTypeChanged);
-        connect(theme, &QGraphsTheme::colorStyleChanged, this, &QQuickGraphsItem::handleThemeColorStyleChanged);
-        connect(theme, &QGraphsTheme::seriesGradientsChanged, this, &QQuickGraphsItem::handleThemeBaseGradientsChanged);
-        connect(theme, &QGraphsTheme::labelFontChanged, this, &QQuickGraphsItem::emitNeedRender);
+    if (!m_themes.contains(theme))
         m_themes.append(theme);
-    }
 }
 
 void QQuickGraphsItem::releaseTheme(QGraphsTheme *theme)
@@ -1168,13 +1166,14 @@ void QQuickGraphsItem::releaseTheme(QGraphsTheme *theme)
 
     if (theme && m_themes.contains(theme)) {
         // If the theme is in use, replace it with a temporary one
-        if (theme == m_activeTheme)
+        if (theme == m_activeTheme) {
             m_activeTheme = nullptr;
-
-        disconnect(theme, &QGraphsTheme::themeChanged, this, &QQuickGraphsItem::handleThemeTypeChanged);
-        disconnect(theme, &QGraphsTheme::colorStyleChanged, this, &QQuickGraphsItem::handleThemeColorStyleChanged);
-        disconnect(theme, &QGraphsTheme::seriesGradientsChanged, this, &QQuickGraphsItem::handleThemeBaseGradientsChanged);
-        disconnect(theme, &QGraphsTheme::labelFontChanged, this, &QQuickGraphsItem::emitNeedRender);
+            disconnect(theme, &QGraphsTheme::themeChanged, this, &QQuickGraphsItem::handleThemeTypeChanged);
+            disconnect(theme, &QGraphsTheme::colorStyleChanged, this, &QQuickGraphsItem::handleThemeColorStyleChanged);
+            disconnect(theme, &QGraphsTheme::seriesColorsChanged, this, &QQuickGraphsItem::handleThemeBaseColorsChanged);
+            disconnect(theme, &QGraphsTheme::seriesGradientsChanged, this, &QQuickGraphsItem::handleThemeBaseGradientsChanged);
+            disconnect(theme, &QGraphsTheme::labelFontChanged, this, &QQuickGraphsItem::emitNeedRender);
+        }
         m_themes.removeAll(theme);
         theme->setParent(nullptr);
     }
@@ -1190,12 +1189,21 @@ QList<QGraphsTheme *> QQuickGraphsItem::themes() const
 
 void QQuickGraphsItem::setTheme(QGraphsTheme *theme)
 {
-    connect(theme, &QGraphsTheme::themeChanged, this, &QQuickGraphsItem::handleThemeTypeChanged);
-    connect(theme, &QGraphsTheme::colorStyleChanged, this, &QQuickGraphsItem::handleThemeColorStyleChanged);
-    connect(theme, &QGraphsTheme::seriesGradientsChanged, this, &QQuickGraphsItem::handleThemeBaseGradientsChanged);
-    connect(theme, &QGraphsTheme::labelFontChanged, this, &QQuickGraphsItem::emitNeedRender);
-
     if (theme != m_activeTheme) {
+        if (m_activeTheme) {
+            disconnect(m_activeTheme, &QGraphsTheme::themeChanged, this, &QQuickGraphsItem::handleThemeTypeChanged);
+            disconnect(m_activeTheme, &QGraphsTheme::colorStyleChanged, this, &QQuickGraphsItem::handleThemeColorStyleChanged);
+            disconnect(m_activeTheme, &QGraphsTheme::seriesColorsChanged, this, &QQuickGraphsItem::handleThemeBaseColorsChanged);
+            disconnect(m_activeTheme, &QGraphsTheme::seriesGradientsChanged, this, &QQuickGraphsItem::handleThemeBaseGradientsChanged);
+            disconnect(m_activeTheme, &QGraphsTheme::labelFontChanged, this, &QQuickGraphsItem::emitNeedRender);
+        }
+
+        connect(theme, &QGraphsTheme::themeChanged, this, &QQuickGraphsItem::handleThemeTypeChanged);
+        connect(theme, &QGraphsTheme::colorStyleChanged, this, &QQuickGraphsItem::handleThemeColorStyleChanged);
+        connect(theme, &QGraphsTheme::seriesColorsChanged, this, &QQuickGraphsItem::handleThemeBaseColorsChanged);
+        connect(theme, &QGraphsTheme::seriesGradientsChanged, this, &QQuickGraphsItem::handleThemeBaseGradientsChanged);
+        connect(theme, &QGraphsTheme::labelFontChanged, this, &QQuickGraphsItem::emitNeedRender);
+
         m_activeTheme = theme;
         m_changeTracker.themeChanged = true;
         // Default theme can be created by theme manager, so ensure we have correct theme

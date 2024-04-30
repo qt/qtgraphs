@@ -308,7 +308,7 @@ Q_SIGNALS:
     void labelBackgroundEnabledChanged();
     void labelBorderEnabledChanged();
 
-    void seriesColorsChanged();
+    void seriesColorsChanged(const QList<QColor> &list);
     void seriesGradientsChanged(const QList<QLinearGradient> &list);
     void borderColorsChanged();
     void borderWidthChanged();
@@ -414,9 +414,11 @@ private:
     QLinearGradient m_singleHighlightGradient;
     QFont m_labelFont;
     QList<QColor> m_seriesColors;
+    QList<QColor> m_seriesThemeColors;
     QList<QColor> m_borderColors;
     qreal m_borderWidth;
     QList<QLinearGradient> m_seriesGradients;
+    QList<QLinearGradient> m_seriesThemeGradients;
 
     QList<QQuickGraphsColor *> m_colors;
     QList<QQuickGradient *> m_gradients;
