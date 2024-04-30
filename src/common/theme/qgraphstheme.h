@@ -172,7 +172,7 @@ public:
     void setColorScheme(Qt::ColorScheme newColorScheme);
 
     Theme theme() const;
-    void setTheme(Theme newTheme);
+    void setTheme(Theme newTheme, bool force = false);
 
     ColorStyle colorStyle() const;
     void setColorStyle(ColorStyle newColorStyle);

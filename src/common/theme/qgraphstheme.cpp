@@ -469,7 +469,7 @@ QGraphsTheme::QGraphsTheme(QObject *parent)
     setLabelsEnabled(true);
     setColorScheme(QGuiApplication::styleHints()->colorScheme());
     setLabelBorderEnabled(true);
-    setTheme(Theme::UserDefined);
+    setTheme(Theme::UserDefined, true);
     setLabelFont(QFont(QLatin1String("Arial")));
 }
 
@@ -534,9 +534,9 @@ QGraphsTheme::Theme QGraphsTheme::theme() const
     return m_theme;
 }
 
-void QGraphsTheme::setTheme(Theme newTheme)
+void QGraphsTheme::setTheme(Theme newTheme, bool force)
 {
-    if (m_theme == newTheme)
+    if (!force && m_theme == newTheme)
         return;
     m_dirtyBits.themeDirty = true;
     m_theme = newTheme;
@@ -1286,6 +1286,7 @@ void QGraphsTheme::setSeriesColors(const QList<QColor> &newSeriesColors)
         return;
     m_dirtyBits.seriesColorsDirty = true;
     m_seriesColors = newSeriesColors;
+    emit seriesColorsChanged();
 }
 
 /*!
