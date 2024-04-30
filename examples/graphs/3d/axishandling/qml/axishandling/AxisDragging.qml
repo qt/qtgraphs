@@ -54,7 +54,7 @@ Item {
                 for (var i = 0; i < 10; i++)
                     appendRow();
                 if (graphModel.count > 2002) {
-                    scatterGraph.theme = isabelleTheme;
+                    scatterGraph.theme = orangeTheme;
                     isIncreasing = false;
                 }
             } else {
@@ -80,6 +80,7 @@ Item {
     GraphsTheme {
         id: dynamicColorTheme
         theme: GraphsTheme.Theme.QtGreen
+        colorScheme: Qt.Dark
         baseColors: [dynamicColor]
         labelFont.pointSize: 50
         labelBorderEnabled: true
@@ -88,8 +89,9 @@ Item {
     }
 
     GraphsTheme {
-        id: isabelleTheme
-        theme: GraphsTheme.Theme.QtGreenNeon
+        id: orangeTheme
+        theme: GraphsTheme.Theme.OrangeSeries
+        colorScheme: Qt.Dark
         labelFont.pointSize: 50
         labelBorderEnabled: true
         labelBackgroundColor: "gold"
