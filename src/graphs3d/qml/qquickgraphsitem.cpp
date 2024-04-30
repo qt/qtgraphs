@@ -2036,7 +2036,7 @@ void QQuickGraphsItem::synchData()
         QColor gridMainColor = theme()->gridMainColor();
         QQmlListReference backgroundRef(m_background, "materials");
         auto *backgroundMaterial = static_cast<QQuick3DCustomMaterial *>(backgroundRef.at(0));
-        backgroundMaterial->setProperty("lineColor", gridMainColor);
+        backgroundMaterial->setProperty("gridLineColor", gridMainColor);
         QQmlListReference gridRef(m_gridGeometryModel, "materials");
         auto *gridMaterial = static_cast<QQuick3DPrincipledMaterial *>(gridRef.at(0));
         gridMaterial->setBaseColor(gridMainColor);
