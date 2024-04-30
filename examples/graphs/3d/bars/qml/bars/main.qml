@@ -131,7 +131,8 @@ Item {
                             return delegateRoot.display;
                         }
                     }
-                    color: barGraph.theme.labelTextColor
+                    color: row === mainview.currentRow ? barGraph.theme.windowColor
+                                                       : barGraph.theme.labelTextColor
                     horizontalAlignment: delegateRoot.column === 0 ? Text.AlignLeft
                                                                    : Text.AlignHCenter
                     elide: Text.ElideRight
@@ -343,7 +344,7 @@ Item {
             shadowQuality: AbstractGraph3D.ShadowQuality.SoftHigh
             selectionMode: AbstractGraph3D.SelectionItem
             theme: GraphsTheme {
-                theme: GraphsTheme.Theme.QtGreen
+                colorScheme: Qt.Dark
                 labelBorderEnabled: true
                 labelFont.pointSize: 35
                 labelBackgroundEnabled: true
