@@ -4,10 +4,10 @@
 #ifndef QGRAPHSTHEME_H
 #define QGRAPHSTHEME_H
 
-#include <QLinearGradient>
 #include <QtCore/QObject>
 #include <QtGui/QColor>
 #include <QtGui/QFont>
+#include <QtGui/QLinearGradient>
 #include <QtQml/QQmlEngine>
 #include <QtQml/QQmlParserStatus>
 #include <QtGraphs/qgraphsglobal.h>
