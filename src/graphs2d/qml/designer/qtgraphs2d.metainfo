@@ -1,6 +1,20 @@
 MetaInfo {
     Type {
         name: "QtGraphs.GraphsView"
+        icon: "images/areaseries-icon16.png"
+
+        ItemLibraryEntry {
+            name: "Area"
+            category: "Qt Graphs - GraphsView"
+            libraryIcon: "images/areaseries-icon.png"
+            version: "1.0"
+            requiredImport: "QtGraphs"
+
+            QmlSource { source: "default/AreaSeries.qml" }
+        }
+    }
+    Type {
+        name: "QtGraphs.GraphsView"
         icon: "images/barseries-icon16.png"
 
         ItemLibraryEntry {
