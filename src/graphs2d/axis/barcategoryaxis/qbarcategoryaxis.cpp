@@ -58,19 +58,23 @@ QT_BEGIN_NAMESPACE
 /*!
     \property QBarCategoryAxis::min
     \brief The minimum value on the axis.
+
+    The minimum value on the axis. The given value should be contained in \c categories.
 */
 /*!
     \qmlproperty string BarCategoryAxis::min
-    The minimum value on the axis.
+    The minimum value on the axis. The given value should be contained in \c categories.
 */
 
 /*!
     \property QBarCategoryAxis::max
     \brief The maximum value on the axis.
+
+    The maximum value on the axis. The given value should be contained in \c categories.
 */
 /*!
     \qmlproperty string BarCategoryAxis::max
-    The maximum value on the axis.
+    The maximum value on the axis. The given value should be contained in \c categories.
 */
 
 /*!
