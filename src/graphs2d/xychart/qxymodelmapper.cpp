@@ -1,0 +1,650 @@
+// Copyright (C) 2024 The Qt Company Ltd.
+// SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
+#include <QtCore/QAbstractItemModel>
+#include <QtGraphs/QXYModelMapper>
+#include <QtGraphs/QXYSeries>
+#include "qxymodelmapper_p.h"
+
+QT_BEGIN_NAMESPACE
+
+/*!
+    \class QXYModelMapper
+    \inmodule QtGraphs
+    \ingroup graphs_2D
+
+    \brief The QXYModelMapper class is a model mapper for line,
+    spline, and scatter series.
+
+    Model mappers enable using a data model derived from the QAbstractItemModel
+    class as a data source for a chart. A vertical model mapper is used to
+    create a connection between a line, spline, or scatter series and the data
+    model that has \e X and \e Y columns for the coordinates and holds the data
+    points for the XYSeries as rows. A \e TableModel is a natural choice
+    for the model.
+
+    Both model and series properties can be used to manipulate the data. The
+    model mapper keeps the series and the data model in sync.
+
+    \sa QXYSeries
+*/
+/*!
+    \qmltype XYModelMapper
+    \instantiates QXYModelMapper
+    \inqmlmodule QtGraphs
+    \ingroup graphs_qml_2D
+
+    \brief A model mapper for XYSeries.
+
+    Model mappers enable using a data model derived from the QAbstractItemModel
+    class as a data source for a chart. A vertical model mapper is used to
+    create a connection between a line, spline, or scatter series and the data
+    model that has \e X and \e Y columns for the coordinates and holds the data
+    points for the XYSeries as rows. A \e TableModel is a natural choice
+    for the model.
+
+    Both model and series properties can be used to manipulate the data. The
+    model mapper keeps the series and the data model in sync.
+
+   \sa XYSeries
+*/
+
+QXYModelMapper::~QXYModelMapper() {}
+
+QXYModelMapper::QXYModelMapper(QObject *parent)
+    : QObject{*(new QXYModelMapperPrivate), parent}
+{}
+
+QXYModelMapper::QXYModelMapper(QXYModelMapperPrivate &dd, QObject *parent)
+    : QObject(dd, parent)
+{}
+
+QAbstractItemModel *QXYModelMapper::model() const
+{
+    Q_D(const QXYModelMapper);
+    return d->m_model;
+}
+
+void QXYModelMapper::setModel(QAbstractItemModel *model)
+{
+    if (model == 0)
+        return;
+
+    Q_D(QXYModelMapper);
+    if (d->m_model) {
+        QObjectPrivate::disconnect(d->m_model,
+                                   &QAbstractItemModel::dataChanged,
+                                   d,
+                                   &QXYModelMapperPrivate::onModelUpdated);
+        QObjectPrivate::disconnect(d->m_model,
+                                   &QAbstractItemModel::rowsInserted,
+                                   d,
+                                   &QXYModelMapperPrivate::onModelRowsAdded);
+        QObjectPrivate::disconnect(d->m_model,
+                                   &QAbstractItemModel::rowsRemoved,
+                                   d,
+                                   &QXYModelMapperPrivate::onModelRowsRemoved);
+        QObjectPrivate::disconnect(d->m_model,
+                                   &QAbstractItemModel::columnsInserted,
+                                   d,
+                                   &QXYModelMapperPrivate::onModelColumnsAdded);
+        QObjectPrivate::disconnect(d->m_model,
+                                   &QAbstractItemModel::columnsRemoved,
+                                   d,
+                                   &QXYModelMapperPrivate::onModelColumnsRemoved);
+        QObjectPrivate::disconnect(d->m_model,
+                                   &QAbstractItemModel::modelReset,
+                                   d,
+                                   &QXYModelMapperPrivate::initializeXYFromModel);
+        QObjectPrivate::disconnect(d->m_model,
+                                   &QAbstractItemModel::layoutChanged,
+                                   d,
+                                   &QXYModelMapperPrivate::initializeXYFromModel);
+        QObjectPrivate::disconnect(d->m_model,
+                                   &QAbstractItemModel::destroyed,
+                                   d,
+                                   &QXYModelMapperPrivate::handleModelDestroyed);
+    }
+
+    d->m_model = model;
+    d->initializeXYFromModel();
+    //    connect signals from the model
+    QObjectPrivate::connect(d->m_model,
+                            &QAbstractItemModel::dataChanged,
+                            d,
+                            &QXYModelMapperPrivate::onModelUpdated);
+    QObjectPrivate::connect(d->m_model,
+                            &QAbstractItemModel::rowsInserted,
+                            d,
+                            &QXYModelMapperPrivate::onModelRowsAdded);
+    QObjectPrivate::connect(d->m_model,
+                            &QAbstractItemModel::rowsRemoved,
+                            d,
+                            &QXYModelMapperPrivate::onModelRowsRemoved);
+    QObjectPrivate::connect(d->m_model,
+                            &QAbstractItemModel::columnsInserted,
+                            d,
+                            &QXYModelMapperPrivate::onModelColumnsAdded);
+    QObjectPrivate::connect(d->m_model,
+                            &QAbstractItemModel::columnsRemoved,
+                            d,
+                            &QXYModelMapperPrivate::onModelColumnsRemoved);
+
+    QObjectPrivate::connect(d->m_model,
+                            &QAbstractItemModel::modelReset,
+                            d,
+                            &QXYModelMapperPrivate::initializeXYFromModel);
+    QObjectPrivate::connect(d->m_model,
+                            &QAbstractItemModel::layoutChanged,
+                            d,
+                            &QXYModelMapperPrivate::initializeXYFromModel);
+    QObjectPrivate::connect(d->m_model,
+                            &QAbstractItemModel::destroyed,
+                            d,
+                            &QXYModelMapperPrivate::handleModelDestroyed);
+    Q_EMIT modelChanged();
+}
+
+QXYSeries *QXYModelMapper::series() const
+{
+    Q_D(const QXYModelMapper);
+    return d->m_series;
+}
+
+void QXYModelMapper::setSeries(QXYSeries *series)
+{
+    Q_D(QXYModelMapper);
+    if (d->m_series) {
+        QObjectPrivate::disconnect(d->m_series,
+                                   &QXYSeries::pointAdded,
+                                   d,
+                                   &QXYModelMapperPrivate::onPointAdded);
+        QObjectPrivate::disconnect(d->m_series,
+                                   &QXYSeries::pointRemoved,
+                                   d,
+                                   &QXYModelMapperPrivate::onPointRemoved);
+        QObjectPrivate::disconnect(d->m_series,
+                                   &QXYSeries::pointReplaced,
+                                   d,
+                                   &QXYModelMapperPrivate::onPointReplaced);
+        QObjectPrivate::disconnect(d->m_series,
+                                   &QXYSeries::destroyed,
+                                   d,
+                                   &QXYModelMapperPrivate::handleSeriesDestroyed);
+        QObjectPrivate::disconnect(d->m_series,
+                                   &QXYSeries::pointsRemoved,
+                                   d,
+                                   &QXYModelMapperPrivate::onPointsRemoved);
+    }
+
+    if (series == 0)
+        return;
+
+    d->m_series = series;
+    d->initializeXYFromModel();
+    // connect the signals from the series
+    QObjectPrivate::connect(d->m_series,
+                            &QXYSeries::pointAdded,
+                            d,
+                            &QXYModelMapperPrivate::onPointAdded);
+    QObjectPrivate::connect(d->m_series,
+                            &QXYSeries::pointRemoved,
+                            d,
+                            &QXYModelMapperPrivate::onPointRemoved);
+    QObjectPrivate::connect(d->m_series,
+                            &QXYSeries::pointReplaced,
+                            d,
+                            &QXYModelMapperPrivate::onPointReplaced);
+    QObjectPrivate::connect(d->m_series,
+                            &QXYSeries::destroyed,
+                            d,
+                            &QXYModelMapperPrivate::handleSeriesDestroyed);
+    QObjectPrivate::connect(d->m_series,
+                            &QXYSeries::pointsRemoved,
+                            d,
+                            &QXYModelMapperPrivate::onPointsRemoved);
+    Q_EMIT seriesChanged();
+}
+
+int QXYModelMapper::first() const
+{
+    Q_D(const QXYModelMapper);
+    return d->m_first;
+}
+
+void QXYModelMapper::setFirst(int first)
+{
+    Q_D(QXYModelMapper);
+    d->m_first = qMax(first, 0);
+    d->initializeXYFromModel();
+    Q_EMIT firstChanged();
+}
+
+int QXYModelMapper::count() const
+{
+    Q_D(const QXYModelMapper);
+    return d->m_count;
+}
+
+void QXYModelMapper::setCount(int count)
+{
+    Q_D(QXYModelMapper);
+    d->m_count = qMax(count, -1);
+    d->initializeXYFromModel();
+    Q_EMIT countChanged();
+}
+
+Qt::Orientation QXYModelMapper::orientation() const
+{
+    Q_D(const QXYModelMapper);
+    return d->m_orientation;
+}
+
+void QXYModelMapper::setOrientation(Qt::Orientation orientation)
+{
+    Q_D(QXYModelMapper);
+    d->m_orientation = orientation;
+    d->initializeXYFromModel();
+    Q_EMIT orientationChanged();
+}
+
+int QXYModelMapper::xSection() const
+{
+    Q_D(const QXYModelMapper);
+    return d->m_xSection;
+}
+
+void QXYModelMapper::setXSection(int xSection)
+{
+    Q_D(QXYModelMapper);
+    d->m_xSection = qMax(-1, xSection);
+    d->initializeXYFromModel();
+    Q_EMIT xSectionChanged();
+}
+
+int QXYModelMapper::ySection() const
+{
+    Q_D(const QXYModelMapper);
+    return d->m_ySection;
+}
+
+void QXYModelMapper::setYSection(int ySection)
+{
+    Q_D(QXYModelMapper);
+    d->m_ySection = qMax(-1, ySection);
+    d->initializeXYFromModel();
+    Q_EMIT ySectionChanged();
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+QXYModelMapperPrivate::QXYModelMapperPrivate() {}
+
+QXYModelMapperPrivate::~QXYModelMapperPrivate() {}
+
+void QXYModelMapperPrivate::blockModelSignals(bool block)
+{
+    m_modelSignalsBlock = block;
+}
+
+void QXYModelMapperPrivate::blockSeriesSignals(bool block)
+{
+    m_seriesSignalsBlock = block;
+}
+
+QModelIndex QXYModelMapperPrivate::xModelIndex(int xPos)
+{
+    if (m_count != -1 && xPos >= m_count)
+        return QModelIndex(); // invalid
+
+    if (m_orientation == Qt::Vertical)
+        return m_model->index(xPos + m_first, m_xSection);
+    else
+        return m_model->index(m_xSection, xPos + m_first);
+}
+
+QModelIndex QXYModelMapperPrivate::yModelIndex(int yPos)
+{
+    if (m_count != -1 && yPos >= m_count)
+        return QModelIndex(); // invalid
+
+    if (m_orientation == Qt::Vertical)
+        return m_model->index(yPos + m_first, m_ySection);
+    else
+        return m_model->index(m_ySection, yPos + m_first);
+}
+
+qreal QXYModelMapperPrivate::valueFromModel(QModelIndex index)
+{
+    QVariant value = m_model->data(index, Qt::DisplayRole);
+    switch (value.metaType().id()) {
+    case QMetaType::QDateTime:
+        return value.toDateTime().toMSecsSinceEpoch();
+    case QMetaType::QDate:
+        return value.toDate().startOfDay().toMSecsSinceEpoch();
+    default:
+        return value.toReal();
+    }
+}
+
+void QXYModelMapperPrivate::setValueToModel(QModelIndex index, qreal value)
+{
+    QVariant oldValue = m_model->data(index, Qt::DisplayRole);
+    switch (oldValue.metaType().id()) {
+    case QMetaType::QDateTime:
+        m_model->setData(index, QDateTime::fromMSecsSinceEpoch(value));
+        break;
+    case QMetaType::QDate:
+        m_model->setData(index, QDateTime::fromMSecsSinceEpoch(value).date());
+        break;
+    default:
+        m_model->setData(index, value);
+    }
+}
+
+void QXYModelMapperPrivate::onPointAdded(int pointPos)
+{
+    if (m_seriesSignalsBlock)
+        return;
+
+    if (m_count != -1)
+        m_count += 1;
+
+    blockModelSignals();
+    if (m_orientation == Qt::Vertical)
+        m_model->insertRows(pointPos + m_first, 1);
+    else
+        m_model->insertColumns(pointPos + m_first, 1);
+
+    setValueToModel(xModelIndex(pointPos), m_series->points().at(pointPos).x());
+    setValueToModel(yModelIndex(pointPos), m_series->points().at(pointPos).y());
+    blockModelSignals(false);
+}
+
+void QXYModelMapperPrivate::onPointRemoved(int pointPos)
+{
+    if (m_seriesSignalsBlock)
+        return;
+
+    if (m_count != -1)
+        m_count -= 1;
+
+    blockModelSignals();
+    if (m_orientation == Qt::Vertical)
+        m_model->removeRow(pointPos + m_first);
+    else
+        m_model->removeColumn(pointPos + m_first);
+    blockModelSignals(false);
+}
+
+void QXYModelMapperPrivate::onPointsRemoved(int pointPos, int count)
+{
+    if (m_seriesSignalsBlock)
+        return;
+
+    m_count -= count;
+
+    if (m_count < -1)
+        m_count = -1;
+
+    blockModelSignals();
+    if (m_orientation == Qt::Vertical)
+        m_model->removeRows(pointPos + m_first, count);
+    else
+        m_model->removeColumns(pointPos + m_first, count);
+    blockModelSignals(false);
+}
+
+void QXYModelMapperPrivate::onPointReplaced(int pointPos)
+{
+    if (m_seriesSignalsBlock)
+        return;
+
+    blockModelSignals();
+    setValueToModel(xModelIndex(pointPos), m_series->points().at(pointPos).x());
+    setValueToModel(yModelIndex(pointPos), m_series->points().at(pointPos).y());
+    blockModelSignals(false);
+}
+
+void QXYModelMapperPrivate::handleSeriesDestroyed()
+{
+    m_series = 0;
+}
+
+void QXYModelMapperPrivate::onModelUpdated(QModelIndex topLeft, QModelIndex bottomRight)
+{
+    if (m_model == 0 || m_series == 0)
+        return;
+
+    if (m_modelSignalsBlock)
+        return;
+
+    blockSeriesSignals();
+    QModelIndex index;
+    QPointF newPoint;
+    int indexColumn = 0;
+    int indexRow = 0;
+    for (int row = topLeft.row(); row <= bottomRight.row(); row++) {
+        for (int column = topLeft.column(); column <= bottomRight.column(); column++) {
+            index = topLeft.sibling(row, column);
+            indexColumn = index.column();
+            indexRow = index.row();
+            if (m_orientation == Qt::Vertical
+                && (indexColumn == m_xSection || indexColumn == m_ySection)) {
+                if (indexRow >= m_first && (m_count == -1 || indexRow < m_first + m_count)) {
+                    QModelIndex xIndex = xModelIndex(indexRow - m_first);
+                    QModelIndex yIndex = yModelIndex(indexRow - m_first);
+                    if (xIndex.isValid() && yIndex.isValid()) {
+                        newPoint.setX(valueFromModel(xIndex));
+                        newPoint.setY(valueFromModel(yIndex));
+                        m_series->replace(indexRow - m_first, newPoint);
+                    }
+                }
+            } else if (m_orientation == Qt::Horizontal
+                       && (indexRow == m_xSection || indexRow == m_ySection)) {
+                if (indexColumn >= m_first && (m_count == -1 || indexColumn < m_first + m_count)) {
+                    QModelIndex xIndex = xModelIndex(indexColumn - m_first);
+                    QModelIndex yIndex = yModelIndex(indexColumn - m_first);
+                    if (xIndex.isValid() && yIndex.isValid()) {
+                        newPoint.setX(valueFromModel(xIndex));
+                        newPoint.setY(valueFromModel(yIndex));
+                        m_series->replace(indexColumn - m_first, newPoint);
+                    }
+                }
+            }
+        }
+    }
+    blockSeriesSignals(false);
+}
+
+void QXYModelMapperPrivate::onModelRowsAdded(QModelIndex parent, int start, int end)
+{
+    Q_UNUSED(parent);
+    if (m_modelSignalsBlock)
+        return;
+
+    blockSeriesSignals();
+    if (m_orientation == Qt::Vertical) {
+        insertData(start, end);
+    } else if (start <= m_xSection || start <= m_ySection) {
+        // if the changes affect the map - reinitialize the xy
+        initializeXYFromModel();
+    }
+    blockSeriesSignals(false);
+}
+
+void QXYModelMapperPrivate::onModelRowsRemoved(QModelIndex parent, int start, int end)
+{
+    Q_UNUSED(parent);
+    if (m_modelSignalsBlock)
+        return;
+
+    blockSeriesSignals();
+    if (m_orientation == Qt::Vertical) {
+        removeData(start, end);
+    } else if (start <= m_xSection || start <= m_ySection) {
+        // if the changes affect the map - reinitialize the xy
+        initializeXYFromModel();
+    }
+    blockSeriesSignals(false);
+}
+
+void QXYModelMapperPrivate::onModelColumnsAdded(QModelIndex parent, int start, int end)
+{
+    Q_UNUSED(parent);
+    if (m_modelSignalsBlock)
+        return;
+
+    blockSeriesSignals();
+    if (m_orientation == Qt::Horizontal) {
+        insertData(start, end);
+    } else if (start <= m_xSection || start <= m_ySection) {
+        // if the changes affect the map - reinitialize the xy
+        initializeXYFromModel();
+    }
+    blockSeriesSignals(false);
+}
+
+void QXYModelMapperPrivate::onModelColumnsRemoved(QModelIndex parent, int start, int end)
+{
+    Q_UNUSED(parent);
+    if (m_modelSignalsBlock)
+        return;
+
+    blockSeriesSignals();
+    if (m_orientation == Qt::Horizontal) {
+        removeData(start, end);
+    } else if (start <= m_xSection || start <= m_ySection) {
+        // if the changes affect the map - reinitialize the xy
+        initializeXYFromModel();
+    }
+    blockSeriesSignals(false);
+}
+
+void QXYModelMapperPrivate::handleModelDestroyed()
+{
+    m_model = 0;
+}
+
+void QXYModelMapperPrivate::insertData(int start, int end)
+{
+    if (m_model == 0 || m_series == 0)
+        return;
+
+    if (m_count != -1 && start >= m_first + m_count) {
+        return;
+    } else {
+        int addedCount = end - start + 1;
+        if (m_count != -1 && addedCount > m_count)
+            addedCount = m_count;
+        int first = qMax(start, m_first);
+        int last = qMin(first + addedCount - 1,
+                        m_orientation == Qt::Vertical ? m_model->rowCount() - 1
+                                                      : m_model->columnCount() - 1);
+        for (int i = first; i <= last; i++) {
+            QPointF point;
+            QModelIndex xIndex = xModelIndex(i - m_first);
+            QModelIndex yIndex = yModelIndex(i - m_first);
+            if (xIndex.isValid() && yIndex.isValid()) {
+                point.setX(valueFromModel(xIndex));
+                point.setY(valueFromModel(yIndex));
+                m_series->insert(i - m_first, point);
+            }
+        }
+
+        // remove excess of points (above m_count)
+        if (m_count != -1 && m_series->points().size() > m_count) {
+            for (int i = m_series->points().size() - 1; i >= m_count; i--)
+                m_series->remove(m_series->points().at(i));
+        }
+    }
+}
+
+void QXYModelMapperPrivate::removeData(int start, int end)
+{
+    if (m_model == 0 || m_series == 0)
+        return;
+
+    int removedCount = end - start + 1;
+    if (m_count != -1 && start >= m_first + m_count) {
+        return;
+    } else {
+        int toRemove = qMin(m_series->count(),
+                            removedCount); // first find how many items can actually be removed
+        int first = qMax(start, m_first);  // get the index of the first item that will be removed.
+        int last = qMin(first + toRemove - 1,
+                        m_series->count() + m_first
+                            - 1); // get the index of the last item that will be removed.
+        for (int i = last; i >= first; i--)
+            m_series->remove(m_series->points().at(i - m_first));
+
+        if (m_count != -1) {
+            int itemsAvailable; // check how many are available to be added
+            if (m_orientation == Qt::Vertical)
+                itemsAvailable = m_model->rowCount() - m_first - m_series->count();
+            else
+                itemsAvailable = m_model->columnCount() - m_first - m_series->count();
+            int toBeAdded = qMin(
+                itemsAvailable,
+                m_count
+                    - m_series->count()); // add not more items than there is space left to be filled.
+            int currentSize = m_series->count();
+            if (toBeAdded > 0) {
+                for (int i = m_series->count(); i < currentSize + toBeAdded; i++) {
+                    QPointF point;
+                    QModelIndex xIndex = xModelIndex(i);
+                    QModelIndex yIndex = yModelIndex(i);
+                    if (xIndex.isValid() && yIndex.isValid()) {
+                        point.setX(valueFromModel(xIndex));
+                        point.setY(valueFromModel(yIndex));
+                        m_series->insert(i, point);
+                    }
+                }
+            }
+        }
+    }
+}
+
+void QXYModelMapperPrivate::initializeXYFromModel()
+{
+    if (m_model == 0 || m_series == 0)
+        return;
+
+    blockSeriesSignals();
+    // clear current content
+    m_series->clear();
+
+    // create the initial points set
+    int pointPos = 0;
+    QModelIndex xIndex = xModelIndex(pointPos);
+    QModelIndex yIndex = yModelIndex(pointPos);
+
+    if (xIndex.isValid() && yIndex.isValid()) {
+        while (xIndex.isValid() && yIndex.isValid()) {
+            QPointF point;
+            point.setX(valueFromModel(xIndex));
+            point.setY(valueFromModel(yIndex));
+            m_series->append(point);
+            pointPos++;
+            xIndex = xModelIndex(pointPos);
+            yIndex = yModelIndex(pointPos);
+            // Don't warn about invalid index after the first, those are valid and used to
+            // determine when we should end looping.
+        }
+    } else {
+        // Invalid index right off the bat means series will be left empty, so output a warning,
+        // unless model is also empty
+        int count = m_orientation == Qt::Vertical ? m_model->rowCount() : m_model->columnCount();
+        if (count > 0) {
+            if (!xIndex.isValid()) {
+                qWarning() << __FUNCTION__
+                           << QStringLiteral("Invalid X coordinate index in model mapper.");
+            } else if (!yIndex.isValid()) {
+                qWarning() << __FUNCTION__
+                           << QStringLiteral("Invalid Y coordinate index in model mapper.");
+            }
+        }
+    }
+
+    blockSeriesSignals(false);
+}
+QT_END_NAMESPACE

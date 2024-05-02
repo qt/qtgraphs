@@ -16,6 +16,7 @@ qt_internal_extend_target(Graphs
         scatterchart/qscatterseries.cpp scatterchart/qscatterseries.h scatterchart/qscatterseries_p.h
         xychart/qxyseries.cpp xychart/qxyseries.h xychart/qxyseries_p.h
         xychart/qxypoint.cpp xychart/qxypoint_p.h
+        xychart/qxymodelmapper.cpp xychart/qxymodelmapper.h xychart/qxymodelmapper_p.h
         axis/qabstractaxis.cpp axis/qabstractaxis.h axis/qabstractaxis_p.h
         axis/barcategoryaxis/qbarcategoryaxis.cpp axis/barcategoryaxis/qbarcategoryaxis.h axis/barcategoryaxis/qbarcategoryaxis_p.h
         axis/axisgrid.cpp axis/axisgrid_p.h
