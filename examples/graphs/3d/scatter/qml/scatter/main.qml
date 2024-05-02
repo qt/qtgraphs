@@ -35,6 +35,7 @@ Item {
     GraphsTheme {
         id: themeRetro
         theme: GraphsTheme.Theme.QtGreenNeon
+        colorScheme: Qt.Dark
     }
     //! [2]
 
