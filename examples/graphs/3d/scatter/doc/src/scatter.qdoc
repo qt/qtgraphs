@@ -37,8 +37,8 @@
 
     \snippet 3d/scatter/qml/scatter/main.qml 1
 
-    Next, create two \c {Theme3D} items that define two different themes for the graph, a Qt theme
-    and a retro theme.
+    Next, create two GraphsTheme items that define two different themes for the graph, a Qt Green
+    theme and a Qt Neon Green theme.
 
     \snippet 3d/scatter/qml/scatter/main.qml 2
 

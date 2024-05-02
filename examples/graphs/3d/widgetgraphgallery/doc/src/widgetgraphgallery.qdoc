@@ -522,9 +522,9 @@
     \badcode
     set(graphgallery_resource_files
         ...
-        "data/oilrig.obj"
-        "data/pipe.obj"
-        "data/refinery.obj"
+        "data/oilrig.mesh"
+        "data/pipe.mesh"
+        "data/refinery.mesh"
         ...
     )
 
@@ -542,9 +542,9 @@
     <RCC>
         <qresource prefix="/">
             ...
-            <file>data/refinery.obj</file>
-            <file>data/oilrig.obj</file>
-            <file>data/pipe.obj</file>
+            <file>data/refinery.mesh</file>
+            <file>data/oilrig.mesh</file>
+            <file>data/pipe.mesh</file>
             ...
         </qresource>
     </RCC>

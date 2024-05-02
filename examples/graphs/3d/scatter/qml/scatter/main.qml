@@ -33,7 +33,7 @@ Item {
     }
 
     GraphsTheme {
-        id: themeRetro
+        id: themeQtNeonGreen
         theme: GraphsTheme.Theme.QtGreenNeon
         colorScheme: Qt.Dark
     }
@@ -161,7 +161,7 @@ Item {
             text: qsTr("Change Theme")
             source: "qrc:/images/theme.svg"
             onClicked: {
-                graph.theme = graph.theme.theme === GraphsTheme.Theme.QtGreenNeon ? themeQt : themeRetro
+                graph.theme = graph.theme.theme === GraphsTheme.Theme.QtGreenNeon ? themeQt : themeQtNeonGreen
                 backgroundButton.text = graph.theme.backgroundEnabled ? qsTr("Hide Background") : qsTr("Show Background")
             }
         }

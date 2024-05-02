@@ -29,8 +29,8 @@
 
     \section2 Overriding Default Input Handling
 
-    To deactivate the default input handling mechanism, set the active input handler of Scatter3D
-    graph to \c{null}:
+    To deactivate the default input handling mechanism, unset the default input handler of
+    Scatter3D:
 
     \snippet 3d/axishandling/qml/axishandling/AxisDragging.qml 0
     \dots
