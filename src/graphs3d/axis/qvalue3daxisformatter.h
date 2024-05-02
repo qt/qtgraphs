@@ -63,7 +63,6 @@ protected:
 private:
     Q_DISABLE_COPY(QValue3DAxisFormatter)
 
-    friend class QValue3DAxisFormatterPrivate;
     friend class QValue3DAxis;
     friend class QValue3DAxisPrivate;
     friend class QBar3DSeriesPrivate;
