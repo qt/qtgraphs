@@ -29,7 +29,6 @@ class Q_GRAPHS_EXPORT QPieSeries : public QAbstractSeries
 
 public:
     explicit QPieSeries(QObject *parent = nullptr);
-    ~QPieSeries() override;
     QAbstractSeries::SeriesType type() const override;
 
     Q_INVOKABLE QPieSlice *at(int index);

@@ -84,13 +84,6 @@ QAreaSeries::QAreaSeries(QAreaSeriesPrivate &dd, QObject *parent)
     : QAbstractSeries(dd, parent)
 {}
 
-QAreaSeries::~QAreaSeries()
-{
-    Q_D(QAreaSeries);
-    if (d->m_graph)
-        d->m_graph->removeSeries(this);
-}
-
 QAbstractSeries::SeriesType QAreaSeries::type() const
 {
     return QAbstractSeries::SeriesType::Area;

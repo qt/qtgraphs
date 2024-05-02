@@ -281,8 +281,6 @@ QAbstractSeries::QAbstractSeries(QAbstractSeriesPrivate &dd, QObject *parent)
 */
 QAbstractSeries::~QAbstractSeries()
 {
-    //if (d->m_graph)
-    //    qFatal("Series still bound to a graph when destroyed!");
     Q_D(QAbstractSeries);
     if (d->m_graph)
         d->m_graph->removeSeries(this);
@@ -423,26 +421,28 @@ void QAbstractSeries::setGraph(QGraphsView *graph)
 {
     Q_D(QAbstractSeries);
     d->m_graph = graph;
-    switch (type()) {
-    case SeriesType::Bar:
-        graph->createBarsRenderer();
-        graph->createAxisRenderer();
-        break;
-    case SeriesType::Scatter:
-    case SeriesType::Line:
-    case SeriesType::Spline:
-        graph->createPointRenderer();
-        graph->createAxisRenderer();
-        break;
-    case SeriesType::Pie:
-        graph->createPieRenderer();
-        break;
-    case SeriesType::Area:
-        graph->createAreaRenderer();
-        graph->createAxisRenderer();
-        break;
-    default:
-        break;
+    if (graph) {
+        switch (type()) {
+        case SeriesType::Bar:
+            graph->createBarsRenderer();
+            graph->createAxisRenderer();
+            break;
+        case SeriesType::Scatter:
+        case SeriesType::Line:
+        case SeriesType::Spline:
+            graph->createPointRenderer();
+            graph->createAxisRenderer();
+            break;
+        case SeriesType::Pie:
+            graph->createPieRenderer();
+            break;
+        case SeriesType::Area:
+            graph->createAreaRenderer();
+            graph->createAxisRenderer();
+            break;
+        default:
+            break;
+        }
     }
 }
 

@@ -46,8 +46,6 @@ QXYSeries::QXYSeries(QXYSeriesPrivate &dd, QObject *parent)
     : QAbstractSeries(dd, parent)
 {}
 
-QXYSeries::~QXYSeries() {}
-
 /*!
     Appends a point with the coordinates \a x and \a y to the series.
 */

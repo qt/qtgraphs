@@ -113,8 +113,10 @@ void QGraphsView::insertSeries(int index, QObject *object)
 
 void QGraphsView::removeSeries(QObject *object)
 {
-    if (auto series = reinterpret_cast<QAbstractSeries *>(object))
+    if (auto series = reinterpret_cast<QAbstractSeries *>(object)) {
+        series->setGraph(nullptr);
         m_seriesList.removeAll(series);
+    }
 }
 
 bool QGraphsView::hasSeries(QObject *series)

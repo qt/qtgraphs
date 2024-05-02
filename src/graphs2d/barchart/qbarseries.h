@@ -47,7 +47,6 @@ public:
 
     explicit QBarSeries(QObject *parent = nullptr);
     QAbstractSeries::SeriesType type() const override;
-    ~QBarSeries() override;
 
     void setBarsType(QBarSeries::BarsType type);
     QBarSeries::BarsType barsType() const;

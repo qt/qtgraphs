@@ -29,7 +29,6 @@ protected:
     explicit QXYSeries(QXYSeriesPrivate &dd, QObject *parent = nullptr);
 
 public:
-    ~QXYSeries() override;
     // TODO: Consider making these slots, available from QML.
     Q_INVOKABLE void append(qreal x, qreal y);
     void append(const QPointF &point);

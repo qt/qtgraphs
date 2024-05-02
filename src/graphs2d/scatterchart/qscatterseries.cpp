@@ -119,14 +119,6 @@ void QScatterSeries::componentComplete()
     QAbstractSeries::componentComplete();
 }
 
-QScatterSeries::~QScatterSeries()
-{
-    Q_D(QScatterSeries);
-    if (d->m_graph)
-        d->m_graph->removeSeries(this);
-}
-
-
 QAbstractSeries::SeriesType QScatterSeries::type() const
 {
     return QAbstractSeries::SeriesType::Scatter;

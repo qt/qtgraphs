@@ -310,13 +310,6 @@ QPieSeries::QPieSeries(QObject *parent)
     : QAbstractSeries(*(new QPieSeriesPrivate()), parent)
 {}
 
-
-/*!
-    Removes the pie series and its slices.
-*/
-QPieSeries::~QPieSeries()
-{}
-
 /*!
     \reimp
 

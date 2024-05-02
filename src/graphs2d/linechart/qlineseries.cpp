@@ -105,14 +105,6 @@ void QLineSeries::componentComplete()
     QAbstractSeries::componentComplete();
 }
 
-QLineSeries::~QLineSeries()
-{
-    Q_D(QLineSeries);
-    if (d->m_graph)
-        d->m_graph->removeSeries(this);
-}
-
-
 QAbstractSeries::SeriesType QLineSeries::type() const
 {
     return QAbstractSeries::SeriesType::Line;

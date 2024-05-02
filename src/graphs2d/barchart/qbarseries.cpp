@@ -465,16 +465,6 @@ QBarSeries::QBarSeries(QBarSeriesPrivate &dd, QObject *parent)
 {}
 
 /*!
-    Removes the bar series and the bar sets owned by it.
-*/
-QBarSeries::~QBarSeries()
-{
-    Q_D(QBarSeries);
-    if (d->m_graph)
-        d->m_graph->removeSeries(this);
-}
-
-/*!
     Returns the bar series.
 */
 QAbstractSeries::SeriesType QBarSeries::type() const

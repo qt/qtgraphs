@@ -98,13 +98,6 @@ void QSplineSeries::componentComplete()
     QAbstractSeries::componentComplete();
 }
 
-QSplineSeries::~QSplineSeries()
-{
-    Q_D(QSplineSeries);
-    if (d->m_graph)
-        d->m_graph->removeSeries(this);
-}
-
 QAbstractSeries::SeriesType QSplineSeries::type() const
 {
     return QAbstractSeries::SeriesType::Spline;
