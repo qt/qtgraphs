@@ -38,7 +38,7 @@ Rectangle {
             aspectRatio: 3.0
             //! [2]
             theme: GraphsTheme {
-                theme: GraphsTheme.Theme.QtGreen
+                colorScheme: Qt.Dark
                 labelFont.family: "STCaiyun"
                 labelFont.pointSize: 35
                 colorStyle: GraphsTheme.ColorStyle.ObjectGradient

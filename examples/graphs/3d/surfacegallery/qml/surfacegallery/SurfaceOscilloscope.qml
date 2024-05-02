@@ -67,8 +67,11 @@ Item {
             shadowQuality: AbstractGraph3D.ShadowQuality.None
             selectionMode: AbstractGraph3D.SelectionSlice | AbstractGraph3D.SelectionItemAndColumn
             theme: GraphsTheme {
-                theme: GraphsTheme.Theme.QtGreenNeon
+                theme: GraphsTheme.Theme.YellowSeries
+                colorScheme: Qt.Dark
                 backgroundEnabled: false
+                labelBorderEnabled: false
+                labelBackgroundEnabled: false
             }
             cameraPreset: AbstractGraph3D.CameraPreset.FrontHigh
 
