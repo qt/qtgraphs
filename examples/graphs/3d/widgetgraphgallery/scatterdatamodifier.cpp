@@ -27,7 +27,8 @@ ScatterDataModifier::ScatterDataModifier(Q3DScatter *scatter, QObject *parent)
     , m_curveDivider(lowerCurveDivider)
 {
     //! [0]
-    m_graph->activeTheme()->setTheme(QGraphsTheme::Theme::QtGreenNeon);
+    m_graph->activeTheme()->setTheme(QGraphsTheme::Theme::MixSeries);
+    m_graph->activeTheme()->setColorScheme(Qt::ColorScheme::Dark);
     m_graph->setShadowQuality(QAbstract3DGraph::ShadowQuality::SoftHigh);
     m_graph->setCameraPreset(QAbstract3DGraph::CameraPreset::Front);
     m_graph->setCameraZoomLevel(80.f);
