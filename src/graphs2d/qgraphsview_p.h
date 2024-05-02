@@ -58,16 +58,13 @@ class QGraphsView : public QQuickItem
 
     Q_PROPERTY(QAbstractAxis *axisX READ axisX WRITE setAxisX NOTIFY axisXChanged)
     Q_PROPERTY(QAbstractAxis *axisY READ axisY WRITE setAxisY NOTIFY axisYChanged)
-    Q_PROPERTY(GraphOrientation orientation READ orientation WRITE setOrientation NOTIFY
-                   orientationChanged)
+    Q_PROPERTY(
+        Qt::Orientation orientation READ orientation WRITE setOrientation NOTIFY orientationChanged)
 
     Q_CLASSINFO("DefaultProperty", "seriesList")
     QML_NAMED_ELEMENT(GraphsView)
 
 public:
-    enum class GraphOrientation { Vertical, Horizontal };
-    Q_ENUM(GraphOrientation)
-
     explicit QGraphsView(QQuickItem *parent = nullptr);
     ~QGraphsView() override;
 
@@ -146,8 +143,8 @@ public:
     QAbstractAxis *axisY() const;
     void setAxisY(QAbstractAxis *axis);
 
-    GraphOrientation orientation() const;
-    void setOrientation(GraphOrientation newOrientation);
+    Qt::Orientation orientation() const;
+    void setOrientation(Qt::Orientation newOrientation);
 
 protected:
     void handleHoverEnter(QString seriesName, QPointF position, QPointF value);
@@ -211,7 +208,7 @@ private:
 
     QAbstractAxis *m_axisX = nullptr;
     QAbstractAxis *m_axisY = nullptr;
-    GraphOrientation m_orientation = GraphOrientation::Vertical;
+    Qt::Orientation m_orientation = Qt::Orientation::Vertical;
 
     QGraphsTheme *m_theme = nullptr;
     QGraphsTheme *m_defaultTheme = nullptr;

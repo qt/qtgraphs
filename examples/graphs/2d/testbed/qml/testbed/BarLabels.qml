@@ -76,10 +76,10 @@ Rectangle {
             width: 250
             text: "Vertical/Horizontal bars"
             onClicked: {
-                if (chartView.orientation === GraphsView.GraphOrientation.Vertical)
-                    chartView.orientation = GraphsView.GraphOrientation.Horizontal
+                if (chartView.orientation === Qt.Vertical)
+                    chartView.orientation = Qt.Horizontal
                 else
-                    chartView.orientation = GraphsView.GraphOrientation.Vertical
+                    chartView.orientation = Qt.Vertical
             }
         }
         Button {

@@ -750,35 +750,12 @@ void QGraphsView::setAxisY(QAbstractAxis *axis)
     emit update();
 }
 
-/*!
-    \enum QGraphsView::GraphOrientation
-
-    This enum value describes the orientation of the view:
-
-    \value Vertical The series appear vertically.
-    \value Horizontal The series appear horizontally.
-*/
-/*!
-    \property QGraphsView::orientation
-    \brief The orientation of the view. By default the series appear vertically.
-*/
-/*!
-    \qmlproperty enumeration QGraphsView::orientation
-
-    The orientation of the view:
-
-    \value QGraphsView.GraphOrientation.Vertical
-        The series appear vertically. This is the default value.
-    \value QGraphsView.GraphOrientation.Horizontal
-        The series appear horizontally.
-*/
-
-QGraphsView::GraphOrientation QGraphsView::orientation() const
+Qt::Orientation QGraphsView::orientation() const
 {
     return m_orientation;
 }
 
-void QGraphsView::setOrientation(QGraphsView::GraphOrientation newOrientation)
+void QGraphsView::setOrientation(Qt::Orientation newOrientation)
 {
     if (m_orientation == newOrientation)
         return;

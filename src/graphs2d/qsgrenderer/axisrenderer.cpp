@@ -147,7 +147,7 @@ void AxisRenderer::updateAxis()
 
     // See if series is horizontal, so axis should also switch places.
     bool vertical = true;
-    if (m_graph->orientation() == QGraphsView::GraphOrientation::Horizontal)
+    if (m_graph->orientation() == Qt::Orientation::Horizontal)
         vertical = false;
     if (vertical) {
         m_axisVertical = axisVertical;
