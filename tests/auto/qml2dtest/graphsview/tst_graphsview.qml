@@ -34,6 +34,16 @@ Item {
         marginRight: 10
         marginTop: 5
 
+        axisX: BarCategoryAxis {
+            id: axisXInitial
+            categories: [ "2002", "2003", "2004" ]
+        }
+
+        axisY: ValueAxis {
+            id: axisYInitial
+            max: 4
+        }
+
         BarSeries {
             id: barInitial
         }
@@ -45,6 +55,16 @@ Item {
         AreaSeries {
             id: areaInitial
         }
+    }
+
+    BarCategoryAxis {
+        id: axisX
+        categories: [ "2012", "2013", "2014" ]
+    }
+
+    ValueAxis {
+        id: axisY
+        max: 8
     }
 
     TestCase {
@@ -61,6 +81,8 @@ Item {
             compare(initial.seriesList, [])
             // compare some of the contents of the initial theme, as theme itself cannot be
             compare(initial.theme.theme, GraphsTheme.Theme.QtGreen)
+            compare(initial.axisX, null)
+            compare(initial.axisY, null)
         }
 
         function test_1_initial_change() {
@@ -72,6 +94,8 @@ Item {
             initial.marginLeft = 12
             initial.marginRight = 13
             initial.theme = myTheme
+            initial.axisX = axisX
+            initial.axisY = axisY
             initial.addSeries(barInitial)
 
             waitForRendering(top)
@@ -83,6 +107,8 @@ Item {
             compare(initial.marginBottom, 11)
             compare(initial.marginLeft, 12)
             compare(initial.marginRight, 13)
+            compare(initial.axisX, axisX)
+            compare(initial.axisY, axisY)
             compare(initial.seriesList, [barInitial])
             compare(initial.theme, myTheme)
         }
@@ -101,6 +127,8 @@ Item {
             compare(initialized.marginRight, 10)
             compare(initialized.seriesList, [barInitial, lineInitial, areaInitial])
             compare(initialized.theme, myTheme)
+            compare(initialized.axisX, axisXInitial)
+            compare(initialized.axisY, axisYInitial)
         }
 
         function test_2_initialized_change() {
@@ -112,6 +140,8 @@ Item {
             initialized.marginLeft = 12
             initialized.marginRight = 13
             initialized.theme = newTheme
+            initialized.axisX = axisX;
+            initialized.axisY = axisY;
             initialized.removeSeries(barInitial)
 
             waitForRendering(top)
@@ -123,6 +153,8 @@ Item {
             compare(initialized.marginBottom, 11)
             compare(initialized.marginLeft, 12)
             compare(initialized.marginRight, 13)
+            compare(initialized.axisX, axisX)
+            compare(initialized.axisY, axisY)
             compare(initialized.seriesList, [lineInitial, areaInitial])
             compare(initialized.theme, newTheme)
         }
@@ -139,6 +171,16 @@ Item {
             verify(initialized.theme !== null)
             verify(initialized.theme !== myTheme)
             verify(initialized.theme !== newTheme)
+        }
+
+        function test_4_initialized_change_to_null() {
+            initialized.axisX = null;
+            initialized.axisY = null;
+
+            waitForRendering(top)
+
+            compare(initial.axisX, null)
+            compare(initial.axisY, null)
         }
     }
 }

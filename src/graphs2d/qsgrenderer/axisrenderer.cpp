@@ -147,10 +147,8 @@ void AxisRenderer::updateAxis()
 
     // See if series is horizontal, so axis should also switch places.
     bool vertical = true;
-    if (auto barSeries = qobject_cast<QBarSeries*>(m_graph->m_seriesList.first())) {
-        if (barSeries->barsOrientation() == QBarSeries::BarsOrientation::Horizontal)
-            vertical = false;
-    }
+    if (m_graph->orientation() == QGraphsView::GraphOrientation::Horizontal)
+        vertical = false;
     if (vertical) {
         m_axisVertical = axisVertical;
         m_axisHorizontal = axisHorizontal;

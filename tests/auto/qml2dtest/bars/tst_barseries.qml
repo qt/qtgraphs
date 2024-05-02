@@ -17,8 +17,6 @@ Item {
     BarSeries {
         id: initialized
 
-        axisX: BarCategoryAxis { max: "4" }
-        axisY: ValueAxis { max: 8 }
         barWidth: 0.2
         labelsVisible: true
         labelsFormat: "i"
@@ -37,9 +35,6 @@ Item {
         BarSet { label: "Set1"; values: [1, 2, 3, 4, 5, 6] }
     }
 
-    // Values used for changing the properties
-    BarCategoryAxis { id: axisx; max: "10" }
-    ValueAxis { id: axisy; max: 10 }
     Component {
         id: customBarComponent
         BarComponent {
@@ -56,13 +51,7 @@ Item {
     TestCase {
         name: "BarSeries Initial"
 
-        function test_1_initial() {
-            // Properties from QBarSeries
-            compare(initial.axisX, null)
-            compare(initial.axisY, null)
-        }
-
-        function test_2_initial_common() {
+        function test_1_initial_common() {
             // Common properties from QBarSeries
             compare(initial.barWidth, 0.5)
             compare(initial.count, 0)
@@ -84,9 +73,7 @@ Item {
             compare(initial.barComponent, null)
         }
 
-        function test_3_initial_change() {
-            initial.axisX = axisx
-            initial.axisY = axisy
+        function test_2_initial_change() {
             initial.barComponent = customBarComponent
 
             initial.barWidth = 0.1
@@ -106,8 +93,6 @@ Item {
             initial.opacity = 0.5
             initial.valuesMultiplier = 0.0
 
-            compare(initial.axisX, axisx)
-            compare(initial.axisY, axisy)
             compare(initial.barComponent, customBarComponent)
 
             compare(initial.barWidth, 0.1)
@@ -133,10 +118,6 @@ Item {
         name: "BarSeries Initialized"
 
         function test_1_initialized() {
-            // TODO: QTBUG-121718
-            // compare(initialized.axisX.max, "4")
-            compare(initialized.axisY.max, 8)
-
             compare(initialized.barWidth, 0.2)
             compare(initialized.count, 1)
             compare(initialized.labelsVisible, true)
@@ -155,9 +136,6 @@ Item {
         }
 
         function test_2_initialized_change() {
-            initialized.axisX = axisx
-            initialized.axisY = axisy
-
             initialized.barWidth = 0.1
             // TODO: How to add a set dynamically?
             //initialized.count = 2
@@ -174,10 +152,6 @@ Item {
             initialized.hoverable = false
             initialized.opacity = 0.5
             initialized.valuesMultiplier = 0.5
-
-            // TODO: QTBUG-121718
-            // compare(initialized.axisX.max, "10")
-            compare(initialized.axisY.max, 10)
 
             compare(initialized.barWidth, 0.1)
             // TODO: How to add a set dynamically?
@@ -197,23 +171,11 @@ Item {
             compare(initialized.valuesMultiplier, 0.5)
         }
 
-        function test_3_initialized_change_to_null() {
-            initialized.axisX = null
-            initialized.axisY = null
-
-            verify(!initialized.axisX)
-            verify(!initialized.axisY)
-        }
-
-        function test_4_initialized_change_to_invalid() {
-            initialized.axisX = axisy // wrong axis type
-            initialized.axisY = axisx // wrong axis type
+        function test_3_initialized_change_to_invalid() {
             initialized.barWidth = 2.0 // range 0...1
             initialized.valuesMultiplier = 2.0 // range 0...1
 
             compare(initialized.barWidth, 1.0)
-            compare(initialized.axisX, null)
-            compare(initialized.axisY, null)
             compare(initialized.valuesMultiplier, 1.0)
 
             initialized.barWidth = -1.0 // range 0...1

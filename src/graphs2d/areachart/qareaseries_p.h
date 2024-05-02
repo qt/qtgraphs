@@ -25,8 +25,6 @@ public:
     void initializeAxes() override;
 
 protected:
-    QAbstractAxis *m_axisX = nullptr;
-    QAbstractAxis *m_axisY = nullptr;
     QColor m_color = QColor(Qt::transparent);
     QColor m_selectedColor = QColor(Qt::transparent);
     QColor m_borderColor = QColor(Qt::transparent);

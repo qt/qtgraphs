@@ -56,6 +56,15 @@ Rectangle {
         anchors.margins: 10
         backgroundColor: "#202020"
 
+        axisX: ValueAxis {
+            id: xAxis
+            max: 4
+        }
+        axisY: ValueAxis {
+            id: yAxis
+            max: 8
+        }
+
         GraphsTheme {
             id: seriesTheme
             colorScheme: Qt.Dark
@@ -67,14 +76,6 @@ Rectangle {
             name: "First"
             theme: seriesTheme
             selectable: true
-            axisX: ValueAxis {
-                id: xAxis
-                max: 4
-            }
-            axisY: ValueAxis {
-                id: yAxis
-                max: 8
-            }
             pointMarker: Image {
                 property bool selected: false
                 source: "images/happy_box.png"

@@ -96,42 +96,6 @@ QAbstractSeries::SeriesType QAreaSeries::type() const
     return QAbstractSeries::SeriesType::Area;
 }
 
-QAbstractAxis *QAreaSeries::axisX() const
-{
-    Q_D(const QAreaSeries);
-    return d->m_axisX;
-}
-
-void QAreaSeries::setAxisX(QAbstractAxis *axis)
-{
-    Q_D(QAreaSeries);
-    detachAxis(d->m_axisX);
-    d->m_axisX = axis;
-    if (axis) {
-        axis->setOrientation(Qt::Horizontal);
-        attachAxis(axis);
-    }
-    emit update();
-}
-
-QAbstractAxis *QAreaSeries::axisY() const
-{
-    Q_D(const QAreaSeries);
-    return d->m_axisY;
-}
-
-void QAreaSeries::setAxisY(QAbstractAxis *axis)
-{
-    Q_D(QAreaSeries);
-    detachAxis(d->m_axisY);
-    d->m_axisY = axis;
-    if (axis) {
-        axis->setOrientation(Qt::Vertical);
-        attachAxis(axis);
-    }
-    emit update();
-}
-
 QColor QAreaSeries::color() const
 {
     Q_D(const QAreaSeries);

@@ -187,6 +187,14 @@ Rectangle {
         anchors.fill: background
         anchors.leftMargin: 30
 
+        axisX: BarCategoryAxis {
+            categories: ["2007", "2008", "2009", "2010", "2011", "2012"]
+        }
+        axisY: ValueAxis {
+            minorTickCount: 4
+            max: 20
+        }
+
         theme: GraphsTheme {
             id: myTheme
             axisXLabelFont.pixelSize: 20
@@ -202,13 +210,6 @@ Rectangle {
         }
         BarSeries {
             id: mySeries
-            axisX: BarCategoryAxis {
-                categories: ["2007", "2008", "2009", "2010", "2011", "2012"]
-            }
-            axisY: ValueAxis {
-                minorTickCount: 4
-                max: 20
-            }
             theme: GraphsTheme {
                 id: seriesTheme
                 theme: GraphsTheme.Theme.QtGreen

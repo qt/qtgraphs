@@ -52,8 +52,6 @@ void tst_scatter::initialProperties()
     QVERIFY(m_series);
 
     // Properties from QScatterSeries
-    QCOMPARE(m_series->axisX(), nullptr);
-    QCOMPARE(m_series->axisY(), nullptr);
     QCOMPARE(m_series->pointMarker(), nullptr);
 
     // Properties from QXYSeries
@@ -80,8 +78,6 @@ void tst_scatter::initializeProperties()
     auto marker = new QQmlComponent(this);
     auto theme = new QGraphsTheme(this);
 
-    m_series->setAxisX(axisX);
-    m_series->setAxisY(axisY);
     m_series->setPointMarker(marker);
 
     m_series->setColor("#ff0000");
@@ -96,8 +92,6 @@ void tst_scatter::initializeProperties()
     m_series->setOpacity(0.5);
     m_series->setValuesMultiplier(0.5);
 
-    QCOMPARE(m_series->axisX(), axisX);
-    QCOMPARE(m_series->axisY(), axisY);
     QCOMPARE(m_series->pointMarker(), marker);
 
     QCOMPARE(m_series->color(), "#ff0000");

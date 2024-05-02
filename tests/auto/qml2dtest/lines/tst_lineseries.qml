@@ -17,8 +17,6 @@ Item {
     LineSeries {
         id: initialized
 
-        axisX: ValueAxis { max: 4 }
-        axisY: ValueAxis { max: 8 }
         width: 10.0
         capStyle: Qt.RoundCap
         pointMarker: Rectangle {
@@ -39,8 +37,6 @@ Item {
     }
 
     // Values used for changing the properties
-    ValueAxis { id: axisx; max: 10 }
-    ValueAxis { id: axisy; max: 10 }
     Component { id: marker; Rectangle { width: 10; height: 10 } }
 
     TestCase {
@@ -48,8 +44,6 @@ Item {
 
         function test_1_initial() {
             // Properties from QLineSeries
-            compare(initial.axisX, null)
-            compare(initial.axisY, null)
             compare(initial.width, 2.0)
             compare(initial.capStyle, Qt.SquareCap)
             compare(initial.pointMarker, null)
@@ -72,8 +66,6 @@ Item {
         }
 
         function test_3_initial_change() {
-            initial.axisX = axisx
-            initial.axisY = axisy
             initial.width = 10.0
             initial.capStyle = Qt.RoundCap
             initial.pointMarker = marker
@@ -89,10 +81,6 @@ Item {
             initial.opacity = 0.5
             initial.valuesMultiplier = 0.5
 
-            compare(initial.axisX, axisx)
-            compare(initial.axisY, axisy)
-            compare(initial.axisX.max, 10)
-            compare(initial.axisY.max, 10)
             compare(initial.width, 10.0)
             compare(initial.capStyle, Qt.RoundCap)
             compare(initial.pointMarker, marker)
@@ -114,8 +102,6 @@ Item {
         name: "LineSeries Initialized"
 
         function test_1_initialized() {
-            compare(initialized.axisX.max, 4)
-            compare(initialized.axisY.max, 8)
             compare(initialized.width, 10.0)
             compare(initialized.capStyle, Qt.RoundCap)
             verify(initialized.pointMarker)
@@ -133,8 +119,6 @@ Item {
         }
 
         function test_2_initialized_change() {
-            initialized.axisX = axisx
-            initialized.axisY = axisy
             initialized.width = 1.0
             initialized.capStyle = Qt.SquareCap
             initialized.pointMarker = null
@@ -150,8 +134,6 @@ Item {
             initialized.opacity = 0.5
             initialized.valuesMultiplier = 0.25
 
-            compare(initialized.axisX.max, 10)
-            compare(initialized.axisY.max, 10)
             compare(initialized.width, 1.0)
             compare(initialized.capStyle, Qt.SquareCap)
             verify(!initialized.pointMarker)
@@ -168,15 +150,7 @@ Item {
             compare(initialized.valuesMultiplier, 0.25)
         }
 
-        function test_3_initialized_change_to_null() {
-            initialized.axisX = null
-            initialized.axisY = null
-
-            verify(!initialized.axisX)
-            verify(!initialized.axisY)
-        }
-
-        function test_4_initialized_change_to_invalid() {
+        function test_3_initialized_change_to_invalid() {
             initialized.width = -10.0
             initialized.capStyle = -1
             initialized.valuesMultiplier = 2.0 // range 0...1

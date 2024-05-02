@@ -53,10 +53,6 @@ void tst_bars::initialProperties()
     QVERIFY(m_series);
 
     // Properties from QBarSeries
-    QCOMPARE(m_series->axisX(), nullptr);
-    QCOMPARE(m_series->axisY(), nullptr);
-
-    // Properties from QBarSeries
     QCOMPARE(m_series->barWidth(), 0.5);
     QCOMPARE(m_series->count(), 0);
     QCOMPARE(m_series->isLabelsVisible(), false);
@@ -86,9 +82,6 @@ void tst_bars::initializeProperties()
     auto theme = new QGraphsTheme(this);
     auto set = new QBarSet(this);
 
-    m_series->setAxisX(axisX);
-    m_series->setAxisY(axisY);
-
     m_series->setBarWidth(0.75);
     m_series->setLabelsVisible(true);
     m_series->setLabelsFormat("i");
@@ -105,9 +98,6 @@ void tst_bars::initializeProperties()
     m_series->setHoverable(true);
     m_series->setOpacity(0.5);
     m_series->setValuesMultiplier(0.5);
-
-    QCOMPARE(m_series->axisX(), axisX);
-    QCOMPARE(m_series->axisY(), axisY);
 
     QCOMPARE(m_series->barWidth(), 0.75);
     QCOMPARE(m_series->count(), 1);
@@ -131,16 +121,9 @@ void tst_bars::invalidProperties()
 {
     QVERIFY(m_series);
 
-    auto axisX = new QBarCategoryAxis(this);
-    auto axisY = new QValueAxis(this);
-
-    m_series->setAxisX(axisY); // wrong axis type
-    m_series->setAxisY(axisX); // wrong axis type
     m_series->setBarWidth(2.0); // range 0...1
     m_series->setValuesMultiplier(2.0); // range 0...1
 
-    QCOMPARE(m_series->axisX(), nullptr);
-    QCOMPARE(m_series->axisY(), nullptr);
     QCOMPARE(m_series->barWidth(), 1.0);
     QCOMPARE(m_series->valuesMultiplier(), 1.0);
 

@@ -15,8 +15,6 @@ class QAreaSeriesPrivate;
 class Q_GRAPHS_EXPORT QAreaSeries : public QAbstractSeries
 {
     Q_OBJECT
-    Q_PROPERTY(QAbstractAxis *axisX READ axisX WRITE setAxisX NOTIFY axisXChanged)
-    Q_PROPERTY(QAbstractAxis *axisY READ axisY WRITE setAxisY NOTIFY axisYChanged)
     Q_PROPERTY(QColor color READ color WRITE setColor NOTIFY colorChanged)
     Q_PROPERTY(
         QColor selectedColor READ selectedColor WRITE setSelectedColor NOTIFY selectedColorChanged)
@@ -34,12 +32,6 @@ public:
     QAbstractSeries::SeriesType type() const override;
 
     QML_NAMED_ELEMENT(AreaSeries)
-
-    QAbstractAxis *axisX() const;
-    void setAxisX(QAbstractAxis *axis);
-
-    QAbstractAxis *axisY() const;
-    void setAxisY(QAbstractAxis *axis);
 
     QColor color() const;
     void setColor(const QColor &newColor);
@@ -66,8 +58,6 @@ public:
     void setLowerSeries(QXYSeries *newLowerSeries);
 
 Q_SIGNALS:
-    void axisXChanged();
-    void axisYChanged();
     void colorChanged(QColor newColor);
     void selectedColorChanged(QColor newSelectedColor);
     void borderColorChanged(QColor newBorderColor);

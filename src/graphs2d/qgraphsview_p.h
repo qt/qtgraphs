@@ -56,10 +56,18 @@ class QGraphsView : public QQuickItem
     Q_PROPERTY(qreal shadowYOffset READ shadowYOffset WRITE setShadowYOffset NOTIFY shadowYOffsetChanged FINAL)
     Q_PROPERTY(qreal shadowSmoothing READ shadowSmoothing WRITE setShadowSmoothing NOTIFY shadowSmoothingChanged FINAL)
 
+    Q_PROPERTY(QAbstractAxis *axisX READ axisX WRITE setAxisX NOTIFY axisXChanged)
+    Q_PROPERTY(QAbstractAxis *axisY READ axisY WRITE setAxisY NOTIFY axisYChanged)
+    Q_PROPERTY(GraphOrientation orientation READ orientation WRITE setOrientation NOTIFY
+                   orientationChanged)
+
     Q_CLASSINFO("DefaultProperty", "seriesList")
     QML_NAMED_ELEMENT(GraphsView)
 
 public:
+    enum class GraphOrientation { Vertical, Horizontal };
+    Q_ENUM(GraphOrientation)
+
     explicit QGraphsView(QQuickItem *parent = nullptr);
     ~QGraphsView() override;
 
@@ -132,6 +140,15 @@ public:
     qreal shadowSmoothing() const;
     void setShadowSmoothing(qreal smoothing);
 
+    QAbstractAxis *axisX() const;
+    void setAxisX(QAbstractAxis *axis);
+
+    QAbstractAxis *axisY() const;
+    void setAxisY(QAbstractAxis *axis);
+
+    GraphOrientation orientation() const;
+    void setOrientation(GraphOrientation newOrientation);
+
 protected:
     void handleHoverEnter(QString seriesName, QPointF position, QPointF value);
     void handleHoverExit(QString seriesName, QPointF position);
@@ -168,6 +185,11 @@ Q_SIGNALS:
     void shadowYOffsetChanged();
     void shadowSmoothingChanged();
 
+    void axisXChanged();
+    void axisYChanged();
+
+    void orientationChanged();
+
 private:
     friend class AxisRenderer;
     friend class BarsRenderer;
@@ -186,6 +208,10 @@ private:
     QSGClipNode *m_backgroundNode = nullptr;
 
     QList<QAbstractAxis *> m_axis;
+
+    QAbstractAxis *m_axisX = nullptr;
+    QAbstractAxis *m_axisY = nullptr;
+    GraphOrientation m_orientation = GraphOrientation::Vertical;
 
     QGraphsTheme *m_theme = nullptr;
     QGraphsTheme *m_defaultTheme = nullptr;

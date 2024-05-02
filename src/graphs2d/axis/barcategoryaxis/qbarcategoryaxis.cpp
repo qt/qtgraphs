@@ -32,12 +32,12 @@ QT_BEGIN_NAMESPACE
     \code
         GraphsView {
             anchors.fill: parent
+            axisX: BarCategoryAxis {
+                categories: ["2023", "2024", "2025"]
+                lineVisible: false
+            }
+            axisY: ValueAxis { }
             BarSeries {
-                axisX: BarCategoryAxis {
-                    categories: ["2023", "2024", "2025"]
-                    lineVisible: false
-                }
-                axisY: ValueAxis { }
                 BarSet {
                     values: [7, 6, 9]
                 }

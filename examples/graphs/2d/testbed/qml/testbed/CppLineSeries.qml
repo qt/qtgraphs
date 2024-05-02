@@ -93,6 +93,13 @@ Rectangle {
         anchors.fill: parent
         anchors.margins: 20 * px
         anchors.topMargin: 80 * px
+        axisX: ValueAxis {
+            max: 4
+        }
+        axisY: ValueAxis {
+            min: -1
+            max: 1
+        }
         theme: GraphsTheme {
             id: myTheme
             colorScheme: Qt.Dark
@@ -100,14 +107,7 @@ Rectangle {
             axisXLabelFont.pixelSize: 20
         }
         CustomLineSeries {
-            id: barSeries
-            axisX: ValueAxis {
-                max: 4
-            }
-            axisY: ValueAxis {
-                min: -1
-                max: 1
-            }
+            id: lineSeries
             amplitude: ampSlider.value
             frequency: freqSlider.value
             phase: phaseSlider.value

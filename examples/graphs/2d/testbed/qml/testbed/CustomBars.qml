@@ -52,6 +52,31 @@ Rectangle {
         anchors.fill: parent
         anchors.margins: 20 * px
         anchors.topMargin: 20 * px
+
+        axisX: BarCategoryAxis {
+            categories: ["2023", "2024", "2025", "2026"]
+            gridVisible: false
+            minorGridVisible: false
+        }
+        axisY: ValueAxis {
+            minorTickCount: 9
+            tickInterval: 1
+            labelDecimals: 1
+            SequentialAnimation on max {
+                loops: Animation.Infinite
+                NumberAnimation {
+                    to: 8
+                    duration: 3000
+                    easing.type: Easing.InOutQuad
+                }
+                NumberAnimation {
+                    to: 12.5
+                    duration: 6000
+                    easing.type: Easing.InOutQuad
+                }
+            }
+        }
+
         theme: GraphsTheme {
             id: myTheme
             colorScheme: Qt.Dark
@@ -70,29 +95,6 @@ Rectangle {
                 }
             }
 
-            axisX: BarCategoryAxis {
-                categories: ["2023", "2024", "2025", "2026"]
-                gridVisible: false
-                minorGridVisible: false
-            }
-            axisY: ValueAxis {
-                minorTickCount: 9
-                tickInterval: 1
-                labelDecimals: 1
-                SequentialAnimation on max {
-                    loops: Animation.Infinite
-                    NumberAnimation {
-                        to: 8
-                        duration: 3000
-                        easing.type: Easing.InOutQuad
-                    }
-                    NumberAnimation {
-                        to: 12.5
-                        duration: 6000
-                        easing.type: Easing.InOutQuad
-                    }
-                }
-            }
             selectable: true
             barWidth: 0.8
             valuesMultiplier: barSeries.showAnimated

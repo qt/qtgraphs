@@ -19,6 +19,30 @@ Rectangle {
         shadowEnabled: checkBoxShadowEnabled.checked
         shadowColor: "#80404040"
 
+        axisX: BarCategoryAxis {
+            id: xAxis
+            visible: checkBoxAxisXVisible.checked
+            lineVisible: checkBoxAxisXLineVisible.checked
+            labelsVisible: checkBoxAxisXLabelsVisible.checked
+            categories: [1, 2, 3, 4, 5, 6]
+            gridVisible: checkBoxGridXMajor.checked
+            minorGridVisible: checkBoxGridXMinor.checked
+        }
+        axisY: ValueAxis {
+            id: yAxis
+            visible: checkBoxAxisYVisible.checked
+            lineVisible: checkBoxAxisYLineVisible.checked
+            labelsVisible: checkBoxAxisYLabelsVisible.checked
+            max: 10
+            minorTickCount: 1
+            // Alternative tick formatting
+            //tickInterval: 1.0
+            //labelFormat: "g"
+            //labelDecimals: 3
+            gridVisible: checkBoxGridYMajor.checked
+            minorGridVisible: checkBoxGridYMinor.checked
+        }
+
         theme: GraphsTheme {
             id: myTheme
             colorScheme: Qt.Dark
@@ -40,29 +64,6 @@ Rectangle {
         BarSeries {
             id: mySeries
             theme: customSeriesTheme
-            axisX: BarCategoryAxis {
-                id: xAxis
-                visible: checkBoxAxisXVisible.checked
-                lineVisible: checkBoxAxisXLineVisible.checked
-                labelsVisible: checkBoxAxisXLabelsVisible.checked
-                categories: [1, 2, 3, 4, 5, 6]
-                gridVisible: checkBoxGridXMajor.checked
-                minorGridVisible: checkBoxGridXMinor.checked
-            }
-            axisY: ValueAxis {
-                id: yAxis
-                visible: checkBoxAxisYVisible.checked
-                lineVisible: checkBoxAxisYLineVisible.checked
-                labelsVisible: checkBoxAxisYLabelsVisible.checked
-                max: 10
-                minorTickCount: 1
-                // Alternative tick formatting
-                //tickInterval: 1.0
-                //labelFormat: "g"
-                //labelDecimals: 3
-                gridVisible: checkBoxGridYMajor.checked
-                minorGridVisible: checkBoxGridYMinor.checked
-            }
 
             BarSet { id: set1; label: "Bob"; values: [1, 2, 3, 4, 5, 6] }
             BarSet { id: set2; label: "Frank"; values: [8, 8, 6, 0, 5, 3] }

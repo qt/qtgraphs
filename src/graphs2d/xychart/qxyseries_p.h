@@ -36,8 +36,6 @@ protected:
     QSet<int> m_selectedPoints;
     QColor m_color = QColor(Qt::transparent);
     QColor m_selectedColor = QColor(Qt::transparent);
-    QAbstractAxis *m_axisX = nullptr;
-    QAbstractAxis *m_axisY = nullptr;
     QQmlComponent *m_marker = nullptr;
     QGraphTransition *m_graphTransition = nullptr;
     bool m_draggable = false;

@@ -34,23 +34,22 @@ QT_BEGIN_NAMESPACE
     \image graphs2d-scatter.png
 
     You can represent scatter data by creating a ScatterSeries inside
-    GraphsView. Axis types should be then defined for ScatterSeries
-    using axisX and axisY properties. Finally data can be added
-    to the graph by creating XYPoints as children for the ScatterSeries
-    that define the x and y values of each point.
+    GraphsView. The data can be added to the graph by creating XYPoints as
+    children for the ScatterSeries that define the x and y values of each
+    point.
 
     \code
     GraphsView {
         anchors.fill: parent
+        axisX: ValueAxis {
+            max: 3
+        }
+        axisY: ValueAxis {
+            max: 3
+        }
+
         ScatterSeries {
             color: "#00ff00"
-            axisX: ValueAxis {
-                max: 3
-            }
-            axisY: ValueAxis {
-                max: 3
-            }
-
             XYPoint { x: 0.5; y: 0.5 }
             XYPoint { x: 1; y: 1 }
             XYPoint { x: 2; y: 2 }

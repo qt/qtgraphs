@@ -485,64 +485,6 @@ QColor QXYSeries::selectedColor() const
 }
 
 /*!
-    \property QXYSeries::axisX
-    \brief X-axis of the series.
-
-    The x-axis used for the series. This should be QValueAxis.
-*/
-/*!
-    \qmlproperty AbstractAxis XYSeries::axisX
-    The x-axis used for the series. This should be ValueAxis.
-    \sa axisY
-*/
-QAbstractAxis *QXYSeries::axisX() const
-{
-    Q_D(const QXYSeries);
-    return d->m_axisX;
-}
-
-void QXYSeries::setAxisX(QAbstractAxis *axis)
-{
-    Q_D(QXYSeries);
-    detachAxis(d->m_axisX);
-    d->m_axisX = axis;
-    if (axis) {
-        axis->setOrientation(Qt::Horizontal);
-        attachAxis(axis);
-    }
-    emit update();
-}
-
-/*!
-    \property QXYSeries::axisY
-    \brief Y-axis of the series.
-
-    The y-axis used for the series. This should be QValueAxis.
-*/
-/*!
-    \qmlproperty AbstractAxis XYSeries::axisY
-    The y-axis used for the series. This should be ValueAxis.
-    \sa axisX
-*/
-QAbstractAxis *QXYSeries::axisY() const
-{
-    Q_D(const QXYSeries);
-    return d->m_axisY;
-}
-
-void QXYSeries::setAxisY(QAbstractAxis *axis)
-{
-    Q_D(QXYSeries);
-    detachAxis(d->m_axisY);
-    d->m_axisY = axis;
-    if (axis) {
-        axis->setOrientation(Qt::Vertical);
-        attachAxis(axis);
-    }
-    emit update();
-}
-
-/*!
     \property QXYSeries::pointMarker
     \brief A custom QML Component used as a marker for data points.
 */

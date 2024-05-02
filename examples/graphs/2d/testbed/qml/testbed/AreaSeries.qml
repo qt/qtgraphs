@@ -82,6 +82,15 @@ Rectangle {
         anchors.rightMargin: settingsView.posX + 20 * px
         backgroundColor: "#202020"
 
+        axisX: ValueAxis {
+            id: xAxis
+            max: 8
+        }
+        axisY: ValueAxis {
+            id: yAxis
+            max: 4
+        }
+
         GraphsTheme {
             id: seriesTheme
             colorScheme: Qt.Dark
@@ -91,15 +100,6 @@ Rectangle {
         AreaSeries {
             theme: seriesTheme
             selectable: true
-
-            axisX: ValueAxis {
-                id: xAxis
-                max: 8
-            }
-            axisY: ValueAxis {
-                id: yAxis
-                max: 4
-            }
 
             upperSeries: LineSeries {
                 XYPoint { x: 0; y: 1 }

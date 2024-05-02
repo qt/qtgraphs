@@ -15,6 +15,15 @@ Rectangle {
         anchors.margins: 20 * px
         anchors.topMargin: 80 * px
         anchors.rightMargin: settingsView.posX + 20 * px
+        axisX: BarCategoryAxis {
+            categories: ["2023", "2024", "2025", "2026"]
+            minorGridVisible: false
+        }
+        axisY: ValueAxis {
+            id: axisY
+            max: 10
+            minorTickCount: 9
+        }
         theme: GraphsTheme {
             id: myTheme
             colorScheme: Qt.Dark
@@ -23,15 +32,6 @@ Rectangle {
         }
         BarSeries {
             id: barSeries
-            axisX: BarCategoryAxis {
-                categories: ["2023", "2024", "2025", "2026"]
-                minorGridVisible: false
-            }
-            axisY: ValueAxis {
-                id: axisY
-                max: 10
-                minorTickCount: 9
-            }
             selectable: true
             labelsVisible: checkBoxLabelsVisible.checked
             labelsPrecision: barsDecimalsSlider.sliderValue
@@ -76,10 +76,10 @@ Rectangle {
             width: 250
             text: "Vertical/Horizontal bars"
             onClicked: {
-                if (barSeries.barsOrientation == BarSeries.BarsOrientation.Vertical)
-                    barSeries.barsOrientation = BarSeries.BarsOrientation.Horizontal
+                if (chartView.orientation === GraphsView.GraphOrientation.Vertical)
+                    chartView.orientation = GraphsView.GraphOrientation.Horizontal
                 else
-                    barSeries.barsOrientation = BarSeries.BarsOrientation.Vertical
+                    chartView.orientation = GraphsView.GraphOrientation.Vertical
             }
         }
         Button {

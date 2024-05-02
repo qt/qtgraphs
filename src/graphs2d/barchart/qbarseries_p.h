@@ -62,8 +62,6 @@ public:
     bool labelsDirty() const { return m_labelsDirty; }
 
 protected:
-    QAbstractAxis *m_axisX = nullptr;
-    QAbstractAxis *m_axisY = nullptr;
     QList<QBarSet *> m_barSets;
     qreal m_barWidth;
     bool m_labelsVisible;
@@ -71,7 +69,6 @@ protected:
     bool m_blockBarUpdate;
     QString m_labelsFormat;
     QBarSeries::BarsType m_barsType = QBarSeries::BarsType::Groups;
-    QBarSeries::BarsOrientation m_barsOrientation = QBarSeries::BarsOrientation::Vertical;
     QBarSeries::LabelsPosition m_labelsPosition = QBarSeries::LabelsPosition::Center;
     qreal m_labelsMargin;
     qreal m_labelsAngle;

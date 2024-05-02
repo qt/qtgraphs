@@ -19,8 +19,6 @@ class QXYModelMapper;
 class Q_GRAPHS_EXPORT QXYSeries : public QAbstractSeries
 {
     Q_OBJECT
-    Q_PROPERTY(QAbstractAxis *axisX READ axisX WRITE setAxisX NOTIFY axisXChanged)
-    Q_PROPERTY(QAbstractAxis *axisY READ axisY WRITE setAxisY NOTIFY axisYChanged)
     Q_PROPERTY(QColor color READ color WRITE setColor NOTIFY colorChanged)
     Q_PROPERTY(
         QColor selectedColor READ selectedColor WRITE setSelectedColor NOTIFY selectedColorChanged)
@@ -72,12 +70,6 @@ public:
     void toggleSelection(const QList<int> &indexes);
     QList<int> selectedPoints() const;
 
-    QAbstractAxis *axisX() const;
-    void setAxisX(QAbstractAxis *axis);
-
-    QAbstractAxis *axisY() const;
-    void setAxisY(QAbstractAxis *axis);
-
     QQmlComponent *pointMarker() const;
     void setPointMarker(QQmlComponent *newPointMarker);
 
@@ -96,8 +88,6 @@ Q_SIGNALS:
     void pointsReplaced();
     void pointsRemoved(int index, int count);
     void selectedPointsChanged();
-    void axisXChanged();
-    void axisYChanged();
     void pointMarkerChanged();
     void draggableChanged();
     void seriesUpdated();

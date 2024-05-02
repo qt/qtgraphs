@@ -65,7 +65,7 @@ QString BarsRenderer::generateLabelText(QBarSeries *series, qreal value)
 void BarsRenderer::positionLabelItem(QBarSeries *series, QQuickText *textItem, const BarSeriesData &d)
 {
     auto pos = series->labelsPosition();
-    const bool vertical = series->barsOrientation() == QBarSeries::BarsOrientation::Vertical;
+    const bool vertical = m_graph->orientation() == QGraphsView::GraphOrientation::Vertical;
     const float w = textItem->contentWidth() + series->labelsMargin() * 2;
     const float h = textItem->contentHeight() + series->labelsMargin() * 2;
     textItem->setWidth(w);
@@ -444,7 +444,7 @@ void BarsRenderer::handlePolish(QBarSeries *series)
 
     // Get bars values
     int valuesPerSet = series->barSets().first()->values().size();
-    if (series->barsOrientation() == QBarSeries::BarsOrientation::Vertical)
+    if (m_graph->orientation() == QGraphsView::GraphOrientation::Vertical)
         updateVerticalBars(series, setCount, valuesPerSet);
     else
         updateHorizontalBars(series, setCount, valuesPerSet);

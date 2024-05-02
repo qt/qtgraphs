@@ -52,8 +52,6 @@ void tst_lines::initialProperties()
     QVERIFY(m_series);
 
     // Properties from QLineSeries
-    QCOMPARE(m_series->axisX(), nullptr);
-    QCOMPARE(m_series->axisY(), nullptr);
     QCOMPARE(m_series->width(), 2.0);
     QCOMPARE(m_series->capStyle(), Qt::PenCapStyle::SquareCap);
     QCOMPARE(m_series->pointMarker(), nullptr);
@@ -82,8 +80,6 @@ void tst_lines::initializeProperties()
     auto marker = new QQmlComponent(this);
     auto theme = new QGraphsTheme(this);
 
-    m_series->setAxisX(axisX);
-    m_series->setAxisY(axisY);
     m_series->setWidth(5.0);
     m_series->setCapStyle(Qt::PenCapStyle::RoundCap);
     m_series->setPointMarker(marker);
@@ -100,8 +96,6 @@ void tst_lines::initializeProperties()
     m_series->setOpacity(0.5);
     m_series->setValuesMultiplier(0.5);
 
-    QCOMPARE(m_series->axisX(), axisX);
-    QCOMPARE(m_series->axisY(), axisY);
     QCOMPARE(m_series->width(), 5.0);
     QCOMPARE(m_series->capStyle(), Qt::PenCapStyle::RoundCap);
     QCOMPARE(m_series->pointMarker(), marker);

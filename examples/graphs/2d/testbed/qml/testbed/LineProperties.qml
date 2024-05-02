@@ -133,6 +133,15 @@ Rectangle {
         anchors.rightMargin: settingsView.posX + 20 * px
         backgroundColor: "#202020"
 
+        axisX: ValueAxis {
+            id: xAxis
+            max: 4
+        }
+        axisY: ValueAxis {
+            id: yAxis
+            max: 8
+        }
+
         GraphsTheme {
             id: seriesTheme
             theme: GraphsTheme.Theme.QtGreen
@@ -145,14 +154,6 @@ Rectangle {
             width: widthSlider1.value
             selectable: true
             draggable: true
-            axisX: ValueAxis {
-                id: xAxis
-                max: 4
-            }
-            axisY: ValueAxis {
-                id: yAxis
-                max: 8
-            }
             pointMarker: Image {
                 property bool selected: false
                 source: "images/happy_box.png"

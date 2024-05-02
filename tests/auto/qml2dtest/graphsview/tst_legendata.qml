@@ -13,6 +13,15 @@ Item {
         height: top.height
         width: top.width
 
+        axisX: ValueAxis {
+            id: xAxis
+            max: 4
+        }
+        axisY: ValueAxis {
+            id: yAxis
+            max: 8
+        }
+
         theme: GraphsTheme {
             id: myTheme
             theme: GraphsTheme.Theme.QtGreen
@@ -66,15 +75,6 @@ Item {
             id: lineInitialized
             name: "Second"
             theme: theme1
-
-            axisX: ValueAxis {
-                id: xAxis
-                max: 4
-            }
-            axisY: ValueAxis {
-                id: yAxis
-                max: 8
-            }
 
             XYPoint {
                 x: 0

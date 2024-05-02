@@ -17,9 +17,6 @@ Item {
     AreaSeries {
         id: initialized
 
-        axisX: ValueAxis { max: 4 }
-        axisY: ValueAxis { max: 8 }
-
         color: "#ff00ff"
         selectedColor: "#00ff00"
         borderColor: "#ff00ff"
@@ -36,10 +33,6 @@ Item {
         opacity: 0.75
         valuesMultiplier: 0.75
     }
-
-    // Values used for changing the properties
-    ValueAxis { id: axisx; max: 10 }
-    ValueAxis { id: axisy; max: 10 }
 
     LineSeries {
         id: upperSeries
@@ -73,8 +66,6 @@ Item {
         name: "AreaSeries Initial"
 
         function test_1_initial() {
-            compare(initial.axisX, null)
-            compare(initial.axisY, null)
             compare(initial.color, "#00000000")
             compare(initial.selectedColor, "#00000000")
             compare(initial.borderColor, "#00000000")
@@ -97,9 +88,6 @@ Item {
         }
 
         function test_3_initial_change() {
-            initial.axisX = axisx
-            initial.axisY = axisy
-
             initial.color = "#ff00ff"
             initial.selectedColor = "#00ff00"
             initial.borderColor = "#ff00ff"
@@ -115,11 +103,6 @@ Item {
             initial.hoverable = true
             initial.opacity = 0.5
             initial.valuesMultiplier = 0.5
-
-            compare(initial.axisX, axisx)
-            compare(initial.axisY, axisy)
-            compare(initial.axisX.max, 10)
-            compare(initial.axisY.max, 10)
 
             compare(initial.color, "#ff00ff")
             compare(initial.selectedColor, "#00ff00")
@@ -143,9 +126,6 @@ Item {
         name: "AreaSeries Initialized"
 
         function test_1_initialized() {
-            compare(initialized.axisX.max, 4)
-            compare(initialized.axisY.max, 8)
-
             compare(initialized.color, "#ff00ff")
             compare(initialized.selectedColor, "#00ff00")
             compare(initialized.borderColor, "#ff00ff")
@@ -164,9 +144,6 @@ Item {
         }
 
         function test_2_initialized_change() {
-            initialized.axisX = axisx
-            initialized.axisY = axisy
-
             initialized.color = "#0000ff"
             initialized.selectedColor = "#ff0000"
             initialized.borderColor = "#0000ff"
@@ -182,9 +159,6 @@ Item {
             initialized.hoverable = false
             initialized.opacity = 0.5
             initialized.valuesMultiplier = 0.25
-
-            compare(initialized.axisX.max, 10)
-            compare(initialized.axisY.max, 10)
 
             compare(initialized.color, "#0000ff")
             compare(initialized.selectedColor, "#ff0000")
@@ -204,13 +178,9 @@ Item {
         }
 
         function test_3_initialized_change_to_null() {
-            initialized.axisX = null
-            initialized.axisY = null
             initialized.upperSeries = null
             initialized.lowerSeries = null
 
-            verify(!initialized.axisY)
-            verify(!initialized.axisX)
             verify(!initialized.upperSeries)
             verify(!initialized.lowerSeries)
         }

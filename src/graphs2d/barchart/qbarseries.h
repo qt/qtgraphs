@@ -5,7 +5,6 @@
 #define QBARSERIES_H
 
 #include <QtGraphs/qabstractseries.h>
-#include <QtGraphs/qabstractaxis.h>
 #include <QtGraphs/qgraphsglobal.h>
 
 QT_BEGIN_NAMESPACE
@@ -17,10 +16,7 @@ class Q_GRAPHS_EXPORT QBarSeries : public QAbstractSeries
 {
     Q_OBJECT
     Q_CLASSINFO("RegisterEnumClassesUnscoped", "false")
-    Q_PROPERTY(QAbstractAxis *axisX READ axisX WRITE setAxisX NOTIFY axisXChanged)
-    Q_PROPERTY(QAbstractAxis *axisY READ axisY WRITE setAxisY NOTIFY axisYChanged)
     Q_PROPERTY(BarsType barsType READ barsType WRITE setBarsType NOTIFY barsTypeChanged)
-    Q_PROPERTY(BarsOrientation barsOrientation READ barsOrientation WRITE setBarsOrientation NOTIFY barsOrientationChanged)
     Q_PROPERTY(qreal barWidth READ barWidth WRITE setBarWidth NOTIFY barWidthChanged)
     Q_PROPERTY(int count READ count NOTIFY countChanged)
     Q_PROPERTY(bool labelsVisible READ isLabelsVisible WRITE setLabelsVisible NOTIFY labelsVisibleChanged)
@@ -49,26 +45,12 @@ public:
     };
     Q_ENUM(BarsType)
 
-    enum class BarsOrientation {
-        Vertical,
-        Horizontal
-    };
-    Q_ENUM(BarsOrientation)
-
     explicit QBarSeries(QObject *parent = nullptr);
     QAbstractSeries::SeriesType type() const override;
     ~QBarSeries() override;
 
-    QAbstractAxis *axisX();
-    void setAxisX(QAbstractAxis *axis);
-    QAbstractAxis *axisY();
-    void setAxisY(QAbstractAxis *axis);
-
     void setBarsType(QBarSeries::BarsType type);
     QBarSeries::BarsType barsType() const;
-
-    void setBarsOrientation(QBarSeries::BarsOrientation orientation);
-    QBarSeries::BarsOrientation barsOrientation() const;
 
     void setBarWidth(qreal width);
     qreal barWidth() const;
@@ -121,14 +103,11 @@ Q_SIGNALS:
     void updatedLayout();
     void restructuredBars();
     void countChanged();
-    void axisXChanged(QAbstractAxis *axis);
-    void axisYChanged(QAbstractAxis *axis);
     void barWidthChanged();
     void labelsVisibleChanged(bool visible);
     void labelsFormatChanged(const QString &format);
     void labelsPositionChanged(QBarSeries::LabelsPosition position);
     void barsTypeChanged(QBarSeries::BarsType type);
-    void barsOrientationChanged(QBarSeries::BarsOrientation orientation);
     void labelsMarginChanged(qreal margin);
     void labelsAngleChanged(qreal angle);
     void labelsPrecisionChanged(int precision);

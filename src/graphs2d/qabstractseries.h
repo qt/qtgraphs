@@ -92,10 +92,6 @@ public:
     QGraphsView *graph() const;
     void setGraph(QGraphsView *graph);
 
-    bool attachAxis(QAbstractAxis *axis);
-    bool detachAxis(QAbstractAxis *axis);
-    QList<QAbstractAxis*> attachedAxes();
-
     const QList<QLegendData> legendData() const;
 
     void show();

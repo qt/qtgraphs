@@ -30,6 +30,12 @@ Rectangle {
         anchors.margins: 10
         backgroundColor: "#202020"
 
+        axisX: BarCategoryAxis { categories: ["2023", "2024", "2025", "2026"] }
+        axisY: ValueAxis {
+            id: yAxis
+            max: 8
+        }
+
         onHoverEnter: {
             tooltip.visible = true;
         }
@@ -55,11 +61,6 @@ Rectangle {
             name: "Bars"
             theme: seriesTheme
             hoverable: true
-            axisX: BarCategoryAxis { categories: ["2023", "2024", "2025", "2026"] }
-            axisY: ValueAxis {
-                id: yAxis
-                max: 8
-            }
             BarSet { id: set1; label: "Axel"; values: [1, 2, 3, 4] }
             BarSet { id: set2; label: "Bob"; values: [4, 3, 2, 1] }
         }

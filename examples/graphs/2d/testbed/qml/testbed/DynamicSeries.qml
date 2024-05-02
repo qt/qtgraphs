@@ -23,6 +23,18 @@ Rectangle {
         anchors.margins: 10
         backgroundColor: "#202020"
 
+        axisY: ValueAxis {
+            id: yAxis
+            max: 5
+        }
+
+        axisX: ValueAxis {
+            id: xAxis
+            tickInterval: 1
+            max: 6
+            min: 0
+        }
+
         GraphsTheme {
             id: seriesTheme
             theme: GraphsTheme.Theme.QtGreen
@@ -33,18 +45,6 @@ Rectangle {
             name: "Spline"
             theme: seriesTheme
             width: 4
-
-            axisY: ValueAxis {
-                id: yAxis
-                max: 5
-            }
-
-            axisX: ValueAxis {
-                id: xAxis
-                tickInterval: 1
-                max: 6
-                min: 0
-            }
 
             GraphTransition {
                 GraphPointAnimation { duration: 1000; easingCurve.type: Easing.OutCubic }

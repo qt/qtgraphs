@@ -19,6 +19,15 @@ Rectangle {
         anchors.margins: 10
         backgroundColor: "#202020"
 
+        axisX: ValueAxis {
+            id: xAxis
+            max: 4.1
+        }
+        axisY: ValueAxis {
+            id: yAxis
+            max: 3.2
+        }
+
         GraphsTheme {
             id: seriesTheme
             colorScheme: Qt.Dark
@@ -37,15 +46,6 @@ Rectangle {
                 color: seriesColor
                 width: 16
                 height: 16
-            }
-
-            axisX: ValueAxis {
-                id: xAxis
-                max: 4.1
-            }
-            axisY: ValueAxis {
-                id: yAxis
-                max: 3.2
             }
 
             XYPoint { x: 0; y: 0.0 }

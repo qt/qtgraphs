@@ -53,8 +53,6 @@ void tst_area::initialProperties()
     QVERIFY(m_series);
 
     // Properties from QAreaSeries
-    QCOMPARE(m_series->axisX(), nullptr);
-    QCOMPARE(m_series->axisY(), nullptr);
     QCOMPARE(m_series->color(), QColor(Qt::transparent));
     QCOMPARE(m_series->selectedColor(), QColor(Qt::transparent));
     QCOMPARE(m_series->borderColor(), QColor(Qt::transparent));
@@ -84,9 +82,6 @@ void tst_area::initializeProperties()
     auto upperSeries = new QLineSeries(this);
     auto lowerSeries = new QLineSeries(this);
 
-    m_series->setAxisX(axisX);
-    m_series->setAxisY(axisY);
-
     m_series->setColor("#ff0000");
     m_series->setSelectedColor("#0000ff");
     m_series->setBorderColor("#ff0000");
@@ -103,9 +98,6 @@ void tst_area::initializeProperties()
     m_series->setHoverable(true);
     m_series->setOpacity(0.5);
     m_series->setValuesMultiplier(0.5);
-
-    QCOMPARE(m_series->axisX(), axisX);
-    QCOMPARE(m_series->axisY(), axisY);
 
     QCOMPARE(m_series->color(), "#ff0000");
     QCOMPARE(m_series->selectedColor(), "#0000ff");

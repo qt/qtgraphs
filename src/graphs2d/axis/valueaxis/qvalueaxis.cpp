@@ -30,15 +30,15 @@ QT_BEGIN_NAMESPACE
     The following example code illustrates how to use the ValueAxis type:
     \code
     GraphsView {
+        axisX: ValueAxis {
+            max: 10
+            tickInterval: 1
+        }
+        axisY: ValueAxis {
+            min -20
+            max: 40
+        }
         LineSeries {
-            axisX: ValueAxis {
-                max: 10
-                tickInterval: 1
-            }
-            axisY: ValueAxis {
-                min -20
-                max: 40
-            }
             // Add a few XYPoint data...
         }
     }

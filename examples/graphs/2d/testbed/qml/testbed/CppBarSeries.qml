@@ -14,6 +14,12 @@ Rectangle {
         anchors.fill: parent
         anchors.margins: 20 * px
         anchors.topMargin: 80 * px
+        axisX: BarCategoryAxis {
+            categories: ["2023", "2024"]
+        }
+        axisY: ValueAxis {
+            max: 30
+        }
         theme: GraphsTheme {
             id: myTheme
             colorScheme: Qt.Dark
@@ -22,12 +28,6 @@ Rectangle {
         }
         CustomBarSeries {
             id: barSeries
-            axisX: BarCategoryAxis {
-                categories: ["2023", "2024"]
-            }
-            axisY: ValueAxis {
-                max: 30
-            }
         }
     }
 }

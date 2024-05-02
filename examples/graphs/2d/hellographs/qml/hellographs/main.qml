@@ -30,6 +30,17 @@ Item {
             GraphsView {
                 anchors.fill: parent
                 anchors.margins: 16
+                axisX: BarCategoryAxis {
+                    categories: [2024, 2025, 2026]
+                    gridVisible: false
+                    minorGridVisible: false
+                }
+                axisY: ValueAxis {
+                    min: 20
+                    max: 100
+                    tickInterval: 10
+                    minorTickCount: 9
+                }
                 theme: GraphsTheme {
                     colorScheme: Qt.Dark
                     theme: GraphsTheme.Theme.QtGreen
@@ -37,17 +48,6 @@ Item {
                 //! [bargraph]
                 //! [barseries]
                 BarSeries {
-                    axisX: BarCategoryAxis {
-                        categories: [2024, 2025, 2026]
-                        gridVisible: false
-                        minorGridVisible: false
-                    }
-                    axisY: ValueAxis {
-                        min: 20
-                        max: 100
-                        tickInterval: 10
-                        minorTickCount: 9
-                    }
                     //! [barseries]
                     //! [barset]
                     BarSet {
@@ -88,6 +88,18 @@ Item {
                     axisXLabelColor: c1
                     axisYLabelColor: c1
                 }
+                axisX: ValueAxis {
+                    max: 5
+                    tickInterval: 1
+                    minorTickCount: 9
+                    labelDecimals: 1
+                }
+                axisY: ValueAxis {
+                    max: 10
+                    tickInterval: 1
+                    minorTickCount: 4
+                    labelDecimals: 1
+                }
                 //! [linegraph]
 
                 //! [linemarker]
@@ -112,18 +124,6 @@ Item {
                 LineSeries {
                     id: lineSeries1
                     theme: seriesTheme
-                    axisX: ValueAxis {
-                        max: 5
-                        tickInterval: 1
-                        minorTickCount: 9
-                        labelDecimals: 1
-                    }
-                    axisY: ValueAxis {
-                        max: 10
-                        tickInterval: 1
-                        minorTickCount: 4
-                        labelDecimals: 1
-                    }
                     width: 4
                     pointMarker: Marker { }
                     XYPoint { x: 0; y: 0 }

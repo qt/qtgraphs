@@ -34,6 +34,7 @@ See \l{Testbed} for more thorough usage examples.
 
 \sa BarSeries, LineSeries, BarCategoryAxis, ValueAxis, GraphTheme
 */
+
 QGraphsView::QGraphsView(QQuickItem *parent) :
     QQuickItem(parent)
 {
@@ -112,11 +113,8 @@ void QGraphsView::insertSeries(int index, QObject *object)
 
 void QGraphsView::removeSeries(QObject *object)
 {
-    if (auto series = reinterpret_cast<QAbstractSeries *>(object)) {
+    if (auto series = reinterpret_cast<QAbstractSeries *>(object))
         m_seriesList.removeAll(series);
-        for (auto a : series->attachedAxes())
-            m_axis.removeAll(a);
-    }
 }
 
 bool QGraphsView::hasSeries(QObject *series)
@@ -132,6 +130,7 @@ void QGraphsView::addAxis(QAbstractAxis *axis)
         QObject::connect(axis, &QAbstractAxis::update, this, &QGraphsView::polishAndUpdate);
     }
 }
+
 void QGraphsView::removeAxis(QAbstractAxis *axis)
 {
     if (m_axis.contains(axis)) {
@@ -691,6 +690,99 @@ void QGraphsView::setMarginRight(qreal newMarginRight)
     updateComponentSizes();
     polishAndUpdate();
     emit marginRightChanged();
+}
+
+/*!
+    \property QGraphsView::axisX
+    \brief X-axis of this view.
+
+    The x-axis used for the series inside this view.
+*/
+/*!
+    \qmlproperty AbstractAxis GraphsView::axisX
+    The x-axis used for the series inside this view.
+    \sa axisY
+*/
+
+QAbstractAxis *QGraphsView::axisX() const
+{
+    return m_axisX;
+}
+
+void QGraphsView::setAxisX(QAbstractAxis *axis)
+{
+    removeAxis(m_axisX);
+    m_axisX = axis;
+    if (axis) {
+        axis->setOrientation(Qt::Horizontal);
+        addAxis(axis);
+    }
+    emit update();
+}
+
+/*!
+    \property QGraphsView::axisY
+    \brief Y-axis of this view.
+
+    The y-axis used for the series inside this view.
+*/
+/*!
+    \qmlproperty AbstractAxis QGraphsView::axisY
+    The y-axis used for the series inside this view.
+    \sa axisX
+*/
+
+QAbstractAxis *QGraphsView::axisY() const
+{
+    return m_axisY;
+}
+
+void QGraphsView::setAxisY(QAbstractAxis *axis)
+{
+    removeAxis(m_axisY);
+    m_axisY = axis;
+    if (axis) {
+        axis->setOrientation(Qt::Vertical);
+        addAxis(axis);
+    }
+    emit update();
+}
+
+/*!
+    \enum QGraphsView::GraphOrientation
+
+    This enum value describes the orientation of the view:
+
+    \value Vertical The series appear vertically.
+    \value Horizontal The series appear horizontally.
+*/
+/*!
+    \property QGraphsView::orientation
+    \brief The orientation of the view. By default the series appear vertically.
+*/
+/*!
+    \qmlproperty enumeration QGraphsView::orientation
+
+    The orientation of the view:
+
+    \value QGraphsView.GraphOrientation.Vertical
+        The series appear vertically. This is the default value.
+    \value QGraphsView.GraphOrientation.Horizontal
+        The series appear horizontally.
+*/
+
+QGraphsView::GraphOrientation QGraphsView::orientation() const
+{
+    return m_orientation;
+}
+
+void QGraphsView::setOrientation(QGraphsView::GraphOrientation newOrientation)
+{
+    if (m_orientation == newOrientation)
+        return;
+    m_orientation = newOrientation;
+    emit orientationChanged();
+    emit update();
 }
 
 QT_END_NAMESPACE

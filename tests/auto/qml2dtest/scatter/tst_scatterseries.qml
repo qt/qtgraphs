@@ -17,8 +17,6 @@ Item {
     ScatterSeries {
         id: initialized
 
-        axisX: ValueAxis { max: 4 }
-        axisY: ValueAxis { max: 8 }
         pointMarker: Rectangle {
             width: 12
             height: 12
@@ -37,17 +35,12 @@ Item {
     }
 
     // Values used for changing the properties
-    ValueAxis { id: axisx; max: 10 }
-    ValueAxis { id: axisy; max: 10 }
-
     Component { id: marker; Rectangle { width: 10; height: 10 } }
 
     TestCase {
         name: "ScatterSeries Initial"
 
         function test_1_initial() {
-            compare(initial.axisX, null)
-            compare(initial.axisY, null)
             compare(initial.pointMarker, null)
         }
 
@@ -68,8 +61,6 @@ Item {
         }
 
         function test_3_initial_change() {
-            initial.axisX = axisx
-            initial.axisY = axisy
             initial.pointMarker = marker
 
             initial.color = "#ff00ff"
@@ -83,10 +74,6 @@ Item {
             initial.opacity = 0.5
             initial.valuesMultiplier = 0.5
 
-            compare(initial.axisX, axisx)
-            compare(initial.axisY, axisy)
-            compare(initial.axisX.max, 10)
-            compare(initial.axisY.max, 10)
             compare(initial.pointMarker, marker)
 
             compare(initial.color, "#ff00ff")
@@ -105,8 +92,6 @@ Item {
         name: "ScatterSeries Initialized"
 
         function test_1_initialized() {
-            compare(initialized.axisX.max, 4)
-            compare(initialized.axisY.max, 8)
             verify(initialized.pointMarker)
 
             compare(initialized.color, "#ff00ff")
@@ -122,8 +107,6 @@ Item {
         }
 
         function test_2_initialized_change() {
-            initialized.axisX = axisx
-            initialized.axisY = axisy
             initialized.pointMarker = null
 
             initialized.color = "#0000ff"
@@ -137,8 +120,6 @@ Item {
             initialized.opacity = 0.5
             initialized.valuesMultiplier = 0.25
 
-            compare(initialized.axisX.max, 10)
-            compare(initialized.axisY.max, 10)
             verify(!initialized.pointMarker)
 
             compare(initialized.color, "#0000ff")
@@ -153,21 +134,9 @@ Item {
             compare(initialized.valuesMultiplier, 0.25)
         }
 
-        function test_3_initialized_change_to_null() {
-            initialized.axisX = null
-            initialized.axisY = null
-
-            verify(!initialized.axisX)
-            verify(!initialized.axisY)
-        }
-
-        function test_4_initialized_change_to_invalid() {
-            // initialized.axisX = marker
-            // initialized.axisY = marker
+        function test_3_initialized_change_to_invalid() {
             initialized.valuesMultiplier = 2.0 // range 0...1
 
-            // verify(!initialized.axisX)
-            // verify(!initialized.axisY)
             compare(initialized.valuesMultiplier, 1.0)
 
             initialized.valuesMultiplier = -1.0 // range 0...1

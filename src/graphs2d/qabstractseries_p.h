@@ -36,7 +36,6 @@ public:
 
 protected:
     QGraphsView *m_graph;
-    QList<QAbstractAxis*> m_axes;
 
 private:
     QGraphsTheme *m_theme = nullptr;

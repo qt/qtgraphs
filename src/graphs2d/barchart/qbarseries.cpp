@@ -2,15 +2,12 @@
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 
 #include <QtGraphs/qabstractseries.h>
-#include <private/qabstractseries_p.h>
-#include <QtGraphs/qbarset.h>
-#include <private/qbarset_p.h>
-#include <QtGraphs/QBarCategoryAxis>
-#include <private/qbarcategoryaxis_p.h>
-#include <QtGraphs/QValueAxis>
-#include <private/qvalueaxis_p.h>
 #include <QtGraphs/qbarseries.h>
+#include <QtGraphs/qbarset.h>
+#include <private/qabstractseries_p.h>
 #include <private/qbarseries_p.h>
+#include <private/qbarset_p.h>
+#include <private/qgraphsview_p.h>
 
 QT_BEGIN_NAMESPACE
 
@@ -23,6 +20,9 @@ QT_BEGIN_NAMESPACE
     This class draws data by default as a series of bars grouped by category,
     with one bar per category from each bar set added to the series.
     It also supports horizontal bars and grouping bars as stacked.
+
+    A bar series needs the GraphsView x-axis to be set to a BarCategoryAxis and
+    the y-axis set to ValueAxis.
 
     \sa QBarSet, QAbstractSeries
 */
@@ -85,29 +85,6 @@ QT_BEGIN_NAMESPACE
         Bar sets are stacked after each other by category. The segment size corresponds
         to the percentage of the segment value compared with the total value of all
         segments in the stack.
-*/
-
-/*!
-    \enum QBarSeries::BarsOrientation
-
-    This enum value describes the orientation of the bar series:
-
-    \value Vertical Bars appear vertically.
-    \value Horizontal Bars appear horizontally.
-*/
-/*!
-    \property QBarSeries::barsOrientation
-    \brief The orientation of the bar series. By default the bars appear vertically.
-*/
-/*!
-    \qmlproperty enumeration BarSeries::barsOrientation
-
-    The orientation of the bar series:
-
-    \value BarSeries.BarsOrientation.Vertical
-        Bars appear vertically. This is the default value.
-    \value BarSeries.BarsOrientation.Horizontal
-        Bars appear horizontally.
 */
 
 /*!
@@ -505,68 +482,6 @@ QAbstractSeries::SeriesType QBarSeries::type() const
     return QAbstractSeries::SeriesType::Bar;
 }
 
-/*!
-    \property QBarSeries::axisX
-    \brief X-axis of the series.
-
-    The x-axis used for the series. This should be QBarCategoryAxis.
-*/
-/*!
-    \qmlproperty AbstractAxis BarSeries::axisX
-    The x-axis used for the series. This should be BarCategoryAxis.
-    \sa axisY
-*/
-QAbstractAxis *QBarSeries::axisX()
-{
-    Q_D(const QBarSeries);
-    return d->m_axisX;
-}
-
-void QBarSeries::setAxisX(QAbstractAxis *axis)
-{
-    if (axis != nullptr && !qobject_cast<QBarCategoryAxis *>(axis))
-        return;
-
-    Q_D(QBarSeries);
-    detachAxis(d->m_axisX);
-    d->m_axisX = axis;
-    if (axis) {
-        axis->setOrientation(Qt::Horizontal);
-        attachAxis(axis);
-    }
-}
-
-/*!
-    \property QBarSeries::axisY
-    \brief Y-axis of the series.
-
-    The y-axis used for the series. This should be QValueAxis.
-*/
-/*!
-    \qmlproperty AbstractAxis BarSeries::axisY
-    The y-axis used for the series. This should be ValueAxis.
-    \sa axisX
-*/
-QAbstractAxis *QBarSeries::axisY()
-{
-    Q_D(const QBarSeries);
-    return d->m_axisY;
-}
-
-void QBarSeries::setAxisY(QAbstractAxis *axis)
-{
-    if (axis != nullptr && !qobject_cast<QValueAxis *>(axis))
-        return;
-
-    Q_D(QBarSeries);
-    detachAxis(d->m_axisY);
-    d->m_axisY = axis;
-    if (axis) {
-        axis->setOrientation(Qt::Vertical);
-        attachAxis(axis);
-    }
-}
-
 void QBarSeries::setBarsType(QBarSeries::BarsType type)
 {
     Q_D(QBarSeries);
@@ -581,22 +496,6 @@ QBarSeries::BarsType QBarSeries::barsType() const
 {
     Q_D(const QBarSeries);
     return d->m_barsType;
-}
-
-void QBarSeries::setBarsOrientation(QBarSeries::BarsOrientation orientation)
-{
-    Q_D(QBarSeries);
-    if (d->m_barsOrientation != orientation) {
-        d->m_barsOrientation = orientation;
-        emit barsOrientationChanged(orientation);
-        emit update();
-    }
-}
-
-QBarSeries::BarsOrientation QBarSeries::barsOrientation() const
-{
-    Q_D(const QBarSeries);
-    return d->m_barsOrientation;
 }
 
 /*!

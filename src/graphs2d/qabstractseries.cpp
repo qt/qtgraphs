@@ -444,14 +444,6 @@ void QAbstractSeries::setGraph(QGraphsView *graph)
     default:
         break;
     }
-
-    if (d->m_graph) {
-        // Attach pending axes
-        for (auto axis : d->m_axes) {
-            d->m_graph->addAxis(axis);
-            QObject::connect(axis, &QAbstractAxis::update, d->m_graph, &QQuickItem::update);
-        }
-    }
 }
 
 /*!
@@ -472,56 +464,6 @@ void QAbstractSeries::show()
 void QAbstractSeries::hide()
 {
     setVisible(false);
-}
-
-/*!
-    Attaches the axis specified by \a axis to the series.
-
-    Returns \c true if the axis was attached successfully, \c false otherwise.
-
-    \note If multiple axes of the same orientation are attached to the same series,
-    they will have the same minimum and maximum values.
-*/
-bool QAbstractSeries::attachAxis(QAbstractAxis* axis)
-{
-    Q_D(QAbstractSeries);
-    d->m_axes.append(axis);
-    if (d->m_graph) {
-        d->m_graph->addAxis(axis);
-        QObject::connect(axis, &QAbstractAxis::update, d->m_graph, &QQuickItem::update);
-        return true;
-    }
-    //qWarning("Series not in the graph. Please addSeries to graph first.");
-    return false;
-}
-
-/*!
-    Detaches the axis specified by \a axis from the series.
-
-    Returns \c true if the axis was detached successfully, \c false otherwise.
-*/
-bool QAbstractSeries::detachAxis(QAbstractAxis* axis)
-{
-    Q_D(QAbstractSeries);
-    d->m_axes.removeAll(axis);
-    if (d->m_graph) {
-        d->m_graph->removeAxis(axis);
-        QObject::disconnect(axis, &QAbstractAxis::update, d->m_graph, &QQuickItem::update);
-        return true;
-    }
-    //qWarning("Series not in the graph. Please addSeries to graph first.");
-    return false;
-}
-
-/*!
-    Returns the list of axes attached to the series. Usually, an x-axis and a y-axis
-    are attached to a series, except for QPieSeries, which does not have any axes attached.
- \sa attachAxis(), detachAxis()
- */
-QList<QAbstractAxis*> QAbstractSeries::attachedAxes()
-{
-    Q_D(QAbstractSeries);
-    return d->m_axes;
 }
 
 const QList<QLegendData> QAbstractSeries::legendData() const
