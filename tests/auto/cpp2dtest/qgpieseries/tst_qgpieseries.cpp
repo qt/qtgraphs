@@ -21,6 +21,7 @@ private slots:
     void append();
     void insert();
     void remove();
+    void replace();
     void take();
     void calculatedValues();
     void sliceSeries();
@@ -267,34 +268,159 @@ void tst_qgpieseries::remove()
     QPieSlice *slice1 = m_series->append("slice 1", 1);
     QPieSlice *slice2 = m_series->append("slice 2", 2);
     QPieSlice *slice3 = m_series->append("slice 3", 3);
+    QPieSlice *slice4 = m_series->append("slice 4", 4);
+    QPieSlice *slice5 = m_series->append("slice 5", 5);
+    QPieSlice *slice6 = m_series->append("slice 6", 6);
     QSignalSpy spy1(slice1, SIGNAL(destroyed()));
     QSignalSpy spy2(slice2, SIGNAL(destroyed()));
     QSignalSpy spy3(slice3, SIGNAL(destroyed()));
-    QCOMPARE(m_series->count(), 3);
+    QCOMPARE(m_series->count(), 6);
 
     // null pointer remove
-    QVERIFY(!m_series->remove(0));
+    QVERIFY(!m_series->remove(nullptr));
 
     // remove first
     QVERIFY(m_series->remove(slice1));
     QVERIFY(!m_series->remove(slice1));
-    QCOMPARE(m_series->count(), 2);
+    QCOMPARE(m_series->count(), 5);
     QCOMPARE(m_series->slices().at(0)->label(), slice2->label());
     QCOMPARE(removedSpy.size(), 1);
     QList<QPieSlice *> removed = qvariant_cast<QList<QPieSlice *> >(removedSpy.at(0).at(0));
     QCOMPARE(removed.size(), 1);
     QCOMPARE(static_cast<const void *>(removed.first()), static_cast<const void *>(slice1));
 
+    // remove index
+    QVERIFY(!m_series->remove(-1));
+    QVERIFY(!m_series->remove(100));
+    QVERIFY(m_series->remove(4));
+    QCOMPARE(m_series->count(), 4);
+    QCOMPARE(removedSpy.size(), 2);
+    removed = qvariant_cast<QList<QPieSlice *>>(removedSpy.at(1).at(0));
+    QCOMPARE(removed.size(), 1);
+    QCOMPARE(static_cast<const void *>(removed.first()), static_cast<const void *>(slice6));
+
+    // remove multiple
+    m_series->removeMultiple(5, 0);
+    m_series->removeMultiple(-1, -1);
+    QCOMPARE(m_series->count(), 4);
+    m_series->removeMultiple(1, 2);
+    QCOMPARE(m_series->count(), 2);
+    QCOMPARE(removedSpy.size(), 3);
+    removed = qvariant_cast<QList<QPieSlice *>>(removedSpy.at(2).at(0));
+    QCOMPARE(removed.size(), 2);
+    QCOMPARE(static_cast<const void *>(removed[0]), static_cast<const void *>(slice3));
+    QCOMPARE(static_cast<const void *>(removed[1]), static_cast<const void *>(slice4));
+
     // remove all
     m_series->clear();
     QVERIFY(m_series->isEmpty());
     QVERIFY(m_series->slices().isEmpty());
     QCOMPARE(m_series->count(), 0);
-    QCOMPARE(removedSpy.size(), 2);
-    removed = qvariant_cast<QList<QPieSlice *> >(removedSpy.at(1).at(0));
+    QCOMPARE(removedSpy.size(), 4);
+    removed = qvariant_cast<QList<QPieSlice *>>(removedSpy.at(3).at(0));
     QCOMPARE(removed.size(), 2);
     QCOMPARE(static_cast<const void *>(removed.first()), static_cast<const void *>(slice2));
-    QCOMPARE(static_cast<const void *>(removed.last()), static_cast<const void *>(slice3));
+    QCOMPARE(static_cast<const void *>(removed.last()), static_cast<const void *>(slice5));
+}
+
+void tst_qgpieseries::replace()
+{
+    QVERIFY(m_series);
+
+    QSignalSpy removedSpy(m_series, SIGNAL(removed(QList<QPieSlice *>)));
+    QSignalSpy replacedSpy(m_series, SIGNAL(replaced(QList<QPieSlice *>)));
+
+    QPieSeries series2;
+    auto slice1 = new QPieSlice("slice 1", 1);
+    auto slice2 = new QPieSlice("slice 2", 1);
+    auto slice3 = new QPieSlice("slice 3", 1);
+    auto slice4 = new QPieSlice("slice 4", 1);
+    auto slice5 = new QPieSlice("slice 5", 1);
+    auto slice6 = new QPieSlice("slice 6", 1);
+
+    m_series->append(slice1);
+    m_series->append(slice2);
+    m_series->append(slice3);
+    m_series->append(slice4);
+    m_series->append(slice5);
+    m_series->append(slice6);
+
+    auto slices = m_series->slices();
+
+    QCOMPARE(static_cast<const void *>(slices[0]), static_cast<const void *>(slice1));
+    QCOMPARE(static_cast<const void *>(slices[1]), static_cast<const void *>(slice2));
+    QCOMPARE(static_cast<const void *>(slices[2]), static_cast<const void *>(slice3));
+    QCOMPARE(static_cast<const void *>(slices[3]), static_cast<const void *>(slice4));
+    QCOMPARE(static_cast<const void *>(slices[4]), static_cast<const void *>(slice5));
+    QCOMPARE(static_cast<const void *>(slices[5]), static_cast<const void *>(slice6));
+
+    // Index replace
+    auto indexSlice = new QPieSlice("slice index", 1);
+    QVERIFY(m_series->replace(1, indexSlice));
+    slices = m_series->slices();
+
+    QCOMPARE(static_cast<const void *>(slices[0]), static_cast<const void *>(slice1));
+    QCOMPARE(static_cast<const void *>(slices[1]), static_cast<const void *>(indexSlice));
+    QCOMPARE(static_cast<const void *>(slices[2]), static_cast<const void *>(slice3));
+    QCOMPARE(static_cast<const void *>(slices[3]), static_cast<const void *>(slice4));
+    QCOMPARE(static_cast<const void *>(slices[4]), static_cast<const void *>(slice5));
+    QCOMPARE(static_cast<const void *>(slices[5]), static_cast<const void *>(slice6));
+
+    QList<QPieSlice *> removed = qvariant_cast<QList<QPieSlice *>>(removedSpy.at(0).at(0));
+    QCOMPARE(static_cast<const void *>(removed.first()), static_cast<const void *>(slice2));
+
+    auto replaced = qvariant_cast<QList<QPieSlice *>>(replacedSpy.at(0).at(0));
+    QCOMPARE(replacedSpy.size(), 1);
+    QCOMPARE(replaced.size(), 1);
+    QCOMPARE(static_cast<const void *>(replaced.first()), static_cast<const void *>(indexSlice));
+
+    // check ownership
+    QVERIFY(!series2.append(indexSlice));
+
+    // pointer replace
+    auto pointerSlice = new QPieSlice("slice pointer", 1);
+    QVERIFY(!m_series->replace(nullptr, nullptr));
+    QVERIFY(!m_series->replace(pointerSlice, pointerSlice));
+    QVERIFY(m_series->replace(slice6, pointerSlice));
+    removed = qvariant_cast<QList<QPieSlice *>>(removedSpy.at(1).at(0));
+    QCOMPARE(static_cast<const void *>(removed.first()), static_cast<const void *>(slice6));
+
+    replaced = qvariant_cast<QList<QPieSlice *>>(replacedSpy.at(1).at(0));
+    QCOMPARE(static_cast<const void *>(replaced.first()), static_cast<const void *>(pointerSlice));
+
+    slices = m_series->slices();
+    QCOMPARE(static_cast<const void *>(slices[0]), static_cast<const void *>(slice1));
+    QCOMPARE(static_cast<const void *>(slices[1]), static_cast<const void *>(indexSlice));
+    QCOMPARE(static_cast<const void *>(slices[2]), static_cast<const void *>(slice3));
+    QCOMPARE(static_cast<const void *>(slices[3]), static_cast<const void *>(slice4));
+    QCOMPARE(static_cast<const void *>(slices[4]), static_cast<const void *>(slice5));
+    QCOMPARE(static_cast<const void *>(slices[5]), static_cast<const void *>(pointerSlice));
+
+    // check ownership
+    QVERIFY(!series2.append(pointerSlice));
+
+    // full replace
+    QList<QPieSlice *> newSlices = {new QPieSlice("slice 10", 1),
+                                    new QPieSlice("slice 20", 1),
+                                    new QPieSlice("slice 30", 1)};
+    QVERIFY(m_series->replace(newSlices));
+
+    removed = qvariant_cast<QList<QPieSlice *>>(removedSpy.at(2).at(0));
+    QVERIFY(removed.size() == 6);
+    QCOMPARE(static_cast<const void *>(removed[5]), static_cast<const void *>(pointerSlice));
+    QCOMPARE(static_cast<const void *>(removed[4]), static_cast<const void *>(slice5));
+    QCOMPARE(static_cast<const void *>(removed[3]), static_cast<const void *>(slice4));
+
+    replaced = qvariant_cast<QList<QPieSlice *>>(replacedSpy.at(2).at(0));
+    QVERIFY(replaced.size() == 3);
+    QCOMPARE(static_cast<const void *>(replaced[0]), static_cast<const void *>(newSlices[0]));
+    QCOMPARE(static_cast<const void *>(replaced[1]), static_cast<const void *>(newSlices[1]));
+    QCOMPARE(static_cast<const void *>(replaced[2]), static_cast<const void *>(newSlices[2]));
+
+    slices = m_series->slices();
+    QCOMPARE(static_cast<const void *>(slices[0]), static_cast<const void *>(newSlices[0]));
+    QCOMPARE(static_cast<const void *>(slices[1]), static_cast<const void *>(newSlices[1]));
+    QCOMPARE(static_cast<const void *>(slices[2]), static_cast<const void *>(newSlices[2]));
 }
 
 void tst_qgpieseries::take()

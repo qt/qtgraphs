@@ -29,25 +29,26 @@ protected:
     explicit QXYSeries(QXYSeriesPrivate &dd, QObject *parent = nullptr);
 
 public:
-    // TODO: Consider making these slots, available from QML.
     Q_INVOKABLE void append(qreal x, qreal y);
-    void append(const QPointF &point);
-    void append(const QList<QPointF> &points);
-    void replace(qreal oldX, qreal oldY, qreal newX, qreal newY);
-    void replace(const QPointF &oldPoint, const QPointF &newPoint);
+    Q_INVOKABLE void append(const QPointF &point);
+    Q_INVOKABLE void append(const QList<QPointF> &points);
+    Q_INVOKABLE void replace(qreal oldX, qreal oldY, qreal newX, qreal newY);
+    Q_INVOKABLE void replace(const QPointF &oldPoint, const QPointF &newPoint);
     Q_INVOKABLE void replace(int index, qreal newX, qreal newY);
-    void replace(int index, const QPointF &newPoint);
-    void replace(const QList<QPointF> &points);
-    void remove(qreal x, qreal y);
-    void remove(const QPointF &point);
+    Q_INVOKABLE void replace(int index, const QPointF &newPoint);
+    Q_INVOKABLE void replace(const QList<QPointF> &points);
+    Q_INVOKABLE void remove(qreal x, qreal y);
+    Q_INVOKABLE void remove(const QPointF &point);
     Q_INVOKABLE void remove(int index);
-    void removePoints(int index, int count);
-    void insert(int index, const QPointF &point);
-    void clear();
+    Q_INVOKABLE void insert(int index, const QPointF &point);
+    Q_INVOKABLE void clear();
+    Q_INVOKABLE const QPointF &at(int index) const;
+    Q_INVOKABLE int find(const QPointF &) const;
+    Q_INVOKABLE void removeMultiple(int index, int count);
+    Q_INVOKABLE bool take(const QPointF &point);
+    Q_INVOKABLE int count() const;
 
-    int count() const;
     QList<QPointF> points() const;
-    const QPointF &at(int index) const;
 
     QXYSeries &operator<<(const QPointF &point);
     QXYSeries &operator<<(const QList<QPointF> &points);

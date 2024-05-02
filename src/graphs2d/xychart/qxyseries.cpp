@@ -327,7 +327,7 @@ void QXYSeries::remove(int index)
     Removes the number of points specified by \a count from the series starting
     at the position specified by \a index.
 */
-void QXYSeries::removePoints(int index, int count)
+void QXYSeries::removeMultiple(int index, int count)
 {
     // This function doesn't overload remove as there is chance for it to get mixed up with
     // remove(qreal, qreal) overload in some implicit casting cases.
@@ -357,6 +357,23 @@ void QXYSeries::removePoints(int index, int count)
         if (callSignal)
             emit selectedPointsChanged();
     }
+}
+/*!
+    Takes a point, specified by \a point, out of the series if found. Returns \c true if
+    the operation is successful.
+*/
+bool QXYSeries::take(const QPointF &point)
+{
+    Q_D(QXYSeries);
+
+    for (int i = 0; i < d->m_points.size(); ++i) {
+        if (d->m_points[i] == point) {
+            d->m_points.removeAt(i);
+            return true;
+        }
+    }
+
+    return false;
 }
 
 /*!
@@ -401,7 +418,7 @@ void QXYSeries::insert(int index, const QPointF &point)
 void QXYSeries::clear()
 {
     Q_D(QXYSeries);
-    removePoints(0, d->m_points.size());
+    removeMultiple(0, d->m_points.size());
 }
 
 /*!
@@ -421,6 +438,22 @@ const QPointF &QXYSeries::at(int index) const
 {
     Q_D(const QXYSeries);
     return d->m_points.at(index);
+}
+
+/*!
+    Finds and returns the index of the first matching point found as defined by \a point.
+    Returns -1 if the point is not found. 
+*/
+int QXYSeries::find(const QPointF &point) const
+{
+    Q_D(const QXYSeries);
+
+    for (int i = 0; i < d->m_points.size(); ++i) {
+        if (d->m_points[i] == point)
+            return i;
+    }
+
+    return -1;
 }
 
 /*!

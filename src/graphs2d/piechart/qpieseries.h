@@ -31,18 +31,22 @@ public:
     explicit QPieSeries(QObject *parent = nullptr);
     QAbstractSeries::SeriesType type() const override;
 
+    Q_INVOKABLE bool append(QPieSlice *slice);
+    Q_INVOKABLE bool append(const QList<QPieSlice *> &slices);
+    Q_INVOKABLE bool insert(int index, QPieSlice *slice);
+    Q_INVOKABLE bool remove(QPieSlice *slice);
+    Q_INVOKABLE void clear();
+    Q_INVOKABLE QPieSlice *append(const QString &label, qreal value);
     Q_INVOKABLE QPieSlice *at(int index);
     Q_INVOKABLE QPieSlice *find(const QString &label);
-    bool append(QPieSlice *slice);
-    bool append(const QList<QPieSlice *> &slices);
-    QPieSeries &operator << (QPieSlice *slice);
-    Q_INVOKABLE QPieSlice *append(const QString &label, qreal value);
+    Q_INVOKABLE bool replace(int index, QPieSlice *slice);
+    Q_INVOKABLE void removeMultiple(int index, int count);
+    Q_INVOKABLE bool remove(int index);
+    Q_INVOKABLE bool replace(QPieSlice *oldSlice, QPieSlice *newSlice);
+    Q_INVOKABLE bool replace(const QList<QPieSlice *> &slices);
+    Q_INVOKABLE bool take(QPieSlice *slice);
 
-    bool insert(int index, QPieSlice *slice);
-
-    Q_INVOKABLE bool remove(QPieSlice *slice);
-    bool take(QPieSlice *slice);
-    Q_INVOKABLE void clear();
+    QPieSeries &operator<<(QPieSlice *slice);
 
     QList<QPieSlice *> slices() const;
     int count() const;
@@ -81,6 +85,7 @@ protected:
 Q_SIGNALS:
     void added(const QList<QPieSlice *> &slices);
     void removed(const QList<QPieSlice *> &slices);
+    void replaced(const QList<QPieSlice *> &slices);
     void countChanged();
     void sumChanged();
     void sizeChanged();

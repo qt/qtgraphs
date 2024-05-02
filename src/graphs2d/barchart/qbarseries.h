@@ -55,12 +55,20 @@ public:
     qreal barWidth() const;
 
     Q_INVOKABLE bool append(QBarSet *set);
-    Q_INVOKABLE bool remove(QBarSet *set);
     Q_INVOKABLE bool take(QBarSet *set);
-    Q_INVOKABLE bool append(const QList<QBarSet *> &sets);
-    Q_INVOKABLE bool insert(int index, QBarSet *set);
     Q_INVOKABLE int count() const;
+    Q_INVOKABLE bool append(const QList<QBarSet *> &sets);
+    Q_INVOKABLE bool remove(QBarSet *set);
+    Q_INVOKABLE bool insert(int index, QBarSet *set);
     Q_INVOKABLE void clear();
+    Q_INVOKABLE void replace(int index, QBarSet *set);
+    Q_INVOKABLE QBarSet *at(int index);
+    Q_INVOKABLE int find(QBarSet *set) const;
+    Q_INVOKABLE void removeMultiple(int index, int count);
+    Q_INVOKABLE bool remove(int index);
+    Q_INVOKABLE bool replace(QBarSet *oldValue, QBarSet *newValue);
+    Q_INVOKABLE bool replace(const QList<QBarSet *> &sets);
+
     QList<QBarSet *> barSets() const;
 
     void setLabelsVisible(bool visible = true);
@@ -113,6 +121,7 @@ Q_SIGNALS:
     void barComponentChanged();
 
     void barsetsAdded(const QList<QBarSet *> &sets);
+    void barsetsReplaced(const QList<QBarSet *> &sets);
     void barsetsRemoved(const QList<QBarSet *> &sets);
     void setValueChanged(int index, QBarSet *barset);
     void setValueAdded(int index, int count, QBarSet *barset);

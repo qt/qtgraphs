@@ -326,8 +326,45 @@ QT_BEGIN_NAMESPACE
 */
 
 /*!
+    \qmlmethod bool PieSeries::replace(int index, PieSlice slice)
+    Replaces the slice specified by \a slice from the pie at \a index. Returns \c true if the
+    replace was successful, \c false otherwise.
+*/
+
+/*!
     \qmlmethod PieSeries::clear()
     Removes all slices from the pie.
+*/
+
+/*!
+    \qmlmethod void PieSeries::removeMultiple(int index, int count)
+    Removes a range of slices as specified by the \a index and \a count. The call
+    traverses over all slices even if removal of one fails.
+*/
+
+/*!
+    \qmlmethod bool PieSeries::remove(int index)
+    Removes the slice specified by \a index from the pie. Returns \c true if the
+    removal was successful, \c false otherwise.
+*/
+
+/*!
+    \qmlmethod bool PieSeries::replace(PieSlice oldSlice, PieSlice newSlice)
+    Replaces the slice specified by \a oldSlice with newSlice. Returns \c true if the
+    removal was successful, \c false otherwise. \a oldSlice is destroyed if this 
+    is successful.
+*/
+
+/*!
+    \qmlmethod bool PieSeries::replace(list<PieSlice> slices)
+    Completely replaces all current slices with \a slices. The size does not need
+    to match. Returns false if any of the PieSlice in \a slices is invalid.
+*/
+
+/*!
+    \qmlmethod bool PieSeries::take(PieSlice slice)
+    Takes a single slice, specified by \a slice, from the series. Does not delete
+    the slice object. Returns \c true if successful.
 */
 
 /*!
@@ -363,6 +400,145 @@ QPieSlice *QPieSeries::find(const QString &label)
             return slice;
     }
     return 0;
+}
+
+bool QPieSeries::replace(int index, QPieSlice *slice)
+{
+    Q_D(QPieSeries);
+
+    if (index < 0)
+        index = 0;
+    if (!slice || d->m_slices.contains(slice))
+        return false;
+    if (slice->series()) // already added to some series
+        return false;
+    if (qIsNaN(slice->value()) || qIsInf(slice->value()))
+        return false;
+    if (d->m_slices.size() <= index)
+        return false;
+
+    emit removed(QList<QPieSlice *>() << d->m_slices[index]);
+    delete d->m_slices[index];
+
+    slice->setParent(this);
+    slice->d_func()->m_series = this;
+
+    d->m_slices[index] = slice;
+
+    d->updateData();
+
+    QObject::connect(slice, SIGNAL(sliceChanged()), this, SLOT(handleSliceChange()));
+    emit replaced(QList<QPieSlice *>() << slice);
+
+    return true;
+}
+
+void QPieSeries::removeMultiple(int index, int count)
+{
+    Q_D(QPieSeries);
+
+    if (index + count >= d->m_slices.size())
+        return;
+    if (index < 0 || count < 0)
+        return;
+
+    QList<QPieSlice *> removedList;
+
+    for (int i = index; i < index + count; ++i) {
+        auto slice = d->m_slices[index];
+        d->m_slices.removeOne(slice);
+        d->updateData();
+
+        removedList << slice;
+    }
+
+    emit removed(removedList);
+
+    for (auto slice : removedList) {
+        delete slice;
+    }
+
+    emit countChanged();
+}
+
+bool QPieSeries::remove(int index)
+{
+    Q_D(QPieSeries);
+
+    if (index >= d->m_slices.size())
+        return false;
+    if (index < 0)
+        return false;
+
+    return remove(d->m_slices[index]);
+}
+
+bool QPieSeries::replace(QPieSlice *oldSlice, QPieSlice *newSlice)
+{
+    Q_D(QPieSeries);
+
+    if (!oldSlice || !newSlice)
+        return false;
+    if (oldSlice == newSlice)
+        return false;
+    if (d->m_slices.contains(newSlice))
+        return false;
+    if (newSlice->series())
+        return false;
+    if (qIsNaN(newSlice->value()) || qIsInf(newSlice->value()))
+        return false;
+
+    for (int i = 0; i < d->m_slices.size(); ++i) {
+        if (d->m_slices[i] == oldSlice) {
+            emit removed(QList<QPieSlice *>() << d->m_slices[i]);
+            delete d->m_slices[i];
+
+            newSlice->setParent(this);
+            newSlice->d_func()->m_series = this;
+
+            d->m_slices[i] = newSlice;
+
+            d->updateData();
+
+            QObject::connect(newSlice, SIGNAL(sliceChanged()), this, SLOT(handleSliceChange()));
+            emit replaced(QList<QPieSlice *>() << newSlice);
+
+            return true;
+        }
+    }
+
+    return false;
+}
+
+bool QPieSeries::replace(const QList<QPieSlice *> &slices)
+{
+    Q_D(QPieSeries);
+
+    for (const auto slice : slices) {
+        if (!slice || d->m_slices.contains(slice))
+            return false;
+        if (slice->series())
+            return false;
+        if (qIsNaN(slice->value()) || qIsInf(slice->value()))
+            return false;
+    }
+
+    emit removed(d->m_slices);
+    for (auto &slice : d->m_slices) {
+        delete slice;
+        slice = nullptr;
+    }
+
+    for (auto &slice : slices) {
+        slice->setParent(this);
+        slice->d_func()->m_series = this;
+        QObject::connect(slice, SIGNAL(sliceChanged()), this, SLOT(handleSliceChange()));
+    }
+
+    d->m_slices = slices;
+    emit replaced(slices);
+
+    return true;
 }
 
 /*!

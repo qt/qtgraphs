@@ -186,5 +186,49 @@ Item {
             compare(initialized.barWidth, 0.0)
             compare(initialized.valuesMultiplier, 0.0)
         }
+
+        BarSet {id:b1}
+        BarSet {id:b2}
+        BarSet {id:b3}
+        BarSet {id:b4}
+        BarSet {id:b5}
+        BarSet {id:b6}
+        BarSet {id:b7}
+
+        function test_5_modify_series() {
+            // append
+            let list = [b4, b5, b6]
+
+            initialized.append(b1)
+            initialized.append(b2)
+            initialized.append(b3)
+            initialized.append(list)
+            compare(initialized.count, 7)
+
+            // insert
+            initialized.insert(3, b7)
+            compare(initialized.count, 8)
+
+            // at
+            let atBar = initialized.at(5)
+            compare(atBar, b4)
+
+            // find
+            let findIndex = initialized.find(b6)
+            compare(findIndex, 7)
+
+            // remove
+            initialized.remove(b1)
+            initialized.remove(0)
+            compare(initialized.count, 6)
+
+            // remove multiple
+            initialized.removeMultiple(0,3)
+            compare(initialized.count, 3)
+
+            // take
+            verify(initialized.take(b5))
+            compare(initialized.count, 2)
+        }
     }
 }

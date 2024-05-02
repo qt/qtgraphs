@@ -65,6 +65,18 @@ Item {
             compare(slice.percentage, 1.0);
             compare(slice.startAngle, 0.0);
             compare(slice.value, 10.0);
+
+            pieSeries.clear()
+        }
+
+        function test_take() {
+            var count = 20;
+            for (var i = 0; i < count; i++)
+                pieSeries.append("slice" + i, Math.random() + 0.01);
+
+            verify(pieSeries.take(pieSeries.find("slice" + 5)))
+            verify(pieSeries.take(pieSeries.find("slice" + 6)))
+            compare(pieSeries.count, 18)
         }
 
         function test_append() {
@@ -84,15 +96,33 @@ Item {
             removedSpy.clear();
             countChangedSpy.clear();
             sumChangedSpy.clear();
+
             var count = 50;
             for (var i = 0; i < count; i++)
                 pieSeries.append("slice" + i, Math.random() + 0.01); // Add 0.01 to avoid zero
-            for (var j = 0; j < count; j++)
+            for (var j = 0; j < 10; j++)
                 pieSeries.remove(pieSeries.at(0));
-            compare(removedSpy.count, count);
-            compare(countChangedSpy.count, 2 * count);
-            compare(sumChangedSpy.count, 2 * count);
-            compare(pieSeries.count, 0);
+
+            compare(removedSpy.count, 10);
+            compare(countChangedSpy.count, count + 10);
+            compare(sumChangedSpy.count, count + 10);
+            compare(pieSeries.count, 40);
+
+            for (var j = 0; j < 10; j++)
+                pieSeries.remove(0);
+
+            compare(removedSpy.count, 20);
+            compare(countChangedSpy.count, count + 20);
+            compare(sumChangedSpy.count, count + 20);
+            compare(pieSeries.count, 30);
+
+            pieSeries.removeMultiple(0,10)
+            compare(removedSpy.count, 21);
+            compare(countChangedSpy.count, count + 21);
+            compare(sumChangedSpy.count, count + 30);
+            compare(pieSeries.count, 20);
+
+            pieSeries.clear();
         }
 
         function test_find_and_at() {

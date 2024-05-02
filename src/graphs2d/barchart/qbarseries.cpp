@@ -530,6 +530,48 @@ QT_BEGIN_NAMESPACE
 */
 
 /*!
+    \qmlmethod bool BarSeries::replace(int index, BarSet barset)
+    Replaces the bar set at the position specified by \a index from the series and replaces it
+    with \a barset. Returns \c true if successful, \c false otherwise.
+*/
+
+/*!
+    \qmlmethod Barset BarSeries::at(int index)
+    Returns the bar set specified by \a index from the series. Returns \c null otherwise.
+*/
+
+/*!
+    \qmlmethod int BarSeries::find(BarSet barset)
+    Returns the index of the bar set specified by \a barset from the series. Returns \c -1 if
+    not found.
+*/
+
+/*!
+    \qmlmethod void BarSeries::removeMultiple(int index, int count)
+    Removes a range of bar sets as specified by the \a index and \a count. The call
+    traverses over all sets even if removal of one fails.
+*/
+
+/*!
+    \qmlmethod bool BarSeries::remove(int index)
+    Removes the bar set specified by \a index from the series. Returns \c true if the
+    removal was successful, \c false otherwise.
+*/
+
+/*!
+    \qmlmethod bool BarSeries::replace(BarSet oldSet, BarSet newSet)
+    Replaces the bar set specified by \a oldSet with newSet. Returns \c true if the
+    removal was successful, \c false otherwise. \a oldSet is destroyed if this 
+    is successful.
+*/
+
+/*!
+    \qmlmethod bool BarSeries::replace(list<BarSet> sets)
+    Completely replaces all current bar set with \a sets. The size does not need
+    to match. Returns false if any of the bar set in \a sets are invalid.
+*/
+
+/*!
     \internal
 */
 
@@ -713,6 +755,126 @@ void QBarSeries::clear()
             delete set;
         }
     }
+}
+
+void QBarSeries::replace(int index, QBarSet *set)
+{
+    Q_D(QBarSeries);
+
+    if (d->m_barSets.size() <= index)
+        return;
+    if (!set)
+        return;
+    if (index < 0)
+        index = 0;
+
+    delete d->m_barSets[index];
+    d->m_barSets[index] = set;
+
+    QList<QBarSet *> sets;
+    sets.append(set);
+    QObject::connect(set, &QBarSet::update, this, &QBarSeries::update);
+    emit barsetsReplaced(sets);
+}
+
+QBarSet *QBarSeries::at(int index)
+{
+    Q_D(QBarSeries);
+
+    if (d->m_barSets.size() <= index)
+        return nullptr;
+    if (index < 0)
+        return nullptr;
+
+    return d->m_barSets[index];
+}
+
+/*!
+    Returns the index of the first BarSet found as defined by \a set. Returns -1 if no BarSet was found.
+*/
+int QBarSeries::find(QBarSet *set) const
+{
+    Q_D(const QBarSeries);
+
+    for (int i = 0; i < d->m_barSets.size(); ++i) {
+        if (set == d->m_barSets[i])
+            return i;
+    }
+
+    return -1;
+}
+
+void QBarSeries::removeMultiple(int index, int count)
+{
+    Q_D(QBarSeries);
+
+    if (index + count >= d->m_barSets.size())
+        return;
+    if (index < 0 || count < 0)
+        return;
+
+    for (int i = index; i < index + count; ++i)
+        remove(d->m_barSets[index]);
+}
+
+bool QBarSeries::remove(int index)
+{
+    Q_D(QBarSeries);
+
+    if (index >= d->m_barSets.size())
+        return false;
+    if (index < 0)
+        return false;
+
+    return remove(d->m_barSets[index]);
+}
+
+bool QBarSeries::replace(QBarSet *oldValue, QBarSet *newValue)
+{
+    Q_D(QBarSeries);
+
+    if (!oldValue || !newValue)
+        return false;
+    if (oldValue == newValue)
+        return false;
+
+    for (int i = 0; i < d->m_barSets.size(); ++i) {
+        if (d->m_barSets[i] == oldValue) {
+            delete d->m_barSets[i];
+            d->m_barSets[i] = newValue;
+
+            QList<QBarSet *> sets;
+            sets.append(newValue);
+            QObject::connect(newValue, &QBarSet::update, this, &QBarSeries::update);
+            emit barsetsReplaced(sets);
+            return true;
+        }
+    }
+
+    return false;
+}
+
+bool QBarSeries::replace(const QList<QBarSet *> &sets)
+{
+    Q_D(QBarSeries);
+
+    for (const auto set : sets) {
+        if (!set)
+            return false;
+    }
+
+    for (const auto set : d->m_barSets) {
+        delete set;
+    }
+
+    for (const auto set : sets) {
+        QObject::connect(set, &QBarSet::update, this, &QBarSeries::update);
+    }
+
+    d->m_barSets = sets;
+    emit barsetsReplaced(sets);
+
+    return true;
 }
 
 /*!

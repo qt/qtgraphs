@@ -20,6 +20,8 @@ private slots:
     void selectDeselect();
     void appendInsertRemove();
     void replaceAtClear();
+    void find();
+    void take();
 
 private:
     // QXYSeries is uncreatable, so testing is done through QScatterSeries
@@ -128,7 +130,7 @@ void tst_xyseries::appendInsertRemove()
     QCOMPARE(m_series->points(), mixedpoints);
 
     // Remove first 3
-    m_series->removePoints(0, 3);
+    m_series->removeMultiple(0, 3);
 
     QCOMPARE(m_series->count(), 3);
 
@@ -166,6 +168,41 @@ void tst_xyseries::replaceAtClear()
     m_series->clear();
 
     QCOMPARE(m_series->count(), 0);
+}
+
+void tst_xyseries::find()
+{
+    QVERIFY(m_series);
+    QList<QPointF> points = {{1, 4}, {9, 2}, {3, 7}, {9, 2}, {8, 8}};
+
+    m_series->append(points);
+    auto sPoints = m_series->points();
+
+    QCOMPARE(sPoints, points);
+
+    auto item1 = m_series->find({9, 2});
+    auto item2 = m_series->find({1, 4});
+    auto item3 = m_series->find({8, 8});
+    auto item4 = m_series->find({300, 8});
+
+    QCOMPARE(item1, 1);
+    QCOMPARE(item2, 0);
+    QCOMPARE(item3, 4);
+    QCOMPARE(item4, -1);
+}
+
+void tst_xyseries::take()
+{
+    QVERIFY(m_series);
+    QList<QPointF> points = {{1, 4}, {9, 2}, {3, 7}, {9, 2}, {8, 8}};
+
+    m_series->append(points);
+    QCOMPARE(m_series->count(), 5);
+
+    QVERIFY(!m_series->take({100, 100}));
+    QCOMPARE(m_series->count(), 5);
+    QVERIFY(m_series->take({3, 7}));
+    QCOMPARE(m_series->count(), 4);
 }
 
 QTEST_MAIN(tst_xyseries)
