@@ -52,21 +52,6 @@ QGraphsView::~QGraphsView()
         removeSeries(s);
 }
 
-void QGraphsView::setBackgroundColor(QColor color)
-{
-    auto &b = m_backgroundBrush;
-    if (b.style() != Qt::SolidPattern || color != b.color()) {
-        b.setStyle(Qt::SolidPattern);
-        b.setColor(color);
-        emit backgroundColorChanged();
-    }
-}
-
-QColor QGraphsView::backgroundColor()
-{
-    return m_backgroundBrush.color();
-}
-
 /*!
     \qmlproperty color GraphsView::plotAreaBackgroundColor
     The background color of the plot area.
@@ -522,6 +507,23 @@ void QGraphsView::updatePolish()
         // Initialize shaders after system's event queue
         QTimer::singleShot(0, m_axisRenderer, &AxisRenderer::initialize);
     }
+    if (m_theme && m_theme->isBackgroundEnabled()) {
+        if (!m_backgroundRectangle) {
+            // Create m_backgroundRectangle only when it is needed
+            m_backgroundRectangle = new QQuickRectangle(this);
+            m_backgroundRectangle->setZ(-2);
+        }
+        m_backgroundRectangle->setColor(m_theme->backgroundColor());
+        m_backgroundRectangle->setWidth(width());
+        m_backgroundRectangle->setHeight(height());
+        m_backgroundRectangle->setVisible(true);
+    } else if (m_backgroundRectangle) {
+        // Hide and delete the m_backgroundRectangle
+        m_backgroundRectangle->setVisible(false);
+        m_backgroundRectangle->deleteLater();
+        m_backgroundRectangle = nullptr;
+    }
+
     // Polish for all series
     for (auto series : std::as_const(m_seriesList)) {
         if (m_barsRenderer) {

@@ -56,7 +56,6 @@ Rectangle {
             text: "Dark"
             onClicked: {
                 mainView.resetCustomGraphTheme()
-                background.color = "#202020"
                 myTheme.colorScheme = Qt.Dark
             }
         }
@@ -64,7 +63,6 @@ Rectangle {
             text: "Light"
             onClicked: {
                 mainView.resetCustomGraphTheme()
-                background.color = "#eeeeee"
                 myTheme.colorScheme = Qt.Light
             }
         }
@@ -169,23 +167,14 @@ Rectangle {
         }
     }
 
-    Rectangle {
-        id: background
+    GraphsView {
+        id: chartView
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.bottom: parent.bottom
         anchors.top: graphToolbar.bottom
-        anchors.margins: 10
-        color: "#202020"
-        border.color: "#606060"
-        border.width: 2
-        radius: 10
-    }
-
-    GraphsView {
-        id: chartView
-        anchors.fill: background
-        anchors.leftMargin: 30
+        anchors.margins: 20
+        marginLeft: 60 // Space for legend
         axisX: BarCategoryAxis {
             categories: ["2007", "2008", "2009", "2010", "2011", "2012"]
         }
@@ -245,7 +234,7 @@ Rectangle {
     Column {
         id: legendColumn
         property var sets: [set1, set2, set3, set4]
-        anchors.left: background.left
+        anchors.left: chartView.left
         anchors.leftMargin: 10
         anchors.verticalCenter: chartView.verticalCenter
         spacing: 2

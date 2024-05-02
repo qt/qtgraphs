@@ -131,7 +131,6 @@ Rectangle {
         anchors.top: toolbar.bottom
         anchors.margins: 10
         anchors.rightMargin: settingsView.posX + 20 * px
-        backgroundColor: "#202020"
 
         axisX: ValueAxis {
             id: xAxis

@@ -80,7 +80,6 @@ Rectangle {
         anchors.fill: parent
         anchors.margins: 20 * px
         anchors.rightMargin: settingsView.posX + 20 * px
-        backgroundColor: "#202020"
 
         axisX: ValueAxis {
             id: xAxis
@@ -95,6 +94,7 @@ Rectangle {
             id: seriesTheme
             colorScheme: Qt.Dark
             theme: GraphsTheme.Theme.QtGreen
+            backgroundColor: "#202020"
         }
 
         AreaSeries {

@@ -18,6 +18,7 @@
 #include <QList>
 #include <QQmlListProperty>
 #include <QtGraphs/qabstractseries.h>
+#include <QtQuick/private/qquickrectangle_p.h>
 
 #include <QBrush>
 #include <QPen>
@@ -38,8 +39,6 @@ class QGraphsView : public QQuickItem
     Q_OBJECT
     Q_PROPERTY(QGraphsTheme *theme READ theme WRITE setTheme NOTIFY themeChanged)
     Q_PROPERTY(QQmlListProperty<QObject> seriesList READ seriesList CONSTANT)
-    // TODO: Remove this?
-    Q_PROPERTY(QColor backgroundColor READ backgroundColor WRITE setBackgroundColor NOTIFY backgroundColorChanged)
     Q_PROPERTY(QColor plotAreaBackgroundColor READ plotAreaBackgroundColor
                        WRITE setPlotAreaBackgroundColor NOTIFY plotAreaBackgroundColorChanged)
     Q_PROPERTY(qreal marginTop READ marginTop WRITE setMarginTop NOTIFY marginTopChanged)
@@ -69,9 +68,6 @@ class QGraphsView : public QQuickItem
 public:
     explicit QGraphsView(QQuickItem *parent = nullptr);
     ~QGraphsView() override;
-
-    void setBackgroundColor(QColor color);
-    QColor backgroundColor();
 
     void setPlotAreaBackgroundColor(const QColor &color);
     QColor plotAreaBackgroundColor() const;
@@ -166,7 +162,6 @@ protected:
     void updatePolish() override;
 
 Q_SIGNALS:
-    void backgroundColorChanged();
     void plotAreaBackgroundColorChanged();
     void themeChanged();
     void marginTopChanged();
@@ -207,9 +202,9 @@ private:
     PieRenderer *m_pieRenderer = nullptr;
     AreaRenderer *m_areaRenderer = nullptr;
     QList<QObject *> m_seriesList;
-    QBrush m_backgroundBrush;
     QColor m_plotAreaBackgroundColor =  QColor(Qt::transparent);
     QSGClipNode *m_backgroundNode = nullptr;
+    QQuickRectangle *m_backgroundRectangle = nullptr;
 
     QList<QAbstractAxis *> m_axis;
 

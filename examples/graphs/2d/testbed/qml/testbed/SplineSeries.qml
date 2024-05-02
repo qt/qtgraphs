@@ -17,7 +17,6 @@ Rectangle {
         anchors.bottom: parent.bottom
         anchors.top: parent.top
         anchors.margins: 10
-        backgroundColor: "#202020"
 
         axisX: ValueAxis {
             id: xAxis

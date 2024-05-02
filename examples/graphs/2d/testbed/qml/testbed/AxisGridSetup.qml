@@ -14,8 +14,8 @@ Rectangle {
     GraphsView {
         id: chartView
         anchors.fill: parent
-        anchors.margins: 20 * px
-        anchors.rightMargin: settingsView.posX + 20 * px
+        anchors.margins: 50 * px
+        anchors.rightMargin: settingsView.posX + 60 * px
         shadowEnabled: checkBoxShadowEnabled.checked
         shadowColor: "#80404040"
         axisX: BarCategoryAxis {
@@ -44,6 +44,7 @@ Rectangle {
         theme: GraphsTheme {
             id: myTheme
             colorScheme: Qt.Dark
+            backgroundColor: "#20000000"
             theme: GraphsTheme.Theme.QtGreen
             axisXLabelFont.pixelSize: 20
             gridMainColor: "#ffffff"

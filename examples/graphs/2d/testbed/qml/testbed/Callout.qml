@@ -12,15 +12,6 @@ Rectangle {
     height: 600
     color: "#404040"
 
-    Rectangle {
-        id: background
-        anchors.fill: chartView
-        color: "#202020"
-        border.color: "#606060"
-        border.width: 2
-        radius: 10
-    }
-
     GraphsView {
         id: chartView
         anchors.left: parent.left
@@ -28,7 +19,6 @@ Rectangle {
         anchors.bottom: parent.bottom
         anchors.top: parent.top
         anchors.margins: 10
-        backgroundColor: "#202020"
 
         axisX: BarCategoryAxis { categories: ["2023", "2024", "2025", "2026"] }
         axisY: ValueAxis {
