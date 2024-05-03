@@ -840,7 +840,6 @@ void QQuickGraphsSurface::updateGraph()
 
     setSeriesVisibilityDirty(false);
     if (isDataDirty() || isSeriesVisualsDirty()) {
-
         if (hasChangedSeriesList()) {
             handleChangedSeries();
         } else {
@@ -999,9 +998,10 @@ inline static int binarySearchArray(const QSurfaceDataArray &array,
     return retVal;
 }
 
-QRect QQuickGraphsSurface::calculateSampleSpace(const QSurfaceDataArray &array)
+QRect QQuickGraphsSurface::calculateSampleSpace(SurfaceModel *model)
 {
     QRect sampleSpace;
+    const QSurfaceDataArray &array = model->series->dataArray();
     if (array.size() > 0) {
         if (array.size() >= 2 && array.at(0).size() >= 2) {
             const int maxRow = array.size() - 1;
@@ -1009,6 +1009,15 @@ QRect QQuickGraphsSurface::calculateSampleSpace(const QSurfaceDataArray &array)
 
             const bool ascendingX = array.at(0).at(0).x() < array.at(0).at(maxColumn).x();
             const bool ascendingZ = array.at(0).at(0).z() < array.at(maxRow).at(0).z();
+
+            if (model->ascendingX != ascendingX) {
+                setIndexDirty(true);
+                model->ascendingX = ascendingX;
+            }
+            if (model->ascendingZ != ascendingZ) {
+                setIndexDirty(true);
+                model->ascendingZ = ascendingZ;
+            }
 
             int idx = binarySearchArray(array, maxColumn, axisX()->min(), true, true, ascendingX);
             if (idx != -1) {
@@ -1080,7 +1089,7 @@ void QQuickGraphsSurface::updateModel(SurfaceModel *model)
         }
 
         bool dimensionsChanged = false;
-        QRect sampleSpace = calculateSampleSpace(array);
+        QRect sampleSpace = calculateSampleSpace(model);
         if (sampleSpace != model->sampleSpace) {
             dimensionsChanged = true;
             model->sampleSpace = sampleSpace;
@@ -1131,8 +1140,8 @@ void QQuickGraphsSurface::updateModel(SurfaceModel *model)
         if (!heightMap) {
             heightMap = new QQuick3DTexture();
             heightMap->setParent(this);
-            heightMap->setHorizontalTiling(QQuick3DTexture::ClampToEdge);
-            heightMap->setVerticalTiling(QQuick3DTexture::ClampToEdge);
+            heightMap->setHorizontalTiling(QQuick3DTexture::MirroredRepeat);
+            heightMap->setVerticalTiling(QQuick3DTexture::MirroredRepeat);
             heightMap->setMinFilter(QQuick3DTexture::Nearest);
             heightMap->setMagFilter(QQuick3DTexture::Nearest);
             heightMapData = new QQuick3DTextureData();
@@ -1152,13 +1161,16 @@ void QQuickGraphsSurface::updateModel(SurfaceModel *model)
             model->heightTexture = heightMap;
             return;
         }
+
         material->setProperty("xDiff", 1.0f / float(sampleSpace.width() - 1));
         material->setProperty("yDiff", 1.0f / float(sampleSpace.height() - 1));
         material->setProperty("flatShading", isFlatShadingEnabled);
-        material->setProperty("rangeMin", QVector2D(columnStart, rowStart));
-        material->setProperty("range", QVector2D(sampleSpace.width(), sampleSpace.height()));
-        material->setProperty("vertices", QVector2D(columnCount, rowCount));
         material->setProperty("graphHeight", scaleWithBackground().y());
+        material->setProperty("uvOffset", QVector2D(columnStart, rowStart));
+        material->setProperty("size", QVector2D(sampleSpace.width(), sampleSpace.height()));
+        material->setProperty("vertCount", QVector2D(columnCount, rowCount));
+        material->setProperty("flipU", !model->ascendingX);
+        material->setProperty("flipV", !model->ascendingZ);
 
         model->vertices.clear();
         model->vertices.reserve(totalSize);
@@ -1200,12 +1212,15 @@ void QQuickGraphsSurface::updateModel(SurfaceModel *model)
         if (m_isIndexDirty) {
             QVector<SurfaceVertex> vertices;
             for (int i = 0; i < rowCount; i++) {
-                const QSurfaceDataRow &row = array.at(i);
+                QSurfaceDataRow row = array.at(i);
                 for (int j = 0; j < columnCount; j++) {
                     SurfaceVertex vertex;
                     QVector3D pos = getNormalizedVertex(row.at(j), isPolar(), false);
                     vertex.position = pos;
-                    vertex.uv = QVector2D(j * uvX, i * uvY);
+                    float uStep = model->ascendingX ? j * uvX : 1 - (j * uvX);
+                    float vStep = model->ascendingZ ? i * uvY : 1 - (i * uvY);
+
+                    vertex.uv = QVector2D(uStep, vStep);
                     vertex.coord = QPoint(j, i);
                     vertices.push_back(vertex);
                 }
@@ -1333,15 +1348,10 @@ void QQuickGraphsSurface::updateProxyModel(SurfaceModel *model)
     QVector<quint32> *proxyIndices = new QVector<quint32>();
     proxyIndices->resize(indexCount);
 
-    const int maxRow = array.size() - 1;
-    const int maxColumn = array.at(0).size() - 1;
-    const bool ascendingX = array.at(0).at(0).x() < array.at(0).at(maxColumn).x();
-    const bool ascendingZ = array.at(0).at(0).z() < array.at(maxRow).at(0).z();
-
     int rowEnd = endY * proxyColumnCount;
     for (int row = 0; row < rowEnd; row += proxyColumnCount) {
         for (int j = 0; j < endX; j++) {
-            if (ascendingX && ascendingZ) {
+            if (model->ascendingX == model->ascendingZ) {
                 proxyIndices->push_back(row + j + 1);
                 proxyIndices->push_back(row + proxyColumnCount + j);
                 proxyIndices->push_back(row + j);
@@ -1349,7 +1359,7 @@ void QQuickGraphsSurface::updateProxyModel(SurfaceModel *model)
                 proxyIndices->push_back(row + proxyColumnCount + j + 1);
                 proxyIndices->push_back(row + proxyColumnCount + j);
                 proxyIndices->push_back(row + j + 1);
-            } else if (!ascendingX) {
+            } else if (!model->ascendingX) {
                 proxyIndices->push_back(row + proxyColumnCount + j);
                 proxyIndices->push_back(row + proxyColumnCount + j + 1);
                 proxyIndices->push_back(row + j);
@@ -1496,14 +1506,6 @@ void QQuickGraphsSurface::updateMaterial(SurfaceModel *model)
         } else {
             texInput->texture()->setSource(QUrl());
         }
-
-        const QSurfaceDataArray &array = model->series->dataArray();
-        int maxRow = array.size() - 1;
-        int maxCol = array.at(0).size() - 1;
-        const bool ascendingX = array.at(0).at(0).x() < array.at(0).at(maxCol).x();
-        const bool ascendingZ = array.at(0).at(0).z() < array.at(maxRow).at(0).z();
-        material->setProperty("flipU", !ascendingX);
-        material->setProperty("flipV", !ascendingZ);
     }
     material->update();
 }
@@ -1747,32 +1749,13 @@ void QQuickGraphsSurface::createIndices(SurfaceModel *model, int columnCount, in
     int rowEnd = endY * columnCount;
     for (int row = 0; row < rowEnd; row += columnCount) {
         for (int j = 0; j < endX; j++) {
-            if (dataDimensions() == QQuickGraphsSurface::BothAscending
-                || dataDimensions() == QQuickGraphsSurface::BothDescending) {
-                indices->push_back(row + j + 1);
-                indices->push_back(row + columnCount + j);
-                indices->push_back(row + j);
+            indices->push_back(row + j + 1);
+            indices->push_back(row + columnCount + j);
+            indices->push_back(row + j);
 
-                indices->push_back(row + columnCount + j + 1);
-                indices->push_back(row + columnCount + j);
-                indices->push_back(row + j + 1);
-            } else if (dataDimensions() == QQuickGraphsSurface::XDescending) {
-                indices->push_back(row + columnCount + j);
-                indices->push_back(row + columnCount + j + 1);
-                indices->push_back(row + j);
-
-                indices->push_back(row + j);
-                indices->push_back(row + columnCount + j + 1);
-                indices->push_back(row + j + 1);
-            } else {
-                indices->push_back(row + columnCount + j);
-                indices->push_back(row + columnCount + j + 1);
-                indices->push_back(row + j + 1);
-
-                indices->push_back(row + j);
-                indices->push_back(row + columnCount + j);
-                indices->push_back(row + j + 1);
-            }
+            indices->push_back(row + columnCount + j + 1);
+            indices->push_back(row + columnCount + j);
+            indices->push_back(row + j + 1);
         }
     }
 }

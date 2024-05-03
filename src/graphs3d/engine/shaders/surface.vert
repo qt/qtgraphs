@@ -4,24 +4,34 @@ out layout(location = 9) flat vec3 nF;
 
 void MAIN()
 {
-    UV = UV0 * (vertices / range);
+    UV = UV0 * (vertCount / size);
 
-    vec2 uvR = UV + vec2(xDiff, 0.0);
-    if (UV.x > (1.0 - xDiff))
-        uvR = UV - vec2(xDiff, 0.0);
-    vec2 uvU = UV + vec2(0.0, yDiff);
-    if (UV.y > (1.0 - yDiff))
-        uvU = UV - vec2(0.0, yDiff);
+    float xStep = xDiff;
+    float yStep = yDiff;
+    if (flipU)
+        xStep *= -1;
+    if (flipV)
+        yStep *= -1;
+
+    vec2 uvR = UV + vec2(xStep, 0.0);
+    if (UV.x > (1.0 - xStep) || UV.x + xStep <= 0)
+        uvR = UV - vec2(xStep, 0.0);
+    vec2 uvU = UV + vec2(0.0, yStep);
+    if (UV.y > (1.0 - yStep) || UV.y + yStep <= 0)
+        uvU = UV - vec2(0.0, yStep);
     vec3 v1 = texture(height, UV).rgb;
     vec3 v2 = texture(height, uvR).rgb;
     vec3 v3 = texture(height, uvU).rgb;
     vec3 v21 = v2 - v1;
     vec3 v31 = v3 - v1;
+
+    if (UV.x > (1.0 - xStep) || UV.x + xStep < 0)
+        v21 = v1 - v2;
+    if (UV.y > (1.0 - yStep) || UV.y + yStep < 0)
+        v31 = v1 - v3;
+
     vec3 n = cross(v21, v31);
-    if (UV.x > (1.0 - xDiff))
-        n = cross(v31, v21);
-    if (UV.y > (1.0 - yDiff))
-        n = cross(v31, v21);
+
 
     NORMAL = n;
     nF = n;

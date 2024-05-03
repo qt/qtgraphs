@@ -24,18 +24,15 @@ void MAIN()
         color = uniformColor.rgb;
         break;
     case 3: // Textured model
-        vec2 rangeMinUV = rangeMin * (1 / (vertices - 1));
-        vec2 offsetUV = UV0 + rangeMinUV;
-        vec2 texUV = vec2(offsetUV.x, 1 - offsetUV.y);
-        if(flipU)
-            texUV.x = -(texUV.x -1);
-        if(flipV)
-            texUV.y = -(texUV.y -1);
+        vec2 offsetNormalized = uvOffset * (1 / (vertCount - 1));
+        vec2 texUV = UV0 + offsetNormalized;
+        if (flipU)
+            texUV.x = 1 - texUV.x;
+        if (flipV)
+            texUV.y = 1 - texUV.y;
         color = texture(baseColor, texUV).xyz;
         break;
     }
-    diffuse = vec4(color, 1.0);
-    BASE_COLOR = diffuse;
     if (flatShading) {
         vec3 dpdx = dFdx(VAR_WORLD_POSITION);
         vec3 dpdy = dFdy(VAR_WORLD_POSITION);
@@ -44,6 +41,8 @@ void MAIN()
         if (NEAR_CLIP_VALUE < 0.0) //effectively: if openGL
             NORMAL = nF;
     }
+    diffuse = vec4(color, 1.0);
+    BASE_COLOR = diffuse;
 }
 
 void AMBIENT_LIGHT()

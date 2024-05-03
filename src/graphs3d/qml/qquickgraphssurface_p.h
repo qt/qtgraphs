@@ -215,10 +215,12 @@ private:
         QVector3D boundsMin;
         QVector3D boundsMax;
         QRect sampleSpace;
+        bool ascendingX;
+        bool ascendingZ;
     };
 
     QVector3D getNormalizedVertex(const QSurfaceDataItem &data, bool polar, bool flipXZ);
-    QRect calculateSampleSpace(const QSurfaceDataArray &array);
+    QRect calculateSampleSpace(SurfaceModel *model);
     QPointF mapCoordsToWorldSpace(SurfaceModel *model, const QPointF &coords);
     QPoint mapCoordsToSampleSpace(SurfaceModel *model, const QPointF &coords);
     void createIndices(SurfaceModel *model, int columnCount, int rowCount);
