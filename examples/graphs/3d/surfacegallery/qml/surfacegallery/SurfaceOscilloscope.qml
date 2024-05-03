@@ -117,7 +117,7 @@ Item {
         anchors.left: parent.left
         anchors.top: parent.top
         anchors.right: parent.right
-        color: surfaceGraph.theme.backgroundColor
+        color: surfaceGraph.theme.plotAreaBackgroundColor
 
         // Samples
         Rectangle {
@@ -128,7 +128,7 @@ Item {
             anchors.top: parent.top
             anchors.margins: 5
 
-            color: surfaceGraph.theme.windowColor
+            color: surfaceGraph.theme.backgroundColor
             border.color: surfaceGraph.theme.gridMainColor
             border.width: 1
             radius: 4
@@ -172,7 +172,7 @@ Item {
                         implicitHeight: 20
                         radius: 10
                         color: sampleSlider.pressed ? surfaceGraph.theme.gridMainColor
-                                                    : surfaceGraph.theme.windowColor
+                                                    : surfaceGraph.theme.backgroundColor
                         border.color: sampleSlider.pressed ? surfaceGraph.theme.labelTextColor
                                                            : surfaceGraph.theme.gridMainColor
                     }
@@ -199,7 +199,7 @@ Item {
             anchors.top: oscilloscopeView.portraitMode ? samples.bottom : parent.top
             anchors.margins: 5
 
-            color: surfaceGraph.theme.windowColor
+            color: surfaceGraph.theme.backgroundColor
             border.color: surfaceGraph.theme.gridMainColor
             border.width: 1
             radius: 4
@@ -244,7 +244,7 @@ Item {
                         implicitHeight: 20
                         radius: 10
                         color: frequencySlider.pressed ? surfaceGraph.theme.gridMainColor
-                                                       : surfaceGraph.theme.windowColor
+                                                       : surfaceGraph.theme.backgroundColor
                         border.color: frequencySlider.pressed ? surfaceGraph.theme.labelTextColor
                                                               : surfaceGraph.theme.gridMainColor
                     }
@@ -269,7 +269,7 @@ Item {
             anchors.top: oscilloscopeView.portraitMode ? frequency.bottom : parent.top
             anchors.margins: 5
 
-            color: surfaceGraph.theme.windowColor
+            color: surfaceGraph.theme.backgroundColor
             border.color: surfaceGraph.theme.gridMainColor
             border.width: 1
             radius: 4
@@ -292,7 +292,7 @@ Item {
             anchors.top: oscilloscopeView.portraitMode ? fpsindicator.bottom : parent.top
             anchors.margins: 5
 
-            color: surfaceGraph.theme.windowColor
+            color: surfaceGraph.theme.backgroundColor
             border.color: surfaceGraph.theme.gridMainColor
             border.width: 1
             radius: 4
@@ -340,7 +340,7 @@ Item {
             background: Rectangle {
                 opacity: flatShadingToggle.enabled ? 1 : 0.3
                 color: flatShadingToggle.down ? surfaceGraph.theme.gridMainColor
-                                              : surfaceGraph.theme.windowColor
+                                              : surfaceGraph.theme.backgroundColor
                 border.color: flatShadingToggle.down ? surfaceGraph.theme.labelTextColor
                                                      : surfaceGraph.theme.gridMainColor
                 border.width: 1
@@ -378,7 +378,7 @@ Item {
 
             background: Rectangle {
                 color: surfaceGridToggle.down ? surfaceGraph.theme.gridMainColor
-                                              : surfaceGraph.theme.windowColor
+                                              : surfaceGraph.theme.backgroundColor
                 border.color: surfaceGridToggle.down ? surfaceGraph.theme.labelTextColor
                                                      : surfaceGraph.theme.gridMainColor
                 border.width: 1
@@ -409,7 +409,7 @@ Item {
 
             background: Rectangle {
                 color: exitButton.down ? surfaceGraph.theme.gridMainColor
-                                       : surfaceGraph.theme.windowColor
+                                       : surfaceGraph.theme.backgroundColor
                 border.color: exitButton.down ? surfaceGraph.theme.labelTextColor
                                               : surfaceGraph.theme.gridMainColor
                 border.width: 1

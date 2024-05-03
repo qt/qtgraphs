@@ -102,7 +102,7 @@ Item {
                 implicitHeight: 30
                 implicitWidth: column === 0 ? tableView.width / 2 : tableView.width / 4
                 color: row === mainview.currentRow ? barGraph.theme.gridMainColor
-                                                   : barGraph.theme.windowColor
+                                                   : barGraph.theme.backgroundColor
                 border.color: row === mainview.currentRow ? barGraph.theme.labelTextColor
                                                           : barGraph.theme.gridMainColor
                 border.width: 1
@@ -131,7 +131,7 @@ Item {
                             return delegateRoot.display;
                         }
                     }
-                    color: row === mainview.currentRow ? barGraph.theme.windowColor
+                    color: row === mainview.currentRow ? barGraph.theme.backgroundColor
                                                        : barGraph.theme.labelTextColor
                     horizontalAlignment: delegateRoot.column === 0 ? Text.AlignLeft
                                                                    : Text.AlignHCenter
@@ -213,7 +213,7 @@ Item {
 
             background: Rectangle {
                 opacity: changeDataButton.enabled ? 1 : 0.3
-                color: changeDataButton.down ? barGraph.theme.gridMainColor : barGraph.theme.windowColor
+                color: changeDataButton.down ? barGraph.theme.gridMainColor : barGraph.theme.backgroundColor
                 border.color: changeDataButton.down ? barGraph.theme.labelTextColor : barGraph.theme.gridMainColor
                 border.width: 1
                 radius: 2
@@ -246,7 +246,7 @@ Item {
 
             background: Rectangle {
                 opacity: shadowToggle.enabled ? 1 : 0.3
-                color: shadowToggle.down ? barGraph.theme.gridMainColor : barGraph.theme.windowColor
+                color: shadowToggle.down ? barGraph.theme.gridMainColor : barGraph.theme.backgroundColor
                 border.color: shadowToggle.down ? barGraph.theme.labelTextColor : barGraph.theme.gridMainColor
                 border.width: 1
                 radius: 2
@@ -289,7 +289,7 @@ Item {
 
             background: Rectangle {
                 opacity: seriesToggle.enabled ? 1 : 0.3
-                color: seriesToggle.down ? barGraph.theme.gridMainColor : barGraph.theme.windowColor
+                color: seriesToggle.down ? barGraph.theme.gridMainColor : barGraph.theme.backgroundColor
                 border.color: seriesToggle.down ? barGraph.theme.labelTextColor : barGraph.theme.gridMainColor
                 border.width: 1
                 radius: 2
@@ -325,7 +325,7 @@ Item {
 
             background: Rectangle {
                 opacity: marginToggle.enabled ? 1 : 0.3
-                color: marginToggle.down ? barGraph.theme.gridMainColor : barGraph.theme.windowColor
+                color: marginToggle.down ? barGraph.theme.gridMainColor : barGraph.theme.backgroundColor
                 border.color: marginToggle.down ? barGraph.theme.labelTextColor : barGraph.theme.gridMainColor
                 border.width: 1
                 radius: 2

@@ -53,8 +53,8 @@ GalaxyData::GalaxyData(Q3DScatter *scatter,
     m_graph->axisX()->setRange(-25000.0f, 25000.0f);
     m_graph->axisZ()->setRange(-25000.0f, 25000.0f);
     m_graph->setOptimizationHint(QAbstract3DGraph::OptimizationHint::Default);
+    m_graph->activeTheme()->setPlotAreaBackgroundColor(QColor(31, 31, 31));
     m_graph->activeTheme()->setBackgroundColor(QColor(31, 31, 31));
-    m_graph->activeTheme()->setWindowColor(QColor(31, 31, 31));
     m_graph->activeTheme()->setLabelBackgroundColor(QColor(31, 31, 31));
     m_graph->activeTheme()->setLabelTextColor(QColor(31, 31, 31));
 

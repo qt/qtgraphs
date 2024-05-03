@@ -1693,7 +1693,7 @@ void GraphModifier::useOwnTheme(bool checked)
         m_ownTheme = new QGraphsTheme();
         m_ownTheme->setBackgroundEnabled(true);
         m_ownTheme->setGridEnabled(true);
-        m_ownTheme->setBackgroundColor(QColor(QRgb(0x99ca53)));
+        m_ownTheme->setPlotAreaBackgroundColor(QColor(QRgb(0x99ca53)));
         QList<QColor> colors;
         colors.append(QColor(QRgb(0x209fdf)));
         m_ownTheme->setSeriesColors(colors);
@@ -1705,7 +1705,7 @@ void GraphModifier::useOwnTheme(bool checked)
         m_ownTheme->setSingleHighlightColor(QColor(QRgb(0xf6a625)));
         m_ownTheme->setLabelBackgroundColor(QColor(0xf6, 0xa6, 0x25, 0xa0));
         m_ownTheme->setLabelTextColor(QColor(QRgb(0x404044)));
-        m_ownTheme->setWindowColor(QColor(QRgb(0xffffff)));
+        m_ownTheme->setBackgroundColor(QColor(QRgb(0xffffff)));
     }
 
     m_graph->setActiveTheme(m_ownTheme);

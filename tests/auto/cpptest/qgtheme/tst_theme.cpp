@@ -53,8 +53,8 @@ void tst_theme::construct()
     theme->setTheme(QGraphsTheme::Theme::MixSeries);
     theme->setColorScheme(Qt::ColorScheme::Light);
     QVERIFY(theme);
-    QCOMPARE(theme->backgroundColor(), QColor(QRgb(0xFCFCFC)));
-    QCOMPARE(theme->isBackgroundEnabled(), true);
+    QCOMPARE(theme->plotAreaBackgroundColor(), QColor(QRgb(0xFCFCFC)));
+    QCOMPARE(theme->isPlotAreaBackgroundEnabled(), true);
     QCOMPARE(theme->seriesColors().size(), 5);
     QCOMPARE(theme->seriesColors().at(0), QColor(QRgb(0xFFA615)));
     QCOMPARE(theme->seriesColors().at(4), QColor(QRgb(0x0128F8)));
@@ -76,7 +76,8 @@ void tst_theme::construct()
     QCOMPARE(theme->singleHighlightColor(), QColor(QRgb(0xCCDC00)));
     QCOMPARE(theme->singleHighlightGradient().stops().at(1).second, QColor(QRgb(0xCCDC00)));
     QCOMPARE(theme->theme(), QGraphsTheme::Theme::MixSeries);
-    QCOMPARE(theme->windowColor(), QColor(QRgb(0xF2F2F2)));
+    QCOMPARE(theme->backgroundColor(), QColor(QRgb(0xF2F2F2)));
+    QCOMPARE(theme->isBackgroundEnabled(), true);
     delete theme;
 }
 
@@ -84,8 +85,8 @@ void tst_theme::initialProperties()
 {
     QVERIFY(m_theme);
 
-    QCOMPARE(m_theme->backgroundColor(), QColor(QRgb(0xFCFCFC)));
-    QCOMPARE(m_theme->isBackgroundEnabled(), true);
+    QCOMPARE(m_theme->plotAreaBackgroundColor(), QColor(QRgb(0xFCFCFC)));
+    QCOMPARE(m_theme->isPlotAreaBackgroundEnabled(), true);
     QCOMPARE(m_theme->seriesColors().size(), 1);
     QCOMPARE(m_theme->seriesColors().at(0), QColor(Qt::black));
     QCOMPARE(m_theme->seriesGradients().size(), 1);
@@ -105,7 +106,8 @@ void tst_theme::initialProperties()
     QCOMPARE(m_theme->singleHighlightColor(), QColor(QRgb(0xCCDC00)));
     QCOMPARE(m_theme->singleHighlightGradient().stops().at(1).second, QColor(QRgb(0xCCDC00)));
     QCOMPARE(m_theme->theme(), QGraphsTheme::Theme::UserDefined);
-    QCOMPARE(m_theme->windowColor(), QColor(QRgb(0xF2F2F2)));
+    QCOMPARE(m_theme->backgroundColor(), QColor(QRgb(0xF2F2F2)));
+    QCOMPARE(m_theme->isBackgroundEnabled(), true);
 }
 
 void tst_theme::initializeProperties()
@@ -125,8 +127,8 @@ void tst_theme::initializeProperties()
 
     m_theme->setTheme(QGraphsTheme::Theme::OrangeSeries); // We'll override default values with the following setters
     m_theme->setColorScheme(Qt::ColorScheme::Dark);
-    m_theme->setBackgroundColor(QColor(Qt::red));
-    m_theme->setBackgroundEnabled(false);
+    m_theme->setPlotAreaBackgroundColor(QColor(Qt::red));
+    m_theme->setPlotAreaBackgroundEnabled(false);
     m_theme->setSeriesColors(basecolors);
     m_theme->setSeriesGradients(basegradients);
     m_theme->setColorStyle(QGraphsTheme::ColorStyle::RangeGradient);
@@ -143,10 +145,11 @@ void tst_theme::initializeProperties()
     m_theme->setMultiHighlightGradient(gradient3);
     m_theme->setSingleHighlightColor(QColor(Qt::darkRed));
     m_theme->setSingleHighlightGradient(gradient4);
-    m_theme->setWindowColor(QColor(Qt::darkYellow));
+    m_theme->setBackgroundColor(QColor(Qt::darkYellow));
+    m_theme->setBackgroundEnabled(false);
 
-    QCOMPARE(m_theme->backgroundColor(), QColor(Qt::red));
-    QCOMPARE(m_theme->isBackgroundEnabled(), false);
+    QCOMPARE(m_theme->plotAreaBackgroundColor(), QColor(Qt::red));
+    QCOMPARE(m_theme->isPlotAreaBackgroundEnabled(), false);
     QCOMPARE(m_theme->seriesColors().size(), 2);
     QCOMPARE(m_theme->seriesColors().at(0), QColor(Qt::red));
     QCOMPARE(m_theme->seriesColors().at(1), QColor(Qt::blue));
@@ -168,7 +171,8 @@ void tst_theme::initializeProperties()
     QCOMPARE(m_theme->singleHighlightColor(), QColor(Qt::darkRed));
     QCOMPARE(m_theme->singleHighlightGradient(), gradient4);
     QCOMPARE(m_theme->theme(), QGraphsTheme::Theme::OrangeSeries);
-    QCOMPARE(m_theme->windowColor(), QColor(Qt::darkYellow));
+    QCOMPARE(m_theme->backgroundColor(), QColor(Qt::darkYellow));
+    QCOMPARE(m_theme->isBackgroundEnabled(), false);
 }
 
 QTEST_MAIN(tst_theme)

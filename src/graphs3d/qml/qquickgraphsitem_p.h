@@ -664,6 +664,7 @@ protected:
     void updateLabels();
     void updateSliceGrid();
     void updateSliceLabels();
+    void updateBackgroundColor();
     virtual void updateShadowQuality(QAbstract3DGraph::ShadowQuality quality);
     void updateItemLabel(const QVector3D &position);
     virtual void updateSliceItemLabel(QString label, const QVector3D &position);

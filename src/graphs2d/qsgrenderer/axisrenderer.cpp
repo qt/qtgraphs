@@ -425,7 +425,7 @@ void AxisRenderer::updateAxisGrid()
         m_axisGrid->setMajorBarWidth(theme()->gridMainWidth());
         const double minimumSmoothing = 0.05;
         m_axisGrid->setSmoothing(m_graph->gridSmoothing() + minimumSmoothing);
-        m_axisGrid->setPlotAreaBackgroundColor(m_graph->plotAreaBackgroundColor());
+        m_axisGrid->setPlotAreaBackgroundColor(theme()->plotAreaBackgroundColor());
     //}
     float topPadding = m_axisGrid->majorBarWidth() * 0.5;
     float bottomPadding = topPadding;

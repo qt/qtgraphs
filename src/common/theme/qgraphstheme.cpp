@@ -217,15 +217,15 @@ QT_BEGIN_NAMESPACE
  */
 
 /*!
- * \qmlproperty color GraphsTheme::backgroundColor
+ * \qmlproperty color GraphsTheme::plotAreaBackgroundColor
  *
- * The color of the graph background.
+ * The color of the graph plot area background.
  */
 
 /*!
- * \qmlproperty color GraphsTheme::windowColor
+ * \qmlproperty color GraphsTheme::backgroundColor
  *
- * The color of the application window the graph is drawn into.
+ * The color of the view the graph is drawn into.
  */
 
 /*!
@@ -399,8 +399,15 @@ QT_BEGIN_NAMESPACE
 /*!
  * \qmlproperty bool GraphsTheme::backgroundEnabled
  *
- * Defines whether the background is drawn by using the value of
+ * Defines whether the view background is drawn by using the value of
  * backgroundColor.
+ */
+
+/*!
+ * \qmlproperty bool GraphsTheme::plotAreaBackgroundEnabled
+ *
+ * Defines whether the plot area background is drawn by using the value of
+ * plotAreaBackgroundColor.
  */
 
 /*!
@@ -464,6 +471,7 @@ QGraphsTheme::QGraphsTheme(QObject *parent)
     , m_gridSubWidth(0.0)
 {
     setBackgroundEnabled(true);
+    setPlotAreaBackgroundEnabled(true);
     setLabelBackgroundEnabled(true);
     setGridEnabled(true);
     setLabelsEnabled(true);
@@ -489,8 +497,8 @@ QGraphsThemeDirtyBitField *QGraphsTheme::dirtyBits()
 
 void QGraphsTheme::resetDirtyBits()
 {
-    m_dirtyBits.backgroundColorDirty = true;
-    m_dirtyBits.backgroundEnabledDirty = true;
+    m_dirtyBits.plotAreaBackgroundColorDirty = true;
+    m_dirtyBits.plotAreaBackgroundEnabledDirty = true;
     m_dirtyBits.seriesColorsDirty = true;
     m_dirtyBits.seriesGradientDirty = true;
     m_dirtyBits.colorSchemeDirty = true;
@@ -511,7 +519,8 @@ void QGraphsTheme::resetDirtyBits()
     m_dirtyBits.singleHighlightColorDirty = true;
     m_dirtyBits.singleHighlightGradientDirty = true;
     m_dirtyBits.themeDirty = true;
-    m_dirtyBits.windowColorDirty = true;
+    m_dirtyBits.backgroundColorDirty = true;
+    m_dirtyBits.backgroundEnabledDirty = true;
 }
 
 Qt::ColorScheme QGraphsTheme::colorScheme() const
@@ -907,22 +916,43 @@ void QGraphsTheme::setAxisZLabelFont(const QFont &newAxisZLabelFont)
 }
 
 /*!
- * \property QGraphsTheme::backgroundColor
+ * \property QGraphsTheme::plotAreaBackgroundColor
  *
- * \brief The color of the graph background.
+ * \brief The color of the graph plot area background.
  */
-QColor QGraphsTheme::backgroundColor() const
+QColor QGraphsTheme::plotAreaBackgroundColor() const
 {
-    return m_backgroundColor;
+    return m_plotAreaBackgroundColor;
 }
 
-void QGraphsTheme::setBackgroundColor(const QColor &newBackgroundColor)
+void QGraphsTheme::setPlotAreaBackgroundColor(const QColor &newBackgroundColor)
 {
-    if (m_backgroundColor == newBackgroundColor)
+    if (m_plotAreaBackgroundColor == newBackgroundColor)
         return;
-    m_dirtyBits.backgroundColorDirty = true;
-    m_backgroundColor = newBackgroundColor;
-    emit backgroundColorChanged();
+    m_dirtyBits.plotAreaBackgroundColorDirty = true;
+    m_plotAreaBackgroundColor = newBackgroundColor;
+    emit plotAreaBackgroundColorChanged();
+}
+
+/*!
+ * \property QGraphsTheme::plotAreaBackgroundEnabled
+ *
+ * \brief Whether the plot area background is visible.
+ *
+ * The background is drawn by using the value of plotAreaBackgroundColor.
+ */
+bool QGraphsTheme::isPlotAreaBackgroundEnabled() const
+{
+    return m_plotAreaBackgroundEnabled;
+}
+
+void QGraphsTheme::setPlotAreaBackgroundEnabled(bool newBackgroundEnabled)
+{
+    if (m_plotAreaBackgroundEnabled == newBackgroundEnabled)
+        return;
+    m_dirtyBits.plotAreaBackgroundEnabledDirty = true;
+    m_plotAreaBackgroundEnabled = newBackgroundEnabled;
+    emit plotAreaBackgroundEnabledChanged();
 }
 
 /*!
@@ -968,22 +998,22 @@ void QGraphsTheme::setGridEnabled(bool newGridEnabled)
 }
 
 /*!
- * \property QGraphsTheme::windowColor
+ * \property QGraphsTheme::backgroundColor
  *
- * \brief The color of the application window the graph is drawn into.
+ * \brief The color of the view the graph is drawn into.
  */
-QColor QGraphsTheme::windowColor() const
+QColor QGraphsTheme::backgroundColor() const
 {
-    return m_windowColor;
+    return m_backgroundColor;
 }
 
-void QGraphsTheme::setWindowColor(const QColor &newWindowColor)
+void QGraphsTheme::setBackgroundColor(const QColor &newBackgroundColor)
 {
-    if (m_windowColor == newWindowColor)
+    if (m_backgroundColor == newBackgroundColor)
         return;
-    m_dirtyBits.windowColorDirty = true;
-    m_windowColor = newWindowColor;
-    emit windowColorChanged();
+    m_dirtyBits.backgroundColorDirty = true;
+    m_backgroundColor = newBackgroundColor;
+    emit backgroundColorChanged();
 }
 
 /*!
@@ -1433,8 +1463,8 @@ void QGraphsTheme::setColorSchemePalette()
         return;
 
     if (m_colorScheme == Qt::ColorScheme::Dark) {
-        setWindowColor(QColor(QRgb(0x262626)));
-        setBackgroundColor(QColor(QRgb(0x1F1F1F)));
+        setBackgroundColor(QColor(QRgb(0x262626)));
+        setPlotAreaBackgroundColor(QColor(QRgb(0x1F1F1F)));
         setLabelBackgroundColor(QColor(QRgb(0x2E2E2E)));
 
         setGridMainColor(QColor(QRgb(0xAEABAB)));
@@ -1450,8 +1480,8 @@ void QGraphsTheme::setColorSchemePalette()
         setAxisYLabelColor(QColor(QRgb(0xAEAEAE)));
         setAxisZLabelColor(QColor(QRgb(0xAEAEAE)));
     } else {
-        setWindowColor(QColor(QRgb(0xF2F2F2)));
-        setBackgroundColor(QColor(QRgb(0xFCFCFC)));
+        setBackgroundColor(QColor(QRgb(0xF2F2F2)));
+        setPlotAreaBackgroundColor(QColor(QRgb(0xFCFCFC)));
         setLabelBackgroundColor(QColor(QRgb(0xE7E7E7)));
 
         setGridMainColor(QColor(QRgb(0x545151)));

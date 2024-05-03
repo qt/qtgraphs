@@ -7,7 +7,7 @@ import QtGraphs
 
 Rectangle {
     id: heightMapView
-    color: surfacePlot.theme.windowColor
+    color: surfacePlot.theme.backgroundColor
 
     required property bool portraitMode
 

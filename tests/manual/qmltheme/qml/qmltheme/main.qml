@@ -48,7 +48,7 @@ Item {
         id: customSurfaceTheme
         theme: GraphsTheme.Theme.QtGreen
         colorStyle: GraphsTheme.ObjectGradient
-        backgroundColor: "gray"
+        plotAreaBackgroundColor: "gray"
         gridMainColor: "lightGray"
         multiHighlightColor: "orange"
         singleHighlightColor: "yellow"
@@ -62,7 +62,7 @@ Item {
         colorStyle: GraphsTheme.ObjectGradient
         baseColors: [barColor]
         baseGradients: [customGradient]
-        backgroundColor: "gray"
+        plotAreaBackgroundColor: "gray"
         gridMainColor: "lightGray"
         multiHighlightColor: "orange"
         singleHighlightColor: "yellow"

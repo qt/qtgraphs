@@ -187,6 +187,7 @@ Rectangle {
             axisXLabelFont.pixelSize: 20
             axisYLabelFont.pixelSize: 16
             colorScheme: Qt.Dark
+            plotAreaBackgroundColor: "#40808080"
             labelFont.pixelSize: 20
         }
         GraphsTheme {

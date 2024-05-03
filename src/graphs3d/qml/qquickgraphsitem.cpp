@@ -1859,7 +1859,7 @@ void QQuickGraphsItem::synchData()
     }
 
     if (m_changeTracker.themeChanged) {
-        environment()->setClearColor(theme()->windowColor());
+        updateBackgroundColor();
         m_changeTracker.themeChanged = false;
     }
 
@@ -2038,20 +2038,20 @@ void QQuickGraphsItem::synchData()
     }
 
     // Grid and background adjustments
-    if (theme()->dirtyBits()->backgroundColorDirty) {
+    if (theme()->dirtyBits()->plotAreaBackgroundColorDirty) {
         QQmlListReference materialRef(m_background, "materials");
         Q_ASSERT(materialRef.size());
         auto material = static_cast<QQuick3DCustomMaterial *>(materialRef.at(0));
-        material->setProperty("baseColor", theme()->backgroundColor());
-        theme()->dirtyBits()->backgroundColorDirty = false;
+        material->setProperty("baseColor", theme()->plotAreaBackgroundColor());
+        theme()->dirtyBits()->plotAreaBackgroundColorDirty = false;
     }
 
-    if (theme()->dirtyBits()->backgroundEnabledDirty) {
+    if (theme()->dirtyBits()->plotAreaBackgroundEnabledDirty) {
         QQmlListReference materialRef(m_background, "materials");
         Q_ASSERT(materialRef.size());
         auto *material = static_cast<QQuick3DCustomMaterial *>(materialRef.at(0));
-        material->setProperty("baseVisible", theme()->isBackgroundEnabled());
-        theme()->dirtyBits()->backgroundEnabledDirty = false;
+        material->setProperty("baseVisible", theme()->isPlotAreaBackgroundEnabled());
+        theme()->dirtyBits()->plotAreaBackgroundEnabledDirty = false;
     }
 
     if (m_shaderGridEnabledDirty) {
@@ -2107,13 +2107,10 @@ void QQuickGraphsItem::synchData()
     }
 
     // Other adjustments
-    if (theme()->dirtyBits()->windowColorDirty) {
-        window()->setColor(theme()->windowColor());
-        environment()->setClearColor(theme()->windowColor());
-        theme()->dirtyBits()->windowColorDirty = false;
-    }
-    if (theme()->windowColor() != window()->color()) {
-        window()->setColor(theme()->windowColor());
+    if (theme()->dirtyBits()->backgroundColorDirty || theme()->dirtyBits()->backgroundEnabledDirty) {
+        updateBackgroundColor();
+        theme()->dirtyBits()->backgroundColorDirty = false;
+        theme()->dirtyBits()->backgroundEnabledDirty = false;
     }
 
     if (isCustomDataDirty()) {
@@ -5807,6 +5804,14 @@ void QQuickGraphsItem::setLightColor(const QColor &newLightColor)
     m_lightColor = newLightColor;
     emit lightColorChanged();
     emitNeedRender();
+}
+
+void QQuickGraphsItem::updateBackgroundColor()
+{
+    if (theme()->isBackgroundEnabled())
+        environment()->setClearColor(theme()->backgroundColor());
+    else
+        environment()->setClearColor(Qt::transparent);
 }
 
 QT_END_NAMESPACE

@@ -19,8 +19,8 @@ class QQuickGradient;
 
 struct QGraphsThemeDirtyBitField
 {
-    bool backgroundColorDirty : 1;
-    bool backgroundEnabledDirty : 1;
+    bool plotAreaBackgroundColorDirty : 1;
+    bool plotAreaBackgroundEnabledDirty : 1;
     bool seriesColorsDirty : 1;
     bool seriesGradientDirty : 1;
     bool colorSchemeDirty : 1;
@@ -41,11 +41,12 @@ struct QGraphsThemeDirtyBitField
     bool singleHighlightColorDirty : 1;
     bool singleHighlightGradientDirty : 1;
     bool themeDirty : 1;
-    bool windowColorDirty : 1;
+    bool backgroundColorDirty : 1;
+    bool backgroundEnabledDirty : 1;
 
     QGraphsThemeDirtyBitField()
-        : backgroundColorDirty(false)
-          , backgroundEnabledDirty(false)
+        : plotAreaBackgroundColorDirty(false)
+          , plotAreaBackgroundEnabledDirty(false)
           , seriesColorsDirty(false)
           , seriesGradientDirty(false)
           , colorSchemeDirty(false)
@@ -66,7 +67,8 @@ struct QGraphsThemeDirtyBitField
           , singleHighlightColorDirty(false)
           , singleHighlightGradientDirty(false)
           , themeDirty(false)
-          , windowColorDirty(false)
+          , backgroundColorDirty(false)
+          , backgroundEnabledDirty(false)
     {}
 };
 
@@ -80,12 +82,14 @@ class Q_GRAPHS_EXPORT QGraphsTheme : public QObject, public QQmlParserStatus
     Q_PROPERTY(ColorStyle colorStyle READ colorStyle WRITE setColorStyle NOTIFY
                        colorStyleChanged)
 
-    Q_PROPERTY(QColor windowColor READ windowColor WRITE setWindowColor NOTIFY windowColorChanged)
-
-    Q_PROPERTY(QColor backgroundColor READ backgroundColor WRITE setBackgroundColor NOTIFY
-                       backgroundColorChanged)
+    Q_PROPERTY(QColor backgroundColor READ backgroundColor WRITE setBackgroundColor NOTIFY backgroundColorChanged)
     Q_PROPERTY(bool backgroundEnabled READ isBackgroundEnabled WRITE setBackgroundEnabled NOTIFY
                        backgroundEnabledChanged)
+
+    Q_PROPERTY(QColor plotAreaBackgroundColor READ plotAreaBackgroundColor WRITE setPlotAreaBackgroundColor NOTIFY
+                       plotAreaBackgroundColorChanged)
+    Q_PROPERTY(bool plotAreaBackgroundEnabled READ isPlotAreaBackgroundEnabled WRITE setPlotAreaBackgroundEnabled NOTIFY
+                       plotAreaBackgroundEnabledChanged)
 
     Q_PROPERTY(bool gridEnabled READ isGridEnabled WRITE setGridEnabled NOTIFY gridEnabledChanged)
     Q_PROPERTY(QColor gridMainColor READ gridMainColor WRITE setGridMainColor NOTIFY
@@ -177,13 +181,15 @@ public:
     ColorStyle colorStyle() const;
     void setColorStyle(ColorStyle newColorStyle);
 
-    QColor windowColor() const;
-    void setWindowColor(const QColor &newWindowColor);
-
-    bool isBackgroundEnabled() const;
-    void setBackgroundEnabled(bool newBackgroundEnabled);
     QColor backgroundColor() const;
     void setBackgroundColor(const QColor &newBackgroundColor);
+    bool isBackgroundEnabled() const;
+    void setBackgroundEnabled(bool newBackgroundEnabled);
+
+    QColor plotAreaBackgroundColor() const;
+    void setPlotAreaBackgroundColor(const QColor &newBackgroundColor);
+    bool isPlotAreaBackgroundEnabled() const;
+    void setPlotAreaBackgroundEnabled(bool newBackgroundEnabled);
 
     bool isGridEnabled() const;
     void setGridEnabled(bool newGridEnabled);
@@ -283,10 +289,11 @@ Q_SIGNALS:
     void themeChanged(QGraphsTheme::Theme theme);
     void colorStyleChanged(QGraphsTheme::ColorStyle type);
 
-    void windowColorChanged();
-
     void backgroundColorChanged();
     void backgroundEnabledChanged();
+
+    void plotAreaBackgroundColorChanged();
+    void plotAreaBackgroundEnabledChanged();
 
     void gridEnabledChanged();
     void gridMainColorChanged();
@@ -399,10 +406,11 @@ private:
     float m_gridMainWidth;
     QColor m_gridSubColor;
     float m_gridSubWidth;
-    QColor m_backgroundColor;
+    QColor m_plotAreaBackgroundColor;
     bool m_backgroundEnabled;
     bool m_gridEnabled;
-    QColor m_windowColor;
+    QColor m_backgroundColor;
+    bool m_plotAreaBackgroundEnabled;
     bool m_labelsEnabled;
     QColor m_labelBackgroundColor;
     QColor m_labelTextColor;

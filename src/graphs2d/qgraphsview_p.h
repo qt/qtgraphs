@@ -39,8 +39,6 @@ class QGraphsView : public QQuickItem
     Q_OBJECT
     Q_PROPERTY(QGraphsTheme *theme READ theme WRITE setTheme NOTIFY themeChanged)
     Q_PROPERTY(QQmlListProperty<QObject> seriesList READ seriesList CONSTANT)
-    Q_PROPERTY(QColor plotAreaBackgroundColor READ plotAreaBackgroundColor
-                       WRITE setPlotAreaBackgroundColor NOTIFY plotAreaBackgroundColorChanged)
     Q_PROPERTY(qreal marginTop READ marginTop WRITE setMarginTop NOTIFY marginTopChanged)
     Q_PROPERTY(qreal marginBottom READ marginBottom WRITE setMarginBottom NOTIFY marginBottomChanged)
     Q_PROPERTY(qreal marginLeft READ marginLeft WRITE setMarginLeft NOTIFY marginLeftChanged)
@@ -68,9 +66,6 @@ class QGraphsView : public QQuickItem
 public:
     explicit QGraphsView(QQuickItem *parent = nullptr);
     ~QGraphsView() override;
-
-    void setPlotAreaBackgroundColor(const QColor &color);
-    QColor plotAreaBackgroundColor() const;
 
     Q_INVOKABLE void addSeries(QObject *series);
     Q_INVOKABLE void removeSeries(QObject *series);
@@ -162,7 +157,6 @@ protected:
     void updatePolish() override;
 
 Q_SIGNALS:
-    void plotAreaBackgroundColorChanged();
     void themeChanged();
     void marginTopChanged();
     void marginBottomChanged();
@@ -202,7 +196,6 @@ private:
     PieRenderer *m_pieRenderer = nullptr;
     AreaRenderer *m_areaRenderer = nullptr;
     QList<QObject *> m_seriesList;
-    QColor m_plotAreaBackgroundColor =  QColor(Qt::transparent);
     QSGClipNode *m_backgroundNode = nullptr;
     QQuickRectangle *m_backgroundRectangle = nullptr;
 

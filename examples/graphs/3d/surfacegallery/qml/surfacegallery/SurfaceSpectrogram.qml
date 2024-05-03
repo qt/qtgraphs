@@ -7,7 +7,7 @@ import QtGraphs
 
 Rectangle {
     id: spectrogramView
-    color: surfaceGraph.theme.windowColor
+    color: surfaceGraph.theme.backgroundColor
 
     required property bool portraitMode
 
@@ -67,7 +67,7 @@ Rectangle {
             theme: GraphsTheme.Theme.QtGreen
             backgroundEnabled: false
             gridMainColor: "#AAAAAA"
-            windowColor: "#EEEEEE"
+            backgroundColor: "#EEEEEE"
         }
 
         //! [0]

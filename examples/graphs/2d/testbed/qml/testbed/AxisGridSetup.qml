@@ -45,6 +45,7 @@ Rectangle {
             id: myTheme
             colorScheme: Qt.Dark
             backgroundColor: "#20000000"
+            plotAreaBackgroundColor: "#20000000"
             theme: GraphsTheme.Theme.QtGreen
             axisXLabelFont.pixelSize: 20
             gridMainColor: "#ffffff"

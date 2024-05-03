@@ -52,7 +52,7 @@ Item {
         height: 50
         anchors.left: parent.left
         anchors.top: parent.top
-        color: surfaceGraph.theme.backgroundColor
+        color: surfaceGraph.theme.plotAreaBackgroundColor
 
         ColumnLayout {
             anchors.fill: parent
