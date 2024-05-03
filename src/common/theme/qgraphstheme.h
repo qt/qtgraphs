@@ -35,6 +35,9 @@ struct QGraphsThemeDirtyBitField
     bool labelBackgroundEnabledDirty : 1;
     bool labelBorderEnabledDirty : 1;
     bool labelTextColorDirty : 1;
+    bool axisXLabelColorDirty : 1;
+    bool axisYLabelColorDirty : 1;
+    bool axisZLabelColorDirty : 1;
     bool labelsEnabledDirty : 1;
     bool multiHighlightColorDirty : 1;
     bool multiHighlightGradientDirty : 1;
@@ -61,6 +64,9 @@ struct QGraphsThemeDirtyBitField
           , labelBackgroundEnabledDirty(false)
           , labelBorderEnabledDirty(false)
           , labelTextColorDirty(false)
+          , axisXLabelColorDirty(false)
+          , axisYLabelColorDirty(false)
+          , axisZLabelColorDirty(false)
           , labelsEnabledDirty(false)
           , multiHighlightColorDirty(false)
           , multiHighlightGradientDirty(false)
@@ -343,9 +349,7 @@ Q_SIGNALS:
     void axisZLabelFontChanged();
 
     void axisXLabelColorChanged();
-
     void axisYLabelColorChanged();
-
     void axisZLabelColorChanged();
 
 public Q_SLOTS:
@@ -358,6 +362,57 @@ protected:
     void componentComplete() override;
 
 private:
+    struct QGraphsCustomBitField
+    {
+        bool plotAreaBackgroundColorCustom : 1;
+        bool seriesColorsCustom : 1;
+        bool borderColorsCustom : 1;
+        bool seriesGradientCustom : 1;
+        bool gridMainColorCustom : 1;
+        bool gridSubColorCustom : 1;
+        bool labelBackgroundColorCustom : 1;
+        bool labelTextColorCustom : 1;
+        bool axisXLabelColorCustom : 1;
+        bool axisYLabelColorCustom : 1;
+        bool axisZLabelColorCustom : 1;
+        bool multiHighlightColorCustom : 1;
+        bool multiHighlightGradientCustom : 1;
+        bool singleHighlightColorCustom : 1;
+        bool singleHighlightGradientCustom : 1;
+        bool backgroundColorCustom : 1;
+        bool axisXMainColorCustom : 1;
+        bool axisXSubColorCustom : 1;
+        bool axisYMainColorCustom : 1;
+        bool axisYSubColorCustom : 1;
+        bool axisZMainColorCustom : 1;
+        bool axisZSubColorCustom : 1;
+
+        QGraphsCustomBitField()
+            : plotAreaBackgroundColorCustom(false)
+              , seriesColorsCustom(false)
+              , borderColorsCustom(false)
+              , seriesGradientCustom(false)
+              , gridMainColorCustom(false)
+              , gridSubColorCustom(false)
+              , labelBackgroundColorCustom(false)
+              , labelTextColorCustom(false)
+              , axisXLabelColorCustom(false)
+              , axisYLabelColorCustom(false)
+              , axisZLabelColorCustom(false)
+              , multiHighlightColorCustom(false)
+              , multiHighlightGradientCustom(false)
+              , singleHighlightColorCustom(false)
+              , singleHighlightGradientCustom(false)
+              , backgroundColorCustom(false)
+              , axisXMainColorCustom(false)
+              , axisXSubColorCustom(false)
+              , axisYMainColorCustom(false)
+              , axisYSubColorCustom(false)
+              , axisZMainColorCustom(false)
+              , axisZSubColorCustom(false)
+        {}
+    };
+
     enum class GradientQMLStyle { Base, SingleHL, MultiHL };
 
     void setColorSchemePalette();
@@ -397,33 +452,45 @@ private:
     void addGradient(QJSValue gradient);
 
     QGraphsThemeDirtyBitField m_dirtyBits;
+    QGraphsCustomBitField m_customBits;
 
-    bool m_themeDirty = false;
+    bool m_themeDirty;
     Qt::ColorScheme m_colorScheme;
     Theme m_theme;
     ColorStyle m_colorStyle;
     QColor m_gridMainColor;
+    QColor m_gridMainThemeColor;
     float m_gridMainWidth;
     QColor m_gridSubColor;
+    QColor m_gridSubThemeColor;
     float m_gridSubWidth;
     QColor m_plotAreaBackgroundColor;
+    QColor m_plotAreaBackgroundThemeColor;
     bool m_backgroundEnabled;
     bool m_gridEnabled;
     QColor m_backgroundColor;
+    QColor m_backgroundThemeColor;
     bool m_plotAreaBackgroundEnabled;
     bool m_labelsEnabled;
     QColor m_labelBackgroundColor;
+    QColor m_labelBackgroundThemeColor;
     QColor m_labelTextColor;
+    QColor m_labelTextThemeColor;
     bool m_labelBackgroundEnabled;
     bool m_labelBorderEnabled;
     QColor m_singleHighlightColor;
+    QColor m_singleHighlightThemeColor;
     QColor m_multiHighlightColor;
+    QColor m_multiHighlightThemeColor;
     QLinearGradient m_multiHighlightGradient;
+    QLinearGradient m_multiHighlightThemeGradient;
     QLinearGradient m_singleHighlightGradient;
+    QLinearGradient m_singleHighlightThemeGradient;
     QFont m_labelFont;
     QList<QColor> m_seriesColors;
     QList<QColor> m_seriesThemeColors;
     QList<QColor> m_borderColors;
+    QList<QColor> m_borderThemeColors;
     qreal m_borderWidth;
     QList<QLinearGradient> m_seriesGradients;
     QList<QLinearGradient> m_seriesThemeGradients;
@@ -437,23 +504,32 @@ private:
 
     bool m_componentComplete = false;
     QColor m_axisXMainColor;
+    QColor m_axisXMainThemeColor;
     float m_axisXMainWidth;
     QColor m_axisXSubColor;
+    QColor m_axisXSubThemeColor;
     float m_axisXSubWidth;
     QColor m_axisYMainColor;
+    QColor m_axisYMainThemeColor;
     float m_axisYMainWidth;
     QColor m_axisYSubColor;
+    QColor m_axisYSubThemeColor;
     float m_axisYSubWidth;
     QColor m_axisZMainColor;
+    QColor m_axisZMainThemeColor;
     float m_axisZMainWidth;
     QColor m_axisZSubColor;
+    QColor m_axisZSubThemeColor;
     float m_axisZSubWidth;
     QFont m_axisXLabelFont;
     QFont m_axisYLabelFont;
     QFont m_axisZLabelFont;
     QColor m_axisXLabelColor;
+    QColor m_axisXLabelThemeColor;
     QColor m_axisYLabelColor;
+    QColor m_axisYLabelThemeColor;
     QColor m_axisZLabelColor;
+    QColor m_axisZLabelThemeColor;
 };
 
 QT_END_NAMESPACE

@@ -637,6 +637,7 @@ void AxisRenderer::updateBarXAxisLabels(QBarCategoryAxis *axis, const QRectF &re
             textItem->setRotation(axis->labelsAngle());
             textItem->setText(category);
             textItem->setVisible(true);
+            theme()->dirtyBits()->axisXLabelColorDirty = false;
         } else {
             textItem->setVisible(false);
         }
@@ -662,11 +663,12 @@ void AxisRenderer::updateBarYAxisLabels(QBarCategoryAxis *axis, const QRectF &re
             textItem->setVAlign(QQuickText::VAlignment::AlignVCenter);
             textItem->setWidth(rect.width());
             textItem->setHeight(rect.height() / categoriesCount);
-            textItem->setFont(theme()->axisXLabelFont());
-            textItem->setColor(theme()->axisXLabelColor());
+            textItem->setFont(theme()->axisYLabelFont());
+            textItem->setColor(theme()->axisYLabelColor());
             textItem->setRotation(axis->labelsAngle());
             textItem->setText(category);
             textItem->setVisible(true);
+            theme()->dirtyBits()->axisYLabelColorDirty = false;
         } else {
             textItem->setVisible(false);
         }
@@ -722,6 +724,7 @@ void AxisRenderer::updateValueYAxisLabels(QValueAxis *axis, const QRectF &rect)
             char format = f.isEmpty() ? 'f' : f.front().toLatin1();
             textItem->setText(QString::number(number, format, decimals));
             textItem->setVisible(true);
+            theme()->dirtyBits()->axisYLabelColorDirty = false;
         } else {
             textItem->setVisible(false);
         }
@@ -775,6 +778,7 @@ void AxisRenderer::updateValueXAxisLabels(QValueAxis *axis, const QRectF &rect)
             char format = f.isEmpty() ? 'f' : f.front().toLatin1();
             textItem->setText(QString::number(number, format, decimals));
             textItem->setVisible(true);
+            theme()->dirtyBits()->axisXLabelColorDirty = false;
         } else {
             textItem->setVisible(false);
         }

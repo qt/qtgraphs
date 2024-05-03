@@ -1655,6 +1655,7 @@ void QQuickGraphsItem::synchData()
 
         m_changeTracker.axisXLabelsChanged = false;
         handleLabelCountChanged(m_repeaterX, theme()->axisXLabelColor());
+        theme()->dirtyBits()->axisXLabelColorDirty = false;
         axisDirty = true;
     }
 
@@ -1670,6 +1671,7 @@ void QQuickGraphsItem::synchData()
 
         m_changeTracker.axisYLabelsChanged = false;
         handleLabelCountChanged(m_repeaterY, theme()->axisYLabelColor());
+        theme()->dirtyBits()->axisYLabelColorDirty = false;
         axisDirty = true;
     }
 
@@ -1685,6 +1687,7 @@ void QQuickGraphsItem::synchData()
 
         m_changeTracker.axisZLabelsChanged = false;
         handleLabelCountChanged(m_repeaterZ, theme()->axisZLabelColor());
+        theme()->dirtyBits()->axisZLabelColorDirty = false;
         axisDirty = true;
     }
 
@@ -1865,7 +1868,7 @@ void QQuickGraphsItem::synchData()
     }
 
     if (m_changeTracker.themeChanged) {
-        updateBackgroundColor();
+        theme()->resetDirtyBits();
         m_changeTracker.themeChanged = false;
     }
 
