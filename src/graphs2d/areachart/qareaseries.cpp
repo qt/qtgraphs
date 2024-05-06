@@ -15,7 +15,7 @@ QT_BEGIN_NAMESPACE
 
     An area graph is used to draw an area composed by points.
     The points are defined by two series: upperSeries and lowerSeries.
-    The area between the series is drawn as an graph. If only the upperSeries
+    The area between the series is drawn as a graph. If only the upperSeries
     is defined, the area is then between the bottom of the graph and the upper series.
 */
 /*!
@@ -29,7 +29,7 @@ QT_BEGIN_NAMESPACE
 
     An area graph is used to draw an area composed by points.
     The points are defined by two series: upperSeries and lowerSeries.
-    The area between the series is drawn as an graph. If only the upperSeries
+    The area between the series is drawn as a graph. If only the upperSeries
     is defined, the area is then between the bottom of the graph and the upper series.
 
     \image graphs2d-area.png

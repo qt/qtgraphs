@@ -14,8 +14,8 @@
     The look and feel of graphs can be customized by using themes or by adding
     custom items and labels.
 
-    In the 2D realm, there is support for bar, line, pie, scatter, and spline graphs, and
-    they are easily combinable with any other QML content.
+    In the 2D realm, there is support for area, bar, donut, line, pie, scatter, and spline graphs,
+    and they are easily combinable with any other QML content.
 
     Qt Graphs is built on Qt 6 and the 3D graphs on Qt Quick 3D to take advantage of
     hardware acceleration and Qt Quick.

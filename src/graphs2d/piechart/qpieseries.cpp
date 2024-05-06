@@ -166,6 +166,33 @@ QT_BEGIN_NAMESPACE
 */
 
 /*!
+    \property QPieSeries::holeSize
+    \brief The donut hole size.
+
+    When setting the \l size property, this property is adjusted if necessary,
+    to ensure that the hole size is not greater than the pie size.
+
+    The default value is 0.0.
+*/
+
+/*!
+    \qmlproperty real PieSeries::holeSize
+
+    The donut hole size.
+
+    When setting the \l size property, this property is adjusted if necessary,
+    to ensure that the hole size is not greater than the pie size.
+
+    The default value is 0.0.
+
+*/
+/*!
+    \qmlsignal PieSeries::holeSizeChanged()
+    This signal is emitted when the hole size changes.
+    \sa holeSize
+*/
+
+/*!
     \property QPieSeries::startAngle
     \brief The starting angle of the pie.
 
