@@ -12,11 +12,203 @@ QT_BEGIN_NAMESPACE
     \class QBarModelMapper
     \inmodule QtGraphs
     \ingroup graphs_2D
-    \brief The QBarModelMapper class is the base class for model mapper classes.
-    \internal
+    \brief The QBarModelMapper class is a model mapper for bar series.
 
-    Model mappers enable using a data model derived from the QAbstractItemModel
-    class as a data source for a graph.
+    Model mappers enable using a data model derived from the QAbstractItemModel class
+    as a data source for a graph. A model mapper is used to create a connection
+    between a data model and QBarSeries.
+
+    Both model and bar series properties can be used to manipulate the data. The model mapper
+    keeps the bar series and the data model in sync.
+
+    The model mapper ensures that all the bar sets in the bar series have equal sizes.
+    Therefore, adding or removing a value from a bar set causes the same change to be
+    made in all the bar sets in the bar series.
+
+*/
+/*!
+    \qmltype BarModelMapper
+    \instantiates QBarModelMapper
+    \inqmlmodule QtGraphs
+    \ingroup graphs_qml_2D
+
+    \brief Model mapper for bar series.
+
+    The BarModelMapper type enables using a data model derived from the QAbstractItemModel
+    class as a data source for a graph. A model mapper is used to create a connection
+    between a data model and QBarSeries. You need to implement
+    the data model and expose it to QML.
+
+    Both model and bar series properties can be used to manipulate the data. The model mapper
+    keeps the bar series and the data model in sync.
+
+    The model mapper ensures that all the bar sets in the bar series have equal sizes.
+    Therefore, adding or removing a value from a bar set causes the same change to be
+    made in all the bar sets in the bar series.
+
+    The following QML code snippet creates a bar series with three bar sets (assuming the model
+    has at least four columns). Each bar set contains data starting from row 1. The name
+    of a bar set is defined by the column header.
+    \code
+        BarSeries {
+            BarModelMapper {
+                model: myCustomModel // QAbstractItemModel derived implementation
+                firstBarSetColumn: 1
+                lastBarSetColumn: 3
+                firstRow: 1
+                orientation: Qt.Vertical
+            }
+        }
+    \endcode
+
+*/
+
+/*!
+    \property QBarModelMapper::series
+    \brief The bar series that is used by the mapper.
+
+    All the data in the series is discarded when it is set to the mapper.
+    When a new series is specified, the old series is disconnected, but it preserves its data.
+*/
+/*!
+    \qmlproperty BarSeries BarModelMapper::series
+    The bar series that is used by the mapper. All the data in the series is discarded when it is
+    set to the mapper. When the new series is specified, the old series is disconnected, but it
+    preserves its data.
+*/
+
+/*!
+    \property QBarModelMapper::model
+    \brief The data model that is used by the mapper.
+*/
+/*!
+    \qmlproperty model BarModelMapper::model
+    The data model that is used by the mapper. You need to implement the model and expose it to QML.
+
+    \note The model has to support adding and removing rows or columns and modifying
+    the data in the cells.
+*/
+
+/*!
+    \property QBarModelMapper::firstBarSetSection
+    \brief The section of the model that is used as the data source for the first bar set.
+
+    The default value is -1 (invalid mapping).
+
+    \sa QBarModelMapper::orientation
+*/
+/*!
+    \qmlproperty int BarModelMapper::firstBarSetSection
+    The section of the model that is used as the data source for the first bar set. The default value
+    is -1 (invalid mapping).
+
+    \sa orientation
+*/
+
+/*!
+    \property QBarModelMapper::lastBarSetSection
+    \brief The section of the model that is used as the data source for the last bar set.
+
+    The default value is -1 (invalid mapping).
+
+    \sa QBarModelMapper::orientation
+*/
+/*!
+    \qmlproperty int BarModelMapper::lastBarSetSection
+    The section of the model that is used as the data source for the last bar set. The default
+    value is -1 (invalid mapping).
+
+    \sa orientation
+*/
+
+/*!
+    \property QBarModelMapper::first
+    \brief The row or column of the model that contains the first values of the bar sets in the bar series.
+
+    The minimum and default value is 0.
+
+    \sa QBarModelMapper::orientation
+*/
+/*!
+    \qmlproperty int BarModelMapper::first
+    The row or column of the model that contains the first values of the bar sets in the bar series.
+    The default value is 0.
+
+    \sa orientation
+*/
+
+/*!
+    \property QBarModelMapper::count
+    \brief The number of rows or columns of the model that are mapped as the data for the bar series.
+
+    The default value is \c{-1} which is also the minimum. The count is
+    limited by the number of model's rows/columns.
+
+    \sa QBarModelMapper::orientation
+*/
+/*!
+    \qmlproperty int BarModelMapper::count
+    The number of rows or columns of the model that are mapped as the data for the bar
+    series. The default value is \c{-1} which is also the minimum. The count is
+    limited by the number of model's rows/columns.
+
+    \sa orientation
+*/
+
+/*!
+    \property QBarModelMapper::orientation
+    \brief Tells the modelmapper how to map data from a model. If
+    \c{Qt::Vertical} is used, each of the model's columns defines a bar set, and the
+    model's rows define the categories. When the orientation is set to
+    \c{Qt::Horizontal}, each of the model's rows defines a bar set, and the model's
+    columns define categories.
+
+    The default value is \c{Qt::Vertical}
+*/
+/*!
+    \qmlproperty  orientation BarModelMapper::orientation
+    Tells the modelmapper how to map data from a model. If
+    \c{Qt.Vertical} is used, each of the model's columns defines a bar set, and the
+    model's rows define the categories. When the orientation is set to
+    \c{Qt.Horizontal}, each of the model's rows defines a bar set, and the model's
+    columns define categories.
+*/
+
+/*!
+    \qmlsignal BarModelMapper::seriesChanged()
+
+    This signal is emitted when the bar series that the mapper is connected to changes.
+*/
+
+/*!
+    \qmlsignal BarModelMapper::modelChanged()
+
+    This signal is emitted when the model that the mapper is connected to changes.
+*/
+
+/*!
+    \qmlsignal BarModelMapper::firstBarSetSectionChanged()
+    This signal is emitted when the first bar set section changes.
+*/
+
+/*!
+    \qmlsignal BarModelMapper::lastBarSetSectionChanged()
+    This signal is emitted when the last bar set section changes.
+*/
+
+/*!
+    \qmlsignal BarModelMapper::firstChanged()
+    This signal is emitted when the first row or column changes.
+*/
+
+/*!
+    \qmlsignal BarModelMapper::countChanged()
+    This signal is emitted when the number of rows or columns changes.
+*/
+
+/*!
+    \qmlsignal BarModelMapper::orientationChanged()
+    This signal is emitted when the orientation changes.
 */
 
 QBarModelMapper::QBarModelMapper(QObject *parent)
