@@ -19,6 +19,7 @@ ColumnLayout {
         id: barsMode
         onCheckedChanged: {
             customTheme = (checked ? customBarsTheme : customSurfaceTheme)
+            currentGraph = (checked ? bars : surface)
         }
     }
 
@@ -156,7 +157,7 @@ ColumnLayout {
         }
     }
     Label {
-        text: "Test Theme Color/Gradient Change"
+        text: "Test Theme Color /\nGradient Change"
         color: "gray"
     }
     CheckBox {

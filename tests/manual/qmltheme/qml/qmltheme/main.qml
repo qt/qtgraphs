@@ -47,7 +47,7 @@ Item {
     GraphsTheme {
         id: customSurfaceTheme
         theme: GraphsTheme.Theme.QtGreen
-        colorStyle: GraphsTheme.ObjectGradient
+        colorStyle: GraphsTheme.ColorStyle.ObjectGradient
         plotAreaBackgroundColor: "gray"
         baseColors: [surfaceColor]
         baseGradients: [customGradient]
@@ -61,7 +61,7 @@ Item {
     GraphsTheme {
         id: customBarsTheme
         theme: GraphsTheme.Theme.UserDefined
-        colorStyle: GraphsTheme.ObjectGradient
+        colorStyle: GraphsTheme.ColorStyle.ObjectGradient
         baseColors: [barColor]
         baseGradients: [customGradient]
         plotAreaBackgroundColor: "gray"
