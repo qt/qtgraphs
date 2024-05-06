@@ -12,6 +12,7 @@ qt_internal_extend_target(Graphs
         linechart/qlineseries.cpp linechart/qlineseries.h linechart/qlineseries_p.h
         piechart/qpieseries.cpp piechart/qpieseries.h piechart/qpieseries_p.h
         piechart/qpieslice.cpp piechart/qpieslice.h piechart/qpieslice_p.h
+        piechart/qpiemodelmapper.cpp piechart/qpiemodelmapper.h piechart/qpiemodelmapper_p.h
         scatterchart/qscatterseries.cpp scatterchart/qscatterseries.h scatterchart/qscatterseries_p.h
         xychart/qxyseries.cpp xychart/qxyseries.h xychart/qxyseries_p.h
         xychart/qxypoint.cpp xychart/qxypoint_p.h
