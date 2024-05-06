@@ -335,6 +335,7 @@
         \li Q3DCamera
         \li Q3DLight
         \li Q3DObject
+        \li Q3DTheme
     \endlist
 
     \section1 Removed APIs
@@ -356,6 +357,7 @@
         \li ThemeColor
         \li Data APIs
         \li Camera APIs
+        \li Theme APIs
         \li Enums
     \endlist
 
@@ -405,6 +407,23 @@
     As Q3DCamera has been removed, the required functions from it have been moved.
     \c{cameraPreset, cameraTargetPosition, cameraXRotation, cameraYRotation, cameraZoomLevel,
     wrapCameraXRotation, and wrapCameraYRotation} can now be found from AbstractGraph3D.
+
+    \section2 Theme APIs
+
+    As Q3DTheme has been removed and the theming between 2D and 3D graphs unified, some of the
+    required functions from it have been moved, and the rest can be found from the replacement,
+    \l{GraphsTheme}.
+    \c{lightColor, ambientLightStrength, lightStrength, and shadowStrength} can now be found from
+    AbstractGraph3D.
+
+    In addition, \c windowColor has been removed. \c backgroundColor now does what \c windowColor
+    used to do, and a new function \c plotAreaBackgroundColor replaces the functionality of
+    what \c backgroundColor previously did.
+
+    The generic color scheme of the whole graph is now controller by a
+    \l{GraphsTheme::colorScheme}{color scheme} property, and series colors by a
+    \l{GraphsTheme::theme}{theme} property. If color scheme is not explicitly set, it will
+    follow the desktop theming (Light/Dark).
 
     \section2 Enums
 
