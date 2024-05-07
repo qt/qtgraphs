@@ -80,13 +80,11 @@ void tst_datetimeaxis::invalidProperties()
 {
     QVERIFY(m_axis);
 
-    m_axis->setMin(QDateTime(QDate::currentDate(), QTime::fromMSecsSinceStartOfDay(0)).addDays(10));
-    m_axis->setMax(QDateTime(QDate::currentDate(), QTime::fromMSecsSinceStartOfDay(0)));
     m_axis->setMinorTickCount(-1);
+    m_axis->setTickInterval(-1);
 
-    QCOMPARE(m_axis->min(), QDateTime(QDate::currentDate(), QTime::fromMSecsSinceStartOfDay(0)));
-    QCOMPARE(m_axis->max(), QDateTime(QDate::currentDate(), QTime::fromMSecsSinceStartOfDay(0)));
     QCOMPARE(m_axis->minorTickCount(), 0);
+    QCOMPARE(m_axis->tickInterval(), 0);
 }
 
 QTEST_MAIN(tst_datetimeaxis)
