@@ -36,6 +36,13 @@ target_link_libraries(widgetvolumetric PUBLIC
     Qt::Graphs
 )
 
+if (EMSCRIPTEN)
+target_link_options(widgetvolumetric PRIVATE
+    -sFULL_ES3=1
+    -sNO_DISABLE_EXCEPTION_CATCHING
+)
+endif()
+
 set(widgetvolumetric_resource_files
     "layer_ground.png"
     "layer_magma.png"

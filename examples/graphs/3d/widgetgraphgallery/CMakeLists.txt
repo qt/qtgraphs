@@ -49,6 +49,13 @@ target_link_libraries(widgetgraphgallery PUBLIC
     Qt::Graphs
 )
 
+if (EMSCRIPTEN)
+target_link_options(widgetgraphgallery PRIVATE
+    -sFULL_ES3=1
+    -sNO_DISABLE_EXCEPTION_CATCHING
+)
+endif()
+
 set(widgetgraphgallery_resource_files
     "data/raindata.txt"
     "data/layer_1.png"
