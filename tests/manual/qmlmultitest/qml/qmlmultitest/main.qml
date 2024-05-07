@@ -4,6 +4,7 @@
 import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls
+import QtQuick.Window
 import QtGraphs
 import "."
 
@@ -11,6 +12,18 @@ Item {
     id: mainView
     width: 800
     height: 600
+
+    Window {
+        id: anotherWin
+        visible: false
+        width: 400
+        height: 300
+
+        Item {
+            id: anotherOne
+            anchors.fill: parent
+        }
+    }
 
     Data {
         id: data
@@ -94,8 +107,11 @@ Item {
                     Layout.minimumWidth: parent.width / 2
                     Layout.fillHeight: true
                     Layout.fillWidth: true
-                    text: "Quit"
-                    onClicked: Qt.quit();
+                    text: "Surprise!"
+                    onClicked: {
+                        anotherWin.visible = !anotherWin.visible
+                        scatterGraph.parent = scatterGraph.parent === anotherOne ? theFirstOne : anotherOne
+                    }
                 }
 
                 Button {
@@ -116,6 +132,7 @@ Item {
         }
 
         Rectangle {
+            id: theFirstOne
             Layout.fillHeight: true
             Layout.fillWidth: true
             border.color: scatterGraph.theme.gridMainColor
