@@ -14,10 +14,8 @@ QT_BEGIN_NAMESPACE
     \brief The QPieModelMapper is a model mapper for pie series.
 
     Model mappers enable using a data model derived from the QAbstractItemModel
-    class as a data source for a chart. A vertical model mapper is used to create
-    a connection between a data model and QPieSeries, so that each row in the
-    data model defines a pie slice and each column maps to the label or the value
-    of the pie slice.
+    class as a data source for a graph. A model mapper is used to create
+    a connection between a data model and QPieSeries.
 
     Both model and pie series properties can be used to manipulate the data. The
     model mapper keeps the pie series and the data model in sync.
@@ -31,10 +29,8 @@ QT_BEGIN_NAMESPACE
     \brief Model mapper for pie series.
 
     Model mappers enable using a data model derived from the QAbstractItemModel
-    class as a data source for a chart. A vertical model mapper is used to create
-    a connection between a data model and PieSeries, so that each row in the data
-    model defines a pie slice and each column maps to the label or the value of
-    the pie slice.
+    class as a data source for a graph. A model mapper is used to create
+    a connection between a data model and PieSeries.
 
     Both model and pie series properties can be used to manipulate the data. The
     model mapper keeps the pie series and the data model in sync.
@@ -50,8 +46,160 @@ QT_BEGIN_NAMESPACE
             valuesSection: 2
             firstRow: 1
             rowCount: 4
+            orientation: Qt.Vertical
         }
     \endcode
+*/
+
+/*!
+    \property QPieModelMapper::series
+    \brief The pie series that is used by the mapper.
+
+    All the data in the series is discarded when it is set to the mapper.
+    When a new series is specified, the old series is disconnected (but it preserves its data).
+*/
+/*!
+    \qmlproperty PieSeries PieModelMapper::series
+    The pie series that is used by the mapper. If you define the mapper element as a child for a
+    PieSeries, leave this property undefined. All the data in the series is discarded when it is set to the mapper.
+    When new series is specified the old series is disconnected (but it preserves its data).
+*/
+
+/*!
+    \property QPieModelMapper::model
+    \brief The model that is used by the mapper.
+*/
+/*!
+    \qmlproperty model PieModelMapper::model
+    The QAbstractItemModel based model that is used by the mapper. You need to implement the model
+    and expose it to QML.
+
+    \note The model has to support adding and removing rows or columns and modifying
+    the data in the cells.
+*/
+
+/*!
+    \property QPieModelMapper::valuesSection
+    \brief The column or row of the model that is kept in sync with the values of the pie's slices.
+
+    The default value is -1 (invalid mapping).
+
+    \sa QPieModelMapper::orientation
+*/
+/*!
+    \qmlproperty int PieModelMapper::valuesSection
+    The column or row of the model that is kept in sync with the values of the pie's slices.
+    The default value is -1 (invalid mapping).
+
+    \sa orientation
+*/
+
+/*!
+    \property QPieModelMapper::labelsSection
+    \brief The column or row of the model that is kept in sync with the labels of the pie's slices.
+
+    The default value is -1 (invalid mapping).
+
+    \sa QPieModelMapper::orientation
+*/
+/*!
+    \qmlproperty int PieModelMapper::labelsSection
+    The column or row of the model that is kept in sync with the labels of the pie's slices.
+    The default value is -1 (invalid mapping).
+
+    \sa orientation
+*/
+
+/*!
+    \property QPieModelMapper::first
+    \brief The column or row of the model that contains the first slice value.
+
+    The minimum and default value is 0.
+
+    \sa QPieModelMapper::orientation
+*/
+/*!
+    \qmlproperty int PieModelMapper::first
+    The column or row of the model that contains the first slice value.
+    The default value is 0.
+
+    \sa orientation
+*/
+
+/*!
+    \property QPieModelMapper::count
+    \brief The number of columns or rows of the model that are mapped as the data for a pie series.
+
+    The minimum and default value is -1 (number limited by the number of rows in the model).
+
+    \sa QPieModelMapper::orientation
+*/
+/*!
+    \qmlproperty int PieModelMapper::count
+    The number of columns or rows of the model that are mapped as the data for a pie series.
+    The default value is -1 (number limited by the number of rows in the model).
+
+    \sa orientation
+*/
+
+/*!
+    \property QPieModelMapper::orientation
+    \brief Tells the modelmapper how to map data from a model. If
+    \c{Qt::Vertical} is used, each of the model's rows defines a pie slice, and the
+    model's columns define the label or the value of the pie slice. When the orientation is set to
+    \c{Qt::Horizontal}, each of the model's columns defines a pie slice, and the model's
+    rows define the label or the value of the pie slice.
+
+    The default value is \c{Qt::Vertical}
+*/
+/*!
+    \qmlproperty  orientation PieModelMapper::orientation
+    Tells the modelmapper how to map data from a model. If
+    \c{Qt.Vertical} is used, each of the model's rows defines a pie slice, and the
+    model's columns define the label or the value of the pie slice. When the orientation is set to
+    \c{Qt.Horizontal}, each of the model's columns defines a pie slice, and the model's
+    rows define the label or the value of the pie slice.
+
+    The default value is \c{Qt.Vertical}
+*/
+
+/*!
+    \qmlsignal PieModelMapper::seriesChanged()
+
+    This signal is emitted when the series that the mapper is connected to changes.
+*/
+
+/*!
+    \qmlsignal PieModelMapper::modelChanged()
+
+    This signal is emitted when the model that the mapper is connected to changes.
+*/
+
+/*!
+    \qmlsignal PieModelMapper::valuesSectionChanged()
+
+    This signal is emitted when the values section changes.
+*/
+
+/*!
+    \qmlsignal PieModelMapper::labelsSectionChanged()
+
+    This signal is emitted when the labels section changes.
+*/
+
+/*!
+    \qmlsignal PieModelMapper::firstChanged()
+    This signal is emitted when the first changes.
+*/
+
+/*!
+    \qmlsignal PieModelMapper::countChanged()
+    This signal is emitted when the count changes.
+*/
+
+/*!
+    \qmlsignal PieModelMapper::orientationChanged()
+    This signal is emitted when the orientation changes.
 */
 
 QPieModelMapper::~QPieModelMapper() {}
