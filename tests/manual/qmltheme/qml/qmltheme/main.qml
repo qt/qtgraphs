@@ -51,10 +51,13 @@ Item {
         plotAreaBackgroundColor: "gray"
         baseColors: [surfaceColor]
         baseGradients: [customGradient]
+        labelFont: Qt.font({
+                               family: "Courier New",
+                               bold: true,
+                               // pointSize: 100
+                           })
         gridMainColor: "lightGray"
-        multiHighlightColor: "orange"
         singleHighlightColor: "yellow"
-        multiHighlightGradient: multiGradient
         singleHighlightGradient: singleGradient
     }
 

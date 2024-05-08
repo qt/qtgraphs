@@ -29,48 +29,153 @@ ColumnLayout {
         }
     }
 
-    Label {
-        text: "Grid color"
-        color: "gray"
-    }
-
-    Button {
-        Layout.preferredHeight: 25
-        Layout.preferredWidth: 25
-
-        Rectangle {
-            anchors.fill: parent
-            anchors.margins: 5
-            color: customTheme.gridMainColor
+    Row {
+        Label {
+            text: "Label text color"
+            color: "gray"
         }
 
-        onClicked: gridlineCol.open()
+        Button {
+            height: 25
+            width: 25
+
+            Rectangle {
+                anchors.fill: parent
+                anchors.margins: 5
+                color: customTheme.labelTextColor
+            }
+
+            onClicked: textCol.open()
+        }
+    }
+    ColorDialog {
+        id: textCol
+        selectedColor: customTheme.labelTextColor
+        onAccepted: customTheme.labelTextColor = selectedColor
     }
 
+        Row {
+        Label {
+            text: "Axis label text color"
+            color: "gray"
+        }
+        Button {
+            height: 25
+            width: 25
+
+            Rectangle {
+                anchors.fill: parent
+                anchors.margins: 5
+                color: customTheme.axisXLabelColor
+            }
+
+            onClicked: axisLabelTextCol.open()
+        }
+    }
+    ColorDialog {
+        id: axisLabelTextCol
+        selectedColor: customTheme.axisXLabelColor
+        onAccepted: {
+            customTheme.axisXLabelColor = selectedColor
+            customTheme.axisYLabelColor = selectedColor
+            customTheme.axisZLabelColor = selectedColor
+        }
+    }
+
+    Row {
+        Label {
+            text: "Background color"
+            color: "gray"
+        }
+
+        Button {
+            height: 25
+            width: 25
+
+            Rectangle {
+                anchors.fill: parent
+                anchors.margins: 5
+                color: customTheme.backgroundColor
+            }
+
+            onClicked: backgroundCol.open()
+        }
+    }
+    ColorDialog {
+        id: backgroundCol
+        selectedColor: customTheme.backgroundColor
+        onAccepted: customTheme.backgroundColor = selectedColor
+    }
+
+    Row {
+        Label {
+            text: "Plot area color"
+            color: "gray"
+        }
+
+        Button {
+            height: 25
+            width: 25
+
+            Rectangle {
+                anchors.fill: parent
+                anchors.margins: 5
+                color: customTheme.plotAreaBackgroundColor
+            }
+
+            onClicked: plotareaCol.open()
+        }
+    }
+    ColorDialog {
+        id: plotareaCol
+        selectedColor: customTheme.plotAreaBackgroundColor
+        onAccepted: customTheme.plotAreaBackgroundColor = selectedColor
+    }
+
+    Row {
+        Label {
+            text: "Grid color"
+            color: "gray"
+        }
+
+        Button {
+            height: 25
+            width: 25
+
+            Rectangle {
+                anchors.fill: parent
+                anchors.margins: 5
+                color: customTheme.gridMainColor
+            }
+
+            onClicked: gridlineCol.open()
+        }
+    }
     ColorDialog {
         id: gridlineCol
         selectedColor: customTheme.gridMainColor
         onAccepted: customTheme.gridMainColor = selectedColor
     }
 
-    Label {
-        text: "Subgrid color"
-        color: "gray"
-    }
-
-    Button {
-        Layout.preferredHeight: 25
-        Layout.preferredWidth: 25
-
-        Rectangle {
-            anchors.fill: parent
-            anchors.margins: 5
-            color: customTheme.gridSubColor
+    Row {
+        Label {
+            text: "Subgrid color"
+            color: "gray"
         }
 
-        onClicked: subgridlineCol.open()
-    }
+        Button {
+            height: 25
+            width: 25
 
+            Rectangle {
+                anchors.fill: parent
+                anchors.margins: 5
+                color: customTheme.gridSubColor
+            }
+
+            onClicked: subgridlineCol.open()
+        }
+    }
     ColorDialog {
         id: subgridlineCol
         selectedColor: customTheme.gridSubColor
@@ -95,100 +200,92 @@ ColumnLayout {
         }
     }
 
-    Label {
-        text: "Background"
-        color: "gray"
-    }
-    CheckBox {
-        checked: customTheme.backgroundEnabled
-        onCheckedChanged: {
-            customTheme.backgroundEnabled = checked
+    Row {
+        Label {
+            text: "Background"
+            color: "gray"
+        }
+        CheckBox {
+            checked: customTheme.backgroundEnabled
+            onCheckedChanged: {
+                customTheme.backgroundEnabled = checked
+            }
         }
     }
 
-    Label {
-        text: "Grid"
-        color: "gray"
-    }
-    CheckBox {
-        checked: customTheme.gridEnabled
-        onCheckedChanged: {
-            customTheme.gridEnabled = checked
+    Row {
+        Label {
+            text: "Plot area"
+            color: "gray"
+        }
+        CheckBox {
+            checked: customTheme.plotAreaBackgroundEnabled
+            onCheckedChanged: {
+                customTheme.plotAreaBackgroundEnabled = checked
+            }
         }
     }
 
-    Label {
-        text: "Geometry/Shader Grid"
-        color: "gray"
-    }
-    CheckBox {
-        id: testgridChange
-        checked: false
-    }
-
-    Label {
-        text: "Labels"
-        color: "gray"
-    }
-    CheckBox {
-        checked: customTheme.labelsEnabled
-        onCheckedChanged: {
-            customTheme.labelsEnabled = checked
+    Row {
+        Label {
+            text: "Grid"
+            color: "gray"
+        }
+        CheckBox {
+            checked: customTheme.gridEnabled
+            onCheckedChanged: {
+                customTheme.gridEnabled = checked
+            }
         }
     }
 
-    Label {
-        text: "Label Background"
-        color: "gray"
-    }
-    CheckBox {
-        checked: customTheme.labelBackgroundEnabled
-        onCheckedChanged: {
-            customTheme.labelBackgroundEnabled = checked
+    Row {
+        Label {
+            text: "Geometry/Shader Grid"
+            color: "gray"
+        }
+        CheckBox {
+            id: testgridChange
+            checked: false
         }
     }
 
-    ColorDialog {
-        id: labelTextCol
-        selectedColor: customTheme.labelTextColor
-        onAccepted: customTheme.labelTextColor = selectedColor
-    }
-
-    Label {
-        text: "Label Border"
-        color: "gray"
-    }
-    CheckBox {
-        checked: customTheme.labelBorderEnabled
-        onCheckedChanged: {
-            customTheme.labelBorderEnabled = checked
+    Row {
+        Label {
+            text: "Labels"
+            color: "gray"
+        }
+        CheckBox {
+            checked: customTheme.labelsEnabled
+            onCheckedChanged: {
+                customTheme.labelsEnabled = checked
+            }
         }
     }
 
-    Label {
-        text: "Axis label text color"
-        color: "gray"
-    }
-    Button {
-        Layout.preferredHeight: 25
-        Layout.preferredWidth: 25
-
-        Rectangle {
-            anchors.fill: parent
-            anchors.margins: 5
-            color: customTheme.axisXLabelColor
+    Row {
+        Label {
+            text: "Label Background"
+            color: "gray"
         }
-
-        onClicked: axisLabelTextCol.open()
+        CheckBox {
+            checked: customTheme.labelBackgroundEnabled
+            onCheckedChanged: {
+                customTheme.labelBackgroundEnabled = checked
+            }
+        }
     }
 
-    ColorDialog {
-        id: axisLabelTextCol
-        selectedColor: customTheme.axisXLabelColor
-        onAccepted: {
-            customTheme.axisXLabelColor = selectedColor
-            customTheme.axisYLabelColor = selectedColor
-            customTheme.axisZLabelColor = selectedColor
+    Row {
+        Label {
+            text: "Label Border"
+            color: "gray"
+        }
+        CheckBox {
+            checked: customTheme.labelBorderEnabled
+            onCheckedChanged: {
+                customTheme.labelBorderEnabled = checked
+            }
         }
     }
 }
