@@ -21,8 +21,8 @@ Model {
 
     materials: PrincipledMaterial {
         lighting: PrincipledMaterial.NoLighting
+        alphaMode: PrincipledMaterial.Blend
         baseColorMap: Texture {
-
             sourceItem: Item {
                 id: labelItem
                 width: root.labelWidth
