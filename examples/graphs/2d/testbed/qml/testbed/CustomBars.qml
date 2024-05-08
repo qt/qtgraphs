@@ -98,8 +98,12 @@ Rectangle {
             selectable: true
             barWidth: 0.8
             valuesMultiplier: barSeries.showAnimated
-            barComponent: BarComponent {
+            barComponent: Item {
                 id: comp
+                property color barColor
+                property bool barSelected
+                property real barValue
+                property string barLabel
                 anchors.alignWhenCentered: false
                 opacity: barSeries.showAnimated
                 BarImage {

@@ -236,20 +236,100 @@ QT_BEGIN_NAMESPACE
 
     Default value is 6.
 */
+
 /*!
     \property QBarSeries::barComponent
     \brief A custom QML component used for visualizing each of the bars.
     Instance of this component is created for each of the bar.
-    To get access into bars properties, use \l BarComponent.
     When this is not defined, a default rectangle visualization for bars is used.
+
+    The dynamic properties available for this component are:
+
+    \table
+    \header
+        \li Type
+        \li Name
+        \li Description
+    \row
+        \li QColor
+        \li barColor
+        \li The fill color of the bar. This value comes either from the \l QGraphsTheme
+        or from \l{QBarSet::color} if the \l QBarSet overrides the color.
+    \row
+        \li QColor
+        \li barBorderColor
+        \li The border color of the bar. This value comes either from the \l QGraphsTheme
+        or from \l{QBarSet::borderColor} if the \l QBarSet overrides the color.
+    \row
+        \li qreal
+        \li barBorderWidth
+        \li The width of the bar border. This value comes either from the \l QGraphsTheme
+        or from \l{QBarSet::borderWidth} if the \l QBarSet overrides the width.
+    \row
+        \li qreal
+        \li barValue
+        \li The value of the bar. This value comes from the \l{QBarSet::values}.
+    \row
+        \li QString
+        \li barLabel
+        \li The label of the bar. This value comes from the \l{QBarSet::label}.
+    \row
+        \li bool
+        \li barSelected
+        \li This value is true when the bar is selected, meaning that the bar index
+        is in \l{QBarSet::selectedBars}.
+    \endtable
+
+    To use any of these, add property with the defined name into your custom component.
+    For example \c{"property color barColor"} and \c{"property real barValue"}.
 */
 /*!
     \qmlproperty Component BarSeries::barComponent
     A custom QML component used for visualizing each of the bars.
     Instance of this component is created for each of the bar.
-    To get access into bars properties, use \l BarComponent.
     When this is not defined, a default rectangle visualization for bars is used.
+
+    The dynamic properties available for this component are:
+
+    \table
+    \header
+        \li Type
+        \li Name
+        \li Description
+    \row
+        \li color
+        \li barColor
+        \li The fill color of the bar. This value comes either from the \l GraphsTheme
+        or from \l{BarSet::color} if the \l BarSet overrides the color.
+    \row
+        \li color
+        \li barBorderColor
+        \li The border color of the bar. This value comes either from the \l GraphsTheme
+        or from \l{BarSet::borderColor} if the \l BarSet overrides the color.
+    \row
+        \li real
+        \li barBorderWidth
+        \li The width of the bar border. This value comes either from the \l GraphsTheme
+        or from \l{BarSet::borderWidth} if the \l BarSet overrides the width.
+    \row
+        \li real
+        \li barValue
+        \li The value of the bar. This value comes from the \l{BarSet::values}.
+    \row
+        \li string
+        \li barLabel
+        \li The label of the bar. This value comes from the \l{BarSet::label}.
+    \row
+        \li bool
+        \li barSelected
+        \li This value is true when the bar is selected, meaning that the bar index
+        is in \l{BarSet::selectedBars}.
+    \endtable
+
+    To use any of these, add property with the defined name into your custom component.
+    For example \c{"property color barColor"} and \c{"property real barValue"}.
 */
+
 /*!
     \property QBarSeries::barSets
     \brief A list of sets added to the series.

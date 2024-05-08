@@ -6,9 +6,15 @@
 #include <private/barsrenderer_p.h>
 #include <private/qbarseries_p.h>
 #include <private/qgraphsview_p.h>
-#include <private/barcomponent_p.h>
 
 QT_BEGIN_NAMESPACE
+
+static const char* TAG_BAR_COLOR = "barColor";
+static const char* TAG_BAR_BORDER_COLOR = "barBorderColor";
+static const char* TAG_BAR_BORDER_WIDTH = "barBorderWidth";
+static const char* TAG_BAR_SELECTED = "barSelected";
+static const char* TAG_BAR_VALUE = "barValue";
+static const char* TAG_BAR_LABEL = "barLabel";
 
 BarsRenderer::BarsRenderer(QQuickItem *parent)
     : QQuickItem(parent)
@@ -128,16 +134,19 @@ void BarsRenderer::updateComponents(QBarSeries *series)
                 barItem->setY(d.rect.y());
                 barItem->setWidth(d.rect.width());
                 barItem->setHeight(d.rect.height());
-                auto barComponent = qobject_cast<BarComponent *>(barItem);
-                if (barComponent) {
-                    barComponent->setBarColor(d.color);
-                    barComponent->setBarBorderColor(d.borderColor);
-                    barComponent->setBarBorderWidth(d.borderWidth);
-                    barComponent->setBarSelected(d.isSelected);
-                    barComponent->setBarValue(d.value);
-                    barComponent->setBarLabel(d.label);
-                }
-                barItem->update();
+                // Check for specific dynamic properties
+                if (barItem->property(TAG_BAR_COLOR).isValid())
+                    barItem->setProperty(TAG_BAR_COLOR, d.color);
+                if (barItem->property(TAG_BAR_BORDER_COLOR).isValid())
+                    barItem->setProperty(TAG_BAR_BORDER_COLOR, d.borderColor);
+                if (barItem->property(TAG_BAR_BORDER_WIDTH).isValid())
+                    barItem->setProperty(TAG_BAR_BORDER_WIDTH, d.borderWidth);
+                if (barItem->property(TAG_BAR_SELECTED).isValid())
+                    barItem->setProperty(TAG_BAR_SELECTED, d.isSelected);
+                if (barItem->property(TAG_BAR_VALUE).isValid())
+                    barItem->setProperty(TAG_BAR_VALUE, d.value);
+                if (barItem->property(TAG_BAR_LABEL).isValid())
+                    barItem->setProperty(TAG_BAR_LABEL, d.label);
             }
             barIndex++;
         }

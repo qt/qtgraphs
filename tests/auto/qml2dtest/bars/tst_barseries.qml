@@ -37,8 +37,11 @@ Item {
 
     Component {
         id: customBarComponent
-        BarComponent {
+        Item {
             id: comp
+            property color barColor
+            property color barBorderColor
+            property real barBorderWidth
             Rectangle {
                 anchors.fill: parent
                 color: comp.barColor
