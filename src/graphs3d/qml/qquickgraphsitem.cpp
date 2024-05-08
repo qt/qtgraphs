@@ -1982,25 +1982,46 @@ void QQuickGraphsItem::synchData()
 
     if (theme()->dirtyBits()->labelTextColorDirty) {
         QColor labelTextColor = theme()->labelTextColor();
-        changeLabelTextColor(m_repeaterX, theme()->axisXLabelColor());
-        changeLabelTextColor(m_repeaterY, theme()->axisYLabelColor());
-        changeLabelTextColor(m_repeaterZ, theme()->axisZLabelColor());
-        m_titleLabelX->setProperty("labelTextColor", theme()->axisXLabelColor());
-        m_titleLabelY->setProperty("labelTextColor", theme()->axisYLabelColor());
-        m_titleLabelZ->setProperty("labelTextColor", theme()->axisZLabelColor());
         m_itemLabel->setProperty("labelTextColor", labelTextColor);
 
+        if (m_sliceView && isSliceEnabled())
+            m_sliceItemLabel->setProperty("labelTextColor", labelTextColor);
+        theme()->dirtyBits()->labelTextColorDirty = false;
+    }
+
+    if (theme()->dirtyBits()->axisXLabelColorDirty) {
+        QColor labelTextColor = theme()->axisXLabelColor();
+        changeLabelTextColor(m_repeaterX, labelTextColor);
+        m_titleLabelX->setProperty("labelTextColor", labelTextColor);
         if (m_sliceView && isSliceEnabled()) {
             if (m_selectionMode == SelectionRow)
-                changeLabelTextColor(m_sliceHorizontalLabelRepeater, theme()->axisXLabelColor());
-            else
-                changeLabelTextColor(m_sliceHorizontalLabelRepeater, theme()->axisZLabelColor());
-            changeLabelTextColor(m_sliceVerticalLabelRepeater, theme()->axisYLabelColor());
-            m_sliceItemLabel->setProperty("labelTextColor", labelTextColor);
+                changeLabelTextColor(m_sliceHorizontalLabelRepeater, labelTextColor);
             m_sliceHorizontalTitleLabel->setProperty("labelTextColor", labelTextColor);
+        }
+        theme()->dirtyBits()->axisXLabelColorDirty = false;
+    }
+
+    if (theme()->dirtyBits()->axisYLabelColorDirty) {
+        QColor labelTextColor = theme()->axisYLabelColor();
+        changeLabelTextColor(m_repeaterY, theme()->axisYLabelColor());
+        m_titleLabelY->setProperty("labelTextColor", theme()->axisYLabelColor());
+        if (m_sliceView && isSliceEnabled()) {
+            changeLabelTextColor(m_sliceVerticalLabelRepeater, theme()->axisYLabelColor());
             m_sliceVerticalTitleLabel->setProperty("labelTextColor", labelTextColor);
         }
-        theme()->dirtyBits()->labelTextColorDirty = false;
+        theme()->dirtyBits()->axisYLabelColorDirty = false;
+    }
+
+    if (theme()->dirtyBits()->axisZLabelColorDirty) {
+        QColor labelTextColor = theme()->axisZLabelColor();
+        changeLabelTextColor(m_repeaterZ, theme()->axisZLabelColor());
+        m_titleLabelZ->setProperty("labelTextColor", theme()->axisZLabelColor());
+        if (m_sliceView && isSliceEnabled()) {
+            if (m_selectionMode == SelectionColumn)
+                changeLabelTextColor(m_sliceHorizontalLabelRepeater, theme()->axisZLabelColor());
+            m_sliceHorizontalTitleLabel->setProperty("labelTextColor", labelTextColor);
+        }
+        theme()->dirtyBits()->axisZLabelColorDirty = false;
     }
 
     if (theme()->dirtyBits()->labelFontDirty) {

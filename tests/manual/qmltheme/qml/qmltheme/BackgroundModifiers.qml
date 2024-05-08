@@ -148,6 +148,12 @@ ColumnLayout {
         }
     }
 
+    ColorDialog {
+        id: labelTextCol
+        selectedColor: customTheme.labelTextColor
+        onAccepted: customTheme.labelTextColor = selectedColor
+    }
+
     Label {
         text: "Label Border"
         color: "gray"
@@ -156,6 +162,33 @@ ColumnLayout {
         checked: customTheme.labelBorderEnabled
         onCheckedChanged: {
             customTheme.labelBorderEnabled = checked
+        }
+    }
+
+    Label {
+        text: "Axis label text color"
+        color: "gray"
+    }
+    Button {
+        Layout.preferredHeight: 25
+        Layout.preferredWidth: 25
+
+        Rectangle {
+            anchors.fill: parent
+            anchors.margins: 5
+            color: customTheme.axisXLabelColor
+        }
+
+        onClicked: axisLabelTextCol.open()
+    }
+
+    ColorDialog {
+        id: axisLabelTextCol
+        selectedColor: customTheme.axisXLabelColor
+        onAccepted: {
+            customTheme.axisXLabelColor = selectedColor
+            customTheme.axisYLabelColor = selectedColor
+            customTheme.axisZLabelColor = selectedColor
         }
     }
 }
