@@ -53,6 +53,9 @@ Item {
             name: "Scatter Properties"
             file: "ScatterProperties.qml"
         }
+    }
+    ListModel {
+        id: testsModel2
         ListElement {
             name: "Callout"
             file: "Callout.qml"
@@ -135,12 +138,21 @@ Item {
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.top: topLabel.bottom
         anchors.topMargin: 20
+        anchors.bottom: parent.bottom
         spacing: 20
+        clip: true
         ListView {
             id: examplesListView
             width: mainView.listItemWidth
-            height: count * mainView.listItemHeight
+            height: parent.height
             model: testsModel
+            delegate: listComponent
+        }
+        ListView {
+            id: examplesListView2
+            width: mainView.listItemWidth
+            height: parent.height
+            model: testsModel2
             delegate: listComponent
         }
     }
