@@ -43,6 +43,7 @@ int main(int argc, char *argv[])
 
     viewer.setSource(QUrl("qrc:/qml/surfacegallery/main.qml"));
     viewer.setResizeMode(QQuickView::SizeRootObjectToView);
+    viewer.setColor(QColor("#262626"));
     viewer.show();
 
     return app.exec();

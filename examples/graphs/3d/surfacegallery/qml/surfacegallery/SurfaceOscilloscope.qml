@@ -34,72 +34,6 @@ Item {
     }
     //![1]
 
-    Item {
-        id: dataView
-        anchors.bottom: parent.bottom
-        width: parent.width
-        height: parent.height - controlArea.height
-
-        //! [2]
-        Surface3D {
-            id: surfaceGraph
-            anchors.fill: parent
-
-            Surface3DSeries {
-                id: surfaceSeries
-                drawMode: Surface3DSeries.DrawSurfaceAndWireframe
-                itemLabelFormat: "@xLabel, @zLabel: @yLabel"
-                //! [2]
-                //! [3]
-                itemLabelVisible: false
-                //! [3]
-
-                //! [4]
-                onItemLabelChanged: {
-                    if (surfaceSeries.selectedPoint == surfaceSeries.invalidSelectionPosition)
-                        selectionText.text = "No selection";
-                    else
-                        selectionText.text = surfaceSeries.itemLabel;
-                }
-                //! [4]
-            }
-
-            shadowQuality: AbstractGraph3D.ShadowQuality.None
-            selectionMode: AbstractGraph3D.SelectionSlice | AbstractGraph3D.SelectionItemAndColumn
-            theme: GraphsTheme {
-                theme: GraphsTheme.Theme.YellowSeries
-                colorScheme: Qt.Dark
-                backgroundEnabled: false
-                labelBorderEnabled: false
-                labelBackgroundEnabled: false
-            }
-            cameraPreset: AbstractGraph3D.CameraPreset.FrontHigh
-
-            axisX.labelFormat: "%d ms"
-            axisY.labelFormat: "%d W"
-            axisZ.labelFormat: "%d mV"
-            axisX.min: 0
-            axisY.min: 0
-            axisZ.min: 0
-            axisX.max: 1000
-            axisY.max: 100
-            axisZ.max: 800
-            axisX.segmentCount: 4
-            axisY.segmentCount: 4
-            axisZ.segmentCount: 4
-            measureFps: true
-            renderingMode: AbstractGraph3D.RenderingMode.DirectToBackground
-
-            onCurrentFpsChanged: (currentFps)=> {
-                                     fpsText.text = "FPS: " + currentFps;
-                                 }
-
-            //! [5]
-            Component.onCompleted: oscilloscopeView.generateData();
-            //! [5]
-        }
-    }
-
     //! [7]
     Timer {
         id: refreshTimer
@@ -112,12 +46,12 @@ Item {
 
     Rectangle {
         id: controlArea
-        height: oscilloscopeView.portraitMode ? flatShadingToggle.implicitHeight * 7
-                                              : flatShadingToggle.implicitHeight * 2
+        height: oscilloscopeView.portraitMode ? flatShadingToggle.implicitHeight * 8
+                                              : flatShadingToggle.implicitHeight * 2.5
         anchors.left: parent.left
         anchors.top: parent.top
         anchors.right: parent.right
-        color: surfaceGraph.theme.plotAreaBackgroundColor
+        color: surfaceGraph.theme.backgroundColor
 
         // Samples
         Rectangle {
@@ -415,6 +349,74 @@ Item {
                 border.width: 1
                 radius: 2
             }
+        }
+    }
+
+    Item {
+        id: dataView
+        anchors.top: controlArea.bottom
+        anchors.bottom: parent.bottom
+        anchors.left: parent.left
+        anchors.right: parent.right
+
+        //! [2]
+        Surface3D {
+            id: surfaceGraph
+            anchors.fill: parent
+
+            Surface3DSeries {
+                id: surfaceSeries
+                drawMode: Surface3DSeries.DrawSurfaceAndWireframe
+                itemLabelFormat: "@xLabel, @zLabel: @yLabel"
+                //! [2]
+                //! [3]
+                itemLabelVisible: false
+                //! [3]
+
+                //! [4]
+                onItemLabelChanged: {
+                    if (surfaceSeries.selectedPoint == surfaceSeries.invalidSelectionPosition)
+                        selectionText.text = "No selection";
+                    else
+                        selectionText.text = surfaceSeries.itemLabel;
+                }
+                //! [4]
+            }
+
+            shadowQuality: AbstractGraph3D.ShadowQuality.None
+            selectionMode: AbstractGraph3D.SelectionSlice | AbstractGraph3D.SelectionItemAndColumn
+            theme: GraphsTheme {
+                colorScheme: Qt.Dark
+                baseColors: [ Color { color: "yellow" } ]
+                plotAreaBackgroundEnabled: false
+                backgroundEnabled: false
+                labelBorderEnabled: false
+                labelBackgroundEnabled: false
+            }
+            cameraPreset: AbstractGraph3D.CameraPreset.FrontHigh
+
+            axisX.labelFormat: "%d ms"
+            axisY.labelFormat: "%d W"
+            axisZ.labelFormat: "%d mV"
+            axisX.min: 0
+            axisY.min: 0
+            axisZ.min: 0
+            axisX.max: 1000
+            axisY.max: 100
+            axisZ.max: 800
+            axisX.segmentCount: 4
+            axisY.segmentCount: 4
+            axisZ.segmentCount: 4
+            measureFps: true
+            renderingMode: AbstractGraph3D.RenderingMode.DirectToBackground
+
+            onCurrentFpsChanged: (currentFps)=> {
+                                     fpsText.text = "FPS: " + currentFps;
+                                 }
+
+            //! [5]
+            Component.onCompleted: oscilloscopeView.generateData();
+            //! [5]
         }
     }
 
