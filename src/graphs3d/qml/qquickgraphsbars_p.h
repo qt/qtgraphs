@@ -180,8 +180,6 @@ public Q_SLOTS:
     void handleAxisZChanged(QAbstract3DAxis *axis) override;
     void handleSeriesMeshChanged(QAbstract3DSeries::Mesh mesh);
     void handleMeshSmoothChanged(bool enable);
-    void handleRowCountChanged();
-    void handleColCountChanged();
     void handleCameraRotationChanged();
     void handleArrayReset();
     void handleRowsAdded(int startIndex, int count);
