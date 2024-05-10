@@ -21,7 +21,7 @@ class Q_GRAPHS_EXPORT QPieModelMapper : public QObject
         int valuesSection READ valuesSection WRITE setValuesSection NOTIFY valuesSectionChanged)
     Q_PROPERTY(
         int labelsSection READ labelsSection WRITE setLabelsSection NOTIFY labelsSectionChanged)
-    Q_PROPERTY(int first READ first WRITE setFirst NOTIFY first)
+    Q_PROPERTY(int first READ first WRITE setFirst NOTIFY firstChanged)
     Q_PROPERTY(int count READ count WRITE setCount NOTIFY countChanged)
     Q_PROPERTY(Qt::Orientation orientation READ orientation WRITE setOrientation NOTIFY
                    orientationChanged FINAL)
