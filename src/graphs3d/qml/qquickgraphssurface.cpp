@@ -1983,6 +1983,8 @@ void QQuickGraphsSurface::addModel(QSurface3DSeries *series)
                            QQuick3DGeometry::Attribute::U32Type);
     model->setGeometry(geometry);
 
+    model->setCastsShadows(false); //Disable shadows as they render incorrectly
+
     QQuick3DTexture *texture = new QQuick3DTexture();
     texture->setHorizontalTiling(QQuick3DTexture::ClampToEdge);
     texture->setVerticalTiling(QQuick3DTexture::ClampToEdge);

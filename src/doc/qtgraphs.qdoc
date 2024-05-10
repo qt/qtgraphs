@@ -165,6 +165,7 @@
         \li Transparency is not supported for Surface3D due to a limitation with Qt Quick 3D.
         \li Transparency functionality is not available for highlighted items
             in Bars3D and Scatter3D.
+        \li Shadows are not supported with Surface3D.
 
     \endlist
 */
