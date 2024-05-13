@@ -31,8 +31,6 @@ public:
     void setVisible(bool visible);
     void setLabelsVisible(bool visible);
 
-    void initializeAxes() override;
-
     bool append(QBarSet *set);
     bool remove(QBarSet *set);
     bool append(const QList<QBarSet *> &sets);

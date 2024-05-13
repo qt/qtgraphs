@@ -31,7 +31,6 @@ public:
     explicit QAbstractSeriesPrivate();
     ~QAbstractSeriesPrivate() override;
 
-    virtual void initializeAxes(){};
     void setLegendData(const QList<QLegendData> &legendData);
     void clearLegendData();
 

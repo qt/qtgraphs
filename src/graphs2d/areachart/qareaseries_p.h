@@ -22,7 +22,6 @@ class QAreaSeriesPrivate : public QAbstractSeriesPrivate
 {
 public:
     QAreaSeriesPrivate();
-    void initializeAxes() override;
 
 protected:
     QColor m_color = QColor(Qt::transparent);

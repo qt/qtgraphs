@@ -1020,7 +1020,4 @@ void QPieSeriesPrivate::setSizes(qreal innerSize, qreal outerSize)
     }
 }
 
-void QPieSeriesPrivate::initializeAxes()
-{}
-
 QT_END_NAMESPACE

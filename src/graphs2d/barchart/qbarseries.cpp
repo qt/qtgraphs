@@ -1432,10 +1432,6 @@ bool QBarSeriesPrivate::insert(int index, QBarSet *set)
     return true;
 }
 
-void QBarSeriesPrivate::initializeAxes()
-{
-}
-
 QT_END_NAMESPACE
 
 #include "moc_qbarseries.cpp"

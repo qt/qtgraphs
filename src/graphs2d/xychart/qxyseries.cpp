@@ -580,10 +580,6 @@ QXYSeries &QXYSeries::operator<< (const QList<QPointF>& points)
 
 QXYSeriesPrivate::QXYSeriesPrivate() {}
 
-void QXYSeriesPrivate::initializeAxes()
-{
-}
-
 void QXYSeriesPrivate::setPointSelected(int index, bool selected, bool &callSignal)
 {
     if (index < 0 || index > m_points.size() - 1)

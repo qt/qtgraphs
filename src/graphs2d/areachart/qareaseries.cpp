@@ -211,6 +211,4 @@ void QAreaSeries::setLowerSeries(QXYSeries *newLowerSeries)
 
 QAreaSeriesPrivate::QAreaSeriesPrivate() {}
 
-void QAreaSeriesPrivate::initializeAxes() {}
-
 QT_END_NAMESPACE
