@@ -108,6 +108,10 @@ Item {
             name: "QML Usage Series"
             file: "QmlUsageSeries.qml"
         }
+        ListElement {
+            name: "PieModelMapping"
+            file: "PieModelMapping.qml"
+        }
     }
 
     Component {

@@ -8,7 +8,8 @@ SOURCES += main.cpp \
     custombarseries.h custombarseries.cpp \
     customlineseries.h customlineseries.cpp \
     barsetgenerator.h barsetgenerator.cpp \
-    barmodelmappermodel.h barmodelmappermodel.cpp
+    barmodelmappermodel.h barmodelmappermodel.cpp \
+    piemodelmappermodel.h piemodelmappermodel.cpp
 
 RESOURCES += qmltestbed.qrc
 

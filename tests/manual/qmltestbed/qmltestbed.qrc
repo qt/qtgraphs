@@ -40,5 +40,6 @@
         <file>qml/qmltestbed/PieChart.qml</file>
         <file>qml/qmltestbed/QmlUsageSeries.qml</file>
         <file>qml/qmltestbed/SplineSeries.qml</file>
+        <file>qml/qmltestbed/PieModelMapping.qml</file>
     </qresource>
 </RCC>

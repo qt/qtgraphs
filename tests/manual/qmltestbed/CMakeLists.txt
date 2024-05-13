@@ -55,6 +55,7 @@ set(qmltestbed_resource_files
     "qml/qmltestbed/AddRemoveSeries.qml"
     "qml/qmltestbed/AddRemovePie.qml"
     "qml/qmltestbed/QmlUsageSeries.qml"
+    "qml/qmltestbed/PieModelMapping.qml"
     "qml/qmltestbed/images/arrow_icon.png"
     "qml/qmltestbed/images/icon_settings.png"
     "qml/qmltestbed/images/happy_box.png"
@@ -85,4 +86,5 @@ qt_add_qml_module(tst_qmltestbed
         customlineseries.h customlineseries.cpp
         barsetgenerator.h barsetgenerator.cpp
         barmodelmappermodel.h barmodelmappermodel.cpp
+        piemodelmappermodel.h piemodelmappermodel.cpp
 )
