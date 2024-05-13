@@ -14,6 +14,7 @@ CustomMaterial {
     property vector2d rangeMin
     property vector2d range
     property vector2d vertices
+    property real graphHeight
 
     property real gradientMin
     property real gradientHeight

@@ -7,7 +7,7 @@ in layout(location = 9) flat vec3 nF;
 
 void MAIN()
 {
-    if (any(greaterThan(UV, vec2(1.01))))
+    if (any(greaterThan(UV, vec2(1.01))) || abs(VAR_WORLD_POSITION.y) > graphHeight)
         discard;
     vec3 color;
     vec2 gradientUV;

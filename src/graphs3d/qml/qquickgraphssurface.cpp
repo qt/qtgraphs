@@ -1158,6 +1158,7 @@ void QQuickGraphsSurface::updateModel(SurfaceModel *model)
         material->setProperty("rangeMin", QVector2D(columnStart, rowStart));
         material->setProperty("range", QVector2D(sampleSpace.width(), sampleSpace.height()));
         material->setProperty("vertices", QVector2D(columnCount, rowCount));
+        material->setProperty("graphHeight", scaleWithBackground().y());
 
         model->vertices.clear();
         model->vertices.reserve(totalSize);
@@ -1242,6 +1243,7 @@ void QQuickGraphsSurface::updateModel(SurfaceModel *model)
         gridMaterial->setProperty("gridColor", gridColor);
         gridMaterial->setProperty("range", QVector2D(sampleSpace.width(), sampleSpace.height()));
         gridMaterial->setProperty("vertices", QVector2D(columnCount, rowCount));
+        gridMaterial->setProperty("graphHeight", scaleWithBackground().y());
 
         m_proxyDirty = true;
     }
@@ -1832,7 +1834,8 @@ bool QQuickGraphsSurface::doPicking(const QPointF &position)
 
         if (!pickResult.isEmpty()) {
             for (auto picked : pickResult) {
-                if (picked.objectHit()
+                bool inBounds = qAbs(picked.position().y()) < scaleWithBackground().y();
+                if (inBounds && picked.objectHit()
                     && picked.objectHit()->objectName().contains(QStringLiteral("ProxyModel"))) {
                     pickedPos = picked.position();
                     pickedModel = qobject_cast<QQuick3DModel *>(picked.objectHit()->parentItem());
