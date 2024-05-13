@@ -34,6 +34,15 @@ QColor BarsRenderer::getSetColor(QBarSeries *series, QBarSet *set, int barSeries
     return color;
 }
 
+QColor BarsRenderer::getSetSelectedColor(QBarSeries *series, QBarSet *set)
+{
+    auto seriesTheme = series->theme();
+    QColor color = set->selectedColor().alpha() != 0
+            ? set->selectedColor()
+            : seriesTheme->singleHighlightColor();
+    return color;
+}
+
 QColor BarsRenderer::getSetBorderColor(QBarSeries *series, QBarSet *set, int barSeriesIndex)
 {
     auto seriesTheme = series->theme();
@@ -299,7 +308,7 @@ void BarsRenderer::updateVerticalBars(QBarSeries *series, int setCount, int valu
             // Collect the series data
             BarSeriesData d;
             d.rect = barRect;
-            d.color = color;
+            d.color = isSelected ? getSetSelectedColor(series, s) : color;
             d.borderColor = borderColor;
             d.borderWidth = borderWidth;
             d.isSelected = isSelected;
@@ -409,7 +418,7 @@ void BarsRenderer::updateHorizontalBars(QBarSeries *series, int setCount, int va
             // Collect the series data
             BarSeriesData d;
             d.rect = barRect;
-            d.color = color;
+            d.color = isSelected ? getSetSelectedColor(series, s) : color;
             d.borderColor = borderColor;
             d.borderWidth = borderWidth;
             d.isSelected = isSelected;
@@ -499,8 +508,7 @@ void BarsRenderer::updateSeries(QBarSeries *series)
                 auto &barItem = m_rectNodes[barIndex];
                 BarSeriesData d = *i;
                 barItem->setRect(d.rect);
-                QColor barColor = d.isSelected ? m_graph->theme()->singleHighlightColor() : d.color;
-                barItem->setColor(barColor);
+                barItem->setColor(d.color);
                 barItem->setPenWidth(d.borderWidth);
                 barItem->setPenColor(d.borderColor);
                 barItem->setRadius(4.0);

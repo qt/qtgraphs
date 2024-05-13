@@ -62,6 +62,7 @@ private:
     void updateVerticalBars(QBarSeries *series, int setCount, int valuesPerSet);
     void updateHorizontalBars(QBarSeries *series, int setCount, int valuesPerSet);
     QColor getSetColor(QBarSeries *series, QBarSet *set, int barSerieIndex);
+    QColor getSetSelectedColor(QBarSeries *series, QBarSet *set);
     QColor getSetBorderColor(QBarSeries *series, QBarSet *set, int barSerieIndex);
     qreal getSetBorderWidth(QBarSeries *series, QBarSet *set);
     QString generateLabelText(QBarSeries *series, qreal value);

@@ -56,6 +56,15 @@ QT_BEGIN_NAMESPACE
 */
 
 /*!
+    \property QBarSet::selectedColor
+    \brief The fill color of the selected set.
+*/
+/*!
+    \qmlproperty color BarSet::selectedColor
+    The fill color of the selected set.
+*/
+
+/*!
     \property QBarSet::borderColor
     \brief The border color of the bar set.
 */

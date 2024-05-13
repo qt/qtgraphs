@@ -33,7 +33,7 @@ Rectangle {
         BarSeries {
             id: barSeries
             selectable: true
-            BarSet { id: set1; label: "Axel"; values: [1, 2, 3, 4] }
+            BarSet { id: set1; label: "Axel"; values: [1, 2, 3, 4]; selectedColor: "red" }
             BarSet { id: set2; label: "Frank"; values: [8, 2, 6, 0] }
             BarSet { id: set3; label: "James"; values: [4+3*Math.sin(fA.elapsedTime), 5+3*Math.sin(fA.elapsedTime), 2, 3] }
             FrameAnimation {
