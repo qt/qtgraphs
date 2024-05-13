@@ -518,10 +518,79 @@ QColor QXYSeries::selectedColor() const
 /*!
     \property QXYSeries::pointMarker
     \brief A custom QML Component used as a marker for data points.
+
+    The dynamic properties available for this component are:
+
+    \table
+    \header
+        \li Type
+        \li Name
+        \li Description
+    \row
+        \li bool
+        \li pointSelected
+        \li This value is true when the point is selected, meaning that the point index
+        is in \l{QXYSeries::selectedPoints}.
+    \row
+        \li QColor
+        \li pointColor
+        \li The color of the series. This value comes either from the \l QGraphsTheme
+        or from \l{QXYSeries::color} if the \l QXYSeries overrides the color.
+    \row
+        \li QColor
+        \li pointSelectedColor
+        \li The selected color of the series. This value comes either from the \l QGraphsTheme
+        or from \l{QXYSeries::selectedColor} if the \l QXYSeries overrides the color.
+    \row
+        \li qreal
+        \li pointValueX
+        \li The value of the \l{QXYPoint::x} at this position.
+    \row
+        \li qreal
+        \li pointValueY
+        \li The value of the \l{QXYPoint::y} at this position.
+    \endtable
+
+    To use any of these, add property with the defined name into your custom component.
+    For example \c{"property color pointColor"} and \c{"property real pointValueX"}.
 */
 /*!
     \qmlproperty Component XYSeries::pointMarker
     A custom QML Component used as a marker for data points.
+
+    The dynamic properties available for this component are:
+
+    \table
+    \header
+        \li Type
+        \li Name
+        \li Description
+    \row
+        \li bool
+        \li pointSelected
+        \li This value is true when the point is selected.
+    \row
+        \li Color
+        \li pointColor
+        \li The color of the series. This value comes either from the \l GraphsTheme
+        or from \l{XYSeries::color} if the \l XYSeries overrides the color.
+    \row
+        \li Color
+        \li pointSelectedColor
+        \li The selected color of the series. This value comes either from the \l GraphsTheme
+        or from \l{XYSeries::selectedColor} if the \l XYSeries overrides the color.
+    \row
+        \li real
+        \li pointValueX
+        \li The value of the \l{XYPoint::x} at this position.
+    \row
+        \li real
+        \li pointValueY
+        \li The value of the \l{XYPoint::y} at this position.
+    \endtable
+
+    To use any of these, add property with the defined name into your custom component.
+    For example \c{"property color pointColor"} and \c{"property real pointValueX"}.
 */
 QQmlComponent *QXYSeries::pointMarker() const
 {

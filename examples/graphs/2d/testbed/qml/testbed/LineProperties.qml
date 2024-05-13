@@ -154,10 +154,10 @@ Rectangle {
             selectable: true
             draggable: true
             pointMarker: Image {
-                property bool selected: false
+                property bool pointSelected: false
                 source: "images/happy_box.png"
-                width: selected ? 96 : 64
-                height: selected ? 96 : 64
+                width: pointSelected ? 96 : 64
+                height: pointSelected ? 96 : 64
             }
 
             XYPoint { x: 0; y: 0 }
@@ -175,7 +175,27 @@ Rectangle {
             theme: seriesTheme
             width: widthSlider2.value
             draggable: true
-
+            pointMarker: Item {
+                property color pointColor
+                property real pointValueX
+                property real pointValueY
+                width: 16
+                height: 16
+                Rectangle {
+                    anchors.fill: parent
+                    color: "#202020"
+                    border.width: 2
+                    border.color: pointColor
+                    radius: width / 2
+                }
+                Text {
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    anchors.bottom: parent.top
+                    color: "#ffffff"
+                    font.pixelSize: 16
+                    text: "(" + pointValueX.toFixed(1) + ", " + pointValueY.toFixed(1) + ")"
+                }
+            }
             XYPoint { x: 0; y: 6.6 }
             XYPoint { x: 0.6; y: 4.1 }
             XYPoint { x: 1.5; y: 5.3 }

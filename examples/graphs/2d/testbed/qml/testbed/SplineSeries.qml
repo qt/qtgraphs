@@ -41,8 +41,8 @@ Rectangle {
             width: 2
 
             pointMarker: Rectangle {
-                property color seriesColor
-                color: seriesColor
+                property color pointColor
+                color: pointColor
                 width: 16
                 height: 16
             }

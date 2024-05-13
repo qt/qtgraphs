@@ -11,6 +11,12 @@
 
 QT_BEGIN_NAMESPACE
 
+static const char* TAG_POINT_COLOR = "pointColor";
+static const char* TAG_POINT_SELECTED_COLOR = "pointSelectedColor";
+static const char* TAG_POINT_SELECTED = "pointSelected";
+static const char* TAG_POINT_VALUE_X = "pointValueX";
+static const char* TAG_POINT_VALUE_Y = "pointValueY";
+
 PointRenderer::PointRenderer(QQuickItem *parent)
     : QQuickItem(parent)
 {
@@ -23,15 +29,14 @@ PointRenderer::PointRenderer(QQuickItem *parent)
         import QtQuick;
 
         Rectangle {
-            property bool selected
-            property color seriesColor
-            property color seriesSelectedColor
-            color: selected ? seriesSelectedColor : seriesColor
+            property bool pointSelected
+            property color pointColor
+            property color pointSelectedColor
+            color: pointSelected ? pointSelectedColor : pointColor
             width: %1
             height: %1
         }
-    )QML")
-                                .arg(QString::number((int) defaultSize()));
+    )QML").arg(QString::number((int) defaultSize()));
     m_tempMarker = new QQmlComponent(qmlEngine(m_graph), this);
     m_tempMarker->setData(qmlData.toUtf8(), QUrl());
 }
@@ -74,17 +79,19 @@ void PointRenderer::updatePointMarker(
     int index = group->colorIndex % series->theme()->seriesColors().size();
     QColor color = series->color().alpha() != 0 ? series->color()
                                             : series->theme()->seriesColors().at(index);
-
-    index = group->colorIndex % series->theme()->borderColors().size();
-    QColor selectedColor = series->color().alpha() != 0 ? series->color()
-                                            : series->theme()->borderColors().at(index);
-
-    if (marker->property("selected").isValid())
-        marker->setProperty("selected", series->isPointSelected(pointIndex));
-    if (marker->property("seriesColor").isValid())
-        marker->setProperty("seriesColor", color);
-    if (marker->property("seriesSelectedColor").isValid())
-        marker->setProperty("seriesSelectedColor", selectedColor);
+    QColor selectedColor = series->selectedColor().alpha() != 0 ? series->selectedColor()
+                                                                : series->theme()->singleHighlightColor();
+    if (marker->property(TAG_POINT_SELECTED).isValid())
+        marker->setProperty(TAG_POINT_SELECTED, series->isPointSelected(pointIndex));
+    if (marker->property(TAG_POINT_COLOR).isValid())
+        marker->setProperty(TAG_POINT_COLOR, color);
+    if (marker->property(TAG_POINT_SELECTED_COLOR).isValid())
+        marker->setProperty(TAG_POINT_SELECTED_COLOR, selectedColor);
+    const auto point = series->points().at(pointIndex);
+    if (marker->property(TAG_POINT_VALUE_X).isValid())
+        marker->setProperty(TAG_POINT_VALUE_X, point.x());
+    if (marker->property(TAG_POINT_VALUE_Y).isValid())
+        marker->setProperty(TAG_POINT_VALUE_Y, point.y());
 
     marker->setX(x - marker->width() / 2.0);
     marker->setY(y - marker->height() / 2.0);

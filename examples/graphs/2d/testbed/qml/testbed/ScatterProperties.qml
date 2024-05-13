@@ -76,10 +76,10 @@ Rectangle {
             theme: seriesTheme
             selectable: true
             pointMarker: Image {
-                property bool selected: false
+                property bool pointSelected: false
                 source: "images/happy_box.png"
-                width: selected ? 96 : 64
-                height: selected ? 96 : 64
+                width: pointSelected ? 96 : 64
+                height: pointSelected ? 96 : 64
             }
 
             XYPoint { x: 0; y: 0 }
