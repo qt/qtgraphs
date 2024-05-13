@@ -17,7 +17,7 @@ QT_BEGIN_NAMESPACE
 class QAbstract3DInputHandlerPrivate;
 class QQuickGraphsItem;
 
-class Q_GRAPHS_EXPORT QAbstract3DInputHandler : public QObject
+class QT_TECH_PREVIEW_API Q_GRAPHS_EXPORT QAbstract3DInputHandler : public QObject
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(QAbstract3DInputHandler)

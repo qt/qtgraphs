@@ -12,7 +12,7 @@ QT_BEGIN_NAMESPACE
 
 class QAbstractDataProxyPrivate;
 
-class Q_GRAPHS_EXPORT QAbstractDataProxy : public QObject
+class QT_TECH_PREVIEW_API Q_GRAPHS_EXPORT QAbstractDataProxy : public QObject
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(QAbstractDataProxy)

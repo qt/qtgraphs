@@ -13,7 +13,7 @@
 #ifndef QBARCATEGORYAXIS_P_H
 #define QBARCATEGORYAXIS_P_H
 
-#include <QtGraphs/QBarCategoryAxis>
+#include <QtGraphs/qbarcategoryaxis.h>
 #include <private/qabstractaxis_p.h>
 
 QT_BEGIN_NAMESPACE

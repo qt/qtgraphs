@@ -11,7 +11,7 @@ QT_BEGIN_NAMESPACE
 
 class QScatter3DSeriesPrivate;
 
-class Q_GRAPHS_EXPORT QScatter3DSeries : public QAbstract3DSeries
+class QT_TECH_PREVIEW_API Q_GRAPHS_EXPORT QScatter3DSeries : public QAbstract3DSeries
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(QScatter3DSeries)

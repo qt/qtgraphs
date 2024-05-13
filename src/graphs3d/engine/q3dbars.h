@@ -13,7 +13,7 @@ QT_BEGIN_NAMESPACE
 
 class QQuickGraphsBars;
 
-class Q_GRAPHS_EXPORT Q3DBars : public QAbstract3DGraph
+class QT_TECH_PREVIEW_API Q_GRAPHS_EXPORT Q3DBars : public QAbstract3DGraph
 {
     Q_OBJECT
     Q_PROPERTY(bool multiSeriesUniform READ isMultiSeriesUniform WRITE setMultiSeriesUniform NOTIFY

@@ -10,7 +10,7 @@ QT_BEGIN_NAMESPACE
 
 class Q3DInputHandlerPrivate;
 
-class Q_GRAPHS_EXPORT Q3DInputHandler : public QAbstract3DInputHandler
+class QT_TECH_PREVIEW_API Q_GRAPHS_EXPORT Q3DInputHandler : public QAbstract3DInputHandler
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(Q3DInputHandler)

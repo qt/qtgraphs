@@ -12,7 +12,7 @@ QT_BEGIN_NAMESPACE
 
 class QBarSeriesPrivate;
 
-class Q_GRAPHS_EXPORT QBarSeries : public QAbstractBarSeries
+class QT_TECH_PREVIEW_API Q_GRAPHS_EXPORT QBarSeries : public QAbstractBarSeries
 {
     Q_OBJECT
     Q_PROPERTY(QAbstractAxis *axisX READ axisX WRITE setAxisX NOTIFY axisXChanged)

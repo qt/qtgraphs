@@ -11,7 +11,7 @@ QT_BEGIN_NAMESPACE
 
 class QValue3DAxisPrivate;
 
-class Q_GRAPHS_EXPORT QValue3DAxis : public QAbstract3DAxis
+class QT_TECH_PREVIEW_API Q_GRAPHS_EXPORT QValue3DAxis : public QAbstract3DAxis
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(QValue3DAxis)

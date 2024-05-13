@@ -4,7 +4,7 @@
 #ifndef QCUSTOM3DVOLUME_H
 #define QCUSTOM3DVOLUME_H
 
-#include <QtGraphs/QCustom3DItem>
+#include <QtGraphs/qcustom3ditem.h>
 #include <QtGraphs/qgraphsglobal.h>
 #include <QtGui/QColor>
 #include <QtGui/QImage>
@@ -13,7 +13,7 @@ QT_BEGIN_NAMESPACE
 
 class QCustom3DVolumePrivate;
 
-class Q_GRAPHS_EXPORT QCustom3DVolume : public QCustom3DItem
+class QT_TECH_PREVIEW_API Q_GRAPHS_EXPORT QCustom3DVolume : public QCustom3DItem
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(QCustom3DVolume)

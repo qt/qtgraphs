@@ -12,7 +12,7 @@ QT_BEGIN_NAMESPACE
 
 class QItemModelBarDataProxyPrivate;
 
-class Q_GRAPHS_EXPORT QItemModelBarDataProxy : public QBarDataProxy
+class QT_TECH_PREVIEW_API Q_GRAPHS_EXPORT QItemModelBarDataProxy : public QBarDataProxy
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(QItemModelBarDataProxy)

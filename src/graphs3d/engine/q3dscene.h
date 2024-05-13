@@ -13,7 +13,7 @@ QT_BEGIN_NAMESPACE
 
 class Q3DScenePrivate;
 
-class Q_GRAPHS_EXPORT Q3DScene : public QObject
+class QT_TECH_PREVIEW_API Q_GRAPHS_EXPORT Q3DScene : public QObject
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(Q3DScene)

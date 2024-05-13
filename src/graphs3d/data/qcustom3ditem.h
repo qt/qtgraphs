@@ -14,7 +14,7 @@ QT_BEGIN_NAMESPACE
 
 class QCustom3DItemPrivate;
 
-class Q_GRAPHS_EXPORT QCustom3DItem : public QObject
+class QT_TECH_PREVIEW_API Q_GRAPHS_EXPORT QCustom3DItem : public QObject
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(QCustom3DItem)

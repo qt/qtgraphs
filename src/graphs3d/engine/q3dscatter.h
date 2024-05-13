@@ -12,7 +12,7 @@ QT_BEGIN_NAMESPACE
 
 class QQuickGraphsScatter;
 
-class Q_GRAPHS_EXPORT Q3DScatter : public QAbstract3DGraph
+class QT_TECH_PREVIEW_API Q_GRAPHS_EXPORT Q3DScatter : public QAbstract3DGraph
 {
     Q_OBJECT
     Q_PROPERTY(QValue3DAxis *axisX READ axisX WRITE setAxisX NOTIFY axisXChanged)

@@ -15,7 +15,7 @@ QT_BEGIN_NAMESPACE
 
 class QAbstract3DSeriesPrivate;
 
-class Q_GRAPHS_EXPORT QAbstract3DSeries : public QObject
+class QT_TECH_PREVIEW_API Q_GRAPHS_EXPORT QAbstract3DSeries : public QObject
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(QAbstract3DSeries)

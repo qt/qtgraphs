@@ -11,7 +11,7 @@ QT_BEGIN_NAMESPACE
 
 class QScatterSeriesPrivate;
 
-class Q_GRAPHS_EXPORT QScatterSeries : public QXYSeries
+class QT_TECH_PREVIEW_API Q_GRAPHS_EXPORT QScatterSeries : public QXYSeries
 {
     Q_OBJECT
 

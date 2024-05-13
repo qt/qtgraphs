@@ -16,7 +16,7 @@ QT_BEGIN_NAMESPACE
 class QXYSeriesPrivate;
 class QXYModelMapper;
 
-class Q_GRAPHS_EXPORT QXYSeries : public QAbstractSeries
+class QT_TECH_PREVIEW_API Q_GRAPHS_EXPORT QXYSeries : public QAbstractSeries
 {
     Q_OBJECT
     Q_PROPERTY(QAbstractAxis *axisX READ axisX WRITE setAxisX NOTIFY axisXChanged)

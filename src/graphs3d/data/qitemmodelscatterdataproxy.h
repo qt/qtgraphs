@@ -13,7 +13,7 @@ QT_BEGIN_NAMESPACE
 
 class QItemModelScatterDataProxyPrivate;
 
-class Q_GRAPHS_EXPORT QItemModelScatterDataProxy : public QScatterDataProxy
+class QT_TECH_PREVIEW_API Q_GRAPHS_EXPORT QItemModelScatterDataProxy : public QScatterDataProxy
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(QItemModelScatterDataProxy)

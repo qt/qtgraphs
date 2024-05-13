@@ -16,7 +16,7 @@ QT_BEGIN_NAMESPACE
 class QValue3DAxisFormatterPrivate;
 class QValue3DAxis;
 
-class Q_GRAPHS_EXPORT QValue3DAxisFormatter : public QObject
+class QT_TECH_PREVIEW_API Q_GRAPHS_EXPORT QValue3DAxisFormatter : public QObject
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(QValue3DAxisFormatter)

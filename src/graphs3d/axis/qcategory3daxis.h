@@ -10,7 +10,7 @@ QT_BEGIN_NAMESPACE
 
 class QCategory3DAxisPrivate;
 
-class Q_GRAPHS_EXPORT QCategory3DAxis : public QAbstract3DAxis
+class QT_TECH_PREVIEW_API Q_GRAPHS_EXPORT QCategory3DAxis : public QAbstract3DAxis
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(QCategory3DAxis)

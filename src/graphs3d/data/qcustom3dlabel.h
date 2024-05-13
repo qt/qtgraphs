@@ -4,7 +4,7 @@
 #ifndef QCUSTOMLABELITEM_H
 #define QCUSTOMLABELITEM_H
 
-#include <QtGraphs/QCustom3DItem>
+#include <QtGraphs/qcustom3ditem.h>
 #include <QtGraphs/qgraphsglobal.h>
 #include <QtGui/QColor>
 #include <QtGui/QFont>
@@ -15,7 +15,7 @@ QT_BEGIN_NAMESPACE
 
 class QCustom3DLabelPrivate;
 
-class Q_GRAPHS_EXPORT QCustom3DLabel : public QCustom3DItem
+class QT_TECH_PREVIEW_API Q_GRAPHS_EXPORT QCustom3DLabel : public QCustom3DItem
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(QCustom3DLabel)

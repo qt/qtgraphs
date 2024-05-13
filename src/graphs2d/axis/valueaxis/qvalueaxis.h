@@ -4,7 +4,7 @@
 #ifndef QVALUEAXIS_H
 #define QVALUEAXIS_H
 
-#include <QtGraphs/QAbstractAxis>
+#include <QtGraphs/qabstractaxis.h>
 #include <QtGraphs/qgraphsglobal.h>
 #include <QtQml/QQmlEngine>
 
@@ -12,7 +12,7 @@ QT_BEGIN_NAMESPACE
 
 class QValueAxisPrivate;
 
-class Q_GRAPHS_EXPORT QValueAxis : public QAbstractAxis
+class QT_TECH_PREVIEW_API Q_GRAPHS_EXPORT QValueAxis : public QAbstractAxis
 {
     Q_OBJECT
     Q_PROPERTY(qreal min READ min WRITE setMin NOTIFY minChanged)

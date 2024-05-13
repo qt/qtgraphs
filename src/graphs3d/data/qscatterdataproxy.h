@@ -16,7 +16,7 @@ class QScatter3DSeries;
 
 using QScatterDataArray = QList<QScatterDataItem>;
 
-class Q_GRAPHS_EXPORT QScatterDataProxy : public QAbstractDataProxy
+class QT_TECH_PREVIEW_API Q_GRAPHS_EXPORT QScatterDataProxy : public QAbstractDataProxy
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(QScatterDataProxy)

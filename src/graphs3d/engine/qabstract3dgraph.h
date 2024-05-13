@@ -19,7 +19,7 @@ class QAbstract3DAxis;
 class QAbstract3DSeries;
 class QQuickGraphsItem;
 
-class Q_GRAPHS_EXPORT QAbstract3DGraph : public QQuickWidget
+class QT_TECH_PREVIEW_API Q_GRAPHS_EXPORT QAbstract3DGraph : public QQuickWidget
 {
     Q_OBJECT
     Q_CLASSINFO("RegisterEnumClassesUnscoped", "false")

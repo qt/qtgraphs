@@ -17,7 +17,7 @@ class QSurface3DSeries;
 using QSurfaceDataRow = QList<QSurfaceDataItem>;
 using QSurfaceDataArray = QList<QSurfaceDataRow>;
 
-class Q_GRAPHS_EXPORT QSurfaceDataProxy : public QAbstractDataProxy
+class QT_TECH_PREVIEW_API Q_GRAPHS_EXPORT QSurfaceDataProxy : public QAbstractDataProxy
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(QSurfaceDataProxy)

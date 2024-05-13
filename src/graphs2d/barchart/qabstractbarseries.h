@@ -15,7 +15,7 @@ class QBarSet;
 class QAbstractBarSeriesPrivate;
 
 // Container for series
-class Q_GRAPHS_EXPORT QAbstractBarSeries : public QAbstractSeries
+class QT_TECH_PREVIEW_API Q_GRAPHS_EXPORT QAbstractBarSeries : public QAbstractSeries
 {
     Q_OBJECT
     Q_PROPERTY(qreal barWidth READ barWidth WRITE setBarWidth NOTIFY barWidthChanged)

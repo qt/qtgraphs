@@ -15,7 +15,7 @@ QT_BEGIN_NAMESPACE
 
 class QAbstractAxisPrivate;
 
-class Q_GRAPHS_EXPORT QAbstractAxis : public QObject
+class QT_TECH_PREVIEW_API Q_GRAPHS_EXPORT QAbstractAxis : public QObject
 {
     Q_OBJECT
     //visibility

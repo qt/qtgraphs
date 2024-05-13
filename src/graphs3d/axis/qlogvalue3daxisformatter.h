@@ -10,7 +10,7 @@ QT_BEGIN_NAMESPACE
 
 class QLogValue3DAxisFormatterPrivate;
 
-class Q_GRAPHS_EXPORT QLogValue3DAxisFormatter : public QValue3DAxisFormatter
+class QT_TECH_PREVIEW_API Q_GRAPHS_EXPORT QLogValue3DAxisFormatter : public QValue3DAxisFormatter
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(QLogValue3DAxisFormatter)

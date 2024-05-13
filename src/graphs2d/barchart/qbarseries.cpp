@@ -1,9 +1,9 @@
 // Copyright (C) 2023 The Qt Company Ltd.
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 
-#include <QtGraphs/QBarCategoryAxis>
-#include <QtGraphs/QValueAxis>
+#include <QtGraphs/qbarcategoryaxis.h>
 #include <QtGraphs/qbarseries.h>
+#include <QtGraphs/qvalueaxis.h>
 #include <private/qbarseries_p.h>
 #include <private/qgraphsview_p.h>
 

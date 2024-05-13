@@ -12,7 +12,7 @@ QT_BEGIN_NAMESPACE
 
 class QBar3DSeriesPrivate;
 
-class Q_GRAPHS_EXPORT QBar3DSeries : public QAbstract3DSeries
+class QT_TECH_PREVIEW_API Q_GRAPHS_EXPORT QBar3DSeries : public QAbstract3DSeries
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(QBar3DSeries)

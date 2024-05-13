@@ -19,7 +19,7 @@ class Q3DThemePrivate;
 class QQuickGraphsColor;
 class QQuickGradient;
 
-class Q_GRAPHS_EXPORT Q3DTheme : public QObject, public QQmlParserStatus
+class QT_TECH_PREVIEW_API Q_GRAPHS_EXPORT Q3DTheme : public QObject, public QQmlParserStatus
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(Q3DTheme)

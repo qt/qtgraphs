@@ -15,7 +15,7 @@ QT_BEGIN_NAMESPACE
 
 class QBarSetPrivate;
 
-class Q_GRAPHS_EXPORT QBarSet : public QObject
+class QT_TECH_PREVIEW_API Q_GRAPHS_EXPORT QBarSet : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(QString label READ label WRITE setLabel NOTIFY labelChanged)

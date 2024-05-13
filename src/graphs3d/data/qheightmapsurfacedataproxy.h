@@ -12,7 +12,7 @@ QT_BEGIN_NAMESPACE
 
 class QHeightMapSurfaceDataProxyPrivate;
 
-class Q_GRAPHS_EXPORT QHeightMapSurfaceDataProxy : public QSurfaceDataProxy
+class QT_TECH_PREVIEW_API Q_GRAPHS_EXPORT QHeightMapSurfaceDataProxy : public QSurfaceDataProxy
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(QHeightMapSurfaceDataProxy)

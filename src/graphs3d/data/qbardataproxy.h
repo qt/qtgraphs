@@ -19,7 +19,7 @@ class QBar3DSeries;
 using QBarDataRow = QList<QBarDataItem>;
 using QBarDataArray = QList<QBarDataRow>;
 
-class Q_GRAPHS_EXPORT QBarDataProxy : public QAbstractDataProxy
+class QT_TECH_PREVIEW_API Q_GRAPHS_EXPORT QBarDataProxy : public QAbstractDataProxy
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(QBarDataProxy)

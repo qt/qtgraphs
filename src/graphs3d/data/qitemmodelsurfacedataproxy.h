@@ -13,7 +13,7 @@ QT_BEGIN_NAMESPACE
 
 class QItemModelSurfaceDataProxyPrivate;
 
-class Q_GRAPHS_EXPORT QItemModelSurfaceDataProxy : public QSurfaceDataProxy
+class QT_TECH_PREVIEW_API Q_GRAPHS_EXPORT QItemModelSurfaceDataProxy : public QSurfaceDataProxy
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(QItemModelSurfaceDataProxy)

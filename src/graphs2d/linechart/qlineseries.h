@@ -11,7 +11,7 @@ QT_BEGIN_NAMESPACE
 
 class QLineSeriesPrivate;
 
-class Q_GRAPHS_EXPORT QLineSeries : public QXYSeries
+class QT_TECH_PREVIEW_API Q_GRAPHS_EXPORT QLineSeries : public QXYSeries
 {
     Q_OBJECT
     Q_PROPERTY(qreal width READ width WRITE setWidth NOTIFY widthChanged)
