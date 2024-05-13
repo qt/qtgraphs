@@ -138,8 +138,8 @@ Item {
                 source: graph.theme.backgroundEnabled ?
                                         "qrc:/images/background_hide.svg" : "qrc:/images/background.svg"
                 onClicked: {
-                    graph.theme.backgroundEnabled = !graph.theme.backgroundEnabled
-                    text = graph.theme.backgroundEnabled ? qsTr("Hide Background") : qsTr("Show Background")
+                    graph.theme.plotAreaBackgroundEnabled = !graph.theme.plotAreaBackgroundEnabled
+                    text = graph.theme.plotAreaBackgroundEnabled ? qsTr("Hide Graph Background") : qsTr("Show Graph Background")
                 }
             }
         }
@@ -162,7 +162,7 @@ Item {
             source: "qrc:/images/theme.svg"
             onClicked: {
                 graph.theme = graph.theme.theme === GraphsTheme.Theme.QtGreenNeon ? themeQt : themeQtNeonGreen
-                backgroundButton.text = graph.theme.backgroundEnabled ? qsTr("Hide Background") : qsTr("Show Background")
+                backgroundButton.text = graph.theme.plotAreaBackgroundEnabled ? qsTr("Hide Graph Background") : qsTr("Show Graph Background")
             }
         }
     }

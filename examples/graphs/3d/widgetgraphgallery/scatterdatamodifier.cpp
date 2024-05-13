@@ -117,7 +117,7 @@ void ScatterDataModifier::changeTheme(int theme)
 {
     QGraphsTheme *currentTheme = m_graph->activeTheme();
     currentTheme->setTheme(QGraphsTheme::Theme(theme));
-    emit backgroundEnabledChanged(currentTheme->isBackgroundEnabled());
+    emit backgroundEnabledChanged(currentTheme->isPlotAreaBackgroundEnabled());
     emit gridEnabledChanged(currentTheme->isGridEnabled());
 }
 
@@ -217,7 +217,7 @@ void ScatterDataModifier::changeShadowQuality(int quality)
 
 void ScatterDataModifier::setBackgroundEnabled(int enabled)
 {
-    m_graph->activeTheme()->setBackgroundEnabled((bool) enabled);
+    m_graph->activeTheme()->setPlotAreaBackgroundEnabled((bool) enabled);
 }
 
 void ScatterDataModifier::setGridEnabled(int enabled)

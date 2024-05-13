@@ -118,7 +118,7 @@ void BarGraph::initialize()
     selectionModeList->setCurrentIndex(1);
 
     auto *backgroundCheckBox = new QCheckBox(m_barsWidget);
-    backgroundCheckBox->setText(u"Show background"_s);
+    backgroundCheckBox->setText(u"Show graph background"_s);
     backgroundCheckBox->setChecked(false);
 
     auto *gridCheckBox = new QCheckBox(m_barsWidget);

@@ -34,7 +34,7 @@ GraphModifier::GraphModifier(Q3DBars *bargraph, QObject *parent)
 {
     //! [2]
     m_graph->setShadowQuality(QAbstract3DGraph::ShadowQuality::SoftMedium);
-    m_graph->activeTheme()->setBackgroundEnabled(false);
+    m_graph->activeTheme()->setPlotAreaBackgroundEnabled(false);
     m_graph->activeTheme()->setLabelFont(QFont("Times New Roman", m_fontSize));
     m_graph->activeTheme()->setLabelBackgroundEnabled(true);
     m_graph->setMultiSeriesUniform(true);
@@ -240,7 +240,7 @@ void GraphModifier::changeTheme(int theme)
 {
     QGraphsTheme *currentTheme = m_graph->activeTheme();
     currentTheme->setTheme(QGraphsTheme::Theme(theme));
-    emit backgroundEnabledChanged(currentTheme->isBackgroundEnabled());
+    emit backgroundEnabledChanged(currentTheme->isPlotAreaBackgroundEnabled());
     emit gridEnabledChanged(currentTheme->isGridEnabled());
     emit fontChanged(currentTheme->labelFont());
     emit fontSizeChanged(currentTheme->labelFont().pointSize());
@@ -404,7 +404,7 @@ void GraphModifier::rotateY(int rotation)
 
 void GraphModifier::setBackgroundEnabled(int enabled)
 {
-    m_graph->activeTheme()->setBackgroundEnabled(bool(enabled));
+    m_graph->activeTheme()->setPlotAreaBackgroundEnabled(bool(enabled));
 }
 
 void GraphModifier::setGridEnabled(int enabled)

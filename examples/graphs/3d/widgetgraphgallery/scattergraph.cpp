@@ -59,7 +59,7 @@ void ScatterGraph::initialize()
     rangeMaxSlider->setValue(10);
 
     auto *backgroundCheckBox = new QCheckBox(m_scatterWidget);
-    backgroundCheckBox->setText(u"Show background"_s);
+    backgroundCheckBox->setText(u"Show graph background"_s);
     backgroundCheckBox->setChecked(true);
 
     auto *gridCheckBox = new QCheckBox(m_scatterWidget);
