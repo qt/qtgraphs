@@ -319,7 +319,7 @@ void tst_qgxymodelmapper::seriesUpdated()
     QCOMPARE(m_vMapper->count(),
              -1); // the value should not change as it indicates 'all' items there are in the model
 
-    m_series->removePoints(1, m_modelRowCount - 4);
+    m_series->removeMultiple(1, m_modelRowCount - 4);
     QCOMPARE(m_series->count(), 4);
     QCOMPARE(m_vMapper->count(),
              -1); // the value should not change as it indicates 'all' items there are in the model
