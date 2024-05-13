@@ -26,7 +26,6 @@ class AxisLine : public QQuickShaderEffect
     Q_PROPERTY(QColor color READ color WRITE setColor NOTIFY colorChanged FINAL)
     Q_PROPERTY(qreal lineWidth READ lineWidth WRITE setLineWidth NOTIFY lineWidthChanged FINAL)
     Q_PROPERTY(bool isHorizontal READ isHorizontal WRITE setIsHorizontal NOTIFY isHorizontalChanged FINAL)
-    QML_ELEMENT
 public:
     explicit AxisLine(QQuickItem *parent = nullptr);
 

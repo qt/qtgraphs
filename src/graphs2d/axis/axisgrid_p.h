@@ -35,7 +35,6 @@ class AxisGrid : public QQuickShaderEffect
     Q_PROPERTY(qreal majorBarWidth READ majorBarWidth WRITE setMajorBarWidth NOTIFY majorBarWidthChanged FINAL)
     Q_PROPERTY(qreal verticalMinorTickScale READ verticalMinorTickScale WRITE setVerticalMinorTickScale NOTIFY verticalMinorTickScaleChanged FINAL)
     Q_PROPERTY(qreal horizontalMinorTickScale READ horizontalMinorTickScale WRITE setHorizontalMinorTickScale NOTIFY horizontalMinorTickScaleChanged FINAL)
-    QML_ELEMENT
 public:
     AxisGrid(QQuickItem *parent = nullptr);
 

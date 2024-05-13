@@ -33,7 +33,6 @@ class AxisTicker : public QQuickShaderEffect
     Q_PROPERTY(qreal minorTickScale READ minorTickScale WRITE setMinorTickScale NOTIFY minorTickScaleChanged FINAL)
     Q_PROPERTY(qreal minorBarsLength READ minorBarsLength WRITE setMinorBarsLength NOTIFY minorBarsLengthChanged FINAL)
     Q_PROPERTY(bool isHorizontal READ isHorizontal WRITE setIsHorizontal NOTIFY isHorizontalChanged FINAL)
-    QML_ELEMENT
 public:
     AxisTicker(QQuickItem *parent = nullptr);
 
