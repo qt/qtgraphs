@@ -24,6 +24,7 @@ class Q_GRAPHS_EXPORT QXYSeries : public QAbstractSeries
         QColor selectedColor READ selectedColor WRITE setSelectedColor NOTIFY selectedColorChanged)
     Q_PROPERTY(QQmlComponent *pointMarker READ pointMarker WRITE setPointMarker NOTIFY pointMarkerChanged FINAL)
     Q_PROPERTY(bool draggable READ draggable WRITE setDraggable NOTIFY draggableChanged)
+    Q_PROPERTY(QList<int> selectedPoints READ selectedPoints NOTIFY selectedPointsChanged)
 
 protected:
     explicit QXYSeries(QXYSeriesPrivate &dd, QObject *parent = nullptr);
@@ -59,15 +60,15 @@ public:
     void setSelectedColor(const QColor &color);
     QColor selectedColor() const;
 
-    bool isPointSelected(int index);
-    void selectPoint(int index);
-    void deselectPoint(int index);
-    void setPointSelected(int index, bool selected);
-    void selectAllPoints();
-    void deselectAllPoints();
-    void selectPoints(const QList<int> &indexes);
-    void deselectPoints(const QList<int> &indexes);
-    void toggleSelection(const QList<int> &indexes);
+    Q_INVOKABLE bool isPointSelected(int index);
+    Q_INVOKABLE void selectPoint(int index);
+    Q_INVOKABLE void deselectPoint(int index);
+    Q_INVOKABLE void setPointSelected(int index, bool selected);
+    Q_INVOKABLE void selectAllPoints();
+    Q_INVOKABLE void deselectAllPoints();
+    Q_INVOKABLE void selectPoints(const QList<int> &indexes);
+    Q_INVOKABLE void deselectPoints(const QList<int> &indexes);
+    Q_INVOKABLE void toggleSelection(const QList<int> &indexes);
     QList<int> selectedPoints() const;
 
     QQmlComponent *pointMarker() const;

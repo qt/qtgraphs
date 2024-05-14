@@ -67,6 +67,12 @@ Rectangle {
                     seriesTheme.theme = GraphsTheme.Theme.QtGreenNeon;
                 }
             }
+            Text {
+                anchors.verticalCenter: parent.verticalCenter
+                color: "#ffffff"
+                font.pixelSize: 16
+                text: "SELECTED: " + lineSeries1.selectedPoints
+            }
         }
     }
 

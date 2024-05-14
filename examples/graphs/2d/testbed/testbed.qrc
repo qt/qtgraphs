@@ -18,5 +18,6 @@
         <file>qml/testbed/Callout.qml</file>
         <file>qml/testbed/Donut.qml</file>
         <file>qml/testbed/BarLabels.qml</file>
+        <file>qml/testbed/LineSelection.qml</file>
     </qresource>
 </RCC>

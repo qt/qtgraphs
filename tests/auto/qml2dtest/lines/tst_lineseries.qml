@@ -54,6 +54,7 @@ Item {
             compare(initial.color, "#00000000")
             compare(initial.selectedColor, "#00000000")
             compare(initial.draggable, false)
+            compare(initial.selectedPoints, [])
 
             // Properties from QAbstractSeries
             verify(initial.theme)
@@ -95,6 +96,37 @@ Item {
             compare(initial.hoverable, true)
             compare(initial.opacity, 0.5)
             compare(initial.valuesMultiplier, 0.5)
+        }
+        function test_3_initial_selections() {
+            initial.deselectAllPoints();
+            initial.clear();
+            compare(initial.selectedPoints, [])
+            initial.append(0, 0)
+            initial.append(1, 1)
+            initial.append(2, 2)
+            initial.append(3, 3)
+            initial.append(4, 4)
+            compare(initial.isPointSelected(0), false)
+            initial.selectPoint(0);
+            compare(initial.isPointSelected(0), true)
+            compare(initial.selectedPoints, [0])
+            initial.selectPoint(2);
+            // Note: Checking just length as the order of the elements may differ
+            compare(initial.selectedPoints.length, 2) // [0, 2]
+            initial.toggleSelection([3])
+            compare(initial.selectedPoints.length, 3) // [0, 2, 3]
+            initial.toggleSelection([3])
+            compare(initial.selectedPoints.length, 2) // [0, 2]
+            initial.setPointSelected(0, false)
+            compare(initial.selectedPoints.length, 1) // [0]
+            initial.selectAllPoints()
+            compare(initial.selectedPoints.length, 5) // [0, 1, 2, 3, 4]
+            initial.deselectAllPoints()
+            compare(initial.selectedPoints.length, 0)
+            initial.selectPoints([1, 2, 3])
+            compare(initial.selectedPoints.length, 3) // [1, 2, 3]
+            initial.deselectPoints([2, 3, 4])
+            compare(initial.selectedPoints.length, 1) // [1]
         }
     }
 

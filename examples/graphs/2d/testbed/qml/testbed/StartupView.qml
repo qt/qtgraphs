@@ -50,6 +50,10 @@ Item {
             file: "LineProperties.qml"
         }
         ListElement {
+            name: "Line Selection"
+            file: "LineSelection.qml"
+        }
+        ListElement {
             name: "Scatter Properties"
             file: "ScatterProperties.qml"
         }
