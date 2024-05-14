@@ -754,6 +754,7 @@ void QBarSeries::clear()
             QObject::disconnect(set, &QBarSet::update, this, &QBarSeries::update);
             delete set;
         }
+        emit update();
     }
 }
 

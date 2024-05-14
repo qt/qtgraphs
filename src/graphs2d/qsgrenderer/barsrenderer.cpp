@@ -448,9 +448,10 @@ void BarsRenderer::handlePolish(QBarSeries *series)
     int setCount = series->barSets().size();
     if (setCount == 0) {
         series->d_func()->clearLegendData();
+        m_rectNodesInputRects.clear();
+        m_seriesData.clear();
         return;
     }
-
 
     if (m_colorIndex < 0)
         m_colorIndex = m_graph->graphSeriesCount();
