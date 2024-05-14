@@ -4,9 +4,9 @@
 #ifndef QITEMMODELSCATTERDATAPROXY_H
 #define QITEMMODELSCATTERDATAPROXY_H
 
-#include <QtCore/QAbstractItemModel>
-#include <QtCore/QRegularExpression>
-#include <QtCore/QString>
+#include <QtCore/qabstractitemmodel.h>
+#include <QtCore/qregularexpression.h>
+#include <QtCore/qstring.h>
 #include <QtGraphs/qscatterdataproxy.h>
 
 QT_BEGIN_NAMESPACE

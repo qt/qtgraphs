@@ -4,9 +4,9 @@
 #ifndef QABSTRACT3DAXIS_H
 #define QABSTRACT3DAXIS_H
 
-#include <QtCore/QObject>
-#include <QtCore/QScopedPointer>
-#include <QtCore/QStringList>
+#include <QtCore/qobject.h>
+#include <QtCore/qscopedpointer.h>
+#include <QtCore/qstringlist.h>
 #include <QtCore/qtclasshelpermacros.h>
 #include <QtGraphs/qgraphsglobal.h>
 

@@ -4,12 +4,12 @@
 #ifndef QCUSTOMLABELITEM_H
 #define QCUSTOMLABELITEM_H
 
-#include <QtGraphs/QCustom3DItem>
+#include <QtGraphs/qcustom3ditem.h>
 #include <QtGraphs/qgraphsglobal.h>
-#include <QtGui/QColor>
-#include <QtGui/QFont>
-#include <QtGui/QQuaternion>
-#include <QtGui/QVector3D>
+#include <QtGui/qcolor.h>
+#include <QtGui/qfont.h>
+#include <QtGui/qquaternion.h>
+#include <QtGui/qvector3d.h>
 
 QT_BEGIN_NAMESPACE
 

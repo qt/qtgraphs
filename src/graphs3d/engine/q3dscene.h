@@ -4,8 +4,8 @@
 #ifndef Q3DSCENE_H
 #define Q3DSCENE_H
 
-#include <QtCore/QObject>
-#include <QtCore/QRect>
+#include <QtCore/qobject.h>
+#include <QtCore/qrect.h>
 #include <QtGraphs/qgraphsglobal.h>
 #include <QtQmlIntegration/qqmlintegration.h>
 

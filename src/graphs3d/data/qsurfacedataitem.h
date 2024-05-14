@@ -5,7 +5,7 @@
 #define QSURFACEDATAITEM_H
 
 #include <QtGraphs/qgraphsglobal.h>
-#include <QtGui/QVector3D>
+#include <QtGui/qvector3d.h>
 
 QT_BEGIN_NAMESPACE
 

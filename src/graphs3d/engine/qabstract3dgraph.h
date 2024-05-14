@@ -6,10 +6,10 @@
 
 #include <QtCore/qlocale.h>
 #include <QtGraphs/q3dscene.h>
-#include <QtGraphs/QGraphsTheme>
 #include <QtGraphs/qgraphsglobal.h>
-#include <QtQuickWidgets/qquickwidget.h>
+#include <QtGraphs/qgraphstheme.h>
 #include <QtQuick/qquickitemgrabresult.h>
+#include <QtQuickWidgets/qquickwidget.h>
 
 QT_BEGIN_NAMESPACE
 

@@ -4,8 +4,8 @@
 #ifndef QITEMMODELBARDATAPROXY_H
 #define QITEMMODELBARDATAPROXY_H
 
-#include <QtCore/QAbstractItemModel>
-#include <QtCore/QRegularExpression>
+#include <QtCore/qabstractitemmodel.h>
+#include <QtCore/qregularexpression.h>
 #include <QtGraphs/qbardataproxy.h>
 
 QT_BEGIN_NAMESPACE

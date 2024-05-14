@@ -4,8 +4,8 @@
 #ifndef QBARDATAPROXY_H
 #define QBARDATAPROXY_H
 
-#include <QtCore/QList>
-#include <QtCore/QStringList>
+#include <QtCore/qlist.h>
+#include <QtCore/qstringlist.h>
 #include <QtGraphs/qabstractdataproxy.h>
 #include <QtGraphs/qbardataitem.h>
 

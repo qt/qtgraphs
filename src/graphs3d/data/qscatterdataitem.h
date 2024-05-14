@@ -5,7 +5,7 @@
 #define QSCATTERDATAITEM_H
 
 #include <QtGraphs/qgraphsglobal.h>
-#include <QtGui/QQuaternion>
+#include <QtGui/qquaternion.h>
 
 QT_BEGIN_NAMESPACE
 

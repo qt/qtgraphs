@@ -4,8 +4,8 @@
 #ifndef QUTILS_H
 #define QUTILS_H
 
-#include <QtCore/QCoreApplication>
-#include <QtGui/QSurfaceFormat>
+#include <QtCore/qcoreapplication.h>
+#include <QtGui/qsurfaceformat.h>
 
 QT_BEGIN_NAMESPACE
 

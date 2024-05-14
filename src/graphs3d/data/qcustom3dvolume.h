@@ -4,10 +4,10 @@
 #ifndef QCUSTOM3DVOLUME_H
 #define QCUSTOM3DVOLUME_H
 
-#include <QtGraphs/QCustom3DItem>
+#include <QtGraphs/qcustom3ditem.h>
 #include <QtGraphs/qgraphsglobal.h>
-#include <QtGui/QColor>
-#include <QtGui/QImage>
+#include <QtGui/qcolor.h>
+#include <QtGui/qimage.h>
 
 QT_BEGIN_NAMESPACE
 

@@ -4,8 +4,8 @@
 #ifndef QABSTRACTDATAPROXY_H
 #define QABSTRACTDATAPROXY_H
 
-#include <QtCore/QObject>
-#include <QtCore/QScopedPointer>
+#include <QtCore/qobject.h>
+#include <QtCore/qscopedpointer.h>
 #include <QtGraphs/qgraphsglobal.h>
 
 QT_BEGIN_NAMESPACE

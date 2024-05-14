@@ -4,11 +4,11 @@
 #ifndef QVALUE3DAXISFORMATTER_H
 #define QVALUE3DAXISFORMATTER_H
 
-#include <QtCore/QList>
-#include <QtCore/QLocale>
-#include <QtCore/QObject>
-#include <QtCore/QScopedPointer>
-#include <QtCore/QStringList>
+#include <QtCore/qlist.h>
+#include <QtCore/qlocale.h>
+#include <QtCore/qobject.h>
+#include <QtCore/qscopedpointer.h>
+#include <QtCore/qstringlist.h>
 #include <QtGraphs/qgraphsglobal.h>
 
 QT_BEGIN_NAMESPACE

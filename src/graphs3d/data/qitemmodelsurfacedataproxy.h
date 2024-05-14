@@ -4,9 +4,9 @@
 #ifndef QITEMMODELSURFACEDATAPROXY_H
 #define QITEMMODELSURFACEDATAPROXY_H
 
-#include <QtCore/QAbstractItemModel>
-#include <QtCore/QRegularExpression>
-#include <QtCore/QStringList>
+#include <QtCore/qabstractitemmodel.h>
+#include <QtCore/qregularexpression.h>
+#include <QtCore/qstringlist.h>
 #include <QtGraphs/qsurfacedataproxy.h>
 
 QT_BEGIN_NAMESPACE

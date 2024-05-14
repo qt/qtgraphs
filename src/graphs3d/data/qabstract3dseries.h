@@ -4,12 +4,12 @@
 #ifndef QABSTRACT3DSERIES_H
 #define QABSTRACT3DSERIES_H
 
-#include <QtCore/QObject>
-#include <QtCore/QScopedPointer>
-#include <QtCore/QString>
+#include <QtCore/qobject.h>
+#include <QtCore/qscopedpointer.h>
+#include <QtCore/qstring.h>
 #include <QtGraphs/qgraphstheme.h>
-#include <QtGui/QLinearGradient>
-#include <QtGui/QQuaternion>
+#include <QtGui/qbrush.h>
+#include <QtGui/qquaternion.h>
 
 QT_BEGIN_NAMESPACE
 

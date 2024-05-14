@@ -4,11 +4,11 @@
 #ifndef QCUSTOM3DITEM_H
 #define QCUSTOM3DITEM_H
 
-#include <QtCore/QObject>
+#include <QtCore/qobject.h>
 #include <QtGraphs/qgraphsglobal.h>
-#include <QtGui/QImage>
-#include <QtGui/QQuaternion>
-#include <QtGui/QVector3D>
+#include <QtGui/qimage.h>
+#include <QtGui/qquaternion.h>
+#include <QtGui/qvector3d.h>
 
 QT_BEGIN_NAMESPACE
 

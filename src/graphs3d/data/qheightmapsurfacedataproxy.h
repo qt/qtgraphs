@@ -4,9 +4,9 @@
 #ifndef QHEIGHTMAPSURFACEDATAPROXY_H
 #define QHEIGHTMAPSURFACEDATAPROXY_H
 
-#include <QtCore/QString>
+#include <QtCore/qstring.h>
 #include <QtGraphs/qsurfacedataproxy.h>
-#include <QtGui/QImage>
+#include <QtGui/qimage.h>
 
 QT_BEGIN_NAMESPACE
 
