@@ -4,13 +4,13 @@
 #ifndef QABSTRACTAXIS_H
 #define QABSTRACTAXIS_H
 
-#include <QtCore/QObject>
-#include <QtCore/QVariant>
+#include <QtCore/qobject.h>
+#include <QtCore/qvariant.h>
 #include <QtGraphs/qgraphsglobal.h>
-#include <QtGui/QColor>
-#include <QtGui/QFont>
-#include <QtQml/QQmlEngine>
-#include <QtQml/QQmlComponent>
+#include <QtGui/qcolor.h>
+#include <QtGui/qfont.h>
+#include <QtQml/qqmlcomponent.h>
+#include <QtQml/qqmlengine.h>
 
 QT_BEGIN_NAMESPACE
 

@@ -9,7 +9,7 @@
 #include <QtGui/qbrush.h>
 #include <QtGui/qfont.h>
 #include <QtGui/qpen.h>
-#include <QtQml/QQmlEngine>
+#include <QtQml/qqmlengine.h>
 
 QT_BEGIN_NAMESPACE
 

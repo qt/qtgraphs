@@ -4,7 +4,7 @@
 #ifndef QDATETIMEAXIS_H
 #define QDATETIMEAXIS_H
 
-#include <QtGraphs/QAbstractAxis>
+#include <QtGraphs/qabstractaxis.h>
 
 QT_BEGIN_NAMESPACE
 

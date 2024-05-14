@@ -4,9 +4,9 @@
 #ifndef QVALUEAXIS_H
 #define QVALUEAXIS_H
 
-#include <QtGraphs/QAbstractAxis>
+#include <QtGraphs/qabstractaxis.h>
 #include <QtGraphs/qgraphsglobal.h>
-#include <QtQml/QQmlEngine>
+#include <QtQml/qqmlengine.h>
 
 QT_BEGIN_NAMESPACE
 

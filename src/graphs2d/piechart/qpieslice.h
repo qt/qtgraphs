@@ -4,9 +4,9 @@
 #ifndef QPIESLICE_H
 #define QPIESLICE_H
 
-#include <QtCore/QObject>
+#include <QtCore/qobject.h>
 #include <QtGraphs/qgraphsglobal.h>
-#include <QtQml/QQmlEngine>
+#include <QtQml/qqmlengine.h>
 
 QT_BEGIN_NAMESPACE
 

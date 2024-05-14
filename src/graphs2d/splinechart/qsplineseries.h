@@ -4,9 +4,9 @@
 #ifndef QSPLINESERIES_H
 #define QSPLINESERIES_H
 
-#include <QtCore/QObject>
+#include <QtCore/qobject.h>
 #include <QtGraphs/qxyseries.h>
-#include <QtWidgets/QWidget>
+#include <QtWidgets/qwidget.h>
 
 QT_BEGIN_NAMESPACE
 

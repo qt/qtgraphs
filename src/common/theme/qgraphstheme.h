@@ -4,13 +4,13 @@
 #ifndef QGRAPHSTHEME_H
 #define QGRAPHSTHEME_H
 
-#include <QtCore/QObject>
-#include <QtGui/QColor>
-#include <QtGui/QFont>
-#include <QtGui/QLinearGradient>
-#include <QtQml/QQmlEngine>
-#include <QtQml/QQmlParserStatus>
+#include <QtCore/qobject.h>
 #include <QtGraphs/qgraphsglobal.h>
+#include <QtGui/qbrush.h>
+#include <QtGui/qcolor.h>
+#include <QtGui/qfont.h>
+#include <QtQml/qqmlengine.h>
+#include <QtQml/qqmlparserstatus.h>
 
 QT_BEGIN_NAMESPACE
 

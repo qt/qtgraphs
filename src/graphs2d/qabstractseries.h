@@ -4,13 +4,13 @@
 #ifndef QABSTRACTSERIES_H
 #define QABSTRACTSERIES_H
 
-#include <QtGraphs/QAbstractAxis>
-#include <QtCore/QObject>
-#include <QtGui/QPen>
-#include <QtQml/QQmlParserStatus>
-#include <QtQml/QQmlListProperty>
-#include <QtGraphs/qgraphstheme.h>
+#include <QtCore/qobject.h>
+#include <QtGraphs/qabstractaxis.h>
 #include <QtGraphs/qgraphsglobal.h>
+#include <QtGraphs/qgraphstheme.h>
+#include <QtGui/qpen.h>
+#include <QtQml/qqmllist.h>
+#include <QtQml/qqmlparserstatus.h>
 
 QT_BEGIN_NAMESPACE
 
