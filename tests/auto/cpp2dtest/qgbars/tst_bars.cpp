@@ -77,8 +77,6 @@ void tst_bars::initializeProperties()
 {
     QVERIFY(m_series);
 
-    auto axisX = new QBarCategoryAxis(this);
-    auto axisY = new QValueAxis(this);
     auto theme = new QGraphsTheme(this);
     auto set = new QBarSet(this);
 

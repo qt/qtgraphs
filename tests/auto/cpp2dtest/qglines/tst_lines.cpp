@@ -75,8 +75,6 @@ void tst_lines::initializeProperties()
 {
     QVERIFY(m_series);
 
-    auto axisX = new QValueAxis(this);
-    auto axisY = new QValueAxis(this);
     auto marker = new QQmlComponent(this);
     auto theme = new QGraphsTheme(this);
 
