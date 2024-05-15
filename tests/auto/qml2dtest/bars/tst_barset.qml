@@ -57,6 +57,37 @@ Item {
             compare(initial.count, 3)
             compare(initial.selectedBars, [])
         }
+        function test_3_initial_selections() {
+            initial.deselectAllBars();
+            initial.clear();
+            compare(initial.selectedBars, [])
+            initial.append(0)
+            initial.append(1)
+            initial.append(2)
+            initial.append(3)
+            initial.append(4)
+            compare(initial.isBarSelected(0), false)
+            initial.selectBar(0);
+            compare(initial.isBarSelected(0), true)
+            compare(initial.selectedBars, [0])
+            initial.selectBar(2);
+            // Note: Checking just length as the order of the elements may differ
+            compare(initial.selectedBars.length, 2) // [0, 2]
+            initial.toggleSelection([3])
+            compare(initial.selectedBars.length, 3) // [0, 2, 3]
+            initial.toggleSelection([3])
+            compare(initial.selectedBars.length, 2) // [0, 2]
+            initial.setBarSelected(0, false)
+            compare(initial.selectedBars.length, 1) // [0]
+            initial.selectAllBars()
+            compare(initial.selectedBars.length, 5) // [0, 1, 2, 3, 4]
+            initial.deselectAllBars()
+            compare(initial.selectedBars.length, 0)
+            initial.selectBars([1, 2, 3])
+            compare(initial.selectedBars.length, 3) // [1, 2, 3]
+            initial.deselectBars([2, 3, 4])
+            compare(initial.selectedBars.length, 1) // [1]
+        }
     }
 
     TestCase {

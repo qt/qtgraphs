@@ -292,7 +292,6 @@ QString QBarSet::label() const
     \qmlmethod BarSet::append(real value)
     Appends the new value specified by \a value to the end of the bar set.
 */
-
 /*!
     Appends the new value specified by \a value to the end of the bar set.
 */
@@ -303,8 +302,15 @@ void QBarSet::append(const qreal value)
     int index = d->m_values.size();
     d->append(QPointF(d->m_values.size(), value));
     emit valuesAdded(index, 1);
+    emit update();
 }
 
+/*!
+    \qmlmethod BarSet::append(list<real> values)
+    Appends the list of real values specified by \a values to the end of the bar set.
+
+    \sa append()
+*/
 /*!
     Appends the list of real values specified by \a values to the end of the bar set.
 
@@ -316,20 +322,16 @@ void QBarSet::append(const QList<qreal> &values)
     int index = d->m_values.size();
     d->append(values);
     emit valuesAdded(index, values.size());
+    emit update();
 }
 
 /*!
-    A convenience operator for appending the real value specified by \a value to the end of the
-    bar set.
+    \qmlmethod BarSet::insert(int index, real value)
+    Inserts \a value in the position specified by \a index.
+    The values following the inserted value are moved up one position.
 
-    \sa append()
+    \sa remove()
 */
-QBarSet &QBarSet::operator << (const qreal &value)
-{
-    append(value);
-    return *this;
-}
-
 /*!
     Inserts \a value in the position specified by \a index.
     The values following the inserted value are moved up one position.
@@ -354,6 +356,7 @@ void QBarSet::insert(const int index, const qreal value)
             }
         }
         d->m_selectedBars = selectedAfterInsert;
+        emit update();
     }
 
     emit valuesAdded(index, 1);
@@ -368,7 +371,6 @@ void QBarSet::insert(const int index, const qreal value)
 
     If you leave out \a count, only the value specified by \a index is removed.
 */
-
 /*!
     Removes the number of values specified by \a count from the bar set starting with
     the value specified by \a index.
@@ -378,9 +380,10 @@ void QBarSet::remove(const int index, const int count)
 {
     Q_D(QBarSet);
     int removedCount = d->remove(index, count);
-    if (removedCount > 0)
+    if (removedCount > 0) {
         emit valuesRemoved(index, removedCount);
-    return;
+        emit update();
+    }
 }
 
 /*!
@@ -388,7 +391,6 @@ void QBarSet::remove(const int index, const int count)
     Adds the value specified by \a value to the bar set at the position
     specified by \a index.
 */
-
 /*!
     Adds the value specified by \a value to the bar set at the position specified by \a index.
 */
@@ -398,15 +400,15 @@ void QBarSet::replace(const int index, const qreal value)
     if (index >= 0 && index < d->m_values.size()) {
         d->replace(index, value);
         emit valueChanged(index);
+        emit update();
     }
 }
 
 /*!
-    \qmlmethod BarSet::at(int index)
+    \qmlmethod real BarSet::at(int index)
     Returns the value specified by \a index from the bar set.
     If the index is out of bounds, 0.0 is returned.
 */
-
 /*!
     Returns the value specified by \a index from the bar set.
     If the index is out of bounds, 0.0 is returned.
@@ -420,14 +422,9 @@ qreal QBarSet::at(const int index) const
 }
 
 /*!
-    Returns the value of the bar set specified by \a index.
-    If the index is out of bounds, 0.0 is returned.
+    \qmlmethod int BarSet::count()
+    Returns the number of values in a bar set.
 */
-qreal QBarSet::operator [](const int index) const
-{
-    return at(index);
-}
-
 /*!
     Returns the number of values in a bar set.
 */
@@ -438,6 +435,10 @@ int QBarSet::count() const
 }
 
 /*!
+    \qmlmethod real BarSet::sum()
+    Returns the sum of all values in the bar set.
+*/
+/*!
     Returns the sum of all values in the bar set.
 */
 qreal QBarSet::sum() const
@@ -447,6 +448,40 @@ qreal QBarSet::sum() const
     for (int i = 0; i < d->m_values.size(); i++)
         total += d->m_values.at(i).y();
     return total;
+}
+
+/*!
+    \qmlmethod BarSet::clear()
+    Removes all values from the set.
+*/
+/*!
+    Removes all values from the set.
+*/
+void QBarSet::clear()
+{
+    Q_D(QBarSet);
+    remove(0, d->m_values.size());
+}
+
+/*!
+    A convenience operator for appending the real value specified by \a value to the end of the
+    bar set.
+
+    \sa append()
+*/
+QBarSet &QBarSet::operator << (const qreal &value)
+{
+    append(value);
+    return *this;
+}
+
+/*!
+    Returns the value of the bar set specified by \a index.
+    If the index is out of bounds, 0.0 is returned.
+*/
+qreal QBarSet::operator [](const int index) const
+{
+    return at(index);
 }
 
 /*!
@@ -627,9 +662,15 @@ void QBarSet::setValues(QVariantList values)
 
 
 /*!
-   Returns \c true if the bar at the given \a index is among selected bars and \c false otherwise.
-   \note Selected bars are drawn using the selected color if it was specified using QBarSet::setSelectedColor.
-   \sa selectedBars(), setBarSelected(), setSelectedColor()
+    \qmlmethod bool BarSet::isBarSelected(int index)
+    Returns \c true if the bar at the given \a index is among selected bars and \c false otherwise.
+    \note Selected bars are drawn using the selected color if it was specified using BarSet::setSelectedColor.
+    \sa selectedBars, setBarSelected(), selectedColor
+ */
+/*!
+    Returns \c true if the bar at the given \a index is among selected bars and \c false otherwise.
+    \note Selected bars are drawn using the selected color if it was specified using QBarSet::setSelectedColor.
+    \sa selectedBars(), setBarSelected(), setSelectedColor()
  */
 bool QBarSet::isBarSelected(int index) const
 {
@@ -638,9 +679,15 @@ bool QBarSet::isBarSelected(int index) const
 }
 
 /*!
-  Marks the bar at \a index as selected.
-  \note Emits QBarSet::selectedBarsChanged.
-  \sa setBarSelected()
+    \qmlmethod BarSet::selectBar(int index)
+    Marks the bar at \a index as selected.
+    \note Emits BarSet::selectedBarsChanged.
+    \sa setBarSelected()
+ */
+/*!
+    Marks the bar at \a index as selected.
+    \note Emits QBarSet::selectedBarsChanged.
+    \sa setBarSelected()
  */
 void QBarSet::selectBar(int index)
 {
@@ -648,9 +695,15 @@ void QBarSet::selectBar(int index)
 }
 
 /*!
-  Deselects the bar at \a index.
-  \note Emits QBarSet::selectedBarsChanged.
-  \sa setBarSelected()
+    \qmlmethod BarSet::deselectBar(int index)
+    Deselects the bar at \a index.
+    \note Emits BarSet::selectedBarsChanged.
+    \sa setBarSelected()
+ */
+/*!
+    Deselects the bar at \a index.
+    \note Emits QBarSet::selectedBarsChanged.
+    \sa setBarSelected()
  */
 void QBarSet::deselectBar(int index)
 {
@@ -658,9 +711,15 @@ void QBarSet::deselectBar(int index)
 }
 
 /*!
-  Marks the bar at \a index as either selected or deselected as specified by \a selected.
-  \note Selected bars are drawn using the selected color if it was specified. Emits QBarSet::selectedBarsChanged.
-  \sa setSelectedColor()
+    \qmlmethod BarSet::setBarSelected(int index, bool selected)
+    Marks the bar at \a index as either selected or deselected as specified by \a selected.
+    \note Selected bars are drawn using the selected color if it was specified. Emits BarSet::selectedBarsChanged.
+    \sa selectedColor
+ */
+/*!
+    Marks the bar at \a index as either selected or deselected as specified by \a selected.
+    \note Selected bars are drawn using the selected color if it was specified. Emits QBarSet::selectedBarsChanged.
+    \sa setSelectedColor()
  */
 void QBarSet::setBarSelected(int index, bool selected)
 {
@@ -674,9 +733,15 @@ void QBarSet::setBarSelected(int index, bool selected)
 }
 
 /*!
-  Marks all bars in the series as selected.
-  \note Emits QBarSet::selectedBarsChanged.
-  \sa setBarSelected()
+    \qmlmethod BarSet::selectAllBars()
+    Marks all bars in the set as selected.
+    \note Emits BarSet::selectedBarsChanged.
+    \sa setBarSelected()
+ */
+/*!
+    Marks all bars in the set as selected.
+    \note Emits QBarSet::selectedBarsChanged.
+    \sa setBarSelected()
  */
 void QBarSet::selectAllBars()
 {
@@ -691,9 +756,15 @@ void QBarSet::selectAllBars()
 }
 
 /*!
-  Deselects all bars in the series.
-  \note Emits QBarSet::selectedBarsChanged.
-  \sa setBarSelected()
+    \qmlmethod BarSet::deselectAllBars()
+    Deselects all bars in the set.
+    \note Emits BarSet::selectedBarsChanged.
+    \sa setBarSelected()
+ */
+/*!
+    Deselects all bars in the set.
+    \note Emits QBarSet::selectedBarsChanged.
+    \sa setBarSelected()
  */
 void QBarSet::deselectAllBars()
 {
@@ -708,9 +779,15 @@ void QBarSet::deselectAllBars()
 }
 
 /*!
-  Marks multiple bars passed in an \a indexes list as selected.
-  \note Emits QBarSet::selectedBarsChanged.
-  \sa setBarSelected()
+    \qmlmethod BarSet::selectBars(list<int> indexes)
+    Marks multiple bars passed in an \a indexes list as selected.
+    \note Emits BarSet::selectedBarsChanged.
+    \sa setBarSelected()
+ */
+/*!
+    Marks multiple bars passed in an \a indexes list as selected.
+    \note Emits QBarSet::selectedBarsChanged.
+    \sa setBarSelected()
  */
 void QBarSet::selectBars(const QList<int> &indexes)
 {
@@ -725,9 +802,15 @@ void QBarSet::selectBars(const QList<int> &indexes)
 }
 
 /*!
-  Marks multiple bars passed in an \a indexes list as deselected.
-  \note Emits QBarSet::selectedBarsChanged.
-  \sa setBarSelected()
+    \qmlmethod BarSet::deselectBars(list<int> indexes)
+    Marks multiple bars passed in an \a indexes list as deselected.
+    \note Emits BarSet::selectedBarsChanged.
+    \sa setBarSelected()
+ */
+/*!
+    Marks multiple bars passed in an \a indexes list as deselected.
+    \note Emits QBarSet::selectedBarsChanged.
+    \sa setBarSelected()
  */
 void QBarSet::deselectBars(const QList<int> &indexes)
 {
@@ -742,9 +825,15 @@ void QBarSet::deselectBars(const QList<int> &indexes)
 }
 
 /*!
-  Changes the selection state of bars at the given \a indexes to the opposite one.
-  \note Emits QBarSet::selectedBarsChanged.
-  \sa setBarSelected()
+    \qmlmethod BarSet::toggleSelection(list<int> indexes)
+    Changes the selection state of bars at the given \a indexes to the opposite one.
+    \note Emits BarSet::selectedBarsChanged.
+    \sa setBarSelected()
+ */
+/*!
+    Changes the selection state of bars at the given \a indexes to the opposite one.
+    \note Emits QBarSet::selectedBarsChanged.
+    \sa setBarSelected()
  */
 void QBarSet::toggleSelection(const QList<int> &indexes)
 {

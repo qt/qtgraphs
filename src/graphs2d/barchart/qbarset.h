@@ -38,19 +38,18 @@ public:
     void setLabel(const QString label);
     QString label() const;
 
-    void append(const qreal value);
-    void append(const QList<qreal> &values);
+    Q_INVOKABLE void append(const qreal value);
+    Q_INVOKABLE void append(const QList<qreal> &values);
+    Q_INVOKABLE void insert(const int index, const qreal value);
+    Q_INVOKABLE void remove(const int index, const int count = 1);
+    Q_INVOKABLE void replace(const int index, const qreal value);
+    Q_INVOKABLE qreal at(const int index) const;
+    Q_INVOKABLE int count() const;
+    Q_INVOKABLE qreal sum() const;
+    Q_INVOKABLE void clear();
 
-    QBarSet &operator << (const qreal &value);
-
-    // TODO: Consider making these slots, available from QML.
-    void insert(const int index, const qreal value);
-    void remove(const int index, const int count = 1);
-    void replace(const int index, const qreal value);
-    qreal at(const int index) const;
     qreal operator [](const int index) const;
-    int count() const;
-    qreal sum() const;
+    QBarSet &operator << (const qreal &value);
 
     QColor color();
     void setColor(QColor color);
@@ -69,18 +68,16 @@ public:
     qreal borderWidth() const;
     void setBorderWidth(qreal borderWidth);
 
-    bool isBarSelected(int index) const;
+    Q_INVOKABLE bool isBarSelected(int index) const;
+    Q_INVOKABLE void selectBar(int index);
+    Q_INVOKABLE void deselectBar(int index);
+    Q_INVOKABLE void setBarSelected(int index, bool selected);
+    Q_INVOKABLE void selectAllBars();
+    Q_INVOKABLE void deselectAllBars();
+    Q_INVOKABLE void selectBars(const QList<int> &indexes);
+    Q_INVOKABLE void deselectBars(const QList<int> &indexes);
+    Q_INVOKABLE void toggleSelection(const QList<int> &indexes);
     QList<int> selectedBars() const;
-
-public Q_SLOTS:
-    void selectBar(int index);
-    void deselectBar(int index);
-    void setBarSelected(int index, bool selected);
-    void selectAllBars();
-    void deselectAllBars();
-    void selectBars(const QList<int> &indexes);
-    void deselectBars(const QList<int> &indexes);
-    void toggleSelection(const QList<int> &indexes);
 
 Q_SIGNALS:
     void update();
