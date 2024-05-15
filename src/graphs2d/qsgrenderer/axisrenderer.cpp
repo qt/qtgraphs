@@ -137,6 +137,9 @@ void AxisRenderer::handlePolish()
 
 void AxisRenderer::updateAxis()
 {
+    if (!theme())
+        return;
+
     // Update active axis
     QAbstractAxis *axisVertical = nullptr;
     QAbstractAxis *axisHorizontal = nullptr;
