@@ -113,6 +113,34 @@ Item {
             compare(initial.titleVisible, false)
             compare(initial.visible, false)
         }
+        function test_4_initial_modify() {
+            initial.clear()
+            compare(initial.count, 0)
+            initial.append("first")
+            compare(initial.count, 1)
+            initial.append(["second", "third"])
+            compare(initial.count, 3)
+            initial.remove(1)
+            compare(initial.categories, ["first", "third"])
+            initial.insert(1, "bonus")
+            compare(initial.categories, ["first", "bonus", "third"])
+            // These shouldn't do anything
+            initial.remove(10)
+            initial.remove(-1)
+            initial.remove("not here")
+            initial.replace("first2", "first3")
+            compare(initial.categories, ["first", "bonus", "third"])
+            initial.remove("bonus")
+            compare(initial.categories, ["first", "third"])
+            initial.replace("first", "newfirst")
+            compare(initial.categories, ["newfirst", "third"])
+            compare(initial.at(0), "newfirst")
+            compare(initial.at(1), "third")
+            compare(initial.at(2), "")
+            compare(initial.at(-2), "")
+            initial.clear()
+            compare(initial.count, 0)
+        }
     }
 
     TestCase {

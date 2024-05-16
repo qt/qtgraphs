@@ -29,18 +29,18 @@ protected:
     QBarCategoryAxis(QBarCategoryAxisPrivate &dd, QObject *parent = nullptr);
 
 public:
-    // TODO: Consider making these slots, available from QML.
     AxisType type() const override;
-    void append(const QStringList &categories);
-    void append(const QString &category);
-    void remove(const QString &category);
-    void insert(int index, const QString &category);
-    void replace(const QString &oldCategory, const QString &newCategory);
+    Q_INVOKABLE void append(const QStringList &categories);
+    Q_INVOKABLE void append(const QString &category);
+    Q_INVOKABLE void remove(const QString &category);
+    Q_INVOKABLE void remove(int index);
+    Q_INVOKABLE void insert(int index, const QString &category);
+    Q_INVOKABLE void replace(const QString &oldCategory, const QString &newCategory);
     Q_INVOKABLE void clear();
+    Q_INVOKABLE QString at(int index) const;
     void setCategories(const QStringList &categories);
     QStringList categories();
     int count() const;
-    QString at(int index) const;
 
     //range handling
     void setMin(const QString &minCategory);
