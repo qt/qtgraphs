@@ -213,7 +213,7 @@ class QQuickGraphsItem : public QQuick3DViewport
     Q_PROPERTY(bool shaderGridEnabled READ shaderGridEnabled WRITE setShaderGridEnabled NOTIFY shaderGridEnabledChanged FINAL)
 
     QML_NAMED_ELEMENT(GraphsItem3D)
-    QML_UNCREATABLE("Trying to create uncreatable: GraphsItem3D.")
+    QML_UNCREATABLE("")
 
 public:
     explicit QQuickGraphsItem(QQuickItem *parent = 0);

@@ -41,7 +41,7 @@ class Q_GRAPHS_EXPORT QAbstractAxis : public QObject
     //alignment
     Q_PROPERTY(Qt::Alignment alignment READ alignment CONSTANT)
     QML_FOREIGN(QAbstractAxis)
-    QML_UNCREATABLE("Trying to create uncreatable: AbstractAxis.")
+    QML_UNCREATABLE("")
     QML_NAMED_ELEMENT(AbstractAxis)
     Q_DECLARE_PRIVATE(QAbstractAxis)
 

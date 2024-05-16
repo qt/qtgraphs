@@ -35,7 +35,7 @@ class Q_GRAPHS_EXPORT Q3DScene : public QObject
     Q_PROPERTY(QPoint invalidSelectionPoint READ invalidSelectionPoint CONSTANT)
 
     QML_NAMED_ELEMENT(Scene3D)
-    QML_UNCREATABLE("Trying to create uncreatable: Scene3D.")
+    QML_UNCREATABLE("")
 
 public:
     explicit Q3DScene(QObject *parent = nullptr);

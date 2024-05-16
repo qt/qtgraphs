@@ -91,7 +91,7 @@ class Q_GRAPHS_EXPORT QAbstract3DGraph : public QQuickWidget
     Q_PROPERTY(bool shaderGridEnabled READ shaderGridEnabled WRITE setShaderGridEnabled NOTIFY shaderGridEnabledChanged FINAL)
 
     QML_NAMED_ELEMENT(AbstractGraph3D)
-    QML_UNCREATABLE("Trying to create uncreatable: AbstractGraph3D.")
+    QML_UNCREATABLE("")
 
 public:
     enum SelectionFlag {
