@@ -214,7 +214,7 @@ void Q3DSurface::removeSeries(QSurface3DSeries *series)
 QList<QSurface3DSeries *> Q3DSurface::seriesList() const
 {
     QList<QSurface3DSeries *> surfaceSeriesList;
-    for (QAbstract3DSeries *abstractSeries : graphSurfacec()->m_seriesList) {
+    for (QAbstract3DSeries *abstractSeries : graphSurface()->m_seriesList) {
         QSurface3DSeries *surfaceSeries = qobject_cast<QSurface3DSeries *>(abstractSeries);
         if (surfaceSeries)
             surfaceSeriesList.append(surfaceSeries);
@@ -246,7 +246,7 @@ void Q3DSurface::setAxisX(QValue3DAxis *axis)
 
 QValue3DAxis *Q3DSurface::axisX() const
 {
-    return static_cast<QValue3DAxis *>(graphSurfacec()->axisX());
+    return static_cast<QValue3DAxis *>(graphSurface()->axisX());
 }
 
 /*!
@@ -272,7 +272,7 @@ void Q3DSurface::setAxisY(QValue3DAxis *axis)
 
 QValue3DAxis *Q3DSurface::axisY() const
 {
-    return static_cast<QValue3DAxis *>(graphSurfacec()->axisY());
+    return static_cast<QValue3DAxis *>(graphSurface()->axisY());
 }
 
 /*!
@@ -298,7 +298,7 @@ void Q3DSurface::setAxisZ(QValue3DAxis *axis)
 
 QValue3DAxis *Q3DSurface::axisZ() const
 {
-    return static_cast<QValue3DAxis *>(graphSurfacec()->axisZ());
+    return static_cast<QValue3DAxis *>(graphSurface()->axisZ());
 }
 
 /*!
@@ -311,7 +311,7 @@ QValue3DAxis *Q3DSurface::axisZ() const
  */
 QSurface3DSeries *Q3DSurface::selectedSeries() const
 {
-    return graphSurfacec()->selectedSeries();
+    return graphSurface()->selectedSeries();
 }
 
 /*!
@@ -337,7 +337,7 @@ void Q3DSurface::setFlipHorizontalGrid(bool flip)
 
 bool Q3DSurface::flipHorizontalGrid() const
 {
-    return graphSurfacec()->flipHorizontalGrid();
+    return graphSurface()->flipHorizontalGrid();
 }
 
 /*!
@@ -374,7 +374,7 @@ void Q3DSurface::releaseAxis(QValue3DAxis *axis)
  */
 QList<QValue3DAxis *> Q3DSurface::axes() const
 {
-    QList<QAbstract3DAxis *> abstractAxes = graphSurfacec()->axes();
+    QList<QAbstract3DAxis *> abstractAxes = graphSurface()->axes();
     QList<QValue3DAxis *> retList;
     for (QAbstract3DAxis *axis : abstractAxes)
         retList.append(static_cast<QValue3DAxis *>(axis));
@@ -393,7 +393,7 @@ QQuickGraphsSurface *Q3DSurface::graphSurface()
 /*!
  * \internal
  */
-const QQuickGraphsSurface *Q3DSurface::graphSurfacec() const
+const QQuickGraphsSurface *Q3DSurface::graphSurface() const
 {
     return static_cast<const QQuickGraphsSurface *>(m_graphsItem.data());
 }

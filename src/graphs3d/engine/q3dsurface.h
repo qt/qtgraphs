@@ -54,7 +54,7 @@ Q_SIGNALS:
 
 private:
     QQuickGraphsSurface *graphSurface();
-    const QQuickGraphsSurface *graphSurfacec() const;
+    const QQuickGraphsSurface *graphSurface() const;
 };
 
 QT_END_NAMESPACE

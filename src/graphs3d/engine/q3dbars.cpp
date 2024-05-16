@@ -274,7 +274,7 @@ void Q3DBars::setPrimarySeries(QBar3DSeries *series)
 
 QBar3DSeries *Q3DBars::primarySeries() const
 {
-    return graphBarsc()->primarySeries();
+    return graphBars()->primarySeries();
 }
 
 /*!
@@ -327,7 +327,7 @@ void Q3DBars::insertSeries(int index, QBar3DSeries *series)
 QList<QBar3DSeries *> Q3DBars::seriesList() const
 {
     QList<QBar3DSeries *> barSeriesList;
-    for (QAbstract3DSeries *abstractSeries : graphBarsc()->m_seriesList) {
+    for (QAbstract3DSeries *abstractSeries : graphBars()->m_seriesList) {
         QBar3DSeries *barSeries = qobject_cast<QBar3DSeries *>(abstractSeries);
         if (barSeries)
             barSeriesList.append(barSeries);
@@ -353,7 +353,7 @@ void Q3DBars::setMultiSeriesUniform(bool uniform)
 
 bool Q3DBars::isMultiSeriesUniform() const
 {
-    return graphBarsc()->isMultiSeriesUniform();
+    return graphBars()->isMultiSeriesUniform();
 }
 
 /*!
@@ -372,7 +372,7 @@ void Q3DBars::setBarThickness(float thicknessRatio)
 
 float Q3DBars::barThickness() const
 {
-    return graphBarsc()->barThickness();
+    return graphBars()->barThickness();
 }
 
 /*!
@@ -393,7 +393,7 @@ void Q3DBars::setBarSpacing(const QSizeF &spacing)
 
 QSizeF Q3DBars::barSpacing() const
 {
-    return graphBarsc()->barSpacing();
+    return graphBars()->barSpacing();
 }
 
 /*!
@@ -413,7 +413,7 @@ void Q3DBars::setBarSpacingRelative(bool relative)
 
 bool Q3DBars::isBarSpacingRelative() const
 {
-    return graphBarsc()->isBarSpacingRelative();
+    return graphBars()->isBarSpacingRelative();
 }
 
 /*!
@@ -436,7 +436,7 @@ void Q3DBars::setBarSeriesMargin(const QSizeF &margin)
 
 QSizeF Q3DBars::barSeriesMargin() const
 {
-    return graphBarsc()->barSeriesMargin();
+    return graphBars()->barSeriesMargin();
 }
 
 /*!
@@ -461,7 +461,7 @@ void Q3DBars::setRowAxis(QCategory3DAxis *axis)
 
 QCategory3DAxis *Q3DBars::rowAxis() const
 {
-    return graphBarsc()->rowAxis();
+    return graphBars()->rowAxis();
 }
 
 /*!
@@ -486,7 +486,7 @@ void Q3DBars::setColumnAxis(QCategory3DAxis *axis)
 
 QCategory3DAxis *Q3DBars::columnAxis() const
 {
-    return graphBarsc()->columnAxis();
+    return graphBars()->columnAxis();
 }
 
 /*!
@@ -510,7 +510,7 @@ void Q3DBars::setValueAxis(QValue3DAxis *axis)
 
 QValue3DAxis *Q3DBars::valueAxis() const
 {
-    return graphBarsc()->valueAxis();
+    return graphBars()->valueAxis();
 }
 
 /*!
@@ -523,7 +523,7 @@ QValue3DAxis *Q3DBars::valueAxis() const
  */
 QBar3DSeries *Q3DBars::selectedSeries() const
 {
-    return graphBarsc()->selectedSeries();
+    return graphBars()->selectedSeries();
 }
 
 /*!
@@ -543,7 +543,7 @@ void Q3DBars::setFloorLevel(float level)
 
 float Q3DBars::floorLevel() const
 {
-    return graphBarsc()->floorLevel();
+    return graphBars()->floorLevel();
 }
 
 /*!
@@ -580,7 +580,7 @@ void Q3DBars::releaseAxis(QAbstract3DAxis *axis)
  */
 QList<QAbstract3DAxis *> Q3DBars::axes() const
 {
-    return graphBarsc()->axes();
+    return graphBars()->axes();
 }
 
 /*!
@@ -594,7 +594,7 @@ QQuickGraphsBars *Q3DBars::graphBars()
 /*!
  * \internal
  */
-const QQuickGraphsBars *Q3DBars::graphBarsc() const
+const QQuickGraphsBars *Q3DBars::graphBars() const
 {
     return static_cast<const QQuickGraphsBars *>(m_graphsItem.data());
 }

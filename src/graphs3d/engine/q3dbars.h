@@ -88,7 +88,7 @@ Q_SIGNALS:
 
 private:
     QQuickGraphsBars *graphBars();
-    const QQuickGraphsBars *graphBarsc() const;
+    const QQuickGraphsBars *graphBars() const;
 };
 
 QT_END_NAMESPACE

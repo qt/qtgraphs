@@ -48,7 +48,7 @@ Q_SIGNALS:
 
 private:
     QQuickGraphsScatter *graphScatter();
-    const QQuickGraphsScatter *graphScatterc() const;
+    const QQuickGraphsScatter *graphScatter() const;
     Q_DISABLE_COPY(Q3DScatter)
 };
 

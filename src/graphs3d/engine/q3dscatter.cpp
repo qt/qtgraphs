@@ -191,7 +191,7 @@ void Q3DScatter::removeSeries(QScatter3DSeries *series)
 QList<QScatter3DSeries *> Q3DScatter::seriesList() const
 {
     QList<QScatter3DSeries *> scatterSeriesList;
-    for (QAbstract3DSeries *abstractSeries : graphScatterc()->m_seriesList) {
+    for (QAbstract3DSeries *abstractSeries : graphScatter()->m_seriesList) {
         QScatter3DSeries *scatterSeries = qobject_cast<QScatter3DSeries *>(abstractSeries);
         if (scatterSeries)
             scatterSeriesList.append(scatterSeries);
@@ -221,7 +221,7 @@ void Q3DScatter::setAxisX(QValue3DAxis *axis)
 
 QValue3DAxis *Q3DScatter::axisX() const
 {
-    return static_cast<QValue3DAxis *>(graphScatterc()->axisX());
+    return static_cast<QValue3DAxis *>(graphScatter()->axisX());
 }
 
 /*!
@@ -245,7 +245,7 @@ void Q3DScatter::setAxisY(QValue3DAxis *axis)
 
 QValue3DAxis *Q3DScatter::axisY() const
 {
-    return static_cast<QValue3DAxis *>(graphScatterc()->axisY());
+    return static_cast<QValue3DAxis *>(graphScatter()->axisY());
 }
 
 /*!
@@ -269,7 +269,7 @@ void Q3DScatter::setAxisZ(QValue3DAxis *axis)
 
 QValue3DAxis *Q3DScatter::axisZ() const
 {
-    return static_cast<QValue3DAxis *>(graphScatterc()->axisZ());
+    return static_cast<QValue3DAxis *>(graphScatter()->axisZ());
 }
 
 /*!
@@ -279,7 +279,7 @@ QValue3DAxis *Q3DScatter::axisZ() const
  */
 QScatter3DSeries *Q3DScatter::selectedSeries() const
 {
-    return graphScatterc()->selectedSeries();
+    return graphScatter()->selectedSeries();
 }
 
 /*!
@@ -316,7 +316,7 @@ void Q3DScatter::releaseAxis(QValue3DAxis *axis)
  */
 QList<QValue3DAxis *> Q3DScatter::axes() const
 {
-    QList<QAbstract3DAxis *> abstractAxes = graphScatterc()->axes();
+    QList<QAbstract3DAxis *> abstractAxes = graphScatter()->axes();
     QList<QValue3DAxis *> retList;
     for (QAbstract3DAxis *axis : abstractAxes)
         retList.append(static_cast<QValue3DAxis *>(axis));
@@ -335,7 +335,7 @@ QQuickGraphsScatter *Q3DScatter::graphScatter()
 /*!
  * \internal
  */
-const QQuickGraphsScatter *Q3DScatter::graphScatterc() const
+const QQuickGraphsScatter *Q3DScatter::graphScatter() const
 {
     return static_cast<const QQuickGraphsScatter *>(m_graphsItem.data());
 }
