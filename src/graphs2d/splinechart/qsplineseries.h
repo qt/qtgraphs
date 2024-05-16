@@ -18,11 +18,11 @@ class Q_GRAPHS_EXPORT QSplineSeries : public QXYSeries
     Q_PROPERTY(qreal width READ width WRITE setWidth NOTIFY widthChanged)
     Q_PROPERTY(Qt::PenCapStyle capStyle READ capStyle WRITE setCapStyle NOTIFY capStyleChanged)
 
+    QML_NAMED_ELEMENT(SplineSeries)
 public:
     explicit QSplineSeries(QObject *parent = nullptr);
     QAbstractSeries::SeriesType type() const override;
 
-    QML_NAMED_ELEMENT(SplineSeries)
 
     qreal width() const;
     void setWidth(qreal newWidth);

@@ -15,11 +15,11 @@ class Q_GRAPHS_EXPORT QScatterSeries : public QXYSeries
 {
     Q_OBJECT
 
+    QML_NAMED_ELEMENT(ScatterSeries)
 public:
     explicit QScatterSeries(QObject *parent = nullptr);
     QAbstractSeries::SeriesType type() const override;
 
-    QML_NAMED_ELEMENT(ScatterSeries)
 
 protected:
     QScatterSeries(QScatterSeriesPrivate &dd, QObject *parent = nullptr);

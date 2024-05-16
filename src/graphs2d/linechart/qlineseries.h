@@ -17,11 +17,11 @@ class Q_GRAPHS_EXPORT QLineSeries : public QXYSeries
     Q_PROPERTY(qreal width READ width WRITE setWidth NOTIFY widthChanged)
     Q_PROPERTY(Qt::PenCapStyle capStyle READ capStyle WRITE setCapStyle NOTIFY capStyleChanged)
 
+    QML_NAMED_ELEMENT(LineSeries)
 public:
     explicit QLineSeries(QObject *parent = nullptr);
     QAbstractSeries::SeriesType type() const override;
 
-    QML_NAMED_ELEMENT(LineSeries)
 
     qreal width() const;
     void setWidth(qreal newWidth);

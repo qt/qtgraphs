@@ -26,11 +26,11 @@ class Q_GRAPHS_EXPORT QAreaSeries : public QAbstractSeries
     Q_PROPERTY(QXYSeries *upperSeries READ upperSeries WRITE setUpperSeries NOTIFY upperSeriesChanged)
     Q_PROPERTY(QXYSeries *lowerSeries READ lowerSeries WRITE setLowerSeries NOTIFY lowerSeriesChanged)
 
+    QML_NAMED_ELEMENT(AreaSeries)
 public:
     explicit QAreaSeries(QObject *parent = nullptr);
     QAbstractSeries::SeriesType type() const override;
 
-    QML_NAMED_ELEMENT(AreaSeries)
 
     QColor color() const;
     void setColor(const QColor &newColor);
