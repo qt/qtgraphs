@@ -4,6 +4,10 @@
 #ifndef QSCATTERSERIES_H
 #define QSCATTERSERIES_H
 
+#if 0
+#  pragma qt_class(QScatterSeries)
+#endif
+
 #include <QtGraphs/qxyseries.h>
 #include <QtGraphs/qgraphsglobal.h>
 

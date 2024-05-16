@@ -4,6 +4,10 @@
 #ifndef QITEMMODELSURFACEDATAPROXY_H
 #define QITEMMODELSURFACEDATAPROXY_H
 
+#if 0
+#  pragma qt_class(QItemModelSurfaceDataProxy)
+#endif
+
 #include <QtCore/QAbstractItemModel>
 #include <QtCore/QRegularExpression>
 #include <QtCore/QStringList>

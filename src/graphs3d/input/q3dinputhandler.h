@@ -4,6 +4,10 @@
 #ifndef Q3DINPUTHANDLER_H
 #define Q3DINPUTHANDLER_H
 
+#if 0
+#  pragma qt_class(Q3DInputHandler)
+#endif
+
 #include <QtGraphs/qabstract3dinputhandler.h>
 
 QT_BEGIN_NAMESPACE

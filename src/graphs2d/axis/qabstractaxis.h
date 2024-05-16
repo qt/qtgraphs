@@ -4,6 +4,10 @@
 #ifndef QABSTRACTAXIS_H
 #define QABSTRACTAXIS_H
 
+#if 0
+#  pragma qt_class(QAbstractAxis)
+#endif
+
 #include <QtCore/QObject>
 #include <QtCore/QVariant>
 #include <QtGraphs/qgraphsglobal.h>

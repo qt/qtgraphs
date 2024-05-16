@@ -4,6 +4,10 @@
 #ifndef Q3DSURFACE_H
 #define Q3DSURFACE_H
 
+#if 0
+#  pragma qt_class(Q3DSurface)
+#endif
+
 #include <QtGraphs/qabstract3dgraph.h>
 #include <QtGraphs/qsurface3dseries.h>
 #include <QtGraphs/qvalue3daxis.h>

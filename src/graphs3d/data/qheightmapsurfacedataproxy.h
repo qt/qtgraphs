@@ -4,6 +4,10 @@
 #ifndef QHEIGHTMAPSURFACEDATAPROXY_H
 #define QHEIGHTMAPSURFACEDATAPROXY_H
 
+#if 0
+#  pragma qt_class(QHeightMapSurfaceDataProxy)
+#endif
+
 #include <QtCore/QString>
 #include <QtGraphs/qsurfacedataproxy.h>
 #include <QtGui/QImage>

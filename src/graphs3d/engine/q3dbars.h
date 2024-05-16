@@ -4,6 +4,10 @@
 #ifndef Q3DBARS_H
 #define Q3DBARS_H
 
+#if 0
+#  pragma qt_class(Q3DBars)
+#endif
+
 #include <QtGraphs/qabstract3dgraph.h>
 #include <QtGraphs/qbar3dseries.h>
 #include <QtGraphs/qcategory3daxis.h>

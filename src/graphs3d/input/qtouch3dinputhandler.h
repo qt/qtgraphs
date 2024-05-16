@@ -4,6 +4,10 @@
 #ifndef QTOUCH3DINPUTHANDLER_H
 #define QTOUCH3DINPUTHANDLER_H
 
+#if 0
+#  pragma qt_class(QTouch3DInputHandler)
+#endif
+
 #include <QtGraphs/q3dinputhandler.h>
 
 QT_BEGIN_NAMESPACE

@@ -4,6 +4,10 @@
 #ifndef QBARDATAPROXY_H
 #define QBARDATAPROXY_H
 
+#if 0
+#  pragma qt_class(QBarDataProxy)
+#endif
+
 #include <QtCore/QList>
 #include <QtCore/QStringList>
 #include <QtGraphs/qabstractdataproxy.h>

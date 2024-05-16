@@ -4,6 +4,10 @@
 #ifndef QVALUE3DAXISFORMATTER_H
 #define QVALUE3DAXISFORMATTER_H
 
+#if 0
+#  pragma qt_class(QValue3DAxisFormatter)
+#endif
+
 #include <QtCore/QList>
 #include <QtCore/QLocale>
 #include <QtCore/QObject>

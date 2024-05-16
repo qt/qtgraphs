@@ -4,6 +4,10 @@
 #ifndef Q3DSCENE_H
 #define Q3DSCENE_H
 
+#if 0
+#  pragma qt_class(Q3DScene)
+#endif
+
 #include <QtCore/QObject>
 #include <QtCore/QRect>
 #include <QtGraphs/qgraphsglobal.h>

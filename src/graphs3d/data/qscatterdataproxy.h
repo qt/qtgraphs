@@ -4,6 +4,10 @@
 #ifndef QSCATTERDATAPROXY_H
 #define QSCATTERDATAPROXY_H
 
+#if 0
+#  pragma qt_class(QScatterDataProxy)
+#endif
+
 #include <QtGraphs/qabstractdataproxy.h>
 #include <QtGraphs/qscatterdataitem.h>
 

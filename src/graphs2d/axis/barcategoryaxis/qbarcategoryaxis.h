@@ -4,6 +4,10 @@
 #ifndef QBARCATEGORYAXIS_H
 #define QBARCATEGORYAXIS_H
 
+#if 0
+#  pragma qt_class(QBarCategoryAxis)
+#endif
+
 #include <QtGraphs/qabstractaxis.h>
 #include <QtGraphs/qgraphsglobal.h>
 #include <QtQml/QQmlEngine>

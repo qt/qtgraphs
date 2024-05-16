@@ -4,6 +4,10 @@
 #ifndef QABSTRACTSERIES_H
 #define QABSTRACTSERIES_H
 
+#if 0
+#  pragma qt_class(QAbstractSeries)
+#endif
+
 #include <QtCore/QObject>
 #include <QtGraphs/qabstractaxis.h>
 #include <QtGraphs/qgraphsglobal.h>

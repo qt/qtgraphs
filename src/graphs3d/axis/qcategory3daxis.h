@@ -4,6 +4,10 @@
 #ifndef QCATEGORY3DAXIS_H
 #define QCATEGORY3DAXIS_H
 
+#if 0
+#  pragma qt_class(QCategory3DAxis)
+#endif
+
 #include <QtGraphs/qabstract3daxis.h>
 
 QT_BEGIN_NAMESPACE

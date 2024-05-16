@@ -4,6 +4,10 @@
 #ifndef QVALUEAXIS_H
 #define QVALUEAXIS_H
 
+#if 0
+#  pragma qt_class(QValueAxis)
+#endif
+
 #include <QtGraphs/qabstractaxis.h>
 #include <QtGraphs/qgraphsglobal.h>
 #include <QtQml/QQmlEngine>

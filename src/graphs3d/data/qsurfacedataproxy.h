@@ -4,6 +4,10 @@
 #ifndef QSURFACEDATAPROXY_H
 #define QSURFACEDATAPROXY_H
 
+#if 0
+#  pragma qt_class(QSurfaceDataProxy)
+#endif
+
 #include <QtGraphs/qabstractdataproxy.h>
 #include <QtGraphs/qsurfacedataitem.h>
 

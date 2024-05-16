@@ -4,6 +4,10 @@
 #ifndef QABSTRACT3DAXIS_H
 #define QABSTRACT3DAXIS_H
 
+#if 0
+#  pragma qt_class(QAbstract3DAxis)
+#endif
+
 #include <QtCore/QObject>
 #include <QtCore/QScopedPointer>
 #include <QtCore/QStringList>

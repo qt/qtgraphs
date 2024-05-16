@@ -4,6 +4,10 @@
 #ifndef QLOGVALUE3DAXISFORMATTER_H
 #define QLOGVALUE3DAXISFORMATTER_H
 
+#if 0
+#  pragma qt_class(QLogValue3DAxisFormatter)
+#endif
+
 #include <QtGraphs/qvalue3daxisformatter.h>
 
 QT_BEGIN_NAMESPACE

@@ -4,6 +4,10 @@
 #ifndef Q3DTHEME_H
 #define Q3DTHEME_H
 
+#if 0
+#  pragma qt_class(Q3DTheme)
+#endif
+
 #include <QtCore/QObject>
 #include <QtGraphs/qgraphsglobal.h>
 #include <QtGui/QColor>
@@ -164,7 +168,7 @@ public:
 private:
     QQmlListProperty<QObject> themeChildren();
     static void appendThemeChildren(QQmlListProperty<QObject> *list, QObject *element);
-    
+
     QQmlListProperty<QQuickGraphsColor> baseColorsQML();
     static void appendBaseColorsFunc(QQmlListProperty<QQuickGraphsColor> *list,
                                      QQuickGraphsColor *color);
@@ -184,7 +188,7 @@ private:
 
     void setMultiHighlightGradient(QJSValue gradient);
     QJSValue multiHighlightGradientQML() const;
-    
+
     void addColor(QQuickGraphsColor *color);
     QList<QQuickGraphsColor *> colorList();
     void clearColors();

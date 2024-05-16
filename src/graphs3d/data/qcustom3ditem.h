@@ -4,6 +4,10 @@
 #ifndef QCUSTOM3DITEM_H
 #define QCUSTOM3DITEM_H
 
+#if 0
+#  pragma qt_class(QCustom3DItem)
+#endif
+
 #include <QtCore/QObject>
 #include <QtGraphs/qgraphsglobal.h>
 #include <QtGui/QImage>

@@ -4,6 +4,10 @@
 #ifndef QABSTRACT3DGRAPH_H
 #define QABSTRACT3DGRAPH_H
 
+#if 0
+#  pragma qt_class(QAbstract3DGraph)
+#endif
+
 #include <QtCore/qlocale.h>
 #include <QtGraphs/q3dscene.h>
 #include <QtGraphs/q3dtheme.h>

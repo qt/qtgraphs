@@ -4,6 +4,10 @@
 #ifndef QABSTRACTBARSERIES_H
 #define QABSTRACTBARSERIES_H
 
+#if 0
+#  pragma qt_class(QAbstractBarSeries)
+#endif
+
 #include <QtGraphs/qabstractseries.h>
 #include <QtCore/QStringList>
 #include <QtQml/QQmlEngine>

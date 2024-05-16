@@ -4,6 +4,10 @@
 #ifndef QABSTRACT3DSERIES_H
 #define QABSTRACT3DSERIES_H
 
+#if 0
+#  pragma qt_class(QAbstract3DSeries)
+#endif
+
 #include <QtCore/QObject>
 #include <QtCore/QScopedPointer>
 #include <QtCore/QString>

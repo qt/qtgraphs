@@ -4,6 +4,10 @@
 #ifndef GRAPHTHEME_H
 #define GRAPHTHEME_H
 
+#if 0
+#  pragma qt_class(QGraphTheme)
+#endif
+
 #include <QtGui/QColor>
 #include <QtGui/QFont>
 #include <QtCore/QObject>

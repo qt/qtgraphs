@@ -4,6 +4,10 @@
 #ifndef QCUSTOMLABELITEM_H
 #define QCUSTOMLABELITEM_H
 
+#if 0
+#  pragma qt_class(QCustom3DLabel)
+#endif
+
 #include <QtGraphs/qcustom3ditem.h>
 #include <QtGraphs/qgraphsglobal.h>
 #include <QtGui/QColor>

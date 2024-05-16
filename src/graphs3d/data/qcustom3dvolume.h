@@ -4,6 +4,10 @@
 #ifndef QCUSTOM3DVOLUME_H
 #define QCUSTOM3DVOLUME_H
 
+#if 0
+#  pragma qt_class(QCustom3DVolume)
+#endif
+
 #include <QtGraphs/qcustom3ditem.h>
 #include <QtGraphs/qgraphsglobal.h>
 #include <QtGui/QColor>

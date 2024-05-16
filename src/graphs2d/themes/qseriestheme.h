@@ -4,6 +4,10 @@
 #ifndef SERIESTHEME_H
 #define SERIESTHEME_H
 
+#if 0
+#  pragma qt_class(QSeriesTheme)
+#endif
+
 #include <QtGui/QColor>
 #include <QtGui/QFont>
 #include <QtCore/QObject>

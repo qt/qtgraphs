@@ -4,6 +4,10 @@
 #ifndef QBAR3DSERIES_H
 #define QBAR3DSERIES_H
 
+#if 0
+#  pragma qt_class(QBar3DSeries)
+#endif
+
 #include <QtCore/QPoint>
 #include <QtGraphs/qabstract3dseries.h>
 #include <QtGraphs/qbardataproxy.h>

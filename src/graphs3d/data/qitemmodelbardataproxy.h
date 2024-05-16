@@ -4,6 +4,10 @@
 #ifndef QITEMMODELBARDATAPROXY_H
 #define QITEMMODELBARDATAPROXY_H
 
+#if 0
+#  pragma qt_class(QItemModelBarDataProxy)
+#endif
+
 #include <QtCore/QAbstractItemModel>
 #include <QtCore/QRegularExpression>
 #include <QtGraphs/qbardataproxy.h>

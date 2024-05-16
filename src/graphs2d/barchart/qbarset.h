@@ -4,6 +4,10 @@
 #ifndef QBARSET_H
 #define QBARSET_H
 
+#if 0
+#  pragma qt_class(QBarSet)
+#endif
+
 #include <QtCore/qobject.h>
 #include <QtGraphs/qgraphsglobal.h>
 #include <QtGui/qbrush.h>

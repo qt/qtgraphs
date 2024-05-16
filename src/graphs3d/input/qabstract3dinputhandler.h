@@ -4,6 +4,10 @@
 #ifndef QABSTRACT3DINPUTHANDLER_H
 #define QABSTRACT3DINPUTHANDLER_H
 
+#if 0
+#  pragma qt_class(QAbstract3DInputHandler)
+#endif
+
 #include <QtCore/QObject>
 #include <QtCore/QPoint>
 #include <QtGraphs/q3dscene.h>

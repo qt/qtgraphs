@@ -4,6 +4,10 @@
 #ifndef QITEMMODELSCATTERDATAPROXY_H
 #define QITEMMODELSCATTERDATAPROXY_H
 
+#if 0
+#  pragma qt_class(QItemModelScatterDataProxy)
+#endif
+
 #include <QtCore/QAbstractItemModel>
 #include <QtCore/QRegularExpression>
 #include <QtCore/QString>

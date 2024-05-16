@@ -4,6 +4,10 @@
 #ifndef QABSTRACTDATAPROXY_H
 #define QABSTRACTDATAPROXY_H
 
+#if 0
+#  pragma qt_class(QAbstractDataProxy)
+#endif
+
 #include <QtCore/QObject>
 #include <QtCore/QScopedPointer>
 #include <QtGraphs/qgraphsglobal.h>

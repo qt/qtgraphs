@@ -4,6 +4,10 @@
 #ifndef QBARSERIES_H
 #define QBARSERIES_H
 
+#if 0
+#  pragma qt_class(QBarSeries)
+#endif
+
 #include <QtGraphs/qabstractbarseries.h>
 #include <QtGraphs/qabstractaxis.h>
 #include <QtGraphs/qgraphsglobal.h>

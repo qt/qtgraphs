@@ -4,6 +4,10 @@
 #ifndef QVALUE3DAXIS_H
 #define QVALUE3DAXIS_H
 
+#if 0
+#  pragma qt_class(QValue3DAxis)
+#endif
+
 #include <QtGraphs/qabstract3daxis.h>
 #include <QtGraphs/qvalue3daxisformatter.h>
 

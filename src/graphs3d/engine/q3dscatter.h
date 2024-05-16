@@ -4,6 +4,10 @@
 #ifndef Q3DSCATTER_H
 #define Q3DSCATTER_H
 
+#if 0
+#  pragma qt_class(Q3DScatter)
+#endif
+
 #include <QtGraphs/qabstract3dgraph.h>
 #include <QtGraphs/qscatter3dseries.h>
 #include <QtGraphs/qvalue3daxis.h>
