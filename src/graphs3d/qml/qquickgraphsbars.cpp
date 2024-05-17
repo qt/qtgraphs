@@ -1063,6 +1063,14 @@ void QQuickGraphsBars::connectSeries(QBar3DSeries *series)
                      &QBar3DSeries::meshSmoothChanged,
                      this,
                      &QQuickGraphsBars::handleMeshSmoothChanged);
+    QObject::connect(series->dataProxy(),
+                     &QBarDataProxy::colCountChanged,
+                     this,
+                     &QQuickGraphsBars::handleDataColumnLabelsChanged);
+    QObject::connect(series->dataProxy(),
+                     &QBarDataProxy::rowCountChanged,
+                     this,
+                     &QQuickGraphsBars::handleDataRowLabelsChanged);
     QObject::connect(series,
                      &QBar3DSeries::rowColorsChanged,
                      this,
