@@ -89,7 +89,7 @@ public Q_SLOTS:
     void setGradient(bool checked);
     void toggleMultiseriesScaling();
     void changeShadowQuality(int quality);
-    void shadowQualityUpdatedByVisual(QAbstract3DGraph::ShadowQuality shadowQuality);
+    void shadowQualityUpdatedByVisual(QGraphs3D::ShadowQuality shadowQuality);
     void handleSelectionChange(const QPoint &position);
     void setUseNullInputHandler(int useNull);
     void changeValueAxisSegments(int value);

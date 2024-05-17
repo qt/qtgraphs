@@ -733,7 +733,7 @@ void QAbstract3DSeriesPrivate::setMesh(QAbstract3DSeries::Mesh mesh)
     if (m_graph) {
         m_graph->markSeriesVisualsDirty();
 
-        if (m_graph->optimizationHint() == QAbstract3DGraph::OptimizationHint::Default)
+        if (m_graph->optimizationHint() == QGraphs3D::OptimizationHint::Default)
             m_graph->markDataDirty();
     }
 }
@@ -745,7 +745,7 @@ void QAbstract3DSeriesPrivate::setMeshSmooth(bool enable)
     if (m_graph) {
         m_graph->markSeriesVisualsDirty();
 
-        if (m_graph->optimizationHint() == QAbstract3DGraph::OptimizationHint::Default)
+        if (m_graph->optimizationHint() == QGraphs3D::OptimizationHint::Default)
             m_graph->markDataDirty();
     }
 }
@@ -757,7 +757,7 @@ void QAbstract3DSeriesPrivate::setMeshRotation(const QQuaternion &rotation)
     if (m_graph) {
         m_graph->markSeriesVisualsDirty();
 
-        if (m_graph->optimizationHint() == QAbstract3DGraph::OptimizationHint::Default)
+        if (m_graph->optimizationHint() == QGraphs3D::OptimizationHint::Default)
             m_graph->markDataDirty();
     }
 }
@@ -769,7 +769,7 @@ void QAbstract3DSeriesPrivate::setUserDefinedMesh(const QString &meshFile)
     if (m_graph) {
         m_graph->markSeriesVisualsDirty();
 
-        if (m_graph->optimizationHint() == QAbstract3DGraph::OptimizationHint::Default)
+        if (m_graph->optimizationHint() == QGraphs3D::OptimizationHint::Default)
             m_graph->markDataDirty();
     }
 }

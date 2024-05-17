@@ -311,13 +311,13 @@ Item {
             id: barGraph
             width: dataView.width
             height: dataView.height
-            shadowQuality: AbstractGraph3D.ShadowQuality.Medium
-            selectionMode: AbstractGraph3D.SelectionItemAndRow | AbstractGraph3D.SelectionSlice
+            shadowQuality: Graphs3D.ShadowQuality.Medium
+            selectionMode: Graphs3D.SelectionItemAndRow | Graphs3D.SelectionSlice
             theme: theme1
             barThickness: 0.7
             barSpacing: Qt.size(0.5, 0.5)
             barSpacingRelative: false
-            cameraPreset: AbstractGraph3D.CameraPreset.IsometricLeftHigh
+            cameraPreset: Graphs3D.CameraPreset.IsometricLeftHigh
             columnAxis: graphAxes.column
             rowAxis: graphAxes.row
             valueAxis: graphAxes.value

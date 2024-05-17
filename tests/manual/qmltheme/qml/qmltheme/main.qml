@@ -85,9 +85,9 @@ Item {
             id: surface
             anchors.fill: graphView
             theme: customSurfaceTheme
-            shadowQuality: AbstractGraph3D.ShadowQuality.None
-            selectionMode: AbstractGraph3D.SelectionNone
-            cameraPreset: AbstractGraph3D.CameraPreset.IsometricLeft
+            shadowQuality: Graphs3D.ShadowQuality.None
+            selectionMode: Graphs3D.SelectionNone
+            cameraPreset: Graphs3D.CameraPreset.IsometricLeft
             msaaSamples: 4
             aspectRatio: 3.0
             visible: !graphMod.barsVisible
@@ -111,10 +111,10 @@ Item {
             id: bars
             anchors.fill: graphView
             theme: customBarsTheme
-            shadowQuality: AbstractGraph3D.ShadowQuality.None
-            selectionMode: AbstractGraph3D.SelectionItemAndRow
-            cameraPreset: AbstractGraph3D.CameraPreset.IsometricLeft
-            //optimizationHint: AbstractGraph3D.OptimizationHint.Legacy
+            shadowQuality: Graphs3D.ShadowQuality.None
+            selectionMode: Graphs3D.SelectionItemAndRow
+            cameraPreset: Graphs3D.CameraPreset.IsometricLeft
+            //optimizationHint: Graphs3D.OptimizationHint.Legacy
             msaaSamples: 4
             aspectRatio: 3.0
             visible: graphMod.barsVisible

@@ -6,6 +6,7 @@
 
 #include <QtCore/qlocale.h>
 #include <QtGraphs/q3dscene.h>
+#include <QtGraphs/qgraphs3dnamespace.h>
 #include <QtGraphs/qgraphsglobal.h>
 #include <QtGraphs/qgraphstheme.h>
 #include <QtQuick/qquickitemgrabresult.h>
@@ -25,19 +26,19 @@ class Q_GRAPHS_EXPORT QAbstract3DGraph : public QQuickWidget
     Q_OBJECT
     Q_CLASSINFO("RegisterEnumClassesUnscoped", "false")
     Q_PROPERTY(QGraphsTheme *activeTheme READ activeTheme WRITE setActiveTheme NOTIFY activeThemeChanged)
-    Q_PROPERTY(QAbstract3DGraph::SelectionFlags selectionMode READ selectionMode WRITE
+    Q_PROPERTY(QGraphs3D::SelectionFlags selectionMode READ selectionMode WRITE
                    setSelectionMode NOTIFY selectionModeChanged)
-    Q_PROPERTY(QAbstract3DGraph::ShadowQuality shadowQuality READ shadowQuality WRITE
+    Q_PROPERTY(QGraphs3D::ShadowQuality shadowQuality READ shadowQuality WRITE
                    setShadowQuality NOTIFY shadowQualityChanged)
     Q_PROPERTY(Q3DScene *scene READ scene CONSTANT)
     Q_PROPERTY(bool measureFps READ measureFps WRITE setMeasureFps NOTIFY measureFpsChanged)
     Q_PROPERTY(int currentFps READ currentFps NOTIFY currentFpsChanged)
     Q_PROPERTY(bool orthoProjection READ isOrthoProjection WRITE setOrthoProjection NOTIFY
                    orthoProjectionChanged)
-    Q_PROPERTY(QAbstract3DGraph::ElementType selectedElement READ selectedElement NOTIFY
+    Q_PROPERTY(QGraphs3D::ElementType selectedElement READ selectedElement NOTIFY
                    selectedElementChanged)
     Q_PROPERTY(qreal aspectRatio READ aspectRatio WRITE setAspectRatio NOTIFY aspectRatioChanged)
-    Q_PROPERTY(QAbstract3DGraph::OptimizationHint optimizationHint READ optimizationHint WRITE
+    Q_PROPERTY(QGraphs3D::OptimizationHint optimizationHint READ optimizationHint WRITE
                    setOptimizationHint NOTIFY optimizationHintChanged)
     Q_PROPERTY(bool polar READ isPolar WRITE setPolar NOTIFY polarChanged)
     Q_PROPERTY(float radialLabelOffset READ radialLabelOffset WRITE setRadialLabelOffset NOTIFY
@@ -48,7 +49,7 @@ class Q_GRAPHS_EXPORT QAbstract3DGraph : public QQuickWidget
     Q_PROPERTY(
         QVector3D queriedGraphPosition READ queriedGraphPosition NOTIFY queriedGraphPositionChanged)
     Q_PROPERTY(qreal margin READ margin WRITE setMargin NOTIFY marginChanged)
-    Q_PROPERTY(QAbstract3DGraph::CameraPreset cameraPreset READ cameraPreset WRITE setCameraPreset
+    Q_PROPERTY(QGraphs3D::CameraPreset cameraPreset READ cameraPreset WRITE setCameraPreset
                    NOTIFY cameraPresetChanged)
     Q_PROPERTY(float cameraXRotation READ cameraXRotation WRITE setCameraXRotation NOTIFY
                    cameraXRotationChanged)
@@ -90,77 +91,18 @@ class Q_GRAPHS_EXPORT QAbstract3DGraph : public QQuickWidget
     Q_PROPERTY(float shadowStrength READ shadowStrength WRITE setShadowStrength NOTIFY shadowStrengthChanged)
     Q_PROPERTY(bool shaderGridEnabled READ shaderGridEnabled WRITE setShaderGridEnabled NOTIFY shaderGridEnabledChanged FINAL)
 
-    QML_NAMED_ELEMENT(AbstractGraph3D)
-    QML_UNCREATABLE("")
-
 public:
-    enum SelectionFlag {
-        SelectionNone = 0,
-        SelectionItem = 1,
-        SelectionRow = 2,
-        SelectionItemAndRow = SelectionItem | SelectionRow,
-        SelectionColumn = 4,
-        SelectionItemAndColumn = SelectionItem | SelectionColumn,
-        SelectionRowAndColumn = SelectionRow | SelectionColumn,
-        SelectionItemRowAndColumn = SelectionItem | SelectionRow | SelectionColumn,
-        SelectionSlice = 8,
-        SelectionMultiSeries = 16
-    };
-    Q_FLAG(SelectionFlag)
-    Q_DECLARE_FLAGS(SelectionFlags, SelectionFlag)
-
-    enum class ShadowQuality { None, Low, Medium, High, SoftLow, SoftMedium, SoftHigh };
-    Q_ENUM(ShadowQuality)
-
-    enum class ElementType { None, Series, AxisXLabel, AxisYLabel, AxisZLabel, CustomItem };
-    Q_ENUM(ElementType)
-
-    enum class OptimizationHint { Default, Legacy };
-    Q_ENUM(OptimizationHint)
-
-    enum class RenderingMode { DirectToBackground, Indirect };
-    Q_ENUM(RenderingMode)
-
-    enum class CameraPreset {
-        NoPreset,
-        FrontLow,
-        Front,
-        FrontHigh,
-        LeftLow,
-        Left,
-        LeftHigh,
-        RightLow,
-        Right,
-        RightHigh,
-        BehindLow,
-        Behind,
-        BehindHigh,
-        IsometricLeft,
-        IsometricLeftHigh,
-        IsometricRight,
-        IsometricRightHigh,
-        DirectlyAbove,
-        DirectlyAboveCW45,
-        DirectlyAboveCCW45,
-        FrontBelow,
-        LeftBelow,
-        RightBelow,
-        BehindBelow,
-        DirectlyBelow
-    };
-    Q_ENUM(CameraPreset)
-
     void addTheme(QGraphsTheme *theme);
     void releaseTheme(QGraphsTheme *theme);
     QGraphsTheme *activeTheme() const;
     void setActiveTheme(QGraphsTheme *activeTheme);
     QList<QGraphsTheme *> themes() const;
 
-    QAbstract3DGraph::ShadowQuality shadowQuality() const;
-    void setShadowQuality(const QAbstract3DGraph::ShadowQuality &shadowQuality);
+    QGraphs3D::ShadowQuality shadowQuality() const;
+    void setShadowQuality(const QGraphs3D::ShadowQuality &shadowQuality);
 
-    QAbstract3DGraph::SelectionFlags selectionMode() const;
-    void setSelectionMode(const QAbstract3DGraph::SelectionFlags &selectionMode);
+    QGraphs3D::SelectionFlags selectionMode() const;
+    void setSelectionMode(const QGraphs3D::SelectionFlags &selectionMode);
 
     Q3DScene *scene() const;
 
@@ -171,13 +113,13 @@ public:
     void setOrthoProjection(bool enable);
     bool isOrthoProjection() const;
 
-    QAbstract3DGraph::ElementType selectedElement() const;
+    QGraphs3D::ElementType selectedElement() const;
 
     void setAspectRatio(qreal ratio);
     qreal aspectRatio() const;
 
-    void setOptimizationHint(QAbstract3DGraph::OptimizationHint hint);
-    QAbstract3DGraph::OptimizationHint optimizationHint() const;
+    void setOptimizationHint(QGraphs3D::OptimizationHint hint);
+    QGraphs3D::OptimizationHint optimizationHint() const;
 
     void setPolar(bool enable);
     bool isPolar() const;
@@ -215,8 +157,8 @@ public:
 
     QSharedPointer<QQuickItemGrabResult> renderToImage(const QSize &imageSize = QSize());
 
-    QAbstract3DGraph::CameraPreset cameraPreset() const;
-    void setCameraPreset(QAbstract3DGraph::CameraPreset preset);
+    QGraphs3D::CameraPreset cameraPreset() const;
+    void setCameraPreset(QGraphs3D::CameraPreset preset);
 
     float cameraXRotation();
     void setCameraXRotation(float rotation);
@@ -298,21 +240,21 @@ protected:
 
 Q_SIGNALS:
     void activeThemeChanged(QGraphsTheme *activeTheme);
-    void shadowQualityChanged(QAbstract3DGraph::ShadowQuality quality);
-    void selectionModeChanged(const QAbstract3DGraph::SelectionFlags selectionMode);
-    void selectedElementChanged(QAbstract3DGraph::ElementType type);
+    void shadowQualityChanged(QGraphs3D::ShadowQuality quality);
+    void selectionModeChanged(const QGraphs3D::SelectionFlags selectionMode);
+    void selectedElementChanged(QGraphs3D::ElementType type);
     void measureFpsChanged(bool enabled);
     void currentFpsChanged(int fps);
     void orthoProjectionChanged(bool enabled);
     void aspectRatioChanged(qreal ratio);
-    void optimizationHintChanged(QAbstract3DGraph::OptimizationHint hint);
+    void optimizationHintChanged(QGraphs3D::OptimizationHint hint);
     void polarChanged(bool enabled);
     void radialLabelOffsetChanged(float offset);
     void horizontalAspectRatioChanged(qreal ratio);
     void localeChanged(const QLocale &locale);
     void queriedGraphPositionChanged(const QVector3D &data);
     void marginChanged(qreal margin);
-    void cameraPresetChanged(QAbstract3DGraph::CameraPreset preset);
+    void cameraPresetChanged(QGraphs3D::CameraPreset preset);
     void cameraXRotationChanged(float rotation);
     void cameraYRotationChanged(float rotation);
     void cameraZoomLevelChanged(float zoomLevel);
@@ -356,7 +298,6 @@ private:
     friend class Q3DScatter;
     friend class Q3DSurface;
 };
-Q_DECLARE_OPERATORS_FOR_FLAGS(QAbstract3DGraph::SelectionFlags)
 
 QT_END_NAMESPACE
 

@@ -73,7 +73,7 @@ GraphDataGenerator::GraphDataGenerator(Q3DBars *bargraph, Q3DSurface *surfaceGra
     m_tableWidget->setColumnCount(m_columnCount);
 
     // Set selection mode to full
-    m_barGraph->setSelectionMode(QAbstract3DGraph::SelectionItemRowAndColumn);
+    m_barGraph->setSelectionMode(QGraphs3DNamespace::SelectionItemRowAndColumn);
 
     // Hide axis labels by explicitly setting one empty string as label list
     m_barGraph->rowAxis()->setLabels(QStringList(QString()));
@@ -82,10 +82,10 @@ GraphDataGenerator::GraphDataGenerator(Q3DBars *bargraph, Q3DSurface *surfaceGra
     m_barGraph->seriesList().at(0)->setItemLabelFormat(QStringLiteral("@valueLabel"));
 #else
     // Set selection mode to slice row
-    m_barGraph->setSelectionMode(
-                QAbstract3DGraph::SelectionItemAndRow | QAbstract3DGraph::SelectionSlice);
-    m_surfaceGraph->setSelectionMode(
-                QAbstract3DGraph::SelectionItemAndRow | QAbstract3DGraph::SelectionSlice);
+    m_barGraph->setSelectionMode(QGraphs3D::SelectionItemAndRow
+                                 | QGraphs3D::SelectionSlice);
+    m_surfaceGraph->setSelectionMode(QGraphs3D::SelectionItemAndRow
+                                     | QGraphs3D::SelectionSlice);
 #endif
 }
 
@@ -281,8 +281,8 @@ int main(int argc, char **argv)
     barGraph->addSeries(barSeries);
     surfaceGraph->addSeries(surfaceSeries);
 
-    barGraph->setCameraPreset(QAbstract3DGraph::CameraPreset::Behind);
-    surfaceGraph->setCameraPreset(QAbstract3DGraph::CameraPreset::Front);
+    barGraph->setCameraPreset(QGraphs3D::CameraPreset::Behind);
+    surfaceGraph->setCameraPreset(QGraphs3D::CameraPreset::Front);
 
     GraphDataGenerator generator(barGraph, surfaceGraph, tableWidget);
     QObject::connect(barSeries, &QBar3DSeries::selectedBarChanged, &generator,

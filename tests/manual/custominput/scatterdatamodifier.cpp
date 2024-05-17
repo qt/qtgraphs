@@ -16,8 +16,8 @@ ScatterDataModifier::ScatterDataModifier(Q3DScatter *scatter)
     : m_graph(scatter)
 {
     m_graph->activeTheme()->setTheme(QGraphsTheme::Theme::QtGreen);
-    m_graph->setShadowQuality(QAbstract3DGraph::ShadowQuality::Medium);
-    m_graph->setCameraPreset(QAbstract3DGraph::CameraPreset::Front);
+    m_graph->setShadowQuality(QGraphs3D::ShadowQuality::Medium);
+    m_graph->setCameraPreset(QGraphs3D::CameraPreset::Front);
 
     m_graph->setAxisX(new QValue3DAxis);
     m_graph->setAxisY(new QValue3DAxis);
@@ -171,7 +171,7 @@ void ScatterDataModifier::onPositionQueryChanged(const QVector3D &position)
     qDebug() << "Queried Position from graph :" << m_graph->queriedGraphPosition();
 }
 
-void ScatterDataModifier::shadowQualityUpdatedByVisual(QAbstract3DGraph::ShadowQuality sq)
+void ScatterDataModifier::shadowQualityUpdatedByVisual(QGraphs3D::ShadowQuality sq)
 {
     int quality = int(sq);
     emit shadowQualityChanged(quality); // connected to a checkbox in main.cpp
@@ -179,6 +179,6 @@ void ScatterDataModifier::shadowQualityUpdatedByVisual(QAbstract3DGraph::ShadowQ
 
 void ScatterDataModifier::changeShadowQuality(int quality)
 {
-    QAbstract3DGraph::ShadowQuality sq = QAbstract3DGraph::ShadowQuality(quality);
+    QGraphs3D::ShadowQuality sq = QGraphs3D::ShadowQuality(quality);
     m_graph->setShadowQuality(sq);
 }

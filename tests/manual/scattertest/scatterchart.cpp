@@ -25,8 +25,8 @@ ScatterDataModifier::ScatterDataModifier(Q3DScatter *scatter)
     QFont font = m_chart->activeTheme()->labelFont();
     font.setPointSize(m_fontSize);
     m_chart->activeTheme()->setLabelFont(font);
-    m_chart->setShadowQuality(QAbstract3DGraph::ShadowQuality::None);
-    m_chart->setCameraPreset(QAbstract3DGraph::CameraPreset::Front);
+    m_chart->setShadowQuality(QGraphs3D::ShadowQuality::None);
+    m_chart->setCameraPreset(QGraphs3D::CameraPreset::Front);
     m_chart->setAxisX(new QValue3DAxis);
     m_chart->setAxisY(new QValue3DAxis);
     m_chart->setAxisZ(new QValue3DAxis);
@@ -36,7 +36,7 @@ ScatterDataModifier::ScatterDataModifier(Q3DScatter *scatter)
     createAndAddSeries();
     createAndAddSeries();
 
-    m_chart->setSelectionMode(QAbstract3DGraph::SelectionItem);
+    m_chart->setSelectionMode(QGraphs3D::SelectionItem);
 
     QObject::connect(&m_timer, &QTimer::timeout, this, &ScatterDataModifier::timeout);
     QObject::connect(m_chart, &Q3DScatter::shadowQualityChanged, this,
@@ -48,7 +48,9 @@ ScatterDataModifier::ScatterDataModifier(Q3DScatter *scatter)
                      &ScatterDataModifier::handleAxisYChanged);
     QObject::connect(m_chart, &Q3DScatter::axisZChanged, this,
                      &ScatterDataModifier::handleAxisZChanged);
-    QObject::connect(m_chart, &QAbstract3DGraph::currentFpsChanged, this,
+    QObject::connect(m_chart,
+                     &QAbstract3DGraph::currentFpsChanged,
+                     this,
                      &ScatterDataModifier::handleFpsChange);
 }
 
@@ -123,8 +125,8 @@ void ScatterDataModifier::massiveDataTest()
         m_chart->setAxisX(xAxis);
         m_chart->setAxisY(yAxis);
         m_chart->setAxisZ(zAxis);
-        m_chart->setCameraPreset(QAbstract3DGraph::CameraPreset::Right);
-        m_chart->setShadowQuality(QAbstract3DGraph::ShadowQuality::None);
+        m_chart->setCameraPreset(QGraphs3D::CameraPreset::Right);
+        m_chart->setShadowQuality(QGraphs3D::ShadowQuality::None);
         const auto scatteriesList = m_chart->seriesList();
         for (const auto &series : scatteriesList)
             m_chart->removeSeries(static_cast<QScatter3DSeries *>(series));
@@ -560,12 +562,12 @@ void ScatterDataModifier::changeStyle()
 
 void ScatterDataModifier::changePresetCamera()
 {
-    static int preset = int(QAbstract3DGraph::CameraPreset::FrontLow);
+    static int preset = int(QGraphs3D::CameraPreset::FrontLow);
 
-    m_chart->setCameraPreset((QAbstract3DGraph::CameraPreset)preset);
+    m_chart->setCameraPreset((QGraphs3D::CameraPreset) preset);
 
-    if (++preset > int(QAbstract3DGraph::CameraPreset::DirectlyAboveCCW45))
-        preset = int(QAbstract3DGraph::CameraPreset::FrontLow);
+    if (++preset > int(QGraphs3D::CameraPreset::DirectlyAboveCCW45))
+        preset = int(QGraphs3D::CameraPreset::FrontLow);
 }
 
 void ScatterDataModifier::changeTheme()
@@ -603,7 +605,7 @@ void ScatterDataModifier::changePointSize(int pointSize)
     m_targetSeries->setItemSize(0.01f *  float(pointSize));
 }
 
-void ScatterDataModifier::shadowQualityUpdatedByVisual(QAbstract3DGraph::ShadowQuality sq)
+void ScatterDataModifier::shadowQualityUpdatedByVisual(QGraphs3D::ShadowQuality sq)
 {
     int quality = int(sq);
      // Updates the UI component to show correct shadow quality
@@ -1001,9 +1003,9 @@ void ScatterDataModifier::togglePolar(int enable)
 void ScatterDataModifier::toggleLegacy(int enable)
 {
     if (!enable)
-        m_chart->setOptimizationHint(QAbstract3DGraph::OptimizationHint::Default);
+        m_chart->setOptimizationHint(QGraphs3D::OptimizationHint::Default);
     else
-        m_chart->setOptimizationHint(QAbstract3DGraph::OptimizationHint::Legacy);
+        m_chart->setOptimizationHint(QGraphs3D::OptimizationHint::Legacy);
 }
 
 void ScatterDataModifier::toggleOrtho(int enable)
@@ -1068,7 +1070,7 @@ void ScatterDataModifier::setZAxisSubsegemntCount(int count)
 }
 void ScatterDataModifier::changeShadowQuality(int quality)
 {
-    QAbstract3DGraph::ShadowQuality sq = QAbstract3DGraph::ShadowQuality(quality);
+    QGraphs3D::ShadowQuality sq = QGraphs3D::ShadowQuality(quality);
     m_chart->setShadowQuality(sq);
     emit shadowQualityChanged(quality);
 }

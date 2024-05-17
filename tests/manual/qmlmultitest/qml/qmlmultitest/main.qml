@@ -54,7 +54,7 @@ Item {
                     theme: GraphsTheme.Theme.MixSeries
                     labelFont.pointSize: 60
                 }
-                cameraPreset: AbstractGraph3D.CameraPreset.IsometricLeftHigh
+                cameraPreset: Graphs3D.CameraPreset.IsometricLeftHigh
 
                 Surface3DSeries {
                     itemLabelFormat: "Pop density at (@xLabel N, @zLabel E): @yLabel"
@@ -147,7 +147,7 @@ Item {
                     theme: GraphsTheme.Theme.BlueSeries
                     labelFont.pointSize: 60
                 }
-                cameraPreset: AbstractGraph3D.CameraPreset.IsometricLeftHigh
+                cameraPreset: Graphs3D.CameraPreset.IsometricLeftHigh
 
                 Scatter3DSeries {
                     itemLabelFormat: "Pop density at (@xLabel N, @zLabel E): @yLabel"
@@ -188,8 +188,8 @@ Item {
                     theme: GraphsTheme.Theme.OrangeSeries
                     labelFont.pointSize: 60
                 }
-                selectionMode: AbstractGraph3D.SelectionItemAndRow | AbstractGraph3D.SelectionSlice
-                cameraPreset: AbstractGraph3D.CameraPreset.IsometricLeftHigh
+                selectionMode: Graphs3D.SelectionItemAndRow | Graphs3D.SelectionSlice
+                cameraPreset: Graphs3D.CameraPreset.IsometricLeftHigh
 
                 Bar3DSeries {
                     itemLabelFormat: "@seriesName: @valueLabel"
@@ -224,9 +224,9 @@ Item {
     }
 
     function resetCameras() {
-        surfaceGraph.cameraPreset = AbstractGraph3D.CameraPreset.IsometricLeftHigh
-        scatterGraph.cameraPreset = AbstractGraph3D.CameraPreset.IsometricLeftHigh
-        barGraph.cameraPreset = AbstractGraph3D.CameraPreset.IsometricLeftHigh
+        surfaceGraph.cameraPreset = Graphs3D.CameraPreset.IsometricLeftHigh
+        scatterGraph.cameraPreset = Graphs3D.CameraPreset.IsometricLeftHigh
+        barGraph.cameraPreset = Graphs3D.CameraPreset.IsometricLeftHigh
         surfaceGraph.zoomLevel = 100.0
         scatterGraph.zoomLevel = 100.0
         barGraph.zoomLevel = 100.0

@@ -33,7 +33,7 @@ GraphModifier::GraphModifier(Q3DBars *bargraph, QObject *parent)
 //! [1]
 {
     //! [2]
-    m_graph->setShadowQuality(QAbstract3DGraph::ShadowQuality::SoftMedium);
+    m_graph->setShadowQuality(QGraphs3D::ShadowQuality::SoftMedium);
     m_graph->activeTheme()->setPlotAreaBackgroundEnabled(false);
     m_graph->activeTheme()->setLabelFont(QFont("Times New Roman", m_fontSize));
     m_graph->activeTheme()->setLabelBackgroundEnabled(true);
@@ -227,12 +227,12 @@ void GraphModifier::changePresetCamera()
     m_graph->setCameraTargetPosition(QVector3D(0.0f, 0.0f, 0.0f));
 
     //! [7]
-    static int preset = int(QAbstract3DGraph::CameraPreset::Front);
+    static int preset = int(QGraphs3D::CameraPreset::Front);
 
-    m_graph->setCameraPreset((QAbstract3DGraph::CameraPreset) preset);
+    m_graph->setCameraPreset((QGraphs3D::CameraPreset) preset);
 
-    if (++preset > int(QAbstract3DGraph::CameraPreset::DirectlyBelow))
-        preset = int(QAbstract3DGraph::CameraPreset::FrontLow);
+    if (++preset > int(QGraphs3D::CameraPreset::DirectlyBelow))
+        preset = int(QGraphs3D::CameraPreset::FrontLow);
     //! [7]
 }
 
@@ -257,7 +257,7 @@ void GraphModifier::changeSelectionMode(int selectionMode)
     QComboBox *comboBox = qobject_cast<QComboBox *>(sender());
     if (comboBox) {
         int flags = comboBox->itemData(selectionMode).toInt();
-        m_graph->setSelectionMode(QAbstract3DGraph::SelectionFlags(flags));
+        m_graph->setSelectionMode(QGraphs3D::SelectionFlags(flags));
     }
 }
 
@@ -275,7 +275,7 @@ void GraphModifier::changeFontSize(int fontsize)
     m_graph->activeTheme()->setLabelFont(font);
 }
 
-void GraphModifier::shadowQualityUpdatedByVisual(QAbstract3DGraph::ShadowQuality sq)
+void GraphModifier::shadowQualityUpdatedByVisual(QGraphs3D::ShadowQuality sq)
 {
     int quality = int(sq);
     // Updates the UI component to show correct shadow quality
@@ -383,7 +383,7 @@ void GraphModifier::setDataModeToCustom(bool enabled)
 
 void GraphModifier::changeShadowQuality(int quality)
 {
-    QAbstract3DGraph::ShadowQuality sq = QAbstract3DGraph::ShadowQuality(quality);
+    QGraphs3D::ShadowQuality sq = QGraphs3D::ShadowQuality(quality);
     m_graph->setShadowQuality(sq);
     emit shadowQualityChanged(quality);
 }

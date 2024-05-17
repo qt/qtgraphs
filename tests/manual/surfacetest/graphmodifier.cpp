@@ -910,7 +910,7 @@ void GraphModifier::resetArrayAndSliders(QSurfaceDataArray array, float minZ, fl
 
 void GraphModifier::changeShadowQuality(int quality)
 {
-    QAbstract3DGraph::ShadowQuality sq = QAbstract3DGraph::ShadowQuality(quality);
+    QGraphs3D::ShadowQuality sq = QGraphs3D::ShadowQuality(quality);
     m_graph->setShadowQuality(sq);
 }
 
@@ -919,7 +919,7 @@ void GraphModifier::changeSelectionMode(int mode)
     QComboBox *comboBox = qobject_cast<QComboBox *>(sender());
     if (comboBox) {
         int flags = comboBox->itemData(mode).toInt();
-        m_graph->setSelectionMode(QAbstract3DGraph::SelectionFlags(flags));
+        m_graph->setSelectionMode(QGraphs3D::SelectionFlags(flags));
     }
 }
 
@@ -1436,8 +1436,8 @@ void GraphModifier::massiveDataTest()
         m_graph->setAxisX(xAxis);
         m_graph->setAxisY(yAxis);
         m_graph->setAxisZ(zAxis);
-        m_graph->setCameraPreset(QAbstract3DGraph::CameraPreset::Right);
-        m_graph->setShadowQuality(QAbstract3DGraph::ShadowQuality::None);
+        m_graph->setCameraPreset(QGraphs3D::CameraPreset::Right);
+        m_graph->setShadowQuality(QGraphs3D::ShadowQuality::None);
         const auto surfaceSeriesList = m_graph->seriesList();
         for (const auto &series : surfaceSeriesList)
             m_graph->removeSeries(series);

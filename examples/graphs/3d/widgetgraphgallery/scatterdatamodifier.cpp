@@ -29,8 +29,8 @@ ScatterDataModifier::ScatterDataModifier(Q3DScatter *scatter, QObject *parent)
     //! [0]
     m_graph->activeTheme()->setTheme(QGraphsTheme::Theme::MixSeries);
     m_graph->activeTheme()->setColorScheme(Qt::ColorScheme::Dark);
-    m_graph->setShadowQuality(QAbstract3DGraph::ShadowQuality::SoftHigh);
-    m_graph->setCameraPreset(QAbstract3DGraph::CameraPreset::Front);
+    m_graph->setShadowQuality(QGraphs3D::ShadowQuality::SoftHigh);
+    m_graph->setCameraPreset(QGraphs3D::CameraPreset::Front);
     m_graph->setCameraZoomLevel(80.f);
     //! [0]
 
@@ -123,31 +123,31 @@ void ScatterDataModifier::changeTheme(int theme)
 
 void ScatterDataModifier::changePresetCamera()
 {
-    static int preset = int(QAbstract3DGraph::CameraPreset::FrontLow);
+    static int preset = int(QGraphs3D::CameraPreset::FrontLow);
 
-    m_graph->setCameraPreset((QAbstract3DGraph::CameraPreset) preset);
+    m_graph->setCameraPreset((QGraphs3D::CameraPreset) preset);
 
-    if (++preset > int(QAbstract3DGraph::CameraPreset::DirectlyBelow))
-        preset = int(QAbstract3DGraph::CameraPreset::FrontLow);
+    if (++preset > int(QGraphs3D::CameraPreset::DirectlyBelow))
+        preset = int(QGraphs3D::CameraPreset::FrontLow);
 }
 
-void ScatterDataModifier::shadowQualityUpdatedByVisual(QAbstract3DGraph::ShadowQuality sq)
+void ScatterDataModifier::shadowQualityUpdatedByVisual(QGraphs3D::ShadowQuality sq)
 {
     int quality = int(sq);
     emit shadowQualityChanged(quality); // connected to a checkbox in scattergraph.cpp
 }
 
-void ScatterDataModifier::handleElementSelected(QAbstract3DGraph::ElementType type)
+void ScatterDataModifier::handleElementSelected(QGraphs3D::ElementType type)
 {
     //! [9]
     switch (type) {
-    case QAbstract3DGraph::ElementType::AxisXLabel:
+    case QGraphs3D::ElementType::AxisXLabel:
         m_state = StateDraggingX;
         break;
-    case QAbstract3DGraph::ElementType::AxisYLabel:
+    case QGraphs3D::ElementType::AxisYLabel:
         m_state = StateDraggingY;
         break;
-    case QAbstract3DGraph::ElementType::AxisZLabel:
+    case QGraphs3D::ElementType::AxisZLabel:
         m_state = StateDraggingZ;
         break;
     default:
@@ -211,7 +211,7 @@ void ScatterDataModifier::handleAxisDragging(QVector2D delta)
 
 void ScatterDataModifier::changeShadowQuality(int quality)
 {
-    QAbstract3DGraph::ShadowQuality sq = QAbstract3DGraph::ShadowQuality(quality);
+    QGraphs3D::ShadowQuality sq = QGraphs3D::ShadowQuality(quality);
     m_graph->setShadowQuality(sq);
 }
 

@@ -383,8 +383,8 @@ Item {
                 //! [4]
             }
 
-            shadowQuality: AbstractGraph3D.ShadowQuality.None
-            selectionMode: AbstractGraph3D.SelectionSlice | AbstractGraph3D.SelectionItemAndColumn
+            shadowQuality: Graphs3D.ShadowQuality.None
+            selectionMode: Graphs3D.SelectionSlice | Graphs3D.SelectionItemAndColumn
             theme: GraphsTheme {
                 colorScheme: Qt.Dark
                 baseColors: [ Color { color: "yellow" } ]
@@ -393,7 +393,7 @@ Item {
                 labelBorderEnabled: false
                 labelBackgroundEnabled: false
             }
-            cameraPreset: AbstractGraph3D.CameraPreset.FrontHigh
+            cameraPreset: Graphs3D.CameraPreset.FrontHigh
 
             axisX.labelFormat: "%d ms"
             axisY.labelFormat: "%d W"
@@ -408,7 +408,7 @@ Item {
             axisY.segmentCount: 4
             axisZ.segmentCount: 4
             measureFps: true
-            renderingMode: AbstractGraph3D.RenderingMode.DirectToBackground
+            renderingMode: Graphs3D.RenderingMode.DirectToBackground
 
             onCurrentFpsChanged: (currentFps)=> {
                                      fpsText.text = "FPS: " + currentFps;

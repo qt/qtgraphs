@@ -227,11 +227,11 @@ Item {
             text: "Hide Shadows"
             clip: true
             onClicked: {
-                if (barGraph.shadowQuality == AbstractGraph3D.ShadowQuality.None) {
-                    barGraph.shadowQuality = AbstractGraph3D.ShadowQuality.SoftHigh;
+                if (barGraph.shadowQuality == Graphs3D.ShadowQuality.None) {
+                    barGraph.shadowQuality = Graphs3D.ShadowQuality.SoftHigh;
                     text = "Hide Shadows";
                 } else {
-                    barGraph.shadowQuality = AbstractGraph3D.ShadowQuality.None;
+                    barGraph.shadowQuality = Graphs3D.ShadowQuality.None;
                     text = "Show Shadows";
                 }
             }
@@ -341,8 +341,8 @@ Item {
         Bars3D {
             id: barGraph
             anchors.fill: parent
-            shadowQuality: AbstractGraph3D.ShadowQuality.SoftHigh
-            selectionMode: AbstractGraph3D.SelectionItem
+            shadowQuality: Graphs3D.ShadowQuality.SoftHigh
+            selectionMode: Graphs3D.SelectionItem
             theme: GraphsTheme {
                 colorScheme: Qt.Dark
                 labelBorderEnabled: true
@@ -360,7 +360,7 @@ Item {
             barThickness: 0.7
             barSpacing: Qt.size(0.5, 0.5)
             barSpacingRelative: false
-            cameraPreset: AbstractGraph3D.CameraPreset.IsometricLeftHigh
+            cameraPreset: Graphs3D.CameraPreset.IsometricLeftHigh
             columnAxis: graphAxes.column
             rowAxis: graphAxes.row
             valueAxis: graphAxes.value

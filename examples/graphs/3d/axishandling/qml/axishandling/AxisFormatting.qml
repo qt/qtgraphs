@@ -73,8 +73,8 @@ Item {
         anchors.bottom: parent.bottom
         width: parent.width
         theme: themePrimaryColors
-        shadowQuality: AbstractGraph3D.ShadowQuality.SoftMedium
-        cameraPreset: AbstractGraph3D.CameraPreset.IsometricRight
+        shadowQuality: Graphs3D.ShadowQuality.SoftMedium
+        cameraPreset: Graphs3D.CameraPreset.IsometricRight
         //! [3]
         axisZ: valueAxis
         axisY: logAxis

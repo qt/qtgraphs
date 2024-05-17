@@ -132,7 +132,7 @@ public:
     QBar3DSeries *primarySeries() const;
     QBar3DSeries *selectedSeries() const;
     static inline QPoint invalidSelectionPosition() { return QPoint(-1, -1); }
-    void setSelectionMode(QAbstract3DGraph::SelectionFlags mode) override;
+    void setSelectionMode(QGraphs3D::SelectionFlags mode) override;
 
     void handleAxisAutoAdjustRangeChangedInOrientation(QAbstract3DAxis::AxisOrientation orientation,
                                                        bool autoAdjust) override;
@@ -167,7 +167,7 @@ protected:
     void createSliceView() override;
     void updateSliceGraph() override;
     void handleLabelCountChanged(QQuick3DRepeater *repeater, QColor axisLabelColor) override;
-    void updateSelectionMode(QAbstract3DGraph::SelectionFlags mode) override;
+    void updateSelectionMode(QGraphs3D::SelectionFlags mode) override;
     bool doPicking(const QPointF &position) override;
     QAbstract3DAxis *createDefaultAxis(QAbstract3DAxis::AxisOrientation orientation) override;
     void updateSliceItemLabel(QString label, const QVector3D &position) override;

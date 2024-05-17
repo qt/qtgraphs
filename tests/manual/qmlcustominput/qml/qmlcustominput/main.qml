@@ -27,7 +27,7 @@ Item {
             width: dataView.width
             height: dataView.height
             theme: GraphsTheme { theme: GraphsTheme.Theme.QtGreen }
-            shadowQuality: AbstractGraph3D.ShadowQuality.Medium
+            shadowQuality: Graphs3D.ShadowQuality.Medium
             cameraYRotation: 30.0
 
             Scatter3DSeries {
@@ -165,11 +165,11 @@ Item {
             Layout.minimumWidth: parent.width / 3 // 3 buttons divided equally in the layout
             text: "Hide Shadows"
             onClicked: {
-                if (scatterGraph.shadowQuality === AbstractGraph3D.ShadowQuality.None) {
-                    scatterGraph.shadowQuality = AbstractGraph3D.ShadowQuality.Medium;
+                if (scatterGraph.shadowQuality === Graphs3D.ShadowQuality.None) {
+                    scatterGraph.shadowQuality = Graphs3D.ShadowQuality.Medium;
                     text = "Hide Shadows";
                 } else {
-                    scatterGraph.shadowQuality = AbstractGraph3D.ShadowQuality.None;
+                    scatterGraph.shadowQuality = Graphs3D.ShadowQuality.None;
                     text = "Show Shadows";
                 }
             }

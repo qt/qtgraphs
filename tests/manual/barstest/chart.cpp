@@ -117,7 +117,7 @@ GraphModifier::GraphModifier(Q3DBars *barchart, QColorDialog *colorDialog)
     m_graph->addAxis(m_genericColumnAxis);
 
     m_graph->setActiveTheme(m_builtinTheme);
-    m_graph->setShadowQuality(QAbstract3DGraph::ShadowQuality::SoftMedium);
+    m_graph->setShadowQuality(QGraphs3D::ShadowQuality::SoftMedium);
 
     m_temperatureData->setName("Oulu");
     m_temperatureData2->setName("Helsinki");
@@ -219,7 +219,9 @@ GraphModifier::GraphModifier(Q3DBars *barchart, QColorDialog *colorDialog)
     QObject::connect(&m_rotationTimer, &QTimer::timeout, this,
                      &GraphModifier::triggerRotation);
 
-    QObject::connect(m_graph, &QAbstract3DGraph::currentFpsChanged, this,
+    QObject::connect(m_graph,
+                     &QAbstract3DGraph::currentFpsChanged,
+                     this,
                      &GraphModifier::handleFpsChange);
 
     resetTemperatureData();
@@ -594,12 +596,12 @@ void GraphModifier::changeStyle()
 
 void GraphModifier::changePresetCamera()
 {
-    static int preset = int(QAbstract3DGraph::CameraPreset::FrontLow);
+    static int preset = int(QGraphs3D::CameraPreset::FrontLow);
 
-    m_graph->setCameraPreset((QAbstract3DGraph::CameraPreset)preset);
+    m_graph->setCameraPreset((QGraphs3D::CameraPreset) preset);
 
-    if (++preset > int(QAbstract3DGraph::CameraPreset::DirectlyBelow))
-        preset = int(QAbstract3DGraph::CameraPreset::FrontLow);
+    if (++preset > int(QGraphs3D::CameraPreset::DirectlyBelow))
+        preset = int(QGraphs3D::CameraPreset::FrontLow);
 }
 
 void GraphModifier::changeTheme()
@@ -651,12 +653,12 @@ void GraphModifier::changeSelectionMode()
 {
     static int selectionMode = m_graph->selectionMode();
 
-    if (++selectionMode > (int)(QAbstract3DGraph::SelectionItemAndColumn |
-                                QAbstract3DGraph::SelectionSlice |
-                                QAbstract3DGraph::SelectionMultiSeries))
-        selectionMode = QAbstract3DGraph::SelectionNone;
+    if (++selectionMode
+        > (int) (QGraphs3D::SelectionItemAndColumn | QGraphs3D::SelectionSlice
+                 | QGraphs3D::SelectionMultiSeries))
+        selectionMode = QGraphs3D::SelectionNone;
 
-    m_graph->setSelectionMode((QAbstract3DGraph::SelectionFlag)selectionMode);
+    m_graph->setSelectionMode((QGraphs3D::SelectionFlag) selectionMode);
 }
 
 void GraphModifier::changeFont(const QFont &font)
@@ -674,7 +676,7 @@ void GraphModifier::changeFontSize(int fontsize)
     m_graph->activeTheme()->setLabelFont(font);
 }
 
-void GraphModifier::shadowQualityUpdatedByVisual(QAbstract3DGraph::ShadowQuality sq)
+void GraphModifier::shadowQualityUpdatedByVisual(QGraphs3D::ShadowQuality sq)
 {
     int quality = int(sq);
     // Updates the UI component to show correct shadow quality
@@ -713,7 +715,10 @@ void GraphModifier::setUseNullInputHandler(int useNull)
     if (useNull) {
         m_graph->unsetDefaultInputHandler();
         QObject::disconnect(m_graph, &QAbstract3DGraph::wheel, this, &GraphModifier::onWheel);
-        QObject::disconnect(m_graph, &QAbstract3DGraph::mouseMove, this, &GraphModifier::onMouseMove);
+        QObject::disconnect(m_graph,
+                            &QAbstract3DGraph::mouseMove,
+                            this,
+                            &GraphModifier::onMouseMove);
     } else {
         m_graph->setDefaultInputHandler();
     }
@@ -741,7 +746,7 @@ void GraphModifier::handlePrimarySeriesChanged(QBar3DSeries *series)
 
 void GraphModifier::changeShadowQuality(int quality)
 {
-    QAbstract3DGraph::ShadowQuality sq = QAbstract3DGraph::ShadowQuality(quality);
+    QGraphs3D::ShadowQuality sq = QGraphs3D::ShadowQuality(quality);
     m_graph->setShadowQuality(sq);
     emit shadowQualityChanged(quality);
 }
@@ -750,7 +755,8 @@ void GraphModifier::showFiveSeries()
 {
     releaseSeries();
     releaseAxes();
-    m_graph->setSelectionMode(QAbstract3DGraph::SelectionItemRowAndColumn | QAbstract3DGraph::SelectionMultiSeries);
+    m_graph->setSelectionMode(QGraphs3D::SelectionItemRowAndColumn
+                              | QGraphs3D::SelectionMultiSeries);
 
     m_dummyData->dataProxy()->resetArray(makeDummyData());
     m_dummyData2->dataProxy()->resetArray(makeDummyData(), QStringList(), QStringList());
@@ -1007,7 +1013,10 @@ void GraphModifier::insertRemoveTestToggle()
         releaseSeries();
         releaseAxes();
         QObject::disconnect(m_graph, &QAbstract3DGraph::wheel, this, &GraphModifier::onWheel);
-        QObject::disconnect(m_graph, &QAbstract3DGraph::mouseMove, this, &GraphModifier::onMouseMove);
+        QObject::disconnect(m_graph,
+                            &QAbstract3DGraph::mouseMove,
+                            this,
+                            &GraphModifier::onMouseMove);
         m_graph->setDefaultInputHandler();
     } else {
         releaseSeries();

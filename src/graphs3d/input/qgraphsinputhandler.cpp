@@ -230,7 +230,7 @@ void QGraphsInputHandler::onGrabChanged(QPointingDevice::GrabTransition transiti
         setPosition(QPointF(.0f, .0f));
         setScale(1.f);
         setRotation(.0f);
-        emit m_graphsItem->selectedElementChanged(QAbstract3DGraph::ElementType::None);
+        emit m_graphsItem->selectedElementChanged(QGraphs3D::ElementType::None);
         pickPoint = QPointF();
     }
 }

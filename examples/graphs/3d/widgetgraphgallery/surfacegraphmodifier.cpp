@@ -30,7 +30,7 @@ SurfaceGraphModifier::SurfaceGraphModifier(Q3DSurface *surface, QLabel *label, Q
     , m_textField(label)
 {
     m_graph->setCameraZoomLevel(85.f);
-    m_graph->setCameraPreset(QAbstract3DGraph::CameraPreset::IsometricRight);
+    m_graph->setCameraPreset(QGraphs3D::CameraPreset::IsometricRight);
     m_graph->activeTheme()->setTheme(QGraphsTheme::Theme::MixSeries);
     m_graph->activeTheme()->setLabelBackgroundEnabled(false);
     m_graph->activeTheme()->setLabelBorderEnabled(false);
@@ -626,9 +626,9 @@ void SurfaceGraphModifier::toggleOilHighlight(bool highlight)
 void SurfaceGraphModifier::toggleShadows(bool shadows)
 {
     if (shadows)
-        m_graph->setShadowQuality(QAbstract3DGraph::ShadowQuality::Medium);
+        m_graph->setShadowQuality(QGraphs3D::ShadowQuality::Medium);
     else
-        m_graph->setShadowQuality(QAbstract3DGraph::ShadowQuality::None);
+        m_graph->setShadowQuality(QGraphs3D::ShadowQuality::None);
 }
 
 //! [15]
@@ -641,10 +641,10 @@ void SurfaceGraphModifier::toggleSurfaceTexture(bool enable)
 }
 //! [15]
 
-void SurfaceGraphModifier::handleElementSelected(QAbstract3DGraph::ElementType type)
+void SurfaceGraphModifier::handleElementSelected(QGraphs3D::ElementType type)
 {
     resetSelection();
-    if (type == QAbstract3DGraph::ElementType::CustomItem) {
+    if (type == QGraphs3D::ElementType::CustomItem) {
         QCustom3DItem *item = m_graph->selectedCustomItem();
         QString text;
         if (qobject_cast<QCustom3DLabel *>(item) != 0) {
@@ -663,7 +663,7 @@ void SurfaceGraphModifier::handleElementSelected(QAbstract3DGraph::ElementType t
         m_selectionAnimation->setStartValue(item->scaling());
         m_selectionAnimation->setEndValue(item->scaling() * 1.5f);
         m_selectionAnimation->start();
-    } else if (type == QAbstract3DGraph::ElementType::Series) {
+    } else if (type == QGraphs3D::ElementType::Series) {
         QString text = "Surface (";
         QSurface3DSeries *series = m_graph->selectedSeries();
         if (series) {
@@ -677,13 +677,13 @@ void SurfaceGraphModifier::handleElementSelected(QAbstract3DGraph::ElementType t
         }
         text.append(")");
         m_textField->setText(text);
-    } else if (type > QAbstract3DGraph::ElementType::Series
-               && type < QAbstract3DGraph::ElementType::CustomItem) {
+    } else if (type > QGraphs3D::ElementType::Series
+               && type < QGraphs3D::ElementType::CustomItem) {
         int index = m_graph->selectedLabelIndex();
         QString text;
-        if (type == QAbstract3DGraph::ElementType::AxisXLabel)
+        if (type == QGraphs3D::ElementType::AxisXLabel)
             text.append("Axis X label: ");
-        else if (type == QAbstract3DGraph::ElementType::AxisYLabel)
+        else if (type == QGraphs3D::ElementType::AxisYLabel)
             text.append("Axis Y label: ");
         else
             text.append("Axis Z label: ");

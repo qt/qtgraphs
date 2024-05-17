@@ -31,8 +31,8 @@ public Q_SLOTS:
     void changeStyle(int style);
     void changeTheme(int theme);
     void changeShadowQuality(int quality);
-    void shadowQualityUpdatedByVisual(QAbstract3DGraph::ShadowQuality shadowQuality);
-    void handleElementSelected(QAbstract3DGraph::ElementType type);
+    void shadowQualityUpdatedByVisual(QGraphs3D::ShadowQuality shadowQuality);
+    void handleElementSelected(QGraphs3D::ElementType type);
     void handleAxisDragging(QVector2D delta);
 
 Q_SIGNALS:

@@ -97,14 +97,14 @@ Item {
             //! [8]
             CustomButton {
                 id: shadowButton
-                text: graph.shadowQuality === AbstractGraph3D.ShadowQuality.None ?
+                text: graph.shadowQuality === Graphs3D.ShadowQuality.None ?
                           qsTr("Show Shadows") : qsTr("Hide Shadows")
-                source: graph.shadowQuality === AbstractGraph3D.ShadowQuality.None ?
+                source: graph.shadowQuality === Graphs3D.ShadowQuality.None ?
                             "qrc:/images/shadow.svg" : "qrc:/images/shadow_hide.svg"
                 onClicked: {
-                    graph.shadowQuality = graph.shadowQuality === AbstractGraph3D.ShadowQuality.None ?
-                                AbstractGraph3D.ShadowQuality.High :
-                                AbstractGraph3D.ShadowQuality.None
+                    graph.shadowQuality = graph.shadowQuality === Graphs3D.ShadowQuality.None ?
+                                Graphs3D.ShadowQuality.High :
+                                Graphs3D.ShadowQuality.None
                 }
             }
             //! [8]
@@ -123,12 +123,12 @@ Item {
             CustomButton {
                 id: cameraButton
                 text: qsTr("Camera Placement")
-                source: graph.cameraPreset === AbstractGraph3D.CameraPreset.Front ?
+                source: graph.cameraPreset === Graphs3D.CameraPreset.Front ?
                                         "qrc:/images/camera.svg" : "qrc:/images/camera2.svg"
                 onClicked: {
-                    graph.cameraPreset = graph.cameraPreset === AbstractGraph3D.CameraPreset.Front ?
-                                AbstractGraph3D.CameraPreset.IsometricRightHigh :
-                                AbstractGraph3D.CameraPreset.Front
+                    graph.cameraPreset = graph.cameraPreset === Graphs3D.CameraPreset.Front ?
+                                Graphs3D.CameraPreset.IsometricRightHigh :
+                                Graphs3D.CameraPreset.Front
                 }
             }
 

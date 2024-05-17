@@ -35,6 +35,7 @@ else()
 
             utils/qutils.h
             utils/utils.cpp utils/utils_p.h
+            utils/qgraphs3dnamespace.cpp utils/qgraphs3dnamespace.h
 
             qml/foreigntypes_p.h
             qml/qquickgraphsitem.cpp qml/qquickgraphsitem_p.h

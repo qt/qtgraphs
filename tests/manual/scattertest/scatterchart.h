@@ -48,7 +48,7 @@ public:
 
 public Q_SLOTS:
     void changeShadowQuality(int quality);
-    void shadowQualityUpdatedByVisual(QAbstract3DGraph::ShadowQuality shadowQuality);
+    void shadowQualityUpdatedByVisual(QGraphs3D::ShadowQuality shadowQuality);
     void clear();
     void resetAxes();
     void addOne();

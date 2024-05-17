@@ -28,19 +28,19 @@ public:
     ~SurfaceGraphModifier();
 
     //! [0]
-    void toggleModeNone() { m_graph->setSelectionMode(QAbstract3DGraph::SelectionNone); }
-    void toggleModeItem() { m_graph->setSelectionMode(QAbstract3DGraph::SelectionItem); }
+    void toggleModeNone() { m_graph->setSelectionMode(QGraphs3D::SelectionNone); }
+    void toggleModeItem() { m_graph->setSelectionMode(QGraphs3D::SelectionItem); }
     void toggleModeSliceRow()
     {
-        m_graph->setSelectionMode(QAbstract3DGraph::SelectionItemAndRow
-                                  | QAbstract3DGraph::SelectionSlice
-                                  | QAbstract3DGraph::SelectionMultiSeries);
+        m_graph->setSelectionMode(QGraphs3D::SelectionItemAndRow
+                                  | QGraphs3D::SelectionSlice
+                                  | QGraphs3D::SelectionMultiSeries);
     }
     void toggleModeSliceColumn()
     {
-        m_graph->setSelectionMode(QAbstract3DGraph::SelectionItemAndColumn
-                                  | QAbstract3DGraph::SelectionSlice
-                                  | QAbstract3DGraph::SelectionMultiSeries);
+        m_graph->setSelectionMode(QGraphs3D::SelectionItemAndColumn
+                                  | QGraphs3D::SelectionSlice
+                                  | QGraphs3D::SelectionMultiSeries);
     }
     //! [0]
 
@@ -77,7 +77,7 @@ private:
     void setAxisXRange(float min, float max);
     void setAxisZRange(float min, float max);
     void fillSqrtSinProxy();
-    void handleElementSelected(QAbstract3DGraph::ElementType type);
+    void handleElementSelected(QGraphs3D::ElementType type);
     void resetSelection();
 
 private:

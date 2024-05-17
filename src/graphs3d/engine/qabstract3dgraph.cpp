@@ -58,27 +58,27 @@ QT_BEGIN_NAMESPACE
  */
 
 /*!
-  \qmlproperty AbstractGraph3D.SelectionMode AbstractGraph3D::selectionMode
+  \qmlproperty Graphs3D.SelectionMode AbstractGraph3D::selectionMode
   The active selection mode in the graph.
-  One of the QAbstract3DGraph::SelectionFlag enum values.
+  One of the QGraphs3D::SelectionFlag enum values.
 
-  \sa QAbstract3DGraph::SelectionFlag
+  \sa QGraphs3D::SelectionFlag
  */
 
 /*!
-  \qmlproperty AbstractGraph3D.ShadowQuality AbstractGraph3D::shadowQuality
-  The quality of shadows. One of the QAbstract3DGraph::ShadowQuality enum
+  \qmlproperty Graphs3D.ShadowQuality AbstractGraph3D::shadowQuality
+  The quality of shadows. One of the QGraphs3D::ShadowQuality enum
   values.
 
-  \sa QAbstract3DGraph::ShadowQuality
+  \sa QGraphs3D::ShadowQuality
  */
 
 /*!
- * \qmlproperty AbstractGraph3D.CameraPreset AbstractGraph3D::cameraPreset
+ * \qmlproperty Graphs3D.CameraPreset AbstractGraph3D::cameraPreset
  *
  * The currently active camera preset, which is one of
- * \l{AbstractGraph3D::cameraPreset}{AbstractGraph3D.CameraPreset}. If no
- * preset is active, the value is \c {AbstractGraph3D.CameraPreset.None}.
+ * \l{AbstractGraph3D::cameraPreset}{Graphs3D.CameraPreset}. If no
+ * preset is active, the value is \c {Graphs3D.CameraPreset.None}.
  */
 
 /*!
@@ -217,7 +217,7 @@ QT_BEGIN_NAMESPACE
  */
 
 /*!
-  \qmlproperty AbstractGraph3D.RenderingMode AbstractGraph3D::renderingMode
+  \qmlproperty Graphs3D.RenderingMode AbstractGraph3D::renderingMode
 
   How the graph will be rendered. Defaults to \c{Indirect}.
 
@@ -388,7 +388,7 @@ QT_BEGIN_NAMESPACE
  *
  * Can be used to query the index of the selected custom item after receiving
  * \c selectedElementChanged signal with
- * \l{QAbstract3DGraph::ElementType::CustomItem}{ElementType.CustomItem} type. Selection is valid
+ * \l{QGraphs3D::ElementType::CustomItem}{ElementType.CustomItem} type. Selection is valid
  * until the next \c selectedElementChanged signal.
  *
  * \return index of the selected custom item, or -1.
@@ -400,7 +400,7 @@ QT_BEGIN_NAMESPACE
  * \qmlmethod Custom3DItem AbstractGraph3D::selectedCustomItem()
  *
  * Can be used to get the selected custom item after receiving \c selectedElementChanged signal
- * with \l{QAbstract3DGraph::ElementType::CustomItem}{ElementType.CustomItem} type. Ownership
+ * with \l{QGraphs3D::ElementType::CustomItem}{ElementType.CustomItem} type. Ownership
  * of the item remains with the graph.
  * Selection is valid until the next \c selectedElementChanged signal.
  *
@@ -410,7 +410,7 @@ QT_BEGIN_NAMESPACE
  */
 
 /*!
- * \qmlproperty AbstractGraph3D.ElementType AbstractGraph3D::selectedElement
+ * \qmlproperty Graphs3D.ElementType AbstractGraph3D::selectedElement
  *
  * The element selected in the graph.
  *
@@ -423,7 +423,7 @@ QT_BEGIN_NAMESPACE
  *
  * \sa selectedLabelIndex(), selectedAxis(), selectedCustomItemIndex(), selectedCustomItem(),
  * Bars3D::selectedSeries, Scatter3D::selectedSeries, Scene3D::selectionQueryPosition,
- * QAbstract3DGraph::ElementType
+ * QGraphs3D::ElementType
  *
  */
 
@@ -461,7 +461,7 @@ QT_BEGIN_NAMESPACE
  */
 
 /*!
- * \qmlproperty AbstractGraph3D.OptimizationHint AbstractGraph3D::optimizationHint
+ * \qmlproperty Graphs3D.OptimizationHint AbstractGraph3D::optimizationHint
  *
  * Whether the default, static, or legacy mode is used for rendering optimization.
  *
@@ -471,7 +471,7 @@ QT_BEGIN_NAMESPACE
  * Selection is not optimized, so using the static mode with massive data sets is not advisable.
  * Legacy mode renders all items in th graph individually, without instancing. It should be used
  * only if default mode does not work, i.e. if the target system does not support instancing.
- * Defaults to \l{QAbstract3DGraph::OptimizationHint::Default}{Default}.
+ * Defaults to \l{QGraphs3D::OptimizationHint::Default}{Default}.
  *
  * \note On some environments, large graphs using static optimization may not render, because
  * all of the items are rendered using a single draw call, and different graphics drivers
@@ -480,7 +480,7 @@ QT_BEGIN_NAMESPACE
  * To work around this issue, choose an item mesh with a low vertex count or use
  * the point mesh.
  *
- * \sa Abstract3DSeries::mesh, QAbstract3DGraph::OptimizationHint
+ * \sa Abstract3DSeries::mesh, QGraphs3D::OptimizationHint
  */
 
 /*!
@@ -570,135 +570,6 @@ QT_BEGIN_NAMESPACE
  * \qmlproperty color AbstractGraph3D::lightColor
  *
  * The color of the ambient and specular light defined in Scene3D.
- */
-
-/*!
-    \enum QAbstract3DGraph::SelectionFlag
-
-    Item selection modes. Values of this enumeration can be combined with OR
-   operator.
-
-    \value SelectionNone
-           Selection mode disabled.
-    \value SelectionItem
-           Selection highlights a single item.
-    \value SelectionRow
-           Selection highlights a single row.
-    \value SelectionItemAndRow
-           Combination flag for highlighting both item and row with different colors.
-    \value SelectionColumn
-           Selection highlights a single column.
-    \value SelectionItemAndColumn
-           Combination flag for highlighting both item and column with different colors.
-    \value SelectionRowAndColumn
-           Combination flag for highlighting both row and column.
-    \value SelectionItemRowAndColumn
-           Combination flag for highlighting item, row, and column.
-    \value SelectionSlice
-           Setting this mode flag indicates that the graph should take care of the slice view handling
-           automatically. If you wish to control the slice view yourself via Q3DScene, do not set this
-           flag. When setting this mode flag, either \c SelectionRow or \c SelectionColumn must also
-           be set, but not both. Slicing is supported by Q3DBars and Q3DSurface only.
-           When this flag is set, slice mode is entered in the following situations:
-           \list
-           \li When selection is changed explicitly via series API to a visible item
-           \li When selection is changed by clicking on the graph
-           \li When the selection mode changes and the selected item is visible
-           \endlist
-    \value SelectionMultiSeries
-           Setting this mode means that items for all series at same position are highlighted, instead
-           of just the selected item. The actual selection in the other series doesn't change.
-           When setting this mode flag, one or more of the basic selection flags (\c {SelectionItem},
-           \c {SelectionRow}, or \c SelectionColumn) must also be set.
-           Multi-series selection is not supported for Q3DScatter.
-*/
-
-/*!
-    \enum QAbstract3DGraph::ShadowQuality
-
-    Quality of shadows.
-
-    \value None
-           Shadows are disabled.
-    \value Low
-           Shadows are rendered in low quality.
-    \value Medium
-           Shadows are rendered in medium quality.
-    \value High
-           Shadows are rendered in high quality.
-    \value SoftLow
-           Shadows are rendered in low quality with softened edges.
-    \value SoftMedium
-           Shadows are rendered in medium quality with softened edges.
-    \value SoftHigh
-           Shadows are rendered in high quality with softened edges.
-*/
-
-/*!
-    \enum QAbstract3DGraph::ElementType
-
-    Type of an element in the graph.
-
-    \value None
-           No defined element.
-    \value Series
-           An item in a series.
-    \value AxisXLabel
-           The x-axis label.
-    \value AxisYLabel
-           The y-axis label.
-    \value AxisZLabel
-           The z-axis label.
-    \value CustomItem
-           A custom item.
-*/
-
-/*!
-    \enum QAbstract3DGraph::OptimizationHint
-
-    The optimization hint for rendering.
-
-    \value Default
-           Provides the full feature set with instancing at a good performance.
-    \value Legacy
-           Provides the full feature set at a reasonable performance. To be used if
-           OptimizationHint.Default performs poorly or does not work.
-*/
-
-/*!
- * \enum QAbstract3DGraph::CameraPreset
- *
- * Predefined positions for camera.
- *
- * \value NoPreset
- *        Used to indicate a preset has not been set, or the scene has been rotated freely.
- * \value FrontLow
- * \value Front
- * \value FrontHigh
- * \value LeftLow
- * \value Left
- * \value LeftHigh
- * \value RightLow
- * \value Right
- * \value RightHigh
- * \value BehindLow
- * \value Behind
- * \value BehindHigh
- * \value IsometricLeft
- * \value IsometricLeftHigh
- * \value IsometricRight
- * \value IsometricRightHigh
- * \value DirectlyAbove
- * \value DirectlyAboveCW45
- * \value DirectlyAboveCCW45
- * \value FrontBelow
- *        In Q3DBars from FrontBelow onward these only work for graphs including negative
- *        values. They act as Preset...Low for positive-only values.
- * \value LeftBelow
- * \value RightBelow
- * \value BehindBelow
- * \value DirectlyBelow
- *        Acts as FrontLow for positive-only bars.
  */
 
 /*!
@@ -883,14 +754,14 @@ QList<QGraphsTheme *> QAbstract3DGraph::themes() const
  * A combination of SelectionFlags. By default, \c SelectionItem.
  * Different graph types support different selection modes.
  *
- * \sa SelectionFlags
+ * \sa QGraphs3D::SelectionFlags
  */
-QAbstract3DGraph::SelectionFlags QAbstract3DGraph::selectionMode() const
+QGraphs3D::SelectionFlags QAbstract3DGraph::selectionMode() const
 {
     return m_graphsItem->selectionMode();
 }
 
-void QAbstract3DGraph::setSelectionMode(const QAbstract3DGraph::SelectionFlags &selectionMode)
+void QAbstract3DGraph::setSelectionMode(const QGraphs3D::SelectionFlags &selectionMode)
 {
     m_graphsItem->setSelectionMode(selectionMode);
     emit selectionModeChanged(selectionMode);
@@ -907,14 +778,14 @@ void QAbstract3DGraph::setSelectionMode(const QAbstract3DGraph::SelectionFlags &
  * lowered until it is successfully set. The \c shadowQualityChanged signal is
  * emitted each time a change is made.
  *
- * \sa ShadowQuality
+ * \sa QGraphs3D::ShadowQuality
  */
-QAbstract3DGraph::ShadowQuality QAbstract3DGraph::shadowQuality() const
+QGraphs3D::ShadowQuality QAbstract3DGraph::shadowQuality() const
 {
     return m_graphsItem->shadowQuality();
 }
 
-void QAbstract3DGraph::setShadowQuality(const QAbstract3DGraph::ShadowQuality &shadowQuality)
+void QAbstract3DGraph::setShadowQuality(const QGraphs3D::ShadowQuality &shadowQuality)
 {
     m_graphsItem->setShadowQuality(shadowQuality);
     emit shadowQualityChanged(shadowQuality);
@@ -1092,7 +963,7 @@ QCustom3DItem *QAbstract3DGraph::selectedCustomItem() const
  * Q3DScatter::selectedSeries(), Q3DSurface::selectedSeries(),
  * Q3DScene::setSelectionQueryPosition()
  */
-QAbstract3DGraph::ElementType QAbstract3DGraph::selectedElement() const
+QGraphs3D::ElementType QAbstract3DGraph::selectedElement() const
 {
     return m_graphsItem->selectedElement();
 }
@@ -1115,12 +986,12 @@ QSharedPointer<QQuickItemGrabResult> QAbstract3DGraph::renderToImage(const QSize
     return m_graphsItem->grabToImage(renderSize);
 }
 
-QAbstract3DGraph::CameraPreset QAbstract3DGraph::cameraPreset() const
+QGraphs3D::CameraPreset QAbstract3DGraph::cameraPreset() const
 {
     return m_graphsItem->cameraPreset();
 }
 
-void QAbstract3DGraph::setCameraPreset(QAbstract3DGraph::CameraPreset preset)
+void QAbstract3DGraph::setCameraPreset(QGraphs3D::CameraPreset preset)
 {
     m_graphsItem->setCameraPreset(preset);
 }
@@ -1517,8 +1388,8 @@ void QAbstract3DGraph::setCameraTargetPosition(const QVector3D &target)
         newTarget.setZ(1.0f);
 
     if (m_graphsItem->cameraTargetPosition() != newTarget) {
-        if (m_graphsItem->cameraPreset() != QAbstract3DGraph::CameraPreset::NoPreset)
-            m_graphsItem->setCameraPreset(QAbstract3DGraph::CameraPreset::NoPreset);
+        if (m_graphsItem->cameraPreset() != QGraphs3D::CameraPreset::NoPreset)
+            m_graphsItem->setCameraPreset(QGraphs3D::CameraPreset::NoPreset);
         m_graphsItem->setCameraTargetPosition(newTarget);
     }
 }
@@ -1701,7 +1572,7 @@ qreal QAbstract3DGraph::aspectRatio() const
  * optimization works only on scatter graphs. Legacy mode renders all items in
  * th graph individually, without instancing. It should be used only if default
  * mode does not work, i.e. if the target system does not support instancing.
- * Defaults to \l{Default}.
+ * Defaults to \l{QGraphs3D::OptimizationHint::Default}.
  *
  * \note On some environments, large graphs using static optimization may not
  * render, because all of the items are rendered using a single draw call, and
@@ -1712,12 +1583,12 @@ qreal QAbstract3DGraph::aspectRatio() const
  *
  * \sa QAbstract3DSeries::mesh
  */
-void QAbstract3DGraph::setOptimizationHint(QAbstract3DGraph::OptimizationHint hint)
+void QAbstract3DGraph::setOptimizationHint(QGraphs3D::OptimizationHint hint)
 {
     m_graphsItem->setOptimizationHint(hint);
 }
 
-QAbstract3DGraph::OptimizationHint QAbstract3DGraph::optimizationHint() const
+QGraphs3D::OptimizationHint QAbstract3DGraph::optimizationHint() const
 {
     return m_graphsItem->optimizationHint();
 }

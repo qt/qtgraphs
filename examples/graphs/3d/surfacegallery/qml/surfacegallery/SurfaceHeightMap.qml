@@ -45,9 +45,9 @@ Rectangle {
                 baseGradients: [surfaceGradient] // Use the custom gradient
             }
             //! [2]
-            shadowQuality: AbstractGraph3D.ShadowQuality.Medium
-            selectionMode: AbstractGraph3D.SelectionSlice | AbstractGraph3D.SelectionItemAndRow
-            cameraPreset: AbstractGraph3D.CameraPreset.IsometricLeft
+            shadowQuality: Graphs3D.ShadowQuality.Medium
+            selectionMode: Graphs3D.SelectionSlice | Graphs3D.SelectionItemAndRow
+            cameraPreset: Graphs3D.CameraPreset.IsometricLeft
             axisX.segmentCount: 3
             axisX.subSegmentCount: 3
             axisX.labelFormat: "%i"

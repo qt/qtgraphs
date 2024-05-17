@@ -99,7 +99,7 @@ Item {
                 theme: GraphsTheme.Theme.QtGreen
                 baseColors: [dynamicColor]
             }
-            shadowQuality: AbstractGraph3D.ShadowQuality.SoftMedium
+            shadowQuality: Graphs3D.ShadowQuality.SoftMedium
             cameraYRotation: 30.0
             axisX.min: 0
             axisY.min: 0
@@ -206,11 +206,11 @@ Item {
         anchors.left: parent.left
 
         onClicked: {
-            if (scatterGraph.shadowQuality === AbstractGraph3D.ShadowQuality.None) {
-                scatterGraph.shadowQuality = AbstractGraph3D.ShadowQuality.SoftMedium;
+            if (scatterGraph.shadowQuality === Graphs3D.ShadowQuality.None) {
+                scatterGraph.shadowQuality = Graphs3D.ShadowQuality.SoftMedium;
                 text = "Hide Shadows";
             } else {
-                scatterGraph.shadowQuality = AbstractGraph3D.ShadowQuality.None;
+                scatterGraph.shadowQuality = Graphs3D.ShadowQuality.None;
                 text = "Show Shadows";
             }
         }

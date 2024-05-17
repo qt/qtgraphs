@@ -93,7 +93,7 @@ QQuickGraphsItem::QQuickGraphsItem(QQuickItem *parent)
     setFlag(ItemHasContents /*, !m_runningInDesigner*/); // Is this relevant anymore?
 
     // Set 4x MSAA by default
-    setRenderingMode(QAbstract3DGraph::RenderingMode::Indirect);
+    setRenderingMode(QGraphs3D::RenderingMode::Indirect);
     setMsaaSamples(4);
 
     // Accept touchevents
@@ -300,7 +300,7 @@ void QQuickGraphsItem::handleSeriesVisibilityChanged(bool visible)
     handleSeriesVisibilityChangedBySender(sender());
 }
 
-void QQuickGraphsItem::handleRequestShadowQuality(QAbstract3DGraph::ShadowQuality quality)
+void QQuickGraphsItem::handleRequestShadowQuality(QGraphs3D::ShadowQuality quality)
 {
     setShadowQuality(quality);
 }
@@ -904,12 +904,12 @@ QList<QAbstract3DAxis *> QQuickGraphsItem::axes() const
     return m_axes;
 }
 
-void QQuickGraphsItem::setRenderingMode(QAbstract3DGraph::RenderingMode mode)
+void QQuickGraphsItem::setRenderingMode(QGraphs3D::RenderingMode mode)
 {
     if (mode == m_renderMode)
         return;
 
-    QAbstract3DGraph::RenderingMode previousMode = m_renderMode;
+    QGraphs3D::RenderingMode previousMode = m_renderMode;
 
     m_renderMode = mode;
 
@@ -918,17 +918,17 @@ void QQuickGraphsItem::setRenderingMode(QAbstract3DGraph::RenderingMode mode)
 
     // TODO - Need to check if the mode is set properly
     switch (mode) {
-    case QAbstract3DGraph::RenderingMode::DirectToBackground:
+    case QGraphs3D::RenderingMode::DirectToBackground:
         update();
         setRenderMode(QQuick3DViewport::Underlay);
-        if (previousMode == QAbstract3DGraph::RenderingMode::Indirect) {
+        if (previousMode == QGraphs3D::RenderingMode::Indirect) {
             checkWindowList(window());
             setAntialiasing(m_windowSamples > 0);
             if (m_windowSamples != m_samples)
                 emit msaaSamplesChanged(m_windowSamples);
         }
         break;
-    case QAbstract3DGraph::RenderingMode::Indirect:
+    case QGraphs3D::RenderingMode::Indirect:
         update();
         setRenderMode(QQuick3DViewport::Offscreen);
         break;
@@ -939,7 +939,7 @@ void QQuickGraphsItem::setRenderingMode(QAbstract3DGraph::RenderingMode mode)
     emit renderingModeChanged(mode);
 }
 
-QAbstract3DGraph::RenderingMode QQuickGraphsItem::renderingMode() const
+QGraphs3D::RenderingMode QQuickGraphsItem::renderingMode() const
 {
     return m_renderMode;
 }
@@ -953,9 +953,9 @@ void QQuickGraphsItem::keyPressEvent(QKeyEvent *ev)
 
 void QQuickGraphsItem::checkSliceEnabled()
 {
-    if (selectionMode().testFlag(QAbstract3DGraph::SelectionSlice)
-        && (selectionMode().testFlag(QAbstract3DGraph::SelectionColumn)
-            != selectionMode().testFlag(QAbstract3DGraph::SelectionRow))) {
+    if (selectionMode().testFlag(QGraphs3D::SelectionSlice)
+        && (selectionMode().testFlag(QGraphs3D::SelectionColumn)
+            != selectionMode().testFlag(QGraphs3D::SelectionRow))) {
         m_sliceEnabled = true;
     } else {
         m_sliceEnabled = false;
@@ -1232,7 +1232,7 @@ bool QQuickGraphsItem::hasSeries(QAbstract3DSeries *series)
     return m_seriesList.contains(series);
 }
 
-void QQuickGraphsItem::setSelectionMode(QAbstract3DGraph::SelectionFlags mode)
+void QQuickGraphsItem::setSelectionMode(QGraphs3D::SelectionFlags mode)
 {
     if (mode != m_selectionMode) {
         m_selectionMode = mode;
@@ -1242,12 +1242,12 @@ void QQuickGraphsItem::setSelectionMode(QAbstract3DGraph::SelectionFlags mode)
     }
 }
 
-QAbstract3DGraph::SelectionFlags QQuickGraphsItem::selectionMode() const
+QGraphs3D::SelectionFlags QQuickGraphsItem::selectionMode() const
 {
     return m_selectionMode;
 }
 
-void QQuickGraphsItem::doSetShadowQuality(QAbstract3DGraph::ShadowQuality quality)
+void QQuickGraphsItem::doSetShadowQuality(QGraphs3D::ShadowQuality quality)
 {
     if (quality != m_shadowQuality) {
         m_shadowQuality = quality;
@@ -1257,13 +1257,13 @@ void QQuickGraphsItem::doSetShadowQuality(QAbstract3DGraph::ShadowQuality qualit
     }
 }
 
-void QQuickGraphsItem::setShadowQuality(QAbstract3DGraph::ShadowQuality quality)
+void QQuickGraphsItem::setShadowQuality(QGraphs3D::ShadowQuality quality)
 {
     if (!m_useOrthoProjection)
         doSetShadowQuality(quality);
 }
 
-QAbstract3DGraph::ShadowQuality QQuickGraphsItem::shadowQuality() const
+QGraphs3D::ShadowQuality QQuickGraphsItem::shadowQuality() const
 {
     return m_shadowQuality;
 }
@@ -1289,7 +1289,7 @@ qsizetype QQuickGraphsItem::addCustomItem(QCustom3DItem *item)
             material->setParent(model);
             material->setParentItem(model);
             materialsRef.append(material);
-            if (!selectionMode().testFlag(QAbstract3DGraph::SelectionNone))
+            if (!selectionMode().testFlag(QGraphs3D::SelectionNone))
                 model->setPickable(true);
             m_customItemList.insert(item, model);
         }
@@ -1449,15 +1449,15 @@ int QQuickGraphsItem::selectedLabelIndex() const
 QAbstract3DAxis *QQuickGraphsItem::selectedAxis() const
 {
     QAbstract3DAxis *axis = 0;
-    QAbstract3DGraph::ElementType type = m_clickedType;
+    QGraphs3D::ElementType type = m_clickedType;
     switch (type) {
-    case QAbstract3DGraph::ElementType::AxisXLabel:
+    case QGraphs3D::ElementType::AxisXLabel:
         axis = axisX();
         break;
-    case QAbstract3DGraph::ElementType::AxisYLabel:
+    case QGraphs3D::ElementType::AxisYLabel:
         axis = axisY();
         break;
-    case QAbstract3DGraph::ElementType::AxisZLabel:
+    case QGraphs3D::ElementType::AxisZLabel:
         axis = axisZ();
         break;
     default:
@@ -3273,24 +3273,24 @@ QVector3D QQuickGraphsItem::graphPositionAt(const QPoint &point)
     return position;
 }
 
-void QQuickGraphsItem::updateShadowQuality(QAbstract3DGraph::ShadowQuality quality)
+void QQuickGraphsItem::updateShadowQuality(QGraphs3D::ShadowQuality quality)
 {
-    if (quality != QAbstract3DGraph::ShadowQuality::None) {
+    if (quality != QGraphs3D::ShadowQuality::None) {
         light()->setCastsShadow(true);
         light()->setShadowFactor(25.f);
 
         QQuick3DAbstractLight::QSSGShadowMapQuality shadowMapQuality;
         switch (quality) {
-        case QAbstract3DGraph::ShadowQuality::Low:
-        case QAbstract3DGraph::ShadowQuality::SoftLow:
+        case QGraphs3D::ShadowQuality::Low:
+        case QGraphs3D::ShadowQuality::SoftLow:
             shadowMapQuality = QQuick3DAbstractLight::QSSGShadowMapQuality::ShadowMapQualityMedium;
             break;
-        case QAbstract3DGraph::ShadowQuality::Medium:
-        case QAbstract3DGraph::ShadowQuality::SoftMedium:
+        case QGraphs3D::ShadowQuality::Medium:
+        case QGraphs3D::ShadowQuality::SoftMedium:
             shadowMapQuality = QQuick3DAbstractLight::QSSGShadowMapQuality::ShadowMapQualityHigh;
             break;
-        case QAbstract3DGraph::ShadowQuality::High:
-        case QAbstract3DGraph::ShadowQuality::SoftHigh:
+        case QGraphs3D::ShadowQuality::High:
+        case QGraphs3D::ShadowQuality::SoftHigh:
             shadowMapQuality = QQuick3DAbstractLight::QSSGShadowMapQuality::ShadowMapQualityVeryHigh;
             break;
         default:
@@ -3298,7 +3298,7 @@ void QQuickGraphsItem::updateShadowQuality(QAbstract3DGraph::ShadowQuality quali
             break;
         }
         light()->setShadowMapQuality(shadowMapQuality);
-        if (quality >= QAbstract3DGraph::ShadowQuality::SoftLow)
+        if (quality >= QGraphs3D::ShadowQuality::SoftLow)
             light()->setShadowFilter(10.f);
         else
             light()->setShadowFilter(2.f);
@@ -4303,7 +4303,7 @@ void QQuickGraphsItem::updateCustomLabelsRotation()
 
 int QQuickGraphsItem::msaaSamples() const
 {
-    if (m_renderMode == QAbstract3DGraph::RenderingMode::Indirect)
+    if (m_renderMode == QGraphs3D::RenderingMode::Indirect)
         return m_samples;
     else
         return m_windowSamples;
@@ -4311,7 +4311,7 @@ int QQuickGraphsItem::msaaSamples() const
 
 void QQuickGraphsItem::setMsaaSamples(int samples)
 {
-    if (m_renderMode != QAbstract3DGraph::RenderingMode::Indirect) {
+    if (m_renderMode != QGraphs3D::RenderingMode::Indirect) {
         qWarning("Multisampling cannot be adjusted in this render mode");
     } else if (m_samples != samples) {
         m_samples = samples;
@@ -4376,7 +4376,7 @@ void QQuickGraphsItem::handleWindowChanged(/*QQuickWindow *window*/)
 
     connect(window, &QQuickWindow::beforeSynchronizing, this, &QQuickGraphsItem::synchData);
 
-    if (m_renderMode == QAbstract3DGraph::RenderingMode::DirectToBackground) {
+    if (m_renderMode == QGraphs3D::RenderingMode::DirectToBackground) {
         setAntialiasing(m_windowSamples > 0);
         if (m_windowSamples != oldWindowSamples)
             emit msaaSamplesChanged(m_windowSamples);
@@ -4424,7 +4424,7 @@ void QQuickGraphsItem::updateWindowParameters()
             win->update();
         }
 
-        bool directRender = m_renderMode == QAbstract3DGraph::RenderingMode::DirectToBackground;
+        bool directRender = m_renderMode == QGraphs3D::RenderingMode::DirectToBackground;
         QSize windowSize;
 
         if (directRender)
@@ -4452,23 +4452,23 @@ void QQuickGraphsItem::updateWindowParameters()
     }
 }
 
-void QQuickGraphsItem::handleSelectionModeChange(QAbstract3DGraph::SelectionFlags mode)
+void QQuickGraphsItem::handleSelectionModeChange(QGraphs3D::SelectionFlags mode)
 {
     emit selectionModeChanged(mode);
 }
 
-void QQuickGraphsItem::handleShadowQualityChange(QAbstract3DGraph::ShadowQuality quality)
+void QQuickGraphsItem::handleShadowQualityChange(QGraphs3D::ShadowQuality quality)
 {
     emit shadowQualityChanged(quality);
 }
 
-void QQuickGraphsItem::handleSelectedElementChange(QAbstract3DGraph::ElementType type)
+void QQuickGraphsItem::handleSelectedElementChange(QGraphs3D::ElementType type)
 {
     m_clickedType = type;
     emit selectedElementChanged(type);
 }
 
-void QQuickGraphsItem::handleOptimizationHintChange(QAbstract3DGraph::OptimizationHint hint)
+void QQuickGraphsItem::handleOptimizationHintChange(QGraphs3D::OptimizationHint hint)
 {
     Q_UNUSED(hint)
 }
@@ -4500,7 +4500,7 @@ void QQuickGraphsItem::checkWindowList(QQuickWindow *window)
 
     const auto keys = m_graphWindowList.keys();
     for (const auto &graph : keys) {
-        if (graph->m_renderMode == QAbstract3DGraph::RenderingMode::DirectToBackground)
+        if (graph->m_renderMode == QGraphs3D::RenderingMode::DirectToBackground)
             windowList.append(m_graphWindowList.value(graph));
     }
 
@@ -4544,7 +4544,7 @@ void QQuickGraphsItem::setOrthoProjection(bool enable)
         emit orthoProjectionChanged(m_useOrthoProjection);
         // If changed to ortho, disable shadows
         if (m_useOrthoProjection)
-            doSetShadowQuality(QAbstract3DGraph::ShadowQuality::None);
+            doSetShadowQuality(QGraphs3D::ShadowQuality::None);
         emitNeedRender();
     }
 }
@@ -4554,7 +4554,7 @@ bool QQuickGraphsItem::isOrthoProjection() const
     return m_useOrthoProjection;
 }
 
-QAbstract3DGraph::ElementType QQuickGraphsItem::selectedElement() const
+QGraphs3D::ElementType QQuickGraphsItem::selectedElement() const
 {
     return m_clickedType;
 }
@@ -4575,7 +4575,7 @@ qreal QQuickGraphsItem::aspectRatio() const
     return m_aspectRatio;
 }
 
-void QQuickGraphsItem::setOptimizationHint(QAbstract3DGraph::OptimizationHint hint)
+void QQuickGraphsItem::setOptimizationHint(QGraphs3D::OptimizationHint hint)
 {
     if (hint != m_optimizationHint) {
         m_optimizationHint = hint;
@@ -4587,7 +4587,7 @@ void QQuickGraphsItem::setOptimizationHint(QAbstract3DGraph::OptimizationHint hi
     }
 }
 
-QAbstract3DGraph::OptimizationHint QQuickGraphsItem::optimizationHint() const
+QGraphs3D::OptimizationHint QQuickGraphsItem::optimizationHint() const
 {
     return m_optimizationHint;
 }
@@ -4787,7 +4787,7 @@ void QQuickGraphsItem::updateTitleLabels()
 }
 
 
-void QQuickGraphsItem::updateSelectionMode(QAbstract3DGraph::SelectionFlags newMode)
+void QQuickGraphsItem::updateSelectionMode(QGraphs3D::SelectionFlags newMode)
 {
     Q_UNUSED(newMode);
 
@@ -4808,7 +4808,7 @@ bool QQuickGraphsItem::doPicking(const QPointF &point)
             if (customItem) {
                 qsizetype selectedIndex = m_customItems.indexOf(customItem);
                 m_selectedCustomItemIndex = selectedIndex;
-                handleSelectedElementChange(QAbstract3DGraph::ElementType::CustomItem);
+                handleSelectedElementChange(QGraphs3D::ElementType::CustomItem);
                 // Don't allow picking in subclasses if custom item is picked
                 return false;
             }
@@ -4825,10 +4825,10 @@ bool QQuickGraphsItem::doPicking(const QPointF &point)
                 if (result.objectHit() == obj)
                     m_selectedLabelIndex = i;
             }
-            handleSelectedElementChange(QAbstract3DGraph::ElementType::AxisXLabel);
+            handleSelectedElementChange(QGraphs3D::ElementType::AxisXLabel);
             break;
         } else if (objName.contains(QStringLiteral("ElementAxisYLabel"))) {
-            handleSelectedElementChange(QAbstract3DGraph::ElementType::AxisYLabel);
+            handleSelectedElementChange(QGraphs3D::ElementType::AxisYLabel);
             break;
         } else if (objName.contains(QStringLiteral("ElementAxisZLabel"))) {
             for (int i = 0; i < repeaterX()->count(); i++) {
@@ -4836,7 +4836,7 @@ bool QQuickGraphsItem::doPicking(const QPointF &point)
                 if (result.objectHit() == obj)
                     m_selectedLabelIndex = i;
             }
-            handleSelectedElementChange(QAbstract3DGraph::ElementType::AxisZLabel);
+            handleSelectedElementChange(QGraphs3D::ElementType::AxisZLabel);
             break;
         } else {
             continue;
@@ -4981,136 +4981,136 @@ QQuick3DPrincipledMaterial *QQuickGraphsItem::createPrincipledMaterial()
     return qobject_cast<QQuick3DPrincipledMaterial *>(component.create());
 }
 
-QAbstract3DGraph::CameraPreset QQuickGraphsItem::cameraPreset() const
+QGraphs3D::CameraPreset QQuickGraphsItem::cameraPreset() const
 {
     return m_activePreset;
 }
 
-void QQuickGraphsItem::setCameraPreset(QAbstract3DGraph::CameraPreset preset)
+void QQuickGraphsItem::setCameraPreset(QGraphs3D::CameraPreset preset)
 {
     switch (preset) {
-    case QAbstract3DGraph::CameraPreset::FrontLow: {
+    case QGraphs3D::CameraPreset::FrontLow: {
         m_xRotation = 0.0f;
         m_yRotation = 0.0f;
         break;
     }
-    case QAbstract3DGraph::CameraPreset::Front: {
+    case QGraphs3D::CameraPreset::Front: {
         m_xRotation = 0.0f;
         m_yRotation = 22.5f;
         break;
     }
-    case QAbstract3DGraph::CameraPreset::FrontHigh: {
+    case QGraphs3D::CameraPreset::FrontHigh: {
         m_xRotation = 0.0f;
         m_yRotation = 45.0f;
         break;
     }
-    case QAbstract3DGraph::CameraPreset::LeftLow: {
+    case QGraphs3D::CameraPreset::LeftLow: {
         m_xRotation = 90.0f;
         m_yRotation = 0.0f;
         break;
     }
-    case QAbstract3DGraph::CameraPreset::Left: {
+    case QGraphs3D::CameraPreset::Left: {
         m_xRotation = 90.0f;
         m_yRotation = 22.5f;
         break;
     }
-    case QAbstract3DGraph::CameraPreset::LeftHigh: {
+    case QGraphs3D::CameraPreset::LeftHigh: {
         m_xRotation = 90.0f;
         m_yRotation = 45.0f;
         break;
     }
-    case QAbstract3DGraph::CameraPreset::RightLow: {
+    case QGraphs3D::CameraPreset::RightLow: {
         m_xRotation = -90.0f;
         m_yRotation = 0.0f;
         break;
     }
-    case QAbstract3DGraph::CameraPreset::Right: {
+    case QGraphs3D::CameraPreset::Right: {
         m_xRotation = -90.0f;
         m_yRotation = 22.5f;
         break;
     }
-    case QAbstract3DGraph::CameraPreset::RightHigh: {
+    case QGraphs3D::CameraPreset::RightHigh: {
         m_xRotation = -90.0f;
         m_yRotation = 45.0f;
         break;
     }
-    case QAbstract3DGraph::CameraPreset::BehindLow: {
+    case QGraphs3D::CameraPreset::BehindLow: {
         m_xRotation = 180.0f;
         m_yRotation = 0.0f;
         break;
     }
-    case QAbstract3DGraph::CameraPreset::Behind: {
+    case QGraphs3D::CameraPreset::Behind: {
         m_xRotation = 180.0f;
         m_yRotation = 22.5f;
         break;
     }
-    case QAbstract3DGraph::CameraPreset::BehindHigh: {
+    case QGraphs3D::CameraPreset::BehindHigh: {
         m_xRotation = 180.0f;
         m_yRotation = 45.0f;
         break;
     }
-    case QAbstract3DGraph::CameraPreset::IsometricLeft: {
+    case QGraphs3D::CameraPreset::IsometricLeft: {
         m_xRotation = 45.0f;
         m_yRotation = 22.5f;
         break;
     }
-    case QAbstract3DGraph::CameraPreset::IsometricLeftHigh: {
+    case QGraphs3D::CameraPreset::IsometricLeftHigh: {
         m_xRotation = 45.0f;
         m_yRotation = 45.0f;
         break;
     }
-    case QAbstract3DGraph::CameraPreset::IsometricRight: {
+    case QGraphs3D::CameraPreset::IsometricRight: {
         m_xRotation = -45.0f;
         m_yRotation = 22.5f;
         break;
     }
-    case QAbstract3DGraph::CameraPreset::IsometricRightHigh: {
+    case QGraphs3D::CameraPreset::IsometricRightHigh: {
         m_xRotation = -45.0f;
         m_yRotation = 45.0f;
         break;
     }
-    case QAbstract3DGraph::CameraPreset::DirectlyAbove: {
+    case QGraphs3D::CameraPreset::DirectlyAbove: {
         m_xRotation = 0.0f;
         m_yRotation = 90.0f;
         break;
     }
-    case QAbstract3DGraph::CameraPreset::DirectlyAboveCW45: {
+    case QGraphs3D::CameraPreset::DirectlyAboveCW45: {
         m_xRotation = -45.0f;
         m_yRotation = 90.0f;
         break;
     }
-    case QAbstract3DGraph::CameraPreset::DirectlyAboveCCW45: {
+    case QGraphs3D::CameraPreset::DirectlyAboveCCW45: {
         m_xRotation = 45.0f;
         m_yRotation = 90.0f;
         break;
     }
-    case QAbstract3DGraph::CameraPreset::FrontBelow: {
+    case QGraphs3D::CameraPreset::FrontBelow: {
         m_xRotation = 0.0f;
         m_yRotation = -45.0f;
         break;
     }
-    case QAbstract3DGraph::CameraPreset::LeftBelow: {
+    case QGraphs3D::CameraPreset::LeftBelow: {
         m_xRotation = 90.0f;
         m_yRotation = -45.0f;
         break;
     }
-    case QAbstract3DGraph::CameraPreset::RightBelow: {
+    case QGraphs3D::CameraPreset::RightBelow: {
         m_xRotation = -90.0f;
         m_yRotation = -45.0f;
         break;
     }
-    case QAbstract3DGraph::CameraPreset::BehindBelow: {
+    case QGraphs3D::CameraPreset::BehindBelow: {
         m_xRotation = 180.0f;
         m_yRotation = -45.0f;
         break;
     }
-    case QAbstract3DGraph::CameraPreset::DirectlyBelow: {
+    case QGraphs3D::CameraPreset::DirectlyBelow: {
         m_xRotation = 0.0f;
         m_yRotation = -90.0f;
         break;
     }
     default:
-        preset = QAbstract3DGraph::CameraPreset::NoPreset;
+        preset = QGraphs3D::CameraPreset::NoPreset;
         break;
     }
 
@@ -5417,12 +5417,12 @@ void QQuickGraphsItem::updateSliceGrid()
 
     float horizontalScale = 0.0f;
 
-    if (selectionMode().testFlag(QAbstract3DGraph::SelectionRow)) {
+    if (selectionMode().testFlag(QGraphs3D::SelectionRow)) {
         horizontalAxis = axisX();
         horizontalScale = backgroundScale.x();
         scale = m_scaleWithBackground.x();
         translate = m_scaleWithBackground.x();
-    } else if (selectionMode().testFlag(QAbstract3DGraph::SelectionColumn)) {
+    } else if (selectionMode().testFlag(QGraphs3D::SelectionColumn)) {
         horizontalAxis = axisZ();
         horizontalScale = backgroundScale.z();
         scale = m_scaleWithBackground.z();
@@ -5518,12 +5518,12 @@ void QQuickGraphsItem::updateSliceLabels()
     float translate;
     QColor horizontalLabelTextColor;
 
-    if (selectionMode().testFlag(QAbstract3DGraph::SelectionRow)) {
+    if (selectionMode().testFlag(QGraphs3D::SelectionRow)) {
         horizontalAxis = axisX();
         scale = backgroundScale.x() - m_backgroundScaleMargin.x();
         translate = backgroundScale.x() - m_backgroundScaleMargin.x();
         horizontalLabelTextColor = theme()->axisXLabelColor();
-    } else if (selectionMode().testFlag(QAbstract3DGraph::SelectionColumn)) {
+    } else if (selectionMode().testFlag(QGraphs3D::SelectionColumn)) {
         horizontalAxis = axisZ();
         scale = backgroundScale.z() - m_backgroundScaleMargin.z();
         translate = backgroundScale.z() - m_backgroundScaleMargin.z();
@@ -5600,7 +5600,7 @@ void QQuickGraphsItem::updateSliceLabels()
         for (int i = 0; i < m_sliceHorizontalLabelRepeater->count(); i++) {
             labelTrans = calculateCategoryLabelPosition(horizontalAxis, labelTrans, i);
             labelTrans.setY(-yPos /*- (adjustment / 2.f)*/);
-            if (selectionMode().testFlag(QAbstract3DGraph::SelectionColumn))
+            if (selectionMode().testFlag(QGraphs3D::SelectionColumn))
                 labelTrans.setX(labelTrans.z());
             labelTrans.setZ(1.0f); // Bring the labels on top of bars and grid
             auto obj = static_cast<QQuick3DNode *>(m_sliceHorizontalLabelRepeater->objectAt(i));
@@ -5627,9 +5627,9 @@ void QQuickGraphsItem::updateSliceLabels()
     fontScaled.setX(scaleFactor * fontRatio);
     adjustment = labelsMaxWidth * scaleFactor;
     float xPos = 0.0f;
-    if (selectionMode().testFlag(QAbstract3DGraph::SelectionRow))
+    if (selectionMode().testFlag(QGraphs3D::SelectionRow))
         xPos = backgroundScale.x() + (adjustment * 1.5f);
-    else if (selectionMode().testFlag(QAbstract3DGraph::SelectionColumn))
+    else if (selectionMode().testFlag(QGraphs3D::SelectionColumn))
         xPos = backgroundScale.z() + (adjustment * 1.5f);
     labelTrans = QVector3D(xPos, 0.0f, 0.0f);
     QColor verticalLabelTextColor = theme()->axisYLabelColor();
@@ -5672,9 +5672,9 @@ void QQuickGraphsItem::updateSliceLabels()
     QVector3D vTitleScale = fontScaled;
     vTitleScale.setX(fontScaled.y() * labelWidth / labelHeight);
     adjustment = labelHeight * scaleFactor;
-    if (selectionMode().testFlag(QAbstract3DGraph::SelectionRow))
+    if (selectionMode().testFlag(QGraphs3D::SelectionRow))
         xPos = backgroundScale.x() + adjustment;
-    else if (selectionMode().testFlag(QAbstract3DGraph::SelectionColumn))
+    else if (selectionMode().testFlag(QGraphs3D::SelectionColumn))
         xPos = backgroundScale.z() + adjustment;
     labelTrans = QVector3D(-(xPos + adjustment), 0.0f, 0.0f);
 

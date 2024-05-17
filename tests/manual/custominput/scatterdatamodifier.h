@@ -24,7 +24,7 @@ public:
 
 public Q_SLOTS:
     void changeShadowQuality(int quality);
-    void shadowQualityUpdatedByVisual(QAbstract3DGraph::ShadowQuality shadowQuality);
+    void shadowQualityUpdatedByVisual(QGraphs3D::ShadowQuality shadowQuality);
     void onWheel(QWheelEvent *event);
     void onMouseMove(QPoint mousePos);
     void onTapped(QEventPoint eventPoint, Qt::MouseButton button);

@@ -266,40 +266,44 @@ int main(int argc, char *argv[])
     shadowQuality->setCurrentIndex(3);
 
     QComboBox *selectionMode = new QComboBox(widget);
-    selectionMode->addItem(QStringLiteral("None"),
-                               int(QAbstract3DGraph::SelectionNone));
-    selectionMode->addItem(QStringLiteral("Item"),
-                               int(QAbstract3DGraph::SelectionItem));
+    selectionMode->addItem(QStringLiteral("None"), int(QGraphs3D::SelectionNone));
+    selectionMode->addItem(QStringLiteral("Item"), int(QGraphs3D::SelectionItem));
     selectionMode->addItem(QStringLiteral("Multi: Item"),
-                               int(QAbstract3DGraph::SelectionItem | QAbstract3DGraph::SelectionMultiSeries));
-    selectionMode->addItem(QStringLiteral("Row"),
-                               int(QAbstract3DGraph::SelectionRow));
+                           int(QGraphs3D::SelectionItem
+                               | QGraphs3D::SelectionMultiSeries));
+    selectionMode->addItem(QStringLiteral("Row"), int(QGraphs3D::SelectionRow));
     selectionMode->addItem(QStringLiteral("Item and Row"),
-                               int(QAbstract3DGraph::SelectionItemAndRow));
-    selectionMode->addItem(QStringLiteral("Column"),
-                               int(QAbstract3DGraph::SelectionColumn));
+                           int(QGraphs3D::SelectionItemAndRow));
+    selectionMode->addItem(QStringLiteral("Column"), int(QGraphs3D::SelectionColumn));
     selectionMode->addItem(QStringLiteral("Item and Column"),
-                               int(QAbstract3DGraph::SelectionItemAndColumn));
+                           int(QGraphs3D::SelectionItemAndColumn));
     selectionMode->addItem(QStringLiteral("Row and Column"),
-                               int(QAbstract3DGraph::SelectionRowAndColumn));
+                           int(QGraphs3D::SelectionRowAndColumn));
     selectionMode->addItem(QStringLiteral("Item, Row and Column"),
-                               int(QAbstract3DGraph::SelectionItemRowAndColumn));
+                           int(QGraphs3D::SelectionItemRowAndColumn));
     selectionMode->addItem(QStringLiteral("Multi: Item, Row and Column"),
-                               int(QAbstract3DGraph::SelectionItemRowAndColumn | QAbstract3DGraph::SelectionMultiSeries));
+                           int(QGraphs3D::SelectionItemRowAndColumn
+                               | QGraphs3D::SelectionMultiSeries));
     selectionMode->addItem(QStringLiteral("Slice into Row"),
-                               int(QAbstract3DGraph::SelectionSlice | QAbstract3DGraph::SelectionRow));
+                           int(QGraphs3D::SelectionSlice
+                               | QGraphs3D::SelectionRow));
     selectionMode->addItem(QStringLiteral("Slice into Row and Item"),
-                               int(QAbstract3DGraph::SelectionSlice | QAbstract3DGraph::SelectionItemAndRow));
+                           int(QGraphs3D::SelectionSlice
+                               | QGraphs3D::SelectionItemAndRow));
     selectionMode->addItem(QStringLiteral("Multi: Slice, Row & Item"),
-                               int(QAbstract3DGraph::SelectionSlice | QAbstract3DGraph::SelectionItemAndRow
-                                   | QAbstract3DGraph::SelectionMultiSeries));
+                           int(QGraphs3D::SelectionSlice
+                               | QGraphs3D::SelectionItemAndRow
+                               | QGraphs3D::SelectionMultiSeries));
     selectionMode->addItem(QStringLiteral("Slice into Column"),
-                               int(QAbstract3DGraph::SelectionSlice | QAbstract3DGraph::SelectionColumn));
+                           int(QGraphs3D::SelectionSlice
+                               | QGraphs3D::SelectionColumn));
     selectionMode->addItem(QStringLiteral("Slice into Column and Item"),
-                               int(QAbstract3DGraph::SelectionSlice | QAbstract3DGraph::SelectionItemAndColumn));
+                           int(QGraphs3D::SelectionSlice
+                               | QGraphs3D::SelectionItemAndColumn));
     selectionMode->addItem(QStringLiteral("Multi: Slice, Column & Item"),
-                               int(QAbstract3DGraph::SelectionSlice | QAbstract3DGraph::SelectionItemAndColumn
-                                   | QAbstract3DGraph::SelectionMultiSeries));
+                           int(QGraphs3D::SelectionSlice
+                               | QGraphs3D::SelectionItemAndColumn
+                               | QGraphs3D::SelectionMultiSeries));
 
 #ifndef MULTI_SERIES
     QPushButton *selectButton = new QPushButton(widget);

@@ -78,12 +78,12 @@ Item {
                 Layout.alignment: Qt.AlignCenter
                 onClicked: {
                     if (optimization === "Legacy") {
-                        scatterGraph.optimizationHint = AbstractGraph3D.OptimizationHint.Default
-                        barGraph.optimizationHint = AbstractGraph3D.OptimizationHint.Default
+                        scatterGraph.optimizationHint = Graphs3D.OptimizationHint.Default
+                        barGraph.optimizationHint = Graphs3D.OptimizationHint.Default
                         optimization= "Default"
                     } else {
-                        scatterGraph.optimizationHint = AbstractGraph3D.OptimizationHint.Legacy
-                        barGraph.optimizationHint = AbstractGraph3D.OptimizationHint.Legacy
+                        scatterGraph.optimizationHint = Graphs3D.OptimizationHint.Legacy
+                        barGraph.optimizationHint = Graphs3D.OptimizationHint.Legacy
                         optimization = "Legacy"
                     }
                     console.log("Set optimization to " + optimization)
@@ -409,7 +409,7 @@ Item {
             Surface3D {
                 id: surfaceGraph
                 anchors.fill: parent
-                shadowQuality: AbstractGraph3D.ShadowQuality.None
+                shadowQuality: Graphs3D.ShadowQuality.None
                 cameraYRotation: 45.0
                 measureFps: true
 
@@ -447,7 +447,7 @@ Item {
             Scatter3D {
                 id: scatterGraph
                 anchors.fill: parent
-                shadowQuality: AbstractGraph3D.ShadowQuality.None
+                shadowQuality: Graphs3D.ShadowQuality.None
                 aspectRatio: 1.0
                 horizontalAspectRatio: 1.0
                 cameraYRotation: 45.0
@@ -489,7 +489,7 @@ Item {
             Bars3D {
                 id: barGraph
                 anchors.fill: parent
-                shadowQuality: AbstractGraph3D.ShadowQuality.None
+                shadowQuality: Graphs3D.ShadowQuality.None
                 cameraYRotation: 45.0
                 measureFps: true
                 valueAxis.min: 0
