@@ -90,15 +90,7 @@ Rectangle {
             max: 4
         }
 
-        GraphsTheme {
-            id: seriesTheme
-            colorScheme: Qt.Dark
-            theme: GraphsTheme.Theme.QtGreen
-            backgroundColor: "#202020"
-        }
-
         AreaSeries {
-            theme: seriesTheme
             selectable: true
 
             upperSeries: LineSeries {
@@ -141,7 +133,6 @@ Rectangle {
         }
 
         AreaSeries {
-            theme: seriesTheme
             selectable: true
 
             upperSeries: SplineSeries {
@@ -158,19 +149,16 @@ Rectangle {
         }
 
         AreaSeries {
-            theme: seriesTheme
             upperSeries: high
             lowerSeries: mid
         }
 
         AreaSeries {
-            theme: seriesTheme
             upperSeries: mid
             lowerSeries: low
         }
 
         AreaSeries {
-            theme: seriesTheme
             upperSeries: low
         }
     }

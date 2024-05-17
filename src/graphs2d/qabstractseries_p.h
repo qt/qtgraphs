@@ -22,7 +22,6 @@ QT_BEGIN_NAMESPACE
 
 class QAbstractAxis;
 class QGraphsView;
-class QGraphsTheme;
 
 class QAbstractSeriesPrivate : public QObjectPrivate
 {
@@ -38,7 +37,6 @@ protected:
     QGraphsView *m_graph;
 
 private:
-    QGraphsTheme *m_theme = nullptr;
     QString m_name;
     bool m_visible;
     bool m_loaded = false;

@@ -147,7 +147,7 @@ Rectangle {
             max: 8
         }
 
-        GraphsTheme {
+        theme: GraphsTheme {
             id: seriesTheme
             theme: GraphsTheme.Theme.QtGreen
         }
@@ -155,7 +155,6 @@ Rectangle {
         LineSeries {
             id: lineSeries1
             name: "First"
-            theme: seriesTheme
             width: widthSlider1.value
             selectable: true
             draggable: true
@@ -178,7 +177,6 @@ Rectangle {
         LineSeries {
             id: lineSeries2
             name: "Second"
-            theme: seriesTheme
             width: widthSlider2.value
             draggable: true
             pointMarker: Item {
@@ -214,7 +212,6 @@ Rectangle {
         LineSeries {
             id: lineSeries3
             name: "Third"
-            theme: seriesTheme
             width: widthSlider2.value
             XYPoint { x: 0; y: 2.6 }
             XYPoint { x: 0.2; y: 3.1 }

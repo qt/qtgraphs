@@ -78,7 +78,7 @@ Item {
                     readonly property color c2: "#373F26"
                     readonly property color c3: Qt.lighter(c2, 1.5)
                     colorScheme: Qt.Dark
-                    theme: GraphsTheme.Theme.QtGreenNeon
+                    seriesColors: ["#2CDE85", "#DBEB00"]
                     gridMainColor: c3
                     gridSubColor: c2
                     axisXMainColor: c3
@@ -113,17 +113,9 @@ Item {
                 }
                 //! [linemarker]
 
-                //! [lineseriestheme]
-                GraphsTheme {
-                    id: seriesTheme
-                    seriesColors: ["#2CDE85", "#DBEB00"]
-                }
-                //! [lineseriestheme]
-
                 //! [lineseries1]
                 LineSeries {
                     id: lineSeries1
-                    theme: seriesTheme
                     width: 4
                     pointMarker: Marker { }
                     XYPoint { x: 0; y: 0 }
@@ -138,7 +130,6 @@ Item {
                 //! [lineseries2]
                 LineSeries {
                     id: lineSeries2
-                    theme: seriesTheme
                     width: 4
                     pointMarker: Marker { }
                     XYPoint { x: 0; y: 5.0 }

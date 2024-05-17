@@ -60,7 +60,6 @@ void tst_scatter::initialProperties()
     QCOMPARE(m_series->draggable(), false);
 
     // Properties from QAbstractSeries
-    QCOMPARE(m_series->theme(), nullptr);
     QCOMPARE(m_series->name(), "");
     QCOMPARE(m_series->isVisible(), true);
     QCOMPARE(m_series->selectable(), false);
@@ -74,7 +73,6 @@ void tst_scatter::initializeProperties()
     QVERIFY(m_series);
 
     auto marker = new QQmlComponent(this);
-    auto theme = new QGraphsTheme(this);
 
     m_series->setPointMarker(marker);
 
@@ -82,7 +80,6 @@ void tst_scatter::initializeProperties()
     m_series->setSelectedColor("#0000ff");
     m_series->setDraggable(true);
 
-    m_series->setTheme(theme);
     m_series->setName("LineSeries");
     m_series->setVisible(false);
     m_series->setSelectable(true);
@@ -96,7 +93,6 @@ void tst_scatter::initializeProperties()
     QCOMPARE(m_series->selectedColor(), "#0000ff");
     QCOMPARE(m_series->draggable(), true);
 
-    QCOMPARE(m_series->theme(), theme);
     QCOMPARE(m_series->name(), "LineSeries");
     QCOMPARE(m_series->isVisible(), false);
     QCOMPARE(m_series->selectable(), true);

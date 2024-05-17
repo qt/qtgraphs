@@ -74,18 +74,6 @@ void QGraphsView::insertSeries(qsizetype index, QObject *object)
 
             QObject::connect(series, &QAbstractSeries::update,
                              this, &QGraphsView::polishAndUpdate);
-            if (series->theme()) {
-                QObject::connect(series->theme(), &QGraphsTheme::update,
-                                 this, &QGraphsView::polishAndUpdate);
-            }
-            QObject::connect(series, &QAbstractSeries::themeChanged,
-                             [this, series] {
-                if (series->theme()) {
-                    QObject::connect(series->theme(), &QGraphsTheme::update,
-                                     this, &QGraphsView::polishAndUpdate);
-                }
-            });
-
             QObject::connect(series, &QAbstractSeries::hoverEnter,
                              this, &QGraphsView::handleHoverEnter);
             QObject::connect(series, &QAbstractSeries::hoverExit,
@@ -612,8 +600,9 @@ void QGraphsView::setTheme(QGraphsTheme *newTheme)
         m_theme->resetColorTheme();
     }
 
-    QObject::connect(m_theme, &QGraphsTheme::update, this, &QQuickItem::update);
+    QObject::connect(m_theme, &QGraphsTheme::update, this, &QGraphsView::polishAndUpdate);
     emit themeChanged();
+    polishAndUpdate();
 }
 
 /*!
@@ -731,7 +720,7 @@ void QGraphsView::setAxisX(QAbstractAxis *axis)
     The y-axis used for the series inside this view.
 */
 /*!
-    \qmlproperty AbstractAxis QGraphsView::axisY
+    \qmlproperty AbstractAxis GraphsView::axisY
     The y-axis used for the series inside this view.
     \sa axisX
 */

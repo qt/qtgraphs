@@ -61,6 +61,8 @@ public:
 
 protected:
     QList<QBarSet *> m_barSets;
+    QList<QColor> m_seriesColors;
+    QList<QColor> m_borderColors;
     qreal m_barWidth;
     bool m_labelsVisible;
     bool m_visible;

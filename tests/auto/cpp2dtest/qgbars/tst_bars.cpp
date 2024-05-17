@@ -61,10 +61,9 @@ void tst_bars::initialProperties()
     QCOMPARE(m_series->labelsMargin(), 0);
     QCOMPARE(m_series->labelsAngle(), 0);
     QCOMPARE(m_series->labelsPrecision(), 6);
+    QCOMPARE(m_series->seriesColors(), {});
 
     // Properties from QAbstractSeries
-    // TODO: QML API gives a theme, C++ API does not - investigate
-    QCOMPARE(m_series->theme(), nullptr);
     QCOMPARE(m_series->name(), "");
     QCOMPARE(m_series->isVisible(), true);
     QCOMPARE(m_series->selectable(), false);
@@ -77,7 +76,8 @@ void tst_bars::initializeProperties()
 {
     QVERIFY(m_series);
 
-    auto theme = new QGraphsTheme(this);
+    auto colors1 = QList<QColor> {QColor(255, 255, 255)};
+    auto colors2 = QList<QColor> {QColor(0, 0, 0)};
     auto set = new QBarSet(this);
 
     m_series->setBarWidth(0.75);
@@ -89,7 +89,8 @@ void tst_bars::initializeProperties()
     m_series->setLabelsPrecision(10);
     m_series->append(set);
 
-    m_series->setTheme(theme);
+    m_series->setSeriesColors(colors1);
+    m_series->setBorderColors(colors2);
     m_series->setName("BarSeries");
     m_series->setVisible(false);
     m_series->setSelectable(true);
@@ -106,7 +107,8 @@ void tst_bars::initializeProperties()
     QCOMPARE(m_series->labelsAngle(), 45.0);
     QCOMPARE(m_series->labelsPrecision(), 10);
 
-    QCOMPARE(m_series->theme(), theme);
+    QCOMPARE(m_series->seriesColors(), colors1);
+    QCOMPARE(m_series->borderColors(), colors2);
     QCOMPARE(m_series->name(), "BarSeries");
     QCOMPARE(m_series->isVisible(), false);
     QCOMPARE(m_series->selectable(), true);

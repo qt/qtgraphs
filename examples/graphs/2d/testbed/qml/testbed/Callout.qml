@@ -19,7 +19,6 @@ Rectangle {
         anchors.bottom: parent.bottom
         anchors.top: parent.top
         anchors.margins: 10
-
         axisX: BarCategoryAxis { categories: ["2023", "2024", "2025", "2026"] }
         axisY: ValueAxis {
             id: yAxis
@@ -40,17 +39,12 @@ Rectangle {
             tooltip.text = "Series: " + seriesName + ", X: " + value.x.toFixed(1) + ", Y: " + value.y.toFixed(1);
         }
 
-        GraphsTheme {
-            id: seriesTheme
-            colorScheme: Qt.Dark
-            theme: GraphsTheme.Theme.QtGreen
-        }
-
         BarSeries {
             id: barSeries
             name: "Bars"
-            theme: seriesTheme
             hoverable: true
+            seriesColors: ["#d0d040", "#d04040"]
+            borderColors: ["#808020", "#802020"]
             BarSet { id: set1; label: "Axel"; values: [1, 2, 3, 4] }
             BarSet { id: set2; label: "Bob"; values: [4, 3, 2, 1] }
         }
@@ -58,7 +52,6 @@ Rectangle {
         LineSeries {
             id: lineSeries
             name: "Lines"
-            theme: seriesTheme
             hoverable: true
 
             XYPoint { x: 0; y: 6.6 }
@@ -73,7 +66,6 @@ Rectangle {
         ScatterSeries {
             id: scatterSeries
             name: "Points"
-            theme: seriesTheme
             hoverable: true
 
             XYPoint { x: 0; y: 2.6 }
@@ -88,7 +80,6 @@ Rectangle {
         AreaSeries {
             id: areaSeries
             name: "Batman"
-            theme: seriesTheme
             hoverable: true
 
             upperSeries: LineSeries {

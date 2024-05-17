@@ -64,9 +64,10 @@ Item {
             compare(initial.labelsMargin, 0)
             compare(initial.labelsAngle, 0)
             compare(initial.labelsPrecision, 6)
+            compare(initial.seriesColors, [])
+            compare(initial.borderColors, [])
 
             // Properties from QAbstractSeries
-            verify(initial.theme)
             compare(initial.name, "")
             compare(initial.visible, true)
             compare(initial.selectable, false)

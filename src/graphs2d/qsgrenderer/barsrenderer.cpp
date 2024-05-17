@@ -23,43 +23,56 @@ BarsRenderer::BarsRenderer(QQuickItem *parent)
     setFlag(QQuickItem::ItemHasContents);
 }
 
+// Returns color in this order:
+// 1) QBarSet::color if that is defined (alpha > 0).
+// 2) QBarSeries::seriesColors at index if that is defined.
+// 3) QGraphsTheme::seriesColors at index.
+// 4) Black if seriesColors is empty.
 QColor BarsRenderer::getSetColor(QBarSeries *series, QBarSet *set, qsizetype barSeriesIndex)
 {
-    auto seriesTheme = series->theme();
+    const auto &seriesColors = !series->seriesColors().isEmpty()
+            ? series->seriesColors() : m_graph->theme()->seriesColors();
+    if (seriesColors.isEmpty())
+        return QColorConstants::Black;
     qsizetype index = m_colorIndex + barSeriesIndex;
-    index = index % seriesTheme->seriesColors().size();
+    index = index % seriesColors.size();
     QColor color = set->color().alpha() != 0
             ? set->color()
-            : seriesTheme->seriesColors().at(index);
+            : seriesColors.at(index);
     return color;
 }
 
 QColor BarsRenderer::getSetSelectedColor(QBarSeries *series, QBarSet *set)
 {
-    auto seriesTheme = series->theme();
+    Q_UNUSED(series);
+    auto theme = m_graph->theme();
     QColor color = set->selectedColor().alpha() != 0
             ? set->selectedColor()
-            : seriesTheme->singleHighlightColor();
+            : theme->singleHighlightColor();
     return color;
 }
 
 QColor BarsRenderer::getSetBorderColor(QBarSeries *series, QBarSet *set, qsizetype barSeriesIndex)
 {
-    auto seriesTheme = series->theme();
+    const auto &borderColors = !series->borderColors().isEmpty()
+            ? series->borderColors() : m_graph->theme()->borderColors();
+    if (borderColors.isEmpty())
+        return QColorConstants::Black;
     qsizetype index = m_colorIndex + barSeriesIndex;
-    index = index % seriesTheme->borderColors().size();
+    index = index % borderColors.size();
     QColor color = set->borderColor().alpha() != 0
             ? set->borderColor()
-            : seriesTheme->borderColors().at(index);
+            : borderColors.at(index);
     return color;
 }
 
 qreal BarsRenderer::getSetBorderWidth(QBarSeries *series, QBarSet *set)
 {
-    auto seriesTheme = series->theme();
+    Q_UNUSED(series);
+    auto theme = m_graph->theme();
     qreal borderWidth = set->borderWidth();
     if (qFuzzyCompare(borderWidth, -1.0))
-        borderWidth = seriesTheme->borderWidth();
+        borderWidth = theme->borderWidth();
     return borderWidth;
 }
 
@@ -441,8 +454,8 @@ void BarsRenderer::updateHorizontalBars(QBarSeries *series, qsizetype setCount, 
 
 void BarsRenderer::handlePolish(QBarSeries *series)
 {
-    auto seriesTheme = series->theme();
-    if (!seriesTheme)
+    auto theme = m_graph->theme();
+    if (!theme)
         return;
 
     qsizetype setCount = series->barSets().size();
@@ -485,8 +498,8 @@ void BarsRenderer::updateSeries(QBarSeries *series)
         return;
     }
 
-    auto seriesTheme = series->theme();
-    if (!seriesTheme)
+    auto theme = m_graph->theme();
+    if (!theme)
         return;
 
     qsizetype difference = m_seriesData.size() - m_rectNodes.size();

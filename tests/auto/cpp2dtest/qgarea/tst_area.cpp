@@ -63,7 +63,6 @@ void tst_area::initialProperties()
     QCOMPARE(m_series->lowerSeries(), nullptr);
 
     // Properties from QAbstractSeries
-    QCOMPARE(m_series->theme(), nullptr);
     QCOMPARE(m_series->name(), "");
     QCOMPARE(m_series->isVisible(), true);
     QCOMPARE(m_series->selectable(), false);
@@ -76,7 +75,6 @@ void tst_area::initializeProperties()
 {
     QVERIFY(m_series);
 
-    auto theme = new QGraphsTheme(this);
     auto upperSeries = new QLineSeries(this);
     auto lowerSeries = new QLineSeries(this);
 
@@ -89,7 +87,6 @@ void tst_area::initializeProperties()
     m_series->setUpperSeries(upperSeries);
     m_series->setLowerSeries(lowerSeries);
 
-    m_series->setTheme(theme);
     m_series->setName("AreaSeries");
     m_series->setVisible(false);
     m_series->setSelectable(true);
@@ -106,7 +103,6 @@ void tst_area::initializeProperties()
     QCOMPARE(m_series->upperSeries(), upperSeries);
     QCOMPARE(m_series->lowerSeries(), lowerSeries);
 
-    QCOMPARE(m_series->theme(), theme);
     QCOMPARE(m_series->name(), "AreaSeries");
     QCOMPARE(m_series->isVisible(), false);
     QCOMPARE(m_series->selectable(), true);

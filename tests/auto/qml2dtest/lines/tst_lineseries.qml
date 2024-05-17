@@ -57,7 +57,6 @@ Item {
             compare(initial.selectedPoints, [])
 
             // Properties from QAbstractSeries
-            verify(initial.theme)
             compare(initial.name, "")
             compare(initial.visible, true)
             compare(initial.selectable, false)

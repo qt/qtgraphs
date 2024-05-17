@@ -57,7 +57,7 @@ void PieRenderer::updateSeries(QPieSeries *series)
     qreal radius = size().width() > size().height() ? size().height() : size().width();
     radius *= (.5 * series->size());
 
-    QGraphsTheme *theme = series->theme();
+    QGraphsTheme *theme = m_graph->theme();
     if (!theme)
         return;
 
@@ -73,15 +73,17 @@ void PieRenderer::updateSeries(QPieSeries *series)
         // update slice
         QQuickShapePath *shapePath = d->m_shapePath;
 
-        int index = sliceIndex % series->theme()->borderColors().size();
-        QColor borderColor = series->theme()->borderColors().at(index);
+        const auto &borderColors = theme->borderColors();
+        int index = sliceIndex % borderColors.size();
+        QColor borderColor = borderColors.at(index);
         if (d->m_borderColor.isValid())
             borderColor = d->m_borderColor;
         qreal borderWidth = theme->borderWidth();
         if (d->m_borderWidth > 0.0)
             borderWidth = d->m_borderWidth;
-        index = sliceIndex % series->theme()->seriesColors().size();
-        QColor color = series->theme()->seriesColors().at(index);
+        const auto &seriesColors = theme->seriesColors();
+        index = sliceIndex % seriesColors.size();
+        QColor color = seriesColors.at(index);
         if (d->m_color.isValid())
             color = d->m_color;
         shapePath->setStrokeWidth(borderWidth);

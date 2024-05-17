@@ -123,23 +123,26 @@ Rectangle {
             text: "Theme1"
             onClicked: {
                 mainView.resetCustomSetColors()
-                mySeries.theme = seriesTheme
-                seriesTheme.theme = GraphsTheme.Theme.QtGreen
+                mySeries.seriesColors = []
+                mySeries.borderColors = []
+                myTheme.theme = GraphsTheme.Theme.QtGreen
             }
         }
         Button {
             text: "Theme2"
             onClicked: {
                 mainView.resetCustomSetColors()
-                mySeries.theme = seriesTheme
-                seriesTheme.theme = GraphsTheme.Theme.QtGreenNeon
+                mySeries.seriesColors = []
+                mySeries.borderColors = []
+                myTheme.theme = GraphsTheme.Theme.QtGreenNeon
             }
         }
         Button {
             text: "CustomBW"
             onClicked: {
                 mainView.resetCustomSetColors()
-                mySeries.theme = customSeriesTheme
+                mySeries.seriesColors = ["#444444", "#555555", "#666666", "#777777"]
+                mySeries.borderColors = ["#888888", "#999999", "#aaaaaa", "#bbbbbb"]
             }
         }
         Button {
@@ -184,24 +187,15 @@ Rectangle {
         }
         theme: GraphsTheme {
             id: myTheme
+            theme: GraphsTheme.Theme.QtGreen
             axisXLabelFont.pixelSize: 20
             axisYLabelFont.pixelSize: 16
             colorScheme: Qt.Dark
             plotAreaBackgroundColor: "#40808080"
             labelFont.pixelSize: 20
         }
-        GraphsTheme {
-            id: customSeriesTheme
-            seriesColors: ["#444444", "#555555", "#666666", "#777777"]
-            borderColors: ["#888888", "#999999", "#aaaaaa", "#bbbbbb"]
-            borderWidth: 4
-        }
         BarSeries {
             id: mySeries
-            theme: GraphsTheme {
-                id: seriesTheme
-                theme: GraphsTheme.Theme.QtGreen
-            }
             BarSet {
                 id: set1
                 label: "Bob"

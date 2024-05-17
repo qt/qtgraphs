@@ -78,7 +78,6 @@ Item {
 
         function test_2_initial_common() {
             // Properties from QAbstractSeries
-            verify(initial.theme)
             compare(initial.name, "")
             compare(initial.visible, true)
             compare(initial.selectable, false)

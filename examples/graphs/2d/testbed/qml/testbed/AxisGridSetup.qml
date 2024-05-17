@@ -46,7 +46,9 @@ Rectangle {
             colorScheme: Qt.Dark
             backgroundColor: "#20000000"
             plotAreaBackgroundColor: "#20000000"
-            theme: GraphsTheme.Theme.QtGreen
+            seriesColors: ["#dd444444", "#dd555555", "#dd666666", "#dd777777", "#dd888888"]
+            borderColors: ["#111111", "#222222", "#333333", "#444444", "#555555"]
+            borderWidth: 2
             axisXLabelFont.pixelSize: 20
             gridMainColor: "#ffffff"
             gridSubColor: "#eeeeee"
@@ -55,22 +57,12 @@ Rectangle {
             axisXMainColor: "#ffffff"
             axisXSubColor: "#eeeeee"
         }
-        GraphsTheme {
-            id: customSeriesTheme
-            seriesColors: ["#dd444444", "#dd555555", "#dd666666", "#dd777777", "#dd888888"]
-            borderColors: ["#111111", "#222222", "#333333", "#444444", "#555555"]
-            borderWidth: 2
-        }
         BarSeries {
-            id: mySeries
-            theme: customSeriesTheme
-
             BarSet { id: set1; label: "Bob"; values: [1, 2, 3, 4, 5, 6] }
             BarSet { id: set2; label: "Frank"; values: [8, 8, 6, 0, 5, 3] }
             BarSet { id: set3; label: "James"; values: [4, 3, 2, 6, 4, 2] }
             BarSet { id: set5; label: "Frank"; values: [8, 4, 3, 1, 8, 5] }
             BarSet { id: set6; label: "James"; values: [5, 2, 5, 7, 1, 2] }
-
         }
     }
 

@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 
 #include <QtGraphs/qabstractseries.h>
-#include <QtGraphs/QGraphsTheme>
 #include <private/qabstractseries_p.h>
 #include <private/qgraphsview_p.h>
 
@@ -112,17 +111,6 @@ QT_BEGIN_NAMESPACE
 */
 
 /*!
-    \property QAbstractSeries::theme
-    \brief The theme of the series.
-
-    The theme used for this series.
-*/
-/*!
-    \qmlproperty QSeriesTheme AbstractSeries::theme
-    The theme used for this series.
-*/
-
-/*!
     \property QAbstractSeries::name
     \brief The name of the series.
 
@@ -212,11 +200,6 @@ QT_BEGIN_NAMESPACE
 */
 
 /*!
-    \fn void QAbstractSeries::themeChanged()
-    This signal is emitted when the series theme changes.
-*/
-
-/*!
     \fn void QAbstractSeries::nameChanged()
     This signal is emitted when the series name changes.
 */
@@ -284,22 +267,6 @@ QAbstractSeries::~QAbstractSeries()
     Q_D(QAbstractSeries);
     if (d->m_graph)
         d->m_graph->removeSeries(this);
-}
-
-QGraphsTheme *QAbstractSeries::theme() const
-{
-    const Q_D(QAbstractSeries);
-    return d->m_theme;
-}
-
-void QAbstractSeries::setTheme(QGraphsTheme *newTheme)
-{
-    Q_D(QAbstractSeries);
-    if (d->m_theme == newTheme)
-        return;
-    d->m_theme = newTheme;
-    update();
-    emit themeChanged();
 }
 
 QString QAbstractSeries::name() const
@@ -491,14 +458,9 @@ void QAbstractSeries::classBegin()
 void QAbstractSeries::componentComplete()
 {
     Q_D(QAbstractSeries);
-
-    if (!d->m_theme) {
-        d->m_theme = new QGraphsTheme(this);
-        d->m_theme->resetColorTheme();
-    }
-
     d->m_loaded = true;
 }
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
 QAbstractSeriesPrivate::QAbstractSeriesPrivate()

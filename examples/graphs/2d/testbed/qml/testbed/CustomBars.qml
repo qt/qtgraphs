@@ -80,6 +80,7 @@ Rectangle {
         theme: GraphsTheme {
             id: myTheme
             colorScheme: Qt.Dark
+            theme: GraphsTheme.Theme.MixSeries
             axisXLabelFont.pixelSize: 20
         }
         BarSeries {
@@ -224,14 +225,14 @@ Rectangle {
             width: 250
             text: "Theme 1"
             onClicked: {
-                barSeries.theme.theme = GraphsTheme.Theme.QtGreen;
+                myTheme.theme = GraphsTheme.Theme.MixSeries;
             }
         }
         Button {
             width: 250
             text: "Theme 2"
             onClicked: {
-                barSeries.theme.theme = GraphsTheme.Theme.QtGreenNeon;
+                myTheme.theme = GraphsTheme.Theme.PurpleSeries;
             }
         }
         Button {

@@ -34,16 +34,11 @@ Rectangle {
             min: 0
         }
 
-        GraphsTheme {
-            id: seriesTheme
-            theme: GraphsTheme.Theme.QtGreen
-        }
-
         SplineSeries {
             id: spline
             name: "Spline"
-            theme: seriesTheme
             width: 4
+            color: "#d06040"
 
             GraphTransition {
                 GraphPointAnimation { duration: 1000; easingCurve.type: Easing.OutCubic }
@@ -56,7 +51,6 @@ Rectangle {
         LineSeries {
             id: line
             name: "Line"
-            theme: seriesTheme
             width: 8
 
             GraphTransition {

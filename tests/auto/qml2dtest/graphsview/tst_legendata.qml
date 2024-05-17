@@ -35,9 +35,8 @@ Item {
 
         BarSeries {
             id: barInitialized
-
-            theme: theme1
-
+            seriesColors: ["#ff0000"]
+            borderColors: ["#00ff00"]
             name: "BarSeries"
             visible: false
 
@@ -48,9 +47,8 @@ Item {
         }
         BarSeries {
             id: barInitialized2
-
-            theme: theme2
-
+            seriesColors: ["#0000ff", "#ff00ff"]
+            borderColors: ["#00ffff", "#ffff00"]
             name: "BarSeries"
             visible: false
 
@@ -74,7 +72,6 @@ Item {
         LineSeries {
             id: lineInitialized
             name: "Second"
-            theme: theme1
 
             XYPoint {
                 x: 0
@@ -112,7 +109,6 @@ Item {
 
         PieSeries {
             id: pieInitialized
-            theme: theme1
 
             PieSlice {
                 label: "Volkswagen"
@@ -131,7 +127,8 @@ Item {
         }
         AreaSeries {
             id: areaInitialized
-            theme: theme1
+            color: "#ff0000"
+            borderColor: "#00ff00"
             upperSeries: SplineSeries {
                 XYPoint {
                     x: 6
@@ -207,7 +204,6 @@ Item {
         }
 
         function test_1_initial_change() {
-            barInitial.theme = theme1
             waitForRendering(top)
             compare(barInitial.legendData.length, 0)
         }
@@ -238,7 +234,10 @@ Item {
         }
 
         function test_3_initialized_change() {
-            barInitialized.theme = theme2
+            // Reset to empty so that theme takes over
+            barInitialized.seriesColors = []
+            barInitialized.borderColors = []
+            graphsView.theme = theme2
             waitForRendering(top)
             compare(barInitialized.legendData.length, 1)
 
@@ -246,7 +245,10 @@ Item {
             compare(barInitialized.legendData[0].borderColor, "#00ffff")
             compare(barInitialized2.legendData[0].label, "Set1")
 
-            barInitialized2.theme = theme1
+            // Reset to empty so that theme takes over
+            barInitialized2.seriesColors = []
+            barInitialized2.borderColors = []
+            graphsView.theme = theme1
             waitForRendering(top)
             compare(barInitialized2.legendData.length, 2)
 
@@ -263,6 +265,8 @@ Item {
         name: "LegendData PointRenderer Initial"
 
         function test_1_Initial() {
+            graphsView.theme = myTheme
+            waitForRendering(top)
             compare(lineInitial.legendData.length, 1)
             // TODO: Change this to test fillcolor after QTBUG-122434
             compare(lineInitial.legendData[0].color, "#7be6b1")
@@ -270,7 +274,7 @@ Item {
             compare(lineInitial.legendData[0].label, "")
         }
         function test_2_Initial_change() {
-            lineInitial.theme = theme1
+            graphsView.theme = theme1
             waitForRendering(top)
 
             compare(lineInitial.legendData.length, 1)
@@ -295,7 +299,7 @@ Item {
         }
 
         function test_2_Initialized_Change() {
-            lineInitialized.theme = theme2
+            graphsView.theme = theme2
             waitForRendering(top)
             compare(lineInitialized.legendData.length, 1)
             // TODO: Change this to test fillcolor after QTBUG-122434
@@ -315,7 +319,7 @@ Item {
         }
 
         function test_2_initial_change() {
-            pieInitial.theme = theme1
+            graphsView.theme = theme1
             waitForRendering(top)
             compare(pieInitial.legendData.length, 0)
         }
@@ -338,7 +342,7 @@ Item {
         }
 
         function test_2_initialized_change() {
-            pieInitialized.theme = theme2
+            graphsView.theme = theme2
             waitForRendering(top)
             compare(pieInitialized.legendData.length, 2)
 
@@ -362,7 +366,7 @@ Item {
         }
 
         function test_2_initial_change() {
-            areaInitial.theme = theme1
+            graphsView.theme = theme1
             waitForRendering(top)
 
             compare(areaInitial.legendData.length, 0)
@@ -388,7 +392,10 @@ Item {
         }
 
         function test_2_initialized_change() {
-            areaInitialized.theme = theme2
+            // Reset to transparent so that theme takes over
+            areaInitialized.color = "#00000000"
+            areaInitialized.borderColor = "#00000000"
+            graphsView.theme = theme2
             areaInitialized2.color = "#ffffff"
             areaInitialized2.borderColor = "#dddddd"
             waitForRendering(top)

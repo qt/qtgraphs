@@ -64,7 +64,7 @@ Rectangle {
             max: 8
         }
 
-        GraphsTheme {
+        theme: GraphsTheme {
             id: seriesTheme
             colorScheme: Qt.Dark
             theme: GraphsTheme.Theme.QtGreen
@@ -73,7 +73,6 @@ Rectangle {
         ScatterSeries {
             id: lineSeries1
             name: "First"
-            theme: seriesTheme
             selectable: true
             pointMarker: Image {
                 property bool pointSelected: false
@@ -94,7 +93,6 @@ Rectangle {
         ScatterSeries {
             id: scatterSeries2
             name: "Second"
-            theme: seriesTheme
             draggable: true
             selectable: true
 
@@ -110,7 +108,6 @@ Rectangle {
         ScatterSeries {
             id: scatterSeries3
             name: "Third"
-            theme: seriesTheme
             XYPoint { x: 0; y: 2.6 }
             XYPoint { x: 0.2; y: 3.1 }
             XYPoint { x: 1.3; y: 6.3 }

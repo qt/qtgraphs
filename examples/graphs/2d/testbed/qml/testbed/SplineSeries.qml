@@ -27,16 +27,9 @@ Rectangle {
             max: 3.2
         }
 
-        GraphsTheme {
-            id: seriesTheme
-            colorScheme: Qt.Dark
-            theme: GraphsTheme.Theme.QtGreen
-        }
-
         SplineSeries {
             id: spline
             name: "Spline"
-            theme: seriesTheme
             draggable: true
             width: 2
 

@@ -217,6 +217,18 @@ QT_BEGIN_NAMESPACE
  */
 
 /*!
+ * \qmlproperty list<Color> GraphsTheme::borderColors
+ *
+ * The list of border colors to be used for all the objects in the graph,
+ * series by series.
+ *
+ * If there are more series than colors, the color list wraps and starts again
+ * with the first color in the list.
+ *
+ * Has no immediate effect if colorStyle is not Uniform.
+ */
+
+/*!
  * \qmlproperty color GraphsTheme::plotAreaBackgroundColor
  *
  * The color of the graph plot area background.
@@ -1397,7 +1409,7 @@ void QGraphsTheme::setLabelBorderEnabled(bool newLabelBorderEnabled)
  */
 QList<QColor> QGraphsTheme::seriesColors() const
 {
-    if (m_customBits.seriesColorsCustom)
+    if (m_customBits.seriesColorsCustom && !m_seriesColors.isEmpty())
         return m_seriesColors;
     return m_seriesThemeColors;
 }
@@ -1425,7 +1437,7 @@ void QGraphsTheme::setSeriesColors(const QList<QColor> &newSeriesColors)
  */
 QList<QColor> QGraphsTheme::borderColors() const
 {
-    if (m_customBits.borderColorsCustom)
+    if (m_customBits.borderColorsCustom && !m_borderColors.isEmpty())
         return m_borderColors;
     return m_borderThemeColors;
 }
@@ -1455,7 +1467,7 @@ void QGraphsTheme::setBorderColors(const QList<QColor> &newBorderColors)
  */
 QList<QLinearGradient> QGraphsTheme::seriesGradients() const
 {
-    if (m_customBits.seriesGradientCustom)
+    if (m_customBits.seriesGradientCustom && !m_seriesGradients.isEmpty())
         return m_seriesGradients;
     return m_seriesThemeGradients;
 }

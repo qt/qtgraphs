@@ -7,7 +7,6 @@
 #include <QtCore/qobject.h>
 #include <QtGraphs/qabstractaxis.h>
 #include <QtGraphs/qgraphsglobal.h>
-#include <QtGraphs/qgraphstheme.h>
 #include <QtGui/qpen.h>
 #include <QtQml/qqmllist.h>
 #include <QtQml/qqmlparserstatus.h>
@@ -16,7 +15,6 @@ QT_BEGIN_NAMESPACE
 
 class QAbstractSeriesPrivate;
 class QGraphsView;
-class QGraphsTheme;
 
 struct Q_GRAPHS_EXPORT QLegendData
 {
@@ -37,7 +35,6 @@ class Q_GRAPHS_EXPORT QAbstractSeries : public QObject, public QQmlParserStatus
     Q_DECLARE_PRIVATE(QAbstractSeries)
     Q_CLASSINFO("RegisterEnumClassesUnscoped", "false")
     Q_INTERFACES(QQmlParserStatus)
-    Q_PROPERTY(QGraphsTheme *theme READ theme WRITE setTheme NOTIFY themeChanged FINAL)
     Q_PROPERTY(QString name READ name WRITE setName NOTIFY nameChanged FINAL)
     Q_PROPERTY(bool visible READ isVisible WRITE setVisible NOTIFY visibleChanged FINAL)
     Q_PROPERTY(bool selectable READ selectable WRITE setSelectable NOTIFY selectableChanged FINAL)
@@ -71,9 +68,6 @@ protected:
 public:
     ~QAbstractSeries() override;
     virtual SeriesType type() const = 0;
-
-    QGraphsTheme *theme() const;
-    void setTheme(QGraphsTheme *newTheme);
 
     QString name() const;
     void setName(const QString &name);
@@ -110,7 +104,6 @@ public Q_SLOTS:
 
 Q_SIGNALS:
     void update();
-    void themeChanged();
     void nameChanged();
     void visibleChanged();
     void selectableChanged();

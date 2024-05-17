@@ -40,16 +40,19 @@
 
     Then data is added into \l BarSeries using \l BarSet. There are 3 bars, and we define
     custom bars color and border properties. These properties will override the possible
-    \l{AbstractSeries::theme}{theme} set for the \l AbstractSeries.
+    \l{GraphsTheme::seriesColors}{seriesColors} set for the \l GraphsTheme.
 
     \snippet 2d/hellographs/qml/hellographs/main.qml barset
 
     \section1 LineGraph
 
     The second graph of the example is a line graph. It also starts by defining a
-    \l GraphsView element. Custom \l GraphTheme is created to get a custom appearance.
-    \l GraphTheme offers quite a wide range of customization possibilities for the background
-    grid and axis, which get applied after the \l{GraphTheme::colorTheme}{colorTheme}.
+    \l GraphsView element. Custom \l GraphsTheme is created to get a custom appearance.
+    \l GraphsTheme offers quite a wide range of customization possibilities for the background
+    grid and axis, which get applied after the \l{GraphsTheme::theme}{theme}.
+
+    The GraphsView defines \l{GraphsView::axisX}{axisX} and \l{GraphsView::axisY}{axisY}
+    suitable for this graph.
 
     \snippet 2d/hellographs/qml/hellographs/main.qml linegraph
     \dots
@@ -58,22 +61,15 @@
 
     \snippet 2d/hellographs/qml/hellographs/main.qml linemarker
 
-    The previous bar graph didn't define a separate \l SeriesTheme, so it uses the
-    default theme. This line graph uses a custom theme with the desired line colors.
-
-    \snippet 2d/hellographs/qml/hellographs/main.qml lineseriestheme
-
-    To make this a line graph, add a \l LineSeries. The first series defines
-    \l{XYSeries::axisX}{axisX} and  \l{XYSeries::axisY}{axisY} for this graph.
-    It also sets the \l{XYSeries::pointMarker}{pointMarker} to use the custom
+    To make this a line graph, add a \l LineSeries.
+    This sets the \l{XYSeries::pointMarker}{pointMarker} to use the custom
     \c Marker component that was created earlier. Data points are added using
     \l XYPoint elements.
 
     \snippet 2d/hellographs/qml/hellographs/main.qml lineseries1
 
-    The second line series is similar to the first. The \l{XYSeries::axisX}{axisX}
-    and \l{XYSeries::axisY}{axisY} don't need to be defined as the graph already contains them.
-    As this is second \l LineSeries inside the \l GraphsView, second color from the \c seriesTheme
+    The second line series is similar to the first.
+    As this is second \l LineSeries inside the \l GraphsView, second color from the \c seriesColors
     gets automatically picked.
 
     \snippet 2d/hellographs/qml/hellographs/main.qml lineseries2

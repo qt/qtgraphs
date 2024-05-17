@@ -70,13 +70,11 @@ Rectangle {
     }
 
     GraphsView {
-        id: chartView
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.bottom: parent.bottom
         anchors.top: bar.bottom
         anchors.margins: 10
-        backgroundColor: "#010101"
         theme: gtheme
 
         GraphsTheme {
@@ -126,7 +124,6 @@ Rectangle {
 
         LineSeries {
             id: line
-            theme: gtheme
             width: 8
             hoverable: true
 
@@ -141,7 +138,6 @@ Rectangle {
 
         SplineSeries {
             id: spline
-            theme: gtheme
             width: 4
 
             XYPoint { x: new Date(1910, 7, 1); y: new Date(1940, 12, 31) }

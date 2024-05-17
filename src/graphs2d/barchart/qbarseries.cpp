@@ -594,6 +594,70 @@ QAbstractSeries::SeriesType QBarSeries::type() const
     return QAbstractSeries::SeriesType::Bar;
 }
 
+/*!
+    \property QBarSeries::seriesColors
+    \brief The list of base colors to be used for all the objects in the series.
+
+    If there are more series than colors, the color list wraps and starts again
+    with the first color in the list. If this is not set (default), colors
+    from the \l{QGraphsTheme::seriesColors} will be used.
+*/
+/*!
+    \qmlproperty list<color> BarSeries::seriesColors
+    The list of base colors to be used for all the objects in the series.
+
+    If there are more series than colors, the color list wraps and starts again
+    with the first color in the list. If this is not set (default), colors
+    from the \l{GraphsTheme::seriesColors} will be used.
+*/
+QList<QColor> QBarSeries::seriesColors() const
+{
+    const Q_D(QBarSeries);
+    return d->m_seriesColors;
+}
+
+void QBarSeries::setSeriesColors(const QList<QColor> &newSeriesColors)
+{
+    Q_D(QBarSeries);
+    if (d->m_seriesColors == newSeriesColors)
+        return;
+    d->m_seriesColors = newSeriesColors;
+    emit seriesColorsChanged();
+    emit update();
+}
+
+/*!
+    \property QBarSeries::borderColors
+    \brief The list of border colors to be used for all the objects in the series.
+
+    If there are more series than colors, the color list wraps and starts again
+    with the first color in the list. If this is not set (default), colors
+    from the \l{QGraphsTheme::borderColors} will be used.
+*/
+/*!
+    \qmlproperty list<color> BarSeries::borderColors
+    The list of border colors to be used for all the objects in the series.
+
+    If there are more series than colors, the color list wraps and starts again
+    with the first color in the list. If this is not set (default), colors
+    from the \l{GraphsTheme::borderColors} will be used.
+*/
+QList<QColor> QBarSeries::borderColors() const
+{
+    const Q_D(QBarSeries);
+    return d->m_borderColors;
+}
+
+void QBarSeries::setBorderColors(const QList<QColor> &newBorderColors)
+{
+    Q_D(QBarSeries);
+    if (d->m_borderColors == newBorderColors)
+        return;
+    d->m_borderColors = newBorderColors;
+    emit borderColorsChanged();
+    emit update();
+}
+
 void QBarSeries::setBarsType(QBarSeries::BarsType type)
 {
     Q_D(QBarSeries);

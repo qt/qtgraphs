@@ -47,8 +47,8 @@ void AreaRenderer::calculateAxisCoordinates(qreal origX,
 
 void AreaRenderer::handlePolish(QAreaSeries *series)
 {
-    auto seriesTheme = series->theme();
-    if (!seriesTheme)
+    auto theme = m_graph->theme();
+    if (!theme)
         return;
 
     QXYSeries *upper = series->upperSeries();
@@ -123,13 +123,15 @@ void AreaRenderer::handlePolish(QAreaSeries *series)
     }
 
 
-    qsizetype index = group->colorIndex % series->theme()->seriesColors().size();
+    const auto &seriesColors = theme->seriesColors();
+    qsizetype index = group->colorIndex % seriesColors.size();
     QColor color = series->color().alpha() != 0
             ? series->color()
-            : series->theme()->seriesColors().at(index);
+            : seriesColors.at(index);
+    const auto &borderColors = theme->borderColors();
     QColor borderColor = series->borderColor().alpha() != 0
             ? series->borderColor()
-            : series->theme()->borderColors().at(index);
+            : borderColors.at(index);
 
     if (series->selected()) {
         color = series->selectedColor().alpha() != 0 ? series->selectedColor() : color.lighter();

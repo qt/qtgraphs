@@ -16,6 +16,8 @@ class Q_GRAPHS_EXPORT QBarSeries : public QAbstractSeries
 {
     Q_OBJECT
     Q_CLASSINFO("RegisterEnumClassesUnscoped", "false")
+    Q_PROPERTY(QList<QColor> seriesColors READ seriesColors WRITE setSeriesColors NOTIFY seriesColorsChanged FINAL)
+    Q_PROPERTY(QList<QColor> borderColors READ borderColors WRITE setBorderColors NOTIFY borderColorsChanged FINAL)
     Q_PROPERTY(BarsType barsType READ barsType WRITE setBarsType NOTIFY barsTypeChanged FINAL)
     Q_PROPERTY(qreal barWidth READ barWidth WRITE setBarWidth NOTIFY barWidthChanged FINAL)
     Q_PROPERTY(qsizetype count READ count NOTIFY countChanged FINAL)
@@ -53,6 +55,12 @@ public:
 
     explicit QBarSeries(QObject *parent = nullptr);
     QAbstractSeries::SeriesType type() const override;
+
+    QList<QColor> seriesColors() const;
+    void setSeriesColors(const QList<QColor> &newSeriesColors);
+
+    QList<QColor> borderColors() const;
+    void setBorderColors(const QList<QColor> &newBorderColors);
 
     void setBarsType(QBarSeries::BarsType type);
     QBarSeries::BarsType barsType() const;
@@ -115,6 +123,8 @@ Q_SIGNALS:
     void updatedBars();
     void updatedLayout();
     void restructuredBars();
+    void seriesColorsChanged();
+    void borderColorsChanged();
     void countChanged();
     void barWidthChanged();
     void labelsVisibleChanged(bool visible);

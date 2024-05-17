@@ -44,7 +44,6 @@ Item {
             compare(initial.selectedColor, "#00000000")
             compare(initial.draggable, false)
 
-            // compare(initial.theme, null) // New theme instantiated in QAbstractSeries
             compare(initial.name, "")
             compare(initial.visible, true)
             compare(initial.selectable, false)

@@ -73,14 +73,16 @@ void PointRenderer::calculateRenderCoordinates(
 void PointRenderer::updatePointMarker(
     QXYSeries *series, PointGroup *group, int pointIndex, qreal x, qreal y)
 {
+    auto theme = m_graph->theme();
     auto marker = group->markers[pointIndex];
     auto &rect = group->rects[pointIndex];
 
-    qsizetype index = group->colorIndex % series->theme()->seriesColors().size();
+    const auto &seriesColors = theme->seriesColors();
+    qsizetype index = group->colorIndex % seriesColors.size();
     QColor color = series->color().alpha() != 0 ? series->color()
-                                            : series->theme()->seriesColors().at(index);
+                                            : seriesColors.at(index);
     QColor selectedColor = series->selectedColor().alpha() != 0 ? series->selectedColor()
-                                                                : series->theme()->singleHighlightColor();
+                                                                : m_graph->theme()->singleHighlightColor();
     if (marker->property(TAG_POINT_SELECTED).isValid())
         marker->setProperty(TAG_POINT_SELECTED, series->isPointSelected(pointIndex));
     if (marker->property(TAG_POINT_COLOR).isValid())
@@ -135,12 +137,14 @@ void PointRenderer::updateScatterSeries(QScatterSeries *series, QLegendData &leg
 
 void PointRenderer::updateLineSeries(QLineSeries *series, QLegendData &legendData)
 {
+    auto theme = m_graph->theme();
     auto group = m_groups.value(series);
 
-    qsizetype index = group->colorIndex % series->theme()->seriesColors().size();
+    const auto &seriesColors = theme->seriesColors();
+    qsizetype index = group->colorIndex % seriesColors.size();
     QColor color = series->color().alpha() != 0
                        ? series->color()
-            : series->theme()->seriesColors().at(index);
+            : seriesColors.at(index);
 
     group->shapePath->setStrokeColor(color);
     group->shapePath->setStrokeWidth(series->width());
@@ -198,12 +202,14 @@ void PointRenderer::updateLineSeries(QLineSeries *series, QLegendData &legendDat
 
 void PointRenderer::updateSplineSeries(QSplineSeries *series, QLegendData &legendData)
 {
+    auto theme = m_graph->theme();
     auto group = m_groups.value(series);
 
-    qsizetype index = group->colorIndex % series->theme()->seriesColors().size();
+    const auto &seriesColors = theme->seriesColors();
+    qsizetype index = group->colorIndex % seriesColors.size();
     QColor color = series->color().alpha() != 0
                        ? series->color()
-                       : series->theme()->seriesColors().at(index);
+                       : seriesColors.at(index);
 
     group->shapePath->setStrokeColor(color);
     group->shapePath->setStrokeWidth(series->width());
@@ -283,8 +289,8 @@ void PointRenderer::updateSplineSeries(QSplineSeries *series, QLegendData &legen
 
 void PointRenderer::handlePolish(QXYSeries *series)
 {
-    auto seriesTheme = series->theme();
-    if (!seriesTheme)
+    auto theme = m_graph->theme();
+    if (!theme)
         return;
 
     if (series->points().isEmpty())
