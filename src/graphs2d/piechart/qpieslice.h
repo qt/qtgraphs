@@ -18,24 +18,27 @@ class Q_GRAPHS_EXPORT QPieSlice : public QObject
 {
     Q_OBJECT
     Q_CLASSINFO("RegisterEnumClassesUnscoped", "false")
-    Q_PROPERTY(QString label READ label WRITE setLabel NOTIFY labelChanged)
-    Q_PROPERTY(bool labelVisible READ isLabelVisible WRITE setLabelVisible NOTIFY labelVisibleChanged)
-    Q_PROPERTY(LabelPosition labelPosition READ labelPosition WRITE
-                       setLabelPosition NOTIFY labelPositionChanged)
-    Q_PROPERTY(QColor labelColor READ labelColor WRITE setLabelColor NOTIFY labelColorChanged)
-    Q_PROPERTY(QFont labelFont READ labelFont WRITE setLabelFont NOTIFY labelFontChanged)
-    Q_PROPERTY(qreal labelArmLengthFactor READ labelArmLengthFactor WRITE
-                       setLabelArmLengthFactor NOTIFY labelArmLengthFactorChanged)
-    Q_PROPERTY(QColor color READ color WRITE setColor NOTIFY colorChanged)
-    Q_PROPERTY(QColor borderColor READ borderColor WRITE setBorderColor NOTIFY borderColorChanged)
-    Q_PROPERTY(qreal borderWidth READ borderWidth WRITE setBorderWidth NOTIFY borderWidthChanged)
-    Q_PROPERTY(qreal value READ value WRITE setValue NOTIFY valueChanged)
-    Q_PROPERTY(bool exploded READ isExploded WRITE setExploded NOTIFY explodedChanged)
-    Q_PROPERTY(qreal explodeDistanceFactor READ explodeDistanceFactor WRITE
-                       setExplodeDistanceFactor NOTIFY explodeDistanceFactorChanged)
-    Q_PROPERTY(qreal percentage READ percentage NOTIFY percentageChanged)
-    Q_PROPERTY(qreal startAngle READ startAngle NOTIFY startAngleChanged)
-    Q_PROPERTY(qreal angleSpan READ angleSpan NOTIFY angleSpanChanged)
+    Q_PROPERTY(QString label READ label WRITE setLabel NOTIFY labelChanged FINAL)
+    Q_PROPERTY(bool labelVisible READ isLabelVisible WRITE setLabelVisible NOTIFY
+                   labelVisibleChanged FINAL)
+    Q_PROPERTY(LabelPosition labelPosition READ labelPosition WRITE setLabelPosition NOTIFY
+                   labelPositionChanged FINAL)
+    Q_PROPERTY(QColor labelColor READ labelColor WRITE setLabelColor NOTIFY labelColorChanged FINAL)
+    Q_PROPERTY(QFont labelFont READ labelFont WRITE setLabelFont NOTIFY labelFontChanged FINAL)
+    Q_PROPERTY(qreal labelArmLengthFactor READ labelArmLengthFactor WRITE setLabelArmLengthFactor
+                   NOTIFY labelArmLengthFactorChanged FINAL)
+    Q_PROPERTY(QColor color READ color WRITE setColor NOTIFY colorChanged FINAL)
+    Q_PROPERTY(
+        QColor borderColor READ borderColor WRITE setBorderColor NOTIFY borderColorChanged FINAL)
+    Q_PROPERTY(
+        qreal borderWidth READ borderWidth WRITE setBorderWidth NOTIFY borderWidthChanged FINAL)
+    Q_PROPERTY(qreal value READ value WRITE setValue NOTIFY valueChanged FINAL)
+    Q_PROPERTY(bool exploded READ isExploded WRITE setExploded NOTIFY explodedChanged FINAL)
+    Q_PROPERTY(qreal explodeDistanceFactor READ explodeDistanceFactor WRITE setExplodeDistanceFactor
+                   NOTIFY explodeDistanceFactorChanged FINAL)
+    Q_PROPERTY(qreal percentage READ percentage NOTIFY percentageChanged FINAL)
+    Q_PROPERTY(qreal startAngle READ startAngle NOTIFY startAngleChanged FINAL)
+    Q_PROPERTY(qreal angleSpan READ angleSpan NOTIFY angleSpanChanged FINAL)
     QML_NAMED_ELEMENT(PieSlice)
 
 public:

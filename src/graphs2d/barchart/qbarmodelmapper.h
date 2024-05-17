@@ -19,14 +19,14 @@ class QBarModelMapperPrivate;
 class Q_GRAPHS_EXPORT QBarModelMapper : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(QBarSeries *series READ series WRITE setSeries NOTIFY seriesChanged)
-    Q_PROPERTY(QAbstractItemModel *model READ model WRITE setModel NOTIFY modelChanged)
+    Q_PROPERTY(QBarSeries *series READ series WRITE setSeries NOTIFY seriesChanged FINAL)
+    Q_PROPERTY(QAbstractItemModel *model READ model WRITE setModel NOTIFY modelChanged FINAL)
     Q_PROPERTY(int firstBarSetSection READ firstBarSetSection WRITE setFirstBarSetSection NOTIFY
-                   firstBarSetSectionChanged)
+                   firstBarSetSectionChanged FINAL)
     Q_PROPERTY(int lastBarSetSection READ lastBarSetSection WRITE setLastBarSetSection NOTIFY
-                   lastBarSetSectionChanged)
-    Q_PROPERTY(int first READ first WRITE setFirst NOTIFY firstChanged)
-    Q_PROPERTY(int count READ count WRITE setCount NOTIFY countChanged)
+                   lastBarSetSectionChanged FINAL)
+    Q_PROPERTY(int first READ first WRITE setFirst NOTIFY firstChanged FINAL)
+    Q_PROPERTY(int count READ count WRITE setCount NOTIFY countChanged FINAL)
     Q_PROPERTY(Qt::Orientation orientation READ orientation WRITE setOrientation NOTIFY
                    orientationChanged FINAL)
 

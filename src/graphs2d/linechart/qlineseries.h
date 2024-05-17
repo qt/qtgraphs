@@ -14,8 +14,8 @@ class QLineSeriesPrivate;
 class Q_GRAPHS_EXPORT QLineSeries : public QXYSeries
 {
     Q_OBJECT
-    Q_PROPERTY(qreal width READ width WRITE setWidth NOTIFY widthChanged)
-    Q_PROPERTY(Qt::PenCapStyle capStyle READ capStyle WRITE setCapStyle NOTIFY capStyleChanged)
+    Q_PROPERTY(qreal width READ width WRITE setWidth NOTIFY widthChanged FINAL)
+    Q_PROPERTY(Qt::PenCapStyle capStyle READ capStyle WRITE setCapStyle NOTIFY capStyleChanged FINAL)
 
     QML_NAMED_ELEMENT(LineSeries)
 public:

@@ -15,10 +15,11 @@ class QBarCategoryAxisPrivate;
 class Q_GRAPHS_EXPORT QBarCategoryAxis : public QAbstractAxis
 {
     Q_OBJECT
-    Q_PROPERTY(QStringList categories READ categories WRITE setCategories NOTIFY categoriesChanged)
-    Q_PROPERTY(QString min READ min WRITE setMin NOTIFY minChanged)
-    Q_PROPERTY(QString max READ max WRITE setMax NOTIFY maxChanged)
-    Q_PROPERTY(int count READ count NOTIFY countChanged)
+    Q_PROPERTY(
+        QStringList categories READ categories WRITE setCategories NOTIFY categoriesChanged FINAL)
+    Q_PROPERTY(QString min READ min WRITE setMin NOTIFY minChanged FINAL)
+    Q_PROPERTY(QString max READ max WRITE setMax NOTIFY maxChanged FINAL)
+    Q_PROPERTY(int count READ count NOTIFY countChanged FINAL)
     QML_NAMED_ELEMENT(BarCategoryAxis)
 
 public:

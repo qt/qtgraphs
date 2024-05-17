@@ -17,12 +17,12 @@ class QAbstractItemModel;
 class Q_GRAPHS_EXPORT QXYModelMapper : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(QXYSeries *series READ series WRITE setSeries NOTIFY seriesChanged)
-    Q_PROPERTY(QAbstractItemModel *model READ model WRITE setModel NOTIFY modelChanged)
-    Q_PROPERTY(int xSection READ xSection WRITE setXSection NOTIFY xSectionChanged)
-    Q_PROPERTY(int ySection READ ySection WRITE setYSection NOTIFY ySectionChanged)
-    Q_PROPERTY(int first READ first WRITE setFirst NOTIFY firstChanged)
-    Q_PROPERTY(int count READ count WRITE setCount NOTIFY countChanged)
+    Q_PROPERTY(QXYSeries *series READ series WRITE setSeries NOTIFY seriesChanged FINAL)
+    Q_PROPERTY(QAbstractItemModel *model READ model WRITE setModel NOTIFY modelChanged FINAL)
+    Q_PROPERTY(int xSection READ xSection WRITE setXSection NOTIFY xSectionChanged FINAL)
+    Q_PROPERTY(int ySection READ ySection WRITE setYSection NOTIFY ySectionChanged FINAL)
+    Q_PROPERTY(int first READ first WRITE setFirst NOTIFY firstChanged FINAL)
+    Q_PROPERTY(int count READ count WRITE setCount NOTIFY countChanged FINAL)
     Q_PROPERTY(Qt::Orientation orientation READ orientation WRITE setOrientation NOTIFY
                    orientationChanged FINAL)
     QML_NAMED_ELEMENT(XYModelMapper)

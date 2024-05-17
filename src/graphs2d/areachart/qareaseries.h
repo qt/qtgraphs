@@ -15,16 +15,20 @@ class QAreaSeriesPrivate;
 class Q_GRAPHS_EXPORT QAreaSeries : public QAbstractSeries
 {
     Q_OBJECT
-    Q_PROPERTY(QColor color READ color WRITE setColor NOTIFY colorChanged)
+    Q_PROPERTY(QColor color READ color WRITE setColor NOTIFY colorChanged FINAL)
+    Q_PROPERTY(QColor selectedColor READ selectedColor WRITE setSelectedColor NOTIFY
+                   selectedColorChanged FINAL)
     Q_PROPERTY(
-        QColor selectedColor READ selectedColor WRITE setSelectedColor NOTIFY selectedColorChanged)
-    Q_PROPERTY(QColor borderColor READ borderColor WRITE setBorderColor NOTIFY borderColorChanged)
+        QColor borderColor READ borderColor WRITE setBorderColor NOTIFY borderColorChanged FINAL)
     Q_PROPERTY(QColor selectedBorderColor READ selectedBorderColor WRITE setSelectedBorderColor
-                   NOTIFY selectedBorderColorChanged)
-    Q_PROPERTY(qreal borderWidth READ borderWidth WRITE setBorderWidth NOTIFY borderWidthChanged)
-    Q_PROPERTY(bool selected READ selected WRITE setSelected NOTIFY selectedChanged)
-    Q_PROPERTY(QXYSeries *upperSeries READ upperSeries WRITE setUpperSeries NOTIFY upperSeriesChanged)
-    Q_PROPERTY(QXYSeries *lowerSeries READ lowerSeries WRITE setLowerSeries NOTIFY lowerSeriesChanged)
+                   NOTIFY selectedBorderColorChanged FINAL)
+    Q_PROPERTY(
+        qreal borderWidth READ borderWidth WRITE setBorderWidth NOTIFY borderWidthChanged FINAL)
+    Q_PROPERTY(bool selected READ selected WRITE setSelected NOTIFY selectedChanged FINAL)
+    Q_PROPERTY(QXYSeries *upperSeries READ upperSeries WRITE setUpperSeries NOTIFY
+                   upperSeriesChanged FINAL)
+    Q_PROPERTY(QXYSeries *lowerSeries READ lowerSeries WRITE setLowerSeries NOTIFY
+                   lowerSeriesChanged FINAL)
 
     QML_NAMED_ELEMENT(AreaSeries)
 public:

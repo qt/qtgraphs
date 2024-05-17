@@ -85,27 +85,29 @@ class Q_GRAPHS_EXPORT QGraphsTheme : public QObject, public QQmlParserStatus
     Q_CLASSINFO("RegisterEnumClassesUnscoped", "false")
     Q_PROPERTY(Qt::ColorScheme colorScheme READ colorScheme WRITE setColorScheme NOTIFY colorSchemeChanged FINAL)
     Q_PROPERTY(Theme theme READ theme WRITE setTheme NOTIFY themeChanged FINAL)
-    Q_PROPERTY(ColorStyle colorStyle READ colorStyle WRITE setColorStyle NOTIFY
-                       colorStyleChanged)
+    Q_PROPERTY(
+        ColorStyle colorStyle READ colorStyle WRITE setColorStyle NOTIFY colorStyleChanged FINAL)
 
-    Q_PROPERTY(QColor backgroundColor READ backgroundColor WRITE setBackgroundColor NOTIFY backgroundColorChanged)
+    Q_PROPERTY(QColor backgroundColor READ backgroundColor WRITE setBackgroundColor NOTIFY
+                   backgroundColorChanged FINAL)
     Q_PROPERTY(bool backgroundEnabled READ isBackgroundEnabled WRITE setBackgroundEnabled NOTIFY
-                       backgroundEnabledChanged)
+                   backgroundEnabledChanged FINAL)
 
-    Q_PROPERTY(QColor plotAreaBackgroundColor READ plotAreaBackgroundColor WRITE setPlotAreaBackgroundColor NOTIFY
-                       plotAreaBackgroundColorChanged)
-    Q_PROPERTY(bool plotAreaBackgroundEnabled READ isPlotAreaBackgroundEnabled WRITE setPlotAreaBackgroundEnabled NOTIFY
-                       plotAreaBackgroundEnabledChanged)
+    Q_PROPERTY(QColor plotAreaBackgroundColor READ plotAreaBackgroundColor WRITE
+                   setPlotAreaBackgroundColor NOTIFY plotAreaBackgroundColorChanged FINAL)
+    Q_PROPERTY(bool plotAreaBackgroundEnabled READ isPlotAreaBackgroundEnabled WRITE
+                   setPlotAreaBackgroundEnabled NOTIFY plotAreaBackgroundEnabledChanged FINAL)
 
-    Q_PROPERTY(bool gridEnabled READ isGridEnabled WRITE setGridEnabled NOTIFY gridEnabledChanged)
+    Q_PROPERTY(
+        bool gridEnabled READ isGridEnabled WRITE setGridEnabled NOTIFY gridEnabledChanged FINAL)
     Q_PROPERTY(QColor gridMainColor READ gridMainColor WRITE setGridMainColor NOTIFY
-                       gridMainColorChanged)
+                   gridMainColorChanged FINAL)
     Q_PROPERTY(float gridMainWidth READ gridMainWidth WRITE setGridMainWidth NOTIFY
-                       gridMainWidthChanged)
+                   gridMainWidthChanged FINAL)
     Q_PROPERTY(QColor gridSubColor READ gridSubColor WRITE setGridSubColor NOTIFY
-                       gridSubColorChanged)
-    Q_PROPERTY(float gridSubWidth READ gridSubWidth WRITE setGridSubWidth NOTIFY
-                       gridSubWidthChanged)
+                   gridSubColorChanged FINAL)
+    Q_PROPERTY(
+        float gridSubWidth READ gridSubWidth WRITE setGridSubWidth NOTIFY gridSubWidthChanged FINAL)
 
     Q_PROPERTY(QColor axisXMainColor READ axisXMainColor WRITE setAxisXMainColor NOTIFY axisXMainColorChanged FINAL)
     Q_PROPERTY(float axisXMainWidth READ axisXMainWidth WRITE setAxisXMainWidth NOTIFY axisXMainWidthChanged FINAL)
@@ -128,26 +130,37 @@ class Q_GRAPHS_EXPORT QGraphsTheme : public QObject, public QQmlParserStatus
     Q_PROPERTY(QFont axisZLabelFont READ axisZLabelFont WRITE setAxisZLabelFont NOTIFY axisZLabelFontChanged FINAL)
     Q_PROPERTY(QColor axisZLabelColor READ axisZLabelColor WRITE setAxisZLabelColor NOTIFY axisZLabelColorChanged FINAL)
 
-    Q_PROPERTY(QFont labelFont READ labelFont WRITE setLabelFont NOTIFY labelFontChanged)
-    Q_PROPERTY(bool labelsEnabled READ isLabelsEnabled WRITE setLabelsEnabled NOTIFY labelsEnabledChanged)
-    Q_PROPERTY(QColor labelBackgroundColor READ labelBackgroundColor WRITE setLabelBackgroundColor NOTIFY labelBackgroundColorChanged)
-    Q_PROPERTY(QColor labelTextColor READ labelTextColor WRITE setLabelTextColor NOTIFY labelTextColorChanged)
-    Q_PROPERTY(bool labelBackgroundEnabled READ isLabelBackgroundEnabled WRITE setLabelBackgroundEnabled NOTIFY labelBackgroundEnabledChanged)
-    Q_PROPERTY(bool labelBorderEnabled READ isLabelBorderEnabled WRITE setLabelBorderEnabled NOTIFY labelBorderEnabledChanged)
+    Q_PROPERTY(QFont labelFont READ labelFont WRITE setLabelFont NOTIFY labelFontChanged FINAL)
+    Q_PROPERTY(bool labelsEnabled READ isLabelsEnabled WRITE setLabelsEnabled NOTIFY
+                   labelsEnabledChanged FINAL)
+    Q_PROPERTY(QColor labelBackgroundColor READ labelBackgroundColor WRITE setLabelBackgroundColor
+                   NOTIFY labelBackgroundColorChanged FINAL)
+    Q_PROPERTY(QColor labelTextColor READ labelTextColor WRITE setLabelTextColor NOTIFY
+                   labelTextColorChanged FINAL)
+    Q_PROPERTY(bool labelBackgroundEnabled READ isLabelBackgroundEnabled WRITE
+                   setLabelBackgroundEnabled NOTIFY labelBackgroundEnabledChanged FINAL)
+    Q_PROPERTY(bool labelBorderEnabled READ isLabelBorderEnabled WRITE setLabelBorderEnabled NOTIFY
+                   labelBorderEnabledChanged FINAL)
 
-    Q_PROPERTY(QList<QColor> seriesColors READ seriesColors WRITE setSeriesColors NOTIFY seriesColorsChanged)
-    Q_PROPERTY(QList<QLinearGradient> seriesGradients READ seriesGradients WRITE setSeriesGradients NOTIFY seriesGradientsChanged)
+    Q_PROPERTY(QList<QColor> seriesColors READ seriesColors WRITE setSeriesColors NOTIFY
+                   seriesColorsChanged FINAL)
+    Q_PROPERTY(QList<QLinearGradient> seriesGradients READ seriesGradients WRITE setSeriesGradients
+                   NOTIFY seriesGradientsChanged FINAL)
     Q_PROPERTY(QList<QColor> borderColors READ borderColors WRITE setBorderColors NOTIFY borderColorsChanged FINAL)
     Q_PROPERTY(qreal borderWidth READ borderWidth WRITE setBorderWidth NOTIFY borderWidthChanged FINAL)
 
-    Q_PROPERTY(QQmlListProperty<QQuickGraphsColor> baseColors READ baseColorsQML CONSTANT)
-    Q_PROPERTY(QQmlListProperty<QObject> baseGradients READ baseGradientsQML CONSTANT)
-    Q_PROPERTY(QQmlListProperty<QObject> themeChildren READ themeChildren CONSTANT)
+    Q_PROPERTY(QQmlListProperty<QQuickGraphsColor> baseColors READ baseColorsQML CONSTANT FINAL)
+    Q_PROPERTY(QQmlListProperty<QObject> baseGradients READ baseGradientsQML CONSTANT FINAL)
+    Q_PROPERTY(QQmlListProperty<QObject> themeChildren READ themeChildren CONSTANT FINAL)
 
-    Q_PROPERTY(QColor singleHighlightColor READ singleHighlightColor WRITE setSingleHighlightColor NOTIFY singleHighlightColorChanged)
-    Q_PROPERTY(QColor multiHighlightColor READ multiHighlightColor WRITE setMultiHighlightColor NOTIFY multiHighlightColorChanged)
-    Q_PROPERTY(QJSValue singleHighlightGradient READ singleHighlightGradientQML WRITE setSingleHighlightGradient NOTIFY singleHighlightGradientQMLChanged)
-    Q_PROPERTY(QJSValue multiHighlightGradient READ multiHighlightGradientQML WRITE setMultiHighlightGradient NOTIFY multiHighlightGradientQMLChanged)
+    Q_PROPERTY(QColor singleHighlightColor READ singleHighlightColor WRITE setSingleHighlightColor
+                   NOTIFY singleHighlightColorChanged FINAL)
+    Q_PROPERTY(QColor multiHighlightColor READ multiHighlightColor WRITE setMultiHighlightColor
+                   NOTIFY multiHighlightColorChanged FINAL)
+    Q_PROPERTY(QJSValue singleHighlightGradient READ singleHighlightGradientQML WRITE
+                   setSingleHighlightGradient NOTIFY singleHighlightGradientQMLChanged FINAL)
+    Q_PROPERTY(QJSValue multiHighlightGradient READ multiHighlightGradientQML WRITE
+                   setMultiHighlightGradient NOTIFY multiHighlightGradientQMLChanged FINAL)
 
     Q_CLASSINFO("DefaultProperty", "themeChildren")
     QML_NAMED_ELEMENT(GraphsTheme)

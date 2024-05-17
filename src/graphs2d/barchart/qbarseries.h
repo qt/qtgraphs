@@ -16,17 +16,23 @@ class Q_GRAPHS_EXPORT QBarSeries : public QAbstractSeries
 {
     Q_OBJECT
     Q_CLASSINFO("RegisterEnumClassesUnscoped", "false")
-    Q_PROPERTY(BarsType barsType READ barsType WRITE setBarsType NOTIFY barsTypeChanged)
-    Q_PROPERTY(qreal barWidth READ barWidth WRITE setBarWidth NOTIFY barWidthChanged)
-    Q_PROPERTY(int count READ count NOTIFY countChanged)
-    Q_PROPERTY(bool labelsVisible READ isLabelsVisible WRITE setLabelsVisible NOTIFY labelsVisibleChanged)
-    Q_PROPERTY(QString labelsFormat READ labelsFormat WRITE setLabelsFormat NOTIFY labelsFormatChanged)
-    Q_PROPERTY(LabelsPosition labelsPosition READ labelsPosition WRITE setLabelsPosition NOTIFY labelsPositionChanged)
-    Q_PROPERTY(qreal labelsMargin READ labelsMargin WRITE setLabelsMargin NOTIFY labelsMarginChanged)
-    Q_PROPERTY(qreal labelsAngle READ labelsAngle WRITE setLabelsAngle NOTIFY labelsAngleChanged)
-    Q_PROPERTY(int labelsPrecision READ labelsPrecision WRITE setLabelsPrecision NOTIFY labelsPrecisionChanged)
+    Q_PROPERTY(BarsType barsType READ barsType WRITE setBarsType NOTIFY barsTypeChanged FINAL)
+    Q_PROPERTY(qreal barWidth READ barWidth WRITE setBarWidth NOTIFY barWidthChanged FINAL)
+    Q_PROPERTY(int count READ count NOTIFY countChanged FINAL)
+    Q_PROPERTY(bool labelsVisible READ isLabelsVisible WRITE setLabelsVisible NOTIFY
+                   labelsVisibleChanged FINAL)
+    Q_PROPERTY(QString labelsFormat READ labelsFormat WRITE setLabelsFormat NOTIFY
+                   labelsFormatChanged FINAL)
+    Q_PROPERTY(LabelsPosition labelsPosition READ labelsPosition WRITE setLabelsPosition NOTIFY
+                   labelsPositionChanged FINAL)
+    Q_PROPERTY(
+        qreal labelsMargin READ labelsMargin WRITE setLabelsMargin NOTIFY labelsMarginChanged FINAL)
+    Q_PROPERTY(
+        qreal labelsAngle READ labelsAngle WRITE setLabelsAngle NOTIFY labelsAngleChanged FINAL)
+    Q_PROPERTY(int labelsPrecision READ labelsPrecision WRITE setLabelsPrecision NOTIFY
+                   labelsPrecisionChanged FINAL)
     Q_PROPERTY(QQmlComponent *barComponent READ barComponent WRITE setBarComponent NOTIFY barComponentChanged FINAL)
-    Q_PROPERTY(QList<QBarSet *> barSets READ barSets NOTIFY barSetsChanged)
+    Q_PROPERTY(QList<QBarSet *> barSets READ barSets NOTIFY barSetsChanged FINAL)
     QML_NAMED_ELEMENT(BarSeries)
 
 public:

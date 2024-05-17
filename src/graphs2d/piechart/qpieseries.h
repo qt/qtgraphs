@@ -15,16 +15,16 @@ class QPieSeriesPrivate;
 class Q_GRAPHS_EXPORT QPieSeries : public QAbstractSeries
 {
     Q_OBJECT
-    Q_PROPERTY(qreal horizontalPosition READ horizontalPosition WRITE
-                       setHorizontalPosition NOTIFY horizontalPositionChanged)
-    Q_PROPERTY(qreal verticalPosition READ verticalPosition WRITE
-                       setVerticalPosition NOTIFY verticalPositionChanged)
-    Q_PROPERTY(qreal size READ size WRITE setSize NOTIFY sizeChanged)
-    Q_PROPERTY(qreal startAngle READ startAngle WRITE setStartAngle NOTIFY startAngleChanged)
-    Q_PROPERTY(qreal endAngle READ endAngle WRITE setEndAngle NOTIFY endAngleChanged)
-    Q_PROPERTY(int count READ count NOTIFY countChanged)
-    Q_PROPERTY(qreal sum READ sum NOTIFY sumChanged)
-    Q_PROPERTY(qreal holeSize READ holeSize WRITE setHoleSize NOTIFY holeSizeChanged)
+    Q_PROPERTY(qreal horizontalPosition READ horizontalPosition WRITE setHorizontalPosition NOTIFY
+                   horizontalPositionChanged FINAL)
+    Q_PROPERTY(qreal verticalPosition READ verticalPosition WRITE setVerticalPosition NOTIFY
+                   verticalPositionChanged FINAL)
+    Q_PROPERTY(qreal size READ size WRITE setSize NOTIFY sizeChanged FINAL)
+    Q_PROPERTY(qreal startAngle READ startAngle WRITE setStartAngle NOTIFY startAngleChanged FINAL)
+    Q_PROPERTY(qreal endAngle READ endAngle WRITE setEndAngle NOTIFY endAngleChanged FINAL)
+    Q_PROPERTY(int count READ count NOTIFY countChanged FINAL)
+    Q_PROPERTY(qreal sum READ sum NOTIFY sumChanged FINAL)
+    Q_PROPERTY(qreal holeSize READ holeSize WRITE setHoleSize NOTIFY holeSizeChanged FINAL)
     QML_NAMED_ELEMENT(PieSeries)
 
 public:

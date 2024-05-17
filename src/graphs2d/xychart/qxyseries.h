@@ -19,12 +19,12 @@ class QXYModelMapper;
 class Q_GRAPHS_EXPORT QXYSeries : public QAbstractSeries
 {
     Q_OBJECT
-    Q_PROPERTY(QColor color READ color WRITE setColor NOTIFY colorChanged)
-    Q_PROPERTY(
-        QColor selectedColor READ selectedColor WRITE setSelectedColor NOTIFY selectedColorChanged)
+    Q_PROPERTY(QColor color READ color WRITE setColor NOTIFY colorChanged FINAL)
+    Q_PROPERTY(QColor selectedColor READ selectedColor WRITE setSelectedColor NOTIFY
+                   selectedColorChanged FINAL)
     Q_PROPERTY(QQmlComponent *pointMarker READ pointMarker WRITE setPointMarker NOTIFY pointMarkerChanged FINAL)
-    Q_PROPERTY(bool draggable READ draggable WRITE setDraggable NOTIFY draggableChanged)
-    Q_PROPERTY(QList<int> selectedPoints READ selectedPoints NOTIFY selectedPointsChanged)
+    Q_PROPERTY(bool draggable READ draggable WRITE setDraggable NOTIFY draggableChanged FINAL)
+    Q_PROPERTY(QList<int> selectedPoints READ selectedPoints NOTIFY selectedPointsChanged FINAL)
 
 protected:
     explicit QXYSeries(QXYSeriesPrivate &dd, QObject *parent = nullptr);

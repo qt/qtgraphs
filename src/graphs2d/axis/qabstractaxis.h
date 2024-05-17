@@ -21,25 +21,31 @@ class Q_GRAPHS_EXPORT QAbstractAxis : public QObject
     Q_OBJECT
     Q_CLASSINFO("RegisterEnumClassesUnscoped", "false")
     //visibility
-    Q_PROPERTY(bool visible READ isVisible WRITE setVisible NOTIFY visibleChanged)
-    Q_PROPERTY(bool lineVisible READ isLineVisible WRITE setLineVisible NOTIFY lineVisibleChanged)
+    Q_PROPERTY(bool visible READ isVisible WRITE setVisible NOTIFY visibleChanged FINAL)
+    Q_PROPERTY(
+        bool lineVisible READ isLineVisible WRITE setLineVisible NOTIFY lineVisibleChanged FINAL)
     //labels
-    Q_PROPERTY(bool labelsVisible READ labelsVisible WRITE setLabelsVisible NOTIFY labelsVisibleChanged)
-    Q_PROPERTY(qreal labelsAngle READ labelsAngle WRITE setLabelsAngle NOTIFY labelsAngleChanged)
+    Q_PROPERTY(bool labelsVisible READ labelsVisible WRITE setLabelsVisible NOTIFY
+                   labelsVisibleChanged FINAL)
+    Q_PROPERTY(
+        qreal labelsAngle READ labelsAngle WRITE setLabelsAngle NOTIFY labelsAngleChanged FINAL)
     Q_PROPERTY(QQmlComponent *labelsComponent READ labelsComponent
                        WRITE setLabelsComponent NOTIFY labelsComponentChanged FINAL)
     //grid
-    Q_PROPERTY(bool gridVisible READ isGridLineVisible WRITE setGridLineVisible NOTIFY gridVisibleChanged)
-    Q_PROPERTY(bool minorGridVisible READ isMinorGridLineVisible WRITE setMinorGridLineVisible NOTIFY minorGridVisibleChanged)
+    Q_PROPERTY(bool gridVisible READ isGridLineVisible WRITE setGridLineVisible NOTIFY
+                   gridVisibleChanged FINAL)
+    Q_PROPERTY(bool minorGridVisible READ isMinorGridLineVisible WRITE setMinorGridLineVisible
+                   NOTIFY minorGridVisibleChanged FINAL)
     //title
-    Q_PROPERTY(QString titleText READ titleText WRITE setTitleText NOTIFY titleTextChanged)
-    Q_PROPERTY(QColor titleColor READ titleColor WRITE setTitleColor NOTIFY titleColorChanged)
-    Q_PROPERTY(bool titleVisible READ isTitleVisible WRITE setTitleVisible NOTIFY titleVisibleChanged)
-    Q_PROPERTY(QFont titleFont READ titleFont WRITE setTitleFont NOTIFY titleFontChanged)
+    Q_PROPERTY(QString titleText READ titleText WRITE setTitleText NOTIFY titleTextChanged FINAL)
+    Q_PROPERTY(QColor titleColor READ titleColor WRITE setTitleColor NOTIFY titleColorChanged FINAL)
+    Q_PROPERTY(bool titleVisible READ isTitleVisible WRITE setTitleVisible NOTIFY
+                   titleVisibleChanged FINAL)
+    Q_PROPERTY(QFont titleFont READ titleFont WRITE setTitleFont NOTIFY titleFontChanged FINAL)
     //orientation
-    Q_PROPERTY(Qt::Orientation orientation READ orientation CONSTANT)
+    Q_PROPERTY(Qt::Orientation orientation READ orientation CONSTANT FINAL)
     //alignment
-    Q_PROPERTY(Qt::Alignment alignment READ alignment CONSTANT)
+    Q_PROPERTY(Qt::Alignment alignment READ alignment CONSTANT FINAL)
     QML_FOREIGN(QAbstractAxis)
     QML_UNCREATABLE("")
     QML_NAMED_ELEMENT(AbstractAxis)

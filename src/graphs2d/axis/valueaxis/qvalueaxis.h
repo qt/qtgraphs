@@ -15,13 +15,17 @@ class QValueAxisPrivate;
 class Q_GRAPHS_EXPORT QValueAxis : public QAbstractAxis
 {
     Q_OBJECT
-    Q_PROPERTY(qreal min READ min WRITE setMin NOTIFY minChanged)
-    Q_PROPERTY(qreal max READ max WRITE setMax NOTIFY maxChanged)
-    Q_PROPERTY(QString labelFormat READ labelFormat WRITE setLabelFormat NOTIFY labelFormatChanged)
-    Q_PROPERTY(int labelDecimals READ labelDecimals WRITE setLabelDecimals NOTIFY labelDecimalsChanged)
-    Q_PROPERTY(int minorTickCount READ minorTickCount WRITE setMinorTickCount NOTIFY minorTickCountChanged)
-    Q_PROPERTY(qreal tickAnchor READ tickAnchor WRITE setTickAnchor NOTIFY tickAnchorChanged)
-    Q_PROPERTY(qreal tickInterval READ tickInterval WRITE setTickInterval NOTIFY tickIntervalChanged)
+    Q_PROPERTY(qreal min READ min WRITE setMin NOTIFY minChanged FINAL)
+    Q_PROPERTY(qreal max READ max WRITE setMax NOTIFY maxChanged FINAL)
+    Q_PROPERTY(
+        QString labelFormat READ labelFormat WRITE setLabelFormat NOTIFY labelFormatChanged FINAL)
+    Q_PROPERTY(int labelDecimals READ labelDecimals WRITE setLabelDecimals NOTIFY
+                   labelDecimalsChanged FINAL)
+    Q_PROPERTY(int minorTickCount READ minorTickCount WRITE setMinorTickCount NOTIFY
+                   minorTickCountChanged FINAL)
+    Q_PROPERTY(qreal tickAnchor READ tickAnchor WRITE setTickAnchor NOTIFY tickAnchorChanged FINAL)
+    Q_PROPERTY(
+        qreal tickInterval READ tickInterval WRITE setTickInterval NOTIFY tickIntervalChanged FINAL)
     QML_NAMED_ELEMENT(ValueAxis)
 
 public:
