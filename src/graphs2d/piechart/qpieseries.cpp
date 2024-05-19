@@ -384,7 +384,7 @@ QAbstractSeries::SeriesType QPieSeries::type() const
     return QAbstractSeries::SeriesType::Pie;
 }
 
-QPieSlice *QPieSeries::at(int index)
+QPieSlice *QPieSeries::at(qsizetype index)
 {
     QList<QPieSlice *> sliceList = slices();
     if (index >= 0 && index < sliceList.size())
@@ -402,7 +402,7 @@ QPieSlice *QPieSeries::find(const QString &label)
     return 0;
 }
 
-bool QPieSeries::replace(int index, QPieSlice *slice)
+bool QPieSeries::replace(qsizetype index, QPieSlice *slice)
 {
     Q_D(QPieSeries);
 
@@ -433,7 +433,7 @@ bool QPieSeries::replace(int index, QPieSlice *slice)
     return true;
 }
 
-void QPieSeries::removeMultiple(int index, int count)
+void QPieSeries::removeMultiple(qsizetype index, int count)
 {
     Q_D(QPieSeries);
 
@@ -444,7 +444,7 @@ void QPieSeries::removeMultiple(int index, int count)
 
     QList<QPieSlice *> removedList;
 
-    for (int i = index; i < index + count; ++i) {
+    for (qsizetype i = index; i < index + count; ++i) {
         auto slice = d->m_slices[index];
         d->m_slices.removeOne(slice);
         d->updateData();
@@ -461,7 +461,7 @@ void QPieSeries::removeMultiple(int index, int count)
     emit countChanged();
 }
 
-bool QPieSeries::remove(int index)
+bool QPieSeries::remove(qsizetype index)
 {
     Q_D(QPieSeries);
 
@@ -625,7 +625,7 @@ QPieSlice *QPieSeries::append(const QString &label, qreal value)
 
     Returns \c true if inserting succeeds.
 */
-bool QPieSeries::insert(int index, QPieSlice *slice)
+bool QPieSeries::insert(qsizetype index, QPieSlice *slice)
 {
     Q_D(QPieSeries);
 
@@ -742,7 +742,7 @@ QList<QPieSlice *> QPieSeries::slices() const
 /*!
     Returns the number of the slices in this series.
 */
-int QPieSeries::count() const
+qsizetype QPieSeries::count() const
 {
     const Q_D(QPieSeries);
     return d->m_slices.size();

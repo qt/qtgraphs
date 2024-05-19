@@ -963,7 +963,7 @@ bool QAbstract3DGraph::hasSeries(QAbstract3DSeries *series) const
  * \sa removeCustomItems(), removeCustomItem(), removeCustomItemAt(),
  * customItems()
  */
-int QAbstract3DGraph::addCustomItem(QCustom3DItem *item)
+qsizetype QAbstract3DGraph::addCustomItem(QCustom3DItem *item)
 {
     return m_graphsItem->addCustomItem(item);
 }
@@ -1054,7 +1054,7 @@ QAbstract3DAxis *QAbstract3DGraph::selectedAxis() const
  *
  * \sa selectedElement
  */
-int QAbstract3DGraph::selectedCustomItemIndex() const
+qsizetype QAbstract3DGraph::selectedCustomItemIndex() const
 {
     return m_graphsItem->selectedCustomItemIndex();
 }

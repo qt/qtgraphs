@@ -90,10 +90,10 @@ void AreaRenderer::handlePolish(QAreaSeries *series)
 
     auto group = m_groups.value(series);
 
-    int pointCount = upper->points().size();
-    int currentSize = group->paths.size();
-    int extraCount = lower ? lower->points().size() : 2;
-    for (int i = currentSize; i < pointCount + extraCount; ++i) {
+    qsizetype pointCount = upper->points().size();
+    qsizetype currentSize = group->paths.size();
+    qsizetype extraCount = lower ? lower->points().size() : 2;
+    for (qsizetype i = currentSize; i < pointCount + extraCount; ++i) {
         QQuickCurve *path = nullptr;
 
         if (!lower || (lower && i < pointCount - 1)) {
@@ -123,7 +123,7 @@ void AreaRenderer::handlePolish(QAreaSeries *series)
     }
 
 
-    int index = group->colorIndex % series->theme()->seriesColors().size();
+    qsizetype index = group->colorIndex % series->theme()->seriesColors().size();
     QColor color = series->color().alpha() != 0
             ? series->color()
             : series->theme()->seriesColors().at(index);
@@ -285,8 +285,8 @@ bool AreaRenderer::pointInArea(QPoint pt, QAreaSeries *series) const
             if (lowerPoints.size() > upperPoints.size())
                 secondPoints = &upperPoints;
 
-            int firstIndex = i;
-            int secondIndex = i + 1;
+            qsizetype firstIndex = i;
+            qsizetype secondIndex = i + 1;
 
             if (firstIndex >= secondPoints->size())
                 firstIndex = secondPoints->size() - 1;

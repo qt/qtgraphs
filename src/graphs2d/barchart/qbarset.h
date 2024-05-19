@@ -28,8 +28,8 @@ class Q_GRAPHS_EXPORT QBarSet : public QObject
     Q_PROPERTY(QVariantList values READ values WRITE setValues NOTIFY valuesChanged FINAL)
     Q_PROPERTY(
         qreal borderWidth READ borderWidth WRITE setBorderWidth NOTIFY borderWidthChanged FINAL)
-    Q_PROPERTY(int count READ count NOTIFY countChanged FINAL)
-    Q_PROPERTY(QList<int> selectedBars READ selectedBars NOTIFY selectedBarsChanged FINAL)
+    Q_PROPERTY(qsizetype count READ count NOTIFY countChanged FINAL)
+    Q_PROPERTY(QList<qsizetype> selectedBars READ selectedBars NOTIFY selectedBarsChanged FINAL)
     QML_NAMED_ELEMENT(BarSet)
     Q_DECLARE_PRIVATE(QBarSet)
 
@@ -43,15 +43,15 @@ public:
 
     Q_INVOKABLE void append(const qreal value);
     Q_INVOKABLE void append(const QList<qreal> &values);
-    Q_INVOKABLE void insert(const int index, const qreal value);
-    Q_INVOKABLE void remove(const int index, const int count = 1);
-    Q_INVOKABLE void replace(const int index, const qreal value);
-    Q_INVOKABLE qreal at(const int index) const;
-    Q_INVOKABLE int count() const;
+    Q_INVOKABLE void insert(const qsizetype index, const qreal value);
+    Q_INVOKABLE void remove(const qsizetype index, const qsizetype count = 1);
+    Q_INVOKABLE void replace(const qsizetype index, const qreal value);
+    Q_INVOKABLE qreal at(const qsizetype index) const;
+    Q_INVOKABLE qsizetype count() const;
     Q_INVOKABLE qreal sum() const;
     Q_INVOKABLE void clear();
 
-    qreal operator [](const int index) const;
+    qreal operator [](const qsizetype index) const;
     QBarSet &operator << (const qreal &value);
 
     QColor color();
@@ -71,16 +71,16 @@ public:
     qreal borderWidth() const;
     void setBorderWidth(qreal borderWidth);
 
-    Q_INVOKABLE bool isBarSelected(int index) const;
-    Q_INVOKABLE void selectBar(int index);
-    Q_INVOKABLE void deselectBar(int index);
-    Q_INVOKABLE void setBarSelected(int index, bool selected);
+    Q_INVOKABLE bool isBarSelected(qsizetype index) const;
+    Q_INVOKABLE void selectBar(qsizetype index);
+    Q_INVOKABLE void deselectBar(qsizetype index);
+    Q_INVOKABLE void setBarSelected(qsizetype index, bool selected);
     Q_INVOKABLE void selectAllBars();
     Q_INVOKABLE void deselectAllBars();
-    Q_INVOKABLE void selectBars(const QList<int> &indexes);
-    Q_INVOKABLE void deselectBars(const QList<int> &indexes);
-    Q_INVOKABLE void toggleSelection(const QList<int> &indexes);
-    QList<int> selectedBars() const;
+    Q_INVOKABLE void selectBars(const QList<qsizetype> &indexes);
+    Q_INVOKABLE void deselectBars(const QList<qsizetype> &indexes);
+    Q_INVOKABLE void toggleSelection(const QList<qsizetype> &indexes);
+    QList<qsizetype> selectedBars() const;
 
 Q_SIGNALS:
     void update();
@@ -94,15 +94,15 @@ Q_SIGNALS:
 
     void borderWidthChanged(qreal width);
 
-    void valuesAdded(int index, int count);
-    void valuesRemoved(int index, int count);
-    void valueChanged(int index);
+    void valuesAdded(qsizetype index, qsizetype count);
+    void valuesRemoved(qsizetype index, qsizetype count);
+    void valueChanged(qsizetype index);
 
     void updatedBars();
-    void valueAdded(int index, int count);
-    void valueRemoved(int index, int count);
+    void valueAdded(qsizetype index, qsizetype count);
+    void valueRemoved(qsizetype index, qsizetype count);
 
-    void selectedBarsChanged(const QList<int> &indexes);
+    void selectedBarsChanged(const QList<qsizetype> &indexes);
 
 private:
     Q_DISABLE_COPY(QBarSet)

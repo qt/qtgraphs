@@ -215,7 +215,7 @@ void QScatter3DSeries::setSelectedItem(int index)
 int QScatter3DSeries::selectedItem() const
 {
     const Q_D(QScatter3DSeries);
-    return d->m_selectedItem;
+    return int(d->m_selectedItem);
 }
 
 /*!
@@ -407,7 +407,7 @@ void QScatter3DSeriesPrivate::createItemLabel()
     m_itemLabel.replace(seriesNameTag, m_name);
 }
 
-void QScatter3DSeriesPrivate::setSelectedItem(int index)
+void QScatter3DSeriesPrivate::setSelectedItem(qsizetype index)
 {
     Q_Q(QScatter3DSeries);
     if (index != m_selectedItem) {

@@ -112,7 +112,7 @@ public:
     void setMultiHighlightGradient(const QLinearGradient &gradient);
     void setName(const QString &name);
 
-    void resetToTheme(const QGraphsTheme &theme, int seriesIndex, bool force);
+    void resetToTheme(const QGraphsTheme &theme, qsizetype seriesIndex, bool force);
     QString itemLabel();
     void markItemLabelDirty();
     inline bool itemLabelDirty() const { return m_itemLabelDirty; }

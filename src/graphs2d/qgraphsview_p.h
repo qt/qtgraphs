@@ -69,7 +69,7 @@ public:
 
     Q_INVOKABLE void addSeries(QObject *series);
     Q_INVOKABLE void removeSeries(QObject *series);
-    Q_INVOKABLE void insertSeries(int index, QObject *series);
+    Q_INVOKABLE void insertSeries(qsizetype index, QObject *series);
     Q_INVOKABLE bool hasSeries(QObject *series);
 
     QList<QObject *> getSeriesList() const {
@@ -100,8 +100,8 @@ public:
     void addAxis(QAbstractAxis *axis);
     void removeAxis(QAbstractAxis *axis);
 
-    int graphSeriesCount() const;
-    void setGraphSeriesCount(int count);
+    qsizetype graphSeriesCount() const;
+    void setGraphSeriesCount(qsizetype count);
 
     // Returns the graph series area.
     // So graphview - margins - axis.
@@ -208,7 +208,7 @@ private:
     QGraphsTheme *m_theme = nullptr;
     QGraphsTheme *m_defaultTheme = nullptr;
 
-    int m_graphSeriesCount = 0;
+    qsizetype m_graphSeriesCount = 0;
 
     qreal m_marginTop = 20;
     qreal m_marginBottom = 20;

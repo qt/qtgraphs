@@ -44,8 +44,8 @@ private:
         QAreaSeries *series;
         QQuickShapePath *shapePath = nullptr;
         QList<QQuickCurve *> paths;
-        int colorIndex = -1;
-        int borderColorIndex = -1;
+        qsizetype colorIndex = -1;
+        qsizetype borderColorIndex = -1;
         bool hover = false;
     };
 

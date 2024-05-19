@@ -55,7 +55,7 @@ private:
         QQmlComponent *currentMarker = nullptr;
         QQmlComponent *previousMarker = nullptr;
         QList<QRectF> rects;
-        int colorIndex = -1;
+        qsizetype colorIndex = -1;
         bool hover = false;
     };
 

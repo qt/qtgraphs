@@ -136,7 +136,7 @@ void QQuickGraphsBar3DSeries::handleMultiHighlightGradientUpdate()
 
 void QQuickGraphsBar3DSeries::handleRowColorUpdate()
 {
-    int colorCount = m_rowColors.size();
+    qsizetype colorCount = m_rowColors.size();
     int changed = 0;
 
     QQuickGraphsColor *color = qobject_cast<QQuickGraphsColor *>(QObject::sender());

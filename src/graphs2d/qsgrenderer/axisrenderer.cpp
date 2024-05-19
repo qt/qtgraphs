@@ -613,11 +613,11 @@ void AxisRenderer::updateAxisTitles(const QRectF &xAxisRect, const QRectF &yAxis
 }
 
 void AxisRenderer::updateAxisLabelItems(QList<QQuickItem *> &textItems,
-                                        int neededSize, QQmlComponent *component)
+                                        qsizetype neededSize, QQmlComponent *component)
 {
-    int currentTextItemsSize = textItems.size();
+    qsizetype currentTextItemsSize = textItems.size();
     if (currentTextItemsSize < neededSize) {
-        for (int i = currentTextItemsSize; i <= neededSize; i++) {
+        for (qsizetype i = currentTextItemsSize; i <= neededSize; i++) {
             QQuickItem *item = nullptr;
             if (component) {
                 item = qobject_cast<QQuickItem *>(
@@ -630,7 +630,7 @@ void AxisRenderer::updateAxisLabelItems(QList<QQuickItem *> &textItems,
         }
     } else if (neededSize < currentTextItemsSize) {
         // Hide unused text items
-        for (int i = neededSize;  i < currentTextItemsSize; i++) {
+        for (qsizetype i = neededSize;  i < currentTextItemsSize; i++) {
             auto textItem = textItems[i];
             textItem->setVisible(false);
         }
@@ -663,7 +663,7 @@ void AxisRenderer::setLabelTextProperties(QQuickItem *item, const QString &text,
 
 void AxisRenderer::updateBarXAxisLabels(QBarCategoryAxis *axis, const QRectF &rect)
 {
-    int categoriesCount = axis->categories().size();
+    qsizetype categoriesCount = axis->categories().size();
     // See if we need more text items
     updateAxisLabelItems(m_xAxisTextItems, categoriesCount, axis->labelsComponent());
 
@@ -690,7 +690,7 @@ void AxisRenderer::updateBarXAxisLabels(QBarCategoryAxis *axis, const QRectF &re
 
 void AxisRenderer::updateBarYAxisLabels(QBarCategoryAxis *axis, const QRectF &rect)
 {
-    int categoriesCount = axis->categories().size();
+    qsizetype categoriesCount = axis->categories().size();
     // See if we need more text items
     updateAxisLabelItems(m_yAxisTextItems, categoriesCount, axis->labelsComponent());
 
@@ -725,7 +725,7 @@ void AxisRenderer::updateValueYAxisLabels(QValueAxis *axis, const QRectF &rect)
         if (yAxisLabelValues.size() >= MAX_LABELS_COUNT)
             break;
     }
-    int categoriesCount = yAxisLabelValues.size();
+    qsizetype categoriesCount = yAxisLabelValues.size();
 
     // See if we need more text items
     updateAxisLabelItems(m_yAxisTextItems, categoriesCount, axis->labelsComponent());
@@ -778,7 +778,7 @@ void AxisRenderer::updateValueXAxisLabels(QValueAxis *axis, const QRectF &rect)
         if (axisLabelValues.size() >= MAX_LABELS_COUNT)
             break;
     }
-    int categoriesCount = axisLabelValues.size();
+    qsizetype categoriesCount = axisLabelValues.size();
 
     // See if we need more text items
     updateAxisLabelItems(m_xAxisTextItems, categoriesCount, axis->labelsComponent());

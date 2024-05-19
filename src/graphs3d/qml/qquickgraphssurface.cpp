@@ -148,7 +148,7 @@ void QQuickGraphsSurface::adjustAxisRanges()
         float maxValueY = 0.0f;
         float minValueZ = 0.0f;
         float maxValueZ = 0.0f;
-        int seriesCount = m_seriesList.size();
+        qsizetype seriesCount = m_seriesList.size();
         for (int series = 0; series < seriesCount; series++) {
             const QSurface3DSeries *surfaceSeries = static_cast<QSurface3DSeries *>(
                 m_seriesList.at(series));
@@ -284,18 +284,18 @@ void QQuickGraphsSurface::handleFlatShadingSupportedChange(bool supported)
     }
 }
 
-void QQuickGraphsSurface::handleRowsChanged(int startIndex, int count)
+void QQuickGraphsSurface::handleRowsChanged(qsizetype startIndex, qsizetype count)
 {
     QSurface3DSeries *series = static_cast<QSurfaceDataProxy *>(QObject::sender())->series();
-    int oldChangeCount = m_changedRows.size();
+    qsizetype oldChangeCount = m_changedRows.size();
     if (!oldChangeCount)
         m_changedRows.reserve(count);
 
     int selectedRow = m_selectedPoint.x();
-    for (int i = 0; i < count; i++) {
+    for (qsizetype i = 0; i < count; i++) {
         bool newItem = true;
-        int candidate = startIndex + i;
-        for (int j = 0; j < oldChangeCount; j++) {
+        qsizetype candidate = startIndex + i;
+        for (qsizetype j = 0; j < oldChangeCount; j++) {
             const ChangeRow &oldChangeItem = m_changedRows.at(j);
             if (oldChangeItem.row == candidate && series == oldChangeItem.series) {
                 newItem = false;
@@ -319,13 +319,13 @@ void QQuickGraphsSurface::handleRowsChanged(int startIndex, int count)
     }
 }
 
-void QQuickGraphsSurface::handleItemChanged(int rowIndex, int columnIndex)
+void QQuickGraphsSurface::handleItemChanged(qsizetype rowIndex, qsizetype columnIndex)
 {
     QSurfaceDataProxy *sender = static_cast<QSurfaceDataProxy *>(QObject::sender());
     QSurface3DSeries *series = sender->series();
 
     bool newItem = true;
-    QPoint candidate(rowIndex, columnIndex);
+    QPoint candidate((int(rowIndex)), (int(columnIndex)));
     for (ChangeItem item : m_changedItems) {
         if (item.point == candidate && item.series == series) {
             newItem = false;
@@ -347,7 +347,7 @@ void QQuickGraphsSurface::handleItemChanged(int rowIndex, int columnIndex)
     }
 }
 
-void QQuickGraphsSurface::handleRowsAdded(int startIndex, int count)
+void QQuickGraphsSurface::handleRowsAdded(qsizetype startIndex, qsizetype count)
 {
     Q_UNUSED(startIndex);
     Q_UNUSED(count);
@@ -361,7 +361,7 @@ void QQuickGraphsSurface::handleRowsAdded(int startIndex, int count)
     emitNeedRender();
 }
 
-void QQuickGraphsSurface::handleRowsInserted(int startIndex, int count)
+void QQuickGraphsSurface::handleRowsInserted(qsizetype startIndex, qsizetype count)
 {
     Q_UNUSED(startIndex);
     Q_UNUSED(count);
@@ -385,7 +385,7 @@ void QQuickGraphsSurface::handleRowsInserted(int startIndex, int count)
     emitNeedRender();
 }
 
-void QQuickGraphsSurface::handleRowsRemoved(int startIndex, int count)
+void QQuickGraphsSurface::handleRowsRemoved(qsizetype startIndex, qsizetype count)
 {
     Q_UNUSED(startIndex);
     Q_UNUSED(count);
@@ -438,8 +438,8 @@ void QQuickGraphsSurface::setSelectedPoint(const QPoint &position,
         pos = invalidSelectionPosition();
 
     if (pos != invalidSelectionPosition()) {
-        int maxRow = proxy->rowCount() - 1;
-        int maxCol = proxy->columnCount() - 1;
+        qsizetype maxRow = proxy->rowCount() - 1;
+        qsizetype maxCol = proxy->columnCount() - 1;
 
         if (pos.y() < 0 || pos.y() > maxRow || pos.x() < 0 || pos.x() > maxCol)
             pos = invalidSelectionPosition();
@@ -623,8 +623,8 @@ void QQuickGraphsSurface::clearSeriesFunc(QQmlListProperty<QSurface3DSeries> *li
 {
     QQuickGraphsSurface *declSurface = reinterpret_cast<QQuickGraphsSurface *>(list->data);
     QList<QSurface3DSeries *> realList = declSurface->surfaceSeriesList();
-    int count = realList.size();
-    for (int i = 0; i < count; i++)
+    qsizetype count = realList.size();
+    for (qsizetype i = 0; i < count; i++)
         declSurface->removeSeries(realList.at(i));
 }
 
@@ -936,7 +936,7 @@ void QQuickGraphsSurface::handleChangedSeries()
     }
 }
 
-inline static float getDataValue(const QSurfaceDataArray &array, bool searchRow, int index)
+inline static float getDataValue(const QSurfaceDataArray &array, bool searchRow, qsizetype index)
 {
     if (searchRow)
         return array.at(0).at(index).x();
@@ -945,22 +945,22 @@ inline static float getDataValue(const QSurfaceDataArray &array, bool searchRow,
 }
 
 inline static int binarySearchArray(const QSurfaceDataArray &array,
-                                    int maxIndex,
+                                    qsizetype maxIndex,
                                     float limitValue,
                                     bool searchRow,
                                     bool lowBound,
                                     bool ascending)
 {
-    int min = 0;
-    int max = maxIndex;
-    int mid = 0;
-    int retVal;
+    qsizetype min = 0;
+    qsizetype max = maxIndex;
+    qsizetype mid = 0;
+    qsizetype retVal;
 
     while (max >= min) {
         mid = (min + max) / 2;
         float arrayValue = getDataValue(array, searchRow, mid);
         if (arrayValue == limitValue)
-            return mid;
+            return int(mid);
         if (ascending) {
             if (arrayValue < limitValue)
                 min = mid + 1;
@@ -995,7 +995,7 @@ inline static int binarySearchArray(const QSurfaceDataArray &array,
         if (getDataValue(array, searchRow, retVal) > limitValue)
             retVal = -1;
     }
-    return retVal;
+    return int(retVal);
 }
 
 QRect QQuickGraphsSurface::calculateSampleSpace(SurfaceModel *model)
@@ -1004,8 +1004,8 @@ QRect QQuickGraphsSurface::calculateSampleSpace(SurfaceModel *model)
     const QSurfaceDataArray &array = model->series->dataArray();
     if (array.size() > 0) {
         if (array.size() >= 2 && array.at(0).size() >= 2) {
-            const int maxRow = array.size() - 1;
-            const int maxColumn = array.at(0).size() - 1;
+            const qsizetype maxRow = array.size() - 1;
+            const qsizetype maxColumn = array.at(0).size() - 1;
 
             const bool ascendingX = array.at(0).at(0).x() < array.at(0).at(maxColumn).x();
             const bool ascendingZ = array.at(0).at(0).z() < array.at(maxRow).at(0).z();
@@ -1072,10 +1072,10 @@ void QQuickGraphsSurface::updateModel(SurfaceModel *model)
     const QSurfaceDataArray &array = model->series->dataArray();
 
     if (!array.isEmpty()) {
-        int rowCount = array.size();
-        int columnCount = array.at(0).size();
+        qsizetype rowCount = array.size();
+        qsizetype columnCount = array.at(0).size();
 
-        const int maxSize = 4096; // maximum texture size
+        const qsizetype maxSize = 4096; // maximum texture size
         columnCount = qMin(maxSize, columnCount);
         rowCount = qMin(maxSize, rowCount);
 
@@ -1100,8 +1100,8 @@ void QQuickGraphsSurface::updateModel(SurfaceModel *model)
         int columnLimit = sampleSpace.right() + 1;
 
         QPoint selC = model->selectedVertex.coord;
-        selC.setX(qMin(selC.x(), columnCount - 1));
-        selC.setY(qMin(selC.y(), rowCount - 1));
+        selC.setX(qMin(selC.x(), int(columnCount) - 1));
+        selC.setY(qMin(selC.y(), int(rowCount) - 1));
         QVector3D selP = array.at(selC.y()).at(selC.x()).position();
 
         bool pickOutOfRange = false;
@@ -1118,7 +1118,7 @@ void QQuickGraphsSurface::updateModel(SurfaceModel *model)
                 m_selectionDirty = true;
             }
         }
-        int totalSize = rowCount * columnCount * 2;
+        qsizetype totalSize = rowCount * columnCount * 2;
         float uvX = 1.0f / float(columnCount - 1);
         float uvY = 1.0f / float(rowCount - 1);
 
@@ -1597,8 +1597,8 @@ void QQuickGraphsSurface::updateSliceGraph()
 
         int indexCount = 0;
         const QSurfaceDataArray &array = model->series->dataArray();
-        const int maxRow = array.size() - 1;
-        const int maxColumn = array.at(0).size() - 1;
+        const qsizetype maxRow = array.size() - 1;
+        const qsizetype maxColumn = array.at(0).size() - 1;
         const bool ascendingX = array.at(0).at(0).x() < array.at(0).at(maxColumn).x();
         const bool ascendingZ = array.at(0).at(0).z() < array.at(maxRow).at(0).z();
         if (selectionMode().testFlag(QAbstract3DGraph::SelectionRow) && coord.y() != -1) {
@@ -1704,14 +1704,14 @@ QPointF QQuickGraphsSurface::mapCoordsToWorldSpace(SurfaceModel *model, const QP
 QPoint QQuickGraphsSurface::mapCoordsToSampleSpace(SurfaceModel *model, const QPointF &coords)
 {
     const QSurfaceDataArray &array = model->series->dataArray();
-    int maxRow = array.size() - 1;
-    int maxCol = array.at(0).size() - 1;
+    qsizetype maxRow = array.size() - 1;
+    qsizetype maxCol = array.at(0).size() - 1;
     const bool ascendingX = array.at(0).at(0).x() < array.at(0).at(maxCol).x();
     const bool ascendingZ = array.at(0).at(0).z() < array.at(maxRow).at(0).z();
-    int botX = ascendingX ? 0 : maxCol;
-    int botZ = ascendingZ ? 0 : maxRow;
-    int topX = ascendingX ? maxCol : 0;
-    int topZ = ascendingZ ? maxRow : 0;
+    qsizetype botX = ascendingX ? 0 : maxCol;
+    qsizetype botZ = ascendingZ ? 0 : maxRow;
+    qsizetype topX = ascendingX ? maxCol : 0;
+    qsizetype topZ = ascendingZ ? maxRow : 0;
 
     QPoint point(-1, -1);
 
@@ -1728,41 +1728,41 @@ QPoint QQuickGraphsSurface::mapCoordsToSampleSpace(SurfaceModel *model, const QP
                            (pointF.y() + (step.y() / 2.0)) / step.y());
 
     if (bottomLeft.x() <= coords.x() && topRight.x() >= coords.x())
-        point.setX(ascendingX ? sample.x() : maxCol - sample.x());
+        point.setX(ascendingX ? sample.x() : int(maxCol) - sample.x());
 
     if (bottomLeft.z() <= coords.y() && topRight.z() >= coords.y())
-        point.setY(ascendingZ ? sample.y() : maxRow - sample.y());
+        point.setY(ascendingZ ? sample.y() : int(maxRow) - sample.y());
     return point;
 }
 
-void QQuickGraphsSurface::createIndices(SurfaceModel *model, int columnCount, int rowCount)
+void QQuickGraphsSurface::createIndices(SurfaceModel *model, qsizetype columnCount, qsizetype rowCount)
 {
-    int endX = columnCount - 1;
-    int endY = rowCount - 1;
+    qsizetype endX = columnCount - 1;
+    qsizetype endY = rowCount - 1;
 
-    int indexCount = 6 * endX * endY;
+    qsizetype indexCount = 6 * endX * endY;
     QVector<quint32> *indices = &model->indices;
 
     indices->clear();
     indices->resize(indexCount);
 
-    int rowEnd = endY * columnCount;
-    for (int row = 0; row < rowEnd; row += columnCount) {
-        for (int j = 0; j < endX; j++) {
-            indices->push_back(row + j + 1);
-            indices->push_back(row + columnCount + j);
-            indices->push_back(row + j);
+    qsizetype rowEnd = endY * columnCount;
+    for (qsizetype row = 0; row < rowEnd; row += columnCount) {
+        for (qsizetype j = 0; j < endX; j++) {
+            indices->push_back(int(row + j + 1));
+            indices->push_back(int(row + columnCount + j));
+            indices->push_back(int(row + j));
 
-            indices->push_back(row + columnCount + j + 1);
-            indices->push_back(row + columnCount + j);
-            indices->push_back(row + j + 1);
+            indices->push_back(int(row + columnCount + j + 1));
+            indices->push_back(int(row + columnCount + j));
+            indices->push_back(int(row + j + 1));
         }
     }
 }
-void QQuickGraphsSurface::createGridlineIndices(SurfaceModel *model, int x, int y, int endX, int endY)
+void QQuickGraphsSurface::createGridlineIndices(SurfaceModel *model, qsizetype x, qsizetype y, qsizetype endX, qsizetype endY)
 {
-    int columnCount = model->columnCount;
-    int rowCount = model->rowCount;
+    qsizetype columnCount = model->columnCount;
+    qsizetype rowCount = model->rowCount;
 
     if (endX >= columnCount)
         endX = columnCount - 1;
@@ -1773,23 +1773,23 @@ void QQuickGraphsSurface::createGridlineIndices(SurfaceModel *model, int x, int 
     if (y > endY)
         y = endY - 1;
 
-    int nColumns = endX - x + 1;
-    int nRows = endY - y + 1;
+    qsizetype nColumns = endX - x + 1;
+    qsizetype nRows = endY - y + 1;
 
-    int gridIndexCount = 2 * nColumns * (nRows - 1) + 2 * nRows * (nColumns - 1);
+    qsizetype gridIndexCount = 2 * nColumns * (nRows - 1) + 2 * nRows * (nColumns - 1);
     model->gridIndices.clear();
     model->gridIndices.resize(gridIndexCount);
 
-    for (int i = y, row = columnCount * y; i <= endY; i++, row += columnCount) {
-        for (int j = x; j < endX; j++) {
-            model->gridIndices.push_back(row + j);
-            model->gridIndices.push_back(row + j + 1);
+    for (qsizetype i = y, row = columnCount * y; i <= endY; i++, row += columnCount) {
+        for (qsizetype j = x; j < endX; j++) {
+            model->gridIndices.push_back(int(row + j));
+            model->gridIndices.push_back(int(row + j + 1));
         }
     }
-    for (int i = y, row = columnCount * y; i < endY; i++, row += columnCount) {
-        for (int j = x; j <= endX; j++) {
-            model->gridIndices.push_back(row + j);
-            model->gridIndices.push_back(row + j + columnCount);
+    for (qsizetype i = y, row = columnCount * y; i < endY; i++, row += columnCount) {
+        for (qsizetype j = x; j <= endX; j++) {
+            model->gridIndices.push_back(int(row + j));
+            model->gridIndices.push_back(int(row + j + columnCount));
         }
     }
 }

@@ -169,7 +169,7 @@ void QSurfaceDataProxy::resetArray(QSurfaceDataArray newArray)
  * existing row already stored at the \a rowIndex. The new row must have
  * the same number of columns as the row it is replacing.
  */
-void QSurfaceDataProxy::setRow(int rowIndex, QSurfaceDataRow row)
+void QSurfaceDataProxy::setRow(qsizetype rowIndex, QSurfaceDataRow row)
 {
     Q_D(QSurfaceDataProxy);
     d->setRow(rowIndex, std::move(row));
@@ -183,7 +183,7 @@ void QSurfaceDataProxy::setRow(int rowIndex, QSurfaceDataRow row)
  * stored at the \a rowIndex. The new rows must have the same number of columns
  * as the rows they are replacing.
  */
-void QSurfaceDataProxy::setRows(int rowIndex, QSurfaceDataArray rows)
+void QSurfaceDataProxy::setRows(qsizetype rowIndex, QSurfaceDataArray rows)
 {
     Q_D(QSurfaceDataProxy);
     d->setRows(rowIndex, std::move(rows));
@@ -194,7 +194,7 @@ void QSurfaceDataProxy::setRows(int rowIndex, QSurfaceDataArray rows)
  * Changes a single item at the position specified by \a rowIndex and
  * \a columnIndex to the item \a item.
  */
-void QSurfaceDataProxy::setItem(int rowIndex, int columnIndex, QSurfaceDataItem item)
+void QSurfaceDataProxy::setItem(qsizetype rowIndex, qsizetype columnIndex, QSurfaceDataItem item)
 {
     Q_D(QSurfaceDataProxy);
     d->setItem(rowIndex, columnIndex, std::move(item));
@@ -217,10 +217,10 @@ void QSurfaceDataProxy::setItem(const QPoint &position, QSurfaceDataItem item)
  *
  * Returns the index of the added row.
  */
-int QSurfaceDataProxy::addRow(QSurfaceDataRow row)
+qsizetype QSurfaceDataProxy::addRow(QSurfaceDataRow row)
 {
     Q_D(QSurfaceDataProxy);
-    int addIndex = d->addRow(std::move(row));
+    qsizetype addIndex = d->addRow(std::move(row));
     emit rowsAdded(addIndex, 1);
     emit rowCountChanged(rowCount());
     return addIndex;
@@ -232,10 +232,10 @@ int QSurfaceDataProxy::addRow(QSurfaceDataRow row)
  *
  * Returns the index of the first added row.
  */
-int QSurfaceDataProxy::addRows(QSurfaceDataArray rows)
+qsizetype QSurfaceDataProxy::addRows(QSurfaceDataArray rows)
 {
     Q_D(QSurfaceDataProxy);
-    int addIndex = d->addRows(std::move(rows));
+    qsizetype addIndex = d->addRows(std::move(rows));
     emit rowsAdded(addIndex, rows.size());
     emit rowCountChanged(rowCount());
     return addIndex;
@@ -247,7 +247,7 @@ int QSurfaceDataProxy::addRows(QSurfaceDataArray rows)
  * the array. The new row must have the same number of columns as the rows in
  * the initial array.
  */
-void QSurfaceDataProxy::insertRow(int rowIndex, QSurfaceDataRow row)
+void QSurfaceDataProxy::insertRow(qsizetype rowIndex, QSurfaceDataRow row)
 {
     Q_D(QSurfaceDataProxy);
     d->insertRow(rowIndex, std::move(row));
@@ -261,7 +261,7 @@ void QSurfaceDataProxy::insertRow(int rowIndex, QSurfaceDataRow row)
  * the array. The new \a rows must have the same number of columns as the rows
  * in the initial array.
  */
-void QSurfaceDataProxy::insertRows(int rowIndex, QSurfaceDataArray rows)
+void QSurfaceDataProxy::insertRows(qsizetype rowIndex, QSurfaceDataArray rows)
 {
     Q_D(QSurfaceDataProxy);
     d->insertRows(rowIndex, std::move(rows));
@@ -274,7 +274,7 @@ void QSurfaceDataProxy::insertRows(int rowIndex, QSurfaceDataArray rows)
  * position \a rowIndex. Attempting to remove rows past the end of the
  * array does nothing.
  */
-void QSurfaceDataProxy::removeRows(int rowIndex, int removeCount)
+void QSurfaceDataProxy::removeRows(qsizetype rowIndex, qsizetype removeCount)
 {
     Q_D(QSurfaceDataProxy);
     if (rowIndex < rowCount() && removeCount >= 1) {
@@ -289,7 +289,7 @@ void QSurfaceDataProxy::removeRows(int rowIndex, int removeCount)
  * \a columnIndex. It is guaranteed to be valid only
  * until the next call that modifies data.
  */
-const QSurfaceDataItem &QSurfaceDataProxy::itemAt(int rowIndex, int columnIndex) const
+const QSurfaceDataItem &QSurfaceDataProxy::itemAt(qsizetype rowIndex, qsizetype columnIndex) const
 {
     const QSurfaceDataArray &dataArray = series()->dataArray();
     Q_ASSERT(rowIndex >= 0 && rowIndex < dataArray.size());
@@ -313,7 +313,7 @@ const QSurfaceDataItem &QSurfaceDataProxy::itemAt(const QPoint &position) const
  *
  * \brief The number of rows in the data array.
  */
-int QSurfaceDataProxy::rowCount() const
+qsizetype QSurfaceDataProxy::rowCount() const
 {
     if (series())
         return series()->dataArray().size();
@@ -326,7 +326,7 @@ int QSurfaceDataProxy::rowCount() const
  *
  * \brief The number of columns in the data array.
  */
-int QSurfaceDataProxy::columnCount() const
+qsizetype QSurfaceDataProxy::columnCount() const
 {
     if (series() && series()->dataArray().size() > 0)
         return series()->dataArray().at(0).size();
@@ -343,7 +343,7 @@ int QSurfaceDataProxy::columnCount() const
  */
 
 /*!
- * \fn void QSurfaceDataProxy::rowsAdded(int startIndex, int count)
+ * \fn void QSurfaceDataProxy::rowsAdded(qsizetype startIndex, qsizetype count)
  *
  * This signal is emitted when the number of rows specified by \a count is
  * added, starting at the position \a startIndex.
@@ -352,7 +352,7 @@ int QSurfaceDataProxy::columnCount() const
  */
 
 /*!
- * \fn void QSurfaceDataProxy::rowsChanged(int startIndex, int count)
+ * \fn void QSurfaceDataProxy::rowsChanged(qsizetype startIndex, qsizetype count)
  *
  * This signal is emitted when the number of rows specified by \a count is
  * changed, starting at the position \a startIndex.
@@ -361,7 +361,7 @@ int QSurfaceDataProxy::columnCount() const
  */
 
 /*!
- * \fn void QSurfaceDataProxy::rowsRemoved(int startIndex, int count)
+ * \fn void QSurfaceDataProxy::rowsRemoved(qsizetype startIndex, qsizetype count)
  *
  * This signal is emitted when the number of rows specified by \a count is
  * removed, starting at the position \a startIndex.
@@ -372,7 +372,7 @@ int QSurfaceDataProxy::columnCount() const
  */
 
 /*!
- * \fn void QSurfaceDataProxy::rowsInserted(int startIndex, int count)
+ * \fn void QSurfaceDataProxy::rowsInserted(qsizetype startIndex, qsizetype count)
  *
  * This signal is emitted when the number of rows specified by \a count is
  * inserted at the position \a startIndex.
@@ -382,7 +382,7 @@ int QSurfaceDataProxy::columnCount() const
  */
 
 /*!
- * \fn void QSurfaceDataProxy::itemChanged(int rowIndex, int columnIndex)
+ * \fn void QSurfaceDataProxy::itemChanged(qsizetype rowIndex, qsizetype columnIndex)
  *
  * This signal is emitted when the item at the position specified by \a rowIndex
  * and \a columnIndex changes.
@@ -407,7 +407,7 @@ void QSurfaceDataProxyPrivate::resetArray(QSurfaceDataArray &&newArray)
     }
 }
 
-void QSurfaceDataProxyPrivate::setRow(int rowIndex, QSurfaceDataRow &&row)
+void QSurfaceDataProxyPrivate::setRow(qsizetype rowIndex, QSurfaceDataRow &&row)
 {
     auto *surfaceSeries = static_cast<QSurface3DSeries *>(series());
     Q_ASSERT(rowIndex >= 0 && rowIndex < surfaceSeries->dataArray().size());
@@ -421,7 +421,7 @@ void QSurfaceDataProxyPrivate::setRow(int rowIndex, QSurfaceDataRow &&row)
     }
 }
 
-void QSurfaceDataProxyPrivate::setRows(int rowIndex, QSurfaceDataArray &&rows)
+void QSurfaceDataProxyPrivate::setRows(qsizetype rowIndex, QSurfaceDataArray &&rows)
 {
     auto *surfaceSeries = static_cast<QSurface3DSeries *>(series());
     QSurfaceDataArray array = surfaceSeries->dataArray();
@@ -438,7 +438,7 @@ void QSurfaceDataProxyPrivate::setRows(int rowIndex, QSurfaceDataArray &&rows)
     surfaceSeries->setDataArray(array);
 }
 
-void QSurfaceDataProxyPrivate::setItem(int rowIndex, int columnIndex, QSurfaceDataItem &&item)
+void QSurfaceDataProxyPrivate::setItem(qsizetype rowIndex, qsizetype columnIndex, QSurfaceDataItem &&item)
 {
     auto *surfaceSeries = static_cast<QSurface3DSeries *>(series());
     Q_ASSERT(rowIndex >= 0 && rowIndex < surfaceSeries->dataArray().size());
@@ -449,22 +449,22 @@ void QSurfaceDataProxyPrivate::setItem(int rowIndex, int columnIndex, QSurfaceDa
     surfaceSeries->setDataArray(array);
 }
 
-int QSurfaceDataProxyPrivate::addRow(QSurfaceDataRow &&row)
+qsizetype QSurfaceDataProxyPrivate::addRow(QSurfaceDataRow &&row)
 {
     auto *surfaceSeries = static_cast<QSurface3DSeries *>(series());
     Q_ASSERT(surfaceSeries->dataArray().isEmpty()
              || surfaceSeries->dataArray().at(0).size() == row.size());
-    int currentSize = surfaceSeries->dataArray().size();
+    qsizetype currentSize = surfaceSeries->dataArray().size();
     QSurfaceDataArray array = surfaceSeries->dataArray();
     array.append(row);
     surfaceSeries->setDataArray(array);
     return currentSize;
 }
 
-int QSurfaceDataProxyPrivate::addRows(QSurfaceDataArray &&rows)
+qsizetype QSurfaceDataProxyPrivate::addRows(QSurfaceDataArray &&rows)
 {
     auto *surfaceSeries = static_cast<QSurface3DSeries *>(series());
-    int currentSize = surfaceSeries->dataArray().size();
+    qsizetype currentSize = surfaceSeries->dataArray().size();
     QSurfaceDataArray array = surfaceSeries->dataArray();
     for (int i = 0; i < rows.size(); i++) {
         Q_ASSERT(surfaceSeries->dataArray().isEmpty()
@@ -475,7 +475,7 @@ int QSurfaceDataProxyPrivate::addRows(QSurfaceDataArray &&rows)
     return currentSize;
 }
 
-void QSurfaceDataProxyPrivate::insertRow(int rowIndex, QSurfaceDataRow &&row)
+void QSurfaceDataProxyPrivate::insertRow(qsizetype rowIndex, QSurfaceDataRow &&row)
 {
     auto *surfaceSeries = static_cast<QSurface3DSeries *>(series());
     Q_ASSERT(rowIndex >= 0 && rowIndex <= surfaceSeries->dataArray().size());
@@ -486,7 +486,7 @@ void QSurfaceDataProxyPrivate::insertRow(int rowIndex, QSurfaceDataRow &&row)
     surfaceSeries->setDataArray(array);
 }
 
-void QSurfaceDataProxyPrivate::insertRows(int rowIndex, QSurfaceDataArray &&rows)
+void QSurfaceDataProxyPrivate::insertRows(qsizetype rowIndex, QSurfaceDataArray &&rows)
 {
     auto *surfaceSeries = static_cast<QSurface3DSeries *>(series());
     Q_ASSERT(rowIndex >= 0 && rowIndex <= surfaceSeries->dataArray().size());
@@ -500,11 +500,11 @@ void QSurfaceDataProxyPrivate::insertRows(int rowIndex, QSurfaceDataArray &&rows
     surfaceSeries->setDataArray(array);
 }
 
-void QSurfaceDataProxyPrivate::removeRows(int rowIndex, int removeCount)
+void QSurfaceDataProxyPrivate::removeRows(qsizetype rowIndex, qsizetype removeCount)
 {
     auto *surfaceSeries = static_cast<QSurface3DSeries *>(series());
     Q_ASSERT(rowIndex >= 0);
-    int maxRemoveCount = surfaceSeries->dataArray().size() - rowIndex;
+    qsizetype maxRemoveCount = surfaceSeries->dataArray().size() - rowIndex;
     removeCount = qMin(removeCount, maxRemoveCount);
     QSurfaceDataArray array = surfaceSeries->dataArray();
     for (int i = 0; i < removeCount; i++) {
@@ -524,8 +524,8 @@ void QSurfaceDataProxyPrivate::limitValues(QVector3D &minValues,
     float max = 0.0f;
 
     auto *surfaceSeries = static_cast<QSurface3DSeries *>(series());
-    int rows = surfaceSeries->dataArray().size();
-    int columns = 0;
+    qsizetype rows = surfaceSeries->dataArray().size();
+    qsizetype columns = 0;
     if (rows)
         columns = surfaceSeries->dataArray().at(0).size();
 
@@ -571,8 +571,8 @@ void QSurfaceDataProxyPrivate::limitValues(QVector3D &minValues,
             if (!qIsNaN(zLow) && !qIsInf(zLow))
                 break;
         }
-        for (int i = rows - 1; i >= 0; i--) {
-            for (int j = 0; j < columns; j++) {
+        for (qsizetype i = rows - 1; i >= 0; i--) {
+            for (qsizetype j = 0; j < columns; j++) {
                 float zItemValue = surfaceSeries->dataArray().at(i).at(j).z();
                 if (qIsNaN(zItemValue) || qIsInf(zItemValue))
                     continue;
@@ -586,8 +586,8 @@ void QSurfaceDataProxyPrivate::limitValues(QVector3D &minValues,
             if (!qIsNaN(zHigh) && !qIsInf(zHigh))
                 break;
         }
-        for (int j = 0; j < columns; j++) {
-            for (int i = 0; i < rows; i++) {
+        for (qsizetype j = 0; j < columns; j++) {
+            for (qsizetype i = 0; i < rows; i++) {
                 float xItemValue = surfaceSeries->dataArray().at(i).at(j).x();
                 if (qIsNaN(xItemValue) || qIsInf(xItemValue))
                     continue;
@@ -597,8 +597,8 @@ void QSurfaceDataProxyPrivate::limitValues(QVector3D &minValues,
             if (!qIsNaN(xLow) && !qIsInf(xLow))
                 break;
         }
-        for (int j = columns - 1; j >= 0; j--) {
-            for (int i = 0; i < rows; i++) {
+        for (qsizetype j = columns - 1; j >= 0; j--) {
+            for (qsizetype i = 0; i < rows; i++) {
                 float xItemValue = surfaceSeries->dataArray().at(i).at(j).x();
                 if (qIsNaN(xItemValue) || qIsInf(xItemValue)) {
                     continue;

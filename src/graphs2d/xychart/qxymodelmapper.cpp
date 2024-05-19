@@ -445,26 +445,26 @@ void QXYModelMapperPrivate::blockSeriesSignals(bool block)
     m_seriesSignalsBlock = block;
 }
 
-QModelIndex QXYModelMapperPrivate::xModelIndex(int xPos)
+QModelIndex QXYModelMapperPrivate::xModelIndex(qsizetype xIndex)
 {
-    if (m_count != -1 && xPos >= m_count)
+    if (m_count != -1 && xIndex >= m_count)
         return QModelIndex(); // invalid
 
     if (m_orientation == Qt::Vertical)
-        return m_model->index(xPos + m_first, m_xSection);
+        return m_model->index(int(xIndex) + m_first, m_xSection);
     else
-        return m_model->index(m_xSection, xPos + m_first);
+        return m_model->index(m_xSection, int(xIndex) + m_first);
 }
 
-QModelIndex QXYModelMapperPrivate::yModelIndex(int yPos)
+QModelIndex QXYModelMapperPrivate::yModelIndex(qsizetype yIndex)
 {
-    if (m_count != -1 && yPos >= m_count)
+    if (m_count != -1 && yIndex >= m_count)
         return QModelIndex(); // invalid
 
     if (m_orientation == Qt::Vertical)
-        return m_model->index(yPos + m_first, m_ySection);
+        return m_model->index(int(yIndex) + m_first, m_ySection);
     else
-        return m_model->index(m_ySection, yPos + m_first);
+        return m_model->index(m_ySection, int(yIndex) + m_first);
 }
 
 qreal QXYModelMapperPrivate::valueFromModel(QModelIndex index)
@@ -495,7 +495,7 @@ void QXYModelMapperPrivate::setValueToModel(QModelIndex index, qreal value)
     }
 }
 
-void QXYModelMapperPrivate::onPointAdded(int pointPos)
+void QXYModelMapperPrivate::onPointAdded(qsizetype pointIndex)
 {
     if (m_seriesSignalsBlock)
         return;
@@ -505,16 +505,16 @@ void QXYModelMapperPrivate::onPointAdded(int pointPos)
 
     blockModelSignals();
     if (m_orientation == Qt::Vertical)
-        m_model->insertRows(pointPos + m_first, 1);
+        m_model->insertRows(int(pointIndex) + m_first, 1);
     else
-        m_model->insertColumns(pointPos + m_first, 1);
+        m_model->insertColumns(int(pointIndex) + m_first, 1);
 
-    setValueToModel(xModelIndex(pointPos), m_series->points().at(pointPos).x());
-    setValueToModel(yModelIndex(pointPos), m_series->points().at(pointPos).y());
+    setValueToModel(xModelIndex(pointIndex), m_series->points().at(pointIndex).x());
+    setValueToModel(yModelIndex(pointIndex), m_series->points().at(pointIndex).y());
     blockModelSignals(false);
 }
 
-void QXYModelMapperPrivate::onPointRemoved(int pointPos)
+void QXYModelMapperPrivate::onPointRemoved(qsizetype pointIndex)
 {
     if (m_seriesSignalsBlock)
         return;
@@ -524,13 +524,13 @@ void QXYModelMapperPrivate::onPointRemoved(int pointPos)
 
     blockModelSignals();
     if (m_orientation == Qt::Vertical)
-        m_model->removeRow(pointPos + m_first);
+        m_model->removeRow(int(pointIndex) + m_first);
     else
-        m_model->removeColumn(pointPos + m_first);
+        m_model->removeColumn(int(pointIndex) + m_first);
     blockModelSignals(false);
 }
 
-void QXYModelMapperPrivate::onPointsRemoved(int pointPos, int count)
+void QXYModelMapperPrivate::onPointsRemoved(qsizetype pointIndex, qsizetype count)
 {
     if (m_seriesSignalsBlock)
         return;
@@ -542,20 +542,20 @@ void QXYModelMapperPrivate::onPointsRemoved(int pointPos, int count)
 
     blockModelSignals();
     if (m_orientation == Qt::Vertical)
-        m_model->removeRows(pointPos + m_first, count);
+        m_model->removeRows(int(pointIndex) + m_first, int(count));
     else
-        m_model->removeColumns(pointPos + m_first, count);
+        m_model->removeColumns(int(pointIndex) + m_first, int(count));
     blockModelSignals(false);
 }
 
-void QXYModelMapperPrivate::onPointReplaced(int pointPos)
+void QXYModelMapperPrivate::onPointReplaced(qsizetype pointIndex)
 {
     if (m_seriesSignalsBlock)
         return;
 
     blockModelSignals();
-    setValueToModel(xModelIndex(pointPos), m_series->points().at(pointPos).x());
-    setValueToModel(yModelIndex(pointPos), m_series->points().at(pointPos).y());
+    setValueToModel(xModelIndex(pointIndex), m_series->points().at(pointIndex).x());
+    setValueToModel(yModelIndex(pointIndex), m_series->points().at(pointIndex).y());
     blockModelSignals(false);
 }
 
@@ -707,7 +707,7 @@ void QXYModelMapperPrivate::insertData(int start, int end)
 
         // remove excess of points (above m_count)
         if (m_count != -1 && m_series->points().size() > m_count) {
-            for (int i = m_series->points().size() - 1; i >= m_count; i--)
+            for (qsizetype i = m_series->points().size() - 1; i >= m_count; i--)
                 m_series->remove(m_series->points().at(i));
         }
     }
@@ -722,28 +722,28 @@ void QXYModelMapperPrivate::removeData(int start, int end)
     if (m_count != -1 && start >= m_first + m_count) {
         return;
     } else {
-        int toRemove = qMin(m_series->count(),
+        int toRemove = qMin(int(m_series->count()),
                             removedCount); // first find how many items can actually be removed
         int first = qMax(start, m_first);  // get the index of the first item that will be removed.
         int last = qMin(first + toRemove - 1,
-                        m_series->count() + m_first
+                        int(m_series->count()) + m_first
                             - 1); // get the index of the last item that will be removed.
         for (int i = last; i >= first; i--)
             m_series->remove(m_series->points().at(i - m_first));
 
         if (m_count != -1) {
-            int itemsAvailable; // check how many are available to be added
+            qsizetype itemsAvailable; // check how many are available to be added
             if (m_orientation == Qt::Vertical)
                 itemsAvailable = m_model->rowCount() - m_first - m_series->count();
             else
                 itemsAvailable = m_model->columnCount() - m_first - m_series->count();
             int toBeAdded = qMin(
-                itemsAvailable,
+                int(itemsAvailable),
                 m_count
-                    - m_series->count()); // add not more items than there is space left to be filled.
-            int currentSize = m_series->count();
+                    - int(m_series->count())); // add not more items than there is space left to be filled.
+            qsizetype currentSize = m_series->count();
             if (toBeAdded > 0) {
-                for (int i = m_series->count(); i < currentSize + toBeAdded; i++) {
+                for (qsizetype i = m_series->count(); i < currentSize + toBeAdded; i++) {
                     QPointF point;
                     QModelIndex xIndex = xModelIndex(i);
                     QModelIndex yIndex = yModelIndex(i);

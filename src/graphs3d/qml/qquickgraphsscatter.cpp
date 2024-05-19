@@ -83,7 +83,7 @@ void QQuickGraphsScatter::generatePointsForScatterModel(ScatterModel *graphModel
 {
     QList<QQuick3DModel *> itemList;
     if (optimizationHint() == QAbstract3DGraph::OptimizationHint::Legacy) {
-        int itemCount = graphModel->series->dataProxy()->itemCount();
+        qsizetype itemCount = graphModel->series->dataProxy()->itemCount();
         if (graphModel->series->dataProxy()->itemCount() > 0)
             itemList.resize(itemCount);
 
@@ -164,7 +164,7 @@ void QQuickGraphsScatter::updateScatterGraphItemPositions(ScatterModel *graphMod
             }
         }
     } else if (optimizationHint() == QAbstract3DGraph::OptimizationHint::Default) {
-        int count = dataProxy->itemCount();
+        qsizetype count = dataProxy->itemCount();
         QList<DataItemHolder> positions;
 
         for (int i = 0; i < count; i++) {
@@ -232,7 +232,7 @@ void QQuickGraphsScatter::updateScatterGraphItemVisuals(ScatterModel *graphModel
 {
     bool useGradient = graphModel->series->d_func()->isUsingGradient();
     bool usePoint = graphModel->series->mesh() == QAbstract3DSeries::Mesh::Point;
-    int itemCount = graphModel->series->dataProxy()->itemCount();
+    qsizetype itemCount = graphModel->series->dataProxy()->itemCount();
 
     if (useGradient) {
         if (!graphModel->seriesTexture) {
@@ -617,7 +617,7 @@ void QQuickGraphsScatter::addPointsToScatterModel(ScatterModel *graphModel, qsiz
     setSeriesVisualsDirty();
 }
 
-int QQuickGraphsScatter::sizeDifference(qsizetype size1, qsizetype size2)
+qsizetype QQuickGraphsScatter::sizeDifference(qsizetype size1, qsizetype size2)
 {
     return size2 - size1;
 }
@@ -733,7 +733,7 @@ QScatter3DSeries *QQuickGraphsScatter::selectedSeries() const
     return m_selectedItemSeries;
 }
 
-void QQuickGraphsScatter::setSelectedItem(int index, QScatter3DSeries *series)
+void QQuickGraphsScatter::setSelectedItem(qsizetype index, QScatter3DSeries *series)
 {
     const QScatterDataProxy *proxy = 0;
 
@@ -834,7 +834,7 @@ void QQuickGraphsScatter::clearSeriesFunc(QQmlListProperty<QScatter3DSeries> *li
 {
     QQuickGraphsScatter *declScatter = reinterpret_cast<QQuickGraphsScatter *>(list->data);
     QList<QScatter3DSeries *> realList = declScatter->scatterSeriesList();
-    int count = realList.size();
+    qsizetype count = realList.size();
     for (int i = 0; i < count; i++)
         declScatter->removeSeries(realList.at(i));
 }
@@ -946,7 +946,7 @@ void QQuickGraphsScatter::handleArrayReset()
     emitNeedRender();
 }
 
-void QQuickGraphsScatter::handleItemsAdded(int startIndex, int count)
+void QQuickGraphsScatter::handleItemsAdded(qsizetype startIndex, qsizetype count)
 {
     Q_UNUSED(startIndex);
     Q_UNUSED(count);
@@ -960,17 +960,17 @@ void QQuickGraphsScatter::handleItemsAdded(int startIndex, int count)
     emitNeedRender();
 }
 
-void QQuickGraphsScatter::handleItemsChanged(int startIndex, int count)
+void QQuickGraphsScatter::handleItemsChanged(qsizetype startIndex, qsizetype count)
 {
     QScatter3DSeries *series = static_cast<QScatterDataProxy *>(sender())->series();
-    int oldChangeCount = m_changedItems.size();
+    qsizetype oldChangeCount = m_changedItems.size();
     if (!oldChangeCount)
         m_changedItems.reserve(count);
 
     for (int i = 0; i < count; i++) {
         bool newItem = true;
-        int candidate = startIndex + i;
-        for (int j = 0; j < oldChangeCount; j++) {
+        qsizetype candidate = startIndex + i;
+        for (qsizetype j = 0; j < oldChangeCount; j++) {
             const ChangeItem &oldChangeItem = m_changedItems.at(j);
             if (oldChangeItem.index == candidate && series == oldChangeItem.series) {
                 newItem = false;
@@ -993,14 +993,14 @@ void QQuickGraphsScatter::handleItemsChanged(int startIndex, int count)
     }
 }
 
-void QQuickGraphsScatter::handleItemsRemoved(int startIndex, int count)
+void QQuickGraphsScatter::handleItemsRemoved(qsizetype startIndex, qsizetype count)
 {
     Q_UNUSED(startIndex);
     Q_UNUSED(count);
     QScatter3DSeries *series = static_cast<QScatterDataProxy *>(sender())->series();
     if (series == m_selectedItemSeries) {
         // If items removed from selected series before the selection, adjust the selection
-        int selectedItem = m_selectedItem;
+        qsizetype selectedItem = m_selectedItem;
         if (startIndex <= selectedItem) {
             if ((startIndex + count) > selectedItem)
                 selectedItem = -1; // Selected item removed
@@ -1042,7 +1042,7 @@ void QQuickGraphsScatter::adjustAxisRanges()
         float maxValueY = 0.0f;
         float minValueZ = 0.0f;
         float maxValueZ = 0.0f;
-        int seriesCount = m_seriesList.size();
+        qsizetype seriesCount = m_seriesList.size();
         for (int series = 0; series < seriesCount; series++) {
             const QScatter3DSeries *scatterSeries = static_cast<QScatter3DSeries *>(
                 m_seriesList.at(series));
@@ -1142,14 +1142,14 @@ void QQuickGraphsScatter::adjustAxisRanges()
     }
 }
 
-void QQuickGraphsScatter::handleItemsInserted(int startIndex, int count)
+void QQuickGraphsScatter::handleItemsInserted(qsizetype startIndex, qsizetype count)
 {
     Q_UNUSED(startIndex);
     Q_UNUSED(count);
     QScatter3DSeries *series = static_cast<QScatterDataProxy *>(sender())->series();
     if (series == m_selectedItemSeries) {
         // If items inserted to selected series before the selection, adjust the selection
-        int selectedItem = m_selectedItem;
+        qsizetype selectedItem = m_selectedItem;
         if (startIndex <= selectedItem) {
             selectedItem += count;
             setSelectedItem(selectedItem, m_selectedItemSeries);
@@ -1440,8 +1440,8 @@ void QQuickGraphsScatter::updateGraph()
         if (isDataDirty()) {
             if (optimizationHint() == QAbstract3DGraph::OptimizationHint::Legacy) {
                 if (graphModel->dataItems.count() != graphModel->series->dataProxy()->itemCount()) {
-                    int sizeDiff = sizeDifference(graphModel->dataItems.count(),
-                                                  graphModel->series->dataProxy()->itemCount());
+                    qsizetype sizeDiff = sizeDifference(graphModel->dataItems.count(),
+                                                        graphModel->series->dataProxy()->itemCount());
 
                     if (sizeDiff > 0)
                         addPointsToScatterModel(graphModel, sizeDiff);

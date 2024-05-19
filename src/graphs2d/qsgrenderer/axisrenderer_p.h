@@ -68,7 +68,7 @@ private:
     void setLabelTextProperties(QQuickItem *item, const QString &text, bool xAxis,
                                 QQuickText::HAlignment hAlign = QQuickText::HAlignment::AlignHCenter,
                                 QQuickText::VAlignment vAlign = QQuickText::VAlignment::AlignVCenter);
-    void updateAxisLabelItems(QList<QQuickItem *> &textItems, int neededSize, QQmlComponent *component);
+    void updateAxisLabelItems(QList<QQuickItem *> &textItems, qsizetype neededSize, QQmlComponent *component);
 
     QGraphsView *m_graph = nullptr;
     QGraphsTheme *theme();

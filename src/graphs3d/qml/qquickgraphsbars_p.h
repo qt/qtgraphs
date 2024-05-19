@@ -83,7 +83,7 @@ public:
     struct ChangeRow
     {
         QBar3DSeries *series;
-        int row;
+        qsizetype row;
     };
 
     QCategory3DAxis *rowAxis() const;
@@ -125,7 +125,7 @@ public:
     static void clearSeriesFunc(QQmlListProperty<QBar3DSeries> *list);
     Q_INVOKABLE void addSeries(QBar3DSeries *series);
     Q_INVOKABLE void removeSeries(QBar3DSeries *series);
-    Q_INVOKABLE void insertSeries(int index, QBar3DSeries *series);
+    Q_INVOKABLE void insertSeries(qsizetype index, QBar3DSeries *series);
     Q_INVOKABLE void clearSelection() override;
 
     void setPrimarySeries(QBar3DSeries *series);
@@ -180,11 +180,11 @@ public Q_SLOTS:
     void handleMeshSmoothChanged(bool enable);
     void handleCameraRotationChanged();
     void handleArrayReset();
-    void handleRowsAdded(int startIndex, int count);
-    void handleRowsChanged(int startIndex, int count);
-    void handleRowsRemoved(int startIndex, int count);
-    void handleRowsInserted(int startIndex, int count);
-    void handleItemChanged(int rowIndex, int columnIndex);
+    void handleRowsAdded(qsizetype startIndex, qsizetype count);
+    void handleRowsChanged(qsizetype startIndex, qsizetype count);
+    void handleRowsRemoved(qsizetype startIndex, qsizetype count);
+    void handleRowsInserted(qsizetype startIndex, qsizetype count);
+    void handleItemChanged(qsizetype rowIndex, qsizetype columnIndex);
     void handleDataRowLabelsChanged();
     void handleDataColumnLabelsChanged();
     void handleRowColorsChanged();
@@ -217,14 +217,14 @@ private:
     float m_floorLevel = 0.0f;
     QSizeF m_barSeriesMargin = QSizeF(0.0f, 0.0f);
 
-    int m_cachedRowCount = 0;
-    int m_cachedColumnCount = 0;
-    int m_minRow = 0;
-    int m_maxRow = 0;
-    int m_minCol = 0;
-    int m_maxCol = 0;
-    int m_newRows = 0;
-    int m_newCols = 0;
+    qsizetype m_cachedRowCount = 0;
+    qsizetype m_cachedColumnCount = 0;
+    qsizetype m_minRow = 0;
+    qsizetype m_maxRow = 0;
+    qsizetype m_minCol = 0;
+    qsizetype m_maxCol = 0;
+    qsizetype m_newRows = 0;
+    qsizetype m_newCols = 0;
 
     float m_maxSceneSize = 40.f;
     float m_rowWidth = 0.0f;

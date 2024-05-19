@@ -26,12 +26,12 @@ class QXYSeriesPrivate : public QAbstractSeriesPrivate
 public:
     QXYSeriesPrivate();
 
-    void setPointSelected(int index, bool selected, bool &callSignal);
-    bool isPointSelected(int index);
+    void setPointSelected(qsizetype index, bool selected, bool &callSignal);
+    bool isPointSelected(qsizetype index);
 
 protected:
     QList<QPointF> m_points;
-    QSet<int> m_selectedPoints;
+    QSet<qsizetype> m_selectedPoints;
     QColor m_color = QColor(Qt::transparent);
     QColor m_selectedColor = QColor(Qt::transparent);
     QQmlComponent *m_marker = nullptr;

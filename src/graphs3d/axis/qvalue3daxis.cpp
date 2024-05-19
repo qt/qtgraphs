@@ -256,12 +256,12 @@ void QValue3DAxis::recalculate()
     formatter()->d_func()->recalculate();
 }
 
-int QValue3DAxis::gridSize()
+qsizetype QValue3DAxis::gridSize()
 {
     return formatter()->gridPositions().size();
 }
 
-int QValue3DAxis::subGridSize()
+qsizetype QValue3DAxis::subGridSize()
 {
     return formatter()->subGridPositions().size();
 }

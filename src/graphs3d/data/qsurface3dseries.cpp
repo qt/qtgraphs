@@ -447,7 +447,7 @@ QColor QSurface3DSeries::wireframeColor() const
  * \note Before doing anything regarding the dataArray, a series must be created for
  * the relevant proxy.
  *
- *\sa clearRow(int rowIndex)
+ *\sa clearRow(qsizetype rowIndex)
  *
  *\sa clearArray()
  */
@@ -463,7 +463,7 @@ void QSurface3DSeries::setDataArray(const QSurfaceDataArray &newDataArray)
 /*!
  * Clears the existing row in the array according to given \a rowIndex.
  */
-void QSurface3DSeries::clearRow(int rowIndex)
+void QSurface3DSeries::clearRow(qsizetype rowIndex)
 {
     Q_D(QSurface3DSeries);
     d->clearRow(rowIndex);
@@ -652,7 +652,7 @@ void QSurface3DSeriesPrivate::setDataArray(const QSurfaceDataArray &newDataArray
     m_dataArray = newDataArray;
 }
 
-void QSurface3DSeriesPrivate::clearRow(int rowIndex)
+void QSurface3DSeriesPrivate::clearRow(qsizetype rowIndex)
 {
     m_dataArray[rowIndex].clear();
 }

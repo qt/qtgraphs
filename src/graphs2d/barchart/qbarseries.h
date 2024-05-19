@@ -18,7 +18,7 @@ class Q_GRAPHS_EXPORT QBarSeries : public QAbstractSeries
     Q_CLASSINFO("RegisterEnumClassesUnscoped", "false")
     Q_PROPERTY(BarsType barsType READ barsType WRITE setBarsType NOTIFY barsTypeChanged FINAL)
     Q_PROPERTY(qreal barWidth READ barWidth WRITE setBarWidth NOTIFY barWidthChanged FINAL)
-    Q_PROPERTY(int count READ count NOTIFY countChanged FINAL)
+    Q_PROPERTY(qsizetype count READ count NOTIFY countChanged FINAL)
     Q_PROPERTY(bool labelsVisible READ isLabelsVisible WRITE setLabelsVisible NOTIFY
                    labelsVisibleChanged FINAL)
     Q_PROPERTY(QString labelsFormat READ labelsFormat WRITE setLabelsFormat NOTIFY
@@ -62,16 +62,16 @@ public:
 
     Q_INVOKABLE bool append(QBarSet *set);
     Q_INVOKABLE bool take(QBarSet *set);
-    Q_INVOKABLE int count() const;
+    Q_INVOKABLE qsizetype count() const;
     Q_INVOKABLE bool append(const QList<QBarSet *> &sets);
     Q_INVOKABLE bool remove(QBarSet *set);
-    Q_INVOKABLE bool insert(int index, QBarSet *set);
+    Q_INVOKABLE bool insert(qsizetype index, QBarSet *set);
     Q_INVOKABLE void clear();
-    Q_INVOKABLE void replace(int index, QBarSet *set);
-    Q_INVOKABLE QBarSet *at(int index);
+    Q_INVOKABLE void replace(qsizetype index, QBarSet *set);
+    Q_INVOKABLE QBarSet *at(qsizetype index);
     Q_INVOKABLE int find(QBarSet *set) const;
-    Q_INVOKABLE void removeMultiple(int index, int count);
-    Q_INVOKABLE bool remove(int index);
+    Q_INVOKABLE void removeMultiple(qsizetype index, qsizetype count);
+    Q_INVOKABLE bool remove(qsizetype index);
     Q_INVOKABLE bool replace(QBarSet *oldValue, QBarSet *newValue);
     Q_INVOKABLE bool replace(const QList<QBarSet *> &sets);
 
@@ -107,11 +107,11 @@ protected:
     void componentComplete() override;
 
 Q_SIGNALS:
-    void clicked(int index, QBarSet *barset);
-    void hovered(bool status, int index, QBarSet *barset);
-    void pressed(int index, QBarSet *barset);
-    void released(int index, QBarSet *barset);
-    void doubleClicked(int index, QBarSet *barset);
+    void clicked(qsizetype index, QBarSet *barset);
+    void hovered(bool status, qsizetype index, QBarSet *barset);
+    void pressed(qsizetype index, QBarSet *barset);
+    void released(qsizetype index, QBarSet *barset);
+    void doubleClicked(qsizetype index, QBarSet *barset);
     void updatedBars();
     void updatedLayout();
     void restructuredBars();
@@ -129,15 +129,15 @@ Q_SIGNALS:
     void barsetsAdded(const QList<QBarSet *> &sets);
     void barsetsReplaced(const QList<QBarSet *> &sets);
     void barsetsRemoved(const QList<QBarSet *> &sets);
-    void setValueChanged(int index, QBarSet *barset);
-    void setValueAdded(int index, int count, QBarSet *barset);
-    void setValueRemoved(int index, int count, QBarSet *barset);
+    void setValueChanged(qsizetype index, QBarSet *barset);
+    void setValueAdded(qsizetype index, qsizetype count, QBarSet *barset);
+    void setValueRemoved(qsizetype index, qsizetype count, QBarSet *barset);
     void barSetsChanged();
 
 private Q_SLOTS:
-    void handleSetValueChange(int index);
-    void handleSetValueAdd(int index, int count);
-    void handleSetValueRemove(int index, int count);
+    void handleSetValueChange(qsizetype index);
+    void handleSetValueAdd(qsizetype index, qsizetype count);
+    void handleSetValueRemove(qsizetype index, qsizetype count);
 
 private:
     Q_DECLARE_PRIVATE(QBarSeries)

@@ -177,7 +177,7 @@ void QBarDataProxy::resetArray(QBarDataArray newArray,
  * the same as the existing row already stored at \a rowIndex.
  * Existing row labels are not affected.
  */
-void QBarDataProxy::setRow(int rowIndex, QBarDataRow row)
+void QBarDataProxy::setRow(qsizetype rowIndex, QBarDataRow row)
 {
     Q_D(QBarDataProxy);
     d->setRow(rowIndex, std::move(row), QString());
@@ -190,7 +190,7 @@ void QBarDataProxy::setRow(int rowIndex, QBarDataRow row)
  * the same as the existing row already stored at \a rowIndex.
  * Changes the row label to \a label.
  */
-void QBarDataProxy::setRow(int rowIndex, QBarDataRow row, QString label)
+void QBarDataProxy::setRow(qsizetype rowIndex, QBarDataRow row, QString label)
 {
     Q_D(QBarDataProxy);
     d->setRow(rowIndex, std::move(row), std::move(label));
@@ -203,7 +203,7 @@ void QBarDataProxy::setRow(int rowIndex, QBarDataRow row, QString label)
  * Existing row labels are not affected. The rows in the \a rows array can be
  * the same as the existing rows already stored at \a rowIndex.
  */
-void QBarDataProxy::setRows(int rowIndex, QBarDataArray rows)
+void QBarDataProxy::setRows(qsizetype rowIndex, QBarDataArray rows)
 {
     Q_D(QBarDataProxy);
     d->setRows(rowIndex, std::move(rows), QStringList());
@@ -216,7 +216,7 @@ void QBarDataProxy::setRows(int rowIndex, QBarDataArray rows)
  * The row labels are changed to \a labels. The rows in the \a rows array can be
  * the same as the existing rows already stored at \a rowIndex.
  */
-void QBarDataProxy::setRows(int rowIndex, QBarDataArray rows, QStringList labels)
+void QBarDataProxy::setRows(qsizetype rowIndex, QBarDataArray rows, QStringList labels)
 {
     Q_D(QBarDataProxy);
     d->setRows(rowIndex, std::move(rows), std::move(labels));
@@ -227,7 +227,7 @@ void QBarDataProxy::setRows(int rowIndex, QBarDataArray rows, QStringList labels
  * Changes a single item at the position specified by \a rowIndex and
  * \a columnIndex to the item \a item.
  */
-void QBarDataProxy::setItem(int rowIndex, int columnIndex, QBarDataItem item)
+void QBarDataProxy::setItem(qsizetype rowIndex, qsizetype columnIndex, QBarDataItem item)
 {
     Q_D(QBarDataProxy);
     d->setItem(rowIndex, columnIndex, std::move(item));
@@ -250,10 +250,10 @@ void QBarDataProxy::setItem(const QPoint &position, QBarDataItem item)
  *
  * Returns the index of the added row.
  */
-int QBarDataProxy::addRow(QBarDataRow row)
+qsizetype QBarDataProxy::addRow(QBarDataRow row)
 {
     Q_D(QBarDataProxy);
-    int addIndex = d->addRow(std::move(row), QString());
+    qsizetype addIndex = d->addRow(std::move(row), QString());
     emit rowsAdded(addIndex, 1);
     emit rowCountChanged(rowCount());
     emit colCountChanged(colCount());
@@ -265,10 +265,10 @@ int QBarDataProxy::addRow(QBarDataRow row)
  *
  * Returns the index of the added row.
  */
-int QBarDataProxy::addRow(QBarDataRow row, QString label)
+qsizetype QBarDataProxy::addRow(QBarDataRow row, QString label)
 {
     Q_D(QBarDataProxy);
-    int addIndex = d->addRow(std::move(row), std::move(label));
+    qsizetype addIndex = d->addRow(std::move(row), std::move(label));
     emit rowsAdded(addIndex, 1);
     emit rowCountChanged(rowCount());
     emit colCountChanged(colCount());
@@ -281,10 +281,10 @@ int QBarDataProxy::addRow(QBarDataRow row, QString label)
  *
  * Returns the index of the first added row.
  */
-int QBarDataProxy::addRows(QBarDataArray rows)
+qsizetype QBarDataProxy::addRows(QBarDataArray rows)
 {
     Q_D(QBarDataProxy);
-    int addIndex = d->addRows(std::move(rows), QStringList());
+    qsizetype addIndex = d->addRows(std::move(rows), QStringList());
     emit rowsAdded(addIndex, rows.size());
     emit rowCountChanged(rowCount());
     emit colCountChanged(colCount());
@@ -296,10 +296,10 @@ int QBarDataProxy::addRows(QBarDataArray rows)
  *
  * Returns the index of the first added row.
  */
-int QBarDataProxy::addRows(QBarDataArray rows, QStringList labels)
+qsizetype QBarDataProxy::addRows(QBarDataArray rows, QStringList labels)
 {
     Q_D(QBarDataProxy);
-    int addIndex = d->addRows(std::move(rows), std::move(labels));
+    qsizetype addIndex = d->addRows(std::move(rows), std::move(labels));
     emit rowsAdded(addIndex, rows.size());
     emit rowCountChanged(rowCount());
     emit colCountChanged(colCount());
@@ -314,7 +314,7 @@ int QBarDataProxy::addRows(QBarDataArray rows, QStringList labels)
  * \note The row labels array will be out of sync with the row array after this
  * call if there were labeled rows beyond the inserted row.
  */
-void QBarDataProxy::insertRow(int rowIndex, QBarDataRow row)
+void QBarDataProxy::insertRow(qsizetype rowIndex, QBarDataRow row)
 {
     Q_D(QBarDataProxy);
     d->insertRow(rowIndex, std::move(row), QString());
@@ -328,7 +328,7 @@ void QBarDataProxy::insertRow(int rowIndex, QBarDataRow row)
  * If \a rowIndex is equal to array size, rows are added to the end of the
  * array.
  */
-void QBarDataProxy::insertRow(int rowIndex, QBarDataRow row, QString label)
+void QBarDataProxy::insertRow(qsizetype rowIndex, QBarDataRow row, QString label)
 {
     Q_D(QBarDataProxy);
     d->insertRow(rowIndex, std::move(row), std::move(label));
@@ -344,7 +344,7 @@ void QBarDataProxy::insertRow(int rowIndex, QBarDataRow row, QString label)
  * \note The row labels array will be out of sync with the row array after this
  * call if there were labeled rows beyond the inserted rows.
  */
-void QBarDataProxy::insertRows(int rowIndex, QBarDataArray rows)
+void QBarDataProxy::insertRows(qsizetype rowIndex, QBarDataArray rows)
 {
     Q_D(QBarDataProxy);
     d->insertRows(rowIndex, std::move(rows), QStringList());
@@ -358,7 +358,7 @@ void QBarDataProxy::insertRows(int rowIndex, QBarDataArray rows)
  * If \a rowIndex is equal to the array size, the rows are added to the end of
  * the array.
  */
-void QBarDataProxy::insertRows(int rowIndex, QBarDataArray rows, QStringList labels)
+void QBarDataProxy::insertRows(qsizetype rowIndex, QBarDataArray rows, QStringList labels)
 {
     Q_D(QBarDataProxy);
     d->insertRows(rowIndex, std::move(rows), std::move(labels));
@@ -375,7 +375,7 @@ void QBarDataProxy::insertRows(int rowIndex, QBarDataArray rows, QStringList lab
  * \note If \a removeLabels is \c false, the row labels array will be out of
  * sync with the row array if there are labeled rows beyond the removed rows.
  */
-void QBarDataProxy::removeRows(int rowIndex, int removeCount, bool removeLabels)
+void QBarDataProxy::removeRows(qsizetype rowIndex, qsizetype removeCount, bool removeLabels)
 {
     Q_D(QBarDataProxy);
     if (rowIndex < rowCount() && removeCount >= 1) {
@@ -391,7 +391,7 @@ void QBarDataProxy::removeRows(int rowIndex, int removeCount, bool removeLabels)
  *
  * \brief The number of columns in the array.
  */
-int QBarDataProxy::colCount() const
+qsizetype QBarDataProxy::colCount() const
 {
     if (this->series() && this->series()->dataArray().size() > 0)
         return this->series()->dataArray().at(0).size();
@@ -404,7 +404,7 @@ int QBarDataProxy::colCount() const
  *
  * \brief The number of rows in the array.
  */
-int QBarDataProxy::rowCount() const
+qsizetype QBarDataProxy::rowCount() const
 {
     if (this->series())
         return this->series()->dataArray().size();
@@ -416,7 +416,7 @@ int QBarDataProxy::rowCount() const
  * Returns the reference to the row at the position \a rowIndex. It is
  * guaranteed to be valid only until the next call that modifies data.
  */
-const QBarDataRow &QBarDataProxy::rowAt(int rowIndex) const
+const QBarDataRow &QBarDataProxy::rowAt(qsizetype rowIndex) const
 {
     const QBarDataArray &dataArray = this->series()->dataArray();
     Q_ASSERT(rowIndex >= 0 && rowIndex < dataArray.size());
@@ -428,7 +428,7 @@ const QBarDataRow &QBarDataProxy::rowAt(int rowIndex) const
  * and \a columnIndex. It is guaranteed to be valid only until the next call
  * that modifies data.
  */
-const QBarDataItem &QBarDataProxy::itemAt(int rowIndex, int columnIndex) const
+const QBarDataItem &QBarDataProxy::itemAt(qsizetype rowIndex, qsizetype columnIndex) const
 {
     const QBarDataArray &dataArray = this->series()->dataArray();
     Q_ASSERT(rowIndex >= 0 && rowIndex < dataArray.size());
@@ -456,7 +456,7 @@ const QBarDataItem &QBarDataProxy::itemAt(const QPoint &position) const
  */
 
 /*!
- * \fn void QBarDataProxy::rowsAdded(int startIndex, int count)
+ * \fn void QBarDataProxy::rowsAdded(qsizetype startIndex, qsizetype count)
  *
  * This signal is emitted when the number of rows specified by \a count is
  * added, starting at the position \a startIndex.
@@ -465,7 +465,7 @@ const QBarDataItem &QBarDataProxy::itemAt(const QPoint &position) const
  */
 
 /*!
- * \fn void QBarDataProxy::rowsChanged(int startIndex, int count)
+ * \fn void QBarDataProxy::rowsChanged(qsizetype startIndex, qsizetype count)
  *
  * This signal is emitted when the number of rows specified by \a count is
  * changed, starting at the position \a startIndex.
@@ -474,7 +474,7 @@ const QBarDataItem &QBarDataProxy::itemAt(const QPoint &position) const
  */
 
 /*!
- * \fn void QBarDataProxy::rowsRemoved(int startIndex, int count)
+ * \fn void QBarDataProxy::rowsRemoved(qsizetype startIndex, qsizetype count)
  *
  * This signal is emitted when the number of rows specified by \a count is
  * removed, starting at the position \a startIndex.
@@ -485,7 +485,7 @@ const QBarDataItem &QBarDataProxy::itemAt(const QPoint &position) const
  */
 
 /*!
- * \fn void QBarDataProxy::rowsInserted(int startIndex, int count)
+ * \fn void QBarDataProxy::rowsInserted(qsizetype startIndex, qsizetype count)
  *
  * This signal is emitted when the number of rows specified by \a count is
  * inserted at the position \a startIndex.
@@ -495,7 +495,7 @@ const QBarDataItem &QBarDataProxy::itemAt(const QPoint &position) const
  */
 
 /*!
- * \fn void QBarDataProxy::itemChanged(int rowIndex, int columnIndex)
+ * \fn void QBarDataProxy::itemChanged(qsizetype rowIndex, qsizetype columnIndex)
  *
  * This signal is emitted when the item at the position specified by \a rowIndex
  * and \a columnIndex changes.
@@ -525,7 +525,7 @@ void QBarDataProxyPrivate::resetArray(QBarDataArray &&newArray,
     }
 }
 
-void QBarDataProxyPrivate::setRow(int rowIndex, QBarDataRow &&row, QString &&label)
+void QBarDataProxyPrivate::setRow(qsizetype rowIndex, QBarDataRow &&row, QString &&label)
 {
     auto *barSeries = static_cast<QBar3DSeries *>(series());
     Q_ASSERT(rowIndex >= 0 && rowIndex < barSeries->dataArray().size());
@@ -539,7 +539,7 @@ void QBarDataProxyPrivate::setRow(int rowIndex, QBarDataRow &&row, QString &&lab
     }
 }
 
-void QBarDataProxyPrivate::setRows(int rowIndex, QBarDataArray &&rows, QStringList &&labels)
+void QBarDataProxyPrivate::setRows(qsizetype rowIndex, QBarDataArray &&rows, QStringList &&labels)
 {
     auto *barSeries = static_cast<QBar3DSeries *>(series());
     Q_ASSERT(rowIndex >= 0 && (rowIndex + rows.size()) <= barSeries->dataArray().size());
@@ -556,7 +556,7 @@ void QBarDataProxyPrivate::setRows(int rowIndex, QBarDataArray &&rows, QStringLi
     }
 }
 
-void QBarDataProxyPrivate::setItem(int rowIndex, int columnIndex, QBarDataItem &&item)
+void QBarDataProxyPrivate::setItem(qsizetype rowIndex, qsizetype columnIndex, QBarDataItem &&item)
 {
     auto *barSeries = static_cast<QBar3DSeries *>(series());
     Q_ASSERT(rowIndex >= 0 && rowIndex < barSeries->dataArray().size());
@@ -567,10 +567,10 @@ void QBarDataProxyPrivate::setItem(int rowIndex, int columnIndex, QBarDataItem &
     barSeries->setDataArray(array);
 }
 
-int QBarDataProxyPrivate::addRow(QBarDataRow &&row, QString &&label)
+qsizetype QBarDataProxyPrivate::addRow(QBarDataRow &&row, QString &&label)
 {
     auto *barSeries = static_cast<QBar3DSeries *>(series());
-    int currentSize = barSeries->dataArray().size();
+    qsizetype currentSize = barSeries->dataArray().size();
     barSeries->fixRowLabels(currentSize, 1, QStringList(label), false);
     QBarDataArray array = barSeries->dataArray();
     array.append(row);
@@ -578,11 +578,11 @@ int QBarDataProxyPrivate::addRow(QBarDataRow &&row, QString &&label)
     return currentSize;
 }
 
-int QBarDataProxyPrivate::addRows(QBarDataArray &&rows, QStringList &&labels)
+qsizetype QBarDataProxyPrivate::addRows(QBarDataArray &&rows, QStringList &&labels)
 {
     auto *barSeries = static_cast<QBar3DSeries *>(series());
     QBarDataArray array = barSeries->dataArray();
-    int currentSize = array.size();
+    qsizetype currentSize = array.size();
     barSeries->fixRowLabels(currentSize, rows.size(), labels, false);
     for (int i = 0; i < rows.size(); i++)
         array.append(rows.at(i));
@@ -590,7 +590,7 @@ int QBarDataProxyPrivate::addRows(QBarDataArray &&rows, QStringList &&labels)
     return currentSize;
 }
 
-void QBarDataProxyPrivate::insertRow(int rowIndex, QBarDataRow &&row, QString &&label)
+void QBarDataProxyPrivate::insertRow(qsizetype rowIndex, QBarDataRow &&row, QString &&label)
 {
     auto *barSeries = static_cast<QBar3DSeries *>(series());
     Q_ASSERT(rowIndex >= 0 && rowIndex <= barSeries->dataArray().size());
@@ -600,7 +600,7 @@ void QBarDataProxyPrivate::insertRow(int rowIndex, QBarDataRow &&row, QString &&
     barSeries->setDataArray(array);
 }
 
-void QBarDataProxyPrivate::insertRows(int rowIndex, QBarDataArray &&rows, QStringList &&labels)
+void QBarDataProxyPrivate::insertRows(qsizetype rowIndex, QBarDataArray &&rows, QStringList &&labels)
 {
     auto *barSeries = static_cast<QBar3DSeries *>(series());
     Q_ASSERT(rowIndex >= 0 && rowIndex <= barSeries->dataArray().size());
@@ -612,11 +612,11 @@ void QBarDataProxyPrivate::insertRows(int rowIndex, QBarDataArray &&rows, QStrin
     barSeries->setDataArray(array);
 }
 
-void QBarDataProxyPrivate::removeRows(int rowIndex, int removeCount, bool removeLabels)
+void QBarDataProxyPrivate::removeRows(qsizetype rowIndex, qsizetype removeCount, bool removeLabels)
 {
     auto *barSeries = static_cast<QBar3DSeries *>(series());
     Q_ASSERT(rowIndex >= 0);
-    int maxRemoveCount = barSeries->dataArray().size() - rowIndex;
+    qsizetype maxRemoveCount = barSeries->dataArray().size() - rowIndex;
     removeCount = qMin(removeCount, maxRemoveCount);
     bool labelsChanged = false;
     QBarDataArray array = barSeries->dataArray();
@@ -635,18 +635,18 @@ void QBarDataProxyPrivate::removeRows(int rowIndex, int removeCount, bool remove
         emit barSeries->rowLabelsChanged();
 }
 
-QPair<float, float> QBarDataProxyPrivate::limitValues(int startRow,
-                                                      int endRow,
-                                                      int startColumn,
-                                                      int endColumn) const
+QPair<float, float> QBarDataProxyPrivate::limitValues(qsizetype startRow,
+                                                      qsizetype endRow,
+                                                      qsizetype startColumn,
+                                                      qsizetype endColumn) const
 {
     auto *barSeries = static_cast<QBar3DSeries *>(series());
     QPair<float, float> limits = qMakePair(0.0f, 0.0f);
     endRow = qMin(endRow, barSeries->dataArray().size() - 1);
-    for (int i = startRow; i <= endRow; i++) {
+    for (qsizetype i = startRow; i <= endRow; i++) {
         QBarDataRow row = barSeries->dataArray().at(i);
-        int lastColumn = qMin(endColumn, row.size() - 1);
-        for (int j = startColumn; j <= lastColumn; j++) {
+        qsizetype lastColumn = qMin(endColumn, row.size() - 1);
+        for (qsizetype j = startColumn; j <= lastColumn; j++) {
             const QBarDataItem &item = row.at(j);
             float itemValue = item.value();
             if (limits.second < itemValue)

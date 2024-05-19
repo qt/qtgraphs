@@ -131,8 +131,8 @@ public:
                const QStringList &rowCategories,
                const QStringList &columnCategories);
 
-    Q_INVOKABLE int rowCategoryIndex(const QString &category);
-    Q_INVOKABLE int columnCategoryIndex(const QString &category);
+    Q_INVOKABLE qsizetype rowCategoryIndex(const QString &category);
+    Q_INVOKABLE qsizetype columnCategoryIndex(const QString &category);
 
     void setRowRolePattern(const QRegularExpression &pattern);
     QRegularExpression rowRolePattern() const;

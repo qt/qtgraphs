@@ -19,7 +19,7 @@ class Q_GRAPHS_EXPORT QBarCategoryAxis : public QAbstractAxis
         QStringList categories READ categories WRITE setCategories NOTIFY categoriesChanged FINAL)
     Q_PROPERTY(QString min READ min WRITE setMin NOTIFY minChanged FINAL)
     Q_PROPERTY(QString max READ max WRITE setMax NOTIFY maxChanged FINAL)
-    Q_PROPERTY(int count READ count NOTIFY countChanged FINAL)
+    Q_PROPERTY(qsizetype count READ count NOTIFY countChanged FINAL)
     QML_NAMED_ELEMENT(BarCategoryAxis)
 
 public:
@@ -41,7 +41,7 @@ public:
     Q_INVOKABLE QString at(int index) const;
     void setCategories(const QStringList &categories);
     QStringList categories();
-    int count() const;
+    qsizetype count() const;
 
     //range handling
     void setMin(const QString &minCategory);

@@ -21,8 +21,8 @@ class Q_GRAPHS_EXPORT QSurfaceDataProxy : public QAbstractDataProxy
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(QSurfaceDataProxy)
-    Q_PROPERTY(int rowCount READ rowCount NOTIFY rowCountChanged)
-    Q_PROPERTY(int columnCount READ columnCount NOTIFY columnCountChanged)
+    Q_PROPERTY(qsizetype rowCount READ rowCount NOTIFY rowCountChanged)
+    Q_PROPERTY(qsizetype columnCount READ columnCount NOTIFY columnCountChanged)
     Q_PROPERTY(QSurface3DSeries *series READ series NOTIFY seriesChanged)
 
 public:
@@ -30,38 +30,38 @@ public:
     ~QSurfaceDataProxy() override;
 
     QSurface3DSeries *series() const;
-    int rowCount() const;
-    int columnCount() const;
-    const QSurfaceDataItem &itemAt(int rowIndex, int columnIndex) const;
+    qsizetype rowCount() const;
+    qsizetype columnCount() const;
+    const QSurfaceDataItem &itemAt(qsizetype rowIndex, qsizetype columnIndex) const;
     const QSurfaceDataItem &itemAt(const QPoint &position) const;
 
     void resetArray();
     void resetArray(QSurfaceDataArray newArray);
 
-    void setRow(int rowIndex, QSurfaceDataRow row);
-    void setRows(int rowIndex, QSurfaceDataArray rows);
+    void setRow(qsizetype rowIndex, QSurfaceDataRow row);
+    void setRows(qsizetype rowIndex, QSurfaceDataArray rows);
 
-    void setItem(int rowIndex, int columnIndex, QSurfaceDataItem item);
+    void setItem(qsizetype rowIndex, qsizetype columnIndex, QSurfaceDataItem item);
     void setItem(const QPoint &position, QSurfaceDataItem item);
 
-    int addRow(QSurfaceDataRow row);
-    int addRows(QSurfaceDataArray rows);
+    qsizetype addRow(QSurfaceDataRow row);
+    qsizetype addRows(QSurfaceDataArray rows);
 
-    void insertRow(int rowIndex, QSurfaceDataRow row);
-    void insertRows(int rowIndex, QSurfaceDataArray rows);
+    void insertRow(qsizetype rowIndex, QSurfaceDataRow row);
+    void insertRows(qsizetype rowIndex, QSurfaceDataArray rows);
 
-    void removeRows(int rowIndex, int removeCount);
+    void removeRows(qsizetype rowIndex, qsizetype removeCount);
 
 Q_SIGNALS:
     void arrayReset();
-    void rowsAdded(int startIndex, int count);
-    void rowsChanged(int startIndex, int count);
-    void rowsRemoved(int startIndex, int count);
-    void rowsInserted(int startIndex, int count);
-    void itemChanged(int rowIndex, int columnIndex);
+    void rowsAdded(qsizetype startIndex, qsizetype count);
+    void rowsChanged(qsizetype startIndex, qsizetype count);
+    void rowsRemoved(qsizetype startIndex, qsizetype count);
+    void rowsInserted(qsizetype startIndex, qsizetype count);
+    void itemChanged(qsizetype rowIndex, qsizetype columnIndex);
 
-    void rowCountChanged(int count);
-    void columnCountChanged(int count);
+    void rowCountChanged(qsizetype count);
+    void columnCountChanged(qsizetype count);
     void seriesChanged(QSurface3DSeries *series);
 
 protected:

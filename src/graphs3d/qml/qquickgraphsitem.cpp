@@ -772,11 +772,11 @@ void QQuickGraphsItem::addSeriesInternal(QAbstract3DSeries *series)
     insertSeries(m_seriesList.size(), series);
 }
 
-void QQuickGraphsItem::insertSeries(int index, QAbstract3DSeries *series)
+void QQuickGraphsItem::insertSeries(qsizetype index, QAbstract3DSeries *series)
 {
     if (series) {
         if (m_seriesList.contains(series)) {
-            int oldIndex = m_seriesList.indexOf(series);
+            qsizetype oldIndex = m_seriesList.indexOf(series);
             if (index != oldIndex) {
                 m_seriesList.removeOne(series);
                 if (oldIndex < index)
@@ -784,7 +784,7 @@ void QQuickGraphsItem::insertSeries(int index, QAbstract3DSeries *series)
                 m_seriesList.insert(index, series);
             }
         } else {
-            int oldSize = m_seriesList.size();
+            qsizetype oldSize = m_seriesList.size();
             m_seriesList.insert(index, series);
             series->d_func()->setGraph(this);
             QObject::connect(series,
@@ -1268,7 +1268,7 @@ QAbstract3DGraph::ShadowQuality QQuickGraphsItem::shadowQuality() const
     return m_shadowQuality;
 }
 
-int QQuickGraphsItem::addCustomItem(QCustom3DItem *item)
+qsizetype QQuickGraphsItem::addCustomItem(QCustom3DItem *item)
 {
     if (isComponentComplete()) {
         if (isCustomLabelItem(item)) {
@@ -1300,7 +1300,7 @@ int QQuickGraphsItem::addCustomItem(QCustom3DItem *item)
     if (!item)
         return -1;
 
-    int index = m_customItems.indexOf(item);
+    qsizetype index = m_customItems.indexOf(item);
 
     if (index != -1)
         return index;
@@ -1468,9 +1468,9 @@ QAbstract3DAxis *QQuickGraphsItem::selectedAxis() const
     return axis;
 }
 
-int QQuickGraphsItem::selectedCustomItemIndex() const
+qsizetype QQuickGraphsItem::selectedCustomItemIndex() const
 {
-    int index = m_selectedCustomItemIndex;
+    qsizetype index = m_selectedCustomItemIndex;
     if (m_customItems.size() <= index)
         index = -1;
     return index;
@@ -1479,7 +1479,7 @@ int QQuickGraphsItem::selectedCustomItemIndex() const
 QCustom3DItem *QQuickGraphsItem::selectedCustomItem() const
 {
     QCustom3DItem *item = 0;
-    int index = selectedCustomItemIndex();
+    qsizetype index = selectedCustomItemIndex();
     if (index >= 0)
         item = m_customItems[index];
     return item;
@@ -2199,16 +2199,16 @@ void QQuickGraphsItem::updateGrid()
     QQmlListReference materialsRef(m_background, "materials");
     auto *bgMat = static_cast<QQuick3DCustomMaterial *>(materialsRef.at(0));
     bgMat->setProperty("scale", m_scaleWithBackground);
-    int gridLineCountX = 0;
-    int subGridLineCountX = 0;
+    qsizetype gridLineCountX = 0;
+    qsizetype subGridLineCountX = 0;
     gridLineCountHelper(axisX(), gridLineCountX, subGridLineCountX);
 
-    int gridLineCountY = 0;
-    int subGridLineCountY = 0;
+    qsizetype gridLineCountY = 0;
+    qsizetype subGridLineCountY = 0;
     gridLineCountHelper(axisY(), gridLineCountY, subGridLineCountY);
 
-    int gridLineCountZ = 0;
-    int subGridLineCountZ = 0;
+    qsizetype gridLineCountZ = 0;
+    qsizetype subGridLineCountZ = 0;
     gridLineCountHelper(axisZ(), gridLineCountZ, subGridLineCountZ);
 
     auto backgroundScale = m_scaleWithBackground + m_backgroundScaleMargin;
@@ -2233,10 +2233,10 @@ void QQuickGraphsItem::updateGrid()
     QVector3D rotation(90.0f, 0.0f, 0.0f);
 
     QByteArray vertices;
-    int calculatedSize = 0;
+    qsizetype calculatedSize = 0;
 
     QByteArray subvertices;
-    int subCalculatedSize = 0;
+    qsizetype subCalculatedSize = 0;
 
     bool usePolar = isPolar() && (m_graphType != QAbstract3DSeries::SeriesType::Bar);
 
@@ -2251,8 +2251,8 @@ void QQuickGraphsItem::updateGrid()
         int radialSubGridSize = static_cast<QValue3DAxis *>(axisZ())->subGridSize()
                                 * polarRoundness;
 
-        int angularMainGridsize = static_cast<QValue3DAxis *>(axisX())->gridSize();
-        int angularSubGridsize = static_cast<QValue3DAxis *>(axisX())->subGridSize();
+        qsizetype angularMainGridsize = static_cast<QValue3DAxis *>(axisX())->gridSize();
+        qsizetype angularSubGridsize = static_cast<QValue3DAxis *>(axisX())->subGridSize();
 
         calculatedSize = (radialMainGridSize + angularMainGridsize + (2 * gridLineCountY) - 1)
                          * 2 * sizeof(QVector3D);
@@ -2626,7 +2626,7 @@ void QQuickGraphsItem::updateShaderGrid()
         mapData = texMap->textureData();
     }
 
-    QVector<int> lineCounts(6);
+    QVector<qsizetype> lineCounts(6);
     gridLineCountHelper(axisX(), lineCounts[0], lineCounts[3]);
     gridLineCountHelper(axisY(), lineCounts[1], lineCounts[4]);
     gridLineCountHelper(axisZ(), lineCounts[2], lineCounts[5]);
@@ -2650,7 +2650,7 @@ void QQuickGraphsItem::updateShaderGrid()
     bgMat->setProperty("margin", backgroundScaleMargin());
 
     for (int i = 0; i < lineCounts.size(); i++) {
-        int lineCount = lineCounts[i];
+        qsizetype lineCount = lineCounts[i];
         int axis = i % 3;
         int subGridOffset = textureSize * float(i > 2);
         QVector4D mask = axisMask.at(axis);
@@ -2737,7 +2737,7 @@ float QQuickGraphsItem::labelAdjustment(float width)
     return ret;
 }
 
-void QQuickGraphsItem::gridLineCountHelper(QAbstract3DAxis *axis, int &lineCount, int &sublineCount)
+void QQuickGraphsItem::gridLineCountHelper(QAbstract3DAxis *axis, qsizetype &lineCount, qsizetype &sublineCount)
 {
     if (axis->type() == QAbstract3DAxis::AxisType::Value) {
         auto valueAxis = static_cast<QValue3DAxis *>(axis);
@@ -2783,7 +2783,7 @@ QVector3D QQuickGraphsItem::graphPosToAbsolute(const QVector3D &position)
 void QQuickGraphsItem::updateLabels()
 {
     auto labels = axisX()->labels();
-    int labelCount = labels.size();
+    qsizetype labelCount = labels.size();
     float labelAutoAngle = axisX()->labelAutoRotation();
     float labelAngleFraction = labelAutoAngle / 90.0f;
     float fractionCamX = m_xRotation * labelAngleFraction;
@@ -3407,7 +3407,7 @@ void QQuickGraphsItem::createVolumeMaterial(QCustom3DVolume *volume, Volume &vol
 
         colorTextureData->setParent(colorTexture);
         colorTextureData->setParentItem(colorTexture);
-        colorTextureData->setSize(QSize(volume->colorTable().size(), 1));
+        colorTextureData->setSize(QSize(int(volume->colorTable().size()), 1));
         colorTextureData->setFormat(QQuick3DTextureData::RGBA8);
         colorTextureData->setTextureData(colorTableBytes);
         colorTexture->setTextureData(colorTextureData);
@@ -4806,7 +4806,7 @@ bool QQuickGraphsItem::doPicking(const QPointF &point)
             QCustom3DItem *customItem = m_customItemList.key(result.objectHit(), nullptr);
 
             if (customItem) {
-                int selectedIndex = m_customItems.indexOf(customItem);
+                qsizetype selectedIndex = m_customItems.indexOf(customItem);
                 m_selectedCustomItemIndex = selectedIndex;
                 handleSelectedElementChange(QAbstract3DGraph::ElementType::CustomItem);
                 // Don't allow picking in subclasses if custom item is picked

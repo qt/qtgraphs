@@ -95,9 +95,9 @@ static inline QQuaternion toQuaternion(const QVariant &variant)
                 s = s.mid(1);
             }
             if (s.count(QLatin1Char(',')) == 3) {
-                int index = s.indexOf(QLatin1Char(','));
-                int index2 = s.indexOf(QLatin1Char(','), index + 1);
-                int index3 = s.indexOf(QLatin1Char(','), index2 + 1);
+                qsizetype index = s.indexOf(QLatin1Char(','));
+                qsizetype index2 = s.indexOf(QLatin1Char(','), index + 1);
+                qsizetype index3 = s.indexOf(QLatin1Char(','), index2 + 1);
 
                 bool sGood, xGood, yGood, zGood;
                 float sCoord = s.left(index).toFloat(&sGood);

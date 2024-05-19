@@ -168,7 +168,7 @@ void QBarCategoryAxis::append(const QStringList &categories)
 
     Q_D(QBarCategoryAxis);
 
-    int count = d->m_categories.size();
+    qsizetype count = d->m_categories.size();
 
     for (const auto &category : categories) {
         if (!d->m_categories.contains(category) && !category.isNull()) {
@@ -209,7 +209,7 @@ void QBarCategoryAxis::append(const QString &category)
 {
     Q_D(QBarCategoryAxis);
 
-    int count = d->m_categories.size();
+    qsizetype count = d->m_categories.size();
 
     if (!d->m_categories.contains(category) && !category.isNull())
         d->m_categories.append(category);
@@ -287,7 +287,7 @@ void QBarCategoryAxis::insert(int index, const QString &category)
 {
     Q_D(QBarCategoryAxis);
 
-    int count = d->m_categories.size();
+    qsizetype count = d->m_categories.size();
 
     if (!d->m_categories.contains(category) && !category.isNull())
         d->m_categories.insert(index, category);
@@ -324,7 +324,7 @@ void QBarCategoryAxis::replace(const QString &oldCategory, const QString &newCat
 {
     Q_D(QBarCategoryAxis);
 
-    int pos = d->m_categories.indexOf(oldCategory);
+    qsizetype pos = d->m_categories.indexOf(oldCategory);
 
     if (pos != -1 && !d->m_categories.contains(newCategory) && !newCategory.isNull()) {
         d->m_categories.replace(pos, newCategory);
@@ -384,7 +384,7 @@ QStringList QBarCategoryAxis::categories()
 /*!
     Returns the number of categories.
  */
-int QBarCategoryAxis::count() const
+qsizetype QBarCategoryAxis::count() const
 {
     Q_D(const QBarCategoryAxis);
     return d->m_categories.size();

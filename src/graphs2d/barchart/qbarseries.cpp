@@ -344,12 +344,12 @@ QT_BEGIN_NAMESPACE
 */
 
 /*!
-    \fn void QBarSeries::clicked(int index, QBarSet *barset)
+    \fn void QBarSeries::clicked(qsizetype index, QBarSet *barset)
     This signal is emitted when the user clicks the bar specified by \a index
     in the bar set specified by \a barset.
 */
 /*!
-    \qmlsignal BarSeries::clicked(int index, BarSet barset)
+    \qmlsignal BarSeries::clicked(qsizetype index, BarSet barset)
     This signal is emitted when the user clicks the bar specified by \a index
     in the bar set specified by \a barset.
 
@@ -357,12 +357,12 @@ QT_BEGIN_NAMESPACE
 */
 
 /*!
-    \fn void QBarSeries::pressed(int index, QBarSet *barset)
+    \fn void QBarSeries::pressed(qsizetype index, QBarSet *barset)
     This signal is emitted when the user clicks the bar specified by \a index
     in the bar set specified by \a barset and holds down the mouse button.
 */
 /*!
-    \qmlsignal BarSeries::pressed(int index, BarSet barset)
+    \qmlsignal BarSeries::pressed(qsizetype index, BarSet barset)
     This signal is emitted when the user clicks the bar specified by \a index
     in the bar set specified by \a barset and holds down the mouse button.
 
@@ -370,12 +370,12 @@ QT_BEGIN_NAMESPACE
 */
 
 /*!
-    \fn void QBarSeries::released(int index, QBarSet *barset)
+    \fn void QBarSeries::released(qsizetype index, QBarSet *barset)
     This signal is emitted when the user releases the mouse press on the bar
     specified by \a index in the bar set specified by \a barset.
 */
 /*!
-    \qmlsignal BarSeries::released(int index, BarSet barset)
+    \qmlsignal BarSeries::released(qsizetype index, BarSet barset)
     This signal is emitted when the user releases the mouse press on the bar
     specified by \a index in the bar set specified by \a barset.
 
@@ -383,12 +383,12 @@ QT_BEGIN_NAMESPACE
 */
 
 /*!
-    \fn void QBarSeries::doubleClicked(int index, QBarSet *barset)
+    \fn void QBarSeries::doubleClicked(qsizetype index, QBarSet *barset)
     This signal is emitted when the user double-clicks the bar specified by \a index
     in the bar set specified by \a barset.
 */
 /*!
-    \qmlsignal BarSeries::doubleClicked(int index, BarSet barset)
+    \qmlsignal BarSeries::doubleClicked(qsizetype index, BarSet barset)
     This signal is emitted when the user double-clicks the bar specified by \a index
     in the bar set specified by \a barset.
 
@@ -396,14 +396,14 @@ QT_BEGIN_NAMESPACE
 */
 
 /*!
-    \fn void QBarSeries::hovered(bool status, int index, QBarSet* barset)
+    \fn void QBarSeries::hovered(bool status, qsizetype index, QBarSet* barset)
 
     This signal is emitted when a mouse is hovered over the bar specified by \a index in the
     bar set specified by \a barset. When the mouse moves over the bar, \a status turns \c true,
     and when the mouse moves away again, it turns \c false.
 */
 /*!
-    \qmlsignal BarSeries::hovered(bool status, int index, BarSet barset)
+    \qmlsignal BarSeries::hovered(bool status, qsizetype index, BarSet barset)
 
     This signal is emitted when a mouse is hovered over the bar specified by \a index in the
     bar set specified by \a barset. When the mouse moves over the bar, \a status turns \c true,
@@ -473,25 +473,25 @@ QT_BEGIN_NAMESPACE
 */
 
 /*!
-    \fn void QBarSeries::setValueChanged(int index, QBarSet *barset)
+    \fn void QBarSeries::setValueChanged(qsizetype index, QBarSet *barset)
     This signal is emitted when a barset's value is changed. \a index is the index of
     the barset in the series. The \a barset is a pointer to the changed set.
 */
 /*!
-    \fn void QBarSeries::setValueAdded(int index, int count, QBarSet *barset)
+    \fn void QBarSeries::setValueAdded(qsizetype index, qsizetype count, QBarSet *barset)
     This signal is emitted when a barset's value is changed. \a index is the index of
     the barset in the series. The number of the added values is indicated \a count.
     The \a barset is a pointer to the changed set.
 */
 /*!
-    \fn void QBarSeries::setValueRemoved(int index, int count, QBarSet *barset)
+    \fn void QBarSeries::setValueRemoved(qsizetype index, qsizetype count, QBarSet *barset)
     This signal is emitted when a barset's value is changed. \a index is the index of
     the barset in the series. The number of the removed values is indicated \a count.
     The \a barset is a pointer to the changed set.
 */
 
 /*!
-    \qmlmethod BarSet BarSeries::at(int index)
+    \qmlmethod BarSet BarSeries::at(qsizetype index)
     Returns the bar set at \a index. Returns null if the index is not valid.
 */
 
@@ -507,7 +507,7 @@ QT_BEGIN_NAMESPACE
 */
 
 /*!
-    \qmlmethod BarSet BarSeries::insert(int index, string label, VariantList values)
+    \qmlmethod BarSet BarSeries::insert(qsizetype index, string label, VariantList values)
     Adds a new bar set with \a label and \a values to \a index. \a values can be a list
     of real values or a list of XYPoint types.
 
@@ -530,7 +530,7 @@ QT_BEGIN_NAMESPACE
 */
 
 /*!
-    \qmlmethod bool BarSeries::replace(int index, BarSet barset)
+    \qmlmethod bool BarSeries::replace(qsizetype index, BarSet barset)
     Replaces the bar set at the position specified by \a index from the series and replaces it
     with \a barset. Returns \c true if successful, \c false otherwise.
 */
@@ -547,13 +547,13 @@ QT_BEGIN_NAMESPACE
 */
 
 /*!
-    \qmlmethod void BarSeries::removeMultiple(int index, int count)
+    \qmlmethod void BarSeries::removeMultiple(qsizetype index, int count)
     Removes a range of bar sets as specified by the \a index and \a count. The call
     traverses over all sets even if removal of one fails.
 */
 
 /*!
-    \qmlmethod bool BarSeries::remove(int index)
+    \qmlmethod bool BarSeries::remove(qsizetype index)
     Removes the bar set specified by \a index from the series. Returns \c true if the
     removal was successful, \c false otherwise.
 */
@@ -725,7 +725,7 @@ bool QBarSeries::append(const QList<QBarSet *> &sets)
     and takes ownership of the set. If the set is null or already belongs to the series, it will
     not be appended. Returns \c true if inserting succeeds.
 */
-bool QBarSeries::insert(int index, QBarSet *set)
+bool QBarSeries::insert(qsizetype index, QBarSet *set)
 {
     Q_D(QBarSeries);
     bool success = d->insert(index, set);
@@ -758,7 +758,7 @@ void QBarSeries::clear()
     }
 }
 
-void QBarSeries::replace(int index, QBarSet *set)
+void QBarSeries::replace(qsizetype index, QBarSet *set)
 {
     Q_D(QBarSeries);
 
@@ -778,7 +778,7 @@ void QBarSeries::replace(int index, QBarSet *set)
     emit barsetsReplaced(sets);
 }
 
-QBarSet *QBarSeries::at(int index)
+QBarSet *QBarSeries::at(qsizetype index)
 {
     Q_D(QBarSeries);
 
@@ -805,7 +805,7 @@ int QBarSeries::find(QBarSet *set) const
     return -1;
 }
 
-void QBarSeries::removeMultiple(int index, int count)
+void QBarSeries::removeMultiple(qsizetype index, qsizetype count)
 {
     Q_D(QBarSeries);
 
@@ -814,11 +814,11 @@ void QBarSeries::removeMultiple(int index, int count)
     if (index < 0 || count < 0)
         return;
 
-    for (int i = index; i < index + count; ++i)
+    for (qsizetype i = index; i < index + count; ++i)
         remove(d->m_barSets[index]);
 }
 
-bool QBarSeries::remove(int index)
+bool QBarSeries::remove(qsizetype index)
 {
     Q_D(QBarSeries);
 
@@ -839,7 +839,7 @@ bool QBarSeries::replace(QBarSet *oldValue, QBarSet *newValue)
     if (oldValue == newValue)
         return false;
 
-    for (int i = 0; i < d->m_barSets.size(); ++i) {
+    for (qsizetype i = 0; i < d->m_barSets.size(); ++i) {
         if (d->m_barSets[i] == oldValue) {
             delete d->m_barSets[i];
             d->m_barSets[i] = newValue;
@@ -881,7 +881,7 @@ bool QBarSeries::replace(const QList<QBarSet *> &sets)
 /*!
     Returns the number of bar sets in a bar series.
 */
-int QBarSeries::count() const
+qsizetype QBarSeries::count() const
 {
     Q_D(const QBarSeries);
     return d->m_barSets.size();
@@ -1045,7 +1045,7 @@ void QBarSeries::componentComplete()
     QAbstractSeries::componentComplete();
 }
 
-void QBarSeries::handleSetValueChange(int index)
+void QBarSeries::handleSetValueChange(qsizetype index)
 {
     QBarSet *set = qobject_cast<QBarSet *>(sender());
     if (set)
@@ -1053,7 +1053,7 @@ void QBarSeries::handleSetValueChange(int index)
     emit update();
 }
 
-void QBarSeries::handleSetValueAdd(int index, int count)
+void QBarSeries::handleSetValueAdd(qsizetype index, qsizetype count)
 {
     QBarSet *set = qobject_cast<QBarSet *>(sender());
     if (set)
@@ -1061,7 +1061,7 @@ void QBarSeries::handleSetValueAdd(int index, int count)
     emit update();
 }
 
-void QBarSeries::handleSetValueRemove(int index, int count)
+void QBarSeries::handleSetValueRemove(qsizetype index, qsizetype count)
 {
     QBarSet *set = qobject_cast<QBarSet *>(sender());
     if (set)
@@ -1083,11 +1083,11 @@ QBarSeriesPrivate::QBarSeriesPrivate()
 {
 }
 
-int QBarSeriesPrivate::categoryCount() const
+qsizetype QBarSeriesPrivate::categoryCount() const
 {
     // No categories defined. return count of longest set.
-    int count = 0;
-    for (int i = 0; i < m_barSets.size(); i++) {
+    qsizetype count = 0;
+    for (qsizetype i = 0; i < m_barSets.size(); i++) {
         if (m_barSets.at(i)->count() > count)
             count = m_barSets.at(i)->count();
     }
@@ -1110,7 +1110,7 @@ qreal QBarSeriesPrivate::barWidth() const
     return m_barWidth;
 }
 
-QBarSet *QBarSeriesPrivate::barsetAt(int index)
+QBarSet *QBarSeriesPrivate::barsetAt(qsizetype index)
 {
     return m_barSets.at(index);
 }
@@ -1137,8 +1137,8 @@ qreal QBarSeriesPrivate::min()
     qreal min = INT_MAX;
 
     for (int i = 0; i < m_barSets.size(); i++) {
-        int categoryCount = m_barSets.at(i)->count();
-        for (int j = 0; j < categoryCount; j++) {
+        qsizetype categoryCount = m_barSets.at(i)->count();
+        for (qsizetype j = 0; j < categoryCount; j++) {
             qreal temp = m_barSets.at(i)->at(j);
             if (temp < min)
                 min = temp;
@@ -1155,8 +1155,8 @@ qreal QBarSeriesPrivate::max()
     qreal max = INT_MIN;
 
     for (int i = 0; i < m_barSets.size(); i++) {
-        int categoryCount = m_barSets.at(i)->count();
-        for (int j = 0; j < categoryCount; j++) {
+        qsizetype categoryCount = m_barSets.at(i)->count();
+        for (qsizetype j = 0; j < categoryCount; j++) {
             qreal temp = m_barSets.at(i)->at(j);
             if (temp > max)
                 max = temp;
@@ -1191,11 +1191,11 @@ qreal QBarSeriesPrivate::percentageAt(int set, int category)
     return value / sum;
 }
 
-qreal QBarSeriesPrivate::categorySum(int category)
+qreal QBarSeriesPrivate::categorySum(qsizetype category)
 {
     qreal sum(0);
-    int count = m_barSets.size(); // Count sets
-    for (int set = 0; set < count; set++) {
+    qsizetype count = m_barSets.size(); // Count sets
+    for (qsizetype set = 0; set < count; set++) {
         if (category < m_barSets.at(set)->count())
             sum += m_barSets.at(set)->at(category);
     }
@@ -1205,8 +1205,8 @@ qreal QBarSeriesPrivate::categorySum(int category)
 qreal QBarSeriesPrivate::absoluteCategorySum(int category)
 {
     qreal sum(0);
-    int count = m_barSets.size(); // Count sets
-    for (int set = 0; set < count; set++) {
+    qsizetype count = m_barSets.size(); // Count sets
+    for (qsizetype set = 0; set < count; set++) {
         if (category < m_barSets.at(set)->count())
             sum += qAbs(m_barSets.at(set)->at(category));
     }
@@ -1216,8 +1216,8 @@ qreal QBarSeriesPrivate::absoluteCategorySum(int category)
 qreal QBarSeriesPrivate::maxCategorySum()
 {
     qreal max = INT_MIN;
-    int count = categoryCount();
-    for (int i = 0; i < count; i++) {
+    qsizetype count = categoryCount();
+    for (qsizetype i = 0; i < count; i++) {
         qreal sum = categorySum(i);
         if (sum > max)
             max = sum;
@@ -1233,8 +1233,8 @@ qreal QBarSeriesPrivate::minX()
     qreal min = INT_MAX;
 
     for (int i = 0; i < m_barSets.size(); i++) {
-        int categoryCount = m_barSets.at(i)->count();
-        for (int j = 0; j < categoryCount; j++) {
+        qsizetype categoryCount = m_barSets.at(i)->count();
+        for (qsizetype j = 0; j < categoryCount; j++) {
             qreal temp = m_barSets.at(i)->d_func()->m_values.at(j).x();
             if (temp < min)
                 min = temp;
@@ -1251,8 +1251,8 @@ qreal QBarSeriesPrivate::maxX()
     qreal max = INT_MIN;
 
     for (int i = 0; i < m_barSets.size(); i++) {
-        int categoryCount = m_barSets.at(i)->count();
-        for (int j = 0; j < categoryCount; j++) {
+        qsizetype categoryCount = m_barSets.at(i)->count();
+        for (qsizetype j = 0; j < categoryCount; j++) {
             qreal temp = m_barSets.at(i)->d_func()->m_values.at(j).x();
             if (temp > max)
                 max = temp;
@@ -1262,13 +1262,13 @@ qreal QBarSeriesPrivate::maxX()
     return max;
 }
 
-qreal QBarSeriesPrivate::categoryTop(int category)
+qreal QBarSeriesPrivate::categoryTop(qsizetype category)
 {
     // Returns top (sum of all positive values) of category.
     // Returns 0, if all values are negative
     qreal top(0);
-    int count = m_barSets.size();
-    for (int set = 0; set < count; set++) {
+    qsizetype count = m_barSets.size();
+    for (qsizetype set = 0; set < count; set++) {
         if (category < m_barSets.at(set)->count()) {
             qreal temp = m_barSets.at(set)->at(category);
             if (temp > 0) {
@@ -1279,13 +1279,13 @@ qreal QBarSeriesPrivate::categoryTop(int category)
     return top;
 }
 
-qreal QBarSeriesPrivate::categoryBottom(int category)
+qreal QBarSeriesPrivate::categoryBottom(qsizetype category)
 {
     // Returns bottom (sum of all negative values) of category
     // Returns 0, if all values are positive
     qreal bottom(0);
-    int count = m_barSets.size();
-    for (int set = 0; set < count; set++) {
+    qsizetype count = m_barSets.size();
+    for (qsizetype set = 0; set < count; set++) {
         if (category < m_barSets.at(set)->count()) {
             qreal temp = m_barSets.at(set)->at(category);
             if (temp < 0) {
@@ -1299,8 +1299,8 @@ qreal QBarSeriesPrivate::top()
 {
     // Returns top of all categories
     qreal top(0);
-    int count = categoryCount();
-    for (int i = 0; i < count; i++) {
+    qsizetype count = categoryCount();
+    for (qsizetype i = 0; i < count; i++) {
         qreal temp = categoryTop(i);
         if (temp > top)
             top = temp;
@@ -1312,8 +1312,8 @@ qreal QBarSeriesPrivate::bottom()
 {
     // Returns bottom of all categories
     qreal bottom(0);
-    int count = categoryCount();
-    for (int i = 0; i < count; i++) {
+    qsizetype count = categoryCount();
+    for (qsizetype i = 0; i < count; i++) {
         qreal temp = categoryBottom(i);
         if (temp < bottom)
             bottom = temp;
@@ -1416,7 +1416,7 @@ bool QBarSeriesPrivate::remove(const QList<QBarSet *> &sets)
     return true;
 }
 
-bool QBarSeriesPrivate::insert(int index, QBarSet *set)
+bool QBarSeriesPrivate::insert(qsizetype index, QBarSet *set)
 {
     if ((m_barSets.contains(set)) || (set == 0))
         return false; // Fail if set is already in list or set is null.

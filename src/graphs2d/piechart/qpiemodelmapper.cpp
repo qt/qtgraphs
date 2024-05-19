@@ -436,24 +436,24 @@ QPieSlice *QPieModelMapperPrivate::pieSlice(QModelIndex index) const {
     return 0; // This part of model has not been mapped to any slice
 }
 
-QModelIndex QPieModelMapperPrivate::valueModelIndex(int slicePos) {
-    if (m_count != -1 && slicePos >= m_count)
+QModelIndex QPieModelMapperPrivate::valueModelIndex(qsizetype sliceIndex) {
+    if (m_count != -1 && sliceIndex >= m_count)
         return QModelIndex(); // invalid
 
     if (m_orientation == Qt::Vertical)
-        return m_model->index(slicePos + m_first, m_valuesSection);
+        return m_model->index(int(sliceIndex) + m_first, m_valuesSection);
     else
-        return m_model->index(m_valuesSection, slicePos + m_first);
+        return m_model->index(m_valuesSection, int(sliceIndex) + m_first);
 }
 
-QModelIndex QPieModelMapperPrivate::labelModelIndex(int slicePos) {
-    if (m_count != -1 && slicePos >= m_count)
+QModelIndex QPieModelMapperPrivate::labelModelIndex(qsizetype sliceIndex) {
+    if (m_count != -1 && sliceIndex >= m_count)
         return QModelIndex(); // invalid
 
     if (m_orientation == Qt::Vertical)
-        return m_model->index(slicePos + m_first, m_labelsSection);
+        return m_model->index(int(sliceIndex) + m_first, m_labelsSection);
     else
-        return m_model->index(m_labelsSection, slicePos + m_first);
+        return m_model->index(m_labelsSection, int(sliceIndex) + m_first);
 }
 
 bool QPieModelMapperPrivate::isLabelIndex(QModelIndex index) const {
@@ -481,7 +481,7 @@ void QPieModelMapperPrivate::onSlicesAdded(const QList<QPieSlice *> &slices) {
     if (slices.size() == 0)
         return;
 
-    int firstIndex = m_series->slices().indexOf(slices.at(0));
+    int firstIndex = int(m_series->slices().indexOf(slices.at(0)));
     if (firstIndex == -1)
         return;
 
@@ -502,9 +502,9 @@ void QPieModelMapperPrivate::onSlicesAdded(const QList<QPieSlice *> &slices) {
 
     blockModelSignals();
     if (m_orientation == Qt::Vertical)
-        m_model->insertRows(firstIndex + m_first, slices.size());
+        m_model->insertRows(firstIndex + m_first, int(slices.size()));
     else
-        m_model->insertColumns(firstIndex + m_first, slices.size());
+        m_model->insertColumns(firstIndex + m_first, int(slices.size()));
 
     for (int i = firstIndex; i < firstIndex + slices.size(); i++) {
         m_model->setData(valueModelIndex(i), slices.at(i - firstIndex)->value());
@@ -520,21 +520,21 @@ void QPieModelMapperPrivate::onSlicesRemoved(const QList<QPieSlice *> &slices) {
     if (slices.size() == 0)
         return;
 
-    int firstIndex = m_slices.indexOf(slices.at(0));
+    int firstIndex = int(m_slices.indexOf(slices.at(0)));
     if (firstIndex == -1)
         return;
 
     if (m_count != -1)
         m_count -= slices.size();
 
-    for (int i = firstIndex + slices.size() - 1; i >= firstIndex; i--)
+    for (int i = firstIndex + int(slices.size()) - 1; i >= firstIndex; i--)
         m_slices.removeAt(i);
 
     blockModelSignals();
     if (m_orientation == Qt::Vertical)
-        m_model->removeRows(firstIndex + m_first, slices.size());
+        m_model->removeRows(firstIndex + m_first, int(slices.size()));
     else
-        m_model->removeColumns(firstIndex + m_first, slices.size());
+        m_model->removeColumns(firstIndex + m_first, int(slices.size()));
     blockModelSignals(false);
 }
 
@@ -650,23 +650,23 @@ void QPieModelMapperPrivate::onModelColumnsRemoved(QModelIndex parent, int start
 
 void QPieModelMapperPrivate::handleModelDestroyed() { m_model = nullptr; }
 
-void QPieModelMapperPrivate::insertData(int start, int end) {
+void QPieModelMapperPrivate::insertData(qsizetype start, qsizetype end) {
     if (m_model == nullptr || m_series == nullptr)
         return;
 
     if (m_count != -1 && start >= m_first + m_count) {
         return;
     } else {
-        int addedCount = end - start + 1;
+        qsizetype addedCount = end - start + 1;
         if (m_count != -1 && addedCount > m_count)
             addedCount = m_count;
-        int first = qMax(start, m_first);
-        int last = qMin(first + addedCount - 1,
-                        m_orientation == Qt::Vertical ? m_model->rowCount() - 1
-                                                      : m_model->columnCount() - 1);
+        qsizetype first = qMax(start, m_first);
+        qsizetype last = qMin(first + addedCount - 1,
+                              m_orientation == Qt::Vertical ? m_model->rowCount() - 1
+                                                            : m_model->columnCount() - 1);
         Q_Q(QPieModelMapper);
 
-        for (int i = first; i <= last; i++) {
+        for (qsizetype i = first; i <= last; i++) {
             QModelIndex valueIndex = valueModelIndex(i - m_first);
             QModelIndex labelIndex = labelModelIndex(i - m_first);
             if (valueIndex.isValid() && labelIndex.isValid()) {
@@ -688,7 +688,7 @@ void QPieModelMapperPrivate::insertData(int start, int end) {
 
         // remove excess of slices (abouve m_count)
         if (m_count != -1 && m_series->slices().size() > m_count) {
-            for (int i = m_series->slices().size() - 1; i >= m_count; i--) {
+            for (qsizetype i = m_series->slices().size() - 1; i >= m_count; i--) {
                 m_series->remove(m_series->slices().at(i));
                 m_slices.removeAt(i);
             }
@@ -696,39 +696,39 @@ void QPieModelMapperPrivate::insertData(int start, int end) {
     }
 }
 
-void QPieModelMapperPrivate::removeData(int start, int end) {
+void QPieModelMapperPrivate::removeData(qsizetype start, qsizetype end) {
     if (m_model == 0 || m_series == 0)
         return;
 
-    int removedCount = end - start + 1;
+    qsizetype removedCount = end - start + 1;
     if (m_count != -1 && start >= m_first + m_count) {
         return;
     } else {
-        int toRemove = qMin(m_series->slices().size(),
-                            removedCount); // first find how many items can actually be removed
-        int first = qMax(start,
-                         m_first); // get the index of the first item that will be removed.
-        int last = qMin(first + toRemove - 1,
-                        m_series->slices().size() + m_first
-                            - 1); // get the index of the last item that will be removed.
-        for (int i = last; i >= first; i--) {
+        qsizetype toRemove = qMin(m_series->slices().size(),
+                                  removedCount); // first find how many items can actually be removed
+        qsizetype first = qMax(start,
+                               m_first); // get the index of the first item that will be removed.
+        qsizetype last = qMin(first + toRemove - 1,
+                              m_series->slices().size() + m_first
+                                      - 1); // get the index of the last item that will be removed.
+        for (qsizetype i = last; i >= first; i--) {
             m_series->remove(m_series->slices().at(i - m_first));
             m_slices.removeAt(i - m_first);
         }
 
         if (m_count != -1) {
-            int itemsAvailable; // check how many are available to be added
+            qsizetype itemsAvailable; // check how many are available to be added
             if (m_orientation == Qt::Vertical)
                 itemsAvailable = m_model->rowCount() - m_first - m_series->slices().size();
             else
                 itemsAvailable = m_model->columnCount() - m_first - m_series->slices().size();
-            int toBeAdded = qMin(itemsAvailable,
-                                 m_count
-                                     - m_series->slices().size()); // add not more items than there
-                                                                   // is space left to be filled.
-            int currentSize = m_series->slices().size();
+            qsizetype toBeAdded = qMin(itemsAvailable,
+                                       m_count
+                                               - m_series->slices().size()); // add not more items than there
+                                                                             // is space left to be filled.
+            qsizetype currentSize = m_series->slices().size();
             if (toBeAdded > 0) {
-                for (int i = m_series->slices().size(); i < currentSize + toBeAdded; i++) {
+                for (qsizetype i = m_series->slices().size(); i < currentSize + toBeAdded; i++) {
                     QModelIndex valueIndex = valueModelIndex(i - m_first);
                     QModelIndex labelIndex = labelModelIndex(i - m_first);
                     if (valueIndex.isValid() && labelIndex.isValid()) {

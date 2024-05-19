@@ -197,7 +197,7 @@ void QQuickGraphsBars::clearSeriesFunc(QQmlListProperty<QBar3DSeries> *list)
 {
     QQuickGraphsBars *declBars = reinterpret_cast<QQuickGraphsBars *>(list->data);
     QList<QBar3DSeries *> realList = declBars->barSeriesList();
-    int count = realList.size();
+    qsizetype count = realList.size();
     for (int i = 0; i < count; i++)
         declBars->removeSeries(realList.at(i));
 }
@@ -245,11 +245,11 @@ void QQuickGraphsBars::removeSeries(QBar3DSeries *series)
     disconnectSeries(series);
 }
 
-void QQuickGraphsBars::insertSeries(int index, QBar3DSeries *series)
+void QQuickGraphsBars::insertSeries(qsizetype index, QBar3DSeries *series)
 {
     Q_ASSERT(series && series->type() == QAbstract3DSeries::SeriesType::Bar);
 
-    int oldSize = m_seriesList.size();
+    qsizetype oldSize = m_seriesList.size();
 
     QQuickGraphsItem::insertSeries(index, series);
 
@@ -375,21 +375,21 @@ void QQuickGraphsBars::adjustAxisRanges()
     bool adjustY = (valueAxis && categoryAxisX && categoryAxisZ && valueAxis->isAutoAdjustRange());
 
     if (adjustZ || adjustX || adjustY) {
-        int maxRowCount = 0;
-        int maxColumnCount = 0;
+        qsizetype maxRowCount = 0;
+        qsizetype maxColumnCount = 0;
         float minValue = 0.0f;
         float maxValue = 0.0f;
 
         // First figure out row and column counts
-        int seriesCount = m_seriesList.size();
+        qsizetype seriesCount = m_seriesList.size();
         if (adjustZ || adjustX) {
-            for (int series = 0; series < seriesCount; series++) {
+            for (qsizetype series = 0; series < seriesCount; series++) {
                 const QBar3DSeries *barSeries = static_cast<QBar3DSeries *>(m_seriesList.at(series));
                 if (barSeries->isVisible()) {
                     const QBarDataProxy *proxy = barSeries->dataProxy();
 
                     if (adjustZ && proxy) {
-                        int rowCount = proxy->rowCount();
+                        qsizetype rowCount = proxy->rowCount();
                         if (rowCount)
                             rowCount--;
 
@@ -398,7 +398,7 @@ void QQuickGraphsBars::adjustAxisRanges()
 
                     if (adjustX && proxy) {
                         const QBarDataArray &array = barSeries->dataArray();
-                        int columnCount = 0;
+                        qsizetype columnCount = 0;
                         for (int i = 0; i < array.size(); i++) {
                             if (columnCount < array.at(i).size())
                                 columnCount = array.at(i).size();
@@ -877,7 +877,7 @@ void QQuickGraphsBars::handleArrayReset()
     emitNeedRender();
 }
 
-void QQuickGraphsBars::handleRowsAdded(int startIndex, int count)
+void QQuickGraphsBars::handleRowsAdded(qsizetype startIndex, qsizetype count)
 {
     Q_UNUSED(startIndex);
     Q_UNUSED(count);
@@ -891,17 +891,17 @@ void QQuickGraphsBars::handleRowsAdded(int startIndex, int count)
     emitNeedRender();
 }
 
-void QQuickGraphsBars::handleRowsChanged(int startIndex, int count)
+void QQuickGraphsBars::handleRowsChanged(qsizetype startIndex, qsizetype count)
 {
     QBar3DSeries *series = static_cast<QBarDataProxy *>(sender())->series();
-    int oldChangeCount = m_changedRows.size();
+    qsizetype oldChangeCount = m_changedRows.size();
     if (!oldChangeCount)
         m_changedRows.reserve(count);
 
     for (int i = 0; i < count; i++) {
         bool newItem = true;
-        int candidate = startIndex + i;
-        for (int j = 0; j < oldChangeCount; j++) {
+        qsizetype candidate = startIndex + i;
+        for (qsizetype j = 0; j < oldChangeCount; j++) {
             const ChangeRow &oldChangeItem = m_changedRows.at(j);
             if (oldChangeItem.row == candidate && series == oldChangeItem.series) {
                 newItem = false;
@@ -927,7 +927,7 @@ void QQuickGraphsBars::handleRowsChanged(int startIndex, int count)
     }
 }
 
-void QQuickGraphsBars::handleRowsRemoved(int startIndex, int count)
+void QQuickGraphsBars::handleRowsRemoved(qsizetype startIndex, qsizetype count)
 {
     Q_UNUSED(startIndex);
     Q_UNUSED(count);
@@ -957,7 +957,7 @@ void QQuickGraphsBars::handleRowsRemoved(int startIndex, int count)
     emitNeedRender();
 }
 
-void QQuickGraphsBars::handleRowsInserted(int startIndex, int count)
+void QQuickGraphsBars::handleRowsInserted(qsizetype startIndex, qsizetype count)
 {
     Q_UNUSED(startIndex);
     Q_UNUSED(count);
@@ -982,12 +982,12 @@ void QQuickGraphsBars::handleRowsInserted(int startIndex, int count)
     emitNeedRender();
 }
 
-void QQuickGraphsBars::handleItemChanged(int rowIndex, int columnIndex)
+void QQuickGraphsBars::handleItemChanged(qsizetype rowIndex, qsizetype columnIndex)
 {
     QBar3DSeries *series = static_cast<QBarDataProxy *>(sender())->series();
 
     bool newItem = true;
-    QPoint candidate(rowIndex, columnIndex);
+    QPoint candidate((int(rowIndex)), (int(columnIndex)));
     for (ChangeItem item : m_changedItems) {
         if (item.point == candidate && item.series == series) {
             newItem = false;
@@ -1096,14 +1096,14 @@ void QQuickGraphsBars::generateBars(QList<QBar3DSeries *> &barSeriesList)
         if (barList->isEmpty()) {
             if (optimizationHint() == QAbstract3DGraph::OptimizationHint::Legacy) {
                 QBarDataProxy *dataProxy = barSeries->dataProxy();
-                int dataRowIndex = m_minRow;
-                int newRowSize = qMin(dataProxy->rowCount() - dataRowIndex, m_newRows);
+                qsizetype dataRowIndex = m_minRow;
+                qsizetype newRowSize = qMin(dataProxy->rowCount() - dataRowIndex, m_newRows);
 
                 for (int row = 0; row < newRowSize; ++row) {
                     const QBarDataRow &dataRow = dataProxy->rowAt(dataRowIndex);
                     if (!dataRow.isEmpty()) {
-                        int dataColIndex = m_minCol;
-                        int newColSize = qMin(dataRow.size() - dataColIndex, m_newCols);
+                        qsizetype dataColIndex = m_minCol;
+                        qsizetype newColSize = qMin(dataRow.size() - dataColIndex, m_newCols);
                         for (int col = 0; col < newColSize; ++col) {
                             QBarDataItem &dataItem = const_cast<QBarDataItem &>(
                                 dataRow.at(dataColIndex));
@@ -1114,7 +1114,7 @@ void QQuickGraphsBars::generateBars(QList<QBar3DSeries *> &barSeriesList)
                             BarModel *barModel = new BarModel();
                             barModel->model = model;
                             barModel->barItem = &dataItem;
-                            barModel->coord = QPoint(dataRowIndex, col);
+                            barModel->coord = QPoint(int(dataRowIndex), col);
                             barModel->texture = texture;
 
                             if (!barList->contains(barModel))
@@ -1264,12 +1264,12 @@ void QQuickGraphsBars::updateBarPositions(QBar3DSeries *series)
 
     QList<BarModel *> barList = *m_barModelsMap.value(series);
 
-    int dataRowIndex = m_minRow;
-    int newRowSize = qMin(dataProxy->rowCount() - dataRowIndex, m_newRows);
-    int row = 0;
-    int dataColIndex = m_minCol;
-    int newColSize = qMin(dataProxy->colCount() - dataColIndex, m_newCols);
-    int col = 0;
+    qsizetype dataRowIndex = m_minRow;
+    qsizetype newRowSize = qMin(dataProxy->rowCount() - dataRowIndex, m_newRows);
+    qsizetype row = 0;
+    qsizetype dataColIndex = m_minCol;
+    qsizetype newColSize = qMin(dataProxy->colCount() - dataColIndex, m_newCols);
+    qsizetype col = 0;
     for (int i = 0; i < barList.count(); i++) {
         float seriesPos = m_seriesStart + 0.5f
                           + (m_seriesStep
@@ -1746,10 +1746,10 @@ void QQuickGraphsBars::adjustSelectionPosition(QPoint &pos, const QBar3DSeries *
         pos = invalidSelectionPosition();
 
     if (pos != invalidSelectionPosition()) {
-        int maxRow = proxy->rowCount() - 1;
-        int maxCol = (pos.x() <= maxRow && pos.x() >= 0 && !proxy->rowAt(pos.x()).isEmpty())
-                         ? proxy->rowAt(pos.x()).size() - 1
-                         : -1;
+        qsizetype maxRow = proxy->rowCount() - 1;
+        qsizetype maxCol = (pos.x() <= maxRow && pos.x() >= 0 && !proxy->rowAt(pos.x()).isEmpty())
+                ? proxy->rowAt(pos.x()).size() - 1
+                : -1;
 
         if (pos.x() < 0 || pos.x() > maxRow || pos.y() < 0 || pos.y() > maxCol)
             pos = invalidSelectionPosition();
@@ -1950,17 +1950,17 @@ void QQuickGraphsBars::createSliceView()
         }
         if (slicedBarList->isEmpty()) {
             if (optimizationHint() == QAbstract3DGraph::OptimizationHint::Legacy) {
-                int dataRowIndex = m_minRow;
-                int newRowSize = qMin(barSeries->dataProxy()->rowCount() - dataRowIndex, m_newRows);
-                int newColSize = 0;
+                qsizetype dataRowIndex = m_minRow;
+                qsizetype newRowSize = qMin(barSeries->dataProxy()->rowCount() - dataRowIndex, m_newRows);
+                qsizetype newColSize = 0;
                 if (newRowSize) {
                     const QBarDataRow *dataRow = &barSeries->dataProxy()->rowAt(dataRowIndex);
                     if (dataRow) {
-                        int dataColIndex = m_minCol;
+                        qsizetype dataColIndex = m_minCol;
                         newColSize = qMin(dataRow->size() - dataColIndex, m_newCols);
                     }
                 }
-                int slicedBarListSize = 0;
+                qsizetype slicedBarListSize = 0;
 
                 if (selectionMode().testFlag(QAbstract3DGraph::SelectionRow))
                     slicedBarListSize = newColSize;
@@ -2015,7 +2015,7 @@ void QQuickGraphsBars::updateSliceGraph()
         return;
     }
 
-    int index = 0;
+    qsizetype index = 0;
     bool rowMode = selectionMode().testFlag(QAbstract3DGraph::SelectionRow);
     for (auto it = m_slicedBarModels.begin(); it != m_slicedBarModels.end(); it++) {
         bool useGradient = it.key()->d_func()->isUsingGradient();

@@ -44,14 +44,14 @@ public:
     void setRowColors(const QList<QColor> &colors);
 
     void setDataArray(const QBarDataArray &newDataArray);
-    void clearRow(int rowIndex);
+    void clearRow(qsizetype rowIndex);
     void clearArray();
     const QBarDataArray &dataArray() const;
     QStringList rowLabels() const;
     void setRowLabels(const QStringList &labels);
     QStringList columnLabels() const;
     void setColumnLabels(const QStringList &labels);
-    void fixRowLabels(int startIndex, int count, const QStringList &newLabels, bool isInsert);
+    void fixRowLabels(qsizetype startIndex, qsizetype count, const QStringList &newLabels, bool isInsert);
 
 Q_SIGNALS:
     void dataProxyChanged(QBarDataProxy *proxy);

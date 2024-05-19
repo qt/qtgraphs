@@ -29,13 +29,13 @@ QT_BEGIN_NAMESPACE
 */
 
 /*!
-    \fn void QXYSeries::pointReplaced(int index)
+    \fn void QXYSeries::pointReplaced(qsizetype index)
     This signal is emitted when a point is replaced at the position specified by
     \a index.
     \sa replace()
 */
 /*!
-    \qmlsignal XYSeries::pointReplaced(int index)
+    \qmlsignal XYSeries::pointReplaced(qsizetype index)
     This signal is emitted when a point is replaced at the position specified by
     \a index.
 
@@ -99,7 +99,7 @@ void QXYSeries::replace(qreal oldX, qreal oldY, qreal newX, qreal newY)
 void QXYSeries::replace(const QPointF &oldPoint, const QPointF &newPoint)
 {
     Q_D(QXYSeries);
-    int index = d->m_points.indexOf(oldPoint);
+    qsizetype index = d->m_points.indexOf(oldPoint);
     if (index == -1)
         return;
     replace(index, newPoint);
@@ -110,7 +110,7 @@ void QXYSeries::replace(const QPointF &oldPoint, const QPointF &newPoint)
     that has the coordinates \a newX and \a newY.
 */
 
-void QXYSeries::replace(int index, qreal newX, qreal newY)
+void QXYSeries::replace(qsizetype index, qreal newX, qreal newY)
 {
     replace(index, QPointF(newX, newY));
 }
@@ -119,7 +119,7 @@ void QXYSeries::replace(int index, qreal newX, qreal newY)
     Replaces the point at the position specified by \a index with the point
     that has the coordinates \a newPoint.
 */
-void QXYSeries::replace(int index, const QPointF &newPoint)
+void QXYSeries::replace(qsizetype index, const QPointF &newPoint)
 {
     Q_D(QXYSeries);
     if (isValidValue(newPoint)) {
@@ -145,7 +145,7 @@ void QXYSeries::replace(const QList<QPointF> &points)
 }
 
 /*!
-    \qmlmethod bool XYSeries::isPointSelected(int index)
+    \qmlmethod bool XYSeries::isPointSelected(qsizetype index)
     Returns true if point at given \a index is among selected points and false otherwise.
     \note Selected points are drawn using the selected color if it was specified.
     \sa selectedPoints, setPointSelected(), selectedColor
@@ -155,14 +155,14 @@ void QXYSeries::replace(const QList<QPointF> &points)
     \note Selected points are drawn using the selected color if it was specified.
     \sa selectedPoints, setPointSelected(), setSelectedColor()
  */
-bool QXYSeries::isPointSelected(int index)
+bool QXYSeries::isPointSelected(qsizetype index)
 {
     Q_D(QXYSeries);
     return d->isPointSelected(index);
 }
 
 /*!
-    \qmlmethod void XYSeries::selectPoint(int index)
+    \qmlmethod void XYSeries::selectPoint(qsizetype index)
     Marks point at \a index as selected.
     \note Emits QXYSeries::selectedPointsChanged
     \sa setPointSelected()
@@ -172,13 +172,13 @@ bool QXYSeries::isPointSelected(int index)
     \note Emits QXYSeries::selectedPointsChanged
     \sa setPointSelected()
  */
-void QXYSeries::selectPoint(int index)
+void QXYSeries::selectPoint(qsizetype index)
 {
     setPointSelected(index, true);
 }
 
 /*!
-    \qmlmethod void XYSeries::deselectPoint(int index)
+    \qmlmethod void XYSeries::deselectPoint(qsizetype index)
     Deselects point at given \a index.
     \note Emits QXYSeries::selectedPointsChanged
     \sa setPointSelected()
@@ -188,13 +188,13 @@ void QXYSeries::selectPoint(int index)
     \note Emits QXYSeries::selectedPointsChanged
     \sa setPointSelected()
  */
-void QXYSeries::deselectPoint(int index)
+void QXYSeries::deselectPoint(qsizetype index)
 {
     setPointSelected(index, false);
 }
 
 /*!
-    \qmlmethod void XYSeries::setPointSelected(int index, bool selected)
+    \qmlmethod void XYSeries::setPointSelected(qsizetype index, bool selected)
     Marks point at given \a index as either selected or deselected as specified by \a selected.
     \note Selected points are drawn using the selected color if it was specified. Emits QXYSeries::selectedPointsChanged
     \sa selectAllPoints(), selectedColor
@@ -204,7 +204,7 @@ void QXYSeries::deselectPoint(int index)
     \note Selected points are drawn using the selected color if it was specified. Emits QXYSeries::selectedPointsChanged
     \sa selectAllPoints(), setSelectedColor()
  */
-void QXYSeries::setPointSelected(int index, bool selected)
+void QXYSeries::setPointSelected(qsizetype index, bool selected)
 {
     Q_D(QXYSeries);
 
@@ -262,7 +262,7 @@ void QXYSeries::deselectAllPoints()
 }
 
 /*!
-    \qmlmethod void XYSeries::selectPoints(list<int> indexes)
+    \qmlmethod void XYSeries::selectPoints(list<qsizetype> indexes)
     Marks multiple points passed in a \a indexes list as selected.
     \note Emits QXYSeries::selectedPointsChanged
     \sa setPointSelected()
@@ -272,12 +272,12 @@ void QXYSeries::deselectAllPoints()
     \note Emits QXYSeries::selectedPointsChanged
     \sa setPointSelected()
  */
-void QXYSeries::selectPoints(const QList<int> &indexes)
+void QXYSeries::selectPoints(const QList<qsizetype> &indexes)
 {
     Q_D(QXYSeries);
 
     bool callSignal = false;
-    for (const int &index : indexes)
+    for (const qsizetype &index : indexes)
         d->setPointSelected(index, true, callSignal);
 
     if (callSignal)
@@ -285,7 +285,7 @@ void QXYSeries::selectPoints(const QList<int> &indexes)
 }
 
 /*!
-    \qmlmethod void XYSeries::deselectPoints(list<int> indexes)
+    \qmlmethod void XYSeries::deselectPoints(list<qsizetype> indexes)
     Marks multiple points passed in a \a indexes list as deselected.
     \note Emits QXYSeries::selectedPointsChanged
     \sa setPointSelected()
@@ -295,12 +295,12 @@ void QXYSeries::selectPoints(const QList<int> &indexes)
     \note Emits QXYSeries::selectedPointsChanged
     \sa setPointSelected()
  */
-void QXYSeries::deselectPoints(const QList<int> &indexes)
+void QXYSeries::deselectPoints(const QList<qsizetype> &indexes)
 {
     Q_D(QXYSeries);
 
     bool callSignal = false;
-    for (const int &index : indexes)
+    for (const qsizetype &index : indexes)
         d->setPointSelected(index, false, callSignal);
 
     if (callSignal)
@@ -308,7 +308,7 @@ void QXYSeries::deselectPoints(const QList<int> &indexes)
 }
 
 /*!
-    \qmlmethod void XYSeries::toggleSelection(list<int> indexes)
+    \qmlmethod void XYSeries::toggleSelection(list<qsizetype> indexes)
     Changes selection state of points at given \a indexes to the opposite one.
     \note Emits QXYSeries::selectedPointsChanged
     \sa setPointSelected()
@@ -318,12 +318,12 @@ void QXYSeries::deselectPoints(const QList<int> &indexes)
     \note Emits QXYSeries::selectedPointsChanged
     \sa setPointSelected()
  */
-void QXYSeries::toggleSelection(const QList<int> &indexes)
+void QXYSeries::toggleSelection(const QList<qsizetype> &indexes)
 {
     Q_D(QXYSeries);
 
     bool callSignal = false;
-    for (const int &index : indexes)
+    for (const qsizetype &index : indexes)
         d->setPointSelected(index, !isPointSelected(index), callSignal);
 
     if (callSignal)
@@ -344,10 +344,10 @@ void QXYSeries::toggleSelection(const QList<int> &indexes)
     Selected points are visible regardless of points visibility.
     \sa setPointSelected()
  */
-QList<int> QXYSeries::selectedPoints() const
+QList<qsizetype> QXYSeries::selectedPoints() const
 {
     Q_D(const QXYSeries);
-    return QList<int>(d->m_selectedPoints.begin(), d->m_selectedPoints.end());
+    return QList<qsizetype>(d->m_selectedPoints.begin(), d->m_selectedPoints.end());
 }
 
 /*!
@@ -366,7 +366,7 @@ void QXYSeries::remove(qreal x, qreal y)
 void QXYSeries::remove(const QPointF &point)
 {
     Q_D(QXYSeries);
-    int index = d->m_points.indexOf(point);
+    qsizetype index = d->m_points.indexOf(point);
     if (index == -1)
         return;
     remove(index);
@@ -375,7 +375,7 @@ void QXYSeries::remove(const QPointF &point)
 /*!
     Removes the point at the position specified by \a index from the series.
 */
-void QXYSeries::remove(int index)
+void QXYSeries::remove(qsizetype index)
 {
     Q_D(QXYSeries);
     d->m_points.remove(index);
@@ -392,7 +392,7 @@ void QXYSeries::remove(int index)
     Removes the number of points specified by \a count from the series starting
     at the position specified by \a index.
 */
-void QXYSeries::removeMultiple(int index, int count)
+void QXYSeries::removeMultiple(qsizetype index, qsizetype count)
 {
     // This function doesn't overload remove as there is chance for it to get mixed up with
     // remove(qreal, qreal) overload in some implicit casting cases.
@@ -402,13 +402,13 @@ void QXYSeries::removeMultiple(int index, int count)
 
         bool callSignal = false;
         if (!d->m_selectedPoints.empty()) {
-            QSet<int> selectedAfterRemoving;
+            QSet<qsizetype> selectedAfterRemoving;
 
-            for (const int &selectedPointIndex : std::as_const(d->m_selectedPoints)) {
+            for (const qsizetype &selectedPointIndex : std::as_const(d->m_selectedPoints)) {
                 if (selectedPointIndex < index) {
                     selectedAfterRemoving << selectedPointIndex;
                 } else if (selectedPointIndex >= index + count) {
-                    selectedAfterRemoving << selectedPointIndex - count;
+                    selectedAfterRemoving << selectedPointIndex - int(count);
                     callSignal = true;
                 } else {
                     callSignal = true;
@@ -448,7 +448,7 @@ bool QXYSeries::take(const QPointF &point)
     than the number of points in the series, the point is appended to the
     list of points.
 */
-void QXYSeries::insert(int index, const QPointF &point)
+void QXYSeries::insert(qsizetype index, const QPointF &point)
 {
     Q_D(QXYSeries);
     if (isValidValue(point)) {
@@ -459,7 +459,7 @@ void QXYSeries::insert(int index, const QPointF &point)
         bool callSignal = false;
         if (!d->m_selectedPoints.isEmpty()) {
             // if point was inserted we need to move already selected points by 1
-            QSet<int> selectedAfterInsert;
+            QSet<qsizetype> selectedAfterInsert;
             for (const auto &value : std::as_const(d->m_selectedPoints)) {
                 if (value >= index) {
                     selectedAfterInsert << value + 1;
@@ -499,7 +499,7 @@ QList<QPointF> QXYSeries::points() const
     Returns the point at the position specified by \a index. Returns (0, 0) if
     the index is not valid.
 */
-const QPointF &QXYSeries::at(int index) const
+const QPointF &QXYSeries::at(qsizetype index) const
 {
     Q_D(const QXYSeries);
     return d->m_points.at(index);
@@ -507,7 +507,7 @@ const QPointF &QXYSeries::at(int index) const
 
 /*!
     Finds and returns the index of the first matching point found as defined by \a point.
-    Returns -1 if the point is not found. 
+    Returns -1 if the point is not found.
 */
 int QXYSeries::find(const QPointF &point) const
 {
@@ -524,7 +524,7 @@ int QXYSeries::find(const QPointF &point) const
 /*!
     Returns the number of data points in a series.
 */
-int QXYSeries::count() const
+qsizetype QXYSeries::count() const
 {
     Q_D(const QXYSeries);
     return d->m_points.size();
@@ -714,7 +714,7 @@ QXYSeries &QXYSeries::operator<< (const QList<QPointF>& points)
 
 QXYSeriesPrivate::QXYSeriesPrivate() {}
 
-void QXYSeriesPrivate::setPointSelected(int index, bool selected, bool &callSignal)
+void QXYSeriesPrivate::setPointSelected(qsizetype index, bool selected, bool &callSignal)
 {
     if (index < 0 || index > m_points.size() - 1)
         return;
@@ -732,7 +732,7 @@ void QXYSeriesPrivate::setPointSelected(int index, bool selected, bool &callSign
     }
 }
 
-bool QXYSeriesPrivate::isPointSelected(int index)
+bool QXYSeriesPrivate::isPointSelected(qsizetype index)
 {
     return m_selectedPoints.contains(index);
 }

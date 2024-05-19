@@ -31,13 +31,13 @@ public:
     ~QScatterDataProxyPrivate() override;
 
     void resetArray(QScatterDataArray &&newArray);
-    void setItem(int index, QScatterDataItem &&item);
-    void setItems(int index, QScatterDataArray &&items);
-    int addItem(QScatterDataItem &&item);
-    int addItems(QScatterDataArray &&items);
-    void insertItem(int index, QScatterDataItem &&item);
-    void insertItems(int index, QScatterDataArray &&items);
-    void removeItems(int index, int removeCount);
+    void setItem(qsizetype index, QScatterDataItem &&item);
+    void setItems(qsizetype index, QScatterDataArray &&items);
+    qsizetype addItem(QScatterDataItem &&item);
+    qsizetype addItems(QScatterDataArray &&items);
+    void insertItem(qsizetype index, QScatterDataItem &&item);
+    void insertItems(qsizetype index, QScatterDataArray &&items);
+    void removeItems(qsizetype index, qsizetype removeCount);
     void limitValues(QVector3D &minValues,
                      QVector3D &maxValues,
                      QAbstract3DAxis *axisX,

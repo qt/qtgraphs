@@ -43,8 +43,8 @@ public:
     bool reversed() const;
 
     void recalculate();
-    int gridSize();
-    int subGridSize();
+    qsizetype gridSize();
+    qsizetype subGridSize();
     float gridPositionAt(int gridLine);
     float subGridPositionAt(int gridLine);
     float labelPositionAt(int index);

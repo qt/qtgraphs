@@ -85,7 +85,7 @@ void ScatterInstancing::setDataArray(const QList<DataItemHolder> &newDataArray)
     markDataDirty();
 }
 
-void ScatterInstancing::hideDataItem(int index)
+void ScatterInstancing::hideDataItem(qsizetype index)
 {
     Q_ASSERT(index < m_dataArray.size());
     m_dataArray[index].hide = true;

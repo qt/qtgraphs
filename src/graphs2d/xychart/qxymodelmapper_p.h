@@ -34,17 +34,17 @@ public Q_SLOTS:
     void handleModelDestroyed();
 
     // for the series
-    void onPointAdded(int pointPos);
-    void onPointRemoved(int pointPos);
-    void onPointsRemoved(int pointPos, int count);
-    void onPointReplaced(int pointPos);
+    void onPointAdded(qsizetype pointIndex);
+    void onPointRemoved(qsizetype pointIndex);
+    void onPointsRemoved(qsizetype pointIndex, qsizetype count);
+    void onPointReplaced(qsizetype pointIndex);
     void handleSeriesDestroyed();
 
     void initializeXYFromModel();
 
 private:
-    QModelIndex xModelIndex(int xPos);
-    QModelIndex yModelIndex(int yPos);
+    QModelIndex xModelIndex(qsizetype xIndex);
+    QModelIndex yModelIndex(qsizetype yIndex);
     void insertData(int start, int end);
     void removeData(int start, int end);
     void blockModelSignals(bool block = true);

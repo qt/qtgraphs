@@ -1496,7 +1496,7 @@ void QGraphsTheme::setBorderWidth(qreal newBorderWidth)
 
 void QGraphsTheme::handleBaseColorUpdate()
 {
-    int colorCount = m_colors.size();
+    qsizetype colorCount = m_colors.size();
     int changed = 0;
     // Check which one changed
     QQuickGraphsColor *color = qobject_cast<QQuickGraphsColor *>(QObject::sender());
@@ -1516,7 +1516,7 @@ void QGraphsTheme::handleBaseColorUpdate()
 void QGraphsTheme::handleBaseGradientUpdate()
 {
     // Find out which gradient has changed, and update the list with it
-    int gradientCount = m_gradients.size();
+    qsizetype gradientCount = m_gradients.size();
     int changed = 0;
 
     // Check which one changed

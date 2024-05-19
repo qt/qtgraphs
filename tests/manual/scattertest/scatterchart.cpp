@@ -834,7 +834,7 @@ void ScatterDataModifier::selectItem()
         m_chart->seriesList().at(0)->setSelectedItem(noSelection);
 }
 
-void ScatterDataModifier::handleSelectionChange(int index)
+void ScatterDataModifier::handleSelectionChange(qsizetype index)
 {
     m_selectedItem = index;
     m_targetSeries = static_cast<QScatter3DSeries *>(sender());

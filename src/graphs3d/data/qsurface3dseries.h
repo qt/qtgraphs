@@ -67,7 +67,7 @@ public:
     QColor wireframeColor() const;
 
     void setDataArray(const QSurfaceDataArray &newDataArray);
-    void clearRow(int rowIndex);
+    void clearRow(qsizetype rowIndex);
     void clearArray();
     const QSurfaceDataArray &dataArray() const;
 

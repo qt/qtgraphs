@@ -20,7 +20,7 @@ class Q_GRAPHS_EXPORT QScatterDataProxy : public QAbstractDataProxy
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(QScatterDataProxy)
-    Q_PROPERTY(int itemCount READ itemCount NOTIFY itemCountChanged)
+    Q_PROPERTY(qsizetype itemCount READ itemCount NOTIFY itemCountChanged)
     Q_PROPERTY(QScatter3DSeries *series READ series NOTIFY seriesChanged)
 
 public:
@@ -28,33 +28,33 @@ public:
     ~QScatterDataProxy() override;
 
     QScatter3DSeries *series() const;
-    int itemCount() const;
-    const QScatterDataItem &itemAt(int index) const;
+    qsizetype itemCount() const;
+    const QScatterDataItem &itemAt(qsizetype index) const;
 
     void resetArray();
     void resetArray(QScatterDataArray newArray);
 
-    void setItem(int index, QScatterDataItem item);
-    void setItems(int index, QScatterDataArray items);
+    void setItem(qsizetype index, QScatterDataItem item);
+    void setItems(qsizetype index, QScatterDataArray items);
 
-    int addItem(QScatterDataItem item);
-    int addItem(QScatterDataItem &&item);
-    int addItems(QScatterDataArray items);
-    int addItems(QScatterDataArray &&items);
+    qsizetype addItem(QScatterDataItem item);
+    qsizetype addItem(QScatterDataItem &&item);
+    qsizetype addItems(QScatterDataArray items);
+    qsizetype addItems(QScatterDataArray &&items);
 
-    void insertItem(int index, QScatterDataItem item);
-    void insertItems(int index, QScatterDataArray items);
+    void insertItem(qsizetype index, QScatterDataItem item);
+    void insertItems(qsizetype index, QScatterDataArray items);
 
-    void removeItems(int index, int removeCount);
+    void removeItems(qsizetype index, qsizetype removeCount);
 
 Q_SIGNALS:
     void arrayReset();
-    void itemsAdded(int startIndex, int count);
-    void itemsChanged(int startIndex, int count);
-    void itemsRemoved(int startIndex, int count);
-    void itemsInserted(int startIndex, int count);
+    void itemsAdded(qsizetype startIndex, qsizetype count);
+    void itemsChanged(qsizetype startIndex, qsizetype count);
+    void itemsRemoved(qsizetype startIndex, qsizetype count);
+    void itemsInserted(qsizetype startIndex, qsizetype count);
 
-    void itemCountChanged(int count);
+    void itemCountChanged(qsizetype count);
     void seriesChanged(QScatter3DSeries *series);
 
 protected:

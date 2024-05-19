@@ -24,7 +24,7 @@ class Q_GRAPHS_EXPORT QXYSeries : public QAbstractSeries
                    selectedColorChanged FINAL)
     Q_PROPERTY(QQmlComponent *pointMarker READ pointMarker WRITE setPointMarker NOTIFY pointMarkerChanged FINAL)
     Q_PROPERTY(bool draggable READ draggable WRITE setDraggable NOTIFY draggableChanged FINAL)
-    Q_PROPERTY(QList<int> selectedPoints READ selectedPoints NOTIFY selectedPointsChanged FINAL)
+    Q_PROPERTY(QList<qsizetype> selectedPoints READ selectedPoints NOTIFY selectedPointsChanged FINAL)
 
 protected:
     explicit QXYSeries(QXYSeriesPrivate &dd, QObject *parent = nullptr);
@@ -35,19 +35,19 @@ public:
     Q_INVOKABLE void append(const QList<QPointF> &points);
     Q_INVOKABLE void replace(qreal oldX, qreal oldY, qreal newX, qreal newY);
     Q_INVOKABLE void replace(const QPointF &oldPoint, const QPointF &newPoint);
-    Q_INVOKABLE void replace(int index, qreal newX, qreal newY);
-    Q_INVOKABLE void replace(int index, const QPointF &newPoint);
+    Q_INVOKABLE void replace(qsizetype index, qreal newX, qreal newY);
+    Q_INVOKABLE void replace(qsizetype index, const QPointF &newPoint);
     Q_INVOKABLE void replace(const QList<QPointF> &points);
     Q_INVOKABLE void remove(qreal x, qreal y);
     Q_INVOKABLE void remove(const QPointF &point);
-    Q_INVOKABLE void remove(int index);
-    Q_INVOKABLE void insert(int index, const QPointF &point);
+    Q_INVOKABLE void remove(qsizetype index);
+    Q_INVOKABLE void insert(qsizetype index, const QPointF &point);
     Q_INVOKABLE void clear();
-    Q_INVOKABLE const QPointF &at(int index) const;
+    Q_INVOKABLE const QPointF &at(qsizetype index) const;
     Q_INVOKABLE int find(const QPointF &) const;
-    Q_INVOKABLE void removeMultiple(int index, int count);
+    Q_INVOKABLE void removeMultiple(qsizetype index, qsizetype count);
     Q_INVOKABLE bool take(const QPointF &point);
-    Q_INVOKABLE int count() const;
+    Q_INVOKABLE qsizetype count() const;
 
     QList<QPointF> points() const;
 
@@ -60,16 +60,16 @@ public:
     void setSelectedColor(const QColor &color);
     QColor selectedColor() const;
 
-    Q_INVOKABLE bool isPointSelected(int index);
-    Q_INVOKABLE void selectPoint(int index);
-    Q_INVOKABLE void deselectPoint(int index);
-    Q_INVOKABLE void setPointSelected(int index, bool selected);
+    Q_INVOKABLE bool isPointSelected(qsizetype index);
+    Q_INVOKABLE void selectPoint(qsizetype index);
+    Q_INVOKABLE void deselectPoint(qsizetype index);
+    Q_INVOKABLE void setPointSelected(qsizetype index, bool selected);
     Q_INVOKABLE void selectAllPoints();
     Q_INVOKABLE void deselectAllPoints();
-    Q_INVOKABLE void selectPoints(const QList<int> &indexes);
-    Q_INVOKABLE void deselectPoints(const QList<int> &indexes);
-    Q_INVOKABLE void toggleSelection(const QList<int> &indexes);
-    QList<int> selectedPoints() const;
+    Q_INVOKABLE void selectPoints(const QList<qsizetype> &indexes);
+    Q_INVOKABLE void deselectPoints(const QList<qsizetype> &indexes);
+    Q_INVOKABLE void toggleSelection(const QList<qsizetype> &indexes);
+    QList<qsizetype> selectedPoints() const;
 
     QQmlComponent *pointMarker() const;
     void setPointMarker(QQmlComponent *newPointMarker);
@@ -81,13 +81,13 @@ public:
     void setDraggable(bool newDraggable);
 
 Q_SIGNALS:
-    void pointReplaced(int index);
-    void pointRemoved(int index);
-    void pointAdded(int index);
+    void pointReplaced(qsizetype index);
+    void pointRemoved(qsizetype index);
+    void pointAdded(qsizetype index);
     void colorChanged(QColor color);
     void selectedColorChanged(const QColor &color);
     void pointsReplaced();
-    void pointsRemoved(int index, int count);
+    void pointsRemoved(qsizetype index, qsizetype count);
     void selectedPointsChanged();
     void pointMarkerChanged();
     void draggableChanged();

@@ -254,7 +254,7 @@ public:
     enum SelectionType { SelectionNone = 0, SelectionItem, SelectionRow, SelectionColumn };
 
     virtual void addSeriesInternal(QAbstract3DSeries *series);
-    void insertSeries(int index, QAbstract3DSeries *series);
+    void insertSeries(qsizetype index, QAbstract3DSeries *series);
     virtual void removeSeriesInternal(QAbstract3DSeries *series);
     QList<QAbstract3DSeries *> seriesList();
 
@@ -309,7 +309,7 @@ public:
     void deleteCustomItem(const QVector3D &position);
     QList<QCustom3DItem *> customItems() const;
 
-    Q_INVOKABLE virtual int addCustomItem(QCustom3DItem *item);
+    Q_INVOKABLE virtual qsizetype addCustomItem(QCustom3DItem *item);
     Q_INVOKABLE virtual void removeCustomItems();
     Q_INVOKABLE virtual void removeCustomItem(QCustom3DItem *item);
     Q_INVOKABLE virtual void removeCustomItemAt(const QVector3D &position);
@@ -318,7 +318,7 @@ public:
     Q_INVOKABLE virtual int selectedLabelIndex() const;
     Q_INVOKABLE virtual QAbstract3DAxis *selectedAxis() const;
 
-    Q_INVOKABLE virtual int selectedCustomItemIndex() const;
+    Q_INVOKABLE virtual qsizetype selectedCustomItemIndex() const;
     Q_INVOKABLE virtual QCustom3DItem *selectedCustomItem() const;
 
     QQmlListProperty<QCustom3DItem> customItemList();
@@ -750,7 +750,7 @@ protected:
 
     QAbstract3DGraph::ElementType m_clickedType = QAbstract3DGraph::ElementType::None;
     int m_selectedLabelIndex = -1;
-    int m_selectedCustomItemIndex = -1;
+    qsizetype m_selectedCustomItemIndex = -1;
     qreal m_margin = -1.0;
 
     QMutex m_renderMutex;
@@ -873,7 +873,7 @@ private:
     void updateCustomLabelsRotation();
     float fontScaleFactor(float pointSize);
     float labelAdjustment(float width);
-    void gridLineCountHelper(QAbstract3DAxis *axis, int &lineCount, int &sublineCount);
+    void gridLineCountHelper(QAbstract3DAxis *axis, qsizetype &lineCount, qsizetype &sublineCount);
     QVector3D graphPosToAbsolute(const QVector3D &position);
 
     void createVolumeMaterial(QCustom3DVolume *volume, Volume &volumeItem);

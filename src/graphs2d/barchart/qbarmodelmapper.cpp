@@ -378,13 +378,13 @@ void QBarModelMapper::setOrientation(Qt::Orientation orientation)
     Q_EMIT orientationChanged();
 }
 
-int QBarModelMapper::count() const
+qsizetype QBarModelMapper::count() const
 {
     const Q_D(QBarModelMapper);
     return d->m_count;
 }
 
-void QBarModelMapper::setCount(int newCount)
+void QBarModelMapper::setCount(qsizetype newCount)
 {
     Q_D(QBarModelMapper);
     d->m_count = qMax(newCount, -1);
@@ -420,7 +420,7 @@ void QBarModelMapper::setFirstBarSetSection(int newFirstBarSetSection)
     Q_EMIT firstBarSetSectionChanged();
 }
 
-void QBarModelMapper::onValuesAdded(int index, int count)
+void QBarModelMapper::onValuesAdded(qsizetype index, qsizetype count)
 {
     Q_D(QBarModelMapper);
 
@@ -438,7 +438,7 @@ void QBarModelMapper::onBarLabelChanged()
     d->handleBarLabelChanged(qobject_cast<QBarSet *>(sender()));
 }
 
-void QBarModelMapper::onBarValueChanged(int index)
+void QBarModelMapper::onBarValueChanged(qsizetype index)
 {
     Q_D(QBarModelMapper);
 
@@ -452,7 +452,7 @@ QBarModelMapperPrivate::QBarModelMapperPrivate() {}
 
 QBarModelMapperPrivate::~QBarModelMapperPrivate() {}
 
-QModelIndex QBarModelMapperPrivate::barModelIndex(int barSection, int posInBar)
+QModelIndex QBarModelMapperPrivate::barModelIndex(qsizetype barSection, qsizetype posInBar)
 {
     if (m_count != -1 && posInBar >= m_count)
         return QModelIndex(); // invalid
@@ -461,9 +461,9 @@ QModelIndex QBarModelMapperPrivate::barModelIndex(int barSection, int posInBar)
         return QModelIndex(); // invalid
 
     if (m_orientation == Qt::Vertical)
-        return m_model->index(posInBar + m_first, barSection);
+        return m_model->index(int(posInBar) + m_first, int(barSection));
     else
-        return m_model->index(barSection, posInBar + m_first);
+        return m_model->index(int(barSection), int(posInBar) + m_first);
 }
 
 void QBarModelMapperPrivate::blockSeriesSignals(const bool block)
@@ -494,7 +494,7 @@ QBarSet *QBarModelMapperPrivate::barSet(QModelIndex index)
     return 0; // This part of model has not been mapped to any slice
 }
 
-void QBarModelMapperPrivate::insertData(int start, int end)
+void QBarModelMapperPrivate::insertData(qsizetype start, qsizetype end)
 {
     Q_UNUSED(start);
     Q_UNUSED(end);
@@ -503,7 +503,7 @@ void QBarModelMapperPrivate::insertData(int start, int end)
     initializeBarsFromModel();
 }
 
-void QBarModelMapperPrivate::removeData(int start, int end)
+void QBarModelMapperPrivate::removeData(qsizetype start, qsizetype end)
 {
     Q_UNUSED(start);
     Q_UNUSED(end);
@@ -675,11 +675,11 @@ void QBarModelMapperPrivate::barSetsAdded(const QList<QBarSet *> &sets)
     if (sets.size() == 0)
         return;
 
-    int firstIndex = m_series->barSets().indexOf(sets.at(0));
+    int firstIndex = int(m_series->barSets().indexOf(sets.at(0)));
     if (firstIndex == -1)
         return;
 
-    int maxCount = 0;
+    qsizetype maxCount = 0;
     for (int i = 0; i < sets.size(); i++) {
         if (sets.at(i)->count() > m_count)
             maxCount = sets.at(i)->count();
@@ -695,15 +695,15 @@ void QBarModelMapperPrivate::barSetsAdded(const QList<QBarSet *> &sets)
                                                       : m_model->columnCount() - m_first;
     if (maxCount > modelCapacity) {
         if (m_orientation == Qt::Vertical)
-            m_model->insertRows(m_model->rowCount(), maxCount - modelCapacity);
+            m_model->insertRows(m_model->rowCount(), int(maxCount) - modelCapacity);
         else
-            m_model->insertColumns(m_model->columnCount(), maxCount - modelCapacity);
+            m_model->insertColumns(m_model->columnCount(), int(maxCount) - modelCapacity);
     }
 
     if (m_orientation == Qt::Vertical)
-        m_model->insertColumns(firstIndex + m_firstBarSetSection, sets.size());
+        m_model->insertColumns(firstIndex + m_firstBarSetSection, int(sets.size()));
     else
-        m_model->insertRows(firstIndex + m_firstBarSetSection, sets.size());
+        m_model->insertRows(firstIndex + m_firstBarSetSection, int(sets.size()));
 
     for (int i = firstIndex + m_firstBarSetSection;
          i < firstIndex + m_firstBarSetSection + sets.size();
@@ -728,25 +728,25 @@ void QBarModelMapperPrivate::barSetsRemoved(const QList<QBarSet *> &sets)
     if (sets.size() == 0)
         return;
 
-    int firstIndex = m_barSets.indexOf(sets.at(0));
+    int firstIndex = int(m_barSets.indexOf(sets.at(0)));
     if (firstIndex == -1)
         return;
 
     m_lastBarSetSection -= sets.size();
 
-    for (int i = firstIndex + sets.size() - 1; i >= firstIndex; i--)
+    for (qsizetype i = firstIndex + sets.size() - 1; i >= firstIndex; i--)
         m_barSets.removeAt(i);
 
     blockModelSignals();
     if (m_orientation == Qt::Vertical)
-        m_model->removeColumns(firstIndex + m_firstBarSetSection, sets.size());
+        m_model->removeColumns(firstIndex + m_firstBarSetSection, int(sets.size()));
     else
-        m_model->removeRows(firstIndex + m_firstBarSetSection, sets.size());
+        m_model->removeRows(firstIndex + m_firstBarSetSection, int(sets.size()));
     blockModelSignals(false);
     initializeBarsFromModel();
 }
 
-void QBarModelMapperPrivate::handleValuesAdded(QBarSet *set, int index, int count)
+void QBarModelMapperPrivate::handleValuesAdded(QBarSet *set, qsizetype index, qsizetype count)
 {
     if (m_seriesSignalsBlock)
         return;
@@ -754,16 +754,16 @@ void QBarModelMapperPrivate::handleValuesAdded(QBarSet *set, int index, int coun
     if (m_count != -1)
         m_count += count;
     Q_ASSERT(set);
-    int barSetIndex = m_barSets.indexOf(set);
+    qsizetype barSetIndex = m_barSets.indexOf(set);
 
     blockModelSignals();
     if (m_orientation == Qt::Vertical)
-        m_model->insertRows(index + m_first, count);
+        m_model->insertRows(int(index) + m_first, int(count));
     else
-        m_model->insertColumns(index + m_first, count);
+        m_model->insertColumns(int(index) + m_first, int(count));
 
-    for (int j = index; j < index + count; j++) {
-        m_model->setData(barModelIndex(barSetIndex + m_firstBarSetSection, j),
+    for (qsizetype j = index; j < index + count; j++) {
+        m_model->setData(barModelIndex(barSetIndex + m_firstBarSetSection, int(j)),
                          m_barSets.at(barSetIndex)->at(j));
     }
 
@@ -771,7 +771,7 @@ void QBarModelMapperPrivate::handleValuesAdded(QBarSet *set, int index, int coun
     initializeBarsFromModel();
 }
 
-void QBarModelMapperPrivate::valuesRemoved(int index, int count)
+void QBarModelMapperPrivate::valuesRemoved(qsizetype index, qsizetype count)
 {
     if (m_seriesSignalsBlock)
         return;
@@ -781,9 +781,9 @@ void QBarModelMapperPrivate::valuesRemoved(int index, int count)
 
     blockModelSignals();
     if (m_orientation == Qt::Vertical)
-        m_model->removeRows(index + m_first, count);
+        m_model->removeRows(int(index) + m_first, int(count));
     else
-        m_model->removeColumns(index + m_first, count);
+        m_model->removeColumns(int(index) + m_first, int(count));
 
     blockModelSignals(false);
     initializeBarsFromModel();
@@ -795,7 +795,7 @@ void QBarModelMapperPrivate::handleBarLabelChanged(QBarSet *set)
         return;
 
     Q_ASSERT(set);
-    int barSetIndex = m_barSets.indexOf(set);
+    int barSetIndex = int(m_barSets.indexOf(set));
 
     blockModelSignals();
     m_model->setHeaderData(barSetIndex + m_firstBarSetSection,
@@ -805,13 +805,13 @@ void QBarModelMapperPrivate::handleBarLabelChanged(QBarSet *set)
     initializeBarsFromModel();
 }
 
-void QBarModelMapperPrivate::handleBarValueChanged(QBarSet *set, int index)
+void QBarModelMapperPrivate::handleBarValueChanged(QBarSet *set, qsizetype index)
 {
     if (m_seriesSignalsBlock)
         return;
 
     Q_ASSERT(set);
-    int barSetIndex = m_barSets.indexOf(set);
+    int barSetIndex = int(m_barSets.indexOf(set));
 
     blockModelSignals();
     m_model->setData(barModelIndex(barSetIndex + m_firstBarSetSection, index),

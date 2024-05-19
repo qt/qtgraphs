@@ -23,55 +23,55 @@ class Q_GRAPHS_EXPORT QBarDataProxy : public QAbstractDataProxy
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(QBarDataProxy)
-    Q_PROPERTY(int rowCount READ rowCount NOTIFY rowCountChanged)
-    Q_PROPERTY(int colCount READ colCount NOTIFY colCountChanged)
+    Q_PROPERTY(qsizetype rowCount READ rowCount NOTIFY rowCountChanged)
+    Q_PROPERTY(qsizetype colCount READ colCount NOTIFY colCountChanged)
     Q_PROPERTY(QBar3DSeries *series READ series NOTIFY seriesChanged)
 public:
     explicit QBarDataProxy(QObject *parent = nullptr);
     ~QBarDataProxy() override;
 
     QBar3DSeries *series() const;
-    int rowCount() const;
-    int colCount() const;
+    qsizetype rowCount() const;
+    qsizetype colCount() const;
 
-    const QBarDataRow &rowAt(int rowIndex) const;
-    const QBarDataItem &itemAt(int rowIndex, int columnIndex) const;
+    const QBarDataRow &rowAt(qsizetype rowIndex) const;
+    const QBarDataItem &itemAt(qsizetype rowIndex, qsizetype columnIndex) const;
     const QBarDataItem &itemAt(const QPoint &position) const;
 
     void resetArray();
     void resetArray(QBarDataArray newArray);
     void resetArray(QBarDataArray newArray, QStringList rowLabels, QStringList columnLabels);
 
-    void setRow(int rowIndex, QBarDataRow row);
-    void setRow(int rowIndex, QBarDataRow row, QString label);
-    void setRows(int rowIndex, QBarDataArray rows);
-    void setRows(int rowIndex, QBarDataArray rows, QStringList labels);
+    void setRow(qsizetype rowIndex, QBarDataRow row);
+    void setRow(qsizetype rowIndex, QBarDataRow row, QString label);
+    void setRows(qsizetype rowIndex, QBarDataArray rows);
+    void setRows(qsizetype rowIndex, QBarDataArray rows, QStringList labels);
 
-    void setItem(int rowIndex, int columnIndex, QBarDataItem item);
+    void setItem(qsizetype rowIndex, qsizetype columnIndex, QBarDataItem item);
     void setItem(const QPoint &position, QBarDataItem item);
 
-    int addRow(QBarDataRow row);
-    int addRow(QBarDataRow row, QString label);
-    int addRows(QBarDataArray rows);
-    int addRows(QBarDataArray rows, QStringList labels);
+    qsizetype addRow(QBarDataRow row);
+    qsizetype addRow(QBarDataRow row, QString label);
+    qsizetype addRows(QBarDataArray rows);
+    qsizetype addRows(QBarDataArray rows, QStringList labels);
 
-    void insertRow(int rowIndex, QBarDataRow row);
-    void insertRow(int rowIndex, QBarDataRow row, QString label);
-    void insertRows(int rowIndex, QBarDataArray rows);
-    void insertRows(int rowIndex, QBarDataArray rows, QStringList labels);
+    void insertRow(qsizetype rowIndex, QBarDataRow row);
+    void insertRow(qsizetype rowIndex, QBarDataRow row, QString label);
+    void insertRows(qsizetype rowIndex, QBarDataArray rows);
+    void insertRows(qsizetype rowIndex, QBarDataArray rows, QStringList labels);
 
-    void removeRows(int rowIndex, int removeCount, bool removeLabels = true);
+    void removeRows(qsizetype rowIndex, qsizetype removeCount, bool removeLabels = true);
 
 Q_SIGNALS:
     void arrayReset();
-    void rowsAdded(int startIndex, int count);
-    void rowsChanged(int startIndex, int count);
-    void rowsRemoved(int startIndex, int count);
-    void rowsInserted(int startIndex, int count);
-    void itemChanged(int rowIndex, int columnIndex);
+    void rowsAdded(qsizetype startIndex, qsizetype count);
+    void rowsChanged(qsizetype startIndex, qsizetype count);
+    void rowsRemoved(qsizetype startIndex, qsizetype count);
+    void rowsInserted(qsizetype startIndex, qsizetype count);
+    void itemChanged(qsizetype rowIndex, qsizetype columnIndex);
 
-    void rowCountChanged(int count);
-    void colCountChanged(int count);
+    void rowCountChanged(qsizetype count);
+    void colCountChanged(qsizetype count);
     void seriesChanged(QBar3DSeries *series);
 
 protected:

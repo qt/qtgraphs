@@ -54,7 +54,7 @@ public:
     struct ChangeItem
     {
         QScatter3DSeries *series;
-        int index;
+        qsizetype index;
     };
 
     void setAxisX(QValue3DAxis *axis);
@@ -75,7 +75,7 @@ public:
     QList<QScatter3DSeries *> scatterSeriesList();
 
     QScatter3DSeries *selectedSeries() const;
-    void setSelectedItem(int index, QScatter3DSeries *series);
+    void setSelectedItem(qsizetype index, QScatter3DSeries *series);
     static inline int invalidSelectionIndex() { return -1; }
     void setSelectionMode(QAbstract3DGraph::SelectionFlags mode) override;
 
@@ -104,10 +104,10 @@ public Q_SLOTS:
     void handleMeshSmoothChanged(bool enable);
 
     void handleArrayReset();
-    void handleItemsAdded(int startIndex, int count);
-    void handleItemsChanged(int startIndex, int count);
-    void handleItemsRemoved(int startIndex, int count);
-    void handleItemsInserted(int startIndex, int count);
+    void handleItemsAdded(qsizetype startIndex, qsizetype count);
+    void handleItemsChanged(qsizetype startIndex, qsizetype count);
+    void handleItemsRemoved(qsizetype startIndex, qsizetype count);
+    void handleItemsInserted(qsizetype startIndex, qsizetype count);
 
 Q_SIGNALS:
     void axisXChanged(QValue3DAxis *axis);
@@ -130,8 +130,8 @@ private:
     struct InsertRemoveRecord
     {
         bool m_isInsert;
-        int m_startIndex;
-        int m_count;
+        qsizetype m_startIndex;
+        qsizetype m_count;
         QAbstract3DSeries *m_series;
 
         InsertRemoveRecord()
@@ -141,7 +141,7 @@ private:
             , m_series(0)
         {}
 
-        InsertRemoveRecord(bool isInsert, int startIndex, int count, QAbstract3DSeries *series)
+        InsertRemoveRecord(bool isInsert, qsizetype startIndex, qsizetype count, QAbstract3DSeries *series)
             : m_isInsert(isInsert)
             , m_startIndex(startIndex)
             , m_count(count)
@@ -178,7 +178,7 @@ private:
     bool m_polarGraph = false;
 
     float m_selectedGradientPos = 0.0f;
-    int m_selectedItem;
+    qsizetype m_selectedItem;
     QScatter3DSeries *m_selectedItemSeries; // Points to the series for which the bar is
                                             // selected in single series selection cases.
     QQuick3DModel *m_selected = nullptr;
@@ -223,7 +223,7 @@ private:
     void recreateDataItems();
     void recreateDataItems(const QList<ScatterModel *> &);
     void addPointsToScatterModel(ScatterModel *graphModel, qsizetype count);
-    int sizeDifference(qsizetype size1, qsizetype size2);
+    qsizetype sizeDifference(qsizetype size1, qsizetype size2);
     void handleSeriesChanged(QList<QAbstract3DSeries *> changedSeries);
 
     QColor m_selectedSeriesColor;

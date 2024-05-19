@@ -37,7 +37,7 @@ private:
     QGraphsView *m_graph;
     QQuickShape *m_shape;
 
-    int m_colorIndex = -1;
+    qsizetype m_colorIndex = -1;
 };
 
 QT_END_NAMESPACE

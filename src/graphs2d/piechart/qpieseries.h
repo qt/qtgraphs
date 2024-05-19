@@ -22,7 +22,7 @@ class Q_GRAPHS_EXPORT QPieSeries : public QAbstractSeries
     Q_PROPERTY(qreal size READ size WRITE setSize NOTIFY sizeChanged FINAL)
     Q_PROPERTY(qreal startAngle READ startAngle WRITE setStartAngle NOTIFY startAngleChanged FINAL)
     Q_PROPERTY(qreal endAngle READ endAngle WRITE setEndAngle NOTIFY endAngleChanged FINAL)
-    Q_PROPERTY(int count READ count NOTIFY countChanged FINAL)
+    Q_PROPERTY(qsizetype count READ count NOTIFY countChanged FINAL)
     Q_PROPERTY(qreal sum READ sum NOTIFY sumChanged FINAL)
     Q_PROPERTY(qreal holeSize READ holeSize WRITE setHoleSize NOTIFY holeSizeChanged FINAL)
     QML_NAMED_ELEMENT(PieSeries)
@@ -33,15 +33,15 @@ public:
 
     Q_INVOKABLE bool append(QPieSlice *slice);
     Q_INVOKABLE bool append(const QList<QPieSlice *> &slices);
-    Q_INVOKABLE bool insert(int index, QPieSlice *slice);
+    Q_INVOKABLE bool insert(qsizetype index, QPieSlice *slice);
     Q_INVOKABLE bool remove(QPieSlice *slice);
     Q_INVOKABLE void clear();
     Q_INVOKABLE QPieSlice *append(const QString &label, qreal value);
-    Q_INVOKABLE QPieSlice *at(int index);
+    Q_INVOKABLE QPieSlice *at(qsizetype index);
     Q_INVOKABLE QPieSlice *find(const QString &label);
-    Q_INVOKABLE bool replace(int index, QPieSlice *slice);
-    Q_INVOKABLE void removeMultiple(int index, int count);
-    Q_INVOKABLE bool remove(int index);
+    Q_INVOKABLE bool replace(qsizetype index, QPieSlice *slice);
+    Q_INVOKABLE void removeMultiple(qsizetype index, int count);
+    Q_INVOKABLE bool remove(qsizetype index);
     Q_INVOKABLE bool replace(QPieSlice *oldSlice, QPieSlice *newSlice);
     Q_INVOKABLE bool replace(const QList<QPieSlice *> &slices);
     Q_INVOKABLE bool take(QPieSlice *slice);
@@ -49,7 +49,7 @@ public:
     QPieSeries &operator<<(QPieSlice *slice);
 
     QList<QPieSlice *> slices() const;
-    int count() const;
+    qsizetype count() const;
 
     bool isEmpty() const;
 

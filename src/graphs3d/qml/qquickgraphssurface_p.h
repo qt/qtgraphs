@@ -70,7 +70,7 @@ public:
     struct ChangeRow
     {
         QSurface3DSeries *series;
-        int row;
+        qsizetype row;
     };
     enum DataDimension {
         BothAscending = 0,
@@ -171,11 +171,11 @@ public Q_SLOTS:
     void handleFlipHorizontalGridChanged(bool flip);
 
     void handleArrayReset();
-    void handleRowsAdded(int startIndex, int count);
-    void handleRowsChanged(int startIndex, int count);
-    void handleRowsRemoved(int startIndex, int count);
-    void handleRowsInserted(int startIndex, int count);
-    void handleItemChanged(int rowIndex, int columnIndex);
+    void handleRowsAdded(qsizetype startIndex, qsizetype count);
+    void handleRowsChanged(qsizetype startIndex, qsizetype count);
+    void handleRowsRemoved(qsizetype startIndex, qsizetype count);
+    void handleRowsInserted(qsizetype startIndex, qsizetype count);
+    void handleItemChanged(qsizetype rowIndex, qsizetype columnIndex);
 
     void handleFlatShadingSupportedChange(bool supported);
 
@@ -208,8 +208,8 @@ private:
         QQuick3DTexture *texture;
         QQuick3DTexture *heightTexture;
         QQuick3DCustomMaterial *customMaterial;
-        int columnCount;
-        int rowCount;
+        qsizetype columnCount;
+        qsizetype rowCount;
         SurfaceVertex selectedVertex;
         bool picked = false;
         QVector3D boundsMin;
@@ -223,8 +223,8 @@ private:
     QRect calculateSampleSpace(SurfaceModel *model);
     QPointF mapCoordsToWorldSpace(SurfaceModel *model, const QPointF &coords);
     QPoint mapCoordsToSampleSpace(SurfaceModel *model, const QPointF &coords);
-    void createIndices(SurfaceModel *model, int columnCount, int rowCount);
-    void createGridlineIndices(SurfaceModel *model, int x, int y, int endX, int endY);
+    void createIndices(SurfaceModel *model, qsizetype columnCount, qsizetype rowCount);
+    void createGridlineIndices(SurfaceModel *model, qsizetype x, qsizetype y, qsizetype endX, qsizetype endY);
     void handleChangedSeries();
     void updateModel(SurfaceModel *model);
     void createProxyModel(SurfaceModel *parentModel);

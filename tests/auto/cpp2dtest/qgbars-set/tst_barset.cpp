@@ -89,8 +89,8 @@ void tst_barset::selectDeselectSum()
     QVERIFY(m_set);
 
     QVariantList vals = {10, 20, 30};
-    QList<int> selectedsome = {0, 2};
-    QList<int> selectedall = {0, 1, 2};
+    QList<qsizetype> selectedsome = {0, 2};
+    QList<qsizetype> selectedall = {0, 1, 2};
 
     m_set->setValues(vals);
 

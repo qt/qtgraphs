@@ -23,7 +23,7 @@ class QBarSeriesPrivate : public QAbstractSeriesPrivate
 {
 public:
     QBarSeriesPrivate();
-    int categoryCount() const;
+    qsizetype categoryCount() const;
 
     void setBarWidth(qreal width);
     qreal barWidth() const;
@@ -35,20 +35,20 @@ public:
     bool remove(QBarSet *set);
     bool append(const QList<QBarSet *> &sets);
     bool remove(const QList<QBarSet *> &sets);
-    bool insert(int index, QBarSet *set);
+    bool insert(qsizetype index, QBarSet *set);
 
-    QBarSet *barsetAt(int index);
+    QBarSet *barsetAt(qsizetype index);
     qreal min();
     qreal max();
     qreal valueAt(int set, int category);
     qreal percentageAt(int set, int category);
-    qreal categorySum(int category);
+    qreal categorySum(qsizetype category);
     qreal absoluteCategorySum(int category);
     qreal maxCategorySum();
     qreal minX();
     qreal maxX();
-    qreal categoryTop(int category);
-    qreal categoryBottom(int category);
+    qreal categoryTop(qsizetype category);
+    qreal categoryBottom(qsizetype category);
     qreal top();
     qreal bottom();
 

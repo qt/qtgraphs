@@ -164,7 +164,7 @@ void QSplineSeriesPrivate::calculateSplinePoints()
     QList<QPointF> controlPoints;
     controlPoints.resize(m_points.size() * 2 - 2);
 
-    int n = m_points.size() - 1;
+    qsizetype n = m_points.size() - 1;
 
     if (n == 1) {
         //for n==1
@@ -230,7 +230,7 @@ QList<qreal> QSplineSeriesPrivate::calculateControlPoints(const QList<qreal> &li
 {
     QList<qreal> result;
 
-    int count = list.size();
+    qsizetype count = list.size();
     result.resize(count);
     result[0] = list[0] / 2.0;
 

@@ -23,10 +23,10 @@ BarsRenderer::BarsRenderer(QQuickItem *parent)
     setFlag(QQuickItem::ItemHasContents);
 }
 
-QColor BarsRenderer::getSetColor(QBarSeries *series, QBarSet *set, int barSeriesIndex)
+QColor BarsRenderer::getSetColor(QBarSeries *series, QBarSet *set, qsizetype barSeriesIndex)
 {
     auto seriesTheme = series->theme();
-    int index = m_colorIndex + barSeriesIndex;
+    qsizetype index = m_colorIndex + barSeriesIndex;
     index = index % seriesTheme->seriesColors().size();
     QColor color = set->color().alpha() != 0
             ? set->color()
@@ -43,10 +43,10 @@ QColor BarsRenderer::getSetSelectedColor(QBarSeries *series, QBarSet *set)
     return color;
 }
 
-QColor BarsRenderer::getSetBorderColor(QBarSeries *series, QBarSet *set, int barSeriesIndex)
+QColor BarsRenderer::getSetBorderColor(QBarSeries *series, QBarSet *set, qsizetype barSeriesIndex)
 {
     auto seriesTheme = series->theme();
-    int index = m_colorIndex + barSeriesIndex;
+    qsizetype index = m_colorIndex + barSeriesIndex;
     index = index % seriesTheme->borderColors().size();
     QColor color = set->borderColor().alpha() != 0
             ? set->borderColor()
@@ -203,7 +203,7 @@ void BarsRenderer::updateValueLabels(QBarSeries *series)
     }
 }
 
-void calculateCategoryTotalValues(QBarSeries *series, QList<float> &totalValues, int valuesPerSet)
+void calculateCategoryTotalValues(QBarSeries *series, QList<float> &totalValues, qsizetype valuesPerSet)
 {
     totalValues.fill(0, valuesPerSet);
     for (auto s : series->barSets()) {
@@ -217,7 +217,7 @@ void calculateCategoryTotalValues(QBarSeries *series, QList<float> &totalValues,
     }
 }
 
-void BarsRenderer::updateVerticalBars(QBarSeries *series, int setCount, int valuesPerSet)
+void BarsRenderer::updateVerticalBars(QBarSeries *series, qsizetype setCount, qsizetype valuesPerSet)
 {
     bool stacked = series->barsType() == QBarSeries::BarsType::Stacked
             || series->barsType() == QBarSeries::BarsType::StackedPercent;
@@ -257,7 +257,7 @@ void BarsRenderer::updateVerticalBars(QBarSeries *series, int setCount, int valu
     QList<QLegendData> legendDataList;
     for (auto s : series->barSets()) {
         QVariantList v = s->values();
-        int valuesCount = v.size();
+        qsizetype valuesCount = v.size();
         if (valuesCount == 0)
             continue;
         seriesPos = 0;
@@ -329,7 +329,7 @@ void BarsRenderer::updateVerticalBars(QBarSeries *series, int setCount, int valu
     series->d_func()->setLegendData(legendDataList);
 }
 
-void BarsRenderer::updateHorizontalBars(QBarSeries *series, int setCount, int valuesPerSet)
+void BarsRenderer::updateHorizontalBars(QBarSeries *series, qsizetype setCount, qsizetype valuesPerSet)
 {
     bool stacked = series->barsType() == QBarSeries::BarsType::Stacked
             || series->barsType() == QBarSeries::BarsType::StackedPercent;
@@ -368,7 +368,7 @@ void BarsRenderer::updateHorizontalBars(QBarSeries *series, int setCount, int va
     QList<QLegendData> legendDataList;
     for (auto s : series->barSets()) {
         QVariantList v = s->values();
-        int valuesCount = v.size();
+        qsizetype valuesCount = v.size();
         if (valuesCount == 0)
             continue;
         seriesPos = 0;
@@ -445,7 +445,7 @@ void BarsRenderer::handlePolish(QBarSeries *series)
     if (!seriesTheme)
         return;
 
-    int setCount = series->barSets().size();
+    qsizetype setCount = series->barSets().size();
     if (setCount == 0) {
         series->d_func()->clearLegendData();
         m_rectNodesInputRects.clear();
@@ -466,7 +466,7 @@ void BarsRenderer::handlePolish(QBarSeries *series)
     }
 
     // Get bars values
-    int valuesPerSet = series->barSets().first()->values().size();
+    qsizetype valuesPerSet = series->barSets().first()->values().size();
     if (m_graph->orientation() == Qt::Orientation::Vertical)
         updateVerticalBars(series, setCount, valuesPerSet);
     else
@@ -489,8 +489,8 @@ void BarsRenderer::updateSeries(QBarSeries *series)
     if (!seriesTheme)
         return;
 
-    int difference = m_seriesData.size() - m_rectNodes.size();
-    for (int i = m_rectNodes.size() - 1; i >= m_seriesData.size(); --i)
+    qsizetype difference = m_seriesData.size() - m_rectNodes.size();
+    for (qsizetype i = m_rectNodes.size() - 1; i >= m_seriesData.size(); --i)
         delete m_rectNodes[i];
     if (difference != 0)
         m_rectNodes.resize(m_seriesData.size());
@@ -527,11 +527,11 @@ bool BarsRenderer::handleMousePress(QMouseEvent *event)
     for (auto &barSelection : m_rectNodesInputRects) {
         if (!barSelection.series->selectable())
             continue;
-        int indexInSet = 0;
+        qsizetype indexInSet = 0;
         for (auto &rect : barSelection.rects) {
             if (rect.contains(event->pos())) {
                 // TODO: Currently just toggling selection
-                QList<int> indexList = {indexInSet};
+                QList<qsizetype> indexList = {indexInSet};
                 barSelection.barSet->toggleSelection(indexList);
                 handled = true;
             }

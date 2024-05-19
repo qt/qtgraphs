@@ -347,7 +347,7 @@ void QBar3DSeries::setRowColors(const QList<QColor> &colors)
  * \note Before doing anything regarding the dataArray, a series must be created for
  * the relevant proxy.
  *
- *\sa clearRow(int rowIndex)
+ *\sa clearRow(qsizetype rowIndex)
  *
  *\sa clearArray()
  */
@@ -361,7 +361,7 @@ void QBar3DSeries::setDataArray(const QBarDataArray &newDataArray)
 /*!
  * Clears the existing row in the array according to given \a rowIndex.
  */
-void QBar3DSeries::clearRow(int rowIndex)
+void QBar3DSeries::clearRow(qsizetype rowIndex)
 {
     Q_D(QBar3DSeries);
     d->clearRow(rowIndex);
@@ -432,20 +432,20 @@ void QBar3DSeries::setColumnLabels(const QStringList &labels)
  * \internal
  * Fixes the row label array to include specified labels.
  */
-void QBar3DSeries::fixRowLabels(int startIndex,
-                                int count,
+void QBar3DSeries::fixRowLabels(qsizetype startIndex,
+                                qsizetype count,
                                 const QStringList &newLabels,
                                 bool isInsert)
 {
     bool changed = false;
-    int currentSize = rowLabels().size();
+    qsizetype currentSize = rowLabels().size();
 
-    int newSize = newLabels.size();
+    qsizetype newSize = newLabels.size();
     if (startIndex >= currentSize) {
         // Adding labels past old label array, create empty strings to fill
         // intervening space
         if (newSize) {
-            for (int i = currentSize; i < startIndex; i++)
+            for (qsizetype i = currentSize; i < startIndex; i++)
                 rowLabels() << QString();
             // Doesn't matter if insert, append, or just change when there were no
             // existing strings, just append new strings.
@@ -454,10 +454,10 @@ void QBar3DSeries::fixRowLabels(int startIndex,
         }
     } else {
         if (isInsert) {
-            int insertIndex = startIndex;
+            qsizetype insertIndex = startIndex;
             if (count)
                 changed = true;
-            for (int i = 0; i < count; i++) {
+            for (qsizetype i = 0; i < count; i++) {
                 if (i < newSize)
                     rowLabels().insert(insertIndex++, newLabels.at(i));
                 else
@@ -466,9 +466,9 @@ void QBar3DSeries::fixRowLabels(int startIndex,
         } else {
             // Either append or change, replace labels up to array end and then add
             // new ones
-            int lastChangeIndex = count + startIndex;
-            int newIndex = 0;
-            for (int i = startIndex; i < lastChangeIndex; i++) {
+            qsizetype lastChangeIndex = count + startIndex;
+            qsizetype newIndex = 0;
+            for (qsizetype i = startIndex; i < lastChangeIndex; i++) {
                 if (i >= currentSize) {
                     // Label past the current size, so just append the new label
                     if (newSize < newIndex) {
@@ -682,7 +682,7 @@ void QBar3DSeriesPrivate::setDataArray(const QBarDataArray &newDataArray)
     m_dataArray = newDataArray;
 }
 
-void QBar3DSeriesPrivate::clearRow(int rowIndex)
+void QBar3DSeriesPrivate::clearRow(qsizetype rowIndex)
 {
     m_dataArray[rowIndex].clear();
 }

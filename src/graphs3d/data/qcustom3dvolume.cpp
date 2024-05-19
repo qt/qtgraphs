@@ -603,7 +603,7 @@ void QCustom3DVolume::setTextureData(QList<uchar> *data)
 QList<uchar> *QCustom3DVolume::createTextureData(const QList<QImage *> &images)
 {
     Q_D(QCustom3DVolume);
-    int imageCount = images.size();
+    qsizetype imageCount = images.size();
     if (imageCount) {
         QImage *currentImage = images.at(0);
         int imageWidth = currentImage->width();
@@ -632,15 +632,15 @@ QList<uchar> *QCustom3DVolume::createTextureData(const QList<QImage *> &images)
             }
         }
         int colorBytes = (imageFormat == QImage::Format_Indexed8) ? 1 : 4;
-        int imageByteWidth = (imageFormat == QImage::Format_Indexed8) ? currentImage->bytesPerLine()
-                                                                      : imageWidth;
-        int frameSize = imageByteWidth * imageHeight * colorBytes;
+        qsizetype imageByteWidth = (imageFormat == QImage::Format_Indexed8) ? currentImage->bytesPerLine()
+                                                                            : imageWidth;
+        qsizetype frameSize = imageByteWidth * imageHeight * colorBytes;
         QList<uchar> *newTextureData = new QList<uchar>;
         newTextureData->resize(frameSize * imageCount);
         uchar *texturePtr = newTextureData->data();
         QImage convertedImage;
 
-        for (int i = 0; i < imageCount; i++) {
+        for (qsizetype i = 0; i < imageCount; i++) {
             currentImage = images.at(i);
             if (convert) {
                 convertedImage = currentImage->convertToFormat(imageFormat);
@@ -656,7 +656,7 @@ QList<uchar> *QCustom3DVolume::createTextureData(const QList<QImage *> &images)
         setTextureFormat(imageFormat);
         setTextureWidth(imageWidth);
         setTextureHeight(imageHeight);
-        setTextureDepth(imageCount);
+        setTextureDepth(int(imageCount));
     } else {
         setTextureData(0);
         setTextureWidth(0);
@@ -698,7 +698,7 @@ void QCustom3DVolume::setSubTextureData(Qt::Axis axis, int index, const uchar *d
     if (data) {
         int lineSize = textureDataWidth();
         int frameSize = lineSize * d->m_textureHeight;
-        int dataSize = d->m_textureData->size();
+        qsizetype dataSize = d->m_textureData->size();
         int pixelWidth = (d->m_textureFormat == QImage::Format_Indexed8) ? 1 : 4;
         int targetIndex;
         uchar *dataPtr = d->m_textureData->data();

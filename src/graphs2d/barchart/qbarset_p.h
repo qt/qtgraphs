@@ -34,27 +34,27 @@ public:
     void append(const QList<QPointF> &values);
     void append(const QList<qreal> &values);
 
-    void insert(const int index, const qreal value);
-    void insert(const int index, const QPointF value);
-    int remove(const int index, const int count);
+    void insert(const qsizetype index, const qreal value);
+    void insert(const qsizetype index, const QPointF value);
+    qsizetype remove(const qsizetype index, const qsizetype count);
 
-    void replace(const int index, const qreal value);
+    void replace(const qsizetype index, const qreal value);
 
-    qreal pos(const int index);
-    qreal value(const int index);
+    qreal pos(const qsizetype index);
+    qreal value(const qsizetype index);
 
     void setVisualsDirty(bool dirty) { m_visualsDirty = dirty; }
     bool visualsDirty() const { return m_visualsDirty; }
     void setLabelsDirty(bool dirty) { m_labelsDirty = dirty; }
     bool labelsDirty() const { return m_labelsDirty; }
 
-    void setBarSelected(int index, bool selected, bool &callSignal);
-    bool isBarSelected(int index) const;
+    void setBarSelected(qsizetype index, bool selected, bool &callSignal);
+    bool isBarSelected(qsizetype index) const;
 
 public:
     QString m_label;
     QList<QPointF> m_values;
-    QSet<int> m_selectedBars;
+    QSet<qsizetype> m_selectedBars;
     // By default colors are transparent, meaning that use the ones from theme
     QColor m_color = QColor(Qt::transparent);
     QColor m_borderColor = QColor(Qt::transparent);

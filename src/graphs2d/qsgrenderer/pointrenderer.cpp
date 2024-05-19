@@ -76,7 +76,7 @@ void PointRenderer::updatePointMarker(
     auto marker = group->markers[pointIndex];
     auto &rect = group->rects[pointIndex];
 
-    int index = group->colorIndex % series->theme()->seriesColors().size();
+    qsizetype index = group->colorIndex % series->theme()->seriesColors().size();
     QColor color = series->color().alpha() != 0 ? series->color()
                                             : series->theme()->seriesColors().at(index);
     QColor selectedColor = series->selectedColor().alpha() != 0 ? series->selectedColor()
@@ -137,7 +137,7 @@ void PointRenderer::updateLineSeries(QLineSeries *series, QLegendData &legendDat
 {
     auto group = m_groups.value(series);
 
-    int index = group->colorIndex % series->theme()->seriesColors().size();
+    qsizetype index = group->colorIndex % series->theme()->seriesColors().size();
     QColor color = series->color().alpha() != 0
                        ? series->color()
             : series->theme()->seriesColors().at(index);
@@ -155,7 +155,7 @@ void PointRenderer::updateLineSeries(QLineSeries *series, QLegendData &legendDat
         group->shapePath->setCapStyle(QQuickShapePath::CapStyle::RoundCap);
 
     auto &&points = series->points();
-    int currentPathCount = group->paths.size();
+    qsizetype currentPathCount = group->paths.size();
     group->paths.resize(points.size() - 1);
     group->rects.resize(points.size());
     if (points.size() > 0) {
@@ -200,7 +200,7 @@ void PointRenderer::updateSplineSeries(QSplineSeries *series, QLegendData &legen
 {
     auto group = m_groups.value(series);
 
-    int index = group->colorIndex % series->theme()->seriesColors().size();
+    qsizetype index = group->colorIndex % series->theme()->seriesColors().size();
     QColor color = series->color().alpha() != 0
                        ? series->color()
                        : series->theme()->seriesColors().at(index);
@@ -218,7 +218,7 @@ void PointRenderer::updateSplineSeries(QSplineSeries *series, QLegendData &legen
         group->shapePath->setCapStyle(QQuickShapePath::CapStyle::RoundCap);
 
     auto &&points = series->points();
-    int currentPathCount = group->paths.size();
+    qsizetype currentPathCount = group->paths.size();
     group->paths.resize(points.size() - 1);
     group->rects.resize(points.size());
     if (points.count() > 0) {
@@ -333,7 +333,7 @@ void PointRenderer::handlePolish(QXYSeries *series)
 
     auto group = m_groups.value(series);
 
-    int pointCount = series->points().size();
+    qsizetype pointCount = series->points().size();
 
     if ((series->type() == QAbstractSeries::SeriesType::Scatter) && !series->pointMarker())
         group->currentMarker = m_tempMarker;
@@ -348,16 +348,16 @@ void PointRenderer::handlePolish(QXYSeries *series)
     group->previousMarker = group->currentMarker;
 
     if (group->currentMarker) {
-        int markerCount = group->markers.size();
+        qsizetype markerCount = group->markers.size();
         if (markerCount < pointCount) {
-            for (int i = markerCount; i < pointCount; ++i) {
+            for (qsizetype i = markerCount; i < pointCount; ++i) {
                 QQuickItem *item = qobject_cast<QQuickItem *>(
                     group->currentMarker->create(group->currentMarker->creationContext()));
                 item->setParentItem(this);
                 group->markers << item;
             }
         } else if (markerCount > pointCount) {
-            for (int i = pointCount; i < markerCount; ++i)
+            for (qsizetype i = pointCount; i < markerCount; ++i)
                 group->markers[i]->deleteLater();
             group->markers.resize(pointCount);
         }

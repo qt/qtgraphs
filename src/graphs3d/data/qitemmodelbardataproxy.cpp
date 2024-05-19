@@ -663,7 +663,7 @@ void QItemModelBarDataProxy::remap(const QString &rowRole,
  * not return a valid index before the data in the model is resolved for the
  * first time.
  */
-int QItemModelBarDataProxy::rowCategoryIndex(const QString &category)
+qsizetype QItemModelBarDataProxy::rowCategoryIndex(const QString &category)
 {
     Q_D(QItemModelBarDataProxy);
     return d->m_rowCategories.indexOf(category);
@@ -676,7 +676,7 @@ int QItemModelBarDataProxy::rowCategoryIndex(const QString &category)
  * will not return a valid index before the data in the model is resolved for
  * the first time.
  */
-int QItemModelBarDataProxy::columnCategoryIndex(const QString &category)
+qsizetype QItemModelBarDataProxy::columnCategoryIndex(const QString &category)
 {
     Q_D(QItemModelBarDataProxy);
     return d->m_columnCategories.indexOf(category);

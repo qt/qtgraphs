@@ -32,7 +32,7 @@ public:
 
     const QList<DataItemHolder> &dataArray() const;
     void setDataArray(const QList<DataItemHolder> &newDataArray);
-    void hideDataItem(int index);
+    void hideDataItem(qsizetype index);
     void resetVisibilty();
 
     const QList<float> &customData() const;

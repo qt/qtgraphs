@@ -200,7 +200,7 @@ public:
 
     bool hasSeries(QAbstract3DSeries *series) const;
 
-    int addCustomItem(QCustom3DItem *item);
+    qsizetype addCustomItem(QCustom3DItem *item);
     void removeCustomItems();
     void removeCustomItem(QCustom3DItem *item);
     void removeCustomItemAt(const QVector3D &position);
@@ -210,7 +210,7 @@ public:
     int selectedLabelIndex() const;
     QAbstract3DAxis *selectedAxis() const;
 
-    int selectedCustomItemIndex() const;
+    qsizetype selectedCustomItemIndex() const;
     QCustom3DItem *selectedCustomItem() const;
 
     QSharedPointer<QQuickItemGrabResult> renderToImage(const QSize &imageSize = QSize());

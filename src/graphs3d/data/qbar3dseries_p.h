@@ -36,7 +36,7 @@ public:
     void setRowColors(const QList<QColor> &colors);
 
     void setDataArray(const QBarDataArray &newDataArray);
-    void clearRow(int rowIndex);
+    void clearRow(qsizetype rowIndex);
     void clearArray();
 
     void setRowLabels(const QStringList &labels);

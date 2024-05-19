@@ -59,11 +59,11 @@ private:
         bool isSelected;
     };
 
-    void updateVerticalBars(QBarSeries *series, int setCount, int valuesPerSet);
-    void updateHorizontalBars(QBarSeries *series, int setCount, int valuesPerSet);
-    QColor getSetColor(QBarSeries *series, QBarSet *set, int barSerieIndex);
+    void updateVerticalBars(QBarSeries *series, qsizetype setCount, qsizetype valuesPerSet);
+    void updateHorizontalBars(QBarSeries *series, qsizetype setCount, qsizetype valuesPerSet);
+    QColor getSetColor(QBarSeries *series, QBarSet *set, qsizetype barSerieIndex);
     QColor getSetSelectedColor(QBarSeries *series, QBarSet *set);
-    QColor getSetBorderColor(QBarSeries *series, QBarSet *set, int barSerieIndex);
+    QColor getSetBorderColor(QBarSeries *series, QBarSet *set, qsizetype barSerieIndex);
     qreal getSetBorderWidth(QBarSeries *series, QBarSet *set);
     QString generateLabelText(QBarSeries *series, qreal value);
     void positionLabelItem(QBarSeries *series, QQuickText *textItem, const BarSeriesData &d);
@@ -79,7 +79,7 @@ private:
     QHash<int, BarSeriesData> m_seriesData;
 
     QBarSeries *m_currentHoverSeries = nullptr;
-    int m_colorIndex = -1;
+    qsizetype m_colorIndex = -1;
     // Margin between bars.
     float m_barMargin = 2.0;
 };

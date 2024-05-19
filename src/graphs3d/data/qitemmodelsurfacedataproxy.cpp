@@ -761,7 +761,7 @@ void QItemModelSurfaceDataProxy::remap(const QString &rowRole,
  * not return a valid index before the data in the model is resolved for the
  * first time.
  */
-int QItemModelSurfaceDataProxy::rowCategoryIndex(const QString &category)
+qsizetype QItemModelSurfaceDataProxy::rowCategoryIndex(const QString &category)
 {
     Q_D(QItemModelSurfaceDataProxy);
     return d->m_rowCategories.indexOf(category);
@@ -774,7 +774,7 @@ int QItemModelSurfaceDataProxy::rowCategoryIndex(const QString &category)
  * will not return a valid index before the data in the model is resolved for
  * the first time.
  */
-int QItemModelSurfaceDataProxy::columnCategoryIndex(const QString &category)
+qsizetype QItemModelSurfaceDataProxy::columnCategoryIndex(const QString &category)
 {
     Q_D(QItemModelSurfaceDataProxy);
     return d->m_columnCategories.indexOf(category);

@@ -62,7 +62,7 @@ public Q_SLOTS:
     void timeout();
     void startStopTimer();
     void selectItem();
-    void handleSelectionChange(int index);
+    void handleSelectionChange(qsizetype index);
     void setGradient();
     void clearSeriesData();
     void addSeries();
@@ -108,7 +108,7 @@ private:
     int m_fontSize;
     QTimer m_timer;
     int m_loopCounter;
-    int m_selectedItem;
+    qsizetype m_selectedItem;
     QScatter3DSeries *m_targetSeries;
     QScatterDataArray m_massiveTestCacheArray;
     QLabel *m_fpsLabel;

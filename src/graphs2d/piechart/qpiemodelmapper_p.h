@@ -49,10 +49,10 @@ private:
     QPieSlice *pieSlice(QModelIndex index) const;
     bool isLabelIndex(QModelIndex index) const;
     bool isValueIndex(QModelIndex index) const;
-    QModelIndex valueModelIndex(int slicePos);
-    QModelIndex labelModelIndex(int slicePos);
-    void insertData(int start, int end);
-    void removeData(int start, int end);
+    QModelIndex valueModelIndex(qsizetype sliceIndex);
+    QModelIndex labelModelIndex(qsizetype sliceIndex);
+    void insertData(qsizetype start, qsizetype end);
+    void removeData(qsizetype start, qsizetype end);
 
     void blockModelSignals(bool block = true);
     void blockSeriesSignals(bool block = true);

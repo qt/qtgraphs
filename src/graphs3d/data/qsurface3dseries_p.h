@@ -38,7 +38,7 @@ public:
     void setWireframeColor(const QColor &color);
 
     void setDataArray(const QSurfaceDataArray &newDataArray);
-    void clearRow(int rowIndex);
+    void clearRow(qsizetype rowIndex);
     void clearArray();
 
 private:

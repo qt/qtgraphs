@@ -840,10 +840,10 @@ void QAbstract3DSeriesPrivate::setName(const QString &name)
     m_changeTracker.nameChanged = true;
 }
 
-void QAbstract3DSeriesPrivate::resetToTheme(const QGraphsTheme &theme, int seriesIndex, bool force)
+void QAbstract3DSeriesPrivate::resetToTheme(const QGraphsTheme &theme, qsizetype seriesIndex, bool force)
 {
     Q_Q(QAbstract3DSeries);
-    int themeIndex = seriesIndex;
+    qsizetype themeIndex = seriesIndex;
     if (force || !m_themeTracker.colorStyleOverride) {
         q->setColorStyle(theme.colorStyle());
         m_themeTracker.colorStyleOverride = false;

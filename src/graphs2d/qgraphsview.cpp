@@ -57,12 +57,12 @@ void QGraphsView::addSeries(QObject *series)
     insertSeries(m_seriesList.size(), series);
 }
 
-void QGraphsView::insertSeries(int index, QObject *object)
+void QGraphsView::insertSeries(qsizetype index, QObject *object)
 {
     if (auto series = qobject_cast<QAbstractSeries *>(object)) {
         series->setGraph(this);
         if (m_seriesList.contains(series)) {
-            int oldIndex = m_seriesList.indexOf(series);
+            qsizetype oldIndex = m_seriesList.indexOf(series);
             if (index != oldIndex) {
                 m_seriesList.removeOne(series);
                 if (oldIndex < index)
@@ -126,12 +126,12 @@ void QGraphsView::removeAxis(QAbstractAxis *axis)
     }
 }
 
-int QGraphsView::graphSeriesCount() const
+qsizetype QGraphsView::graphSeriesCount() const
 {
     return m_graphSeriesCount;
 }
 
-void QGraphsView::setGraphSeriesCount(int count)
+void QGraphsView::setGraphSeriesCount(qsizetype count)
 {
     if (count > m_graphSeriesCount)
         m_graphSeriesCount = count;
@@ -581,7 +581,7 @@ void QGraphsView::clearSeriesFunc(QQmlListProperty<QObject> *list)
 {
     QGraphsView *declItems = reinterpret_cast<QGraphsView *>(list->data);
     QList<QObject *> realList = declItems->getSeriesList();
-    int count = realList.size();
+    qsizetype count = realList.size();
     for (int i = 0; i < count; i++)
         declItems->removeSeries(realList.at(i));
 }

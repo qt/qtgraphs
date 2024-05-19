@@ -31,14 +31,14 @@ public:
     void connectGraphAndProxy(QQuickGraphsItem *newGraph) override;
     void createItemLabel() override;
 
-    void setSelectedItem(int index);
+    void setSelectedItem(qsizetype index);
     void setItemSize(float size);
 
     void setDataArray(const QScatterDataArray &newDataArray);
     void clearArray();
 
 private:
-    int m_selectedItem;
+    qsizetype m_selectedItem;
     float m_itemSize;
     QScatterDataArray m_dataArray;
 

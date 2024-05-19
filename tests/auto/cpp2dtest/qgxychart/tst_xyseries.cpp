@@ -67,7 +67,7 @@ void tst_xyseries::selectDeselect()
     QVERIFY(m_series);
 
     QList<QPointF> points = {{0, 0}, {1, 1}, {2, 2}};
-    QList<int> allselected = {0, 1, 2};
+    QList<qsizetype> allselected = {0, 1, 2};
 
     m_series->append(points);
 
