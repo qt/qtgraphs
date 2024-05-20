@@ -378,13 +378,13 @@ void QBarModelMapper::setOrientation(Qt::Orientation orientation)
     Q_EMIT orientationChanged();
 }
 
-qsizetype QBarModelMapper::count() const
+int QBarModelMapper::count() const
 {
     const Q_D(QBarModelMapper);
-    return d->m_count;
+    return int(d->m_count);
 }
 
-void QBarModelMapper::setCount(qsizetype newCount)
+void QBarModelMapper::setCount(int newCount)
 {
     Q_D(QBarModelMapper);
     d->m_count = qMax(newCount, -1);

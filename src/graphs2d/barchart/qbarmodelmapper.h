@@ -26,7 +26,7 @@ class Q_GRAPHS_EXPORT QBarModelMapper : public QObject
     Q_PROPERTY(int lastBarSetSection READ lastBarSetSection WRITE setLastBarSetSection NOTIFY
                    lastBarSetSectionChanged FINAL)
     Q_PROPERTY(int first READ first WRITE setFirst NOTIFY firstChanged FINAL)
-    Q_PROPERTY(qsizetype count READ count WRITE setCount NOTIFY countChanged FINAL)
+    Q_PROPERTY(int count READ count WRITE setCount NOTIFY countChanged FINAL)
     Q_PROPERTY(Qt::Orientation orientation READ orientation WRITE setOrientation NOTIFY
                    orientationChanged FINAL)
 
@@ -48,8 +48,8 @@ public:
     int lastBarSetSection() const;
     void setLastBarSetSection(int newLastBarSetSection);
 
-    qsizetype count() const;
-    void setCount(qsizetype newCount);
+    int count() const;
+    void setCount(int newCount);
 
     int first() const;
     void setFirst(int newFirst);
