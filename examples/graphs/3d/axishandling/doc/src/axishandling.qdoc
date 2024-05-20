@@ -170,12 +170,12 @@
 
     \snippet 3d/axishandling/qml/axishandling/AxisFormatting.qml 3
 
-    The Z-axis is just a regular ValueAxis3D:
+    The Z-axis is just a regular Value3DAxis:
 
     \snippet 3d/axishandling/qml/axishandling/AxisFormatting.qml 0
 
-    For the Y-axis, define a logarithmic axis. To make ValueAxis3D show a logarithmic scale,
-    specify LogValueAxis3DFormatter for the \c formatter property of the axis:
+    For the Y-axis, define a logarithmic axis. To make Value3DAxis show a logarithmic scale,
+    specify LogValue3DAxisFormatter for the \c formatter property of the axis:
 
     \snippet 3d/axishandling/qml/axishandling/AxisFormatting.qml 2
 

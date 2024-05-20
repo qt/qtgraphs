@@ -104,7 +104,7 @@ QT_BEGIN_NAMESPACE
  */
 
 /*!
-  \qmlproperty ValueAxis3D Surface3D::axisX
+  \qmlproperty Value3DAxis Surface3D::axisX
   The active x-axis.
 
   If an axis is not given, a temporary default axis with no labels and an
@@ -113,7 +113,7 @@ QT_BEGIN_NAMESPACE
  */
 
 /*!
-  \qmlproperty ValueAxis3D Surface3D::axisY
+  \qmlproperty Value3DAxis Surface3D::axisY
   The active y-axis.
 
   If an axis is not given, a temporary default axis with no labels and an
@@ -122,7 +122,7 @@ QT_BEGIN_NAMESPACE
  */
 
 /*!
-  \qmlproperty ValueAxis3D Surface3D::axisZ
+  \qmlproperty Value3DAxis Surface3D::axisZ
   The active z-axis.
 
   If an axis is not given, a temporary default axis with no labels and an

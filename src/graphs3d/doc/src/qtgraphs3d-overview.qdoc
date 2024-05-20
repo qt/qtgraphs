@@ -126,7 +126,7 @@
     A value axis can be given a range of values and segment and subsegment
     counts to divide the range into. Labels are drawn between each segment.
     Grid lines are drawn between each segment and each subsegment. The value
-    axis is implemented using the QValue3DAxis class or the ValueAxis3D QML type.
+    axis is implemented using the QValue3DAxis class or the Value3DAxis QML type.
 
     A category axis has named ranges and adjustable range widths. It is divided
     into equal-sized categories based on the data window size defined by the
@@ -145,9 +145,9 @@
     explicitly defined for the row and column axes.
 
     Axis formatters can be used to customize value axis grid lines and labels.
-    The QValue3DAxisFormatter class and ValueAxis3DFormatter QML type provide
+    The QValue3DAxisFormatter class and Value3DAxisFormatter QML type provide
     formatting rules for a linear value 3D axis. The QLogValue3DAxisFormatter
-    class and the LogValueAxis3DFormatter QML type provide formatting rules for
+    class and the LogValue3DAxisFormatter QML type provide formatting rules for
     a logarithmic value 3D axis.
 
     Polar horizontal axes can be used for surface and scatter graphs by setting

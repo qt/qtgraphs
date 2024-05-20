@@ -10,13 +10,13 @@ Item {
     height: 150
     width: 150
 
-    ValueAxis3D {
+    Value3DAxis {
         id: initial
     }
 
-    ValueAxis3D {
+    Value3DAxis {
         id: initialized
-        formatter: ValueAxis3DFormatter { objectName: "formatter1" }
+        formatter: Value3DAxisFormatter { objectName: "formatter1" }
         labelFormat: "%f"
         reversed: true
         segmentCount: 10
@@ -33,16 +33,16 @@ Item {
         titleOffset: 1
     }
 
-    ValueAxis3D {
+    Value3DAxis {
         id: change
     }
 
-    ValueAxis3D {
+    Value3DAxis {
         id: invalid
     }
 
     TestCase {
-        name: "ValueAxis3D Initial"
+        name: "Value3DAxis Initial"
 
         function test_initial() {
             verify(initial.formatter)
@@ -66,7 +66,7 @@ Item {
     }
 
     TestCase {
-        name: "ValueAxis3D Initialized"
+        name: "Value3DAxis Initialized"
 
         function test_initialized() {
             compare(initialized.formatter.objectName, "formatter1")
@@ -88,9 +88,9 @@ Item {
     }
 
     TestCase {
-        name: "ValueAxis3D Change"
+        name: "Value3DAxis Change"
 
-        ValueAxis3DFormatter { id: formatter1 }
+        Value3DAxisFormatter { id: formatter1 }
 
         function test_change() {
             change.formatter = formatter1
@@ -128,7 +128,7 @@ Item {
     }
 
     TestCase {
-        name: "ValueAxis3D Invalid"
+        name: "Value3DAxis Invalid"
 
         function test_invalid() {
             invalid.segmentCount = -1

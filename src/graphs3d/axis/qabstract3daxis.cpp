@@ -43,7 +43,7 @@ QT_BEGIN_NAMESPACE
 /*!
  * \qmlproperty list Abstract3DAxis::labels
  * The labels for the axis.
- * \note Setting this property for ValueAxis3D does nothing, as it generates
+ * \note Setting this property for Value3DAxis does nothing, as it generates
  * labels automatically.
  */
 

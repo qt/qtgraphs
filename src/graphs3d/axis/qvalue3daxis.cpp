@@ -22,7 +22,7 @@ QT_BEGIN_NAMESPACE
  */
 
 /*!
- * \qmltype ValueAxis3D
+ * \qmltype Value3DAxis
  * \inqmlmodule QtGraphs
  * \ingroup graphs_qml_3D
  * \instantiates QValue3DAxis
@@ -34,7 +34,7 @@ QT_BEGIN_NAMESPACE
  */
 
 /*!
- * \qmlproperty int ValueAxis3D::segmentCount
+ * \qmlproperty int Value3DAxis::segmentCount
  *
  * The number of segments on the axis. This indicates how many labels are drawn.
  * The number of grid lines to be drawn is calculated with the following
@@ -43,7 +43,7 @@ QT_BEGIN_NAMESPACE
  */
 
 /*!
- * \qmlproperty int ValueAxis3D::subSegmentCount
+ * \qmlproperty int Value3DAxis::subSegmentCount
  *
  * The number of subsegments inside each segment on the axis. Grid lines are
  * drawn between each subsegment, in addition to each segment. The preset
@@ -51,7 +51,7 @@ QT_BEGIN_NAMESPACE
  */
 
 /*!
- * \qmlproperty string ValueAxis3D::labelFormat
+ * \qmlproperty string Value3DAxis::labelFormat
  *
  * The label format to be used for the labels on this axis.
  *
@@ -68,7 +68,7 @@ QT_BEGIN_NAMESPACE
  */
 
 /*!
- * \qmlproperty ValueAxis3DFormatter ValueAxis3D::formatter
+ * \qmlproperty Value3DAxisFormatter Value3DAxis::formatter
  *
  * The axis formatter to be used. Any existing formatter is deleted when a new
  * formatter is set.
@@ -76,7 +76,7 @@ QT_BEGIN_NAMESPACE
  */
 
 /*!
- * \qmlproperty bool ValueAxis3D::reversed
+ * \qmlproperty bool Value3DAxis::reversed
  *
  * If \c{true}, the axis will be rendered in reverse. That is, the positions of
  * the minimum and maximum values are swapped when the graph is rendered. This

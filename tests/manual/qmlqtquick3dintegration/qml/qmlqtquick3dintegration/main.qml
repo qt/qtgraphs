@@ -60,7 +60,7 @@ Item {
         barThickness: 0.7
         barSpacing: Qt.size(0.5, 0.5)
         barSpacingRelative: false
-        valueAxis: ValueAxis3D {
+        valueAxis: Value3DAxis {
             // Use this for live data
             min: 64
             max: 256

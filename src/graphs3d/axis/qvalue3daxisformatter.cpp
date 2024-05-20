@@ -24,17 +24,17 @@ QT_BEGIN_NAMESPACE
  */
 
 /*!
- * \qmltype ValueAxis3DFormatter
+ * \qmltype Value3DAxisFormatter
  * \inqmlmodule QtGraphs
  * \ingroup graphs_qml_3D
  * \instantiates QValue3DAxisFormatter
  * \brief A base type for 3D value axis formatters.
  *
  * This type provides formatting rules for a linear value 3D axis.
- * This type is the default type for ValueAxis3D and thus never needs to be
+ * This type is the default type for Value3DAxis and thus never needs to be
  * explicitly created. This type has no public functionality.
  *
- * \sa ValueAxis3D
+ * \sa Value3DAxis
  */
 
 /*!

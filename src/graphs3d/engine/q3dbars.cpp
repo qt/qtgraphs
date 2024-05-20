@@ -110,7 +110,7 @@ QT_BEGIN_NAMESPACE
  */
 
 /*!
- * \qmlproperty ValueAxis3D Bars3D::valueAxis
+ * \qmlproperty Value3DAxis Bars3D::valueAxis
  * The active value axis.
  *
  * If an axis is not given, a temporary default axis with no labels and an

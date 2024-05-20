@@ -34,7 +34,7 @@ Rectangle {
             GradientStop { position: 1.0; color: "white" }
         }
 
-        ValueAxis3D {
+        Value3DAxis {
             id: xAxis
             segmentCount: 8
             labelFormat: "%i\u00B0"
@@ -43,7 +43,7 @@ Rectangle {
             titleFixed: false
         }
 
-        ValueAxis3D {
+        Value3DAxis {
             id: yAxis
             segmentCount: 8
             labelFormat: "%i \%"
@@ -53,7 +53,7 @@ Rectangle {
             titleFixed: false
         }
 
-        ValueAxis3D {
+        Value3DAxis {
             id: zAxis
             segmentCount: 5
             labelFormat: "%i nm"

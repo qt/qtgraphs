@@ -10,27 +10,27 @@ Item {
     height: 150
     width: 150
 
-    LogValueAxis3DFormatter {
+    LogValue3DAxisFormatter {
         id: initial
     }
 
-    LogValueAxis3DFormatter {
+    LogValue3DAxisFormatter {
         id: initialized
         autoSubGrid: false
         base: 0.1
         showEdgeLabels: false
     }
 
-    LogValueAxis3DFormatter {
+    LogValue3DAxisFormatter {
         id: change
     }
 
-    LogValueAxis3DFormatter {
+    LogValue3DAxisFormatter {
         id: invalid
     }
 
     TestCase {
-        name: "LogValueAxis3DFormatter Initial"
+        name: "LogValue3DAxisFormatter Initial"
 
         function test_initial() {
             compare(initial.autoSubGrid, true)
@@ -40,7 +40,7 @@ Item {
     }
 
     TestCase {
-        name: "LogValueAxis3DFormatter Initialized"
+        name: "LogValue3DAxisFormatter Initialized"
 
         function test_initialized() {
             compare(initialized.autoSubGrid, false)
@@ -50,7 +50,7 @@ Item {
     }
 
     TestCase {
-        name: "LogValueAxis3DFormatter Change"
+        name: "LogValue3DAxisFormatter Change"
 
         function test_change() {
             change.autoSubGrid = false
@@ -64,7 +64,7 @@ Item {
     }
 
     TestCase {
-        name: "LogValueAxis3DFormatter Invalid"
+        name: "LogValue3DAxisFormatter Invalid"
 
         function test_invalid() {
             invalid.base = 1

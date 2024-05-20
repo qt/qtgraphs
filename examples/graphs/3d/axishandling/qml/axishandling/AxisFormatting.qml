@@ -23,7 +23,7 @@ Item {
     }
 
     //! [1]
-    ValueAxis3D {
+    Value3DAxis {
         id: dateAxis
         formatter: CustomFormatter {
             originDate: "2023-01-01"
@@ -37,9 +37,9 @@ Item {
     //! [1]
 
     //! [2]
-    ValueAxis3D {
+    Value3DAxis {
         id: logAxis
-        formatter: LogValueAxis3DFormatter {
+        formatter: LogValue3DAxisFormatter {
             id: logAxisFormatter
             base: 10
             autoSubGrid: true
@@ -49,7 +49,7 @@ Item {
     }
     //! [2]
 
-    ValueAxis3D {
+    Value3DAxis {
         id: linearAxis
         labelFormat: "%.2f"
         min: 0
@@ -57,7 +57,7 @@ Item {
     }
 
     //! [0]
-    ValueAxis3D {
+    Value3DAxis {
         id: valueAxis
         segmentCount: 5
         subSegmentCount: 2

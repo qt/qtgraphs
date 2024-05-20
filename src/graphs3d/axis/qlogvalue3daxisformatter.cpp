@@ -21,11 +21,11 @@ QT_BEGIN_NAMESPACE
  */
 
 /*!
- * \qmltype LogValueAxis3DFormatter
+ * \qmltype LogValue3DAxisFormatter
  * \inqmlmodule QtGraphs
  * \ingroup graphs_qml_3D
  * \instantiates QLogValue3DAxisFormatter
- * \inherits ValueAxis3DFormatter
+ * \inherits Value3DAxisFormatter
  * \brief Provides formatting rules for a logarithmic value axis.
  *
  * When a formatter is attached to a value axis, the axis range
@@ -33,7 +33,7 @@ QT_BEGIN_NAMESPACE
  */
 
 /*!
- * \qmlproperty real LogValueAxis3DFormatter::base
+ * \qmlproperty real LogValue3DAxisFormatter::base
  *
  * The base of the logarithm used to map axis values. If the base is non-zero,
  * the parent axis segment count will be ignored when the grid line and label
@@ -43,11 +43,11 @@ QT_BEGIN_NAMESPACE
  * The base has to be zero or a positive value and it cannot be equal to one.
  * Defaults to ten.
  *
- * \sa ValueAxis3D::segmentCount
+ * \sa Value3DAxis::segmentCount
  */
 
 /*!
- * \qmlproperty bool LogValueAxis3DFormatter::autoSubGrid
+ * \qmlproperty bool LogValue3DAxisFormatter::autoSubGrid
  *
  * Defines whether sub-grid positions are generated automatically.
  *
@@ -58,11 +58,11 @@ QT_BEGIN_NAMESPACE
  * This property is ignored when the base value is zero.
  * Defaults to \c true.
  *
- * \sa base, ValueAxis3D::subSegmentCount
+ * \sa base, Value3DAxis::subSegmentCount
  */
 
 /*!
- * \qmlproperty bool LogValueAxis3DFormatter::showEdgeLabels
+ * \qmlproperty bool LogValue3DAxisFormatter::showEdgeLabels
  *
  * Defines whether the first and last label on the axis are visible.
  *

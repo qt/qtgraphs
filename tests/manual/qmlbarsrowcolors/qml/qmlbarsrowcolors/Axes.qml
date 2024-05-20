@@ -32,7 +32,7 @@ Item {
         labelAutoRotation: 30
     }
 
-    ValueAxis3D {
+    Value3DAxis {
         id: valueAxis
         min: 0
         max: 35

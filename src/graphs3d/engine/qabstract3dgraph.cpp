@@ -489,7 +489,7 @@ QT_BEGIN_NAMESPACE
  * Sets the locale used for formatting various numeric labels.
  * Defaults to the \c{"C"} locale.
  *
- * \sa ValueAxis3D::labelFormat
+ * \sa Value3DAxis::labelFormat
  */
 
 /*!
