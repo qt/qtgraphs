@@ -74,7 +74,7 @@ QT_BEGIN_NAMESPACE
  * suppress showing the minimum and maximum labels for the axis in cases where
  * the segments do not exactly fit the axis. Defaults to \c true.
  *
- * \sa base, AbstractAxis3D::labels
+ * \sa base, Abstract3DAxis::labels
  */
 
 /*!

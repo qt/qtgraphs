@@ -20,7 +20,7 @@ QT_BEGIN_NAMESPACE
  */
 
 /*!
- * \qmltype AbstractAxis3D
+ * \qmltype Abstract3DAxis
  * \inqmlmodule QtGraphs
  * \ingroup graphs_qml_3D
  * \instantiates QAbstract3DAxis
@@ -29,36 +29,36 @@ QT_BEGIN_NAMESPACE
  * This type is uncreatable, but contains properties that are exposed via
  * subtypes.
  *
- * For AbstractAxis3D enums, see \l QAbstract3DAxis::AxisOrientation and
+ * For Abstract3DAxis enums, see \l QAbstract3DAxis::AxisOrientation and
  * \l{QAbstract3DAxis::AxisType}.
  */
 
 /*!
- * \qmlproperty string AbstractAxis3D::title
+ * \qmlproperty string Abstract3DAxis::title
  * The title for the axis.
  *
  * \sa titleVisible, titleFixed
  */
 
 /*!
- * \qmlproperty list AbstractAxis3D::labels
+ * \qmlproperty list Abstract3DAxis::labels
  * The labels for the axis.
  * \note Setting this property for ValueAxis3D does nothing, as it generates
  * labels automatically.
  */
 
 /*!
- * \qmlproperty AbstractAxis3D.AxisOrientation AbstractAxis3D::orientation
+ * \qmlproperty Abstract3DAxis.AxisOrientation Abstract3DAxis::orientation
  * The orientation of the axis.
  */
 
 /*!
- * \qmlproperty AbstractAxis3D.AxisType AbstractAxis3D::type
+ * \qmlproperty Abstract3DAxis.AxisType Abstract3DAxis::type
  * The type of the axis.
  */
 
 /*!
- * \qmlproperty real AbstractAxis3D::min
+ * \qmlproperty real Abstract3DAxis::min
  *
  * The minimum value on the axis.
  * When setting this property, the maximum value is adjusted if necessary, to
@@ -66,7 +66,7 @@ QT_BEGIN_NAMESPACE
  */
 
 /*!
- * \qmlproperty real AbstractAxis3D::max
+ * \qmlproperty real Abstract3DAxis::max
  *
  * The maximum value on the axis.
  * When setting this property, the minimum value is adjusted if necessary, to
@@ -74,14 +74,14 @@ QT_BEGIN_NAMESPACE
  */
 
 /*!
- * \qmlproperty bool AbstractAxis3D::autoAdjustRange
+ * \qmlproperty bool Abstract3DAxis::autoAdjustRange
  *
  * Defines whether the axis will automatically adjust the range so that all data
  * fits in it.
  */
 
 /*!
- * \qmlproperty real AbstractAxis3D::labelAutoRotation
+ * \qmlproperty real Abstract3DAxis::labelAutoRotation
  *
  * The maximum angle the labels can autorotate when the camera angle changes.
  * The angle can be between 0 and 90, inclusive. The default value is 0.
@@ -91,7 +91,7 @@ QT_BEGIN_NAMESPACE
  */
 
 /*!
- * \qmlproperty bool AbstractAxis3D::titleVisible
+ * \qmlproperty bool Abstract3DAxis::titleVisible
  *
  * Defines whether the axis title is visible in the primary graph view.
  *
@@ -101,7 +101,7 @@ QT_BEGIN_NAMESPACE
  */
 
 /*!
- * \qmlproperty bool AbstractAxis3D::labelsVisible
+ * \qmlproperty bool Abstract3DAxis::labelsVisible
  *
  * Defines whether the axis labels are visible in the primary graph view.
  *
@@ -110,7 +110,7 @@ QT_BEGIN_NAMESPACE
  */
 
 /*!
- * \qmlproperty bool AbstractAxis3D::titleFixed
+ * \qmlproperty bool Abstract3DAxis::titleFixed
  *
  * The rotation of axis titles.
  *
@@ -125,7 +125,7 @@ QT_BEGIN_NAMESPACE
  */
 
 /*!
- * \qmlproperty bool AbstractAxis3D::titleOffset
+ * \qmlproperty bool Abstract3DAxis::titleOffset
  *
  * The position of the axis title on the axis.
  * The value must be between \c -1.0f and \c 1.0f

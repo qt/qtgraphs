@@ -47,13 +47,13 @@ Item {
             compare(initial.labelAutoRotation, 0.0)
             compare(initial.max, 10)
             compare(initial.min, 0)
-            compare(initial.orientation, AbstractAxis3D.AxisOrientation.None)
+            compare(initial.orientation, Abstract3DAxis.AxisOrientation.None)
             compare(initial.title, "")
             compare(initial.titleFixed, true)
             compare(initial.titleVisible, false)
             compare(initial.labelsVisible, true)
             compare(initial.titleOffset, 0)
-            compare(initial.type, AbstractAxis3D.AxisType.Category)
+            compare(initial.type, Abstract3DAxis.AxisType.Category)
         }
     }
 

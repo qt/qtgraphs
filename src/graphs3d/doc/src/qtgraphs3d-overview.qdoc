@@ -121,7 +121,7 @@
     \endlist
 
     An axis can be set up to show a line or a grid. Both axis types are
-    specializations of the QAbstract3DAxis class or the AbstractAxis3D QML type.
+    specializations of the QAbstract3DAxis class or the Abstract3DAxis QML type.
 
     A value axis can be given a range of values and segment and subsegment
     counts to divide the range into. Labels are drawn between each segment.
