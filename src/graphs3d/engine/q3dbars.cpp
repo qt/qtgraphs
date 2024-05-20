@@ -80,7 +80,7 @@ QT_BEGIN_NAMESPACE
 
 /*!
  * \qmltype Bars3D
- * \inherits AbstractGraph3D
+ * \inherits Abstract3DGraph
  * \inqmlmodule QtGraphs
  * \ingroup graphs_qml_3D
  * \brief 3D bar graph.
@@ -168,7 +168,7 @@ QT_BEGIN_NAMESPACE
 
 /*!
  * \qmlproperty Bar3DSeries Bars3D::selectedSeries
- * The selected series or \c null. If \l {AbstractGraph3D::selectionMode}{selectionMode} has
+ * The selected series or \c null. If \l {Abstract3DGraph::selectionMode}{selectionMode} has
  * the \c SelectionMultiSeries flag set, this property holds the series that
  * owns the selected bar.
  */
@@ -215,13 +215,13 @@ QT_BEGIN_NAMESPACE
  * generate the row or column labels on the axes in cases where the labels are not explicitly set
  * to the axes. If the newly added series has specified a selected bar, it will be highlighted and
  * any existing selection will be cleared. Only one added series can have an active selection.
- * \sa AbstractGraph3D::hasSeries()
+ * \sa Abstract3DGraph::hasSeries()
  */
 
 /*!
  * \qmlmethod void Bars3D::removeSeries(Bar3DSeries series)
  * Remove the \a series from the graph.
- * \sa AbstractGraph3D::hasSeries()
+ * \sa Abstract3DGraph::hasSeries()
  */
 
 /*!
@@ -232,7 +232,7 @@ QT_BEGIN_NAMESPACE
  * \note When moving a series to a new \a index that is after its old index,
  * the new position in list is calculated as if the series was still in its old
  * index, so the final index is actually the \a index decremented by one.
- * \sa AbstractGraph3D::hasSeries()
+ * \sa Abstract3DGraph::hasSeries()
  */
 
 /*!

@@ -54,7 +54,7 @@ Column {
                     backendValue: backendValues.selectionMode
                     model: ["SelectionNone", "SelectionItem"]
                     Layout.fillWidth: true
-                    scope: "AbstractGraph3D"
+                    scope: "Graphs3D"
                 }
             }
         }

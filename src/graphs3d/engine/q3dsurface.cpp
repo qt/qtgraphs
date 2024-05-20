@@ -83,7 +83,7 @@ QT_BEGIN_NAMESPACE
 
 /*!
   \qmltype Surface3D
-  \inherits AbstractGraph3D
+  \inherits Abstract3DGraph
   \inqmlmodule QtGraphs
   \ingroup graphs_qml_3D
   \brief Describes the usage of the 3D surface graph.
@@ -132,7 +132,7 @@ QT_BEGIN_NAMESPACE
 
 /*!
  * \qmlproperty Surface3DSeries Surface3D::selectedSeries
- * The selected series or null. If \l {AbstractGraph3D::selectionMode}{selectionMode} has the
+ * The selected series or null. If \l {Abstract3DGraph::selectionMode}{selectionMode} has the
  * \c SelectionMultiSeries flag set, this property holds the series which owns the selected point.
  */
 
@@ -162,13 +162,13 @@ QT_BEGIN_NAMESPACE
 /*!
  * \qmlmethod void Surface3D::addSeries(Surface3DSeries series)
  * Adds the \a series to the graph.
- * \sa AbstractGraph3D::hasSeries()
+ * \sa Abstract3DGraph::hasSeries()
  */
 
 /*!
  * \qmlmethod void Surface3D::removeSeries(Surface3DSeries series)
  * Removes the \a series from the graph.
- * \sa AbstractGraph3D::hasSeries()
+ * \sa Abstract3DGraph::hasSeries()
  */
 
 /*!

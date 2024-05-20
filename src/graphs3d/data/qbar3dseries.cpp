@@ -108,7 +108,7 @@ QT_BEGIN_NAMESPACE
  * selected bar will adjust the selection so that the same bar will stay
  * selected.
  *
- * \sa {AbstractGraph3D::clearSelection()}{AbstractGraph3D.clearSelection()}
+ * \sa {Abstract3DGraph::clearSelection()}{Abstract3DGraph.clearSelection()}
  */
 
 /*!
@@ -117,7 +117,7 @@ QT_BEGIN_NAMESPACE
  * position is set to the selectedBar property to clear the selection from this
  * series.
  *
- * \sa {AbstractGraph3D::clearSelection()}{AbstractGraph3D.clearSelection()}
+ * \sa {Abstract3DGraph::clearSelection()}{Abstract3DGraph.clearSelection()}
  */
 
 /*!

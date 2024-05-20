@@ -369,8 +369,8 @@ QT_BEGIN_NAMESPACE
  * \qmlproperty color GraphsTheme::singleHighlightColor
  *
  * The highlight color for a selected object. Used if
- * \l{AbstractGraph3D::selectionMode}{selectionMode}
- * has the \c AbstractGraph3D.SelectionItem flag set.
+ * \l{Abstract3DGraph::selectionMode}{selectionMode}
+ * has the \c Abstract3DGraph.SelectionItem flag set.
  * The default value depends on \l colorScheme.
  */
 
@@ -378,8 +378,8 @@ QT_BEGIN_NAMESPACE
  * \qmlproperty color GraphsTheme::multiHighlightColor
  *
  * The highlight color for selected objects. Used if
- * \l{AbstractGraph3D::selectionMode}{selectionMode}
- * has the \c AbstractGraph3D.SelectionRow or \c AbstractGraph3D.SelectionColumn
+ * \l{Abstract3DGraph::selectionMode}{selectionMode}
+ * has the \c Abstract3DGraph.SelectionRow or \c Abstract3DGraph.SelectionColumn
  * flag set.
  * The default value depends on \l colorScheme.
  */
@@ -402,8 +402,8 @@ QT_BEGIN_NAMESPACE
  * \qmlproperty Gradient GraphsTheme::singleHighlightGradient
  *
  * The highlight gradient for a selected object. Used if
- * \l{AbstractGraph3D::selectionMode}{selectionMode}
- * has the \c AbstractGraph3D.SelectionItem flag set.
+ * \l{Abstract3DGraph::selectionMode}{selectionMode}
+ * has the \c Abstract3DGraph.SelectionItem flag set.
  * The default value depends on \l colorScheme.
  */
 
@@ -411,8 +411,8 @@ QT_BEGIN_NAMESPACE
  * \qmlproperty Gradient GraphsTheme::multiHighlightGradient
  *
  * The highlight gradient for selected objects. Used if
- * \l{AbstractGraph3D::selectionMode}{selectionMode}
- * has the \c AbstractGraph3D.SelectionRow or \c AbstractGraph3D.SelectionColumn
+ * \l{Abstract3DGraph::selectionMode}{selectionMode}
+ * has the \c Abstract3DGraph.SelectionRow or \c Abstract3DGraph.SelectionColumn
  * flag set.
  * The default value depends on \l colorScheme.
  */

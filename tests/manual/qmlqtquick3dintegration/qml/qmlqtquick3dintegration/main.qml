@@ -37,8 +37,8 @@ Item {
     Bars3D {
         id: barGraph
         anchors.fill: parent
-        shadowQuality: AbstractGraph3D.ShadowQuality.Medium
-        selectionMode: AbstractGraph3D.SelectionItem
+        shadowQuality: Graphs3D.ShadowQuality.Medium
+        selectionMode: Graphs3D.SelectionItem
         msaaSamples: 8
         theme: Theme3D {
             type: Theme3D.Theme.Ebony

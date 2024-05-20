@@ -95,7 +95,7 @@ QT_BEGIN_NAMESPACE
  * inserting items into the series before the selected item will adjust the
  * selection so that the same item will stay selected.
  *
- * \sa AbstractGraph3D::clearSelection()
+ * \sa Abstract3DGraph::clearSelection()
  */
 
 /*!
@@ -112,7 +112,7 @@ QT_BEGIN_NAMESPACE
  * A constant property providing an invalid index for selection. This index is
  * set to the selectedItem property to clear the selection from this series.
  *
- * \sa AbstractGraph3D::clearSelection()
+ * \sa Abstract3DGraph::clearSelection()
  */
 
 /*!

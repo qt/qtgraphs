@@ -44,7 +44,7 @@ QT_BEGIN_NAMESPACE
  */
 
 /*!
-  \qmltype AbstractGraph3D
+  \qmltype Abstract3DGraph
   \inqmlmodule QtGraphs
   \ingroup graphs_qml_3D
   \brief Base type for 3D graphs.
@@ -58,7 +58,7 @@ QT_BEGIN_NAMESPACE
  */
 
 /*!
-  \qmlproperty Graphs3D.SelectionMode AbstractGraph3D::selectionMode
+  \qmlproperty Graphs3D.SelectionMode Abstract3DGraph::selectionMode
   The active selection mode in the graph.
   One of the QGraphs3D::SelectionFlag enum values.
 
@@ -66,7 +66,7 @@ QT_BEGIN_NAMESPACE
  */
 
 /*!
-  \qmlproperty Graphs3D.ShadowQuality AbstractGraph3D::shadowQuality
+  \qmlproperty Graphs3D.ShadowQuality Abstract3DGraph::shadowQuality
   The quality of shadows. One of the QGraphs3D::ShadowQuality enum
   values.
 
@@ -74,29 +74,29 @@ QT_BEGIN_NAMESPACE
  */
 
 /*!
- * \qmlproperty Graphs3D.CameraPreset AbstractGraph3D::cameraPreset
+ * \qmlproperty Graphs3D.CameraPreset Abstract3DGraph::cameraPreset
  *
  * The currently active camera preset, which is one of
- * \l{AbstractGraph3D::cameraPreset}{Graphs3D.CameraPreset}. If no
+ * \l{Abstract3DGraph::cameraPreset}{Graphs3D.CameraPreset}. If no
  * preset is active, the value is \c {Graphs3D.CameraPreset.None}.
  */
 
 /*!
- * \qmlproperty float AbstractGraph3D::cameraXRotation
+ * \qmlproperty float Abstract3DGraph::cameraXRotation
  *
  * The X-rotation angle of the camera around the target point in degrees
  * starting from the current base position.
  */
 
 /*!
- * \qmlproperty float AbstractGraph3D::cameraYRotation
+ * \qmlproperty float Abstract3DGraph::cameraYRotation
  *
  * The Y-rotation angle of the camera around the target point in degrees
  * starting from the current base position.
  */
 
 /*!
- * \qmlproperty bool AbstractGraph3D::zoomAtTargetEnabled
+ * \qmlproperty bool Abstract3DGraph::zoomAtTargetEnabled
  *
  * Whether zooming should change the camera target so that the zoomed point
  * of the graph stays at the same location after the zoom.
@@ -105,7 +105,7 @@ QT_BEGIN_NAMESPACE
  */
 
 /*!
- * \qmlproperty bool AbstractGraph3D::zoomEnabled
+ * \qmlproperty bool Abstract3DGraph::zoomEnabled
  *
  * Whether this input handler allows graph zooming.
  *
@@ -113,7 +113,7 @@ QT_BEGIN_NAMESPACE
  */
 
 /*!
- * \qmlproperty bool AbstractGraph3D::selectionEnabled
+ * \qmlproperty bool Abstract3DGraph::selectionEnabled
  *
  * Whether this input handler allows selection from the graph.
  *
@@ -121,7 +121,7 @@ QT_BEGIN_NAMESPACE
  */
 
 /*!
- * \qmlproperty bool AbstractGraph3D::rotationEnabled
+ * \qmlproperty bool Abstract3DGraph::rotationEnabled
  *
  * Whether this input handler allows graph rotation.
  *
@@ -129,7 +129,7 @@ QT_BEGIN_NAMESPACE
  */
 
 /*!
- * \qmlproperty float AbstractGraph3D::cameraZoomLevel
+ * \qmlproperty float Abstract3DGraph::cameraZoomLevel
  *
  * The camera zoom level in percentage. The default value of \c{100.0}
  * means there is no zoom in or out set in the camera.
@@ -140,7 +140,7 @@ QT_BEGIN_NAMESPACE
  */
 
 /*!
- * \qmlproperty float AbstractGraph3D::minCameraZoomLevel
+ * \qmlproperty float Abstract3DGraph::minCameraZoomLevel
  *
  * Sets the minimum allowed camera zoom level.
  * If the new minimum level is higher than the existing maximum level, the maximum level is
@@ -153,7 +153,7 @@ QT_BEGIN_NAMESPACE
  */
 
 /*!
- * \qmlproperty float AbstractGraph3D::maxCameraZoomLevel
+ * \qmlproperty float Abstract3DGraph::maxCameraZoomLevel
  *
  * Sets the maximum allowed camera zoom level.
  * If the new maximum level is lower than the existing minimum level, the minimum level is
@@ -165,7 +165,7 @@ QT_BEGIN_NAMESPACE
  */
 
 /*!
- * \qmlproperty bool AbstractGraph3D::wrapCameraXRotation
+ * \qmlproperty bool Abstract3DGraph::wrapCameraXRotation
  *
  * The behavior of the minimum and maximum limits in the X-rotation.
  * By default, the X-rotation wraps from minimum value to maximum and from
@@ -178,7 +178,7 @@ QT_BEGIN_NAMESPACE
  */
 
 /*!
- * \qmlproperty bool AbstractGraph3D::wrapCameraYRotation
+ * \qmlproperty bool Abstract3DGraph::wrapCameraYRotation
  *
  * The behavior of the minimum and maximum limits in the Y-rotation.
  * By default, the Y-rotation is limited between the minimum and maximum values
@@ -190,7 +190,7 @@ QT_BEGIN_NAMESPACE
  */
 
 /*!
- * \qmlproperty vector3d AbstractGraph3D::cameraTargetPosition
+ * \qmlproperty vector3d Abstract3DGraph::cameraTargetPosition
  *
  * The camera target as a vector3d. Defaults to \c {vector3d(0.0, 0.0, 0.0)}.
  *
@@ -202,7 +202,7 @@ QT_BEGIN_NAMESPACE
  */
 
 /*!
-  \qmlproperty Scene3D AbstractGraph3D::scene
+  \qmlproperty Scene3D Abstract3DGraph::scene
   The Scene3D pointer that can be used to manipulate the scene and access the
   scene elements.
 
@@ -210,14 +210,14 @@ QT_BEGIN_NAMESPACE
  */
 
 /*!
-  \qmlproperty Theme3D AbstractGraph3D::theme
+  \qmlproperty Theme3D Abstract3DGraph::theme
   The active theme of the graph.
 
   \sa Theme3D
  */
 
 /*!
-  \qmlproperty Graphs3D.RenderingMode AbstractGraph3D::renderingMode
+  \qmlproperty Graphs3D.RenderingMode Abstract3DGraph::renderingMode
 
   How the graph will be rendered. Defaults to \c{Indirect}.
 
@@ -248,7 +248,7 @@ QT_BEGIN_NAMESPACE
  */
 
 /*!
-  \qmlproperty int AbstractGraph3D::msaaSamples
+  \qmlproperty int Abstract3DGraph::msaaSamples
   The number of samples used in multisample antialiasing when renderingMode is \c Indirect.
   When renderingMode is \c DirectToBackground, this
   property value is read-only and returns the number of samples specified by the window surface
@@ -259,7 +259,7 @@ QT_BEGIN_NAMESPACE
  */
 
 /*!
- * \qmlproperty bool AbstractGraph3D::measureFps
+ * \qmlproperty bool Abstract3DGraph::measureFps
  *
  * If \c {true}, the rendering is done continuously instead of on demand, and
  * the value of the currentFps property is updated. Defaults to \c{false}.
@@ -268,7 +268,7 @@ QT_BEGIN_NAMESPACE
  */
 
 /*!
- * \qmlproperty int AbstractGraph3D::currentFps
+ * \qmlproperty int Abstract3DGraph::currentFps
  *
  * When FPS measuring is enabled, the results for the last second are stored in this read-only
  * property. It takes at least a second before this value updates after measuring is activated.
@@ -277,14 +277,14 @@ QT_BEGIN_NAMESPACE
  */
 
 /*!
- * \qmlproperty list<Custom3DItem> AbstractGraph3D::customItemList
+ * \qmlproperty list<Custom3DItem> Abstract3DGraph::customItemList
  *
  * The list of \l{Custom3DItem} items added to the graph. The graph takes ownership
  * of the added items.
  */
 
 /*!
- * \qmlproperty bool AbstractGraph3D::polar
+ * \qmlproperty bool Abstract3DGraph::polar
  *
  * If \c {true}, the horizontal axes are changed into polar axes. The x-axis
  * becomes the angular axis and the z-axis becomes the radial axis.
@@ -296,7 +296,7 @@ QT_BEGIN_NAMESPACE
  */
 
 /*!
- * \qmlproperty real AbstractGraph3D::radialLabelOffset
+ * \qmlproperty real Abstract3DGraph::radialLabelOffset
  *
  * This property specifies the normalized horizontal offset for the axis labels of the radial
  * polar axis. The value \c 0.0 indicates that the labels should be drawn next
@@ -309,17 +309,17 @@ QT_BEGIN_NAMESPACE
  */
 
 /*!
- * \qmlmethod void AbstractGraph3D::clearSelection()
+ * \qmlmethod void Abstract3DGraph::clearSelection()
  * Clears selection from all attached series.
  */
 
 /*!
- * \qmlmethod bool AbstractGraph3D::hasSeries(Abstract3DSeries series)
+ * \qmlmethod bool Abstract3DGraph::hasSeries(Abstract3DSeries series)
  * Returns whether the \a series has already been added to the graph.
  */
 
 /*!
- * \qmlmethod int AbstractGraph3D::addCustomItem(Custom3DItem item)
+ * \qmlmethod int Abstract3DGraph::addCustomItem(Custom3DItem item)
  *
  * Adds a Custom3DItem \a item to the graph. Graph takes ownership of the added item.
  *
@@ -331,28 +331,28 @@ QT_BEGIN_NAMESPACE
  */
 
 /*!
- * \qmlmethod void AbstractGraph3D::removeCustomItems()
+ * \qmlmethod void Abstract3DGraph::removeCustomItems()
  *
  * Removes all custom items. Deletes the resources allocated to them.
  *
  */
 
 /*!
- * \qmlmethod void AbstractGraph3D::removeCustomItem(Custom3DItem item)
+ * \qmlmethod void Abstract3DGraph::removeCustomItem(Custom3DItem item)
  *
  * Removes the custom \a {item}. Deletes the resources allocated to it.
  *
  */
 
 /*!
- * \qmlmethod void AbstractGraph3D::removeCustomItemAt(vector3d position)
+ * \qmlmethod void Abstract3DGraph::removeCustomItemAt(vector3d position)
  *
  * Removes all custom items at \a {position}. Deletes the resources allocated to them.
  *
  */
 
 /*!
- * \qmlmethod void AbstractGraph3D::releaseCustomItem(Custom3DItem item)
+ * \qmlmethod void Abstract3DGraph::releaseCustomItem(Custom3DItem item)
  *
  * Gets ownership of \a item back and removes the \a item from the graph.
  *
@@ -362,7 +362,7 @@ QT_BEGIN_NAMESPACE
  */
 
 /*!
- * \qmlmethod int AbstractGraph3D::selectedLabelIndex()
+ * \qmlmethod int Abstract3DGraph::selectedLabelIndex()
  *
  * Can be used to query the index of the selected label after receiving \c selectedElementChanged
  * signal with any label type. Selection is valid until the next \c selectedElementChanged signal.
@@ -373,7 +373,7 @@ QT_BEGIN_NAMESPACE
  */
 
 /*!
- * \qmlmethod Abstract3DAxis AbstractGraph3D::selectedAxis()
+ * \qmlmethod Abstract3DAxis Abstract3DGraph::selectedAxis()
  *
  * Can be used to get the selected axis after receiving \c selectedElementChanged signal with any
  * label type. Selection is valid until the next \c selectedElementChanged signal.
@@ -384,7 +384,7 @@ QT_BEGIN_NAMESPACE
  */
 
 /*!
- * \qmlmethod int AbstractGraph3D::selectedCustomItemIndex()
+ * \qmlmethod int Abstract3DGraph::selectedCustomItemIndex()
  *
  * Can be used to query the index of the selected custom item after receiving
  * \c selectedElementChanged signal with
@@ -397,7 +397,7 @@ QT_BEGIN_NAMESPACE
  */
 
 /*!
- * \qmlmethod Custom3DItem AbstractGraph3D::selectedCustomItem()
+ * \qmlmethod Custom3DItem Abstract3DGraph::selectedCustomItem()
  *
  * Can be used to get the selected custom item after receiving \c selectedElementChanged signal
  * with \l{QGraphs3D::ElementType::CustomItem}{ElementType.CustomItem} type. Ownership
@@ -410,7 +410,7 @@ QT_BEGIN_NAMESPACE
  */
 
 /*!
- * \qmlproperty Graphs3D.ElementType AbstractGraph3D::selectedElement
+ * \qmlproperty Graphs3D.ElementType Abstract3DGraph::selectedElement
  *
  * The element selected in the graph.
  *
@@ -428,7 +428,7 @@ QT_BEGIN_NAMESPACE
  */
 
 /*!
- * \qmlproperty bool AbstractGraph3D::orthoProjection
+ * \qmlproperty bool Abstract3DGraph::orthoProjection
  *
  * If \c {true}, orthographic projection will be used for displaying the graph.
  * Defaults to \c{false}.
@@ -436,7 +436,7 @@ QT_BEGIN_NAMESPACE
  */
 
 /*!
- * \qmlproperty real AbstractGraph3D::aspectRatio
+ * \qmlproperty real Abstract3DGraph::aspectRatio
  *
  * The ratio of the graph scaling between the longest axis on the horizontal
  * plane and the y-axis. Defaults to \c{2.0}.
@@ -447,7 +447,7 @@ QT_BEGIN_NAMESPACE
  */
 
 /*!
- * \qmlproperty real AbstractGraph3D::horizontalAspectRatio
+ * \qmlproperty real Abstract3DGraph::horizontalAspectRatio
  *
  * The ratio of the graph scaling between the x-axis and z-axis.
  * The value of \c 0.0 indicates automatic scaling according to axis ranges.
@@ -461,7 +461,7 @@ QT_BEGIN_NAMESPACE
  */
 
 /*!
- * \qmlproperty Graphs3D.OptimizationHint AbstractGraph3D::optimizationHint
+ * \qmlproperty Graphs3D.OptimizationHint Abstract3DGraph::optimizationHint
  *
  * Whether the default, static, or legacy mode is used for rendering optimization.
  *
@@ -484,7 +484,7 @@ QT_BEGIN_NAMESPACE
  */
 
 /*!
- * \qmlproperty locale AbstractGraph3D::locale
+ * \qmlproperty locale Abstract3DGraph::locale
  *
  * Sets the locale used for formatting various numeric labels.
  * Defaults to the \c{"C"} locale.
@@ -493,7 +493,7 @@ QT_BEGIN_NAMESPACE
  */
 
 /*!
- * \qmlproperty vector3d AbstractGraph3D::queriedGraphPosition
+ * \qmlproperty vector3d Abstract3DGraph::queriedGraphPosition
  *
  * This read-only property contains the latest graph position values along each axis queried using
  * Scene3D::graphPositionQuery. The values are normalized to range \c{[-1, 1]}.
@@ -513,7 +513,7 @@ QT_BEGIN_NAMESPACE
  */
 
 /*!
- * \qmlproperty real AbstractGraph3D::margin
+ * \qmlproperty real Abstract3DGraph::margin
  *
  * The absolute value used for the space left between the edge of the
  * plottable graph area and the edge of the graph background.
@@ -534,14 +534,14 @@ QT_BEGIN_NAMESPACE
  */
 
 /*!
- * \qmlproperty bool AbstractGraph3D::shaderGridEnabled
+ * \qmlproperty bool Abstract3DGraph::shaderGridEnabled
  *
  * Defines whether the grid lines are drawn inside a shader instead of lines.
  * This value affects all grid lines.
  */
 
 /*!
- * \qmlproperty real AbstractGraph3D::shadowStrength
+ * \qmlproperty real Abstract3DGraph::shadowStrength
  *
  * The shadow strength for the whole graph. The higher the number, the darker
  * the shadows will be. The value must be between \c 0.0 and \c 100.0.
@@ -550,7 +550,7 @@ QT_BEGIN_NAMESPACE
  */
 
 /*!
- * \qmlproperty real AbstractGraph3D::lightStrength
+ * \qmlproperty real Abstract3DGraph::lightStrength
  *
  * The specular light strength for the whole graph. The value must be between
  * \c 0.0 and \c 10.0.
@@ -559,7 +559,7 @@ QT_BEGIN_NAMESPACE
  */
 
 /*!
- * \qmlproperty real AbstractGraph3D::ambientLightStrength
+ * \qmlproperty real Abstract3DGraph::ambientLightStrength
  *
  * The ambient light strength for the whole graph. This value determines how
  * evenly and brightly the colors are shown throughout the graph regardless of
@@ -567,7 +567,7 @@ QT_BEGIN_NAMESPACE
  */
 
 /*!
- * \qmlproperty color AbstractGraph3D::lightColor
+ * \qmlproperty color Abstract3DGraph::lightColor
  *
  * The color of the ambient and specular light defined in Scene3D.
  */

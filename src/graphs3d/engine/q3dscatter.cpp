@@ -70,7 +70,7 @@ QT_BEGIN_NAMESPACE
 
 /*!
   \qmltype Scatter3D
-  \inherits AbstractGraph3D
+  \inherits Abstract3DGraph
   \inqmlmodule QtGraphs
   \ingroup graphs_qml_3D
   \brief 3D scatter graph.
@@ -139,13 +139,13 @@ QT_BEGIN_NAMESPACE
  * Adds the \a series to the graph. A graph can contain multiple series, but has only one set of
  * axes. If the newly added series has specified a selected item, it will be highlighted and
  * any existing selection will be cleared. Only one added series can have an active selection.
- * \sa AbstractGraph3D::hasSeries()
+ * \sa Abstract3DGraph::hasSeries()
  */
 
 /*!
  * \qmlmethod void Scatter3D::removeSeries(Scatter3DSeries series)
  * Remove the \a series from the graph.
- * \sa AbstractGraph3D::hasSeries()
+ * \sa Abstract3DGraph::hasSeries()
  */
 
 /*!

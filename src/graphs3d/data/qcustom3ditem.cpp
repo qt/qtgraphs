@@ -97,7 +97,7 @@ QT_BEGIN_NAMESPACE
  * calculated on the unrotated item.
  *
  * \note Only absolute scaling is supported for Custom3DLabel items or for
- * custom items used in \l{AbstractGraph3D::polar}{polar} graphs.
+ * custom items used in \l{Abstract3DGraph::polar}{polar} graphs.
  *
  * \note The custom item's mesh must be normalized to the range \c{[-1 ,1]}, or
  * the data scaling will not be accurate.

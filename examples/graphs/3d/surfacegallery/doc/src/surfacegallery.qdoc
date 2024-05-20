@@ -93,7 +93,7 @@
     \snippet 3d/surfacegallery/qml/surfacegallery/SurfaceSpectrogram.qml 0
 
     The key properties for enabling the 2D effect are
-    \l{AbstractGraph3D::}{orthoProjection} and \l{AbstractGraph3D::}{cameraPreset}. Remove the
+    \l{Abstract3DGraph::}{orthoProjection} and \l{Abstract3DGraph::}{cameraPreset}. Remove the
     perspective by enabling orthographic projection for the graph, and the Y-dimension by viewing
     the graph directly from above:
 
@@ -107,7 +107,7 @@
     \section2 Polar Spectrogram
 
     Depending on the data, it is sometimes more natural to use a polar graph instead of a cartesian
-    one. This is supported via the \l{AbstractGraph3D::polar}{polar} property.
+    one. This is supported via the \l{Abstract3DGraph::polar}{polar} property.
 
     Add a button to switch between polar and cartesian modes:
 
@@ -124,7 +124,7 @@
 
     To enforce the 2D effect, disable graph rotation in orthographic mode by overriding the default
     input handler with a custom one, which automatically toggles the
-    \l{AbstractGraph3D::rotationEnabled}{rotationEnabled} property based on the projection mode:
+    \l{Abstract3DGraph::rotationEnabled}{rotationEnabled} property based on the projection mode:
 
     \snippet 3d/surfacegallery/qml/surfacegallery/SurfaceSpectrogram.qml 5
 

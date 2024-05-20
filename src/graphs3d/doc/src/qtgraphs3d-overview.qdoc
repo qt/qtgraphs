@@ -98,8 +98,8 @@
 
     \section1 Selecting Rendering Mode
 
-    In QML, you can set the \l{AbstractGraph3D::renderingMode}
-    {AbstractGraph3D.RenderingMode} property to determine whether the graph will
+    In QML, you can set the \l{Abstract3DGraph::renderingMode}
+    {Abstract3DGraph.RenderingMode} property to determine whether the graph will
     be rendered directly on the window background or to an offscreen surface
     that is then drawn during normal QML item rendering.
 
@@ -151,7 +151,7 @@
     a logarithmic value 3D axis.
 
     Polar horizontal axes can be used for surface and scatter graphs by setting
-    the \l{AbstractGraph3D::polar}{polar} property. It can be set for bars as well,
+    the \l{Abstract3DGraph::polar}{polar} property. It can be set for bars as well,
     but doing so will produce a warning and be ignored.
 
     \section1 3D Themes

@@ -101,7 +101,7 @@ QT_BEGIN_NAMESPACE
  * selected point will adjust the selection so that the same point will stay
  * selected.
  *
- * \sa AbstractGraph3D::clearSelection()
+ * \sa Abstract3DGraph::clearSelection()
  */
 
 /*!
@@ -110,7 +110,7 @@ QT_BEGIN_NAMESPACE
  * This position is set to the selectedPoint property to clear the selection
  * from this series.
  *
- * \sa AbstractGraph3D::clearSelection()
+ * \sa Abstract3DGraph::clearSelection()
  */
 
 /*!

@@ -59,12 +59,12 @@ QT_BEGIN_NAMESPACE
  * modifiers, and flags provided by \c printf() in the standard C++ library:
  * d, i, o, x, X, f, F, e, E, g, G, c.
  *
- * If AbstractGraph3D::locale is anything else than \c{"C"}, the supported
+ * If Abstract3DGraph::locale is anything else than \c{"C"}, the supported
  * specifiers are limited to: d, e, E, f, g, G, and i. Also, only the precision
  * modifier is supported. The rest of the formatting comes from the default
  * \l [QML] Locale of the application.
  *
- * \sa AbstractGraph3D::locale
+ * \sa Abstract3DGraph::locale
  */
 
 /*!

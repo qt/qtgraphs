@@ -92,7 +92,7 @@ QT_BEGIN_NAMESPACE
  * invalidSelectionPoint, the graph tries to match a graph position to the given
  * point within the primary viewport. After the rendering pass, this property is
  * returned to its default state of invalidSelectionPoint. The queried graph
- * position can be read from the AbstractGraph3D::queriedGraphPosition property
+ * position can be read from the Abstract3DGraph::queriedGraphPosition property
  * after the next render pass.
  *
  * There is no single correct 3D coordinate to match a particular screen
@@ -101,7 +101,7 @@ QT_BEGIN_NAMESPACE
  *
  * \note Bar graphs allow graph position queries only at the graph floor level.
  *
- * \sa AbstractGraph3D::queriedGraphPosition
+ * \sa Abstract3DGraph::queriedGraphPosition
  */
 
 /*!

@@ -68,7 +68,7 @@ Column {
                 property bool selectionChangedFlag: selectionChanged
                 property variant backendValue: backendValues.selectionMode
                 property variant valueFromBackend: backendValue.value
-                property string enumScope: "AbstractGraph3D"
+                property string enumScope: "Graphs3D"
                 property string enumSeparator: " | "
                 property int checkedCount: 0
                 property bool selectionItem: false
