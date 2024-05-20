@@ -132,7 +132,7 @@
     into equal-sized categories based on the data window size defined by the
     axis range. Labels are drawn to the positions of categories, if provided.
     Grid lines are drawn between categories, if visible. A category axis is
-    implemented using the QCategory3DAxis class or the CategoryAxis3D QML type.
+    implemented using the QCategory3DAxis class or the Category3DAxis QML type.
 
     If no axes are set explicitly for a graph, temporary default axes with no
     labels are created. These default axes can be modified via axis accessors,

@@ -12,7 +12,7 @@ Item {
 
     // Custom labels for columns, since the data contains abbreviated month names.
     //! [0]
-    CategoryAxis3D {
+    Category3DAxis {
         id: columnAxis
         labels: ["January", "February", "March", "April", "May", "June",
             "July", "August", "September", "October", "November", "December"]
@@ -21,12 +21,12 @@ Item {
         titleVisible: true
     }
     //! [0]
-    CategoryAxis3D {
+    Category3DAxis {
         id: totalAxis
         labels: ["Yearly total"]
         labelAutoRotation: 30
     }
-    CategoryAxis3D {
+    Category3DAxis {
         // For row labels we can use row labels from data proxy, no labels defined for rows.
         id: rowAxis
         labelAutoRotation: 30

@@ -21,7 +21,7 @@ QT_BEGIN_NAMESPACE
  */
 
 /*!
- * \qmltype CategoryAxis3D
+ * \qmltype Category3DAxis
  * \inqmlmodule QtGraphs
  * \ingroup graphs_qml_3D
  * \instantiates QCategory3DAxis
@@ -32,7 +32,7 @@ QT_BEGIN_NAMESPACE
  */
 
 /*!
- * \qmlproperty list CategoryAxis3D::labels
+ * \qmlproperty list Category3DAxis::labels
  *
  * The labels for the axis are applied to categories. If there are fewer labels
  * than categories, the remaining ones do not have a label. If category labels

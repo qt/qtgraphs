@@ -10,11 +10,11 @@ Item {
     height: 150
     width: 150
 
-    CategoryAxis3D {
+    Category3DAxis {
         id: initial
     }
 
-    CategoryAxis3D {
+    Category3DAxis {
         id: initialized
         labels: ["first", "second"]
 
@@ -29,16 +29,16 @@ Item {
         titleOffset: 1
     }
 
-    CategoryAxis3D {
+    Category3DAxis {
         id: change
     }
 
-    CategoryAxis3D {
+    Category3DAxis {
         id: invalid
     }
 
     TestCase {
-        name: "CategoryAxis3D Initial"
+        name: "Category3DAxis Initial"
 
         function test_initial() {
             compare(initial.labels.length, 0)
@@ -58,7 +58,7 @@ Item {
     }
 
     TestCase {
-        name: "CategoryAxis3D Initialized"
+        name: "Category3DAxis Initialized"
 
         function test_initialized() {
             compare(initialized.labels.length, 2)
@@ -78,7 +78,7 @@ Item {
     }
 
     TestCase {
-        name: "CategoryAxis3D Change"
+        name: "Category3DAxis Change"
 
         function test_change() {
             change.labels = ["first"]
@@ -114,7 +114,7 @@ Item {
     }
 
     TestCase {
-        name: "CategoryAxis3D Invalid"
+        name: "Category3DAxis Invalid"
 
         function test_invalid() {
             invalid.labelAutoRotation = -10

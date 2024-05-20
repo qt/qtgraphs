@@ -101,7 +101,7 @@ QT_BEGIN_NAMESPACE
  */
 
 /*!
- * \qmlproperty CategoryAxis3D Bars3D::rowAxis
+ * \qmlproperty Category3DAxis Bars3D::rowAxis
  * The active row axis.
  *
  * If an axis is not given, a temporary default axis with no labels is created.
@@ -120,7 +120,7 @@ QT_BEGIN_NAMESPACE
  */
 
 /*!
- * \qmlproperty CategoryAxis3D Bars3D::columnAxis
+ * \qmlproperty Category3DAxis Bars3D::columnAxis
  * The active column axis.
  *
  * If an axis is not given, a temporary default axis with no labels is created.
