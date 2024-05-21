@@ -185,7 +185,7 @@ QT_BEGIN_NAMESPACE
     \sa append(), insert()
 */
 /*!
-    \qmlsignal BarSet::valuesAdded(qsizetype index, qsizetype count)
+    \qmlsignal BarSet::valuesAdded(int index, int count)
     This signal is emitted when new values are added to the bar set.
     \a index indicates the position of the first inserted value, and \a count is the number
     of inserted values.
@@ -201,7 +201,7 @@ QT_BEGIN_NAMESPACE
     \sa remove()
 */
 /*!
-    \qmlsignal BarSet::valuesRemoved(qsizetype index, qsizetype count)
+    \qmlsignal BarSet::valuesRemoved(int index, int count)
     This signal is emitted when values are removed from the bar set.
     \a index indicates the position of the first removed value, and \a count is the number
     of removed values.
@@ -215,7 +215,7 @@ QT_BEGIN_NAMESPACE
     \sa at()
 */
 /*!
-    \qmlsignal BarSet::valueChanged(qsizetype index)
+    \qmlsignal BarSet::valueChanged(int index)
     This signal is emitted when the value at the position specified by \a index is modified.
 
     The corresponding signal handler is \c onValueChanged.
@@ -326,7 +326,7 @@ void QBarSet::append(const QList<qreal> &values)
 }
 
 /*!
-    \qmlmethod BarSet::insert(qsizetype index, real value)
+    \qmlmethod BarSet::insert(int index, real value)
     Inserts \a value in the position specified by \a index.
     The values following the inserted value are moved up one position.
 
@@ -365,7 +365,7 @@ void QBarSet::insert(const qsizetype index, const qreal value)
 }
 
 /*!
-    \qmlmethod BarSet::remove(qsizetype index, qsizetype count)
+    \qmlmethod BarSet::remove(int index, int count)
     Removes the number of values specified by \a count from the bar set starting
     with the value specified by \a index.
 
@@ -405,7 +405,7 @@ void QBarSet::replace(const qsizetype index, const qreal value)
 }
 
 /*!
-    \qmlmethod real BarSet::at(qsizetype index)
+    \qmlmethod real BarSet::at(int index)
     Returns the value specified by \a index from the bar set.
     If the index is out of bounds, 0.0 is returned.
 */
@@ -422,7 +422,7 @@ qreal QBarSet::at(const qsizetype index) const
 }
 
 /*!
-    \qmlmethod qsizetype BarSet::count()
+    \qmlmethod int BarSet::count()
     Returns the number of values in a bar set.
 */
 /*!
@@ -662,7 +662,7 @@ void QBarSet::setValues(QVariantList values)
 
 
 /*!
-    \qmlmethod bool BarSet::isBarSelected(qsizetype index)
+    \qmlmethod bool BarSet::isBarSelected(int index)
     Returns \c true if the bar at the given \a index is among selected bars and \c false otherwise.
     \note Selected bars are drawn using the selected color if it was specified using BarSet::setSelectedColor.
     \sa selectedBars, setBarSelected(), selectedColor
@@ -679,7 +679,7 @@ bool QBarSet::isBarSelected(qsizetype index) const
 }
 
 /*!
-    \qmlmethod BarSet::selectBar(qsizetype index)
+    \qmlmethod BarSet::selectBar(int index)
     Marks the bar at \a index as selected.
     \note Emits BarSet::selectedBarsChanged.
     \sa setBarSelected()
@@ -695,7 +695,7 @@ void QBarSet::selectBar(qsizetype index)
 }
 
 /*!
-    \qmlmethod BarSet::deselectBar(qsizetype index)
+    \qmlmethod BarSet::deselectBar(int index)
     Deselects the bar at \a index.
     \note Emits BarSet::selectedBarsChanged.
     \sa setBarSelected()
@@ -711,7 +711,7 @@ void QBarSet::deselectBar(qsizetype index)
 }
 
 /*!
-    \qmlmethod BarSet::setBarSelected(qsizetype index, bool selected)
+    \qmlmethod BarSet::setBarSelected(int index, bool selected)
     Marks the bar at \a index as either selected or deselected as specified by \a selected.
     \note Selected bars are drawn using the selected color if it was specified. Emits BarSet::selectedBarsChanged.
     \sa selectedColor
@@ -779,7 +779,7 @@ void QBarSet::deselectAllBars()
 }
 
 /*!
-    \qmlmethod BarSet::selectBars(list<qsizetype> indexes)
+    \qmlmethod BarSet::selectBars(list<int> indexes)
     Marks multiple bars passed in an \a indexes list as selected.
     \note Emits BarSet::selectedBarsChanged.
     \sa setBarSelected()
@@ -802,7 +802,7 @@ void QBarSet::selectBars(const QList<qsizetype> &indexes)
 }
 
 /*!
-    \qmlmethod BarSet::deselectBars(list<qsizetype> indexes)
+    \qmlmethod BarSet::deselectBars(list<int> indexes)
     Marks multiple bars passed in an \a indexes list as deselected.
     \note Emits BarSet::selectedBarsChanged.
     \sa setBarSelected()
@@ -825,7 +825,7 @@ void QBarSet::deselectBars(const QList<qsizetype> &indexes)
 }
 
 /*!
-    \qmlmethod BarSet::toggleSelection(list<qsizetype> indexes)
+    \qmlmethod BarSet::toggleSelection(list<int> indexes)
     Changes the selection state of bars at the given \a indexes to the opposite one.
     \note Emits BarSet::selectedBarsChanged.
     \sa setBarSelected()

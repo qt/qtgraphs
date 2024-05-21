@@ -349,7 +349,7 @@ QT_BEGIN_NAMESPACE
     in the bar set specified by \a barset.
 */
 /*!
-    \qmlsignal BarSeries::clicked(qsizetype index, BarSet barset)
+    \qmlsignal BarSeries::clicked(int index, BarSet barset)
     This signal is emitted when the user clicks the bar specified by \a index
     in the bar set specified by \a barset.
 
@@ -362,7 +362,7 @@ QT_BEGIN_NAMESPACE
     in the bar set specified by \a barset and holds down the mouse button.
 */
 /*!
-    \qmlsignal BarSeries::pressed(qsizetype index, BarSet barset)
+    \qmlsignal BarSeries::pressed(int index, BarSet barset)
     This signal is emitted when the user clicks the bar specified by \a index
     in the bar set specified by \a barset and holds down the mouse button.
 
@@ -375,7 +375,7 @@ QT_BEGIN_NAMESPACE
     specified by \a index in the bar set specified by \a barset.
 */
 /*!
-    \qmlsignal BarSeries::released(qsizetype index, BarSet barset)
+    \qmlsignal BarSeries::released(int index, BarSet barset)
     This signal is emitted when the user releases the mouse press on the bar
     specified by \a index in the bar set specified by \a barset.
 
@@ -388,7 +388,7 @@ QT_BEGIN_NAMESPACE
     in the bar set specified by \a barset.
 */
 /*!
-    \qmlsignal BarSeries::doubleClicked(qsizetype index, BarSet barset)
+    \qmlsignal BarSeries::doubleClicked(int index, BarSet barset)
     This signal is emitted when the user double-clicks the bar specified by \a index
     in the bar set specified by \a barset.
 
@@ -403,7 +403,7 @@ QT_BEGIN_NAMESPACE
     and when the mouse moves away again, it turns \c false.
 */
 /*!
-    \qmlsignal BarSeries::hovered(bool status, qsizetype index, BarSet barset)
+    \qmlsignal BarSeries::hovered(bool status, int index, BarSet barset)
 
     This signal is emitted when a mouse is hovered over the bar specified by \a index in the
     bar set specified by \a barset. When the mouse moves over the bar, \a status turns \c true,
@@ -491,7 +491,7 @@ QT_BEGIN_NAMESPACE
 */
 
 /*!
-    \qmlmethod BarSet BarSeries::at(qsizetype index)
+    \qmlmethod BarSet BarSeries::at(int index)
     Returns the bar set at \a index. Returns null if the index is not valid.
 */
 
@@ -507,7 +507,7 @@ QT_BEGIN_NAMESPACE
 */
 
 /*!
-    \qmlmethod BarSet BarSeries::insert(qsizetype index, string label, VariantList values)
+    \qmlmethod BarSet BarSeries::insert(int index, string label, VariantList values)
     Adds a new bar set with \a label and \a values to \a index. \a values can be a list
     of real values or a list of XYPoint types.
 
@@ -530,7 +530,7 @@ QT_BEGIN_NAMESPACE
 */
 
 /*!
-    \qmlmethod bool BarSeries::replace(qsizetype index, BarSet barset)
+    \qmlmethod bool BarSeries::replace(int index, BarSet barset)
     Replaces the bar set at the position specified by \a index from the series and replaces it
     with \a barset. Returns \c true if successful, \c false otherwise.
 */
@@ -547,13 +547,13 @@ QT_BEGIN_NAMESPACE
 */
 
 /*!
-    \qmlmethod void BarSeries::removeMultiple(qsizetype index, int count)
+    \qmlmethod BarSeries::removeMultiple(int index, int count)
     Removes a range of bar sets as specified by the \a index and \a count. The call
     traverses over all sets even if removal of one fails.
 */
 
 /*!
-    \qmlmethod bool BarSeries::remove(qsizetype index)
+    \qmlmethod bool BarSeries::remove(int index)
     Removes the bar set specified by \a index from the series. Returns \c true if the
     removal was successful, \c false otherwise.
 */
