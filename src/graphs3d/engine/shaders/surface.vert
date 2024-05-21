@@ -1,6 +1,5 @@
 VARYING vec3 pos;
 VARYING vec2 UV;
-out layout(location = 9) flat vec3 nF;
 
 void MAIN()
 {
@@ -34,7 +33,6 @@ void MAIN()
 
 
     NORMAL = n;
-    nF = n;
     VERTEX = v1;
 
     pos = VERTEX;

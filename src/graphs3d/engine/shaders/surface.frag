@@ -3,7 +3,6 @@ float ambientBrightness = 0.75; // 0...1.0
 float directionalBrightness = 0.50; // 0...1.0
 VARYING vec3 pos;
 VARYING vec2 UV;
-in layout(location = 9) flat vec3 nF;
 
 void MAIN()
 {
@@ -33,13 +32,14 @@ void MAIN()
         color = texture(baseColor, texUV).xyz;
         break;
     }
+
     if (flatShading) {
         vec3 dpdx = dFdx(VAR_WORLD_POSITION);
         vec3 dpdy = dFdy(VAR_WORLD_POSITION);
         vec3 n = normalize(cross(dpdy,dpdx));
-        NORMAL = n;
         if (NEAR_CLIP_VALUE < 0.0) //effectively: if openGL
-            NORMAL = nF;
+            n = normalize(cross(dpdx,dpdy));
+        NORMAL = n;
     }
     diffuse = vec4(color, 1.0);
     BASE_COLOR = diffuse;
