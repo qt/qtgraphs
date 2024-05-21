@@ -1141,8 +1141,8 @@ void QQuickGraphsSurface::updateModel(SurfaceModel *model)
         if (!heightMap) {
             heightMap = new QQuick3DTexture();
             heightMap->setParent(this);
-            heightMap->setHorizontalTiling(QQuick3DTexture::MirroredRepeat);
-            heightMap->setVerticalTiling(QQuick3DTexture::MirroredRepeat);
+            heightMap->setHorizontalTiling(QQuick3DTexture::ClampToEdge);
+            heightMap->setVerticalTiling(QQuick3DTexture::ClampToEdge);
             heightMap->setMinFilter(QQuick3DTexture::Nearest);
             heightMap->setMagFilter(QQuick3DTexture::Nearest);
             heightMapData = new QQuick3DTextureData();
