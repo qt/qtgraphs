@@ -756,6 +756,7 @@ bool QBarSeries::take(QBarSet *set)
         QObject::disconnect(set, &QBarSet::update, this, &QBarSeries::update);
         emit barsetsRemoved(sets);
         emit countChanged();
+        emit update();
     }
     return success;
 }
@@ -780,7 +781,7 @@ bool QBarSeries::append(const QList<QBarSet *> &sets)
 
     emit barsetsAdded(sets);
     emit countChanged();
-
+    emit update();
     return true;
 }
 
@@ -799,6 +800,7 @@ bool QBarSeries::insert(qsizetype index, QBarSet *set)
         QObject::connect(set, &QBarSet::update, this, &QBarSeries::update);
         emit barsetsAdded(sets);
         emit countChanged();
+        emit update();
     }
     return success;
 }

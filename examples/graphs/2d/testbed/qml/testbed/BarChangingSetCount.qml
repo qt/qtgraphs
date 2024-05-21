@@ -61,11 +61,15 @@ Rectangle {
             minorTickCount: 4
             max: 20
         }
+        theme: GraphsTheme {
+            backgroundEnabled: false
+            theme: GraphsTheme.Theme.MixSeries
+        }
         BarSeries {
             id: mySeries
+            barWidth: 1.0 - (1.0 / (1 + count))
         }
     }
-    property var sets: []
     Column {
         id: setControls
         anchors.left: mainView.left
@@ -81,8 +85,7 @@ Rectangle {
             id: removeBtn
             text: qsTr("remove set")
             onClicked: {
-                mySeries.remove(sets[sets.length - 1])
-                sets.pop()
+                mySeries.remove(mySeries.count - 1)
             }
         }
         Button {
@@ -90,7 +93,6 @@ Rectangle {
             text: qsTr("add set")
             onClicked: {
                 var s = generator.createNewBarSet()
-                sets.push(s)
                 mySeries.append(s)
             }
         }
