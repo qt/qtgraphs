@@ -41,25 +41,20 @@ private:
     Q3DBars *m_barGraph;
     Q3DSurface *m_surfaceGraph;
     QTimer *m_dataTimer;
-    QTimer *m_styleTimer;
-    QTimer *m_presetTimer;
-    QTimer *m_themeTimer;
     int m_columnCount;
     int m_rowCount;
     QTableWidget *m_tableWidget; // not owned
 };
 
-GraphDataGenerator::GraphDataGenerator(Q3DBars *bargraph, Q3DSurface *surfaceGraph,
+GraphDataGenerator::GraphDataGenerator(Q3DBars *bargraph,
+                                       Q3DSurface *surfaceGraph,
                                        QTableWidget *tableWidget)
-    : m_barGraph(bargraph),
-      m_surfaceGraph(surfaceGraph),
-      m_dataTimer(0),
-      m_styleTimer(0),
-      m_presetTimer(0),
-      m_themeTimer(0),
-      m_columnCount(100),
-      m_rowCount(50),
-      m_tableWidget(tableWidget)
+    : m_barGraph(bargraph)
+    , m_surfaceGraph(surfaceGraph)
+    , m_dataTimer(0)
+    , m_columnCount(100)
+    , m_rowCount(50)
+    , m_tableWidget(tableWidget)
 {
     // Set up bar specifications; make the bars as wide as they are deep,
     // and add a small space between them

@@ -367,7 +367,6 @@ void ScatterDataModifier::testItemChanges()
         break;
     case 10: {
         qDebug() << __FUNCTION__ << counter << "Level the field single item at a time";
-        QScatterDataItem item;
         for (int i = 0; i < rowCount; i++) {
             for (int j = 0; j < colCount; j++) {
                 int itemIndex = i * colCount + j;
