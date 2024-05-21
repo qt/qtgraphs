@@ -462,9 +462,9 @@ QBar3DSeries *QQuickGraphsBars::selectedSeries() const
 
 void QQuickGraphsBars::setSelectionMode(QGraphs3D::SelectionFlags mode)
 {
-    if (mode.testFlag(QGraphs3D::SelectionSlice)
-        && (mode.testFlag(QGraphs3D::SelectionRow)
-            == mode.testFlag(QGraphs3D::SelectionColumn))) {
+    if (mode.testFlag(QGraphs3D::SelectionFlag::Slice)
+        && (mode.testFlag(QGraphs3D::SelectionFlag::Row)
+            == mode.testFlag(QGraphs3D::SelectionFlag::Column))) {
         qWarning("Must specify one of either row or column selection mode"
                  "in conjunction with slicing mode.");
     } else {
@@ -479,8 +479,8 @@ void QQuickGraphsBars::setSelectionMode(QGraphs3D::SelectionFlags mode)
 
             // Special case: Always deactivate slicing when changing away from slice
             // automanagement, as this can't be handled in setSelectedBar.
-            if (!mode.testFlag(QGraphs3D::SelectionSlice)
-                && oldMode.testFlag(QGraphs3D::SelectionSlice)) {
+            if (!mode.testFlag(QGraphs3D::SelectionFlag::Slice)
+                && oldMode.testFlag(QGraphs3D::SelectionFlag::Slice)) {
                 scene()->setSlicingActive(false);
             }
         }
@@ -1820,7 +1820,7 @@ bool QQuickGraphsBars::doPicking(const QPointF &position)
     QList<QQuick3DPickResult> pickResults = pickAll(position.x(), position.y());
     QQuick3DModel *selectedModel = nullptr;
     QVector3D instancePos = {.0f, .0f, .0f};
-    if (!selectionMode().testFlag(QGraphs3D::SelectionNone)) {
+    if (!selectionMode().testFlag(QGraphs3D::SelectionFlag::None)) {
         if (!pickResults.isEmpty()) {
             for (const auto &picked : std::as_const(pickResults)) {
                 if (const auto &hit = picked.objectHit()) {
@@ -1870,12 +1870,12 @@ bool QQuickGraphsBars::doPicking(const QPointF &position)
                         }
                     } else if (hit->objectName().contains(QStringLiteral("ElementAxis"))) {
                         QPoint coord = invalidSelectionPosition();
-                        if (selectionMode().testFlag(QGraphs3D::SelectionColumn)
+                        if (selectionMode().testFlag(QGraphs3D::SelectionFlag::Column)
                             && selectedAxis() == axisX()) {
                             // Use row from previous selection in case of row + column mode
                             int previousRow = qMax(0, m_selectedBar.x());
                             coord = QPoint(previousRow, selectedLabelIndex());
-                        } else if (selectionMode().testFlag(QGraphs3D::SelectionRow)
+                        } else if (selectionMode().testFlag(QGraphs3D::SelectionFlag::Row)
                                    && selectedAxis() == axisZ()) {
                             // Use column from previous selection in case of row + column mode
                             int previousCol = qMax(0, m_selectedBar.y());
@@ -1940,7 +1940,7 @@ void QQuickGraphsBars::setSelectedBar(const QPoint &coord, QBar3DSeries *series,
 
     adjustSelectionPosition(pos, series);
 
-    if (series && selectionMode().testFlag(QGraphs3D::SelectionSlice)) {
+    if (series && selectionMode().testFlag(QGraphs3D::SelectionFlag::Slice)) {
         // If the selected bar is outside data window, or there is no visible
         // selected bar, disable slicing.
         if (pos.x() < m_axisZ->min() || pos.x() > m_axisZ->max() || pos.y() < m_axisX->min()
@@ -2042,16 +2042,16 @@ void QQuickGraphsBars::updateSelectedBar()
 QQuickGraphsItem::SelectionType QQuickGraphsBars::isSelected(int row, int bar, QBar3DSeries *series)
 {
     QQuickGraphsBars::SelectionType isSelectedType = QQuickGraphsBars::SelectionNone;
-    if ((selectionMode().testFlag(QGraphs3D::SelectionMultiSeries) && m_selectedBarSeries)
+    if ((selectionMode().testFlag(QGraphs3D::SelectionFlag::MultiSeries) && m_selectedBarSeries)
         || series == m_selectedBarSeries) {
         if (row == m_selectedBar.x() && bar == m_selectedBar.y()
-            && (selectionMode().testFlag(QGraphs3D::SelectionItem))) {
+            && (selectionMode().testFlag(QGraphs3D::SelectionFlag::Item))) {
             isSelectedType = QQuickGraphsBars::SelectionItem;
         } else if (row == m_selectedBar.x()
-                   && (selectionMode().testFlag(QGraphs3D::SelectionRow))) {
+                   && (selectionMode().testFlag(QGraphs3D::SelectionFlag::Row))) {
             isSelectedType = QQuickGraphsBars::SelectionRow;
         } else if (bar == m_selectedBar.y()
-                   && (selectionMode().testFlag(QGraphs3D::SelectionColumn))) {
+                   && (selectionMode().testFlag(QGraphs3D::SelectionFlag::Column))) {
             isSelectedType = QQuickGraphsBars::SelectionColumn;
         }
     }
@@ -2070,9 +2070,9 @@ void QQuickGraphsBars::updateSliceItemLabel(QString label, const QVector3D &posi
     sliceItemLabel()->setProperty("labelWidth", labelWidth);
     sliceItemLabel()->setProperty("labelHeight", labelHeight);
     QVector3D slicePos = position;
-    if (selectionMode().testFlag(QGraphs3D::SelectionColumn))
+    if (selectionMode().testFlag(QGraphs3D::SelectionFlag::Column))
         slicePos.setX(slicePos.z());
-    else if (selectionMode().testFlag(QGraphs3D::SelectionRow))
+    else if (selectionMode().testFlag(QGraphs3D::SelectionFlag::Row))
         slicePos.setX(slicePos.x());
     QValue3DAxis *valueAxis = static_cast<QValue3DAxis *>(axisY());
     if (valueAxis->reversed())
@@ -2135,9 +2135,9 @@ void QQuickGraphsBars::createSliceView()
                 }
                 qsizetype slicedBarListSize = 0;
 
-                if (selectionMode().testFlag(QGraphs3D::SelectionRow))
+                if (selectionMode().testFlag(QGraphs3D::SelectionFlag::Row))
                     slicedBarListSize = newColSize;
-                else if (selectionMode().testFlag(QGraphs3D::SelectionColumn))
+                else if (selectionMode().testFlag(QGraphs3D::SelectionFlag::Column))
                     slicedBarListSize = newRowSize;
 
                 for (int ind = 0; ind < slicedBarListSize; ++ind) {
@@ -2189,7 +2189,7 @@ void QQuickGraphsBars::updateSliceGraph()
     }
 
     qsizetype index = 0;
-    bool rowMode = selectionMode().testFlag(QGraphs3D::SelectionRow);
+    bool rowMode = selectionMode().testFlag(QGraphs3D::SelectionFlag::Row);
     for (auto it = m_slicedBarModels.begin(); it != m_slicedBarModels.end(); it++) {
         bool useGradient = it.key()->d_func()->isUsingGradient();
         bool rangeGradient = (useGradient
@@ -2204,8 +2204,7 @@ void QQuickGraphsBars::updateSliceGraph()
                 else
                     index = m_selectedBar.y() + (ind * it.key()->dataProxy()->colCount());
                 bool visible = ((m_selectedBarSeries == it.key()
-                                 || selectionMode().testFlag(
-                                     QGraphs3D::SelectionMultiSeries))
+                                 || selectionMode().testFlag(QGraphs3D::SelectionFlag::MultiSeries))
                                 && it.key()->isVisible());
 
                 if (index < barList.size() && m_selectedBar != invalidSelectionPosition()) {
@@ -2230,7 +2229,7 @@ void QQuickGraphsBars::updateSliceGraph()
                                        QStringLiteral(":/materials/BarsMaterial"));
 
                     if (barModel->coord == m_selectedBar
-                        && selectionMode().testFlag(QGraphs3D::SelectionItem)) {
+                        && selectionMode().testFlag(QGraphs3D::SelectionFlag::Item)) {
                         updateMaterialProperties(sliceBarModel->model,
                                                  true,
                                                  false,
@@ -2298,7 +2297,7 @@ void QQuickGraphsBars::createBarItemHolders(QBar3DSeries *series,
     bool rangeGradient = (useGradient
                           && series->d_func()->m_colorStyle == QGraphsTheme::ColorStyle::RangeGradient);
     bool visible = ((m_selectedBarSeries == series
-                     || selectionMode().testFlag(QGraphs3D::SelectionMultiSeries))
+                     || selectionMode().testFlag(QGraphs3D::SelectionFlag::MultiSeries))
                     && series->isVisible());
     QList<BarItemHolder *> barItemList = *new QList<BarItemHolder *>;
     QList<BarItemHolder *> multiBarItemList = *new QList<BarItemHolder *>;
@@ -2354,7 +2353,7 @@ void QQuickGraphsBars::createBarItemHolders(QBar3DSeries *series,
 
             QString label = m_selectedBarSeries->itemLabel();
             if (slice) {
-                if (selectionMode().testFlag(QGraphs3D::SelectionRow)) {
+                if (selectionMode().testFlag(QGraphs3D::SelectionFlag::Row)) {
                     selectedBih->position.setZ(.0f);
                 } else {
                     selectedBih->position.setX(selectedBih->position.z()
@@ -2435,7 +2434,7 @@ void QQuickGraphsBars::createBarItemHolders(QBar3DSeries *series,
             selectedBih->position = bih->position;
             selectedBih->scale = bih->scale;
 
-            if (selectionMode().testFlag(QGraphs3D::SelectionRow)) {
+            if (selectionMode().testFlag(QGraphs3D::SelectionFlag::Row)) {
                 selectedBih->position.setZ(.0f);
             } else {
                 selectedBih->position.setX(selectedBih->position.z()
@@ -2455,7 +2454,7 @@ void QQuickGraphsBars::updateSelectionMode(QGraphs3D::SelectionFlags mode)
     if (!sliceView())
         createSliceView();
 
-    bool validSlice = mode.testFlag(QGraphs3D::SelectionSlice) && m_selectedBarSeries;
+    bool validSlice = mode.testFlag(QGraphs3D::SelectionFlag::Slice) && m_selectedBarSeries;
     if (sliceView() && sliceView()->isVisible()) {
         if (validSlice) {
             removeSlicedBarModels();
@@ -2472,7 +2471,7 @@ void QQuickGraphsBars::updateSelectionMode(QGraphs3D::SelectionFlags mode)
 
     setSeriesVisualsDirty(true);
     itemLabel()->setVisible(false);
-    if (sliceView() && !mode.testFlag(QGraphs3D::SelectionItem))
+    if (sliceView() && !mode.testFlag(QGraphs3D::SelectionFlag::Item))
         sliceItemLabel()->setVisible(false);
 }
 

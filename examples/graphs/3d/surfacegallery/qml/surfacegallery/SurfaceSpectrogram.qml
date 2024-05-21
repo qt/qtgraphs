@@ -116,7 +116,7 @@ Rectangle {
 
             theme: customTheme
             shadowQuality: Graphs3D.ShadowQuality.None
-            selectionMode: Graphs3D.SelectionSlice | Graphs3D.SelectionItemAndColumn
+            selectionMode: Graphs3D.SelectionFlag.Slice | Graphs3D.SelectionFlag.ItemAndColumn
             axisX: xAxis
             axisY: yAxis
             axisZ: zAxis

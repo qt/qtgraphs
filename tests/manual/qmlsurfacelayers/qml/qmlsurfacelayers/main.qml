@@ -54,7 +54,7 @@ Item {
                 colorStyle: GraphsTheme.ColorStyle.RangeGradient
             }
             shadowQuality: Graphs3D.ShadowQuality.None
-            selectionMode: Graphs3D.SelectionRow | Graphs3D.SelectionSlice
+            selectionMode: Graphs3D.SelectionFlag.Row | Graphs3D.SelectionFlag.Slice
             cameraPreset: Graphs3D.CameraPreset.IsometricLeft
             axisY.min: 20
             axisY.max: 200
@@ -228,14 +228,14 @@ Item {
             Layout.fillWidth: true
             Layout.minimumHeight: 40
             onClicked: {
-                if (surfaceLayers.selectionMode & Graphs3D.SelectionMultiSeries) {
-                    surfaceLayers.selectionMode = Graphs3D.SelectionRow
-                            | Graphs3D.SelectionSlice
+                if (surfaceLayers.selectionMode & Graphs3D.SelectionFlag.MultiSeries) {
+                    surfaceLayers.selectionMode = Graphs3D.SelectionFlag.Row
+                            | Graphs3D.SelectionFlag.Slice
                     text = "Slice All Layers"
                 } else {
-                    surfaceLayers.selectionMode = Graphs3D.SelectionRow
-                            | Graphs3D.SelectionSlice
-                            | Graphs3D.SelectionMultiSeries
+                    surfaceLayers.selectionMode = Graphs3D.SelectionFlag.Row
+                            | Graphs3D.SelectionFlag.Slice
+                            | Graphs3D.SelectionFlag.MultiSeries
                     text = "Slice One Layer"
                 }
             }

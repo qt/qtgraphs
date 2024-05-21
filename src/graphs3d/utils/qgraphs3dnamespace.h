@@ -9,17 +9,17 @@ QT_BEGIN_NAMESPACE
 namespace QGraphs3D {
 Q_GRAPHS_EXPORT Q_NAMESPACE
 QML_NAMED_ELEMENT(Graphs3D)
-enum SelectionFlag {
-    SelectionNone = 0,
-    SelectionItem = 1,
-    SelectionRow = 2,
-    SelectionItemAndRow = SelectionItem | SelectionRow,
-    SelectionColumn = 4,
-    SelectionItemAndColumn = SelectionItem | SelectionColumn,
-    SelectionRowAndColumn = SelectionRow | SelectionColumn,
-    SelectionItemRowAndColumn = SelectionItem | SelectionRow | SelectionColumn,
-    SelectionSlice = 8,
-    SelectionMultiSeries = 16
+enum class SelectionFlag {
+    None = 0,
+    Item = 1,
+    Row = 2,
+    ItemAndRow = Item | Row,
+    Column = 4,
+    ItemAndColumn = Item | Column,
+    RowAndColumn = Row | Column,
+    ItemRowAndColumn = Item | Row | Column,
+    Slice = 8,
+    MultiSeries = 16
 };
 Q_FLAG_NS(SelectionFlag)
 Q_DECLARE_FLAGS(SelectionFlags, SelectionFlag)

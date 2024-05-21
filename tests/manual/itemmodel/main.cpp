@@ -65,7 +65,7 @@ GraphDataGenerator::GraphDataGenerator(Q3DBarsWidget *bargraph, QTableWidget *ta
     m_tableWidget->setColumnCount(m_columnCount);
 
     // Set selection mode to full
-    m_graph->setSelectionMode(QGraphs3DNamespace::SelectionItemRowAndColumn);
+    m_graph->setSelectionMode(QGraphs3DNamespace::SelectionFlag::ItemRowAndColumn);
 
     // Hide axis labels by explicitly setting one empty string as label list
     m_graph->rowAxis()->setLabels(QStringList(QString()));
@@ -74,8 +74,8 @@ GraphDataGenerator::GraphDataGenerator(Q3DBarsWidget *bargraph, QTableWidget *ta
     m_graph->seriesList().at(0)->setItemLabelFormat(QStringLiteral("@valueLabel"));
 #else
     // Set selection mode to slice row
-    m_graph->setSelectionMode(QGraphs3D::SelectionItemAndRow
-                              | QGraphs3D::SelectionSlice);
+    m_graph->setSelectionMode(QGraphs3D::SelectionFlag::ItemAndRow
+                              | QGraphs3D::SelectionFlag::Slice);
 #endif
 
     // Set theme

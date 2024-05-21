@@ -381,7 +381,7 @@ QPoint Q3DScene::graphPositionQuery() const
  * \brief Whether the 2D slicing view is currently active.
  *
  * If \c true, QAbstract3DGraphWidget::selectionMode must have either
- * QAbstract3DGraphWidget::SelectionRow or QAbstract3DGraphWidget::SelectionColumn set
+ * QGraphs3D::SelectionFlag::Row or QGraphs3D::SelectionFlag::Column set
  * to a valid selection.
  * \note Not all graphs support the 2D slicing view.
  */

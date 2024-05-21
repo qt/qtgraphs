@@ -16,26 +16,26 @@ QT_BEGIN_NAMESPACE
     Item selection modes. Values of this enumeration can be combined with OR
    operator.
 
-    \value SelectionNone
+    \value None
            Selection mode disabled.
-    \value SelectionItem
+    \value Item
            Selection highlights a single item.
-    \value SelectionRow
+    \value Row
            Selection highlights a single row.
-    \value SelectionItemAndRow
+    \value ItemAndRow
            Combination flag for highlighting both item and row with different colors.
-    \value SelectionColumn
+    \value Column
            Selection highlights a single column.
-    \value SelectionItemAndColumn
+    \value ItemAndColumn
            Combination flag for highlighting both item and column with different colors.
-    \value SelectionRowAndColumn
+    \value RowAndColumn
            Combination flag for highlighting both row and column.
-    \value SelectionItemRowAndColumn
+    \value ItemRowAndColumn
            Combination flag for highlighting item, row, and column.
-    \value SelectionSlice
+    \value Slice
            Setting this mode flag indicates that the graph should take care of the slice view handling
            automatically. If you wish to control the slice view yourself via Q3DScene, do not set this
-           flag. When setting this mode flag, either \c SelectionRow or \c SelectionColumn must also
+           flag. When setting this mode flag, either \c Row or \c Column must also
            be set, but not both. Slicing is supported by Q3DBarsWidget and Q3DSurfaceWidget only.
            When this flag is set, slice mode is entered in the following situations:
            \list
@@ -43,11 +43,11 @@ QT_BEGIN_NAMESPACE
            \li When selection is changed by clicking on the graph
            \li When the selection mode changes and the selected item is visible
            \endlist
-    \value SelectionMultiSeries
+    \value MultiSeries
            Setting this mode means that items for all series at same position are highlighted, instead
            of just the selected item. The actual selection in the other series doesn't change.
-           When setting this mode flag, one or more of the basic selection flags (\c {SelectionItem},
-           \c {SelectionRow}, or \c SelectionColumn) must also be set.
+           When setting this mode flag, one or more of the basic selection flags (\c {Item},
+           \c {Row}, or \c Column) must also be set.
            Multi-series selection is not supported for Q3DScatterWidget.
 */
 

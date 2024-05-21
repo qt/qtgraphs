@@ -953,9 +953,9 @@ void QQuickGraphsItem::keyPressEvent(QKeyEvent *ev)
 
 void QQuickGraphsItem::checkSliceEnabled()
 {
-    if (selectionMode().testFlag(QGraphs3D::SelectionSlice)
-        && (selectionMode().testFlag(QGraphs3D::SelectionColumn)
-            != selectionMode().testFlag(QGraphs3D::SelectionRow))) {
+    if (selectionMode().testFlag(QGraphs3D::SelectionFlag::Slice)
+        && (selectionMode().testFlag(QGraphs3D::SelectionFlag::Column)
+            != selectionMode().testFlag(QGraphs3D::SelectionFlag::Row))) {
         m_sliceEnabled = true;
     } else {
         m_sliceEnabled = false;
@@ -1289,7 +1289,7 @@ qsizetype QQuickGraphsItem::addCustomItem(QCustom3DItem *item)
             material->setParent(model);
             material->setParentItem(model);
             materialsRef.append(material);
-            if (!selectionMode().testFlag(QGraphs3D::SelectionNone))
+            if (!selectionMode().testFlag(QGraphs3D::SelectionFlag::None))
                 model->setPickable(true);
             m_customItemList.insert(item, model);
         }
@@ -5417,12 +5417,12 @@ void QQuickGraphsItem::updateSliceGrid()
 
     float horizontalScale = 0.0f;
 
-    if (selectionMode().testFlag(QGraphs3D::SelectionRow)) {
+    if (selectionMode().testFlag(QGraphs3D::SelectionFlag::Row)) {
         horizontalAxis = axisX();
         horizontalScale = backgroundScale.x();
         scale = m_scaleWithBackground.x();
         translate = m_scaleWithBackground.x();
-    } else if (selectionMode().testFlag(QGraphs3D::SelectionColumn)) {
+    } else if (selectionMode().testFlag(QGraphs3D::SelectionFlag::Column)) {
         horizontalAxis = axisZ();
         horizontalScale = backgroundScale.z();
         scale = m_scaleWithBackground.z();
@@ -5518,12 +5518,12 @@ void QQuickGraphsItem::updateSliceLabels()
     float translate;
     QColor horizontalLabelTextColor;
 
-    if (selectionMode().testFlag(QGraphs3D::SelectionRow)) {
+    if (selectionMode().testFlag(QGraphs3D::SelectionFlag::Row)) {
         horizontalAxis = axisX();
         scale = backgroundScale.x() - m_backgroundScaleMargin.x();
         translate = backgroundScale.x() - m_backgroundScaleMargin.x();
         horizontalLabelTextColor = theme()->axisXLabelColor();
-    } else if (selectionMode().testFlag(QGraphs3D::SelectionColumn)) {
+    } else if (selectionMode().testFlag(QGraphs3D::SelectionFlag::Column)) {
         horizontalAxis = axisZ();
         scale = backgroundScale.z() - m_backgroundScaleMargin.z();
         translate = backgroundScale.z() - m_backgroundScaleMargin.z();
@@ -5600,7 +5600,7 @@ void QQuickGraphsItem::updateSliceLabels()
         for (int i = 0; i < m_sliceHorizontalLabelRepeater->count(); i++) {
             labelTrans = calculateCategoryLabelPosition(horizontalAxis, labelTrans, i);
             labelTrans.setY(-yPos /*- (adjustment / 2.f)*/);
-            if (selectionMode().testFlag(QGraphs3D::SelectionColumn))
+            if (selectionMode().testFlag(QGraphs3D::SelectionFlag::Column))
                 labelTrans.setX(labelTrans.z());
             labelTrans.setZ(1.0f); // Bring the labels on top of bars and grid
             auto obj = static_cast<QQuick3DNode *>(m_sliceHorizontalLabelRepeater->objectAt(i));
@@ -5627,9 +5627,9 @@ void QQuickGraphsItem::updateSliceLabels()
     fontScaled.setX(scaleFactor * fontRatio);
     adjustment = labelsMaxWidth * scaleFactor;
     float xPos = 0.0f;
-    if (selectionMode().testFlag(QGraphs3D::SelectionRow))
+    if (selectionMode().testFlag(QGraphs3D::SelectionFlag::Row))
         xPos = backgroundScale.x() + (adjustment * 1.5f);
-    else if (selectionMode().testFlag(QGraphs3D::SelectionColumn))
+    else if (selectionMode().testFlag(QGraphs3D::SelectionFlag::Column))
         xPos = backgroundScale.z() + (adjustment * 1.5f);
     labelTrans = QVector3D(xPos, 0.0f, 0.0f);
     QColor verticalLabelTextColor = theme()->axisYLabelColor();
@@ -5672,9 +5672,9 @@ void QQuickGraphsItem::updateSliceLabels()
     QVector3D vTitleScale = fontScaled;
     vTitleScale.setX(fontScaled.y() * labelWidth / labelHeight);
     adjustment = labelHeight * scaleFactor;
-    if (selectionMode().testFlag(QGraphs3D::SelectionRow))
+    if (selectionMode().testFlag(QGraphs3D::SelectionFlag::Row))
         xPos = backgroundScale.x() + adjustment;
-    else if (selectionMode().testFlag(QGraphs3D::SelectionColumn))
+    else if (selectionMode().testFlag(QGraphs3D::SelectionFlag::Column))
         xPos = backgroundScale.z() + adjustment;
     labelTrans = QVector3D(-(xPos + adjustment), 0.0f, 0.0f);
 

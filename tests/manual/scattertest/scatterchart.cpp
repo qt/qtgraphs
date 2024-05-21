@@ -36,7 +36,7 @@ ScatterDataModifier::ScatterDataModifier(Q3DScatterWidget *scatter)
     createAndAddSeries();
     createAndAddSeries();
 
-    m_chart->setSelectionMode(QGraphs3D::SelectionItem);
+    m_chart->setSelectionMode(QGraphs3D::SelectionFlag::Item);
 
     QObject::connect(&m_timer, &QTimer::timeout, this, &ScatterDataModifier::timeout);
     QObject::connect(m_chart, &Q3DScatterWidget::shadowQualityChanged, this,

@@ -86,7 +86,7 @@ Item {
             anchors.fill: graphView
             theme: customSurfaceTheme
             shadowQuality: Graphs3D.ShadowQuality.None
-            selectionMode: Graphs3D.SelectionNone
+            selectionMode: Graphs3D.SelectionFlag.None
             cameraPreset: Graphs3D.CameraPreset.IsometricLeft
             msaaSamples: 4
             aspectRatio: 3.0
@@ -112,7 +112,7 @@ Item {
             anchors.fill: graphView
             theme: customBarsTheme
             shadowQuality: Graphs3D.ShadowQuality.None
-            selectionMode: Graphs3D.SelectionItemAndRow
+            selectionMode: Graphs3D.SelectionFlag.ItemAndRow
             cameraPreset: Graphs3D.CameraPreset.IsometricLeft
             //optimizationHint: Graphs3D.OptimizationHint.Legacy
             msaaSamples: 4

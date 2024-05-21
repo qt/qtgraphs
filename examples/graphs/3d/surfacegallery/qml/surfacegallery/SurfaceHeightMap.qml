@@ -46,7 +46,7 @@ Rectangle {
             }
             //! [2]
             shadowQuality: Graphs3D.ShadowQuality.Medium
-            selectionMode: Graphs3D.SelectionSlice | Graphs3D.SelectionItemAndRow
+            selectionMode: Graphs3D.SelectionFlag.Slice | Graphs3D.SelectionFlag.ItemAndRow
             cameraPreset: Graphs3D.CameraPreset.IsometricLeft
             axisX.segmentCount: 3
             axisX.subSegmentCount: 3

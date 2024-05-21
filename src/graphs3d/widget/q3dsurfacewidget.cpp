@@ -133,7 +133,7 @@ QT_BEGIN_NAMESPACE
 /*!
  * \qmlproperty Surface3DSeries Surface3D::selectedSeries
  * The selected series or null. If \l {Abstract3DGraph::selectionMode}{selectionMode} has the
- * \c SelectionMultiSeries flag set, this property holds the series which owns the selected point.
+ * \c MultiSeries flag set, this property holds the series which owns the selected point.
  */
 
 /*!
@@ -306,7 +306,7 @@ QValue3DAxis *Q3DSurfaceWidget::axisZ() const
  *
  * \brief The selected series or null.
  *
- * If selectionMode has \c SelectionMultiSeries set, this
+ * If selectionMode has \c MultiSeries set, this
  * property holds the series which owns the selected point.
  */
 QSurface3DSeries *Q3DSurfaceWidget::selectedSeries() const

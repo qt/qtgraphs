@@ -751,7 +751,7 @@ QList<QGraphsTheme *> QAbstract3DGraphWidget::themes() const
  *
  * \brief Item selection mode.
  *
- * A combination of SelectionFlags. By default, \c SelectionItem.
+ * A combination of SelectionFlags. By default, \c Item.
  * Different graph types support different selection modes.
  *
  * \sa QGraphs3D::SelectionFlags

@@ -28,19 +28,19 @@ public:
     ~SurfaceGraphModifier();
 
     //! [0]
-    void toggleModeNone() { m_graph->setSelectionMode(QGraphs3D::SelectionNone); }
-    void toggleModeItem() { m_graph->setSelectionMode(QGraphs3D::SelectionItem); }
+    void toggleModeNone() { m_graph->setSelectionMode(QGraphs3D::SelectionFlag::None); }
+    void toggleModeItem() { m_graph->setSelectionMode(QGraphs3D::SelectionFlag::Item); }
     void toggleModeSliceRow()
     {
-        m_graph->setSelectionMode(QGraphs3D::SelectionItemAndRow
-                                  | QGraphs3D::SelectionSlice
-                                  | QGraphs3D::SelectionMultiSeries);
+        m_graph->setSelectionMode(QGraphs3D::SelectionFlag::ItemAndRow
+                                  | QGraphs3D::SelectionFlag::Slice
+                                  | QGraphs3D::SelectionFlag::MultiSeries);
     }
     void toggleModeSliceColumn()
     {
-        m_graph->setSelectionMode(QGraphs3D::SelectionItemAndColumn
-                                  | QGraphs3D::SelectionSlice
-                                  | QGraphs3D::SelectionMultiSeries);
+        m_graph->setSelectionMode(QGraphs3D::SelectionFlag::ItemAndColumn
+                                  | QGraphs3D::SelectionFlag::Slice
+                                  | QGraphs3D::SelectionFlag::MultiSeries);
     }
     //! [0]
 

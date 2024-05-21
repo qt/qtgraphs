@@ -342,7 +342,7 @@ Item {
             id: barGraph
             anchors.fill: parent
             shadowQuality: Graphs3D.ShadowQuality.SoftHigh
-            selectionMode: Graphs3D.SelectionItem
+            selectionMode: Graphs3D.SelectionFlag.Item
             theme: GraphsTheme {
                 colorScheme: Qt.Dark
                 labelBorderEnabled: true

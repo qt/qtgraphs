@@ -82,7 +82,7 @@ void tst_scatter::initialProperties()
 
     // Common properties
     QCOMPARE(m_graph->activeTheme()->theme(), QGraphsTheme::Theme::UserDefined);
-    QCOMPARE(m_graph->selectionMode(), QGraphs3D::SelectionItem);
+    QCOMPARE(m_graph->selectionMode(), QGraphs3D::SelectionFlag::Item);
     QCOMPARE(m_graph->shadowQuality(), QGraphs3D::ShadowQuality::Medium);
     QVERIFY(m_graph->scene());
     QCOMPARE(m_graph->measureFps(), false);
@@ -104,7 +104,7 @@ void tst_scatter::initializeProperties()
     theme->setColorScheme(Qt::ColorScheme::Light);
     theme->setTheme(QGraphsTheme::Theme::QtGreenNeon);
     m_graph->setActiveTheme(theme);
-    m_graph->setSelectionMode(QGraphs3D::SelectionNone);
+    m_graph->setSelectionMode(QGraphs3D::SelectionFlag::None);
     m_graph->setShadowQuality(QGraphs3D::ShadowQuality::SoftHigh);
     QCOMPARE(m_graph->shadowQuality(), QGraphs3D::ShadowQuality::SoftHigh);
     m_graph->setMeasureFps(true);
@@ -118,7 +118,7 @@ void tst_scatter::initializeProperties()
     m_graph->setMargin(1.0);
 
     QCOMPARE(m_graph->activeTheme()->theme(), QGraphsTheme::Theme::QtGreenNeon);
-    QCOMPARE(m_graph->selectionMode(), QGraphs3D::SelectionNone);
+    QCOMPARE(m_graph->selectionMode(), QGraphs3D::SelectionFlag::None);
     QCOMPARE(m_graph->shadowQuality(),
              QGraphs3D::ShadowQuality::None); // Ortho disables shadows
     QCOMPARE(m_graph->measureFps(), true);
@@ -134,13 +134,13 @@ void tst_scatter::initializeProperties()
 
 void tst_scatter::invalidProperties()
 {
-    m_graph->setSelectionMode(QGraphs3D::SelectionColumn | QGraphs3D::SelectionRow
-                              | QGraphs3D::SelectionSlice);
+    m_graph->setSelectionMode(QGraphs3D::SelectionFlag::Column | QGraphs3D::SelectionFlag::Row
+                              | QGraphs3D::SelectionFlag::Slice);
     m_graph->setAspectRatio(-1.0);
     m_graph->setHorizontalAspectRatio(-1.0);
     m_graph->setLocale(QLocale("XX"));
 
-    QCOMPARE(m_graph->selectionMode(), QGraphs3D::SelectionItem);
+    QCOMPARE(m_graph->selectionMode(), QGraphs3D::SelectionFlag::Item);
     QCOMPARE(m_graph->aspectRatio(), -1.0/*2.0*/); // TODO: Fix once QTRD-3367 is done
     QCOMPARE(m_graph->horizontalAspectRatio(), -1.0/*0.0*/); // TODO: Fix once QTRD-3367 is done
     QCOMPARE(m_graph->locale(), QLocale("C"));

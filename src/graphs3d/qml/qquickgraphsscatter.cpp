@@ -100,7 +100,7 @@ void QQuickGraphsScatter::generatePointsForScatterModel(ScatterModel *graphModel
         graphModel->instancingRootItem = createDataItem(graphModel->series);
         graphModel->instancingRootItem->setParent(graphModel->series);
         graphModel->instancingRootItem->setInstancing(graphModel->instancing);
-        if (selectionMode() != QGraphs3D::SelectionNone) {
+        if (selectionMode() != QGraphs3D::SelectionFlag::None) {
             graphModel->selectionIndicator = createDataItem(graphModel->series);
             graphModel->instancingRootItem->setPickable(true);
         }
@@ -777,7 +777,7 @@ void QQuickGraphsScatter::setSelectedItem(qsizetype index, QScatter3DSeries *ser
 void QQuickGraphsScatter::setSelectionMode(QGraphs3D::SelectionFlags mode)
 {
     // We only support single item selection mode and no selection mode
-    if (mode != QGraphs3D::SelectionItem && mode != QGraphs3D::SelectionNone) {
+    if (mode != QGraphs3D::SelectionFlag::Item && mode != QGraphs3D::SelectionFlag::None) {
         qWarning("Unsupported selection mode - only none and item selection modes "
                  "are supported.");
         return;
@@ -1177,7 +1177,7 @@ bool QQuickGraphsScatter::doPicking(const QPointF &position)
     if (!QQuickGraphsItem::doPicking(position))
         return false;
 
-    if (selectionMode() == QGraphs3D::SelectionItem) {
+    if (selectionMode() == QGraphs3D::SelectionFlag::Item) {
         QList<QQuick3DPickResult> results = pickAll(position.x(), position.y());
         if (!results.empty()) {
             for (const auto &result : std::as_const(results)) {
@@ -1458,7 +1458,7 @@ void QQuickGraphsScatter::updateGraph()
                     graphModel->instancingRootItem = createDataItem(graphModel->series);
                     graphModel->instancingRootItem->setParent(graphModel->series);
                     graphModel->instancingRootItem->setInstancing(graphModel->instancing);
-                    if (selectionMode() != QGraphs3D::SelectionNone) {
+                    if (selectionMode() != QGraphs3D::SelectionFlag::None) {
                         graphModel->instancingRootItem->setPickable(true);
                         graphModel->selectionIndicator = createDataItem(graphModel->series);
                         graphModel->selectionIndicator->setVisible(false);

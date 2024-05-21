@@ -767,7 +767,7 @@ private:
     QQuick3DModel *m_subgridGeometryModel = nullptr;
     QQuick3DModel *m_sliceGridGeometryModel = nullptr;
     Abstract3DChangeBitField m_changeTracker;
-    QGraphs3D::SelectionFlags m_selectionMode = QGraphs3D::SelectionItem;
+    QGraphs3D::SelectionFlags m_selectionMode = QGraphs3D::SelectionFlag::Item;
     QGraphs3D::ShadowQuality m_shadowQuality = QGraphs3D::ShadowQuality::Medium;
     bool m_useOrthoProjection = false;
     qreal m_aspectRatio = 2.0;

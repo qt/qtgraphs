@@ -654,9 +654,9 @@ void GraphModifier::changeSelectionMode()
     static int selectionMode = m_graph->selectionMode();
 
     if (++selectionMode
-        > (int) (QGraphs3D::SelectionItemAndColumn | QGraphs3D::SelectionSlice
-                 | QGraphs3D::SelectionMultiSeries))
-        selectionMode = QGraphs3D::SelectionNone;
+        > (int) (QGraphs3D::SelectionFlag::ItemAndColumn | QGraphs3D::SelectionFlag::Slice
+                 | QGraphs3D::SelectionFlag::MultiSeries))
+        selectionMode = int(QGraphs3D::SelectionFlag::None);
 
     m_graph->setSelectionMode((QGraphs3D::SelectionFlag) selectionMode);
 }
@@ -755,8 +755,8 @@ void GraphModifier::showFiveSeries()
 {
     releaseSeries();
     releaseAxes();
-    m_graph->setSelectionMode(QGraphs3D::SelectionItemRowAndColumn
-                              | QGraphs3D::SelectionMultiSeries);
+    m_graph->setSelectionMode(QGraphs3D::SelectionFlag::ItemRowAndColumn
+                              | QGraphs3D::SelectionFlag::MultiSeries);
 
     m_dummyData->dataProxy()->resetArray(makeDummyData());
     m_dummyData2->dataProxy()->resetArray(makeDummyData(), QStringList(), QStringList());

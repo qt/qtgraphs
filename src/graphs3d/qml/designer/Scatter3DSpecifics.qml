@@ -52,7 +52,7 @@ Column {
             SecondColumnLayout {
                 ComboBox {
                     backendValue: backendValues.selectionMode
-                    model: ["SelectionNone", "SelectionItem"]
+                    model: ["None", "Item"]
                     Layout.fillWidth: true
                     scope: "Graphs3D"
                 }

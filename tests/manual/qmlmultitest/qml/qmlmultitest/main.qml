@@ -188,7 +188,7 @@ Item {
                     theme: GraphsTheme.Theme.OrangeSeries
                     labelFont.pointSize: 60
                 }
-                selectionMode: Graphs3D.SelectionItemAndRow | Graphs3D.SelectionSlice
+                selectionMode: Graphs3D.SelectionFlag.ItemAndRow | Graphs3D.SelectionFlag.Slice
                 cameraPreset: Graphs3D.CameraPreset.IsometricLeftHigh
 
                 Bar3DSeries {

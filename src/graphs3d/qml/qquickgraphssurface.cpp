@@ -446,7 +446,7 @@ void QQuickGraphsSurface::setSelectedPoint(const QPoint &position,
             pos = invalidSelectionPosition();
     }
 
-    if (selectionMode().testFlag(QGraphs3D::SelectionSlice)) {
+    if (selectionMode().testFlag(QGraphs3D::SelectionFlag::Slice)) {
         if (pos == invalidSelectionPosition() || !series->isVisible()) {
             scene()->setSlicingActive(false);
         } else {
@@ -494,14 +494,14 @@ void QQuickGraphsSurface::setSelectedPoint(const QPoint &position,
 void QQuickGraphsSurface::setSelectionMode(QGraphs3D::SelectionFlags mode)
 {
     // Currently surface only supports row and column modes when also slicing
-    if ((mode.testFlag(QGraphs3D::SelectionRow)
-         || mode.testFlag(QGraphs3D::SelectionColumn))
-        && !mode.testFlag(QGraphs3D::SelectionSlice)) {
+    if ((mode.testFlag(QGraphs3D::SelectionFlag::Row)
+         || mode.testFlag(QGraphs3D::SelectionFlag::Column))
+        && !mode.testFlag(QGraphs3D::SelectionFlag::Slice)) {
         qWarning("Unsupported selection mode.");
         return;
-    } else if (mode.testFlag(QGraphs3D::SelectionSlice)
-               && (mode.testFlag(QGraphs3D::SelectionRow)
-                   == mode.testFlag(QGraphs3D::SelectionColumn))) {
+    } else if (mode.testFlag(QGraphs3D::SelectionFlag::Slice)
+               && (mode.testFlag(QGraphs3D::SelectionFlag::Row)
+                   == mode.testFlag(QGraphs3D::SelectionFlag::Column))) {
         qWarning("Must specify one of either row or column selection mode"
                  "in conjunction with slicing mode.");
     } else {
@@ -516,8 +516,8 @@ void QQuickGraphsSurface::setSelectionMode(QGraphs3D::SelectionFlags mode)
 
             // Special case: Always deactivate slicing when changing away from slice
             // automanagement, as this can't be handled in setSelectedBar.
-            if (!mode.testFlag(QGraphs3D::SelectionSlice)
-                && oldMode.testFlag(QGraphs3D::SelectionSlice)) {
+            if (!mode.testFlag(QGraphs3D::SelectionFlag::Slice)
+                && oldMode.testFlag(QGraphs3D::SelectionFlag::Slice)) {
                 scene()->setSlicingActive(false);
             }
         }
@@ -729,7 +729,7 @@ void QQuickGraphsSurface::synchData()
     QQuickGraphsItem::synchData();
 
     if (isSelectedPointChanged()) {
-        if (selectionMode().testFlag(QGraphs3D::SelectionItem))
+        if (selectionMode().testFlag(QGraphs3D::SelectionFlag::Item))
             updateSelectedPoint();
         setSelectedPointChanged(false);
     }
@@ -868,7 +868,7 @@ void QQuickGraphsSurface::updateGraph()
         setSeriesVisualsDirty(false);
     }
 
-    if (selectionMode().testFlag(QGraphs3D::SelectionItem))
+    if (selectionMode().testFlag(QGraphs3D::SelectionFlag::Item))
         updateSelectedPoint();
 }
 
@@ -1400,7 +1400,7 @@ void QQuickGraphsSurface::createProxyModel(SurfaceModel *model)
     proxyModel->setParentItem(model->model);
     proxyModel->setObjectName(QStringLiteral("ProxyModel"));
     proxyModel->setVisible(true);
-    if (selectionMode().testFlag(QGraphs3D::SelectionNone))
+    if (selectionMode().testFlag(QGraphs3D::SelectionFlag::None))
         proxyModel->setPickable(false);
     else
         proxyModel->setPickable(true);
@@ -1567,7 +1567,7 @@ void QQuickGraphsSurface::updateSliceGraph()
         model->sliceModel->setVisible(visible);
         model->sliceGridModel->setVisible(visible);
 
-        if (!selectionMode().testFlag(QGraphs3D::SelectionMultiSeries) && !model->picked) {
+        if (!selectionMode().testFlag(QGraphs3D::SelectionFlag::MultiSeries) && !model->picked) {
             model->sliceModel->setVisible(false);
             model->sliceGridModel->setVisible(false);
             continue;
@@ -1602,7 +1602,7 @@ void QQuickGraphsSurface::updateSliceGraph()
         const qsizetype maxColumn = array.at(0).size() - 1;
         const bool ascendingX = array.at(0).at(0).x() < array.at(0).at(maxColumn).x();
         const bool ascendingZ = array.at(0).at(0).z() < array.at(maxRow).at(0).z();
-        if (selectionMode().testFlag(QGraphs3D::SelectionRow) && coord.y() != -1) {
+        if (selectionMode().testFlag(QGraphs3D::SelectionFlag::Row) && coord.y() != -1) {
             selectedSeries.reserve(columnCount * 2);
             QVector<SurfaceVertex> list;
             QSurfaceDataRow row = array.at(coord.y());
@@ -1621,7 +1621,7 @@ void QQuickGraphsSurface::updateSliceGraph()
             indexCount = columnCount - 1;
         }
 
-        if (selectionMode().testFlag(QGraphs3D::SelectionColumn) && coord.x() != -1) {
+        if (selectionMode().testFlag(QGraphs3D::SelectionFlag::Column) && coord.x() != -1) {
             selectedSeries.reserve(rowCount * 2);
             QVector<SurfaceVertex> list;
             for (int i = rowStart; i < rowEnd; i++) {
@@ -1812,8 +1812,8 @@ bool QQuickGraphsSurface::doPicking(const QPointF &position)
     QVector3D pickedPos(0.0f, 0.0f, 0.0f);
     QQuick3DModel *pickedModel = nullptr;
 
-    if (!selectionMode().testFlag(QGraphs3D::SelectionNone)) {
-        if (!sliceView() && selectionMode().testFlag(QGraphs3D::SelectionSlice))
+    if (!selectionMode().testFlag(QGraphs3D::SelectionFlag::None)) {
+        if (!sliceView() && selectionMode().testFlag(QGraphs3D::SelectionFlag::Slice))
             createSliceView();
 
         if (!pickResult.isEmpty()) {
@@ -1893,7 +1893,7 @@ void QQuickGraphsSurface::updateSelectedPoint()
         }
     }
     for (auto model : m_model) {
-        if ((!selectionMode().testFlag(QGraphs3D::SelectionMultiSeries) && !model->picked)
+        if ((!selectionMode().testFlag(QGraphs3D::SelectionFlag::MultiSeries) && !model->picked)
             || model->selectedVertex.position.isNull()) {
             continue;
         }
@@ -1913,11 +1913,11 @@ void QQuickGraphsSurface::updateSelectedPoint()
         selectedVertex.position = pos;
         selectedVertex.coord = model->selectedVertex.coord;
         if (model->series->isVisible() && !selectedVertex.position.isNull()
-            && selectionMode().testFlag(QGraphs3D::SelectionItem)) {
+            && selectionMode().testFlag(QGraphs3D::SelectionFlag::Item)) {
             m_instancing->addPosition(selectedVertex.position);
             QVector3D slicePosition = getNormalizedVertex(dataPos, false, false);
             if (sliceView() && sliceView()->isVisible()) {
-                if (selectionMode().testFlag(QGraphs3D::SelectionColumn))
+                if (selectionMode().testFlag(QGraphs3D::SelectionFlag::Column))
                     slicePosition.setX(-slicePosition.z());
                 slicePosition.setZ(.0f);
                 m_sliceInstancing->addPosition(slicePosition);
@@ -1950,7 +1950,7 @@ void QQuickGraphsSurface::addModel(QSurface3DSeries *series)
     model->setParentItem(parent);
     model->setObjectName(QStringLiteral("SurfaceModel"));
     model->setVisible(visible);
-    if (selectionMode().testFlag(QGraphs3D::SelectionNone))
+    if (selectionMode().testFlag(QGraphs3D::SelectionFlag::None))
         model->setPickable(false);
     else
         model->setPickable(true);
@@ -2090,7 +2090,7 @@ void QQuickGraphsSurface::updateSliceItemLabel(QString label, const QVector3D &p
 void QQuickGraphsSurface::updateSelectionMode(QGraphs3D::SelectionFlags mode)
 {
     checkSliceEnabled();
-    bool validSlice = mode.testFlag(QGraphs3D::SelectionSlice)
+    bool validSlice = mode.testFlag(QGraphs3D::SelectionFlag::Slice)
                       && m_selectedPoint != invalidSelectionPosition();
     if (sliceView() && sliceView()->isVisible()) {
         if (validSlice) {

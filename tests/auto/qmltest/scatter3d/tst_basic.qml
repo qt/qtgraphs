@@ -49,7 +49,7 @@ import QtQuick 2.2
 import QtGraphs
 Scatter3D {
 anchors.fill: parent
-selectionMode: Graphs3D.SelectionNone
+selectionMode: Graphs3D.SelectionFlag.None
 shadowQuality: Graphs3D.ShadowQuality.Low
 msaaSamples: 2
 theme: GraphsTheme { }
@@ -114,7 +114,7 @@ shadowStrength: 50.0
         function test_1_common() {
             constructCommon()
             compare(common.selectionMode,
-                    Graphs3D.SelectionItem, "selectionMode")
+                    Graphs3D.SelectionFlag.Item, "selectionMode")
             compare(common.shadowQuality,
                     Graphs3D.ShadowQuality.Medium,
                     "shadowQuality")
@@ -146,7 +146,7 @@ shadowStrength: 50.0
         }
 
         function test_2_change_common() {
-            common.selectionMode = Graphs3D.SelectionNone
+            common.selectionMode = Graphs3D.SelectionFlag.None
             common.shadowQuality = Graphs3D.ShadowQuality.SoftHigh
             compare(common.shadowQuality,
                     Graphs3D.ShadowQuality.SoftHigh,
@@ -170,7 +170,7 @@ shadowStrength: 50.0
             common.lightStrength = 10.0
             common.shadowStrength = 50.0
             compare(common.selectionMode,
-                    Graphs3D.SelectionNone, "selectionMode")
+                    Graphs3D.SelectionFlag.None, "selectionMode")
             compare(common.shadowQuality,
                     Graphs3D.ShadowQuality.None,
                     "shadowQuality") // Ortho disables shadows
@@ -197,9 +197,9 @@ shadowStrength: 50.0
         }
 
         function test_3_change_invalid_common() {
-            common.selectionMode = Graphs3D.SelectionRow
-                    | Graphs3D.SelectionColumn
-                    | Graphs3D.SelectionSlice
+            common.selectionMode = Graphs3D.SelectionFlag.Row
+                    | Graphs3D.SelectionFlag.Column
+                    | Graphs3D.SelectionFlag.Slice
             common.theme.type = -2
             common.renderingMode = -1
             common.measureFps = false
@@ -208,7 +208,7 @@ shadowStrength: 50.0
             common.polar = false
             common.horizontalAspectRatio = -2
             compare(common.selectionMode,
-                    Graphs3D.SelectionNone, "selectionMode")
+                    Graphs3D.SelectionFlag.None, "selectionMode")
             compare(common.theme.type, -2 /*Theme3D.Theme.Retro*/
                     , "theme") // TODO: Fix once QTRD-3367 is done
             compare(common.renderingMode,
@@ -244,7 +244,7 @@ shadowStrength: 50.0
             constructCommonInit()
 
             compare(common_init.selectionMode,
-                    Graphs3D.SelectionNone, "selectionMode")
+                    Graphs3D.SelectionFlag.None, "selectionMode")
             tryCompare(common_init, "shadowQuality",
                        Graphs3D.ShadowQuality.Low)
             compare(common_init.msaaSamples, 2, "msaaSamples")

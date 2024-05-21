@@ -163,13 +163,13 @@
     rows by clicking an axis label in the following way:
 
     \list 1
-        \li Change selection mode to \c SelectionRow
+        \li Change selection mode to \c Row
         \li Click a year label
         \li The row with the clicked year is selected
     \endlist
 
-    The same method works with \c SelectionSlice and \c SelectionItem flags, as long as
-    either \c SelectionRow or \c SelectionColumn is set as well.
+    The same method works with \c Slice and \c Item flags, as long as
+    either \c Row or \c Column is set as well.
 
     \section2 Zooming to Selection
 
@@ -489,7 +489,7 @@
 
     \snippet 3d/widgetgraphgallery/surfacegraphmodifier.h 0
 
-    Add \c{QAbstract3DGraph::SelectionSlice} and \c{QAbstract3DGraph::SelectionMultiSeries} flags
+    Add \c{QGraphs3D::SelectionFlag::Slice} and \c{QGraphs3D::SelectionFlag::MultiSeries} flags
     for the row and column selection modes to support doing a slice selection to all visible series
     in the graph simultaneously.
 

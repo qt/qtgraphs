@@ -312,7 +312,7 @@ Item {
             width: dataView.width
             height: dataView.height
             shadowQuality: Graphs3D.ShadowQuality.Medium
-            selectionMode: Graphs3D.SelectionItemAndRow | Graphs3D.SelectionSlice
+            selectionMode: Graphs3D.SelectionFlag.ItemAndRow | Graphs3D.SelectionFlag.Slice
             theme: theme1
             barThickness: 0.7
             barSpacing: Qt.size(0.5, 0.5)
