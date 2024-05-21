@@ -129,6 +129,7 @@ void AreaRenderer::handlePolish(QAreaSeries *series)
             ? series->color()
             : seriesColors.at(index);
     const auto &borderColors = theme->borderColors();
+    index = group->colorIndex % borderColors.size();
     QColor borderColor = series->borderColor().alpha() != 0
             ? series->borderColor()
             : borderColors.at(index);
