@@ -38,8 +38,32 @@ QT_BEGIN_NAMESPACE
     \qmlsignal XYSeries::pointReplaced(int index)
     This signal is emitted when a point is replaced at the position specified by
     \a index.
+*/
 
-    The corresponding signal handler is \c onPointReplaced().
+/*!
+    \qmlsignal XYSeries::colorChanged(color color)
+    This signal is emitted when the line color changes to \a color.
+*/
+
+/*!
+    \qmlsignal XYSeries::selectedColorChanged(color color)
+    This signal is emitted when the color of selected series changes to \a color.
+*/
+
+/*!
+    \qmlsignal XYSeries::selectedPointsChanged()
+    This signal is emitted when the set of selected points changes.
+*/
+
+/*!
+    \qmlsignal XYSeries::pointMarkerChanged()
+    This signal is emitted when a point is changed.
+*/
+
+/*!
+    \qmlsignal XYSeries::draggableChanged()
+    This signal is emitted when a series becomes draggable by a mouse/touch or
+    becomes fixed.
 */
 
 QXYSeries::QXYSeries(QXYSeriesPrivate &dd, QObject *parent)
@@ -174,7 +198,7 @@ void QXYSeries::replace(qsizetype index, const QPointF &newPoint)
 /*!
     Replaces the current points with the points specified by \a points
     \note This is much faster than replacing data points one by one, or first
-    clearing all data, and then appending the new data. Emits \l pointReplaced
+    clearing all data, and then appending the new data. Emits \l pointsReplaced
     when the points have been replaced.
 */
 void QXYSeries::replace(const QList<QPointF> &points)

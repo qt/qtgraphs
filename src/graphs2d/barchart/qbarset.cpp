@@ -133,46 +133,50 @@ QT_BEGIN_NAMESPACE
     \fn void QBarSet::update()
     This signal is emitted when the barset is updated.
 */
+/*!
+    \qmlsignal BarSet::update()
+    This signal is emitted when the barset is updated.
+*/
 
 /*!
-    \fn void QBarSet::labelChanged()
+    \qmlsignal BarSet::labelChanged()
     This signal is emitted when the label of the bar set changes.
     \sa label
 */
 
 /*!
-    \fn void QBarSet::colorChanged(QColor)
+    \qmlsignal BarSet::colorChanged(color)
     This signal is emitted when the fill color of the bar set changes to \a color.
 */
 
 /*!
-    \fn void QBarSet::borderColorChanged(QColor)
+    \qmlsignal BarSet::borderColorChanged(color)
     This signal is emitted when the border color of the bar set changes to \a color.
 */
 
 /*!
-    \fn void QBarSet::labelColorChanged(QColor)
+    \qmlsignal BarSet::labelColorChanged(color)
     This signal is emitted when the text (label) color of the bar set changes to \a color.
 */
 
 /*!
-    \fn void QBarSet::valuesChanged()
+    \qmlsignal BarSet::valuesChanged()
     This signal is emitted when the values of the bar set change.
 */
 
 /*!
-    \fn void QBarSet::selectedColorChanged(const QColor &color)
+    \qmlsignal BarSet::selectedColorChanged(color color)
     This signal is emitted when the selected bar color changes. The new color is
-    indicated by \a color.
+    \a color.
 */
 
 /*!
-    \fn void QBarSet::countChanged()
+    \qmlsignal BarSet::countChanged()
     This signal is emitted when the barset's value count changes.
 */
 
 /*!
-    \fn void QBarSet::borderWidthChanged(qreal width)
+    \qmlsignal BarSet::borderWidthChanged(real width)
     This signal is emitted when the barset's border width changes.
     The new width is \a width.
 */
@@ -189,8 +193,6 @@ QT_BEGIN_NAMESPACE
     This signal is emitted when new values are added to the bar set.
     \a index indicates the position of the first inserted value, and \a count is the number
     of inserted values.
-
-    The corresponding signal handler is \c onValuesAdded.
 */
 
 /*!
@@ -205,8 +207,6 @@ QT_BEGIN_NAMESPACE
     This signal is emitted when values are removed from the bar set.
     \a index indicates the position of the first removed value, and \a count is the number
     of removed values.
-
-    The corresponding signal handler is \c onValuesRemoved.
 */
 
 /*!
@@ -217,31 +217,50 @@ QT_BEGIN_NAMESPACE
 /*!
     \qmlsignal BarSet::valueChanged(int index)
     This signal is emitted when the value at the position specified by \a index is modified.
-
-    The corresponding signal handler is \c onValueChanged.
 */
 
 /*!
     \fn void QBarSet::updatedBars()
     This signal is emitted when the bars in this set are updated.
 */
+/*!
+    \qmlsignal BarSet::updatedBars()
+    This signal is emitted when the bars in this set are updated.
+*/
 
 /*!
     \fn void QBarSet::valueAdded(qsizetype index, qsizetype count)
     This signal is emitted when new values are added to the bar set.
-    \a index indicates the position of the first inserted value, and \a count is the number
-    of inserted values.
+    \a index indicates the position of the first inserted value, and \a count
+    is the number of inserted values.
+*/
+/*!
+    \qmlsignal BarSet::valueAdded(int index, int count)
+    This signal is emitted when new values are added to the bar set.
+    \a index indicates the position of the first inserted value, and \a count
+    is the number of inserted values.
 */
 
 /*!
     \fn void QBarSet::valueRemoved(qsizetype index, qsizetype count)
     This signal is emitted when values are removed from the bar set.
-    \a index indicates the position of the first removed value, and \a count is the number
-    of removed values.
+    \a index indicates the position of the first removed value, and \a count
+    is the number of removed values.
+*/
+/*!
+    \qmlsignal BarSet::valueRemoved(int index, int count)
+    This signal is emitted when values are removed from the bar set.
+    \a index indicates the position of the first removed value, and \a count
+    is the number of removed values.
 */
 
 /*!
     \fn void QBarSet::selectedBarsChanged(const QList<qsizetype> &indexes)
+    This signal is emitted when the selected bar changes. \a indexes is
+    a list selected bar indexes.
+*/
+/*!
+    \qmlsignal BarSet::selectedBarsChanged(list<int> indexes)
     This signal is emitted when the selected bar changes. \a indexes is
     a list selected bar indexes.
 */

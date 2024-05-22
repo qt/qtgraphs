@@ -87,35 +87,29 @@ QT_BEGIN_NAMESPACE
 */
 
 /*!
-    \fn void QBarCategoryAxis::categoriesChanged()
+    \qmlsignal BarCategoryAxis::categoriesChanged()
     This signal is emitted when the categories of the axis change.
 */
 
 /*!
-    \fn void QBarCategoryAxis::minChanged(const QString &min)
-    This signal is emitted when the \a min value of the axis changes.
+    \qmlsignal BarCategoryAxis::minChanged(string min)
+    This signal is emitted when the axis minimum value changes to \a min.
 */
 
 /*!
-    \fn void QBarCategoryAxis::maxChanged(const QString &max)
-    This signal is emitted when the \a max value of the axis changes.
+    \qmlsignal BarCategoryAxis::maxChanged(string max)
+    This signal is emitted when the axis maximum value changes to \a max.
 */
 
 /*!
-    \fn void QBarCategoryAxis::countChanged()
+    \qmlsignal BarCategoryAxis::countChanged()
     This signal is emitted when the number of categories of an axis changes.
 */
 
 /*!
-    \fn void QBarCategoryAxis::categoryRangeChanged(const QString &min, const QString &max)
-    This signal is emitted when \a min or \a max value of the axis changes.
-*/
-
-/*!
     \qmlsignal BarCategoryAxis::categoryRangeChanged(string min, string max)
-    This signal is emitted when \a min or \a max value of the axis changes.
-
-    The corresponding signal handler is \c onCategoryRangeChanged.
+    This signal is emitted when the range of categories of the axis changes. \a min and \a max are
+    the min and max of the new range.
 */
 
 /*!

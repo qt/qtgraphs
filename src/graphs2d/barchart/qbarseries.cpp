@@ -149,10 +149,6 @@ QT_BEGIN_NAMESPACE
 
     \sa QBarSeries::labelsFormat, labelsVisible, labelsPosition
 */
-/*!
-    \fn void QBarSeries::labelsFormatChanged(const QString &format)
-    This signal is emitted when the \a format of data value labels changes.
-*/
 
 /*!
     \enum QBarSeries::LabelsPosition
@@ -187,10 +183,6 @@ QT_BEGIN_NAMESPACE
 
     \sa labelsVisible, labelsFormat
 */
-/*!
-    \fn void QBarSeries::labelsPositionChanged(QBarSeries::LabelsPosition position)
-    This signal is emitted when the \a position of value labels changes.
-*/
 
 /*!
     \property QBarSeries::labelsMargin
@@ -206,10 +198,6 @@ QT_BEGIN_NAMESPACE
     This margin from side is used when \l labelsPosition is set to something else
     than \c LabelsPosition.Center. The default value is \c 0.
 */
-/*!
-    \fn void QBarSeries::labelsMarginChanged(qreal margin)
-    This signal is emitted when the \a margin of the value labels changes.
-*/
 
 /*!
     \property QBarSeries::labelsAngle
@@ -218,10 +206,6 @@ QT_BEGIN_NAMESPACE
 /*!
     \qmlproperty real BarSeries::labelsAngle
     The angle of the value labels in degrees.
-*/
-/*!
-    \fn void QBarSeries::labelsAngleChanged(qreal angle)
-    This signal is emitted when the \a angle of the value labels changes.
 */
 
 /*!
@@ -338,10 +322,6 @@ QT_BEGIN_NAMESPACE
     \qmlproperty list<BarSet> BarSeries::barSets
     A list of sets added to the series.
 */
-/*!
-    \fn void QBarSeries::labelsPrecisionChanged(int precision)
-    This signal is emitted when the \a precision of the value labels changes.
-*/
 
 /*!
     \fn void QBarSeries::clicked(qsizetype index, QBarSet *barset)
@@ -352,8 +332,6 @@ QT_BEGIN_NAMESPACE
     \qmlsignal BarSeries::clicked(int index, BarSet barset)
     This signal is emitted when the user clicks the bar specified by \a index
     in the bar set specified by \a barset.
-
-    The corresponding signal handler is \c onClicked.
 */
 
 /*!
@@ -365,8 +343,6 @@ QT_BEGIN_NAMESPACE
     \qmlsignal BarSeries::pressed(int index, BarSet barset)
     This signal is emitted when the user clicks the bar specified by \a index
     in the bar set specified by \a barset and holds down the mouse button.
-
-    The corresponding signal handler is \c onPressed.
 */
 
 /*!
@@ -378,8 +354,6 @@ QT_BEGIN_NAMESPACE
     \qmlsignal BarSeries::released(int index, BarSet barset)
     This signal is emitted when the user releases the mouse press on the bar
     specified by \a index in the bar set specified by \a barset.
-
-    The corresponding signal handler is \c onReleased.
 */
 
 /*!
@@ -391,8 +365,6 @@ QT_BEGIN_NAMESPACE
     \qmlsignal BarSeries::doubleClicked(int index, BarSet barset)
     This signal is emitted when the user double-clicks the bar specified by \a index
     in the bar set specified by \a barset.
-
-    The corresponding signal handler is \c onDoubleClicked.
 */
 
 /*!
@@ -408,8 +380,6 @@ QT_BEGIN_NAMESPACE
     This signal is emitted when a mouse is hovered over the bar specified by \a index in the
     bar set specified by \a barset. When the mouse moves over the bar, \a status turns \c true,
     and when the mouse moves away again, it turns \c false.
-
-    The corresponding signal handler is \c onHovered.
 */
 
 /*!
@@ -427,17 +397,6 @@ QT_BEGIN_NAMESPACE
 */
 
 /*!
-    \fn void QBarSeries::countChanged()
-    This signal is emitted when the number of bar sets is changed, for example by append() or
-    remove().
-*/
-
-/*!
-    \fn void QBarSeries::barWidthChanged()
-    This signal is emitted when the bar width changes.
-*/
-
-/*!
     \fn void QBarSeries::labelsVisibleChanged(bool visible)
     This signal is emitted when the labels' visibility changes to \a visible.
     \sa labelsVisible(), setLabelsVisible()
@@ -451,8 +410,6 @@ QT_BEGIN_NAMESPACE
 /*!
     \qmlsignal BarSeries::barsetsAdded()
     This signal is emitted when bar sets are added to the series.
-
-    The corresponding signal handler is \c onBarsetsAdded.
 */
 
 /*!
@@ -463,13 +420,6 @@ QT_BEGIN_NAMESPACE
 /*!
     \qmlsignal BarSeries::barsetsRemoved()
     This signal is emitted when bar sets are removed from the series.
-
-    The corresponding signal handler is \c onBarsetsRemoved.
-*/
-
-/*!
-    \qmlsignal BarSeries::barSetsChanged()
-    This signal is emitted when barsets changes.
 */
 
 /*!

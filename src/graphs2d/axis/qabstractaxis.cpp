@@ -188,63 +188,63 @@ QT_BEGIN_NAMESPACE
 */
 
 /*!
-    \fn void QAbstractAxis::visibleChanged(bool visible)
-    This signal is emitted when the visibility of the axis changes to \a visible.
-*/
-
-/*!
-    \fn void QAbstractAxis::lineVisibleChanged(bool visible)
-    This signal is emitted when the visibility of the axis line changes to \a visible.
-*/
-
-/*!
-    \fn void QAbstractAxis::labelsVisibleChanged(bool visible)
-    This signal is emitted when the visibility of the labels of the axis changes to \a visible.
-*/
-
-/*!
-    \fn void QAbstractAxis::labelsAngleChanged(qreal angle)
-    This signal is emitted when the angle of the axis labels changes to \a angle.
-*/
-
-/*!
-    \fn void QAbstractAxis::gridVisibleChanged(bool visible)
-    This signal is emitted when the visibility of the grid lines of the axis changes to \a visible.
-*/
-
-/*!
-    \fn void QAbstractAxis::minorGridVisibleChanged(bool visible)
-    This signal is emitted when the visibility of the minor grid lines of the axis
-    changes to \a visible.
-*/
-
-/*!
-    \fn void QAbstractAxis::titleTextChanged(const QString &text)
-    This signal is emitted when the text of the axis title changes to \a text.
-*/
-
-/*!
-    \fn void QAbstractAxis::titleColorChanged(const QColor &color)
-    This signal is emitted when the color used to draw the axis title changes to \a color.
-*/
-
-/*!
-    \fn void QAbstractAxis::titleVisibleChanged(bool visible)
-    This signal is emitted when the visibility of the title text of the axis changes to \a visible.
-*/
-
-/*!
-    \fn void QAbstractAxis::titleFontChanged(const QFont &font)
-    This signal is emitted when the font of the axis title changes to \a font.
-*/
-
-/*!
     \fn void QAbstractAxis::update()
     This signal is emitted when the axis needs to be updated.
 */
 
 /*!
-    \fn void QAbstractAxis::rangeChanged(qreal min, qreal max)
+    \qmlsignal AbstractAxis::visibleChanged(bool visible)
+    This signal is emitted when the visibility of the axis changes to \a visible.
+*/
+
+/*!
+    \qmlsignal AbstractAxis::lineVisibleChanged(bool visible)
+    This signal is emitted when the visibility of the axis line changes to \a visible.
+*/
+
+/*!
+    \qmlsignal AbstractAxis::labelsVisibleChanged(bool visible)
+    This signal is emitted when the visibility of the labels of the axis changes to \a visible.
+*/
+
+/*!
+    \qmlsignal AbstractAxis::labelsAngleChanged(string angle)
+    This signal is emitted when the angle of the axis labels changes to \a angle.
+*/
+
+/*!
+    \qmlsignal AbstractAxis::gridVisibleChanged(bool visible)
+    This signal is emitted when the visibility of the grid lines of the axis changes to \a visible.
+*/
+
+/*!
+    \qmlsignal AbstractAxis::minorGridVisibleChanged(bool visible)
+    This signal is emitted when the visibility of the minor grid lines of the axis
+    changes to \a visible.
+*/
+
+/*!
+    \qmlsignal AbstractAxis::titleTextChanged(string text)
+    This signal is emitted when the text of the axis title changes to \a text.
+*/
+
+/*!
+    \qmlsignal AbstractAxis::titleColorChanged(color color)
+    This signal is emitted when the color used to draw the axis title changes to \a color.
+*/
+
+/*!
+    \qmlsignal AbstractAxis::titleVisibleChanged(bool visible)
+    This signal is emitted when the visibility of the title text of the axis changes to \a visible.
+*/
+
+/*!
+    \qmlsignal AbstractAxis::titleFontChanged(Font font)
+    This signal is emitted when the font of the axis title changes to \a font.
+*/
+
+/*!
+    \qmlsignal AbstractAxis::rangeChanged(string min, string max)
     This signal is emitted when the axis range changes. \a min and \a max are
     the min and max of the new range.
 */

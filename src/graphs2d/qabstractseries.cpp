@@ -118,7 +118,7 @@ QT_BEGIN_NAMESPACE
 */
 /*!
     \qmlproperty string AbstractSeries::name
-    The name of the series. It is displayed in the legend for the series and it
+    The name of the series. The name is displayed in the legend for the series and it
     supports HTML formatting.
 */
 
@@ -195,37 +195,42 @@ QT_BEGIN_NAMESPACE
 */
 
 /*!
-    \fn void QAbstractSeries::legendDataChanged()
+    \qmlsignal AbstractSeries::legendDataChanged()
     This signal is emitted when legend data changes.
 */
 
 /*!
-    \fn void QAbstractSeries::nameChanged()
-    This signal is emitted when the series name changes.
+    \qmlsignal AbstractSeries::themeChanged()
+    This signal is emitted when the series \l theme changes.
 */
 
 /*!
-    \fn void QAbstractSeries::visibleChanged()
+    \qmlsignal AbstractSeries::nameChanged()
+    This signal is emitted when the series \l name changes.
+*/
+
+/*!
+    \qmlsignal AbstractSeries::visibleChanged()
     This signal is emitted when the series visibility changes.
 */
 
 /*!
-    \fn void QAbstractSeries::selectableChanged()
-    This signal is emitted when the series selectable changes.
+    \qmlsignal AbstractSeries::selectableChanged()
+    This signal is emitted when the series \l selectable changes.
 */
 
 /*!
-    \fn void QAbstractSeries::hoverableChanged()
-    This signal is emitted when the series hoverable changes.
+    \qmlsignal AbstractSeries::hoverableChanged()
+    This signal is emitted when the series \l hoverable changes.
 */
 
 /*!
-    \fn void QAbstractSeries::opacityChanged()
-    This signal is emitted when the opacity of the series changes.
+    \qmlsignal AbstractSeries::opacityChanged()
+    This signal is emitted when the \l opacity of the series changes.
 */
 
 /*!
-    \fn void QAbstractSeries::valuesMultiplierChanged()
+    \qmlsignal AbstractSeries::valuesMultiplierChanged()
     This signal is emitted when the valuesMultiplier of the series changes.
 */
 

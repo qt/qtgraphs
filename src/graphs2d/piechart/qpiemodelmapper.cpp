@@ -189,7 +189,7 @@ QT_BEGIN_NAMESPACE
 
 /*!
     \qmlsignal PieModelMapper::firstChanged()
-    This signal is emitted when the first changes.
+    This signal is emitted when the first slice changes.
 */
 
 /*!

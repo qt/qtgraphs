@@ -46,6 +46,16 @@ QT_BEGIN_NAMESPACE
     \sa Qt::PenCapStyle
 */
 
+/*!
+    \qmlsignal SplineSeries::widthChanged()
+    This signal is emitted when the spline series width changes.
+*/
+
+/*!
+    \qmlsignal SplineSeries::capStyleChanged()
+    This signal is emitted when the spline series cap style changes.
+*/
+
 QSplineSeries::QSplineSeries(QObject *parent)
     : QXYSeries(*(new QSplineSeriesPrivate()), parent)
 {}

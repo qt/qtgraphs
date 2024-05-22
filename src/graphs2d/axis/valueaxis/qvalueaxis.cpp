@@ -148,54 +148,46 @@ QT_BEGIN_NAMESPACE
 */
 
 /*!
-  \fn void QValueAxis::minChanged(qreal min)
-  This signal is emitted when the minimum value of the axis, specified by \a min, changes.
+  \qmlsignal ValueAxis::minChanged(real min)
+  This signal is emitted when the minimum value of the axis changes to \a min.
 */
 
 /*!
-  \fn void QValueAxis::maxChanged(qreal max)
-  This signal is emitted when the maximum value of the axis, specified by \a max, changes.
+  \qmlsignal ValueAxis::maxChanged(real max)
+  This signal is emitted when the maximum value of the axis changes to \a max.
 */
 
 /*!
-  \fn void QValueAxis::minorTickCountChanged(int minorTickCount)
+  \qmlsignal ValueAxis::minorTickCountChanged(int minorTickCount)
   This signal is emitted when the number of minor tick marks on the axis, specified by
   \a minorTickCount, changes.
 */
 
 /*!
-  \fn void QValueAxis::rangeChanged(qreal min, qreal max)
-  This signal is emitted when the minimum or maximum value of the axis, specified by \a min
-  and \a max, changes.
+    \qmlsignal ValueAxis::rangeChanged(real min, real max)
+  This signal is emitted when the minimum or maximum value of the axis
+  changes to \a min and \a max, respectively.
 */
 
 /*!
-    \qmlsignal ValueAxis::rangeChanged(string min, string max)
-    This signal is emitted when \a min or \a max value of the axis changes.
-
-    The corresponding signal handler is \c onRangeChanged.
+  \qmlsignal ValueAxis::labelFormatChanged(string format)
+  This signal is emitted when the format of axis labels changes to \a format.
 */
 
 /*!
-  \fn void QValueAxis::labelFormatChanged(const QString &format)
-  This signal is emitted when the \a format of axis labels changes.
+  \qmlsignal ValueAxis::labelDecimalsChanged(int decimals)
+  This signal is emitted when the amount of axis label decimals changes to \a decimals.
 */
 
 /*!
-  \fn void QValueAxis::labelDecimalsChanged(int decimals)
-  This signal is emitted when the \a decimals amount of axis labels changes.
+  \qmlsignal ValueAxis::tickAnchorChanged(real tickAnchor)
+  This signal is emitted when the tick anchoring value changes to \a tickAnchor.
 */
 
 /*!
-  \fn void QValueAxis::tickAnchorChanged(qreal tickAnchor)
-  This signal is emitted when the tick anchoring value, specified by
-  \a tickAnchor, changes.
-*/
-
-/*!
-  \fn void QValueAxis::tickIntervalChanged(qreal tickInterval)
-  This signal is emitted when the tick interval value, specified by
-  \a tickInterval, changes.
+  \qmlsignal ValueAxis::tickIntervalChanged(string tickInterval)
+  This signal is emitted when the tick interval value, changes to
+  \a tickInterval.
 */
 
 /*!

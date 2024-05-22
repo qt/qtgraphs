@@ -161,7 +161,7 @@ QT_BEGIN_NAMESPACE
 */
 /*!
     \qmlsignal PieSeries::sizeChanged()
-    This signal is emitted when the size changes.
+    This signal is emitted when the pie size changes.
     \sa size
 */
 
@@ -188,7 +188,7 @@ QT_BEGIN_NAMESPACE
 */
 /*!
     \qmlsignal PieSeries::holeSizeChanged()
-    This signal is emitted when the hole size changes.
+    This signal is emitted when the donut hole size changes.
     \sa holeSize
 */
 
@@ -212,7 +212,7 @@ QT_BEGIN_NAMESPACE
 */
 /*!
     \qmlsignal PieSeries::startAngleChanged()
-    This signal is emitted when the start angle changes.
+    This signal is emitted when the pie start angle changes.
     \sa startAngle
 */
 
@@ -236,7 +236,7 @@ QT_BEGIN_NAMESPACE
 */
 /*!
     \qmlsignal PieSeries::endAngleChanged()
-    This signal is emitted when the end angle changes.
+    This signal is emitted when the pie end angle changes.
     \sa endAngle
 */
 

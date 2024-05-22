@@ -64,6 +64,16 @@ QT_BEGIN_NAMESPACE
     \endcode
 */
 
+/*!
+    \qmlsignal LineSeries::widthChanged()
+    This signal is emitted when the line series width changes.
+*/
+
+/*!
+    \qmlsignal LineSeries::capStyleChanged()
+    This signal is emitted when the line series cap style changes.
+*/
+
 QLineSeries::QLineSeries(QObject *parent)
     : QXYSeries(*(new QLineSeriesPrivate()), parent)
 {}

@@ -121,6 +121,49 @@ QT_BEGIN_NAMESPACE
     is considered the lower bound.
 */
 
+/*!
+    \qmlsignal AreaSeries::colorChanged(color newColor)
+    This signal is emitted when the area \l color changes to \a newColor.
+*/
+
+/*!
+    \qmlsignal AreaSeries::selectedColorChanged(color newSelectedColor)
+    This signal is emitted when the color of a selected area changes to
+    \a newSelectedColor.
+*/
+
+/*!
+    \qmlsignal AreaSeries::borderColorChanged(color newBorderColor)
+    This signal is emitted when the area border color changes to
+    \a newBorderColor.
+*/
+
+/*!
+    \qmlsignal AreaSeries::selectedBorderColorChanged(color newSelectedBorderColor);
+    This signal is emitted when the border color of a selected area changes to
+    \a newSelectedBorderColor.
+*/
+
+/*!
+    \qmlsignal AreaSeries::borderWidthChanged();
+    This signal is emitted when the width of the area border width changes.
+*/
+
+/*!
+    \qmlsignal AreaSeries::selectedChanged();
+    This signal is emitted when the current area is selected.
+*/
+
+/*!
+    \qmlsignal AreaSeries::upperSeriesChanged();
+    This signal is emitted when the upper series changes.
+*/
+
+/*!
+    \qmlsignal AreaSeries::lowerSeriesChanged();
+    This signal is emitted when the lower series changes.
+*/
+
 QAreaSeries::QAreaSeries(QObject *parent)
     : QAbstractSeries(*(new QAreaSeriesPrivate()), parent)
 {}
