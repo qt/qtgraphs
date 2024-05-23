@@ -25,7 +25,7 @@ class QValue3DAxis;
 class QSurface3DSeries;
 class QQuickGraphsSurface;
 class SurfaceSelectionInstancing;
-class Q3DSurface;
+class Q3DSurfaceWidget;
 
 struct Surface3DChangeBitField
 {
@@ -44,7 +44,7 @@ struct Surface3DChangeBitField
     {}
 };
 
-class QQuickGraphsSurface : public QQuickGraphsItem
+class Q_GRAPHS_EXPORT QQuickGraphsSurface : public QQuickGraphsItem
 {
     Q_OBJECT
     Q_PROPERTY(QValue3DAxis *axisX READ axisX WRITE setAxisX NOTIFY axisXChanged)
@@ -265,7 +265,7 @@ private:
 
     DataDimensions m_dataDimensions;
 
-    friend class Q3DSurface;
+    friend class Q3DSurfaceWidget;
 };
 
 QT_END_NAMESPACE

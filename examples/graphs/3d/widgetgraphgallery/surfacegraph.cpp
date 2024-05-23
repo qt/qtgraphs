@@ -75,7 +75,7 @@ static QPixmap highlightPixmap()
 
 SurfaceGraph::SurfaceGraph()
 {
-    m_surfaceGraph = new Q3DSurface();
+    m_surfaceGraph = new Q3DSurfaceWidget();
     initialize();
 }
 

@@ -1,18 +1,18 @@
-// Copyright (C) 2023 The Qt Company Ltd.
+// Copyright (C) 2024 The Qt Company Ltd.
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 
-#ifndef Q3DSCATTER_H
-#define Q3DSCATTER_H
+#ifndef Q3DSCATTERWIDGET_H
+#define Q3DSCATTERWIDGET_H
 
-#include <QtGraphs/qabstract3dgraph.h>
 #include <QtGraphs/qscatter3dseries.h>
 #include <QtGraphs/qvalue3daxis.h>
+#include <QtGraphsWidgets/qabstract3dgraphwidget.h>
 
 QT_BEGIN_NAMESPACE
 
 class QQuickGraphsScatter;
 
-class Q_GRAPHS_EXPORT Q3DScatter : public QAbstract3DGraph
+class Q_GRAPHSWIDGETS_EXPORT Q3DScatterWidget : public QAbstract3DGraphWidget
 {
     Q_OBJECT
     Q_PROPERTY(QValue3DAxis *axisX READ axisX WRITE setAxisX NOTIFY axisXChanged)
@@ -21,8 +21,8 @@ class Q_GRAPHS_EXPORT Q3DScatter : public QAbstract3DGraph
     Q_PROPERTY(QScatter3DSeries *selectedSeries READ selectedSeries NOTIFY selectedSeriesChanged)
 
 public:
-    Q3DScatter();
-    ~Q3DScatter() override;
+    Q3DScatterWidget();
+    ~Q3DScatterWidget() override;
 
     void addSeries(QScatter3DSeries *series);
     void removeSeries(QScatter3DSeries *series);
@@ -49,7 +49,7 @@ Q_SIGNALS:
 private:
     QQuickGraphsScatter *graphScatter();
     const QQuickGraphsScatter *graphScatter() const;
-    Q_DISABLE_COPY(Q3DScatter)
+    Q_DISABLE_COPY(Q3DScatterWidget)
 };
 
 QT_END_NAMESPACE

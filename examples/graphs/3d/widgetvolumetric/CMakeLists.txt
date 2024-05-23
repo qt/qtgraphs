@@ -20,6 +20,7 @@ find_package(Qt6 COMPONENTS Core)
 find_package(Qt6 COMPONENTS Gui)
 find_package(Qt6 COMPONENTS Widgets)
 find_package(Qt6 COMPONENTS Graphs)
+find_package(Qt6 COMPONENTS GraphsWidgets)
 
 qt_add_executable(widgetvolumetric
     main.cpp
@@ -34,6 +35,7 @@ target_link_libraries(widgetvolumetric PUBLIC
     Qt::Gui
     Qt::Widgets
     Qt::Graphs
+    Qt::GraphsWidgets
 )
 
 if (EMSCRIPTEN)

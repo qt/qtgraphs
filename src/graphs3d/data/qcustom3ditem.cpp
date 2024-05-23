@@ -14,7 +14,7 @@ QT_BEGIN_NAMESPACE
  * A custom item has a custom mesh, position, scaling, rotation, and an optional
  * texture.
  *
- * \sa QAbstract3DGraph::addCustomItem()
+ * \sa QAbstract3DGraphWidget::addCustomItem()
  */
 
 /*!
@@ -307,7 +307,7 @@ QVector3D QCustom3DItem::scaling() const
  * unrotated item.
  *
  * \note Only absolute scaling is supported for QCustom3DLabel items or for
- * custom items used in \l{QAbstract3DGraph::polar}{polar} graphs.
+ * custom items used in \l{QAbstract3DGraphWidget::polar}{polar} graphs.
  *
  * \note The custom item's mesh must be normalized to the range \c{[-1 ,1]}, or
  * the data scaling will not be accurate.
@@ -385,7 +385,7 @@ bool QCustom3DItem::isVisible() const
  *
  * Defaults to \c{true}.
  * If \c{false}, the item does not cast shadows regardless of
- * QAbstract3DGraph::ShadowQuality.
+ * QAbstract3DGraphWidget::ShadowQuality.
  */
 void QCustom3DItem::setShadowCasting(bool enabled)
 {

@@ -14,7 +14,7 @@ const int numberOfRows = 8;
 const float limit = 8.0f;
 #define HEDGEHOG
 
-ScatterDataModifier::ScatterDataModifier(Q3DScatter *scatter)
+ScatterDataModifier::ScatterDataModifier(Q3DScatterWidget *scatter)
     : m_graph(scatter),
       m_fontSize(40.0f),
       m_style(QAbstract3DSeries::Mesh::UserDefined),

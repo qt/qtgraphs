@@ -5,7 +5,7 @@
 #define SURFACEGRAPH_H
 
 #include <QtCore/qobject.h>
-#include <QtGraphs/q3dsurface.h>
+#include <QtGraphsWidgets/q3dsurfacewidget.h>
 #include "surfacegraphmodifier.h"
 
 class SurfaceGraph : public QObject
@@ -19,7 +19,7 @@ public:
 
 private:
     SurfaceGraphModifier *m_modifier = nullptr;
-    Q3DSurface *m_surfaceGraph = nullptr;
+    Q3DSurfaceWidget *m_surfaceGraph = nullptr;
     QWidget *m_surfaceWidget = nullptr;
 };
 

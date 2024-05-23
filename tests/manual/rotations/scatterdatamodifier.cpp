@@ -17,7 +17,7 @@ static const float doublePi = float(M_PI) * 2.0f;
 static const float radiansToDegrees = 360.0f / doublePi;
 static const float animationFrames = 30.0f;
 
-ScatterDataModifier::ScatterDataModifier(Q3DScatter *scatter)
+ScatterDataModifier::ScatterDataModifier(Q3DScatterWidget *scatter)
     : m_graph(scatter),
       m_fieldLines(12),
       m_arrowsPerLine(16),

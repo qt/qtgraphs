@@ -18,7 +18,7 @@
 int main(int argc, char **argv)
 {
     QApplication app(argc, argv);
-    Q3DScatter *graph = new Q3DScatter();
+    Q3DScatterWidget *graph = new Q3DScatterWidget();
     graph->setMeasureFps(true);
 
     QSize screenSize = graph->screen()->size();
@@ -103,7 +103,7 @@ int main(int argc, char **argv)
 
     ScatterDataModifier *modifier = new ScatterDataModifier(graph);
 
-    QObject::connect(graph, &QAbstract3DGraph::currentFpsChanged, modifier,
+    QObject::connect(graph, &QAbstract3DGraphWidget::currentFpsChanged, modifier,
                      &ScatterDataModifier::fpsChanged);
 
     QObject::connect(cameraButton, &QPushButton::clicked, modifier,
@@ -136,7 +136,7 @@ int main(int argc, char **argv)
 
     QObject::connect(modifier, &ScatterDataModifier::shadowQualityChanged, shadowQuality,
                      &QComboBox::setCurrentIndex);
-    QObject::connect(graph, &Q3DScatter::shadowQualityChanged, modifier,
+    QObject::connect(graph, &Q3DScatterWidget::shadowQualityChanged, modifier,
                      &ScatterDataModifier::shadowQualityUpdatedByVisual);
 
     QObject::connect(fontList, &QFontComboBox::currentFontChanged, modifier,

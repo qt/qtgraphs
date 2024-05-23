@@ -1,18 +1,18 @@
-// Copyright (C) 2023 The Qt Company Ltd.
+// Copyright (C) 2024 The Qt Company Ltd.
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 
-#ifndef Q3DSURFACE_H
-#define Q3DSURFACE_H
+#ifndef Q3DSURFACEWIDGET_H
+#define Q3DSURFACEWIDGET_H
 
-#include <QtGraphs/qabstract3dgraph.h>
 #include <QtGraphs/qsurface3dseries.h>
 #include <QtGraphs/qvalue3daxis.h>
+#include <QtGraphsWidgets/qabstract3dgraphwidget.h>
 
 QT_BEGIN_NAMESPACE
 
 class QQuickGraphsSurface;
 
-class Q_GRAPHS_EXPORT Q3DSurface : public QAbstract3DGraph
+class Q_GRAPHSWIDGETS_EXPORT Q3DSurfaceWidget : public QAbstract3DGraphWidget
 {
     Q_OBJECT
     Q_PROPERTY(QValue3DAxis *axisX READ axisX WRITE setAxisX NOTIFY axisXChanged)
@@ -23,8 +23,8 @@ class Q_GRAPHS_EXPORT Q3DSurface : public QAbstract3DGraph
                    flipHorizontalGridChanged)
 
 public:
-    explicit Q3DSurface();
-    ~Q3DSurface() override;
+    explicit Q3DSurfaceWidget();
+    ~Q3DSurfaceWidget() override;
 
     void addSeries(QSurface3DSeries *series);
     void removeSeries(QSurface3DSeries *series);

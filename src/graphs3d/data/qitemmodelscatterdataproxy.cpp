@@ -10,11 +10,11 @@ QT_BEGIN_NAMESPACE
  * \class QItemModelScatterDataProxy
  * \inmodule QtGraphs
  * \ingroup graphs_3D
- * \brief Proxy class for presenting data in item models with Q3DScatter.
+ * \brief Proxy class for presenting data in item models with Q3DScatterWidget.
  *
  * QItemModelScatterDataProxy allows you to use QAbstractItemModel derived
- * models as a data source for Q3DScatter. It maps roles of QAbstractItemModel
- * to the XYZ-values of Q3DScatter points.
+ * models as a data source for Q3DScatterWidget. It maps roles of QAbstractItemModel
+ * to the XYZ-values of Q3DScatterWidget points.
  *
  * The data is resolved asynchronously whenever the mapping or the model
  * changes. QScatterDataProxy::arrayReset() is emitted when the data has been
@@ -280,7 +280,7 @@ QItemModelScatterDataProxy::~QItemModelScatterDataProxy() {}
  */
 
 /*!
- * Sets \a itemModel as the item model for Q3DScatter. Does not take
+ * Sets \a itemModel as the item model for Q3DScatterWidget. Does not take
  * ownership of the model, but does connect to it to listen for changes.
  */
 void QItemModelScatterDataProxy::setItemModel(QAbstractItemModel *itemModel)

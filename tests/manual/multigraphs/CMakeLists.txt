@@ -13,6 +13,7 @@ target_link_libraries(tst_multigraphs PUBLIC
     Qt::Gui
     Qt::Widgets
     Qt::Graphs
+    Qt::GraphsWidgets
     )
 
 set(multigraphs_resource_files

@@ -3,13 +3,15 @@
 
 //! [5]
 #include <QtGraphs>
+#include <QtGraphsWidgets/q3dsurfacewidget.h>
+#include <QtWidgets/qapplication.h>
 
 int main(int argc, char **argv)
 {
     QApplication app(argc, argv);
 
     //! [0]
-    Q3DSurface surface;
+    Q3DSurfaceWidget surface;
     surface.setMinimumSize(QSize(256, 256));
     //! [0]
     //! [1]

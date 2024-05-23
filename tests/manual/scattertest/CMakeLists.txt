@@ -13,4 +13,5 @@ target_link_libraries(tst_scattertest PUBLIC
     Qt::Gui
     Qt::Widgets
     Qt::Graphs
+    Qt::GraphsWidgets
     )

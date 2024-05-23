@@ -5,12 +5,12 @@
 #define SURFACEGRAPHMODIFIER_H
 
 #include <QtCore/qpropertyanimation.h>
-#include <QtGraphs/q3dsurface.h>
 #include <QtGraphs/qcustom3ditem.h>
 #include <QtGraphs/qcustom3dlabel.h>
 #include <QtGraphs/qheightmapsurfacedataproxy.h>
 #include <QtGraphs/qsurface3dseries.h>
 #include <QtGraphs/qsurfacedataproxy.h>
+#include <QtGraphsWidgets/q3dsurfacewidget.h>
 #include <QtWidgets/qlabel.h>
 #include <QtWidgets/qslider.h>
 
@@ -24,7 +24,7 @@ class SurfaceGraphModifier : public QObject
     enum InputState { StateNormal = 0, StateDraggingX, StateDraggingZ, StateDraggingY };
 
 public:
-    explicit SurfaceGraphModifier(Q3DSurface *surface, QLabel *label, QObject *parent);
+    explicit SurfaceGraphModifier(Q3DSurfaceWidget *surface, QLabel *label, QObject *parent);
     ~SurfaceGraphModifier();
 
     //! [0]
@@ -81,7 +81,7 @@ private:
     void resetSelection();
 
 private:
-    Q3DSurface *m_graph = nullptr;
+    Q3DSurfaceWidget *m_graph = nullptr;
     QSurfaceDataProxy *m_sqrtSinProxy = nullptr;
     QSurface3DSeries *m_sqrtSinSeries = nullptr;
     QHeightMapSurfaceDataProxy *m_heightMapProxyOne = nullptr;

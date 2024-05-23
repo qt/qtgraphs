@@ -279,7 +279,7 @@ QT_BEGIN_NAMESPACE
  * The higher the number, the wider the grid lines will be.
  * The default value is \c 2.0.
  *
- * Only has effect if \l{QAbstract3DGraph::shaderGridEnabled} is \c true
+ * Only has effect if \l{QAbstract3DGraphWidget::shaderGridEnabled} is \c true
  */
 
 /*!
@@ -290,7 +290,7 @@ QT_BEGIN_NAMESPACE
  * The higher the number, the wider the grid lines will be.
  * The default value is \c 1.0.
  *
- * Only has effect if \l{QAbstract3DGraph::shaderGridEnabled} is \c true
+ * Only has effect if \l{QAbstract3DGraphWidget::shaderGridEnabled} is \c true
  */
 
 /*!
@@ -1345,8 +1345,8 @@ void QGraphsTheme::setAxisZLabelColor(const QColor &newAxisZLabelColor)
  *
  * \brief The highlight color for a selected object.
  *
- * Used if \l{QAbstract3DGraph::selectionMode}{selectionMode} has the
- * \c QAbstract3DGraph::SelectionItem flag set.
+ * Used if \l{QAbstract3DGraphWidget::selectionMode}{selectionMode} has the
+ * \c QAbstract3DGraphWidget::SelectionItem flag set.
  * The default value depends on \l colorScheme.
  */
 QColor QGraphsTheme::singleHighlightColor() const
@@ -1372,8 +1372,8 @@ void QGraphsTheme::setSingleHighlightColor(const QColor &newSingleHighlightColor
  *
  * \brief The highlight color for selected objects.
  *
- * Used if \l{QAbstract3DGraph::selectionMode}{selectionMode} has the
- * \c QAbstract3DGraph::SelectionRow or \c QAbstract3DGraph::SelectionColumn
+ * Used if \l{QAbstract3DGraphWidget::selectionMode}{selectionMode} has the
+ * \c QAbstract3DGraphWidget::SelectionRow or \c QAbstract3DGraphWidget::SelectionColumn
  * flag set.
  * The default value depends on \l colorScheme.
  */
@@ -1400,8 +1400,8 @@ void QGraphsTheme::setMultiHighlightColor(const QColor &newMultiHighlightColor)
  *
  * \brief The highlight gradient for a selected object.
  *
- * Used if \l{QAbstract3DGraph::selectionMode}{selectionMode}
- * has the \c QAbstract3DGraph::SelectionItem flag set.
+ * Used if \l{QAbstract3DGraphWidget::selectionMode}{selectionMode}
+ * has the \c QAbstract3DGraphWidget::SelectionItem flag set.
  * The default value depends on \l colorScheme.
  */
 void QGraphsTheme::setSingleHighlightGradient(const QLinearGradient &gradient)
@@ -1428,9 +1428,9 @@ QLinearGradient QGraphsTheme::singleHighlightGradient() const
  *
  * \brief The highlight gradient for selected objects.
  *
- * Used if \l{QAbstract3DGraph::selectionMode}{selectionMode}
- * has the \c QAbstract3DGraph::SelectionRow or
- * \c QAbstract3DGraph::SelectionColumn flag set.
+ * Used if \l{QAbstract3DGraphWidget::selectionMode}{selectionMode}
+ * has the \c QAbstract3DGraphWidget::SelectionRow or
+ * \c QAbstract3DGraphWidget::SelectionColumn flag set.
  * The default value depends on \l colorScheme.
  */
 void QGraphsTheme::setMultiHighlightGradient(const QLinearGradient &gradient)

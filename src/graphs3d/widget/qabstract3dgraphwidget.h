@@ -1,14 +1,14 @@
-// Copyright (C) 2023 The Qt Company Ltd.
+// Copyright (C) 2024 The Qt Company Ltd.
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 
-#ifndef QABSTRACT3DGRAPH_H
-#define QABSTRACT3DGRAPH_H
+#ifndef QABSTRACT3DGRAPHWIDGET_H
+#define QABSTRACT3DGRAPHWIDGET_H
 
 #include <QtCore/qlocale.h>
 #include <QtGraphs/q3dscene.h>
 #include <QtGraphs/qgraphs3dnamespace.h>
-#include <QtGraphs/qgraphsglobal.h>
 #include <QtGraphs/qgraphstheme.h>
+#include <QtGraphsWidgets/qgraphswidgetsglobal.h>
 #include <QtQuick/qquickitemgrabresult.h>
 #include <QtQuickWidgets/qquickwidget.h>
 
@@ -21,7 +21,7 @@ class QQuickGraphsItem;
 class QQuickItemGrabResult;
 class QQuickWheelEvent;
 
-class Q_GRAPHS_EXPORT QAbstract3DGraph : public QQuickWidget
+class Q_GRAPHSWIDGETS_EXPORT QAbstract3DGraphWidget : public QQuickWidget
 {
     Q_OBJECT
     Q_CLASSINFO("RegisterEnumClassesUnscoped", "false")
@@ -228,10 +228,10 @@ public:
     bool shaderGridEnabled();
     void setShaderGridEnabled(bool enabled);
 
-    virtual ~QAbstract3DGraph();
+    virtual ~QAbstract3DGraphWidget();
 
 protected:
-    QAbstract3DGraph(const QString &graph);
+    QAbstract3DGraphWidget(const QString &graph);
 
     bool event(QEvent *event) override;
     void resizeEvent(QResizeEvent *event) override;
@@ -289,14 +289,14 @@ Q_SIGNALS:
     void shaderGridEnabledChanged();
 
 private:
-    Q_DISABLE_COPY(QAbstract3DGraph)
+    Q_DISABLE_COPY(QAbstract3DGraphWidget)
     QScopedPointer<QQuickGraphsItem> m_graphsItem;
 
     void onWheel(QQuickWheelEvent *event);
 
-    friend class Q3DBars;
-    friend class Q3DScatter;
-    friend class Q3DSurface;
+    friend class Q3DBarsWidget;
+    friend class Q3DScatterWidget;
+    friend class Q3DSurfaceWidget;
 };
 
 QT_END_NAMESPACE

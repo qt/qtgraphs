@@ -1,22 +1,22 @@
 // Copyright (C) 2023 The Qt Company Ltd.
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 
-#include "q3dsurface.h"
-#include "qquickgraphssurface_p.h"
+#include <QtGraphsWidgets/q3dsurfacewidget.h>
+#include <private/qquickgraphssurface_p.h>
 
 QT_BEGIN_NAMESPACE
 
 /*!
- * \class Q3DSurface
+ * \class Q3DSurfaceWidget
  * \inmodule QtGraphs
  * \ingroup graphs_3D
- * \brief The Q3DSurface class provides methods for rendering 3D surface plots.
+ * \brief The Q3DSurfaceWidget class provides methods for rendering 3D surface plots.
  *
  * This class enables developers to render 3D surface plots and to view them by
  * rotating the scene freely. The visual properties of the surface such as draw
  * mode and shading can be controlled via QSurface3DSeries.
  *
- * The Q3DSurface supports selection by showing a highlighted ball on the data
+ * The Q3DSurfaceWidget supports selection by showing a highlighted ball on the data
  * point where the user has clicked with the left mouse button (when the default
  * input handler is in use) or selected via QSurface3DSeries. The selection pointer
  * is accompanied by a label, which in the default case shows the value of the data
@@ -29,20 +29,20 @@ QT_BEGIN_NAMESPACE
  * Zooming is done using the mouse wheel. Both actions assume the default input
  * handler is in use.
  *
- * If no axes are set explicitly for Q3DSurface, temporary default axes with no
+ * If no axes are set explicitly for Q3DSurfaceWidget, temporary default axes with no
  * labels are created. These default axes can be modified via axis accessors,
  * but as soon as any axis is set explicitly for the orientation, the default
  * axis for that orientation is destroyed.
  *
- * \section1 How to construct a minimal Q3DSurface graph
+ * \section1 How to construct a minimal Q3DSurfaceWidget graph
  *
- * First, construct Q3DSurface. Since we are running the graph as a top-level
+ * First, construct Q3DSurfaceWidget. Since we are running the graph as a top-level
  * window in this example, we need to clear the \c Qt::FramelessWindowHint flag,
  * which is set by default:
  *
  * \snippet doc_src_q3dsurface_construction.cpp 0
  *
- * Now Q3DSurface is ready to receive data to be rendered. Create data elements
+ * Now Q3DSurfaceWidget is ready to receive data to be rendered. Create data elements
  * to receive values:
  *
  * \note In the new proxy-series relationship, data is held in series.
@@ -78,7 +78,7 @@ QT_BEGIN_NAMESPACE
  * provided, like the \l{Surface Graph Gallery}.
  *
  *
- * \sa Q3DBars, Q3DScatter, {Qt Graphs C++ Classes for 3D}
+ * \sa Q3DBarsWidget, Q3DScatterWidget, {Qt Graphs C++ Classes for 3D}
  */
 
 /*!
@@ -174,14 +174,14 @@ QT_BEGIN_NAMESPACE
 /*!
  * Constructs a new 3D surface graph.
  */
-Q3DSurface::Q3DSurface()
-    : QAbstract3DGraph(QStringLiteral("Surface3D"))
+Q3DSurfaceWidget::Q3DSurfaceWidget()
+    : QAbstract3DGraphWidget(QStringLiteral("Surface3D"))
 {}
 
 /*!
  *  Destroys the 3D surface graph.
  */
-Q3DSurface::~Q3DSurface() {}
+Q3DSurfaceWidget::~Q3DSurfaceWidget() {}
 
 /*!
  * Adds the \a series to the graph.  A graph can contain multiple series, but
@@ -189,9 +189,9 @@ Q3DSurface::~Q3DSurface() {}
  * item, it will be highlighted and any existing selection will be cleared. Only
  * one added series can have an active selection.
  *
- * \sa  QAbstract3DGraph::hasSeries()
+ * \sa  QAbstract3DGraphWidget::hasSeries()
  */
-void Q3DSurface::addSeries(QSurface3DSeries *series)
+void Q3DSurfaceWidget::addSeries(QSurface3DSeries *series)
 {
     graphSurface()->addSeries(series);
 }
@@ -199,9 +199,9 @@ void Q3DSurface::addSeries(QSurface3DSeries *series)
 /*!
  * Removes the \a series from the graph.
  *
- * \sa QAbstract3DGraph::hasSeries()
+ * \sa QAbstract3DGraphWidget::hasSeries()
  */
-void Q3DSurface::removeSeries(QSurface3DSeries *series)
+void Q3DSurfaceWidget::removeSeries(QSurface3DSeries *series)
 {
     graphSurface()->removeSeries(series);
 }
@@ -209,9 +209,9 @@ void Q3DSurface::removeSeries(QSurface3DSeries *series)
 /*!
  * Returns the list of series added to this graph.
  *
- * \sa QAbstract3DGraph::hasSeries()
+ * \sa QAbstract3DGraphWidget::hasSeries()
  */
-QList<QSurface3DSeries *> Q3DSurface::seriesList() const
+QList<QSurface3DSeries *> Q3DSurfaceWidget::seriesList() const
 {
     QList<QSurface3DSeries *> surfaceSeriesList;
     for (QAbstract3DSeries *abstractSeries : graphSurface()->m_seriesList) {
@@ -224,7 +224,7 @@ QList<QSurface3DSeries *> Q3DSurface::seriesList() const
 }
 
 /*!
- * \property Q3DSurface::axisX
+ * \property Q3DSurfaceWidget::axisX
  *
  * \brief The active x-axis.
  *
@@ -239,18 +239,18 @@ QList<QSurface3DSeries *> Q3DSurface::seriesList() const
  *
  * \sa addAxis(), releaseAxis()
  */
-void Q3DSurface::setAxisX(QValue3DAxis *axis)
+void Q3DSurfaceWidget::setAxisX(QValue3DAxis *axis)
 {
     graphSurface()->setAxisX(axis);
 }
 
-QValue3DAxis *Q3DSurface::axisX() const
+QValue3DAxis *Q3DSurfaceWidget::axisX() const
 {
     return static_cast<QValue3DAxis *>(graphSurface()->axisX());
 }
 
 /*!
- * \property Q3DSurface::axisY
+ * \property Q3DSurfaceWidget::axisY
  *
  * \brief The active y-axis.
  *
@@ -265,18 +265,18 @@ QValue3DAxis *Q3DSurface::axisX() const
  *
  * \sa addAxis(), releaseAxis()
  */
-void Q3DSurface::setAxisY(QValue3DAxis *axis)
+void Q3DSurfaceWidget::setAxisY(QValue3DAxis *axis)
 {
     graphSurface()->setAxisY(axis);
 }
 
-QValue3DAxis *Q3DSurface::axisY() const
+QValue3DAxis *Q3DSurfaceWidget::axisY() const
 {
     return static_cast<QValue3DAxis *>(graphSurface()->axisY());
 }
 
 /*!
- * \property Q3DSurface::axisZ
+ * \property Q3DSurfaceWidget::axisZ
  *
  * \brief The active z-axis.
  *
@@ -291,31 +291,31 @@ QValue3DAxis *Q3DSurface::axisY() const
  *
  * \sa addAxis(), releaseAxis()
  */
-void Q3DSurface::setAxisZ(QValue3DAxis *axis)
+void Q3DSurfaceWidget::setAxisZ(QValue3DAxis *axis)
 {
     graphSurface()->setAxisZ(axis);
 }
 
-QValue3DAxis *Q3DSurface::axisZ() const
+QValue3DAxis *Q3DSurfaceWidget::axisZ() const
 {
     return static_cast<QValue3DAxis *>(graphSurface()->axisZ());
 }
 
 /*!
- * \property Q3DSurface::selectedSeries
+ * \property Q3DSurfaceWidget::selectedSeries
  *
  * \brief The selected series or null.
  *
  * If selectionMode has \c SelectionMultiSeries set, this
  * property holds the series which owns the selected point.
  */
-QSurface3DSeries *Q3DSurface::selectedSeries() const
+QSurface3DSeries *Q3DSurfaceWidget::selectedSeries() const
 {
     return graphSurface()->selectedSeries();
 }
 
 /*!
- * \property Q3DSurface::flipHorizontalGrid
+ * \property Q3DSurfaceWidget::flipHorizontalGrid
  *
  * \brief Whether the horizontal axis grid is displayed on top of the graph
  * rather than on the bottom.
@@ -330,12 +330,12 @@ QSurface3DSeries *Q3DSurface::selectedSeries() const
  * drawn on the opposite side of the graph from the horizontal background.
  * Defaults to \c{false}.
  */
-void Q3DSurface::setFlipHorizontalGrid(bool flip)
+void Q3DSurfaceWidget::setFlipHorizontalGrid(bool flip)
 {
     graphSurface()->setFlipHorizontalGrid(flip);
 }
 
-bool Q3DSurface::flipHorizontalGrid() const
+bool Q3DSurfaceWidget::flipHorizontalGrid() const
 {
     return graphSurface()->flipHorizontalGrid();
 }
@@ -347,7 +347,7 @@ bool Q3DSurface::flipHorizontalGrid() const
  *
  * \sa releaseAxis(), setAxisX(), setAxisY(), setAxisZ()
  */
-void Q3DSurface::addAxis(QValue3DAxis *axis)
+void Q3DSurfaceWidget::addAxis(QValue3DAxis *axis)
 {
     return graphSurface()->addAxis(axis);
 }
@@ -362,7 +362,7 @@ void Q3DSurface::addAxis(QValue3DAxis *axis)
  *
  * \sa addAxis(), setAxisX(), setAxisY(), setAxisZ()
  */
-void Q3DSurface::releaseAxis(QValue3DAxis *axis)
+void Q3DSurfaceWidget::releaseAxis(QValue3DAxis *axis)
 {
     return graphSurface()->releaseAxis(axis);
 }
@@ -372,7 +372,7 @@ void Q3DSurface::releaseAxis(QValue3DAxis *axis)
  *
  * \sa addAxis()
  */
-QList<QValue3DAxis *> Q3DSurface::axes() const
+QList<QValue3DAxis *> Q3DSurfaceWidget::axes() const
 {
     QList<QAbstract3DAxis *> abstractAxes = graphSurface()->axes();
     QList<QValue3DAxis *> retList;
@@ -385,7 +385,7 @@ QList<QValue3DAxis *> Q3DSurface::axes() const
 /*!
  * \internal
  */
-QQuickGraphsSurface *Q3DSurface::graphSurface()
+QQuickGraphsSurface *Q3DSurfaceWidget::graphSurface()
 {
     return static_cast<QQuickGraphsSurface *>(m_graphsItem.data());
 }
@@ -393,7 +393,7 @@ QQuickGraphsSurface *Q3DSurface::graphSurface()
 /*!
  * \internal
  */
-const QQuickGraphsSurface *Q3DSurface::graphSurface() const
+const QQuickGraphsSurface *Q3DSurfaceWidget::graphSurface() const
 {
     return static_cast<const QQuickGraphsSurface *>(m_graphsItem.data());
 }

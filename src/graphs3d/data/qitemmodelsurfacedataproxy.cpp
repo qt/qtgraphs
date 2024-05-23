@@ -10,11 +10,11 @@ QT_BEGIN_NAMESPACE
  * \class QItemModelSurfaceDataProxy
  * \inmodule QtGraphs
  * \ingroup graphs_3D
- * \brief Proxy class for presenting data in item models with Q3DSurface.
+ * \brief Proxy class for presenting data in item models with Q3DSurfaceWidget.
  *
  * QItemModelSurfaceDataProxy allows you to use QAbstractItemModel derived
- * models as a data source for Q3DSurface. It uses the defined mappings to map
- * data from the model to rows, columns, and surface points of Q3DSurface graph.
+ * models as a data source for Q3DSurfaceWidget. It uses the defined mappings to map
+ * data from the model to rows, columns, and surface points of Q3DSurfaceWidget graph.
  *
  * Data is resolved asynchronously whenever the mapping or the model changes.
  * QSurfaceDataProxy::arrayReset() is emitted when the data has been resolved.
@@ -26,7 +26,7 @@ QT_BEGIN_NAMESPACE
  *
  * \list
  * \li If useModelCategories property is set to \c true, this proxy will map rows and
- *    columns of QAbstractItemModel to rows and columns of Q3DSurface, and uses the value returned for
+ *    columns of QAbstractItemModel to rows and columns of Q3DSurfaceWidget, and uses the value returned for
  *    Qt::DisplayRole as Y-position by default. Row and column headers are used for Z-position and
  *    X-position by default, if they can be converted to floats. Otherwise row and column indices
  *    are used.

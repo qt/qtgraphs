@@ -13,7 +13,7 @@ using namespace Qt::StringLiterals;
 
 ScatterGraph::ScatterGraph()
 {
-    m_scatterGraph = new Q3DScatter();
+    m_scatterGraph = new Q3DScatterWidget();
     initialize();
 }
 
@@ -191,7 +191,7 @@ void ScatterGraph::initialize()
                      shadowQuality,
                      &QComboBox::setCurrentIndex);
     QObject::connect(m_scatterGraph,
-                     &Q3DScatter::shadowQualityChanged,
+                     &Q3DScatterWidget::shadowQualityChanged,
                      m_modifier,
                      &ScatterDataModifier::shadowQualityUpdatedByVisual);
 }

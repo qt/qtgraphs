@@ -3,13 +3,14 @@
 
 //! [3]
 #include <QtGraphs>
-
+#include <QtGraphsWidgets/q3dbarswidget.h>
+#include <QtWidgets/qapplication.h>
 int main(int argc, char **argv)
 {
     QApplication app(argc, argv);
 
     //! [4]
-    Q3DBars bars;
+    Q3DBarsWidget bars;
     bars.setMinimumSize(QSize(256, 256));
     //! [4]
     //! [0]

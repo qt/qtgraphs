@@ -14,16 +14,16 @@
 #ifndef QQUICKGRAPHSBARS_H
 #define QQUICKGRAPHSBARS_H
 
-#include "barinstancing_p.h"
 #include "qabstract3daxis.h"
 #include "qbar3dseries.h"
 #include "qquickgraphsitem_p.h"
+#include <private/barinstancing_p.h>
 
 #include <QtQuick3D/private/qquick3dmaterial_p.h>
 
 QT_BEGIN_NAMESPACE
 
-class Q3DBars;
+class Q3DBarsWidget;
 class QCategory3DAxis;
 
 struct Bars3DChangeBitField
@@ -47,7 +47,7 @@ struct Bars3DChangeBitField
     {}
 };
 
-class QQuickGraphsBars : public QQuickGraphsItem
+class Q_GRAPHS_EXPORT QQuickGraphsBars : public QQuickGraphsItem
 {
     Q_OBJECT
     Q_PROPERTY(QCategory3DAxis *rowAxis READ rowAxis WRITE setRowAxis NOTIFY rowAxisChanged)
@@ -330,7 +330,7 @@ private:
 
     void adjustSelectionPosition(QPoint &pos, const QBar3DSeries *series);
 
-    friend class Q3DBars;
+    friend class Q3DBarsWidget;
 };
 
 QT_END_NAMESPACE

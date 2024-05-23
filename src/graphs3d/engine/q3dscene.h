@@ -82,7 +82,7 @@ Q_SIGNALS:
 private:
     Q_DISABLE_COPY(Q3DScene)
 
-    friend class QAbstract3DGraph;
+    friend class QAbstract3DGraphWidget;
     friend class QQuickGraphsItem;
 };
 

@@ -45,7 +45,7 @@ struct Q3DSceneChangeBitField
     {}
 };
 
-class Q3DScenePrivate : public QObjectPrivate
+class Q_GRAPHS_EXPORT Q3DScenePrivate : public QObjectPrivate
 {
     Q_DECLARE_PUBLIC(Q3DScene)
 

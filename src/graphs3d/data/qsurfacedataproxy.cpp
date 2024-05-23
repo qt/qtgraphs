@@ -18,7 +18,7 @@ QT_BEGIN_NAMESPACE
  * QtGraphs::QSurfaceDataRow. \c QSurfaceDataArray is a QList that
  * controls the rows. \c QSurfaceDataRow is a QList that contains
  * QSurfaceDataItem objects. For more information about how to feed the data to
- * the proxy, see the sample code in the Q3DSurface documentation. Since data is
+ * the proxy, see the sample code in the Q3DSurfaceWidget documentation. Since data is
  * stored in series, it is necessary to create a series associated with the
  * proxy before using these functions for the dataset.
  *

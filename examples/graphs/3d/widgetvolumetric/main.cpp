@@ -17,7 +17,7 @@
 int main(int argc, char **argv)
 {
     QApplication app(argc, argv);
-    Q3DScatter *graph = new Q3DScatter();
+    Q3DScatterWidget *graph = new Q3DScatterWidget();
 
     QSize screenSize = graph->screen()->size();
     graph->setMinimumSize(QSize(screenSize.width() / 3, screenSize.height() / 2));

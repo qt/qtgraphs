@@ -15,7 +15,7 @@
 
 const QString celsiusString = QString(QChar(0xB0)) + "C";
 
-GraphModifier::GraphModifier(Q3DBars *barchart, QColorDialog *colorDialog)
+GraphModifier::GraphModifier(Q3DBarsWidget *barchart, QColorDialog *colorDialog)
     : m_graph(barchart),
       m_colorDialog(colorDialog),
       m_columnCount(21),
@@ -188,7 +188,7 @@ GraphModifier::GraphModifier(Q3DBars *barchart, QColorDialog *colorDialog)
     m_graph->unsetDefaultWheelHandler();
     m_graph->setDefaultInputHandler();
 
-    QObject::connect(m_graph, &Q3DBars::shadowQualityChanged, this,
+    QObject::connect(m_graph, &Q3DBarsWidget::shadowQualityChanged, this,
                      &GraphModifier::shadowQualityUpdatedByVisual);
     QObject::connect(m_temperatureData, &QBar3DSeries::selectedBarChanged, this,
                      &GraphModifier::handleSelectionChange);
@@ -197,13 +197,13 @@ GraphModifier::GraphModifier(Q3DBars *barchart, QColorDialog *colorDialog)
     QObject::connect(m_genericData, &QBar3DSeries::selectedBarChanged, this,
                      &GraphModifier::handleSelectionChange);
 
-    QObject::connect(m_graph, &Q3DBars::rowAxisChanged, this,
+    QObject::connect(m_graph, &Q3DBarsWidget::rowAxisChanged, this,
                      &GraphModifier::handleRowAxisChanged);
-    QObject::connect(m_graph, &Q3DBars::columnAxisChanged, this,
+    QObject::connect(m_graph, &Q3DBarsWidget::columnAxisChanged, this,
                      &GraphModifier::handleColumnAxisChanged);
-    QObject::connect(m_graph, &Q3DBars::valueAxisChanged, this,
+    QObject::connect(m_graph, &Q3DBarsWidget::valueAxisChanged, this,
                      &GraphModifier::handleValueAxisChanged);
-    QObject::connect(m_graph, &Q3DBars::primarySeriesChanged, this,
+    QObject::connect(m_graph, &Q3DBarsWidget::primarySeriesChanged, this,
                      &GraphModifier::handlePrimarySeriesChanged);
     QObject::connect(m_temperatureAxis, &QAbstract3DAxis::labelsChanged, this,
                      &GraphModifier::handleValueAxisLabelsChanged);
@@ -220,7 +220,7 @@ GraphModifier::GraphModifier(Q3DBars *barchart, QColorDialog *colorDialog)
                      &GraphModifier::triggerRotation);
 
     QObject::connect(m_graph,
-                     &QAbstract3DGraph::currentFpsChanged,
+                     &QAbstract3DGraphWidget::currentFpsChanged,
                      this,
                      &GraphModifier::handleFpsChange);
 
@@ -714,9 +714,9 @@ void GraphModifier::setUseNullInputHandler(int useNull)
 
     if (useNull) {
         m_graph->unsetDefaultInputHandler();
-        QObject::disconnect(m_graph, &QAbstract3DGraph::wheel, this, &GraphModifier::onWheel);
+        QObject::disconnect(m_graph, &QAbstract3DGraphWidget::wheel, this, &GraphModifier::onWheel);
         QObject::disconnect(m_graph,
-                            &QAbstract3DGraph::mouseMove,
+                            &QAbstract3DGraphWidget::mouseMove,
                             this,
                             &GraphModifier::onMouseMove);
     } else {
@@ -1012,9 +1012,9 @@ void GraphModifier::insertRemoveTestToggle()
         m_graph->removeSeries(m_dummyData2);
         releaseSeries();
         releaseAxes();
-        QObject::disconnect(m_graph, &QAbstract3DGraph::wheel, this, &GraphModifier::onWheel);
+        QObject::disconnect(m_graph, &QAbstract3DGraphWidget::wheel, this, &GraphModifier::onWheel);
         QObject::disconnect(m_graph,
-                            &QAbstract3DGraph::mouseMove,
+                            &QAbstract3DGraphWidget::mouseMove,
                             this,
                             &GraphModifier::onMouseMove);
         m_graph->setDefaultInputHandler();
@@ -1024,8 +1024,8 @@ void GraphModifier::insertRemoveTestToggle()
         m_graph->rowAxis()->setRange(0, 32);
         m_graph->columnAxis()->setRange(0, 10);
         m_graph->unsetDefaultWheelHandler();
-        QObject::connect(m_graph, &QAbstract3DGraph::wheel, this, &GraphModifier::onWheel);
-        QObject::connect(m_graph, &QAbstract3DGraph::mouseMove, this, &GraphModifier::onMouseMove);
+        QObject::connect(m_graph, &QAbstract3DGraphWidget::wheel, this, &GraphModifier::onWheel);
+        QObject::connect(m_graph, &QAbstract3DGraphWidget::mouseMove, this, &GraphModifier::onMouseMove);
         m_graph->addSeries(m_dummyData);
         m_graph->addSeries(m_dummyData2);
         m_insertRemoveStep = 0;

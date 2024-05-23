@@ -25,7 +25,6 @@ else()
             data/qcustom3dlabel.cpp data/qcustom3dlabel.h data/qcustom3dlabel_p.h
             data/qcustom3dvolume.cpp data/qcustom3dvolume.h data/qcustom3dvolume_p.h
 
-            engine/qabstract3dgraph.cpp engine/qabstract3dgraph.h
             engine/q3dscene.cpp engine/q3dscene.h engine/q3dscene_p.h
 
             global/graphsglobal_p.h
@@ -63,7 +62,6 @@ else()
             data/qitemmodelbardataproxy.cpp data/qitemmodelbardataproxy.h data/qitemmodelbardataproxy_p.h
 
             engine/barinstancing.cpp engine/barinstancing_p.h
-            engine/q3dbars.cpp engine/q3dbars.h
 
             qml/foreigntypesbars_p.h
             qml/qquickgraphsbars.cpp qml/qquickgraphsbars_p.h
@@ -83,7 +81,6 @@ else()
             data/scatteritemmodelhandler.cpp data/scatteritemmodelhandler_p.h
 
             engine/scatterinstancing.cpp engine/scatterinstancing_p.h
-            engine/q3dscatter.cpp engine/q3dscatter.h
 
             qml/foreigntypesscatter_p.h
             qml/qquickgraphsscatter.cpp qml/qquickgraphsscatter_p.h
@@ -103,7 +100,6 @@ else()
             data/qsurfacedataproxy.cpp data/qsurfacedataproxy.h data/qsurfacedataproxy_p.h
             data/surfaceitemmodelhandler.cpp data/surfaceitemmodelhandler_p.h
 
-            engine/q3dsurface.cpp engine/q3dsurface.h
             engine/surfaceselectioninstancing.cpp engine/surfaceselectioninstancing_p.h
 
             qml/foreigntypessurface_p.h
@@ -123,7 +119,8 @@ else()
         PRIVATE_MODULE_INTERFACE
             Qt::GuiPrivate
     )
-
     add_subdirectory(qml/designer)
 endif()
-
+if(TARGET Qt::Widgets)
+    add_subdirectory(widget)
+endif()

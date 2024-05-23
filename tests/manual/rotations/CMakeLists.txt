@@ -15,6 +15,7 @@ target_link_libraries(tst_rotations PUBLIC
     Qt::Gui
     Qt::Widgets
     Qt::Graphs
+    Qt::GraphsWidgets
 )
 
 set(rotations_resource_files

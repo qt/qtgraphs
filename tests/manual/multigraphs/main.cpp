@@ -23,9 +23,9 @@ int main(int argc, char **argv)
     QHBoxLayout *hLayout = new QHBoxLayout(widget);
     QVBoxLayout *vLayout = new QVBoxLayout();
 
-    Q3DSurface *surface = new Q3DSurface();
-    Q3DScatter *scatter = new Q3DScatter();
-    Q3DBars *bars = new Q3DBars();
+    Q3DSurfaceWidget *surface = new Q3DSurfaceWidget();
+    Q3DScatterWidget *scatter = new Q3DScatterWidget();
+    Q3DBarsWidget *bars = new Q3DBarsWidget();
 
     QSize screenSize = surface->screen()->size();
 

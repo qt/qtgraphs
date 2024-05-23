@@ -199,7 +199,7 @@ QScatterDataProxy *QScatter3DSeries::dataProxy() const
  * Removing items from or inserting items into the series before the selected item
  * will adjust the selection so that the same item will stay selected.
  *
- * \sa QAbstract3DGraph::clearSelection()
+ * \sa QAbstract3DGraphWidget::clearSelection()
  */
 void QScatter3DSeries::setSelectedItem(int index)
 {
@@ -289,7 +289,7 @@ const QScatterDataArray &QScatter3DSeries::dataArray() const
  * Returns an invalid index for selection. This index is set to the selectedItem
  * property to clear the selection from this series.
  *
- * \sa QAbstract3DGraph::clearSelection()
+ * \sa QAbstract3DGraphWidget::clearSelection()
  */
 int QScatter3DSeries::invalidSelectionIndex()
 {

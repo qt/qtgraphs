@@ -40,7 +40,7 @@ int main(int argc, char **argv)
     QVBoxLayout *vLayout2 = new QVBoxLayout();
     QVBoxLayout *vLayout3 = new QVBoxLayout();
 
-    Q3DBars *widgetchart = new Q3DBars();
+    Q3DBarsWidget *widgetchart = new Q3DBarsWidget();
     QSize screenSize = widgetchart->screen()->size();
 
     widgetchart->setMinimumSize(QSize(screenSize.width() / 3, screenSize.height() / 3));

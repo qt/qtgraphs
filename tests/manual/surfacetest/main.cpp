@@ -36,7 +36,7 @@ int main(int argc, char *argv[])
     vLayout2->setAlignment(Qt::AlignTop);
     vLayout3->setAlignment(Qt::AlignTop);
 
-    Q3DSurface *surfaceGraph = new Q3DSurface();
+    Q3DSurfaceWidget *surfaceGraph = new Q3DSurfaceWidget();
     QSize screenSize = surfaceGraph->screen()->size();
 
     // Set to default, should be same as the initial on themeList

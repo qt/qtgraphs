@@ -10,4 +10,5 @@ target_link_libraries(tst_itemmodeltest PUBLIC
     Qt::Gui
     Qt::Widgets
     Qt::Graphs
+    Qt::GraphsWidgets
     )

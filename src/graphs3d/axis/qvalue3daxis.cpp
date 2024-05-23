@@ -171,7 +171,7 @@ int QValue3DAxis::subSegmentCount() const
  * modifiers, and flags provided by \c printf() in the standard C++ library:
  * d, i, o, x, X, f, F, e, E, g, G, c.
  *
- * If QAbstract3DGraph::locale is anything else than \c{"C"}, the supported
+ * If QAbstract3DGraphWidget::locale is anything else than \c{"C"}, the supported
  * specifiers are limited to: d, e, E, f, g, G, and i. Also, only the precision
  * modifier is supported. The rest of the formatting comes from the default
  * QLocale of the application.
@@ -180,7 +180,7 @@ int QValue3DAxis::subSegmentCount() const
  *
  * \c {axis->setLabelFormat("%.2f mm");}
  *
- * \sa formatter, QAbstract3DGraph::locale
+ * \sa formatter, QAbstract3DGraphWidget::locale
  */
 void QValue3DAxis::setLabelFormat(const QString &format)
 {

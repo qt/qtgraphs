@@ -4,7 +4,7 @@
 #ifndef SCATTERDATAMODIFIER_H
 #define SCATTERDATAMODIFIER_H
 
-#include <QtGraphs/q3dscatter.h>
+#include <QtGraphsWidgets/q3dscatterwidget.h>
 #include <QtGraphs/qscatterdataproxy.h>
 #include <QtCore/QTimer>
 
@@ -12,7 +12,7 @@ class ScatterDataModifier : public QObject
 {
     Q_OBJECT
 public:
-    explicit ScatterDataModifier(Q3DScatter *scatter);
+    explicit ScatterDataModifier(Q3DScatterWidget *scatter);
     ~ScatterDataModifier();
 
     void generateData();
@@ -25,7 +25,7 @@ public Q_SLOTS:
     void toggleSun();
 
 private:
-    Q3DScatter *m_graph;
+    Q3DScatterWidget *m_graph;
     QTimer m_rotationTimer;
     int m_fieldLines;
     int m_arrowsPerLine;

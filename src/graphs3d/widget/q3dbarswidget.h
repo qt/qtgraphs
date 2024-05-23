@@ -1,19 +1,19 @@
-// Copyright (C) 2023 The Qt Company Ltd.
+// Copyright (C) 2024 The Qt Company Ltd.
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 
 #ifndef Q3DBARS_H
 #define Q3DBARS_H
 
-#include <QtGraphs/qabstract3dgraph.h>
 #include <QtGraphs/qbar3dseries.h>
 #include <QtGraphs/qcategory3daxis.h>
 #include <QtGraphs/qvalue3daxis.h>
+#include <QtGraphsWidgets/qabstract3dgraphwidget.h>
 
 QT_BEGIN_NAMESPACE
 
 class QQuickGraphsBars;
 
-class Q_GRAPHS_EXPORT Q3DBars : public QAbstract3DGraph
+class Q_GRAPHSWIDGETS_EXPORT Q3DBarsWidget : public QAbstract3DGraphWidget
 {
     Q_OBJECT
     Q_PROPERTY(bool multiSeriesUniform READ isMultiSeriesUniform WRITE setMultiSeriesUniform NOTIFY
@@ -34,8 +34,8 @@ class Q_GRAPHS_EXPORT Q3DBars : public QAbstract3DGraph
     Q_PROPERTY(float floorLevel READ floorLevel WRITE setFloorLevel NOTIFY floorLevelChanged)
 
 public:
-    Q3DBars();
-    ~Q3DBars() override;
+    Q3DBarsWidget();
+    ~Q3DBarsWidget() override;
 
     void setPrimarySeries(QBar3DSeries *series);
     QBar3DSeries *primarySeries() const;

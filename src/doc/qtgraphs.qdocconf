@@ -10,11 +10,13 @@ moduleheader        = QtGraphs
 examplesinstallpath = graphs
 exampledirs += \
                 ../../examples/graphs \
-                snippets
+                snippets \
+                ../graphs3d/widget/doc/snippets
 
 {headerdirs,sourcedirs} += ..
 
-imagedirs  += images
+imagedirs  += images \
+                ../graphs3d/widget/doc/images
 
 depends = qtcore qtgui qtqml qtquick qtdoc qtcmake qtwidgets qtquick3d
 

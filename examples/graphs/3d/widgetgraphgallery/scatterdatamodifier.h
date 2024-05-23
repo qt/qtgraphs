@@ -4,8 +4,8 @@
 #ifndef SCATTERDATAMODIFIER_H
 #define SCATTERDATAMODIFIER_H
 
-#include <QtGraphs/q3dscatter.h>
 #include <QtGraphs/qabstract3dseries.h>
+#include <QtGraphsWidgets/q3dscatterwidget.h>
 
 class ScatterDataModifier : public QObject
 {
@@ -14,7 +14,7 @@ class ScatterDataModifier : public QObject
     enum InputState { StateNormal = 0, StateDraggingX, StateDraggingZ, StateDraggingY };
 
 public:
-    explicit ScatterDataModifier(Q3DScatter *scatter, QObject *parent);
+    explicit ScatterDataModifier(Q3DScatterWidget *scatter, QObject *parent);
     ~ScatterDataModifier();
 
     void addData();
@@ -42,7 +42,7 @@ Q_SIGNALS:
 
 private:
     QVector3D randVector();
-    Q3DScatter *m_graph = nullptr;
+    Q3DScatterWidget *m_graph = nullptr;
     QAbstract3DSeries::Mesh m_style = QAbstract3DSeries::Mesh::Sphere;
     bool m_smooth = true;
     int m_itemCount;

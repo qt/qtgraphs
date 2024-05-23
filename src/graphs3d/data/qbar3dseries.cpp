@@ -60,7 +60,7 @@ QT_BEGIN_NAMESPACE
  * For example:
  * \snippet doc_src_qtgraphs.cpp labelformat
  *
- * \sa {Qt Graphs Data Handling with 3D}, QAbstract3DGraph::locale
+ * \sa {Qt Graphs Data Handling with 3D}, QAbstract3DGraphWidget::locale
  */
 
 /*!
@@ -249,7 +249,7 @@ QBarDataProxy *QBar3DSeries::dataProxy() const
  * selected bar will adjust the selection so that the same bar will stay
  * selected.
  *
- * \sa QAbstract3DGraph::clearSelection()
+ * \sa QAbstract3DGraphWidget::clearSelection()
  */
 void QBar3DSeries::setSelectedBar(const QPoint &position)
 {
@@ -272,7 +272,7 @@ QPoint QBar3DSeries::selectedBar() const
  * Returns an invalid position for selection. This position is set to the
  * selectedBar property to clear the selection from this series.
  *
- * \sa QAbstract3DGraph::clearSelection()
+ * \sa QAbstract3DGraphWidget::clearSelection()
  */
 QPoint QBar3DSeries::invalidSelectionPosition()
 {

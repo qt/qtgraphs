@@ -184,7 +184,6 @@ else()
                 Qt::Core
                 Qt::Gui
                 Qt::Quick
-                Qt::QuickWidgets
                 Qt::Quick3D
             PRIVATE_MODULE_INTERFACE
                 # 3D specific
@@ -266,7 +265,6 @@ else()
                     Qt::Core
                     Qt::Gui
                     Qt::Quick
-                    Qt::QuickWidgets
                     Qt::Quick3D
                 PRIVATE_MODULE_INTERFACE
                     Qt::Quick3DPrivate

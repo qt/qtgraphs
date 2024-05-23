@@ -27,7 +27,7 @@ const int waterColorsMin(underWaterGroundColorsMax + 1);
 const int waterColorsMax(waterColorsMin + layerColorThickness);
 const int terrainTransparency(12);
 
-VolumetricModifier::VolumetricModifier(Q3DScatter *scatter)
+VolumetricModifier::VolumetricModifier(Q3DScatterWidget *scatter)
     : m_graph(scatter),
       m_sliceIndexX(lowDetailSize / 2),
       m_sliceIndexY(lowDetailSize / 4),
@@ -153,7 +153,7 @@ VolumetricModifier::VolumetricModifier(Q3DScatter *scatter)
 
     m_timer.start(0);
 
-    QObject::connect(m_graph, &QAbstract3DGraph::currentFpsChanged, this,
+    QObject::connect(m_graph, &QAbstract3DGraphWidget::currentFpsChanged, this,
                      &VolumetricModifier::handleFpsChange);
     QObject::connect(&m_timer, &QTimer::timeout, this,
                      &VolumetricModifier::handleTimeout);

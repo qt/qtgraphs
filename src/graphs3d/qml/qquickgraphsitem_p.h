@@ -151,7 +151,7 @@ struct Abstract3DChangeBitField
     {}
 };
 
-class QQuickGraphsItem : public QQuick3DViewport
+class Q_GRAPHS_EXPORT QQuickGraphsItem : public QQuick3DViewport
 {
     Q_OBJECT
     Q_PROPERTY(QGraphs3D::SelectionFlags selectionMode READ selectionMode WRITE
@@ -926,7 +926,7 @@ private:
     QList<QGraphsTheme *> m_themes;
     QGraphsTheme *m_activeTheme = nullptr;
 
-    friend class QAbstract3DGraph;
+    friend class QAbstract3DGraphWidget;
 };
 
 QT_END_NAMESPACE

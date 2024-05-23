@@ -24,7 +24,7 @@ int main(int argc, char **argv)
     // Create surface graph
     SurfaceGraph surface;
 
-    // Create a tab widget for creating own tabs for Q3DBars, Q3DScatter, and Q3DSurface
+    // Create a tab widget for creating own tabs for Q3DBarsWidget, Q3DScatterWidget, and Q3DSurfaceWidget
     QTabWidget tabWidget;
     tabWidget.setWindowTitle(u"Graph Gallery"_s);
 

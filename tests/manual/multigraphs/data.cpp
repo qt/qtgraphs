@@ -11,7 +11,7 @@
 #include <QSize>
 #include <QImage>
 
-Data::Data(Q3DSurface *surface, Q3DScatter *scatter, Q3DBars *bars,
+Data::Data(Q3DSurfaceWidget *surface, Q3DScatterWidget *scatter, Q3DBarsWidget *bars,
            QTextEdit *statusArea, QWidget *widget) :
     m_surface(surface),
     m_scatter(scatter),

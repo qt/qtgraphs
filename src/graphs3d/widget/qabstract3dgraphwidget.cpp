@@ -1,9 +1,9 @@
 // Copyright (C) 2023 The Qt Company Ltd.
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 
-#include "qabstract3dgraph.h"
-#include "q3dscene_p.h"
-#include "qquickgraphsitem_p.h"
+#include <QtGraphsWidgets/qabstract3dgraphwidget.h>
+#include <private/q3dscene_p.h>
+#include <private/qquickgraphsitem_p.h>
 
 #ifdef Q_OS_DARWIN
 #include <QtQuick3D/qquick3d.h>
@@ -12,10 +12,10 @@
 QT_BEGIN_NAMESPACE
 
 /*!
- * \class QAbstract3DGraph
+ * \class QAbstract3DGraphWidget
  * \inmodule QtGraphs
  * \ingroup graphs_3D
- * \brief The QAbstract3DGraph class provides a window and render loop for
+ * \brief The QAbstract3DGraphWidget class provides a window and render loop for
  * graphs.
  *
  * This class subclasses a QWindow and provides render loop for graphs
@@ -30,17 +30,17 @@ QT_BEGIN_NAMESPACE
  * format as a constructor parameter. You can use the convenience function \c
  * qDefaultSurfaceFormat() to create the surface format object.
  *
- * \note QAbstract3DGraph sets window flag \c Qt::FramelessWindowHint on by
+ * \note QAbstract3DGraphWidget sets window flag \c Qt::FramelessWindowHint on by
  * default. If you want to display graph windows as standalone windows with
  * regular window frame, clear this flag after constructing the graph. For
  * example:
  *
  * \code
- *  Q3DBars *graphWindow = new Q3DBars;
+ *  Q3DBarsWidget *graphWindow = new Q3DBarsWidget;
  *  graphWindow->setFlags(graphWindow->flags() ^ Qt::FramelessWindowHint);
  * \endcode
  *
- * \sa Q3DBars, Q3DScatter, Q3DSurface, {Qt Graphs C++ Classes for 3D}
+ * \sa Q3DBarsWidget, Q3DScatterWidget, Q3DSurfaceWidget, {Qt Graphs C++ Classes for 3D}
  */
 
 /*!
@@ -575,7 +575,7 @@ QT_BEGIN_NAMESPACE
 /*!
  * \internal
  */
-QAbstract3DGraph::QAbstract3DGraph(const QString &graphType)
+QAbstract3DGraphWidget::QAbstract3DGraphWidget(const QString &graphType)
 {
     setResizeMode(QQuickWidget::SizeRootObjectToView);
 
@@ -602,88 +602,88 @@ QAbstract3DGraph::QAbstract3DGraph(const QString &graphType)
     QObject::connect(m_graphsItem.data(),
                      &QQuickGraphsItem::selectedElementChanged,
                      this,
-                     &QAbstract3DGraph::selectedElementChanged);
+                     &QAbstract3DGraphWidget::selectedElementChanged);
     QObject::connect(m_graphsItem.data(),
                      &QQuickGraphsItem::msaaSamplesChanged,
                      this,
-                     &QAbstract3DGraph::msaaSamplesChanged);
+                     &QAbstract3DGraphWidget::msaaSamplesChanged);
 
     QObject::connect(m_graphsItem.data(),
                      &QQuickGraphsItem::tapped,
                      this,
-                     &QAbstract3DGraph::tapped);
+                     &QAbstract3DGraphWidget::tapped);
     QObject::connect(m_graphsItem.data(),
                      &QQuickGraphsItem::doubleTapped,
                      this,
-                     &QAbstract3DGraph::doubleTapped);
+                     &QAbstract3DGraphWidget::doubleTapped);
     QObject::connect(m_graphsItem.data(),
                      &QQuickGraphsItem::longPressed,
                      this,
-                     &QAbstract3DGraph::longPressed);
+                     &QAbstract3DGraphWidget::longPressed);
     QObject::connect(m_graphsItem.data(),
                      &QQuickGraphsItem::dragged,
                      this,
-                     &QAbstract3DGraph::dragged);
+                     &QAbstract3DGraphWidget::dragged);
     QObject::connect(m_graphsItem.data(),
                      &QQuickGraphsItem::wheel,
                      this,
-                     &QAbstract3DGraph::onWheel);
+                     &QAbstract3DGraphWidget::onWheel);
     QObject::connect(m_graphsItem.data(),
                      &QQuickGraphsItem::pinch,
                      this,
-                     &QAbstract3DGraph::pinch);
+                     &QAbstract3DGraphWidget::pinch);
     QObject::connect(m_graphsItem.data(),
                      &QQuickGraphsItem::mouseMove,
                      this,
-                     &QAbstract3DGraph::mouseMove);
+                     &QAbstract3DGraphWidget::mouseMove);
 
     QObject::connect(m_graphsItem.data(),
                      &QQuickGraphsItem::zoomEnabledChanged,
                      this,
-                     &QAbstract3DGraph::zoomEnabledChanged);
+                     &QAbstract3DGraphWidget::zoomEnabledChanged);
     QObject::connect(m_graphsItem.data(),
                      &QQuickGraphsItem::zoomAtTargetEnabledChanged,
                      this,
-                     &QAbstract3DGraph::zoomAtTargetEnabledChanged);
+                     &QAbstract3DGraphWidget::zoomAtTargetEnabledChanged);
     QObject::connect(m_graphsItem.data(),
                      &QQuickGraphsItem::rotationEnabledChanged,
                      this,
-                     &QAbstract3DGraph::rotationEnabledChanged);
+                     &QAbstract3DGraphWidget::rotationEnabledChanged);
     QObject::connect(m_graphsItem.data(),
                      &QQuickGraphsItem::selectionEnabledChanged,
                      this,
-                     &QAbstract3DGraph::selectionEnabledChanged);
+                     &QAbstract3DGraphWidget::selectionEnabledChanged);
     QObject::connect(m_graphsItem.data(),
                      &QQuickGraphsItem::queriedGraphPositionChanged,
                      this,
-                     &QAbstract3DGraph::queriedGraphPositionChanged);
+                     &QAbstract3DGraphWidget::queriedGraphPositionChanged);
 
     QObject::connect(m_graphsItem.data(),
                      &QQuickGraphsItem::ambientLightStrengthChanged,
                      this,
-                     &QAbstract3DGraph::ambientLightStrengthChanged);
+                     &QAbstract3DGraphWidget::ambientLightStrengthChanged);
     QObject::connect(m_graphsItem.data(),
                      &QQuickGraphsItem::lightStrengthChanged,
                      this,
-                     &QAbstract3DGraph::lightStrengthChanged);
+                     &QAbstract3DGraphWidget::lightStrengthChanged);
     QObject::connect(m_graphsItem.data(),
                      &QQuickGraphsItem::shadowStrengthChanged,
                      this,
-                     &QAbstract3DGraph::shadowStrengthChanged);
+                     &QAbstract3DGraphWidget::shadowStrengthChanged);
     QObject::connect(m_graphsItem.data(),
                      &QQuickGraphsItem::lightColorChanged,
                      this,
-                     &QAbstract3DGraph::lightColorChanged);
+                     &QAbstract3DGraphWidget::lightColorChanged);
     QObject::connect(m_graphsItem.data(),
                      &QQuickGraphsItem::shaderGridEnabledChanged,
                      this,
-                     &QAbstract3DGraph::shaderGridEnabledChanged);
+                     &QAbstract3DGraphWidget::shaderGridEnabledChanged);
 }
 
 /*!
- * Destroys QAbstract3DGraph.
+ * Destroys QAbstract3DGraphWidget.
  */
-QAbstract3DGraph::~QAbstract3DGraph() {}
+QAbstract3DGraphWidget::~QAbstract3DGraphWidget() {}
 
 /*!
  * Adds the given \a theme to the graph. The themes added via addTheme are not
@@ -692,7 +692,7 @@ QAbstract3DGraph::~QAbstract3DGraph() {}
  *
  * \sa releaseTheme(), setActiveTheme()
  */
-void QAbstract3DGraph::addTheme(QGraphsTheme *theme)
+void QAbstract3DGraphWidget::addTheme(QGraphsTheme *theme)
 {
     m_graphsItem->addTheme(theme);
 }
@@ -707,13 +707,13 @@ void QAbstract3DGraph::addTheme(QGraphsTheme *theme)
  *
  * \sa addTheme(), setActiveTheme()
  */
-void QAbstract3DGraph::releaseTheme(QGraphsTheme *theme)
+void QAbstract3DGraphWidget::releaseTheme(QGraphsTheme *theme)
 {
     m_graphsItem->releaseTheme(theme);
 }
 
 /*!
- * \property QAbstract3DGraph::activeTheme
+ * \property QAbstract3DGraphWidget::activeTheme
  *
  * \brief The active theme of the graph.
  *
@@ -725,12 +725,12 @@ void QAbstract3DGraph::releaseTheme(QGraphsTheme *theme)
  * of the theme can be modified even after setting it, and the modifications
  * take effect immediately.
  */
-QGraphsTheme *QAbstract3DGraph::activeTheme() const
+QGraphsTheme *QAbstract3DGraphWidget::activeTheme() const
 {
     return m_graphsItem->theme();
 }
 
-void QAbstract3DGraph::setActiveTheme(QGraphsTheme *activeTheme)
+void QAbstract3DGraphWidget::setActiveTheme(QGraphsTheme *activeTheme)
 {
     m_graphsItem->setTheme(activeTheme);
     emit activeThemeChanged(activeTheme);
@@ -741,13 +741,13 @@ void QAbstract3DGraph::setActiveTheme(QGraphsTheme *activeTheme)
  *
  * \sa addTheme()
  */
-QList<QGraphsTheme *> QAbstract3DGraph::themes() const
+QList<QGraphsTheme *> QAbstract3DGraphWidget::themes() const
 {
     return m_graphsItem->themes();
 }
 
 /*!
- * \property QAbstract3DGraph::selectionMode
+ * \property QAbstract3DGraphWidget::selectionMode
  *
  * \brief Item selection mode.
  *
@@ -756,19 +756,19 @@ QList<QGraphsTheme *> QAbstract3DGraph::themes() const
  *
  * \sa QGraphs3D::SelectionFlags
  */
-QGraphs3D::SelectionFlags QAbstract3DGraph::selectionMode() const
+QGraphs3D::SelectionFlags QAbstract3DGraphWidget::selectionMode() const
 {
     return m_graphsItem->selectionMode();
 }
 
-void QAbstract3DGraph::setSelectionMode(const QGraphs3D::SelectionFlags &selectionMode)
+void QAbstract3DGraphWidget::setSelectionMode(const QGraphs3D::SelectionFlags &selectionMode)
 {
     m_graphsItem->setSelectionMode(selectionMode);
     emit selectionModeChanged(selectionMode);
 }
 
 /*!
- * \property QAbstract3DGraph::shadowQuality
+ * \property QAbstract3DGraphWidget::shadowQuality
  *
  * \brief The quality of the shadow.
  *
@@ -780,26 +780,26 @@ void QAbstract3DGraph::setSelectionMode(const QGraphs3D::SelectionFlags &selecti
  *
  * \sa QGraphs3D::ShadowQuality
  */
-QGraphs3D::ShadowQuality QAbstract3DGraph::shadowQuality() const
+QGraphs3D::ShadowQuality QAbstract3DGraphWidget::shadowQuality() const
 {
     return m_graphsItem->shadowQuality();
 }
 
-void QAbstract3DGraph::setShadowQuality(const QGraphs3D::ShadowQuality &shadowQuality)
+void QAbstract3DGraphWidget::setShadowQuality(const QGraphs3D::ShadowQuality &shadowQuality)
 {
     m_graphsItem->setShadowQuality(shadowQuality);
     emit shadowQualityChanged(shadowQuality);
 }
 
 /*!
- * \property QAbstract3DGraph::scene
+ * \property QAbstract3DGraphWidget::scene
  *
  * \brief The Q3DScene pointer that can be used to manipulate the scene and
  * access the scene elements.
  *
  * This property is read-only.
  */
-Q3DScene *QAbstract3DGraph::scene() const
+Q3DScene *QAbstract3DGraphWidget::scene() const
 {
     return (Q3DScene *) m_graphsItem->scene();
 }
@@ -807,7 +807,7 @@ Q3DScene *QAbstract3DGraph::scene() const
 /*!
  * Clears selection from all attached series.
  */
-void QAbstract3DGraph::clearSelection()
+void QAbstract3DGraphWidget::clearSelection()
 {
     m_graphsItem->clearSelection();
 }
@@ -815,7 +815,7 @@ void QAbstract3DGraph::clearSelection()
 /*!
  * Returns whether the \a series has already been added to the graph.
  */
-bool QAbstract3DGraph::hasSeries(QAbstract3DSeries *series) const
+bool QAbstract3DGraphWidget::hasSeries(QAbstract3DSeries *series) const
 {
     return m_graphsItem->hasSeries(series);
 }
@@ -834,7 +834,7 @@ bool QAbstract3DGraph::hasSeries(QAbstract3DSeries *series) const
  * \sa removeCustomItems(), removeCustomItem(), removeCustomItemAt(),
  * customItems()
  */
-qsizetype QAbstract3DGraph::addCustomItem(QCustom3DItem *item)
+qsizetype QAbstract3DGraphWidget::addCustomItem(QCustom3DItem *item)
 {
     return m_graphsItem->addCustomItem(item);
 }
@@ -842,7 +842,7 @@ qsizetype QAbstract3DGraph::addCustomItem(QCustom3DItem *item)
 /*!
  * Removes all custom items. Deletes the resources allocated to them.
  */
-void QAbstract3DGraph::removeCustomItems()
+void QAbstract3DGraphWidget::removeCustomItems()
 {
     m_graphsItem->removeCustomItems();
 }
@@ -850,7 +850,7 @@ void QAbstract3DGraph::removeCustomItems()
 /*!
  * Removes the custom \a {item}. Deletes the resources allocated to it.
  */
-void QAbstract3DGraph::removeCustomItem(QCustom3DItem *item)
+void QAbstract3DGraphWidget::removeCustomItem(QCustom3DItem *item)
 {
     m_graphsItem->removeCustomItem(item);
 }
@@ -859,7 +859,7 @@ void QAbstract3DGraph::removeCustomItem(QCustom3DItem *item)
  * Removes all custom items at \a {position}. Deletes the resources allocated to
  * them.
  */
-void QAbstract3DGraph::removeCustomItemAt(const QVector3D &position)
+void QAbstract3DGraphWidget::removeCustomItemAt(const QVector3D &position)
 {
     m_graphsItem->removeCustomItemAt(position);
 }
@@ -872,7 +872,7 @@ void QAbstract3DGraph::removeCustomItemAt(const QVector3D &position)
  *
  * \sa QCustom3DItem::setTextureImage(), QCustom3DItem::setTextureFile()
  */
-void QAbstract3DGraph::releaseCustomItem(QCustom3DItem *item)
+void QAbstract3DGraphWidget::releaseCustomItem(QCustom3DItem *item)
 {
     return m_graphsItem->releaseCustomItem(item);
 }
@@ -881,7 +881,7 @@ void QAbstract3DGraph::releaseCustomItem(QCustom3DItem *item)
  * Returns the list of all added custom items.
  * \sa addCustomItem()
  */
-QList<QCustom3DItem *> QAbstract3DGraph::customItems() const
+QList<QCustom3DItem *> QAbstract3DGraphWidget::customItems() const
 {
     // TODO: API missing in QQuickGraphsItem (QTBUG-99844)
     return {};
@@ -897,7 +897,7 @@ QList<QCustom3DItem *> QAbstract3DGraph::customItems() const
  *
  * \sa selectedElement
  */
-int QAbstract3DGraph::selectedLabelIndex() const
+int QAbstract3DGraphWidget::selectedLabelIndex() const
 {
     return m_graphsItem->selectedLabelIndex();
 }
@@ -911,28 +911,28 @@ int QAbstract3DGraph::selectedLabelIndex() const
  *
  * \sa selectedElement
  */
-QAbstract3DAxis *QAbstract3DGraph::selectedAxis() const
+QAbstract3DAxis *QAbstract3DGraphWidget::selectedAxis() const
 {
     return m_graphsItem->selectedAxis();
 }
 
 /*!
  * Can be used to query the index of the selected custom item after receiving \c
- * selectedElementChanged signal with QAbstract3DGraph::ElementType::CustomItem
+ * selectedElementChanged signal with QAbstract3DGraphWidget::ElementType::CustomItem
  * type. Selection is valid until the next \c selectedElementChanged signal.
  *
  * Returns the index of the selected custom item, or -1.
  *
  * \sa selectedElement
  */
-qsizetype QAbstract3DGraph::selectedCustomItemIndex() const
+qsizetype QAbstract3DGraphWidget::selectedCustomItemIndex() const
 {
     return m_graphsItem->selectedCustomItemIndex();
 }
 
 /*!
  * Can be used to get the selected custom item after receiving \c
- * selectedElementChanged signal with QAbstract3DGraph::ElementType::CustomItem
+ * selectedElementChanged signal with QAbstract3DGraphWidget::ElementType::CustomItem
  * type. Ownership of the item remains with the graph. Selection is valid until
  * the next \c selectedElementChanged signal.
  *
@@ -940,13 +940,13 @@ qsizetype QAbstract3DGraph::selectedCustomItemIndex() const
  *
  * \sa selectedElement
  */
-QCustom3DItem *QAbstract3DGraph::selectedCustomItem() const
+QCustom3DItem *QAbstract3DGraphWidget::selectedCustomItem() const
 {
     return m_graphsItem->selectedCustomItem();
 }
 
 /*!
- * \property QAbstract3DGraph::selectedElement
+ * \property QAbstract3DGraphWidget::selectedElement
  *
  * \brief The element selected in the graph.
  *
@@ -959,11 +959,11 @@ QCustom3DItem *QAbstract3DGraph::selectedCustomItem() const
  * Graph} tab.
  *
  * \sa selectedLabelIndex(), selectedAxis(), selectedCustomItemIndex(),
- * selectedCustomItem(), Q3DBars::selectedSeries(),
- * Q3DScatter::selectedSeries(), Q3DSurface::selectedSeries(),
+ * selectedCustomItem(), Q3DBarsWidget::selectedSeries(),
+ * Q3DScatterWidget::selectedSeries(), Q3DSurfaceWidget::selectedSeries(),
  * Q3DScene::setSelectionQueryPosition()
  */
-QGraphs3D::ElementType QAbstract3DGraph::selectedElement() const
+QGraphs3D::ElementType QAbstract3DGraphWidget::selectedElement() const
 {
     return m_graphsItem->selectedElement();
 }
@@ -977,7 +977,7 @@ QGraphs3D::ElementType QAbstract3DGraph::selectedElement() const
  * \note OpenGL ES2 does not support anitialiasing.
  * \sa QQuickItem::grabToImage
  */
-QSharedPointer<QQuickItemGrabResult> QAbstract3DGraph::renderToImage(const QSize &imageSize)
+QSharedPointer<QQuickItemGrabResult> QAbstract3DGraphWidget::renderToImage(const QSize &imageSize)
 {
     QSize renderSize = imageSize;
     if (renderSize.isEmpty())
@@ -986,142 +986,142 @@ QSharedPointer<QQuickItemGrabResult> QAbstract3DGraph::renderToImage(const QSize
     return m_graphsItem->grabToImage(renderSize);
 }
 
-QGraphs3D::CameraPreset QAbstract3DGraph::cameraPreset() const
+QGraphs3D::CameraPreset QAbstract3DGraphWidget::cameraPreset() const
 {
     return m_graphsItem->cameraPreset();
 }
 
-void QAbstract3DGraph::setCameraPreset(QGraphs3D::CameraPreset preset)
+void QAbstract3DGraphWidget::setCameraPreset(QGraphs3D::CameraPreset preset)
 {
     m_graphsItem->setCameraPreset(preset);
 }
 /*!
- * \property QAbstract3DGraph::cameraXRotation
+ * \property QAbstract3DGraphWidget::cameraXRotation
  *
  * \brief The X-rotation angle of the camera around the target point in degrees.
  */
-float QAbstract3DGraph::cameraXRotation()
+float QAbstract3DGraphWidget::cameraXRotation()
 {
     return m_graphsItem->cameraXRotation();
 }
 
-void QAbstract3DGraph::setCameraXRotation(float rotation)
+void QAbstract3DGraphWidget::setCameraXRotation(float rotation)
 {
     m_graphsItem->setCameraXRotation(rotation);
 }
 
 /*!
- * \property QAbstract3DGraph::cameraYRotation
+ * \property QAbstract3DGraphWidget::cameraYRotation
  *
  * \brief The Y-rotation angle of the camera around the target point in degrees.
  */
-float QAbstract3DGraph::cameraYRotation()
+float QAbstract3DGraphWidget::cameraYRotation()
 {
     return m_graphsItem->cameraYRotation();
 }
 
-void QAbstract3DGraph::setCameraYRotation(float rotation)
+void QAbstract3DGraphWidget::setCameraYRotation(float rotation)
 {
     m_graphsItem->setCameraYRotation(rotation);
 }
 
 /*!
- * \property QAbstract3DGraph::minCameraXRotation
+ * \property QAbstract3DGraphWidget::minCameraXRotation
  *
  * \brief The minimum X-rotation angle of the camera around the target point in degrees.
  */
-float QAbstract3DGraph::minCameraXRotation()
+float QAbstract3DGraphWidget::minCameraXRotation()
 {
     return m_graphsItem->minCameraXRotation();
 }
 
-void QAbstract3DGraph::setMinCameraXRotation(float rotation)
+void QAbstract3DGraphWidget::setMinCameraXRotation(float rotation)
 {
     m_graphsItem->setMinCameraXRotation(rotation);
 }
 
 /*!
- * \property QAbstract3DGraph::maxCameraXRotation
+ * \property QAbstract3DGraphWidget::maxCameraXRotation
  *
  * \brief The maximum X-rotation angle of the camera around the target point in degrees.
  */
-float QAbstract3DGraph::maxCameraXRotation()
+float QAbstract3DGraphWidget::maxCameraXRotation()
 {
     return m_graphsItem->maxCameraXRotation();
 }
 
-void QAbstract3DGraph::setMaxCameraXRotation(float rotation)
+void QAbstract3DGraphWidget::setMaxCameraXRotation(float rotation)
 {
     m_graphsItem->setMaxCameraXRotation(rotation);
 }
 
 /*!
- * \property QAbstract3DGraph::minCameraYRotation
+ * \property QAbstract3DGraphWidget::minCameraYRotation
  *
  * \brief The minimum Y-rotation angle of the camera around the target point in degrees.
  */
-float QAbstract3DGraph::minCameraYRotation()
+float QAbstract3DGraphWidget::minCameraYRotation()
 {
     return m_graphsItem->minCameraYRotation();
 }
 
-void QAbstract3DGraph::setMinCameraYRotation(float rotation)
+void QAbstract3DGraphWidget::setMinCameraYRotation(float rotation)
 {
     m_graphsItem->setMinCameraYRotation(rotation);
 }
 
 /*!
- * \property QAbstract3DGraph::maxCameraYRotation
+ * \property QAbstract3DGraphWidget::maxCameraYRotation
  *
  * \brief The maximum Y-rotation angle of the camera around the target point in degrees.
  */
-float QAbstract3DGraph::maxCameraYRotation()
+float QAbstract3DGraphWidget::maxCameraYRotation()
 {
     return m_graphsItem->maxCameraYRotation();
 }
 
-void QAbstract3DGraph::setMaxCameraYRotation(float rotation)
+void QAbstract3DGraphWidget::setMaxCameraYRotation(float rotation)
 {
     m_graphsItem->setMaxCameraYRotation(rotation);
 }
 
 /*!
- * \property QAbstract3DGraph::zoomAtTargetEnabled
+ * \property QAbstract3DGraphWidget::zoomAtTargetEnabled
  *
  * \brief Whether zooming should change the camera target so that the zoomed point
  * of the graph stays at the same location after the zoom.
  *
  * Defaults to \c{true}.
  */
-bool QAbstract3DGraph::zoomAtTargetEnabled()
+bool QAbstract3DGraphWidget::zoomAtTargetEnabled()
 {
     return m_graphsItem->zoomAtTargetEnabled();
 }
 
-void QAbstract3DGraph::setZoomAtTargetEnabled(bool enable)
+void QAbstract3DGraphWidget::setZoomAtTargetEnabled(bool enable)
 {
     m_graphsItem->setZoomAtTargetEnabled(enable);
 }
 
 /*!
- * \property QAbstract3DGraph::zoomEnabled
+ * \property QAbstract3DGraphWidget::zoomEnabled
  *
  * \brief Whether this input handler allows graph zooming.
  *
  * Defaults to \c{true}.
  */
-bool QAbstract3DGraph::zoomEnabled()
+bool QAbstract3DGraphWidget::zoomEnabled()
 {
     return m_graphsItem->zoomEnabled();
 }
 
-void QAbstract3DGraph::setZoomEnabled(bool enable)
+void QAbstract3DGraphWidget::setZoomEnabled(bool enable)
 {
     m_graphsItem->setZoomEnabled(enable);
 }
 
 /*!
- * \property QAbstract3DGraph::ambientLightStrength
+ * \property QAbstract3DGraphWidget::ambientLightStrength
  *
  * \brief The ambient light strength for the whole graph.
  *
@@ -1130,18 +1130,18 @@ void QAbstract3DGraph::setZoomEnabled(bool enable)
  *
  * The value must be between \c 0.0f and \c 1.0f.
  */
-float QAbstract3DGraph::ambientLightStrength() const
+float QAbstract3DGraphWidget::ambientLightStrength() const
 {
     return m_graphsItem->ambientLightStrength();
 }
 
-void QAbstract3DGraph::setAmbientLightStrength(float newAmbientLightStrength)
+void QAbstract3DGraphWidget::setAmbientLightStrength(float newAmbientLightStrength)
 {
     m_graphsItem->setAmbientLightStrength(newAmbientLightStrength);
 }
 
 /*!
- * \property QAbstract3DGraph::lightStrength
+ * \property QAbstract3DGraphWidget::lightStrength
  *
  * \brief The specular light strength for the whole graph.
  *
@@ -1149,18 +1149,18 @@ void QAbstract3DGraph::setAmbientLightStrength(float newAmbientLightStrength)
  *
  * This value affects the light specified in Q3DScene.
  */
-float QAbstract3DGraph::lightStrength() const
+float QAbstract3DGraphWidget::lightStrength() const
 {
     return m_graphsItem->lightStrength();
 }
 
-void QAbstract3DGraph::setLightStrength(float newLightStrength)
+void QAbstract3DGraphWidget::setLightStrength(float newLightStrength)
 {
     m_graphsItem->setLightStrength(newLightStrength);
 }
 
 /*!
- * \property QAbstract3DGraph::shadowStrength
+ * \property QAbstract3DGraphWidget::shadowStrength
  *
  * \brief The shadow strength for the whole graph.
  *
@@ -1169,121 +1169,121 @@ void QAbstract3DGraph::setLightStrength(float newLightStrength)
  *
  * This value affects the light specified in Q3DScene.
  */
-float QAbstract3DGraph::shadowStrength() const
+float QAbstract3DGraphWidget::shadowStrength() const
 {
     return m_graphsItem->shadowStrength();
 }
 
-void QAbstract3DGraph::setShadowStrength(float newShadowStrength)
+void QAbstract3DGraphWidget::setShadowStrength(float newShadowStrength)
 {
     m_graphsItem->setShadowStrength(newShadowStrength);
 }
 
 /*!
- * \property QAbstract3DGraph::lightColor
+ * \property QAbstract3DGraphWidget::lightColor
  *
  * \brief The color for the ambient and specular light.
  *
  * This value affects the light specified in Q3DScene.
  */
-QColor QAbstract3DGraph::lightColor() const
+QColor QAbstract3DGraphWidget::lightColor() const
 {
     return m_graphsItem->lightColor();
 }
 
-void QAbstract3DGraph::setLightColor(const QColor &newLightColor)
+void QAbstract3DGraphWidget::setLightColor(const QColor &newLightColor)
 {
     m_graphsItem->setLightColor(newLightColor);
 }
 
 /*!
- * \property QAbstract3DGraph::shaderGridEnabled
+ * \property QAbstract3DGraphWidget::shaderGridEnabled
  *
  * \brief Whether the grid lines are drawn inside a shader instead of lines.
  *
  * This value affects all grid lines.
  */
-bool QAbstract3DGraph::shaderGridEnabled()
+bool QAbstract3DGraphWidget::shaderGridEnabled()
 {
     return m_graphsItem->shaderGridEnabled();
 }
 
-void QAbstract3DGraph::setShaderGridEnabled(bool enable)
+void QAbstract3DGraphWidget::setShaderGridEnabled(bool enable)
 {
     m_graphsItem->setShaderGridEnabled(enable);
 }
 
 /*!
- * \property QAbstract3DGraph::selectionEnabled
+ * \property QAbstract3DGraphWidget::selectionEnabled
  *
  * \brief Whether this input handler allows selection from the graph.
  *
  * Defaults to \c{true}.
  */
-bool QAbstract3DGraph::selectionEnabled()
+bool QAbstract3DGraphWidget::selectionEnabled()
 {
     return m_graphsItem->selectionEnabled();
 }
 
-void QAbstract3DGraph::setSelectionEnabled(bool enable)
+void QAbstract3DGraphWidget::setSelectionEnabled(bool enable)
 {
     m_graphsItem->setSelectionEnabled(enable);
 }
 
 /*!
- * \property QAbstract3DGraph::rotationEnabled
+ * \property QAbstract3DGraphWidget::rotationEnabled
  *
  * \brief Whether this input handler allows graph rotation.
  *
  * Defaults to \c{true}.
  */
-bool QAbstract3DGraph::rotationEnabled()
+bool QAbstract3DGraphWidget::rotationEnabled()
 {
     return m_graphsItem->rotationEnabled();
 }
 
-void QAbstract3DGraph::setRotationEnabled(bool enable)
+void QAbstract3DGraphWidget::setRotationEnabled(bool enable)
 {
     m_graphsItem->setRotationEnabled(enable);
 }
 
-void QAbstract3DGraph::setDefaultInputHandler()
+void QAbstract3DGraphWidget::setDefaultInputHandler()
 {
     m_graphsItem->setDefaultInputHandler();
 }
 
-void QAbstract3DGraph::unsetDefaultInputHandler()
+void QAbstract3DGraphWidget::unsetDefaultInputHandler()
 {
     m_graphsItem->unsetDefaultInputHandler();
 }
 
-void QAbstract3DGraph::unsetDefaultTapHandler()
+void QAbstract3DGraphWidget::unsetDefaultTapHandler()
 {
     m_graphsItem->unsetDefaultTapHandler();
 }
 
-void QAbstract3DGraph::unsetDefaultDragHandler()
+void QAbstract3DGraphWidget::unsetDefaultDragHandler()
 {
     m_graphsItem->unsetDefaultDragHandler();
 }
 
-void QAbstract3DGraph::unsetDefaultWheelHandler()
+void QAbstract3DGraphWidget::unsetDefaultWheelHandler()
 {
     m_graphsItem->unsetDefaultWheelHandler();
 }
 
-void QAbstract3DGraph::unsetDefaultPinchHandler()
+void QAbstract3DGraphWidget::unsetDefaultPinchHandler()
 {
     m_graphsItem->unsetDefaultPinchHandler();
 }
 
-void QAbstract3DGraph::setDragButton(Qt::MouseButtons button)
+void QAbstract3DGraphWidget::setDragButton(Qt::MouseButtons button)
 {
     m_graphsItem->setDragButton(button);
 }
 
 /*!
- * \property QAbstract3DGraph::cameraZoomLevel
+ * \property QAbstract3DGraphWidget::cameraZoomLevel
  *
  * \brief The camera zoom level in percentage.
  *
@@ -1293,19 +1293,19 @@ void QAbstract3DGraph::setDragButton(Qt::MouseButtons button)
  *
  * \sa minCameraZoomLevel, maxCameraZoomLevel
  */
-float QAbstract3DGraph::cameraZoomLevel()
+float QAbstract3DGraphWidget::cameraZoomLevel()
 {
     return m_graphsItem->cameraZoomLevel();
 }
 
-void QAbstract3DGraph::setCameraZoomLevel(float level)
+void QAbstract3DGraphWidget::setCameraZoomLevel(float level)
 {
     m_graphsItem->setCameraZoomLevel(level);
     m_graphsItem->update();
 }
 
 /*!
- * \property QAbstract3DGraph::minCameraZoomLevel
+ * \property QAbstract3DGraphWidget::minCameraZoomLevel
  *
  * \brief The minimum allowed camera zoom level.
  *
@@ -1317,18 +1317,18 @@ void QAbstract3DGraph::setCameraZoomLevel(float level)
  *
  * \sa cameraZoomLevel, maxCameraZoomLevel
  */
-float QAbstract3DGraph::minCameraZoomLevel()
+float QAbstract3DGraphWidget::minCameraZoomLevel()
 {
     return m_graphsItem->minCameraZoomLevel();
 }
 
-void QAbstract3DGraph::setMinCameraZoomLevel(float level)
+void QAbstract3DGraphWidget::setMinCameraZoomLevel(float level)
 {
     m_graphsItem->setMinCameraZoomLevel(level);
 }
 
 /*!
- * \property QAbstract3DGraph::maxCameraZoomLevel
+ * \property QAbstract3DGraphWidget::maxCameraZoomLevel
  *
  * \brief The maximum allowed camera zoom level.
  *
@@ -1339,18 +1339,18 @@ void QAbstract3DGraph::setMinCameraZoomLevel(float level)
  *
  * \sa cameraZoomLevel, minCameraZoomLevel
  */
-float QAbstract3DGraph::maxCameraZoomLevel()
+float QAbstract3DGraphWidget::maxCameraZoomLevel()
 {
     return m_graphsItem->maxCameraZoomLevel();
 }
 
-void QAbstract3DGraph::setMaxCameraZoomLevel(float level)
+void QAbstract3DGraphWidget::setMaxCameraZoomLevel(float level)
 {
     m_graphsItem->setMaxCameraZoomLevel(level);
 }
 
 /*!
- * \property QAbstract3DGraph::cameraTargetPosition
+ * \property QAbstract3DGraphWidget::cameraTargetPosition
  *
  * \brief The camera target position as a vector or vertex in the 3D space.
  *
@@ -1363,12 +1363,12 @@ void QAbstract3DGraph::setMaxCameraZoomLevel(float level)
  * \note For bar graphs, the Y-coordinate is ignored and camera always targets a
  * point on the horizontal background.
  */
-QVector3D QAbstract3DGraph::cameraTargetPosition()
+QVector3D QAbstract3DGraphWidget::cameraTargetPosition()
 {
     return m_graphsItem->cameraTargetPosition();
 }
 
-void QAbstract3DGraph::setCameraTargetPosition(const QVector3D &target)
+void QAbstract3DGraphWidget::setCameraTargetPosition(const QVector3D &target)
 {
     QVector3D newTarget = target;
 
@@ -1395,7 +1395,7 @@ void QAbstract3DGraph::setCameraTargetPosition(const QVector3D &target)
 }
 
 /*!
- * \property QAbstract3DGraph::wrapCameraXRotation
+ * \property QAbstract3DGraphWidget::wrapCameraXRotation
  *
  * \brief The behavior of the minimum and maximum limits in the X-rotation.
  *
@@ -1404,18 +1404,18 @@ void QAbstract3DGraph::setCameraTargetPosition(const QVector3D &target)
  * the camera is limited to the sector determined by the minimum and maximum
  * values. Set to \c true by default.
  */
-bool QAbstract3DGraph::wrapCameraXRotation()
+bool QAbstract3DGraphWidget::wrapCameraXRotation()
 {
     return m_graphsItem->wrapCameraXRotation();
 }
 
-void QAbstract3DGraph::setWrapCameraXRotation(bool wrap)
+void QAbstract3DGraphWidget::setWrapCameraXRotation(bool wrap)
 {
     m_graphsItem->setCameraXRotation(wrap);
 }
 
 /*!
- * \property QAbstract3DGraph::wrapCameraYRotation
+ * \property QAbstract3DGraphWidget::wrapCameraYRotation
  *
  * \brief The behavior of the minimum and maximum limits in the Y-rotation.
  *
@@ -1424,12 +1424,12 @@ void QAbstract3DGraph::setWrapCameraXRotation(bool wrap)
  * limited to the sector determined by the minimum and maximum values.
  * Set to \c true by default.
  */
-bool QAbstract3DGraph::wrapCameraYRotation()
+bool QAbstract3DGraphWidget::wrapCameraYRotation()
 {
     return m_graphsItem->wrapCameraYRotation();
 }
 
-void QAbstract3DGraph::setWrapCameraYRotation(bool wrap)
+void QAbstract3DGraphWidget::setWrapCameraYRotation(bool wrap)
 {
     m_graphsItem->setWrapCameraYRotation(wrap);
 }
@@ -1440,13 +1440,13 @@ void QAbstract3DGraph::setWrapCameraYRotation(bool wrap)
  * parameter can be given to set the zoom percentage of the camera within the
  * bounds defined by minCameraZoomLevel and maxCameraZoomLevel properties.
  */
-void QAbstract3DGraph::setCameraPosition(float horizontal, float vertical, float zoom)
+void QAbstract3DGraphWidget::setCameraPosition(float horizontal, float vertical, float zoom)
 {
     m_graphsItem->setCameraPosition(horizontal, vertical, zoom);
 }
 
 /*!
- * \property QAbstract3DGraph::msaaSamples
+ * \property QAbstract3DGraphWidget::msaaSamples
  *
  * \brief The number of used samples in MSAA.
  *
@@ -1454,23 +1454,23 @@ void QAbstract3DGraph::setCameraPosition(float horizontal, float vertical, float
  * be either 0, 2, 4, or 8.
  *
  */
-int QAbstract3DGraph::msaaSamples() const
+int QAbstract3DGraphWidget::msaaSamples() const
 {
     return m_graphsItem->msaaSamples();
 }
 
-void QAbstract3DGraph::setMsaaSamples(int samples)
+void QAbstract3DGraphWidget::setMsaaSamples(int samples)
 {
     m_graphsItem->setMsaaSamples(samples);
 }
 
-void QAbstract3DGraph::doPicking(QPoint point)
+void QAbstract3DGraphWidget::doPicking(QPoint point)
 {
     m_graphsItem->doPicking(point);
 }
 
 /*!
- * \property QAbstract3DGraph::measureFps
+ * \property QAbstract3DGraphWidget::measureFps
  *
  * \brief Whether rendering is done continuously instead of on demand.
  *
@@ -1479,29 +1479,29 @@ void QAbstract3DGraph::doPicking(QPoint point)
  *
  * \sa currentFps
  */
-void QAbstract3DGraph::setMeasureFps(bool enable)
+void QAbstract3DGraphWidget::setMeasureFps(bool enable)
 {
     m_graphsItem->setMeasureFps(enable);
     if (enable) {
         QObject::connect(m_graphsItem.data(),
                          &QQuickGraphsItem::currentFpsChanged,
                          this,
-                         &QAbstract3DGraph::currentFpsChanged);
+                         &QAbstract3DGraphWidget::currentFpsChanged);
     } else {
         QObject::disconnect(m_graphsItem.data(),
                             &QQuickGraphsItem::currentFpsChanged,
                             this,
-                            &QAbstract3DGraph::currentFpsChanged);
+                            &QAbstract3DGraphWidget::currentFpsChanged);
     }
 }
 
-bool QAbstract3DGraph::measureFps() const
+bool QAbstract3DGraphWidget::measureFps() const
 {
     return m_graphsItem->measureFps();
 }
 
 /*!
- * \property QAbstract3DGraph::currentFps
+ * \property QAbstract3DGraphWidget::currentFps
  *
  * \brief The rendering results for the last second.
  *
@@ -1511,13 +1511,13 @@ bool QAbstract3DGraph::measureFps() const
  *
  * \sa measureFps
  */
-int QAbstract3DGraph::currentFps() const
+int QAbstract3DGraphWidget::currentFps() const
 {
     return m_graphsItem->currentFps();
 }
 
 /*!
- * \property QAbstract3DGraph::orthoProjection
+ * \property QAbstract3DGraphWidget::orthoProjection
  *
  * \brief Whether orthographic projection is used for displaying the graph.
  *
@@ -1526,40 +1526,40 @@ int QAbstract3DGraph::currentFps() const
  *
  * \sa QAbstract3DAxis::labelAutoRotation,
  */
-void QAbstract3DGraph::setOrthoProjection(bool enable)
+void QAbstract3DGraphWidget::setOrthoProjection(bool enable)
 {
     m_graphsItem->setOrthoProjection(enable);
 }
 
-bool QAbstract3DGraph::isOrthoProjection() const
+bool QAbstract3DGraphWidget::isOrthoProjection() const
 {
     return m_graphsItem->isOrthoProjection();
 }
 
 /*!
- * \property QAbstract3DGraph::aspectRatio
+ * \property QAbstract3DGraphWidget::aspectRatio
  *
  * \brief The ratio of the graph scaling between the longest axis on the
  * horizontal plane and the y-axis.
  *
  * Defaults to \c{2.0}.
  *
- * \note Has no effect on Q3DBars.
+ * \note Has no effect on Q3DBarsWidget.
  *
  * \sa horizontalAspectRatio
  */
-void QAbstract3DGraph::setAspectRatio(qreal ratio)
+void QAbstract3DGraphWidget::setAspectRatio(qreal ratio)
 {
     m_graphsItem->setAspectRatio(ratio);
 }
 
-qreal QAbstract3DGraph::aspectRatio() const
+qreal QAbstract3DGraphWidget::aspectRatio() const
 {
     return m_graphsItem->aspectRatio();
 }
 
 /*!
- * \property QAbstract3DGraph::optimizationHint
+ * \property QAbstract3DGraphWidget::optimizationHint
  *
  * \brief Whether the default, static, or legacy mode is used for rendering
  * optimization.
@@ -1583,18 +1583,18 @@ qreal QAbstract3DGraph::aspectRatio() const
  *
  * \sa QAbstract3DSeries::mesh
  */
-void QAbstract3DGraph::setOptimizationHint(QGraphs3D::OptimizationHint hint)
+void QAbstract3DGraphWidget::setOptimizationHint(QGraphs3D::OptimizationHint hint)
 {
     m_graphsItem->setOptimizationHint(hint);
 }
 
-QGraphs3D::OptimizationHint QAbstract3DGraph::optimizationHint() const
+QGraphs3D::OptimizationHint QAbstract3DGraphWidget::optimizationHint() const
 {
     return m_graphsItem->optimizationHint();
 }
 
 /*!
- * \property QAbstract3DGraph::polar
+ * \property QAbstract3DGraphWidget::polar
  *
  * \brief Whether horizontal axes are changed into polar axes.
  *
@@ -1606,18 +1606,18 @@ QGraphs3D::OptimizationHint QAbstract3DGraph::optimizationHint() const
  *
  * \sa orthoProjection, radialLabelOffset
  */
-void QAbstract3DGraph::setPolar(bool enable)
+void QAbstract3DGraphWidget::setPolar(bool enable)
 {
     m_graphsItem->setPolar(enable);
 }
 
-bool QAbstract3DGraph::isPolar() const
+bool QAbstract3DGraphWidget::isPolar() const
 {
     return m_graphsItem->isPolar();
 }
 
 /*!
- * \property QAbstract3DGraph::radialLabelOffset
+ * \property QAbstract3DGraphWidget::radialLabelOffset
  *
  * \brief The normalized horizontal offset for the axis labels of the radial
  * polar axis.
@@ -1631,43 +1631,43 @@ bool QAbstract3DGraph::isPolar() const
  *
  * \sa polar
  */
-void QAbstract3DGraph::setRadialLabelOffset(float offset)
+void QAbstract3DGraphWidget::setRadialLabelOffset(float offset)
 {
     m_graphsItem->setRadialLabelOffset(offset);
 }
 
-float QAbstract3DGraph::radialLabelOffset() const
+float QAbstract3DGraphWidget::radialLabelOffset() const
 {
     return m_graphsItem->radialLabelOffset();
 }
 
 /*!
- * \property QAbstract3DGraph::horizontalAspectRatio
+ * \property QAbstract3DGraphWidget::horizontalAspectRatio
  *
  * \brief The ratio of the graph scaling between the x-axis and z-axis.
  *
  * The value of \c 0.0 indicates automatic scaling according to axis ranges.
  * Defaults to \c{0.0}.
  *
- * Has no effect on Q3DBars, which handles scaling on the horizontal plane via
- * the \l{Q3DBars::barThickness}{barThickness} and
- * \l{Q3DBars::barSpacing}{barSpacing} properties. Polar graphs also ignore this
+ * Has no effect on Q3DBarsWidget, which handles scaling on the horizontal plane via
+ * the \l{Q3DBarsWidget::barThickness}{barThickness} and
+ * \l{Q3DBarsWidget::barSpacing}{barSpacing} properties. Polar graphs also ignore this
  * property.
  *
- * \sa aspectRatio, polar, Q3DBars::barThickness, Q3DBars::barSpacing
+ * \sa aspectRatio, polar, Q3DBarsWidget::barThickness, Q3DBarsWidget::barSpacing
  */
-void QAbstract3DGraph::setHorizontalAspectRatio(qreal ratio)
+void QAbstract3DGraphWidget::setHorizontalAspectRatio(qreal ratio)
 {
     m_graphsItem->setHorizontalAspectRatio(ratio);
 }
 
-qreal QAbstract3DGraph::horizontalAspectRatio() const
+qreal QAbstract3DGraphWidget::horizontalAspectRatio() const
 {
     return m_graphsItem->horizontalAspectRatio();
 }
 
 /*!
- * \property QAbstract3DGraph::locale
+ * \property QAbstract3DGraphWidget::locale
  *
  * \brief The locale used for formatting various numeric labels.
  *
@@ -1675,18 +1675,18 @@ qreal QAbstract3DGraph::horizontalAspectRatio() const
  *
  * \sa QValue3DAxis::labelFormat
  */
-void QAbstract3DGraph::setLocale(const QLocale &locale)
+void QAbstract3DGraphWidget::setLocale(const QLocale &locale)
 {
     m_graphsItem->setLocale(locale);
 }
 
-QLocale QAbstract3DGraph::locale() const
+QLocale QAbstract3DGraphWidget::locale() const
 {
     return m_graphsItem->locale();
 }
 
 /*!
- * \property QAbstract3DGraph::queriedGraphPosition
+ * \property QAbstract3DGraphWidget::queriedGraphPosition
  *
  * \brief The latest queried graph position values along each axis.
  *
@@ -1707,13 +1707,13 @@ QLocale QAbstract3DGraph::locale() const
  *
  * \sa Q3DScene::graphPositionQuery
  */
-QVector3D QAbstract3DGraph::queriedGraphPosition() const
+QVector3D QAbstract3DGraphWidget::queriedGraphPosition() const
 {
     return m_graphsItem->queriedGraphPosition();
 }
 
 /*!
- * \property QAbstract3DGraph::margin
+ * \property QAbstract3DGraphWidget::margin
  *
  * \brief The absolute value used for the space left between the edge of the
  * plottable graph area and the edge of the graph background.
@@ -1732,12 +1732,12 @@ QVector3D QAbstract3DGraph::queriedGraphPosition() const
  * the axis label size, the positions of the edge labels of the axes are
  * adjusted to avoid overlap with the edge labels of the neighboring axes.
  */
-void QAbstract3DGraph::setMargin(qreal margin)
+void QAbstract3DGraphWidget::setMargin(qreal margin)
 {
     m_graphsItem->setMargin(margin);
 }
 
-qreal QAbstract3DGraph::margin() const
+qreal QAbstract3DGraphWidget::margin() const
 {
     return m_graphsItem->margin();
 }
@@ -1745,7 +1745,7 @@ qreal QAbstract3DGraph::margin() const
 /*!
  * \internal
  */
-bool QAbstract3DGraph::event(QEvent *event)
+bool QAbstract3DGraphWidget::event(QEvent *event)
 {
     switch (event->type()) {
     case QEvent::TouchBegin:
@@ -1762,7 +1762,7 @@ bool QAbstract3DGraph::event(QEvent *event)
 /*!
  * \internal
  */
-void QAbstract3DGraph::resizeEvent(QResizeEvent *event)
+void QAbstract3DGraphWidget::resizeEvent(QResizeEvent *event)
 {
     Q_UNUSED(event);
 
@@ -1778,7 +1778,7 @@ void QAbstract3DGraph::resizeEvent(QResizeEvent *event)
     }
 }
 
-void QAbstract3DGraph::onWheel(QQuickWheelEvent *event)
+void QAbstract3DGraphWidget::onWheel(QQuickWheelEvent *event)
 {
     QWheelEvent *ev = new QWheelEvent(QPointF(event->x(), event->y()),
                                       QPointF(event->x(), event->y()),
@@ -1796,7 +1796,7 @@ void QAbstract3DGraph::onWheel(QQuickWheelEvent *event)
 /*!
  * \internal
  */
-void QAbstract3DGraph::mouseMoveEvent(QMouseEvent *event)
+void QAbstract3DGraphWidget::mouseMoveEvent(QMouseEvent *event)
 {
     QQuickWidget::mouseMoveEvent(event);
     m_graphsItem->mouseMoveEvent(event);

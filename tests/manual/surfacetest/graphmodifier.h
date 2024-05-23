@@ -4,7 +4,7 @@
 #ifndef GRAPHMODIFIER_H
 #define GRAPHMODIFIER_H
 
-#include <QtGraphs/Q3DSurface>
+#include <QtGraphsWidgets/Q3DSurfaceWidget>
 #include <QtGraphs/QSurfaceDataProxy>
 #include <QtGraphs/QSurface3DSeries>
 #include <QSlider>
@@ -24,7 +24,7 @@ public:
         Map
     };
 
-    explicit GraphModifier(Q3DSurface *graph);
+    explicit GraphModifier(Q3DSurfaceWidget *graph);
     ~GraphModifier();
 
     void toggleSeries1(int enabled);
@@ -142,7 +142,7 @@ private:
     void populateRisingSeries(QSurface3DSeries *series, int rows, int columns, float minValue,
                               float maxValue, bool ascendingX, bool ascendingZ);
 
-    Q3DSurface *m_graph;
+    Q3DSurfaceWidget *m_graph;
     QSurface3DSeries *m_multiseries[4];
     QSurface3DSeries *m_series1;
     QSurface3DSeries *m_series2;

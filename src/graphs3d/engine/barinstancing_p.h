@@ -13,8 +13,8 @@
 
 #ifndef BARINSTANCING_H
 #define BARINSTANCING_H
-
-#include <QtQuick3D/private/qquick3dinstancing_p.h>
+#include <QtGraphs/qgraphsglobal.h>
+#include <private/qquick3dinstancing_p.h>
 
 struct BarItemHolder
 {
@@ -28,7 +28,7 @@ struct BarItemHolder
     ;
 };
 
-class BarInstancing : public QQuick3DInstancing
+class Q_GRAPHS_EXPORT BarInstancing : public QQuick3DInstancing
 {
     Q_OBJECT
 public:

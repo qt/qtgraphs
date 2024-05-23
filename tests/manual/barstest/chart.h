@@ -4,7 +4,7 @@
 #ifndef CHARTMODIFIER_H
 #define CHARTMODIFIER_H
 
-#include <QtGraphs/q3dbars.h>
+#include <QtGraphsWidgets/q3dbarswidget.h>
 #include <QtGraphs/qbar3dseries.h>
 #include <QtGraphs/qgraphstheme.h>
 #include <QFont>
@@ -19,7 +19,7 @@ class GraphModifier : public QObject
 {
     Q_OBJECT
 public:
-    explicit GraphModifier(Q3DBars *barchart, QColorDialog *colorDialog);
+    explicit GraphModifier(Q3DBarsWidget *barchart, QColorDialog *colorDialog);
     ~GraphModifier();
 
     void resetTemperatureData();
@@ -120,7 +120,7 @@ private:
     void populateFlatSeries(QBar3DSeries *series, int rows, int columns, float value);
     QBarDataRow createFlatRow(int columns, float value);
 
-    Q3DBars *m_graph;
+    Q3DBarsWidget *m_graph;
     QColorDialog *m_colorDialog;
     int m_columnCount;
     int m_rowCount;

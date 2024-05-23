@@ -14,7 +14,8 @@
 #ifndef SCATTERINSTANCING_H
 #define SCATTERINSTANCING_H
 
-#include <QtQuick3D/private/qquick3dinstancing_p.h>
+#include <QtGraphs/qgraphsglobal.h>
+#include <private/qquick3dinstancing_p.h>
 
 struct DataItemHolder
 {
@@ -24,7 +25,7 @@ struct DataItemHolder
     bool hide = false;
 };
 
-class ScatterInstancing : public QQuick3DInstancing
+class Q_GRAPHS_EXPORT ScatterInstancing : public QQuick3DInstancing
 {
     Q_OBJECT
 public:

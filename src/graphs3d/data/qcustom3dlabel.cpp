@@ -20,7 +20,7 @@ QT_BEGIN_NAMESPACE
  * \note In scaling, the z-coordinate has no effect. Setting the same x- and
  * y-coordinates retains the original font dimensions.
  *
- * \sa QAbstract3DGraph::addCustomItem()
+ * \sa QAbstract3DGraphWidget::addCustomItem()
  */
 
 /*!

@@ -4,7 +4,7 @@
 #ifndef SCATTERDATAMODIFIER_H
 #define SCATTERDATAMODIFIER_H
 
-#include <QtGraphs/q3dscatter.h>
+#include <QtGraphsWidgets/q3dscatterwidget.h>
 #include <QtGui/QFont>
 #include <QtCore/QTimer>
 #include <QtCore/QPropertyAnimation>
@@ -15,7 +15,7 @@ class ScatterDataModifier : public QObject
 {
     Q_OBJECT
 public:
-    explicit ScatterDataModifier(Q3DScatter *scatter);
+    explicit ScatterDataModifier(Q3DScatterWidget *scatter);
     ~ScatterDataModifier();
 
     void addData();
@@ -35,7 +35,7 @@ Q_SIGNALS:
 
 private:
     QPoint m_mousePos;
-    Q3DScatter *m_graph;
+    Q3DScatterWidget *m_graph;
     QPropertyAnimation *m_animationCameraX;
     QSequentialAnimationGroup *m_animationCameraY;
 };

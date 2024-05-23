@@ -15,6 +15,7 @@ target_link_libraries(tst_custominput PUBLIC
     Qt::Gui
     Qt::Widgets
     Qt::Graphs
+    Qt::GraphsWidgets
 )
 
 set(custominput_resource_files

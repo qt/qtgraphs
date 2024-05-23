@@ -6,7 +6,7 @@
 
 #include "star.h"
 
-#include <QtGraphs/q3dscatter.h>
+#include <QtGraphsWidgets/q3dscatter.h>
 #include <QtGraphs/qabstract3dseries.h>
 #include <QtGui/QFont>
 #include <QtWidgets/QSlider>

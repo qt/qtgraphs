@@ -44,11 +44,11 @@ QT_BEGIN_NAMESPACE
  * \value None
  *        No data type.
  * \value Bar
- *        Data type for Q3DBars.
+ *        Data type for Q3DBarsWidget.
  * \value Scatter
- *        Data type for Q3DScatter.
+ *        Data type for Q3DScatterWidget.
  * \value Surface
- *        Data type for Q3DSurface.
+ *        Data type for Q3DSurfaceWidget.
  */
 
 /*!

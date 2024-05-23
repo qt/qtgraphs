@@ -3,8 +3,8 @@
 
 #include <QtTest/QtTest>
 
-#include <QtGraphs/Q3DBars>
 #include <QtGraphs/QCustom3DItem>
+#include <QtGraphsWidgets/q3dbarswidget.h>
 
 #include "cpptestutil.h"
 
@@ -41,7 +41,7 @@ private slots:
     void renderToImage();
 
 private:
-    Q3DBars *m_graph;
+    Q3DBarsWidget *m_graph;
 };
 
 QBar3DSeries *newSeries()
@@ -66,7 +66,7 @@ void tst_bars::cleanupTestCase()
 
 void tst_bars::init()
 {
-    m_graph = new Q3DBars();
+    m_graph = new Q3DBarsWidget();
 }
 
 void tst_bars::cleanup()
@@ -76,7 +76,7 @@ void tst_bars::cleanup()
 
 void tst_bars::construct()
 {
-    Q3DBars *graph = new Q3DBars();
+    Q3DBarsWidget *graph = new Q3DBarsWidget();
     QVERIFY(graph);
     delete graph;
 }

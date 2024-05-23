@@ -19,7 +19,7 @@
 //#define JITTER_PLANE
 //#define WONKY_PLANE
 
-GraphModifier::GraphModifier(Q3DSurface *graph)
+GraphModifier::GraphModifier(Q3DSurfaceWidget *graph)
     : m_graph(graph),
       m_series1(new QSurface3DSeries),
       m_series2(new QSurface3DSeries),
@@ -103,13 +103,13 @@ GraphModifier::GraphModifier(Q3DSurface *graph)
     connect(&m_graphPositionQueryTimer, &QTimer::timeout, this, &GraphModifier::graphQueryTimeout);
     connect(m_theSeries, &QSurface3DSeries::selectedPointChanged, this, &GraphModifier::selectedPointChanged);
 
-    QObject::connect(m_graph, &Q3DSurface::axisXChanged, this,
+    QObject::connect(m_graph, &Q3DSurfaceWidget::axisXChanged, this,
                      &GraphModifier::handleAxisXChanged);
-    QObject::connect(m_graph, &Q3DSurface::axisYChanged, this,
+    QObject::connect(m_graph, &Q3DSurfaceWidget::axisYChanged, this,
                      &GraphModifier::handleAxisYChanged);
-    QObject::connect(m_graph, &Q3DSurface::axisZChanged, this,
+    QObject::connect(m_graph, &Q3DSurfaceWidget::axisZChanged, this,
                      &GraphModifier::handleAxisZChanged);
-    QObject::connect(m_graph, &QAbstract3DGraph::currentFpsChanged, this,
+    QObject::connect(m_graph, &QAbstract3DGraphWidget::currentFpsChanged, this,
                      &GraphModifier::handleFpsChange);
 
     //m_graphPositionQueryTimer.start(100);

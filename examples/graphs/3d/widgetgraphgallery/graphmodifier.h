@@ -5,9 +5,9 @@
 #define GRAPHMODIFIER_H
 
 #include <QtCore/qpropertyanimation.h>
-#include <QtGraphs/q3dbars.h>
 #include <QtGraphs/qabstract3dseries.h>
 #include <QtGraphs/qbardataproxy.h>
+#include <QtGraphsWidgets/q3dbarswidget.h>
 
 class RainfallData;
 
@@ -15,7 +15,7 @@ class GraphModifier : public QObject
 {
     Q_OBJECT
 public:
-    explicit GraphModifier(Q3DBars *bargraph, QObject *parent);
+    explicit GraphModifier(Q3DBarsWidget *bargraph, QObject *parent);
     ~GraphModifier();
 
     void resetTemperatureData();
@@ -54,7 +54,7 @@ Q_SIGNALS:
     void fontSizeChanged(int size);
 
 private:
-    Q3DBars *m_graph = nullptr;
+    Q3DBarsWidget *m_graph = nullptr;
     float m_xRotation = 0.f;
     float m_yRotation = 0.f;
     int m_fontSize = 30;

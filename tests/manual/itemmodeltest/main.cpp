@@ -1,8 +1,8 @@
 // Copyright (C) 2023 The Qt Company Ltd.
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 
-#include <QtGraphs/q3dbars.h>
-#include <QtGraphs/q3dsurface.h>
+#include <QtGraphsWidgets/q3dbarswidget.h>
+#include <QtGraphsWidgets/q3dsurfacewidget.h>
 #include <QtGraphs/qcategory3daxis.h>
 #include <QtGraphs/qitemmodelbardataproxy.h>
 #include <QtGraphs/qitemmodelsurfacedataproxy.h>
@@ -25,7 +25,7 @@
 class GraphDataGenerator : public QObject
 {
 public:
-    explicit GraphDataGenerator(Q3DBars *bargraph, Q3DSurface *surfaceGraph,
+    explicit GraphDataGenerator(Q3DBarsWidget *bargraph, Q3DSurfaceWidget *surfaceGraph,
                                 QTableWidget *tableWidget);
     ~GraphDataGenerator();
 
@@ -38,16 +38,16 @@ public:
     void changeSelectedButtonClicked();
 
 private:
-    Q3DBars *m_barGraph;
-    Q3DSurface *m_surfaceGraph;
+    Q3DBarsWidget *m_barGraph;
+    Q3DSurfaceWidget *m_surfaceGraph;
     QTimer *m_dataTimer;
     int m_columnCount;
     int m_rowCount;
     QTableWidget *m_tableWidget; // not owned
 };
 
-GraphDataGenerator::GraphDataGenerator(Q3DBars *bargraph,
-                                       Q3DSurface *surfaceGraph,
+GraphDataGenerator::GraphDataGenerator(Q3DBarsWidget *bargraph,
+                                       Q3DSurfaceWidget *surfaceGraph,
                                        QTableWidget *tableWidget)
     : m_barGraph(bargraph)
     , m_surfaceGraph(surfaceGraph)
@@ -215,8 +215,8 @@ void GraphDataGenerator::changeSelectedButtonClicked()
 int main(int argc, char **argv)
 {
     QApplication app(argc, argv);
-    Q3DBars *barGraph = new Q3DBars();
-    Q3DSurface *surfaceGraph = new Q3DSurface();
+    Q3DBarsWidget *barGraph = new Q3DBarsWidget();
+    Q3DSurfaceWidget *surfaceGraph = new Q3DSurfaceWidget();
     QSize screenSize = barGraph->screen()->size();
 
     barGraph->setMinimumSize(QSize(screenSize.width() / 4, screenSize.height() / 4));

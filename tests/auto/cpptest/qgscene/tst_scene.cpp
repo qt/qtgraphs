@@ -3,8 +3,8 @@
 
 #include <QtTest/QtTest>
 
-#include <QtGraphs/Q3DBars>
 #include <QtGraphs/Q3DScene>
+#include <QtGraphsWidgets/q3dbarswidget.h>
 
 #include "cpptestutil.h"
 
@@ -105,7 +105,7 @@ void tst_scene::invalidProperties()
 
 void tst_scene::subViews()
 {
-    Q3DBars graph;
+    Q3DBarsWidget graph;
     graph.setMinimumSize(QSize(200, 200));
 
     Q3DScene *scene = graph.scene();

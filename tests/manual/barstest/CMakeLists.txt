@@ -15,6 +15,7 @@ target_link_libraries(tst_barstest PUBLIC
     Qt::Gui
     Qt::Widgets
     Qt::Graphs
+    Qt::GraphsWidgets
     )
 
 set(barstest_resource_files

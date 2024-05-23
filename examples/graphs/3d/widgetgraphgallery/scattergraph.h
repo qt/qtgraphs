@@ -5,7 +5,7 @@
 #define SCATTERGRAPH_H
 
 #include <QtCore/qobject.h>
-#include <QtGraphs/q3dscatter.h>
+#include <QtGraphsWidgets/q3dscatterwidget.h>
 #include "scatterdatamodifier.h"
 
 class ScatterGraph : public QObject
@@ -19,7 +19,7 @@ public:
 
 private:
     ScatterDataModifier *m_modifier = nullptr;
-    Q3DScatter *m_scatterGraph = nullptr;
+    Q3DScatterWidget *m_scatterGraph = nullptr;
     QWidget *m_scatterWidget = nullptr;
 };
 

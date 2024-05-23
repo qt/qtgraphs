@@ -7,6 +7,7 @@ android|ios|winrt {
 }
 
 QT += widgets
+
 requires(qtConfig(fontcombobox))
 requires(qtConfig(combobox))
 

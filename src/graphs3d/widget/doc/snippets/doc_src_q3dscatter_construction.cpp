@@ -3,13 +3,15 @@
 
 //! [3]
 #include <QtGraphs>
+#include <QtGraphsWidgets/q3dscatterwidget.h>
+#include <QtWidgets/qapplication.h>
 
 int main(int argc, char **argv)
 {
     QApplication app(argc, argv);
 
     //! [0]
-    Q3DScatter scatter;
+    Q3DScatterWidget scatter;
     scatter.setMinimumSize(QSize(256, 256));
     //! [0]
     //! [1]

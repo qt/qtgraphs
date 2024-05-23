@@ -5,7 +5,7 @@
 #define BARGRAPH_H
 
 #include <QtCore/qobject.h>
-#include <QtGraphs/q3dbars.h>
+#include <QtGraphsWidgets/q3dbarswidget.h>
 #include "graphmodifier.h"
 
 class BarGraph : public QObject
@@ -19,7 +19,7 @@ public:
 
 private:
     GraphModifier *m_modifier = nullptr;
-    Q3DBars *m_barsGraph = nullptr;
+    Q3DBarsWidget *m_barsGraph = nullptr;
     QWidget *m_barsWidget = nullptr;
 };
 

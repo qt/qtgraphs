@@ -15,14 +15,14 @@
 #include "qquickgraphsitem_p.h"
 #include "qscatter3dseries.h"
 #include "qvalue3daxis.h"
-#include "scatterinstancing_p.h"
+#include <private/scatterinstancing_p.h>
 
 #include <private/graphsglobal_p.h>
 #include <private/qqmldelegatemodel_p.h>
 
 QT_BEGIN_NAMESPACE
 
-class Q3DScatter;
+class Q3DScatterWidget;
 
 struct Scatter3DChangeBitField
 {
@@ -35,7 +35,7 @@ struct Scatter3DChangeBitField
     {}
 };
 
-class QQuickGraphsScatter : public QQuickGraphsItem
+class Q_GRAPHS_EXPORT QQuickGraphsScatter : public QQuickGraphsItem
 {
     Q_OBJECT
     Q_PROPERTY(QValue3DAxis *axisX READ axisX WRITE setAxisX NOTIFY axisXChanged)
@@ -257,7 +257,7 @@ private:
 private slots:
     void cameraRotationChanged();
 
-    friend class Q3DScatter;
+    friend class Q3DScatterWidget;
 };
 
 QT_END_NAMESPACE

@@ -24,7 +24,7 @@ const float areaHeight = 8000.f;
 const float aspectRatio = 0.1389f;
 const float minRange = areaWidth * 0.49f;
 
-SurfaceGraphModifier::SurfaceGraphModifier(Q3DSurface *surface, QLabel *label, QObject *parent)
+SurfaceGraphModifier::SurfaceGraphModifier(Q3DSurfaceWidget *surface, QLabel *label, QObject *parent)
     : QObject(parent)
     , m_graph(surface)
     , m_textField(label)
@@ -101,7 +101,7 @@ SurfaceGraphModifier::SurfaceGraphModifier(Q3DSurface *surface, QLabel *label, Q
 
     // Custom items and label
     connect(m_graph,
-            &QAbstract3DGraph::selectedElementChanged,
+            &QAbstract3DGraphWidget::selectedElementChanged,
             this,
             &SurfaceGraphModifier::handleElementSelected);
 
@@ -156,14 +156,11 @@ SurfaceGraphModifier::SurfaceGraphModifier(Q3DSurface *surface, QLabel *label, Q
     m_aspectRatio = aspectRatio;
 
     QObject::connect(m_graph,
-                     &QAbstract3DGraph::dragged,
+                     &QAbstract3DGraphWidget::dragged,
                      this,
                      &SurfaceGraphModifier::handleAxisDragging);
 
-    QObject::connect(m_graph,
-                     &QAbstract3DGraph::wheel,
-                     this,
-                     &SurfaceGraphModifier::onWheel);
+    QObject::connect(m_graph, &QAbstract3DGraphWidget::wheel, this, &SurfaceGraphModifier::onWheel);
 }
 
 SurfaceGraphModifier::~SurfaceGraphModifier() {}
@@ -230,12 +227,12 @@ void SurfaceGraphModifier::enableSqrtSinModel(bool enable)
         m_graph->axisZ()->setTitle({});
 
         QObject::disconnect(m_graph,
-                            &QAbstract3DGraph::dragged,
+                            &QAbstract3DGraphWidget::dragged,
                             this,
                             &SurfaceGraphModifier::handleAxisDragging);
 
         QObject::disconnect(m_graph,
-                            &QAbstract3DGraph::wheel,
+                            &QAbstract3DGraphWidget::wheel,
                             this,
                             &SurfaceGraphModifier::onWheel);
         m_graph->setDefaultInputHandler();
@@ -293,12 +290,12 @@ void SurfaceGraphModifier::enableHeightMapModel(bool enable)
         m_graph->addSeries(m_heightMapSeriesThree);
 
         QObject::disconnect(m_graph,
-                            &QAbstract3DGraph::dragged,
+                            &QAbstract3DGraphWidget::dragged,
                             this,
                             &SurfaceGraphModifier::handleAxisDragging);
 
         QObject::disconnect(m_graph,
-                            &QAbstract3DGraph::wheel,
+                            &QAbstract3DGraphWidget::wheel,
                             this,
                             &SurfaceGraphModifier::onWheel);
         m_graph->setDefaultInputHandler();
@@ -362,12 +359,12 @@ void SurfaceGraphModifier::enableTopographyModel(bool enable)
         //! [5]
         m_graph->setDragButton(Qt::LeftButton);
         QObject::connect(m_graph,
-                         &QAbstract3DGraph::dragged,
+                         &QAbstract3DGraphWidget::dragged,
                          this,
                          &SurfaceGraphModifier::handleAxisDragging);
 
         QObject::connect(m_graph,
-                         &QAbstract3DGraph::wheel,
+                         &QAbstract3DGraphWidget::wheel,
                          this,
                          &SurfaceGraphModifier::onWheel);
         m_graph->setZoomEnabled(false);

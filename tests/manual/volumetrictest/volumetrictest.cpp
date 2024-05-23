@@ -21,7 +21,7 @@ const float xRange = 40.0f;
 const float yRange = 7.5f;
 const float zRange = 20.0f;
 
-VolumetricModifier::VolumetricModifier(QAbstract3DGraph *scatter)
+VolumetricModifier::VolumetricModifier(QAbstract3DGraphWidget *scatter)
     : m_graph(scatter),
       m_volumeItem(0),
       m_volumeItem2(0),
@@ -36,9 +36,9 @@ VolumetricModifier::VolumetricModifier(QAbstract3DGraph *scatter)
     m_graph->setCameraPreset(QGraphs3D::CameraPreset::Front);
     m_graph->setOrthoProjection(true);
     //m_graph->scene()->activeCamera()->setTarget(QVector3D(-2.0f, 1.0f, 2.0f));
-    m_scatterGraph = qobject_cast<Q3DScatter *>(m_graph);
-    m_surfaceGraph = qobject_cast<Q3DSurface *>(m_graph);
-    m_barGraph = qobject_cast<Q3DBars *>(m_graph);
+    m_scatterGraph = qobject_cast<Q3DScatterWidget *>(m_graph);
+    m_surfaceGraph = qobject_cast<Q3DSurfaceWidget *>(m_graph);
+    m_barGraph = qobject_cast<Q3DBarsWidget *>(m_graph);
     if (m_scatterGraph) {
         m_scatterGraph->axisX()->setRange(xMiddle - xRange, xMiddle + xRange);
         m_scatterGraph->axisX()->setSegmentCount(8);
@@ -130,7 +130,7 @@ VolumetricModifier::VolumetricModifier(QAbstract3DGraph *scatter)
 
     m_graph->addCustomItem(label);
 
-    QObject::connect(m_graph, &QAbstract3DGraph::currentFpsChanged, this,
+    QObject::connect(m_graph, &QAbstract3DGraphWidget::currentFpsChanged, this,
                      &VolumetricModifier::handleFpsChange);
 //    QObject::connect(m_graph->scene(), &Q3DScene::viewportChanged, this,
 //                     &VolumetricModifier::handleFpsChange);

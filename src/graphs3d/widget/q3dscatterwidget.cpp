@@ -1,16 +1,16 @@
 // Copyright (C) 2023 The Qt Company Ltd.
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 
-#include "q3dscatter.h"
-#include "qquickgraphsscatter_p.h"
+#include <QtGraphsWidgets/q3dscatterwidget.h>
+#include <private/qquickgraphsscatter_p.h>
 
 QT_BEGIN_NAMESPACE
 
 /*!
- * \class Q3DScatter
+ * \class Q3DScatterWidget
  * \inmodule QtGraphs
  * \ingroup graphs_3D
- * \brief The Q3DScatter class provides methods for rendering 3D scatter graphs.
+ * \brief The Q3DScatterWidget class provides methods for rendering 3D scatter graphs.
  *
  * This class enables developers to render 3D scatter graphs and view them by freely
  * rotating the scene. Rotation is achieved by holding down the right mouse button
@@ -20,26 +20,26 @@ QT_BEGIN_NAMESPACE
  * rotation is achieved by tap-and-move, selection by tap-and-hold, and zooming
  * by pinch.
  *
- * If no axes are set explicitly to Q3DScatter, temporary default axes with no
+ * If no axes are set explicitly to Q3DScatterWidget, temporary default axes with no
  * labels are created. These default axes can be modified via axis accessors,
  * but as soon any axis is set explicitly for the orientation, the default axis
  * for that orientation is destroyed.
  *
- * Q3DScatter supports more than one series visible at the same time.
+ * Q3DScatterWidget supports more than one series visible at the same time.
  *
- * Q3DScatter has transparency support. This feature allows you to adjust
+ * Q3DScatterWidget has transparency support. This feature allows you to adjust
  * the opacity of the scatter points, making them partially see-through,
  * fully transparent, or opaque.
  *
- * \section1 How to construct a minimal Q3DScatter graph
+ * \section1 How to construct a minimal Q3DScatterWidget graph
  *
- * First, construct Q3DScatter. Since we are running the graph as the top-level
+ * First, construct Q3DScatterWidget. Since we are running the graph as the top-level
  * window in this example, we need to clear the \c Qt::FramelessWindowHint flag,
  * which is set by default:
  *
  * \snippet doc_src_q3dscatter_construction.cpp 0
  *
- * Now Q3DScatter is ready to receive data to be rendered. Add one series of 3
+ * Now Q3DScatterWidget is ready to receive data to be rendered. Add one series of 3
  * QVector3D items:
  *
  * \note In the new proxy-series relationship, data is held in series.
@@ -65,7 +65,7 @@ QT_BEGIN_NAMESPACE
  * example. You can learn more by familiarizing yourself with the examples
  * provided, like the \l{Simple Scatter Graph}.
  *
- * \sa Q3DBars, Q3DSurface, {Qt Graphs C++ Classes for 3D}
+ * \sa Q3DBarsWidget, Q3DSurfaceWidget, {Qt Graphs C++ Classes for 3D}
  */
 
 /*!
@@ -151,14 +151,14 @@ QT_BEGIN_NAMESPACE
 /*!
  * Constructs a new 3D scatter graph.
  */
-Q3DScatter::Q3DScatter()
-    : QAbstract3DGraph(QStringLiteral("Scatter3D"))
+Q3DScatterWidget::Q3DScatterWidget()
+    : QAbstract3DGraphWidget(QStringLiteral("Scatter3D"))
 {}
 
 /*!
  * Destroys the 3D scatter graph.
  */
-Q3DScatter::~Q3DScatter() {}
+Q3DScatterWidget::~Q3DScatterWidget() {}
 
 /*!
  * Adds the \a series to the graph. A graph can contain multiple series, but has
@@ -166,9 +166,9 @@ Q3DScatter::~Q3DScatter() {}
  * item, it will be highlighted and any existing selection will be cleared. Only
  * one added series can have an active selection.
  *
- * \sa QAbstract3DGraph::hasSeries()
+ * \sa QAbstract3DGraphWidget::hasSeries()
  */
-void Q3DScatter::addSeries(QScatter3DSeries *series)
+void Q3DScatterWidget::addSeries(QScatter3DSeries *series)
 {
     graphScatter()->addSeries(series);
 }
@@ -176,9 +176,9 @@ void Q3DScatter::addSeries(QScatter3DSeries *series)
 /*!
  * Removes the \a series from the graph.
  *
- * \sa QAbstract3DGraph::hasSeries()
+ * \sa QAbstract3DGraphWidget::hasSeries()
  */
-void Q3DScatter::removeSeries(QScatter3DSeries *series)
+void Q3DScatterWidget::removeSeries(QScatter3DSeries *series)
 {
     graphScatter()->removeSeries(series);
 }
@@ -186,9 +186,9 @@ void Q3DScatter::removeSeries(QScatter3DSeries *series)
 /*!
  * Returns the list of series added to this graph.
  *
- * \sa QAbstract3DGraph::hasSeries()
+ * \sa QAbstract3DGraphWidget::hasSeries()
  */
-QList<QScatter3DSeries *> Q3DScatter::seriesList() const
+QList<QScatter3DSeries *> Q3DScatterWidget::seriesList() const
 {
     QList<QScatter3DSeries *> scatterSeriesList;
     for (QAbstract3DSeries *abstractSeries : graphScatter()->m_seriesList) {
@@ -201,7 +201,7 @@ QList<QScatter3DSeries *> Q3DScatter::seriesList() const
 }
 
 /*!
- * \property Q3DScatter::axisX
+ * \property Q3DScatterWidget::axisX
  *
  * \brief The active x-axis.
  *
@@ -214,18 +214,18 @@ QList<QScatter3DSeries *> Q3DScatter::seriesList() const
  *
  * \sa addAxis(), releaseAxis()
  */
-void Q3DScatter::setAxisX(QValue3DAxis *axis)
+void Q3DScatterWidget::setAxisX(QValue3DAxis *axis)
 {
     graphScatter()->setAxisX(axis);
 }
 
-QValue3DAxis *Q3DScatter::axisX() const
+QValue3DAxis *Q3DScatterWidget::axisX() const
 {
     return static_cast<QValue3DAxis *>(graphScatter()->axisX());
 }
 
 /*!
- * \property Q3DScatter::axisY
+ * \property Q3DScatterWidget::axisY
  *
  * \brief The active y-axis.
  *
@@ -238,18 +238,18 @@ QValue3DAxis *Q3DScatter::axisX() const
  *
  * \sa addAxis(), releaseAxis()
  */
-void Q3DScatter::setAxisY(QValue3DAxis *axis)
+void Q3DScatterWidget::setAxisY(QValue3DAxis *axis)
 {
     graphScatter()->setAxisY(axis);
 }
 
-QValue3DAxis *Q3DScatter::axisY() const
+QValue3DAxis *Q3DScatterWidget::axisY() const
 {
     return static_cast<QValue3DAxis *>(graphScatter()->axisY());
 }
 
 /*!
- * \property Q3DScatter::axisZ
+ * \property Q3DScatterWidget::axisZ
  *
  * \brief The active z-axis.
  *
@@ -262,22 +262,22 @@ QValue3DAxis *Q3DScatter::axisY() const
  *
  * \sa addAxis(), releaseAxis()
  */
-void Q3DScatter::setAxisZ(QValue3DAxis *axis)
+void Q3DScatterWidget::setAxisZ(QValue3DAxis *axis)
 {
     graphScatter()->setAxisZ(axis);
 }
 
-QValue3DAxis *Q3DScatter::axisZ() const
+QValue3DAxis *Q3DScatterWidget::axisZ() const
 {
     return static_cast<QValue3DAxis *>(graphScatter()->axisZ());
 }
 
 /*!
- * \property Q3DScatter::selectedSeries
+ * \property Q3DScatterWidget::selectedSeries
  *
  * \brief The selected series or null.
  */
-QScatter3DSeries *Q3DScatter::selectedSeries() const
+QScatter3DSeries *Q3DScatterWidget::selectedSeries() const
 {
     return graphScatter()->selectedSeries();
 }
@@ -289,7 +289,7 @@ QScatter3DSeries *Q3DScatter::selectedSeries() const
  *
  * \sa releaseAxis(), setAxisX(), setAxisY(), setAxisZ()
  */
-void Q3DScatter::addAxis(QValue3DAxis *axis)
+void Q3DScatterWidget::addAxis(QValue3DAxis *axis)
 {
     graphScatter()->addAxis(axis);
 }
@@ -304,7 +304,7 @@ void Q3DScatter::addAxis(QValue3DAxis *axis)
  *
  * \sa addAxis(), setAxisX(), setAxisY(), setAxisZ()
  */
-void Q3DScatter::releaseAxis(QValue3DAxis *axis)
+void Q3DScatterWidget::releaseAxis(QValue3DAxis *axis)
 {
     graphScatter()->releaseAxis(axis);
 }
@@ -314,7 +314,7 @@ void Q3DScatter::releaseAxis(QValue3DAxis *axis)
  *
  * \sa addAxis()
  */
-QList<QValue3DAxis *> Q3DScatter::axes() const
+QList<QValue3DAxis *> Q3DScatterWidget::axes() const
 {
     QList<QAbstract3DAxis *> abstractAxes = graphScatter()->axes();
     QList<QValue3DAxis *> retList;
@@ -327,7 +327,7 @@ QList<QValue3DAxis *> Q3DScatter::axes() const
 /*!
  * \internal
  */
-QQuickGraphsScatter *Q3DScatter::graphScatter()
+QQuickGraphsScatter *Q3DScatterWidget::graphScatter()
 {
     return static_cast<QQuickGraphsScatter *>(m_graphsItem.data());
 }
@@ -335,7 +335,7 @@ QQuickGraphsScatter *Q3DScatter::graphScatter()
 /*!
  * \internal
  */
-const QQuickGraphsScatter *Q3DScatter::graphScatter() const
+const QQuickGraphsScatter *Q3DScatterWidget::graphScatter() const
 {
     return static_cast<const QQuickGraphsScatter *>(m_graphsItem.data());
 }

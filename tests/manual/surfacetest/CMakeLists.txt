@@ -15,6 +15,7 @@ target_link_libraries(tst_surfacetest PUBLIC
     Qt::Gui
     Qt::Widgets
     Qt::Graphs
+    Qt::GraphsWidgets
     )
 
 set_source_files_properties("Heightmap.png"

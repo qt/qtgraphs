@@ -3,7 +3,7 @@
 
 #include <QtTest/QtTest>
 
-#include <QtGraphs/Q3DBars>
+#include <QtGraphsWidgets/q3dbarswidget.h>
 
 class tst_input: public QObject
 {
@@ -22,7 +22,7 @@ private slots:
     void setQuery();
 
 private:
-    Q3DBars *m_input;
+    Q3DBarsWidget *m_input;
 };
 
 void tst_input::initTestCase()
@@ -35,7 +35,7 @@ void tst_input::cleanupTestCase()
 
 void tst_input::init()
 {
-    m_input = new Q3DBars();
+    m_input = new Q3DBarsWidget();
 }
 
 void tst_input::cleanup()
@@ -45,7 +45,7 @@ void tst_input::cleanup()
 
 void tst_input::construct()
 {
-    Q3DBars *input = new Q3DBars();
+    Q3DBarsWidget *input = new Q3DBarsWidget();
     QVERIFY(input);
     delete input;
 }
@@ -77,7 +77,7 @@ void tst_input::initializeProperties()
 
 void tst_input::setQuery()
 {
-    QSignalSpy spy(m_input, &QAbstract3DGraph::queriedGraphPositionChanged);
+    QSignalSpy spy(m_input, &QAbstract3DGraphWidget::queriedGraphPositionChanged);
     m_input->scene()->setGraphPositionQuery(QPoint());
 
     //signal was emitted one time

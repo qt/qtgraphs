@@ -18,7 +18,7 @@ using namespace Qt::StringLiterals;
 BarGraph::BarGraph()
 {
     //! [0]
-    m_barsGraph = new Q3DBars();
+    m_barsGraph = new Q3DBarsWidget();
     //! [0]
     initialize();
 }
@@ -323,7 +323,7 @@ void BarGraph::initialize()
                      shadowQuality,
                      &QComboBox::setCurrentIndex);
     QObject::connect(m_barsGraph,
-                     &Q3DBars::shadowQualityChanged,
+                     &Q3DBarsWidget::shadowQualityChanged,
                      m_modifier,
                      &GraphModifier::shadowQualityUpdatedByVisual);
 
