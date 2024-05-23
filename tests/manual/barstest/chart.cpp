@@ -1063,7 +1063,7 @@ void GraphModifier::useLogAxis(bool checked)
     }
     case 1: {
         qDebug() << "Case" << counter << ": Hide max label";
-        logFormatter->setShowEdgeLabels(false);
+        logFormatter->setEdgeLabelsVisible(false);
         break;
     }
     case 2: {

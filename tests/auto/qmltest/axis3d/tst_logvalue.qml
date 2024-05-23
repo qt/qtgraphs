@@ -18,7 +18,7 @@ Item {
         id: initialized
         autoSubGrid: false
         base: 0.1
-        showEdgeLabels: false
+        edgeLabelsVisible: false
     }
 
     LogValue3DAxisFormatter {
@@ -35,7 +35,7 @@ Item {
         function test_initial() {
             compare(initial.autoSubGrid, true)
             compare(initial.base, 10)
-            compare(initial.showEdgeLabels, true)
+            compare(initial.edgeLabelsVisible, true)
         }
     }
 
@@ -45,7 +45,7 @@ Item {
         function test_initialized() {
             compare(initialized.autoSubGrid, false)
             compare(initialized.base, 0.1)
-            compare(initialized.showEdgeLabels, false)
+            compare(initialized.edgeLabelsVisible, false)
         }
     }
 
@@ -55,11 +55,11 @@ Item {
         function test_change() {
             change.autoSubGrid = false
             change.base = 0.1
-            change.showEdgeLabels = false
+            change.edgeLabelsVisible = false
 
             compare(change.autoSubGrid, false)
             compare(change.base, 0.1)
-            compare(change.showEdgeLabels, false)
+            compare(change.edgeLabelsVisible, false)
         }
     }
 

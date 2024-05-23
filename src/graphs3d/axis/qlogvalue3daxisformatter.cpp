@@ -62,7 +62,7 @@ QT_BEGIN_NAMESPACE
  */
 
 /*!
- * \qmlproperty bool LogValue3DAxisFormatter::showEdgeLabels
+ * \qmlproperty bool LogValue3DAxisFormatter::edgeLabelsVisible
  *
  * Defines whether the first and last label on the axis are visible.
  *
@@ -92,7 +92,7 @@ QT_BEGIN_NAMESPACE
 */
 
 /*!
-    \qmlsignal LogValue3DAxisFormatter::showEdgeLabelsChanged(bool enabled)
+    \qmlsignal LogValue3DAxisFormatter::edgeLabelsVisibleChanged(bool enabled)
 
     This signal is emitted when the value that specifies whether to show
     the first and last label on the axis changes to \a enabled.
@@ -192,7 +192,7 @@ bool QLogValue3DAxisFormatter::autoSubGrid() const
 }
 
 /*!
- * \property QLogValue3DAxisFormatter::showEdgeLabels
+ * \property QLogValue3DAxisFormatter::edgeLabelsVisible
  *
  * \brief Whether the first and last label on the axis are visible.
  *
@@ -206,20 +206,20 @@ bool QLogValue3DAxisFormatter::autoSubGrid() const
  *
  * \sa base, QAbstract3DAxis::labels
  */
-void QLogValue3DAxisFormatter::setShowEdgeLabels(bool enabled)
+void QLogValue3DAxisFormatter::setEdgeLabelsVisible(bool enabled)
 {
     Q_D(QLogValue3DAxisFormatter);
-    if (d->m_showEdgeLabels != enabled) {
-        d->m_showEdgeLabels = enabled;
+    if (d->m_edgeLabelsVisible != enabled) {
+        d->m_edgeLabelsVisible = enabled;
         markDirty(true);
-        emit showEdgeLabelsChanged(enabled);
+        emit edgeLabelsVisibleChanged(enabled);
     }
 }
 
-bool QLogValue3DAxisFormatter::showEdgeLabels() const
+bool QLogValue3DAxisFormatter::edgeLabelsVisible() const
 {
     const Q_D(QLogValue3DAxisFormatter);
-    return d->m_showEdgeLabels;
+    return d->m_edgeLabelsVisible;
 }
 
 /*!
@@ -274,7 +274,7 @@ QLogValue3DAxisFormatterPrivate::QLogValue3DAxisFormatterPrivate()
     , m_logMax(0.0)
     , m_logRangeNormalizer(0.0)
     , m_autoSubGrid(true)
-    , m_showEdgeLabels(true)
+    , m_edgeLabelsVisible(true)
     , m_evenMinSegment(true)
     , m_evenMaxSegment(true)
 {}
@@ -332,7 +332,7 @@ void QLogValue3DAxisFormatterPrivate::recalculate()
         if (!m_evenMinSegment) {
             m_gridPositions[0] = 0.0f;
             m_labelPositions[0] = 0.0f;
-            if (m_showEdgeLabels)
+            if (m_edgeLabelsVisible)
                 m_labelStrings << q->stringForValue(qreal(m_min), labelFormat);
             else
                 m_labelStrings << QString();
@@ -350,7 +350,7 @@ void QLogValue3DAxisFormatterPrivate::recalculate()
         m_gridPositions[segmentCount] = 1.0f;
         m_labelPositions[segmentCount] = 1.0f;
         QString finalLabel;
-        if (m_showEdgeLabels || m_evenMaxSegment)
+        if (m_edgeLabelsVisible || m_evenMaxSegment)
             finalLabel = q->stringForValue(qreal(m_max), labelFormat);
 
         if (m_labelStrings.size() > segmentCount)

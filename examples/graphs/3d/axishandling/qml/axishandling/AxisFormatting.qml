@@ -43,7 +43,7 @@ Item {
             id: logAxisFormatter
             base: 10
             autoSubGrid: true
-            showEdgeLabels: true
+            edgeLabelsVisible: true
         }
         labelFormat: "%.2f"
     }
