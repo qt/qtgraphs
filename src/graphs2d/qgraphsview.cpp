@@ -32,7 +32,7 @@ After that you can use GraphsView in your qml files:
 
 See \l{Testbed} for more thorough usage examples.
 
-\sa BarSeries, LineSeries, BarCategoryAxis, ValueAxis, GraphTheme
+\sa BarSeries, LineSeries, BarCategoryAxis, ValueAxis, GraphsTheme
 */
 
 QGraphsView::QGraphsView(QQuickItem *parent) :
@@ -171,6 +171,16 @@ void QGraphsView::createAreaRenderer()
         m_areaRenderer = new AreaRenderer(this);
 }
 
+/*!
+    \property QGraphsView::axisXSmoothing
+    \brief Controls the graph X axis smoothing (antialiasing) amount.
+    By default, the smoothing is \c 1.0.
+*/
+/*!
+    \qmlproperty real GraphsView::axisXSmoothing
+    Controls the graph X axis smoothing (antialiasing) amount.
+    By default, the smoothing is \c 1.0.
+*/
 qreal QGraphsView::axisXSmoothing() const
 {
     return m_axisXSmoothing;
@@ -182,8 +192,19 @@ void QGraphsView::setAxisXSmoothing(qreal smoothing)
         return;
     m_axisXSmoothing = smoothing;
     emit axisXSmoothingChanged();
+    polishAndUpdate();
 }
 
+/*!
+    \property QGraphsView::axisYSmoothing
+    \brief Controls the graph Y axis smoothing (antialiasing) amount.
+    By default, the smoothing is \c 1.0.
+*/
+/*!
+    \qmlproperty real GraphsView::axisYSmoothing
+    Controls the graph Y axis smoothing (antialiasing) amount.
+    By default, the smoothing is \c 1.0.
+*/
 qreal QGraphsView::axisYSmoothing() const
 {
     return m_axisYSmoothing;
@@ -195,8 +216,19 @@ void QGraphsView::setAxisYSmoothing(qreal smoothing)
         return;
     m_axisYSmoothing = smoothing;
     emit axisYSmoothingChanged();
+    polishAndUpdate();
 }
 
+/*!
+    \property QGraphsView::gridSmoothing
+    \brief Controls the graph grid smoothing (antialiasing) amount.
+    By default, the smoothing is \c 1.0.
+*/
+/*!
+    \qmlproperty real GraphsView::gridSmoothing
+    Controls the graph grid smoothing (antialiasing) amount.
+    By default, the smoothing is \c 1.0.
+*/
 qreal QGraphsView::gridSmoothing() const
 {
     return m_gridSmoothing;
@@ -208,9 +240,19 @@ void QGraphsView::setGridSmoothing(qreal smoothing)
         return;
     m_gridSmoothing = smoothing;
     emit gridSmoothingChanged();
+    polishAndUpdate();
 }
 
-
+/*!
+    \property QGraphsView::shadowEnabled
+    \brief Controls if the graph grid shadow is visible.
+    By default, shadow visibility is set to \c false.
+*/
+/*!
+    \qmlproperty bool GraphsView::shadowEnabled
+    Controls if the graph grid shadow is visible.
+    By default, shadow visibility is set to \c false.
+*/
 bool QGraphsView::shadowEnabled() const
 {
     return m_shadowEnabled;
@@ -222,8 +264,19 @@ void QGraphsView::setShadowEnabled(bool newShadowEnabled)
         return;
     m_shadowEnabled = newShadowEnabled;
     emit shadowEnabledChanged();
+    polishAndUpdate();
 }
 
+/*!
+    \property QGraphsView::shadowColor
+    \brief Controls the graph grid shadow color.
+    By default, shadow color is set to \c black.
+*/
+/*!
+    \qmlproperty color GraphsView::shadowColor
+    Controls the graph grid shadow color.
+    By default, shadow color is set to \c black.
+*/
 QColor QGraphsView::shadowColor() const
 {
     return m_shadowColor;
@@ -235,8 +288,19 @@ void QGraphsView::setShadowColor(const QColor &newShadowColor)
         return;
     m_shadowColor = newShadowColor;
     emit shadowColorChanged();
+    polishAndUpdate();
 }
 
+/*!
+    \property QGraphsView::shadowBarWidth
+    \brief Controls the graph grid shadow width.
+    By default, shadow width is set to \c 2.0.
+*/
+/*!
+    \qmlproperty real GraphsView::shadowBarWidth
+    Controls the graph grid shadow width.
+    By default, shadow width is set to \c 2.0.
+*/
 qreal QGraphsView::shadowBarWidth() const
 {
     return m_shadowBarWidth;
@@ -248,8 +312,19 @@ void QGraphsView::setShadowBarWidth(qreal newShadowBarWidth)
         return;
     m_shadowBarWidth = newShadowBarWidth;
     emit shadowBarWidthChanged();
+    polishAndUpdate();
 }
 
+/*!
+    \property QGraphsView::shadowXOffset
+    \brief Controls the graph grid shadow X offset.
+    By default, shadow X offset is set to \c 0.0.
+*/
+/*!
+    \qmlproperty real GraphsView::shadowXOffset
+    Controls the graph grid shadow X offset.
+    By default, shadow X offset is set to \c 0.0.
+*/
 qreal QGraphsView::shadowXOffset() const
 {
     return m_shadowXOffset;
@@ -261,8 +336,19 @@ void QGraphsView::setShadowXOffset(qreal newShadowXOffset)
         return;
     m_shadowXOffset = newShadowXOffset;
     emit shadowXOffsetChanged();
+    polishAndUpdate();
 }
 
+/*!
+    \property QGraphsView::shadowYOffset
+    \brief Controls the graph grid shadow Y offset.
+    By default, shadow Y offset is set to \c 0.0.
+*/
+/*!
+    \qmlproperty real GraphsView::shadowYOffset
+    Controls the graph grid shadow Y offset.
+    By default, shadow Y offset is set to \c 0.0.
+*/
 qreal QGraphsView::shadowYOffset() const
 {
     return m_shadowYOffset;
@@ -274,8 +360,19 @@ void QGraphsView::setShadowYOffset(qreal newShadowYOffset)
         return;
     m_shadowYOffset = newShadowYOffset;
     emit shadowYOffsetChanged();
+    polishAndUpdate();
 }
 
+/*!
+    \property QGraphsView::shadowSmoothing
+    \brief Controls the graph grid shadow smoothing (antialiasing) amount.
+    By default, shadow smoothing is set to \c 4.0.
+*/
+/*!
+    \qmlproperty real GraphsView::shadowSmoothing
+    Controls the graph grid shadow smoothing (antialiasing) amount.
+    By default, shadow smoothing is set to \c 4.0.
+*/
 qreal QGraphsView::shadowSmoothing() const
 {
     return m_shadowSmoothing;
@@ -287,6 +384,7 @@ void QGraphsView::setShadowSmoothing(qreal smoothing)
         return;
     m_shadowSmoothing = smoothing;
     emit shadowSmoothingChanged();
+    polishAndUpdate();
 }
 
 void QGraphsView::handleHoverEnter(QString seriesName, QPointF position, QPointF value)
@@ -332,8 +430,6 @@ void QGraphsView::componentComplete()
         m_theme = m_defaultTheme;
         QObject::connect(m_theme, &QGraphsTheme::update, this, &QQuickItem::update);
         m_theme->resetColorTheme();
-        m_theme->setGridMainWidth(2.0);
-        m_theme->setGridSubWidth(1.0);
     }
     QQuickItem::componentComplete();
 

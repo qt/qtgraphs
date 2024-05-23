@@ -249,6 +249,16 @@ Rectangle {
             onSliderValueChanged: chartView.shadowColor.a = sliderValue;
         }
         CustomLabel {
+            text: "Shadow: Width"
+        }
+        CustomSlider {
+            id: sliderShadowWidth
+            sliderValue: chartView.shadowBarWidth
+            fromValue: 1.0
+            toValue: 4.0
+            onSliderValueChanged: chartView.shadowBarWidth = sliderValue;
+        }
+        CustomLabel {
             text: "Shadow: Smoothing"
         }
         CustomSlider {

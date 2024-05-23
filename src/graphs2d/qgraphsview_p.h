@@ -221,12 +221,12 @@ private:
     qreal m_axisYSmoothing = 1.0;
     qreal m_gridSmoothing = 1.0;
 
-    bool m_shadowEnabled;
-    QColor m_shadowColor;
-    qreal m_shadowBarWidth = 0.0;
+    bool m_shadowEnabled = false;
+    QColor m_shadowColor = QColorConstants::Black;
+    qreal m_shadowBarWidth = 2.0;
     qreal m_shadowXOffset = 0.0;
     qreal m_shadowYOffset = 0.0;
-    qreal m_shadowSmoothing = 5.0;
+    qreal m_shadowSmoothing = 4.0;
 };
 
 QT_END_NAMESPACE

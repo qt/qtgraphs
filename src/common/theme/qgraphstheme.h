@@ -102,31 +102,31 @@ class Q_GRAPHS_EXPORT QGraphsTheme : public QObject, public QQmlParserStatus
         bool gridEnabled READ isGridEnabled WRITE setGridEnabled NOTIFY gridEnabledChanged FINAL)
     Q_PROPERTY(QColor gridMainColor READ gridMainColor WRITE setGridMainColor NOTIFY
                    gridMainColorChanged FINAL)
-    Q_PROPERTY(float gridMainWidth READ gridMainWidth WRITE setGridMainWidth NOTIFY
+    Q_PROPERTY(qreal gridMainWidth READ gridMainWidth WRITE setGridMainWidth NOTIFY
                    gridMainWidthChanged FINAL)
     Q_PROPERTY(QColor gridSubColor READ gridSubColor WRITE setGridSubColor NOTIFY
                    gridSubColorChanged FINAL)
     Q_PROPERTY(
-        float gridSubWidth READ gridSubWidth WRITE setGridSubWidth NOTIFY gridSubWidthChanged FINAL)
+        qreal gridSubWidth READ gridSubWidth WRITE setGridSubWidth NOTIFY gridSubWidthChanged FINAL)
 
     Q_PROPERTY(QColor axisXMainColor READ axisXMainColor WRITE setAxisXMainColor NOTIFY axisXMainColorChanged FINAL)
-    Q_PROPERTY(float axisXMainWidth READ axisXMainWidth WRITE setAxisXMainWidth NOTIFY axisXMainWidthChanged FINAL)
+    Q_PROPERTY(qreal axisXMainWidth READ axisXMainWidth WRITE setAxisXMainWidth NOTIFY axisXMainWidthChanged FINAL)
     Q_PROPERTY(QColor axisXSubColor READ axisXSubColor WRITE setAxisXSubColor NOTIFY axisXSubColorChanged FINAL)
-    Q_PROPERTY(float axisXSubWidth READ axisXSubWidth WRITE setAxisXSubWidth NOTIFY axisXSubWidthChanged FINAL)
+    Q_PROPERTY(qreal axisXSubWidth READ axisXSubWidth WRITE setAxisXSubWidth NOTIFY axisXSubWidthChanged FINAL)
     Q_PROPERTY(QFont axisXLabelFont READ axisXLabelFont WRITE setAxisXLabelFont NOTIFY axisXLabelFontChanged FINAL)
     Q_PROPERTY(QColor axisXLabelColor READ axisXLabelColor WRITE setAxisXLabelColor NOTIFY axisXLabelColorChanged FINAL)
 
     Q_PROPERTY(QColor axisYMainColor READ axisYMainColor WRITE setAxisYMainColor NOTIFY axisYMainColorChanged FINAL)
-    Q_PROPERTY(float axisYMainWidth READ axisYMainWidth WRITE setAxisYMainWidth NOTIFY axisYMainWidthChanged FINAL)
+    Q_PROPERTY(qreal axisYMainWidth READ axisYMainWidth WRITE setAxisYMainWidth NOTIFY axisYMainWidthChanged FINAL)
     Q_PROPERTY(QColor axisYSubColor READ axisYSubColor WRITE setAxisYSubColor NOTIFY axisYSubColorChanged FINAL)
-    Q_PROPERTY(float axisYSubWidth READ axisYSubWidth WRITE setAxisYSubWidth NOTIFY axisYSubWidthChanged FINAL)
+    Q_PROPERTY(qreal axisYSubWidth READ axisYSubWidth WRITE setAxisYSubWidth NOTIFY axisYSubWidthChanged FINAL)
     Q_PROPERTY(QFont axisYLabelFont READ axisYLabelFont WRITE setAxisYLabelFont NOTIFY axisYLabelFontChanged FINAL)
     Q_PROPERTY(QColor axisYLabelColor READ axisYLabelColor WRITE setAxisYLabelColor NOTIFY axisYLabelColorChanged FINAL)
 
     Q_PROPERTY(QColor axisZMainColor READ axisZMainColor WRITE setAxisZMainColor NOTIFY axisZMainColorChanged FINAL)
-    Q_PROPERTY(float axisZMainWidth READ axisZMainWidth WRITE setAxisZMainWidth NOTIFY axisZMainWidthChanged FINAL)
+    Q_PROPERTY(qreal axisZMainWidth READ axisZMainWidth WRITE setAxisZMainWidth NOTIFY axisZMainWidthChanged FINAL)
     Q_PROPERTY(QColor axisZSubColor READ axisZSubColor WRITE setAxisZSubColor NOTIFY axisZSubColorChanged FINAL)
-    Q_PROPERTY(float axisZSubWidth READ axisZSubWidth WRITE setAxisZSubWidth NOTIFY axisZSubWidthChanged FINAL)
+    Q_PROPERTY(qreal axisZSubWidth READ axisZSubWidth WRITE setAxisZSubWidth NOTIFY axisZSubWidthChanged FINAL)
     Q_PROPERTY(QFont axisZLabelFont READ axisZLabelFont WRITE setAxisZLabelFont NOTIFY axisZLabelFontChanged FINAL)
     Q_PROPERTY(QColor axisZLabelColor READ axisZLabelColor WRITE setAxisZLabelColor NOTIFY axisZLabelColorChanged FINAL)
 
@@ -214,12 +214,12 @@ public:
     void setGridEnabled(bool newGridEnabled);
     QColor gridMainColor() const;
     void setGridMainColor(const QColor &newgridMainColor);
-    float gridMainWidth() const;
-    void setGridMainWidth(float newgridMainWidth);
+    qreal gridMainWidth() const;
+    void setGridMainWidth(qreal newgridMainWidth);
     QColor gridSubColor() const;
     void setGridSubColor(const QColor &newgridSubColor);
-    float gridSubWidth() const;
-    void setGridSubWidth(float newgridSubWidth);
+    qreal gridSubWidth() const;
+    void setGridSubWidth(qreal newgridSubWidth);
 
     bool isLabelsEnabled() const;
     void setLabelsEnabled(bool newLabelsEnabled);
@@ -258,30 +258,30 @@ public:
 
     QColor axisXMainColor() const;
     void setAxisXMainColor(const QColor &newAxisXMainColor);
-    float axisXMainWidth() const;
-    void setAxisXMainWidth(float newAxisXMainWidth);
+    qreal axisXMainWidth() const;
+    void setAxisXMainWidth(qreal newAxisXMainWidth);
     QColor axisXSubColor() const;
     void setAxisXSubColor(const QColor &newAxisXSubColor);
-    float axisXSubWidth() const;
-    void setAxisXSubWidth(float newAxisXSubWidth);
+    qreal axisXSubWidth() const;
+    void setAxisXSubWidth(qreal newAxisXSubWidth);
 
     QColor axisYMainColor() const;
     void setAxisYMainColor(const QColor &newAxisYMainColor);
-    float axisYMainWidth() const;
-    void setAxisYMainWidth(float newAxisYMainWidth);
+    qreal axisYMainWidth() const;
+    void setAxisYMainWidth(qreal newAxisYMainWidth);
     QColor axisYSubColor() const;
     void setAxisYSubColor(const QColor &newAxisYSubColor);
-    float axisYSubWidth() const;
-    void setAxisYSubWidth(float newAxisYSubWidth);
+    qreal axisYSubWidth() const;
+    void setAxisYSubWidth(qreal newAxisYSubWidth);
 
     QColor axisZMainColor() const;
     void setAxisZMainColor(const QColor &newAxisZMainColor);
-    float axisZMainWidth() const;
-    void setAxisZMainWidth(float newAxisZMainWidth);
+    qreal axisZMainWidth() const;
+    void setAxisZMainWidth(qreal newAxisZMainWidth);
     QColor axisZSubColor() const;
     void setAxisZSubColor(const QColor &newAxisZSubColor);
-    float axisZSubWidth() const;
-    void setAxisZSubWidth(float newAxisZSubWidth);
+    qreal axisZSubWidth() const;
+    void setAxisZSubWidth(qreal newAxisZSubWidth);
 
     QFont axisXLabelFont() const;
     void setAxisXLabelFont(const QFont &newAxisXLabelFont);
@@ -473,10 +473,10 @@ private:
     ColorStyle m_colorStyle;
     QColor m_gridMainColor;
     QColor m_gridMainThemeColor;
-    float m_gridMainWidth;
+    qreal m_gridMainWidth;
     QColor m_gridSubColor;
     QColor m_gridSubThemeColor;
-    float m_gridSubWidth;
+    qreal m_gridSubWidth;
     QColor m_plotAreaBackgroundColor;
     QColor m_plotAreaBackgroundThemeColor;
     bool m_backgroundEnabled;
@@ -518,22 +518,22 @@ private:
     bool m_componentComplete = false;
     QColor m_axisXMainColor;
     QColor m_axisXMainThemeColor;
-    float m_axisXMainWidth;
+    qreal m_axisXMainWidth;
     QColor m_axisXSubColor;
     QColor m_axisXSubThemeColor;
-    float m_axisXSubWidth;
+    qreal m_axisXSubWidth;
     QColor m_axisYMainColor;
     QColor m_axisYMainThemeColor;
-    float m_axisYMainWidth;
+    qreal m_axisYMainWidth;
     QColor m_axisYSubColor;
     QColor m_axisYSubThemeColor;
-    float m_axisYSubWidth;
+    qreal m_axisYSubWidth;
     QColor m_axisZMainColor;
     QColor m_axisZMainThemeColor;
-    float m_axisZMainWidth;
+    qreal m_axisZMainWidth;
     QColor m_axisZSubColor;
     QColor m_axisZSubThemeColor;
-    float m_axisZSubWidth;
+    qreal m_axisZSubWidth;
     QFont m_axisXLabelFont;
     QFont m_axisYLabelFont;
     QFont m_axisZLabelFont;

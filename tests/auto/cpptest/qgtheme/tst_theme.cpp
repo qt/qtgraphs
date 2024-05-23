@@ -66,7 +66,8 @@ void tst_theme::construct()
     QCOMPARE(theme->isGridEnabled(), true);
     QCOMPARE(theme->gridMainColor(), QColor(QRgb(0x545151)));
     QCOMPARE(theme->gridSubColor(), QColor(QRgb(0xAFAFAF)));
-    QCOMPARE(theme->gridMainWidth(), 0.25f);
+    QCOMPARE(theme->gridMainWidth(), 2.0f);
+    QCOMPARE(theme->gridSubWidth(), 1.0f);
     QCOMPARE(theme->labelBackgroundColor(), QColor(QRgb(0xE7E7E7)));
     QCOMPARE(theme->isLabelBackgroundEnabled(), true);
     QCOMPARE(theme->isLabelBorderEnabled(), true);
@@ -96,7 +97,8 @@ void tst_theme::initialProperties()
     QCOMPARE(m_theme->isGridEnabled(), true);
     QCOMPARE(m_theme->gridMainColor(), QColor(QRgb(0x545151)));
     QCOMPARE(m_theme->gridSubColor(), QColor(QRgb(0xAFAFAF)));
-    QCOMPARE(m_theme->gridMainWidth(), 0.25f);
+    QCOMPARE(m_theme->gridMainWidth(), 2.0f);
+    QCOMPARE(m_theme->gridSubWidth(), 1.0f);
     QCOMPARE(m_theme->labelBackgroundColor(), QColor(QRgb(0xE7E7E7)));
     QCOMPARE(m_theme->isLabelBackgroundEnabled(), true);
     QCOMPARE(m_theme->isLabelBorderEnabled(), true);
@@ -137,6 +139,7 @@ void tst_theme::initializeProperties()
     m_theme->setGridMainColor(QColor(Qt::green));
     m_theme->setGridSubColor(QColor(Qt::red));
     m_theme->setGridMainWidth(0.8f);
+    m_theme->setGridSubWidth(0.5f);
     m_theme->setLabelBackgroundColor(QColor(Qt::gray));
     m_theme->setLabelBackgroundEnabled(false);
     m_theme->setLabelBorderEnabled(false);
@@ -162,6 +165,7 @@ void tst_theme::initializeProperties()
     QCOMPARE(m_theme->gridMainColor(), QColor(Qt::green));
     QCOMPARE(m_theme->gridSubColor(), QColor(Qt::red));
     QCOMPARE(m_theme->gridMainWidth(), 0.8f);
+    QCOMPARE(m_theme->gridSubWidth(), 0.5f);
     QCOMPARE(m_theme->labelBackgroundColor(), QColor(Qt::gray));
     QCOMPARE(m_theme->isLabelBackgroundEnabled(), false);
     QCOMPARE(m_theme->isLabelBorderEnabled(), false);
