@@ -1167,6 +1167,8 @@ void QQuickGraphsBars::generateBars(QList<QBar3DSeries *> &barSeriesList)
                 if (!barList->contains(barInstancing))
                     barList->append(barInstancing);
             }
+
+            markSeriesVisualsDirty();
         }
 
         if (barSeries->isVisible())
@@ -1615,22 +1617,26 @@ void QQuickGraphsBars::removeBarModels()
 
 void QQuickGraphsBars::deleteBarModels(QQuick3DModel *model)
 {
-    model->setPickable(false);
-    model->setVisible(false);
-    QQmlListReference materialsRef(model, "materials");
-    if (materialsRef.size()) {
-        auto material = materialsRef.at(0);
-        delete material;
+    if (model) {
+        model->setPickable(false);
+        model->setVisible(false);
+        QQmlListReference materialsRef(model, "materials");
+        if (materialsRef.size()) {
+            auto material = materialsRef.at(0);
+            delete material;
+        }
+        delete model;
     }
-    delete model;
 }
 
 void QQuickGraphsBars::deleteBarItemHolders(BarInstancing *instancing)
 {
-    const QList<BarItemHolder *> barItemList = instancing->dataArray();
-    for (const auto bih : barItemList)
-        delete bih;
-    instancing->clearDataArray();
+    if (instancing) {
+        const QList<BarItemHolder *> barItemList = instancing->dataArray();
+        for (const auto bih : barItemList)
+            delete bih;
+        instancing->clearDataArray();
+    }
 }
 
 QQuick3DTexture *QQuickGraphsBars::createTexture()
