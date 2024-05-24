@@ -137,25 +137,28 @@ void BarsRenderer::updateComponents(QBarSeries *series)
     if (series->barComponent()) {
         // Update default rectangle nodes
         int barIndex = 0;
-        for (auto i = m_seriesData.cbegin(), end = m_seriesData.cend(); i != end; ++i) {
-            if (m_barItems.size() <= barIndex) {
+        auto &seriesData = m_seriesData[series];
+        auto &barItems = m_barItems[series];
+        for (auto i = seriesData.cbegin(), end = seriesData.cend(); i != end; ++i) {
+            if (barItems.size() <= barIndex) {
                 // Create more custom components as needed
                 QQuickItem *item = qobject_cast<QQuickItem *>(
                         series->barComponent()->create(series->barComponent()->creationContext()));
                 if (item) {
                     item->setParent(this);
                     item->setParentItem(this);
-                    m_barItems << item;
+                    barItems << item;
                 }
             }
-            if (m_barItems.size() > barIndex) {
+            if (barItems.size() > barIndex) {
                 // Set custom bar components
                 BarSeriesData d = *i;
-                auto &barItem = m_barItems[barIndex];
+                auto &barItem = barItems[barIndex];
                 barItem->setX(d.rect.x());
                 barItem->setY(d.rect.y());
                 barItem->setWidth(d.rect.width());
                 barItem->setHeight(d.rect.height());
+                barItem->setVisible(series->isVisible());
                 // Check for specific dynamic properties
                 if (barItem->property(TAG_BAR_COLOR).isValid())
                     barItem->setProperty(TAG_BAR_COLOR, d.color);
@@ -180,16 +183,18 @@ void BarsRenderer::updateValueLabels(QBarSeries *series)
     if (!series->barComponent() && series->labelsVisible()) {
         // Update default value labels
         int barIndex = 0;
-        for (auto i = m_seriesData.cbegin(), end = m_seriesData.cend(); i != end; ++i) {
-            if (m_labelTextItems.size() <= barIndex) {
+        auto &seriesData = m_seriesData[series];
+        auto &labelTextItems = m_labelTextItems[series];
+        for (auto i = seriesData.cbegin(), end = seriesData.cend(); i != end; ++i) {
+            if (labelTextItems.size() <= barIndex) {
                 // Create more label items as needed
                 auto labelItem = new QQuickText();
                 labelItem->setParentItem(this);
-                m_labelTextItems << labelItem;
+                labelTextItems << labelItem;
             }
-            if (m_labelTextItems.size() > barIndex) {
+            if (labelTextItems.size() > barIndex) {
                 // Set label item values
-                auto &textItem = m_labelTextItems[barIndex];
+                auto &textItem = labelTextItems[barIndex];
                 const auto d = *i;
                 if (qFuzzyIsNull(d.value)) {
                     textItem->setVisible(false);
@@ -211,7 +216,8 @@ void BarsRenderer::updateValueLabels(QBarSeries *series)
         }
     } else {
         // Hide all possibly existing label items
-        for (auto textItem : m_labelTextItems)
+        auto &labelTextItems = m_labelTextItems[series];
+        for (auto textItem : labelTextItems)
             textItem->setVisible(false);
     }
 }
@@ -250,10 +256,12 @@ void BarsRenderer::updateVerticalBars(QBarSeries *series, qsizetype setCount, qs
     if (stacked)
         barCentering = (maxBarWidth - barWidth) * 0.5;
 
+    auto &seriesData = m_seriesData[series];
+    auto &rectNodesInputRects = m_rectNodesInputRects[series];
     // Clear the selection rects
     // These will be filled only if series is selectable
-    m_rectNodesInputRects.clear();
-    m_seriesData.clear();
+    rectNodesInputRects.clear();
+    seriesData.clear();
 
     float seriesPos = 0;
     float posXInSet = 0;
@@ -264,7 +272,6 @@ void BarsRenderer::updateVerticalBars(QBarSeries *series, qsizetype setCount, qs
     if (percent)
         calculateCategoryTotalValues(series, totalValuesListInSet, valuesPerSet);
 
-    int barIndex = 0;
     int barIndexInSet = 0;
     int barSeriesIndex = 0;
     QList<QLegendData> legendDataList;
@@ -277,8 +284,8 @@ void BarsRenderer::updateVerticalBars(QBarSeries *series, qsizetype setCount, qs
         barIndexInSet = 0;
         BarSelectionRect *barSelectionRect = nullptr;
         if (series->isSelectable() || series->isHoverable()) {
-            m_rectNodesInputRects << BarSelectionRect();
-            barSelectionRect = &m_rectNodesInputRects.last();
+            rectNodesInputRects << BarSelectionRect();
+            barSelectionRect = &rectNodesInputRects.last();
             barSelectionRect->barSet = s;
             barSelectionRect->series = series;
         }
@@ -328,11 +335,10 @@ void BarsRenderer::updateVerticalBars(QBarSeries *series, qsizetype setCount, qs
             d.label = s->label();
             d.labelColor = s->labelColor();
             d.value = realValue;
-            m_seriesData[barIndex] = d;
+            seriesData << d;
 
             if (stacked)
                 posYListInSet[barIndexInSet] += barLength;
-            barIndex++;
             barIndexInSet++;
             seriesPos = ((float)barIndexInSet / valuesPerSet) * w;
         }
@@ -362,10 +368,12 @@ void BarsRenderer::updateHorizontalBars(QBarSeries *series, qsizetype setCount, 
     if (stacked)
         barCentering = (maxBarWidth - barWidth) * 0.5;
 
+    auto &seriesData = m_seriesData[series];
+    auto &rectNodesInputRects = m_rectNodesInputRects[series];
     // Clear the selection rects
     // These will be filled only if series is selectable
-    m_rectNodesInputRects.clear();
-    m_seriesData.clear();
+    rectNodesInputRects.clear();
+    seriesData.clear();
 
     float seriesPos = 0;
     float posYInSet = 0;
@@ -375,7 +383,6 @@ void BarsRenderer::updateHorizontalBars(QBarSeries *series, qsizetype setCount, 
     QList<float> totalValuesListInSet;
     if (percent)
         calculateCategoryTotalValues(series, totalValuesListInSet, valuesPerSet);
-    int barIndex = 0;
     int barIndexInSet = 0;
     int barSerieIndex = 0;
     QList<QLegendData> legendDataList;
@@ -388,8 +395,8 @@ void BarsRenderer::updateHorizontalBars(QBarSeries *series, qsizetype setCount, 
         barIndexInSet = 0;
         BarSelectionRect *barSelectionRect = nullptr;
         if (series->isSelectable() || series->isHoverable()) {
-            m_rectNodesInputRects << BarSelectionRect();
-            barSelectionRect = &m_rectNodesInputRects.last();
+            rectNodesInputRects << BarSelectionRect();
+            barSelectionRect = &rectNodesInputRects.last();
             barSelectionRect->barSet = s;
             barSelectionRect->series = series;
         }
@@ -438,11 +445,10 @@ void BarsRenderer::updateHorizontalBars(QBarSeries *series, qsizetype setCount, 
             d.label = s->label();
             d.labelColor = s->labelColor();
             d.value = realValue;
-            m_seriesData[barIndex] = d;
+            seriesData << d;
 
             if (stacked)
                 posXListInSet[barIndexInSet] += barLength;
-            barIndex++;
             barIndexInSet++;
             seriesPos = ((float)barIndexInSet / valuesPerSet) * h;
         }
@@ -459,10 +465,12 @@ void BarsRenderer::handlePolish(QBarSeries *series)
         return;
 
     qsizetype setCount = series->barSets().size();
+    auto &seriesData = m_seriesData[series];
+    auto &rectNodesInputRects = m_rectNodesInputRects[series];
     if (setCount == 0) {
         series->d_func()->clearLegendData();
-        m_rectNodesInputRects.clear();
-        m_seriesData.clear();
+        rectNodesInputRects.clear();
+        seriesData.clear();
         return;
     }
 
@@ -470,12 +478,13 @@ void BarsRenderer::handlePolish(QBarSeries *series)
         m_colorIndex = m_graph->graphSeriesCount();
     m_graph->setGraphSeriesCount(m_colorIndex + setCount);
 
-    if (!series->barComponent() && !m_barItems.isEmpty()) {
+    auto &barItems = m_barItems[series];
+    if (!series->barComponent() && !barItems.isEmpty()) {
         // If we have switched from custom bar component to rectangle nodes,
         // remove the redundant items.
-        for (int i = 0; i < m_barItems.size(); i++)
-            m_barItems[i]->deleteLater();
-        m_barItems.clear();
+        for (int i = 0; i < barItems.size(); i++)
+            barItems[i]->deleteLater();
+        barItems.clear();
     }
 
     // Get bars values
@@ -490,11 +499,17 @@ void BarsRenderer::handlePolish(QBarSeries *series)
 
 void BarsRenderer::updateSeries(QBarSeries *series)
 {
-    if (series->barSets().isEmpty()) {
-        auto it = m_rectNodes.begin();
-        while (it != m_rectNodes.end())
-            delete *it++;
-        m_rectNodes.clear();
+    if (series->barSets().isEmpty() || (!series->barComponent() && !series->isVisible())) {
+        // Series is empty or not visible
+        if (m_rectNodes.contains(series)) {
+            auto &rectNodes = m_rectNodes[series];
+            auto it = rectNodes.begin();
+            while (it != rectNodes.end()) {
+                m_graph->m_backgroundNode->removeChildNode(*it);
+                delete *it++;
+            }
+            rectNodes.clear();
+        }
         return;
     }
 
@@ -502,24 +517,27 @@ void BarsRenderer::updateSeries(QBarSeries *series)
     if (!theme)
         return;
 
-    qsizetype difference = m_seriesData.size() - m_rectNodes.size();
-    for (qsizetype i = m_rectNodes.size() - 1; i >= m_seriesData.size(); --i)
-        delete m_rectNodes[i];
+    auto &rectNodes = m_rectNodes[series];
+    auto &seriesData = m_seriesData[series];
+
+    qsizetype difference = seriesData.size() - rectNodes.size();
+    for (qsizetype i = rectNodes.size() - 1; i >= seriesData.size(); --i)
+        delete rectNodes[i];
     if (difference != 0)
-        m_rectNodes.resize(m_seriesData.size());
+        rectNodes.resize(seriesData.size());
 
     if (!series->barComponent()) {
         // Update default rectangle nodes
         int barIndex = 0;
-        for (auto i = m_seriesData.cbegin(), end = m_seriesData.cend(); i != end; ++i) {
-            if (m_rectNodes[barIndex] == nullptr) {
+        for (auto i = seriesData.cbegin(), end = seriesData.cend(); i != end; ++i) {
+            if (rectNodes[barIndex] == nullptr) {
                 // Create more rectangle nodes as needed
                 auto bi = new QSGDefaultInternalRectangleNode();
                 m_graph->m_backgroundNode->appendChildNode(bi);
-                m_rectNodes[barIndex] = bi;
+                rectNodes[barIndex] = bi;
             }
-            if (m_rectNodes.size() > barIndex) {
-                auto &barItem = m_rectNodes[barIndex];
+            if (rectNodes.size() > barIndex) {
+                auto &barItem = rectNodes[barIndex];
                 BarSeriesData d = *i;
                 barItem->setRect(d.rect);
                 barItem->setColor(d.color);
@@ -534,21 +552,63 @@ void BarsRenderer::updateSeries(QBarSeries *series)
     }
 }
 
+void BarsRenderer::afterUpdate(QList<QAbstractSeries *> &cleanupSeries)
+{
+    for (auto &cleanupSerie : cleanupSeries) {
+        auto series = qobject_cast<QBarSeries *>(cleanupSerie);
+        if (series && m_rectNodes.contains(series) && !series->barComponent()) {
+            // Remove default bar nodes
+            auto &rectNodes = m_rectNodes[series];
+            auto it = rectNodes.begin();
+            while (it != rectNodes.end()) {
+                m_graph->m_backgroundNode->removeChildNode(*it);
+                delete *it++;
+            }
+            rectNodes.clear();
+            m_rectNodes.remove(series);
+        }
+    }
+}
+
+void BarsRenderer::afterPolish(QList<QAbstractSeries *> &cleanupSeries)
+{
+    for (auto &cleanupSerie : cleanupSeries) {
+        auto series = qobject_cast<QBarSeries *>(cleanupSerie);
+        if (series && m_barItems.contains(series) && series->barComponent()) {
+            // Remove custom bar items
+            auto &barItems = m_barItems[series];
+            for (int i = 0; i < barItems.size(); i++)
+                barItems[i]->deleteLater();
+            barItems.clear();
+            m_barItems.remove(series);
+        }
+        if (series && m_labelTextItems.contains(series)) {
+            // Remove bar label items
+            auto &labelTextItems = m_labelTextItems[series];
+            for (int i = 0; i < labelTextItems.size(); i++)
+                labelTextItems[i]->deleteLater();
+            labelTextItems.clear();
+            m_labelTextItems.remove(series);
+        }
+    }
+}
+
 bool BarsRenderer::handleMousePress(QMouseEvent *event)
 {
     bool handled = false;
-    for (auto &barSelection : m_rectNodesInputRects) {
-        if (!barSelection.series->isSelectable())
-            continue;
-        qsizetype indexInSet = 0;
-        for (auto &rect : barSelection.rects) {
-            if (rect.contains(event->pos())) {
-                // TODO: Currently just toggling selection
-                QList<qsizetype> indexList = {indexInSet};
-                barSelection.barSet->toggleSelection(indexList);
-                handled = true;
+    for (auto &rectNodesInputRects : m_rectNodesInputRects) {
+        for (auto &barSelection : rectNodesInputRects) {
+            if (!barSelection.series->isSelectable())
+                continue;
+            qsizetype indexInSet = 0;
+            for (auto &rect : barSelection.rects) {
+                if (rect.contains(event->pos())) {
+                    // TODO: Currently just toggling selection
+                    QList<qsizetype> indexList = {indexInSet};
+                    barSelection.barSet->toggleSelection(indexList);
+                    handled = true;
+                }
             }
-            indexInSet++;
         }
     }
     return handled;
@@ -560,24 +620,26 @@ bool BarsRenderer::handleHoverMove(QHoverEvent *event)
     const QPointF &position = event->position();
 
     bool hovering = false;
-    for (auto &barSelection : m_rectNodesInputRects) {
-        int indexInSet = 0;
+    for (auto &rectNodesInputRects : m_rectNodesInputRects) {
+        for (auto &barSelection : rectNodesInputRects) {
+            int indexInSet = 0;
 
-        for (auto &rect : barSelection.rects) {
-            if (rect.contains(event->position().toPoint())) {
-                const QString &name = barSelection.series->name();
-                const QPointF point(indexInSet, barSelection.barSet->at(indexInSet));
+            for (auto &rect : barSelection.rects) {
+                if (rect.contains(event->position().toPoint())) {
+                    const QString &name = barSelection.series->name();
+                    const QPointF point(indexInSet, barSelection.barSet->at(indexInSet));
 
-                if (!m_currentHoverSeries) {
-                    m_currentHoverSeries = barSelection.series;
-                    emit barSelection.series->hoverEnter(name, position, point);
+                    if (!m_currentHoverSeries) {
+                        m_currentHoverSeries = barSelection.series;
+                        emit barSelection.series->hoverEnter(name, position, point);
+                    }
+
+                    emit barSelection.series->hover(name, position, point);
+                    hovering = true;
+                    handled = true;
                 }
-
-                emit barSelection.series->hover(name, position, point);
-                hovering = true;
-                handled = true;
+                indexInSet++;
             }
-            indexInSet++;
         }
     }
 

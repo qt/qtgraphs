@@ -27,6 +27,7 @@ QT_BEGIN_NAMESPACE
 class QGraphsView;
 class QBarSeries;
 class QBarSet;
+class QAbstractSeries;
 
 class BarsRenderer : public QQuickItem
 {
@@ -37,6 +38,8 @@ public:
 
     void handlePolish(QBarSeries *series);
     void updateSeries(QBarSeries *series);
+    void afterUpdate(QList<QAbstractSeries *> &cleanupSeries);
+    void afterPolish(QList<QAbstractSeries *> &cleanupSeries);
     bool handleMousePress(QMouseEvent *event);
     bool handleHoverMove(QHoverEvent *event);
 
@@ -71,12 +74,12 @@ private:
     void updateValueLabels(QBarSeries *series);
 
     QGraphsView *m_graph = nullptr;
-    QList<QSGDefaultInternalRectangleNode *> m_rectNodes;
+    QHash<QBarSeries *, QList<QSGDefaultInternalRectangleNode *>> m_rectNodes;
     // QSG nodes rect has no getter so we store these separately.
-    QList<BarSelectionRect> m_rectNodesInputRects;
-    QList<QQuickItem *> m_barItems;
-    QList<QQuickText *> m_labelTextItems;
-    QHash<int, BarSeriesData> m_seriesData;
+    QHash<QBarSeries *, QList<BarSelectionRect>> m_rectNodesInputRects;
+    QHash<QBarSeries *, QList<QQuickItem *>> m_barItems;
+    QHash<QBarSeries *, QList<QQuickText *>> m_labelTextItems;
+    QHash<QBarSeries *, QList<BarSeriesData>> m_seriesData;
 
     QBarSeries *m_currentHoverSeries = nullptr;
     qsizetype m_colorIndex = -1;

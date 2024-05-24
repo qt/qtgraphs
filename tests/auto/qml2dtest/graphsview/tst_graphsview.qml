@@ -137,6 +137,7 @@ Item {
             initialized.axisX = axisX;
             initialized.axisY = axisY;
             initialized.removeSeries(barInitial)
+            initialized.removeSeries(1) // areaInitial
 
             waitForRendering(top)
 
@@ -148,14 +149,17 @@ Item {
             compare(initialized.marginRight, 13)
             compare(initialized.axisX, axisX)
             compare(initialized.axisY, axisY)
-            compare(initialized.seriesList, [lineInitial, areaInitial])
+            compare(initialized.seriesList, [lineInitial])
             compare(initialized.theme, newTheme)
         }
 
         function test_3_initialized_change_to_invalid() {
             initialized.theme = null
+            initialized.addSeries(areaInitial)
             initialized.addSeries(null)
             initialized.addSeries(myTheme)
+            initialized.removeSeries(-1)
+            initialized.removeSeries(15)
 
             waitForRendering(top)
 

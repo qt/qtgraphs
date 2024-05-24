@@ -52,11 +52,33 @@ QGraphsView::~QGraphsView()
         removeSeries(s);
 }
 
+/*!
+    \qmlmethod GraphsView::addSeries(AbstractSeries series)
+    Appends a \a series into GraphsView.
+    If the \a series is null, it will not be added. If the \a series already
+    belongs to the graph, it will be moved into the end.
+*/
+/*!
+    Appends a \a series into GraphsView.
+    If the \a series is null, it will not be added. If the \a series already
+    belongs to the graph, it will be moved into the end.
+*/
 void QGraphsView::addSeries(QObject *series)
 {
     insertSeries(m_seriesList.size(), series);
 }
 
+/*!
+    \qmlmethod GraphsView::insertSeries(int index, AbstractSeries series)
+    Inserts a \a series at the position specified by \a index.
+    If the \a series is null, it will not be inserted. If the \a series already
+    belongs to the graph, it will be moved into \a index.
+*/
+/*!
+    Inserts a \a series at the position specified by \a index.
+    If the \a series is null, it will not be inserted. If the \a series already
+    belongs to the graph, it will be moved into \a index.
+*/
 void QGraphsView::insertSeries(qsizetype index, QObject *object)
 {
     if (auto series = qobject_cast<QAbstractSeries *>(object)) {
@@ -81,17 +103,48 @@ void QGraphsView::insertSeries(qsizetype index, QObject *object)
             QObject::connect(series, &QAbstractSeries::hover,
                              this, &QGraphsView::handleHover);
         }
+        polishAndUpdate();
     }
 }
 
+/*!
+    \qmlmethod GraphsView::removeSeries(AbstractSeries series)
+    Removes the \a series from the graph.
+*/
+/*!
+    Removes the \a series from the graph.
+*/
 void QGraphsView::removeSeries(QObject *object)
 {
     if (auto series = reinterpret_cast<QAbstractSeries *>(object)) {
         series->setGraph(nullptr);
         m_seriesList.removeAll(series);
+        auto &cleanupSeriesList = m_cleanupSeriesList[getSeriesRendererIndex(series)];
+        cleanupSeriesList.append(series);
+        polishAndUpdate();
     }
 }
 
+/*!
+    \qmlmethod GraphsView::removeSeries(int index)
+    Removes the series specified by \a index from the graph.
+*/
+/*!
+    Removes the series specified by \a index from the graph.
+*/
+void QGraphsView::removeSeries(qsizetype index)
+{
+    if (index >= 0 && index < m_seriesList.size())
+        removeSeries(m_seriesList[index]);
+}
+
+/*!
+    \qmlmethod bool GraphsView::hasSeries(AbstractSeries series)
+    Returns \c true if the \a series is in the graph.
+*/
+/*!
+    Returns \c true if the \a series is in the graph.
+*/
 bool QGraphsView::hasSeries(QObject *series)
 {
     return m_seriesList.contains(series);
@@ -100,6 +153,8 @@ bool QGraphsView::hasSeries(QObject *series)
 void QGraphsView::addAxis(QAbstractAxis *axis)
 {
     if (!m_axis.contains(axis)) {
+        // Ensure AxisRenderer exists
+        createAxisRenderer();
         m_axis << axis;
         polishAndUpdate();
         QObject::connect(axis, &QAbstractAxis::update, this, &QGraphsView::polishAndUpdate);
@@ -558,6 +613,13 @@ QSGNode *QGraphsView::updatePaintNode(QSGNode *oldNode, QQuickItem::UpdatePaintN
         }
     }
 
+    if (m_barsRenderer) {
+        auto &cleanupSeriesList = m_cleanupSeriesList[0];
+        m_barsRenderer->afterUpdate(cleanupSeriesList);
+        cleanupSeriesList.clear();
+    }
+
+
     // Now possibly dirty theme has been taken into use
     m_theme->resetThemeDirty();
 
@@ -616,6 +678,11 @@ void QGraphsView::updatePolish()
             if (auto areaSeries = qobject_cast<QAreaSeries *>(series))
                 m_areaRenderer->handlePolish(areaSeries);
         }
+    }
+
+    if (m_barsRenderer) {
+        auto &cleanupSeriesList = m_cleanupSeriesList[0];
+        m_barsRenderer->afterPolish(cleanupSeriesList);
     }
 }
 
@@ -849,6 +916,30 @@ void QGraphsView::setOrientation(Qt::Orientation newOrientation)
     m_orientation = newOrientation;
     emit orientationChanged();
     emit update();
+}
+
+int QGraphsView::getSeriesRendererIndex(QAbstractSeries *series)
+{
+    int index = 0;
+    if (series) {
+        switch (series->type()) {
+        case QAbstractSeries::SeriesType::Bar:
+            index = 0;
+            break;
+        case QAbstractSeries::SeriesType::Scatter:
+        case QAbstractSeries::SeriesType::Line:
+        case QAbstractSeries::SeriesType::Spline:
+            index = 1;
+            break;
+        case QAbstractSeries::SeriesType::Area:
+            index = 2;
+            break;
+        case QAbstractSeries::SeriesType::Pie:
+            index = 3;
+            break;
+        }
+    }
+    return index;
 }
 
 QT_END_NAMESPACE

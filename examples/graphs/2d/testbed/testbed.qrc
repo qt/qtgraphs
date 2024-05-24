@@ -19,5 +19,6 @@
         <file>qml/testbed/Donut.qml</file>
         <file>qml/testbed/BarLabels.qml</file>
         <file>qml/testbed/LineSelection.qml</file>
+        <file>qml/testbed/AddRemoveSeries.qml</file>
     </qresource>
 </RCC>

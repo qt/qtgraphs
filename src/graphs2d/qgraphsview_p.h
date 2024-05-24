@@ -68,8 +68,9 @@ public:
     ~QGraphsView() override;
 
     Q_INVOKABLE void addSeries(QObject *series);
-    Q_INVOKABLE void removeSeries(QObject *series);
     Q_INVOKABLE void insertSeries(qsizetype index, QObject *series);
+    Q_INVOKABLE void removeSeries(QObject *series);
+    Q_INVOKABLE void removeSeries(qsizetype index);
     Q_INVOKABLE bool hasSeries(QObject *series);
 
     QList<QObject *> getSeriesList() const {
@@ -189,6 +190,7 @@ private:
     friend class AreaRenderer;
 
     void polishAndUpdate();
+    int getSeriesRendererIndex(QAbstractSeries *series);
 
     AxisRenderer *m_axisRenderer = nullptr;
     BarsRenderer *m_barsRenderer = nullptr;
@@ -196,6 +198,7 @@ private:
     PieRenderer *m_pieRenderer = nullptr;
     AreaRenderer *m_areaRenderer = nullptr;
     QList<QObject *> m_seriesList;
+    QHash<int, QList<QAbstractSeries *>> m_cleanupSeriesList;
     QSGClipNode *m_backgroundNode = nullptr;
     QQuickRectangle *m_backgroundRectangle = nullptr;
 

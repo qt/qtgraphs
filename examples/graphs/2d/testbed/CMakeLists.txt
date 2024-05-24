@@ -72,6 +72,7 @@ qt6_add_qml_module(testbed
         qml/testbed/Donut.qml
         qml/testbed/DateTimeAxis.qml
         qml/testbed/LineSelection.qml
+        qml/testbed/AddRemoveSeries.qml
     RESOURCES
         qml/testbed/images/arrow_icon.png
         qml/testbed/images/icon_settings.png

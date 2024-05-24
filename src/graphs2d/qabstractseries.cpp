@@ -392,20 +392,17 @@ void QAbstractSeries::setGraph(QGraphsView *graph)
         switch (type()) {
         case SeriesType::Bar:
             graph->createBarsRenderer();
-            graph->createAxisRenderer();
             break;
         case SeriesType::Scatter:
         case SeriesType::Line:
         case SeriesType::Spline:
             graph->createPointRenderer();
-            graph->createAxisRenderer();
             break;
         case SeriesType::Pie:
             graph->createPieRenderer();
             break;
         case SeriesType::Area:
             graph->createAreaRenderer();
-            graph->createAxisRenderer();
             break;
         default:
             break;

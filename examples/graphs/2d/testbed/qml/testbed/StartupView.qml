@@ -38,6 +38,10 @@ Item {
             file: "BarLabels.qml"
         }
         ListElement {
+            name: "Add/Remove Series"
+            file: "AddRemoveSeries.qml"
+        }
+        ListElement {
             name: "C++ Bar Series"
             file: "CppBarSeries.qml"
         }
