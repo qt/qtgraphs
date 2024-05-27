@@ -904,6 +904,24 @@ void QGraphsView::setAxisY(QAbstractAxis *axis)
     emit update();
 }
 
+/*!
+    \property QGraphsView::orientation
+    \brief Orientation of the GraphsView.
+
+    Determines the orientation of the QGraphsView. When the orientation is
+    \l {Qt::Horizontal}{Qt::Horizontal}, \l axisX and \l axisY will switch the
+    positions so that \l axisX is rendered vertically and \l axisY horizontally.
+    This property is currently used by the \l QBarSeries.
+    The default value is \l {Qt::Vertical}{Qt::Vertical}.
+*/
+/*!
+    \qmlproperty Qt.Orientation GraphsView::orientation
+    Determines the orientation of the GraphsView. When the orientation is
+    \l {Qt::Horizontal}{Qt.Horizontal}, \l axisX and \l axisY will switch the
+    positions so that \l axisX is rendered vertically and \l axisY horizontally.
+    This property is currently used by the \l BarSeries.
+    The default value is \l {Qt::Vertical}{Qt.Vertical}.
+*/
 Qt::Orientation QGraphsView::orientation() const
 {
     return m_orientation;
