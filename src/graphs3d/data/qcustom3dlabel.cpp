@@ -84,6 +84,48 @@ QT_BEGIN_NAMESPACE
  */
 
 /*!
+    \qmlsignal Custom3DLabel::textChanged(string text)
+
+    This signal is emitted when \l text changes to \a text.
+*/
+
+/*!
+    \qmlsignal Custom3DLabel::fontChanged(font font)
+
+    This signal is emitted when \l font changes to \a font.
+*/
+
+/*!
+    \qmlsignal Custom3DLabel::textColorChanged(color color)
+
+    This signal is emitted when textColor changes to \a color.
+*/
+
+/*!
+    \qmlsignal Custom3DLabel::backgroundColorChanged(color color)
+
+    This signal is emitted when backgroundColor changes to \a color.
+*/
+
+/*!
+    \qmlsignal Custom3DLabel::borderEnabledChanged(bool enabled)
+
+    This signal is emitted when borderEnabled changes to \a enabled.
+*/
+
+/*!
+    \qmlsignal Custom3DLabel::backgroundEnabledChanged(bool enabled)
+
+    This signal is emitted when backgroundEnabled changes to \a enabled.
+*/
+
+/*!
+    \qmlsignal Custom3DLabel::facingCameraChanged(bool enabled)
+
+    This signal is emitted when facingCamera changes to \a enabled.
+*/
+
+/*!
  * Constructs a custom 3D label with the given \a parent.
  */
 QCustom3DLabel::QCustom3DLabel(QObject *parent)

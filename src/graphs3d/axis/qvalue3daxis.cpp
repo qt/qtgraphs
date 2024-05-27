@@ -59,12 +59,12 @@ QT_BEGIN_NAMESPACE
  * modifiers, and flags provided by \c printf() in the standard C++ library:
  * d, i, o, x, X, f, F, e, E, g, G, c.
  *
- * If Abstract3DGraph::locale is anything else than \c{"C"}, the supported
+ * If GraphsItem3D::locale is anything else than \c{"C"}, the supported
  * specifiers are limited to: d, e, E, f, g, G, and i. Also, only the precision
  * modifier is supported. The rest of the formatting comes from the default
  * \l [QML] Locale of the application.
  *
- * \sa Abstract3DGraph::locale
+ * \sa GraphsItem3D::locale
  */
 
 /*!
@@ -82,6 +82,32 @@ QT_BEGIN_NAMESPACE
  * the minimum and maximum values are swapped when the graph is rendered. This
  * property does not affect the actual minimum and maximum values of the axis.
  */
+
+/*!
+    \qmlsignal Value3DAxis::segmentCountChanged(int count)
+
+    This signal is emitted when segmentCount changes to \a count.
+*/
+/*!
+    \qmlsignal Value3DAxis::subSegmentCountChanged(int count)
+
+    This signal is emitted when subSegmentCount changes to \a count.
+*/
+/*!
+    \qmlsignal Value3DAxis::labelFormatChanged(string format)
+
+    This signal is emitted when labelFormat changes to \a format.
+*/
+/*!
+    \qmlsignal Value3DAxis::formatterChanged(Value3DAxisFormatter formatter)
+
+    This signal is emitted when \l formatter changes to \a formatter.
+*/
+/*!
+    \qmlsignal Value3DAxis::reversedChanged(bool enable)
+
+    This signal is emitted when \l reversed changes to \a enable.
+*/
 
 /*!
  * Constructs QValue3DAxis with the given \a parent.
@@ -232,8 +258,8 @@ QValue3DAxisFormatter *QValue3DAxis::formatter() const
  *
  * \brief Whether the axis is rendered in reverse.
  *
- * If \c{true}, the axis will be rendered in reverse, i.e. the positions of
- * minimum and maximum values are swapped when the graph is rendered. This
+ * If \c{true}, the axis will be rendered in reverse, which means the positions
+ * of minimum and maximum values are swapped when the graph is rendered. This
  * property doesn't affect the actual minimum and maximum values of the axis.
  */
 void QValue3DAxis::setReversed(bool enable)

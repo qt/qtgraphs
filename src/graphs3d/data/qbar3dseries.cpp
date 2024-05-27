@@ -108,7 +108,7 @@ QT_BEGIN_NAMESPACE
  * selected bar will adjust the selection so that the same bar will stay
  * selected.
  *
- * \sa {Abstract3DGraph::clearSelection()}{Abstract3DGraph.clearSelection()}
+ * \sa {GraphsItem3D::clearSelection()}{GraphsItem3D.clearSelection()}
  */
 
 /*!
@@ -117,7 +117,7 @@ QT_BEGIN_NAMESPACE
  * position is set to the selectedBar property to clear the selection from this
  * series.
  *
- * \sa {Abstract3DGraph::clearSelection()}{Abstract3DGraph.clearSelection()}
+ * \sa {GraphsItem3D::clearSelection()}{GraphsItem3D.clearSelection()}
  */
 
 /*!
@@ -173,7 +173,49 @@ QT_BEGIN_NAMESPACE
  */
 
 /*!
- * Constructsa bar 3D series with the parent \a parent.
+    \qmlsignal Bar3DSeries::dataProxyChanged(BarDataProxy proxy)
+
+    This signal is emitted when dataProxy changes to \a proxy.
+*/
+
+/*!
+    \qmlsignal Bar3DSeries::selectedBarChanged(point position)
+
+    This signal is emitted when selectedBar changes to \a position.
+*/
+
+/*!
+    \qmlsignal Bar3DSeries::meshAngleChanged(real angle)
+
+    This signal is emitted when meshAngle changes to \a angle.
+*/
+
+/*!
+    \qmlsignal Bar3DSeries::rowColorsChanged(list<color> rowcolors)
+
+    This signal is emitted when rowColors changes to \a rowcolors.
+*/
+
+/*!
+    \qmlsignal Bar3DSeries::rowLabelsChanged()
+
+    This signal is emitted when row labels change.
+*/
+
+/*!
+    \qmlsignal Bar3DSeries::columnLabelsChanged()
+
+    This signal is emitted when column labels change.
+*/
+
+/*!
+    \qmlsignal Bar3DSeries::dataArrayChanged(BarDataArray array)
+
+    This signal is emitted when dataArray changes to \a array.
+*/
+
+/*!
+ * Constructs a bar 3D series with the parent \a parent.
  */
 QBar3DSeries::QBar3DSeries(QObject *parent)
     : QAbstract3DSeries(*(new QBar3DSeriesPrivate()), parent)

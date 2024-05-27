@@ -304,6 +304,138 @@ QT_BEGIN_NAMESPACE
  */
 
 /*!
+    \qmlsignal ItemModelSurfaceDataProxy::itemModelChanged(model itemModel)
+
+    This signal is emitted when itemModel changes to \a itemModel.
+*/
+
+/*!
+    \qmlsignal ItemModelSurfaceDataProxy::rowRoleChanged(string role)
+
+    This signal is emitted when rowRole changes to \a role.
+*/
+
+/*!
+    \qmlsignal ItemModelSurfaceDataProxy::columnRoleChanged(string role)
+
+    This signal is emitted when columnRole changes to \a role.
+*/
+
+/*!
+    \qmlsignal ItemModelSurfaceDataProxy::xPosRoleChanged(string role)
+
+    This signal is emitted when xPosRole changes to \a role.
+*/
+
+/*!
+    \qmlsignal ItemModelSurfaceDataProxy::yPosRoleChanged(string role)
+
+    This signal is emitted when yPosRole changes to \a role.
+*/
+
+/*!
+    \qmlsignal ItemModelSurfaceDataProxy::zPosRoleChanged(string role)
+
+    This signal is emitted when zPosRole changes to \a role.
+*/
+
+/*!
+    \qmlsignal ItemModelSurfaceDataProxy::rowCategoriesChanged()
+
+    This signal is emitted when rowCategories changes.
+*/
+
+/*!
+    \qmlsignal ItemModelSurfaceDataProxy::columnCategoriesChanged()
+
+    This signal is emitted when columnCategories changes.
+*/
+
+/*!
+    \qmlsignal ItemModelSurfaceDataProxy::useModelCategoriesChanged(bool enable)
+
+    This signal is emitted when useModelCategories changes to \a enable.
+*/
+
+/*!
+    \qmlsignal ItemModelSurfaceDataProxy::autoRowCategoriesChanged(bool enable)
+
+    This signal is emitted when autoRowCategories changes to \a enable.
+*/
+
+/*!
+    \qmlsignal ItemModelSurfaceDataProxy::autoColumnCategoriesChanged(bool enable)
+
+    This signal is emitted when autoColumnCategories changes to \a enable.
+*/
+
+/*!
+    \qmlsignal ItemModelSurfaceDataProxy::rowRolePatternChanged(regExp pattern)
+
+    This signal is emitted when rowRolePattern changes to \a pattern.
+*/
+
+/*!
+    \qmlsignal ItemModelSurfaceDataProxy::columnRolePatternChanged(regExp pattern)
+
+    This signal is emitted when columnRolePattern changes to \a pattern.
+*/
+
+/*!
+    \qmlsignal ItemModelSurfaceDataProxy::xPosRolePatternChanged(regExp pattern)
+
+    This signal is emitted when xPosRolePattern changes to \a pattern.
+*/
+
+/*!
+    \qmlsignal ItemModelSurfaceDataProxy::yPosRolePatternChanged(regExp pattern)
+
+    This signal is emitted when yPosRolePattern changes to \a pattern.
+*/
+
+/*!
+    \qmlsignal ItemModelSurfaceDataProxy::zPosRolePatternChanged(regExp pattern)
+
+    This signal is emitted when zPosRolePattern changes to \a pattern.
+*/
+
+/*!
+    \qmlsignal ItemModelSurfaceDataProxy::rowRoleReplaceChanged(string replace)
+
+    This signal is emitted when rowRoleReplace changes to \a replace.
+*/
+
+/*!
+    \qmlsignal ItemModelSurfaceDataProxy::columnRoleReplaceChanged(string replace)
+
+    This signal is emitted when columnRoleReplace changes to \a replace.
+*/
+
+/*!
+    \qmlsignal ItemModelSurfaceDataProxy::xPosRoleReplaceChanged(string replace)
+
+    This signal is emitted when xPosRoleReplace changes to \a replace.
+*/
+
+/*!
+    \qmlsignal ItemModelSurfaceDataProxy::yPosRoleReplaceChanged(string replace)
+
+    This signal is emitted when yPosRoleReplace changes to \a replace.
+*/
+
+/*!
+    \qmlsignal ItemModelSurfaceDataProxy::zPosRoleReplaceChanged(string replace)
+
+    This signal is emitted when zPosRoleReplace changes to \a replace.
+*/
+
+/*!
+    \qmlsignal ItemModelSurfaceDataProxy::multiMatchBehaviorChanged(enumeration behavior)
+
+    This signal is emitted when multiMatchBehavior changes to \a behavior.
+*/
+
+/*!
  *  \enum QItemModelSurfaceDataProxy::MultiMatchBehavior
  *
  *  Behavior types for QItemModelSurfaceDataProxy::multiMatchBehavior property.

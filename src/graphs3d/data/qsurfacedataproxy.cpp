@@ -101,6 +101,22 @@ QT_BEGIN_NAMESPACE
  */
 
 /*!
+    \qmlsignal SurfaceDataProxy::rowCountChanged(int count)
+
+    This signal is emitted when rowCount changes to \a count.
+*/
+/*!
+    \qmlsignal SurfaceDataProxy::columnCountChanged(int count)
+
+    This signal is emitted when columnCount changes to \a count.
+*/
+/*!
+    \qmlsignal SurfaceDataProxy::seriesChanged(Surface3DSeries series)
+
+    This signal is emitted when \l series changes to \a series.
+*/
+
+/*!
  * Constructs QSurfaceDataProxy with the given \a parent.
  */
 QSurfaceDataProxy::QSurfaceDataProxy(QObject *parent)

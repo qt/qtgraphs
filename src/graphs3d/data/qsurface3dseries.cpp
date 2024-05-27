@@ -101,7 +101,7 @@ QT_BEGIN_NAMESPACE
  * selected point will adjust the selection so that the same point will stay
  * selected.
  *
- * \sa Abstract3DGraph::clearSelection()
+ * \sa GraphsItem3D::clearSelection()
  */
 
 /*!
@@ -110,7 +110,7 @@ QT_BEGIN_NAMESPACE
  * This position is set to the selectedPoint property to clear the selection
  * from this series.
  *
- * \sa Abstract3DGraph::clearSelection()
+ * \sa GraphsItem3D::clearSelection()
  */
 
 /*!
@@ -168,6 +168,47 @@ QT_BEGIN_NAMESPACE
  * \note Before doing anything regarding the dataArray, a series must be created for
  * the relevant proxy.
  */
+
+/*!
+    \qmlsignal Surface3DSeries::dataProxyChanged(SurfaceDataProxy proxy)
+
+    This signal is emitted when dataProxy changes to \a proxy.
+*/
+/*!
+    \qmlsignal Surface3DSeries::selectedPointChanged(point position)
+
+    This signal is emitted when selectedPoint changes to \a position.
+*/
+/*!
+    \qmlsignal Surface3DSeries::flatShadingEnabledChanged(bool enable)
+
+    This signal is emitted when flatShadingEnabled changes to \a enable.
+*/
+/*!
+    \qmlsignal Surface3DSeries::flatShadingSupportedChanged(bool enable)
+
+    This signal is emitted when flatShadingSupported changes to \a enable.
+*/
+/*!
+    \qmlsignal Surface3DSeries::drawModeChanged(DrawFlag mode)
+
+    This signal is emitted when drawMode changes to \a mode.
+*/
+/*!
+    \qmlsignal Surface3DSeries::textureFileChanged(string filename)
+
+    This signal is emitted when textureFile changes to \a filename.
+*/
+/*!
+    \qmlsignal Surface3DSeries::wireframeColorChanged(color color)
+
+    This signal is emitted when wireframeColor changes to \a color.
+*/
+/*!
+    \qmlsignal Surface3DSeries::dataArrayChanged(SurfaceDataArray array)
+
+    This signal is emitted when dataArray changes to \a array.
+*/
 
 /*!
  * \enum QSurface3DSeries::DrawFlag
