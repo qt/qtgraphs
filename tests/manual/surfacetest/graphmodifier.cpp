@@ -869,6 +869,12 @@ void GraphModifier::setGraphMargin(int value)
     qDebug() << "Setting margin:" << m_graph->margin() << value;
 }
 
+void GraphModifier::setLabelMargin(int offset)
+{
+    m_graph->setLabelMargin(qreal(offset) / 1000.0f);
+    qDebug() << "Setting label offset:" << m_graph->labelMargin() << offset;
+}
+
 void GraphModifier::setXAxisSegemntCount(int count)
 {
     m_graph->axisX()->setSegmentCount(count);

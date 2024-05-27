@@ -288,4 +288,16 @@ ColumnLayout {
             }
         }
     }
+    Label {
+        text: "Label Margin"
+        color: "gray"
+    }
+    Slider {
+        from: -0.3
+        to: 0.3
+        value: surface.labelMargin
+        onValueChanged: {
+                surface.labelMargin = value
+        }
+    }
 }

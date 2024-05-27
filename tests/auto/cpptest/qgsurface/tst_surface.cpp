@@ -101,6 +101,7 @@ void tst_surface::initialProperties()
     QCOMPARE(m_graph->locale(), QLocale("C"));
     QCOMPARE(m_graph->queriedGraphPosition(), QVector3D(0, 0, 0));
     QCOMPARE(m_graph->margin(), -1.0);
+    QCOMPARE(m_graph->labelMargin(), 0.1f);
 }
 
 void tst_surface::initializeProperties()
@@ -126,6 +127,7 @@ void tst_surface::initializeProperties()
     m_graph->setHorizontalAspectRatio(1.0);
     m_graph->setLocale(QLocale("FI"));
     m_graph->setMargin(1.0);
+    m_graph->setLabelMargin(1.0f);
 
     QCOMPARE(m_graph->activeTheme()->theme(), QGraphsTheme::Theme::QtGreenNeon);
     QCOMPARE(m_graph->selectionMode(),
@@ -142,6 +144,7 @@ void tst_surface::initializeProperties()
     QCOMPARE(m_graph->horizontalAspectRatio(), 1.0);
     QCOMPARE(m_graph->locale(), QLocale("FI"));
     QCOMPARE(m_graph->margin(), 1.0);
+    QCOMPARE(m_graph->labelMargin(), 1.0f);
 }
 
 void tst_surface::invalidProperties()

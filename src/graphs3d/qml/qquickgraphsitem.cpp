@@ -299,6 +299,19 @@ constexpr float polarRoundness = 64.0f;
  */
 
 /*!
+ * \qmlproperty real QAbstract3DGraphWidget::labelMargin
+ *
+ * brief This property specifies the margin for the placement of the axis labels.
+ *
+ * Negative values place the labels inside the plot-area while positive values
+ * place them outside the plot-area. Label automatic rotation is disabled when
+ * the value is negative. Defaults to \c 0.1
+ *
+ * \sa QAbstract3DAxis::labelAutoRotation
+ *
+ */
+
+/*!
  * \qmlproperty real GraphsItem3D::radialLabelOffset
  *
  * This property specifies the normalized horizontal offset for the axis labels
@@ -2361,6 +2374,10 @@ void QQuickGraphsItem::synchData()
         updateRadialLabelOffset();
         m_changeTracker.radialLabelOffsetChanged = false;
     }
+    if (m_changeTracker.labelMarginChanged) {
+        updateLabels();
+        m_changeTracker.labelMarginChanged = false;
+    }
 
     QMatrix4x4 modelMatrix;
     m_backgroundScale->setScale(m_scaleWithBackground + m_backgroundScaleMargin);
@@ -3320,7 +3337,7 @@ void QQuickGraphsItem::updateLabels()
 {
     auto labels = axisX()->labels();
     qsizetype labelCount = labels.size();
-    float labelAutoAngle = axisX()->labelAutoRotation();
+    float labelAutoAngle = m_labelMargin >= 0? axisX()->labelAutoRotation() : 0;
     float labelAngleFraction = labelAutoAngle / 90.0f;
     float fractionCamX = m_xRotation * labelAngleFraction;
     float fractionCamY = m_yRotation * labelAngleFraction;
@@ -3424,7 +3441,8 @@ void QQuickGraphsItem::updateLabels()
     zPos = backgroundScale.z() + adjustment + m_labelMargin;
 
     adjustment *= qAbs(qSin(qDegreesToRadians(labelRotation.z())));
-    yPos = backgroundScale.y() + adjustment;
+    const float labelDepthMargin = 0.03f; //margin to prevent z-fighting
+    yPos = backgroundScale.y() + adjustment - labelDepthMargin;
 
     float yOffset = -0.1f;
     if (!yFlipped) {
@@ -3503,7 +3521,7 @@ void QQuickGraphsItem::updateLabels()
 
     labels = axisY()->labels();
     labelCount = labels.size();
-    labelAutoAngle = axisY()->labelAutoRotation();
+    labelAutoAngle = m_labelMargin >= 0 ? axisY()->labelAutoRotation() : 0;
     labelAngleFraction = labelAutoAngle / 90.0f;
     fractionCamX = m_xRotation * labelAngleFraction;
     fractionCamY = m_yRotation * labelAngleFraction;
@@ -3542,7 +3560,7 @@ void QQuickGraphsItem::updateLabels()
     fontRatio = labelsMaxWidth / labelHeight;
     m_fontScaled = QVector3D(scaleFactor * fontRatio, scaleFactor, 0.00001f);
 
-    xPos = backgroundScale.x();
+    xPos = backgroundScale.x() - labelDepthMargin;
     if (!xFlipped)
         xPos *= -1.0f;
     labelTrans.setX(xPos);
@@ -3573,7 +3591,7 @@ void QQuickGraphsItem::updateLabels()
 
     labels = axisZ()->labels();
     labelCount = labels.size();
-    labelAutoAngle = axisZ()->labelAutoRotation();
+    labelAutoAngle = m_labelMargin >= 0 ? axisZ()->labelAutoRotation() : 0;
     labelAngleFraction = labelAutoAngle / 90.0f;
     fractionCamX = m_xRotation * labelAngleFraction;
     fractionCamY = m_yRotation * labelAngleFraction;
@@ -3663,7 +3681,7 @@ void QQuickGraphsItem::updateLabels()
         xPos *= -1.0f;
 
     adjustment *= qAbs(qSin(qDegreesToRadians(labelRotation.z())));
-    yPos = backgroundScale.y() + adjustment;
+    yPos = backgroundScale.y() + adjustment - labelDepthMargin;
     if (!yFlipped)
         yPos *= -1.0f;
 
@@ -3732,7 +3750,7 @@ void QQuickGraphsItem::updateLabels()
         xPos *= -1.0f;
     labelTrans.setX(xPos);
 
-    zPos = -backgroundScale.z();
+    zPos = -backgroundScale.z() + labelDepthMargin;
     if (zFlipped)
         zPos *= -1.0f;
     labelTrans.setZ(zPos);
@@ -5145,6 +5163,21 @@ void QQuickGraphsItem::setPolar(bool enable)
 bool QQuickGraphsItem::isPolar() const
 {
     return m_isPolar;
+}
+
+void QQuickGraphsItem::setLabelMargin(float margin)
+{
+    if (m_labelMargin != margin) {
+        m_labelMargin = margin;
+        m_changeTracker.labelMarginChanged = true;
+        emit labelMarginChanged(m_labelMargin);
+        emitNeedRender();
+    }
+}
+
+float QQuickGraphsItem::labelMargin() const
+{
+    return m_labelMargin;
 }
 
 void QQuickGraphsItem::setRadialLabelOffset(float offset)

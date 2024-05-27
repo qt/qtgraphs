@@ -41,6 +41,7 @@ class Q_GRAPHSWIDGETS_EXPORT QAbstract3DGraphWidget : public QQuickWidget
     Q_PROPERTY(QGraphs3D::OptimizationHint optimizationHint READ optimizationHint WRITE
                    setOptimizationHint NOTIFY optimizationHintChanged)
     Q_PROPERTY(bool polar READ isPolar WRITE setPolar NOTIFY polarChanged)
+    Q_PROPERTY(float labelMargin READ labelMargin WRITE setLabelMargin NOTIFY labelMarginChanged)
     Q_PROPERTY(float radialLabelOffset READ radialLabelOffset WRITE setRadialLabelOffset NOTIFY
                    radialLabelOffsetChanged)
     Q_PROPERTY(qreal horizontalAspectRatio READ horizontalAspectRatio WRITE setHorizontalAspectRatio
@@ -127,6 +128,9 @@ public:
 
     void setPolar(bool enable);
     bool isPolar() const;
+
+    void setLabelMargin(float margin);
+    float labelMargin() const;
 
     void setRadialLabelOffset(float offset);
     float radialLabelOffset() const;
@@ -253,6 +257,7 @@ Q_SIGNALS:
     void aspectRatioChanged(qreal ratio);
     void optimizationHintChanged(QGraphs3D::OptimizationHint hint);
     void polarChanged(bool enabled);
+    void labelMarginChanged(float margin);
     void radialLabelOffsetChanged(float offset);
     void horizontalAspectRatioChanged(qreal ratio);
     void localeChanged(const QLocale &locale);
