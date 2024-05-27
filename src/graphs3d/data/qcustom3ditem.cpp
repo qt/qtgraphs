@@ -97,7 +97,7 @@ QT_BEGIN_NAMESPACE
  * calculated on the unrotated item.
  *
  * \note Only absolute scaling is supported for Custom3DLabel items or for
- * custom items used in \l{Abstract3DGraph::polar}{polar} graphs.
+ * custom items used in \l{GraphsItem3D::polar}{polar} graphs.
  *
  * \note The custom item's mesh must be normalized to the range \c{[-1 ,1]}, or
  * the data scaling will not be accurate.
@@ -132,6 +132,52 @@ QT_BEGIN_NAMESPACE
  *
  * \sa rotation
  */
+
+/*!
+    \qmlsignal Custom3DItem::meshFileChanged(string meshFile)
+
+    This signal is emitted when meshFile changes to \a meshFile.
+*/
+/*!
+    \qmlsignal Custom3DItem::textureFileChanged(string textureFile)
+
+    This signal is emitted when textureFile changes to \a textureFile.
+*/
+/*!
+    \qmlsignal Custom3DItem::positionChanged(vector3d position)
+
+    This signal is emitted when item \l position changes to \a position.
+*/
+/*!
+    \qmlsignal Custom3DItem::positionAbsoluteChanged(bool positionAbsolute)
+
+    This signal is emitted when positionAbsolute changes to \a positionAbsolute.
+*/
+/*!
+    \qmlsignal Custom3DItem::scalingChanged(vector3d scaling)
+
+    This signal is emitted when \l scaling changes to \a scaling.
+*/
+/*!
+    \qmlsignal Custom3DItem::rotationChanged(quaternion rotation)
+
+    This signal is emitted when \l rotation changes to \a rotation.
+*/
+/*!
+    \qmlsignal Custom3DItem::visibleChanged(bool visible)
+
+    This signal is emitted when \l visible changes to \a visible.
+*/
+/*!
+    \qmlsignal Custom3DItem::shadowCastingChanged(bool shadowCasting)
+
+    This signal is emitted when shadowCasting changes to \a shadowCasting.
+*/
+/*!
+    \qmlsignal Custom3DItem::scalingAbsoluteChanged(bool scalingAbsolute)
+
+    This signal is emitted when scalingAbsolute changes to \a scalingAbsolute.
+*/
 
 /*!
  * Constructs a custom 3D item with the specified \a parent.

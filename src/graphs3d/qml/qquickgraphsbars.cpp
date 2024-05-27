@@ -19,7 +19,7 @@
 
 /*!
  * \qmltype Bars3D
- * \inherits Abstract3DGraph
+ * \inherits GraphsItem3D
  * \inqmlmodule QtGraphs
  * \ingroup graphs_qml_3D
  * \brief 3D bar graph.
@@ -107,7 +107,7 @@
 
 /*!
  * \qmlproperty Bar3DSeries Bars3D::selectedSeries
- * The selected series or \c null. If \l {Abstract3DGraph::selectionMode}{selectionMode} has
+ * The selected series or \c null. If \l {GraphsItem3D::selectionMode}{selectionMode} has
  * the \c SelectionMultiSeries flag set, this property holds the series that
  * owns the selected bar.
  */
@@ -154,13 +154,13 @@
  * generate the row or column labels on the axes in cases where the labels are not explicitly set
  * to the axes. If the newly added series has specified a selected bar, it will be highlighted and
  * any existing selection will be cleared. Only one added series can have an active selection.
- * \sa Abstract3DGraph::hasSeries()
+ * \sa GraphsItem3D::hasSeries()
  */
 
 /*!
  * \qmlmethod void Bars3D::removeSeries(Bar3DSeries series)
  * Remove the \a series from the graph.
- * \sa Abstract3DGraph::hasSeries()
+ * \sa GraphsItem3D::hasSeries()
  */
 
 /*!
@@ -171,7 +171,73 @@
  * \note When moving a series to a new \a index that is after its old index,
  * the new position in list is calculated as if the series was still in its old
  * index, so the final index is actually the \a index decremented by one.
- * \sa Abstract3DGraph::hasSeries()
+ * \sa GraphsItem3D::hasSeries()
+ */
+
+/*!
+ * \qmlsignal Bars3D::multiSeriesUniformChanged(bool uniform)
+ *
+ * This signal is emitted when multiSeriesUniform changes to \a uniform.
+ */
+
+/*!
+ * \qmlsignal Bars3D::barThicknessChanged(real thicknessRatio)
+ *
+ * This signal is emitted when barThickness changes to \a thicknessRatio.
+ */
+
+/*!
+ * \qmlsignal Bars3D::barSpacingChanged(size spacing)
+ *
+ * This signal is emitted when barSpacing changes to \a spacing.
+ */
+
+/*!
+ * \qmlsignal Bars3D::barSpacingRelativeChanged(bool relative)
+ *
+ * This signal is emitted when barSpacingRelative changes to \a relative.
+ */
+
+/*!
+ * \qmlsignal Bars3D::barSeriesMarginChanged(size margin)
+ *
+ * This signal is emitted when barSeriesMargin changes to \a margin.
+ */
+
+/*!
+ * \qmlsignal Bars3D::rowAxisChanged(Category3DAxis axis)
+ *
+ * This signal is emitted when rowAxis changes to \a axis.
+ */
+
+/*!
+ * \qmlsignal Bars3D::columnAxisChanged(Category3DAxis axis)
+ *
+ * This signal is emitted when columnAxis changes to \a axis.
+ */
+
+/*!
+ * \qmlsignal Bars3D::valueAxisChanged(ValueAxis3D axis)
+ *
+ * This signal is emitted when valueAxis changes to \a axis.
+ */
+
+/*!
+ * \qmlsignal Bars3D::primarySeriesChanged(Bar3DSeries series)
+ *
+ * This signal is emitted when primarySeries changes to \a series.
+ */
+
+/*!
+ * \qmlsignal Bars3D::selectedSeriesChanged(Bar3DSeries series)
+ *
+ * This signal is emitted when selectedSeries changes to \a series.
+ */
+
+/*!
+ * \qmlsignal Bars3D::floorLevelChanged(real level)
+ *
+ * This signal is emitted when floorLevel changes to \a level.
  */
 
 QQuickGraphsBars::QQuickGraphsBars(QQuickItem *parent)

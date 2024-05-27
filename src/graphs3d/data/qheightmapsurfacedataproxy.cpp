@@ -131,6 +131,54 @@ const float defaultMaxValue = 10.0f;
  */
 
 /*!
+    \qmlsignal HeightMapSurfaceDataProxy::heightMapFileChanged(string filename)
+
+    This signal is emitted when heightMapFile changes to \a filename.
+*/
+
+/*!
+    \qmlsignal HeightMapSurfaceDataProxy::minXValueChanged(real value)
+
+    This signal is emitted when minXValue changes to \a value.
+*/
+
+/*!
+    \qmlsignal HeightMapSurfaceDataProxy::maxXValueChanged(real value)
+
+    This signal is emitted when maxXValue changes to \a value.
+*/
+
+/*!
+    \qmlsignal HeightMapSurfaceDataProxy::minZValueChanged(real value)
+
+    This signal is emitted when minZValue changes to \a value.
+*/
+
+/*!
+    \qmlsignal HeightMapSurfaceDataProxy::maxZValueChanged(real value)
+
+    This signal is emitted when maxZValue changes to \a value.
+*/
+
+/*!
+    \qmlsignal HeightMapSurfaceDataProxy::minYValueChanged(real value)
+
+    This signal is emitted when minYValue changes to \a value.
+*/
+
+/*!
+    \qmlsignal HeightMapSurfaceDataProxy::maxYValueChanged(real value)
+
+    This signal is emitted when maxYValue changes to \a value.
+*/
+
+/*!
+    \qmlsignal HeightMapSurfaceDataProxy::autoScaleYChanged(bool enabled)
+
+    This signal is emitted when autoScaleY changes to \a enabled.
+*/
+
+/*!
  * Constructs QHeightMapSurfaceDataProxy with the given \a parent.
  */
 QHeightMapSurfaceDataProxy::QHeightMapSurfaceDataProxy(QObject *parent)

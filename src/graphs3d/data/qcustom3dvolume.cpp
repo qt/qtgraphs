@@ -238,6 +238,96 @@ QT_BEGIN_NAMESPACE
  */
 
 /*!
+    \qmlsignal Custom3DVolume::textureWidthChanged(int value)
+
+    This signal is emitted when textureWidth changes to \a value.
+*/
+
+/*!
+    \qmlsignal Custom3DVolume::textureHeightChanged(int value)
+
+    This signal is emitted when textureHeight changes to \a value.
+*/
+
+/*!
+    \qmlsignal Custom3DVolume::textureDepthChanged(int value)
+
+    This signal is emitted when textureDepth changes to \a value.
+*/
+
+/*!
+    \qmlsignal Custom3DVolume::sliceIndexXChanged(int value)
+
+    This signal is emitted when sliceIndexX changes to \a value.
+*/
+
+/*!
+    \qmlsignal Custom3DVolume::sliceIndexYChanged(int value)
+
+    This signal is emitted when sliceIndexY changes to \a value.
+*/
+
+/*!
+    \qmlsignal Custom3DVolume::sliceIndexZChanged(int value)
+
+    This signal is emitted when sliceIndexZ changes to \a value.
+*/
+
+/*!
+    \qmlsignal Custom3DVolume::alphaMultiplierChanged(float mult)
+
+    This signal is emitted when alphaMultiplier changes to \a mult.
+*/
+
+/*!
+    \qmlsignal Custom3DVolume::preserveOpacityChanged(bool enabled)
+
+    This signal is emitted when preserveOpacity changes to \a enabled.
+*/
+
+/*!
+    \qmlsignal Custom3DVolume::useHighDefShaderChanged(bool enabled)
+
+    This signal is emitted when useHighDefShader changes to \a enabled.
+*/
+
+/*!
+    \qmlsignal Custom3DVolume::drawSlicesChanged(bool enabled)
+
+    This signal is emitted when drawSlices changes to \a enabled.
+*/
+
+/*!
+    \qmlsignal Custom3DVolume::drawSliceFramesChanged(bool enabled)
+
+    This signal is emitted when drawSliceFrames changes to \a enabled.
+*/
+
+/*!
+    \qmlsignal Custom3DVolume::sliceFrameColorChanged(color color)
+
+    This signal is emitted when sliceFrameColor changes to \a color.
+*/
+
+/*!
+    \qmlsignal Custom3DVolume::sliceFrameWidthsChanged(vector3d values)
+
+    This signal is emitted when sliceFrameWidths changes to \a values.
+*/
+
+/*!
+    \qmlsignal Custom3DVolume::sliceFrameGapsChanged(vector3d values)
+
+    This signal is emitted when sliceFrameGaps changes to \a values.
+*/
+
+/*!
+    \qmlsignal Custom3DVolume::sliceFrameThicknessesChanged(vector3d values)
+
+    This signal is emitted when sliceFrameThicknesses changes to \a values.
+*/
+
+/*!
  * Constructs a custom 3D volume with the given \a parent.
  */
 QCustom3DVolume::QCustom3DVolume(QObject *parent)

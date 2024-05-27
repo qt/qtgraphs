@@ -201,7 +201,7 @@ QT_BEGIN_NAMESPACE
 
 /*!
     \qmlsignal AbstractSeries::themeChanged()
-    This signal is emitted when the series \l theme changes.
+    This signal is emitted when the series theme changes.
 */
 
 /*!

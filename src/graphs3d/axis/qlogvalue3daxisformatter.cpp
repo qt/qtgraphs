@@ -78,6 +78,27 @@ QT_BEGIN_NAMESPACE
  */
 
 /*!
+    \qmlsignal LogValue3DAxisFormatter::baseChanged(real base)
+
+    This signal is emitted when the base of the logarithm used to map axis
+    values changes to \a base.
+*/
+
+/*!
+    \qmlsignal LogValue3DAxisFormatter::autoSubGridChanged(bool enabled)
+
+    This signal is emitted when the value that specifies whether sub-grid
+    positions are generated automatically changes to \a enabled.
+*/
+
+/*!
+    \qmlsignal LogValue3DAxisFormatter::showEdgeLabelsChanged(bool enabled)
+
+    This signal is emitted when the value that specifies whether to show
+    the first and last label on the axis changes to \a enabled.
+*/
+
+/*!
  * \internal
  */
 QLogValue3DAxisFormatter::QLogValue3DAxisFormatter(QLogValue3DAxisFormatterPrivate &d,

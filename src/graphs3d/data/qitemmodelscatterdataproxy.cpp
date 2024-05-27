@@ -199,6 +199,84 @@ QT_BEGIN_NAMESPACE
  */
 
 /*!
+    \qmlsignal ItemModelScatterDataProxy::itemModelChanged(model itemModel)
+
+    This signal is emitted when itemModel changes to \a itemModel.
+*/
+
+/*!
+    \qmlsignal ItemModelScatterDataProxy::xPosRoleChanged(string role)
+
+    This signal is emitted when xPosRole changes to \a role.
+*/
+
+/*!
+    \qmlsignal ItemModelScatterDataProxy::yPosRoleChanged(string role)
+
+    This signal is emitted when yPosRole changes to \a role.
+*/
+
+/*!
+    \qmlsignal ItemModelScatterDataProxy::zPosRoleChanged(string role)
+
+    This signal is emitted when zPosRole changes to \a role.
+*/
+
+/*!
+    \qmlsignal ItemModelScatterDataProxy::rotationRoleChanged(string role)
+
+    This signal is emitted when rotationRole changes to \a role.
+*/
+
+/*!
+    \qmlsignal ItemModelScatterDataProxy::xPosRolePatternChanged(regExp pattern)
+
+    This signal is emitted when xPosRolePattern changes to \a pattern.
+*/
+
+/*!
+    \qmlsignal ItemModelScatterDataProxy::yPosRolePatternChanged(regExp pattern)
+
+    This signal is emitted when yPosRolePattern changes to \a pattern.
+*/
+
+/*!
+    \qmlsignal ItemModelScatterDataProxy::zPosRolePatternChanged(regExp pattern)
+
+    This signal is emitted when zPosRolePattern changes to \a pattern.
+*/
+
+/*!
+    \qmlsignal ItemModelScatterDataProxy::rotationRolePatternChanged(regExp pattern)
+
+    This signal is emitted when rotationRolePattern changes to \a pattern.
+*/
+
+/*!
+    \qmlsignal ItemModelScatterDataProxy::rotationRoleReplaceChanged(string replace)
+
+    This signal is emitted when rotationRoleReplace changes to \a replace.
+*/
+
+/*!
+    \qmlsignal ItemModelScatterDataProxy::xPosRoleReplaceChanged(string replace)
+
+    This signal is emitted when xPosRoleReplace changes to \a replace.
+*/
+
+/*!
+    \qmlsignal ItemModelScatterDataProxy::yPosRoleReplaceChanged(string replace)
+
+    This signal is emitted when yPosRoleReplace changes to \a replace.
+*/
+
+/*!
+    \qmlsignal ItemModelScatterDataProxy::zPosRoleReplaceChanged(string replace)
+
+    This signal is emitted when zPosRoleReplace changes to \a replace.
+*/
+
+/*!
  * Constructs QItemModelScatterDataProxy with optional \a parent.
  */
 QItemModelScatterDataProxy::QItemModelScatterDataProxy(QObject *parent)

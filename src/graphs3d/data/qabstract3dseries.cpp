@@ -32,13 +32,14 @@ QT_BEGIN_NAMESPACE
 
 /*!
  * \qmltype Abstract3DSeries
+ * \qmlabstract
  * \inqmlmodule QtGraphs
  * \ingroup graphs_qml_3D
  * \instantiates QAbstract3DSeries
  * \brief A base type for all 3D data series.
  *
- * This type is uncreatable, but contains properties that are exposed via the
- * following subtypes: Bar3DSeries, Scatter3DSeries, and Surface3DSeries.
+ * This abstract class serves as a base class for the following subtypes:
+ * Bar3DSeries, Scatter3DSeries, and Surface3DSeries.
  *
  * For more information, see \l{Qt Graphs Data Handling with 3D}.
  */
@@ -250,6 +251,87 @@ QT_BEGIN_NAMESPACE
  *
  * \sa meshRotation
  */
+
+/*!
+    \qmlsignal Abstract3DSeries::itemLabelFormatChanged(string format)
+
+    This signal is emitted when itemLabelFormat changes to \a format.
+*/
+/*!
+    \qmlsignal Abstract3DSeries::visibilityChanged(bool visible)
+
+    This signal is emitted when the series visibility changes to \a visible.
+*/
+/*!
+    \qmlsignal Abstract3DSeries::meshChanged(Abstract3DSeries.Mesh mesh)
+
+    This signal is emitted when \l mesh changes to \a mesh.
+*/
+/*!
+    \qmlsignal Abstract3DSeries::meshSmoothChanged(bool enabled)
+
+    This signal is emitted when meshSmooth changes to \a enabled.
+*/
+/*!
+    \qmlsignal Abstract3DSeries::meshRotationChanged(quaternion rotation)
+
+    This signal is emitted when meshRotation changes to \a rotation.
+*/
+/*!
+    \qmlsignal Abstract3DSeries::userDefinedMeshChanged(string fileName)
+
+    This signal is emitted when userDefinedMesh changes to \a fileName.
+*/
+/*!
+    \qmlsignal Abstract3DSeries::colorStyleChanged(GraphsTheme.ColorStyle style)
+
+    This signal is emitted when colorStyle changes to \a style.
+*/
+/*!
+    \qmlsignal Abstract3DSeries::baseColorChanged(color color)
+
+    This signal is emitted when baseColor changes to \a color.
+*/
+/*!
+    \qmlsignal Abstract3DSeries::baseGradientChanged(Gradient gradient)
+
+    This signal is emitted when baseGradient changes to \a gradient.
+*/
+/*!
+    \qmlsignal Abstract3DSeries::singleHighlightColorChanged(color color)
+
+    This signal is emitted when singleHighlightColor changes to \a color.
+*/
+/*!
+    \qmlsignal Abstract3DSeries::singleHighlightGradientChanged(Gradient gradient)
+
+    This signal is emitted when singleHighlightGradient changes to \a gradient.
+*/
+/*!
+    \qmlsignal Abstract3DSeries::multiHighlightColorChanged(color color)
+
+    This signal is emitted when multiHighlightColor changes to \a color.
+*/
+/*!
+    \qmlsignal Abstract3DSeries::multiHighlightGradientChanged(Gradient gradient)
+
+    This signal is emitted when multiHighlightGradient changes to \a gradient.
+*/
+/*!
+    \qmlsignal Abstract3DSeries::nameChanged(string name)
+
+    This signal is emitted when \l name changes to \a name.
+*/
+/*!
+    \qmlsignal Abstract3DSeries::itemLabelChanged(string label)
+
+    This signal is emitted when itemLabel changes to \a label.
+*/
+/*!
+    \qmlsignal Abstract3DSeries::itemLabelVisibilityChanged(bool visible)
+
+    This signal is emitted when itemLabelVisibility changes to \a visible.
+*/
 
 /*!
  * \internal

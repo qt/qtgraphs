@@ -60,6 +60,18 @@ QT_BEGIN_NAMESPACE
  */
 
 /*!
+    \qmlsignal ScatterDataProxy::itemCountChanged(int count)
+
+    This signal is emitted when itemCount changes to \a count.
+*/
+
+/*!
+    \qmlsignal ScatterDataProxy::seriesChanged(Scatter3DSeries series)
+
+    This signal is emitted when \l series changes to \a series.
+*/
+
+/*!
  * Constructs QScatterDataProxy with the given \a parent.
  */
 QScatterDataProxy::QScatterDataProxy(QObject *parent)

@@ -63,7 +63,7 @@ QT_BEGIN_NAMESPACE
  * This type handles adding, inserting, changing, and removing rows of data with
  * Qt Quick 2.
  *
- * This type is uncreatable, but contains properties that are exposed via
+ * This type cannot be instantiated, but contains properties that are exposed via
  * subtypes.
  *
  * For a more complete description, see QBarDataProxy.
@@ -77,10 +77,42 @@ QT_BEGIN_NAMESPACE
  */
 
 /*!
+ * \qmlproperty int BarDataProxy::colCount
+ * The number of columns in the array.
+ */
+
+/*!
  * \qmlproperty Bar3DSeries BarDataProxy::series
  *
  * The series this proxy is attached to.
  */
+
+/*!
+    \qmlsignal BarDataProxy::itemChanged(int rowIndex, int columnIndex)
+
+    This signal is emitted when the item at the position specified by \a rowIndex
+    and \a columnIndex changes.
+    If the item is changed in the array without calling setItem(),
+    this signal needs to be emitted to update the graph.
+*/
+
+/*!
+    \qmlsignal BarDataProxy::rowCountChanged(int count)
+
+    This signal is emitted when rowCount changes to \a count.
+*/
+
+/*!
+    \qmlsignal BarDataProxy::colCountChanged(int count)
+
+    This signal is emitted when colCount changes to \a count.
+*/
+
+/*!
+    \qmlsignal BarDataProxy::seriesChanged(Bar3DSeries series)
+
+    This signal is emitted when \l series changes to \a series.
+*/
 
 /*!
  * Constructs a bar data proxy with the given \a parent.

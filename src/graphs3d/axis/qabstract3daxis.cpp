@@ -21,14 +21,11 @@ QT_BEGIN_NAMESPACE
 
 /*!
  * \qmltype Abstract3DAxis
+ * \qmlabstract
  * \inqmlmodule QtGraphs
  * \ingroup graphs_qml_3D
  * \instantiates QAbstract3DAxis
  * \brief A base type for the axes of a 3D graph.
- *
- * This type is uncreatable, but contains properties that are exposed via
- * subtypes.
- *
  * For Abstract3DAxis enums, see \l QAbstract3DAxis::AxisOrientation and
  * \l{QAbstract3DAxis::AxisType}.
  */
@@ -61,16 +58,16 @@ QT_BEGIN_NAMESPACE
  * \qmlproperty real Abstract3DAxis::min
  *
  * The minimum value on the axis.
- * When setting this property, the maximum value is adjusted if necessary, to
- * ensure that the range remains valid.
+ * When setting this property, the maximum value is adjusted if necessary, so
+ * the range remains valid.
  */
 
 /*!
  * \qmlproperty real Abstract3DAxis::max
  *
  * The maximum value on the axis.
- * When setting this property, the minimum value is adjusted if necessary, to
- * ensure that the range remains valid.
+ * When setting this property, the minimum value is adjusted if necessary, so
+ * the range remains valid.
  */
 
 /*!
@@ -125,7 +122,7 @@ QT_BEGIN_NAMESPACE
  */
 
 /*!
- * \qmlproperty bool Abstract3DAxis::titleOffset
+ * \qmlproperty real Abstract3DAxis::titleOffset
  *
  * The position of the axis title on the axis.
  * The value must be between \c -1.0f and \c 1.0f
@@ -134,6 +131,74 @@ QT_BEGIN_NAMESPACE
  *
  * \sa title, titleVisible
  */
+
+/*!
+    \qmlsignal Abstract3DAxis::titleChanged(string newTitle)
+
+    This signal is emitted when \l title changes to \a newTitle.
+*/
+/*!
+    \qmlsignal Abstract3DAxis::labelsChanged()
+
+    This signal is emitted when axis labels change.
+*/
+/*!
+    \qmlsignal Abstract3DAxis::orientationChanged(AxisOrientation orientation)
+
+    This signal is emitted when axis orientation changes to \a orientation.
+*/
+/*!
+    \qmlsignal Abstract3DAxis::minChanged(real value)
+
+    This signal is emitted when the minimum value of the axis changes
+    to \a value.
+*/
+/*!
+    \qmlsignal Abstract3DAxis::maxChanged(real value)
+
+    This signal is emitted when the maximum value of the axis changes
+    to \a value.
+*/
+/*!
+    \qmlsignal Abstract3DAxis::rangeChanged(real min, real max)
+
+    This signal is emitted when the axis range changes. \a min and \a max are
+    the min and max of the new range.
+*/
+/*!
+    \qmlsignal Abstract3DAxis::autoAdjustRangeChanged(bool autoAdjust)
+
+    This signal is emitted when the \l autoAdjustRange property value changes
+    to \a autoAdjust.
+*/
+/*!
+    \qmlsignal Abstract3DAxis::labelAutoRotationChanged(real angle)
+
+    This signal is emitted when the angle of label rotation changes to
+    \a angle.
+*/
+/*!
+    \qmlsignal Abstract3DAxis::titleVisibilityChanged(bool visible)
+
+    This signal is emitted when the title visibility changes to \a visible.
+*/
+/*!
+    \qmlsignal Abstract3DAxis::labelVisibilityChanged(bool visible)
+
+    This signal is emitted when the label visibility changes to \a visible.
+*/
+/*!
+    \qmlsignal Abstract3DAxis::titleFixedChanged(bool fixed)
+
+    This signal is emitted when the titleFixed property value changes to
+    \a fixed.
+*/
+/*!
+    \qmlsignal Abstract3DAxis::titleOffsetChanged(real offset)
+
+    This signal is emitted when the titleOffset property value changes to
+    \a offset.
+*/
 
 /*!
  * \enum QAbstract3DAxis::AxisOrientation

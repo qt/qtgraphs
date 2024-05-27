@@ -254,6 +254,102 @@ QT_BEGIN_NAMESPACE
  */
 
 /*!
+    \qmlsignal ItemModelBarDataProxy::itemModelChanged(model itemModel)
+
+    This signal is emitted when itemModel changes to \a itemModel.
+*/
+/*!
+    \qmlsignal ItemModelBarDataProxy::rowRoleChanged(string role)
+
+    This signal is emitted when rowRole changes to \a role.
+*/
+/*!
+    \qmlsignal ItemModelBarDataProxy::columnRoleChanged(string role)
+
+    This signal is emitted when columnRole changes to \a role.
+*/
+/*!
+    \qmlsignal ItemModelBarDataProxy::valueRoleChanged(string role)
+
+    This signal is emitted when valueRole changes to \a role.
+*/
+/*!
+    \qmlsignal ItemModelBarDataProxy::rotationRoleChanged(string role)
+
+    This signal is emitted when rotationRole changes to \a role.
+*/
+/*!
+    \qmlsignal ItemModelBarDataProxy::rowCategoriesChanged()
+
+    This signal is emitted when rowCategories changes.
+*/
+/*!
+    \qmlsignal ItemModelBarDataProxy::columnCategoriesChanged()
+
+    This signal is emitted when columnCategories changes.
+*/
+/*!
+    \qmlsignal ItemModelBarDataProxy::useModelCategoriesChanged(bool enable)
+
+    This signal is emitted when useModelCategories changes to \a enable.
+*/
+/*!
+    \qmlsignal ItemModelBarDataProxy::autoRowCategoriesChanged(bool enable)
+
+    This signal is emitted when autoRowCategories changes to \a enable.
+*/
+/*!
+    \qmlsignal ItemModelBarDataProxy::autoColumnCategoriesChanged(bool enable)
+
+    This signal is emitted when autoColumnCategories changes to \a enable.
+*/
+/*!
+    \qmlsignal ItemModelBarDataProxy::rowRolePatternChanged(regExp pattern)
+
+    This signal is emitted when rowRolePattern changes to \a pattern.
+*/
+/*!
+    \qmlsignal ItemModelBarDataProxy::columnRolePatternChanged(regExp pattern)
+
+    This signal is emitted when columnRolePattern changes to \a pattern.
+*/
+/*!
+    \qmlsignal ItemModelBarDataProxy::valueRolePatternChanged(regExp pattern)
+
+    This signal is emitted when valueRolePattern changes to \a pattern.
+*/
+/*!
+    \qmlsignal ItemModelBarDataProxy::rotationRolePatternChanged(regExp pattern)
+
+    This signal is emitted when rotationRolePattern changes to \a pattern.
+*/
+/*!
+    \qmlsignal ItemModelBarDataProxy::rowRoleReplaceChanged(string replace)
+
+    This signal is emitted when rowRoleReplace changes to \a replace.
+*/
+/*!
+    \qmlsignal ItemModelBarDataProxy::columnRoleReplaceChanged(string replace)
+
+    This signal is emitted when columnRoleReplace changes to \a replace.
+*/
+/*!
+    \qmlsignal ItemModelBarDataProxy::valueRoleReplaceChanged(string replace)
+
+    This signal is emitted when valueRoleReplace changes to \a replace.
+*/
+/*!
+    \qmlsignal ItemModelBarDataProxy::rotationRoleReplaceChanged(string replace)
+
+    This signal is emitted when rotationRoleReplace changes to \a replace.
+*/
+/*!
+    \qmlsignal ItemModelBarDataProxy::multiMatchBehaviorChanged(enumeration behavior)
+
+    This signal is emitted when multiMatchBehavior changes to \a behavior.
+*/
+
+/*!
  *  \enum QItemModelBarDataProxy::MultiMatchBehavior
  *
  *  Behavior types for QItemModelBarDataProxy::multiMatchBehavior property.

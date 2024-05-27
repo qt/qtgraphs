@@ -92,7 +92,7 @@ QT_BEGIN_NAMESPACE
  * invalidSelectionPoint, the graph tries to match a graph position to the given
  * point within the primary viewport. After the rendering pass, this property is
  * returned to its default state of invalidSelectionPoint. The queried graph
- * position can be read from the Abstract3DGraph::queriedGraphPosition property
+ * position can be read from the GraphsItem3D::queriedGraphPosition property
  * after the next render pass.
  *
  * There is no single correct 3D coordinate to match a particular screen
@@ -101,7 +101,7 @@ QT_BEGIN_NAMESPACE
  *
  * \note Bar graphs allow graph position queries only at the graph floor level.
  *
- * \sa Abstract3DGraph::queriedGraphPosition
+ * \sa GraphsItem3D::queriedGraphPosition
  */
 
 /*!
@@ -132,6 +132,54 @@ QT_BEGIN_NAMESPACE
  * \qmlproperty point Scene3D::invalidSelectionPoint
  * A constant property providing an invalid point for selection.
  */
+
+/*!
+    \qmlsignal Scene3D::viewportChanged(rect viewport)
+
+    This signal is emitted when viewport changes to \a viewport.
+*/
+
+/*!
+    \qmlsignal Scene3D::primarySubViewportChanged(rect subViewport)
+
+    This signal is emitted when primarySubViewport changes to \a subViewport.
+*/
+
+/*!
+    \qmlsignal Scene3D::secondarySubViewportChanged(rect subViewport)
+
+    This signal is emitted when secondarySubViewport changes to \a subViewport.
+*/
+
+/*!
+    \qmlsignal Scene3D::secondarySubviewOnTopChanged(bool isSecondaryOnTop)
+
+    This signal is emitted when secondarySubviewOnTop changes to \a isSecondaryOnTop.
+*/
+
+/*!
+    \qmlsignal Scene3D::slicingActiveChanged(bool isSlicingActive)
+
+    This signal is emitted when slicingActive changes to \a isSlicingActive.
+*/
+
+/*!
+    \qmlsignal Scene3D::devicePixelRatioChanged(float pixelRatio)
+
+    This signal is emitted when devicePixelRatio changes to \a pixelRatio.
+*/
+
+/*!
+    \qmlsignal Scene3D::selectionQueryPositionChanged(point position)
+
+    This signal is emitted when selectionQueryPosition changes to \a position.
+*/
+
+/*!
+    \qmlsignal Scene3D::graphPositionQueryChanged(point position)
+
+    This signal is emitted when graphPositionQuery changes to \a position.
+*/
 
 /*!
  * Constructs a basic scene with one light and one camera in it. An

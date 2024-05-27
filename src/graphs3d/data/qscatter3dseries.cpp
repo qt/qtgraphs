@@ -95,7 +95,7 @@ QT_BEGIN_NAMESPACE
  * inserting items into the series before the selected item will adjust the
  * selection so that the same item will stay selected.
  *
- * \sa Abstract3DGraph::clearSelection()
+ * \sa GraphsItem3D::clearSelection()
  */
 
 /*!
@@ -112,7 +112,7 @@ QT_BEGIN_NAMESPACE
  * A constant property providing an invalid index for selection. This index is
  * set to the selectedItem property to clear the selection from this series.
  *
- * \sa Abstract3DGraph::clearSelection()
+ * \sa GraphsItem3D::clearSelection()
  */
 
 /*!
@@ -126,6 +126,30 @@ QT_BEGIN_NAMESPACE
  * \note Before doing anything regarding the data array, a series must be created for
  * the relevant proxy.
  */
+
+/*!
+    \qmlsignal Scatter3DSeries::dataProxyChanged(ScatterDataProxy proxy)
+
+    This signal is emitted when dataProxy changes to \a proxy.
+*/
+
+/*!
+    \qmlsignal Scatter3DSeries::selectedItemChanged(int index)
+
+    This signal is emitted when selectedItem changes to \a index.
+*/
+
+/*!
+    \qmlsignal Scatter3DSeries::itemSizeChanged(float size)
+
+    This signal is emitted when itemSize changes to \a size.
+*/
+
+/*!
+    \qmlsignal Scatter3DSeries::dataArrayChanged(ScatterDataArray array)
+
+    This signal is emitted when dataArray changes to \a array.
+*/
 
 /*!
  * Constructs a scatter 3D series with the parent \a parent.
