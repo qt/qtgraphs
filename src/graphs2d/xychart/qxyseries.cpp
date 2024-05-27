@@ -694,9 +694,17 @@ QColor QXYSeries::selectedColor() const
         or from \l{QXYSeries::color} if the \l QXYSeries overrides the color.
     \row
         \li QColor
+        \li pointBorderColor
+        \li The border color of the series. This value comes from the \l QGraphsTheme.
+    \row
+        \li QColor
         \li pointSelectedColor
         \li The selected color of the series. This value comes either from the \l QGraphsTheme
         or from \l{QXYSeries::selectedColor} if the \l QXYSeries overrides the color.
+    \row
+        \li qreal
+        \li pointBorderWidth
+        \li The border width of the series. This value comes from the \l QGraphsTheme.
     \row
         \li qreal
         \li pointValueX
@@ -732,9 +740,17 @@ QColor QXYSeries::selectedColor() const
         or from \l{XYSeries::color} if the \l XYSeries overrides the color.
     \row
         \li Color
+        \li pointBorderColor
+        \li The border color of the series. This value comes from the \l GraphsTheme.
+    \row
+        \li Color
         \li pointSelectedColor
         \li The selected color of the series. This value comes either from the \l GraphsTheme
         or from \l{XYSeries::selectedColor} if the \l XYSeries overrides the color.
+    \row
+        \li real
+        \li pointBorderWidth
+        \li The border width of the series. This value comes from the \l GraphsTheme.
     \row
         \li real
         \li pointValueX

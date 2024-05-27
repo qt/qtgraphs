@@ -12,6 +12,8 @@
 QT_BEGIN_NAMESPACE
 
 static const char* TAG_POINT_COLOR = "pointColor";
+static const char* TAG_POINT_BORDER_COLOR = "pointBorderColor";
+static const char* TAG_POINT_BORDER_WIDTH = "pointBorderWidth";
 static const char* TAG_POINT_SELECTED_COLOR = "pointSelectedColor";
 static const char* TAG_POINT_SELECTED = "pointSelected";
 static const char* TAG_POINT_VALUE_X = "pointValueX";
@@ -31,8 +33,12 @@ PointRenderer::PointRenderer(QQuickItem *parent)
         Rectangle {
             property bool pointSelected
             property color pointColor
+            property color pointBorderColor
             property color pointSelectedColor
+            property real pointBorderWidth
             color: pointSelected ? pointSelectedColor : pointColor
+            border.color: pointBorderColor
+            border.width: pointBorderWidth
             width: %1
             height: %1
         }
@@ -78,15 +84,23 @@ void PointRenderer::updatePointMarker(
     auto &rect = group->rects[pointIndex];
 
     const auto &seriesColors = theme->seriesColors();
+    const auto &borderColors = theme->borderColors();
     qsizetype index = group->colorIndex % seriesColors.size();
     QColor color = series->color().alpha() != 0 ? series->color()
                                             : seriesColors.at(index);
+    index = group->colorIndex % borderColors.size();
+    QColor borderColor = borderColors.at(index);
+    qreal borderWidth = theme->borderWidth();
     QColor selectedColor = series->selectedColor().alpha() != 0 ? series->selectedColor()
                                                                 : m_graph->theme()->singleHighlightColor();
     if (marker->property(TAG_POINT_SELECTED).isValid())
         marker->setProperty(TAG_POINT_SELECTED, series->isPointSelected(pointIndex));
     if (marker->property(TAG_POINT_COLOR).isValid())
         marker->setProperty(TAG_POINT_COLOR, color);
+    if (marker->property(TAG_POINT_BORDER_COLOR).isValid())
+        marker->setProperty(TAG_POINT_BORDER_COLOR, borderColor);
+    if (marker->property(TAG_POINT_BORDER_WIDTH).isValid())
+        marker->setProperty(TAG_POINT_BORDER_WIDTH, borderWidth);
     if (marker->property(TAG_POINT_SELECTED_COLOR).isValid())
         marker->setProperty(TAG_POINT_SELECTED_COLOR, selectedColor);
     const auto point = series->points().at(pointIndex);

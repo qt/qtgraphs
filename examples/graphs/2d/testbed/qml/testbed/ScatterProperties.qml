@@ -68,6 +68,8 @@ Rectangle {
             id: seriesTheme
             colorScheme: Qt.Dark
             theme: GraphsTheme.Theme.QtGreen
+            borderColors: ["#E08040"]
+            borderWidth: 2
         }
 
         ScatterSeries {
