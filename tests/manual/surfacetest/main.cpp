@@ -435,6 +435,11 @@ int main(int argc, char *argv[])
     marginSlider->setValue(-1);
     marginSlider->setMaximum(100);
 
+    QSlider *labelMarginSlider = new QSlider(Qt::Horizontal, widget);
+    labelMarginSlider->setMinimum(-200);
+    labelMarginSlider->setValue(100);
+    labelMarginSlider->setMaximum(200);
+
     QSlider *xSegmentSlider = new QSlider(Qt::Horizontal, widget);
     xSegmentSlider->setMinimum(1);
     xSegmentSlider->setValue(2);
@@ -531,7 +536,9 @@ int main(int argc, char *argv[])
     vLayout2->addWidget(cameraTargetSliderY);
     vLayout2->addWidget(cameraTargetSliderZ);
     vLayout2->addWidget(new QLabel(QStringLiteral("Adjust margin")), 0, Qt::AlignTop);
-    vLayout2->addWidget(marginSlider, 1, Qt::AlignTop);
+    vLayout2->addWidget(marginSlider);
+    vLayout2->addWidget(new QLabel(QStringLiteral("Adjust label offset")), 0, Qt::AlignTop);
+    vLayout2->addWidget(labelMarginSlider, 1, Qt::AlignTop);
 
     vLayout3->addWidget(labelButton);
     vLayout3->addWidget(meshButton);
@@ -795,6 +802,10 @@ int main(int argc, char *argv[])
                      &GraphModifier::setCameraTargetZ);
     QObject::connect(marginSlider, &QSlider::valueChanged, modifier,
                      &GraphModifier::setGraphMargin);
+    QObject::connect(labelMarginSlider,
+                     &QSlider::valueChanged,
+                     modifier,
+                     &GraphModifier::setLabelMargin);
 
     QObject::connect(xSegmentSlider,
                      &QSlider::valueChanged,

@@ -70,6 +70,7 @@ radialLabelOffset: 2
 horizontalAspectRatio: 0.2
 locale: Qt.locale(\"UK\")
 margin: 0.2
+labelMargin: 0.2
 lightColor: \"black\"
 ambientLightStrength: 0.5
 lightStrength: 10.0
@@ -184,6 +185,7 @@ shadowStrength: 50.0
             compare(common.queriedGraphPosition, Qt.vector3d(0, 0, 0),
                     "queriedGraphPosition")
             compare(common.margin, -1, "margin")
+            compare(common.labelMargin, 0.1, "labelMargin")
             compare(common.lightColor, "#ffffff", "lightColor")
             compare(common.ambientLightStrength, 0.25, "ambientLightStrength")
             compare(common.lightStrength, 5.0, "lightStrength")
@@ -210,6 +212,7 @@ shadowStrength: 50.0
             common.horizontalAspectRatio = 1
             common.locale = Qt.locale("FI")
             common.margin = 1.0
+            common.labelMargin = 1.0
             common.lightColor = "#ff0000"
             common.ambientLightStrength = 0.5
             common.lightStrength = 10.0
@@ -234,6 +237,7 @@ shadowStrength: 50.0
             compare(common.horizontalAspectRatio, 1, "horizontalAspectRatio")
             compare(common.locale, Qt.locale("FI"), "locale")
             compare(common.margin, 1.0, "margin")
+            compare(common.labelMargin, 1.0, "labelMargin")
             compare(common.lightColor, "#ff0000", "lightColor")
             compare(common.ambientLightStrength, 0.5, "ambientLightStrength")
             compare(common.lightStrength, 10.0, "lightStrength")
@@ -307,6 +311,7 @@ shadowStrength: 50.0
                     "horizontalAspectRatio")
             compare(common_init.locale, Qt.locale("UK"), "locale")
             compare(common_init.margin, 0.2, "margin")
+            compare(common_init.labelMargin, 0.2, "labelMargin")
             compare(common_init.lightColor, "#000000", "lightColor")
             compare(common_init.ambientLightStrength, 0.5,
                     "ambientLightStrength")

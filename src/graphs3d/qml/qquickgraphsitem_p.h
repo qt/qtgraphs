@@ -92,6 +92,7 @@ struct Abstract3DChangeBitField
     bool axisYTitleOffsetChanged : 1;
     bool axisZTitleOffsetChanged : 1;
     bool polarChanged : 1;
+    bool labelMarginChanged : 1;
     bool radialLabelOffsetChanged : 1;
     bool marginChanged : 1;
 
@@ -146,6 +147,7 @@ struct Abstract3DChangeBitField
         , axisYTitleOffsetChanged(true)
         , axisZTitleOffsetChanged(true)
         , polarChanged(true)
+        , labelMarginChanged(true)
         , radialLabelOffsetChanged(true)
         , marginChanged(true)
     {}
@@ -174,6 +176,7 @@ class Q_GRAPHS_EXPORT QQuickGraphsItem : public QQuick3DViewport
     Q_PROPERTY(QGraphs3D::OptimizationHint optimizationHint READ optimizationHint WRITE
                    setOptimizationHint NOTIFY optimizationHintChanged)
     Q_PROPERTY(bool polar READ isPolar WRITE setPolar NOTIFY polarChanged)
+    Q_PROPERTY(float labelMargin READ labelMargin WRITE setLabelMargin NOTIFY labelMarginChanged)
     Q_PROPERTY(float radialLabelOffset READ radialLabelOffset WRITE setRadialLabelOffset NOTIFY
                    radialLabelOffsetChanged)
     Q_PROPERTY(qreal horizontalAspectRatio READ horizontalAspectRatio WRITE setHorizontalAspectRatio
@@ -353,6 +356,9 @@ public:
     void setPolar(bool enable);
     bool isPolar() const;
 
+    void setLabelMargin(float offset);
+    float labelMargin() const;
+
     void setRadialLabelOffset(float offset);
     float radialLabelOffset() const;
 
@@ -418,8 +424,6 @@ public:
     float lineWidthScaleFactor() const { return m_lineWidthScaleFactor; }
     void setLineWidthScaleFactor(float scaleFactor) { m_lineWidthScaleFactor = scaleFactor; }
     float gridOffset() const { return m_gridOffset; }
-    void setLabelMargin(float margin) { m_labelMargin = margin; }
-    float labelMargin() const { return m_labelMargin; }
 
     QGraphs3D::CameraPreset cameraPreset() const;
     void setCameraPreset(QGraphs3D::CameraPreset preset);
@@ -558,6 +562,7 @@ Q_SIGNALS:
     void aspectRatioChanged(qreal ratio);
     void optimizationHintChanged(QGraphs3D::OptimizationHint hint);
     void polarChanged(bool enabled);
+    void labelMarginChanged(float margin);
     void radialLabelOffsetChanged(float offset);
     void horizontalAspectRatioChanged(qreal ratio);
     void localeChanged(const QLocale &locale);

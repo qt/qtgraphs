@@ -149,6 +149,10 @@ QAbstract3DGraphWidget::QAbstract3DGraphWidget(const QString &graphType)
                      &QQuickGraphsItem::shaderGridEnabledChanged,
                      this,
                      &QAbstract3DGraphWidget::shaderGridEnabledChanged);
+    QObject::connect(m_graphsItem.data(),
+                     &QQuickGraphsItem::labelMarginChanged,
+                     this,
+                     &QAbstract3DGraphWidget::labelMarginChanged);
 }
 
 /*!
@@ -1085,6 +1089,28 @@ void QAbstract3DGraphWidget::setPolar(bool enable)
 bool QAbstract3DGraphWidget::isPolar() const
 {
     return m_graphsItem->isPolar();
+}
+
+/*!
+ * \property QAbstract3DGraphWidget::labelMargin
+ *
+ * \brief This property specifies the margin for the placement of the axis labels.
+ *
+ * Negative values place the labels inside the plot-area while positive values
+ * place them outside the plot-area. Label automatic rotation is disabled when
+ * the value is negative. Defaults to \c 0.1
+ *
+ * \sa QAbstract3DAxis::labelAutoRotation
+ *
+ */
+void QAbstract3DGraphWidget::setLabelMargin(float margin)
+{
+    m_graphsItem->setLabelMargin(margin);
+}
+
+float QAbstract3DGraphWidget::labelMargin() const
+{
+    return m_graphsItem->labelMargin();
 }
 
 /*!

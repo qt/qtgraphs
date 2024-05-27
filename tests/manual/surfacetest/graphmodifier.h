@@ -126,6 +126,7 @@ public Q_SLOTS:
     void setCameraTargetY(int value);
     void setCameraTargetZ(int value);
     void setGraphMargin(int value);
+    void setLabelMargin(int offset);
 
     void setXAxisSegemntCount(int count);
     void setYAxisSegemntCount(int count);
