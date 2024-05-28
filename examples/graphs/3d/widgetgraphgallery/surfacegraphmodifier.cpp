@@ -678,16 +678,21 @@ void SurfaceGraphModifier::handleElementSelected(QGraphs3D::ElementType type)
                && type < QGraphs3D::ElementType::CustomItem) {
         int index = m_graph->selectedLabelIndex();
         QString text;
-        if (type == QGraphs3D::ElementType::AxisXLabel)
+        if (type == QGraphs3D::ElementType::AxisXLabel) {
             text.append("Axis X label: ");
-        else if (type == QGraphs3D::ElementType::AxisYLabel)
+            m_state = StateDraggingX;
+        } else if (type == QGraphs3D::ElementType::AxisYLabel) {
             text.append("Axis Y label: ");
-        else
+            m_state = StateDraggingY;
+        } else {
             text.append("Axis Z label: ");
+            m_state = StateDraggingZ;
+        }
         text.append(QString::number(index));
         m_textField->setText(text);
     } else {
         m_textField->setText("Nothing");
+        m_state = StateNormal;
     }
 }
 
