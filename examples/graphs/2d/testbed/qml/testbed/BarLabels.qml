@@ -17,7 +17,7 @@ Rectangle {
         anchors.rightMargin: settingsView.posX + 20 * px
         axisX: BarCategoryAxis {
             categories: ["2023", "2024", "2025", "2026"]
-            minorGridVisible: false
+            subGridVisible: false
             labelDelegate: Item {
                 id: comp
                 property string text
@@ -46,7 +46,7 @@ Rectangle {
         axisY: ValueAxis {
             id: axisY
             max: 10
-            minorTickCount: 9
+            subTickCount: 9
             labelDelegate: Text {
                 style: Text.Outline
                 styleColor: "#800000"

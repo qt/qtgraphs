@@ -302,12 +302,12 @@ Rectangle {
             axisX: BarCategoryAxis {
                 id: categoryAxis
                 categories: ["April", "May", "June", "July", "August"]
-                minorGridVisible: false
+                subGridVisible: false
             }
             axisY: ValueAxis {
                 id: axisY
                 max: 10
-                minorTickCount: 9
+                subTickCount: 9
             }
 
             BarSeries {

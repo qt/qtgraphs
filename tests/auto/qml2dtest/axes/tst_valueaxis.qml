@@ -27,7 +27,7 @@ Item {
         labelFormat: "f"
         min: 2.0
         max: 20.0
-        minorTickCount: 1
+        subTickCount: 1
         tickAnchor: 1
         tickInterval: 2.0
 
@@ -39,7 +39,7 @@ Item {
             font.pixelSize: 20
         }
         lineVisible: false
-        minorGridVisible: false
+        subGridVisible: false
         // orientation: Qt.Vertical // read-only
         titleColor: "#ff0000"
         titleFont: initializedDummy.font
@@ -58,7 +58,7 @@ Item {
             compare(initial.labelFormat, "")
             compare(initial.min, 0.0)
             compare(initial.max, 10.0)
-            compare(initial.minorTickCount, 0)
+            compare(initial.subTickCount, 0)
             compare(initial.tickAnchor, 0)
             compare(initial.tickInterval, 0)
         }
@@ -71,7 +71,7 @@ Item {
             compare(initial.labelsVisible, true)
             compare(initial.labelDelegate, null)
             compare(initial.lineVisible, true)
-            compare(initial.minorGridVisible, true)
+            compare(initial.subGridVisible, true)
             compare(initial.orientation, 0)
             compare(initial.titleColor, "#000000")
             // Initial font needs to be tested like this, as different platforms have different default font (QFont())
@@ -89,7 +89,7 @@ Item {
             initial.labelFormat = "d"
             initial.min = -10
             initial.max = 0
-            initial.minorTickCount = 2
+            initial.subTickCount = 2
             initial.tickAnchor = 2
             initial.tickInterval = 3.0
 
@@ -99,7 +99,7 @@ Item {
             initial.labelsAngle = 45
             initial.labelsVisible = false
             initial.lineVisible = false
-            initial.minorGridVisible = false
+            initial.subGridVisible = false
             // initial.orientation = Qt.Horizontal // read-only
             initial.titleColor = "#ffffff"
             initial.titleFont = dummy.font
@@ -112,7 +112,7 @@ Item {
             compare(initial.labelFormat, "d")
             compare(initial.min, -10.0)
             compare(initial.max, 0.0)
-            compare(initial.minorTickCount, 2)
+            compare(initial.subTickCount, 2)
             compare(initial.tickAnchor, 2)
             compare(initial.tickInterval, 3.0)
 
@@ -122,7 +122,7 @@ Item {
             compare(initial.labelsAngle, 45)
             compare(initial.labelsVisible, false)
             compare(initial.lineVisible, false)
-            compare(initial.minorGridVisible, false)
+            compare(initial.subGridVisible, false)
             // compare(initial.orientation, Qt.Horizontal) // read-only
             compare(initial.titleColor, "#ffffff")
             compare(initial.titleFont, dummy.font)
@@ -141,7 +141,7 @@ Item {
             compare(initialized.labelFormat, "f")
             compare(initialized.min, 2.0)
             compare(initialized.max, 20.0)
-            compare(initialized.minorTickCount, 1)
+            compare(initialized.subTickCount, 1)
             compare(initialized.tickAnchor, 1)
             compare(initialized.tickInterval, 2.0)
 
@@ -152,7 +152,7 @@ Item {
             compare(initialized.labelsVisible, false)
             verify(initialized.labelDelegate)
             compare(initialized.lineVisible, false)
-            compare(initialized.minorGridVisible, false)
+            compare(initialized.subGridVisible, false)
             // compare(initialized.orientation, Qt.Vertical) // read-only
             compare(initialized.titleColor, "#ff0000")
             compare(initialized.titleFont, initializedDummy.font)
@@ -167,7 +167,7 @@ Item {
             initialized.labelFormat = "d"
             initialized.min = -10.0
             initialized.max = 0.0
-            initialized.minorTickCount = 2
+            initialized.subTickCount = 2
             initialized.tickAnchor = 2
             initialized.tickInterval = 3.0
 
@@ -178,7 +178,7 @@ Item {
             initialized.labelsVisible = true
             initialized.labelDelegate = null
             initialized.lineVisible = true
-            initialized.minorGridVisible = true
+            initialized.subGridVisible = true
             // initialized.orientation = Qt.Horizontal // read-only
             initialized.titleColor = "#ffffff"
             initialized.titleFont = dummy.font
@@ -191,7 +191,7 @@ Item {
             compare(initialized.labelFormat, "d")
             compare(initialized.min, -10.)
             compare(initialized.max, 0.0)
-            compare(initialized.minorTickCount, 2)
+            compare(initialized.subTickCount, 2)
             compare(initialized.tickAnchor, 2)
             compare(initialized.tickInterval, 3.0)
 
@@ -202,7 +202,7 @@ Item {
             compare(initialized.labelsVisible, true)
             verify(!initialized.labelDelegate)
             compare(initialized.lineVisible, true)
-            compare(initialized.minorGridVisible, true)
+            compare(initialized.subGridVisible, true)
             // compare(initialized.orientation, Qt.Vertical) // read-only
             compare(initialized.titleColor, "#ffffff")
             compare(initialized.titleFont, dummy.font)
@@ -214,11 +214,11 @@ Item {
         function test_3_initialized_change_to_invalid() {
             initialized.max = -10.0
             initialized.min = 10.0
-            initialized.minorTickCount = -1
+            initialized.subTickCount = -1
 
             compare(initialized.max, 10.0)
             compare(initialized.min, 10.0)
-            compare(initialized.minorTickCount, 2) // This was set in previous test case
+            compare(initialized.subTickCount, 2) // This was set in previous test case
         }
     }
 }

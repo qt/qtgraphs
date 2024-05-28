@@ -110,16 +110,16 @@ QT_BEGIN_NAMESPACE
 */
 
 /*!
-    \property QAbstractAxis::minorGridVisible
-    \brief The visibility of the minor grid lines.
+    \property QAbstractAxis::subGridVisible
+    \brief The visibility of the subgrid lines.
 
-    Applies only to axes that support minor grid lines.
+    Applies only to axes that support subgrid lines.
     By default, the value is \c true.
 */
 /*!
-    \qmlproperty bool AbstractAxis::minorGridVisible
-    The visibility of the minor grid lines. Applies only to axes that support
-    minor grid lines. By default, the value is \c true.
+    \qmlproperty bool AbstractAxis::subGridVisible
+    The visibility of the subgrid lines. Applies only to axes that support
+    subgrid lines. By default, the value is \c true.
 */
 
 /*!
@@ -289,36 +289,36 @@ bool QAbstractAxis::isLineVisible() const
     return d->m_lineVisible;
 }
 
-void QAbstractAxis::setGridLineVisible(bool visible)
+void QAbstractAxis::setGridVisible(bool visible)
 {
     Q_D(QAbstractAxis);
-    if (d->m_gridLineVisible != visible) {
-        d->m_gridLineVisible = visible;
+    if (d->m_gridVisible != visible) {
+        d->m_gridVisible = visible;
         emit update();
         emit gridVisibleChanged(visible);
     }
 }
 
-bool QAbstractAxis::isGridLineVisible() const
+bool QAbstractAxis::isGridVisible() const
 {
     const Q_D(QAbstractAxis);
-    return d->m_gridLineVisible;
+    return d->m_gridVisible;
 }
 
-void QAbstractAxis::setMinorGridLineVisible(bool visible)
+void QAbstractAxis::setSubGridVisible(bool visible)
 {
     Q_D(QAbstractAxis);
-    if (d->m_minorGridLineVisible != visible) {
-        d->m_minorGridLineVisible = visible;
+    if (d->m_subGridVisible != visible) {
+        d->m_subGridVisible = visible;
         emit update();
-        emit minorGridVisibleChanged(visible);
+        emit subGridVisibleChanged(visible);
     }
 }
 
-bool QAbstractAxis::isMinorGridLineVisible() const
+bool QAbstractAxis::isSubGridVisible() const
 {
     const Q_D(QAbstractAxis);
-    return d->m_minorGridLineVisible;
+    return d->m_subGridVisible;
 }
 
 void QAbstractAxis::setLabelsVisible(bool visible)

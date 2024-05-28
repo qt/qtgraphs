@@ -60,8 +60,8 @@ private:
 
     bool m_lineVisible = true;
 
-    bool m_gridLineVisible = true;
-    bool m_minorGridLineVisible = true;
+    bool m_gridVisible = true;
+    bool m_subGridVisible = true;
 
     bool m_labelsVisible = true;
     qreal m_labelsAngle = 0;

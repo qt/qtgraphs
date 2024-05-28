@@ -86,7 +86,7 @@ Rectangle {
 
         axisX: DateTimeAxis {
             id: xAxis
-            minorTickCount: 2
+            subTickCount: 2
             labelsAngle: 45
             labelFormat: "MMMM-yyyy"
             tickInterval: 0
@@ -96,7 +96,7 @@ Rectangle {
 
         axisY: DateTimeAxis {
             id: yAxis
-            minorTickCount: 2
+            subTickCount: 2
             labelsAngle: 45
             labelFormat: "MMMM-yyyy"
             tickInterval: 10

@@ -33,13 +33,13 @@ Item {
                 axisX: BarCategoryAxis {
                     categories: [2024, 2025, 2026]
                     gridVisible: false
-                    minorGridVisible: false
+                    subGridVisible: false
                 }
                 axisY: ValueAxis {
                     min: 20
                     max: 100
                     tickInterval: 10
-                    minorTickCount: 9
+                    subTickCount: 9
                 }
                 theme: GraphsTheme {
                     colorScheme: Qt.Dark
@@ -91,13 +91,13 @@ Item {
                 axisX: ValueAxis {
                     max: 5
                     tickInterval: 1
-                    minorTickCount: 9
+                    subTickCount: 9
                     labelDecimals: 1
                 }
                 axisY: ValueAxis {
                     max: 10
                     tickInterval: 1
-                    minorTickCount: 4
+                    subTickCount: 4
                     labelDecimals: 1
                 }
                 //! [linegraph]

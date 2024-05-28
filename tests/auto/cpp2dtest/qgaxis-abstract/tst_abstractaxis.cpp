@@ -49,7 +49,7 @@ void tst_abstractaxis::initialProperties()
     QCOMPARE(m_axis->labelsAngle(), 0);
     QCOMPARE(m_axis->labelDelegate(), nullptr);
     QCOMPARE(m_axis->isGridLineVisible(), true);
-    QCOMPARE(m_axis->isMinorGridLineVisible(), true);
+    QCOMPARE(m_axis->isSubGridVisible(), true);
     QCOMPARE(m_axis->titleText(), QString());
     QCOMPARE(m_axis->titleColor(), QColor());
     QCOMPARE(m_axis->isTitleVisible(), true);
@@ -71,7 +71,7 @@ void tst_abstractaxis::initializeProperties()
     m_axis->setLabelsAngle(90.0);
     m_axis->setLabelDelegate(labelDelegate);
     m_axis->setGridLineVisible(false);
-    m_axis->setMinorGridLineVisible(false);
+    m_axis->setSubGridVisible(false);
     m_axis->setTitleText("Title");
     m_axis->setTitleColor("#ff0000");
     m_axis->setTitleVisible(false);
@@ -85,7 +85,7 @@ void tst_abstractaxis::initializeProperties()
     QCOMPARE(m_axis->labelsAngle(), 90.0);
     QCOMPARE(m_axis->labelDelegate(), labelDelegate);
     QCOMPARE(m_axis->isGridLineVisible(), false);
-    QCOMPARE(m_axis->isMinorGridLineVisible(), false);
+    QCOMPARE(m_axis->isSubGridVisible(), false);
     QCOMPARE(m_axis->titleText(), "Title");
     QCOMPARE(m_axis->titleColor(), "#ff0000");
     QCOMPARE(m_axis->isTitleVisible(), false);

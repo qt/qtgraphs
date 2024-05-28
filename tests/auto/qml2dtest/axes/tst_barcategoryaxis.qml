@@ -32,7 +32,7 @@ Item {
         labelsAngle: 25
         labelsVisible: false
         lineVisible: false
-        minorGridVisible: false
+        subGridVisible: false
         // orientation: Qt.Vertical // read-only
         titleColor: "#ff0000"
         titleFont: initializedDummy.font
@@ -60,7 +60,7 @@ Item {
             compare(initial.labelsAngle, 0)
             compare(initial.labelsVisible, true)
             compare(initial.lineVisible, true)
-            compare(initial.minorGridVisible, true)
+            compare(initial.subGridVisible, true)
             compare(initial.orientation, 0)
             compare(initial.titleColor, "#000000")
             // Initial font needs to be tested like this, as different platforms have different default font (QFont())
@@ -84,7 +84,7 @@ Item {
             initial.labelsAngle = 45
             initial.labelsVisible = false
             initial.lineVisible = false
-            initial.minorGridVisible = false
+            initial.subGridVisible = false
             // initial.orientation = Qt.Horizontal // read-only
             initial.titleColor = "#ffffff"
             initial.titleFont = dummy.font
@@ -105,7 +105,7 @@ Item {
             compare(initial.labelsAngle, 45)
             compare(initial.labelsVisible, false)
             compare(initial.lineVisible, false)
-            compare(initial.minorGridVisible, false)
+            compare(initial.subGridVisible, false)
             // compare(initial.orientation, Qt.Horizontal) // read-only
             compare(initial.titleColor, "#ffffff")
             compare(initial.titleFont, dummy.font)
@@ -159,7 +159,7 @@ Item {
             compare(initialized.labelsAngle, 25)
             compare(initialized.labelsVisible, false)
             compare(initialized.lineVisible, false)
-            compare(initialized.minorGridVisible, false)
+            compare(initialized.subGridVisible, false)
             // compare(initialized.orientation, Qt.Vertical) // read-only
             compare(initialized.titleColor, "#ff0000")
             compare(initialized.titleFont, initializedDummy.font)
@@ -180,7 +180,7 @@ Item {
             initialized.labelsAngle = 45
             initialized.labelsVisible = true
             initialized.lineVisible = true
-            initialized.minorGridVisible = true
+            initialized.subGridVisible = true
             // initialized.orientation = Qt.Horizontal // read-only
             initialized.titleColor = "#ffffff"
             initialized.titleFont = dummy.font
@@ -201,7 +201,7 @@ Item {
             compare(initialized.labelsAngle, 45)
             compare(initialized.labelsVisible, true)
             compare(initialized.lineVisible, true)
-            compare(initialized.minorGridVisible, true)
+            compare(initialized.subGridVisible, true)
             // compare(initialized.orientation, Qt.Vertical) // read-only
             compare(initialized.titleColor, "#ffffff")
             compare(initialized.titleFont, dummy.font)

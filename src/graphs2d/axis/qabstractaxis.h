@@ -32,10 +32,10 @@ class Q_GRAPHS_EXPORT QAbstractAxis : public QObject
     Q_PROPERTY(QQmlComponent *labelDelegate READ labelDelegate
                        WRITE setLabelDelegate NOTIFY labelDelegateChanged FINAL)
     //grid
-    Q_PROPERTY(bool gridVisible READ isGridLineVisible WRITE setGridLineVisible NOTIFY
+    Q_PROPERTY(bool gridVisible READ isGridVisible WRITE setGridVisible NOTIFY
                    gridVisibleChanged FINAL)
-    Q_PROPERTY(bool minorGridVisible READ isMinorGridLineVisible WRITE setMinorGridLineVisible
-                   NOTIFY minorGridVisibleChanged FINAL)
+    Q_PROPERTY(bool subGridVisible READ isSubGridVisible WRITE setSubGridVisible
+                   NOTIFY subGridVisibleChanged FINAL)
     //title
     Q_PROPERTY(QString titleText READ titleText WRITE setTitleText NOTIFY titleTextChanged FINAL)
     Q_PROPERTY(QColor titleColor READ titleColor WRITE setTitleColor NOTIFY titleColorChanged FINAL)
@@ -74,10 +74,10 @@ public:
     void setLineVisible(bool visible = true);
 
     //grid handling
-    bool isGridLineVisible() const;
-    void setGridLineVisible(bool visible = true);
-    bool isMinorGridLineVisible() const;
-    void setMinorGridLineVisible(bool visible = true);
+    bool isGridVisible() const;
+    void setGridVisible(bool visible = true);
+    bool isSubGridVisible() const;
+    void setSubGridVisible(bool visible = true);
 
     //labels handling
     bool labelsVisible() const;
@@ -113,7 +113,7 @@ Q_SIGNALS:
     void labelsAngleChanged(qreal angle);
     void labelDelegateChanged();
     void gridVisibleChanged(bool visible);
-    void minorGridVisibleChanged(bool visible);
+    void subGridVisibleChanged(bool visible);
     void titleTextChanged(const QString &title);
     void titleColorChanged(const QColor &color);
     void titleVisibleChanged(bool visible);

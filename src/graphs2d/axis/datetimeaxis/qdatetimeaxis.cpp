@@ -30,12 +30,11 @@ QT_BEGIN_NAMESPACE
  The following example code illustrates how to use the DateTimeAxis type:
  \code
  GraphsView {
+     axisX: DateTimeAxis {
+         min: new Date(2000,1,1)
+         max: new Date(1970,1,1)
+     }
      LineSeries {
-         axisX: DateTimeAxis {
-             min: new Date(2000,1,1)
-             max: new Date(1970,1,1)
-         }
-
          // Add a few XYPoint data...
      }
  }
@@ -72,14 +71,14 @@ QT_BEGIN_NAMESPACE
  The default value is new Date(1980,1,1)
 */
 /*!
- \property QDateTimeAxis::minorTickCount
- \brief The number of minor tick marks on the axis. This indicates how many grid lines are drawn
- between major ticks on the graph. Labels are not drawn for minor ticks. The default value is 0.
+ \property QDateTimeAxis::subTickCount
+ \brief The number of subticks on the axis. This indicates how many subticks are drawn
+ between major lines on the graph. Labels are not drawn for subticks. The default value is 0.
 */
 /*!
- \qmlproperty int DateTimeAxis::minorTickCount
- The number of minor tick marks on the axis. This indicates how many grid lines are drawn
- between major ticks on the graph. Labels are not drawn for minor ticks. The default value is 0.
+ \qmlproperty int DateTimeAxis::subTickCount
+ The number of subticks on the axis. This indicates how many subticks are drawn
+ between major lines on the graph. Labels are not drawn for subticks. The default value is 0.
 */
 /*!
  \property QDateTimeAxis::tickInterval
@@ -116,9 +115,9 @@ QT_BEGIN_NAMESPACE
  This signal is emitted when the maximum value of the axis, specified by \a max, changes.
 */
 /*!
- \qmlsignal DateTimeAxis::minorTickCountChanged(int minorTickCount)
- This signal is emitted when the number of minor tick marks on the axis, specified by
- \a minorTickCount, changes.
+ \qmlsignal DateTimeAxis::subTickCountChanged(int subTickCount)
+ This signal is emitted when the number of subticks on the axis, specified by
+ \a subTickCount, changes.
 */
 /*!
  \qmlsignal DateTimeAxis::rangeChanged(real min, real max)
@@ -219,23 +218,23 @@ void QDateTimeAxis::setTickInterval(qreal newTickInterval)
     emit update();
 }
 
-int QDateTimeAxis::minorTickCount() const
+int QDateTimeAxis::subTickCount() const
 {
     Q_D(const QDateTimeAxis);
-    return d->m_minorTickCount;
+    return d->m_subTickCount;
 }
 
-void QDateTimeAxis::setMinorTickCount(int newMinorTickCount)
+void QDateTimeAxis::setSubTickCount(int newSubTickCount)
 {
     Q_D(QDateTimeAxis);
 
-    if (newMinorTickCount < 0.0)
-        newMinorTickCount = 0.0;
+    if (newSubTickCount < 0.0)
+        newSubTickCount = 0.0;
 
-    if (d->m_minorTickCount == newMinorTickCount)
+    if (d->m_subTickCount == newSubTickCount)
         return;
-    d->m_minorTickCount = newMinorTickCount;
-    emit minorTickCountChanged();
+    d->m_subTickCount = newSubTickCount;
+    emit subTickCountChanged();
     emit update();
 }
 

@@ -18,7 +18,7 @@ class Q_GRAPHS_EXPORT QDateTimeAxis : public QAbstractAxis
     Q_PROPERTY(
         QString labelFormat READ labelFormat WRITE setLabelFormat NOTIFY labelFormatChanged FINAL)
     Q_PROPERTY(
-        int minorTickCount READ minorTickCount WRITE setMinorTickCount NOTIFY minorTickCountChanged)
+        int subTickCount READ subTickCount WRITE setSubTickCount NOTIFY subTickCountChanged)
     Q_PROPERTY(
         qreal tickInterval READ tickInterval WRITE setTickInterval NOTIFY tickIntervalChanged FINAL)
     QML_NAMED_ELEMENT(DateTimeAxis)
@@ -45,15 +45,15 @@ public:
     qreal tickInterval() const;
     void setTickInterval(qreal newTickInterval);
 
-    int minorTickCount() const;
-    void setMinorTickCount(int newMinorTickCount);
+    int subTickCount() const;
+    void setSubTickCount(int newSubTickCount);
 
 Q_SIGNALS:
     void minChanged(QDateTime min);
     void maxChanged(QDateTime max);
     void labelFormatChanged(QString format);
     void tickIntervalChanged();
-    void minorTickCountChanged();
+    void subTickCountChanged();
 
 private:
     Q_DECLARE_PRIVATE(QDateTimeAxis)

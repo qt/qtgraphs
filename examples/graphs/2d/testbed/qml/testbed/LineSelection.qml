@@ -18,12 +18,12 @@ Rectangle {
         axisX: ValueAxis {
             id: axisX
             max: 4
-            minorTickCount: 9
+            subTickCount: 9
         }
         axisY: ValueAxis {
             id: axisY
             max: 6
-            minorTickCount: 9
+            subTickCount: 9
         }
         LineSeries {
             id: lineSeries

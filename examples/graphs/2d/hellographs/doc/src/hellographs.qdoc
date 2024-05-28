@@ -32,7 +32,7 @@
     BarCategoryAxis with 3 categories. We hide both the vertical grid and the axis lines.
     Y axis of the series is \l ValueAxis with visible range between 20 and 100. Major ticks
     with labels will be shown on every 10 values using \l{ValueAxis::tickInterval}{tickInterval}.
-    Minor ticks will be shown on every 1 values using \l{ValueAxis::minorTickCount}{minorTickCount} \c 9,
+    Subticks will be shown on every 1 values using \l{ValueAxis::subTickCount}{subTickCount} \c 9,
     which means that between every major ticks there will be \c 9 minor ones.
 
     \snippet 2d/hellographs/qml/hellographs/main.qml barseries

@@ -20,14 +20,14 @@ Item {
         labelFormat: "yyyy"
         min: new Date(1960,1,1)
         max: new Date(2000,1,1)
-        minorTickCount: 2
+        subTickCount: 2
         tickInterval:  2
 
         gridVisible: false
         labelsAngle: 90
         labelsVisible: false
         lineVisible: false
-        minorGridVisible: false
+        subGridVisible: false
         visible: false
     }
 
@@ -38,7 +38,7 @@ Item {
             compare(initial.labelFormat, "dd-MMMM-yy")
             compare(initial.min, new Date(1970,0,1))
             compare(initial.max, new Date(1980,0,1))
-            compare(initial.minorTickCount, 0)
+            compare(initial.subTickCount, 0)
             compare(initial.tickInterval, 0)
         }
 
@@ -47,7 +47,7 @@ Item {
             compare(initial.labelsAngle, 0)
             compare(initial.labelsVisible, true)
             compare(initial.lineVisible, true)
-            compare(initial.minorGridVisible, true)
+            compare(initial.subGridVisible, true)
             compare(initial.visible, true)
         }
 
@@ -55,27 +55,27 @@ Item {
             initial.labelFormat = "yyyy"
             initial.min = new Date(1960, 1, 1)
             initial.max = new Date(2000, 1, 1)
-            initial.minorTickCount = 2
+            initial.subTickCount = 2
             initial.tickInterval = 2
 
             initial.gridVisible = false
             initial.labelsAngle = 90
             initial.labelsVisible = false
             initial.lineVisible = false
-            initial.minorGridVisible = false
+            initial.subGridVisible = false
             initial.visible = false
 
             compare(initial.labelFormat, "yyyy")
             compare(initial.min, new Date(1960, 1, 1))
             compare(initial.max, new Date(2000, 1, 1))
-            compare(initial.minorTickCount, 2)
+            compare(initial.subTickCount, 2)
             compare(initial.tickInterval, 2)
 
             compare(initial.gridVisible, false)
             compare(initial.labelsAngle, 90)
             compare(initial.labelsVisible, false)
             compare(initial.lineVisible, false)
-            compare(initial.minorGridVisible, false)
+            compare(initial.subGridVisible, false)
             compare(initial.visible, false)
         }
     }
@@ -87,14 +87,14 @@ Item {
             compare(initialized.labelFormat, "yyyy")
             compare(initialized.min, new Date(1960, 1, 1))
             compare(initialized.max, new Date(2000, 1, 1))
-            compare(initialized.minorTickCount, 2)
+            compare(initialized.subTickCount, 2)
             compare(initialized.tickInterval, 2)
 
             compare(initialized.gridVisible, false)
             compare(initialized.labelsAngle, 90)
             compare(initialized.labelsVisible, false)
             compare(initialized.lineVisible, false)
-            compare(initialized.minorGridVisible, false)
+            compare(initialized.subGridVisible, false)
             compare(initialized.visible, false)
         }
 
@@ -102,36 +102,36 @@ Item {
             initialized.labelFormat = "dddd"
             initialized.min = new Date(2000, 1, 1)
             initialized.max = new Date(2025, 1, 1)
-            initialized.minorTickCount = 8
+            initialized.subTickCount = 8
             initialized.tickInterval = 8
 
             initialized.gridVisible = true
             initialized.labelsAngle = 50
             initialized.labelsVisible = true
             initialized.lineVisible = true
-            initialized.minorGridVisible = true
+            initialized.subGridVisible = true
             initialized.visible = true
 
             compare(initialized.labelFormat, "dddd")
             compare(initialized.min, new Date(2000, 1, 1))
             compare(initialized.max, new Date(2025, 1, 1))
-            compare(initialized.minorTickCount, 8)
+            compare(initialized.subTickCount, 8)
             compare(initialized.tickInterval, 8)
 
             compare(initialized.gridVisible, true)
             compare(initialized.labelsAngle, 50)
             compare(initialized.labelsVisible, true)
             compare(initialized.lineVisible, true)
-            compare(initialized.minorGridVisible, true)
+            compare(initialized.subGridVisible, true)
             compare(initialized.visible, true)
         }
 
         function test_3_invalid() {
-            initialized.minorTickCount = -1;
+            initialized.subTickCount = -1;
             initialized.tickInterval = -1;
 
             compare(initialized.tickInterval, 0)
-            compare(initialized.minorTickCount, 0)
+            compare(initialized.subTickCount, 0)
         }
     }
 }

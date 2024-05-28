@@ -106,7 +106,7 @@ private:
     // px between major ticks
     double m_axisVerticalStepPx = 0;
     // Ticks movement, between -m_axisHorizontalStepPx .. m_axisHorizontalStepPx.
-    double m_axisYMovement = 0;
+    double m_axisYDisplacement = 0;
     // The value of smallest label
     double m_axisVerticalMinLabel = 0;
 
@@ -123,16 +123,16 @@ private:
     // px between major ticks
     double m_axisHorizontalStepPx = 0;
     // Ticks movement, between -m_axisHorizontalStepPx .. m_axisHorizontalStepPx.
-    double m_axisXMovement = 0;
+    double m_axisXDisplacement = 0;
     // The value of smallest label
     double m_axisHorizontalMinLabel = 0;
 
-    double m_axisVerticalMinorTickScale = 0.5;
-    double m_axisHorizontalMinorTickScale = 0.5;
-    bool m_gridHorizontalMajorTicksVisible = true;
-    bool m_gridVerticalMajorTicksVisible = true;
-    bool m_gridHorizontalMinorTicksVisible = false;
-    bool m_gridVerticalMinorTicksVisible = false;
+    double m_axisVerticalSubGridScale = 0.5;
+    double m_axisHorizontalSubGridScale = 0.5;
+    bool m_gridHorizontalLinesVisible = true;
+    bool m_gridVerticalLinesVisible = true;
+    bool m_gridHorizontalSubLinesVisible = false;
+    bool m_gridVerticalSubLinesVisible = false;
 
     // Sizes required of axis labels
     // TODO: Should these come from QAbstactAxis?

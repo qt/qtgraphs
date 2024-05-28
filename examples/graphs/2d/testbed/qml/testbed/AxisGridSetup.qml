@@ -25,7 +25,7 @@ Rectangle {
             labelsVisible: checkBoxAxisXLabelsVisible.checked
             categories: [1, 2, 3, 4, 5, 6]
             gridVisible: checkBoxGridXMajor.checked
-            minorGridVisible: checkBoxGridXMinor.checked
+            subGridVisible: checkBoxGridXMinor.checked
         }
         axisY: ValueAxis {
             id: yAxis
@@ -33,13 +33,13 @@ Rectangle {
             lineVisible: checkBoxAxisYLineVisible.checked
             labelsVisible: checkBoxAxisYLabelsVisible.checked
             max: 10
-            minorTickCount: 1
+            subTickCount: 1
             // Alternative tick formatting
             //tickInterval: 1.0
             //labelFormat: "g"
             //labelDecimals: 3
             gridVisible: checkBoxGridYMajor.checked
-            minorGridVisible: checkBoxGridYMinor.checked
+            subGridVisible: checkBoxGridYMinor.checked
         }
         theme: GraphsTheme {
             id: myTheme
@@ -182,7 +182,7 @@ Rectangle {
         }
         CustomCheckBox {
             id: checkBoxGridYMinor
-            text: "Grid Y: Minor lines"
+            text: "Grid Y: Sublines"
             checked: true
         }
         CustomCheckBox {
@@ -192,23 +192,23 @@ Rectangle {
         }
         CustomCheckBox {
             id: checkBoxGridXMinor
-            text: "Grid X: Minor lines"
+            text: "Grid X: Subticks"
             checked: false
         }
 
         CustomLabel {
-            text: "Y-coordinate: Minor Ticks"
+            text: "Y-coordinate: Subtick count"
         }
         CustomSlider {
             id: sliderYTicksValue
-            sliderValue: yAxis.minorTickCount
+            sliderValue: yAxis.subTickCount
             sliderStepSize: 1
             fromValue: 0
             toValue: 9
-            onSliderValueChanged: yAxis.minorTickCount = sliderValue;
+            onSliderValueChanged: yAxis.subTickCount = sliderValue;
         }
         CustomLabel {
-            text: "Major bars width"
+            text: "Grid lines width"
         }
         CustomSlider {
             sliderValue: myTheme.gridMainWidth
@@ -221,7 +221,7 @@ Rectangle {
             }
         }
         CustomLabel {
-            text: "Minor bars width"
+            text: "Subgrid lines width"
         }
         CustomSlider {
             sliderValue: myTheme.gridSubWidth

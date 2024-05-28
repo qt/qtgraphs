@@ -54,7 +54,7 @@ void tst_datetimeaxis::initialProperties()
     QCOMPARE(m_axis->max(),
              QDateTime(QDate(1970, 1, 1), QTime::fromMSecsSinceStartOfDay(0)).addYears(10));
     QCOMPARE(m_axis->labelFormat(), "dd-MMMM-yy");
-    QCOMPARE(m_axis->minorTickCount(), 0);
+    QCOMPARE(m_axis->subTickCount(), 0);
     QCOMPARE(m_axis->tickInterval(), 0.0);
 }
 
@@ -65,14 +65,14 @@ void tst_datetimeaxis::initializeProperties()
     m_axis->setMin(QDateTime(QDate::currentDate(), QTime::fromMSecsSinceStartOfDay(0)));
     m_axis->setMax(QDateTime(QDate::currentDate(), QTime::fromMSecsSinceStartOfDay(0)).addYears(20));
     m_axis->setLabelFormat("yyyy");
-    m_axis->setMinorTickCount(2);
+    m_axis->setSubTickCount(2);
     m_axis->setTickInterval(0.5);
 
     QCOMPARE(m_axis->min(), QDateTime(QDate::currentDate(), QTime::fromMSecsSinceStartOfDay(0)));
     QCOMPARE(m_axis->max(),
              QDateTime(QDate::currentDate(), QTime::fromMSecsSinceStartOfDay(0)).addYears(20));
     QCOMPARE(m_axis->labelFormat(), "yyyy");
-    QCOMPARE(m_axis->minorTickCount(), 2);
+    QCOMPARE(m_axis->subTickCount(), 2);
     QCOMPARE(m_axis->tickInterval(), 0.5);
 }
 
@@ -80,10 +80,10 @@ void tst_datetimeaxis::invalidProperties()
 {
     QVERIFY(m_axis);
 
-    m_axis->setMinorTickCount(-1);
+    m_axis->setSubTickCount(-1);
     m_axis->setTickInterval(-1);
 
-    QCOMPARE(m_axis->minorTickCount(), 0);
+    QCOMPARE(m_axis->subTickCount(), 0);
     QCOMPARE(m_axis->tickInterval(), 0);
 }
 

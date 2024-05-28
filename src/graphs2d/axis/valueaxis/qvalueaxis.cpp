@@ -80,14 +80,14 @@ QT_BEGIN_NAMESPACE
 */
 
 /*!
-  \property QValueAxis::minorTickCount
-  \brief The number of minor tick marks on the axis. This indicates how many grid lines are drawn
-  between major ticks on the graph. Labels are not drawn for minor ticks. The default value is 0.
+  \property QValueAxis::subTickCount
+  \brief The number of subticks on the axis. This indicates how many subticks are drawn
+  between major lines on the graph. Labels are not drawn for subticks. The default value is 0.
 */
 /*!
-  \qmlproperty int ValueAxis::minorTickCount
-  The number of minor tick marks on the axis. This indicates how many grid lines are drawn
-  between major ticks on the graph. Labels are not drawn for minor ticks. The default value is 0.
+  \qmlproperty int ValueAxis::subTickCount
+  The number of subticks on the axis. This indicates how many subticks are drawn
+  between major lines on the graph. Labels are not drawn for subticks. The default value is 0.
 */
 
 /*!
@@ -158,9 +158,9 @@ QT_BEGIN_NAMESPACE
 */
 
 /*!
-  \qmlsignal ValueAxis::minorTickCountChanged(int minorTickCount)
-  This signal is emitted when the number of minor tick marks on the axis, specified by
-  \a minorTickCount, changes.
+  \qmlsignal ValueAxis::subTickCountChanged(int subTickCount)
+  This signal is emitted when the number of subticks on the axis, specified by
+  \a subTickCount, changes.
 */
 
 /*!
@@ -185,7 +185,7 @@ QT_BEGIN_NAMESPACE
 */
 
 /*!
-  \qmlsignal ValueAxis::tickIntervalChanged(string tickInterval)
+  \qmlsignal ValueAxis::tickIntervalChanged(real tickInterval)
   This signal is emitted when the tick interval value, changes to
   \a tickInterval.
 */
@@ -249,20 +249,20 @@ void QValueAxis::setRange(qreal min, qreal max)
     emit update();
 }
 
-void QValueAxis::setMinorTickCount(int count)
+void QValueAxis::setSubTickCount(int count)
 {
     Q_D(QValueAxis);
-    if (d->m_minorTickCount != count && count >= 0) {
-        d->m_minorTickCount = count;
+    if (d->m_subTickCount != count && count >= 0) {
+        d->m_subTickCount = count;
         emit update();
-        emit minorTickCountChanged(count);
+        emit subTickCountChanged(count);
     }
 }
 
-int QValueAxis::minorTickCount() const
+int QValueAxis::subTickCount() const
 {
     Q_D(const QValueAxis);
-    return d->m_minorTickCount;
+    return d->m_subTickCount;
 }
 
 void QValueAxis::setTickAnchor(qreal anchor)
@@ -340,7 +340,7 @@ QAbstractAxis::AxisType QValueAxis::type() const
 QValueAxisPrivate::QValueAxisPrivate()
     : m_min(0)
     , m_max(10)
-    , m_minorTickCount(0)
+    , m_subTickCount(0)
     , m_format()
     , m_decimals(-1)
     , m_tickAnchor(0.0)

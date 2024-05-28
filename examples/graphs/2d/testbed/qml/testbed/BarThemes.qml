@@ -182,7 +182,7 @@ Rectangle {
             categories: ["2007", "2008", "2009", "2010", "2011", "2012"]
         }
         axisY: ValueAxis {
-            minorTickCount: 4
+            subTickCount: 4
             max: 20
         }
         theme: GraphsTheme {

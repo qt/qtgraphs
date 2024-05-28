@@ -17,12 +17,12 @@ Rectangle {
         anchors.rightMargin: settingsView.posX + 20 * px
         axisX: BarCategoryAxis {
             categories: ["2023", "2024", "2025", "2026"]
-            minorGridVisible: false
+            subGridVisible: false
         }
         axisY: ValueAxis {
             id: axisY
             max: 10
-            minorTickCount: 9
+            subTickCount: 9
         }
         theme: GraphsTheme {
             id: myTheme

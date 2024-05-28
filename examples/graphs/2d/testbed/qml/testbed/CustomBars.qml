@@ -56,10 +56,10 @@ Rectangle {
         axisX: BarCategoryAxis {
             categories: ["2023", "2024", "2025", "2026"]
             gridVisible: false
-            minorGridVisible: false
+            subGridVisible: false
         }
         axisY: ValueAxis {
-            minorTickCount: 9
+            subTickCount: 9
             tickInterval: 1
             labelDecimals: 1
             SequentialAnimation on max {
