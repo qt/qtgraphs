@@ -543,7 +543,11 @@ QGraphsTheme::QGraphsTheme(QObject *parent)
     setLabelBackgroundEnabled(true);
     setGridEnabled(true);
     setLabelsEnabled(true);
-    setColorScheme(QGuiApplication::styleHints()->colorScheme());
+    auto platformScheme = QGuiApplication::styleHints()->colorScheme();
+    if (platformScheme != Qt::ColorScheme::Unknown)
+        setColorScheme(platformScheme);
+    else
+        setColorScheme(Qt::ColorScheme::Light);
     setLabelBorderEnabled(true);
     setTheme(Theme::UserDefined, true);
     setLabelFont(QFont(QLatin1String("Arial")));
