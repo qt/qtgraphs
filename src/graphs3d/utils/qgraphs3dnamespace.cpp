@@ -36,7 +36,7 @@ QT_BEGIN_NAMESPACE
            Setting this mode flag indicates that the graph should take care of the slice view handling
            automatically. If you wish to control the slice view yourself via Q3DScene, do not set this
            flag. When setting this mode flag, either \c Row or \c Column must also
-           be set, but not both. Slicing is supported by Q3DBarsWidget and Q3DSurfaceWidget only.
+           be set, but not both. Slicing is supported by Q3DBarsWidgetItem and Q3DSurfaceWidgetItem only.
            When this flag is set, slice mode is entered in the following situations:
            \list
            \li When selection is changed explicitly via series API to a visible item
@@ -48,7 +48,7 @@ QT_BEGIN_NAMESPACE
            of just the selected item. The actual selection in the other series doesn't change.
            When setting this mode flag, one or more of the basic selection flags (\c {Item},
            \c {Row}, or \c Column) must also be set.
-           Multi-series selection is not supported for Q3DScatterWidget.
+           Multi-series selection is not supported for Q3DScatterWidgetItem.
 */
 
 /*!
@@ -130,7 +130,7 @@ QT_BEGIN_NAMESPACE
  * \value DirectlyAboveCW45
  * \value DirectlyAboveCCW45
  * \value FrontBelow
- *        In Q3DBarsWidget from FrontBelow onward these only work for graphs including negative
+ *        In Q3DBarsWidgetItem from FrontBelow onward these only work for graphs including negative
  *        values. They act as Preset...Low for positive-only values.
  * \value LeftBelow
  * \value RightBelow

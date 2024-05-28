@@ -1,8 +1,8 @@
 // Copyright (C) 2023 The Qt Company Ltd.
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 
-#include <QtGraphsWidgets/q3dbarswidget.h>
-#include <QtGraphsWidgets/q3dsurfacewidget.h>
+#include <QtGraphsWidgets/q3dbarswidgetitem.h>
+#include <QtGraphsWidgets/q3dsurfacewidgetitem.h>
 #include <QtGraphs/qcategory3daxis.h>
 #include <QtGraphs/qitemmodelbardataproxy.h>
 #include <QtGraphs/qitemmodelsurfacedataproxy.h>
@@ -25,7 +25,7 @@
 class GraphDataGenerator : public QObject
 {
 public:
-    explicit GraphDataGenerator(Q3DBarsWidget *bargraph, Q3DSurfaceWidget *surfaceGraph,
+    explicit GraphDataGenerator(Q3DBarsWidgetItem *bargraph, Q3DSurfaceWidgetItem *surfaceGraph,
                                 QTableWidget *tableWidget);
     ~GraphDataGenerator();
 
@@ -38,16 +38,16 @@ public:
     void changeSelectedButtonClicked();
 
 private:
-    Q3DBarsWidget *m_barGraph;
-    Q3DSurfaceWidget *m_surfaceGraph;
+    Q3DBarsWidgetItem *m_barGraph;
+    Q3DSurfaceWidgetItem *m_surfaceGraph;
     QTimer *m_dataTimer;
     int m_columnCount;
     int m_rowCount;
     QTableWidget *m_tableWidget; // not owned
 };
 
-GraphDataGenerator::GraphDataGenerator(Q3DBarsWidget *bargraph,
-                                       Q3DSurfaceWidget *surfaceGraph,
+GraphDataGenerator::GraphDataGenerator(Q3DBarsWidgetItem *bargraph,
+                                       Q3DSurfaceWidgetItem *surfaceGraph,
                                        QTableWidget *tableWidget)
     : m_barGraph(bargraph)
     , m_surfaceGraph(surfaceGraph)
@@ -215,19 +215,23 @@ void GraphDataGenerator::changeSelectedButtonClicked()
 int main(int argc, char **argv)
 {
     QApplication app(argc, argv);
-    Q3DBarsWidget *barGraph = new Q3DBarsWidget();
-    Q3DSurfaceWidget *surfaceGraph = new Q3DSurfaceWidget();
-    QSize screenSize = barGraph->screen()->size();
+    QQuickWidget *barQuickWidget = new QQuickWidget;
+    QQuickWidget *surfaceQuickWidget = new QQuickWidget;
+    Q3DBarsWidgetItem *barGraph = new Q3DBarsWidgetItem();
+    Q3DSurfaceWidgetItem *surfaceGraph = new Q3DSurfaceWidgetItem();
+    barGraph->setWidget(barQuickWidget);
+    surfaceGraph->setWidget(surfaceQuickWidget);
+    QSize screenSize = barGraph->widget()->screen()->size();
 
-    barGraph->setMinimumSize(QSize(screenSize.width() / 4, screenSize.height() / 4));
-    barGraph->setMaximumSize(screenSize);
-    barGraph->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-    barGraph->setFocusPolicy(Qt::StrongFocus);
+    barGraph->widget()->setMinimumSize(QSize(screenSize.width() / 4, screenSize.height() / 4));
+    barGraph->widget()->setMaximumSize(screenSize);
+    barGraph->widget()->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    barGraph->widget()->setFocusPolicy(Qt::StrongFocus);
     barGraph->activeTheme()->setTheme(QGraphsTheme::Theme::QtGreen);
-    surfaceGraph->setMinimumSize(QSize(screenSize.width() / 4, screenSize.height() / 4));
-    surfaceGraph->setMaximumSize(screenSize);
-    surfaceGraph->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-    surfaceGraph->setFocusPolicy(Qt::StrongFocus);
+    surfaceGraph->widget()->setMinimumSize(QSize(screenSize.width() / 4, screenSize.height() / 4));
+    surfaceGraph->widget()->setMaximumSize(screenSize);
+    surfaceGraph->widget()->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    surfaceGraph->widget()->setFocusPolicy(Qt::StrongFocus);
     surfaceGraph->activeTheme()->setTheme(QGraphsTheme::Theme::QtGreenNeon);
 
     QWidget widget;
@@ -240,8 +244,8 @@ int main(int argc, char **argv)
     changeSelectedButton->setText(QStringLiteral("Change Selected"));
 
     buttonLayout->addWidget(changeSelectedButton);
-    graphLayout->addWidget(barGraph, 1);
-    graphLayout->addWidget(surfaceGraph, 1);
+    graphLayout->addWidget(barGraph->widget(), 1);
+    graphLayout->addWidget(surfaceGraph->widget(), 1);
     bottomLayout->addLayout(buttonLayout);
     bottomLayout->addWidget(tableWidget);
     mainLayout->addLayout(graphLayout);

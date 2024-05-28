@@ -11,22 +11,23 @@
 
 using namespace Qt::StringLiterals;
 
-ScatterGraph::ScatterGraph()
+ScatterGraph::ScatterGraph(QWidget *parent)
 {
-    m_scatterGraph = new Q3DScatterWidget();
+    m_scatterWidget = new QWidget(parent);
     initialize();
 }
 
 void ScatterGraph::initialize()
 {
-    m_scatterWidget = new QWidget;
+    m_scatterGraphWidget = new ScatterGraphWidget();
+    m_scatterGraphWidget->initialize();
     auto *hLayout = new QHBoxLayout(m_scatterWidget);
-    QSize screenSize = m_scatterGraph->screen()->size();
-    m_scatterGraph->setMinimumSize(QSize(screenSize.width() / 2, screenSize.height() / 1.75));
-    m_scatterGraph->setMaximumSize(screenSize);
-    m_scatterGraph->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-    m_scatterGraph->setFocusPolicy(Qt::StrongFocus);
-    hLayout->addWidget(m_scatterGraph, 1);
+    QSize screenSize = m_scatterGraphWidget->screen()->size();
+    m_scatterGraphWidget->setMinimumSize(QSize(screenSize.width() / 2, screenSize.height() / 1.75));
+    m_scatterGraphWidget->setMaximumSize(screenSize);
+    m_scatterGraphWidget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    m_scatterGraphWidget->setFocusPolicy(Qt::StrongFocus);
+    hLayout->addWidget(m_scatterGraphWidget, 1);
 
     auto *vLayout = new QVBoxLayout();
     hLayout->addLayout(vLayout);
@@ -123,9 +124,9 @@ void ScatterGraph::initialize()
     vLayout->addWidget(shadowQuality, 1, Qt::AlignTop);
 
     // Raise the graph to the top of the widget stack, to hide UI if resized smaller
-    m_scatterGraph->raise();
+    m_scatterGraphWidget->raise();
 
-    m_modifier = new ScatterDataModifier(m_scatterGraph, this);
+    m_modifier = new ScatterDataModifier(m_scatterGraphWidget->scatterGraph(), this);
     m_modifier->changeTheme(themeList->currentIndex());
 
     QObject::connect(cameraButton,
@@ -190,8 +191,8 @@ void ScatterGraph::initialize()
                      &ScatterDataModifier::shadowQualityChanged,
                      shadowQuality,
                      &QComboBox::setCurrentIndex);
-    QObject::connect(m_scatterGraph,
-                     &Q3DScatterWidget::shadowQualityChanged,
+    QObject::connect(m_scatterGraphWidget->scatterGraph(),
+                     &Q3DScatterWidgetItem::shadowQualityChanged,
                      m_modifier,
                      &ScatterDataModifier::shadowQualityUpdatedByVisual);
 }

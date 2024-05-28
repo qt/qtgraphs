@@ -5,21 +5,23 @@
 #define BARGRAPH_H
 
 #include <QtCore/qobject.h>
-#include <QtGraphsWidgets/q3dbarswidget.h>
+#include <QtGraphsWidgets/q3dbarswidgetitem.h>
+#include "bargraphwidget.h"
 #include "graphmodifier.h"
 
 class BarGraph : public QObject
 {
     Q_OBJECT
 public:
-    BarGraph();
+    BarGraph(QWidget *parent = nullptr);
 
     void initialize();
     QWidget *barsWidget() { return m_barsWidget; }
 
 private:
     GraphModifier *m_modifier = nullptr;
-    Q3DBarsWidget *m_barsGraph = nullptr;
+    // Q3DBarsWidgetItem *m_barsGraph = nullptr;
+    BarGraphWidget *m_barGraphWidget = nullptr;
     QWidget *m_barsWidget = nullptr;
 };
 

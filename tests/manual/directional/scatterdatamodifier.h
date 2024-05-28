@@ -4,7 +4,7 @@
 #ifndef SCATTERDATAMODIFIER_H
 #define SCATTERDATAMODIFIER_H
 
-#include <QtGraphsWidgets/q3dscatterwidget.h>
+#include <QtGraphsWidgets/q3dscatterwidgetitem.h>
 #include <QtGraphs/qabstract3dseries.h>
 #include <QtGui/QFont>
 #include <QtCore/QTimer>
@@ -13,7 +13,7 @@ class ScatterDataModifier : public QObject
 {
     Q_OBJECT
 public:
-    explicit ScatterDataModifier(Q3DScatterWidget *scatter);
+    explicit ScatterDataModifier(Q3DScatterWidgetItem *scatter);
     ~ScatterDataModifier();
 
     void fpsChanged(int fps);
@@ -43,7 +43,7 @@ Q_SIGNALS:
     void fontChanged(const QFont &font);
 
 private:
-    Q3DScatterWidget *m_graph;
+    Q3DScatterWidgetItem *m_graph;
     int m_fontSize;
     QAbstract3DSeries::Mesh m_style;
     bool m_smooth;

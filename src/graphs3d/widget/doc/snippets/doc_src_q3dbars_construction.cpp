@@ -3,15 +3,17 @@
 
 //! [3]
 #include <QtGraphs>
-#include <QtGraphsWidgets/q3dbarswidget.h>
+#include <QtGraphsWidgets/q3dbarswidgetitem.h>
 #include <QtWidgets/qapplication.h>
 int main(int argc, char **argv)
 {
     QApplication app(argc, argv);
 
     //! [4]
-    Q3DBarsWidget bars;
-    bars.setMinimumSize(QSize(256, 256));
+    QQuickWidget quickWidget;
+    Q3DBarsWidgetItem bars;
+    bars.setWidget(&quickWidget);
+    bars.widget()->setMinimumSize(QSize(256, 256));
     //! [4]
     //! [0]
     bars.rowAxis()->setRange(0, 4);
@@ -26,7 +28,7 @@ int main(int argc, char **argv)
     bars.addSeries(series);
     //! [1]
     //! [2]
-    bars.show();
+    bars.widget()->show();
     //! [2]
 
     return app.exec();

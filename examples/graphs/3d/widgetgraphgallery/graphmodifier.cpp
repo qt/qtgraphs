@@ -18,7 +18,7 @@ using namespace Qt::StringLiterals;
 // TODO: Many of the values do not affect custom proxy series now - should be fixed
 
 //! [0]
-GraphModifier::GraphModifier(Q3DBarsWidget *bargraph, QObject *parent)
+GraphModifier::GraphModifier(Q3DBarsWidgetItem *bargraph, QObject *parent)
     : QObject(parent)
     , m_graph(bargraph)
     ,

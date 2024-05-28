@@ -17,19 +17,21 @@
 int main(int argc, char **argv)
 {
     QApplication app(argc, argv);
-    Q3DScatterWidget *graph = new Q3DScatterWidget();
+    Q3DScatterWidgetItem *graph = new Q3DScatterWidgetItem();
+    auto quickWidget = new QQuickWidget;
+    graph->setWidget(quickWidget);
 
-    QSize screenSize = graph->screen()->size();
-    graph->setMinimumSize(QSize(screenSize.width() / 3, screenSize.height() / 2));
-    graph->setMaximumSize(screenSize);
-    graph->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-    graph->setFocusPolicy(Qt::StrongFocus);
+    QSize screenSize = graph->widget()->screen()->size();
+    graph->widget()->setMinimumSize(QSize(screenSize.width() / 3, screenSize.height() / 2));
+    graph->widget()->setMaximumSize(screenSize);
+    graph->widget()->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    graph->widget()->setFocusPolicy(Qt::StrongFocus);
 
     QWidget *widget = new QWidget();
     QHBoxLayout *hLayout = new QHBoxLayout(widget);
     QVBoxLayout *vLayout = new QVBoxLayout();
     QVBoxLayout *vLayout2 = new QVBoxLayout();
-    hLayout->addWidget(graph, 1);
+    hLayout->addWidget(graph->widget(), 1);
     hLayout->addLayout(vLayout);
     hLayout->addLayout(vLayout2);
 
@@ -276,5 +278,6 @@ int main(int argc, char **argv)
     widget->show();
     int retval = app.exec();
     delete modifier;
+    delete quickWidget;
     return retval;
 }

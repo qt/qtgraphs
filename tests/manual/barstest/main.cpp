@@ -40,17 +40,19 @@ int main(int argc, char **argv)
     QVBoxLayout *vLayout2 = new QVBoxLayout();
     QVBoxLayout *vLayout3 = new QVBoxLayout();
 
-    Q3DBarsWidget *widgetchart = new Q3DBarsWidget();
-    QSize screenSize = widgetchart->screen()->size();
+    auto quickWidget = new QQuickWidget;
+    Q3DBarsWidgetItem *widgetchart = new Q3DBarsWidgetItem();
+    widgetchart->setWidget(quickWidget);
+    QSize screenSize = widgetchart->widget()->screen()->size();
 
-    widgetchart->setMinimumSize(QSize(screenSize.width() / 3, screenSize.height() / 3));
-    widgetchart->setMaximumSize(screenSize);
-    widgetchart->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-    widgetchart->setFocusPolicy(Qt::StrongFocus);
+    widgetchart->widget()->setMinimumSize(QSize(screenSize.width() / 3, screenSize.height() / 3));
+    widgetchart->widget()->setMaximumSize(screenSize);
+    widgetchart->widget()->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    widgetchart->widget()->setFocusPolicy(Qt::StrongFocus);
 
     widget->setWindowTitle(QStringLiteral("Average temperatures in Oulu, Finland (2006-2012)"));
 
-    hLayout->addWidget(widgetchart, 1);
+    hLayout->addWidget(widgetchart->widget(), 1);
     hLayout->addLayout(vLayout);
     hLayout->addLayout(vLayout2);
     hLayout->addLayout(vLayout3);

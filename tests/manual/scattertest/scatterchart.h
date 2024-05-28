@@ -4,7 +4,7 @@
 #ifndef SCATTERDATAMODIFIER_H
 #define SCATTERDATAMODIFIER_H
 
-#include <QtGraphsWidgets/q3dscatterwidget.h>
+#include <QtGraphsWidgets/q3dscatterwidgetitem.h>
 #include <QtGraphs/qscatter3dseries.h>
 
 #include <QFont>
@@ -16,7 +16,7 @@ class ScatterDataModifier : public QObject
 {
     Q_OBJECT
 public:
-    explicit ScatterDataModifier(Q3DScatterWidget *scatter);
+    explicit ScatterDataModifier(Q3DScatterWidgetItem *scatter);
     ~ScatterDataModifier();
 
     void addData();
@@ -104,7 +104,7 @@ private:
                               float maxValue);
     void deleteAxis(QValue3DAxis *axis);
 
-    Q3DScatterWidget *m_chart;
+    Q3DScatterWidgetItem *m_chart;
     int m_fontSize;
     QTimer m_timer;
     int m_loopCounter;

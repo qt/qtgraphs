@@ -1,18 +1,19 @@
 // Copyright (C) 2024 The Qt Company Ltd.
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 
-#ifndef Q3DSURFACEWIDGET_H
-#define Q3DSURFACEWIDGET_H
+#ifndef Q3DSURFACEWIDGETITEM_H
+#define Q3DSURFACEWIDGETITEM_H
 
 #include <QtGraphs/qsurface3dseries.h>
 #include <QtGraphs/qvalue3daxis.h>
-#include <QtGraphsWidgets/qabstract3dgraphwidget.h>
+#include <QtGraphsWidgets/q3dgraphswidgetitem.h>
 
 QT_BEGIN_NAMESPACE
 
 class QQuickGraphsSurface;
+class Q3DSurfaceWidgetItemPrivate;
 
-class Q_GRAPHSWIDGETS_EXPORT Q3DSurfaceWidget : public QAbstract3DGraphWidget
+class Q_GRAPHSWIDGETS_EXPORT Q3DSurfaceWidgetItem : public Q3DGraphsWidgetItem
 {
     Q_OBJECT
     Q_PROPERTY(QValue3DAxis *axisX READ axisX WRITE setAxisX NOTIFY axisXChanged)
@@ -23,8 +24,8 @@ class Q_GRAPHSWIDGETS_EXPORT Q3DSurfaceWidget : public QAbstract3DGraphWidget
                    flipHorizontalGridChanged)
 
 public:
-    explicit Q3DSurfaceWidget();
-    ~Q3DSurfaceWidget() override;
+    explicit Q3DSurfaceWidgetItem();
+    ~Q3DSurfaceWidgetItem() override;
 
     void addSeries(QSurface3DSeries *series);
     void removeSeries(QSurface3DSeries *series);
@@ -45,6 +46,9 @@ public:
     void setFlipHorizontalGrid(bool flip);
     bool flipHorizontalGrid() const;
 
+protected:
+    bool event(QEvent *event) override;
+
 Q_SIGNALS:
     void axisXChanged(QValue3DAxis *axis);
     void axisYChanged(QValue3DAxis *axis);
@@ -53,6 +57,7 @@ Q_SIGNALS:
     void flipHorizontalGridChanged(bool flip);
 
 private:
+    Q_DECLARE_PRIVATE(Q3DSurfaceWidgetItem)
     QQuickGraphsSurface *graphSurface();
     const QQuickGraphsSurface *graphSurface() const;
 };

@@ -4,7 +4,7 @@
 #include <QtTest/QtTest>
 
 #include <QtGraphs/Q3DScene>
-#include <QtGraphsWidgets/q3dbarswidget.h>
+#include <QtGraphsWidgets/q3dbarswidgetitem.h>
 
 #include "cpptestutil.h"
 
@@ -108,11 +108,13 @@ void tst_scene::subViews()
     // TODO: Fails on QNX (QTBUG-125982)
     if (qEnvironmentVariableIsEmpty("QNX_QEMU")
         && qEnvironmentVariableIsEmpty("QNX_QEMU_LD_LIBRARY_PATH")) {
-        Q3DBarsWidget graph;
-        graph.setMinimumSize(QSize(200, 200));
+        QQuickWidget quickWidget;
+        Q3DBarsWidgetItem graph;
+        quickWidget.setMinimumSize(QSize(200, 200));
+        graph.setWidget(&quickWidget);
 
         Q3DScene *scene = graph.scene();
-        graph.show();
+        graph.widget()->show();
 
         QCoreApplication::processEvents();
 

@@ -36,21 +36,23 @@ int main(int argc, char *argv[])
     vLayout2->setAlignment(Qt::AlignTop);
     vLayout3->setAlignment(Qt::AlignTop);
 
-    Q3DSurfaceWidget *surfaceGraph = new Q3DSurfaceWidget();
-    QSize screenSize = surfaceGraph->screen()->size();
+    auto quickWidget = new QQuickWidget;
+    Q3DSurfaceWidgetItem *surfaceGraph = new Q3DSurfaceWidgetItem();
+    surfaceGraph->setWidget(quickWidget);
+    QSize screenSize = surfaceGraph->widget()->screen()->size();
 
     // Set to default, should be same as the initial on themeList
     surfaceGraph->activeTheme()->setTheme(QGraphsTheme::Theme(initialTheme));
 
-    surfaceGraph->setMinimumSize(QSize(screenSize.width() / 2, screenSize.height() / 4));
-    surfaceGraph->setMaximumSize(screenSize);
-    surfaceGraph->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-    surfaceGraph->setFocusPolicy(Qt::StrongFocus);
-    surfaceGraph->setResizeMode(QQuickWidget::SizeRootObjectToView);
+    surfaceGraph->widget()->setMinimumSize(QSize(screenSize.width() / 2, screenSize.height() / 4));
+    surfaceGraph->widget()->setMaximumSize(screenSize);
+    surfaceGraph->widget()->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    surfaceGraph->widget()->setFocusPolicy(Qt::StrongFocus);
+    surfaceGraph->widget()->setResizeMode(QQuickWidget::SizeRootObjectToView);
 
     widget->setWindowTitle(QStringLiteral("Surface tester"));
 
-    hLayout->addWidget(surfaceGraph, 1);
+    hLayout->addWidget(surfaceGraph->widget(), 1);
     hLayout->addLayout(vLayout);
     hLayout->addLayout(vLayout2);
     hLayout->addLayout(vLayout3);
@@ -855,6 +857,8 @@ int main(int argc, char *argv[])
     sqrtSinCB->setChecked(true);
 #endif
     shadowQuality->setCurrentIndex(3);
-
-    return app.exec();
+    int retVal = app.exec();
+    delete modifier;
+    delete quickWidget;
+    return retVal;
 }

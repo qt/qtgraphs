@@ -22,8 +22,6 @@
 
 QT_BEGIN_NAMESPACE
 
-class Q3DScatterWidget;
-
 struct Scatter3DChangeBitField
 {
     bool selectedItemChanged : 1;
@@ -257,7 +255,7 @@ private:
 private slots:
     void cameraRotationChanged();
 
-    friend class Q3DScatterWidget;
+    friend class Q3DScatterWidgetItem;
 };
 
 QT_END_NAMESPACE

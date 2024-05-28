@@ -23,7 +23,6 @@
 
 QT_BEGIN_NAMESPACE
 
-class Q3DBarsWidget;
 class QCategory3DAxis;
 
 struct Bars3DChangeBitField
@@ -330,7 +329,7 @@ private:
 
     void adjustSelectionPosition(QPoint &pos, const QBar3DSeries *series);
 
-    friend class Q3DBarsWidget;
+    friend class Q3DBarsWidgetItem;
 };
 
 QT_END_NAMESPACE

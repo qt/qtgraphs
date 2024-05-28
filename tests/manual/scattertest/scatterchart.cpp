@@ -14,7 +14,7 @@
 
 const int numberOfItems = 10000;
 
-ScatterDataModifier::ScatterDataModifier(Q3DScatterWidget *scatter)
+ScatterDataModifier::ScatterDataModifier(Q3DScatterWidgetItem *scatter)
     : m_chart(scatter),
       m_fontSize(30.0f),
       m_loopCounter(0),
@@ -39,17 +39,17 @@ ScatterDataModifier::ScatterDataModifier(Q3DScatterWidget *scatter)
     m_chart->setSelectionMode(QGraphs3D::SelectionFlag::Item);
 
     QObject::connect(&m_timer, &QTimer::timeout, this, &ScatterDataModifier::timeout);
-    QObject::connect(m_chart, &Q3DScatterWidget::shadowQualityChanged, this,
+    QObject::connect(m_chart, &Q3DScatterWidgetItem::shadowQualityChanged, this,
                      &ScatterDataModifier::shadowQualityUpdatedByVisual);
 
-    QObject::connect(m_chart, &Q3DScatterWidget::axisXChanged, this,
+    QObject::connect(m_chart, &Q3DScatterWidgetItem::axisXChanged, this,
                      &ScatterDataModifier::handleAxisXChanged);
-    QObject::connect(m_chart, &Q3DScatterWidget::axisYChanged, this,
+    QObject::connect(m_chart, &Q3DScatterWidgetItem::axisYChanged, this,
                      &ScatterDataModifier::handleAxisYChanged);
-    QObject::connect(m_chart, &Q3DScatterWidget::axisZChanged, this,
+    QObject::connect(m_chart, &Q3DScatterWidgetItem::axisZChanged, this,
                      &ScatterDataModifier::handleAxisZChanged);
     QObject::connect(m_chart,
-                     &QAbstract3DGraphWidget::currentFpsChanged,
+                     &Q3DGraphsWidgetItem::currentFpsChanged,
                      this,
                      &ScatterDataModifier::handleFpsChange);
 }

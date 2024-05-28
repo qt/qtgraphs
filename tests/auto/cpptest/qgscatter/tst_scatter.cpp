@@ -3,7 +3,7 @@
 
 #include <QtTest/QtTest>
 
-#include <QtGraphsWidgets/q3dscatterwidget.h>
+#include <QtGraphsWidgets/q3dscatterwidgetitem.h>
 
 #include "cpptestutil.h"
 
@@ -31,7 +31,8 @@ private slots:
     void hasSeries();
 
 private:
-    Q3DScatterWidget *m_graph;
+    Q3DScatterWidgetItem *m_graph;
+    QQuickWidget *m_quickWidget;
 };
 
 QScatter3DSeries *newSeries()
@@ -56,17 +57,20 @@ void tst_scatter::cleanupTestCase()
 
 void tst_scatter::init()
 {
-    m_graph = new Q3DScatterWidget();
+    m_graph = new Q3DScatterWidgetItem();
+    m_quickWidget = new QQuickWidget;
+    m_graph->setWidget(m_quickWidget);
 }
 
 void tst_scatter::cleanup()
 {
     delete m_graph;
+    delete m_quickWidget;
 }
 
 void tst_scatter::construct()
 {
-    Q3DScatterWidget *graph = new Q3DScatterWidget();
+    Q3DScatterWidgetItem *graph = new Q3DScatterWidgetItem();
     QVERIFY(graph);
     delete graph;
 }

@@ -20,7 +20,7 @@ const float curveDivider = 7.5f;
 const int lowerNumberOfItems = 900;
 const float lowerCurveDivider = 0.75f;
 
-ScatterDataModifier::ScatterDataModifier(Q3DScatterWidget *scatter, QObject *parent)
+ScatterDataModifier::ScatterDataModifier(Q3DScatterWidgetItem *scatter, QObject *parent)
     : QObject(parent)
     , m_graph(scatter)
     , m_itemCount(lowerNumberOfItems)
@@ -46,10 +46,10 @@ ScatterDataModifier::ScatterDataModifier(Q3DScatterWidget *scatter, QObject *par
     // Give ownership of the handler to the graph and make it the active handler
     //! [8]
     connect(m_graph,
-            &QAbstract3DGraphWidget::selectedElementChanged,
+            &Q3DGraphsWidgetItem::selectedElementChanged,
             this,
             &ScatterDataModifier::handleElementSelected);
-    connect(m_graph, &QAbstract3DGraphWidget::dragged, this, &ScatterDataModifier::handleAxisDragging);
+    connect(m_graph, &Q3DGraphsWidgetItem::dragged, this, &ScatterDataModifier::handleAxisDragging);
     m_graph->setDragButton(Qt::LeftButton);
     //! [8]
 

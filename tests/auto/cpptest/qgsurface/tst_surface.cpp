@@ -3,7 +3,7 @@
 
 #include <QtTest/QtTest>
 
-#include <QtGraphsWidgets/q3dsurfacewidget.h>
+#include <QtGraphsWidgets/q3dsurfacewidgetitem.h>
 
 #include "cpptestutil.h"
 
@@ -31,7 +31,8 @@ private slots:
     void hasSeries();
 
 private:
-    Q3DSurfaceWidget *m_graph;
+    Q3DSurfaceWidgetItem *m_graph;
+    QQuickWidget *m_quickWidget = nullptr;
 };
 
 QSurface3DSeries *newSeries()
@@ -60,17 +61,20 @@ void tst_surface::cleanupTestCase()
 
 void tst_surface::init()
 {
-    m_graph = new Q3DSurfaceWidget();
+    m_graph = new Q3DSurfaceWidgetItem();
+    m_quickWidget = new QQuickWidget;
+    m_graph->setWidget(m_quickWidget);
 }
 
 void tst_surface::cleanup()
 {
     delete m_graph;
+    delete m_quickWidget;
 }
 
 void tst_surface::construct()
 {
-    Q3DSurfaceWidget *graph = new Q3DSurfaceWidget();
+    Q3DSurfaceWidgetItem *graph = new Q3DSurfaceWidgetItem();
     QVERIFY(graph);
     delete graph;
 }

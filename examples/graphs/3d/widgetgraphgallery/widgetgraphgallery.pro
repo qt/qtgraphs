@@ -23,7 +23,10 @@ SOURCES += main.cpp \
     surfacegraph.cpp \
     surfacegraphmodifier.cpp \
     highlightseries.cpp \
-    topographicseries.cpp
+    topographicseries.cpp \
+    bargraphwidget.cpp \
+    scattergraphwidget.cpp \
+    surfacegraphwidget.cpp
 
 HEADERS += \
     bargraph.h \
@@ -37,7 +40,10 @@ HEADERS += \
     surfacegraph.h \
     surfacegraphmodifier.h \
     highlightseries.h \
-    topographicseries.h
+    topographicseries.h \
+    bargraphwidget.h \
+    scattergraphwidget.h \
+    surfacegraphwidget.h
 
 RESOURCES += widgetgraphgallery.qrc
 

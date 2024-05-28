@@ -52,11 +52,11 @@ QT_BEGIN_NAMESPACE
  * \value None
  *        No series type.
  * \value Bar
- *        Series type for Q3DBarsWidget.
+ *        Series type for Q3DBarsWidgetItem.
  * \value Scatter
- *        Series type for Q3DScatterWidget.
+ *        Series type for Q3DScatterWidgetItem.
  * \value Surface
- *        Series type for Q3DSurfaceWidget.
+ *        Series type for Q3DSurfaceWidgetItem.
  */
 
 /*!
@@ -83,11 +83,11 @@ QT_BEGIN_NAMESPACE
  *  \value Sphere
  *         Sphere.
  *  \value Minimal
- *         The minimal 3D mesh: a triangular pyramid. Usable only with Q3DScatterWidget.
+ *         The minimal 3D mesh: a triangular pyramid. Usable only with Q3DScatterWidgetItem.
  *  \value Arrow
  *         Arrow pointing upwards.
  *  \value Point
- *         2D point. Usable only with Q3DScatterWidget.
+ *         2D point. Usable only with Q3DScatterWidgetItem.
  *         Shadows do not affect this style. Color style QGraphsTheme::ColorStyle::ObjectGradient
  *         is not supported by this style.
  */

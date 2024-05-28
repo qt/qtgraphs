@@ -15,7 +15,7 @@ const float defaultMaxValue = 10.0f;
  * \class QHeightMapSurfaceDataProxy
  * \inmodule QtGraphs
  * \ingroup graphs_3D
- * \brief Base proxy class for Q3DSurfaceWidget.
+ * \brief Base proxy class for Q3DSurfaceWidgetItem.
  *
  * QHeightMapSurfaceDataProxy takes care of the processing of height map data
  * related to surfaces. It provides the visualization of a height map as a
