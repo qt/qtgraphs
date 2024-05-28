@@ -25,7 +25,6 @@ class QValue3DAxis;
 class QSurface3DSeries;
 class QQuickGraphsSurface;
 class SurfaceSelectionInstancing;
-class Q3DSurfaceWidget;
 
 struct Surface3DChangeBitField
 {
@@ -265,7 +264,7 @@ private:
 
     DataDimensions m_dataDimensions;
 
-    friend class Q3DSurfaceWidget;
+    friend class Q3DSurfaceWidgetItem;
 };
 
 QT_END_NAMESPACE

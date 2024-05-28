@@ -4,9 +4,9 @@
 #ifndef DATA_H
 #define DATA_H
 
-#include <QtGraphsWidgets/Q3DScatterWidget>
-#include <QtGraphsWidgets/Q3DBarsWidget>
-#include <QtGraphsWidgets/Q3DSurfaceWidget>
+#include <QtGraphsWidgets/Q3DScatterWidgetItem>
+#include <QtGraphsWidgets/Q3DBarsWidgetItem>
+#include <QtGraphsWidgets/Q3DSurfaceWidgetItem>
 #include <QtGraphs/QScatterDataProxy>
 #include <QtGraphs/QBarDataProxy>
 #include <QtGraphs/QHeightMapSurfaceDataProxy>
@@ -17,7 +17,7 @@ class Data : public QObject
     Q_OBJECT
 
 public:
-    explicit Data(Q3DSurfaceWidget *surface, Q3DScatterWidget *scatter, Q3DBarsWidget *bars,
+    explicit Data(Q3DSurfaceWidgetItem *surface, Q3DScatterWidgetItem *scatter, Q3DBarsWidgetItem *bars,
                   QTextEdit *statusLabel, QWidget *widget);
     ~Data();
 
@@ -44,9 +44,9 @@ public Q_SLOTS:
     void changeMode(int mode);
 
 private:
-    Q3DSurfaceWidget *m_surface;
-    Q3DScatterWidget *m_scatter;
-    Q3DBarsWidget *m_bars;
+    Q3DSurfaceWidgetItem *m_surface;
+    Q3DScatterWidgetItem *m_scatter;
+    Q3DBarsWidgetItem *m_bars;
     QTextEdit *m_statusArea;
     QWidget *m_widget;
     bool m_resize;

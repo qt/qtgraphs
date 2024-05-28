@@ -1,16 +1,17 @@
 // Copyright (C) 2023 The Qt Company Ltd.
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 
-#include <QtGraphsWidgets/q3dbarswidget.h>
+#include <QtGraphsWidgets/q3dbarswidgetitem.h>
+#include <private/q3dbarswidgetitem_p.h>
 #include <private/qquickgraphsbars_p.h>
 
 QT_BEGIN_NAMESPACE
 
 /*!
- * \class Q3DBarsWidget
+ * \class Q3DBarsWidgetItem
  * \inmodule QtGraphs
  * \ingroup graphs_3D
- * \brief The Q3DBarsWidget class provides methods for rendering 3D bar graphs.
+ * \brief The Q3DBarsWidgetItem class provides methods for rendering 3D bar graphs.
  *
  * This class enables developers to render 3D bar graphs and view them by
  * freely rotating the scene. Rotation is achieved by holding down the right
@@ -20,29 +21,29 @@ QT_BEGIN_NAMESPACE
  * mouse wheel. On touch devices, rotation is achieved by tap-and-move,
  * selection by tap-and-hold, and zooming by pinch.
  *
- * If no axes are set explicitly for Q3DBarsWidget, temporary default axes without
+ * If no axes are set explicitly for Q3DBarsWidgetItem, temporary default axes without
  * labels are created. These default axes can be modified via axis accessors,
  * but as soon as any axis is set explicitly for the orientation, the default
  * axis for that orientation is destroyed.
  *
- * Q3DBarsWidget supports more than one visible series at the same time. All series
+ * Q3DBarsWidgetItem supports more than one visible series at the same time. All series
  * don't need to have the same number of rows and columns. Row and column
  * labels are taken from the first added series unless explicitly defined
  * for row and column axes.
  *
- * Q3DBarsWidget has transparency support. This feature allows you to adjust the
+ * Q3DBarsWidgetItem has transparency support. This feature allows you to adjust the
  * opacity of the bars, making them partially see-through, fully transparent,
  * or opaque.
  *
- * \section1 How to construct a minimal Q3DBarsWidget graph
+ * \section1 How to construct a minimal Q3DBarsWidgetItem graph
  *
- * First, construct an instance of Q3DBarsWidget. Since we are running the graph as
+ * First, construct an instance of Q3DBarsWidgetItem. Since we are running the graph as
  * a top-level window in this example, we need to clear the \c
  * Qt::FramelessWindowHint flag, which is set by default:
  *
  * \snippet doc_src_q3dbars_construction.cpp 4
  *
- * After constructing Q3DBarsWidget, you can set the data window by changing the range
+ * After constructing Q3DBarsWidgetItem, you can set the data window by changing the range
  * on the row and column axes. It is not mandatory, as the data window will default
  * to showing all of the data in the series. If the amount of data is large, it
  * is usually preferable to show just a portion of it. For example, let's set
@@ -50,7 +51,7 @@ QT_BEGIN_NAMESPACE
  *
  * \snippet doc_src_q3dbars_construction.cpp 0
  *
- * Now, Q3DBarsWidget is ready to receive data to be rendered. Create a series with one
+ * Now, Q3DBarsWidgetItem is ready to receive data to be rendered. Create a series with one
  * row of 5 values:
  *
  * \snippet doc_src_q3dbars_construction.cpp 1
@@ -75,23 +76,23 @@ QT_BEGIN_NAMESPACE
  * You can learn more by familiarizing yourself with the examples provided, like
  * the \l{Simple Bar Graph}.
  *
- * \sa Q3DScatterWidget, Q3DSurfaceWidget, {Qt Graphs C++ Classes for 3D}
+ * \sa Q3DScatterWidgetItem, Q3DSurfaceWidgetItem, {Qt Graphs C++ Classes for 3D}
  */
 
 /*!
  * Constructs a new 3D bar graph.
  */
-Q3DBarsWidget::Q3DBarsWidget()
-    : QAbstract3DGraphWidget(QStringLiteral("Bars3D"))
+Q3DBarsWidgetItem::Q3DBarsWidgetItem()
+    : Q3DGraphsWidgetItem(*(new Q3DBarsWidgetItemPrivate()), QStringLiteral("Bars3D"))
 {}
 
 /*!
  * Destroys the 3D bar graph.
  */
-Q3DBarsWidget::~Q3DBarsWidget() {}
+Q3DBarsWidgetItem::~Q3DBarsWidgetItem() {}
 
 /*!
- * \property Q3DBarsWidget::primarySeries
+ * \property Q3DBarsWidgetItem::primarySeries
  *
  * \brief The primary series of the graph.
  *
@@ -109,13 +110,13 @@ Q3DBarsWidget::~Q3DBarsWidget() {}
  * Defaults to the first added series or zero if no series are added to the
  * graph.
  */
-void Q3DBarsWidget::setPrimarySeries(QBar3DSeries *series)
+void Q3DBarsWidgetItem::setPrimarySeries(QBar3DSeries *series)
 {
     graphBars()->setPrimarySeries(series);
     emit primarySeriesChanged(series);
 }
 
-QBar3DSeries *Q3DBarsWidget::primarySeries() const
+QBar3DSeries *Q3DBarsWidgetItem::primarySeries() const
 {
     return graphBars()->primarySeries();
 }
@@ -130,9 +131,9 @@ QBar3DSeries *Q3DBarsWidget::primarySeries() const
  * any existing selection will be cleared. Only one added series can have an
  * active selection.
  *
- * \sa seriesList(), primarySeries, QAbstract3DGraphWidget::hasSeries()
+ * \sa seriesList(), primarySeries, Q3DGraphsWidgetItem::hasSeries()
  */
-void Q3DBarsWidget::addSeries(QBar3DSeries *series)
+void Q3DBarsWidgetItem::addSeries(QBar3DSeries *series)
 {
     graphBars()->addSeries(series);
 }
@@ -140,9 +141,9 @@ void Q3DBarsWidget::addSeries(QBar3DSeries *series)
 /*!
  * Removes the \a series from the graph.
  *
- * \sa QAbstract3DGraphWidget::hasSeries()
+ * \sa Q3DGraphsWidgetItem::hasSeries()
  */
-void Q3DBarsWidget::removeSeries(QBar3DSeries *series)
+void Q3DBarsWidgetItem::removeSeries(QBar3DSeries *series)
 {
     graphBars()->removeSeries(series);
 }
@@ -155,9 +156,9 @@ void Q3DBarsWidget::removeSeries(QBar3DSeries *series)
  * the new position in the list is calculated as if the series was still in its
  * old index, so the final index is actually the \a index decremented by one.
  *
- * \sa addSeries(), seriesList(), QAbstract3DGraphWidget::hasSeries()
+ * \sa addSeries(), seriesList(), Q3DGraphsWidgetItem::hasSeries()
  */
-void Q3DBarsWidget::insertSeries(int index, QBar3DSeries *series)
+void Q3DBarsWidgetItem::insertSeries(int index, QBar3DSeries *series)
 {
     graphBars()->insertSeries(index, series);
 }
@@ -165,9 +166,9 @@ void Q3DBarsWidget::insertSeries(int index, QBar3DSeries *series)
 /*!
  * Returns the list of series added to this graph.
  *
- * \sa QAbstract3DGraphWidget::hasSeries()
+ * \sa Q3DGraphsWidgetItem::hasSeries()
  */
-QList<QBar3DSeries *> Q3DBarsWidget::seriesList() const
+QList<QBar3DSeries *> Q3DBarsWidgetItem::seriesList() const
 {
     QList<QBar3DSeries *> barSeriesList;
     for (QAbstract3DSeries *abstractSeries : graphBars()->m_seriesList) {
@@ -180,7 +181,7 @@ QList<QBar3DSeries *> Q3DBarsWidget::seriesList() const
 }
 
 /*!
- * \property Q3DBarsWidget::multiSeriesUniform
+ * \property Q3DBarsWidgetItem::multiSeriesUniform
  *
  * \brief Whether bars are to be scaled with proportions set to a single series
  * bar even if there are multiple series displayed.
@@ -188,38 +189,38 @@ QList<QBar3DSeries *> Q3DBarsWidget::seriesList() const
  * If set to \c {true}, \l{barSpacing}{bar spacing} will be correctly applied
  * only to the X-axis. Preset to \c false by default.
  */
-void Q3DBarsWidget::setMultiSeriesUniform(bool uniform)
+void Q3DBarsWidgetItem::setMultiSeriesUniform(bool uniform)
 {
     graphBars()->setMultiSeriesUniform(uniform);
     emit multiSeriesUniformChanged(uniform);
 }
 
-bool Q3DBarsWidget::isMultiSeriesUniform() const
+bool Q3DBarsWidgetItem::isMultiSeriesUniform() const
 {
     return graphBars()->isMultiSeriesUniform();
 }
 
 /*!
- * \property Q3DBarsWidget::barThickness
+ * \property Q3DBarsWidgetItem::barThickness
  *
  * \brief The bar thickness ratio between the X and Z dimensions.
  *
  * The value \c 1.0 means that the bars are as wide as they are deep, whereas
  *\c 0.5 makes them twice as deep as they are wide. Preset to \c 1.0 by default.
  */
-void Q3DBarsWidget::setBarThickness(float thicknessRatio)
+void Q3DBarsWidgetItem::setBarThickness(float thicknessRatio)
 {
     graphBars()->setBarThickness(thicknessRatio);
     emit barThicknessChanged(thicknessRatio);
 }
 
-float Q3DBarsWidget::barThickness() const
+float Q3DBarsWidgetItem::barThickness() const
 {
     return graphBars()->barThickness();
 }
 
 /*!
- * \property Q3DBarsWidget::barSpacing
+ * \property Q3DBarsWidgetItem::barSpacing
  *
  * \brief Bar spacing in the X and Z dimensions.
  *
@@ -228,19 +229,19 @@ float Q3DBarsWidget::barThickness() const
  *
  * \sa barSpacingRelative, multiSeriesUniform, barSeriesMargin
  */
-void Q3DBarsWidget::setBarSpacing(const QSizeF &spacing)
+void Q3DBarsWidgetItem::setBarSpacing(const QSizeF &spacing)
 {
     graphBars()->setBarSpacing(spacing);
     emit barSpacingChanged(spacing);
 }
 
-QSizeF Q3DBarsWidget::barSpacing() const
+QSizeF Q3DBarsWidgetItem::barSpacing() const
 {
     return graphBars()->barSpacing();
 }
 
 /*!
- * \property Q3DBarsWidget::barSpacingRelative
+ * \property Q3DBarsWidgetItem::barSpacingRelative
  *
  * \brief Whether spacing is absolute or relative to bar thickness.
  *
@@ -248,19 +249,19 @@ QSizeF Q3DBarsWidget::barSpacing() const
  * side-to-side, \c 1.0 means that a space as wide as the thickness of one bar
  * is left between the bars, and so on. Preset to \c true.
  */
-void Q3DBarsWidget::setBarSpacingRelative(bool relative)
+void Q3DBarsWidgetItem::setBarSpacingRelative(bool relative)
 {
     graphBars()->setBarSpacingRelative(relative);
     emit barSpacingRelativeChanged(relative);
 }
 
-bool Q3DBarsWidget::isBarSpacingRelative() const
+bool Q3DBarsWidgetItem::isBarSpacingRelative() const
 {
     return graphBars()->isBarSpacingRelative();
 }
 
 /*!
- * \property Q3DBarsWidget::barSeriesMargin
+ * \property Q3DBarsWidgetItem::barSeriesMargin
  *
  * \brief Margin between series columns in X and Z dimensions.
  * Sensible values are on the range [0,1).
@@ -271,19 +272,19 @@ bool Q3DBarsWidget::isBarSpacingRelative() const
  *
  * \sa barSpacing
  */
-void Q3DBarsWidget::setBarSeriesMargin(const QSizeF &margin)
+void Q3DBarsWidgetItem::setBarSeriesMargin(const QSizeF &margin)
 {
     graphBars()->setBarSeriesMargin(margin);
     emit barSeriesMarginChanged(margin);
 }
 
-QSizeF Q3DBarsWidget::barSeriesMargin() const
+QSizeF Q3DBarsWidgetItem::barSeriesMargin() const
 {
     return graphBars()->barSeriesMargin();
 }
 
 /*!
- * \property Q3DBarsWidget::rowAxis
+ * \property Q3DBarsWidgetItem::rowAxis
  *
  * \brief The axis attached to the active row.
  *
@@ -296,19 +297,19 @@ QSizeF Q3DBarsWidget::barSeriesMargin() const
  *
  * \sa addAxis(), releaseAxis()
  */
-void Q3DBarsWidget::setRowAxis(QCategory3DAxis *axis)
+void Q3DBarsWidgetItem::setRowAxis(QCategory3DAxis *axis)
 {
     graphBars()->setRowAxis(axis);
     emit rowAxisChanged(rowAxis());
 }
 
-QCategory3DAxis *Q3DBarsWidget::rowAxis() const
+QCategory3DAxis *Q3DBarsWidgetItem::rowAxis() const
 {
     return graphBars()->rowAxis();
 }
 
 /*!
- * \property Q3DBarsWidget::columnAxis
+ * \property Q3DBarsWidgetItem::columnAxis
  *
  * \brief The axis attached to the active column.
  *
@@ -321,19 +322,19 @@ QCategory3DAxis *Q3DBarsWidget::rowAxis() const
  *
  * \sa addAxis(), releaseAxis()
  */
-void Q3DBarsWidget::setColumnAxis(QCategory3DAxis *axis)
+void Q3DBarsWidgetItem::setColumnAxis(QCategory3DAxis *axis)
 {
     graphBars()->setColumnAxis(axis);
     emit columnAxisChanged(columnAxis());
 }
 
-QCategory3DAxis *Q3DBarsWidget::columnAxis() const
+QCategory3DAxis *Q3DBarsWidgetItem::columnAxis() const
 {
     return graphBars()->columnAxis();
 }
 
 /*!
- * \property Q3DBarsWidget::valueAxis
+ * \property Q3DBarsWidgetItem::valueAxis
  *
  * Sets the active value axis (the Y-axis) to \a axis. Implicitly calls
  * addAxis() to transfer the ownership of \a axis to this graph.
@@ -345,32 +346,32 @@ QCategory3DAxis *Q3DBarsWidget::columnAxis() const
  *
  * \sa addAxis(), releaseAxis()
  */
-void Q3DBarsWidget::setValueAxis(QValue3DAxis *axis)
+void Q3DBarsWidgetItem::setValueAxis(QValue3DAxis *axis)
 {
     graphBars()->setValueAxis(axis);
     emit valueAxisChanged(valueAxis());
 }
 
-QValue3DAxis *Q3DBarsWidget::valueAxis() const
+QValue3DAxis *Q3DBarsWidgetItem::valueAxis() const
 {
     return graphBars()->valueAxis();
 }
 
 /*!
- * \property Q3DBarsWidget::selectedSeries
+ * \property Q3DBarsWidgetItem::selectedSeries
  *
  * \brief The selected series or a null value.
  *
  * If selectionMode has the \c SelectionMultiSeries flag set, this
  * property holds the series that owns the selected bar.
  */
-QBar3DSeries *Q3DBarsWidget::selectedSeries() const
+QBar3DSeries *Q3DBarsWidgetItem::selectedSeries() const
 {
     return graphBars()->selectedSeries();
 }
 
 /*!
- * \property Q3DBarsWidget::floorLevel
+ * \property Q3DBarsWidgetItem::floorLevel
  *
  * \brief The floor level for the bar graph in Y-axis data coordinates.
  *
@@ -378,15 +379,20 @@ QBar3DSeries *Q3DBarsWidget::selectedSeries() const
  * values.
  * Defaults to zero.
  */
-void Q3DBarsWidget::setFloorLevel(float level)
+void Q3DBarsWidgetItem::setFloorLevel(float level)
 {
     graphBars()->setFloorLevel(level);
     emit floorLevelChanged(level);
 }
 
-float Q3DBarsWidget::floorLevel() const
+float Q3DBarsWidgetItem::floorLevel() const
 {
     return graphBars()->floorLevel();
+}
+
+bool Q3DBarsWidgetItem::event(QEvent *event)
+{
+    return Q3DGraphsWidgetItem::event(event);
 }
 
 /*!
@@ -396,7 +402,7 @@ float Q3DBarsWidget::floorLevel() const
  *
  * \sa releaseAxis(), setValueAxis(), setRowAxis(), setColumnAxis()
  */
-void Q3DBarsWidget::addAxis(QAbstract3DAxis *axis)
+void Q3DBarsWidgetItem::addAxis(QAbstract3DAxis *axis)
 {
     graphBars()->addAxis(axis);
 }
@@ -411,7 +417,7 @@ void Q3DBarsWidget::addAxis(QAbstract3DAxis *axis)
  *
  * \sa addAxis(), setValueAxis(), setRowAxis(), setColumnAxis()
  */
-void Q3DBarsWidget::releaseAxis(QAbstract3DAxis *axis)
+void Q3DBarsWidgetItem::releaseAxis(QAbstract3DAxis *axis)
 {
     graphBars()->releaseAxis(axis);
 }
@@ -421,7 +427,7 @@ void Q3DBarsWidget::releaseAxis(QAbstract3DAxis *axis)
  *
  * \sa addAxis()
  */
-QList<QAbstract3DAxis *> Q3DBarsWidget::axes() const
+QList<QAbstract3DAxis *> Q3DBarsWidgetItem::axes() const
 {
     return graphBars()->axes();
 }
@@ -429,17 +435,19 @@ QList<QAbstract3DAxis *> Q3DBarsWidget::axes() const
 /*!
  * \internal
  */
-QQuickGraphsBars *Q3DBarsWidget::graphBars()
+QQuickGraphsBars *Q3DBarsWidgetItem::graphBars()
 {
-    return static_cast<QQuickGraphsBars *>(m_graphsItem.data());
+    Q_D(Q3DBarsWidgetItem);
+    return static_cast<QQuickGraphsBars *>(d->m_graphsItem.get());
 }
 
 /*!
  * \internal
  */
-const QQuickGraphsBars *Q3DBarsWidget::graphBars() const
+const QQuickGraphsBars *Q3DBarsWidgetItem::graphBars() const
 {
-    return static_cast<const QQuickGraphsBars *>(m_graphsItem.data());
+    const Q_D(Q3DBarsWidgetItem);
+    return static_cast<const QQuickGraphsBars *>(d->m_graphsItem.get());
 }
 
 QT_END_NAMESPACE

@@ -1,7 +1,7 @@
 // Copyright (C) 2023 The Qt Company Ltd.
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 
-#include <QtGraphsWidgets/q3dbarswidget.h>
+#include <QtGraphsWidgets/q3dbarswidgetitem.h>
 #include <QtGraphs/qcategory3daxis.h>
 #include <QtGraphs/qitemmodelbardataproxy.h>
 #include <QtGraphs/qvalue3daxis.h>
@@ -25,7 +25,7 @@
 class GraphDataGenerator : public QObject
 {
 public:
-    explicit GraphDataGenerator(Q3DBarsWidget *bargraph, QTableWidget *tableWidget);
+    explicit GraphDataGenerator(Q3DBarsWidgetItem *bargraph, QTableWidget *tableWidget);
     ~GraphDataGenerator();
 
     void setupModel();
@@ -39,14 +39,14 @@ public:
     void fixTableSize();
 
 private:
-    Q3DBarsWidget *m_graph;
+    Q3DBarsWidgetItem *m_graph;
     QTimer *m_dataTimer;
     int m_columnCount;
     int m_rowCount;
     QTableWidget *m_tableWidget; // not owned
 };
 
-GraphDataGenerator::GraphDataGenerator(Q3DBarsWidget *bargraph, QTableWidget *tableWidget)
+GraphDataGenerator::GraphDataGenerator(Q3DBarsWidgetItem *bargraph, QTableWidget *tableWidget)
     : m_graph(bargraph),
       m_dataTimer(0),
       m_columnCount(100),
@@ -201,18 +201,18 @@ void GraphDataGenerator::fixTableSize()
 int main(int argc, char **argv)
 {
     QApplication app(argc, argv);
-    Q3DBarsWidget *graph = new Q3DBarsWidget();
+    Q3DBarsWidgetItem *graph = new Q3DBarsWidgetItem();
 
-    QSize screenSize = graph->screen()->size();
-    graph->setMinimumSize(QSize(screenSize.width() / 2, screenSize.height() / 2));
-    graph->setMaximumSize(screenSize);
-    graph->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-    graph->setFocusPolicy(Qt::StrongFocus);
+    QSize screenSize = graph->widget()->screen()->size();
+    graph->widget()->setMinimumSize(QSize(screenSize.width() / 2, screenSize.height() / 2));
+    graph->widget()->setMaximumSize(screenSize);
+    graph->widget()->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    graph->widget()->setFocusPolicy(Qt::StrongFocus);
 
     QWidget widget;
     QVBoxLayout *layout = new QVBoxLayout(&widget);
     QTableWidget *tableWidget = new QTableWidget(&widget);
-    layout->addWidget(graph, 1);
+    layout->addWidget(graph->widget(), 1);
     layout->addWidget(tableWidget, 1, Qt::AlignHCenter);
 
     tableWidget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);

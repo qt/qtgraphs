@@ -16,6 +16,8 @@ int main(int argc, char **argv)
     QApplication app(argc, argv);
 
     // Create bar graph
+    QTabWidget tabWidget;
+
     BarGraph bars;
 
     // Create scatter graph
@@ -24,8 +26,7 @@ int main(int argc, char **argv)
     // Create surface graph
     SurfaceGraph surface;
 
-    // Create a tab widget for creating own tabs for Q3DBarsWidget, Q3DScatterWidget, and Q3DSurfaceWidget
-    QTabWidget tabWidget;
+    // Create a tab widget for creating own tabs for Q3DBarsWidgetItem, Q3DScatterWidgetItem, and Q3DSurfaceWidgetItem
     tabWidget.setWindowTitle(u"Graph Gallery"_s);
 
     // Add bars widget

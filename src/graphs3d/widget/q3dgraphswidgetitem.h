@@ -1,8 +1,8 @@
 // Copyright (C) 2024 The Qt Company Ltd.
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 
-#ifndef QABSTRACT3DGRAPHWIDGET_H
-#define QABSTRACT3DGRAPHWIDGET_H
+#ifndef Q3DGRAPHSWIDGETITEM_H
+#define Q3DGRAPHSWIDGETITEM_H
 
 #include <QtCore/qlocale.h>
 #include <QtGraphs/q3dscene.h>
@@ -20,8 +20,9 @@ class QAbstract3DSeries;
 class QQuickGraphsItem;
 class QQuickItemGrabResult;
 class QQuickWheelEvent;
+class Q3DGraphsWidgetItemPrivate;
 
-class Q_GRAPHSWIDGETS_EXPORT QAbstract3DGraphWidget : public QQuickWidget
+class Q_GRAPHSWIDGETS_EXPORT Q3DGraphsWidgetItem : public QObject
 {
     Q_OBJECT
     Q_CLASSINFO("RegisterEnumClassesUnscoped", "false")
@@ -236,15 +237,16 @@ public:
     bool isShaderGridEnabled();
     void setShaderGridEnabled(bool enabled);
 
-    virtual ~QAbstract3DGraphWidget();
+    void setWidget(QQuickWidget *widget);
+    QQuickWidget *widget() const;
+
+    ~Q3DGraphsWidgetItem() override;
 
 protected:
-    QAbstract3DGraphWidget(const QString &graph);
+    Q3DGraphsWidgetItem(Q3DGraphsWidgetItemPrivate &dd, const QString &graph);
 
     bool event(QEvent *event) override;
-    void resizeEvent(QResizeEvent *event) override;
-
-    void mouseMoveEvent(QMouseEvent *event) override;
+    bool eventFilter(QObject *obj, QEvent *event) override;
 
 Q_SIGNALS:
     void activeThemeChanged(QGraphsTheme *activeTheme);
@@ -298,14 +300,8 @@ Q_SIGNALS:
     void shaderGridEnabledChanged();
 
 private:
-    Q_DISABLE_COPY(QAbstract3DGraphWidget)
-    QScopedPointer<QQuickGraphsItem> m_graphsItem;
-
-    void onWheel(QQuickWheelEvent *event);
-
-    friend class Q3DBarsWidget;
-    friend class Q3DScatterWidget;
-    friend class Q3DSurfaceWidget;
+    Q_DISABLE_COPY_MOVE(Q3DGraphsWidgetItem)
+    Q_DECLARE_PRIVATE(Q3DGraphsWidgetItem)
 };
 
 QT_END_NAMESPACE

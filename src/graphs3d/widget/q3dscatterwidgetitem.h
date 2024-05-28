@@ -1,18 +1,19 @@
 // Copyright (C) 2024 The Qt Company Ltd.
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 
-#ifndef Q3DSCATTERWIDGET_H
-#define Q3DSCATTERWIDGET_H
+#ifndef Q3DSCATTERWIDGETITEM_H
+#define Q3DSCATTERWIDGETITEM_H
 
 #include <QtGraphs/qscatter3dseries.h>
 #include <QtGraphs/qvalue3daxis.h>
-#include <QtGraphsWidgets/qabstract3dgraphwidget.h>
+#include <QtGraphsWidgets/q3dgraphswidgetitem.h>
 
 QT_BEGIN_NAMESPACE
 
 class QQuickGraphsScatter;
+class Q3DScatterWidgetItemPrivate;
 
-class Q_GRAPHSWIDGETS_EXPORT Q3DScatterWidget : public QAbstract3DGraphWidget
+class Q_GRAPHSWIDGETS_EXPORT Q3DScatterWidgetItem : public Q3DGraphsWidgetItem
 {
     Q_OBJECT
     Q_PROPERTY(QValue3DAxis *axisX READ axisX WRITE setAxisX NOTIFY axisXChanged)
@@ -21,8 +22,8 @@ class Q_GRAPHSWIDGETS_EXPORT Q3DScatterWidget : public QAbstract3DGraphWidget
     Q_PROPERTY(QScatter3DSeries *selectedSeries READ selectedSeries NOTIFY selectedSeriesChanged)
 
 public:
-    Q3DScatterWidget();
-    ~Q3DScatterWidget() override;
+    Q3DScatterWidgetItem();
+    ~Q3DScatterWidgetItem() override;
 
     void addSeries(QScatter3DSeries *series);
     void removeSeries(QScatter3DSeries *series);
@@ -40,6 +41,9 @@ public:
 
     QScatter3DSeries *selectedSeries() const;
 
+protected:
+    bool event(QEvent *event) override;
+
 Q_SIGNALS:
     void axisXChanged(QValue3DAxis *axis);
     void axisYChanged(QValue3DAxis *axis);
@@ -47,9 +51,10 @@ Q_SIGNALS:
     void selectedSeriesChanged(QScatter3DSeries *series);
 
 private:
+    Q_DECLARE_PRIVATE(Q3DScatterWidgetItem)
     QQuickGraphsScatter *graphScatter();
     const QQuickGraphsScatter *graphScatter() const;
-    Q_DISABLE_COPY(Q3DScatterWidget)
+    Q_DISABLE_COPY(Q3DScatterWidgetItem)
 };
 
 QT_END_NAMESPACE

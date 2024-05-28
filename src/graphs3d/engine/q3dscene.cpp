@@ -353,7 +353,7 @@ void Q3DScene::setSecondarySubViewport(const QRect &secondarySubViewport)
  * After the rendering pass, the property is returned to its default state of
  * invalidSelectionPoint().
  *
- * \sa QAbstract3DGraphWidget::selectedElement
+ * \sa Q3DGraphsWidgetItem::selectedElement
  */
 void Q3DScene::setSelectionQueryPosition(const QPoint &point)
 {
@@ -394,7 +394,7 @@ QPoint Q3DScene::invalidSelectionPoint() const
  * within the primary viewport.
  * After the rendering pass, this property is returned to its default state of
  * invalidSelectionPoint(). The queried graph position can be read from the
- * QAbstract3DGraphWidget::queriedGraphPosition property after the next render pass.
+ * Q3DGraphsWidgetItem::queriedGraphPosition property after the next render pass.
  *
  * There is no single correct 3D coordinate to match a particular screen
  * position, so to be consistent, the queries are always done against the inner
@@ -402,7 +402,7 @@ QPoint Q3DScene::invalidSelectionPoint() const
  *
  * \note Bar graphs allow graph position queries only at the graph floor level.
  *
- * \sa QAbstract3DGraphWidget::queriedGraphPosition
+ * \sa Q3DGraphsWidgetItem::queriedGraphPosition
  */
 void Q3DScene::setGraphPositionQuery(const QPoint &point)
 {
@@ -428,7 +428,7 @@ QPoint Q3DScene::graphPositionQuery() const
  *
  * \brief Whether the 2D slicing view is currently active.
  *
- * If \c true, QAbstract3DGraphWidget::selectionMode must have either
+ * If \c true, Q3DGraphsWidgetItem::selectionMode must have either
  * QGraphs3D::SelectionFlag::Row or QGraphs3D::SelectionFlag::Column set
  * to a valid selection.
  * \note Not all graphs support the 2D slicing view.

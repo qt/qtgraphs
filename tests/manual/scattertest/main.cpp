@@ -28,19 +28,20 @@ int main(int argc, char **argv)
     QVBoxLayout *vLayout = new QVBoxLayout();
     QVBoxLayout *vLayout2 = new QVBoxLayout();
     QVBoxLayout *vLayout3 = new QVBoxLayout();
+    auto quickWidget = new QQuickWidget;
+    Q3DScatterWidgetItem *graph = new Q3DScatterWidgetItem();
+    graph->setWidget(quickWidget);
+    QSize screenSize = graph->widget()->screen()->size();
 
-    Q3DScatterWidget *graph = new Q3DScatterWidget();
-    QSize screenSize = graph->screen()->size();
-
-    graph->setMinimumSize(QSize(screenSize.width() / 2, screenSize.height() / 2));
-    graph->setMaximumSize(screenSize);
-    graph->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-    graph->setFocusPolicy(Qt::StrongFocus);
-    graph->setResizeMode(QQuickWidget::SizeRootObjectToView);
+    graph->widget()->setMinimumSize(QSize(screenSize.width() / 2, screenSize.height() / 2));
+    graph->widget()->setMaximumSize(screenSize);
+    graph->widget()->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    graph->widget()->setFocusPolicy(Qt::StrongFocus);
+    graph->widget()->setResizeMode(QQuickWidget::SizeRootObjectToView);
 
     widget->setWindowTitle(QStringLiteral("values of some things in something"));
 
-    hLayout->addWidget(graph, 1);
+    hLayout->addWidget(graph->widget(), 1);
     hLayout->addLayout(vLayout);
     hLayout->addLayout(vLayout2);
     hLayout->addLayout(vLayout3);
@@ -554,12 +555,14 @@ int main(int argc, char **argv)
 
     modifier->setFpsLabel(fpsLabel);
 
-    graph->setGeometry(QRect(0, 0, 800, 800));
+    graph->widget()->setGeometry(QRect(0, 0, 800, 800));
 
     modifier->start();
     //modifier->renderToImage(); // Initial hidden render
 
     widget->show();
-
-    return app.exec();
+    int retVal = app.exec();
+    delete modifier;
+    delete quickWidget;
+    return retVal;
 }

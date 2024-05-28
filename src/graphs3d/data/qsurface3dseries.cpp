@@ -297,7 +297,7 @@ QSurfaceDataProxy *QSurface3DSeries::dataProxy() const
  * selected point will adjust the selection so that the same point will stay
  * selected.
  *
- * \sa QAbstract3DGraphWidget::clearSelection()
+ * \sa Q3DGraphsWidgetItem::clearSelection()
  */
 void QSurface3DSeries::setSelectedPoint(const QPoint &position)
 {
@@ -320,7 +320,7 @@ QPoint QSurface3DSeries::selectedPoint() const
  * Returns the QPoint signifying an invalid selection position. This is set to
  * the selectedPoint property to clear the selection from this series.
  *
- * \sa QAbstract3DGraphWidget::clearSelection()
+ * \sa Q3DGraphsWidgetItem::clearSelection()
  */
 QPoint QSurface3DSeries::invalidSelectionPosition()
 {

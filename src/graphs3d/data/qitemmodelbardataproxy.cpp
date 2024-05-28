@@ -10,11 +10,11 @@ QT_BEGIN_NAMESPACE
  * \class QItemModelBarDataProxy
  * \inmodule QtGraphs
  * \ingroup graphs_3D
- * \brief Proxy class for presenting data in item models with Q3DBarsWidget.
+ * \brief Proxy class for presenting data in item models with Q3DBarsWidgetItem.
  *
  * QItemModelBarDataProxy allows you to use QAbstractItemModel derived models as
- * a data source for Q3DBarsWidget. It uses the defined mappings to map data from the
- * model to rows, columns, and values of Q3DBarsWidget graph.
+ * a data source for Q3DBarsWidgetItem. It uses the defined mappings to map data from the
+ * model to rows, columns, and values of Q3DBarsWidgetItem graph.
  *
  * The data is resolved asynchronously whenever mappings or the model changes.
  * QBarDataProxy::arrayReset() is emitted when the data has been resolved.
@@ -26,7 +26,7 @@ QT_BEGIN_NAMESPACE
  *
  * \list
  * \li If useModelCategories property is set to true, this proxy will map rows and
- *    columns of QAbstractItemModel directly to rows and columns of Q3DBarsWidget, and uses the value
+ *    columns of QAbstractItemModel directly to rows and columns of Q3DBarsWidgetItem, and uses the value
  *    returned for Qt::DisplayRole as bar value by default.
  *    The value role to be used can be redefined if Qt::DisplayRole is not suitable.
  *

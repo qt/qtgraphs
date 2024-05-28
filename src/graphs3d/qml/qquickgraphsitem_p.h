@@ -934,7 +934,7 @@ private:
     QList<QGraphsTheme *> m_themes;
     QGraphsTheme *m_activeTheme = nullptr;
 
-    friend class QAbstract3DGraphWidget;
+    friend class Q3DGraphsWidgetItem;
 };
 
 QT_END_NAMESPACE

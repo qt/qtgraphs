@@ -19,7 +19,7 @@
 //#define JITTER_PLANE
 //#define WONKY_PLANE
 
-GraphModifier::GraphModifier(Q3DSurfaceWidget *graph)
+GraphModifier::GraphModifier(Q3DSurfaceWidgetItem *graph)
     : m_graph(graph),
       m_series1(new QSurface3DSeries),
       m_series2(new QSurface3DSeries),
@@ -103,13 +103,13 @@ GraphModifier::GraphModifier(Q3DSurfaceWidget *graph)
     connect(&m_graphPositionQueryTimer, &QTimer::timeout, this, &GraphModifier::graphQueryTimeout);
     connect(m_theSeries, &QSurface3DSeries::selectedPointChanged, this, &GraphModifier::selectedPointChanged);
 
-    QObject::connect(m_graph, &Q3DSurfaceWidget::axisXChanged, this,
+    QObject::connect(m_graph, &Q3DSurfaceWidgetItem::axisXChanged, this,
                      &GraphModifier::handleAxisXChanged);
-    QObject::connect(m_graph, &Q3DSurfaceWidget::axisYChanged, this,
+    QObject::connect(m_graph, &Q3DSurfaceWidgetItem::axisYChanged, this,
                      &GraphModifier::handleAxisYChanged);
-    QObject::connect(m_graph, &Q3DSurfaceWidget::axisZChanged, this,
+    QObject::connect(m_graph, &Q3DSurfaceWidgetItem::axisZChanged, this,
                      &GraphModifier::handleAxisZChanged);
-    QObject::connect(m_graph, &QAbstract3DGraphWidget::currentFpsChanged, this,
+    QObject::connect(m_graph, &Q3DGraphsWidgetItem::currentFpsChanged, this,
                      &GraphModifier::handleFpsChange);
 
     //m_graphPositionQueryTimer.start(100);
@@ -673,9 +673,11 @@ void GraphModifier::changeSubView()
 {
     if (!m_customSubviews) {
         m_graph->scene()->setPrimarySubViewport(
-            QRect(0, 0, m_graph->width() / 2, m_graph->height()));
-        m_graph->scene()->setSecondarySubViewport(
-            QRect(m_graph->width() / 2, 0, m_graph->width() / 2, m_graph->height()));
+            QRect(0, 0, m_graph->widget()->width() / 2, m_graph->widget()->height()));
+        m_graph->scene()->setSecondarySubViewport(QRect(m_graph->widget()->width() / 2,
+                                                        0,
+                                                        m_graph->widget()->width() / 2,
+                                                        m_graph->widget()->height()));
         m_customSubviews = true;
     } else {
         m_graph->scene()->setPrimarySubViewport(QRect());
@@ -708,8 +710,8 @@ void GraphModifier::timeout()
 void GraphModifier::graphQueryTimeout()
 {
 #ifndef QT_NO_CURSOR
-    m_graph->scene()->setGraphPositionQuery(m_graph->mapFromGlobal(QCursor::pos()));
-    qDebug() << "pos: " << (m_graph->mapFromGlobal(QCursor::pos()));
+    m_graph->scene()->setGraphPositionQuery(m_graph->widget()->mapFromGlobal(QCursor::pos()));
+    qDebug() << "pos: " << (m_graph->widget()->mapFromGlobal(QCursor::pos()));
 #else
     m_graph->scene()->setGraphPositionQuery(QPoint(100, 100));
 #endif

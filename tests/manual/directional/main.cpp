@@ -18,19 +18,21 @@
 int main(int argc, char **argv)
 {
     QApplication app(argc, argv);
-    Q3DScatterWidget *graph = new Q3DScatterWidget();
+    QQuickWidget *quickWidget = new QQuickWidget;
+    Q3DScatterWidgetItem *graph = new Q3DScatterWidgetItem();
+    graph->setWidget(quickWidget);
     graph->setMeasureFps(true);
 
-    QSize screenSize = graph->screen()->size();
-    graph->setMinimumSize(QSize(screenSize.width() / 2, screenSize.height() / 1.5));
-    graph->setMaximumSize(screenSize);
-    graph->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-    graph->setFocusPolicy(Qt::StrongFocus);
+    QSize screenSize = graph->widget()->screen()->size();
+    graph->widget()->setMinimumSize(QSize(screenSize.width() / 2, screenSize.height() / 1.5));
+    graph->widget()->setMaximumSize(screenSize);
+    graph->widget()->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    graph->widget()->setFocusPolicy(Qt::StrongFocus);
 
     QWidget *widget = new QWidget;
     QHBoxLayout *hLayout = new QHBoxLayout(widget);
     QVBoxLayout *vLayout = new QVBoxLayout();
-    hLayout->addWidget(graph, 1);
+    hLayout->addWidget(graph->widget(), 1);
     hLayout->addLayout(vLayout);
 
     widget->setWindowTitle(QStringLiteral("Directional scatter"));
@@ -103,7 +105,7 @@ int main(int argc, char **argv)
 
     ScatterDataModifier *modifier = new ScatterDataModifier(graph);
 
-    QObject::connect(graph, &QAbstract3DGraphWidget::currentFpsChanged, modifier,
+    QObject::connect(graph, &Q3DGraphsWidgetItem::currentFpsChanged, modifier,
                      &ScatterDataModifier::fpsChanged);
 
     QObject::connect(cameraButton, &QPushButton::clicked, modifier,
@@ -136,7 +138,7 @@ int main(int argc, char **argv)
 
     QObject::connect(modifier, &ScatterDataModifier::shadowQualityChanged, shadowQuality,
                      &QComboBox::setCurrentIndex);
-    QObject::connect(graph, &Q3DScatterWidget::shadowQualityChanged, modifier,
+    QObject::connect(graph, &Q3DScatterWidgetItem::shadowQualityChanged, modifier,
                      &ScatterDataModifier::shadowQualityUpdatedByVisual);
 
     QObject::connect(fontList, &QFontComboBox::currentFontChanged, modifier,

@@ -1,19 +1,20 @@
 // Copyright (C) 2024 The Qt Company Ltd.
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 
-#ifndef Q3DBARS_H
-#define Q3DBARS_H
+#ifndef Q3DBARSWIDGETITEM_H
+#define Q3DBARSWIDGETITEM_H
 
 #include <QtGraphs/qbar3dseries.h>
 #include <QtGraphs/qcategory3daxis.h>
 #include <QtGraphs/qvalue3daxis.h>
-#include <QtGraphsWidgets/qabstract3dgraphwidget.h>
+#include <QtGraphsWidgets/q3dgraphswidgetitem.h>
 
 QT_BEGIN_NAMESPACE
 
 class QQuickGraphsBars;
+class Q3DBarsWidgetItemPrivate;
 
-class Q_GRAPHSWIDGETS_EXPORT Q3DBarsWidget : public QAbstract3DGraphWidget
+class Q_GRAPHSWIDGETS_EXPORT Q3DBarsWidgetItem : public Q3DGraphsWidgetItem
 {
     Q_OBJECT
     Q_PROPERTY(bool multiSeriesUniform READ isMultiSeriesUniform WRITE setMultiSeriesUniform NOTIFY
@@ -34,8 +35,8 @@ class Q_GRAPHSWIDGETS_EXPORT Q3DBarsWidget : public QAbstract3DGraphWidget
     Q_PROPERTY(float floorLevel READ floorLevel WRITE setFloorLevel NOTIFY floorLevelChanged)
 
 public:
-    Q3DBarsWidget();
-    ~Q3DBarsWidget() override;
+    Q3DBarsWidgetItem();
+    ~Q3DBarsWidgetItem() override;
 
     void setPrimarySeries(QBar3DSeries *series);
     QBar3DSeries *primarySeries() const;
@@ -73,6 +74,9 @@ public:
     void setFloorLevel(float level);
     float floorLevel() const;
 
+protected:
+    bool event(QEvent *event) override;
+
 Q_SIGNALS:
     void multiSeriesUniformChanged(bool uniform);
     void barThicknessChanged(float thicknessRatio);
@@ -87,6 +91,8 @@ Q_SIGNALS:
     void floorLevelChanged(float level);
 
 private:
+    Q_DECLARE_PRIVATE(Q3DBarsWidgetItem)
+    Q_DISABLE_COPY_MOVE(Q3DBarsWidgetItem)
     QQuickGraphsBars *graphBars();
     const QQuickGraphsBars *graphBars() const;
 };

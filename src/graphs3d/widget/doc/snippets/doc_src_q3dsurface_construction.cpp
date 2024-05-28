@@ -3,7 +3,7 @@
 
 //! [5]
 #include <QtGraphs>
-#include <QtGraphsWidgets/q3dsurfacewidget.h>
+#include <QtGraphsWidgets/q3dsurfacewidgetitem.h>
 #include <QtWidgets/qapplication.h>
 
 int main(int argc, char **argv)
@@ -11,8 +11,10 @@ int main(int argc, char **argv)
     QApplication app(argc, argv);
 
     //! [0]
-    Q3DSurfaceWidget surface;
-    surface.setMinimumSize(QSize(256, 256));
+    QQuickWidget quickWidget;
+    Q3DSurfaceWidgetItem surface;
+    surface.setWidget(&quickWidget);
+    surface.widget()->setMinimumSize(QSize(256, 256));
     //! [0]
     //! [1]
     QSurfaceDataArray data;
@@ -32,7 +34,7 @@ int main(int argc, char **argv)
     surface.addSeries(series);
     //! [3]
     //! [4]
-    surface.show();
+    surface.widget()->show();
     //! [4]
 
     return app.exec();

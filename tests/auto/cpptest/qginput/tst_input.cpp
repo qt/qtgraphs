@@ -3,7 +3,7 @@
 
 #include <QtTest/QtTest>
 
-#include <QtGraphsWidgets/q3dbarswidget.h>
+#include <QtGraphsWidgets/q3dbarswidgetitem.h>
 
 class tst_input: public QObject
 {
@@ -22,7 +22,8 @@ private slots:
     void setQuery();
 
 private:
-    Q3DBarsWidget *m_input;
+    Q3DBarsWidgetItem *m_input;
+    QQuickWidget *m_quickWidget = nullptr;
 };
 
 void tst_input::initTestCase()
@@ -35,17 +36,20 @@ void tst_input::cleanupTestCase()
 
 void tst_input::init()
 {
-    m_input = new Q3DBarsWidget();
+    m_input = new Q3DBarsWidgetItem();
+    m_quickWidget = new QQuickWidget;
+    m_input->setWidget(m_quickWidget);
 }
 
 void tst_input::cleanup()
 {
     delete m_input;
+    delete m_quickWidget;
 }
 
 void tst_input::construct()
 {
-    Q3DBarsWidget *input = new Q3DBarsWidget();
+    Q3DBarsWidgetItem *input = new Q3DBarsWidgetItem();
     QVERIFY(input);
     delete input;
 }
@@ -77,7 +81,7 @@ void tst_input::initializeProperties()
 
 void tst_input::setQuery()
 {
-    QSignalSpy spy(m_input, &QAbstract3DGraphWidget::queriedGraphPositionChanged);
+    QSignalSpy spy(m_input, &Q3DGraphsWidgetItem::queriedGraphPositionChanged);
     m_input->scene()->setGraphPositionQuery(QPoint());
 
     //signal was emitted one time

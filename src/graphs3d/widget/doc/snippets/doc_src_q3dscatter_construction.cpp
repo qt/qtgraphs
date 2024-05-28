@@ -3,7 +3,7 @@
 
 //! [3]
 #include <QtGraphs>
-#include <QtGraphsWidgets/q3dscatterwidget.h>
+#include <QtGraphsWidgets/q3dscatterwidgetitem.h>
 #include <QtWidgets/qapplication.h>
 
 int main(int argc, char **argv)
@@ -11,8 +11,10 @@ int main(int argc, char **argv)
     QApplication app(argc, argv);
 
     //! [0]
-    Q3DScatterWidget scatter;
-    scatter.setMinimumSize(QSize(256, 256));
+    QQuickWidget quickWidget;
+    Q3DScatterWidgetItem scatter;
+    scatter.setWidget(&quickWidget);
+    scatter.widget()->setMinimumSize(QSize(256, 256));
     //! [0]
     //! [1]
     QScatter3DSeries *series = new QScatter3DSeries;
@@ -23,7 +25,7 @@ int main(int argc, char **argv)
     scatter.addSeries(series);
     //! [1]
     //! [2]
-    scatter.show();
+    scatter.widget()->show();
     //! [2]
 
     return app.exec();

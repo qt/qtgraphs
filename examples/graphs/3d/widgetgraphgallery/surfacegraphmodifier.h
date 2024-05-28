@@ -10,7 +10,7 @@
 #include <QtGraphs/qheightmapsurfacedataproxy.h>
 #include <QtGraphs/qsurface3dseries.h>
 #include <QtGraphs/qsurfacedataproxy.h>
-#include <QtGraphsWidgets/q3dsurfacewidget.h>
+#include <QtGraphsWidgets/q3dsurfacewidgetitem.h>
 #include <QtWidgets/qlabel.h>
 #include <QtWidgets/qslider.h>
 
@@ -24,7 +24,7 @@ class SurfaceGraphModifier : public QObject
     enum InputState { StateNormal = 0, StateDraggingX, StateDraggingZ, StateDraggingY };
 
 public:
-    explicit SurfaceGraphModifier(Q3DSurfaceWidget *surface, QLabel *label, QObject *parent);
+    explicit SurfaceGraphModifier(Q3DSurfaceWidgetItem *surface, QLabel *label, QObject *parent);
     ~SurfaceGraphModifier();
 
     //! [0]
@@ -81,7 +81,7 @@ private:
     void resetSelection();
 
 private:
-    Q3DSurfaceWidget *m_graph = nullptr;
+    Q3DSurfaceWidgetItem *m_graph = nullptr;
     QSurfaceDataProxy *m_sqrtSinProxy = nullptr;
     QSurface3DSeries *m_sqrtSinSeries = nullptr;
     QHeightMapSurfaceDataProxy *m_heightMapProxyOne = nullptr;

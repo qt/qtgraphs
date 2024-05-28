@@ -12,7 +12,7 @@
 #include <QtCore/QTextStream>
 #include <QtCore/QDebug>
 
-ScatterDataModifier::ScatterDataModifier(Q3DScatterWidget *scatter)
+ScatterDataModifier::ScatterDataModifier(Q3DScatterWidgetItem *scatter)
     : m_graph(scatter)
 {
     m_graph->activeTheme()->setTheme(QGraphsTheme::Theme::QtGreen);
@@ -64,11 +64,11 @@ ScatterDataModifier::ScatterDataModifier(Q3DScatterWidget *scatter)
     // Give ownership of the handler to the graph and make it the active handler
     //! [0]
     m_graph->unsetDefaultWheelHandler();
-    QObject::connect(m_graph, &QAbstract3DGraphWidget::wheel, this, &ScatterDataModifier::onWheel);
-    QObject::connect(m_graph, &QAbstract3DGraphWidget::mouseMove, this, &ScatterDataModifier::onMouseMove);
-    QObject::connect(m_graph, &QAbstract3DGraphWidget::tapped, this, &ScatterDataModifier::onTapped);
+    QObject::connect(m_graph, &Q3DGraphsWidgetItem::wheel, this, &ScatterDataModifier::onWheel);
+    QObject::connect(m_graph, &Q3DGraphsWidgetItem::mouseMove, this, &ScatterDataModifier::onMouseMove);
+    QObject::connect(m_graph, &Q3DGraphsWidgetItem::tapped, this, &ScatterDataModifier::onTapped);
     QObject::connect(m_graph,
-                     &QAbstract3DGraphWidget::queriedGraphPositionChanged,
+                     &Q3DGraphsWidgetItem::queriedGraphPositionChanged,
                      this,
                      &ScatterDataModifier::onPositionQueryChanged);
     //! [0]

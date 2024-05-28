@@ -73,22 +73,23 @@ static QPixmap highlightPixmap()
     return pmHighlight;
 }
 
-SurfaceGraph::SurfaceGraph()
+SurfaceGraph::SurfaceGraph(QWidget *parent)
 {
-    m_surfaceGraph = new Q3DSurfaceWidget();
+    m_surfaceWidget = new QWidget(parent);
     initialize();
 }
 
 void SurfaceGraph::initialize()
 {
-    m_surfaceWidget = new QWidget;
+    m_surfaceGraphWidget = new SurfaceGraphWidget();
+    m_surfaceGraphWidget->initialize();
     auto *hLayout = new QHBoxLayout(m_surfaceWidget);
-    QSize screenSize = m_surfaceGraph->screen()->size();
-    m_surfaceGraph->setMinimumSize(QSize(screenSize.width() / 2, screenSize.height() / 1.75));
-    m_surfaceGraph->setMaximumSize(screenSize);
-    m_surfaceGraph->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-    m_surfaceGraph->setFocusPolicy(Qt::StrongFocus);
-    hLayout->addWidget(m_surfaceGraph, 1);
+    QSize screenSize = m_surfaceGraphWidget->screen()->size();
+    m_surfaceGraphWidget->setMinimumSize(QSize(screenSize.width() / 2, screenSize.height() / 1.75));
+    m_surfaceGraphWidget->setMaximumSize(screenSize);
+    m_surfaceGraphWidget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    m_surfaceGraphWidget->setFocusPolicy(Qt::StrongFocus);
+    hLayout->addWidget(m_surfaceGraphWidget, 1);
 
     auto *vLayout = new QVBoxLayout();
     hLayout->addLayout(vLayout);
@@ -260,10 +261,12 @@ void SurfaceGraph::initialize()
     vLayout->addWidget(enableTexture);
 
     // Raise the graph to the top of the widget stack, to hide UI if resized smaller
-    m_surfaceGraph->raise();
+    m_surfaceGraphWidget->raise();
 
     // Create the controller
-    m_modifier = new SurfaceGraphModifier(m_surfaceGraph, labelSelectedItem, this);
+    m_modifier = new SurfaceGraphModifier(m_surfaceGraphWidget->surfaceGraph(),
+                                          labelSelectedItem,
+                                          this);
 
     // Connect widget controls to controller
     QObject::connect(heightMapModelRB,

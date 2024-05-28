@@ -15,25 +15,27 @@
 
 using namespace Qt::StringLiterals;
 
-BarGraph::BarGraph()
+BarGraph::BarGraph(QWidget *parent)
 {
-    //! [0]
-    m_barsGraph = new Q3DBarsWidget();
-    //! [0]
+    m_barsWidget = new QWidget(parent);
     initialize();
 }
 
 void BarGraph::initialize()
 {
+    //! [0]
+    // m_barsGraph = new Q3DBarsWidgetItem();
+    m_barGraphWidget = new BarGraphWidget();
+    m_barGraphWidget->initialize();
+    //! [0]
     //! [1]
-    m_barsWidget = new QWidget;
     auto *hLayout = new QHBoxLayout(m_barsWidget);
-    QSize screenSize = m_barsGraph->screen()->size();
-    m_barsGraph->setMinimumSize(QSize(screenSize.width() / 2, screenSize.height() / 1.75));
-    m_barsGraph->setMaximumSize(screenSize);
-    m_barsGraph->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-    m_barsGraph->setFocusPolicy(Qt::StrongFocus);
-    hLayout->addWidget(m_barsGraph, 1);
+    QSize screenSize = m_barGraphWidget->screen()->size();
+    m_barGraphWidget->setMinimumSize(QSize(screenSize.width() / 2, screenSize.height() / 1.75));
+    m_barGraphWidget->setMaximumSize(screenSize);
+    m_barGraphWidget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    m_barGraphWidget->setFocusPolicy(Qt::StrongFocus);
+    hLayout->addWidget(m_barGraphWidget, 1);
 
     auto *vLayout = new QVBoxLayout();
     hLayout->addLayout(vLayout);
@@ -237,10 +239,10 @@ void BarGraph::initialize()
     vLayout->addWidget(modeCustomProxy, 1, Qt::AlignTop);
 
     // Raise the graph to the top of the widget stack, to hide UI if resized smaller
-    m_barsGraph->raise();
+    m_barGraphWidget->raise();
 
     //! [2]
-    m_modifier = new GraphModifier(m_barsGraph, this);
+    m_modifier = new GraphModifier(m_barGraphWidget->barGraphs(), this);
     m_modifier->changeTheme(themeList->currentIndex());
     //! [2]
 
@@ -321,8 +323,8 @@ void BarGraph::initialize()
                      &GraphModifier::shadowQualityChanged,
                      shadowQuality,
                      &QComboBox::setCurrentIndex);
-    QObject::connect(m_barsGraph,
-                     &Q3DBarsWidget::shadowQualityChanged,
+    QObject::connect(m_barGraphWidget->barGraphs(),
+                     &Q3DBarsWidgetItem::shadowQualityChanged,
                      m_modifier,
                      &GraphModifier::shadowQualityUpdatedByVisual);
 
