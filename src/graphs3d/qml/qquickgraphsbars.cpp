@@ -1391,7 +1391,7 @@ void QQuickGraphsBars::fixMeshFileName(QString &fileName, QAbstract3DSeries::Mes
     }
 
     // Should it be filled?
-    if (!theme()->isBackgroundEnabled() && meshType != QAbstract3DSeries::Mesh::Sphere
+    if (!theme()->isPlotAreaBackgroundEnabled() && meshType != QAbstract3DSeries::Mesh::Sphere
         && meshType != QAbstract3DSeries::Mesh::Point
         && meshType != QAbstract3DSeries::Mesh::UserDefined) {
         fileName.append(QStringLiteral("Full"));
