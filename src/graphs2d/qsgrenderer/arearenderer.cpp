@@ -140,7 +140,11 @@ void AreaRenderer::handlePolish(QAreaSeries *series)
                                                                  : borderColor.lighter();
     }
 
-    group->shapePath->setStrokeWidth(series->borderWidth());
+    qreal borderWidth = series->borderWidth();
+    if (qFuzzyCompare(borderWidth, -1.0))
+        borderWidth = theme->borderWidth();
+
+    group->shapePath->setStrokeWidth(borderWidth);
     group->shapePath->setStrokeColor(borderColor);
     group->shapePath->setFillColor(color);
     group->shapePath->setCapStyle(QQuickShapePath::CapStyle::SquareCap);

@@ -57,7 +57,7 @@ void tst_area::initialProperties()
     QCOMPARE(m_series->selectedColor(), QColor(Qt::transparent));
     QCOMPARE(m_series->borderColor(), QColor(Qt::transparent));
     QCOMPARE(m_series->selectedBorderColor(), QColor(Qt::transparent));
-    QCOMPARE(m_series->borderWidth(), 1.0);
+    QCOMPARE(m_series->borderWidth(), -1.0);
     QCOMPARE(m_series->selected(), false);
     QCOMPARE(m_series->upperSeries(), nullptr);
     QCOMPARE(m_series->lowerSeries(), nullptr);

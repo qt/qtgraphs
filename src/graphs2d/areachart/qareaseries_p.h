@@ -28,7 +28,7 @@ protected:
     QColor m_selectedColor = QColor(Qt::transparent);
     QColor m_borderColor = QColor(Qt::transparent);
     QColor m_selectedBorderColor = QColor(Qt::transparent);
-    qreal m_borderWidth = 1.0;
+    qreal m_borderWidth = -1.0;
     bool m_selected = false;
     QXYSeries *m_upperSeries = nullptr;
     QXYSeries *m_lowerSeries = nullptr;

@@ -36,40 +36,85 @@ QT_BEGIN_NAMESPACE
 */
 
 /*!
+    \property QAreaSeries::color
+    \brief The fill color of the area.
+    The default value is \c Qt::transparent, meaning the color is defined by the theme.
+*/
+/*!
     \qmlproperty color AreaSeries::color
     The fill color of the area.
+    The default value is \c transparent, meaning the color is defined by the theme.
 */
 
+/*!
+    \property QAreaSeries::selectedColor
+    \brief The fill color of the area when selected.
+    The default value is \c Qt::transparent, meaning the selected color is defined by the theme.
+*/
 /*!
     \qmlproperty color AreaSeries::selectedColor
     The fill color of the area when selected.
+    The default value is \c transparent, meaning the selected color is defined by the theme.
 */
 
+/*!
+    \property QAreaSeries::borderColor
+    \brief The border color of the area.
+    The default value is \c Qt::transparent, meaning the border color is defined by the theme.
+*/
 /*!
     \qmlproperty color AreaSeries::borderColor
     The border color of the area.
+    The default value is \c transparent, meaning the border color is defined by the theme.
 */
 
+/*!
+    \property QAreaSeries::selectedBorderColor
+    \brief The border color of the area when selected.
+    The default value is \c Qt::transparent, meaning the selected border color is defined by the theme.
+*/
 /*!
     \qmlproperty color AreaSeries::selectedBorderColor
     The border color of the area when selected.
+    The default value is \c transparent, meaning the selected border color is defined by the theme.
 */
 
+/*!
+    \property QAreaSeries::borderWidth
+    \brief The width of the line that encloses the area.
+    The default value is \c -1, meaning the border width is defined by the theme.
+*/
 /*!
     \qmlproperty real AreaSeries::borderWidth
     The width of the line that encloses the area.
+    The default value is \c -1, meaning the border width is defined by the theme.
 */
 
 /*!
+    \property QAreaSeries::selected
+    \brief Sets this area as selected.
+    The default value is \c false.
+*/
+/*!
     \qmlproperty bool AreaSeries::selected
     Sets this area as selected.
+    The default value is \c false.
 */
 
+/*!
+    \property QAreaSeries::upperSeries
+    \brief Sets the upper boundary of the area. No area is drawn if this is null.
+*/
 /*!
     \qmlproperty XYSeries AreaSeries::upperSeries
     Sets the upper boundary of the area. No area is drawn if this is null.
 */
 
+/*!
+    \property QAreaSeries::lowerSeries
+    \brief Sets the lower boundary of the area. If this is null, the graph bottom
+    is considered the lower bound.
+*/
 /*!
     \qmlproperty XYSeries AreaSeries::lowerSeries
     Sets the lower boundary of the area. If this is null, the graph bottom

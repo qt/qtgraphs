@@ -70,7 +70,7 @@ Item {
             compare(initial.selectedColor, "#00000000")
             compare(initial.borderColor, "#00000000")
             compare(initial.selectedBorderColor, "#00000000")
-            compare(initial.borderWidth, 1.0)
+            compare(initial.borderWidth, -1.0)
             compare(initial.selected, false)
             compare(initial.upperSeries, null)
             compare(initial.lowerSeries, null)
