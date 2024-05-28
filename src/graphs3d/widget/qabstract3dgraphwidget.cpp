@@ -210,10 +210,10 @@ QT_BEGIN_NAMESPACE
  */
 
 /*!
-  \qmlproperty Theme3D Abstract3DGraph::theme
+  \qmlproperty GraphsTheme Abstract3DGraph::theme
   The active theme of the graph.
 
-  \sa Theme3D
+  \sa GraphsTheme
  */
 
 /*!

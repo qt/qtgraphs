@@ -136,7 +136,7 @@ QT_BEGIN_NAMESPACE
 /*!
  * \qmlproperty list<Color> Bar3DSeries::rowColors
  * This property can be used to draw the rows of the series in different colors.
- * The \l{Theme3D::colorStyle}{Theme3D.colorStyle} must be set to
+ * The \l{QGraphsTheme::colorStyle}{GraphsTheme.colorStyle} must be set to
  * \c Uniform to use this property.
  * \note If the property is set and the theme is changed,
  * the rowColors list is not cleared automatically.

@@ -160,7 +160,7 @@ QT_BEGIN_NAMESPACE
  *
  * Sets the color style for the series.
  *
- * \sa {GraphsTheme::ColorStyle}{GraphsTheme.ColorStyle}
+ * \sa {QGraphsTheme::ColorStyle}{GraphsTheme.ColorStyle}
  */
 
 /*!
