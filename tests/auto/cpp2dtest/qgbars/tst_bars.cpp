@@ -55,7 +55,7 @@ void tst_bars::initialProperties()
     // Properties from QBarSeries
     QCOMPARE(m_series->barWidth(), 0.5);
     QCOMPARE(m_series->count(), 0);
-    QCOMPARE(m_series->isLabelsVisible(), false);
+    QCOMPARE(m_series->labelsVisible(), false);
     QCOMPARE(m_series->labelsFormat(), "");
     QCOMPARE(m_series->labelsPosition(), QBarSeries::LabelsPosition::Center);
     QCOMPARE(m_series->labelsMargin(), 0);
@@ -66,8 +66,8 @@ void tst_bars::initialProperties()
     // Properties from QAbstractSeries
     QCOMPARE(m_series->name(), "");
     QCOMPARE(m_series->isVisible(), true);
-    QCOMPARE(m_series->selectable(), false);
-    QCOMPARE(m_series->hoverable(), false);
+    QCOMPARE(m_series->isSelectable(), false);
+    QCOMPARE(m_series->isHoverable(), false);
     QCOMPARE(m_series->opacity(), 1.0);
     QCOMPARE(m_series->valuesMultiplier(), 1.0);
 }
@@ -100,7 +100,7 @@ void tst_bars::initializeProperties()
 
     QCOMPARE(m_series->barWidth(), 0.75);
     QCOMPARE(m_series->count(), 1);
-    QCOMPARE(m_series->isLabelsVisible(), true);
+    QCOMPARE(m_series->labelsVisible(), true);
     QCOMPARE(m_series->labelsFormat(), "i");
     QCOMPARE(m_series->labelsPosition(), QBarSeries::LabelsPosition::InsideBase);
     QCOMPARE(m_series->labelsMargin(), 10.0);
@@ -111,8 +111,8 @@ void tst_bars::initializeProperties()
     QCOMPARE(m_series->borderColors(), colors2);
     QCOMPARE(m_series->name(), "BarSeries");
     QCOMPARE(m_series->isVisible(), false);
-    QCOMPARE(m_series->selectable(), true);
-    QCOMPARE(m_series->hoverable(), true);
+    QCOMPARE(m_series->isSelectable(), true);
+    QCOMPARE(m_series->isHoverable(), true);
     QCOMPARE(m_series->opacity(), 0.5);
     QCOMPARE(m_series->valuesMultiplier(), 0.5);
 }

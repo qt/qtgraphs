@@ -442,7 +442,7 @@ void AxisRenderer::updateAxisTickers()
 
 void AxisRenderer::updateAxisTickersShadow()
 {
-    if (m_axisVertical && m_graph->shadowEnabled()) {
+    if (m_axisVertical && m_graph->isShadowEnabled()) {
         m_axisTickerVerticalShadow->setMinorColor(m_graph->shadowColor());
         m_axisTickerVerticalShadow->setMajorColor(m_graph->shadowColor());
         m_axisTickerVerticalShadow->setMinorBarWidth(m_axisTickerVertical->minorBarWidth() + m_graph->shadowBarWidth());
@@ -474,7 +474,7 @@ void AxisRenderer::updateAxisTickersShadow()
         m_axisLineVerticalShadow->setVisible(false);
     }
 
-    if (m_axisHorizontal && m_graph->shadowEnabled()) {
+    if (m_axisHorizontal && m_graph->isShadowEnabled()) {
         m_axisTickerHorizontalShadow->setMinorColor(m_graph->shadowColor());
         m_axisTickerHorizontalShadow->setMajorColor(m_graph->shadowColor());
         m_axisTickerHorizontalShadow->setMinorBarWidth(m_axisTickerHorizontal->minorBarWidth() + m_graph->shadowBarWidth());
@@ -546,7 +546,7 @@ void AxisRenderer::updateAxisGrid()
 
 void AxisRenderer::updateAxisGridShadow()
 {
-    if (m_graph->shadowEnabled()) {
+    if (m_graph->isShadowEnabled()) {
         m_axisGridShadow->setMajorColor(m_graph->shadowColor());
         m_axisGridShadow->setMinorColor(m_graph->shadowColor());
         m_axisGridShadow->setMinorBarWidth(m_axisGrid->minorBarWidth() + m_graph->shadowBarWidth());

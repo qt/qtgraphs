@@ -209,7 +209,7 @@ void QAreaSeries::setBorderWidth(qreal newBorderWidth)
     emit borderWidthChanged();
 }
 
-bool QAreaSeries::selected() const
+bool QAreaSeries::isSelected() const
 {
     Q_D(const QAreaSeries);
     return d->m_selected;

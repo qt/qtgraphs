@@ -21,7 +21,7 @@ class Q_GRAPHS_EXPORT QBarSeries : public QAbstractSeries
     Q_PROPERTY(BarsType barsType READ barsType WRITE setBarsType NOTIFY barsTypeChanged FINAL)
     Q_PROPERTY(qreal barWidth READ barWidth WRITE setBarWidth NOTIFY barWidthChanged FINAL)
     Q_PROPERTY(qsizetype count READ count NOTIFY countChanged FINAL)
-    Q_PROPERTY(bool labelsVisible READ isLabelsVisible WRITE setLabelsVisible NOTIFY
+    Q_PROPERTY(bool labelsVisible READ labelsVisible WRITE setLabelsVisible NOTIFY
                    labelsVisibleChanged FINAL)
     Q_PROPERTY(QString labelsFormat READ labelsFormat WRITE setLabelsFormat NOTIFY
                    labelsFormatChanged FINAL)
@@ -86,7 +86,7 @@ public:
     QList<QBarSet *> barSets() const;
 
     void setLabelsVisible(bool visible = true);
-    bool isLabelsVisible() const;
+    bool labelsVisible() const;
 
     void setLabelsFormat(const QString &format);
     QString labelsFormat() const;

@@ -23,7 +23,7 @@ class Q_GRAPHS_EXPORT QXYSeries : public QAbstractSeries
     Q_PROPERTY(QColor selectedColor READ selectedColor WRITE setSelectedColor NOTIFY
                    selectedColorChanged FINAL)
     Q_PROPERTY(QQmlComponent *pointMarker READ pointMarker WRITE setPointMarker NOTIFY pointMarkerChanged FINAL)
-    Q_PROPERTY(bool draggable READ draggable WRITE setDraggable NOTIFY draggableChanged FINAL)
+    Q_PROPERTY(bool draggable READ isDraggable WRITE setDraggable NOTIFY draggableChanged FINAL)
     Q_PROPERTY(QList<qsizetype> selectedPoints READ selectedPoints NOTIFY selectedPointsChanged FINAL)
 
 protected:
@@ -77,7 +77,7 @@ public:
     QML_ELEMENT
     QML_UNCREATABLE("XYSeries is an abstract base class.")
 
-    bool draggable() const;
+    bool isDraggable() const;
     void setDraggable(bool newDraggable);
 
 Q_SIGNALS:

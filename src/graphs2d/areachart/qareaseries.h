@@ -24,7 +24,7 @@ class Q_GRAPHS_EXPORT QAreaSeries : public QAbstractSeries
                    NOTIFY selectedBorderColorChanged FINAL)
     Q_PROPERTY(
         qreal borderWidth READ borderWidth WRITE setBorderWidth NOTIFY borderWidthChanged FINAL)
-    Q_PROPERTY(bool selected READ selected WRITE setSelected NOTIFY selectedChanged FINAL)
+    Q_PROPERTY(bool selected READ isSelected WRITE setSelected NOTIFY selectedChanged FINAL)
     Q_PROPERTY(QXYSeries *upperSeries READ upperSeries WRITE setUpperSeries NOTIFY
                    upperSeriesChanged FINAL)
     Q_PROPERTY(QXYSeries *lowerSeries READ lowerSeries WRITE setLowerSeries NOTIFY
@@ -51,7 +51,7 @@ public:
     qreal borderWidth() const;
     void setBorderWidth(qreal newBorderWidth);
 
-    bool selected() const;
+    bool isSelected() const;
     void setSelected(bool newSelected);
 
     QXYSeries *upperSeries() const;

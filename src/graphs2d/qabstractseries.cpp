@@ -301,7 +301,7 @@ void QAbstractSeries::setVisible(bool visible)
     }
 }
 
-bool QAbstractSeries::selectable() const
+bool QAbstractSeries::isSelectable() const
 {
     const Q_D(QAbstractSeries);
     return d->m_selectable;
@@ -317,7 +317,7 @@ void QAbstractSeries::setSelectable(bool selectable)
     }
 }
 
-bool QAbstractSeries::hoverable() const
+bool QAbstractSeries::isHoverable() const
 {
     const Q_D(QAbstractSeries);
     return d->m_hoverable;

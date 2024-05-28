@@ -776,7 +776,7 @@ void QXYSeries::setPointMarker(QQmlComponent *newPointMarker)
     Controls if the series can be dragged with mouse/touch.
     By default, \a draggable is set to \c false.
 */
-bool QXYSeries::draggable() const
+bool QXYSeries::isDraggable() const
 {
     Q_D(const QXYSeries);
     return d->m_draggable;

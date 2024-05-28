@@ -440,7 +440,7 @@ QT_BEGIN_NAMESPACE
 /*!
     \fn void QBarSeries::labelsVisibleChanged(bool visible)
     This signal is emitted when the labels' visibility changes to \a visible.
-    \sa isLabelsVisible(), setLabelsVisible()
+    \sa labelsVisible(), setLabelsVisible()
 */
 
 /*!
@@ -978,7 +978,7 @@ void QBarSeries::setLabelsVisible(bool visible)
 /*!
     Returns the visibility of labels.
 */
-bool QBarSeries::isLabelsVisible() const
+bool QBarSeries::labelsVisible() const
 {
     Q_D(const QBarSeries);
     return d->m_labelsVisible;

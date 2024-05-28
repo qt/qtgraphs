@@ -177,7 +177,7 @@ void BarsRenderer::updateComponents(QBarSeries *series)
 
 void BarsRenderer::updateValueLabels(QBarSeries *series)
 {
-    if (!series->barComponent() && series->isLabelsVisible()) {
+    if (!series->barComponent() && series->labelsVisible()) {
         // Update default value labels
         int barIndex = 0;
         for (auto i = m_seriesData.cbegin(), end = m_seriesData.cend(); i != end; ++i) {
@@ -194,7 +194,7 @@ void BarsRenderer::updateValueLabels(QBarSeries *series)
                 if (qFuzzyIsNull(d.value)) {
                     textItem->setVisible(false);
                 } else {
-                    textItem->setVisible(series->isLabelsVisible());
+                    textItem->setVisible(series->labelsVisible());
                     QString valueLabel = generateLabelText(series, d.value);
                     textItem->setText(valueLabel);
                     positionLabelItem(series, textItem, d);
@@ -276,7 +276,7 @@ void BarsRenderer::updateVerticalBars(QBarSeries *series, qsizetype setCount, qs
         seriesPos = 0;
         barIndexInSet = 0;
         BarSelectionRect *barSelectionRect = nullptr;
-        if (series->selectable() || series->hoverable()) {
+        if (series->isSelectable() || series->isHoverable()) {
             m_rectNodesInputRects << BarSelectionRect();
             barSelectionRect = &m_rectNodesInputRects.last();
             barSelectionRect->barSet = s;
@@ -387,7 +387,7 @@ void BarsRenderer::updateHorizontalBars(QBarSeries *series, qsizetype setCount, 
         seriesPos = 0;
         barIndexInSet = 0;
         BarSelectionRect *barSelectionRect = nullptr;
-        if (series->selectable() || series->hoverable()) {
+        if (series->isSelectable() || series->isHoverable()) {
             m_rectNodesInputRects << BarSelectionRect();
             barSelectionRect = &m_rectNodesInputRects.last();
             barSelectionRect->barSet = s;
@@ -538,7 +538,7 @@ bool BarsRenderer::handleMousePress(QMouseEvent *event)
 {
     bool handled = false;
     for (auto &barSelection : m_rectNodesInputRects) {
-        if (!barSelection.series->selectable())
+        if (!barSelection.series->isSelectable())
             continue;
         qsizetype indexInSet = 0;
         for (auto &rect : barSelection.rects) {

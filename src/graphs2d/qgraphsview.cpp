@@ -253,7 +253,7 @@ void QGraphsView::setGridSmoothing(qreal smoothing)
     Controls if the graph grid shadow is visible.
     By default, shadow visibility is set to \c false.
 */
-bool QGraphsView::shadowEnabled() const
+bool QGraphsView::isShadowEnabled() const
 {
     return m_shadowEnabled;
 }

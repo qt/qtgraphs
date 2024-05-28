@@ -48,7 +48,7 @@ class QGraphsView : public QQuickItem
     Q_PROPERTY(qreal axisYSmoothing READ axisYSmoothing WRITE setAxisYSmoothing NOTIFY axisYSmoothingChanged FINAL)
     Q_PROPERTY(qreal gridSmoothing READ gridSmoothing WRITE setGridSmoothing NOTIFY gridSmoothingChanged FINAL)
 
-    Q_PROPERTY(bool shadowEnabled READ shadowEnabled WRITE setShadowEnabled NOTIFY shadowEnabledChanged FINAL)
+    Q_PROPERTY(bool shadowEnabled READ isShadowEnabled WRITE setShadowEnabled NOTIFY shadowEnabledChanged FINAL)
     Q_PROPERTY(QColor shadowColor READ shadowColor WRITE setShadowColor NOTIFY shadowColorChanged FINAL)
     Q_PROPERTY(qreal shadowBarWidth READ shadowBarWidth WRITE setShadowBarWidth NOTIFY shadowBarWidthChanged FINAL)
     Q_PROPERTY(qreal shadowXOffset READ shadowXOffset WRITE setShadowXOffset NOTIFY shadowXOffsetChanged FINAL)
@@ -120,7 +120,7 @@ public:
     qreal gridSmoothing() const;
     void setGridSmoothing(qreal smoothing);
 
-    bool shadowEnabled() const;
+    bool isShadowEnabled() const;
     void setShadowEnabled(bool newShadowEnabled);
     QColor shadowColor() const;
     void setShadowColor(const QColor &newShadowColor);

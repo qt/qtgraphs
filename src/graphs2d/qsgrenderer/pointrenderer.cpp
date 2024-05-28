@@ -396,7 +396,7 @@ void PointRenderer::updateSeries(QXYSeries *series)
 
 bool PointRenderer::handleMouseMove(QMouseEvent *event)
 {
-    if (m_pointPressed && m_pressedGroup->series->draggable()) {
+    if (m_pointPressed && m_pressedGroup->series->isDraggable()) {
         float w = width() - m_graph->m_marginLeft - m_graph->m_marginRight
                   - m_graph->m_axisRenderer->m_axisWidth;
         float h = height() - m_graph->m_marginTop - m_graph->m_marginBottom
@@ -428,7 +428,7 @@ bool PointRenderer::handleMousePress(QMouseEvent *event)
 {
     bool handled = false;
     for (auto &&group : m_groups) {
-        if (!group->series->selectable() && !group->series->draggable())
+        if (!group->series->isSelectable() && !group->series->isDraggable())
             continue;
 
         int index = 0;
@@ -450,7 +450,7 @@ bool PointRenderer::handleMouseRelease(QMouseEvent *event)
 {
     bool handled = false;
     if (!m_pointDragging && m_pointPressed && m_pressedGroup
-        && m_pressedGroup->series->selectable()) {
+        && m_pressedGroup->series->isSelectable()) {
         if (m_pressedGroup->rects[m_pressedPointIndex].contains(event->pos())) {
             if (m_pressedGroup->series->isPointSelected(m_pressedPointIndex)) {
                 m_pressedGroup->series->deselectPoint(m_pressedPointIndex);
@@ -471,7 +471,7 @@ bool PointRenderer::handleHoverMove(QHoverEvent *event)
     const QPointF &position = event->position();
 
     for (auto &&group : m_groups) {
-        if (!group->series->hoverable())
+        if (!group->series->isHoverable())
             continue;
 
         auto axisRenderer = group->series->graph()->m_axisRenderer;

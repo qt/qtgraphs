@@ -58,15 +58,15 @@ void tst_area::initialProperties()
     QCOMPARE(m_series->borderColor(), QColor(Qt::transparent));
     QCOMPARE(m_series->selectedBorderColor(), QColor(Qt::transparent));
     QCOMPARE(m_series->borderWidth(), -1.0);
-    QCOMPARE(m_series->selected(), false);
+    QCOMPARE(m_series->isSelected(), false);
     QCOMPARE(m_series->upperSeries(), nullptr);
     QCOMPARE(m_series->lowerSeries(), nullptr);
 
     // Properties from QAbstractSeries
     QCOMPARE(m_series->name(), "");
     QCOMPARE(m_series->isVisible(), true);
-    QCOMPARE(m_series->selectable(), false);
-    QCOMPARE(m_series->hoverable(), false);
+    QCOMPARE(m_series->isSelectable(), false);
+    QCOMPARE(m_series->isHoverable(), false);
     QCOMPARE(m_series->opacity(), 1.0);
     QCOMPARE(m_series->valuesMultiplier(), 1.0);
 }
@@ -99,14 +99,14 @@ void tst_area::initializeProperties()
     QCOMPARE(m_series->borderColor(), "#ff0000");
     QCOMPARE(m_series->selectedBorderColor(), "#0000ff");
     QCOMPARE(m_series->borderWidth(), 2.0);
-    QCOMPARE(m_series->selected(), true);
+    QCOMPARE(m_series->isSelected(), true);
     QCOMPARE(m_series->upperSeries(), upperSeries);
     QCOMPARE(m_series->lowerSeries(), lowerSeries);
 
     QCOMPARE(m_series->name(), "AreaSeries");
     QCOMPARE(m_series->isVisible(), false);
-    QCOMPARE(m_series->selectable(), true);
-    QCOMPARE(m_series->hoverable(), true);
+    QCOMPARE(m_series->isSelectable(), true);
+    QCOMPARE(m_series->isHoverable(), true);
     QCOMPARE(m_series->opacity(), 0.5);
     QCOMPARE(m_series->valuesMultiplier(), 0.5);
 }

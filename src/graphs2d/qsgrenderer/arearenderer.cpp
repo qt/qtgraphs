@@ -134,7 +134,7 @@ void AreaRenderer::handlePolish(QAreaSeries *series)
             ? series->borderColor()
             : borderColors.at(index);
 
-    if (series->selected()) {
+    if (series->isSelected()) {
         color = series->selectedColor().alpha() != 0 ? series->selectedColor() : color.lighter();
         borderColor = series->selectedBorderColor().alpha() != 0 ? series->selectedBorderColor()
                                                                  : borderColor.lighter();
@@ -337,7 +337,7 @@ bool AreaRenderer::handleMousePress(QMouseEvent *event)
 {
     bool handled = false;
     for (auto &&group : m_groups) {
-        if (!group->series->selectable())
+        if (!group->series->isSelectable())
             continue;
 
         if (!group->series->upperSeries() || group->series->upperSeries()->count() < 2)
@@ -347,7 +347,7 @@ bool AreaRenderer::handleMousePress(QMouseEvent *event)
             continue;
 
         if (pointInArea(event->pos(), group->series)) {
-            group->series->setSelected(!group->series->selected());
+            group->series->setSelected(!group->series->isSelected());
             handled = true;
         }
     }
@@ -360,7 +360,7 @@ bool AreaRenderer::handleHoverMove(QHoverEvent *event)
     const QPointF &position = event->position();
 
     for (auto &&group : m_groups) {
-        if (!group->series->hoverable())
+        if (!group->series->isHoverable())
             continue;
 
         if (!group->series->upperSeries() || group->series->upperSeries()->count() < 2)

@@ -37,8 +37,8 @@ class Q_GRAPHS_EXPORT QAbstractSeries : public QObject, public QQmlParserStatus
     Q_INTERFACES(QQmlParserStatus)
     Q_PROPERTY(QString name READ name WRITE setName NOTIFY nameChanged FINAL)
     Q_PROPERTY(bool visible READ isVisible WRITE setVisible NOTIFY visibleChanged FINAL)
-    Q_PROPERTY(bool selectable READ selectable WRITE setSelectable NOTIFY selectableChanged FINAL)
-    Q_PROPERTY(bool hoverable READ hoverable WRITE setHoverable NOTIFY hoverableChanged FINAL)
+    Q_PROPERTY(bool selectable READ isSelectable WRITE setSelectable NOTIFY selectableChanged FINAL)
+    Q_PROPERTY(bool hoverable READ isHoverable WRITE setHoverable NOTIFY hoverableChanged FINAL)
     Q_PROPERTY(qreal opacity READ opacity WRITE setOpacity NOTIFY opacityChanged FINAL)
     Q_PROPERTY(qreal valuesMultiplier READ valuesMultiplier WRITE setValuesMultiplier NOTIFY
                    valuesMultiplierChanged FINAL)
@@ -75,7 +75,7 @@ public:
     bool isVisible() const;
     void setVisible(bool visible = true);
 
-    bool selectable() const;
+    bool isSelectable() const;
     void setSelectable(bool selectable);
 
     qreal opacity() const;
@@ -94,7 +94,7 @@ public:
 
     QQmlListProperty<QObject> seriesChildren();
 
-    bool hoverable() const;
+    bool isHoverable() const;
     void setHoverable(bool newHoverable);
 
     bool hasLoaded() const;

@@ -57,13 +57,13 @@ void tst_scatter::initialProperties()
     // Properties from QXYSeries
     QCOMPARE(m_series->color(), QColor(Qt::transparent));
     QCOMPARE(m_series->selectedColor(), QColor(Qt::transparent));
-    QCOMPARE(m_series->draggable(), false);
+    QCOMPARE(m_series->isDraggable(), false);
 
     // Properties from QAbstractSeries
     QCOMPARE(m_series->name(), "");
     QCOMPARE(m_series->isVisible(), true);
-    QCOMPARE(m_series->selectable(), false);
-    QCOMPARE(m_series->hoverable(), false);
+    QCOMPARE(m_series->isSelectable(), false);
+    QCOMPARE(m_series->isHoverable(), false);
     QCOMPARE(m_series->opacity(), 1.0);
     QCOMPARE(m_series->valuesMultiplier(), 1.0);
 }
@@ -91,12 +91,12 @@ void tst_scatter::initializeProperties()
 
     QCOMPARE(m_series->color(), "#ff0000");
     QCOMPARE(m_series->selectedColor(), "#0000ff");
-    QCOMPARE(m_series->draggable(), true);
+    QCOMPARE(m_series->isDraggable(), true);
 
     QCOMPARE(m_series->name(), "LineSeries");
     QCOMPARE(m_series->isVisible(), false);
-    QCOMPARE(m_series->selectable(), true);
-    QCOMPARE(m_series->hoverable(), true);
+    QCOMPARE(m_series->isSelectable(), true);
+    QCOMPARE(m_series->isHoverable(), true);
     QCOMPARE(m_series->opacity(), 0.5);
     QCOMPARE(m_series->valuesMultiplier(), 0.5);
 }
