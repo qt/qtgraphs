@@ -210,6 +210,7 @@ build/*
 bin/*
 coverage/*
 build-*/*
+examples/graphs/*/*/build/*
 
 # runonphone crash dumps
 d_exc_*.txt
