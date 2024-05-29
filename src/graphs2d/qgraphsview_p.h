@@ -48,7 +48,8 @@ class QGraphsView : public QQuickItem
     Q_PROPERTY(qreal axisYSmoothing READ axisYSmoothing WRITE setAxisYSmoothing NOTIFY axisYSmoothingChanged FINAL)
     Q_PROPERTY(qreal gridSmoothing READ gridSmoothing WRITE setGridSmoothing NOTIFY gridSmoothingChanged FINAL)
 
-    Q_PROPERTY(bool shadowEnabled READ isShadowEnabled WRITE setShadowEnabled NOTIFY shadowEnabledChanged FINAL)
+    Q_PROPERTY(bool shadowVisible READ isShadowVisible WRITE setShadowVisible NOTIFY
+                   shadowVisibleChanged FINAL)
     Q_PROPERTY(QColor shadowColor READ shadowColor WRITE setShadowColor NOTIFY shadowColorChanged FINAL)
     Q_PROPERTY(qreal shadowBarWidth READ shadowBarWidth WRITE setShadowBarWidth NOTIFY shadowBarWidthChanged FINAL)
     Q_PROPERTY(qreal shadowXOffset READ shadowXOffset WRITE setShadowXOffset NOTIFY shadowXOffsetChanged FINAL)
@@ -121,8 +122,8 @@ public:
     qreal gridSmoothing() const;
     void setGridSmoothing(qreal smoothing);
 
-    bool isShadowEnabled() const;
-    void setShadowEnabled(bool newShadowEnabled);
+    bool isShadowVisible() const;
+    void setShadowVisible(bool newShadowVisibility);
     QColor shadowColor() const;
     void setShadowColor(const QColor &newShadowColor);
     qreal shadowBarWidth() const;
@@ -171,7 +172,7 @@ Q_SIGNALS:
     void axisYSmoothingChanged();
     void gridSmoothingChanged();
 
-    void shadowEnabledChanged();
+    void shadowVisibleChanged();
     void shadowColorChanged();
     void shadowBarWidthChanged();
     void shadowXOffsetChanged();
@@ -224,7 +225,7 @@ private:
     qreal m_axisYSmoothing = 1.0;
     qreal m_gridSmoothing = 1.0;
 
-    bool m_shadowEnabled = false;
+    bool m_isShadowVisible = false;
     QColor m_shadowColor = QColorConstants::Black;
     qreal m_shadowBarWidth = 2.0;
     qreal m_shadowXOffset = 0.0;
