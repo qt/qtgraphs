@@ -466,8 +466,15 @@ void BarsRenderer::handlePolish(QBarSeries *series)
 
     qsizetype setCount = series->barSets().size();
     auto &seriesData = m_seriesData[series];
+    auto &barItems = m_barItems[series];
     auto &rectNodesInputRects = m_rectNodesInputRects[series];
     if (setCount == 0) {
+        if (series->barComponent()) {
+            for (int i = 0; i < barItems.size(); i++)
+                barItems[i]->deleteLater();
+            barItems.clear();
+        }
+
         series->d_func()->clearLegendData();
         rectNodesInputRects.clear();
         seriesData.clear();
@@ -478,7 +485,6 @@ void BarsRenderer::handlePolish(QBarSeries *series)
         m_colorIndex = m_graph->graphSeriesCount();
     m_graph->setGraphSeriesCount(m_colorIndex + setCount);
 
-    auto &barItems = m_barItems[series];
     if (!series->barComponent() && !barItems.isEmpty()) {
         // If we have switched from custom bar component to rectangle nodes,
         // remove the redundant items.
@@ -495,11 +501,18 @@ void BarsRenderer::handlePolish(QBarSeries *series)
         updateHorizontalBars(series, setCount, valuesPerSet);
     updateComponents(series);
     updateValueLabels(series);
+
+    // Remove additional components
+    for (qsizetype i = barItems.size() - 1; i >= seriesData.size(); --i)
+        barItems[i]->deleteLater();
+    const auto range = barItems.size() - seriesData.size();
+    if (range > 0)
+        barItems.remove(seriesData.size(), range);
 }
 
 void BarsRenderer::updateSeries(QBarSeries *series)
 {
-    if (series->barSets().isEmpty() || (!series->barComponent() && !series->isVisible())) {
+    if (!series->barComponent() && (series->barSets().isEmpty() || !series->isVisible())) {
         // Series is empty or not visible
         if (m_rectNodes.contains(series)) {
             auto &rectNodes = m_rectNodes[series];
