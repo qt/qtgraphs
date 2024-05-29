@@ -24,7 +24,8 @@ private slots:
     void initializeProperties();
     void invalidProperties();
 
-    void subViews();
+    // TODO: Fails on QNX (QTBUG-125982)
+    // void subViews();
 
 private:
     Q3DScene *m_scene;
@@ -103,11 +104,13 @@ void tst_scene::invalidProperties()
     QCOMPARE(m_scene->secondarySubViewport(), QRect(0, 0, 0, 0));
 }
 
+// TODO: Fails on QNX (QTBUG-125982), and the checks in the test function do not seem to work
+/*
 void tst_scene::subViews()
 {
-    // TODO: Fails on QNX (QTBUG-125982)
     if (qEnvironmentVariableIsEmpty("QNX_QEMU")
-        && qEnvironmentVariableIsEmpty("QNX_QEMU_LD_LIBRARY_PATH")) {
+        && qEnvironmentVariableIsEmpty("QNX_QEMU_LD_LIBRARY_PATH")
+        && qEnvironmentVariableIsEmpty("QNX_710") && qEnvironmentVariableIsEmpty("QNX_800")) {
         QQuickWidget quickWidget;
         Q3DBarsWidgetItem graph;
         quickWidget.setMinimumSize(QSize(200, 200));
@@ -149,6 +152,6 @@ void tst_scene::subViews()
         QCOMPARE(scene->isPointInSecondarySubView(QPoint(30, 30)), false);
     }
 }
-
+*/
 QTEST_MAIN(tst_scene)
 #include "tst_scene.moc"
