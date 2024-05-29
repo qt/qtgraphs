@@ -1,8 +1,7 @@
 # Copyright (C) 2023 The Qt Company Ltd.
 # SPDX-License-Identifier: BSD-3-Clause
 
-qt_feature_evaluate_features("${CMAKE_CURRENT_SOURCE_DIR}/graphs2d/configure.cmake")
-qt_feature_evaluate_features("${CMAKE_CURRENT_SOURCE_DIR}/graphs3d/configure.cmake")
+qt_feature_evaluate_features("${CMAKE_CURRENT_SOURCE_DIR}/configure.cmake")
 
 if(NOT QT_FEATURE_graphs_2d AND NOT QT_FEATURE_graphs_3d)
     message("You must have either FEATURE_graphs_2d or FEATURE_graphs_3d ON, or nothing will be built.")
