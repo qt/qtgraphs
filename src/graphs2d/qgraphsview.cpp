@@ -299,26 +299,26 @@ void QGraphsView::setGridSmoothing(qreal smoothing)
 }
 
 /*!
-    \property QGraphsView::shadowEnabled
+    \property QGraphsView::shadowVisible
     \brief Controls if the graph grid shadow is visible.
     By default, shadow visibility is set to \c false.
 */
 /*!
-    \qmlproperty bool GraphsView::shadowEnabled
+    \qmlproperty bool GraphsView::shadowVisible
     Controls if the graph grid shadow is visible.
     By default, shadow visibility is set to \c false.
 */
-bool QGraphsView::isShadowEnabled() const
+bool QGraphsView::isShadowVisible() const
 {
-    return m_shadowEnabled;
+    return m_isShadowVisible;
 }
 
-void QGraphsView::setShadowEnabled(bool newShadowEnabled)
+void QGraphsView::setShadowVisible(bool newShadowVisibility)
 {
-    if (m_shadowEnabled == newShadowEnabled)
+    if (m_isShadowVisible == newShadowVisibility)
         return;
-    m_shadowEnabled = newShadowEnabled;
-    emit shadowEnabledChanged();
+    m_isShadowVisible = newShadowVisibility;
+    emit shadowVisibleChanged();
     polishAndUpdate();
 }
 

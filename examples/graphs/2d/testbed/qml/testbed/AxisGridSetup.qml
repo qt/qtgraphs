@@ -16,7 +16,7 @@ Rectangle {
         anchors.fill: parent
         anchors.margins: 50 * px
         anchors.rightMargin: settingsView.posX + 60 * px
-        shadowEnabled: checkBoxShadowEnabled.checked
+        shadowVisible: checkBoxShadowVisible.checked
         shadowColor: "#80404040"
         axisX: BarCategoryAxis {
             id: xAxis
@@ -234,8 +234,8 @@ Rectangle {
             }
         }
         CustomCheckBox {
-            id: checkBoxShadowEnabled
-            text: "Shadow: Enabled"
+            id: checkBoxShadowVisible
+            text: "Shadow: Visible"
             checked: true
         }
         CustomLabel {
