@@ -34,9 +34,9 @@ GraphModifier::GraphModifier(Q3DBarsWidget *bargraph, QObject *parent)
 {
     //! [2]
     m_graph->setShadowQuality(QGraphs3D::ShadowQuality::SoftMedium);
-    m_graph->activeTheme()->setPlotAreaBackgroundEnabled(false);
+    m_graph->activeTheme()->setPlotAreaBackgroundVisible(false);
     m_graph->activeTheme()->setLabelFont(QFont("Times New Roman", m_fontSize));
-    m_graph->activeTheme()->setLabelBackgroundEnabled(true);
+    m_graph->activeTheme()->setLabelBackgroundVisible(true);
     m_graph->setMultiSeriesUniform(true);
     //! [2]
 
@@ -240,16 +240,16 @@ void GraphModifier::changeTheme(int theme)
 {
     QGraphsTheme *currentTheme = m_graph->activeTheme();
     currentTheme->setTheme(QGraphsTheme::Theme(theme));
-    emit backgroundEnabledChanged(currentTheme->isPlotAreaBackgroundEnabled());
-    emit gridEnabledChanged(currentTheme->isGridEnabled());
+    emit backgroundEnabledChanged(currentTheme->isPlotAreaBackgroundVisible());
+    emit gridEnabledChanged(currentTheme->isGridVisible());
     emit fontChanged(currentTheme->labelFont());
     emit fontSizeChanged(currentTheme->labelFont().pointSize());
 }
 
 void GraphModifier::changeLabelBackground()
 {
-    m_graph->activeTheme()->setLabelBackgroundEnabled(
-        !m_graph->activeTheme()->isLabelBackgroundEnabled());
+    m_graph->activeTheme()->setLabelBackgroundVisible(
+        !m_graph->activeTheme()->isLabelBackgroundVisible());
 }
 
 void GraphModifier::changeSelectionMode(int selectionMode)
@@ -404,12 +404,12 @@ void GraphModifier::rotateY(int rotation)
 
 void GraphModifier::setBackgroundEnabled(int enabled)
 {
-    m_graph->activeTheme()->setPlotAreaBackgroundEnabled(bool(enabled));
+    m_graph->activeTheme()->setPlotAreaBackgroundVisible(bool(enabled));
 }
 
 void GraphModifier::setGridEnabled(int enabled)
 {
-    m_graph->activeTheme()->setGridEnabled(bool(enabled));
+    m_graph->activeTheme()->setGridVisible(bool(enabled));
 }
 
 void GraphModifier::setSmoothBars(int smooth)

@@ -57,7 +57,7 @@ Rectangle {
             id: myTheme
             colorScheme: Qt.Dark
             theme: GraphsTheme.Theme.QtGreen
-            backgroundEnabled: false
+            backgroundVisible: false
             axisXLabelFont.pixelSize: 20
         }
         BarSeries {

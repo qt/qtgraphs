@@ -120,18 +120,18 @@ Item {
     GraphsTheme {
         id: theme1
         theme: GraphsTheme.Theme.YellowSeries
-        labelBorderEnabled: true
+        labelBorderVisible: true
         labelFont.pointSize: 35
-        labelBackgroundEnabled: true
+        labelBackgroundVisible: true
         colorStyle: GraphsTheme.ColorStyle.Uniform
     }
 
     GraphsTheme {
         id: theme2
         theme: GraphsTheme.Theme.QtGreenNeon
-        labelBorderEnabled: true
+        labelBorderVisible: true
         labelFont.pointSize: 35
-        labelBackgroundEnabled: true
+        labelBackgroundVisible: true
         colorStyle: GraphsTheme.ColorStyle.Uniform
     }
 
@@ -292,10 +292,10 @@ Item {
 
             onClicked: {
                 if (text === "Hide labels") {
-                    barGraph.theme.labelsEnabled = false;
+                    barGraph.theme.labelsVisible = false;
                     text = "Show labels";
                 } else {
-                    barGraph.theme.labelsEnabled = true;
+                    barGraph.theme.labelsVisible = true;
                     text = "Hide labels";
                 }
             }

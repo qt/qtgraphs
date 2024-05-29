@@ -183,11 +183,11 @@ Rectangle {
             width: heightMapView.buttonWidth
             text: "Hide\nBackground"
             onClicked: {
-                if (surfacePlot.theme.backgroundEnabled) {
-                    surfacePlot.theme.backgroundEnabled = false;
+                if (surfacePlot.theme.backgroundVisible) {
+                    surfacePlot.theme.backgroundVisible = false;
                     text = "Show\nBackground";
                 } else {
-                    surfacePlot.theme.backgroundEnabled = true;
+                    surfacePlot.theme.backgroundVisible = true;
                     text = "Hide\nBackground";
                 }
             }
@@ -202,11 +202,11 @@ Rectangle {
             width: heightMapView.buttonWidth
             text: "Hide\nGrid"
             onClicked: {
-                if (surfacePlot.theme.gridEnabled) {
-                    surfacePlot.theme.gridEnabled = false;
+                if (surfacePlot.theme.gridVisible) {
+                    surfacePlot.theme.gridVisible = false;
                     text = "Show\nGrid";
                 } else {
-                    surfacePlot.theme.gridEnabled = true;
+                    surfacePlot.theme.gridVisible = true;
                     text = "Hide\nGrid";
                 }
             }

@@ -46,7 +46,7 @@ Item {
             font.pointSize: 35
             labelBackgroundEnabled: true
             backgroundEnabled: false
-            gridEnabled: false
+            gridVisible: false
             labelsEnabled: false
             colorStyle: Theme3D.ColorStyle.RangeGradient
             singleHighlightGradient: customGradient

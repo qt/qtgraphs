@@ -62,7 +62,7 @@ Rectangle {
             max: 20
         }
         theme: GraphsTheme {
-            backgroundEnabled: false
+            backgroundVisible: false
             theme: GraphsTheme.Theme.MixSeries
         }
         BarSeries {

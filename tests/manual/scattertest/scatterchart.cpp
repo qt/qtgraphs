@@ -581,7 +581,8 @@ void ScatterDataModifier::changeTheme()
 
 void ScatterDataModifier::changeLabelStyle()
 {
-    m_chart->activeTheme()->setLabelBackgroundEnabled(!m_chart->activeTheme()->isLabelBackgroundEnabled());
+    m_chart->activeTheme()->setLabelBackgroundVisible(
+        !m_chart->activeTheme()->isLabelBackgroundVisible());
 }
 
 void ScatterDataModifier::changeFont(const QFont &font)
@@ -1076,12 +1077,12 @@ void ScatterDataModifier::changeShadowQuality(int quality)
 
 void ScatterDataModifier::setBackgroundEnabled(int enabled)
 {
-    m_chart->activeTheme()->setBackgroundEnabled((bool)enabled);
+    m_chart->activeTheme()->setBackgroundVisible((bool) enabled);
 }
 
 void ScatterDataModifier::setGridEnabled(int enabled)
 {
-    m_chart->activeTheme()->setGridEnabled((bool)enabled);
+    m_chart->activeTheme()->setGridVisible((bool)enabled);
 }
 
 void ScatterDataModifier::setMinX(int min)

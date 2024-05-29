@@ -345,9 +345,9 @@ Item {
             selectionMode: Graphs3D.SelectionFlag.Item
             theme: GraphsTheme {
                 colorScheme: Qt.Dark
-                labelBorderEnabled: true
+                labelBorderVisible: true
                 labelFont.pointSize: 35
-                labelBackgroundEnabled: true
+                labelBackgroundVisible: true
                 colorStyle: GraphsTheme.ColorStyle.RangeGradient
                 singleHighlightGradient: customGradient
 

@@ -39,7 +39,7 @@ VolumetricModifier::VolumetricModifier(Q3DScatterWidget *scatter)
     //! [0]
     m_graph->setOrthoProjection(true);
     //! [0]
-    m_graph->activeTheme()->setPlotAreaBackgroundEnabled(false);
+    m_graph->activeTheme()->setPlotAreaBackgroundVisible(false);
 
     // Only allow zooming at the center and limit the zoom to 200% to avoid clipping issues
     m_graph->setZoomAtTargetEnabled(false);

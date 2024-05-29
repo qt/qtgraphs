@@ -1940,8 +1940,8 @@ void QQuickGraphsItem::synchData()
         theme()->dirtyBits()->labelBackgroundColorDirty = false;
     }
 
-    if (theme()->dirtyBits()->labelBackgroundEnabledDirty) {
-        bool enabled = theme()->isLabelBackgroundEnabled();
+    if (theme()->dirtyBits()->labelBackgroundVisibilityDirty) {
+        bool enabled = theme()->isLabelBackgroundVisible();
         changeLabelBackgroundEnabled(m_repeaterX, enabled);
         changeLabelBackgroundEnabled(m_repeaterY, enabled);
         changeLabelBackgroundEnabled(m_repeaterZ, enabled);
@@ -1957,11 +1957,11 @@ void QQuickGraphsItem::synchData()
             m_sliceHorizontalTitleLabel->setProperty("backgroundEnabled", enabled);
             m_sliceVerticalTitleLabel->setProperty("backgroundEnabled", enabled);
         }
-        theme()->dirtyBits()->labelBackgroundEnabledDirty = false;
+        theme()->dirtyBits()->labelBackgroundVisibilityDirty = false;
     }
 
-    if (theme()->dirtyBits()->labelBorderEnabledDirty) {
-        bool enabled = theme()->isLabelBorderEnabled();
+    if (theme()->dirtyBits()->labelBorderVisibilityDirty) {
+        bool enabled = theme()->isLabelBorderVisible();
         changeLabelBorderEnabled(m_repeaterX, enabled);
         changeLabelBorderEnabled(m_repeaterY, enabled);
         changeLabelBorderEnabled(m_repeaterZ, enabled);
@@ -1977,7 +1977,7 @@ void QQuickGraphsItem::synchData()
             m_sliceHorizontalTitleLabel->setProperty("borderEnabled", enabled);
             m_sliceVerticalTitleLabel->setProperty("borderEnabled", enabled);
         }
-        theme()->dirtyBits()->labelBorderEnabledDirty = false;
+        theme()->dirtyBits()->labelBorderVisibilityDirty = false;
     }
 
     if (theme()->dirtyBits()->labelTextColorDirty) {
@@ -2047,8 +2047,8 @@ void QQuickGraphsItem::synchData()
         m_isSeriesVisualsDirty = true;
     }
 
-    if (theme()->dirtyBits()->labelsEnabledDirty) {
-        bool enabled = theme()->isLabelsEnabled();
+    if (theme()->dirtyBits()->labelsVisibilityDirty) {
+        bool enabled = theme()->labelsVisible();
         changeLabelsEnabled(m_repeaterX, enabled);
         changeLabelsEnabled(m_repeaterY, enabled);
         changeLabelsEnabled(m_repeaterZ, enabled);
@@ -2064,7 +2064,7 @@ void QQuickGraphsItem::synchData()
             m_sliceHorizontalTitleLabel->setProperty("visible", enabled);
             m_sliceVerticalTitleLabel->setProperty("visible", enabled);
         }
-        theme()->dirtyBits()->labelsEnabledDirty = false;
+        theme()->dirtyBits()->labelsVisibilityDirty = false;
     }
 
     // Grid and background adjustments
@@ -2076,25 +2076,25 @@ void QQuickGraphsItem::synchData()
         theme()->dirtyBits()->plotAreaBackgroundColorDirty = false;
     }
 
-    if (theme()->dirtyBits()->plotAreaBackgroundEnabledDirty) {
+    if (theme()->dirtyBits()->plotAreaBackgroundVisibilityDirty) {
         QQmlListReference materialRef(m_background, "materials");
         Q_ASSERT(materialRef.size());
         auto *material = static_cast<QQuick3DCustomMaterial *>(materialRef.at(0));
-        material->setProperty("baseVisible", theme()->isPlotAreaBackgroundEnabled());
-        theme()->dirtyBits()->plotAreaBackgroundEnabledDirty = false;
+        material->setProperty("baseVisible", theme()->isPlotAreaBackgroundVisible());
+        theme()->dirtyBits()->plotAreaBackgroundVisibilityDirty = false;
     }
 
     if (m_shaderGridEnabledDirty) {
         m_shaderGridEnabled = shaderGridEnabled();
-        theme()->dirtyBits()->gridEnabledDirty = true;
+        theme()->dirtyBits()->gridVisibilityDirty = true;
         theme()->dirtyBits()->gridMainColorDirty = true;
         theme()->dirtyBits()->gridSubColorDirty = true;
         m_gridUpdate = true;
         m_shaderGridEnabledDirty = false;
     }
 
-    if (theme()->dirtyBits()->gridEnabledDirty) {
-        bool enabled = theme()->isGridEnabled();
+    if (theme()->dirtyBits()->gridVisibilityDirty) {
+        bool enabled = theme()->isGridVisible();
         QQmlListReference materialRef(m_background, "materials");
         Q_ASSERT(materialRef.size());
         auto *material = static_cast<QQuick3DCustomMaterial *>(materialRef.at(0));
@@ -2105,7 +2105,7 @@ void QQuickGraphsItem::synchData()
         if (m_sliceView && isSliceEnabled())
             m_sliceGridGeometryModel->setVisible(enabled);
 
-        theme()->dirtyBits()->gridEnabledDirty = false;
+        theme()->dirtyBits()->gridVisibilityDirty = false;
     }
 
     if (theme()->dirtyBits()->gridMainColorDirty) {
@@ -2137,10 +2137,10 @@ void QQuickGraphsItem::synchData()
     }
 
     // Other adjustments
-    if (theme()->dirtyBits()->backgroundColorDirty || theme()->dirtyBits()->backgroundEnabledDirty) {
+    if (theme()->dirtyBits()->backgroundColorDirty || theme()->dirtyBits()->backgroundVisibilityDirty) {
         updateBackgroundColor();
         theme()->dirtyBits()->backgroundColorDirty = false;
-        theme()->dirtyBits()->backgroundEnabledDirty = false;
+        theme()->dirtyBits()->backgroundVisibilityDirty = false;
     }
 
     if (isCustomDataDirty()) {
@@ -4085,8 +4085,8 @@ void QQuickGraphsItem::updateCamera()
 void QQuickGraphsItem::handleLabelCountChanged(QQuick3DRepeater *repeater, QColor axisLabelColor)
 {
     changeLabelBackgroundColor(repeater, theme()->labelBackgroundColor());
-    changeLabelBackgroundEnabled(repeater, theme()->isLabelBackgroundEnabled());
-    changeLabelBorderEnabled(repeater, theme()->isLabelBorderEnabled());
+    changeLabelBackgroundEnabled(repeater, theme()->isLabelBackgroundVisible());
+    changeLabelBorderEnabled(repeater, theme()->isLabelBorderVisible());
     changeLabelTextColor(repeater, axisLabelColor);
     changeLabelFont(repeater, theme()->labelFont());
 
@@ -4094,11 +4094,11 @@ void QQuickGraphsItem::handleLabelCountChanged(QQuick3DRepeater *repeater, QColo
         changeLabelBackgroundColor(m_sliceHorizontalLabelRepeater, theme()->labelBackgroundColor());
         changeLabelBackgroundColor(m_sliceVerticalLabelRepeater, theme()->labelBackgroundColor());
         changeLabelBackgroundEnabled(m_sliceHorizontalLabelRepeater,
-                                     theme()->isLabelBackgroundEnabled());
+                                     theme()->isLabelBackgroundVisible());
         changeLabelBackgroundEnabled(m_sliceVerticalLabelRepeater,
-                                     theme()->isLabelBackgroundEnabled());
-        changeLabelBorderEnabled(m_sliceHorizontalLabelRepeater, theme()->isLabelBorderEnabled());
-        changeLabelBorderEnabled(m_sliceVerticalLabelRepeater, theme()->isLabelBorderEnabled());
+                                     theme()->isLabelBackgroundVisible());
+        changeLabelBorderEnabled(m_sliceHorizontalLabelRepeater, theme()->isLabelBorderVisible());
+        changeLabelBorderEnabled(m_sliceVerticalLabelRepeater, theme()->isLabelBorderVisible());
         if (m_selectionMode == SelectionRow)
             changeLabelTextColor(m_sliceHorizontalLabelRepeater, theme()->axisXLabelColor());
         else if (m_selectionMode == SelectionColumn)
@@ -5569,9 +5569,9 @@ void QQuickGraphsItem::updateSliceLabels()
     QVector3D labelTrans = QVector3D(0.0f, -yPos, 0.0f);
     QStringList labels = horizontalAxis->labels();
     QFont font = theme()->labelFont();
-    bool borderEnabled = theme()->isLabelBorderEnabled();
+    bool borderEnabled = theme()->isLabelBorderVisible();
 
-    bool backgroundEnabled = theme()->isLabelBackgroundEnabled();
+    bool backgroundEnabled = theme()->isLabelBackgroundVisible();
     QColor backgroundColor = theme()->labelBackgroundColor();
 
     if (horizontalAxis->type() == QAbstract3DAxis::AxisType::Value) {
@@ -5865,7 +5865,7 @@ void QQuickGraphsItem::setLightColor(const QColor &newLightColor)
 
 void QQuickGraphsItem::updateBackgroundColor()
 {
-    if (theme()->isBackgroundEnabled())
+    if (theme()->isBackgroundVisible())
         environment()->setClearColor(theme()->backgroundColor());
     else
         environment()->setClearColor(Qt::transparent);

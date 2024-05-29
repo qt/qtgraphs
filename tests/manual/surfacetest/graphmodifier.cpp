@@ -634,7 +634,8 @@ void GraphModifier::changeFont(const QFont &font)
 
 void GraphModifier::changeStyle()
 {
-    m_graph->activeTheme()->setLabelBackgroundEnabled(!m_graph->activeTheme()->isLabelBackgroundEnabled());
+    m_graph->activeTheme()->setLabelBackgroundVisible(
+        !m_graph->activeTheme()->isLabelBackgroundVisible());
 }
 
 void GraphModifier::selectButtonClicked()

@@ -633,7 +633,7 @@ void QGraphsView::updatePolish()
         // Initialize shaders after system's event queue
         QTimer::singleShot(0, m_axisRenderer, &AxisRenderer::initialize);
     }
-    if (m_theme && m_theme->isBackgroundEnabled()) {
+    if (m_theme && m_theme->isBackgroundVisible()) {
         if (!m_backgroundRectangle) {
             // Create m_backgroundRectangle only when it is needed
             m_backgroundRectangle = new QQuickRectangle(this);

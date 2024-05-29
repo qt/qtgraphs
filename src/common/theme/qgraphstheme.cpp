@@ -36,7 +36,7 @@ QT_BEGIN_NAMESPACE
  *     \li Property
  *     \li Default Value
  *   \row
- *     \li backgroundEnabled
+ *     \li backgroundVisible
  *     \li \c true
  *   \row
  *     \li seriesColors
@@ -51,19 +51,19 @@ QT_BEGIN_NAMESPACE
  *     \li \l labelFont
  *     \li QFont
  *   \row
- *     \li gridEnabled
+ *     \li gridVisible
  *     \li \c true
  *   \row
  *     \li gridMainWidth
  *     \li 0.25
  *   \row
- *     \li labelBackgroundEnabled
+ *     \li labelBackgroundVisible
  *     \li \c true
  *   \row
- *     \li labelBorderEnabled
+ *     \li labelBorderVisible
  *     \li \c true
  *   \row
- *     \li labelsEnabled
+ *     \li labelsVisible
  *     \li \c true
  * \endtable
  *
@@ -156,7 +156,7 @@ QT_BEGIN_NAMESPACE
  *     \li Property
  *     \li Default Value
  *   \row
- *     \li backgroundEnabled
+ *     \li backgroundVisible
  *     \li \c true
  *   \row
  *     \li seriesColors
@@ -171,19 +171,19 @@ QT_BEGIN_NAMESPACE
  *     \li \l labelFont
  *     \li QFont
  *   \row
- *     \li gridEnabled
+ *     \li gridVisible
  *     \li \c true
  *   \row
  *     \li gridMainWidth
  *     \li 2.0
  *   \row
- *     \li labelBackgroundEnabled
+ *     \li labelBackgroundVisible
  *     \li \c true
  *   \row
- *     \li labelBorderEnabled
+ *     \li labelBorderVisible
  *     \li \c true
  *   \row
- *     \li labelsEnabled
+ *     \li labelsVisible
  *     \li \c true
  * \endtable
  *
@@ -252,7 +252,7 @@ QT_BEGIN_NAMESPACE
 /*!
  * \qmlproperty color GraphsTheme::labelBackgroundColor
  *
- * The color of the label backgrounds. Has no effect if labelBackgroundEnabled
+ * The color of the label backgrounds. Has no effect if labelBackgroundVisible
  * is \c false.
  * The default value depends on \l colorScheme.
  */
@@ -418,10 +418,10 @@ QT_BEGIN_NAMESPACE
  */
 
 /*!
- * \qmlproperty bool GraphsTheme::labelBorderEnabled
+ * \qmlproperty bool GraphsTheme::labelBorderVisible
  *
  * Defines whether label borders are drawn for labels that have a background.
- * Has no effect if labelBackgroundEnabled is \c false.
+ * Has no effect if labelBackgroundVisible is \c false.
  * The default value is \c true.
  */
 
@@ -432,7 +432,7 @@ QT_BEGIN_NAMESPACE
  */
 
 /*!
- * \qmlproperty bool GraphsTheme::backgroundEnabled
+ * \qmlproperty bool GraphsTheme::backgroundVisible
  *
  * Defines whether the view background is drawn by using the value of
  * backgroundColor.
@@ -440,7 +440,7 @@ QT_BEGIN_NAMESPACE
  */
 
 /*!
- * \qmlproperty bool GraphsTheme::plotAreaBackgroundEnabled
+ * \qmlproperty bool GraphsTheme::plotAreaBackgroundVisible
  *
  * Defines whether the plot area background is drawn by using the value of
  * plotAreaBackgroundColor.
@@ -448,14 +448,14 @@ QT_BEGIN_NAMESPACE
  */
 
 /*!
- * \qmlproperty bool GraphsTheme::gridEnabled
+ * \qmlproperty bool GraphsTheme::gridVisible
  *
  * Defines whether the grid lines are drawn. This value affects all grid lines.
  * The default value is \c true.
  */
 
 /*!
- * \qmlproperty bool GraphsTheme::labelBackgroundEnabled
+ * \qmlproperty bool GraphsTheme::labelBackgroundVisible
  *
  * Defines whether the label is drawn with a background that uses
  * labelBackgroundColor (including alpha), or with a fully transparent
@@ -487,7 +487,7 @@ QT_BEGIN_NAMESPACE
  */
 
 /*!
- * \qmlproperty bool GraphsTheme::labelsEnabled
+ * \qmlproperty bool GraphsTheme::labelsVisible
  *
  * Defines whether labels are drawn at all. If this is \c{false}, all other
  * label properties have no effect.
@@ -538,17 +538,17 @@ QGraphsTheme::QGraphsTheme(QObject *parent)
       , m_axisYLabelColor(QColor())
       , m_axisZLabelColor(QColor())
 {
-    setBackgroundEnabled(true);
-    setPlotAreaBackgroundEnabled(true);
-    setLabelBackgroundEnabled(true);
-    setGridEnabled(true);
-    setLabelsEnabled(true);
+    setBackgroundVisible(true);
+    setPlotAreaBackgroundVisible(true);
+    setLabelBackgroundVisible(true);
+    setGridVisible(true);
+    setLabelsVisible(true);
     auto platformScheme = QGuiApplication::styleHints()->colorScheme();
     if (platformScheme != Qt::ColorScheme::Unknown)
         setColorScheme(platformScheme);
     else
         setColorScheme(Qt::ColorScheme::Light);
-    setLabelBorderEnabled(true);
+    setLabelBorderVisible(true);
     setTheme(Theme::UserDefined, true);
     setLabelFont(QFont(QLatin1String("Arial")));
 }
@@ -570,32 +570,32 @@ QGraphsThemeDirtyBitField *QGraphsTheme::dirtyBits()
 void QGraphsTheme::resetDirtyBits()
 {
     m_dirtyBits.plotAreaBackgroundColorDirty = true;
-    m_dirtyBits.plotAreaBackgroundEnabledDirty = true;
+    m_dirtyBits.plotAreaBackgroundVisibilityDirty = true;
     m_dirtyBits.seriesColorsDirty = true;
     m_dirtyBits.seriesGradientDirty = true;
     m_dirtyBits.colorSchemeDirty = true;
     m_dirtyBits.colorStyleDirty = true;
     m_dirtyBits.labelFontDirty = true;
-    m_dirtyBits.gridEnabledDirty = true;
+    m_dirtyBits.gridVisibilityDirty = true;
     m_dirtyBits.gridMainColorDirty = true;
     m_dirtyBits.gridSubColorDirty = true;
     m_dirtyBits.gridMainWidthDirty = true;
     m_dirtyBits.gridSubWidthDirty = true;
     m_dirtyBits.labelBackgroundColorDirty = true;
-    m_dirtyBits.labelBackgroundEnabledDirty = true;
-    m_dirtyBits.labelBorderEnabledDirty = true;
+    m_dirtyBits.labelBackgroundVisibilityDirty = true;
+    m_dirtyBits.labelBorderVisibilityDirty = true;
     m_dirtyBits.labelTextColorDirty = true;
     m_dirtyBits.axisXLabelColorDirty = true;
     m_dirtyBits.axisYLabelColorDirty = true;
     m_dirtyBits.axisZLabelColorDirty = true;
-    m_dirtyBits.labelsEnabledDirty = true;
+    m_dirtyBits.labelsVisibilityDirty = true;
     m_dirtyBits.multiHighlightColorDirty = true;
     m_dirtyBits.multiHighlightGradientDirty = true;
     m_dirtyBits.singleHighlightColorDirty = true;
     m_dirtyBits.singleHighlightGradientDirty = true;
     m_dirtyBits.themeDirty = true;
     m_dirtyBits.backgroundColorDirty = true;
-    m_dirtyBits.backgroundEnabledDirty = true;
+    m_dirtyBits.backgroundVisibilityDirty = true;
 }
 
 /*!
@@ -1103,71 +1103,71 @@ void QGraphsTheme::setPlotAreaBackgroundColor(const QColor &newBackgroundColor)
 }
 
 /*!
- * \property QGraphsTheme::plotAreaBackgroundEnabled
+ * \property QGraphsTheme::plotAreaBackgroundVisible
  *
  * \brief Whether the plot area background is visible.
  *
  * The background is drawn by using the value of plotAreaBackgroundColor.
  * The default value is \c true.
  */
-bool QGraphsTheme::isPlotAreaBackgroundEnabled() const
+bool QGraphsTheme::isPlotAreaBackgroundVisible() const
 {
-    return m_plotAreaBackgroundEnabled;
+    return m_plotAreaBackgroundVisibility;
 }
 
-void QGraphsTheme::setPlotAreaBackgroundEnabled(bool newBackgroundEnabled)
+void QGraphsTheme::setPlotAreaBackgroundVisible(bool newBackgroundVisibility)
 {
-    if (m_plotAreaBackgroundEnabled == newBackgroundEnabled)
+    if (m_plotAreaBackgroundVisibility == newBackgroundVisibility)
         return;
-    m_dirtyBits.plotAreaBackgroundEnabledDirty = true;
-    m_plotAreaBackgroundEnabled = newBackgroundEnabled;
-    emit plotAreaBackgroundEnabledChanged();
+    m_dirtyBits.plotAreaBackgroundVisibilityDirty = true;
+    m_plotAreaBackgroundVisibility = newBackgroundVisibility;
+    emit plotAreaBackgroundVisibleChanged();
     emit update();
 }
 
 /*!
- * \property QGraphsTheme::backgroundEnabled
+ * \property QGraphsTheme::backgroundVisible
  *
  * \brief Whether the background is visible.
  *
  * The background is drawn by using the value of backgroundColor.
  * The default value is \c true.
  */
-bool QGraphsTheme::isBackgroundEnabled() const
+bool QGraphsTheme::isBackgroundVisible() const
 {
-    return m_backgroundEnabled;
+    return m_backgroundVisibility;
 }
 
-void QGraphsTheme::setBackgroundEnabled(bool newBackgroundEnabled)
+void QGraphsTheme::setBackgroundVisible(bool newBackgroundVisible)
 {
-    if (m_backgroundEnabled == newBackgroundEnabled)
+    if (m_backgroundVisibility == newBackgroundVisible)
         return;
-    m_dirtyBits.backgroundEnabledDirty = true;
-    m_backgroundEnabled = newBackgroundEnabled;
-    emit backgroundEnabledChanged();
+    m_dirtyBits.backgroundVisibilityDirty = true;
+    m_backgroundVisibility = newBackgroundVisible;
+    emit backgroundVisibleChanged();
     emit update();
 }
 
 /*!
- * \property QGraphsTheme::gridEnabled
+ * \property QGraphsTheme::gridVisible
  *
  * \brief Whether the grid lines are drawn.
  *
  * This value affects all grid lines.
  * The default value is \c true.
  */
-bool QGraphsTheme::isGridEnabled() const
+bool QGraphsTheme::isGridVisible() const
 {
-    return m_gridEnabled;
+    return m_gridVisibility;
 }
 
-void QGraphsTheme::setGridEnabled(bool newGridEnabled)
+void QGraphsTheme::setGridVisible(bool newGridVisibility)
 {
-    if (m_gridEnabled == newGridEnabled)
+    if (m_gridVisibility == newGridVisibility)
         return;
-    m_dirtyBits.gridEnabledDirty = true;
-    m_gridEnabled = newGridEnabled;
-    emit gridEnabledChanged();
+    m_dirtyBits.gridVisibilityDirty = true;
+    m_gridVisibility = newGridVisibility;
+    emit gridVisibleChanged();
     emit update();
 }
 
@@ -1196,25 +1196,25 @@ void QGraphsTheme::setBackgroundColor(const QColor &newBackgroundColor)
 }
 
 /*!
- * \property QGraphsTheme::labelsEnabled
+ * \property QGraphsTheme::labelsVisible
  *
  * \brief Whether labels are drawn at all.
  *
  * If this is \c{false}, all other label properties have no effect.
  * The default value is \c true.
  */
-bool QGraphsTheme::isLabelsEnabled() const
+bool QGraphsTheme::labelsVisible() const
 {
-    return m_labelsEnabled;
+    return m_labelsVisibility;
 }
 
-void QGraphsTheme::setLabelsEnabled(bool newLabelsEnabled)
+void QGraphsTheme::setLabelsVisible(bool newLabelsVisibility)
 {
-    if (m_labelsEnabled == newLabelsEnabled)
+    if (m_labelsVisibility == newLabelsVisibility)
         return;
-    m_dirtyBits.labelsEnabledDirty = true;
-    m_labelsEnabled = newLabelsEnabled;
-    emit labelsEnabledChanged();
+    m_dirtyBits.labelsVisibilityDirty = true;
+    m_labelsVisibility = newLabelsVisibility;
+    emit labelsVisibleChanged();
     emit update();
 }
 
@@ -1223,7 +1223,7 @@ void QGraphsTheme::setLabelsEnabled(bool newLabelsEnabled)
  *
  * \brief The color of the label backgrounds.
  *
- * Has no effect if labelBackgroundEnabled is \c false.
+ * Has no effect if labelBackgroundVisible is \c false.
  * The default value depends on \l colorScheme.
  */
 QColor QGraphsTheme::labelBackgroundColor() const
@@ -1473,7 +1473,7 @@ void QGraphsTheme::setLabelFont(const QFont &newFont)
 }
 
 /*!
- * \property QGraphsTheme::labelBackgroundEnabled
+ * \property QGraphsTheme::labelBackgroundVisible
  *
  *\brief Whether the label is drawn with a color background or with a fully
  * transparent background.
@@ -1487,41 +1487,41 @@ void QGraphsTheme::setLabelFont(const QFont &newFont)
  * position in the graph.
  * The default value is \c true.
  */
-bool QGraphsTheme::isLabelBackgroundEnabled() const
+bool QGraphsTheme::isLabelBackgroundVisible() const
 {
-    return m_labelBackgroundEnabled;
+    return m_labelBackgroundVisibility;
 }
 
-void QGraphsTheme::setLabelBackgroundEnabled(bool newLabelBackgroundEnabled)
+void QGraphsTheme::setLabelBackgroundVisible(bool newLabelBackgroundVisibility)
 {
-    if (m_labelBackgroundEnabled == newLabelBackgroundEnabled)
+    if (m_labelBackgroundVisibility == newLabelBackgroundVisibility)
         return;
-    m_dirtyBits.labelBackgroundEnabledDirty = true;
-    m_labelBackgroundEnabled = newLabelBackgroundEnabled;
-    emit labelBackgroundEnabledChanged();
+    m_dirtyBits.labelBackgroundVisibilityDirty = true;
+    m_labelBackgroundVisibility = newLabelBackgroundVisibility;
+    emit labelBackgroundVisibleChanged();
     emit update();
 }
 
 /*!
- * \property QGraphsTheme::labelBorderEnabled
+ * \property QGraphsTheme::labelBorderVisible
  *
  * \brief Whether label borders are drawn for labels that have a background.
  *
- * Has no effect if labelBackgroundEnabled is \c false.
+ * Has no effect if labelBackgroundVisible is \c false.
  * The default value is \c true.
  */
-bool QGraphsTheme::isLabelBorderEnabled() const
+bool QGraphsTheme::isLabelBorderVisible() const
 {
-    return m_labelBorderEnabled;
+    return m_labelBorderVisibility;
 }
 
-void QGraphsTheme::setLabelBorderEnabled(bool newLabelBorderEnabled)
+void QGraphsTheme::setLabelBorderVisible(bool newLabelBorderVisibility)
 {
-    if (m_labelBorderEnabled == newLabelBorderEnabled)
+    if (m_labelBorderVisibility == newLabelBorderVisibility)
         return;
-    m_dirtyBits.labelBorderEnabledDirty = true;
-    m_labelBorderEnabled = newLabelBorderEnabled;
-    emit labelBorderEnabledChanged();
+    m_dirtyBits.labelBorderVisibilityDirty = true;
+    m_labelBorderVisibility = newLabelBorderVisibility;
+    emit labelBorderVisibleChanged();
     emit update();
 }
 

@@ -206,9 +206,9 @@ ColumnLayout {
             color: "gray"
         }
         CheckBox {
-            checked: customTheme.backgroundEnabled
+            checked: customTheme.backgroundVisible
             onCheckedChanged: {
-                customTheme.backgroundEnabled = checked
+                customTheme.backgroundVisible = checked
             }
         }
     }
@@ -219,9 +219,9 @@ ColumnLayout {
             color: "gray"
         }
         CheckBox {
-            checked: customTheme.plotAreaBackgroundEnabled
+            checked: customTheme.plotAreaBackgroundVisible
             onCheckedChanged: {
-                customTheme.plotAreaBackgroundEnabled = checked
+                customTheme.plotAreaBackgroundVisible = checked
             }
         }
     }
@@ -232,9 +232,9 @@ ColumnLayout {
             color: "gray"
         }
         CheckBox {
-            checked: customTheme.gridEnabled
+            checked: customTheme.gridVisible
             onCheckedChanged: {
-                customTheme.gridEnabled = checked
+                customTheme.gridVisible = checked
             }
         }
     }
@@ -256,9 +256,9 @@ ColumnLayout {
             color: "gray"
         }
         CheckBox {
-            checked: customTheme.labelsEnabled
+            checked: customTheme.labelsVisible
             onCheckedChanged: {
-                customTheme.labelsEnabled = checked
+                customTheme.labelsVisible = checked
             }
         }
     }
@@ -269,9 +269,9 @@ ColumnLayout {
             color: "gray"
         }
         CheckBox {
-            checked: customTheme.labelBackgroundEnabled
+            checked: customTheme.labelBackgroundVisible
             onCheckedChanged: {
-                customTheme.labelBackgroundEnabled = checked
+                customTheme.labelBackgroundVisible = checked
             }
         }
     }
@@ -282,9 +282,9 @@ ColumnLayout {
             color: "gray"
         }
         CheckBox {
-            checked: customTheme.labelBorderEnabled
+            checked: customTheme.labelBorderVisible
             onCheckedChanged: {
-                customTheme.labelBorderEnabled = checked
+                customTheme.labelBorderVisible = checked
             }
         }
     }

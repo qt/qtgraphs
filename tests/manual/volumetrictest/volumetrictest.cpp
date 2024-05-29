@@ -82,7 +82,7 @@ VolumetricModifier::VolumetricModifier(QAbstract3DGraphWidget *scatter)
         m_barGraph->valueAxis()->setRange(yMiddle - yRange, yMiddle + yRange);
         m_barGraph->rowAxis()->setRange(zMiddle - zRange, zMiddle + zRange);
     }
-    m_graph->activeTheme()->setBackgroundEnabled(false);
+    m_graph->activeTheme()->setBackgroundVisible(false);
 
     createVolume();
     createAnotherVolume();

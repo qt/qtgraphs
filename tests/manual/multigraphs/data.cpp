@@ -34,8 +34,8 @@ Data::Data(Q3DSurfaceWidget *surface, Q3DScatterWidget *scatter, Q3DBarsWidget *
     gradient.setColorAt(0.67, Qt::red);
     gradient.setColorAt(1.0, Qt::yellow);
     m_surface->setSelectionMode(QGraphs3D::SelectionFlag::None);
-    m_surface->activeTheme()->setGridEnabled(false);
-    m_surface->activeTheme()->setBackgroundEnabled(false);
+    m_surface->activeTheme()->setGridVisible(false);
+    m_surface->activeTheme()->setBackgroundVisible(false);
     m_surface->setCameraPosition(0.0, 90.0, 150.0);
     QSurface3DSeries *series1 = new QSurface3DSeries(new QHeightMapSurfaceDataProxy());
     series1->setFlatShadingEnabled(true);
@@ -47,7 +47,7 @@ Data::Data(Q3DSurfaceWidget *surface, Q3DScatterWidget *scatter, Q3DBarsWidget *
     // Initialize scatter
     m_scatter->activeTheme()->setTheme(QGraphsTheme::Theme::QtGreen);
     m_scatter->setSelectionMode(QGraphs3D::SelectionFlag::None);
-    m_scatter->activeTheme()->setGridEnabled(false);
+    m_scatter->activeTheme()->setGridVisible(false);
     m_scatter->setShadowQuality(QGraphs3D::ShadowQuality::SoftLow);
     m_scatter->setCameraPosition(0.0, 85.0, 150.0);
     QScatter3DSeries *series2 = new QScatter3DSeries;
@@ -57,7 +57,7 @@ Data::Data(Q3DSurfaceWidget *surface, Q3DScatterWidget *scatter, Q3DBarsWidget *
     // Initialize bars
     m_bars->activeTheme()->setTheme(QGraphsTheme::Theme::QtGreen);
     m_bars->setSelectionMode(QGraphs3D::SelectionFlag::ItemAndRow | QGraphs3D::SelectionFlag::Slice);
-    m_bars->activeTheme()->setGridEnabled(false);
+    m_bars->activeTheme()->setGridVisible(false);
     m_bars->setShadowQuality(QGraphs3D::ShadowQuality::Low);
     m_bars->setBarSpacing(QSizeF(0.0, 0.0));
     m_bars->setCameraPosition(0.0, 75.0, 150.0);

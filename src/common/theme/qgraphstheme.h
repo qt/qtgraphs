@@ -20,61 +20,61 @@ class QQuickGradient;
 struct QGraphsThemeDirtyBitField
 {
     bool plotAreaBackgroundColorDirty : 1;
-    bool plotAreaBackgroundEnabledDirty : 1;
+    bool plotAreaBackgroundVisibilityDirty : 1;
     bool seriesColorsDirty : 1;
     bool seriesGradientDirty : 1;
     bool colorSchemeDirty : 1;
     bool colorStyleDirty : 1;
     bool labelFontDirty : 1;
-    bool gridEnabledDirty : 1;
+    bool gridVisibilityDirty : 1;
     bool gridMainColorDirty : 1;
     bool gridSubColorDirty : 1;
     bool gridMainWidthDirty : 1;
     bool gridSubWidthDirty : 1;
     bool labelBackgroundColorDirty : 1;
-    bool labelBackgroundEnabledDirty : 1;
-    bool labelBorderEnabledDirty : 1;
+    bool labelBackgroundVisibilityDirty : 1;
+    bool labelBorderVisibilityDirty : 1;
     bool labelTextColorDirty : 1;
     bool axisXLabelColorDirty : 1;
     bool axisYLabelColorDirty : 1;
     bool axisZLabelColorDirty : 1;
-    bool labelsEnabledDirty : 1;
+    bool labelsVisibilityDirty : 1;
     bool multiHighlightColorDirty : 1;
     bool multiHighlightGradientDirty : 1;
     bool singleHighlightColorDirty : 1;
     bool singleHighlightGradientDirty : 1;
     bool themeDirty : 1;
     bool backgroundColorDirty : 1;
-    bool backgroundEnabledDirty : 1;
+    bool backgroundVisibilityDirty : 1;
 
     QGraphsThemeDirtyBitField()
         : plotAreaBackgroundColorDirty(false)
-          , plotAreaBackgroundEnabledDirty(false)
-          , seriesColorsDirty(false)
-          , seriesGradientDirty(false)
-          , colorSchemeDirty(false)
-          , colorStyleDirty(false)
-          , labelFontDirty(false)
-          , gridEnabledDirty(false)
-          , gridMainColorDirty(false)
-          , gridSubColorDirty(false)
-          , gridMainWidthDirty(false)
-          , gridSubWidthDirty(false)
-          , labelBackgroundColorDirty(false)
-          , labelBackgroundEnabledDirty(false)
-          , labelBorderEnabledDirty(false)
-          , labelTextColorDirty(false)
-          , axisXLabelColorDirty(false)
-          , axisYLabelColorDirty(false)
-          , axisZLabelColorDirty(false)
-          , labelsEnabledDirty(false)
-          , multiHighlightColorDirty(false)
-          , multiHighlightGradientDirty(false)
-          , singleHighlightColorDirty(false)
-          , singleHighlightGradientDirty(false)
-          , themeDirty(false)
-          , backgroundColorDirty(false)
-          , backgroundEnabledDirty(false)
+        , plotAreaBackgroundVisibilityDirty(false)
+        , seriesColorsDirty(false)
+        , seriesGradientDirty(false)
+        , colorSchemeDirty(false)
+        , colorStyleDirty(false)
+        , labelFontDirty(false)
+        , gridVisibilityDirty(false)
+        , gridMainColorDirty(false)
+        , gridSubColorDirty(false)
+        , gridMainWidthDirty(false)
+        , gridSubWidthDirty(false)
+        , labelBackgroundColorDirty(false)
+        , labelBackgroundVisibilityDirty(false)
+        , labelBorderVisibilityDirty(false)
+        , labelTextColorDirty(false)
+        , axisXLabelColorDirty(false)
+        , axisYLabelColorDirty(false)
+        , axisZLabelColorDirty(false)
+        , labelsVisibilityDirty(false)
+        , multiHighlightColorDirty(false)
+        , multiHighlightGradientDirty(false)
+        , singleHighlightColorDirty(false)
+        , singleHighlightGradientDirty(false)
+        , themeDirty(false)
+        , backgroundColorDirty(false)
+        , backgroundVisibilityDirty(false)
     {}
 };
 
@@ -90,16 +90,16 @@ class Q_GRAPHS_EXPORT QGraphsTheme : public QObject, public QQmlParserStatus
 
     Q_PROPERTY(QColor backgroundColor READ backgroundColor WRITE setBackgroundColor NOTIFY
                    backgroundColorChanged FINAL)
-    Q_PROPERTY(bool backgroundEnabled READ isBackgroundEnabled WRITE setBackgroundEnabled NOTIFY
-                   backgroundEnabledChanged FINAL)
+    Q_PROPERTY(bool backgroundVisible READ isBackgroundVisible WRITE setBackgroundVisible NOTIFY
+                   backgroundVisibleChanged FINAL)
 
     Q_PROPERTY(QColor plotAreaBackgroundColor READ plotAreaBackgroundColor WRITE
                    setPlotAreaBackgroundColor NOTIFY plotAreaBackgroundColorChanged FINAL)
-    Q_PROPERTY(bool plotAreaBackgroundEnabled READ isPlotAreaBackgroundEnabled WRITE
-                   setPlotAreaBackgroundEnabled NOTIFY plotAreaBackgroundEnabledChanged FINAL)
+    Q_PROPERTY(bool plotAreaBackgroundVisible READ isPlotAreaBackgroundVisible WRITE
+                   setPlotAreaBackgroundVisible NOTIFY plotAreaBackgroundVisibleChanged FINAL)
 
     Q_PROPERTY(
-        bool gridEnabled READ isGridEnabled WRITE setGridEnabled NOTIFY gridEnabledChanged FINAL)
+        bool gridVisible READ isGridVisible WRITE setGridVisible NOTIFY gridVisibleChanged FINAL)
     Q_PROPERTY(QColor gridMainColor READ gridMainColor WRITE setGridMainColor NOTIFY
                    gridMainColorChanged FINAL)
     Q_PROPERTY(qreal gridMainWidth READ gridMainWidth WRITE setGridMainWidth NOTIFY
@@ -131,16 +131,16 @@ class Q_GRAPHS_EXPORT QGraphsTheme : public QObject, public QQmlParserStatus
     Q_PROPERTY(QColor axisZLabelColor READ axisZLabelColor WRITE setAxisZLabelColor NOTIFY axisZLabelColorChanged FINAL)
 
     Q_PROPERTY(QFont labelFont READ labelFont WRITE setLabelFont NOTIFY labelFontChanged FINAL)
-    Q_PROPERTY(bool labelsEnabled READ isLabelsEnabled WRITE setLabelsEnabled NOTIFY
-                   labelsEnabledChanged FINAL)
+    Q_PROPERTY(bool labelsVisible READ labelsVisible WRITE setLabelsVisible NOTIFY
+                   labelsVisibleChanged FINAL)
     Q_PROPERTY(QColor labelBackgroundColor READ labelBackgroundColor WRITE setLabelBackgroundColor
                    NOTIFY labelBackgroundColorChanged FINAL)
     Q_PROPERTY(QColor labelTextColor READ labelTextColor WRITE setLabelTextColor NOTIFY
                    labelTextColorChanged FINAL)
-    Q_PROPERTY(bool labelBackgroundEnabled READ isLabelBackgroundEnabled WRITE
-                   setLabelBackgroundEnabled NOTIFY labelBackgroundEnabledChanged FINAL)
-    Q_PROPERTY(bool labelBorderEnabled READ isLabelBorderEnabled WRITE setLabelBorderEnabled NOTIFY
-                   labelBorderEnabledChanged FINAL)
+    Q_PROPERTY(bool labelBackgroundVisible READ isLabelBackgroundVisible WRITE
+                   setLabelBackgroundVisible NOTIFY labelBackgroundVisibleChanged FINAL)
+    Q_PROPERTY(bool labelBorderVisible READ isLabelBorderVisible WRITE setLabelBorderVisible NOTIFY
+                   labelBorderVisibleChanged FINAL)
 
     Q_PROPERTY(QList<QColor> seriesColors READ seriesColors WRITE setSeriesColors NOTIFY
                    seriesColorsChanged FINAL)
@@ -202,16 +202,16 @@ public:
 
     QColor backgroundColor() const;
     void setBackgroundColor(const QColor &newBackgroundColor);
-    bool isBackgroundEnabled() const;
-    void setBackgroundEnabled(bool newBackgroundEnabled);
+    bool isBackgroundVisible() const;
+    void setBackgroundVisible(bool newBackgroundVisible);
 
     QColor plotAreaBackgroundColor() const;
     void setPlotAreaBackgroundColor(const QColor &newBackgroundColor);
-    bool isPlotAreaBackgroundEnabled() const;
-    void setPlotAreaBackgroundEnabled(bool newBackgroundEnabled);
+    bool isPlotAreaBackgroundVisible() const;
+    void setPlotAreaBackgroundVisible(bool newBackgroundVisibility);
 
-    bool isGridEnabled() const;
-    void setGridEnabled(bool newGridEnabled);
+    bool isGridVisible() const;
+    void setGridVisible(bool newGridVisibility);
     QColor gridMainColor() const;
     void setGridMainColor(const QColor &newgridMainColor);
     qreal gridMainWidth() const;
@@ -221,8 +221,8 @@ public:
     qreal gridSubWidth() const;
     void setGridSubWidth(qreal newgridSubWidth);
 
-    bool isLabelsEnabled() const;
-    void setLabelsEnabled(bool newLabelsEnabled);
+    bool labelsVisible() const;
+    void setLabelsVisible(bool newLabelsVisibility);
     QColor labelBackgroundColor() const;
     void setLabelBackgroundColor(const QColor &newLabelBackgroundColor);
     QColor labelTextColor() const;
@@ -247,11 +247,11 @@ public:
     QList<QLinearGradient> seriesGradients() const;
     void setSeriesGradients(const QList<QLinearGradient> &newSeriesGradients);
 
-    bool isLabelBackgroundEnabled() const;
-    void setLabelBackgroundEnabled(bool newLabelBackgroundEnabled);
+    bool isLabelBackgroundVisible() const;
+    void setLabelBackgroundVisible(bool newLabelBackgroundVisibility);
 
-    bool isLabelBorderEnabled() const;
-    void setLabelBorderEnabled(bool newLabelBorderEnabled);
+    bool isLabelBorderVisible() const;
+    void setLabelBorderVisible(bool newLabelBorderVisibility);
 
     qreal borderWidth() const;
     void setBorderWidth(qreal newBorderWidth);
@@ -309,18 +309,18 @@ Q_SIGNALS:
     void colorStyleChanged(QGraphsTheme::ColorStyle type);
 
     void backgroundColorChanged();
-    void backgroundEnabledChanged();
+    void backgroundVisibleChanged();
 
     void plotAreaBackgroundColorChanged();
-    void plotAreaBackgroundEnabledChanged();
+    void plotAreaBackgroundVisibleChanged();
 
-    void gridEnabledChanged();
+    void gridVisibleChanged();
     void gridMainColorChanged();
     void gridMainWidthChanged();
     void gridSubColorChanged();
     void gridSubWidthChanged();
 
-    void labelsEnabledChanged();
+    void labelsVisibleChanged();
     void labelBackgroundColorChanged();
     void labelTextColorChanged();
 
@@ -331,8 +331,8 @@ Q_SIGNALS:
 
     void labelFontChanged();
 
-    void labelBackgroundEnabledChanged();
-    void labelBorderEnabledChanged();
+    void labelBackgroundVisibleChanged();
+    void labelBorderVisibleChanged();
 
     void seriesColorsChanged(const QList<QColor> &list);
     void seriesGradientsChanged(const QList<QLinearGradient> &list);
@@ -479,18 +479,18 @@ private:
     qreal m_gridSubWidth;
     QColor m_plotAreaBackgroundColor;
     QColor m_plotAreaBackgroundThemeColor;
-    bool m_backgroundEnabled;
-    bool m_gridEnabled;
+    bool m_backgroundVisibility;
+    bool m_gridVisibility;
     QColor m_backgroundColor;
     QColor m_backgroundThemeColor;
-    bool m_plotAreaBackgroundEnabled;
-    bool m_labelsEnabled;
+    bool m_plotAreaBackgroundVisibility;
+    bool m_labelsVisibility;
     QColor m_labelBackgroundColor;
     QColor m_labelBackgroundThemeColor;
     QColor m_labelTextColor;
     QColor m_labelTextThemeColor;
-    bool m_labelBackgroundEnabled;
-    bool m_labelBorderEnabled;
+    bool m_labelBackgroundVisibility;
+    bool m_labelBorderVisibility;
     QColor m_singleHighlightColor;
     QColor m_singleHighlightThemeColor;
     QColor m_multiHighlightColor;

@@ -388,10 +388,10 @@ Item {
             theme: GraphsTheme {
                 colorScheme: Qt.Dark
                 baseColors: [ Color { color: "yellow" } ]
-                plotAreaBackgroundEnabled: false
-                backgroundEnabled: false
-                labelBorderEnabled: false
-                labelBackgroundEnabled: false
+                plotAreaBackgroundVisible: false
+                backgroundVisible: false
+                labelBorderVisible: false
+                labelBackgroundVisible: false
             }
             cameraPreset: Graphs3D.CameraPreset.FrontHigh
 

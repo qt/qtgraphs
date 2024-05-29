@@ -646,7 +646,8 @@ void GraphModifier::changeTheme()
 
 void GraphModifier::changeLabelStyle()
 {
-    m_graph->activeTheme()->setLabelBackgroundEnabled(!m_graph->activeTheme()->isLabelBackgroundEnabled());
+    m_graph->activeTheme()->setLabelBackgroundVisible(
+        !m_graph->activeTheme()->isLabelBackgroundVisible());
 }
 
 void GraphModifier::changeSelectionMode()
@@ -1594,12 +1595,12 @@ QBarDataRow GraphModifier::createFlatRow(int columns, float value)
 
 void GraphModifier::setBackgroundEnabled(int enabled)
 {
-    m_graph->activeTheme()->setBackgroundEnabled(bool(enabled));
+    m_graph->activeTheme()->setBackgroundVisible(bool(enabled));
 }
 
 void GraphModifier::setGridEnabled(int enabled)
 {
-    m_graph->activeTheme()->setGridEnabled(bool(enabled));
+    m_graph->activeTheme()->setGridVisible(bool(enabled));
 }
 
 void GraphModifier::rotateX(int rotation)
@@ -1700,16 +1701,16 @@ void GraphModifier::useOwnTheme(bool checked)
     // Own theme is persistent, any changes to it via UI will be remembered
     if (!m_ownTheme) {
         m_ownTheme = new QGraphsTheme();
-        m_ownTheme->setBackgroundEnabled(true);
-        m_ownTheme->setGridEnabled(true);
+        m_ownTheme->setBackgroundVisible(true);
+        m_ownTheme->setGridVisible(true);
         m_ownTheme->setPlotAreaBackgroundColor(QColor(QRgb(0x99ca53)));
         QList<QColor> colors;
         colors.append(QColor(QRgb(0x209fdf)));
         m_ownTheme->setSeriesColors(colors);
         m_ownTheme->setColorStyle(QGraphsTheme::ColorStyle::Uniform);
         m_ownTheme->setGridMainColor(QColor(QRgb(0x99ca53)));
-        m_ownTheme->setLabelBackgroundEnabled(true);
-        m_ownTheme->setLabelBorderEnabled(true);
+        m_ownTheme->setLabelBackgroundVisible(true);
+        m_ownTheme->setLabelBorderVisible(true);
         m_ownTheme->setMultiHighlightColor(QColor(QRgb(0x6d5fd5)));
         m_ownTheme->setSingleHighlightColor(QColor(QRgb(0xf6a625)));
         m_ownTheme->setLabelBackgroundColor(QColor(0xf6, 0xa6, 0x25, 0xa0));

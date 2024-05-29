@@ -32,8 +32,8 @@ SurfaceGraphModifier::SurfaceGraphModifier(Q3DSurfaceWidget *surface, QLabel *la
     m_graph->setCameraZoomLevel(85.f);
     m_graph->setCameraPreset(QGraphs3D::CameraPreset::IsometricRight);
     m_graph->activeTheme()->setTheme(QGraphsTheme::Theme::MixSeries);
-    m_graph->activeTheme()->setLabelBackgroundEnabled(false);
-    m_graph->activeTheme()->setLabelBorderEnabled(false);
+    m_graph->activeTheme()->setLabelBackgroundVisible(false);
+    m_graph->activeTheme()->setLabelBorderVisible(false);
 
     m_graph->setAxisX(new QValue3DAxis);
     m_graph->setAxisY(new QValue3DAxis);

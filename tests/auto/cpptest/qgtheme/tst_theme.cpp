@@ -54,7 +54,7 @@ void tst_theme::construct()
     theme->setColorScheme(Qt::ColorScheme::Light);
     QVERIFY(theme);
     QCOMPARE(theme->plotAreaBackgroundColor(), QColor(QRgb(0xFCFCFC)));
-    QCOMPARE(theme->isPlotAreaBackgroundEnabled(), true);
+    QCOMPARE(theme->isPlotAreaBackgroundVisible(), true);
     QCOMPARE(theme->seriesColors().size(), 5);
     QCOMPARE(theme->seriesColors().at(0), QColor(QRgb(0xFFA615)));
     QCOMPARE(theme->seriesColors().at(4), QColor(QRgb(0x0128F8)));
@@ -63,14 +63,14 @@ void tst_theme::construct()
     QCOMPARE(theme->seriesGradients().at(4).stops().at(1).second, QColor(QRgb(0x0128F8)));
     QCOMPARE(theme->colorStyle(), QGraphsTheme::ColorStyle::Uniform);
     QCOMPARE(theme->labelFont(), QFont("Arial"));
-    QCOMPARE(theme->isGridEnabled(), true);
+    QCOMPARE(theme->isGridVisible(), true);
     QCOMPARE(theme->gridMainColor(), QColor(QRgb(0x545151)));
     QCOMPARE(theme->gridSubColor(), QColor(QRgb(0xAFAFAF)));
     QCOMPARE(theme->gridMainWidth(), 2.0f);
     QCOMPARE(theme->gridSubWidth(), 1.0f);
     QCOMPARE(theme->labelBackgroundColor(), QColor(QRgb(0xE7E7E7)));
-    QCOMPARE(theme->isLabelBackgroundEnabled(), true);
-    QCOMPARE(theme->isLabelBorderEnabled(), true);
+    QCOMPARE(theme->isLabelBackgroundVisible(), true);
+    QCOMPARE(theme->isLabelBorderVisible(), true);
     QCOMPARE(theme->labelTextColor(), QColor(QRgb(0x6A6A6A)));
     QCOMPARE(theme->multiHighlightColor(), QColor(QRgb(0x22D47B)));
     QCOMPARE(theme->multiHighlightGradient().stops().at(1).second, QColor(QRgb(0x22D47B)));
@@ -78,7 +78,7 @@ void tst_theme::construct()
     QCOMPARE(theme->singleHighlightGradient().stops().at(1).second, QColor(QRgb(0xCCDC00)));
     QCOMPARE(theme->theme(), QGraphsTheme::Theme::MixSeries);
     QCOMPARE(theme->backgroundColor(), QColor(QRgb(0xF2F2F2)));
-    QCOMPARE(theme->isBackgroundEnabled(), true);
+    QCOMPARE(theme->isBackgroundVisible(), true);
     delete theme;
 }
 
@@ -87,21 +87,21 @@ void tst_theme::initialProperties()
     QVERIFY(m_theme);
 
     QCOMPARE(m_theme->plotAreaBackgroundColor(), QColor(QRgb(0xFCFCFC)));
-    QCOMPARE(m_theme->isPlotAreaBackgroundEnabled(), true);
+    QCOMPARE(m_theme->isPlotAreaBackgroundVisible(), true);
     QCOMPARE(m_theme->seriesColors().size(), 1);
     QCOMPARE(m_theme->seriesColors().at(0), QColor(Qt::black));
     QCOMPARE(m_theme->seriesGradients().size(), 1);
     QCOMPARE(m_theme->seriesGradients().at(0).stops().at(0).second, QColor(Qt::black));
     QCOMPARE(m_theme->seriesGradients().at(0).stops().at(1).second, QColor(Qt::black));
     QCOMPARE(m_theme->labelFont(), QFont(QLatin1String("Arial")));
-    QCOMPARE(m_theme->isGridEnabled(), true);
+    QCOMPARE(m_theme->isGridVisible(), true);
     QCOMPARE(m_theme->gridMainColor(), QColor(QRgb(0x545151)));
     QCOMPARE(m_theme->gridSubColor(), QColor(QRgb(0xAFAFAF)));
     QCOMPARE(m_theme->gridMainWidth(), 2.0f);
     QCOMPARE(m_theme->gridSubWidth(), 1.0f);
     QCOMPARE(m_theme->labelBackgroundColor(), QColor(QRgb(0xE7E7E7)));
-    QCOMPARE(m_theme->isLabelBackgroundEnabled(), true);
-    QCOMPARE(m_theme->isLabelBorderEnabled(), true);
+    QCOMPARE(m_theme->isLabelBackgroundVisible(), true);
+    QCOMPARE(m_theme->isLabelBorderVisible(), true);
     QCOMPARE(m_theme->labelTextColor(), QColor(QRgb(0x6A6A6A)));
     QCOMPARE(m_theme->multiHighlightColor(), QColor(QRgb(0x22D47B)));
     QCOMPARE(m_theme->multiHighlightGradient().stops().at(1).second, QColor(QRgb(0x22D47B)));
@@ -109,7 +109,7 @@ void tst_theme::initialProperties()
     QCOMPARE(m_theme->singleHighlightGradient().stops().at(1).second, QColor(QRgb(0xCCDC00)));
     QCOMPARE(m_theme->theme(), QGraphsTheme::Theme::UserDefined);
     QCOMPARE(m_theme->backgroundColor(), QColor(QRgb(0xF2F2F2)));
-    QCOMPARE(m_theme->isBackgroundEnabled(), true);
+    QCOMPARE(m_theme->isBackgroundVisible(), true);
 }
 
 void tst_theme::initializeProperties()
@@ -130,29 +130,29 @@ void tst_theme::initializeProperties()
     m_theme->setTheme(QGraphsTheme::Theme::OrangeSeries); // We'll override default values with the following setters
     m_theme->setColorScheme(Qt::ColorScheme::Dark);
     m_theme->setPlotAreaBackgroundColor(QColor(Qt::red));
-    m_theme->setPlotAreaBackgroundEnabled(false);
+    m_theme->setPlotAreaBackgroundVisible(false);
     m_theme->setSeriesColors(basecolors);
     m_theme->setSeriesGradients(basegradients);
     m_theme->setColorStyle(QGraphsTheme::ColorStyle::RangeGradient);
     m_theme->setLabelFont(QFont("Arial"));
-    m_theme->setGridEnabled(false);
+    m_theme->setGridVisible(false);
     m_theme->setGridMainColor(QColor(Qt::green));
     m_theme->setGridSubColor(QColor(Qt::red));
     m_theme->setGridMainWidth(0.8f);
     m_theme->setGridSubWidth(0.5f);
     m_theme->setLabelBackgroundColor(QColor(Qt::gray));
-    m_theme->setLabelBackgroundEnabled(false);
-    m_theme->setLabelBorderEnabled(false);
+    m_theme->setLabelBackgroundVisible(false);
+    m_theme->setLabelBorderVisible(false);
     m_theme->setLabelTextColor(QColor(Qt::cyan));
     m_theme->setMultiHighlightColor(QColor(Qt::darkBlue));
     m_theme->setMultiHighlightGradient(gradient3);
     m_theme->setSingleHighlightColor(QColor(Qt::darkRed));
     m_theme->setSingleHighlightGradient(gradient4);
     m_theme->setBackgroundColor(QColor(Qt::darkYellow));
-    m_theme->setBackgroundEnabled(false);
+    m_theme->setBackgroundVisible(false);
 
     QCOMPARE(m_theme->plotAreaBackgroundColor(), QColor(Qt::red));
-    QCOMPARE(m_theme->isPlotAreaBackgroundEnabled(), false);
+    QCOMPARE(m_theme->isPlotAreaBackgroundVisible(), false);
     QCOMPARE(m_theme->seriesColors().size(), 2);
     QCOMPARE(m_theme->seriesColors().at(0), QColor(Qt::red));
     QCOMPARE(m_theme->seriesColors().at(1), QColor(Qt::blue));
@@ -161,14 +161,14 @@ void tst_theme::initializeProperties()
     QCOMPARE(m_theme->seriesGradients().at(0), gradient2);
     QCOMPARE(m_theme->colorStyle(), QGraphsTheme::ColorStyle::RangeGradient);
     QCOMPARE(m_theme->labelFont(), QFont("Arial"));
-    QCOMPARE(m_theme->isGridEnabled(), false);
+    QCOMPARE(m_theme->isGridVisible(), false);
     QCOMPARE(m_theme->gridMainColor(), QColor(Qt::green));
     QCOMPARE(m_theme->gridSubColor(), QColor(Qt::red));
     QCOMPARE(m_theme->gridMainWidth(), 0.8f);
     QCOMPARE(m_theme->gridSubWidth(), 0.5f);
     QCOMPARE(m_theme->labelBackgroundColor(), QColor(Qt::gray));
-    QCOMPARE(m_theme->isLabelBackgroundEnabled(), false);
-    QCOMPARE(m_theme->isLabelBorderEnabled(), false);
+    QCOMPARE(m_theme->isLabelBackgroundVisible(), false);
+    QCOMPARE(m_theme->isLabelBorderVisible(), false);
     QCOMPARE(m_theme->labelTextColor(), QColor(Qt::cyan));
     QCOMPARE(m_theme->multiHighlightColor(), QColor(Qt::darkBlue));
     QCOMPARE(m_theme->multiHighlightGradient(), gradient3);
@@ -176,7 +176,7 @@ void tst_theme::initializeProperties()
     QCOMPARE(m_theme->singleHighlightGradient(), gradient4);
     QCOMPARE(m_theme->theme(), QGraphsTheme::Theme::OrangeSeries);
     QCOMPARE(m_theme->backgroundColor(), QColor(Qt::darkYellow));
-    QCOMPARE(m_theme->isBackgroundEnabled(), false);
+    QCOMPARE(m_theme->isBackgroundVisible(), false);
 }
 
 QTEST_MAIN(tst_theme)

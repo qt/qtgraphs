@@ -12,23 +12,23 @@ int main(int argc, char **argv)
 
     //! [1]
     QGraphsTheme *theme = new QGraphsTheme();
-    theme->setBackgroundEnabled(false);
-    theme->setLabelBackgroundEnabled(false);
+    theme->setBackgroundVisible(false);
+    theme->setLabelBackgroundVisible(false);
     //! [1]
 
     //! [2]
     QGraphsTheme *theme = new QGraphsTheme();
     theme->setBackgroundColor(QColor(QRgb(0x99ca53)));
-    theme->setBackgroundEnabled(true);
+    theme->setBackgroundVisible(true);
     QList<QColor> colors = { QColor(QRgb(0x209fdf)) };
     theme->setSeriesColors(colors);
     theme->setColorStyle(QGraphsTheme::ColorStyle::Uniform);
     theme->setLabelFont(QFont(QStringLiteral("Impact"), 35));
-    theme->setGridEnabled(true);
+    theme->setGridVisible(true);
     theme->setGridMainColor(QColor(QRgb(0x99ca53)));
     theme->setLabelBackgroundColor(QColor(0xf6, 0xa6, 0x25, 0xa0));
-    theme->setLabelBackgroundEnabled(true);
-    theme->setLabelBorderEnabled(true);
+    theme->setLabelBackgroundVisible(true);
+    theme->setLabelBorderVisible(true);
     theme->setLabelTextColor(QColor(QRgb(0x404044)));
     theme->setMultiHighlightColor(QColor(QRgb(0x6d5fd5)));
     theme->setSingleHighlightColor(QColor(QRgb(0xf6a625)));
@@ -57,9 +57,9 @@ Bars3D {
     ...
     theme: GraphsTheme {
         theme: GraphsTheme.Theme.QtGreenNeon
-        labelBorderEnabled: true
+        labelBorderVisible: true
         labelFont.pointSize: 35
-        labelBackgroundEnabled: false
+        labelBackgroundVisible: false
     }
     ...
 }
@@ -70,16 +70,16 @@ Surface3D {
     ...
     theme: GraphsTheme {
         backgroundColor: "red"
-        backgroundEnabled: true
+        backgroundVisible: true
         seriesColors: ["blue"]
         colorStyle: GraphsTheme.ColorStyle.Uniform
         labelFont.family: "Lucida Handwriting"
         labelFont.pointSize: 35
-        gridEnabled: false
+        gridVisible: false
         gridMainColor: "black"
         labelBackgroundColor: "black"
-        labelBackgroundEnabled: true
-        labelBorderEnabled: false
+        labelBackgroundVisible: true
+        labelBorderVisible: false
         labelTextColor: "white"
         multiHighlightColor: "green"
         singleHighlightColor: "darkRed"

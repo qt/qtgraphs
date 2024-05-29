@@ -135,11 +135,11 @@ Item {
             CustomButton {
                 id: backgroundButton
                 text: qsTr("Hide Background")
-                source: graph.theme.backgroundEnabled ?
+                source: graph.theme.backgroundVisible ?
                                         "qrc:/images/background_hide.svg" : "qrc:/images/background.svg"
                 onClicked: {
-                    graph.theme.plotAreaBackgroundEnabled = !graph.theme.plotAreaBackgroundEnabled
-                    text = graph.theme.plotAreaBackgroundEnabled ? qsTr("Hide Graph Background") : qsTr("Show Graph Background")
+                    graph.theme.plotAreaBackgroundVisible = !graph.theme.plotAreaBackgroundVisible
+                    text = graph.theme.plotAreaBackgroundVisible ? qsTr("Hide Graph Background") : qsTr("Show Graph Background")
                 }
             }
         }
@@ -162,7 +162,7 @@ Item {
             source: "qrc:/images/theme.svg"
             onClicked: {
                 graph.theme = graph.theme.theme === GraphsTheme.Theme.QtGreenNeon ? themeQt : themeQtNeonGreen
-                backgroundButton.text = graph.theme.plotAreaBackgroundEnabled ? qsTr("Hide Graph Background") : qsTr("Show Graph Background")
+                backgroundButton.text = graph.theme.plotAreaBackgroundVisible ? qsTr("Hide Graph Background") : qsTr("Show Graph Background")
             }
         }
     }

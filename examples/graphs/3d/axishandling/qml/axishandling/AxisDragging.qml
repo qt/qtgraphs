@@ -83,7 +83,7 @@ Item {
         colorScheme: Qt.Dark
         baseColors: [dynamicColor]
         labelFont.pointSize: 50
-        labelBorderEnabled: true
+        labelBorderVisible: true
         labelBackgroundColor: "gold"
         labelTextColor: "black"
         axisXLabelColor: "black"
@@ -96,7 +96,7 @@ Item {
         theme: GraphsTheme.Theme.OrangeSeries
         colorScheme: Qt.Dark
         labelFont.pointSize: 50
-        labelBorderEnabled: true
+        labelBorderVisible: true
         labelBackgroundColor: "gold"
         labelTextColor: "black"
         axisXLabelColor: "black"
