@@ -608,6 +608,7 @@ bool BarsRenderer::handleMousePress(QMouseEvent *event)
                     barSelection.barSet->toggleSelection(indexList);
                     handled = true;
                 }
+                indexInSet++;
             }
         }
     }
