@@ -189,7 +189,6 @@ else()
                 # 3D specific
                 Qt::Quick3DPrivate
                 Qt::Quick3DRuntimeRenderPrivate
-            GENERATE_CPP_EXPORTS
         )
 
         # CMake 3.16 forces these to be added here instead of the graphs3d folder
@@ -269,7 +268,6 @@ else()
                 PRIVATE_MODULE_INTERFACE
                     Qt::Quick3DPrivate
                     Qt::Quick3DRuntimeRenderPrivate
-                GENERATE_CPP_EXPORTS
             )
 
             # CMake 3.16 forces these to be added here instead of the graphs3d folder
@@ -335,7 +333,6 @@ else()
                     Qt::Core
                     Qt::Gui
                     Qt::Quick
-                GENERATE_CPP_EXPORTS
             )
 
             # CMake 3.16 forces these to be added here instead of the graphs2d folder
