@@ -4938,8 +4938,7 @@ QQuick3DRepeater *QQuickGraphsItem::createRepeater(QQuick3DNode *parent)
 {
     auto engine = qmlEngine(this);
     QQmlComponent repeaterComponent(engine);
-    repeaterComponent.loadFromModule("QtQuick3D", "Repeater3D", QQmlComponent::PreferSynchronous);
-    Q_ASSERT(repeaterComponent.isReady());
+    repeaterComponent.setData("import QtQuick3D; Repeater3D{}", QUrl());
     auto repeater = qobject_cast<QQuick3DRepeater *>(repeaterComponent.create());
     repeater->setParent(parent ? parent : graphNode());
     repeater->setParentItem(parent ? parent : graphNode());
