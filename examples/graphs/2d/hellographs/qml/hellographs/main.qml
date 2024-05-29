@@ -117,7 +117,7 @@ Item {
                 LineSeries {
                     id: lineSeries1
                     width: 4
-                    pointMarker: Marker { }
+                    pointDelegate: Marker { }
                     XYPoint { x: 0; y: 0 }
                     XYPoint { x: 1; y: 2.1 }
                     XYPoint { x: 2; y: 3.3 }
@@ -131,7 +131,7 @@ Item {
                 LineSeries {
                     id: lineSeries2
                     width: 4
-                    pointMarker: Marker { }
+                    pointDelegate: Marker { }
                     XYPoint { x: 0; y: 5.0 }
                     XYPoint { x: 1; y: 3.3 }
                     XYPoint { x: 2; y: 7.1 }

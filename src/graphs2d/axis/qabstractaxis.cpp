@@ -87,13 +87,13 @@ QT_BEGIN_NAMESPACE
 */
 
 /*!
-    \property QAbstractAxis::labelsComponent
+    \property QAbstractAxis::labelDelegate
     \brief A custom QML Component used as a label for the axis.
     This component should either be a \a Text component or contain "property string text",
     so that this property will be assigned the value of the label.
 */
 /*!
-    \qmlproperty Component AbstractAxis::labelsComponent
+    \qmlproperty Component AbstractAxis::labelDelegate
     A custom QML Component used as a label for the axis.
     This component should either be a \a Text component or contain "property string text",
     so that this property will be assigned the value of the label.
@@ -353,19 +353,19 @@ qreal QAbstractAxis::labelsAngle() const
     return d->m_labelsAngle;
 }
 
-QQmlComponent *QAbstractAxis::labelsComponent() const
+QQmlComponent *QAbstractAxis::labelDelegate() const
 {
     Q_D(const QAbstractAxis);
-    return d->m_labelsComponent;
+    return d->m_labelDelegate;
 }
 
-void QAbstractAxis::setLabelsComponent(QQmlComponent *newLabelsComponent)
+void QAbstractAxis::setLabelDelegate(QQmlComponent *newLabelDelegate)
 {
     Q_D(QAbstractAxis);
-    if (d->m_labelsComponent == newLabelsComponent)
+    if (d->m_labelDelegate == newLabelDelegate)
         return;
-    d->m_labelsComponent = newLabelsComponent;
-    emit labelsComponentChanged();
+    d->m_labelDelegate = newLabelDelegate;
+    emit labelDelegateChanged();
     emit update();
 }
 

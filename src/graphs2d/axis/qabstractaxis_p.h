@@ -65,7 +65,7 @@ private:
 
     bool m_labelsVisible = true;
     qreal m_labelsAngle = 0;
-    QQmlComponent *m_labelsComponent = nullptr;
+    QQmlComponent *m_labelDelegate = nullptr;
 
     bool m_titleVisible = true;
     QColor m_titleColor;

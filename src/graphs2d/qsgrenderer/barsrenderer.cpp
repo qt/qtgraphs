@@ -134,7 +134,7 @@ void BarsRenderer::positionLabelItem(QBarSeries *series, QQuickText *textItem, c
 
 void BarsRenderer::updateComponents(QBarSeries *series)
 {
-    if (series->barComponent()) {
+    if (series->barDelegate()) {
         // Update default rectangle nodes
         int barIndex = 0;
         auto &seriesData = m_seriesData[series];
@@ -143,7 +143,7 @@ void BarsRenderer::updateComponents(QBarSeries *series)
             if (barItems.size() <= barIndex) {
                 // Create more custom components as needed
                 QQuickItem *item = qobject_cast<QQuickItem *>(
-                        series->barComponent()->create(series->barComponent()->creationContext()));
+                        series->barDelegate()->create(series->barDelegate()->creationContext()));
                 if (item) {
                     item->setParent(this);
                     item->setParentItem(this);
@@ -180,7 +180,7 @@ void BarsRenderer::updateComponents(QBarSeries *series)
 
 void BarsRenderer::updateValueLabels(QBarSeries *series)
 {
-    if (!series->barComponent() && series->labelsVisible()) {
+    if (!series->barDelegate() && series->labelsVisible()) {
         // Update default value labels
         int barIndex = 0;
         auto &seriesData = m_seriesData[series];
@@ -469,7 +469,7 @@ void BarsRenderer::handlePolish(QBarSeries *series)
     auto &barItems = m_barItems[series];
     auto &rectNodesInputRects = m_rectNodesInputRects[series];
     if (setCount == 0) {
-        if (series->barComponent()) {
+        if (series->barDelegate()) {
             for (int i = 0; i < barItems.size(); i++)
                 barItems[i]->deleteLater();
             barItems.clear();
@@ -485,7 +485,7 @@ void BarsRenderer::handlePolish(QBarSeries *series)
         m_colorIndex = m_graph->graphSeriesCount();
     m_graph->setGraphSeriesCount(m_colorIndex + setCount);
 
-    if (!series->barComponent() && !barItems.isEmpty()) {
+    if (!series->barDelegate() && !barItems.isEmpty()) {
         // If we have switched from custom bar component to rectangle nodes,
         // remove the redundant items.
         for (int i = 0; i < barItems.size(); i++)
@@ -512,7 +512,7 @@ void BarsRenderer::handlePolish(QBarSeries *series)
 
 void BarsRenderer::updateSeries(QBarSeries *series)
 {
-    if (!series->barComponent() && (series->barSets().isEmpty() || !series->isVisible())) {
+    if (!series->barDelegate() && (series->barSets().isEmpty() || !series->isVisible())) {
         // Series is empty or not visible
         if (m_rectNodes.contains(series)) {
             auto &rectNodes = m_rectNodes[series];
@@ -539,7 +539,7 @@ void BarsRenderer::updateSeries(QBarSeries *series)
     if (difference != 0)
         rectNodes.resize(seriesData.size());
 
-    if (!series->barComponent()) {
+    if (!series->barDelegate()) {
         // Update default rectangle nodes
         int barIndex = 0;
         for (auto i = seriesData.cbegin(), end = seriesData.cend(); i != end; ++i) {
@@ -569,7 +569,7 @@ void BarsRenderer::afterUpdate(QList<QAbstractSeries *> &cleanupSeries)
 {
     for (auto &cleanupSerie : cleanupSeries) {
         auto series = qobject_cast<QBarSeries *>(cleanupSerie);
-        if (series && m_rectNodes.contains(series) && !series->barComponent()) {
+        if (series && m_rectNodes.contains(series) && !series->barDelegate()) {
             // Remove default bar nodes
             auto &rectNodes = m_rectNodes[series];
             auto it = rectNodes.begin();
@@ -587,7 +587,7 @@ void BarsRenderer::afterPolish(QList<QAbstractSeries *> &cleanupSeries)
 {
     for (auto &cleanupSerie : cleanupSeries) {
         auto series = qobject_cast<QBarSeries *>(cleanupSerie);
-        if (series && m_barItems.contains(series) && series->barComponent()) {
+        if (series && m_barItems.contains(series) && series->barDelegate()) {
             // Remove custom bar items
             auto &barItems = m_barItems[series];
             for (int i = 0; i < barItems.size(); i++)

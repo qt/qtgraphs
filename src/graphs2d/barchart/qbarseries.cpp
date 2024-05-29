@@ -222,7 +222,7 @@ QT_BEGIN_NAMESPACE
 */
 
 /*!
-    \property QBarSeries::barComponent
+    \property QBarSeries::barDelegate
     \brief A custom QML component used for visualizing each of the bars.
     Instance of this component is created for each of the bar.
     When this is not defined, a default rectangle visualization for bars is used.
@@ -268,7 +268,7 @@ QT_BEGIN_NAMESPACE
     For example \c{"property color barColor"} and \c{"property real barValue"}.
 */
 /*!
-    \qmlproperty Component BarSeries::barComponent
+    \qmlproperty Component BarSeries::barDelegate
     A custom QML component used for visualizing each of the bars.
     Instance of this component is created for each of the bar.
     When this is not defined, a default rectangle visualization for bars is used.
@@ -1018,19 +1018,19 @@ int QBarSeries::labelsPrecision() const
     return d->m_labelsPrecision;
 }
 
-QQmlComponent *QBarSeries::barComponent() const
+QQmlComponent *QBarSeries::barDelegate() const
 {
     Q_D(const QBarSeries);
-    return d->m_barComponent;
+    return d->m_barDelegate;
 }
 
-void QBarSeries::setBarComponent(QQmlComponent *newBarComponent)
+void QBarSeries::setBarDelegate(QQmlComponent *newBarDelegate)
 {
     Q_D(QBarSeries);
-    if (d->m_barComponent == newBarComponent)
+    if (d->m_barDelegate == newBarDelegate)
         return;
-    d->m_barComponent = newBarComponent;
-    emit barComponentChanged();
+    d->m_barDelegate = newBarDelegate;
+    emit barDelegateChanged();
     emit update();
 }
 

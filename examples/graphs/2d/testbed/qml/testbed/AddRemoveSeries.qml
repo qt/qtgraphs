@@ -23,7 +23,7 @@ Rectangle {
         // Component with custom bars.
         BarSeries {
             BarSet { }
-            barComponent: Item {
+            barDelegate: Item {
                 property color barColor
                 property real barValue
                 anchors.alignWhenCentered: false
@@ -47,7 +47,7 @@ Rectangle {
         id: lineComponent
         LineSeries {
             width: 2
-            pointMarker: Rectangle {
+            pointDelegate: Rectangle {
                 property color pointColor
                 width: 16
                 height: 16
@@ -62,7 +62,7 @@ Rectangle {
         id: splineComponent
         SplineSeries {
             width: 4
-            pointMarker: Rectangle {
+            pointDelegate: Rectangle {
                 property color pointColor
                 width: 16
                 height: 16
@@ -76,7 +76,7 @@ Rectangle {
     Component {
         id: scatterComponent
         ScatterSeries {
-            pointMarker: Rectangle {
+            pointDelegate: Rectangle {
                 property color pointColor
                 width: 16
                 height: 16

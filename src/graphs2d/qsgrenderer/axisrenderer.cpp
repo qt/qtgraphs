@@ -665,7 +665,7 @@ void AxisRenderer::updateBarXAxisLabels(QBarCategoryAxis *axis, const QRectF &re
 {
     qsizetype categoriesCount = axis->categories().size();
     // See if we need more text items
-    updateAxisLabelItems(m_xAxisTextItems, categoriesCount, axis->labelsComponent());
+    updateAxisLabelItems(m_xAxisTextItems, categoriesCount, axis->labelDelegate());
 
     int textIndex = 0;
     for (auto category : axis->categories()) {
@@ -692,7 +692,7 @@ void AxisRenderer::updateBarYAxisLabels(QBarCategoryAxis *axis, const QRectF &re
 {
     qsizetype categoriesCount = axis->categories().size();
     // See if we need more text items
-    updateAxisLabelItems(m_yAxisTextItems, categoriesCount, axis->labelsComponent());
+    updateAxisLabelItems(m_yAxisTextItems, categoriesCount, axis->labelDelegate());
 
     int textIndex = 0;
     for (auto category : axis->categories()) {
@@ -728,7 +728,7 @@ void AxisRenderer::updateValueYAxisLabels(QValueAxis *axis, const QRectF &rect)
     qsizetype categoriesCount = yAxisLabelValues.size();
 
     // See if we need more text items
-    updateAxisLabelItems(m_yAxisTextItems, categoriesCount, axis->labelsComponent());
+    updateAxisLabelItems(m_yAxisTextItems, categoriesCount, axis->labelDelegate());
 
     for (int i = 0;  i < categoriesCount; i++) {
         auto &textItem = m_yAxisTextItems[i];
@@ -781,7 +781,7 @@ void AxisRenderer::updateValueXAxisLabels(QValueAxis *axis, const QRectF &rect)
     qsizetype categoriesCount = axisLabelValues.size();
 
     // See if we need more text items
-    updateAxisLabelItems(m_xAxisTextItems, categoriesCount, axis->labelsComponent());
+    updateAxisLabelItems(m_xAxisTextItems, categoriesCount, axis->labelDelegate());
 
     for (int i = 0;  i < categoriesCount; i++) {
         auto &textItem = m_xAxisTextItems[i];
@@ -830,7 +830,7 @@ void AxisRenderer::updateDateTimeYAxisLabels(QDateTimeAxis *axis, const QRectF &
                    / m_axisVerticalMinLabel;
 
     // See if we need more text items
-    updateAxisLabelItems(m_yAxisTextItems, dateTimeSize, axis->labelsComponent());
+    updateAxisLabelItems(m_yAxisTextItems, dateTimeSize, axis->labelDelegate());
 
     for (auto i = 0; i < dateTimeSize; ++i) {
         auto &textItem = m_yAxisTextItems[i];
@@ -875,7 +875,7 @@ void AxisRenderer::updateDateTimeXAxisLabels(QDateTimeAxis *axis, const QRectF &
                    / m_axisHorizontalMinLabel;
 
     // See if we need more text items
-    updateAxisLabelItems(m_xAxisTextItems, dateTimeSize, axis->labelsComponent());
+    updateAxisLabelItems(m_xAxisTextItems, dateTimeSize, axis->labelDelegate());
 
     for (auto i = 0; i < dateTimeSize; ++i) {
         auto &textItem = m_xAxisTextItems[i];

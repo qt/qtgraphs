@@ -92,11 +92,11 @@ QT_BEGIN_NAMESPACE
 */
 
 /*!
-    \qmlproperty Component ScatterSeries::pointMarker
+    \qmlproperty Component ScatterSeries::pointDelegate
     Marks points with the given QML component.
 
     \code
-        pointMarker: Image {
+        pointDelegate: Image {
             source: "images/happy_box.png"
         }
     \endcode

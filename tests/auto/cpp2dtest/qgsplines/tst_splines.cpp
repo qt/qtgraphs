@@ -58,7 +58,7 @@ void tst_splines::initialProperties()
     QCOMPARE(m_series->selectedColor(), "#00000000");
     QCOMPARE(m_series->width(), 1.0);
     QCOMPARE(m_series->capStyle(), Qt::PenCapStyle::SquareCap);
-    QCOMPARE(m_series->pointMarker(), nullptr);
+    QCOMPARE(m_series->pointDelegate(), nullptr);
     QCOMPARE(m_series->isDraggable(), false);
 
     // Properties from QAbstractSeries
@@ -78,7 +78,7 @@ void tst_splines::initializeProperties()
 
     m_series->setWidth(5.0);
     m_series->setCapStyle(Qt::PenCapStyle::RoundCap);
-    m_series->setPointMarker(marker);
+    m_series->setPointDelegate(marker);
 
     m_series->setColor("#ff0000");
     m_series->setSelectedColor("#0000ff");
@@ -93,7 +93,7 @@ void tst_splines::initializeProperties()
 
     QCOMPARE(m_series->width(), 5.0);
     QCOMPARE(m_series->capStyle(), Qt::PenCapStyle::RoundCap);
-    QCOMPARE(m_series->pointMarker(), marker);
+    QCOMPARE(m_series->pointDelegate(), marker);
 
     QCOMPARE(m_series->color(), "#ff0000");
     QCOMPARE(m_series->selectedColor(), "#0000ff");

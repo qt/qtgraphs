@@ -19,7 +19,7 @@ Item {
         name: "spline"
         width: 15
         capStyle: Qt.RoundCap
-        pointMarker: Rectangle { width: 2; height: 2 }
+        pointDelegate: Rectangle { width: 2; height: 2 }
         color: "#aabbcc"
         selectedColor:  "#aabbcc"
         draggable: false
@@ -37,7 +37,7 @@ Item {
 
         function test_initial() {
             compare(initial.width, 1.0)
-            compare(initial.pointMarker, null)
+            compare(initial.pointDelegate, null)
             compare(initial.capStyle, Qt.SquareCap)
 
             compare(initial.color, "#00000000")
@@ -55,7 +55,7 @@ Item {
         function initial_changed() {
             initial.width = 10.0
             initial.capStyle = Qt.RoundCap
-            initial.pointMarker = marker
+            initial.pointDelegate = marker
 
             initial.color = "#ff00ff"
             initial.selectedColor = "#00ff00"
@@ -70,7 +70,7 @@ Item {
 
             compare(initial.width, 10.0)
             compare(initial.capStyle, Qt.RoundCap)
-            compare(initial.pointMarker, marker)
+            compare(initial.pointDelegate, marker)
 
             compare(initial.color, "#ff00ff")
             compare(initial.selectedColor, "#00ff00")
@@ -91,7 +91,7 @@ Item {
         function test_initialized() {
             compare(initialized.width, 15)
             compare(initialized.capStyle, Qt.RoundCap)
-            verify(initialized.pointMarker)
+            verify(initialized.pointDelegate)
 
             compare(initialized.color, "#aabbcc")
             compare(initialized.selectedColor, "#aabbcc")

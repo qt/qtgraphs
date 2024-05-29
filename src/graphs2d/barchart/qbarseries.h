@@ -33,7 +33,7 @@ class Q_GRAPHS_EXPORT QBarSeries : public QAbstractSeries
         qreal labelsAngle READ labelsAngle WRITE setLabelsAngle NOTIFY labelsAngleChanged FINAL)
     Q_PROPERTY(int labelsPrecision READ labelsPrecision WRITE setLabelsPrecision NOTIFY
                    labelsPrecisionChanged FINAL)
-    Q_PROPERTY(QQmlComponent *barComponent READ barComponent WRITE setBarComponent NOTIFY barComponentChanged FINAL)
+    Q_PROPERTY(QQmlComponent *barDelegate READ barDelegate WRITE setBarDelegate NOTIFY barDelegateChanged FINAL)
     Q_PROPERTY(QList<QBarSet *> barSets READ barSets NOTIFY barSetsChanged FINAL)
     QML_NAMED_ELEMENT(BarSeries)
 
@@ -103,8 +103,8 @@ public:
     void setLabelsPrecision(int precision);
     int labelsPrecision() const;
 
-    QQmlComponent *barComponent() const;
-    void setBarComponent(QQmlComponent *newBarComponent);
+    QQmlComponent *barDelegate() const;
+    void setBarDelegate(QQmlComponent *newBarDelegate);
 
 public Q_SLOTS:
     void selectAll();
@@ -134,7 +134,7 @@ Q_SIGNALS:
     void labelsMarginChanged(qreal margin);
     void labelsAngleChanged(qreal angle);
     void labelsPrecisionChanged(int precision);
-    void barComponentChanged();
+    void barDelegateChanged();
 
     void barsetsAdded(const QList<QBarSet *> &sets);
     void barsetsReplaced(const QList<QBarSet *> &sets);

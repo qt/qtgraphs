@@ -54,11 +54,11 @@ QT_BEGIN_NAMESPACE
 */
 
 /*!
-    \qmlproperty Component LineSeries::pointMarker
+    \qmlproperty Component LineSeries::pointDelegate
     Marks the point with the given QML component.
 
     \code
-        pointMarker: Image {
+        pointDelegate: Image {
             source: "images/happy_box.png"
         }
     \endcode

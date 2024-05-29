@@ -74,11 +74,11 @@ Item {
             compare(initial.hoverable, false)
             compare(initial.opacity, 1.0)
             compare(initial.valuesMultiplier, 1.0)
-            compare(initial.barComponent, null)
+            compare(initial.barDelegate, null)
         }
 
         function test_2_initial_change() {
-            initial.barComponent = customBarComponent
+            initial.barDelegate = customBarComponent
 
             initial.barWidth = 0.1
             // TODO: How to add a set dynamically?
@@ -97,7 +97,7 @@ Item {
             initial.opacity = 0.5
             initial.valuesMultiplier = 0.0
 
-            compare(initial.barComponent, customBarComponent)
+            compare(initial.barDelegate, customBarComponent)
 
             compare(initial.barWidth, 0.1)
             // TODO: How to add a set dynamically?

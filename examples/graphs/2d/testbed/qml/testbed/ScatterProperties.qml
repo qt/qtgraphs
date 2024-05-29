@@ -76,7 +76,7 @@ Rectangle {
             id: lineSeries1
             name: "First"
             selectable: true
-            pointMarker: Image {
+            pointDelegate: Image {
                 property bool pointSelected: false
                 source: "images/happy_box.png"
                 width: pointSelected ? 96 : 64

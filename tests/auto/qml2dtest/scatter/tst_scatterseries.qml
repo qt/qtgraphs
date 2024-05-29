@@ -17,7 +17,7 @@ Item {
     ScatterSeries {
         id: initialized
 
-        pointMarker: Rectangle {
+        pointDelegate: Rectangle {
             width: 12
             height: 12
         }
@@ -41,7 +41,7 @@ Item {
         name: "ScatterSeries Initial"
 
         function test_1_initial() {
-            compare(initial.pointMarker, null)
+            compare(initial.pointDelegate, null)
         }
 
         function test_2_initial_common() {
@@ -60,7 +60,7 @@ Item {
         }
 
         function test_3_initial_change() {
-            initial.pointMarker = marker
+            initial.pointDelegate = marker
 
             initial.color = "#ff00ff"
             initial.selectedColor = "#00ff00"
@@ -73,7 +73,7 @@ Item {
             initial.opacity = 0.5
             initial.valuesMultiplier = 0.5
 
-            compare(initial.pointMarker, marker)
+            compare(initial.pointDelegate, marker)
 
             compare(initial.color, "#ff00ff")
             compare(initial.selectedColor, "#00ff00")
@@ -91,7 +91,7 @@ Item {
         name: "ScatterSeries Initialized"
 
         function test_1_initialized() {
-            verify(initialized.pointMarker)
+            verify(initialized.pointDelegate)
 
             compare(initialized.color, "#ff00ff")
             compare(initialized.selectedColor, "#00ff00")
@@ -106,7 +106,7 @@ Item {
         }
 
         function test_2_initialized_change() {
-            initialized.pointMarker = null
+            initialized.pointDelegate = null
 
             initialized.color = "#0000ff"
             initialized.selectedColor = "#ff0000"
@@ -119,7 +119,7 @@ Item {
             initialized.opacity = 0.5
             initialized.valuesMultiplier = 0.25
 
-            verify(!initialized.pointMarker)
+            verify(!initialized.pointDelegate)
 
             compare(initialized.color, "#0000ff")
             compare(initialized.selectedColor, "#ff0000")

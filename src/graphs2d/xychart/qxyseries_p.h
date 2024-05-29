@@ -34,7 +34,7 @@ protected:
     QSet<qsizetype> m_selectedPoints;
     QColor m_color = QColor(Qt::transparent);
     QColor m_selectedColor = QColor(Qt::transparent);
-    QQmlComponent *m_marker = nullptr;
+    QQmlComponent *m_pointDelegate = nullptr;
     QGraphTransition *m_graphTransition = nullptr;
     bool m_draggable = false;
 

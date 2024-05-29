@@ -57,13 +57,13 @@
     \snippet 2d/hellographs/qml/hellographs/main.qml linegraph
     \dots
 
-    Custom \c Marker component is used to visualize the data points.
+    Custom \c Delegate component is used to visualize the data points.
 
     \snippet 2d/hellographs/qml/hellographs/main.qml linemarker
 
     To make this a line graph, add a \l LineSeries.
-    This sets the \l{XYSeries::pointMarker}{pointMarker} to use the custom
-    \c Marker component that was created earlier. Data points are added using
+    This sets the \l{XYSeries::pointDelegate}{pointDelegate} to use the custom
+    \c Delegate component that was created earlier. Data points are added using
     \l XYPoint elements.
 
     \snippet 2d/hellographs/qml/hellographs/main.qml lineseries1

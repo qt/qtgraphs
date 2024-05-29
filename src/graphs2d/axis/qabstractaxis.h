@@ -29,8 +29,8 @@ class Q_GRAPHS_EXPORT QAbstractAxis : public QObject
                    labelsVisibleChanged FINAL)
     Q_PROPERTY(
         qreal labelsAngle READ labelsAngle WRITE setLabelsAngle NOTIFY labelsAngleChanged FINAL)
-    Q_PROPERTY(QQmlComponent *labelsComponent READ labelsComponent
-                       WRITE setLabelsComponent NOTIFY labelsComponentChanged FINAL)
+    Q_PROPERTY(QQmlComponent *labelDelegate READ labelDelegate
+                       WRITE setLabelDelegate NOTIFY labelDelegateChanged FINAL)
     //grid
     Q_PROPERTY(bool gridVisible READ isGridLineVisible WRITE setGridLineVisible NOTIFY
                    gridVisibleChanged FINAL)
@@ -84,8 +84,8 @@ public:
     void setLabelsVisible(bool visible = true);
     void setLabelsAngle(qreal angle);
     qreal labelsAngle() const;
-    QQmlComponent *labelsComponent() const;
-    void setLabelsComponent(QQmlComponent *newLabelsComponent);
+    QQmlComponent *labelDelegate() const;
+    void setLabelDelegate(QQmlComponent *newLabelDelegate);
 
     //title handling
     bool isTitleVisible() const;
@@ -111,7 +111,7 @@ Q_SIGNALS:
     void lineVisibleChanged(bool visible);
     void labelsVisibleChanged(bool visible);
     void labelsAngleChanged(qreal angle);
-    void labelsComponentChanged();
+    void labelDelegateChanged();
     void gridVisibleChanged(bool visible);
     void minorGridVisibleChanged(bool visible);
     void titleTextChanged(const QString &title);

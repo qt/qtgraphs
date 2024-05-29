@@ -76,7 +76,7 @@ void PointRenderer::calculateRenderCoordinates(
                + m_verticalOffset;
 }
 
-void PointRenderer::updatePointMarker(
+void PointRenderer::updatePointDelegate(
     QXYSeries *series, PointGroup *group, int pointIndex, qreal x, qreal y)
 {
     auto theme = m_graph->theme();
@@ -136,7 +136,7 @@ void PointRenderer::updateScatterSeries(QScatterSeries *series, QLegendData &leg
             calculateRenderCoordinates(m_graph->m_axisRenderer, points[i].x(), points[i].y(), &x, &y);
 
             if (group->currentMarker) {
-                updatePointMarker(series, group, i, x, y);
+                updatePointDelegate(series, group, i, x, y);
             } else {
                 auto &rect = group->rects[i];
                 qreal size = defaultSize(series);
@@ -193,7 +193,7 @@ void PointRenderer::updateLineSeries(QLineSeries *series, QLegendData &legendDat
             }
 
             if (group->currentMarker) {
-                updatePointMarker(series, group, i, x, y);
+                updatePointDelegate(series, group, i, x, y);
             } else {
                 auto &rect = group->rects[i];
                 qreal size = defaultSize(series);
@@ -280,7 +280,7 @@ void PointRenderer::updateSplineSeries(QSplineSeries *series, QLegendData &legen
             }
 
             if (group->currentMarker) {
-                updatePointMarker(series, group, i, x, y);
+                updatePointDelegate(series, group, i, x, y);
             } else {
                 auto &rect = group->rects[i];
                 qreal size = defaultSize(series);
@@ -355,10 +355,10 @@ void PointRenderer::handlePolish(QXYSeries *series)
 
     qsizetype pointCount = series->points().size();
 
-    if ((series->type() == QAbstractSeries::SeriesType::Scatter) && !series->pointMarker())
+    if ((series->type() == QAbstractSeries::SeriesType::Scatter) && !series->pointDelegate())
         group->currentMarker = m_tempMarker;
-    else if (series->pointMarker())
-        group->currentMarker = series->pointMarker();
+    else if (series->pointDelegate())
+        group->currentMarker = series->pointDelegate();
 
     if (group->currentMarker != group->previousMarker) {
         for (auto &&marker : group->markers)

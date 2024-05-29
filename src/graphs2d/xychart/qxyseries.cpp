@@ -696,7 +696,7 @@ QColor QXYSeries::selectedColor() const
 }
 
 /*!
-    \property QXYSeries::pointMarker
+    \property QXYSeries::pointDelegate
     \brief A custom QML Component used as a marker for data points.
 
     The dynamic properties available for this component are:
@@ -743,7 +743,7 @@ QColor QXYSeries::selectedColor() const
     For example \c{"property color pointColor"} and \c{"property real pointValueX"}.
 */
 /*!
-    \qmlproperty Component XYSeries::pointMarker
+    \qmlproperty Component XYSeries::pointDelegate
     A custom QML Component used as a marker for data points.
 
     The dynamic properties available for this component are:
@@ -788,19 +788,19 @@ QColor QXYSeries::selectedColor() const
     To use any of these, add property with the defined name into your custom component.
     For example \c{"property color pointColor"} and \c{"property real pointValueX"}.
 */
-QQmlComponent *QXYSeries::pointMarker() const
+QQmlComponent *QXYSeries::pointDelegate() const
 {
     Q_D(const QXYSeries);
-    return d->m_marker;
+    return d->m_pointDelegate;
 }
 
-void QXYSeries::setPointMarker(QQmlComponent *newPointMarker)
+void QXYSeries::setPointDelegate(QQmlComponent *newPointDelegate)
 {
     Q_D(QXYSeries);
-    if (d->m_marker == newPointMarker)
+    if (d->m_pointDelegate == newPointDelegate)
         return;
-    d->m_marker = newPointMarker;
-    emit pointMarkerChanged();
+    d->m_pointDelegate = newPointDelegate;
+    emit pointDelegateChanged();
     emit update();
 }
 

@@ -85,7 +85,7 @@ private:
 
     void calculateRenderCoordinates(
         AxisRenderer *axisRenderer, qreal origX, qreal origY, qreal *renderX, qreal *renderY);
-    void updatePointMarker(QXYSeries *series, PointGroup *group, int pointIndex, qreal x, qreal y);
+    void updatePointDelegate(QXYSeries *series, PointGroup *group, int pointIndex, qreal x, qreal y);
     void updateLegendData(QXYSeries *series, QLegendData &legendData);
 
     void updateScatterSeries(QScatterSeries *scatter, QLegendData &legendData);

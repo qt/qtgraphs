@@ -19,7 +19,7 @@ Item {
 
         width: 10.0
         capStyle: Qt.RoundCap
-        pointMarker: Rectangle {
+        pointDelegate: Rectangle {
             width: 5
             height: 5
         }
@@ -46,7 +46,7 @@ Item {
             // Properties from QLineSeries
             compare(initial.width, 2.0)
             compare(initial.capStyle, Qt.SquareCap)
-            compare(initial.pointMarker, null)
+            compare(initial.pointDelegate, null)
         }
 
         function test_2_initial_common() {
@@ -68,7 +68,7 @@ Item {
         function test_3_initial_change() {
             initial.width = 10.0
             initial.capStyle = Qt.RoundCap
-            initial.pointMarker = marker
+            initial.pointDelegate = marker
 
             initial.color = "#ff00ff"
             initial.selectedColor = "#00ff00"
@@ -83,7 +83,7 @@ Item {
 
             compare(initial.width, 10.0)
             compare(initial.capStyle, Qt.RoundCap)
-            compare(initial.pointMarker, marker)
+            compare(initial.pointDelegate, marker)
 
             compare(initial.color, "#ff00ff")
             compare(initial.selectedColor, "#00ff00")
@@ -135,7 +135,7 @@ Item {
         function test_1_initialized() {
             compare(initialized.width, 10.0)
             compare(initialized.capStyle, Qt.RoundCap)
-            verify(initialized.pointMarker)
+            verify(initialized.pointDelegate)
 
             compare(initialized.color, "#ff00ff")
             compare(initialized.selectedColor, "#00ff00")
@@ -152,7 +152,7 @@ Item {
         function test_2_initialized_change() {
             initialized.width = 1.0
             initialized.capStyle = Qt.SquareCap
-            initialized.pointMarker = null
+            initialized.pointDelegate = null
 
             initialized.color = "#0000ff"
             initialized.selectedColor = "#ff0000"
@@ -167,7 +167,7 @@ Item {
 
             compare(initialized.width, 1.0)
             compare(initialized.capStyle, Qt.SquareCap)
-            verify(!initialized.pointMarker)
+            verify(!initialized.pointDelegate)
 
             compare(initialized.color, "#0000ff")
             compare(initialized.selectedColor, "#ff0000")

@@ -35,7 +35,7 @@ Item {
         gridVisible: false
         labelsAngle: 25
         labelsVisible: false
-        labelsComponent: Text {
+        labelDelegate: Text {
             font.pixelSize: 20
         }
         lineVisible: false
@@ -69,7 +69,7 @@ Item {
             compare(initial.gridVisible, true)
             compare(initial.labelsAngle, 0)
             compare(initial.labelsVisible, true)
-            compare(initial.labelsComponent, null)
+            compare(initial.labelDelegate, null)
             compare(initial.lineVisible, true)
             compare(initial.minorGridVisible, true)
             compare(initial.orientation, 0)
@@ -150,7 +150,7 @@ Item {
             compare(initialized.gridVisible, false)
             compare(initialized.labelsAngle, 25)
             compare(initialized.labelsVisible, false)
-            verify(initialized.labelsComponent)
+            verify(initialized.labelDelegate)
             compare(initialized.lineVisible, false)
             compare(initialized.minorGridVisible, false)
             // compare(initialized.orientation, Qt.Vertical) // read-only
@@ -176,7 +176,7 @@ Item {
             initialized.gridVisible = true
             initialized.labelsAngle = 45
             initialized.labelsVisible = true
-            initialized.labelsComponent = null
+            initialized.labelDelegate = null
             initialized.lineVisible = true
             initialized.minorGridVisible = true
             // initialized.orientation = Qt.Horizontal // read-only
@@ -200,7 +200,7 @@ Item {
             compare(initialized.gridVisible, true)
             compare(initialized.labelsAngle, 45)
             compare(initialized.labelsVisible, true)
-            verify(!initialized.labelsComponent)
+            verify(!initialized.labelDelegate)
             compare(initialized.lineVisible, true)
             compare(initialized.minorGridVisible, true)
             // compare(initialized.orientation, Qt.Vertical) // read-only

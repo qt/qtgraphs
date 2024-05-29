@@ -33,7 +33,7 @@ Rectangle {
             XYPoint { x: 2.0; y: 2.1 }
             XYPoint { x: 3.0; y: 4.9 }
             XYPoint { x: 4.0; y: 3.0 }
-            pointMarker: Item {
+            pointDelegate: Item {
                 property color pointColor
                 property real pointValueX
                 property real pointValueY

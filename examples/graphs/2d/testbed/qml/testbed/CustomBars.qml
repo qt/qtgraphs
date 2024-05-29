@@ -99,7 +99,7 @@ Rectangle {
             selectable: true
             barWidth: 0.8
             valuesMultiplier: barSeries.showAnimated
-            barComponent: Item {
+            barDelegate: Item {
                 id: comp
                 property color barColor
                 property bool barSelected

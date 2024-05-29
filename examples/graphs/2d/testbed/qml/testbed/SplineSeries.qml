@@ -33,7 +33,7 @@ Rectangle {
             draggable: true
             width: 2
 
-            pointMarker: Rectangle {
+            pointDelegate: Rectangle {
                 property color pointColor
                 color: pointColor
                 width: 16

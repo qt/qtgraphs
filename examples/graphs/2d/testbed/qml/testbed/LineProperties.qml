@@ -158,7 +158,7 @@ Rectangle {
             width: widthSlider1.value
             selectable: true
             draggable: true
-            pointMarker: Image {
+            pointDelegate: Image {
                 property bool pointSelected: false
                 source: "images/happy_box.png"
                 width: pointSelected ? 96 : 64
@@ -179,7 +179,7 @@ Rectangle {
             name: "Second"
             width: widthSlider2.value
             draggable: true
-            pointMarker: Item {
+            pointDelegate: Item {
                 property color pointColor
                 property real pointValueX
                 property real pointValueY
