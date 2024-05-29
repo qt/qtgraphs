@@ -780,9 +780,6 @@ private:
     float m_lineWidthScaleFactor = 0.0001f;
     float m_lineLengthScaleFactor = 0.02f;
 
-    float m_fontScaleFactorA = -1.130435e-06f;
-    float m_fontScaleFactorB = 0.000115652f;
-
     float m_labelMargin = .1f;
 
     bool m_sliceEnabled = false;

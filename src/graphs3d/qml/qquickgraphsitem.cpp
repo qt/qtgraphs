@@ -2388,7 +2388,7 @@ void QQuickGraphsItem::updateGrid()
 
 float QQuickGraphsItem::fontScaleFactor(float pointSize)
 {
-    return m_fontScaleFactorA * pointSize + m_fontScaleFactorB;
+    return 0.00007f + pointSize / (500000.0f * pointSize);
 }
 
 float QQuickGraphsItem::labelAdjustment(float width)
