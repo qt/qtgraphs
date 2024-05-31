@@ -106,7 +106,8 @@ void tst_scene::invalidProperties()
 void tst_scene::subViews()
 {
     // TODO: Fails on QNX (QTBUG-125982)
-    if (qEnvironmentVariableIsEmpty("QNX_QEMU")) {
+    if (qEnvironmentVariableIsEmpty("QNX_QEMU")
+        && qEnvironmentVariableIsEmpty("QNX_QEMU_LD_LIBRARY_PATH")) {
         Q3DBarsWidget graph;
         graph.setMinimumSize(QSize(200, 200));
 
