@@ -359,7 +359,7 @@ void QAbstract3DAxis::setTitleVisible(bool visible)
     Q_D(QAbstract3DAxis);
     if (d->m_titleVisible != visible) {
         d->m_titleVisible = visible;
-        emit titleVisibilityChanged(visible);
+        emit titleVisibleChanged(visible);
     }
 }
 
@@ -382,7 +382,7 @@ void QAbstract3DAxis::setLabelsVisible(bool visible)
     Q_D(QAbstract3DAxis);
     if (d->m_labelsVisible != visible) {
         d->m_labelsVisible = visible;
-        emit labelVisibilityChanged(visible);
+        emit labelVisibleChanged(visible);
     }
 }
 

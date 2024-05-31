@@ -125,8 +125,8 @@ void ScatterDataModifier::changeTheme(int theme)
 {
     QGraphsTheme *currentTheme = m_graph->activeTheme();
     currentTheme->setTheme(QGraphsTheme::Theme(theme));
-    emit backgroundEnabledChanged(currentTheme->isPlotAreaBackgroundVisible());
-    emit gridEnabledChanged(currentTheme->isGridVisible());
+    emit backgroundVisibleChanged(currentTheme->isPlotAreaBackgroundVisible());
+    emit gridVisibleChanged(currentTheme->isGridVisible());
     emit fontChanged(currentTheme->labelFont());
 }
 
@@ -183,14 +183,14 @@ void ScatterDataModifier::changeShadowQuality(int quality)
     m_graph->setShadowQuality(sq);
 }
 
-void ScatterDataModifier::setBackgroundEnabled(int enabled)
+void ScatterDataModifier::setBackgroundVisible(int visible)
 {
-    m_graph->activeTheme()->setPlotAreaBackgroundVisible((bool) enabled);
+    m_graph->activeTheme()->setPlotAreaBackgroundVisible((bool)visible);
 }
 
-void ScatterDataModifier::setGridEnabled(int enabled)
+void ScatterDataModifier::setGridVisible(int visible)
 {
-    m_graph->activeTheme()->setGridVisible((bool)enabled);
+    m_graph->activeTheme()->setGridVisible((bool)visible);
 }
 
 void ScatterDataModifier::toggleRotation()

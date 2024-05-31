@@ -17,8 +17,8 @@ Item {
     Custom3DLabel {
         id: initialized
         backgroundColor: "red"
-        backgroundEnabled: false
-        borderEnabled: false
+        backgroundVisible: false
+        borderVisible: false
         facingCamera: true
         font.family: "Times New Roman"
         text: "test label"
@@ -41,8 +41,8 @@ Item {
 
         function test_initial() {
             compare(initial.backgroundColor, "#a0a0a4")
-            compare(initial.backgroundEnabled, true)
-            compare(initial.borderEnabled, true)
+            compare(initial.backgroundVisible, true)
+            compare(initial.borderVisible, true)
             compare(initial.facingCamera, false)
             compare(initial.font.family, "Arial")
             compare(initial.text, "")
@@ -65,8 +65,8 @@ Item {
 
         function test_initialized() {
             compare(initialized.backgroundColor, "#ff0000")
-            compare(initialized.backgroundEnabled, false)
-            compare(initialized.borderEnabled, false)
+            compare(initialized.backgroundVisible, false)
+            compare(initialized.borderVisible, false)
             compare(initialized.facingCamera, true)
             compare(initialized.font.family, "Times New Roman")
             compare(initialized.text, "test label")
@@ -86,8 +86,8 @@ Item {
 
         function test_change() {
             change.backgroundColor = "red"
-            change.backgroundEnabled = false
-            change.borderEnabled = false
+            change.backgroundVisible = false
+            change.borderVisible = false
             change.facingCamera = true
             change.font.family = "Times New Roman"
             change.text = "test label"
@@ -101,8 +101,8 @@ Item {
             change.visible = false
 
             compare(change.backgroundColor, "#ff0000")
-            compare(change.backgroundEnabled, false)
-            compare(change.borderEnabled, false)
+            compare(change.backgroundVisible, false)
+            compare(change.borderVisible, false)
             compare(change.facingCamera, true)
             compare(change.font.family, "Times New Roman")
             compare(change.text, "test label")

@@ -1075,14 +1075,14 @@ void ScatterDataModifier::changeShadowQuality(int quality)
     emit shadowQualityChanged(quality);
 }
 
-void ScatterDataModifier::setBackgroundEnabled(int enabled)
+void ScatterDataModifier::setBackgroundVisible(int visible)
 {
-    m_chart->activeTheme()->setBackgroundVisible((bool) enabled);
+    m_chart->activeTheme()->setBackgroundVisible((bool)visible);
 }
 
-void ScatterDataModifier::setGridEnabled(int enabled)
+void ScatterDataModifier::setGridVisible(int visible)
 {
-    m_chart->activeTheme()->setGridVisible((bool)enabled);
+    m_chart->activeTheme()->setGridVisible((bool)visible);
 }
 
 void ScatterDataModifier::setMinX(int min)

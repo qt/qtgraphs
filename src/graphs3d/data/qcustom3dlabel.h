@@ -24,10 +24,10 @@ class Q_GRAPHS_EXPORT QCustom3DLabel : public QCustom3DItem
     Q_PROPERTY(QColor textColor READ textColor WRITE setTextColor NOTIFY textColorChanged)
     Q_PROPERTY(QColor backgroundColor READ backgroundColor WRITE setBackgroundColor NOTIFY
                    backgroundColorChanged)
-    Q_PROPERTY(
-        bool borderEnabled READ isBorderEnabled WRITE setBorderEnabled NOTIFY borderEnabledChanged)
-    Q_PROPERTY(bool backgroundEnabled READ isBackgroundEnabled WRITE setBackgroundEnabled NOTIFY
-                   backgroundEnabledChanged)
+    Q_PROPERTY(bool borderVisible READ isBorderVisible WRITE setBorderVisible NOTIFY
+                   borderVisibleChanged)
+    Q_PROPERTY(bool backgroundVisible READ isBackgroundVisible WRITE setBackgroundVisible NOTIFY
+                   backgroundVisibleChanged)
     Q_PROPERTY(bool facingCamera READ isFacingCamera WRITE setFacingCamera NOTIFY facingCameraChanged)
 
 public:
@@ -52,11 +52,11 @@ public:
     void setBackgroundColor(const QColor &color);
     QColor backgroundColor() const;
 
-    void setBorderEnabled(bool enabled);
-    bool isBorderEnabled() const;
+    void setBorderVisible(bool visible);
+    bool isBorderVisible() const;
 
-    void setBackgroundEnabled(bool enabled);
-    bool isBackgroundEnabled() const;
+    void setBackgroundVisible(bool visible);
+    bool isBackgroundVisible() const;
 
     void setFacingCamera(bool enabled);
     bool isFacingCamera() const;
@@ -66,8 +66,8 @@ Q_SIGNALS:
     void fontChanged(const QFont &font);
     void textColorChanged(const QColor &color);
     void backgroundColorChanged(const QColor &color);
-    void borderEnabledChanged(bool enabled);
-    void backgroundEnabledChanged(bool enabled);
+    void borderVisibleChanged(bool visible);
+    void backgroundVisibleChanged(bool visible);
     void facingCameraChanged(bool enabled);
 
 private:

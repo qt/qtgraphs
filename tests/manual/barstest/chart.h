@@ -42,8 +42,8 @@ public:
     void rotateX(int rotation);
     void rotateY(int rotation);
     void setFpsMeasurement(int state);
-    void setBackgroundEnabled(int enabled);
-    void setGridEnabled(int enabled);
+    void setBackgroundVisible(int visible);
+    void setGridVisible(int visible);
     void setSpecsRatio(int barwidth);
     void setSpecsZ(int bardepth);
     void setSpacingSpecsX(int spacing);

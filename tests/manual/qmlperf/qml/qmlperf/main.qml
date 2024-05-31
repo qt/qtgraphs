@@ -168,8 +168,8 @@ Item {
             Button {
                 id: gridToggle
                 visible: tabBar.currentIndex === 0
-                property bool gridEnabled
-                text: qsTr("Show grid: %1").arg(gridEnabled.toString())
+                property bool gridVisible
+                text: qsTr("Show grid: %1").arg(gridVisible.toString())
                 Layout.fillWidth: true
                 Layout.preferredHeight: 50
                 Layout.margins: 10
@@ -180,7 +180,7 @@ Item {
                     else
                         surfaceSeries.drawMode |= Surface3DSeries.DrawWireframe;
 
-                    gridEnabled = surfaceSeries.drawMode & Surface3DSeries.DrawWireframe
+                    gridVisible = surfaceSeries.drawMode & Surface3DSeries.DrawWireframe
                 }
             }
 

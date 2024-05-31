@@ -240,8 +240,8 @@ void GraphModifier::changeTheme(int theme)
 {
     QGraphsTheme *currentTheme = m_graph->activeTheme();
     currentTheme->setTheme(QGraphsTheme::Theme(theme));
-    emit backgroundEnabledChanged(currentTheme->isPlotAreaBackgroundVisible());
-    emit gridEnabledChanged(currentTheme->isGridVisible());
+    emit backgroundVisibleChanged(currentTheme->isPlotAreaBackgroundVisible());
+    emit gridVisibleChanged(currentTheme->isGridVisible());
     emit fontChanged(currentTheme->labelFont());
     emit fontSizeChanged(currentTheme->labelFont().pointSize());
 }
@@ -289,11 +289,11 @@ void GraphModifier::changeLabelRotation(int rotation)
     m_yearAxis->setLabelAutoRotation(float(rotation));
 }
 
-void GraphModifier::setAxisTitleVisibility(bool enabled)
+void GraphModifier::setAxisTitleVisibility(bool visible)
 {
-    m_temperatureAxis->setTitleVisible(enabled);
-    m_monthAxis->setTitleVisible(enabled);
-    m_yearAxis->setTitleVisible(enabled);
+    m_temperatureAxis->setTitleVisible(visible);
+    m_monthAxis->setTitleVisible(visible);
+    m_yearAxis->setTitleVisible(visible);
 }
 
 void GraphModifier::setAxisTitleFixed(bool enabled)
@@ -402,14 +402,14 @@ void GraphModifier::rotateY(int rotation)
     m_graph->setCameraPosition(m_xRotation, m_yRotation);
 }
 
-void GraphModifier::setBackgroundEnabled(int enabled)
+void GraphModifier::setBackgroundVisible(int visible)
 {
-    m_graph->activeTheme()->setPlotAreaBackgroundVisible(bool(enabled));
+    m_graph->activeTheme()->setPlotAreaBackgroundVisible(bool(visible));
 }
 
-void GraphModifier::setGridEnabled(int enabled)
+void GraphModifier::setGridVisible(int visible)
 {
-    m_graph->activeTheme()->setGridVisible(bool(enabled));
+    m_graph->activeTheme()->setGridVisible(bool(visible));
 }
 
 void GraphModifier::setSmoothBars(int smooth)
@@ -420,9 +420,9 @@ void GraphModifier::setSmoothBars(int smooth)
     m_customData->customSeries()->setMeshSmooth(m_smooth);
 }
 
-void GraphModifier::setSeriesVisibility(int enabled)
+void GraphModifier::setSeriesVisibility(int visible)
 {
-    m_secondarySeries->setVisible(bool(enabled));
+    m_secondarySeries->setVisible(bool(visible));
 }
 
 void GraphModifier::setReverseValueAxis(int enabled)

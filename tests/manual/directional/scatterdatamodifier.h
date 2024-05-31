@@ -24,8 +24,8 @@ public:
     void changeFont(const QFont &font);
     void changeFontSize(int fontsize);
     void enableOptimization(int enabled);
-    void setBackgroundEnabled(int enabled);
-    void setGridEnabled(int enabled);
+    void setBackgroundVisible(int visible);
+    void setGridVisible(int visible);
     void toggleRotation();
     void start();
 
@@ -37,8 +37,8 @@ public Q_SLOTS:
     void triggerRotation();
 
 Q_SIGNALS:
-    void backgroundEnabledChanged(bool enabled);
-    void gridEnabledChanged(bool enabled);
+    void backgroundVisibleChanged(bool enabled);
+    void gridVisibleChanged(bool enabled);
     void shadowQualityChanged(int quality);
     void fontChanged(const QFont &font);
 

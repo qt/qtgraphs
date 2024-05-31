@@ -1593,14 +1593,14 @@ QBarDataRow GraphModifier::createFlatRow(int columns, float value)
     return dataRow;
 }
 
-void GraphModifier::setBackgroundEnabled(int enabled)
+void GraphModifier::setBackgroundVisible(int visible)
 {
-    m_graph->activeTheme()->setBackgroundVisible(bool(enabled));
+    m_graph->activeTheme()->setBackgroundVisible(bool(visible));
 }
 
-void GraphModifier::setGridEnabled(int enabled)
+void GraphModifier::setGridVisible(int visible)
 {
-    m_graph->activeTheme()->setGridVisible(bool(enabled));
+    m_graph->activeTheme()->setGridVisible(bool(visible));
 }
 
 void GraphModifier::rotateX(int rotation)

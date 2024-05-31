@@ -74,8 +74,8 @@ public:
 Q_SIGNALS:
     void dataProxyChanged(QSurfaceDataProxy *proxy);
     void selectedPointChanged(const QPoint &position);
-    void flatShadingEnabledChanged(bool enable);
-    void flatShadingSupportedChanged(bool enable);
+    void flatShadingEnabledChanged(bool enabled);
+    void flatShadingSupportedChanged(bool enabled);
     void drawModeChanged(QSurface3DSeries::DrawFlags mode);
     void textureChanged(const QImage &image);
     void textureFileChanged(const QString &filename);

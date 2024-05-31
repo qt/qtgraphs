@@ -114,15 +114,15 @@ int main(int argc, char **argv)
                      &ScatterDataModifier::changeLabelStyle);
 
     QObject::connect(backgroundCheckBox, &QCheckBox::checkStateChanged, modifier,
-                     &ScatterDataModifier::setBackgroundEnabled);
+                     &ScatterDataModifier::setBackgroundVisible);
     QObject::connect(gridCheckBox, &QCheckBox::checkStateChanged, modifier,
-                     &ScatterDataModifier::setGridEnabled);
+                     &ScatterDataModifier::setGridVisible);
 
-    QObject::connect(modifier, &ScatterDataModifier::backgroundEnabledChanged,
+    QObject::connect(modifier, &ScatterDataModifier::backgroundVisibleChanged,
                      backgroundCheckBox, &QCheckBox::setChecked);
     QObject::connect(optimizationCheckBox, &QCheckBox::checkStateChanged,
                      modifier, &ScatterDataModifier::enableOptimization);
-    QObject::connect(modifier, &ScatterDataModifier::gridEnabledChanged,
+    QObject::connect(modifier, &ScatterDataModifier::gridVisibleChanged,
                      gridCheckBox, &QCheckBox::setChecked);
     QObject::connect(itemStyleList, SIGNAL(currentIndexChanged(int)), modifier,
                      SLOT(changeStyle(int)));

@@ -209,12 +209,12 @@ void GraphModifier::toggleSeries4(int enabled)
     }
 }
 
-void GraphModifier::toggleSmooth(int enabled)
+void GraphModifier::toggleSmooth(int visible)
 {
-    qDebug() << "GraphModifier::toggleSmooth " << enabled;
-    m_theSeries->setFlatShadingEnabled(enabled);
+    qDebug() << "GraphModifier::toggleSmooth " << visible;
+    m_theSeries->setFlatShadingEnabled(visible);
 #ifdef MULTI_SERIES
-    m_multiseries[0]->setFlatShadingEnabled(enabled);
+    m_multiseries[0]->setFlatShadingEnabled(visible);
 #endif
 }
 
@@ -254,10 +254,10 @@ void GraphModifier::toggleSeriesVisible(int enable)
 #endif
 }
 
-void GraphModifier::toggleSmoothS2(int enabled)
+void GraphModifier::toggleSmoothS2(int visible)
 {
-    qDebug() << __FUNCTION__ << enabled;
-    m_multiseries[1]->setFlatShadingEnabled(enabled);
+    qDebug() << __FUNCTION__ << visible;
+    m_multiseries[1]->setFlatShadingEnabled(visible);
 }
 
 void GraphModifier::toggleSurfaceGridS2(int enable)
@@ -316,16 +316,16 @@ void GraphModifier::toggleSurfaceS3(int enable)
     m_multiseries[2]->setDrawMode(m_drawMode3);
 }
 
-void GraphModifier::toggleSeries3Visible(int enable)
+void GraphModifier::toggleSeries3Visible(int visible)
 {
-    qDebug() << __FUNCTION__ << enable;
-    m_multiseries[2]->setVisible(enable);
+    qDebug() << __FUNCTION__ << visible;
+    m_multiseries[2]->setVisible(visible);
 }
 
-void GraphModifier::toggleSmoothS4(int enabled)
+void GraphModifier::toggleSmoothS4(int visible)
 {
-    qDebug() << __FUNCTION__ << enabled;
-    m_multiseries[3]->setFlatShadingEnabled(enabled);
+    qDebug() << __FUNCTION__ << visible;
+    m_multiseries[3]->setFlatShadingEnabled(visible);
 }
 
 void GraphModifier::toggleSurfaceGridS4(int enable)
@@ -742,26 +742,26 @@ void GraphModifier::changeLabelRotation(int rotation)
     m_graph->axisZ()->setLabelAutoRotation(float(rotation));
 }
 
-void GraphModifier::toggleAxisTitleVisibility(int enabled)
+void GraphModifier::toggleAxisTitleVisibility(int visible)
 {
-    m_graph->axisX()->setTitleVisible(enabled);
-    m_graph->axisY()->setTitleVisible(enabled);
-    m_graph->axisZ()->setTitleVisible(enabled);
+    m_graph->axisX()->setTitleVisible(visible);
+    m_graph->axisY()->setTitleVisible(visible);
+    m_graph->axisZ()->setTitleVisible(visible);
 }
 
-void GraphModifier::toggleXAxisLabelsVisibility(int enabled)
+void GraphModifier::toggleXAxisLabelsVisibility(int visible)
 {
-    m_graph->axisX()->setLabelsVisible(enabled);
+    m_graph->axisX()->setLabelsVisible(visible);
 }
 
-void GraphModifier::toggleYAxisLabelsVisibility(int enabled)
+void GraphModifier::toggleYAxisLabelsVisibility(int visible)
 {
-    m_graph->axisY()->setLabelsVisible(enabled);
+    m_graph->axisY()->setLabelsVisible(visible);
 }
 
-void GraphModifier::toggleZAxisLabelsVisibility(int enabled)
+void GraphModifier::toggleZAxisLabelsVisibility(int visible)
 {
-    m_graph->axisZ()->setLabelsVisible(enabled);
+    m_graph->axisZ()->setLabelsVisible(visible);
 }
 
 void GraphModifier::toggleAxisTitleFixed(int enabled)

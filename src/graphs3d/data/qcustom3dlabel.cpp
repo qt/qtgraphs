@@ -56,25 +56,25 @@ QT_BEGIN_NAMESPACE
  * The color for the label text. Also affects label border, if enabled. Defaults
  * to \c{"white"}.
  *
- * \sa borderEnabled
+ * \sa borderVisible
  */
 
 /*! \qmlproperty color Custom3DLabel::backgroundColor
  *
  * The color for the label background, if enabled. Defaults to \c{"gray"}.
  *
- * \sa backgroundEnabled
+ * \sa backgroundVisible
  */
 
-/*! \qmlproperty bool Custom3DLabel::backgroundEnabled
+/*! \qmlproperty bool Custom3DLabel::backgroundVisible
  *
- * Defines whether the label background is enabled. If set to \c{false},
+ * Defines whether the label background is visible. If set to \c{false},
  * backgroundColor has no effect. Defaults to \c{true}.
  */
 
-/*! \qmlproperty bool Custom3DLabel::borderEnabled
+/*! \qmlproperty bool Custom3DLabel::borderVisible
  *
- * Defines whether label borders are enabled. Defaults to \c{true}.
+ * Defines whether label borders are visible. Defaults to \c{true}.
  */
 
 /*! \qmlproperty bool Custom3DLabel::facingCamera
@@ -204,7 +204,7 @@ QFont QCustom3DLabel::font() const
  *
  * Also affects the label border, if enabled. Defaults to \c{Qt::white}.
  *
- * \sa borderEnabled
+ * \sa borderVisible
  */
 void QCustom3DLabel::setTextColor(const QColor &color)
 {
@@ -229,7 +229,7 @@ QColor QCustom3DLabel::textColor() const
  *
  * Defaults to \c{Qt::gray}.
  *
- * \sa backgroundEnabled
+ * \sa backgroundVisible
  */
 void QCustom3DLabel::setBackgroundColor(const QColor &color)
 {
@@ -248,48 +248,48 @@ QColor QCustom3DLabel::backgroundColor() const
     return d->m_bgrColor;
 }
 
-/*! \property QCustom3DLabel::borderEnabled
+/*! \property QCustom3DLabel::borderVisible
  *
- * \brief Whether label borders are enabled.
+ * \brief Whether label borders are visible.
  *
  * Defaults to \c{true}.
  */
-void QCustom3DLabel::setBorderEnabled(bool enabled)
+void QCustom3DLabel::setBorderVisible(bool visible)
 {
     Q_D(QCustom3DLabel);
-    if (d->m_borders != enabled) {
-        d->m_borders = enabled;
+    if (d->m_borders != visible) {
+        d->m_borders = visible;
         d->m_customVisuals = true;
-        emit borderEnabledChanged(enabled);
+        emit borderVisibleChanged(visible);
         emit needUpdate();
     }
 }
 
-bool QCustom3DLabel::isBorderEnabled() const
+bool QCustom3DLabel::isBorderVisible() const
 {
     const Q_D(QCustom3DLabel);
     return d->m_borders;
 }
 
-/*! \property QCustom3DLabel::backgroundEnabled
+/*! \property QCustom3DLabel::backgroundVisible
  *
- * \brief Whether the label background is enabled.
+ * \brief Whether the label background is visible.
  *
  * If set to \c{false}, backgroundColor() has no effect. Defaults
  * to \c{true}.
  */
-void QCustom3DLabel::setBackgroundEnabled(bool enabled)
+void QCustom3DLabel::setBackgroundVisible(bool visible)
 {
     Q_D(QCustom3DLabel);
-    if (d->m_background != enabled) {
-        d->m_background = enabled;
+    if (d->m_background != visible) {
+        d->m_background = visible;
         d->m_customVisuals = true;
-        emit backgroundEnabledChanged(enabled);
+        emit backgroundVisibleChanged(visible);
         emit needUpdate();
     }
 }
 
-bool QCustom3DLabel::isBackgroundEnabled() const
+bool QCustom3DLabel::isBackgroundVisible() const
 {
     const Q_D(QCustom3DLabel);
     return d->m_background;

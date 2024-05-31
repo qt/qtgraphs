@@ -470,10 +470,14 @@ int main(int argc, char **argv)
 
     QObject::connect(fpsCheckBox, &QCheckBox::checkStateChanged, modifier,
                      &ScatterDataModifier::setFpsMeasurement);
-    QObject::connect(backgroundCheckBox, &QCheckBox::checkStateChanged, modifier,
-                     &ScatterDataModifier::setBackgroundEnabled);
-    QObject::connect(gridCheckBox, &QCheckBox::checkStateChanged, modifier,
-                     &ScatterDataModifier::setGridEnabled);
+    QObject::connect(backgroundCheckBox,
+                     &QCheckBox::checkStateChanged,
+                     modifier,
+                     &ScatterDataModifier::setBackgroundVisible);
+    QObject::connect(gridCheckBox,
+                     &QCheckBox::checkStateChanged,
+                     modifier,
+                     &ScatterDataModifier::setGridVisible);
 
     QObject::connect(minSliderX, &QSlider::valueChanged, modifier,
                      &ScatterDataModifier::setMinX);

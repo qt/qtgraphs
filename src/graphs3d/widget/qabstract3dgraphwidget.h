@@ -86,10 +86,14 @@ class Q_GRAPHSWIDGETS_EXPORT QAbstract3DGraphWidget : public QQuickWidget
                    zoomEnabledChanged)
 
     Q_PROPERTY(QColor lightColor READ lightColor WRITE setLightColor NOTIFY lightColorChanged)
-    Q_PROPERTY(float ambientLightStrength READ ambientLightStrength WRITE setAmbientLightStrength NOTIFY ambientLightStrengthChanged)
-    Q_PROPERTY(float lightStrength READ lightStrength WRITE setLightStrength NOTIFY lightStrengthChanged)
-    Q_PROPERTY(float shadowStrength READ shadowStrength WRITE setShadowStrength NOTIFY shadowStrengthChanged)
-    Q_PROPERTY(bool shaderGridEnabled READ shaderGridEnabled WRITE setShaderGridEnabled NOTIFY shaderGridEnabledChanged FINAL)
+    Q_PROPERTY(float ambientLightStrength READ ambientLightStrength WRITE setAmbientLightStrength
+                   NOTIFY ambientLightStrengthChanged)
+    Q_PROPERTY(
+        float lightStrength READ lightStrength WRITE setLightStrength NOTIFY lightStrengthChanged)
+    Q_PROPERTY(float shadowStrength READ shadowStrength WRITE setShadowStrength NOTIFY
+                   shadowStrengthChanged)
+    Q_PROPERTY(bool shaderGridEnabled READ isShaderGridEnabled WRITE setShaderGridEnabled NOTIFY
+                   shaderGridEnabledChanged FINAL)
 
 public:
     void addTheme(QGraphsTheme *theme);
@@ -225,7 +229,7 @@ public:
     void setShadowStrength(float newShadowStrength);
     QColor lightColor() const;
     void setLightColor(const QColor &newLightColor);
-    bool shaderGridEnabled();
+    bool isShaderGridEnabled();
     void setShaderGridEnabled(bool enabled);
 
     virtual ~QAbstract3DGraphWidget();

@@ -25,10 +25,10 @@ public:
     void changeFontSize(int fontsize);
     void rotateX(int rotation);
     void rotateY(int rotation);
-    void setBackgroundEnabled(int enabled);
-    void setGridEnabled(int enabled);
+    void setBackgroundVisible(int visible);
+    void setGridVisible(int visible);
     void setSmoothBars(int smooth);
-    void setSeriesVisibility(int enabled);
+    void setSeriesVisibility(int visible);
     void setReverseValueAxis(int enabled);
     void changeDataMode(bool customData);
 
@@ -40,7 +40,7 @@ public Q_SLOTS:
     void changeShadowQuality(int quality);
     void shadowQualityUpdatedByVisual(QGraphs3D::ShadowQuality shadowQuality);
     void changeLabelRotation(int rotation);
-    void setAxisTitleVisibility(bool enabled);
+    void setAxisTitleVisibility(bool visible);
     void setAxisTitleFixed(bool enabled);
     void zoomToSelectedBar();
     void setDataModeToWeather(bool enabled);
@@ -48,8 +48,8 @@ public Q_SLOTS:
 
 Q_SIGNALS:
     void shadowQualityChanged(int quality);
-    void backgroundEnabledChanged(bool enabled);
-    void gridEnabledChanged(bool enabled);
+    void backgroundVisibleChanged(bool visible);
+    void gridVisibleChanged(bool visible);
     void fontChanged(const QFont &font);
     void fontSizeChanged(int size);
 

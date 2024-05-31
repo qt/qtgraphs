@@ -393,7 +393,7 @@ void QAbstract3DSeries::setVisible(bool visible)
     Q_D(QAbstract3DSeries);
     if (d->m_visible != visible) {
         d->setVisible(visible);
-        emit visibilityChanged(visible);
+        emit visibleChanged(visible);
     }
 }
 
@@ -737,7 +737,7 @@ void QAbstract3DSeries::setItemLabelVisible(bool visible)
     Q_D(QAbstract3DSeries);
     if (d->m_itemLabelVisible != visible) {
         d->setItemLabelVisible(visible);
-        emit itemLabelVisibilityChanged(visible);
+        emit itemLabelVisibleChanged(visible);
     }
 }
 
