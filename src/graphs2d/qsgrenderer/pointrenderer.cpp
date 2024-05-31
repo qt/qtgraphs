@@ -11,13 +11,13 @@
 
 QT_BEGIN_NAMESPACE
 
-static const char* TAG_POINT_COLOR = "pointColor";
-static const char* TAG_POINT_BORDER_COLOR = "pointBorderColor";
-static const char* TAG_POINT_BORDER_WIDTH = "pointBorderWidth";
-static const char* TAG_POINT_SELECTED_COLOR = "pointSelectedColor";
-static const char* TAG_POINT_SELECTED = "pointSelected";
-static const char* TAG_POINT_VALUE_X = "pointValueX";
-static const char* TAG_POINT_VALUE_Y = "pointValueY";
+static const char *TAG_POINT_COLOR = "pointColor";
+static const char *TAG_POINT_BORDER_COLOR = "pointBorderColor";
+static const char *TAG_POINT_BORDER_WIDTH = "pointBorderWidth";
+static const char *TAG_POINT_SELECTED_COLOR = "pointSelectedColor";
+static const char *TAG_POINT_SELECTED = "pointSelected";
+static const char *TAG_POINT_VALUE_X = "pointValueX";
+static const char *TAG_POINT_VALUE_Y = "pointValueY";
 
 PointRenderer::PointRenderer(QQuickItem *parent)
     : QQuickItem(parent)
@@ -86,13 +86,13 @@ void PointRenderer::updatePointDelegate(
     const auto &seriesColors = theme->seriesColors();
     const auto &borderColors = theme->borderColors();
     qsizetype index = group->colorIndex % seriesColors.size();
-    QColor color = series->color().alpha() != 0 ? series->color()
-                                            : seriesColors.at(index);
+    QColor color = series->color().alpha() != 0 ? series->color() : seriesColors.at(index);
     index = group->colorIndex % borderColors.size();
     QColor borderColor = borderColors.at(index);
     qreal borderWidth = theme->borderWidth();
-    QColor selectedColor = series->selectedColor().alpha() != 0 ? series->selectedColor()
-                                                                : m_graph->theme()->singleHighlightColor();
+    QColor selectedColor = series->selectedColor().alpha() != 0
+                               ? series->selectedColor()
+                               : m_graph->theme()->singleHighlightColor();
     if (marker->property(TAG_POINT_SELECTED).isValid())
         marker->setProperty(TAG_POINT_SELECTED, series->isPointSelected(pointIndex));
     if (marker->property(TAG_POINT_COLOR).isValid())
@@ -111,6 +111,7 @@ void PointRenderer::updatePointDelegate(
 
     marker->setX(x - marker->width() / 2.0);
     marker->setY(y - marker->height() / 2.0);
+    marker->setVisible(series->isVisible());
 
     rect = QRectF(x - marker->width() / 2.0,
                   y - marker->height() / 2.0,
@@ -134,7 +135,6 @@ void PointRenderer::updateScatterSeries(QScatterSeries *series, QLegendData &leg
         for (int i = 0; i < points.count(); ++i) {
             qreal x, y;
             calculateRenderCoordinates(m_graph->m_axisRenderer, points[i].x(), points[i].y(), &x, &y);
-
             if (group->currentMarker) {
                 updatePointDelegate(series, group, i, x, y);
             } else {
@@ -156,9 +156,7 @@ void PointRenderer::updateLineSeries(QLineSeries *series, QLegendData &legendDat
 
     const auto &seriesColors = theme->seriesColors();
     qsizetype index = group->colorIndex % seriesColors.size();
-    QColor color = series->color().alpha() != 0
-                       ? series->color()
-            : seriesColors.at(index);
+    QColor color = series->color().alpha() != 0 ? series->color() : seriesColors.at(index);
 
     group->shapePath->setStrokeColor(color);
     group->shapePath->setStrokeWidth(series->width());
@@ -176,6 +174,7 @@ void PointRenderer::updateLineSeries(QLineSeries *series, QLegendData &legendDat
     qsizetype currentPathCount = group->paths.size();
     group->paths.resize(points.size() - 1);
     group->rects.resize(points.size());
+
     if (points.size() > 0) {
         for (int i = 0; i < points.count(); ++i) {
             qreal x, y;
@@ -203,13 +202,15 @@ void PointRenderer::updateLineSeries(QLineSeries *series, QLegendData &legendDat
     }
 
     auto pathElements = group->shapePath->pathElements();
-    while (pathElements.count(&pathElements) < group->paths.length()) {
-        pathElements.append(&pathElements, group->paths[pathElements.count(&pathElements)]);
-    }
 
-    while (pathElements.count(&pathElements) > group->paths.length()) {
+    while (pathElements.count(&pathElements) < group->paths.length() && series->isVisible())
+        pathElements.append(&pathElements, group->paths[pathElements.count(&pathElements)]);
+
+    while (pathElements.count(&pathElements) > group->paths.length())
         pathElements.removeLast(&pathElements);
-    }
+
+    if (!series->isVisible() && pathElements.count(&pathElements) > 0)
+        pathElements.clear(&pathElements);
 
     legendData = {color, color, series->name()};
 }
@@ -221,9 +222,7 @@ void PointRenderer::updateSplineSeries(QSplineSeries *series, QLegendData &legen
 
     const auto &seriesColors = theme->seriesColors();
     qsizetype index = group->colorIndex % seriesColors.size();
-    QColor color = series->color().alpha() != 0
-                       ? series->color()
-                       : seriesColors.at(index);
+    QColor color = series->color().alpha() != 0 ? series->color() : seriesColors.at(index);
 
     group->shapePath->setStrokeColor(color);
     group->shapePath->setStrokeWidth(series->width());
@@ -290,13 +289,14 @@ void PointRenderer::updateSplineSeries(QSplineSeries *series, QLegendData &legen
     }
 
     auto pathElements = group->shapePath->pathElements();
-    while (pathElements.count(&pathElements) < group->paths.length()) {
+    while (pathElements.count(&pathElements) < group->paths.length() && series->isVisible())
         pathElements.append(&pathElements, group->paths[pathElements.count(&pathElements)]);
-    }
 
-    while (pathElements.count(&pathElements) > group->paths.length()) {
+    while (pathElements.count(&pathElements) > group->paths.length())
         pathElements.removeLast(&pathElements);
-    }
+
+    if (!series->isVisible())
+        pathElements.clear(&pathElements);
 
     legendData = {color, color, series->name()};
 }
@@ -403,13 +403,41 @@ void PointRenderer::handlePolish(QXYSeries *series)
     updateLegendData(series, legendData);
 }
 
+void PointRenderer::afterPolish(QList<QAbstractSeries *> cleanupSeries)
+{
+    for (auto series : cleanupSeries) {
+        auto xySeries = qobject_cast<QXYSeries *>(series);
+        if (xySeries && m_groups.contains(xySeries)) {
+            auto group = m_groups.value(xySeries);
+
+            for (auto marker : group->markers)
+                marker->deleteLater();
+
+            if (group->shapePath) {
+                auto pathElements = group->shapePath->pathElements();
+                pathElements.clear(&pathElements);
+            }
+
+            m_groups.remove(xySeries);
+        }
+    }
+}
+
 void PointRenderer::updateSeries(QXYSeries *series)
 {
     Q_UNUSED(series);
 }
 
+void PointRenderer::afterUpdate(QList<QAbstractSeries *> cleanupSeries)
+{
+    Q_UNUSED(cleanupSeries);
+}
+
 bool PointRenderer::handleMouseMove(QMouseEvent *event)
 {
+    if (!m_pressedGroup->series->isVisible())
+        return false;
+
     if (m_pointPressed && m_pressedGroup->series->isDraggable()) {
         float w = width() - m_graph->m_marginLeft - m_graph->m_marginRight
                   - m_graph->m_axisRenderer->m_axisWidth;
@@ -442,6 +470,9 @@ bool PointRenderer::handleMousePress(QMouseEvent *event)
 {
     bool handled = false;
     for (auto &&group : m_groups) {
+        if (!group->series->isVisible())
+            continue;
+
         if (!group->series->isSelectable() && !group->series->isDraggable())
             continue;
 
@@ -464,7 +495,7 @@ bool PointRenderer::handleMouseRelease(QMouseEvent *event)
 {
     bool handled = false;
     if (!m_pointDragging && m_pointPressed && m_pressedGroup
-        && m_pressedGroup->series->isSelectable()) {
+        && m_pressedGroup->series->isSelectable() && m_pressedGroup->series->isVisible()) {
         if (m_pressedGroup->rects[m_pressedPointIndex].contains(event->pos())) {
             if (m_pressedGroup->series->isPointSelected(m_pressedPointIndex)) {
                 m_pressedGroup->series->deselectPoint(m_pressedPointIndex);
@@ -485,7 +516,7 @@ bool PointRenderer::handleHoverMove(QHoverEvent *event)
     const QPointF &position = event->position();
 
     for (auto &&group : m_groups) {
-        if (!group->series->isHoverable())
+        if (!group->series->isHoverable() || !group->series->isVisible())
             continue;
 
         auto axisRenderer = group->series->graph()->m_axisRenderer;

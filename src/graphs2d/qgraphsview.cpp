@@ -210,20 +210,29 @@ void QGraphsView::createAxisRenderer()
 
 void QGraphsView::createPointRenderer()
 {
-    if (!m_pointRenderer)
+    if (!m_pointRenderer) {
         m_pointRenderer = new PointRenderer(this);
+        m_pointRenderer->setWidth(width());
+        m_pointRenderer->setHeight(height());
+    }
 }
 
 void QGraphsView::createPieRenderer()
 {
-    if (!m_pieRenderer)
+    if (!m_pieRenderer) {
         m_pieRenderer = new PieRenderer(this);
+        m_pieRenderer->setWidth(width());
+        m_pieRenderer->setHeight(height());
+    }
 }
 
 void QGraphsView::createAreaRenderer()
 {
-    if (!m_areaRenderer)
+    if (!m_areaRenderer) {
         m_areaRenderer = new AreaRenderer(this);
+        m_areaRenderer->setWidth(width());
+        m_areaRenderer->setHeight(height());
+    }
 }
 
 /*!
@@ -618,6 +627,11 @@ QSGNode *QGraphsView::updatePaintNode(QSGNode *oldNode, QQuickItem::UpdatePaintN
         m_barsRenderer->afterUpdate(cleanupSeriesList);
         cleanupSeriesList.clear();
     }
+    if (m_pointRenderer) {
+        auto &cleanupSeriesList = m_cleanupSeriesList[1];
+        m_pointRenderer->afterUpdate(cleanupSeriesList);
+        cleanupSeriesList.clear();
+    }
 
     // Now possibly dirty theme has been taken into use
     m_theme->resetThemeDirty();
@@ -682,6 +696,10 @@ void QGraphsView::updatePolish()
     if (m_barsRenderer) {
         auto &cleanupSeriesList = m_cleanupSeriesList[0];
         m_barsRenderer->afterPolish(cleanupSeriesList);
+    }
+    if (m_pointRenderer) {
+        auto &cleanupSeriesList = m_cleanupSeriesList[1];
+        m_pointRenderer->afterPolish(cleanupSeriesList);
     }
 }
 
