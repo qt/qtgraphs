@@ -23,7 +23,7 @@ class Q_GRAPHS_EXPORT QAbstract3DSeries : public QObject
     Q_PROPERTY(QAbstract3DSeries::SeriesType type READ type CONSTANT)
     Q_PROPERTY(QString itemLabelFormat READ itemLabelFormat WRITE setItemLabelFormat NOTIFY
                    itemLabelFormatChanged)
-    Q_PROPERTY(bool visible READ isVisible WRITE setVisible NOTIFY visibilityChanged)
+    Q_PROPERTY(bool visible READ isVisible WRITE setVisible NOTIFY visibleChanged)
     Q_PROPERTY(QAbstract3DSeries::Mesh mesh READ mesh WRITE setMesh NOTIFY meshChanged)
     Q_PROPERTY(bool meshSmooth READ isMeshSmooth WRITE setMeshSmooth NOTIFY meshSmoothChanged)
     Q_PROPERTY(
@@ -46,7 +46,7 @@ class Q_GRAPHS_EXPORT QAbstract3DSeries : public QObject
     Q_PROPERTY(QString name READ name WRITE setName NOTIFY nameChanged)
     Q_PROPERTY(QString itemLabel READ itemLabel NOTIFY itemLabelChanged)
     Q_PROPERTY(bool itemLabelVisible READ isItemLabelVisible WRITE setItemLabelVisible NOTIFY
-                   itemLabelVisibilityChanged)
+                   itemLabelVisibleChanged)
 
 public:
     enum class SeriesType { None, Bar, Scatter, Surface };
@@ -119,7 +119,7 @@ public:
 
 Q_SIGNALS:
     void itemLabelFormatChanged(const QString &format);
-    void visibilityChanged(bool visible);
+    void visibleChanged(bool visible);
     void meshChanged(QAbstract3DSeries::Mesh mesh);
     void meshSmoothChanged(bool enabled);
     void meshRotationChanged(const QQuaternion &rotation);
@@ -133,7 +133,7 @@ Q_SIGNALS:
     void multiHighlightGradientChanged(const QLinearGradient &gradient);
     void nameChanged(const QString &name);
     void itemLabelChanged(const QString &label);
-    void itemLabelVisibilityChanged(bool visible);
+    void itemLabelVisibleChanged(bool visible);
 
 private:
     Q_DISABLE_COPY(QAbstract3DSeries)

@@ -116,9 +116,9 @@ QT_BEGIN_NAMESPACE
 /*!
  * \qmlproperty bool Surface3DSeries::flatShadingEnabled
  *
- * Sets surface flat shading to enabled. It is preset to \c true by default.
+ * Sets surface flat shading to visible. It is preset to \c true by default.
  * When disabled, the normals on the surface are interpolated making the edges
- * look round. When enabled, the normals are kept the same on a triangle making
+ * look round. When visible, the normals are kept the same on a triangle making
  * the color of the triangle solid. This makes the data more readable from the
  * model. \note Flat shaded surfaces require at least GLSL version 1.2 with
  * GL_EXT_gpu_shader4 extension. The value of the flatShadingSupported property
@@ -335,7 +335,7 @@ QPoint QSurface3DSeries::invalidSelectionPosition()
  * Preset to \c true by default.
  *
  * When disabled, the normals on the surface are interpolated making the edges
- * look round. When enabled, the normals are kept the same on a triangle making
+ * look round. When visible, the normals are kept the same on a triangle making
  * the color of the triangle solid. This makes the data more readable from the
  * model. \note Flat shaded surfaces require at least GLSL version 1.2 with
  * GL_EXT_gpu_shader4 extension. The value of the flatShadingSupported property

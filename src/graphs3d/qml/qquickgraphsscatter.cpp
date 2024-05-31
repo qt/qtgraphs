@@ -1310,12 +1310,12 @@ bool QQuickGraphsScatter::doPicking(const QPointF &position)
 
 void QQuickGraphsScatter::updateShadowQuality(QGraphs3D::ShadowQuality quality)
 {
-    // Were shadows enabled before?
-    bool prevShadowsEnabled = light()->castsShadow();
+    // Were shadows visible before?
+    bool prevShadowsVisible = light()->castsShadow();
     QQuickGraphsItem::updateShadowQuality(quality);
     setSeriesVisualsDirty();
 
-    if (prevShadowsEnabled != light()->castsShadow()) {
+    if (prevShadowsVisible != light()->castsShadow()) {
         // Need to change mesh for series using point type
         QList<ScatterModel *> graphs;
         for (const auto &graph : std::as_const(m_scatterGraphs)) {

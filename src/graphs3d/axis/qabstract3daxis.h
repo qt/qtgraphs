@@ -22,7 +22,7 @@ class Q_GRAPHS_EXPORT QAbstract3DAxis : public QObject
     Q_PROPERTY(QString title READ title WRITE setTitle NOTIFY titleChanged)
     Q_PROPERTY(QStringList labels READ labels WRITE setLabels NOTIFY labelsChanged)
     Q_PROPERTY(bool labelsVisible READ isLabelsVisible WRITE setLabelsVisible NOTIFY
-                   labelVisibilityChanged)
+                   labelVisibleChanged)
     Q_PROPERTY(
         QAbstract3DAxis::AxisOrientation orientation READ orientation NOTIFY orientationChanged)
     Q_PROPERTY(QAbstract3DAxis::AxisType type READ type CONSTANT)
@@ -33,7 +33,7 @@ class Q_GRAPHS_EXPORT QAbstract3DAxis : public QObject
     Q_PROPERTY(float labelAutoRotation READ labelAutoRotation WRITE setLabelAutoRotation NOTIFY
                    labelAutoRotationChanged)
     Q_PROPERTY(
-        bool titleVisible READ isTitleVisible WRITE setTitleVisible NOTIFY titleVisibilityChanged)
+        bool titleVisible READ isTitleVisible WRITE setTitleVisible NOTIFY titleVisibleChanged)
     Q_PROPERTY(bool titleFixed READ isTitleFixed WRITE setTitleFixed NOTIFY titleFixedChanged)
     Q_PROPERTY(
         float titleOffset READ titleOffset WRITE setTitleOffset NOTIFY titleOffsetChanged FINAL)
@@ -95,8 +95,8 @@ Q_SIGNALS:
     void rangeChanged(float min, float max);
     void autoAdjustRangeChanged(bool autoAdjust);
     void labelAutoRotationChanged(float angle);
-    void titleVisibilityChanged(bool visible);
-    void labelVisibilityChanged(bool visible);
+    void titleVisibleChanged(bool visible);
+    void labelVisibleChanged(bool visible);
     void titleFixedChanged(bool fixed);
     void titleOffsetChanged(float offset);
 

@@ -209,10 +209,14 @@ class Q_GRAPHS_EXPORT QQuickGraphsItem : public QQuick3DViewport
     Q_PROPERTY(bool zoomEnabled READ zoomEnabled WRITE setZoomEnabled NOTIFY zoomEnabledChanged)
 
     Q_PROPERTY(QColor lightColor READ lightColor WRITE setLightColor NOTIFY lightColorChanged)
-    Q_PROPERTY(float ambientLightStrength READ ambientLightStrength WRITE setAmbientLightStrength NOTIFY ambientLightStrengthChanged)
-    Q_PROPERTY(float lightStrength READ lightStrength WRITE setLightStrength NOTIFY lightStrengthChanged)
-    Q_PROPERTY(float shadowStrength READ shadowStrength WRITE setShadowStrength NOTIFY shadowStrengthChanged)
-    Q_PROPERTY(bool shaderGridEnabled READ shaderGridEnabled WRITE setShaderGridEnabled NOTIFY shaderGridEnabledChanged FINAL)
+    Q_PROPERTY(float ambientLightStrength READ ambientLightStrength WRITE setAmbientLightStrength
+                   NOTIFY ambientLightStrengthChanged)
+    Q_PROPERTY(
+        float lightStrength READ lightStrength WRITE setLightStrength NOTIFY lightStrengthChanged)
+    Q_PROPERTY(float shadowStrength READ shadowStrength WRITE setShadowStrength NOTIFY
+                   shadowStrengthChanged)
+    Q_PROPERTY(bool shaderGridEnabled READ isShaderGridEnabled WRITE setShaderGridEnabled NOTIFY
+                   shaderGridEnabledChanged FINAL)
 
     QML_NAMED_ELEMENT(GraphsItem3D)
     QML_UNCREATABLE("")
@@ -474,11 +478,11 @@ public:
     void setCameraPosition(float horizontal, float vertical, float zoom = 100.0f);
 
     void changeLabelBackgroundColor(QQuick3DRepeater *repeater, const QColor &color);
-    void changeLabelBackgroundEnabled(QQuick3DRepeater *repeater, const bool &enabled);
-    void changeLabelBorderEnabled(QQuick3DRepeater *repeater, const bool &enabled);
+    void changeLabelBackgroundVisible(QQuick3DRepeater *repeater, const bool &visible);
+    void changeLabelBorderVisible(QQuick3DRepeater *repeater, const bool &visible);
     void changeLabelTextColor(QQuick3DRepeater *repeater, const QColor &color);
     void changeLabelFont(QQuick3DRepeater *repeater, const QFont &font);
-    void changeLabelsEnabled(QQuick3DRepeater *repeater, const bool &enabled);
+    void changeLabelsVisible(QQuick3DRepeater *repeater, const bool &visible);
     void changeGridLineColor(QQuick3DRepeater *repeater, const QColor &color);
     void updateTitleLabels();
     virtual void updateSelectionMode(QGraphs3D::SelectionFlags newMode);
@@ -500,7 +504,7 @@ public:
     void setShadowStrength(float newShadowStrength);
     QColor lightColor() const;
     void setLightColor(const QColor &newLightColor);
-    bool shaderGridEnabled();
+    bool isShaderGridEnabled();
     void setShaderGridEnabled(bool enabled);
 
 public Q_SLOTS:

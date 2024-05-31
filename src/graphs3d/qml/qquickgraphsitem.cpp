@@ -1104,11 +1104,11 @@ void QQuickGraphsItem::setAxisHelper(QAbstract3DAxis::AxisOrientation orientatio
                      this,
                      &QQuickGraphsItem::handleAxisLabelAutoRotationChanged);
     QObject::connect(axis,
-                     &QAbstract3DAxis::titleVisibilityChanged,
+                     &QAbstract3DAxis::titleVisibleChanged,
                      this,
                      &QQuickGraphsItem::handleAxisTitleVisibilityChanged);
     QObject::connect(axis,
-                     &QAbstract3DAxis::labelVisibilityChanged,
+                     &QAbstract3DAxis::labelVisibleChanged,
                      this,
                      &QQuickGraphsItem::handleAxisLabelVisibilityChanged);
     QObject::connect(axis,
@@ -1324,7 +1324,7 @@ void QQuickGraphsItem::insertSeries(qsizetype index, QAbstract3DSeries *series)
             m_seriesList.insert(index, series);
             series->d_func()->setGraph(this);
             QObject::connect(series,
-                             &QAbstract3DSeries::visibilityChanged,
+                             &QAbstract3DSeries::visibleChanged,
                              this,
                              &QQuickGraphsItem::handleSeriesVisibilityChanged);
             series->d_func()->resetToTheme(*theme(), oldSize, false);
@@ -1339,7 +1339,7 @@ void QQuickGraphsItem::removeSeriesInternal(QAbstract3DSeries *series)
     if (series && series->d_func()->m_graph == this) {
         m_seriesList.removeAll(series);
         QObject::disconnect(series,
-                            &QAbstract3DSeries::visibilityChanged,
+                            &QAbstract3DSeries::visibleChanged,
                             this,
                             &QQuickGraphsItem::handleSeriesVisibilityChanged);
         series->d_func()->setGraph(0);
@@ -1498,7 +1498,7 @@ void QQuickGraphsItem::checkSliceEnabled()
     }
 }
 
-bool QQuickGraphsItem::shaderGridEnabled()
+bool QQuickGraphsItem::isShaderGridEnabled()
 {
     return m_shaderGridEnabled;
 }
@@ -2477,41 +2477,41 @@ void QQuickGraphsItem::synchData()
     }
 
     if (theme()->dirtyBits()->labelBackgroundVisibilityDirty) {
-        bool enabled = theme()->isLabelBackgroundVisible();
-        changeLabelBackgroundEnabled(m_repeaterX, enabled);
-        changeLabelBackgroundEnabled(m_repeaterY, enabled);
-        changeLabelBackgroundEnabled(m_repeaterZ, enabled);
-        m_titleLabelX->setProperty("backgroundEnabled", enabled);
-        m_titleLabelY->setProperty("backgroundEnabled", enabled);
-        m_titleLabelZ->setProperty("backgroundEnabled", enabled);
-        m_itemLabel->setProperty("backgroundEnabled", enabled);
+        bool visible = theme()->isLabelBackgroundVisible();
+        changeLabelBackgroundVisible(m_repeaterX, visible);
+        changeLabelBackgroundVisible(m_repeaterY, visible);
+        changeLabelBackgroundVisible(m_repeaterZ, visible);
+        m_titleLabelX->setProperty("backgroundVisible", visible);
+        m_titleLabelY->setProperty("backgroundVisible", visible);
+        m_titleLabelZ->setProperty("backgroundVisible", visible);
+        m_itemLabel->setProperty("backgroundVisible", visible);
 
         if (m_sliceView) {
-            changeLabelBackgroundEnabled(m_sliceHorizontalLabelRepeater, enabled);
-            changeLabelBackgroundEnabled(m_sliceVerticalLabelRepeater, enabled);
-            m_sliceItemLabel->setProperty("backgroundEnabled", enabled);
-            m_sliceHorizontalTitleLabel->setProperty("backgroundEnabled", enabled);
-            m_sliceVerticalTitleLabel->setProperty("backgroundEnabled", enabled);
+            changeLabelBackgroundVisible(m_sliceHorizontalLabelRepeater, visible);
+            changeLabelBackgroundVisible(m_sliceVerticalLabelRepeater, visible);
+            m_sliceItemLabel->setProperty("backgroundVisible", visible);
+            m_sliceHorizontalTitleLabel->setProperty("backgroundVisible", visible);
+            m_sliceVerticalTitleLabel->setProperty("backgroundVisible", visible);
         }
         theme()->dirtyBits()->labelBackgroundVisibilityDirty = false;
     }
 
     if (theme()->dirtyBits()->labelBorderVisibilityDirty) {
-        bool enabled = theme()->isLabelBorderVisible();
-        changeLabelBorderEnabled(m_repeaterX, enabled);
-        changeLabelBorderEnabled(m_repeaterY, enabled);
-        changeLabelBorderEnabled(m_repeaterZ, enabled);
-        m_titleLabelX->setProperty("borderEnabled", enabled);
-        m_titleLabelY->setProperty("borderEnabled", enabled);
-        m_titleLabelZ->setProperty("borderEnabled", enabled);
-        m_itemLabel->setProperty("borderEnabled", enabled);
+        bool visible = theme()->isLabelBorderVisible();
+        changeLabelBorderVisible(m_repeaterX, visible);
+        changeLabelBorderVisible(m_repeaterY, visible);
+        changeLabelBorderVisible(m_repeaterZ, visible);
+        m_titleLabelX->setProperty("borderVisible", visible);
+        m_titleLabelY->setProperty("borderVisible", visible);
+        m_titleLabelZ->setProperty("borderVisible", visible);
+        m_itemLabel->setProperty("borderVisible", visible);
 
         if (m_sliceView) {
-            changeLabelBorderEnabled(m_sliceHorizontalLabelRepeater, enabled);
-            changeLabelBorderEnabled(m_sliceVerticalLabelRepeater, enabled);
-            m_sliceItemLabel->setProperty("borderEnabled", enabled);
-            m_sliceHorizontalTitleLabel->setProperty("borderEnabled", enabled);
-            m_sliceVerticalTitleLabel->setProperty("borderEnabled", enabled);
+            changeLabelBorderVisible(m_sliceHorizontalLabelRepeater, visible);
+            changeLabelBorderVisible(m_sliceVerticalLabelRepeater, visible);
+            m_sliceItemLabel->setProperty("borderVisible", visible);
+            m_sliceHorizontalTitleLabel->setProperty("borderVisible", visible);
+            m_sliceVerticalTitleLabel->setProperty("borderVisible", visible);
         }
         theme()->dirtyBits()->labelBorderVisibilityDirty = false;
     }
@@ -2584,21 +2584,21 @@ void QQuickGraphsItem::synchData()
     }
 
     if (theme()->dirtyBits()->labelsVisibilityDirty) {
-        bool enabled = theme()->labelsVisible();
-        changeLabelsEnabled(m_repeaterX, enabled);
-        changeLabelsEnabled(m_repeaterY, enabled);
-        changeLabelsEnabled(m_repeaterZ, enabled);
-        m_titleLabelX->setProperty("visible", enabled && axisX()->isTitleVisible());
-        m_titleLabelY->setProperty("visible", enabled && axisY()->isTitleVisible());
-        m_titleLabelZ->setProperty("visible", enabled && axisZ()->isTitleVisible());
-        m_itemLabel->setProperty("visible", enabled);
+        bool visible = theme()->labelsVisible();
+        changeLabelsVisible(m_repeaterX, visible);
+        changeLabelsVisible(m_repeaterY, visible);
+        changeLabelsVisible(m_repeaterZ, visible);
+        m_titleLabelX->setProperty("visible", visible && axisX()->isTitleVisible());
+        m_titleLabelY->setProperty("visible", visible && axisY()->isTitleVisible());
+        m_titleLabelZ->setProperty("visible", visible && axisZ()->isTitleVisible());
+        m_itemLabel->setProperty("visible", visible);
 
         if (m_sliceView) {
-            changeLabelsEnabled(m_sliceHorizontalLabelRepeater, enabled);
-            changeLabelsEnabled(m_sliceVerticalLabelRepeater, enabled);
-            m_sliceItemLabel->setProperty("visible", enabled);
-            m_sliceHorizontalTitleLabel->setProperty("visible", enabled);
-            m_sliceVerticalTitleLabel->setProperty("visible", enabled);
+            changeLabelsVisible(m_sliceHorizontalLabelRepeater, visible);
+            changeLabelsVisible(m_sliceVerticalLabelRepeater, visible);
+            m_sliceItemLabel->setProperty("visible", visible);
+            m_sliceHorizontalTitleLabel->setProperty("visible", visible);
+            m_sliceVerticalTitleLabel->setProperty("visible", visible);
         }
         theme()->dirtyBits()->labelsVisibilityDirty = false;
     }
@@ -2621,7 +2621,7 @@ void QQuickGraphsItem::synchData()
     }
 
     if (m_shaderGridEnabledDirty) {
-        m_shaderGridEnabled = shaderGridEnabled();
+        m_shaderGridEnabled = isShaderGridEnabled();
         theme()->dirtyBits()->gridVisibilityDirty = true;
         theme()->dirtyBits()->gridMainColorDirty = true;
         theme()->dirtyBits()->gridSubColorDirty = true;
@@ -2630,16 +2630,16 @@ void QQuickGraphsItem::synchData()
     }
 
     if (theme()->dirtyBits()->gridVisibilityDirty) {
-        bool enabled = theme()->isGridVisible();
+        bool visible = theme()->isGridVisible();
         QQmlListReference materialRef(m_background, "materials");
         Q_ASSERT(materialRef.size());
         auto *material = static_cast<QQuick3DCustomMaterial *>(materialRef.at(0));
-        material->setProperty("gridVisible", enabled && m_shaderGridEnabled);
-        m_gridGeometryModel->setVisible(enabled &! m_shaderGridEnabled);
-        m_subgridGeometryModel->setVisible(enabled &! m_shaderGridEnabled);
+        material->setProperty("gridVisible", visible && m_shaderGridEnabled);
+        m_gridGeometryModel->setVisible(visible &! m_shaderGridEnabled);
+        m_subgridGeometryModel->setVisible(visible &! m_shaderGridEnabled);
 
         if (m_sliceView && isSliceEnabled())
-            m_sliceGridGeometryModel->setVisible(enabled);
+            m_sliceGridGeometryModel->setVisible(visible);
 
         theme()->dirtyBits()->gridVisibilityDirty = false;
     }
@@ -4621,20 +4621,20 @@ void QQuickGraphsItem::updateCamera()
 void QQuickGraphsItem::handleLabelCountChanged(QQuick3DRepeater *repeater, QColor axisLabelColor)
 {
     changeLabelBackgroundColor(repeater, theme()->labelBackgroundColor());
-    changeLabelBackgroundEnabled(repeater, theme()->isLabelBackgroundVisible());
-    changeLabelBorderEnabled(repeater, theme()->isLabelBorderVisible());
+    changeLabelBackgroundVisible(repeater, theme()->isLabelBackgroundVisible());
+    changeLabelBorderVisible(repeater, theme()->isLabelBorderVisible());
     changeLabelTextColor(repeater, axisLabelColor);
     changeLabelFont(repeater, theme()->labelFont());
 
     if (m_sliceView) {
         changeLabelBackgroundColor(m_sliceHorizontalLabelRepeater, theme()->labelBackgroundColor());
         changeLabelBackgroundColor(m_sliceVerticalLabelRepeater, theme()->labelBackgroundColor());
-        changeLabelBackgroundEnabled(m_sliceHorizontalLabelRepeater,
+        changeLabelBackgroundVisible(m_sliceHorizontalLabelRepeater,
                                      theme()->isLabelBackgroundVisible());
-        changeLabelBackgroundEnabled(m_sliceVerticalLabelRepeater,
+        changeLabelBackgroundVisible(m_sliceVerticalLabelRepeater,
                                      theme()->isLabelBackgroundVisible());
-        changeLabelBorderEnabled(m_sliceHorizontalLabelRepeater, theme()->isLabelBorderVisible());
-        changeLabelBorderEnabled(m_sliceVerticalLabelRepeater, theme()->isLabelBorderVisible());
+        changeLabelBorderVisible(m_sliceHorizontalLabelRepeater, theme()->isLabelBorderVisible());
+        changeLabelBorderVisible(m_sliceVerticalLabelRepeater, theme()->isLabelBorderVisible());
         if (m_selectionMode == SelectionRow)
             changeLabelTextColor(m_sliceHorizontalLabelRepeater, theme()->axisXLabelColor());
         else if (m_selectionMode == SelectionColumn)
@@ -4689,9 +4689,9 @@ void QQuickGraphsItem::updateCustomData()
         customLabel->setProperty("labelText", label->text());
         customLabel->setProperty("labelTextColor", label->textColor());
         customLabel->setProperty("labelFont", label->font());
-        customLabel->setProperty("backgroundEnabled", label->isBackgroundEnabled());
+        customLabel->setProperty("backgroundVisible", label->isBackgroundVisible());
         customLabel->setProperty("backgroundColor", label->backgroundColor());
-        customLabel->setProperty("borderEnabled", label->isBorderEnabled());
+        customLabel->setProperty("borderVisible", label->isBackgroundVisible());
         customLabel->setVisible(label->isVisible());
 
         ++labelIterator;
@@ -5236,21 +5236,21 @@ void QQuickGraphsItem::changeLabelBackgroundColor(QQuick3DRepeater *repeater, co
     }
 }
 
-void QQuickGraphsItem::changeLabelBackgroundEnabled(QQuick3DRepeater *repeater, const bool &enabled)
+void QQuickGraphsItem::changeLabelBackgroundVisible(QQuick3DRepeater *repeater, const bool &visible)
 {
     int count = repeater->count();
     for (int i = 0; i < count; i++) {
         auto label = static_cast<QQuick3DNode *>(repeater->objectAt(i));
-        label->setProperty("backgroundEnabled", enabled);
+        label->setProperty("backgroundVisible", visible);
     }
 }
 
-void QQuickGraphsItem::changeLabelBorderEnabled(QQuick3DRepeater *repeater, const bool &enabled)
+void QQuickGraphsItem::changeLabelBorderVisible(QQuick3DRepeater *repeater, const bool &visible)
 {
     int count = repeater->count();
     for (int i = 0; i < count; i++) {
         auto label = static_cast<QQuick3DNode *>(repeater->objectAt(i));
-        label->setProperty("borderEnabled", enabled);
+        label->setProperty("borderVisible", visible);
     }
 }
 
@@ -5272,12 +5272,12 @@ void QQuickGraphsItem::changeLabelFont(QQuick3DRepeater *repeater, const QFont &
     }
 }
 
-void QQuickGraphsItem::changeLabelsEnabled(QQuick3DRepeater *repeater, const bool &enabled)
+void QQuickGraphsItem::changeLabelsVisible(QQuick3DRepeater *repeater, const bool &visible)
 {
     int count = repeater->count();
     for (int i = 0; i < count; i++) {
         auto label = static_cast<QQuick3DNode *>(repeater->objectAt(i));
-        label->setProperty("visible", enabled);
+        label->setProperty("visible", visible);
     }
 }
 
@@ -6105,9 +6105,9 @@ void QQuickGraphsItem::updateSliceLabels()
     QVector3D labelTrans = QVector3D(0.0f, -yPos, 0.0f);
     QStringList labels = horizontalAxis->labels();
     QFont font = theme()->labelFont();
-    bool borderEnabled = theme()->isLabelBorderVisible();
+    bool borderVisible = theme()->isLabelBorderVisible();
 
-    bool backgroundEnabled = theme()->isLabelBackgroundVisible();
+    bool backgroundVisible = theme()->isLabelBackgroundVisible();
     QColor backgroundColor = theme()->labelBackgroundColor();
 
     if (horizontalAxis->type() == QAbstract3DAxis::AxisType::Value) {
@@ -6126,9 +6126,9 @@ void QQuickGraphsItem::updateSliceLabels()
             obj->setProperty("labelWidth", labelsMaxWidth);
             obj->setProperty("labelHeight", labelHeight);
             obj->setProperty("labelFont", font);
-            obj->setProperty("borderEnabled", borderEnabled);
+            obj->setProperty("borderVisible", borderVisible);
             obj->setProperty("labelTextColor", horizontalLabelTextColor);
-            obj->setProperty("backgroundEnabled", backgroundEnabled);
+            obj->setProperty("backgroundVisible", backgroundVisible);
             obj->setProperty("backgroundColor", backgroundColor);
             obj->setEulerRotation(QVector3D(.0f, .0f, -45.0f));
         }
@@ -6146,9 +6146,9 @@ void QQuickGraphsItem::updateSliceLabels()
             obj->setProperty("labelWidth", labelsMaxWidth);
             obj->setProperty("labelHeight", labelHeight);
             obj->setProperty("labelFont", font);
-            obj->setProperty("borderEnabled", borderEnabled);
+            obj->setProperty("borderVisible", borderVisible);
             obj->setProperty("labelTextColor", horizontalLabelTextColor);
-            obj->setProperty("backgroundEnabled", backgroundEnabled);
+            obj->setProperty("backgroundVisible", backgroundVisible);
             obj->setProperty("backgroundColor", backgroundColor);
             obj->setEulerRotation(QVector3D(0.0f, 0.0f, -60.0f));
         }
@@ -6181,9 +6181,9 @@ void QQuickGraphsItem::updateSliceLabels()
             obj->setProperty("labelWidth", labelsMaxWidth);
             obj->setProperty("labelHeight", labelHeight);
             obj->setProperty("labelFont", font);
-            obj->setProperty("borderEnabled", borderEnabled);
+            obj->setProperty("borderVisible", borderVisible);
             obj->setProperty("labelTextColor", verticalLabelTextColor);
-            obj->setProperty("backgroundEnabled", backgroundEnabled);
+            obj->setProperty("backgroundVisible", backgroundVisible);
             obj->setProperty("backgroundColor", backgroundColor);
         }
     } else if (verticalAxis->type() == QAbstract3DAxis::AxisType::Category) {
@@ -6196,9 +6196,9 @@ void QQuickGraphsItem::updateSliceLabels()
             obj->setProperty("labelWidth", labelsMaxWidth);
             obj->setProperty("labelHeight", labelHeight);
             obj->setProperty("labelFont", font);
-            obj->setProperty("borderEnabled", borderEnabled);
+            obj->setProperty("borderVisible", borderVisible);
             obj->setProperty("labelTextColor", verticalLabelTextColor);
-            obj->setProperty("backgroundEnabled", backgroundEnabled);
+            obj->setProperty("backgroundVisible", backgroundVisible);
             obj->setProperty("backgroundColor", backgroundColor);
         }
     }
@@ -6221,9 +6221,9 @@ void QQuickGraphsItem::updateSliceLabels()
         m_sliceVerticalTitleLabel->setProperty("labelHeight", labelHeight);
         m_sliceVerticalTitleLabel->setProperty("labelText", verticalAxis->title());
         m_sliceVerticalTitleLabel->setProperty("labelFont", font);
-        m_sliceVerticalTitleLabel->setProperty("borderEnabled", borderEnabled);
+        m_sliceVerticalTitleLabel->setProperty("borderVisible", borderVisible);
         m_sliceVerticalTitleLabel->setProperty("labelTextColor", verticalLabelTextColor);
-        m_sliceVerticalTitleLabel->setProperty("backgroundEnabled", backgroundEnabled);
+        m_sliceVerticalTitleLabel->setProperty("backgroundVisible", backgroundVisible);
         m_sliceVerticalTitleLabel->setProperty("backgroundColor", backgroundColor);
         m_sliceVerticalTitleLabel->setEulerRotation(QVector3D(.0f, .0f, 90.0f));
     } else {
@@ -6245,18 +6245,18 @@ void QQuickGraphsItem::updateSliceLabels()
         m_sliceHorizontalTitleLabel->setProperty("labelHeight", labelHeight);
         m_sliceHorizontalTitleLabel->setProperty("labelText", horizontalAxis->title());
         m_sliceHorizontalTitleLabel->setProperty("labelFont", font);
-        m_sliceHorizontalTitleLabel->setProperty("borderEnabled", borderEnabled);
+        m_sliceHorizontalTitleLabel->setProperty("borderVisible", borderVisible);
         m_sliceHorizontalTitleLabel->setProperty("labelTextColor", horizontalLabelTextColor);
-        m_sliceHorizontalTitleLabel->setProperty("backgroundEnabled", backgroundEnabled);
+        m_sliceHorizontalTitleLabel->setProperty("backgroundVisible", backgroundVisible);
         m_sliceHorizontalTitleLabel->setProperty("backgroundColor", backgroundColor);
     } else {
         m_sliceHorizontalTitleLabel->setVisible(false);
     }
 
     m_sliceItemLabel->setProperty("labelFont", font);
-    m_sliceItemLabel->setProperty("borderEnabled", borderEnabled);
+    m_sliceItemLabel->setProperty("borderVisible", borderVisible);
     m_sliceItemLabel->setProperty("labelTextColor", theme()->labelTextColor());
-    m_sliceItemLabel->setProperty("backgroundEnabled", backgroundEnabled);
+    m_sliceItemLabel->setProperty("backgroundVisible", backgroundVisible);
     m_sliceItemLabel->setProperty("backgroundColor", backgroundColor);
 }
 

@@ -562,11 +562,11 @@ int main(int argc, char **argv)
     QObject::connect(backgroundCheckBox,
                      &QCheckBox::checkStateChanged,
                      modifier,
-                     &GraphModifier::setBackgroundEnabled);
+                     &GraphModifier::setBackgroundVisible);
     QObject::connect(gridCheckBox,
                      &QCheckBox::checkStateChanged,
                      modifier,
-                     &GraphModifier::setGridEnabled);
+                     &GraphModifier::setGridVisible);
     QObject::connect(inputHandlerRotationCheckBox,
                      &QCheckBox::checkStateChanged,
                      modifier,

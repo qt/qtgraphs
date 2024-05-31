@@ -674,14 +674,14 @@ void QAbstract3DGraphWidget::setLightColor(const QColor &newLightColor)
  *
  * This value affects all grid lines.
  */
-bool QAbstract3DGraphWidget::shaderGridEnabled()
+bool QAbstract3DGraphWidget::isShaderGridEnabled()
 {
-    return m_graphsItem->shaderGridEnabled();
+    return m_graphsItem->isShaderGridEnabled();
 }
 
-void QAbstract3DGraphWidget::setShaderGridEnabled(bool enable)
+void QAbstract3DGraphWidget::setShaderGridEnabled(bool enabled)
 {
-    m_graphsItem->setShaderGridEnabled(enable);
+    m_graphsItem->setShaderGridEnabled(enabled);
 }
 
 /*!

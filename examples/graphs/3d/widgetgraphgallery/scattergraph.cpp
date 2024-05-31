@@ -153,22 +153,22 @@ void ScatterGraph::initialize()
     QObject::connect(backgroundCheckBox,
                      &QCheckBox::checkStateChanged,
                      m_modifier,
-                     &ScatterDataModifier::setBackgroundEnabled);
+                     &ScatterDataModifier::setBackgroundVisible);
     QObject::connect(gridCheckBox,
                      &QCheckBox::checkStateChanged,
                      m_modifier,
-                     &ScatterDataModifier::setGridEnabled);
+                     &ScatterDataModifier::setGridVisible);
     QObject::connect(smoothCheckBox,
                      &QCheckBox::checkStateChanged,
                      m_modifier,
                      &ScatterDataModifier::setSmoothDots);
 
     QObject::connect(m_modifier,
-                     &ScatterDataModifier::backgroundEnabledChanged,
+                     &ScatterDataModifier::backgroundVisibleChanged,
                      backgroundCheckBox,
                      &QCheckBox::setChecked);
     QObject::connect(m_modifier,
-                     &ScatterDataModifier::gridEnabledChanged,
+                     &ScatterDataModifier::gridVisibleChanged,
                      gridCheckBox,
                      &QCheckBox::setChecked);
     QObject::connect(itemStyleList,

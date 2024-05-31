@@ -27,8 +27,8 @@ public:
     void changeFont(const QFont &font);
     void changeFontSize(int fontSize);
     void changePointSize(int pointSize);
-    void setBackgroundEnabled(int enabled);
-    void setGridEnabled(int enabled);
+    void setBackgroundVisible(int visible);
+    void setGridVisible(int visible);
     void setMinX(int min);
     void setMinY(int min);
     void setMinZ(int min);

@@ -265,11 +265,11 @@ void BarGraph::initialize()
     QObject::connect(backgroundCheckBox,
                      &QCheckBox::checkStateChanged,
                      m_modifier,
-                     &GraphModifier::setBackgroundEnabled);
+                     &GraphModifier::setBackgroundVisible);
     QObject::connect(gridCheckBox,
                      &QCheckBox::checkStateChanged,
                      m_modifier,
-                     &GraphModifier::setGridEnabled);
+                     &GraphModifier::setGridVisible);
     QObject::connect(smoothCheckBox,
                      &QCheckBox::checkStateChanged,
                      m_modifier,
@@ -284,11 +284,11 @@ void BarGraph::initialize()
                      &GraphModifier::setReverseValueAxis);
 
     QObject::connect(m_modifier,
-                     &GraphModifier::backgroundEnabledChanged,
+                     &GraphModifier::backgroundVisibleChanged,
                      backgroundCheckBox,
                      &QCheckBox::setChecked);
     QObject::connect(m_modifier,
-                     &GraphModifier::gridEnabledChanged,
+                     &GraphModifier::gridVisibleChanged,
                      gridCheckBox,
                      &QCheckBox::setChecked);
 

@@ -20,8 +20,8 @@ public:
     void addData();
 
 public Q_SLOTS:
-    void setBackgroundEnabled(int enabled);
-    void setGridEnabled(int enabled);
+    void setBackgroundVisible(int visible);
+    void setGridVisible(int visible);
     void setSmoothDots(int smooth);
     void changePresetCamera();
     void toggleItemCount();
@@ -36,8 +36,8 @@ public Q_SLOTS:
     void handleAxisDragging(QVector2D delta);
 
 Q_SIGNALS:
-    void backgroundEnabledChanged(bool enabled);
-    void gridEnabledChanged(bool enabled);
+    void backgroundVisibleChanged(bool visible);
+    void gridVisibleChanged(bool visible);
     void shadowQualityChanged(int quality);
 
 private:
