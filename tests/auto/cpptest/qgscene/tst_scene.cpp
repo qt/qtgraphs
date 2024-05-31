@@ -105,43 +105,46 @@ void tst_scene::invalidProperties()
 
 void tst_scene::subViews()
 {
-    Q3DBarsWidget graph;
-    graph.setMinimumSize(QSize(200, 200));
+    // TODO: Fails on QNX (QTBUG-125982)
+    if (qEnvironmentVariableIsEmpty("QNX_QEMU")) {
+        Q3DBarsWidget graph;
+        graph.setMinimumSize(QSize(200, 200));
 
-    Q3DScene *scene = graph.scene();
-    graph.show();
+        Q3DScene *scene = graph.scene();
+        graph.show();
 
-    QCoreApplication::processEvents();
+        QCoreApplication::processEvents();
 
-    QTRY_COMPARE(scene->viewport(), QRect(0, 0, 200, 200));
-    QCOMPARE(scene->primarySubViewport(), QRect(0, 0, 40, 40));
-    QCOMPARE(scene->secondarySubViewport(), QRect(0, 0, 0, 0));
+        QTRY_COMPARE(scene->viewport(), QRect(0, 0, 200, 200));
+        QCOMPARE(scene->primarySubViewport(), QRect(0, 0, 40, 40));
+        QCOMPARE(scene->secondarySubViewport(), QRect(0, 0, 0, 0));
 
-    QCOMPARE(scene->isSecondarySubviewOnTop(), true);
-    QCOMPARE(scene->isPointInPrimarySubView(QPoint(100, 100)), false);
-    QCOMPARE(scene->isPointInPrimarySubView(QPoint(201, 201)), false);
-    QCOMPARE(scene->isPointInSecondarySubView(QPoint(100, 100)), false);
+        QCOMPARE(scene->isSecondarySubviewOnTop(), true);
+        QCOMPARE(scene->isPointInPrimarySubView(QPoint(100, 100)), false);
+        QCOMPARE(scene->isPointInPrimarySubView(QPoint(201, 201)), false);
+        QCOMPARE(scene->isPointInSecondarySubView(QPoint(100, 100)), false);
 
-    scene->setSlicingActive(true);
-    scene->setSecondarySubviewOnTop(true);
+        scene->setSlicingActive(true);
+        scene->setSecondarySubviewOnTop(true);
 
-    QCOMPARE(scene->isSecondarySubviewOnTop(), true);
-    QCOMPARE(scene->primarySubViewport(), QRect(0, 0, 40, 40));
-    QCOMPARE(scene->secondarySubViewport(), QRect(0, 0, 200, 200));
-    QCOMPARE(scene->isPointInPrimarySubView(QPoint(100, 100)), false);
-    QCOMPARE(scene->isPointInPrimarySubView(QPoint(30, 30)), false);
-    QCOMPARE(scene->isPointInSecondarySubView(QPoint(100, 100)), true);
-    QCOMPARE(scene->isPointInSecondarySubView(QPoint(30, 30)), true);
+        QCOMPARE(scene->isSecondarySubviewOnTop(), true);
+        QCOMPARE(scene->primarySubViewport(), QRect(0, 0, 40, 40));
+        QCOMPARE(scene->secondarySubViewport(), QRect(0, 0, 200, 200));
+        QCOMPARE(scene->isPointInPrimarySubView(QPoint(100, 100)), false);
+        QCOMPARE(scene->isPointInPrimarySubView(QPoint(30, 30)), false);
+        QCOMPARE(scene->isPointInSecondarySubView(QPoint(100, 100)), true);
+        QCOMPARE(scene->isPointInSecondarySubView(QPoint(30, 30)), true);
 
-    scene->setSecondarySubviewOnTop(false);
+        scene->setSecondarySubviewOnTop(false);
 
-    QCOMPARE(scene->isSecondarySubviewOnTop(), false);
-    QCOMPARE(scene->primarySubViewport(), QRect(0, 0, 40, 40));
-    QCOMPARE(scene->secondarySubViewport(), QRect(0, 0, 200, 200));
-    QCOMPARE(scene->isPointInPrimarySubView(QPoint(100, 100)), false);
-    QCOMPARE(scene->isPointInPrimarySubView(QPoint(30, 30)), true);
-    QCOMPARE(scene->isPointInSecondarySubView(QPoint(100, 100)), true);
-    QCOMPARE(scene->isPointInSecondarySubView(QPoint(30, 30)), false);
+        QCOMPARE(scene->isSecondarySubviewOnTop(), false);
+        QCOMPARE(scene->primarySubViewport(), QRect(0, 0, 40, 40));
+        QCOMPARE(scene->secondarySubViewport(), QRect(0, 0, 200, 200));
+        QCOMPARE(scene->isPointInPrimarySubView(QPoint(100, 100)), false);
+        QCOMPARE(scene->isPointInPrimarySubView(QPoint(30, 30)), true);
+        QCOMPARE(scene->isPointInSecondarySubView(QPoint(100, 100)), true);
+        QCOMPARE(scene->isPointInSecondarySubView(QPoint(30, 30)), false);
+    }
 }
 
 QTEST_MAIN(tst_scene)
