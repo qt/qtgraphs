@@ -15,8 +15,9 @@
 // We mean it.
 
 #include <QQuickItem>
-#include <QtQuickShapes/private/qquickshape_p.h>
+#include <QtGraphs/qabstractseries.h>
 #include <QtQuick/private/qsgdefaultinternalrectanglenode_p.h>
+#include <QtQuickShapes/private/qquickshape_p.h>
 
 QT_BEGIN_NAMESPACE
 
@@ -37,7 +38,9 @@ public:
     ~PointRenderer() override;
 
     void handlePolish(QXYSeries *series);
+    void afterPolish(QList<QAbstractSeries *> cleanupSeries);
     void updateSeries(QXYSeries *series);
+    void afterUpdate(QList<QAbstractSeries *> cleanupSeries);
     bool handleMouseMove(QMouseEvent *event);
     bool handleMousePress(QMouseEvent *event);
     bool handleMouseRelease(QMouseEvent *event);
