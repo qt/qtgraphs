@@ -22,6 +22,7 @@ QT_BEGIN_NAMESPACE
 class QGraphsView;
 class QAreaSeries;
 class AxisRenderer;
+class QAbstractSeries;
 
 class AreaRenderer : public QQuickItem
 {
@@ -32,6 +33,8 @@ public:
     ~AreaRenderer() override;
 
     void handlePolish(QAreaSeries *series);
+    void afterPolish(QList<QAbstractSeries *> cleanupSeries);
+    void afterUpdate(QList<QAbstractSeries *> cleanupSeries);
     void updateSeries(QAreaSeries *series);
     bool handleMousePress(QMouseEvent *event);
     bool handleHoverMove(QHoverEvent *event);
