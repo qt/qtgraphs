@@ -21,10 +21,10 @@ ColumnLayout {
         visible: testgridChange.checked
         from: 0.0
         to: 1.0
-        value: customTheme.gridMainWidth
+        value: customTheme.grid.mainWidth
         onValueChanged: {
             if (testgridChange.checked) {
-                customTheme.gridMainWidth = value
+                customTheme.grid.mainWidth = value
             }
         }
     }
@@ -66,7 +66,7 @@ ColumnLayout {
             Rectangle {
                 anchors.fill: parent
                 anchors.margins: 5
-                color: customTheme.axisXLabelColor
+                color: customTheme.axisX.labelTextColor
             }
 
             onClicked: axisLabelTextCol.open()
@@ -74,11 +74,11 @@ ColumnLayout {
     }
     ColorDialog {
         id: axisLabelTextCol
-        selectedColor: customTheme.axisXLabelColor
+        selectedColor: customTheme.axisX.labelTextColor
         onAccepted: {
-            customTheme.axisXLabelColor = selectedColor
-            customTheme.axisYLabelColor = selectedColor
-            customTheme.axisZLabelColor = selectedColor
+            customTheme.axisX.labelTextColor = selectedColor
+            customTheme.axisY.labelTextColor = selectedColor
+            customTheme.axisZ.labelTextColor = selectedColor
         }
     }
 
@@ -145,7 +145,7 @@ ColumnLayout {
             Rectangle {
                 anchors.fill: parent
                 anchors.margins: 5
-                color: customTheme.gridMainColor
+                color: customTheme.grid.mainColor
             }
 
             onClicked: gridlineCol.open()
@@ -153,8 +153,8 @@ ColumnLayout {
     }
     ColorDialog {
         id: gridlineCol
-        selectedColor: customTheme.gridMainColor
-        onAccepted: customTheme.gridMainColor = selectedColor
+        selectedColor: customTheme.grid.mainColor
+        onAccepted: customTheme.grid.mainColor = selectedColor
     }
 
     Row {
@@ -170,7 +170,7 @@ ColumnLayout {
             Rectangle {
                 anchors.fill: parent
                 anchors.margins: 5
-                color: customTheme.gridSubColor
+                color: customTheme.grid.subColor
             }
 
             onClicked: subgridlineCol.open()
@@ -178,8 +178,8 @@ ColumnLayout {
     }
     ColorDialog {
         id: subgridlineCol
-        selectedColor: customTheme.gridSubColor
-        onAccepted: customTheme.gridSubColor = selectedColor
+        selectedColor: customTheme.grid.subColor
+        onAccepted: customTheme.grid.subColor = selectedColor
     }
 
     Label {

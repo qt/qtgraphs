@@ -56,7 +56,7 @@ Item {
                                bold: true,
                                // pointSize: 100
                            })
-        gridMainColor: "lightGray"
+        grid.mainColor: "lightGray"
         singleHighlightColor: "yellow"
         singleHighlightGradient: singleGradient
     }
@@ -68,7 +68,7 @@ Item {
         baseColors: [barColor]
         baseGradients: [customGradient]
         plotAreaBackgroundColor: "gray"
-        gridMainColor: "lightGray"
+        grid.mainColor: "lightGray"
         multiHighlightColor: "orange"
         singleHighlightColor: "yellow"
         multiHighlightGradient: multiGradient

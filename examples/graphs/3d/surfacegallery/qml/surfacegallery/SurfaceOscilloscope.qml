@@ -63,7 +63,7 @@ Item {
             anchors.margins: 5
 
             color: surfaceGraph.theme.backgroundColor
-            border.color: surfaceGraph.theme.gridMainColor
+            border.color: surfaceGraph.theme.grid.mainColor
             border.width: 1
             radius: 4
 
@@ -87,7 +87,7 @@ Item {
                         width: sampleSlider.availableWidth
                         height: implicitHeight
                         radius: 2
-                        color: surfaceGraph.theme.gridMainColor
+                        color: surfaceGraph.theme.grid.mainColor
 
                         Rectangle {
                             width: sampleSlider.visualPosition * parent.width
@@ -105,10 +105,10 @@ Item {
                         implicitWidth: 20
                         implicitHeight: 20
                         radius: 10
-                        color: sampleSlider.pressed ? surfaceGraph.theme.gridMainColor
+                        color: sampleSlider.pressed ? surfaceGraph.theme.grid.mainColor
                                                     : surfaceGraph.theme.backgroundColor
                         border.color: sampleSlider.pressed ? surfaceGraph.theme.labelTextColor
-                                                           : surfaceGraph.theme.gridMainColor
+                                                           : surfaceGraph.theme.grid.mainColor
                     }
 
                     Component.onCompleted: value = from;
@@ -134,7 +134,7 @@ Item {
             anchors.margins: 5
 
             color: surfaceGraph.theme.backgroundColor
-            border.color: surfaceGraph.theme.gridMainColor
+            border.color: surfaceGraph.theme.grid.mainColor
             border.width: 1
             radius: 4
 
@@ -159,7 +159,7 @@ Item {
                         width: frequencySlider.availableWidth
                         height: implicitHeight
                         radius: 2
-                        color: surfaceGraph.theme.gridMainColor
+                        color: surfaceGraph.theme.grid.mainColor
 
                         Rectangle {
                             width: frequencySlider.visualPosition * parent.width
@@ -177,10 +177,10 @@ Item {
                         implicitWidth: 20
                         implicitHeight: 20
                         radius: 10
-                        color: frequencySlider.pressed ? surfaceGraph.theme.gridMainColor
+                        color: frequencySlider.pressed ? surfaceGraph.theme.grid.mainColor
                                                        : surfaceGraph.theme.backgroundColor
                         border.color: frequencySlider.pressed ? surfaceGraph.theme.labelTextColor
-                                                              : surfaceGraph.theme.gridMainColor
+                                                              : surfaceGraph.theme.grid.mainColor
                     }
                 }
 
@@ -204,7 +204,7 @@ Item {
             anchors.margins: 5
 
             color: surfaceGraph.theme.backgroundColor
-            border.color: surfaceGraph.theme.gridMainColor
+            border.color: surfaceGraph.theme.grid.mainColor
             border.width: 1
             radius: 4
 
@@ -227,7 +227,7 @@ Item {
             anchors.margins: 5
 
             color: surfaceGraph.theme.backgroundColor
-            border.color: surfaceGraph.theme.gridMainColor
+            border.color: surfaceGraph.theme.grid.mainColor
             border.width: 1
             radius: 4
 
@@ -273,10 +273,10 @@ Item {
 
             background: Rectangle {
                 opacity: flatShadingToggle.enabled ? 1 : 0.3
-                color: flatShadingToggle.down ? surfaceGraph.theme.gridMainColor
+                color: flatShadingToggle.down ? surfaceGraph.theme.grid.mainColor
                                               : surfaceGraph.theme.backgroundColor
                 border.color: flatShadingToggle.down ? surfaceGraph.theme.labelTextColor
-                                                     : surfaceGraph.theme.gridMainColor
+                                                     : surfaceGraph.theme.grid.mainColor
                 border.width: 1
                 radius: 2
             }
@@ -311,10 +311,10 @@ Item {
             }
 
             background: Rectangle {
-                color: surfaceGridToggle.down ? surfaceGraph.theme.gridMainColor
+                color: surfaceGridToggle.down ? surfaceGraph.theme.grid.mainColor
                                               : surfaceGraph.theme.backgroundColor
                 border.color: surfaceGridToggle.down ? surfaceGraph.theme.labelTextColor
-                                                     : surfaceGraph.theme.gridMainColor
+                                                     : surfaceGraph.theme.grid.mainColor
                 border.width: 1
                 radius: 2
             }
@@ -342,10 +342,10 @@ Item {
             }
 
             background: Rectangle {
-                color: exitButton.down ? surfaceGraph.theme.gridMainColor
+                color: exitButton.down ? surfaceGraph.theme.grid.mainColor
                                        : surfaceGraph.theme.backgroundColor
                 border.color: exitButton.down ? surfaceGraph.theme.labelTextColor
-                                              : surfaceGraph.theme.gridMainColor
+                                              : surfaceGraph.theme.grid.mainColor
                 border.width: 1
                 radius: 2
             }

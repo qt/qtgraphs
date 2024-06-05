@@ -50,12 +50,12 @@ Rectangle {
             borderColors: ["#111111", "#222222", "#333333", "#444444", "#555555"]
             borderWidth: 2
             axisXLabelFont.pixelSize: 20
-            gridMainColor: "#ffffff"
-            gridSubColor: "#eeeeee"
-            axisYMainColor: "#ffffff"
-            axisYSubColor: "#eeeeee"
-            axisXMainColor: "#ffffff"
-            axisXSubColor: "#eeeeee"
+            grid.mainColor: "#ffffff"
+            grid.subColor: "#eeeeee"
+            axisY.mainColor: "#ffffff"
+            axisY.subColor: "#eeeeee"
+            axisX.mainColor: "#ffffff"
+            axisX.subColor: "#eeeeee"
         }
         BarSeries {
             BarSet { id: set1; label: "Bob"; values: [1, 2, 3, 4, 5, 6] }
@@ -211,26 +211,26 @@ Rectangle {
             text: "Grid lines width"
         }
         CustomSlider {
-            sliderValue: myTheme.gridMainWidth
+            sliderValue: myTheme.grid.mainWidth
             fromValue: 1.0
             toValue: 4.0
             onSliderValueChanged: {
-                myTheme.gridMainWidth = sliderValue;
-                myTheme.axisYMainWidth = sliderValue;
-                myTheme.axisXMainWidth = sliderValue;
+                myTheme.grid.mainWidth = sliderValue;
+                myTheme.axisY.mainWidth = sliderValue;
+                myTheme.axisX.mainWidth = sliderValue;
             }
         }
         CustomLabel {
             text: "Subgrid lines width"
         }
         CustomSlider {
-            sliderValue: myTheme.gridSubWidth
+            sliderValue: myTheme.grid.subWidth
             fromValue: 1.0
             toValue: 4.0
             onSliderValueChanged: {
-                myTheme.gridSubWidth = sliderValue;
-                myTheme.axisYSubWidth = sliderValue;
-                myTheme.axisXSubWidth = sliderValue;
+                myTheme.grid.subWidth = sliderValue;
+                myTheme.axisY.subWidth = sliderValue;
+                myTheme.axisX.subWidth = sliderValue;
             }
         }
         CustomCheckBox {

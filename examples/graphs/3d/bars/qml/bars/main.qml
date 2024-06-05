@@ -101,10 +101,10 @@ Item {
                 required property string display
                 implicitHeight: 30
                 implicitWidth: column === 0 ? tableView.width / 2 : tableView.width / 4
-                color: row === mainview.currentRow ? barGraph.theme.gridMainColor
+                color: row === mainview.currentRow ? barGraph.theme.grid.mainColor
                                                    : barGraph.theme.backgroundColor
                 border.color: row === mainview.currentRow ? barGraph.theme.labelTextColor
-                                                          : barGraph.theme.gridMainColor
+                                                          : barGraph.theme.grid.mainColor
                 border.width: 1
                 MouseArea {
                     anchors.fill: parent
@@ -213,8 +213,8 @@ Item {
 
             background: Rectangle {
                 opacity: changeDataButton.enabled ? 1 : 0.3
-                color: changeDataButton.down ? barGraph.theme.gridMainColor : barGraph.theme.backgroundColor
-                border.color: changeDataButton.down ? barGraph.theme.labelTextColor : barGraph.theme.gridMainColor
+                color: changeDataButton.down ? barGraph.theme.grid.mainColor : barGraph.theme.backgroundColor
+                border.color: changeDataButton.down ? barGraph.theme.labelTextColor : barGraph.theme.grid.mainColor
                 border.width: 1
                 radius: 2
             }
@@ -246,8 +246,8 @@ Item {
 
             background: Rectangle {
                 opacity: shadowToggle.enabled ? 1 : 0.3
-                color: shadowToggle.down ? barGraph.theme.gridMainColor : barGraph.theme.backgroundColor
-                border.color: shadowToggle.down ? barGraph.theme.labelTextColor : barGraph.theme.gridMainColor
+                color: shadowToggle.down ? barGraph.theme.grid.mainColor : barGraph.theme.backgroundColor
+                border.color: shadowToggle.down ? barGraph.theme.labelTextColor : barGraph.theme.grid.mainColor
                 border.width: 1
                 radius: 2
             }
@@ -289,8 +289,8 @@ Item {
 
             background: Rectangle {
                 opacity: seriesToggle.enabled ? 1 : 0.3
-                color: seriesToggle.down ? barGraph.theme.gridMainColor : barGraph.theme.backgroundColor
-                border.color: seriesToggle.down ? barGraph.theme.labelTextColor : barGraph.theme.gridMainColor
+                color: seriesToggle.down ? barGraph.theme.grid.mainColor : barGraph.theme.backgroundColor
+                border.color: seriesToggle.down ? barGraph.theme.labelTextColor : barGraph.theme.grid.mainColor
                 border.width: 1
                 radius: 2
             }
@@ -325,8 +325,8 @@ Item {
 
             background: Rectangle {
                 opacity: marginToggle.enabled ? 1 : 0.3
-                color: marginToggle.down ? barGraph.theme.gridMainColor : barGraph.theme.backgroundColor
-                border.color: marginToggle.down ? barGraph.theme.labelTextColor : barGraph.theme.gridMainColor
+                color: marginToggle.down ? barGraph.theme.grid.mainColor : barGraph.theme.backgroundColor
+                border.color: marginToggle.down ? barGraph.theme.labelTextColor : barGraph.theme.grid.mainColor
                 border.width: 1
                 radius: 2
             }

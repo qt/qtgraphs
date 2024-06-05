@@ -69,33 +69,33 @@ Rectangle {
         Button {
             text: "Customize!"
             onClicked: {
-                myTheme.gridMainColor = Qt.rgba(Math.random(),
+                myTheme.grid.mainColor = Qt.rgba(Math.random(),
                                                      Math.random(),
                                                      Math.random(), 1.0)
-                myTheme.gridMainWidth = 1 + 3 * Math.random()
-                myTheme.gridSubColor = Qt.rgba(Math.random(),
+                myTheme.grid.mainWidth = 1 + 3 * Math.random()
+                myTheme.grid.subColor = Qt.rgba(Math.random(),
                                                      Math.random(),
                                                      Math.random(), 1.0)
-                myTheme.gridSubWidth = 1 + 2 * Math.random()
+                myTheme.grid.subWidth = 1 + 2 * Math.random()
                 chartView.gridSmoothing = 2 * Math.random()
-                myTheme.axisYMainColor = Qt.rgba(Math.random(), Math.random(),
+                myTheme.axisY.mainColor = Qt.rgba(Math.random(), Math.random(),
                                                   Math.random(), 1.0)
-                myTheme.axisXMainColor = Qt.rgba(Math.random(), Math.random(),
+                myTheme.axisX.mainColor = Qt.rgba(Math.random(), Math.random(),
                                                   Math.random(), 1.0)
-                myTheme.axisYSubColor = Qt.rgba(Math.random(), Math.random(),
+                myTheme.axisY.subColor = Qt.rgba(Math.random(), Math.random(),
                                                   Math.random(), 1.0)
-                myTheme.axisXSubColor = Qt.rgba(Math.random(), Math.random(),
+                myTheme.axisX.subColor = Qt.rgba(Math.random(), Math.random(),
                                                   Math.random(), 1.0)
                 myTheme.labelBackgroundColor = Qt.rgba(Math.random(),
                                                    Math.random(),
                                                    Math.random(), 1.0)
-                myTheme.axisXLabelColor = Qt.rgba(Math.random(),
+                myTheme.axisX.labelTextColor = Qt.rgba(Math.random(),
                                                    Math.random(),
                                                    Math.random(), 1.0)
-                myTheme.axisYMainWidth = 1 + 2 * Math.random()
-                myTheme.axisXMainWidth = 1 + 2 * Math.random()
-                myTheme.axisYSubWidth = 1 + 1 * Math.random()
-                myTheme.axisXSubWidth = 1 + 1 * Math.random()
+                myTheme.axisY.mainWidth = 1 + 2 * Math.random()
+                myTheme.axisX.mainWidth = 1 + 2 * Math.random()
+                myTheme.axisY.subWidth = 1 + 1 * Math.random()
+                myTheme.axisX.subWidth = 1 + 1 * Math.random()
                 chartView.axisYSmoothing = 2 * Math.random()
                 myTheme.labelFont.family = customFont.font.family
             }

@@ -66,7 +66,7 @@ Rectangle {
             id: customTheme
             theme: GraphsTheme.Theme.QtGreen
             backgroundVisible: false
-            gridMainColor: "#AAAAAA"
+            grid.mainColor: "#AAAAAA"
             backgroundColor: "#EEEEEE"
         }
 

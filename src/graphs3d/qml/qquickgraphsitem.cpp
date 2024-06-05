@@ -605,7 +605,9 @@ QQuickGraphsItem::QQuickGraphsItem(QQuickItem *parent)
     // Set initial theme
     QGraphsTheme *theme = new QGraphsTheme();
     setTheme(theme);
-    theme->setGridMainWidth(0.25);
+    QGraphsLine grid = theme->grid();
+    grid.setMainWidth(0.25);
+    theme->setGrid(grid);
     m_themes.append(theme);
 
     m_scene->d_func()->setViewport(boundingRect().toRect());
@@ -1216,6 +1218,7 @@ void QQuickGraphsItem::handleThemeColorStyleChanged(QGraphsTheme::ColorStyle sty
             series->d_func()->m_themeTracker.colorStyleOverride = false;
         }
     }
+    theme()->dirtyBits()->colorStyleDirty = false;
     markSeriesVisualsDirty();
 }
 
@@ -1234,6 +1237,8 @@ void QQuickGraphsItem::handleThemeBaseColorsChanged(const QList<QColor> &colors)
         if (++colorIdx >= colors.size())
             colorIdx = 0;
     }
+
+    theme()->dirtyBits()->seriesColorsDirty = false;
     markSeriesVisualsDirty();
 }
 
@@ -1249,6 +1254,7 @@ void QQuickGraphsItem::handleThemeBaseGradientsChanged(const QList<QLinearGradie
         if (++gradientIdx >= gradients.size())
             gradientIdx = 0;
     }
+    theme()->dirtyBits()->seriesGradientDirty = false;
     markSeriesVisualsDirty();
 }
 
@@ -1627,7 +1633,7 @@ void QQuickGraphsItem::componentComplete()
     auto gridMaterial = new QQuick3DPrincipledMaterial(m_gridGeometryModel);
     gridMaterial->setLighting(QQuick3DPrincipledMaterial::Lighting::NoLighting);
     gridMaterial->setCullMode(QQuick3DMaterial::CullMode::BackFaceCulling);
-    gridMaterial->setBaseColor(theme()->gridMainColor());
+    gridMaterial->setBaseColor(theme()->grid().mainColor());
     gridMaterialRef.append(gridMaterial);
 
     // subgrid with geometry
@@ -1727,7 +1733,11 @@ void QQuickGraphsItem::releaseTheme(QGraphsTheme *theme)
             disconnect(theme, &QGraphsTheme::colorStyleChanged, this, &QQuickGraphsItem::handleThemeColorStyleChanged);
             disconnect(theme, &QGraphsTheme::seriesColorsChanged, this, &QQuickGraphsItem::handleThemeBaseColorsChanged);
             disconnect(theme, &QGraphsTheme::seriesGradientsChanged, this, &QQuickGraphsItem::handleThemeBaseGradientsChanged);
-            disconnect(theme, &QGraphsTheme::labelFontChanged, this, &QQuickGraphsItem::emitNeedRender);
+            disconnect(theme, &QGraphsTheme::singleHighlightColorChanged, this, &QQuickGraphsItem::handleThemeSingleHighlightColorChanged);
+            disconnect(theme, &QGraphsTheme::singleHighlightGradientChanged, this, &QQuickGraphsItem::handleThemeSingleHighlightGradientChanged);
+            disconnect(theme, &QGraphsTheme::multiHighlightColorChanged, this, &QQuickGraphsItem::handleThemeMultiHighlightColorChanged);
+            disconnect(theme, &QGraphsTheme::multiHighlightGradientChanged, this, &QQuickGraphsItem::handleThemeMultiHighlightGradientChanged);
+            disconnect(theme, &QGraphsTheme::update, this, &QQuickGraphsItem::emitNeedRender);
         }
         m_themes.removeAll(theme);
         theme->setParent(nullptr);
@@ -1750,14 +1760,22 @@ void QQuickGraphsItem::setTheme(QGraphsTheme *theme)
             disconnect(m_activeTheme, &QGraphsTheme::colorStyleChanged, this, &QQuickGraphsItem::handleThemeColorStyleChanged);
             disconnect(m_activeTheme, &QGraphsTheme::seriesColorsChanged, this, &QQuickGraphsItem::handleThemeBaseColorsChanged);
             disconnect(m_activeTheme, &QGraphsTheme::seriesGradientsChanged, this, &QQuickGraphsItem::handleThemeBaseGradientsChanged);
-            disconnect(m_activeTheme, &QGraphsTheme::labelFontChanged, this, &QQuickGraphsItem::emitNeedRender);
+            disconnect(m_activeTheme, &QGraphsTheme::singleHighlightColorChanged, this, &QQuickGraphsItem::handleThemeSingleHighlightColorChanged);
+            disconnect(m_activeTheme, &QGraphsTheme::singleHighlightGradientChanged, this, &QQuickGraphsItem::handleThemeSingleHighlightGradientChanged);
+            disconnect(m_activeTheme, &QGraphsTheme::multiHighlightColorChanged, this, &QQuickGraphsItem::handleThemeMultiHighlightColorChanged);
+            disconnect(m_activeTheme, &QGraphsTheme::multiHighlightGradientChanged, this, &QQuickGraphsItem::handleThemeMultiHighlightGradientChanged);
+            disconnect(m_activeTheme, &QGraphsTheme::update, this, &QQuickGraphsItem::emitNeedRender);
         }
 
         connect(theme, &QGraphsTheme::themeChanged, this, &QQuickGraphsItem::handleThemeTypeChanged);
         connect(theme, &QGraphsTheme::colorStyleChanged, this, &QQuickGraphsItem::handleThemeColorStyleChanged);
         connect(theme, &QGraphsTheme::seriesColorsChanged, this, &QQuickGraphsItem::handleThemeBaseColorsChanged);
         connect(theme, &QGraphsTheme::seriesGradientsChanged, this, &QQuickGraphsItem::handleThemeBaseGradientsChanged);
-        connect(theme, &QGraphsTheme::labelFontChanged, this, &QQuickGraphsItem::emitNeedRender);
+        connect(theme, &QGraphsTheme::singleHighlightColorChanged, this, &QQuickGraphsItem::handleThemeSingleHighlightColorChanged);
+        connect(theme, &QGraphsTheme::singleHighlightGradientChanged, this, &QQuickGraphsItem::handleThemeSingleHighlightGradientChanged);
+        connect(theme, &QGraphsTheme::multiHighlightColorChanged, this, &QQuickGraphsItem::handleThemeMultiHighlightColorChanged);
+        connect(theme, &QGraphsTheme::multiHighlightGradientChanged, this, &QQuickGraphsItem::handleThemeMultiHighlightGradientChanged);
+        connect(theme, &QGraphsTheme::update, this, &QQuickGraphsItem::emitNeedRender);
 
         m_activeTheme = theme;
         m_changeTracker.themeChanged = true;
@@ -2203,8 +2221,7 @@ void QQuickGraphsItem::synchData()
         }
 
         m_changeTracker.axisXLabelsChanged = false;
-        handleLabelCountChanged(m_repeaterX, theme()->axisXLabelColor());
-        theme()->dirtyBits()->axisXLabelColorDirty = false;
+        handleLabelCountChanged(m_repeaterX, theme()->axisX().labelTextColor());
         axisDirty = true;
     }
 
@@ -2219,8 +2236,7 @@ void QQuickGraphsItem::synchData()
         }
 
         m_changeTracker.axisYLabelsChanged = false;
-        handleLabelCountChanged(m_repeaterY, theme()->axisYLabelColor());
-        theme()->dirtyBits()->axisYLabelColorDirty = false;
+        handleLabelCountChanged(m_repeaterY, theme()->axisY().labelTextColor());
         axisDirty = true;
     }
 
@@ -2235,8 +2251,7 @@ void QQuickGraphsItem::synchData()
         }
 
         m_changeTracker.axisZLabelsChanged = false;
-        handleLabelCountChanged(m_repeaterZ, theme()->axisZLabelColor());
-        theme()->dirtyBits()->axisZLabelColorDirty = false;
+        handleLabelCountChanged(m_repeaterZ, theme()->axisZ().labelTextColor());
         axisDirty = true;
     }
 
@@ -2452,10 +2467,10 @@ void QQuickGraphsItem::synchData()
         m_shadowStrengthDirty = false;
     }
 
-    if (theme()->dirtyBits()->gridMainWidthDirty) {
+    if (theme()->dirtyBits()->gridDirty) {
         QQmlListReference materialRef(m_background, "materials");
         Q_ASSERT(materialRef.size());
-        float mainWidth = theme()->gridMainWidth();
+        float mainWidth = theme()->grid().mainWidth();
         if (m_shaderGridEnabled && mainWidth > 1.0f) {
             qWarning("Invalid value for shader grid. Valid range for grid width is between"
                      " 0.0 and 1.0. Value exceeds 1.0. Set it to 1.0");
@@ -2469,7 +2484,23 @@ void QQuickGraphsItem::synchData()
         }
         auto *material = static_cast<QQuick3DCustomMaterial *>(materialRef.at(0));
         material->setProperty("gridWidth", mainWidth);
-        theme()->dirtyBits()->gridMainWidthDirty = false;
+
+        QColor gridMainColor = theme()->grid().mainColor();
+        QQmlListReference backgroundRef(m_background, "materials");
+        auto *backgroundMaterial = static_cast<QQuick3DCustomMaterial *>(backgroundRef.at(0));
+        backgroundMaterial->setProperty("gridLineColor", gridMainColor);
+        QQmlListReference mainGridRef(m_gridGeometryModel, "materials");
+        auto *gridMaterial = static_cast<QQuick3DPrincipledMaterial *>(mainGridRef.at(0));
+        gridMaterial->setBaseColor(gridMainColor);
+
+        QColor gridSubColor = theme()->grid().subColor();
+        backgroundMaterial->setProperty("subgridLineColor", gridSubColor);
+
+        QQmlListReference subGridRef(m_subgridGeometryModel, "materials");
+        auto *subgridMaterial = static_cast<QQuick3DPrincipledMaterial *>(subGridRef.at(0));
+        subgridMaterial->setBaseColor(gridSubColor);
+
+        theme()->dirtyBits()->gridDirty = false;
     }
 
     // label Adjustments
@@ -2542,8 +2573,8 @@ void QQuickGraphsItem::synchData()
         theme()->dirtyBits()->labelTextColorDirty = false;
     }
 
-    if (theme()->dirtyBits()->axisXLabelColorDirty) {
-        QColor labelTextColor = theme()->axisXLabelColor();
+    if (theme()->dirtyBits()->axisXDirty) {
+        QColor labelTextColor = theme()->axisX().labelTextColor();
         changeLabelTextColor(m_repeaterX, labelTextColor);
         m_titleLabelX->setProperty("labelTextColor", labelTextColor);
         if (m_sliceView && isSliceEnabled()) {
@@ -2551,30 +2582,30 @@ void QQuickGraphsItem::synchData()
                 changeLabelTextColor(m_sliceHorizontalLabelRepeater, labelTextColor);
             m_sliceHorizontalTitleLabel->setProperty("labelTextColor", labelTextColor);
         }
-        theme()->dirtyBits()->axisXLabelColorDirty = false;
+        theme()->dirtyBits()->axisXDirty = false;
     }
 
-    if (theme()->dirtyBits()->axisYLabelColorDirty) {
-        QColor labelTextColor = theme()->axisYLabelColor();
-        changeLabelTextColor(m_repeaterY, theme()->axisYLabelColor());
-        m_titleLabelY->setProperty("labelTextColor", theme()->axisYLabelColor());
+    if (theme()->dirtyBits()->axisYDirty) {
+        QColor labelTextColor = theme()->axisY().labelTextColor();
+        changeLabelTextColor(m_repeaterY, labelTextColor);
+        m_titleLabelY->setProperty("labelTextColor", labelTextColor);
         if (m_sliceView && isSliceEnabled()) {
-            changeLabelTextColor(m_sliceVerticalLabelRepeater, theme()->axisYLabelColor());
+            changeLabelTextColor(m_sliceVerticalLabelRepeater, labelTextColor);
             m_sliceVerticalTitleLabel->setProperty("labelTextColor", labelTextColor);
         }
-        theme()->dirtyBits()->axisYLabelColorDirty = false;
+        theme()->dirtyBits()->axisYDirty = false;
     }
 
-    if (theme()->dirtyBits()->axisZLabelColorDirty) {
-        QColor labelTextColor = theme()->axisZLabelColor();
-        changeLabelTextColor(m_repeaterZ, theme()->axisZLabelColor());
-        m_titleLabelZ->setProperty("labelTextColor", theme()->axisZLabelColor());
+    if (theme()->dirtyBits()->axisZDirty) {
+        QColor labelTextColor = theme()->axisZ().labelTextColor();
+        changeLabelTextColor(m_repeaterZ, labelTextColor);
+        m_titleLabelZ->setProperty("labelTextColor", labelTextColor);
         if (m_sliceView && isSliceEnabled()) {
             if (m_selectionMode == SelectionColumn)
-                changeLabelTextColor(m_sliceHorizontalLabelRepeater, theme()->axisZLabelColor());
+                changeLabelTextColor(m_sliceHorizontalLabelRepeater, labelTextColor);
             m_sliceHorizontalTitleLabel->setProperty("labelTextColor", labelTextColor);
         }
-        theme()->dirtyBits()->axisZLabelColorDirty = false;
+        theme()->dirtyBits()->axisZDirty = false;
     }
 
     if (theme()->dirtyBits()->labelFontDirty) {
@@ -2640,8 +2671,7 @@ void QQuickGraphsItem::synchData()
     if (m_shaderGridEnabledDirty) {
         m_shaderGridEnabled = isShaderGridEnabled();
         theme()->dirtyBits()->gridVisibilityDirty = true;
-        theme()->dirtyBits()->gridMainColorDirty = true;
-        theme()->dirtyBits()->gridSubColorDirty = true;
+        theme()->dirtyBits()->gridDirty = true;
         m_gridUpdate = true;
         m_shaderGridEnabledDirty = false;
     }
@@ -2659,29 +2689,6 @@ void QQuickGraphsItem::synchData()
             m_sliceGridGeometryModel->setVisible(visible);
 
         theme()->dirtyBits()->gridVisibilityDirty = false;
-    }
-
-    if (theme()->dirtyBits()->gridMainColorDirty) {
-        QColor gridMainColor = theme()->gridMainColor();
-        QQmlListReference backgroundRef(m_background, "materials");
-        auto *backgroundMaterial = static_cast<QQuick3DCustomMaterial *>(backgroundRef.at(0));
-        backgroundMaterial->setProperty("gridLineColor", gridMainColor);
-        QQmlListReference gridRef(m_gridGeometryModel, "materials");
-        auto *gridMaterial = static_cast<QQuick3DPrincipledMaterial *>(gridRef.at(0));
-        gridMaterial->setBaseColor(gridMainColor);
-        theme()->dirtyBits()->gridMainColorDirty = false;
-    }
-
-    if (theme()->dirtyBits()->gridSubColorDirty) {
-        QColor gridSubColor = theme()->gridSubColor();
-        QQmlListReference backgroundRef(m_background, "materials");
-        auto *backgroundMaterial = static_cast<QQuick3DCustomMaterial *>(backgroundRef.at(0));
-        backgroundMaterial->setProperty("subgridLineColor", gridSubColor);
-
-        QQmlListReference gridRef(m_subgridGeometryModel, "materials");
-        auto *subgridMaterial = static_cast<QQuick3DPrincipledMaterial *>(gridRef.at(0));
-        subgridMaterial->setBaseColor(gridSubColor);
-        theme()->dirtyBits()->gridSubColorDirty = false;
     }
 
     if (theme()->dirtyBits()->singleHighlightColorDirty) {
@@ -4654,10 +4661,10 @@ void QQuickGraphsItem::handleLabelCountChanged(QQuick3DRepeater *repeater, QColo
         changeLabelBorderVisible(m_sliceHorizontalLabelRepeater, theme()->isLabelBorderVisible());
         changeLabelBorderVisible(m_sliceVerticalLabelRepeater, theme()->isLabelBorderVisible());
         if (m_selectionMode == SelectionRow)
-            changeLabelTextColor(m_sliceHorizontalLabelRepeater, theme()->axisXLabelColor());
+            changeLabelTextColor(m_sliceHorizontalLabelRepeater, theme()->axisX().labelTextColor());
         else if (m_selectionMode == SelectionColumn)
-            changeLabelTextColor(m_sliceHorizontalLabelRepeater, theme()->axisZLabelColor());
-        changeLabelTextColor(m_sliceVerticalLabelRepeater, theme()->axisYLabelColor());
+            changeLabelTextColor(m_sliceHorizontalLabelRepeater, theme()->axisZ().labelTextColor());
+        changeLabelTextColor(m_sliceVerticalLabelRepeater, theme()->axisY().labelTextColor());
         changeLabelFont(m_sliceHorizontalLabelRepeater, theme()->labelFont());
         changeLabelFont(m_sliceVerticalLabelRepeater, theme()->labelFont());
     }
@@ -6075,7 +6082,7 @@ void QQuickGraphsItem::updateSliceGrid()
 
     QQmlListReference materialRef(m_sliceGridGeometryModel, "materials");
     auto material = static_cast<QQuick3DPrincipledMaterial *>(materialRef.at(0));
-    material->setBaseColor(theme()->gridMainColor());
+    material->setBaseColor(theme()->grid().mainColor());
 }
 
 void QQuickGraphsItem::updateSliceLabels()
@@ -6091,12 +6098,12 @@ void QQuickGraphsItem::updateSliceLabels()
         horizontalAxis = axisX();
         scale = backgroundScale.x() - m_backgroundScaleMargin.x();
         translate = backgroundScale.x() - m_backgroundScaleMargin.x();
-        horizontalLabelTextColor = theme()->axisXLabelColor();
+        horizontalLabelTextColor = theme()->axisX().labelTextColor();
     } else if (selectionMode().testFlag(QGraphs3D::SelectionFlag::Column)) {
         horizontalAxis = axisZ();
         scale = backgroundScale.z() - m_backgroundScaleMargin.z();
         translate = backgroundScale.z() - m_backgroundScaleMargin.z();
-        horizontalLabelTextColor = theme()->axisZLabelColor();
+        horizontalLabelTextColor = theme()->axisZ().labelTextColor();
     }
 
     if (horizontalAxis == nullptr) {
@@ -6201,7 +6208,7 @@ void QQuickGraphsItem::updateSliceLabels()
     else if (selectionMode().testFlag(QGraphs3D::SelectionFlag::Column))
         xPos = backgroundScale.z() + (adjustment * 1.5f);
     labelTrans = QVector3D(xPos, 0.0f, 0.0f);
-    QColor verticalLabelTextColor = theme()->axisYLabelColor();
+    QColor verticalLabelTextColor = theme()->axisY().labelTextColor();
 
     if (verticalAxis->type() == QAbstract3DAxis::AxisType::Value) {
         auto valueAxis = static_cast<QValue3DAxis *>(verticalAxis);

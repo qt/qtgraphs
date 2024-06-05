@@ -1708,7 +1708,9 @@ void GraphModifier::useOwnTheme(bool checked)
         colors.append(QColor(QRgb(0x209fdf)));
         m_ownTheme->setSeriesColors(colors);
         m_ownTheme->setColorStyle(QGraphsTheme::ColorStyle::Uniform);
-        m_ownTheme->setGridMainColor(QColor(QRgb(0x99ca53)));
+        QGraphsLine grid = m_ownTheme->grid();
+        grid.setMainColor(QColor(QRgb(0x99ca53)));
+        m_ownTheme->setGrid(grid);
         m_ownTheme->setLabelBackgroundVisible(true);
         m_ownTheme->setLabelBorderVisible(true);
         m_ownTheme->setMultiHighlightColor(QColor(QRgb(0x6d5fd5)));

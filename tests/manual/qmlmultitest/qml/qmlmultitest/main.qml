@@ -42,7 +42,7 @@ Item {
         Rectangle {
             Layout.fillHeight: true
             Layout.fillWidth: true
-            border.color: surfaceGraph.theme.gridMainColor
+            border.color: surfaceGraph.theme.grid.mainColor
             border.width: 2
             color: "#00000000"
 
@@ -135,7 +135,7 @@ Item {
             id: theFirstOne
             Layout.fillHeight: true
             Layout.fillWidth: true
-            border.color: scatterGraph.theme.gridMainColor
+            border.color: scatterGraph.theme.grid.mainColor
             border.width: 2
             color: "#00000000"
 
@@ -176,7 +176,7 @@ Item {
         Rectangle {
             Layout.fillHeight: true
             Layout.fillWidth: true
-            border.color: barGraph.theme.gridMainColor
+            border.color: barGraph.theme.grid.mainColor
             border.width: 2
             color: "#00000000"
 
@@ -227,9 +227,9 @@ Item {
         surfaceGraph.cameraPreset = Graphs3D.CameraPreset.IsometricLeftHigh
         scatterGraph.cameraPreset = Graphs3D.CameraPreset.IsometricLeftHigh
         barGraph.cameraPreset = Graphs3D.CameraPreset.IsometricLeftHigh
-        surfaceGraph.zoomLevel = 100.0
-        scatterGraph.zoomLevel = 100.0
-        barGraph.zoomLevel = 100.0
+        surfaceGraph.cameraZoomLevel = 100.0
+        scatterGraph.cameraZoomLevel = 100.0
+        barGraph.cameraZoomLevel = 100.0
     }
 
     function changeMMB() {
