@@ -86,9 +86,9 @@ Item {
         labelBorderVisible: true
         labelBackgroundColor: "gold"
         labelTextColor: "black"
-        axisXLabelColor: "black"
-        axisYLabelColor: "black"
-        axisZLabelColor: "black"
+        axisX.labelTextColor: "black"
+        axisY.labelTextColor: "black"
+        axisZ.labelTextColor: "black"
     }
 
     GraphsTheme {
@@ -99,9 +99,9 @@ Item {
         labelBorderVisible: true
         labelBackgroundColor: "gold"
         labelTextColor: "black"
-        axisXLabelColor: "black"
-        axisYLabelColor: "black"
-        axisZLabelColor: "black"
+        axisX.labelTextColor: "black"
+        axisY.labelTextColor: "black"
+        axisZ.labelTextColor: "black"
     }
 
     Scatter3D {

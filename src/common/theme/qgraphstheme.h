@@ -27,17 +27,14 @@ struct QGraphsThemeDirtyBitField
     bool colorStyleDirty : 1;
     bool labelFontDirty : 1;
     bool gridVisibilityDirty : 1;
-    bool gridMainColorDirty : 1;
-    bool gridSubColorDirty : 1;
-    bool gridMainWidthDirty : 1;
-    bool gridSubWidthDirty : 1;
+    bool gridDirty : 1;
     bool labelBackgroundColorDirty : 1;
     bool labelBackgroundVisibilityDirty : 1;
     bool labelBorderVisibilityDirty : 1;
     bool labelTextColorDirty : 1;
-    bool axisXLabelColorDirty : 1;
-    bool axisYLabelColorDirty : 1;
-    bool axisZLabelColorDirty : 1;
+    bool axisXDirty : 1;
+    bool axisYDirty : 1;
+    bool axisZDirty : 1;
     bool labelsVisibilityDirty : 1;
     bool multiHighlightColorDirty : 1;
     bool multiHighlightGradientDirty : 1;
@@ -56,17 +53,14 @@ struct QGraphsThemeDirtyBitField
         , colorStyleDirty(false)
         , labelFontDirty(false)
         , gridVisibilityDirty(false)
-        , gridMainColorDirty(false)
-        , gridSubColorDirty(false)
-        , gridMainWidthDirty(false)
-        , gridSubWidthDirty(false)
+        , gridDirty(false)
         , labelBackgroundColorDirty(false)
         , labelBackgroundVisibilityDirty(false)
         , labelBorderVisibilityDirty(false)
         , labelTextColorDirty(false)
-        , axisXLabelColorDirty(false)
-        , axisYLabelColorDirty(false)
-        , axisZLabelColorDirty(false)
+        , axisXDirty(false)
+        , axisYDirty(false)
+        , axisZDirty(false)
         , labelsVisibilityDirty(false)
         , multiHighlightColorDirty(false)
         , multiHighlightGradientDirty(false)
@@ -76,6 +70,93 @@ struct QGraphsThemeDirtyBitField
         , backgroundColorDirty(false)
         , backgroundVisibilityDirty(false)
     {}
+};
+
+class Q_GRAPHS_EXPORT QGraphsLine
+{
+    Q_GADGET
+public:
+    QGraphsLine();
+    QGraphsLine(const QGraphsLine &graphsLine);
+    ~QGraphsLine() = default;
+
+    QColor mainColor() const;
+    void setMainColor(const QColor& newColor);
+    QColor subColor() const;
+    void setSubColor(const QColor& newColor);
+    qreal mainWidth() const;
+    void setMainWidth(qreal newWidth);
+    qreal subWidth() const;
+    void setSubWidth(qreal newWidth);
+    QColor labelTextColor() const;
+    void setLabelTextColor(const QColor& newColor);
+
+    QGraphsLine &operator=(const QGraphsLine &);
+    bool operator==(const QGraphsLine &);
+    operator QVariant() const;
+
+private:
+    struct QGraphsLineCustomField
+    {
+        bool mainColorCustom : 1;
+        bool subColorCustom : 1;
+        bool labelTextColorCustom : 1;
+
+        QGraphsLineCustomField()
+            : mainColorCustom(false)
+              , subColorCustom(false)
+              , labelTextColorCustom(false)
+        {}
+    };
+
+    void resetCustomBits();
+
+    QGraphsLineCustomField m_bits;
+
+    QColor m_mainColor;
+    QColor m_subColor;
+    qreal m_mainWidth;
+    qreal m_subWidth;
+    QColor m_labelTextColor;
+
+    QColor m_mainThemeColor;
+    QColor m_subThemeColor;
+    QColor m_labelTextThemeColor;
+
+    friend class QGraphsTheme;
+};
+
+class Q_GRAPHS_EXPORT QQuickGraphsLineValueType
+{
+    QGraphsLine v;
+    Q_GADGET
+
+    Q_PROPERTY(QColor mainColor READ mainColor WRITE setMainColor FINAL)
+    Q_PROPERTY(QColor subColor READ subColor WRITE setSubColor FINAL)
+    Q_PROPERTY(qreal mainWidth READ mainWidth WRITE setMainWidth FINAL)
+    Q_PROPERTY(qreal subWidth READ subWidth WRITE setSubWidth FINAL)
+    Q_PROPERTY(QColor labelTextColor READ labelTextColor WRITE setLabelTextColor FINAL)
+
+    QML_VALUE_TYPE(graphsline)
+    QML_FOREIGN(QGraphsLine)
+    QML_EXTENDED(QQuickGraphsLineValueType)
+    QML_STRUCTURED_VALUE
+
+public:
+    static QVariant create(const QJSValue &params);
+
+    QColor mainColor() const;
+    void setMainColor(const QColor& newColor);
+    QColor subColor() const;
+    void setSubColor(const QColor& newColor);
+    qreal mainWidth() const;
+    void setMainWidth(qreal newWidth);
+    qreal subWidth() const;
+    void setSubWidth(qreal newWidth);
+    QColor labelTextColor() const;
+    void setLabelTextColor(const QColor& newColor);
+
+    operator QGraphsLine() const { return v; }
 };
 
 class Q_GRAPHS_EXPORT QGraphsTheme : public QObject, public QQmlParserStatus
@@ -100,35 +181,15 @@ class Q_GRAPHS_EXPORT QGraphsTheme : public QObject, public QQmlParserStatus
 
     Q_PROPERTY(
         bool gridVisible READ isGridVisible WRITE setGridVisible NOTIFY gridVisibleChanged FINAL)
-    Q_PROPERTY(QColor gridMainColor READ gridMainColor WRITE setGridMainColor NOTIFY
-                   gridMainColorChanged FINAL)
-    Q_PROPERTY(qreal gridMainWidth READ gridMainWidth WRITE setGridMainWidth NOTIFY
-                   gridMainWidthChanged FINAL)
-    Q_PROPERTY(QColor gridSubColor READ gridSubColor WRITE setGridSubColor NOTIFY
-                   gridSubColorChanged FINAL)
-    Q_PROPERTY(
-        qreal gridSubWidth READ gridSubWidth WRITE setGridSubWidth NOTIFY gridSubWidthChanged FINAL)
 
-    Q_PROPERTY(QColor axisXMainColor READ axisXMainColor WRITE setAxisXMainColor NOTIFY axisXMainColorChanged FINAL)
-    Q_PROPERTY(qreal axisXMainWidth READ axisXMainWidth WRITE setAxisXMainWidth NOTIFY axisXMainWidthChanged FINAL)
-    Q_PROPERTY(QColor axisXSubColor READ axisXSubColor WRITE setAxisXSubColor NOTIFY axisXSubColorChanged FINAL)
-    Q_PROPERTY(qreal axisXSubWidth READ axisXSubWidth WRITE setAxisXSubWidth NOTIFY axisXSubWidthChanged FINAL)
     Q_PROPERTY(QFont axisXLabelFont READ axisXLabelFont WRITE setAxisXLabelFont NOTIFY axisXLabelFontChanged FINAL)
-    Q_PROPERTY(QColor axisXLabelColor READ axisXLabelColor WRITE setAxisXLabelColor NOTIFY axisXLabelColorChanged FINAL)
-
-    Q_PROPERTY(QColor axisYMainColor READ axisYMainColor WRITE setAxisYMainColor NOTIFY axisYMainColorChanged FINAL)
-    Q_PROPERTY(qreal axisYMainWidth READ axisYMainWidth WRITE setAxisYMainWidth NOTIFY axisYMainWidthChanged FINAL)
-    Q_PROPERTY(QColor axisYSubColor READ axisYSubColor WRITE setAxisYSubColor NOTIFY axisYSubColorChanged FINAL)
-    Q_PROPERTY(qreal axisYSubWidth READ axisYSubWidth WRITE setAxisYSubWidth NOTIFY axisYSubWidthChanged FINAL)
     Q_PROPERTY(QFont axisYLabelFont READ axisYLabelFont WRITE setAxisYLabelFont NOTIFY axisYLabelFontChanged FINAL)
-    Q_PROPERTY(QColor axisYLabelColor READ axisYLabelColor WRITE setAxisYLabelColor NOTIFY axisYLabelColorChanged FINAL)
-
-    Q_PROPERTY(QColor axisZMainColor READ axisZMainColor WRITE setAxisZMainColor NOTIFY axisZMainColorChanged FINAL)
-    Q_PROPERTY(qreal axisZMainWidth READ axisZMainWidth WRITE setAxisZMainWidth NOTIFY axisZMainWidthChanged FINAL)
-    Q_PROPERTY(QColor axisZSubColor READ axisZSubColor WRITE setAxisZSubColor NOTIFY axisZSubColorChanged FINAL)
-    Q_PROPERTY(qreal axisZSubWidth READ axisZSubWidth WRITE setAxisZSubWidth NOTIFY axisZSubWidthChanged FINAL)
     Q_PROPERTY(QFont axisZLabelFont READ axisZLabelFont WRITE setAxisZLabelFont NOTIFY axisZLabelFontChanged FINAL)
-    Q_PROPERTY(QColor axisZLabelColor READ axisZLabelColor WRITE setAxisZLabelColor NOTIFY axisZLabelColorChanged FINAL)
+
+    Q_PROPERTY(QGraphsLine grid READ grid WRITE setGrid NOTIFY gridChanged FINAL)
+    Q_PROPERTY(QGraphsLine axisX READ axisX WRITE setAxisX NOTIFY axisXChanged FINAL)
+    Q_PROPERTY(QGraphsLine axisY READ axisY WRITE setAxisY NOTIFY axisYChanged FINAL)
+    Q_PROPERTY(QGraphsLine axisZ READ axisZ WRITE setAxisZ NOTIFY axisZChanged FINAL)
 
     Q_PROPERTY(QFont labelFont READ labelFont WRITE setLabelFont NOTIFY labelFontChanged FINAL)
     Q_PROPERTY(bool labelsVisible READ labelsVisible WRITE setLabelsVisible NOTIFY
@@ -212,14 +273,6 @@ public:
 
     bool isGridVisible() const;
     void setGridVisible(bool newGridVisibility);
-    QColor gridMainColor() const;
-    void setGridMainColor(const QColor &newgridMainColor);
-    qreal gridMainWidth() const;
-    void setGridMainWidth(qreal newgridMainWidth);
-    QColor gridSubColor() const;
-    void setGridSubColor(const QColor &newgridSubColor);
-    qreal gridSubWidth() const;
-    void setGridSubWidth(qreal newgridSubWidth);
 
     bool labelsVisible() const;
     void setLabelsVisible(bool newLabelsVisibility);
@@ -256,50 +309,21 @@ public:
     qreal borderWidth() const;
     void setBorderWidth(qreal newBorderWidth);
 
-    QColor axisXMainColor() const;
-    void setAxisXMainColor(const QColor &newAxisXMainColor);
-    qreal axisXMainWidth() const;
-    void setAxisXMainWidth(qreal newAxisXMainWidth);
-    QColor axisXSubColor() const;
-    void setAxisXSubColor(const QColor &newAxisXSubColor);
-    qreal axisXSubWidth() const;
-    void setAxisXSubWidth(qreal newAxisXSubWidth);
-
-    QColor axisYMainColor() const;
-    void setAxisYMainColor(const QColor &newAxisYMainColor);
-    qreal axisYMainWidth() const;
-    void setAxisYMainWidth(qreal newAxisYMainWidth);
-    QColor axisYSubColor() const;
-    void setAxisYSubColor(const QColor &newAxisYSubColor);
-    qreal axisYSubWidth() const;
-    void setAxisYSubWidth(qreal newAxisYSubWidth);
-
-    QColor axisZMainColor() const;
-    void setAxisZMainColor(const QColor &newAxisZMainColor);
-    qreal axisZMainWidth() const;
-    void setAxisZMainWidth(qreal newAxisZMainWidth);
-    QColor axisZSubColor() const;
-    void setAxisZSubColor(const QColor &newAxisZSubColor);
-    qreal axisZSubWidth() const;
-    void setAxisZSubWidth(qreal newAxisZSubWidth);
-
     QFont axisXLabelFont() const;
     void setAxisXLabelFont(const QFont &newAxisXLabelFont);
-
     QFont axisYLabelFont() const;
     void setAxisYLabelFont(const QFont &newAxisYLabelFont);
-
     QFont axisZLabelFont() const;
     void setAxisZLabelFont(const QFont &newAxisZLabelFont);
 
-    QColor axisXLabelColor() const;
-    void setAxisXLabelColor(const QColor &newAxisXLabelColor);
-
-    QColor axisYLabelColor() const;
-    void setAxisYLabelColor(const QColor &newAxisYLabelColor);
-
-    QColor axisZLabelColor() const;
-    void setAxisZLabelColor(const QColor &newAxisZLabelColor);
+    QGraphsLine grid() const;
+    void setGrid(const QGraphsLine &newGrid);
+    QGraphsLine axisX() const;
+    void setAxisX(const QGraphsLine &newAxisX);
+    QGraphsLine axisY() const;
+    void setAxisY(const QGraphsLine &newAxisY);
+    QGraphsLine axisZ() const;
+    void setAxisZ(const QGraphsLine &newAxisZ);
 
 Q_SIGNALS:
     void update();
@@ -315,19 +339,15 @@ Q_SIGNALS:
     void plotAreaBackgroundVisibleChanged();
 
     void gridVisibleChanged();
-    void gridMainColorChanged();
-    void gridMainWidthChanged();
-    void gridSubColorChanged();
-    void gridSubWidthChanged();
 
     void labelsVisibleChanged();
     void labelBackgroundColorChanged();
     void labelTextColorChanged();
 
-    void singleHighlightColorChanged();
-    void multiHighlightColorChanged();
-    void singleHighlightGradientChanged();
-    void multiHighlightGradientChanged();
+    void singleHighlightColorChanged(const QColor &color);
+    void multiHighlightColorChanged(const QColor &color);
+    void singleHighlightGradientChanged(const QLinearGradient &gradient);
+    void multiHighlightGradientChanged(const QLinearGradient &gradient);
 
     void labelFontChanged();
 
@@ -342,28 +362,14 @@ Q_SIGNALS:
     void singleHighlightGradientQMLChanged();
     void multiHighlightGradientQMLChanged();
 
-    void axisXMainColorChanged();
-    void axisXMainWidthChanged();
-    void axisXSubColorChanged();
-    void axisXSubWidthChanged();
-
-    void axisYMainColorChanged();
-    void axisYMainWidthChanged();
-    void axisYSubColorChanged();
-    void axisYSubWidthChanged();
-
-    void axisZMainColorChanged();
-    void axisZMainWidthChanged();
-    void axisZSubColorChanged();
-    void axisZSubWidthChanged();
-
     void axisXLabelFontChanged();
     void axisYLabelFontChanged();
     void axisZLabelFontChanged();
 
-    void axisXLabelColorChanged();
-    void axisYLabelColorChanged();
-    void axisZLabelColorChanged();
+    void gridChanged();
+    void axisXChanged();
+    void axisYChanged();
+    void axisZChanged();
 
 public Q_SLOTS:
     void handleBaseColorUpdate();
@@ -381,48 +387,32 @@ private:
         bool seriesColorsCustom : 1;
         bool borderColorsCustom : 1;
         bool seriesGradientCustom : 1;
-        bool gridMainColorCustom : 1;
-        bool gridSubColorCustom : 1;
         bool labelBackgroundColorCustom : 1;
         bool labelTextColorCustom : 1;
-        bool axisXLabelColorCustom : 1;
-        bool axisYLabelColorCustom : 1;
-        bool axisZLabelColorCustom : 1;
         bool multiHighlightColorCustom : 1;
         bool multiHighlightGradientCustom : 1;
         bool singleHighlightColorCustom : 1;
         bool singleHighlightGradientCustom : 1;
         bool backgroundColorCustom : 1;
-        bool axisXMainColorCustom : 1;
-        bool axisXSubColorCustom : 1;
-        bool axisYMainColorCustom : 1;
-        bool axisYSubColorCustom : 1;
-        bool axisZMainColorCustom : 1;
-        bool axisZSubColorCustom : 1;
+        bool axisXLabelFontCustom : 1;
+        bool axisYLabelFontCustom : 1;
+        bool axisZLabelFontCustom : 1;
 
         QGraphsCustomBitField()
             : plotAreaBackgroundColorCustom(false)
               , seriesColorsCustom(false)
               , borderColorsCustom(false)
               , seriesGradientCustom(false)
-              , gridMainColorCustom(false)
-              , gridSubColorCustom(false)
               , labelBackgroundColorCustom(false)
               , labelTextColorCustom(false)
-              , axisXLabelColorCustom(false)
-              , axisYLabelColorCustom(false)
-              , axisZLabelColorCustom(false)
               , multiHighlightColorCustom(false)
               , multiHighlightGradientCustom(false)
               , singleHighlightColorCustom(false)
               , singleHighlightGradientCustom(false)
               , backgroundColorCustom(false)
-              , axisXMainColorCustom(false)
-              , axisXSubColorCustom(false)
-              , axisYMainColorCustom(false)
-              , axisYSubColorCustom(false)
-              , axisZMainColorCustom(false)
-              , axisZSubColorCustom(false)
+              , axisXLabelFontCustom(false)
+              , axisYLabelFontCustom(false)
+              , axisZLabelFontCustom(false)
         {}
     };
 
@@ -472,12 +462,6 @@ private:
     Qt::ColorScheme m_colorScheme;
     Theme m_theme;
     ColorStyle m_colorStyle;
-    QColor m_gridMainColor;
-    QColor m_gridMainThemeColor;
-    qreal m_gridMainWidth;
-    QColor m_gridSubColor;
-    QColor m_gridSubThemeColor;
-    qreal m_gridSubWidth;
     QColor m_plotAreaBackgroundColor;
     QColor m_plotAreaBackgroundThemeColor;
     bool m_backgroundVisibility;
@@ -514,36 +498,18 @@ private:
     QQuickGradient *m_singleHLGradient;
     QQuickGradient *m_multiHLGradient;
 
-    bool m_dummyColors = false;
-
-    bool m_componentComplete = false;
-    QColor m_axisXMainColor;
-    QColor m_axisXMainThemeColor;
-    qreal m_axisXMainWidth;
-    QColor m_axisXSubColor;
-    QColor m_axisXSubThemeColor;
-    qreal m_axisXSubWidth;
-    QColor m_axisYMainColor;
-    QColor m_axisYMainThemeColor;
-    qreal m_axisYMainWidth;
-    QColor m_axisYSubColor;
-    QColor m_axisYSubThemeColor;
-    qreal m_axisYSubWidth;
-    QColor m_axisZMainColor;
-    QColor m_axisZMainThemeColor;
-    qreal m_axisZMainWidth;
-    QColor m_axisZSubColor;
-    QColor m_axisZSubThemeColor;
-    qreal m_axisZSubWidth;
     QFont m_axisXLabelFont;
     QFont m_axisYLabelFont;
     QFont m_axisZLabelFont;
-    QColor m_axisXLabelColor;
-    QColor m_axisXLabelThemeColor;
-    QColor m_axisYLabelColor;
-    QColor m_axisYLabelThemeColor;
-    QColor m_axisZLabelColor;
-    QColor m_axisZLabelThemeColor;
+
+    QGraphsLine m_grid;
+    QGraphsLine m_axisX;
+    QGraphsLine m_axisY;
+    QGraphsLine m_axisZ;
+
+    bool m_dummyColors = false;
+
+    bool m_componentComplete = false;
 };
 
 QT_END_NAMESPACE

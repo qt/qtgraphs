@@ -360,10 +360,10 @@ void AxisRenderer::updateAxisTickers()
     if (m_axisVertical) {
         // Note: Fix before enabling, see QTBUG-121207 and QTBUG-121211
         //if (theme()->themeDirty()) {
-            m_axisTickerVertical->setSubTickColor(theme()->axisYSubColor());
-            m_axisTickerVertical->setTickColor(theme()->axisYMainColor());
-            m_axisTickerVertical->setTickLineWidth(theme()->axisYMainWidth());
-            m_axisTickerVertical->setSubTickLineWidth(theme()->axisYSubWidth());
+            m_axisTickerVertical->setSubTickColor(theme()->axisY().subColor());
+            m_axisTickerVertical->setTickColor(theme()->axisY().mainColor());
+            m_axisTickerVertical->setTickLineWidth(theme()->axisY().mainWidth());
+            m_axisTickerVertical->setSubTickLineWidth(theme()->axisY().subWidth());
             m_axisTickerVertical->setSmoothing(m_graph->axisYSmoothing());
         //}
         float topPadding = m_axisGrid->gridLineWidth() * 0.5;
@@ -381,8 +381,8 @@ void AxisRenderer::updateAxisTickers()
         m_axisTickerVertical->setSubTickScale(m_axisVerticalSubGridScale);
         m_axisTickerVertical->setVisible(m_axisVertical->isVisible());
         // Axis line
-        m_axisLineVertical->setColor(theme()->axisYMainColor());
-        m_axisLineVertical->setLineWidth(theme()->axisYMainWidth());
+        m_axisLineVertical->setColor(theme()->axisY().mainColor());
+        m_axisLineVertical->setLineWidth(theme()->axisY().mainWidth());
         m_axisLineVertical->setSmoothing(m_graph->axisYSmoothing());
 
         float xMovement = 0.5 * (m_axisLineVertical->lineWidth() + m_axisLineVertical->smoothing());
@@ -401,10 +401,10 @@ void AxisRenderer::updateAxisTickers()
 
     if (m_axisHorizontal) {
         //if (theme()->themeDirty()) {
-            m_axisTickerHorizontal->setSubTickColor(theme()->axisXSubColor());
-            m_axisTickerHorizontal->setTickColor(theme()->axisXMainColor());
-            m_axisTickerHorizontal->setTickLineWidth(theme()->axisXMainWidth());
-            m_axisTickerHorizontal->setSubTickLineWidth(theme()->axisXSubWidth());
+            m_axisTickerHorizontal->setSubTickColor(theme()->axisX().subColor());
+            m_axisTickerHorizontal->setTickColor(theme()->axisX().mainColor());
+            m_axisTickerHorizontal->setTickLineWidth(theme()->axisX().mainWidth());
+            m_axisTickerHorizontal->setSubTickLineWidth(theme()->axisX().subWidth());
             m_axisTickerHorizontal->setSmoothing(m_graph->axisXSmoothing());
         //}
         float leftPadding = m_axisGrid->gridLineWidth() * 0.5;
@@ -422,8 +422,8 @@ void AxisRenderer::updateAxisTickers()
         m_axisTickerHorizontal->setSubTickScale(m_axisHorizontalSubGridScale);
         m_axisTickerHorizontal->setVisible(m_axisHorizontal->isVisible());
         // Axis line
-        m_axisLineHorizontal->setColor(theme()->axisXMainColor());
-        m_axisLineHorizontal->setLineWidth(theme()->axisXMainWidth());
+        m_axisLineHorizontal->setColor(theme()->axisX().mainColor());
+        m_axisLineHorizontal->setLineWidth(theme()->axisX().mainWidth());
         m_axisLineHorizontal->setSmoothing(m_graph->axisXSmoothing());
         m_axisLineHorizontal->setX(m_axisTickerHorizontal->x());
         float yMovement = 0.5 * (m_axisLineHorizontal->lineWidth() + m_axisLineHorizontal->smoothing());
@@ -510,10 +510,10 @@ void AxisRenderer::updateAxisTickersShadow()
 void AxisRenderer::updateAxisGrid()
 {
     //if (theme()->themeDirty()) {
-        m_axisGrid->setGridColor(theme()->gridMainColor());
-        m_axisGrid->setSubGridColor(theme()->gridSubColor());
-        m_axisGrid->setSubGridLineWidth(theme()->gridSubWidth());
-        m_axisGrid->setGridLineWidth(theme()->gridMainWidth());
+        m_axisGrid->setGridColor(theme()->grid().mainColor());
+        m_axisGrid->setSubGridColor(theme()->grid().subColor());
+        m_axisGrid->setSubGridLineWidth(theme()->grid().subWidth());
+        m_axisGrid->setGridLineWidth(theme()->grid().mainWidth());
         const double minimumSmoothing = 0.05;
         m_axisGrid->setSmoothing(m_graph->gridSmoothing() + minimumSmoothing);
         m_axisGrid->setPlotAreaBackgroundColor(theme()->plotAreaBackgroundColor());
@@ -649,10 +649,10 @@ void AxisRenderer::setLabelTextProperties(QQuickItem *item, const QString &text,
         textItem->setVAlign(vAlign);
         if (xAxis) {
             textItem->setFont(theme()->axisXLabelFont());
-            textItem->setColor(theme()->axisXLabelColor());
+            textItem->setColor(theme()->axisX().labelTextColor());
         } else {
             textItem->setFont(theme()->axisYLabelFont());
-            textItem->setColor(theme()->axisYLabelColor());
+            textItem->setColor(theme()->axisY().labelTextColor());
         }
     } else {
         // Check for specific dynamic properties
@@ -680,7 +680,7 @@ void AxisRenderer::updateBarXAxisLabels(QBarCategoryAxis *axis, const QRectF &re
             textItem->setRotation(axis->labelsAngle());
             setLabelTextProperties(textItem, category, true);
             textItem->setVisible(true);
-            theme()->dirtyBits()->axisXLabelColorDirty = false;
+            theme()->dirtyBits()->axisXDirty = false;
         } else {
             textItem->setVisible(false);
         }
@@ -707,7 +707,7 @@ void AxisRenderer::updateBarYAxisLabels(QBarCategoryAxis *axis, const QRectF &re
             textItem->setRotation(axis->labelsAngle());
             setLabelTextProperties(textItem, category, false);
             textItem->setVisible(true);
-            theme()->dirtyBits()->axisYLabelColorDirty = false;
+            theme()->dirtyBits()->axisYDirty = false;
         } else {
             textItem->setVisible(false);
         }
@@ -761,7 +761,7 @@ void AxisRenderer::updateValueYAxisLabels(QValueAxis *axis, const QRectF &rect)
                                    QQuickText::HAlignment::AlignRight,
                                    QQuickText::VAlignment::AlignBottom);
             textItem->setVisible(true);
-            theme()->dirtyBits()->axisYLabelColorDirty = false;
+            theme()->dirtyBits()->axisYDirty = false;
         } else {
             textItem->setVisible(false);
         }
@@ -814,7 +814,7 @@ void AxisRenderer::updateValueXAxisLabels(QValueAxis *axis, const QRectF &rect)
                                    QQuickText::VAlignment::AlignBottom);
             textItem->setHeight(rect.height());
             textItem->setVisible(true);
-            theme()->dirtyBits()->axisXLabelColorDirty = false;
+            theme()->dirtyBits()->axisXDirty = false;
         } else {
             textItem->setVisible(false);
         }

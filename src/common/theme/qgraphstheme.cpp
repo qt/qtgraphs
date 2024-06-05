@@ -54,9 +54,6 @@ QT_BEGIN_NAMESPACE
  *     \li gridVisible
  *     \li \c true
  *   \row
- *     \li gridMainWidth
- *     \li 0.25
- *   \row
  *     \li labelBackgroundVisible
  *     \li \c true
  *   \row
@@ -132,6 +129,35 @@ QT_BEGIN_NAMESPACE
  */
 
 /*!
+ * \qmlvaluetype graphsline
+ * \ingroup graphs_qml
+ * \brief a values for lines based on properties of QGraphsLine.
+ *
+ * The \c graphsline type refers to a line value with the properties of QGraphsLine.
+ *
+ * Properties of type \c graphsline follows the \l {QQuickGraphs::theme}{theme} or
+ * defined separately.
+ *
+ * The available properties are:
+ *
+ * \list
+ * \li \l color \c graphsline.mainColor
+ * \li \l color \c graphsline.subColor
+ * \li \l real \c graphsline.mainWidth
+ * \li \l real \c graphsline.subWidth
+ * \li \l color \c graphsline.labelTextColor
+ * \endlist
+ *
+ * When integrating with C++, note that any QGraphsLine value
+ * \l{qtqml-cppintegration-data.html}{passed into QML from C++} is automatically
+ * converted into a \c graphsline value, and vice-versa.
+ *
+ * This value type is provided by the QtQuick import.
+ *
+ * \sa {QML Value Types}
+ */
+
+/*!
  * \qmltype GraphsTheme
  * \inqmlmodule QtGraphs
  * \ingroup graphs_qml
@@ -173,9 +199,6 @@ QT_BEGIN_NAMESPACE
  *   \row
  *     \li gridVisible
  *     \li \c true
- *   \row
- *     \li gridMainWidth
- *     \li 2.0
  *   \row
  *     \li labelBackgroundVisible
  *     \li \c true
@@ -258,114 +281,6 @@ QT_BEGIN_NAMESPACE
  */
 
 /*!
- * \qmlproperty color GraphsTheme::gridMainColor
- *
- * The color of the main grid lines.
- * The default value depends on \l colorScheme.
- */
-
-/*!
- * \qmlproperty color GraphsTheme::gridSubColor
- *
- * The color of the subgrid lines.
- * The default value depends on \l colorScheme.
- */
-
-/*!
- * \qmlproperty real GraphsTheme::gridMainWidth
- *
- * The width of the main grid lines
- *
- * The higher the number, the wider the grid lines will be.
- * The default value is \c 2.0.
- *
- * Only has effect if \l{QAbstract3DGraphWidget::shaderGridEnabled} is \c true
- */
-
-/*!
- * \qmlproperty real GraphsTheme::gridSubWidth
- *
- * The width of the subgrid lines
- *
- * The higher the number, the wider the grid lines will be.
- * The default value is \c 1.0.
- *
- * Only has effect if \l{QAbstract3DGraphWidget::shaderGridEnabled} is \c true
- */
-
-/*!
-    \qmlproperty color GraphTheme::axisXMainColor
-    Sets the color of major ticks of the x axis.
-    The default value depends on \l colorScheme.
-*/
-
-/*!
-    \qmlproperty color GraphTheme::axisXSubColor
-    Sets the color of minor ticks of the x axis.
-    The default value depends on \l colorScheme.
-*/
-
-/*!
-    \qmlproperty real GraphTheme::axisXMainWidth
-    Sets the width of major ticks of the x axis.
-    The default value is \c 2.0.
-*/
-
-/*!
-    \qmlproperty real GraphTheme::axisXSubWidth
-    Sets the width of minor ticks of the x axis.
-    The default value is \c 1.0.
-*/
-
-/*!
-    \qmlproperty color GraphTheme::axisYMainColor
-    Sets the color of major ticks of the y axis.
-    The default value depends on \l colorScheme.
-*/
-
-/*!
-    \qmlproperty color GraphTheme::axisYSubColor
-    Sets the color of minor ticks of the y axis.
-    The default value depends on \l colorScheme.
-*/
-
-/*!
-    \qmlproperty real GraphTheme::axisYMainWidth
-    Sets the width of major ticks of the y axis.
-    The default value is \c 2.0.
-*/
-
-/*!
-    \qmlproperty real GraphTheme::axisYSubWidth
-    Sets the width of minor ticks of the y axis.
-    The default value is \c 1.0.
-*/
-
-/*!
-    \qmlproperty color GraphTheme::axisZMainColor
-    Sets the color of major ticks of the z axis.
-    The default value depends on \l colorScheme.
-*/
-
-/*!
-    \qmlproperty color GraphTheme::axisZSubColor
-    Sets the color of minor ticks of the z axis.
-    The default value depends on \l colorScheme.
-*/
-
-/*!
-    \qmlproperty real GraphTheme::axisZMainWidth
-    Sets the width of major ticks of the z axis.
-    The default value is \c 2.0.
-*/
-
-/*!
-    \qmlproperty real GraphTheme::axisZSubWidth
-    Sets the width of minor ticks of the z axis.
-    The default value is \c 1.0.
-*/
-
-/*!
  * \qmlproperty color GraphsTheme::singleHighlightColor
  *
  * The highlight color for a selected object. Used if
@@ -429,6 +344,24 @@ QT_BEGIN_NAMESPACE
  * \qmlproperty font GraphsTheme::labelFont
  *
  * Sets the font to be used for labels.
+ */
+
+/*!
+ * \qmlproperty font GraphsTheme::axisXLabelFont
+ *
+ * Sets the font to be used for labels on axisX.
+ */
+
+/*!
+ * \qmlproperty font GraphsTheme::axisYLabelFont
+ *
+ * Sets the font to be used for labels on axisY.
+ */
+
+/*!
+ * \qmlproperty font GraphsTheme::axisZLabelFont
+ *
+ * Sets the font to be used for labels on axisZ.
  */
 
 /*!
@@ -505,14 +438,51 @@ QT_BEGIN_NAMESPACE
  * attached series to use the new theme.
  */
 
+/*!
+ * \qmlproperty color GraphsTheme::GraphsLine.mainColor
+ *
+ * The color of the main lines.
+ * The default value depends on \l colorScheme.
+ */
+
+/*!
+ * \qmlproperty color GraphsTheme::GraphsLine.subColor
+ *
+ * The color of the sub lines.
+ * The default value depends on \l colorScheme.
+ */
+
+/*!
+ * \qmlproperty real GraphsTheme::GraphsLine.mainWidth
+ *
+ * The width of the main lines.
+ * The default value is \c 2.0.
+ *
+ * If it is set for grid lines, only has effect if
+ * \l{QAbstract3DGraphWidget::shaderGridEnabled} is \c true
+ */
+
+/*!
+ * \qmlproperty real GraphsTheme::GraphsLine.subWidth
+ *
+ * The color of the main lines.
+ * The default value is \c 1.0.
+ *
+ * If it is set for grid lines, only has effect if
+ * \l{QAbstract3DGraphWidget::shaderGridEnabled} is \c true
+ */
+
+/*!
+ * \qmlproperty color GraphsTheme::GraphsLine.labelTextColor
+ *
+ * The color of the text used for labels.
+ * The default value depends on \l colorScheme.
+ */
+
 QGraphsTheme::QGraphsTheme(QObject *parent)
     : QObject(parent)
       , m_themeDirty(false)
       , m_colorStyle(ColorStyle::Uniform)
-      , m_gridMainColor(QColor())
-      , m_gridMainWidth(2.0)
-      , m_gridSubColor(QColor())
-      , m_gridSubWidth(1.0)
       , m_plotAreaBackgroundColor(QColor())
       , m_backgroundColor(QColor())
       , m_labelBackgroundColor(QColor())
@@ -524,6 +494,10 @@ QGraphsTheme::QGraphsTheme(QObject *parent)
       , m_borderWidth(1.0)
       , m_singleHLGradient(nullptr)
       , m_multiHLGradient(nullptr)
+      , m_grid(QGraphsLine())
+      , m_axisX(QGraphsLine())
+      , m_axisY(QGraphsLine())
+      , m_axisZ(QGraphsLine())
 {
     setBackgroundVisible(true);
     setPlotAreaBackgroundVisible(true);
@@ -538,6 +512,9 @@ QGraphsTheme::QGraphsTheme(QObject *parent)
     setLabelBorderVisible(true);
     setTheme(Theme::UserDefined, true);
     setLabelFont(QFont(QLatin1String("Arial")));
+    setAxisXLabelFont(QFont());
+    setAxisYLabelFont(QFont());
+    setAxisZLabelFont(QFont());
 }
 
 QGraphsTheme::~QGraphsTheme()
@@ -564,17 +541,14 @@ void QGraphsTheme::resetDirtyBits()
     m_dirtyBits.colorStyleDirty = true;
     m_dirtyBits.labelFontDirty = true;
     m_dirtyBits.gridVisibilityDirty = true;
-    m_dirtyBits.gridMainColorDirty = true;
-    m_dirtyBits.gridSubColorDirty = true;
-    m_dirtyBits.gridMainWidthDirty = true;
-    m_dirtyBits.gridSubWidthDirty = true;
+    m_dirtyBits.gridDirty = true;
     m_dirtyBits.labelBackgroundColorDirty = true;
     m_dirtyBits.labelBackgroundVisibilityDirty = true;
     m_dirtyBits.labelBorderVisibilityDirty = true;
     m_dirtyBits.labelTextColorDirty = true;
-    m_dirtyBits.axisXLabelColorDirty = true;
-    m_dirtyBits.axisYLabelColorDirty = true;
-    m_dirtyBits.axisZLabelColorDirty = true;
+    m_dirtyBits.axisXDirty = true;
+    m_dirtyBits.axisYDirty = true;
+    m_dirtyBits.axisZDirty = true;
     m_dirtyBits.labelsVisibilityDirty = true;
     m_dirtyBits.multiHighlightColorDirty = true;
     m_dirtyBits.multiHighlightGradientDirty = true;
@@ -603,8 +577,8 @@ void QGraphsTheme::setColorScheme(Qt::ColorScheme newColorScheme)
     m_colorScheme = newColorScheme;
     setColorSchemePalette();
     m_themeDirty = true;
-    emit update();
     emit colorSchemeChanged();
+    emit update();
 }
 
 /*!
@@ -661,182 +635,6 @@ void QGraphsTheme::setColorStyle(ColorStyle newColorStyle)
 }
 
 /*!
- * \property QGraphsTheme::gridMainColor
- *
- * \brief The color of the main grid lines.
- * The default value depends on \l colorScheme.
- */
-QColor QGraphsTheme::gridMainColor() const
-{
-    if (m_customBits.gridMainColorCustom)
-        return m_gridMainColor;
-    return m_gridMainThemeColor;
-}
-
-void QGraphsTheme::setGridMainColor(const QColor &newGridMainColor)
-{
-    m_customBits.gridMainColorCustom = true;
-    if (m_gridMainColor == newGridMainColor)
-        return;
-    m_dirtyBits.gridMainColorDirty = true;
-    m_gridMainColor = newGridMainColor;
-    emit gridMainColorChanged();
-    emit update();
-}
-
-/*!
- * \property QGraphsTheme::gridMainWidth
- *
- * \brief The width of the main grid lines.
- * The default value is \c 2.0.
- */
-qreal QGraphsTheme::gridMainWidth() const
-{
-    return m_gridMainWidth;
-}
-
-void QGraphsTheme::setGridMainWidth(qreal newGridMainWidth)
-{
-    if (qFuzzyCompare(m_gridMainWidth, newGridMainWidth))
-        return;
-    m_dirtyBits.gridMainWidthDirty = true;
-    m_gridMainWidth = newGridMainWidth;
-    emit gridMainWidthChanged();
-    emit update();
-}
-
-/*!
- * \property QGraphsTheme::gridSubColor
- *
- * \brief The color of the subgrid lines.
- * The default value depends on \l colorScheme.
- */
-QColor QGraphsTheme::gridSubColor() const
-{
-    if (m_customBits.gridSubColorCustom)
-        return m_gridSubColor;
-    return m_gridSubThemeColor;
-}
-
-void QGraphsTheme::setGridSubColor(const QColor &newGridSubColor)
-{
-    m_customBits.gridSubColorCustom = true;
-    if (m_gridSubColor == newGridSubColor)
-        return;
-    m_dirtyBits.gridSubColorDirty = true;
-    m_gridSubColor = newGridSubColor;
-    emit gridSubColorChanged();
-    emit update();
-}
-
-/*!
- * \property QGraphsTheme::gridSubWidth
- *
- * \brief The width of the subgrid lines.
- * The default value is \c 1.0.
- */
-qreal QGraphsTheme::gridSubWidth() const
-{
-    return m_gridSubWidth;
-}
-
-void QGraphsTheme::setGridSubWidth(qreal newGridSubWidth)
-{
-    if (qFuzzyCompare(m_gridSubWidth, newGridSubWidth))
-        return;
-    m_dirtyBits.gridSubWidthDirty = true;
-    m_gridSubWidth = newGridSubWidth;
-    emit gridSubWidthChanged();
-    emit update();
-}
-
-/*!
- * \property QGraphsTheme::axisXMainColor
- *
- * \brief The color of the x axis main lines.
- * The default value depends on \l colorScheme.
- */
-QColor QGraphsTheme::axisXMainColor() const
-{
-    if (m_customBits.axisXMainColorCustom)
-        return m_axisXMainColor;
-    return m_axisXMainThemeColor;
-}
-
-void QGraphsTheme::setAxisXMainColor(const QColor &newAxisXMainColor)
-{
-    m_customBits.axisXMainColorCustom = true;
-    if (m_axisXMainColor == newAxisXMainColor)
-        return;
-    m_axisXMainColor = newAxisXMainColor;
-    emit axisXMainColorChanged();
-    emit update();
-}
-
-/*!
- * \property QGraphsTheme::axisXMainWidth
- *
- * \brief The width of the x axis main lines.
- * The default value is \c 2.0.
- */
-qreal QGraphsTheme::axisXMainWidth() const
-{
-    return m_axisXMainWidth;
-}
-
-void QGraphsTheme::setAxisXMainWidth(qreal newAxisXMainWidth)
-{
-    if (qFuzzyCompare(m_axisXMainWidth, newAxisXMainWidth))
-        return;
-    m_axisXMainWidth = newAxisXMainWidth;
-    emit axisXMainWidthChanged();
-    emit update();
-}
-
-/*!
- * \property QGraphsTheme::axisXSubColor
- *
- * \brief The color of the x axis sub lines.
- * The default value depends on \l colorScheme.
- */
-QColor QGraphsTheme::axisXSubColor() const
-{
-    if (m_customBits.axisXSubColorCustom)
-        return m_axisXSubColor;
-    return m_axisXSubThemeColor;
-}
-
-void QGraphsTheme::setAxisXSubColor(const QColor &newAxisXSubColor)
-{
-    m_customBits.axisXSubColorCustom = true;
-    if (m_axisXSubColor == newAxisXSubColor)
-        return;
-    m_axisXSubColor = newAxisXSubColor;
-    emit axisXSubColorChanged();
-    emit update();
-}
-
-/*!
- * \property QGraphsTheme::axisXSubWidth
- *
- * \brief The width of the x axis sub lines.
- * The default value is \c 1.0.
- */
-qreal QGraphsTheme::axisXSubWidth() const
-{
-    return m_axisXSubWidth;
-}
-
-void QGraphsTheme::setAxisXSubWidth(qreal newAxisXSubWidth)
-{
-    if (qFuzzyCompare(m_axisXSubWidth, newAxisXSubWidth))
-        return;
-    m_axisXSubWidth = newAxisXSubWidth;
-    emit axisXSubWidthChanged();
-    emit update();
-}
-
-/*!
  * \property QGraphsTheme::axisXLabelFont
  *
  * \brief The font to be used for labels on x axis.
@@ -848,96 +646,11 @@ QFont QGraphsTheme::axisXLabelFont() const
 
 void QGraphsTheme::setAxisXLabelFont(const QFont &newAxisXLabelFont)
 {
+    m_customBits.axisXLabelFontCustom = true;
     if (m_axisXLabelFont == newAxisXLabelFont)
         return;
     m_axisXLabelFont = newAxisXLabelFont;
     emit axisXLabelFontChanged();
-    emit update();
-}
-
-/*!
- * \property QGraphsTheme::axisYMainColor
- *
- * \brief The color of the y axis main lines.
- * The default value depends on \l colorScheme.
- */
-QColor QGraphsTheme::axisYMainColor() const
-{
-    if (m_customBits.axisYMainColorCustom)
-        return m_axisYMainColor;
-    return m_axisYMainThemeColor;
-}
-
-void QGraphsTheme::setAxisYMainColor(const QColor &newAxisYMainColor)
-{
-    m_customBits.axisYMainColorCustom = true;
-    if (m_axisYMainColor == newAxisYMainColor)
-        return;
-    m_axisYMainColor = newAxisYMainColor;
-    emit axisYMainColorChanged();
-    emit update();
-}
-
-/*!
- * \property QGraphsTheme::axisYMainWidth
- *
- * \brief The width of the y axis main lines.
- * The default value is \c 2.0.
- */
-qreal QGraphsTheme::axisYMainWidth() const
-{
-    return m_axisYMainWidth;
-}
-
-void QGraphsTheme::setAxisYMainWidth(qreal newAxisYMainWidth)
-{
-    if (qFuzzyCompare(m_axisYMainWidth, newAxisYMainWidth))
-        return;
-    m_axisYMainWidth = newAxisYMainWidth;
-    emit axisYMainWidthChanged();
-    emit update();
-}
-
-/*!
- * \property QGraphsTheme::axisYSubColor
- *
- * \brief The color of the y axis sub lines.
- * The default value depends on \l colorScheme.
- */
-QColor QGraphsTheme::axisYSubColor() const
-{
-    if (m_customBits.axisYSubColorCustom)
-        return m_axisYSubColor;
-    return m_axisYSubThemeColor;
-}
-
-void QGraphsTheme::setAxisYSubColor(const QColor &newAxisYSubColor)
-{
-    m_customBits.axisYSubColorCustom = true;
-    if (m_axisYSubColor == newAxisYSubColor)
-        return;
-    m_axisYSubColor = newAxisYSubColor;
-    emit axisYSubColorChanged();
-    emit update();
-}
-
-/*!
- * \property QGraphsTheme::axisYSubWidth
- *
- * \brief The width of the y axis sub lines.
- * The default value is \c 1.0.
- */
-qreal QGraphsTheme::axisYSubWidth() const
-{
-    return m_axisYSubWidth;
-}
-
-void QGraphsTheme::setAxisYSubWidth(qreal newAxisYSubWidth)
-{
-    if (qFuzzyCompare(m_axisYSubWidth, newAxisYSubWidth))
-        return;
-    m_axisYSubWidth = newAxisYSubWidth;
-    emit axisYSubWidthChanged();
     emit update();
 }
 
@@ -953,96 +666,11 @@ QFont QGraphsTheme::axisYLabelFont() const
 
 void QGraphsTheme::setAxisYLabelFont(const QFont &newAxisYLabelFont)
 {
+    m_customBits.axisYLabelFontCustom = true;
     if (m_axisYLabelFont == newAxisYLabelFont)
         return;
     m_axisYLabelFont = newAxisYLabelFont;
-    emit axisXLabelFontChanged();
-    emit update();
-}
-
-/*!
- * \property QGraphsTheme::axisZMainColor
- *
- * \brief The color of the z axis main lines.
- * The default value depends on \l colorScheme.
- */
-QColor QGraphsTheme::axisZMainColor() const
-{
-    if (m_customBits.axisZMainColorCustom)
-        return m_axisZMainColor;
-    return m_axisZMainThemeColor;
-}
-
-void QGraphsTheme::setAxisZMainColor(const QColor &newAxisZMainColor)
-{
-    m_customBits.axisZMainColorCustom = true;
-    if (m_axisZMainColor == newAxisZMainColor)
-        return;
-    m_axisZMainColor = newAxisZMainColor;
-    emit axisZMainColorChanged();
-    emit update();
-}
-
-/*!
- * \property QGraphsTheme::axisZMainWidth
- *
- * \brief The width of the z axis main lines.
- * The default value is \c 2.0.
- */
-qreal QGraphsTheme::axisZMainWidth() const
-{
-    return m_axisZMainWidth;
-}
-
-void QGraphsTheme::setAxisZMainWidth(qreal newAxisZMainWidth)
-{
-    if (qFuzzyCompare(m_axisZMainWidth, newAxisZMainWidth))
-        return;
-    m_axisZMainWidth = newAxisZMainWidth;
-    emit axisZMainWidthChanged();
-    emit update();
-}
-
-/*!
- * \property QGraphsTheme::axisZSubColor
- *
- * \brief The color of the z axis sub lines.
- * The default value depends on \l colorScheme.
- */
-QColor QGraphsTheme::axisZSubColor() const
-{
-    if (m_customBits.axisZSubColorCustom)
-        return m_axisZSubColor;
-    return m_axisZSubThemeColor;
-}
-
-void QGraphsTheme::setAxisZSubColor(const QColor &newAxisZSubColor)
-{
-    m_customBits.axisZSubColorCustom = true;
-    if (m_axisZSubColor == newAxisZSubColor)
-        return;
-    m_axisZSubColor = newAxisZSubColor;
-    emit axisZSubColorChanged();
-    emit update();
-}
-
-/*!
- * \property QGraphsTheme::axisZSubWidth
- *
- * \brief The width of the z axis sub lines.
- * The default value is \c 1.0.
- */
-qreal QGraphsTheme::axisZSubWidth() const
-{
-    return m_axisZSubWidth;
-}
-
-void QGraphsTheme::setAxisZSubWidth(qreal newAxisZSubWidth)
-{
-    if (qFuzzyCompare(m_axisZSubWidth, newAxisZSubWidth))
-        return;
-    m_axisZSubWidth = newAxisZSubWidth;
-    emit axisZSubWidthChanged();
+    emit axisYLabelFontChanged();
     emit update();
 }
 
@@ -1058,6 +686,7 @@ QFont QGraphsTheme::axisZLabelFont() const
 
 void QGraphsTheme::setAxisZLabelFont(const QFont &newAxisZLabelFont)
 {
+    m_customBits.axisZLabelFontCustom = true;
     if (m_axisZLabelFont == newAxisZLabelFont)
         return;
     m_axisZLabelFont = newAxisZLabelFont;
@@ -1256,78 +885,6 @@ void QGraphsTheme::setLabelTextColor(const QColor &newLabelTextColor)
 }
 
 /*!
- * \property QGraphsTheme::axisXLabelColor
- *
- * \brief The text color to be used for labels on x axis
- * The default value depends on \l colorScheme.
- */
-QColor QGraphsTheme::axisXLabelColor() const
-{
-    if (m_customBits.axisXLabelColorCustom)
-        return m_axisXLabelColor;
-    return m_axisXLabelThemeColor;
-}
-
-void QGraphsTheme::setAxisXLabelColor(const QColor &newAxisXLabelColor)
-{
-    m_customBits.axisXLabelColorCustom = true;
-    if (m_axisXLabelColor == newAxisXLabelColor)
-        return;
-    m_dirtyBits.axisXLabelColorDirty = true;
-    m_axisXLabelColor = newAxisXLabelColor;
-    emit axisXLabelColorChanged();
-    emit update();
-}
-
-/*!
- * \property QGraphsTheme::axisYLabelColor
- *
- * \brief The text color to be used for labels on y axis
- * The default value depends on \l colorScheme.
- */
-QColor QGraphsTheme::axisYLabelColor() const
-{
-    if (m_customBits.axisYLabelColorCustom)
-        return m_axisYLabelColor;
-    return m_axisYLabelThemeColor;
-}
-
-void QGraphsTheme::setAxisYLabelColor(const QColor &newAxisYLabelColor)
-{
-    m_customBits.axisYLabelColorCustom = true;
-    if (m_axisYLabelColor == newAxisYLabelColor)
-        return;
-    m_dirtyBits.axisYLabelColorDirty = true;
-    m_axisYLabelColor = newAxisYLabelColor;
-    emit axisYLabelColorChanged();
-    emit update();
-}
-
-/*!
- * \property QGraphsTheme::axisZLabelColor
- *
- * \brief The text color to be used for labels on z axis
- * The default value depends on \l colorScheme.
- */
-QColor QGraphsTheme::axisZLabelColor() const
-{
-    if (m_customBits.axisZLabelColorCustom)
-        return m_axisZLabelColor;
-    return m_axisZLabelThemeColor;
-}
-
-void QGraphsTheme::setAxisZLabelColor(const QColor &newAxisZLabelColor)
-{
-    m_customBits.axisZLabelColorCustom = true;
-    if (m_axisZLabelColor == newAxisZLabelColor)
-        return;
-    m_dirtyBits.axisZLabelColorDirty = true;
-    m_axisZLabelColor = newAxisZLabelColor;
-    emit axisZLabelColorChanged();
-    emit update();
-}
-
-/*!
  * \property QGraphsTheme::singleHighlightColor
  *
  * \brief The highlight color for a selected object.
@@ -1350,7 +907,7 @@ void QGraphsTheme::setSingleHighlightColor(const QColor &newSingleHighlightColor
         return;
     m_dirtyBits.singleHighlightColorDirty = true;
     m_singleHighlightColor = newSingleHighlightColor;
-    emit singleHighlightColorChanged();
+    emit singleHighlightColorChanged(m_singleHighlightColor);
     emit update();
 }
 
@@ -1378,7 +935,7 @@ void QGraphsTheme::setMultiHighlightColor(const QColor &newMultiHighlightColor)
         return;
     m_dirtyBits.multiHighlightColorDirty = true;
     m_multiHighlightColor = newMultiHighlightColor;
-    emit multiHighlightColorChanged();
+    emit multiHighlightColorChanged(m_multiHighlightColor);
     emit update();
 }
 
@@ -1399,7 +956,7 @@ void QGraphsTheme::setSingleHighlightGradient(const QLinearGradient &gradient)
 
     m_dirtyBits.singleHighlightGradientDirty = true;
     m_singleHighlightGradient = gradient;
-    emit singleHighlightGradientChanged();
+    emit singleHighlightGradientChanged(m_singleHighlightGradient);
     emit update();
 }
 
@@ -1428,7 +985,7 @@ void QGraphsTheme::setMultiHighlightGradient(const QLinearGradient &gradient)
 
     m_dirtyBits.multiHighlightGradientDirty = true;
     m_multiHighlightGradient = gradient;
-    emit multiHighlightGradientChanged();
+    emit multiHighlightGradientChanged(m_multiHighlightGradient);
     emit update();
 }
 
@@ -1455,6 +1012,12 @@ void QGraphsTheme::setLabelFont(const QFont &newFont)
         return;
     m_dirtyBits.labelFontDirty = true;
     m_labelFont = newFont;
+    if (!m_customBits.axisXLabelFontCustom)
+        m_axisXLabelFont = newFont;
+    if (!m_customBits.axisYLabelFontCustom)
+        m_axisYLabelFont = newFont;
+    if (!m_customBits.axisZLabelFontCustom)
+        m_axisZLabelFont = newFont;
     emit labelFontChanged();
     emit update();
 }
@@ -1694,24 +1257,15 @@ void QGraphsTheme::setColorSchemePalette()
     if (m_componentComplete) {
         // Reset all customizations which colorScheme changes
         m_customBits.plotAreaBackgroundColorCustom = false;
-        m_customBits.gridMainColorCustom = false;
-        m_customBits.gridSubColorCustom = false;
         m_customBits.labelBackgroundColorCustom = false;
-        m_customBits.labelTextColorCustom = false;
-        m_customBits.axisXLabelColorCustom = false;
-        m_customBits.axisYLabelColorCustom = false;
-        m_customBits.axisZLabelColorCustom = false;
         m_customBits.multiHighlightColorCustom = false;
         m_customBits.multiHighlightGradientCustom = false;
         m_customBits.singleHighlightColorCustom = false;
         m_customBits.singleHighlightGradientCustom = false;
-        m_customBits.backgroundColorCustom = false;
-        m_customBits.axisXMainColorCustom = false;
-        m_customBits.axisXSubColorCustom = false;
-        m_customBits.axisYMainColorCustom = false;
-        m_customBits.axisYSubColorCustom = false;
-        m_customBits.axisZMainColorCustom = false;
-        m_customBits.axisZSubColorCustom = false;
+        m_grid.resetCustomBits();
+        m_axisX.resetCustomBits();
+        m_axisY.resetCustomBits();
+        m_axisZ.resetCustomBits();
     }
 
     if (m_colorScheme == Qt::ColorScheme::Dark) {
@@ -1719,14 +1273,14 @@ void QGraphsTheme::setColorSchemePalette()
         m_plotAreaBackgroundThemeColor = QColor(QRgb(0x1F1F1F));
         m_labelBackgroundThemeColor = QColor(QRgb(0x2E2E2E));
 
-        m_gridMainThemeColor = QColor(QRgb(0xAEABAB));
-        m_gridSubThemeColor = QColor(QRgb(0x6A6A6A));
-        m_axisXMainThemeColor = m_gridMainThemeColor;
-        m_axisXSubThemeColor = m_gridSubThemeColor;
-        m_axisYMainThemeColor = m_gridMainThemeColor;
-        m_axisYSubThemeColor = m_gridSubThemeColor;
-        m_axisZMainThemeColor = m_gridMainThemeColor;
-        m_axisZSubThemeColor = m_gridSubThemeColor;
+        m_grid.m_mainThemeColor = QColor(QRgb(0xAEABAB));
+        m_grid.m_subThemeColor = QColor(QRgb(0x6A6A6A));
+        m_axisX.m_mainThemeColor = QColor(QRgb(0xAEABAB));
+        m_axisX.m_subThemeColor = QColor(QRgb(0x6A6A6A));
+        m_axisY.m_mainThemeColor = QColor(QRgb(0xAEABAB));
+        m_axisY.m_subThemeColor = QColor(QRgb(0x6A6A6A));
+        m_axisZ.m_mainThemeColor = QColor(QRgb(0xAEABAB));
+        m_axisZ.m_subThemeColor = QColor(QRgb(0x6A6A6A));
 
         m_singleHighlightThemeColor = QColor(QRgb(0xDBEB00));
         m_multiHighlightThemeColor = QColor(QRgb(0x22D489));
@@ -1734,22 +1288,22 @@ void QGraphsTheme::setColorSchemePalette()
         m_multiHighlightThemeGradient = createGradient(QColor(QRgb(0x22D489)), defaultColorLevel);
 
         m_labelTextThemeColor = QColor(QRgb(0xAEAEAE));
-        m_axisXLabelThemeColor = QColor(QRgb(0xAEAEAE));
-        m_axisYLabelThemeColor = QColor(QRgb(0xAEAEAE));
-        m_axisZLabelThemeColor = QColor(QRgb(0xAEAEAE));
+        m_axisX.m_labelTextThemeColor = QColor(QRgb(0xAEAEAE));
+        m_axisY.m_labelTextThemeColor = QColor(QRgb(0xAEAEAE));
+        m_axisZ.m_labelTextThemeColor = QColor(QRgb(0xAEAEAE));
     } else {
         m_backgroundThemeColor = QColor(QRgb(0xF2F2F2));
         m_plotAreaBackgroundThemeColor = QColor(QRgb(0xFCFCFC));
         m_labelBackgroundThemeColor = QColor(QRgb(0xE7E7E7));
 
-        m_gridMainThemeColor = QColor(QRgb(0x545151));
-        m_gridSubThemeColor = QColor(QRgb(0xAFAFAF));
-        m_axisXMainThemeColor = m_gridMainThemeColor;
-        m_axisXSubThemeColor = m_gridSubThemeColor;
-        m_axisYMainThemeColor = m_gridMainThemeColor;
-        m_axisYSubThemeColor = m_gridSubThemeColor;
-        m_axisZMainThemeColor = m_gridMainThemeColor;
-        m_axisZSubThemeColor = m_gridSubThemeColor;
+        m_grid.m_mainThemeColor = QColor(QRgb(0x545151));
+        m_grid.m_subThemeColor = QColor(QRgb(0xAFAFAF));
+        m_axisX.m_mainThemeColor = QColor(QRgb(0x545151));
+        m_axisX.m_subThemeColor = QColor(QRgb(0xAFAFAF));
+        m_axisY.m_mainThemeColor = QColor(QRgb(0x545151));
+        m_axisY.m_subThemeColor = QColor(QRgb(0xAFAFAF));
+        m_axisZ.m_mainThemeColor = QColor(QRgb(0x545151));
+        m_axisZ.m_subThemeColor = QColor(QRgb(0xAFAFAF));
 
         m_singleHighlightThemeColor = QColor(QRgb(0xCCDC00));
         m_multiHighlightThemeColor = QColor(QRgb(0x22D47B));
@@ -1757,10 +1311,23 @@ void QGraphsTheme::setColorSchemePalette()
         m_multiHighlightThemeGradient = createGradient(QColor(QRgb(0x22D47B)), defaultColorLevel);
 
         m_labelTextThemeColor = QColor(QRgb(0x6A6A6A));
-        m_axisXLabelThemeColor = QColor(QRgb(0x6A6A6A));
-        m_axisYLabelThemeColor = QColor(QRgb(0x6A6A6A));
-        m_axisZLabelThemeColor = QColor(QRgb(0x6A6A6A));
+        m_axisX.m_labelTextThemeColor = QColor(QRgb(0x6A6A6A));
+        m_axisY.m_labelTextThemeColor = QColor(QRgb(0x6A6A6A));
+        m_axisZ.m_labelTextThemeColor = QColor(QRgb(0x6A6A6A));
     }
+
+    m_dirtyBits.backgroundColorDirty = true;
+    m_dirtyBits.plotAreaBackgroundColorDirty = true;
+    m_dirtyBits.labelBackgroundColorDirty = true;
+    m_dirtyBits.gridDirty = true;
+    m_dirtyBits.axisXDirty = true;
+    m_dirtyBits.axisYDirty = true;
+    m_dirtyBits.axisZDirty = true;
+    m_dirtyBits.singleHighlightColorDirty = true;
+    m_dirtyBits.singleHighlightGradientDirty = true;
+    m_dirtyBits.multiHighlightColorDirty = true;
+    m_dirtyBits.multiHighlightGradientDirty = true;
+    m_dirtyBits.labelTextColorDirty = true;
 }
 
 void QGraphsTheme::setThemePalette()
@@ -1834,6 +1401,9 @@ void QGraphsTheme::setThemePalette()
     m_seriesThemeGradients.clear();
     for (QColor color : m_seriesThemeColors)
         m_seriesThemeGradients.append(createGradient(color, defaultColorLevel));
+
+    m_dirtyBits.seriesColorsDirty = true;
+    m_dirtyBits.seriesGradientDirty = true;
 }
 
 QLinearGradient QGraphsTheme::createGradient(const QColor &color, float colorLevel)
@@ -2087,6 +1657,307 @@ void QGraphsTheme::clearGradients()
 {
     m_gradients.clear();
     setSeriesGradients(QList<QLinearGradient>());
+}
+
+QGraphsLine QGraphsTheme::grid() const
+{
+    return m_grid;
+}
+
+void QGraphsTheme::setGrid(const QGraphsLine &newGrid)
+{
+    if (m_grid == newGrid)
+        return;
+    m_grid = newGrid;
+    m_dirtyBits.gridDirty = true;
+    emit gridChanged();
+    emit update();
+}
+
+QGraphsLine QGraphsTheme::axisX() const
+{
+    return m_axisX;
+}
+
+void QGraphsTheme::setAxisX(const QGraphsLine &newAxisX)
+{
+    if (m_axisX == newAxisX)
+        return;
+    m_axisX = newAxisX;
+    m_dirtyBits.axisXDirty = true;
+    emit axisXChanged();
+    emit update();
+}
+
+QGraphsLine QGraphsTheme::axisY() const
+{
+    return m_axisY;
+}
+
+void QGraphsTheme::setAxisY(const QGraphsLine &newAxisY)
+{
+    if (m_axisY == newAxisY)
+        return;
+    m_axisY = newAxisY;
+    m_dirtyBits.axisYDirty = true;
+    emit axisYChanged();
+    emit update();
+}
+
+QGraphsLine QGraphsTheme::axisZ() const
+{
+    return m_axisZ;
+}
+
+void QGraphsTheme::setAxisZ(const QGraphsLine &newAxisZ)
+{
+    if (m_axisZ == newAxisZ)
+        return;
+    m_axisZ = newAxisZ;
+    m_dirtyBits.axisZDirty = true;
+    emit axisZChanged();
+    emit update();
+}
+
+
+QVariant QQuickGraphsLineValueType::create(const QJSValue &params)
+{
+    if (!params.isObject())
+        return QVariant();
+
+    QGraphsLine line;
+
+    const QJSValue mainColor = params.property(QStringLiteral("mainColor"));
+    if (mainColor.isString())
+        line.setMainColor(QColor::fromString(mainColor.toString()));
+    const QJSValue subColor = params.property(QStringLiteral("subColor"));
+    if (subColor.isString())
+        line.setSubColor(QColor::fromString(subColor.toString()));
+    const QJSValue mainWidth = params.property(QStringLiteral("mainWidth"));
+    if (mainWidth.isNumber())
+        line.setMainWidth(mainWidth.toNumber());
+    const QJSValue subWidth = params.property(QStringLiteral("subWidth"));
+    if (subWidth.isNumber())
+        line.setSubWidth(subWidth.toNumber());
+    const QJSValue labelTextColor = params.property(QStringLiteral("labelTextColor"));
+    if (labelTextColor.isString())
+        line.setLabelTextColor(QColor::fromString(labelTextColor.toString()));
+
+    return line;
+}
+
+QColor QQuickGraphsLineValueType::mainColor() const
+{
+    return v.mainColor();
+}
+
+void QQuickGraphsLineValueType::setMainColor(const QColor &newColor)
+{
+    v.setMainColor(newColor);
+}
+
+QColor QQuickGraphsLineValueType::subColor() const
+{
+    return v.subColor();
+}
+
+void QQuickGraphsLineValueType::setSubColor(const QColor &newColor)
+{
+    v.setSubColor(newColor);
+}
+
+qreal QQuickGraphsLineValueType::mainWidth() const
+{
+    return v.mainWidth();
+}
+
+void QQuickGraphsLineValueType::setMainWidth(qreal newWidth)
+{
+    v.setMainWidth(newWidth);
+}
+
+qreal QQuickGraphsLineValueType::subWidth() const
+{
+    return v.subWidth();
+}
+
+void QQuickGraphsLineValueType::setSubWidth(qreal newWidth)
+{
+    v.setSubWidth(newWidth);
+}
+
+QColor QQuickGraphsLineValueType::labelTextColor() const
+{
+    return v.labelTextColor();
+}
+
+void QQuickGraphsLineValueType::setLabelTextColor(const QColor &newColor)
+{
+    v.setLabelTextColor(newColor);
+}
+
+QGraphsLine::QGraphsLine()
+    : m_bits(QGraphsLineCustomField())
+      , m_mainColor(QColor())
+      , m_subColor(QColor())
+      , m_mainWidth(2.0f)
+      , m_subWidth(1.0f)
+      , m_labelTextColor(QColor())
+      , m_mainThemeColor(QColor())
+      , m_subThemeColor(QColor())
+      , m_labelTextThemeColor(QColor())
+{
+}
+
+QGraphsLine::QGraphsLine(const QGraphsLine &graphsLine)
+{
+    m_bits = graphsLine.m_bits;
+    m_mainColor = graphsLine.m_mainColor;
+    m_subColor = graphsLine.m_subColor;
+    m_mainWidth = graphsLine.m_mainWidth;
+    m_subWidth = graphsLine.m_subWidth;
+    m_labelTextColor = graphsLine.m_labelTextColor;
+
+    m_mainThemeColor = graphsLine.m_mainThemeColor;
+    m_subThemeColor = graphsLine.m_subThemeColor;
+    m_labelTextThemeColor = graphsLine.m_labelTextThemeColor;
+}
+
+QColor QGraphsLine::mainColor() const
+{
+    if (m_bits.mainColorCustom)
+        return m_mainColor;
+    return m_mainThemeColor;
+}
+
+void QGraphsLine::setMainColor(const QColor &newColor)
+{
+    m_bits.mainColorCustom = true;
+    if (m_mainColor == newColor)
+        return;
+    m_mainColor = newColor;
+}
+
+QColor QGraphsLine::subColor() const
+{
+    if (m_bits.subColorCustom)
+        return m_subColor;
+    return m_subThemeColor;
+}
+
+void QGraphsLine::setSubColor(const QColor &newColor)
+{
+    m_bits.subColorCustom = true;
+    if (m_subColor == newColor)
+        return;
+    m_subColor = newColor;
+}
+
+qreal QGraphsLine::mainWidth() const
+{
+    return m_mainWidth;
+}
+
+void QGraphsLine::setMainWidth(qreal newWidth)
+{
+    if (qFuzzyCompare(m_mainWidth, newWidth))
+        return;
+    m_mainWidth = newWidth;
+}
+
+qreal QGraphsLine::subWidth() const
+{
+    return m_subWidth;
+}
+
+void QGraphsLine::setSubWidth(qreal newWidth)
+{
+    if (qFuzzyCompare(m_subWidth, newWidth))
+        return;
+    m_subWidth = newWidth;
+}
+
+QColor QGraphsLine::labelTextColor() const
+{
+    if (m_bits.labelTextColorCustom)
+        return m_labelTextColor;
+    return m_labelTextThemeColor;
+}
+
+void QGraphsLine::setLabelTextColor(const QColor &newColor)
+{
+    m_bits.labelTextColorCustom = true;
+    if (m_labelTextColor == newColor)
+        return;
+    m_labelTextColor = newColor;
+}
+
+QGraphsLine &QGraphsLine::operator=(const QGraphsLine &graphsLine)
+{
+    m_bits = graphsLine.m_bits;
+    m_mainColor = graphsLine.m_mainColor;
+    m_subColor = graphsLine.m_subColor;
+    m_mainWidth = graphsLine.m_mainWidth;
+    m_subWidth = graphsLine.m_subWidth;
+    m_labelTextColor = graphsLine.m_labelTextColor;
+
+    m_mainThemeColor = graphsLine.m_mainThemeColor;
+    m_subThemeColor = graphsLine.m_subThemeColor;
+    m_labelTextThemeColor = graphsLine.m_labelTextThemeColor;
+
+    return *this;
+}
+
+bool QGraphsLine::operator==(const QGraphsLine &graphsLine)
+{
+    bool ret = true;
+    ret = ret && (m_bits.mainColorCustom == graphsLine.m_bits.mainColorCustom);
+    if (!ret)
+        return ret;
+    ret = ret && (m_bits.subColorCustom == graphsLine.m_bits.subColorCustom);
+    if (!ret)
+        return ret;
+    ret = ret && (m_bits.labelTextColorCustom == graphsLine.m_bits.labelTextColorCustom);
+    if (!ret)
+        return ret;
+    ret = ret && (m_mainColor == graphsLine.m_mainColor);
+    if (!ret)
+        return ret;
+    ret = ret && (m_subColor == graphsLine.m_subColor);
+    if (!ret)
+        return ret;
+    ret = ret && qFuzzyCompare(m_mainWidth, graphsLine.m_mainWidth);
+    if (!ret)
+        return ret;
+    ret = ret && qFuzzyCompare(m_subWidth, graphsLine.m_subWidth);
+    if (!ret)
+        return ret;
+    ret = ret && (m_labelTextColor == graphsLine.m_labelTextColor);
+    if (!ret)
+        return ret;
+    ret = ret && (m_mainThemeColor == graphsLine.m_mainThemeColor);
+    if (!ret)
+        return ret;
+    ret = ret && (m_subThemeColor == graphsLine.m_subThemeColor);
+    if (!ret)
+        return ret;
+    ret = ret && (m_labelTextThemeColor == graphsLine.m_labelTextThemeColor);
+    if (!ret)
+        return ret;
+
+    return ret;
+}
+
+QGraphsLine::operator QVariant() const
+{
+    return QVariant::fromValue(*this);
+}
+
+void QGraphsLine::resetCustomBits()
+{
+    m_bits.mainColorCustom = false;
+    m_bits.subColorCustom = false;
+    m_bits.labelTextColorCustom = false;
 }
 
 QT_END_NAMESPACE

@@ -619,7 +619,6 @@ QSGNode *QGraphsView::updatePaintNode(QSGNode *oldNode, QQuickItem::UpdatePaintN
         cleanupSeriesList.clear();
     }
 
-
     // Now possibly dirty theme has been taken into use
     m_theme->resetThemeDirty();
 

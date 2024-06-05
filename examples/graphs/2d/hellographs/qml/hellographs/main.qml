@@ -79,14 +79,14 @@ Item {
                     readonly property color c3: Qt.lighter(c2, 1.5)
                     colorScheme: Qt.Dark
                     seriesColors: ["#2CDE85", "#DBEB00"]
-                    gridMainColor: c3
-                    gridSubColor: c2
-                    axisXMainColor: c3
-                    axisYMainColor: c3
-                    axisXSubColor: c2
-                    axisYSubColor: c2
-                    axisXLabelColor: c1
-                    axisYLabelColor: c1
+                    grid.mainColor: c3
+                    grid.subColor: c2
+                    axisX.mainColor: c3
+                    axisY.mainColor: c3
+                    axisX.subColor: c2
+                    axisY.subColor: c2
+                    axisX.labelTextColor: c1
+                    axisY.labelTextColor: c1
                 }
                 axisX: ValueAxis {
                     max: 5
