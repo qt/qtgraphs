@@ -632,6 +632,11 @@ QSGNode *QGraphsView::updatePaintNode(QSGNode *oldNode, QQuickItem::UpdatePaintN
         m_pointRenderer->afterUpdate(cleanupSeriesList);
         cleanupSeriesList.clear();
     }
+    if (m_areaRenderer) {
+        auto &cleanupSeriesList = m_cleanupSeriesList[2];
+        m_areaRenderer->afterUpdate(cleanupSeriesList);
+        cleanupSeriesList.clear();
+    }
 
     // Now possibly dirty theme has been taken into use
     m_theme->resetThemeDirty();
@@ -700,6 +705,10 @@ void QGraphsView::updatePolish()
     if (m_pointRenderer) {
         auto &cleanupSeriesList = m_cleanupSeriesList[1];
         m_pointRenderer->afterPolish(cleanupSeriesList);
+    }
+    if (m_areaRenderer) {
+        auto &cleanupSeriesList = m_cleanupSeriesList[2];
+        m_areaRenderer->afterPolish(cleanupSeriesList);
     }
 }
 

@@ -110,18 +110,27 @@ void AreaRenderer::handlePolish(QAreaSeries *series)
                 path = new QQuickPathCubic(group->shapePath);
         }
 
-        if (path) {
+        if (path && series->isVisible()) {
             auto pathElements = group->shapePath->pathElements();
             pathElements.append(&pathElements, path);
             group->paths << path;
         }
     }
 
+    auto pathElements = group->shapePath->pathElements();
+    if (!series->isVisible() && pathElements.count(&pathElements) > 0) {
+        pathElements.clear(&pathElements);
+
+        for (auto path : group->paths)
+            path->deleteLater();
+
+        group->paths.clear();
+    }
+
     if (group->colorIndex < 0) {
         group->colorIndex = m_graph->graphSeriesCount();
         m_graph->setGraphSeriesCount(group->colorIndex + 1);
     }
-
 
     const auto &seriesColors = theme->seriesColors();
     qsizetype index = group->colorIndex % seriesColors.size();
@@ -155,45 +164,48 @@ void AreaRenderer::handlePolish(QAreaSeries *series)
         fittedPoints = qobject_cast<QSplineSeries *>(upper)->getControlPoints();
 
     int extraPointCount = lower ? 0 : 3;
-    for (int i = 0, j = 0; i < upperPoints.size() + extraPointCount; ++i, ++j) {
-        qreal x, y;
-        if (i == upperPoints.size())
-            calculateRenderCoordinates(upperPoints[upperPoints.size() - 1].x(), 0, &x, &y);
-        else if (i == upperPoints.size() + 1)
-            calculateRenderCoordinates(upperPoints[0].x(), 0, &x, &y);
-        else if (i == upperPoints.size() + 2)
-            calculateRenderCoordinates(upperPoints[0].x(), upperPoints[0].y(), &x, &y);
-        else
-            calculateRenderCoordinates(upperPoints[i].x(), upperPoints[i].y(), &x, &y);
 
-        if (i == 0) {
-            group->shapePath->setStartX(x);
-            group->shapePath->setStartY(y);
-        } else {
-            group->paths[i - 1]->setX(x);
-            group->paths[i - 1]->setY(y);
+    if (series->isVisible()) {
+        for (int i = 0, j = 0; i < upperPoints.size() + extraPointCount; ++i, ++j) {
+            qreal x, y;
+            if (i == upperPoints.size())
+                calculateRenderCoordinates(upperPoints[upperPoints.size() - 1].x(), 0, &x, &y);
+            else if (i == upperPoints.size() + 1)
+                calculateRenderCoordinates(upperPoints[0].x(), 0, &x, &y);
+            else if (i == upperPoints.size() + 2)
+                calculateRenderCoordinates(upperPoints[0].x(), upperPoints[0].y(), &x, &y);
+            else
+                calculateRenderCoordinates(upperPoints[i].x(), upperPoints[i].y(), &x, &y);
 
-            auto *cubicPath = qobject_cast<QQuickPathCubic *>(group->paths[i - 1]);
+            if (i == 0) {
+                group->shapePath->setStartX(x);
+                group->shapePath->setStartY(y);
+            } else {
+                group->paths[i - 1]->setX(x);
+                group->paths[i - 1]->setY(y);
 
-            if (cubicPath) {
-                qreal x1, y1, x2, y2;
-                calculateRenderCoordinates(fittedPoints[j - 1].x(),
-                                           fittedPoints[j - 1].y(),
-                                           &x1,
-                                           &y1);
-                calculateRenderCoordinates(fittedPoints[j].x(), fittedPoints[j].y(), &x2, &y2);
+                auto *cubicPath = qobject_cast<QQuickPathCubic *>(group->paths[i - 1]);
 
-                ++j;
+                if (cubicPath) {
+                    qreal x1, y1, x2, y2;
+                    calculateRenderCoordinates(fittedPoints[j - 1].x(),
+                                               fittedPoints[j - 1].y(),
+                                               &x1,
+                                               &y1);
+                    calculateRenderCoordinates(fittedPoints[j].x(), fittedPoints[j].y(), &x2, &y2);
 
-                cubicPath->setControl2X(x2);
-                cubicPath->setControl1X(x1);
-                cubicPath->setControl2Y(y2);
-                cubicPath->setControl1Y(y1);
+                    ++j;
+
+                    cubicPath->setControl2X(x2);
+                    cubicPath->setControl1X(x1);
+                    cubicPath->setControl2Y(y2);
+                    cubicPath->setControl1Y(y1);
+                }
             }
         }
     }
 
-    if (lower) {
+    if (lower && series->isVisible()) {
         auto &&lowerPoints = lower->points();
         QList<QPointF> fittedPoints;
         if (upper->type() == QAbstractSeries::SeriesType::Spline)
@@ -240,6 +252,28 @@ void AreaRenderer::handlePolish(QAreaSeries *series)
     }
     QList<QLegendData> legendDataList = {{color, borderColor, series->name()}};
     series->d_func()->setLegendData(legendDataList);
+}
+
+void AreaRenderer::afterPolish(QList<QAbstractSeries *> cleanupSeries)
+{
+    for (auto series : cleanupSeries) {
+        auto areaSeries = qobject_cast<QAreaSeries *>(series);
+        if (areaSeries && m_groups.contains(areaSeries)) {
+            auto group = m_groups.value(areaSeries);
+
+            if (group->shapePath) {
+                auto pathElements = group->shapePath->pathElements();
+                pathElements.clear(&pathElements);
+            }
+
+            m_groups.remove(areaSeries);
+        }
+    }
+}
+
+void AreaRenderer::afterUpdate(QList<QAbstractSeries *> cleanupSeries)
+{
+    Q_UNUSED(cleanupSeries);
 }
 
 void AreaRenderer::updateSeries(QAreaSeries *series)
@@ -337,7 +371,7 @@ bool AreaRenderer::handleMousePress(QMouseEvent *event)
 {
     bool handled = false;
     for (auto &&group : m_groups) {
-        if (!group->series->isSelectable())
+        if (!group->series->isSelectable() || !group->series->isVisible())
             continue;
 
         if (!group->series->upperSeries() || group->series->upperSeries()->count() < 2)
@@ -360,7 +394,7 @@ bool AreaRenderer::handleHoverMove(QHoverEvent *event)
     const QPointF &position = event->position();
 
     for (auto &&group : m_groups) {
-        if (!group->series->isHoverable())
+        if (!group->series->isHoverable() || !group->series->isVisible())
             continue;
 
         if (!group->series->upperSeries() || group->series->upperSeries()->count() < 2)
