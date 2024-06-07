@@ -1,4 +1,12 @@
+vec4 color;
 void MAIN()
 {
-    BASE_COLOR = gridColor;
+    color = gridColor;
 }
+
+void POST_PROCESS()
+{
+    COLOR_SUM = color;
+}
+
+
