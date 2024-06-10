@@ -522,21 +522,8 @@ QGraphsTheme::QGraphsTheme(QObject *parent)
       , m_multiHighlightGradient(QLinearGradient())
       , m_singleHighlightGradient(QLinearGradient())
       , m_borderWidth(1.0)
-      , m_axisXMainColor(QColor())
-      , m_axisXMainWidth(2.0)
-      , m_axisXSubColor(QColor())
-      , m_axisXSubWidth(1.0)
-      , m_axisYMainColor(QColor())
-      , m_axisYMainWidth(2.0)
-      , m_axisYSubColor(QColor())
-      , m_axisYSubWidth(1.0)
-      , m_axisZMainColor(QColor())
-      , m_axisZMainWidth(2.0)
-      , m_axisZSubColor(QColor())
-      , m_axisZSubWidth(1.0)
-      , m_axisXLabelColor(QColor())
-      , m_axisYLabelColor(QColor())
-      , m_axisZLabelColor(QColor())
+      , m_singleHLGradient(nullptr)
+      , m_multiHLGradient(nullptr)
 {
     setBackgroundVisible(true);
     setPlotAreaBackgroundVisible(true);
@@ -1864,70 +1851,58 @@ QLinearGradient QGraphsTheme::createGradient(const QColor &color, float colorLev
     return gradient;
 }
 
-void QGraphsTheme::setSingleHighlightGradient(QJSValue gradient)
+void QGraphsTheme::setSingleHighlightGradient(QQuickGradient *gradient)
 {
-    if (gradient.isQObject() && !gradient.equals(m_singleHLGradient)) {
-        auto quickGradient = qobject_cast<QQuickGradient *>(m_singleHLGradient.toQObject());
-        if (quickGradient)
-            QObject::disconnect(quickGradient, 0, this, 0);
+    if (gradient != m_singleHLGradient) {
+        if (m_singleHLGradient)
+            QObject::disconnect(m_singleHLGradient, 0, this, 0);
 
         m_singleHLGradient = gradient;
 
-        const int signalIndex = QMetaMethod::fromSignal(&QQuickGradient::updated).methodIndex();
-
-        if (quickGradient) {
-            QMetaObject::connect(quickGradient,
-                                 signalIndex,
-                                 this,
-                                 this->metaObject()->indexOfSlot(
-                                         "handleSingleHighlightGradientUpdate()"));
-        }
+        QObject::connect(m_singleHLGradient,
+                         &QQuickGradient::updated,
+                         this,
+                         &QGraphsTheme::update);
 
         emit singleHighlightGradientQMLChanged();
     }
 
-    if (!m_singleHLGradient.isNull())
+    if (m_singleHLGradient != nullptr)
         setThemeGradient(m_singleHLGradient, GradientQMLStyle::SingleHL);
 }
 
-QJSValue QGraphsTheme::singleHighlightGradientQML() const
+QQuickGradient *QGraphsTheme::singleHighlightGradientQML() const
 {
     return m_singleHLGradient;
 }
 
-void QGraphsTheme::setMultiHighlightGradient(QJSValue gradient)
+void QGraphsTheme::setMultiHighlightGradient(QQuickGradient *gradient)
 {
     // connect new / disconnect old
-    if (gradient.isQObject() && !gradient.equals(m_multiHLGradient)) {
-        auto quickGradient = qobject_cast<QQuickGradient *>(m_multiHLGradient.toQObject());
-        if (quickGradient)
-            QObject::disconnect(quickGradient, 0, this, 0);
+    if (gradient != nullptr) {
+        if (m_multiHLGradient)
+            QObject::disconnect(m_multiHLGradient, 0, this, 0);
 
         m_multiHLGradient = gradient;
 
-        const int signalIndex = QMetaMethod::fromSignal(&QQuickGradient::updated).methodIndex();
-
-        if (quickGradient) {
-            QMetaObject::connect(quickGradient,
-                                 signalIndex,
-                                 this,
-                                 this->metaObject()->indexOfSlot(
-                                         "handleMultiHighlightGradientUpdate()"));
-        }
+        QObject::connect(m_multiHLGradient,
+                         &QQuickGradient::updated,
+                         this,
+                         &QGraphsTheme::update);
 
         emit multiHighlightGradientQMLChanged();
     }
 
-    if (!m_multiHLGradient.isNull())
+    if (m_multiHLGradient != nullptr)
         setThemeGradient(m_multiHLGradient, GradientQMLStyle::MultiHL);
 }
 
-QJSValue QGraphsTheme::multiHighlightGradientQML() const
+QQuickGradient *QGraphsTheme::multiHighlightGradientQML() const
 {
     return m_multiHLGradient;
 }
 
-void QGraphsTheme::setThemeGradient(QJSValue gradient, GradientQMLStyle type)
+void QGraphsTheme::setThemeGradient(QQuickGradient *gradient, GradientQMLStyle type)
 {
     QLinearGradient linearGradient = convertGradient(gradient);
 
@@ -1953,6 +1928,14 @@ QLinearGradient QGraphsTheme::convertGradient(QJSValue gradient)
         auto quickGradient = qobject_cast<QQuickGradient *>(gradient.toQObject());
         newGradient.setStops(quickGradient->gradientStops());
     }
+    return newGradient;
+}
+
+QLinearGradient QGraphsTheme::convertGradient(QQuickGradient *gradient)
+{
+    // Create QLinearGradient out of QQuickGradient
+    QLinearGradient newGradient;
+    newGradient.setStops(gradient->gradientStops());
     return newGradient;
 }
 
