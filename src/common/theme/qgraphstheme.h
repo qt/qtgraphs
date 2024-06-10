@@ -157,9 +157,9 @@ class Q_GRAPHS_EXPORT QGraphsTheme : public QObject, public QQmlParserStatus
                    NOTIFY singleHighlightColorChanged FINAL)
     Q_PROPERTY(QColor multiHighlightColor READ multiHighlightColor WRITE setMultiHighlightColor
                    NOTIFY multiHighlightColorChanged FINAL)
-    Q_PROPERTY(QJSValue singleHighlightGradient READ singleHighlightGradientQML WRITE
+    Q_PROPERTY(QQuickGradient *singleHighlightGradient READ singleHighlightGradientQML WRITE
                    setSingleHighlightGradient NOTIFY singleHighlightGradientQMLChanged FINAL)
-    Q_PROPERTY(QJSValue multiHighlightGradient READ multiHighlightGradientQML WRITE
+    Q_PROPERTY(QQuickGradient *multiHighlightGradient READ multiHighlightGradientQML WRITE
                    setMultiHighlightGradient NOTIFY multiHighlightGradientQMLChanged FINAL)
 
     Q_CLASSINFO("DefaultProperty", "themeChildren")
@@ -432,12 +432,13 @@ private:
     void setThemePalette();
     QLinearGradient createGradient(const QColor &color, float colorLevel);
 
-    void setSingleHighlightGradient(QJSValue gradient);
-    QJSValue singleHighlightGradientQML() const;
-    void setMultiHighlightGradient(QJSValue gradient);
-    QJSValue multiHighlightGradientQML() const;
-    void setThemeGradient(QJSValue gradient, GradientQMLStyle type);
+    void setSingleHighlightGradient(QQuickGradient *gradient);
+    QQuickGradient *singleHighlightGradientQML() const;
+    void setMultiHighlightGradient(QQuickGradient *gradient);
+    QQuickGradient *multiHighlightGradientQML() const;
+    void setThemeGradient(QQuickGradient *gradient, GradientQMLStyle type);
     QLinearGradient convertGradient(QJSValue gradient);
+    QLinearGradient convertGradient(QQuickGradient *gradient);
 
     QQmlListProperty<QQuickGraphsColor> baseColorsQML();
     static void appendBaseColorsFunc(QQmlListProperty<QQuickGraphsColor> *list,
@@ -510,8 +511,8 @@ private:
 
     QList<QQuickGraphsColor *> m_colors;
     QList<QQuickGradient *> m_gradients;
-    QJSValue m_singleHLGradient;
-    QJSValue m_multiHLGradient;
+    QQuickGradient *m_singleHLGradient;
+    QQuickGradient *m_multiHLGradient;
 
     bool m_dummyColors = false;
 
@@ -546,5 +547,7 @@ private:
 };
 
 QT_END_NAMESPACE
+
+Q_DECLARE_OPAQUE_POINTER(QQuickGradient *)
 
 #endif
