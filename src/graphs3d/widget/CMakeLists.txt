@@ -19,5 +19,4 @@ qt_internal_add_module(GraphsWidgets
         Qt::QuickWidgets
     PRIVATE_MODULE_INTERFACE
         Qt::GraphsPrivate
-    GENERATE_CPP_EXPORTS
 )
