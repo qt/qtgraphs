@@ -395,24 +395,42 @@ void QQuickGraphsScatter::updateScatterGraphItemVisuals(ScatterModel *graphModel
         const bool transparency = (graphModel->series->baseColor().alphaF() < 1.0)
                                   || transparentTexture;
 
+        updateMaterialReference(graphModel);
+        QQmlListReference baseRef(graphModel->baseRef, "materials");
+        auto baseMat = static_cast<QQuick3DCustomMaterial *>(baseRef.at(0));
         for (const auto &obj : std::as_const(graphModel->dataItems)) {
-            updateItemMaterial(obj,
-                               useGradient,
-                               rangeGradient,
-                               usePoint,
-                               QStringLiteral(":/materials/ScatterMaterial"));
-            updateMaterialProperties(obj,
-                                     graphModel->seriesTexture,
-                                     graphModel->series->baseColor(),
-                                     transparency);
+            QQmlListReference matRef(obj, "materials");
+            matRef.clear();
+            matRef.append(baseMat);
         }
-
         if (m_selectedItem != invalidSelectionIndex() && graphModel->series == selectedSeries()) {
+            QQmlListReference selRef(graphModel->selectionRef, "materials");
+            auto selMat = static_cast<QQuick3DCustomMaterial *>(selRef.at(0));
             QQuick3DModel *selectedItem = graphModel->dataItems.at(m_selectedItem);
-            updateMaterialProperties(selectedItem,
-                                     graphModel->highlightTexture,
-                                     graphModel->series->singleHighlightColor());
+            QQmlListReference matRef(selectedItem, "materials");
+            matRef.clear();
+            matRef.append(selMat);
         }
+        updateItemMaterial(graphModel->baseRef,
+                           useGradient,
+                           rangeGradient,
+                           usePoint,
+                           QStringLiteral(":/materials/ScatterMaterial"));
+
+        updateItemMaterial(graphModel->selectionRef,
+                           useGradient,
+                           rangeGradient,
+                           usePoint,
+                           QStringLiteral(":/materials/ScatterMaterial"));
+        updateMaterialProperties(graphModel->baseRef,
+                                 graphModel->seriesTexture,
+                                 graphModel->series->baseColor(),
+                                 transparency);
+
+        updateMaterialProperties(graphModel->selectionRef,
+                                 graphModel->highlightTexture,
+                                 graphModel->series->singleHighlightColor());
+
     } else if (optimizationHint() == QtGraphs3D::OptimizationHint::Default) {
         graphModel->instancing->setRangeGradient(rangeGradient);
         if (!rangeGradient) {
@@ -514,6 +532,36 @@ void QQuickGraphsScatter::updateScatterGraphItemVisuals(ScatterModel *graphModel
     }
 }
 
+void QQuickGraphsScatter::updateMaterialReference(ScatterModel *model)
+{
+    if (model->baseRef == nullptr) {
+        model->baseRef = createDataItem(model->series);
+        model->baseRef->setParent(model->series);
+        model->baseRef->setVisible(false);
+    }
+    if (model->selectionRef == nullptr) {
+        model->selectionRef = createDataItem(model->series);
+        model->selectionRef->setParent(model->series);
+        model->selectionRef->setVisible(false);
+    }
+
+    QQmlListReference baseRef(model->baseRef, "materials");
+    QQmlListReference selectionRef(model->selectionRef, "materials");
+
+    const QString &materialName = QStringLiteral(":/materials/ScatterMaterial");
+    if (!baseRef.size()) {
+        auto mat = createQmlCustomMaterial(materialName);
+        mat->setObjectName(materialName);
+        mat->setParent(model->baseRef);
+        baseRef.append(mat);
+    }
+    if (!selectionRef.size()) {
+        auto mat = createQmlCustomMaterial(materialName);
+        mat->setObjectName(materialName + "_Selection");
+        mat->setParent(model->selectionRef);
+        selectionRef.append(mat);
+    }
+}
 void QQuickGraphsScatter::updateItemMaterial(QQuick3DModel *item,
                                              bool useGradient,
                                              bool rangeGradient,
@@ -525,7 +573,7 @@ void QQuickGraphsScatter::updateItemMaterial(QQuick3DModel *item,
     if (!materialsRef.size()) {
         needNewMat = true;
     } else if (materialsRef.at(0)->objectName().contains(QStringLiteral("Instancing"))
-               == materialName.contains(QStringLiteral("Instancing"))) {
+               != materialName.contains(QStringLiteral("Instancing"))) {
         needNewMat = true;
     }
 
@@ -651,9 +699,13 @@ void QQuickGraphsScatter::removeDataItems(ScatterModel *graphModel,
         graphModel->instancing = nullptr;
         deleteDataItem(graphModel->instancingRootItem);
         deleteDataItem(graphModel->selectionIndicator);
+        deleteDataItem(graphModel->baseRef);
+        deleteDataItem(graphModel->selectionRef);
 
         graphModel->instancingRootItem = nullptr;
         graphModel->selectionIndicator = nullptr;
+        graphModel->baseRef = nullptr;
+        graphModel->selectionRef = nullptr;
     } else {
         QList<QQuick3DModel *> &items = graphModel->dataItems;
         removeDataItems(items, items.count());
