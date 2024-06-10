@@ -157,6 +157,9 @@ private:
         QQuick3DTexture *highlightTexture;
         QScatter3DSeries *series;
 
+        //Legacy optimiaztion material reference models
+        QQuick3DModel *baseRef = nullptr;
+        QQuick3DModel *selectionRef = nullptr;
         // For instanced, i.e. Default optimization
         ScatterInstancing *instancing = nullptr;
         QQuick3DModel *instancingRootItem = nullptr;
@@ -193,6 +196,7 @@ private:
 
     float m_dotSizedScale = 1.0f;
 
+    void updateMaterialReference(ScatterModel *model);
     void updateInstancedMaterialProperties(ScatterModel *graphModel,
                                            const bool isHighlight = false,
                                            QQuick3DTexture *seriesTexture = nullptr,
