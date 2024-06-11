@@ -42,6 +42,10 @@ Item {
             file: "AddRemoveSeries.qml"
         }
         ListElement {
+            name: "Add/Remove Pie"
+            file: "AddRemovePie.qml"
+        }
+        ListElement {
             name: "C++ Bar Series"
             file: "CppBarSeries.qml"
         }

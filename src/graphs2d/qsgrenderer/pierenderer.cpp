@@ -32,6 +32,28 @@ void PieRenderer::handlePolish(QPieSeries *series)
     for (QPieSlice *slice : series->slices()) {
         QPieSlicePrivate *d = slice->d_func();
         QQuickShapePath *shapePath = d->m_shapePath;
+        auto pathElements = shapePath->pathElements();
+        auto labelElements = d->m_labelPath->pathElements();
+        auto labelItem = d->m_labelItem;
+
+        QQuickShape *labelShape = d->m_labelShape;
+        labelShape->setVisible(series->isVisible());
+        labelItem->setVisible(series->isVisible());
+
+        if (!series->isVisible()) {
+            pathElements.clear(&pathElements);
+            labelElements.clear(&labelElements);
+            continue;
+        } else if (pathElements.count(&pathElements) == 0) {
+            pathElements.append(&pathElements, d->m_largeArc);
+            pathElements.append(&pathElements, d->m_lineToCenter);
+            pathElements.append(&pathElements, d->m_smallArc);
+            pathElements.append(&pathElements, d->m_lineFromCenter);
+
+            labelElements.append(&labelElements, d->m_labelArm);
+            labelElements.append(&labelElements, d->m_labelUnderline);
+        }
+
         if (shapePath->parent())
             shapePath->setParent(m_shape);
         auto data = m_shape->data();
@@ -42,7 +64,6 @@ void PieRenderer::handlePolish(QPieSeries *series)
             d->m_labelItem->setParentItem(m_graph);
         }
 
-        QQuickShape *labelShape = d->m_labelShape;
         if (!labelShape->parent()) {
             labelShape->setParent(this);
             labelShape->setParentItem(this);
@@ -50,8 +71,32 @@ void PieRenderer::handlePolish(QPieSeries *series)
     }
 }
 
+void PieRenderer::afterPolish(QList<QAbstractSeries *> &cleanupSeries)
+{
+    for (auto series : cleanupSeries) {
+        auto pieSeries = qobject_cast<QPieSeries *>(series);
+        if (pieSeries) {
+            for (QPieSlice *slice : pieSeries->slices()) {
+                QPieSlicePrivate *d = slice->d_func();
+                QQuickShapePath *shapePath = d->m_shapePath;
+                auto pathElements = shapePath->pathElements();
+                auto labelElements = d->m_labelPath->pathElements();
+
+                pathElements.clear(&pathElements);
+                labelElements.clear(&labelElements);
+
+                slice->deleteLater();
+                d->m_labelItem->deleteLater();
+            }
+        }
+    }
+}
+
 void PieRenderer::updateSeries(QPieSeries *series)
 {
+    if (!series->isVisible())
+        return;
+
     QPointF center = QPointF(size().width() * series->horizontalPosition(),
                              size().height() * series->verticalPosition());
     qreal radius = size().width() > size().height() ? size().height() : size().width();
@@ -160,4 +205,9 @@ void PieRenderer::updateSeries(QPieSeries *series)
         legendDataList.push_back({color, borderColor, d->m_labelText});
     }
     series->d_func()->setLegendData(legendDataList);
+}
+
+void PieRenderer::afterUpdate(QList<QAbstractSeries *> &cleanupSeries)
+{
+    Q_UNUSED(cleanupSeries);
 }
