@@ -635,6 +635,10 @@ QSGNode *QGraphsView::updatePaintNode(QSGNode *oldNode, QQuickItem::UpdatePaintN
     if (m_areaRenderer) {
         auto &cleanupSeriesList = m_cleanupSeriesList[2];
         m_areaRenderer->afterUpdate(cleanupSeriesList);
+    }
+    if (m_pieRenderer) {
+        auto &cleanupSeriesList = m_cleanupSeriesList[3];
+        m_pieRenderer->afterUpdate(cleanupSeriesList);
         cleanupSeriesList.clear();
     }
 
@@ -709,6 +713,10 @@ void QGraphsView::updatePolish()
     if (m_areaRenderer) {
         auto &cleanupSeriesList = m_cleanupSeriesList[2];
         m_areaRenderer->afterPolish(cleanupSeriesList);
+    }
+    if (m_pieRenderer) {
+        auto &cleanupSeriesList = m_cleanupSeriesList[3];
+        m_pieRenderer->afterPolish(cleanupSeriesList);
     }
 }
 

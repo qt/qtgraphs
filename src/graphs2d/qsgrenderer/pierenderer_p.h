@@ -21,6 +21,7 @@ QT_BEGIN_NAMESPACE
 class QGraphsView;
 class QPieSeries;
 class QQuickShape;
+class QAbstractSeries;
 
 class PieRenderer : public QQuickItem
 {
@@ -29,7 +30,9 @@ public:
     PieRenderer(QQuickItem *parent = nullptr);
 
     void handlePolish(QPieSeries *series);
+    void afterPolish(QList<QAbstractSeries *> &cleanupSeries);
     void updateSeries(QPieSeries *series);
+    void afterUpdate(QList<QAbstractSeries *> &cleanupSeries);
 
     void setSize(QSizeF size);
 
