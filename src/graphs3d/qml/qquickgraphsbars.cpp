@@ -885,6 +885,7 @@ void QQuickGraphsBars::updateGraph()
     // Needs to be done after data is set, as it needs to know the visual array.
     if (m_changeTracker.selectedBarChanged) {
         updateSelectedBar();
+        setItemSelected(m_selectedBar != invalidSelectionPosition());
         if (isSliceEnabled()) {
             createSliceView();
             for (const auto &series : std::as_const(barSeriesAsList)) {

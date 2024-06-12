@@ -675,6 +675,7 @@ protected:
     void updateSliceGrid();
     void updateSliceLabels();
     void updateBackgroundColor();
+    void setItemSelected(bool selected);
     virtual void updateShadowQuality(QGraphs3D::ShadowQuality quality);
     void updateItemLabel(const QVector3D &position);
     virtual void updateSliceItemLabel(QString label, const QVector3D &position);
@@ -851,6 +852,7 @@ private:
 
     float m_labelMargin = .1f;
 
+    bool m_itemSelected = false;
     bool m_sliceEnabled = false;
     bool m_sliceActivatedChanged = false;
     QRect m_primarySubView;

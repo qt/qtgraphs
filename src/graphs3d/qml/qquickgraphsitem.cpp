@@ -2622,7 +2622,7 @@ void QQuickGraphsItem::synchData()
         m_titleLabelX->setProperty("visible", visible && axisX()->isTitleVisible());
         m_titleLabelY->setProperty("visible", visible && axisY()->isTitleVisible());
         m_titleLabelZ->setProperty("visible", visible && axisZ()->isTitleVisible());
-        m_itemLabel->setProperty("visible", visible);
+        m_itemLabel->setProperty("visible", visible && m_itemSelected);
 
         if (m_sliceView) {
             changeLabelsVisible(m_sliceHorizontalLabelRepeater, visible);
@@ -6412,6 +6412,11 @@ void QQuickGraphsItem::updateBackgroundColor()
         environment()->setClearColor(theme()->backgroundColor());
     else
         environment()->setClearColor(Qt::transparent);
+}
+
+void QQuickGraphsItem::setItemSelected(bool selected)
+{
+    m_itemSelected = selected;
 }
 
 QT_END_NAMESPACE
