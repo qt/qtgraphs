@@ -1600,6 +1600,7 @@ void QQuickGraphsScatter::updateGraph()
     if (m_selectedItem == invalidSelectionIndex()) {
         itemLabel()->setVisible(false);
     }
+    setItemSelected(m_selectedItem != invalidSelectionIndex());
 }
 
 void QQuickGraphsScatter::synchData()

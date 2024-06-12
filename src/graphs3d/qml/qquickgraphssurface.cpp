@@ -2061,6 +2061,7 @@ void QQuickGraphsSurface::updateSelectedPoint()
             }
         }
     }
+    setItemSelected(m_selectedSeries != nullptr);
     itemLabel()->setVisible(labelVisible);
     if (sliceView() && sliceView()->isVisible())
         sliceItemLabel()->setVisible(labelVisible);
