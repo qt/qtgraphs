@@ -768,7 +768,7 @@ void QBarSeries::clear()
         emit countChanged();
         for (QBarSet *set : sets) {
             QObject::disconnect(set, &QBarSet::update, this, &QBarSeries::update);
-            delete set;
+            set->deleteLater();
         }
         emit update();
     }
