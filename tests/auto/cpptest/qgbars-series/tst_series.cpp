@@ -84,6 +84,7 @@ void tst_series::initialProperties()
     QCOMPARE(m_series->type(), QAbstract3DSeries::SeriesType::Bar);
     QCOMPARE(m_series->userDefinedMesh(), QString(""));
     QCOMPARE(m_series->isVisible(), true);
+    QCOMPARE(m_series->isValueColoringEnabled(), false);
 }
 
 void tst_series::initializeProperties()
@@ -129,6 +130,7 @@ void tst_series::initializeProperties()
     m_series->setSingleHighlightGradient(gradient3);
     m_series->setUserDefinedMesh(":/customitem.obj");
     m_series->setVisible(false);
+    m_series->setValueColoringEnabled(true);
 
     QCOMPARE(m_series->baseColor(), QColor(Qt::blue));
     QCOMPARE(m_series->baseGradient(), gradient1);
@@ -147,6 +149,7 @@ void tst_series::initializeProperties()
     QCOMPARE(m_series->singleHighlightGradient().stops().at(0).second, QColor(Qt::white));
     QCOMPARE(m_series->userDefinedMesh(), QString(":/customitem.obj"));
     QCOMPARE(m_series->isVisible(), false);
+    QCOMPARE(m_series->isValueColoringEnabled(), true);
 
     QCOMPARE(m_series->rowColors().size(), 3);
     QCOMPARE(m_series->rowColors().at(0), QColor(Qt::green));

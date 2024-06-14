@@ -187,6 +187,7 @@ public Q_SLOTS:
     void handleDataRowLabelsChanged();
     void handleDataColumnLabelsChanged();
     void handleRowColorsChanged();
+    void handleValueColoringChanged();
 
 Q_SIGNALS:
     void rowAxisChanged(QCategory3DAxis *axis);

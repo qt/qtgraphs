@@ -26,6 +26,8 @@ class Q_GRAPHS_EXPORT QBar3DSeries : public QAbstract3DSeries
                    columnLabelsChanged FINAL)
     Q_PROPERTY(
         QBarDataArray dataArray READ dataArray WRITE setDataArray NOTIFY dataArrayChanged FINAL)
+    Q_PROPERTY(bool valueColoringEnabled READ isValueColoringEnabled WRITE setValueColoringEnabled
+                   NOTIFY valueColoringEnabledChanged FINAL REVISION(6, 9))
 
 public:
     explicit QBar3DSeries(QObject *parent = nullptr);
@@ -45,6 +47,9 @@ public:
     QList<QColor> rowColors() const;
     void setRowColors(const QList<QColor> &colors);
 
+    Q_REVISION(6, 9) bool isValueColoringEnabled() const;
+    Q_REVISION(6, 9) void setValueColoringEnabled(bool enabled);
+
     void setDataArray(const QBarDataArray &newDataArray);
     void clearRow(qsizetype rowIndex);
     void clearArray();
@@ -62,6 +67,7 @@ Q_SIGNALS:
     void rowLabelsChanged();
     void columnLabelsChanged();
     void dataArrayChanged(const QBarDataArray *array);
+    Q_REVISION(6, 9) void valueColoringEnabledChanged(bool enabled);
 
 private:
     Q_DISABLE_COPY(QBar3DSeries)

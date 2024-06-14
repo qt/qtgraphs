@@ -12,6 +12,8 @@ CustomMaterial {
     property bool instancing
     property bool transparency: false
 
+    property bool valueColoring
+
     property real specularBrightness: 0.25
     readonly property real shininess: (1.0 - specularBrightness) * 100
 
