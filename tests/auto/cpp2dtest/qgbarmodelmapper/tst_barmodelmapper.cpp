@@ -645,9 +645,8 @@ void tst_barmodelmapper::seriesUpdated()
     QCOMPARE(m_vMapper->count(),
              -1); // the value should not change as it indicates 'all' items there are in the model
 
-    // TODO: Crashes (QTBUG-125907)
-    // m_series->barSets().first()->replace(0, 444.0);
-    // QCOMPARE(m_model->data(m_model->index(0, 0)).toReal(), 444.0);
+    m_series->barSets().first()->replace(0, 444.0);
+    QCOMPARE(m_model->data(m_model->index(0, 0)).toReal(), 444.0);
 
     m_series->barSets().first()->setLabel("Hello");
     QCOMPARE(m_model->headerData(0, Qt::Horizontal).toString(), QString("Hello"));
