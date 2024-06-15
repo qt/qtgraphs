@@ -77,7 +77,7 @@ public:
     Q_INVOKABLE void clear();
     Q_INVOKABLE void replace(qsizetype index, QBarSet *set);
     Q_INVOKABLE QBarSet *at(qsizetype index);
-    Q_INVOKABLE int find(QBarSet *set) const;
+    Q_INVOKABLE qsizetype find(QBarSet *set) const;
     Q_INVOKABLE void removeMultiple(qsizetype index, qsizetype count);
     Q_INVOKABLE bool remove(qsizetype index);
     Q_INVOKABLE bool replace(QBarSet *oldValue, QBarSet *newValue);

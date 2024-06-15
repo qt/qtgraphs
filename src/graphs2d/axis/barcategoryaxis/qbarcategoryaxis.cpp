@@ -258,7 +258,7 @@ void QBarCategoryAxis::remove(const QString &category)
     Removes a category at \a index from the axis. Removing a category that currently sets the
     maximum or minimum value on the axis will affect the axis range.
 */
-void QBarCategoryAxis::remove(int index)
+void QBarCategoryAxis::remove(qsizetype index)
 {
     Q_D(QBarCategoryAxis);
     if (index < 0 || index >= d->m_categories.size())
@@ -277,7 +277,7 @@ void QBarCategoryAxis::remove(int index)
     and it cannot be duplicated. If \a category is prepended or appended to other
     categories, the minimum and maximum values on the axis are updated accordingly.
 */
-void QBarCategoryAxis::insert(int index, const QString &category)
+void QBarCategoryAxis::insert(qsizetype index, const QString &category)
 {
     Q_D(QBarCategoryAxis);
 
@@ -391,7 +391,7 @@ qsizetype QBarCategoryAxis::count() const
 /*!
     Returns the category at \a index.
 */
-QString QBarCategoryAxis::at(int index) const
+QString QBarCategoryAxis::at(qsizetype index) const
 {
     Q_D(const QBarCategoryAxis);
     if (index < 0 || index >= d->m_categories.size())

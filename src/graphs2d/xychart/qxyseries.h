@@ -44,7 +44,7 @@ public:
     Q_INVOKABLE void insert(qsizetype index, const QPointF &point);
     Q_INVOKABLE void clear();
     Q_INVOKABLE const QPointF &at(qsizetype index) const;
-    Q_INVOKABLE int find(const QPointF &) const;
+    Q_INVOKABLE qsizetype find(const QPointF &) const;
     Q_INVOKABLE void removeMultiple(qsizetype index, qsizetype count);
     Q_INVOKABLE bool take(const QPointF &point);
     Q_INVOKABLE qsizetype count() const;
