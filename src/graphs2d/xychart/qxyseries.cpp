@@ -620,11 +620,11 @@ const QPointF &QXYSeries::at(qsizetype index) const
     Finds and returns the index of the first matching point found as defined by \a point.
     Returns -1 if the point is not found.
 */
-int QXYSeries::find(const QPointF &point) const
+qsizetype QXYSeries::find(const QPointF &point) const
 {
     Q_D(const QXYSeries);
 
-    for (int i = 0; i < d->m_points.size(); ++i) {
+    for (qsizetype i = 0; i < d->m_points.size(); ++i) {
         if (d->m_points[i] == point)
             return i;
     }

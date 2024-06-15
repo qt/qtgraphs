@@ -34,11 +34,11 @@ public:
     Q_INVOKABLE void append(const QStringList &categories);
     Q_INVOKABLE void append(const QString &category);
     Q_INVOKABLE void remove(const QString &category);
-    Q_INVOKABLE void remove(int index);
-    Q_INVOKABLE void insert(int index, const QString &category);
+    Q_INVOKABLE void remove(qsizetype index);
+    Q_INVOKABLE void insert(qsizetype index, const QString &category);
     Q_INVOKABLE void replace(const QString &oldCategory, const QString &newCategory);
     Q_INVOKABLE void clear();
-    Q_INVOKABLE QString at(int index) const;
+    Q_INVOKABLE QString at(qsizetype index) const;
     void setCategories(const QStringList &categories);
     QStringList categories();
     qsizetype count() const;

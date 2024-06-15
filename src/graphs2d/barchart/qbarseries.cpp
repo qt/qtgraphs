@@ -809,11 +809,11 @@ QBarSet *QBarSeries::at(qsizetype index)
 /*!
     Returns the index of the first BarSet found as defined by \a set. Returns -1 if no BarSet was found.
 */
-int QBarSeries::find(QBarSet *set) const
+qsizetype QBarSeries::find(QBarSet *set) const
 {
     Q_D(const QBarSeries);
 
-    for (int i = 0; i < d->m_barSets.size(); ++i) {
+    for (qsizetype i = 0; i < d->m_barSets.size(); ++i) {
         if (set == d->m_barSets[i])
             return i;
     }

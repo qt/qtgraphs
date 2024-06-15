@@ -225,7 +225,7 @@ QScatterDataProxy *QScatter3DSeries::dataProxy() const
  *
  * \sa Q3DGraphsWidgetItem::clearSelection()
  */
-void QScatter3DSeries::setSelectedItem(int index)
+void QScatter3DSeries::setSelectedItem(qsizetype index)
 {
     Q_D(QScatter3DSeries);
     // Don't do this in private to avoid loops, as that is used for callback from
@@ -236,10 +236,10 @@ void QScatter3DSeries::setSelectedItem(int index)
         d->setSelectedItem(index);
 }
 
-int QScatter3DSeries::selectedItem() const
+qsizetype QScatter3DSeries::selectedItem() const
 {
     const Q_D(QScatter3DSeries);
-    return int(d->m_selectedItem);
+    return d->m_selectedItem;
 }
 
 /*!

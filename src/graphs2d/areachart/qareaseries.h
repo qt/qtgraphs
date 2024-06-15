@@ -35,7 +35,6 @@ public:
     explicit QAreaSeries(QObject *parent = nullptr);
     QAbstractSeries::SeriesType type() const override;
 
-
     QColor color() const;
     void setColor(const QColor &newColor);
 
