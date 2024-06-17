@@ -3,6 +3,8 @@
 
 qt_feature_evaluate_features("${CMAKE_CURRENT_SOURCE_DIR}/configure.cmake")
 
+set(QT_SBOM_DEFAULT_QT_LICENSE_ID_LIBRARIES "QT_COMMERCIAL_OR_GPL3")
+
 if(NOT QT_FEATURE_graphs_2d AND NOT QT_FEATURE_graphs_3d)
     message("You must have either FEATURE_graphs_2d or FEATURE_graphs_3d ON, or nothing will be built.")
 else()
