@@ -890,7 +890,7 @@ void QGraphsTheme::setLabelTextColor(const QColor &newLabelTextColor)
  * \brief The highlight color for a selected object.
  *
  * Used if \l{Q3DGraphsWidgetItem::selectionMode}{selectionMode} has the
- * \c QGraphs3D::SelectionFlag::Item flag set.
+ * \c QtGraphs3D::SelectionFlag::Item flag set.
  * The default value depends on \l colorScheme.
  */
 QColor QGraphsTheme::singleHighlightColor() const
@@ -917,7 +917,7 @@ void QGraphsTheme::setSingleHighlightColor(const QColor &newSingleHighlightColor
  * \brief The highlight color for selected objects.
  *
  * Used if \l{Q3DGraphsWidgetItem::selectionMode}{selectionMode} has the
- * \c QGraphs3D::SelectionFlag::Row or \c QGraphs3D::SelectionFlag::Column
+ * \c QtGraphs3D::SelectionFlag::Row or \c QtGraphs3D::SelectionFlag::Column
  * flag set.
  * The default value depends on \l colorScheme.
  */
@@ -945,7 +945,7 @@ void QGraphsTheme::setMultiHighlightColor(const QColor &newMultiHighlightColor)
  * \brief The highlight gradient for a selected object.
  *
  * Used if \l{Q3DGraphsWidgetItem::selectionMode}{selectionMode}
- * has the \c QGraphs3D::SelectionFlag::Item flag set.
+ * has the \c QtGraphs3D::SelectionFlag::Item flag set.
  * The default value depends on \l colorScheme.
  */
 void QGraphsTheme::setSingleHighlightGradient(const QLinearGradient &gradient)
@@ -973,8 +973,8 @@ QLinearGradient QGraphsTheme::singleHighlightGradient() const
  * \brief The highlight gradient for selected objects.
  *
  * Used if \l{Q3DGraphsWidgetItem::selectionMode}{selectionMode}
- * has the \c QGraphs3D::SelectionFlag::Row or
- * \c QGraphs3D::SelectionFlag::Column flag set.
+ * has the \c QtGraphs3D::SelectionFlag::Row or
+ * \c QtGraphs3D::SelectionFlag::Column flag set.
  * The default value depends on \l colorScheme.
  */
 void QGraphsTheme::setMultiHighlightGradient(const QLinearGradient &gradient)

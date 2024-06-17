@@ -117,7 +117,7 @@ GraphModifier::GraphModifier(Q3DBarsWidgetItem *barchart, QColorDialog *colorDia
     m_graph->addAxis(m_genericColumnAxis);
 
     m_graph->setActiveTheme(m_builtinTheme);
-    m_graph->setShadowQuality(QGraphs3D::ShadowQuality::SoftMedium);
+    m_graph->setShadowQuality(QtGraphs3D::ShadowQuality::SoftMedium);
 
     m_temperatureData->setName("Oulu");
     m_temperatureData2->setName("Helsinki");
@@ -597,12 +597,12 @@ void GraphModifier::changeStyle()
 
 void GraphModifier::changePresetCamera()
 {
-    static int preset = int(QGraphs3D::CameraPreset::FrontLow);
+    static int preset = int(QtGraphs3D::CameraPreset::FrontLow);
 
-    m_graph->setCameraPreset((QGraphs3D::CameraPreset) preset);
+    m_graph->setCameraPreset((QtGraphs3D::CameraPreset) preset);
 
-    if (++preset > int(QGraphs3D::CameraPreset::DirectlyBelow))
-        preset = int(QGraphs3D::CameraPreset::FrontLow);
+    if (++preset > int(QtGraphs3D::CameraPreset::DirectlyBelow))
+        preset = int(QtGraphs3D::CameraPreset::FrontLow);
 }
 
 void GraphModifier::changeTheme()
@@ -656,11 +656,11 @@ void GraphModifier::changeSelectionMode()
     static int selectionMode = m_graph->selectionMode();
 
     if (++selectionMode
-        > (int) (QGraphs3D::SelectionFlag::ItemAndColumn | QGraphs3D::SelectionFlag::Slice
-                 | QGraphs3D::SelectionFlag::MultiSeries))
-        selectionMode = int(QGraphs3D::SelectionFlag::None);
+        > (int) (QtGraphs3D::SelectionFlag::ItemAndColumn | QtGraphs3D::SelectionFlag::Slice
+                 | QtGraphs3D::SelectionFlag::MultiSeries))
+        selectionMode = int(QtGraphs3D::SelectionFlag::None);
 
-    m_graph->setSelectionMode((QGraphs3D::SelectionFlag) selectionMode);
+    m_graph->setSelectionMode((QtGraphs3D::SelectionFlag) selectionMode);
 }
 
 void GraphModifier::changeFont(const QFont &font)
@@ -678,7 +678,7 @@ void GraphModifier::changeFontSize(int fontsize)
     m_graph->activeTheme()->setLabelFont(font);
 }
 
-void GraphModifier::shadowQualityUpdatedByVisual(QGraphs3D::ShadowQuality sq)
+void GraphModifier::shadowQualityUpdatedByVisual(QtGraphs3D::ShadowQuality sq)
 {
     int quality = int(sq);
     // Updates the UI component to show correct shadow quality
@@ -748,7 +748,7 @@ void GraphModifier::handlePrimarySeriesChanged(QBar3DSeries *series)
 
 void GraphModifier::changeShadowQuality(int quality)
 {
-    QGraphs3D::ShadowQuality sq = QGraphs3D::ShadowQuality(quality);
+    QtGraphs3D::ShadowQuality sq = QtGraphs3D::ShadowQuality(quality);
     m_graph->setShadowQuality(sq);
     emit shadowQualityChanged(quality);
 }
@@ -757,8 +757,8 @@ void GraphModifier::showFiveSeries()
 {
     releaseSeries();
     releaseAxes();
-    m_graph->setSelectionMode(QGraphs3D::SelectionFlag::ItemRowAndColumn
-                              | QGraphs3D::SelectionFlag::MultiSeries);
+    m_graph->setSelectionMode(QtGraphs3D::SelectionFlag::ItemRowAndColumn
+                              | QtGraphs3D::SelectionFlag::MultiSeries);
 
     m_dummyData->dataProxy()->resetArray(makeDummyData());
     m_dummyData2->dataProxy()->resetArray(makeDummyData(), QStringList(), QStringList());

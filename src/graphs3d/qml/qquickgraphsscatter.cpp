@@ -189,7 +189,7 @@ void QQuickGraphsScatter::disconnectSeries(QScatter3DSeries *series)
 void QQuickGraphsScatter::generatePointsForScatterModel(ScatterModel *graphModel)
 {
     QList<QQuick3DModel *> itemList;
-    if (optimizationHint() == QGraphs3D::OptimizationHint::Legacy) {
+    if (optimizationHint() == QtGraphs3D::OptimizationHint::Legacy) {
         qsizetype itemCount = graphModel->series->dataProxy()->itemCount();
         if (graphModel->series->dataProxy()->itemCount() > 0)
             itemList.resize(itemCount);
@@ -202,11 +202,11 @@ void QQuickGraphsScatter::generatePointsForScatterModel(ScatterModel *graphModel
         }
         graphModel->dataItems = itemList;
         markDataDirty();
-    } else if (optimizationHint() == QGraphs3D::OptimizationHint::Default) {
+    } else if (optimizationHint() == QtGraphs3D::OptimizationHint::Default) {
         graphModel->instancingRootItem = createDataItem(graphModel->series);
         graphModel->instancingRootItem->setParent(graphModel->series);
         graphModel->instancingRootItem->setInstancing(graphModel->instancing);
-        if (selectionMode() != QGraphs3D::SelectionFlag::None) {
+        if (selectionMode() != QtGraphs3D::SelectionFlag::None) {
             graphModel->selectionIndicator = createDataItem(graphModel->series);
             graphModel->instancingRootItem->setPickable(true);
         }
@@ -217,7 +217,7 @@ void QQuickGraphsScatter::generatePointsForScatterModel(ScatterModel *graphModel
 qsizetype QQuickGraphsScatter::getItemIndex(QQuick3DModel *item)
 {
     Q_UNUSED(item);
-    if (optimizationHint() == QGraphs3D::OptimizationHint::Legacy)
+    if (optimizationHint() == QtGraphs3D::OptimizationHint::Legacy)
         return 0;
 
     return -1;
@@ -238,7 +238,7 @@ void QQuickGraphsScatter::updateScatterGraphItemPositions(ScatterModel *graphMod
     if (itemSize == 0.0f)
         itemSize = m_pointScale;
 
-    if (optimizationHint() == QGraphs3D::OptimizationHint::Legacy) {
+    if (optimizationHint() == QtGraphs3D::OptimizationHint::Legacy) {
         if (dataProxy->itemCount() != itemList.size())
             qWarning() << __func__ << "Item count differs from itemList count";
 
@@ -270,7 +270,7 @@ void QQuickGraphsScatter::updateScatterGraphItemPositions(ScatterModel *graphMod
                 dataPoint->setVisible(false);
             }
         }
-    } else if (optimizationHint() == QGraphs3D::OptimizationHint::Default) {
+    } else if (optimizationHint() == QtGraphs3D::OptimizationHint::Default) {
         qsizetype count = dataProxy->itemCount();
         QList<DataItemHolder> positions;
 
@@ -379,7 +379,7 @@ void QQuickGraphsScatter::updateScatterGraphItemVisuals(ScatterModel *graphModel
                              ? true
                              : false;
 
-    if (optimizationHint() == QGraphs3D::OptimizationHint::Legacy) {
+    if (optimizationHint() == QtGraphs3D::OptimizationHint::Legacy) {
         // Release resources that might not have been deleted even though deleteLater had been set
         window()->releaseResources();
 
@@ -413,7 +413,7 @@ void QQuickGraphsScatter::updateScatterGraphItemVisuals(ScatterModel *graphModel
                                      graphModel->highlightTexture,
                                      graphModel->series->singleHighlightColor());
         }
-    } else if (optimizationHint() == QGraphs3D::OptimizationHint::Default) {
+    } else if (optimizationHint() == QtGraphs3D::OptimizationHint::Default) {
         graphModel->instancing->setRangeGradient(rangeGradient);
         if (!rangeGradient) {
             bool transparentTexture = false;
@@ -644,9 +644,9 @@ QQuick3DModel *QQuickGraphsScatter::createDataItem(QAbstract3DSeries *series)
 }
 
 void QQuickGraphsScatter::removeDataItems(ScatterModel *graphModel,
-                                          QGraphs3D::OptimizationHint optimizationHint)
+                                          QtGraphs3D::OptimizationHint optimizationHint)
 {
-    if (optimizationHint == QGraphs3D::OptimizationHint::Default) {
+    if (optimizationHint == QtGraphs3D::OptimizationHint::Default) {
         delete graphModel->instancing;
         graphModel->instancing = nullptr;
         deleteDataItem(graphModel->instancingRootItem);
@@ -732,9 +732,9 @@ qsizetype QQuickGraphsScatter::sizeDifference(qsizetype size1, qsizetype size2)
 QVector3D QQuickGraphsScatter::selectedItemPosition()
 {
     QVector3D position;
-    if (optimizationHint() == QGraphs3D::OptimizationHint::Legacy)
+    if (optimizationHint() == QtGraphs3D::OptimizationHint::Legacy)
         position = {0.0f, 0.0f, 0.0f};
-    else if (optimizationHint() == QGraphs3D::OptimizationHint::Default)
+    else if (optimizationHint() == QtGraphs3D::OptimizationHint::Default)
         position = {0.0f, 0.0f, 0.0f};
 
     return position;
@@ -789,7 +789,7 @@ QString QQuickGraphsScatter::getMeshFileName(QAbstract3DSeries *series)
         fileName = QStringLiteral("defaultMeshes/arrowMesh");
         break;
     case QAbstract3DSeries::Mesh::Point:
-        fileName = shadowQuality() == QGraphs3D::ShadowQuality::None
+        fileName = shadowQuality() == QtGraphs3D::ShadowQuality::None
                        ? QStringLiteral("defaultMeshes/planeMesh")
                        : QStringLiteral("defaultMeshes/octagonMesh");
         break;
@@ -880,10 +880,10 @@ void QQuickGraphsScatter::setSelectedItem(qsizetype index, QScatter3DSeries *ser
         itemLabel()->setVisible(true);
 }
 
-void QQuickGraphsScatter::setSelectionMode(QGraphs3D::SelectionFlags mode)
+void QQuickGraphsScatter::setSelectionMode(QtGraphs3D::SelectionFlags mode)
 {
     // We only support single item selection mode and no selection mode
-    if (mode != QGraphs3D::SelectionFlag::Item && mode != QGraphs3D::SelectionFlag::None) {
+    if (mode != QtGraphs3D::SelectionFlag::Item && mode != QtGraphs3D::SelectionFlag::None) {
         qWarning("Unsupported selection mode - only none and item selection modes "
                  "are supported.");
         return;
@@ -1283,7 +1283,7 @@ bool QQuickGraphsScatter::doPicking(const QPointF &position)
     if (!QQuickGraphsItem::doPicking(position))
         return false;
 
-    if (selectionMode() == QGraphs3D::SelectionFlag::Item) {
+    if (selectionMode() == QtGraphs3D::SelectionFlag::Item) {
         QList<QQuick3DPickResult> results = pickAll(position.x(), position.y());
         if (!results.empty()) {
             for (const auto &result : std::as_const(results)) {
@@ -1292,10 +1292,10 @@ bool QQuickGraphsScatter::doPicking(const QPointF &position)
                         clearSelectionModel();
                         continue;
                     }
-                    if (optimizationHint() == QGraphs3D::OptimizationHint::Legacy) {
+                    if (optimizationHint() == QtGraphs3D::OptimizationHint::Legacy) {
                         setSelected(hit);
                         break;
-                    } else if (optimizationHint() == QGraphs3D::OptimizationHint::Default) {
+                    } else if (optimizationHint() == QtGraphs3D::OptimizationHint::Default) {
                         setSelected(hit, result.instanceIndex());
                         break;
                     }
@@ -1308,7 +1308,7 @@ bool QQuickGraphsScatter::doPicking(const QPointF &position)
     return true;
 }
 
-void QQuickGraphsScatter::updateShadowQuality(QGraphs3D::ShadowQuality quality)
+void QQuickGraphsScatter::updateShadowQuality(QtGraphs3D::ShadowQuality quality)
 {
     // Were shadows visible before?
     bool prevShadowsVisible = light()->castsShadow();
@@ -1506,7 +1506,7 @@ void QQuickGraphsScatter::setSelected(QQuick3DModel *root, qsizetype index)
 
 void QQuickGraphsScatter::clearSelectionModel()
 {
-    if (optimizationHint() == QGraphs3D::OptimizationHint::Default)
+    if (optimizationHint() == QtGraphs3D::OptimizationHint::Default)
         clearAllSelectionInstanced();
 
     setSelectedItem(invalidSelectionIndex(), nullptr);
@@ -1523,14 +1523,14 @@ void QQuickGraphsScatter::clearAllSelectionInstanced()
         graph->instancing->resetVisibilty();
 }
 
-void QQuickGraphsScatter::optimizationChanged(QGraphs3D::OptimizationHint toOptimization)
+void QQuickGraphsScatter::optimizationChanged(QtGraphs3D::OptimizationHint toOptimization)
 {
-    if (toOptimization == QGraphs3D::OptimizationHint::Default) {
+    if (toOptimization == QtGraphs3D::OptimizationHint::Default) {
         for (const auto &graph : std::as_const(m_scatterGraphs))
-            removeDataItems(graph, QGraphs3D::OptimizationHint::Legacy);
+            removeDataItems(graph, QtGraphs3D::OptimizationHint::Legacy);
     } else {
         for (const auto &graph : std::as_const(m_scatterGraphs))
-            removeDataItems(graph, QGraphs3D::OptimizationHint::Default);
+            removeDataItems(graph, QtGraphs3D::OptimizationHint::Default);
     }
     setSeriesVisualsDirty();
 }
@@ -1545,7 +1545,7 @@ void QQuickGraphsScatter::updateGraph()
 
     for (auto graphModel : std::as_const(m_scatterGraphs)) {
         if (isDataDirty()) {
-            if (optimizationHint() == QGraphs3D::OptimizationHint::Legacy) {
+            if (optimizationHint() == QtGraphs3D::OptimizationHint::Legacy) {
                 if (graphModel->dataItems.count() != graphModel->series->dataProxy()->itemCount()) {
                     qsizetype sizeDiff = sizeDifference(graphModel->dataItems.count(),
                                                         graphModel->series->dataProxy()->itemCount());
@@ -1564,7 +1564,7 @@ void QQuickGraphsScatter::updateGraph()
                     graphModel->instancingRootItem = createDataItem(graphModel->series);
                     graphModel->instancingRootItem->setParent(graphModel->series);
                     graphModel->instancingRootItem->setInstancing(graphModel->instancing);
-                    if (selectionMode() != QGraphs3D::SelectionFlag::None) {
+                    if (selectionMode() != QtGraphs3D::SelectionFlag::None) {
                         graphModel->instancingRootItem->setPickable(true);
                         graphModel->selectionIndicator = createDataItem(graphModel->series);
                         graphModel->selectionIndicator->setVisible(false);
@@ -1584,7 +1584,7 @@ void QQuickGraphsScatter::updateGraph()
 
         if (validSelection) {
             QVector3D selectionPosition = {0.0f, 0.0f, 0.0f};
-            if (optimizationHint() == QGraphs3D::OptimizationHint::Legacy) {
+            if (optimizationHint() == QtGraphs3D::OptimizationHint::Legacy) {
                 QQuick3DModel *selectedModel = graphModel->dataItems.at(m_selectedItem);
 
                 selectionPosition = selectedModel->position();
@@ -1638,7 +1638,7 @@ void QQuickGraphsScatter::cameraRotationChanged()
     m_isDataDirty = true;
 }
 
-void QQuickGraphsScatter::handleOptimizationHintChange(QGraphs3D::OptimizationHint hint)
+void QQuickGraphsScatter::handleOptimizationHintChange(QtGraphs3D::OptimizationHint hint)
 {
     Q_UNUSED(hint)
     m_optimizationChanged = true;
@@ -1647,7 +1647,7 @@ void QQuickGraphsScatter::handleOptimizationHintChange(QGraphs3D::OptimizationHi
 bool QQuickGraphsScatter::selectedItemInRange(const ScatterModel *graphModel)
 {
     qsizetype itemCount;
-    if (optimizationHint() == QGraphs3D::OptimizationHint::Default)
+    if (optimizationHint() == QtGraphs3D::OptimizationHint::Default)
         itemCount = graphModel->instancing->dataArray().count();
     else
         itemCount = graphModel->dataItems.count();

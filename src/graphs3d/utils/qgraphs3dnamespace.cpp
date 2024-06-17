@@ -3,15 +3,15 @@
 #include <QtGraphs/qgraphs3dnamespace.h>
 QT_BEGIN_NAMESPACE
 /*!
-    \namespace QGraphs3D
+    \namespace QtGraphs3D
     \inmodule QtGraphs
     \ingroup graphs_3D
-    \brief The QGraphs3D module provides enums used by QtGraphs' 3D API.
+    \brief The QtGraphs3D module provides enums used by QtGraphs' 3D API.
 
 */
 
 /*!
-    \enum QGraphs3D::SelectionFlag
+    \enum QtGraphs3D::SelectionFlag
 
     Item selection modes. Values of this enumeration can be combined with OR
    operator.
@@ -52,7 +52,7 @@ QT_BEGIN_NAMESPACE
 */
 
 /*!
-    \enum QGraphs3D::ShadowQuality
+    \enum QtGraphs3D::ShadowQuality
 
     Quality of shadows.
 
@@ -73,7 +73,7 @@ QT_BEGIN_NAMESPACE
 */
 
 /*!
-    \enum QGraphs3D::ElementType
+    \enum QtGraphs3D::ElementType
 
     Type of an element in the graph.
 
@@ -92,7 +92,7 @@ QT_BEGIN_NAMESPACE
 */
 
 /*!
-    \enum QGraphs3D::OptimizationHint
+    \enum QtGraphs3D::OptimizationHint
 
     The optimization hint for rendering.
 
@@ -104,7 +104,7 @@ QT_BEGIN_NAMESPACE
 */
 
 /*!
- * \enum QGraphs3D::CameraPreset
+ * \enum QtGraphs3D::CameraPreset
  *
  * Predefined positions for camera.
  *

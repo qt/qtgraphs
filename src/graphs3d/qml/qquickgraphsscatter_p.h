@@ -75,7 +75,7 @@ public:
     QScatter3DSeries *selectedSeries() const;
     void setSelectedItem(qsizetype index, QScatter3DSeries *series);
     static inline int invalidSelectionIndex() { return -1; }
-    void setSelectionMode(QGraphs3D::SelectionFlags mode) override;
+    void setSelectionMode(QtGraphs3D::SelectionFlags mode) override;
 
     inline bool hasSelectedItemChanged() const { return m_changeTracker.selectedItemChanged; }
     inline void setSelectedItemChanged(bool changed)
@@ -117,7 +117,7 @@ protected:
     void calculateSceneScalingFactors() override;
     void componentComplete() override;
     bool doPicking(const QPointF &position) override;
-    void updateShadowQuality(QGraphs3D::ShadowQuality quality) override;
+    void updateShadowQuality(QtGraphs3D::ShadowQuality quality) override;
     void updateLightStrength() override;
     void startRecordingRemovesAndInserts() override;
 
@@ -211,8 +211,7 @@ private:
     QQuick3DModel *createDataItemModel(QAbstract3DSeries::Mesh meshType);
     QQuick3DNode *createSeriesRoot();
     QQuick3DModel *createDataItem(QAbstract3DSeries *series);
-    void removeDataItems(ScatterModel *graphModel,
-                         QGraphs3D::OptimizationHint optimizationHint);
+    void removeDataItems(ScatterModel *graphModel, QtGraphs3D::OptimizationHint optimizationHint);
     void fixMeshFileName(QString &fileName, QAbstract3DSeries *series);
     QString getMeshFileName(QAbstract3DSeries *series);
 
@@ -244,11 +243,11 @@ private:
     void clearSelectionModel();
     void clearAllSelectionInstanced();
 
-    void optimizationChanged(QGraphs3D::OptimizationHint toOptimization);
+    void optimizationChanged(QtGraphs3D::OptimizationHint toOptimization);
 
     void updateGraph() override;
     void synchData() override;
-    void handleOptimizationHintChange(QGraphs3D::OptimizationHint hint) override;
+    void handleOptimizationHintChange(QtGraphs3D::OptimizationHint hint) override;
 
     bool selectedItemInRange(const ScatterModel *graphModel);
 

@@ -24,8 +24,8 @@ ScatterDataModifier::ScatterDataModifier(Q3DScatterWidgetItem *scatter)
     QFont font = m_graph->activeTheme()->labelFont();
     font.setPointSize(m_fontSize);
     m_graph->activeTheme()->setLabelFont(font);
-    m_graph->setShadowQuality(QGraphs3D::ShadowQuality::SoftLow);
-    m_graph->setCameraPreset(QGraphs3D::CameraPreset::Front);
+    m_graph->setShadowQuality(QtGraphs3D::ShadowQuality::SoftLow);
+    m_graph->setCameraPreset(QtGraphs3D::CameraPreset::Front);
 
     m_graph->setAxisX(new QValue3DAxis);
     m_graph->setAxisY(new QValue3DAxis);
@@ -106,9 +106,9 @@ void ScatterDataModifier::addData()
 void ScatterDataModifier::enableOptimization(int enabled)
 {
     if (enabled)
-        m_graph->setOptimizationHint(QGraphs3D::OptimizationHint::Default);
+        m_graph->setOptimizationHint(QtGraphs3D::OptimizationHint::Default);
     else
-        m_graph->setOptimizationHint(QGraphs3D::OptimizationHint::Legacy);
+        m_graph->setOptimizationHint(QtGraphs3D::OptimizationHint::Legacy);
 }
 
 void ScatterDataModifier::changeStyle(int style)
@@ -132,12 +132,12 @@ void ScatterDataModifier::changeTheme(int theme)
 
 void ScatterDataModifier::changePresetCamera()
 {
-    static int preset = int(QGraphs3D::CameraPreset::FrontLow);
+    static int preset = int(QtGraphs3D::CameraPreset::FrontLow);
 
-    m_graph->setCameraPreset((QGraphs3D::CameraPreset) preset);
+    m_graph->setCameraPreset((QtGraphs3D::CameraPreset) preset);
 
-    if (++preset > int(QGraphs3D::CameraPreset::DirectlyBelow))
-        preset = int(QGraphs3D::CameraPreset::FrontLow);
+    if (++preset > int(QtGraphs3D::CameraPreset::DirectlyBelow))
+        preset = int(QtGraphs3D::CameraPreset::FrontLow);
 }
 
 void ScatterDataModifier::changeLabelStyle()
@@ -153,7 +153,7 @@ void ScatterDataModifier::changeFont(const QFont &font)
     m_graph->activeTheme()->setLabelFont(newFont);
 }
 
-void ScatterDataModifier::shadowQualityUpdatedByVisual(QGraphs3D::ShadowQuality sq)
+void ScatterDataModifier::shadowQualityUpdatedByVisual(QtGraphs3D::ShadowQuality sq)
 {
     int quality = int(sq);
     emit shadowQualityChanged(quality); // connected to a checkbox in main.cpp
@@ -179,7 +179,7 @@ void ScatterDataModifier::triggerRotation()
 
 void ScatterDataModifier::changeShadowQuality(int quality)
 {
-    QGraphs3D::ShadowQuality sq = QGraphs3D::ShadowQuality(quality);
+    QtGraphs3D::ShadowQuality sq = QtGraphs3D::ShadowQuality(quality);
     m_graph->setShadowQuality(sq);
 }
 

@@ -140,15 +140,15 @@ QList<QGraphsTheme *> Q3DGraphsWidgetItem::themes() const
  * A combination of SelectionFlags. By default, \c Item.
  * Different graph types support different selection modes.
  *
- * \sa QGraphs3D::SelectionFlags
+ * \sa QtGraphs3D::SelectionFlags
  */
-QGraphs3D::SelectionFlags Q3DGraphsWidgetItem::selectionMode() const
+QtGraphs3D::SelectionFlags Q3DGraphsWidgetItem::selectionMode() const
 {
     const Q_D(Q3DGraphsWidgetItem);
     return d->m_graphsItem->selectionMode();
 }
 
-void Q3DGraphsWidgetItem::setSelectionMode(const QGraphs3D::SelectionFlags &selectionMode)
+void Q3DGraphsWidgetItem::setSelectionMode(const QtGraphs3D::SelectionFlags &selectionMode)
 {
     Q_D(Q3DGraphsWidgetItem);
     d->m_graphsItem->setSelectionMode(selectionMode);
@@ -166,15 +166,15 @@ void Q3DGraphsWidgetItem::setSelectionMode(const QGraphs3D::SelectionFlags &sele
  * lowered until it is successfully set. The \c shadowQualityChanged signal is
  * emitted each time a change is made.
  *
- * \sa QGraphs3D::ShadowQuality
+ * \sa QtGraphs3D::ShadowQuality
  */
-QGraphs3D::ShadowQuality Q3DGraphsWidgetItem::shadowQuality() const
+QtGraphs3D::ShadowQuality Q3DGraphsWidgetItem::shadowQuality() const
 {
     const Q_D(Q3DGraphsWidgetItem);
     return d->m_graphsItem->shadowQuality();
 }
 
-void Q3DGraphsWidgetItem::setShadowQuality(const QGraphs3D::ShadowQuality &shadowQuality)
+void Q3DGraphsWidgetItem::setShadowQuality(const QtGraphs3D::ShadowQuality &shadowQuality)
 {
     Q_D(Q3DGraphsWidgetItem);
     d->m_graphsItem->setShadowQuality(shadowQuality);
@@ -365,7 +365,7 @@ QCustom3DItem *Q3DGraphsWidgetItem::selectedCustomItem() const
  * Q3DScatterWidgetItem::selectedSeries(), Q3DSurfaceWidgetItem::selectedSeries(),
  * Q3DScene::setSelectionQueryPosition()
  */
-QGraphs3D::ElementType Q3DGraphsWidgetItem::selectedElement() const
+QtGraphs3D::ElementType Q3DGraphsWidgetItem::selectedElement() const
 {
     const Q_D(Q3DGraphsWidgetItem);
     return d->m_graphsItem->selectedElement();
@@ -391,13 +391,13 @@ QSharedPointer<QQuickItemGrabResult> Q3DGraphsWidgetItem::renderToImage(const QS
     return d->m_graphsItem->grabToImage(renderSize);
 }
 
-QGraphs3D::CameraPreset Q3DGraphsWidgetItem::cameraPreset() const
+QtGraphs3D::CameraPreset Q3DGraphsWidgetItem::cameraPreset() const
 {
     const Q_D(Q3DGraphsWidgetItem);
     return d->m_graphsItem->cameraPreset();
 }
 
-void Q3DGraphsWidgetItem::setCameraPreset(QGraphs3D::CameraPreset preset)
+void Q3DGraphsWidgetItem::setCameraPreset(QtGraphs3D::CameraPreset preset)
 {
     Q_D(Q3DGraphsWidgetItem);
     d->m_graphsItem->setCameraPreset(preset);
@@ -855,8 +855,8 @@ void Q3DGraphsWidgetItem::setCameraTargetPosition(const QVector3D &target)
         newTarget.setZ(1.0f);
 
     if (Q_D(Q3DGraphsWidgetItem); d->m_graphsItem->cameraTargetPosition() != newTarget) {
-        if (d->m_graphsItem->cameraPreset() != QGraphs3D::CameraPreset::NoPreset)
-            d->m_graphsItem->setCameraPreset(QGraphs3D::CameraPreset::NoPreset);
+        if (d->m_graphsItem->cameraPreset() != QtGraphs3D::CameraPreset::NoPreset)
+            d->m_graphsItem->setCameraPreset(QtGraphs3D::CameraPreset::NoPreset);
         d->m_graphsItem->setCameraTargetPosition(newTarget);
     }
 }
@@ -1054,7 +1054,7 @@ qreal Q3DGraphsWidgetItem::aspectRatio() const
  * optimization works only on scatter graphs. Legacy mode renders all items in
  * th graph individually, without instancing. It should be used only if default
  * mode does not work, i.e. if the target system does not support instancing.
- * Defaults to \l{QGraphs3D::OptimizationHint::Default}.
+ * Defaults to \l{QtGraphs3D::OptimizationHint::Default}.
  *
  * \note On some environments, large graphs using static optimization may not
  * render, because all of the items are rendered using a single draw call, and
@@ -1065,13 +1065,13 @@ qreal Q3DGraphsWidgetItem::aspectRatio() const
  *
  * \sa QAbstract3DSeries::mesh
  */
-void Q3DGraphsWidgetItem::setOptimizationHint(QGraphs3D::OptimizationHint hint)
+void Q3DGraphsWidgetItem::setOptimizationHint(QtGraphs3D::OptimizationHint hint)
 {
     Q_D(Q3DGraphsWidgetItem);
     d->m_graphsItem->setOptimizationHint(hint);
 }
 
-QGraphs3D::OptimizationHint Q3DGraphsWidgetItem::optimizationHint() const
+QtGraphs3D::OptimizationHint Q3DGraphsWidgetItem::optimizationHint() const
 {
     const Q_D(Q3DGraphsWidgetItem);
     return d->m_graphsItem->optimizationHint();

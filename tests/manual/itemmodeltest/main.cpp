@@ -77,10 +77,10 @@ GraphDataGenerator::GraphDataGenerator(Q3DBarsWidgetItem *bargraph,
     m_barGraph->seriesList().at(0)->setItemLabelFormat(QStringLiteral("@valueLabel"));
 #else
     // Set selection mode to slice row
-    m_barGraph->setSelectionMode(QGraphs3D::SelectionFlag::ItemAndRow
-                                 | QGraphs3D::SelectionFlag::Slice);
-    m_surfaceGraph->setSelectionMode(QGraphs3D::SelectionFlag::ItemAndRow
-                                     | QGraphs3D::SelectionFlag::Slice);
+    m_barGraph->setSelectionMode(QtGraphs3D::SelectionFlag::ItemAndRow
+                                 | QtGraphs3D::SelectionFlag::Slice);
+    m_surfaceGraph->setSelectionMode(QtGraphs3D::SelectionFlag::ItemAndRow
+                                     | QtGraphs3D::SelectionFlag::Slice);
 #endif
 }
 
@@ -280,8 +280,8 @@ int main(int argc, char **argv)
     barGraph->addSeries(barSeries);
     surfaceGraph->addSeries(surfaceSeries);
 
-    barGraph->setCameraPreset(QGraphs3D::CameraPreset::Behind);
-    surfaceGraph->setCameraPreset(QGraphs3D::CameraPreset::Front);
+    barGraph->setCameraPreset(QtGraphs3D::CameraPreset::Behind);
+    surfaceGraph->setCameraPreset(QtGraphs3D::CameraPreset::Front);
 
     GraphDataGenerator generator(barGraph, surfaceGraph, tableWidget);
     QObject::connect(barSeries, &QBar3DSeries::selectedBarChanged, &generator,

@@ -33,7 +33,7 @@ public Q_SLOTS:
     void changeStyle(int style);
     void changeTheme(int theme);
     void changeShadowQuality(int quality);
-    void shadowQualityUpdatedByVisual(QGraphs3D::ShadowQuality shadowQuality);
+    void shadowQualityUpdatedByVisual(QtGraphs3D::ShadowQuality shadowQuality);
     void triggerRotation();
 
 Q_SIGNALS:

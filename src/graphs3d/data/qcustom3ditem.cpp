@@ -120,7 +120,7 @@ QT_BEGIN_NAMESPACE
  *
  * Defines whether shadow casting for the item is enabled. Defaults to \c{true}.
  * If \c{false}, the item does not cast shadows regardless of
- * \l{QGraphs3D::ShadowQuality}{ShadowQuality}.
+ * \l{QtGraphs3D::ShadowQuality}{ShadowQuality}.
  */
 
 /*!

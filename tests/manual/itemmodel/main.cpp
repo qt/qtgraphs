@@ -74,8 +74,8 @@ GraphDataGenerator::GraphDataGenerator(Q3DBarsWidgetItem *bargraph, QTableWidget
     m_graph->seriesList().at(0)->setItemLabelFormat(QStringLiteral("@valueLabel"));
 #else
     // Set selection mode to slice row
-    m_graph->setSelectionMode(QGraphs3D::SelectionFlag::ItemAndRow
-                              | QGraphs3D::SelectionFlag::Slice);
+    m_graph->setSelectionMode(QtGraphs3D::SelectionFlag::ItemAndRow
+                              | QtGraphs3D::SelectionFlag::Slice);
 #endif
 
     // Set theme
@@ -87,7 +87,7 @@ GraphDataGenerator::GraphDataGenerator(Q3DBarsWidgetItem *bargraph, QTableWidget
     m_graph->activeTheme()->setLabelFont(font);
 
     // Set preset camera position
-    m_graph->setCameraPreset(QGraphs3D::CameraPreset::Front);
+    m_graph->setCameraPreset(QtGraphs3D::CameraPreset::Front);
 }
 
 GraphDataGenerator::~GraphDataGenerator()
