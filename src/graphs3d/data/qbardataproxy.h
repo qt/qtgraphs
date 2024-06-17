@@ -30,6 +30,9 @@ public:
     explicit QBarDataProxy(QObject *parent = nullptr);
     ~QBarDataProxy() override;
 
+    enum class RemoveLabels { No, Yes };
+    Q_ENUM(RemoveLabels)
+
     QBar3DSeries *series() const;
     qsizetype rowCount() const;
     qsizetype colCount() const;
@@ -60,7 +63,9 @@ public:
     void insertRows(qsizetype rowIndex, QBarDataArray rows);
     void insertRows(qsizetype rowIndex, QBarDataArray rows, QStringList labels);
 
-    void removeRows(qsizetype rowIndex, qsizetype removeCount, bool removeLabels = true);
+    void removeRows(qsizetype rowIndex,
+                    qsizetype removeCount,
+                    RemoveLabels removeLabels = RemoveLabels::No);
 
 Q_SIGNALS:
     void arrayReset();

@@ -470,76 +470,6 @@ void QBar3DSeries::setColumnLabels(const QStringList &labels)
     }
 }
 
-/*!
- * \internal
- * Fixes the row label array to include specified labels.
- */
-void QBar3DSeries::fixRowLabels(qsizetype startIndex,
-                                qsizetype count,
-                                const QStringList &newLabels,
-                                bool isInsert)
-{
-    bool changed = false;
-    qsizetype currentSize = rowLabels().size();
-
-    qsizetype newSize = newLabels.size();
-    if (startIndex >= currentSize) {
-        // Adding labels past old label array, create empty strings to fill
-        // intervening space
-        if (newSize) {
-            for (qsizetype i = currentSize; i < startIndex; i++)
-                rowLabels() << QString();
-            // Doesn't matter if insert, append, or just change when there were no
-            // existing strings, just append new strings.
-            rowLabels() << newLabels;
-            changed = true;
-        }
-    } else {
-        if (isInsert) {
-            qsizetype insertIndex = startIndex;
-            if (count)
-                changed = true;
-            for (qsizetype i = 0; i < count; i++) {
-                if (i < newSize)
-                    rowLabels().insert(insertIndex++, newLabels.at(i));
-                else
-                    rowLabels().insert(insertIndex++, QString());
-            }
-        } else {
-            // Either append or change, replace labels up to array end and then add
-            // new ones
-            qsizetype lastChangeIndex = count + startIndex;
-            qsizetype newIndex = 0;
-            for (qsizetype i = startIndex; i < lastChangeIndex; i++) {
-                if (i >= currentSize) {
-                    // Label past the current size, so just append the new label
-                    if (newSize < newIndex) {
-                        changed = true;
-                        rowLabels() << newLabels.at(newIndex);
-                    } else {
-                        break; // No point appending empty strings, so just exit
-                    }
-                } else if (newSize > newIndex) {
-                    // Replace existing label
-                    if (rowLabels().at(i) != newLabels.at(newIndex)) {
-                        changed = true;
-                        rowLabels()[i] = newLabels.at(newIndex);
-                    }
-                } else {
-                    // No more new labels, so clear existing label
-                    if (!rowLabels().at(i).isEmpty()) {
-                        changed = true;
-                        rowLabels()[i] = QString();
-                    }
-                }
-                newIndex++;
-            }
-        }
-    }
-
-    if (changed)
-        emit rowLabelsChanged();
-}
 QList<QColor> QBar3DSeries::rowColors() const
 {
     const Q_D(QBar3DSeries);
@@ -576,6 +506,75 @@ QBar3DSeriesPrivate::QBar3DSeriesPrivate()
 }
 
 QBar3DSeriesPrivate::~QBar3DSeriesPrivate() {}
+
+void QBar3DSeriesPrivate::fixRowLabels(qsizetype startIndex,
+                                       qsizetype count,
+                                       const QStringList &newLabels,
+                                       bool isInsert)
+{
+    bool changed = false;
+    qsizetype currentSize = m_rowLabels.size();
+
+    qsizetype newSize = newLabels.size();
+    if (startIndex >= currentSize) {
+        // Adding labels past old label array, create empty strings to fill
+        // intervening space
+        if (newSize) {
+            for (qsizetype i = currentSize; i < startIndex; i++)
+                m_rowLabels << QString();
+            // Doesn't matter if insert, append, or just change when there were no
+            // existing strings, just append new strings.
+            m_rowLabels << newLabels;
+            changed = true;
+        }
+    } else {
+        if (isInsert) {
+            qsizetype insertIndex = startIndex;
+            if (count)
+                changed = true;
+            for (qsizetype i = 0; i < count; i++) {
+                if (i < newSize)
+                    m_rowLabels.insert(insertIndex++, newLabels.at(i));
+                else
+                    m_rowLabels.insert(insertIndex++, QString());
+            }
+        } else {
+            // Either append or change, replace labels up to array end and then add
+            // new ones
+            qsizetype lastChangeIndex = count + startIndex;
+            qsizetype newIndex = 0;
+            for (qsizetype i = startIndex; i < lastChangeIndex; i++) {
+                if (i >= currentSize) {
+                    // Label past the current size, so just append the new label
+                    if (newSize < newIndex) {
+                        changed = true;
+                        m_rowLabels << newLabels.at(newIndex);
+                    } else {
+                        break; // No point appending empty strings, so just exit
+                    }
+                } else if (newSize > newIndex) {
+                    // Replace existing label
+                    if (m_rowLabels.at(i) != newLabels.at(newIndex)) {
+                        changed = true;
+                        m_rowLabels[i] = newLabels.at(newIndex);
+                    }
+                } else {
+                    // No more new labels, so clear existing label
+                    if (!m_rowLabels.at(i).isEmpty()) {
+                        changed = true;
+                        m_rowLabels[i] = QString();
+                    }
+                }
+                newIndex++;
+            }
+        }
+    }
+
+    if (changed) {
+        Q_Q(QBar3DSeries);
+        emit q->rowLabelsChanged();
+    }
+}
 
 void QBar3DSeriesPrivate::setDataProxy(QAbstractDataProxy *proxy)
 {

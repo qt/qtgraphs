@@ -407,11 +407,11 @@ void QBarDataProxy::insertRows(qsizetype rowIndex, QBarDataArray rows, QStringLi
  * \note If \a removeLabels is \c false, the row labels array will be out of
  * sync with the row array if there are labeled rows beyond the removed rows.
  */
-void QBarDataProxy::removeRows(qsizetype rowIndex, qsizetype removeCount, bool removeLabels)
+void QBarDataProxy::removeRows(qsizetype rowIndex, qsizetype removeCount, RemoveLabels removeLabels)
 {
     Q_D(QBarDataProxy);
     if (rowIndex < rowCount() && removeCount >= 1) {
-        d->removeRows(rowIndex, removeCount, removeLabels);
+        d->removeRows(rowIndex, removeCount, removeLabels == RemoveLabels::No ? false : true);
         emit rowsRemoved(rowIndex, removeCount);
         emit rowCountChanged(rowCount());
         emit colCountChanged(colCount());
@@ -562,7 +562,7 @@ void QBarDataProxyPrivate::setRow(qsizetype rowIndex, QBarDataRow &&row, QString
     auto *barSeries = static_cast<QBar3DSeries *>(series());
     Q_ASSERT(rowIndex >= 0 && rowIndex < barSeries->dataArray().size());
 
-    barSeries->fixRowLabels(rowIndex, 1, QStringList(label), false);
+    QBar3DSeriesPrivate::get(barSeries)->fixRowLabels(rowIndex, 1, QStringList(label), false);
     if (row.data() != barSeries->dataArray().at(rowIndex).data()) {
         barSeries->clearRow(rowIndex);
         QBarDataArray array = barSeries->dataArray();
@@ -576,7 +576,7 @@ void QBarDataProxyPrivate::setRows(qsizetype rowIndex, QBarDataArray &&rows, QSt
     auto *barSeries = static_cast<QBar3DSeries *>(series());
     Q_ASSERT(rowIndex >= 0 && (rowIndex + rows.size()) <= barSeries->dataArray().size());
 
-    barSeries->fixRowLabels(rowIndex, rows.size(), labels, false);
+    QBar3DSeriesPrivate::get(barSeries)->fixRowLabels(rowIndex, rows.size(), labels, false);
     for (int i = 0; i < rows.size(); i++) {
         if (rows.at(i).data() != barSeries->dataArray().at(rowIndex).data()) {
             barSeries->clearRow(rowIndex);
@@ -603,7 +603,7 @@ qsizetype QBarDataProxyPrivate::addRow(QBarDataRow &&row, QString &&label)
 {
     auto *barSeries = static_cast<QBar3DSeries *>(series());
     qsizetype currentSize = barSeries->dataArray().size();
-    barSeries->fixRowLabels(currentSize, 1, QStringList(label), false);
+    QBar3DSeriesPrivate::get(barSeries)->fixRowLabels(currentSize, 1, QStringList(label), false);
     QBarDataArray array = barSeries->dataArray();
     array.append(row);
     barSeries->setDataArray(array);
@@ -615,7 +615,7 @@ qsizetype QBarDataProxyPrivate::addRows(QBarDataArray &&rows, QStringList &&labe
     auto *barSeries = static_cast<QBar3DSeries *>(series());
     QBarDataArray array = barSeries->dataArray();
     qsizetype currentSize = array.size();
-    barSeries->fixRowLabels(currentSize, rows.size(), labels, false);
+    QBar3DSeriesPrivate::get(barSeries)->fixRowLabels(currentSize, rows.size(), labels, false);
     for (int i = 0; i < rows.size(); i++)
         array.append(rows.at(i));
     barSeries->setDataArray(array);
@@ -626,7 +626,7 @@ void QBarDataProxyPrivate::insertRow(qsizetype rowIndex, QBarDataRow &&row, QStr
 {
     auto *barSeries = static_cast<QBar3DSeries *>(series());
     Q_ASSERT(rowIndex >= 0 && rowIndex <= barSeries->dataArray().size());
-    barSeries->fixRowLabels(rowIndex, 1, QStringList(label), true);
+    QBar3DSeriesPrivate::get(barSeries)->fixRowLabels(rowIndex, 1, QStringList(label), true);
     QBarDataArray array = barSeries->dataArray();
     array.insert(rowIndex, row);
     barSeries->setDataArray(array);
@@ -638,7 +638,7 @@ void QBarDataProxyPrivate::insertRows(qsizetype rowIndex, QBarDataArray &&rows, 
     Q_ASSERT(rowIndex >= 0 && rowIndex <= barSeries->dataArray().size());
     QBarDataArray array = barSeries->dataArray();
 
-    barSeries->fixRowLabels(rowIndex, rows.size(), labels, true);
+    QBar3DSeriesPrivate::get(barSeries)->fixRowLabels(rowIndex, rows.size(), labels, true);
     for (int i = 0; i < rows.size(); i++)
         array.insert(rowIndex++, rows.at(i));
     barSeries->setDataArray(array);

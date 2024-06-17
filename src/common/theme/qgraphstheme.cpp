@@ -510,7 +510,7 @@ QGraphsTheme::QGraphsTheme(QObject *parent)
     else
         setColorScheme(Qt::ColorScheme::Light);
     setLabelBorderVisible(true);
-    setTheme(Theme::UserDefined, true);
+    setTheme(Theme::UserDefined, ForceTheme::Yes);
     setLabelFont(QFont(QLatin1String("Arial")));
     setAxisXLabelFont(QFont());
     setAxisYLabelFont(QFont());
@@ -596,9 +596,9 @@ QGraphsTheme::Theme QGraphsTheme::theme() const
     return m_theme;
 }
 
-void QGraphsTheme::setTheme(Theme newTheme, bool force)
+void QGraphsTheme::setTheme(Theme newTheme, ForceTheme force)
 {
-    if (!force && m_theme == newTheme)
+    if (force == ForceTheme::No && m_theme == newTheme)
         return;
     m_dirtyBits.themeDirty = true;
     m_theme = newTheme;
