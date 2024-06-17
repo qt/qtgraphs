@@ -109,8 +109,8 @@ QT_BEGIN_NAMESPACE
  *
  * Defines whether the 2D slicing view is currently active. If \c true,
  * Graphs3D::selectionMode must have either the
- * \l{QGraphs3D::SelectionRow}{Graphs3D.SelectionRow} or
- * \l{QGraphs3D::SelectionColumn}{Graphs3D.SelectionColumn}
+ * \l{QtGraphs3D::SelectionRow}{Graphs3D.SelectionRow} or
+ * \l{QtGraphs3D::SelectionColumn}{Graphs3D.SelectionColumn}
  * set to a valid selection.
  * \note Not all graphs support the 2D slicing view.
  */
@@ -429,7 +429,7 @@ QPoint Q3DScene::graphPositionQuery() const
  * \brief Whether the 2D slicing view is currently active.
  *
  * If \c true, Q3DGraphsWidgetItem::selectionMode must have either
- * QGraphs3D::SelectionFlag::Row or QGraphs3D::SelectionFlag::Column set
+ * QtGraphs3D::SelectionFlag::Row or QtGraphs3D::SelectionFlag::Column set
  * to a valid selection.
  * \note Not all graphs support the 2D slicing view.
  */

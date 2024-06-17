@@ -105,7 +105,7 @@ public:
     void setSelectedPoint(const QPoint &position, QSurface3DSeries *series, bool enterSlice);
 
     inline QSurface3DSeries *selectedSeries() const { return m_selectedSeries; }
-    void setSelectionMode(QGraphs3D::SelectionFlags mode) override;
+    void setSelectionMode(QtGraphs3D::SelectionFlags mode) override;
 
     void setDataDimensions(DataDimensions dimension) { m_dataDimensions = dimension; }
     DataDimensions dataDimensions() { return m_dataDimensions; }
@@ -158,7 +158,7 @@ protected:
 
     void createSliceView() override;
     void updateSliceItemLabel(QString label, const QVector3D &position) override;
-    void updateSelectionMode(QGraphs3D::SelectionFlags mode) override;
+    void updateSelectionMode(QtGraphs3D::SelectionFlags mode) override;
 
 public Q_SLOTS:
     void handleAxisXChanged(QAbstract3DAxis *axis) override;

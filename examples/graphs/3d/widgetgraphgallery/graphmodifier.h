@@ -38,7 +38,7 @@ public Q_SLOTS:
     void changeSelectionMode(int selectionMode);
     void changeTheme(int theme);
     void changeShadowQuality(int quality);
-    void shadowQualityUpdatedByVisual(QGraphs3D::ShadowQuality shadowQuality);
+    void shadowQualityUpdatedByVisual(QtGraphs3D::ShadowQuality shadowQuality);
     void changeLabelRotation(int rotation);
     void setAxisTitleVisibility(bool visible);
     void setAxisTitleFixed(bool enabled);

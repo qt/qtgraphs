@@ -85,37 +85,38 @@ void BarGraph::initialize()
     zoomToSelectedButton->setText(u"Zoom to selected bar"_s);
 
     auto *selectionModeList = new QComboBox(m_barsWidget);
-    selectionModeList->addItem(u"None"_s, int(QGraphs3D::SelectionFlag::None));
-    selectionModeList->addItem(u"Bar"_s, int(QGraphs3D::SelectionFlag::Item));
-    selectionModeList->addItem(u"Row"_s, int(QGraphs3D::SelectionFlag::Row));
-    selectionModeList->addItem(u"Bar and Row"_s, int(QGraphs3D::SelectionFlag::ItemAndRow));
-    selectionModeList->addItem(u"Column"_s, int(QGraphs3D::SelectionFlag::Column));
-    selectionModeList->addItem(u"Bar and Column"_s, int(QGraphs3D::SelectionFlag::ItemAndColumn));
-    selectionModeList->addItem(u"Row and Column"_s, int(QGraphs3D::SelectionFlag::RowAndColumn));
+    selectionModeList->addItem(u"None"_s, int(QtGraphs3D::SelectionFlag::None));
+    selectionModeList->addItem(u"Bar"_s, int(QtGraphs3D::SelectionFlag::Item));
+    selectionModeList->addItem(u"Row"_s, int(QtGraphs3D::SelectionFlag::Row));
+    selectionModeList->addItem(u"Bar and Row"_s, int(QtGraphs3D::SelectionFlag::ItemAndRow));
+    selectionModeList->addItem(u"Column"_s, int(QtGraphs3D::SelectionFlag::Column));
+    selectionModeList->addItem(u"Bar and Column"_s, int(QtGraphs3D::SelectionFlag::ItemAndColumn));
+    selectionModeList->addItem(u"Row and Column"_s, int(QtGraphs3D::SelectionFlag::RowAndColumn));
     selectionModeList->addItem(u"Bar, Row and Column"_s,
-                               int(QGraphs3D::SelectionFlag::ItemRowAndColumn));
+                               int(QtGraphs3D::SelectionFlag::ItemRowAndColumn));
     selectionModeList->addItem(u"Slice into Row"_s,
-                               int(QGraphs3D::SelectionFlag::Slice | QGraphs3D::SelectionFlag::Row));
+                               int(QtGraphs3D::SelectionFlag::Slice
+                                   | QtGraphs3D::SelectionFlag::Row));
     selectionModeList->addItem(u"Slice into Row and Item"_s,
-                               int(QGraphs3D::SelectionFlag::Slice
-                                   | QGraphs3D::SelectionFlag::ItemAndRow));
+                               int(QtGraphs3D::SelectionFlag::Slice
+                                   | QtGraphs3D::SelectionFlag::ItemAndRow));
     selectionModeList->addItem(u"Slice into Column"_s,
-                               int(QGraphs3D::SelectionFlag::Slice
-                                   | QGraphs3D::SelectionFlag::Column));
+                               int(QtGraphs3D::SelectionFlag::Slice
+                                   | QtGraphs3D::SelectionFlag::Column));
     selectionModeList->addItem(u"Slice into Column and Item"_s,
-                               int(QGraphs3D::SelectionFlag::Slice
-                                   | QGraphs3D::SelectionFlag::ItemAndColumn));
+                               int(QtGraphs3D::SelectionFlag::Slice
+                                   | QtGraphs3D::SelectionFlag::ItemAndColumn));
     selectionModeList->addItem(u"Multi: Bar, Row, Col"_s,
-                               int(QGraphs3D::SelectionFlag::ItemRowAndColumn
-                                   | QGraphs3D::SelectionFlag::MultiSeries));
+                               int(QtGraphs3D::SelectionFlag::ItemRowAndColumn
+                                   | QtGraphs3D::SelectionFlag::MultiSeries));
     selectionModeList->addItem(u"Multi, Slice: Row, Item"_s,
-                               int(QGraphs3D::SelectionFlag::Slice
-                                   | QGraphs3D::SelectionFlag::ItemAndRow
-                                   | QGraphs3D::SelectionFlag::MultiSeries));
+                               int(QtGraphs3D::SelectionFlag::Slice
+                                   | QtGraphs3D::SelectionFlag::ItemAndRow
+                                   | QtGraphs3D::SelectionFlag::MultiSeries));
     selectionModeList->addItem(u"Multi, Slice: Col, Item"_s,
-                               int(QGraphs3D::SelectionFlag::Slice
-                                   | QGraphs3D::SelectionFlag::ItemAndColumn
-                                   | QGraphs3D::SelectionFlag::MultiSeries));
+                               int(QtGraphs3D::SelectionFlag::Slice
+                                   | QtGraphs3D::SelectionFlag::ItemAndColumn
+                                   | QtGraphs3D::SelectionFlag::MultiSeries));
     selectionModeList->setCurrentIndex(1);
 
     auto *backgroundCheckBox = new QCheckBox(m_barsWidget);

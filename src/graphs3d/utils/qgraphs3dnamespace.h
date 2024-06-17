@@ -6,7 +6,7 @@
 #include <QtGraphs/qtgraphsexports.h>
 #include <QtQmlIntegration/qqmlintegration.h>
 QT_BEGIN_NAMESPACE
-namespace QGraphs3D {
+namespace QtGraphs3D {
 Q_GRAPHS_EXPORT Q_NAMESPACE
 QML_NAMED_ELEMENT(Graphs3D)
 enum class SelectionFlag {
@@ -64,8 +64,8 @@ enum class CameraPreset {
     DirectlyBelow
 };
 Q_ENUM_NS(CameraPreset)
-} // namespace QGraphs3D
-Q_DECLARE_OPERATORS_FOR_FLAGS(QGraphs3D::SelectionFlags)
+} // namespace QtGraphs3D
+Q_DECLARE_OPERATORS_FOR_FLAGS(QtGraphs3D::SelectionFlags)
 
 QT_END_NAMESPACE
 #endif // QGRAPHS3DNAMESPACE_H

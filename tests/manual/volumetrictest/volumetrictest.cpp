@@ -32,8 +32,8 @@ VolumetricModifier::VolumetricModifier(Q3DGraphsWidgetItem *scatter)
 {
     m_graph->activeTheme()->setTheme(QGraphsTheme::Theme::QtGreen);
     //m_graph->activeTheme()->setType(Q3DTheme::Theme::Isabelle);
-    m_graph->setShadowQuality(QGraphs3D::ShadowQuality::None);
-    m_graph->setCameraPreset(QGraphs3D::CameraPreset::Front);
+    m_graph->setShadowQuality(QtGraphs3D::ShadowQuality::None);
+    m_graph->setCameraPreset(QtGraphs3D::CameraPreset::Front);
     m_graph->setOrthoProjection(true);
     //m_graph->scene()->activeCamera()->setTarget(QVector3D(-2.0f, 1.0f, 2.0f));
     m_scatterGraph = qobject_cast<Q3DScatterWidgetItem *>(m_graph);

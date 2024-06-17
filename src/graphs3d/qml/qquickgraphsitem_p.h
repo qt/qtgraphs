@@ -156,24 +156,24 @@ struct Abstract3DChangeBitField
 class Q_GRAPHS_EXPORT QQuickGraphsItem : public QQuick3DViewport
 {
     Q_OBJECT
-    Q_PROPERTY(QGraphs3D::SelectionFlags selectionMode READ selectionMode WRITE
-                   setSelectionMode NOTIFY selectionModeChanged)
-    Q_PROPERTY(QGraphs3D::ShadowQuality shadowQuality READ shadowQuality WRITE
-                   setShadowQuality NOTIFY shadowQualityChanged)
+    Q_PROPERTY(QtGraphs3D::SelectionFlags selectionMode READ selectionMode WRITE setSelectionMode
+                   NOTIFY selectionModeChanged)
+    Q_PROPERTY(QtGraphs3D::ShadowQuality shadowQuality READ shadowQuality WRITE setShadowQuality
+                   NOTIFY shadowQualityChanged)
     Q_PROPERTY(int msaaSamples READ msaaSamples WRITE setMsaaSamples NOTIFY msaaSamplesChanged)
     Q_PROPERTY(Q3DScene *scene READ scene NOTIFY sceneChanged)
     Q_PROPERTY(QGraphsTheme *theme READ theme WRITE setTheme NOTIFY themeChanged)
-    Q_PROPERTY(QGraphs3D::RenderingMode renderingMode READ renderingMode WRITE
-                   setRenderingMode NOTIFY renderingModeChanged)
+    Q_PROPERTY(QtGraphs3D::RenderingMode renderingMode READ renderingMode WRITE setRenderingMode
+                   NOTIFY renderingModeChanged)
     Q_PROPERTY(bool measureFps READ measureFps WRITE setMeasureFps NOTIFY measureFpsChanged)
     Q_PROPERTY(int currentFps READ currentFps NOTIFY currentFpsChanged)
     Q_PROPERTY(QQmlListProperty<QCustom3DItem> customItemList READ customItemList CONSTANT)
     Q_PROPERTY(bool orthoProjection READ isOrthoProjection WRITE setOrthoProjection NOTIFY
                    orthoProjectionChanged)
-    Q_PROPERTY(QGraphs3D::ElementType selectedElement READ selectedElement NOTIFY
-                   selectedElementChanged)
+    Q_PROPERTY(
+        QtGraphs3D::ElementType selectedElement READ selectedElement NOTIFY selectedElementChanged)
     Q_PROPERTY(qreal aspectRatio READ aspectRatio WRITE setAspectRatio NOTIFY aspectRatioChanged)
-    Q_PROPERTY(QGraphs3D::OptimizationHint optimizationHint READ optimizationHint WRITE
+    Q_PROPERTY(QtGraphs3D::OptimizationHint optimizationHint READ optimizationHint WRITE
                    setOptimizationHint NOTIFY optimizationHintChanged)
     Q_PROPERTY(bool polar READ isPolar WRITE setPolar NOTIFY polarChanged)
     Q_PROPERTY(float labelMargin READ labelMargin WRITE setLabelMargin NOTIFY labelMarginChanged)
@@ -191,8 +191,8 @@ class Q_GRAPHS_EXPORT QQuickGraphsItem : public QQuick3DViewport
                    cameraYRotationChanged)
     Q_PROPERTY(float cameraZoomLevel READ cameraZoomLevel WRITE setCameraZoomLevel NOTIFY
                    cameraZoomLevelChanged)
-    Q_PROPERTY(QGraphs3D::CameraPreset cameraPreset READ cameraPreset WRITE setCameraPreset
-                   NOTIFY cameraPresetChanged)
+    Q_PROPERTY(QtGraphs3D::CameraPreset cameraPreset READ cameraPreset WRITE setCameraPreset NOTIFY
+                   cameraPresetChanged)
     Q_PROPERTY(QVector3D cameraTargetPosition READ cameraTargetPosition WRITE
                    setCameraTargetPosition NOTIFY cameraTargetPositionChanged)
     Q_PROPERTY(float minCameraZoomLevel READ minCameraZoomLevel WRITE setMinCameraZoomLevel NOTIFY
@@ -277,17 +277,17 @@ public:
     virtual void releaseAxis(QAbstract3DAxis *axis);
     virtual QList<QAbstract3DAxis *> axes() const; // Omits default axes
 
-    virtual void setRenderingMode(QGraphs3D::RenderingMode mode);
-    virtual QGraphs3D::RenderingMode renderingMode() const;
+    virtual void setRenderingMode(QtGraphs3D::RenderingMode mode);
+    virtual QtGraphs3D::RenderingMode renderingMode() const;
 
-    virtual void setSelectionMode(QGraphs3D::SelectionFlags mode);
-    virtual QGraphs3D::SelectionFlags selectionMode() const;
+    virtual void setSelectionMode(QtGraphs3D::SelectionFlags mode);
+    virtual QtGraphs3D::SelectionFlags selectionMode() const;
 
-    void doSetShadowQuality(QGraphs3D::ShadowQuality quality);
-    virtual void setShadowQuality(QGraphs3D::ShadowQuality quality);
-    virtual QGraphs3D::ShadowQuality shadowQuality() const;
+    void doSetShadowQuality(QtGraphs3D::ShadowQuality quality);
+    virtual void setShadowQuality(QtGraphs3D::ShadowQuality quality);
+    virtual QtGraphs3D::ShadowQuality shadowQuality() const;
 
-    virtual QGraphs3D::ElementType selectedElement() const;
+    virtual QtGraphs3D::ElementType selectedElement() const;
 
     virtual void setMsaaSamples(int samples);
     virtual int msaaSamples() const;
@@ -350,8 +350,8 @@ public:
     void setAspectRatio(qreal ratio);
     qreal aspectRatio() const;
 
-    void setOptimizationHint(QGraphs3D::OptimizationHint hint);
-    QGraphs3D::OptimizationHint optimizationHint() const;
+    void setOptimizationHint(QtGraphs3D::OptimizationHint hint);
+    QtGraphs3D::OptimizationHint optimizationHint() const;
 
     void setPolar(bool enable);
     bool isPolar() const;
@@ -425,8 +425,8 @@ public:
     void setLineWidthScaleFactor(float scaleFactor) { m_lineWidthScaleFactor = scaleFactor; }
     float gridOffset() const { return m_gridOffset; }
 
-    QGraphs3D::CameraPreset cameraPreset() const;
-    void setCameraPreset(QGraphs3D::CameraPreset preset);
+    QtGraphs3D::CameraPreset cameraPreset() const;
+    void setCameraPreset(QtGraphs3D::CameraPreset preset);
 
     float cameraXRotation() const { return m_xRotation; }
     void setCameraXRotation(float rotation);
@@ -489,7 +489,7 @@ public:
     void changeLabelsVisible(QQuick3DRepeater *repeater, const bool &visible);
     void changeGridLineColor(QQuick3DRepeater *repeater, const QColor &color);
     void updateTitleLabels();
-    virtual void updateSelectionMode(QGraphs3D::SelectionFlags newMode);
+    virtual void updateSelectionMode(QtGraphs3D::SelectionFlags newMode);
 
     void setSliceActivatedChanged(bool changed) { m_sliceActivatedChanged = changed; }
 
@@ -544,23 +544,23 @@ public Q_SLOTS:
     void handleThemeMultiHighlightGradientChanged(const QLinearGradient &gradient);
     void handleThemeTypeChanged(QGraphsTheme::Theme theme);
 
-    void handleRequestShadowQuality(QGraphs3D::ShadowQuality quality);
+    void handleRequestShadowQuality(QtGraphs3D::ShadowQuality quality);
 
     void updateCustomItem();
 
 Q_SIGNALS:
-    void selectionModeChanged(QGraphs3D::SelectionFlags mode);
-    void shadowQualityChanged(QGraphs3D::ShadowQuality quality);
+    void selectionModeChanged(QtGraphs3D::SelectionFlags mode);
+    void shadowQualityChanged(QtGraphs3D::ShadowQuality quality);
     void shadowsSupportedChanged(bool supported);
     void msaaSamplesChanged(int samples);
     void themeChanged(QGraphsTheme *theme);
-    void renderingModeChanged(QGraphs3D::RenderingMode mode);
+    void renderingModeChanged(QtGraphs3D::RenderingMode mode);
     void measureFpsChanged(bool enabled);
     void currentFpsChanged(int fps);
-    void selectedElementChanged(QGraphs3D::ElementType type);
+    void selectedElementChanged(QtGraphs3D::ElementType type);
     void orthoProjectionChanged(bool enabled);
     void aspectRatioChanged(qreal ratio);
-    void optimizationHintChanged(QGraphs3D::OptimizationHint hint);
+    void optimizationHintChanged(QtGraphs3D::OptimizationHint hint);
     void polarChanged(bool enabled);
     void labelMarginChanged(float margin);
     void radialLabelOffsetChanged(float offset);
@@ -568,7 +568,7 @@ Q_SIGNALS:
     void localeChanged(const QLocale &locale);
     void queriedGraphPositionChanged(const QVector3D &data);
     void marginChanged(qreal margin);
-    void cameraPresetChanged(QGraphs3D::CameraPreset preset);
+    void cameraPresetChanged(QtGraphs3D::CameraPreset preset);
     void cameraXRotationChanged(float rotation);
     void cameraYRotationChanged(float rotation);
     void cameraZoomLevelChanged(float zoomLevel);
@@ -614,10 +614,10 @@ protected:
     virtual void handleWindowChanged(/*QQuickWindow *win*/);
     void itemChange(ItemChange change, const ItemChangeData &value) override;
     virtual void updateWindowParameters();
-    virtual void handleSelectionModeChange(QGraphs3D::SelectionFlags mode);
-    virtual void handleShadowQualityChange(QGraphs3D::ShadowQuality quality);
-    virtual void handleSelectedElementChange(QGraphs3D::ElementType type);
-    virtual void handleOptimizationHintChange(QGraphs3D::OptimizationHint hint);
+    virtual void handleSelectionModeChange(QtGraphs3D::SelectionFlags mode);
+    virtual void handleShadowQualityChange(QtGraphs3D::ShadowQuality quality);
+    virtual void handleSelectedElementChange(QtGraphs3D::ElementType type);
+    virtual void handleOptimizationHintChange(QtGraphs3D::OptimizationHint hint);
     void keyPressEvent(QKeyEvent *ev) override;
     virtual void handleThemeTypeChange();
     virtual void handleParentWidthChange();
@@ -681,7 +681,7 @@ protected:
     void updateSliceLabels();
     void updateBackgroundColor();
     void setItemSelected(bool selected);
-    virtual void updateShadowQuality(QGraphs3D::ShadowQuality quality);
+    virtual void updateShadowQuality(QtGraphs3D::ShadowQuality quality);
     void updateItemLabel(const QVector3D &position);
     virtual void updateSliceItemLabel(QString label, const QVector3D &position);
 
@@ -760,7 +760,7 @@ protected:
 
     QList<QCustom3DItem *> m_customItems;
 
-    QGraphs3D::ElementType m_clickedType = QGraphs3D::ElementType::None;
+    QtGraphs3D::ElementType m_clickedType = QtGraphs3D::ElementType::None;
     int m_selectedLabelIndex = -1;
     qsizetype m_selectedCustomItemIndex = -1;
     qreal m_margin = -1.0;
@@ -777,13 +777,12 @@ private:
     QQuick3DModel *m_subgridGeometryModel = nullptr;
     QQuick3DModel *m_sliceGridGeometryModel = nullptr;
     Abstract3DChangeBitField m_changeTracker;
-    QGraphs3D::SelectionFlags m_selectionMode = QGraphs3D::SelectionFlag::Item;
-    QGraphs3D::ShadowQuality m_shadowQuality = QGraphs3D::ShadowQuality::Medium;
+    QtGraphs3D::SelectionFlags m_selectionMode = QtGraphs3D::SelectionFlag::Item;
+    QtGraphs3D::ShadowQuality m_shadowQuality = QtGraphs3D::ShadowQuality::Medium;
     bool m_useOrthoProjection = false;
     qreal m_aspectRatio = 2.0;
     qreal m_horizontalAspectRatio = 0.0;
-    QGraphs3D::OptimizationHint m_optimizationHint
-        = QGraphs3D::OptimizationHint::Default;
+    QtGraphs3D::OptimizationHint m_optimizationHint = QtGraphs3D::OptimizationHint::Default;
     QLocale m_locale;
     QVector3D m_queriedGraphPosition;
     bool m_graphPositionQueryPending = false;
@@ -822,8 +821,7 @@ private:
     QQuick3DPerspectiveCamera *m_pCamera = nullptr;
     QQuick3DOrthographicCamera *m_oCamera = nullptr;
     QRectF m_cachedGeometry;
-    QGraphs3D::RenderingMode m_renderMode
-        = QGraphs3D::RenderingMode::DirectToBackground;
+    QtGraphs3D::RenderingMode m_renderMode = QtGraphs3D::RenderingMode::DirectToBackground;
     int m_samples = 0;
     int m_windowSamples = 0;
     QSize m_initialisedSize = QSize(0, 0);
@@ -902,7 +900,7 @@ private:
     int m_currentFps = -1;
     bool m_measureFps = false;
 
-    QGraphs3D::CameraPreset m_activePreset = QGraphs3D::CameraPreset::NoPreset;
+    QtGraphs3D::CameraPreset m_activePreset = QtGraphs3D::CameraPreset::NoPreset;
     float m_xRotation = 0.0f;
     float m_yRotation = 0.0f;
     float m_minXRotation = -180.0f;

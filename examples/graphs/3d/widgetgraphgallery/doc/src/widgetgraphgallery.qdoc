@@ -489,7 +489,7 @@
 
     \snippet 3d/widgetgraphgallery/surfacegraphmodifier.h 0
 
-    Add \c{QGraphs3D::SelectionFlag::Slice} and \c{QGraphs3D::SelectionFlag::MultiSeries} flags
+    Add \c{QtGraphs3D::SelectionFlag::Slice} and \c{QtGraphs3D::SelectionFlag::MultiSeries} flags
     for the row and column selection modes to support doing a slice selection to all visible series
     in the graph simultaneously.
 

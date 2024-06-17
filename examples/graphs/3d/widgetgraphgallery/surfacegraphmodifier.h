@@ -28,19 +28,19 @@ public:
     ~SurfaceGraphModifier();
 
     //! [0]
-    void toggleModeNone() { m_graph->setSelectionMode(QGraphs3D::SelectionFlag::None); }
-    void toggleModeItem() { m_graph->setSelectionMode(QGraphs3D::SelectionFlag::Item); }
+    void toggleModeNone() { m_graph->setSelectionMode(QtGraphs3D::SelectionFlag::None); }
+    void toggleModeItem() { m_graph->setSelectionMode(QtGraphs3D::SelectionFlag::Item); }
     void toggleModeSliceRow()
     {
-        m_graph->setSelectionMode(QGraphs3D::SelectionFlag::ItemAndRow
-                                  | QGraphs3D::SelectionFlag::Slice
-                                  | QGraphs3D::SelectionFlag::MultiSeries);
+        m_graph->setSelectionMode(QtGraphs3D::SelectionFlag::ItemAndRow
+                                  | QtGraphs3D::SelectionFlag::Slice
+                                  | QtGraphs3D::SelectionFlag::MultiSeries);
     }
     void toggleModeSliceColumn()
     {
-        m_graph->setSelectionMode(QGraphs3D::SelectionFlag::ItemAndColumn
-                                  | QGraphs3D::SelectionFlag::Slice
-                                  | QGraphs3D::SelectionFlag::MultiSeries);
+        m_graph->setSelectionMode(QtGraphs3D::SelectionFlag::ItemAndColumn
+                                  | QtGraphs3D::SelectionFlag::Slice
+                                  | QtGraphs3D::SelectionFlag::MultiSeries);
     }
     //! [0]
 
@@ -77,7 +77,7 @@ private:
     void setAxisXRange(float min, float max);
     void setAxisZRange(float min, float max);
     void fillSqrtSinProxy();
-    void handleElementSelected(QGraphs3D::ElementType type);
+    void handleElementSelected(QtGraphs3D::ElementType type);
     void resetSelection();
 
 private:
