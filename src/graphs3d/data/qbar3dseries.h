@@ -51,7 +51,6 @@ public:
     void setRowLabels(const QStringList &labels);
     QStringList columnLabels() const;
     void setColumnLabels(const QStringList &labels);
-    void fixRowLabels(qsizetype startIndex, qsizetype count, const QStringList &newLabels, bool isInsert);
 
 Q_SIGNALS:
     void dataProxyChanged(QBarDataProxy *proxy);

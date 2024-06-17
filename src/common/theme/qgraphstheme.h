@@ -242,6 +242,9 @@ public:
     enum class ColorStyle { Uniform, ObjectGradient, RangeGradient };
     Q_ENUM(ColorStyle)
 
+    enum class ForceTheme { No, Yes };
+    Q_ENUM(ForceTheme);
+
     explicit QGraphsTheme(QObject *parent = nullptr);
     ~QGraphsTheme() override;
 
@@ -256,7 +259,7 @@ public:
     void setColorScheme(Qt::ColorScheme newColorScheme);
 
     Theme theme() const;
-    void setTheme(Theme newTheme, bool force = false);
+    void setTheme(Theme newTheme, ForceTheme force = ForceTheme::No);
 
     ColorStyle colorStyle() const;
     void setColorStyle(ColorStyle newColorStyle);
