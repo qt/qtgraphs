@@ -338,6 +338,8 @@ public:
 
     void geometryChange(const QRectF &newGeometry, const QRectF &oldGeometry) override;
 
+    void resizeViewports(const QSizeF &viewportSize);
+
     void checkWindowList(QQuickWindow *window);
 
     void setMeasureFps(bool enable);
@@ -709,7 +711,7 @@ protected:
     bool isSliceEnabled() const { return m_sliceEnabled; }
     void setSliceEnabled(bool enabled) { m_sliceEnabled = enabled; }
     bool isSliceActivatedChanged() const { return m_sliceActivatedChanged; }
-    virtual void updateSliceGraph();
+    virtual void toggleSliceGraph();
     void createSliceCamera();
     bool isSliceOrthoProjection() const { return m_sliceUseOrthoProjection; }
     void setSliceOrthoProjection(bool enable) { m_sliceUseOrthoProjection = enable; }

@@ -1545,16 +1545,16 @@ void QQuickGraphsItem::handleFpsChanged()
 
 void QQuickGraphsItem::handleParentWidthChange()
 {
+    m_cachedGeometry = parentItem()->boundingRect();
+    updateWindowParameters();
     updateSubViews();
-    if (!m_sliceView->isVisible())
-        setWidth(parentItem()->width());
 }
 
 void QQuickGraphsItem::handleParentHeightChange()
 {
+    m_cachedGeometry = parentItem()->boundingRect();
+    updateWindowParameters();
     updateSubViews();
-    if (!m_sliceView->isVisible())
-        setHeight(parentItem()->height());
 }
 
 void QQuickGraphsItem::componentComplete()
@@ -2744,7 +2744,7 @@ void QQuickGraphsItem::synchData()
     }
 
     if (m_sliceActivatedChanged)
-        updateSliceGraph();
+        toggleSliceGraph();
 
     if (isCustomItemDirty() || forceUpdateCustomVolumes)
         updateCustomVolumes();
@@ -4963,8 +4963,8 @@ void QQuickGraphsItem::handleWindowChanged(/*QQuickWindow *window*/)
 void QQuickGraphsItem::geometryChange(const QRectF &newGeometry, const QRectF &oldGeometry)
 {
     QQuickItem::geometryChange(newGeometry, oldGeometry);
-
-    m_cachedGeometry = newGeometry;
+    // Do not cache primary subviewport geometry, as that will mess up window size
+    m_cachedGeometry = parentItem()->boundingRect();
     updateWindowParameters();
 }
 
@@ -4985,10 +4985,9 @@ void QQuickGraphsItem::updateWindowParameters()
             win->update();
         }
 
-        bool directRender = m_renderMode == QtGraphs3D::RenderingMode::DirectToBackground;
         QSize windowSize;
 
-        if (directRender)
+        if (m_renderMode == QtGraphs3D::RenderingMode::DirectToBackground)
             windowSize = win->size();
         else
             windowSize = m_cachedGeometry.size().toSize();
@@ -4998,18 +4997,7 @@ void QQuickGraphsItem::updateWindowParameters()
             win->update();
         }
 
-        if (directRender) {
-            // Origin mapping is needed when rendering directly to background
-            QPointF point = QQuickItem::mapToScene(QPointF(0.0, 0.0));
-            scene()->d_func()->setViewport(QRect(point.x() + 0.5f,
-                                                 point.y() + 0.5f,
-                                                 m_cachedGeometry.width() + 0.5f,
-                                                 m_cachedGeometry.height() + 0.5f));
-        } else {
-            // No translation needed when rendering to FBO
-            scene()->d_func()->setViewport(
-                QRect(0.0, 0.0, m_cachedGeometry.width() + 0.5f, m_cachedGeometry.height() + 0.5f));
-        }
+        resizeViewports(m_cachedGeometry.size());
     }
 }
 
@@ -5038,6 +5026,25 @@ void QQuickGraphsItem::mouseMoveEvent(QMouseEvent *event)
 {
     QPoint mousePos = event->pos();
     emit mouseMove(mousePos);
+}
+
+void QQuickGraphsItem::resizeViewports(const QSizeF &viewportSize)
+{
+    if (viewportSize.isEmpty())
+        return;
+
+    if (m_renderMode == QtGraphs3D::RenderingMode::DirectToBackground) {
+        // Origin mapping is needed when rendering directly to background
+        QPointF point = QQuickItem::mapToScene(QPointF(0.0f, 0.0f));
+        scene()->d_func()->setViewport(QRect(point.x() + 0.5f,
+                                             point.y() + 0.5f,
+                                             viewportSize.width() + 0.5f,
+                                             viewportSize.height() + 0.5f));
+    } else {
+        // No translation needed when rendering to FBO
+        scene()->d_func()->setViewport(
+                    QRect(0.0f, 0.0f, viewportSize.width() + 0.5f, viewportSize.height() + 0.5f));
+    }
 }
 
 void QQuickGraphsItem::checkWindowList(QQuickWindow *window)
@@ -5368,7 +5375,7 @@ void QQuickGraphsItem::updateSelectionMode(QtGraphs3D::SelectionFlags newMode)
     Q_UNUSED(newMode);
 
     if (m_sliceView && m_sliceView->isVisible())
-        updateSliceGraph();
+        toggleSliceGraph();
 }
 
 bool QQuickGraphsItem::doPicking(const QPointF &point)
@@ -5431,24 +5438,22 @@ void QQuickGraphsItem::minimizeMainGraph()
     m_inputHandler->setY(y());
 }
 
-void QQuickGraphsItem::updateSliceGraph()
+void QQuickGraphsItem::toggleSliceGraph()
 {
     if (!m_sliceView || !m_sliceActivatedChanged)
         return;
 
-    if (m_sliceView->isVisible()) {
-        setX(0);
-        setY(0);
-        setWidth(parentItem()->width());
-        setHeight(parentItem()->height());
-
+    if (isSlicingActive()) {
+        // Maximize main view
         m_sliceView->setVisible(false);
         setSlicingActive(false);
+        updateSubViews();
     } else {
+        // Minimize main view
         setSlicingActive(true);
+        m_sliceView->setVisible(true);
         minimizeMainGraph();
         updateSubViews();
-        m_sliceView->setVisible(true);
         updateSliceGrid();
         updateSliceLabels();
     }
@@ -5458,29 +5463,23 @@ void QQuickGraphsItem::updateSliceGraph()
 
 void QQuickGraphsItem::updateSubViews()
 {
-    QRect rect;
-    if (isSlicingActive()){
-        if (m_primarySubView.isNull())
-            rect = QRect(0,0,parentItem()->width() * 0.2, parentItem()->height() * 0.2);
-        else
-            rect = m_primarySubView ;
+    QRect newMainView = isSlicingActive() ? scene()->primarySubViewport() : scene()->viewport();
+    QRect newSliceView = scene()->secondarySubViewport();
 
-        setX(rect.x());
-        setY(rect.y());
-        setWidth(rect.width());
-        setHeight(rect.height());
+    if (newMainView.isValid() && newMainView.toRectF() != boundingRect()) {
+        // Set main view dimensions and position
+        setX(newMainView.x());
+        setY(newMainView.y());
+        setSize(newMainView.size());
     }
 
     if (sliceView()) {
-        if (m_secondarySubView.isNull())
-            rect = QRect(0,0, parentItem()->width(), parentItem()->height());
-        else
-            rect = m_secondarySubView;
-
-        sliceView()->setX(rect.x());
-        sliceView()->setY(rect.y());
-        sliceView()->setWidth(rect.width());
-        sliceView()->setHeight(rect.height());
+        if (newSliceView.isValid() && m_sliceView->boundingRect() != newSliceView.toRectF()) {
+            // Set slice view dimensions and position
+            m_sliceView->setX(newSliceView.x());
+            m_sliceView->setY(newSliceView.y());
+            m_sliceView->setSize(newSliceView.size());
+        }
 
         if (isSliceOrthoProjection()) {
             const float scale = qMin(m_sliceView->width(), m_sliceView->height());

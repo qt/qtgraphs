@@ -91,7 +91,7 @@ Item {
             change.scene.selectionQueryPosition = Qt.point(0, 0) // TODO: When doing signal checks, add tests to check that queries return something (asynchronously)
             change.scene.slicingActive = true
 
-            compare(change.scene.devicePixelRatio, 2.0)
+            compare(change.scene.devicePixelRatio, Screen.devicePixelRatio)
             compare(change.scene.graphPositionQuery, Qt.point(0, 0))
             compare(change.scene.primarySubViewport.x, 0)
             compare(change.scene.primarySubViewport.y, 0)

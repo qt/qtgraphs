@@ -54,7 +54,7 @@ Item {
 
         baseColor: "blue"
         baseGradient: gradient1
-        colorStyle: Theme3D.ColorStyle.ObjectGradient
+        colorStyle: GraphsTheme.ColorStyle.ObjectGradient
         itemLabelFormat: "%f"
         itemLabelVisible: false
         mesh: Abstract3DSeries.Mesh.Minimal
@@ -135,7 +135,7 @@ Item {
             // Common properties
             compare(initialized.baseColor, "#0000ff")
             compare(initialized.baseGradient, gradient1)
-            compare(initialized.colorStyle, GraphsTheme.ColorStyle.Uniform)
+            compare(initialized.colorStyle, GraphsTheme.ColorStyle.ObjectGradient)
             compare(initialized.itemLabelFormat, "%f")
             compare(initialized.itemLabelVisible, false)
             compare(initialized.mesh, Abstract3DSeries.Mesh.Minimal)

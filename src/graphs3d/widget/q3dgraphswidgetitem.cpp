@@ -1287,7 +1287,7 @@ bool Q3DGraphsWidgetItem::eventFilter(QObject *obj, QEvent *event)
         if (d->m_graphsItem) {
             Q3DScene *scene = (Q3DScene *) d->m_graphsItem->scene();
             scene->d_func()->setWindowSize(QSize(ev->size().width(), ev->size().height()));
-            scene->d_func()->setViewport(QRect(0, 0, ev->size().width(), ev->size().height()));
+            d->m_graphsItem->resizeViewports(ev->size());
             if (d->m_graphsItem->sliceView() && d->m_graphsItem->sliceView()->isVisible())
                 d->m_graphsItem->minimizeMainGraph();
             d->m_graphsItem->updateSubViews();
