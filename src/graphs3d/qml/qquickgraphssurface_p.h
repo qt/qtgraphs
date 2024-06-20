@@ -150,7 +150,7 @@ protected:
     void synchData() override;
     void updateGraph() override;
     void calculateSceneScalingFactors() override;
-    void updateSliceGraph() override;
+    void toggleSliceGraph() override;
     void updateSingleHighlightColor() override;
     void updateLightStrength() override;
     void handleThemeTypeChange() override;

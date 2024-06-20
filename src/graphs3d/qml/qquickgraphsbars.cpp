@@ -895,7 +895,7 @@ void QQuickGraphsBars::updateGraph()
                         removeSlicedBarModels();
                         createSliceView();
                         setSliceActivatedChanged(false);
-                        updateSliceGraph();
+                        toggleSliceGraph();
                         break;
                     } else {
                         setSliceActivatedChanged(true);
@@ -2243,12 +2243,12 @@ void QQuickGraphsBars::createSliceView()
     }
 }
 
-void QQuickGraphsBars::updateSliceGraph()
+void QQuickGraphsBars::toggleSliceGraph()
 {
     if (m_selectionDirty)
-        QQuickGraphsItem::updateSliceGraph();
+        QQuickGraphsItem::toggleSliceGraph();
 
-    if (!sliceView()->isVisible()) {
+    if (sliceView() && !sliceView()->isVisible()) {
         removeSlicedBarModels();
         m_changeTracker.selectedBarChanged = false;
         return;
@@ -2311,7 +2311,7 @@ void QQuickGraphsBars::updateSliceGraph()
                     }
                 } else {
                     setSliceEnabled(false);
-                    QQuickGraphsItem::updateSliceGraph();
+                    QQuickGraphsItem::toggleSliceGraph();
                     return;
                 }
             }
@@ -2525,7 +2525,7 @@ void QQuickGraphsBars::updateSelectionMode(QtGraphs3D::SelectionFlags mode)
         if (validSlice) {
             removeSlicedBarModels();
             createSliceView();
-            updateSliceGraph();
+            toggleSliceGraph();
         } else {
             m_selectionDirty = true;
             setSliceActivatedChanged(true);

@@ -986,7 +986,7 @@ void QQuickGraphsSurface::updateGraph()
                     m_selectionDirty = true;
                     setSliceActivatedChanged(true);
                 }
-                updateSliceGraph();
+                toggleSliceGraph();
             }
         }
 
@@ -1669,10 +1669,10 @@ QVector3D QQuickGraphsSurface::getNormalizedVertex(const QSurfaceDataItem &data,
     return QVector3D(normalizedX, normalizedY, normalizedZ);
 }
 
-void QQuickGraphsSurface::updateSliceGraph()
+void QQuickGraphsSurface::toggleSliceGraph()
 {
     if (m_selectionDirty)
-        QQuickGraphsItem::updateSliceGraph();
+        QQuickGraphsItem::toggleSliceGraph();
 
     setSelectedPointChanged(true);
 
@@ -2221,7 +2221,7 @@ void QQuickGraphsSurface::updateSelectionMode(QtGraphs3D::SelectionFlags mode)
                       && m_selectedPoint != invalidSelectionPosition();
     if (sliceView() && sliceView()->isVisible()) {
         if (validSlice) {
-            updateSliceGraph();
+            toggleSliceGraph();
         } else {
             m_selectionDirty = true;
             setSliceActivatedChanged(true);

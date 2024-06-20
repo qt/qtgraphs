@@ -164,7 +164,7 @@ protected:
                                              int index) override;
     float calculateCategoryGridLinePosition(QAbstract3DAxis *axis, int index) override;
     void createSliceView() override;
-    void updateSliceGraph() override;
+    void toggleSliceGraph() override;
     void handleLabelCountChanged(QQuick3DRepeater *repeater, QColor axisLabelColor) override;
     void updateSelectionMode(QtGraphs3D::SelectionFlags mode) override;
     bool doPicking(const QPointF &position) override;
