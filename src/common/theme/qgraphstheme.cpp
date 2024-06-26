@@ -459,7 +459,7 @@ QT_BEGIN_NAMESPACE
  * The default value is \c 2.0.
  *
  * If it is set for grid lines, only has effect if
- * \l{QAbstract3DGraphWidget::shaderGridEnabled} is \c true
+ * \l{Q3DGraphsWidgetItem::shaderGridEnabled} is \c true
  */
 
 /*!
@@ -469,7 +469,7 @@ QT_BEGIN_NAMESPACE
  * The default value is \c 1.0.
  *
  * If it is set for grid lines, only has effect if
- * \l{QAbstract3DGraphWidget::shaderGridEnabled} is \c true
+ * \l{Q3DGraphsWidgetItem::shaderGridEnabled} is \c true
  */
 
 /*!
