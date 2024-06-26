@@ -299,7 +299,7 @@ constexpr float polarRoundness = 64.0f;
  */
 
 /*!
- * \qmlproperty real QAbstract3DGraphWidget::labelMargin
+ * \qmlproperty real GraphsItem3D::labelMargin
  *
  * brief This property specifies the margin for the placement of the axis labels.
  *
