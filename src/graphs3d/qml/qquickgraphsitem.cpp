@@ -553,9 +553,10 @@ constexpr float polarRoundness = 64.0f;
  */
 
 /*!
- * \qmlproperty bool GraphsItem3D::shaderGridEnabled
+ * \qmlproperty Graphs3D.GridLineType GraphsItem3D::gridLineType
  *
- * Defines whether the grid lines are drawn inside a shader instead of lines.
+ * Defines whether the grid lines type is Graphs3D.GridLineType.Shader or
+ * Graphs3D.GridLineType.Geometry.
  *
  * This value affects all grid lines.
  */
@@ -1517,17 +1518,17 @@ void QQuickGraphsItem::checkSliceEnabled()
     }
 }
 
-bool QQuickGraphsItem::isShaderGridEnabled()
+QtGraphs3D::GridLineType QQuickGraphsItem::gridLineType() const
 {
-    return m_shaderGridEnabled;
+    return m_gridLineType;
 }
 
-void QQuickGraphsItem::setShaderGridEnabled(bool enabled)
+void QQuickGraphsItem::setGridLineType(const QtGraphs3D::GridLineType &gridLineType)
 {
-    m_shaderGridEnabledDirty = true;
-    if (m_shaderGridEnabled != enabled) {
-        m_shaderGridEnabled = enabled;
-        emit shaderGridEnabledChanged();
+    m_gridLineTypeDirty = true;
+    if (m_gridLineType != gridLineType) {
+        m_gridLineType = gridLineType;
+        emit gridLineTypeChanged();
         emitNeedRender();
     }
 }
@@ -2372,8 +2373,8 @@ void QQuickGraphsItem::synchData()
             bgMat->setParent(m_background);
             materialsRef.append(bgMat);
         }
-        if (m_shaderGridEnabled)
-            updateShaderGrid();
+        if (m_gridLineType == QtGraphs3D::GridLineType::Shader)
+            updateGridLineType();
         else
             updateGrid();
         updateLabels();
@@ -2471,13 +2472,13 @@ void QQuickGraphsItem::synchData()
         QQmlListReference materialRef(m_background, "materials");
         Q_ASSERT(materialRef.size());
         float mainWidth = theme()->grid().mainWidth();
-        if (m_shaderGridEnabled && mainWidth > 1.0f) {
+        if ((m_gridLineType == QtGraphs3D::GridLineType::Shader) && mainWidth > 1.0f) {
             qWarning("Invalid value for shader grid. Valid range for grid width is between"
                      " 0.0 and 1.0. Value exceeds 1.0. Set it to 1.0");
             mainWidth = 1.0f;
         }
 
-        if (m_shaderGridEnabled && mainWidth < 0.0f) {
+        if ((m_gridLineType == QtGraphs3D::GridLineType::Shader) && mainWidth < 0.0f) {
             qWarning("Invalid value for shader grid. Valid range for grid width is between"
                      " 0.0 and 1.0. Value is smaller than 0.0. Set it to 0.0");
             mainWidth = 0.0f;
@@ -2668,12 +2669,12 @@ void QQuickGraphsItem::synchData()
         theme()->dirtyBits()->plotAreaBackgroundVisibilityDirty = false;
     }
 
-    if (m_shaderGridEnabledDirty) {
-        m_shaderGridEnabled = isShaderGridEnabled();
+    if (m_gridLineTypeDirty) {
+        m_gridLineType = gridLineType();
         theme()->dirtyBits()->gridVisibilityDirty = true;
         theme()->dirtyBits()->gridDirty = true;
         m_gridUpdate = true;
-        m_shaderGridEnabledDirty = false;
+        m_gridLineTypeDirty = false;
     }
 
     if (theme()->dirtyBits()->gridVisibilityDirty) {
@@ -2681,9 +2682,9 @@ void QQuickGraphsItem::synchData()
         QQmlListReference materialRef(m_background, "materials");
         Q_ASSERT(materialRef.size());
         auto *material = static_cast<QQuick3DCustomMaterial *>(materialRef.at(0));
-        material->setProperty("gridVisible", visible && m_shaderGridEnabled);
-        m_gridGeometryModel->setVisible(visible &! m_shaderGridEnabled);
-        m_subgridGeometryModel->setVisible(visible &! m_shaderGridEnabled);
+        material->setProperty("gridVisible", visible && (m_gridLineType == QtGraphs3D::GridLineType::Shader));
+        m_gridGeometryModel->setVisible(visible &! (m_gridLineType == QtGraphs3D::GridLineType::Shader));
+        m_subgridGeometryModel->setVisible(visible &! (m_gridLineType == QtGraphs3D::GridLineType::Shader));
 
         if (m_sliceView && isSliceEnabled())
             m_sliceGridGeometryModel->setVisible(visible);
@@ -2717,8 +2718,8 @@ void QQuickGraphsItem::synchData()
 
     if (m_isSeriesVisualsDirty) {
         forceUpdateCustomVolumes = true;
-        if (m_shaderGridEnabled)
-            updateShaderGrid();
+        if (m_gridLineType == QtGraphs3D::GridLineType::Shader)
+            updateGridLineType();
         else
             updateGrid();
         updateLabels();
@@ -2731,8 +2732,8 @@ void QQuickGraphsItem::synchData()
     }
 
     if (m_gridUpdate) {
-        if (m_shaderGridEnabled)
-            updateShaderGrid();
+        if (m_gridLineType == QtGraphs3D::GridLineType::Shader)
+            updateGridLineType();
         else
             updateGrid();
     }
@@ -3152,7 +3153,7 @@ void QQuickGraphsItem::updateGrid()
     m_gridUpdate = false;
 }
 
-void QQuickGraphsItem::updateShaderGrid()
+void QQuickGraphsItem::updateGridLineType()
 {
     const int textureSize = 4096;
     QVector<QVector4D> grid(textureSize * 2, QVector4D(0, 0, 0, 0));

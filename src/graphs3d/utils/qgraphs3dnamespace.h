@@ -64,6 +64,10 @@ enum class CameraPreset {
     DirectlyBelow
 };
 Q_ENUM_NS(CameraPreset)
+
+enum class GridLineType { Shader, Geometry };
+Q_ENUM_NS(GridLineType)
+
 } // namespace QtGraphs3D
 Q_DECLARE_OPERATORS_FOR_FLAGS(QtGraphs3D::SelectionFlags)
 

@@ -873,7 +873,7 @@ void QQuickGraphsSurface::synchData()
         setSurfaceTextureChanged(false);
     }
 
-    if (isShaderGridEnabled()) {
+    if (gridLineType() == QtGraphs3D::GridLineType::Shader) {
         if (!m_topGrid) {
             //add horizontal top grid
             QUrl topGridUrl = QUrl(QStringLiteral(":/defaultMeshes/barMeshFull"));
