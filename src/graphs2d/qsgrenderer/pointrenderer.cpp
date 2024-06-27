@@ -349,6 +349,7 @@ void PointRenderer::handlePolish(QXYSeries *series)
 
         if (series->type() != QAbstractSeries::SeriesType::Scatter) {
             group->shapePath = new QQuickShapePath(&m_shape);
+            group->shapePath->setAsynchronous(true);
             auto data = m_shape.data();
             data.append(&data, m_groups.value(series)->shapePath);
         }
