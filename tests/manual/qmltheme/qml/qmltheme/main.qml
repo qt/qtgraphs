@@ -91,7 +91,6 @@ Item {
             msaaSamples: 4
             aspectRatio: 3.0
             visible: !graphMod.barsVisible
-            shaderGridEnabled: backMod.testgridChange.checked
 
             Surface3DSeries {
                 id: surfaceSeries
@@ -118,7 +117,6 @@ Item {
             msaaSamples: 4
             aspectRatio: 3.0
             visible: graphMod.barsVisible
-            shaderGridEnabled: backMod.testgridChange.checked
 
             Bar3DSeries {
                 id: barsSeries

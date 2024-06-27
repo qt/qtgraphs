@@ -628,22 +628,23 @@ void Q3DGraphsWidgetItem::setLightColor(const QColor &newLightColor)
 }
 
 /*!
- * \property Q3DGraphsWidgetItem::shaderGridEnabled
+ * \property Q3DGraphsWidgetItem::gridLineType
  *
- * \brief Whether the grid lines are drawn inside a shader instead of lines.
+ * \brief Whether the grid lines type is Q3DGraphsWidgetItem::GridLineType::Shader or
+ * Q3DGraphsWidgetItem::GridLineType::Geometry.
  *
  * This value affects all grid lines.
  */
-bool Q3DGraphsWidgetItem::isShaderGridEnabled()
+QtGraphs3D::GridLineType Q3DGraphsWidgetItem::gridLineType() const
 {
-    Q_D(Q3DGraphsWidgetItem);
-    return d->m_graphsItem->isShaderGridEnabled();
+    const Q_D(Q3DGraphsWidgetItem);
+    return d->m_graphsItem->gridLineType();
 }
 
-void Q3DGraphsWidgetItem::setShaderGridEnabled(bool enabled)
+void Q3DGraphsWidgetItem::setGridLineType(const QtGraphs3D::GridLineType &gridLineType)
 {
     Q_D(Q3DGraphsWidgetItem);
-    d->m_graphsItem->setShaderGridEnabled(enabled);
+    d->m_graphsItem->setGridLineType(gridLineType);
 }
 
 void Q3DGraphsWidgetItem::setWidget(QQuickWidget *widget)
@@ -1422,9 +1423,9 @@ void Q3DGraphsWidgetItemPrivate::createGraph()
                      q,
                      &Q3DGraphsWidgetItem::lightColorChanged);
     QObject::connect(m_graphsItem.get(),
-                     &QQuickGraphsItem::shaderGridEnabledChanged,
+                     &QQuickGraphsItem::gridLineTypeChanged,
                      q,
-                     &Q3DGraphsWidgetItem::shaderGridEnabledChanged);
+                     &Q3DGraphsWidgetItem::gridLineTypeChanged);
     m_widget->installEventFilter(q);
 }
 

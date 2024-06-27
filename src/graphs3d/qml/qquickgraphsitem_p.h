@@ -218,8 +218,8 @@ class Q_GRAPHS_EXPORT QQuickGraphsItem : public QQuick3DViewport
         float lightStrength READ lightStrength WRITE setLightStrength NOTIFY lightStrengthChanged)
     Q_PROPERTY(float shadowStrength READ shadowStrength WRITE setShadowStrength NOTIFY
                    shadowStrengthChanged)
-    Q_PROPERTY(bool shaderGridEnabled READ isShaderGridEnabled WRITE setShaderGridEnabled NOTIFY
-                   shaderGridEnabledChanged FINAL)
+    Q_PROPERTY(QtGraphs3D::GridLineType gridLineType READ gridLineType WRITE setGridLineType NOTIFY
+                   gridLineTypeChanged FINAL)
 
     QML_NAMED_ELEMENT(GraphsItem3D)
     QML_UNCREATABLE("")
@@ -510,8 +510,8 @@ public:
     void setShadowStrength(float newShadowStrength);
     QColor lightColor() const;
     void setLightColor(const QColor &newLightColor);
-    bool isShaderGridEnabled();
-    void setShaderGridEnabled(bool enabled);
+    QtGraphs3D::GridLineType gridLineType() const;
+    void setGridLineType(const QtGraphs3D::GridLineType &gridLineType);
 
 public Q_SLOTS:
     virtual void handleAxisXChanged(QAbstract3DAxis *axis) = 0;
@@ -607,7 +607,7 @@ Q_SIGNALS:
     void lightStrengthChanged();
     void shadowStrengthChanged();
     void lightColorChanged();
-    void shaderGridEnabledChanged();
+    void gridLineTypeChanged();
 
 protected:
     bool event(QEvent *event) override;
@@ -677,7 +677,7 @@ protected:
         m_hasVerticalSegmentLine = hasVerticalLine;
     }
     void updateGrid();
-    void updateShaderGrid();
+    void updateGridLineType();
     void updateLabels();
     void updateSliceGrid();
     void updateSliceLabels();
@@ -865,8 +865,9 @@ private:
     bool m_secondarySubViewOnTop = true;
 
     bool m_gridUpdated = false;
-    bool m_shaderGridEnabled = false;
-    bool m_shaderGridEnabledDirty = false;
+
+    QtGraphs3D::GridLineType m_gridLineType = QtGraphs3D::GridLineType::Geometry;
+    bool m_gridLineTypeDirty = false;
 
     bool m_validVolumeSlice = false;
 

@@ -247,6 +247,15 @@ ColumnLayout {
         CheckBox {
             id: testgridChange
             checked: false
+            onCheckedChanged: {
+                if (checked) {
+                    surface.gridLineType = Graphs3D.GridLineType.Shader;
+                    bars.gridLineType = Graphs3D.GridLineType.Shader;
+                } else {
+                    surface.gridLineType = Graphs3D.GridLineType.Geometry;
+                    bars.gridLineType = Graphs3D.GridLineType.Geometry;
+                }
+            }
         }
     }
 

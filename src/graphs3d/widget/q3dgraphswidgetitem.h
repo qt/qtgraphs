@@ -94,8 +94,8 @@ class Q_GRAPHSWIDGETS_EXPORT Q3DGraphsWidgetItem : public QObject
         float lightStrength READ lightStrength WRITE setLightStrength NOTIFY lightStrengthChanged)
     Q_PROPERTY(float shadowStrength READ shadowStrength WRITE setShadowStrength NOTIFY
                    shadowStrengthChanged)
-    Q_PROPERTY(bool shaderGridEnabled READ isShaderGridEnabled WRITE setShaderGridEnabled NOTIFY
-                   shaderGridEnabledChanged FINAL)
+    Q_PROPERTY(QtGraphs3D::GridLineType gridLineType READ gridLineType WRITE setGridLineType NOTIFY
+                   gridLineTypeChanged FINAL)
 
 public:
     void addTheme(QGraphsTheme *theme);
@@ -234,8 +234,8 @@ public:
     void setShadowStrength(float newShadowStrength);
     QColor lightColor() const;
     void setLightColor(const QColor &newLightColor);
-    bool isShaderGridEnabled();
-    void setShaderGridEnabled(bool enabled);
+    QtGraphs3D::GridLineType gridLineType() const;
+    void setGridLineType(const QtGraphs3D::GridLineType &gridLineType);
 
     void setWidget(QQuickWidget *widget);
     QQuickWidget *widget() const;
@@ -297,7 +297,7 @@ Q_SIGNALS:
     void lightStrengthChanged();
     void shadowStrengthChanged();
     void lightColorChanged();
-    void shaderGridEnabledChanged();
+    void gridLineTypeChanged();
 
 private:
     Q_DISABLE_COPY_MOVE(Q3DGraphsWidgetItem)
