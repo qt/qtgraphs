@@ -39,7 +39,7 @@
         \li \l{3D Surface Graphs}{3D surface graphs}
     \endlist
 
-    The QAbstract3DGraph class subclasses a QQuickWidget and provides a renderer based on
+    The QQuickGraphsItem class subclasses a QQuick3DViewport and provides a renderer based on
     QtQuick3D for its own subclasses that implement the different graph types: Q3DBars,
     Q3DScatter, and Q3DSurface. The graph type determines how the data is
     presented.
@@ -92,8 +92,8 @@
 
     \list
         \li Volumetric objects, because they use 3D textures
-        \li Instancing, i.e. QAbstract3DGraph::OptimizationHint::Default does not work, and
-        QAbstract3DGraph::OptimizationHint::Legacy has to be used instead.
+        \li Instancing, i.e. QtGraphs3D::OptimizationHint::Default does not work, and
+        QtGraphs3D::OptimizationHint::Legacy has to be used instead.
     \endlist
 
     \section1 Selecting Rendering Mode

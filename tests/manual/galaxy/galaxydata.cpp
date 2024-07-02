@@ -48,18 +48,17 @@ GalaxyData::GalaxyData(Q3DScatter *scatter,
     m_filtered(false)
 {
     m_graph->activeTheme()->setTheme(QGraphsTheme::Theme::QtGreen);
-    m_graph->setShadowQuality(QAbstract3DGraph::ShadowQuality::Low);
+    m_graph->setShadowQuality(QtGraphs3D::ShadowQuality::Low);
 
     m_graph->axisX()->setRange(-25000.0f, 25000.0f);
     m_graph->axisZ()->setRange(-25000.0f, 25000.0f);
-    m_graph->setOptimizationHint(QAbstract3DGraph::OptimizationHint::Default);
+    m_graph->setOptimizationHint(QtGraphs3D::OptimizationHint::Default);
     m_graph->activeTheme()->setPlotAreaBackgroundColor(QColor(31, 31, 31));
     m_graph->activeTheme()->setBackgroundColor(QColor(31, 31, 31));
     m_graph->activeTheme()->setLabelBackgroundColor(QColor(31, 31, 31));
     m_graph->activeTheme()->setLabelTextColor(QColor(31, 31, 31));
 
-    QObject::connect(m_graph, &QAbstract3DGraph::currentFpsChanged,
-                     this, &GalaxyData::handleFpsChange);
+    QObject::connect(m_graph, &QtGraphs3D::currentFpsChanged, this, &GalaxyData::handleFpsChange);
     m_graph->setMeasureFps(true);
 
     createSeries();
