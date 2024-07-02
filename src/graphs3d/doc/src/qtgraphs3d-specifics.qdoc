@@ -428,12 +428,12 @@
     \section2 Enums
 
     All enums have been turned into scoped enums, for example \c{QAbstract3DGraph::ShadowQualityLow}
-    has been converted to \c{QAbstract3DGraph::ShadowQuality::Low}.
+    has been converted to \c{QtGraphs3D::ShadowQuality::Low}.
 */
 
 /*!
  * \fn QSurfaceFormat qDefaultSurfaceFormat(bool antialias)
- * \relates QAbstract3DGraph
+ * \relates QtGraphs3D
  *
  * This convenience function can be used to create a custom surface format suitable for use by
  * Qt Graphs graphs.
