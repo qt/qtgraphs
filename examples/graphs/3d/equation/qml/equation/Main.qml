@@ -52,7 +52,7 @@ Item {
 
     function createDataPoints() {
         dataModel.clear();
-        if (graphTypes.currentIndex) {
+        if (graphTypes.currentIndex === 2) {
             for (var i = xValues.first.value; i <= xValues.second.value; i += 0.3) {
                 for (var j = zValues.first.value; j <= zValues.second.value; j += 0.3)
                     addDataPoints(i, j);
@@ -133,6 +133,7 @@ Item {
                 model: ListModel {
                     id: model
                     ListElement { text: "Surface Graph" }
+                    ListElement { text: "Bar Graph" }
                     ListElement { text: "Scatter Graph" }
                 }
 
@@ -312,7 +313,7 @@ Item {
                 Layout.preferredHeight: 30
                 Layout.margins: 5
                 Layout.alignment: Qt.AlignCenter
-                visible: graphTypes.currentIndex
+                visible: graphTypes.currentIndex !== 0
 
                 Text {
                     text: "Transparency"
@@ -500,7 +501,8 @@ Item {
             Surface3D {
                 id: surfaceGraph
                 anchors.fill: parent
-                shadowQuality: Graphs3D.ShadowQuality.None
+                shadowQuality: Graphs3D.ShadowQuality.SoftHigh
+                selectionMode: Graphs3D.SelectionFlag.Item
                 aspectRatio: 2.0
                 horizontalAspectRatio: 1.0
                 msaaSamples: 8
@@ -532,11 +534,48 @@ Item {
         }
 
         Item {
+            id: barView
+            Bars3D {
+                id: barGraph
+                anchors.fill: parent
+                shadowQuality: Graphs3D.ShadowQuality.SoftHigh
+                selectionMode: Graphs3D.SelectionFlag.Item
+                msaaSamples: 8
+                cameraPreset: Graphs3D.CameraPreset.IsometricRight
+                cameraZoomLevel: 60
+                barThickness: 0.7
+                barSpacing: Qt.size(0.5, 0.5)
+                barSpacingRelative: false
+
+                theme : GraphsTheme {
+                    id: barTheme
+                    colorStyle: GraphsTheme.ColorStyle.RangeGradient
+                    baseGradients: gradient
+                    plotAreaBackgroundVisible: false
+                }
+
+                Bar3DSeries {
+                    id: barSeries
+                    itemLabelFormat: "@colLabel, @rowLabel: @valueLabel"
+
+                    ItemModelBarDataProxy {
+                        itemModel: dataModel
+
+                        columnRole: "xPos"
+                        valueRole: "yPos"
+                        rowRole: "zPos"
+                    }
+                }
+            }
+        }
+
+        Item {
             id: scatterView
             Scatter3D {
                 id: scatterGraph
                 anchors.fill: parent
-                shadowQuality: Graphs3D.ShadowQuality.None
+                shadowQuality: Graphs3D.ShadowQuality.SoftHigh
+                selectionMode: Graphs3D.SelectionFlag.Item
                 aspectRatio: 2.0
                 horizontalAspectRatio: 1.0
                 msaaSamples: 8
