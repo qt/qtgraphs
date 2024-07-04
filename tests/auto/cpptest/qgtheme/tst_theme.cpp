@@ -88,11 +88,11 @@ void tst_theme::initialProperties()
 
     QCOMPARE(m_theme->plotAreaBackgroundColor(), QColor(QRgb(0xFCFCFC)));
     QCOMPARE(m_theme->isPlotAreaBackgroundVisible(), true);
-    QCOMPARE(m_theme->seriesColors().size(), 1);
-    QCOMPARE(m_theme->seriesColors().at(0), QColor(Qt::black));
-    QCOMPARE(m_theme->seriesGradients().size(), 1);
-    QCOMPARE(m_theme->seriesGradients().at(0).stops().at(0).second, QColor(Qt::black));
-    QCOMPARE(m_theme->seriesGradients().at(0).stops().at(1).second, QColor(Qt::black));
+    QCOMPARE(m_theme->seriesColors().size(), 5);
+    QCOMPARE(m_theme->seriesColors().at(0), QColor(QRgb(0xD5F8E7)));
+    QCOMPARE(m_theme->seriesGradients().size(), 5);
+    QCOMPARE(m_theme->seriesGradients().at(0).stops().at(0).second, QColor(QRgb(0x6A7C73)));
+    QCOMPARE(m_theme->seriesGradients().at(0).stops().at(1).second, QColor(QRgb(0xD5F8E7)));
     QCOMPARE(m_theme->labelFont(), QFont(QLatin1String("Arial")));
     QCOMPARE(m_theme->isGridVisible(), true);
     QCOMPARE(m_theme->grid().mainColor(), QColor(QRgb(0x545151)));
@@ -107,7 +107,7 @@ void tst_theme::initialProperties()
     QCOMPARE(m_theme->multiHighlightGradient().stops().at(1).second, QColor(QRgb(0x22D47B)));
     QCOMPARE(m_theme->singleHighlightColor(), QColor(QRgb(0xCCDC00)));
     QCOMPARE(m_theme->singleHighlightGradient().stops().at(1).second, QColor(QRgb(0xCCDC00)));
-    QCOMPARE(m_theme->theme(), QGraphsTheme::Theme::UserDefined);
+    QCOMPARE(m_theme->theme(), QGraphsTheme::Theme::QtGreen);
     QCOMPARE(m_theme->backgroundColor(), QColor(QRgb(0xF2F2F2)));
     QCOMPARE(m_theme->isBackgroundVisible(), true);
 }

@@ -29,7 +29,7 @@ QT_BEGIN_NAMESPACE
  * \section1 Default Theme
  *
  * The following table lists the properties controlled by themes and the
- * default values for UserDefined.
+ * default values for QtGreen.
  *
  * \table
  *   \header
@@ -174,8 +174,8 @@ QT_BEGIN_NAMESPACE
  * \section1 Default Theme
  *
  * The following table lists the properties controlled by themes and the
- * default values for \l{QGraphsTheme::Theme::UserDefined}
- * {QGraphsTheme.Theme.UserDefined}.
+ * default values for \l{QGraphsTheme::Theme::QtGreen}
+ * {QGraphsTheme.Theme.QtGreen}.
  *
  * \table
  *   \header
@@ -431,7 +431,7 @@ QT_BEGIN_NAMESPACE
  * \qmlproperty GraphsTheme.Theme GraphsTheme::theme
  *
  * The type of the theme. If no type is set, the type is
- * \l{QGraphsTheme::Theme::UserDefined}{GraphsTheme.Theme.UserDefined}.
+ * \l{QGraphsTheme::Theme::QtGreen}{GraphsTheme.Theme.QtGreen}.
  * Changing the theme type after the item has been constructed will change all
  * other properties of the theme to what the predefined theme specifies.
  * Changing the theme type of the active theme of the graph will also reset all
@@ -510,7 +510,7 @@ QGraphsTheme::QGraphsTheme(QObject *parent)
     else
         setColorScheme(Qt::ColorScheme::Light);
     setLabelBorderVisible(true);
-    setTheme(Theme::UserDefined, ForceTheme::Yes);
+    setTheme(Theme::QtGreen, ForceTheme::Yes);
     setLabelFont(QFont(QLatin1String("Arial")));
     setAxisXLabelFont(QFont());
     setAxisYLabelFont(QFont());
@@ -585,7 +585,7 @@ void QGraphsTheme::setColorScheme(Qt::ColorScheme newColorScheme)
  * \property QGraphsTheme::theme
  *
  * The type of the theme. If no type is set, the type is
- * \l{QGraphsTheme::Theme::UserDefined}{GraphsTheme.Theme.UserDefined}.
+ * \l{QGraphsTheme::Theme::QtGreen}{GraphsTheme.Theme.QtGreen}.
  * Changing the theme type after the item has been constructed will change all
  * other properties of the theme to what the predefined theme specifies.
  * Changing the theme type of the active theme of the graph will also reset all

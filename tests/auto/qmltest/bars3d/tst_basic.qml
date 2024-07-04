@@ -167,7 +167,7 @@ shadowStrength: 50.0
             compare(common.shadowQuality, Graphs3D.ShadowQuality.Medium,
                     "shadowQuality")
             compare(common.msaaSamples, 4, "msaaSamples")
-            compare(common.theme.theme, GraphsTheme.Theme.UserDefined, "theme")
+            compare(common.theme.theme, GraphsTheme.Theme.QtGreen, "theme")
             compare(common.renderingMode, Graphs3D.RenderingMode.Indirect,
                     "renderingMode")
             compare(common.measureFps, false, "measureFps")
@@ -296,7 +296,7 @@ shadowStrength: 50.0
             tryCompare(common_init, "shadowQuality", Graphs3D.ShadowQuality.Low)
             compare(common_init.msaaSamples, 2, "msaaSamples")
             compare(common_init.theme.theme,
-                    GraphsTheme.Theme.UserDefined, "theme")
+                    GraphsTheme.Theme.QtGreen, "theme")
             compare(common_init.renderingMode, Graphs3D.RenderingMode.Indirect,
                     "renderingMode")
             compare(common_init.measureFps, true, "measureFps")
