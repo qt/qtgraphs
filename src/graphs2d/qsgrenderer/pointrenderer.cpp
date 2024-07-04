@@ -307,6 +307,9 @@ void PointRenderer::handlePolish(QXYSeries *series)
     if (!theme)
         return;
 
+    if (!m_graph->m_axisRenderer)
+        return;
+
     if (series->points().isEmpty())
         return;
 

@@ -51,6 +51,9 @@ void AreaRenderer::handlePolish(QAreaSeries *series)
     if (!theme)
         return;
 
+    if (!m_graph->m_axisRenderer)
+        return;
+
     QXYSeries *upper = series->upperSeries();
     QXYSeries *lower = series->lowerSeries();
 

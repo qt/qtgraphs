@@ -464,6 +464,9 @@ void BarsRenderer::handlePolish(QBarSeries *series)
     if (!theme)
         return;
 
+    if (!m_graph->m_axisRenderer)
+        return;
+
     qsizetype setCount = series->barSets().size();
     auto &seriesData = m_seriesData[series];
     auto &barItems = m_barItems[series];
