@@ -90,7 +90,7 @@ void tst_surface::initialProperties()
     QCOMPARE(m_graph->axisZ()->orientation(), QAbstract3DAxis::AxisOrientation::Z);
 
     // Common properties
-    QCOMPARE(m_graph->activeTheme()->theme(), QGraphsTheme::Theme::UserDefined);
+    QCOMPARE(m_graph->activeTheme()->theme(), QGraphsTheme::Theme::QtGreen);
     QCOMPARE(m_graph->selectionMode(), QtGraphs3D::SelectionFlag::Item);
     QCOMPARE(m_graph->shadowQuality(), QtGraphs3D::ShadowQuality::Medium);
     QVERIFY(m_graph->scene());
