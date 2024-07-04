@@ -107,6 +107,8 @@ void QSplineSeries::componentComplete()
         }
     });
 
+    connect(this, &QSplineSeries::pointsReplaced, this, [d]() { d->calculateSplinePoints(); });
+
     QAbstractSeries::componentComplete();
 }
 
