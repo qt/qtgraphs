@@ -280,7 +280,14 @@ void QAreaSeries::setUpperSeries(QXYSeries *newUpperSeries)
     Q_D(QAreaSeries);
     if (d->m_upperSeries == newUpperSeries)
         return;
+
+    if (d->m_upperSeries)
+        disconnect(newUpperSeries, &QXYSeries::update, this, &QAreaSeries::update);
+
     d->m_upperSeries = newUpperSeries;
+
+    connect(newUpperSeries, &QXYSeries::update, this, &QAreaSeries::update);
+
     emit upperSeriesChanged();
 }
 
@@ -295,7 +302,14 @@ void QAreaSeries::setLowerSeries(QXYSeries *newLowerSeries)
     Q_D(QAreaSeries);
     if (d->m_lowerSeries == newLowerSeries)
         return;
+
+    if (d->m_lowerSeries)
+        disconnect(newLowerSeries, &QXYSeries::update, this, &QAreaSeries::update);
+
     d->m_lowerSeries = newLowerSeries;
+
+    connect(newLowerSeries, &QXYSeries::update, this, &QAreaSeries::update);
+
     emit lowerSeriesChanged();
 }
 

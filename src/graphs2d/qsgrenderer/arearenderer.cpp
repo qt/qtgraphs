@@ -57,11 +57,44 @@ void AreaRenderer::handlePolish(QAreaSeries *series)
     QXYSeries *upper = series->upperSeries();
     QXYSeries *lower = series->lowerSeries();
 
-    if (!upper || upper->points().count() < 2)
+    if (!upper)
         return;
 
-    if (lower && lower->points().count() < 2)
+    if (!m_groups.contains(series)) {
+        PointGroup *group = new PointGroup();
+        group->series = series;
+        m_groups.insert(series, group);
+
+        group->shapePath = new QQuickShapePath(&m_shape);
+        auto data = m_shape.data();
+        data.append(&data, m_groups.value(series)->shapePath);
+    }
+
+    auto group = m_groups.value(series);
+
+    if (upper->points().count() < 2) {
+        auto pathElements = group->shapePath->pathElements();
+        pathElements.clear(&pathElements);
+
+        for (auto path : group->paths)
+            path->deleteLater();
+
+        group->paths.clear();
+
         return;
+    }
+
+    if (lower && lower->points().count() < 2) {
+        auto pathElements = group->shapePath->pathElements();
+        pathElements.clear(&pathElements);
+
+        for (auto path : group->paths)
+            path->deleteLater();
+
+        group->paths.clear();
+
+        return;
+    }
 
     m_areaWidth = width() - m_graph->m_marginLeft - m_graph->m_marginRight
                   - m_graph->m_axisRenderer->m_axisWidth;
@@ -80,18 +113,6 @@ void AreaRenderer::handlePolish(QAreaSeries *series)
     m_horizontalOffset = (m_graph->m_axisRenderer->m_axisHorizontalMinValue
                           / m_graph->m_axisRenderer->m_axisHorizontalValueRange)
                          * m_areaWidth;
-
-    if (!m_groups.contains(series)) {
-        PointGroup *group = new PointGroup();
-        group->series = series;
-        m_groups.insert(series, group);
-
-        group->shapePath = new QQuickShapePath(&m_shape);
-        auto data = m_shape.data();
-        data.append(&data, m_groups.value(series)->shapePath);
-    }
-
-    auto group = m_groups.value(series);
 
     qsizetype pointCount = upper->points().size();
     qsizetype currentSize = group->paths.size();
