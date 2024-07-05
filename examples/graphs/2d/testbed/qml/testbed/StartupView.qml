@@ -104,6 +104,10 @@ Item {
             name: "BarModelMapping"
             file: "BarModelMapping.qml"
         }
+        ListElement {
+            name: "QML Usage Series"
+            file: "QmlUsageSeries.qml"
+        }
     }
 
     Component {

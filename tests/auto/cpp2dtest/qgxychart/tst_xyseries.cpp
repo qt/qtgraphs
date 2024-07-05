@@ -99,27 +99,33 @@ void tst_xyseries::selectDeselect()
 void tst_xyseries::appendInsertRemove()
 {
     QVERIFY(m_series);
+    QSignalSpy updateSpy(m_series, &QXYSeries::update);
 
     QList<QPointF> points = {{0, 0}, {1, 1}, {2, 2}};
     QList<QPointF> morepoints = {{3, 3}, {4, 4}, {5, 5}};
     QList<QPointF> allpoints = {{0, 0}, {1, 1}, {2, 2}, {3, 3}, {4, 4}, {5, 5}};
     QList<QPointF> mixedpoints = {{0, 0}, {3, 3}, {1, 1}, {4, 4}, {2, 2}, {5, 5}};
 
+    QCOMPARE(updateSpy.count(), 0);
+
     // Append 3
     for (int i = 0; i < points.count(); ++i)
         m_series->append(points[i]);
 
+    QCOMPARE(updateSpy.count(), 3);
     QCOMPARE(m_series->points(), points);
 
     // Append 3 more
     m_series->append(morepoints);
 
+    QCOMPARE(updateSpy.count(), 6);
     QCOMPARE(m_series->points(), allpoints);
 
     // Remove the first 3 one by one
     for (int i = 2; i >= 0; --i)
         m_series->remove(i);
 
+    QCOMPARE(updateSpy.count(), 9);
     QCOMPARE(m_series->points(), morepoints);
 
     // Insert them in between
@@ -127,23 +133,27 @@ void tst_xyseries::appendInsertRemove()
     m_series->insert(2, points[1]);
     m_series->insert(4, points[2]);
 
+    QCOMPARE(updateSpy.count(), 12);
     QCOMPARE(m_series->points(), mixedpoints);
 
     // Remove first 3
     m_series->removeMultiple(0, 3);
 
+    QCOMPARE(updateSpy.count(), 13);
     QCOMPARE(m_series->count(), 3);
 
     // Append 3 by qreals
     for (int i = 10; i < 13; ++i)
         m_series->append(i, i);
 
+    QCOMPARE(updateSpy.count(), 16);
     QCOMPARE(m_series->count(), 6);
 
     // Remove 3 by qreals
     for (int i = 10; i < 13; ++i)
         m_series->remove(i, i);
 
+    QCOMPARE(updateSpy.count(), 19);
     QCOMPARE(m_series->count(), 3);
 }
 
