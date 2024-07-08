@@ -81,7 +81,7 @@ Rectangle {
 
             Surface3DSeries {
                 id: surfaceSeries
-                flatShadingEnabled: false
+                shading: Surface3DSeries.Shading.Smooth
                 drawMode: Surface3DSeries.DrawSurface
                 baseGradient: surfaceGradient
                 colorStyle: GraphsTheme.ColorStyle.RangeGradient

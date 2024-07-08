@@ -68,7 +68,6 @@ Item {
             axisY.subSegmentCount: 2
             axisY.labelFormat: "%i"
 
-
             scene.primarySubViewport: Qt.rect(primaryViewRect.x * windowRatio,
                                                   primaryViewRect.y * windowRatio,
                                                   primaryViewRect.width * windowRatio,
@@ -90,7 +89,7 @@ Item {
                 HeightMapSurfaceDataProxy {
                     heightMapFile: ":/heightmaps/layer_1.png"
                 }
-                flatShadingEnabled: false
+                shading: Surface3DSeries.Shading.Smooth
                 drawMode: Surface3DSeries.DrawSurface
                 //! [4]
                 visible: layerOneToggle.checked // bind to checkbox state
@@ -103,7 +102,7 @@ Item {
                 HeightMapSurfaceDataProxy {
                     heightMapFile: ":/heightmaps/layer_2.png"
                 }
-                flatShadingEnabled: false
+                shading: Surface3DSeries.Shading.Smooth
                 drawMode: Surface3DSeries.DrawSurface
                 visible: layerTwoToggle.checked // bind to checkbox state
             }
@@ -114,7 +113,7 @@ Item {
                 HeightMapSurfaceDataProxy {
                     heightMapFile: ":/heightmaps/layer_3.png"
                 }
-                flatShadingEnabled: false
+                shading: Surface3DSeries.Shading.Smooth
                 drawMode: Surface3DSeries.DrawSurface
                 visible: layerThreeToggle.checked // bind to checkbox state
             }

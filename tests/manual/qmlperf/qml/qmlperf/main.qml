@@ -153,14 +153,19 @@ Item {
             Button {
                 id: surfaceShadingToggle
                 visible: tabBar.currentIndex <= 2
-                text: qsTr("Flat shading: %1").arg(surfaceSeries.flatShadingEnabled.toString())
+                text: surfaceSeries.flatShadingSupported ? "Show\nSmooth" : "Flat not\nsupported"
                 Layout.fillWidth: true
                 Layout.preferredHeight: 50
                 Layout.margins: 10
                 Layout.alignment: Qt.AlignCenter
                 onClicked: {
-                    surfaceSeries.flatShadingEnabled =
-                            !surfaceSeries.flatShadingEnabled
+                    if (surfaceSeries.shading === Surface3DSeries.Shading.Flat) {
+                        surfaceSeries.shading = Surface3DSeries.Shading.Smooth;
+                        text = "Show\nFlat"
+                    } else {
+                        surfaceSeries.shading = Surface3DSeries.Shading.Flat;
+                        text = "Show\nSmooth"
+                    }
                     scatterSeries.meshSmooth = !scatterSeries.meshSmooth
                 }
             }

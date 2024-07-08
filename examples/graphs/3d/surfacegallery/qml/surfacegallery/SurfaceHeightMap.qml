@@ -67,7 +67,7 @@ Rectangle {
             //! [0]
             Surface3DSeries {
                 id: heightSeries
-                flatShadingEnabled: false
+                shading: Surface3DSeries.Shading.Smooth
                 drawMode: Surface3DSeries.DrawSurface
 
                 HeightMapSurfaceDataProxy {
@@ -163,11 +163,11 @@ Rectangle {
             enabled: heightSeries.flatShadingSupported
             //! [6]
             onClicked: {
-                if (heightSeries.flatShadingEnabled) {
-                    heightSeries.flatShadingEnabled = false;
+                if (heightSeries.shading === Surface3DSeries.Shading.Flat) {
+                    heightSeries.shading = Surface3DSeries.Shading.Smooth;
                     text = "Show\nFlat"
                 } else {
-                    heightSeries.flatShadingEnabled = true;
+                    heightSeries.shading = Surface3DSeries.Shading.Flat;
                     text = "Show\nSmooth"
                 }
             }

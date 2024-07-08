@@ -64,7 +64,7 @@ Item {
                 id: heightSeriesRGB8
                 drawMode: Surface3DSeries.DrawSurface
                 visible: true
-                flatShadingEnabled: false
+                shading: Surface3DSeries.Shading.Smooth
 
                 HeightMapSurfaceDataProxy {
                     heightMapFile: ":/mapRGB8"
@@ -77,7 +77,7 @@ Item {
                 id: heightSeriesRGB16
                 drawMode: Surface3DSeries.DrawSurface
                 visible: false
-                flatShadingEnabled: false
+                shading: Surface3DSeries.Shading.Smooth
 
                 HeightMapSurfaceDataProxy {
                     heightMapFile: ":/mapRGB16"
@@ -90,7 +90,7 @@ Item {
                 id: heightSeriesGRAY8
                 drawMode: Surface3DSeries.DrawSurface
                 visible: false
-                flatShadingEnabled: false
+                shading: Surface3DSeries.Shading.Smooth
 
                 HeightMapSurfaceDataProxy {
                     heightMapFile: ":/mapGRAY8"
@@ -103,7 +103,7 @@ Item {
                 id: heightSeriesGRAY16
                 drawMode: Surface3DSeries.DrawSurface
                 visible: false
-                flatShadingEnabled: false
+                shading: Surface3DSeries.Shading.Smooth
 
                 HeightMapSurfaceDataProxy {
                     heightMapFile: ":/mapGRAY16"

@@ -198,7 +198,7 @@ QValue3DAxis *QQuickGraphsSurface::axisZ() const
     return static_cast<QValue3DAxis *>(QQuickGraphsItem::axisZ());
 }
 
-void QQuickGraphsSurface::handleFlatShadingEnabledChanged()
+void QQuickGraphsSurface::handleShadingChanged()
 {
     auto series = static_cast<QSurface3DSeries *>(sender());
     for (auto model : m_model) {
@@ -1249,7 +1249,7 @@ void QQuickGraphsSurface::updateModel(SurfaceModel *model)
         float uvX = 1.0f / float(columnCount - 1);
         float uvY = 1.0f / float(rowCount - 1);
 
-        bool isFlatShadingEnabled = model->series->isFlatShadingEnabled();
+        bool flatShading = model->series->shading() == QSurface3DSeries::Shading::Flat;
 
         QVector3D boundsMin = model->boundsMin;
         QVector3D boundsMax = model->boundsMax;
@@ -1291,7 +1291,7 @@ void QQuickGraphsSurface::updateModel(SurfaceModel *model)
 
         material->setProperty("xDiff", 1.0f / float(sampleSpace.width() - 1));
         material->setProperty("yDiff", 1.0f / float(sampleSpace.height() - 1));
-        material->setProperty("flatShading", isFlatShadingEnabled);
+        material->setProperty("flatShading", flatShading);
         material->setProperty("graphHeight", scaleWithBackground().y());
         material->setProperty("uvOffset", QVector2D(columnStart, rowStart));
         material->setProperty("size", QVector2D(sampleSpace.width(), sampleSpace.height()));
@@ -1590,6 +1590,8 @@ void QQuickGraphsSurface::updateMaterial(SurfaceModel *model)
             break;
         }
 
+        bool flatShading = model->series->shading() == QSurface3DSeries::Shading::Flat;
+
         QVariant textureInputAsVariant = material->property("custex");
         QQuick3DShaderUtilsTextureInput *textureInput
             = textureInputAsVariant.value<QQuick3DShaderUtilsTextureInput *>();
@@ -1604,7 +1606,7 @@ void QQuickGraphsSurface::updateMaterial(SurfaceModel *model)
         material->setParent(model->model);
         material->setParentItem(model->model);
         material->setCullMode(QQuick3DMaterial::NoCulling);
-        material->setProperty("flatShading", model->series->isFlatShadingEnabled());
+        material->setProperty("flatShading", flatShading);
     }
 
     if (textured) {
@@ -2160,9 +2162,9 @@ void QQuickGraphsSurface::addModel(QSurface3DSeries *series)
     m_model.push_back(surfaceModel);
 
     connect(series,
-            &QSurface3DSeries::flatShadingEnabledChanged,
+            &QSurface3DSeries::shadingChanged,
             this,
-            &QQuickGraphsSurface::handleFlatShadingEnabledChanged);
+            &QQuickGraphsSurface::handleShadingChanged);
     connect(series,
             &QSurface3DSeries::wireframeColorChanged,
             this,

@@ -212,9 +212,14 @@ void GraphModifier::toggleSeries4(int enabled)
 void GraphModifier::toggleSmooth(int visible)
 {
     qDebug() << "GraphModifier::toggleSmooth " << visible;
-    m_theSeries->setFlatShadingEnabled(visible);
+    QSurface3DSeries::Shading shading;
+    if (visible)
+        shading = QSurface3DSeries::Shading::Flat;
+    else
+        shading = QSurface3DSeries::Shading::Smooth;
+    m_theSeries->setShading(shading);
 #ifdef MULTI_SERIES
-    m_multiseries[0]->setFlatShadingEnabled(visible);
+    m_multiseries[0]->setShading(shading);
 #endif
 }
 
@@ -257,7 +262,12 @@ void GraphModifier::toggleSeriesVisible(int enable)
 void GraphModifier::toggleSmoothS2(int visible)
 {
     qDebug() << __FUNCTION__ << visible;
-    m_multiseries[1]->setFlatShadingEnabled(visible);
+    QSurface3DSeries::Shading shading;
+    if (visible)
+        shading = QSurface3DSeries::Shading::Flat;
+    else
+        shading = QSurface3DSeries::Shading::Smooth;
+    m_multiseries[1]->setShading(shading);
 }
 
 void GraphModifier::toggleSurfaceGridS2(int enable)
@@ -291,7 +301,12 @@ void GraphModifier::toggleSeries2Visible(int enable)
 void GraphModifier::toggleSmoothS3(int enabled)
 {
     qDebug() << __FUNCTION__ << enabled;
-    m_multiseries[2]->setFlatShadingEnabled(enabled);
+    QSurface3DSeries::Shading shading;
+    if (enabled)
+        shading = QSurface3DSeries::Shading::Flat;
+    else
+        shading = QSurface3DSeries::Shading::Smooth;
+    m_multiseries[2]->setShading(shading);
 }
 
 void GraphModifier::toggleSurfaceGridS3(int enable)
@@ -325,7 +340,12 @@ void GraphModifier::toggleSeries3Visible(int visible)
 void GraphModifier::toggleSmoothS4(int visible)
 {
     qDebug() << __FUNCTION__ << visible;
-    m_multiseries[3]->setFlatShadingEnabled(visible);
+    QSurface3DSeries::Shading shading;
+    if (visible)
+        shading = QSurface3DSeries::Shading::Flat;
+    else
+        shading = QSurface3DSeries::Shading::Smooth;
+    m_multiseries[3]->setShading(shading);
 }
 
 void GraphModifier::toggleSurfaceGridS4(int enable)

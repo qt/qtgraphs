@@ -63,7 +63,7 @@ void tst_series::initialProperties()
 
     QVERIFY(m_series->dataProxy());
     QCOMPARE(m_series->drawMode(), QSurface3DSeries::DrawSurfaceAndWireframe);
-    QCOMPARE(m_series->isFlatShadingEnabled(), true);
+    QCOMPARE(m_series->shading(), QSurface3DSeries::Shading::Flat);
     QCOMPARE(m_series->isFlatShadingSupported(), true);
     QCOMPARE(m_series->selectedPoint(), m_series->invalidSelectionPosition());
     QCOMPARE(m_series->wireframeColor(), QColor(Qt::black));
@@ -79,12 +79,12 @@ void tst_series::initializeProperties()
 
     m_series->setDataProxy(new QSurfaceDataProxy());
     m_series->setDrawMode(QSurface3DSeries::DrawWireframe);
-    m_series->setFlatShadingEnabled(false);
+    m_series->setShading(QSurface3DSeries::Shading::Smooth);
     m_series->setSelectedPoint(QPoint(0, 0));
     m_series->setWireframeColor(QColor(Qt::red));
 
     QCOMPARE(m_series->drawMode(), QSurface3DSeries::DrawWireframe);
-    QCOMPARE(m_series->isFlatShadingEnabled(), false);
+    QCOMPARE(m_series->shading(), QSurface3DSeries::Shading::Smooth);
     QCOMPARE(m_series->selectedPoint(), QPoint(0, 0));
     QCOMPARE(m_series->wireframeColor(), QColor(Qt::red));
 

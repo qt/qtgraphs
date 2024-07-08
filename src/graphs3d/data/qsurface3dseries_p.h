@@ -32,7 +32,7 @@ public:
     void createItemLabel() override;
 
     void setSelectedPoint(const QPoint &position);
-    void setFlatShadingEnabled(bool enabled);
+    void setShading(const QSurface3DSeries::Shading shading);
     void setDrawMode(QSurface3DSeries::DrawFlags mode);
     void setTexture(const QImage &texture);
     void setWireframeColor(const QColor &color);
@@ -44,7 +44,7 @@ public:
 private:
     QSurfaceDataArray m_dataArray;
     QPoint m_selectedPoint;
-    bool m_flatShadingEnabled;
+    QSurface3DSeries::Shading m_shading;
     QSurface3DSeries::DrawFlags m_drawMode;
     QImage m_texture;
     QString m_textureFile;
