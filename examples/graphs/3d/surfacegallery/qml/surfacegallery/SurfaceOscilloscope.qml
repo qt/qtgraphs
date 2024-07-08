@@ -253,11 +253,11 @@ Item {
             enabled: surfaceSeries.flatShadingSupported
 
             onClicked: {
-                if (surfaceSeries.flatShadingEnabled) {
-                    surfaceSeries.flatShadingEnabled = false;
+                if (surfaceSeries.shading === Surface3DSeries.Shading.Flat) {
+                    surfaceSeries.shading = Surface3DSeries.Shading.Smooth;
                     text = "Show\nFlat"
                 } else {
-                    surfaceSeries.flatShadingEnabled = true;
+                    surfaceSeries.shading = Surface3DSeries.Shading.Flat;
                     text = "Show\nSmooth"
                 }
             }

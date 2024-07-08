@@ -197,7 +197,7 @@ void SurfaceGraphModifier::enableSqrtSinModel(bool enable)
     if (enable) {
         //! [3]
         m_sqrtSinSeries->setDrawMode(QSurface3DSeries::DrawSurfaceAndWireframe);
-        m_sqrtSinSeries->setFlatShadingEnabled(true);
+        m_sqrtSinSeries->setShading(QSurface3DSeries::Shading::Flat);
 
         m_graph->axisX()->setLabelFormat("%.2f");
         m_graph->axisZ()->setLabelFormat("%.2f");
@@ -264,11 +264,11 @@ void SurfaceGraphModifier::enableHeightMapModel(bool enable)
 {
     if (enable) {
         m_heightMapSeriesOne->setDrawMode(QSurface3DSeries::DrawSurface);
-        m_heightMapSeriesOne->setFlatShadingEnabled(false);
+        m_heightMapSeriesOne->setShading(QSurface3DSeries::Shading::Smooth);
         m_heightMapSeriesTwo->setDrawMode(QSurface3DSeries::DrawSurface);
-        m_heightMapSeriesTwo->setFlatShadingEnabled(false);
+        m_heightMapSeriesTwo->setShading(QSurface3DSeries::Shading::Smooth);
         m_heightMapSeriesThree->setDrawMode(QSurface3DSeries::DrawSurface);
-        m_heightMapSeriesThree->setFlatShadingEnabled(false);
+        m_heightMapSeriesThree->setShading(QSurface3DSeries::Shading::Smooth);
 
         m_graph->axisX()->setLabelFormat("%.1f N");
         m_graph->axisZ()->setLabelFormat("%.1f E");

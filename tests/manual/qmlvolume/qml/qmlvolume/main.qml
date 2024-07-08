@@ -28,7 +28,7 @@ Item {
             Surface3DSeries {
                 id: surfaceSeries
                 drawMode: Surface3DSeries.DrawSurface;
-                flatShadingEnabled: false;
+                shading: Surface3DSeries.Shading.Smooth
                 meshSmooth: true
                 itemLabelFormat: "@xLabel, @zLabel: @yLabel"
                 itemLabelVisible: false

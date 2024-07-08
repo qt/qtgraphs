@@ -38,7 +38,7 @@ Data::Data(Q3DSurfaceWidgetItem *surface, Q3DScatterWidgetItem *scatter, Q3DBars
     m_surface->activeTheme()->setBackgroundVisible(false);
     m_surface->setCameraPosition(0.0, 90.0, 150.0);
     QSurface3DSeries *series1 = new QSurface3DSeries(new QHeightMapSurfaceDataProxy());
-    series1->setFlatShadingEnabled(true);
+    series1->setShading(QSurface3DSeries::Shading::Flat);
     series1->setDrawMode(QSurface3DSeries::DrawSurface);
     series1->setColorStyle(QGraphsTheme::ColorStyle::RangeGradient);
     series1->setBaseGradient(gradient);

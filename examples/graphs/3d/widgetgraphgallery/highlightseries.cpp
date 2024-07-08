@@ -14,7 +14,7 @@ const float darkGreenPos = 0.2f;
 HighlightSeries::HighlightSeries()
 {
     setDrawMode(QSurface3DSeries::DrawSurface);
-    setFlatShadingEnabled(true);
+    setShading(QSurface3DSeries::Shading::Flat);
     setVisible(false);
 }
 

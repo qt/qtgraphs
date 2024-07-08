@@ -114,9 +114,9 @@ QT_BEGIN_NAMESPACE
  */
 
 /*!
- * \qmlproperty bool Surface3DSeries::flatShadingEnabled
+ * \qmlproperty bool Surface3DSeries::shading
  *
- * Sets surface flat shading to visible. It is preset to \c true by default.
+ * Sets surface flat shading to visible. It is preset to \c Surface3DSeries.Shading.Flat by default.
  * When disabled, the normals on the surface are interpolated making the edges
  * look round. When visible, the normals are kept the same on a triangle making
  * the color of the triangle solid. This makes the data more readable from the
@@ -180,9 +180,9 @@ QT_BEGIN_NAMESPACE
     This signal is emitted when selectedPoint changes to \a position.
 */
 /*!
-    \qmlsignal Surface3DSeries::flatShadingEnabledChanged(bool enable)
+    \qmlsignal Surface3DSeries::shadingChanged(const Shading shading)
 
-    This signal is emitted when flatShadingEnabled changes to \a enable.
+    This signal is emitted when shading changes to \a shading.
 */
 /*!
     \qmlsignal Surface3DSeries::flatShadingSupportedChanged(bool enable)
@@ -328,7 +328,7 @@ QPoint QSurface3DSeries::invalidSelectionPosition()
 }
 
 /*!
- * \property QSurface3DSeries::flatShadingEnabled
+ * \property QSurface3DSeries::shading
  *
  * \brief Whether surface flat shading is enabled.
  *
@@ -341,19 +341,19 @@ QPoint QSurface3DSeries::invalidSelectionPosition()
  * GL_EXT_gpu_shader4 extension. The value of the flatShadingSupported property
  * indicates whether flat shading is supported at runtime.
  */
-void QSurface3DSeries::setFlatShadingEnabled(bool enabled)
+void QSurface3DSeries::setShading(const QSurface3DSeries::Shading shading)
 {
     Q_D(QSurface3DSeries);
-    if (d->m_flatShadingEnabled != enabled) {
-        d->setFlatShadingEnabled(enabled);
-        emit flatShadingEnabledChanged(enabled);
+    if (d->m_shading != shading) {
+        d->setShading(shading);
+        emit shadingChanged(shading);
     }
 }
 
-bool QSurface3DSeries::isFlatShadingEnabled() const
+QSurface3DSeries::Shading QSurface3DSeries::shading() const
 {
     const Q_D(QSurface3DSeries);
-    return d->m_flatShadingEnabled;
+    return d->m_shading;
 }
 
 /*!
@@ -530,7 +530,7 @@ const QSurfaceDataArray &QSurface3DSeries::dataArray() const
 QSurface3DSeriesPrivate::QSurface3DSeriesPrivate()
     : QAbstract3DSeriesPrivate(QAbstract3DSeries::SeriesType::Surface)
     , m_selectedPoint(QQuickGraphsSurface::invalidSelectionPosition())
-    , m_flatShadingEnabled(true)
+    , m_shading(QSurface3DSeries::Shading::Flat)
     , m_drawMode(QSurface3DSeries::DrawSurfaceAndWireframe)
     , m_wireframeColor(Qt::black)
 {
@@ -654,9 +654,9 @@ void QSurface3DSeriesPrivate::setSelectedPoint(const QPoint &position)
     }
 }
 
-void QSurface3DSeriesPrivate::setFlatShadingEnabled(bool enabled)
+void QSurface3DSeriesPrivate::setShading(const QSurface3DSeries::Shading shading)
 {
-    m_flatShadingEnabled = enabled;
+    m_shading = shading;
     if (m_graph)
         m_graph->markSeriesVisualsDirty();
 }

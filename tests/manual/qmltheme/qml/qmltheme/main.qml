@@ -101,7 +101,7 @@ Item {
                     heightMapFile: ":/layer_1.png"
                     autoScaleY: true
                 }
-                flatShadingEnabled: false
+                shading: Surface3DSeries.Shading.Smooth
                 drawMode: Surface3DSeries.DrawSurface
             }
         }

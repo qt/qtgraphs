@@ -50,7 +50,7 @@ Item {
             yPosRole: "pop_density"
         }
         drawMode: Surface3DSeries.DrawSurface
-        flatShadingEnabled: false
+        shading: Surface3DSeries.Shading.Smooth
         selectedPoint: Qt.point(0, 0)
         textureFile: ":\customtexture.jpg"
         wireframeColor: "red"
@@ -96,7 +96,7 @@ Item {
             compare(initial.dataProxy.rowCount, 0)
             compare(initial.invalidSelectionPosition, Qt.point(-1, -1))
             compare(initial.drawMode, Surface3DSeries.DrawSurfaceAndWireframe)
-            compare(initial.flatShadingEnabled, true)
+            compare(initial.shading, Surface3DSeries.Shading.Flat)
             compare(initial.flatShadingSupported, true)
             compare(initial.selectedPoint, Qt.point(-1, -1))
             compare(initial.wireframeColor, "#000000")
@@ -130,7 +130,7 @@ Item {
         function test_1_initialized() {
             compare(initialized.dataProxy.rowCount, 2)
             compare(initialized.drawMode, Surface3DSeries.DrawSurface)
-            compare(initialized.flatShadingEnabled, false)
+            compare(initialized.shading, Surface3DSeries.Shading.Smooth)
             compare(initialized.selectedPoint, Qt.point(0, 0))
             compare(initialized.textureFile, ":\customtexture.jpg")
             compare(initialized.wireframeColor, "#ff0000")
@@ -161,7 +161,7 @@ Item {
 
         function test_1_change() {
             change.drawMode = Surface3DSeries.DrawSurface
-            change.flatShadingEnabled = false
+            change.shading = Surface3DSeries.Shading.Smooth
             change.selectedPoint = Qt.point(0, 0)
             change.textureFile = ":\customtexture.jpg"
             change.wireframeColor = "green"
@@ -171,7 +171,7 @@ Item {
             // This test has a dependency to the previous one due to asynchronous item model resolving
             compare(change.dataProxy.rowCount, 3)
             compare(change.drawMode, Surface3DSeries.DrawSurface)
-            compare(change.flatShadingEnabled, false)
+            compare(change.shading, Surface3DSeries.Shading.Smooth)
             compare(change.selectedPoint, Qt.point(0, 0))
             compare(change.textureFile, ":\customtexture.jpg")
             compare(change.wireframeColor, "#008000")

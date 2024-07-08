@@ -100,7 +100,7 @@ Item {
                 id: heightSeries
                 drawMode: Surface3DSeries.DrawSurface
                 visible: true
-                flatShadingEnabled: false
+                shading: Surface3DSeries.Shading.Smooth
 
                 HeightMapSurfaceDataProxy {
                     heightMapFile: ":/map"

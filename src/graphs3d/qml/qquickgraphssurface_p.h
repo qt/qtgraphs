@@ -165,7 +165,7 @@ public Q_SLOTS:
     void handleAxisYChanged(QAbstract3DAxis *axis) override;
     void handleAxisZChanged(QAbstract3DAxis *axis) override;
 
-    void handleFlatShadingEnabledChanged();
+    void handleShadingChanged();
     void handleWireframeColorChanged();
     void handleFlipHorizontalGridChanged(bool flip);
 
