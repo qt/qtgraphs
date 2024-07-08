@@ -15,8 +15,8 @@ Item {
 
     GraphsTheme {
         id: myTheme
-        theme: GraphsTheme.Theme.QtGreen
-        colorScheme: Qt.Light
+        theme: GraphsTheme.Theme.QtGreenNeon
+        colorScheme: Qt.Dark
     }
 
     GraphsTheme {
@@ -77,10 +77,12 @@ Item {
             compare(initial.marginLeft, 20)
             compare(initial.marginRight, 20)
             compare(initial.seriesList, [])
-            // compare some of the contents of the initial theme, as theme itself cannot be
-            compare(initial.theme.theme, GraphsTheme.Theme.QtGreen)
             compare(initial.axisX, null)
             compare(initial.axisY, null)
+            // compare some of the contents of the initial theme, as theme itself cannot be
+            compare(initial.theme.theme, GraphsTheme.Theme.QtGreen)
+            compare(initial.theme.colorScheme, Application.styleHints.colorScheme)
+            compare(initial.theme.seriesColors.length, 5)
         }
 
         function test_1_initial_change() {
@@ -107,6 +109,9 @@ Item {
             compare(initial.axisY, axisY)
             compare(initial.seriesList, [barInitial])
             compare(initial.theme, myTheme)
+            compare(initial.theme.theme, GraphsTheme.Theme.QtGreenNeon)
+            compare(initial.theme.colorScheme, Qt.Dark)
+            compare(initial.theme.seriesColors.length, 5)
         }
     }
 
@@ -122,6 +127,9 @@ Item {
             compare(initialized.marginRight, 10)
             compare(initialized.seriesList, [barInitial, lineInitial, areaInitial])
             compare(initialized.theme, myTheme)
+            compare(initialized.theme.theme, GraphsTheme.Theme.QtGreenNeon)
+            compare(initialized.theme.colorScheme, Qt.Dark)
+            compare(initialized.theme.seriesColors.length, 5)
             compare(initialized.axisX, axisXInitial)
             compare(initialized.axisY, axisYInitial)
         }
@@ -151,6 +159,9 @@ Item {
             compare(initialized.axisY, axisY)
             compare(initialized.seriesList, [lineInitial])
             compare(initialized.theme, newTheme)
+            compare(initialized.theme.theme, GraphsTheme.Theme.QtGreen)
+            compare(initialized.theme.colorScheme, Application.styleHints.colorScheme)
+            compare(initialized.theme.seriesColors.length, 5)
         }
 
         function test_3_initialized_change_to_invalid() {

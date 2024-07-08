@@ -570,11 +570,10 @@ QGraphsTheme::QGraphsTheme(QObject *parent)
     setLabelBackgroundVisible(true);
     setGridVisible(true);
     setLabelsVisible(true);
-    auto platformScheme = QGuiApplication::styleHints()->colorScheme();
-    if (platformScheme != Qt::ColorScheme::Unknown)
-        setColorScheme(platformScheme);
-    else
-        setColorScheme(Qt::ColorScheme::Light);
+    setColorScheme(QGuiApplication::styleHints()->colorScheme());
+    connect(QGuiApplication::styleHints(), &QStyleHints::colorSchemeChanged, this, [&](Qt::ColorScheme colorScheme) {
+        setColorScheme(colorScheme);
+    });
     setLabelBorderVisible(true);
     setTheme(Theme::QtGreen, ForceTheme::Yes);
     setLabelFont(QFont(QLatin1String("Arial")));
