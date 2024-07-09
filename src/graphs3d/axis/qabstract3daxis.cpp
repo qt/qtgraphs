@@ -386,7 +386,7 @@ void QAbstract3DAxis::setLabelsVisible(bool visible)
     }
 }
 
-bool QAbstract3DAxis::isLabelsVisible() const
+bool QAbstract3DAxis::labelsVisible() const
 {
     const Q_D(QAbstract3DAxis);
     return d->m_labelsVisible;

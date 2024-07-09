@@ -2256,17 +2256,17 @@ void QQuickGraphsItem::synchData()
     }
 
     if (m_changeTracker.axisXLabelVisibilityChanged) {
-        repeaterX()->setVisible(axisX()->isLabelsVisible());
+        repeaterX()->setVisible(axisX()->labelsVisible());
         m_changeTracker.axisXLabelVisibilityChanged = false;
     }
 
     if (m_changeTracker.axisYLabelVisibilityChanged) {
-        repeaterY()->setVisible(axisY()->isLabelsVisible());
+        repeaterY()->setVisible(axisY()->labelsVisible());
         m_changeTracker.axisYLabelVisibilityChanged = false;
     }
 
     if (m_changeTracker.axisZLabelVisibilityChanged) {
-        repeaterZ()->setVisible(axisZ()->isLabelsVisible());
+        repeaterZ()->setVisible(axisZ()->labelsVisible());
         m_changeTracker.axisZLabelVisibilityChanged = false;
     }
     updateTitleLabels();
