@@ -78,13 +78,13 @@ class Q_GRAPHSWIDGETS_EXPORT Q3DGraphsWidgetItem : public QObject
     Q_PROPERTY(QVector3D cameraTargetPosition READ cameraTargetPosition WRITE
                    setCameraTargetPosition NOTIFY cameraTargetPositionChanged)
     Q_PROPERTY(int msaaSamples READ msaaSamples WRITE setMsaaSamples NOTIFY msaaSamplesChanged)
-    Q_PROPERTY(bool rotationEnabled READ rotationEnabled WRITE setRotationEnabled NOTIFY
+    Q_PROPERTY(bool rotationEnabled READ isRotationEnabled WRITE setRotationEnabled NOTIFY
                    rotationEnabledChanged)
-    Q_PROPERTY(bool zoomAtTargetEnabled READ zoomAtTargetEnabled WRITE setZoomAtTargetEnabled NOTIFY
+    Q_PROPERTY(bool zoomAtTargetEnabled READ isZoomAtTargetEnabled WRITE setZoomAtTargetEnabled NOTIFY
                    zoomAtTargetEnabledChanged)
-    Q_PROPERTY(bool selectionEnabled READ selectionEnabled WRITE setSelectionEnabled NOTIFY
+    Q_PROPERTY(bool selectionEnabled READ isSelectionEnabled WRITE setSelectionEnabled NOTIFY
                    selectionEnabledChanged)
-    Q_PROPERTY(bool zoomEnabled READ zoomEnabled WRITE setZoomEnabled NOTIFY
+    Q_PROPERTY(bool zoomEnabled READ isZoomEnabled WRITE setZoomEnabled NOTIFY
                    zoomEnabledChanged)
 
     Q_PROPERTY(QColor lightColor READ lightColor WRITE setLightColor NOTIFY lightColorChanged)
@@ -185,13 +185,13 @@ public:
     void setMaxCameraYRotation(float rotation);
 
     void setZoomAtTargetEnabled(bool enable);
-    bool zoomAtTargetEnabled();
+    bool isZoomAtTargetEnabled();
     void setZoomEnabled(bool enable);
-    bool zoomEnabled();
+    bool isZoomEnabled();
     void setSelectionEnabled(bool enable);
-    bool selectionEnabled();
+    bool isSelectionEnabled();
     void setRotationEnabled(bool enable);
-    bool rotationEnabled();
+    bool isRotationEnabled();
 
     void setDefaultInputHandler();
     void unsetDefaultInputHandler();

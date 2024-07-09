@@ -512,7 +512,7 @@ void Q3DGraphsWidgetItem::setMaxCameraYRotation(float rotation)
  *
  * Defaults to \c{true}.
  */
-bool Q3DGraphsWidgetItem::zoomAtTargetEnabled()
+bool Q3DGraphsWidgetItem::isZoomAtTargetEnabled()
 {
     Q_D(Q3DGraphsWidgetItem);
     return d->m_graphsItem->zoomAtTargetEnabled();
@@ -531,7 +531,7 @@ void Q3DGraphsWidgetItem::setZoomAtTargetEnabled(bool enable)
  *
  * Defaults to \c{true}.
  */
-bool Q3DGraphsWidgetItem::zoomEnabled()
+bool Q3DGraphsWidgetItem::isZoomEnabled()
 {
     Q_D(Q3DGraphsWidgetItem);
     return d->m_graphsItem->zoomEnabled();
@@ -669,7 +669,7 @@ QQuickWidget *Q3DGraphsWidgetItem::widget() const
  *
  * Defaults to \c{true}.
  */
-bool Q3DGraphsWidgetItem::selectionEnabled()
+bool Q3DGraphsWidgetItem::isSelectionEnabled()
 {
     Q_D(Q3DGraphsWidgetItem);
     return d->m_graphsItem->selectionEnabled();
@@ -688,7 +688,7 @@ void Q3DGraphsWidgetItem::setSelectionEnabled(bool enable)
  *
  * Defaults to \c{true}.
  */
-bool Q3DGraphsWidgetItem::rotationEnabled()
+bool Q3DGraphsWidgetItem::isRotationEnabled()
 {
     Q_D(Q3DGraphsWidgetItem);
     return d->m_graphsItem->rotationEnabled();
