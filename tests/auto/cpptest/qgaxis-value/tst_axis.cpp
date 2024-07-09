@@ -75,7 +75,7 @@ void tst_axis::initialProperties()
     QCOMPARE(m_axis->title(), QString(""));
     QCOMPARE(m_axis->isTitleFixed(), true);
     QCOMPARE(m_axis->isTitleVisible(), false);
-    QCOMPARE(m_axis->isLabelsVisible(), true);
+    QCOMPARE(m_axis->labelsVisible(), true);
     QCOMPARE(m_axis->titleOffset(), 0.0f);
     QCOMPARE(m_axis->type(), QAbstract3DAxis::AxisType::Value);
 }
@@ -116,7 +116,7 @@ void tst_axis::initializeProperties()
     QCOMPARE(m_axis->title(), QString("title"));
     QCOMPARE(m_axis->isTitleFixed(), false);
     QCOMPARE(m_axis->isTitleVisible(), true);
-    QCOMPARE(m_axis->isLabelsVisible(), false);
+    QCOMPARE(m_axis->labelsVisible(), false);
     QCOMPARE(m_axis->titleOffset(), 1.0f);
 }
 
