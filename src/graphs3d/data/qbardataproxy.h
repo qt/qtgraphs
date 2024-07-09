@@ -23,9 +23,9 @@ class Q_GRAPHS_EXPORT QBarDataProxy : public QAbstractDataProxy
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(QBarDataProxy)
-    Q_PROPERTY(qsizetype rowCount READ rowCount NOTIFY rowCountChanged)
-    Q_PROPERTY(qsizetype colCount READ colCount NOTIFY colCountChanged)
-    Q_PROPERTY(QBar3DSeries *series READ series NOTIFY seriesChanged)
+    Q_PROPERTY(qsizetype rowCount READ rowCount NOTIFY rowCountChanged FINAL)
+    Q_PROPERTY(qsizetype colCount READ colCount NOTIFY colCountChanged FINAL)
+    Q_PROPERTY(QBar3DSeries *series READ series NOTIFY seriesChanged FINAL)
 public:
     explicit QBarDataProxy(QObject *parent = nullptr);
     ~QBarDataProxy() override;

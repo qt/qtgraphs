@@ -15,11 +15,11 @@ class Q_GRAPHS_EXPORT QScatter3DSeries : public QAbstract3DSeries
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(QScatter3DSeries)
-    Q_PROPERTY(QScatterDataProxy *dataProxy READ dataProxy WRITE setDataProxy NOTIFY dataProxyChanged)
+    Q_PROPERTY(QScatterDataProxy *dataProxy READ dataProxy WRITE setDataProxy NOTIFY dataProxyChanged FINAL)
     Q_PROPERTY(
-        int selectedItem READ selectedItem WRITE setSelectedItem NOTIFY selectedItemChanged)
-    Q_PROPERTY(float itemSize READ itemSize WRITE setItemSize NOTIFY itemSizeChanged)
-    Q_PROPERTY(QScatterDataArray dataArray READ dataArray WRITE setDataArray NOTIFY dataArrayChanged)
+        int selectedItem READ selectedItem WRITE setSelectedItem NOTIFY selectedItemChanged FINAL)
+    Q_PROPERTY(float itemSize READ itemSize WRITE setItemSize NOTIFY itemSizeChanged FINAL)
+    Q_PROPERTY(QScatterDataArray dataArray READ dataArray WRITE setDataArray NOTIFY dataArrayChanged FINAL)
 
 public:
     explicit QScatter3DSeries(QObject *parent = nullptr);

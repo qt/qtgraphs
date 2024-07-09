@@ -20,8 +20,8 @@ class Q_GRAPHS_EXPORT QScatterDataProxy : public QAbstractDataProxy
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(QScatterDataProxy)
-    Q_PROPERTY(qsizetype itemCount READ itemCount NOTIFY itemCountChanged)
-    Q_PROPERTY(QScatter3DSeries *series READ series NOTIFY seriesChanged)
+    Q_PROPERTY(qsizetype itemCount READ itemCount NOTIFY itemCountChanged FINAL)
+    Q_PROPERTY(QScatter3DSeries *series READ series NOTIFY seriesChanged FINAL)
 
 public:
     explicit QScatterDataProxy(QObject *parent = nullptr);

@@ -21,9 +21,9 @@ class Q_GRAPHS_EXPORT QSurfaceDataProxy : public QAbstractDataProxy
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(QSurfaceDataProxy)
-    Q_PROPERTY(qsizetype rowCount READ rowCount NOTIFY rowCountChanged)
-    Q_PROPERTY(qsizetype columnCount READ columnCount NOTIFY columnCountChanged)
-    Q_PROPERTY(QSurface3DSeries *series READ series NOTIFY seriesChanged)
+    Q_PROPERTY(qsizetype rowCount READ rowCount NOTIFY rowCountChanged FINAL)
+    Q_PROPERTY(qsizetype columnCount READ columnCount NOTIFY columnCountChanged FINAL)
+    Q_PROPERTY(QSurface3DSeries *series READ series NOTIFY seriesChanged FINAL)
 
 public:
     explicit QSurfaceDataProxy(QObject *parent = nullptr);

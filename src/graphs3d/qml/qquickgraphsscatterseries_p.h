@@ -26,12 +26,12 @@ class QQuickGraphsScatter3DSeries : public QScatter3DSeries
 {
     Q_OBJECT
     Q_PROPERTY(QQmlListProperty<QObject> seriesChildren READ seriesChildren CONSTANT)
-    Q_PROPERTY(
-        QJSValue baseGradient READ baseGradient WRITE setBaseGradient NOTIFY baseGradientChanged)
+    Q_PROPERTY(QJSValue baseGradient READ baseGradient WRITE setBaseGradient NOTIFY
+                   baseGradientChanged FINAL)
     Q_PROPERTY(QJSValue singleHighlightGradient READ singleHighlightGradient WRITE
-                   setSingleHighlightGradient NOTIFY singleHighlightGradientChanged)
+                   setSingleHighlightGradient NOTIFY singleHighlightGradientChanged FINAL)
     Q_PROPERTY(QJSValue multiHighlightGradient READ multiHighlightGradient WRITE
-                   setMultiHighlightGradient NOTIFY multiHighlightGradientChanged)
+                   setMultiHighlightGradient NOTIFY multiHighlightGradientChanged FINAL)
     // This is static method in parent class, overload as constant property for qml.
     Q_PROPERTY(int invalidSelectionIndex READ invalidSelectionIndex CONSTANT)
     Q_CLASSINFO("DefaultProperty", "seriesChildren")

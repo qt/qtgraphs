@@ -15,20 +15,23 @@ class Q_GRAPHS_EXPORT QSurface3DSeries : public QAbstract3DSeries
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(QSurface3DSeries)
-    Q_PROPERTY(QSurfaceDataProxy *dataProxy READ dataProxy WRITE setDataProxy NOTIFY dataProxyChanged)
+    Q_PROPERTY(QSurfaceDataProxy *dataProxy READ dataProxy WRITE setDataProxy NOTIFY
+                   dataProxyChanged FINAL)
     Q_PROPERTY(
         QPoint selectedPoint READ selectedPoint WRITE setSelectedPoint NOTIFY selectedPointChanged)
     Q_PROPERTY(bool flatShadingEnabled READ isFlatShadingEnabled WRITE setFlatShadingEnabled NOTIFY
-                   flatShadingEnabledChanged)
+                   flatShadingEnabledChanged FINAL)
+    Q_PROPERTY(bool flatShadingSupported READ isFlatShadingSupported NOTIFY
+                   flatShadingSupportedChanged FINAL)
+    Q_PROPERTY(QSurface3DSeries::DrawFlags drawMode READ drawMode WRITE setDrawMode NOTIFY
+                   drawModeChanged FINAL)
+    Q_PROPERTY(QImage texture READ texture WRITE setTexture NOTIFY textureChanged FINAL)
     Q_PROPERTY(
-        bool flatShadingSupported READ isFlatShadingSupported NOTIFY flatShadingSupportedChanged)
-    Q_PROPERTY(
-        QSurface3DSeries::DrawFlags drawMode READ drawMode WRITE setDrawMode NOTIFY drawModeChanged)
-    Q_PROPERTY(QImage texture READ texture WRITE setTexture NOTIFY textureChanged)
-    Q_PROPERTY(QString textureFile READ textureFile WRITE setTextureFile NOTIFY textureFileChanged)
+        QString textureFile READ textureFile WRITE setTextureFile NOTIFY textureFileChanged FINAL)
     Q_PROPERTY(QColor wireframeColor READ wireframeColor WRITE setWireframeColor NOTIFY
-                   wireframeColorChanged)
-    Q_PROPERTY(QSurfaceDataArray dataArray READ dataArray WRITE setDataArray NOTIFY dataArrayChanged)
+                   wireframeColorChanged FINAL)
+    Q_PROPERTY(
+        QSurfaceDataArray dataArray READ dataArray WRITE setDataArray NOTIFY dataArrayChanged FINAL)
 
 public:
     enum DrawFlag {
