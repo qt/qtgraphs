@@ -5903,6 +5903,12 @@ void QQuickGraphsItem::createSliceView()
             &QQuickItem::heightChanged,
             this,
             &QQuickGraphsItem::handleParentHeightChange);
+    connect(this, &QQuickItem::heightChanged,
+            this,
+            &QQuickGraphsItem::handleParentHeightChange);
+    connect(this, &QQuickItem::widthChanged,
+            this,
+            &QQuickGraphsItem::handleParentWidthChange);
 
     m_sliceView = new QQuick3DViewport();
     m_sliceView->setParent(parent());
