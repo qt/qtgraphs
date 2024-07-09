@@ -272,7 +272,7 @@ QBarSet::QBarSet(QObject *parent)
 /*!
     Constructs a bar set with the label \a label and the parent \a parent.
 */
-QBarSet::QBarSet(const QString label, QObject *parent)
+QBarSet::QBarSet(const QString &label, QObject *parent)
     : QObject(*(new QBarSetPrivate(label)), parent)
 {}
 
@@ -287,7 +287,7 @@ QBarSet::~QBarSet()
 /*!
     Sets \a label as the new label for the bar set.
 */
-void QBarSet::setLabel(const QString label)
+void QBarSet::setLabel(const QString &label)
 {
     Q_D(QBarSet);
     if (d->m_label != label) {
@@ -314,7 +314,7 @@ QString QBarSet::label() const
 /*!
     Appends the new value specified by \a value to the end of the bar set.
 */
-void QBarSet::append(const qreal value)
+void QBarSet::append(qreal value)
 {
     Q_D(QBarSet);
     // Convert to QPointF
@@ -357,7 +357,7 @@ void QBarSet::append(const QList<qreal> &values)
 
     \sa remove()
 */
-void QBarSet::insert(const qsizetype index, const qreal value)
+void QBarSet::insert(qsizetype index, qreal value)
 {
     Q_D(QBarSet);
     d->insert(index, value);
@@ -395,7 +395,7 @@ void QBarSet::insert(const qsizetype index, const qreal value)
     the value specified by \a index.
     \sa insert()
 */
-void QBarSet::remove(const qsizetype index, const qsizetype count)
+void QBarSet::remove(qsizetype index, qsizetype count)
 {
     Q_D(QBarSet);
     qsizetype removedCount = d->remove(index, count);
@@ -413,7 +413,7 @@ void QBarSet::remove(const qsizetype index, const qsizetype count)
 /*!
     Adds the value specified by \a value to the bar set at the position specified by \a index.
 */
-void QBarSet::replace(const qsizetype index, const qreal value)
+void QBarSet::replace(qsizetype index, qreal value)
 {
     Q_D(QBarSet);
     if (index >= 0 && index < d->m_values.size()) {
@@ -432,7 +432,7 @@ void QBarSet::replace(const qsizetype index, const qreal value)
     Returns the value specified by \a index from the bar set.
     If the index is out of bounds, 0.0 is returned.
 */
-qreal QBarSet::at(const qsizetype index) const
+qreal QBarSet::at(qsizetype index) const
 {
     const Q_D(QBarSet);
     if (index < 0 || index >= d->m_values.size())
@@ -488,7 +488,7 @@ void QBarSet::clear()
 
     \sa append()
 */
-QBarSet &QBarSet::operator << (const qreal &value)
+QBarSet &QBarSet::operator << (qreal value)
 {
     append(value);
     return *this;
@@ -498,7 +498,7 @@ QBarSet &QBarSet::operator << (const qreal &value)
     Returns the value of the bar set specified by \a index.
     If the index is out of bounds, 0.0 is returned.
 */
-qreal QBarSet::operator [](const qsizetype index) const
+qreal QBarSet::operator [](qsizetype index) const
 {
     return at(index);
 }
@@ -506,16 +506,16 @@ qreal QBarSet::operator [](const qsizetype index) const
 /*!
     Returns the fill color for the bar set.
 */
-QColor QBarSet::color()
+QColor QBarSet::color() const
 {
-    Q_D(QBarSet);
+    const Q_D(QBarSet);
     return d->m_color;
 }
 
 /*!
     Sets the fill color for the bar set to \a color.
 */
-void QBarSet::setColor(QColor color)
+void QBarSet::setColor(const QColor &color)
 {
     Q_D(QBarSet);
     if (d->m_color != color) {
@@ -528,16 +528,16 @@ void QBarSet::setColor(QColor color)
 /*!
     Returns the line color for the bar set.
 */
-QColor QBarSet::borderColor()
+QColor QBarSet::borderColor() const
 {
-    Q_D(QBarSet);
+    const Q_D(QBarSet);
     return d->m_borderColor;
 }
 
 /*!
     Sets the line color for the bar set to \a color.
 */
-void QBarSet::setBorderColor(QColor color)
+void QBarSet::setBorderColor(const QColor &color)
 {
     Q_D(QBarSet);
     if (d->m_borderColor != color) {
@@ -550,16 +550,16 @@ void QBarSet::setBorderColor(QColor color)
 /*!
     Returns the text color for the bar set.
 */
-QColor QBarSet::labelColor()
+QColor QBarSet::labelColor() const
 {
-    Q_D(QBarSet);
+    const Q_D(QBarSet);
     return d->m_labelColor;
 }
 
 /*!
     Sets the text color for the bar set to \a color.
 */
-void QBarSet::setLabelColor(QColor color)
+void QBarSet::setLabelColor(const QColor &color)
 {
     Q_D(QBarSet);
     if (d->m_labelColor != color) {
@@ -616,7 +616,7 @@ void QBarSet::setBorderWidth(qreal width)
     }
 }
 
-QVariantList QBarSet::values()
+QVariantList QBarSet::values() const
 {
     QVariantList values;
     for (qsizetype i(0); i < count(); i++)
@@ -624,7 +624,7 @@ QVariantList QBarSet::values()
     return values;
 }
 
-void QBarSet::setValues(QVariantList values)
+void QBarSet::setValues(const QVariantList &values)
 {
     bool valuesUpdated = false;
     // See if we can replace values instead of remove & add all.
@@ -878,14 +878,14 @@ QList<qsizetype> QBarSet::selectedBars() const
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-QBarSetPrivate::QBarSetPrivate(const QString label)
+QBarSetPrivate::QBarSetPrivate(const QString &label)
     : m_label(label)
     , m_visualsDirty(true)
 {}
 
 QBarSetPrivate::~QBarSetPrivate() {}
 
-void QBarSetPrivate::append(QPointF value)
+void QBarSetPrivate::append(const QPointF &value)
 {
     if (isValidValue(value)) {
         Q_Q(QBarSet);
@@ -919,21 +919,21 @@ void QBarSetPrivate::append(const QList<qreal> &values)
     emit q->valueAdded(originalIndex, values.size());
 }
 
-void QBarSetPrivate::insert(const qsizetype index, const qreal value)
+void QBarSetPrivate::insert(qsizetype index, qreal value)
 {
     m_values.insert(index, QPointF(index, value));
     Q_Q(QBarSet);
     emit q->valueAdded(index, 1);
 }
 
-void QBarSetPrivate::insert(const qsizetype index, const QPointF value)
+void QBarSetPrivate::insert(qsizetype index, const QPointF &value)
 {
     m_values.insert(index, value);
     Q_Q(QBarSet);
     emit q->valueAdded(index, 1);
 }
 
-qsizetype QBarSetPrivate::remove(const qsizetype index, const qsizetype count)
+qsizetype QBarSetPrivate::remove(qsizetype index, qsizetype count)
 {
     qsizetype removeCount = count;
 
@@ -973,7 +973,7 @@ qsizetype QBarSetPrivate::remove(const qsizetype index, const qsizetype count)
     return removeCount;
 }
 
-void QBarSetPrivate::replace(const qsizetype index, const qreal value)
+void QBarSetPrivate::replace(qsizetype index, qreal value)
 {
     if (index < 0 || index >= m_values.size())
         return;
@@ -981,14 +981,14 @@ void QBarSetPrivate::replace(const qsizetype index, const qreal value)
     m_values.replace(index, QPointF(index, value));
 }
 
-qreal QBarSetPrivate::pos(const qsizetype index)
+qreal QBarSetPrivate::pos(qsizetype index)
 {
     if (index < 0 || index >= m_values.size())
         return 0;
     return m_values.at(index).x();
 }
 
-qreal QBarSetPrivate::value(const qsizetype index)
+qreal QBarSetPrivate::value(qsizetype index)
 {
     if (index < 0 || index >= m_values.size())
         return 0;
