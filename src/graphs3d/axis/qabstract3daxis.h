@@ -19,22 +19,22 @@ class Q_GRAPHS_EXPORT QAbstract3DAxis : public QObject
     Q_OBJECT
     Q_DECLARE_PRIVATE(QAbstract3DAxis)
     Q_CLASSINFO("RegisterEnumClassesUnscoped", "false")
-    Q_PROPERTY(QString title READ title WRITE setTitle NOTIFY titleChanged)
+    Q_PROPERTY(QString title READ title WRITE setTitle NOTIFY titleChanged FINAL)
     Q_PROPERTY(QStringList labels READ labels WRITE setLabels NOTIFY labelsChanged)
     Q_PROPERTY(bool labelsVisible READ labelsVisible WRITE setLabelsVisible NOTIFY
-                   labelVisibleChanged)
-    Q_PROPERTY(
-        QAbstract3DAxis::AxisOrientation orientation READ orientation NOTIFY orientationChanged)
+                   labelVisibleChanged FINAL)
+    Q_PROPERTY(QAbstract3DAxis::AxisOrientation orientation READ orientation NOTIFY
+                   orientationChanged FINAL)
     Q_PROPERTY(QAbstract3DAxis::AxisType type READ type CONSTANT)
-    Q_PROPERTY(float min READ min WRITE setMin NOTIFY minChanged)
-    Q_PROPERTY(float max READ max WRITE setMax NOTIFY maxChanged)
+    Q_PROPERTY(float min READ min WRITE setMin NOTIFY minChanged FINAL)
+    Q_PROPERTY(float max READ max WRITE setMax NOTIFY maxChanged FINAL)
     Q_PROPERTY(bool autoAdjustRange READ isAutoAdjustRange WRITE setAutoAdjustRange NOTIFY
-                   autoAdjustRangeChanged)
+                   autoAdjustRangeChanged FINAL)
     Q_PROPERTY(float labelAutoRotation READ labelAutoRotation WRITE setLabelAutoRotation NOTIFY
-                   labelAutoRotationChanged)
-    Q_PROPERTY(
-        bool titleVisible READ isTitleVisible WRITE setTitleVisible NOTIFY titleVisibleChanged)
-    Q_PROPERTY(bool titleFixed READ isTitleFixed WRITE setTitleFixed NOTIFY titleFixedChanged)
+                   labelAutoRotationChanged FINAL)
+    Q_PROPERTY(bool titleVisible READ isTitleVisible WRITE setTitleVisible NOTIFY
+                   titleVisibleChanged FINAL)
+    Q_PROPERTY(bool titleFixed READ isTitleFixed WRITE setTitleFixed NOTIFY titleFixedChanged FINAL)
     Q_PROPERTY(
         float titleOffset READ titleOffset WRITE setTitleOffset NOTIFY titleOffsetChanged FINAL)
 

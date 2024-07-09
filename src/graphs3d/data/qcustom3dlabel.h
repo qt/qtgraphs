@@ -19,16 +19,17 @@ class Q_GRAPHS_EXPORT QCustom3DLabel : public QCustom3DItem
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(QCustom3DLabel)
-    Q_PROPERTY(QString text READ text WRITE setText NOTIFY textChanged)
-    Q_PROPERTY(QFont font READ font WRITE setFont NOTIFY fontChanged)
-    Q_PROPERTY(QColor textColor READ textColor WRITE setTextColor NOTIFY textColorChanged)
+    Q_PROPERTY(QString text READ text WRITE setText NOTIFY textChanged FINAL)
+    Q_PROPERTY(QFont font READ font WRITE setFont NOTIFY fontChanged FINAL)
+    Q_PROPERTY(QColor textColor READ textColor WRITE setTextColor NOTIFY textColorChanged FINAL)
     Q_PROPERTY(QColor backgroundColor READ backgroundColor WRITE setBackgroundColor NOTIFY
-                   backgroundColorChanged)
+                   backgroundColorChanged FINAL)
     Q_PROPERTY(bool borderVisible READ isBorderVisible WRITE setBorderVisible NOTIFY
-                   borderVisibleChanged)
+                   borderVisibleChanged FINAL)
     Q_PROPERTY(bool backgroundVisible READ isBackgroundVisible WRITE setBackgroundVisible NOTIFY
-                   backgroundVisibleChanged)
-    Q_PROPERTY(bool facingCamera READ isFacingCamera WRITE setFacingCamera NOTIFY facingCameraChanged)
+                   backgroundVisibleChanged FINAL)
+    Q_PROPERTY(bool facingCamera READ isFacingCamera WRITE setFacingCamera NOTIFY
+                   facingCameraChanged FINAL)
 
 public:
     explicit QCustom3DLabel(QObject *parent = nullptr);

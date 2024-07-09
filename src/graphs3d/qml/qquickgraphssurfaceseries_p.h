@@ -29,17 +29,17 @@ class QQuickGraphsSurface3DSeries : public QSurface3DSeries
     // This property is overloaded to use QPointF instead of QPoint to work
     // around qml bug where Qt.point(0, 0) can't be assigned due to error
     // "Cannot assign QPointF to QPoint".
-    Q_PROPERTY(
-        QPointF selectedPoint READ selectedPoint WRITE setSelectedPoint NOTIFY selectedPointChanged)
+    Q_PROPERTY(QPointF selectedPoint READ selectedPoint WRITE setSelectedPoint NOTIFY
+                   selectedPointChanged FINAL)
     // This is static method in parent class, overload as constant property for
     // qml.
     Q_PROPERTY(QPointF invalidSelectionPosition READ invalidSelectionPosition CONSTANT)
-    Q_PROPERTY(
-        QJSValue baseGradient READ baseGradient WRITE setBaseGradient NOTIFY baseGradientChanged)
+    Q_PROPERTY(QJSValue baseGradient READ baseGradient WRITE setBaseGradient NOTIFY
+                   baseGradientChanged FINAL)
     Q_PROPERTY(QJSValue singleHighlightGradient READ singleHighlightGradient WRITE
-                   setSingleHighlightGradient NOTIFY singleHighlightGradientChanged)
+                   setSingleHighlightGradient NOTIFY singleHighlightGradientChanged FINAL)
     Q_PROPERTY(QJSValue multiHighlightGradient READ multiHighlightGradient WRITE
-                   setMultiHighlightGradient NOTIFY multiHighlightGradientChanged)
+                   setMultiHighlightGradient NOTIFY multiHighlightGradientChanged FINAL)
     Q_CLASSINFO("DefaultProperty", "seriesChildren")
 
     QML_NAMED_ELEMENT(Surface3DSeries)

@@ -17,33 +17,36 @@ class Q_GRAPHS_EXPORT QCustom3DVolume : public QCustom3DItem
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(QCustom3DVolume)
-    Q_PROPERTY(int textureWidth READ textureWidth WRITE setTextureWidth NOTIFY textureWidthChanged)
     Q_PROPERTY(
-        int textureHeight READ textureHeight WRITE setTextureHeight NOTIFY textureHeightChanged)
-    Q_PROPERTY(int textureDepth READ textureDepth WRITE setTextureDepth NOTIFY textureDepthChanged)
-    Q_PROPERTY(int sliceIndexX READ sliceIndexX WRITE setSliceIndexX NOTIFY sliceIndexXChanged)
-    Q_PROPERTY(int sliceIndexY READ sliceIndexY WRITE setSliceIndexY NOTIFY sliceIndexYChanged)
-    Q_PROPERTY(int sliceIndexZ READ sliceIndexZ WRITE setSliceIndexZ NOTIFY sliceIndexZChanged)
-    Q_PROPERTY(QList<QRgb> colorTable READ colorTable WRITE setColorTable NOTIFY colorTableChanged)
+        int textureWidth READ textureWidth WRITE setTextureWidth NOTIFY textureWidthChanged FINAL)
+    Q_PROPERTY(int textureHeight READ textureHeight WRITE setTextureHeight NOTIFY
+                   textureHeightChanged FINAL)
     Q_PROPERTY(
-        QList<uchar> *textureData READ textureData WRITE setTextureData NOTIFY textureDataChanged)
+        int textureDepth READ textureDepth WRITE setTextureDepth NOTIFY textureDepthChanged FINAL)
+    Q_PROPERTY(int sliceIndexX READ sliceIndexX WRITE setSliceIndexX NOTIFY sliceIndexXChanged FINAL)
+    Q_PROPERTY(int sliceIndexY READ sliceIndexY WRITE setSliceIndexY NOTIFY sliceIndexYChanged FINAL)
+    Q_PROPERTY(int sliceIndexZ READ sliceIndexZ WRITE setSliceIndexZ NOTIFY sliceIndexZChanged FINAL)
+    Q_PROPERTY(
+        QList<QRgb> colorTable READ colorTable WRITE setColorTable NOTIFY colorTableChanged FINAL)
+    Q_PROPERTY(QList<uchar> *textureData READ textureData WRITE setTextureData NOTIFY
+                   textureDataChanged FINAL)
     Q_PROPERTY(float alphaMultiplier READ alphaMultiplier WRITE setAlphaMultiplier NOTIFY
-                   alphaMultiplierChanged)
+                   alphaMultiplierChanged FINAL)
     Q_PROPERTY(bool preserveOpacity READ preserveOpacity WRITE setPreserveOpacity NOTIFY
-                   preserveOpacityChanged)
+                   preserveOpacityChanged FINAL)
     Q_PROPERTY(bool useHighDefShader READ useHighDefShader WRITE setUseHighDefShader NOTIFY
-                   useHighDefShaderChanged)
-    Q_PROPERTY(bool drawSlices READ drawSlices WRITE setDrawSlices NOTIFY drawSlicesChanged)
+                   useHighDefShaderChanged FINAL)
+    Q_PROPERTY(bool drawSlices READ drawSlices WRITE setDrawSlices NOTIFY drawSlicesChanged FINAL)
     Q_PROPERTY(bool drawSliceFrames READ drawSliceFrames WRITE setDrawSliceFrames NOTIFY
-                   drawSliceFramesChanged)
+                   drawSliceFramesChanged FINAL)
     Q_PROPERTY(QColor sliceFrameColor READ sliceFrameColor WRITE setSliceFrameColor NOTIFY
-                   sliceFrameColorChanged)
+                   sliceFrameColorChanged FINAL)
     Q_PROPERTY(QVector3D sliceFrameWidths READ sliceFrameWidths WRITE setSliceFrameWidths NOTIFY
-                   sliceFrameWidthsChanged)
+                   sliceFrameWidthsChanged FINAL)
     Q_PROPERTY(QVector3D sliceFrameGaps READ sliceFrameGaps WRITE setSliceFrameGaps NOTIFY
-                   sliceFrameGapsChanged)
+                   sliceFrameGapsChanged FINAL)
     Q_PROPERTY(QVector3D sliceFrameThicknesses READ sliceFrameThicknesses WRITE
-                   setSliceFrameThicknesses NOTIFY sliceFrameThicknessesChanged)
+                   setSliceFrameThicknesses NOTIFY sliceFrameThicknessesChanged FINAL)
 
 public:
     explicit QCustom3DVolume(QObject *parent = nullptr);

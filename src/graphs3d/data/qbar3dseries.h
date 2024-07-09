@@ -16,14 +16,16 @@ class Q_GRAPHS_EXPORT QBar3DSeries : public QAbstract3DSeries
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(QBar3DSeries)
-    Q_PROPERTY(QBarDataProxy *dataProxy READ dataProxy WRITE setDataProxy NOTIFY dataProxyChanged)
-    Q_PROPERTY(QPoint selectedBar READ selectedBar WRITE setSelectedBar NOTIFY selectedBarChanged)
-    Q_PROPERTY(float meshAngle READ meshAngle WRITE setMeshAngle NOTIFY meshAngleChanged)
-    Q_PROPERTY(QList<QColor> rowColors READ rowColors WRITE setRowColors NOTIFY rowColorsChanged)
-    Q_PROPERTY(QStringList rowLabels READ rowLabels WRITE setRowLabels NOTIFY rowLabelsChanged)
     Q_PROPERTY(
-        QStringList columnLabels READ columnLabels WRITE setColumnLabels NOTIFY columnLabelsChanged)
-    Q_PROPERTY(QBarDataArray dataArray READ dataArray WRITE setDataArray NOTIFY dataArrayChanged)
+        QBarDataProxy *dataProxy READ dataProxy WRITE setDataProxy NOTIFY dataProxyChanged FINAL)
+    Q_PROPERTY(QPoint selectedBar READ selectedBar WRITE setSelectedBar NOTIFY selectedBarChanged)
+    Q_PROPERTY(float meshAngle READ meshAngle WRITE setMeshAngle NOTIFY meshAngleChanged FINAL)
+    Q_PROPERTY(QList<QColor> rowColors READ rowColors WRITE setRowColors NOTIFY rowColorsChanged)
+    Q_PROPERTY(QStringList rowLabels READ rowLabels WRITE setRowLabels NOTIFY rowLabelsChanged FINAL)
+    Q_PROPERTY(QStringList columnLabels READ columnLabels WRITE setColumnLabels NOTIFY
+                   columnLabelsChanged FINAL)
+    Q_PROPERTY(
+        QBarDataArray dataArray READ dataArray WRITE setDataArray NOTIFY dataArrayChanged FINAL)
 
 public:
     explicit QBar3DSeries(QObject *parent = nullptr);
