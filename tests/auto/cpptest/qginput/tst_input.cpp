@@ -58,10 +58,10 @@ void tst_input::initialProperties()
 {
     QVERIFY(m_input);
 
-    QCOMPARE(m_input->zoomAtTargetEnabled(), true);
-    QCOMPARE(m_input->zoomEnabled(), true);
-    QCOMPARE(m_input->rotationEnabled(), true);
-    QCOMPARE(m_input->selectionEnabled(), true);
+    QCOMPARE(m_input->isZoomAtTargetEnabled(), true);
+    QCOMPARE(m_input->isZoomEnabled(), true);
+    QCOMPARE(m_input->isRotationEnabled(), true);
+    QCOMPARE(m_input->isSelectionEnabled(), true);
 }
 
 void tst_input::initializeProperties()
@@ -73,10 +73,10 @@ void tst_input::initializeProperties()
     m_input->setRotationEnabled(false);
     m_input->setSelectionEnabled(false);
 
-    QCOMPARE(m_input->zoomAtTargetEnabled(), false);
-    QCOMPARE(m_input->zoomEnabled(), false);
-    QCOMPARE(m_input->rotationEnabled(), false);
-    QCOMPARE(m_input->selectionEnabled(), false);
+    QCOMPARE(m_input->isZoomAtTargetEnabled(), false);
+    QCOMPARE(m_input->isZoomEnabled(), false);
+    QCOMPARE(m_input->isRotationEnabled(), false);
+    QCOMPARE(m_input->isSelectionEnabled(), false);
 }
 
 void tst_input::setQuery()
