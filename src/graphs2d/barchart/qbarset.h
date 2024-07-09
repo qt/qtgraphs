@@ -35,39 +35,39 @@ class Q_GRAPHS_EXPORT QBarSet : public QObject
 
 public:
     explicit QBarSet(QObject *parent = nullptr);
-    explicit QBarSet(const QString label, QObject *parent = nullptr);
+    explicit QBarSet(const QString &label, QObject *parent = nullptr);
     ~QBarSet() override;
 
-    void setLabel(const QString label);
+    void setLabel(const QString &label);
     QString label() const;
 
-    Q_INVOKABLE void append(const qreal value);
+    Q_INVOKABLE void append(qreal value);
     Q_INVOKABLE void append(const QList<qreal> &values);
-    Q_INVOKABLE void insert(const qsizetype index, const qreal value);
-    Q_INVOKABLE void remove(const qsizetype index, const qsizetype count = 1);
-    Q_INVOKABLE void replace(const qsizetype index, const qreal value);
-    Q_INVOKABLE qreal at(const qsizetype index) const;
+    Q_INVOKABLE void insert(qsizetype index, qreal value);
+    Q_INVOKABLE void remove(qsizetype index, qsizetype count = 1);
+    Q_INVOKABLE void replace(qsizetype index, qreal value);
+    Q_INVOKABLE qreal at(qsizetype index) const;
     Q_INVOKABLE qsizetype count() const;
     Q_INVOKABLE qreal sum() const;
     Q_INVOKABLE void clear();
 
-    qreal operator [](const qsizetype index) const;
-    QBarSet &operator << (const qreal &value);
+    qreal operator [](qsizetype index) const;
+    QBarSet &operator << (qreal value);
 
-    QColor color();
-    void setColor(QColor color);
+    QColor color() const;
+    void setColor(const QColor &color);
 
-    QColor borderColor();
-    void setBorderColor(QColor color);
+    QColor borderColor() const;
+    void setBorderColor(const QColor &color);
 
-    QColor labelColor();
-    void setLabelColor(QColor color);
+    QColor labelColor() const;
+    void setLabelColor(const QColor &color);
 
     QColor selectedColor() const;
     void setSelectedColor(const QColor &color);
 
-    QVariantList values();
-    void setValues(QVariantList values);
+    QVariantList values() const;
+    void setValues(const QVariantList &values);
     qreal borderWidth() const;
     void setBorderWidth(qreal borderWidth);
 
@@ -85,9 +85,9 @@ public:
 Q_SIGNALS:
     void update();
     void labelChanged();
-    void colorChanged(QColor color);
-    void borderColorChanged(QColor color);
-    void labelColorChanged(QColor color);
+    void colorChanged(const QColor &color);
+    void borderColorChanged(const QColor &color);
+    void labelColorChanged(const QColor &color);
     void valuesChanged();
     void selectedColorChanged(const QColor &color);
     void countChanged();

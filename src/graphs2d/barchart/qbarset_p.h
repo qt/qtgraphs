@@ -27,21 +27,21 @@ class QBarSetPrivate : public QObjectPrivate
 {
     Q_DECLARE_PUBLIC(QBarSet)
 public:
-    QBarSetPrivate(const QString label);
+    QBarSetPrivate(const QString &label);
     ~QBarSetPrivate() override;
 
-    void append(QPointF value);
+    void append(const QPointF &value);
     void append(const QList<QPointF> &values);
     void append(const QList<qreal> &values);
 
-    void insert(const qsizetype index, const qreal value);
-    void insert(const qsizetype index, const QPointF value);
-    qsizetype remove(const qsizetype index, const qsizetype count);
+    void insert(qsizetype index, qreal value);
+    void insert(qsizetype index, const QPointF &value);
+    qsizetype remove(qsizetype index, qsizetype count);
 
-    void replace(const qsizetype index, const qreal value);
+    void replace(qsizetype index, qreal value);
 
-    qreal pos(const qsizetype index);
-    qreal value(const qsizetype index);
+    qreal pos(qsizetype index);
+    qreal value(qsizetype index);
 
     void setVisualsDirty(bool dirty) { m_visualsDirty = dirty; }
     bool visualsDirty() const { return m_visualsDirty; }
