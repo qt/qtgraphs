@@ -557,7 +557,7 @@ void QQuickGraphsScatter::updateMaterialReference(ScatterModel *model)
     }
     if (!selectionRef.size()) {
         auto mat = createQmlCustomMaterial(materialName);
-        mat->setObjectName(materialName + "_Selection");
+        mat->setObjectName(materialName + QStringLiteral("_Selection"));
         mat->setParent(model->selectionRef);
         selectionRef.append(mat);
     }
