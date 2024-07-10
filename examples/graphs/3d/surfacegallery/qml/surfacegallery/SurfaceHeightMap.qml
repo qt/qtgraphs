@@ -181,14 +181,14 @@ Rectangle {
             anchors.top: heightMapView.portraitMode ? flatShadingToggle.bottom
                                                     : surfaceToggle.bottom
             width: heightMapView.buttonWidth
-            text: "Hide\nBackground"
+            text: "Hide plot area\nBackground"
             onClicked: {
-                if (surfacePlot.theme.backgroundVisible) {
-                    surfacePlot.theme.backgroundVisible = false;
-                    text = "Show\nBackground";
+                if (surfacePlot.theme.plotAreaBackgroundVisible) {
+                    surfacePlot.theme.plotAreaBackgroundVisible = false;
+                    text = "Show plot area\nBackground";
                 } else {
-                    surfacePlot.theme.backgroundVisible = true;
-                    text = "Hide\nBackground";
+                    surfacePlot.theme.plotAreaBackgroundVisible = true;
+                    text = "Hide plot area\nBackground";
                 }
             }
         }
