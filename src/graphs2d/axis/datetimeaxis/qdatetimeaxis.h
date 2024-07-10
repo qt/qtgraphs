@@ -18,7 +18,7 @@ class Q_GRAPHS_EXPORT QDateTimeAxis : public QAbstractAxis
     Q_PROPERTY(
         QString labelFormat READ labelFormat WRITE setLabelFormat NOTIFY labelFormatChanged FINAL)
     Q_PROPERTY(
-        int subTickCount READ subTickCount WRITE setSubTickCount NOTIFY subTickCountChanged)
+        int subTickCount READ subTickCount WRITE setSubTickCount NOTIFY subTickCountChanged FINAL)
     Q_PROPERTY(
         qreal tickInterval READ tickInterval WRITE setTickInterval NOTIFY tickIntervalChanged FINAL)
     QML_NAMED_ELEMENT(DateTimeAxis)
