@@ -34,12 +34,12 @@ public:
     AxisType type() const override;
 
     //range handling
-    void setMin(QDateTime min);
+    void setMin(const QDateTime &min);
     QDateTime min() const;
-    void setMax(QDateTime max);
+    void setMax(const QDateTime &max);
     QDateTime max() const;
 
-    void setLabelFormat(QString format);
+    void setLabelFormat(const QString &format);
     QString labelFormat() const;
 
     qreal tickInterval() const;
@@ -49,9 +49,9 @@ public:
     void setSubTickCount(int newSubTickCount);
 
 Q_SIGNALS:
-    void minChanged(QDateTime min);
-    void maxChanged(QDateTime max);
-    void labelFormatChanged(QString format);
+    void minChanged(const QDateTime &min);
+    void maxChanged(const QDateTime &max);
+    void labelFormatChanged(const QString &format);
     void tickIntervalChanged();
     void subTickCountChanged();
 
