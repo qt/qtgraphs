@@ -150,7 +150,7 @@ QAbstractAxis::AxisType QDateTimeAxis::type() const
     return QAbstractAxis::AxisType::DateTime;
 }
 
-void QDateTimeAxis::setMin(QDateTime min)
+void QDateTimeAxis::setMin(const QDateTime &min)
 {
     Q_D(QDateTimeAxis);
     if (min.isValid()) {
@@ -166,7 +166,7 @@ QDateTime QDateTimeAxis::min() const
     return QDateTime::fromMSecsSinceEpoch(d->m_min);
 }
 
-void QDateTimeAxis::setMax(QDateTime max)
+void QDateTimeAxis::setMax(const QDateTime &max)
 {
     Q_D(QDateTimeAxis);
     if (max.isValid()) {
@@ -182,7 +182,7 @@ QDateTime QDateTimeAxis::max() const
     return QDateTime::fromMSecsSinceEpoch(d->m_max);
 }
 
-void QDateTimeAxis::setLabelFormat(QString format)
+void QDateTimeAxis::setLabelFormat(const QString &format)
 {
     Q_D(QDateTimeAxis);
     if (d->m_format != format) {
