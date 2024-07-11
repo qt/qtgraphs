@@ -54,7 +54,12 @@ class Q_GRAPHS_EXPORT QItemModelBarDataProxy : public QBarDataProxy
                    WRITE setMultiMatchBehavior NOTIFY multiMatchBehaviorChanged FINAL)
 
 public:
-    enum class MultiMatchBehavior { First, Last, Average, Cumulative };
+    enum class MultiMatchBehavior {
+        First,
+        Last,
+        Average,
+        Cumulative,
+    };
     Q_ENUM(MultiMatchBehavior)
 
     explicit QItemModelBarDataProxy(QObject *parent = nullptr);

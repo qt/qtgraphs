@@ -30,7 +30,11 @@ class QGraphTransition : public QObject, public QQmlParserStatus
     QML_NAMED_ELEMENT(GraphTransition)
 
 public:
-    enum class TransitionType { PointAdded, PointReplaced, PointRemoved };
+    enum class TransitionType {
+        PointAdded,
+        PointReplaced,
+        PointRemoved,
+    };
 
     Q_ENUM(TransitionType);
 

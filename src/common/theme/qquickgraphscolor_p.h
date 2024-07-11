@@ -19,8 +19,11 @@
 #include <private/graphsglobal_p.h>
 
 QT_BEGIN_NAMESPACE
-
-enum class GradientType { Base, Single, Multi };
+enum class GradientType {
+    Base,
+    Single,
+    Multi,
+};
 
 class QQuickGraphsColor : public QObject
 {

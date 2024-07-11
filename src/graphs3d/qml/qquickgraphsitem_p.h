@@ -260,7 +260,12 @@ public:
         m_graphPositionQueryPending = pending;
     }
 
-    enum SelectionType { SelectionNone = 0, SelectionItem, SelectionRow, SelectionColumn };
+    enum SelectionType {
+        SelectionNone = 0,
+        SelectionItem,
+        SelectionRow,
+        SelectionColumn,
+    };
 
     virtual void addSeriesInternal(QAbstract3DSeries *series);
     void insertSeries(qsizetype index, QAbstract3DSeries *series);

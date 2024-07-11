@@ -27,7 +27,10 @@ class QGraphAnimation : public QVariantAnimation
         AnimationState animating READ animating WRITE setAnimating NOTIFY animatingChanged FINAL)
 
 public:
-    enum class AnimationState { Playing, Stopped };
+    enum class AnimationState {
+        Playing,
+        Stopped,
+    };
     Q_ENUM(AnimationState);
 
     explicit QGraphAnimation(QObject *parent = nullptr);

@@ -75,7 +75,7 @@ public:
         BothAscending = 0,
         XDescending = 1,
         ZDescending = 2,
-        BothDescending = XDescending | ZDescending
+        BothDescending = XDescending | ZDescending,
     };
     Q_DECLARE_FLAGS(DataDimensions, DataDimension)
 

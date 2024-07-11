@@ -258,11 +258,15 @@ public:
         BlueSeries,
         PurpleSeries,
         GreySeries,
-        UserDefined
+        UserDefined,
     };
     Q_ENUM(Theme)
 
-    enum class ColorStyle { Uniform, ObjectGradient, RangeGradient };
+    enum class ColorStyle {
+        Uniform,
+        ObjectGradient,
+        RangeGradient,
+    };
     Q_ENUM(ColorStyle)
 
     enum class ForceTheme { No, Yes };
@@ -442,7 +446,11 @@ private:
         {}
     };
 
-    enum class GradientQMLStyle { Base, SingleHL, MultiHL };
+    enum class GradientQMLStyle {
+        Base,
+        SingleHL,
+        MultiHL,
+    };
 
     void setColorSchemePalette();
     void setThemePalette();

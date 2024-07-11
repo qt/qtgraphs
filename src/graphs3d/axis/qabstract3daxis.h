@@ -42,7 +42,11 @@ public:
     enum class AxisOrientation { None, X, Y, Z };
     Q_ENUM(AxisOrientation)
 
-    enum class AxisType { None, Category, Value };
+    enum class AxisType {
+        None,
+        Category,
+        Value,
+    };
     Q_ENUM(AxisType)
 
 protected:
