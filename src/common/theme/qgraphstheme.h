@@ -72,28 +72,41 @@ struct QGraphsThemeDirtyBitField
     {}
 };
 
-class Q_GRAPHS_EXPORT QGraphsLine
+class QGraphsLine
 {
-    Q_GADGET
+    Q_GADGET_EXPORT(Q_GRAPHS_EXPORT)
 public:
-    QGraphsLine();
-    QGraphsLine(const QGraphsLine &graphsLine);
-    ~QGraphsLine() = default;
+    Q_GRAPHS_EXPORT QGraphsLine();
+    Q_GRAPHS_EXPORT QGraphsLine(const QGraphsLine &graphsLine);
+    QGraphsLine(QGraphsLine &&other) noexcept { swap(other); }
+    Q_GRAPHS_EXPORT ~QGraphsLine();
+    Q_GRAPHS_EXPORT QGraphsLine &operator=(const QGraphsLine &);
+    void swap(QGraphsLine &other) noexcept
+    {
+        std::swap(m_bits, other.m_bits);
+        std::swap(m_mainColor, other.m_mainColor);
+        std::swap(m_subColor, other.m_subColor);
+        std::swap(m_mainWidth, other.m_mainWidth);
+        std::swap(m_subWidth, other.m_subWidth);
+        std::swap(m_labelTextColor, other.m_labelTextColor);
+        std::swap(m_mainThemeColor, other.m_mainThemeColor);
+        std::swap(m_subThemeColor, other.m_subThemeColor);
+        std::swap(m_labelTextThemeColor, other.m_labelTextThemeColor);
+    }
+    QT_MOVE_ASSIGNMENT_OPERATOR_IMPL_VIA_PURE_SWAP(QGraphsLine)
 
-    QColor mainColor() const;
-    void setMainColor(const QColor& newColor);
-    QColor subColor() const;
-    void setSubColor(const QColor& newColor);
-    qreal mainWidth() const;
-    void setMainWidth(qreal newWidth);
-    qreal subWidth() const;
-    void setSubWidth(qreal newWidth);
-    QColor labelTextColor() const;
-    void setLabelTextColor(const QColor& newColor);
+    Q_GRAPHS_EXPORT QColor mainColor() const;
+    Q_GRAPHS_EXPORT void setMainColor(const QColor &newColor);
+    Q_GRAPHS_EXPORT QColor subColor() const;
+    Q_GRAPHS_EXPORT void setSubColor(const QColor &newColor);
+    Q_GRAPHS_EXPORT qreal mainWidth() const;
+    Q_GRAPHS_EXPORT void setMainWidth(qreal newWidth);
+    Q_GRAPHS_EXPORT qreal subWidth() const;
+    Q_GRAPHS_EXPORT void setSubWidth(qreal newWidth);
+    Q_GRAPHS_EXPORT QColor labelTextColor() const;
+    Q_GRAPHS_EXPORT void setLabelTextColor(const QColor &newColor);
 
-    QGraphsLine &operator=(const QGraphsLine &);
-    bool operator==(const QGraphsLine &);
-    operator QVariant() const;
+    Q_GRAPHS_EXPORT operator QVariant() const;
 
 private:
     struct QGraphsLineCustomField
@@ -104,8 +117,8 @@ private:
 
         QGraphsLineCustomField()
             : mainColorCustom(false)
-              , subColorCustom(false)
-              , labelTextColorCustom(false)
+            , subColorCustom(false)
+            , labelTextColorCustom(false)
         {}
     };
 
@@ -123,6 +136,16 @@ private:
     QColor m_subThemeColor;
     QColor m_labelTextThemeColor;
 
+    friend Q_GRAPHS_EXPORT bool comparesEqual(const QGraphsLine &lhs,
+                                              const QGraphsLine &rhs) noexcept;
+    friend bool operator==(const QGraphsLine &lhs, const QGraphsLine &rhs) noexcept
+    {
+        return comparesEqual(lhs, rhs);
+    }
+    friend bool operator!=(const QGraphsLine &lhs, const QGraphsLine &rhs) noexcept
+    {
+        return !comparesEqual(lhs, rhs);
+    }
     friend class QGraphsTheme;
 };
 
