@@ -18,6 +18,7 @@
 #include <QtGraphs/qabstractseries.h>
 #include <QtQuick/private/qsgdefaultinternalrectanglenode_p.h>
 #include <QtQuickShapes/private/qquickshape_p.h>
+#include <QPainterPath>
 
 QT_BEGIN_NAMESPACE
 
@@ -50,7 +51,7 @@ private:
     {
         QXYSeries *series = nullptr;
         QQuickShapePath *shapePath = nullptr;
-        QList<QQuickPathElement *> paths;
+        QPainterPath painterPath;
         QList<QQuickItem *> markers;
         QQmlComponent *currentMarker = nullptr;
         QQmlComponent *previousMarker = nullptr;
@@ -86,6 +87,7 @@ private:
     void calculateRenderCoordinates(
         AxisRenderer *axisRenderer, qreal origX, qreal origY, qreal *renderX, qreal *renderY);
     void updatePointDelegate(QXYSeries *series, PointGroup *group, int pointIndex, qreal x, qreal y);
+    void hidePointDelegates(QXYSeries *series);
     void updateLegendData(QXYSeries *series, QLegendData &legendData);
 
     void updateScatterSeries(QScatterSeries *scatter, QLegendData &legendData);

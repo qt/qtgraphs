@@ -111,12 +111,24 @@ void PointRenderer::updatePointDelegate(
 
     marker->setX(x - marker->width() / 2.0);
     marker->setY(y - marker->height() / 2.0);
-    marker->setVisible(series->isVisible());
+    marker->setVisible(true);
 
     rect = QRectF(x - marker->width() / 2.0,
                   y - marker->height() / 2.0,
                   marker->width(),
                   marker->height());
+}
+
+void PointRenderer::hidePointDelegates(QXYSeries *series)
+{
+    auto *group = m_groups.value(series);
+    if (group->currentMarker) {
+        for (int i = 0; i < group->markers.size(); ++i) {
+            auto *marker = group->markers[i];
+            marker->setVisible(false);
+        }
+    }
+    group->rects.clear();
 }
 
 void PointRenderer::updateLegendData(QXYSeries *series, QLegendData &legendData)
@@ -127,12 +139,11 @@ void PointRenderer::updateLegendData(QXYSeries *series, QLegendData &legendData)
 
 void PointRenderer::updateScatterSeries(QScatterSeries *series, QLegendData &legendData)
 {
-    auto group = m_groups.value(series);
-
-    auto &&points = series->points();
-    group->rects.resize(points.size());
-    if (points.count() > 0) {
-        for (int i = 0; i < points.count(); ++i) {
+    if (series->isVisible()) {
+        auto group = m_groups.value(series);
+        auto &&points = series->points();
+        group->rects.resize(points.size());
+        for (int i = 0; i < points.size(); ++i) {
             qreal x, y;
             calculateRenderCoordinates(m_graph->m_axisRenderer, points[i].x(), points[i].y(), &x, &y);
             if (group->currentMarker) {
@@ -143,6 +154,8 @@ void PointRenderer::updateScatterSeries(QScatterSeries *series, QLegendData &leg
                 rect = QRectF(x - size / 2.0, y - size / 2.0, size, size);
             }
         }
+    } else {
+        hidePointDelegates(series);
     }
     // TODO: When fill color is added to the scatterseries use it instead for
     // the color. QTBUG-122434
@@ -170,26 +183,19 @@ void PointRenderer::updateLineSeries(QLineSeries *series, QLegendData &legendDat
     else if (capStyle == Qt::PenCapStyle::RoundCap)
         group->shapePath->setCapStyle(QQuickShapePath::CapStyle::RoundCap);
 
-    auto &&points = series->points();
-    qsizetype currentPathCount = group->paths.size();
-    group->paths.resize(points.size() - 1);
-    group->rects.resize(points.size());
+    auto &painterPath = group->painterPath;
+    painterPath.clear();
 
-    if (points.size() > 0) {
-        for (int i = 0; i < points.count(); ++i) {
+    if (series->isVisible()) {
+        auto &&points = series->points();
+        group->rects.resize(points.size());
+        for (int i = 0; i < points.size(); ++i) {
             qreal x, y;
             calculateRenderCoordinates(m_graph->m_axisRenderer, points[i].x(), points[i].y(), &x, &y);
-
-            if (i == 0) {
-                group->shapePath->setStartX(x);
-                group->shapePath->setStartY(y);
-            } else {
-                if (i - 1 >= currentPathCount)
-                    group->paths[i - 1] = new QQuickPathLine(group->shapePath);
-                auto linePath = qobject_cast<QQuickPathLine *>(group->paths[i - 1]);
-                linePath->setX(x);
-                linePath->setY(y);
-            }
+            if (i == 0)
+                painterPath.moveTo(x, y);
+            else
+                painterPath.lineTo(x, y);
 
             if (group->currentMarker) {
                 updatePointDelegate(series, group, i, x, y);
@@ -199,19 +205,10 @@ void PointRenderer::updateLineSeries(QLineSeries *series, QLegendData &legendDat
                 rect = QRectF(x - size / 2.0, y - size / 2.0, size, size);
             }
         }
+    } else {
+        hidePointDelegates(series);
     }
-
-    auto pathElements = group->shapePath->pathElements();
-
-    while (pathElements.count(&pathElements) < group->paths.length() && series->isVisible())
-        pathElements.append(&pathElements, group->paths[pathElements.count(&pathElements)]);
-
-    while (pathElements.count(&pathElements) > group->paths.length())
-        pathElements.removeLast(&pathElements);
-
-    if (!series->isVisible() && pathElements.count(&pathElements) > 0)
-        pathElements.clear(&pathElements);
-
+    group->shapePath->setPath(painterPath);
     legendData = {color, color, series->name()};
 }
 
@@ -236,25 +233,21 @@ void PointRenderer::updateSplineSeries(QSplineSeries *series, QLegendData &legen
     else if (capStyle == Qt::PenCapStyle::RoundCap)
         group->shapePath->setCapStyle(QQuickShapePath::CapStyle::RoundCap);
 
-    auto &&points = series->points();
-    qsizetype currentPathCount = group->paths.size();
-    group->paths.resize(points.size() - 1);
-    group->rects.resize(points.size());
-    if (points.count() > 0) {
+    auto &painterPath = group->painterPath;
+    painterPath.clear();
+
+    if (series->isVisible()) {
+        auto &&points = series->points();
+        group->rects.resize(points.size());
         auto fittedPoints = series->getControlPoints();
 
-        for (int i = 0, j = 0; i < points.count(); ++i, ++j) {
+        for (int i = 0, j = 0; i < points.size(); ++i, ++j) {
             qreal x, y;
             calculateRenderCoordinates(m_graph->m_axisRenderer, points[i].x(), points[i].y(), &x, &y);
 
             if (i == 0) {
-                group->shapePath->setStartX(x);
-                group->shapePath->setStartY(y);
+                painterPath.moveTo(x, y);
             } else {
-                if (i - 1 >= currentPathCount)
-                    group->paths[i - 1] = new QQuickPathCubic(group->shapePath);
-                auto cubicPath = qobject_cast<QQuickPathCubic *>(group->paths[i - 1]);
-
                 qreal x1, y1, x2, y2;
                 calculateRenderCoordinates(m_graph->m_axisRenderer,
                                            fittedPoints[j - 1].x(),
@@ -266,16 +259,8 @@ void PointRenderer::updateSplineSeries(QSplineSeries *series, QLegendData &legen
                                            fittedPoints[j].y(),
                                            &x2,
                                            &y2);
-
+                painterPath.cubicTo(x1, y1, x2, y2, x, y);
                 ++j;
-
-                cubicPath->setX(x);
-                cubicPath->setY(y);
-
-                cubicPath->setControl2X(x2);
-                cubicPath->setControl1X(x1);
-                cubicPath->setControl2Y(y2);
-                cubicPath->setControl1Y(y1);
             }
 
             if (group->currentMarker) {
@@ -286,18 +271,11 @@ void PointRenderer::updateSplineSeries(QSplineSeries *series, QLegendData &legen
                 rect = QRectF(x - size / 2.0, y - size / 2.0, size, size);
             }
         }
+    } else {
+        hidePointDelegates(series);
     }
 
-    auto pathElements = group->shapePath->pathElements();
-    while (pathElements.count(&pathElements) < group->paths.length() && series->isVisible())
-        pathElements.append(&pathElements, group->paths[pathElements.count(&pathElements)]);
-
-    while (pathElements.count(&pathElements) > group->paths.length())
-        pathElements.removeLast(&pathElements);
-
-    if (!series->isVisible())
-        pathElements.clear(&pathElements);
-
+    group->shapePath->setPath(painterPath);
     legendData = {color, color, series->name()};
 }
 
@@ -415,10 +393,8 @@ void PointRenderer::afterPolish(QList<QAbstractSeries *> &cleanupSeries)
             for (auto marker : group->markers)
                 marker->deleteLater();
 
-            if (group->shapePath) {
-                auto pathElements = group->shapePath->pathElements();
-                pathElements.clear(&pathElements);
-            }
+            if (group->shapePath)
+                group->shapePath->setPath(QPainterPath());
 
             m_groups.remove(xySeries);
         }
@@ -554,31 +530,45 @@ bool PointRenderer::handleHoverMove(QHoverEvent *event)
             const qreal hoverSize = defaultSize(group->series) / 2.0;
             const QString &name = group->series->name();
             auto &&points = group->series->points();
-
+            // True when line, false when spline
+            const bool isLine = group->series->type() == QAbstractSeries::SeriesType::Line;
             if (points.size() >= 2) {
                 bool hovering = false;
                 for (int i = 0; i < points.size() - 1; i++) {
                     qreal x1, y1, x2, y2;
-
                     if (i == 0) {
-                        auto curve = qobject_cast<QQuickCurve *>(group->paths[0]);
-
-                        x1 = isHNegative ? curve->x() : group->shapePath->startX();
-                        y1 = group->shapePath->startY();
-
-                        x2 = isHNegative ? group->shapePath->startX() : curve->x();
-                        y2 = curve->y();
+                        auto element1 = group->painterPath.elementAt(0);
+                        auto element2 = group->painterPath.elementAt(isLine ? 1 : 3);
+                        x1 = isHNegative ? element2.x : element1.x;
+                        y1 = element1.y;
+                        x2 = isHNegative ? element1.x : element2.x;
+                        y2 = element2.y;
                     } else {
                         bool n = isVNegative | isHNegative;
-
-                        auto curve1 = qobject_cast<QQuickCurve *>(group->paths[n ? i : i - 1]);
-                        auto curve2 = qobject_cast<QQuickCurve *>(group->paths[n ? i - 1 : i]);
-
-                        x1 = curve1->x();
-                        y1 = curve1->y();
-
-                        x2 = curve2->x();
-                        y2 = curve2->y();
+                        // Each Spline (cubicTo) has 3 elements where third one is the x & y.
+                        // So content of elements are:
+                        // With Spline:
+                        // [0] : MoveToElement
+                        // [1] : 1. CurveToElement (c1x, c1y)
+                        // [2] : 1. CurveToDataElement (c2x, c2y)
+                        // [3] : 1. CurveToDataElement (x, y)
+                        // [4] : 2. CurveToElement (c1x, c1y)
+                        // ...
+                        // With Line:
+                        // [0] : MoveToElement
+                        // [1] : 1. LineToElement (x, y)
+                        // [2] : 2. LineToElement (x, y)
+                        // ...
+                        int element1Index = n ? (i + 1) : i;
+                        int element2Index = n ? i : (i + 1);
+                        element1Index = isLine ? element1Index : element1Index * 3;
+                        element2Index = isLine ? element2Index : element2Index * 3;
+                        auto element1 = group->painterPath.elementAt(element1Index);
+                        auto element2 = group->painterPath.elementAt(element2Index);
+                        x1 = element1.x;
+                        y1 = element1.y;
+                        x2 = element2.x;
+                        y2 = element2.y;
                     }
 
                     qreal denominator = (x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1);
