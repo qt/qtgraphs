@@ -10,6 +10,8 @@ AxisGrid::AxisGrid(QQuickItem *parent) :
 {
 }
 
+AxisGrid::~AxisGrid() {}
+
 void AxisGrid::componentComplete()
 {
     QQuickShaderEffect::componentComplete();

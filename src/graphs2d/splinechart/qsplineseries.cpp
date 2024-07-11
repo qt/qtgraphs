@@ -60,6 +60,8 @@ QSplineSeries::QSplineSeries(QObject *parent)
     : QXYSeries(*(new QSplineSeriesPrivate()), parent)
 {}
 
+QSplineSeries::~QSplineSeries() {}
+
 QSplineSeries::QSplineSeries(QSplineSeriesPrivate &dd, QObject *parent)
     : QXYSeries(dd, parent)
 {}

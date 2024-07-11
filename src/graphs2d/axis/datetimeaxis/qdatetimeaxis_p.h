@@ -22,7 +22,7 @@ class QDateTimeAxisPrivate : public QAbstractAxisPrivate
 {
 public:
     QDateTimeAxisPrivate();
-    ~QDateTimeAxisPrivate();
+    ~QDateTimeAxisPrivate() override;
 
 protected:
     qreal m_min = QDateTime(QDate(1970, 1, 1), QTime::fromMSecsSinceStartOfDay(0))

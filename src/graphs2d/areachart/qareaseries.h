@@ -33,6 +33,7 @@ class Q_GRAPHS_EXPORT QAreaSeries : public QAbstractSeries
     QML_NAMED_ELEMENT(AreaSeries)
 public:
     explicit QAreaSeries(QObject *parent = nullptr);
+    ~QAreaSeries() override;
     QAbstractSeries::SeriesType type() const override;
 
     QColor color() const;

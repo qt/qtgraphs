@@ -374,6 +374,8 @@ QPieSeries::QPieSeries(QObject *parent)
     : QAbstractSeries(*(new QPieSeriesPrivate()), parent)
 {}
 
+QPieSeries::~QPieSeries() {}
+
 /*!
     \reimp
 

@@ -39,6 +39,7 @@ public:
     Q_ENUM(TransitionType);
 
     QGraphTransition(QObject *parent = nullptr);
+    ~QGraphTransition() override;
     QQmlListProperty<QObject> animations();
 
     void onPointChanged(TransitionType type, int index);

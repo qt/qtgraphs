@@ -15,6 +15,8 @@ QGraphTransition::QGraphTransition(QObject *parent)
     , m_animationGroup(this)
 {}
 
+QGraphTransition::~QGraphTransition() {}
+
 void QGraphTransition::componentComplete()
 {
     // Currently only assuming animations in QXYSeries

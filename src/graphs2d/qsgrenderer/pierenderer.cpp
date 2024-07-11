@@ -22,6 +22,8 @@ PieRenderer::PieRenderer(QQuickItem *parent)
     setFlag(QQuickItem::ItemHasContents);
 }
 
+PieRenderer::~PieRenderer() {}
+
 void PieRenderer::setSize(QSizeF size)
 {
     QQuickItem::setSize(size);

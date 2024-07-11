@@ -34,6 +34,7 @@ class QQuickGraphsColor : public QObject
 
 public:
     QQuickGraphsColor(QObject *parent = 0);
+    ~QQuickGraphsColor() override;
 
     void setColor(const QColor &color);
     QColor color() const;

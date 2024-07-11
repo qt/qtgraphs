@@ -9,6 +9,8 @@ QQuickGraphsColor::QQuickGraphsColor(QObject *parent)
     : QObject(parent)
 {}
 
+QQuickGraphsColor::~QQuickGraphsColor() {}
+
 void QQuickGraphsColor::setColor(const QColor &color)
 {
     if (m_color != color) {

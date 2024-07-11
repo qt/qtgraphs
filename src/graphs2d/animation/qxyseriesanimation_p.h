@@ -24,6 +24,7 @@ class QXYSeriesAnimation : public QGraphAnimation
     Q_OBJECT
 public:
     explicit QXYSeriesAnimation(QObject *parent = nullptr);
+    ~QXYSeriesAnimation() override;
 
     void initialize(QList<QPointF> state);
     void updateCurrent(QGraphTransition::TransitionType tt, int index);

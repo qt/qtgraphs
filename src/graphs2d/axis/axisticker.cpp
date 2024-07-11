@@ -10,6 +10,8 @@ AxisTicker::AxisTicker(QQuickItem *parent) :
 {
 }
 
+AxisTicker::~AxisTicker() {}
+
 void AxisTicker::componentComplete()
 {
     QQuickShaderEffect::componentComplete();

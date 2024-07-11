@@ -19,6 +19,8 @@ AxisRenderer::AxisRenderer(QQuickItem *parent)
     setFlag(QQuickItem::ItemHasContents);
 }
 
+AxisRenderer::~AxisRenderer() {}
+
 QGraphsTheme *AxisRenderer::theme() {
     return m_graph->m_theme;
 }

@@ -7,6 +7,8 @@ QXYSeriesAnimation::QXYSeriesAnimation(QObject *parent)
     : QGraphAnimation(parent)
 {}
 
+QXYSeriesAnimation::~QXYSeriesAnimation() {}
+
 // Hold state so previous values can be lerped
 void QXYSeriesAnimation::initialize(QList<QPointF> state)
 {

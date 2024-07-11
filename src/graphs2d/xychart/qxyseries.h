@@ -49,6 +49,8 @@ public:
     Q_INVOKABLE bool take(const QPointF &point);
     Q_INVOKABLE qsizetype count() const;
 
+    ~QXYSeries() override;
+
     QList<QPointF> points() const;
 
     QXYSeries &operator<<(const QPointF &point);

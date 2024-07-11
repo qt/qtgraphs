@@ -13,6 +13,8 @@ QSplineControlAnimation::QSplineControlAnimation(QObject *parent)
     setEasingCurve(QEasingCurve::OutCubic);
 }
 
+QSplineControlAnimation::~QSplineControlAnimation() {}
+
 void QSplineControlAnimation::setAnimatingValue(QVariant &start, QVariant &end)
 {
     setStartValue(start);
