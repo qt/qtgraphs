@@ -49,7 +49,12 @@ class Q_GRAPHS_EXPORT QAbstract3DSeries : public QObject
                    itemLabelVisibleChanged)
 
 public:
-    enum class SeriesType { None, Bar, Scatter, Surface };
+    enum class SeriesType {
+        None,
+        Bar,
+        Scatter,
+        Surface,
+    };
     Q_ENUM(SeriesType)
 
     enum class Mesh {
@@ -64,7 +69,7 @@ public:
         Sphere,
         Minimal,
         Arrow,
-        Point
+        Point,
     };
     Q_ENUM(Mesh)
 

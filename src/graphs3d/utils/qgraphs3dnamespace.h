@@ -19,21 +19,42 @@ enum class SelectionFlag {
     RowAndColumn = Row | Column,
     ItemRowAndColumn = Item | Row | Column,
     Slice = 8,
-    MultiSeries = 16
+    MultiSeries = 16,
 };
 Q_FLAG_NS(SelectionFlag)
 Q_DECLARE_FLAGS(SelectionFlags, SelectionFlag)
 
-enum class ShadowQuality { None, Low, Medium, High, SoftLow, SoftMedium, SoftHigh };
+enum class ShadowQuality {
+    None,
+    Low,
+    Medium,
+    High,
+    SoftLow,
+    SoftMedium,
+    SoftHigh,
+};
 Q_ENUM_NS(ShadowQuality)
 
-enum class ElementType { None, Series, AxisXLabel, AxisYLabel, AxisZLabel, CustomItem };
+enum class ElementType {
+    None,
+    Series,
+    AxisXLabel,
+    AxisYLabel,
+    AxisZLabel,
+    CustomItem,
+};
 Q_ENUM_NS(ElementType)
 
-enum class OptimizationHint { Default, Legacy };
+enum class OptimizationHint {
+    Default,
+    Legacy,
+};
 Q_ENUM_NS(OptimizationHint)
 
-enum class RenderingMode { DirectToBackground, Indirect };
+enum class RenderingMode {
+    DirectToBackground,
+    Indirect,
+};
 Q_ENUM_NS(RenderingMode)
 
 enum class CameraPreset {
@@ -61,7 +82,7 @@ enum class CameraPreset {
     LeftBelow,
     RightBelow,
     BehindBelow,
-    DirectlyBelow
+    DirectlyBelow,
 };
 Q_ENUM_NS(CameraPreset)
 

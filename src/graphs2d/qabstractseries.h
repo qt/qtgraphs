@@ -54,7 +54,7 @@ public:
         Bar,
         Pie,
         Scatter,
-        Spline
+        Spline,
     };
     Q_ENUM(SeriesType)
 

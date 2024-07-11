@@ -52,7 +52,11 @@ class Q_GRAPHS_EXPORT QAbstractAxis : public QObject
     Q_DECLARE_PRIVATE(QAbstractAxis)
 
 public:
-    enum class AxisType { Value, BarCategory, DateTime };
+    enum class AxisType {
+        Value,
+        BarCategory,
+        DateTime,
+    };
     Q_ENUM(AxisType)
 
 protected:

@@ -36,7 +36,7 @@ public:
     enum DrawFlag {
         DrawWireframe = 1,
         DrawSurface = 2,
-        DrawSurfaceAndWireframe = DrawWireframe | DrawSurface
+        DrawSurfaceAndWireframe = DrawWireframe | DrawSurface,
     };
     Q_FLAG(DrawFlag)
     Q_DECLARE_FLAGS(DrawFlags, DrawFlag)

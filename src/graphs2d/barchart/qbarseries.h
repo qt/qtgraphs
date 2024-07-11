@@ -42,14 +42,14 @@ public:
         Center,
         InsideEnd,
         InsideBase,
-        OutsideEnd
+        OutsideEnd,
     };
     Q_ENUM(LabelsPosition)
 
     enum class BarsType {
         Groups,
         Stacked,
-        StackedPercent
+        StackedPercent,
     };
     Q_ENUM(BarsType)
 

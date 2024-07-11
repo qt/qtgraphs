@@ -46,7 +46,7 @@ public:
         Outside,
         InsideHorizontal,
         InsideTangential,
-        InsideNormal
+        InsideNormal,
     };
     Q_ENUM(LabelPosition)
 

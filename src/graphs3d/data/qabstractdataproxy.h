@@ -20,7 +20,12 @@ class Q_GRAPHS_EXPORT QAbstractDataProxy : public QObject
     Q_PROPERTY(QAbstractDataProxy::DataType type READ type CONSTANT)
 
 public:
-    enum class DataType { None, Bar, Scatter, Surface };
+    enum class DataType {
+        None,
+        Bar,
+        Scatter,
+        Surface,
+    };
     Q_ENUM(DataType)
 
 protected:
