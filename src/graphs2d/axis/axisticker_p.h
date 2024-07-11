@@ -35,6 +35,7 @@ class AxisTicker : public QQuickShaderEffect
     Q_PROPERTY(bool isHorizontal READ isHorizontal WRITE setIsHorizontal NOTIFY isHorizontalChanged FINAL)
 public:
     AxisTicker(QQuickItem *parent = nullptr);
+    ~AxisTicker() override;
 
     void setupShaders();
 

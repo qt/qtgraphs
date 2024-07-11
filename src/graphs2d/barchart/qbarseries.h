@@ -54,6 +54,7 @@ public:
     Q_ENUM(BarsType)
 
     explicit QBarSeries(QObject *parent = nullptr);
+    ~QBarSeries() override;
     QAbstractSeries::SeriesType type() const override;
 
     QList<QColor> seriesColors() const;

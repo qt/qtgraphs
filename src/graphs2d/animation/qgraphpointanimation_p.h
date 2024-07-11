@@ -29,6 +29,7 @@ class QGraphPointAnimation : public QXYSeriesAnimation
 
 public:    
     explicit QGraphPointAnimation(QObject *parent = nullptr);
+    ~QGraphPointAnimation() override;
 
     void setAnimatingValue(QVariant &start, QVariant &end) override;
     QVariant interpolated(const QVariant &start, const QVariant &end, qreal progress) const override;

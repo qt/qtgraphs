@@ -35,6 +35,7 @@ class BarsRenderer : public QQuickItem
     QML_ELEMENT
 public:
     BarsRenderer(QQuickItem *parent = nullptr);
+    ~BarsRenderer() override;
 
     void handlePolish(QBarSeries *series);
     void updateSeries(QBarSeries *series);

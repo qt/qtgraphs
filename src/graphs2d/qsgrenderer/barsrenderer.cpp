@@ -23,6 +23,8 @@ BarsRenderer::BarsRenderer(QQuickItem *parent)
     setFlag(QQuickItem::ItemHasContents);
 }
 
+BarsRenderer::~BarsRenderer() {}
+
 // Returns color in this order:
 // 1) QBarSet::color if that is defined (alpha > 0).
 // 2) QBarSeries::seriesColors at index if that is defined.

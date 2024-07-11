@@ -37,7 +37,7 @@ class AxisGrid : public QQuickShaderEffect
     Q_PROPERTY(qreal horizontalSubGridScale READ horizontalSubGridScale WRITE setHorizontalSubGridScale NOTIFY horizontalSubGridScaleChanged FINAL)
 public:
     AxisGrid(QQuickItem *parent = nullptr);
-
+    ~AxisGrid() override;
     void setupShaders();
 
     QVector3D iResolution() const;

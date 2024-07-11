@@ -11,6 +11,8 @@ AxisLine::AxisLine(QQuickItem *parent) :
 
 }
 
+AxisLine::~AxisLine() {}
+
 void AxisLine::componentComplete()
 {
     QQuickShaderEffect::componentComplete();

@@ -106,6 +106,8 @@ QScatterSeries::QScatterSeries(QObject *parent)
     : QXYSeries(*(new QScatterSeriesPrivate()), parent)
 {}
 
+QScatterSeries::~QScatterSeries() {}
+
 QScatterSeries::QScatterSeries(QScatterSeriesPrivate &dd, QObject *parent)
     : QXYSeries(dd, parent)
 {}

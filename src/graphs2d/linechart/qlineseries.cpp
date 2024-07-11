@@ -78,6 +78,8 @@ QLineSeries::QLineSeries(QObject *parent)
     : QXYSeries(*(new QLineSeriesPrivate()), parent)
 {}
 
+QLineSeries::~QLineSeries() {}
+
 QLineSeries::QLineSeries(QLineSeriesPrivate &dd, QObject *parent)
     : QXYSeries(dd, parent)
 {}

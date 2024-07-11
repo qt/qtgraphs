@@ -38,6 +38,7 @@ class AxisRenderer : public QQuickItem
     QML_ELEMENT
 public:
     AxisRenderer(QQuickItem *parent = nullptr);
+    ~AxisRenderer() override;
 
     void handlePolish();
     void updateAxis();

@@ -46,8 +46,6 @@ public:
     bool handleMouseRelease(QMouseEvent *event);
     bool handleHoverMove(QHoverEvent *event);
 
-Q_SIGNALS:
-
 private:
     struct PointGroup
     {

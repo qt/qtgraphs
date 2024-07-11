@@ -27,6 +27,7 @@ class QSplineControlAnimation : public QXYSeriesAnimation
 
 public:
     explicit QSplineControlAnimation(QObject *parent = nullptr);
+    ~QSplineControlAnimation() override;
 
     void setAnimatingValue(QVariant &start, QVariant &end) override;
     QVariant interpolated(const QVariant &start, const QVariant &end, qreal progress) const override;

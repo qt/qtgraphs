@@ -32,7 +32,7 @@ class QGraphsInputHandler : public QQuickItem
 public:
     QGraphsInputHandler(QQuickItem *parent = nullptr);
 
-    virtual ~QGraphsInputHandler();
+    ~QGraphsInputHandler() override;
 
     void setGraphsItem(QQuickGraphsItem *item);
     QPoint pendingPoint() { return m_pendingPoint; }

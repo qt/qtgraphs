@@ -14,6 +14,8 @@ QGraphPointAnimation::QGraphPointAnimation(QObject *parent)
     setEasingCurve(QEasingCurve::OutCubic);
 }
 
+QGraphPointAnimation::~QGraphPointAnimation() {}
+
 void QGraphPointAnimation::setAnimatingValue(QVariant &start, QVariant &end)
 {
     setStartValue(start);

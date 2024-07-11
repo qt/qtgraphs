@@ -532,6 +532,8 @@ QBarSeries::QBarSeries(QObject *parent)
     : QAbstractSeries(*(new QBarSeriesPrivate()), parent)
 {}
 
+QBarSeries::~QBarSeries() {}
+
 QBarSeries::QBarSeries(QBarSeriesPrivate &dd, QObject *parent)
     : QAbstractSeries(dd, parent)
 {}

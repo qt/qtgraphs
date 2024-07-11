@@ -168,6 +168,8 @@ QAreaSeries::QAreaSeries(QObject *parent)
     : QAbstractSeries(*(new QAreaSeriesPrivate()), parent)
 {}
 
+QAreaSeries::~QAreaSeries() {}
+
 QAreaSeries::QAreaSeries(QAreaSeriesPrivate &dd, QObject *parent)
     : QAbstractSeries(dd, parent)
 {}

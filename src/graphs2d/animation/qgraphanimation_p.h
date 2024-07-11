@@ -31,7 +31,7 @@ public:
     Q_ENUM(AnimationState);
 
     explicit QGraphAnimation(QObject *parent = nullptr);
-    ~QGraphAnimation();
+    ~QGraphAnimation() override;
 
     virtual void setAnimatingValue(QVariant &start, QVariant &end) = 0;
     virtual void animate() = 0;

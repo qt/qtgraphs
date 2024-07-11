@@ -645,6 +645,8 @@ qsizetype QXYSeries::count() const
     return d->m_points.size();
 }
 
+QXYSeries::~QXYSeries() {}
+
 /*!
     \property QXYSeries::color
     \brief The main color of the series. For QLineSeries this means the line color and

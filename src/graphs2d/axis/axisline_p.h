@@ -28,7 +28,7 @@ class AxisLine : public QQuickShaderEffect
     Q_PROPERTY(bool isHorizontal READ isHorizontal WRITE setIsHorizontal NOTIFY isHorizontalChanged FINAL)
 public:
     explicit AxisLine(QQuickItem *parent = nullptr);
-
+    ~AxisLine() override;
     void setupShaders();
 
     QVector3D iResolution() const;
