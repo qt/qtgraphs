@@ -479,6 +479,72 @@ QT_BEGIN_NAMESPACE
  * The default value depends on \l colorScheme.
  */
 
+/*!
+    \fn QGraphsLine::QGraphsLine(QGraphsLine &&other)
+
+    Move-constructs a new QGraphsLine from \a other.
+
+    \note The moved-from object \a other is placed in a
+    partially-formed state, in which the only valid operations are
+    destruction and assignment of a new value.
+*/
+
+/*!
+    \fn QGraphsLine &QGraphsLine::operator=(QGraphsLine &&other)
+
+    Move-assigns \a other to this QGraphsLine instance.
+
+    \note The moved-from object \a other is placed in a
+    partially-formed state, in which the only valid operations are
+    destruction and assignment of a new value.
+*/
+
+/*! \fn void QGraphsLine::swap(QGraphsLine &other)
+
+    Swaps QGraphsLine \a other with this QGraphsLine. This operation is very fast and
+    never fails.
+*/
+
+bool comparesEqual(const QGraphsLine &lhs, const QGraphsLine &rhs) noexcept
+{
+    bool ret = true;
+    ret = ret && (lhs.m_bits.mainColorCustom == rhs.m_bits.mainColorCustom);
+    if (!ret)
+        return ret;
+    ret = ret && (lhs.m_bits.subColorCustom == rhs.m_bits.subColorCustom);
+    if (!ret)
+        return ret;
+    ret = ret && (lhs.m_bits.labelTextColorCustom == rhs.m_bits.labelTextColorCustom);
+    if (!ret)
+        return ret;
+    ret = ret && (lhs.m_mainColor == rhs.m_mainColor);
+    if (!ret)
+        return ret;
+    ret = ret && (lhs.m_subColor == rhs.m_subColor);
+    if (!ret)
+        return ret;
+    ret = ret && qFuzzyCompare(lhs.m_mainWidth, rhs.m_mainWidth);
+    if (!ret)
+        return ret;
+    ret = ret && qFuzzyCompare(lhs.m_subWidth, rhs.m_subWidth);
+    if (!ret)
+        return ret;
+    ret = ret && (lhs.m_labelTextColor == rhs.m_labelTextColor);
+    if (!ret)
+        return ret;
+    ret = ret && (lhs.m_mainThemeColor == rhs.m_mainThemeColor);
+    if (!ret)
+        return ret;
+    ret = ret && (lhs.m_subThemeColor == rhs.m_subThemeColor);
+    if (!ret)
+        return ret;
+    ret = ret && (lhs.m_labelTextThemeColor == rhs.m_labelTextThemeColor);
+    if (!ret)
+        return ret;
+
+    return ret;
+}
+
 QGraphsTheme::QGraphsTheme(QObject *parent)
     : QObject(parent)
       , m_themeDirty(false)
@@ -1823,6 +1889,8 @@ QGraphsLine::QGraphsLine(const QGraphsLine &graphsLine)
     m_labelTextThemeColor = graphsLine.m_labelTextThemeColor;
 }
 
+QGraphsLine::~QGraphsLine() = default;
+
 QColor QGraphsLine::mainColor() const
 {
     if (m_bits.mainColorCustom)
@@ -1906,46 +1974,6 @@ QGraphsLine &QGraphsLine::operator=(const QGraphsLine &graphsLine)
     m_labelTextThemeColor = graphsLine.m_labelTextThemeColor;
 
     return *this;
-}
-
-bool QGraphsLine::operator==(const QGraphsLine &graphsLine)
-{
-    bool ret = true;
-    ret = ret && (m_bits.mainColorCustom == graphsLine.m_bits.mainColorCustom);
-    if (!ret)
-        return ret;
-    ret = ret && (m_bits.subColorCustom == graphsLine.m_bits.subColorCustom);
-    if (!ret)
-        return ret;
-    ret = ret && (m_bits.labelTextColorCustom == graphsLine.m_bits.labelTextColorCustom);
-    if (!ret)
-        return ret;
-    ret = ret && (m_mainColor == graphsLine.m_mainColor);
-    if (!ret)
-        return ret;
-    ret = ret && (m_subColor == graphsLine.m_subColor);
-    if (!ret)
-        return ret;
-    ret = ret && qFuzzyCompare(m_mainWidth, graphsLine.m_mainWidth);
-    if (!ret)
-        return ret;
-    ret = ret && qFuzzyCompare(m_subWidth, graphsLine.m_subWidth);
-    if (!ret)
-        return ret;
-    ret = ret && (m_labelTextColor == graphsLine.m_labelTextColor);
-    if (!ret)
-        return ret;
-    ret = ret && (m_mainThemeColor == graphsLine.m_mainThemeColor);
-    if (!ret)
-        return ret;
-    ret = ret && (m_subThemeColor == graphsLine.m_subThemeColor);
-    if (!ret)
-        return ret;
-    ret = ret && (m_labelTextThemeColor == graphsLine.m_labelTextThemeColor);
-    if (!ret)
-        return ret;
-
-    return ret;
 }
 
 QGraphsLine::operator QVariant() const
