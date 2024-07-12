@@ -544,6 +544,8 @@ private:
     bool m_dummyColors = false;
 
     bool m_componentComplete = false;
+
+    Q_DISABLE_COPY_MOVE(QGraphsTheme)
 };
 
 QT_END_NAMESPACE
