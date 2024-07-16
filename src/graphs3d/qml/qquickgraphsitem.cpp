@@ -3065,6 +3065,8 @@ void QQuickGraphsItem::createVolumeMaterial(QCustom3DVolume *volume, Volume &vol
         colorTexture->setParent(this);
         colorTexture->setMinFilter(QQuick3DTexture::Filter::Nearest);
         colorTexture->setMagFilter(QQuick3DTexture::Filter::Nearest);
+        colorTexture->setHorizontalTiling(QQuick3DTexture::TilingMode::ClampToEdge);
+        colorTexture->setVerticalTiling(QQuick3DTexture::TilingMode::ClampToEdge);
 
         QByteArray colorTableBytes;
         const QList<QRgb> &colorTable = volume->colorTable();
