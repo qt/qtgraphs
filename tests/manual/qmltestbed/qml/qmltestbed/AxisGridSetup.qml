@@ -43,7 +43,7 @@ Rectangle {
         }
         theme: GraphsTheme {
             id: myTheme
-            colorScheme: Qt.Dark
+            colorScheme: GraphsTheme.ColorScheme.Dark
             backgroundColor: "#20000000"
             plotAreaBackgroundColor: "#20000000"
             seriesColors: ["#dd444444", "#dd555555", "#dd666666", "#dd777777", "#dd888888"]

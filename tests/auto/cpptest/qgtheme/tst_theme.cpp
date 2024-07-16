@@ -35,7 +35,7 @@ void tst_theme::cleanupTestCase()
 void tst_theme::init()
 {
     m_theme = new QGraphsTheme();
-    m_theme->setColorScheme(Qt::ColorScheme::Light);
+    m_theme->setColorScheme(QGraphsTheme::ColorScheme::Light);
 }
 
 void tst_theme::cleanup()
@@ -51,7 +51,7 @@ void tst_theme::construct()
 
     theme = new QGraphsTheme();
     theme->setTheme(QGraphsTheme::Theme::MixSeries);
-    theme->setColorScheme(Qt::ColorScheme::Light);
+    theme->setColorScheme(QGraphsTheme::ColorScheme::Light);
     QVERIFY(theme);
     QCOMPARE(theme->plotAreaBackgroundColor(), QColor(QRgb(0xFCFCFC)));
     QCOMPARE(theme->isPlotAreaBackgroundVisible(), true);
@@ -128,7 +128,7 @@ void tst_theme::initializeProperties()
     basegradients << gradient1 << gradient2;
 
     m_theme->setTheme(QGraphsTheme::Theme::OrangeSeries); // We'll override default values with the following setters
-    m_theme->setColorScheme(Qt::ColorScheme::Dark);
+    m_theme->setColorScheme(QGraphsTheme::ColorScheme::Dark);
     m_theme->setPlotAreaBackgroundColor(QColor(Qt::red));
     m_theme->setPlotAreaBackgroundVisible(false);
     m_theme->setSeriesColors(basecolors);

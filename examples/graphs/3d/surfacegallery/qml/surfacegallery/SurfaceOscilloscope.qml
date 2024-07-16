@@ -386,7 +386,7 @@ Item {
             shadowQuality: Graphs3D.ShadowQuality.None
             selectionMode: Graphs3D.SelectionFlag.Slice | Graphs3D.SelectionFlag.ItemAndColumn
             theme: GraphsTheme {
-                colorScheme: Qt.Dark
+                colorScheme: GraphsTheme.ColorScheme.Dark
                 baseColors: [ Color { color: "yellow" } ]
                 plotAreaBackgroundVisible: false
                 backgroundVisible: false

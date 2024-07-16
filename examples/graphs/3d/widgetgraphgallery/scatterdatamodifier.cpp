@@ -28,7 +28,7 @@ ScatterDataModifier::ScatterDataModifier(Q3DScatterWidgetItem *scatter, QObject 
 {
     //! [0]
     m_graph->activeTheme()->setTheme(QGraphsTheme::Theme::MixSeries);
-    m_graph->activeTheme()->setColorScheme(Qt::ColorScheme::Dark);
+    m_graph->activeTheme()->setColorScheme(QGraphsTheme::ColorScheme::Dark);
     m_graph->setShadowQuality(QtGraphs3D::ShadowQuality::SoftHigh);
     m_graph->setCameraPreset(QtGraphs3D::CameraPreset::Front);
     m_graph->setCameraZoomLevel(80.f);

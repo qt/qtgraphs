@@ -106,7 +106,7 @@ void tst_scatter::initialProperties()
 void tst_scatter::initializeProperties()
 {
     QGraphsTheme *theme = new QGraphsTheme();
-    theme->setColorScheme(Qt::ColorScheme::Light);
+    theme->setColorScheme(QGraphsTheme::ColorScheme::Light);
     theme->setTheme(QGraphsTheme::Theme::QtGreenNeon);
     m_graph->setActiveTheme(theme);
     m_graph->setSelectionMode(QtGraphs3D::SelectionFlag::None);

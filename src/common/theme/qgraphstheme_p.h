@@ -62,8 +62,9 @@ private:
     QGraphsThemeDirtyBitField m_dirtyBits;
     QGraphsCustomBitField m_customBits;
 
+    QMetaObject::Connection m_autoColorConnection;
     bool m_themeDirty;
-    Qt::ColorScheme m_colorScheme;
+    QGraphsTheme::ColorScheme m_colorScheme;
     QGraphsTheme::Theme m_theme;
     QGraphsTheme::ColorStyle m_colorStyle;
     QColor m_plotAreaBackgroundColor;

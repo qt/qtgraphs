@@ -131,7 +131,8 @@ class Q_GRAPHS_EXPORT QGraphsTheme : public QObject, public QQmlParserStatus
     Q_OBJECT
     Q_INTERFACES(QQmlParserStatus)
     Q_CLASSINFO("RegisterEnumClassesUnscoped", "false")
-    Q_PROPERTY(Qt::ColorScheme colorScheme READ colorScheme WRITE setColorScheme NOTIFY colorSchemeChanged FINAL)
+    Q_PROPERTY(ColorScheme colorScheme READ colorScheme WRITE setColorScheme NOTIFY
+                   colorSchemeChanged FINAL)
     Q_PROPERTY(Theme theme READ theme WRITE setTheme NOTIFY themeChanged FINAL)
     Q_PROPERTY(
         ColorStyle colorStyle READ colorStyle WRITE setColorStyle NOTIFY colorStyleChanged FINAL)
@@ -216,6 +217,9 @@ public:
     enum class ForceTheme { No, Yes };
     Q_ENUM(ForceTheme);
 
+    enum class ColorScheme { Automatic, Light, Dark };
+    Q_ENUM(ColorScheme);
+
     explicit QGraphsTheme(QObject *parent = nullptr);
 
     ~QGraphsTheme() override;
@@ -227,8 +231,8 @@ public:
     QGraphsThemeDirtyBitField *dirtyBits();
     void resetDirtyBits();
 
-    Qt::ColorScheme colorScheme() const;
-    void setColorScheme(Qt::ColorScheme newColorScheme);
+    ColorScheme colorScheme() const;
+    void setColorScheme(ColorScheme newColorScheme);
 
     Theme theme() const;
     void setTheme(Theme newTheme, ForceTheme force = ForceTheme::No);
@@ -363,6 +367,7 @@ private:
         MultiHL,
     };
 
+    void updateAutomaticColorScheme();
     void setColorSchemePalette();
     void setThemePalette();
     QLinearGradient createGradient(QColor color, float colorLevel);

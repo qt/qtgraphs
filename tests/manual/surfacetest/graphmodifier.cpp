@@ -675,7 +675,7 @@ void GraphModifier::selectedPointChanged(const QPoint &point)
 
 void GraphModifier::changeColorScheme(int colorScheme)
 {
-    m_graph->activeTheme()->setColorScheme(Qt::ColorScheme(colorScheme + 1));
+    m_graph->activeTheme()->setColorScheme(QGraphsTheme::ColorScheme(colorScheme + 1));
 }
 
 void GraphModifier::changeTheme(int theme)

@@ -80,7 +80,7 @@ Rectangle {
         GraphsTheme {
             id: gtheme
             axisYLabelFont.pixelSize: 8
-            colorScheme: Qt.Dark
+            colorScheme: GraphsTheme.ColorScheme.Dark
             theme: GraphsTheme.Theme.QtGreen
         }
 

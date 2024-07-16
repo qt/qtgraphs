@@ -115,7 +115,7 @@ void tst_surface::initializeProperties()
     QCOMPARE(m_graph->flipHorizontalGrid(), true);
 
     QGraphsTheme *theme = new QGraphsTheme();
-    theme->setColorScheme(Qt::ColorScheme::Light);
+    theme->setColorScheme(QGraphsTheme::ColorScheme::Light);
     theme->setTheme(QGraphsTheme::Theme::QtGreenNeon);
     m_graph->setActiveTheme(theme);
     m_graph->setSelectionMode(QtGraphs3D::SelectionFlag::Item | QtGraphs3D::SelectionFlag::Row

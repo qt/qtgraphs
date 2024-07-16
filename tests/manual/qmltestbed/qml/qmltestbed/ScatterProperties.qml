@@ -66,7 +66,7 @@ Rectangle {
 
         theme: GraphsTheme {
             id: seriesTheme
-            colorScheme: Qt.Dark
+            colorScheme: GraphsTheme.ColorScheme.Dark
             theme: GraphsTheme.Theme.QtGreen
             borderColors: ["#E08040"]
             borderWidth: 2

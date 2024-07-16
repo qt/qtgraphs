@@ -55,7 +55,7 @@ Rectangle {
         }
         theme: GraphsTheme {
             id: myTheme
-            colorScheme: Qt.Dark
+            colorScheme: GraphsTheme.ColorScheme.Dark
             theme: GraphsTheme.Theme.QtGreen
             backgroundVisible: false
             axisXLabelFont.pixelSize: 20
