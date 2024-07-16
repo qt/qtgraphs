@@ -75,7 +75,7 @@ public:
 
     void setRange(float min, float max);
 
-    void setLabelAutoRotation(float angle);
+    void setLabelAutoRotation(float degree);
     float labelAutoRotation() const;
 
     void setTitleVisible(bool visible);
