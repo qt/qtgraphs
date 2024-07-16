@@ -42,6 +42,8 @@ qt_add_qml_module(equation
     NO_RESOURCE_TARGET_PATH
     QML_FILES
         "qml/equation/Main.qml"
+    RESOURCES
+        "images/opacitymap.png"
 )
 
 install(TARGETS equation
