@@ -122,7 +122,7 @@ QT_BEGIN_NAMESPACE
  */
 
 /*!
- * \qmlproperty float Scene3D::devicePixelRatio
+ * \qmlproperty qreal Scene3D::devicePixelRatio
  *
  * The current device pixel ratio that is used when mapping input
  * coordinates to pixel coordinates.
@@ -164,7 +164,7 @@ QT_BEGIN_NAMESPACE
 */
 
 /*!
-    \qmlsignal Scene3D::devicePixelRatioChanged(float pixelRatio)
+    \qmlsignal Scene3D::devicePixelRatioChanged(qreal pixelRatio)
 
     This signal is emitted when devicePixelRatio changes to \a pixelRatio.
 */
@@ -482,13 +482,13 @@ void Q3DScene::setSecondarySubviewOnTop(bool isSecondaryOnTop)
  * \brief The device pixel ratio that is used when mapping input
  * coordinates to pixel coordinates.
  */
-float Q3DScene::devicePixelRatio() const
+qreal Q3DScene::devicePixelRatio() const
 {
     const Q_D(Q3DScene);
     return d->m_devicePixelRatio;
 }
 
-void Q3DScene::setDevicePixelRatio(float pixelRatio)
+void Q3DScene::setDevicePixelRatio(qreal pixelRatio)
 {
     Q_D(Q3DScene);
     if (d->m_devicePixelRatio != pixelRatio) {
@@ -503,7 +503,7 @@ void Q3DScene::setDevicePixelRatio(float pixelRatio)
 
 Q3DScenePrivate::Q3DScenePrivate()
     : m_isSecondarySubviewOnTop(true)
-    , m_devicePixelRatio(1.f)
+    , m_devicePixelRatio(1.0)
     , m_isUnderSideCameraEnabled(false)
     , m_isSlicingActive(false)
     , m_windowSize(QSize(0, 0))
