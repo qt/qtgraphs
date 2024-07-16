@@ -1,5 +1,6 @@
 <RCC>
     <qresource prefix="/">
         <file>qml/equation/Main.qml</file>
+        <file>images/opacitymap.png</file>
     </qresource>
 </RCC>
