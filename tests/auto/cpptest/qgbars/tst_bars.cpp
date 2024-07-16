@@ -143,7 +143,7 @@ void tst_bars::initializeProperties()
     QCOMPARE(m_graph->floorLevel(), 1.0f);
 
     QGraphsTheme *theme = new QGraphsTheme();
-    theme->setColorScheme(Qt::ColorScheme::Light);
+    theme->setColorScheme(QGraphsTheme::ColorScheme::Light);
     theme->setTheme(QGraphsTheme::Theme::QtGreenNeon);
     m_graph->setActiveTheme(theme);
     m_graph->setSelectionMode(QtGraphs3D::SelectionFlag::Item | QtGraphs3D::SelectionFlag::Row
@@ -311,10 +311,10 @@ void tst_bars::hasSeries()
 void tst_bars::addTheme()
 {
     QGraphsTheme *theme = new QGraphsTheme();
-    theme->setColorScheme(Qt::ColorScheme::Light);
+    theme->setColorScheme(QGraphsTheme::ColorScheme::Light);
     theme->setTheme(QGraphsTheme::Theme::QtGreenNeon);
     QGraphsTheme *theme2 = new QGraphsTheme();
-    theme->setColorScheme(Qt::ColorScheme::Light);
+    theme->setColorScheme(QGraphsTheme::ColorScheme::Light);
     QGraphsTheme *initialTheme = m_graph->activeTheme();
     m_graph->addTheme(theme);
     m_graph->addTheme(theme2);
@@ -328,10 +328,10 @@ void tst_bars::addTheme()
 void tst_bars::removeTheme()
 {
     QGraphsTheme *theme = new QGraphsTheme();
-    theme->setColorScheme(Qt::ColorScheme::Light);
+    theme->setColorScheme(QGraphsTheme::ColorScheme::Light);
     theme->setTheme(QGraphsTheme::Theme::QtGreenNeon);
     QGraphsTheme *theme2 = new QGraphsTheme();
-    theme->setColorScheme(Qt::ColorScheme::Light);
+    theme->setColorScheme(QGraphsTheme::ColorScheme::Light);
     m_graph->addTheme(theme);
     m_graph->addTheme(theme2);
 

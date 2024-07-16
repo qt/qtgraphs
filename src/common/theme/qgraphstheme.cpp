@@ -130,6 +130,21 @@ QT_BEGIN_NAMESPACE
  */
 
 /*!
+ * \enum QGraphsTheme::ColorScheme
+ *
+ * Represents the color scheme of the graph.
+ *
+ * \value Automatic
+ *        The background colors follow the platform color scheme if available.
+ *        If unavailable, the Light appearance is used.
+ * \value Light
+ *        The background colors are lighter than the text color, i.e. the theme is light.
+ * \value Dark
+ *        The background colors are darker than the text color, i.e. the theme is dark.
+ * \sa Qt::ColorScheme
+ */
+
+/*!
  * \qmlvaluetype graphsline
  * \ingroup graphs_qml
  * \brief a values for lines based on properties of QGraphsLine.
@@ -413,11 +428,11 @@ QT_BEGIN_NAMESPACE
  */
 
 /*!
- * \qmlproperty Qt.ColorScheme GraphsTheme::colorScheme
+ * \qmlproperty QGraphsTheme::ColorScheme GraphsTheme::colorScheme
  *
  * The color scheme of the graph in use.
  *
- * \sa Qt::ColorScheme
+ * \sa QGraphsTheme::ColorScheme
  */
 
 /*!
@@ -523,11 +538,7 @@ QGraphsTheme::QGraphsTheme(QGraphsThemePrivate &dd, QObject *parent)
     setLabelBackgroundVisible(true);
     setGridVisible(true);
     setLabelsVisible(true);
-    setColorScheme(QGuiApplication::styleHints()->colorScheme());
-    connect(QGuiApplication::styleHints(),
-            &QStyleHints::colorSchemeChanged,
-            this,
-            [&](Qt::ColorScheme colorScheme) { setColorScheme(colorScheme); });
+    setColorScheme(QGraphsTheme::ColorScheme::Automatic);
     setLabelBorderVisible(true);
     setTheme(Theme::QtGreen, ForceTheme::Yes);
     setLabelFont(QFont(QLatin1String("Arial")));
@@ -599,13 +610,13 @@ void QGraphsTheme::resetDirtyBits()
  *
  * \sa Qt::ColorScheme
  */
-Qt::ColorScheme QGraphsTheme::colorScheme() const
+QGraphsTheme::ColorScheme QGraphsTheme::colorScheme() const
 {
     const Q_D(QGraphsTheme);
     return d->m_colorScheme;
 }
 
-void QGraphsTheme::setColorScheme(Qt::ColorScheme newColorScheme)
+void QGraphsTheme::setColorScheme(QGraphsTheme::ColorScheme newColorScheme)
 {
     Q_D(QGraphsTheme);
     d->m_dirtyBits.colorSchemeDirty = true;
@@ -614,6 +625,19 @@ void QGraphsTheme::setColorScheme(Qt::ColorScheme newColorScheme)
     d->m_themeDirty = true;
     emit colorSchemeChanged();
     emit update();
+
+    if (d->m_colorScheme == QGraphsTheme::ColorScheme::Automatic) {
+        if (!d->m_autoColorConnection) {
+            d->m_autoColorConnection = QObject::connect(QGuiApplication::styleHints(),
+                                                        &QStyleHints::colorSchemeChanged,
+                                                        this,
+                                                        [this]() {
+                                                            this->updateAutomaticColorScheme();
+                                                        });
+        }
+    } else {
+        QObject::disconnect(d->m_autoColorConnection);
+    }
 }
 
 /*!
@@ -1334,12 +1358,30 @@ void QGraphsTheme::componentComplete()
     d->m_componentComplete = true;
 }
 
+void QGraphsTheme::updateAutomaticColorScheme()
+{
+    setColorSchemePalette();
+    emit update();
+}
+
 void QGraphsTheme::setColorSchemePalette()
 {
     Q_D(QGraphsTheme);
     float defaultColorLevel = 0.5f;
 
-    if (d->m_colorScheme == Qt::ColorScheme::Unknown)
+    Qt::ColorScheme colorScheme = Qt::ColorScheme::Unknown;
+
+    if (d->m_colorScheme == QGraphsTheme::ColorScheme::Automatic) {
+        colorScheme = QGuiApplication::styleHints()->colorScheme();
+        if (colorScheme == Qt::ColorScheme::Unknown)
+            colorScheme = Qt::ColorScheme::Light;
+    } else if (d->m_colorScheme == QGraphsTheme::ColorScheme::Dark) {
+        colorScheme = Qt::ColorScheme::Dark;
+    } else if (d->m_colorScheme == QGraphsTheme::ColorScheme::Light) {
+        colorScheme = Qt::ColorScheme::Light;
+    }
+
+    if (colorScheme == Qt::ColorScheme::Unknown)
         return;
 
     if (d->m_componentComplete) {
@@ -1358,7 +1400,7 @@ void QGraphsTheme::setColorSchemePalette()
         d->m_axisZ.d->resetCustomBits();
     }
 
-    if (d->m_colorScheme == Qt::ColorScheme::Dark) {
+    if (colorScheme == Qt::ColorScheme::Dark) {
         d->m_backgroundThemeColor = QColor(QRgb(0x262626));
         d->m_plotAreaBackgroundThemeColor = QColor(QRgb(0x1F1F1F));
         d->m_labelBackgroundThemeColor = QColor(QRgb(0x2E2E2E));

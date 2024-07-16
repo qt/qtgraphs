@@ -56,14 +56,14 @@ Rectangle {
             text: "Dark"
             onClicked: {
                 mainView.resetCustomGraphTheme()
-                myTheme.colorScheme = Qt.Dark
+                myTheme.colorScheme = GraphsTheme.ColorScheme.Dark
             }
         }
         Button {
             text: "Light"
             onClicked: {
                 mainView.resetCustomGraphTheme()
-                myTheme.colorScheme = Qt.Light
+                myTheme.colorScheme = GraphsTheme.ColorScheme.Light
             }
         }
         Button {
@@ -190,7 +190,7 @@ Rectangle {
             theme: GraphsTheme.Theme.QtGreen
             axisXLabelFont.pixelSize: 20
             axisYLabelFont.pixelSize: 16
-            colorScheme: Qt.Dark
+            colorScheme: GraphsTheme.ColorScheme.Dark
             plotAreaBackgroundColor: "#40808080"
             labelFont.pixelSize: 20
         }

@@ -80,7 +80,7 @@ Item {
     GraphsTheme {
         id: dynamicColorTheme
         theme: GraphsTheme.Theme.QtGreen
-        colorScheme: Qt.Dark
+        colorScheme: GraphsTheme.ColorScheme.Dark
         baseColors: [dynamicColor]
         labelFont.pointSize: 50
         labelBorderVisible: true
@@ -94,7 +94,7 @@ Item {
     GraphsTheme {
         id: orangeTheme
         theme: GraphsTheme.Theme.OrangeSeries
-        colorScheme: Qt.Dark
+        colorScheme: GraphsTheme.ColorScheme.Dark
         labelFont.pointSize: 50
         labelBorderVisible: true
         labelBackgroundColor: "gold"

@@ -81,7 +81,7 @@ Item {
             compare(initial.axisY, null)
             // compare some of the contents of the initial theme, as theme itself cannot be
             compare(initial.theme.theme, GraphsTheme.Theme.QtGreen)
-            compare(initial.theme.colorScheme, Application.styleHints.colorScheme)
+            compare(initial.theme.colorScheme, GraphsTheme.ColorScheme.Automatic)
             compare(initial.theme.seriesColors.length, 5)
         }
 
@@ -160,7 +160,7 @@ Item {
             compare(initialized.seriesList, [lineInitial])
             compare(initialized.theme, newTheme)
             compare(initialized.theme.theme, GraphsTheme.Theme.QtGreen)
-            compare(initialized.theme.colorScheme, Application.styleHints.colorScheme)
+            compare(initialized.theme.colorScheme, GraphsTheme.ColorScheme.Automatic)
             compare(initialized.theme.seriesColors.length, 5)
         }
 

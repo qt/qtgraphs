@@ -344,7 +344,7 @@ Item {
             shadowQuality: Graphs3D.ShadowQuality.SoftHigh
             selectionMode: Graphs3D.SelectionFlag.Item
             theme: GraphsTheme {
-                colorScheme: Qt.Dark
+                colorScheme: GraphsTheme.ColorScheme.Dark
                 labelBorderVisible: true
                 labelFont.pointSize: 35
                 labelBackgroundVisible: true
