@@ -326,16 +326,16 @@ void QAbstract3DAxis::setRange(float min, float max)
  * If the value is greater than zero, labels attempt to orient themselves toward
  * the camera, up to the specified angle.
  */
-void QAbstract3DAxis::setLabelAutoRotation(float angle)
+void QAbstract3DAxis::setLabelAutoRotation(float degree)
 {
     Q_D(QAbstract3DAxis);
-    if (angle < 0.0f)
-        angle = 0.0f;
-    if (angle > 90.0f)
-        angle = 90.0f;
-    if (d->m_labelAutoRotation != angle) {
-        d->m_labelAutoRotation = angle;
-        emit labelAutoRotationChanged(angle);
+    if (degree < 0.0f)
+        degree = 0.0f;
+    if (degree > 90.0f)
+        degree = 90.0f;
+    if (d->m_labelAutoRotation != degree) {
+        d->m_labelAutoRotation = degree;
+        emit labelAutoRotationChanged(degree);
     }
 }
 
