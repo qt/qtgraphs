@@ -72,7 +72,7 @@ public:
     QRect m_primarySubViewport;
     QRect m_secondarySubViewport;
     bool m_isSecondarySubviewOnTop;
-    float m_devicePixelRatio;
+    qreal m_devicePixelRatio;
     bool m_isUnderSideCameraEnabled;
     bool m_isSlicingActive;
     QPoint m_selectionQueryPosition;

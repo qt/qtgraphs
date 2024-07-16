@@ -28,7 +28,7 @@ class Q_GRAPHS_EXPORT Q3DScene : public QObject
                    setSecondarySubviewOnTop NOTIFY secondarySubviewOnTopChanged)
     Q_PROPERTY(
         bool slicingActive READ isSlicingActive WRITE setSlicingActive NOTIFY slicingActiveChanged)
-    Q_PROPERTY(float devicePixelRatio READ devicePixelRatio WRITE setDevicePixelRatio NOTIFY
+    Q_PROPERTY(qreal devicePixelRatio READ devicePixelRatio WRITE setDevicePixelRatio NOTIFY
                    devicePixelRatioChanged)
     Q_PROPERTY(QPoint graphPositionQuery READ graphPositionQuery WRITE setGraphPositionQuery NOTIFY
                    graphPositionQueryChanged)
@@ -63,8 +63,8 @@ public:
     void setSecondarySubviewOnTop(bool isSecondaryOnTop);
     bool isSecondarySubviewOnTop() const;
 
-    float devicePixelRatio() const;
-    void setDevicePixelRatio(float pixelRatio);
+    qreal devicePixelRatio() const;
+    void setDevicePixelRatio(qreal pixelRatio);
 
     QPoint invalidSelectionPoint() const;
 
@@ -74,7 +74,7 @@ Q_SIGNALS:
     void secondarySubViewportChanged(const QRect &subViewport);
     void secondarySubviewOnTopChanged(bool isSecondaryOnTop);
     void slicingActiveChanged(bool isSlicingActive);
-    void devicePixelRatioChanged(float pixelRatio);
+    void devicePixelRatioChanged(qreal pixelRatio);
     void selectionQueryPositionChanged(const QPoint &position);
     void graphPositionQueryChanged(const QPoint &position);
     void needRender();
