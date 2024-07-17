@@ -15,7 +15,6 @@
 // We mean it.
 
 #include <QQuickItem>
-#include <QtQuick/private/qsgdefaultinternalrectanglenode_p.h>
 #include <QtQuick/private/qquicktext_p.h>
 #include <QtCore/QHash>
 #include <QtCore/QList>
@@ -74,8 +73,6 @@ private:
     void updateValueLabels(QBarSeries *series);
 
     QGraphsView *m_graph = nullptr;
-    QHash<QBarSeries *, QList<QSGDefaultInternalRectangleNode *>> m_rectNodes;
-    // QSG nodes rect has no getter so we store these separately.
     QHash<QBarSeries *, QList<BarSelectionRect>> m_rectNodesInputRects;
     QHash<QBarSeries *, QList<QQuickItem *>> m_barItems;
     QHash<QBarSeries *, QList<QQuickText *>> m_labelTextItems;

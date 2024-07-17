@@ -1032,6 +1032,7 @@ void QBarSeries::setBarDelegate(QQmlComponent *newBarDelegate)
     if (d->m_barDelegate == newBarDelegate)
         return;
     d->m_barDelegate = newBarDelegate;
+    d->m_barDelegateDirty = true;
     emit barDelegateChanged();
     emit update();
 }
@@ -1087,6 +1088,18 @@ void QBarSeries::handleSetValueRemove(qsizetype index, qsizetype count)
     emit update();
 }
 
+bool QBarSeries::barDelegateDirty() const
+{
+    Q_D(const QBarSeries);
+    return d->m_barDelegateDirty;
+}
+
+void QBarSeries::setBarDelegateDirty(bool dirty)
+{
+    Q_D(QBarSeries);
+    d->m_barDelegateDirty = dirty;
+}
+
 QBarSeriesPrivate::QBarSeriesPrivate()
     : m_barWidth(0.5) // Default value is 50% of category width
       , m_labelsVisible(false)
@@ -1098,6 +1111,7 @@ QBarSeriesPrivate::QBarSeriesPrivate()
       , m_labelsPrecision(6)
       , m_visualsDirty(true)
       , m_labelsDirty(true)
+      , m_barDelegateDirty(false)
 {
 }
 

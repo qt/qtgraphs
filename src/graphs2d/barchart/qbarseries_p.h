@@ -75,6 +75,7 @@ protected:
     int m_labelsPrecision;
     bool m_visualsDirty;
     bool m_labelsDirty;
+    bool m_barDelegateDirty;
     QQmlComponent *m_barDelegate = nullptr;
 
 private:
