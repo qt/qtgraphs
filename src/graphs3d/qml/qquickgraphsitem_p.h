@@ -638,7 +638,6 @@ protected:
 
     void handlePrimarySubViewportChanged(const QRect &rect);
     void handleSecondarySubViewportChanged(const QRect &rect);
-    void handleSecondarySubviewOnTopChanged(bool onTop);
 
     QQuick3DNode *graphNode() { return m_graphNode; }
     QQuick3DViewport *sliceView() { return m_sliceView; }
@@ -867,7 +866,6 @@ private:
     bool m_sliceActivatedChanged = false;
     QRect m_primarySubView;
     QRect m_secondarySubView;
-    bool m_secondarySubViewOnTop = true;
 
     bool m_gridUpdated = false;
 

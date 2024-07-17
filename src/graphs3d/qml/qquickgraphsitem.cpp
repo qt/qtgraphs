@@ -624,9 +624,6 @@ QQuickGraphsItem::QQuickGraphsItem(QQuickItem *parent)
     connect(m_scene, &Q3DScene::secondarySubViewportChanged,
             this,
             &QQuickGraphsItem::handleSecondarySubViewportChanged);
-    connect(m_scene, &Q3DScene::secondarySubviewOnTopChanged,
-            this,
-            &QQuickGraphsItem::handleSecondarySubviewOnTopChanged);
 
     m_nodeMutex = QSharedPointer<QMutex>::create();
 
@@ -875,13 +872,6 @@ void QQuickGraphsItem::handleSecondarySubViewportChanged(const QRect &rect)
 {
     m_secondarySubView = rect;
     updateSubViews();
-}
-
-void QQuickGraphsItem::handleSecondarySubviewOnTopChanged(bool onTop)
-{
-    m_secondarySubViewOnTop = onTop;
-    if (sliceView())
-        sliceView()->setZ(onTop? 1 : -1);
 }
 
 void QQuickGraphsItem::handleAxisLabelFormatChangedBySender(QObject *sender)
@@ -5916,7 +5906,9 @@ void QQuickGraphsItem::createSliceView()
     m_sliceView->setVisible(false);
     m_sliceView->setWidth(parentItem()->width());
     m_sliceView->setHeight(parentItem()->height());
-    m_sliceView->setZ(m_secondarySubViewOnTop? 1 : -1);
+    m_sliceView->setZ(-1);
+    m_sliceView->environment()->setBackgroundMode(QQuick3DSceneEnvironment::QQuick3DEnvironmentBackgroundTypes::Color);
+    m_sliceView->environment()->setClearColor(environment()->clearColor());
 
     auto scene = m_sliceView->scene();
 
@@ -6453,6 +6445,10 @@ void QQuickGraphsItem::updateBackgroundColor()
         environment()->setClearColor(theme()->backgroundColor());
     else
         environment()->setClearColor(Qt::transparent);
+
+    if (m_sliceView)
+        m_sliceView->environment()->setClearColor(environment()->clearColor());
+
 }
 
 void QQuickGraphsItem::setItemSelected(bool selected)
