@@ -155,6 +155,8 @@ private:
     Q_DISABLE_COPY(QBarSeries)
     friend class BarSet;
     friend class BarsRenderer;
+    bool barDelegateDirty() const;
+    void setBarDelegateDirty(bool dirty);
 };
 
 QT_END_NAMESPACE
