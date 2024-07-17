@@ -3,13 +3,14 @@
 
 #include "qgraphstheme.h"
 
-#include <QLinearGradient>
 #include <QGuiApplication>
-#include <QStyleHints>
-#include "qquickgraphscolor_p.h"
-#include <private/graphsglobal_p.h>
-#include <QtQuick/private/qquickrectangle_p.h>
+#include <QLinearGradient>
 #include <QQmlListProperty>
+#include <QStyleHints>
+#include <QtQuick/private/qquickrectangle_p.h>
+#include <private/graphsglobal_p.h>
+#include <private/qgraphstheme_p.h>
+#include <private/qquickgraphscolor_p.h>
 
 QT_BEGIN_NAMESPACE
 
@@ -546,24 +547,11 @@ bool comparesEqual(const QGraphsLine &lhs, const QGraphsLine &rhs) noexcept
 }
 
 QGraphsTheme::QGraphsTheme(QObject *parent)
-    : QObject(parent)
-      , m_themeDirty(false)
-      , m_colorStyle(ColorStyle::Uniform)
-      , m_plotAreaBackgroundColor(QColor())
-      , m_backgroundColor(QColor())
-      , m_labelBackgroundColor(QColor())
-      , m_labelTextColor(QColor())
-      , m_singleHighlightColor(QColor())
-      , m_multiHighlightColor(QColor())
-      , m_multiHighlightGradient(QLinearGradient())
-      , m_singleHighlightGradient(QLinearGradient())
-      , m_borderWidth(1.0)
-      , m_singleHLGradient(nullptr)
-      , m_multiHLGradient(nullptr)
-      , m_grid(QGraphsLine())
-      , m_axisX(QGraphsLine())
-      , m_axisY(QGraphsLine())
-      , m_axisZ(QGraphsLine())
+    : QGraphsTheme(*(new QGraphsThemePrivate()), parent)
+{}
+
+QGraphsTheme::QGraphsTheme(QGraphsThemePrivate &dd, QObject *parent)
+    : QObject(dd, parent)
 {
     setBackgroundVisible(true);
     setPlotAreaBackgroundVisible(true);
@@ -571,9 +559,10 @@ QGraphsTheme::QGraphsTheme(QObject *parent)
     setGridVisible(true);
     setLabelsVisible(true);
     setColorScheme(QGuiApplication::styleHints()->colorScheme());
-    connect(QGuiApplication::styleHints(), &QStyleHints::colorSchemeChanged, this, [&](Qt::ColorScheme colorScheme) {
-        setColorScheme(colorScheme);
-    });
+    connect(QGuiApplication::styleHints(),
+            &QStyleHints::colorSchemeChanged,
+            this,
+            [&](Qt::ColorScheme colorScheme) { setColorScheme(colorScheme); });
     setLabelBorderVisible(true);
     setTheme(Theme::QtGreen, ForceTheme::Yes);
     setLabelFont(QFont(QLatin1String("Arial")));
@@ -586,6 +575,18 @@ QGraphsTheme::~QGraphsTheme()
 {
 }
 
+bool QGraphsTheme::themeDirty() const
+{
+    const Q_D(QGraphsTheme);
+    return d->m_themeDirty;
+}
+
+void QGraphsTheme::resetThemeDirty()
+{
+    Q_D(QGraphsTheme);
+    d->m_themeDirty = false;
+}
+
 void QGraphsTheme::resetColorTheme()
 {
     setTheme(QGraphsTheme::Theme::QtGreen);
@@ -593,35 +594,37 @@ void QGraphsTheme::resetColorTheme()
 
 QGraphsThemeDirtyBitField *QGraphsTheme::dirtyBits()
 {
-    return &m_dirtyBits;
+    Q_D(QGraphsTheme);
+    return &d->m_dirtyBits;
 }
 
 void QGraphsTheme::resetDirtyBits()
 {
-    m_dirtyBits.plotAreaBackgroundColorDirty = true;
-    m_dirtyBits.plotAreaBackgroundVisibilityDirty = true;
-    m_dirtyBits.seriesColorsDirty = true;
-    m_dirtyBits.seriesGradientDirty = true;
-    m_dirtyBits.colorSchemeDirty = true;
-    m_dirtyBits.colorStyleDirty = true;
-    m_dirtyBits.labelFontDirty = true;
-    m_dirtyBits.gridVisibilityDirty = true;
-    m_dirtyBits.gridDirty = true;
-    m_dirtyBits.labelBackgroundColorDirty = true;
-    m_dirtyBits.labelBackgroundVisibilityDirty = true;
-    m_dirtyBits.labelBorderVisibilityDirty = true;
-    m_dirtyBits.labelTextColorDirty = true;
-    m_dirtyBits.axisXDirty = true;
-    m_dirtyBits.axisYDirty = true;
-    m_dirtyBits.axisZDirty = true;
-    m_dirtyBits.labelsVisibilityDirty = true;
-    m_dirtyBits.multiHighlightColorDirty = true;
-    m_dirtyBits.multiHighlightGradientDirty = true;
-    m_dirtyBits.singleHighlightColorDirty = true;
-    m_dirtyBits.singleHighlightGradientDirty = true;
-    m_dirtyBits.themeDirty = true;
-    m_dirtyBits.backgroundColorDirty = true;
-    m_dirtyBits.backgroundVisibilityDirty = true;
+    Q_D(QGraphsTheme);
+    d->m_dirtyBits.plotAreaBackgroundColorDirty = true;
+    d->m_dirtyBits.plotAreaBackgroundVisibilityDirty = true;
+    d->m_dirtyBits.seriesColorsDirty = true;
+    d->m_dirtyBits.seriesGradientDirty = true;
+    d->m_dirtyBits.colorSchemeDirty = true;
+    d->m_dirtyBits.colorStyleDirty = true;
+    d->m_dirtyBits.labelFontDirty = true;
+    d->m_dirtyBits.gridVisibilityDirty = true;
+    d->m_dirtyBits.gridDirty = true;
+    d->m_dirtyBits.labelBackgroundColorDirty = true;
+    d->m_dirtyBits.labelBackgroundVisibilityDirty = true;
+    d->m_dirtyBits.labelBorderVisibilityDirty = true;
+    d->m_dirtyBits.labelTextColorDirty = true;
+    d->m_dirtyBits.axisXDirty = true;
+    d->m_dirtyBits.axisYDirty = true;
+    d->m_dirtyBits.axisZDirty = true;
+    d->m_dirtyBits.labelsVisibilityDirty = true;
+    d->m_dirtyBits.multiHighlightColorDirty = true;
+    d->m_dirtyBits.multiHighlightGradientDirty = true;
+    d->m_dirtyBits.singleHighlightColorDirty = true;
+    d->m_dirtyBits.singleHighlightGradientDirty = true;
+    d->m_dirtyBits.themeDirty = true;
+    d->m_dirtyBits.backgroundColorDirty = true;
+    d->m_dirtyBits.backgroundVisibilityDirty = true;
 }
 
 /*!
@@ -633,15 +636,17 @@ void QGraphsTheme::resetDirtyBits()
  */
 Qt::ColorScheme QGraphsTheme::colorScheme() const
 {
-    return m_colorScheme;
+    const Q_D(QGraphsTheme);
+    return d->m_colorScheme;
 }
 
 void QGraphsTheme::setColorScheme(Qt::ColorScheme newColorScheme)
 {
-    m_dirtyBits.colorSchemeDirty = true;
-    m_colorScheme = newColorScheme;
+    Q_D(QGraphsTheme);
+    d->m_dirtyBits.colorSchemeDirty = true;
+    d->m_colorScheme = newColorScheme;
     setColorSchemePalette();
-    m_themeDirty = true;
+    d->m_themeDirty = true;
     emit colorSchemeChanged();
     emit update();
 }
@@ -658,18 +663,20 @@ void QGraphsTheme::setColorScheme(Qt::ColorScheme newColorScheme)
  */
 QGraphsTheme::Theme QGraphsTheme::theme() const
 {
-    return m_theme;
+    const Q_D(QGraphsTheme);
+    return d->m_theme;
 }
 
 void QGraphsTheme::setTheme(Theme newTheme, ForceTheme force)
 {
-    if (force == ForceTheme::No && m_theme == newTheme)
+    Q_D(QGraphsTheme);
+    if (force == ForceTheme::No && d->m_theme == newTheme)
         return;
-    m_dirtyBits.themeDirty = true;
-    m_theme = newTheme;
-    m_themeDirty = true;
+    d->m_dirtyBits.themeDirty = true;
+    d->m_theme = newTheme;
+    d->m_themeDirty = true;
     setThemePalette();
-    emit themeChanged(m_theme);
+    emit themeChanged(d->m_theme);
     emit update();
 }
 
@@ -686,15 +693,17 @@ void QGraphsTheme::setTheme(Theme newTheme, ForceTheme force)
  */
 QGraphsTheme::ColorStyle QGraphsTheme::colorStyle() const
 {
-    return m_colorStyle;
+    const Q_D(QGraphsTheme);
+    return d->m_colorStyle;
 }
 
 void QGraphsTheme::setColorStyle(ColorStyle newColorStyle)
 {
-    if (m_colorStyle == newColorStyle)
+    Q_D(QGraphsTheme);
+    if (d->m_colorStyle == newColorStyle)
         return;
-    m_dirtyBits.colorStyleDirty = true;
-    m_colorStyle = newColorStyle;
+    d->m_dirtyBits.colorStyleDirty = true;
+    d->m_colorStyle = newColorStyle;
     emit colorStyleChanged(newColorStyle);
     emit update();
 }
@@ -706,15 +715,17 @@ void QGraphsTheme::setColorStyle(ColorStyle newColorStyle)
  */
 QFont QGraphsTheme::axisXLabelFont() const
 {
-    return m_axisXLabelFont;
+    const Q_D(QGraphsTheme);
+    return d->m_axisXLabelFont;
 }
 
 void QGraphsTheme::setAxisXLabelFont(const QFont &newAxisXLabelFont)
 {
-    m_customBits.axisXLabelFontCustom = true;
-    if (m_axisXLabelFont == newAxisXLabelFont)
+    Q_D(QGraphsTheme);
+    d->m_customBits.axisXLabelFontCustom = true;
+    if (d->m_axisXLabelFont == newAxisXLabelFont)
         return;
-    m_axisXLabelFont = newAxisXLabelFont;
+    d->m_axisXLabelFont = newAxisXLabelFont;
     emit axisXLabelFontChanged();
     emit update();
 }
@@ -726,15 +737,17 @@ void QGraphsTheme::setAxisXLabelFont(const QFont &newAxisXLabelFont)
  */
 QFont QGraphsTheme::axisYLabelFont() const
 {
-    return m_axisYLabelFont;
+    const Q_D(QGraphsTheme);
+    return d->m_axisYLabelFont;
 }
 
 void QGraphsTheme::setAxisYLabelFont(const QFont &newAxisYLabelFont)
 {
-    m_customBits.axisYLabelFontCustom = true;
-    if (m_axisYLabelFont == newAxisYLabelFont)
+    Q_D(QGraphsTheme);
+    d->m_customBits.axisYLabelFontCustom = true;
+    if (d->m_axisYLabelFont == newAxisYLabelFont)
         return;
-    m_axisYLabelFont = newAxisYLabelFont;
+    d->m_axisYLabelFont = newAxisYLabelFont;
     emit axisYLabelFontChanged();
     emit update();
 }
@@ -746,15 +759,17 @@ void QGraphsTheme::setAxisYLabelFont(const QFont &newAxisYLabelFont)
  */
 QFont QGraphsTheme::axisZLabelFont() const
 {
-    return m_axisZLabelFont;
+    const Q_D(QGraphsTheme);
+    return d->m_axisZLabelFont;
 }
 
 void QGraphsTheme::setAxisZLabelFont(const QFont &newAxisZLabelFont)
 {
-    m_customBits.axisZLabelFontCustom = true;
-    if (m_axisZLabelFont == newAxisZLabelFont)
+    Q_D(QGraphsTheme);
+    d->m_customBits.axisZLabelFontCustom = true;
+    if (d->m_axisZLabelFont == newAxisZLabelFont)
         return;
-    m_axisZLabelFont = newAxisZLabelFont;
+    d->m_axisZLabelFont = newAxisZLabelFont;
     emit axisZLabelFontChanged();
     emit update();
 }
@@ -767,18 +782,20 @@ void QGraphsTheme::setAxisZLabelFont(const QFont &newAxisZLabelFont)
  */
 QColor QGraphsTheme::plotAreaBackgroundColor() const
 {
-    if (m_customBits.plotAreaBackgroundColorCustom)
-        return m_plotAreaBackgroundColor;
-    return m_plotAreaBackgroundThemeColor;
+    const Q_D(QGraphsTheme);
+    if (d->m_customBits.plotAreaBackgroundColorCustom)
+        return d->m_plotAreaBackgroundColor;
+    return d->m_plotAreaBackgroundThemeColor;
 }
 
 void QGraphsTheme::setPlotAreaBackgroundColor(const QColor &newBackgroundColor)
 {
-    m_customBits.plotAreaBackgroundColorCustom = true;
-    if (m_plotAreaBackgroundColor == newBackgroundColor)
+    Q_D(QGraphsTheme);
+    d->m_customBits.plotAreaBackgroundColorCustom = true;
+    if (d->m_plotAreaBackgroundColor == newBackgroundColor)
         return;
-    m_dirtyBits.plotAreaBackgroundColorDirty = true;
-    m_plotAreaBackgroundColor = newBackgroundColor;
+    d->m_dirtyBits.plotAreaBackgroundColorDirty = true;
+    d->m_plotAreaBackgroundColor = newBackgroundColor;
     emit plotAreaBackgroundColorChanged();
     emit update();
 }
@@ -793,15 +810,17 @@ void QGraphsTheme::setPlotAreaBackgroundColor(const QColor &newBackgroundColor)
  */
 bool QGraphsTheme::isPlotAreaBackgroundVisible() const
 {
-    return m_plotAreaBackgroundVisibility;
+    const Q_D(QGraphsTheme);
+    return d->m_plotAreaBackgroundVisibility;
 }
 
 void QGraphsTheme::setPlotAreaBackgroundVisible(bool newBackgroundVisibility)
 {
-    if (m_plotAreaBackgroundVisibility == newBackgroundVisibility)
+    Q_D(QGraphsTheme);
+    if (d->m_plotAreaBackgroundVisibility == newBackgroundVisibility)
         return;
-    m_dirtyBits.plotAreaBackgroundVisibilityDirty = true;
-    m_plotAreaBackgroundVisibility = newBackgroundVisibility;
+    d->m_dirtyBits.plotAreaBackgroundVisibilityDirty = true;
+    d->m_plotAreaBackgroundVisibility = newBackgroundVisibility;
     emit plotAreaBackgroundVisibleChanged();
     emit update();
 }
@@ -816,15 +835,17 @@ void QGraphsTheme::setPlotAreaBackgroundVisible(bool newBackgroundVisibility)
  */
 bool QGraphsTheme::isBackgroundVisible() const
 {
-    return m_backgroundVisibility;
+    const Q_D(QGraphsTheme);
+    return d->m_backgroundVisibility;
 }
 
 void QGraphsTheme::setBackgroundVisible(bool newBackgroundVisible)
 {
-    if (m_backgroundVisibility == newBackgroundVisible)
+    Q_D(QGraphsTheme);
+    if (d->m_backgroundVisibility == newBackgroundVisible)
         return;
-    m_dirtyBits.backgroundVisibilityDirty = true;
-    m_backgroundVisibility = newBackgroundVisible;
+    d->m_dirtyBits.backgroundVisibilityDirty = true;
+    d->m_backgroundVisibility = newBackgroundVisible;
     emit backgroundVisibleChanged();
     emit update();
 }
@@ -839,15 +860,17 @@ void QGraphsTheme::setBackgroundVisible(bool newBackgroundVisible)
  */
 bool QGraphsTheme::isGridVisible() const
 {
-    return m_gridVisibility;
+    const Q_D(QGraphsTheme);
+    return d->m_gridVisibility;
 }
 
 void QGraphsTheme::setGridVisible(bool newGridVisibility)
 {
-    if (m_gridVisibility == newGridVisibility)
+    Q_D(QGraphsTheme);
+    if (d->m_gridVisibility == newGridVisibility)
         return;
-    m_dirtyBits.gridVisibilityDirty = true;
-    m_gridVisibility = newGridVisibility;
+    d->m_dirtyBits.gridVisibilityDirty = true;
+    d->m_gridVisibility = newGridVisibility;
     emit gridVisibleChanged();
     emit update();
 }
@@ -860,18 +883,20 @@ void QGraphsTheme::setGridVisible(bool newGridVisibility)
  */
 QColor QGraphsTheme::backgroundColor() const
 {
-    if (m_customBits.backgroundColorCustom)
-        return m_backgroundColor;
-    return m_backgroundThemeColor;
+    const Q_D(QGraphsTheme);
+    if (d->m_customBits.backgroundColorCustom)
+        return d->m_backgroundColor;
+    return d->m_backgroundThemeColor;
 }
 
 void QGraphsTheme::setBackgroundColor(const QColor &newBackgroundColor)
 {
-    m_customBits.backgroundColorCustom = true;
-    if (m_backgroundColor == newBackgroundColor)
+    Q_D(QGraphsTheme);
+    d->m_customBits.backgroundColorCustom = true;
+    if (d->m_backgroundColor == newBackgroundColor)
         return;
-    m_dirtyBits.backgroundColorDirty = true;
-    m_backgroundColor = newBackgroundColor;
+    d->m_dirtyBits.backgroundColorDirty = true;
+    d->m_backgroundColor = newBackgroundColor;
     emit backgroundColorChanged();
     emit update();
 }
@@ -886,15 +911,17 @@ void QGraphsTheme::setBackgroundColor(const QColor &newBackgroundColor)
  */
 bool QGraphsTheme::labelsVisible() const
 {
-    return m_labelsVisibility;
+    const Q_D(QGraphsTheme);
+    return d->m_labelsVisibility;
 }
 
 void QGraphsTheme::setLabelsVisible(bool newLabelsVisibility)
 {
-    if (m_labelsVisibility == newLabelsVisibility)
+    Q_D(QGraphsTheme);
+    if (d->m_labelsVisibility == newLabelsVisibility)
         return;
-    m_dirtyBits.labelsVisibilityDirty = true;
-    m_labelsVisibility = newLabelsVisibility;
+    d->m_dirtyBits.labelsVisibilityDirty = true;
+    d->m_labelsVisibility = newLabelsVisibility;
     emit labelsVisibleChanged();
     emit update();
 }
@@ -909,18 +936,20 @@ void QGraphsTheme::setLabelsVisible(bool newLabelsVisibility)
  */
 QColor QGraphsTheme::labelBackgroundColor() const
 {
-    if (m_customBits.labelBackgroundColorCustom)
-        return m_labelBackgroundColor;
-    return m_labelBackgroundThemeColor;
+    const Q_D(QGraphsTheme);
+    if (d->m_customBits.labelBackgroundColorCustom)
+        return d->m_labelBackgroundColor;
+    return d->m_labelBackgroundThemeColor;
 }
 
 void QGraphsTheme::setLabelBackgroundColor(const QColor &newLabelBackgroundColor)
 {
-    m_customBits.labelBackgroundColorCustom = true;
-    if (m_labelBackgroundColor == newLabelBackgroundColor)
+    Q_D(QGraphsTheme);
+    d->m_customBits.labelBackgroundColorCustom = true;
+    if (d->m_labelBackgroundColor == newLabelBackgroundColor)
         return;
-    m_dirtyBits.labelBackgroundColorDirty = true;
-    m_labelBackgroundColor = newLabelBackgroundColor;
+    d->m_dirtyBits.labelBackgroundColorDirty = true;
+    d->m_labelBackgroundColor = newLabelBackgroundColor;
     emit labelBackgroundColorChanged();
     emit update();
 }
@@ -933,18 +962,20 @@ void QGraphsTheme::setLabelBackgroundColor(const QColor &newLabelBackgroundColor
  */
 QColor QGraphsTheme::labelTextColor() const
 {
-    if (m_customBits.labelTextColorCustom)
-        return m_labelTextColor;
-    return m_labelTextThemeColor;
+    const Q_D(QGraphsTheme);
+    if (d->m_customBits.labelTextColorCustom)
+        return d->m_labelTextColor;
+    return d->m_labelTextThemeColor;
 }
 
 void QGraphsTheme::setLabelTextColor(const QColor &newLabelTextColor)
 {
-    m_customBits.labelTextColorCustom = true;
-    if (m_labelTextColor == newLabelTextColor)
+    Q_D(QGraphsTheme);
+    d->m_customBits.labelTextColorCustom = true;
+    if (d->m_labelTextColor == newLabelTextColor)
         return;
-    m_dirtyBits.labelTextColorDirty = true;
-    m_labelTextColor = newLabelTextColor;
+    d->m_dirtyBits.labelTextColorDirty = true;
+    d->m_labelTextColor = newLabelTextColor;
     emit labelTextColorChanged();
     emit update();
 }
@@ -960,19 +991,21 @@ void QGraphsTheme::setLabelTextColor(const QColor &newLabelTextColor)
  */
 QColor QGraphsTheme::singleHighlightColor() const
 {
-    if (m_customBits.singleHighlightColorCustom)
-        return m_singleHighlightColor;
-    return m_singleHighlightThemeColor;
+    const Q_D(QGraphsTheme);
+    if (d->m_customBits.singleHighlightColorCustom)
+        return d->m_singleHighlightColor;
+    return d->m_singleHighlightThemeColor;
 }
 
 void QGraphsTheme::setSingleHighlightColor(const QColor &newSingleHighlightColor)
 {
-    m_customBits.singleHighlightColorCustom = true;
-    if (m_singleHighlightColor == newSingleHighlightColor)
+    Q_D(QGraphsTheme);
+    d->m_customBits.singleHighlightColorCustom = true;
+    if (d->m_singleHighlightColor == newSingleHighlightColor)
         return;
-    m_dirtyBits.singleHighlightColorDirty = true;
-    m_singleHighlightColor = newSingleHighlightColor;
-    emit singleHighlightColorChanged(m_singleHighlightColor);
+    d->m_dirtyBits.singleHighlightColorDirty = true;
+    d->m_singleHighlightColor = newSingleHighlightColor;
+    emit singleHighlightColorChanged(d->m_singleHighlightColor);
     emit update();
 }
 
@@ -988,19 +1021,21 @@ void QGraphsTheme::setSingleHighlightColor(const QColor &newSingleHighlightColor
  */
 QColor QGraphsTheme::multiHighlightColor() const
 {
-    if (m_customBits.multiHighlightColorCustom)
-        return m_multiHighlightColor;
-    return m_multiHighlightThemeColor;
+    const Q_D(QGraphsTheme);
+    if (d->m_customBits.multiHighlightColorCustom)
+        return d->m_multiHighlightColor;
+    return d->m_multiHighlightThemeColor;
 }
 
 void QGraphsTheme::setMultiHighlightColor(const QColor &newMultiHighlightColor)
 {
-    m_customBits.multiHighlightColorCustom = true;
-    if (m_multiHighlightColor == newMultiHighlightColor)
+    Q_D(QGraphsTheme);
+    d->m_customBits.multiHighlightColorCustom = true;
+    if (d->m_multiHighlightColor == newMultiHighlightColor)
         return;
-    m_dirtyBits.multiHighlightColorDirty = true;
-    m_multiHighlightColor = newMultiHighlightColor;
-    emit multiHighlightColorChanged(m_multiHighlightColor);
+    d->m_dirtyBits.multiHighlightColorDirty = true;
+    d->m_multiHighlightColor = newMultiHighlightColor;
+    emit multiHighlightColorChanged(d->m_multiHighlightColor);
     emit update();
 }
 
@@ -1015,21 +1050,23 @@ void QGraphsTheme::setMultiHighlightColor(const QColor &newMultiHighlightColor)
  */
 void QGraphsTheme::setSingleHighlightGradient(const QLinearGradient &gradient)
 {
-    m_customBits.singleHighlightGradientCustom = true;
-    if (m_singleHighlightGradient == gradient)
+    Q_D(QGraphsTheme);
+    d->m_customBits.singleHighlightGradientCustom = true;
+    if (d->m_singleHighlightGradient == gradient)
         return;
 
-    m_dirtyBits.singleHighlightGradientDirty = true;
-    m_singleHighlightGradient = gradient;
-    emit singleHighlightGradientChanged(m_singleHighlightGradient);
+    d->m_dirtyBits.singleHighlightGradientDirty = true;
+    d->m_singleHighlightGradient = gradient;
+    emit singleHighlightGradientChanged(d->m_singleHighlightGradient);
     emit update();
 }
 
 QLinearGradient QGraphsTheme::singleHighlightGradient() const
 {
-    if (m_customBits.singleHighlightGradientCustom)
-        return m_singleHighlightGradient;
-    return m_singleHighlightThemeGradient;
+    const Q_D(QGraphsTheme);
+    if (d->m_customBits.singleHighlightGradientCustom)
+        return d->m_singleHighlightGradient;
+    return d->m_singleHighlightThemeGradient;
 }
 
 /*!
@@ -1044,21 +1081,24 @@ QLinearGradient QGraphsTheme::singleHighlightGradient() const
  */
 void QGraphsTheme::setMultiHighlightGradient(const QLinearGradient &gradient)
 {
-    m_customBits.multiHighlightGradientCustom = true;
-    if (m_multiHighlightGradient == gradient)
+    Q_D(QGraphsTheme);
+    d->m_customBits.multiHighlightGradientCustom = true;
+    if (d->m_multiHighlightGradient == gradient)
         return;
 
-    m_dirtyBits.multiHighlightGradientDirty = true;
-    m_multiHighlightGradient = gradient;
-    emit multiHighlightGradientChanged(m_multiHighlightGradient);
+    d->m_dirtyBits.multiHighlightGradientDirty = true;
+    d->m_multiHighlightGradient = gradient;
+    emit multiHighlightGradientChanged(d->m_multiHighlightGradient);
     emit update();
 }
 
 QLinearGradient QGraphsTheme::multiHighlightGradient() const
 {
-    if (m_customBits.multiHighlightGradientCustom)
-        return m_multiHighlightGradient;
-    return m_multiHighlightThemeGradient;
+    const Q_D(QGraphsTheme);
+    ;
+    if (d->m_customBits.multiHighlightGradientCustom)
+        return d->m_multiHighlightGradient;
+    return d->m_multiHighlightThemeGradient;
 }
 
 /*!
@@ -1068,21 +1108,23 @@ QLinearGradient QGraphsTheme::multiHighlightGradient() const
  */
 QFont QGraphsTheme::labelFont() const
 {
-    return m_labelFont;
+    const Q_D(QGraphsTheme);
+    return d->m_labelFont;
 }
 
 void QGraphsTheme::setLabelFont(const QFont &newFont)
 {
-    if (m_labelFont == newFont)
+    Q_D(QGraphsTheme);
+    if (d->m_labelFont == newFont)
         return;
-    m_dirtyBits.labelFontDirty = true;
-    m_labelFont = newFont;
-    if (!m_customBits.axisXLabelFontCustom)
-        m_axisXLabelFont = newFont;
-    if (!m_customBits.axisYLabelFontCustom)
-        m_axisYLabelFont = newFont;
-    if (!m_customBits.axisZLabelFontCustom)
-        m_axisZLabelFont = newFont;
+    d->m_dirtyBits.labelFontDirty = true;
+    d->m_labelFont = newFont;
+    if (!d->m_customBits.axisXLabelFontCustom)
+        d->m_axisXLabelFont = newFont;
+    if (!d->m_customBits.axisYLabelFontCustom)
+        d->m_axisYLabelFont = newFont;
+    if (!d->m_customBits.axisZLabelFontCustom)
+        d->m_axisZLabelFont = newFont;
     emit labelFontChanged();
     emit update();
 }
@@ -1104,15 +1146,17 @@ void QGraphsTheme::setLabelFont(const QFont &newFont)
  */
 bool QGraphsTheme::isLabelBackgroundVisible() const
 {
-    return m_labelBackgroundVisibility;
+    const Q_D(QGraphsTheme);
+    return d->m_labelBackgroundVisibility;
 }
 
 void QGraphsTheme::setLabelBackgroundVisible(bool newLabelBackgroundVisibility)
 {
-    if (m_labelBackgroundVisibility == newLabelBackgroundVisibility)
+    Q_D(QGraphsTheme);
+    if (d->m_labelBackgroundVisibility == newLabelBackgroundVisibility)
         return;
-    m_dirtyBits.labelBackgroundVisibilityDirty = true;
-    m_labelBackgroundVisibility = newLabelBackgroundVisibility;
+    d->m_dirtyBits.labelBackgroundVisibilityDirty = true;
+    d->m_labelBackgroundVisibility = newLabelBackgroundVisibility;
     emit labelBackgroundVisibleChanged();
     emit update();
 }
@@ -1127,15 +1171,17 @@ void QGraphsTheme::setLabelBackgroundVisible(bool newLabelBackgroundVisibility)
  */
 bool QGraphsTheme::isLabelBorderVisible() const
 {
-    return m_labelBorderVisibility;
+    const Q_D(QGraphsTheme);
+    return d->m_labelBorderVisibility;
 }
 
 void QGraphsTheme::setLabelBorderVisible(bool newLabelBorderVisibility)
 {
-    if (m_labelBorderVisibility == newLabelBorderVisibility)
+    Q_D(QGraphsTheme);
+    if (d->m_labelBorderVisibility == newLabelBorderVisibility)
         return;
-    m_dirtyBits.labelBorderVisibilityDirty = true;
-    m_labelBorderVisibility = newLabelBorderVisibility;
+    d->m_dirtyBits.labelBorderVisibilityDirty = true;
+    d->m_labelBorderVisibility = newLabelBorderVisibility;
     emit labelBorderVisibleChanged();
     emit update();
 }
@@ -1156,19 +1202,21 @@ void QGraphsTheme::setLabelBorderVisible(bool newLabelBorderVisibility)
  */
 QList<QColor> QGraphsTheme::seriesColors() const
 {
-    if (m_customBits.seriesColorsCustom && !m_seriesColors.isEmpty())
-        return m_seriesColors;
-    return m_seriesThemeColors;
+    const Q_D(QGraphsTheme);
+    if (d->m_customBits.seriesColorsCustom && !d->m_seriesColors.isEmpty())
+        return d->m_seriesColors;
+    return d->m_seriesThemeColors;
 }
 
 void QGraphsTheme::setSeriesColors(const QList<QColor> &newSeriesColors)
 {
-    m_customBits.seriesColorsCustom = true;
-    if (m_seriesColors == newSeriesColors)
+    Q_D(QGraphsTheme);
+    d->m_customBits.seriesColorsCustom = true;
+    if (d->m_seriesColors == newSeriesColors)
         return;
-    m_dirtyBits.seriesColorsDirty = true;
-    m_seriesColors = newSeriesColors;
-    emit seriesColorsChanged(m_seriesColors);
+    d->m_dirtyBits.seriesColorsDirty = true;
+    d->m_seriesColors = newSeriesColors;
+    emit seriesColorsChanged(d->m_seriesColors);
     emit update();
 }
 
@@ -1185,17 +1233,19 @@ void QGraphsTheme::setSeriesColors(const QList<QColor> &newSeriesColors)
  */
 QList<QColor> QGraphsTheme::borderColors() const
 {
-    if (m_customBits.borderColorsCustom && !m_borderColors.isEmpty())
-        return m_borderColors;
-    return m_borderThemeColors;
+    const Q_D(QGraphsTheme);
+    if (d->m_customBits.borderColorsCustom && !d->m_borderColors.isEmpty())
+        return d->m_borderColors;
+    return d->m_borderThemeColors;
 }
 
 void QGraphsTheme::setBorderColors(const QList<QColor> &newBorderColors)
 {
-    m_customBits.borderColorsCustom = true;
-    if (m_borderColors == newBorderColors)
+    Q_D(QGraphsTheme);
+    d->m_customBits.borderColorsCustom = true;
+    if (d->m_borderColors == newBorderColors)
         return;
-    m_borderColors = newBorderColors;
+    d->m_borderColors = newBorderColors;
     emit borderColorsChanged();
     emit update();
 }
@@ -1216,24 +1266,26 @@ void QGraphsTheme::setBorderColors(const QList<QColor> &newBorderColors)
  */
 QList<QLinearGradient> QGraphsTheme::seriesGradients() const
 {
-    if (m_customBits.seriesGradientCustom && !m_seriesGradients.isEmpty())
-        return m_seriesGradients;
-    return m_seriesThemeGradients;
+    const Q_D(QGraphsTheme);
+    if (d->m_customBits.seriesGradientCustom && !d->m_seriesGradients.isEmpty())
+        return d->m_seriesGradients;
+    return d->m_seriesThemeGradients;
 }
 
 void QGraphsTheme::setSeriesGradients(const QList<QLinearGradient> &newSeriesGradients)
 {
-    m_customBits.seriesGradientCustom = true;
+    Q_D(QGraphsTheme);
+    d->m_customBits.seriesGradientCustom = true;
     if (newSeriesGradients.size()) {
-        m_dirtyBits.seriesGradientDirty = true;
-        if (m_seriesGradients != newSeriesGradients) {
-            m_seriesGradients.clear();
-            m_seriesGradients = newSeriesGradients;
+        d->m_dirtyBits.seriesGradientDirty = true;
+        if (d->m_seriesGradients != newSeriesGradients) {
+            d->m_seriesGradients.clear();
+            d->m_seriesGradients = newSeriesGradients;
             emit seriesGradientsChanged(newSeriesGradients);
             emit update();
         }
     } else {
-        m_seriesGradients.clear();
+        d->m_seriesGradients.clear();
         emit update();
     }
 }
@@ -1246,41 +1298,45 @@ void QGraphsTheme::setSeriesGradients(const QList<QLinearGradient> &newSeriesGra
  */
 qreal QGraphsTheme::borderWidth() const
 {
-    return m_borderWidth;
+    const Q_D(QGraphsTheme);
+    return d->m_borderWidth;
 }
 
 void QGraphsTheme::setBorderWidth(qreal newBorderWidth)
 {
-    if (qFuzzyCompare(m_borderWidth, newBorderWidth))
+    Q_D(QGraphsTheme);
+    if (qFuzzyCompare(d->m_borderWidth, newBorderWidth))
         return;
-    m_borderWidth = newBorderWidth;
+    d->m_borderWidth = newBorderWidth;
     emit borderWidthChanged();
     emit update();
 }
 
 void QGraphsTheme::handleBaseColorUpdate()
 {
-    qsizetype colorCount = m_colors.size();
+    Q_D(QGraphsTheme);
+    qsizetype colorCount = d->m_colors.size();
     int changed = 0;
     // Check which one changed
     QQuickGraphsColor *color = qobject_cast<QQuickGraphsColor *>(QObject::sender());
     for (int i = 0; i < colorCount; i++) {
-        if (color == m_colors.at(i)) {
+        if (color == d->m_colors.at(i)) {
             changed = i;
             break;
         }
     }
     // Update the changed one from the list
     QList<QColor> list = seriesColors();
-    list[changed] = m_colors.at(changed)->color();
+    list[changed] = d->m_colors.at(changed)->color();
     // Set the changed list
     setSeriesColors(list);
 }
 
 void QGraphsTheme::handleBaseGradientUpdate()
 {
+    Q_D(QGraphsTheme);
     // Find out which gradient has changed, and update the list with it
-    qsizetype gradientCount = m_gradients.size();
+    qsizetype gradientCount = d->m_gradients.size();
     int changed = 0;
 
     // Check which one changed
@@ -1289,7 +1345,7 @@ void QGraphsTheme::handleBaseGradientUpdate()
     QJSValue updatedGradient = engine.newQObject(newGradient);
 
     for (int i = 0; i < gradientCount; ++i) {
-        if (newGradient == m_gradients.at(i)) {
+        if (newGradient == d->m_gradients.at(i)) {
             changed = i;
             break;
         }
@@ -1309,166 +1365,171 @@ void QGraphsTheme::classBegin()
 
 void QGraphsTheme::componentComplete()
 {
-    m_componentComplete = true;
+    Q_D(QGraphsTheme);
+    d->m_componentComplete = true;
 }
 
 void QGraphsTheme::setColorSchemePalette()
 {
+    Q_D(QGraphsTheme);
     float defaultColorLevel = 0.5f;
 
-    if (m_colorScheme == Qt::ColorScheme::Unknown)
+    if (d->m_colorScheme == Qt::ColorScheme::Unknown)
         return;
 
-    if (m_componentComplete) {
+    if (d->m_componentComplete) {
         // Reset all customizations which colorScheme changes
-        m_customBits.plotAreaBackgroundColorCustom = false;
-        m_customBits.labelBackgroundColorCustom = false;
-        m_customBits.multiHighlightColorCustom = false;
-        m_customBits.multiHighlightGradientCustom = false;
-        m_customBits.singleHighlightColorCustom = false;
-        m_customBits.singleHighlightGradientCustom = false;
-        m_grid.resetCustomBits();
-        m_axisX.resetCustomBits();
-        m_axisY.resetCustomBits();
-        m_axisZ.resetCustomBits();
+        d->m_customBits.plotAreaBackgroundColorCustom = false;
+        d->m_customBits.labelBackgroundColorCustom = false;
+        d->m_customBits.multiHighlightColorCustom = false;
+        d->m_customBits.multiHighlightGradientCustom = false;
+        d->m_customBits.singleHighlightColorCustom = false;
+        d->m_customBits.singleHighlightGradientCustom = false;
+        d->m_grid.resetCustomBits();
+        d->m_axisX.resetCustomBits();
+        d->m_axisY.resetCustomBits();
+        d->m_axisZ.resetCustomBits();
     }
 
-    if (m_colorScheme == Qt::ColorScheme::Dark) {
-        m_backgroundThemeColor = QColor(QRgb(0x262626));
-        m_plotAreaBackgroundThemeColor = QColor(QRgb(0x1F1F1F));
-        m_labelBackgroundThemeColor = QColor(QRgb(0x2E2E2E));
+    if (d->m_colorScheme == Qt::ColorScheme::Dark) {
+        d->m_backgroundThemeColor = QColor(QRgb(0x262626));
+        d->m_plotAreaBackgroundThemeColor = QColor(QRgb(0x1F1F1F));
+        d->m_labelBackgroundThemeColor = QColor(QRgb(0x2E2E2E));
 
-        m_grid.m_mainThemeColor = QColor(QRgb(0xAEABAB));
-        m_grid.m_subThemeColor = QColor(QRgb(0x6A6A6A));
-        m_axisX.m_mainThemeColor = QColor(QRgb(0xAEABAB));
-        m_axisX.m_subThemeColor = QColor(QRgb(0x6A6A6A));
-        m_axisY.m_mainThemeColor = QColor(QRgb(0xAEABAB));
-        m_axisY.m_subThemeColor = QColor(QRgb(0x6A6A6A));
-        m_axisZ.m_mainThemeColor = QColor(QRgb(0xAEABAB));
-        m_axisZ.m_subThemeColor = QColor(QRgb(0x6A6A6A));
+        d->m_grid.m_mainThemeColor = QColor(QRgb(0xAEABAB));
+        d->m_grid.m_subThemeColor = QColor(QRgb(0x6A6A6A));
+        d->m_axisX.m_mainThemeColor = QColor(QRgb(0xAEABAB));
+        d->m_axisX.m_subThemeColor = QColor(QRgb(0x6A6A6A));
+        d->m_axisY.m_mainThemeColor = QColor(QRgb(0xAEABAB));
+        d->m_axisY.m_subThemeColor = QColor(QRgb(0x6A6A6A));
+        d->m_axisZ.m_mainThemeColor = QColor(QRgb(0xAEABAB));
+        d->m_axisZ.m_subThemeColor = QColor(QRgb(0x6A6A6A));
 
-        m_singleHighlightThemeColor = QColor(QRgb(0xDBEB00));
-        m_multiHighlightThemeColor = QColor(QRgb(0x22D489));
-        m_singleHighlightThemeGradient = createGradient(QColor(QRgb(0xDBEB00)), defaultColorLevel);
-        m_multiHighlightThemeGradient = createGradient(QColor(QRgb(0x22D489)), defaultColorLevel);
+        d->m_singleHighlightThemeColor = QColor(QRgb(0xDBEB00));
+        d->m_multiHighlightThemeColor = QColor(QRgb(0x22D489));
+        d->m_singleHighlightThemeGradient = createGradient(QColor(QRgb(0xDBEB00)),
+                                                           defaultColorLevel);
+        d->m_multiHighlightThemeGradient = createGradient(QColor(QRgb(0x22D489)), defaultColorLevel);
 
-        m_labelTextThemeColor = QColor(QRgb(0xAEAEAE));
-        m_axisX.m_labelTextThemeColor = QColor(QRgb(0xAEAEAE));
-        m_axisY.m_labelTextThemeColor = QColor(QRgb(0xAEAEAE));
-        m_axisZ.m_labelTextThemeColor = QColor(QRgb(0xAEAEAE));
+        d->m_labelTextThemeColor = QColor(QRgb(0xAEAEAE));
+        d->m_axisX.m_labelTextThemeColor = QColor(QRgb(0xAEAEAE));
+        d->m_axisY.m_labelTextThemeColor = QColor(QRgb(0xAEAEAE));
+        d->m_axisZ.m_labelTextThemeColor = QColor(QRgb(0xAEAEAE));
     } else {
-        m_backgroundThemeColor = QColor(QRgb(0xF2F2F2));
-        m_plotAreaBackgroundThemeColor = QColor(QRgb(0xFCFCFC));
-        m_labelBackgroundThemeColor = QColor(QRgb(0xE7E7E7));
+        d->m_backgroundThemeColor = QColor(QRgb(0xF2F2F2));
+        d->m_plotAreaBackgroundThemeColor = QColor(QRgb(0xFCFCFC));
+        d->m_labelBackgroundThemeColor = QColor(QRgb(0xE7E7E7));
 
-        m_grid.m_mainThemeColor = QColor(QRgb(0x545151));
-        m_grid.m_subThemeColor = QColor(QRgb(0xAFAFAF));
-        m_axisX.m_mainThemeColor = QColor(QRgb(0x545151));
-        m_axisX.m_subThemeColor = QColor(QRgb(0xAFAFAF));
-        m_axisY.m_mainThemeColor = QColor(QRgb(0x545151));
-        m_axisY.m_subThemeColor = QColor(QRgb(0xAFAFAF));
-        m_axisZ.m_mainThemeColor = QColor(QRgb(0x545151));
-        m_axisZ.m_subThemeColor = QColor(QRgb(0xAFAFAF));
+        d->m_grid.m_mainThemeColor = QColor(QRgb(0x545151));
+        d->m_grid.m_subThemeColor = QColor(QRgb(0xAFAFAF));
+        d->m_axisX.m_mainThemeColor = QColor(QRgb(0x545151));
+        d->m_axisX.m_subThemeColor = QColor(QRgb(0xAFAFAF));
+        d->m_axisY.m_mainThemeColor = QColor(QRgb(0x545151));
+        d->m_axisY.m_subThemeColor = QColor(QRgb(0xAFAFAF));
+        d->m_axisZ.m_mainThemeColor = QColor(QRgb(0x545151));
+        d->m_axisZ.m_subThemeColor = QColor(QRgb(0xAFAFAF));
 
-        m_singleHighlightThemeColor = QColor(QRgb(0xCCDC00));
-        m_multiHighlightThemeColor = QColor(QRgb(0x22D47B));
-        m_singleHighlightThemeGradient = createGradient(QColor(QRgb(0xCCDC00)), defaultColorLevel);
-        m_multiHighlightThemeGradient = createGradient(QColor(QRgb(0x22D47B)), defaultColorLevel);
+        d->m_singleHighlightThemeColor = QColor(QRgb(0xCCDC00));
+        d->m_multiHighlightThemeColor = QColor(QRgb(0x22D47B));
+        d->m_singleHighlightThemeGradient = createGradient(QColor(QRgb(0xCCDC00)),
+                                                           defaultColorLevel);
+        d->m_multiHighlightThemeGradient = createGradient(QColor(QRgb(0x22D47B)), defaultColorLevel);
 
-        m_labelTextThemeColor = QColor(QRgb(0x6A6A6A));
-        m_axisX.m_labelTextThemeColor = QColor(QRgb(0x6A6A6A));
-        m_axisY.m_labelTextThemeColor = QColor(QRgb(0x6A6A6A));
-        m_axisZ.m_labelTextThemeColor = QColor(QRgb(0x6A6A6A));
+        d->m_labelTextThemeColor = QColor(QRgb(0x6A6A6A));
+        d->m_axisX.m_labelTextThemeColor = QColor(QRgb(0x6A6A6A));
+        d->m_axisY.m_labelTextThemeColor = QColor(QRgb(0x6A6A6A));
+        d->m_axisZ.m_labelTextThemeColor = QColor(QRgb(0x6A6A6A));
     }
 
-    m_dirtyBits.backgroundColorDirty = true;
-    m_dirtyBits.plotAreaBackgroundColorDirty = true;
-    m_dirtyBits.labelBackgroundColorDirty = true;
-    m_dirtyBits.gridDirty = true;
-    m_dirtyBits.axisXDirty = true;
-    m_dirtyBits.axisYDirty = true;
-    m_dirtyBits.axisZDirty = true;
-    m_dirtyBits.singleHighlightColorDirty = true;
-    m_dirtyBits.singleHighlightGradientDirty = true;
-    m_dirtyBits.multiHighlightColorDirty = true;
-    m_dirtyBits.multiHighlightGradientDirty = true;
-    m_dirtyBits.labelTextColorDirty = true;
+    d->m_dirtyBits.backgroundColorDirty = true;
+    d->m_dirtyBits.plotAreaBackgroundColorDirty = true;
+    d->m_dirtyBits.labelBackgroundColorDirty = true;
+    d->m_dirtyBits.gridDirty = true;
+    d->m_dirtyBits.axisXDirty = true;
+    d->m_dirtyBits.axisYDirty = true;
+    d->m_dirtyBits.axisZDirty = true;
+    d->m_dirtyBits.singleHighlightColorDirty = true;
+    d->m_dirtyBits.singleHighlightGradientDirty = true;
+    d->m_dirtyBits.multiHighlightColorDirty = true;
+    d->m_dirtyBits.multiHighlightGradientDirty = true;
+    d->m_dirtyBits.labelTextColorDirty = true;
 }
 
 void QGraphsTheme::setThemePalette()
 {
+    Q_D(QGraphsTheme);
     float defaultColorLevel = 0.5f;
-    m_seriesThemeColors.clear();
-    switch (m_theme) {
+    d->m_seriesThemeColors.clear();
+    switch (d->m_theme) {
     case Theme::QtGreen:
-        m_seriesThemeColors.append(QColor(QRgb(0xD5F8E7)));
-        m_seriesThemeColors.append(QColor(QRgb(0xABF2CE)));
-        m_seriesThemeColors.append(QColor(QRgb(0x7BE6B1)));
-        m_seriesThemeColors.append(QColor(QRgb(0x51E098)));
-        m_seriesThemeColors.append(QColor(QRgb(0x22D478)));
+        d->m_seriesThemeColors.append(QColor(QRgb(0xD5F8E7)));
+        d->m_seriesThemeColors.append(QColor(QRgb(0xABF2CE)));
+        d->m_seriesThemeColors.append(QColor(QRgb(0x7BE6B1)));
+        d->m_seriesThemeColors.append(QColor(QRgb(0x51E098)));
+        d->m_seriesThemeColors.append(QColor(QRgb(0x22D478)));
         break;
     case Theme::QtGreenNeon:
-        m_seriesThemeColors.append(QColor(QRgb(0x22D478)));
-        m_seriesThemeColors.append(QColor(QRgb(0x00AF80)));
-        m_seriesThemeColors.append(QColor(QRgb(0x00897B)));
-        m_seriesThemeColors.append(QColor(QRgb(0x006468)));
-        m_seriesThemeColors.append(QColor(QRgb(0x00414A)));
+        d->m_seriesThemeColors.append(QColor(QRgb(0x22D478)));
+        d->m_seriesThemeColors.append(QColor(QRgb(0x00AF80)));
+        d->m_seriesThemeColors.append(QColor(QRgb(0x00897B)));
+        d->m_seriesThemeColors.append(QColor(QRgb(0x006468)));
+        d->m_seriesThemeColors.append(QColor(QRgb(0x00414A)));
         break;
     case Theme::MixSeries:
-        m_seriesThemeColors.append(QColor(QRgb(0xFFA615)));
-        m_seriesThemeColors.append(QColor(QRgb(0x5E45DF)));
-        m_seriesThemeColors.append(QColor(QRgb(0x759F1C)));
-        m_seriesThemeColors.append(QColor(QRgb(0xF92759)));
-        m_seriesThemeColors.append(QColor(QRgb(0x0128F8)));
+        d->m_seriesThemeColors.append(QColor(QRgb(0xFFA615)));
+        d->m_seriesThemeColors.append(QColor(QRgb(0x5E45DF)));
+        d->m_seriesThemeColors.append(QColor(QRgb(0x759F1C)));
+        d->m_seriesThemeColors.append(QColor(QRgb(0xF92759)));
+        d->m_seriesThemeColors.append(QColor(QRgb(0x0128F8)));
         break;
     case Theme::OrangeSeries:
-        m_seriesThemeColors.append(QColor(QRgb(0xFFC290)));
-        m_seriesThemeColors.append(QColor(QRgb(0xFF9C4D)));
-        m_seriesThemeColors.append(QColor(QRgb(0xFF7200)));
-        m_seriesThemeColors.append(QColor(QRgb(0xD86000)));
-        m_seriesThemeColors.append(QColor(QRgb(0xA24900)));
+        d->m_seriesThemeColors.append(QColor(QRgb(0xFFC290)));
+        d->m_seriesThemeColors.append(QColor(QRgb(0xFF9C4D)));
+        d->m_seriesThemeColors.append(QColor(QRgb(0xFF7200)));
+        d->m_seriesThemeColors.append(QColor(QRgb(0xD86000)));
+        d->m_seriesThemeColors.append(QColor(QRgb(0xA24900)));
         break;
     case Theme::YellowSeries:
-        m_seriesThemeColors.append(QColor(QRgb(0xFFE380)));
-        m_seriesThemeColors.append(QColor(QRgb(0xFFC500)));
-        m_seriesThemeColors.append(QColor(QRgb(0xE2B000)));
-        m_seriesThemeColors.append(QColor(QRgb(0xB88F00)));
-        m_seriesThemeColors.append(QColor(QRgb(0x8C6D02)));
+        d->m_seriesThemeColors.append(QColor(QRgb(0xFFE380)));
+        d->m_seriesThemeColors.append(QColor(QRgb(0xFFC500)));
+        d->m_seriesThemeColors.append(QColor(QRgb(0xE2B000)));
+        d->m_seriesThemeColors.append(QColor(QRgb(0xB88F00)));
+        d->m_seriesThemeColors.append(QColor(QRgb(0x8C6D02)));
         break;
     case Theme::BlueSeries:
-        m_seriesThemeColors.append(QColor(QRgb(0x86AFFF)));
-        m_seriesThemeColors.append(QColor(QRgb(0x4A86FC)));
-        m_seriesThemeColors.append(QColor(QRgb(0x2B6EF1)));
-        m_seriesThemeColors.append(QColor(QRgb(0x0750E9)));
-        m_seriesThemeColors.append(QColor(QRgb(0x0023DB)));
+        d->m_seriesThemeColors.append(QColor(QRgb(0x86AFFF)));
+        d->m_seriesThemeColors.append(QColor(QRgb(0x4A86FC)));
+        d->m_seriesThemeColors.append(QColor(QRgb(0x2B6EF1)));
+        d->m_seriesThemeColors.append(QColor(QRgb(0x0750E9)));
+        d->m_seriesThemeColors.append(QColor(QRgb(0x0023DB)));
         break;
     case Theme::PurpleSeries:
-        m_seriesThemeColors.append(QColor(QRgb(0xE682E7)));
-        m_seriesThemeColors.append(QColor(QRgb(0xB646B7)));
-        m_seriesThemeColors.append(QColor(QRgb(0x9035B4)));
-        m_seriesThemeColors.append(QColor(QRgb(0x6C2BA0)));
-        m_seriesThemeColors.append(QColor(QRgb(0x3D2582)));
+        d->m_seriesThemeColors.append(QColor(QRgb(0xE682E7)));
+        d->m_seriesThemeColors.append(QColor(QRgb(0xB646B7)));
+        d->m_seriesThemeColors.append(QColor(QRgb(0x9035B4)));
+        d->m_seriesThemeColors.append(QColor(QRgb(0x6C2BA0)));
+        d->m_seriesThemeColors.append(QColor(QRgb(0x3D2582)));
         break;
     case Theme::GreySeries:
-        m_seriesThemeColors.append(QColor(QRgb(0xCCD0D6)));
-        m_seriesThemeColors.append(QColor(QRgb(0xA7AEBB)));
-        m_seriesThemeColors.append(QColor(QRgb(0x7A869A)));
-        m_seriesThemeColors.append(QColor(QRgb(0x566070)));
-        m_seriesThemeColors.append(QColor(QRgb(0x3E4654)));
+        d->m_seriesThemeColors.append(QColor(QRgb(0xCCD0D6)));
+        d->m_seriesThemeColors.append(QColor(QRgb(0xA7AEBB)));
+        d->m_seriesThemeColors.append(QColor(QRgb(0x7A869A)));
+        d->m_seriesThemeColors.append(QColor(QRgb(0x566070)));
+        d->m_seriesThemeColors.append(QColor(QRgb(0x3E4654)));
         break;
     default: // UserDefined
-        m_seriesThemeColors.append(QColor(Qt::black));
+        d->m_seriesThemeColors.append(QColor(Qt::black));
         break;
     }
 
-    m_borderThemeColors = m_seriesThemeColors;
+    d->m_borderThemeColors = d->m_seriesThemeColors;
 
-    m_seriesThemeGradients.clear();
-    for (QColor color : m_seriesThemeColors)
-        m_seriesThemeGradients.append(createGradient(color, defaultColorLevel));
+    d->m_seriesThemeGradients.clear();
+    for (QColor color : d->m_seriesThemeColors)
+        d->m_seriesThemeGradients.append(createGradient(color, defaultColorLevel));
 
-    m_dirtyBits.seriesColorsDirty = true;
-    m_dirtyBits.seriesGradientDirty = true;
+    d->m_dirtyBits.seriesColorsDirty = true;
+    d->m_dirtyBits.seriesGradientDirty = true;
 }
 
 QLinearGradient QGraphsTheme::createGradient(const QColor &color, float colorLevel)
@@ -1488,13 +1549,14 @@ QLinearGradient QGraphsTheme::createGradient(const QColor &color, float colorLev
 
 void QGraphsTheme::setSingleHighlightGradient(QQuickGradient *gradient)
 {
-    if (gradient != m_singleHLGradient) {
-        if (m_singleHLGradient)
-            QObject::disconnect(m_singleHLGradient, 0, this, 0);
+    Q_D(QGraphsTheme);
+    if (gradient != d->m_singleHLGradient) {
+        if (d->m_singleHLGradient)
+            QObject::disconnect(d->m_singleHLGradient, 0, this, 0);
 
-        m_singleHLGradient = gradient;
+        d->m_singleHLGradient = gradient;
 
-        QObject::connect(m_singleHLGradient,
+        QObject::connect(d->m_singleHLGradient,
                          &QQuickGradient::updated,
                          this,
                          &QGraphsTheme::update);
@@ -1502,25 +1564,27 @@ void QGraphsTheme::setSingleHighlightGradient(QQuickGradient *gradient)
         emit singleHighlightGradientQMLChanged();
     }
 
-    if (m_singleHLGradient != nullptr)
-        setThemeGradient(m_singleHLGradient, GradientQMLStyle::SingleHL);
+    if (d->m_singleHLGradient != nullptr)
+        setThemeGradient(d->m_singleHLGradient, GradientQMLStyle::SingleHL);
 }
 
 QQuickGradient *QGraphsTheme::singleHighlightGradientQML() const
 {
-    return m_singleHLGradient;
+    const Q_D(QGraphsTheme);
+    return d->m_singleHLGradient;
 }
 
 void QGraphsTheme::setMultiHighlightGradient(QQuickGradient *gradient)
 {
+    Q_D(QGraphsTheme);
     // connect new / disconnect old
     if (gradient != nullptr) {
-        if (m_multiHLGradient)
-            QObject::disconnect(m_multiHLGradient, 0, this, 0);
+        if (d->m_multiHLGradient)
+            QObject::disconnect(d->m_multiHLGradient, 0, this, 0);
 
-        m_multiHLGradient = gradient;
+        d->m_multiHLGradient = gradient;
 
-        QObject::connect(m_multiHLGradient,
+        QObject::connect(d->m_multiHLGradient,
                          &QQuickGradient::updated,
                          this,
                          &QGraphsTheme::update);
@@ -1528,13 +1592,14 @@ void QGraphsTheme::setMultiHighlightGradient(QQuickGradient *gradient)
         emit multiHighlightGradientQMLChanged();
     }
 
-    if (m_multiHLGradient != nullptr)
-        setThemeGradient(m_multiHLGradient, GradientQMLStyle::MultiHL);
+    if (d->m_multiHLGradient != nullptr)
+        setThemeGradient(d->m_multiHLGradient, GradientQMLStyle::MultiHL);
 }
 
 QQuickGradient *QGraphsTheme::multiHighlightGradientQML() const
 {
-    return m_multiHLGradient;
+    const Q_D(QGraphsTheme);
+    return d->m_multiHLGradient;
 }
 
 void QGraphsTheme::setThemeGradient(QQuickGradient *gradient, GradientQMLStyle type)
@@ -1656,130 +1721,145 @@ void QGraphsTheme::addColor(QQuickGraphsColor *color)
         return;
     }
     clearDummyColors();
-    m_colors.append(color);
+    Q_D(QGraphsTheme);
+    d->m_colors.append(color);
     connect(color, &QQuickGraphsColor::colorChanged, this, &QGraphsTheme::handleBaseColorUpdate);
-    QList<QColor> list = m_seriesColors;
+    QList<QColor> list = d->m_seriesColors;
     list.append(color->color());
     setSeriesColors(list);
 }
 
 QList<QQuickGraphsColor *> QGraphsTheme::colorList()
 {
-    if (m_colors.isEmpty()) {
+    Q_D(QGraphsTheme);
+    if (d->m_colors.isEmpty()) {
         // Create dummy Colors from theme's colors
-        m_dummyColors = true;
+        d->m_dummyColors = true;
         QList<QColor> list = seriesColors();
         for (const QColor &item : list) {
             QQuickGraphsColor *color = new QQuickGraphsColor(this);
             color->setColor(item);
-            m_colors.append(color);
+            d->m_colors.append(color);
             connect(color, &QQuickGraphsColor::colorChanged, this, &QGraphsTheme::handleBaseColorUpdate);
         }
     }
-    return m_colors;
+    return d->m_colors;
 }
 
 void QGraphsTheme::clearColors()
 {
     clearDummyColors();
-    for (QQuickGraphsColor *item : m_colors)
+    Q_D(QGraphsTheme);
+    for (QQuickGraphsColor *item : d->m_colors)
         disconnect(item, 0, this, 0);
-    m_colors.clear();
+    d->m_colors.clear();
     setSeriesColors(QList<QColor>());
 }
 
 void QGraphsTheme::clearDummyColors()
 {
-    if (m_dummyColors) {
-        for (QQuickGraphsColor *item : m_colors)
+    Q_D(QGraphsTheme);
+    if (d->m_dummyColors) {
+        for (QQuickGraphsColor *item : d->m_colors)
             delete item;
-        m_colors.clear();
-        m_dummyColors = false;
+        d->m_colors.clear();
+        d->m_dummyColors = false;
     }
 }
 
 void QGraphsTheme::addGradient(QJSValue gradient)
 {
+    Q_D(QGraphsTheme);
     auto quickGradient = qobject_cast<QQuickGradient *>(gradient.toQObject());
-    m_gradients.append(quickGradient);
+    d->m_gradients.append(quickGradient);
 
     connect(quickGradient,
             &QQuickGradient::updated,
             this,
             &QGraphsTheme::handleBaseGradientUpdate);
 
-    QList<QLinearGradient> list = m_seriesGradients;
+    QList<QLinearGradient> list = d->m_seriesGradients;
     list.append(convertGradient(gradient));
     setSeriesGradients(list);
 }
 
 QList<QQuickGradient *> QGraphsTheme::gradientList()
 {
-    return m_gradients;
+    Q_D(QGraphsTheme);
+    return d->m_gradients;
 }
 
 void QGraphsTheme::clearGradients()
 {
-    m_gradients.clear();
+    Q_D(QGraphsTheme);
+    d->m_gradients.clear();
     setSeriesGradients(QList<QLinearGradient>());
 }
 
 QGraphsLine QGraphsTheme::grid() const
 {
-    return m_grid;
+    const Q_D(QGraphsTheme);
+    return d->m_grid;
 }
 
 void QGraphsTheme::setGrid(const QGraphsLine &newGrid)
 {
-    if (m_grid == newGrid)
+    Q_D(QGraphsTheme);
+    if (d->m_grid == newGrid)
         return;
-    m_grid = newGrid;
-    m_dirtyBits.gridDirty = true;
+    d->m_grid = newGrid;
+    d->m_dirtyBits.gridDirty = true;
     emit gridChanged();
     emit update();
 }
 
 QGraphsLine QGraphsTheme::axisX() const
 {
-    return m_axisX;
+    const Q_D(QGraphsTheme);
+    return d->m_axisX;
 }
 
 void QGraphsTheme::setAxisX(const QGraphsLine &newAxisX)
 {
-    if (m_axisX == newAxisX)
+    Q_D(QGraphsTheme);
+    if (d->m_axisX == newAxisX)
         return;
-    m_axisX = newAxisX;
-    m_dirtyBits.axisXDirty = true;
+    d->m_axisX = newAxisX;
+    d->m_dirtyBits.axisXDirty = true;
     emit axisXChanged();
     emit update();
 }
 
 QGraphsLine QGraphsTheme::axisY() const
 {
-    return m_axisY;
+    const Q_D(QGraphsTheme);
+    return d->m_axisY;
 }
 
 void QGraphsTheme::setAxisY(const QGraphsLine &newAxisY)
 {
-    if (m_axisY == newAxisY)
+    Q_D(QGraphsTheme);
+    if (d->m_axisY == newAxisY)
         return;
-    m_axisY = newAxisY;
-    m_dirtyBits.axisYDirty = true;
+    d->m_axisY = newAxisY;
+    d->m_dirtyBits.axisYDirty = true;
     emit axisYChanged();
     emit update();
 }
 
 QGraphsLine QGraphsTheme::axisZ() const
 {
-    return m_axisZ;
+    const Q_D(QGraphsTheme);
+    return d->m_axisZ;
 }
 
 void QGraphsTheme::setAxisZ(const QGraphsLine &newAxisZ)
 {
-    if (m_axisZ == newAxisZ)
+    Q_D(QGraphsTheme);
+    if (d->m_axisZ == newAxisZ)
         return;
-    m_axisZ = newAxisZ;
-    m_dirtyBits.axisZDirty = true;
+    d->m_axisZ = newAxisZ;
+    d->m_dirtyBits.axisZDirty = true;
     emit axisZChanged();
     emit update();
 }
@@ -1987,4 +2067,25 @@ void QGraphsLine::resetCustomBits()
     m_bits.labelTextColorCustom = false;
 }
 
+QGraphsThemePrivate::QGraphsThemePrivate()
+    : m_themeDirty(false)
+    , m_colorStyle(QGraphsTheme::ColorStyle::Uniform)
+    , m_plotAreaBackgroundColor(QColor())
+    , m_backgroundColor(QColor())
+    , m_labelBackgroundColor(QColor())
+    , m_labelTextColor(QColor())
+    , m_singleHighlightColor(QColor())
+    , m_multiHighlightColor(QColor())
+    , m_multiHighlightGradient(QLinearGradient())
+    , m_singleHighlightGradient(QLinearGradient())
+    , m_borderWidth(1.0)
+    , m_singleHLGradient(nullptr)
+    , m_multiHLGradient(nullptr)
+    , m_grid(QGraphsLine())
+    , m_axisX(QGraphsLine())
+    , m_axisY(QGraphsLine())
+    , m_axisZ(QGraphsLine())
+{}
+
+QGraphsThemePrivate::~QGraphsThemePrivate() {}
 QT_END_NAMESPACE
