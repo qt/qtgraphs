@@ -3,6 +3,6 @@
 
 qt_internal_extend_target(Graphs
     SOURCES
-        qgraphstheme.cpp qgraphstheme.h
+        qgraphstheme.cpp qgraphstheme.h qgraphstheme_p.h
         qquickgraphscolor.cpp qquickgraphscolor_p.h
 )

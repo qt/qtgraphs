@@ -16,6 +16,7 @@ QT_BEGIN_NAMESPACE
 
 class QQuickGraphsColor;
 class QQuickGradient;
+class QGraphsThemePrivate;
 
 struct QGraphsThemeDirtyBitField
 {
@@ -273,10 +274,11 @@ public:
     Q_ENUM(ForceTheme);
 
     explicit QGraphsTheme(QObject *parent = nullptr);
+
     ~QGraphsTheme() override;
 
-    bool themeDirty() const { return m_themeDirty; }
-    void resetThemeDirty() { m_themeDirty = false; }
+    bool themeDirty() const;
+    void resetThemeDirty();
     void resetColorTheme();
 
     QGraphsThemeDirtyBitField *dirtyBits();
@@ -406,46 +408,12 @@ public Q_SLOTS:
     void handleBaseGradientUpdate();
 
 protected:
+    explicit QGraphsTheme(QGraphsThemePrivate &dd, QObject *parent = nullptr);
     // from QDeclarativeParserStatus
     void classBegin() override;
     void componentComplete() override;
 
 private:
-    struct QGraphsCustomBitField
-    {
-        bool plotAreaBackgroundColorCustom : 1;
-        bool seriesColorsCustom : 1;
-        bool borderColorsCustom : 1;
-        bool seriesGradientCustom : 1;
-        bool labelBackgroundColorCustom : 1;
-        bool labelTextColorCustom : 1;
-        bool multiHighlightColorCustom : 1;
-        bool multiHighlightGradientCustom : 1;
-        bool singleHighlightColorCustom : 1;
-        bool singleHighlightGradientCustom : 1;
-        bool backgroundColorCustom : 1;
-        bool axisXLabelFontCustom : 1;
-        bool axisYLabelFontCustom : 1;
-        bool axisZLabelFontCustom : 1;
-
-        QGraphsCustomBitField()
-            : plotAreaBackgroundColorCustom(false)
-              , seriesColorsCustom(false)
-              , borderColorsCustom(false)
-              , seriesGradientCustom(false)
-              , labelBackgroundColorCustom(false)
-              , labelTextColorCustom(false)
-              , multiHighlightColorCustom(false)
-              , multiHighlightGradientCustom(false)
-              , singleHighlightColorCustom(false)
-              , singleHighlightGradientCustom(false)
-              , backgroundColorCustom(false)
-              , axisXLabelFontCustom(false)
-              , axisYLabelFontCustom(false)
-              , axisZLabelFontCustom(false)
-        {}
-    };
-
     enum class GradientQMLStyle {
         Base,
         SingleHL,
@@ -489,67 +457,11 @@ private:
     QList<QQuickGradient *> gradientList();
     void addGradient(QJSValue gradient);
 
-    QGraphsThemeDirtyBitField m_dirtyBits;
-    QGraphsCustomBitField m_customBits;
-
-    bool m_themeDirty;
-    Qt::ColorScheme m_colorScheme;
-    Theme m_theme;
-    ColorStyle m_colorStyle;
-    QColor m_plotAreaBackgroundColor;
-    QColor m_plotAreaBackgroundThemeColor;
-    bool m_backgroundVisibility;
-    bool m_gridVisibility;
-    QColor m_backgroundColor;
-    QColor m_backgroundThemeColor;
-    bool m_plotAreaBackgroundVisibility;
-    bool m_labelsVisibility;
-    QColor m_labelBackgroundColor;
-    QColor m_labelBackgroundThemeColor;
-    QColor m_labelTextColor;
-    QColor m_labelTextThemeColor;
-    bool m_labelBackgroundVisibility;
-    bool m_labelBorderVisibility;
-    QColor m_singleHighlightColor;
-    QColor m_singleHighlightThemeColor;
-    QColor m_multiHighlightColor;
-    QColor m_multiHighlightThemeColor;
-    QLinearGradient m_multiHighlightGradient;
-    QLinearGradient m_multiHighlightThemeGradient;
-    QLinearGradient m_singleHighlightGradient;
-    QLinearGradient m_singleHighlightThemeGradient;
-    QFont m_labelFont;
-    QList<QColor> m_seriesColors;
-    QList<QColor> m_seriesThemeColors;
-    QList<QColor> m_borderColors;
-    QList<QColor> m_borderThemeColors;
-    qreal m_borderWidth;
-    QList<QLinearGradient> m_seriesGradients;
-    QList<QLinearGradient> m_seriesThemeGradients;
-
-    QList<QQuickGraphsColor *> m_colors;
-    QList<QQuickGradient *> m_gradients;
-    QQuickGradient *m_singleHLGradient;
-    QQuickGradient *m_multiHLGradient;
-
-    QFont m_axisXLabelFont;
-    QFont m_axisYLabelFont;
-    QFont m_axisZLabelFont;
-
-    QGraphsLine m_grid;
-    QGraphsLine m_axisX;
-    QGraphsLine m_axisY;
-    QGraphsLine m_axisZ;
-
-    bool m_dummyColors = false;
-
-    bool m_componentComplete = false;
-
     Q_DISABLE_COPY_MOVE(QGraphsTheme)
+    Q_DECLARE_PRIVATE(QGraphsTheme)
 };
 
 QT_END_NAMESPACE
-
 Q_DECLARE_OPAQUE_POINTER(QQuickGradient *)
 
 #endif
