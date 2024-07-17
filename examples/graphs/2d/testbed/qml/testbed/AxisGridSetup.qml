@@ -63,6 +63,22 @@ Rectangle {
             BarSet { id: set3; label: "James"; values: [4, 3, 2, 6, 4, 2] }
             BarSet { id: set5; label: "Frank"; values: [8, 4, 3, 1, 8, 5] }
             BarSet { id: set6; label: "James"; values: [5, 2, 5, 7, 1, 2] }
+            barDelegate: checkBoxCustomBars.checked ? customComponent : null
+            Component {
+                id: customComponent
+                Rectangle {
+                    id: comp
+                    property color barColor
+                    gradient: Gradient {
+                        GradientStop { position: 0.0; color: "red" }
+                        GradientStop { position: 0.4; color: Qt.darker(comp.barColor, 2.0) }
+                        GradientStop { position: 1.0; color: comp.barColor }
+                    }
+                    radius: width / 2
+                    border.width: 1
+                    border.color: "#808080"
+                }
+            }
         }
     }
 
@@ -144,6 +160,11 @@ Rectangle {
             fromValue: -1
             toValue: 4
             onSliderValueChanged: yAxis.labelDecimals = sliderValue;
+        }
+        CustomCheckBox {
+            id: checkBoxCustomBars
+            text: "Use Custom Bars"
+            checked: false
         }
         CustomCheckBox {
             id: checkBoxAxisXVisible

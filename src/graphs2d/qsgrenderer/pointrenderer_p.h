@@ -32,9 +32,8 @@ struct QLegendData;
 class PointRenderer : public QQuickItem
 {
     Q_OBJECT
-    QML_ELEMENT
 public:
-    PointRenderer(QQuickItem *parent = nullptr);
+    PointRenderer(QGraphsView *graph);
     ~PointRenderer() override;
 
     void handlePolish(QXYSeries *series);

@@ -23,7 +23,6 @@
 #include <QBrush>
 #include <QPen>
 #include <QtGraphs/qgraphstheme.h>
-#include <QtQuick/QSGClipNode>
 #include <private/arearenderer_p.h>
 #include <private/axisrenderer_p.h>
 #include <private/barsrenderer_p.h>
@@ -200,7 +199,6 @@ private:
     AreaRenderer *m_areaRenderer = nullptr;
     QList<QObject *> m_seriesList;
     QHash<int, QList<QAbstractSeries *>> m_cleanupSeriesList;
-    QSGClipNode *m_backgroundNode = nullptr;
     QQuickRectangle *m_backgroundRectangle = nullptr;
 
     QList<QAbstractAxis *> m_axis;

@@ -19,11 +19,12 @@ static const char *TAG_POINT_SELECTED = "pointSelected";
 static const char *TAG_POINT_VALUE_X = "pointValueX";
 static const char *TAG_POINT_VALUE_Y = "pointValueY";
 
-PointRenderer::PointRenderer(QQuickItem *parent)
-    : QQuickItem(parent)
+PointRenderer::PointRenderer(QGraphsView *graph)
+    : QQuickItem(graph)
+    , m_graph(graph)
 {
-    m_graph = qobject_cast<QGraphsView *>(parent);
     setFlag(QQuickItem::ItemHasContents);
+    setClip(true);
     m_shape.setParentItem(this);
     m_shape.setPreferredRendererType(QQuickShape::CurveRenderer);
 
@@ -70,9 +71,8 @@ void PointRenderer::calculateRenderCoordinates(
     auto flipY = axisRenderer->m_axisVerticalMaxValue < axisRenderer->m_axisVerticalMinValue ? -1
                                                                                              : 1;
 
-    *renderX = m_graph->m_marginLeft + axisRenderer->m_axisWidth
-               + m_areaWidth * flipX * origX * m_maxHorizontal - m_horizontalOffset;
-    *renderY = m_graph->m_marginTop + m_areaHeight - m_areaHeight * flipY * origY * m_maxVertical
+    *renderX = m_areaWidth * flipX * origX * m_maxHorizontal - m_horizontalOffset;
+    *renderY = m_areaHeight - m_areaHeight * flipY * origY * m_maxVertical
                + m_verticalOffset;
 }
 
@@ -316,10 +316,8 @@ void PointRenderer::handlePolish(QXYSeries *series)
     if (width() <= 0 || height() <= 0)
         return;
 
-    m_areaWidth = width() - m_graph->m_marginLeft - m_graph->m_marginRight
-                  - m_graph->m_axisRenderer->m_axisWidth;
-    m_areaHeight = height() - m_graph->m_marginTop - m_graph->m_marginBottom
-                   - m_graph->m_axisRenderer->m_axisHeight;
+    m_areaWidth = width();
+    m_areaHeight = height();
 
     m_maxVertical = m_graph->m_axisRenderer->m_axisVerticalValueRange > 0
                         ? 1.0 / m_graph->m_axisRenderer->m_axisVerticalValueRange
@@ -443,10 +441,8 @@ bool PointRenderer::handleMouseMove(QMouseEvent *event)
         return false;
 
     if (m_pointPressed && m_pressedGroup->series->isDraggable()) {
-        float w = width() - m_graph->m_marginLeft - m_graph->m_marginRight
-                  - m_graph->m_axisRenderer->m_axisWidth;
-        float h = height() - m_graph->m_marginTop - m_graph->m_marginBottom
-                  - m_graph->m_axisRenderer->m_axisHeight;
+        float w = width();
+        float h = height();
         double maxVertical = m_graph->m_axisRenderer->m_axisVerticalValueRange > 0
                                  ? 1.0 / m_graph->m_axisRenderer->m_axisVerticalValueRange
                                  : 100.0;

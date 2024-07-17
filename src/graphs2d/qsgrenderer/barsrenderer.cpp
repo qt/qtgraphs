@@ -17,11 +17,12 @@ static const char* TAG_BAR_SELECTED = "barSelected";
 static const char* TAG_BAR_VALUE = "barValue";
 static const char* TAG_BAR_LABEL = "barLabel";
 
-BarsRenderer::BarsRenderer(QQuickItem *parent)
-    : QQuickItem(parent)
+BarsRenderer::BarsRenderer(QGraphsView *graph)
+    : QQuickItem(graph)
+    , m_graph(graph)
 {
-    m_graph = qobject_cast<QGraphsView *>(parent);
     setFlag(QQuickItem::ItemHasContents);
+    setClip(true);
 }
 
 BarsRenderer::~BarsRenderer() {}
@@ -261,9 +262,8 @@ void BarsRenderer::updateVerticalBars(QBarSeries *series, qsizetype setCount, qs
             || series->barsType() == QBarSeries::BarsType::StackedPercent;
     bool percent = series->barsType() == QBarSeries::BarsType::StackedPercent;
     // Bars area width & height
-    QRectF seriesRect = m_graph->seriesRect();
-    float w = seriesRect.width();
-    float h = seriesRect.height();
+    float w = width();
+    float h = height();
     // Max width of a bar if no separation between sets.
     float maxBarWidth = w / (setCount * valuesPerSet) - m_barMargin;
     if (stacked)
@@ -334,11 +334,11 @@ void BarsRenderer::updateVerticalBars(QBarSeries *series, qsizetype setCount, qs
             double delta = m_graph->m_axisRenderer->m_axisVerticalMaxValue - m_graph->m_axisRenderer->m_axisVerticalMinValue;
             double maxValues = delta > 0 ? 1.0 / delta : 100.0;
             float barLength = h * value * maxValues;
-            float barY = m_graph->m_marginTop + h - barLength;
-            float barX = m_graph->m_marginLeft + m_graph->m_axisRenderer->m_axisWidth + seriesPos + posXInSet + barCentering;
+            float barY = h - barLength;
+            float barX = seriesPos + posXInSet + barCentering;
             if (stacked) {
-                barY = m_graph->m_marginTop + h - barLength - posYListInSet[barIndexInSet];
-                barX = m_graph->m_marginLeft + m_graph->m_axisRenderer->m_axisWidth + seriesPos + barCentering;
+                barY = h - barLength - posYListInSet[barIndexInSet];
+                barX = seriesPos + barCentering;
             }
             QRectF barRect(barX, barY, barWidth, barLength);
             if (barSelectionRect)
@@ -373,9 +373,8 @@ void BarsRenderer::updateHorizontalBars(QBarSeries *series, qsizetype setCount, 
             || series->barsType() == QBarSeries::BarsType::StackedPercent;
     bool percent = series->barsType() == QBarSeries::BarsType::StackedPercent;
     // Bars area width & height
-    QRectF seriesRect = m_graph->seriesRect();
-    float w = seriesRect.width();
-    float h = seriesRect.height();
+    float w = width();
+    float h = height();
     // Max width of a bar if no separation between sets.
     float maxBarWidth = h / (setCount * valuesPerSet) - m_barMargin;
     if (stacked)
@@ -444,11 +443,11 @@ void BarsRenderer::updateHorizontalBars(QBarSeries *series, qsizetype setCount, 
             double delta = m_graph->m_axisRenderer->m_axisHorizontalMaxValue - m_graph->m_axisRenderer->m_axisHorizontalMinValue;
             double maxValues = delta > 0 ? 1.0 / delta : 100.0;
             float barLength = w * value * maxValues;
-            float barY = m_graph->m_marginTop + seriesPos + posYInSet + barCentering;
-            float barX = m_graph->m_marginLeft + m_graph->m_axisRenderer->m_axisWidth;
+            float barY = seriesPos + posYInSet + barCentering;
+            float barX = 0;
             if (stacked) {
-                barY = m_graph->m_marginTop + seriesPos + barCentering;
-                barX = m_graph->m_marginLeft + m_graph->m_axisRenderer->m_axisWidth + posXListInSet[barIndexInSet];
+                barY = seriesPos + barCentering;
+                barX = posXListInSet[barIndexInSet];
             }
             QRectF barRect(barX, barY, barLength, barWidth);
             if (barSelectionRect)

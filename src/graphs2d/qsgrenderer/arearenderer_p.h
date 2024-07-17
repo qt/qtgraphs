@@ -27,9 +27,8 @@ class QAbstractSeries;
 class AreaRenderer : public QQuickItem
 {
     Q_OBJECT
-    QML_ELEMENT
 public:
-    AreaRenderer(QQuickItem *parent = nullptr);
+    AreaRenderer(QGraphsView *graph);
     ~AreaRenderer() override;
 
     void handlePolish(QAreaSeries *series);
