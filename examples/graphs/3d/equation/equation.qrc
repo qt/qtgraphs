@@ -2,5 +2,6 @@
     <qresource prefix="/">
         <file>qml/equation/Main.qml</file>
         <file>images/opacitymap.png</file>
+        <file>qml/equation/calculator.js</file>
     </qresource>
 </RCC>

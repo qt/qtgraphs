@@ -44,6 +44,7 @@ qt_add_qml_module(equation
         "qml/equation/Main.qml"
     RESOURCES
         "images/opacitymap.png"
+        "qml/equation/calculator.js"
 )
 
 install(TARGETS equation
