@@ -32,9 +32,8 @@ class QAbstractSeries;
 class BarsRenderer : public QQuickItem
 {
     Q_OBJECT
-    QML_ELEMENT
 public:
-    BarsRenderer(QQuickItem *parent = nullptr);
+    BarsRenderer(QGraphsView *graph);
     ~BarsRenderer() override;
 
     void handlePolish(QBarSeries *series);

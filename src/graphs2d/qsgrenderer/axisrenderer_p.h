@@ -35,7 +35,6 @@ class QDateTimeAxis;
 class AxisRenderer : public QQuickItem
 {
     Q_OBJECT
-    QML_ELEMENT
 public:
     AxisRenderer(QQuickItem *parent = nullptr);
     ~AxisRenderer() override;

@@ -27,8 +27,9 @@ class PieRenderer : public QQuickItem
 {
     Q_OBJECT
 public:
-    PieRenderer(QQuickItem *parent = nullptr);
+    PieRenderer(QGraphsView *graph);
     ~PieRenderer() override;
+
     void handlePolish(QPieSeries *series);
     void afterPolish(QList<QAbstractSeries *> &cleanupSeries);
     void updateSeries(QPieSeries *series);

@@ -41,8 +41,7 @@ QGraphsView::QGraphsView(QQuickItem *parent) :
     setFlag(QQuickItem::ItemHasContents);
     setAcceptedMouseButtons(Qt::LeftButton);
     setAcceptHoverEvents(true);
-    setClip(true);
-    m_defaultTheme = new QGraphsTheme();
+    m_defaultTheme = new QGraphsTheme(this);
 }
 
 QGraphsView::~QGraphsView()
@@ -475,17 +474,27 @@ void QGraphsView::updateComponentSizes()
     if (m_axisRenderer)
         m_axisRenderer->setSize(size());
 
-    if (m_barsRenderer)
-        m_barsRenderer->setSize(size());
-
-    if (m_pointRenderer)
-        m_pointRenderer->setSize(size());
-
-    if (m_pieRenderer)
-        m_pieRenderer->setSize(size());
-
-    if (m_areaRenderer)
-        m_areaRenderer->setSize(size());
+    const auto r = seriesRect();
+    if (m_barsRenderer) {
+        m_barsRenderer->setX(r.x());
+        m_barsRenderer->setY(r.y());
+        m_barsRenderer->setSize(r.size());
+    }
+    if (m_pointRenderer) {
+        m_pointRenderer->setX(r.x());
+        m_pointRenderer->setY(r.y());
+        m_pointRenderer->setSize(r.size());
+    }
+    if (m_pieRenderer)  {
+        m_pieRenderer->setX(r.x());
+        m_pieRenderer->setY(r.y());
+        m_pieRenderer->setSize(r.size());
+    }
+    if (m_areaRenderer) {
+        m_areaRenderer->setX(r.x());
+        m_areaRenderer->setY(r.y());
+        m_areaRenderer->setSize(r.size());
+    }
 }
 
 void QGraphsView::componentComplete()
@@ -504,9 +513,6 @@ void QGraphsView::geometryChange(const QRectF &newGeometry, const QRectF &oldGeo
 {
     QQuickItem::geometryChange(newGeometry, oldGeometry);
 
-    // TODO: Take margins into account here, so render items
-    // sizes already match to their content.
-
     updateComponentSizes();
 
     ensurePolished();
@@ -516,8 +522,16 @@ void QGraphsView::mouseMoveEvent(QMouseEvent *event)
 {
     bool handled = false;
 
+    // Adjust event position to renderers position
+    const QRectF r = seriesRect();
+    QPointF localPos = event->position() - r.topLeft();
+    QMouseEvent mappedEvent(event->type(), localPos, event->scenePosition(),
+                            event->globalPosition(), event->button(),
+                            event->buttons(), event->modifiers());
+    mappedEvent.setAccepted(false);
+
     if (m_pointRenderer)
-        handled |= m_pointRenderer->handleMouseMove(event);
+        handled |= m_pointRenderer->handleMouseMove(&mappedEvent);
 
     if (!handled)
         event->ignore();
@@ -529,14 +543,22 @@ void QGraphsView::mousePressEvent(QMouseEvent *event)
 {
     bool handled = false;
 
+    // Adjust event position to renderers position
+    const QRectF r = seriesRect();
+    QPointF localPos = event->position() - r.topLeft();
+    QMouseEvent mappedEvent(event->type(), localPos, event->scenePosition(),
+                            event->globalPosition(), event->button(),
+                            event->buttons(), event->modifiers());
+    mappedEvent.setAccepted(false);
+
     if (m_barsRenderer)
-        handled |= m_barsRenderer->handleMousePress(event);
+        handled |= m_barsRenderer->handleMousePress(&mappedEvent);
 
     if (m_pointRenderer)
-        handled |= m_pointRenderer->handleMousePress(event);
+        handled |= m_pointRenderer->handleMousePress(&mappedEvent);
 
     if (m_areaRenderer)
-        handled |= m_areaRenderer->handleMousePress(event);
+        handled |= m_areaRenderer->handleMousePress(&mappedEvent);
 
     if (!handled)
         event->ignore();
@@ -548,8 +570,16 @@ void QGraphsView::mouseReleaseEvent(QMouseEvent *event)
 {
     bool handled = false;
 
+    // Adjust event position to renderers position
+    const QRectF r = seriesRect();
+    QPointF localPos = event->position() - r.topLeft();
+    QMouseEvent mappedEvent(event->type(), localPos, event->scenePosition(),
+                            event->globalPosition(), event->button(),
+                            event->buttons(), event->modifiers());
+    mappedEvent.setAccepted(false);
+
     if (m_pointRenderer)
-        handled |= m_pointRenderer->handleMouseRelease(event);
+        handled |= m_pointRenderer->handleMouseRelease(&mappedEvent);
 
     if (!handled)
         event->ignore();
@@ -561,14 +591,21 @@ void QGraphsView::hoverMoveEvent(QHoverEvent *event)
 {
     bool handled = false;
 
+    // Adjust event position to renderers position
+    const QRectF r = seriesRect();
+    QPointF localPos = event->position() - r.topLeft();
+    QHoverEvent mappedEvent(event->type(), localPos,event->globalPosition(),
+                            event->oldPosF(), event->modifiers());
+    mappedEvent.setAccepted(false);
+
     if (m_barsRenderer)
-        handled |= m_barsRenderer->handleHoverMove(event);
+        handled |= m_barsRenderer->handleHoverMove(&mappedEvent);
 
     if (m_pointRenderer)
-        handled |= m_pointRenderer->handleHoverMove(event);
+        handled |= m_pointRenderer->handleHoverMove(&mappedEvent);
 
     if (m_areaRenderer)
-        handled |= m_areaRenderer->handleHoverMove(event);
+        handled |= m_areaRenderer->handleHoverMove(&mappedEvent);
 
     if (!handled)
         event->ignore();
@@ -577,22 +614,6 @@ void QGraphsView::hoverMoveEvent(QHoverEvent *event)
 QSGNode *QGraphsView::updatePaintNode(QSGNode *oldNode, QQuickItem::UpdatePaintNodeData *updatePaintNodeData)
 {
     Q_UNUSED(updatePaintNodeData);
-
-    if (!m_backgroundNode)
-        m_backgroundNode = new QSGClipNode();
-
-    // Background node, used for clipping
-    QRectF clipRect = boundingRect();
-    qreal widthAdjustment = .0f;
-    qreal heightAdjustment = .0f;
-    if (m_axisRenderer) {
-        widthAdjustment = m_axisRenderer->m_axisWidth;
-        heightAdjustment = m_axisRenderer->m_axisHeight;
-    }
-    clipRect.adjust(m_marginLeft + widthAdjustment, m_marginTop, -m_marginRight, -m_marginBottom - heightAdjustment);
-    m_backgroundNode->setClipRect(clipRect);
-    m_backgroundNode->setIsRectangular(true);
-    oldNode = m_backgroundNode;
 
     for (auto series : std::as_const(m_seriesList)) {
         if (m_barsRenderer) {

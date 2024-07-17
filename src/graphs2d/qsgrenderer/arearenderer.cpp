@@ -12,11 +12,12 @@
 
 QT_BEGIN_NAMESPACE
 
-AreaRenderer::AreaRenderer(QQuickItem *parent)
-    : QQuickItem(parent)
+AreaRenderer::AreaRenderer(QGraphsView *graph)
+    : QQuickItem(graph)
+    , m_graph(graph)
 {
-    m_graph = qobject_cast<QGraphsView *>(parent);
     setFlag(QQuickItem::ItemHasContents);
+    setClip(true);
     m_shape.setParentItem(this);
     m_shape.setPreferredRendererType(QQuickShape::CurveRenderer);
 }
@@ -28,9 +29,8 @@ void AreaRenderer::calculateRenderCoordinates(qreal origX,
                                               qreal *renderX,
                                               qreal *renderY) const
 {
-    *renderX = m_graph->m_marginLeft + m_graph->m_axisRenderer->m_axisWidth
-               + m_areaWidth * origX * m_maxHorizontal - m_horizontalOffset;
-    *renderY = m_graph->m_marginTop + m_areaHeight - m_areaHeight * origY * m_maxVertical
+    *renderX = m_areaWidth * origX * m_maxHorizontal - m_horizontalOffset;
+    *renderY = m_areaHeight - m_areaHeight * origY * m_maxVertical
                + m_verticalOffset;
 }
 
@@ -39,10 +39,10 @@ void AreaRenderer::calculateAxisCoordinates(qreal origX,
                                             qreal *axisX,
                                             qreal *axisY) const
 {
-    *axisX = (origX - m_graph->m_marginLeft - m_graph->m_axisRenderer->m_axisWidth) / m_areaWidth
+    *axisX = origX / m_areaWidth
              / m_maxHorizontal;
     *axisY = m_graph->m_axisRenderer->m_axisVerticalValueRange
-             - (origY - m_graph->m_marginTop) / m_areaHeight / m_maxVertical;
+             - origY / m_areaHeight / m_maxVertical;
 }
 
 void AreaRenderer::handlePolish(QAreaSeries *series)
@@ -96,10 +96,8 @@ void AreaRenderer::handlePolish(QAreaSeries *series)
         return;
     }
 
-    m_areaWidth = width() - m_graph->m_marginLeft - m_graph->m_marginRight
-                  - m_graph->m_axisRenderer->m_axisWidth;
-    m_areaHeight = height() - m_graph->m_marginTop - m_graph->m_marginBottom
-                   - m_graph->m_axisRenderer->m_axisHeight;
+    m_areaWidth = width();
+    m_areaHeight = height();
 
     m_maxVertical = m_graph->m_axisRenderer->m_axisVerticalValueRange > 0
                         ? 1.0 / m_graph->m_axisRenderer->m_axisVerticalValueRange

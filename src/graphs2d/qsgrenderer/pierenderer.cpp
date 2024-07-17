@@ -10,16 +10,16 @@
 #include <private/qpieslice_p.h>
 #include <private/qquickshape_p.h>
 
-PieRenderer::PieRenderer(QQuickItem *parent)
-    : QQuickItem(parent)
+PieRenderer::PieRenderer(QGraphsView *graph)
+    : QQuickItem(graph)
+    , m_graph(graph)
 {
-    m_graph = qobject_cast<QGraphsView *>(parent);
-
     m_shape = new QQuickShape(this);
     m_shape->setParentItem(this);
     m_shape->setPreferredRendererType(QQuickShape::CurveRenderer);
 
     setFlag(QQuickItem::ItemHasContents);
+    setClip(true);
 }
 
 PieRenderer::~PieRenderer() {}
