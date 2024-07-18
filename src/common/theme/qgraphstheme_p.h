@@ -118,5 +118,43 @@ private:
     Q_DECLARE_PUBLIC(QGraphsTheme)
     Q_DISABLE_COPY_MOVE(QGraphsThemePrivate)
 };
+
+struct QGraphsLinePrivate : public QSharedData
+{
+    struct QGraphsLineCustomField
+    {
+        bool mainColorCustom : 1;
+        bool subColorCustom : 1;
+        bool labelTextColorCustom : 1;
+
+        QGraphsLineCustomField()
+            : mainColorCustom(false)
+            , subColorCustom(false)
+            , labelTextColorCustom(false)
+        {}
+    };
+
+    QGraphsLinePrivate();
+    ~QGraphsLinePrivate();
+    QGraphsLinePrivate(const QGraphsLinePrivate &other);
+    void resetCustomBits();
+
+    QColor m_mainColor;
+    QColor m_subColor;
+    qreal m_mainWidth;
+    qreal m_subWidth;
+    QColor m_labelTextColor;
+
+    QColor m_mainThemeColor;
+    QColor m_subThemeColor;
+    QColor m_labelTextThemeColor;
+    QGraphsLineCustomField m_bits;
+
+    friend bool comparesEqual(const QGraphsLinePrivate &lhs, const QGraphsLinePrivate &rhs) noexcept;
+    Q_DECLARE_EQUALITY_COMPARABLE(QGraphsLinePrivate)
+
+    friend QGraphsLine;
+};
+
 QT_END_NAMESPACE
 #endif // QGRAPHSTHEME_P_H
