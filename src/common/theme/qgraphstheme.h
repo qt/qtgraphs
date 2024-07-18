@@ -17,6 +17,9 @@ QT_BEGIN_NAMESPACE
 class QQuickGraphsColor;
 class QQuickGradient;
 class QGraphsThemePrivate;
+struct QGraphsLinePrivate;
+
+QT_DECLARE_QESDP_SPECIALIZATION_DTOR_WITH_EXPORT(QGraphsLinePrivate, Q_GRAPHS_EXPORT)
 
 struct QGraphsThemeDirtyBitField
 {
@@ -76,23 +79,25 @@ struct QGraphsThemeDirtyBitField
 class QGraphsLine
 {
     Q_GADGET_EXPORT(Q_GRAPHS_EXPORT)
+    QML_VALUE_TYPE(graphsline)
+    QML_STRUCTURED_VALUE
+
+    Q_PROPERTY(QColor mainColor READ mainColor WRITE setMainColor FINAL)
+    Q_PROPERTY(QColor subColor READ subColor WRITE setSubColor FINAL)
+    Q_PROPERTY(qreal mainWidth READ mainWidth WRITE setMainWidth FINAL)
+    Q_PROPERTY(qreal subWidth READ subWidth WRITE setSubWidth FINAL)
+    Q_PROPERTY(QColor labelTextColor READ labelTextColor WRITE setLabelTextColor FINAL)
+
 public:
+    static QVariant create(const QJSValue &params);
     Q_GRAPHS_EXPORT QGraphsLine();
-    Q_GRAPHS_EXPORT QGraphsLine(const QGraphsLine &graphsLine);
-    QGraphsLine(QGraphsLine &&other) noexcept { swap(other); }
+    Q_GRAPHS_EXPORT QGraphsLine(const QGraphsLine &other) noexcept;
+    QGraphsLine(QGraphsLine &&other) noexcept = default;
     Q_GRAPHS_EXPORT ~QGraphsLine();
-    Q_GRAPHS_EXPORT QGraphsLine &operator=(const QGraphsLine &);
+    Q_GRAPHS_EXPORT QGraphsLine &operator=(const QGraphsLine &other) noexcept;
     void swap(QGraphsLine &other) noexcept
     {
-        std::swap(m_bits, other.m_bits);
-        std::swap(m_mainColor, other.m_mainColor);
-        std::swap(m_subColor, other.m_subColor);
-        std::swap(m_mainWidth, other.m_mainWidth);
-        std::swap(m_subWidth, other.m_subWidth);
-        std::swap(m_labelTextColor, other.m_labelTextColor);
-        std::swap(m_mainThemeColor, other.m_mainThemeColor);
-        std::swap(m_subThemeColor, other.m_subThemeColor);
-        std::swap(m_labelTextThemeColor, other.m_labelTextThemeColor);
+        std::swap(d, other.d);
     }
     QT_MOVE_ASSIGNMENT_OPERATOR_IMPL_VIA_PURE_SWAP(QGraphsLine)
 
@@ -106,82 +111,20 @@ public:
     Q_GRAPHS_EXPORT void setSubWidth(qreal newWidth);
     Q_GRAPHS_EXPORT QColor labelTextColor() const;
     Q_GRAPHS_EXPORT void setLabelTextColor(const QColor &newColor);
+    Q_GRAPHS_EXPORT void detach();
 
     Q_GRAPHS_EXPORT operator QVariant() const;
 
 private:
-    struct QGraphsLineCustomField
-    {
-        bool mainColorCustom : 1;
-        bool subColorCustom : 1;
-        bool labelTextColorCustom : 1;
-
-        QGraphsLineCustomField()
-            : mainColorCustom(false)
-            , subColorCustom(false)
-            , labelTextColorCustom(false)
-        {}
-    };
-
-    void resetCustomBits();
-
-    QGraphsLineCustomField m_bits;
-
-    QColor m_mainColor;
-    QColor m_subColor;
-    qreal m_mainWidth;
-    qreal m_subWidth;
-    QColor m_labelTextColor;
-
-    QColor m_mainThemeColor;
-    QColor m_subThemeColor;
-    QColor m_labelTextThemeColor;
+    QExplicitlySharedDataPointer<QGraphsLinePrivate> d;
 
     friend Q_GRAPHS_EXPORT bool comparesEqual(const QGraphsLine &lhs,
                                               const QGraphsLine &rhs) noexcept;
-    friend bool operator==(const QGraphsLine &lhs, const QGraphsLine &rhs) noexcept
-    {
-        return comparesEqual(lhs, rhs);
-    }
-    friend bool operator!=(const QGraphsLine &lhs, const QGraphsLine &rhs) noexcept
-    {
-        return !comparesEqual(lhs, rhs);
-    }
+    Q_DECLARE_EQUALITY_COMPARABLE(QGraphsLine)
+
     friend class QGraphsTheme;
 };
-
-class Q_GRAPHS_EXPORT QQuickGraphsLineValueType
-{
-    QGraphsLine v;
-    Q_GADGET
-
-    Q_PROPERTY(QColor mainColor READ mainColor WRITE setMainColor FINAL)
-    Q_PROPERTY(QColor subColor READ subColor WRITE setSubColor FINAL)
-    Q_PROPERTY(qreal mainWidth READ mainWidth WRITE setMainWidth FINAL)
-    Q_PROPERTY(qreal subWidth READ subWidth WRITE setSubWidth FINAL)
-    Q_PROPERTY(QColor labelTextColor READ labelTextColor WRITE setLabelTextColor FINAL)
-
-    QML_VALUE_TYPE(graphsline)
-    QML_FOREIGN(QGraphsLine)
-    QML_EXTENDED(QQuickGraphsLineValueType)
-    QML_STRUCTURED_VALUE
-
-public:
-    static QVariant create(const QJSValue &params);
-
-    QColor mainColor() const;
-    void setMainColor(const QColor& newColor);
-    QColor subColor() const;
-    void setSubColor(const QColor& newColor);
-    qreal mainWidth() const;
-    void setMainWidth(qreal newWidth);
-    qreal subWidth() const;
-    void setSubWidth(qreal newWidth);
-    QColor labelTextColor() const;
-    void setLabelTextColor(const QColor& newColor);
-
-    operator QGraphsLine() const { return v; }
-};
+Q_DECLARE_SHARED(QGraphsLine)
 
 class Q_GRAPHS_EXPORT QGraphsTheme : public QObject, public QQmlParserStatus
 {
