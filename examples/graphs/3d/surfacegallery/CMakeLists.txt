@@ -45,7 +45,7 @@ target_link_options(surfacegallery PRIVATE
 endif()
 
 qt6_add_qml_module(surfacegallery
-    URI SurfaceGallery
+    URI SurfaceGalleryExample
     NO_RESOURCE_TARGET_PATH
     SOURCES
         datasource.cpp datasource.h

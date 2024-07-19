@@ -5,7 +5,7 @@ import QtQuick
 import QtQuick.Controls
 import QtGraphs
 //! [0]
-import SurfaceGallery
+import SurfaceGalleryExample
 //! [0]
 
 Item {

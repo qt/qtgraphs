@@ -39,7 +39,7 @@ target_link_options(scatter PRIVATE
 endif()
 
 qt_add_qml_module(scatter
-    URI Scatter
+    URI ScatterExample
     NO_RESOURCE_TARGET_PATH
     QML_FILES
         "qml/scatter/Data.qml"

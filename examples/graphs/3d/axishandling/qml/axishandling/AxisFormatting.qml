@@ -4,7 +4,7 @@
 import QtQuick
 import QtQuick.Controls
 import QtGraphs
-import AxisHandling
+import AxisHandlingExample
 
 Item {
     id: axisFormattingView

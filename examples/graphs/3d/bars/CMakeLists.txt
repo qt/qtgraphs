@@ -46,7 +46,7 @@ target_link_options(bars PRIVATE
 endif()
 
 qt6_add_qml_module(bars
-    URI Bars
+    URI BarsExample
     NO_RESOURCE_TARGET_PATH
     QML_FILES
         qml/bars/Axes.qml

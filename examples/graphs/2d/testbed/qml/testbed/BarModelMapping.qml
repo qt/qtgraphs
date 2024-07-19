@@ -4,7 +4,7 @@ import QtQuick
 import QtGraphs
 import QtQuick.Controls.Basic
 import QtQuick.Layouts
-import Testbed
+import TestbedExample
 
 Rectangle {
     id: background

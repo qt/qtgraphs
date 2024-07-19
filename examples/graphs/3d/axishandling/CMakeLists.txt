@@ -45,7 +45,7 @@ target_link_options(axishandling PRIVATE
 endif()
 
 qt6_add_qml_module(axishandling
-    URI AxisHandling
+    URI AxisHandlingExample
     NO_RESOURCE_TARGET_PATH
     SOURCES
         customformatter.cpp customformatter.h

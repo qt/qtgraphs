@@ -3,7 +3,7 @@
 
 import QtQuick
 import QtGraphs
-import Testbed
+import TestbedExample
 
 Rectangle {
     anchors.fill: parent
