@@ -69,7 +69,7 @@
     \snippet 3d/scatter/qml/scatter/main.qml 6
 
     Whereas the \c {contentItem} defines the content of the button, in this case a \c {Row} type
-    containing an icon and some text. The icon is imported using an \c {IconImage} type, and setting
+    containing an icon and some text. The icon is imported using an \c {Image} type, and setting
     the \c {source} property. The text is created using a \c {Label} type and set using its \c {text}
     property. Two alliases are created for these two properties at the top of the custom component,
     this will allow them to be set when an instance of \c CustomButton is created.
