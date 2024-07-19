@@ -13,7 +13,6 @@ Item {
     width: 800
     height: 600
 
-    property int iconDimension: 38
     property int margin: 30
     property int spacing: 10
     property int radius: 6
@@ -59,12 +58,9 @@ Item {
         //! [6]
         //! [7]
         contentItem: Row {
-            id :content
-            IconImage {
+            id: content
+            Image {
                 id: iconImage
-                width: iconDimension
-                height: iconDimension
-                color: "transparent"
             }
             Label {
                 text: buttonRoot.text
@@ -124,7 +120,7 @@ Item {
                 id: cameraButton
                 text: qsTr("Camera Placement")
                 source: graph.cameraPreset === Graphs3D.CameraPreset.Front ?
-                                        "qrc:/images/camera.svg" : "qrc:/images/camera2.svg"
+                            "qrc:/images/camera.svg" : "qrc:/images/camera2.svg"
                 onClicked: {
                     graph.cameraPreset = graph.cameraPreset === Graphs3D.CameraPreset.Front ?
                                 Graphs3D.CameraPreset.IsometricRightHigh :
@@ -136,7 +132,7 @@ Item {
                 id: backgroundButton
                 text: qsTr("Hide Background")
                 source: graph.theme.backgroundVisible ?
-                                        "qrc:/images/background_hide.svg" : "qrc:/images/background.svg"
+                            "qrc:/images/background_hide.svg" : "qrc:/images/background.svg"
                 onClicked: {
                     graph.theme.plotAreaBackgroundVisible = !graph.theme.plotAreaBackgroundVisible
                     text = graph.theme.plotAreaBackgroundVisible ? qsTr("Hide Graph Background") : qsTr("Show Graph Background")
