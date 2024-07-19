@@ -169,7 +169,7 @@ protected:
     void updateSelectionMode(QtGraphs3D::SelectionFlags mode) override;
     bool doPicking(const QPointF &position) override;
     QAbstract3DAxis *createDefaultAxis(QAbstract3DAxis::AxisOrientation orientation) override;
-    void updateSliceItemLabel(QString label, const QVector3D &position) override;
+    void updateSliceItemLabel(const QString &label, const QVector3D &position) override;
 
 public Q_SLOTS:
     void handleAxisXChanged(QAbstract3DAxis *axis) override;

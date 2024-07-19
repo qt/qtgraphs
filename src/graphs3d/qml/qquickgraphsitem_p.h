@@ -690,7 +690,7 @@ protected:
     void setItemSelected(bool selected);
     virtual void updateShadowQuality(QtGraphs3D::ShadowQuality quality);
     void updateItemLabel(const QVector3D &position);
-    virtual void updateSliceItemLabel(QString label, const QVector3D &position);
+    virtual void updateSliceItemLabel(const QString &label, const QVector3D &position);
 
     struct Volume
     {

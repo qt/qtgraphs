@@ -3887,7 +3887,7 @@ void QQuickGraphsItem::updateItemLabel(const QVector3D &position)
     m_itemLabel->setPosition(pos2d.toPointF());
 }
 
-void QQuickGraphsItem::updateSliceItemLabel(QString label, const QVector3D &position)
+void QQuickGraphsItem::updateSliceItemLabel(const QString &label, const QVector3D &position)
 {
     Q_UNUSED(position);
 
