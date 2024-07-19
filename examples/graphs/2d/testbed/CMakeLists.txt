@@ -37,7 +37,7 @@ target_link_libraries(testbed PUBLIC
 )
 
 qt6_add_qml_module(testbed
-    URI Testbed
+    URI TestbedExample
     NO_RESOURCE_TARGET_PATH
     SOURCES
         custombarseries.h custombarseries.cpp

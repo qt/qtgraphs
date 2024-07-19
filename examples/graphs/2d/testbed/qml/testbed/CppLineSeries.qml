@@ -4,7 +4,7 @@
 import QtQuick
 import QtGraphs
 import QtQuick.Controls.Basic
-import Testbed
+import TestbedExample
 
 Rectangle {
     anchors.fill: parent
