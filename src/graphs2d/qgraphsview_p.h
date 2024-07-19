@@ -37,12 +37,12 @@ class QAbstractAxis;
 class QGraphsView : public QQuickItem
 {
     Q_OBJECT
-    Q_PROPERTY(QGraphsTheme *theme READ theme WRITE setTheme NOTIFY themeChanged)
+    Q_PROPERTY(QGraphsTheme *theme READ theme WRITE setTheme NOTIFY themeChanged FINAL)
     Q_PROPERTY(QQmlListProperty<QObject> seriesList READ seriesList CONSTANT)
-    Q_PROPERTY(qreal marginTop READ marginTop WRITE setMarginTop NOTIFY marginTopChanged)
-    Q_PROPERTY(qreal marginBottom READ marginBottom WRITE setMarginBottom NOTIFY marginBottomChanged)
-    Q_PROPERTY(qreal marginLeft READ marginLeft WRITE setMarginLeft NOTIFY marginLeftChanged)
-    Q_PROPERTY(qreal marginRight READ marginRight WRITE setMarginRight NOTIFY marginRightChanged)
+    Q_PROPERTY(qreal marginTop READ marginTop WRITE setMarginTop NOTIFY marginTopChanged FINAL)
+    Q_PROPERTY(qreal marginBottom READ marginBottom WRITE setMarginBottom NOTIFY marginBottomChanged FINAL)
+    Q_PROPERTY(qreal marginLeft READ marginLeft WRITE setMarginLeft NOTIFY marginLeftChanged FINAL)
+    Q_PROPERTY(qreal marginRight READ marginRight WRITE setMarginRight NOTIFY marginRightChanged FINAL)
 
     Q_PROPERTY(qreal axisXSmoothing READ axisXSmoothing WRITE setAxisXSmoothing NOTIFY axisXSmoothingChanged FINAL)
     Q_PROPERTY(qreal axisYSmoothing READ axisYSmoothing WRITE setAxisYSmoothing NOTIFY axisYSmoothingChanged FINAL)
@@ -56,10 +56,10 @@ class QGraphsView : public QQuickItem
     Q_PROPERTY(qreal shadowYOffset READ shadowYOffset WRITE setShadowYOffset NOTIFY shadowYOffsetChanged FINAL)
     Q_PROPERTY(qreal shadowSmoothing READ shadowSmoothing WRITE setShadowSmoothing NOTIFY shadowSmoothingChanged FINAL)
 
-    Q_PROPERTY(QAbstractAxis *axisX READ axisX WRITE setAxisX NOTIFY axisXChanged)
-    Q_PROPERTY(QAbstractAxis *axisY READ axisY WRITE setAxisY NOTIFY axisYChanged)
+    Q_PROPERTY(QAbstractAxis *axisX READ axisX WRITE setAxisX NOTIFY axisXChanged FINAL)
+    Q_PROPERTY(QAbstractAxis *axisY READ axisY WRITE setAxisY NOTIFY axisYChanged FINAL)
     Q_PROPERTY(
-        Qt::Orientation orientation READ orientation WRITE setOrientation NOTIFY orientationChanged)
+        Qt::Orientation orientation READ orientation WRITE setOrientation NOTIFY orientationChanged FINAL)
 
     Q_CLASSINFO("DefaultProperty", "seriesList")
     QML_NAMED_ELEMENT(GraphsView)
@@ -145,9 +145,9 @@ public:
     void setOrientation(Qt::Orientation newOrientation);
 
 protected:
-    void handleHoverEnter(QString seriesName, QPointF position, QPointF value);
-    void handleHoverExit(QString seriesName, QPointF position);
-    void handleHover(QString seriesName, QPointF position, QPointF value);
+    void handleHoverEnter(const QString &seriesName, QPointF position, QPointF value);
+    void handleHoverExit(const QString &seriesName, QPointF position);
+    void handleHover(const QString &seriesName, QPointF position, QPointF value);
     void updateComponentSizes();
     void componentComplete() override;
     void geometryChange(const QRectF &newGeometry, const QRectF &oldGeometry) override;
@@ -164,9 +164,9 @@ Q_SIGNALS:
     void marginBottomChanged();
     void marginLeftChanged();
     void marginRightChanged();
-    void hoverEnter(QString seriesName, QPointF position, QPointF value);
-    void hoverExit(QString seriesName, QPointF position);
-    void hover(QString seriesName, QPointF position, QPointF value);
+    void hoverEnter(const QString &seriesName, QPointF position, QPointF value);
+    void hoverExit(const QString &seriesName, QPointF position);
+    void hover(const QString &seriesName, QPointF position, QPointF value);
 
     void axisXSmoothingChanged();
     void axisYSmoothingChanged();

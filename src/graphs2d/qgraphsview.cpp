@@ -451,21 +451,21 @@ void QGraphsView::setShadowSmoothing(qreal smoothing)
     polishAndUpdate();
 }
 
-void QGraphsView::handleHoverEnter(QString seriesName, QPointF position, QPointF value)
+void QGraphsView::handleHoverEnter(const QString &seriesName, QPointF position, QPointF value)
 {
     if (m_hoverCount == 0)
         emit hoverEnter(seriesName, position, value);
     m_hoverCount++;
 }
 
-void QGraphsView::handleHoverExit(QString seriesName, QPointF position)
+void QGraphsView::handleHoverExit(const QString &seriesName, QPointF position)
 {
     m_hoverCount--;
     if (m_hoverCount == 0)
         emit hoverExit(seriesName, position);
 }
 
-void QGraphsView::handleHover(QString seriesName, QPointF position, QPointF value)
+void QGraphsView::handleHover(const QString &seriesName, QPointF position, QPointF value)
 {
     emit hover(seriesName, position, value);
 }
