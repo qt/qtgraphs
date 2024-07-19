@@ -34,16 +34,16 @@ public:
     void clearLegendData();
 
 protected:
-    QGraphsView *m_graph;
+    QGraphsView *m_graph = nullptr;
 
 private:
     QString m_name;
-    bool m_visible;
+    bool m_visible = true;
     bool m_loaded = false;
     bool m_selectable = false;
     bool m_hoverable = false;
-    qreal m_opacity;
-    qreal m_valuesMultiplier;
+    qreal m_opacity = 1.0;
+    qreal m_valuesMultiplier = 1.0;
     QList<QLegendData> m_legendData;
 };
 

@@ -235,21 +235,21 @@ QT_BEGIN_NAMESPACE
 */
 
 /*!
-    \fn void QAbstractSeries::hoverEnter(QString seriesName, QPointF position, QPointF value)
+    \fn void QAbstractSeries::hoverEnter(const QString &seriesName, QPointF position, QPointF value)
     This signal is emitted when the series hovering starts. The name of the series is in \a seriesName,
     the mouse/touch position in \a position, and the series value in \a value.
     \note This signal is only emitted when \l hoverable is set to true.
 */
 
 /*!
-    \fn void QAbstractSeries::hoverExit(QString seriesName, QPointF position)
+    \fn void QAbstractSeries::hoverExit(const QString &seriesName, QPointF position)
     This signal is emitted when the series hovering ends. The name of the series is in \a seriesName,
     and the mouse/touch position in \a position.
     \note This signal is only emitted when \l hoverable is set to true.
 */
 
 /*!
-    \fn void QAbstractSeries::hover(QString seriesName, QPointF position, QPointF value)
+    \fn void QAbstractSeries::hover(const QString &seriesName, QPointF position, QPointF value)
     This signal is emitted when the series hovering changes. The name of the series is in \a seriesName,
     the mouse/touch position in \a position, and the series value in \a value.
     \note This signal is only emitted when \l hoverable is set to true.
@@ -466,10 +466,6 @@ void QAbstractSeries::componentComplete()
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
 QAbstractSeriesPrivate::QAbstractSeriesPrivate()
-    : m_graph(nullptr)
-    , m_visible(true)
-    , m_opacity(1.0)
-    , m_valuesMultiplier(1.0)
 {
 }
 

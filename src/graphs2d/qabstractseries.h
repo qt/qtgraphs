@@ -19,9 +19,9 @@ class QGraphsView;
 struct Q_GRAPHS_EXPORT QLegendData
 {
     Q_GADGET
-    Q_PROPERTY(QColor color MEMBER color)
-    Q_PROPERTY(QColor borderColor MEMBER borderColor)
-    Q_PROPERTY(QString label MEMBER label)
+    Q_PROPERTY(QColor color MEMBER color FINAL)
+    Q_PROPERTY(QColor borderColor MEMBER borderColor FINAL)
+    Q_PROPERTY(QString label MEMBER label FINAL)
 
 public:
     QColor color;
@@ -111,9 +111,9 @@ Q_SIGNALS:
     void opacityChanged();
     void valuesMultiplierChanged();
     void legendDataChanged();
-    void hoverEnter(QString seriesName, QPointF position, QPointF value);
-    void hoverExit(QString seriesName, QPointF position);
-    void hover(QString seriesName, QPointF position, QPointF value);
+    void hoverEnter(const QString &seriesName, QPointF position, QPointF value);
+    void hoverExit(const QString &seriesName, QPointF position);
+    void hover(const QString &seriesName, QPointF position, QPointF value);
 
 protected:
     friend class BarsRenderer;
