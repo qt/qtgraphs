@@ -462,6 +462,12 @@ void QQuickGraphsBars::removeSeries(QBar3DSeries *series)
         emit primarySeriesChanged(m_primarySeries);
     }
 
+    for (auto it = m_slicedBarModels.begin(); it != m_slicedBarModels.end(); it++) {
+        // Remove series also from slice bar list
+        if (it.key() == series)
+            m_slicedBarModels.remove(it.key());
+    }
+
     removeBarModels();
     if (m_selectedBarSeries == series)
         resetClickedStatus();
