@@ -2125,7 +2125,7 @@ QQuickGraphsItem::SelectionType QQuickGraphsBars::isSelected(int row, int bar, Q
     return isSelectedType;
 }
 
-void QQuickGraphsBars::updateSliceItemLabel(QString label, const QVector3D &position)
+void QQuickGraphsBars::updateSliceItemLabel(const QString &label, const QVector3D &position)
 {
     QQuickGraphsItem::updateSliceItemLabel(label, position);
 

@@ -2199,7 +2199,7 @@ void QQuickGraphsSurface::createSliceView()
     m_sliceInstancing->setColor(theme()->singleHighlightColor());
 }
 
-void QQuickGraphsSurface::updateSliceItemLabel(QString label, const QVector3D &position)
+void QQuickGraphsSurface::updateSliceItemLabel(const QString &label, const QVector3D &position)
 {
     QQuickGraphsItem::updateSliceItemLabel(label, position);
 
