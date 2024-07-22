@@ -1,4 +1,4 @@
-qt_internal_add_test(tst_qgbarmodelmapper
+qt_internal_add_test(tst_qgbarmodelmapper2d
     SOURCES
         tst_barmodelmapper.cpp
     INCLUDE_DIRECTORIES
