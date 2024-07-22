@@ -14,16 +14,16 @@ Q_GRAPHS_EXPORT Q_NAMESPACE
 QML_NAMED_ELEMENT(Graphs3D)
 
 enum class SelectionFlag {
-    None = 0,
-    Item = 1,
-    Row = 2,
+    None = 0x00,
+    Item = 0x01,
+    Row = 0x02,
     ItemAndRow = Item | Row,
-    Column = 4,
+    Column = 0x04,
     ItemAndColumn = Item | Column,
     RowAndColumn = Row | Column,
     ItemRowAndColumn = Item | Row | Column,
-    Slice = 8,
-    MultiSeries = 16,
+    Slice = 0x08,
+    MultiSeries = 0x10,
 };
 Q_FLAG_NS(SelectionFlag)
 Q_DECLARE_FLAGS(SelectionFlags, SelectionFlag)
