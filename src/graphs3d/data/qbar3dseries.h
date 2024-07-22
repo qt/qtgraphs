@@ -66,7 +66,7 @@ Q_SIGNALS:
     void rowColorsChanged(const QList<QColor> &rowcolors);
     void rowLabelsChanged();
     void columnLabelsChanged();
-    void dataArrayChanged(const QBarDataArray *array);
+    void dataArrayChanged(const QBarDataArray &array);
     Q_REVISION(6, 9) void valueColoringEnabledChanged(bool enabled);
 
 private:

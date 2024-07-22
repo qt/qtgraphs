@@ -290,7 +290,7 @@ void QScatter3DSeries::setDataArray(const QScatterDataArray &newDataArray)
     Q_D(QScatter3DSeries);
     if (d->m_dataArray.data() != newDataArray.data()) {
         d->setDataArray(newDataArray);
-        emit dataArrayChanged(&newDataArray);
+        emit dataArrayChanged(newDataArray);
     }
 }
 

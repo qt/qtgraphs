@@ -44,7 +44,7 @@ Q_SIGNALS:
     void dataProxyChanged(QScatterDataProxy *proxy);
     void selectedItemChanged(qsizetype index);
     void itemSizeChanged(float size);
-    void dataArrayChanged(const QScatterDataArray *array);
+    void dataArrayChanged(const QScatterDataArray &array);
 
 protected:
     explicit QScatter3DSeries(QScatter3DSeriesPrivate &d, QObject *parent = nullptr);
