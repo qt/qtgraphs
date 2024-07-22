@@ -9,11 +9,13 @@
 
 Q_MOC_INCLUDE(<QtGraphs / qxyseries.h>)
 Q_MOC_INCLUDE(<QtCore / qabstractitemmodel.h>)
+
 QT_BEGIN_NAMESPACE
 
 class QXYModelMapperPrivate;
 class QXYSeries;
 class QAbstractItemModel;
+
 class Q_GRAPHS_EXPORT QXYModelMapper : public QObject
 {
     Q_OBJECT
@@ -63,5 +65,7 @@ Q_SIGNALS:
 protected:
     QXYModelMapper(QXYModelMapperPrivate &dd, QObject *parent = nullptr);
 };
+
 QT_END_NAMESPACE
+
 #endif // QXYMODELMAPPER_H

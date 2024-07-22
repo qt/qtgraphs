@@ -76,4 +76,5 @@ private Q_SLOTS:
 };
 
 QT_END_NAMESPACE
+
 #endif // QBARMODELMAPPER_H

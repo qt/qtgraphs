@@ -65,4 +65,5 @@ private:
 };
 
 QT_END_NAMESPACE
+
 #endif // QXYMODELMAPPER_P_H

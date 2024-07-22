@@ -5,10 +5,14 @@
 #include <QtCore/qobjectdefs.h>
 #include <QtGraphs/qtgraphsexports.h>
 #include <QtQmlIntegration/qqmlintegration.h>
+
 QT_BEGIN_NAMESPACE
+
 namespace QtGraphs3D {
+
 Q_GRAPHS_EXPORT Q_NAMESPACE
 QML_NAMED_ELEMENT(Graphs3D)
+
 enum class SelectionFlag {
     None = 0,
     Item = 1,
@@ -93,4 +97,5 @@ Q_ENUM_NS(GridLineType)
 Q_DECLARE_OPERATORS_FOR_FLAGS(QtGraphs3D::SelectionFlags)
 
 QT_END_NAMESPACE
+
 #endif // QGRAPHS3DNAMESPACE_H
