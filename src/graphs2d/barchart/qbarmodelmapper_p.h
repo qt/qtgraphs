@@ -18,6 +18,7 @@
 #include <private/qobject_p.h>
 
 QT_BEGIN_NAMESPACE
+
 class QAbstractItemModel;
 
 class QBarModelMapperPrivate : public QObjectPrivate
@@ -74,4 +75,5 @@ private:
 };
 
 QT_END_NAMESPACE
+
 #endif // QBARMODELMAPPER_P_H

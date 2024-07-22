@@ -8,10 +8,13 @@
 #include <QtQmlIntegration/qqmlintegration.h>
 Q_MOC_INCLUDE(<QtGraphs / qpieseries.h>)
 Q_MOC_INCLUDE(<QtCore / qabstractitemmodel.h>)
+
 QT_BEGIN_NAMESPACE
+
 class QAbstractItemModel;
 class QPieModelMapperPrivate;
 class QPieSeries;
+
 class Q_GRAPHS_EXPORT QPieModelMapper : public QObject
 {
     Q_OBJECT
@@ -68,5 +71,7 @@ public Q_SLOTS:
 protected:
     QPieModelMapper(QPieModelMapperPrivate &dd, QObject *parent = nullptr);
 };
+
 QT_END_NAMESPACE
+
 #endif // QPIEMODELMAPPER_H

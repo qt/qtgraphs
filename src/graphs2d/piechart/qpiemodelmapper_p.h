@@ -15,6 +15,7 @@
 #include <private/qobject_p.h>
 
 QT_BEGIN_NAMESPACE
+
 class QPieSlice;
 class QPieSeries;
 class QAbstractItemModel;
@@ -71,4 +72,5 @@ private:
 };
 
 QT_END_NAMESPACE
+
 #endif // QPIEMODELMAPPER_P_H
