@@ -1,4 +1,4 @@
-qt_internal_add_test(tst_qgpiemodelmapper
+qt_internal_add_test(tst_qgpiemodelmapper2d
     SOURCES
         tst_piemodelmapper.cpp
     INCLUDE_DIRECTORIES

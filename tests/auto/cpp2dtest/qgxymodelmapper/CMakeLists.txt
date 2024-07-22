@@ -1,4 +1,4 @@
-qt_internal_add_test(tst_qgxymodelmapper
+qt_internal_add_test(tst_qgxymodelmapper2d
     SOURCES
         tst_xymodelmapper.cpp
     INCLUDE_DIRECTORIES
