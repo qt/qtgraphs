@@ -48,8 +48,8 @@ public:
     qsizetype lastBarSetSection() const;
     void setLastBarSetSection(qsizetype newLastBarSetSection);
 
-    int count() const;
-    void setCount(int newCount);
+    qsizetype count() const;
+    void setCount(qsizetype newCount);
 
     qsizetype first() const;
     void setFirst(qsizetype newFirst);
