@@ -16,7 +16,7 @@ QGraphPointAnimation::QGraphPointAnimation(QObject *parent)
 
 QGraphPointAnimation::~QGraphPointAnimation() {}
 
-void QGraphPointAnimation::setAnimatingValue(QVariant &start, QVariant &end)
+void QGraphPointAnimation::setAnimatingValue(const QVariant &start, const QVariant &end)
 {
     setStartValue(start);
     setEndValue(end);

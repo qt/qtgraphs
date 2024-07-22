@@ -1109,7 +1109,6 @@ QBarSeriesPrivate::QBarSeriesPrivate()
       , m_labelsMargin(0)
       , m_labelsAngle(0)
       , m_labelsPrecision(6)
-      , m_visualsDirty(true)
       , m_labelsDirty(true)
       , m_barDelegateDirty(false)
 {

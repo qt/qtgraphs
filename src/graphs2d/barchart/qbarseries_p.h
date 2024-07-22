@@ -54,8 +54,6 @@ public:
 
     bool blockBarUpdate();
 
-    void setVisualsDirty(bool dirty) { m_visualsDirty = dirty; }
-    bool visualsDirty() const { return m_visualsDirty; }
     void setLabelsDirty(bool dirty) { m_labelsDirty = dirty; }
     bool labelsDirty() const { return m_labelsDirty; }
 
@@ -73,7 +71,6 @@ protected:
     qreal m_labelsMargin;
     qreal m_labelsAngle;
     int m_labelsPrecision;
-    bool m_visualsDirty;
     bool m_labelsDirty;
     bool m_barDelegateDirty;
     QQmlComponent *m_barDelegate = nullptr;

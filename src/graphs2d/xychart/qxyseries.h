@@ -62,7 +62,7 @@ public:
     void setSelectedColor(const QColor &color);
     QColor selectedColor() const;
 
-    Q_INVOKABLE bool isPointSelected(qsizetype index);
+    Q_INVOKABLE bool isPointSelected(qsizetype index) const;
     Q_INVOKABLE void selectPoint(qsizetype index);
     Q_INVOKABLE void deselectPoint(qsizetype index);
     Q_INVOKABLE void setPointSelected(qsizetype index, bool selected);
@@ -86,7 +86,7 @@ Q_SIGNALS:
     void pointReplaced(qsizetype index);
     void pointRemoved(qsizetype index);
     void pointAdded(qsizetype index);
-    void colorChanged(QColor color);
+    void colorChanged(const QColor &color);
     void selectedColorChanged(const QColor &color);
     void pointsReplaced();
     void pointsRemoved(qsizetype index, qsizetype count);

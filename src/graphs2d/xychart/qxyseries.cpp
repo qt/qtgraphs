@@ -41,6 +41,15 @@ QT_BEGIN_NAMESPACE
 */
 
 /*!
+    \fn void QXYSeries::pointsReplaced()
+    This signal is emitted when all points are replaced.
+*/
+/*!
+    \qmlsignal XYSeries::pointsReplaced()
+    This signal is emitted when all points are replaced.
+*/
+
+/*!
     \qmlsignal XYSeries::colorChanged(color color)
     This signal is emitted when the line color changes to \a color.
 */
@@ -196,7 +205,7 @@ void QXYSeries::replace(qsizetype index, const QPointF &newPoint)
     \qmlmethod XYSeries::replace(list<point> points)
     Replaces the current points with the points specified by \a points
     \note This is much faster than replacing data points one by one, or first
-    clearing all data, and then appending the new data. Emits \l pointReplaced
+    clearing all data, and then appending the new data. Emits \l pointsReplaced
     when the points have been replaced.
 */
 /*!
@@ -396,9 +405,9 @@ void QXYSeries::clear()
     \note Selected points are drawn using the selected color if it was specified.
     \sa selectedPoints, setPointSelected(), setSelectedColor()
  */
-bool QXYSeries::isPointSelected(qsizetype index)
+bool QXYSeries::isPointSelected(qsizetype index) const
 {
-    Q_D(QXYSeries);
+    Q_D(const QXYSeries);
     return d->isPointSelected(index);
 }
 
@@ -869,7 +878,7 @@ void QXYSeriesPrivate::setPointSelected(qsizetype index, bool selected, bool &ca
     }
 }
 
-bool QXYSeriesPrivate::isPointSelected(qsizetype index)
+bool QXYSeriesPrivate::isPointSelected(qsizetype index) const
 {
     return m_selectedPoints.contains(index);
 }

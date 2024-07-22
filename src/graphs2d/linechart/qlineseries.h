@@ -28,7 +28,7 @@ public:
     void setWidth(qreal newWidth);
 
     Qt::PenCapStyle capStyle() const;
-    void setCapStyle(const Qt::PenCapStyle &newCapStyle);
+    void setCapStyle(Qt::PenCapStyle newCapStyle);
 
 Q_SIGNALS:
     void widthChanged();

@@ -60,17 +60,17 @@ public:
     bool isLabelVisible() const;
     void setLabelPosition(LabelPosition position);
     LabelPosition labelPosition();
-    void setLabelColor(QColor color);
+    void setLabelColor(const QColor &color);
     QColor labelColor() const;
     void setLabelFont(const QFont &font);
     QFont labelFont() const;
     void setLabelArmLengthFactor(qreal factor);
     qreal labelArmLengthFactor() const;
 
-    void setColor(QColor color);
+    void setColor(const QColor &color);
     QColor color() const;
 
-    void setBorderColor(QColor color);
+    void setBorderColor(const QColor &color);
     QColor borderColor() const;
     void setBorderWidth(qreal borderWidth);
     qreal borderWidth() const;

@@ -37,9 +37,9 @@ public:
     ~PointRenderer() override;
 
     void handlePolish(QXYSeries *series);
-    void afterPolish(QList<QAbstractSeries *> cleanupSeries);
+    void afterPolish(QList<QAbstractSeries *> &cleanupSeries);
     void updateSeries(QXYSeries *series);
-    void afterUpdate(QList<QAbstractSeries *> cleanupSeries);
+    void afterUpdate(QList<QAbstractSeries *> &cleanupSeries);
     bool handleMouseMove(QMouseEvent *event);
     bool handleMousePress(QMouseEvent *event);
     bool handleMouseRelease(QMouseEvent *event);
@@ -48,7 +48,7 @@ public:
 private:
     struct PointGroup
     {
-        QXYSeries *series;
+        QXYSeries *series = nullptr;
         QQuickShapePath *shapePath = nullptr;
         QList<QQuickPathElement *> paths;
         QList<QQuickItem *> markers;

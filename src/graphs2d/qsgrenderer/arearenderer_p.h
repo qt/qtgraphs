@@ -32,8 +32,8 @@ public:
     ~AreaRenderer() override;
 
     void handlePolish(QAreaSeries *series);
-    void afterPolish(QList<QAbstractSeries *> cleanupSeries);
-    void afterUpdate(QList<QAbstractSeries *> cleanupSeries);
+    void afterPolish(QList<QAbstractSeries *> &cleanupSeries);
+    void afterUpdate(QList<QAbstractSeries *> &cleanupSeries);
     void updateSeries(QAreaSeries *series);
     bool handleMousePress(QMouseEvent *event);
     bool handleHoverMove(QHoverEvent *event);
@@ -43,7 +43,7 @@ Q_SIGNALS:
 private:
     struct PointGroup
     {
-        QAreaSeries *series;
+        QAreaSeries *series = nullptr;
         QQuickShapePath *shapePath = nullptr;
         QList<QQuickCurve *> paths;
         qsizetype colorIndex = -1;

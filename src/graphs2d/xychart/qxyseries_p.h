@@ -27,7 +27,7 @@ public:
     QXYSeriesPrivate();
 
     void setPointSelected(qsizetype index, bool selected, bool &callSignal);
-    bool isPointSelected(qsizetype index);
+    bool isPointSelected(qsizetype index) const;
 
 protected:
     QList<QPointF> m_points;

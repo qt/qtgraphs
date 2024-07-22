@@ -15,7 +15,7 @@ QSplineControlAnimation::QSplineControlAnimation(QObject *parent)
 
 QSplineControlAnimation::~QSplineControlAnimation() {}
 
-void QSplineControlAnimation::setAnimatingValue(QVariant &start, QVariant &end)
+void QSplineControlAnimation::setAnimatingValue(const QVariant &start, const QVariant &end)
 {
     setStartValue(start);
     setEndValue(end);
@@ -83,12 +83,12 @@ void QSplineControlAnimation::end()
     emit series->update();
 }
 
-void QSplineControlAnimation::setOldState(QList<QPointF> oldState)
+void QSplineControlAnimation::setOldState(const QList<QPointF> &oldState)
 {
     m_oldState = oldState;
 }
 
-void QSplineControlAnimation::setNewState(QList<QPointF> newState)
+void QSplineControlAnimation::setNewState(const QList<QPointF> &newState)
 {
     m_newState = newState;
 }
