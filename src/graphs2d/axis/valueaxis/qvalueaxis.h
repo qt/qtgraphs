@@ -50,7 +50,7 @@ public:
     int subTickCount() const;
     void setTickAnchor(qreal anchor);
     qreal tickAnchor() const;
-    void setTickInterval(qreal insterval);
+    void setTickInterval(qreal interval);
     qreal tickInterval() const;
 
     //label formatting

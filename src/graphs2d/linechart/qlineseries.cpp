@@ -148,7 +148,7 @@ Qt::PenCapStyle QLineSeries::capStyle() const
     return d->m_capStyle;
 }
 
-void QLineSeries::setCapStyle(const Qt::PenCapStyle &newCapStyle)
+void QLineSeries::setCapStyle(Qt::PenCapStyle newCapStyle)
 {
     Q_D(QLineSeries);
     Qt::PenCapStyle validCapStyle = newCapStyle;

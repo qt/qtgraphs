@@ -10,7 +10,7 @@ QXYSeriesAnimation::QXYSeriesAnimation(QObject *parent)
 QXYSeriesAnimation::~QXYSeriesAnimation() {}
 
 // Hold state so previous values can be lerped
-void QXYSeriesAnimation::initialize(QList<QPointF> state)
+void QXYSeriesAnimation::initialize(const QList<QPointF> &state)
 {
     m_pointsState = state;
 }

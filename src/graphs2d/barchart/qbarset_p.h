@@ -40,8 +40,8 @@ public:
 
     void replace(qsizetype index, qreal value);
 
-    qreal pos(qsizetype index);
-    qreal value(qsizetype index);
+    qreal pos(qsizetype index) const;
+    qreal value(qsizetype index) const;
 
     void setVisualsDirty(bool dirty) { m_visualsDirty = dirty; }
     bool visualsDirty() const { return m_visualsDirty; }

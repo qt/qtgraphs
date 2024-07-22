@@ -36,14 +36,14 @@ public:
     explicit QGraphAnimation(QObject *parent = nullptr);
     ~QGraphAnimation() override;
 
-    virtual void setAnimatingValue(QVariant &start, QVariant &end) = 0;
+    virtual void setAnimatingValue(const QVariant &start, const QVariant &end) = 0;
     virtual void animate() = 0;
     virtual void end() = 0;
     QVariant interpolated(const QVariant &start, const QVariant &end, qreal progress) const override
         = 0;
 
     AnimationState animating() const;
-    void setAnimating(const AnimationState &newAnimating);
+    void setAnimating(AnimationState newAnimating);
 
 public Q_SLOTS:
     virtual void valueUpdated(const QVariant &value) = 0;
@@ -52,7 +52,7 @@ signals:
     void animatingChanged();
 
 private:
-    AnimationState m_animating;
+    AnimationState m_animating = AnimationState::Stopped;
 };
 
 QT_END_NAMESPACE

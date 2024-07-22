@@ -26,7 +26,7 @@ public:
     explicit QXYSeriesAnimation(QObject *parent = nullptr);
     ~QXYSeriesAnimation() override;
 
-    void initialize(QList<QPointF> state);
+    void initialize(const QList<QPointF> &state);
     void updateCurrent(QGraphTransition::TransitionType tt, int index);
 
 protected:
@@ -37,7 +37,7 @@ protected:
 
     // QGraphAnimation interface
 public:
-    void setAnimatingValue(QVariant &start, QVariant &end) override = 0;
+    void setAnimatingValue(const QVariant &start, const QVariant &end) override = 0;
     void animate() override = 0;
     void end() override = 0;
 

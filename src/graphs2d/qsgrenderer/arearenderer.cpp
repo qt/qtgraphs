@@ -276,7 +276,7 @@ void AreaRenderer::handlePolish(QAreaSeries *series)
     series->d_func()->setLegendData(legendDataList);
 }
 
-void AreaRenderer::afterPolish(QList<QAbstractSeries *> cleanupSeries)
+void AreaRenderer::afterPolish(QList<QAbstractSeries *> &cleanupSeries)
 {
     for (auto series : cleanupSeries) {
         auto areaSeries = qobject_cast<QAreaSeries *>(series);
@@ -293,7 +293,7 @@ void AreaRenderer::afterPolish(QList<QAbstractSeries *> cleanupSeries)
     }
 }
 
-void AreaRenderer::afterUpdate(QList<QAbstractSeries *> cleanupSeries)
+void AreaRenderer::afterUpdate(QList<QAbstractSeries *> &cleanupSeries)
 {
     Q_UNUSED(cleanupSeries);
 }

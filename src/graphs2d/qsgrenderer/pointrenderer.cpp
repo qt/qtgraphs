@@ -405,7 +405,7 @@ void PointRenderer::handlePolish(QXYSeries *series)
     updateLegendData(series, legendData);
 }
 
-void PointRenderer::afterPolish(QList<QAbstractSeries *> cleanupSeries)
+void PointRenderer::afterPolish(QList<QAbstractSeries *> &cleanupSeries)
 {
     for (auto series : cleanupSeries) {
         auto xySeries = qobject_cast<QXYSeries *>(series);
@@ -430,7 +430,7 @@ void PointRenderer::updateSeries(QXYSeries *series)
     Q_UNUSED(series);
 }
 
-void PointRenderer::afterUpdate(QList<QAbstractSeries *> cleanupSeries)
+void PointRenderer::afterUpdate(QList<QAbstractSeries *> &cleanupSeries)
 {
     Q_UNUSED(cleanupSeries);
 }

@@ -981,14 +981,14 @@ void QBarSetPrivate::replace(qsizetype index, qreal value)
     m_values.replace(index, QPointF(index, value));
 }
 
-qreal QBarSetPrivate::pos(qsizetype index)
+qreal QBarSetPrivate::pos(qsizetype index) const
 {
     if (index < 0 || index >= m_values.size())
         return 0;
     return m_values.at(index).x();
 }
 
-qreal QBarSetPrivate::value(qsizetype index)
+qreal QBarSetPrivate::value(qsizetype index) const
 {
     if (index < 0 || index >= m_values.size())
         return 0;

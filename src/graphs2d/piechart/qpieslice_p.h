@@ -20,9 +20,6 @@
 
 QT_BEGIN_NAMESPACE
 
-class PieRenderer;
-class QColor;
-class QFont;
 class QPieSeries;
 class QQuickPathArc;
 class QQuickPathLine;
@@ -67,19 +64,19 @@ private:
     QColor m_borderColor;
     qreal m_borderWidth;
 
-    QQuickShapePath *m_shapePath;
-    QQuickPathArc *m_largeArc;
-    QQuickPathLine *m_lineToCenter;
-    QQuickPathArc *m_smallArc;
-    QQuickPathLine *m_lineFromCenter;
+    QQuickShapePath *m_shapePath = nullptr;
+    QQuickPathArc *m_largeArc = nullptr;
+    QQuickPathLine *m_lineToCenter = nullptr;
+    QQuickPathArc *m_smallArc = nullptr;
+    QQuickPathLine *m_lineFromCenter = nullptr;
 
-    QQuickText *m_labelItem;
-    QQuickShape *m_labelShape;
-    QQuickShapePath *m_labelPath;
-    QQuickPathLine *m_labelArm;
-    QQuickPathLine *m_labelUnderline;
+    QQuickText *m_labelItem = nullptr;
+    QQuickShape *m_labelShape = nullptr;
+    QQuickShapePath *m_labelPath = nullptr;
+    QQuickPathLine *m_labelArm = nullptr;
+    QQuickPathLine *m_labelUnderline = nullptr;
 
-    QPieSeries *m_series;
+    QPieSeries *m_series = nullptr;
 
     Q_DECLARE_PUBLIC(QPieSlice)
 };

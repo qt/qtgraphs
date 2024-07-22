@@ -6,7 +6,6 @@
 
 QGraphAnimation::QGraphAnimation(QObject *parent)
     : QVariantAnimation(parent)
-    , m_animating(AnimationState::Stopped)
 {
     connect(this, &QVariantAnimation::valueChanged, this, &QGraphAnimation::valueUpdated);
     connect(this, &QVariantAnimation::finished, this, &QGraphAnimation::end);
@@ -22,7 +21,7 @@ QGraphAnimation::AnimationState QGraphAnimation::animating() const
     return m_animating;
 }
 
-void QGraphAnimation::setAnimating(const AnimationState &newAnimating)
+void QGraphAnimation::setAnimating(AnimationState newAnimating)
 {
     if (m_animating == newAnimating)
         return;

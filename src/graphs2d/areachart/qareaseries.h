@@ -61,10 +61,10 @@ public:
     void setLowerSeries(QXYSeries *newLowerSeries);
 
 Q_SIGNALS:
-    void colorChanged(QColor newColor);
-    void selectedColorChanged(QColor newSelectedColor);
-    void borderColorChanged(QColor newBorderColor);
-    void selectedBorderColorChanged(QColor newSelectedBorderColor);
+    void colorChanged(const QColor &newColor);
+    void selectedColorChanged(const QColor &newSelectedColor);
+    void borderColorChanged(const QColor &newBorderColor);
+    void selectedBorderColorChanged(const QColor &newSelectedBorderColor);
     void borderWidthChanged();
     void selectedChanged();
     void upperSeriesChanged();
