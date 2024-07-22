@@ -84,7 +84,7 @@ Q_SIGNALS:
     void textureChanged(const QImage &image);
     void textureFileChanged(const QString &filename);
     void wireframeColorChanged(const QColor &color);
-    void dataArrayChanged(const QSurfaceDataArray *array);
+    void dataArrayChanged(const QSurfaceDataArray &array);
     void shadingChanged(const Shading shading);
 
 protected:

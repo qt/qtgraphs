@@ -497,7 +497,7 @@ void QSurface3DSeries::setDataArray(const QSurfaceDataArray &newDataArray)
     Q_D(QSurface3DSeries);
     if (d->m_dataArray.data() != newDataArray.data()) {
         d->setDataArray(newDataArray);
-        emit dataArrayChanged(&newDataArray);
+        emit dataArrayChanged(newDataArray);
     }
 }
 

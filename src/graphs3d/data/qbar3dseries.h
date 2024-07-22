@@ -61,7 +61,7 @@ Q_SIGNALS:
     void rowColorsChanged(const QList<QColor> &rowcolors);
     void rowLabelsChanged();
     void columnLabelsChanged();
-    void dataArrayChanged(const QBarDataArray *array);
+    void dataArrayChanged(const QBarDataArray &array);
 
 private:
     Q_DISABLE_COPY(QBar3DSeries)
