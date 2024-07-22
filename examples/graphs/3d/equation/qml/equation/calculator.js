@@ -3,7 +3,6 @@
 
 // https://gist.github.com/tkrotoff/b0b1d39da340f5fc6c5e2a79a8b6cec0
 
-// WTF!
 // parseFloat('-0') => -0 vs parseFloat(-0) => 0
 // -0 === 0 => true vs Object.is(-0, 0) => false
 const minus0Hack = (value) => (Object.is(value, -0) ? '-0' : value);

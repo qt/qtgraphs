@@ -5,15 +5,21 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 import QtQuick.Dialogs
+//! [extendedsceneenvironment import]
 import QtQuick3D.Helpers
+//! [extendedsceneenvironment import]
+//! [scene import]
 import QtQuick3D
+//! [scene import]
 import QtGraphs
 
 // From https://stackoverflow.com/questions/2276021/evaluating-a-string-as-a-mathematical-expression-in-javascript
 // post by tanguy_k / https://gist.github.com/tkrotoff/b0b1d39da340f5fc6c5e2a79a8b6cec0
-// Name has been converted from #calculator.ts to calculator.js by a TypeScript to JavaScript
-// converter to be able to add it into the QML plugin
+// Name has been changed from #calculator.ts to calculator.js, and converted to JavaScript, to be
+// able to add it into the QML plugin
+//! [equation parser]
 import "calculator.js" as Calc
+//! [equation parser]
 
 pragma ComponentBehavior: Bound
 
@@ -24,10 +30,12 @@ Item {
 
     property var activeTheme: surfaceTheme
 
+    //! [error dialog]
     MessageDialog {
         id : messageDialog
         title: qsTr("Error")
         text: qsTr("Undefined behavior")
+        //! [error dialog]
         buttons: MessageDialog.Ok
         onButtonClicked: function (button, role) {
             if (role === MessageDialog.Ok)
@@ -49,39 +57,51 @@ Item {
         GradientStop { position: 0.0; color: "#373F26" } // Qt Brand color; Moss
     }
 
+    //! [data model]
     ListModel {
         id: dataModel
     }
+    //! [data model]
 
     function createDataPoints() {
         dataModel.clear()
         if (graphTypes.currentIndex === 2) {
+            //! [scatter data points]
             for (var i = xValues.first.value; i <= xValues.second.value; i += 0.333) {
                 for (var j = zValues.first.value; j <= zValues.second.value; j += 0.333)
                     addDataPoint(i, j)
             }
+            //! [scatter data points]
         } else {
+            //! [loop through rows and columns]
             for (i = xValues.first.value; i <= xValues.second.value; ++i) {
                 for (j = zValues.first.value; j <= zValues.second.value; ++j)
                     addDataPoint(i, j)
             }
+            //! [loop through rows and columns]
         }
     }
 
+    //! [replace x and y]
     function addDataPoint(i, j) {
         var filledEquation = equation.text.replace("x", i)
         filledEquation = filledEquation.replace("y", j)
+        //! [replace x and y]
+        //! [calculate and add data]
         try {
             var result = Calc.calculate(filledEquation)
             dataModel.append({"xPos": i, "yPos": result, "zPos": j})
         }
+        //! [calculate and add data]
+        //! [in case of error]
         catch(msg) {
             messageDialog.informativeText = msg.toString()
             messageDialog.open()
         }
+        //! [in case of error]
     }
 
-    Rectangle{
+    Rectangle {
         id: features
         anchors.top: parent.top
         anchors.right: parent.right
@@ -311,23 +331,25 @@ Item {
                 id: surfaceGraph
                 anchors.fill: parent
                 shadowQuality: Graphs3D.ShadowQuality.None
-                selectionMode: Graphs3D.SelectionFlag.Item
-                aspectRatio: 2.0
-                horizontalAspectRatio: 1.0
                 msaaSamples: 8
                 cameraPreset: Graphs3D.CameraPreset.IsometricRight
                 cameraZoomLevel: 80
+                //! [surface segment count]
                 axisX.segmentCount: 10
                 axisZ.segmentCount: 10
                 axisY.segmentCount: 10
+                //! [surface segment count]
 
+                //! [surface theme]
                 theme : GraphsTheme {
                     id: surfaceTheme
                     colorStyle: GraphsTheme.ColorStyle.RangeGradient
                     baseGradients: [ gradient1 ]
                     plotAreaBackgroundVisible: false
                 }
+                //! [surface theme]
 
+                //! [surface series]
                 Surface3DSeries {
                     id: surfaceSeries
                     itemLabelFormat: "(@xLabel, @zLabel): @yLabel"
@@ -339,6 +361,7 @@ Item {
                         rowRole: "zPos"
                     }
                 }
+                //! [surface series]
             }
         }
 
@@ -349,7 +372,6 @@ Item {
                 id: barGraph
                 anchors.fill: parent
                 shadowQuality: Graphs3D.ShadowQuality.None
-                selectionMode: Graphs3D.SelectionFlag.Item
                 msaaSamples: 8
                 cameraPreset: Graphs3D.CameraPreset.IsometricRight
                 cameraZoomLevel: 80
@@ -362,18 +384,19 @@ Item {
                     plotAreaBackgroundVisible: false
                 }
 
+                //! [bar series]
                 Bar3DSeries {
                     id: barSeries
                     itemLabelFormat: "@colLabel, @rowLabel: @valueLabel"
 
                     ItemModelBarDataProxy {
                         itemModel: dataModel
-
                         columnRole: "xPos"
                         valueRole: "yPos"
                         rowRole: "zPos"
                     }
                 }
+                //! [bar series]
             }
         }
 
@@ -384,9 +407,6 @@ Item {
                 id: scatterGraph
                 anchors.fill: parent
                 shadowQuality: Graphs3D.ShadowQuality.None
-                selectionMode: Graphs3D.SelectionFlag.Item
-                aspectRatio: 2.0
-                horizontalAspectRatio: 1.0
                 msaaSamples: 8
                 cameraPreset: Graphs3D.CameraPreset.IsometricRight
                 cameraZoomLevel: 80
@@ -394,11 +414,13 @@ Item {
                 axisZ.segmentCount: 10
                 axisY.segmentCount: 10
 
+                //! [scene environment]
                 environment: ExtendedSceneEnvironment {
                     backgroundMode: ExtendedSceneEnvironment.Color
                     clearColor: scatterTheme.backgroundColor
                     tonemapMode: ExtendedSceneEnvironment.TonemapModeNone
                     glowEnabled: true
+                    //! [scene environment]
                     glowStrength: 1.2
                     glowIntensity: 8
                     glowBloom: 1
@@ -410,17 +432,13 @@ Item {
                                | ExtendedSceneEnvironment.GlowLevel.Five
                 }
 
-
+                //! [imported scene]
                 importScene: Node {
                     Model {
                         scale: Qt.vector3d(0.1, 0.1, 0.1)
                         source: "#Rectangle"
-                        x: 0
-                        z: 0
                         y: -2
                         eulerRotation.x: -90
-                        castsReflections: false
-                        receivesReflections: false
                         materials: [
                             PrincipledMaterial {
                                 baseColor: "#373F26"
@@ -431,21 +449,27 @@ Item {
                         ]
                     }
                 }
+                //! [imported scene]
 
                 theme : GraphsTheme {
                     id: scatterTheme
                     colorStyle: GraphsTheme.ColorStyle.RangeGradient
-                    colorScheme: Qt.Dark
+                    //! [scatter theme]
                     baseGradients: [ gradient2 ]
+                    colorScheme: Qt.Dark
                     plotAreaBackgroundVisible: false
                     labelsVisible: false
                     gridVisible: false
+                    //! [scatter theme]
                 }
 
+                //! [scatter series]
                 Scatter3DSeries {
                     id: scatterSeries
                     itemLabelFormat: "(@xLabel, @zLabel): @yLabel"
+                    //! [mesh type]
                     mesh: Abstract3DSeries.Mesh.Point
+                    //! [mesh type]
 
                     ItemModelScatterDataProxy {
                         itemModel: dataModel
@@ -454,6 +478,7 @@ Item {
                         zPosRole: "zPos"
                     }
                 }
+                //! [scatter series]
             }
         }
     }
