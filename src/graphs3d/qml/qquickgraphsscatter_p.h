@@ -116,7 +116,7 @@ Q_SIGNALS:
 protected:
     void calculateSceneScalingFactors() override;
     void componentComplete() override;
-    bool doPicking(const QPointF &position) override;
+    bool doPicking(QPointF position) override;
     void updateShadowQuality(QtGraphs3D::ShadowQuality quality) override;
     void updateLightStrength() override;
     void startRecordingRemovesAndInserts() override;
@@ -209,7 +209,7 @@ private:
                             const QString &materialName);
     void updateMaterialProperties(QQuick3DModel *item,
                                   QQuick3DTexture *texture,
-                                  const QColor &color = Qt::white,
+                                  QColor color = Qt::white,
                                   const bool transparency = false);
     QQuick3DTexture *createTexture();
     QQuick3DModel *createDataItemModel(QAbstract3DSeries::Mesh meshType);
@@ -230,7 +230,7 @@ private:
     QColor m_selectedSeriesColor;
     bool selectedItemInSeries(const QScatter3DSeries *series);
 
-    bool isDotPositionInAxisRange(const QVector3D &dotPos);
+    bool isDotPositionInAxisRange(QVector3D dotPos);
 
     QQmlComponent *createRepeaterDelegate(QAbstract3DSeries::Mesh MeshType);
     float calculatePointScaleSize();

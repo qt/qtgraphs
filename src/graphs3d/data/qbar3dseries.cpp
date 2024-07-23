@@ -293,7 +293,7 @@ QBarDataProxy *QBar3DSeries::dataProxy() const
  *
  * \sa Q3DGraphsWidgetItem::clearSelection()
  */
-void QBar3DSeries::setSelectedBar(const QPoint &position)
+void QBar3DSeries::setSelectedBar(QPoint position)
 {
     Q_D(QBar3DSeries);
     // Don't do this in private to avoid loops, as that is used for callback from
@@ -699,7 +699,7 @@ void QBar3DSeriesPrivate::createItemLabel()
     m_itemLabel.replace(seriesNameTag, m_name);
 }
 
-void QBar3DSeriesPrivate::setSelectedBar(const QPoint &position)
+void QBar3DSeriesPrivate::setSelectedBar(QPoint position)
 {
     Q_Q(QBar3DSeries);
     if (position != m_selectedBar) {

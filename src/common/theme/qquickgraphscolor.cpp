@@ -11,7 +11,7 @@ QQuickGraphsColor::QQuickGraphsColor(QObject *parent)
 
 QQuickGraphsColor::~QQuickGraphsColor() {}
 
-void QQuickGraphsColor::setColor(const QColor &color)
+void QQuickGraphsColor::setColor(QColor color)
 {
     if (m_color != color) {
         m_color = color;

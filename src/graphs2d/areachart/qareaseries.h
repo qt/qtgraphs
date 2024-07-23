@@ -37,16 +37,16 @@ public:
     QAbstractSeries::SeriesType type() const override;
 
     QColor color() const;
-    void setColor(const QColor &newColor);
+    void setColor(QColor newColor);
 
     QColor selectedColor() const;
-    void setSelectedColor(const QColor &newColor);
+    void setSelectedColor(QColor newColor);
 
     QColor borderColor() const;
-    void setBorderColor(const QColor &newBorderColor);
+    void setBorderColor(QColor newBorderColor);
 
     QColor selectedBorderColor() const;
-    void setSelectedBorderColor(const QColor &newSelectedBorderColor);
+    void setSelectedBorderColor(QColor newSelectedBorderColor);
 
     qreal borderWidth() const;
     void setBorderWidth(qreal newBorderWidth);
@@ -61,10 +61,10 @@ public:
     void setLowerSeries(QXYSeries *newLowerSeries);
 
 Q_SIGNALS:
-    void colorChanged(const QColor &newColor);
-    void selectedColorChanged(const QColor &newSelectedColor);
-    void borderColorChanged(const QColor &newBorderColor);
-    void selectedBorderColorChanged(const QColor &newSelectedBorderColor);
+    void colorChanged(QColor newColor);
+    void selectedColorChanged(QColor newSelectedColor);
+    void borderColorChanged(QColor newBorderColor);
+    void selectedBorderColorChanged(QColor newSelectedBorderColor);
     void borderWidthChanged();
     void selectedChanged();
     void upperSeriesChanged();

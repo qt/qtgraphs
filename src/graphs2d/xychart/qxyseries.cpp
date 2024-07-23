@@ -104,7 +104,7 @@ void QXYSeries::append(qreal x, qreal y)
 /*!
     Appends a point with the coordinates \a point to the series.
 */
-void QXYSeries::append(const QPointF &point)
+void QXYSeries::append(QPointF point)
 {
     Q_D(QXYSeries);
 
@@ -157,7 +157,7 @@ void QXYSeries::replace(qreal oldX, qreal oldY, qreal newX, qreal newY)
     with the coordinates \a newPoint. Does nothing if the old point does
     not exist.
 */
-void QXYSeries::replace(const QPointF &oldPoint, const QPointF &newPoint)
+void QXYSeries::replace(QPointF oldPoint, QPointF newPoint)
 {
     Q_D(QXYSeries);
     qsizetype index = d->m_points.indexOf(oldPoint);
@@ -189,7 +189,7 @@ void QXYSeries::replace(qsizetype index, qreal newX, qreal newY)
     Replaces the point at the position specified by \a index with the point
     that has the coordinates \a newPoint.
 */
-void QXYSeries::replace(qsizetype index, const QPointF &newPoint)
+void QXYSeries::replace(qsizetype index, QPointF newPoint)
 {
     Q_D(QXYSeries);
     if (isValidValue(newPoint)) {
@@ -244,7 +244,7 @@ void QXYSeries::remove(qreal x, qreal y)
     Removes the point with the coordinates \a point from the series. Does
     nothing if the point does not exist.
 */
-void QXYSeries::remove(const QPointF &point)
+void QXYSeries::remove(QPointF point)
 {
     Q_D(QXYSeries);
     qsizetype index = d->m_points.indexOf(point);
@@ -323,7 +323,7 @@ void QXYSeries::removeMultiple(qsizetype index, qsizetype count)
     Takes a point, specified by \a point, out of the series if found. Returns \c true if
     the operation is successful.
 */
-bool QXYSeries::take(const QPointF &point)
+bool QXYSeries::take(QPointF point)
 {
     Q_D(QXYSeries);
 
@@ -352,7 +352,7 @@ bool QXYSeries::take(const QPointF &point)
     than the number of points in the series, the point is appended to the
     list of points.
 */
-void QXYSeries::insert(qsizetype index, const QPointF &point)
+void QXYSeries::insert(qsizetype index, QPointF point)
 {
     Q_D(QXYSeries);
     if (isValidValue(point)) {
@@ -618,7 +618,7 @@ QList<QPointF> QXYSeries::points() const
     Returns the point at the position specified by \a index. Returns (0, 0) if
     the index is not valid.
 */
-const QPointF &QXYSeries::at(qsizetype index) const
+QPointF QXYSeries::at(qsizetype index) const
 {
     Q_D(const QXYSeries);
     return d->m_points.at(index);
@@ -633,7 +633,7 @@ const QPointF &QXYSeries::at(qsizetype index) const
     Finds and returns the index of the first matching point found as defined by \a point.
     Returns -1 if the point is not found.
 */
-qsizetype QXYSeries::find(const QPointF &point) const
+qsizetype QXYSeries::find(QPointF point) const
 {
     Q_D(const QXYSeries);
 
@@ -670,7 +670,7 @@ QXYSeries::~QXYSeries() {}
     The main color of the series. For LineSeries this means the line color and
     for ScatterSeries the color of the point
 */
-void QXYSeries::setColor(const QColor &newColor)
+void QXYSeries::setColor(QColor newColor)
 {
     Q_D(QXYSeries);
     if (color() != newColor) {
@@ -695,7 +695,7 @@ QColor QXYSeries::color() const
     The main color of the selected series. For LineSeries this means the line color and
     for ScatterSeries the color of the point
 */
-void QXYSeries::setSelectedColor(const QColor &color)
+void QXYSeries::setSelectedColor(QColor color)
 {
     Q_D(QXYSeries);
     if (selectedColor() != color) {
@@ -846,7 +846,7 @@ void QXYSeries::setDraggable(bool newDraggable)
     emit draggableChanged();
 }
 
-QXYSeries &QXYSeries::operator<< (const QPointF &point)
+QXYSeries &QXYSeries::operator<<(QPointF point)
 {
     append(point);
     return *this;

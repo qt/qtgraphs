@@ -50,8 +50,8 @@ class Q_GRAPHS_EXPORT QCustom3DVolume : public QCustom3DItem
 
 public:
     explicit QCustom3DVolume(QObject *parent = nullptr);
-    explicit QCustom3DVolume(const QVector3D &position,
-                             const QVector3D &scaling,
+    explicit QCustom3DVolume(QVector3D position,
+                             QVector3D scaling,
                              const QQuaternion &rotation,
                              int textureWidth,
                              int textureHeight,
@@ -104,13 +104,13 @@ public:
     void setDrawSliceFrames(bool enable);
     bool drawSliceFrames() const;
 
-    void setSliceFrameColor(const QColor &color);
+    void setSliceFrameColor(QColor color);
     QColor sliceFrameColor() const;
-    void setSliceFrameWidths(const QVector3D &values);
+    void setSliceFrameWidths(QVector3D values);
     QVector3D sliceFrameWidths() const;
-    void setSliceFrameGaps(const QVector3D &values);
+    void setSliceFrameGaps(QVector3D values);
     QVector3D sliceFrameGaps() const;
-    void setSliceFrameThicknesses(const QVector3D &values);
+    void setSliceFrameThicknesses(QVector3D values);
     QVector3D sliceFrameThicknesses() const;
 
     QImage renderSlice(Qt::Axis axis, int index);
@@ -130,10 +130,10 @@ Q_SIGNALS:
     void useHighDefShaderChanged(bool enabled);
     void drawSlicesChanged(bool enabled);
     void drawSliceFramesChanged(bool enabled);
-    void sliceFrameColorChanged(const QColor &color);
-    void sliceFrameWidthsChanged(const QVector3D &values);
-    void sliceFrameGapsChanged(const QVector3D &values);
-    void sliceFrameThicknessesChanged(const QVector3D &values);
+    void sliceFrameColorChanged(QColor color);
+    void sliceFrameWidthsChanged(QVector3D values);
+    void sliceFrameGapsChanged(QVector3D values);
+    void sliceFrameThicknessesChanged(QVector3D values);
 
 private:
     Q_DISABLE_COPY(QCustom3DVolume)

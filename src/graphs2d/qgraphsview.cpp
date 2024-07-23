@@ -351,7 +351,7 @@ QColor QGraphsView::shadowColor() const
     return m_shadowColor;
 }
 
-void QGraphsView::setShadowColor(const QColor &newShadowColor)
+void QGraphsView::setShadowColor(QColor newShadowColor)
 {
     if (m_shadowColor == newShadowColor)
         return;

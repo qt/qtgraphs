@@ -631,7 +631,7 @@ void QQuickGraphsScatter::updateInstancedMaterialProperties(ScatterModel *graphM
 
 void QQuickGraphsScatter::updateMaterialProperties(QQuick3DModel *item,
                                                    QQuick3DTexture *texture,
-                                                   const QColor &color,
+                                                   QColor color,
                                                    const bool transparency)
 {
     QQmlListReference materialsRef(item, "materials");
@@ -880,7 +880,7 @@ bool QQuickGraphsScatter::selectedItemInSeries(const QScatter3DSeries *series)
     return (m_selectedItem != -1 && m_selectedItemSeries == series);
 }
 
-bool QQuickGraphsScatter::isDotPositionInAxisRange(const QVector3D &dotPos)
+bool QQuickGraphsScatter::isDotPositionInAxisRange(QVector3D dotPos)
 {
     return ((dotPos.x() >= axisX()->min() && dotPos.x() <= axisX()->max())
             && (dotPos.y() >= axisY()->min() && dotPos.y() <= axisY()->max())
@@ -1330,7 +1330,7 @@ void QQuickGraphsScatter::handleItemsInserted(qsizetype startIndex, qsizetype co
     emitNeedRender();
 }
 
-bool QQuickGraphsScatter::doPicking(const QPointF &position)
+bool QQuickGraphsScatter::doPicking(QPointF position)
 {
     if (!QQuickGraphsItem::doPicking(position))
         return false;

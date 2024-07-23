@@ -299,7 +299,7 @@ QSurfaceDataProxy *QSurface3DSeries::dataProxy() const
  *
  * \sa Q3DGraphsWidgetItem::clearSelection()
  */
-void QSurface3DSeries::setSelectedPoint(const QPoint &position)
+void QSurface3DSeries::setSelectedPoint(QPoint position)
 {
     Q_D(QSurface3DSeries);
     // Don't do this in private to avoid loops, as that is used for callback from
@@ -460,7 +460,7 @@ QString QSurface3DSeries::textureFile() const
  *
  * \brief The color for the surface wireframe.
  */
-void QSurface3DSeries::setWireframeColor(const QColor &color)
+void QSurface3DSeries::setWireframeColor(QColor color)
 {
     Q_D(QSurface3DSeries);
     if (d->m_wireframeColor != color) {
@@ -644,7 +644,7 @@ void QSurface3DSeriesPrivate::createItemLabel()
     m_itemLabel.replace(seriesNameTag, m_name);
 }
 
-void QSurface3DSeriesPrivate::setSelectedPoint(const QPoint &position)
+void QSurface3DSeriesPrivate::setSelectedPoint(QPoint position)
 {
     Q_Q(QSurface3DSeries);
     if (position != m_selectedPoint) {
@@ -681,7 +681,7 @@ void QSurface3DSeriesPrivate::setTexture(const QImage &texture)
         static_cast<QQuickGraphsSurface *>(m_graph)->updateSurfaceTexture(q);
 }
 
-void QSurface3DSeriesPrivate::setWireframeColor(const QColor &color)
+void QSurface3DSeriesPrivate::setWireframeColor(QColor color)
 {
     m_wireframeColor = color;
     if (m_graph)

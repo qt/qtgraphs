@@ -31,11 +31,11 @@ public:
     void connectGraphAndProxy(QQuickGraphsItem *newGraph) override;
     void createItemLabel() override;
 
-    void setSelectedPoint(const QPoint &position);
+    void setSelectedPoint(QPoint position);
     void setShading(const QSurface3DSeries::Shading shading);
     void setDrawMode(QSurface3DSeries::DrawFlags mode);
     void setTexture(const QImage &texture);
-    void setWireframeColor(const QColor &color);
+    void setWireframeColor(QColor color);
 
     void setDataArray(const QSurfaceDataArray &newDataArray);
     void clearRow(qsizetype rowIndex);

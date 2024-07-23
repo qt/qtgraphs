@@ -30,12 +30,12 @@ public:
     QBarSetPrivate(const QString &label);
     ~QBarSetPrivate() override;
 
-    void append(const QPointF &value);
+    void append(QPointF value);
     void append(const QList<QPointF> &values);
     void append(const QList<qreal> &values);
 
     void insert(qsizetype index, qreal value);
-    void insert(qsizetype index, const QPointF &value);
+    void insert(qsizetype index, QPointF value);
     qsizetype remove(qsizetype index, qsizetype count);
 
     void replace(qsizetype index, qreal value);

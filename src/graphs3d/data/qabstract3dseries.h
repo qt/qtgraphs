@@ -95,22 +95,22 @@ public:
 
     void setMeshRotation(const QQuaternion &rotation);
     QQuaternion meshRotation() const;
-    Q_INVOKABLE void setMeshAxisAndAngle(const QVector3D &axis, float angle);
+    Q_INVOKABLE void setMeshAxisAndAngle(QVector3D axis, float angle);
 
     void setUserDefinedMesh(const QString &fileName);
     QString userDefinedMesh() const;
 
     void setColorStyle(QGraphsTheme::ColorStyle style);
     QGraphsTheme::ColorStyle colorStyle() const;
-    void setBaseColor(const QColor &color);
+    void setBaseColor(QColor color);
     QColor baseColor() const;
     void setBaseGradient(const QLinearGradient &gradient);
     QLinearGradient baseGradient() const;
-    void setSingleHighlightColor(const QColor &color);
+    void setSingleHighlightColor(QColor color);
     QColor singleHighlightColor() const;
     void setSingleHighlightGradient(const QLinearGradient &gradient);
     QLinearGradient singleHighlightGradient() const;
-    void setMultiHighlightColor(const QColor &color);
+    void setMultiHighlightColor(QColor color);
     QColor multiHighlightColor() const;
     void setMultiHighlightGradient(const QLinearGradient &gradient);
     QLinearGradient multiHighlightGradient() const;
@@ -130,11 +130,11 @@ Q_SIGNALS:
     void meshRotationChanged(const QQuaternion &rotation);
     void userDefinedMeshChanged(const QString &fileName);
     void colorStyleChanged(QGraphsTheme::ColorStyle style);
-    void baseColorChanged(const QColor &color);
+    void baseColorChanged(QColor color);
     void baseGradientChanged(const QLinearGradient &gradient);
-    void singleHighlightColorChanged(const QColor &color);
+    void singleHighlightColorChanged(QColor color);
     void singleHighlightGradientChanged(const QLinearGradient &gradient);
-    void multiHighlightColorChanged(const QColor &color);
+    void multiHighlightColorChanged(QColor color);
     void multiHighlightGradientChanged(const QLinearGradient &gradient);
     void nameChanged(const QString &name);
     void itemLabelChanged(const QString &label);

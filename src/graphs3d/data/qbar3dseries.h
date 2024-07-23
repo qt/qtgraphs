@@ -35,7 +35,7 @@ public:
     void setDataProxy(QBarDataProxy *proxy);
     QBarDataProxy *dataProxy() const;
 
-    void setSelectedBar(const QPoint &position);
+    void setSelectedBar(QPoint position);
     QPoint selectedBar() const;
     static QPoint invalidSelectionPosition();
 
@@ -56,7 +56,7 @@ public:
 
 Q_SIGNALS:
     void dataProxyChanged(QBarDataProxy *proxy);
-    void selectedBarChanged(const QPoint &position);
+    void selectedBarChanged(QPoint position);
     void meshAngleChanged(float angle);
     void rowColorsChanged(const QList<QColor> &rowcolors);
     void rowLabelsChanged();

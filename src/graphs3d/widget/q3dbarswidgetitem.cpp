@@ -229,7 +229,7 @@ float Q3DBarsWidgetItem::barThickness() const
  *
  * \sa barSpacingRelative, multiSeriesUniform, barSeriesMargin
  */
-void Q3DBarsWidgetItem::setBarSpacing(const QSizeF &spacing)
+void Q3DBarsWidgetItem::setBarSpacing(QSizeF spacing)
 {
     graphBars()->setBarSpacing(spacing);
     emit barSpacingChanged(spacing);
@@ -272,7 +272,7 @@ bool Q3DBarsWidgetItem::isBarSpacingRelative() const
  *
  * \sa barSpacing
  */
-void Q3DBarsWidgetItem::setBarSeriesMargin(const QSizeF &margin)
+void Q3DBarsWidgetItem::setBarSeriesMargin(QSizeF margin)
 {
     graphBars()->setBarSeriesMargin(margin);
     emit barSeriesMarginChanged(margin);

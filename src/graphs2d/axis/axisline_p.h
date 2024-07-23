@@ -37,7 +37,7 @@ public:
     void setSmoothing(qreal newSmoothing);
 
     QColor color() const;
-    void setColor(const QColor &newColor);
+    void setColor(QColor newColor);
 
     qreal lineWidth() const;
     void setLineWidth(qreal newLineWidth);

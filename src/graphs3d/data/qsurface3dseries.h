@@ -51,7 +51,7 @@ public:
     void setDataProxy(QSurfaceDataProxy *proxy);
     QSurfaceDataProxy *dataProxy() const;
 
-    void setSelectedPoint(const QPoint &position);
+    void setSelectedPoint(QPoint position);
     QPoint selectedPoint() const;
     static QPoint invalidSelectionPosition();
 
@@ -68,7 +68,7 @@ public:
     void setTextureFile(const QString &filename);
     QString textureFile() const;
 
-    void setWireframeColor(const QColor &color);
+    void setWireframeColor(QColor color);
     QColor wireframeColor() const;
 
     void setDataArray(const QSurfaceDataArray &newDataArray);
@@ -78,12 +78,12 @@ public:
 
 Q_SIGNALS:
     void dataProxyChanged(QSurfaceDataProxy *proxy);
-    void selectedPointChanged(const QPoint &position);
+    void selectedPointChanged(QPoint position);
     void flatShadingSupportedChanged(bool enabled);
     void drawModeChanged(QSurface3DSeries::DrawFlags mode);
     void textureChanged(const QImage &image);
     void textureFileChanged(const QString &filename);
-    void wireframeColorChanged(const QColor &color);
+    void wireframeColorChanged(QColor color);
     void dataArrayChanged(const QSurfaceDataArray &array);
     void shadingChanged(const Shading shading);
 

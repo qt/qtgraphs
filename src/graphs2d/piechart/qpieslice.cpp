@@ -491,7 +491,7 @@ QPieSlice::LabelPosition QPieSlice::labelPosition()
     return d->m_labelPosition;
 }
 
-void QPieSlice::setLabelColor(const QColor &color)
+void QPieSlice::setLabelColor(QColor color)
 {
     Q_D(QPieSlice);
     if (d->m_labelColor == color)
@@ -593,7 +593,7 @@ qreal QPieSlice::explodeDistanceFactor() const
     return d->m_explodeDistanceFactor;
 }
 
-void QPieSlice::setColor(const QColor &color)
+void QPieSlice::setColor(QColor color)
 {
     Q_D(QPieSlice);
     if (d->m_color == color)
@@ -609,7 +609,7 @@ QColor QPieSlice::color() const
     return d->m_color;
 }
 
-void QPieSlice::setBorderColor(const QColor &borderColor)
+void QPieSlice::setBorderColor(QColor borderColor)
 {
     Q_D(QPieSlice);
     if (d->m_borderColor == borderColor)

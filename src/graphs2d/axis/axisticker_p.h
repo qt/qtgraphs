@@ -57,10 +57,10 @@ public:
     void setDisplacement(qreal newDisplacement);
 
     QColor subTickColor() const;
-    void setSubTickColor(const QColor &newSubTickColor);
+    void setSubTickColor(QColor newSubTickColor);
 
     QColor tickColor() const;
-    void setTickColor(const QColor &newTickColor);
+    void setTickColor(QColor newTickColor);
 
     qreal subTickLineWidth() const;
     void setSubTickLineWidth(qreal newSubTickLineWidth);

@@ -229,7 +229,7 @@ QRect Q3DScene::primarySubViewport() const
     return primary;
 }
 
-void Q3DScene::setPrimarySubViewport(const QRect &primarySubViewport)
+void Q3DScene::setPrimarySubViewport(QRect primarySubViewport)
 {
     Q_D(Q3DScene);
     if (d->m_primarySubViewport != primarySubViewport) {
@@ -263,7 +263,7 @@ void Q3DScene::setPrimarySubViewport(const QRect &primarySubViewport)
  * \note If subviews are superimposed, and the given \a point resides inside
  * both, result is \c true only when the primary subview is on top.
  */
-bool Q3DScene::isPointInPrimarySubView(const QPoint &point)
+bool Q3DScene::isPointInPrimarySubView(QPoint point)
 {
     Q_D(Q3DScene);
     int x = point.x();
@@ -281,7 +281,7 @@ bool Q3DScene::isPointInPrimarySubView(const QPoint &point)
  * subviews are superimposed, and the given \a point resides inside both, result
  * is \c true only when the secondary subview is on top.
  */
-bool Q3DScene::isPointInSecondarySubView(const QPoint &point)
+bool Q3DScene::isPointInSecondarySubView(QPoint point)
 {
     Q_D(Q3DScene);
     int x = point.x();
@@ -312,7 +312,7 @@ QRect Q3DScene::secondarySubViewport() const
     return secondary;
 }
 
-void Q3DScene::setSecondarySubViewport(const QRect &secondarySubViewport)
+void Q3DScene::setSecondarySubViewport(QRect secondarySubViewport)
 {
     Q_D(Q3DScene);
     if (d->m_secondarySubViewport != secondarySubViewport) {
@@ -355,7 +355,7 @@ void Q3DScene::setSecondarySubViewport(const QRect &secondarySubViewport)
  *
  * \sa Q3DGraphsWidgetItem::selectedElement
  */
-void Q3DScene::setSelectionQueryPosition(const QPoint &point)
+void Q3DScene::setSelectionQueryPosition(QPoint point)
 {
     Q_D(Q3DScene);
     if (point != d->m_selectionQueryPosition) {
@@ -368,7 +368,7 @@ void Q3DScene::setSelectionQueryPosition(const QPoint &point)
     }
 }
 
-const QPoint Q3DScene::selectionQueryPosition() const
+QPoint Q3DScene::selectionQueryPosition() const
 {
     const Q_D(Q3DScene);
     return d->m_selectionQueryPosition;
@@ -404,7 +404,7 @@ QPoint Q3DScene::invalidSelectionPoint() const
  *
  * \sa Q3DGraphsWidgetItem::queriedGraphPosition
  */
-void Q3DScene::setGraphPositionQuery(const QPoint &point)
+void Q3DScene::setGraphPositionQuery(QPoint point)
 {
     Q_D(Q3DScene);
     if (point != d->m_graphPositionQueryPosition) {
@@ -573,7 +573,7 @@ void Q3DScenePrivate::sync(Q3DScenePrivate &other)
     other.m_sceneDirty = false;
 }
 
-void Q3DScenePrivate::setViewport(const QRect &viewport)
+void Q3DScenePrivate::setViewport(const QRect viewport)
 {
     Q_Q(Q3DScene);
     if (m_viewport != viewport && viewport.isValid()) {
@@ -601,7 +601,7 @@ void Q3DScenePrivate::setViewportSize(int width, int height)
  * With declarative graphs this is equal to the size of the QQuickWindow and
  * can be different from the bounding rectangle.
  */
-void Q3DScenePrivate::setWindowSize(const QSize &size)
+void Q3DScenePrivate::setWindowSize(QSize size)
 {
     Q_Q(Q3DScene);
     if (m_windowSize != size) {
@@ -629,7 +629,7 @@ void Q3DScenePrivate::markDirty()
     emit q->needRender();
 }
 
-bool Q3DScenePrivate::isInArea(const QRect &area, int x, int y) const
+bool Q3DScenePrivate::isInArea(const QRect area, int x, int y) const
 {
     int areaMinX = area.x();
     int areaMaxX = area.x() + area.width();

@@ -94,7 +94,7 @@ public:
     //title handling
     bool isTitleVisible() const;
     void setTitleVisible(bool visible = true);
-    void setTitleColor(const QColor &color);
+    void setTitleColor(QColor color);
     QColor titleColor() const;
     void setTitleFont(const QFont &font);
     QFont titleFont() const;
@@ -119,7 +119,7 @@ Q_SIGNALS:
     void gridVisibleChanged(bool visible);
     void subGridVisibleChanged(bool visible);
     void titleTextChanged(const QString &title);
-    void titleColorChanged(const QColor &color);
+    void titleColorChanged(QColor color);
     void titleVisibleChanged(bool visible);
     void titleFontChanged(const QFont &font);
     void update();

@@ -271,7 +271,7 @@ void QBarDataProxy::setItem(qsizetype rowIndex, qsizetype columnIndex, QBarDataI
  * The x-value of \a position indicates the row and the y-value indicates the
  * column.
  */
-void QBarDataProxy::setItem(const QPoint &position, QBarDataItem item)
+void QBarDataProxy::setItem(QPoint position, QBarDataItem item)
 {
     setItem(position.x(), position.y(), item);
 }
@@ -474,7 +474,7 @@ const QBarDataItem &QBarDataProxy::itemAt(qsizetype rowIndex, qsizetype columnIn
  * \a position indicates the row and the y-value indicates the column. The item
  * is guaranteed to be valid only until the next call that modifies data.
  */
-const QBarDataItem &QBarDataProxy::itemAt(const QPoint &position) const
+const QBarDataItem &QBarDataProxy::itemAt(QPoint position) const
 {
     return itemAt(position.x(), position.y());
 }

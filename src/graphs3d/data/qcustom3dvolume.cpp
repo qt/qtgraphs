@@ -341,8 +341,8 @@ QCustom3DVolume::QCustom3DVolume(QObject *parent)
  *
  * \sa textureData, setTextureFormat(), colorTable
  */
-QCustom3DVolume::QCustom3DVolume(const QVector3D &position,
-                                 const QVector3D &scaling,
+QCustom3DVolume::QCustom3DVolume(QVector3D position,
+                                 QVector3D scaling,
                                  const QQuaternion &rotation,
                                  int textureWidth,
                                  int textureHeight,
@@ -1120,7 +1120,7 @@ bool QCustom3DVolume::drawSliceFrames() const
  *
  * \sa drawSliceFrames
  */
-void QCustom3DVolume::setSliceFrameColor(const QColor &color)
+void QCustom3DVolume::setSliceFrameColor(QColor color)
 {
     Q_D(QCustom3DVolume);
     if (d->m_sliceFrameColor != color) {
@@ -1151,7 +1151,7 @@ QColor QCustom3DVolume::sliceFrameColor() const
  *
  * \sa drawSliceFrames
  */
-void QCustom3DVolume::setSliceFrameWidths(const QVector3D &values)
+void QCustom3DVolume::setSliceFrameWidths(QVector3D values)
 {
     Q_D(QCustom3DVolume);
     if (values.x() < 0.0f || values.y() < 0.0f || values.z() < 0.0f) {
@@ -1183,7 +1183,7 @@ QVector3D QCustom3DVolume::sliceFrameWidths() const
  *
  * \sa drawSliceFrames
  */
-void QCustom3DVolume::setSliceFrameGaps(const QVector3D &values)
+void QCustom3DVolume::setSliceFrameGaps(QVector3D values)
 {
     Q_D(QCustom3DVolume);
     if (values.x() < 0.0f || values.y() < 0.0f || values.z() < 0.0f) {
@@ -1214,7 +1214,7 @@ QVector3D QCustom3DVolume::sliceFrameGaps() const
  *
  * \sa drawSliceFrames
  */
-void QCustom3DVolume::setSliceFrameThicknesses(const QVector3D &values)
+void QCustom3DVolume::setSliceFrameThicknesses(QVector3D values)
 {
     Q_D(QCustom3DVolume);
     if (values.x() < 0.0f || values.y() < 0.0f || values.z() < 0.0f) {
@@ -1272,8 +1272,8 @@ QCustom3DVolumePrivate::QCustom3DVolumePrivate()
     m_meshFile = QStringLiteral(":/defaultMeshes/barMeshFull");
 }
 
-QCustom3DVolumePrivate::QCustom3DVolumePrivate(const QVector3D &position,
-                                               const QVector3D &scaling,
+QCustom3DVolumePrivate::QCustom3DVolumePrivate(QVector3D position,
+                                               QVector3D scaling,
                                                const QQuaternion &rotation,
                                                int textureWidth,
                                                int textureHeight,

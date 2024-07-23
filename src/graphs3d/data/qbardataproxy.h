@@ -39,7 +39,7 @@ public:
 
     const QBarDataRow &rowAt(qsizetype rowIndex) const;
     const QBarDataItem &itemAt(qsizetype rowIndex, qsizetype columnIndex) const;
-    const QBarDataItem &itemAt(const QPoint &position) const;
+    const QBarDataItem &itemAt(QPoint position) const;
 
     void resetArray();
     void resetArray(QBarDataArray newArray);
@@ -51,7 +51,7 @@ public:
     void setRows(qsizetype rowIndex, QBarDataArray rows, QStringList labels);
 
     void setItem(qsizetype rowIndex, qsizetype columnIndex, QBarDataItem item);
-    void setItem(const QPoint &position, QBarDataItem item);
+    void setItem(QPoint position, QBarDataItem item);
 
     qsizetype addRow(QBarDataRow row);
     qsizetype addRow(QBarDataRow row, QString label);

@@ -102,7 +102,7 @@ public:
     void updateSurfaceTexture(QSurface3DSeries *series);
 
     static QPoint invalidSelectionPosition();
-    void setSelectedPoint(const QPoint &position, QSurface3DSeries *series, bool enterSlice);
+    void setSelectedPoint(QPoint position, QSurface3DSeries *series, bool enterSlice);
 
     inline QSurface3DSeries *selectedSeries() const { return m_selectedSeries; }
     void setSelectionMode(QtGraphs3D::SelectionFlags mode) override;
@@ -154,10 +154,10 @@ protected:
     void updateSingleHighlightColor() override;
     void updateLightStrength() override;
     void handleThemeTypeChange() override;
-    bool doPicking(const QPointF &position) override;
+    bool doPicking(QPointF position) override;
 
     void createSliceView() override;
-    void updateSliceItemLabel(const QString &label, const QVector3D &position) override;
+    void updateSliceItemLabel(const QString &label, QVector3D position) override;
     void updateSelectionMode(QtGraphs3D::SelectionFlags mode) override;
 
 public Q_SLOTS:
@@ -220,8 +220,8 @@ private:
 
     QVector3D getNormalizedVertex(const QSurfaceDataItem &data, bool polar, bool flipXZ);
     QRect calculateSampleSpace(SurfaceModel *model);
-    QPointF mapCoordsToWorldSpace(SurfaceModel *model, const QPointF &coords);
-    QPoint mapCoordsToSampleSpace(SurfaceModel *model, const QPointF &coords);
+    QPointF mapCoordsToWorldSpace(SurfaceModel *model, QPointF coords);
+    QPoint mapCoordsToSampleSpace(SurfaceModel *model, QPointF coords);
     void createIndices(SurfaceModel *model, qsizetype columnCount, qsizetype rowCount);
     void createGridlineIndices(SurfaceModel *model, qsizetype x, qsizetype y, qsizetype endX, qsizetype endY);
     void handleChangedSeries();

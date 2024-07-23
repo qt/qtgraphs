@@ -61,13 +61,13 @@ public:
     void setGridMovement(QPointF newGridMovement);
 
     QColor subGridColor() const;
-    void setSubGridColor(const QColor &newSubGridColor);
+    void setSubGridColor(QColor newSubGridColor);
 
     QColor gridColor() const;
-    void setGridColor(const QColor &newGridColor);
+    void setGridColor(QColor newGridColor);
 
     QColor plotAreaBackgroundColor() const;
-    void setPlotAreaBackgroundColor(const QColor &color);
+    void setPlotAreaBackgroundColor(QColor color);
 
     qreal subGridLineWidth() const;
     void setSubGridLineWidth(qreal newSubGridLineWidth);
