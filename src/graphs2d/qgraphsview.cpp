@@ -209,8 +209,10 @@ QRectF QGraphsView::seriesRect() const
 
 void QGraphsView::createBarsRenderer()
 {
-    if (!m_barsRenderer)
+    if (!m_barsRenderer) {
         m_barsRenderer = new BarsRenderer(this);
+        updateComponentSizes();
+    }
 }
 
 void QGraphsView::createAxisRenderer()
@@ -218,6 +220,7 @@ void QGraphsView::createAxisRenderer()
     if (!m_axisRenderer) {
         m_axisRenderer = new AxisRenderer(this);
         m_axisRenderer->setZ(-1);
+        updateComponentSizes();
     }
 }
 
@@ -225,8 +228,7 @@ void QGraphsView::createPointRenderer()
 {
     if (!m_pointRenderer) {
         m_pointRenderer = new PointRenderer(this);
-        m_pointRenderer->setWidth(width());
-        m_pointRenderer->setHeight(height());
+        updateComponentSizes();
     }
 }
 
@@ -234,8 +236,7 @@ void QGraphsView::createPieRenderer()
 {
     if (!m_pieRenderer) {
         m_pieRenderer = new PieRenderer(this);
-        m_pieRenderer->setWidth(width());
-        m_pieRenderer->setHeight(height());
+        updateComponentSizes();
     }
 }
 
@@ -243,8 +244,7 @@ void QGraphsView::createAreaRenderer()
 {
     if (!m_areaRenderer) {
         m_areaRenderer = new AreaRenderer(this);
-        m_areaRenderer->setWidth(width());
-        m_areaRenderer->setHeight(height());
+        updateComponentSizes();
     }
 }
 
