@@ -45,13 +45,13 @@ public:
     void updateAxisTickersShadow();
     void updateAxisGrid();
     void updateAxisGridShadow();
-    void updateAxisTitles(const QRectF &xAxisRect, const QRectF &yAxisRect);
-    void updateBarXAxisLabels(QBarCategoryAxis *axis, const QRectF &rect);
-    void updateBarYAxisLabels(QBarCategoryAxis *axis, const QRectF &rect);
-    void updateValueYAxisLabels(QValueAxis *axis, const QRectF &rect);
-    void updateValueXAxisLabels(QValueAxis *axis, const QRectF &rect);
-    void updateDateTimeYAxisLabels(QDateTimeAxis *axis, const QRectF &rect);
-    void updateDateTimeXAxisLabels(QDateTimeAxis *axis, const QRectF &rect);
+    void updateAxisTitles(const QRectF xAxisRect, const QRectF yAxisRect);
+    void updateBarXAxisLabels(QBarCategoryAxis *axis, const QRectF rect);
+    void updateBarYAxisLabels(QBarCategoryAxis *axis, const QRectF rect);
+    void updateValueYAxisLabels(QValueAxis *axis, const QRectF rect);
+    void updateValueXAxisLabels(QValueAxis *axis, const QRectF rect);
+    void updateDateTimeYAxisLabels(QDateTimeAxis *axis, const QRectF rect);
+    void updateDateTimeXAxisLabels(QDateTimeAxis *axis, const QRectF rect);
     void initialize();
 
 Q_SIGNALS:

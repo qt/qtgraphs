@@ -515,7 +515,7 @@ QColor QBarSet::color() const
 /*!
     Sets the fill color for the bar set to \a color.
 */
-void QBarSet::setColor(const QColor &color)
+void QBarSet::setColor(QColor color)
 {
     Q_D(QBarSet);
     if (d->m_color != color) {
@@ -537,7 +537,7 @@ QColor QBarSet::borderColor() const
 /*!
     Sets the line color for the bar set to \a color.
 */
-void QBarSet::setBorderColor(const QColor &color)
+void QBarSet::setBorderColor(QColor color)
 {
     Q_D(QBarSet);
     if (d->m_borderColor != color) {
@@ -559,7 +559,7 @@ QColor QBarSet::labelColor() const
 /*!
     Sets the text color for the bar set to \a color.
 */
-void QBarSet::setLabelColor(const QColor &color)
+void QBarSet::setLabelColor(QColor color)
 {
     Q_D(QBarSet);
     if (d->m_labelColor != color) {
@@ -586,7 +586,7 @@ QColor QBarSet::selectedColor() const
     Sets the \a color of the selected bars.
     \sa selectedColor
 */
-void QBarSet::setSelectedColor(const QColor &color)
+void QBarSet::setSelectedColor(QColor color)
 {
     Q_D(QBarSet);
     if (d->m_selectedColor != color) {
@@ -885,7 +885,7 @@ QBarSetPrivate::QBarSetPrivate(const QString &label)
 
 QBarSetPrivate::~QBarSetPrivate() {}
 
-void QBarSetPrivate::append(const QPointF &value)
+void QBarSetPrivate::append(QPointF value)
 {
     if (isValidValue(value)) {
         Q_Q(QBarSet);
@@ -926,7 +926,7 @@ void QBarSetPrivate::insert(qsizetype index, qreal value)
     emit q->valueAdded(index, 1);
 }
 
-void QBarSetPrivate::insert(qsizetype index, const QPointF &value)
+void QBarSetPrivate::insert(qsizetype index, QPointF value)
 {
     m_values.insert(index, value);
     Q_Q(QBarSet);

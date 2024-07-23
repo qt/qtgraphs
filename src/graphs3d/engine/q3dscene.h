@@ -44,17 +44,17 @@ public:
     QRect viewport() const;
 
     QRect primarySubViewport() const;
-    void setPrimarySubViewport(const QRect &primarySubViewport);
-    bool isPointInPrimarySubView(const QPoint &point);
+    void setPrimarySubViewport(QRect primarySubViewport);
+    bool isPointInPrimarySubView(QPoint point);
 
     QRect secondarySubViewport() const;
-    void setSecondarySubViewport(const QRect &secondarySubViewport);
-    bool isPointInSecondarySubView(const QPoint &point);
+    void setSecondarySubViewport(QRect secondarySubViewport);
+    bool isPointInSecondarySubView(QPoint point);
 
-    void setSelectionQueryPosition(const QPoint &point);
-    const QPoint selectionQueryPosition() const;
+    void setSelectionQueryPosition(QPoint point);
+    QPoint selectionQueryPosition() const;
 
-    void setGraphPositionQuery(const QPoint &point);
+    void setGraphPositionQuery(QPoint point);
     QPoint graphPositionQuery() const;
 
     void setSlicingActive(bool isSlicing);
@@ -69,14 +69,14 @@ public:
     QPoint invalidSelectionPoint() const;
 
 Q_SIGNALS:
-    void viewportChanged(const QRect &viewport);
-    void primarySubViewportChanged(const QRect &subViewport);
-    void secondarySubViewportChanged(const QRect &subViewport);
+    void viewportChanged(QRect viewport);
+    void primarySubViewportChanged(QRect subViewport);
+    void secondarySubViewportChanged(QRect subViewport);
     void secondarySubviewOnTopChanged(bool isSecondaryOnTop);
     void slicingActiveChanged(bool isSlicingActive);
     void devicePixelRatioChanged(qreal pixelRatio);
-    void selectionQueryPositionChanged(const QPoint &position);
-    void graphPositionQueryChanged(const QPoint &position);
+    void selectionQueryPositionChanged(QPoint position);
+    void graphPositionQueryChanged(QPoint position);
     void needRender();
 
 private:

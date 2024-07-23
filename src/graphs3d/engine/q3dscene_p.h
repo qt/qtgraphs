@@ -55,15 +55,15 @@ public:
 
     void sync(Q3DScenePrivate &other);
 
-    void setViewport(const QRect &viewport);
+    void setViewport(const QRect viewport);
     void setViewportSize(int width, int height);
-    void setWindowSize(const QSize &size);
+    void setWindowSize(QSize size);
     QSize windowSize() const;
     void updateDefaultViewports();
 
     void markDirty();
 
-    bool isInArea(const QRect &area, int x, int y) const;
+    bool isInArea(const QRect area, int x, int y) const;
 
 public:
     Q3DSceneChangeBitField m_changeTracker;

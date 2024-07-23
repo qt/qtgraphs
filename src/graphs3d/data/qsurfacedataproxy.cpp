@@ -222,7 +222,7 @@ void QSurfaceDataProxy::setItem(qsizetype rowIndex, qsizetype columnIndex, QSurf
  * The x-value of \a position indicates the row and the y-value indicates the
  * column.
  */
-void QSurfaceDataProxy::setItem(const QPoint &position, QSurfaceDataItem item)
+void QSurfaceDataProxy::setItem(QPoint position, QSurfaceDataItem item)
 {
     setItem(position.x(), position.y(), item);
 }
@@ -319,7 +319,7 @@ const QSurfaceDataItem &QSurfaceDataProxy::itemAt(qsizetype rowIndex, qsizetype 
  * \a position indicates the row and the y-value indicates the column. The item
  * is guaranteed to be valid only until the next call that modifies data.
  */
-const QSurfaceDataItem &QSurfaceDataProxy::itemAt(const QPoint &position) const
+const QSurfaceDataItem &QSurfaceDataProxy::itemAt(QPoint position) const
 {
     return itemAt(position.x(), position.y());
 }

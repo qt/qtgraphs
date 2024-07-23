@@ -61,7 +61,7 @@ QColor AxisLine::color() const
     return m_color;
 }
 
-void AxisLine::setColor(const QColor &newColor)
+void AxisLine::setColor(QColor newColor)
 {
     if (m_color == newColor)
         return;

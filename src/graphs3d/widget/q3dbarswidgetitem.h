@@ -51,13 +51,13 @@ public:
     void setBarThickness(float thicknessRatio);
     float barThickness() const;
 
-    void setBarSpacing(const QSizeF &spacing);
+    void setBarSpacing(QSizeF spacing);
     QSizeF barSpacing() const;
 
     void setBarSpacingRelative(bool relative);
     bool isBarSpacingRelative() const;
 
-    void setBarSeriesMargin(const QSizeF &margin);
+    void setBarSeriesMargin(QSizeF margin);
     QSizeF barSeriesMargin() const;
 
     void setRowAxis(QCategory3DAxis *axis);
@@ -80,9 +80,9 @@ protected:
 Q_SIGNALS:
     void multiSeriesUniformChanged(bool uniform);
     void barThicknessChanged(float thicknessRatio);
-    void barSpacingChanged(const QSizeF &spacing);
+    void barSpacingChanged(QSizeF spacing);
     void barSpacingRelativeChanged(bool relative);
-    void barSeriesMarginChanged(const QSizeF &margin);
+    void barSeriesMarginChanged(QSizeF margin);
     void rowAxisChanged(QCategory3DAxis *axis);
     void columnAxisChanged(QCategory3DAxis *axis);
     void valueAxisChanged(QValue3DAxis *axis);

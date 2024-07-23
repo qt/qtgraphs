@@ -120,7 +120,7 @@ QColor AxisGrid::subGridColor() const
     return m_subGridColor;
 }
 
-void AxisGrid::setSubGridColor(const QColor &newSubGridColor)
+void AxisGrid::setSubGridColor(QColor newSubGridColor)
 {
     if (m_subGridColor == newSubGridColor)
         return;
@@ -133,7 +133,7 @@ QColor AxisGrid::gridColor() const
     return m_gridColor;
 }
 
-void AxisGrid::setGridColor(const QColor &newGridColor)
+void AxisGrid::setGridColor(QColor newGridColor)
 {
     if (m_gridColor == newGridColor)
         return;
@@ -146,7 +146,7 @@ QColor AxisGrid::plotAreaBackgroundColor() const
     return m_plotAreaBackgroundColor;
 }
 
-void AxisGrid::setPlotAreaBackgroundColor(const QColor &color)
+void AxisGrid::setPlotAreaBackgroundColor(QColor color)
 {
     if (m_plotAreaBackgroundColor == color)
         return;

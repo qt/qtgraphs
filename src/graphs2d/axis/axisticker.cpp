@@ -112,7 +112,7 @@ QColor AxisTicker::subTickColor() const
     return m_subTickColor;
 }
 
-void AxisTicker::setSubTickColor(const QColor &newSubTickColor)
+void AxisTicker::setSubTickColor(QColor newSubTickColor)
 {
     if (m_subTickColor == newSubTickColor)
         return;
@@ -125,7 +125,7 @@ QColor AxisTicker::tickColor() const
     return m_tickColor;
 }
 
-void AxisTicker::setTickColor(const QColor &newTickColor)
+void AxisTicker::setTickColor(QColor newTickColor)
 {
     if (m_tickColor == newTickColor)
         return;

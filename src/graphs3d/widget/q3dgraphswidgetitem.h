@@ -154,7 +154,7 @@ public:
     qsizetype addCustomItem(QCustom3DItem *item);
     void removeCustomItems();
     void removeCustomItem(QCustom3DItem *item);
-    void removeCustomItemAt(const QVector3D &position);
+    void removeCustomItemAt(QVector3D position);
     void releaseCustomItem(QCustom3DItem *item);
     QList<QCustom3DItem *> customItems() const;
 
@@ -164,7 +164,7 @@ public:
     qsizetype selectedCustomItemIndex() const;
     QCustom3DItem *selectedCustomItem() const;
 
-    QSharedPointer<QQuickItemGrabResult> renderToImage(const QSize &imageSize = QSize());
+    QSharedPointer<QQuickItemGrabResult> renderToImage(QSize imageSize = QSize());
 
     QtGraphs3D::CameraPreset cameraPreset() const;
     void setCameraPreset(QtGraphs3D::CameraPreset preset);
@@ -211,7 +211,7 @@ public:
     void setMaxCameraZoomLevel(float level);
 
     QVector3D cameraTargetPosition();
-    void setCameraTargetPosition(const QVector3D &target);
+    void setCameraTargetPosition(QVector3D target);
 
     bool wrapCameraXRotation();
     void setWrapCameraXRotation(bool wrap);
@@ -233,7 +233,7 @@ public:
     float shadowStrength() const;
     void setShadowStrength(float newShadowStrength);
     QColor lightColor() const;
-    void setLightColor(const QColor &newLightColor);
+    void setLightColor(QColor newLightColor);
     QtGraphs3D::GridLineType gridLineType() const;
     void setGridLineType(const QtGraphs3D::GridLineType &gridLineType);
 
@@ -263,13 +263,13 @@ Q_SIGNALS:
     void radialLabelOffsetChanged(float offset);
     void horizontalAspectRatioChanged(qreal ratio);
     void localeChanged(const QLocale &locale);
-    void queriedGraphPositionChanged(const QVector3D &data);
+    void queriedGraphPositionChanged(QVector3D data);
     void marginChanged(qreal margin);
     void cameraPresetChanged(QtGraphs3D::CameraPreset preset);
     void cameraXRotationChanged(float rotation);
     void cameraYRotationChanged(float rotation);
     void cameraZoomLevelChanged(float zoomLevel);
-    void cameraTargetPositionChanged(const QVector3D &target);
+    void cameraTargetPositionChanged(QVector3D target);
     void minCameraZoomLevelChanged(float zoomLevel);
     void maxCameraZoomLevelChanged(float zoomLevel);
     void minCameraXRotationChanged(float rotation);

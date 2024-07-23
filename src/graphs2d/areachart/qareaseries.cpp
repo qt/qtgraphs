@@ -185,7 +185,7 @@ QColor QAreaSeries::color() const
     return d->m_color;
 }
 
-void QAreaSeries::setColor(const QColor &newColor)
+void QAreaSeries::setColor(QColor newColor)
 {
     Q_D(QAreaSeries);
     if (color() != newColor) {
@@ -200,7 +200,7 @@ QColor QAreaSeries::selectedColor() const
     return d->m_selectedColor;
 }
 
-void QAreaSeries::setSelectedColor(const QColor &newSelectedColor)
+void QAreaSeries::setSelectedColor(QColor newSelectedColor)
 {
     Q_D(QAreaSeries);
     if (selectedColor() != newSelectedColor) {
@@ -215,7 +215,7 @@ QColor QAreaSeries::borderColor() const
     return d->m_borderColor;
 }
 
-void QAreaSeries::setBorderColor(const QColor &newBorderColor)
+void QAreaSeries::setBorderColor(QColor newBorderColor)
 {
     Q_D(QAreaSeries);
     if (d->m_borderColor == newBorderColor)
@@ -230,7 +230,7 @@ QColor QAreaSeries::selectedBorderColor() const
     return d->m_selectedBorderColor;
 }
 
-void QAreaSeries::setSelectedBorderColor(const QColor &newSelectedBorderColor)
+void QAreaSeries::setSelectedBorderColor(QColor newSelectedBorderColor)
 {
     Q_D(QAreaSeries);
     if (d->m_selectedBorderColor == newSelectedBorderColor)

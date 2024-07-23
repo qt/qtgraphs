@@ -572,7 +572,7 @@ void AxisRenderer::updateAxisGridShadow()
     }
 }
 
-void AxisRenderer::updateAxisTitles(const QRectF &xAxisRect, const QRectF &yAxisRect)
+void AxisRenderer::updateAxisTitles(const QRectF xAxisRect, const QRectF yAxisRect)
 {
     if (!m_xAxisTitle) {
         m_xAxisTitle = new QQuickText();
@@ -663,7 +663,7 @@ void AxisRenderer::setLabelTextProperties(QQuickItem *item, const QString &text,
     }
 }
 
-void AxisRenderer::updateBarXAxisLabels(QBarCategoryAxis *axis, const QRectF &rect)
+void AxisRenderer::updateBarXAxisLabels(QBarCategoryAxis *axis, const QRectF rect)
 {
     qsizetype categoriesCount = axis->categories().size();
     // See if we need more text items
@@ -690,7 +690,7 @@ void AxisRenderer::updateBarXAxisLabels(QBarCategoryAxis *axis, const QRectF &re
     }
 }
 
-void AxisRenderer::updateBarYAxisLabels(QBarCategoryAxis *axis, const QRectF &rect)
+void AxisRenderer::updateBarYAxisLabels(QBarCategoryAxis *axis, const QRectF rect)
 {
     qsizetype categoriesCount = axis->categories().size();
     // See if we need more text items
@@ -717,7 +717,7 @@ void AxisRenderer::updateBarYAxisLabels(QBarCategoryAxis *axis, const QRectF &re
     }
 }
 
-void AxisRenderer::updateValueYAxisLabels(QValueAxis *axis, const QRectF &rect)
+void AxisRenderer::updateValueYAxisLabels(QValueAxis *axis, const QRectF rect)
 {
     // Create label values in the range
     QList<double> yAxisLabelValues;
@@ -770,7 +770,7 @@ void AxisRenderer::updateValueYAxisLabels(QValueAxis *axis, const QRectF &rect)
     }
 }
 
-void AxisRenderer::updateValueXAxisLabels(QValueAxis *axis, const QRectF &rect)
+void AxisRenderer::updateValueXAxisLabels(QValueAxis *axis, const QRectF rect)
 {
     // Create label values in the range
     QList<double> axisLabelValues;
@@ -823,7 +823,7 @@ void AxisRenderer::updateValueXAxisLabels(QValueAxis *axis, const QRectF &rect)
     }
 }
 
-void AxisRenderer::updateDateTimeYAxisLabels(QDateTimeAxis *axis, const QRectF &rect)
+void AxisRenderer::updateDateTimeYAxisLabels(QDateTimeAxis *axis, const QRectF rect)
 {
     auto maxDate = axis->max();
     auto minDate = axis->min();
@@ -868,7 +868,7 @@ void AxisRenderer::updateDateTimeYAxisLabels(QDateTimeAxis *axis, const QRectF &
     }
 }
 
-void AxisRenderer::updateDateTimeXAxisLabels(QDateTimeAxis *axis, const QRectF &rect)
+void AxisRenderer::updateDateTimeXAxisLabels(QDateTimeAxis *axis, const QRectF rect)
 {
     auto maxDate = axis->max();
     auto minDate = axis->min();

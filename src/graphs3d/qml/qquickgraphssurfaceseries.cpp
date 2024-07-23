@@ -21,7 +21,7 @@ QQuickGraphsSurface3DSeries::QQuickGraphsSurface3DSeries(QObject *parent)
 
 QQuickGraphsSurface3DSeries::~QQuickGraphsSurface3DSeries() {}
 
-void QQuickGraphsSurface3DSeries::setSelectedPoint(const QPointF &position)
+void QQuickGraphsSurface3DSeries::setSelectedPoint(QPointF position)
 {
     QSurface3DSeries::setSelectedPoint(position.toPoint());
 }

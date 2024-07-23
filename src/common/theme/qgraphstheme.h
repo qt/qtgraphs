@@ -102,15 +102,15 @@ public:
     QT_MOVE_ASSIGNMENT_OPERATOR_IMPL_VIA_PURE_SWAP(QGraphsLine)
 
     Q_GRAPHS_EXPORT QColor mainColor() const;
-    Q_GRAPHS_EXPORT void setMainColor(const QColor &newColor);
+    Q_GRAPHS_EXPORT void setMainColor(QColor newColor);
     Q_GRAPHS_EXPORT QColor subColor() const;
-    Q_GRAPHS_EXPORT void setSubColor(const QColor &newColor);
+    Q_GRAPHS_EXPORT void setSubColor(QColor newColor);
     Q_GRAPHS_EXPORT qreal mainWidth() const;
     Q_GRAPHS_EXPORT void setMainWidth(qreal newWidth);
     Q_GRAPHS_EXPORT qreal subWidth() const;
     Q_GRAPHS_EXPORT void setSubWidth(qreal newWidth);
     Q_GRAPHS_EXPORT QColor labelTextColor() const;
-    Q_GRAPHS_EXPORT void setLabelTextColor(const QColor &newColor);
+    Q_GRAPHS_EXPORT void setLabelTextColor(QColor newColor);
     Q_GRAPHS_EXPORT void detach();
 
     Q_GRAPHS_EXPORT operator QVariant() const;
@@ -237,12 +237,12 @@ public:
     void setColorStyle(ColorStyle newColorStyle);
 
     QColor backgroundColor() const;
-    void setBackgroundColor(const QColor &newBackgroundColor);
+    void setBackgroundColor(QColor newBackgroundColor);
     bool isBackgroundVisible() const;
     void setBackgroundVisible(bool newBackgroundVisible);
 
     QColor plotAreaBackgroundColor() const;
-    void setPlotAreaBackgroundColor(const QColor &newBackgroundColor);
+    void setPlotAreaBackgroundColor(QColor newBackgroundColor);
     bool isPlotAreaBackgroundVisible() const;
     void setPlotAreaBackgroundVisible(bool newBackgroundVisibility);
 
@@ -252,14 +252,14 @@ public:
     bool labelsVisible() const;
     void setLabelsVisible(bool newLabelsVisibility);
     QColor labelBackgroundColor() const;
-    void setLabelBackgroundColor(const QColor &newLabelBackgroundColor);
+    void setLabelBackgroundColor(QColor newLabelBackgroundColor);
     QColor labelTextColor() const;
-    void setLabelTextColor(const QColor &newLabelTextColor);
+    void setLabelTextColor(QColor newLabelTextColor);
 
     QColor singleHighlightColor() const;
-    void setSingleHighlightColor(const QColor &newSingleHighlightColor);
+    void setSingleHighlightColor(QColor newSingleHighlightColor);
     QColor multiHighlightColor() const;
-    void setMultiHighlightColor(const QColor &newMultiHighlightColor);
+    void setMultiHighlightColor(QColor newMultiHighlightColor);
     void setSingleHighlightGradient(const QLinearGradient &gradient);
     QLinearGradient singleHighlightGradient() const;
     void setMultiHighlightGradient(const QLinearGradient &gradient);
@@ -319,8 +319,8 @@ Q_SIGNALS:
     void labelBackgroundColorChanged();
     void labelTextColorChanged();
 
-    void singleHighlightColorChanged(const QColor &color);
-    void multiHighlightColorChanged(const QColor &color);
+    void singleHighlightColorChanged(QColor color);
+    void multiHighlightColorChanged(QColor color);
     void singleHighlightGradientChanged(const QLinearGradient &gradient);
     void multiHighlightGradientChanged(const QLinearGradient &gradient);
 
@@ -365,7 +365,7 @@ private:
 
     void setColorSchemePalette();
     void setThemePalette();
-    QLinearGradient createGradient(const QColor &color, float colorLevel);
+    QLinearGradient createGradient(QColor color, float colorLevel);
 
     void setSingleHighlightGradient(QQuickGradient *gradient);
     QQuickGradient *singleHighlightGradientQML() const;

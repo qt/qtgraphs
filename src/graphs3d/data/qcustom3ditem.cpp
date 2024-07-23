@@ -202,8 +202,8 @@ QCustom3DItem::QCustom3DItem(QCustom3DItemPrivate &d, QObject *parent)
  * scaling, \a rotation, \a texture image, and optional \a parent.
  */
 QCustom3DItem::QCustom3DItem(const QString &meshFile,
-                             const QVector3D &position,
-                             const QVector3D &scaling,
+                             QVector3D position,
+                             QVector3D scaling,
                              const QQuaternion &rotation,
                              const QImage &texture,
                              QObject *parent)
@@ -261,7 +261,7 @@ QString QCustom3DItem::meshFile() const
  *
  * \sa positionAbsolute
  */
-void QCustom3DItem::setPosition(const QVector3D &position)
+void QCustom3DItem::setPosition(QVector3D position)
 {
     Q_D(QCustom3DItem);
     if (d->m_position != position) {
@@ -320,7 +320,7 @@ bool QCustom3DItem::isPositionAbsolute() const
  *
  * \sa scalingAbsolute
  */
-void QCustom3DItem::setScaling(const QVector3D &scaling)
+void QCustom3DItem::setScaling(QVector3D scaling)
 {
     Q_D(QCustom3DItem);
     if (d->m_scaling != scaling) {
@@ -456,7 +456,7 @@ bool QCustom3DItem::isShadowCasting() const
  *
  * \sa rotation
  */
-void QCustom3DItem::setRotationAxisAndAngle(const QVector3D &axis, float angle)
+void QCustom3DItem::setRotationAxisAndAngle(QVector3D axis, float angle)
 {
     setRotation(QQuaternion::fromAxisAndAngle(axis, angle));
 }
@@ -536,8 +536,8 @@ QCustom3DItemPrivate::QCustom3DItemPrivate()
 {}
 
 QCustom3DItemPrivate::QCustom3DItemPrivate(const QString &meshFile,
-                                           const QVector3D &position,
-                                           const QVector3D &scaling,
+                                           QVector3D position,
+                                           QVector3D scaling,
                                            const QQuaternion &rotation)
     : m_textureImage(QImage(1, 1, QImage::Format_ARGB32))
     , m_meshFile(meshFile)

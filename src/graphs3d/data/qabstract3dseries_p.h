@@ -104,11 +104,11 @@ public:
     void setUserDefinedMesh(const QString &meshFile);
 
     void setColorStyle(QGraphsTheme::ColorStyle style);
-    void setBaseColor(const QColor &color);
+    void setBaseColor(QColor color);
     void setBaseGradient(const QLinearGradient &gradient);
-    void setSingleHighlightColor(const QColor &color);
+    void setSingleHighlightColor(QColor color);
     void setSingleHighlightGradient(const QLinearGradient &gradient);
-    void setMultiHighlightColor(const QColor &color);
+    void setMultiHighlightColor(QColor color);
     void setMultiHighlightGradient(const QLinearGradient &gradient);
     void setName(const QString &name);
 

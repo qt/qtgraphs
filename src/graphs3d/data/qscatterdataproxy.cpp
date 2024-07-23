@@ -384,7 +384,7 @@ void QScatterDataProxyPrivate::limitValues(QVector3D &minValues,
     if (scatterSeries->dataArray().isEmpty())
         return;
 
-    const QVector3D &firstPos = scatterSeries->dataArray().at(0).position();
+    QVector3D firstPos = scatterSeries->dataArray().at(0).position();
 
     float minX = firstPos.x();
     float maxX = minX;
@@ -395,7 +395,7 @@ void QScatterDataProxyPrivate::limitValues(QVector3D &minValues,
 
     if (scatterSeries->dataArray().size() > 1) {
         for (int i = 1; i < scatterSeries->dataArray().size(); i++) {
-            const QVector3D &pos = scatterSeries->dataArray().at(i).position();
+            QVector3D pos = scatterSeries->dataArray().at(i).position();
 
             float value = pos.x();
             if (qIsNaN(value) || qIsInf(value))

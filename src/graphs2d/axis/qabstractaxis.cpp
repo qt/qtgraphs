@@ -385,7 +385,7 @@ bool QAbstractAxis::isTitleVisible() const
 /*!
   Sets the color used to draw titles to \a color.
  */
-void QAbstractAxis::setTitleColor(const QColor &color)
+void QAbstractAxis::setTitleColor(QColor color)
 {
     Q_D(QAbstractAxis);
     if (d->m_titleColor != color) {

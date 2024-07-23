@@ -7,7 +7,7 @@ SurfaceSelectionInstancing::SurfaceSelectionInstancing() {}
 
 SurfaceSelectionInstancing::~SurfaceSelectionInstancing() {}
 
-void SurfaceSelectionInstancing::addPosition(const QVector3D &position)
+void SurfaceSelectionInstancing::addPosition(QVector3D position)
 {
     m_positions.append(position);
     markDirty();

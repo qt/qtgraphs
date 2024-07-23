@@ -98,20 +98,20 @@ public:
     void setBarThickness(float thicknessRatio);
     float barThickness() const;
 
-    void setBarSpacing(const QSizeF &spacing);
+    void setBarSpacing(QSizeF spacing);
     QSizeF barSpacing() const;
 
     void setBarSpacingRelative(bool relative);
     bool isBarSpacingRelative() const;
 
-    void setBarSeriesMargin(const QSizeF &margin);
+    void setBarSeriesMargin(QSizeF margin);
     QSizeF barSeriesMargin() const;
 
     void setMultiSeriesScaling(bool uniform);
     bool multiSeriesScaling() const;
 
     void setBarSpecs(float thicknessRatio = 1.0f,
-                     const QSizeF &spacing = QSizeF(1.0, 1.0),
+                     QSizeF spacing = QSizeF(1.0, 1.0),
                      bool relative = true);
 
     void setFloorLevel(float level);
@@ -140,7 +140,7 @@ public:
     void handleAxisRangeChangedBySender(QObject *sender) override;
     void adjustAxisRanges() override;
 
-    void setSelectedBar(const QPoint &coord, QBar3DSeries *series, bool enterSlice);
+    void setSelectedBar(QPoint coord, QBar3DSeries *series, bool enterSlice);
 
     QList<QBar3DSeries *> barSeriesList();
 
@@ -167,9 +167,9 @@ protected:
     void toggleSliceGraph() override;
     void handleLabelCountChanged(QQuick3DRepeater *repeater, QColor axisLabelColor) override;
     void updateSelectionMode(QtGraphs3D::SelectionFlags mode) override;
-    bool doPicking(const QPointF &position) override;
+    bool doPicking(QPointF position) override;
     QAbstract3DAxis *createDefaultAxis(QAbstract3DAxis::AxisOrientation orientation) override;
-    void updateSliceItemLabel(const QString &label, const QVector3D &position) override;
+    void updateSliceItemLabel(const QString &label, QVector3D position) override;
 
 public Q_SLOTS:
     void handleAxisXChanged(QAbstract3DAxis *axis) override;
@@ -195,9 +195,9 @@ Q_SIGNALS:
     void columnAxisChanged(QCategory3DAxis *axis);
     void multiSeriesUniformChanged(bool uniform);
     void barThicknessChanged(float thicknessRatio);
-    void barSpacingChanged(const QSizeF &spacing);
+    void barSpacingChanged(QSizeF spacing);
     void barSpacingRelativeChanged(bool relative);
-    void barSeriesMarginChanged(const QSizeF &margin);
+    void barSeriesMarginChanged(QSizeF margin);
     void meshFileNameChanged(const QString &filename);
     void primarySeriesChanged(QBar3DSeries *series);
     void selectedSeriesChanged(QBar3DSeries *series);
@@ -313,7 +313,7 @@ private:
                                   const bool isHighlight,
                                   const bool isMultiHighlight,
                                   QQuick3DTexture *texture,
-                                  const QColor &color,
+                                  QColor color,
                                   const bool transparency = false);
     void removeBarModels();
     void deleteBarModels(QQuick3DModel *model);
@@ -325,8 +325,8 @@ private:
     void removeSlicedBarModels();
     void createBarItemHolders(QBar3DSeries *series, QList<BarModel *> barList, bool slice);
 
-    void updateBarSpecs(float thicknessRatio, const QSizeF &spacing, bool relative);
-    void updateBarSeriesMargin(const QSizeF &margin);
+    void updateBarSpecs(float thicknessRatio, QSizeF spacing, bool relative);
+    void updateBarSeriesMargin(QSizeF margin);
 
     void adjustSelectionPosition(QPoint &pos, const QBar3DSeries *series);
 

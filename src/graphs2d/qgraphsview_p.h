@@ -121,7 +121,7 @@ public:
     bool isShadowVisible() const;
     void setShadowVisible(bool newShadowVisibility);
     QColor shadowColor() const;
-    void setShadowColor(const QColor &newShadowColor);
+    void setShadowColor(QColor newShadowColor);
     qreal shadowBarWidth() const;
     void setShadowBarWidth(qreal newShadowBarWidth);
     qreal shadowXOffset() const;

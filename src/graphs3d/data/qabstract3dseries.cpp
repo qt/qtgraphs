@@ -490,7 +490,7 @@ QQuaternion QAbstract3DSeries::meshRotation() const
  *
  * \sa meshRotation
  */
-void QAbstract3DSeries::setMeshAxisAndAngle(const QVector3D &axis, float angle)
+void QAbstract3DSeries::setMeshAxisAndAngle(QVector3D axis, float angle)
 {
     setMeshRotation(QQuaternion::fromAxisAndAngle(axis, angle));
 }
@@ -549,7 +549,7 @@ QGraphsTheme::ColorStyle QAbstract3DSeries::colorStyle() const
  *
  * \sa colorStyle, QGraphsTheme::seriesColors
  */
-void QAbstract3DSeries::setBaseColor(const QColor &color)
+void QAbstract3DSeries::setBaseColor(QColor color)
 {
     Q_D(QAbstract3DSeries);
     if (d->m_baseColor != color) {
@@ -595,7 +595,7 @@ QLinearGradient QAbstract3DSeries::baseGradient() const
  *
  * \sa colorStyle, QGraphsTheme::singleHighlightColor
  */
-void QAbstract3DSeries::setSingleHighlightColor(const QColor &color)
+void QAbstract3DSeries::setSingleHighlightColor(QColor color)
 {
     Q_D(QAbstract3DSeries);
     if (d->m_singleHighlightColor != color) {
@@ -641,7 +641,7 @@ QLinearGradient QAbstract3DSeries::singleHighlightGradient() const
  *
  * \sa colorStyle, QGraphsTheme::multiHighlightColor
  */
-void QAbstract3DSeries::setMultiHighlightColor(const QColor &color)
+void QAbstract3DSeries::setMultiHighlightColor(QColor color)
 {
     Q_D(QAbstract3DSeries);
     if (d->m_multiHighlightColor != color) {
@@ -864,7 +864,7 @@ void QAbstract3DSeriesPrivate::setColorStyle(QGraphsTheme::ColorStyle style)
         m_graph->markSeriesVisualsDirty();
 }
 
-void QAbstract3DSeriesPrivate::setBaseColor(const QColor &color)
+void QAbstract3DSeriesPrivate::setBaseColor(QColor color)
 {
     m_baseColor = color;
     m_changeTracker.baseColorChanged = true;
@@ -881,7 +881,7 @@ void QAbstract3DSeriesPrivate::setBaseGradient(const QLinearGradient &gradient)
         m_graph->markSeriesVisualsDirty();
 }
 
-void QAbstract3DSeriesPrivate::setSingleHighlightColor(const QColor &color)
+void QAbstract3DSeriesPrivate::setSingleHighlightColor(QColor color)
 {
     m_singleHighlightColor = color;
     m_changeTracker.singleHighlightColorChanged = true;
@@ -898,7 +898,7 @@ void QAbstract3DSeriesPrivate::setSingleHighlightGradient(const QLinearGradient 
         m_graph->markSeriesVisualsDirty();
 }
 
-void QAbstract3DSeriesPrivate::setMultiHighlightColor(const QColor &color)
+void QAbstract3DSeriesPrivate::setMultiHighlightColor(QColor color)
 {
     m_multiHighlightColor = color;
     m_changeTracker.multiHighlightColorChanged = true;

@@ -255,7 +255,7 @@ void Q3DGraphsWidgetItem::removeCustomItem(QCustom3DItem *item)
  * Removes all custom items at \a {position}. Deletes the resources allocated to
  * them.
  */
-void Q3DGraphsWidgetItem::removeCustomItemAt(const QVector3D &position)
+void Q3DGraphsWidgetItem::removeCustomItemAt(QVector3D position)
 {
     Q_D(Q3DGraphsWidgetItem);
     d->m_graphsItem->removeCustomItemAt(position);
@@ -380,7 +380,7 @@ QtGraphs3D::ElementType Q3DGraphsWidgetItem::selectedElement() const
  * \note OpenGL ES2 does not support anitialiasing.
  * \sa QQuickItem::grabToImage
  */
-QSharedPointer<QQuickItemGrabResult> Q3DGraphsWidgetItem::renderToImage(const QSize &imageSize)
+QSharedPointer<QQuickItemGrabResult> Q3DGraphsWidgetItem::renderToImage(QSize imageSize)
 {
     QSize renderSize = imageSize;
 
@@ -621,7 +621,7 @@ QColor Q3DGraphsWidgetItem::lightColor() const
     return d->m_graphsItem->lightColor();
 }
 
-void Q3DGraphsWidgetItem::setLightColor(const QColor &newLightColor)
+void Q3DGraphsWidgetItem::setLightColor(QColor newLightColor)
 {
     Q_D(Q3DGraphsWidgetItem);
     d->m_graphsItem->setLightColor(newLightColor);
@@ -836,7 +836,7 @@ QVector3D Q3DGraphsWidgetItem::cameraTargetPosition()
     return d->m_graphsItem->cameraTargetPosition();
 }
 
-void Q3DGraphsWidgetItem::setCameraTargetPosition(const QVector3D &target)
+void Q3DGraphsWidgetItem::setCameraTargetPosition(QVector3D target)
 {
     QVector3D newTarget = target;
 

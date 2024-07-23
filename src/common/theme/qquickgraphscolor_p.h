@@ -36,11 +36,11 @@ public:
     QQuickGraphsColor(QObject *parent = 0);
     ~QQuickGraphsColor() override;
 
-    void setColor(const QColor &color);
+    void setColor(QColor color);
     QColor color() const;
 
 Q_SIGNALS:
-    void colorChanged(const QColor &color);
+    void colorChanged(QColor color);
 
 private:
     QColor m_color;

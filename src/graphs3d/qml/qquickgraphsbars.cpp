@@ -316,7 +316,7 @@ bool QQuickGraphsBars::isMultiSeriesUniform() const
     return multiSeriesScaling();
 }
 
-void QQuickGraphsBars::setBarSpecs(float thicknessRatio, const QSizeF &spacing, bool relative)
+void QQuickGraphsBars::setBarSpecs(float thicknessRatio, QSizeF spacing, bool relative)
 {
     m_barThicknessRatio = thicknessRatio;
     m_barSpacing = spacing;
@@ -339,7 +339,7 @@ float QQuickGraphsBars::barThickness() const
     return m_barThicknessRatio;
 }
 
-void QQuickGraphsBars::setBarSpacing(const QSizeF &spacing)
+void QQuickGraphsBars::setBarSpacing(QSizeF spacing)
 {
     if (spacing != barSpacing()) {
         setBarSpecs(barThickness(), spacing, isBarSpacingRelative());
@@ -365,7 +365,7 @@ bool QQuickGraphsBars::isBarSpacingRelative() const
     return m_isBarSpecRelative;
 }
 
-void QQuickGraphsBars::setBarSeriesMargin(const QSizeF &margin)
+void QQuickGraphsBars::setBarSeriesMargin(QSizeF margin)
 {
     if (margin != barSeriesMargin()) {
         m_barSeriesMargin = margin;
@@ -1816,7 +1816,7 @@ void QQuickGraphsBars::updateMaterialProperties(QQuick3DModel *item,
                                                 const bool isHighlight,
                                                 const bool isMultiHighlight,
                                                 QQuick3DTexture *texture,
-                                                const QColor &color,
+                                                QColor color,
                                                 const bool transparency)
 {
     QQmlListReference materialsRef(item, "materials");
@@ -1901,7 +1901,7 @@ QQuick3DTexture *QQuickGraphsBars::createTexture()
     return texture;
 }
 
-bool QQuickGraphsBars::doPicking(const QPointF &position)
+bool QQuickGraphsBars::doPicking(QPointF position)
 {
     if (!QQuickGraphsItem::doPicking(position))
         return false;
@@ -2017,7 +2017,7 @@ void QQuickGraphsBars::adjustSelectionPosition(QPoint &pos, const QBar3DSeries *
     }
 }
 
-void QQuickGraphsBars::setSelectedBar(const QPoint &coord, QBar3DSeries *series, bool enterSlice)
+void QQuickGraphsBars::setSelectedBar(QPoint coord, QBar3DSeries *series, bool enterSlice)
 {
     // If the selection targets non-existent bar, clear selection instead.
     QPoint pos = coord;
@@ -2148,7 +2148,7 @@ QQuickGraphsItem::SelectionType QQuickGraphsBars::isSelected(int row, int bar, Q
     return isSelectedType;
 }
 
-void QQuickGraphsBars::updateSliceItemLabel(const QString &label, const QVector3D &position)
+void QQuickGraphsBars::updateSliceItemLabel(const QString &label, QVector3D position)
 {
     QQuickGraphsItem::updateSliceItemLabel(label, position);
 
@@ -2564,7 +2564,7 @@ void QQuickGraphsBars::updateSelectionMode(QtGraphs3D::SelectionFlags mode)
         sliceItemLabel()->setVisible(false);
 }
 
-void QQuickGraphsBars::updateBarSpecs(float thicknessRatio, const QSizeF &spacing, bool relative)
+void QQuickGraphsBars::updateBarSpecs(float thicknessRatio, QSizeF spacing, bool relative)
 {
     // Convert ratio to QSizeF, as we need it in that format for autoscaling
     // calculations
@@ -2586,7 +2586,7 @@ void QQuickGraphsBars::updateBarSpecs(float thicknessRatio, const QSizeF &spacin
     calculateSceneScalingFactors();
 }
 
-void QQuickGraphsBars::updateBarSeriesMargin(const QSizeF &margin)
+void QQuickGraphsBars::updateBarSeriesMargin(QSizeF margin)
 {
     m_cachedBarSeriesMargin = margin;
     calculateSeriesStartPosition();

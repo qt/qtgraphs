@@ -546,7 +546,7 @@ QPoint QQuickGraphsSurface::invalidSelectionPosition()
     return invalidSelectionPoint;
 }
 
-void QQuickGraphsSurface::setSelectedPoint(const QPoint &position,
+void QQuickGraphsSurface::setSelectedPoint(const QPoint position,
                                            QSurface3DSeries *series,
                                            bool enterSlice)
 {
@@ -1823,14 +1823,14 @@ void QQuickGraphsSurface::toggleSliceGraph()
     }
 }
 
-QPointF QQuickGraphsSurface::mapCoordsToWorldSpace(SurfaceModel *model, const QPointF &coords)
+QPointF QQuickGraphsSurface::mapCoordsToWorldSpace(SurfaceModel *model, QPointF coords)
 {
     const QSurfaceDataArray &array = model->series->dataArray();
     QSurfaceDataItem item = array.at(coords.y()).at(coords.x());
     return QPointF(item.x(), item.z());
 }
 
-QPoint QQuickGraphsSurface::mapCoordsToSampleSpace(SurfaceModel *model, const QPointF &coords)
+QPoint QQuickGraphsSurface::mapCoordsToSampleSpace(SurfaceModel *model, QPointF coords)
 {
     const QSurfaceDataArray &array = model->series->dataArray();
     qsizetype maxRow = array.size() - 1;
@@ -1923,7 +1923,7 @@ void QQuickGraphsSurface::createGridlineIndices(SurfaceModel *model, qsizetype x
     }
 }
 
-bool QQuickGraphsSurface::doPicking(const QPointF &position)
+bool QQuickGraphsSurface::doPicking(QPointF position)
 {
     if (!m_pickThisFrame && m_proxyDirty) {
         m_pickThisFrame = true;
@@ -2199,7 +2199,7 @@ void QQuickGraphsSurface::createSliceView()
     m_sliceInstancing->setColor(theme()->singleHighlightColor());
 }
 
-void QQuickGraphsSurface::updateSliceItemLabel(const QString &label, const QVector3D &position)
+void QQuickGraphsSurface::updateSliceItemLabel(const QString &label, QVector3D position)
 {
     QQuickGraphsItem::updateSliceItemLabel(label, position);
 

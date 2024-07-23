@@ -35,8 +35,8 @@ class Q_GRAPHS_EXPORT QCustom3DItem : public QObject
 public:
     explicit QCustom3DItem(QObject *parent = nullptr);
     explicit QCustom3DItem(const QString &meshFile,
-                           const QVector3D &position,
-                           const QVector3D &scaling,
+                           QVector3D position,
+                           QVector3D scaling,
                            const QQuaternion &rotation,
                            const QImage &texture,
                            QObject *parent = nullptr);
@@ -48,13 +48,13 @@ public:
     void setTextureFile(const QString &textureFile);
     QString textureFile() const;
 
-    void setPosition(const QVector3D &position);
+    void setPosition(QVector3D position);
     QVector3D position() const;
 
     void setPositionAbsolute(bool positionAbsolute);
     bool isPositionAbsolute() const;
 
-    void setScaling(const QVector3D &scaling);
+    void setScaling(QVector3D scaling);
     QVector3D scaling() const;
 
     void setScalingAbsolute(bool scalingAbsolute);
@@ -69,16 +69,16 @@ public:
     void setShadowCasting(bool enabled);
     bool isShadowCasting() const;
 
-    Q_INVOKABLE void setRotationAxisAndAngle(const QVector3D &axis, float angle);
+    Q_INVOKABLE void setRotationAxisAndAngle(QVector3D axis, float angle);
 
     void setTextureImage(const QImage &textureImage);
 
 Q_SIGNALS:
     void meshFileChanged(const QString &meshFile);
     void textureFileChanged(const QString &textureFile);
-    void positionChanged(const QVector3D &position);
+    void positionChanged(QVector3D position);
     void positionAbsoluteChanged(bool positionAbsolute);
-    void scalingChanged(const QVector3D &scaling);
+    void scalingChanged(QVector3D scaling);
     void rotationChanged(const QQuaternion &rotation);
     void visibleChanged(bool visible);
     void shadowCastingChanged(bool shadowCasting);

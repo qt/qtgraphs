@@ -141,8 +141,8 @@ QCustom3DLabel::QCustom3DLabel(QObject *parent)
  */
 QCustom3DLabel::QCustom3DLabel(const QString &text,
                                const QFont &font,
-                               const QVector3D &position,
-                               const QVector3D &scaling,
+                               QVector3D position,
+                               QVector3D scaling,
                                const QQuaternion &rotation,
                                QObject *parent)
     : QCustom3DItem(*(new QCustom3DLabelPrivate(text, font, position, scaling, rotation)), parent)
@@ -206,7 +206,7 @@ QFont QCustom3DLabel::font() const
  *
  * \sa borderVisible
  */
-void QCustom3DLabel::setTextColor(const QColor &color)
+void QCustom3DLabel::setTextColor(QColor color)
 {
     Q_D(QCustom3DLabel);
     if (d->m_txtColor != color) {
@@ -231,7 +231,7 @@ QColor QCustom3DLabel::textColor() const
  *
  * \sa backgroundVisible
  */
-void QCustom3DLabel::setBackgroundColor(const QColor &color)
+void QCustom3DLabel::setBackgroundColor(QColor color)
 {
     Q_D(QCustom3DLabel);
     if (d->m_bgrColor != color) {
@@ -336,8 +336,8 @@ QCustom3DLabelPrivate::QCustom3DLabelPrivate()
 
 QCustom3DLabelPrivate::QCustom3DLabelPrivate(const QString &text,
                                              const QFont &font,
-                                             const QVector3D &position,
-                                             const QVector3D &scaling,
+                                             QVector3D position,
+                                             QVector3D scaling,
                                              const QQuaternion &rotation)
     : QCustom3DItemPrivate(QStringLiteral(":/defaultMeshes/plane"), position, scaling, rotation)
     , m_text(text)

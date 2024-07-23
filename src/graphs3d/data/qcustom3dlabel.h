@@ -35,8 +35,8 @@ public:
     explicit QCustom3DLabel(QObject *parent = nullptr);
     explicit QCustom3DLabel(const QString &text,
                             const QFont &font,
-                            const QVector3D &position,
-                            const QVector3D &scaling,
+                            QVector3D position,
+                            QVector3D scaling,
                             const QQuaternion &rotation,
                             QObject *parent = nullptr);
     ~QCustom3DLabel() override;
@@ -47,10 +47,10 @@ public:
     void setFont(const QFont &font);
     QFont font() const;
 
-    void setTextColor(const QColor &color);
+    void setTextColor(QColor color);
     QColor textColor() const;
 
-    void setBackgroundColor(const QColor &color);
+    void setBackgroundColor(QColor color);
     QColor backgroundColor() const;
 
     void setBorderVisible(bool visible);
@@ -65,8 +65,8 @@ public:
 Q_SIGNALS:
     void textChanged(const QString &text);
     void fontChanged(const QFont &font);
-    void textColorChanged(const QColor &color);
-    void backgroundColorChanged(const QColor &color);
+    void textColorChanged(QColor color);
+    void backgroundColorChanged(QColor color);
     void borderVisibleChanged(bool visible);
     void backgroundVisibleChanged(bool visible);
     void facingCameraChanged(bool enabled);

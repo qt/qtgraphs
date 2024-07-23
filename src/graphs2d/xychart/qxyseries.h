@@ -31,35 +31,35 @@ protected:
 
 public:
     Q_INVOKABLE void append(qreal x, qreal y);
-    Q_INVOKABLE void append(const QPointF &point);
+    Q_INVOKABLE void append(QPointF point);
     Q_INVOKABLE void append(const QList<QPointF> &points);
     Q_INVOKABLE void replace(qreal oldX, qreal oldY, qreal newX, qreal newY);
-    Q_INVOKABLE void replace(const QPointF &oldPoint, const QPointF &newPoint);
+    Q_INVOKABLE void replace(QPointF oldPoint, QPointF newPoint);
     Q_INVOKABLE void replace(qsizetype index, qreal newX, qreal newY);
-    Q_INVOKABLE void replace(qsizetype index, const QPointF &newPoint);
+    Q_INVOKABLE void replace(qsizetype index, QPointF newPoint);
     Q_INVOKABLE void replace(const QList<QPointF> &points);
     Q_INVOKABLE void remove(qreal x, qreal y);
-    Q_INVOKABLE void remove(const QPointF &point);
+    Q_INVOKABLE void remove(QPointF point);
     Q_INVOKABLE void remove(qsizetype index);
-    Q_INVOKABLE void insert(qsizetype index, const QPointF &point);
+    Q_INVOKABLE void insert(qsizetype index, QPointF point);
     Q_INVOKABLE void clear();
-    Q_INVOKABLE const QPointF &at(qsizetype index) const;
-    Q_INVOKABLE qsizetype find(const QPointF &) const;
+    Q_INVOKABLE QPointF at(qsizetype index) const;
+    Q_INVOKABLE qsizetype find(QPointF point) const;
     Q_INVOKABLE void removeMultiple(qsizetype index, qsizetype count);
-    Q_INVOKABLE bool take(const QPointF &point);
+    Q_INVOKABLE bool take(QPointF point);
     Q_INVOKABLE qsizetype count() const;
 
     ~QXYSeries() override;
 
     QList<QPointF> points() const;
 
-    QXYSeries &operator<<(const QPointF &point);
+    QXYSeries &operator<<(QPointF point);
     QXYSeries &operator<<(const QList<QPointF> &points);
 
-    void setColor(const QColor &newColor);
+    void setColor(QColor newColor);
     QColor color() const;
 
-    void setSelectedColor(const QColor &color);
+    void setSelectedColor(QColor color);
     QColor selectedColor() const;
 
     Q_INVOKABLE bool isPointSelected(qsizetype index) const;
@@ -86,8 +86,8 @@ Q_SIGNALS:
     void pointReplaced(qsizetype index);
     void pointRemoved(qsizetype index);
     void pointAdded(qsizetype index);
-    void colorChanged(const QColor &color);
-    void selectedColorChanged(const QColor &color);
+    void colorChanged(QColor color);
+    void selectedColorChanged(QColor color);
     void pointsReplaced();
     void pointsRemoved(qsizetype index, qsizetype count);
     void selectedPointsChanged();

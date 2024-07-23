@@ -836,7 +836,7 @@ void QQuickGraphsItem::handleAxisTitleOffsetChanged(float offset)
     handleAxisTitleFixedChangedBySender(sender());
 }
 
-void QQuickGraphsItem::handleInputPositionChanged(const QPoint &position)
+void QQuickGraphsItem::handleInputPositionChanged(QPoint position)
 {
     Q_UNUSED(position);
     emitNeedRender();
@@ -854,7 +854,7 @@ void QQuickGraphsItem::handleRequestShadowQuality(QtGraphs3D::ShadowQuality qual
     setShadowQuality(quality);
 }
 
-void QQuickGraphsItem::handleQueryPositionChanged(const QPoint &position)
+void QQuickGraphsItem::handleQueryPositionChanged(QPoint position)
 {
     QVector3D data = graphPositionAt(position);
     setGraphPositionQueryPending(false);
@@ -862,13 +862,13 @@ void QQuickGraphsItem::handleQueryPositionChanged(const QPoint &position)
     emit queriedGraphPositionChanged(data);
 }
 
-void QQuickGraphsItem::handlePrimarySubViewportChanged(const QRect &rect)
+void QQuickGraphsItem::handlePrimarySubViewportChanged(const QRect rect)
 {
     m_primarySubView = rect;
     updateSubViews();
 }
 
-void QQuickGraphsItem::handleSecondarySubViewportChanged(const QRect &rect)
+void QQuickGraphsItem::handleSecondarySubViewportChanged(const QRect rect)
 {
     m_secondarySubView = rect;
     updateSubViews();
@@ -1249,7 +1249,7 @@ void QQuickGraphsItem::handleThemeBaseGradientsChanged(const QList<QLinearGradie
     markSeriesVisualsDirty();
 }
 
-void QQuickGraphsItem::handleThemeSingleHighlightColorChanged(const QColor &color)
+void QQuickGraphsItem::handleThemeSingleHighlightColorChanged(QColor color)
 {
     // Set value for series that have not explicitly set this value
     for (QAbstract3DSeries *series : m_seriesList) {
@@ -1273,7 +1273,7 @@ void QQuickGraphsItem::handleThemeSingleHighlightGradientChanged(const QLinearGr
     markSeriesVisualsDirty();
 }
 
-void QQuickGraphsItem::handleThemeMultiHighlightColorChanged(const QColor &color)
+void QQuickGraphsItem::handleThemeMultiHighlightColorChanged(QColor color)
 {
     // Set value for series that have not explicitly set this value
     for (QAbstract3DSeries *series : m_seriesList) {
@@ -1893,7 +1893,7 @@ void QQuickGraphsItem::deleteCustomItem(QCustom3DItem *item)
     emitNeedRender();
 }
 
-void QQuickGraphsItem::deleteCustomItem(const QVector3D &position)
+void QQuickGraphsItem::deleteCustomItem(QVector3D position)
 {
     // Get the item for the position
     for (QCustom3DItem *item : m_customItems) {
@@ -1938,7 +1938,7 @@ void QQuickGraphsItem::removeCustomItem(QCustom3DItem *item)
     deleteCustomItem(item);
 }
 
-void QQuickGraphsItem::removeCustomItemAt(const QVector3D &position)
+void QQuickGraphsItem::removeCustomItemAt(QVector3D position)
 {
     auto labelIterator = m_customLabelList.constBegin();
     while (labelIterator != m_customLabelList.constEnd()) {
@@ -3300,7 +3300,7 @@ void QQuickGraphsItem::gridLineCountHelper(QAbstract3DAxis *axis, qsizetype &lin
     }
 }
 
-QVector3D QQuickGraphsItem::graphPosToAbsolute(const QVector3D &position)
+QVector3D QQuickGraphsItem::graphPosToAbsolute(QVector3D position)
 {
     QVector3D pos = position;
     const int maxX = axisX()->max();
@@ -3815,7 +3815,7 @@ void QQuickGraphsItem::positionAndScaleLine(QQuick3DNode *lineNode,
     lineNode->setPosition(position);
 }
 
-QVector3D QQuickGraphsItem::graphPositionAt(const QPoint &point)
+QVector3D QQuickGraphsItem::graphPositionAt(const QPoint point)
 {
     auto result = pick(point.x(), point.y());
     QVector3D position = QVector3D();
@@ -3860,7 +3860,7 @@ void QQuickGraphsItem::updateShadowQuality(QtGraphs3D::ShadowQuality quality)
     }
 }
 
-void QQuickGraphsItem::updateItemLabel(const QVector3D &position)
+void QQuickGraphsItem::updateItemLabel(QVector3D position)
 {
     if (m_labelPosition != position)
         m_labelPosition = position;
@@ -3877,7 +3877,7 @@ void QQuickGraphsItem::updateItemLabel(const QVector3D &position)
     m_itemLabel->setPosition(pos2d.toPointF());
 }
 
-void QQuickGraphsItem::updateSliceItemLabel(const QString &label, const QVector3D &position)
+void QQuickGraphsItem::updateSliceItemLabel(const QString &label, QVector3D position)
 {
     Q_UNUSED(position);
 
@@ -4363,11 +4363,11 @@ float QQuickGraphsItem::calculatePolarBackgroundMargin()
     return maxNeededMargin;
 }
 
-void QQuickGraphsItem::updateXTitle(const QVector3D &labelRotation,
-                                    const QVector3D &labelTrans,
+void QQuickGraphsItem::updateXTitle(QVector3D labelRotation,
+                                    QVector3D labelTrans,
                                     const QQuaternion &totalRotation,
                                     float labelsMaxWidth,
-                                    const QVector3D &scale)
+                                    QVector3D scale)
 {
     QFont font = theme()->axisXLabelFont() == QFont() ? theme()->labelFont() : theme()->axisXLabelFont();
     float pointSize = font.pointSizeF();
@@ -4466,14 +4466,14 @@ void QQuickGraphsItem::updateXTitle(const QVector3D &labelRotation,
     m_titleLabelX->setProperty("labelHeight", height);
 }
 
-void QQuickGraphsItem::updateYTitle(const QVector3D &sideLabelRotation,
-                                    const QVector3D &backLabelRotation,
-                                    const QVector3D &sideLabelTrans,
-                                    const QVector3D &backLabelTrans,
+void QQuickGraphsItem::updateYTitle(QVector3D sideLabelRotation,
+                                    QVector3D backLabelRotation,
+                                    QVector3D sideLabelTrans,
+                                    QVector3D backLabelTrans,
                                     const QQuaternion &totalSideRotation,
                                     const QQuaternion &totalBackRotation,
                                     float labelsMaxWidth,
-                                    const QVector3D &scale)
+                                    QVector3D scale)
 {
     QFont font = theme()->axisYLabelFont() == QFont() ? theme()->labelFont() : theme()->axisYLabelFont();
     float pointSize = font.pointSizeF();
@@ -4520,11 +4520,11 @@ void QQuickGraphsItem::updateYTitle(const QVector3D &sideLabelRotation,
     m_titleLabelY->setProperty("labelHeight", height);
 }
 
-void QQuickGraphsItem::updateZTitle(const QVector3D &labelRotation,
-                                    const QVector3D &labelTrans,
+void QQuickGraphsItem::updateZTitle(QVector3D labelRotation,
+                                    QVector3D labelTrans,
                                     const QQuaternion &totalRotation,
                                     float labelsMaxWidth,
-                                    const QVector3D &scale)
+                                    QVector3D scale)
 {
     QFont font = theme()->axisZLabelFont() == QFont() ? theme()->labelFont() : theme()->axisZLabelFont();
     float pointSize = font.pointSizeF();
@@ -5021,7 +5021,7 @@ void QQuickGraphsItem::mouseMoveEvent(QMouseEvent *event)
     emit mouseMove(mousePos);
 }
 
-void QQuickGraphsItem::resizeViewports(const QSizeF &viewportSize)
+void QQuickGraphsItem::resizeViewports(QSizeF viewportSize)
 {
     if (viewportSize.isEmpty())
         return;
@@ -5267,7 +5267,7 @@ QQuick3DNode *QQuickGraphsItem::rootNode() const
     return QQuick3DViewport::scene();
 }
 
-void QQuickGraphsItem::changeLabelBackgroundColor(QQuick3DRepeater *repeater, const QColor &color)
+void QQuickGraphsItem::changeLabelBackgroundColor(QQuick3DRepeater *repeater, QColor color)
 {
     int count = repeater->count();
     for (int i = 0; i < count; i++) {
@@ -5294,7 +5294,7 @@ void QQuickGraphsItem::changeLabelBorderVisible(QQuick3DRepeater *repeater, cons
     }
 }
 
-void QQuickGraphsItem::changeLabelTextColor(QQuick3DRepeater *repeater, const QColor &color)
+void QQuickGraphsItem::changeLabelTextColor(QQuick3DRepeater *repeater, QColor color)
 {
     int count = repeater->count();
     for (int i = 0; i < count; i++) {
@@ -5321,7 +5321,7 @@ void QQuickGraphsItem::changeLabelsVisible(QQuick3DRepeater *repeater, const boo
     }
 }
 
-void QQuickGraphsItem::changeGridLineColor(QQuick3DRepeater *repeater, const QColor &color)
+void QQuickGraphsItem::changeGridLineColor(QQuick3DRepeater *repeater, QColor color)
 {
     for (int i = 0; i < repeater->count(); i++) {
         auto lineNode = static_cast<QQuick3DNode *>(repeater->objectAt(i));
@@ -5371,7 +5371,7 @@ void QQuickGraphsItem::updateSelectionMode(QtGraphs3D::SelectionFlags newMode)
         toggleSliceGraph();
 }
 
-bool QQuickGraphsItem::doPicking(const QPointF &point)
+bool QQuickGraphsItem::doPicking(QPointF point)
 {
     checkSliceEnabled();
 
@@ -5859,7 +5859,7 @@ void QQuickGraphsItem::setMaxCameraZoomLevel(float level)
     emit maxCameraZoomLevelChanged(level);
 }
 
-void QQuickGraphsItem::setCameraTargetPosition(const QVector3D &target)
+void QQuickGraphsItem::setCameraTargetPosition(QVector3D target)
 {
     if (m_requestedTarget == target)
         return;
@@ -6429,7 +6429,7 @@ QColor QQuickGraphsItem::lightColor() const
     return m_lightColor;
 }
 
-void QQuickGraphsItem::setLightColor(const QColor &newLightColor)
+void QQuickGraphsItem::setLightColor(QColor newLightColor)
 {
     if (m_lightColor == newLightColor)
         return;

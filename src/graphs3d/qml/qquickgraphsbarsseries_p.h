@@ -51,7 +51,7 @@ public:
     QQmlListProperty<QObject> seriesChildren();
     static void appendSeriesChildren(QQmlListProperty<QObject> *list, QObject *element);
 
-    void setSelectedBar(const QPointF &position);
+    void setSelectedBar(QPointF position);
     QPointF selectedBar() const;
     QPointF invalidSelectionPosition() const;
 
@@ -77,7 +77,7 @@ public Q_SLOTS:
     void handleRowColorUpdate();
 
 Q_SIGNALS:
-    void selectedBarChanged(const QPointF &position);
+    void selectedBarChanged(QPointF position);
     void baseGradientChanged(QJSValue gradient);
     void singleHighlightGradientChanged(QJSValue gradient);
     void multiHighlightGradientChanged(QJSValue gradient);

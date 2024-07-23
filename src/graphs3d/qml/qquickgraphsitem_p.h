@@ -233,7 +233,7 @@ public:
     void markSeriesItemLabelsDirty();
     void emitNeedRender();
 
-    void setQueriedGraphPosition(const QVector3D &position) { m_queriedGraphPosition = position; }
+    void setQueriedGraphPosition(QVector3D position) { m_queriedGraphPosition = position; }
 
     virtual void handleAxisTitleChangedBySender(QObject *sender);
     virtual void handleAxisLabelsChangedBySender(QObject *sender);
@@ -320,13 +320,13 @@ public:
 
     void deleteCustomItems();
     void deleteCustomItem(QCustom3DItem *item);
-    void deleteCustomItem(const QVector3D &position);
+    void deleteCustomItem(QVector3D position);
     QList<QCustom3DItem *> customItems() const;
 
     Q_INVOKABLE virtual qsizetype addCustomItem(QCustom3DItem *item);
     Q_INVOKABLE virtual void removeCustomItems();
     Q_INVOKABLE virtual void removeCustomItem(QCustom3DItem *item);
-    Q_INVOKABLE virtual void removeCustomItemAt(const QVector3D &position);
+    Q_INVOKABLE virtual void removeCustomItemAt(QVector3D position);
     Q_INVOKABLE virtual void releaseCustomItem(QCustom3DItem *item);
 
     Q_INVOKABLE virtual int selectedLabelIndex() const;
@@ -343,7 +343,7 @@ public:
 
     void geometryChange(const QRectF &newGeometry, const QRectF &oldGeometry) override;
 
-    void resizeViewports(const QSizeF &viewportSize);
+    void resizeViewports(QSizeF viewportSize);
 
     void checkWindowList(QQuickWindow *window);
 
@@ -417,14 +417,14 @@ public:
     void setZFlipped(bool zFlipped) { m_zFlipped = zFlipped; }
     QVector3D scaleWithBackground() const { return m_scaleWithBackground; }
     QVector3D backgroundScaleMargin() const { return m_backgroundScaleMargin; }
-    void setScaleWithBackground(const QVector3D &scale) { m_scaleWithBackground = scale; }
-    void setBackgroundScaleMargin(const QVector3D &margin) { m_backgroundScaleMargin = margin; }
+    void setScaleWithBackground(QVector3D scale) { m_scaleWithBackground = scale; }
+    void setBackgroundScaleMargin(QVector3D margin) { m_backgroundScaleMargin = margin; }
     QVector3D rotation() const { return m_rot; }
-    void setRotation(const QVector3D &rotation) { m_rot = rotation; }
+    void setRotation(QVector3D rotation) { m_rot = rotation; }
     QVector3D scale() const { return m_scale; }
-    void setScale(const QVector3D &scale) { m_scale = scale; }
+    void setScale(QVector3D scale) { m_scale = scale; }
     QVector3D translate() const { return m_translate; }
-    void setTranslate(const QVector3D &translate) { m_translate = translate; }
+    void setTranslate(QVector3D translate) { m_translate = translate; }
 
     float lineLengthScaleFactor() const { return m_lineLengthScaleFactor; }
     void setLineLengthScaleFactor(float scaleFactor) { m_lineLengthScaleFactor = scaleFactor; }
@@ -476,7 +476,7 @@ public:
     float maxCameraZoomLevel() const { return m_maxZoomLevel; }
     void setMaxCameraZoomLevel(float level);
 
-    void setCameraTargetPosition(const QVector3D &target);
+    void setCameraTargetPosition(QVector3D target);
     QVector3D cameraTargetPosition() const { return m_requestedTarget; }
 
     bool wrapCameraXRotation() const { return m_wrapXRotation; }
@@ -485,22 +485,22 @@ public:
     bool wrapCameraYRotation() const { return m_wrapYRotation; }
     void setWrapCameraYRotation(bool wrap);
 
-    QVector3D graphPositionAt(const QPoint &point);
+    QVector3D graphPositionAt(QPoint point);
     void setCameraPosition(float horizontal, float vertical, float zoom = 100.0f);
 
-    void changeLabelBackgroundColor(QQuick3DRepeater *repeater, const QColor &color);
+    void changeLabelBackgroundColor(QQuick3DRepeater *repeater, QColor color);
     void changeLabelBackgroundVisible(QQuick3DRepeater *repeater, const bool &visible);
     void changeLabelBorderVisible(QQuick3DRepeater *repeater, const bool &visible);
-    void changeLabelTextColor(QQuick3DRepeater *repeater, const QColor &color);
+    void changeLabelTextColor(QQuick3DRepeater *repeater, QColor color);
     void changeLabelFont(QQuick3DRepeater *repeater, const QFont &font);
     void changeLabelsVisible(QQuick3DRepeater *repeater, const bool &visible);
-    void changeGridLineColor(QQuick3DRepeater *repeater, const QColor &color);
+    void changeGridLineColor(QQuick3DRepeater *repeater, QColor color);
     void updateTitleLabels();
     virtual void updateSelectionMode(QtGraphs3D::SelectionFlags newMode);
 
     void setSliceActivatedChanged(bool changed) { m_sliceActivatedChanged = changed; }
 
-    Q_INVOKABLE virtual bool doPicking(const QPointF &point);
+    Q_INVOKABLE virtual bool doPicking(QPointF point);
 
     void minimizeMainGraph();
 
@@ -514,7 +514,7 @@ public:
     float shadowStrength() const;
     void setShadowStrength(float newShadowStrength);
     QColor lightColor() const;
-    void setLightColor(const QColor &newLightColor);
+    void setLightColor(QColor newLightColor);
     QtGraphs3D::GridLineType gridLineType() const;
     void setGridLineType(const QtGraphs3D::GridLineType &gridLineType);
 
@@ -539,15 +539,15 @@ public Q_SLOTS:
     void handleAxisLabelVisibilityChanged(bool visible);
     void handleAxisTitleFixedChanged(bool fixed);
     void handleAxisTitleOffsetChanged(float offset);
-    void handleInputPositionChanged(const QPoint &position);
+    void handleInputPositionChanged(QPoint position);
     void handleSeriesVisibilityChanged(bool visible);
 
     void handleThemeColorStyleChanged(QGraphsTheme::ColorStyle style);
     void handleThemeBaseColorsChanged(const QList<QColor> &color);
     void handleThemeBaseGradientsChanged(const QList<QLinearGradient> &gradient);
-    void handleThemeSingleHighlightColorChanged(const QColor &color);
+    void handleThemeSingleHighlightColorChanged(QColor color);
     void handleThemeSingleHighlightGradientChanged(const QLinearGradient &gradient);
-    void handleThemeMultiHighlightColorChanged(const QColor &color);
+    void handleThemeMultiHighlightColorChanged(QColor color);
     void handleThemeMultiHighlightGradientChanged(const QLinearGradient &gradient);
     void handleThemeTypeChanged(QGraphsTheme::Theme theme);
 
@@ -573,13 +573,13 @@ Q_SIGNALS:
     void radialLabelOffsetChanged(float offset);
     void horizontalAspectRatioChanged(qreal ratio);
     void localeChanged(const QLocale &locale);
-    void queriedGraphPositionChanged(const QVector3D &data);
+    void queriedGraphPositionChanged(QVector3D data);
     void marginChanged(qreal margin);
     void cameraPresetChanged(QtGraphs3D::CameraPreset preset);
     void cameraXRotationChanged(float rotation);
     void cameraYRotationChanged(float rotation);
     void cameraZoomLevelChanged(float zoomLevel);
-    void cameraTargetPositionChanged(const QVector3D &target);
+    void cameraTargetPositionChanged(QVector3D target);
     void minCameraZoomLevelChanged(float zoomLevel);
     void maxCameraZoomLevelChanged(float zoomLevel);
     void minCameraXRotationChanged(float rotation);
@@ -634,10 +634,10 @@ protected:
 
     virtual void createSliceView();
 
-    void handleQueryPositionChanged(const QPoint &position);
+    void handleQueryPositionChanged(QPoint position);
 
-    void handlePrimarySubViewportChanged(const QRect &rect);
-    void handleSecondarySubViewportChanged(const QRect &rect);
+    void handlePrimarySubViewportChanged(const QRect rect);
+    void handleSecondarySubViewportChanged(const QRect rect);
 
     QQuick3DNode *graphNode() { return m_graphNode; }
     QQuick3DViewport *sliceView() { return m_sliceView; }
@@ -648,24 +648,24 @@ protected:
     void createItemLabel();
     QAbstract3DSeries::SeriesType m_graphType = QAbstract3DSeries::SeriesType::None;
 
-    void updateXTitle(const QVector3D &labelRotation,
-                      const QVector3D &labelTrans,
+    void updateXTitle(QVector3D labelRotation,
+                      QVector3D labelTrans,
                       const QQuaternion &totalRotation,
                       float labelsMaxWidth,
-                      const QVector3D &scale);
-    void updateYTitle(const QVector3D &sideLabelRotation,
-                      const QVector3D &backLabelRotation,
-                      const QVector3D &sideLabelTrans,
-                      const QVector3D &backLabelTrans,
+                      QVector3D scale);
+    void updateYTitle(QVector3D sideLabelRotation,
+                      QVector3D backLabelRotation,
+                      QVector3D sideLabelTrans,
+                      QVector3D backLabelTrans,
                       const QQuaternion &totalSideRotation,
                       const QQuaternion &totalBackRotation,
                       float labelsMaxWidth,
-                      const QVector3D &scale);
-    void updateZTitle(const QVector3D &labelRotation,
-                      const QVector3D &labelTrans,
+                      QVector3D scale);
+    void updateZTitle(QVector3D labelRotation,
+                      QVector3D labelTrans,
                       const QQuaternion &totalRotation,
                       float labelsMaxWidth,
-                      const QVector3D &scale);
+                      QVector3D scale);
 
     virtual void calculateSceneScalingFactors() = 0;
     void positionAndScaleLine(QQuick3DNode *lineNode, QVector3D scale, QVector3D position);
@@ -688,8 +688,8 @@ protected:
     void updateBackgroundColor();
     void setItemSelected(bool selected);
     virtual void updateShadowQuality(QtGraphs3D::ShadowQuality quality);
-    void updateItemLabel(const QVector3D &position);
-    virtual void updateSliceItemLabel(const QString &label, const QVector3D &position);
+    void updateItemLabel(QVector3D position);
+    virtual void updateSliceItemLabel(const QString &label, QVector3D position);
 
     struct Volume
     {
@@ -888,7 +888,7 @@ private:
     float fontScaleFactor(float pointSize);
     float labelAdjustment(float width);
     void gridLineCountHelper(QAbstract3DAxis *axis, qsizetype &lineCount, qsizetype &sublineCount);
-    QVector3D graphPosToAbsolute(const QVector3D &position);
+    QVector3D graphPosToAbsolute(QVector3D position);
 
     void createVolumeMaterial(QCustom3DVolume *volume, Volume &volumeItem);
     QQuick3DModel *createSliceFrame(Volume &volumeItem);

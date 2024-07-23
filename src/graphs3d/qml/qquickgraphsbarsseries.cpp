@@ -39,7 +39,7 @@ void QQuickGraphsBar3DSeries::appendSeriesChildren(QQmlListProperty<QObject> *li
         reinterpret_cast<QQuickGraphsBar3DSeries *>(list->data)->setDataProxy(proxy);
 }
 
-void QQuickGraphsBar3DSeries::setSelectedBar(const QPointF &position)
+void QQuickGraphsBar3DSeries::setSelectedBar(QPointF position)
 {
     QBar3DSeries::setSelectedBar(position.toPoint());
 }

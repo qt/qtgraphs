@@ -33,7 +33,7 @@ public:
     qsizetype rowCount() const;
     qsizetype columnCount() const;
     const QSurfaceDataItem &itemAt(qsizetype rowIndex, qsizetype columnIndex) const;
-    const QSurfaceDataItem &itemAt(const QPoint &position) const;
+    const QSurfaceDataItem &itemAt(QPoint position) const;
 
     void resetArray();
     void resetArray(QSurfaceDataArray newArray);
@@ -42,7 +42,7 @@ public:
     void setRows(qsizetype rowIndex, QSurfaceDataArray rows);
 
     void setItem(qsizetype rowIndex, qsizetype columnIndex, QSurfaceDataItem item);
-    void setItem(const QPoint &position, QSurfaceDataItem item);
+    void setItem(QPoint position, QSurfaceDataItem item);
 
     qsizetype addRow(QSurfaceDataRow row);
     qsizetype addRows(QSurfaceDataArray rows);

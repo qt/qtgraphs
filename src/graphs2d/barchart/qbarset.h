@@ -55,16 +55,16 @@ public:
     QBarSet &operator << (qreal value);
 
     QColor color() const;
-    void setColor(const QColor &color);
+    void setColor(QColor color);
 
     QColor borderColor() const;
-    void setBorderColor(const QColor &color);
+    void setBorderColor(QColor color);
 
     QColor labelColor() const;
-    void setLabelColor(const QColor &color);
+    void setLabelColor(QColor color);
 
     QColor selectedColor() const;
-    void setSelectedColor(const QColor &color);
+    void setSelectedColor(QColor color);
 
     QVariantList values() const;
     void setValues(const QVariantList &values);
@@ -85,11 +85,11 @@ public:
 Q_SIGNALS:
     void update();
     void labelChanged();
-    void colorChanged(const QColor &color);
-    void borderColorChanged(const QColor &color);
-    void labelColorChanged(const QColor &color);
+    void colorChanged(QColor color);
+    void borderColorChanged(QColor color);
+    void labelColorChanged(QColor color);
     void valuesChanged();
-    void selectedColorChanged(const QColor &color);
+    void selectedColorChanged(QColor color);
     void countChanged();
 
     void borderWidthChanged(qreal width);

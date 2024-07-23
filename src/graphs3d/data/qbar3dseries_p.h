@@ -32,7 +32,7 @@ public:
     void connectGraphAndProxy(QQuickGraphsItem *newGraph) override;
     void createItemLabel() override;
 
-    void setSelectedBar(const QPoint &position);
+    void setSelectedBar(QPoint position);
 
     void setRowColors(const QList<QColor> &colors);
 

@@ -26,11 +26,11 @@ public:
     SurfaceSelectionInstancing();
     ~SurfaceSelectionInstancing();
 
-    void setRotation(const QVector3D &rotation) { m_rotation = rotation; }
-    void setScale(const QVector3D &scale) { m_scale = scale; }
-    void addPosition(const QVector3D &position);
+    void setRotation(QVector3D rotation) { m_rotation = rotation; }
+    void setScale(QVector3D scale) { m_scale = scale; }
+    void addPosition(QVector3D position);
     void resetPositions();
-    void setColor(const QColor &color) { m_color = color; }
+    void setColor(QColor color) { m_color = color; }
 
 protected:
     QByteArray getInstanceBuffer(int *instanceCount) override;

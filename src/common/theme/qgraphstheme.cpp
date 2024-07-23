@@ -753,7 +753,7 @@ QColor QGraphsTheme::plotAreaBackgroundColor() const
     return d->m_plotAreaBackgroundThemeColor;
 }
 
-void QGraphsTheme::setPlotAreaBackgroundColor(const QColor &newBackgroundColor)
+void QGraphsTheme::setPlotAreaBackgroundColor(QColor newBackgroundColor)
 {
     Q_D(QGraphsTheme);
     d->m_customBits.plotAreaBackgroundColorCustom = true;
@@ -854,7 +854,7 @@ QColor QGraphsTheme::backgroundColor() const
     return d->m_backgroundThemeColor;
 }
 
-void QGraphsTheme::setBackgroundColor(const QColor &newBackgroundColor)
+void QGraphsTheme::setBackgroundColor(QColor newBackgroundColor)
 {
     Q_D(QGraphsTheme);
     d->m_customBits.backgroundColorCustom = true;
@@ -907,7 +907,7 @@ QColor QGraphsTheme::labelBackgroundColor() const
     return d->m_labelBackgroundThemeColor;
 }
 
-void QGraphsTheme::setLabelBackgroundColor(const QColor &newLabelBackgroundColor)
+void QGraphsTheme::setLabelBackgroundColor(QColor newLabelBackgroundColor)
 {
     Q_D(QGraphsTheme);
     d->m_customBits.labelBackgroundColorCustom = true;
@@ -933,7 +933,7 @@ QColor QGraphsTheme::labelTextColor() const
     return d->m_labelTextThemeColor;
 }
 
-void QGraphsTheme::setLabelTextColor(const QColor &newLabelTextColor)
+void QGraphsTheme::setLabelTextColor(QColor newLabelTextColor)
 {
     Q_D(QGraphsTheme);
     d->m_customBits.labelTextColorCustom = true;
@@ -962,7 +962,7 @@ QColor QGraphsTheme::singleHighlightColor() const
     return d->m_singleHighlightThemeColor;
 }
 
-void QGraphsTheme::setSingleHighlightColor(const QColor &newSingleHighlightColor)
+void QGraphsTheme::setSingleHighlightColor(QColor newSingleHighlightColor)
 {
     Q_D(QGraphsTheme);
     d->m_customBits.singleHighlightColorCustom = true;
@@ -992,7 +992,7 @@ QColor QGraphsTheme::multiHighlightColor() const
     return d->m_multiHighlightThemeColor;
 }
 
-void QGraphsTheme::setMultiHighlightColor(const QColor &newMultiHighlightColor)
+void QGraphsTheme::setMultiHighlightColor(QColor newMultiHighlightColor)
 {
     Q_D(QGraphsTheme);
     d->m_customBits.multiHighlightColorCustom = true;
@@ -1497,7 +1497,7 @@ void QGraphsTheme::setThemePalette()
     d->m_dirtyBits.seriesGradientDirty = true;
 }
 
-QLinearGradient QGraphsTheme::createGradient(const QColor &color, float colorLevel)
+QLinearGradient QGraphsTheme::createGradient(QColor color, float colorLevel)
 {
     QColor startColor;
     QLinearGradient gradient = QLinearGradient(qreal(gradientTextureWidth),
@@ -1873,7 +1873,7 @@ QColor QGraphsLine::mainColor() const
     return d->m_mainThemeColor;
 }
 
-void QGraphsLine::setMainColor(const QColor &newColor)
+void QGraphsLine::setMainColor(QColor newColor)
 {
     d->m_bits.mainColorCustom = true;
     if (d->m_mainColor == newColor)
@@ -1889,7 +1889,7 @@ QColor QGraphsLine::subColor() const
     return d->m_subThemeColor;
 }
 
-void QGraphsLine::setSubColor(const QColor &newColor)
+void QGraphsLine::setSubColor(QColor newColor)
 {
     d->m_bits.subColorCustom = true;
     if (d->m_subColor == newColor)
@@ -1931,7 +1931,7 @@ QColor QGraphsLine::labelTextColor() const
     return d->m_labelTextThemeColor;
 }
 
-void QGraphsLine::setLabelTextColor(const QColor &newColor)
+void QGraphsLine::setLabelTextColor(QColor newColor)
 {
     d->m_bits.labelTextColorCustom = true;
     if (d->m_labelTextColor == newColor)
