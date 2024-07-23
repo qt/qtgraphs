@@ -9,6 +9,7 @@
 #include <private/qpieseries_p.h>
 #include <private/qpieslice_p.h>
 #include <private/qquickshape_p.h>
+#include <QtQuick/private/qquicktext_p.h>
 
 PieRenderer::PieRenderer(QGraphsView *graph)
     : QQuickItem(graph)

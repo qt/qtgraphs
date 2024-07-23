@@ -5,6 +5,7 @@
 #include <QtGraphs/qbarseries.h>
 #include <QtGraphs/qbarset.h>
 #include <private/barsrenderer_p.h>
+#include <private/axisrenderer_p.h>
 #include <private/qbarseries_p.h>
 #include <private/qgraphsview_p.h>
 

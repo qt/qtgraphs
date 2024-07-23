@@ -5,6 +5,7 @@
 #include <QtGraphs/qscatterseries.h>
 #include <QtGraphs/qsplineseries.h>
 #include <private/pointrenderer_p.h>
+#include <private/axisrenderer_p.h>
 #include <private/qabstractseries_p.h>
 #include <private/qgraphsview_p.h>
 #include <private/qxyseries_p.h>

@@ -16,6 +16,7 @@
 #include <QtGraphs/QAbstractAxis>
 #include <private/qgraphsview_p.h>
 #include <QtCore/QDebug>
+#include <QtCore/private/qobject_p.h>
 #include <QColor>
 
 #include <memory>
