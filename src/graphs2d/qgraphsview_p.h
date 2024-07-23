@@ -15,25 +15,22 @@
 // We mean it.
 
 #include <QtQuick/QQuickItem>
-#include <QList>
-#include <QQmlListProperty>
+#include <QtCore/QList>
+#include <QtQml/QQmlListProperty>
 #include <QtGraphs/qabstractseries.h>
-#include <QtQuick/private/qquickrectangle_p.h>
-
-#include <QBrush>
-#include <QPen>
 #include <QtGraphs/qgraphstheme.h>
-#include <private/arearenderer_p.h>
-#include <private/axisrenderer_p.h>
-#include <private/barsrenderer_p.h>
-#include <private/pierenderer_p.h>
-#include <private/pointrenderer_p.h>
 
 QT_BEGIN_NAMESPACE
 
+class QQuickRectangle;
 class QAbstractAxis;
+class AxisRenderer;
+class BarsRenderer;
+class PointRenderer;
+class PieRenderer;
+class AreaRenderer;
 
-class QGraphsView : public QQuickItem
+class Q_GRAPHS_EXPORT QGraphsView : public QQuickItem
 {
     Q_OBJECT
     Q_PROPERTY(QGraphsTheme *theme READ theme WRITE setTheme NOTIFY themeChanged FINAL)

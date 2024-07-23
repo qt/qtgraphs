@@ -8,6 +8,12 @@
 #include <QtGraphs/qscatterseries.h>
 #include <QtGraphs/qsplineseries.h>
 #include <private/qgraphsview_p.h>
+#include <private/arearenderer_p.h>
+#include <private/axisrenderer_p.h>
+#include <private/barsrenderer_p.h>
+#include <private/pierenderer_p.h>
+#include <private/pointrenderer_p.h>
+#include <QtQuick/private/qquickrectangle_p.h>
 #include <QTimer>
 
 QT_BEGIN_NAMESPACE
