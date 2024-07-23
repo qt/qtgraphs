@@ -140,9 +140,6 @@ QDateTimeAxis::QDateTimeAxis(QObject *parent)
 
 QDateTimeAxis::~QDateTimeAxis()
 {
-    Q_D(QDateTimeAxis);
-    if (d->m_graph)
-        d->m_graph->removeAxis(this);
 }
 
 QAbstractAxis::AxisType QDateTimeAxis::type() const

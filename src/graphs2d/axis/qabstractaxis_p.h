@@ -35,6 +35,7 @@ public:
     Qt::Alignment alignment() const { return m_alignment; }
     Qt::Orientation orientation() const { return m_orientation; }
     void setAlignment(Qt::Alignment alignment);
+    void setGraph(QGraphsView *graph) { m_graph = graph; }
 
     //interface for manipulating range form base class
     virtual void setMin(const QVariant &min) = 0;
@@ -50,7 +51,6 @@ public Q_SLOTS:
     void handleRangeChanged(qreal min, qreal max);
 
 protected:
-    // TODO: Used?
     QGraphsView *m_graph = nullptr;
 
 private:

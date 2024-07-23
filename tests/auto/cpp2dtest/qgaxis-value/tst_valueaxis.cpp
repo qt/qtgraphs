@@ -3,6 +3,8 @@
 
 #include "qtestcase.h"
 #include <QtGraphs/QValueAxis>
+#include <QtGraphs/private/qgraphsview_p.h>
+
 #include <QtTest/QtTest>
 
 class tst_valueaxis : public QObject
@@ -20,6 +22,7 @@ private slots:
     void initialProperties();
     void initializeProperties();
     void invalidProperties();
+    void addAndDelete();
 
 private:
     QValueAxis *m_axis;
@@ -91,6 +94,24 @@ void tst_valueaxis::invalidProperties()
     QCOMPARE(m_axis->min(), 0);
     QCOMPARE(m_axis->max(), 0);
     QCOMPARE(m_axis->subTickCount(), 0);
+}
+
+void tst_valueaxis::addAndDelete()
+{
+    QValueAxis *xAxis = new QValueAxis();
+    QValueAxis *yAxis = new QValueAxis();
+    QGraphsView view;
+    view.setAxisX(xAxis);
+    view.setAxisY(yAxis);
+    QVERIFY(view.axisX());
+    QVERIFY(view.axisY());
+    // Axis destructors should remove them from the GraphsView
+    delete xAxis;
+    QVERIFY(!view.axisX());
+    QVERIFY(view.axisY());
+    delete yAxis;
+    QVERIFY(!view.axisX());
+    QVERIFY(!view.axisY());
 }
 
 QTEST_MAIN(tst_valueaxis)

@@ -13,6 +13,7 @@
 #include <private/barsrenderer_p.h>
 #include <private/pierenderer_p.h>
 #include <private/pointrenderer_p.h>
+#include <private/qabstractaxis_p.h>
 #include <QtQuick/private/qquickrectangle_p.h>
 #include <QTimer>
 
@@ -55,6 +56,8 @@ QGraphsView::~QGraphsView()
     const auto slist = m_seriesList;
     for (const auto &s : slist)
         removeSeries(s);
+    for (auto &axis : m_axis)
+        axis->d_func()->setGraph(nullptr);
 }
 
 /*!
@@ -157,7 +160,7 @@ bool QGraphsView::hasSeries(QObject *series)
 
 void QGraphsView::addAxis(QAbstractAxis *axis)
 {
-    if (!m_axis.contains(axis)) {
+    if (axis && !m_axis.contains(axis)) {
         // Ensure AxisRenderer exists
         createAxisRenderer();
         m_axis << axis;
@@ -168,7 +171,12 @@ void QGraphsView::addAxis(QAbstractAxis *axis)
 
 void QGraphsView::removeAxis(QAbstractAxis *axis)
 {
-    if (m_axis.contains(axis)) {
+    if (m_axisX == axis)
+        m_axisX = nullptr;
+    if (m_axisY == axis)
+        m_axisY = nullptr;
+
+    if (axis && m_axis.contains(axis)) {
         m_axis.removeAll(axis);
         polishAndUpdate();
     }
@@ -928,9 +936,12 @@ QAbstractAxis *QGraphsView::axisX() const
 
 void QGraphsView::setAxisX(QAbstractAxis *axis)
 {
+    if (m_axisX == axis)
+        return;
     removeAxis(m_axisX);
     m_axisX = axis;
     if (axis) {
+        axis->d_func()->setGraph(this);
         axis->setOrientation(Qt::Horizontal);
         addAxis(axis);
     }
@@ -956,9 +967,12 @@ QAbstractAxis *QGraphsView::axisY() const
 
 void QGraphsView::setAxisY(QAbstractAxis *axis)
 {
+    if (m_axisY == axis)
+        return;
     removeAxis(m_axisY);
     m_axisY = axis;
     if (axis) {
+        axis->d_func()->setGraph(this);
         axis->setOrientation(Qt::Vertical);
         addAxis(axis);
     }

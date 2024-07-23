@@ -126,6 +126,7 @@ Q_SIGNALS:
     void rangeChanged(qreal min, qreal max);
 
 private:
+    friend class QGraphsView;
     Q_DISABLE_COPY(QAbstractAxis)
 };
 
