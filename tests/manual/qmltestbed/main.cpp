@@ -9,7 +9,7 @@ int main(int argc, char *argv[])
     QGuiApplication app(argc, argv);
     qputenv("QT_QUICK_CONTROLS_STYLE", "Basic");
     QQmlApplicationEngine engine;
-    engine.load(QUrl(QStringLiteral("qrc:/qml/testbed/main.qml")));
+    engine.load(QUrl(QStringLiteral("qrc:/qml/qmltestbed/main.qml")));
     if (engine.rootObjects().isEmpty())
         return -1;
 

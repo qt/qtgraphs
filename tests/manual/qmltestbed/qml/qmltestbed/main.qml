@@ -11,7 +11,7 @@ Window {
 
     QtObject {
         id: settings
-        readonly property url startupView: "qrc:/qml/testbed/StartupView.qml"
+        readonly property url startupView: "StartupView.qml"
         readonly property real iconSize: 30 + 30 * px
         readonly property real fontSizeSmall: 12 * px
         readonly property real fontSizeLarge: 26 * px
@@ -38,7 +38,7 @@ Window {
         implicitHeight: settings.iconSize
         opacity: loader.source != "" && loader.source != settings.startupView
         visible: opacity
-        icon.source: "qrc:/qml/testbed/images/arrow_icon.png"
+        icon.source: "qrc:/qml/qmltestbed/images/arrow_icon.png"
         icon.width: backButton.width * 0.3
         icon.height: backButton.height * 0.3
         icon.color: "transparent"

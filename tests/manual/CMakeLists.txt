@@ -1,15 +1,17 @@
 # Copyright (C) 2024 The Qt Company Ltd.
 # SPDX-License-Identifier: BSD-3-Clause
 
-# Graph2D Tests
+# Graphs2D Tests
 if(QT_FEATURE_graphs_2d)
     if(TARGET Qt::Quick)
         if(WIN32)
             add_subdirectory(qmlbarscatter)
         endif()
+        add_subdirectory(qmltestbed)
     endif()
 endif()
 
+# Graphs3D Tests
 if(QT_FEATURE_graphs_3d)
     if(TARGET Qt::Quick)
         if(QT_FEATURE_graphs_3d_bars3d)
