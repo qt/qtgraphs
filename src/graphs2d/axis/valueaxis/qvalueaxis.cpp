@@ -209,9 +209,6 @@ QValueAxis::QValueAxis(QValueAxisPrivate &d, QObject *parent)
 */
 QValueAxis::~QValueAxis()
 {
-    Q_D(QValueAxis);
-    if (d->m_graph)
-        d->m_graph->removeAxis(this);
 }
 
 void QValueAxis::setMin(qreal min)

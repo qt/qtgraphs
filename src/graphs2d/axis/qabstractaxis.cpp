@@ -265,9 +265,6 @@ QAbstractAxis::QAbstractAxis(QAbstractAxisPrivate &dd, QObject *parent)
 
 QAbstractAxis::~QAbstractAxis()
 {
-    Q_D(QAbstractAxis);
-    if (d->m_graph)
-        qFatal("Still binded axis detected !");
 }
 
 /*!
@@ -542,6 +539,9 @@ QAbstractAxisPrivate::QAbstractAxisPrivate() {}
 
 QAbstractAxisPrivate::~QAbstractAxisPrivate()
 {
+    Q_Q(QAbstractAxis);
+    if (m_graph)
+        m_graph->removeAxis(q);
 }
 
 void QAbstractAxisPrivate::setAlignment(Qt::Alignment alignment)
