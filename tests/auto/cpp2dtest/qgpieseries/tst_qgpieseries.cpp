@@ -68,7 +68,7 @@ void tst_qgpieseries::properties()
     QCOMPARE(m_series->sum(), 0.0);
     QCOMPARE(m_series->horizontalPosition(), 0.5);
     QCOMPARE(m_series->verticalPosition(), 0.5);
-    QCOMPARE(m_series->size(), 0.7);
+    QCOMPARE(m_series->pieSize(), 0.7);
     QCOMPARE(m_series->startAngle(), 0.0);
     QCOMPARE(m_series->endAngle(), 360.0);
     QCOMPARE(m_series->opacity(), 1.0);
@@ -86,15 +86,15 @@ void tst_qgpieseries::properties()
     QCOMPARE(countSpy.size(), 6);
     QCOMPARE(sumSpy.size(), 6);
 
-    m_series->setSize(-1.0);
-    QCOMPARE(m_series->size(), 0.0);
-    m_series->setSize(0.0);
-    m_series->setSize(0.9);
-    m_series->setSize(2.0);
-    QCOMPARE(m_series->size(), 1.0);
+    m_series->setPieSize(-1.0);
+    QCOMPARE(m_series->pieSize(), 0.0);
+    m_series->setPieSize(0.0);
+    m_series->setPieSize(0.9);
+    m_series->setPieSize(2.0);
+    QCOMPARE(m_series->pieSize(), 1.0);
 
-    m_series->setSize(0.7);
-    QCOMPARE(m_series->size(), 0.7);
+    m_series->setPieSize(0.7);
+    QCOMPARE(m_series->pieSize(), 0.7);
 
     m_series->setHoleSize(-1.0);
     QCOMPARE(m_series->holeSize(), 0.0);
@@ -103,10 +103,10 @@ void tst_qgpieseries::properties()
 
     m_series->setHoleSize(0.8);
     QCOMPARE(m_series->holeSize(), 0.8);
-    QCOMPARE(m_series->size(), 0.8);
+    QCOMPARE(m_series->pieSize(), 0.8);
 
-    m_series->setSize(0.4);
-    QCOMPARE(m_series->size(), 0.4);
+    m_series->setPieSize(0.4);
+    QCOMPARE(m_series->pieSize(), 0.4);
     QCOMPARE(m_series->holeSize(), 0.4);
 
     m_series->setStartAngle(0);

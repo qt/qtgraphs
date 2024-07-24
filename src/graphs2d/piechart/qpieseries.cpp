@@ -126,14 +126,14 @@ QT_BEGIN_NAMESPACE
 */
 
 /*!
-    \property QPieSeries::size
+    \property QPieSeries::pieSize
     \brief The pie size.
 
     The value is relative to the graph rectangle, so that:
 
     \list
-    \li 0.0 is the minimum size (pie not drawn).
-    \li 1.0 is the maximum size that can fit the graph.
+    \li 0.0 is the minimum pieSize (pie not drawn).
+    \li 1.0 is the maximum pieSize that can fit the graph.
     \endlist
 
     When setting this property, the holeSize property is adjusted if necessary,
@@ -143,15 +143,15 @@ QT_BEGIN_NAMESPACE
 */
 
 /*!
-    \qmlproperty real PieSeries::size
+    \qmlproperty real PieSeries::pieSize
 
     The pie size.
 
     The value is relative to the graph rectangle, so that:
 
     \list
-    \li 0.0 is the minimum size (pie not drawn).
-    \li 1.0 is the maximum size that can fit the graph.
+    \li 0.0 is the minimum pieSize (pie not drawn).
+    \li 1.0 is the maximum pieSize that can fit the graph.
     \endlist
 
     When setting this property, the holeSize property is adjusted if necessary,
@@ -160,16 +160,16 @@ QT_BEGIN_NAMESPACE
     The default value is 0.7.
 */
 /*!
-    \qmlsignal PieSeries::sizeChanged()
+    \qmlsignal PieSeries::pieSizeChanged()
     This signal is emitted when the pie size changes.
-    \sa size
+    \sa pieSize
 */
 
 /*!
     \property QPieSeries::holeSize
     \brief The donut hole size.
 
-    When setting the \l size property, this property is adjusted if necessary,
+    When setting the \l pieSize property, this property is adjusted if necessary,
     to ensure that the hole size is not greater than the pie size.
 
     The default value is 0.0.
@@ -180,7 +180,7 @@ QT_BEGIN_NAMESPACE
 
     The donut hole size.
 
-    When setting the \l size property, this property is adjusted if necessary,
+    When setting the \l pieSize property, this property is adjusted if necessary,
     to ensure that the hole size is not greater than the pie size.
 
     The default value is 0.0.
@@ -816,14 +816,14 @@ qreal QPieSeries::verticalPosition() const
     return d->m_pieRelativeVerPos;
 }
 
-void QPieSeries::setSize(qreal relativeSize)
+void QPieSeries::setPieSize(qreal relativeSize)
 {
     Q_D(QPieSeries);
     relativeSize = qBound((qreal)0.0, relativeSize, (qreal)1.0);
     d->setSizes(qMin(d->m_holeRelativeSize, relativeSize), relativeSize);
 }
 
-qreal QPieSeries::size() const
+qreal QPieSeries::pieSize() const
 {
     const Q_D(QPieSeries);
     return d->m_pieRelativeSize;
@@ -1018,7 +1018,7 @@ void QPieSeriesPrivate::setSizes(qreal innerSize, qreal outerSize)
 
     if (!qFuzzyCompare(m_pieRelativeSize, outerSize)) {
         m_pieRelativeSize = outerSize;
-        emit q->sizeChanged();
+        emit q->pieSizeChanged();
     }
 }
 
