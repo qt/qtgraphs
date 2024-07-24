@@ -8,7 +8,7 @@
 #include <QQmlListProperty>
 #include <QStyleHints>
 #include <QtQuick/private/qquickrectangle_p.h>
-#include <private/graphsglobal_p.h>
+#include <private/qgraphsglobal_p.h>
 #include <private/qgraphstheme_p.h>
 #include <private/qquickgraphscolor_p.h>
 

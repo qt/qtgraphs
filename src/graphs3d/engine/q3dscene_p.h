@@ -16,7 +16,7 @@
 
 #include <QtCore/private/qobject_p.h>
 #include <QtGraphs/q3dscene.h>
-#include <private/graphsglobal_p.h>
+#include <private/qgraphsglobal_p.h>
 
 QT_BEGIN_NAMESPACE
 

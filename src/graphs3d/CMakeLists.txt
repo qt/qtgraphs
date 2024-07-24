@@ -27,9 +27,6 @@ else()
 
             engine/q3dscene.cpp engine/q3dscene.h engine/q3dscene_p.h
 
-            global/graphsglobal_p.h
-            global/qgraphsglobal.h
-
             input/qgraphsinputhandler.cpp  input/qgraphsinputhandler_p.h
 
             utils/qutils.h
@@ -47,7 +44,6 @@ else()
             axis
             data
             engine
-            global
             input
             utils
             qml

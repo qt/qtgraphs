@@ -19,7 +19,7 @@
 #include <QtGui/qquaternion.h>
 #include "common/theme/qquickgraphscolor_p.h"
 #include "qabstract3dseries.h"
-#include <private/graphsglobal_p.h>
+#include <private/qgraphsglobal_p.h>
 
 QT_FORWARD_DECLARE_CLASS(QLinearGradient)
 
