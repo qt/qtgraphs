@@ -62,6 +62,8 @@ private:
     int m_ySection = -1;
     bool m_seriesSignalsBlock = false;
     bool m_modelSignalsBlock = false;
+
+    Q_DISABLE_COPY_MOVE(QXYModelMapperPrivate)
 };
 
 QT_END_NAMESPACE

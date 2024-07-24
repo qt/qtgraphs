@@ -72,6 +72,8 @@ private:
     void handleValuesAdded(QBarSet *set, qsizetype index, qsizetype count);
     void handleBarLabelChanged(QBarSet *set);
     void handleBarValueChanged(QBarSet *set, qsizetype index);
+
+    Q_DISABLE_COPY_MOVE(QBarModelMapperPrivate)
 };
 
 QT_END_NAMESPACE

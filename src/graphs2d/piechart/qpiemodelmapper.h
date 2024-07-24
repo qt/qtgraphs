@@ -70,6 +70,8 @@ public Q_SLOTS:
 
 protected:
     QPieModelMapper(QPieModelMapperPrivate &dd, QObject *parent = nullptr);
+
+    Q_DISABLE_COPY_MOVE(QPieModelMapper)
 };
 
 QT_END_NAMESPACE

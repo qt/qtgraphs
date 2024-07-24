@@ -64,6 +64,8 @@ Q_SIGNALS:
 
 protected:
     QXYModelMapper(QXYModelMapperPrivate &dd, QObject *parent = nullptr);
+
+    Q_DISABLE_COPY_MOVE(QXYModelMapper)
 };
 
 QT_END_NAMESPACE
