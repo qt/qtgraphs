@@ -46,6 +46,7 @@ QT_BEGIN_NAMESPACE
  \brief The minimum value on the axis
 
  This value can be lower or higher than the maximum.
+ The DateTime is stored as UTC internally.
  The default value is new Date(1970,1,1)
 */
 /*!
@@ -53,6 +54,7 @@ QT_BEGIN_NAMESPACE
  The minimum value on the axis.
 
  This value can be lower or higher than the maximum.
+ The DateTime is stored as UTC internally.
  The default value is new Date(1970,1,1)
 */
 
@@ -61,6 +63,7 @@ QT_BEGIN_NAMESPACE
  \brief The maximum value on the axis
 
  This value can be lower or higher than the minimum.
+ The DateTime is stored as UTC internally.
  The default value is new Date(1980,1,1)
 */
 /*!
@@ -68,6 +71,7 @@ QT_BEGIN_NAMESPACE
  The maximum value on the axis.
 
  This value can be lower or higher than the minimum.
+ The DateTime is stored as UTC internally.
  The default value is new Date(1980,1,1)
 */
 /*!
@@ -152,7 +156,7 @@ void QDateTimeAxis::setMin(const QDateTime &min)
     Q_D(QDateTimeAxis);
     if (min.isValid()) {
         d->setRange(min.toMSecsSinceEpoch(), d->m_max);
-        emit minChanged(QDateTime::fromMSecsSinceEpoch(d->m_min));
+        emit minChanged(QDateTime::fromMSecsSinceEpoch(d->m_min, QTimeZone::UTC));
         emit update();
     }
 }
@@ -160,7 +164,7 @@ void QDateTimeAxis::setMin(const QDateTime &min)
 QDateTime QDateTimeAxis::min() const
 {
     Q_D(const QDateTimeAxis);
-    return QDateTime::fromMSecsSinceEpoch(d->m_min);
+    return QDateTime::fromMSecsSinceEpoch(d->m_min, QTimeZone::UTC);
 }
 
 void QDateTimeAxis::setMax(const QDateTime &max)
@@ -168,7 +172,7 @@ void QDateTimeAxis::setMax(const QDateTime &max)
     Q_D(QDateTimeAxis);
     if (max.isValid()) {
         d->setRange(d->m_min, max.toMSecsSinceEpoch());
-        emit maxChanged(QDateTime::fromMSecsSinceEpoch(d->m_max));
+        emit maxChanged(QDateTime::fromMSecsSinceEpoch(d->m_max, QTimeZone::UTC));
         emit update();
     }
 }
@@ -176,7 +180,7 @@ void QDateTimeAxis::setMax(const QDateTime &max)
 QDateTime QDateTimeAxis::max() const
 {
     Q_D(const QDateTimeAxis);
-    return QDateTime::fromMSecsSinceEpoch(d->m_max);
+    return QDateTime::fromMSecsSinceEpoch(d->m_max, QTimeZone::UTC);
 }
 
 void QDateTimeAxis::setLabelFormat(const QString &format)
@@ -271,13 +275,13 @@ void QDateTimeAxisPrivate::setRange(qreal min, qreal max)
     if (m_min != min) {
         m_min = min;
         changed = true;
-        emit q->minChanged(QDateTime::fromMSecsSinceEpoch(min));
+        emit q->minChanged(QDateTime::fromMSecsSinceEpoch(min, QTimeZone::UTC));
     }
 
     if (m_max != max) {
         m_max = max;
         changed = true;
-        emit q->maxChanged(QDateTime::fromMSecsSinceEpoch(max));
+        emit q->maxChanged(QDateTime::fromMSecsSinceEpoch(max, QTimeZone::UTC));
     }
 
     if (changed)

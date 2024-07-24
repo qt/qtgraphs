@@ -25,11 +25,8 @@ public:
     ~QDateTimeAxisPrivate() override;
 
 protected:
-    qreal m_min = QDateTime(QDate(1970, 1, 1), QTime::fromMSecsSinceStartOfDay(0))
-                      .toMSecsSinceEpoch();
-    qreal m_max = QDateTime(QDate(1970, 1, 1), QTime::fromMSecsSinceStartOfDay(0))
-                      .addYears(10)
-                      .toMSecsSinceEpoch();
+    qreal m_min = QDateTime::fromMSecsSinceEpoch(0, QTimeZone::UTC).toMSecsSinceEpoch();
+    qreal m_max = QDateTime::fromMSecsSinceEpoch(0, QTimeZone::UTC).addYears(10).toMSecsSinceEpoch();
     qreal m_tickInterval = 0.0;
     int m_subTickCount = 0;
     QString m_format = QStringLiteral("dd-MMMM-yy");
