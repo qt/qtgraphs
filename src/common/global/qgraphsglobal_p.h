@@ -11,10 +11,11 @@
 //
 // We mean it.
 
-#ifndef GRAPHSGLOBAL_P_H
-#define GRAPHSGLOBAL_P_H
+#ifndef QGRAPHSGLOBAL_P_H
+#define QGRAPHSGLOBAL_P_H
 
-#include "qgraphsglobal.h"
+#include <QtGraphs/qgraphsglobal.h>
+#include <QtGraphs/qtgraphsexports.h>
 #include <QtGui/qvector3d.h>
 
 QT_BEGIN_NAMESPACE

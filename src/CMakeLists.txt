@@ -358,6 +358,11 @@ qt_configure_end_summary_section() # end of "Qt Graphs Support" section
 
 add_subdirectory(common)
 
+qt_internal_extend_target(Graphs
+    INCLUDE_DIRECTORIES
+        common
+)
+
 if(QT_FEATURE_graphs_3d)
     add_subdirectory(graphs3d)
 endif()

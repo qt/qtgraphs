@@ -1,8 +1,9 @@
 // Copyright (C) 2023 The Qt Company Ltd.
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 
-#include "graphsglobal_p.h"
 #include "qquickgraphstexturedata_p.h"
+
+#include <QtGraphs/private/qgraphsglobal_p.h>
 
 QQuickGraphsTextureData::QQuickGraphsTextureData() {}
 

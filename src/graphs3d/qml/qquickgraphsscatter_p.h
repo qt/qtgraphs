@@ -17,7 +17,7 @@
 #include "qvalue3daxis.h"
 #include <private/scatterinstancing_p.h>
 
-#include <private/graphsglobal_p.h>
+#include <private/qgraphsglobal_p.h>
 #include <private/qqmldelegatemodel_p.h>
 
 QT_BEGIN_NAMESPACE

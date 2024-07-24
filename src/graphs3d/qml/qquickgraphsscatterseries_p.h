@@ -19,7 +19,7 @@
 
 #include <QtQml/qqml.h>
 #include <QtQuick/private/qquickrectangle_p.h>
-#include <private/graphsglobal_p.h>
+#include <private/qgraphsglobal_p.h>
 #include <private/qgraphstheme_p.h>
 
 QT_BEGIN_NAMESPACE
