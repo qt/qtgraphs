@@ -69,6 +69,8 @@ private:
     int m_labelsSection = -1;
     bool m_seriesSignalsBlock = false;
     bool m_modelSignalsBlock = false;
+
+    Q_DISABLE_COPY_MOVE(QPieModelMapperPrivate)
 };
 
 QT_END_NAMESPACE

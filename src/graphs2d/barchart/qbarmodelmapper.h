@@ -73,6 +73,9 @@ private Q_SLOTS:
     void onValuesAdded(qsizetype index, qsizetype count);
     void onBarLabelChanged();
     void onBarValueChanged(qsizetype index);
+
+private:
+    Q_DISABLE_COPY_MOVE(QBarModelMapper)
 };
 
 QT_END_NAMESPACE
