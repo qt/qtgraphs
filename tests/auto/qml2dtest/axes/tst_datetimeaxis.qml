@@ -36,8 +36,8 @@ Item {
 
         function test_1_initial() {
             compare(initial.labelFormat, "dd-MMMM-yy")
-            compare(initial.min, new Date(1970,0,1))
-            compare(initial.max, new Date(1980,0,1))
+            compare(initial.min.getTime(), Date.UTC(1970))
+            compare(initial.max.getTime(), Date.UTC(1980))
             compare(initial.subTickCount, 0)
             compare(initial.tickInterval, 0)
         }
