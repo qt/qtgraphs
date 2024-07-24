@@ -103,7 +103,7 @@ void PieRenderer::updateSeries(QPieSeries *series)
     QPointF center = QPointF(size().width() * series->horizontalPosition(),
                              size().height() * series->verticalPosition());
     qreal radius = size().width() > size().height() ? size().height() : size().width();
-    radius *= (.5 * series->size());
+    radius *= (.5 * series->pieSize());
 
     QGraphsTheme *theme = m_graph->theme();
     if (!theme)

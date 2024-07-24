@@ -19,7 +19,7 @@ class Q_GRAPHS_EXPORT QPieSeries : public QAbstractSeries
                    horizontalPositionChanged FINAL)
     Q_PROPERTY(qreal verticalPosition READ verticalPosition WRITE setVerticalPosition NOTIFY
                    verticalPositionChanged FINAL)
-    Q_PROPERTY(qreal size READ size WRITE setSize NOTIFY sizeChanged FINAL)
+    Q_PROPERTY(qreal pieSize READ pieSize WRITE setPieSize NOTIFY pieSizeChanged FINAL)
     Q_PROPERTY(qreal startAngle READ startAngle WRITE setStartAngle NOTIFY startAngleChanged FINAL)
     Q_PROPERTY(qreal endAngle READ endAngle WRITE setEndAngle NOTIFY endAngleChanged FINAL)
     Q_PROPERTY(qsizetype count READ count NOTIFY countChanged FINAL)
@@ -61,8 +61,8 @@ public:
 
     void setVerticalPosition(qreal relativePosition);
     qreal verticalPosition() const;
-    void setSize(qreal relativeSize);
-    qreal size() const;
+    void setPieSize(qreal relativeSize);
+    qreal pieSize() const;
 
     void setStartAngle(qreal startAngle);
     qreal startAngle() const;
@@ -89,7 +89,7 @@ Q_SIGNALS:
     void replaced(const QList<QPieSlice *> &slices);
     void countChanged();
     void sumChanged();
-    void sizeChanged();
+    void pieSizeChanged();
     void startAngleChanged();
     void endAngleChanged();
     void horizontalPositionChanged();
