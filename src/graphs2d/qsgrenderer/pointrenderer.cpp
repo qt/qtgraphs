@@ -49,7 +49,10 @@ PointRenderer::PointRenderer(QGraphsView *graph)
     m_tempMarker->setData(qmlData.toUtf8(), QUrl());
 }
 
-PointRenderer::~PointRenderer() {}
+PointRenderer::~PointRenderer()
+{
+    qDeleteAll(m_groups);
+}
 
 qreal PointRenderer::defaultSize(QXYSeries *series)
 {
@@ -411,6 +414,7 @@ void PointRenderer::afterPolish(QList<QAbstractSeries *> &cleanupSeries)
             if (group->shapePath)
                 group->shapePath->setPath(QPainterPath());
 
+            delete group;
             m_groups.remove(xySeries);
         }
     }
