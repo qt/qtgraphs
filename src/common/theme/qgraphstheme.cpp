@@ -1462,6 +1462,10 @@ void QGraphsTheme::setColorSchemePalette()
     d->m_dirtyBits.multiHighlightColorDirty = true;
     d->m_dirtyBits.multiHighlightGradientDirty = true;
     d->m_dirtyBits.labelTextColorDirty = true;
+    emit gridChanged();
+    emit axisXChanged();
+    emit axisYChanged();
+    emit axisZChanged();
 }
 
 void QGraphsTheme::setThemePalette()
