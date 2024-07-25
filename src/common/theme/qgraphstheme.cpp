@@ -17,7 +17,7 @@ QT_BEGIN_NAMESPACE
 /*!
  * \class QGraphsTheme
  * \inmodule QtGraphs
- * \ingroup graphs
+ * \ingroup graphs_common
  * \brief QGraphsTheme class provides a visual style for graphs.
  *
  * Specifies visual properties that affect the whole graph. There are several
@@ -27,10 +27,12 @@ QT_BEGIN_NAMESPACE
  * Creating a theme using the default constructor produces a new user-defined
  * theme.
  *
- * \section1 Default Theme
+ * \section1 Customizing Theme
  *
- * The following table lists the properties controlled by themes and the
- * default values for QtGreen.
+ * The default theme is QtGreen, but it is possible to customize each property.
+ *
+ * The following table lists the properties controlled by a theme and the
+ * default values for UserDefined.
  *
  * \table
  *   \header
@@ -146,7 +148,7 @@ QT_BEGIN_NAMESPACE
 
 /*!
  * \qmlvaluetype graphsline
- * \ingroup graphs_qml
+ * \ingroup graphs_qml_common
  * \brief a values for lines based on properties of QGraphsLine.
  *
  * The \c graphsline type refers to a line value with the properties of QGraphsLine.
@@ -176,7 +178,7 @@ QT_BEGIN_NAMESPACE
 /*!
  * \qmltype GraphsTheme
  * \inqmlmodule QtGraphs
- * \ingroup graphs_qml
+ * \ingroup graphs_qml_common
  * \instantiates QGraphsTheme
  * \brief A visual style for graphs.
  *
@@ -187,11 +189,13 @@ QT_BEGIN_NAMESPACE
  * Themes can be created from scratch by using the
  * \l{QGraphsTheme::Theme::UserDefined}{GraphsTheme.Theme.UserDefined} enum value.
  *
- * \section1 Default Theme
+ * \section1 Customizing Theme
  *
- * The following table lists the properties controlled by themes and the
- * default values for \l{QGraphsTheme::Theme::QtGreen}
- * {QGraphsTheme.Theme.QtGreen}.
+ * The default theme is QtGreen, but it is possible to customize each property.
+ *
+ * The following table lists the properties controlled by a theme and the
+ * default values for \l{QGraphsTheme::Theme::UserDefined}
+ * {QGraphsTheme.Theme.UserDefined}.
  *
  * \table
  *   \header

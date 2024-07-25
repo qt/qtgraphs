@@ -64,6 +64,12 @@
         \li \l{Qt Graphs Known Issues}{Known Issues}
     \endlist
 
+    \section2 Qt Graphs Common
+
+    \list
+        \li \l{Qt Graphs Theme Overview}{Theme Overview}
+    \endlist
+
     \section1 Examples
     \list
         \li \l{Qt Graphs Examples}
