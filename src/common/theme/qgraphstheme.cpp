@@ -77,12 +77,12 @@ QT_BEGIN_NAMESPACE
  *
  * \snippet doc_src_qgraphstheme.cpp 1
  *
- * Creating a user-defined theme:
+ * Modifying a user-defined theme. The theme has been created the same way it was in the previous
+ * snippets:
  *
  * \snippet doc_src_qgraphstheme.cpp 2
  *
- * Creating a built-in theme and modifying some properties after it has been
- * set:
+ * Modifying some properties after theme has been set to a graph:
  *
  * \snippet doc_src_qgraphstheme.cpp 3
  *
@@ -234,15 +234,18 @@ QT_BEGIN_NAMESPACE
  *
  * Using a built-in theme without any modifications:
  *
- * \snippet doc_src_qgraphstheme.cpp 4
+ * \snippet doc_src_qmlgraphstheme.qml scatter
+ * \dots
  *
  * Using a built-in theme and modifying some properties:
  *
- * \snippet doc_src_qgraphstheme.cpp 5
+ * \snippet doc_src_qmlgraphstheme.qml bars
+ * \dots
  *
  * Using a user-defined theme:
  *
- * \snippet doc_src_qgraphstheme.cpp 6
+ * \snippet doc_src_qmlgraphstheme.qml surface
+ * \dots
  *
  * For GraphsTheme enums, see \l GraphsTheme::colorStyle and \l{GraphsTheme::theme}.
  */
@@ -456,6 +459,38 @@ QT_BEGIN_NAMESPACE
  * other properties of the theme to what the predefined theme specifies.
  * Changing the theme type of the active theme of the graph will also reset all
  * attached series to use the new theme.
+ */
+
+/*!
+ * \qmlproperty GraphsLine GraphsTheme::grid
+ *
+ * Holds the \l{graphsline}{GraphsLine} of the theme.
+ * \sa GraphsLine.mainColor GraphsLine.subColor GraphsLine.mainWidth GraphsLine.subWidth
+ * \sa GraphsLine.labelTextColor
+ */
+
+/*!
+ * \qmlproperty GraphsLine GraphsTheme::axisX
+ *
+ * Holds the \l{graphsline}{GraphsLine} of the X axis.
+ * \sa GraphsLine.mainColor GraphsLine.subColor GraphsLine.mainWidth GraphsLine.subWidth
+ * \sa GraphsLine.labelTextColor
+ */
+
+/*!
+ * \qmlproperty GraphsLine GraphsTheme::axisY
+ *
+ * Holds the \l{graphsline}{GraphsLine} of the Y axis.
+ * \sa GraphsLine.mainColor GraphsLine.subColor GraphsLine.mainWidth GraphsLine.subWidth
+ * \sa GraphsLine.labelTextColor
+ */
+
+/*!
+ * \qmlproperty GraphsLine GraphsTheme::axisZ
+ *
+ * Holds the \l{graphsline}{GraphsLine} of the Z axis.
+ * \sa GraphsLine.mainColor GraphsLine.subColor GraphsLine.mainWidth GraphsLine.subWidth
+ * \sa GraphsLine.labelTextColor
  */
 
 /*!
