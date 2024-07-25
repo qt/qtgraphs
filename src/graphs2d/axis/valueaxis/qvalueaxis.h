@@ -21,7 +21,7 @@ class Q_GRAPHS_EXPORT QValueAxis : public QAbstractAxis
         QString labelFormat READ labelFormat WRITE setLabelFormat NOTIFY labelFormatChanged FINAL)
     Q_PROPERTY(int labelDecimals READ labelDecimals WRITE setLabelDecimals NOTIFY
                    labelDecimalsChanged FINAL)
-    Q_PROPERTY(int subTickCount READ subTickCount WRITE setSubTickCount NOTIFY
+    Q_PROPERTY(qsizetype subTickCount READ subTickCount WRITE setSubTickCount NOTIFY
                    subTickCountChanged FINAL)
     Q_PROPERTY(qreal tickAnchor READ tickAnchor WRITE setTickAnchor NOTIFY tickAnchorChanged FINAL)
     Q_PROPERTY(
@@ -46,8 +46,8 @@ public:
     void setRange(qreal min, qreal max);
 
     //ticks handling
-    void setSubTickCount(int count);
-    int subTickCount() const;
+    void setSubTickCount(qsizetype count);
+    qsizetype subTickCount() const;
     void setTickAnchor(qreal anchor);
     qreal tickAnchor() const;
     void setTickInterval(qreal interval);
@@ -63,7 +63,7 @@ Q_SIGNALS:
     void minChanged(qreal min);
     void maxChanged(qreal max);
     void rangeChanged(qreal min, qreal max);
-    void subTickCountChanged(int subTickCount);
+    void subTickCountChanged(qsizetype subTickCount);
     void labelFormatChanged(const QString &format);
     void labelDecimalsChanged(int decimals);
     void tickAnchorChanged(qreal tickAnchor);

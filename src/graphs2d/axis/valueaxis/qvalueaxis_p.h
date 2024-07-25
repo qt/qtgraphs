@@ -37,7 +37,7 @@ protected:
 private:
     qreal m_min;
     qreal m_max;
-    int m_subTickCount;
+    qsizetype m_subTickCount;
     QString m_format;
     int m_decimals;
     qreal m_tickAnchor;

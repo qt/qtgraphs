@@ -64,7 +64,7 @@ QJSValue QQuickGraphsScatter3DSeries::multiHighlightGradient() const
     return m_multiHighlightGradient;
 }
 
-int QQuickGraphsScatter3DSeries::invalidSelectionIndex() const
+qsizetype QQuickGraphsScatter3DSeries::invalidSelectionIndex() const
 {
     return QScatter3DSeries::invalidSelectionIndex();
 }

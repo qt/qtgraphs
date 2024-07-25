@@ -335,7 +335,7 @@ constexpr float polarRoundness = 64.0f;
  */
 
 /*!
- * \qmlmethod int GraphsItem3D::addCustomItem(Custom3DItem item)
+ * \qmlmethod qsizetype GraphsItem3D::addCustomItem(Custom3DItem item)
  *
  * Adds a Custom3DItem \a item to the graph. Graph takes ownership of the added
  * item.
@@ -400,7 +400,7 @@ constexpr float polarRoundness = 64.0f;
  */
 
 /*!
- * \qmlmethod int GraphsItem3D::selectedCustomItemIndex()
+ * \qmlmethod qsizetype GraphsItem3D::selectedCustomItemIndex()
  *
  * Can be used to query the index of the selected custom item after receiving
  * \c selectedElementChanged signal with
@@ -741,7 +741,7 @@ void QQuickGraphsItem::handleAxisRangeChangedBySender(QObject *sender)
     emitNeedRender();
 }
 
-void QQuickGraphsItem::handleAxisSegmentCountChanged(int count)
+void QQuickGraphsItem::handleAxisSegmentCountChanged(qsizetype count)
 {
     Q_UNUSED(count);
     handleAxisSegmentCountChangedBySender(sender());
@@ -760,7 +760,7 @@ void QQuickGraphsItem::handleAxisSegmentCountChangedBySender(QObject *sender)
     emitNeedRender();
 }
 
-void QQuickGraphsItem::handleAxisSubSegmentCountChanged(int count)
+void QQuickGraphsItem::handleAxisSubSegmentCountChanged(qsizetype count)
 {
     Q_UNUSED(count);
     handleAxisSubSegmentCountChangedBySender(sender());

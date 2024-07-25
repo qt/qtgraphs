@@ -15,9 +15,9 @@ class Q_GRAPHS_EXPORT QValue3DAxis : public QAbstract3DAxis
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(QValue3DAxis)
-    Q_PROPERTY(
-        int segmentCount READ segmentCount WRITE setSegmentCount NOTIFY segmentCountChanged FINAL)
-    Q_PROPERTY(int subSegmentCount READ subSegmentCount WRITE setSubSegmentCount NOTIFY
+    Q_PROPERTY(qsizetype segmentCount READ segmentCount WRITE setSegmentCount NOTIFY
+                   segmentCountChanged FINAL)
+    Q_PROPERTY(qsizetype subSegmentCount READ subSegmentCount WRITE setSubSegmentCount NOTIFY
                    subSegmentCountChanged FINAL)
     Q_PROPERTY(
         QString labelFormat READ labelFormat WRITE setLabelFormat NOTIFY labelFormatChanged FINAL)
@@ -29,11 +29,11 @@ public:
     explicit QValue3DAxis(QObject *parent = nullptr);
     ~QValue3DAxis() override;
 
-    void setSegmentCount(int count);
-    int segmentCount() const;
+    void setSegmentCount(qsizetype count);
+    qsizetype segmentCount() const;
 
-    void setSubSegmentCount(int count);
-    int subSegmentCount() const;
+    void setSubSegmentCount(qsizetype count);
+    qsizetype subSegmentCount() const;
 
     void setLabelFormat(const QString &format);
     QString labelFormat() const;
@@ -47,15 +47,15 @@ public:
     void recalculate();
     qsizetype gridSize();
     qsizetype subGridSize();
-    float gridPositionAt(int gridLine);
-    float subGridPositionAt(int gridLine);
-    float labelPositionAt(int index);
+    float gridPositionAt(qsizetype gridLine);
+    float subGridPositionAt(qsizetype gridLine);
+    float labelPositionAt(qsizetype index);
     float positionAt(float x);
     QString stringForValue(float x);
 
 Q_SIGNALS:
-    void segmentCountChanged(int count);
-    void subSegmentCountChanged(int count);
+    void segmentCountChanged(qsizetype count);
+    void subSegmentCountChanged(qsizetype count);
     void labelFormatChanged(const QString &format);
     void formatterChanged(QValue3DAxisFormatter *formatter);
     void reversedChanged(bool enable);

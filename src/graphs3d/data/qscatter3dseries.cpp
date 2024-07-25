@@ -84,7 +84,7 @@ QT_BEGIN_NAMESPACE
  */
 
 /*!
- * \qmlproperty int Scatter3DSeries::selectedItem
+ * \qmlproperty qsizetype Scatter3DSeries::selectedItem
  *
  * The item that is selected at the index in the data array of the series.
  * Only one item can be selected at a time.
@@ -108,7 +108,7 @@ QT_BEGIN_NAMESPACE
  */
 
 /*!
- * \qmlproperty int Scatter3DSeries::invalidSelectionIndex
+ * \qmlproperty qsizetype Scatter3DSeries::invalidSelectionIndex
  * A constant property providing an invalid index for selection. This index is
  * set to the selectedItem property to clear the selection from this series.
  *
@@ -134,7 +134,7 @@ QT_BEGIN_NAMESPACE
 */
 
 /*!
-    \qmlsignal Scatter3DSeries::selectedItemChanged(int index)
+    \qmlsignal Scatter3DSeries::selectedItemChanged(qsizetype index)
 
     This signal is emitted when selectedItem changes to \a index.
 */
@@ -321,7 +321,7 @@ QScatterDataArray QScatter3DSeries::dataArray() &&
  *
  * \sa Q3DGraphsWidgetItem::clearSelection()
  */
-int QScatter3DSeries::invalidSelectionIndex()
+qsizetype QScatter3DSeries::invalidSelectionIndex()
 {
     return QQuickGraphsScatter::invalidSelectionIndex();
 }

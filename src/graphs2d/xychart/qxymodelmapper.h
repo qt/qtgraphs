@@ -21,10 +21,10 @@ class Q_GRAPHS_EXPORT QXYModelMapper : public QObject
     Q_OBJECT
     Q_PROPERTY(QXYSeries *series READ series WRITE setSeries NOTIFY seriesChanged FINAL)
     Q_PROPERTY(QAbstractItemModel *model READ model WRITE setModel NOTIFY modelChanged FINAL)
-    Q_PROPERTY(int xSection READ xSection WRITE setXSection NOTIFY xSectionChanged FINAL)
-    Q_PROPERTY(int ySection READ ySection WRITE setYSection NOTIFY ySectionChanged FINAL)
-    Q_PROPERTY(int first READ first WRITE setFirst NOTIFY firstChanged FINAL)
-    Q_PROPERTY(int count READ count WRITE setCount NOTIFY countChanged FINAL)
+    Q_PROPERTY(qsizetype xSection READ xSection WRITE setXSection NOTIFY xSectionChanged FINAL)
+    Q_PROPERTY(qsizetype ySection READ ySection WRITE setYSection NOTIFY ySectionChanged FINAL)
+    Q_PROPERTY(qsizetype first READ first WRITE setFirst NOTIFY firstChanged FINAL)
+    Q_PROPERTY(qsizetype count READ count WRITE setCount NOTIFY countChanged FINAL)
     Q_PROPERTY(Qt::Orientation orientation READ orientation WRITE setOrientation NOTIFY
                    orientationChanged FINAL)
     QML_NAMED_ELEMENT(XYModelMapper)
@@ -39,20 +39,20 @@ public:
     QXYSeries *series() const;
     void setSeries(QXYSeries *series);
 
-    int first() const;
-    void setFirst(int first);
+    qsizetype first() const;
+    void setFirst(qsizetype first);
 
-    int count() const;
-    void setCount(int count);
+    qsizetype count() const;
+    void setCount(qsizetype count);
 
     Qt::Orientation orientation() const;
     void setOrientation(Qt::Orientation orientation);
 
-    int xSection() const;
-    void setXSection(int xSection);
+    qsizetype xSection() const;
+    void setXSection(qsizetype xSection);
 
-    int ySection() const;
-    void setYSection(int ySection);
+    qsizetype ySection() const;
+    void setYSection(qsizetype ySection);
 Q_SIGNALS:
     void seriesChanged();
     void modelChanged();

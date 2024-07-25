@@ -74,7 +74,8 @@ public:
 
     QScatter3DSeries *selectedSeries() const;
     void setSelectedItem(qsizetype index, QScatter3DSeries *series);
-    static int invalidSelectionIndex() { return -1; }
+
+    static qsizetype invalidSelectionIndex() { return -1; }
     void setSelectionMode(QtGraphs3D::SelectionFlags mode) override;
 
     bool hasSelectedItemChanged() const { return m_changeTracker.selectedItemChanged; }
