@@ -1344,8 +1344,10 @@ void QGraphsTheme::setColorSchemePalette()
 
     if (d->m_componentComplete) {
         // Reset all customizations which colorScheme changes
+        d->m_customBits.backgroundColorCustom = false;
         d->m_customBits.plotAreaBackgroundColorCustom = false;
         d->m_customBits.labelBackgroundColorCustom = false;
+        d->m_customBits.labelTextColorCustom = false;
         d->m_customBits.multiHighlightColorCustom = false;
         d->m_customBits.multiHighlightGradientCustom = false;
         d->m_customBits.singleHighlightColorCustom = false;
