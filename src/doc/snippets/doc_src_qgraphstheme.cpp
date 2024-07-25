@@ -1,23 +1,24 @@
 // Copyright (C) 2023 The Qt Company Ltd.
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR BSD-3-Clause
 
-#include <QtGraphs/Q3DBars>
-#include <QtGraphs/QGraphsTheme>
+#include <QtGraphsWidgets/q3dbarswidgetitem.h>
+#include <QtGraphs/qgraphstheme.h>
+#include <QtWidgets/qapplication.h>
 
 int main(int argc, char **argv)
 {
-    //! [0]
-    QGraphsTheme *theme = new QGraphsTheme();
-    //! [0]
+    QApplication app(argc, argv);
 
     //! [1]
+    //! [0]
     QGraphsTheme *theme = new QGraphsTheme();
+    //! [0]
     theme->setBackgroundVisible(false);
     theme->setLabelBackgroundVisible(false);
     //! [1]
 
     //! [2]
-    QGraphsTheme *theme = new QGraphsTheme();
+    theme->setTheme(QGraphsTheme::Theme::UserDefined);
     theme->setBackgroundColor(QColor(QRgb(0x99ca53)));
     theme->setBackgroundVisible(true);
     QList<QColor> colors = { QColor(QRgb(0x209fdf)) };
@@ -25,66 +26,37 @@ int main(int argc, char **argv)
     theme->setColorStyle(QGraphsTheme::ColorStyle::Uniform);
     theme->setLabelFont(QFont(QStringLiteral("Impact"), 35));
     theme->setGridVisible(true);
-    theme->setGridMainColor(QColor(QRgb(0x99ca53)));
+    auto gridline = theme->grid();
+    gridline.setMainColor(QColor(QRgb(0x99ca53)));
+    theme->setGrid(gridline);
     theme->setLabelBackgroundColor(QColor(0xf6, 0xa6, 0x25, 0xa0));
     theme->setLabelBackgroundVisible(true);
     theme->setLabelBorderVisible(true);
     theme->setLabelTextColor(QColor(QRgb(0x404044)));
     theme->setMultiHighlightColor(QColor(QRgb(0x6d5fd5)));
     theme->setSingleHighlightColor(QColor(QRgb(0xf6a625)));
-    theme->setWindowColor(QColor(QRgb(0xffffff)));
+    theme->setBackgroundColor(QColor(QRgb(0xffffff)));
     //! [2]
 
     //! [3]
-    Q3DBars *graph = new Q3DBars();
-    graph->activeTheme()->setTheme(QGraphsTheme::Theme::MixSeries);
+    QQuickWidget quickWidget;
+    Q3DBarsWidgetItem bars;
+    bars.setWidget(&quickWidget);
+    bars.widget()->setMinimumSize(QSize(512, 512));
+    bars.activeTheme()->setTheme(QGraphsTheme::Theme::MixSeries);
     QList<QColor> color = { QColor(Qt::red) };
-    graph->activeTheme()->setSeriesColors(color);
-    graph->activeTheme()->setSingleHighlightColor(Qt::yellow);
+    bars.activeTheme()->setSeriesColors(color);
+    bars.activeTheme()->setSingleHighlightColor(Qt::yellow);
     //! [3]
-}
 
-//! [4]
-Scatter3D {
-    ...
-    theme: GraphsTheme { theme: GraphsTheme.Theme.YellowSeries }
-    ...
-}
-//! [4]
+    QBar3DSeries *series = new QBar3DSeries;
+    QBarDataRow data;
+    data << QBarDataItem(1.0f) << QBarDataItem(3.0f) << QBarDataItem(7.5f) << QBarDataItem(5.0f)
+         << QBarDataItem(2.2f);
+    series->dataProxy()->addRow(data);
+    bars.addSeries(series);
 
-//! [5]
-Bars3D {
-    ...
-    theme: GraphsTheme {
-        theme: GraphsTheme.Theme.QtGreenNeon
-        labelBorderVisible: true
-        labelFont.pointSize: 35
-        labelBackgroundVisible: false
-    }
-    ...
-}
-//! [5]
+    bars.widget()->show();
 
-//! [6]
-Surface3D {
-    ...
-    theme: GraphsTheme {
-        backgroundColor: "red"
-        backgroundVisible: true
-        seriesColors: ["blue"]
-        colorStyle: GraphsTheme.ColorStyle.Uniform
-        labelFont.family: "Lucida Handwriting"
-        labelFont.pointSize: 35
-        gridVisible: false
-        gridMainColor: "black"
-        labelBackgroundColor: "black"
-        labelBackgroundVisible: true
-        labelBorderVisible: false
-        labelTextColor: "white"
-        multiHighlightColor: "green"
-        singleHighlightColor: "darkRed"
-        windowColor: "white"
-    }
-    ...
+    return app.exec();
 }
-//! [6]
