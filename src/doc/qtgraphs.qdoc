@@ -37,6 +37,16 @@
 */
 
 /*!
+    \title Qt Graphs C++ Common Classes
+    \group graphs_common
+    \ingroup graphs
+
+    \brief C++ classes for the Qt Graphs common API.
+
+    The Qt Graphs common functionality, like theme, can be accessed via these C++ classes.
+*/
+
+/*!
     \qmlmodule QtGraphs
 */
 
@@ -69,6 +79,18 @@
     \brief QML types for the Qt Graphs for 2D API.
 
     The Qt Graphs for 2D functionality can be accessed via these QML types.
+
+    \section1 QML Types
+*/
+
+/*!
+    \title Qt Graphs QML Common Types
+    \group graphs_qml_common
+    \ingroup graphs_qml
+
+    \brief QML types for the Qt Graphs common API.
+
+    The Qt Graphs common functionality. like theme, can be accessed via these QML types.
 
     \section1 QML Types
 */

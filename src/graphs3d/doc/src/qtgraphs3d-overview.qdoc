@@ -154,35 +154,6 @@
     the \l{GraphsItem3D::polar}{polar} property. It can be set for bars as well,
     but doing so will produce a warning and be ignored.
 
-    \section1 3D Themes
-
-    A theme is a built-in collection of UI style related settings applied to all
-    the visual elements of a graph, such as the colors, fonts, and visibility of
-    the elements, as well as the strenght of the light and ambient light.
-
-    Qt Graphs comes with the following predefined themes that can be used as
-    basis for custom themes:
-
-    \list
-        \li \e Qt is a light theme with green as the base color.
-        \li \e {Primary colors} is a light theme with yellow as the base color.
-        \li \e {Stone moss} is a medium dark theme with yellow as the base
-            color.
-        \li \e {Army blue} is a medium light theme with blue as the base color.
-        \li \e Retro is a medium light theme with brown as the base color.
-        \li \e Ebony is a dark theme with white as the base color.
-        \li \e Isabelle is a dark theme with yellow as the base color.
-        \li \e {User defined} is the default theme that is meant to be
-            customized. For more information, see \l {Default Theme}.
-    \endlist
-
-    Custom themes can also be created from scratch.
-
-    If a graph displays the data from several data series, some settings can be
-    specified separately for each series. For example, different gradients can
-    be specified for different layers of the graph to make it look more
-    realistic. For an example, see \l{Surface Graph Gallery}.
-
     \section1 Customizing 3D Scenes
 
     As Qt Graphs is built on top of QtQuick3D, it is possible to integrate
