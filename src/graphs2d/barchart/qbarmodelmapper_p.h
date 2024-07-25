@@ -41,11 +41,11 @@ private:
     QBarSeries *m_series = nullptr;
     QList<QBarSet *> m_barSets;
 
-    int m_firstBarSetSection = -1;
-    int m_lastBarSetSection = -1;
+    qsizetype m_firstBarSetSection = -1;
+    qsizetype m_lastBarSetSection = -1;
 
     qsizetype m_count = -1;
-    int m_first = 0;
+    qsizetype m_first = 0;
     Qt::Orientation m_orientation = Qt::Vertical;
     bool m_seriesSignalsBlock = false;
     bool m_modelSignalsBlock = false;
@@ -55,11 +55,11 @@ private Q_SLOTS:
 
     // for the model
     void modelUpdated(QModelIndex topLeft, QModelIndex bottomRight);
-    void modelHeaderDataUpdated(Qt::Orientation orientation, int first, int last);
-    void modelRowsAdded(QModelIndex parent, int start, int end);
-    void modelRowsRemoved(QModelIndex parent, int start, int end);
-    void modelColumnsAdded(QModelIndex parent, int start, int end);
-    void modelColumnsRemoved(QModelIndex parent, int start, int end);
+    void modelHeaderDataUpdated(Qt::Orientation orientation, qsizetype first, qsizetype last);
+    void modelRowsAdded(QModelIndex parent, qsizetype start, qsizetype end);
+    void modelRowsRemoved(QModelIndex parent, qsizetype start, qsizetype end);
+    void modelColumnsAdded(QModelIndex parent, qsizetype start, qsizetype end);
+    void modelColumnsRemoved(QModelIndex parent, qsizetype start, qsizetype end);
     void handleModelDestroyed();
 
     // for the series

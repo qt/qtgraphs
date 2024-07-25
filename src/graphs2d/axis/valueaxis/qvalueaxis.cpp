@@ -246,7 +246,7 @@ void QValueAxis::setRange(qreal min, qreal max)
     emit update();
 }
 
-void QValueAxis::setSubTickCount(int count)
+void QValueAxis::setSubTickCount(qsizetype count)
 {
     Q_D(QValueAxis);
     if (d->m_subTickCount != count && count >= 0) {
@@ -256,7 +256,7 @@ void QValueAxis::setSubTickCount(int count)
     }
 }
 
-int QValueAxis::subTickCount() const
+qsizetype QValueAxis::subTickCount() const
 {
     Q_D(const QValueAxis);
     return d->m_subTickCount;

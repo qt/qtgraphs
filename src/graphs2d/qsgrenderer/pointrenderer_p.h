@@ -65,14 +65,14 @@ private:
     QGraphsView *m_graph = nullptr;
     QQuickShape m_shape;
     QMap<QXYSeries *, PointGroup *> m_groups;
-    int m_currentColorIndex = 0;
+    qsizetype m_currentColorIndex = 0;
 
     // Point drag variables
     bool m_pointPressed = false;
     bool m_pointDragging = false;
     QPoint m_pressStart;
     PointGroup *m_pressedGroup = nullptr;
-    int m_pressedPointIndex = 0;
+    qsizetype m_pressedPointIndex = 0;
 
     // Render area variables
     qreal m_maxVertical = 0;
@@ -88,7 +88,8 @@ private:
         AxisRenderer *axisRenderer, qreal origX, qreal origY, qreal *renderX, qreal *renderY);
     void reverseRenderCoordinates(
         AxisRenderer *axisRenderer, qreal renderX, qreal renderY, qreal *origX, qreal *origY);
-    void updatePointDelegate(QXYSeries *series, PointGroup *group, int pointIndex, qreal x, qreal y);
+    void updatePointDelegate(
+        QXYSeries *series, PointGroup *group, qsizetype pointIndex, qreal x, qreal y);
     void hidePointDelegates(QXYSeries *series);
     void updateLegendData(QXYSeries *series, QLegendData &legendData);
 

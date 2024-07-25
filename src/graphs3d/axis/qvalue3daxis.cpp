@@ -34,7 +34,7 @@ QT_BEGIN_NAMESPACE
  */
 
 /*!
- * \qmlproperty int Value3DAxis::segmentCount
+ * \qmlproperty qsizetype Value3DAxis::segmentCount
  *
  * The number of segments on the axis. This indicates how many labels are drawn.
  * The number of grid lines to be drawn is calculated with the following
@@ -43,7 +43,7 @@ QT_BEGIN_NAMESPACE
  */
 
 /*!
- * \qmlproperty int Value3DAxis::subSegmentCount
+ * \qmlproperty qsizetype Value3DAxis::subSegmentCount
  *
  * The number of subsegments inside each segment on the axis. Grid lines are
  * drawn between each subsegment, in addition to each segment. The preset
@@ -84,12 +84,12 @@ QT_BEGIN_NAMESPACE
  */
 
 /*!
-    \qmlsignal Value3DAxis::segmentCountChanged(int count)
+    \qmlsignal Value3DAxis::segmentCountChanged(qsizetype count)
 
     This signal is emitted when segmentCount changes to \a count.
 */
 /*!
-    \qmlsignal Value3DAxis::subSegmentCountChanged(int count)
+    \qmlsignal Value3DAxis::subSegmentCountChanged(qsizetype count)
 
     This signal is emitted when subSegmentCount changes to \a count.
 */
@@ -134,12 +134,14 @@ QValue3DAxis::~QValue3DAxis() {}
  *
  * \sa setSubSegmentCount()
  */
-void QValue3DAxis::setSegmentCount(int count)
+void QValue3DAxis::setSegmentCount(qsizetype count)
 {
     Q_D(QValue3DAxis);
     if (count <= 0) {
-        qWarning("Warning: Illegal segment count automatically adjusted to a legal one: %d --> 1",
-                 count);
+        qWarning(
+            "Warning: Illegal segment count automatically adjusted to a legal one: %" PRIdQSIZETYPE
+            " --> 1",
+            count);
         count = 1;
     }
     if (d->m_segmentCount != count) {
@@ -149,7 +151,7 @@ void QValue3DAxis::setSegmentCount(int count)
     }
 }
 
-int QValue3DAxis::segmentCount() const
+qsizetype QValue3DAxis::segmentCount() const
 {
     const Q_D(QValue3DAxis);
     return d->m_segmentCount;
@@ -166,11 +168,12 @@ int QValue3DAxis::segmentCount() const
  *
  * \sa setSegmentCount()
  */
-void QValue3DAxis::setSubSegmentCount(int count)
+void QValue3DAxis::setSubSegmentCount(qsizetype count)
 {
     Q_D(QValue3DAxis);
     if (count <= 0) {
-        qWarning("Warning: Illegal subsegment count automatically adjusted to a legal one: %d -> 1",
+        qWarning("Warning: Illegal subsegment count automatically adjusted to a legal one: "
+                 "%" PRIdQSIZETYPE " -> 1",
                  count);
         count = 1;
     }
@@ -180,7 +183,7 @@ void QValue3DAxis::setSubSegmentCount(int count)
     }
 }
 
-int QValue3DAxis::subSegmentCount() const
+qsizetype QValue3DAxis::subSegmentCount() const
 {
     const Q_D(QValue3DAxis);
     return d->m_subSegmentCount;
@@ -290,17 +293,17 @@ qsizetype QValue3DAxis::subGridSize()
     return formatter()->subGridPositions().size();
 }
 
-float QValue3DAxis::gridPositionAt(int gridLine)
+float QValue3DAxis::gridPositionAt(qsizetype gridLine)
 {
     return formatter()->gridPositions().at(gridLine);
 }
 
-float QValue3DAxis::subGridPositionAt(int gridLine)
+float QValue3DAxis::subGridPositionAt(qsizetype gridLine)
 {
     return formatter()->subGridPositions().at(gridLine);
 }
 
-float QValue3DAxis::labelPositionAt(int index)
+float QValue3DAxis::labelPositionAt(qsizetype index)
 {
     return formatter()->labelPositions().at(index);
 }

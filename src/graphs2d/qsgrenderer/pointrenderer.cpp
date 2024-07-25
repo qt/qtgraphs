@@ -95,7 +95,7 @@ void PointRenderer::reverseRenderCoordinates(
 }
 
 void PointRenderer::updatePointDelegate(
-    QXYSeries *series, PointGroup *group, int pointIndex, qreal x, qreal y)
+    QXYSeries *series, PointGroup *group, qsizetype pointIndex, qreal x, qreal y)
 {
     auto theme = m_graph->theme();
     auto marker = group->markers[pointIndex];

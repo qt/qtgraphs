@@ -528,8 +528,8 @@ public Q_SLOTS:
     void handleAxisTitleChanged(const QString &title);
     void handleAxisLabelsChanged();
     void handleAxisRangeChanged(float min, float max);
-    void handleAxisSegmentCountChanged(int count);
-    void handleAxisSubSegmentCountChanged(int count);
+    void handleAxisSegmentCountChanged(qsizetype count);
+    void handleAxisSubSegmentCountChanged(qsizetype count);
     void handleAxisAutoAdjustRangeChanged(bool autoAdjust);
     void handleAxisLabelFormatChanged(const QString &format);
     void handleAxisReversedChanged(bool enable);

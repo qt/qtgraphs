@@ -98,7 +98,7 @@ QT_BEGIN_NAMESPACE
     \sa QBarModelMapper::orientation
 */
 /*!
-    \qmlproperty int BarModelMapper::firstBarSetSection
+    \qmlproperty qsizetype BarModelMapper::firstBarSetSection
     The section of the model that is used as the data source for the first bar set. The default value
     is -1 (invalid mapping).
 
@@ -114,7 +114,7 @@ QT_BEGIN_NAMESPACE
     \sa QBarModelMapper::orientation
 */
 /*!
-    \qmlproperty int BarModelMapper::lastBarSetSection
+    \qmlproperty qsizetype BarModelMapper::lastBarSetSection
     The section of the model that is used as the data source for the last bar set. The default
     value is -1 (invalid mapping).
 
@@ -130,7 +130,7 @@ QT_BEGIN_NAMESPACE
     \sa QBarModelMapper::orientation
 */
 /*!
-    \qmlproperty int BarModelMapper::first
+    \qmlproperty qsizetype BarModelMapper::first
     The row or column of the model that contains the first values of the bar sets in the bar series.
     The default value is 0.
 
@@ -147,7 +147,7 @@ QT_BEGIN_NAMESPACE
     \sa QBarModelMapper::orientation
 */
 /*!
-    \qmlproperty int BarModelMapper::count
+    \qmlproperty qsizetype BarModelMapper::count
     The number of rows or columns of the model that are mapped as the data for the bar
     series. The default value is \c{-1} which is also the minimum. The count is
     limited by the number of model's rows/columns.
@@ -350,13 +350,13 @@ void QBarModelMapper::setSeries(QBarSeries *series)
     Q_EMIT seriesChanged();
 }
 
-int QBarModelMapper::first() const
+qsizetype QBarModelMapper::first() const
 {
     const Q_D(QBarModelMapper);
     return d->m_first;
 }
 
-void QBarModelMapper::setFirst(int newFirst)
+void QBarModelMapper::setFirst(qsizetype newFirst)
 {
     Q_D(QBarModelMapper);
     d->m_first = qMax(newFirst, 0);
@@ -392,13 +392,13 @@ void QBarModelMapper::setCount(int newCount)
     Q_EMIT countChanged();
 }
 
-int QBarModelMapper::lastBarSetSection() const
+qsizetype QBarModelMapper::lastBarSetSection() const
 {
     const Q_D(QBarModelMapper);
     return d->m_lastBarSetSection;
 }
 
-void QBarModelMapper::setLastBarSetSection(int newLastBarSetSection)
+void QBarModelMapper::setLastBarSetSection(qsizetype newLastBarSetSection)
 {
     Q_D(QBarModelMapper);
     d->m_lastBarSetSection = qMax(-1, newLastBarSetSection);
@@ -406,13 +406,13 @@ void QBarModelMapper::setLastBarSetSection(int newLastBarSetSection)
     Q_EMIT lastBarSetSectionChanged();
 }
 
-int QBarModelMapper::firstBarSetSection() const
+qsizetype QBarModelMapper::firstBarSetSection() const
 {
     const Q_D(QBarModelMapper);
     return d->m_firstBarSetSection;
 }
 
-void QBarModelMapper::setFirstBarSetSection(int newFirstBarSetSection)
+void QBarModelMapper::setFirstBarSetSection(qsizetype newFirstBarSetSection)
 {
     Q_D(QBarModelMapper);
     d->m_firstBarSetSection = qMax(-1, newFirstBarSetSection);
@@ -577,7 +577,7 @@ void QBarModelMapperPrivate::modelUpdated(QModelIndex topLeft, QModelIndex botto
     blockSeriesSignals(false);
 }
 
-void QBarModelMapperPrivate::modelHeaderDataUpdated(Qt::Orientation orientation, int first, int last)
+void QBarModelMapperPrivate::modelHeaderDataUpdated(Qt::Orientation orientation, qsizetype first, qsizetype last)
 {
     if (m_model == nullptr || m_series == nullptr)
         return;
@@ -598,7 +598,7 @@ void QBarModelMapperPrivate::modelHeaderDataUpdated(Qt::Orientation orientation,
     blockSeriesSignals(false);
 }
 
-void QBarModelMapperPrivate::modelRowsAdded(QModelIndex parent, int start, int end)
+void QBarModelMapperPrivate::modelRowsAdded(QModelIndex parent, qsizetype start, qsizetype end)
 {
     Q_UNUSED(parent);
     if (m_modelSignalsBlock)
@@ -614,7 +614,7 @@ void QBarModelMapperPrivate::modelRowsAdded(QModelIndex parent, int start, int e
     blockSeriesSignals(false);
 }
 
-void QBarModelMapperPrivate::modelRowsRemoved(QModelIndex parent, int start, int end)
+void QBarModelMapperPrivate::modelRowsRemoved(QModelIndex parent, qsizetype start, qsizetype end)
 {
     Q_UNUSED(parent);
     if (m_modelSignalsBlock)
@@ -630,7 +630,7 @@ void QBarModelMapperPrivate::modelRowsRemoved(QModelIndex parent, int start, int
     blockSeriesSignals(false);
 }
 
-void QBarModelMapperPrivate::modelColumnsAdded(QModelIndex parent, int start, int end)
+void QBarModelMapperPrivate::modelColumnsAdded(QModelIndex parent, qsizetype start, qsizetype end)
 {
     Q_UNUSED(parent);
     if (m_modelSignalsBlock)
@@ -646,7 +646,7 @@ void QBarModelMapperPrivate::modelColumnsAdded(QModelIndex parent, int start, in
     blockSeriesSignals(false);
 }
 
-void QBarModelMapperPrivate::modelColumnsRemoved(QModelIndex parent, int start, int end)
+void QBarModelMapperPrivate::modelColumnsRemoved(QModelIndex parent, qsizetype start, qsizetype end)
 {
     Q_UNUSED(parent);
     if (m_modelSignalsBlock)

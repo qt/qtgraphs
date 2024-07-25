@@ -27,10 +27,10 @@ public:
 public Q_SLOTS:
     // for the model
     void onModelUpdated(QModelIndex topLeft, QModelIndex bottomRight);
-    void onModelRowsAdded(QModelIndex parent, int start, int end);
-    void onModelRowsRemoved(QModelIndex parent, int start, int end);
-    void onModelColumnsAdded(QModelIndex parent, int start, int end);
-    void onModelColumnsRemoved(QModelIndex parent, int start, int end);
+    void onModelRowsAdded(QModelIndex parent, qsizetype start, qsizetype end);
+    void onModelRowsRemoved(QModelIndex parent, qsizetype start, qsizetype end);
+    void onModelColumnsAdded(QModelIndex parent, qsizetype start, qsizetype end);
+    void onModelColumnsRemoved(QModelIndex parent, qsizetype start, qsizetype end);
     void handleModelDestroyed();
 
     // for the series
@@ -55,11 +55,11 @@ private:
 private:
     QXYSeries *m_series = nullptr;
     QAbstractItemModel *m_model = nullptr;
-    int m_first = 0;
-    int m_count = -1;
+    qsizetype m_first = 0;
+    qsizetype m_count = -1;
     Qt::Orientation m_orientation = Qt::Vertical;
-    int m_xSection = -1;
-    int m_ySection = -1;
+    qsizetype m_xSection = -1;
+    qsizetype m_ySection = -1;
     bool m_seriesSignalsBlock = false;
     bool m_modelSignalsBlock = false;
 

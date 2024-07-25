@@ -31,7 +31,7 @@ public:
 
     void setSelectedItem(qsizetype index);
     qsizetype selectedItem() const;
-    static int invalidSelectionIndex();
+    static qsizetype invalidSelectionIndex();
 
     void setItemSize(float size);
     float itemSize() const;

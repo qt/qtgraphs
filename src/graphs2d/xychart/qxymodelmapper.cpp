@@ -84,7 +84,7 @@ QT_BEGIN_NAMESPACE
     \sa QXYModelMapper::orientation
 */
 /*!
-    \qmlproperty int XYModelMapper::xSection
+    \qmlproperty qsizetype XYModelMapper::xSection
     the section of the model that contains the x-coordinates of data points.
     The default value is -1 (invalid mapping).
 
@@ -101,7 +101,7 @@ QT_BEGIN_NAMESPACE
     \sa QXYModelMapper::orientation
 */
 /*!
-    \qmlproperty int XYModelMapper::ySection
+    \qmlproperty qsizetype XYModelMapper::ySection
     the section of the model that contains the y-coordinates of data points.
     The default value is -1 (invalid mapping).
 
@@ -118,7 +118,7 @@ QT_BEGIN_NAMESPACE
     \sa QXYModelMapper::orientation
 */
 /*!
-    \qmlproperty int XYModelMapper::first
+    \qmlproperty qsizetype XYModelMapper::first
     The row of the model that contains the data for the first point of the series.
     The default value is 0.
 
@@ -135,7 +135,7 @@ QT_BEGIN_NAMESPACE
     \sa QXYModelMapper::orientation
 */
 /*!
-    \qmlproperty int XYModelMapper::count
+    \qmlproperty qsizetype XYModelMapper::count
     The number of rows of the model that are mapped as the data for series. The default value is
     -1 (the number is limited by the number of rows in the model).
 
@@ -359,13 +359,13 @@ void QXYModelMapper::setSeries(QXYSeries *series)
     Q_EMIT seriesChanged();
 }
 
-int QXYModelMapper::first() const
+qsizetype QXYModelMapper::first() const
 {
     Q_D(const QXYModelMapper);
     return d->m_first;
 }
 
-void QXYModelMapper::setFirst(int first)
+void QXYModelMapper::setFirst(qsizetype first)
 {
     Q_D(QXYModelMapper);
     d->m_first = qMax(first, 0);
@@ -373,13 +373,13 @@ void QXYModelMapper::setFirst(int first)
     Q_EMIT firstChanged();
 }
 
-int QXYModelMapper::count() const
+qsizetype QXYModelMapper::count() const
 {
     Q_D(const QXYModelMapper);
     return d->m_count;
 }
 
-void QXYModelMapper::setCount(int count)
+void QXYModelMapper::setCount(qsizetype count)
 {
     Q_D(QXYModelMapper);
     d->m_count = qMax(count, -1);
@@ -401,13 +401,13 @@ void QXYModelMapper::setOrientation(Qt::Orientation orientation)
     Q_EMIT orientationChanged();
 }
 
-int QXYModelMapper::xSection() const
+qsizetype QXYModelMapper::xSection() const
 {
     Q_D(const QXYModelMapper);
     return d->m_xSection;
 }
 
-void QXYModelMapper::setXSection(int xSection)
+void QXYModelMapper::setXSection(qsizetype xSection)
 {
     Q_D(QXYModelMapper);
     d->m_xSection = qMax(-1, xSection);
@@ -415,13 +415,13 @@ void QXYModelMapper::setXSection(int xSection)
     Q_EMIT xSectionChanged();
 }
 
-int QXYModelMapper::ySection() const
+qsizetype QXYModelMapper::ySection() const
 {
     Q_D(const QXYModelMapper);
     return d->m_ySection;
 }
 
-void QXYModelMapper::setYSection(int ySection)
+void QXYModelMapper::setYSection(qsizetype ySection)
 {
     Q_D(QXYModelMapper);
     d->m_ySection = qMax(-1, ySection);
@@ -610,7 +610,7 @@ void QXYModelMapperPrivate::onModelUpdated(QModelIndex topLeft, QModelIndex bott
     blockSeriesSignals(false);
 }
 
-void QXYModelMapperPrivate::onModelRowsAdded(QModelIndex parent, int start, int end)
+void QXYModelMapperPrivate::onModelRowsAdded(QModelIndex parent, qsizetype start, qsizetype end)
 {
     Q_UNUSED(parent);
     if (m_modelSignalsBlock)
@@ -626,7 +626,7 @@ void QXYModelMapperPrivate::onModelRowsAdded(QModelIndex parent, int start, int 
     blockSeriesSignals(false);
 }
 
-void QXYModelMapperPrivate::onModelRowsRemoved(QModelIndex parent, int start, int end)
+void QXYModelMapperPrivate::onModelRowsRemoved(QModelIndex parent, qsizetype start, qsizetype end)
 {
     Q_UNUSED(parent);
     if (m_modelSignalsBlock)
@@ -642,7 +642,7 @@ void QXYModelMapperPrivate::onModelRowsRemoved(QModelIndex parent, int start, in
     blockSeriesSignals(false);
 }
 
-void QXYModelMapperPrivate::onModelColumnsAdded(QModelIndex parent, int start, int end)
+void QXYModelMapperPrivate::onModelColumnsAdded(QModelIndex parent, qsizetype start, qsizetype end)
 {
     Q_UNUSED(parent);
     if (m_modelSignalsBlock)
@@ -658,7 +658,7 @@ void QXYModelMapperPrivate::onModelColumnsAdded(QModelIndex parent, int start, i
     blockSeriesSignals(false);
 }
 
-void QXYModelMapperPrivate::onModelColumnsRemoved(QModelIndex parent, int start, int end)
+void QXYModelMapperPrivate::onModelColumnsRemoved(QModelIndex parent, qsizetype start, qsizetype end)
 {
     Q_UNUSED(parent);
     if (m_modelSignalsBlock)

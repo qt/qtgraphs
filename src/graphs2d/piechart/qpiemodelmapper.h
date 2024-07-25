@@ -20,12 +20,12 @@ class Q_GRAPHS_EXPORT QPieModelMapper : public QObject
     Q_OBJECT
     Q_PROPERTY(QPieSeries *series READ series WRITE setSeries NOTIFY seriesChanged FINAL)
     Q_PROPERTY(QAbstractItemModel *model READ model WRITE setModel NOTIFY modelChanged FINAL)
-    Q_PROPERTY(int valuesSection READ valuesSection WRITE setValuesSection NOTIFY
+    Q_PROPERTY(qsizetype valuesSection READ valuesSection WRITE setValuesSection NOTIFY
                    valuesSectionChanged FINAL)
-    Q_PROPERTY(int labelsSection READ labelsSection WRITE setLabelsSection NOTIFY
+    Q_PROPERTY(qsizetype labelsSection READ labelsSection WRITE setLabelsSection NOTIFY
                    labelsSectionChanged FINAL)
-    Q_PROPERTY(int first READ first WRITE setFirst NOTIFY firstChanged FINAL)
-    Q_PROPERTY(int count READ count WRITE setCount NOTIFY countChanged FINAL)
+    Q_PROPERTY(qsizetype first READ first WRITE setFirst NOTIFY firstChanged FINAL)
+    Q_PROPERTY(qsizetype count READ count WRITE setCount NOTIFY countChanged FINAL)
     Q_PROPERTY(Qt::Orientation orientation READ orientation WRITE setOrientation NOTIFY
                    orientationChanged FINAL)
     QML_NAMED_ELEMENT(PieModelMapper)
@@ -38,17 +38,17 @@ public:
     QPieSeries *series() const;
     void setSeries(QPieSeries *series);
 
-    int first() const;
-    void setFirst(int first);
+    qsizetype first() const;
+    void setFirst(qsizetype first);
 
-    int count() const;
-    void setCount(int count);
+    qsizetype count() const;
+    void setCount(qsizetype count);
 
-    int valuesSection() const;
-    void setValuesSection(int valuesSection);
+    qsizetype valuesSection() const;
+    void setValuesSection(qsizetype valuesSection);
 
-    int labelsSection() const;
-    void setLabelsSection(int labelsSection);
+    qsizetype labelsSection() const;
+    void setLabelsSection(qsizetype labelsSection);
 
     Qt::Orientation orientation() const;
     void setOrientation(Qt::Orientation orientation);

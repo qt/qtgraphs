@@ -87,7 +87,7 @@ QT_BEGIN_NAMESPACE
     \sa QPieModelMapper::orientation
 */
 /*!
-    \qmlproperty int PieModelMapper::valuesSection
+    \qmlproperty qsizetype PieModelMapper::valuesSection
     The column or row of the model that is kept in sync with the values of the pie's slices.
     The default value is -1 (invalid mapping).
 
@@ -103,7 +103,7 @@ QT_BEGIN_NAMESPACE
     \sa QPieModelMapper::orientation
 */
 /*!
-    \qmlproperty int PieModelMapper::labelsSection
+    \qmlproperty qsizetype PieModelMapper::labelsSection
     The column or row of the model that is kept in sync with the labels of the pie's slices.
     The default value is -1 (invalid mapping).
 
@@ -119,7 +119,7 @@ QT_BEGIN_NAMESPACE
     \sa QPieModelMapper::orientation
 */
 /*!
-    \qmlproperty int PieModelMapper::first
+    \qmlproperty qsizetype PieModelMapper::first
     The column or row of the model that contains the first slice value.
     The default value is 0.
 
@@ -135,7 +135,7 @@ QT_BEGIN_NAMESPACE
     \sa QPieModelMapper::orientation
 */
 /*!
-    \qmlproperty int PieModelMapper::count
+    \qmlproperty qsizetype PieModelMapper::count
     The number of columns or rows of the model that are mapped as the data for a pie series.
     The default value is -1 (number limited by the number of rows in the model).
 
@@ -336,24 +336,28 @@ void QPieModelMapper::setSeries(QPieSeries *series) {
     Q_EMIT seriesChanged();
 }
 
-int QPieModelMapper::first() const {
+qsizetype QPieModelMapper::first() const
+{
     Q_D(const QPieModelMapper);
     return d->m_first;
 }
 
-void QPieModelMapper::setFirst(int first) {
+void QPieModelMapper::setFirst(qsizetype first)
+{
     Q_D(QPieModelMapper);
     d->m_first = qMax(first, 0);
     d->initializePieFromModel();
     Q_EMIT firstChanged();
 }
 
-int QPieModelMapper::count() const {
+qsizetype QPieModelMapper::count() const
+{
     Q_D(const QPieModelMapper);
     return d->m_count;
 }
 
-void QPieModelMapper::setCount(int count) {
+void QPieModelMapper::setCount(qsizetype count)
+{
     Q_D(QPieModelMapper);
     d->m_count = qMax(count, -1);
     d->initializePieFromModel();
@@ -372,24 +376,28 @@ void QPieModelMapper::setOrientation(Qt::Orientation orientation) {
     Q_EMIT orientationChanged();
 }
 
-int QPieModelMapper::valuesSection() const {
+qsizetype QPieModelMapper::valuesSection() const
+{
     Q_D(const QPieModelMapper);
     return d->m_valuesSection;
 }
 
-void QPieModelMapper::setValuesSection(int valuesSection) {
+void QPieModelMapper::setValuesSection(qsizetype valuesSection)
+{
     Q_D(QPieModelMapper);
     d->m_valuesSection = qMax(-1, valuesSection);
     d->initializePieFromModel();
     Q_EMIT valuesSectionChanged();
 }
 
-int QPieModelMapper::labelsSection() const {
+qsizetype QPieModelMapper::labelsSection() const
+{
     Q_D(const QPieModelMapper);
     return d->m_labelsSection;
 }
 
-void QPieModelMapper::setLabelsSection(int labelsSection) {
+void QPieModelMapper::setLabelsSection(qsizetype labelsSection)
+{
     Q_D(QPieModelMapper);
     d->m_labelsSection = qMax(-1, labelsSection);
     d->initializePieFromModel();
@@ -584,7 +592,7 @@ void QPieModelMapperPrivate::onModelUpdated(QModelIndex topLeft, QModelIndex bot
     blockSeriesSignals(false);
 }
 
-void QPieModelMapperPrivate::onModelRowsAdded(QModelIndex parent, int start, int end)
+void QPieModelMapperPrivate::onModelRowsAdded(QModelIndex parent, qsizetype start, qsizetype end)
 {
     Q_UNUSED(parent);
     if (m_modelSignalsBlock)
@@ -600,7 +608,7 @@ void QPieModelMapperPrivate::onModelRowsAdded(QModelIndex parent, int start, int
     blockSeriesSignals(false);
 }
 
-void QPieModelMapperPrivate::onModelRowsRemoved(QModelIndex parent, int start, int end)
+void QPieModelMapperPrivate::onModelRowsRemoved(QModelIndex parent, qsizetype start, qsizetype end)
 {
     Q_UNUSED(parent);
     if (m_modelSignalsBlock)
@@ -616,7 +624,7 @@ void QPieModelMapperPrivate::onModelRowsRemoved(QModelIndex parent, int start, i
     blockSeriesSignals(false);
 }
 
-void QPieModelMapperPrivate::onModelColumnsAdded(QModelIndex parent, int start, int end)
+void QPieModelMapperPrivate::onModelColumnsAdded(QModelIndex parent, qsizetype start, qsizetype end)
 {
     Q_UNUSED(parent);
     if (m_modelSignalsBlock)
@@ -632,7 +640,7 @@ void QPieModelMapperPrivate::onModelColumnsAdded(QModelIndex parent, int start, 
     blockSeriesSignals(false);
 }
 
-void QPieModelMapperPrivate::onModelColumnsRemoved(QModelIndex parent, int start, int end)
+void QPieModelMapperPrivate::onModelColumnsRemoved(QModelIndex parent, qsizetype start, qsizetype end)
 {
     Q_UNUSED(parent);
     if (m_modelSignalsBlock)

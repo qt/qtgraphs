@@ -33,7 +33,7 @@ class QQuickGraphsScatter3DSeries : public QScatter3DSeries
     Q_PROPERTY(QJSValue multiHighlightGradient READ multiHighlightGradient WRITE
                    setMultiHighlightGradient NOTIFY multiHighlightGradientChanged FINAL)
     // This is static method in parent class, overload as constant property for qml.
-    Q_PROPERTY(int invalidSelectionIndex READ invalidSelectionIndex CONSTANT)
+    Q_PROPERTY(qsizetype invalidSelectionIndex READ invalidSelectionIndex CONSTANT)
     Q_CLASSINFO("DefaultProperty", "seriesChildren")
 
     QML_NAMED_ELEMENT(Scatter3DSeries)
@@ -52,7 +52,7 @@ public:
     void setMultiHighlightGradient(QJSValue gradient);
     QJSValue multiHighlightGradient() const;
 
-    int invalidSelectionIndex() const;
+    qsizetype invalidSelectionIndex() const;
 
 public Q_SLOTS:
     void handleBaseGradientUpdate();

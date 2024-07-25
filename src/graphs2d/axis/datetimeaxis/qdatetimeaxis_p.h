@@ -28,7 +28,7 @@ protected:
     qreal m_min = QDateTime::fromMSecsSinceEpoch(0, QTimeZone::UTC).toMSecsSinceEpoch();
     qreal m_max = QDateTime::fromMSecsSinceEpoch(0, QTimeZone::UTC).addYears(10).toMSecsSinceEpoch();
     qreal m_tickInterval = 0.0;
-    int m_subTickCount = 0;
+    qsizetype m_subTickCount = 0;
     QString m_format = QStringLiteral("dd-MMMM-yy");
 
 public:
