@@ -26,8 +26,8 @@ Rectangle {
     }
 
     function resetCustomGraphTheme() {
-        myTheme.axisYLabelFont.family = ""
-        chartView.gridSmoothing = 1
+        myTheme.axisYLabelFont.family = Qt.application.font.family
+        graphsView.gridSmoothing = 1
     }
 
     FontLoader {
@@ -53,9 +53,18 @@ Rectangle {
         anchors.leftMargin: 60
         spacing: 10
         Button {
+            text: "Automatic"
+            onClicked: {
+                mainView.resetCustomGraphTheme()
+                graphsView.theme = myTheme
+                myTheme.colorScheme = GraphsTheme.ColorScheme.Automatic
+            }
+        }
+        Button {
             text: "Dark"
             onClicked: {
                 mainView.resetCustomGraphTheme()
+                graphsView.theme = myTheme
                 myTheme.colorScheme = GraphsTheme.ColorScheme.Dark
             }
         }
@@ -63,21 +72,34 @@ Rectangle {
             text: "Light"
             onClicked: {
                 mainView.resetCustomGraphTheme()
+                graphsView.theme = myTheme
                 myTheme.colorScheme = GraphsTheme.ColorScheme.Light
+            }
+        }
+        Button {
+            text: "CustomBlue"
+            onClicked: {
+                mainView.resetCustomGraphTheme()
+                graphsView.theme = customBlueTheme
             }
         }
         Button {
             text: "Customize!"
             onClicked: {
+                graphsView.theme = myTheme
+                myTheme.backgroundColor = Qt.rgba(Math.random(),
+                                                  Math.random(),
+                                                  Math.random(), 1.0)
+                myTheme.plotAreaBackgroundColor = Qt.rgba(Math.random(),
+                                                  Math.random(),
+                                                  Math.random(), Math.random())
                 myTheme.grid.mainColor = Qt.rgba(Math.random(),
                                                      Math.random(),
                                                      Math.random(), 1.0)
-                myTheme.grid.mainWidth = 1 + 3 * Math.random()
                 myTheme.grid.subColor = Qt.rgba(Math.random(),
                                                      Math.random(),
                                                      Math.random(), 1.0)
-                myTheme.grid.subWidth = 1 + 2 * Math.random()
-                chartView.gridSmoothing = 2 * Math.random()
+                graphsView.gridSmoothing = 2 * Math.random()
                 myTheme.axisY.mainColor = Qt.rgba(Math.random(), Math.random(),
                                                   Math.random(), 1.0)
                 myTheme.axisX.mainColor = Qt.rgba(Math.random(), Math.random(),
@@ -92,12 +114,8 @@ Rectangle {
                 myTheme.axisX.labelTextColor = Qt.rgba(Math.random(),
                                                    Math.random(),
                                                    Math.random(), 1.0)
-                myTheme.axisY.mainWidth = 1 + 2 * Math.random()
-                myTheme.axisX.mainWidth = 1 + 2 * Math.random()
-                myTheme.axisY.subWidth = 1 + 1 * Math.random()
-                myTheme.axisX.subWidth = 1 + 1 * Math.random()
-                chartView.axisYSmoothing = 2 * Math.random()
-                myTheme.labelFont.family = customFont.font.family
+                graphsView.axisYSmoothing = 2 * Math.random()
+                myTheme.axisYLabelFont.family = customFont.font.family
             }
         }
     }
@@ -171,13 +189,13 @@ Rectangle {
     }
 
     GraphsView {
-        id: chartView
+        id: graphsView
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.bottom: parent.bottom
         anchors.top: graphToolbar.bottom
         anchors.margins: 20
-        marginLeft: 60 // Space for legend
+        marginLeft: 100 // Space for legend
         axisX: BarCategoryAxis {
             categories: ["2007", "2008", "2009", "2010", "2011", "2012"]
         }
@@ -185,14 +203,39 @@ Rectangle {
             subTickCount: 4
             max: 20
         }
-        theme: GraphsTheme {
+        theme: myTheme
+        GraphsTheme {
             id: myTheme
             theme: GraphsTheme.Theme.QtGreen
             axisXLabelFont.pixelSize: 20
             axisYLabelFont.pixelSize: 16
-            colorScheme: GraphsTheme.ColorScheme.Dark
-            plotAreaBackgroundColor: "#40808080"
+            colorScheme: GraphsTheme.ColorScheme.Automatic
             labelFont.pixelSize: 20
+        }
+        GraphsTheme {
+            id: customBlueTheme
+            theme: myTheme.theme
+            colorScheme: GraphsTheme.ColorScheme.Dark
+            labelFont.pixelSize: 14
+            axisXLabelFont.pixelSize: 20
+            axisYLabelFont.pixelSize: 14
+            backgroundColor: "#303438"
+            plotAreaBackgroundColor: "#60000000"
+            grid.mainColor: "#405060"
+            grid.subColor: "#606060"
+            grid.mainWidth: 1.6
+            grid.subWidth: 0.6
+            axisX.mainColor: "#405060"
+            axisX.subColor: "#606060"
+            axisX.labelTextColor: "#d0d090"
+            axisX.mainWidth: 1.6
+            axisX.subWidth: 0.6
+            axisY.mainColor: "#405060"
+            axisY.subColor: "#606060"
+            axisY.labelTextColor: "#d0d090"
+            axisY.mainWidth: 1.6
+            axisY.subWidth: 0.6
+            labelTextColor: "#d0d090"
         }
         BarSeries {
             id: mySeries
@@ -223,33 +266,38 @@ Rectangle {
         FrameAnimation {
             id: fA
             running: true
-            onTriggered: chartView.update()
         }
     }
     Column {
         id: legendColumn
-        property var sets: [set1, set2, set3, set4]
-        anchors.left: chartView.left
-        anchors.leftMargin: 10
-        anchors.verticalCenter: chartView.verticalCenter
+        anchors.left: graphsView.left
+        anchors.leftMargin: 20
+        anchors.verticalCenter: graphsView.verticalCenter
         spacing: 2
         Repeater {
             model: mySeries.legendData.length
-            Rectangle {
-                id: legend1
-                height: 20
-                width: 40
-                color: mySeries.legendData[index].color
+            Row {
+                spacing: 6
+                Rectangle {
+                    anchors.verticalCenter: parent.verticalCenter
+                    height: 16
+                    width: 16
+                    color: mySeries.legendData[index].color
+                    border.color: graphsView.theme.grid.mainColor
+                    border.width: 2
+                }
                 Text {
-                    id: text1
+                    anchors.verticalCenter: parent.verticalCenter
                     text: mySeries.legendData[index].label
+                    font.pixelSize: 16
+                    color: graphsView.theme.axisY.labelTextColor
                 }
             }
         }
     }
 
     MouseArea {
-        anchors.fill: chartView
+        anchors.fill: graphsView
         onClicked: fA.paused = !fA.paused
     }
 }
