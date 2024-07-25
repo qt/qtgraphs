@@ -23,7 +23,10 @@ AreaRenderer::AreaRenderer(QGraphsView *graph)
     m_shape.setPreferredRendererType(QQuickShape::CurveRenderer);
 }
 
-AreaRenderer::~AreaRenderer() {}
+AreaRenderer::~AreaRenderer()
+{
+    qDeleteAll(m_groups);
+}
 
 void AreaRenderer::calculateRenderCoordinates(qreal origX,
                                               qreal origY,
@@ -289,6 +292,7 @@ void AreaRenderer::afterPolish(QList<QAbstractSeries *> &cleanupSeries)
                 pathElements.clear(&pathElements);
             }
 
+            delete group;
             m_groups.remove(areaSeries);
         }
     }
