@@ -63,6 +63,19 @@ Rectangle {
             XYPoint { x: 4.0; y: 5.3 }
         }
 
+        SplineSeries {
+            id: splineSeries
+            name: "Spline"
+            hoverable: true
+
+            XYPoint { x: 0; y: 4.6 }
+            XYPoint { x: 0.6; y: 2.1 }
+            XYPoint { x: 1.5; y: 3.3 }
+            XYPoint { x: 2.2; y: 5.1 }
+            XYPoint { x: 3.3; y: 4.9 }
+            XYPoint { x: 3.6; y: 3.0 }
+        }
+
         ScatterSeries {
             id: scatterSeries
             name: "Points"

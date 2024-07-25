@@ -77,6 +77,20 @@ void PointRenderer::calculateRenderCoordinates(
                + m_verticalOffset;
 }
 
+void PointRenderer::reverseRenderCoordinates(
+    AxisRenderer *axisRenderer, qreal renderX, qreal renderY, qreal *origX, qreal *origY)
+{
+    auto flipX = axisRenderer->m_axisHorizontalMaxValue < axisRenderer->m_axisHorizontalMinValue
+                     ? -1
+                     : 1;
+    auto flipY = axisRenderer->m_axisVerticalMaxValue < axisRenderer->m_axisVerticalMinValue ? -1
+                                                                                             : 1;
+
+    *origX = (renderX + m_horizontalOffset) / (m_areaWidth * flipX * m_maxHorizontal);
+    *origY = (renderY - m_areaHeight - m_verticalOffset)
+             / (-1 * m_areaHeight * flipY * m_maxVertical);
+}
+
 void PointRenderer::updatePointDelegate(
     QXYSeries *series, PointGroup *group, int pointIndex, qreal x, qreal y)
 {
@@ -535,6 +549,8 @@ bool PointRenderer::handleHoverMove(QHoverEvent *event)
             const bool isLine = group->series->type() == QAbstractSeries::SeriesType::Line;
             if (points.size() >= 2) {
                 bool hovering = false;
+                auto subpath = group->painterPath.toSubpathPolygons();
+
                 for (int i = 0; i < points.size() - 1; i++) {
                     qreal x1, y1, x2, y2;
                     if (i == 0) {
@@ -572,8 +588,8 @@ bool PointRenderer::handleHoverMove(QHoverEvent *event)
                         y2 = element2.y;
                     }
 
-                    qreal denominator = (x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1);
-                    if (denominator > 0) {
+                    if (isLine) {
+                        qreal denominator = (x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1);
                         qreal hoverDistance = qAbs((x2 - x1) * (y1 - y0) - (x1 - x0) * (y2 - y1))
                                               / qSqrt(denominator);
 
@@ -608,6 +624,68 @@ bool PointRenderer::handleHoverMove(QHoverEvent *event)
                                 emit group->series->hover(name, position, point);
                                 hovering = true;
                                 handled = true;
+                            }
+                        }
+                    } else { // Spline
+                        auto segments = subpath[0];
+
+                        for (auto it = segments.begin(); it != segments.end(); ++it) {
+                            if (std::next(it, 1) == segments.end())
+                                break;
+
+                            auto it2 = std::next(it, 1);
+
+                            qreal denominator = (it2->x() - it->x()) * (it2->x() - it->x())
+                                                + (it2->y() - it->y()) * (it2->y() - it->y());
+                            qreal hoverDistance = qAbs((it2->x() - it->x()) * (it->y() - y0)
+                                                       - (it->x() - x0) * (it2->y() - it->y()))
+                                                  / qSqrt(denominator);
+
+                            if (hoverDistance < hoverSize) {
+                                qreal alpha = 0;
+                                qreal extrapolation = 0;
+                                if (it2->x() - it->x() >= it2->y() - it->y()) {
+                                    if (it2->x() - it->x() != 0) {
+                                        alpha = ((it2->x() - it->x()) - (x0 - it->x()))
+                                                / qAbs(it2->x() - it->x());
+                                        extrapolation = hoverSize / qAbs(it2->x() - it->x());
+                                    }
+                                } else {
+                                    if (it2->y() - it->y() != 0) {
+                                        alpha = ((it2->y() - it->y()) - (y0 - it->y()))
+                                                / qAbs(it2->y() - it->y());
+                                        extrapolation = hoverSize / qAbs(it2->y() - it->y());
+                                    }
+                                }
+
+                                if (alpha >= -extrapolation && alpha <= 1.0 + extrapolation) {
+                                    qreal cx1, cy1, cx2, cy2;
+
+                                    reverseRenderCoordinates(axisRenderer,
+                                                             it->x(),
+                                                             it->y(),
+                                                             &cx1,
+                                                             &cy1);
+                                    reverseRenderCoordinates(axisRenderer,
+                                                             it2->x(),
+                                                             it2->y(),
+                                                             &cx2,
+                                                             &cy2);
+
+                                    const QPointF &point1 = {cx1, cy1};
+                                    const QPointF &point2 = {cx2, cy2};
+
+                                    QPointF point = (point2 * (1.0 - alpha)) + (point1 * alpha);
+
+                                    if (!group->hover) {
+                                        group->hover = true;
+                                        emit group->series->hoverEnter(name, position, point);
+                                    }
+
+                                    emit group->series->hover(name, position, point);
+                                    hovering = true;
+                                    handled = true;
+                                }
                             }
                         }
                     }

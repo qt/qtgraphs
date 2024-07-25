@@ -86,6 +86,8 @@ private:
 
     void calculateRenderCoordinates(
         AxisRenderer *axisRenderer, qreal origX, qreal origY, qreal *renderX, qreal *renderY);
+    void reverseRenderCoordinates(
+        AxisRenderer *axisRenderer, qreal renderX, qreal renderY, qreal *origX, qreal *origY);
     void updatePointDelegate(QXYSeries *series, PointGroup *group, int pointIndex, qreal x, qreal y);
     void hidePointDelegates(QXYSeries *series);
     void updateLegendData(QXYSeries *series, QLegendData &legendData);
