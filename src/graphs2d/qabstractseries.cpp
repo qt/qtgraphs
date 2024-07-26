@@ -443,14 +443,7 @@ const QList<QLegendData> QAbstractSeries::legendData() const
 
 QQmlListProperty<QObject> QAbstractSeries::seriesChildren()
 {
-    return QQmlListProperty<QObject>(this, 0, &QAbstractSeries::appendSeriesChildren ,0,0,0);
-}
-
-void QAbstractSeries::appendSeriesChildren(QQmlListProperty<QObject> *list, QObject *element)
-{
-    // Empty implementation; the children are parsed in componentComplete instead
-    Q_UNUSED(list);
-    Q_UNUSED(element);
+    return QQmlListProperty<QObject>(this, 0, &QAbstractSeriesPrivate::appendSeriesChildren, 0, 0, 0);
 }
 
 void QAbstractSeries::classBegin()
@@ -491,6 +484,12 @@ void QAbstractSeriesPrivate::clearLegendData()
     }
 }
 
+void QAbstractSeriesPrivate::appendSeriesChildren(QQmlListProperty<QObject> *list, QObject *element)
+{
+    // Empty implementation; the children are parsed in componentComplete instead
+    Q_UNUSED(list);
+    Q_UNUSED(element);
+}
 QT_END_NAMESPACE
 
 #include "moc_qabstractseries.cpp"

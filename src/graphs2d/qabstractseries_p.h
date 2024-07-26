@@ -33,6 +33,8 @@ public:
     void setLegendData(const QList<QLegendData> &legendData);
     void clearLegendData();
 
+    static void appendSeriesChildren(QQmlListProperty<QObject> *list, QObject *element);
+
 protected:
     QGraphsView *m_graph = nullptr;
 

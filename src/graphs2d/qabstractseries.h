@@ -99,9 +99,6 @@ public:
 
     bool hasLoaded() const;
 
-public Q_SLOTS:
-    static void appendSeriesChildren(QQmlListProperty<QObject> *list, QObject *element);
-
 Q_SIGNALS:
     void update();
     void nameChanged();
