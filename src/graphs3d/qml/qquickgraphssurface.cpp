@@ -1735,7 +1735,7 @@ void QQuickGraphsSurface::toggleSliceGraph()
             QVector<SurfaceVertex> list;
             QSurfaceDataRow row = array.at(coord.y());
             for (int i = columnStart; i < columnEnd; i++) {
-                int index = ascendingX ? i : rowEnd - i - rowStart - 1;
+                int index = ascendingX ? i : columnEnd - i + columnStart - 1;
                 QVector3D pos = getNormalizedVertex(row.at(index), false, false);
                 SurfaceVertex vertex;
                 vertex.position = pos;
@@ -1753,7 +1753,7 @@ void QQuickGraphsSurface::toggleSliceGraph()
             selectedSeries.reserve(rowCount * 2);
             QVector<SurfaceVertex> list;
             for (int i = rowStart; i < rowEnd; i++) {
-                int index = ascendingZ ? i : rowEnd - i - rowStart - 1;
+                int index = ascendingZ ? i : rowEnd - i + rowStart - 1;
                 QVector3D pos = getNormalizedVertex(array.at(index).at(coord.x()), false, false);
                 SurfaceVertex vertex;
                 vertex.position = pos;
