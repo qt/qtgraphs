@@ -63,8 +63,8 @@ void PieRenderer::handlePolish(QPieSeries *series)
         data.append(&data, shapePath);
 
         if (!d->m_labelItem->parent()) {
-            d->m_labelItem->setParent(m_graph);
-            d->m_labelItem->setParentItem(m_graph);
+            d->m_labelItem->setParent(this);
+            d->m_labelItem->setParentItem(this);
         }
 
         if (!labelShape->parent()) {
