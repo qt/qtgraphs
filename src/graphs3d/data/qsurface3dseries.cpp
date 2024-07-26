@@ -519,10 +519,16 @@ void QSurface3DSeries::clearArray()
     d->clearArray();
 }
 
-const QSurfaceDataArray &QSurface3DSeries::dataArray() const
+const QSurfaceDataArray &QSurface3DSeries::dataArray() const &
 {
     const Q_D(QSurface3DSeries);
     return d->m_dataArray;
+}
+
+QSurfaceDataArray QSurface3DSeries::dataArray() &&
+{
+    Q_D(QSurface3DSeries);
+    return std::move(d->m_dataArray);
 }
 
 // QSurface3DSeriesPrivate

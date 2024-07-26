@@ -48,13 +48,17 @@ protected:
     void markDirty(bool labelsChange = false);
     QValue3DAxis *axis() const;
 
-    const QList<float> &gridPositions() const;
+    const QList<float> &gridPositions() const &;
+    QList<float> gridPositions() &&;
     void setGridPoitions(QList<float> gridPositions);
-    const QList<float> &subGridPositions() const;
+    const QList<float> &subGridPositions() const &;
+    QList<float> subGridPositions() &&;
     void setSubGridPositions(QList<float> subGridPositions);
-    const QList<float> &labelPositions() const;
+    const QList<float> &labelPositions() const &;
+    QList<float> labelPositions() &&;
     void setlabelPositions(QList<float> labelPositions);
-    const QStringList &labelStrings() const;
+    const QStringList &labelStrings() const &;
+    QStringList labelStrings() &&;
     void setLabelStrings(QStringList labelStrings);
 
     void setLocale(const QLocale &locale);

@@ -265,10 +265,24 @@ QValue3DAxis *QValue3DAxisFormatter::axis() const
  *
  * \sa QValue3DAxis::segmentCount, recalculate()
  */
-const QList<float> &QValue3DAxisFormatter::gridPositions() const
+const QList<float> &QValue3DAxisFormatter::gridPositions() const &
 {
     const Q_D(QValue3DAxisFormatter);
     return d->m_gridPositions;
+}
+
+/*!
+ * Returns an array of normalized grid line positions by value.
+ * The default array size is equal to the segment count of the parent axis plus
+ * one, but a subclassed implementation of the recalculate() method may resize
+ * the array differently.
+ *
+ * \sa QValue3DAxis::segmentCount, recalculate()
+ */
+QList<float> QValue3DAxisFormatter::gridPositions() &&
+{
+    Q_D(QValue3DAxisFormatter);
+    return std::move(d->m_gridPositions);
 }
 
 /*!
@@ -292,10 +306,24 @@ void QValue3DAxisFormatter::setGridPoitions(QList<float> gridPositions)
  *
  * \sa QValue3DAxis::segmentCount, QValue3DAxis::subSegmentCount, recalculate()
  */
-const QList<float> &QValue3DAxisFormatter::subGridPositions() const
+const QList<float> &QValue3DAxisFormatter::subGridPositions() const &
 {
     const Q_D(QValue3DAxisFormatter);
     return d->m_subGridPositions;
+}
+
+/*!
+ * Returns an array of normalized sub-grid line positions by value.
+ * The default array size is equal to the segment count of the parent axis times
+ * the sub-segment count of the parent axis minus one, but a subclassed
+ * implementation of the recalculate() method may resize the array differently.
+ *
+ * \sa QValue3DAxis::segmentCount, QValue3DAxis::subSegmentCount, recalculate()
+ */
+QList<float> QValue3DAxisFormatter::subGridPositions() &&
+{
+    Q_D(QValue3DAxisFormatter);
+    return std::move(d->m_subGridPositions);
 }
 
 /*!
@@ -321,10 +349,25 @@ void QValue3DAxisFormatter::setSubGridPositions(QList<float> subGridPositions)
  *
  * \sa QValue3DAxis::segmentCount, QAbstract3DAxis::labels, recalculate()
  */
-const QList<float> &QValue3DAxisFormatter::labelPositions() const
+const QList<float> &QValue3DAxisFormatter::labelPositions() const &
 {
     const Q_D(QValue3DAxisFormatter);
     return d->m_labelPositions;
+}
+
+/*!
+ * Returns an array of normalized label positions by value.
+ * The default array size is equal to the segment count of the parent axis plus
+ * one, but a subclassed implementation of the recalculate() method may resize
+ * the array differently. By default, the label at the index zero corresponds to
+ * the minimum value of the axis.
+ *
+ * \sa QValue3DAxis::segmentCount, QAbstract3DAxis::labels, recalculate()
+ */
+QList<float> QValue3DAxisFormatter::labelPositions() &&
+{
+    Q_D(QValue3DAxisFormatter);
+    return std::move(d->m_labelPositions);
 }
 
 /*!
@@ -346,10 +389,21 @@ void QValue3DAxisFormatter::setlabelPositions(QList<float> labelPositions)
  *
  * \sa labelPositions()
  */
-const QStringList &QValue3DAxisFormatter::labelStrings() const
+const QStringList &QValue3DAxisFormatter::labelStrings() const &
 {
     const Q_D(QValue3DAxisFormatter);
     return d->m_labelStrings;
+}
+
+/*!
+ * Returns a string list by value containing formatter label strings.
+ *
+ * \sa labelPositions()
+ */
+QStringList QValue3DAxisFormatter::labelStrings() &&
+{
+    Q_D(QValue3DAxisFormatter);
+    return std::move(d->m_labelStrings);
 }
 
 /*!
