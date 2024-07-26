@@ -104,7 +104,7 @@ public:
     static QPoint invalidSelectionPosition();
     void setSelectedPoint(QPoint position, QSurface3DSeries *series, bool enterSlice);
 
-    inline QSurface3DSeries *selectedSeries() const { return m_selectedSeries; }
+    QSurface3DSeries *selectedSeries() const { return m_selectedSeries; }
     void setSelectionMode(QtGraphs3D::SelectionFlags mode) override;
 
     void setDataDimensions(DataDimensions dimension) { m_dataDimensions = dimension; }

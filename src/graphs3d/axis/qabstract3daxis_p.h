@@ -29,8 +29,8 @@ public:
 
     void setOrientation(QAbstract3DAxis::AxisOrientation orientation);
 
-    inline bool isDefaultAxis() { return m_isDefaultAxis; }
-    inline void setDefaultAxis(bool isDefault) { m_isDefaultAxis = isDefault; }
+    bool isDefaultAxis() { return m_isDefaultAxis; }
+    void setDefaultAxis(bool isDefault) { m_isDefaultAxis = isDefault; }
 
     virtual void setRange(float min, float max, bool suppressWarnings = false);
     virtual void setMin(float min);
