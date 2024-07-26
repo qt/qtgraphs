@@ -74,7 +74,8 @@ public:
     void setDataArray(const QSurfaceDataArray &newDataArray);
     void clearRow(qsizetype rowIndex);
     void clearArray();
-    const QSurfaceDataArray &dataArray() const;
+    const QSurfaceDataArray &dataArray() const &;
+    QSurfaceDataArray dataArray() &&;
 
 Q_SIGNALS:
     void dataProxyChanged(QSurfaceDataProxy *proxy);

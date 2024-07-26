@@ -38,7 +38,8 @@ public:
 
     void setDataArray(const QScatterDataArray &newDataArray);
     void clearArray();
-    const QScatterDataArray &dataArray() const;
+    const QScatterDataArray &dataArray() const &;
+    QScatterDataArray dataArray() &&;
 
 Q_SIGNALS:
     void dataProxyChanged(QScatterDataProxy *proxy);

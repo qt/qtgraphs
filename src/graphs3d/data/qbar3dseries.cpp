@@ -443,10 +443,16 @@ void QBar3DSeries::clearArray()
     d->clearArray();
 }
 
-const QBarDataArray &QBar3DSeries::dataArray() const
+const QBarDataArray &QBar3DSeries::dataArray() const &
 {
     const Q_D(QBar3DSeries);
     return d->m_dataArray;
+}
+
+QBarDataArray QBar3DSeries::dataArray() &&
+{
+    Q_D(QBar3DSeries);
+    return std::move(d->m_dataArray);
 }
 
 /*!

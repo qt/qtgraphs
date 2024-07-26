@@ -303,10 +303,16 @@ void QScatter3DSeries::clearArray()
     d->clearArray();
 }
 
-const QScatterDataArray &QScatter3DSeries::dataArray() const
+const QScatterDataArray &QScatter3DSeries::dataArray() const &
 {
     const Q_D(QScatter3DSeries);
     return d->m_dataArray;
+}
+
+QScatterDataArray QScatter3DSeries::dataArray() &&
+{
+    Q_D(QScatter3DSeries);
+    return std::move(d->m_dataArray);
 }
 
 /*!

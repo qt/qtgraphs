@@ -53,7 +53,8 @@ public:
     void setDataArray(const QBarDataArray &newDataArray);
     void clearRow(qsizetype rowIndex);
     void clearArray();
-    const QBarDataArray &dataArray() const;
+    const QBarDataArray &dataArray() const &;
+    QBarDataArray dataArray() &&;
     QStringList rowLabels() const;
     void setRowLabels(const QStringList &labels);
     QStringList columnLabels() const;
