@@ -130,7 +130,7 @@ public:
     void setPrimarySeries(QBar3DSeries *series);
     QBar3DSeries *primarySeries() const;
     QBar3DSeries *selectedSeries() const;
-    static inline QPoint invalidSelectionPosition() { return QPoint(-1, -1); }
+    static QPoint invalidSelectionPosition() { return QPoint(-1, -1); }
     void setSelectionMode(QtGraphs3D::SelectionFlags mode) override;
 
     void handleAxisAutoAdjustRangeChangedInOrientation(QAbstract3DAxis::AxisOrientation orientation,

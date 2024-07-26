@@ -74,25 +74,22 @@ public:
 
     QScatter3DSeries *selectedSeries() const;
     void setSelectedItem(qsizetype index, QScatter3DSeries *series);
-    static inline int invalidSelectionIndex() { return -1; }
+    static int invalidSelectionIndex() { return -1; }
     void setSelectionMode(QtGraphs3D::SelectionFlags mode) override;
 
-    inline bool hasSelectedItemChanged() const { return m_changeTracker.selectedItemChanged; }
-    inline void setSelectedItemChanged(bool changed)
-    {
-        m_changeTracker.selectedItemChanged = changed;
-    }
-    inline bool hasItemChanged() const { return m_changeTracker.itemChanged; }
-    inline void setItemChanged(bool changed) { m_changeTracker.itemChanged = changed; }
+    bool hasSelectedItemChanged() const { return m_changeTracker.selectedItemChanged; }
+    void setSelectedItemChanged(bool changed) { m_changeTracker.selectedItemChanged = changed; }
+    bool hasItemChanged() const { return m_changeTracker.itemChanged; }
+    void setItemChanged(bool changed) { m_changeTracker.itemChanged = changed; }
 
     void handleAxisAutoAdjustRangeChangedInOrientation(QAbstract3DAxis::AxisOrientation orientation,
                                                        bool autoAdjust) override;
     void handleAxisRangeChangedBySender(QObject *sender) override;
     void adjustAxisRanges() override;
-    inline bool hasChangedSeriesList() const { return !m_changedSeriesList.empty(); }
-    inline bool isSeriesVisualsDirty() const { return m_isSeriesVisualsDirty; }
-    inline void setSeriesVisualsDirty() { m_isSeriesVisualsDirty = true; }
-    inline bool isDataDirty() const { return m_isDataDirty; }
+    bool hasChangedSeriesList() const { return !m_changedSeriesList.empty(); }
+    bool isSeriesVisualsDirty() const { return m_isSeriesVisualsDirty; }
+    void setSeriesVisualsDirty() { m_isSeriesVisualsDirty = true; }
+    bool isDataDirty() const { return m_isDataDirty; }
 
 public Q_SLOTS:
     void handleAxisXChanged(QAbstract3DAxis *axis) override;

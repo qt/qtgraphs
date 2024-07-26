@@ -24,7 +24,7 @@ class QBar3DSeriesPrivate : public QAbstract3DSeriesPrivate
     Q_DECLARE_PUBLIC(QBar3DSeries)
 
 public:
-    static inline QBar3DSeriesPrivate *get(QBar3DSeries *item) { return item->d_func(); }
+    static QBar3DSeriesPrivate *get(QBar3DSeries *item) { return item->d_func(); }
     QBar3DSeriesPrivate();
     ~QBar3DSeriesPrivate() override;
 

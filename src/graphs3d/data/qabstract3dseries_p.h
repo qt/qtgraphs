@@ -115,7 +115,7 @@ public:
     void resetToTheme(const QGraphsTheme &theme, qsizetype seriesIndex, bool force);
     QString itemLabel();
     void markItemLabelDirty();
-    inline bool itemLabelDirty() const { return m_itemLabelDirty; }
+    bool itemLabelDirty() const { return m_itemLabelDirty; }
     void setItemLabelVisible(bool visible);
     bool isUsingGradient();
 
