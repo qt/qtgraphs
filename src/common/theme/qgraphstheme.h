@@ -89,7 +89,7 @@ class QGraphsLine
     Q_PROPERTY(QColor labelTextColor READ labelTextColor WRITE setLabelTextColor FINAL)
 
 public:
-    static QVariant create(const QJSValue &params);
+    Q_GRAPHS_EXPORT static QVariant create(const QJSValue &params);
     Q_GRAPHS_EXPORT QGraphsLine();
     Q_GRAPHS_EXPORT QGraphsLine(const QGraphsLine &other) noexcept;
     QGraphsLine(QGraphsLine &&other) noexcept = default;
