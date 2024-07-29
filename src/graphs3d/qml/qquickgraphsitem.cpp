@@ -5843,11 +5843,16 @@ void QQuickGraphsItem::setCameraZoomLevel(float level)
 
 void QQuickGraphsItem::setMinCameraZoomLevel(float level)
 {
-    if (m_minZoomLevel == level)
+    if (m_minZoomLevel == level || level < 1.f)
         return;
 
     m_minZoomLevel = level;
     emit minCameraZoomLevelChanged(level);
+
+    setMaxCameraZoomLevel(std::max(m_minZoomLevel, m_maxZoomLevel));
+
+    if (cameraZoomLevel() < level)
+        setCameraZoomLevel(level);
 }
 
 void QQuickGraphsItem::setMaxCameraZoomLevel(float level)
@@ -5857,6 +5862,11 @@ void QQuickGraphsItem::setMaxCameraZoomLevel(float level)
 
     m_maxZoomLevel = level;
     emit maxCameraZoomLevelChanged(level);
+
+    setMinCameraZoomLevel(std::min(m_minZoomLevel, m_maxZoomLevel));
+
+    if (cameraZoomLevel() > level)
+        setCameraZoomLevel(level);
 }
 
 void QQuickGraphsItem::setCameraTargetPosition(QVector3D target)
@@ -5970,8 +5980,8 @@ void QQuickGraphsItem::createSliceCamera()
         auto camera = new QQuick3DPerspectiveCamera(sliceView()->scene());
         camera->setFieldOfViewOrientation(
             QQuick3DPerspectiveCamera::FieldOfViewOrientation::Vertical);
-        camera->setClipNear(0.1f);
-        camera->setClipFar(100.f);
+        camera->setClipNear(5.f);
+        camera->setClipFar(15.f);
         camera->setFieldOfView(35.f);
         camera->setPosition(QVector3D(.0f, .0f, 10.f));
         sliceView()->setCamera(camera);
@@ -6302,8 +6312,14 @@ void QQuickGraphsItem::updateSliceLabels()
 
 void QQuickGraphsItem::setUpCamera()
 {
+    // By default we could get away with a value of 10 or 15, but as camera zoom is implemented
+    // by moving it, we have to take into account the maximum zoom out level. The other
+    // option would be to adjust far clip whenever zoom level changes.
+    const float farclip = 700.f;
+
     m_pCamera = new QQuick3DPerspectiveCamera(rootNode());
     m_pCamera->setClipNear(0.001f);
+    m_pCamera->setClipFar(farclip);
     m_pCamera->setFieldOfView(45.0f);
     m_pCamera->setPosition(QVector3D(.0f, .0f, 5.f));
 
@@ -6323,6 +6339,7 @@ void QQuickGraphsItem::setUpCamera()
     // Set clip near 0.0001f so that it can be set correct value to workaround
     // a Quick3D device pixel ratio bug
     m_oCamera->setClipNear(0.0001f);
+    m_oCamera->setClipFar(farclip);
     m_oCamera->setPosition(QVector3D(0.f, 0.f, 5.f));
     m_oCamera->setParent(cameraTarget);
     m_oCamera->setParentItem(cameraTarget);
