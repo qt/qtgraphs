@@ -6342,6 +6342,8 @@ void QQuickGraphsItem::setUpLight()
         *QQuick3DObjectPrivate::get(rootNode())->sceneManager);
     light->setParent(camera());
     light->setParentItem(camera());
+    light->setShadowBias(0.1f);
+    light->setSoftShadowQuality(QQuick3DAbstractLight::QSSGSoftShadowQuality::Hard);
     m_light = light;
 }
 
