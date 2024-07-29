@@ -138,9 +138,8 @@ void QValue3DAxis::setSegmentCount(int count)
 {
     Q_D(QValue3DAxis);
     if (count <= 0) {
-        qWarning() << "Warning: Illegal segment count automatically adjusted to a "
-                      "legal one:"
-                   << count << "-> 1";
+        qWarning("Warning: Illegal segment count automatically adjusted to a legal one: %d --> 1",
+                 count);
         count = 1;
     }
     if (d->m_segmentCount != count) {
@@ -171,9 +170,8 @@ void QValue3DAxis::setSubSegmentCount(int count)
 {
     Q_D(QValue3DAxis);
     if (count <= 0) {
-        qWarning() << "Warning: Illegal subsegment count automatically adjusted to "
-                      "a legal one:"
-                   << count << "-> 1";
+        qWarning("Warning: Illegal subsegment count automatically adjusted to a legal one: %d -> 1",
+                 count);
         count = 1;
     }
     if (d->m_subSegmentCount != count) {

@@ -420,7 +420,7 @@ void QAbstract3DSeries::setMesh(QAbstract3DSeries::Mesh mesh)
     if ((mesh == QAbstract3DSeries::Mesh::Point || mesh == QAbstract3DSeries::Mesh::Minimal
          || mesh == QAbstract3DSeries::Mesh::Arrow)
         && type() != QAbstract3DSeries::SeriesType::Scatter) {
-        qWarning() << "Specified style is only supported for QScatter3DSeries.";
+        qWarning("Specified style is only supported for QScatter3DSeries.");
     } else if (d->m_mesh != mesh) {
         d->setMesh(mesh);
         emit meshChanged(mesh);

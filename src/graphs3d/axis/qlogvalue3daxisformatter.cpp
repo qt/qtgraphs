@@ -144,9 +144,9 @@ void QLogValue3DAxisFormatter::setBase(qreal base)
 {
     Q_D(QLogValue3DAxisFormatter);
     if (base < 0.0f || base == 1.0f) {
-        qWarning() << "Warning: The logarithm base must be greater than 0 and not "
-                      "equal to 1,"
-                   << "attempted:" << base;
+        qWarning(
+            "Warning: The logarithm base must be greater than 0 and not equal to 1, attempted: %f",
+            base);
         return;
     }
     if (d->m_base != base) {

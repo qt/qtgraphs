@@ -603,9 +603,12 @@ void QAbstract3DAxisPrivate::setRange(float min, float max, bool suppressWarning
 
     if (minDirty || maxDirty) {
         if (adjusted && !suppressWarnings) {
-            qWarning() << "Warning: Tried to set invalid range for axis."
-                          " Range automatically adjusted to a valid one:"
-                       << min << "-" << max << "-->" << m_min << "-" << m_max;
+            qWarning("Warning: Tried to set invalid range for axis. Range automatically adjusted "
+                     "to a valid one: %f - %f --> %f - %f",
+                     min,
+                     max,
+                     m_min,
+                     m_max);
         }
         emit q->rangeChanged(m_min, m_max);
     }
@@ -623,17 +626,17 @@ void QAbstract3DAxisPrivate::setMin(float min)
         if (allowZero()) {
             if (min < 0.0f) {
                 min = 0.0f;
-                qWarning() << "Warning: Tried to set negative minimum for an axis that only"
-                              "supports positive values and zero:"
-                           << min;
+                qWarning("Warning: Tried to set negative minimum for an axis that only"
+                         "supports positive values and zero: %f",
+                         min);
             }
         } else {
             if (min <= 0.0f) {
                 min = 1.0f;
-                qWarning() << "Warning: Tried to set negative or zero minimum for an "
-                              "axis that only"
-                              "supports positive values:"
-                           << min;
+                qWarning("Warning: Tried to set negative or zero minimum for an "
+                         "axis that only"
+                         "supports positive values: %f",
+                         min);
             }
         }
     }
@@ -643,9 +646,10 @@ void QAbstract3DAxisPrivate::setMin(float min)
         if (min > m_max || (!allowMinMaxSame() && min == m_max)) {
             float oldMax = m_max;
             m_max = min + 1.0f;
-            qWarning() << "Warning: Tried to set minimum to equal or larger than maximum for"
-                          " value axis. Maximum automatically adjusted to a valid one:"
-                       << oldMax << "-->" << m_max;
+            qWarning("Warning: Tried to set minimum to equal or larger than maximum for"
+                     " value axis. Maximum automatically adjusted to a valid one: %f --> %f",
+                     oldMax,
+                     m_max);
             maxChanged = true;
         }
         m_min = min;
@@ -664,17 +668,17 @@ void QAbstract3DAxisPrivate::setMax(float max)
         if (allowZero()) {
             if (max < 0.0f) {
                 max = 0.0f;
-                qWarning() << "Warning: Tried to set negative maximum for an axis that only"
-                              "supports positive values and zero:"
-                           << max;
+                qWarning("Warning: Tried to set negative maximum for an axis that only"
+                         "supports positive values and zero: %f",
+                         max);
             }
         } else {
             if (max <= 0.0f) {
                 max = 1.0f;
-                qWarning() << "Warning: Tried to set negative or zero maximum for an "
-                              "axis that only"
-                              "supports positive values:"
-                           << max;
+                qWarning("Warning: Tried to set negative or zero maximum for an "
+                         "axis that only"
+                         "supports positive values: %f",
+                         max);
             }
         }
     }
@@ -692,14 +696,14 @@ void QAbstract3DAxisPrivate::setMax(float max)
 
                 if (!allowMinMaxSame() && max == 0.0f) {
                     m_min = oldMin;
-                    qWarning() << "Unable to set maximum value to zero.";
+                    qWarning("Unable to set maximum value to zero.");
                     return;
                 }
             }
-            qWarning() << "Warning: Tried to set maximum to equal or smaller than minimum "
-                          "for"
-                          " value axis. Minimum automatically adjusted to a valid one:"
-                       << oldMin << "-->" << m_min;
+            qWarning("Warning: Tried to set maximum to equal or smaller than minimum "
+                     "for value axis. Minimum automatically adjusted to a valid one: %f --> %f",
+                     oldMin,
+                     m_min);
             minChanged = true;
         }
         m_max = max;

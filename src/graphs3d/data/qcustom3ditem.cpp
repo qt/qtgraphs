@@ -364,7 +364,8 @@ void QCustom3DItem::setScalingAbsolute(bool scalingAbsolute)
 {
     Q_D(QCustom3DItem);
     if (d->m_isLabelItem && !scalingAbsolute) {
-        qWarning() << __FUNCTION__ << "Data bounds are not supported for label items.";
+        qWarning("%ls Data bounds are not supported for label items.",
+                 qUtf16Printable(QString::fromUtf8(__func__)));
     } else if (d->m_scalingAbsolute != scalingAbsolute) {
         d->m_scalingAbsolute = scalingAbsolute;
         d->m_dirtyBits.scalingDirty = true;

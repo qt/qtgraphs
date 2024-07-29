@@ -239,8 +239,10 @@ void QQuickGraphsScatter::updateScatterGraphItemPositions(ScatterModel *graphMod
         itemSize = m_pointScale;
 
     if (optimizationHint() == QtGraphs3D::OptimizationHint::Legacy) {
-        if (dataProxy->itemCount() != itemList.size())
-            qWarning() << __func__ << "Item count differs from itemList count";
+        if (dataProxy->itemCount() != itemList.size()) {
+            qWarning("%ls Item count differs from itemList count",
+                     qUtf16Printable(QString::fromUtf8(__func__)));
+        }
 
         for (int i = 0; i < dataProxy->itemCount(); ++i) {
             const QScatterDataItem item = dataProxy->itemAt(i);
@@ -384,7 +386,8 @@ void QQuickGraphsScatter::updateScatterGraphItemVisuals(ScatterModel *graphModel
         window()->releaseResources();
 
         if (itemCount != graphModel->dataItems.size())
-            qWarning() << __func__ << "Item count differs from itemList count";
+            qWarning("%ls Item count differs from itemList count",
+                     qUtf16Printable(QString::fromUtf8(__func__)));
 
         bool transparentTexture = false;
         if (graphModel->seriesTexture) {

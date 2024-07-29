@@ -691,7 +691,7 @@ void QQuickGraphsItem::handleAxisTitleChangedBySender(QObject *sender)
     else if (sender == m_axisZ)
         m_changeTracker.axisZTitleChanged = true;
     else
-        qWarning() << __FUNCTION__ << "invoked for invalid axis";
+        qWarning("%ls invoked for invalid axis", qUtf16Printable(QString::fromUtf8(__func__)));
 
     markSeriesItemLabelsDirty();
     emitNeedRender();
@@ -711,7 +711,7 @@ void QQuickGraphsItem::handleAxisLabelsChangedBySender(QObject *sender)
     else if (sender == m_axisZ)
         m_changeTracker.axisZLabelsChanged = true;
     else
-        qWarning() << __FUNCTION__ << "invoked for invalid axis";
+        qWarning("%ls invoked for invalid axis", qUtf16Printable(QString::fromUtf8(__func__)));
 
     markSeriesItemLabelsDirty();
     emitNeedRender();
@@ -736,7 +736,7 @@ void QQuickGraphsItem::handleAxisRangeChangedBySender(QObject *sender)
         m_isSeriesVisualsDirty = true;
         m_changeTracker.axisZRangeChanged = true;
     } else {
-        qWarning() << __FUNCTION__ << "invoked for invalid axis";
+        qWarning("%ls invoked for invalid axis", qUtf16Printable(QString::fromUtf8(__func__)));
     }
     emitNeedRender();
 }
@@ -756,7 +756,7 @@ void QQuickGraphsItem::handleAxisSegmentCountChangedBySender(QObject *sender)
     else if (sender == m_axisZ)
         m_changeTracker.axisZSegmentCountChanged = true;
     else
-        qWarning() << __FUNCTION__ << "invoked for invalid axis";
+        qWarning("%ls invoked for invalid axis", qUtf16Printable(QString::fromUtf8(__func__)));
     emitNeedRender();
 }
 
@@ -775,7 +775,7 @@ void QQuickGraphsItem::handleAxisSubSegmentCountChangedBySender(QObject *sender)
     else if (sender == m_axisZ)
         m_changeTracker.axisZSubSegmentCountChanged = true;
     else
-        qWarning() << __FUNCTION__ << "invoked for invalid axis";
+        qWarning("%ls invoked for invalid axis", qUtf16Printable(QString::fromUtf8(__func__)));
     emitNeedRender();
 }
 
@@ -887,7 +887,7 @@ void QQuickGraphsItem::handleAxisLabelFormatChangedBySender(QObject *sender)
         m_isDataDirty = true;
         m_changeTracker.axisZLabelFormatChanged = true;
     } else {
-        qWarning() << __FUNCTION__ << "invoked for invalid axis";
+        qWarning("%ls invoked for invalid axis", qUtf16Printable(QString::fromUtf8(__func__)));
     }
     emitNeedRender();
 }
@@ -905,7 +905,7 @@ void QQuickGraphsItem::handleAxisReversedChangedBySender(QObject *sender)
         m_isDataDirty = true;
         m_changeTracker.axisZReversedChanged = true;
     } else {
-        qWarning() << __FUNCTION__ << "invoked for invalid axis";
+        qWarning("%ls invoked for invalid axis", qUtf16Printable(QString::fromUtf8(__func__)));
     }
     emitNeedRender();
 }
@@ -924,7 +924,7 @@ void QQuickGraphsItem::handleAxisFormatterDirtyBySender(QObject *sender)
         m_isDataDirty = true;
         m_changeTracker.axisZFormatterChanged = true;
     } else {
-        qWarning() << __FUNCTION__ << "invoked for invalid axis";
+        qWarning("%ls invoked for invalid axis", qUtf16Printable(QString::fromUtf8(__func__)));
     }
     emitNeedRender();
 }
@@ -938,7 +938,7 @@ void QQuickGraphsItem::handleAxisLabelAutoRotationChangedBySender(QObject *sende
     else if (sender == m_axisZ)
         m_changeTracker.axisZLabelAutoRotationChanged = true;
     else
-        qWarning() << __FUNCTION__ << "invoked for invalid axis";
+        qWarning("%ls invoked for invalid axis", qUtf16Printable(QString::fromUtf8(__func__)));
 
     emitNeedRender();
 }
@@ -952,7 +952,7 @@ void QQuickGraphsItem::handleAxisTitleVisibilityChangedBySender(QObject *sender)
     else if (sender == m_axisZ)
         m_changeTracker.axisZTitleVisibilityChanged = true;
     else
-        qWarning() << __FUNCTION__ << "invoked for invalid axis";
+        qWarning("%ls invoked for invalid axis", qUtf16Printable(QString::fromUtf8(__func__)));
 
     emitNeedRender();
 }
@@ -966,7 +966,7 @@ void QQuickGraphsItem::handleAxisLabelVisibilityChangedBySender(QObject *sender)
     else if (sender == m_axisZ)
         m_changeTracker.axisZLabelVisibilityChanged = true;
     else
-        qWarning() << __FUNCTION__ << "invoked for invalid axis";
+        qWarning("%ls invoked for invalid axis", qUtf16Printable(QString::fromUtf8(__func__)));
 
     emitNeedRender();
 }
@@ -980,7 +980,7 @@ void QQuickGraphsItem::handleAxisTitleFixedChangedBySender(QObject *sender)
     else if (sender == m_axisZ)
         m_changeTracker.axisZTitleFixedChanged = true;
     else
-        qWarning() << __FUNCTION__ << "invoked for invalid axis";
+        qWarning("%ls invoked for invalid axis", qUtf16Printable(QString::fromUtf8(__func__)));
 
     emitNeedRender();
 }
@@ -994,7 +994,7 @@ void QQuickGraphsItem::handleAxisTitleOffsetChangedBySender(QObject *sender)
     else if (sender == m_axisZ)
         m_changeTracker.axisZTitleOffsetChanged = true;
     else
-        qWarning() << __FUNCTION__ << "invoked for invalid axis";
+        qWarning("%ls invoked for invalid axis", qUtf16Printable(QString::fromUtf8(__func__)));
 
     emitNeedRender();
 }
