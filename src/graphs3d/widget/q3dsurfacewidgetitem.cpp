@@ -83,10 +83,10 @@ QT_BEGIN_NAMESPACE
  */
 
 /*!
- * Constructs a new 3D surface graph.
+ * Constructs a new 3D surface graph with the optional \a parent.
  */
-Q3DSurfaceWidgetItem::Q3DSurfaceWidgetItem()
-    : Q3DGraphsWidgetItem(*(new Q3DSurfaceWidgetItemPrivate()), QStringLiteral("Surface3D"))
+Q3DSurfaceWidgetItem::Q3DSurfaceWidgetItem(QObject *parent)
+    : Q3DGraphsWidgetItem(*(new Q3DSurfaceWidgetItemPrivate()), parent, QStringLiteral("Surface3D"))
 {}
 
 /*!

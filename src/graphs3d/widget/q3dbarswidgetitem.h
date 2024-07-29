@@ -35,7 +35,7 @@ class Q_GRAPHSWIDGETS_EXPORT Q3DBarsWidgetItem : public Q3DGraphsWidgetItem
     Q_PROPERTY(float floorLevel READ floorLevel WRITE setFloorLevel NOTIFY floorLevelChanged)
 
 public:
-    Q3DBarsWidgetItem();
+    explicit Q3DBarsWidgetItem(QObject *parent = nullptr);
     ~Q3DBarsWidgetItem() override;
 
     void setPrimarySeries(QBar3DSeries *series);

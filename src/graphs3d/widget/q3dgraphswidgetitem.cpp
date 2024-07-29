@@ -48,15 +48,13 @@ QT_BEGIN_NAMESPACE
 /*!
  * \internal
  */
-Q3DGraphsWidgetItem::Q3DGraphsWidgetItem(Q3DGraphsWidgetItemPrivate &dd, const QString &graphType)
-    : QObject(dd, nullptr)
+Q3DGraphsWidgetItem::Q3DGraphsWidgetItem(Q3DGraphsWidgetItemPrivate &dd,
+                                         QObject *parent,
+                                         const QString &graphType)
+    : QObject(dd, parent)
 {
     Q_D(Q3DGraphsWidgetItem);
     d->m_graphType = graphType;
-
-    // TODO: Remove these
-    // d->m_widget = new QQuickWidget;
-    // createGraph();
 }
 
 /*!

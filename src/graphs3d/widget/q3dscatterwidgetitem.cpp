@@ -70,10 +70,10 @@ QT_BEGIN_NAMESPACE
  */
 
 /*!
- * Constructs a new 3D scatter graph.
+ * Constructs a new 3D scatter graph with the optional \a parent.
  */
-Q3DScatterWidgetItem::Q3DScatterWidgetItem()
-    : Q3DGraphsWidgetItem(*(new Q3DScatterWidgetItemPrivate()), QStringLiteral("Scatter3D"))
+Q3DScatterWidgetItem::Q3DScatterWidgetItem(QObject *parent)
+    : Q3DGraphsWidgetItem(*(new Q3DScatterWidgetItemPrivate()), parent, QStringLiteral("Scatter3D"))
 {}
 
 /*!

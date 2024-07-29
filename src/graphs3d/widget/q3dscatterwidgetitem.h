@@ -22,7 +22,7 @@ class Q_GRAPHSWIDGETS_EXPORT Q3DScatterWidgetItem : public Q3DGraphsWidgetItem
     Q_PROPERTY(QScatter3DSeries *selectedSeries READ selectedSeries NOTIFY selectedSeriesChanged)
 
 public:
-    Q3DScatterWidgetItem();
+    explicit Q3DScatterWidgetItem(QObject *parent = nullptr);
     ~Q3DScatterWidgetItem() override;
 
     void addSeries(QScatter3DSeries *series);
