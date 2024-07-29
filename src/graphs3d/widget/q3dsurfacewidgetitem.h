@@ -24,7 +24,7 @@ class Q_GRAPHSWIDGETS_EXPORT Q3DSurfaceWidgetItem : public Q3DGraphsWidgetItem
                    flipHorizontalGridChanged)
 
 public:
-    explicit Q3DSurfaceWidgetItem();
+    explicit Q3DSurfaceWidgetItem(QObject *parent = nullptr);
     ~Q3DSurfaceWidgetItem() override;
 
     void addSeries(QSurface3DSeries *series);

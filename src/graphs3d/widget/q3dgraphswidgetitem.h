@@ -243,7 +243,7 @@ public:
     ~Q3DGraphsWidgetItem() override;
 
 protected:
-    Q3DGraphsWidgetItem(Q3DGraphsWidgetItemPrivate &dd, const QString &graph);
+    Q3DGraphsWidgetItem(Q3DGraphsWidgetItemPrivate &dd, QObject *parent, const QString &graph);
 
     bool event(QEvent *event) override;
     bool eventFilter(QObject *obj, QEvent *event) override;

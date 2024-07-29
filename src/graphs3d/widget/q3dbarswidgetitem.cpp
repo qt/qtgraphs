@@ -80,10 +80,10 @@ QT_BEGIN_NAMESPACE
  */
 
 /*!
- * Constructs a new 3D bar graph.
+ * Constructs a new 3D bar graph with the optional \a parent.
  */
-Q3DBarsWidgetItem::Q3DBarsWidgetItem()
-    : Q3DGraphsWidgetItem(*(new Q3DBarsWidgetItemPrivate()), QStringLiteral("Bars3D"))
+Q3DBarsWidgetItem::Q3DBarsWidgetItem(QObject *parent)
+    : Q3DGraphsWidgetItem(*(new Q3DBarsWidgetItemPrivate()), parent, QStringLiteral("Bars3D"))
 {}
 
 /*!
