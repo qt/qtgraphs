@@ -527,9 +527,12 @@ void QHeightMapSurfaceDataProxyPrivate::setValueRanges(float minX,
     if (m_maxXValue != maxX || minX >= maxX) {
         if (minX >= maxX) {
             m_maxXValue = minX + 1.0f;
-            qWarning() << "Warning: Tried to set invalid range for X value range."
-                          " Range automatically adjusted to a valid one:"
-                       << minX << "-" << maxX << "-->" << m_minXValue << "-" << m_maxXValue;
+            qWarning("Warning: Tried to set invalid range for X value range. Range automatically "
+                     "adjusted to a valid one: %f - %f --> %f - %f",
+                     minX,
+                     maxX,
+                     m_minXValue,
+                     m_maxXValue);
         } else {
             m_maxXValue = maxX;
         }
@@ -538,9 +541,12 @@ void QHeightMapSurfaceDataProxyPrivate::setValueRanges(float minX,
     if (m_maxZValue != maxZ || minZ >= maxZ) {
         if (minZ >= maxZ) {
             m_maxZValue = minZ + 1.0f;
-            qWarning() << "Warning: Tried to set invalid range for Z value range."
-                          " Range automatically adjusted to a valid one:"
-                       << minZ << "-" << maxZ << "-->" << m_minZValue << "-" << m_maxZValue;
+            qWarning("Warning: Tried to set invalid range for Z value range."
+                     " Range automatically adjusted to a valid one: %f - %f --> %f - %f",
+                     minZ,
+                     maxZ,
+                     m_minZValue,
+                     m_maxZValue);
         } else {
             m_maxZValue = maxZ;
         }
@@ -568,10 +574,10 @@ void QHeightMapSurfaceDataProxyPrivate::setMinXValue(float min)
         if (min >= m_maxXValue) {
             float oldMax = m_maxXValue;
             m_maxXValue = min + 1.0f;
-            qWarning() << "Warning: Tried to set minimum X to equal or larger than maximum "
-                          "X for"
-                          " value range. Maximum automatically adjusted to a valid one:"
-                       << oldMax << "-->" << m_maxXValue;
+            qWarning("Warning: Tried to set minimum X to equal or larger than maximum X for value "
+                     "range. Maximum automatically adjusted to a valid one: %f --> %f",
+                     oldMax,
+                     m_maxXValue);
             maxChanged = true;
         }
         m_minXValue = min;
@@ -592,10 +598,10 @@ void QHeightMapSurfaceDataProxyPrivate::setMaxXValue(float max)
         if (max <= m_minXValue) {
             float oldMin = m_minXValue;
             m_minXValue = max - 1.0f;
-            qWarning() << "Warning: Tried to set maximum X to equal or smaller than minimum "
-                          "X for"
-                          " value range. Minimum automatically adjusted to a valid one:"
-                       << oldMin << "-->" << m_minXValue;
+            qWarning("Warning: Tried to set maximum X to equal or smaller than minimum X for value "
+                     "range. Minimum automatically adjusted to a valid one: %f --> %f",
+                     oldMin,
+                     m_minXValue);
             minChanged = true;
         }
         m_maxXValue = max;
@@ -616,10 +622,10 @@ void QHeightMapSurfaceDataProxyPrivate::setMinZValue(float min)
         if (min >= m_maxZValue) {
             float oldMax = m_maxZValue;
             m_maxZValue = min + 1.0f;
-            qWarning() << "Warning: Tried to set minimum Z to equal or larger than maximum "
-                          "Z for"
-                          " value range. Maximum automatically adjusted to a valid one:"
-                       << oldMax << "-->" << m_maxZValue;
+            qWarning("Warning: Tried to set minimum Z to equal or larger than maximum Z for value "
+                     "range. Maximum automatically adjusted to a valid one: %f --> %f",
+                     oldMax,
+                     m_maxZValue);
             maxChanged = true;
         }
         m_minZValue = min;
@@ -640,10 +646,10 @@ void QHeightMapSurfaceDataProxyPrivate::setMaxZValue(float max)
         if (max <= m_minZValue) {
             float oldMin = m_minZValue;
             m_minZValue = max - 1.0f;
-            qWarning() << "Warning: Tried to set maximum Z to equal or smaller than minimum "
-                          "Z for"
-                          " value range. Minimum automatically adjusted to a valid one:"
-                       << oldMin << "-->" << m_minZValue;
+            qWarning("Warning: Tried to set maximum Z to equal or smaller than minimum Z for value "
+                     "range. Minimum automatically adjusted to a valid one: %f --> %f",
+                     oldMin,
+                     m_minZValue);
             minChanged = true;
         }
         m_maxZValue = max;
@@ -664,10 +670,10 @@ void QHeightMapSurfaceDataProxyPrivate::setMinYValue(float min)
         if (min >= m_maxYValue) {
             float oldMax = m_maxYValue;
             m_maxYValue = min + 1.0f;
-            qWarning() << "Warning: Tried to set minimum Y to equal or larger than maximum "
-                          "Y for"
-                          " value range. Maximum automatically adjusted to a valid one:"
-                       << oldMax << "-->" << m_maxYValue;
+            qWarning("Warning: Tried to set minimum Y to equal or larger than maximum Y for value "
+                     "range. Maximum automatically adjusted to a valid one: %f --> %f",
+                     oldMax,
+                     m_maxYValue);
             maxChanged = true;
         }
         m_minYValue = min;
@@ -688,10 +694,10 @@ void QHeightMapSurfaceDataProxyPrivate::setMaxYValue(float max)
         if (max <= m_minYValue) {
             float oldMin = m_minYValue;
             m_minYValue = max - 1.0f;
-            qWarning() << "Warning: Tried to set maximum Y to equal or smaller than minimum "
-                          "Y for"
-                          " value range. Minimum automatically adjusted to a valid one:"
-                       << oldMin << "-->" << m_minYValue;
+            qWarning("Warning: Tried to set maximum Y to equal or smaller than minimum Y for value "
+                     "range. Minimum automatically adjusted to a valid one: %f --> %f",
+                     oldMin,
+                     m_minYValue);
             minChanged = true;
         }
         m_maxYValue = max;

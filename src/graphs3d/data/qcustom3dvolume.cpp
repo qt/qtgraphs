@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 
 #include "qcustom3dvolume_p.h"
-#include "utils_p.h"
 
 QT_BEGIN_NAMESPACE
 
@@ -392,7 +391,7 @@ void QCustom3DVolume::setTextureWidth(int value)
             emit needUpdate();
         }
     } else {
-        qWarning() << __FUNCTION__ << "Cannot set negative value.";
+        qWarning("%ls Cannot set negative value.", qUtf16Printable(QString::fromUtf8(__func__)));
     }
 }
 
@@ -425,7 +424,7 @@ void QCustom3DVolume::setTextureHeight(int value)
             emit needUpdate();
         }
     } else {
-        qWarning() << __FUNCTION__ << "Cannot set negative value.";
+        qWarning("%ls Cannot set negative value.", qUtf16Printable(QString::fromUtf8(__func__)));
     }
 }
 
@@ -458,7 +457,7 @@ void QCustom3DVolume::setTextureDepth(int value)
             emit needUpdate();
         }
     } else {
-        qWarning() << __FUNCTION__ << "Cannot set negative value.";
+        qWarning("%ls Cannot set negative value.", qUtf16Printable(QString::fromUtf8(__func__)));
     }
 }
 
@@ -707,7 +706,8 @@ QList<uchar> *QCustom3DVolume::createTextureData(const QList<QImage *> &images)
             for (int i = 0; i < imageCount; i++) {
                 currentImage = images.at(i);
                 if (imageWidth != currentImage->width() || imageHeight != currentImage->height()) {
-                    qWarning() << __FUNCTION__ << "Not all images were of the same size.";
+                    qWarning("%ls Not all images were of the same size.",
+                             qUtf16Printable(QString::fromUtf8(__func__)));
                     setTextureData(0);
                     setTextureWidth(0);
                     setTextureHeight(0);
@@ -810,7 +810,8 @@ void QCustom3DVolume::setSubTextureData(Qt::Axis axis, int index, const uchar *d
         }
 
         if (invalid) {
-            qWarning() << __FUNCTION__ << "Attempted to set invalid subtexture.";
+            qWarning("%lsAttempted to set invalid subtexture.",
+                     qUtf16Printable(QString::fromUtf8(__func__)));
         } else {
             const uchar *sourcePtr = data;
             uchar *targetPtr = dataPtr + targetIndex;
@@ -841,7 +842,7 @@ void QCustom3DVolume::setSubTextureData(Qt::Axis axis, int index, const uchar *d
             emit needUpdate();
         }
     } else {
-        qWarning() << __FUNCTION__ << "Tried to set null data.";
+        qWarning("%ls Tried to set null data.", qUtf16Printable(QString::fromUtf8(__func__)));
     }
 }
 
@@ -893,7 +894,7 @@ void QCustom3DVolume::setSubTextureData(Qt::Axis axis, int index, const QImage &
         }
         setSubTextureData(axis, index, convertedImage.bits());
     } else {
-        qWarning() << __FUNCTION__ << "Invalid image size or format.";
+        qWarning("%ls Invalid image size or format.", qUtf16Printable(QString::fromUtf8(__func__)));
     }
 }
 
@@ -920,7 +921,8 @@ void QCustom3DVolume::setTextureFormat(QImage::Format format)
             emit needUpdate();
         }
     } else {
-        qWarning() << __FUNCTION__ << "Attempted to set invalid texture format.";
+        qWarning("%ls Attempted to set invalid texture format.",
+                 qUtf16Printable(QString::fromUtf8(__func__)));
     }
 }
 
@@ -967,7 +969,8 @@ void QCustom3DVolume::setAlphaMultiplier(float mult)
             emit needUpdate();
         }
     } else {
-        qWarning() << __FUNCTION__ << "Attempted to set negative multiplier.";
+        qWarning("%lsAttempted to set negative multiplier.",
+                 qUtf16Printable(QString::fromUtf8(__func__)));
     }
 }
 
@@ -1155,7 +1158,8 @@ void QCustom3DVolume::setSliceFrameWidths(QVector3D values)
 {
     Q_D(QCustom3DVolume);
     if (values.x() < 0.0f || values.y() < 0.0f || values.z() < 0.0f) {
-        qWarning() << __FUNCTION__ << "Attempted to set negative values.";
+        qWarning("%ls Attempted to set negative values.",
+                 qUtf16Printable(QString::fromUtf8(__func__)));
     } else if (d->m_sliceFrameWidths != values) {
         d->m_sliceFrameWidths = values;
         d->m_dirtyBitsVolume.slicesDirty = true;
@@ -1187,7 +1191,8 @@ void QCustom3DVolume::setSliceFrameGaps(QVector3D values)
 {
     Q_D(QCustom3DVolume);
     if (values.x() < 0.0f || values.y() < 0.0f || values.z() < 0.0f) {
-        qWarning() << __FUNCTION__ << "Attempted to set negative values.";
+        qWarning("%ls Attempted to set negative values.",
+                 qUtf16Printable(QString::fromUtf8(__func__)));
     } else if (d->m_sliceFrameGaps != values) {
         d->m_sliceFrameGaps = values;
         d->m_dirtyBitsVolume.slicesDirty = true;
@@ -1218,7 +1223,8 @@ void QCustom3DVolume::setSliceFrameThicknesses(QVector3D values)
 {
     Q_D(QCustom3DVolume);
     if (values.x() < 0.0f || values.y() < 0.0f || values.z() < 0.0f) {
-        qWarning() << __FUNCTION__ << "Attempted to set negative values.";
+        qWarning("%ls Attempted to set negative values.",
+                 qUtf16Printable(QString::fromUtf8(__func__)));
     } else if (d->m_sliceFrameThicknesses != values) {
         d->m_sliceFrameThicknesses = values;
         d->m_dirtyBitsVolume.slicesDirty = true;

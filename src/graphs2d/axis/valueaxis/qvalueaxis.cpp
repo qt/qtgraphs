@@ -384,8 +384,7 @@ void QValueAxisPrivate::setRange(qreal min, qreal max)
         return;
 
     if (!isValidValue(min, max)) {
-        qWarning() << "Attempting to set invalid range for value axis: [" << min << " - " << max
-                   << "]";
+        qWarning("Attempting to set invalid range for value axis: [%f - %f]", min, max);
         return;
     }
 

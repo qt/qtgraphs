@@ -790,11 +790,11 @@ void QXYModelMapperPrivate::initializeXYFromModel()
         int count = m_orientation == Qt::Vertical ? m_model->rowCount() : m_model->columnCount();
         if (count > 0) {
             if (!xIndex.isValid()) {
-                qWarning() << __FUNCTION__
-                           << QStringLiteral("Invalid X coordinate index in model mapper.");
+                qWarning("%ls Invalid X coordinate index in model mapper.",
+                         qUtf16Printable(QString::fromUtf8(__func__)));
             } else if (!yIndex.isValid()) {
-                qWarning() << __FUNCTION__
-                           << QStringLiteral("Invalid Y coordinate index in model mapper.");
+                qWarning("%ls Invalid Y coordinate index in model mapper.",
+                         qUtf16Printable(QString::fromUtf8(__func__)));
             }
         }
     }

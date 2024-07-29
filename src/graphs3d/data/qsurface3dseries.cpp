@@ -438,7 +438,7 @@ void QSurface3DSeries::setTextureFile(const QString &filename)
         } else {
             QImage image(filename);
             if (image.isNull()) {
-                qWarning() << "Warning: Tried to set invalid image file as surface texture.";
+                qWarning("Warning: Tried to set invalid image file as surface texture.");
                 return;
             }
             setTexture(image);
