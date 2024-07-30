@@ -37,8 +37,6 @@ After that you can use GraphsView in your qml files:
 
 \image graphsview-minimal.png
 
-See \l{Testbed} for more thorough usage examples.
-
 \sa BarSeries, LineSeries, BarCategoryAxis, ValueAxis, GraphsTheme
 */
 

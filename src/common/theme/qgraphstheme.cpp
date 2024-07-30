@@ -128,7 +128,8 @@ QT_BEGIN_NAMESPACE
  * \value GreySeries
  *        A theme with Grey as the base color.
  * \value UserDefined
- *        A user-defined theme. For more information, see \l {Default Theme}.
+ *        A user-defined theme. For more information, see
+ *        \l {QGraphsTheme#Customizing Theme}{Customizing Theme}.
  */
 
 /*!
@@ -153,7 +154,7 @@ QT_BEGIN_NAMESPACE
  *
  * The \c graphsline type refers to a line value with the properties of QGraphsLine.
  *
- * Properties of type \c graphsline follows the \l {QQuickGraphs::theme}{theme} or
+ * Properties of type \c graphsline follows the \l {GraphsTheme::}{theme} unless
  * defined separately.
  *
  * The available properties are:
