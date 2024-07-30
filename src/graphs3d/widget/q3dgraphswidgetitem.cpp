@@ -1001,7 +1001,7 @@ int Q3DGraphsWidgetItem::currentFps() const
  * Defaults to \c{false}.
  * \note Shadows will be disabled when set to \c{true}.
  *
- * \sa QAbstract3DAxis::labelAutoRotation,
+ * \sa QAbstract3DAxis::labelAutoAngle,
  */
 void Q3DGraphsWidgetItem::setOrthoProjection(bool enable)
 {
@@ -1110,7 +1110,7 @@ bool Q3DGraphsWidgetItem::isPolar() const
  * place them outside the plot-area. Label automatic rotation is disabled when
  * the value is negative. Defaults to \c 0.1
  *
- * \sa QAbstract3DAxis::labelAutoRotation
+ * \sa QAbstract3DAxis::labelAutoAngle
  *
  */
 void Q3DGraphsWidgetItem::setLabelMargin(float margin)

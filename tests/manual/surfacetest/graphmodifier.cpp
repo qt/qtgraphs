@@ -759,9 +759,9 @@ void GraphModifier::handleFpsChange(int fps)
 
 void GraphModifier::changeLabelRotation(int rotation)
 {
-    m_graph->axisX()->setLabelAutoRotation(float(rotation));
-    m_graph->axisY()->setLabelAutoRotation(float(rotation));
-    m_graph->axisZ()->setLabelAutoRotation(float(rotation));
+    m_graph->axisX()->setLabelAutoAngle(float(rotation));
+    m_graph->axisY()->setLabelAutoAngle(float(rotation));
+    m_graph->axisZ()->setLabelAutoAngle(float(rotation));
 }
 
 void GraphModifier::toggleAxisTitleVisibility(int visible)

@@ -951,9 +951,9 @@ void ScatterDataModifier::handleFpsChange(int fps)
 
 void ScatterDataModifier::changeLabelRotation(int rotation)
 {
-    m_chart->axisX()->setLabelAutoRotation(float(rotation));
-    m_chart->axisY()->setLabelAutoRotation(float(rotation));
-    m_chart->axisZ()->setLabelAutoRotation(float(rotation));
+    m_chart->axisX()->setLabelAutoAngle(float(rotation));
+    m_chart->axisY()->setLabelAutoAngle(float(rotation));
+    m_chart->axisZ()->setLabelAutoAngle(float(rotation));
 }
 
 void ScatterDataModifier::changeTitleOffset(int offset)

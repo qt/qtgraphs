@@ -307,7 +307,7 @@ constexpr float polarRoundness = 64.0f;
  * place them outside the plot-area. Label automatic rotation is disabled when
  * the value is negative. Defaults to \c 0.1
  *
- * \sa QAbstract3DAxis::labelAutoRotation
+ * \sa QAbstract3DAxis::labelAutoAngle
  *
  */
 
@@ -1106,7 +1106,7 @@ void QQuickGraphsItem::setAxisHelper(QAbstract3DAxis::AxisOrientation orientatio
                      this,
                      &QQuickGraphsItem::handleAxisAutoAdjustRangeChanged);
     QObject::connect(axis,
-                     &QAbstract3DAxis::labelAutoRotationChanged,
+                     &QAbstract3DAxis::labelAutoAngleChanged,
                      this,
                      &QQuickGraphsItem::handleAxisLabelAutoRotationChanged);
     QObject::connect(axis,
@@ -3335,7 +3335,7 @@ void QQuickGraphsItem::updateLabels()
 {
     auto labels = axisX()->labels();
     qsizetype labelCount = labels.size();
-    float labelAutoAngle = m_labelMargin >= 0? axisX()->labelAutoRotation() : 0;
+    float labelAutoAngle = m_labelMargin >= 0? axisX()->labelAutoAngle() : 0;
     float labelAngleFraction = labelAutoAngle / 90.0f;
     float fractionCamX = m_xRotation * labelAngleFraction;
     float fractionCamY = m_yRotation * labelAngleFraction;
@@ -3519,7 +3519,7 @@ void QQuickGraphsItem::updateLabels()
 
     labels = axisY()->labels();
     labelCount = labels.size();
-    labelAutoAngle = m_labelMargin >= 0 ? axisY()->labelAutoRotation() : 0;
+    labelAutoAngle = m_labelMargin >= 0 ? axisY()->labelAutoAngle() : 0;
     labelAngleFraction = labelAutoAngle / 90.0f;
     fractionCamX = m_xRotation * labelAngleFraction;
     fractionCamY = m_yRotation * labelAngleFraction;
@@ -3589,7 +3589,7 @@ void QQuickGraphsItem::updateLabels()
 
     labels = axisZ()->labels();
     labelCount = labels.size();
-    labelAutoAngle = m_labelMargin >= 0 ? axisZ()->labelAutoRotation() : 0;
+    labelAutoAngle = m_labelMargin >= 0 ? axisZ()->labelAutoAngle() : 0;
     labelAngleFraction = labelAutoAngle / 90.0f;
     fractionCamX = m_xRotation * labelAngleFraction;
     fractionCamY = m_yRotation * labelAngleFraction;

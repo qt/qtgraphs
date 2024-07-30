@@ -16,7 +16,7 @@ Item {
         id: columnAxis
         labels: ["January", "February", "March", "April", "May", "June",
             "July", "August", "September", "October", "November", "December"]
-        labelAutoRotation: 30
+        labelAutoAngle: 30
         title: "Months"
         titleVisible: true
     }
@@ -24,12 +24,12 @@ Item {
     Category3DAxis {
         id: totalAxis
         labels: ["Yearly total"]
-        labelAutoRotation: 30
+        labelAutoAngle: 30
     }
     Category3DAxis {
         // For row labels we can use row labels from data proxy, no labels defined for rows.
         id: rowAxis
-        labelAutoRotation: 30
+        labelAutoAngle: 30
     }
 
     Value3DAxis {
@@ -38,7 +38,7 @@ Item {
         max: 35
         labelFormat: "%.2f M\u20AC"
         title: "Monthly income"
-        labelAutoRotation: 90
+        labelAutoAngle: 90
         titleVisible: true
     }
 }

@@ -19,7 +19,7 @@ Item {
         labels: ["first", "second"]
 
         autoAdjustRange: false
-        labelAutoRotation: 10.0
+        labelAutoAngle: 10.0
         max: 20
         min: 10
         title: "initialized"
@@ -44,7 +44,7 @@ Item {
             compare(initial.labels.length, 0)
 
             compare(initial.autoAdjustRange, true)
-            compare(initial.labelAutoRotation, 0.0)
+            compare(initial.labelAutoAngle, 0.0)
             compare(initial.max, 10)
             compare(initial.min, 0)
             compare(initial.orientation, Abstract3DAxis.AxisOrientation.None)
@@ -66,7 +66,7 @@ Item {
             compare(initialized.labels[1], "second")
 
             compare(initialized.autoAdjustRange, false)
-            compare(initialized.labelAutoRotation, 10.0)
+            compare(initialized.labelAutoAngle, 10.0)
             compare(initialized.max, 20)
             compare(initialized.min, 10)
             compare(initialized.title, "initialized")
@@ -92,7 +92,7 @@ Item {
             compare(change.labels[1], "another")
 
             change.autoAdjustRange = false
-            change.labelAutoRotation = 10.0
+            change.labelAutoAngle = 10.0
             change.max = 20
             change.min = 10
             change.title = "initialized"
@@ -102,7 +102,7 @@ Item {
             change.titleOffset = -1
 
             compare(change.autoAdjustRange, false)
-            compare(change.labelAutoRotation, 10.0)
+            compare(change.labelAutoAngle, 10.0)
             compare(change.max, 20)
             compare(change.min, 10)
             compare(change.title, "initialized")
@@ -117,10 +117,10 @@ Item {
         name: "Category3DAxis Invalid"
 
         function test_invalid() {
-            invalid.labelAutoRotation = -10
-            compare(invalid.labelAutoRotation, 0.0)
-            invalid.labelAutoRotation = 100
-            compare(invalid.labelAutoRotation, 90.0)
+            invalid.labelAutoAngle = -10
+            compare(invalid.labelAutoAngle, 0.0)
+            invalid.labelAutoAngle = 100
+            compare(invalid.labelAutoAngle, 90.0)
             invalid.max = -10
             compare(invalid.min, 0)
             invalid.min = 10
