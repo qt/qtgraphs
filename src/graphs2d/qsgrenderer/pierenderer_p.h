@@ -20,6 +20,7 @@ QT_BEGIN_NAMESPACE
 
 class QGraphsView;
 class QPieSeries;
+class QPieSlice;
 class QQuickShape;
 class QAbstractSeries;
 
@@ -40,6 +41,7 @@ public:
 private:
     QGraphsView *m_graph;
     QQuickShape *m_shape;
+    QSet<QPieSlice *> m_activeSlices;
 
     qsizetype m_colorIndex = -1;
 };
