@@ -156,16 +156,6 @@ QT_BEGIN_NAMESPACE
  * Properties of type \c graphsline follows the \l {QQuickGraphs::theme}{theme} or
  * defined separately.
  *
- * The available properties are:
- *
- * \list
- * \li \l color \c graphsline.mainColor
- * \li \l color \c graphsline.subColor
- * \li \l real \c graphsline.mainWidth
- * \li \l real \c graphsline.subWidth
- * \li \l color \c graphsline.labelTextColor
- * \endlist
- *
  * When integrating with C++, note that any QGraphsLine value
  * \l{qtqml-cppintegration-data.html}{passed into QML from C++} is automatically
  * converted into a \c graphsline value, and vice-versa.
@@ -174,6 +164,30 @@ QT_BEGIN_NAMESPACE
  *
  * \sa {QML Value Types}
  */
+
+/*!
+    \qmlproperty color graphsline::mainColor
+    The color of the main lines.
+*/
+
+/*!
+    \qmlproperty color graphsline::subColor
+    The color of the sub lines.
+*/
+
+/*!
+    \qmlproperty real graphsline::mainWidth
+    The width of the main lines.
+*/
+/*!
+    \qmlproperty real graphsline::subWidth
+    The width of the sub lines.
+*/
+
+/*!
+    \qmlproperty color graphsline::labelTextColor
+    The color of the text used for labels.
+*/
 
 /*!
  * \qmltype GraphsTheme
