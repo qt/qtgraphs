@@ -131,11 +131,11 @@ class Q_GRAPHS_EXPORT QGraphsTheme : public QObject, public QQmlParserStatus
     Q_OBJECT
     Q_INTERFACES(QQmlParserStatus)
     Q_CLASSINFO("RegisterEnumClassesUnscoped", "false")
-    Q_PROPERTY(ColorScheme colorScheme READ colorScheme WRITE setColorScheme NOTIFY
+    Q_PROPERTY(QGraphsTheme::ColorScheme colorScheme READ colorScheme WRITE setColorScheme NOTIFY
                    colorSchemeChanged FINAL)
-    Q_PROPERTY(Theme theme READ theme WRITE setTheme NOTIFY themeChanged FINAL)
-    Q_PROPERTY(
-        ColorStyle colorStyle READ colorStyle WRITE setColorStyle NOTIFY colorStyleChanged FINAL)
+    Q_PROPERTY(QGraphsTheme::Theme theme READ theme WRITE setTheme NOTIFY themeChanged FINAL)
+    Q_PROPERTY(QGraphsTheme::ColorStyle colorStyle READ colorStyle WRITE setColorStyle NOTIFY
+                   colorStyleChanged FINAL)
 
     Q_PROPERTY(QColor backgroundColor READ backgroundColor WRITE setBackgroundColor NOTIFY
                    backgroundColorChanged FINAL)
