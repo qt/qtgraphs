@@ -42,10 +42,6 @@ class Q_GRAPHS_EXPORT QAbstractAxis : public QObject
     Q_PROPERTY(bool titleVisible READ isTitleVisible WRITE setTitleVisible NOTIFY
                    titleVisibleChanged FINAL)
     Q_PROPERTY(QFont titleFont READ titleFont WRITE setTitleFont NOTIFY titleFontChanged FINAL)
-    //orientation
-    Q_PROPERTY(Qt::Orientation orientation READ orientation CONSTANT FINAL)
-    //alignment
-    Q_PROPERTY(Qt::Alignment alignment READ alignment CONSTANT FINAL)
     QML_FOREIGN(QAbstractAxis)
     QML_UNCREATABLE("")
     QML_NAMED_ELEMENT(AbstractAxis)
@@ -100,10 +96,6 @@ public:
     QFont titleFont() const;
     void setTitleText(const QString &title);
     QString titleText() const;
-
-    Qt::Orientation orientation() const;
-    void setOrientation(Qt::Orientation orientation);
-    Qt::Alignment alignment() const;
 
     //range handling
     void setMin(const QVariant &min);

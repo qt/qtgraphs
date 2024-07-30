@@ -54,8 +54,6 @@ void tst_abstractaxis::initialProperties()
     QCOMPARE(m_axis->titleColor(), QColor());
     QCOMPARE(m_axis->isTitleVisible(), true);
     QCOMPARE(m_axis->titleFont(), QFont());
-    QCOMPARE(m_axis->orientation(), Qt::Orientation(0));
-    QCOMPARE(m_axis->alignment(), 0);
 }
 
 void tst_abstractaxis::initializeProperties()
@@ -76,8 +74,6 @@ void tst_abstractaxis::initializeProperties()
     m_axis->setTitleColor("#ff0000");
     m_axis->setTitleVisible(false);
     m_axis->setTitleFont(font);
-    m_axis->setOrientation(Qt::Vertical);
-    // no setter for alignment?
 
     QCOMPARE(m_axis->isVisible(), false);
     QCOMPARE(m_axis->isLineVisible(), false);
@@ -90,8 +86,6 @@ void tst_abstractaxis::initializeProperties()
     QCOMPARE(m_axis->titleColor(), "#ff0000");
     QCOMPARE(m_axis->isTitleVisible(), false);
     QCOMPARE(m_axis->titleFont(), font);
-    QCOMPARE(m_axis->orientation(), Qt::Vertical);
-    QCOMPARE(m_axis->alignment(), 0);
 }
 
 void tst_abstractaxis::showHide()

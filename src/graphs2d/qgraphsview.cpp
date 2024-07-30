@@ -56,8 +56,10 @@ QGraphsView::~QGraphsView()
     const auto slist = m_seriesList;
     for (const auto &s : slist)
         removeSeries(s);
-    for (auto &axis : m_axis)
-        axis->d_func()->setGraph(nullptr);
+    if (m_axisX)
+        m_axisX->d_func()->setGraph(nullptr);
+    if (m_axisY)
+        m_axisY->d_func()->setGraph(nullptr);
 }
 
 /*!
@@ -160,10 +162,10 @@ bool QGraphsView::hasSeries(QObject *series)
 
 void QGraphsView::addAxis(QAbstractAxis *axis)
 {
-    if (axis && !m_axis.contains(axis)) {
+    if (axis) {
+        axis->d_func()->setGraph(this);
         // Ensure AxisRenderer exists
         createAxisRenderer();
-        m_axis << axis;
         polishAndUpdate();
         QObject::connect(axis, &QAbstractAxis::update, this, &QGraphsView::polishAndUpdate);
     }
@@ -175,11 +177,6 @@ void QGraphsView::removeAxis(QAbstractAxis *axis)
         m_axisX = nullptr;
     if (m_axisY == axis)
         m_axisY = nullptr;
-
-    if (axis && m_axis.contains(axis)) {
-        m_axis.removeAll(axis);
-        polishAndUpdate();
-    }
 }
 
 qsizetype QGraphsView::graphSeriesCount() const
@@ -940,11 +937,8 @@ void QGraphsView::setAxisX(QAbstractAxis *axis)
         return;
     removeAxis(m_axisX);
     m_axisX = axis;
-    if (axis) {
-        axis->d_func()->setGraph(this);
-        axis->setOrientation(Qt::Horizontal);
+    if (axis)
         addAxis(axis);
-    }
     emit update();
 }
 
@@ -971,11 +965,8 @@ void QGraphsView::setAxisY(QAbstractAxis *axis)
         return;
     removeAxis(m_axisY);
     m_axisY = axis;
-    if (axis) {
-        axis->d_func()->setGraph(this);
-        axis->setOrientation(Qt::Vertical);
+    if (axis)
         addAxis(axis);
-    }
     emit update();
 }
 

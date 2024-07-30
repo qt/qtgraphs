@@ -32,9 +32,6 @@ public:
     ~QAbstractAxisPrivate() override;
 
 public:
-    Qt::Alignment alignment() const { return m_alignment; }
-    Qt::Orientation orientation() const { return m_orientation; }
-    void setAlignment(Qt::Alignment alignment);
     void setGraph(QGraphsView *graph) { m_graph = graph; }
 
     //interface for manipulating range form base class
@@ -54,9 +51,6 @@ protected:
     QGraphsView *m_graph = nullptr;
 
 private:
-    Qt::Alignment m_alignment;
-    Qt::Orientation m_orientation = Qt::Orientation(0);
-
     bool m_visible = true;
 
     bool m_lineVisible = true;

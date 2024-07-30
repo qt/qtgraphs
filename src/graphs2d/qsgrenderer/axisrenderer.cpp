@@ -143,14 +143,8 @@ void AxisRenderer::updateAxis()
         return;
 
     // Update active axis
-    QAbstractAxis *axisVertical = nullptr;
-    QAbstractAxis *axisHorizontal = nullptr;
-    for (auto a : m_graph->m_axis) {
-        if (a->orientation() == Qt::Vertical)
-            axisVertical = a;
-        else
-            axisHorizontal = a;
-    }
+    QAbstractAxis *axisVertical = m_graph->m_axisY;
+    QAbstractAxis *axisHorizontal = m_graph->m_axisX;
 
     // See if series is horizontal, so axis should also switch places.
     bool vertical = true;

@@ -198,8 +198,6 @@ private:
     QHash<int, QList<QAbstractSeries *>> m_cleanupSeriesList;
     QQuickRectangle *m_backgroundRectangle = nullptr;
 
-    QList<QAbstractAxis *> m_axis;
-
     QAbstractAxis *m_axisX = nullptr;
     QAbstractAxis *m_axisY = nullptr;
     Qt::Orientation m_orientation = Qt::Orientation::Vertical;

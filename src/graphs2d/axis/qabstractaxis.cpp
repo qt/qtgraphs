@@ -163,31 +163,6 @@ QT_BEGIN_NAMESPACE
 */
 
 /*!
-    \property QAbstractAxis::orientation
-    \brief The orientation of the axis.
-
-    Fixed to either Qt::Horizontal or Qt::Vertical when the axis is added to a graph.
-*/
-/*!
-    \qmlproperty Qt.Orientation AbstractAxis::orientation
-    The orientation of the axis. Fixed to either \l {Qt::Horizontal}{Qt.Horizontal}
-    or \l{Qt::Vertical}{Qt.Vertical} when the axis is set to a series.
-*/
-
-/*!
-    \property QAbstractAxis::alignment
-    \brief The alignment of the axis.
-
-    Can be Qt::AlignLeft, Qt::AlignRight, Qt::AlignBottom, or Qt::AlignTop.
-*/
-/*!
-    \qmlproperty alignment AbstractAxis::alignment
-    The alignment of the axis. Can be \l{Qt::AlignLeft}{Qt.AlignLeft},
-    \l{Qt::AlignRight}{Qt.AlignRight}, \l{Qt::AlignBottom}{Qt.AlignBottom}, or
-    \l{Qt::AlignTop}{Qt.AlignTop}.
-*/
-
-/*!
     \fn void QAbstractAxis::update()
     This signal is emitted when the axis needs to be updated.
 */
@@ -511,28 +486,6 @@ void QAbstractAxis::setRange(const QVariant &min, const QVariant &max)
     d->setRange(min, max);
 }
 
-
-/*!
-  Returns the orientation of the axis (vertical or horizontal).
-*/
-Qt::Orientation QAbstractAxis::orientation() const
-{
-    const Q_D(QAbstractAxis);
-    return d->orientation();
-}
-
-void QAbstractAxis::setOrientation(Qt::Orientation orientation)
-{
-    Q_D(QAbstractAxis);
-    d->m_orientation = orientation;
-}
-
-Qt::Alignment QAbstractAxis::alignment() const
-{
-    const Q_D(QAbstractAxis);
-    return d->alignment();
-}
-
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 QAbstractAxisPrivate::QAbstractAxisPrivate() {}
@@ -542,24 +495,6 @@ QAbstractAxisPrivate::~QAbstractAxisPrivate()
     Q_Q(QAbstractAxis);
     if (m_graph)
         m_graph->removeAxis(q);
-}
-
-void QAbstractAxisPrivate::setAlignment(Qt::Alignment alignment)
-{
-    switch (alignment) {
-    case Qt::AlignTop:
-    case Qt::AlignBottom:
-        m_orientation = Qt::Horizontal;
-        break;
-    case Qt::AlignLeft:
-    case Qt::AlignRight:
-        m_orientation = Qt::Vertical;
-        break;
-    default:
-        qWarning("No alignment specified !");
-        break;
-    }
-    m_alignment = alignment;
 }
 
 void QAbstractAxisPrivate::handleRangeChanged(qreal min, qreal max)

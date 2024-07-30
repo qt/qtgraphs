@@ -27,13 +27,11 @@ Item {
         max: "max"
         categories: ["min", "max"]
 
-        // alignment: Qt.AlignTop // read-only
         gridVisible: false
         labelsAngle: 25
         labelsVisible: false
         lineVisible: false
         subGridVisible: false
-        // orientation: Qt.Vertical // read-only
         titleColor: "#ff0000"
         titleFont: initializedDummy.font
         titleText: "Initialized"
@@ -55,13 +53,11 @@ Item {
 
         function test_2_initial_common() {
             // Common properties from AbstractAxis
-            compare(initial.alignment, 0)
             compare(initial.gridVisible, true)
             compare(initial.labelsAngle, 0)
             compare(initial.labelsVisible, true)
             compare(initial.lineVisible, true)
             compare(initial.subGridVisible, true)
-            compare(initial.orientation, 0)
             compare(initial.titleColor, "#000000")
             // Initial font needs to be tested like this, as different platforms have different default font (QFont())
             compare(initial.titleFont.family, dummy.font.family)
@@ -79,13 +75,11 @@ Item {
             initial.max = "three"
 
             // Common properties from AbstractAxis
-            // initial.alignment = Qt.AlignRight // read-only
             initial.gridVisible = false
             initial.labelsAngle = 45
             initial.labelsVisible = false
             initial.lineVisible = false
             initial.subGridVisible = false
-            // initial.orientation = Qt.Horizontal // read-only
             initial.titleColor = "#ffffff"
             initial.titleFont = dummy.font
             initial.titleText = "Dummy"
@@ -100,13 +94,11 @@ Item {
             // compare(initial.max, "three")
 
             // Common properties from AbstractAxis
-            // compare(initial.alignment, Qt.AlignRight) // read-only
             compare(initial.gridVisible, false)
             compare(initial.labelsAngle, 45)
             compare(initial.labelsVisible, false)
             compare(initial.lineVisible, false)
             compare(initial.subGridVisible, false)
-            // compare(initial.orientation, Qt.Horizontal) // read-only
             compare(initial.titleColor, "#ffffff")
             compare(initial.titleFont, dummy.font)
             compare(initial.titleText, "Dummy")
@@ -154,13 +146,11 @@ Item {
             compare(initialized.max, "max")
 
             // Common properties from AbstractAxis
-            // compare(initialized.alignment, Qt.AlignTop) // read-only
             compare(initialized.gridVisible, false)
             compare(initialized.labelsAngle, 25)
             compare(initialized.labelsVisible, false)
             compare(initialized.lineVisible, false)
             compare(initialized.subGridVisible, false)
-            // compare(initialized.orientation, Qt.Vertical) // read-only
             compare(initialized.titleColor, "#ff0000")
             compare(initialized.titleFont, initializedDummy.font)
             compare(initialized.titleText, "Initialized")
@@ -175,13 +165,11 @@ Item {
             initialized.max = "three"
 
             // Common properties from AbstractAxis
-            // initialized.alignment = Qt.AlignRight // read-only
             initialized.gridVisible = true
             initialized.labelsAngle = 45
             initialized.labelsVisible = true
             initialized.lineVisible = true
             initialized.subGridVisible = true
-            // initialized.orientation = Qt.Horizontal // read-only
             initialized.titleColor = "#ffffff"
             initialized.titleFont = dummy.font
             initialized.titleText = "Dummy"
@@ -196,13 +184,11 @@ Item {
             // compare(initialized.max, "three")
 
             // Common properties from AbstractAxis
-            // compare(initialized.alignment, Qt.AlignTop) // read-only
             compare(initialized.gridVisible, true)
             compare(initialized.labelsAngle, 45)
             compare(initialized.labelsVisible, true)
             compare(initialized.lineVisible, true)
             compare(initialized.subGridVisible, true)
-            // compare(initialized.orientation, Qt.Vertical) // read-only
             compare(initialized.titleColor, "#ffffff")
             compare(initialized.titleFont, dummy.font)
             compare(initialized.titleText, "Dummy")
