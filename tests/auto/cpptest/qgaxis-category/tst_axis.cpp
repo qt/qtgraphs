@@ -58,7 +58,7 @@ void tst_axis::initialProperties()
 
     // Common (from QAbstract3DAxis)
     QCOMPARE(m_axis->isAutoAdjustRange(), true);
-    QCOMPARE(m_axis->labelAutoRotation(), 0.0f);
+    QCOMPARE(m_axis->labelAutoAngle(), 0.0f);
     QCOMPARE(m_axis->max(), 10.0f);
     QCOMPARE(m_axis->min(), 0.0f);
     QCOMPARE(m_axis->orientation(), QAbstract3DAxis::AxisOrientation::None);
@@ -79,7 +79,7 @@ void tst_axis::initializeProperties()
 
     // Common (from QAbstract3DAxis)
     m_axis->setAutoAdjustRange(false);
-    m_axis->setLabelAutoRotation(15.0f);
+    m_axis->setLabelAutoAngle(15.0f);
     m_axis->setMax(25.0f);
     m_axis->setMin(5.0f);
     m_axis->setTitle("title");
@@ -87,7 +87,7 @@ void tst_axis::initializeProperties()
     m_axis->setTitleVisible(true);
 
     QCOMPARE(m_axis->isAutoAdjustRange(), false);
-    QCOMPARE(m_axis->labelAutoRotation(), 15.0f);
+    QCOMPARE(m_axis->labelAutoAngle(), 15.0f);
     QCOMPARE(m_axis->max(), 25.0f);
     QCOMPARE(m_axis->min(), 5.0f);
     QCOMPARE(m_axis->title(), QString("title"));
@@ -97,11 +97,11 @@ void tst_axis::initializeProperties()
 
 void tst_axis::invalidProperties()
 {
-    m_axis->setLabelAutoRotation(-15.0f);
-    QCOMPARE(m_axis->labelAutoRotation(), 0.0f);
+    m_axis->setLabelAutoAngle(-15.0f);
+    QCOMPARE(m_axis->labelAutoAngle(), 0.0f);
 
-    m_axis->setLabelAutoRotation(100.0f);
-    QCOMPARE(m_axis->labelAutoRotation(), 90.0f);
+    m_axis->setLabelAutoAngle(100.0f);
+    QCOMPARE(m_axis->labelAutoAngle(), 90.0f);
 
     m_axis->setMax(-10.0f);
     QCOMPARE(m_axis->max(), 0.0f);

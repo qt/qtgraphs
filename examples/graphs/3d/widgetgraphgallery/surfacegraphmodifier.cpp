@@ -204,9 +204,9 @@ void SurfaceGraphModifier::enableSqrtSinModel(bool enable)
         m_graph->axisX()->setRange(sampleMin, sampleMax);
         m_graph->axisY()->setRange(0.f, 2.f);
         m_graph->axisZ()->setRange(sampleMin, sampleMax);
-        m_graph->axisX()->setLabelAutoRotation(30.f);
-        m_graph->axisY()->setLabelAutoRotation(90.f);
-        m_graph->axisZ()->setLabelAutoRotation(30.f);
+        m_graph->axisX()->setLabelAutoAngle(30.f);
+        m_graph->axisY()->setLabelAutoAngle(90.f);
+        m_graph->axisZ()->setLabelAutoAngle(30.f);
 
         m_graph->removeSeries(m_heightMapSeriesOne);
         m_graph->removeSeries(m_heightMapSeriesTwo);
@@ -336,9 +336,9 @@ void SurfaceGraphModifier::enableTopographyModel(bool enable)
         m_graph->axisX()->setRange(0.f, areaWidth);
         m_graph->axisY()->setRange(100.f, areaWidth * aspectRatio);
         m_graph->axisZ()->setRange(0.f, areaHeight);
-        m_graph->axisX()->setLabelAutoRotation(30.f);
-        m_graph->axisY()->setLabelAutoRotation(90.f);
-        m_graph->axisZ()->setLabelAutoRotation(30.f);
+        m_graph->axisX()->setLabelAutoAngle(30.f);
+        m_graph->axisY()->setLabelAutoAngle(90.f);
+        m_graph->axisZ()->setLabelAutoAngle(30.f);
 
         m_graph->removeSeries(m_sqrtSinSeries);
         m_graph->removeSeries(m_heightMapSeriesOne);

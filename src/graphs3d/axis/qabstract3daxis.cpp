@@ -78,7 +78,7 @@ QT_BEGIN_NAMESPACE
  */
 
 /*!
- * \qmlproperty real Abstract3DAxis::labelAutoRotation
+ * \qmlproperty real Abstract3DAxis::labelAutoAngle
  *
  * The maximum angle the labels can autorotate when the camera angle changes.
  * The angle can be between 0 and 90, inclusive. The default value is 0.
@@ -114,11 +114,11 @@ QT_BEGIN_NAMESPACE
  * If \c{true}, axis titles in the primary graph view will be rotated towards
  * the camera similarly to the axis labels. If \c{false}, axis titles are only
  * rotated around their axis but are not otherwise oriented towards the camera.
- * This property does not have any effect if the labelAutoRotation property
+ * This property does not have any effect if the labelAutoAngle property
  * value is zero.
  * Default value is \c{true}.
  *
- * \sa labelAutoRotation, title, titleVisible
+ * \sa labelAutoAngle, title, titleVisible
  */
 
 /*!
@@ -172,7 +172,7 @@ QT_BEGIN_NAMESPACE
     to \a autoAdjust.
 */
 /*!
-    \qmlsignal Abstract3DAxis::labelAutoRotationChanged(real angle)
+    \qmlsignal Abstract3DAxis::labelAutoAngleChanged(real angle)
 
     This signal is emitted when the angle of label rotation changes to
     \a angle.
@@ -316,7 +316,7 @@ void QAbstract3DAxis::setRange(float min, float max)
 }
 
 /*!
- * \property QAbstract3DAxis::labelAutoRotation
+ * \property QAbstract3DAxis::labelAutoAngle
  *
  * \brief The maximum angle the labels can autorotate when the camera angle
  * changes.
@@ -326,23 +326,23 @@ void QAbstract3DAxis::setRange(float min, float max)
  * If the value is greater than zero, labels attempt to orient themselves toward
  * the camera, up to the specified angle.
  */
-void QAbstract3DAxis::setLabelAutoRotation(float degree)
+void QAbstract3DAxis::setLabelAutoAngle(float degree)
 {
     Q_D(QAbstract3DAxis);
     if (degree < 0.0f)
         degree = 0.0f;
     if (degree > 90.0f)
         degree = 90.0f;
-    if (d->m_labelAutoRotation != degree) {
-        d->m_labelAutoRotation = degree;
-        emit labelAutoRotationChanged(degree);
+    if (d->m_labelAutoAngle != degree) {
+        d->m_labelAutoAngle = degree;
+        emit labelAutoAngleChanged(degree);
     }
 }
 
-float QAbstract3DAxis::labelAutoRotation() const
+float QAbstract3DAxis::labelAutoAngle() const
 {
     const Q_D(QAbstract3DAxis);
-    return d->m_labelAutoRotation;
+    return d->m_labelAutoAngle;
 }
 
 /*!
@@ -400,11 +400,11 @@ bool QAbstract3DAxis::labelsVisible() const
  * If \c{true}, axis titles in the primary graph view will be rotated towards
  * the camera similarly to the axis labels. If \c{false}, axis titles are only
  * rotated around their axis but are not otherwise oriented towards the camera.
- * This property does not have any effect if the labelAutoRotation property
+ * This property does not have any effect if the labelAutoAngle property
  * value is zero.
  * Default value is \c{true}.
  *
- * \sa labelAutoRotation, title, titleVisible
+ * \sa labelAutoAngle, title, titleVisible
  */
 void QAbstract3DAxis::setTitleFixed(bool fixed)
 {
@@ -531,7 +531,7 @@ QAbstract3DAxisPrivate::QAbstract3DAxisPrivate(QAbstract3DAxis::AxisType type)
     , m_min(0.0f)
     , m_max(10.0f)
     , m_autoAdjust(true)
-    , m_labelAutoRotation(0.0f)
+    , m_labelAutoAngle(0.0f)
     , m_titleOffset(0.0f)
     , m_titleVisible(false)
     , m_labelsVisible(true)

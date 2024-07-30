@@ -60,14 +60,14 @@ GraphModifier::GraphModifier(Q3DBarsWidgetItem *bargraph, QObject *parent)
     m_temperatureAxis->setSubSegmentCount(m_subSegments);
     m_temperatureAxis->setRange(m_minval, m_maxval);
     m_temperatureAxis->setLabelFormat(u"%.1f "_s + m_celsiusString);
-    m_temperatureAxis->setLabelAutoRotation(30.0f);
+    m_temperatureAxis->setLabelAutoAngle(30.0f);
     m_temperatureAxis->setTitleVisible(true);
 
     m_yearAxis->setTitle("Year");
-    m_yearAxis->setLabelAutoRotation(30.0f);
+    m_yearAxis->setLabelAutoAngle(30.0f);
     m_yearAxis->setTitleVisible(true);
     m_monthAxis->setTitle("Month");
-    m_monthAxis->setLabelAutoRotation(30.0f);
+    m_monthAxis->setLabelAutoAngle(30.0f);
     m_monthAxis->setTitleVisible(true);
 
     m_graph->setValueAxis(m_temperatureAxis);
@@ -284,9 +284,9 @@ void GraphModifier::shadowQualityUpdatedByVisual(QtGraphs3D::ShadowQuality sq)
 
 void GraphModifier::changeLabelRotation(int rotation)
 {
-    m_temperatureAxis->setLabelAutoRotation(float(rotation));
-    m_monthAxis->setLabelAutoRotation(float(rotation));
-    m_yearAxis->setLabelAutoRotation(float(rotation));
+    m_temperatureAxis->setLabelAutoAngle(float(rotation));
+    m_monthAxis->setLabelAutoAngle(float(rotation));
+    m_yearAxis->setLabelAutoAngle(float(rotation));
 }
 
 void GraphModifier::setAxisTitleVisibility(bool visible)

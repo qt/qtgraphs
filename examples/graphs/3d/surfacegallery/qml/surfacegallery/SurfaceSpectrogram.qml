@@ -49,7 +49,7 @@ Rectangle {
             labelFormat: "%i \%"
             title: "Value"
             titleVisible: true
-            labelAutoRotation: 0
+            labelAutoAngle: 0
             titleFixed: false
         }
 
@@ -158,17 +158,17 @@ Rectangle {
             onClicked: {
                 if (surfaceGraph.orthoProjection) {
                     surfaceGraph.orthoProjection = false;
-                    xAxis.labelAutoRotation = 30;
-                    yAxis.labelAutoRotation = 30;
-                    zAxis.labelAutoRotation = 30;
+                    xAxis.labelAutoAngle = 30;
+                    yAxis.labelAutoAngle = 30;
+                    zAxis.labelAutoAngle = 30;
                 } else {
                     surfaceGraph.orthoProjection = true;
                     surfaceGraph.cameraPreset
                             = Graphs3D.CameraPreset.DirectlyAbove;
                     surfaceSeries.drawMode &= ~Surface3DSeries.DrawWireframe;
-                    xAxis.labelAutoRotation = 0;
-                    yAxis.labelAutoRotation = 0;
-                    zAxis.labelAutoRotation = 0;
+                    xAxis.labelAutoAngle = 0;
+                    yAxis.labelAutoAngle = 0;
+                    zAxis.labelAutoAngle = 0;
                 }
             }
         }

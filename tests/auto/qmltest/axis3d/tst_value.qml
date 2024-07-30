@@ -23,7 +23,7 @@ Item {
         subSegmentCount: 5
 
         autoAdjustRange: false
-        labelAutoRotation: 10.0
+        labelAutoAngle: 10.0
         max: 20
         min: -10
         title: "initialized"
@@ -52,7 +52,7 @@ Item {
             compare(initial.subSegmentCount, 1)
 
             compare(initial.autoAdjustRange, true)
-            compare(initial.labelAutoRotation, 0.0)
+            compare(initial.labelAutoAngle, 0.0)
             compare(initial.max, 10)
             compare(initial.min, 0)
             compare(initial.orientation, Abstract3DAxis.AxisOrientation.None)
@@ -76,7 +76,7 @@ Item {
             compare(initialized.subSegmentCount, 5)
 
             compare(initialized.autoAdjustRange, false)
-            compare(initialized.labelAutoRotation, 10.0)
+            compare(initialized.labelAutoAngle, 10.0)
             compare(initialized.max, 20)
             compare(initialized.min, -10)
             compare(initialized.title, "initialized")
@@ -106,7 +106,7 @@ Item {
             compare(change.subSegmentCount, 5)
 
             change.autoAdjustRange = false
-            change.labelAutoRotation = 10.0
+            change.labelAutoAngle = 10.0
             change.max = 20
             change.min = -10
             change.title = "initialized"
@@ -116,7 +116,7 @@ Item {
             change.titleOffset = -1
 
             compare(change.autoAdjustRange, false)
-            compare(change.labelAutoRotation, 10.0)
+            compare(change.labelAutoAngle, 10.0)
             compare(change.max, 20)
             compare(change.min, -10)
             compare(change.title, "initialized")
@@ -136,10 +136,10 @@ Item {
             invalid.subSegmentCount = -1
             compare(invalid.subSegmentCount, 1)
 
-            invalid.labelAutoRotation = -10
-            compare(invalid.labelAutoRotation, 0.0)
-            invalid.labelAutoRotation = 100
-            compare(invalid.labelAutoRotation, 90.0)
+            invalid.labelAutoAngle = -10
+            compare(invalid.labelAutoAngle, 0.0)
+            invalid.labelAutoAngle = 100
+            compare(invalid.labelAutoAngle, 90.0)
             invalid.max = -10
             compare(invalid.min, -11)
             invalid.min = 10
