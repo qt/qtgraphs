@@ -137,7 +137,7 @@
     \snippet 3d/equation/qml/equation/Main.qml scatter data points
 
     Because the scatter graph has a lot more data points than the other two graphs, it is better
-    to use the lightest available \l{Scatter3DSeries.mesh}{mesh type} for the points:
+    to use the lightest available \l {Abstract3DSeries::mesh}{mesh type} for the points:
 
     \snippet 3d/equation/qml/equation/Main.qml mesh type
 
@@ -147,7 +147,7 @@
 
     \snippet 3d/equation/qml/equation/Main.qml scene import
 
-    A QtQuick3D scene can be imported into the graph using the \l{View3D.importScene}{importScene}
+    A QtQuick3D scene can be imported into the graph using the \l [QML] {View3D::}{importScene}
     property. The scene can be a combination of \l{Model}s, \l{Light}s,
     \l{ReflectionProbe}{reflection probes}, and other \l{Node}s contained in a root \l{Node}.
     In this example, only a rectangle with an opacity map is added:
@@ -161,13 +161,13 @@
     \snippet 3d/equation/qml/equation/Main.qml extendedsceneenvironment import
 
     To override the default scene environment of the graph, the
-    \l{View3D.environment}{environment} property is added with an \l{ExtendedSceneEnvironment}.
-    In this case, \l{ExtendedSceneEnvironment.backgroundMode}{backgroundMode},
-    \l{ExtendedSceneEnvironment.clearColor}{clearColor}, and
-    \l{ExtendedSceneEnvironment.tonemapMode}{tonemapMode} are set. In addition,
-    \l{ExtendedSceneEnvironment.glowEnabled}{glow} is enabled. Adding post-processing effects
+    \l {View3D::}{environment} property is added with an \l{ExtendedSceneEnvironment}.
+    In this case, \l{SceneEnvironment::}{backgroundMode},
+    \l{SceneEnvironment::}{clearColor}, and
+    \l{ExtendedSceneEnvironment::}{tonemapMode} are set. In addition,
+    \l{ExtendedSceneEnvironment::glowEnabled}{glow} is enabled. Adding post-processing effects
     like glow requires setting the tone map mode to
-    \l{ExtendedSceneEnvironment.TonemapModeNone}{TonemapModeNone}.
+    \l{ExtendedSceneEnvironment::tonemapMode}{TonemapModeNone}.
 
     \snippet 3d/equation/qml/equation/Main.qml scene environment
     \dots 4

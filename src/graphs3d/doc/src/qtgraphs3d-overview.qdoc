@@ -54,7 +54,7 @@
 
     \image q3dbars-minimal.png
 
-    For more information, see \l{How to construct a minimal Q3DBars graph}, and
+    For more information, see \l{How to construct a minimal Q3DBarsWidgetItem graph}, and
     \l {Simple Bar Graph} examples.
 
     \section2 3D Scatter Graphs
@@ -67,7 +67,7 @@
 
     \image q3dscatter-minimal.png
 
-    For more information, see \l{How to construct a minimal Q3DScatter graph}, and
+    For more information, see \l{How to construct a minimal Q3DScatterWidgetItem graph}, and
     \l{Simple Scatter Graph} examples.
 
     \section2 3D Surface Graphs
@@ -80,8 +80,8 @@
 
     \image q3dsurface-minimal.png
 
-    For more information, see \l{How to construct a minimal Q3DSurface graph}, \l{Graph Gallery},
-    and \l{Surface Graph Gallery} examples.
+    For more information, see \l{How to construct a minimal Q3DSurfaceWidgetItem graph},
+    \l{Graph Gallery}, and \l{Surface Graph Gallery} examples.
 
     \section1 Using OpenGL ES for Rendering Data
 
