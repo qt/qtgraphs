@@ -78,3 +78,11 @@ series.setMesh(QAbstract3DSeries::Mesh::Cylinder);
 
 graph.addSeries(&series);
 //! [seriesexample]
+
+//! [widget in a layout example]
+QQuickWidget *quickWidget = new QQuickWidget();
+Q3DBarsWidgetItem *barGraph = new Q3DBarsWidgetItem();
+barGraph->setWidget(quickWidget);
+
+auto *hLayout = new QHBoxLayout(quickWidget);
+//! [widget in a layout example]

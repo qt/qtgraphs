@@ -309,16 +309,15 @@
 
     Instead of creating your widget application like this:
     \code
-    QGuiApplication app(argc, argv);
-    Q3DScatter scatter;
-    scatter.setFlags(scatter.flags() ^ Qt::FramelessWindowHint);
+    Q3DBars *barGraph = new Q3DBars();
+    QWidget *barsWidget = new QWidget();
+    QWidget *container = QWidget::createWindowContainer(barGraph, barsWidget);
+
+    auto *hLayout = new QHBoxLayout(barsWidget);
+    hLayout->addWidget(container, 1);
     \endcode
     you should create it like this:
-    \code
-    QApplication app(argc, argv);
-    Q3DScatter scatter;
-    scatter.setMinimumSize(QSize(256, 256));
-    \endcode
+    \snippet doc_src_qtgraphs.cpp widget in a layout example
 
     \section1 Requirement to Use OpenGL Backend
 
