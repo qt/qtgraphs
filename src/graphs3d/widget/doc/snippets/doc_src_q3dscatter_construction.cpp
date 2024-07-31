@@ -17,12 +17,12 @@ int main(int argc, char **argv)
     scatter.widget()->setMinimumSize(QSize(256, 256));
     //! [0]
     //! [1]
-    QScatter3DSeries *series = new QScatter3DSeries;
+    QScatter3DSeries series;
     QScatterDataArray data;
     data << QScatterDataItem(0.5f, 0.5f, 0.5f) << QScatterDataItem(-0.3f, -0.5f, -0.4f)
          << QScatterDataItem(0.0f, -0.3f, 0.2f);
-    series->dataProxy()->addItems(data);
-    scatter.addSeries(series);
+    series.dataProxy()->addItems(data);
+    scatter.addSeries(&series);
     //! [1]
     //! [2]
     scatter.widget()->show();

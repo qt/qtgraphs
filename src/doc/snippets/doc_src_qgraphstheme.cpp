@@ -49,12 +49,12 @@ int main(int argc, char **argv)
     bars.activeTheme()->setSingleHighlightColor(Qt::yellow);
     //! [3]
 
-    QBar3DSeries *series = new QBar3DSeries;
+    QBar3DSeries series;
     QBarDataRow data;
     data << QBarDataItem(1.0f) << QBarDataItem(3.0f) << QBarDataItem(7.5f) << QBarDataItem(5.0f)
          << QBarDataItem(2.2f);
-    series->dataProxy()->addRow(data);
-    bars.addSeries(series);
+    series.dataProxy()->addRow(data);
+    bars.addSeries(&series);
 
     bars.widget()->show();
 
