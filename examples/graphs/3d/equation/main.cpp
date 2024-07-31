@@ -21,7 +21,7 @@ int main(int argc, char *argv[])
     viewer.engine()->addImportPath(
         extraImportPath.arg(QGuiApplication::applicationDirPath(), QString::fromLatin1("qml")));
 
-    viewer.setTitle(QStringLiteral("Equation"));
+    viewer.setTitle(QStringLiteral("Mathematical Equations"));
 
     viewer.setSource(QUrl("qrc:/qml/equation/Main.qml"));
     viewer.setResizeMode(QQuickView::SizeRootObjectToView);
