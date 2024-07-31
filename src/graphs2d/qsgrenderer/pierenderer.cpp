@@ -40,8 +40,8 @@ void PieRenderer::handlePolish(QPieSeries *series)
         auto labelItem = d->m_labelItem;
 
         QQuickShape *labelShape = d->m_labelShape;
-        labelShape->setVisible(series->isVisible());
-        labelItem->setVisible(series->isVisible());
+        labelShape->setVisible(series->isVisible() && d->m_isLabelVisible);
+        labelItem->setVisible(series->isVisible() && d->m_isLabelVisible);
 
         if (!series->isVisible()) {
             pathElements.clear(&pathElements);
