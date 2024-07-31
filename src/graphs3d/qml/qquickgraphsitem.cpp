@@ -1479,6 +1479,8 @@ void QQuickGraphsItem::setRenderingMode(QtGraphs3D::RenderingMode mode)
         setRenderMode(QQuick3DViewport::Offscreen);
         break;
     }
+    if (m_sliceView)
+        m_sliceView->setRenderMode(renderMode());
 
     updateWindowParameters();
 
@@ -5023,18 +5025,7 @@ void QQuickGraphsItem::mouseMoveEvent(QMouseEvent *event)
 
 void QQuickGraphsItem::resizeViewports(QSizeF viewportSize)
 {
-    if (viewportSize.isEmpty())
-        return;
-
-    if (m_renderMode == QtGraphs3D::RenderingMode::DirectToBackground) {
-        // Origin mapping is needed when rendering directly to background
-        QPointF point = QQuickItem::mapToScene(QPointF(0.0f, 0.0f));
-        scene()->d_func()->setViewport(QRect(point.x() + 0.5f,
-                                             point.y() + 0.5f,
-                                             viewportSize.width() + 0.5f,
-                                             viewportSize.height() + 0.5f));
-    } else {
-        // No translation needed when rendering to FBO
+    if (!viewportSize.isEmpty()) {
         scene()->d_func()->setViewport(
                     QRect(0.0f, 0.0f, viewportSize.width() + 0.5f, viewportSize.height() + 0.5f));
     }
@@ -5464,6 +5455,7 @@ void QQuickGraphsItem::updateSubViews()
         setX(newMainView.x());
         setY(newMainView.y());
         setSize(newMainView.size());
+        update();
     }
 
     if (sliceView()) {
@@ -5472,6 +5464,7 @@ void QQuickGraphsItem::updateSubViews()
             m_sliceView->setX(newSliceView.x());
             m_sliceView->setY(newSliceView.y());
             m_sliceView->setSize(newSliceView.size());
+            m_sliceView->update();
         }
 
         if (isSliceOrthoProjection()) {
@@ -5919,6 +5912,7 @@ void QQuickGraphsItem::createSliceView()
     m_sliceView->setZ(-1);
     m_sliceView->environment()->setBackgroundMode(QQuick3DSceneEnvironment::QQuick3DEnvironmentBackgroundTypes::Color);
     m_sliceView->environment()->setClearColor(environment()->clearColor());
+    m_sliceView->setRenderMode(renderMode());
 
     auto scene = m_sliceView->scene();
 
