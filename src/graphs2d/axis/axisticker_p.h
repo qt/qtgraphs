@@ -33,6 +33,7 @@ class AxisTicker : public QQuickShaderEffect
     Q_PROPERTY(qreal subTickScale READ subTickScale WRITE setSubTickScale NOTIFY subTickScaleChanged FINAL)
     Q_PROPERTY(qreal subTickLength READ subTickLength WRITE setSubTickLength NOTIFY subTickLengthChanged FINAL)
     Q_PROPERTY(bool isHorizontal READ isHorizontal WRITE setIsHorizontal NOTIFY isHorizontalChanged FINAL)
+    Q_PROPERTY(bool flipped READ isFlipped WRITE setFlipped NOTIFY flippedChanged FINAL)
 public:
     AxisTicker(QQuickItem *parent = nullptr);
     ~AxisTicker() override;
@@ -77,6 +78,9 @@ public:
     bool isHorizontal() const;
     void setIsHorizontal(bool newIsHorizontal);
 
+    bool isFlipped() const;
+    void setFlipped(bool newFlipped);
+
 protected:
     void componentComplete() override;
     void geometryChange(const QRectF &newGeometry, const QRectF &oldGeometry) override;
@@ -95,6 +99,7 @@ Q_SIGNALS:
     void subTickScaleChanged();
     void subTickLengthChanged();
     void isHorizontalChanged();
+    void flippedChanged();
 
 private:
     friend class AxisRenderer;
@@ -111,6 +116,7 @@ private:
     qreal m_subTickScale = 0.1;
     qreal m_subTickLength = 0.1;
     bool m_isHorizontal = false;
+    bool m_flipped = false;
 };
 
 QT_END_NAMESPACE

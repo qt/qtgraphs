@@ -95,15 +95,15 @@ public:
     qreal marginRight() const;
     void setMarginRight(qreal newMarginRight);
 
+    QRectF plotArea() const;
+    void updatePlotArea();
+    void updateAxisAreas();
+
     void addAxis(QAbstractAxis *axis);
     void removeAxis(QAbstractAxis *axis);
 
     qsizetype graphSeriesCount() const;
     void setGraphSeriesCount(qsizetype count);
-
-    // Returns the graph series area.
-    // So graphview - margins - axis.
-    QRectF seriesRect() const;
 
     void createBarsRenderer();
     void createAxisRenderer();
@@ -185,6 +185,7 @@ private:
     friend class BarsRenderer;
     friend class PointRenderer;
     friend class AreaRenderer;
+    friend class QAbstractAxis;
 
     void polishAndUpdate();
     int getSeriesRendererIndex(QAbstractSeries *series);
@@ -211,6 +212,26 @@ private:
     qreal m_marginBottom = 20;
     qreal m_marginLeft = 20;
     qreal m_marginRight = 20;
+    QRectF m_plotArea;
+    // Areas of axis
+    QRectF m_xAxisArea;
+    QRectF m_yAxisArea;
+    // Areas of axis tickers
+    QRectF m_xAxisTickersArea;
+    QRectF m_yAxisTickersArea;
+    // Areas of axis labels
+    QRectF m_xAxisLabelsArea;
+    QRectF m_yAxisLabelsArea;
+    // Note: Add properties for these
+    qreal m_axisTickersWidth = 15;
+    qreal m_axisTickersHeight = 15;
+    qreal m_axisLabelsWidth = 40;
+    qreal m_axisLabelsHeight = 25;
+    qreal m_axisXLabelsMargin = 0;
+    qreal m_axisYLabelsMargin = 5;
+    // Calculated based the the above
+    qreal m_axisWidth = 0;
+    qreal m_axisHeight = 0;
 
     int m_hoverCount = 0;
 
