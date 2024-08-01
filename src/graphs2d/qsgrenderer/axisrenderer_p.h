@@ -74,6 +74,8 @@ private:
     QGraphsTheme *theme();
     bool m_initialized = false;
     bool m_wasVertical = false;
+    bool m_verticalAxisOnRight = false;
+    bool m_horizontalAxisOnTop = false;
 
     QAbstractAxis *m_axisVertical = nullptr;
     QAbstractAxis *m_axisHorizontal = nullptr;
@@ -133,13 +135,6 @@ private:
     bool m_gridVerticalLinesVisible = true;
     bool m_gridHorizontalSubLinesVisible = false;
     bool m_gridVerticalSubLinesVisible = false;
-
-    // Sizes required of axis labels
-    // TODO: Should these come from QAbstactAxis?
-    qreal m_axisWidth = 60;
-    qreal m_axisHeight = 40;
-    qreal m_axisTickersWidth = 15;
-    qreal m_axisTickersHeight = 15;
 };
 
 QT_END_NAMESPACE

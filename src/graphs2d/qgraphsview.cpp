@@ -188,20 +188,6 @@ void QGraphsView::setGraphSeriesCount(qsizetype count)
         m_graphSeriesCount = count;
 }
 
-QRectF QGraphsView::seriesRect() const
-{
-    // When axis are in left & bottom
-    qreal x = m_marginLeft;
-    if (m_axisRenderer)
-        x += m_axisRenderer->m_axisWidth;
-    qreal y = m_marginTop;
-    qreal w = width() - x - m_marginRight;
-    qreal h = height() - y - m_marginBottom;
-    if (m_axisRenderer)
-        h -= m_axisRenderer->m_axisHeight;
-    return QRectF(x, y, w, h);
-}
-
 void QGraphsView::createBarsRenderer()
 {
     if (!m_barsRenderer) {
@@ -480,29 +466,31 @@ void QGraphsView::handleHover(const QString &seriesName, QPointF position, QPoin
 
 void QGraphsView::updateComponentSizes()
 {
+    updateAxisAreas();
+    updatePlotArea();
+
     if (m_axisRenderer)
         m_axisRenderer->setSize(size());
 
-    const auto r = seriesRect();
     if (m_barsRenderer) {
-        m_barsRenderer->setX(r.x());
-        m_barsRenderer->setY(r.y());
-        m_barsRenderer->setSize(r.size());
+        m_barsRenderer->setX(m_plotArea.x());
+        m_barsRenderer->setY(m_plotArea.y());
+        m_barsRenderer->setSize(m_plotArea.size());
     }
     if (m_pointRenderer) {
-        m_pointRenderer->setX(r.x());
-        m_pointRenderer->setY(r.y());
-        m_pointRenderer->setSize(r.size());
+        m_pointRenderer->setX(m_plotArea.x());
+        m_pointRenderer->setY(m_plotArea.y());
+        m_pointRenderer->setSize(m_plotArea.size());
     }
     if (m_pieRenderer)  {
-        m_pieRenderer->setX(r.x());
-        m_pieRenderer->setY(r.y());
-        m_pieRenderer->setSize(r.size());
+        m_pieRenderer->setX(m_plotArea.x());
+        m_pieRenderer->setY(m_plotArea.y());
+        m_pieRenderer->setSize(m_plotArea.size());
     }
     if (m_areaRenderer) {
-        m_areaRenderer->setX(r.x());
-        m_areaRenderer->setY(r.y());
-        m_areaRenderer->setSize(r.size());
+        m_areaRenderer->setX(m_plotArea.x());
+        m_areaRenderer->setY(m_plotArea.y());
+        m_areaRenderer->setSize(m_plotArea.size());
     }
 }
 
@@ -532,8 +520,7 @@ void QGraphsView::mouseMoveEvent(QMouseEvent *event)
     bool handled = false;
 
     // Adjust event position to renderers position
-    const QRectF r = seriesRect();
-    QPointF localPos = event->position() - r.topLeft();
+    QPointF localPos = event->position() - m_plotArea.topLeft();
     QMouseEvent mappedEvent(event->type(), localPos, event->scenePosition(),
                             event->globalPosition(), event->button(),
                             event->buttons(), event->modifiers());
@@ -553,8 +540,7 @@ void QGraphsView::mousePressEvent(QMouseEvent *event)
     bool handled = false;
 
     // Adjust event position to renderers position
-    const QRectF r = seriesRect();
-    QPointF localPos = event->position() - r.topLeft();
+    QPointF localPos = event->position() - m_plotArea.topLeft();
     QMouseEvent mappedEvent(event->type(), localPos, event->scenePosition(),
                             event->globalPosition(), event->button(),
                             event->buttons(), event->modifiers());
@@ -580,8 +566,7 @@ void QGraphsView::mouseReleaseEvent(QMouseEvent *event)
     bool handled = false;
 
     // Adjust event position to renderers position
-    const QRectF r = seriesRect();
-    QPointF localPos = event->position() - r.topLeft();
+    QPointF localPos = event->position() - m_plotArea.topLeft();
     QMouseEvent mappedEvent(event->type(), localPos, event->scenePosition(),
                             event->globalPosition(), event->button(),
                             event->buttons(), event->modifiers());
@@ -601,8 +586,7 @@ void QGraphsView::hoverMoveEvent(QHoverEvent *event)
     bool handled = false;
 
     // Adjust event position to renderers position
-    const QRectF r = seriesRect();
-    QPointF localPos = event->position() - r.topLeft();
+    QPointF localPos = event->position() - m_plotArea.topLeft();
     QHoverEvent mappedEvent(event->type(), localPos,event->globalPosition(),
                             event->oldPosF(), event->modifiers());
     mappedEvent.setAccepted(false);
@@ -910,6 +894,59 @@ void QGraphsView::setMarginRight(qreal newMarginRight)
     updateComponentSizes();
     polishAndUpdate();
     emit marginRightChanged();
+}
+
+QRectF QGraphsView::plotArea() const
+{
+    return m_plotArea;
+}
+
+void QGraphsView::updateAxisAreas()
+{
+    QRectF r = { m_marginLeft,
+                 m_marginTop,
+                 width() - m_marginLeft - m_marginRight,
+                 height() - m_marginTop - m_marginBottom };
+    m_axisHeight = m_axisLabelsHeight + m_axisXLabelsMargin + m_axisTickersHeight;
+    m_axisWidth = m_axisLabelsWidth + m_axisYLabelsMargin + m_axisTickersWidth;
+    float leftPadding = m_axisWidth;
+    float topPadding = 0;
+    m_xAxisArea = { r.x() + leftPadding, r.y() + r.height() - m_axisHeight,
+                    r.width() - m_axisWidth, m_axisHeight };
+    m_xAxisLabelsArea = { m_xAxisArea.x(),
+                          m_xAxisArea.y() + m_axisTickersHeight + m_axisXLabelsMargin,
+                          m_xAxisArea.width(),
+                          m_axisTickersHeight };
+    m_xAxisTickersArea = { m_xAxisArea.x(),
+                           m_xAxisArea.y(),
+                           m_xAxisArea.width(),
+                           m_axisTickersHeight };
+    m_yAxisArea = { r.x(), r.y() + topPadding, m_axisWidth, r.height() - m_axisHeight };
+    m_yAxisLabelsArea = { m_yAxisArea.x(),
+                          m_yAxisArea.y(),
+                          m_axisLabelsWidth,
+                          m_yAxisArea.height() };
+    m_yAxisTickersArea = { m_yAxisArea.x() + m_axisLabelsWidth + m_axisYLabelsMargin,
+                           m_yAxisArea.y(),
+                           m_axisTickersWidth,
+                           m_yAxisArea.height() };
+}
+
+void QGraphsView::updatePlotArea()
+{
+    // When axis are in left & bottom
+    qreal x = m_marginLeft;
+    qreal y = m_marginTop;
+    qreal w = width() - x - m_marginRight;
+    qreal h = height() - y - m_marginBottom;
+    x += m_axisWidth;
+    h -= m_axisHeight;
+    w -= m_axisWidth;
+    w = qMax(w, 0.0);
+    h = qMax(h, 0.0);
+    QRectF plotArea = QRectF(x, y, w, h);
+    if (plotArea != m_plotArea)
+        m_plotArea = plotArea;
 }
 
 /*!

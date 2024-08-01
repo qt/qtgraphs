@@ -199,4 +199,17 @@ void AxisTicker::setIsHorizontal(bool newIsHorizontal)
     emit isHorizontalChanged();
 }
 
+bool AxisTicker::isFlipped() const
+{
+    return m_flipped;
+}
+
+void AxisTicker::setFlipped(bool newFlipped)
+{
+    if (m_flipped == newFlipped)
+        return;
+    m_flipped = newFlipped;
+    emit flippedChanged();
+}
+
 QT_END_NAMESPACE
