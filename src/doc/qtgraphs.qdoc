@@ -37,6 +37,16 @@
 */
 
 /*!
+    \title Qt Graphs C++ Classes for Widgets
+    \group graphs_3D_widgets
+    \ingroup graphs
+
+    \brief C++ classes for the Qt Graphs for 3D API used with widgets.
+
+    The Qt Graphs for 3D widget functionality can be accessed via these C++ classes.
+*/
+
+/*!
     \title Qt Graphs C++ Common Classes
     \group graphs_common
     \ingroup graphs

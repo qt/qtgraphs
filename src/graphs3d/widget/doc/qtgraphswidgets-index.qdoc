@@ -4,21 +4,10 @@
 /*!
     \title Qt Graphs Widgets
     \page qtgraphswidgets-index.html
-    \brief Provides functionality for 2D and 3D graphs.
+    \brief Provides functionality for 3D graphs used with widgets.
 
-    The Qt Graphs module enables you to visualize data in 2D and 3D graphs.
-
-    In the 3D realm there is support for bar, scatter, and surface graphs.
-    It's especially useful for visualizing depth maps and large quantities
-    of rapidly changing data, such as data received from multiple sensors.
-    The look and feel of graphs can be customized by using themes or by adding
-    custom items and labels.
-
-    In the 2D realm, there is support for area, bar, donut, line, pie, scatter, and spline graphs,
-    and they are easily combinable with any other QML content.
-
-    Qt Graphs is built on Qt 6 and the 3D graphs on Qt Quick 3D to take advantage of
-    hardware acceleration and Qt Quick.
+    Widget support is included in its own module to avoid a hard dependency on QtWidgets
+    when building only QML applications.
 
     \section1 Using the Module
 
@@ -34,7 +23,7 @@
 
     \section1 API Reference
     \list
-        \li \l{Qt Graphs Widgets C++ Classes}
+        \li \l{Qt Graphs C++ Classes for Widgets}
     \endlist
 
     \section1 Licenses and Attributions
