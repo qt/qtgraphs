@@ -2096,25 +2096,7 @@ void QGraphsLinePrivate::resetCustomBits()
     m_bits.labelTextColorCustom = false;
 }
 
-QGraphsThemePrivate::QGraphsThemePrivate()
-    : m_themeDirty(false)
-    , m_colorStyle(QGraphsTheme::ColorStyle::Uniform)
-    , m_plotAreaBackgroundColor(QColor())
-    , m_backgroundColor(QColor())
-    , m_labelBackgroundColor(QColor())
-    , m_labelTextColor(QColor())
-    , m_singleHighlightColor(QColor())
-    , m_multiHighlightColor(QColor())
-    , m_multiHighlightGradient(QLinearGradient())
-    , m_singleHighlightGradient(QLinearGradient())
-    , m_borderWidth(1.0)
-    , m_singleHLGradient(nullptr)
-    , m_multiHLGradient(nullptr)
-    , m_grid(QGraphsLine())
-    , m_axisX(QGraphsLine())
-    , m_axisY(QGraphsLine())
-    , m_axisZ(QGraphsLine())
-{}
+QGraphsThemePrivate::QGraphsThemePrivate() {}
 
 QGraphsThemePrivate::~QGraphsThemePrivate() {}
 bool comparesEqual(const QGraphsLinePrivate &lhs, const QGraphsLinePrivate &rhs) noexcept
