@@ -63,24 +63,24 @@ private:
     QGraphsCustomBitField m_customBits;
 
     QMetaObject::Connection m_autoColorConnection;
-    bool m_themeDirty;
-    QGraphsTheme::ColorScheme m_colorScheme;
-    QGraphsTheme::Theme m_theme;
-    QGraphsTheme::ColorStyle m_colorStyle;
+    bool m_themeDirty = false;
+    QGraphsTheme::ColorScheme m_colorScheme = QGraphsTheme::ColorScheme::Automatic;
+    QGraphsTheme::Theme m_theme = QGraphsTheme::Theme::QtGreen;
+    QGraphsTheme::ColorStyle m_colorStyle = QGraphsTheme::ColorStyle::Uniform;
     QColor m_plotAreaBackgroundColor;
     QColor m_plotAreaBackgroundThemeColor;
-    bool m_backgroundVisibility;
-    bool m_gridVisibility;
+    bool m_backgroundVisibility = false;
+    bool m_gridVisibility = false;
     QColor m_backgroundColor;
     QColor m_backgroundThemeColor;
-    bool m_plotAreaBackgroundVisibility;
-    bool m_labelsVisibility;
+    bool m_plotAreaBackgroundVisibility = false;
+    bool m_labelsVisibility = false;
     QColor m_labelBackgroundColor;
     QColor m_labelBackgroundThemeColor;
     QColor m_labelTextColor;
     QColor m_labelTextThemeColor;
-    bool m_labelBackgroundVisibility;
-    bool m_labelBorderVisibility;
+    bool m_labelBackgroundVisibility = false;
+    bool m_labelBorderVisibility = false;
     QColor m_singleHighlightColor;
     QColor m_singleHighlightThemeColor;
     QColor m_multiHighlightColor;
@@ -94,14 +94,14 @@ private:
     QList<QColor> m_seriesThemeColors;
     QList<QColor> m_borderColors;
     QList<QColor> m_borderThemeColors;
-    qreal m_borderWidth;
+    qreal m_borderWidth = 1.0;
     QList<QLinearGradient> m_seriesGradients;
     QList<QLinearGradient> m_seriesThemeGradients;
 
     QList<QQuickGraphsColor *> m_colors;
     QList<QQuickGradient *> m_gradients;
-    QQuickGradient *m_singleHLGradient;
-    QQuickGradient *m_multiHLGradient;
+    QQuickGradient *m_singleHLGradient = nullptr;
+    QQuickGradient *m_multiHLGradient = nullptr;
 
     QFont m_axisXLabelFont;
     QFont m_axisYLabelFont;

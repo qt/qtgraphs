@@ -75,7 +75,7 @@ public:
     QScatter3DSeries *selectedSeries() const;
     void setSelectedItem(qsizetype index, QScatter3DSeries *series);
 
-    static qsizetype invalidSelectionIndex() { return -1; }
+    static constexpr qsizetype invalidSelectionIndex() { return -1; }
     void setSelectionMode(QtGraphs3D::SelectionFlags mode) override;
 
     bool hasSelectedItemChanged() const { return m_changeTracker.selectedItemChanged; }
@@ -177,9 +177,9 @@ private:
     bool m_polarGraph = false;
 
     float m_selectedGradientPos = 0.0f;
-    qsizetype m_selectedItem;
-    QScatter3DSeries *m_selectedItemSeries; // Points to the series for which the bar is
-                                            // selected in single series selection cases.
+    qsizetype m_selectedItem = invalidSelectionIndex();
+    QScatter3DSeries *m_selectedItemSeries = nullptr; // Points to the series for which the bar is
+                                                      // selected in single series selection cases.
     QQuick3DModel *m_selected = nullptr;
     QQuick3DModel *m_previousSelected = nullptr;
 
