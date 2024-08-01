@@ -10,7 +10,7 @@ QT_BEGIN_NAMESPACE
 /*!
  * \class Q3DBarsWidgetItem
  * \inmodule QtGraphs
- * \ingroup graphs_3D
+ * \ingroup graphs_3D_widgets
  * \brief The Q3DBarsWidgetItem class provides methods for rendering 3D bar graphs.
  *
  * This class enables developers to render 3D bar graphs and view them by

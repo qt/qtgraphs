@@ -38,6 +38,12 @@
 
     \include {module-use.qdocinc} {building_with_qmake} {graphs}
 
+    \section3 Building a widget application
+
+    \list
+        \li \l{Qt Graphs Widgets}{Building With Widgets}
+    \endlist
+
     \section1 Articles and Guides
 
     \section2 Limiting Features

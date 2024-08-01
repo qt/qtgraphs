@@ -10,7 +10,7 @@ QT_BEGIN_NAMESPACE
 /*!
  * \class Q3DSurfaceWidgetItem
  * \inmodule QtGraphs
- * \ingroup graphs_3D
+ * \ingroup graphs_3D_widgets
  * \brief The Q3DSurfaceWidgetItem class provides methods for rendering 3D surface plots.
  *
  * This class enables developers to render 3D surface plots and to view them by
