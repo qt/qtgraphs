@@ -51,7 +51,10 @@ QItemModelSurfaceDataProxy *proxy = new QItemModelSurfaceDataProxy(customModel,
 //! [surfacemodelproxy]
 
 //! [proxyexample]
-Q3DBars graph;
+QQuickWidget quickWidget;
+Q3DBarsWidgetItem graph;
+graph.setWidget(&quickWidget);
+
 QBar3DSeries series;
 
 for (int i = 0; i < 10; ++i) {
@@ -65,7 +68,10 @@ graph.addSeries(&series);
 //! [proxyexample]
 
 //! [seriesexample]
-Q3DBars graph;
+QQuickWidget quickWidget;
+Q3DBarsWidgetItem graph;
+graph.setWidget(&quickWidget);
+
 QBar3DSeries series;
 
 QLinearGradient barGradient(0, 0, 1, 100);

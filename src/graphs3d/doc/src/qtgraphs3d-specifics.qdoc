@@ -140,7 +140,7 @@
     \section1 Item Models and Data Mapping
 
     For common use cases, Qt Graphs offers specialized proxies. One such case is having
-    data in an item model (QAbstractItemModel subclass), which is a common way to store data in
+    data in an item model (\l QAbstractItemModel subclass), which is a common way to store data in
     Qt applications. Each of the graph's types offers a special proxy class for this purpose,
     for example, QItemModelBarDataProxy for QBar3DSeries.
     These proxies are simple to use: provide them a pointer to the item model containing the
@@ -160,7 +160,7 @@
     mapping cases.
 
     Depending on the graph's type, proxies may support other functionalities as well,
-    such as QItemModelBarDataProxy optionally mapping QAbstractItemModel rows and columns directly
+    such as QItemModelBarDataProxy optionally mapping \l QAbstractItemModel rows and columns directly
     into bar graph rows and columns.
 
     See individual proxy classes for more information and examples
@@ -245,7 +245,8 @@
     mode.
 
     When multiple series are added to a graph, selecting an item in one of them will clear the
-    selection on the other series.
+    selection on the other series. There is a multiseries option as well for bars and surface,
+    which will select each series in the selected position.
 */
 
 /*!
