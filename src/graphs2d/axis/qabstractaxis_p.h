@@ -67,6 +67,8 @@ private:
     QFont m_titleFont;
     QString m_title;
 
+    Qt::Alignment m_alignment = Qt::AlignBottom;
+
     Q_DECLARE_PUBLIC(QAbstractAxis)
 };
 

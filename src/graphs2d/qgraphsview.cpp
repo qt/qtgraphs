@@ -492,13 +492,7 @@ void QGraphsView::updateComponentSizes()
     if (m_pieRenderer) {
         m_pieRenderer->setX(m_plotArea.x());
         m_pieRenderer->setY(m_plotArea.y());
-
-        // Remove axis widths and heights as there aren't any in Pie
-        auto s = m_plotArea.size();
-        s.setHeight(s.height() + m_axisHeight);
-        s.setWidth(s.width() - m_axisWidth);
-
-        m_pieRenderer->setSize(s);
+        m_pieRenderer->setSize(m_plotArea.size());
     }
     if (m_areaRenderer) {
         m_areaRenderer->setX(m_plotArea.x());
@@ -922,27 +916,52 @@ void QGraphsView::updateAxisAreas()
                  height() - m_marginTop - m_marginBottom };
     m_axisHeight = m_axisLabelsHeight + m_axisXLabelsMargin + m_axisTickersHeight;
     m_axisWidth = m_axisLabelsWidth + m_axisYLabelsMargin + m_axisTickersWidth;
-    float leftPadding = m_axisWidth;
-    float topPadding = 0;
-    m_xAxisArea = { r.x() + leftPadding, r.y() + r.height() - m_axisHeight,
-                    r.width() - m_axisWidth, m_axisHeight };
-    m_xAxisLabelsArea = { m_xAxisArea.x(),
-                          m_xAxisArea.y() + m_axisTickersHeight + m_axisXLabelsMargin,
-                          m_xAxisArea.width(),
-                          m_axisTickersHeight };
-    m_xAxisTickersArea = { m_xAxisArea.x(),
-                           m_xAxisArea.y(),
-                           m_xAxisArea.width(),
-                           m_axisTickersHeight };
-    m_yAxisArea = { r.x(), r.y() + topPadding, m_axisWidth, r.height() - m_axisHeight };
-    m_yAxisLabelsArea = { m_yAxisArea.x(),
-                          m_yAxisArea.y(),
-                          m_axisLabelsWidth,
-                          m_yAxisArea.height() };
-    m_yAxisTickersArea = { m_yAxisArea.x() + m_axisLabelsWidth + m_axisYLabelsMargin,
-                           m_yAxisArea.y(),
-                           m_axisTickersWidth,
-                           m_yAxisArea.height() };
+    float leftPadding = (m_axisY && m_axisY->alignment() == Qt::AlignLeft) ? m_axisWidth : 0;
+    float topPadding = (m_axisX && m_axisX->alignment() == Qt::AlignTop) ? m_axisHeight : 0;
+    if (m_axisX && m_axisX->alignment() == Qt::AlignTop) {
+        m_xAxisArea = { r.x() + leftPadding, r.y(), r.width() - m_axisWidth, m_axisHeight};
+        m_xAxisLabelsArea = { m_xAxisArea.x(),
+                              m_xAxisArea.y(),
+                              m_xAxisArea.width(),
+                              m_axisLabelsHeight };
+        m_xAxisTickersArea = { m_xAxisArea.x(),
+                               m_xAxisArea.y() + m_axisLabelsHeight + m_axisXLabelsMargin,
+                               m_xAxisArea.width(),
+                               m_axisTickersHeight };
+    } else {
+        m_xAxisArea = { r.x() + leftPadding, r.y() + r.height() - m_axisHeight,
+                        r.width() - m_axisWidth, m_axisHeight };
+        m_xAxisLabelsArea = { m_xAxisArea.x(),
+                              m_xAxisArea.y() + m_axisTickersHeight + m_axisXLabelsMargin,
+                              m_xAxisArea.width(),
+                              m_axisTickersHeight };
+        m_xAxisTickersArea = { m_xAxisArea.x(),
+                               m_xAxisArea.y(),
+                               m_xAxisArea.width(),
+                               m_axisTickersHeight };
+    }
+    if (m_axisY && m_axisY->alignment() == Qt::AlignLeft) {
+        m_yAxisArea = { r.x(), r.y() + topPadding, m_axisWidth, r.height() - m_axisHeight };
+        m_yAxisLabelsArea = { m_yAxisArea.x(),
+                              m_yAxisArea.y(),
+                              m_axisLabelsWidth,
+                              m_yAxisArea.height() };
+        m_yAxisTickersArea = { m_yAxisArea.x() + m_axisLabelsWidth + m_axisYLabelsMargin,
+                               m_yAxisArea.y(),
+                               m_axisTickersWidth,
+                               m_yAxisArea.height() };
+    } else {
+        m_yAxisArea = { r.x() + r.width() - m_axisWidth, r.y() + topPadding,
+                        m_axisWidth, r.height() - m_axisHeight };
+        m_yAxisLabelsArea = { m_yAxisArea.x() + m_axisTickersWidth + m_axisYLabelsMargin,
+                              m_yAxisArea.y(),
+                              m_axisLabelsWidth,
+                              m_yAxisArea.height() };
+        m_yAxisTickersArea = { m_yAxisArea.x(),
+                               m_yAxisArea.y(),
+                               m_axisTickersWidth,
+                               m_yAxisArea.height() };
+    }
 }
 
 void QGraphsView::updatePlotArea()
@@ -952,9 +971,14 @@ void QGraphsView::updatePlotArea()
     qreal y = m_marginTop;
     qreal w = width() - x - m_marginRight;
     qreal h = height() - y - m_marginBottom;
-    x += m_axisWidth;
-    h -= m_axisHeight;
-    w -= m_axisWidth;
+    if (m_axisX && m_axisX->alignment() == Qt::AlignTop)
+        y += m_axisHeight;
+    if (m_axisY && m_axisY->alignment() != Qt::AlignRight)
+        x += m_axisWidth;
+    if (m_axisX)
+        h -= m_axisHeight;
+    if (m_axisY)
+        w -= m_axisWidth;
     w = qMax(w, 0.0);
     h = qMax(h, 0.0);
     QRectF plotArea = QRectF(x, y, w, h);
@@ -985,8 +1009,11 @@ void QGraphsView::setAxisX(QAbstractAxis *axis)
         return;
     removeAxis(m_axisX);
     m_axisX = axis;
-    if (axis)
+    if (axis) {
+        if (axis->alignment() != Qt::AlignBottom && axis->alignment() != Qt::AlignTop)
+            axis->setAlignment(Qt::AlignBottom);
         addAxis(axis);
+    }
     emit update();
 }
 
@@ -1013,8 +1040,11 @@ void QGraphsView::setAxisY(QAbstractAxis *axis)
         return;
     removeAxis(m_axisY);
     m_axisY = axis;
-    if (axis)
+    if (axis) {
+        if (axis->alignment() != Qt::AlignLeft && axis->alignment() != Qt::AlignRight)
+            axis->setAlignment(Qt::AlignLeft);
         addAxis(axis);
+    }
     emit update();
 }
 

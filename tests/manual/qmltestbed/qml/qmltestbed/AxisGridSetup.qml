@@ -26,6 +26,7 @@ Rectangle {
             categories: [1, 2, 3, 4, 5, 6]
             gridVisible: checkBoxGridXMajor.checked
             subGridVisible: checkBoxGridXMinor.checked
+            alignment: checkBoxAxisXAlignment.checked ? Qt.AlignTop : Qt.AlignBottom
         }
         axisY: ValueAxis {
             id: yAxis
@@ -40,11 +41,12 @@ Rectangle {
             //labelDecimals: 3
             gridVisible: checkBoxGridYMajor.checked
             subGridVisible: checkBoxGridYMinor.checked
+            alignment: checkBoxAxisYAlignment.checked ? Qt.AlignRight : Qt.AlignLeft
         }
         theme: GraphsTheme {
             id: myTheme
             colorScheme: GraphsTheme.ColorScheme.Dark
-            backgroundColor: "#20000000"
+            backgroundColor: "#80000000"
             plotAreaBackgroundColor: "#20000000"
             seriesColors: ["#dd444444", "#dd555555", "#dd666666", "#dd777777", "#dd888888"]
             borderColors: ["#111111", "#222222", "#333333", "#444444", "#555555"]
@@ -164,6 +166,16 @@ Rectangle {
         CustomCheckBox {
             id: checkBoxCustomBars
             text: "Use Custom Bars"
+            checked: false
+        }
+        CustomCheckBox {
+            id: checkBoxAxisXAlignment
+            text: "Axis X: Bottom/Top"
+            checked: false
+        }
+        CustomCheckBox {
+            id: checkBoxAxisYAlignment
+            text: "Axis Y: Left/Right"
             checked: false
         }
         CustomCheckBox {

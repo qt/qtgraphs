@@ -167,10 +167,12 @@ void AxisRenderer::updateAxis()
     if (m_axisVertical) {
         m_gridVerticalLinesVisible = m_axisVertical->isGridVisible();
         m_gridVerticalSubLinesVisible = m_axisVertical->isSubGridVisible();
+        m_verticalAxisOnRight = m_axisVertical->alignment() == Qt::AlignRight;
     }
     if (m_axisHorizontal) {
         m_gridHorizontalLinesVisible = m_axisHorizontal->isGridVisible();
         m_gridHorizontalSubLinesVisible = m_axisHorizontal->isSubGridVisible();
+        m_horizontalAxisOnTop = m_axisHorizontal->alignment() == Qt::AlignTop;
     }
 
     if (auto vaxis = qobject_cast<QValueAxis *>(m_axisVertical)) {
