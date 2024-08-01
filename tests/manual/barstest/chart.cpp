@@ -709,7 +709,7 @@ void GraphModifier::handleSelectionChange(const QPoint &position)
 void GraphModifier::setUseNullInputHandler(int useNull)
 {
     qDebug() << "setUseNullInputHandler" << useNull;
-    if (m_useNullInputHandler == useNull)
+    if (m_useNullInputHandler == bool(useNull))
         return;
 
     m_useNullInputHandler = useNull;
