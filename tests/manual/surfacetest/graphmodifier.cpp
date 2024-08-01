@@ -805,7 +805,7 @@ void GraphModifier::toggleXAscending(int enabled)
         const int rowCount = array.size();
         const int columnCount = array.at(0).size();
         const bool dataAscending = array.at(0).at(0).x() < array.at(0).at(columnCount - 1).x();
-        if (dataAscending != enabled) {
+        if (dataAscending != m_ascendingX) {
             // Create new array of equal size
             QSurfaceDataArray newArray;
             newArray.reserve(rowCount);
@@ -836,7 +836,7 @@ void GraphModifier::toggleZAscending(int enabled)
         const int rowCount = array.size();
         const int columnCount = array.at(0).size();
         const bool dataAscending = array.at(0).at(0).z() < array.at(rowCount - 1).at(0).z();
-        if (dataAscending != enabled) {
+        if (dataAscending != m_ascendingZ) {
             // Create new array of equal size
             QSurfaceDataArray newArray;
             newArray.reserve(rowCount);
