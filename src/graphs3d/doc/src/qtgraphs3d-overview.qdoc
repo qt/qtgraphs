@@ -39,15 +39,18 @@
         \li \l{3D Surface Graphs}{3D surface graphs}
     \endlist
 
-    The QQuickGraphsItem class subclasses a QQuick3DViewport and provides a renderer based on
-    QtQuick3D for its own subclasses that implement the different graph types: Q3DBars,
-    Q3DScatter, and Q3DSurface. The graph type determines how the data is
-    presented.
+    The Q3DGraphsWidgetItem class provides a widget API for its own subclasses,
+    Q3DBarsWidgetItem, Q3DScatterWidgetItem, and Q3DSurfaceWidgetItem that implement the different
+    graph types: bars, scatter, and surface. The graph type determines how the data is presented.
+
+    All rendering happens in \c QQuickGraphsItem, which inherits a \c QQuick3DViewport, which in
+    turn offers a \l View3D using QtQuick3D. It has its own subclasses for Bars3D, Scatter3D,
+    and Surface3D.
 
     \section2 3D Bar Graphs
 
     3D bar graphs present data as 3D bars that are grouped by category. The
-    Q3DBars class is used to create a graph, and the QBar3DSeries and
+    Q3DGraphsWidgetItem class is used to create a graph, and the QBar3DSeries and
     QBarDataProxy classes are used to set data to the graph, as well as to
     control the visual properties of the graph, such as draw mode and shading.
     In QML, the corresponding types are Bars3D, Bar3DSeries, and BarDataProxy.
@@ -59,7 +62,7 @@
 
     \section2 3D Scatter Graphs
 
-    3D scatter graphs present data as a collection of points. The Q3DScatter
+    3D scatter graphs present data as a collection of points. The Q3DScatterWidgetItem
     class is used to create a graph, and the QScatter3DSeries and
     QScatterDataProxy classes are used to set data to the graph, as well as to
     control the visual properties of the graph. In QML, the corresponding types
@@ -72,7 +75,7 @@
 
     \section2 3D Surface Graphs
 
-    3D surface graphs present data as 3D surface plots. The Q3DSurface class is
+    3D surface graphs present data as 3D surface plots. The Q3DSurfaceWidgetItem class is
     used to create a graph, and the QSurface3DSeries and QSurfaceDataProxy
     classes are used to set data to the graph, as well as to control the visual
     properties of the graph. In QML, the corresponding types are Surface3D,
@@ -124,14 +127,14 @@
     specializations of the QAbstract3DAxis class or the Abstract3DAxis QML type.
 
     A value axis can be given a range of values and segment and subsegment
-    counts to divide the range into. Labels are drawn between each segment.
-    Grid lines are drawn between each segment and each subsegment. The value
+    counts to divide the range. Labels are drawn between each segment by default.
+    Grid lines are drawn between each segment and each subsegment by default. The value
     axis is implemented using the QValue3DAxis class or the Value3DAxis QML type.
 
     A category axis has named ranges and adjustable range widths. It is divided
     into equal-sized categories based on the data window size defined by the
-    axis range. Labels are drawn to the positions of categories, if provided.
-    Grid lines are drawn between categories, if visible. A category axis is
+    axis range. Labels are drawn to the positions of categories by default if provided.
+    Grid lines are drawn between categories by default. A category axis is
     implemented using the QCategory3DAxis class or the Category3DAxis QML type.
 
     If no axes are set explicitly for a graph, temporary default axes with no

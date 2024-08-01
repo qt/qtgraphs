@@ -91,6 +91,9 @@
         }
     }
     \endcode
+
+    Adding \l{QtQuick3D::Node}{Nodes} directly as children to the graph will not work, as the
+    default child for a graph is the corresponding series.
 */
 
 /*!
