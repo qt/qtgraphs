@@ -83,6 +83,16 @@ Rectangle {
             }
         }
     }
+    Rectangle {
+        x: chartView.x + chartView.plotArea.x
+        y: chartView.y + chartView.plotArea.y
+        width: chartView.plotArea.width
+        height: chartView.plotArea.height
+        color: "transparent"
+        border.color: "red"
+        border.width: 2
+        visible: checkBoxShowPlotArea.checked
+    }
 
     SettingsView {
         id: settingsView
@@ -166,6 +176,11 @@ Rectangle {
         CustomCheckBox {
             id: checkBoxCustomBars
             text: "Use Custom Bars"
+            checked: false
+        }
+        CustomCheckBox {
+            id: checkBoxShowPlotArea
+            text: "Show Plot Area"
             checked: false
         }
         CustomCheckBox {

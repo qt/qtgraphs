@@ -903,6 +903,21 @@ void QGraphsView::setMarginRight(qreal newMarginRight)
     emit marginRightChanged();
 }
 
+/*!
+    \property QGraphsView::plotArea
+    \since 6.9
+    \brief The rectangle within which the graph is drawn.
+
+    This is the QGraphsView area minus axis areas and margins.
+    \sa marginTop, marginBottom, marginLeft, marginRight
+*/
+/*!
+    \qmlproperty rect GraphsView::plotArea
+    \since 6.9
+    The rectangle within which the graph is drawn.
+    This is the GraphsView area minus axis areas and margins.
+    \sa marginTop, marginBottom, marginLeft, marginRight
+*/
 QRectF QGraphsView::plotArea() const
 {
     return m_plotArea;
@@ -982,8 +997,10 @@ void QGraphsView::updatePlotArea()
     w = qMax(w, 0.0);
     h = qMax(h, 0.0);
     QRectF plotArea = QRectF(x, y, w, h);
-    if (plotArea != m_plotArea)
+    if (plotArea != m_plotArea) {
         m_plotArea = plotArea;
+        emit plotAreaChanged();
+    }
 }
 
 /*!

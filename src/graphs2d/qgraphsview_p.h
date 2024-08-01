@@ -39,6 +39,7 @@ class Q_GRAPHS_EXPORT QGraphsView : public QQuickItem
     Q_PROPERTY(qreal marginBottom READ marginBottom WRITE setMarginBottom NOTIFY marginBottomChanged FINAL)
     Q_PROPERTY(qreal marginLeft READ marginLeft WRITE setMarginLeft NOTIFY marginLeftChanged FINAL)
     Q_PROPERTY(qreal marginRight READ marginRight WRITE setMarginRight NOTIFY marginRightChanged FINAL)
+    Q_PROPERTY(QRectF plotArea READ plotArea NOTIFY plotAreaChanged REVISION(6, 9))
 
     Q_PROPERTY(qreal axisXSmoothing READ axisXSmoothing WRITE setAxisXSmoothing NOTIFY axisXSmoothingChanged FINAL)
     Q_PROPERTY(qreal axisYSmoothing READ axisYSmoothing WRITE setAxisYSmoothing NOTIFY axisYSmoothingChanged FINAL)
@@ -160,6 +161,7 @@ Q_SIGNALS:
     void marginBottomChanged();
     void marginLeftChanged();
     void marginRightChanged();
+    Q_REVISION(6, 9) void plotAreaChanged();
     void hoverEnter(const QString &seriesName, QPointF position, QPointF value);
     void hoverExit(const QString &seriesName, QPointF position);
     void hover(const QString &seriesName, QPointF position, QPointF value);
