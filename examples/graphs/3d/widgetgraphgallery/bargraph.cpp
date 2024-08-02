@@ -17,31 +17,32 @@ using namespace Qt::StringLiterals;
 
 BarGraph::BarGraph(QWidget *parent)
 {
-    m_barsWidget = new QWidget(parent);
+    Q_UNUSED(parent)
+    //! [creation]
+    m_quickWidget = new QQuickWidget();
+    m_barGraph = new Q3DBarsWidgetItem(this);
+    m_barGraph->setWidget(m_quickWidget);
+    //! [creation]
     initialize();
 }
 
 void BarGraph::initialize()
 {
-    //! [0]
-    // m_barsGraph = new Q3DBarsWidgetItem();
-    m_barGraphWidget = new BarGraphWidget();
-    m_barGraphWidget->initialize();
-    //! [0]
-    //! [1]
-    auto *hLayout = new QHBoxLayout(m_barsWidget);
-    QSize screenSize = m_barGraphWidget->screen()->size();
-    m_barGraphWidget->setMinimumSize(QSize(screenSize.width() / 2, screenSize.height() / 1.75));
-    m_barGraphWidget->setMaximumSize(screenSize);
-    m_barGraphWidget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-    m_barGraphWidget->setFocusPolicy(Qt::StrongFocus);
-    hLayout->addWidget(m_barGraphWidget, 1);
+    //! [adding to layout]
+    m_container = new QWidget();
+    auto *hLayout = new QHBoxLayout(m_container);
+    QSize screenSize = m_quickWidget->screen()->size();
+    m_quickWidget->setMinimumSize(QSize(screenSize.width() / 2, screenSize.height() / 1.75));
+    m_quickWidget->setMaximumSize(screenSize);
+    m_quickWidget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    m_quickWidget->setFocusPolicy(Qt::StrongFocus);
+    hLayout->addWidget(m_quickWidget, 1);
 
     auto *vLayout = new QVBoxLayout();
     hLayout->addLayout(vLayout);
-    //! [1]
+    //! [adding to layout]
 
-    auto *themeList = new QComboBox(m_barsWidget);
+    auto *themeList = new QComboBox(m_container);
     themeList->addItem(u"QtGreen"_s);
     themeList->addItem(u"QtGreenNeon"_s);
     themeList->addItem(u"MixSeries"_s);
@@ -52,14 +53,14 @@ void BarGraph::initialize()
     themeList->addItem(u"GreySeries"_s);
     themeList->setCurrentIndex(0);
 
-    auto *labelButton = new QPushButton(m_barsWidget);
+    auto *labelButton = new QPushButton(m_container);
     labelButton->setText(u"Change label style"_s);
 
-    auto *smoothCheckBox = new QCheckBox(m_barsWidget);
+    auto *smoothCheckBox = new QCheckBox(m_container);
     smoothCheckBox->setText(u"Smooth bars"_s);
     smoothCheckBox->setChecked(false);
 
-    auto *barStyleList = new QComboBox(m_barsWidget);
+    auto *barStyleList = new QComboBox(m_container);
     const QMetaObject &metaObj = QAbstract3DSeries::staticMetaObject;
     int index = metaObj.indexOfEnumerator("Mesh");
     QMetaEnum metaEnum = metaObj.enumerator(index);
@@ -78,13 +79,13 @@ void BarGraph::initialize()
                           metaEnum.value(static_cast<int>(QAbstract3DSeries::Mesh::UserDefined)));
     barStyleList->setCurrentIndex(4);
 
-    auto *cameraButton = new QPushButton(m_barsWidget);
+    auto *cameraButton = new QPushButton(m_container);
     cameraButton->setText(u"Change camera preset"_s);
 
-    auto *zoomToSelectedButton = new QPushButton(m_barsWidget);
+    auto *zoomToSelectedButton = new QPushButton(m_container);
     zoomToSelectedButton->setText(u"Zoom to selected bar"_s);
 
-    auto *selectionModeList = new QComboBox(m_barsWidget);
+    auto *selectionModeList = new QComboBox(m_container);
     selectionModeList->addItem(u"None"_s, int(QtGraphs3D::SelectionFlag::None));
     selectionModeList->addItem(u"Bar"_s, int(QtGraphs3D::SelectionFlag::Item));
     selectionModeList->addItem(u"Row"_s, int(QtGraphs3D::SelectionFlag::Row));
@@ -119,48 +120,48 @@ void BarGraph::initialize()
                                    | QtGraphs3D::SelectionFlag::MultiSeries));
     selectionModeList->setCurrentIndex(1);
 
-    auto *backgroundCheckBox = new QCheckBox(m_barsWidget);
+    auto *backgroundCheckBox = new QCheckBox(m_container);
     backgroundCheckBox->setText(u"Show graph background"_s);
     backgroundCheckBox->setChecked(false);
 
-    auto *gridCheckBox = new QCheckBox(m_barsWidget);
+    auto *gridCheckBox = new QCheckBox(m_container);
     gridCheckBox->setText(u"Show grid"_s);
     gridCheckBox->setChecked(true);
 
-    auto *seriesCheckBox = new QCheckBox(m_barsWidget);
+    auto *seriesCheckBox = new QCheckBox(m_container);
     seriesCheckBox->setText(u"Show second series"_s);
     seriesCheckBox->setChecked(false);
 
-    auto *reverseValueAxisCheckBox = new QCheckBox(m_barsWidget);
+    auto *reverseValueAxisCheckBox = new QCheckBox(m_container);
     reverseValueAxisCheckBox->setText(u"Reverse value axis"_s);
     reverseValueAxisCheckBox->setChecked(false);
 
-    //! [3]
-    auto *rotationSliderX = new QSlider(Qt::Horizontal, m_barsWidget);
+    //! [creating a slider]
+    auto *rotationSliderX = new QSlider(Qt::Horizontal, m_container);
     rotationSliderX->setTickInterval(30);
     rotationSliderX->setTickPosition(QSlider::TicksBelow);
     rotationSliderX->setMinimum(-180);
     rotationSliderX->setValue(0);
     rotationSliderX->setMaximum(180);
-    //! [3]
-    auto *rotationSliderY = new QSlider(Qt::Horizontal, m_barsWidget);
+    //! [creating a slider]
+    auto *rotationSliderY = new QSlider(Qt::Horizontal, m_container);
     rotationSliderY->setTickInterval(15);
     rotationSliderY->setTickPosition(QSlider::TicksAbove);
     rotationSliderY->setMinimum(-90);
     rotationSliderY->setValue(0);
     rotationSliderY->setMaximum(90);
 
-    auto *fontSizeSlider = new QSlider(Qt::Horizontal, m_barsWidget);
+    auto *fontSizeSlider = new QSlider(Qt::Horizontal, m_container);
     fontSizeSlider->setTickInterval(10);
     fontSizeSlider->setTickPosition(QSlider::TicksBelow);
     fontSizeSlider->setMinimum(1);
     fontSizeSlider->setValue(30);
     fontSizeSlider->setMaximum(100);
 
-    auto *fontList = new QFontComboBox(m_barsWidget);
+    auto *fontList = new QFontComboBox(m_container);
     fontList->setCurrentFont(QFont("Times New Roman"));
 
-    auto *shadowQuality = new QComboBox(m_barsWidget);
+    auto *shadowQuality = new QComboBox(m_container);
     shadowQuality->addItem(u"None"_s);
     shadowQuality->addItem(u"Low"_s);
     shadowQuality->addItem(u"Medium"_s);
@@ -170,7 +171,7 @@ void BarGraph::initialize()
     shadowQuality->addItem(u"High Soft"_s);
     shadowQuality->setCurrentIndex(5);
 
-    auto *rangeList = new QComboBox(m_barsWidget);
+    auto *rangeList = new QComboBox(m_container);
     rangeList->addItem(u"2015"_s);
     rangeList->addItem(u"2016"_s);
     rangeList->addItem(u"2017"_s);
@@ -182,32 +183,32 @@ void BarGraph::initialize()
     rangeList->addItem(u"All"_s);
     rangeList->setCurrentIndex(8);
 
-    auto *axisTitlesVisibleCB = new QCheckBox(m_barsWidget);
+    auto *axisTitlesVisibleCB = new QCheckBox(m_container);
     axisTitlesVisibleCB->setText(u"Axis titles visible"_s);
     axisTitlesVisibleCB->setChecked(true);
 
-    auto *axisTitlesFixedCB = new QCheckBox(m_barsWidget);
+    auto *axisTitlesFixedCB = new QCheckBox(m_container);
     axisTitlesFixedCB->setText(u"Axis titles fixed"_s);
     axisTitlesFixedCB->setChecked(true);
 
-    auto *axisLabelRotationSlider = new QSlider(Qt::Horizontal, m_barsWidget);
+    auto *axisLabelRotationSlider = new QSlider(Qt::Horizontal, m_container);
     axisLabelRotationSlider->setTickInterval(10);
     axisLabelRotationSlider->setTickPosition(QSlider::TicksBelow);
     axisLabelRotationSlider->setMinimum(0);
     axisLabelRotationSlider->setValue(30);
     axisLabelRotationSlider->setMaximum(90);
 
-    auto *modeGroup = new QButtonGroup(m_barsWidget);
-    auto *modeWeather = new QRadioButton(u"Temperature Data"_s, m_barsWidget);
+    auto *modeGroup = new QButtonGroup(m_container);
+    auto *modeWeather = new QRadioButton(u"Temperature Data"_s, m_container);
     modeWeather->setChecked(true);
-    auto *modeCustomProxy = new QRadioButton(u"Custom Proxy Data"_s, m_barsWidget);
+    auto *modeCustomProxy = new QRadioButton(u"Custom Proxy Data"_s, m_container);
     modeGroup->addButton(modeWeather);
     modeGroup->addButton(modeCustomProxy);
 
-    //! [4]
+    //! [adding the slider]
     vLayout->addWidget(new QLabel(u"Rotate horizontally"_s));
     vLayout->addWidget(rotationSliderX, 0, Qt::AlignTop);
-    //! [4]
+    //! [adding the slider]
     vLayout->addWidget(new QLabel(u"Rotate vertically"_s));
     vLayout->addWidget(rotationSliderY, 0, Qt::AlignTop);
     vLayout->addWidget(labelButton, 0, Qt::AlignTop);
@@ -240,16 +241,16 @@ void BarGraph::initialize()
     vLayout->addWidget(modeCustomProxy, 1, Qt::AlignTop);
 
     // Raise the graph to the top of the widget stack, to hide UI if resized smaller
-    m_barGraphWidget->raise();
+    m_quickWidget->raise();
 
-    //! [2]
-    m_modifier = new GraphModifier(m_barGraphWidget->barGraphs(), this);
+    //! [create the data handler]
+    m_modifier = new GraphModifier(m_barGraph, this);
+    //! [create the data handler]
     m_modifier->changeTheme(themeList->currentIndex());
-    //! [2]
 
-    //! [5]
+    //! [connecting the slider]
     QObject::connect(rotationSliderX, &QSlider::valueChanged, m_modifier, &GraphModifier::rotateX);
-    //! [5]
+    //! [connecting the slider]
     QObject::connect(rotationSliderY, &QSlider::valueChanged, m_modifier, &GraphModifier::rotateY);
 
     QObject::connect(labelButton,
@@ -324,7 +325,7 @@ void BarGraph::initialize()
                      &GraphModifier::shadowQualityChanged,
                      shadowQuality,
                      &QComboBox::setCurrentIndex);
-    QObject::connect(m_barGraphWidget->barGraphs(),
+    QObject::connect(m_barGraph,
                      &Q3DBarsWidgetItem::shadowQualityChanged,
                      m_modifier,
                      &GraphModifier::shadowQualityUpdatedByVisual);

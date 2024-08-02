@@ -27,11 +27,12 @@ ScatterDataModifier::ScatterDataModifier(Q3DScatterWidgetItem *scatter, QObject 
     , m_curveDivider(lowerCurveDivider)
 {
     //! [0]
-    m_graph->activeTheme()->setTheme(QGraphsTheme::Theme::MixSeries);
-    m_graph->activeTheme()->setColorScheme(QGraphsTheme::ColorScheme::Dark);
     m_graph->setShadowQuality(QtGraphs3D::ShadowQuality::SoftHigh);
     m_graph->setCameraPreset(QtGraphs3D::CameraPreset::Front);
     m_graph->setCameraZoomLevel(80.f);
+    // These are set through active theme
+    m_graph->activeTheme()->setTheme(QGraphsTheme::Theme::MixSeries);
+    m_graph->activeTheme()->setColorScheme(QGraphsTheme::ColorScheme::Dark);
     //! [0]
 
     //! [1]
@@ -159,8 +160,8 @@ void ScatterDataModifier::handleElementSelected(QtGraphs3D::ElementType type)
 
 //! [10]
 void ScatterDataModifier::handleAxisDragging(QVector2D delta)
+//! [10]
 {
-    //! [10]
     float distance = 0.0f;
     //! [11]
     // Get scene orientation from active camera

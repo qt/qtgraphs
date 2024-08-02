@@ -23,8 +23,8 @@ public:
     void changeLabelBackground();
     void changeFont(const QFont &font);
     void changeFontSize(int fontsize);
-    void rotateX(int rotation);
-    void rotateY(int rotation);
+    void rotateX(int angle);
+    void rotateY(int angle);
     void setBackgroundVisible(int visible);
     void setGridVisible(int visible);
     void setSmoothBars(int smooth);
