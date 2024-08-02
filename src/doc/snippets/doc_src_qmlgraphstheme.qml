@@ -45,7 +45,6 @@ Window {
             labelTextColor: "white"
             multiHighlightColor: "green"
             singleHighlightColor: "darkRed"
-            backgroundColor: "white"
         }
         //! [surface]
     }
