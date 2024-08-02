@@ -47,7 +47,6 @@ if(QT_FEATURE_graphs_3d)
         if(QT_FEATURE_graphs_3d_scatter3d)
             add_subdirectory(custominput)
             add_subdirectory(directional)
-            #add_subdirectory(galaxy) # TODO: Doesn't compile with cmake - qmake works
             add_subdirectory(minimalscatter)
             add_subdirectory(rotations)
             add_subdirectory(scattertest)
