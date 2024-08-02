@@ -24,7 +24,6 @@ SOURCES += main.cpp \
     surfacegraphmodifier.cpp \
     highlightseries.cpp \
     topographicseries.cpp \
-    bargraphwidget.cpp \
     scattergraphwidget.cpp \
     surfacegraphwidget.cpp
 
@@ -41,7 +40,6 @@ HEADERS += \
     surfacegraphmodifier.h \
     highlightseries.h \
     topographicseries.h \
-    bargraphwidget.h \
     scattergraphwidget.h \
     surfacegraphwidget.h
 

@@ -25,7 +25,7 @@ find_package(Qt6 COMPONENTS GraphsWidgets)
 qt_add_executable(widgetgraphgallery
     main.cpp
     bargraph.cpp bargraph.h
-    bargraphwidget.h bargraphwidget.cpp
+
     graphmodifier.cpp graphmodifier.h
     rainfalldata.cpp rainfalldata.h
     variantbardatamapping.cpp variantbardatamapping.h

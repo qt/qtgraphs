@@ -6,7 +6,6 @@
 
 #include <QtCore/qobject.h>
 #include <QtGraphsWidgets/q3dbarswidgetitem.h>
-#include "bargraphwidget.h"
 #include "graphmodifier.h"
 
 class BarGraph : public QObject
@@ -16,13 +15,13 @@ public:
     BarGraph(QWidget *parent = nullptr);
 
     void initialize();
-    QWidget *barsWidget() { return m_barsWidget; }
+    QWidget *barsWidget() { return m_container; }
 
 private:
     GraphModifier *m_modifier = nullptr;
-    // Q3DBarsWidgetItem *m_barsGraph = nullptr;
-    BarGraphWidget *m_barGraphWidget = nullptr;
-    QWidget *m_barsWidget = nullptr;
+    Q3DBarsWidgetItem *m_barGraph = nullptr;
+    QQuickWidget *m_quickWidget = nullptr;
+    QWidget *m_container = nullptr;
 };
 
 #endif

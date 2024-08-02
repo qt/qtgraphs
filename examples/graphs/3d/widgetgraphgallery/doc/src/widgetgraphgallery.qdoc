@@ -3,7 +3,7 @@
 
 /*!
     \example 3d/widgetgraphgallery
-    \meta tags {Graphs, Q3DBars, Bar Graph, Custom Proxy, Q3DScatter, Scatter Graph, Custom Input Handler, Q3DSurface, Surface Graph, QCustom3DItem, Textured Surface}
+    \meta tags {Graphs, Bar Graph, Custom Proxy, Scatter Graph, Custom Input Handler, Surface Graph, QCustom3DItem, Textured Surface}
     \examplecategory {Data Visualization}
     \title Graph Gallery
     \ingroup qtgraphs_examples_3D
@@ -18,15 +18,15 @@
 
     \section1 Bar Graph
 
-    In the \uicontrol {Bar Graph} tab, create a 3D bar graph using Q3DBars and combine the use of
-    widgets to adjust various bar graph qualities. The example shows how to:
+    In the \uicontrol {Bar Graph} tab, create a 3D bar graph using Q3DBarWidgetItem and combine
+    the use of widgets to adjust various bar graph qualities. The example shows how to:
 
     \list
-        \li Create an application with Q3DBars and some widgets
+        \li Create an application with Q3DBarWidgetItem and some control widgets
         \li Use QBar3DSeries and QBarDataProxy to set data to the graph
         \li Adjust some graph and series properties using widget controls
         \li Select a row or a column by clicking an axis label
-        \li Create a custom proxy to use with Q3DBars
+        \li Create a custom proxy to use with Q3DBarWidgetItem
     \endlist
 
     For information about interacting with the graph, see
@@ -34,100 +34,96 @@
 
     \section2 Creating the Application
 
-    First, in \c{bargraph.cpp}, instantiate Q3DBars:
+    First, in \c{bargraph.cpp}, instantiate QQuickWidget and Q3DBarsWidgetItem, and set
+    the QQuickWidget instance as the widget for Q3DBarsWidgetItem:
 
-    \snippet 3d/widgetgraphgallery/bargraph.cpp 0
+    \snippet 3d/widgetgraphgallery/bargraph.cpp creation
 
-    Then, create the widget, and horizontal and vertical layouts.
+    Then, create a container widget, and horizontal and vertical layouts. Add the graph and the
+    vertical layout to the horizontal one:
 
-    The graph is embedded in a window container using
-    QWidget::createWindowContainer(). This is required because all data
-    visualization graph classes (Q3DBars, Q3DScatter, Q3DSurface) inherit
-    QWindow. This is the only way to use a class inheriting QWindow as a widget.
-
-    Add the graph and the vertical layout to the
-    horizontal one:
-
-    \snippet 3d/widgetgraphgallery/bargraph.cpp 1
+    \snippet 3d/widgetgraphgallery/bargraph.cpp adding to layout
 
     Next, create another class to handle the data addition and other interaction with the
     graph:
 
-    \snippet 3d/widgetgraphgallery/bargraph.cpp 2
+    \snippet 3d/widgetgraphgallery/bargraph.cpp create the data handler
 
     \section2 Setting up the Bar Graph
 
     Set up the graph in the constructor of the \c GraphModifier class:
 
-    \snippet 3d/widgetgraphgallery/graphmodifier.cpp 0
+    \snippet 3d/widgetgraphgallery/graphmodifier.cpp set up the graph
 
     First, create the axes and the series into member variables to support changing them easily:
 
-    \snippet 3d/widgetgraphgallery/graphmodifier.cpp 1
+    \snippet 3d/widgetgraphgallery/graphmodifier.cpp set up axes
 
     Then, set some visual qualities for the graph:
 
-    \snippet 3d/widgetgraphgallery/graphmodifier.cpp 2
+    \snippet 3d/widgetgraphgallery/graphmodifier.cpp adjust visuals
 
     Set up the axes and make them the active axes of the graph:
 
-    \snippet 3d/widgetgraphgallery/graphmodifier.cpp 3
+    \snippet 3d/widgetgraphgallery/graphmodifier.cpp activate axes
 
-    Give axis labels a small autorotation angle with setLabelAutoRotation() to make them orient
-    slightly toward the camera. This improves axis label readability at extreme camera angles.
+    Give axis labels a small autorotation angle:
+
+    \snippet 3d/widgetgraphgallery/graphmodifier.cpp auto angle
+
+    This is done to make them orient slightly toward the camera, which improves axis label
+    readability at extreme camera angles.
 
     Next, initialize the visual properties of the series. Note that the second series is initially
     not visible:
 
-    \snippet 3d/widgetgraphgallery/graphmodifier.cpp 4
+    \snippet 3d/widgetgraphgallery/graphmodifier.cpp initialize series visuals
 
     Add the series to the graph:
 
-    \snippet 3d/widgetgraphgallery/graphmodifier.cpp 5
+    \snippet 3d/widgetgraphgallery/graphmodifier.cpp add series
 
     Finally, set the camera angle by calling the same method the camera angle change button
     in the UI uses to cycle through various camera angles:
 
-    \snippet 3d/widgetgraphgallery/graphmodifier.cpp 6
+    \snippet 3d/widgetgraphgallery/graphmodifier.cpp invoke camera preset
 
-    The camera is controlled via the scene object of the graph:
+    The new camera preset is set to the graph:
 
-    \snippet 3d/widgetgraphgallery/graphmodifier.cpp 7
-
-    For more information about using scene, see Q3DScene.
+    \snippet 3d/widgetgraphgallery/graphmodifier.cpp change the preset
 
     \section2 Adding Data to the Graph
 
     At the end of the constructor, call a method that sets up the data:
 
-    \snippet 3d/widgetgraphgallery/graphmodifier.cpp 8
+    \snippet 3d/widgetgraphgallery/graphmodifier.cpp invoke data reset
 
     This method adds data to the relevant series using proxies of the two series:
 
-    \snippet 3d/widgetgraphgallery/graphmodifier.cpp 9a
+    \snippet 3d/widgetgraphgallery/graphmodifier.cpp set up data
     \dots 0
-    \snippet 3d/widgetgraphgallery/graphmodifier.cpp 9b
+    \snippet 3d/widgetgraphgallery/graphmodifier.cpp populate series vie proxies
 
     \section2 Using Widgets to Control the Graph
 
     Continue by adding some widgets in \c{bargraph.cpp}. Add a slider:
 
-    \snippet 3d/widgetgraphgallery/bargraph.cpp 3
+    \snippet 3d/widgetgraphgallery/bargraph.cpp creating a slider
 
     Use the slider to rotate the graph instead of just using a mouse or touch. Add it to the
     vertical layout:
 
-    \snippet 3d/widgetgraphgallery/bargraph.cpp 4
+    \snippet 3d/widgetgraphgallery/bargraph.cpp adding the slider
 
     Then, connect it to a method in \c GraphModifier:
 
-    \snippet 3d/widgetgraphgallery/bargraph.cpp 5
+    \snippet 3d/widgetgraphgallery/bargraph.cpp connecting the slider
 
-    Create a slot in \c GraphModifier for the signal connection. The camera is controlled via the
-    scene object. This time, specify the actual camera position along the orbit around the center
-    point, instead of specifying a preset camera angle:
+    Create a slot in \c GraphModifier for the signal connection. This time, specify the actual
+    camera position along the orbit around the center point, instead of specifying a preset camera
+    angle:
 
-    \snippet 3d/widgetgraphgallery/graphmodifier.cpp 10
+    \snippet 3d/widgetgraphgallery/graphmodifier.cpp rotate camera
 
     You can now use the slider to rotate the graph.
 
@@ -176,7 +172,7 @@
     As an example of adjusting the camera target, implement an animation of zooming to
     selection via a button press. Animation initializations are done in the constructor:
 
-    \snippet 3d/widgetgraphgallery/graphmodifier.cpp 11
+    \snippet 3d/widgetgraphgallery/graphmodifier.cpp animation setup
 
     Function \c{GraphModifier::zoomToSelectedBar()} contains the zooming functionality.
     QPropertyAnimation \c m_animationCameraTarget targets
@@ -186,14 +182,14 @@
     Figure out where the selected bar is relative to axes, and use that as the end value for
     \c{m_animationCameraTarget}:
 
-    \snippet 3d/widgetgraphgallery/graphmodifier.cpp 12
+    \snippet 3d/widgetgraphgallery/graphmodifier.cpp calculate target
     \dots 0
-    \snippet 3d/widgetgraphgallery/graphmodifier.cpp 13
+    \snippet 3d/widgetgraphgallery/graphmodifier.cpp set target
 
     Then, rotate the camera so that it always points approximately to the center of
     the graph at the end of the animation:
 
-    \snippet 3d/widgetgraphgallery/graphmodifier.cpp 14
+    \snippet 3d/widgetgraphgallery/graphmodifier.cpp center camera
 
     \section2 Custom Proxy for Data
 
@@ -285,11 +281,11 @@
 
     \section1 Scatter Graph
 
-    In the \uicontrol {Scatter Graph} tab, create a 3D scatter graph using Q3DScatter.
+    In the \uicontrol {Scatter Graph} tab, create a 3D scatter graph using Q3DScatterWidgetItem.
     The example shows how to:
 
     \list
-        \li Set up Q3DScatter graph
+        \li Set up Q3DScatterWidgetItem graph
         \li Use QScatterDataProxy to set data to the graph
         \li Create and add a custom input handler
     \endlist
@@ -340,7 +336,7 @@
     \section2 Replacing Default Input Handling
 
     Replace the default input handling mechanism by setting the new input handlers of
-    Q3DScatter, which implements the custom behavior:
+    Q3DScatterWidgetItem, which implements the custom behavior:
 
     \snippet 3d/widgetgraphgallery/scatterdatamodifier.cpp 8
 
@@ -388,7 +384,7 @@
 
     \section1 Surface Graph
 
-    In the \uicontrol {Surface Graph} tab, create a 3D surface graph using Q3DSurface.
+    In the \uicontrol {Surface Graph} tab, create a 3D surface graph using Q3DSurfaceWidgetItem.
     The example shows how to:
 
     \list
@@ -484,7 +480,7 @@
 
     \section2 Selection Modes
 
-    The three selection modes supported by Q3DSurface can be used with radio buttons.
+    The three selection modes supported by Q3DSurfaceWidgetItem can be used with radio buttons.
     To activate the selected mode or to clear it, add the following inline methods:
 
     \snippet 3d/widgetgraphgallery/surfacegraphmodifier.h 0
