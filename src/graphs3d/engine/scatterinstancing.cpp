@@ -87,8 +87,16 @@ void ScatterInstancing::setDataArray(const QList<DataItemHolder> &newDataArray)
 
 void ScatterInstancing::hideDataItem(qsizetype index)
 {
+    unhidePreviousDataItem();
     Q_ASSERT(index < m_dataArray.size());
     m_dataArray[index].hide = true;
+    m_previousHideIndex = index;
+}
+
+void ScatterInstancing::unhidePreviousDataItem()
+{
+    if (m_previousHideIndex >= 0)
+        m_dataArray[m_previousHideIndex].hide = false;
 }
 
 void ScatterInstancing::resetVisibilty()
