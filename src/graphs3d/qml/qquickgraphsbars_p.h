@@ -289,7 +289,7 @@ private:
     int m_visibleSeriesCount = 0;
     QQuick3DTexture *m_highlightTexture = nullptr;
     QQuick3DTexture *m_multiHighlightTexture = nullptr;
-    QHash<QBar3DSeries *, QList<BarModel *> *> m_slicedBarModels;
+    QHash<QBar3DSeries *, QList<BarModel *>> m_slicedBarModels;
     bool m_selectionDirty = false;
 
     void calculateHeightAdjustment();
