@@ -604,7 +604,7 @@ QQuickGraphsItem::QQuickGraphsItem(QQuickItem *parent)
     m_qml = this;
 
     // Set initial theme
-    QGraphsTheme *theme = new QGraphsTheme();
+    QGraphsTheme *theme = new QGraphsTheme(m_scene);
     setTheme(theme);
     QGraphsLine grid = theme->grid();
     grid.setMainWidth(0.25);
