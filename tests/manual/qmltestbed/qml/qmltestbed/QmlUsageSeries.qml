@@ -123,6 +123,21 @@ Rectangle {
                     col.nx--
                 }
             }
+
+            Button {
+                text: "Clear"
+                Layout.margins: 20
+
+                onClicked: {
+                    line.clear()
+                    scatter.clear()
+                    bar.clear()
+                    areaSpline.clear()
+                    areaLine.clear()
+
+                    col.nx = 1
+                }
+            }
         }
     }
 }

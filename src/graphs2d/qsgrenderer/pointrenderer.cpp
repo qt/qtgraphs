@@ -306,8 +306,24 @@ void PointRenderer::handlePolish(QXYSeries *series)
     if (!m_graph->m_axisRenderer)
         return;
 
-    if (series->points().isEmpty())
+    if (series->points().isEmpty()) {
+        auto group = m_groups.value(series);
+
+        if (group) {
+            if (group->shapePath) {
+                auto &painterPath = group->painterPath;
+                painterPath.clear();
+                group->shapePath->setPath(painterPath);
+            }
+
+            for (auto m : group->markers)
+                m->deleteLater();
+
+            group->markers.clear();
+        }
+
         return;
+    }
 
     if (width() <= 0 || height() <= 0)
         return;
@@ -411,8 +427,11 @@ void PointRenderer::afterPolish(QList<QAbstractSeries *> &cleanupSeries)
             for (auto marker : group->markers)
                 marker->deleteLater();
 
-            if (group->shapePath)
-                group->shapePath->setPath(QPainterPath());
+            if (group->shapePath) {
+                auto painterPath = group->painterPath;
+                painterPath.clear();
+                group->shapePath->setPath(painterPath);
+            }
 
             delete group;
             m_groups.remove(xySeries);
