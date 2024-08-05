@@ -2204,12 +2204,9 @@ void QQuickGraphsBars::createSliceView()
 
     QList<QBar3DSeries *> barSeries = barSeriesList();
     for (const auto &barSeries : std::as_const(barSeries)) {
-        QList<BarModel *> *slicedBarList = m_slicedBarModels.value(barSeries);
-        if (!slicedBarList) {
-            slicedBarList = new QList<BarModel *>;
-            m_slicedBarModels[barSeries] = slicedBarList;
-        }
-        if (slicedBarList->isEmpty()) {
+        QList<BarModel *> &slicedBarList = m_slicedBarModels[barSeries];
+
+        if (slicedBarList.isEmpty()) {
             if (optimizationHint() == QtGraphs3D::OptimizationHint::Legacy) {
                 qsizetype dataRowIndex = m_minRow;
                 qsizetype newRowSize = qMin(barSeries->dataProxy()->rowCount() - dataRowIndex,
@@ -2235,8 +2232,8 @@ void QQuickGraphsBars::createSliceView()
                     BarModel *barModel = new BarModel();
                     barModel->model = model;
 
-                    if (!slicedBarList->contains(barModel))
-                        slicedBarList->append(barModel);
+                    if (!slicedBarList.contains(barModel))
+                        slicedBarList.append(barModel);
                 }
             } else if (optimizationHint() == QtGraphs3D::OptimizationHint::Default) {
                 BarModel *barInstancing = new BarModel();
@@ -2259,8 +2256,8 @@ void QQuickGraphsBars::createSliceView()
                     barInstancing->multiSelectedModel->setVisible(false);
                 }
 
-                if (!slicedBarList->contains(barInstancing))
-                    slicedBarList->append(barInstancing);
+                if (!slicedBarList.contains(barInstancing))
+                    slicedBarList.append(barInstancing);
             }
         }
     }
@@ -2285,9 +2282,9 @@ void QQuickGraphsBars::toggleSliceGraph()
                               && it.key()->d_func()->m_colorStyle
                                       == QGraphsTheme::ColorStyle::RangeGradient);
         QList<BarModel *> barList = *m_barModelsMap.value(it.key());
-        QList<BarModel *> *sliceList = it.value();
+        QList<BarModel *> sliceList = it.value();
         if (optimizationHint() == QtGraphs3D::OptimizationHint::Legacy) {
-            for (int ind = 0; ind < it.value()->count(); ++ind) {
+            for (int ind = 0; ind < it.value().count(); ++ind) {
                 if (rowMode)
                     index = (m_selectedBar.x() * it.key()->dataProxy()->colCount()) + ind;
                 else
@@ -2297,7 +2294,7 @@ void QQuickGraphsBars::toggleSliceGraph()
                                 && it.key()->isVisible());
 
                 if (index < barList.size() && m_selectedBar != invalidSelectionPosition()) {
-                    BarModel *sliceBarModel = sliceList->at(ind);
+                    BarModel *sliceBarModel = sliceList.at(ind);
                     BarModel *barModel = barList.at(index);
 
                     sliceBarModel->model->setVisible(visible);
@@ -2340,8 +2337,8 @@ void QQuickGraphsBars::toggleSliceGraph()
             }
             setSliceActivatedChanged(false);
         } else if (optimizationHint() == QtGraphs3D::OptimizationHint::Default) {
-            deleteBarItemHolders(sliceList->at(0)->selectionInstancing);
-            deleteBarItemHolders(sliceList->at(0)->multiSelectionInstancing);
+            deleteBarItemHolders(sliceList.at(0)->selectionInstancing);
+            deleteBarItemHolders(sliceList.at(0)->multiSelectionInstancing);
             createBarItemHolders(it.key(), barList, true);
             setSliceActivatedChanged(false);
         }
@@ -2360,8 +2357,8 @@ void QQuickGraphsBars::handleLabelCountChanged(QQuick3DRepeater *repeater, QColo
 
 void QQuickGraphsBars::removeSlicedBarModels()
 {
-    for (const auto list : std::as_const(m_slicedBarModels)) {
-        for (auto barModel : *list) {
+    for (auto &list : std::as_const(m_slicedBarModels)) {
+        for (auto barModel : list) {
             if (optimizationHint() == QtGraphs3D::OptimizationHint::Legacy) {
                 deleteBarModels(barModel->model);
             } else if (optimizationHint() == QtGraphs3D::OptimizationHint::Default) {
@@ -2372,7 +2369,6 @@ void QQuickGraphsBars::removeSlicedBarModels()
             }
             delete barModel;
         }
-        delete list;
     }
 
     m_slicedBarModels.clear();
@@ -2388,17 +2384,17 @@ void QQuickGraphsBars::createBarItemHolders(QBar3DSeries *series,
     bool visible = ((m_selectedBarSeries == series
                      || selectionMode().testFlag(QtGraphs3D::SelectionFlag::MultiSeries))
                     && series->isVisible());
-    QList<BarItemHolder *> barItemList = *new QList<BarItemHolder *>;
-    QList<BarItemHolder *> multiBarItemList = *new QList<BarItemHolder *>;
+    QList<BarItemHolder *> barItemList;
+    QList<BarItemHolder *> multiBarItemList;
     QQuick3DModel *selectedModel = nullptr;
     QQuick3DModel *multiSelectedModel = nullptr;
-    QList<BarItemHolder *> selectedItem = *new QList<BarItemHolder *>;
-    QList<BarItemHolder *> multiSelectedItems = *new QList<BarItemHolder *>;
+    QList<BarItemHolder *> selectedItem;
+    QList<BarItemHolder *> multiSelectedItems;
     BarInstancing *instancing;
     BarInstancing *multiInstancing;
 
     if (slice) {
-        QList<BarModel *> sliceBarList = *m_slicedBarModels.value(series);
+        QList<BarModel *> sliceBarList = m_slicedBarModels.value(series);
         barItemList = barList.at(0)->selectionInstancing->dataArray();
         multiBarItemList = barList.at(0)->multiSelectionInstancing->dataArray();
         selectedModel = sliceBarList.at(0)->selectedModel;
