@@ -34,6 +34,7 @@ public:
     const QList<DataItemHolder> &dataArray() const;
     void setDataArray(const QList<DataItemHolder> &newDataArray);
     void hideDataItem(qsizetype index);
+    void unhidePreviousDataItem();
     void resetVisibilty();
 
     const QList<float> &customData() const;
@@ -59,6 +60,7 @@ private:
     int m_instanceCount = 0;
     bool m_dirty = true;
     bool m_rangeGradient = false;
+    qsizetype m_previousHideIndex = -1;
 };
 
 #endif // SCATTERINSTANCING_H
