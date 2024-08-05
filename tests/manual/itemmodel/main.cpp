@@ -203,13 +203,15 @@ int main(int argc, char **argv)
     QApplication app(argc, argv);
     Q3DBarsWidgetItem *graph = new Q3DBarsWidgetItem();
 
+    QWidget widget;
+    QQuickWidget qqwidget;
+    graph->setWidget(&qqwidget);
     QSize screenSize = graph->widget()->screen()->size();
     graph->widget()->setMinimumSize(QSize(screenSize.width() / 2, screenSize.height() / 2));
     graph->widget()->setMaximumSize(screenSize);
     graph->widget()->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     graph->widget()->setFocusPolicy(Qt::StrongFocus);
 
-    QWidget widget;
     QVBoxLayout *layout = new QVBoxLayout(&widget);
     QTableWidget *tableWidget = new QTableWidget(&widget);
     layout->addWidget(graph->widget(), 1);
