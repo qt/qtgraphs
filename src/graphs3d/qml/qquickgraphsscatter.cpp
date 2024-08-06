@@ -1550,9 +1550,8 @@ void QQuickGraphsScatter::setSelected(QQuick3DModel *newSelected)
 
 void QQuickGraphsScatter::setSelected(QQuick3DModel *root, qsizetype index)
 {
-    if (index != m_selectedItem) {
-        auto series = static_cast<QScatter3DSeries *>(root->parent());
-
+    auto series = static_cast<QScatter3DSeries *>(root->parent());
+    if (index != m_selectedItem || series != m_selectedItemSeries) {
         setSeriesVisualsDirty();
         setSelectedItem(index, series);
         setSelectedItemChanged(true);
