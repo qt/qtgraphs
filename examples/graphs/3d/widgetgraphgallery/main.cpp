@@ -15,9 +15,12 @@ int main(int argc, char **argv)
 {
     QApplication app(argc, argv);
 
-    // Create bar graph
+// QTBUG-127884: crash on iOS when using QQuickWidget in QTabWidget
+#ifndef Q_OS_IOS
     QTabWidget tabWidget;
+#endif
 
+    // Create bar graph
     BarGraph bars;
 
     // Create scatter graph
@@ -26,6 +29,8 @@ int main(int argc, char **argv)
     // Create surface graph
     SurfaceGraph surface;
 
+// QTBUG-127884: crash on iOS when using QQuickWidget in QTabWidget
+#ifndef Q_OS_IOS
     // Create a tab widget for creating own tabs for Q3DBarsWidgetItem, Q3DScatterWidgetItem, and Q3DSurfaceWidgetItem
     tabWidget.setWindowTitle(u"Graph Gallery"_s);
 
@@ -37,5 +42,11 @@ int main(int argc, char **argv)
     tabWidget.addTab(surface.surfaceWidget(), u"Surface Graph"_s);
 
     tabWidget.show();
+#else
+    bars.barsWidget()->show();
+    // scatter.scatterWidget()->show();
+    // surface.surfaceWidget()->show();
+#endif
+
     return app.exec();
 }
