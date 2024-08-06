@@ -482,10 +482,16 @@ void QGraphsView::updateComponentSizes()
         m_pointRenderer->setY(m_plotArea.y());
         m_pointRenderer->setSize(m_plotArea.size());
     }
-    if (m_pieRenderer)  {
+    if (m_pieRenderer) {
         m_pieRenderer->setX(m_plotArea.x());
         m_pieRenderer->setY(m_plotArea.y());
-        m_pieRenderer->setSize(m_plotArea.size());
+
+        // Remove axis widths and heights as there aren't any in Pie
+        auto s = m_plotArea.size();
+        s.setHeight(s.height() + m_axisHeight);
+        s.setWidth(s.width() - m_axisWidth);
+
+        m_pieRenderer->setSize(s);
     }
     if (m_areaRenderer) {
         m_areaRenderer->setX(m_plotArea.x());
