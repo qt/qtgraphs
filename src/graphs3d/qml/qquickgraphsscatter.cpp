@@ -911,6 +911,15 @@ void QQuickGraphsScatter::setSelectedItem(qsizetype index, QScatter3DSeries *ser
 
     if (index != m_selectedItem || series != m_selectedItemSeries) {
         bool seriesChanged = (series != m_selectedItemSeries);
+
+        // Clear hidden point from the previous selected series
+        if (seriesChanged) {
+            for (auto model : std::as_const(m_scatterGraphs)) {
+                if (model->series && model->instancing && model->series == m_selectedItemSeries)
+                    model->instancing->unhidePreviousDataItem();
+            }
+        }
+
         m_selectedItem = index;
         m_selectedItemSeries = series;
         m_changeTracker.selectedItemChanged = true;
