@@ -34,3 +34,17 @@ qt_internal_extend_target(GraphsWidgets CONDITION QT_FEATURE_graphs_3d_surface3d
     SOURCES
         q3dsurfacewidgetitem.cpp q3dsurfacewidgetitem.h q3dsurfacewidgetitem_p.h
 )
+
+# Include required QML plugins for static build
+if (NOT QT_BUILD_SHARED_LIBS)
+    qt_internal_add_resource(GraphsWidgets "qml_for_widget"
+      PREFIX
+      "/qml"
+      BASE
+      "qml"
+      FILES
+        "./qml/dummy.qml"
+    )
+
+    qt_import_qml_plugins(GraphsWidgets)
+endif()

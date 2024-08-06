@@ -4,7 +4,7 @@
 #define SCATTERGRAPHWIDGET_H
 
 #include <QtGraphsWidgets/q3dscatterwidgetitem.h>
-#include <QtQuickWidgets/QQuickWidget>
+#include <QtQuickWidgets/qquickwidget.h>
 
 class ScatterGraphWidget : public QQuickWidget
 {
