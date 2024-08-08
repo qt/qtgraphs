@@ -5,9 +5,6 @@ qt_internal_add_module(GraphsWidgets
     SOURCES
         qgraphswidgetsglobal.h
         q3dgraphswidgetitem.cpp q3dgraphswidgetitem.h q3dgraphswidgetitem_p.h
-        q3dbarswidgetitem.cpp q3dbarswidgetitem.h q3dbarswidgetitem_p.h
-        q3dscatterwidgetitem.cpp q3dscatterwidgetitem.h q3dscatterwidgetitem_p.h
-        q3dsurfacewidgetitem.cpp q3dsurfacewidgetitem.h q3dsurfacewidgetitem_p.h
     DEFINES
         QT_NO_FOREACH
         QT_NO_INTEGER_EVENT_COORDINATES
@@ -21,4 +18,19 @@ qt_internal_add_module(GraphsWidgets
     PRIVATE_MODULE_INTERFACE
         Qt::GraphsPrivate
         Qt::CorePrivate
+)
+
+qt_internal_extend_target(GraphsWidgets CONDITION QT_FEATURE_graphs_3d_bars3d
+    SOURCES
+        q3dbarswidgetitem.cpp q3dbarswidgetitem.h q3dbarswidgetitem_p.h
+)
+
+qt_internal_extend_target(GraphsWidgets CONDITION QT_FEATURE_graphs_3d_scatter3d
+    SOURCES
+        q3dscatterwidgetitem.cpp q3dscatterwidgetitem.h q3dscatterwidgetitem_p.h
+)
+
+qt_internal_extend_target(GraphsWidgets CONDITION QT_FEATURE_graphs_3d_surface3d
+    SOURCES
+        q3dsurfacewidgetitem.cpp q3dsurfacewidgetitem.h q3dsurfacewidgetitem_p.h
 )
