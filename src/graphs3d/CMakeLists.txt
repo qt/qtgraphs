@@ -36,10 +36,6 @@ else()
             qml/foreigntypes_p.h
             qml/qquickgraphsitem.cpp qml/qquickgraphsitem_p.h
             qml/qquickgraphstexturedata.cpp qml/qquickgraphstexturedata_p.h
-        NO_UNITY_BUILD_SOURCES
-            # Symbol collision with, `qtouch3dinputhandler.cpp`
-            # TODO: Resolve `rotationSpeed` symbol redefinition
-            input/q3dinputhandler.cpp
         INCLUDE_DIRECTORIES
             axis
             data
