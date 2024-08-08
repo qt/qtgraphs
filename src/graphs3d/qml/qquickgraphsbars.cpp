@@ -2184,7 +2184,6 @@ void QQuickGraphsBars::createSliceView()
 {
     setSliceOrthoProjection(false);
     QQuickGraphsItem::createSliceView();
-
     QList<QBar3DSeries *> barSeries = barSeriesList();
     for (const auto &barSeries : std::as_const(barSeries)) {
         QList<BarModel *> *slicedBarList = m_slicedBarModels.value(barSeries);
@@ -2278,7 +2277,6 @@ void QQuickGraphsBars::toggleSliceGraph()
                 bool visible = ((m_selectedBarSeries == it.key()
                                  || selectionMode().testFlag(QtGraphs3D::SelectionFlag::MultiSeries))
                                 && it.key()->isVisible());
-
                 if (index < barList.size() && m_selectedBar != invalidSelectionPosition()) {
                     BarModel *sliceBarModel = sliceList->at(ind);
                     BarModel *barModel = barList.at(index);
@@ -2316,8 +2314,9 @@ void QQuickGraphsBars::toggleSliceGraph()
                                                  it.key()->baseColor());
                     }
                 } else {
-                    setSliceEnabled(false);
+                    setSliceActivatedChanged(true);
                     QQuickGraphsItem::toggleSliceGraph();
+                    setSliceEnabled(false);
                     return;
                 }
             }
