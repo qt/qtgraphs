@@ -2637,7 +2637,8 @@ void QQuickGraphsItem::synchData()
         if (m_sliceView) {
             changeLabelsVisible(m_sliceHorizontalLabelRepeater, visible);
             changeLabelsVisible(m_sliceVerticalLabelRepeater, visible);
-            m_sliceItemLabel->setProperty("visible", visible);
+            m_sliceItemLabel->setProperty("visible", visible && selectionMode()
+                                          .testFlag(QtGraphs3D::SelectionFlag::Item));
             m_sliceHorizontalTitleLabel->setProperty("visible", visible);
             m_sliceVerticalTitleLabel->setProperty("visible", visible);
         }
