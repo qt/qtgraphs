@@ -14,9 +14,11 @@
 #ifndef QGRAPHSTHEME_P_H
 #define QGRAPHSTHEME_P_H
 #include <QtGraphs/qgraphstheme.h>
+#include <QtQuick/private/qquickrectangle_p.h>
 #include <private/qobject_p.h>
 
 QT_BEGIN_NAMESPACE
+
 class QGraphsThemePrivate : public QObjectPrivate
 {
 public:
@@ -100,8 +102,8 @@ private:
 
     QList<QQuickGraphsColor *> m_colors;
     QList<QQuickGradient *> m_gradients;
-    QQuickGradient *m_singleHLGradient = nullptr;
-    QQuickGradient *m_multiHLGradient = nullptr;
+    QQuickGradient *m_singleHLQuickGradient = nullptr;
+    QQuickGradient *m_multiHLQuickGradient = nullptr;
 
     QFont m_axisXLabelFont;
     QFont m_axisYLabelFont;
