@@ -1436,6 +1436,10 @@ void QQuickGraphsScatter::connectSeries(QScatter3DSeries *series)
                      &QScatter3DSeries::meshSmoothChanged,
                      this,
                      &QQuickGraphsScatter::handleMeshSmoothChanged);
+    QObject::connect(series,
+                     &QScatter3DSeries::itemSizeChanged,
+                     this,
+                     &QQuickGraphsScatter::markDataDirty);
 }
 
 void QQuickGraphsScatter::calculateSceneScalingFactors()
