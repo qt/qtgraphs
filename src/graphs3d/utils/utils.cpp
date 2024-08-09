@@ -169,6 +169,25 @@ void Utils::setSeriesGradient(QAbstract3DSeries *series, QJSValue gradient, Grad
     }
 }
 
+void Utils::setSeriesGradient(QAbstract3DSeries *series, QQuickGradient *gradient, GradientType type)
+{
+    QLinearGradient lg;
+    lg.setStops(gradient->gradientStops());
+    switch (type) {
+    case GradientType::Base:
+        series->setBaseGradient(lg);
+        break;
+    case GradientType::Single:
+        series->setSingleHighlightGradient(lg);
+        break;
+    case GradientType::Multi:
+        series->setMultiHighlightGradient(lg);
+        break;
+    default: // Never goes here
+        break;
+    }
+}
+
 void Utils::connectSeriesGradient(QAbstract3DSeries *series,
                                   QJSValue newGradient,
                                   GradientType type,

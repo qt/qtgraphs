@@ -1,6 +1,5 @@
 // Copyright (C) 2023 The Qt Company Ltd.
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
-
 import QtQuick 2.0
 import QtGraphs
 import QtTest 1.0
@@ -15,26 +14,44 @@ Item {
     }
 
     Gradient {
-        id: gradient1;
+        id: gradient1
         stops: [
-            GradientStop { color: "red"; position: 0 },
-            GradientStop { color: "blue"; position: 1 }
+            GradientStop {
+                color: "red"
+                position: 0
+            },
+            GradientStop {
+                color: "blue"
+                position: 1
+            }
         ]
     }
 
     Gradient {
-        id: gradient2;
+        id: gradient2
         stops: [
-            GradientStop { color: "green"; position: 0 },
-            GradientStop { color: "red"; position: 1 }
+            GradientStop {
+                color: "green"
+                position: 0
+            },
+            GradientStop {
+                color: "red"
+                position: 1
+            }
         ]
     }
 
     Gradient {
-        id: gradient3;
+        id: gradient3
         stops: [
-            GradientStop { color: "gray"; position: 0 },
-            GradientStop { color: "darkgray"; position: 1 }
+            GradientStop {
+                color: "gray"
+                position: 0
+            },
+            GradientStop {
+                color: "darkgray"
+                position: 1
+            }
         ]
     }
 
@@ -42,8 +59,16 @@ Item {
         id: initialized
         dataProxy: ItemModelSurfaceDataProxy {
             itemModel: ListModel {
-                ListElement{ longitude: "20"; latitude: "10"; pop_density: "4.75"; }
-                ListElement{ longitude: "21"; latitude: "10"; pop_density: "3.00"; }
+                ListElement {
+                    longitude: "20"
+                    latitude: "10"
+                    pop_density: "4.75"
+                }
+                ListElement {
+                    longitude: "21"
+                    latitude: "10"
+                    pop_density: "3.00"
+                }
             }
             rowRole: "longitude"
             columnRole: "latitude"
@@ -75,9 +100,21 @@ Item {
     ItemModelSurfaceDataProxy {
         id: proxy1
         itemModel: ListModel {
-            ListElement{ longitude: "20"; latitude: "10"; pop_density: "4.75"; }
-            ListElement{ longitude: "21"; latitude: "10"; pop_density: "3.00"; }
-            ListElement{ longitude: "22"; latitude: "10"; pop_density: "1.24"; }
+            ListElement {
+                longitude: "20"
+                latitude: "10"
+                pop_density: "4.75"
+            }
+            ListElement {
+                longitude: "21"
+                latitude: "10"
+                pop_density: "3.00"
+            }
+            ListElement {
+                longitude: "22"
+                latitude: "10"
+                pop_density: "1.24"
+            }
         }
         rowRole: "longitude"
         columnRole: "latitude"
@@ -105,7 +142,7 @@ Item {
         function test_2_initial_common() {
             // Common properties
             compare(initial.baseColor, "#000000")
-            compare(initial.baseGradient, 0)
+            verify(!initial.baseGradient)
             compare(initial.colorStyle, GraphsTheme.ColorStyle.Uniform)
             compare(initial.itemLabel, "")
             compare(initial.itemLabelFormat, "@xLabel, @yLabel, @zLabel")
@@ -114,10 +151,10 @@ Item {
             compare(initial.meshRotation, Qt.quaternion(1, 0, 0, 0))
             compare(initial.meshSmooth, false)
             compare(initial.multiHighlightColor, "#000000")
-            compare(initial.multiHighlightGradient, 0)
+            verify(!initial.multiHighlightGradient)
             compare(initial.name, "")
             compare(initial.singleHighlightColor, "#000000")
-            compare(initial.singleHighlightGradient, 0)
+            verify(!initial.singleHighlightGradient)
             compare(initial.type, Abstract3DSeries.SeriesType.Surface)
             compare(initial.userDefinedMesh, "")
             compare(initial.visible, true)
@@ -140,7 +177,8 @@ Item {
             // Common properties
             compare(initialized.baseColor, "#0000ff")
             compare(initialized.baseGradient, gradient1)
-            compare(initialized.colorStyle, GraphsTheme.ColorStyle.ObjectGradient)
+            compare(initialized.colorStyle,
+                    GraphsTheme.ColorStyle.ObjectGradient)
             compare(initialized.itemLabelFormat, "%f")
             compare(initialized.itemLabelVisible, false)
             compare(initialized.mesh, Abstract3DSeries.Mesh.Cube)

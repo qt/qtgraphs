@@ -9,10 +9,7 @@ QT_BEGIN_NAMESPACE
 
 QQuickGraphsBar3DSeries::QQuickGraphsBar3DSeries(QObject *parent)
     : QBar3DSeries(parent)
-    , m_baseGradient(QJSValue(0))
-    , m_singleHighlightGradient(QJSValue(0))
-    , m_multiHighlightGradient(QJSValue(0))
-    , m_dummyColors(false)
+
 {
     QObject::connect(this,
                      &QBar3DSeries::selectedBarChanged,
@@ -54,32 +51,44 @@ QPointF QQuickGraphsBar3DSeries::invalidSelectionPosition() const
     return QPointF(QBar3DSeries::invalidSelectionPosition());
 }
 
-void QQuickGraphsBar3DSeries::setBaseGradient(QJSValue gradient)
+void QQuickGraphsBar3DSeries::setBaseGradient(QQuickGradient *gradient)
 {
-    Utils::connectSeriesGradient(this, gradient, GradientType::Base, m_baseGradient);
+    if (m_baseGradient != gradient) {
+        setGradientHelper(gradient, m_baseGradient, GradientType::Base);
+        m_baseGradient = gradient;
+        Q_EMIT baseGradientChanged(m_baseGradient);
+    }
 }
 
-QJSValue QQuickGraphsBar3DSeries::baseGradient() const
+QQuickGradient *QQuickGraphsBar3DSeries::baseGradient() const
 {
     return m_baseGradient;
 }
 
-void QQuickGraphsBar3DSeries::setSingleHighlightGradient(QJSValue gradient)
+void QQuickGraphsBar3DSeries::setSingleHighlightGradient(QQuickGradient *gradient)
 {
-    Utils::connectSeriesGradient(this, gradient, GradientType::Single, m_singleHighlightGradient);
+    if (m_singleHighlightGradient != gradient) {
+        setGradientHelper(gradient, m_singleHighlightGradient, GradientType::Single);
+        m_singleHighlightGradient = gradient;
+        Q_EMIT singleHighlightGradientChanged(m_singleHighlightGradient);
+    }
 }
 
-QJSValue QQuickGraphsBar3DSeries::singleHighlightGradient() const
+QQuickGradient *QQuickGraphsBar3DSeries::singleHighlightGradient() const
 {
     return m_singleHighlightGradient;
 }
 
-void QQuickGraphsBar3DSeries::setMultiHighlightGradient(QJSValue gradient)
+void QQuickGraphsBar3DSeries::setMultiHighlightGradient(QQuickGradient *gradient)
 {
-    Utils::connectSeriesGradient(this, gradient, GradientType::Multi, m_multiHighlightGradient);
+    if (m_multiHighlightGradient != gradient) {
+        setGradientHelper(gradient, m_multiHighlightGradient, GradientType::Multi);
+        m_multiHighlightGradient = gradient;
+        Q_EMIT multiHighlightGradientChanged(m_multiHighlightGradient);
+    }
 }
 
-QJSValue QQuickGraphsBar3DSeries::multiHighlightGradient() const
+QQuickGradient *QQuickGraphsBar3DSeries::multiHighlightGradient() const
 {
     return m_multiHighlightGradient;
 }
@@ -118,19 +127,19 @@ void QQuickGraphsBar3DSeries::clearRowColorsFunc(QQmlListProperty<QQuickGraphsCo
 
 void QQuickGraphsBar3DSeries::handleBaseGradientUpdate()
 {
-    if (!m_baseGradient.isNull())
+    if (!m_baseGradient)
         Utils::setSeriesGradient(this, m_baseGradient, GradientType::Base);
 }
 
 void QQuickGraphsBar3DSeries::handleSingleHighlightGradientUpdate()
 {
-    if (!m_singleHighlightGradient.isNull())
+    if (!m_singleHighlightGradient)
         Utils::setSeriesGradient(this, m_singleHighlightGradient, GradientType::Single);
 }
 
 void QQuickGraphsBar3DSeries::handleMultiHighlightGradientUpdate()
 {
-    if (!m_multiHighlightGradient.isNull())
+    if (!m_multiHighlightGradient)
         Utils::setSeriesGradient(this, m_multiHighlightGradient, GradientType::Multi);
 }
 
@@ -202,6 +211,40 @@ void QQuickGraphsBar3DSeries::clearDummyColors()
         qDeleteAll(m_rowColors);
         m_rowColors.clear();
         m_dummyColors = false;
+    }
+}
+
+void QQuickGraphsBar3DSeries::setGradientHelper(QQuickGradient *newGradient,
+                                                QQuickGradient *memberGradient,
+                                                GradientType type)
+{
+    if (memberGradient)
+        QObject::disconnect(memberGradient, 0, this, 0);
+    Utils::setSeriesGradient(this, newGradient, type);
+    memberGradient = newGradient;
+    if (memberGradient) {
+        switch (type) {
+        case GradientType::Base:
+            QObject::connect(memberGradient,
+                             &QQuickGradient::updated,
+                             this,
+                             &QQuickGraphsBar3DSeries::handleBaseGradientUpdate);
+            break;
+        case GradientType::Single:
+            QObject::connect(memberGradient,
+                             &QQuickGradient::updated,
+                             this,
+                             &QQuickGraphsBar3DSeries::handleSingleHighlightGradientUpdate);
+            break;
+        case GradientType::Multi:
+            QObject::connect(memberGradient,
+                             &QQuickGradient::updated,
+                             this,
+                             &QQuickGraphsBar3DSeries::handleMultiHighlightGradientUpdate);
+            break;
+        default:
+            break;
+        }
     }
 }
 

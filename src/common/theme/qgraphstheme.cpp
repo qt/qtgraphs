@@ -7,7 +7,7 @@
 #include <QLinearGradient>
 #include <QQmlListProperty>
 #include <QStyleHints>
-#include <QtQuick/private/qquickrectangle_p.h>
+
 #include <private/qgraphsglobal_p.h>
 #include <private/qgraphstheme_p.h>
 #include <private/qquickgraphscolor_p.h>
@@ -677,8 +677,8 @@ void QGraphsTheme::setColorScheme(QGraphsTheme::ColorScheme newColorScheme)
     d->m_colorScheme = newColorScheme;
     setColorSchemePalette();
     d->m_themeDirty = true;
-    emit colorSchemeChanged();
-    emit update();
+    Q_EMIT colorSchemeChanged();
+    Q_EMIT update();
 
     if (d->m_colorScheme == QGraphsTheme::ColorScheme::Automatic) {
         if (!d->m_autoColorConnection) {
@@ -719,8 +719,8 @@ void QGraphsTheme::setTheme(Theme newTheme, ForceTheme force)
     d->m_theme = newTheme;
     d->m_themeDirty = true;
     setThemePalette();
-    emit themeChanged(d->m_theme);
-    emit update();
+    Q_EMIT themeChanged(d->m_theme);
+    Q_EMIT update();
 }
 
 /*!
@@ -747,8 +747,8 @@ void QGraphsTheme::setColorStyle(ColorStyle newColorStyle)
         return;
     d->m_dirtyBits.colorStyleDirty = true;
     d->m_colorStyle = newColorStyle;
-    emit colorStyleChanged(newColorStyle);
-    emit update();
+    Q_EMIT colorStyleChanged(newColorStyle);
+    Q_EMIT update();
 }
 
 /*!
@@ -769,8 +769,8 @@ void QGraphsTheme::setAxisXLabelFont(const QFont &newAxisXLabelFont)
     if (d->m_axisXLabelFont == newAxisXLabelFont)
         return;
     d->m_axisXLabelFont = newAxisXLabelFont;
-    emit axisXLabelFontChanged();
-    emit update();
+    Q_EMIT axisXLabelFontChanged();
+    Q_EMIT update();
 }
 
 /*!
@@ -791,8 +791,8 @@ void QGraphsTheme::setAxisYLabelFont(const QFont &newAxisYLabelFont)
     if (d->m_axisYLabelFont == newAxisYLabelFont)
         return;
     d->m_axisYLabelFont = newAxisYLabelFont;
-    emit axisYLabelFontChanged();
-    emit update();
+    Q_EMIT axisYLabelFontChanged();
+    Q_EMIT update();
 }
 
 /*!
@@ -813,8 +813,8 @@ void QGraphsTheme::setAxisZLabelFont(const QFont &newAxisZLabelFont)
     if (d->m_axisZLabelFont == newAxisZLabelFont)
         return;
     d->m_axisZLabelFont = newAxisZLabelFont;
-    emit axisZLabelFontChanged();
-    emit update();
+    Q_EMIT axisZLabelFontChanged();
+    Q_EMIT update();
 }
 
 /*!
@@ -839,8 +839,8 @@ void QGraphsTheme::setPlotAreaBackgroundColor(QColor newBackgroundColor)
         return;
     d->m_dirtyBits.plotAreaBackgroundColorDirty = true;
     d->m_plotAreaBackgroundColor = newBackgroundColor;
-    emit plotAreaBackgroundColorChanged();
-    emit update();
+    Q_EMIT plotAreaBackgroundColorChanged();
+    Q_EMIT update();
 }
 
 /*!
@@ -864,8 +864,8 @@ void QGraphsTheme::setPlotAreaBackgroundVisible(bool newBackgroundVisibility)
         return;
     d->m_dirtyBits.plotAreaBackgroundVisibilityDirty = true;
     d->m_plotAreaBackgroundVisibility = newBackgroundVisibility;
-    emit plotAreaBackgroundVisibleChanged();
-    emit update();
+    Q_EMIT plotAreaBackgroundVisibleChanged();
+    Q_EMIT update();
 }
 
 /*!
@@ -889,8 +889,8 @@ void QGraphsTheme::setBackgroundVisible(bool newBackgroundVisible)
         return;
     d->m_dirtyBits.backgroundVisibilityDirty = true;
     d->m_backgroundVisibility = newBackgroundVisible;
-    emit backgroundVisibleChanged();
-    emit update();
+    Q_EMIT backgroundVisibleChanged();
+    Q_EMIT update();
 }
 
 /*!
@@ -914,8 +914,8 @@ void QGraphsTheme::setGridVisible(bool newGridVisibility)
         return;
     d->m_dirtyBits.gridVisibilityDirty = true;
     d->m_gridVisibility = newGridVisibility;
-    emit gridVisibleChanged();
-    emit update();
+    Q_EMIT gridVisibleChanged();
+    Q_EMIT update();
 }
 
 /*!
@@ -940,8 +940,8 @@ void QGraphsTheme::setBackgroundColor(QColor newBackgroundColor)
         return;
     d->m_dirtyBits.backgroundColorDirty = true;
     d->m_backgroundColor = newBackgroundColor;
-    emit backgroundColorChanged();
-    emit update();
+    Q_EMIT backgroundColorChanged();
+    Q_EMIT update();
 }
 
 /*!
@@ -965,8 +965,8 @@ void QGraphsTheme::setLabelsVisible(bool newLabelsVisibility)
         return;
     d->m_dirtyBits.labelsVisibilityDirty = true;
     d->m_labelsVisibility = newLabelsVisibility;
-    emit labelsVisibleChanged();
-    emit update();
+    Q_EMIT labelsVisibleChanged();
+    Q_EMIT update();
 }
 
 /*!
@@ -993,8 +993,8 @@ void QGraphsTheme::setLabelBackgroundColor(QColor newLabelBackgroundColor)
         return;
     d->m_dirtyBits.labelBackgroundColorDirty = true;
     d->m_labelBackgroundColor = newLabelBackgroundColor;
-    emit labelBackgroundColorChanged();
-    emit update();
+    Q_EMIT labelBackgroundColorChanged();
+    Q_EMIT update();
 }
 
 /*!
@@ -1019,8 +1019,8 @@ void QGraphsTheme::setLabelTextColor(QColor newLabelTextColor)
         return;
     d->m_dirtyBits.labelTextColorDirty = true;
     d->m_labelTextColor = newLabelTextColor;
-    emit labelTextColorChanged();
-    emit update();
+    Q_EMIT labelTextColorChanged();
+    Q_EMIT update();
 }
 
 /*!
@@ -1048,8 +1048,8 @@ void QGraphsTheme::setSingleHighlightColor(QColor newSingleHighlightColor)
         return;
     d->m_dirtyBits.singleHighlightColorDirty = true;
     d->m_singleHighlightColor = newSingleHighlightColor;
-    emit singleHighlightColorChanged(d->m_singleHighlightColor);
-    emit update();
+    Q_EMIT singleHighlightColorChanged(d->m_singleHighlightColor);
+    Q_EMIT update();
 }
 
 /*!
@@ -1078,8 +1078,8 @@ void QGraphsTheme::setMultiHighlightColor(QColor newMultiHighlightColor)
         return;
     d->m_dirtyBits.multiHighlightColorDirty = true;
     d->m_multiHighlightColor = newMultiHighlightColor;
-    emit multiHighlightColorChanged(d->m_multiHighlightColor);
-    emit update();
+    Q_EMIT multiHighlightColorChanged(d->m_multiHighlightColor);
+    Q_EMIT update();
 }
 
 /*!
@@ -1091,7 +1091,7 @@ void QGraphsTheme::setMultiHighlightColor(QColor newMultiHighlightColor)
  * has the \c QtGraphs3D::SelectionFlag::Item flag set.
  * The default value depends on \l colorScheme.
  */
-void QGraphsTheme::setSingleHighlightGradient(const QLinearGradient &gradient)
+void QGraphsTheme::setSingleHighlightGradient(QLinearGradient gradient)
 {
     Q_D(QGraphsTheme);
     d->m_customBits.singleHighlightGradientCustom = true;
@@ -1100,8 +1100,8 @@ void QGraphsTheme::setSingleHighlightGradient(const QLinearGradient &gradient)
 
     d->m_dirtyBits.singleHighlightGradientDirty = true;
     d->m_singleHighlightGradient = gradient;
-    emit singleHighlightGradientChanged(d->m_singleHighlightGradient);
-    emit update();
+    Q_EMIT singleHighlightGradientChanged(d->m_singleHighlightGradient);
+    Q_EMIT update();
 }
 
 QLinearGradient QGraphsTheme::singleHighlightGradient() const
@@ -1122,7 +1122,7 @@ QLinearGradient QGraphsTheme::singleHighlightGradient() const
  * \c QtGraphs3D::SelectionFlag::Column flag set.
  * The default value depends on \l colorScheme.
  */
-void QGraphsTheme::setMultiHighlightGradient(const QLinearGradient &gradient)
+void QGraphsTheme::setMultiHighlightGradient(QLinearGradient gradient)
 {
     Q_D(QGraphsTheme);
     d->m_customBits.multiHighlightGradientCustom = true;
@@ -1131,8 +1131,8 @@ void QGraphsTheme::setMultiHighlightGradient(const QLinearGradient &gradient)
 
     d->m_dirtyBits.multiHighlightGradientDirty = true;
     d->m_multiHighlightGradient = gradient;
-    emit multiHighlightGradientChanged(d->m_multiHighlightGradient);
-    emit update();
+    Q_EMIT multiHighlightGradientChanged(d->m_multiHighlightGradient);
+    Q_EMIT update();
 }
 
 QLinearGradient QGraphsTheme::multiHighlightGradient() const
@@ -1168,8 +1168,8 @@ void QGraphsTheme::setLabelFont(const QFont &newFont)
         d->m_axisYLabelFont = newFont;
     if (!d->m_customBits.axisZLabelFontCustom)
         d->m_axisZLabelFont = newFont;
-    emit labelFontChanged();
-    emit update();
+    Q_EMIT labelFontChanged();
+    Q_EMIT update();
 }
 
 /*!
@@ -1200,8 +1200,8 @@ void QGraphsTheme::setLabelBackgroundVisible(bool newLabelBackgroundVisibility)
         return;
     d->m_dirtyBits.labelBackgroundVisibilityDirty = true;
     d->m_labelBackgroundVisibility = newLabelBackgroundVisibility;
-    emit labelBackgroundVisibleChanged();
-    emit update();
+    Q_EMIT labelBackgroundVisibleChanged();
+    Q_EMIT update();
 }
 
 /*!
@@ -1225,8 +1225,8 @@ void QGraphsTheme::setLabelBorderVisible(bool newLabelBorderVisibility)
         return;
     d->m_dirtyBits.labelBorderVisibilityDirty = true;
     d->m_labelBorderVisibility = newLabelBorderVisibility;
-    emit labelBorderVisibleChanged();
-    emit update();
+    Q_EMIT labelBorderVisibleChanged();
+    Q_EMIT update();
 }
 
 /*!
@@ -1259,8 +1259,8 @@ void QGraphsTheme::setSeriesColors(const QList<QColor> &newSeriesColors)
         return;
     d->m_dirtyBits.seriesColorsDirty = true;
     d->m_seriesColors = newSeriesColors;
-    emit seriesColorsChanged(d->m_seriesColors);
-    emit update();
+    Q_EMIT seriesColorsChanged(d->m_seriesColors);
+    Q_EMIT update();
 }
 
 /*!
@@ -1289,8 +1289,8 @@ void QGraphsTheme::setBorderColors(const QList<QColor> &newBorderColors)
     if (d->m_borderColors == newBorderColors)
         return;
     d->m_borderColors = newBorderColors;
-    emit borderColorsChanged();
-    emit update();
+    Q_EMIT borderColorsChanged();
+    Q_EMIT update();
 }
 
 /*!
@@ -1324,12 +1324,12 @@ void QGraphsTheme::setSeriesGradients(const QList<QLinearGradient> &newSeriesGra
         if (d->m_seriesGradients != newSeriesGradients) {
             d->m_seriesGradients.clear();
             d->m_seriesGradients = newSeriesGradients;
-            emit seriesGradientsChanged(newSeriesGradients);
-            emit update();
+            Q_EMIT seriesGradientsChanged(newSeriesGradients);
+            Q_EMIT update();
         }
     } else {
         d->m_seriesGradients.clear();
-        emit update();
+        Q_EMIT update();
     }
 }
 
@@ -1351,8 +1351,8 @@ void QGraphsTheme::setBorderWidth(qreal newBorderWidth)
     if (qFuzzyCompare(d->m_borderWidth, newBorderWidth))
         return;
     d->m_borderWidth = newBorderWidth;
-    emit borderWidthChanged();
-    emit update();
+    Q_EMIT borderWidthChanged();
+    Q_EMIT update();
 }
 
 void QGraphsTheme::handleBaseColorUpdate()
@@ -1415,7 +1415,7 @@ void QGraphsTheme::componentComplete()
 void QGraphsTheme::updateAutomaticColorScheme()
 {
     setColorSchemePalette();
-    emit update();
+    Q_EMIT update();
 }
 
 void QGraphsTheme::setColorSchemePalette()
@@ -1516,10 +1516,10 @@ void QGraphsTheme::setColorSchemePalette()
     d->m_dirtyBits.multiHighlightColorDirty = true;
     d->m_dirtyBits.multiHighlightGradientDirty = true;
     d->m_dirtyBits.labelTextColorDirty = true;
-    emit gridChanged();
-    emit axisXChanged();
-    emit axisYChanged();
-    emit axisZChanged();
+    Q_EMIT gridChanged();
+    Q_EMIT axisXChanged();
+    Q_EMIT axisYChanged();
+    Q_EMIT axisZChanged();
 }
 
 void QGraphsTheme::setThemePalette()
@@ -1612,61 +1612,6 @@ QLinearGradient QGraphsTheme::createGradient(QColor color, float colorLevel)
     gradient.setColorAt(0.0, startColor);
     gradient.setColorAt(1.0, color);
     return gradient;
-}
-
-void QGraphsTheme::setSingleHighlightGradient(QQuickGradient *gradient)
-{
-    Q_D(QGraphsTheme);
-    if (gradient != d->m_singleHLGradient) {
-        if (d->m_singleHLGradient)
-            QObject::disconnect(d->m_singleHLGradient, 0, this, 0);
-
-        d->m_singleHLGradient = gradient;
-
-        QObject::connect(d->m_singleHLGradient,
-                         &QQuickGradient::updated,
-                         this,
-                         &QGraphsTheme::update);
-
-        emit singleHighlightGradientQMLChanged();
-    }
-
-    if (d->m_singleHLGradient != nullptr)
-        setThemeGradient(d->m_singleHLGradient, GradientQMLStyle::SingleHL);
-}
-
-QQuickGradient *QGraphsTheme::singleHighlightGradientQML() const
-{
-    const Q_D(QGraphsTheme);
-    return d->m_singleHLGradient;
-}
-
-void QGraphsTheme::setMultiHighlightGradient(QQuickGradient *gradient)
-{
-    Q_D(QGraphsTheme);
-    // connect new / disconnect old
-    if (gradient != nullptr) {
-        if (d->m_multiHLGradient)
-            QObject::disconnect(d->m_multiHLGradient, 0, this, 0);
-
-        d->m_multiHLGradient = gradient;
-
-        QObject::connect(d->m_multiHLGradient,
-                         &QQuickGradient::updated,
-                         this,
-                         &QGraphsTheme::update);
-
-        emit multiHighlightGradientQMLChanged();
-    }
-
-    if (d->m_multiHLGradient != nullptr)
-        setThemeGradient(d->m_multiHLGradient, GradientQMLStyle::MultiHL);
-}
-
-QQuickGradient *QGraphsTheme::multiHighlightGradientQML() const
-{
-    const Q_D(QGraphsTheme);
-    return d->m_multiHLGradient;
 }
 
 void QGraphsTheme::setThemeGradient(QQuickGradient *gradient, GradientQMLStyle type)
@@ -1840,14 +1785,67 @@ void QGraphsTheme::addGradient(QJSValue gradient)
     auto quickGradient = qobject_cast<QQuickGradient *>(gradient.toQObject());
     d->m_gradients.append(quickGradient);
 
-    connect(quickGradient,
-            &QQuickGradient::updated,
-            this,
-            &QGraphsTheme::handleBaseGradientUpdate);
+    connect(quickGradient, &QQuickGradient::updated, this, &QGraphsTheme::handleBaseGradientUpdate);
 
     QList<QLinearGradient> list = d->m_seriesGradients;
     list.append(convertGradient(gradient));
     setSeriesGradients(list);
+}
+
+QQuickGradient *QGraphsTheme::singleHighlightGradientQML() const
+{
+    const Q_D(QGraphsTheme);
+    return d->m_singleHLQuickGradient;
+}
+
+void QGraphsTheme::setSingleHighlightGradientQML(QQuickGradient *gradient)
+{
+    Q_D(QGraphsTheme);
+    // connect new / disconnect old
+    if (gradient != d->m_singleHLQuickGradient) {
+        if (d->m_singleHLQuickGradient)
+            QObject::disconnect(d->m_singleHLQuickGradient, 0, this, 0);
+
+        d->m_singleHLQuickGradient = gradient;
+
+        QObject::connect(d->m_singleHLQuickGradient,
+                         &QQuickGradient::updated,
+                         this,
+                         &QGraphsTheme::update);
+
+        Q_EMIT singleHighlightGradientQMLChanged();
+    }
+
+    if (d->m_singleHLQuickGradient != nullptr)
+        setThemeGradient(d->m_singleHLQuickGradient, QGraphsTheme::GradientQMLStyle::SingleHL);
+}
+
+void QGraphsTheme::setMultiHighlightGradientQML(QQuickGradient *gradient)
+{
+    Q_D(QGraphsTheme);
+    // connect new / disconnect old
+    if (gradient != nullptr) {
+        if (d->m_multiHLQuickGradient)
+            QObject::disconnect(d->m_multiHLQuickGradient, 0, this, 0);
+
+        d->m_multiHLQuickGradient = gradient;
+
+        QObject::connect(d->m_multiHLQuickGradient,
+                         &QQuickGradient::updated,
+                         this,
+                         &QGraphsTheme::update);
+
+        Q_EMIT multiHighlightGradientQMLChanged();
+    }
+
+    if (d->m_multiHLQuickGradient != nullptr)
+        setThemeGradient(d->m_multiHLQuickGradient, QGraphsTheme::GradientQMLStyle::MultiHL);
+}
+
+QQuickGradient *QGraphsTheme::multiHighlightGradientQML() const
+{
+    const Q_D(QGraphsTheme);
+    return d->m_multiHLQuickGradient;
 }
 
 QList<QQuickGradient *> QGraphsTheme::gradientList()
@@ -1876,8 +1874,8 @@ void QGraphsTheme::setGrid(const QGraphsLine &newGrid)
         return;
     d->m_grid = newGrid;
     d->m_dirtyBits.gridDirty = true;
-    emit gridChanged();
-    emit update();
+    Q_EMIT gridChanged();
+    Q_EMIT update();
 }
 
 QGraphsLine QGraphsTheme::axisX() const
@@ -1893,8 +1891,8 @@ void QGraphsTheme::setAxisX(const QGraphsLine &newAxisX)
         return;
     d->m_axisX = newAxisX;
     d->m_dirtyBits.axisXDirty = true;
-    emit axisXChanged();
-    emit update();
+    Q_EMIT axisXChanged();
+    Q_EMIT update();
 }
 
 QGraphsLine QGraphsTheme::axisY() const
@@ -1910,8 +1908,8 @@ void QGraphsTheme::setAxisY(const QGraphsLine &newAxisY)
         return;
     d->m_axisY = newAxisY;
     d->m_dirtyBits.axisYDirty = true;
-    emit axisYChanged();
-    emit update();
+    Q_EMIT axisYChanged();
+    Q_EMIT update();
 }
 
 QGraphsLine QGraphsTheme::axisZ() const
@@ -1927,8 +1925,8 @@ void QGraphsTheme::setAxisZ(const QGraphsLine &newAxisZ)
         return;
     d->m_axisZ = newAxisZ;
     d->m_dirtyBits.axisZDirty = true;
-    emit axisZChanged();
-    emit update();
+    Q_EMIT axisZChanged();
+    Q_EMIT update();
 }
 
 QVariant QGraphsLine::create(const QJSValue &params)
@@ -2138,4 +2136,5 @@ bool comparesEqual(const QGraphsLinePrivate &lhs, const QGraphsLinePrivate &rhs)
 
     return ret;
 }
+
 QT_END_NAMESPACE

@@ -24,7 +24,7 @@
 QT_FORWARD_DECLARE_CLASS(QLinearGradient)
 
 QT_BEGIN_NAMESPACE
-
+class QQuickGradient;
 class Utils
 {
 public:
@@ -47,6 +47,9 @@ public:
     static QQuaternion calculateRotation(QVector3D xyzRotations);
     static void verifyGradientCompleteness(QLinearGradient &gradient);
     static void setSeriesGradient(QAbstract3DSeries *series, QJSValue gradient, GradientType type);
+    static void setSeriesGradient(QAbstract3DSeries *series,
+                                  QQuickGradient *gradient,
+                                  GradientType type);
     static void connectSeriesGradient(QAbstract3DSeries *series,
                                       QJSValue newGradient,
                                       GradientType type,

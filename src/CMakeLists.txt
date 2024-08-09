@@ -170,13 +170,13 @@ else()
             PAST_MAJOR_VERSIONS 1
             DEPENDENCIES
                 QtQuick
-                # 2D specific
                 QtQuickPrivate
                 # 3D specific
                 QtQuick3D
             LIBRARIES
-                # 2D specific
+                # Common
                 Qt::QuickPrivate
+                # 2D specific
                 Qt::QuickShapesPrivate
                 # 3D specific
                 Qt::Quick3DPrivate
@@ -187,6 +187,8 @@ else()
                 Qt::Quick
                 Qt::Quick3D
             PRIVATE_MODULE_INTERFACE
+                # Common
+                Qt::QuickPrivate
                 # 3D specific
                 Qt::Quick3DPrivate
                 Qt::Quick3DRuntimeRenderPrivate
@@ -257,8 +259,10 @@ else()
                 PAST_MAJOR_VERSIONS 1
                 DEPENDENCIES
                     QtQuick
+                    QtQuickPrivate
                     QtQuick3D
                 LIBRARIES
+                    Qt::QuickPrivate
                     Qt::Quick3DPrivate
                     Qt::Quick3DRuntimeRenderPrivate
                 PUBLIC_LIBRARIES
@@ -267,6 +271,7 @@ else()
                     Qt::Quick
                     Qt::Quick3D
                 PRIVATE_MODULE_INTERFACE
+                    Qt::QuickPrivate
                     Qt::Quick3DPrivate
                     Qt::Quick3DRuntimeRenderPrivate
             )

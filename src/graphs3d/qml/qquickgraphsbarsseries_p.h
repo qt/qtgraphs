@@ -15,10 +15,12 @@
 #define QQUICKGRAPHSBARSSERIES_P_H
 
 #include "qbar3dseries.h"
+#include "theme/qquickgraphscolor_p.h"
 
 #include <QtQml/qqml.h>
 #include <QtQuick/private/qquickrectangle_p.h>
 #include <private/qgraphsglobal_p.h>
+#include <private/qgraphstheme_p.h>
 
 QT_BEGIN_NAMESPACE
 
@@ -33,11 +35,11 @@ class QQuickGraphsBar3DSeries : public QBar3DSeries
         QPointF selectedBar READ selectedBar WRITE setSelectedBar NOTIFY selectedBarChanged FINAL)
     // This is static method in parent class, overload as constant property for qml.
     Q_PROPERTY(QPointF invalidSelectionPosition READ invalidSelectionPosition CONSTANT)
-    Q_PROPERTY(QJSValue baseGradient READ baseGradient WRITE setBaseGradient NOTIFY
+    Q_PROPERTY(QQuickGradient *baseGradient READ baseGradient WRITE setBaseGradient NOTIFY
                    baseGradientChanged FINAL)
-    Q_PROPERTY(QJSValue singleHighlightGradient READ singleHighlightGradient WRITE
+    Q_PROPERTY(QQuickGradient *singleHighlightGradient READ singleHighlightGradient WRITE
                    setSingleHighlightGradient NOTIFY singleHighlightGradientChanged FINAL)
-    Q_PROPERTY(QJSValue multiHighlightGradient READ multiHighlightGradient WRITE
+    Q_PROPERTY(QQuickGradient *multiHighlightGradient READ multiHighlightGradient WRITE
                    setMultiHighlightGradient NOTIFY multiHighlightGradientChanged FINAL)
     Q_PROPERTY(QQmlListProperty<QQuickGraphsColor> rowColors READ rowColors CONSTANT)
     Q_CLASSINFO("DefaultProperty", "seriesChildren")
@@ -45,7 +47,7 @@ class QQuickGraphsBar3DSeries : public QBar3DSeries
     QML_NAMED_ELEMENT(Bar3DSeries)
 
 public:
-    QQuickGraphsBar3DSeries(QObject *parent = 0);
+    explicit QQuickGraphsBar3DSeries(QObject *parent = 0);
     ~QQuickGraphsBar3DSeries() override;
 
     QQmlListProperty<QObject> seriesChildren();
@@ -55,12 +57,12 @@ public:
     QPointF selectedBar() const;
     QPointF invalidSelectionPosition() const;
 
-    void setBaseGradient(QJSValue gradient);
-    QJSValue baseGradient() const;
-    void setSingleHighlightGradient(QJSValue gradient);
-    QJSValue singleHighlightGradient() const;
-    void setMultiHighlightGradient(QJSValue gradient);
-    QJSValue multiHighlightGradient() const;
+    void setBaseGradient(QQuickGradient *gradient);
+    QQuickGradient *baseGradient() const;
+    void setSingleHighlightGradient(QQuickGradient *gradient);
+    QQuickGradient *singleHighlightGradient() const;
+    void setMultiHighlightGradient(QQuickGradient *gradient);
+    QQuickGradient *multiHighlightGradient() const;
 
     QQmlListProperty<QQuickGraphsColor> rowColors();
     static void appendRowColorsFunc(QQmlListProperty<QQuickGraphsColor> *list,
@@ -78,22 +80,26 @@ public Q_SLOTS:
 
 Q_SIGNALS:
     void selectedBarChanged(QPointF position);
-    void baseGradientChanged(QJSValue gradient);
-    void singleHighlightGradientChanged(QJSValue gradient);
-    void multiHighlightGradientChanged(QJSValue gradient);
+    void baseGradientChanged(QQuickGradient *gradient);
+    void singleHighlightGradientChanged(QQuickGradient *gradient);
+    void multiHighlightGradientChanged(QQuickGradient *gradient);
 
 private:
-    QJSValue m_baseGradient;            // Not owned
-    QJSValue m_singleHighlightGradient; // Not owned
-    QJSValue m_multiHighlightGradient;  // Not owned
+    QQuickGradient *m_baseGradient = nullptr;
+    QQuickGradient *m_singleHighlightGradient = nullptr;
+    QQuickGradient *m_multiHighlightGradient = nullptr;
 
     QList<QQuickGraphsColor *> m_rowColors;
-    bool m_dummyColors;
+    bool m_dummyColors = false;
 
     void addColor(QQuickGraphsColor *color);
     QList<QQuickGraphsColor *> colorList();
     void clearColors();
     void clearDummyColors();
+
+    void setGradientHelper(QQuickGradient *newGradient,
+                           QQuickGradient *memberGradient,
+                           GradientType type);
 };
 
 QT_END_NAMESPACE

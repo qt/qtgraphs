@@ -9,9 +9,6 @@ QT_BEGIN_NAMESPACE
 
 QQuickGraphsScatter3DSeries::QQuickGraphsScatter3DSeries(QObject *parent)
     : QScatter3DSeries(parent)
-    , m_baseGradient(QJSValue(0))
-    , m_singleHighlightGradient(QJSValue(0))
-    , m_multiHighlightGradient(QJSValue(0))
 {}
 
 QQuickGraphsScatter3DSeries::~QQuickGraphsScatter3DSeries() {}
@@ -34,32 +31,44 @@ void QQuickGraphsScatter3DSeries::appendSeriesChildren(QQmlListProperty<QObject>
         reinterpret_cast<QQuickGraphsScatter3DSeries *>(list->data)->setDataProxy(proxy);
 }
 
-void QQuickGraphsScatter3DSeries::setBaseGradient(QJSValue gradient)
+void QQuickGraphsScatter3DSeries::setBaseGradient(QQuickGradient *gradient)
 {
-    Utils::connectSeriesGradient(this, gradient, GradientType::Base, m_baseGradient);
+    if (m_baseGradient != gradient) {
+        setGradientHelper(gradient, m_baseGradient, GradientType::Base);
+        m_baseGradient = gradient;
+        Q_EMIT baseGradientChanged(m_baseGradient);
+    }
 }
 
-QJSValue QQuickGraphsScatter3DSeries::baseGradient() const
+QQuickGradient *QQuickGraphsScatter3DSeries::baseGradient() const
 {
     return m_baseGradient;
 }
 
-void QQuickGraphsScatter3DSeries::setSingleHighlightGradient(QJSValue gradient)
+void QQuickGraphsScatter3DSeries::setSingleHighlightGradient(QQuickGradient *gradient)
 {
-    Utils::connectSeriesGradient(this, gradient, GradientType::Single, m_singleHighlightGradient);
+    if (m_singleHighlightGradient != gradient) {
+        setGradientHelper(gradient, m_singleHighlightGradient, GradientType::Single);
+        m_singleHighlightGradient = gradient;
+        Q_EMIT singleHighlightGradientChanged(m_singleHighlightGradient);
+    }
 }
 
-QJSValue QQuickGraphsScatter3DSeries::singleHighlightGradient() const
+QQuickGradient *QQuickGraphsScatter3DSeries::singleHighlightGradient() const
 {
     return m_singleHighlightGradient;
 }
 
-void QQuickGraphsScatter3DSeries::setMultiHighlightGradient(QJSValue gradient)
+void QQuickGraphsScatter3DSeries::setMultiHighlightGradient(QQuickGradient *gradient)
 {
-    Utils::connectSeriesGradient(this, gradient, GradientType::Multi, m_multiHighlightGradient);
+    if (m_multiHighlightGradient != gradient) {
+        setGradientHelper(gradient, m_multiHighlightGradient, GradientType::Multi);
+        m_multiHighlightGradient = gradient;
+        Q_EMIT multiHighlightGradientChanged(m_multiHighlightGradient);
+    }
 }
 
-QJSValue QQuickGraphsScatter3DSeries::multiHighlightGradient() const
+QQuickGradient *QQuickGraphsScatter3DSeries::multiHighlightGradient() const
 {
     return m_multiHighlightGradient;
 }
@@ -71,20 +80,54 @@ qsizetype QQuickGraphsScatter3DSeries::invalidSelectionIndex() const
 
 void QQuickGraphsScatter3DSeries::handleBaseGradientUpdate()
 {
-    if (!m_baseGradient.isNull())
+    if (!m_baseGradient)
         Utils::setSeriesGradient(this, m_baseGradient, GradientType::Base);
 }
 
 void QQuickGraphsScatter3DSeries::handleSingleHighlightGradientUpdate()
 {
-    if (!m_singleHighlightGradient.isNull())
+    if (!m_singleHighlightGradient)
         Utils::setSeriesGradient(this, m_singleHighlightGradient, GradientType::Single);
 }
 
 void QQuickGraphsScatter3DSeries::handleMultiHighlightGradientUpdate()
 {
-    if (!m_multiHighlightGradient.isNull())
+    if (!m_multiHighlightGradient)
         Utils::setSeriesGradient(this, m_multiHighlightGradient, GradientType::Multi);
+}
+
+void QQuickGraphsScatter3DSeries::setGradientHelper(QQuickGradient *newGradient,
+                                                    QQuickGradient *memberGradient,
+                                                    GradientType type)
+{
+    if (memberGradient)
+        QObject::disconnect(memberGradient, 0, this, 0);
+    Utils::setSeriesGradient(this, newGradient, type);
+    memberGradient = newGradient;
+    if (memberGradient) {
+        switch (type) {
+        case GradientType::Base:
+            QObject::connect(memberGradient,
+                             &QQuickGradient::updated,
+                             this,
+                             &QQuickGraphsScatter3DSeries::handleBaseGradientUpdate);
+            break;
+        case GradientType::Single:
+            QObject::connect(memberGradient,
+                             &QQuickGradient::updated,
+                             this,
+                             &QQuickGraphsScatter3DSeries::handleSingleHighlightGradientUpdate);
+            break;
+        case GradientType::Multi:
+            QObject::connect(memberGradient,
+                             &QQuickGradient::updated,
+                             this,
+                             &QQuickGraphsScatter3DSeries::handleMultiHighlightGradientUpdate);
+            break;
+        default:
+            break;
+        }
+    }
 }
 
 QT_END_NAMESPACE

@@ -103,7 +103,7 @@ Item {
         function test_2_initial_common() {
             // Common properties
             compare(initial.baseColor, "#000000")
-            compare(initial.baseGradient, 0)
+            verify(!initial.baseGradient)
             compare(initial.colorStyle, GraphsTheme.ColorStyle.Uniform)
             compare(initial.itemLabel, "")
             compare(initial.itemLabelFormat, "@xLabel, @yLabel, @zLabel")
@@ -112,10 +112,10 @@ Item {
             compare(initial.meshRotation, Qt.quaternion(1, 0, 0, 0))
             compare(initial.meshSmooth, false)
             compare(initial.multiHighlightColor, "#000000")
-            compare(initial.multiHighlightGradient, 0)
+            verify(!initial.multiHighlightGradient)
             compare(initial.name, "")
             compare(initial.singleHighlightColor, "#000000")
-            compare(initial.singleHighlightGradient, 0)
+            verify(!initial.singleHighlightGradient)
             compare(initial.type, Abstract3DSeries.SeriesType.Scatter)
             compare(initial.userDefinedMesh, "")
             compare(initial.visible, true)

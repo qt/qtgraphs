@@ -191,10 +191,9 @@ class Q_GRAPHS_EXPORT QGraphsTheme : public QObject, public QQmlParserStatus
     Q_PROPERTY(QColor multiHighlightColor READ multiHighlightColor WRITE setMultiHighlightColor
                    NOTIFY multiHighlightColorChanged FINAL)
     Q_PROPERTY(QQuickGradient *singleHighlightGradient READ singleHighlightGradientQML WRITE
-                   setSingleHighlightGradient NOTIFY singleHighlightGradientQMLChanged FINAL)
+                   setSingleHighlightGradientQML NOTIFY singleHighlightGradientQMLChanged FINAL)
     Q_PROPERTY(QQuickGradient *multiHighlightGradient READ multiHighlightGradientQML WRITE
-                   setMultiHighlightGradient NOTIFY multiHighlightGradientQMLChanged FINAL)
-
+                   setMultiHighlightGradientQML NOTIFY multiHighlightGradientQMLChanged FINAL)
     Q_CLASSINFO("DefaultProperty", "themeChildren")
     QML_NAMED_ELEMENT(GraphsTheme)
 public:
@@ -268,9 +267,9 @@ public:
     void setSingleHighlightColor(QColor newSingleHighlightColor);
     QColor multiHighlightColor() const;
     void setMultiHighlightColor(QColor newMultiHighlightColor);
-    void setSingleHighlightGradient(const QLinearGradient &gradient);
+    void setSingleHighlightGradient(QLinearGradient gradient);
     QLinearGradient singleHighlightGradient() const;
-    void setMultiHighlightGradient(const QLinearGradient &gradient);
+    void setMultiHighlightGradient(QLinearGradient gradient);
     QLinearGradient multiHighlightGradient() const;
 
     QFont labelFont() const;
@@ -376,10 +375,6 @@ private:
     void setThemePalette();
     QLinearGradient createGradient(QColor color, float colorLevel);
 
-    void setSingleHighlightGradient(QQuickGradient *gradient);
-    QQuickGradient *singleHighlightGradientQML() const;
-    void setMultiHighlightGradient(QQuickGradient *gradient);
-    QQuickGradient *multiHighlightGradientQML() const;
     void setThemeGradient(QQuickGradient *gradient, GradientQMLStyle type);
     QLinearGradient convertGradient(QJSValue gradient);
     QLinearGradient convertGradient(QQuickGradient *gradient);
@@ -408,6 +403,12 @@ private:
     void clearGradients();
     QList<QQuickGradient *> gradientList();
     void addGradient(QJSValue gradient);
+
+    void setSingleHighlightGradientQML(QQuickGradient *gradient);
+    QQuickGradient *singleHighlightGradientQML() const;
+
+    void setMultiHighlightGradientQML(QQuickGradient *gradient);
+    QQuickGradient *multiHighlightGradientQML() const;
 
     Q_DISABLE_COPY_MOVE(QGraphsTheme)
     Q_DECLARE_PRIVATE(QGraphsTheme)
