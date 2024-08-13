@@ -1129,7 +1129,7 @@ qsizetype QBarSeriesPrivate::categoryCount() const
 void QBarSeriesPrivate::setBarWidth(qreal width)
 {
     Q_Q(QBarSeries);
-    width = std::clamp(width, 0.0, 1.0);
+    width = std::clamp<qreal>(width, 0.0, 1.0);
     if (!qFuzzyCompare(width, m_barWidth)) {
         m_barWidth = width;
         q->update();

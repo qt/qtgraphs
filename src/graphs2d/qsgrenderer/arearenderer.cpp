@@ -176,7 +176,7 @@ void AreaRenderer::handlePolish(QAreaSeries *series)
     }
 
     qreal borderWidth = series->borderWidth();
-    if (qFuzzyCompare(borderWidth, -1.0))
+    if (qFuzzyCompare(borderWidth, qreal(-1.0)))
         borderWidth = theme->borderWidth();
 
     group->shapePath->setStrokeWidth(borderWidth);
