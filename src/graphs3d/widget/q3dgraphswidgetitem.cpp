@@ -371,7 +371,7 @@ QtGraphs3D::ElementType Q3DGraphsWidgetItem::selectedElement() const
 
 /*!
  * Renders current frame to an image of \a imageSize.
- * Returns a shared pointer to grab resut which can be used to access the
+ * Returns a shared pointer to grab result which can be used to access the
  * rendered image when it's ready. Image is rendered with the current
  * antialiasing settings.
  *

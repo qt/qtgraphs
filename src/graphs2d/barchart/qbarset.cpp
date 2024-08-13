@@ -111,6 +111,20 @@ QT_BEGIN_NAMESPACE
 */
 
 /*!
+   \property QBarSet::values
+   \brief The values of the bar set.
+
+    You can set a list of either \l [QML]{real} or \l [QML]{point}
+    types as values.
+
+    If you set a list of real types as values, they directly define the bar set values.
+
+    If you set a list of point types as values, the x-coordinate of the point specifies its
+    zero-based index in the bar set. The size of the bar set is the highest x-coordinate value + 1.
+    If a point is missing for any x-coordinate between zero and the highest value,
+    it gets the value zero.
+ */
+/*!
     \qmlproperty QVariantList BarSet::values
     The values of the bar set. You can set a list of either \l [QML]{real} or \l [QML]{point}
     types as values.

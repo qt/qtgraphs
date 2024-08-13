@@ -21,19 +21,19 @@
     \section1 BarGraph
 
     The first graph in the example is a bar graph. Creating it starts with a GraphsView
-    component and setting the \l{GraphsView::theme}{theme} to one which is suitable on
-    dark backgrounds. This theme adjusts the graph background grid and axis lines and
-    labels.
+    component, setting the \l{GraphsView::axisX}{X axis}, \l{GraphsView::axisY}{Y axis} and
+    \l{GraphsView::theme}{theme}. X axis is a BarCategoryAxis with 3 categories.
+    We hide both the vertical grid and the axis lines. Y axis is a ValueAxis with visible range
+    between 20 and 100. Major ticks with labels will be shown on every 10 values using
+    \l{ValueAxis::tickInterval}{tickInterval}. Subticks will be shown on every 1 values using
+    \l{ValueAxis::tickInterval}{subTickCount} \c 9, which means that between every major tick
+    there will be 9 minor ones. Lastly, we add a \l{GraphsView::theme}{theme} to one which is
+    suitable on dark backgrounds. This theme adjusts the graph background grid, axis lines and labels.
 
     \snippet 2d/hellographs/qml/hellographs/main.qml bargraph
     \dots
 
-    To make this a bar graph, add a \l BarSeries. X axis of the series is
-    BarCategoryAxis with 3 categories. We hide both the vertical grid and the axis lines.
-    Y axis of the series is \l ValueAxis with visible range between 20 and 100. Major ticks
-    with labels will be shown on every 10 values using \l{ValueAxis::tickInterval}{tickInterval}.
-    Subticks will be shown on every 1 values using \l{ValueAxis::subTickCount}{subTickCount} \c 9,
-    which means that between every major ticks there will be \c 9 minor ones.
+    To make this a bar graph, add a \l BarSeries.
 
     \snippet 2d/hellographs/qml/hellographs/main.qml barseries
     \dots
