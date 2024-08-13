@@ -29,8 +29,10 @@ QVariant QGraphPointAnimation::interpolated(const QVariant &start,
     auto startPoint = qvariant_cast<QPointF>(start);
     auto endPoint = qvariant_cast<QPointF>(end);
 
-    auto interpolatedPoint = QPointF{startPoint.x() * (1.0 - progress) + endPoint.x() * progress,
-                                     startPoint.y() * (1.0 - progress) + endPoint.y() * progress};
+    auto interpolatedPoint = QPointF{
+        qreal(startPoint.x() * (1.0 - progress) + endPoint.x() * progress),
+        qreal(startPoint.y() * (1.0 - progress) + endPoint.y() * progress),
+    };
 
     return QVariant::fromValue(interpolatedPoint);
 }
@@ -76,8 +78,10 @@ void QGraphPointAnimation::animate()
         } else {
             auto lastPoint = m_pointsState[m_newPointIndex - 1];
             auto nextPoint = m_pointsState[m_newPointIndex + 1];
-            auto midpoint = QPointF{(nextPoint.x() + lastPoint.x()) * 0.5,
-                                    (nextPoint.y() + lastPoint.y()) * 0.5};
+            auto midpoint = QPointF{
+                qreal((nextPoint.x() + lastPoint.x()) * 0.5),
+                qreal((nextPoint.y() + lastPoint.y()) * 0.5),
+            };
 
             auto endv = QVariant::fromValue(midpoint);
             setAnimatingValue(startv, endv);

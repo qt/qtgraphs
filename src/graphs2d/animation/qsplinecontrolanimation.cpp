@@ -30,8 +30,9 @@ QVariant QSplineControlAnimation::interpolated(const QVariant &start,
     auto interpolateList = QList<QPointF>();
 
     for (int i = 0; i < endList.size(); ++i) {
-        interpolateList.push_back({startList[i].x() * (1.0 - progress) + endList[i].x() * progress,
-                                   startList[i].y() * (1.0 - progress) + endList[i].y() * progress});
+        interpolateList.push_back(
+                { qreal(startList[i].x() * (1.0 - progress) + endList[i].x() * progress),
+                  qreal(startList[i].y() * (1.0 - progress) + endList[i].y() * progress) });
     }
 
     return QVariant::fromValue(interpolateList);

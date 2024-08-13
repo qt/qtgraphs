@@ -369,7 +369,7 @@ qreal QAbstractSeries::valuesMultiplier() const
 void QAbstractSeries::setValuesMultiplier(qreal valuesMultiplier)
 {
     Q_D(QAbstractSeries);
-    valuesMultiplier = std::clamp(valuesMultiplier, 0.0, 1.0);
+    valuesMultiplier = std::clamp<qreal>(valuesMultiplier, 0.0, 1.0);
     if (valuesMultiplier != d->m_valuesMultiplier) {
         d->m_valuesMultiplier = valuesMultiplier;
         update();

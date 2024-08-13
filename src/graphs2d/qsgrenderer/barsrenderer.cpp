@@ -76,7 +76,7 @@ qreal BarsRenderer::getSetBorderWidth(QBarSeries *series, QBarSet *set)
     Q_UNUSED(series);
     auto theme = m_graph->theme();
     qreal borderWidth = set->borderWidth();
-    if (qFuzzyCompare(borderWidth, -1.0))
+    if (qFuzzyCompare(borderWidth, qreal(-1.0)))
         borderWidth = theme->borderWidth();
     return borderWidth;
 }

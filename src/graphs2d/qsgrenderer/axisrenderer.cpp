@@ -260,7 +260,7 @@ void AxisRenderer::updateAxis()
         // Todo: make constant for all axis, or clamp in class? (QTBUG-124736)
         const double MAX_DIVS = 100.0;
 
-        double interval = std::clamp(vaxis->tickInterval(), 0.0, MAX_DIVS);
+        double interval = std::clamp<double>(vaxis->tickInterval(), 0.0, MAX_DIVS);
         m_axisVerticalMaxValue = vaxis->max().toMSecsSinceEpoch();
         m_axisVerticalMinValue = vaxis->min().toMSecsSinceEpoch();
         m_axisVerticalValueRange = std::abs(m_axisVerticalMaxValue - m_axisVerticalMinValue);
@@ -293,7 +293,7 @@ void AxisRenderer::updateAxis()
     if (auto haxis = qobject_cast<QDateTimeAxis *>(m_axisHorizontal)) {
         const double MAX_DIVS = 100.0;
 
-        double interval = std::clamp(haxis->tickInterval(), 0.0, MAX_DIVS);
+        double interval = std::clamp<double>(haxis->tickInterval(), 0.0, MAX_DIVS);
         m_axisHorizontalMaxValue = haxis->max().toMSecsSinceEpoch();
         m_axisHorizontalMinValue = haxis->min().toMSecsSinceEpoch();
         m_axisHorizontalValueRange = std::abs(m_axisHorizontalMaxValue - m_axisHorizontalMinValue);
