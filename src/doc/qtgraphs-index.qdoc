@@ -57,6 +57,7 @@
 
     \list
         \li \l{Qt Graphs Overview for 2D}{Overview}
+        \li \l{Qt Graphs Migration from Qt Charts}{Migration Guide from Qt Charts}
     \endlist
 
     \section2 Qt Graphs for 3D
