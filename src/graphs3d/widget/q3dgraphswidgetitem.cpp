@@ -108,7 +108,7 @@ void Q3DGraphsWidgetItem::releaseTheme(QGraphsTheme *theme)
  */
 QGraphsTheme *Q3DGraphsWidgetItem::activeTheme() const
 {
-    const Q_D(Q3DGraphsWidgetItem);
+    Q_D(const Q3DGraphsWidgetItem);
     return d->m_graphsItem->theme();
 }
 
@@ -126,7 +126,7 @@ void Q3DGraphsWidgetItem::setActiveTheme(QGraphsTheme *activeTheme)
  */
 QList<QGraphsTheme *> Q3DGraphsWidgetItem::themes() const
 {
-    const Q_D(Q3DGraphsWidgetItem);
+    Q_D(const Q3DGraphsWidgetItem);
     return d->m_graphsItem->themes();
 }
 
@@ -142,7 +142,7 @@ QList<QGraphsTheme *> Q3DGraphsWidgetItem::themes() const
  */
 QtGraphs3D::SelectionFlags Q3DGraphsWidgetItem::selectionMode() const
 {
-    const Q_D(Q3DGraphsWidgetItem);
+    Q_D(const Q3DGraphsWidgetItem);
     return d->m_graphsItem->selectionMode();
 }
 
@@ -168,7 +168,7 @@ void Q3DGraphsWidgetItem::setSelectionMode(const QtGraphs3D::SelectionFlags &sel
  */
 QtGraphs3D::ShadowQuality Q3DGraphsWidgetItem::shadowQuality() const
 {
-    const Q_D(Q3DGraphsWidgetItem);
+    Q_D(const Q3DGraphsWidgetItem);
     return d->m_graphsItem->shadowQuality();
 }
 
@@ -189,7 +189,7 @@ void Q3DGraphsWidgetItem::setShadowQuality(const QtGraphs3D::ShadowQuality &shad
  */
 Q3DScene *Q3DGraphsWidgetItem::scene() const
 {
-    const Q_D(Q3DGraphsWidgetItem);
+    Q_D(const Q3DGraphsWidgetItem);
     return (Q3DScene *) d->m_graphsItem->scene();
 }
 
@@ -207,7 +207,7 @@ void Q3DGraphsWidgetItem::clearSelection()
  */
 bool Q3DGraphsWidgetItem::hasSeries(QAbstract3DSeries *series) const
 {
-    const Q_D(Q3DGraphsWidgetItem);
+    Q_D(const Q3DGraphsWidgetItem);
     return d->m_graphsItem->hasSeries(series);
 }
 
@@ -295,7 +295,7 @@ QList<QCustom3DItem *> Q3DGraphsWidgetItem::customItems() const
  */
 int Q3DGraphsWidgetItem::selectedLabelIndex() const
 {
-    const Q_D(Q3DGraphsWidgetItem);
+    Q_D(const Q3DGraphsWidgetItem);
     return d->m_graphsItem->selectedLabelIndex();
 }
 
@@ -310,7 +310,7 @@ int Q3DGraphsWidgetItem::selectedLabelIndex() const
  */
 QAbstract3DAxis *Q3DGraphsWidgetItem::selectedAxis() const
 {
-    const Q_D(Q3DGraphsWidgetItem);
+    Q_D(const Q3DGraphsWidgetItem);
     return d->m_graphsItem->selectedAxis();
 }
 
@@ -325,7 +325,7 @@ QAbstract3DAxis *Q3DGraphsWidgetItem::selectedAxis() const
  */
 qsizetype Q3DGraphsWidgetItem::selectedCustomItemIndex() const
 {
-    const Q_D(Q3DGraphsWidgetItem);
+    Q_D(const Q3DGraphsWidgetItem);
     return d->m_graphsItem->selectedCustomItemIndex();
 }
 
@@ -341,7 +341,7 @@ qsizetype Q3DGraphsWidgetItem::selectedCustomItemIndex() const
  */
 QCustom3DItem *Q3DGraphsWidgetItem::selectedCustomItem() const
 {
-    const Q_D(Q3DGraphsWidgetItem);
+    Q_D(const Q3DGraphsWidgetItem);
     return d->m_graphsItem->selectedCustomItem();
 }
 
@@ -365,7 +365,7 @@ QCustom3DItem *Q3DGraphsWidgetItem::selectedCustomItem() const
  */
 QtGraphs3D::ElementType Q3DGraphsWidgetItem::selectedElement() const
 {
-    const Q_D(Q3DGraphsWidgetItem);
+    Q_D(const Q3DGraphsWidgetItem);
     return d->m_graphsItem->selectedElement();
 }
 
@@ -378,11 +378,11 @@ QtGraphs3D::ElementType Q3DGraphsWidgetItem::selectedElement() const
  * \note OpenGL ES2 does not support anitialiasing.
  * \sa QQuickItem::grabToImage
  */
-QSharedPointer<QQuickItemGrabResult> Q3DGraphsWidgetItem::renderToImage(QSize imageSize)
+QSharedPointer<QQuickItemGrabResult> Q3DGraphsWidgetItem::renderToImage(QSize imageSize) const
 {
     QSize renderSize = imageSize;
 
-    Q_D(Q3DGraphsWidgetItem);
+    Q_D(const Q3DGraphsWidgetItem);
     if (renderSize.isEmpty())
         renderSize = d->m_widget->size();
 
@@ -391,7 +391,7 @@ QSharedPointer<QQuickItemGrabResult> Q3DGraphsWidgetItem::renderToImage(QSize im
 
 QtGraphs3D::CameraPreset Q3DGraphsWidgetItem::cameraPreset() const
 {
-    const Q_D(Q3DGraphsWidgetItem);
+    Q_D(const Q3DGraphsWidgetItem);
     return d->m_graphsItem->cameraPreset();
 }
 
@@ -405,9 +405,9 @@ void Q3DGraphsWidgetItem::setCameraPreset(QtGraphs3D::CameraPreset preset)
  *
  * \brief The X-rotation angle of the camera around the target point in degrees.
  */
-float Q3DGraphsWidgetItem::cameraXRotation()
+float Q3DGraphsWidgetItem::cameraXRotation() const
 {
-    Q_D(Q3DGraphsWidgetItem);
+    Q_D(const Q3DGraphsWidgetItem);
     return d->m_graphsItem->cameraXRotation();
 }
 
@@ -422,9 +422,9 @@ void Q3DGraphsWidgetItem::setCameraXRotation(float rotation)
  *
  * \brief The Y-rotation angle of the camera around the target point in degrees.
  */
-float Q3DGraphsWidgetItem::cameraYRotation()
+float Q3DGraphsWidgetItem::cameraYRotation() const
 {
-    Q_D(Q3DGraphsWidgetItem);
+    Q_D(const Q3DGraphsWidgetItem);
     return d->m_graphsItem->cameraYRotation();
 }
 
@@ -439,9 +439,9 @@ void Q3DGraphsWidgetItem::setCameraYRotation(float rotation)
  *
  * \brief The minimum X-rotation angle of the camera around the target point in degrees.
  */
-float Q3DGraphsWidgetItem::minCameraXRotation()
+float Q3DGraphsWidgetItem::minCameraXRotation() const
 {
-    Q_D(Q3DGraphsWidgetItem);
+    Q_D(const Q3DGraphsWidgetItem);
     return d->m_graphsItem->minCameraXRotation();
 }
 
@@ -456,9 +456,9 @@ void Q3DGraphsWidgetItem::setMinCameraXRotation(float rotation)
  *
  * \brief The maximum X-rotation angle of the camera around the target point in degrees.
  */
-float Q3DGraphsWidgetItem::maxCameraXRotation()
+float Q3DGraphsWidgetItem::maxCameraXRotation() const
 {
-    Q_D(Q3DGraphsWidgetItem);
+    Q_D(const Q3DGraphsWidgetItem);
     return d->m_graphsItem->maxCameraXRotation();
 }
 
@@ -473,9 +473,9 @@ void Q3DGraphsWidgetItem::setMaxCameraXRotation(float rotation)
  *
  * \brief The minimum Y-rotation angle of the camera around the target point in degrees.
  */
-float Q3DGraphsWidgetItem::minCameraYRotation()
+float Q3DGraphsWidgetItem::minCameraYRotation() const
 {
-    Q_D(Q3DGraphsWidgetItem);
+    Q_D(const Q3DGraphsWidgetItem);
     return d->m_graphsItem->minCameraYRotation();
 }
 
@@ -490,9 +490,9 @@ void Q3DGraphsWidgetItem::setMinCameraYRotation(float rotation)
  *
  * \brief The maximum Y-rotation angle of the camera around the target point in degrees.
  */
-float Q3DGraphsWidgetItem::maxCameraYRotation()
+float Q3DGraphsWidgetItem::maxCameraYRotation() const
 {
-    Q_D(Q3DGraphsWidgetItem);
+    Q_D(const Q3DGraphsWidgetItem);
     return d->m_graphsItem->maxCameraYRotation();
 }
 
@@ -510,9 +510,9 @@ void Q3DGraphsWidgetItem::setMaxCameraYRotation(float rotation)
  *
  * Defaults to \c{true}.
  */
-bool Q3DGraphsWidgetItem::isZoomAtTargetEnabled()
+bool Q3DGraphsWidgetItem::isZoomAtTargetEnabled() const
 {
-    Q_D(Q3DGraphsWidgetItem);
+    Q_D(const Q3DGraphsWidgetItem);
     return d->m_graphsItem->zoomAtTargetEnabled();
 }
 
@@ -529,9 +529,9 @@ void Q3DGraphsWidgetItem::setZoomAtTargetEnabled(bool enable)
  *
  * Defaults to \c{true}.
  */
-bool Q3DGraphsWidgetItem::isZoomEnabled()
+bool Q3DGraphsWidgetItem::isZoomEnabled() const
 {
-    Q_D(Q3DGraphsWidgetItem);
+    Q_D(const Q3DGraphsWidgetItem);
     return d->m_graphsItem->zoomEnabled();
 }
 
@@ -553,7 +553,7 @@ void Q3DGraphsWidgetItem::setZoomEnabled(bool enable)
  */
 float Q3DGraphsWidgetItem::ambientLightStrength() const
 {
-    const Q_D(Q3DGraphsWidgetItem);
+    Q_D(const Q3DGraphsWidgetItem);
     return d->m_graphsItem->ambientLightStrength();
 }
 
@@ -574,7 +574,7 @@ void Q3DGraphsWidgetItem::setAmbientLightStrength(float newAmbientLightStrength)
  */
 float Q3DGraphsWidgetItem::lightStrength() const
 {
-    const Q_D(Q3DGraphsWidgetItem);
+    Q_D(const Q3DGraphsWidgetItem);
     return d->m_graphsItem->lightStrength();
 }
 
@@ -596,7 +596,7 @@ void Q3DGraphsWidgetItem::setLightStrength(float newLightStrength)
  */
 float Q3DGraphsWidgetItem::shadowStrength() const
 {
-    const Q_D(Q3DGraphsWidgetItem);
+    Q_D(const Q3DGraphsWidgetItem);
     return d->m_graphsItem->shadowStrength();
 }
 
@@ -615,7 +615,7 @@ void Q3DGraphsWidgetItem::setShadowStrength(float newShadowStrength)
  */
 QColor Q3DGraphsWidgetItem::lightColor() const
 {
-    const Q_D(Q3DGraphsWidgetItem);
+    Q_D(const Q3DGraphsWidgetItem);
     return d->m_graphsItem->lightColor();
 }
 
@@ -635,7 +635,7 @@ void Q3DGraphsWidgetItem::setLightColor(QColor newLightColor)
  */
 QtGraphs3D::GridLineType Q3DGraphsWidgetItem::gridLineType() const
 {
-    const Q_D(Q3DGraphsWidgetItem);
+    Q_D(const Q3DGraphsWidgetItem);
     return d->m_graphsItem->gridLineType();
 }
 
@@ -668,9 +668,9 @@ QQuickWidget *Q3DGraphsWidgetItem::widget() const
  *
  * Defaults to \c{true}.
  */
-bool Q3DGraphsWidgetItem::isSelectionEnabled()
+bool Q3DGraphsWidgetItem::isSelectionEnabled() const
 {
-    Q_D(Q3DGraphsWidgetItem);
+    Q_D(const Q3DGraphsWidgetItem);
     return d->m_graphsItem->selectionEnabled();
 }
 
@@ -687,9 +687,9 @@ void Q3DGraphsWidgetItem::setSelectionEnabled(bool enable)
  *
  * Defaults to \c{true}.
  */
-bool Q3DGraphsWidgetItem::isRotationEnabled()
+bool Q3DGraphsWidgetItem::isRotationEnabled() const
 {
-    Q_D(Q3DGraphsWidgetItem);
+    Q_D(const Q3DGraphsWidgetItem);
     return d->m_graphsItem->rotationEnabled();
 }
 
@@ -752,9 +752,9 @@ void Q3DGraphsWidgetItem::setDragButton(Qt::MouseButtons button)
  *
  * \sa minCameraZoomLevel, maxCameraZoomLevel
  */
-float Q3DGraphsWidgetItem::cameraZoomLevel()
+float Q3DGraphsWidgetItem::cameraZoomLevel() const
 {
-    Q_D(Q3DGraphsWidgetItem);
+    Q_D(const Q3DGraphsWidgetItem);
     return d->m_graphsItem->cameraZoomLevel();
 }
 
@@ -778,9 +778,9 @@ void Q3DGraphsWidgetItem::setCameraZoomLevel(float level)
  *
  * \sa cameraZoomLevel, maxCameraZoomLevel
  */
-float Q3DGraphsWidgetItem::minCameraZoomLevel()
+float Q3DGraphsWidgetItem::minCameraZoomLevel() const
 {
-    Q_D(Q3DGraphsWidgetItem);
+    Q_D(const Q3DGraphsWidgetItem);
     return d->m_graphsItem->minCameraZoomLevel();
 }
 
@@ -802,9 +802,9 @@ void Q3DGraphsWidgetItem::setMinCameraZoomLevel(float level)
  *
  * \sa cameraZoomLevel, minCameraZoomLevel
  */
-float Q3DGraphsWidgetItem::maxCameraZoomLevel()
+float Q3DGraphsWidgetItem::maxCameraZoomLevel() const
 {
-    Q_D(Q3DGraphsWidgetItem);
+    Q_D(const Q3DGraphsWidgetItem);
     return d->m_graphsItem->maxCameraZoomLevel();
 }
 
@@ -828,9 +828,9 @@ void Q3DGraphsWidgetItem::setMaxCameraZoomLevel(float level)
  * \note For bar graphs, the Y-coordinate is ignored and camera always targets a
  * point on the horizontal background.
  */
-QVector3D Q3DGraphsWidgetItem::cameraTargetPosition()
+QVector3D Q3DGraphsWidgetItem::cameraTargetPosition() const
 {
-    Q_D(Q3DGraphsWidgetItem);
+    Q_D(const Q3DGraphsWidgetItem);
     return d->m_graphsItem->cameraTargetPosition();
 }
 
@@ -870,9 +870,9 @@ void Q3DGraphsWidgetItem::setCameraTargetPosition(QVector3D target)
  * the camera is limited to the sector determined by the minimum and maximum
  * values. Set to \c true by default.
  */
-bool Q3DGraphsWidgetItem::wrapCameraXRotation()
+bool Q3DGraphsWidgetItem::wrapCameraXRotation() const
 {
-    Q_D(Q3DGraphsWidgetItem);
+    Q_D(const Q3DGraphsWidgetItem);
     return d->m_graphsItem->wrapCameraXRotation();
 }
 
@@ -892,9 +892,9 @@ void Q3DGraphsWidgetItem::setWrapCameraXRotation(bool wrap)
  * limited to the sector determined by the minimum and maximum values.
  * Set to \c true by default.
  */
-bool Q3DGraphsWidgetItem::wrapCameraYRotation()
+bool Q3DGraphsWidgetItem::wrapCameraYRotation() const
 {
-    Q_D(Q3DGraphsWidgetItem);
+    Q_D(const Q3DGraphsWidgetItem);
     return d->m_graphsItem->wrapCameraYRotation();
 }
 
@@ -927,7 +927,7 @@ void Q3DGraphsWidgetItem::setCameraPosition(float horizontal, float vertical, fl
  */
 int Q3DGraphsWidgetItem::msaaSamples() const
 {
-    const Q_D(Q3DGraphsWidgetItem);
+    Q_D(const Q3DGraphsWidgetItem);
     return d->m_graphsItem->msaaSamples();
 }
 
@@ -972,7 +972,7 @@ void Q3DGraphsWidgetItem::setMeasureFps(bool enable)
 
 bool Q3DGraphsWidgetItem::measureFps() const
 {
-    const Q_D(Q3DGraphsWidgetItem);
+    Q_D(const Q3DGraphsWidgetItem);
     return d->m_graphsItem->measureFps();
 }
 
@@ -989,7 +989,7 @@ bool Q3DGraphsWidgetItem::measureFps() const
  */
 int Q3DGraphsWidgetItem::currentFps() const
 {
-    const Q_D(Q3DGraphsWidgetItem);
+    Q_D(const Q3DGraphsWidgetItem);
     return d->m_graphsItem->currentFps();
 }
 
@@ -1011,7 +1011,7 @@ void Q3DGraphsWidgetItem::setOrthoProjection(bool enable)
 
 bool Q3DGraphsWidgetItem::isOrthoProjection() const
 {
-    const Q_D(Q3DGraphsWidgetItem);
+    Q_D(const Q3DGraphsWidgetItem);
     return d->m_graphsItem->isOrthoProjection();
 }
 
@@ -1035,7 +1035,7 @@ void Q3DGraphsWidgetItem::setAspectRatio(qreal ratio)
 
 qreal Q3DGraphsWidgetItem::aspectRatio() const
 {
-    const Q_D(Q3DGraphsWidgetItem);
+    Q_D(const Q3DGraphsWidgetItem);
     return d->m_graphsItem->aspectRatio();
 }
 
@@ -1072,7 +1072,7 @@ void Q3DGraphsWidgetItem::setOptimizationHint(QtGraphs3D::OptimizationHint hint)
 
 QtGraphs3D::OptimizationHint Q3DGraphsWidgetItem::optimizationHint() const
 {
-    const Q_D(Q3DGraphsWidgetItem);
+    Q_D(const Q3DGraphsWidgetItem);
     return d->m_graphsItem->optimizationHint();
 }
 
@@ -1097,7 +1097,7 @@ void Q3DGraphsWidgetItem::setPolar(bool enable)
 
 bool Q3DGraphsWidgetItem::isPolar() const
 {
-    const Q_D(Q3DGraphsWidgetItem);
+    Q_D(const Q3DGraphsWidgetItem);
     return d->m_graphsItem->isPolar();
 }
 
@@ -1121,7 +1121,7 @@ void Q3DGraphsWidgetItem::setLabelMargin(float margin)
 
 float Q3DGraphsWidgetItem::labelMargin() const
 {
-    const Q_D(Q3DGraphsWidgetItem);
+    Q_D(const Q3DGraphsWidgetItem);
     return d->m_graphsItem->labelMargin();
 }
 /*!
@@ -1147,7 +1147,7 @@ void Q3DGraphsWidgetItem::setRadialLabelOffset(float offset)
 
 float Q3DGraphsWidgetItem::radialLabelOffset() const
 {
-    const Q_D(Q3DGraphsWidgetItem);
+    Q_D(const Q3DGraphsWidgetItem);
     return d->m_graphsItem->radialLabelOffset();
 }
 
@@ -1174,7 +1174,7 @@ void Q3DGraphsWidgetItem::setHorizontalAspectRatio(qreal ratio)
 
 qreal Q3DGraphsWidgetItem::horizontalAspectRatio() const
 {
-    const Q_D(Q3DGraphsWidgetItem);
+    Q_D(const Q3DGraphsWidgetItem);
     return d->m_graphsItem->horizontalAspectRatio();
 }
 
@@ -1195,7 +1195,7 @@ void Q3DGraphsWidgetItem::setLocale(const QLocale &locale)
 
 QLocale Q3DGraphsWidgetItem::locale() const
 {
-    const Q_D(Q3DGraphsWidgetItem);
+    Q_D(const Q3DGraphsWidgetItem);
     return d->m_graphsItem->locale();
 }
 
@@ -1223,7 +1223,7 @@ QLocale Q3DGraphsWidgetItem::locale() const
  */
 QVector3D Q3DGraphsWidgetItem::queriedGraphPosition() const
 {
-    const Q_D(Q3DGraphsWidgetItem);
+    Q_D(const Q3DGraphsWidgetItem);
     return d->m_graphsItem->queriedGraphPosition();
 }
 
@@ -1255,7 +1255,7 @@ void Q3DGraphsWidgetItem::setMargin(qreal margin)
 
 qreal Q3DGraphsWidgetItem::margin() const
 {
-    const Q_D(Q3DGraphsWidgetItem);
+    Q_D(const Q3DGraphsWidgetItem);
     return d->m_graphsItem->margin();
 }
 
