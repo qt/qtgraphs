@@ -538,7 +538,7 @@ void QItemModelBarDataProxy::setItemModel(QAbstractItemModel *itemModel)
 
 QAbstractItemModel *QItemModelBarDataProxy::itemModel() const
 {
-    const Q_D(QItemModelBarDataProxy);
+    Q_D(const QItemModelBarDataProxy);
     return d->m_itemModelHandler->itemModel();
 }
 
@@ -558,7 +558,7 @@ void QItemModelBarDataProxy::setRowRole(const QString &role)
 
 QString QItemModelBarDataProxy::rowRole() const
 {
-    const Q_D(QItemModelBarDataProxy);
+    Q_D(const QItemModelBarDataProxy);
     return d->m_rowRole;
 }
 
@@ -578,7 +578,7 @@ void QItemModelBarDataProxy::setColumnRole(const QString &role)
 
 QString QItemModelBarDataProxy::columnRole() const
 {
-    const Q_D(QItemModelBarDataProxy);
+    Q_D(const QItemModelBarDataProxy);
     return d->m_columnRole;
 }
 
@@ -598,7 +598,7 @@ void QItemModelBarDataProxy::setValueRole(const QString &role)
 
 QString QItemModelBarDataProxy::valueRole() const
 {
-    const Q_D(QItemModelBarDataProxy);
+    Q_D(const QItemModelBarDataProxy);
     return d->m_valueRole;
 }
 
@@ -618,7 +618,7 @@ void QItemModelBarDataProxy::setRotationRole(const QString &role)
 
 QString QItemModelBarDataProxy::rotationRole() const
 {
-    const Q_D(QItemModelBarDataProxy);
+    Q_D(const QItemModelBarDataProxy);
     return d->m_rotationRole;
 }
 
@@ -638,7 +638,7 @@ void QItemModelBarDataProxy::setRowCategories(const QStringList &categories)
 
 QStringList QItemModelBarDataProxy::rowCategories() const
 {
-    const Q_D(QItemModelBarDataProxy);
+    Q_D(const QItemModelBarDataProxy);
     return d->m_rowCategories;
 }
 
@@ -658,7 +658,7 @@ void QItemModelBarDataProxy::setColumnCategories(const QStringList &categories)
 
 QStringList QItemModelBarDataProxy::columnCategories() const
 {
-    const Q_D(QItemModelBarDataProxy);
+    Q_D(const QItemModelBarDataProxy);
     return d->m_columnCategories;
 }
 
@@ -681,7 +681,7 @@ void QItemModelBarDataProxy::setUseModelCategories(bool enable)
 
 bool QItemModelBarDataProxy::useModelCategories() const
 {
-    const Q_D(QItemModelBarDataProxy);
+    Q_D(const QItemModelBarDataProxy);
     return d->m_useModelCategories;
 }
 
@@ -705,7 +705,7 @@ void QItemModelBarDataProxy::setAutoRowCategories(bool enable)
 
 bool QItemModelBarDataProxy::autoRowCategories() const
 {
-    const Q_D(QItemModelBarDataProxy);
+    Q_D(const QItemModelBarDataProxy);
     return d->m_autoRowCategories;
 }
 
@@ -729,7 +729,7 @@ void QItemModelBarDataProxy::setAutoColumnCategories(bool enable)
 
 bool QItemModelBarDataProxy::autoColumnCategories() const
 {
-    const Q_D(QItemModelBarDataProxy);
+    Q_D(const QItemModelBarDataProxy);
     return d->m_autoColumnCategories;
 }
 
@@ -802,7 +802,7 @@ void QItemModelBarDataProxy::setRowRolePattern(const QRegularExpression &pattern
 
 QRegularExpression QItemModelBarDataProxy::rowRolePattern() const
 {
-    const Q_D(QItemModelBarDataProxy);
+    Q_D(const QItemModelBarDataProxy);
     return d->m_rowRolePattern;
 }
 
@@ -830,7 +830,7 @@ void QItemModelBarDataProxy::setColumnRolePattern(const QRegularExpression &patt
 
 QRegularExpression QItemModelBarDataProxy::columnRolePattern() const
 {
-    const Q_D(QItemModelBarDataProxy);
+    Q_D(const QItemModelBarDataProxy);
     return d->m_columnRolePattern;
 }
 
@@ -857,7 +857,7 @@ void QItemModelBarDataProxy::setValueRolePattern(const QRegularExpression &patte
 
 QRegularExpression QItemModelBarDataProxy::valueRolePattern() const
 {
-    const Q_D(QItemModelBarDataProxy);
+    Q_D(const QItemModelBarDataProxy);
     return d->m_valueRolePattern;
 }
 
@@ -884,7 +884,7 @@ void QItemModelBarDataProxy::setRotationRolePattern(const QRegularExpression &pa
 
 QRegularExpression QItemModelBarDataProxy::rotationRolePattern() const
 {
-    const Q_D(QItemModelBarDataProxy);
+    Q_D(const QItemModelBarDataProxy);
     return d->m_rotationRolePattern;
 }
 
@@ -910,7 +910,7 @@ void QItemModelBarDataProxy::setRowRoleReplace(const QString &replace)
 
 QString QItemModelBarDataProxy::rowRoleReplace() const
 {
-    const Q_D(QItemModelBarDataProxy);
+    Q_D(const QItemModelBarDataProxy);
     return d->m_rowRoleReplace;
 }
 
@@ -936,7 +936,7 @@ void QItemModelBarDataProxy::setColumnRoleReplace(const QString &replace)
 
 QString QItemModelBarDataProxy::columnRoleReplace() const
 {
-    const Q_D(QItemModelBarDataProxy);
+    Q_D(const QItemModelBarDataProxy);
     return d->m_columnRoleReplace;
 }
 
@@ -962,7 +962,7 @@ void QItemModelBarDataProxy::setValueRoleReplace(const QString &replace)
 
 QString QItemModelBarDataProxy::valueRoleReplace() const
 {
-    const Q_D(QItemModelBarDataProxy);
+    Q_D(const QItemModelBarDataProxy);
     return d->m_valueRoleReplace;
 }
 
@@ -989,7 +989,7 @@ void QItemModelBarDataProxy::setRotationRoleReplace(const QString &replace)
 
 QString QItemModelBarDataProxy::rotationRoleReplace() const
 {
-    const Q_D(QItemModelBarDataProxy);
+    Q_D(const QItemModelBarDataProxy);
     return d->m_rotationRoleReplace;
 }
 
@@ -1019,7 +1019,7 @@ void QItemModelBarDataProxy::setMultiMatchBehavior(
 
 QItemModelBarDataProxy::MultiMatchBehavior QItemModelBarDataProxy::multiMatchBehavior() const
 {
-    const Q_D(QItemModelBarDataProxy);
+    Q_D(const QItemModelBarDataProxy);
     return d->m_multiMatchBehavior;
 }
 

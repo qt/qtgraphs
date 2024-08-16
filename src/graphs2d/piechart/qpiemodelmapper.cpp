@@ -221,7 +221,7 @@ void QPieModelMapper::onSliceValueChanged() {
 }
 
 QAbstractItemModel *QPieModelMapper::model() const {
-    const Q_D(QPieModelMapper);
+    Q_D(const QPieModelMapper);
     return d->m_model;
 }
 
@@ -294,7 +294,7 @@ void QPieModelMapper::setModel(QAbstractItemModel *model) {
 }
 
 QPieSeries *QPieModelMapper::series() const {
-    const Q_D(QPieModelMapper);
+    Q_D(const QPieModelMapper);
     return d->m_series;
 }
 

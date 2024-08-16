@@ -203,7 +203,7 @@ Q3DScene::~Q3DScene() {}
  */
 QRect Q3DScene::viewport() const
 {
-    const Q_D(Q3DScene);
+    Q_D(const Q3DScene);
     return d->m_viewport;
 }
 
@@ -221,7 +221,7 @@ QRect Q3DScene::viewport() const
  */
 QRect Q3DScene::primarySubViewport() const
 {
-    const Q_D(Q3DScene);
+    Q_D(const Q3DScene);
     QRect primary = d->m_primarySubViewport;
     if (primary.isNull()) {
         primary = d->m_defaultSmallViewport;
@@ -305,7 +305,7 @@ bool Q3DScene::isPointInSecondarySubView(QPoint point)
  */
 QRect Q3DScene::secondarySubViewport() const
 {
-    const Q_D(Q3DScene);
+    Q_D(const Q3DScene);
     QRect secondary = d->m_secondarySubViewport;
     if (secondary.isNull() && d->m_isSlicingActive)
         secondary = d->m_defaultLargeViewport;
@@ -370,7 +370,7 @@ void Q3DScene::setSelectionQueryPosition(QPoint point)
 
 QPoint Q3DScene::selectionQueryPosition() const
 {
-    const Q_D(Q3DScene);
+    Q_D(const Q3DScene);
     return d->m_selectionQueryPosition;
 }
 
@@ -419,7 +419,7 @@ void Q3DScene::setGraphPositionQuery(QPoint point)
 
 QPoint Q3DScene::graphPositionQuery() const
 {
-    const Q_D(Q3DScene);
+    Q_D(const Q3DScene);
     return d->m_graphPositionQueryPosition;
 }
 
@@ -435,7 +435,7 @@ QPoint Q3DScene::graphPositionQuery() const
  */
 bool Q3DScene::isSlicingActive() const
 {
-    const Q_D(Q3DScene);
+    Q_D(const Q3DScene);
     return d->m_isSlicingActive;
 }
 
@@ -459,7 +459,7 @@ void Q3DScene::setSlicingActive(bool isSlicing)
  */
 bool Q3DScene::isSecondarySubviewOnTop() const
 {
-    const Q_D(Q3DScene);
+    Q_D(const Q3DScene);
     return d->m_isSecondarySubviewOnTop;
 }
 
@@ -484,7 +484,7 @@ void Q3DScene::setSecondarySubviewOnTop(bool isSecondaryOnTop)
  */
 qreal Q3DScene::devicePixelRatio() const
 {
-    const Q_D(Q3DScene);
+    Q_D(const Q3DScene);
     return d->m_devicePixelRatio;
 }
 

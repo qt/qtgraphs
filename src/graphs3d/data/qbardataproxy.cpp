@@ -140,7 +140,7 @@ QBarDataProxy::~QBarDataProxy() {}
  */
 QBar3DSeries *QBarDataProxy::series() const
 {
-    const Q_D(QBarDataProxy);
+    Q_D(const QBarDataProxy);
     if (!d->series())
         qWarning("Series needs to be created to access data members");
     return static_cast<QBar3DSeries *>(d->series());

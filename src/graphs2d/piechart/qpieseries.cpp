@@ -737,7 +737,7 @@ void QPieSeries::clear()
 */
 QList<QPieSlice *> QPieSeries::slices() const
 {
-    const Q_D(QPieSeries);
+    Q_D(const QPieSeries);
     return d->m_slices;
 }
 
@@ -746,7 +746,7 @@ QList<QPieSlice *> QPieSeries::slices() const
 */
 qsizetype QPieSeries::count() const
 {
-    const Q_D(QPieSeries);
+    Q_D(const QPieSeries);
     return d->m_slices.size();
 }
 
@@ -755,7 +755,7 @@ qsizetype QPieSeries::count() const
 */
 bool QPieSeries::isEmpty() const
 {
-    const Q_D(QPieSeries);
+    Q_D(const QPieSeries);
     return d->m_slices.isEmpty();
 }
 
@@ -766,7 +766,7 @@ bool QPieSeries::isEmpty() const
 */
 qreal QPieSeries::sum() const
 {
-    const Q_D(QPieSeries);
+    Q_D(const QPieSeries);
     return d->m_sum;
 }
 
@@ -789,7 +789,7 @@ void QPieSeries::setHorizontalPosition(qreal relativePosition)
 
 qreal QPieSeries::horizontalPosition() const
 {
-    const Q_D(QPieSeries);
+    Q_D(const QPieSeries);
     return d->m_pieRelativeHorPos;
 }
 
@@ -812,7 +812,7 @@ void QPieSeries::setVerticalPosition(qreal relativePosition)
 
 qreal QPieSeries::verticalPosition() const
 {
-    const Q_D(QPieSeries);
+    Q_D(const QPieSeries);
     return d->m_pieRelativeVerPos;
 }
 
@@ -825,7 +825,7 @@ void QPieSeries::setPieSize(qreal relativeSize)
 
 qreal QPieSeries::pieSize() const
 {
-    const Q_D(QPieSeries);
+    Q_D(const QPieSeries);
     return d->m_pieRelativeSize;
 }
 
@@ -858,7 +858,7 @@ void QPieSeries::setStartAngle(qreal angle)
 */
 qreal QPieSeries::startAngle() const
 {
-    const Q_D(QPieSeries);
+    Q_D(const QPieSeries);
     return d->m_pieStartAngle;
 }
 
@@ -891,7 +891,7 @@ void QPieSeries::setEndAngle(qreal angle)
 */
 qreal QPieSeries::endAngle() const
 {
-    const Q_D(QPieSeries);
+    Q_D(const QPieSeries);
     return d->m_pieEndAngle;
 }
 
@@ -955,7 +955,7 @@ void QPieSeries::setHoleSize(qreal holeSize)
 
 qreal QPieSeries::holeSize() const
 {
-    const Q_D(QPieSeries);
+    Q_D(const QPieSeries);
     return d->m_holeRelativeSize;
 }
 

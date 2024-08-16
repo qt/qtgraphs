@@ -635,7 +635,7 @@ void QItemModelSurfaceDataProxy::setItemModel(QAbstractItemModel *itemModel)
 
 QAbstractItemModel *QItemModelSurfaceDataProxy::itemModel() const
 {
-    const Q_D(QItemModelSurfaceDataProxy);
+    Q_D(const QItemModelSurfaceDataProxy);
     return d->m_itemModelHandler->itemModel();
 }
 
@@ -659,7 +659,7 @@ void QItemModelSurfaceDataProxy::setRowRole(const QString &role)
 
 QString QItemModelSurfaceDataProxy::rowRole() const
 {
-    const Q_D(QItemModelSurfaceDataProxy);
+    Q_D(const QItemModelSurfaceDataProxy);
     return d->m_rowRole;
 }
 
@@ -684,7 +684,7 @@ void QItemModelSurfaceDataProxy::setColumnRole(const QString &role)
 
 QString QItemModelSurfaceDataProxy::columnRole() const
 {
-    const Q_D(QItemModelSurfaceDataProxy);
+    Q_D(const QItemModelSurfaceDataProxy);
     return d->m_columnRole;
 }
 
@@ -707,7 +707,7 @@ void QItemModelSurfaceDataProxy::setXPosRole(const QString &role)
 
 QString QItemModelSurfaceDataProxy::xPosRole() const
 {
-    const Q_D(QItemModelSurfaceDataProxy);
+    Q_D(const QItemModelSurfaceDataProxy);
     return d->m_xPosRole;
 }
 
@@ -727,7 +727,7 @@ void QItemModelSurfaceDataProxy::setYPosRole(const QString &role)
 
 QString QItemModelSurfaceDataProxy::yPosRole() const
 {
-    const Q_D(QItemModelSurfaceDataProxy);
+    Q_D(const QItemModelSurfaceDataProxy);
     return d->m_yPosRole;
 }
 
@@ -750,7 +750,7 @@ void QItemModelSurfaceDataProxy::setZPosRole(const QString &role)
 
 QString QItemModelSurfaceDataProxy::zPosRole() const
 {
-    const Q_D(QItemModelSurfaceDataProxy);
+    Q_D(const QItemModelSurfaceDataProxy);
     return d->m_zPosRole;
 }
 
@@ -770,7 +770,7 @@ void QItemModelSurfaceDataProxy::setRowCategories(const QStringList &categories)
 
 QStringList QItemModelSurfaceDataProxy::rowCategories() const
 {
-    const Q_D(QItemModelSurfaceDataProxy);
+    Q_D(const QItemModelSurfaceDataProxy);
     return d->m_rowCategories;
 }
 
@@ -790,7 +790,7 @@ void QItemModelSurfaceDataProxy::setColumnCategories(const QStringList &categori
 
 QStringList QItemModelSurfaceDataProxy::columnCategories() const
 {
-    const Q_D(QItemModelSurfaceDataProxy);
+    Q_D(const QItemModelSurfaceDataProxy);
     return d->m_columnCategories;
 }
 
@@ -813,7 +813,7 @@ void QItemModelSurfaceDataProxy::setUseModelCategories(bool enable)
 
 bool QItemModelSurfaceDataProxy::useModelCategories() const
 {
-    const Q_D(QItemModelSurfaceDataProxy);
+    Q_D(const QItemModelSurfaceDataProxy);
     return d->m_useModelCategories;
 }
 
@@ -837,7 +837,7 @@ void QItemModelSurfaceDataProxy::setAutoRowCategories(bool enable)
 
 bool QItemModelSurfaceDataProxy::autoRowCategories() const
 {
-    const Q_D(QItemModelSurfaceDataProxy);
+    Q_D(const QItemModelSurfaceDataProxy);
     return d->m_autoRowCategories;
 }
 
@@ -861,7 +861,7 @@ void QItemModelSurfaceDataProxy::setAutoColumnCategories(bool enable)
 
 bool QItemModelSurfaceDataProxy::autoColumnCategories() const
 {
-    const Q_D(QItemModelSurfaceDataProxy);
+    Q_D(const QItemModelSurfaceDataProxy);
     return d->m_autoColumnCategories;
 }
 
@@ -935,7 +935,7 @@ void QItemModelSurfaceDataProxy::setRowRolePattern(const QRegularExpression &pat
 
 QRegularExpression QItemModelSurfaceDataProxy::rowRolePattern() const
 {
-    const Q_D(QItemModelSurfaceDataProxy);
+    Q_D(const QItemModelSurfaceDataProxy);
     return d->m_rowRolePattern;
 }
 
@@ -962,7 +962,7 @@ void QItemModelSurfaceDataProxy::setColumnRolePattern(const QRegularExpression &
 
 QRegularExpression QItemModelSurfaceDataProxy::columnRolePattern() const
 {
-    const Q_D(QItemModelSurfaceDataProxy);
+    Q_D(const QItemModelSurfaceDataProxy);
     return d->m_columnRolePattern;
 }
 
@@ -989,7 +989,7 @@ void QItemModelSurfaceDataProxy::setXPosRolePattern(const QRegularExpression &pa
 
 QRegularExpression QItemModelSurfaceDataProxy::xPosRolePattern() const
 {
-    const Q_D(QItemModelSurfaceDataProxy);
+    Q_D(const QItemModelSurfaceDataProxy);
     return d->m_xPosRolePattern;
 }
 
@@ -1016,7 +1016,7 @@ void QItemModelSurfaceDataProxy::setYPosRolePattern(const QRegularExpression &pa
 
 QRegularExpression QItemModelSurfaceDataProxy::yPosRolePattern() const
 {
-    const Q_D(QItemModelSurfaceDataProxy);
+    Q_D(const QItemModelSurfaceDataProxy);
     return d->m_yPosRolePattern;
 }
 
@@ -1043,7 +1043,7 @@ void QItemModelSurfaceDataProxy::setZPosRolePattern(const QRegularExpression &pa
 
 QRegularExpression QItemModelSurfaceDataProxy::zPosRolePattern() const
 {
-    const Q_D(QItemModelSurfaceDataProxy);
+    Q_D(const QItemModelSurfaceDataProxy);
     return d->m_zPosRolePattern;
 }
 
@@ -1070,7 +1070,7 @@ void QItemModelSurfaceDataProxy::setRowRoleReplace(const QString &replace)
 
 QString QItemModelSurfaceDataProxy::rowRoleReplace() const
 {
-    const Q_D(QItemModelSurfaceDataProxy);
+    Q_D(const QItemModelSurfaceDataProxy);
     return d->m_rowRoleReplace;
 }
 
@@ -1098,7 +1098,7 @@ void QItemModelSurfaceDataProxy::setColumnRoleReplace(const QString &replace)
 
 QString QItemModelSurfaceDataProxy::columnRoleReplace() const
 {
-    const Q_D(QItemModelSurfaceDataProxy);
+    Q_D(const QItemModelSurfaceDataProxy);
     return d->m_columnRoleReplace;
 }
 
@@ -1126,7 +1126,7 @@ void QItemModelSurfaceDataProxy::setXPosRoleReplace(const QString &replace)
 
 QString QItemModelSurfaceDataProxy::xPosRoleReplace() const
 {
-    const Q_D(QItemModelSurfaceDataProxy);
+    Q_D(const QItemModelSurfaceDataProxy);
     return d->m_xPosRoleReplace;
 }
 
@@ -1154,7 +1154,7 @@ void QItemModelSurfaceDataProxy::setYPosRoleReplace(const QString &replace)
 
 QString QItemModelSurfaceDataProxy::yPosRoleReplace() const
 {
-    const Q_D(QItemModelSurfaceDataProxy);
+    Q_D(const QItemModelSurfaceDataProxy);
     return d->m_yPosRoleReplace;
 }
 
@@ -1182,7 +1182,7 @@ void QItemModelSurfaceDataProxy::setZPosRoleReplace(const QString &replace)
 
 QString QItemModelSurfaceDataProxy::zPosRoleReplace() const
 {
-    const Q_D(QItemModelSurfaceDataProxy);
+    Q_D(const QItemModelSurfaceDataProxy);
     return d->m_zPosRoleReplace;
 }
 
@@ -1212,7 +1212,7 @@ void QItemModelSurfaceDataProxy::setMultiMatchBehavior(
 
 QItemModelSurfaceDataProxy::MultiMatchBehavior QItemModelSurfaceDataProxy::multiMatchBehavior() const
 {
-    const Q_D(QItemModelSurfaceDataProxy);
+    Q_D(const QItemModelSurfaceDataProxy);
     return d->m_multiMatchBehavior;
 }
 

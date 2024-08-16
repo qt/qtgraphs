@@ -446,7 +446,7 @@ QQuickGraphsBars *Q3DBarsWidgetItem::graphBars()
  */
 const QQuickGraphsBars *Q3DBarsWidgetItem::graphBars() const
 {
-    const Q_D(Q3DBarsWidgetItem);
+    Q_D(const Q3DBarsWidgetItem);
     return static_cast<const QQuickGraphsBars *>(d->m_graphsItem.get());
 }
 

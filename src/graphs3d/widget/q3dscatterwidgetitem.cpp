@@ -264,7 +264,7 @@ QQuickGraphsScatter *Q3DScatterWidgetItem::graphScatter()
  */
 const QQuickGraphsScatter *Q3DScatterWidgetItem::graphScatter() const
 {
-    const Q_D(Q3DScatterWidgetItem);
+    Q_D(const Q3DScatterWidgetItem);
     return static_cast<const QQuickGraphsScatter *>(d->m_graphsItem.get());
 }
 

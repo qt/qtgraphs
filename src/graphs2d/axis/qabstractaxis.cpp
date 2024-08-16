@@ -257,7 +257,7 @@ void QAbstractAxis::setLineVisible(bool visible)
 
 bool QAbstractAxis::isLineVisible() const
 {
-    const Q_D(QAbstractAxis);
+    Q_D(const QAbstractAxis);
     return d->m_lineVisible;
 }
 
@@ -273,7 +273,7 @@ void QAbstractAxis::setGridVisible(bool visible)
 
 bool QAbstractAxis::isGridVisible() const
 {
-    const Q_D(QAbstractAxis);
+    Q_D(const QAbstractAxis);
     return d->m_gridVisible;
 }
 
@@ -289,7 +289,7 @@ void QAbstractAxis::setSubGridVisible(bool visible)
 
 bool QAbstractAxis::isSubGridVisible() const
 {
-    const Q_D(QAbstractAxis);
+    Q_D(const QAbstractAxis);
     return d->m_subGridVisible;
 }
 
@@ -305,7 +305,7 @@ void QAbstractAxis::setLabelsVisible(bool visible)
 
 bool QAbstractAxis::labelsVisible() const
 {
-    const Q_D(QAbstractAxis);
+    Q_D(const QAbstractAxis);
     return d->m_labelsVisible;
 }
 
@@ -321,7 +321,7 @@ void QAbstractAxis::setLabelsAngle(qreal angle)
 
 qreal QAbstractAxis::labelsAngle() const
 {
-    const Q_D(QAbstractAxis);
+    Q_D(const QAbstractAxis);
     return d->m_labelsAngle;
 }
 
@@ -353,7 +353,7 @@ void QAbstractAxis::setTitleVisible(bool visible)
 
 bool QAbstractAxis::isTitleVisible() const
 {
-    const Q_D(QAbstractAxis);
+    Q_D(const QAbstractAxis);
     return d->m_titleVisible;
 }
 
@@ -375,7 +375,7 @@ void QAbstractAxis::setTitleColor(QColor color)
 */
 QColor QAbstractAxis::titleColor() const
 {
-    const Q_D(QAbstractAxis);
+    Q_D(const QAbstractAxis);
     return d->m_titleColor;
 }
 
@@ -397,7 +397,7 @@ void QAbstractAxis::setTitleFont(const QFont &font)
 */
 QFont QAbstractAxis::titleFont() const
 {
-    const Q_D(QAbstractAxis);
+    Q_D(const QAbstractAxis);
     return d->m_titleFont;
 }
 
@@ -413,13 +413,13 @@ void QAbstractAxis::setTitleText(const QString &title)
 
 QString QAbstractAxis::titleText() const
 {
-    const Q_D(QAbstractAxis);
+    Q_D(const QAbstractAxis);
     return d->m_title;
 }
 
 bool QAbstractAxis::isVisible() const
 {
-    const Q_D(QAbstractAxis);
+    Q_D(const QAbstractAxis);
     return d->m_visible;
 }
 

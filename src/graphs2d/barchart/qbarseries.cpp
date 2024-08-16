@@ -564,7 +564,7 @@ QAbstractSeries::SeriesType QBarSeries::type() const
 */
 QList<QColor> QBarSeries::seriesColors() const
 {
-    const Q_D(QBarSeries);
+    Q_D(const QBarSeries);
     return d->m_seriesColors;
 }
 
@@ -596,7 +596,7 @@ void QBarSeries::setSeriesColors(const QList<QColor> &newSeriesColors)
 */
 QList<QColor> QBarSeries::borderColors() const
 {
-    const Q_D(QBarSeries);
+    Q_D(const QBarSeries);
     return d->m_borderColors;
 }
 

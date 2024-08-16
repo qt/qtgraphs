@@ -317,7 +317,7 @@ void QBarSet::setLabel(const QString &label)
 */
 QString QBarSet::label() const
 {
-    const Q_D(QBarSet);
+    Q_D(const QBarSet);
     return d->m_label;
 }
 
@@ -448,7 +448,7 @@ void QBarSet::replace(qsizetype index, qreal value)
 */
 qreal QBarSet::at(qsizetype index) const
 {
-    const Q_D(QBarSet);
+    Q_D(const QBarSet);
     if (index < 0 || index >= d->m_values.size())
         return 0;
     return d->m_values.at(index).y();
@@ -463,7 +463,7 @@ qreal QBarSet::at(qsizetype index) const
 */
 qsizetype QBarSet::count() const
 {
-    const Q_D(QBarSet);
+    Q_D(const QBarSet);
     return d->m_values.size();
 }
 
@@ -476,7 +476,7 @@ qsizetype QBarSet::count() const
 */
 qreal QBarSet::sum() const
 {
-    const Q_D(QBarSet);
+    Q_D(const QBarSet);
     qreal total(0);
     for (int i = 0; i < d->m_values.size(); i++)
         total += d->m_values.at(i).y();
@@ -522,7 +522,7 @@ qreal QBarSet::operator [](qsizetype index) const
 */
 QColor QBarSet::color() const
 {
-    const Q_D(QBarSet);
+    Q_D(const QBarSet);
     return d->m_color;
 }
 
@@ -544,7 +544,7 @@ void QBarSet::setColor(QColor color)
 */
 QColor QBarSet::borderColor() const
 {
-    const Q_D(QBarSet);
+    Q_D(const QBarSet);
     return d->m_borderColor;
 }
 
@@ -566,7 +566,7 @@ void QBarSet::setBorderColor(QColor color)
 */
 QColor QBarSet::labelColor() const
 {
-    const Q_D(QBarSet);
+    Q_D(const QBarSet);
     return d->m_labelColor;
 }
 
@@ -592,7 +592,7 @@ void QBarSet::setLabelColor(QColor color)
 */
 QColor QBarSet::selectedColor() const
 {
-    const Q_D(QBarSet);
+    Q_D(const QBarSet);
     return d->m_selectedColor;
 }
 
@@ -615,7 +615,7 @@ void QBarSet::setSelectedColor(QColor color)
 
 qreal QBarSet::borderWidth() const
 {
-    const Q_D(QBarSet);
+    Q_D(const QBarSet);
     return d->m_borderWidth;
 }
 
@@ -707,7 +707,7 @@ void QBarSet::setValues(const QVariantList &values)
  */
 bool QBarSet::isBarSelected(qsizetype index) const
 {
-    const Q_D(QBarSet);
+    Q_D(const QBarSet);
     return d->isBarSelected(index);
 }
 
@@ -886,7 +886,7 @@ void QBarSet::toggleSelection(const QList<qsizetype> &indexes)
  */
 QList<qsizetype> QBarSet::selectedBars() const
 {
-    const Q_D(QBarSet);
+    Q_D(const QBarSet);
     return QList<qsizetype>(d->m_selectedBars.begin(), d->m_selectedBars.end());
 }
 

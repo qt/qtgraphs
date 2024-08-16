@@ -277,7 +277,7 @@ void QHeightMapSurfaceDataProxy::setHeightMap(const QImage &image)
 
 QImage QHeightMapSurfaceDataProxy::heightMap() const
 {
-    const Q_D(QHeightMapSurfaceDataProxy);
+    Q_D(const QHeightMapSurfaceDataProxy);
     return d->m_heightMap;
 }
 
@@ -303,7 +303,7 @@ void QHeightMapSurfaceDataProxy::setHeightMapFile(const QString &filename)
 
 QString QHeightMapSurfaceDataProxy::heightMapFile() const
 {
-    const Q_D(QHeightMapSurfaceDataProxy);
+    Q_D(const QHeightMapSurfaceDataProxy);
     return d->m_heightMapFile;
 }
 
@@ -338,7 +338,7 @@ void QHeightMapSurfaceDataProxy::setMinXValue(float min)
 
 float QHeightMapSurfaceDataProxy::minXValue() const
 {
-    const Q_D(QHeightMapSurfaceDataProxy);
+    Q_D(const QHeightMapSurfaceDataProxy);
     return d->m_minXValue;
 }
 
@@ -360,7 +360,7 @@ void QHeightMapSurfaceDataProxy::setMaxXValue(float max)
 
 float QHeightMapSurfaceDataProxy::maxXValue() const
 {
-    const Q_D(QHeightMapSurfaceDataProxy);
+    Q_D(const QHeightMapSurfaceDataProxy);
     return d->m_maxXValue;
 }
 
@@ -382,7 +382,7 @@ void QHeightMapSurfaceDataProxy::setMinZValue(float min)
 
 float QHeightMapSurfaceDataProxy::minZValue() const
 {
-    const Q_D(QHeightMapSurfaceDataProxy);
+    Q_D(const QHeightMapSurfaceDataProxy);
     return d->m_minZValue;
 }
 
@@ -404,7 +404,7 @@ void QHeightMapSurfaceDataProxy::setMaxZValue(float max)
 
 float QHeightMapSurfaceDataProxy::maxZValue() const
 {
-    const Q_D(QHeightMapSurfaceDataProxy);
+    Q_D(const QHeightMapSurfaceDataProxy);
     return d->m_maxZValue;
 }
 
@@ -428,7 +428,7 @@ void QHeightMapSurfaceDataProxy::setMinYValue(float min)
 
 float QHeightMapSurfaceDataProxy::minYValue() const
 {
-    const Q_D(QHeightMapSurfaceDataProxy);
+    Q_D(const QHeightMapSurfaceDataProxy);
     return d->m_minYValue;
 }
 
@@ -452,7 +452,7 @@ void QHeightMapSurfaceDataProxy::setMaxYValue(float max)
 
 float QHeightMapSurfaceDataProxy::maxYValue() const
 {
-    const Q_D(QHeightMapSurfaceDataProxy);
+    Q_D(const QHeightMapSurfaceDataProxy);
     return d->m_maxYValue;
 }
 
@@ -477,7 +477,7 @@ void QHeightMapSurfaceDataProxy::setAutoScaleY(bool enabled)
 
 bool QHeightMapSurfaceDataProxy::autoScaleY() const
 {
-    const Q_D(QHeightMapSurfaceDataProxy);
+    Q_D(const QHeightMapSurfaceDataProxy);
     return d->m_autoScaleY;
 }
 

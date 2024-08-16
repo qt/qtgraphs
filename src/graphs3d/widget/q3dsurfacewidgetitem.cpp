@@ -312,7 +312,7 @@ QQuickGraphsSurface *Q3DSurfaceWidgetItem::graphSurface()
  */
 const QQuickGraphsSurface *Q3DSurfaceWidgetItem::graphSurface() const
 {
-    const Q_D(Q3DSurfaceWidgetItem);
+    Q_D(const Q3DSurfaceWidgetItem);
     return static_cast<const QQuickGraphsSurface *>(d->m_graphsItem.get());
 }
 

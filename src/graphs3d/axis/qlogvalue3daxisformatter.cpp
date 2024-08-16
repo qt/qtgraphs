@@ -158,7 +158,7 @@ void QLogValue3DAxisFormatter::setBase(qreal base)
 
 qreal QLogValue3DAxisFormatter::base() const
 {
-    const Q_D(QLogValue3DAxisFormatter);
+    Q_D(const QLogValue3DAxisFormatter);
     return d->m_base;
 }
 
@@ -187,7 +187,7 @@ void QLogValue3DAxisFormatter::setAutoSubGrid(bool enabled)
 
 bool QLogValue3DAxisFormatter::autoSubGrid() const
 {
-    const Q_D(QLogValue3DAxisFormatter);
+    Q_D(const QLogValue3DAxisFormatter);
     return d->m_autoSubGrid;
 }
 
@@ -218,7 +218,7 @@ void QLogValue3DAxisFormatter::setEdgeLabelsVisible(bool enabled)
 
 bool QLogValue3DAxisFormatter::edgeLabelsVisible() const
 {
-    const Q_D(QLogValue3DAxisFormatter);
+    Q_D(const QLogValue3DAxisFormatter);
     return d->m_edgeLabelsVisible;
 }
 
@@ -244,7 +244,7 @@ void QLogValue3DAxisFormatter::recalculate()
  */
 float QLogValue3DAxisFormatter::positionAt(float value) const
 {
-    const Q_D(QLogValue3DAxisFormatter);
+    Q_D(const QLogValue3DAxisFormatter);
     return d->positionAt(value);
 }
 
@@ -253,7 +253,7 @@ float QLogValue3DAxisFormatter::positionAt(float value) const
  */
 float QLogValue3DAxisFormatter::valueAt(float position) const
 {
-    const Q_D(QLogValue3DAxisFormatter);
+    Q_D(const QLogValue3DAxisFormatter);
     return d->valueAt(position);
 }
 

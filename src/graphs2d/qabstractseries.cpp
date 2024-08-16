@@ -276,7 +276,7 @@ QAbstractSeries::~QAbstractSeries()
 
 QString QAbstractSeries::name() const
 {
-    const Q_D(QAbstractSeries);
+    Q_D(const QAbstractSeries);
     return d->m_name;
 }
 
@@ -292,7 +292,7 @@ void QAbstractSeries::setName(const QString &name)
 
 bool QAbstractSeries::isVisible() const
 {
-    const Q_D(QAbstractSeries);
+    Q_D(const QAbstractSeries);
     return d->m_visible;
 }
 
@@ -308,7 +308,7 @@ void QAbstractSeries::setVisible(bool visible)
 
 bool QAbstractSeries::isSelectable() const
 {
-    const Q_D(QAbstractSeries);
+    Q_D(const QAbstractSeries);
     return d->m_selectable;
 }
 
@@ -324,7 +324,7 @@ void QAbstractSeries::setSelectable(bool selectable)
 
 bool QAbstractSeries::isHoverable() const
 {
-    const Q_D(QAbstractSeries);
+    Q_D(const QAbstractSeries);
     return d->m_hoverable;
 }
 
@@ -346,7 +346,7 @@ bool QAbstractSeries::hasLoaded() const
 
 qreal QAbstractSeries::opacity() const
 {
-    const Q_D(QAbstractSeries);
+    Q_D(const QAbstractSeries);
     return d->m_opacity;
 }
 
@@ -362,7 +362,7 @@ void QAbstractSeries::setOpacity(qreal opacity)
 
 qreal QAbstractSeries::valuesMultiplier() const
 {
-    const Q_D(QAbstractSeries);
+    Q_D(const QAbstractSeries);
     return d->m_valuesMultiplier;
 }
 
@@ -385,7 +385,7 @@ void QAbstractSeries::setValuesMultiplier(qreal valuesMultiplier)
 */
 QGraphsView *QAbstractSeries::graph() const
 {
-    const Q_D(QAbstractSeries);
+    Q_D(const QAbstractSeries);
     return d->m_graph;
 }
 
@@ -437,7 +437,7 @@ void QAbstractSeries::hide()
 
 const QList<QLegendData> QAbstractSeries::legendData() const
 {
-    const Q_D(QAbstractSeries);
+    Q_D(const QAbstractSeries);
     return d->m_legendData;
 }
 

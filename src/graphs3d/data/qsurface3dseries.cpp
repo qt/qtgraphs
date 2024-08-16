@@ -275,7 +275,7 @@ void QSurface3DSeries::setDataProxy(QSurfaceDataProxy *proxy)
 
 QSurfaceDataProxy *QSurface3DSeries::dataProxy() const
 {
-    const Q_D(QSurface3DSeries);
+    Q_D(const QSurface3DSeries);
     return static_cast<QSurfaceDataProxy *>(d->dataProxy());
 }
 
@@ -312,7 +312,7 @@ void QSurface3DSeries::setSelectedPoint(QPoint position)
 
 QPoint QSurface3DSeries::selectedPoint() const
 {
-    const Q_D(QSurface3DSeries);
+    Q_D(const QSurface3DSeries);
     return d->m_selectedPoint;
 }
 
@@ -352,7 +352,7 @@ void QSurface3DSeries::setShading(const QSurface3DSeries::Shading shading)
 
 QSurface3DSeries::Shading QSurface3DSeries::shading() const
 {
-    const Q_D(QSurface3DSeries);
+    Q_D(const QSurface3DSeries);
     return d->m_shading;
 }
 
@@ -368,7 +368,7 @@ QSurface3DSeries::Shading QSurface3DSeries::shading() const
  */
 bool QSurface3DSeries::isFlatShadingSupported() const
 {
-    const Q_D(QSurface3DSeries);
+    Q_D(const QSurface3DSeries);
     if (d->m_graph)
         return static_cast<QQuickGraphsSurface *>(d->m_graph)->isFlatShadingSupported();
     else
@@ -394,7 +394,7 @@ void QSurface3DSeries::setDrawMode(QSurface3DSeries::DrawFlags mode)
 
 QSurface3DSeries::DrawFlags QSurface3DSeries::drawMode() const
 {
-    const Q_D(QSurface3DSeries);
+    Q_D(const QSurface3DSeries);
     return d->m_drawMode;
 }
 
@@ -418,7 +418,7 @@ void QSurface3DSeries::setTexture(const QImage &texture)
 
 QImage QSurface3DSeries::texture() const
 {
-    const Q_D(QSurface3DSeries);
+    Q_D(const QSurface3DSeries);
     return d->m_texture;
 }
 
@@ -451,7 +451,7 @@ void QSurface3DSeries::setTextureFile(const QString &filename)
 
 QString QSurface3DSeries::textureFile() const
 {
-    const Q_D(QSurface3DSeries);
+    Q_D(const QSurface3DSeries);
     return d->m_textureFile;
 }
 
@@ -471,7 +471,7 @@ void QSurface3DSeries::setWireframeColor(QColor color)
 
 QColor QSurface3DSeries::wireframeColor() const
 {
-    const Q_D(QSurface3DSeries);
+    Q_D(const QSurface3DSeries);
     return d->m_wireframeColor;
 }
 
@@ -521,7 +521,7 @@ void QSurface3DSeries::clearArray()
 
 const QSurfaceDataArray &QSurface3DSeries::dataArray() const &
 {
-    const Q_D(QSurface3DSeries);
+    Q_D(const QSurface3DSeries);
     return d->m_dataArray;
 }
 

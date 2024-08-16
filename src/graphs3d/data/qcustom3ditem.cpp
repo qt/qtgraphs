@@ -239,7 +239,7 @@ void QCustom3DItem::setMeshFile(const QString &meshFile)
 
 QString QCustom3DItem::meshFile() const
 {
-    const Q_D(QCustom3DItem);
+    Q_D(const QCustom3DItem);
     return d->m_meshFile;
 }
 
@@ -274,7 +274,7 @@ void QCustom3DItem::setPosition(QVector3D position)
 
 QVector3D QCustom3DItem::position() const
 {
-    const Q_D(QCustom3DItem);
+    Q_D(const QCustom3DItem);
     return d->m_position;
 }
 
@@ -302,7 +302,7 @@ void QCustom3DItem::setPositionAbsolute(bool positionAbsolute)
 
 bool QCustom3DItem::isPositionAbsolute() const
 {
-    const Q_D(QCustom3DItem);
+    Q_D(const QCustom3DItem);
     return d->m_positionAbsolute;
 }
 
@@ -333,7 +333,7 @@ void QCustom3DItem::setScaling(QVector3D scaling)
 
 QVector3D QCustom3DItem::scaling() const
 {
-    const Q_D(QCustom3DItem);
+    Q_D(const QCustom3DItem);
     return d->m_scaling;
 }
 
@@ -376,7 +376,7 @@ void QCustom3DItem::setScalingAbsolute(bool scalingAbsolute)
 
 bool QCustom3DItem::isScalingAbsolute() const
 {
-    const Q_D(QCustom3DItem);
+    Q_D(const QCustom3DItem);
     return d->m_scalingAbsolute;
 }
 
@@ -399,7 +399,7 @@ void QCustom3DItem::setRotation(const QQuaternion &rotation)
 
 QQuaternion QCustom3DItem::rotation()
 {
-    const Q_D(QCustom3DItem);
+    Q_D(const QCustom3DItem);
     return d->m_rotation;
 }
 
@@ -422,7 +422,7 @@ void QCustom3DItem::setVisible(bool visible)
 
 bool QCustom3DItem::isVisible() const
 {
-    const Q_D(QCustom3DItem);
+    Q_D(const QCustom3DItem);
     return d->m_visible;
 }
 
@@ -447,7 +447,7 @@ void QCustom3DItem::setShadowCasting(bool enabled)
 
 bool QCustom3DItem::isShadowCasting() const
 {
-    const Q_D(QCustom3DItem);
+    Q_D(const QCustom3DItem);
     return d->m_shadowCasting;
 }
 
@@ -519,7 +519,7 @@ void QCustom3DItem::setTextureFile(const QString &textureFile)
 
 QString QCustom3DItem::textureFile() const
 {
-    const Q_D(QCustom3DItem);
+    Q_D(const QCustom3DItem);
     return d->m_textureFile;
 }
 

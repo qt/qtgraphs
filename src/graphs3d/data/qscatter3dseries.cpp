@@ -203,7 +203,7 @@ void QScatter3DSeries::setDataProxy(QScatterDataProxy *proxy)
 
 QScatterDataProxy *QScatter3DSeries::dataProxy() const
 {
-    const Q_D(QScatter3DSeries);
+    Q_D(const QScatter3DSeries);
     return static_cast<QScatterDataProxy *>(d->dataProxy());
 }
 
@@ -238,7 +238,7 @@ void QScatter3DSeries::setSelectedItem(qsizetype index)
 
 qsizetype QScatter3DSeries::selectedItem() const
 {
-    const Q_D(QScatter3DSeries);
+    Q_D(const QScatter3DSeries);
     return d->m_selectedItem;
 }
 
@@ -266,7 +266,7 @@ void QScatter3DSeries::setItemSize(float size)
 
 float QScatter3DSeries::itemSize() const
 {
-    const Q_D(QScatter3DSeries);
+    Q_D(const QScatter3DSeries);
     return d->m_itemSize;
 }
 
@@ -305,7 +305,7 @@ void QScatter3DSeries::clearArray()
 
 const QScatterDataArray &QScatter3DSeries::dataArray() const &
 {
-    const Q_D(QScatter3DSeries);
+    Q_D(const QScatter3DSeries);
     return d->m_dataArray;
 }
 
