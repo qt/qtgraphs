@@ -397,7 +397,7 @@ void QCustom3DVolume::setTextureWidth(int value)
 
 int QCustom3DVolume::textureWidth() const
 {
-    const Q_D(QCustom3DVolume);
+    Q_D(const QCustom3DVolume);
     return d->m_textureWidth;
 }
 
@@ -430,7 +430,7 @@ void QCustom3DVolume::setTextureHeight(int value)
 
 int QCustom3DVolume::textureHeight() const
 {
-    const Q_D(QCustom3DVolume);
+    Q_D(const QCustom3DVolume);
     return d->m_textureHeight;
 }
 
@@ -463,7 +463,7 @@ void QCustom3DVolume::setTextureDepth(int value)
 
 int QCustom3DVolume::textureDepth() const
 {
-    const Q_D(QCustom3DVolume);
+    Q_D(const QCustom3DVolume);
     return d->m_textureDepth;
 }
 
@@ -487,7 +487,7 @@ void QCustom3DVolume::setTextureDimensions(int width, int height, int depth)
  */
 int QCustom3DVolume::textureDataWidth() const
 {
-    const Q_D(QCustom3DVolume);
+    Q_D(const QCustom3DVolume);
     int dataWidth = d->m_textureWidth;
 
     if (d->m_textureFormat == QImage::Format_Indexed8)
@@ -524,7 +524,7 @@ void QCustom3DVolume::setSliceIndexX(int value)
 
 int QCustom3DVolume::sliceIndexX() const
 {
-    const Q_D(QCustom3DVolume);
+    Q_D(const QCustom3DVolume);
     return d->m_sliceIndexX;
 }
 
@@ -554,7 +554,7 @@ void QCustom3DVolume::setSliceIndexY(int value)
 
 int QCustom3DVolume::sliceIndexY() const
 {
-    const Q_D(QCustom3DVolume);
+    Q_D(const QCustom3DVolume);
     return d->m_sliceIndexY;
 }
 
@@ -584,7 +584,7 @@ void QCustom3DVolume::setSliceIndexZ(int value)
 
 int QCustom3DVolume::sliceIndexZ() const
 {
-    const Q_D(QCustom3DVolume);
+    Q_D(const QCustom3DVolume);
     return d->m_sliceIndexZ;
 }
 
@@ -625,7 +625,7 @@ void QCustom3DVolume::setColorTable(const QList<QRgb> &colors)
 
 QList<QRgb> QCustom3DVolume::colorTable() const
 {
-    const Q_D(QCustom3DVolume);
+    Q_D(const QCustom3DVolume);
     return d->m_colorTable;
 }
 
@@ -758,7 +758,7 @@ QList<uchar> *QCustom3DVolume::createTextureData(const QList<QImage *> &images)
 
 QList<uchar> *QCustom3DVolume::textureData() const
 {
-    const Q_D(QCustom3DVolume);
+    Q_D(const QCustom3DVolume);
     return d->m_textureData;
 }
 
@@ -933,7 +933,7 @@ void QCustom3DVolume::setTextureFormat(QImage::Format format)
  */
 QImage::Format QCustom3DVolume::textureFormat() const
 {
-    const Q_D(QCustom3DVolume);
+    Q_D(const QCustom3DVolume);
     return d->m_textureFormat;
 }
 
@@ -976,7 +976,7 @@ void QCustom3DVolume::setAlphaMultiplier(float mult)
 
 float QCustom3DVolume::alphaMultiplier() const
 {
-    const Q_D(QCustom3DVolume);
+    Q_D(const QCustom3DVolume);
     return d->m_alphaMultiplier;
 }
 
@@ -1004,7 +1004,7 @@ void QCustom3DVolume::setPreserveOpacity(bool enable)
 
 bool QCustom3DVolume::preserveOpacity() const
 {
-    const Q_D(QCustom3DVolume);
+    Q_D(const QCustom3DVolume);
     return d->m_preserveOpacity;
 }
 
@@ -1043,7 +1043,7 @@ void QCustom3DVolume::setUseHighDefShader(bool enable)
 
 bool QCustom3DVolume::useHighDefShader() const
 {
-    const Q_D(QCustom3DVolume);
+    Q_D(const QCustom3DVolume);
     return d->m_useHighDefShader;
 }
 
@@ -1074,7 +1074,7 @@ void QCustom3DVolume::setDrawSlices(bool enable)
 
 bool QCustom3DVolume::drawSlices() const
 {
-    const Q_D(QCustom3DVolume);
+    Q_D(const QCustom3DVolume);
     return d->m_drawSlices;
 }
 
@@ -1108,7 +1108,7 @@ void QCustom3DVolume::setDrawSliceFrames(bool enable)
 
 bool QCustom3DVolume::drawSliceFrames() const
 {
-    const Q_D(QCustom3DVolume);
+    Q_D(const QCustom3DVolume);
     return d->m_drawSliceFrames;
 }
 
@@ -1136,7 +1136,7 @@ void QCustom3DVolume::setSliceFrameColor(QColor color)
 
 QColor QCustom3DVolume::sliceFrameColor() const
 {
-    const Q_D(QCustom3DVolume);
+    Q_D(const QCustom3DVolume);
     return d->m_sliceFrameColor;
 }
 
@@ -1170,7 +1170,7 @@ void QCustom3DVolume::setSliceFrameWidths(QVector3D values)
 
 QVector3D QCustom3DVolume::sliceFrameWidths() const
 {
-    const Q_D(QCustom3DVolume);
+    Q_D(const QCustom3DVolume);
     return d->m_sliceFrameWidths;
 }
 
@@ -1203,7 +1203,7 @@ void QCustom3DVolume::setSliceFrameGaps(QVector3D values)
 
 QVector3D QCustom3DVolume::sliceFrameGaps() const
 {
-    const Q_D(QCustom3DVolume);
+    Q_D(const QCustom3DVolume);
     return d->m_sliceFrameGaps;
 }
 
@@ -1235,7 +1235,7 @@ void QCustom3DVolume::setSliceFrameThicknesses(QVector3D values)
 
 QVector3D QCustom3DVolume::sliceFrameThicknesses() const
 {
-    const Q_D(QCustom3DVolume);
+    Q_D(const QCustom3DVolume);
     return d->m_sliceFrameThicknesses;
 }
 

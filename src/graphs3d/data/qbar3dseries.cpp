@@ -263,7 +263,7 @@ void QBar3DSeries::setDataProxy(QBarDataProxy *proxy)
 
 QBarDataProxy *QBar3DSeries::dataProxy() const
 {
-    const Q_D(QBar3DSeries);
+    Q_D(const QBar3DSeries);
     return static_cast<QBarDataProxy *>(d->dataProxy());
 }
 
@@ -306,7 +306,7 @@ void QBar3DSeries::setSelectedBar(QPoint position)
 
 QPoint QBar3DSeries::selectedBar() const
 {
-    const Q_D(QBar3DSeries);
+    Q_D(const QBar3DSeries);
     return d->m_selectedBar;
 }
 
@@ -397,7 +397,7 @@ void QBar3DSeries::setValueColoringEnabled(bool enabled)
 
 bool QBar3DSeries::isValueColoringEnabled() const
 {
-    const Q_D(QBar3DSeries);
+    Q_D(const QBar3DSeries);
     return d->m_valueColoring;
 }
 
@@ -445,7 +445,7 @@ void QBar3DSeries::clearArray()
 
 const QBarDataArray &QBar3DSeries::dataArray() const &
 {
-    const Q_D(QBar3DSeries);
+    Q_D(const QBar3DSeries);
     return d->m_dataArray;
 }
 
@@ -465,7 +465,7 @@ QBarDataArray QBar3DSeries::dataArray() &&
  */
 QStringList QBar3DSeries::rowLabels() const
 {
-    const Q_D(QBar3DSeries);
+    Q_D(const QBar3DSeries);
     return d->m_rowLabels;
 }
 
@@ -488,7 +488,7 @@ void QBar3DSeries::setRowLabels(const QStringList &labels)
  */
 QStringList QBar3DSeries::columnLabels() const
 {
-    const Q_D(QBar3DSeries);
+    Q_D(const QBar3DSeries);
     return d->m_columnLabels;
 }
 
@@ -503,7 +503,7 @@ void QBar3DSeries::setColumnLabels(const QStringList &labels)
 
 QList<QColor> QBar3DSeries::rowColors() const
 {
-    const Q_D(QBar3DSeries);
+    Q_D(const QBar3DSeries);
     return d->m_rowColors;
 }
 

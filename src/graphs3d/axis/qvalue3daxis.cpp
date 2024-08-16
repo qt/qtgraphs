@@ -153,7 +153,7 @@ void QValue3DAxis::setSegmentCount(qsizetype count)
 
 qsizetype QValue3DAxis::segmentCount() const
 {
-    const Q_D(QValue3DAxis);
+    Q_D(const QValue3DAxis);
     return d->m_segmentCount;
 }
 
@@ -185,7 +185,7 @@ void QValue3DAxis::setSubSegmentCount(qsizetype count)
 
 qsizetype QValue3DAxis::subSegmentCount() const
 {
-    const Q_D(QValue3DAxis);
+    Q_D(const QValue3DAxis);
     return d->m_subSegmentCount;
 }
 
@@ -221,7 +221,7 @@ void QValue3DAxis::setLabelFormat(const QString &format)
 
 QString QValue3DAxis::labelFormat() const
 {
-    const Q_D(QValue3DAxis);
+    Q_D(const QValue3DAxis);
     return d->m_labelFormat;
 }
 
@@ -250,7 +250,7 @@ void QValue3DAxis::setFormatter(QValue3DAxisFormatter *formatter)
 
 QValue3DAxisFormatter *QValue3DAxis::formatter() const
 {
-    const Q_D(QValue3DAxis);
+    Q_D(const QValue3DAxis);
     return d->m_formatter;
 }
 
@@ -274,7 +274,7 @@ void QValue3DAxis::setReversed(bool enable)
 
 bool QValue3DAxis::reversed() const
 {
-    const Q_D(QValue3DAxis);
+    Q_D(const QValue3DAxis);
     return d->m_reversed;
 }
 

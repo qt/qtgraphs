@@ -369,7 +369,7 @@ void QItemModelScatterDataProxy::setItemModel(QAbstractItemModel *itemModel)
 
 QAbstractItemModel *QItemModelScatterDataProxy::itemModel() const
 {
-    const Q_D(QItemModelScatterDataProxy);
+    Q_D(const QItemModelScatterDataProxy);
     return d->m_itemModelHandler->itemModel();
 }
 
@@ -389,7 +389,7 @@ void QItemModelScatterDataProxy::setXPosRole(const QString &role)
 
 QString QItemModelScatterDataProxy::xPosRole() const
 {
-    const Q_D(QItemModelScatterDataProxy);
+    Q_D(const QItemModelScatterDataProxy);
     return d->m_xPosRole;
 }
 
@@ -409,7 +409,7 @@ void QItemModelScatterDataProxy::setYPosRole(const QString &role)
 
 QString QItemModelScatterDataProxy::yPosRole() const
 {
-    const Q_D(QItemModelScatterDataProxy);
+    Q_D(const QItemModelScatterDataProxy);
     return d->m_yPosRole;
 }
 
@@ -429,7 +429,7 @@ void QItemModelScatterDataProxy::setZPosRole(const QString &role)
 
 QString QItemModelScatterDataProxy::zPosRole() const
 {
-    const Q_D(QItemModelScatterDataProxy);
+    Q_D(const QItemModelScatterDataProxy);
     return d->m_zPosRole;
 }
 
@@ -455,7 +455,7 @@ void QItemModelScatterDataProxy::setRotationRole(const QString &role)
 
 QString QItemModelScatterDataProxy::rotationRole() const
 {
-    const Q_D(QItemModelScatterDataProxy);
+    Q_D(const QItemModelScatterDataProxy);
     return d->m_rotationRole;
 }
 
@@ -482,7 +482,7 @@ void QItemModelScatterDataProxy::setXPosRolePattern(const QRegularExpression &pa
 
 QRegularExpression QItemModelScatterDataProxy::xPosRolePattern() const
 {
-    const Q_D(QItemModelScatterDataProxy);
+    Q_D(const QItemModelScatterDataProxy);
     return d->m_xPosRolePattern;
 }
 
@@ -509,7 +509,7 @@ void QItemModelScatterDataProxy::setYPosRolePattern(const QRegularExpression &pa
 
 QRegularExpression QItemModelScatterDataProxy::yPosRolePattern() const
 {
-    const Q_D(QItemModelScatterDataProxy);
+    Q_D(const QItemModelScatterDataProxy);
     return d->m_yPosRolePattern;
 }
 
@@ -536,7 +536,7 @@ void QItemModelScatterDataProxy::setZPosRolePattern(const QRegularExpression &pa
 
 QRegularExpression QItemModelScatterDataProxy::zPosRolePattern() const
 {
-    const Q_D(QItemModelScatterDataProxy);
+    Q_D(const QItemModelScatterDataProxy);
     return d->m_zPosRolePattern;
 }
 
@@ -563,7 +563,7 @@ void QItemModelScatterDataProxy::setRotationRolePattern(const QRegularExpression
 
 QRegularExpression QItemModelScatterDataProxy::rotationRolePattern() const
 {
-    const Q_D(QItemModelScatterDataProxy);
+    Q_D(const QItemModelScatterDataProxy);
     return d->m_rotationRolePattern;
 }
 
@@ -590,7 +590,7 @@ void QItemModelScatterDataProxy::setXPosRoleReplace(const QString &replace)
 
 QString QItemModelScatterDataProxy::xPosRoleReplace() const
 {
-    const Q_D(QItemModelScatterDataProxy);
+    Q_D(const QItemModelScatterDataProxy);
     return d->m_xPosRoleReplace;
 }
 
@@ -617,7 +617,7 @@ void QItemModelScatterDataProxy::setYPosRoleReplace(const QString &replace)
 
 QString QItemModelScatterDataProxy::yPosRoleReplace() const
 {
-    const Q_D(QItemModelScatterDataProxy);
+    Q_D(const QItemModelScatterDataProxy);
     return d->m_yPosRoleReplace;
 }
 
@@ -644,7 +644,7 @@ void QItemModelScatterDataProxy::setZPosRoleReplace(const QString &replace)
 
 QString QItemModelScatterDataProxy::zPosRoleReplace() const
 {
-    const Q_D(QItemModelScatterDataProxy);
+    Q_D(const QItemModelScatterDataProxy);
     return d->m_zPosRoleReplace;
 }
 
@@ -671,7 +671,7 @@ void QItemModelScatterDataProxy::setRotationRoleReplace(const QString &replace)
 
 QString QItemModelScatterDataProxy::rotationRoleReplace() const
 {
-    const Q_D(QItemModelScatterDataProxy);
+    Q_D(const QItemModelScatterDataProxy);
     return d->m_rotationRoleReplace;
 }
 

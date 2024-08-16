@@ -97,7 +97,7 @@ QScatterDataProxy::~QScatterDataProxy() {}
  */
 QScatter3DSeries *QScatterDataProxy::series() const
 {
-    const Q_D(QScatterDataProxy);
+    Q_D(const QScatterDataProxy);
     if (!d->series())
         qWarning("Series needs to be created to access data members");
     return static_cast<QScatter3DSeries *>(d->series());

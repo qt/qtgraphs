@@ -421,25 +421,25 @@ QPieSlice::~QPieSlice()
 */
 QPieSeries *QPieSlice::series() const
 {
-    const Q_D(QPieSlice);
+    Q_D(const QPieSlice);
     return d->m_series;
 }
 
 qreal QPieSlice::percentage() const
 {
-    const Q_D(QPieSlice);
+    Q_D(const QPieSlice);
     return d->m_percentage;
 }
 
 qreal QPieSlice::startAngle() const
 {
-    const Q_D(QPieSlice);
+    Q_D(const QPieSlice);
     return d->m_startAngle;
 }
 
 qreal QPieSlice::angleSpan() const
 {
-    const Q_D(QPieSlice);
+    Q_D(const QPieSlice);
     return d->m_angleSpan;
 }
 
@@ -455,7 +455,7 @@ void QPieSlice::setLabel(const QString &label)
 
 QString QPieSlice::label() const
 {
-    const Q_D(QPieSlice);
+    Q_D(const QPieSlice);
     return d->m_labelText;
 }
 
@@ -471,7 +471,7 @@ void QPieSlice::setLabelVisible(bool visible)
 
 bool QPieSlice::isLabelVisible() const
 {
-    const Q_D(QPieSlice);
+    Q_D(const QPieSlice);
     return d->m_isLabelVisible;
 }
 
@@ -504,7 +504,7 @@ void QPieSlice::setLabelColor(QColor color)
 
 QColor QPieSlice::labelColor() const
 {
-    const Q_D(QPieSlice);
+    Q_D(const QPieSlice);
     return d->m_labelColor;
 }
 
@@ -518,7 +518,7 @@ void QPieSlice::setLabelFont(const QFont &font)
 
 QFont QPieSlice::labelFont() const
 {
-    const Q_D(QPieSlice);
+    Q_D(const QPieSlice);
     return d->m_labelFont;
 }
 
@@ -535,7 +535,7 @@ void QPieSlice::setLabelArmLengthFactor(qreal factor)
 
 qreal QPieSlice::labelArmLengthFactor() const
 {
-    const Q_D(QPieSlice);
+    Q_D(const QPieSlice);
     return d->m_labelArmLengthFactor;
 }
 
@@ -553,7 +553,7 @@ void QPieSlice::setValue(qreal value)
 
 qreal QPieSlice::value() const
 {
-    const Q_D(QPieSlice);
+    Q_D(const QPieSlice);
     return d->m_value;
 }
 
@@ -571,7 +571,7 @@ void QPieSlice::setExploded(bool exploded)
 
 bool QPieSlice::isExploded() const
 {
-    const Q_D(QPieSlice);
+    Q_D(const QPieSlice);
     return d->m_isExploded;
 }
 
@@ -589,7 +589,7 @@ void QPieSlice::setExplodeDistanceFactor(qreal factor)
 
 qreal QPieSlice::explodeDistanceFactor() const
 {
-    const Q_D(QPieSlice);
+    Q_D(const QPieSlice);
     return d->m_explodeDistanceFactor;
 }
 
@@ -605,7 +605,7 @@ void QPieSlice::setColor(QColor color)
 
 QColor QPieSlice::color() const
 {
-    const Q_D(QPieSlice);
+    Q_D(const QPieSlice);
     return d->m_color;
 }
 
@@ -621,7 +621,7 @@ void QPieSlice::setBorderColor(QColor borderColor)
 
 QColor QPieSlice::borderColor() const
 {
-    const Q_D(QPieSlice);
+    Q_D(const QPieSlice);
     return d->m_borderColor;
 }
 
@@ -637,7 +637,7 @@ void QPieSlice::setBorderWidth(qreal borderWidth)
 
 qreal QPieSlice::borderWidth() const
 {
-    const Q_D(QPieSlice);
+    Q_D(const QPieSlice);
     return d->m_borderWidth;
 }
 

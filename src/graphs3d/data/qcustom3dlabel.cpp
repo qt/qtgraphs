@@ -171,7 +171,7 @@ void QCustom3DLabel::setText(const QString &text)
 
 QString QCustom3DLabel::text() const
 {
-    const Q_D(QCustom3DLabel);
+    Q_D(const QCustom3DLabel);
     return d->m_text;
 }
 
@@ -194,7 +194,7 @@ void QCustom3DLabel::setFont(const QFont &font)
 
 QFont QCustom3DLabel::font() const
 {
-    const Q_D(QCustom3DLabel);
+    Q_D(const QCustom3DLabel);
     return d->m_font;
 }
 
@@ -219,7 +219,7 @@ void QCustom3DLabel::setTextColor(QColor color)
 
 QColor QCustom3DLabel::textColor() const
 {
-    const Q_D(QCustom3DLabel);
+    Q_D(const QCustom3DLabel);
     return d->m_txtColor;
 }
 
@@ -244,7 +244,7 @@ void QCustom3DLabel::setBackgroundColor(QColor color)
 
 QColor QCustom3DLabel::backgroundColor() const
 {
-    const Q_D(QCustom3DLabel);
+    Q_D(const QCustom3DLabel);
     return d->m_bgrColor;
 }
 
@@ -267,7 +267,7 @@ void QCustom3DLabel::setBorderVisible(bool visible)
 
 bool QCustom3DLabel::isBorderVisible() const
 {
-    const Q_D(QCustom3DLabel);
+    Q_D(const QCustom3DLabel);
     return d->m_borders;
 }
 
@@ -291,7 +291,7 @@ void QCustom3DLabel::setBackgroundVisible(bool visible)
 
 bool QCustom3DLabel::isBackgroundVisible() const
 {
-    const Q_D(QCustom3DLabel);
+    Q_D(const QCustom3DLabel);
     return d->m_background;
 }
 
@@ -315,7 +315,7 @@ void QCustom3DLabel::setFacingCamera(bool enabled)
 
 bool QCustom3DLabel::isFacingCamera() const
 {
-    const Q_D(QCustom3DLabel);
+    Q_D(const QCustom3DLabel);
     return d->m_facingCamera;
 }
 

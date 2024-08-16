@@ -352,7 +352,7 @@ QAbstract3DSeries::~QAbstract3DSeries() {}
  */
 QAbstract3DSeries::SeriesType QAbstract3DSeries::type() const
 {
-    const Q_D(QAbstract3DSeries);
+    Q_D(const QAbstract3DSeries);
     return d->m_type;
 }
 
@@ -376,7 +376,7 @@ void QAbstract3DSeries::setItemLabelFormat(const QString &format)
 
 QString QAbstract3DSeries::itemLabelFormat() const
 {
-    const Q_D(QAbstract3DSeries);
+    Q_D(const QAbstract3DSeries);
     return d->m_itemLabelFormat;
 }
 
@@ -399,7 +399,7 @@ void QAbstract3DSeries::setVisible(bool visible)
 
 bool QAbstract3DSeries::isVisible() const
 {
-    const Q_D(QAbstract3DSeries);
+    Q_D(const QAbstract3DSeries);
     return d->m_visible;
 }
 
@@ -429,7 +429,7 @@ void QAbstract3DSeries::setMesh(QAbstract3DSeries::Mesh mesh)
 
 QAbstract3DSeries::Mesh QAbstract3DSeries::mesh() const
 {
-    const Q_D(QAbstract3DSeries);
+    Q_D(const QAbstract3DSeries);
     return d->m_mesh;
 }
 
@@ -453,7 +453,7 @@ void QAbstract3DSeries::setMeshSmooth(bool enable)
 
 bool QAbstract3DSeries::isMeshSmooth() const
 {
-    const Q_D(QAbstract3DSeries);
+    Q_D(const QAbstract3DSeries);
     return d->m_meshSmooth;
 }
 
@@ -480,7 +480,7 @@ void QAbstract3DSeries::setMeshRotation(const QQuaternion &rotation)
 
 QQuaternion QAbstract3DSeries::meshRotation() const
 {
-    const Q_D(QAbstract3DSeries);
+    Q_D(const QAbstract3DSeries);
     return d->m_meshRotation;
 }
 
@@ -515,7 +515,7 @@ void QAbstract3DSeries::setUserDefinedMesh(const QString &fileName)
 
 QString QAbstract3DSeries::userDefinedMesh() const
 {
-    const Q_D(QAbstract3DSeries);
+    Q_D(const QAbstract3DSeries);
     return d->m_userDefinedMesh;
 }
 
@@ -538,7 +538,7 @@ void QAbstract3DSeries::setColorStyle(QGraphsTheme::ColorStyle style)
 
 QGraphsTheme::ColorStyle QAbstract3DSeries::colorStyle() const
 {
-    const Q_D(QAbstract3DSeries);
+    Q_D(const QAbstract3DSeries);
     return d->m_colorStyle;
 }
 
@@ -561,7 +561,7 @@ void QAbstract3DSeries::setBaseColor(QColor color)
 
 QColor QAbstract3DSeries::baseColor() const
 {
-    const Q_D(QAbstract3DSeries);
+    Q_D(const QAbstract3DSeries);
     return d->m_baseColor;
 }
 
@@ -584,7 +584,7 @@ void QAbstract3DSeries::setBaseGradient(const QLinearGradient &gradient)
 
 QLinearGradient QAbstract3DSeries::baseGradient() const
 {
-    const Q_D(QAbstract3DSeries);
+    Q_D(const QAbstract3DSeries);
     return d->m_baseGradient;
 }
 
@@ -607,7 +607,7 @@ void QAbstract3DSeries::setSingleHighlightColor(QColor color)
 
 QColor QAbstract3DSeries::singleHighlightColor() const
 {
-    const Q_D(QAbstract3DSeries);
+    Q_D(const QAbstract3DSeries);
     return d->m_singleHighlightColor;
 }
 
@@ -630,7 +630,7 @@ void QAbstract3DSeries::setSingleHighlightGradient(const QLinearGradient &gradie
 
 QLinearGradient QAbstract3DSeries::singleHighlightGradient() const
 {
-    const Q_D(QAbstract3DSeries);
+    Q_D(const QAbstract3DSeries);
     return d->m_singleHighlightGradient;
 }
 
@@ -653,7 +653,7 @@ void QAbstract3DSeries::setMultiHighlightColor(QColor color)
 
 QColor QAbstract3DSeries::multiHighlightColor() const
 {
-    const Q_D(QAbstract3DSeries);
+    Q_D(const QAbstract3DSeries);
     return d->m_multiHighlightColor;
 }
 
@@ -676,7 +676,7 @@ void QAbstract3DSeries::setMultiHighlightGradient(const QLinearGradient &gradien
 
 QLinearGradient QAbstract3DSeries::multiHighlightGradient() const
 {
-    const Q_D(QAbstract3DSeries);
+    Q_D(const QAbstract3DSeries);
     return d->m_multiHighlightGradient;
 }
 
@@ -701,7 +701,7 @@ void QAbstract3DSeries::setName(const QString &name)
 
 QString QAbstract3DSeries::name() const
 {
-    const Q_D(QAbstract3DSeries);
+    Q_D(const QAbstract3DSeries);
     return d->m_name;
 }
 
@@ -743,7 +743,7 @@ void QAbstract3DSeries::setItemLabelVisible(bool visible)
 
 bool QAbstract3DSeries::isItemLabelVisible() const
 {
-    const Q_D(QAbstract3DSeries);
+    Q_D(const QAbstract3DSeries);
     return d->m_itemLabelVisible;
 }
 

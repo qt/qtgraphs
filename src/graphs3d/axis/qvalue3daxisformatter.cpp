@@ -71,7 +71,7 @@ void QValue3DAxisFormatter::setAllowNegatives(bool allow)
  */
 bool QValue3DAxisFormatter::allowNegatives() const
 {
-    const Q_D(QValue3DAxisFormatter);
+    Q_D(const QValue3DAxisFormatter);
     return d->m_allowNegatives;
 }
 
@@ -90,7 +90,7 @@ void QValue3DAxisFormatter::setAllowZero(bool allow)
  */
 bool QValue3DAxisFormatter::allowZero() const
 {
-    const Q_D(QValue3DAxisFormatter);
+    Q_D(const QValue3DAxisFormatter);
     return d->m_allowZero;
 }
 
@@ -196,7 +196,7 @@ QString QValue3DAxisFormatter::stringForValue(qreal value, const QString &format
  */
 float QValue3DAxisFormatter::positionAt(float value) const
 {
-    const Q_D(QValue3DAxisFormatter);
+    Q_D(const QValue3DAxisFormatter);
     return d->positionAt(value);
 }
 
@@ -213,7 +213,7 @@ float QValue3DAxisFormatter::positionAt(float value) const
  */
 float QValue3DAxisFormatter::valueAt(float position) const
 {
-    const Q_D(QValue3DAxisFormatter);
+    Q_D(const QValue3DAxisFormatter);
     return d->valueAt(position);
 }
 
@@ -253,7 +253,7 @@ void QValue3DAxisFormatter::markDirty(bool labelsChange)
  */
 QValue3DAxis *QValue3DAxisFormatter::axis() const
 {
-    const Q_D(QValue3DAxisFormatter);
+    Q_D(const QValue3DAxisFormatter);
     return d->m_axis;
 }
 
@@ -267,7 +267,7 @@ QValue3DAxis *QValue3DAxisFormatter::axis() const
  */
 const QList<float> &QValue3DAxisFormatter::gridPositions() const &
 {
-    const Q_D(QValue3DAxisFormatter);
+    Q_D(const QValue3DAxisFormatter);
     return d->m_gridPositions;
 }
 
@@ -308,7 +308,7 @@ void QValue3DAxisFormatter::setGridPoitions(QList<float> gridPositions)
  */
 const QList<float> &QValue3DAxisFormatter::subGridPositions() const &
 {
-    const Q_D(QValue3DAxisFormatter);
+    Q_D(const QValue3DAxisFormatter);
     return d->m_subGridPositions;
 }
 
@@ -351,7 +351,7 @@ void QValue3DAxisFormatter::setSubGridPositions(QList<float> subGridPositions)
  */
 const QList<float> &QValue3DAxisFormatter::labelPositions() const &
 {
-    const Q_D(QValue3DAxisFormatter);
+    Q_D(const QValue3DAxisFormatter);
     return d->m_labelPositions;
 }
 
@@ -391,7 +391,7 @@ void QValue3DAxisFormatter::setlabelPositions(QList<float> labelPositions)
  */
 const QStringList &QValue3DAxisFormatter::labelStrings() const &
 {
-    const Q_D(QValue3DAxisFormatter);
+    Q_D(const QValue3DAxisFormatter);
     return d->m_labelStrings;
 }
 
@@ -439,7 +439,7 @@ void QValue3DAxisFormatter::setLocale(const QLocale &locale)
  */
 QLocale QValue3DAxisFormatter::locale() const
 {
-    const Q_D(QValue3DAxisFormatter);
+    Q_D(const QValue3DAxisFormatter);
     return d->m_locale;
 }
 

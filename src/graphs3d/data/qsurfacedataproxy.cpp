@@ -142,7 +142,7 @@ QSurfaceDataProxy::~QSurfaceDataProxy() {}
  */
 QSurface3DSeries *QSurfaceDataProxy::series() const
 {
-    const Q_D(QSurfaceDataProxy);
+    Q_D(const QSurfaceDataProxy);
     if (!d->series())
         qWarning("Series needs to be created to access data members");
     return static_cast<QSurface3DSeries *>(d->series());

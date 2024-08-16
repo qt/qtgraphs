@@ -607,7 +607,7 @@ QGraphsTheme::~QGraphsTheme()
 
 bool QGraphsTheme::themeDirty() const
 {
-    const Q_D(QGraphsTheme);
+    Q_D(const QGraphsTheme);
     return d->m_themeDirty;
 }
 
@@ -666,7 +666,7 @@ void QGraphsTheme::resetDirtyBits()
  */
 QGraphsTheme::ColorScheme QGraphsTheme::colorScheme() const
 {
-    const Q_D(QGraphsTheme);
+    Q_D(const QGraphsTheme);
     return d->m_colorScheme;
 }
 
@@ -706,7 +706,7 @@ void QGraphsTheme::setColorScheme(QGraphsTheme::ColorScheme newColorScheme)
  */
 QGraphsTheme::Theme QGraphsTheme::theme() const
 {
-    const Q_D(QGraphsTheme);
+    Q_D(const QGraphsTheme);
     return d->m_theme;
 }
 
@@ -736,7 +736,7 @@ void QGraphsTheme::setTheme(Theme newTheme, ForceTheme force)
  */
 QGraphsTheme::ColorStyle QGraphsTheme::colorStyle() const
 {
-    const Q_D(QGraphsTheme);
+    Q_D(const QGraphsTheme);
     return d->m_colorStyle;
 }
 
@@ -758,7 +758,7 @@ void QGraphsTheme::setColorStyle(ColorStyle newColorStyle)
  */
 QFont QGraphsTheme::axisXLabelFont() const
 {
-    const Q_D(QGraphsTheme);
+    Q_D(const QGraphsTheme);
     return d->m_axisXLabelFont;
 }
 
@@ -780,7 +780,7 @@ void QGraphsTheme::setAxisXLabelFont(const QFont &newAxisXLabelFont)
  */
 QFont QGraphsTheme::axisYLabelFont() const
 {
-    const Q_D(QGraphsTheme);
+    Q_D(const QGraphsTheme);
     return d->m_axisYLabelFont;
 }
 
@@ -802,7 +802,7 @@ void QGraphsTheme::setAxisYLabelFont(const QFont &newAxisYLabelFont)
  */
 QFont QGraphsTheme::axisZLabelFont() const
 {
-    const Q_D(QGraphsTheme);
+    Q_D(const QGraphsTheme);
     return d->m_axisZLabelFont;
 }
 
@@ -825,7 +825,7 @@ void QGraphsTheme::setAxisZLabelFont(const QFont &newAxisZLabelFont)
  */
 QColor QGraphsTheme::plotAreaBackgroundColor() const
 {
-    const Q_D(QGraphsTheme);
+    Q_D(const QGraphsTheme);
     if (d->m_customBits.plotAreaBackgroundColorCustom)
         return d->m_plotAreaBackgroundColor;
     return d->m_plotAreaBackgroundThemeColor;
@@ -853,7 +853,7 @@ void QGraphsTheme::setPlotAreaBackgroundColor(QColor newBackgroundColor)
  */
 bool QGraphsTheme::isPlotAreaBackgroundVisible() const
 {
-    const Q_D(QGraphsTheme);
+    Q_D(const QGraphsTheme);
     return d->m_plotAreaBackgroundVisibility;
 }
 
@@ -878,7 +878,7 @@ void QGraphsTheme::setPlotAreaBackgroundVisible(bool newBackgroundVisibility)
  */
 bool QGraphsTheme::isBackgroundVisible() const
 {
-    const Q_D(QGraphsTheme);
+    Q_D(const QGraphsTheme);
     return d->m_backgroundVisibility;
 }
 
@@ -903,7 +903,7 @@ void QGraphsTheme::setBackgroundVisible(bool newBackgroundVisible)
  */
 bool QGraphsTheme::isGridVisible() const
 {
-    const Q_D(QGraphsTheme);
+    Q_D(const QGraphsTheme);
     return d->m_gridVisibility;
 }
 
@@ -926,7 +926,7 @@ void QGraphsTheme::setGridVisible(bool newGridVisibility)
  */
 QColor QGraphsTheme::backgroundColor() const
 {
-    const Q_D(QGraphsTheme);
+    Q_D(const QGraphsTheme);
     if (d->m_customBits.backgroundColorCustom)
         return d->m_backgroundColor;
     return d->m_backgroundThemeColor;
@@ -954,7 +954,7 @@ void QGraphsTheme::setBackgroundColor(QColor newBackgroundColor)
  */
 bool QGraphsTheme::labelsVisible() const
 {
-    const Q_D(QGraphsTheme);
+    Q_D(const QGraphsTheme);
     return d->m_labelsVisibility;
 }
 
@@ -979,7 +979,7 @@ void QGraphsTheme::setLabelsVisible(bool newLabelsVisibility)
  */
 QColor QGraphsTheme::labelBackgroundColor() const
 {
-    const Q_D(QGraphsTheme);
+    Q_D(const QGraphsTheme);
     if (d->m_customBits.labelBackgroundColorCustom)
         return d->m_labelBackgroundColor;
     return d->m_labelBackgroundThemeColor;
@@ -1005,7 +1005,7 @@ void QGraphsTheme::setLabelBackgroundColor(QColor newLabelBackgroundColor)
  */
 QColor QGraphsTheme::labelTextColor() const
 {
-    const Q_D(QGraphsTheme);
+    Q_D(const QGraphsTheme);
     if (d->m_customBits.labelTextColorCustom)
         return d->m_labelTextColor;
     return d->m_labelTextThemeColor;
@@ -1034,7 +1034,7 @@ void QGraphsTheme::setLabelTextColor(QColor newLabelTextColor)
  */
 QColor QGraphsTheme::singleHighlightColor() const
 {
-    const Q_D(QGraphsTheme);
+    Q_D(const QGraphsTheme);
     if (d->m_customBits.singleHighlightColorCustom)
         return d->m_singleHighlightColor;
     return d->m_singleHighlightThemeColor;
@@ -1064,7 +1064,7 @@ void QGraphsTheme::setSingleHighlightColor(QColor newSingleHighlightColor)
  */
 QColor QGraphsTheme::multiHighlightColor() const
 {
-    const Q_D(QGraphsTheme);
+    Q_D(const QGraphsTheme);
     if (d->m_customBits.multiHighlightColorCustom)
         return d->m_multiHighlightColor;
     return d->m_multiHighlightThemeColor;
@@ -1106,7 +1106,7 @@ void QGraphsTheme::setSingleHighlightGradient(QLinearGradient gradient)
 
 QLinearGradient QGraphsTheme::singleHighlightGradient() const
 {
-    const Q_D(QGraphsTheme);
+    Q_D(const QGraphsTheme);
     if (d->m_customBits.singleHighlightGradientCustom)
         return d->m_singleHighlightGradient;
     return d->m_singleHighlightThemeGradient;
@@ -1137,7 +1137,7 @@ void QGraphsTheme::setMultiHighlightGradient(QLinearGradient gradient)
 
 QLinearGradient QGraphsTheme::multiHighlightGradient() const
 {
-    const Q_D(QGraphsTheme);
+    Q_D(const QGraphsTheme);
     ;
     if (d->m_customBits.multiHighlightGradientCustom)
         return d->m_multiHighlightGradient;
@@ -1151,7 +1151,7 @@ QLinearGradient QGraphsTheme::multiHighlightGradient() const
  */
 QFont QGraphsTheme::labelFont() const
 {
-    const Q_D(QGraphsTheme);
+    Q_D(const QGraphsTheme);
     return d->m_labelFont;
 }
 
@@ -1189,7 +1189,7 @@ void QGraphsTheme::setLabelFont(const QFont &newFont)
  */
 bool QGraphsTheme::isLabelBackgroundVisible() const
 {
-    const Q_D(QGraphsTheme);
+    Q_D(const QGraphsTheme);
     return d->m_labelBackgroundVisibility;
 }
 
@@ -1214,7 +1214,7 @@ void QGraphsTheme::setLabelBackgroundVisible(bool newLabelBackgroundVisibility)
  */
 bool QGraphsTheme::isLabelBorderVisible() const
 {
-    const Q_D(QGraphsTheme);
+    Q_D(const QGraphsTheme);
     return d->m_labelBorderVisibility;
 }
 
@@ -1245,7 +1245,7 @@ void QGraphsTheme::setLabelBorderVisible(bool newLabelBorderVisibility)
  */
 QList<QColor> QGraphsTheme::seriesColors() const
 {
-    const Q_D(QGraphsTheme);
+    Q_D(const QGraphsTheme);
     if (d->m_customBits.seriesColorsCustom && !d->m_seriesColors.isEmpty())
         return d->m_seriesColors;
     return d->m_seriesThemeColors;
@@ -1276,7 +1276,7 @@ void QGraphsTheme::setSeriesColors(const QList<QColor> &newSeriesColors)
  */
 QList<QColor> QGraphsTheme::borderColors() const
 {
-    const Q_D(QGraphsTheme);
+    Q_D(const QGraphsTheme);
     if (d->m_customBits.borderColorsCustom && !d->m_borderColors.isEmpty())
         return d->m_borderColors;
     return d->m_borderThemeColors;
@@ -1309,7 +1309,7 @@ void QGraphsTheme::setBorderColors(const QList<QColor> &newBorderColors)
  */
 QList<QLinearGradient> QGraphsTheme::seriesGradients() const
 {
-    const Q_D(QGraphsTheme);
+    Q_D(const QGraphsTheme);
     if (d->m_customBits.seriesGradientCustom && !d->m_seriesGradients.isEmpty())
         return d->m_seriesGradients;
     return d->m_seriesThemeGradients;
@@ -1341,7 +1341,7 @@ void QGraphsTheme::setSeriesGradients(const QList<QLinearGradient> &newSeriesGra
  */
 qreal QGraphsTheme::borderWidth() const
 {
-    const Q_D(QGraphsTheme);
+    Q_D(const QGraphsTheme);
     return d->m_borderWidth;
 }
 
@@ -1863,7 +1863,7 @@ void QGraphsTheme::clearGradients()
 
 QGraphsLine QGraphsTheme::grid() const
 {
-    const Q_D(QGraphsTheme);
+    Q_D(const QGraphsTheme);
     return d->m_grid;
 }
 
@@ -1880,7 +1880,7 @@ void QGraphsTheme::setGrid(const QGraphsLine &newGrid)
 
 QGraphsLine QGraphsTheme::axisX() const
 {
-    const Q_D(QGraphsTheme);
+    Q_D(const QGraphsTheme);
     return d->m_axisX;
 }
 
@@ -1897,7 +1897,7 @@ void QGraphsTheme::setAxisX(const QGraphsLine &newAxisX)
 
 QGraphsLine QGraphsTheme::axisY() const
 {
-    const Q_D(QGraphsTheme);
+    Q_D(const QGraphsTheme);
     return d->m_axisY;
 }
 
@@ -1914,7 +1914,7 @@ void QGraphsTheme::setAxisY(const QGraphsLine &newAxisY)
 
 QGraphsLine QGraphsTheme::axisZ() const
 {
-    const Q_D(QGraphsTheme);
+    Q_D(const QGraphsTheme);
     return d->m_axisZ;
 }
 

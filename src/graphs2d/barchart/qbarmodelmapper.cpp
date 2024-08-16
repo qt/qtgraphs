@@ -223,7 +223,7 @@ QBarModelMapper::~QBarModelMapper() {}
 
 QAbstractItemModel *QBarModelMapper::model() const
 {
-    const Q_D(QBarModelMapper);
+    Q_D(const QBarModelMapper);
     return d->m_model;
 }
 
@@ -308,7 +308,7 @@ void QBarModelMapper::setModel(QAbstractItemModel *model)
 
 QBarSeries *QBarModelMapper::series() const
 {
-    const Q_D(QBarModelMapper);
+    Q_D(const QBarModelMapper);
     return d->m_series;
 }
 
@@ -352,7 +352,7 @@ void QBarModelMapper::setSeries(QBarSeries *series)
 
 qsizetype QBarModelMapper::first() const
 {
-    const Q_D(QBarModelMapper);
+    Q_D(const QBarModelMapper);
     return d->m_first;
 }
 
@@ -366,7 +366,7 @@ void QBarModelMapper::setFirst(qsizetype newFirst)
 
 Qt::Orientation QBarModelMapper::orientation() const
 {
-    const Q_D(QBarModelMapper);
+    Q_D(const QBarModelMapper);
     return d->m_orientation;
 }
 
@@ -380,7 +380,7 @@ void QBarModelMapper::setOrientation(Qt::Orientation orientation)
 
 qsizetype QBarModelMapper::count() const
 {
-    const Q_D(QBarModelMapper);
+    Q_D(const QBarModelMapper);
     return d->m_count;
 }
 
@@ -394,7 +394,7 @@ void QBarModelMapper::setCount(qsizetype newCount)
 
 qsizetype QBarModelMapper::lastBarSetSection() const
 {
-    const Q_D(QBarModelMapper);
+    Q_D(const QBarModelMapper);
     return d->m_lastBarSetSection;
 }
 
@@ -408,7 +408,7 @@ void QBarModelMapper::setLastBarSetSection(qsizetype newLastBarSetSection)
 
 qsizetype QBarModelMapper::firstBarSetSection() const
 {
-    const Q_D(QBarModelMapper);
+    Q_D(const QBarModelMapper);
     return d->m_firstBarSetSection;
 }
 
