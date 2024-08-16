@@ -164,34 +164,34 @@ public:
     qsizetype selectedCustomItemIndex() const;
     QCustom3DItem *selectedCustomItem() const;
 
-    QSharedPointer<QQuickItemGrabResult> renderToImage(QSize imageSize = QSize());
+    QSharedPointer<QQuickItemGrabResult> renderToImage(QSize imageSize = QSize()) const;
 
     QtGraphs3D::CameraPreset cameraPreset() const;
     void setCameraPreset(QtGraphs3D::CameraPreset preset);
 
-    float cameraXRotation();
+    float cameraXRotation() const;
     void setCameraXRotation(float rotation);
-    float cameraYRotation();
+    float cameraYRotation() const;
     void setCameraYRotation(float rotation);
 
-    float minCameraXRotation();
+    float minCameraXRotation() const;
     void setMinCameraXRotation(float rotation);
-    float maxCameraXRotation();
+    float maxCameraXRotation() const;
     void setMaxCameraXRotation(float rotation);
 
-    float minCameraYRotation();
+    float minCameraYRotation() const;
     void setMinCameraYRotation(float rotation);
-    float maxCameraYRotation();
+    float maxCameraYRotation() const;
     void setMaxCameraYRotation(float rotation);
 
     void setZoomAtTargetEnabled(bool enable);
-    bool isZoomAtTargetEnabled();
+    bool isZoomAtTargetEnabled() const;
     void setZoomEnabled(bool enable);
-    bool isZoomEnabled();
+    bool isZoomEnabled() const;
     void setSelectionEnabled(bool enable);
-    bool isSelectionEnabled();
+    bool isSelectionEnabled() const;
     void setRotationEnabled(bool enable);
-    bool isRotationEnabled();
+    bool isRotationEnabled() const;
 
     void setDefaultInputHandler();
     void unsetDefaultInputHandler();
@@ -201,22 +201,22 @@ public:
     void unsetDefaultPinchHandler();
     void setDragButton(Qt::MouseButtons button);
 
-    float cameraZoomLevel();
+    float cameraZoomLevel() const;
     void setCameraZoomLevel(float level);
 
-    float minCameraZoomLevel();
+    float minCameraZoomLevel() const;
     void setMinCameraZoomLevel(float level);
 
-    float maxCameraZoomLevel();
+    float maxCameraZoomLevel() const;
     void setMaxCameraZoomLevel(float level);
 
-    QVector3D cameraTargetPosition();
+    QVector3D cameraTargetPosition() const;
     void setCameraTargetPosition(QVector3D target);
 
-    bool wrapCameraXRotation();
+    bool wrapCameraXRotation() const;
     void setWrapCameraXRotation(bool wrap);
 
-    bool wrapCameraYRotation();
+    bool wrapCameraYRotation() const;
     void setWrapCameraYRotation(bool wrap);
 
     void setCameraPosition(float horizontal, float vertical, float zoom = 100.0f);
