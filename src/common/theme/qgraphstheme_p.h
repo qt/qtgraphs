@@ -69,6 +69,7 @@ private:
     QGraphsTheme::ColorScheme m_colorScheme = QGraphsTheme::ColorScheme::Automatic;
     QGraphsTheme::Theme m_theme = QGraphsTheme::Theme::QtGreen;
     QGraphsTheme::ColorStyle m_colorStyle = QGraphsTheme::ColorStyle::Uniform;
+    QList<QObject *> m_themeChildren;
     QColor m_plotAreaBackgroundColor;
     QColor m_plotAreaBackgroundThemeColor;
     bool m_backgroundVisibility = false;
