@@ -183,7 +183,7 @@ class Q_GRAPHS_EXPORT QGraphsTheme : public QObject, public QQmlParserStatus
     Q_PROPERTY(qreal borderWidth READ borderWidth WRITE setBorderWidth NOTIFY borderWidthChanged FINAL)
 
     Q_PROPERTY(QQmlListProperty<QQuickGraphsColor> baseColors READ baseColorsQML CONSTANT FINAL)
-    Q_PROPERTY(QQmlListProperty<QObject> baseGradients READ baseGradientsQML CONSTANT FINAL)
+    Q_PROPERTY(QQmlListProperty<QQuickGradient> baseGradients READ baseGradientsQML CONSTANT FINAL)
     Q_PROPERTY(QQmlListProperty<QObject> themeChildren READ themeChildren CONSTANT FINAL)
 
     Q_PROPERTY(QColor singleHighlightColor READ singleHighlightColor WRITE setSingleHighlightColor
@@ -376,7 +376,6 @@ private:
     QLinearGradient createGradient(QColor color, float colorLevel);
 
     void setThemeGradient(QQuickGradient *gradient, GradientQMLStyle type);
-    QLinearGradient convertGradient(QJSValue gradient);
     QLinearGradient convertGradient(QQuickGradient *gradient);
 
     QQmlListProperty<QQuickGraphsColor> baseColorsQML();
@@ -387,11 +386,13 @@ private:
                                                qsizetype index);
     static void clearBaseColorsFunc(QQmlListProperty<QQuickGraphsColor> *list);
 
-    QQmlListProperty<QObject> baseGradientsQML();
-    static void appendBaseGradientsFunc(QQmlListProperty<QObject> *list, QObject *gradient);
-    static qsizetype countBaseGradientsFunc(QQmlListProperty<QObject> *list);
-    static QObject *atBaseGradientsFunc(QQmlListProperty<QObject> *list, qsizetype index);
-    static void clearBaseGradientsFunc(QQmlListProperty<QObject> *list);
+    QQmlListProperty<QQuickGradient> baseGradientsQML();
+    static void appendBaseGradientsFunc(QQmlListProperty<QQuickGradient> *list,
+                                        QQuickGradient *gradient);
+    static qsizetype countBaseGradientsFunc(QQmlListProperty<QQuickGradient> *list);
+    static QQuickGradient *atBaseGradientsFunc(QQmlListProperty<QQuickGradient> *list,
+                                               qsizetype index);
+    static void clearBaseGradientsFunc(QQmlListProperty<QQuickGradient> *list);
 
     QQmlListProperty<QObject> themeChildren();
     static void appendThemeChildren(QQmlListProperty<QObject> *list, QObject *element);
@@ -402,7 +403,7 @@ private:
     void clearDummyColors();
     void clearGradients();
     QList<QQuickGradient *> gradientList();
-    void addGradient(QJSValue gradient);
+    void addGradient(QQuickGradient *gradient);
 
     void setSingleHighlightGradientQML(QQuickGradient *gradient);
     QQuickGradient *singleHighlightGradientQML() const;

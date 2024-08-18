@@ -11,6 +11,7 @@
 #include <private/qgraphsglobal_p.h>
 #include <private/qgraphstheme_p.h>
 #include <private/qquickgraphscolor_p.h>
+#include <private/qquickrectangle_p.h>
 
 QT_BEGIN_NAMESPACE
 
@@ -1384,8 +1385,6 @@ void QGraphsTheme::handleBaseGradientUpdate()
 
     // Check which one changed
     QQuickGradient *newGradient = qobject_cast<QQuickGradient *>(QObject::sender());
-    QJSEngine engine;
-    QJSValue updatedGradient = engine.newQObject(newGradient);
 
     for (int i = 0; i < gradientCount; ++i) {
         if (newGradient == d->m_gradients.at(i)) {
@@ -1396,7 +1395,7 @@ void QGraphsTheme::handleBaseGradientUpdate()
 
     // Update the changed one from the list
     QList<QLinearGradient> list = seriesGradients();
-    list[changed] = convertGradient(updatedGradient);
+    list[changed] = convertGradient(newGradient);
 
     // Set the changed list
     setSeriesGradients(list);
@@ -1632,17 +1631,6 @@ void QGraphsTheme::setThemeGradient(QQuickGradient *gradient, GradientQMLStyle t
     }
 }
 
-QLinearGradient QGraphsTheme::convertGradient(QJSValue gradient)
-{
-    // Create QLinearGradient out of QJSValue
-    QLinearGradient newGradient;
-    if (gradient.isQObject()) {
-        auto quickGradient = qobject_cast<QQuickGradient *>(gradient.toQObject());
-        newGradient.setStops(quickGradient->gradientStops());
-    }
-    return newGradient;
-}
-
 QLinearGradient QGraphsTheme::convertGradient(QQuickGradient *gradient)
 {
     // Create QLinearGradient out of QQuickGradient
@@ -1683,34 +1671,34 @@ void QGraphsTheme::clearBaseColorsFunc(QQmlListProperty<QQuickGraphsColor> *list
     reinterpret_cast<QGraphsTheme *>(list->data)->clearColors();
 }
 
-QQmlListProperty<QObject> QGraphsTheme::baseGradientsQML()
+QQmlListProperty<QQuickGradient> QGraphsTheme::baseGradientsQML()
 {
-    return QQmlListProperty<QObject>(this,
-                                     this,
-                                     &QGraphsTheme::appendBaseGradientsFunc,
-                                     &QGraphsTheme::countBaseGradientsFunc,
-                                     &QGraphsTheme::atBaseGradientsFunc,
-                                     &QGraphsTheme::clearBaseGradientsFunc);
+    return QQmlListProperty<QQuickGradient>(this,
+                                            this,
+                                            &QGraphsTheme::appendBaseGradientsFunc,
+                                            &QGraphsTheme::countBaseGradientsFunc,
+                                            &QGraphsTheme::atBaseGradientsFunc,
+                                            &QGraphsTheme::clearBaseGradientsFunc);
 }
 
-void QGraphsTheme::appendBaseGradientsFunc(QQmlListProperty<QObject> *list, QObject *gradient)
+void QGraphsTheme::appendBaseGradientsFunc(QQmlListProperty<QQuickGradient> *list,
+                                           QQuickGradient *gradient)
 {
-    QJSEngine engine;
-    QJSValue value = engine.newQObject(gradient);
-    reinterpret_cast<QGraphsTheme *>(list->data)->addGradient(value);
+    reinterpret_cast<QGraphsTheme *>(list->data)->addGradient(gradient);
 }
 
-qsizetype QGraphsTheme::countBaseGradientsFunc(QQmlListProperty<QObject> *list)
+qsizetype QGraphsTheme::countBaseGradientsFunc(QQmlListProperty<QQuickGradient> *list)
 {
     return reinterpret_cast<QGraphsTheme *>(list->data)->gradientList().size();
 }
 
-QObject *QGraphsTheme::atBaseGradientsFunc(QQmlListProperty<QObject> *list, qsizetype index)
+QQuickGradient *QGraphsTheme::atBaseGradientsFunc(QQmlListProperty<QQuickGradient> *list,
+                                                  qsizetype index)
 {
     return reinterpret_cast<QGraphsTheme *>(list->data)->gradientList().at(index);
 }
 
-void QGraphsTheme::clearBaseGradientsFunc(QQmlListProperty<QObject> *list)
+void QGraphsTheme::clearBaseGradientsFunc(QQmlListProperty<QQuickGradient> *list)
 {
     reinterpret_cast<QGraphsTheme *>(list->data)->clearGradients();
 }
@@ -1779,13 +1767,12 @@ void QGraphsTheme::clearDummyColors()
     }
 }
 
-void QGraphsTheme::addGradient(QJSValue gradient)
+void QGraphsTheme::addGradient(QQuickGradient *gradient)
 {
     Q_D(QGraphsTheme);
-    auto quickGradient = qobject_cast<QQuickGradient *>(gradient.toQObject());
-    d->m_gradients.append(quickGradient);
+    d->m_gradients.append(gradient);
 
-    connect(quickGradient, &QQuickGradient::updated, this, &QGraphsTheme::handleBaseGradientUpdate);
+    connect(gradient, &QQuickGradient::updated, this, &QGraphsTheme::handleBaseGradientUpdate);
 
     QList<QLinearGradient> list = d->m_seriesGradients;
     list.append(convertGradient(gradient));
