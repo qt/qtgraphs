@@ -1092,7 +1092,7 @@ void QGraphsTheme::setMultiHighlightColor(QColor newMultiHighlightColor)
  * has the \c QtGraphs3D::SelectionFlag::Item flag set.
  * The default value depends on \l colorScheme.
  */
-void QGraphsTheme::setSingleHighlightGradient(QLinearGradient gradient)
+void QGraphsTheme::setSingleHighlightGradient(const QLinearGradient &gradient)
 {
     Q_D(QGraphsTheme);
     d->m_customBits.singleHighlightGradientCustom = true;
@@ -1123,7 +1123,7 @@ QLinearGradient QGraphsTheme::singleHighlightGradient() const
  * \c QtGraphs3D::SelectionFlag::Column flag set.
  * The default value depends on \l colorScheme.
  */
-void QGraphsTheme::setMultiHighlightGradient(QLinearGradient gradient)
+void QGraphsTheme::setMultiHighlightGradient(const QLinearGradient &gradient)
 {
     Q_D(QGraphsTheme);
     d->m_customBits.multiHighlightGradientCustom = true;
