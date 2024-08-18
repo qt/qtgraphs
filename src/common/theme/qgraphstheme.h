@@ -267,9 +267,9 @@ public:
     void setSingleHighlightColor(QColor newSingleHighlightColor);
     QColor multiHighlightColor() const;
     void setMultiHighlightColor(QColor newMultiHighlightColor);
-    void setSingleHighlightGradient(QLinearGradient gradient);
+    void setSingleHighlightGradient(const QLinearGradient &gradient);
     QLinearGradient singleHighlightGradient() const;
-    void setMultiHighlightGradient(QLinearGradient gradient);
+    void setMultiHighlightGradient(const QLinearGradient &gradient);
     QLinearGradient multiHighlightGradient() const;
 
     QFont labelFont() const;
