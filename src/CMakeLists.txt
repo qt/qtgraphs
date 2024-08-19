@@ -170,7 +170,6 @@ else()
             PAST_MAJOR_VERSIONS 1
             DEPENDENCIES
                 QtQuick
-                QtQuickPrivate
                 # 3D specific
                 QtQuick3D
             LIBRARIES
@@ -259,7 +258,6 @@ else()
                 PAST_MAJOR_VERSIONS 1
                 DEPENDENCIES
                     QtQuick
-                    QtQuickPrivate
                     QtQuick3D
                 LIBRARIES
                     Qt::QuickPrivate
@@ -331,7 +329,6 @@ else()
                 PAST_MAJOR_VERSIONS 1
                 DEPENDENCIES
                     QtQuick
-                    QtQuickPrivate
                 LIBRARIES
                     Qt::QuickPrivate
                     Qt::QuickShapesPrivate
