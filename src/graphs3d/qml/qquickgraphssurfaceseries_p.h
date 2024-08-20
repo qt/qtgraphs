@@ -14,6 +14,7 @@
 #ifndef QQUICKGRAPHSSURFACESERIES_P_H
 #define QQUICKGRAPHSSURFACESERIES_P_H
 
+#include "gradientholder_p.h"
 #include "qsurface3dseries.h"
 #include "theme/qquickgraphscolor_p.h"
 
@@ -75,10 +76,10 @@ Q_SIGNALS:
     void singleHighlightGradientChanged(QQuickGradient *gradient);
     void multiHighlightGradientChanged(QQuickGradient *gradient);
 
+    void gradientsChanged();
+
 private:
-    QQuickGradient *m_baseGradient = nullptr;
-    QQuickGradient *m_singleHighlightGradient = nullptr;
-    QQuickGradient *m_multiHighlightGradient = nullptr;
+    GradientHolder m_gradients;
 
     void setGradientHelper(QQuickGradient *newGradient,
                            QQuickGradient *memberGradient,
