@@ -31,7 +31,7 @@ QT_BEGIN_NAMESPACE
 */
 /*!
     \qmltype PieSeries
-    \instantiates QPieSeries
+    \nativetype QPieSeries
     \inqmlmodule QtGraphs
     \ingroup graphs_qml_2D
     \inherits AbstractSeries

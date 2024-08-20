@@ -22,7 +22,7 @@ QT_BEGIN_NAMESPACE
 */
 /*!
     \qmltype PieModelMapper
-    \instantiates QPieModelMapper
+    \nativetype QPieModelMapper
     \inqmlmodule QtGraphs
     \ingroup graphs_qml_2D
 

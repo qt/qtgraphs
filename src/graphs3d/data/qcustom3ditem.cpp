@@ -21,7 +21,7 @@ QT_BEGIN_NAMESPACE
  * \qmltype Custom3DItem
  * \inqmlmodule QtGraphs
  * \ingroup graphs_qml_3D
- * \instantiates QCustom3DItem
+ * \nativetype QCustom3DItem
  * \brief Adds a custom item to a graph.
  *
  * A custom item has a custom mesh, position, scaling, rotation, and an optional

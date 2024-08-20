@@ -35,7 +35,7 @@ QT_BEGIN_NAMESPACE
  * \qmltype Custom3DVolume
  * \inqmlmodule QtGraphs
  * \ingroup graphs_qml_3D
- * \instantiates QCustom3DVolume
+ * \nativetype QCustom3DVolume
  * \inherits Custom3DItem
  * \brief Adds a volume rendered object to a graph.
  *

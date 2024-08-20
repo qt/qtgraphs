@@ -20,7 +20,7 @@ QT_BEGIN_NAMESPACE
 
 /*!
     \qmltype AbstractAxis
-    \instantiates QAbstractAxis
+    \nativetype QAbstractAxis
     \inqmlmodule QtGraphs
     \ingroup graphs_qml_2D
 

@@ -21,7 +21,7 @@ QT_BEGIN_NAMESPACE
 
 /*!
     \qmltype GraphsView
-    \instantiates QGraphsView
+    \nativetype QGraphsView
     \inqmlmodule QtGraphs
     \ingroup graphs_qml_2D
     \brief Base type for all Qt Graphs views.

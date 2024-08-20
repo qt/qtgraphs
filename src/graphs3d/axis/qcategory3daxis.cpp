@@ -24,7 +24,7 @@ QT_BEGIN_NAMESPACE
  * \qmltype Category3DAxis
  * \inqmlmodule QtGraphs
  * \ingroup graphs_qml_3D
- * \instantiates QCategory3DAxis
+ * \nativetype QCategory3DAxis
  * \inherits Abstract3DAxis
  * \brief Manipulates an axis of a graph.
  *

@@ -33,7 +33,7 @@ QT_BEGIN_NAMESPACE
 
 /*!
     \qmltype PieSlice
-    \instantiates QPieSlice
+    \nativetype QPieSlice
     \inqmlmodule QtGraphs
     \ingroup graphs_qml_2D
     \brief Represents a single slice in a pie series.

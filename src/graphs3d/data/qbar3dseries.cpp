@@ -67,7 +67,7 @@ QT_BEGIN_NAMESPACE
  * \qmltype Bar3DSeries
  * \inqmlmodule QtGraphs
  * \ingroup graphs_qml_3D
- * \instantiates QBar3DSeries
+ * \nativetype QBar3DSeries
  * \inherits Abstract3DSeries
  * \brief Represents a data series in a 3D bar graph.
  *

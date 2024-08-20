@@ -28,7 +28,7 @@ QT_BEGIN_NAMESPACE
 */
 /*!
     \qmltype XYModelMapper
-    \instantiates QXYModelMapper
+    \nativetype QXYModelMapper
     \inqmlmodule QtGraphs
     \ingroup graphs_qml_2D
 

@@ -18,7 +18,7 @@ QT_BEGIN_NAMESPACE
 */
 /*!
     \qmltype ValueAxis
-    \instantiates QValueAxis
+    \nativetype QValueAxis
     \inqmlmodule QtGraphs
     \ingroup graphs_qml_2D
     \inherits AbstractAxis

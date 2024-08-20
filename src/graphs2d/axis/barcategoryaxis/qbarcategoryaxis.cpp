@@ -18,7 +18,7 @@ QT_BEGIN_NAMESPACE
 
 /*!
     \qmltype BarCategoryAxis
-    \instantiates QBarCategoryAxis
+    \nativetype QBarCategoryAxis
     \inqmlmodule QtGraphs
     \ingroup graphs_qml_2D
     \inherits AbstractAxis

@@ -35,7 +35,7 @@ QT_BEGIN_NAMESPACE
  * \qmlabstract
  * \inqmlmodule QtGraphs
  * \ingroup graphs_qml_3D
- * \instantiates QAbstract3DSeries
+ * \nativetype QAbstract3DSeries
  * \brief A base type for all 3D data series.
  *
  * This abstract class serves as a base class for the following subtypes:

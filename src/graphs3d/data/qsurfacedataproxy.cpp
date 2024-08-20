@@ -69,7 +69,7 @@ QT_BEGIN_NAMESPACE
  * \qmltype SurfaceDataProxy
  * \inqmlmodule QtGraphs
  * \ingroup graphs_qml_3D
- * \instantiates QSurfaceDataProxy
+ * \nativetype QSurfaceDataProxy
  * \inherits AbstractDataProxy
  * \brief The data proxy for a 3D surface graph.
  *
