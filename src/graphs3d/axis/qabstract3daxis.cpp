@@ -24,7 +24,7 @@ QT_BEGIN_NAMESPACE
  * \qmlabstract
  * \inqmlmodule QtGraphs
  * \ingroup graphs_qml_3D
- * \instantiates QAbstract3DAxis
+ * \nativetype QAbstract3DAxis
  * \brief A base type for the axes of a 3D graph.
  * For Abstract3DAxis enums, see \l QAbstract3DAxis::AxisOrientation and
  * \l{QAbstract3DAxis::AxisType}.

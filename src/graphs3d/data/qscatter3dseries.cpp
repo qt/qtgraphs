@@ -63,7 +63,7 @@ QT_BEGIN_NAMESPACE
  * \qmltype Scatter3DSeries
  * \inqmlmodule QtGraphs
  * \ingroup graphs_qml_3D
- * \instantiates QScatter3DSeries
+ * \nativetype QScatter3DSeries
  * \inherits Abstract3DSeries
  * \brief Represents a data series in a 3D scatter graph.
  *

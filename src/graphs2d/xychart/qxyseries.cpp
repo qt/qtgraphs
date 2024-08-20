@@ -19,7 +19,7 @@ QT_BEGIN_NAMESPACE
 */
 /*!
     \qmltype XYSeries
-    \instantiates QXYSeries
+    \nativetype QXYSeries
     \inqmlmodule QtGraphs
     \ingroup graphs_qml_2D
     \inherits AbstractSeries

@@ -20,7 +20,7 @@ QT_BEGIN_NAMESPACE
 */
 /*!
     \qmltype ScatterSeries
-    \instantiates QScatterSeries
+    \nativetype QScatterSeries
     \inqmlmodule QtGraphs
     \ingroup graphs_qml_2D
     \inherits XYSeries

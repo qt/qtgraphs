@@ -24,7 +24,7 @@ QT_BEGIN_NAMESPACE
  * \qmltype LogValue3DAxisFormatter
  * \inqmlmodule QtGraphs
  * \ingroup graphs_qml_3D
- * \instantiates QLogValue3DAxisFormatter
+ * \nativetype QLogValue3DAxisFormatter
  * \inherits Value3DAxisFormatter
  * \brief Provides formatting rules for a logarithmic value axis.
  *

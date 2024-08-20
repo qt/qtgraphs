@@ -66,7 +66,7 @@ QT_BEGIN_NAMESPACE
  * \qmltype Surface3DSeries
  * \inqmlmodule QtGraphs
  * \ingroup graphs_qml_3D
- * \instantiates QSurface3DSeries
+ * \nativetype QSurface3DSeries
  * \inherits Abstract3DSeries
  * \brief Represents a data series in a 3D surface graph.
  *

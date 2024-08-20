@@ -23,7 +23,7 @@ QT_BEGIN_NAMESPACE
  * \qmlabstract
  * \inqmlmodule QtGraphs
  * \ingroup graphs_qml_3D
- * \instantiates QAbstractDataProxy
+ * \nativetype QAbstractDataProxy
  * \brief Base type for all 3D graph data proxies.
  *
  * This abstract class serves as a base class for the following subtypes:

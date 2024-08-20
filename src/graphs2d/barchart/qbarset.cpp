@@ -23,7 +23,7 @@ QT_BEGIN_NAMESPACE
 */
 /*!
     \qmltype BarSet
-    \instantiates QBarSet
+    \nativetype QBarSet
     \inqmlmodule QtGraphs
     \ingroup graphs_qml_2D
     \brief Represents one set of bars in a bar graph.

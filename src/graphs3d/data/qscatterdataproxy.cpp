@@ -36,7 +36,7 @@ QT_BEGIN_NAMESPACE
  * \qmltype ScatterDataProxy
  * \inqmlmodule QtGraphs
  * \ingroup graphs_qml_3D
- * \instantiates QScatterDataProxy
+ * \nativetype QScatterDataProxy
  * \inherits AbstractDataProxy
  * \brief The data proxy for 3D scatter graphs.
  *

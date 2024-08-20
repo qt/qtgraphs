@@ -28,7 +28,7 @@ QT_BEGIN_NAMESPACE
 */
 /*!
     \qmltype BarModelMapper
-    \instantiates QBarModelMapper
+    \nativetype QBarModelMapper
     \inqmlmodule QtGraphs
     \ingroup graphs_qml_2D
 

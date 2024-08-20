@@ -28,7 +28,7 @@ QT_BEGIN_NAMESPACE
 */
 /*!
     \qmltype BarSeries
-    \instantiates QBarSeries
+    \nativetype QBarSeries
     \inqmlmodule QtGraphs
     \ingroup graphs_qml_2D
     \inherits AbstractSeries

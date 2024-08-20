@@ -66,7 +66,7 @@ QT_BEGIN_NAMESPACE
  * \qmltype ItemModelBarDataProxy
  * \inqmlmodule QtGraphs
  * \ingroup graphs_qml_3D
- * \instantiates QItemModelBarDataProxy
+ * \nativetype QItemModelBarDataProxy
  * \inherits BarDataProxy
  * \brief Proxy class for presenting data in item models with Bars3D.
  *

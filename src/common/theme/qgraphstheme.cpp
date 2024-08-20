@@ -195,7 +195,7 @@ QT_BEGIN_NAMESPACE
  * \qmltype GraphsTheme
  * \inqmlmodule QtGraphs
  * \ingroup graphs_qml_common
- * \instantiates QGraphsTheme
+ * \nativetype QGraphsTheme
  * \brief A visual style for graphs.
  *
  * This type is used to specify visual properties that affect the whole graph.

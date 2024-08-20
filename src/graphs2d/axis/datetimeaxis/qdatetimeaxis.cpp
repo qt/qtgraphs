@@ -18,7 +18,7 @@ QT_BEGIN_NAMESPACE
 
 /*!
  \qmltype DateTimeAxis
- \instantiates QDateTimeAxis
+ \nativetype QDateTimeAxis
  \inqmlmodule QtGraphs
  \ingroup graphs_qml_2D
  \inherits AbstractAxis

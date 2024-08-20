@@ -19,7 +19,7 @@ QT_BEGIN_NAMESPACE
  */
 /*!
     \qmltype SplineSeries
-    \instantiates QSplineSeries
+    \nativetype QSplineSeries
     \inqmlmodule QtGraphs
     \ingroup graphs_qml_2D
     \inherits QXYSeries

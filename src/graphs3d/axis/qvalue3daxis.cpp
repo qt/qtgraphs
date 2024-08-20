@@ -25,7 +25,7 @@ QT_BEGIN_NAMESPACE
  * \qmltype Value3DAxis
  * \inqmlmodule QtGraphs
  * \ingroup graphs_qml_3D
- * \instantiates QValue3DAxis
+ * \nativetype QValue3DAxis
  * \inherits Abstract3DAxis
  * \brief Manipulates an axis of a graph.
  *

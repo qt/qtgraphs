@@ -56,7 +56,7 @@ QT_BEGIN_NAMESPACE
  * \qmltype BarDataProxy
  * \inqmlmodule QtGraphs
  * \ingroup graphs_qml_3D
- * \instantiates QBarDataProxy
+ * \nativetype QBarDataProxy
  * \inherits AbstractDataProxy
  * \brief The data proxy for a 3D bars graph.
  *

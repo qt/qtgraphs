@@ -19,7 +19,7 @@ QT_BEGIN_NAMESPACE
 */
 /*!
     \qmltype AbstractSeries
-    \instantiates QAbstractSeries
+    \nativetype QAbstractSeries
     \inqmlmodule QtGraphs
     \ingroup graphs_qml_2D
     \brief Base type for all Qt Graph series types.
@@ -43,7 +43,7 @@ QT_BEGIN_NAMESPACE
 
 /*!
     \qmltype LegendData
-    \instantiates QLegendData
+    \nativetype QLegendData
     \inqmlmodule QtGraphs
     \ingroup graphs_qml__2D
     \brief The LegendData struct contains information to display on a sets
