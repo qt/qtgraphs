@@ -53,44 +53,44 @@ QPointF QQuickGraphsBar3DSeries::invalidSelectionPosition() const
 
 void QQuickGraphsBar3DSeries::setBaseGradient(QQuickGradient *gradient)
 {
-    if (m_baseGradient != gradient) {
-        setGradientHelper(gradient, m_baseGradient, GradientType::Base);
-        m_baseGradient = gradient;
-        Q_EMIT baseGradientChanged(m_baseGradient);
+    if (m_gradients.m_baseGradient != gradient) {
+        setGradientHelper(gradient, m_gradients.m_baseGradient, GradientType::Base);
+        m_gradients.m_baseGradient = gradient;
+        Q_EMIT baseGradientChanged(m_gradients.m_baseGradient);
     }
 }
 
 QQuickGradient *QQuickGraphsBar3DSeries::baseGradient() const
 {
-    return m_baseGradient;
+    return m_gradients.m_baseGradient;
 }
 
 void QQuickGraphsBar3DSeries::setSingleHighlightGradient(QQuickGradient *gradient)
 {
-    if (m_singleHighlightGradient != gradient) {
-        setGradientHelper(gradient, m_singleHighlightGradient, GradientType::Single);
-        m_singleHighlightGradient = gradient;
-        Q_EMIT singleHighlightGradientChanged(m_singleHighlightGradient);
+    if (m_gradients.m_singleHighlightGradient != gradient) {
+        setGradientHelper(gradient, m_gradients.m_singleHighlightGradient, GradientType::Single);
+        m_gradients.m_singleHighlightGradient = gradient;
+        Q_EMIT singleHighlightGradientChanged(m_gradients.m_singleHighlightGradient);
     }
 }
 
 QQuickGradient *QQuickGraphsBar3DSeries::singleHighlightGradient() const
 {
-    return m_singleHighlightGradient;
+    return m_gradients.m_singleHighlightGradient;
 }
 
 void QQuickGraphsBar3DSeries::setMultiHighlightGradient(QQuickGradient *gradient)
 {
-    if (m_multiHighlightGradient != gradient) {
-        setGradientHelper(gradient, m_multiHighlightGradient, GradientType::Multi);
-        m_multiHighlightGradient = gradient;
-        Q_EMIT multiHighlightGradientChanged(m_multiHighlightGradient);
+    if (m_gradients.m_multiHighlightGradient != gradient) {
+        setGradientHelper(gradient, m_gradients.m_multiHighlightGradient, GradientType::Multi);
+        m_gradients.m_multiHighlightGradient = gradient;
+        Q_EMIT multiHighlightGradientChanged(m_gradients.m_multiHighlightGradient);
     }
 }
 
 QQuickGradient *QQuickGraphsBar3DSeries::multiHighlightGradient() const
 {
-    return m_multiHighlightGradient;
+    return m_gradients.m_multiHighlightGradient;
 }
 
 QQmlListProperty<QQuickGraphsColor> QQuickGraphsBar3DSeries::rowColors()
@@ -127,20 +127,20 @@ void QQuickGraphsBar3DSeries::clearRowColorsFunc(QQmlListProperty<QQuickGraphsCo
 
 void QQuickGraphsBar3DSeries::handleBaseGradientUpdate()
 {
-    if (!m_baseGradient)
-        Utils::setSeriesGradient(this, m_baseGradient, GradientType::Base);
+    if (!m_gradients.m_baseGradient)
+        Utils::setSeriesGradient(this, m_gradients.m_baseGradient, GradientType::Base);
 }
 
 void QQuickGraphsBar3DSeries::handleSingleHighlightGradientUpdate()
 {
-    if (!m_singleHighlightGradient)
-        Utils::setSeriesGradient(this, m_singleHighlightGradient, GradientType::Single);
+    if (!m_gradients.m_singleHighlightGradient)
+        Utils::setSeriesGradient(this, m_gradients.m_singleHighlightGradient, GradientType::Single);
 }
 
 void QQuickGraphsBar3DSeries::handleMultiHighlightGradientUpdate()
 {
-    if (!m_multiHighlightGradient)
-        Utils::setSeriesGradient(this, m_multiHighlightGradient, GradientType::Multi);
+    if (!m_gradients.m_multiHighlightGradient)
+        Utils::setSeriesGradient(this, m_gradients.m_multiHighlightGradient, GradientType::Multi);
 }
 
 void QQuickGraphsBar3DSeries::handleRowColorUpdate()

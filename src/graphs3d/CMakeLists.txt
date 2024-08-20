@@ -36,6 +36,7 @@ else()
             qml/foreigntypes_p.h
             qml/qquickgraphsitem.cpp qml/qquickgraphsitem_p.h
             qml/qquickgraphstexturedata.cpp qml/qquickgraphstexturedata_p.h
+            qml/gradientholder_p.h
         INCLUDE_DIRECTORIES
             axis
             data

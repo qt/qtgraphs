@@ -54,62 +54,62 @@ void QQuickGraphsSurface3DSeries::appendSeriesChildren(QQmlListProperty<QObject>
 
 void QQuickGraphsSurface3DSeries::setBaseGradient(QQuickGradient *gradient)
 {
-    if (m_baseGradient != gradient) {
-        setGradientHelper(gradient, m_baseGradient, GradientType::Base);
-        m_baseGradient = gradient;
-        Q_EMIT baseGradientChanged(m_baseGradient);
+    if (m_gradients.m_baseGradient != gradient) {
+        setGradientHelper(gradient, m_gradients.m_baseGradient, GradientType::Base);
+        m_gradients.m_baseGradient = gradient;
+        Q_EMIT baseGradientChanged(m_gradients.m_baseGradient);
     }
 }
 
 QQuickGradient *QQuickGraphsSurface3DSeries::baseGradient() const
 {
-    return m_baseGradient;
+    return m_gradients.m_baseGradient;
 }
 
 void QQuickGraphsSurface3DSeries::setSingleHighlightGradient(QQuickGradient *gradient)
 {
-    if (m_singleHighlightGradient != gradient) {
-        setGradientHelper(gradient, m_singleHighlightGradient, GradientType::Single);
-        m_singleHighlightGradient = gradient;
-        Q_EMIT singleHighlightGradientChanged(m_singleHighlightGradient);
+    if (m_gradients.m_singleHighlightGradient != gradient) {
+        setGradientHelper(gradient, m_gradients.m_singleHighlightGradient, GradientType::Single);
+        m_gradients.m_singleHighlightGradient = gradient;
+        Q_EMIT singleHighlightGradientChanged(m_gradients.m_singleHighlightGradient);
     }
 }
 
 QQuickGradient *QQuickGraphsSurface3DSeries::singleHighlightGradient() const
 {
-    return m_singleHighlightGradient;
+    return m_gradients.m_singleHighlightGradient;
 }
 
 void QQuickGraphsSurface3DSeries::setMultiHighlightGradient(QQuickGradient *gradient)
 {
-    if (m_multiHighlightGradient != gradient) {
-        setGradientHelper(gradient, m_multiHighlightGradient, GradientType::Multi);
-        m_multiHighlightGradient = gradient;
-        Q_EMIT multiHighlightGradientChanged(m_multiHighlightGradient);
+    if (m_gradients.m_multiHighlightGradient != gradient) {
+        setGradientHelper(gradient, m_gradients.m_multiHighlightGradient, GradientType::Multi);
+        m_gradients.m_multiHighlightGradient = gradient;
+        Q_EMIT multiHighlightGradientChanged(m_gradients.m_multiHighlightGradient);
     }
 }
 
 QQuickGradient *QQuickGraphsSurface3DSeries::multiHighlightGradient() const
 {
-    return m_multiHighlightGradient;
+    return m_gradients.m_multiHighlightGradient;
 }
 
 void QQuickGraphsSurface3DSeries::handleBaseGradientUpdate()
 {
-    if (!m_baseGradient)
-        Utils::setSeriesGradient(this, m_baseGradient, GradientType::Base);
+    if (!m_gradients.m_baseGradient)
+        Utils::setSeriesGradient(this, m_gradients.m_baseGradient, GradientType::Base);
 }
 
 void QQuickGraphsSurface3DSeries::handleSingleHighlightGradientUpdate()
 {
-    if (!m_singleHighlightGradient)
-        Utils::setSeriesGradient(this, m_singleHighlightGradient, GradientType::Single);
+    if (!m_gradients.m_singleHighlightGradient)
+        Utils::setSeriesGradient(this, m_gradients.m_singleHighlightGradient, GradientType::Single);
 }
 
 void QQuickGraphsSurface3DSeries::handleMultiHighlightGradientUpdate()
 {
-    if (!m_multiHighlightGradient)
-        Utils::setSeriesGradient(this, m_multiHighlightGradient, GradientType::Multi);
+    if (!m_gradients.m_multiHighlightGradient)
+        Utils::setSeriesGradient(this, m_gradients.m_multiHighlightGradient, GradientType::Multi);
 }
 
 void QQuickGraphsSurface3DSeries::setGradientHelper(QQuickGradient *newGradient,

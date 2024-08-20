@@ -15,6 +15,7 @@
 #define QQUICKGRAPHSSCATTERSERIES_P_H
 
 #include "common/theme/qquickgraphscolor_p.h"
+#include "gradientholder_p.h"
 #include "qscatter3dseries.h"
 
 #include <QtQml/qqml.h>
@@ -67,9 +68,7 @@ Q_SIGNALS:
     void multiHighlightGradientChanged(QQuickGradient *gradient);
 
 private:
-    QQuickGradient *m_baseGradient = nullptr;
-    QQuickGradient *m_singleHighlightGradient = nullptr;
-    QQuickGradient *m_multiHighlightGradient = nullptr;
+    GradientHolder m_gradients;
 
     void setGradientHelper(QQuickGradient *newGradient,
                            QQuickGradient *memberGradient,

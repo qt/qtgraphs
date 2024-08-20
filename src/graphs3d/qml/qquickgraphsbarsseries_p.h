@@ -15,6 +15,7 @@
 #define QQUICKGRAPHSBARSSERIES_P_H
 
 #include "common/theme/qquickgraphscolor_p.h"
+#include "gradientholder_p.h"
 #include "qbar3dseries.h"
 
 #include <QtQml/qqml.h>
@@ -85,9 +86,7 @@ Q_SIGNALS:
     void multiHighlightGradientChanged(QQuickGradient *gradient);
 
 private:
-    QQuickGradient *m_baseGradient = nullptr;
-    QQuickGradient *m_singleHighlightGradient = nullptr;
-    QQuickGradient *m_multiHighlightGradient = nullptr;
+    GradientHolder m_gradients;
 
     QList<QQuickGraphsColor *> m_rowColors;
     bool m_dummyColors = false;
