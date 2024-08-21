@@ -74,7 +74,7 @@
 
     In Qt Graphs 2D, all the enums are implemented as scoped enums, for example,
     for the \c{PieSlice.LabelOutside} in Qt Charts, the corresponding enum in
-    is Qt Graphs 2D is \c{PieSlice.LabelPosition.Outside}.
+    Qt Graphs 2D is \c{PieSlice.LabelPosition.Outside}.
 
     \section1 Migrating chart series in QML
 
