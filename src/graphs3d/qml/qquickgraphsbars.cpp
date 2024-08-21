@@ -773,7 +773,7 @@ void QQuickGraphsBars::synchData()
     }
 
     // Do not clear dirty flag, we need to react to it in qquickgraphicsitem as well
-    if (theme()->dirtyBits()->backgroundVisibilityDirty) {
+    if (theme()->dirtyBits()->plotAreaBackgroundVisibilityDirty) {
         setSeriesVisualsDirty(true);
         for (auto it = m_barModelsMap.begin(); it != m_barModelsMap.end(); it++)
             it.key()->d_func()->m_changeTracker.meshChanged = true;
