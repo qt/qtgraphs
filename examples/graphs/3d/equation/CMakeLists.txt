@@ -38,7 +38,7 @@ target_link_options(equation PRIVATE
 endif()
 
 qt_add_qml_module(equation
-    URI Equation
+    URI EquationExample
     NO_RESOURCE_TARGET_PATH
     QML_FILES
         "qml/equation/Main.qml"
