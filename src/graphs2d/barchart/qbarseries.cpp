@@ -329,15 +329,6 @@ QT_BEGIN_NAMESPACE
 */
 
 /*!
-    \fn void QBarSeries::updatedLayout()
-    This signal is emitted when the layout is updated.
-*/
-/*!
-    \fn void QBarSeries::restructuredBars()
-    This signal is emitted when the bars are restructured.
-*/
-
-/*!
     \fn void QBarSeries::labelsVisibleChanged(bool visible)
     This signal is emitted when the labels' visibility changes to \a visible.
     \sa labelsVisible(), setLabelsVisible()
@@ -1311,7 +1302,6 @@ bool QBarSeriesPrivate::append(QBarSet *set)
     QObject::connect(set, &QBarSet::valueRemoved, q, &QBarSeries::handleSetValueRemove);
     QObject::connect(set, &QBarSet::selectedBarsChanged, q, &QBarSeries::updatedBars);
 
-    emit q->restructuredBars(); // this notifies barchartitem
     return true;
 }
 
@@ -1328,7 +1318,6 @@ bool QBarSeriesPrivate::remove(QBarSet *set)
     QObject::disconnect(set, &QBarSet::valueRemoved, q, &QBarSeries::handleSetValueRemove);
     QObject::disconnect(set, &QBarSet::selectedBarsChanged, q, &QBarSeries::updatedBars);
 
-    emit q->restructuredBars(); // this notifies barchartitem
     return true;
 }
 
@@ -1351,7 +1340,6 @@ bool QBarSeriesPrivate::append(const QList<QBarSet *> &sets)
         QObject::connect(set, &QBarSet::selectedBarsChanged, q, &QBarSeries::updatedBars);
     }
 
-    emit q->restructuredBars(); // this notifies barchartitem
     return true;
 }
 
@@ -1383,8 +1371,6 @@ bool QBarSeriesPrivate::remove(const QList<QBarSet *> &sets)
         QObject::disconnect(set, &QBarSet::selectedBarsChanged, q, &QBarSeries::updatedBars);
     }
 
-    emit q->restructuredBars(); // this notifies barchartitem
-
     return true;
 }
 
@@ -1401,7 +1387,6 @@ bool QBarSeriesPrivate::insert(qsizetype index, QBarSet *set)
     QObject::connect(set, &QBarSet::valueRemoved, q, &QBarSeries::handleSetValueRemove);
     QObject::disconnect(set, &QBarSet::selectedBarsChanged, q, &QBarSeries::updatedBars);
 
-    emit q->restructuredBars(); // this notifies barchartitem
     return true;
 }
 

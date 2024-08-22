@@ -117,8 +117,6 @@ protected:
 
 Q_SIGNALS:
     void updatedBars();
-    void updatedLayout();
-    void restructuredBars();
     void seriesColorsChanged();
     void borderColorsChanged();
     void countChanged();
