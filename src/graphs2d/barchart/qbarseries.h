@@ -116,11 +116,6 @@ protected:
     void componentComplete() override;
 
 Q_SIGNALS:
-    void clicked(qsizetype index, QBarSet *barset);
-    void hovered(bool status, qsizetype index, QBarSet *barset);
-    void pressed(qsizetype index, QBarSet *barset);
-    void released(qsizetype index, QBarSet *barset);
-    void doubleClicked(qsizetype index, QBarSet *barset);
     void updatedBars();
     void updatedLayout();
     void restructuredBars();

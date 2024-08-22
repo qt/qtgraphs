@@ -324,65 +324,6 @@ QT_BEGIN_NAMESPACE
 */
 
 /*!
-    \fn void QBarSeries::clicked(qsizetype index, QBarSet *barset)
-    This signal is emitted when the user clicks the bar specified by \a index
-    in the bar set specified by \a barset.
-*/
-/*!
-    \qmlsignal BarSeries::clicked(int index, BarSet barset)
-    This signal is emitted when the user clicks the bar specified by \a index
-    in the bar set specified by \a barset.
-*/
-
-/*!
-    \fn void QBarSeries::pressed(qsizetype index, QBarSet *barset)
-    This signal is emitted when the user clicks the bar specified by \a index
-    in the bar set specified by \a barset and holds down the mouse button.
-*/
-/*!
-    \qmlsignal BarSeries::pressed(int index, BarSet barset)
-    This signal is emitted when the user clicks the bar specified by \a index
-    in the bar set specified by \a barset and holds down the mouse button.
-*/
-
-/*!
-    \fn void QBarSeries::released(qsizetype index, QBarSet *barset)
-    This signal is emitted when the user releases the mouse press on the bar
-    specified by \a index in the bar set specified by \a barset.
-*/
-/*!
-    \qmlsignal BarSeries::released(int index, BarSet barset)
-    This signal is emitted when the user releases the mouse press on the bar
-    specified by \a index in the bar set specified by \a barset.
-*/
-
-/*!
-    \fn void QBarSeries::doubleClicked(qsizetype index, QBarSet *barset)
-    This signal is emitted when the user double-clicks the bar specified by \a index
-    in the bar set specified by \a barset.
-*/
-/*!
-    \qmlsignal BarSeries::doubleClicked(int index, BarSet barset)
-    This signal is emitted when the user double-clicks the bar specified by \a index
-    in the bar set specified by \a barset.
-*/
-
-/*!
-    \fn void QBarSeries::hovered(bool status, qsizetype index, QBarSet* barset)
-
-    This signal is emitted when a mouse is hovered over the bar specified by \a index in the
-    bar set specified by \a barset. When the mouse moves over the bar, \a status turns \c true,
-    and when the mouse moves away again, it turns \c false.
-*/
-/*!
-    \qmlsignal BarSeries::hovered(bool status, int index, BarSet barset)
-
-    This signal is emitted when a mouse is hovered over the bar specified by \a index in the
-    bar set specified by \a barset. When the mouse moves over the bar, \a status turns \c true,
-    and when the mouse moves away again, it turns \c false.
-*/
-
-/*!
     \fn void QBarSeries::updatedBars()
     This signal is emitted when bars are updated.
 */
