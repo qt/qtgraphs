@@ -162,7 +162,7 @@ QQuickGraphsSurface::~QQuickGraphsSurface()
 {
     QMutexLocker locker(m_nodeMutex.data());
     const QMutexLocker locker2(mutex());
-    for (auto model : m_model)
+    for (const auto &model : std::as_const(m_model))
         delete model;
     delete m_instancing;
     delete m_sliceInstancing;
@@ -795,6 +795,7 @@ void QQuickGraphsSurface::removeSeries(QSurface3DSeries *series)
                 m_model[i]->sliceModel->deleteLater();
                 m_model[i]->sliceGridModel->deleteLater();
             }
+            delete m_model[i];
             m_model.removeAt(i);
         } else {
             ++i;
