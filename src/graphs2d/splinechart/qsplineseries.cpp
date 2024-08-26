@@ -169,6 +169,7 @@ QSplineSeriesPrivate::QSplineSeriesPrivate()
 void QSplineSeriesPrivate::calculateSplinePoints()
 {
     if (m_points.size() == 0) {
+        m_controlPoints.clear();
         return;
     } else if (m_points.size() == 1) {
         m_controlPoints = {m_points[0], m_points[0]};
