@@ -1472,36 +1472,36 @@ void QQuickGraphsSurface::updateProxyModel(SurfaceModel *model)
     int endY = proxyRowCount - 1;
     int indexCount = 6 * endX * endY;
 
-    QVector<quint32> *proxyIndices = new QVector<quint32>();
-    proxyIndices->resize(indexCount);
+    QVector<quint32> proxyIndices;
+    proxyIndices.resize(indexCount);
 
     int rowEnd = endY * proxyColumnCount;
     for (int row = 0; row < rowEnd; row += proxyColumnCount) {
         for (int j = 0; j < endX; j++) {
             if (model->ascendingX == model->ascendingZ) {
-                proxyIndices->push_back(row + j + 1);
-                proxyIndices->push_back(row + proxyColumnCount + j);
-                proxyIndices->push_back(row + j);
+                proxyIndices.push_back(row + j + 1);
+                proxyIndices.push_back(row + proxyColumnCount + j);
+                proxyIndices.push_back(row + j);
 
-                proxyIndices->push_back(row + proxyColumnCount + j + 1);
-                proxyIndices->push_back(row + proxyColumnCount + j);
-                proxyIndices->push_back(row + j + 1);
+                proxyIndices.push_back(row + proxyColumnCount + j + 1);
+                proxyIndices.push_back(row + proxyColumnCount + j);
+                proxyIndices.push_back(row + j + 1);
             } else if (!model->ascendingX) {
-                proxyIndices->push_back(row + proxyColumnCount + j);
-                proxyIndices->push_back(row + proxyColumnCount + j + 1);
-                proxyIndices->push_back(row + j);
+                proxyIndices.push_back(row + proxyColumnCount + j);
+                proxyIndices.push_back(row + proxyColumnCount + j + 1);
+                proxyIndices.push_back(row + j);
 
-                proxyIndices->push_back(row + j);
-                proxyIndices->push_back(row + proxyColumnCount + j + 1);
-                proxyIndices->push_back(row + j + 1);
+                proxyIndices.push_back(row + j);
+                proxyIndices.push_back(row + proxyColumnCount + j + 1);
+                proxyIndices.push_back(row + j + 1);
             } else {
-                proxyIndices->push_back(row + proxyColumnCount + j);
-                proxyIndices->push_back(row + proxyColumnCount + j + 1);
-                proxyIndices->push_back(row + j + 1);
+                proxyIndices.push_back(row + proxyColumnCount + j);
+                proxyIndices.push_back(row + proxyColumnCount + j + 1);
+                proxyIndices.push_back(row + j + 1);
 
-                proxyIndices->push_back(row + j);
-                proxyIndices->push_back(row + proxyColumnCount + j);
-                proxyIndices->push_back(row + j + 1);
+                proxyIndices.push_back(row + j);
+                proxyIndices.push_back(row + proxyColumnCount + j);
+                proxyIndices.push_back(row + j + 1);
             }
         }
     }
@@ -1511,8 +1511,8 @@ void QQuickGraphsSurface::updateProxyModel(SurfaceModel *model)
     QByteArray vertexBuffer(reinterpret_cast<char *>(proxyVerts.data()),
                             proxyVerts.size() * sizeof(SurfaceVertex));
     geometry->setVertexData(vertexBuffer);
-    QByteArray indexBuffer(reinterpret_cast<char *>(proxyIndices->data()),
-                           proxyIndices->size() * sizeof(quint32));
+    QByteArray indexBuffer(reinterpret_cast<char *>(proxyIndices.data()),
+                           proxyIndices.size() * sizeof(quint32));
     geometry->setIndexData(indexBuffer);
     geometry->setBounds(boundsMin, boundsMax);
     geometry->update();
