@@ -98,6 +98,15 @@ Item {
                 yPosRole: "pop_density"
             }
         }
+
+        //! [4]
+        onTapped: {
+            // Disable the default input handler
+            unsetDefaultTapHandler()
+            // Implement own custom event handler
+            console.log("Custom tap event handler")
+        }
+        //! [4]
     }
     ListModel {
         id: dataModel
