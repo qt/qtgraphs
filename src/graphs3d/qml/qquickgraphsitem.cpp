@@ -593,6 +593,76 @@ constexpr float polarRoundness = 64.0f;
  * The color of the ambient and specular light defined in Scene3D.
  */
 
+/*!
+ * \qmlsignal GraphsItem3D::tapped(QEventPoint eventPoint, Qt::MouseButton button)
+ *
+ * This signal is emitted when the graph item is tapped once. The \a eventPoint
+ * signal parameter contains information from the release event about the point
+ * that was tapped, and \a button is the \l {Qt::MouseButton}{mouse button} that was clicked,
+ * or \c NoButton on a touchscreen.
+ *
+ * \sa QEventPoint, Qt::MouseButtons, TapHandler::singleTapped
+ */
+
+/*!
+ * \qmlsignal GraphsItem3D::doubleTapped(QEventPoint eventPoint, Qt::MouseButton button)
+ *
+ * This signal is emitted when the graph item is tapped twice within a short span of time.
+ * The \a eventPoint signal parameter contains information from the release event about the
+ * point that was tapped, and \a button is the \l {Qt::MouseButton}{mouse button} that was
+ * clicked, or \c NoButton on a touchscreen.
+ *
+ * \sa QEventPoint, Qt::MouseButtons, TapHandler::doubleTapped
+ */
+
+/*!
+ * \qmlsignal GraphsItem3D::longPressed()
+ *
+ * This signal is emitted when the \c parent Item is pressed and held for a
+ * time period greater than \l TapHandler::longPressThreshold.
+ *
+ * \sa TapHandler::longPressed
+ */
+
+/*!
+ * \qmlsignal GraphsItem3D::dragged(QVector2D delta)
+ *
+ * This signal is emitted when the translation of the cluster of points
+ * on the graph is changed while the pinch gesture is being performed.
+ *  The \a delta vector gives the change in translation.
+ *
+ * \sa PinchHandler::translationChanged
+ */
+
+/*!
+ * \qmlsignal GraphsItem3D::wheel(QQuickWheelEvent *event)
+ *
+ * This signal is emitted every time the graph receives an \a event
+ * of type \l QWheelEvent: that is, every time the wheel is moved or the
+ * scrolling gesture is updated.
+ *
+ * \sa WheelEvent, WheelHandler::wheel
+ */
+
+/*!
+ * \qmlsignal GraphsItem3D::pinch(qreal delta)
+ *
+ * This signal is emitted when the scale factor on the graph
+ * changes while the pinch gesture is being performed.
+ * The \a delta value gives the multiplicative change in scale.
+ *
+ * \sa PinchHandler::scaleChanged
+ */
+
+/*!
+ * \qmlsignal GraphsItem3D::mouseMove(QPoint mousePos)
+ *
+ * This signal is emitted when the graph receives a mouseMove event.
+ * \a mousePos value gives the position of mouse while mouse is moving.
+ *
+ * \sa QQuickItem::mouseMoveEvent
+ */
+
 QQuickGraphsItem::QQuickGraphsItem(QQuickItem *parent)
     : QQuick3DViewport(parent)
     , m_locale(QLocale::c())

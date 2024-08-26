@@ -191,4 +191,12 @@
     The \l QCustom3DLabel class and \l Custom3DLabel QML type implement custom
     labels with the specified text, font, position, scaling, and rotation. The
     active theme determines label colors, borders, and background.
+
+    \section1 Handling Custom Input
+
+    Qt Graphs implements default input handlers for typical actions like selecting,
+    rotating, and zooming. To implement custom input handlers instead of the
+    default ones, override the necessary input signals.
+
+    \snippet doc_src_qmlgraphs.cpp 4
 */
