@@ -5428,7 +5428,7 @@ void QQuickGraphsItem::toggleSliceGraph()
     if (!m_sliceView || !m_sliceActivatedChanged)
         return;
 
-    if (isSlicingActive()) {
+    if (m_sliceView->isVisible()) {
         // Maximize main view
         m_sliceView->setVisible(false);
         setSlicingActive(false);
