@@ -61,6 +61,7 @@ Item {
             id: yAxis
             max: 8
         }
+        //! [1]
         LineSeries {
             id: line
             property int divisions: 500
@@ -102,6 +103,7 @@ Item {
                 divisions = newDivs
             }
         }
+        //! [1]
     }
 
 }

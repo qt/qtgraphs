@@ -83,6 +83,7 @@ Item {
                 }
             }
 
+            //! [1]
             AreaSeries {
                 id: upperArea
                 color: "cyan"
@@ -109,6 +110,7 @@ Item {
                     barSet.values = [Math.sin(elapsedTime) + 5]
                 }
             }
+            //! [1]
         }
     }
 
@@ -184,6 +186,7 @@ Item {
                 visible: false
             }
 
+            //! [2]
             BarSeries {
                 id: barSeries
                 selectable: true
@@ -206,6 +209,7 @@ Item {
 
                 BarSet { id: barSet; values: []; selectedColor: "red" }
             }
+            //! [2]
         }
 
     }
@@ -221,6 +225,7 @@ Item {
         clip: true
         color: "transparent"
 
+        //! [3]
         GraphsView {
             anchors.fill: parent
             anchors.leftMargin: -90
@@ -325,5 +330,6 @@ Item {
             }
 
         }
+        //! [3]
     }
 }
