@@ -19,6 +19,7 @@ Item {
         text: "AIRSPEED"
     }
 
+    //! [1]
     GraphsView {
         id: chart
         anchors.fill: parent
@@ -80,6 +81,7 @@ Item {
             PieSlice { label: "Overspeed"; value: 1; color: "#ffaa22"; labelVisible: false  }
         }
     }
+    //! [1]
 
     Rectangle {
         id: needle

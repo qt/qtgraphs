@@ -122,7 +122,7 @@ Item {
                             triangle4.x = 11 * fn(30, 1.3) + 50;
                         }
                     }
-
+                    //! [1]
                     BarSeries {
                         property real barOpacity: 0.
 
@@ -159,6 +159,7 @@ Item {
                         BarSet { id: set2; label: "Medium"; values: [2, 2, 0, 4]; color: "yellow"}
                         BarSet { id: set3; label: "High"; values: [3, 2, 3, 1]; color: "green"}
                     }
+                    //! [1]
                 }
 
                 Loader { id: triangle1; sourceComponent: triangle; x: 50; y: 85 }
@@ -229,6 +230,7 @@ Item {
                         max: 10
                     }
 
+                    //! [2]
                     AreaSeries {
                         property double x: 0
                         property double y: 0
@@ -330,6 +332,7 @@ Item {
                             }
                         }
                     }
+                    //! [2]
                 }
             }
 

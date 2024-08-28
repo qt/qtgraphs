@@ -4,4 +4,6 @@
 
 SOURCES += main.cpp
 
-OTHER_FILES += qml/cockpit/*
+OTHER_FILES += doc/src/* \
+               doc/images/* \
+               qml/cockpit/*
