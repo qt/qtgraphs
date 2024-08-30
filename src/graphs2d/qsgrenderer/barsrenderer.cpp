@@ -209,8 +209,7 @@ void BarsRenderer::updateValueLabels(QBarSeries *series)
         for (auto i = seriesData.cbegin(), end = seriesData.cend(); i != end; ++i) {
             if (labelTextItems.size() <= barIndex) {
                 // Create more label items as needed
-                auto labelItem = new QQuickText();
-                labelItem->setParentItem(this);
+                auto labelItem = new QQuickText(this);
                 labelTextItems << labelItem;
             }
             if (labelTextItems.size() > barIndex) {
