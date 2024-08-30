@@ -55,21 +55,18 @@ void AxisRenderer::initialize() {
 void AxisRenderer::handlePolish()
 {
     if (!m_axisGrid) {
-        m_axisGrid = new AxisGrid();
-        m_axisGrid->setParentItem(this);
+        m_axisGrid = new AxisGrid(this);
         m_axisGrid->setZ(-1);
         m_axisGrid->setupShaders();
         m_axisGrid->setOrigo(0);
     }
     if (!m_axisLineVertical) {
-        m_axisLineVertical = new AxisLine();
-        m_axisLineVertical->setParentItem(this);
+        m_axisLineVertical = new AxisLine(this);
         m_axisLineVertical->setZ(-1);
         m_axisLineVertical->setupShaders();
     }
     if (!m_axisTickerVertical) {
-        m_axisTickerVertical = new AxisTicker();
-        m_axisTickerVertical->setParentItem(this);
+        m_axisTickerVertical = new AxisTicker(this);
         m_axisTickerVertical->setZ(-2);
         m_axisTickerVertical->setOrigo(0);
         // TODO: Configurable in theme or axis?
@@ -77,15 +74,13 @@ void AxisRenderer::handlePolish()
         m_axisTickerVertical->setupShaders();
     }
     if (!m_axisLineHorizontal) {
-        m_axisLineHorizontal = new AxisLine();
-        m_axisLineHorizontal->setParentItem(this);
+        m_axisLineHorizontal = new AxisLine(this);
         m_axisLineHorizontal->setZ(-1);
         m_axisLineHorizontal->setIsHorizontal(true);
         m_axisLineHorizontal->setupShaders();
     }
     if (!m_axisTickerHorizontal) {
-        m_axisTickerHorizontal = new AxisTicker();
-        m_axisTickerHorizontal->setParentItem(this);
+        m_axisTickerHorizontal = new AxisTicker(this);
         m_axisTickerHorizontal->setZ(-2);
         m_axisTickerHorizontal->setIsHorizontal(true);
         m_axisTickerHorizontal->setOrigo(0);
@@ -96,21 +91,18 @@ void AxisRenderer::handlePolish()
 
     // TODO: Create shadows only when needed
     if (!m_axisGridShadow) {
-        m_axisGridShadow = new AxisGrid();
-        m_axisGridShadow->setParentItem(this);
+        m_axisGridShadow = new AxisGrid(this);
         m_axisGridShadow->setZ(-3);
         m_axisGridShadow->setupShaders();
         m_axisGridShadow->setOrigo(0);
     }
     if (!m_axisLineVerticalShadow) {
-        m_axisLineVerticalShadow = new AxisLine();
-        m_axisLineVerticalShadow->setParentItem(this);
+        m_axisLineVerticalShadow = new AxisLine(this);
         m_axisLineVerticalShadow->setZ(-3);
         m_axisLineVerticalShadow->setupShaders();
     }
     if (!m_axisTickerVerticalShadow) {
-        m_axisTickerVerticalShadow = new AxisTicker();
-        m_axisTickerVerticalShadow->setParentItem(this);
+        m_axisTickerVerticalShadow = new AxisTicker(this);
         m_axisTickerVerticalShadow->setZ(-3);
         m_axisTickerVerticalShadow->setOrigo(0);
         // TODO: Configurable in theme or axis?
@@ -118,14 +110,12 @@ void AxisRenderer::handlePolish()
         m_axisTickerVerticalShadow->setupShaders();
     }
     if (!m_axisLineHorizontalShadow) {
-        m_axisLineHorizontalShadow = new AxisLine();
-        m_axisLineHorizontalShadow->setParentItem(this);
+        m_axisLineHorizontalShadow = new AxisLine(this);
         m_axisLineHorizontalShadow->setZ(-3);
         m_axisLineHorizontalShadow->setupShaders();
     }
     if (!m_axisTickerHorizontalShadow) {
-        m_axisTickerHorizontalShadow = new AxisTicker();
-        m_axisTickerHorizontalShadow->setParentItem(this);
+        m_axisTickerHorizontalShadow = new AxisTicker(this);
         m_axisTickerHorizontalShadow->setZ(-3);
         m_axisTickerHorizontalShadow->setIsHorizontal(true);
         m_axisTickerHorizontalShadow->setOrigo(0);
@@ -557,15 +547,13 @@ void AxisRenderer::updateAxisGridShadow()
 void AxisRenderer::updateAxisTitles(const QRectF xAxisRect, const QRectF yAxisRect)
 {
     if (!m_xAxisTitle) {
-        m_xAxisTitle = new QQuickText();
-        m_xAxisTitle->setParentItem(this);
+        m_xAxisTitle = new QQuickText(this);
         m_xAxisTitle->setVAlign(QQuickText::AlignBottom);
         m_xAxisTitle->setHAlign(QQuickText::AlignHCenter);
     }
 
     if (!m_yAxisTitle) {
-        m_yAxisTitle = new QQuickText();
-        m_yAxisTitle->setParentItem(this);
+        m_yAxisTitle = new QQuickText(this);
         m_yAxisTitle->setVAlign(QQuickText::AlignVCenter);
         m_yAxisTitle->setHAlign(QQuickText::AlignHCenter);
     }
@@ -609,6 +597,7 @@ void AxisRenderer::updateAxisLabelItems(QList<QQuickItem *> &textItems,
             }
             if (!item)
                 item = new QQuickText();
+            item->setParent(this);
             item->setParentItem(this);
             textItems << item;
         }
