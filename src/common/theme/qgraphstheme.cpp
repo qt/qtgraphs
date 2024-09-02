@@ -1949,9 +1949,11 @@ QGraphsLine::QGraphsLine()
 {
 }
 
-QGraphsLine::QGraphsLine(const QGraphsLine &other) noexcept = default;
+QGraphsLine::QGraphsLine(const QGraphsLine &other)
+    = default;
 
-QGraphsLine::~QGraphsLine() = default;
+QGraphsLine::~QGraphsLine()
+    = default;
 
 QColor QGraphsLine::mainColor() const
 {
@@ -2032,7 +2034,7 @@ void QGraphsLine::detach()
     d.detach();
 }
 
-QGraphsLine &QGraphsLine::operator=(const QGraphsLine &other) noexcept
+QGraphsLine &QGraphsLine::operator=(const QGraphsLine &other)
 {
     QGraphsLine temp(other);
     swap(temp);
@@ -2072,7 +2074,8 @@ QGraphsLinePrivate::QGraphsLinePrivate(const QGraphsLinePrivate &other)
     , m_bits(other.m_bits)
 {}
 
-QGraphsLinePrivate::~QGraphsLinePrivate() = default;
+QGraphsLinePrivate::~QGraphsLinePrivate()
+    = default;
 
 void QGraphsLinePrivate::resetCustomBits()
 {

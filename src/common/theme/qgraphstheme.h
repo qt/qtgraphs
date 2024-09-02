@@ -19,7 +19,7 @@ class QQuickGradient;
 class QGraphsThemePrivate;
 struct QGraphsLinePrivate;
 
-QT_DECLARE_QESDP_SPECIALIZATION_DTOR_WITH_EXPORT(QGraphsLinePrivate, Q_GRAPHS_EXPORT)
+QT_DECLARE_QESDP_SPECIALIZATION_DTOR(QGraphsLinePrivate)
 
 struct QGraphsThemeDirtyBitField
 {
@@ -91,10 +91,10 @@ class QGraphsLine
 public:
     Q_GRAPHS_EXPORT static QVariant create(const QJSValue &params);
     Q_GRAPHS_EXPORT QGraphsLine();
-    Q_GRAPHS_EXPORT QGraphsLine(const QGraphsLine &other) noexcept;
+    Q_GRAPHS_EXPORT QGraphsLine(const QGraphsLine &other);
     QGraphsLine(QGraphsLine &&other) noexcept = default;
     Q_GRAPHS_EXPORT ~QGraphsLine();
-    Q_GRAPHS_EXPORT QGraphsLine &operator=(const QGraphsLine &other) noexcept;
+    Q_GRAPHS_EXPORT QGraphsLine &operator=(const QGraphsLine &other);
     void swap(QGraphsLine &other) noexcept
     {
         std::swap(d, other.d);
