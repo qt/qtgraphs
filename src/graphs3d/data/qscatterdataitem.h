@@ -12,7 +12,7 @@ QT_BEGIN_NAMESPACE
 class QScatterDataItem
 {
 public:
-    QScatterDataItem() = default;
+    QScatterDataItem() noexcept = default;
     explicit QScatterDataItem(QVector3D position) noexcept
         : m_position(position)
     {}

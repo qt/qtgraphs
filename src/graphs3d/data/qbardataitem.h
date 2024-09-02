@@ -11,7 +11,7 @@ QT_BEGIN_NAMESPACE
 class QBarDataItem
 {
 public:
-    constexpr QBarDataItem() noexcept {};
+    constexpr QBarDataItem() noexcept = default;
     explicit constexpr QBarDataItem(float value) noexcept
         : m_value(value)
     {}
