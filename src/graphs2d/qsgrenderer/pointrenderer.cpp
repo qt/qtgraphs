@@ -387,6 +387,7 @@ void PointRenderer::handlePolish(QXYSeries *series)
             for (qsizetype i = markerCount; i < pointCount; ++i) {
                 QQuickItem *item = qobject_cast<QQuickItem *>(
                     group->currentMarker->create(group->currentMarker->creationContext()));
+                item->setParent(this);
                 item->setParentItem(this);
                 group->markers << item;
             }
