@@ -23,11 +23,11 @@
     The first graph in the example is a bar graph. Creating it starts with a GraphsView
     component, setting the \l{GraphsView::axisX}{X axis}, \l{GraphsView::axisY}{Y axis} and
     \l{GraphsView::theme}{theme}. X axis is a BarCategoryAxis with 3 categories.
-    We hide both the vertical grid and the axis lines. Y axis is a ValueAxis with visible range
+    Both the vertical grid and the axis lines are hidden. Y axis is a ValueAxis with visible range
     between 20 and 100. Major ticks with labels will be shown on every 10 values using
     \l{ValueAxis::tickInterval}{tickInterval}. Subticks will be shown on every 1 values using
     \l{ValueAxis::tickInterval}{subTickCount} \c 9, which means that between every major tick
-    there will be 9 minor ones. Lastly, we add a \l{GraphsView::theme}{theme} to one which is
+    there will be 9 minor ones. Lastly, \l{GraphsView::theme}{theme} is added to one which is
     suitable on dark backgrounds. This theme adjusts the graph background grid, axis lines and labels.
 
     \snippet 2d/hellographs/qml/hellographs/main.qml bargraph
@@ -38,8 +38,8 @@
     \snippet 2d/hellographs/qml/hellographs/main.qml barseries
     \dots
 
-    Then data is added into \l BarSeries using \l BarSet. There are 3 bars, and we define
-    custom bars color and border properties. These properties will override the possible
+    Then data is added into \l BarSeries using \l BarSet. There are 3 bars with defined custom bars
+    color and border properties. These properties will override the possible
     \l{GraphsTheme::seriesColors}{seriesColors} set for the \l GraphsTheme.
 
     \snippet 2d/hellographs/qml/hellographs/main.qml barset
