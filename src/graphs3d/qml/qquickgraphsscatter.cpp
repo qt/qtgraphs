@@ -1638,9 +1638,10 @@ void QQuickGraphsScatter::updateGraph()
                     }
                 }
             }
-
-            updateScatterGraphItemPositions(graphModel);
         }
+
+        if (isDataDirty() || isSeriesVisualsDirty())
+            updateScatterGraphItemPositions(graphModel);
 
         if (isSeriesVisualsDirty() || (graphModel->instancing && graphModel->instancing->isDirty()))
             updateScatterGraphItemVisuals(graphModel);

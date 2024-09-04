@@ -162,18 +162,9 @@ void ScatterDataModifier::shadowQualityUpdatedByVisual(QtGraphs3D::ShadowQuality
 void ScatterDataModifier::triggerRotation()
 {
     if (m_graph->seriesList().size()) {
-        int selectedIndex = m_graph->seriesList().at(0)->selectedItem();
-        if (selectedIndex != QScatter3DSeries::invalidSelectionIndex()) {
-            static float itemAngle = 0.0f;
-            QScatterDataItem item(m_graph->seriesList().at(0)->dataProxy()->itemAt(selectedIndex));
-            QQuaternion itemRotation = QQuaternion::fromAxisAndAngle(0.0f, 0.0f, 1.0f, itemAngle++);
-            item.setRotation(itemRotation);
-            m_graph->seriesList().at(0)->dataProxy()->setItem(selectedIndex, item);
-        } else {
-            static float seriesAngle = 0.0f;
-            QQuaternion rotation = QQuaternion::fromAxisAndAngle(1.0f, 1.0f, 1.0f, seriesAngle++);
-            m_graph->seriesList().at(0)->setMeshRotation(rotation);
-        }
+        static float seriesAngle = 0.0f;
+        QQuaternion rotation = QQuaternion::fromAxisAndAngle(1.0f, 1.0f, 1.0f, seriesAngle++);
+        m_graph->seriesList().at(0)->setMeshRotation(rotation);
     }
 }
 
