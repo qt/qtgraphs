@@ -114,7 +114,7 @@ QT_BEGIN_NAMESPACE
  */
 
 /*!
- * \qmlproperty bool Surface3DSeries::shading
+ * \qmlproperty Shading Surface3DSeries::shading
  *
  * Sets surface flat shading to visible. It is preset to \c Surface3DSeries.Shading.Flat by default.
  * When disabled, the normals on the surface are interpolated making the edges
@@ -182,7 +182,7 @@ QT_BEGIN_NAMESPACE
 /*!
     \qmlsignal Surface3DSeries::shadingChanged(const Shading shading)
 
-    This signal is emitted when shading changes to \a shading.
+    This signal is emitted when \l shading changes to \a shading.
 */
 /*!
     \qmlsignal Surface3DSeries::flatShadingSupportedChanged(bool enable)
@@ -332,7 +332,7 @@ QPoint QSurface3DSeries::invalidSelectionPosition()
  *
  * \brief Whether surface flat shading is enabled.
  *
- * Preset to \c true by default.
+ * Preset to \c QSurface3DSeries::Shading::Flat by default.
  *
  * When disabled, the normals on the surface are interpolated making the edges
  * look round. When visible, the normals are kept the same on a triangle making
