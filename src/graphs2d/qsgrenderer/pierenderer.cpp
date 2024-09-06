@@ -3,24 +3,26 @@
 
 #include <QtGraphs/qpieseries.h>
 #include <QtGraphs/qpieslice.h>
+#include <QtQuick/private/qquicktext_p.h>
 #include <private/pierenderer_p.h>
 #include <private/qabstractseries_p.h>
 #include <private/qgraphsview_p.h>
 #include <private/qpieseries_p.h>
 #include <private/qpieslice_p.h>
 #include <private/qquickshape_p.h>
-#include <QtQuick/private/qquicktext_p.h>
+#include <private/qquicksvgparser_p.h>
 
 PieRenderer::PieRenderer(QGraphsView *graph)
     : QQuickItem(graph)
     , m_graph(graph)
+    , m_painterPath()
 {
+    setFlag(QQuickItem::ItemHasContents);
+    setClip(true);
+
     m_shape = new QQuickShape(this);
     m_shape->setParentItem(this);
     m_shape->setPreferredRendererType(QQuickShape::CurveRenderer);
-
-    setFlag(QQuickItem::ItemHasContents);
-    setClip(true);
 }
 
 PieRenderer::~PieRenderer() {}
@@ -35,9 +37,18 @@ void PieRenderer::handlePolish(QPieSeries *series)
     for (QPieSlice *slice : series->slices()) {
         QPieSlicePrivate *d = slice->d_func();
         QQuickShapePath *shapePath = d->m_shapePath;
+        QQuickShapePath *labelPath = d->m_labelPath;
+        auto labelElements = labelPath->pathElements();
         auto pathElements = shapePath->pathElements();
-        auto labelElements = d->m_labelPath->pathElements();
         auto labelItem = d->m_labelItem;
+
+        if (!m_activeSlices.contains(slice)) {
+            auto data = m_shape->data();
+            data.append(&data, shapePath);
+            SliceData sliceData{};
+            sliceData.initialized = false;
+            m_activeSlices.insert(slice, sliceData);
+        }
 
         QQuickShape *labelShape = d->m_labelShape;
         labelShape->setVisible(series->isVisible() && d->m_isLabelVisible);
@@ -47,14 +58,6 @@ void PieRenderer::handlePolish(QPieSeries *series)
             pathElements.clear(&pathElements);
             labelElements.clear(&labelElements);
             continue;
-        } else if (pathElements.count(&pathElements) == 0) {
-            pathElements.append(&pathElements, d->m_largeArc);
-            pathElements.append(&pathElements, d->m_lineToCenter);
-            pathElements.append(&pathElements, d->m_smallArc);
-            pathElements.append(&pathElements, d->m_lineFromCenter);
-
-            labelElements.append(&labelElements, d->m_labelArm);
-            labelElements.append(&labelElements, d->m_labelUnderline);
         }
 
         if (!shapePath->parent())
@@ -91,6 +94,8 @@ void PieRenderer::handlePolish(QPieSeries *series)
     int sliceIndex = 0;
     QList<QLegendData> legendDataList;
     for (QPieSlice *slice : series->slices()) {
+        m_painterPath.clear();
+
         QPieSlicePrivate *d = slice->d_func();
 
         // update slice
@@ -112,6 +117,10 @@ void PieRenderer::handlePolish(QPieSeries *series)
         shapePath->setStrokeWidth(borderWidth);
         shapePath->setStrokeColor(borderColor);
         shapePath->setFillColor(color);
+
+        if (!m_activeSlices.contains(slice))
+            return;
+
         qreal radian = qDegreesToRadians(slice->startAngle());
         qreal startBigX = radius * qSin(radian);
         qreal startBigY = radius * qCos(radian);
@@ -125,59 +134,73 @@ void PieRenderer::handlePolish(QPieSeries *series)
         radian = qDegreesToRadians(slice->startAngle() + (slice->angleSpan() * .5));
         qreal xShift = center.x() + (explodeDistance * qSin(radian));
         qreal yShift = center.y() - (explodeDistance * qCos(radian));
+
         shapePath->setStartX(xShift + startBigX);
         shapePath->setStartY(yShift - startBigY);
+        m_painterPath.moveTo(xShift + startBigX, yShift - startBigY);
 
-        QQuickPathArc *pathArc = d->m_largeArc;
         radian = qDegreesToRadians(slice->angleSpan());
         qreal pointX = startBigY * qSin(radian) + startBigX * qCos(radian);
         qreal pointY = startBigY * qCos(radian) - startBigX * qSin(radian);
-        pathArc->setX(xShift + pointX);
-        pathArc->setY(yShift - pointY);
-        pathArc->setRadiusX(radius);
-        pathArc->setRadiusY(radius);
-        if (slice->angleSpan() > 180)
-            pathArc->setUseLargeArc(true);
-        else
-            pathArc->setUseLargeArc(false);
+
+        // Big arc
+        auto start = m_painterPath.currentPosition();
+        QQuickSvgParser::pathArc(m_painterPath,
+                                 radius,
+                                 radius,
+                                 0,
+                                 slice->angleSpan() > 180,
+                                 1,
+                                 xShift + pointX,
+                                 yShift - pointY,
+                                 start.x(),
+                                 start.y());
+
+        d->m_largeArc = {xShift + pointX, yShift - pointY};
 
         pointX = startSmallY * qSin(radian) + startSmallX * qCos(radian);
         pointY = startSmallY * qCos(radian) - startSmallX * qSin(radian);
 
-        QQuickPathLine *pathLine = d->m_lineToCenter;
-        pathLine->setX(xShift + pointX);
-        pathLine->setY(yShift - pointY);
+        m_painterPath.lineTo(xShift + pointX, yShift - pointY);
 
-        pathArc = d->m_smallArc;
-        pathArc->setDirection(QQuickPathArc::Counterclockwise);
-        pathArc->setX(xShift + startSmallX);
-        pathArc->setY(yShift - startSmallY);
-        pathArc->setRadiusX(radius * series->holeSize());
-        pathArc->setRadiusY(radius * series->holeSize());
-        if (slice->angleSpan() > 180)
-            pathArc->setUseLargeArc(true);
-        else
-            pathArc->setUseLargeArc(false);
+        d->m_centerLine = {xShift + pointX, yShift - pointY};
 
-        pathLine = d->m_lineFromCenter;
-        pathLine->setX(xShift + startBigX);
-        pathLine->setY(yShift - startBigY);
+        // Small arc
+        start = m_painterPath.currentPosition();
+        QQuickSvgParser::pathArc(m_painterPath,
+                                 radius * series->holeSize(),
+                                 radius * series->holeSize(),
+                                 0,
+                                 slice->angleSpan() > 180,
+                                 0,
+                                 xShift + startSmallX,
+                                 yShift - startSmallY,
+                                 start.x(),
+                                 start.y());
 
-        // Update label
-        QQuickShapePath *labelPath = d->m_labelPath;
+        m_painterPath.lineTo(xShift + startBigX, yShift - startBigY);
+
+        shapePath->setPath(m_painterPath);
+        m_painterPath.clear();
+
         radian = qDegreesToRadians(slice->startAngle() + (slice->angleSpan() * .5));
         startBigX = radius * qSin(radian);
         startBigY = radius * qCos(radian);
-        labelPath->setStartX(xShift + startBigX);
-        labelPath->setStartY(yShift - startBigY);
 
-        QQuickPathLine *labelArm = d->m_labelArm;
         pointX = radius * (1.0 + d->m_labelArmLengthFactor) * qSin(radian);
         pointY = radius * (1.0 + d->m_labelArmLengthFactor) * qCos(radian);
-        labelArm->setX(xShift + pointX);
-        labelArm->setY(yShift - pointY);
+
+        start = m_painterPath.currentPosition();
+        m_painterPath.moveTo(xShift + startBigX, yShift - startBigY);
+        m_painterPath.lineTo(xShift + pointX, yShift - pointY);
+
+        d->m_labelArm = {xShift + pointX, yShift - pointY};
+
+        auto labelWidth = radian > M_PI ? -d->m_labelItem->width() : d->m_labelItem->width();
+        m_painterPath.lineTo(d->m_labelArm.x() + labelWidth, d->m_labelArm.y());
 
         d->setLabelPosition(d->m_labelPosition);
+        d->m_labelPath->setPath(m_painterPath);
 
         sliceIndex++;
         legendDataList.push_back({color, borderColor, d->m_labelText});
@@ -192,12 +215,11 @@ void PieRenderer::afterPolish(QList<QAbstractSeries *> &cleanupSeries)
         if (pieSeries) {
             for (QPieSlice *slice : pieSeries->slices()) {
                 QPieSlicePrivate *d = slice->d_func();
-                QQuickShapePath *shapePath = d->m_shapePath;
-                auto pathElements = shapePath->pathElements();
                 auto labelElements = d->m_labelPath->pathElements();
+                auto shapeElements = d->m_shapePath->pathElements();
 
-                pathElements.clear(&pathElements);
                 labelElements.clear(&labelElements);
+                shapeElements.clear(&shapeElements);
 
                 slice->deleteLater();
                 d->m_labelItem->deleteLater();
@@ -210,21 +232,33 @@ void PieRenderer::afterPolish(QList<QAbstractSeries *> &cleanupSeries)
 
 void PieRenderer::updateSeries(QPieSeries *series)
 {
-    for (QPieSlice *slice : series->slices()) {
-        QPieSlicePrivate *d = slice->d_func();
-        QQuickShapePath *shapePath = d->m_shapePath;
+    auto needPolish = false;
 
-        if (!m_activeSlices.contains(slice)) {
-            auto data = m_shape->data();
-            data.append(&data, shapePath);
-            m_activeSlices.insert(slice);
-
-            handlePolish(series);
+    for (auto &sliceData : m_activeSlices) {
+        if (!sliceData.initialized) {
+            sliceData.initialized = true;
+            needPolish = true;
         }
     }
+
+    if (needPolish)
+        handlePolish(series);
 }
 
 void PieRenderer::afterUpdate(QList<QAbstractSeries *> &cleanupSeries)
 {
     Q_UNUSED(cleanupSeries);
+}
+
+void PieRenderer::markedDeleted(QList<QPieSlice *> deleted)
+{
+    auto emptyPath = QPainterPath{};
+
+    for (auto slice : deleted) {
+        auto d = slice->d_func();
+        d->m_shapePath->setPath(emptyPath);
+        d->m_labelPath->setPath(emptyPath);
+        d->m_labelItem->deleteLater();
+        m_activeSlices.remove(slice);
+    }
 }

@@ -110,6 +110,9 @@ void QGraphsView::insertSeries(qsizetype index, QObject *object)
                              this, &QGraphsView::handleHoverExit);
             QObject::connect(series, &QAbstractSeries::hover,
                              this, &QGraphsView::handleHover);
+
+            if (auto pie = qobject_cast<QPieSeries *>(series))
+                connect(pie, &QPieSeries::removed, m_pieRenderer, &PieRenderer::markedDeleted);
         }
         polishAndUpdate();
     }
@@ -128,6 +131,10 @@ void QGraphsView::removeSeries(QObject *object)
         series->setGraph(nullptr);
         m_seriesList.removeAll(series);
         auto &cleanupSeriesList = m_cleanupSeriesList[getSeriesRendererIndex(series)];
+
+        if (auto pie = qobject_cast<QPieSeries *>(series))
+            disconnect(pie, &QPieSeries::removed, m_pieRenderer, &PieRenderer::markedDeleted);
+
         cleanupSeriesList.append(series);
         polishAndUpdate();
     }

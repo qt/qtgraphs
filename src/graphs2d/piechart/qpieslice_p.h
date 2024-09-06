@@ -14,9 +14,10 @@
 // We mean it.
 
 #include <QtCore/private/qobject_p.h>
+#include <QtCore/qpoint.h>
+#include <QtGraphs/qpieslice.h>
 #include <QtGui/QColor>
 #include <QtGui/QFont>
-#include <QtGraphs/qpieslice.h>
 
 QT_BEGIN_NAMESPACE
 
@@ -64,17 +65,14 @@ private:
     QColor m_borderColor;
     qreal m_borderWidth;
 
-    QQuickShapePath *m_shapePath = nullptr;
-    QQuickPathArc *m_largeArc = nullptr;
-    QQuickPathLine *m_lineToCenter = nullptr;
-    QQuickPathArc *m_smallArc = nullptr;
-    QQuickPathLine *m_lineFromCenter = nullptr;
-
+    QQuickShapePath *m_shapePath;
     QQuickText *m_labelItem = nullptr;
     QQuickShape *m_labelShape = nullptr;
     QQuickShapePath *m_labelPath = nullptr;
-    QQuickPathLine *m_labelArm = nullptr;
-    QQuickPathLine *m_labelUnderline = nullptr;
+
+    QPointF m_largeArc;
+    QPointF m_centerLine;
+    QPointF m_labelArm;
 
     QPieSeries *m_series = nullptr;
 
