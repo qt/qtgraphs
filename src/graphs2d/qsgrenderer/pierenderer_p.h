@@ -15,6 +15,7 @@
 // We mean it.
 
 #include <QQuickItem>
+#include <QtGui/qpainterpath.h>
 
 QT_BEGIN_NAMESPACE
 
@@ -35,14 +36,21 @@ public:
     void afterPolish(QList<QAbstractSeries *> &cleanupSeries);
     void updateSeries(QPieSeries *series);
     void afterUpdate(QList<QAbstractSeries *> &cleanupSeries);
+    void markedDeleted(QList<QPieSlice *> deleted);
 
     void setSize(QSizeF size);
 
 private:
+    struct SliceData
+    {
+        bool initialized;
+    };
+
     QGraphsView *m_graph;
     QQuickShape *m_shape;
-    QSet<QPieSlice *> m_activeSlices;
+    QHash<QPieSlice *, SliceData> m_activeSlices;
 
+    QPainterPath m_painterPath;
     qsizetype m_colorIndex = -1;
 };
 

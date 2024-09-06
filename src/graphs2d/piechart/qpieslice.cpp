@@ -1,9 +1,9 @@
 // Copyright (C) 2024 The Qt Company Ltd.
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 
-#include <private/qpieslice_p.h>
 #include <QtQuick/private/qquicktext_p.h>
 #include <QtQuickShapes/private/qquickshape_p.h>
+#include <private/qpieslice_p.h>
 
 QT_BEGIN_NAMESPACE
 
@@ -393,8 +393,7 @@ QT_BEGIN_NAMESPACE
 */
 QPieSlice::QPieSlice(QObject *parent)
     : QObject(*(new QPieSlicePrivate), parent)
-{
-}
+{}
 
 /*!
     Constructs an empty slice with the specified \a value, \a label, and \a parent.
@@ -410,9 +409,7 @@ QPieSlice::QPieSlice(const QString &label, qreal value, QObject *parent)
 /*!
     Removes the slice. The slice should not be removed if it has been added to a series.
 */
-QPieSlice::~QPieSlice()
-{
-}
+QPieSlice::~QPieSlice() {}
 
 /*!
     Returns the series that this slice belongs to.
@@ -654,37 +651,20 @@ QPieSlicePrivate::QPieSlicePrivate()
     , m_labelDirty(false)
     , m_borderWidth(1.0)
     , m_shapePath(new QQuickShapePath)
-    , m_largeArc(new QQuickPathArc(m_shapePath))
-    , m_lineToCenter(new QQuickPathLine(m_shapePath))
-    , m_smallArc(new QQuickPathArc(m_shapePath))
-    , m_lineFromCenter(new QQuickPathLine(m_shapePath))
     , m_labelItem(new QQuickText)
     , m_labelShape(new QQuickShape)
     , m_labelPath(new QQuickShapePath)
-    , m_labelArm(new QQuickPathLine(m_labelPath))
-    , m_labelUnderline(new QQuickPathLine(m_labelPath))
 {
     m_labelItem->setColor(Qt::white);
     m_labelItem->setVisible(m_isLabelVisible);
-
-    auto pathElements = m_shapePath->pathElements();
-    pathElements.append(&pathElements, m_largeArc);
-    pathElements.append(&pathElements, m_lineToCenter);
-    pathElements.append(&pathElements, m_smallArc);
-    pathElements.append(&pathElements, m_lineFromCenter);
-
     m_labelShape->setVisible(m_isLabelVisible);
     m_labelPath->setParent(m_labelShape);
     auto data = m_labelShape->data();
     data.append(&data, m_labelPath);
     m_labelPath->setFillColor(Qt::transparent);
-    auto labelElements = m_labelPath->pathElements();
-    labelElements.append(&labelElements, m_labelArm);
-    labelElements.append(&labelElements, m_labelUnderline);
 }
 
-QPieSlicePrivate::~QPieSlicePrivate()
-{}
+QPieSlicePrivate::~QPieSlicePrivate() {}
 
 void QPieSlicePrivate::setPercentage(qreal percentage)
 {
@@ -732,18 +712,15 @@ void QPieSlicePrivate::setLabelPosition(QPieSlice::LabelPosition position)
         qreal height = labelItem->height();
         qreal labelWidth = radian > M_PI ? -labelItem->width() : labelItem->width();
         if (labelWidth > 0)
-            labelItem->setX(m_labelArm->x());
+            labelItem->setX(m_labelArm.x());
         else
-            labelItem->setX(m_labelArm->x() + labelWidth);
-        labelItem->setY(m_labelArm->y() - height);
+            labelItem->setX(m_labelArm.x() + labelWidth);
+        labelItem->setY(m_labelArm.y() - height);
         labelItem->setRotation(0);
-
-        m_labelUnderline->setX(m_labelArm->x() + labelWidth);
-        m_labelUnderline->setY(m_labelArm->y());
     } else {
         m_labelShape->setVisible(false);
-        qreal centerX = (m_shapePath->startX() + m_largeArc->x() + m_lineToCenter->x()) / 3.0;
-        qreal centerY = (m_shapePath->startY() + m_largeArc->y() + m_lineToCenter->y()) / 3.0;
+        qreal centerX = (m_shapePath->startX() + m_largeArc.x() + m_centerLine.x()) / 3.0;
+        qreal centerY = (m_shapePath->startY() + m_largeArc.y() + m_centerLine.y()) / 3.0;
         QQuickText *labelItem = m_labelItem;
         centerX -= labelItem->width() * .5;
         centerY -= labelItem->height() * .5;
