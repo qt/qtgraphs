@@ -41,6 +41,7 @@ int main(int argc, char **argv)
     // Add surface widget
     tabWidget.addTab(surface.surfaceWidget(), u"Surface Graph"_s);
 
+    tabWidget.setMinimumHeight(bars.barsWidget()->height() * bars.barsWidget()->devicePixelRatioF());
     tabWidget.show();
 #else
     bars.barsWidget()->show();
