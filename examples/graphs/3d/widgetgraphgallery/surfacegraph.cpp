@@ -45,7 +45,7 @@ static QPixmap gradientGtoRPB_Pixmap()
 
 static QPixmap highlightPixmap()
 {
-    constexpr int height = 400;
+    constexpr int height = 200;
     constexpr int width = 110;
     constexpr int border = 10;
     QLinearGradient gr(0, 0, 1, height - 2 * border);
