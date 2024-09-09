@@ -75,6 +75,24 @@ void tst_area::initializeProperties()
 {
     QVERIFY(m_series);
 
+    // Signals from QAreasSeries
+    QSignalSpy spy0(m_series, &QAreaSeries::colorChanged);
+    QSignalSpy spy1(m_series, &QAreaSeries::selectedColorChanged);
+    QSignalSpy spy2(m_series, &QAreaSeries::borderColorChanged);
+    QSignalSpy spy3(m_series, &QAreaSeries::selectedBorderColorChanged);
+    QSignalSpy spy4(m_series, &QAreaSeries::borderWidthChanged);
+    QSignalSpy spy5(m_series, &QAreaSeries::selectedChanged);
+    QSignalSpy spy6(m_series, &QAreaSeries::upperSeriesChanged);
+    QSignalSpy spy7(m_series, &QAreaSeries::lowerSeriesChanged);
+
+    // Signals from QAbstractSeries
+    QSignalSpy spy8(m_series, &QAbstractSeries::nameChanged);
+    QSignalSpy spy9(m_series, &QAbstractSeries::visibleChanged);
+    QSignalSpy spy10(m_series, &QAbstractSeries::selectableChanged);
+    QSignalSpy spy11(m_series, &QAbstractSeries::hoverableChanged);
+    QSignalSpy spy12(m_series, &QAbstractSeries::opacityChanged);
+    QSignalSpy spy13(m_series, &QAbstractSeries::valuesMultiplierChanged);
+
     auto upperSeries = new QLineSeries(this);
     auto lowerSeries = new QLineSeries(this);
 
@@ -109,6 +127,21 @@ void tst_area::initializeProperties()
     QCOMPARE(m_series->isHoverable(), true);
     QCOMPARE(m_series->opacity(), 0.5);
     QCOMPARE(m_series->valuesMultiplier(), 0.5);
+
+    QCOMPARE(spy0.size(), 1);
+    QCOMPARE(spy1.size(), 1);
+    QCOMPARE(spy2.size(), 1);
+    QCOMPARE(spy3.size(), 1);
+    QCOMPARE(spy4.size(), 1);
+    QCOMPARE(spy5.size(), 1);
+    QCOMPARE(spy6.size(), 1);
+    QCOMPARE(spy7.size(), 1);
+    QCOMPARE(spy8.size(), 1);
+    QCOMPARE(spy9.size(), 1);
+    QCOMPARE(spy10.size(), 1);
+    QCOMPARE(spy11.size(), 1);
+    QCOMPARE(spy12.size(), 1);
+    QCOMPARE(spy13.size(), 1);
 }
 
 void tst_area::invalidProperties()

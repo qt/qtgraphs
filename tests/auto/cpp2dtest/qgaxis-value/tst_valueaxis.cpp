@@ -66,6 +66,14 @@ void tst_valueaxis::initializeProperties()
 {
     QVERIFY(m_axis);
 
+    QSignalSpy spy0(m_axis, &QValueAxis::minChanged);
+    QSignalSpy spy1(m_axis, &QValueAxis::maxChanged);
+    QSignalSpy spy2(m_axis, &QValueAxis::labelFormatChanged);
+    QSignalSpy spy3(m_axis, &QValueAxis::labelDecimalsChanged);
+    QSignalSpy spy4(m_axis, &QValueAxis::subTickCountChanged);
+    QSignalSpy spy5(m_axis, &QValueAxis::tickAnchorChanged);
+    QSignalSpy spy6(m_axis, &QValueAxis::tickIntervalChanged);
+
     m_axis->setMin(5);
     m_axis->setMax(100);
     m_axis->setLabelFormat("d");
@@ -81,6 +89,14 @@ void tst_valueaxis::initializeProperties()
     QCOMPARE(m_axis->subTickCount(), 2);
     QCOMPARE(m_axis->tickAnchor(), 0.5);
     QCOMPARE(m_axis->tickInterval(), 0.5);
+
+    QCOMPARE(spy0.size(), 1);
+    QCOMPARE(spy1.size(), 1);
+    QCOMPARE(spy2.size(), 1);
+    QCOMPARE(spy3.size(), 1);
+    QCOMPARE(spy4.size(), 1);
+    QCOMPARE(spy5.size(), 1);
+    QCOMPARE(spy6.size(), 1);
 }
 
 void tst_valueaxis::invalidProperties()

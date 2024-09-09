@@ -20,6 +20,7 @@ private slots:
 
     void initialProperties();
     void initializeProperties();
+    void splineSignals();
     void invalidProperties();
 
 private:
@@ -105,6 +106,61 @@ void tst_splines::initializeProperties()
     QCOMPARE(m_series->isHoverable(), true);
     QCOMPARE(m_series->opacity(), 0.5);
     QCOMPARE(m_series->valuesMultiplier(), 0.5);
+}
+
+void tst_splines::splineSignals()
+{
+    QSplineSeries *series = new QSplineSeries;
+
+    auto marker = new QQmlComponent;
+
+    QSignalSpy spy0(series, &QSplineSeries::widthChanged);
+    QSignalSpy spy1(series, &QSplineSeries::capStyleChanged);
+    QSignalSpy spy2(series, &QSplineSeries::pointDelegateChanged);
+
+    QSignalSpy spy3(series, &QSplineSeries::colorChanged);
+    QSignalSpy spy4(series, &QSplineSeries::selectedColorChanged);
+    QSignalSpy spy5(series, &QSplineSeries::draggableChanged);
+
+    QSignalSpy spy6(series, &QSplineSeries::nameChanged);
+    QSignalSpy spy7(series, &QSplineSeries::visibleChanged);
+    QSignalSpy spy8(series, &QSplineSeries::selectableChanged);
+    QSignalSpy spy9(series, &QSplineSeries::hoverableChanged);
+    QSignalSpy spy10(series, &QSplineSeries::opacityChanged);
+    QSignalSpy spy11(series, &QSplineSeries::valuesMultiplierChanged);
+
+    series->setWidth(10.0);
+    series->setCapStyle(Qt::PenCapStyle::RoundCap);
+    series->setPointDelegate(marker);
+
+    series->setColor("#0000ff");
+    series->setSelectedColor("#00ff00");
+    series->setDraggable(true);
+
+    series->setName("test");
+    series->setVisible(false);
+    series->setSelectable(true);
+    series->setHoverable(true);
+    series->setOpacity(0.5);
+    series->setValuesMultiplier(0.5);
+
+    QCOMPARE(spy0.size(), 1);
+    QCOMPARE(spy1.size(), 1);
+    QCOMPARE(spy2.size(), 1);
+
+    QCOMPARE(spy3.size(), 1);
+    QCOMPARE(spy4.size(), 1);
+    QCOMPARE(spy5.size(), 1);
+
+    QCOMPARE(spy6.size(), 1);
+    QCOMPARE(spy7.size(), 1);
+    QCOMPARE(spy8.size(), 1);
+    QCOMPARE(spy9.size(), 1);
+    QCOMPARE(spy10.size(), 1);
+    QCOMPARE(spy11.size(), 1);
+
+    delete series;
+    delete marker;
 }
 
 void tst_splines::invalidProperties()

@@ -100,6 +100,9 @@ void tst_xyseries::appendInsertRemove()
 {
     QVERIFY(m_series);
     QSignalSpy updateSpy(m_series, &QXYSeries::update);
+    QSignalSpy pointAddedSpy(m_series, &QXYSeries::pointAdded);
+    QSignalSpy pointRemovedSpy(m_series, &QXYSeries::pointRemoved);
+    QSignalSpy pointsRemovedSpy(m_series, &QXYSeries::pointsRemoved);
 
     QList<QPointF> points = {{0, 0}, {1, 1}, {2, 2}};
     QList<QPointF> morepoints = {{3, 3}, {4, 4}, {5, 5}};
@@ -114,12 +117,14 @@ void tst_xyseries::appendInsertRemove()
 
     QCOMPARE(updateSpy.count(), 3);
     QCOMPARE(m_series->points(), points);
+    QCOMPARE(pointAddedSpy.size(), 3);
 
     // Append 3 more
     m_series->append(morepoints);
 
     QCOMPARE(updateSpy.count(), 6);
     QCOMPARE(m_series->points(), allpoints);
+    QCOMPARE(pointAddedSpy.size(), 6);
 
     // Remove the first 3 one by one
     for (int i = 2; i >= 0; --i)
@@ -127,6 +132,7 @@ void tst_xyseries::appendInsertRemove()
 
     QCOMPARE(updateSpy.count(), 9);
     QCOMPARE(m_series->points(), morepoints);
+    QCOMPARE(pointRemovedSpy.size(), 3);
 
     // Insert them in between
     m_series->insert(0, points[0]);
@@ -135,12 +141,14 @@ void tst_xyseries::appendInsertRemove()
 
     QCOMPARE(updateSpy.count(), 12);
     QCOMPARE(m_series->points(), mixedpoints);
+    QCOMPARE(pointAddedSpy.size(), 9);
 
     // Remove first 3
     m_series->removeMultiple(0, 3);
 
     QCOMPARE(updateSpy.count(), 13);
     QCOMPARE(m_series->count(), 3);
+    QCOMPARE(pointsRemovedSpy.size(), 1);
 
     // Append 3 by qreals
     for (int i = 10; i < 13; ++i)
@@ -148,6 +156,7 @@ void tst_xyseries::appendInsertRemove()
 
     QCOMPARE(updateSpy.count(), 16);
     QCOMPARE(m_series->count(), 6);
+    QCOMPARE(pointAddedSpy.size(), 12);
 
     // Remove 3 by qreals
     for (int i = 10; i < 13; ++i)
@@ -155,6 +164,7 @@ void tst_xyseries::appendInsertRemove()
 
     QCOMPARE(updateSpy.count(), 19);
     QCOMPARE(m_series->count(), 3);
+    QCOMPARE(pointRemovedSpy.size(), 6);
 }
 
 void tst_xyseries::replaceAtClear()

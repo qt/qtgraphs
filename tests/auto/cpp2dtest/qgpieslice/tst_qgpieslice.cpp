@@ -74,6 +74,11 @@ void tst_qgpieslice::customize()
     QPieSlice *s2 = series->append("slice 2", 2);
     series->append("slice 3", 3);
 
+    QSignalSpy spy0(s1, &QPieSlice::colorChanged);
+    QSignalSpy spy1(s1, &QPieSlice::borderColorChanged);
+    QSignalSpy spy2(s1, &QPieSlice::labelColorChanged);
+    QSignalSpy spy3(s1, &QPieSlice::labelFontChanged);
+
     QColor color = Qt::red;
     // customize a slice
     s1->setColor(color);
@@ -88,12 +93,22 @@ void tst_qgpieslice::customize()
     QCOMPARE(s1->labelColor(), color);
     QCOMPARE(s1->labelFont(), f1);
 
+    QCOMPARE(spy0.size(), 1);
+    QCOMPARE(spy1.size(), 1);
+    QCOMPARE(spy2.size(), 1);
+    QCOMPARE(spy3.size(), 1);
+
     // remove a slice
     series->remove(s2);
     QCOMPARE(s1->color(), color);
     QCOMPARE(s1->borderColor(), color);
     QCOMPARE(s1->labelColor(), color);
     QCOMPARE(s1->labelFont(), f1);
+
+    QCOMPARE(spy0.size(), 1);
+    QCOMPARE(spy1.size(), 1);
+    QCOMPARE(spy2.size(), 1);
+    QCOMPARE(spy3.size(), 1);
 
     // add a slice
     series->append("slice 4", 4);
@@ -102,12 +117,22 @@ void tst_qgpieslice::customize()
     QCOMPARE(s1->labelColor(), color);
     QCOMPARE(s1->labelFont(), f1);
 
+    QCOMPARE(spy0.size(), 1);
+    QCOMPARE(spy1.size(), 1);
+    QCOMPARE(spy2.size(), 1);
+    QCOMPARE(spy3.size(), 1);
+
     // insert a slice
     series->insert(0, new QPieSlice("slice 0", 5));
     QCOMPARE(s1->color(), color);
     QCOMPARE(s1->borderColor(), color);
     QCOMPARE(s1->labelColor(), color);
     QCOMPARE(s1->labelFont(), f1);
+
+    QCOMPARE(spy0.size(), 1);
+    QCOMPARE(spy1.size(), 1);
+    QCOMPARE(spy2.size(), 1);
+    QCOMPARE(spy3.size(), 1);
 }
 
 QTEST_MAIN(tst_qgpieslice)

@@ -60,6 +60,18 @@ void tst_abstractaxis::initializeProperties()
 {
     QVERIFY(m_axis);
 
+    QSignalSpy spy0(m_axis, &QAbstractAxis::visibleChanged);
+    QSignalSpy spy1(m_axis, &QAbstractAxis::lineVisibleChanged);
+    QSignalSpy spy2(m_axis, &QAbstractAxis::labelsVisibleChanged);
+    QSignalSpy spy3(m_axis, &QAbstractAxis::labelsAngleChanged);
+    QSignalSpy spy4(m_axis, &QAbstractAxis::labelDelegateChanged);
+    QSignalSpy spy5(m_axis, &QAbstractAxis::gridVisibleChanged);
+    QSignalSpy spy6(m_axis, &QAbstractAxis::subGridVisibleChanged);
+    QSignalSpy spy7(m_axis, &QAbstractAxis::titleTextChanged);
+    QSignalSpy spy8(m_axis, &QAbstractAxis::titleColorChanged);
+    QSignalSpy spy9(m_axis, &QAbstractAxis::titleVisibleChanged);
+    QSignalSpy spy10(m_axis, &QAbstractAxis::titleFontChanged);
+
     auto font = QFont("Arial", 20, 2, true);
     auto labelDelegate = new QQmlComponent(this);
 
@@ -86,19 +98,35 @@ void tst_abstractaxis::initializeProperties()
     QCOMPARE(m_axis->titleColor(), "#ff0000");
     QCOMPARE(m_axis->isTitleVisible(), false);
     QCOMPARE(m_axis->titleFont(), font);
+
+    QCOMPARE(spy0.size(), 1);
+    QCOMPARE(spy1.size(), 1);
+    QCOMPARE(spy2.size(), 1);
+    QCOMPARE(spy3.size(), 1);
+    QCOMPARE(spy4.size(), 1);
+    QCOMPARE(spy5.size(), 1);
+    QCOMPARE(spy6.size(), 1);
+    QCOMPARE(spy7.size(), 1);
+    QCOMPARE(spy8.size(), 1);
+    QCOMPARE(spy9.size(), 1);
+    QCOMPARE(spy10.size(), 1);
 }
 
 void tst_abstractaxis::showHide()
 {
     QVERIFY(m_axis);
 
+    QSignalSpy spy(m_axis, &QAbstractAxis::visibleChanged);
+
     m_axis->hide();
 
     QCOMPARE(m_axis->isVisible(), false);
+    QCOMPARE(spy.size(), 1);
 
     m_axis->show();
 
     QCOMPARE(m_axis->isVisible(), true);
+    QCOMPARE(spy.size(), 2);
 }
 
 QTEST_MAIN(tst_abstractaxis)
