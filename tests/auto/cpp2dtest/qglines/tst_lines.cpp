@@ -74,6 +74,21 @@ void tst_lines::initializeProperties()
 {
     QVERIFY(m_series);
 
+    QSignalSpy spy0(m_series, &QLineSeries::widthChanged);
+    QSignalSpy spy1(m_series, &QLineSeries::capStyleChanged);
+    QSignalSpy spy2(m_series, &QLineSeries::pointDelegateChanged);
+
+    QSignalSpy spy3(m_series, &QLineSeries::colorChanged);
+    QSignalSpy spy4(m_series, &QLineSeries::selectedColorChanged);
+    QSignalSpy spy5(m_series, &QLineSeries::draggableChanged);
+
+    QSignalSpy spy6(m_series, &QLineSeries::nameChanged);
+    QSignalSpy spy7(m_series, &QLineSeries::visibleChanged);
+    QSignalSpy spy8(m_series, &QLineSeries::selectableChanged);
+    QSignalSpy spy9(m_series, &QLineSeries::hoverableChanged);
+    QSignalSpy spy10(m_series, &QLineSeries::opacityChanged);
+    QSignalSpy spy11(m_series, &QLineSeries::valuesMultiplierChanged);
+
     auto marker = new QQmlComponent(this);
 
     m_series->setWidth(5.0);
@@ -105,6 +120,21 @@ void tst_lines::initializeProperties()
     QCOMPARE(m_series->isHoverable(), true);
     QCOMPARE(m_series->opacity(), 0.5);
     QCOMPARE(m_series->valuesMultiplier(), 0.5);
+
+    QCOMPARE(spy0.size(), 1);
+    QCOMPARE(spy1.size(), 1);
+    QCOMPARE(spy2.size(), 1);
+
+    QCOMPARE(spy3.size(), 1);
+    QCOMPARE(spy4.size(), 1);
+    QCOMPARE(spy5.size(), 1);
+
+    QCOMPARE(spy6.size(), 1);
+    QCOMPARE(spy7.size(), 1);
+    QCOMPARE(spy8.size(), 1);
+    QCOMPARE(spy9.size(), 1);
+    QCOMPARE(spy10.size(), 1);
+    QCOMPARE(spy11.size(), 1);
 }
 
 void tst_lines::invalidProperties()

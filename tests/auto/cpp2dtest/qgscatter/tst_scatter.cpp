@@ -74,6 +74,19 @@ void tst_scatter::initializeProperties()
 
     auto marker = new QQmlComponent(this);
 
+
+    QSignalSpy spy0(m_series, &QScatterSeries::pointDelegateChanged);
+    QSignalSpy spy1(m_series, &QScatterSeries::colorChanged);
+    QSignalSpy spy2(m_series, &QScatterSeries::selectedColorChanged);
+    QSignalSpy spy3(m_series, &QScatterSeries::draggableChanged);
+
+    QSignalSpy spy4(m_series, &QScatterSeries::nameChanged);
+    QSignalSpy spy5(m_series, &QScatterSeries::visibleChanged);
+    QSignalSpy spy6(m_series, &QScatterSeries::selectableChanged);
+    QSignalSpy spy7(m_series, &QScatterSeries::hoverableChanged);
+    QSignalSpy spy8(m_series, &QScatterSeries::opacityChanged);
+    QSignalSpy spy9(m_series, &QScatterSeries::valuesMultiplierChanged);
+
     m_series->setPointDelegate(marker);
 
     m_series->setColor("#ff0000");
@@ -99,6 +112,19 @@ void tst_scatter::initializeProperties()
     QCOMPARE(m_series->isHoverable(), true);
     QCOMPARE(m_series->opacity(), 0.5);
     QCOMPARE(m_series->valuesMultiplier(), 0.5);
+
+    QCOMPARE(spy0.size(), 1);
+    QCOMPARE(spy1.size(), 1);
+    QCOMPARE(spy2.size(), 1);
+
+    QCOMPARE(spy3.size(), 1);
+    QCOMPARE(spy4.size(), 1);
+    QCOMPARE(spy5.size(), 1);
+
+    QCOMPARE(spy6.size(), 1);
+    QCOMPARE(spy7.size(), 1);
+    QCOMPARE(spy8.size(), 1);
+    QCOMPARE(spy9.size(), 1);
 }
 
 void tst_scatter::invalidProperties()
