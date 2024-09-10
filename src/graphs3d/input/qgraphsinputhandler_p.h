@@ -60,6 +60,11 @@ public:
     void onWheel(QQuickWheelEvent *event);
     void onPinchScaleChanged(qreal delta);
 
+    Q_SIGNAL void mouseMove(QPoint mousePos);
+
+protected:
+    void hoverMoveEvent(QHoverEvent *event) override;
+
 private:
     bool m_zoomEnabled;
     bool m_zoomAtTarget;

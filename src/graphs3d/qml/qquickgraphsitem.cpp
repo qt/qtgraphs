@@ -5088,12 +5088,6 @@ void QQuickGraphsItem::handleOptimizationHintChange(QtGraphs3D::OptimizationHint
     Q_UNUSED(hint)
 }
 
-void QQuickGraphsItem::mouseMoveEvent(QMouseEvent *event)
-{
-    QPoint mousePos = event->pos();
-    emit mouseMove(mousePos);
-}
-
 void QQuickGraphsItem::resizeViewports(QSizeF viewportSize)
 {
     if (!viewportSize.isEmpty()) {
