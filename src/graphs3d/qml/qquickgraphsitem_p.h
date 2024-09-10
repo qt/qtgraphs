@@ -616,7 +616,6 @@ Q_SIGNALS:
 
 protected:
     bool event(QEvent *event) override;
-    void mouseMoveEvent(QMouseEvent *event) override;
 
     virtual void handleWindowChanged(/*QQuickWindow *win*/);
     void itemChange(ItemChange change, const ItemChangeData &value) override;

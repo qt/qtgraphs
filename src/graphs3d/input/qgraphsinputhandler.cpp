@@ -22,9 +22,11 @@ QGraphsInputHandler::QGraphsInputHandler(QQuickItem *parent)
 {
     m_pinchHandler = new QQuickPinchHandler(this);
     m_tapHandler = new QQuickTapHandler(this);
+
+    // This is to support QQuickGraphsItem's mouseMove signal.
+    setAcceptHoverEvents(true);
     m_dragHandler = new QQuickDragHandler(this);
     m_wheelHandler = new QQuickWheelHandler(this);
-
     m_dragHandler->setAcceptedButtons(Qt::MouseButton::RightButton);
     m_wheelHandler->setAcceptedDevices(QInputDevice::DeviceType::Mouse
                                        | QInputDevice::DeviceType::TouchPad);
@@ -177,6 +179,7 @@ void QGraphsInputHandler::setGraphsItem(QQuickGraphsItem *item)
                      &QQuickPinchHandler::scaleChanged,
                      item,
                      &QQuickGraphsItem::pinch);
+    QObject::connect(this, &QGraphsInputHandler::mouseMove, item, &QQuickGraphsItem::mouseMove);
 }
 
 void QGraphsInputHandler::onTapped()
@@ -354,4 +357,9 @@ void QGraphsInputHandler::onPinchScaleChanged(qreal delta)
         item->setCameraZoomLevel(zoomLevel);
     }
     m_pinchDiff = .0f;
+}
+
+void QGraphsInputHandler::hoverMoveEvent(QHoverEvent *event)
+{
+    Q_EMIT mouseMove(event->oldPos());
 }
