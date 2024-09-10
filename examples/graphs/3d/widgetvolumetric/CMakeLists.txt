@@ -1,6 +1,10 @@
 # Copyright (C) 2023 The Qt Company Ltd.
 # SPDX-License-Identifier: LicenseRef-Qt-Commercial OR BSD-3-Clause
 
+if(ANDROID OR WINRT)
+    message( FATAL_ERROR "This example is not supported for android or winrt. CMake will exit." )
+endif()
+
 cmake_minimum_required(VERSION 3.16)
 project(widgetvolumetric LANGUAGES CXX)
 
