@@ -6,6 +6,27 @@
 #include "private/qsplinecontrolanimation_p.h"
 #include "private/qsplineseries_p.h"
 
+/*!
+    \qmltype SplineControlAnimation
+    \inqmlmodule QtGraphs
+    \ingroup graphs_qml_2D
+    \brief An animation type which signifies the animation for spline control points.
+
+SplineControlAnimation is an animation type derived from QVariantAnimation which defines how spline control points
+are animated. It can make use of QVariantAnimation functionality and properties for its animations, such as \c duration
+and \c easing. These animations are housed inside a QParallelAnimationGroup and hence will run in parallel.
+This animation will not affect the main points of the SplineSeries, but only the two control handles
+on either side of the point. Each of the control points are linearly interpolated in succession.
+
+This example shows how to use both a SplineControlPointAnimation and a
+GraphPointAnimation to define animations for both the main series of points and the
+control points of a SplineSeries:
+
+\snippet doc_src_qmlgraphs.cpp 13
+
+\sa GraphTransition, GraphPointAnimation
+
+*/
 QSplineControlAnimation::QSplineControlAnimation(QObject *parent)
     : QXYSeriesAnimation(parent)
 {
