@@ -190,6 +190,7 @@
     \list
         \li Surfaces with non-straight rows and columns do not always render properly.
         \li Widget based examples layout incorrectly in iOS.
+        \li Widget based examples are not supported for Android or WinRT.
         \li Android qmake builds of QML applications importing QtGraphs also require
             "QT += graphs" in the pro file. This is because Qt Graphs
             QML plugin has a dependency to Qt Graphs C++ library, which Qt Creator
