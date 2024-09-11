@@ -719,8 +719,8 @@ void QPieSlicePrivate::setLabelPosition(QPieSlice::LabelPosition position)
         labelItem->setRotation(0);
     } else {
         m_labelShape->setVisible(false);
-        qreal centerX = (m_shapePath->startX() + m_largeArc.x() + m_centerLine.x()) / 3.0;
-        qreal centerY = (m_shapePath->startY() + m_largeArc.y() + m_centerLine.y()) / 3.0;
+        qreal centerX = (m_largeArc.x() + m_centerLine.x()) / 2.0;
+        qreal centerY = (m_largeArc.y() + m_centerLine.y()) / 2.0;
         QQuickText *labelItem = m_labelItem;
         centerX -= labelItem->width() * .5;
         centerY -= labelItem->height() * .5;
