@@ -179,6 +179,17 @@ Item {
             compare(initialized.hoverable, false)
             compare(initialized.opacity, 0.5)
             compare(initialized.valuesMultiplier, 0.25)
+
+            // LineSeries signals
+            compare(widthSpy.count, 1)
+            compare(capStyleSpy.count, 1)
+
+            //QXYSeries signals
+            compare(colorSpy.count, 1)
+            compare(selectedColorSpy.count, 1)
+            compare(pointDelegateSpy.count, 1)
+            compare(draggableSpy.count, 1)
+            compare(selectedPointsSpy.count, 0)
         }
 
         function test_3_initialized_change_to_invalid() {
@@ -192,6 +203,50 @@ Item {
 
             initialized.valuesMultiplier = -1.0 // range 0...1
             compare(initialized.valuesMultiplier, 0.0)
+        }
+
+        // LineSeries signals
+        SignalSpy {
+            id: widthSpy
+            target: initialized
+            signalName: "widthChanged"
+        }
+
+        SignalSpy {
+            id: capStyleSpy
+            target: initialized
+            signalName: "capStyleChanged"
+        }
+
+        // QXYSeries signals
+        SignalSpy {
+            id: colorSpy
+            target: initialized
+            signalName: "colorChanged"
+        }
+
+        SignalSpy {
+            id: selectedColorSpy
+            target: initialized
+            signalName: "selectedColorChanged"
+        }
+
+        SignalSpy {
+            id: pointDelegateSpy
+            target: initialized
+            signalName: "pointDelegateChanged"
+        }
+
+        SignalSpy {
+            id: draggableSpy
+            target: initialized
+            signalName: "draggableChanged"
+        }
+
+        SignalSpy {
+            id: selectedPointsSpy
+            target: initialized
+            signalName: "selectedPointsChanged"
         }
     }
 }

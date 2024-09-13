@@ -66,6 +66,14 @@ Item {
         max: 8
     }
 
+    BarSeries {
+        id: addedSeries
+    }
+
+    LineSeries {
+        id: insertSeries
+    }
+
     TestCase {
         name: "GraphsView Initial"
 
@@ -144,6 +152,17 @@ Item {
             initialized.theme = newTheme
             initialized.axisX = axisX;
             initialized.axisY = axisY;
+            initialized.axisXSmoothing = 10
+            initialized.axisYSmoothing = 10
+            initialized.gridSmoothing = 10
+
+            initialized.shadowVisible = true
+            initialized.shadowColor = "#ff00ff"
+            initialized.shadowXOffset = 10
+            initialized.shadowYOffset = 10
+            initialized.shadowSmoothing = 10
+            initialized.shadowBarWidth = 20
+
             initialized.removeSeries(barInitial)
             initialized.removeSeries(1) // areaInitial
 
@@ -162,6 +181,23 @@ Item {
             compare(initialized.theme.theme, GraphsTheme.Theme.QtGreen)
             compare(initialized.theme.colorScheme, GraphsTheme.ColorScheme.Automatic)
             compare(initialized.theme.seriesColors.length, 5)
+
+            compare(themeSpy.count, 2)
+            compare(marginTopSpy.count, 1)
+            compare(marginBottomSpy.count, 1)
+            compare(marginLeftSpy.count, 1)
+            compare(marginRightSpy.count, 1)
+            compare(axisXSmoothingSpy.count, 1)
+            compare(axisYSmoothingSpy.count, 1)
+            compare(gridSmoothingSpy.count, 1)
+            compare(shadowVisibleSpy.count, 1)
+            compare(shadowColorSpy.count, 1)
+            compare(shadowBarWidthSpy.count, 1)
+            compare(shadowXOffsetSpy.count, 1)
+            compare(shadowYOffsetSpy.count, 1)
+            compare(axisXSpy.count, 0)
+            compare(axisYSpy.count, 0)
+            compare(orientationSpy.count, 0)
         }
 
         function test_3_initialized_change_to_invalid() {
@@ -189,6 +225,129 @@ Item {
 
             compare(initial.axisX, null)
             compare(initial.axisY, null)
+        }
+
+        function test_5_initialized_add_remove() {
+            initialized.addSeries(addedSeries)
+            initialized.insertSeries(0, insertSeries)
+
+            waitForRendering(top)
+
+            compare(initialized.seriesList, [insertSeries, lineInitial, areaInitial, addedSeries])
+
+            initialized.removeSeries(insertSeries)
+            initialized.removeSeries(2)
+
+            waitForRendering(top)
+
+            compare(initialized.seriesList, [lineInitial, areaInitial])
+
+            let hasSerie = initialized.hasSeries(lineInitial)
+            compare(hasSerie, true)
+            hasSerie = initialized.hasSeries(addedSeries)
+            compare(hasSerie, false)
+        }
+
+        SignalSpy {
+            id: themeSpy
+            target: initialized
+            signalName: "themeChanged"
+        }
+
+        SignalSpy {
+            id: marginTopSpy
+            target: initialized
+            signalName: "marginTopChanged"
+        }
+
+        SignalSpy {
+            id: marginBottomSpy
+            target: initialized
+            signalName: "marginBottomChanged"
+        }
+
+        SignalSpy {
+            id: marginLeftSpy
+            target: initialized
+            signalName: "marginLeftChanged"
+        }
+
+        SignalSpy {
+            id: marginRightSpy
+            target: initialized
+            signalName: "marginRightChanged"
+        }
+
+        SignalSpy {
+            id: axisXSmoothingSpy
+            target: initialized
+            signalName: "axisXSmoothingChanged"
+        }
+
+        SignalSpy {
+            id: axisYSmoothingSpy
+            target: initialized
+            signalName: "axisYSmoothingChanged"
+        }
+
+        SignalSpy {
+            id: gridSmoothingSpy
+            target: initialized
+            signalName: "gridSmoothingChanged"
+        }
+
+        SignalSpy {
+            id: shadowVisibleSpy
+            target: initialized
+            signalName: "shadowVisibleChanged"
+        }
+
+        SignalSpy {
+            id: shadowColorSpy
+            target: initialized
+            signalName: "shadowColorChanged"
+        }
+
+        SignalSpy {
+            id: shadowBarWidthSpy
+            target: initialized
+            signalName: "shadowBarWidthChanged"
+        }
+
+        SignalSpy {
+            id: shadowXOffsetSpy
+            target: initialized
+            signalName: "shadowXOffsetChanged"
+        }
+
+        SignalSpy {
+            id: shadowYOffsetSpy
+            target: initialized
+            signalName: "shadowYOffsetChanged"
+        }
+
+        SignalSpy {
+            id: shadowSmoothingSpy
+            target: initialized
+            signalName: "shadowSmoothingChanged"
+        }
+
+        SignalSpy {
+            id: axisXSpy
+            target: initialized
+            signalName: "axisXChanged"
+        }
+
+        SignalSpy {
+            id: axisYSpy
+            target: initialized
+            signalName: "axisYChanged"
+        }
+
+        SignalSpy {
+            id: orientationSpy
+            target: initialized
+            signalName: "orientationChanged"
         }
     }
 }
