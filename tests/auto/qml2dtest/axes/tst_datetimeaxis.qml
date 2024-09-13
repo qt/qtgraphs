@@ -124,6 +124,21 @@ Item {
             compare(initialized.lineVisible, true)
             compare(initialized.subGridVisible, true)
             compare(initialized.visible, true)
+
+            // Signals
+            compare(minSpy.count, 4) // This is 4 because of QTBUG-129381
+            compare(maxSpy.count, 4) // This is 4 because of QTBUG-129381
+            compare(labelFormatSpy.count, 1)
+            compare(subTickCountSpy.count, 1)
+            compare(tickIntervalSpy.count, 1)
+
+            // Common signals
+            compare(visibleSpy.count, 1)
+            compare(gridVisibleSpy.count, 1)
+            compare(labelsVisibleSpy.count, 1)
+            compare(lineVisibleSpy.count, 1)
+            compare(subGridVisibleSpy.count, 1)
+            compare(labelsAngleSpy.count, 1)
         }
 
         function test_3_invalid() {
@@ -133,5 +148,72 @@ Item {
             compare(initialized.tickInterval, 0)
             compare(initialized.subTickCount, 0)
         }
+    }
+
+    SignalSpy {
+        id: minSpy
+        target: initialized
+        signalName: "minChanged"
+    }
+
+    SignalSpy {
+        id: maxSpy
+        target: initialized
+        signalName: "maxChanged"
+    }
+
+    SignalSpy {
+        id: labelFormatSpy
+        target: initialized
+        signalName: "labelFormatChanged"
+    }
+
+    SignalSpy {
+        id: subTickCountSpy
+        target: initialized
+        signalName: "subTickCountChanged"
+    }
+
+    SignalSpy {
+        id: tickIntervalSpy
+        target: initialized
+        signalName: "tickIntervalChanged"
+    }
+
+    // Common signals
+    SignalSpy {
+        id: visibleSpy
+        target: initialized
+        signalName: "visibleChanged"
+    }
+
+    SignalSpy {
+        id: labelsVisibleSpy
+        target: initialized
+        signalName: "labelsVisibleChanged"
+    }
+
+    SignalSpy {
+        id: lineVisibleSpy
+        target: initialized
+        signalName: "lineVisibleChanged"
+    }
+
+    SignalSpy {
+        id: gridVisibleSpy
+        target: initialized
+        signalName: "gridVisibleChanged"
+    }
+
+    SignalSpy {
+        id: subGridVisibleSpy
+        target: initialized
+        signalName: "subGridVisibleChanged"
+    }
+
+    SignalSpy {
+        id: labelsAngleSpy
+        target: initialized
+        signalName: "labelsAngleChanged"
     }
 }

@@ -174,6 +174,24 @@ Item {
             compare(initialized.hoverable, false)
             compare(initialized.opacity, 0.5)
             compare(initialized.valuesMultiplier, 0.25)
+
+            // Signals
+            compare(colorSpy.count, 1)
+            compare(selectedColorSpy.count, 1)
+            compare(borderColorSpy.count, 1)
+            compare(selectedBorderColorSpy.count, 1)
+            compare(widthSpy.count, 1)
+            compare(selectedSpy.count, 1)
+            compare(upperSpy.count, 2)
+            compare(lowerSpy.count, 2)
+
+            // Common Signals
+            compare(nameSpy.count, 1)
+            compare(visibleSpy.count, 1)
+            compare(selectableSpy.count, 1)
+            compare(hoveringSpy.count, 1)
+            compare(opacitySpy.count, 1)
+            compare(valuemultiplierSpy.count, 1)
         }
 
         function test_3_initialized_change_to_null() {
@@ -191,5 +209,90 @@ Item {
             initialized.valuesMultiplier = -1.0 // range 0...1
             compare(initialized.valuesMultiplier, 0.0)
         }
+    }
+
+    SignalSpy {
+        id: colorSpy
+        target: initialized
+        signalName: "colorChanged"
+    }
+
+    SignalSpy {
+        id: selectedColorSpy
+        target: initialized
+        signalName: "selectedColorChanged"
+    }
+
+    SignalSpy {
+        id: borderColorSpy
+        target: initialized
+        signalName: "borderColorChanged"
+    }
+
+    SignalSpy {
+        id: selectedBorderColorSpy
+        target: initialized
+        signalName: "selectedBorderColorChanged"
+    }
+
+    SignalSpy {
+        id: widthSpy
+        target: initialized
+        signalName: "borderWidthChanged"
+    }
+
+    SignalSpy {
+        id: selectedSpy
+        target: initialized
+        signalName: "selectedChanged"
+    }
+
+    SignalSpy {
+        id: upperSpy
+        target: initialized
+        signalName: "upperSeriesChanged"
+    }
+
+    SignalSpy {
+        id: lowerSpy
+        target: initialized
+        signalName: "lowerSeriesChanged"
+    }
+
+    //signals from QAbstractseries
+    SignalSpy {
+        id: nameSpy
+        target: initialized
+        signalName: "nameChanged"
+    }
+
+    SignalSpy {
+        id: visibleSpy
+        target: initialized
+        signalName: "visibleChanged"
+    }
+
+    SignalSpy {
+        id: selectableSpy
+        target: initialized
+        signalName: "selectableChanged"
+    }
+
+    SignalSpy {
+        id: hoveringSpy
+        target: initialized
+        signalName: "hoverableChanged"
+    }
+
+    SignalSpy {
+        id: opacitySpy
+        target: initialized
+        signalName: "opacityChanged"
+    }
+
+    SignalSpy {
+        id: valuemultiplierSpy
+        target: initialized
+        signalName: "valuesMultiplierChanged"
     }
 }

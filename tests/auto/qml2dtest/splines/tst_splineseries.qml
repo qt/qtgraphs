@@ -103,6 +103,124 @@ Item {
             compare(initialized.hoverable, true)
             compare(initialized.opacity, 0.8)
             compare(initialized.valuesMultiplier, 0.8)
+
+            initialized.width = 20
+            initialized.capStyle = Qt.SquareCap
+
+            initialized.color = "#0000ff"
+            initialized.selectedColor = "#ff00ff"
+            initialized.draggable = true
+
+            initialized.name = "changedSpline"
+            initialized.visible = true
+            initialized.selectable = true
+            initialized.hoverable = false
+            initialized.opacity = 0.5
+            initialized.valuesMultiplier = 0.5
+
+            compare(initialized.width, 20)
+            compare(initialized.capStyle, Qt.SquareCap)
+
+            compare(initialized.color, "#0000ff")
+            compare(initialized.selectedColor, "#ff00ff")
+            compare(initialized.draggable, true)
+
+            compare(initialized.name, "changedSpline")
+            compare(initialized.visible, true)
+            compare(initialized.selectable, true)
+            compare(initialized.hoverable, false)
+            compare(initialized.opacity, 0.5)
+            compare(initialized.valuesMultiplier,  0.5)
+
+            compare(widthSpy.count, 1)
+            compare(capStyleSpy.count, 1)
+
+            compare(colorSpy.count, 1)
+            compare(selectedColorSpy.count, 1)
+            compare(draggableSpy.count, 1)
+
+            compare(nameSpy.count, 1)
+            compare(visibleSpy.count, 1)
+            compare(selectableSpy.count, 1)
+            compare(hoverableSpy.count, 1)
+            compare(opacitySpy.count, 1)
+            compare(valuesMultiplierSpy.count, 1)
+        }
+
+        // ScatterSeries signals
+        SignalSpy {
+            id: widthSpy
+            target: initialized
+            signalName: "widthChanged"
+        }
+
+        SignalSpy {
+            id: capStyleSpy
+            target: initialized
+            signalName: "capStyleChanged"
+        }
+
+        //QXYSeries signals
+        SignalSpy {
+            id: colorSpy
+            target: initialized
+            signalName: "colorChanged"
+        }
+
+        SignalSpy {
+            id: selectedColorSpy
+            target: initialized
+            signalName: "selectedColorChanged"
+        }
+
+        SignalSpy {
+            id: draggableSpy
+            target: initialized
+            signalName: "draggableChanged"
+        }
+
+        SignalSpy {
+            id: pointDelegateSpy
+            target: initialized
+            signalName: "pointDelegateChanged"
+        }
+
+        // AbstractSeries signals
+
+        SignalSpy {
+            id: nameSpy
+            target: initialized
+            signalName: "nameChanged"
+        }
+
+        SignalSpy {
+            id: visibleSpy
+            target: initialized
+            signalName: "visibleChanged"
+        }
+
+        SignalSpy {
+            id: selectableSpy
+            target: initialized
+            signalName: "selectableChanged"
+        }
+
+        SignalSpy {
+            id: hoverableSpy
+            target: initialized
+            signalName: "hoverableChanged"
+        }
+
+        SignalSpy {
+            id: opacitySpy
+            target: initialized
+            signalName: "opacityChanged"
+        }
+
+        SignalSpy {
+            id: valuesMultiplierSpy
+            target: initialized
+            signalName: "valuesMultiplierChanged"
         }
     }
 

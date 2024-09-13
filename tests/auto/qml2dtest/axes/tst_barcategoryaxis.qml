@@ -194,6 +194,25 @@ Item {
             compare(initialized.titleText, "Dummy")
             compare(initialized.titleVisible, true)
             compare(initialized.visible, true)
+
+            // Signals
+            compare(countSpy.count, 1)
+            compare(categoriesSpy.count, 1)
+            compare(minSpy.count, 1)
+            compare(maxSpy.count, 1)
+
+            // Common signals
+            compare(visibleSpy.count, 1)
+            compare(lineVisibleSpy.count, 1)
+            compare(labelsVisibleSpy.count, 1)
+            compare(labelsAngleSpy.count, 1)
+            compare(labelDelegateSpy.count, 0)
+            compare(gridVisibleSpy.count, 1)
+            compare(subGridVisibleSpy.count, 1)
+            compare(titleFontSpy.count, 2)
+            compare(titleColorSpy.count, 1)
+            compare(titleVisibleSpy.count, 1)
+            compare(alignmentSpy.count, 0)
         }
 
         function test_3_initialized_clear() {
@@ -204,5 +223,161 @@ Item {
             compare(initialized.min, "")
             compare(initialized.max, "")
         }
+
+        function test_4_initialized_invokables() {
+            // Append
+            initialized.append(["one", "two"])
+            initialized.append("three")
+
+            compare(initialized.categories, ["one", "two", "three"])
+            compare(initialized.count, 3)
+            compare(countSpy.count, 4)
+            compare(categoriesSpy.count, 4)
+
+            // Remove
+            initialized.remove("three")
+            initialized.remove(1)
+
+            compare(initialized.categories, ["one"])
+            compare(initialized.count, 1)
+            compare(countSpy.count, 6)
+            compare(categoriesSpy.count, 6)
+
+            // Insert
+            initialized.insert(1, "two")
+            compare(initialized.count, 2)
+            compare(countSpy.count, 7)
+            compare(categoriesSpy.count, 7)
+
+            // Replace
+            initialized.replace("two", "replacedTwo")
+            compare(initialized.categories, ["one", "replacedTwo"])
+            compare(countSpy.count, 8)
+            compare(categoriesSpy.count, 8)
+
+            initialized.append(["newCategory1", "newCategory2"])
+            compare(countSpy.count, 9)
+            compare(categoriesSpy.count, 9)
+
+            // At
+            let atCategory = initialized.at(0)
+            let atCategory2 = initialized.at(1)
+            let atCategory3 = initialized.at(2)
+            let atCategory4 = initialized.at(3)
+
+            let categories = initialized.categories
+
+            compare(atCategory, "one")
+            compare(atCategory2, "replacedTwo")
+            compare(atCategory3, "newCategory1")
+            compare(atCategory4, "newCategory2")
+
+            compare(categories[0], atCategory)
+            compare(categories[1], atCategory2)
+            compare(categories[2], atCategory3)
+            compare(categories[3], atCategory4)
+
+            // Clear
+            initialized.clear()
+
+            compare(countSpy.count, 10)
+            compare(categoriesSpy.count, 10)
+        }
+    }
+
+    SignalSpy {
+        id: countSpy
+        target: initialized
+        signalName: "countChanged"
+    }
+
+    SignalSpy {
+        id: categoriesSpy
+        target: initialized
+        signalName: "categoriesChanged"
+    }
+
+    SignalSpy {
+        id: minSpy
+        target: initialized
+        signalName: "minChanged"
+    }
+
+    SignalSpy {
+        id: maxSpy
+        target: initialized
+        signalName: "maxChanged"
+    }
+
+    SignalSpy {
+        id: visibleSpy
+        target: initialized
+        signalName: "visibleChanged"
+    }
+
+    SignalSpy {
+        id: lineVisibleSpy
+        target: initialized
+        signalName: "lineVisibleChanged"
+    }
+
+    SignalSpy {
+        id: labelsVisibleSpy
+        target: initialized
+        signalName: "labelsVisibleChanged"
+    }
+
+    SignalSpy {
+        id: labelsAngleSpy
+        target: initialized
+        signalName: "labelsAngleChanged"
+    }
+
+    SignalSpy {
+        id: labelDelegateSpy
+        target: initialized
+        signalName: "labelDelegateChanged"
+    }
+
+    SignalSpy {
+        id: gridVisibleSpy
+        target: initialized
+        signalName: "gridVisibleChanged"
+    }
+
+    SignalSpy {
+        id: subGridVisibleSpy
+        target: initialized
+        signalName: "subGridVisibleChanged"
+    }
+
+    SignalSpy {
+        id: titleTextSpy
+        target: initialized
+        signalName: "titleTextChanged"
+    }
+
+    SignalSpy {
+        id: titleColorSpy
+        target: initialized
+        signalName: "titleColorChanged"
+    }
+
+    SignalSpy {
+        id: titleVisibleSpy
+        target: initialized
+        signalName: "titleVisibleChanged"
+    }
+
+    SignalSpy {
+        id: titleFontSpy
+        target: initialized
+        signalName: "titleFontChanged"
+    }
+
+    SignalSpy {
+        id: alignmentSpy
+        target: initialized
+        signalName: "alignmentChanged"
     }
 }

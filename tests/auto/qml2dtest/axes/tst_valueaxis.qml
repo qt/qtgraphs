@@ -202,6 +202,29 @@ Item {
             compare(initialized.titleVisible, true)
             compare(initialized.visible, true)
             compare(initialized.alignment, Qt.AlignRight)
+
+            // Signals
+            compare(minSpy.count, 1)
+            compare(maxSpy.count, 1)
+            compare(labelFormatSpy.count, 1)
+            compare(labelDecimalsSpy.count, 1)
+            compare(tickSpy.count, 1)
+            compare(subTickSpy.count, 1)
+            compare(tickAnchorSpy.count, 1)
+
+            // Common signals
+            compare(visibleSpy.count, 1)
+            compare(lineVisibleSpy.count, 1)
+            compare(labelsVisibleSpy.count, 1)
+            compare(labelsAngle.count, 1)
+            compare(labelDelegateSpy.count, 1)
+            compare(gridVisibleSpy.count, 1)
+            compare(subGridVisibleSpy.count, 1)
+            compare(titleTextSpy.count, 1)
+            compare(titleColorSpy.count, 1)
+            compare(titleVisibleSpy.count, 1)
+            compare(titleFontSpy.count, 2)
+            compare(alignmentSpy.count, 1)
         }
 
         function test_3_initialized_change_to_invalid() {
@@ -212,6 +235,121 @@ Item {
             compare(initialized.max, 10.0)
             compare(initialized.min, 10.0)
             compare(initialized.subTickCount, 2) // This was set in previous test case
+        }
+
+        SignalSpy {
+            id: minSpy
+            target: initialized
+            signalName: "minChanged"
+        }
+
+        SignalSpy {
+            id: maxSpy
+            target: initialized
+            signalName: "maxChanged"
+        }
+
+        SignalSpy {
+            id: labelFormatSpy
+            target: initialized
+            signalName: "labelFormatChanged"
+        }
+
+        SignalSpy {
+            id: labelDecimalsSpy
+            target: initialized
+            signalName: "labelDecimalsChanged"
+        }
+
+        SignalSpy {
+            id: tickSpy
+            target: initialized
+            signalName: "tickIntervalChanged"
+        }
+
+        SignalSpy {
+            id: subTickSpy
+            target: initialized
+            signalName: "subTickCountChanged"
+        }
+
+        SignalSpy {
+            id: tickAnchorSpy
+            target: initialized
+            signalName: "tickAnchorChanged"
+        }
+
+        // Common signals from AbstarctAxis
+        SignalSpy {
+            id: visibleSpy
+            target: initialized
+            signalName: "visibleChanged"
+        }
+
+        SignalSpy {
+            id: lineVisibleSpy
+            target: initialized
+            signalName: "lineVisibleChanged"
+        }
+
+        SignalSpy {
+            id: labelsVisibleSpy
+            target: initialized
+            signalName: "labelsVisibleChanged"
+        }
+
+        SignalSpy {
+            id: labelsAngle
+            target: initialized
+            signalName: "labelsAngleChanged"
+        }
+
+        SignalSpy {
+            id: labelDelegateSpy
+            target: initialized
+            signalName: "labelDelegateChanged"
+        }
+
+        SignalSpy {
+            id: gridVisibleSpy
+            target: initialized
+            signalName: "gridVisibleChanged"
+        }
+
+        SignalSpy {
+            id: subGridVisibleSpy
+            target: initialized
+            signalName: "subGridVisibleChanged"
+        }
+
+        SignalSpy {
+            id: titleTextSpy
+            target: initialized
+            signalName: "titleTextChanged"
+        }
+
+        SignalSpy {
+            id: titleColorSpy
+            target: initialized
+            signalName: "titleColorChanged"
+        }
+
+        SignalSpy {
+            id: titleVisibleSpy
+            target: initialized
+            signalName: "titleVisibleChanged"
+        }
+
+        SignalSpy {
+            id: titleFontSpy
+            target: initialized
+            signalName: "titleFontChanged"
+        }
+
+        SignalSpy {
+            id: alignmentSpy
+            target: initialized
+            signalName: "alignmentChanged"
         }
     }
 }
