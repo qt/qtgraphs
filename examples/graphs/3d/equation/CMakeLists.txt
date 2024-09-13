@@ -30,13 +30,6 @@ target_link_libraries(equation PRIVATE
     Qt6::Graphs
 )
 
-if (EMSCRIPTEN)
-target_link_options(equation PRIVATE
-    -sFULL_ES3=1
-    -sNO_DISABLE_EXCEPTION_CATCHING
-)
-endif()
-
 qt_add_qml_module(equation
     URI EquationExample
     NO_RESOURCE_TARGET_PATH

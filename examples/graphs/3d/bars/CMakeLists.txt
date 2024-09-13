@@ -38,13 +38,6 @@ target_link_libraries(bars PUBLIC
     Qt::Graphs
 )
 
-if (EMSCRIPTEN)
-target_link_options(bars PRIVATE
-    -sFULL_ES3=1
-    -sNO_DISABLE_EXCEPTION_CATCHING
-)
-endif()
-
 qt6_add_qml_module(bars
     URI BarsExample
     NO_RESOURCE_TARGET_PATH
