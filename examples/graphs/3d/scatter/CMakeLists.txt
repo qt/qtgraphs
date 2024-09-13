@@ -31,13 +31,6 @@ target_link_libraries(scatter PRIVATE
     Qt6::Graphs
 )
 
-if (EMSCRIPTEN)
-target_link_options(scatter PRIVATE
-    -sFULL_ES3=1
-    -sNO_DISABLE_EXCEPTION_CATCHING
-)
-endif()
-
 qt_add_qml_module(scatter
     URI ScatterExample
     NO_RESOURCE_TARGET_PATH

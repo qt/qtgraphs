@@ -37,13 +37,6 @@ target_link_libraries(axishandling PUBLIC
     Qt::Graphs
 )
 
-if (EMSCRIPTEN)
-target_link_options(axishandling PRIVATE
-    -sFULL_ES3=1
-    -sNO_DISABLE_EXCEPTION_CATCHING
-)
-endif()
-
 qt6_add_qml_module(axishandling
     URI AxisHandlingExample
     NO_RESOURCE_TARGET_PATH
