@@ -37,13 +37,6 @@ target_link_libraries(surfacegallery PUBLIC
     Qt::Graphs
 )
 
-if (EMSCRIPTEN)
-target_link_options(surfacegallery PRIVATE
-    -sFULL_ES3=1
-    -sNO_DISABLE_EXCEPTION_CATCHING
-)
-endif()
-
 qt6_add_qml_module(surfacegallery
     URI SurfaceGalleryExample
     NO_RESOURCE_TARGET_PATH
