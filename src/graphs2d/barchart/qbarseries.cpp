@@ -723,8 +723,8 @@ void QBarSeries::replace(qsizetype index, QBarSet *set)
     if (index < 0)
         index = 0;
 
-    delete d->m_barSets[index];
-    d->m_barSets[index] = set;
+    remove(d->m_barSets[index]);
+    d->insert(index, set);
 
     QList<QBarSet *> sets;
     sets.append(set);
@@ -811,8 +811,8 @@ bool QBarSeries::replace(QBarSet *oldValue, QBarSet *newValue)
 
     for (qsizetype i = 0; i < d->m_barSets.size(); ++i) {
         if (d->m_barSets[i] == oldValue) {
-            delete d->m_barSets[i];
-            d->m_barSets[i] = newValue;
+            remove(d->m_barSets[i]);
+            d->insert(i, newValue);
 
             QList<QBarSet *> sets;
             sets.append(newValue);
@@ -839,14 +839,14 @@ bool QBarSeries::replace(const QList<QBarSet *> &sets)
     }
 
     for (const auto set : d->m_barSets) {
-        delete set;
+        remove(set);
     }
 
     for (const auto set : sets) {
         QObject::connect(set, &QBarSet::update, this, &QBarSeries::update);
     }
 
-    d->m_barSets = sets;
+    d->append(sets);
     emit barsetsReplaced(sets);
 
     return true;
@@ -1111,9 +1111,7 @@ void QBarSeriesPrivate::setVisible(bool visible)
 
 void QBarSeriesPrivate::setLabelsVisible(bool visible)
 {
-    Q_Q(QBarSeries);
     m_labelsVisible = visible;
-    emit q->labelsVisibleChanged(visible);
 }
 
 qreal QBarSeriesPrivate::min()
