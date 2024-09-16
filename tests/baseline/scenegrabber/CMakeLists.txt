@@ -24,4 +24,5 @@ qt6_add_qml_module(qgraphs_qmlscenegrabber
     URI "QtGraphs.Lancelot"
     VERSION "${PROJECT_VERSION}"
     NO_GENERATE_PLUGIN_SOURCE
+    RESOURCE_PREFIX "/"
 )
