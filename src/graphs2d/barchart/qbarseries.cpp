@@ -708,6 +708,10 @@ void QBarSeries::clear()
     }
 }
 
+/*!
+    Replaces the BarSet which is present at \a index with \a set.
+    The original BarSet will be permanently deleted.
+*/
 void QBarSeries::replace(qsizetype index, QBarSet *set)
 {
     Q_D(QBarSeries);
@@ -728,6 +732,10 @@ void QBarSeries::replace(qsizetype index, QBarSet *set)
     emit barsetsReplaced(sets);
 }
 
+/*!
+    Retrieves the BarSet specified at the location \a index.
+    Returns null if no BarSet was found.
+*/
 QBarSet *QBarSeries::at(qsizetype index)
 {
     Q_D(QBarSeries);
@@ -755,6 +763,10 @@ qsizetype QBarSeries::find(QBarSet *set) const
     return -1;
 }
 
+/*!
+    Removes multiple BarSets from the series starting from \a index to a number of \a count.
+    The BarSets will be permanently deleted.
+*/
 void QBarSeries::removeMultiple(qsizetype index, qsizetype count)
 {
     Q_D(QBarSeries);
@@ -768,6 +780,9 @@ void QBarSeries::removeMultiple(qsizetype index, qsizetype count)
         remove(d->m_barSets[index]);
 }
 
+/*!
+    Removes the BarSet at the location \a index. The BarSet will be permanently deleted.
+*/
 bool QBarSeries::remove(qsizetype index)
 {
     Q_D(QBarSeries);
@@ -780,6 +795,11 @@ bool QBarSeries::remove(qsizetype index)
     return remove(d->m_barSets[index]);
 }
 
+/*!
+    Replaces the BarSet specified by \a oldValue with the one in \a newValue. The BarSet
+    in \a oldValue will be permanently deleted if found inside the series. Returns \c true if
+    the replace is successful.
+*/
 bool QBarSeries::replace(QBarSet *oldValue, QBarSet *newValue)
 {
     Q_D(QBarSeries);
@@ -805,6 +825,10 @@ bool QBarSeries::replace(QBarSet *oldValue, QBarSet *newValue)
     return false;
 }
 
+/*!
+    Replaces the entire BarSet list inside of this BarSeries with the BarSets specified by \a sets.
+    All of the original BarSets will be permanently deleted. Returns \c true if all BarSets are replaced.
+*/
 bool QBarSeries::replace(const QList<QBarSet *> &sets)
 {
     Q_D(QBarSeries);
