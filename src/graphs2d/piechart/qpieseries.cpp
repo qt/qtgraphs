@@ -386,6 +386,9 @@ QAbstractSeries::SeriesType QPieSeries::type() const
     return QAbstractSeries::SeriesType::Pie;
 }
 
+/*!
+    Returns the PieSlice at the position \a index. Returns null if no PieSlice was found.
+*/
 QPieSlice *QPieSeries::at(qsizetype index)
 {
     QList<QPieSlice *> sliceList = slices();
@@ -395,6 +398,9 @@ QPieSlice *QPieSeries::at(qsizetype index)
     return 0;
 }
 
+/*!
+    Searches for a PieSlice which contains the label \a label. Returns the PieSlice if found, null otherwise.
+*/
 QPieSlice *QPieSeries::find(const QString &label)
 {
     for (QPieSlice *slice : slices()) {
@@ -404,6 +410,11 @@ QPieSlice *QPieSeries::find(const QString &label)
     return 0;
 }
 
+/*!
+    Replaces the PieSlice at position \a index with the one specified by \a slice.
+    The original PieSlice will be permanently deleted. Returns \c false if replacing
+    any of the PieSlices fails.
+*/
 bool QPieSeries::replace(qsizetype index, QPieSlice *slice)
 {
     Q_D(QPieSeries);
@@ -435,6 +446,10 @@ bool QPieSeries::replace(qsizetype index, QPieSlice *slice)
     return true;
 }
 
+/*!
+    Removes multiple PieSlices from the series starting from \a index to a number of \a count.
+    The PieSlices will be permanently deleted.
+*/
 void QPieSeries::removeMultiple(qsizetype index, int count)
 {
     Q_D(QPieSeries);
@@ -463,6 +478,10 @@ void QPieSeries::removeMultiple(qsizetype index, int count)
     emit countChanged();
 }
 
+/*!
+    Removes the PieSlice at the location \a index. The PieSlice will be permanently deleted.
+    Returns \c true if removing is successful.
+*/
 bool QPieSeries::remove(qsizetype index)
 {
     Q_D(QPieSeries);
@@ -475,6 +494,10 @@ bool QPieSeries::remove(qsizetype index)
     return remove(d->m_slices[index]);
 }
 
+/*!
+    Replaces the PieSlice \a oldSlice with \a newSlice if found in the series.\a oldSlice will
+    be permanently deleted. Returns \c true if replacing is successful.
+*/
 bool QPieSeries::replace(QPieSlice *oldSlice, QPieSlice *newSlice)
 {
     Q_D(QPieSeries);
@@ -512,6 +535,11 @@ bool QPieSeries::replace(QPieSlice *oldSlice, QPieSlice *newSlice)
     return false;
 }
 
+/*!
+    Replaces the entire list of PieSlices in the series with the list specified by \a slices.
+    All the original PieSlices will be permanently deleted. Returns \c true if all PieSlices are
+    replaced successfully.
+*/
 bool QPieSeries::replace(const QList<QPieSlice *> &slices)
 {
     Q_D(QPieSeries);
