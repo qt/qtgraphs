@@ -4,10 +4,12 @@
 # Graphs2D Tests
 if(QT_FEATURE_graphs_2d)
     if(TARGET Qt::Quick)
-        if(WIN32)
+        if(WIN32 AND QT_FEATURE_graphs_2d_bar AND QT_FEATURE_graphs_2d_scatter)
             add_subdirectory(qmlbarscatter)
         endif()
-        add_subdirectory(qmltestbed)
+        if(QT_FEATURE_graphs_2d_area AND QT_FEATURE_graphs_2d_bar AND QT_FEATURE_graphs_2d_donut_pie AND QT_FEATURE_graphs_2d_line AND QT_FEATURE_graphs_2d_scatter AND QT_FEATURE_graphs_2d_spline)
+            add_subdirectory(qmltestbed)
+        endif()
     endif()
 endif()
 

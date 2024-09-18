@@ -1,11 +1,17 @@
 // Copyright (C) 2023 The Qt Company Ltd.
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 
+#ifdef USE_LINEGRAPH
 #include <QtGraphs/qlineseries.h>
+#endif
+#ifdef USE_SCATTERGRAPH
 #include <QtGraphs/qscatterseries.h>
+#endif
+#ifdef USE_SPLINEGRAPH
 #include <QtGraphs/qsplineseries.h>
-#include <private/pointrenderer_p.h>
+#endif
 #include <private/axisrenderer_p.h>
+#include <private/pointrenderer_p.h>
 #include <private/qabstractseries_p.h>
 #include <private/qgraphsview_p.h>
 #include <private/qxyseries_p.h>
@@ -58,10 +64,17 @@ qreal PointRenderer::defaultSize(QXYSeries *series)
 {
     qreal size = 16.0;
     if (series != nullptr) {
+#ifdef USE_LINEGRAPH
         if (auto line = qobject_cast<QLineSeries *>(series))
             size = qMax(size, line->width());
-        else if (auto spline = qobject_cast<QSplineSeries *>(series))
+#endif
+#if defined(USE_LINEGRAPH) && defined(USE_SPLINEGRAPH)
+        else
+#endif
+#ifdef USE_SPLINEGRAPH
+            if (auto spline = qobject_cast<QSplineSeries *>(series))
             size = qMax(size, spline->width());
+#endif
     }
     return size;
 }
@@ -155,6 +168,7 @@ void PointRenderer::updateLegendData(QXYSeries *series, QLegendData &legendData)
     series->d_func()->setLegendData(legendDataList);
 }
 
+#ifdef USE_SCATTERGRAPH
 void PointRenderer::updateScatterSeries(QScatterSeries *series, QLegendData &legendData)
 {
     if (series->isVisible()) {
@@ -179,7 +193,9 @@ void PointRenderer::updateScatterSeries(QScatterSeries *series, QLegendData &leg
     // the color. QTBUG-122434
     legendData = {series->color(), series->color(), series->name()};
 }
+#endif
 
+#ifdef USE_LINEGRAPH
 void PointRenderer::updateLineSeries(QLineSeries *series, QLegendData &legendData)
 {
     auto theme = m_graph->theme();
@@ -229,7 +245,9 @@ void PointRenderer::updateLineSeries(QLineSeries *series, QLegendData &legendDat
     group->shapePath->setPath(painterPath);
     legendData = {color, color, series->name()};
 }
+#endif
 
+#ifdef USE_SPLINEGRAPH
 void PointRenderer::updateSplineSeries(QSplineSeries *series, QLegendData &legendData)
 {
     auto theme = m_graph->theme();
@@ -296,6 +314,7 @@ void PointRenderer::updateSplineSeries(QSplineSeries *series, QLegendData &legen
     group->shapePath->setPath(painterPath);
     legendData = {color, color, series->name()};
 }
+#endif
 
 void PointRenderer::handlePolish(QXYSeries *series)
 {
@@ -408,12 +427,24 @@ void PointRenderer::handlePolish(QXYSeries *series)
     }
 
     QLegendData legendData;
+#ifdef USE_SCATTERGRAPH
     if (auto scatter = qobject_cast<QScatterSeries *>(series))
         updateScatterSeries(scatter, legendData);
-    else if (auto line = qobject_cast<QLineSeries *>(series))
+#endif
+#if defined(USE_SCATTERGRAPH) && defined(USE_LINEGRAPH)
+    else
+#endif
+#ifdef USE_LINEGRAPH
+        if (auto line = qobject_cast<QLineSeries *>(series))
         updateLineSeries(line, legendData);
-    else if (auto spline = qobject_cast<QSplineSeries *>(series))
+#endif
+#if defined(USE_LINEGRAPH) && defined(USE_SPLINEGRAPH)
+    else
+#endif
+#ifdef USE_SPLINEGRAPH
+        if (auto spline = qobject_cast<QSplineSeries *>(series))
         updateSplineSeries(spline, legendData);
+#endif
 
     updateLegendData(series, legendData);
 }

@@ -396,18 +396,26 @@ void QAbstractSeries::setGraph(QGraphsView *graph)
     if (graph) {
         switch (type()) {
         case SeriesType::Bar:
+#ifdef USE_BARGRAPH
             graph->createBarsRenderer();
+#endif
             break;
         case SeriesType::Scatter:
         case SeriesType::Line:
         case SeriesType::Spline:
+#ifdef USE_POINTS
             graph->createPointRenderer();
+#endif
             break;
         case SeriesType::Pie:
+#ifdef USE_PIEGRAPH
             graph->createPieRenderer();
+#endif
             break;
         case SeriesType::Area:
+#ifdef USE_AREAGRAPH
             graph->createAreaRenderer();
+#endif
             break;
         default:
             break;

@@ -6,6 +6,7 @@
 
 PieGraph::PieGraph(QObject *parent)
 {
+    Q_UNUSED(parent)
     //! [0]
     m_pieSeries = new QPieSeries;
 

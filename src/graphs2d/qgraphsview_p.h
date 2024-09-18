@@ -106,11 +106,19 @@ public:
     qsizetype graphSeriesCount() const;
     void setGraphSeriesCount(qsizetype count);
 
+#ifdef USE_BARGRAPH
     void createBarsRenderer();
+#endif
     void createAxisRenderer();
+#ifdef USE_POINTS
     void createPointRenderer();
+#endif
+#ifdef USE_PIEGRAPH
     void createPieRenderer();
+#endif
+#ifdef USE_AREAGRAPH
     void createAreaRenderer();
+#endif
 
     qreal axisXSmoothing() const;
     void setAxisXSmoothing(qreal smoothing);
@@ -193,10 +201,18 @@ private:
     int getSeriesRendererIndex(QAbstractSeries *series);
 
     AxisRenderer *m_axisRenderer = nullptr;
+#ifdef USE_BARGRAPH
     BarsRenderer *m_barsRenderer = nullptr;
+#endif
+#ifdef USE_POINTS
     PointRenderer *m_pointRenderer = nullptr;
+#endif
+#ifdef USE_PIEGRAPH
     PieRenderer *m_pieRenderer = nullptr;
+#endif
+#ifdef USE_AREAGRAPH
     AreaRenderer *m_areaRenderer = nullptr;
+#endif
     QList<QObject *> m_seriesList;
     QHash<int, QList<QAbstractSeries *>> m_cleanupSeriesList;
     QQuickRectangle *m_backgroundRectangle = nullptr;

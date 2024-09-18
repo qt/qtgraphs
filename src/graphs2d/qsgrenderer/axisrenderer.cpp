@@ -1,7 +1,9 @@
 // Copyright (C) 2023 The Qt Company Ltd.
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 
+#ifdef USE_BARGRAPH
 #include <QtGraphs/QBarCategoryAxis>
+#endif
 #include <QtGraphs/QGraphsTheme>
 #include <private/axisrenderer_p.h>
 #include <private/qabstractaxis_p.h>
@@ -235,6 +237,7 @@ void AxisRenderer::updateAxis()
         updateValueXAxisLabels(haxis, m_graph->m_xAxisLabelsArea);
     }
 
+#ifdef USE_BARGRAPH
     if (auto haxis = qobject_cast<QBarCategoryAxis *>(m_axisHorizontal)) {
         m_axisHorizontalMaxValue = haxis->categories().size();
         m_axisHorizontalMinValue = 0;
@@ -247,6 +250,7 @@ void AxisRenderer::updateAxis()
         m_axisVerticalValueRange = m_axisVerticalMaxValue - m_axisVerticalMinValue;
         updateBarYAxisLabels(vaxis, m_graph->m_yAxisLabelsArea);
     }
+#endif
 
     if (auto vaxis = qobject_cast<QDateTimeAxis *>(m_axisVertical)) {
         // Todo: make constant for all axis, or clamp in class? (QTBUG-124736)
@@ -636,6 +640,7 @@ void AxisRenderer::setLabelTextProperties(QQuickItem *item, const QString &text,
     }
 }
 
+#ifdef USE_BARGRAPH
 void AxisRenderer::updateBarXAxisLabels(QBarCategoryAxis *axis, const QRectF rect)
 {
     qsizetype categoriesCount = axis->categories().size();
@@ -705,6 +710,7 @@ void AxisRenderer::updateBarYAxisLabels(QBarCategoryAxis *axis, const QRectF rec
         textIndex++;
     }
 }
+#endif
 
 void AxisRenderer::updateValueYAxisLabels(QValueAxis *axis, const QRectF rect)
 {

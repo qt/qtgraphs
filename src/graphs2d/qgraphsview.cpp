@@ -1,21 +1,35 @@
 // Copyright (C) 2023 The Qt Company Ltd.
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 
+#ifdef USE_AREAGRAPH
 #include <QtGraphs/qareaseries.h>
-#include <QtGraphs/qbarseries.h>
-#include <QtGraphs/qlineseries.h>
-#include <QtGraphs/qpieseries.h>
-#include <QtGraphs/qscatterseries.h>
-#include <QtGraphs/qsplineseries.h>
-#include <private/qgraphsview_p.h>
 #include <private/arearenderer_p.h>
-#include <private/axisrenderer_p.h>
+#endif
+#ifdef USE_BARGRAPH
+#include <QtGraphs/qbarseries.h>
 #include <private/barsrenderer_p.h>
+#endif
+#ifdef USE_PIEGRAPH
+#include <QtGraphs/qpieseries.h>
 #include <private/pierenderer_p.h>
+#endif
+#ifdef USE_LINEGRAPH
+#include <QtGraphs/qlineseries.h>
+#endif
+#ifdef USE_SCATTERGRAPH
+#include <QtGraphs/qscatterseries.h>
+#endif
+#ifdef USE_SPLINEGRAPH
+#include <QtGraphs/qsplineseries.h>
+#endif
+#ifdef USE_POINTS
 #include <private/pointrenderer_p.h>
-#include <private/qabstractaxis_p.h>
-#include <QtQuick/private/qquickrectangle_p.h>
+#endif
 #include <QTimer>
+#include <QtQuick/private/qquickrectangle_p.h>
+#include <private/axisrenderer_p.h>
+#include <private/qabstractaxis_p.h>
+#include <private/qgraphsview_p.h>
 
 QT_BEGIN_NAMESPACE
 
@@ -111,8 +125,10 @@ void QGraphsView::insertSeries(qsizetype index, QObject *object)
             QObject::connect(series, &QAbstractSeries::hover,
                              this, &QGraphsView::handleHover);
 
+#ifdef USE_PIEGRAPH
             if (auto pie = qobject_cast<QPieSeries *>(series))
                 connect(pie, &QPieSeries::removed, m_pieRenderer, &PieRenderer::markedDeleted);
+#endif
         }
         polishAndUpdate();
     }
@@ -132,8 +148,10 @@ void QGraphsView::removeSeries(QObject *object)
         m_seriesList.removeAll(series);
         auto &cleanupSeriesList = m_cleanupSeriesList[getSeriesRendererIndex(series)];
 
+#ifdef USE_PIEGRAPH
         if (auto pie = qobject_cast<QPieSeries *>(series))
             disconnect(pie, &QPieSeries::removed, m_pieRenderer, &PieRenderer::markedDeleted);
+#endif
 
         cleanupSeriesList.append(series);
         polishAndUpdate();
@@ -195,6 +213,7 @@ void QGraphsView::setGraphSeriesCount(qsizetype count)
         m_graphSeriesCount = count;
 }
 
+#ifdef USE_BARGRAPH
 void QGraphsView::createBarsRenderer()
 {
     if (!m_barsRenderer) {
@@ -202,6 +221,7 @@ void QGraphsView::createBarsRenderer()
         updateComponentSizes();
     }
 }
+#endif
 
 void QGraphsView::createAxisRenderer()
 {
@@ -212,6 +232,7 @@ void QGraphsView::createAxisRenderer()
     }
 }
 
+#ifdef USE_POINTS
 void QGraphsView::createPointRenderer()
 {
     if (!m_pointRenderer) {
@@ -219,7 +240,9 @@ void QGraphsView::createPointRenderer()
         updateComponentSizes();
     }
 }
+#endif
 
+#ifdef USE_PIEGRAPH
 void QGraphsView::createPieRenderer()
 {
     if (!m_pieRenderer) {
@@ -227,7 +250,9 @@ void QGraphsView::createPieRenderer()
         updateComponentSizes();
     }
 }
+#endif
 
+#ifdef USE_AREAGRAPH
 void QGraphsView::createAreaRenderer()
 {
     if (!m_areaRenderer) {
@@ -235,6 +260,7 @@ void QGraphsView::createAreaRenderer()
         updateComponentSizes();
     }
 }
+#endif
 
 /*!
     \property QGraphsView::axisXSmoothing
@@ -479,26 +505,34 @@ void QGraphsView::updateComponentSizes()
     if (m_axisRenderer)
         m_axisRenderer->setSize(size());
 
+#ifdef USE_BARGRAPH
     if (m_barsRenderer) {
         m_barsRenderer->setX(m_plotArea.x());
         m_barsRenderer->setY(m_plotArea.y());
         m_barsRenderer->setSize(m_plotArea.size());
     }
+#endif
+#ifdef USE_POINTS
     if (m_pointRenderer) {
         m_pointRenderer->setX(m_plotArea.x());
         m_pointRenderer->setY(m_plotArea.y());
         m_pointRenderer->setSize(m_plotArea.size());
     }
+#endif
+#ifdef USE_PIEGRAPH
     if (m_pieRenderer) {
         m_pieRenderer->setX(m_plotArea.x());
         m_pieRenderer->setY(m_plotArea.y());
         m_pieRenderer->setSize(m_plotArea.size());
     }
+#endif
+#ifdef USE_AREAGRAPH
     if (m_areaRenderer) {
         m_areaRenderer->setX(m_plotArea.x());
         m_areaRenderer->setY(m_plotArea.y());
         m_areaRenderer->setSize(m_plotArea.size());
     }
+#endif
 }
 
 void QGraphsView::componentComplete()
@@ -533,8 +567,10 @@ void QGraphsView::mouseMoveEvent(QMouseEvent *event)
                             event->buttons(), event->modifiers());
     mappedEvent.setAccepted(false);
 
+#ifdef USE_POINTS
     if (m_pointRenderer)
         handled |= m_pointRenderer->handleMouseMove(&mappedEvent);
+#endif
 
     if (!handled)
         event->ignore();
@@ -553,14 +589,20 @@ void QGraphsView::mousePressEvent(QMouseEvent *event)
                             event->buttons(), event->modifiers());
     mappedEvent.setAccepted(false);
 
+#ifdef USE_BARGRAPH
     if (m_barsRenderer)
         handled |= m_barsRenderer->handleMousePress(&mappedEvent);
+#endif
 
+#ifdef USE_POINTS
     if (m_pointRenderer)
         handled |= m_pointRenderer->handleMousePress(&mappedEvent);
+#endif
 
+#ifdef USE_AREAGRAPH
     if (m_areaRenderer)
         handled |= m_areaRenderer->handleMousePress(&mappedEvent);
+#endif
 
     if (!handled)
         event->ignore();
@@ -579,8 +621,10 @@ void QGraphsView::mouseReleaseEvent(QMouseEvent *event)
                             event->buttons(), event->modifiers());
     mappedEvent.setAccepted(false);
 
+#ifdef USE_POINTS
     if (m_pointRenderer)
         handled |= m_pointRenderer->handleMouseRelease(&mappedEvent);
+#endif
 
     if (!handled)
         event->ignore();
@@ -598,14 +642,20 @@ void QGraphsView::hoverMoveEvent(QHoverEvent *event)
                             event->oldPosF(), event->modifiers());
     mappedEvent.setAccepted(false);
 
+#ifdef USE_BARGRAPH
     if (m_barsRenderer)
         handled |= m_barsRenderer->handleHoverMove(&mappedEvent);
+#endif
 
+#ifdef USE_POINTS
     if (m_pointRenderer)
         handled |= m_pointRenderer->handleHoverMove(&mappedEvent);
+#endif
 
+#ifdef USE_AREAGRAPH
     if (m_areaRenderer)
         handled |= m_areaRenderer->handleHoverMove(&mappedEvent);
+#endif
 
     if (!handled)
         event->ignore();
@@ -616,52 +666,75 @@ QSGNode *QGraphsView::updatePaintNode(QSGNode *oldNode, QQuickItem::UpdatePaintN
     Q_UNUSED(updatePaintNodeData);
 
     for (auto series : std::as_const(m_seriesList)) {
+#ifdef USE_BARGRAPH
         if (m_barsRenderer) {
             if (auto barSeries = qobject_cast<QBarSeries *>(series))
                 m_barsRenderer->updateSeries(barSeries);
         }
+#endif
 
+#ifdef USE_POINTS
         if (m_pointRenderer) {
+#ifdef USE_LINEGRAPH
             if (auto lineSeries = qobject_cast<QLineSeries *>(series))
                 m_pointRenderer->updateSeries(lineSeries);
-
+#endif
+#ifdef USE_SCATTERGRAPH
             if (auto scatterSeries = qobject_cast<QScatterSeries *>(series))
                 m_pointRenderer->updateSeries(scatterSeries);
-
+#endif
+#ifdef USE_SPLINEGRAPH
             if (auto splineSeries = qobject_cast<QSplineSeries *>(series))
                 m_pointRenderer->updateSeries(splineSeries);
+#endif
         }
+#endif
 
+#ifdef USE_PIEGRAPH
         if (m_pieRenderer) {
             if (auto pieSeries = qobject_cast<QPieSeries *>(series))
                 m_pieRenderer->updateSeries(pieSeries);
         }
+#endif
 
+#ifdef USE_AREAGRAPH
         if (m_areaRenderer) {
             if (auto areaSeries = qobject_cast<QAreaSeries *>(series))
                 m_areaRenderer->updateSeries(areaSeries);
         }
+#endif
     }
 
+#ifdef USE_BARGRAPH
     if (m_barsRenderer) {
         auto &cleanupSeriesList = m_cleanupSeriesList[0];
         m_barsRenderer->afterUpdate(cleanupSeriesList);
         cleanupSeriesList.clear();
     }
+#endif
+
+#ifdef USE_POINTS
     if (m_pointRenderer) {
         auto &cleanupSeriesList = m_cleanupSeriesList[1];
         m_pointRenderer->afterUpdate(cleanupSeriesList);
         cleanupSeriesList.clear();
     }
+#endif
+
+#ifdef USE_AREAGRAPH
     if (m_areaRenderer) {
         auto &cleanupSeriesList = m_cleanupSeriesList[2];
         m_areaRenderer->afterUpdate(cleanupSeriesList);
     }
+#endif
+
+#ifdef USE_PIEGRAPH
     if (m_pieRenderer) {
         auto &cleanupSeriesList = m_cleanupSeriesList[3];
         m_pieRenderer->afterUpdate(cleanupSeriesList);
         cleanupSeriesList.clear();
     }
+#endif
 
     // Now possibly dirty theme has been taken into use
     m_theme->resetThemeDirty();
@@ -695,50 +768,71 @@ void QGraphsView::updatePolish()
 
     // Polish for all series
     for (auto series : std::as_const(m_seriesList)) {
+#ifdef USE_BARGRAPH
         if (m_barsRenderer) {
             if (auto barSeries = qobject_cast<QBarSeries*>(series))
                 m_barsRenderer->handlePolish(barSeries);
         }
+#endif
 
+#ifdef USE_POINTS
         if (m_pointRenderer) {
+#ifdef USE_LINEGRAPH
             if (auto lineSeries = qobject_cast<QLineSeries *>(series))
                 m_pointRenderer->handlePolish(lineSeries);
+#endif
 
+#ifdef USE_SCATTERGRAPH
             if (auto scatterSeries = qobject_cast<QScatterSeries *>(series))
                 m_pointRenderer->handlePolish(scatterSeries);
+#endif
 
-            if (auto splineSeries = qobject_cast<QSplineSeries *>(series)) {
+#ifdef USE_SPLINEGRAPH
+            if (auto splineSeries = qobject_cast<QSplineSeries *>(series))
                 m_pointRenderer->handlePolish(splineSeries);
-            }
+#endif
         }
+#endif
 
+#ifdef USE_PIEGRAPH
         if (m_pieRenderer) {
             if (auto pieSeries = qobject_cast<QPieSeries *>(series))
                 m_pieRenderer->handlePolish(pieSeries);
         }
+#endif
 
+#ifdef USE_AREAGRAPH
         if (m_areaRenderer) {
             if (auto areaSeries = qobject_cast<QAreaSeries *>(series))
                 m_areaRenderer->handlePolish(areaSeries);
         }
+#endif
     }
 
+#ifdef USE_BARGRAPH
     if (m_barsRenderer) {
         auto &cleanupSeriesList = m_cleanupSeriesList[0];
         m_barsRenderer->afterPolish(cleanupSeriesList);
     }
+#endif
+#ifdef USE_POINTS
     if (m_pointRenderer) {
         auto &cleanupSeriesList = m_cleanupSeriesList[1];
         m_pointRenderer->afterPolish(cleanupSeriesList);
     }
+#endif
+#ifdef USE_AREAGRAPH
     if (m_areaRenderer) {
         auto &cleanupSeriesList = m_cleanupSeriesList[2];
         m_areaRenderer->afterPolish(cleanupSeriesList);
     }
+#endif
+#ifdef USE_PIEGRAPH
     if (m_pieRenderer) {
         auto &cleanupSeriesList = m_cleanupSeriesList[3];
         m_pieRenderer->afterPolish(cleanupSeriesList);
     }
+#endif
 }
 
 void QGraphsView::polishAndUpdate()

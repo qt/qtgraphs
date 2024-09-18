@@ -186,8 +186,10 @@ void AreaRenderer::handlePolish(QAreaSeries *series)
 
     auto &&upperPoints = upper->points();
     QList<QPointF> fittedPoints;
+#ifdef USE_SPLINEGRAPH
     if (upper->type() == QAbstractSeries::SeriesType::Spline)
         fittedPoints = qobject_cast<QSplineSeries *>(upper)->getControlPoints();
+#endif
 
     int extraPointCount = lower ? 0 : 3;
 
@@ -234,8 +236,10 @@ void AreaRenderer::handlePolish(QAreaSeries *series)
     if (lower && series->isVisible()) {
         auto &&lowerPoints = lower->points();
         QList<QPointF> fittedPoints;
+#ifdef USE_SPLINEGRAPH
         if (upper->type() == QAbstractSeries::SeriesType::Spline)
             fittedPoints = qobject_cast<QSplineSeries *>(upper)->getControlPoints();
+#endif
 
         for (int i = 0, j = 0; i < lowerPoints.size(); ++i, ++j) {
             qreal x, y;

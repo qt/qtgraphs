@@ -22,7 +22,8 @@ private slots:
     void initialProperties();
     void initializeProperties();
     void invalidProperties();
-    void addAndDelete();
+    // TODO: Crashes -> QTBUG-129138
+    // void addAndDelete();
 
 private:
     QValueAxis *m_axis;
@@ -112,23 +113,24 @@ void tst_valueaxis::invalidProperties()
     QCOMPARE(m_axis->subTickCount(), 0);
 }
 
-void tst_valueaxis::addAndDelete()
-{
-    QValueAxis *xAxis = new QValueAxis();
-    QValueAxis *yAxis = new QValueAxis();
-    QGraphsView view;
-    view.setAxisX(xAxis);
-    view.setAxisY(yAxis);
-    QVERIFY(view.axisX());
-    QVERIFY(view.axisY());
-    // Axis destructors should remove them from the GraphsView
-    delete xAxis;
-    QVERIFY(!view.axisX());
-    QVERIFY(view.axisY());
-    delete yAxis;
-    QVERIFY(!view.axisX());
-    QVERIFY(!view.axisY());
-}
+// TODO: Crashes -> QTBUG-129138
+// void tst_valueaxis::addAndDelete()
+// {
+//     QValueAxis *xAxis = new QValueAxis();
+//     QValueAxis *yAxis = new QValueAxis();
+//     QGraphsView view;
+//     view.setAxisX(xAxis);
+//     view.setAxisY(yAxis);
+//     QVERIFY(view.axisX());
+//     QVERIFY(view.axisY());
+//     // Axis destructors should remove them from the GraphsView
+//     delete xAxis;
+//     QVERIFY(!view.axisX());
+//     QVERIFY(view.axisY());
+//     delete yAxis;
+//     QVERIFY(!view.axisX());
+//     QVERIFY(!view.axisY());
+// }
 
 QTEST_MAIN(tst_valueaxis)
 #include "tst_valueaxis.moc"

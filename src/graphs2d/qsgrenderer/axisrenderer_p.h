@@ -46,8 +46,10 @@ public:
     void updateAxisGrid();
     void updateAxisGridShadow();
     void updateAxisTitles(const QRectF xAxisRect, const QRectF yAxisRect);
+#ifdef USE_BARGRAPH
     void updateBarXAxisLabels(QBarCategoryAxis *axis, const QRectF rect);
     void updateBarYAxisLabels(QBarCategoryAxis *axis, const QRectF rect);
+#endif
     void updateValueYAxisLabels(QValueAxis *axis, const QRectF rect);
     void updateValueXAxisLabels(QValueAxis *axis, const QRectF rect);
     void updateDateTimeYAxisLabels(QDateTimeAxis *axis, const QRectF rect);

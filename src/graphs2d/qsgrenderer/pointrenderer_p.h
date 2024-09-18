@@ -93,9 +93,15 @@ private:
     void hidePointDelegates(QXYSeries *series);
     void updateLegendData(QXYSeries *series, QLegendData &legendData);
 
+#ifdef USE_SCATTERGRAPH
     void updateScatterSeries(QScatterSeries *scatter, QLegendData &legendData);
+#endif
+#ifdef USE_LINEGRAPH
     void updateLineSeries(QLineSeries *line, QLegendData &legendData);
+#endif
+#ifdef USE_SPLINEGRAPH
     void updateSplineSeries(QSplineSeries *spline, QLegendData &legendData);
+#endif
 };
 
 QT_END_NAMESPACE

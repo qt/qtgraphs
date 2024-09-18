@@ -65,6 +65,7 @@ void QGraphTransition::onPointChanged(TransitionType type, int index)
         auto childAnimation = qobject_cast<QXYSeriesAnimation *>(child);
         childAnimation->updateCurrent(type, index);
 
+#ifdef USE_SPLINEGRAPH
         auto splineAnimation = qobject_cast<QSplineControlAnimation *>(child);
 
         if (splineAnimation) {
@@ -72,6 +73,7 @@ void QGraphTransition::onPointChanged(TransitionType type, int index)
             qobject_cast<QSplineSeries *>(series)->d_func()->calculateSplinePoints();
             splineAnimation->setNewState(qobject_cast<QSplineSeries *>(series)->getControlPoints());
         }
+#endif
     }
 
     for (auto child : m_animationGroup.children()) {
@@ -93,12 +95,14 @@ void QGraphTransition::initialize()
         auto childAnimation = qobject_cast<QXYSeriesAnimation *>(child);
         childAnimation->initialize(series->points());
 
+#ifdef USE_SPLINEGRAPH
         auto splineAnimation = qobject_cast<QSplineControlAnimation *>(child);
 
         if (splineAnimation) {
             splineAnimation->setOldState(qobject_cast<QSplineSeries *>(series)->getControlPoints());
             splineAnimation->setNewState(qobject_cast<QSplineSeries *>(series)->getControlPoints());
         }
+#endif
     }
 }
 
