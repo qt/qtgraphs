@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 
 #include "qgraphstheme.h"
+#include "utils_p.h"
 
 #include <QGuiApplication>
 #include <QLinearGradient>
@@ -1607,8 +1608,8 @@ void QGraphsTheme::setThemePalette()
 QLinearGradient QGraphsTheme::createGradient(QColor color, float colorLevel)
 {
     QColor startColor;
-    QLinearGradient gradient = QLinearGradient(qreal(gradientTextureWidth),
-                                               qreal(gradientTextureHeight),
+    QLinearGradient gradient = QLinearGradient(Utils::maxTextureSize(),
+                                               gradientTextureHeight,
                                                0.0,
                                                0.0);
     startColor.setRed(color.red() * colorLevel);

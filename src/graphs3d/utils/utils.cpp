@@ -1,13 +1,20 @@
 // Copyright (C) 2023 The Qt Company Ltd.
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 
-#include "QtGui/qbrush.h"
+#include <QtCore/qregularexpression.h>
+#include <QtGui/qbrush.h>
+#if QT_CONFIG(opengl)
+#include <QtGui/qoffscreensurface.h>
+#endif
+
 #include "private/qquickrectangle_p.h"
 #include "utils_p.h"
 
-#include <QtCore/QRegularExpression>
+#include <rhi/qrhi.h>
 
 QT_BEGIN_NAMESPACE
+
+static qreal s_maxTextureSize = 0.;
 
 Utils::ParamType Utils::preParseFormat(
     const QString &format, QString &preStr, QString &postStr, int &precision, char &formatSpec)
@@ -226,6 +233,43 @@ void Utils::connectSeriesGradient(QAbstract3DSeries *series,
 
     if (!memberGradient.isNull())
         setSeriesGradient(series, memberGradient, type);
+}
+
+qreal Utils::maxTextureSize()
+{
+    // Query maximum texture size only once
+    if (!s_maxTextureSize) {
+        std::unique_ptr<QRhi> rhi;
+#if defined(Q_OS_WIN)
+        QRhiD3D12InitParams params;
+        rhi.reset(QRhi::create(QRhi::D3D12, &params));
+#elif defined(Q_OS_MACOS) || defined(Q_OS_IOS)
+        QRhiMetalInitParams params;
+        rhi.reset(QRhi::create(QRhi::Metal, &params));
+#elif QT_CONFIG(opengl)
+        QRhiGles2InitParams params;
+        params.fallbackSurface = QRhiGles2InitParams::newFallbackSurface();
+        rhi.reset(QRhi::create(QRhi::OpenGLES2, &params));
+#elif QT_CONFIG(vulkan)
+        if (!qEnvironmentVariable("QSG_RHI_BACKEND").compare("vulkan")) {
+            QVulkanInstance inst;
+            inst.setExtensions(QRhiVulkanInitParams::preferredInstanceExtensions());
+            if (inst.create()) {
+                QRhiVulkanInitParams params;
+                params.inst = &inst;
+                rhi.reset(QRhi::create(QRhi::Vulkan, &params));
+            } else {
+                qWarning("Failed to create Vulkan instance");
+            }
+        }
+#endif
+        if (rhi)
+            s_maxTextureSize = qreal(rhi->resourceLimit(QRhi::TextureSizeMax));
+        else
+            s_maxTextureSize = gradientTextureWidth;
+    }
+
+    return s_maxTextureSize;
 }
 
 QT_END_NAMESPACE
