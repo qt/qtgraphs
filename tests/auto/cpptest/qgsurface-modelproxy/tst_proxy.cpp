@@ -182,6 +182,29 @@ void tst_proxy::initializeProperties()
     QVERIFY(m_proxy);
     QVERIFY(m_series);
 
+    QSignalSpy itemModelSpy(m_proxy, &QItemModelSurfaceDataProxy::itemModelChanged);
+    QSignalSpy rowRoleSpy(m_proxy, &QItemModelSurfaceDataProxy::rowRoleChanged);
+    QSignalSpy columnRoleSpy(m_proxy, &QItemModelSurfaceDataProxy::columnRoleChanged);
+    QSignalSpy xPosRoleSpy(m_proxy, &QItemModelSurfaceDataProxy::xPosRoleChanged);
+    QSignalSpy yPosRoleSpy(m_proxy, &QItemModelSurfaceDataProxy::yPosRoleChanged);
+    QSignalSpy zPosRoleSpy(m_proxy, &QItemModelSurfaceDataProxy::zPosRoleChanged);
+    QSignalSpy rowCategoriesSpy(m_proxy, &QItemModelSurfaceDataProxy::rowCategoriesChanged);
+    QSignalSpy columnCategoriesSpy(m_proxy, &QItemModelSurfaceDataProxy::columnCategoriesChanged);
+    QSignalSpy useModelcategoriesSpy(m_proxy, &QItemModelSurfaceDataProxy::useModelCategoriesChanged);
+    QSignalSpy autorowCategoriesSpy(m_proxy, &QItemModelSurfaceDataProxy::autoRowCategoriesChanged);
+    QSignalSpy autoColumncategoriesSpy(m_proxy, &QItemModelSurfaceDataProxy::autoColumnCategoriesChanged);
+    QSignalSpy rowRolePatternSpy(m_proxy, &QItemModelSurfaceDataProxy::rowRolePatternChanged);
+    QSignalSpy columnRolePatternSpy(m_proxy, &QItemModelSurfaceDataProxy::columnRolePatternChanged);
+    QSignalSpy xPosRolePatternSpy(m_proxy, &QItemModelSurfaceDataProxy::xPosRolePatternChanged);
+    QSignalSpy yPosRolePatternSpy(m_proxy, &QItemModelSurfaceDataProxy::yPosRolePatternChanged);
+    QSignalSpy zPosRolePatternSpy(m_proxy, &QItemModelSurfaceDataProxy::zPosRolePatternChanged);
+    QSignalSpy rowRoleReplaceSpy(m_proxy, &QItemModelSurfaceDataProxy::rowRoleReplaceChanged);
+    QSignalSpy columnRoleReplaceSpy(m_proxy, &QItemModelSurfaceDataProxy::columnRoleReplaceChanged);
+    QSignalSpy xPosRoleReplaceSpy(m_proxy, &QItemModelSurfaceDataProxy::xPosRoleReplaceChanged);
+    QSignalSpy yPosRoleReplaceSpy(m_proxy, &QItemModelSurfaceDataProxy::yPosRoleReplaceChanged);
+    QSignalSpy zPosRoleReplaceSpy(m_proxy, &QItemModelSurfaceDataProxy::zPosRoleReplaceChanged);
+    QSignalSpy multiMatchSpy(m_proxy, &QItemModelSurfaceDataProxy::multiMatchBehaviorChanged);
+
     QTableWidget table;
 
     m_proxy->setAutoColumnCategories(false);
@@ -229,6 +252,29 @@ void tst_proxy::initializeProperties()
     QCOMPARE(m_proxy->zPosRole(), QString("Z"));
     QCOMPARE(m_proxy->zPosRolePattern(), QRegularExpression("/-/"));
     QCOMPARE(m_proxy->zPosRoleReplace(), QString("\\\\1"));
+
+    QCOMPARE(itemModelSpy.size(), 1);
+    QCOMPARE(rowRoleSpy.size(), 1);
+    QCOMPARE(columnRoleSpy.size(), 1);
+    QCOMPARE(xPosRoleSpy.size(), 1);
+    QCOMPARE(yPosRoleSpy.size(), 1);
+    QCOMPARE(zPosRoleSpy.size(), 1);
+    QCOMPARE(rowCategoriesSpy.size(), 1);
+    QCOMPARE(columnCategoriesSpy.size(), 1);
+    QCOMPARE(useModelcategoriesSpy.size(), 1);
+    QCOMPARE(autorowCategoriesSpy.size(), 1);
+    QCOMPARE(autoColumncategoriesSpy.size(), 1);
+    QCOMPARE(rowRolePatternSpy.size(), 1);
+    QCOMPARE(columnRolePatternSpy.size(), 1);
+    QCOMPARE(xPosRolePatternSpy.size(), 1);
+    QCOMPARE(yPosRolePatternSpy.size(), 1);
+    QCOMPARE(zPosRolePatternSpy.size(), 1);
+    QCOMPARE(rowRoleReplaceSpy.size(), 1);
+    QCOMPARE(columnRoleReplaceSpy.size(), 1);
+    QCOMPARE(xPosRoleReplaceSpy.size(), 1);
+    QCOMPARE(yPosRoleReplaceSpy.size(), 1);
+    QCOMPARE(zPosRoleReplaceSpy.size(), 1);
+    QCOMPARE(multiMatchSpy.size(), 1);
 }
 
 void tst_proxy::multiMatch()

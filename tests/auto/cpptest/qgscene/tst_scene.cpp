@@ -70,6 +70,16 @@ void tst_scene::initializeProperties()
 {
     QVERIFY(m_scene);
 
+    QSignalSpy viewportSpy(m_scene, &Q3DScene::viewportChanged);
+    QSignalSpy primarySubViewportSpy(m_scene, &Q3DScene::primarySubViewportChanged);
+    QSignalSpy secondarySubViewportSpy(m_scene, &Q3DScene::secondarySubViewportChanged);
+    QSignalSpy secondarySubviewOnTopSpy(m_scene, &Q3DScene::secondarySubviewOnTopChanged);
+    QSignalSpy slicingActiveSpy(m_scene, &Q3DScene::slicingActiveChanged);
+    QSignalSpy devicePixelRatioSpy(m_scene, &Q3DScene::devicePixelRatioChanged);
+    QSignalSpy selectionQueryPositionSpy(m_scene, &Q3DScene::selectionQueryPositionChanged);
+    QSignalSpy graphPositionQuerySpy(m_scene, &Q3DScene::graphPositionQueryChanged);
+    QSignalSpy needRenderSpy(m_scene, &Q3DScene::needRender);
+
     m_scene->setDevicePixelRatio(2.0f);
     m_scene->setGraphPositionQuery(QPoint(0, 0));
     m_scene->setPrimarySubViewport(QRect(0, 0, 50, 50));
@@ -94,6 +104,15 @@ void tst_scene::initializeProperties()
 
     QCOMPARE(m_scene->primarySubViewport(), QRect(0, 0, 30, 30));
     QCOMPARE(m_scene->secondarySubViewport(), QRect(0, 0, 150, 150));
+
+    QCOMPARE(primarySubViewportSpy.size(), 2);
+    QCOMPARE(secondarySubViewportSpy.size(), 2);
+    QCOMPARE(secondarySubviewOnTopSpy.size(), 1);
+    QCOMPARE(slicingActiveSpy.size(), 1);
+    QCOMPARE(devicePixelRatioSpy.size(), 1);
+    QCOMPARE(selectionQueryPositionSpy.size(), 1);
+    QCOMPARE(graphPositionQuerySpy.size(), 1);
+    QCOMPARE(needRenderSpy.size(), 9);
 }
 
 void tst_scene::invalidProperties()

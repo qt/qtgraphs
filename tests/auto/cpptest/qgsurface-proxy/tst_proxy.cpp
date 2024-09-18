@@ -73,6 +73,17 @@ void tst_proxy::initializeProperties()
     QVERIFY(m_proxy);
     QVERIFY(m_series);
 
+    QSignalSpy rowCountSpy(m_proxy, &QSurfaceDataProxy::rowCountChanged);
+    QSignalSpy columnCountSpy(m_proxy, &QSurfaceDataProxy::columnCountChanged);
+    QSignalSpy seriesSpy(m_proxy, &QSurfaceDataProxy::seriesChanged);
+
+    QSignalSpy rowsAddedSpy(m_proxy, &QSurfaceDataProxy::rowsAdded);
+    QSignalSpy rowsChangedSpy(m_proxy, &QSurfaceDataProxy::rowsChanged);
+    QSignalSpy rowsRemovedSpy(m_proxy, &QSurfaceDataProxy::rowsRemoved);
+    QSignalSpy rowsInsertedSpy(m_proxy, &QSurfaceDataProxy::rowsInserted);
+    QSignalSpy itemChangedSpy(m_proxy, &QSurfaceDataProxy::itemChanged);
+    QSignalSpy arrayResetSpy(m_proxy, &QSurfaceDataProxy::arrayReset);
+
     QSurfaceDataArray data;
     QSurfaceDataRow dataRow1;
     QSurfaceDataRow dataRow2;
@@ -82,8 +93,32 @@ void tst_proxy::initializeProperties()
 
     m_proxy->resetArray(data);
 
+    QCOMPARE(arrayResetSpy.size(), 1);
+    QCOMPARE(rowCountSpy.size(), 1);
+    QCOMPARE(columnCountSpy.size(), 1);
+
     QCOMPARE(m_proxy->columnCount(), 2);
     QCOMPARE(m_proxy->rowCount(), 2);
+
+    QSurfaceDataRow datarow;
+    datarow << QSurfaceDataItem(0.5f, 0.5f, 0.5f) << QSurfaceDataItem(1.0f, 1.0f, 1.0f);
+
+    auto index = m_proxy->addRow(datarow);
+
+    QCOMPARE(rowsAddedSpy.size(), 1);
+    QCOMPARE(rowCountSpy.size(), 2);
+
+    m_proxy->removeRows(index, 1);
+
+    QCOMPARE(rowsRemovedSpy.size(), 1);
+    QCOMPARE(rowCountSpy.size(), 3);
+
+    QSurfaceDataRow insertRow;
+    insertRow << QSurfaceDataItem(0.25f, 0.25f, 0.25f) << QSurfaceDataItem(1.0f, 0.8f, 0.25f);
+    m_proxy->insertRow(1, insertRow);
+
+    QCOMPARE(rowsInsertedSpy.size(), 1);
+    QCOMPARE(rowCountSpy.size(), 4);
 }
 
 void tst_proxy::initialRow()

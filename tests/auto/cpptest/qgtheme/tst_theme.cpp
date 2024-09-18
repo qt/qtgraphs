@@ -116,10 +116,46 @@ void tst_theme::initializeProperties()
 {
     QVERIFY(m_theme);
 
+    QSignalSpy colorSchemeSpy(m_theme, &QGraphsTheme::colorSchemeChanged);
+    QSignalSpy themeSpy(m_theme, &QGraphsTheme::themeChanged);
+    QSignalSpy colorStyleSpy(m_theme, &QGraphsTheme::colorStyleChanged);
+    QSignalSpy backgroundColorSpy(m_theme, &QGraphsTheme::backgroundColorChanged);
+    QSignalSpy backgroundVisibleSpy(m_theme, &QGraphsTheme::backgroundVisibleChanged);
+    QSignalSpy plotAreaBackgroundColorSpy(m_theme, &QGraphsTheme::plotAreaBackgroundColorChanged);
+    QSignalSpy plotAreaBackgroundVisibleSpy(m_theme, &QGraphsTheme::plotAreaBackgroundVisibleChanged);
+    QSignalSpy gridVisibleSpy(m_theme, &QGraphsTheme::gridVisibleChanged);
+
+    QSignalSpy axisXLabelFontSpy(m_theme, &QGraphsTheme::axisXLabelFontChanged);
+    QSignalSpy axisYLabelFontSpy(m_theme, &QGraphsTheme::axisYLabelFontChanged);
+    QSignalSpy axisZLabelFontSpy(m_theme, &QGraphsTheme::axisZLabelFontChanged);
+
+    QSignalSpy gridSpy(m_theme, &QGraphsTheme::gridChanged);
+    QSignalSpy axisXSpy(m_theme, &QGraphsTheme::axisXChanged);
+    QSignalSpy axisYSpy(m_theme, &QGraphsTheme::axisYChanged);
+    QSignalSpy axisZSpy(m_theme, &QGraphsTheme::axisZChanged);
+
+    QSignalSpy labelFontSpy(m_theme, &QGraphsTheme::labelFontChanged);
+    QSignalSpy labelsVisibleSpy(m_theme, &QGraphsTheme::labelsVisibleChanged);
+    QSignalSpy labelBackgroundColorSpy(m_theme, &QGraphsTheme::labelBackgroundColorChanged);
+    QSignalSpy labelTextColorSpy(m_theme, &QGraphsTheme::labelTextColorChanged);
+    QSignalSpy labelBackgroundVisibleSpy(m_theme, &QGraphsTheme::labelBackgroundVisibleChanged);
+    QSignalSpy labelBorderVisibleSpy(m_theme, &QGraphsTheme::labelBorderVisibleChanged);
+
+    QSignalSpy seriesGradientsSpy(m_theme, &QGraphsTheme::seriesGradientsChanged);
+    QSignalSpy seriesColorsSpy(m_theme, &QGraphsTheme::seriesColorsChanged);
+    QSignalSpy borderColorsSpy(m_theme, &QGraphsTheme::borderColorsChanged);
+    QSignalSpy borderWidthSpy(m_theme, &QGraphsTheme::borderWidthChanged);
+
+    QSignalSpy singleHighlightColorSpy(m_theme, &QGraphsTheme::singleHighlightColorChanged);
+    QSignalSpy multiHighlightColorSpy(m_theme, &QGraphsTheme::multiHighlightColorChanged);
+    QSignalSpy singleHighlightGradientSpy(m_theme, &QGraphsTheme::singleHighlightGradientChanged);
+    QSignalSpy multiHighlightGradientSpy(m_theme, &QGraphsTheme::multiHighlightGradientChanged);
+
+
     QLinearGradient gradient1;
     QLinearGradient gradient2;
-    QLinearGradient gradient3;
-    QLinearGradient gradient4;
+    QLinearGradient gradient3(QPoint(0.0f, 0.0f), QPoint(10.0f, 10.0f));
+    QLinearGradient gradient4(QPoint(0.0f, 0.0f), QPoint(10.0f, 10.0f));
 
     QList<QColor> basecolors;
     basecolors << QColor(Qt::red) << QColor(Qt::blue);
@@ -134,7 +170,7 @@ void tst_theme::initializeProperties()
     m_theme->setSeriesColors(basecolors);
     m_theme->setSeriesGradients(basegradients);
     m_theme->setColorStyle(QGraphsTheme::ColorStyle::RangeGradient);
-    m_theme->setLabelFont(QFont("Arial"));
+    m_theme->setLabelFont(QFont("Times"));
     m_theme->setGridVisible(false);
     QGraphsLine grid = m_theme->grid();
     grid.setMainColor(QColor(Qt::green));
@@ -152,6 +188,12 @@ void tst_theme::initializeProperties()
     m_theme->setSingleHighlightGradient(gradient4);
     m_theme->setBackgroundColor(QColor(Qt::darkYellow));
     m_theme->setBackgroundVisible(false);
+    m_theme->setAxisXLabelFont(QFont("helvetica"));
+    m_theme->setAxisYLabelFont(QFont("helvetica"));
+    m_theme->setAxisZLabelFont(QFont("Helvetica"));
+    m_theme->setLabelsVisible(false);
+    m_theme->setBorderColors(basecolors);
+    m_theme->setBorderWidth(10.0f);
 
     QCOMPARE(m_theme->plotAreaBackgroundColor(), QColor(Qt::red));
     QCOMPARE(m_theme->isPlotAreaBackgroundVisible(), false);
@@ -162,7 +204,7 @@ void tst_theme::initializeProperties()
     QCOMPARE(m_theme->seriesGradients().at(0), gradient1);
     QCOMPARE(m_theme->seriesGradients().at(0), gradient2);
     QCOMPARE(m_theme->colorStyle(), QGraphsTheme::ColorStyle::RangeGradient);
-    QCOMPARE(m_theme->labelFont(), QFont("Arial"));
+    QCOMPARE(m_theme->labelFont(), QFont("Times"));
     QCOMPARE(m_theme->isGridVisible(), false);
     QCOMPARE(m_theme->grid().mainColor(), QColor(Qt::green));
     QCOMPARE(m_theme->grid().subColor(), QColor(Qt::red));
@@ -179,6 +221,50 @@ void tst_theme::initializeProperties()
     QCOMPARE(m_theme->theme(), QGraphsTheme::Theme::OrangeSeries);
     QCOMPARE(m_theme->backgroundColor(), QColor(Qt::darkYellow));
     QCOMPARE(m_theme->isBackgroundVisible(), false);
+
+    QCOMPARE(colorSchemeSpy.size(), 1);
+    QCOMPARE(themeSpy.size(), 1);
+    QCOMPARE(colorStyleSpy.size(), 1);
+    QCOMPARE(backgroundColorSpy.size(), 1);
+    QCOMPARE(backgroundVisibleSpy.size(), 1);
+    QCOMPARE(plotAreaBackgroundColorSpy.size(), 1);
+    QCOMPARE(plotAreaBackgroundVisibleSpy.size(), 1);
+    QCOMPARE(gridVisibleSpy.size(), 1);
+
+    QCOMPARE(colorSchemeSpy.size(), 1);
+    QCOMPARE(themeSpy.size(), 1);
+    QCOMPARE(colorStyleSpy.size(), 1);
+    QCOMPARE(backgroundColorSpy.size(), 1);
+    QCOMPARE(backgroundVisibleSpy.size(), 1);
+    QCOMPARE(plotAreaBackgroundColorSpy.size(), 1);
+    QCOMPARE(plotAreaBackgroundVisibleSpy.size(), 1);
+    QCOMPARE(gridVisibleSpy.size(), 1);
+
+    QCOMPARE(axisXLabelFontSpy.size(), 1);
+    QCOMPARE(axisYLabelFontSpy.size(), 1);
+    QCOMPARE(axisZLabelFontSpy.size(), 1);
+
+    QCOMPARE(gridSpy.size(), 2);
+    QCOMPARE(axisXSpy.size(), 1);
+    QCOMPARE(axisYSpy.size(), 1);
+    QCOMPARE(axisZSpy.size(), 1);
+
+    QCOMPARE(labelFontSpy.size(), 1);
+    QCOMPARE(labelsVisibleSpy.size(), 1);
+    QCOMPARE(labelBackgroundColorSpy.size(), 1);
+    QCOMPARE(labelTextColorSpy.size(), 1);
+    QCOMPARE(labelBackgroundVisibleSpy.size(), 1);
+    QCOMPARE(labelBorderVisibleSpy.size(), 1);
+
+    QCOMPARE(seriesGradientsSpy.size(), 1);
+    QCOMPARE(seriesColorsSpy.size(), 1);
+    QCOMPARE(borderColorsSpy.size(), 1);
+    QCOMPARE(borderWidthSpy.size(), 1);
+
+    QCOMPARE(singleHighlightColorSpy.size(), 1);
+    QCOMPARE(multiHighlightColorSpy.size(), 1);
+    QCOMPARE(singleHighlightGradientSpy.size(), 1);
+    QCOMPARE(multiHighlightGradientSpy.size(), 1);
 }
 
 QTEST_MAIN(tst_theme)

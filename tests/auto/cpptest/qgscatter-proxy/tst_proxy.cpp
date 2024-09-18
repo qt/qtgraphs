@@ -72,11 +72,49 @@ void tst_proxy::initializeProperties()
     QVERIFY(m_series);
     QCOMPARE(m_proxy->series(), m_series);
 
+    QSignalSpy itemCountSpy(m_proxy, &QScatterDataProxy::itemCountChanged);
+    QSignalSpy seriesSpy(m_proxy, &QScatterDataProxy::seriesChanged);
+    QSignalSpy itemsAddedSpy(m_proxy, &QScatterDataProxy::itemsAdded);
+    QSignalSpy itemsChangedSpy(m_proxy, &QScatterDataProxy::itemsChanged);
+    QSignalSpy itemsRemovedSpy(m_proxy, &QScatterDataProxy::itemsRemoved);
+    QSignalSpy itemsInsertedSpy(m_proxy, &QScatterDataProxy::itemsInserted);
+    QSignalSpy arrayResetSpy(m_proxy, &QScatterDataProxy::arrayReset);
+
     QScatterDataArray data;
     data << QScatterDataItem(0.5f, 0.5f, 0.5f) << QScatterDataItem(-0.3f, -0.5f, -0.4f);
     m_proxy->addItems(data);
 
     QCOMPARE(m_proxy->itemCount(), 2);
+
+    QCOMPARE(itemCountSpy.size(), 1);
+    QCOMPARE(itemsAddedSpy.size(), 1);
+
+    m_proxy->removeItems(1, 1);
+
+    QCOMPARE(m_proxy->itemCount(), 1);
+
+    QCOMPARE(itemCountSpy.size(), 2);
+    QCOMPARE(itemsRemovedSpy.size(), 1);
+
+    m_proxy->insertItem(0, QScatterDataItem(1.0f, 1.0f, 1.0f));
+
+    QCOMPARE(m_proxy->itemCount(), 2);
+
+    QCOMPARE(itemCountSpy.size(), 3);
+    QCOMPARE(itemsInsertedSpy.size(), 1);
+
+    m_proxy->setItem(1, QScatterDataItem(0.75f, 0.75f, 0.75f));
+
+    QCOMPARE(m_proxy->itemCount(), 2);
+
+    QCOMPARE(itemsChangedSpy.size(), 1);
+
+    m_proxy->resetArray();
+
+    QCOMPARE(m_proxy->itemCount(), 0);
+
+    QCOMPARE(itemCountSpy.size(), 4);
+    QCOMPARE(arrayResetSpy.size(), 1);
 }
 
 QTEST_MAIN(tst_proxy)
