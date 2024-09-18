@@ -128,6 +128,41 @@ void tst_bars::initializeProperties()
 {
     QVERIFY(m_graph);
 
+    QSignalSpy multiSeriesUniformSpy(m_graph, &Q3DBarsWidgetItem::multiSeriesUniformChanged);
+    QSignalSpy barThicknessSpy(m_graph, &Q3DBarsWidgetItem::barThicknessChanged);
+    QSignalSpy barSpacingSpy(m_graph, &Q3DBarsWidgetItem::barSpacingChanged);
+    QSignalSpy barSpacingRelativeSpy(m_graph, &Q3DBarsWidgetItem::barSpacingRelativeChanged);
+    QSignalSpy barSeriesMarginSpy(m_graph, &Q3DBarsWidgetItem::barSeriesMarginChanged);
+    QSignalSpy floorLevelSpy(m_graph, &Q3DBarsWidgetItem::floorLevelChanged);
+
+    // Common signals
+    QSignalSpy activeThemeSpy(m_graph, &Q3DBarsWidgetItem::activeThemeChanged);
+    QSignalSpy selectionModeSpy(m_graph, &Q3DBarsWidgetItem::selectionModeChanged);
+    QSignalSpy shadowQualitySpy(m_graph, &Q3DBarsWidgetItem::shadowQualityChanged);
+    QSignalSpy measureFpsSpy(m_graph, &Q3DBarsWidgetItem::measureFpsChanged);
+    QSignalSpy currentFpsSpy(m_graph, &Q3DBarsWidgetItem::currentFpsChanged);
+    QSignalSpy orthoSpy(m_graph, &Q3DBarsWidgetItem::orthoProjectionChanged);
+    QSignalSpy selectedElementSpy(m_graph, &Q3DBarsWidgetItem::selectedElementChanged);
+    QSignalSpy aspectRatioSpy(m_graph, &Q3DBarsWidgetItem::aspectRatioChanged);
+    QSignalSpy optimizationHintsSpy(m_graph, &Q3DBarsWidgetItem::optimizationHintChanged);
+    QSignalSpy polarSpy(m_graph, &Q3DBarsWidgetItem::polarChanged);
+    QSignalSpy labelmarginSpy(m_graph, &Q3DBarsWidgetItem::labelMarginChanged);
+    QSignalSpy radialLabelOffsetSpy(m_graph, &Q3DBarsWidgetItem::radialLabelOffsetChanged);
+    QSignalSpy horizontalAspectRatioSpy(m_graph, &Q3DBarsWidgetItem::horizontalAspectRatioChanged);
+    QSignalSpy localeSpy(m_graph, &Q3DBarsWidgetItem::localeChanged);
+    QSignalSpy queriedGraphPositionSpy(m_graph, &Q3DBarsWidgetItem::queriedGraphPositionChanged);
+    QSignalSpy cameraXRotSpy(m_graph, &Q3DBarsWidgetItem::cameraXRotationChanged);
+    QSignalSpy cameraYRotSpy(m_graph, &Q3DBarsWidgetItem::cameraYRotationChanged);
+    QSignalSpy cameraZoomSpy(m_graph, &Q3DBarsWidgetItem::cameraZoomLevelChanged);
+    QSignalSpy cameraMinZoomSpy(m_graph, &Q3DBarsWidgetItem::minCameraZoomLevelChanged);
+    QSignalSpy cameraMaxZoomSpy(m_graph, &Q3DBarsWidgetItem::maxCameraZoomLevelChanged);
+    QSignalSpy wrapCameraXRotSpy(m_graph, &Q3DBarsWidgetItem::wrapCameraXRotationChanged);
+    QSignalSpy wrapCameraYRotSpy(m_graph, &Q3DBarsWidgetItem::wrapCameraYRotationChanged);
+    QSignalSpy minCameraXRotSpy(m_graph, &Q3DBarsWidgetItem::minCameraXRotationChanged);
+    QSignalSpy maxCameraXRotSpy(m_graph, &Q3DBarsWidgetItem::maxCameraXRotationChanged);
+    QSignalSpy minCameraYRotSpy(m_graph, &Q3DBarsWidgetItem::minCameraYRotationChanged);
+    QSignalSpy maxCameraYRotSpy(m_graph, &Q3DBarsWidgetItem::maxCameraYRotationChanged);
+
     m_graph->setMultiSeriesUniform(true);
     m_graph->setBarThickness(0.2f);
     m_graph->setBarSpacing(QSizeF(0.1f, 0.1f));
@@ -141,6 +176,13 @@ void tst_bars::initializeProperties()
     QCOMPARE(m_graph->barSeriesMargin(), QSizeF(0.3f, 0.3f));
     QCOMPARE(m_graph->isBarSpacingRelative(), false);
     QCOMPARE(m_graph->floorLevel(), 1.0f);
+
+    QCOMPARE(multiSeriesUniformSpy.size(), 1);
+    QCOMPARE(barThicknessSpy.size(), 1);
+    QCOMPARE(barSpacingSpy.size(), 1);
+    QCOMPARE(barSpacingRelativeSpy.size(), 1);
+    QCOMPARE(barSeriesMarginSpy.size(), 1);
+    QCOMPARE(floorLevelSpy.size(), 1);
 
     QGraphsTheme *theme = new QGraphsTheme();
     theme->setColorScheme(QGraphsTheme::ColorScheme::Light);
@@ -165,6 +207,18 @@ void tst_bars::initializeProperties()
     m_graph->setLightStrength(2.5f);
     m_graph->setShadowStrength(50.f);
 
+    m_graph->setCameraXRotation(20.0f);
+    m_graph->setCameraYRotation(20.0f);
+    m_graph->setMinCameraXRotation(10.0f);
+    m_graph->setMinCameraYRotation(10.0f);
+    m_graph->setMaxCameraXRotation(45.0f);
+    m_graph->setMaxCameraYRotation(45.0f);
+    m_graph->setCameraZoomLevel(5.0f);
+    m_graph->setMinCameraZoomLevel(1.0f);
+    m_graph->setMaxCameraZoomLevel(10.0f);
+    m_graph->setWrapCameraXRotation(true);
+    m_graph->setWrapCameraYRotation(true);
+
     QCOMPARE(m_graph->activeTheme()->theme(), QGraphsTheme::Theme::QtGreenNeon);
     QCOMPARE(m_graph->selectionMode(),
              QtGraphs3D::SelectionFlag::Item | QtGraphs3D::SelectionFlag::Row
@@ -185,6 +239,37 @@ void tst_bars::initializeProperties()
     QCOMPARE(m_graph->lightColor(), QColor(Qt::yellow));
     QCOMPARE(m_graph->lightStrength(), 2.5f);
     QCOMPARE(m_graph->shadowStrength(), 50.0f);
+
+    QCOMPARE(activeThemeSpy.size(), 1);
+    QCOMPARE(selectionModeSpy.size(), 1);
+    QCOMPARE(shadowQualitySpy.size(), 1);
+
+    QCOMPARE(selectedElementSpy.size(), 0); // this is connected to graphsitems signal
+    QCOMPARE(queriedGraphPositionSpy.size(), 0); // this is connected to graphsitems signal
+
+    // These are all 0 because they are never emitted anywhere QTBUG-129109
+    QCOMPARE(measureFpsSpy.size(), 0);
+    QCOMPARE(currentFpsSpy.size(), 0);
+    QCOMPARE(orthoSpy.size(), 0);
+    QCOMPARE(aspectRatioSpy.size(), 0);
+    QCOMPARE(optimizationHintsSpy.size(), 0);
+    QCOMPARE(polarSpy.size(), 0);
+    QCOMPARE(labelmarginSpy.size(), 0);
+    QCOMPARE(radialLabelOffsetSpy.size(), 0);
+    QCOMPARE(horizontalAspectRatioSpy.size(), 0);
+    QCOMPARE(localeSpy.size(), 0);
+
+    QCOMPARE(cameraXRotSpy.size(), 0);
+    QCOMPARE(cameraYRotSpy.size(), 0);
+    QCOMPARE(cameraZoomSpy.size(), 0);
+    QCOMPARE(cameraMinZoomSpy.size(), 0);
+    QCOMPARE(cameraMaxZoomSpy.size(), 0);
+    QCOMPARE(wrapCameraXRotSpy.size(), 0);
+    QCOMPARE(wrapCameraYRotSpy.size(), 0);
+    QCOMPARE(minCameraXRotSpy.size(), 0);
+    QCOMPARE(maxCameraXRotSpy.size(), 0);
+    QCOMPARE(minCameraYRotSpy.size(), 0);
+    QCOMPARE(maxCameraYRotSpy.size(), 0);
 }
 
 void tst_bars::invalidProperties()

@@ -72,10 +72,25 @@ void tst_axis::initializeProperties()
 {
     QVERIFY(m_axis);
 
+    QSignalSpy labelSpy(m_axis, &QCategory3DAxis::labelsChanged);
+    QSignalSpy rowLabelSpy(m_axis, &QCategory3DAxis::rowLabelsChanged);
+    QSignalSpy columnLabelSpy(m_axis, &QCategory3DAxis::columnLabelsChanged);
+
+    QSignalSpy autoAdjustSpy(m_axis, &QCategory3DAxis::autoAdjustRangeChanged);
+    QSignalSpy labelAutoAngleSpy(m_axis, &QCategory3DAxis::labelAutoAngleChanged);
+    QSignalSpy maxSpy(m_axis, &QCategory3DAxis::maxChanged);
+    QSignalSpy minSpy(m_axis, &QCategory3DAxis::minChanged);
+    QSignalSpy titleSpy(m_axis, &QCategory3DAxis::titleChanged);
+    QSignalSpy titleFixedSpy(m_axis, &QCategory3DAxis::titleFixedChanged);
+    QSignalSpy titleVisibleSpy(m_axis, &QCategory3DAxis::titleVisibleChanged);
+
     m_axis->setLabels(QStringList() << "first" << "second");
 
     QCOMPARE(m_axis->labels().size(), 2);
     QCOMPARE(m_axis->labels().at(1), QString("second"));
+    QCOMPARE(labelSpy.size(), 1);
+    QCOMPARE(rowLabelSpy.size(), 0);
+    QCOMPARE(columnLabelSpy.size(), 0);
 
     // Common (from QAbstract3DAxis)
     m_axis->setAutoAdjustRange(false);
@@ -93,6 +108,14 @@ void tst_axis::initializeProperties()
     QCOMPARE(m_axis->title(), QString("title"));
     QCOMPARE(m_axis->isTitleFixed(), false);
     QCOMPARE(m_axis->isTitleVisible(), true);
+
+    QCOMPARE(autoAdjustSpy.size(), 1);
+    QCOMPARE(labelAutoAngleSpy.size(), 1);
+    QCOMPARE(maxSpy.size(), 1);
+    QCOMPARE(minSpy.size(), 1);
+    QCOMPARE(titleSpy.size(), 1);
+    QCOMPARE(titleFixedSpy.size(), 1);
+    QCOMPARE(titleVisibleSpy.size(), 1);
 }
 
 void tst_axis::invalidProperties()

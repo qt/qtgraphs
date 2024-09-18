@@ -173,6 +173,24 @@ void tst_proxy::initializeProperties()
     QVERIFY(m_proxy);
     QVERIFY(m_series);
 
+    QSignalSpy itemModelSpy(m_proxy, &QItemModelBarDataProxy::itemModelChanged);
+    QSignalSpy rowRoleSpy(m_proxy, &QItemModelBarDataProxy::rowRoleChanged);
+    QSignalSpy valueRoleSpy(m_proxy, &QItemModelBarDataProxy::valueRoleChanged);
+    QSignalSpy rotationRoleSpy(m_proxy, &QItemModelBarDataProxy::rotationRoleChanged);
+    QSignalSpy rowCategoriesSpy(m_proxy, &QItemModelBarDataProxy::rowCategoriesChanged);
+    QSignalSpy columnCategoriesSpy(m_proxy, &QItemModelBarDataProxy::columnCategoriesChanged);
+    QSignalSpy useModelCategoriesSpy(m_proxy, &QItemModelBarDataProxy::useModelCategoriesChanged);
+    QSignalSpy autoRowCategoriesSpy(m_proxy, &QItemModelBarDataProxy::autoRowCategoriesChanged);
+    QSignalSpy autoColumnCategoriesSpy(m_proxy, &QItemModelBarDataProxy::autoColumnCategoriesChanged);
+    QSignalSpy rowRolePatternSpy(m_proxy, &QItemModelBarDataProxy::rowRoleReplaceChanged);
+    QSignalSpy ColumnRolePatterSpy(m_proxy, &QItemModelBarDataProxy::columnRoleReplaceChanged);
+    QSignalSpy rotationRolePatternSpy(m_proxy, &QItemModelBarDataProxy::rotationRolePatternChanged);
+    QSignalSpy rowRoleReplaceSpy(m_proxy, &QItemModelBarDataProxy::rowRoleReplaceChanged);
+    QSignalSpy columnRoleReplaceSpy(m_proxy, &QItemModelBarDataProxy::columnRoleReplaceChanged);
+    QSignalSpy valueRoleReplacedSpy(m_proxy, &QItemModelBarDataProxy::valueRoleReplaceChanged);
+    QSignalSpy rotationRoleReplacedSpy(m_proxy, &QItemModelBarDataProxy::rotationRoleReplaceChanged);
+    QSignalSpy multiMatchSpy(m_proxy, &QItemModelBarDataProxy::multiMatchBehaviorChanged);
+
     QTableWidget table;
 
     m_proxy->setAutoColumnCategories(false);
@@ -214,6 +232,24 @@ void tst_proxy::initializeProperties()
     QCOMPARE(m_proxy->valueRole(), QString("value"));
     QCOMPARE(m_proxy->valueRolePattern(), QRegularExpression("/-/"));
     QCOMPARE(m_proxy->valueRoleReplace(), QString("\\\\1"));
+
+    QCOMPARE(itemModelSpy.size(), 1);
+    QCOMPARE(rowRoleSpy.size(), 1);
+    QCOMPARE(valueRoleSpy.size(), 1);
+    QCOMPARE(rotationRoleSpy.size(), 1);
+    QCOMPARE(rowCategoriesSpy.size(), 1);
+    QCOMPARE(columnCategoriesSpy.size(), 1);
+    QCOMPARE(useModelCategoriesSpy.size(), 1);
+    QCOMPARE(autoRowCategoriesSpy.size(), 1);
+    QCOMPARE(autoColumnCategoriesSpy.size(), 1);
+    QCOMPARE(rowRolePatternSpy.size(), 1);
+    QCOMPARE(ColumnRolePatterSpy.size(), 1);
+    QCOMPARE(rotationRolePatternSpy.size(), 1);
+    QCOMPARE(rowRoleReplaceSpy.size(), 1);
+    QCOMPARE(columnRoleReplaceSpy.size(), 1);
+    QCOMPARE(valueRoleReplacedSpy.size(), 1);
+    QCOMPARE(rotationRoleReplacedSpy.size(), 1);
+    QCOMPARE(multiMatchSpy.size(), 1);
 }
 
 void tst_proxy::multiMatch()

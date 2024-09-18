@@ -4,6 +4,8 @@
 #include <QtTest/QtTest>
 
 #include <QtGraphs/QValue3DAxis>
+#include <QtGraphs/QLogValue3DAxisFormatter>
+
 
 class tst_axis: public QObject
 {
@@ -84,6 +86,25 @@ void tst_axis::initializeProperties()
 {
     QVERIFY(m_axis);
 
+    QSignalSpy labelFormatSpy(m_axis, &QValue3DAxis::labelFormatChanged);
+    QSignalSpy reversedSpy(m_axis, &QValue3DAxis::reversedChanged);
+    QSignalSpy segmentCountSpy(m_axis, &QValue3DAxis::segmentCountChanged);
+    QSignalSpy subSegmentCountSpy(m_axis, &QValue3DAxis::subSegmentCountChanged);
+    QSignalSpy formatterSpy(m_axis, &QValue3DAxis::formatterChanged);
+    QSignalSpy dirtyFormatterSpy(m_axis, &QValue3DAxis::formatterDirty);
+
+    QSignalSpy adjustRangeSpy(m_axis, &QValue3DAxis::autoAdjustRangeChanged);
+    QSignalSpy labelAngleSpy(m_axis, &QValue3DAxis::labelAutoAngleChanged);
+    QSignalSpy maxSpy(m_axis, &QValue3DAxis::maxChanged);
+    QSignalSpy minSpy(m_axis, &QValue3DAxis::minChanged);
+    QSignalSpy titleSpy(m_axis, &QValue3DAxis::titleChanged);
+    QSignalSpy titleFixedSpy(m_axis, &QValue3DAxis::titleFixedChanged);
+    QSignalSpy titleVisibleSpy(m_axis, &QValue3DAxis::titleVisibleChanged);
+    QSignalSpy labelVisibleSpy(m_axis, &QValue3DAxis::labelVisibleChanged);
+    QSignalSpy titleOffsetSpy(m_axis, &QValue3DAxis::titleOffsetChanged);
+
+    auto *formatter = new QLogValue3DAxisFormatter(this);
+
     m_axis->setLabelFormat("%.0fm");
     m_axis->setReversed(true);
     m_axis->setSegmentCount(2);
@@ -93,6 +114,11 @@ void tst_axis::initializeProperties()
     QCOMPARE(m_axis->reversed(), true);
     QCOMPARE(m_axis->segmentCount(), 2);
     QCOMPARE(m_axis->subSegmentCount(), 5);
+
+    QCOMPARE(labelFormatSpy.size(), 1);
+    QCOMPARE(reversedSpy.size(), 1);
+    QCOMPARE(segmentCountSpy.size(), 1);
+    QCOMPARE(subSegmentCountSpy.size(), 1);
 
     // Common (from QAbstract3DAxis)
     m_axis->setAutoAdjustRange(false);
@@ -118,6 +144,20 @@ void tst_axis::initializeProperties()
     QCOMPARE(m_axis->isTitleVisible(), true);
     QCOMPARE(m_axis->labelsVisible(), false);
     QCOMPARE(m_axis->titleOffset(), 1.0f);
+
+    m_axis->setFormatter(formatter);
+    QCOMPARE(dirtyFormatterSpy.size(), 1);
+    QCOMPARE(formatterSpy.size(), 1);
+
+    QCOMPARE(adjustRangeSpy.size(), 1);
+    QCOMPARE(labelAngleSpy.size(), 1);
+    QCOMPARE(maxSpy.size(), 1);
+    QCOMPARE(minSpy.size(), 1);
+    QCOMPARE(titleSpy.size(), 1);
+    QCOMPARE(titleFixedSpy.size(), 1);
+    QCOMPARE(titleVisibleSpy.size(), 1);
+    QCOMPARE(labelVisibleSpy.size(), 1);
+    QCOMPARE(titleOffsetSpy.size(), 1);
 }
 
 void tst_axis::invalidProperties()

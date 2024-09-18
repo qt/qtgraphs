@@ -119,6 +119,20 @@ void tst_proxy::initializeProperties()
     QVERIFY(m_proxy);
     QVERIFY(m_series);
 
+    QSignalSpy itemModelSpy(m_proxy, &QItemModelScatterDataProxy::itemModelChanged);
+    QSignalSpy xPosRoleSpy(m_proxy, &QItemModelScatterDataProxy::xPosRoleChanged);
+    QSignalSpy yPosRoleSpy(m_proxy, &QItemModelScatterDataProxy::yPosRoleChanged);
+    QSignalSpy zPosRoleSpy(m_proxy, &QItemModelScatterDataProxy::zPosRoleChanged);
+    QSignalSpy rotationRoleSpy(m_proxy, &QItemModelScatterDataProxy::rotationRoleChanged);
+    QSignalSpy xPosRolePatternSpy(m_proxy, &QItemModelScatterDataProxy::xPosRolePatternChanged);
+    QSignalSpy yPosRolePatternSpy(m_proxy, &QItemModelScatterDataProxy::yPosRolePatternChanged);
+    QSignalSpy zPosRolePatternSpy(m_proxy, &QItemModelScatterDataProxy::zPosRolePatternChanged);
+    QSignalSpy rotationRolePatternSpy(m_proxy, &QItemModelScatterDataProxy::rotationRolePatternChanged);
+    QSignalSpy xPosRoleReplaceSpy(m_proxy, &QItemModelScatterDataProxy::xPosRoleReplaceChanged);
+    QSignalSpy yPosRoleReplaceSpy(m_proxy, &QItemModelScatterDataProxy::yPosRoleReplaceChanged);
+    QSignalSpy zPosRoleReplaceSpy(m_proxy, &QItemModelScatterDataProxy::zPosRoleReplaceChanged);
+    QSignalSpy rotationRoleReplaceSpy(m_proxy, &QItemModelScatterDataProxy::rotationRoleReplaceChanged);
+
     QTableWidget table;
 
     m_proxy->setItemModel(table.model());
@@ -148,6 +162,20 @@ void tst_proxy::initializeProperties()
     QCOMPARE(m_proxy->zPosRole(), QString("Z"));
     QCOMPARE(m_proxy->zPosRolePattern(), QRegularExpression("/-/"));
     QCOMPARE(m_proxy->zPosRoleReplace(), QString("\\\\1"));
+
+    QCOMPARE(itemModelSpy.size(), 1);
+    QCOMPARE(xPosRoleSpy.size(), 1);
+    QCOMPARE(yPosRoleSpy.size(), 1);
+    QCOMPARE(zPosRoleSpy.size(), 1);
+    QCOMPARE(rotationRoleSpy.size(), 1);
+    QCOMPARE(xPosRolePatternSpy.size(), 1);
+    QCOMPARE(yPosRolePatternSpy.size(), 1);
+    QCOMPARE(zPosRolePatternSpy.size(), 1);
+    QCOMPARE(rotationRolePatternSpy.size(), 1);
+    QCOMPARE(xPosRoleReplaceSpy.size(), 1);
+    QCOMPARE(yPosRoleReplaceSpy.size(), 1);
+    QCOMPARE(zPosRoleReplaceSpy.size(), 1);
+    QCOMPARE(rotationRoleReplaceSpy.size(), 1);
 }
 
 void tst_proxy::addModel()

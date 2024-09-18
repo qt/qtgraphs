@@ -103,6 +103,14 @@ void tst_custom::initializeProperties()
 {
     QVERIFY(m_custom);
 
+    QSignalSpy textSpy(m_custom, &QCustom3DLabel::textChanged);
+    QSignalSpy fontSpy(m_custom, &QCustom3DLabel::fontChanged);
+    QSignalSpy textColorSpy(m_custom, &QCustom3DLabel::textColorChanged);
+    QSignalSpy backgroundColorSpy(m_custom, &QCustom3DLabel::backgroundColorChanged);
+    QSignalSpy borderVisibleSpy(m_custom, &QCustom3DLabel::borderVisibleChanged);
+    QSignalSpy backgroundVisibleSpy(m_custom, &QCustom3DLabel::backgroundVisibleChanged);
+    QSignalSpy facingCameraSpy(m_custom, &QCustom3DLabel::facingCameraChanged);
+
     m_custom->setBackgroundColor(QColor(Qt::red));
     m_custom->setBackgroundVisible(false);
     m_custom->setBorderVisible(false);
@@ -133,6 +141,14 @@ void tst_custom::initializeProperties()
     QCOMPARE(m_custom->scaling(), QVector3D(1.0f, 1.0f, 1.0f));
     QCOMPARE(m_custom->isShadowCasting(), true);
     QCOMPARE(m_custom->isVisible(), false);
+
+    QCOMPARE(textSpy.size(), 1);
+    QCOMPARE(fontSpy.size(), 1);
+    QCOMPARE(textColorSpy.size(), 1);
+    QCOMPARE(backgroundColorSpy.size(), 1);
+    QCOMPARE(borderVisibleSpy.size(), 1);
+    QCOMPARE(backgroundVisibleSpy.size(), 1);
+    QCOMPARE(facingCameraSpy.size(), 1);
 }
 
 void tst_custom::invalidProperties()

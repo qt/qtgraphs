@@ -83,6 +83,17 @@ void tst_custom::initializeProperties()
 {
     QVERIFY(m_custom);
 
+    QSignalSpy meshFileSpy(m_custom, &QCustom3DItem::meshFileChanged);
+    QSignalSpy textureFileSpy(m_custom, &QCustom3DItem::textureFileChanged);
+    QSignalSpy positionSpy(m_custom, &QCustom3DItem::positionChanged);
+    QSignalSpy positionAbsoluteSpy(m_custom, &QCustom3DItem::positionAbsoluteChanged);
+    QSignalSpy scalingSpy(m_custom, &QCustom3DItem::scalingChanged);
+    QSignalSpy rotationSpy(m_custom, &QCustom3DItem::rotationChanged);
+    QSignalSpy visibleSpy(m_custom, &QCustom3DItem::visibleChanged);
+    QSignalSpy shadowCastingSpy(m_custom, &QCustom3DItem::shadowCastingChanged);
+    QSignalSpy scalingAbsoluteSpy(m_custom, &QCustom3DItem::scalingAbsoluteChanged);
+    QSignalSpy updateSpy(m_custom, &QCustom3DItem::needUpdate);
+
     m_custom->setMeshFile(":/customitem.obj");
     m_custom->setPosition(QVector3D(1.0f, 1.0f, 1.0f));
     m_custom->setPositionAbsolute(true);
@@ -105,6 +116,17 @@ void tst_custom::initializeProperties()
 
     m_custom->setTextureImage(QImage(QSize(10, 10), QImage::Format_ARGB32));
     QCOMPARE(m_custom->textureFile(), QString());
+
+    QCOMPARE(meshFileSpy.size(), 1);
+    QCOMPARE(textureFileSpy.size(), 2);
+    QCOMPARE(positionSpy.size(), 1);
+    QCOMPARE(positionAbsoluteSpy.size(), 1);
+    QCOMPARE(scalingSpy.size(), 1);
+    QCOMPARE(rotationSpy.size(), 1);
+    QCOMPARE(visibleSpy.size(), 1);
+    QCOMPARE(shadowCastingSpy.size(), 1);
+    QCOMPARE(scalingAbsoluteSpy.size(), 1);
+    QCOMPARE(updateSpy.size(), 10);
 }
 
 QTEST_MAIN(tst_custom)

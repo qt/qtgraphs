@@ -73,6 +73,16 @@ void tst_proxy::initializeProperties()
 {
     QVERIFY(m_proxy);
 
+    QSignalSpy rowCountSpy(m_proxy, &QBarDataProxy::rowCountChanged);
+    QSignalSpy rowsAddedSpy(m_proxy, &QBarDataProxy::rowsAdded);
+    QSignalSpy rowsChanged(m_proxy, &QBarDataProxy::rowsChanged);
+    QSignalSpy columnCountSpy(m_proxy, &QBarDataProxy::colCountChanged);
+    QSignalSpy rowsInsertedSpy(m_proxy, &QBarDataProxy::rowsInserted);
+    QSignalSpy rowsRemovedSpy(m_proxy, &QBarDataProxy::rowsRemoved);
+
+    QCOMPARE(rowCountSpy.size(), 0);
+    QCOMPARE(rowsAddedSpy.size(), 0);
+
     m_proxy->series()->setColumnLabels(QStringList() << "1"
                                                      << "2"
                                                      << "3");
@@ -84,6 +94,20 @@ void tst_proxy::initializeProperties()
     QCOMPARE(m_proxy->series()->columnLabels().size(), 3);
     QCOMPARE(m_proxy->rowCount(), 1);
     QCOMPARE(m_proxy->series()->rowLabels().size(), 1);
+
+    QBarDataRow data1;
+    data << QBarDataItem(1.0f) << QBarDataItem(3.0f) << QBarDataItem(7.5f);
+    m_proxy->setRow(0,data1);
+
+    m_proxy->insertRow(1, data1);
+
+    m_proxy->removeRows(1,1, QBarDataProxy::RemoveLabels::Yes);
+
+    QCOMPARE(rowCountSpy.size(), 3);
+    QCOMPARE(rowsAddedSpy.size(), 1);
+    QCOMPARE(rowsChanged.size(), 1);
+    QCOMPARE(rowsInsertedSpy.size(), 1);
+    QCOMPARE(rowsRemovedSpy.size(), 1);
 }
 
 QTEST_MAIN(tst_proxy)
