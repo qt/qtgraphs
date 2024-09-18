@@ -54,6 +54,7 @@ public:
                                       QJSValue newGradient,
                                       GradientType type,
                                       QJSValue &memberGradient);
+    static qreal maxTextureSize();
 
 private:
     static ParamType mapFormatCharToParamType(char formatSpec);

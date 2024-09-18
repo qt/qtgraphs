@@ -29,7 +29,8 @@ static const QVector3D zeroVector = QVector3D(0.0f, 0.0f, 0.0f);
 static const QVector3D upVector = QVector3D(0.0f, 1.0f, 0.0f);
 static const float itemAlpha = 0.0f;
 static const qreal gradientTextureHeight = 1.;
-static const qreal gradientTextureWidth = 8192.;
+// Default to 4096 just in case we don't get real max from rhi
+static const qreal gradientTextureWidth = 4096.;
 
 QT_END_NAMESPACE
 
