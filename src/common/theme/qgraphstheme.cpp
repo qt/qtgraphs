@@ -279,6 +279,18 @@ QT_BEGIN_NAMESPACE
  */
 
 /*!
+ * \qmlproperty list<Color> GraphsTheme::baseColors
+ *
+ * The list of base colors to be used for all the objects in the graph, series
+ * by series. If there are more series than colors, color list wraps and starts
+ * again with the first color in the list. Has no immediate effect if colorStyle
+ * is not \c GraphsTheme.ColorStyle.Uniform.
+ *
+ * This can be overridden by setting \l{Abstract3DSeries::baseColor}
+ * {Abstract3DSeries.baseColor} explicitly in the series.
+ */
+
+/*!
  * \qmlproperty list<color> GraphsTheme::borderColors
  *
  * The list of border colors to be used for all the objects in the graph,
@@ -339,7 +351,7 @@ QT_BEGIN_NAMESPACE
  */
 
 /*!
- * \qmlproperty list<Gradient> GraphsTheme::seriesGradients
+ * \qmlproperty list<Gradient> GraphsTheme::baseGradients
  *
  * The list of base gradients to be used for all the objects in the graph,
  * series by series. If there are more series than gradients, the gradient list
@@ -1295,18 +1307,8 @@ void QGraphsTheme::setBorderColors(const QList<QColor> &newBorderColors)
 }
 
 /*!
- * \property QGraphsTheme::seriesGradients
- *
- * \brief The list of base gradients to be used for all the objects in the
- * graph, series by series.
- *
- * If there are more series than gradients, the gradient list wraps and starts
- * again with the first gradient in the list
- *
- * Has no immediate effect if colorStyle is Uniform.
- *
- * This value can be overridden by setting the
- * \l{QAbstract3DSeries::baseGradient}{baseGradient} explicitly in the series.
+    Returns the list of series gradients used by theme.
+    \sa setSeriesGradients()
  */
 QList<QLinearGradient> QGraphsTheme::seriesGradients() const
 {
@@ -1316,6 +1318,10 @@ QList<QLinearGradient> QGraphsTheme::seriesGradients() const
     return d->m_seriesThemeGradients;
 }
 
+/*!
+    Sets \a newSeriesGradients as the series gradients for the theme.
+    \sa seriesGradients()
+ */
 void QGraphsTheme::setSeriesGradients(const QList<QLinearGradient> &newSeriesGradients)
 {
     Q_D(QGraphsTheme);
