@@ -177,8 +177,6 @@ class Q_GRAPHS_EXPORT QGraphsTheme : public QObject, public QQmlParserStatus
 
     Q_PROPERTY(QList<QColor> seriesColors READ seriesColors WRITE setSeriesColors NOTIFY
                    seriesColorsChanged FINAL)
-    Q_PROPERTY(QList<QLinearGradient> seriesGradients READ seriesGradients WRITE setSeriesGradients
-                   NOTIFY seriesGradientsChanged FINAL)
     Q_PROPERTY(QList<QColor> borderColors READ borderColors WRITE setBorderColors NOTIFY borderColorsChanged FINAL)
     Q_PROPERTY(qreal borderWidth READ borderWidth WRITE setBorderWidth NOTIFY borderWidthChanged FINAL)
 
