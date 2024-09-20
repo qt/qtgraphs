@@ -192,6 +192,10 @@ void QXYSeries::replace(qsizetype index, qreal newX, qreal newY)
 void QXYSeries::replace(qsizetype index, QPointF newPoint)
 {
     Q_D(QXYSeries);
+
+    if (index < 0 || index >= d->m_points.size())
+        return;
+
     if (isValidValue(newPoint)) {
         if (d->m_graphTransition)
             d->m_graphTransition->stop();
@@ -263,6 +267,10 @@ void QXYSeries::remove(QPointF point)
 void QXYSeries::remove(qsizetype index)
 {
     Q_D(QXYSeries);
+
+    if (index < 0 || index >= d->m_points.size())
+        return;
+
     d->m_points.remove(index);
 
     bool callSignal = false;
@@ -287,6 +295,10 @@ void QXYSeries::removeMultiple(qsizetype index, qsizetype count)
     // This function doesn't overload remove as there is chance for it to get mixed up with
     // remove(qreal, qreal) overload in some implicit casting cases.
     Q_D(QXYSeries);
+
+    if (index < 0 || count < 1 || index + count > d->m_points.size())
+        return;
+
     if (count > 0) {
         d->m_points.remove(index, count);
 
@@ -355,6 +367,7 @@ bool QXYSeries::take(QPointF point)
 void QXYSeries::insert(qsizetype index, QPointF point)
 {
     Q_D(QXYSeries);
+
     if (isValidValue(point)) {
         index = qMax(0, qMin(index, d->m_points.size()));
 
