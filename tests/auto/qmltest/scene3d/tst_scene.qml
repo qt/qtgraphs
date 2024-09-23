@@ -104,6 +104,15 @@ Item {
             compare(change.scene.secondarySubviewOnTop, false)
             compare(change.scene.selectionQueryPosition, Qt.point(0, 0))
             compare(change.scene.slicingActive, true)
+
+            // Signals
+            compare(devicePixelRatioSpy.count, 2)
+            compare(graphPosQuerySpy.count, 1)
+            compare(primarySubViewportSpy.count, 1)
+            compare(secondarySubViewportSpy.count, 1)
+            compare(secondarySubViewOnTopSpy.count, 1)
+            compare(selectionQueryPosSpy.count, 1)
+            compare(slicingActiveSpy.count, 1)
         }
     }
 
@@ -117,5 +126,47 @@ Item {
             compare(invalid.scene.primarySubViewport.width, 0)
             compare(invalid.scene.primarySubViewport.height, 0)
         }
+    }
+
+    SignalSpy {
+        id: primarySubViewportSpy
+        target: change.scene
+        signalName: "primarySubViewportChanged"
+    }
+
+    SignalSpy {
+        id: secondarySubViewportSpy
+        target: change.scene
+        signalName: "secondarySubViewportChanged"
+    }
+
+    SignalSpy {
+        id: selectionQueryPosSpy
+        target: change.scene
+        signalName: "selectionQueryPositionChanged"
+    }
+
+    SignalSpy {
+        id: secondarySubViewOnTopSpy
+        target: change.scene
+        signalName: "secondarySubviewOnTopChanged"
+    }
+
+    SignalSpy {
+        id: slicingActiveSpy
+        target: change.scene
+        signalName: "slicingActiveChanged"
+    }
+
+    SignalSpy {
+        id: devicePixelRatioSpy
+        target: change.scene
+        signalName: "devicePixelRatioChanged"
+    }
+
+    SignalSpy {
+        id: graphPosQuerySpy
+        target: change.scene
+        signalName: "graphPositionQueryChanged"
     }
 }

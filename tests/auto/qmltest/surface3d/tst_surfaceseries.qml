@@ -213,6 +213,17 @@ Item {
             compare(change.selectedPoint, Qt.point(0, 0))
             compare(change.textureFile, ":\customtexture.jpg")
             compare(change.wireframeColor, "#008000")
+
+            // Signals
+            compare(dataProxySpy.count, 1)
+            compare(selectedPointSpy.count, 1)
+            compare(flatShadingSupportedSpy.count, 0)
+            compare(drawModeSpy.count, 1)
+            compare(shadingSpy.count, 1)
+            compare(textureSpy.count, 1)
+            compare(textureFileSpy.count, 1)
+            compare(wireFrameColorSpy.count, 1)
+            compare(dataArraySpy.count, 1)
         }
 
         function test_3_change_common() {
@@ -253,5 +264,58 @@ Item {
             gradient1.stops[0].color = "yellow"
             compare(change.baseGradient.stops[0].color, "#ffff00")
         }
+    }
+    SignalSpy {
+        id: dataProxySpy
+        target: change
+        signalName: "dataProxyChanged"
+    }
+
+    SignalSpy {
+        id: selectedPointSpy
+        target: change
+        signalName: "selectedPointChanged"
+    }
+
+    SignalSpy {
+        id: flatShadingSupportedSpy
+        target: change
+        signalName: "flatShadingSupportedChanged"
+    }
+
+    SignalSpy {
+        id: drawModeSpy
+        target: change
+        signalName: "drawModeChanged"
+    }
+
+    SignalSpy {
+        id: shadingSpy
+        target: change
+        signalName: "shadingChanged"
+    }
+
+    SignalSpy {
+        id: textureSpy
+        target: change
+        signalName: "textureChanged"
+    }
+
+    SignalSpy {
+        id: textureFileSpy
+        target: change
+        signalName: "textureFileChanged"
+    }
+
+    SignalSpy {
+        id: wireFrameColorSpy
+        target: change
+        signalName: "wireframeColorChanged"
+    }
+
+    SignalSpy {
+        id: dataArraySpy
+        target: change
+        signalName: "dataArrayChanged"
     }
 }

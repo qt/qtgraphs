@@ -86,6 +86,71 @@ Item {
             compare(change.shadowCasting, false)
             compare(change.textureFile, ":\customtexture.jpg")
             compare(change.visible, false)
+
+            // Signals
+            compare(meshFileSpy.count, 1)
+            compare(positionSpy.count, 1)
+            compare(absoluteSpy.count, 1)
+            compare(rotationSpy.count, 1)
+            compare(scalingSpy.count, 1)
+            compare(absoluteSpy2.count, 1)
+            compare(shadowCastingSpy.count, 1)
+            compare(textureFileSpy.count, 1)
+            compare(visibleSpy.count, 1)
         }
+    }
+
+    SignalSpy {
+        id: meshFileSpy
+        target: change
+        signalName: "meshFileChanged"
+    }
+
+    SignalSpy {
+        id: positionSpy
+        target: change
+        signalName: "positionChanged"
+    }
+
+    SignalSpy {
+        id: absoluteSpy
+        target: change
+        signalName: "positionAbsoluteChanged"
+    }
+
+    SignalSpy {
+        id: scalingSpy
+        target: change
+        signalName: "scalingChanged"
+    }
+
+    SignalSpy {
+        id: rotationSpy
+        target: change
+        signalName: "rotationChanged"
+    }
+
+    SignalSpy {
+        id: visibleSpy
+        target: change
+        signalName: "visibleChanged"
+    }
+
+    SignalSpy {
+        id: absoluteSpy2
+        target: change
+        signalName: "scalingAbsoluteChanged"
+    }
+
+    SignalSpy {
+        id: shadowCastingSpy
+        target: change
+        signalName: "shadowCastingChanged"
+    }
+
+    SignalSpy {
+        id: textureFileSpy
+        target: change
+        signalName: "textureFileChanged"
     }
 }
