@@ -120,6 +120,99 @@ Item {
             compare(change.zPosRole, "z")
             compare(change.zPosRolePattern, /-/)
             compare(change.zPosRoleReplace, "\\1")
+
+            // Signals
+            compare(itemModelSpy.count, 1)
+            compare(rotationRoleSpy.count, 1)
+            compare(rotationPatternSpy.count, 1)
+            compare(rotationReplaceSpy.count, 1)
+            compare(xPosRoleSpy.count, 1)
+            compare(xPosPatternSpy.count, 1)
+            compare(xPosReplaceSpy.count, 1)
+            compare(yPosRoleSpy.count, 1)
+            compare(yPosPatternSpy.count, 1)
+            compare(yPosReplaceSpy.count, 1)
+            compare(zPosRoleSpy.count, 1)
+            compare(zPosPatternSpy.count, 1)
+            compare(zPosReplaceSpy.count, 1)
         }
+    }
+
+    SignalSpy {
+        id: itemModelSpy
+        target: change
+        signalName: "itemModelChanged"
+    }
+
+    SignalSpy {
+        id: rotationRoleSpy
+        target: change
+        signalName: "rotationRoleChanged"
+    }
+
+    SignalSpy {
+        id: rotationPatternSpy
+        target: change
+        signalName: "rotationRolePatternChanged"
+    }
+
+    SignalSpy {
+        id: rotationReplaceSpy
+        target: change
+        signalName: "rotationRoleReplaceChanged"
+    }
+
+    SignalSpy {
+        id: xPosRoleSpy
+        target: change
+        signalName: "xPosRoleChanged"
+    }
+
+    SignalSpy {
+        id: xPosPatternSpy
+        target: change
+        signalName: "xPosRolePatternChanged"
+    }
+
+    SignalSpy {
+        id: xPosReplaceSpy
+        target: change
+        signalName: "xPosRoleReplaceChanged"
+    }
+
+    SignalSpy {
+        id: yPosRoleSpy
+        target: change
+        signalName: "yPosRoleChanged"
+    }
+
+    SignalSpy {
+        id: yPosPatternSpy
+        target: change
+        signalName: "yPosRolePatternChanged"
+    }
+
+    SignalSpy {
+        id: yPosReplaceSpy
+        target: change
+        signalName: "yPosRoleReplaceChanged"
+    }
+
+    SignalSpy {
+        id: zPosRoleSpy
+        target: change
+        signalName: "zPosRoleChanged"
+    }
+
+    SignalSpy {
+        id: zPosPatternSpy
+        target: change
+        signalName: "zPosRolePatternChanged"
+    }
+
+    SignalSpy {
+        id: zPosReplaceSpy
+        target: change
+        signalName: "zPosRoleReplaceChanged"
     }
 }

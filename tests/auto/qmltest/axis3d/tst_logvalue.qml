@@ -60,6 +60,11 @@ Item {
             compare(change.autoSubGrid, false)
             compare(change.base, 0.1)
             compare(change.edgeLabelsVisible, false)
+
+            //signals
+            compare(baseSpy.count, 1)
+            compare(autoSubGridSpy.count, 1)
+            compare(edgeLabelVisibilitySpy.count, 1)
         }
     }
 
@@ -72,5 +77,23 @@ Item {
             invalid.base = -1
             compare(invalid.base, 10)
         }
+    }
+
+    SignalSpy {
+        id: baseSpy
+        target: change
+        signalName: "baseChanged"
+    }
+
+    SignalSpy {
+        id: autoSubGridSpy
+        target: change
+        signalName: "autoSubGridChanged"
+    }
+
+    SignalSpy {
+        id: edgeLabelVisibilitySpy
+        target: change
+        signalName: "edgeLabelsVisibleChanged"
     }
 }

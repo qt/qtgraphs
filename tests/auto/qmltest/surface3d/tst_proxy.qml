@@ -181,6 +181,30 @@ Item {
 
             compare(change.columnCount, 0)
             compare(change.rowCount, 0)
+
+            // Signals
+            compare(autoColumnCategoriesSpy.count, 1)
+            compare(autoRowCategoriesSpy.count, 1)
+            compare(columnCategoriesSpy.count, 1)
+            compare(columnRoleSpy.count, 1)
+            compare(columnPatternSpy.count, 1)
+            compare(columnReplaceSpy.count, 1)
+            compare(itemModelSpy.count, 1)
+            compare(multiMatchSpy.count, 1)
+            compare(rowCategoriesSpy.count, 1)
+            compare(rowRoleSpy.count, 1)
+            compare(rowPatternSpy.count, 1)
+            compare(rowReplaceSpy.count, 1)
+            compare(useModelCategoriesSpy.count, 1)
+            compare(xPosSpy.count, 1)
+            compare(xPosPatternSpy.count, 1)
+            compare(xPosReplaceSpy.count, 1)
+            compare(yPosSpy.count, 1)
+            compare(yPosPatternSpy.count, 1)
+            compare(yPosReplaceSpy.count, 1)
+            compare(zPosSpy.count, 1)
+            compare(zPosPatternSpy.count, 1)
+            compare(zPosReplaceSpy.count, 1)
         }
     }
 
@@ -250,5 +274,137 @@ Item {
         function test_9_test_multimatch() {
             compare(surface1.axisY.max, 20)
         }
+    }
+
+    SignalSpy {
+        id: itemModelSpy
+        target: change
+        signalName: "itemModelChanged"
+    }
+
+    SignalSpy {
+        id: rowRoleSpy
+        target: change
+        signalName: "rowRoleChanged"
+    }
+
+    SignalSpy {
+        id: columnRoleSpy
+        target: change
+        signalName: "columnRoleChanged"
+    }
+
+    SignalSpy {
+        id: xPosSpy
+        target: change
+        signalName: "xPosRoleChanged"
+    }
+
+    SignalSpy {
+        id: yPosSpy
+        target: change
+        signalName: "yPosRoleChanged"
+    }
+
+    SignalSpy {
+        id: zPosSpy
+        target: change
+        signalName: "zPosRoleChanged"
+    }
+
+    SignalSpy {
+        id: rowCategoriesSpy
+        target: change
+        signalName: "rowCategoriesChanged"
+    }
+
+    SignalSpy {
+        id: columnCategoriesSpy
+        target: change
+        signalName: "columnCategoriesChanged"
+    }
+
+    SignalSpy {
+        id: useModelCategoriesSpy
+        target: change
+        signalName: "useModelCategoriesChanged"
+    }
+
+    SignalSpy {
+        id: autoRowCategoriesSpy
+        target: change
+        signalName: "autoRowCategoriesChanged"
+    }
+
+    SignalSpy {
+        id: autoColumnCategoriesSpy
+        target: change
+        signalName: "autoColumnCategoriesChanged"
+    }
+
+    SignalSpy {
+        id: rowPatternSpy
+        target: change
+        signalName: "rowRolePatternChanged"
+    }
+
+    SignalSpy {
+        id: columnPatternSpy
+        target: change
+        signalName: "columnRolePatternChanged"
+    }
+
+    SignalSpy {
+        id: xPosPatternSpy
+        target: change
+        signalName: "xPosRolePatternChanged"
+    }
+
+    SignalSpy {
+        id: yPosPatternSpy
+        target: change
+        signalName: "yPosRolePatternChanged"
+    }
+
+    SignalSpy {
+        id: rowReplaceSpy
+        target: change
+        signalName: "rowRoleReplaceChanged"
+    }
+
+    SignalSpy {
+        id: columnReplaceSpy
+        target: change
+        signalName: "columnRoleReplaceChanged"
+    }
+
+    SignalSpy {
+        id: zPosPatternSpy
+        target: change
+        signalName: "zPosRolePatternChanged"
+    }
+
+    SignalSpy {
+        id: xPosReplaceSpy
+        target: change
+        signalName: "xPosRoleReplaceChanged"
+    }
+
+    SignalSpy {
+        id: yPosReplaceSpy
+        target: change
+        signalName: "yPosRoleReplaceChanged"
+    }
+
+    SignalSpy {
+        id: zPosReplaceSpy
+        target: change
+        signalName: "zPosRoleReplaceChanged"
+    }
+
+    SignalSpy {
+        id: multiMatchSpy
+        target: change
+        signalName: "multiMatchBehaviorChanged"
     }
 }

@@ -114,6 +114,101 @@ Item {
             compare(change.scaling, Qt.vector3d(0.2, 0.2, 0.2))
             compare(change.shadowCasting, true)
             compare(change.visible, false)
+
+            // signals
+            compare(backgroundColorSpy.count, 1)
+            compare(backgroundVisibleSpy.count, 1)
+            compare(borderVisibleSpy.count, 1)
+            compare(facingCameraSpy.count, 1)
+            compare(fontSpy.count, 1)
+            compare(textSpy.count, 1)
+            compare(textColorSpy.count, 1)
+
+            // common signals
+            compare(positionSpy.count, 1)
+            compare(absoluteSpy.count, 1)
+            compare(rotationSpy.count, 1)
+            compare(scalingSpy.count, 1)
+            compare(shadowCastingSpy.count, 1)
+            compare(visibleSpy.count, 1)
         }
+    }
+
+    SignalSpy {
+        id: backgroundColorSpy
+        target: change
+        signalName: "backgroundColorChanged"
+    }
+
+    SignalSpy {
+        id: backgroundVisibleSpy
+        target: change
+        signalName: "backgroundVisibleChanged"
+    }
+
+    SignalSpy {
+        id: borderVisibleSpy
+        target: change
+        signalName: "borderVisibleChanged"
+    }
+
+    SignalSpy {
+        id: facingCameraSpy
+        target: change
+        signalName: "facingCameraChanged"
+    }
+
+    SignalSpy {
+        id: fontSpy
+        target: change
+        signalName: "fontChanged"
+    }
+
+    SignalSpy {
+        id: textSpy
+        target: change
+        signalName: "textChanged"
+    }
+
+    SignalSpy {
+        id: textColorSpy
+        target: change
+        signalName: "textColorChanged"
+    }
+
+    SignalSpy {
+        id: positionSpy
+        target: change
+        signalName: "positionChanged"
+    }
+
+    SignalSpy {
+        id: absoluteSpy
+        target: change
+        signalName: "positionAbsoluteChanged"
+    }
+
+    SignalSpy {
+        id: rotationSpy
+        target: change
+        signalName: "rotationChanged"
+    }
+
+    SignalSpy {
+        id: scalingSpy
+        target: change
+        signalName: "scalingChanged"
+    }
+
+    SignalSpy {
+        id: shadowCastingSpy
+        target: change
+        signalName: "shadowCastingChanged"
+    }
+
+    SignalSpy {
+        id: visibleSpy
+        target: change
+        signalName: "visibleChanged"
     }
 }

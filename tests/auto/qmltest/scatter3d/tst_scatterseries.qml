@@ -156,14 +156,19 @@ Item {
 
         function test_1_change() {
             change.itemSize = 0.5
-            change.selectedItem = 0
+            change.selectedItem = 1
         }
 
         function test_2_test_change() {
             // This test has a dependency to the previous one due to asynchronous item model resolving
             compare(change.dataProxy.itemCount, 3)
             compare(change.itemSize, 0.5)
-            compare(change.selectedItem, 0)
+            compare(change.selectedItem, 1)
+
+            // Signals
+            compare(itemSizeSpy.count, 1)
+            compare(selectedItemSpy.count, 0)
+            compare(dataProxySpy.count, 1)
         }
 
         function test_3_change_common() {
@@ -198,6 +203,23 @@ Item {
             compare(change.singleHighlightGradient, gradient3)
             compare(change.userDefinedMesh, ":/customitem.obj")
             compare(change.visible, false)
+
+            // Signals
+            compare(baseColorSpy.count, 1)
+            compare(baseGradientSpy.count, 1)
+            compare(colorStyleSpy.count, 1)
+            compare(labelFormatSpy.count, 1)
+            compare(labelVisibleSpy.count, 1)
+            compare(meshSpy.count, 1)
+            compare(meshRotationSpy.count, 1)
+            compare(meshSmoothSpy.count, 1)
+            compare(nameSpy.count, 1)
+            compare(userDefinedMeshSpy.count, 1)
+            compare(visibleSpy.count, 1)
+            compare(singleHLColorSpy.count, 1)
+            compare(singleGradientSpy.count, 1)
+            compare(multiHLColorSpy.count, 1)
+            compare(multiGradientSpy.count, 1)
         }
 
         function test_4_change_gradient_stop() {
@@ -214,5 +236,113 @@ Item {
             invalid.itemSize = 1.1
             compare(invalid.itemSize, 0.0)
         }
+    }
+
+    SignalSpy {
+        id: dataProxySpy
+        target: change
+        signalName: "dataProxyChanged"
+    }
+
+    SignalSpy {
+        id: selectedItemSpy
+        target: change
+        signalName: "selectedItemsChanged"
+    }
+
+    SignalSpy {
+        id: itemSizeSpy
+        target: change
+        signalName: "itemSizeChanged"
+    }
+
+    SignalSpy {
+        id: baseColorSpy
+        target: change
+        signalName: "baseColorChanged"
+    }
+
+    SignalSpy {
+        id: baseGradientSpy
+        target: change
+        signalName: "baseGradientChanged"
+    }
+
+    SignalSpy {
+        id: colorStyleSpy
+        target: change
+        signalName: "colorStyleChanged"
+    }
+
+    SignalSpy {
+        id: labelFormatSpy
+        target: change
+        signalName: "itemLabelFormatChanged"
+    }
+
+    SignalSpy {
+        id: labelVisibleSpy
+        target: change
+        signalName: "itemLabelVisibleChanged"
+    }
+
+    SignalSpy {
+        id: meshSpy
+        target: change
+        signalName: "meshChanged"
+    }
+
+    SignalSpy {
+        id: meshRotationSpy
+        target: change
+        signalName: "meshRotationChanged"
+    }
+
+    SignalSpy {
+        id: meshSmoothSpy
+        target: change
+        signalName: "meshSmoothChanged"
+    }
+
+    SignalSpy {
+        id: nameSpy
+        target: change
+        signalName: "nameChanged"
+    }
+
+    SignalSpy {
+        id: singleHLColorSpy
+        target: change
+        signalName: "singleHighlightColorChanged"
+    }
+
+    SignalSpy {
+        id: singleGradientSpy
+        target: change
+        signalName: "singleHighlightGradientChanged"
+    }
+
+    SignalSpy {
+        id: multiHLColorSpy
+        target: change
+        signalName: "multiHighlightColorChanged"
+    }
+
+    SignalSpy {
+        id: multiGradientSpy
+        target: change
+        signalName: "multiHighlightGradientChanged"
+    }
+
+    SignalSpy {
+        id: userDefinedMeshSpy
+        target: change
+        signalName: "userDefinedMeshChanged"
+    }
+
+    SignalSpy {
+        id: visibleSpy
+        target: change
+        signalName: "visibleChanged"
     }
 }
