@@ -201,18 +201,10 @@ private:
     int getSeriesRendererIndex(QAbstractSeries *series);
 
     AxisRenderer *m_axisRenderer = nullptr;
-#ifdef USE_BARGRAPH
     BarsRenderer *m_barsRenderer = nullptr;
-#endif
-#ifdef USE_POINTS
     PointRenderer *m_pointRenderer = nullptr;
-#endif
-#ifdef USE_PIEGRAPH
     PieRenderer *m_pieRenderer = nullptr;
-#endif
-#ifdef USE_AREAGRAPH
     AreaRenderer *m_areaRenderer = nullptr;
-#endif
     QList<QObject *> m_seriesList;
     QHash<int, QList<QAbstractSeries *>> m_cleanupSeriesList;
     QQuickRectangle *m_backgroundRectangle = nullptr;
