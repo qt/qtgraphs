@@ -114,6 +114,7 @@ void QXYSeries::append(QPointF point)
 
         d->m_points << point;
         emit pointAdded(d->m_points.size() - 1);
+        emit countChanged();
     }
 }
 
@@ -221,8 +222,11 @@ void QXYSeries::replace(qsizetype index, QPointF newPoint)
 void QXYSeries::replace(const QList<QPointF> &points)
 {
     Q_D(QXYSeries);
+    bool hasDifferentSize = d->m_points.size() != points.size();
     d->m_points = points;
     emit pointsReplaced();
+    if (hasDifferentSize)
+        emit countChanged();
 }
 
 /*!
@@ -277,6 +281,7 @@ void QXYSeries::remove(qsizetype index)
     d->setPointSelected(index, false, callSignal);
 
     emit pointRemoved(index);
+    emit countChanged();
     if (callSignal)
         emit selectedPointsChanged();
 }
@@ -321,6 +326,7 @@ void QXYSeries::removeMultiple(qsizetype index, qsizetype count)
         }
 
         emit pointsRemoved(index, count);
+        emit countChanged();
         if (callSignal)
             emit selectedPointsChanged();
     }
@@ -614,6 +620,20 @@ QList<qsizetype> QXYSeries::selectedPoints() const
 }
 
 /*!
+    \property QXYSeries::count
+    \brief Returns the number of data points in a series.
+*/
+/*!
+    \qmlproperty int XYSeries::count
+    Returns the number of data points in a series.
+*/
+qsizetype QXYSeries::count() const
+{
+    Q_D(const QXYSeries);
+    return d->m_points.size();
+}
+
+/*!
     Returns the points in the series.
 */
 QList<QPointF> QXYSeries::points() const
@@ -656,19 +676,6 @@ qsizetype QXYSeries::find(QPointF point) const
     }
 
     return -1;
-}
-
-/*!
-    \qmlmethod int XYSeries::count()
-    Returns the number of data points in a series.
-*/
-/*!
-    Returns the number of data points in a series.
-*/
-qsizetype QXYSeries::count() const
-{
-    Q_D(const QXYSeries);
-    return d->m_points.size();
 }
 
 QXYSeries::~QXYSeries() {}
