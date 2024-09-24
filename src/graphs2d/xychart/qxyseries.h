@@ -25,6 +25,7 @@ class Q_GRAPHS_EXPORT QXYSeries : public QAbstractSeries
     Q_PROPERTY(QQmlComponent *pointDelegate READ pointDelegate WRITE setPointDelegate NOTIFY pointDelegateChanged FINAL)
     Q_PROPERTY(bool draggable READ isDraggable WRITE setDraggable NOTIFY draggableChanged FINAL)
     Q_PROPERTY(QList<qsizetype> selectedPoints READ selectedPoints NOTIFY selectedPointsChanged FINAL)
+    Q_PROPERTY(qsizetype count READ count NOTIFY countChanged FINAL)
 
 protected:
     explicit QXYSeries(QXYSeriesPrivate &dd, QObject *parent = nullptr);
@@ -47,7 +48,6 @@ public:
     Q_INVOKABLE qsizetype find(QPointF point) const;
     Q_INVOKABLE void removeMultiple(qsizetype index, qsizetype count);
     Q_INVOKABLE bool take(QPointF point);
-    Q_INVOKABLE qsizetype count() const;
 
     ~QXYSeries() override;
 
@@ -61,6 +61,8 @@ public:
 
     void setSelectedColor(QColor color);
     QColor selectedColor() const;
+
+    qsizetype count() const;
 
     Q_INVOKABLE bool isPointSelected(qsizetype index) const;
     Q_INVOKABLE void selectPoint(qsizetype index);
@@ -94,6 +96,7 @@ Q_SIGNALS:
     void pointDelegateChanged();
     void draggableChanged();
     void seriesUpdated();
+    void countChanged();
 
 private:
     friend class PointRenderer;

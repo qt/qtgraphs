@@ -279,7 +279,7 @@ Item {
                 property var points: []
 
                 Component.onCompleted: {
-                    for (let i = 0; i < altitudeLine.count(); ++i) {
+                    for (let i = 0; i < altitudeLine.count; ++i) {
                         points[i] = altitudeLine.at(i)
                     }
                 }
@@ -297,7 +297,7 @@ Item {
 
                             points.length = 0
 
-                            for (let i = 0; i < altitudeLine.count(); ++i) {
+                            for (let i = 0; i < altitudeLine.count; ++i) {
                                 points[i] = altitudeLine.at(i)
                             }
                         }
