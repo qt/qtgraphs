@@ -93,10 +93,10 @@ Item {
 
                 if (delta < 0) {
                     delta = Math.abs(delta)
-                    removeMultiple(count() - 1 - delta, delta)
+                    removeMultiple(count - 1 - delta, delta)
                 } else {
                     for (let i = 0; i < delta; ++i) {
-                        append(((count() + i)/divisions) * 8.0, 4.0)
+                        append(((count + i)/divisions) * 8.0, 4.0)
                     }
                 }
 
