@@ -38,6 +38,11 @@ QGraphPointAnimation::QGraphPointAnimation(QObject *parent)
 
 QGraphPointAnimation::~QGraphPointAnimation() {}
 
+QGraphAnimation::GraphAnimationType QGraphPointAnimation::animationType()
+{
+    return QGraphAnimation::GraphAnimationType::GraphPoint;
+}
+
 void QGraphPointAnimation::setAnimatingValue(const QVariant &start, const QVariant &end)
 {
     setStartValue(start);
@@ -64,7 +69,7 @@ void QGraphPointAnimation::animate()
     // Hierarchy should look like GraphAnimation -> ParallelAnimationGroup -> GraphTransition -> QXYSeries
     auto series = qobject_cast<QXYSeries *>(parent()->parent()->parent());
 
-    if (!series || series->points().size() < 2)
+    if (!series)
         return;
 
     if (animating() == QGraphAnimation::AnimationState::Playing) {
@@ -79,66 +84,67 @@ void QGraphPointAnimation::animate()
     switch (m_currentTransitionType) {
     default:
     case QGraphTransition::TransitionType::PointAdded: {
-        auto startv = QVariant::fromValue(pointList[pointList.size() - 2]);
-        auto endv = QVariant::fromValue(pointList[pointList.size() - 1]);
+        pointList.append(series->points().size() >= 1 ? pointList.last() : m_newPoint);
+
+        auto startv = QVariant::fromValue(pointList.last());
+        auto endv = QVariant::fromValue(m_newPoint);
 
         setAnimatingValue(startv, endv);
     } break;
     case QGraphTransition::TransitionType::PointReplaced: {
-        auto startv = QVariant::fromValue(m_pointsState[m_activePointIndex]);
-        auto endv = QVariant::fromValue(pointList[m_newPointIndex]);
+        auto startv = QVariant::fromValue(pointList[m_activePointIndex]);
+        auto endv = QVariant::fromValue(m_newPoint);
 
         setAnimatingValue(startv, endv);
     } break;
     case QGraphTransition::TransitionType::PointRemoved: {
-        pointList.insert(m_newPointIndex, m_pointsState[m_newPointIndex]);
-        auto startv = QVariant::fromValue(m_pointsState[m_newPointIndex]);
+        if (series->points().size() < 1)
+            break;
 
-        if (m_newPointIndex == 0 || m_newPointIndex == m_pointsState.size() - 1) {
-            auto endv = QVariant::fromValue(m_pointsState[m_newPointIndex - 1]);
-            setAnimatingValue(startv, endv);
-        } else {
-            auto lastPoint = m_pointsState[m_newPointIndex - 1];
-            auto nextPoint = m_pointsState[m_newPointIndex + 1];
-            auto midpoint = QPointF{
-                qreal((nextPoint.x() + lastPoint.x()) * 0.5),
-                qreal((nextPoint.y() + lastPoint.y()) * 0.5),
-            };
+        auto startv = QVariant::fromValue(pointList[pointList.size() - 1]);
+        auto endv = QVariant::fromValue(
+            pointList[pointList.size() > 1 ? pointList.size() - 2 : pointList.size() - 1]);
 
-            auto endv = QVariant::fromValue(midpoint);
-            setAnimatingValue(startv, endv);
-        }
+        setAnimatingValue(startv, endv);
     } break;
     }
 
-    m_pointsState = pointList;
+    m_previousTransitionType = m_currentTransitionType;
 }
 
 void QGraphPointAnimation::end()
 {
     auto series = qobject_cast<QXYSeries *>(parent()->parent()->parent());
 
-    if (!series || animating() == QGraphAnimation::AnimationState::Stopped)
+    if (!series || animating() == QGraphAnimation::AnimationState::Stopped) {
+        m_previousTransitionType = m_currentTransitionType;
         return;
+    }
 
     setAnimating(QGraphAnimation::AnimationState::Stopped);
     stop();
 
     auto &points = series->d_func()->m_points;
 
-    switch (m_currentTransitionType) {
+    switch (m_previousTransitionType) {
     default:
     case QGraphTransition::TransitionType::PointAdded: {
         points.replace(m_activePointIndex, qvariant_cast<QPointF>(endValue()));
+        emit series->pointAdded(points.size() - 1);
+        emit series->countChanged();
     } break;
     case QGraphTransition::TransitionType::PointReplaced: {
-        m_pointsState.replace(m_activePointIndex, qvariant_cast<QPointF>(endValue()));
+        points.replace(m_activePointIndex, qvariant_cast<QPointF>(endValue()));
+        emit series->pointReplaced(m_activePointIndex);
     } break;
     case QGraphTransition::TransitionType::PointRemoved: {
-        points.remove(m_activePointIndex);
+        points.remove(points.size() - 1);
+        emit series->countChanged();
+        emit series->pointRemoved(points.size() - 1);
     } break;
     }
 
+    m_previousTransitionType = m_currentTransitionType;
     emit series->update();
 }
 
@@ -161,7 +167,8 @@ void QGraphPointAnimation::valueUpdated(const QVariant &value)
         points.replace(m_activePointIndex, val);
     } break;
     case QGraphTransition::TransitionType::PointRemoved: {
-        points.replace(m_activePointIndex, val);
+        if (points.size() > 1)
+            points.replace(points.size() - 1, val);
     } break;
     }
 

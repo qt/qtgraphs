@@ -16,10 +16,9 @@
 #include <QObject>
 #include <QParallelAnimationGroup>
 #include <QQmlEngine>
+#include <private/qgraphanimation_p.h>
 
 QT_BEGIN_NAMESPACE
-
-class QGraphAnimation;
 
 class QGraphTransition : public QObject, public QQmlParserStatus
 {
@@ -31,6 +30,7 @@ class QGraphTransition : public QObject, public QQmlParserStatus
 
 public:
     enum class TransitionType {
+        None,
         PointAdded,
         PointReplaced,
         PointRemoved,
@@ -42,9 +42,12 @@ public:
     ~QGraphTransition() override;
     QQmlListProperty<QObject> animations();
 
-    void onPointChanged(TransitionType type, int index);
+    void onPointChanged(TransitionType type, int index, QPointF point);
     void initialize();
     void stop();
+
+    bool initialized();
+    bool contains(QGraphAnimation::GraphAnimationType type);
 
 protected:
     void classBegin() override;
@@ -53,6 +56,7 @@ protected:
 private:
     QList<QGraphAnimation *> m_animations;
     QParallelAnimationGroup m_animationGroup;
+    bool m_initialized;
 
     static void append(QQmlListProperty<QObject> *, QObject *);
     static void clear(QQmlListProperty<QObject> *);

@@ -27,10 +27,11 @@ class QGraphPointAnimation : public QXYSeriesAnimation
     Q_OBJECT
     QML_NAMED_ELEMENT(GraphPointAnimation)
 
-public:    
+public:
     explicit QGraphPointAnimation(QObject *parent = nullptr);
     ~QGraphPointAnimation() override;
 
+    GraphAnimationType animationType() override;
     void setAnimatingValue(const QVariant &start, const QVariant &end) override;
     QVariant interpolated(const QVariant &start, const QVariant &end, qreal progress) const override;
 

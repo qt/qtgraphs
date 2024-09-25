@@ -9,16 +9,14 @@ QXYSeriesAnimation::QXYSeriesAnimation(QObject *parent)
 
 QXYSeriesAnimation::~QXYSeriesAnimation() {}
 
-// Hold state so previous values can be lerped
-void QXYSeriesAnimation::initialize(const QList<QPointF> &state)
-{
-    m_pointsState = state;
-}
-
-void QXYSeriesAnimation::updateCurrent(QGraphTransition::TransitionType tt, int index)
+void QXYSeriesAnimation::updateCurrent(QGraphTransition::TransitionType tt, int index, QPointF point)
 {
     m_currentTransitionType = tt;
     m_newPointIndex = index;
+    m_newPoint = point;
+
+    if (m_previousTransitionType == QGraphTransition::TransitionType::None)
+        m_previousTransitionType = m_currentTransitionType;
 
     if (animating() == QGraphAnimation::AnimationState::Stopped)
         m_activePointIndex = index;
