@@ -81,6 +81,7 @@ QXYSeries::QXYSeries(QXYSeriesPrivate &dd, QObject *parent)
     QObject::connect(this, &QXYSeries::selectedPointsChanged, this, &QAbstractSeries::update);
     QObject::connect(this, &QXYSeries::pointAdded, this, &QAbstractSeries::update);
     QObject::connect(this, &QXYSeries::pointReplaced, this, &QAbstractSeries::update);
+    QObject::connect(this, &QXYSeries::pointsReplaced, this, &QAbstractSeries::update);
     QObject::connect(this, &QXYSeries::pointRemoved, this, &QAbstractSeries::update);
     QObject::connect(this, &QXYSeries::pointsRemoved, this, &QAbstractSeries::update);
 }
