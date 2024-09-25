@@ -14,7 +14,6 @@
 #define QGRAPHANIMATION_H
 
 #include <QtCore/QVariantAnimation>
-#include "private/qgraphtransition_p.h"
 
 QT_BEGIN_NAMESPACE
 
@@ -33,9 +32,13 @@ public:
     };
     Q_ENUM(AnimationState);
 
+    enum class GraphAnimationType { GraphPoint, ControlPoint };
+    Q_ENUM(GraphAnimationType);
+
     explicit QGraphAnimation(QObject *parent = nullptr);
     ~QGraphAnimation() override;
 
+    virtual GraphAnimationType animationType() = 0;
     virtual void setAnimatingValue(const QVariant &start, const QVariant &end) = 0;
     virtual void animate() = 0;
     virtual void end() = 0;

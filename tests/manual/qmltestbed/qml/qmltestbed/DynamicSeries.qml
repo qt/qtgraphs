@@ -90,7 +90,6 @@ Rectangle {
                     return
 
                 spline.append(++v, Math.random() * chartView.yMax)
-                spline.update()
             }
         }
 
@@ -111,7 +110,6 @@ Rectangle {
                 sbox.value = Math.min(v, sbox.value)
 
                 spline.replace(sbox.value, sbox.value, Math.random() * chartView.yMax)
-                spline.update()
             }
         }
 
@@ -120,11 +118,13 @@ Rectangle {
             text: "Remove Point"
             anchors.left: parent.left
             anchors.right: parent.right
-            enabled: false
+            enabled: true
 
             onClicked: {
+                if (v == 0)
+                    return
+
                 spline.remove(v--)
-                spline.update()
             }
         }
 
@@ -150,7 +150,6 @@ Rectangle {
                     return
 
                 line.append(++v, Math.random() * chartView.yMax)
-                line.update()
             }
         }
 
@@ -171,7 +170,6 @@ Rectangle {
                 lbox.value = Math.min(v, lbox.value)
 
                 line.replace(lbox.value, lbox.value, Math.random() * chartView.yMax)
-                line.update()
             }
         }
 
@@ -180,11 +178,13 @@ Rectangle {
             text: "Remove Point"
             anchors.left: parent.left
             anchors.right: parent.right
-            enabled: false
+            enabled: true
 
             onClicked: {
+                if (v == 0)
+                    return
+
                 line.remove(v--)
-                line.update()
             }
         }
     }

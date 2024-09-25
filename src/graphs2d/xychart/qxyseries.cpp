@@ -109,12 +109,17 @@ void QXYSeries::append(QPointF point)
     Q_D(QXYSeries);
 
     if (isValidValue(point)) {
-        if (d->m_graphTransition)
+        if (d->m_graphTransition && d->m_graphTransition->initialized()
+            && d->m_graphTransition->contains(QGraphAnimation::GraphAnimationType::GraphPoint)) {
             d->m_graphTransition->stop();
-
-        d->m_points << point;
-        emit pointAdded(d->m_points.size() - 1);
-        emit countChanged();
+            d->m_graphTransition->onPointChanged(QGraphTransition::TransitionType::PointAdded,
+                                                 d->m_points.size(),
+                                                 point);
+        } else {
+            d->m_points << point;
+            emit pointAdded(d->m_points.size() - 1);
+            emit countChanged();
+        }
     }
 }
 
@@ -194,11 +199,16 @@ void QXYSeries::replace(qsizetype index, QPointF newPoint)
 {
     Q_D(QXYSeries);
     if (isValidValue(newPoint)) {
-        if (d->m_graphTransition)
+        if (d->m_graphTransition && d->m_graphTransition->initialized()
+            && d->m_graphTransition->contains(QGraphAnimation::GraphAnimationType::GraphPoint)) {
             d->m_graphTransition->stop();
-
-        d->m_points[index] = newPoint;
-        emit pointReplaced(index);
+            d->m_graphTransition->onPointChanged(QGraphTransition::TransitionType::PointReplaced,
+                                                 index,
+                                                 newPoint);
+        } else {
+            d->m_points[index] = newPoint;
+            emit pointReplaced(index);
+        }
     }
 }
 
@@ -267,15 +277,26 @@ void QXYSeries::remove(QPointF point)
 void QXYSeries::remove(qsizetype index)
 {
     Q_D(QXYSeries);
-    d->m_points.remove(index);
 
-    bool callSignal = false;
-    d->setPointSelected(index, false, callSignal);
+    if (index < 0 || index >= d->m_points.size())
+        return;
 
-    emit pointRemoved(index);
-    emit countChanged();
-    if (callSignal)
-        emit selectedPointsChanged();
+    if (d->m_graphTransition && d->m_graphTransition->initialized()
+        && d->m_graphTransition->contains(QGraphAnimation::GraphAnimationType::GraphPoint)) {
+        d->m_graphTransition->stop();
+        d->m_graphTransition->onPointChanged(QGraphTransition::TransitionType::PointRemoved,
+                                             index,
+                                             {});
+    } else {
+        d->m_points.remove(index);
+        bool callSignal = false;
+        d->setPointSelected(index, false, callSignal);
+
+        emit pointRemoved(index);
+        emit countChanged();
+        if (callSignal)
+            emit selectedPointsChanged();
+    }
 }
 
 /*!

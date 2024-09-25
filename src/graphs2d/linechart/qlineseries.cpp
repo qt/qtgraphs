@@ -96,24 +96,6 @@ void QLineSeries::componentComplete()
     if (d->m_graphTransition)
         d->m_graphTransition->initialize();
 
-    connect(this, &QLineSeries::pointAdded, this, [d]([[maybe_unused]] int index) {
-        if (d->m_graphTransition)
-            d->m_graphTransition->onPointChanged(QGraphTransition::TransitionType::PointAdded,
-                                                 index);
-    });
-
-    connect(this, &QLineSeries::pointRemoved, this, [d]([[maybe_unused]] int index) {
-        if (d->m_graphTransition)
-            d->m_graphTransition->onPointChanged(QGraphTransition::TransitionType::PointRemoved,
-                                                 index);
-    });
-
-    connect(this, &QLineSeries::pointReplaced, this, [d]([[maybe_unused]] int index) {
-        if (d->m_graphTransition)
-            d->m_graphTransition->onPointChanged(QGraphTransition::TransitionType::PointReplaced,
-                                                 index);
-    });
-
     QAbstractSeries::componentComplete();
 }
 

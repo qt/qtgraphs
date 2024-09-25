@@ -81,30 +81,15 @@ void QSplineSeries::componentComplete()
         d->m_graphTransition->initialize();
 
     connect(this, &QSplineSeries::pointAdded, this, [d]([[maybe_unused]] int index) {
-        if (d->m_graphTransition) {
-            d->m_graphTransition->onPointChanged(QGraphTransition::TransitionType::PointAdded,
-                                                 index);
-        } else {
-            d->calculateSplinePoints();
-        }
+        d->calculateSplinePoints();
     });
 
     connect(this, &QSplineSeries::pointRemoved, this, [d]([[maybe_unused]] int index) {
-        if (d->m_graphTransition) {
-            d->m_graphTransition->onPointChanged(QGraphTransition::TransitionType::PointRemoved,
-                                                 index);
-        } else {
-            d->calculateSplinePoints();
-        }
+        d->calculateSplinePoints();
     });
 
     connect(this, &QSplineSeries::pointReplaced, this, [d]([[maybe_unused]] int index) {
-        if (d->m_graphTransition) {
-            d->m_graphTransition->onPointChanged(QGraphTransition::TransitionType::PointReplaced,
-                                                 index);
-        } else {
-            d->calculateSplinePoints();
-        }
+        d->calculateSplinePoints();
     });
 
     connect(this, &QSplineSeries::pointsReplaced, this, [d]() { d->calculateSplinePoints(); });
