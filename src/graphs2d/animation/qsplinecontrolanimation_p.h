@@ -29,21 +29,15 @@ public:
     explicit QSplineControlAnimation(QObject *parent = nullptr);
     ~QSplineControlAnimation() override;
 
+    GraphAnimationType animationType() override;
     void setAnimatingValue(const QVariant &start, const QVariant &end) override;
     QVariant interpolated(const QVariant &start, const QVariant &end, qreal progress) const override;
 
     void animate() override;
     void end() override;
 
-    void setOldState(const QList<QPointF> &oldState);
-    void setNewState(const QList<QPointF> &newState);
-
 public Q_SLOTS:
     void valueUpdated(const QVariant &value) override;
-
-private:
-    QList<QPointF> m_oldState;
-    QList<QPointF> m_newState;
 };
 
 QT_END_NAMESPACE

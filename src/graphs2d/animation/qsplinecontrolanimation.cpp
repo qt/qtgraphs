@@ -36,6 +36,11 @@ QSplineControlAnimation::QSplineControlAnimation(QObject *parent)
 
 QSplineControlAnimation::~QSplineControlAnimation() {}
 
+QGraphAnimation::GraphAnimationType QSplineControlAnimation::animationType()
+{
+    return QGraphAnimation::GraphAnimationType::ControlPoint;
+}
+
 void QSplineControlAnimation::setAnimatingValue(const QVariant &start, const QVariant &end)
 {
     setStartValue(start);
@@ -50,10 +55,10 @@ QVariant QSplineControlAnimation::interpolated(const QVariant &start,
     auto endList = qvariant_cast<QList<QPointF>>(end);
     auto interpolateList = QList<QPointF>();
 
-    for (int i = 0; i < endList.size(); ++i) {
+    for (int i = 0; i < qMin(startList.size(), endList.size()); ++i) {
         interpolateList.push_back(
-                { qreal(startList[i].x() * (1.0 - progress) + endList[i].x() * progress),
-                  qreal(startList[i].y() * (1.0 - progress) + endList[i].y() * progress) });
+            {qreal(startList[i].x() * (1.0 - progress) + endList[i].x() * progress),
+             qreal(startList[i].y() * (1.0 - progress) + endList[i].y() * progress)});
     }
 
     return QVariant::fromValue(interpolateList);
@@ -64,17 +69,22 @@ void QSplineControlAnimation::animate()
     // Hierarchy should look like GraphAnimation -> ParallelAnimationGroup -> GraphTransition -> SplineSeries
     auto series = qobject_cast<QSplineSeries *>(parent()->parent()->parent());
 
-    if (!series || series->points().size() < 2)
+    if (!series || series->points().size() < 1)
         return;
 
     auto pointList = series->points();
+    auto &cPoints = series->d_func()->m_controlPoints;
 
     if (animating() == QGraphAnimation::AnimationState::Playing)
         end();
 
     setAnimating(QGraphAnimation::AnimationState::Playing);
 
-    while (m_oldState.size() < m_newState.size()) {
+    auto oldPoints = cPoints;
+
+    series->d_func()->calculateSplinePoints();
+
+    while (oldPoints.size() < cPoints.size()) {
         // Each point corresponds to a 2n - 1 control point pair other than the first
         // (Except when there are only 2 points)
         // 0 ---- 0
@@ -82,12 +92,12 @@ void QSplineControlAnimation::animate()
         //   ---- 2
         // 2 ---- 3
         //   ---- 4 ...
-        QPointF point = pointList[m_oldState.size() / 2];
-        m_oldState.append(point);
+        QPointF point = pointList[oldPoints.size() / 2];
+        oldPoints.append(point);
     }
 
-    auto varStart = QVariant::fromValue(m_oldState);
-    auto varEnd = QVariant::fromValue(m_newState);
+    auto varStart = QVariant::fromValue(oldPoints);
+    auto varEnd = QVariant::fromValue(cPoints);
 
     setAnimatingValue(varStart, varEnd);
 }
@@ -102,17 +112,9 @@ void QSplineControlAnimation::end()
     setAnimating(QGraphAnimation::AnimationState::Stopped);
     stop();
 
+    series->d_func()->calculateSplinePoints();
+
     emit series->update();
-}
-
-void QSplineControlAnimation::setOldState(const QList<QPointF> &oldState)
-{
-    m_oldState = oldState;
-}
-
-void QSplineControlAnimation::setNewState(const QList<QPointF> &newState)
-{
-    m_newState = newState;
 }
 
 void QSplineControlAnimation::valueUpdated(const QVariant &value)
@@ -125,7 +127,7 @@ void QSplineControlAnimation::valueUpdated(const QVariant &value)
     auto &cPoints = series->d_func()->m_controlPoints;
     auto points = qvariant_cast<QList<QPointF>>(value);
 
-    for (int i = 0; i < points.size(); ++i)
+    for (int i = 0; i < qMin(points.size(), cPoints.size()); ++i)
         cPoints.replace(i, points[i]);
 
     emit series->update();

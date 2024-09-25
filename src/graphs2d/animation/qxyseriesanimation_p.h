@@ -15,7 +15,7 @@
 
 #include <QtCore/QObject>
 #include <QtCore/QPointF>
-#include "private/qgraphanimation_p.h"
+#include "private/qgraphtransition_p.h"
 
 QT_BEGIN_NAMESPACE
 
@@ -26,14 +26,14 @@ public:
     explicit QXYSeriesAnimation(QObject *parent = nullptr);
     ~QXYSeriesAnimation() override;
 
-    void initialize(const QList<QPointF> &state);
-    void updateCurrent(QGraphTransition::TransitionType tt, int index);
+    void updateCurrent(QGraphTransition::TransitionType tt, int index, QPointF point);
 
 protected:
     QGraphTransition::TransitionType m_currentTransitionType;
+    QGraphTransition::TransitionType m_previousTransitionType;
     int m_activePointIndex;
     int m_newPointIndex;
-    QList<QPointF> m_pointsState;
+    QPointF m_newPoint;
 
     // QGraphAnimation interface
 public:
