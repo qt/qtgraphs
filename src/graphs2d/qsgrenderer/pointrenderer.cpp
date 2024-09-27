@@ -25,6 +25,7 @@ static const char *TAG_POINT_SELECTED_COLOR = "pointSelectedColor";
 static const char *TAG_POINT_SELECTED = "pointSelected";
 static const char *TAG_POINT_VALUE_X = "pointValueX";
 static const char *TAG_POINT_VALUE_Y = "pointValueY";
+static const char *TAG_POINT_INDEX = "pointIndex";
 
 PointRenderer::PointRenderer(QGraphsView *graph)
     : QQuickItem(graph)
@@ -139,6 +140,8 @@ void PointRenderer::updatePointDelegate(
         marker->setProperty(TAG_POINT_VALUE_X, point.x());
     if (marker->property(TAG_POINT_VALUE_Y).isValid())
         marker->setProperty(TAG_POINT_VALUE_Y, point.y());
+    if (marker->property(TAG_POINT_INDEX).isValid())
+        marker->setProperty(TAG_POINT_INDEX, pointIndex);
 
     marker->setX(x - marker->width() / 2.0);
     marker->setY(y - marker->height() / 2.0);

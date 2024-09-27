@@ -262,6 +262,10 @@ QT_BEGIN_NAMESPACE
         \li barSelected
         \li This value is true when the bar is selected, meaning that the bar index
         is in \l{QBarSet::selectedBars}.
+    \row
+        \li int
+        \li barIndex
+        \li Index of the bar, from 0 to the amount of bars - 1. [since 6.9]
     \endtable
 
     To use any of these, add property with the defined name into your custom component.
@@ -308,6 +312,10 @@ QT_BEGIN_NAMESPACE
         \li barSelected
         \li This value is true when the bar is selected, meaning that the bar index
         is in \l{BarSet::selectedBars}.
+    \row
+        \li int
+        \li barIndex
+        \li Index of the bar, from 0 to the amount of bars - 1. [since 6.9]
     \endtable
 
     To use any of these, add property with the defined name into your custom component.

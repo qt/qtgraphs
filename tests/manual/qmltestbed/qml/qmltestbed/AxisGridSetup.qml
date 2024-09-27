@@ -71,8 +71,9 @@ Rectangle {
                 Rectangle {
                     id: comp
                     property color barColor
+                    property int barIndex
                     gradient: Gradient {
-                        GradientStop { position: 0.0; color: "red" }
+                        GradientStop { position: 0.0; color: (comp.barIndex % 2 === 0) ? "#f02020" : "#d0d020"}
                         GradientStop { position: 0.4; color: Qt.darker(comp.barColor, 2.0) }
                         GradientStop { position: 1.0; color: comp.barColor }
                     }

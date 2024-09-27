@@ -17,6 +17,7 @@ static const char* TAG_BAR_BORDER_WIDTH = "barBorderWidth";
 static const char* TAG_BAR_SELECTED = "barSelected";
 static const char* TAG_BAR_VALUE = "barValue";
 static const char* TAG_BAR_LABEL = "barLabel";
+static const char* TAG_BAR_INDEX = "barIndex";
 
 BarsRenderer::BarsRenderer(QGraphsView *graph)
     : QQuickItem(graph)
@@ -179,6 +180,8 @@ void BarsRenderer::updateComponents(QBarSeries *series)
                     barItem->setProperty(TAG_BAR_VALUE, d.value);
                 if (barItem->property(TAG_BAR_LABEL).isValid())
                     barItem->setProperty(TAG_BAR_LABEL, d.label);
+                if (barItem->property(TAG_BAR_INDEX).isValid())
+                    barItem->setProperty(TAG_BAR_INDEX, barIndex);
             } else {
                 // Set default rectangle bars
                 auto barItem = qobject_cast<QQuickRectangle *>(barItems[barIndex]);

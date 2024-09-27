@@ -790,6 +790,10 @@ QColor QXYSeries::selectedColor() const
         \li qreal
         \li pointValueY
         \li The value of the \l{QXYPoint::y} at this position.
+    \row
+        \li int
+        \li pointIndex
+        \li The index of the point, from 0 to the amount of points - 1. [since 6.9]
     \endtable
 
     To use any of these, add property with the defined name into your custom component.
@@ -836,6 +840,10 @@ QColor QXYSeries::selectedColor() const
         \li real
         \li pointValueY
         \li The value of the \l{XYPoint::y} at this position.
+    \row
+        \li int
+        \li pointIndex
+        \li The index of the point, from 0 to the amount of points - 1. [since 6.9]
     \endtable
 
     To use any of these, add property with the defined name into your custom component.

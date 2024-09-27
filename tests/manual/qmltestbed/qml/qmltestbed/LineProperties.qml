@@ -183,6 +183,7 @@ Rectangle {
                 property color pointColor
                 property real pointValueX
                 property real pointValueY
+                property int pointIndex
                 width: 16
                 height: 16
                 Rectangle {
@@ -190,14 +191,14 @@ Rectangle {
                     color: "#202020"
                     border.width: 2
                     border.color: pointColor
-                    radius: width / 2
+                    radius: (pointIndex % 2 === 0) ? width / 2 : 2
                 }
                 Text {
                     anchors.horizontalCenter: parent.horizontalCenter
                     anchors.bottom: parent.top
                     color: "#ffffff"
                     font.pixelSize: 16
-                    text: "(" + pointValueX.toFixed(1) + ", " + pointValueY.toFixed(1) + ")"
+                    text: pointIndex + ": (" + pointValueX.toFixed(1) + ", " + pointValueY.toFixed(1) + ")"
                 }
             }
             XYPoint { x: 0; y: 6.6 }
