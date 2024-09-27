@@ -4,6 +4,7 @@
 /*!
     \example 2d/cockpit
     \meta tags {Graphs, GraphsView, BarSeries, LineSeries, SplineSeries, PieSeries}
+    \examplecategory {Data Visualization}
 
     \title Cockpit
     \ingroup qtgraphs_qmlexamples
