@@ -339,12 +339,15 @@ Rectangle {
             width: 250
             text: "Vertical/Horizontal bars"
             onClicked: {
-                if (barSeries.barsOrientation == BarSeries.BarsOrientation.Vertical)
-                    barSeries.barsOrientation = BarSeries.BarsOrientation.Horizontal
+                if (chartView.orientation === Qt.Vertical)
+                    chartView.orientation = Qt.Horizontal
                 else
-                    barSeries.barsOrientation = BarSeries.BarsOrientation.Vertical
+                    chartView.orientation = Qt.Vertical
+                myModel.startAddMapping()
+                myModel.endAddMapping()
             }
         }
+
         Button {
             width: 250
             text: "Vertical/Horizontal mapper"

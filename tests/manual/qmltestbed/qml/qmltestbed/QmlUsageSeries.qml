@@ -114,11 +114,11 @@ Rectangle {
                     if (col.nx <= 1)
                         return
 
-                    line.remove(line.count() - 1)
-                    scatter.remove(scatter.count() - 1)
+                    line.remove(line.count - 1)
+                    scatter.remove(scatter.count - 1)
                     bar.remove(bar.barSets.count - 1)
-                    areaSpline.remove(areaSpline.count() - 1)
-                    areaLine.remove(areaLine.count() - 1)
+                    areaSpline.remove(areaSpline.count - 1)
+                    areaLine.remove(areaLine.count - 1)
 
                     col.nx--
                 }
