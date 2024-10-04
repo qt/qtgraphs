@@ -19,7 +19,7 @@ class QQuickGradient;
 class QGraphsThemePrivate;
 struct QGraphsLinePrivate;
 
-QT_DECLARE_QESDP_SPECIALIZATION_DTOR(QGraphsLinePrivate)
+QT_DECLARE_QESDP_SPECIALIZATION_DTOR_WITH_EXPORT(QGraphsLinePrivate, Q_GRAPHS_EXPORT)
 
 struct QGraphsThemeDirtyBitField
 {
@@ -95,10 +95,7 @@ public:
     QGraphsLine(QGraphsLine &&other) noexcept = default;
     Q_GRAPHS_EXPORT ~QGraphsLine();
     Q_GRAPHS_EXPORT QGraphsLine &operator=(const QGraphsLine &other);
-    void swap(QGraphsLine &other) noexcept
-    {
-        std::swap(d, other.d);
-    }
+    void swap(QGraphsLine &other) noexcept { d.swap(other.d); }
     QT_MOVE_ASSIGNMENT_OPERATOR_IMPL_VIA_PURE_SWAP(QGraphsLine)
 
     Q_GRAPHS_EXPORT QColor mainColor() const;
