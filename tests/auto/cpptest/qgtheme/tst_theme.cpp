@@ -19,6 +19,7 @@ private slots:
 
     void initialProperties();
     void initializeProperties();
+    void initializeGraphsLine();
 
 private:
     QGraphsTheme *m_theme;
@@ -265,6 +266,67 @@ void tst_theme::initializeProperties()
     QCOMPARE(multiHighlightColorSpy.size(), 1);
     QCOMPARE(singleHighlightGradientSpy.size(), 1);
     QCOMPARE(multiHighlightGradientSpy.size(), 1);
+}
+
+void tst_theme::initializeGraphsLine()
+{
+    QGraphsLine line;
+
+    QCOMPARE(line.mainColor(), QColor());
+    QCOMPARE(line.subColor(), QColor());
+    QCOMPARE(line.labelTextColor(), QColor());
+    QCOMPARE(line.mainWidth(), 2.0f);
+    QCOMPARE(line.subWidth(), 1.0f);
+
+    line.setMainColor(Qt::red);
+    line.setSubColor(Qt::green);
+    line.setLabelTextColor(Qt::gray);
+    line.setMainWidth(25);
+    line.setSubWidth(10);
+
+    QCOMPARE(line.mainColor(), Qt::red);
+    QCOMPARE(line.subColor(), Qt::green);
+    QCOMPARE(line.labelTextColor(), Qt::gray);
+    QCOMPARE(line.mainWidth(), 25);
+    QCOMPARE(line.subWidth(), 10);
+
+    QGraphsLine line2;
+
+    line2.setMainColor(Qt::green);
+    line2.setSubColor(Qt::red);
+    line2.setLabelTextColor(Qt::darkGray);
+    line2.setMainWidth(30);
+    line2.setSubWidth(5);
+
+    line = line2;
+
+    QCOMPARE(line.mainColor(), line2.mainColor());
+    QCOMPARE(line.subColor(), line2.subColor());
+    QCOMPARE(line.labelTextColor(), line2.labelTextColor());
+    QCOMPARE(line.mainWidth(), line2.mainWidth());
+    QCOMPARE(line.subWidth(), line2.subWidth());
+
+    QGraphsLine swapLine;
+
+    swapLine.setMainColor(Qt::darkRed);
+    swapLine.setSubColor(Qt::darkGreen);
+    swapLine.setLabelTextColor(Qt::darkYellow);
+    swapLine.setMainWidth(5);
+    swapLine.setSubWidth(2);
+
+    line.swap(swapLine);
+
+    QCOMPARE(line.mainColor(), Qt::darkRed);
+    QCOMPARE(line.subColor(), Qt::darkGreen);
+    QCOMPARE(line.labelTextColor(), Qt::darkYellow);
+    QCOMPARE(line.mainWidth(), 5);
+    QCOMPARE(line.subWidth(), 2);
+
+    QCOMPARE(swapLine.mainColor(), line2.mainColor());
+    QCOMPARE(swapLine.subColor(), line2.subColor());
+    QCOMPARE(swapLine.labelTextColor(), line2.labelTextColor());
+    QCOMPARE(swapLine.mainWidth(), line2.mainWidth());
+    QCOMPARE(swapLine.subWidth(), line2.subWidth());
 }
 
 QTEST_MAIN(tst_theme)
