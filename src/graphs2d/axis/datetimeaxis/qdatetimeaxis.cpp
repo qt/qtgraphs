@@ -156,7 +156,6 @@ void QDateTimeAxis::setMin(const QDateTime &min)
     Q_D(QDateTimeAxis);
     if (min.isValid()) {
         d->setRange(min.toMSecsSinceEpoch(), d->m_max);
-        emit minChanged(QDateTime::fromMSecsSinceEpoch(d->m_min, QTimeZone::UTC));
         emit update();
     }
 }
@@ -172,7 +171,6 @@ void QDateTimeAxis::setMax(const QDateTime &max)
     Q_D(QDateTimeAxis);
     if (max.isValid()) {
         d->setRange(d->m_min, max.toMSecsSinceEpoch());
-        emit maxChanged(QDateTime::fromMSecsSinceEpoch(d->m_max, QTimeZone::UTC));
         emit update();
     }
 }
