@@ -126,8 +126,8 @@ Item {
             compare(initialized.visible, true)
 
             // Signals
-            compare(minSpy.count, 4) // This is 4 because of QTBUG-129381
-            compare(maxSpy.count, 4) // This is 4 because of QTBUG-129381
+            compare(minSpy.count, 2)
+            compare(maxSpy.count, 2)
             compare(labelFormatSpy.count, 1)
             compare(subTickCountSpy.count, 1)
             compare(tickIntervalSpy.count, 1)

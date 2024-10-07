@@ -64,6 +64,12 @@ void tst_datetimeaxis::initializeProperties()
 {
     QVERIFY(m_axis);
 
+    QSignalSpy minSpy(m_axis, &QDateTimeAxis::minChanged);
+    QSignalSpy maxSpy(m_axis, &QDateTimeAxis::maxChanged);
+    QSignalSpy labelFormatSpy(m_axis, &QDateTimeAxis::labelFormatChanged);
+    QSignalSpy tickIntervalSpy(m_axis, &QDateTimeAxis::tickIntervalChanged);
+    QSignalSpy subTickCountSpy(m_axis, &QDateTimeAxis::subTickCountChanged);
+
     m_axis->setMin(QDateTime(QDate::currentDate(), QTime::fromMSecsSinceStartOfDay(0)));
     m_axis->setMax(
         QDateTime(QDate::currentDate(), QTime::fromMSecsSinceStartOfDay(0), QTimeZone::UTC)
@@ -81,6 +87,12 @@ void tst_datetimeaxis::initializeProperties()
     QCOMPARE(m_axis->labelFormat(), "yyyy");
     QCOMPARE(m_axis->subTickCount(), 2);
     QCOMPARE(m_axis->tickInterval(), 0.5);
+
+    QCOMPARE(minSpy.size(), 1);
+    QCOMPARE(maxSpy.size(), 1);
+    QCOMPARE(labelFormatSpy.size(), 1);
+    QCOMPARE(tickIntervalSpy.size(), 1);
+    QCOMPARE(subTickCountSpy.size(), 1);
 }
 
 void tst_datetimeaxis::invalidProperties()
