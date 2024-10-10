@@ -14,6 +14,7 @@
 //
 // We mean it.
 
+#include <QPainterPath>
 #include <QQuickItem>
 #include <QtQuickShapes/private/qquickshape_p.h>
 
@@ -45,7 +46,7 @@ private:
     {
         QAreaSeries *series = nullptr;
         QQuickShapePath *shapePath = nullptr;
-        QList<QQuickCurve *> paths;
+        QPainterPath painterPath;
         qsizetype colorIndex = -1;
         qsizetype borderColorIndex = -1;
         bool hover = false;
