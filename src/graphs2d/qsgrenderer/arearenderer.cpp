@@ -76,27 +76,10 @@ void AreaRenderer::handlePolish(QAreaSeries *series)
 
     auto group = m_groups.value(series);
 
-    if (upper->points().count() < 2) {
-        auto pathElements = group->shapePath->pathElements();
-        pathElements.clear(&pathElements);
-
-        for (auto path : group->paths)
-            path->deleteLater();
-
-        group->paths.clear();
-
-        return;
-    }
-
-    if (lower && lower->points().count() < 2) {
-        auto pathElements = group->shapePath->pathElements();
-        pathElements.clear(&pathElements);
-
-        for (auto path : group->paths)
-            path->deleteLater();
-
-        group->paths.clear();
-
+    if (upper->points().count() < 2 || (lower && lower->points().count() < 2)) {
+        auto painterPath = group->painterPath;
+        painterPath.clear();
+        group->shapePath->setPath(painterPath);
         return;
     }
 
@@ -116,42 +99,8 @@ void AreaRenderer::handlePolish(QAreaSeries *series)
                           / m_graph->m_axisRenderer->m_axisHorizontalValueRange)
                          * m_areaWidth;
 
-    qsizetype pointCount = upper->points().size();
-    qsizetype currentSize = group->paths.size();
-    qsizetype extraCount = lower ? lower->points().size() : 2;
-    for (qsizetype i = currentSize; i < pointCount + extraCount; ++i) {
-        QQuickCurve *path = nullptr;
-
-        if (!lower || (lower && i < pointCount - 1)) {
-            if (upper->type() == QAbstractSeries::SeriesType::Line || (!lower && i >= pointCount - 1))
-                path = new QQuickPathLine(group->shapePath);
-            else if (upper->type() == QAbstractSeries::SeriesType::Spline)
-                path = new QQuickPathCubic(group->shapePath);
-        } else if (lower && (i == pointCount - 1 || i == pointCount + extraCount - 1)) {
-            path = new QQuickPathLine(group->shapePath);
-        } else {
-            if (lower->type() == QAbstractSeries::SeriesType::Line)
-                path = new QQuickPathLine(group->shapePath);
-            else if (lower->type() == QAbstractSeries::SeriesType::Spline)
-                path = new QQuickPathCubic(group->shapePath);
-        }
-
-        if (path && series->isVisible()) {
-            auto pathElements = group->shapePath->pathElements();
-            pathElements.append(&pathElements, path);
-            group->paths << path;
-        }
-    }
-
-    auto pathElements = group->shapePath->pathElements();
-    if (!series->isVisible() && pathElements.count(&pathElements) > 0) {
-        pathElements.clear(&pathElements);
-
-        for (auto path : group->paths)
-            path->deleteLater();
-
-        group->paths.clear();
-    }
+    auto &painterPath = group->painterPath;
+    painterPath.clear();
 
     if (group->colorIndex < 0) {
         group->colorIndex = m_graph->graphSeriesCount();
@@ -204,15 +153,10 @@ void AreaRenderer::handlePolish(QAreaSeries *series)
                 calculateRenderCoordinates(upperPoints[i].x(), upperPoints[i].y(), &x, &y);
 
             if (i == 0) {
-                group->shapePath->setStartX(x);
-                group->shapePath->setStartY(y);
+                painterPath.moveTo(x, y);
             } else {
-                group->paths[i - 1]->setX(x);
-                group->paths[i - 1]->setY(y);
-
-                auto *cubicPath = qobject_cast<QQuickPathCubic *>(group->paths[i - 1]);
-
-                if (cubicPath) {
+                if (i < upper->points().size()
+                    && upper->type() == QAbstractSeries::SeriesType::Spline) {
                     qreal x1, y1, x2, y2;
                     calculateRenderCoordinates(fittedPoints[j - 1].x(),
                                                fittedPoints[j - 1].y(),
@@ -220,12 +164,10 @@ void AreaRenderer::handlePolish(QAreaSeries *series)
                                                &y1);
                     calculateRenderCoordinates(fittedPoints[j].x(), fittedPoints[j].y(), &x2, &y2);
 
+                    painterPath.cubicTo(x1, y1, x2, y2, x, y);
                     ++j;
-
-                    cubicPath->setControl2X(x2);
-                    cubicPath->setControl1X(x1);
-                    cubicPath->setControl2Y(y2);
-                    cubicPath->setControl1Y(y1);
+                } else {
+                    painterPath.lineTo(x, y);
                 }
             }
         }
@@ -234,8 +176,8 @@ void AreaRenderer::handlePolish(QAreaSeries *series)
     if (lower && series->isVisible()) {
         auto &&lowerPoints = lower->points();
         QList<QPointF> fittedPoints;
-        if (upper->type() == QAbstractSeries::SeriesType::Spline)
-            fittedPoints = qobject_cast<QSplineSeries *>(upper)->getControlPoints();
+        if (lower->type() == QAbstractSeries::SeriesType::Spline)
+            fittedPoints = qobject_cast<QSplineSeries *>(lower)->getControlPoints();
 
         for (int i = 0, j = 0; i < lowerPoints.size(); ++i, ++j) {
             qreal x, y;
@@ -244,13 +186,7 @@ void AreaRenderer::handlePolish(QAreaSeries *series)
                                        &x,
                                        &y);
 
-            group->paths[upperPoints.size() + i - 1]->setX(x);
-            group->paths[upperPoints.size() + i - 1]->setY(y);
-
-            auto *cubicPath = qobject_cast<QQuickPathCubic *>(
-                group->paths[upperPoints.size() + i - 1]);
-
-            if (cubicPath) {
+            if (i > 0 && lower->type() == QAbstractSeries::SeriesType::Spline) {
                 qreal x1, y1, x2, y2;
                 calculateRenderCoordinates(fittedPoints[fittedPoints.size() - 1 - j + 1].x(),
                                            fittedPoints[fittedPoints.size() - 1 - j + 1].y(),
@@ -261,21 +197,20 @@ void AreaRenderer::handlePolish(QAreaSeries *series)
                                            &x2,
                                            &y2);
 
+                painterPath.cubicTo(x1, y1, x2, y2, x, y);
                 ++j;
-
-                cubicPath->setControl2X(x2);
-                cubicPath->setControl1X(x1);
-                cubicPath->setControl2Y(y2);
-                cubicPath->setControl1Y(y1);
+            } else {
+                painterPath.lineTo(x, y);
             }
         }
 
         qreal x, y;
         calculateRenderCoordinates(upperPoints[0].x(), upperPoints[0].y(), &x, &y);
-
-        group->paths[upperPoints.size() + lowerPoints.size() - 1]->setX(x);
-        group->paths[upperPoints.size() + lowerPoints.size() - 1]->setY(y);
+        painterPath.lineTo(x, y);
     }
+
+    group->shapePath->setPath(painterPath);
+
     QList<QLegendData> legendDataList = {{color, borderColor, series->name()}};
     series->d_func()->setLegendData(legendDataList);
 }
@@ -287,10 +222,9 @@ void AreaRenderer::afterPolish(QList<QAbstractSeries *> &cleanupSeries)
         if (areaSeries && m_groups.contains(areaSeries)) {
             auto group = m_groups.value(areaSeries);
 
-            if (group->shapePath) {
-                auto pathElements = group->shapePath->pathElements();
-                pathElements.clear(&pathElements);
-            }
+            auto painterPath = group->painterPath;
+            painterPath.clear();
+            group->shapePath->setPath(painterPath);
 
             delete group;
             m_groups.remove(areaSeries);
