@@ -35,10 +35,11 @@ target_link_libraries(cockpit PUBLIC
     Qt::Gui
     Qt::Quick
     Qt::Graphs
+    Qt::ShaderTools
 )
 
 qt6_add_qml_module(cockpit
-    URI CockPit
+    URI CockpitExample
     NO_RESOURCE_TARGET_PATH
     QML_FILES
         qml/cockpit/main.qml
@@ -53,17 +54,17 @@ qt6_add_shaders(cockpit "cockpit_shaders"
     PREFIX
         ""
     FILES
-        "qml/cockpit/bar.frag"
-        "qml/cockpit/circleMarker.frag"
-        "qml/cockpit/pitchbar.frag"
+        qml/cockpit/bar.frag
+        qml/cockpit/circleMarker.frag
+        qml/cockpit/pitchbar.frag
 )
 
-qt6_add_resources(cockpit "cockpit"
+qt6_add_resources(cockpit "cockpit_resources"
     PREFIX
         ""
     FILES
-        "qml/cockpit/airplane-ico.png"
-        "qml/cockpit/plane-fro.png"
+        qml/cockpit/airplane-ico.png
+        qml/cockpit/plane-fro.png
 )
 
 install(TARGETS cockpit
