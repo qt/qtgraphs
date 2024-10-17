@@ -65,7 +65,7 @@ Item {
         name: "series1"
         singleHighlightColor: "red"
         singleHighlightGradient: gradient3
-        userDefinedMesh: ":/customitem.obj"
+        userDefinedMesh: ":/customitem.mesh"
         visible: false
     }
 
@@ -146,7 +146,7 @@ Item {
             compare(initialized.name, "series1")
             compare(initialized.singleHighlightColor, "#ff0000")
             compare(initialized.singleHighlightGradient, gradient3)
-            compare(initialized.userDefinedMesh, ":/customitem.obj")
+            compare(initialized.userDefinedMesh, ":/customitem.mesh")
             compare(initialized.visible, false)
         }
     }
@@ -185,7 +185,7 @@ Item {
             change.name = "series1"
             change.singleHighlightColor = "red"
             change.singleHighlightGradient = gradient3
-            change.userDefinedMesh = ":/customitem.obj"
+            change.userDefinedMesh = ":/customitem.mesh"
             change.visible = false
 
             compare(change.baseColor, "#0000ff")
@@ -201,7 +201,7 @@ Item {
             compare(change.name, "series1")
             compare(change.singleHighlightColor, "#ff0000")
             compare(change.singleHighlightGradient, gradient3)
-            compare(change.userDefinedMesh, ":/customitem.obj")
+            compare(change.userDefinedMesh, ":/customitem.mesh")
             compare(change.visible, false)
 
             // Signals

@@ -48,11 +48,11 @@ void tst_custom::construct()
     QVERIFY(custom);
     delete custom;
 
-    custom = new QCustom3DItem(":/customitem.obj", QVector3D(1.0f, 1.0f, 1.0f),
+    custom = new QCustom3DItem(":/customitem.mesh", QVector3D(1.0f, 1.0f, 1.0f),
                                QVector3D(1.0f, 1.0f, 1.0f), QQuaternion(1.0f, 1.0f, 10.0f, 100.0f),
                                QImage(":/customtexture.jpg"));
     QVERIFY(custom);
-    QCOMPARE(custom->meshFile(), QString(":/customitem.obj"));
+    QCOMPARE(custom->meshFile(), QString(":/customitem.mesh"));
     QCOMPARE(custom->position(), QVector3D(1.0f, 1.0f, 1.0f));
     QCOMPARE(custom->isPositionAbsolute(), false);
     QCOMPARE(custom->rotation(), QQuaternion(1.0f, 1.0f, 10.0f, 100.0f));
@@ -94,7 +94,7 @@ void tst_custom::initializeProperties()
     QSignalSpy scalingAbsoluteSpy(m_custom, &QCustom3DItem::scalingAbsoluteChanged);
     QSignalSpy updateSpy(m_custom, &QCustom3DItem::needUpdate);
 
-    m_custom->setMeshFile(":/customitem.obj");
+    m_custom->setMeshFile(":/customitem.mesh");
     m_custom->setPosition(QVector3D(1.0f, 1.0f, 1.0f));
     m_custom->setPositionAbsolute(true);
     m_custom->setRotation(QQuaternion(1.0f, 1.0f, 10.0f, 100.0f));
@@ -104,7 +104,7 @@ void tst_custom::initializeProperties()
     m_custom->setTextureFile(":/customtexture.jpg");
     m_custom->setVisible(false);
 
-    QCOMPARE(m_custom->meshFile(), QString(":/customitem.obj"));
+    QCOMPARE(m_custom->meshFile(), QString(":/customitem.mesh"));
     QCOMPARE(m_custom->position(), QVector3D(1.0f, 1.0f, 1.0f));
     QCOMPARE(m_custom->isPositionAbsolute(), true);
     QCOMPARE(m_custom->rotation(), QQuaternion(1.0f, 1.0f, 10.0f, 100.0f));

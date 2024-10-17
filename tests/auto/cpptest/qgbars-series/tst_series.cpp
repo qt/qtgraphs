@@ -159,7 +159,7 @@ void tst_series::initializeProperties()
     m_series->setName("name");
     m_series->setSingleHighlightColor(QColor(Qt::red));
     m_series->setSingleHighlightGradient(gradient3);
-    m_series->setUserDefinedMesh(":/customitem.obj");
+    m_series->setUserDefinedMesh(":/customitem.mesh");
     m_series->setVisible(false);
     m_series->setRowLabels(rowLabels);
     m_series->setColumnLabels(columnLabels);
@@ -179,7 +179,7 @@ void tst_series::initializeProperties()
     QCOMPARE(m_series->singleHighlightColor(), QColor(Qt::red));
     QCOMPARE(m_series->singleHighlightGradient(), gradient3);
     QCOMPARE(m_series->singleHighlightGradient().stops().at(0).second, QColor(Qt::white));
-    QCOMPARE(m_series->userDefinedMesh(), QString(":/customitem.obj"));
+    QCOMPARE(m_series->userDefinedMesh(), QString(":/customitem.mesh"));
     QCOMPARE(m_series->isVisible(), false);
     QCOMPARE(m_series->rowLabels(), rowLabels);
     QCOMPARE(m_series->columnLabels(), columnLabels);

@@ -86,10 +86,10 @@ Item {
         }
     }
 
-    Custom3DItem { id: item1; meshFile: ":/customitem.obj" }
-    Custom3DItem { id: item2; meshFile: ":/customitem.obj" }
-    Custom3DItem { id: item3; meshFile: ":/customitem.obj" }
-    Custom3DItem { id: item4; meshFile: ":/customitem.obj"; position: Qt.vector3d(0.0, 1.0, 0.0) }
+    Custom3DItem { id: item1; meshFile: ":/customitem.mesh" }
+    Custom3DItem { id: item2; meshFile: ":/customitem.mesh" }
+    Custom3DItem { id: item3; meshFile: ":/customitem.mesh" }
+    Custom3DItem { id: item4; meshFile: ":/customitem.mesh"; position: Qt.vector3d(0.0, 1.0, 0.0) }
 
     function constructBarsWithCustomItemList() {
         bars3d = Qt.createQmlObject("
