@@ -16,7 +16,7 @@ Item {
 
     Custom3DItem {
         id: initialized
-        meshFile: ":\customitem.obj"
+        meshFile: ":\customitem.mesh"
         position: Qt.vector3d(1.0, 0.5, 1.0)
         positionAbsolute: true
         rotation: Qt.quaternion(1, 0.5, 0, 0)
@@ -51,7 +51,7 @@ Item {
         name: "Custom3DItem Initialized"
 
         function test_initialized() {
-            compare(initialized.meshFile, ":\customitem.obj")
+            compare(initialized.meshFile, ":\customitem.mesh")
             compare(initialized.position, Qt.vector3d(1.0, 0.5, 1.0))
             compare(initialized.positionAbsolute, true)
             compare(initialized.rotation, Qt.quaternion(1, 0.5, 0, 0))
@@ -67,7 +67,7 @@ Item {
         name: "Custom3DItem Change"
 
         function test_change() {
-            change.meshFile = ":\customitem.obj"
+            change.meshFile = ":\customitem.mesh"
             change.position = Qt.vector3d(1.0, 0.5, 1.0)
             change.positionAbsolute = true
             change.rotation = Qt.quaternion(1, 0.5, 0, 0)
@@ -77,7 +77,7 @@ Item {
             change.textureFile = ":\customtexture.jpg"
             change.visible = false
 
-            compare(change.meshFile, ":\customitem.obj")
+            compare(change.meshFile, ":\customitem.mesh")
             compare(change.position, Qt.vector3d(1.0, 0.5, 1.0))
             compare(change.positionAbsolute, true)
             compare(change.rotation, Qt.quaternion(1, 0.5, 0, 0))

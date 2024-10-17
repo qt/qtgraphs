@@ -16,7 +16,7 @@ qt_internal_add_test(tst_qgqmltest
 )
 
 set(qmltest_resource_files
-    "customitem.obj"
+    "customitem.mesh"
     "customtexture.jpg"
 )
 

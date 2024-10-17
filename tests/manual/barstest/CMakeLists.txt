@@ -26,7 +26,7 @@ target_link_libraries(tst_barstest PUBLIC
     )
 
 set(barstest_resource_files
-    "shuttle.obj"
+    "shuttle.mesh"
     "shuttle.png"
     )
 

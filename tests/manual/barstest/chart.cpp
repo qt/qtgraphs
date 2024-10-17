@@ -1787,7 +1787,7 @@ void GraphModifier::toggleCustomItem()
         m_graph->removeCustomItemAt(positionTwo);
     } else if (state == 1) {
         QCustom3DItem *item = new QCustom3DItem();
-        item->setMeshFile(":/shuttle.obj");
+        item->setMeshFile(":/shuttle.mesh");
         item->setPosition(positionOne);
         item->setScaling(QVector3D(0.1f, 0.1f, 0.1f));
         item->setRotation(QQuaternion::fromAxisAndAngle(0.0f, 1.0f, 0.0f, QRandomGenerator::global()->generate()));
@@ -1796,7 +1796,7 @@ void GraphModifier::toggleCustomItem()
     } else {
         m_graph->removeCustomItemAt(positionOne);
         QCustom3DItem *item = new QCustom3DItem();
-        item->setMeshFile(":/shuttle.obj");
+        item->setMeshFile(":/shuttle.mesh");
         item->setPosition(positionTwo);
         item->setScaling(QVector3D(0.1f, 0.1f, 0.1f));
         item->setRotation(QQuaternion::fromAxisAndAngle(0.0f, 1.0f, 0.0f, QRandomGenerator::global()->generate()));
