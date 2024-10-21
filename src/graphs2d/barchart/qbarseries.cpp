@@ -386,17 +386,6 @@ QT_BEGIN_NAMESPACE
 */
 
 /*!
-    \qmlmethod BarSet BarSeries::append(string label, VariantList values)
-    Adds a new bar set with \a label and \a values to the index. \a values is
-    a list of real values.
-
-    For example:
-    \code
-        myBarSeries.append("set 1", [0, 0.2, 0.2, 0.5, 0.4, 1.5, 0.9]);
-    \endcode
-*/
-
-/*!
     \qmlmethod BarSet BarSeries::insert(int index, string label, VariantList values)
     Adds a new bar set with \a label and \a values to \a index. \a values can be a list
     of real values or a list of XYPoint types.
