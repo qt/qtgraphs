@@ -283,7 +283,7 @@ QT_BEGIN_NAMESPACE
     \sa borderColor
 */
 /*!
-    \qmlproperty qreal PieSlice::borderWidth
+    \qmlproperty real PieSlice::borderWidth
     The width of the slice border.
     This is a convenience property for modifying the slice border width.
     \sa borderColor

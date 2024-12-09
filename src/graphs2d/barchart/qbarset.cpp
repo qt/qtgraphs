@@ -125,7 +125,7 @@ QT_BEGIN_NAMESPACE
     it gets the value zero.
  */
 /*!
-    \qmlproperty QVariantList BarSet::values
+    \qmlproperty list<variant> BarSet::values
     The values of the bar set. You can set a list of either \l [QML]{real} or \l [QML]{point}
     types as values.
 

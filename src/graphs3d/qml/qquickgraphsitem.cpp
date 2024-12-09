@@ -76,14 +76,14 @@ constexpr float polarRoundness = 64.0f;
  */
 
 /*!
- * \qmlproperty float GraphsItem3D::cameraXRotation
+ * \qmlproperty real GraphsItem3D::cameraXRotation
  *
  * The X-rotation angle of the camera around the target point in degrees
  * starting from the current base position.
  */
 
 /*!
- * \qmlproperty float GraphsItem3D::cameraYRotation
+ * \qmlproperty real GraphsItem3D::cameraYRotation
  *
  * The Y-rotation angle of the camera around the target point in degrees
  * starting from the current base position.
@@ -123,7 +123,7 @@ constexpr float polarRoundness = 64.0f;
  */
 
 /*!
- * \qmlproperty float GraphsItem3D::cameraZoomLevel
+ * \qmlproperty real GraphsItem3D::cameraZoomLevel
  *
  * The camera zoom level in percentage. The default value of \c{100.0}
  * means there is no zoom in or out set in the camera.
@@ -134,7 +134,7 @@ constexpr float polarRoundness = 64.0f;
  */
 
 /*!
- * \qmlproperty float GraphsItem3D::minCameraZoomLevel
+ * \qmlproperty real GraphsItem3D::minCameraZoomLevel
  *
  * Sets the minimum allowed camera zoom level.
  * If the new minimum level is higher than the existing maximum level, the
@@ -147,7 +147,7 @@ constexpr float polarRoundness = 64.0f;
  */
 
 /*!
- * \qmlproperty float GraphsItem3D::maxCameraZoomLevel
+ * \qmlproperty real GraphsItem3D::maxCameraZoomLevel
  *
  * Sets the maximum allowed camera zoom level.
  * If the new maximum level is lower than the existing minimum level, the

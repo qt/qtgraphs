@@ -82,7 +82,7 @@ QT_BEGIN_NAMESPACE
     \brief The angle of the axis labels in degrees.
 */
 /*!
-    \qmlproperty qreal AbstractAxis::labelsAngle
+    \qmlproperty real AbstractAxis::labelsAngle
     The angle of the axis labels in degrees.
 */
 
