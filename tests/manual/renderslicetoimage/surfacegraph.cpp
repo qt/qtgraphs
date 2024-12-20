@@ -1,0 +1,87 @@
+// Copyright (C) 2025 The Qt Company Ltd.
+// SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
+
+#include "surfacegraph.h"
+#include "surfacegraphmodifier.h"
+#include "surfacegraphwidget.h"
+
+#include <QtCore/qregularexpression.h>
+#include <QtGui/qvalidator.h>
+#include <QtWidgets/qboxlayout.h>
+#include <QtWidgets/qlabel.h>
+#include <QtWidgets/qlineedit.h>
+#include <QtWidgets/qpushbutton.h>
+#include <QtWidgets/qradiobutton.h>
+
+using namespace Qt::StringLiterals;
+
+SurfaceGraph::SurfaceGraph(QWidget *parent)
+{
+    m_surfaceWidget = new QWidget(parent);
+    initialize();
+}
+
+void SurfaceGraph::initialize()
+{
+    m_surfaceGraphWidget = new SurfaceGraphWidget();
+    m_surfaceGraphWidget->initialize();
+    QSize screenSize = m_surfaceGraphWidget->screen()->size();
+    m_surfaceGraphWidget->setMinimumSize(QSize(screenSize.width() / 2, screenSize.height() / 1.75));
+    m_surfaceGraphWidget->setMaximumSize(screenSize);
+    m_surfaceGraphWidget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    m_surfaceGraphWidget->setFocusPolicy(Qt::StrongFocus);
+
+    QHBoxLayout *hLayout = new QHBoxLayout;
+    hLayout->addWidget(m_surfaceGraphWidget, 1);
+    m_surfaceWidget->setLayout(hLayout);
+
+    QVBoxLayout *vLayout = new QVBoxLayout;
+    hLayout->addLayout(vLayout);
+    vLayout->setAlignment(Qt::AlignCenter);
+
+    m_rowRadioButton = new QRadioButton(m_surfaceWidget);
+    m_rowRadioButton->setText(u"Row"_s);
+    m_rowRadioButton->setChecked(true);
+
+    QRadioButton *columnRadioButton = new QRadioButton(m_surfaceWidget);
+    columnRadioButton->setText(u"Column"_s);
+    columnRadioButton->setChecked(false);
+
+    m_lineSelectText = new QLineEdit(m_surfaceWidget);
+    QRegularExpression re("\\d+");
+    QRegularExpressionValidator *reValidator = new QRegularExpressionValidator(re, m_surfaceWidget);
+    m_lineSelectText->setValidator(reValidator);
+
+    QPushButton *sliceToImageButton = new QPushButton(m_surfaceWidget);
+    sliceToImageButton->setText(u"Slice To Image"_s);
+
+    m_sliceResultLabel = new QLabel(m_surfaceWidget);
+
+    vLayout->addWidget(m_rowRadioButton);
+    vLayout->addWidget(columnRadioButton);
+    vLayout->addWidget(m_lineSelectText);
+    vLayout->addWidget(sliceToImageButton);
+    vLayout->addWidget(m_sliceResultLabel);
+
+    m_surfaceGraphWidget->raise();
+
+    m_modifier = new SurfaceGraphModifier(m_surfaceGraphWidget->surfaceGraph(), this);
+
+    QObject::connect(sliceToImageButton,
+                     &QPushButton::clicked,
+                     this,
+                     &SurfaceGraph::renderSliceToImage);
+}
+
+void SurfaceGraph::renderSliceToImage()
+{
+    int index = m_lineSelectText->text().isEmpty() ? -1 : m_lineSelectText->text().toInt();
+    QtGraphs3D::SliceType sliceType = QtGraphs3D::SliceType::SliceRow;
+    if (!m_rowRadioButton->isChecked())
+        sliceType = QtGraphs3D::SliceType::SliceColumn;
+
+    m_grab = m_modifier->renderSliceToImage(sliceType, index);
+    connect(m_grab.data(), &QQuickItemGrabResult::ready, this, [&]() {
+        m_sliceResultLabel->setPixmap(QPixmap::fromImage(m_grab.data()->image()));
+    });
+}

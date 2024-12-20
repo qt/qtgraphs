@@ -74,6 +74,10 @@ public:
     void setFloorLevel(float level);
     float floorLevel() const;
 
+    Q_REVISION(6, 10)
+    QSharedPointer<QQuickItemGrabResult> renderSliceToImage(int requestedIndex,
+                                                            QtGraphs3D::SliceType sliceType);
+
 protected:
     bool event(QEvent *event) override;
 

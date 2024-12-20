@@ -4,6 +4,7 @@
 #include <QtGraphsWidgets/q3dsurfacewidgetitem.h>
 #include <private/q3dsurfacewidgetitem_p.h>
 #include <private/qquickgraphssurface_p.h>
+#include "q3dsurfacewidgetitem.h"
 
 QT_BEGIN_NAMESPACE
 
@@ -282,6 +283,27 @@ void Q3DSurfaceWidgetItem::addAxis(QValue3DAxis *axis)
 void Q3DSurfaceWidgetItem::releaseAxis(QValue3DAxis *axis)
 {
     return graphSurface()->releaseAxis(axis);
+}
+
+/*!
+ * Exports the requested slice view to an image.
+ * The sliced result is the series of \a index. To export all series, set
+ * \a index to -1.
+ * The exported slice is a line of row or column, which is defined by \a sliceType,
+ * at a given \a requestedIndex.
+ * Returns a shared pointer to grab result which can be used to access the
+ * exported image when it's ready. Image is rendered with the current
+ * antialiasing settings.
+ *
+ * \sa QQuickItem::grabToImage()
+ *
+ * \since 6.10
+ */
+QSharedPointer<QQuickItemGrabResult>
+Q3DSurfaceWidgetItem::renderSliceToImage(int index, int requestedIndex,
+                                         QtGraphs3D::SliceType sliceType)
+{
+    return graphSurface()->renderSliceToImage(index, requestedIndex, sliceType);
 }
 
 /*!

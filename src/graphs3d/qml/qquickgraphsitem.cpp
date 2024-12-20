@@ -2876,7 +2876,7 @@ void QQuickGraphsItem::synchData()
         changeLabelTextColor(m_repeaterX, labelTextColor);
         m_titleLabelX->setProperty("labelTextColor", labelTextColor);
         if (m_sliceView && isSliceEnabled()) {
-            if (m_selectionMode == SelectionRow)
+            if (m_selectionMode == QtGraphs3D::SelectionFlag::Row)
                 changeLabelTextColor(m_sliceHorizontalLabelRepeater, labelTextColor);
             m_sliceHorizontalTitleLabel->setProperty("labelTextColor", labelTextColor);
         }
@@ -2899,7 +2899,7 @@ void QQuickGraphsItem::synchData()
         changeLabelTextColor(m_repeaterZ, labelTextColor);
         m_titleLabelZ->setProperty("labelTextColor", labelTextColor);
         if (m_sliceView && isSliceEnabled()) {
-            if (m_selectionMode == SelectionColumn)
+            if (m_selectionMode == QtGraphs3D::SelectionFlag::Column)
                 changeLabelTextColor(m_sliceHorizontalLabelRepeater, labelTextColor);
             m_sliceHorizontalTitleLabel->setProperty("labelTextColor", labelTextColor);
         }
@@ -5027,9 +5027,9 @@ void QQuickGraphsItem::handleLabelCountChanged(QQuick3DRepeater *repeater, QColo
                                      theme()->isLabelBackgroundVisible());
         changeLabelBorderVisible(m_sliceHorizontalLabelRepeater, theme()->isLabelBorderVisible());
         changeLabelBorderVisible(m_sliceVerticalLabelRepeater, theme()->isLabelBorderVisible());
-        if (m_selectionMode == SelectionRow)
+        if (m_selectionMode == QtGraphs3D::SelectionFlag::Row)
             changeLabelTextColor(m_sliceHorizontalLabelRepeater, theme()->axisX().labelTextColor());
-        else if (m_selectionMode == SelectionColumn)
+        else if (m_selectionMode == QtGraphs3D::SelectionFlag::Column)
             changeLabelTextColor(m_sliceHorizontalLabelRepeater, theme()->axisZ().labelTextColor());
         changeLabelTextColor(m_sliceVerticalLabelRepeater, theme()->axisY().labelTextColor());
         changeLabelFont(m_sliceHorizontalLabelRepeater, theme()->labelFont());
@@ -6352,7 +6352,7 @@ void QQuickGraphsItem::createSliceView()
 
     auto scene = m_sliceView->scene();
 
-    createSliceCamera();
+    createSliceCamera(m_sliceView);
 
     // auto gridDelegate = createRepeaterDelegateComponent(QStringLiteral(":/axis/GridLine"));
     m_labelDelegate.reset(new QQmlComponent(qmlEngine(this), QStringLiteral(":/axis/AxisLabel")));
@@ -6390,40 +6390,102 @@ void QQuickGraphsItem::createSliceView()
     m_sliceItemLabel->setVisible(false);
 }
 
-void QQuickGraphsItem::createSliceCamera()
+QQuick3DViewport *QQuickGraphsItem::createOffscreenSliceView(QtGraphs3D::SliceType sliceType)
+{
+    auto sliceView = new QQuick3DViewport();
+    sliceView->setParent(this);
+    sliceView->setParentItem(this);
+    sliceView->setWidth(parentItem()->width() * .5);
+    sliceView->setHeight(parentItem()->height() * .5);
+    sliceView->setX(sliceView->width() * -1);
+    sliceView->environment()->setBackgroundMode(
+            QQuick3DSceneEnvironment::QQuick3DEnvironmentBackgroundTypes::Color);
+    sliceView->environment()->setClearColor(environment()->clearColor());
+    sliceView->setRenderMode(renderMode());
+
+    auto scene = sliceView->scene();
+
+    createSliceCamera(sliceView);
+
+    std::unique_ptr<QQmlComponent> labelDelegate;
+    labelDelegate.reset(new QQmlComponent(qmlEngine(this), QStringLiteral(":/axis/AxisLabel")));
+
+    auto sliceGridGeometryModel = new QQuick3DModel(scene);
+
+    auto sliceGridGeometry = new QQuick3DGeometry(sliceGridGeometryModel);
+    sliceGridGeometry->setStride(sizeof(QVector3D));
+    sliceGridGeometry->setPrimitiveType(QQuick3DGeometry::PrimitiveType::Lines);
+    sliceGridGeometry->addAttribute(QQuick3DGeometry::Attribute::PositionSemantic,
+                                    0,
+                                    QQuick3DGeometry::Attribute::F32Type);
+    sliceGridGeometryModel->setGeometry(sliceGridGeometry);
+
+    QQmlListReference gridMaterialRef(sliceGridGeometryModel, "materials");
+    auto gridMaterial = new QQuick3DPrincipledMaterial(sliceGridGeometryModel);
+    gridMaterial->setLighting(QQuick3DPrincipledMaterial::Lighting::NoLighting);
+    gridMaterial->setCullMode(QQuick3DMaterial::CullMode::BackFaceCulling);
+    gridMaterial->setBaseColor(Qt::red);
+    gridMaterialRef.append(gridMaterial);
+
+    updateSliceGrid(sliceGridGeometryModel, sliceType);
+
+    auto sliceHorizontalLabelRepeater = createRepeater(scene);
+    sliceHorizontalLabelRepeater->setDelegate(labelDelegate.get());
+
+    auto sliceVerticalLabelRepeater = createRepeater(scene);
+    sliceVerticalLabelRepeater->setDelegate(labelDelegate.get());
+
+    auto sliceHorizontalTitleLabel = createTitleLabel(scene);
+    sliceHorizontalTitleLabel->setVisible(true);
+
+    auto sliceVerticalTitleLabel = createTitleLabel(scene);
+    sliceVerticalTitleLabel->setVisible(true);
+
+    auto sliceItemLabel = createTitleLabel(scene);
+    sliceItemLabel->setVisible(false);
+
+    updateSliceLabels(sliceHorizontalLabelRepeater, sliceVerticalLabelRepeater,
+                      sliceHorizontalTitleLabel, sliceVerticalTitleLabel, sliceItemLabel,
+                      sliceType);
+
+    return sliceView;
+}
+
+void QQuickGraphsItem::createSliceCamera(QQuick3DViewport *sliceView)
 {
     if (isSliceOrthoProjection()) {
-        auto camera = new QQuick3DOrthographicCamera(sliceView()->scene());
+        auto camera = new QQuick3DOrthographicCamera(sliceView->scene());
         camera->setPosition(QVector3D(.0f, .0f, 20.0f));
-        const float scale = qMin(sliceView()->width(), sliceView()->height());
+        const float scale = qMin(sliceView->width(), sliceView->height());
         const float magnificationScaleFactor = 2 * window()->devicePixelRatio()
                                                * .08f; // this controls the size of the slice view
         const float magnification = scale * magnificationScaleFactor;
         camera->setHorizontalMagnification(magnification);
         camera->setVerticalMagnification(magnification);
-        sliceView()->setCamera(camera);
+        sliceView->setCamera(camera);
 
-        auto light = new QQuick3DDirectionalLight(sliceView()->scene());
+        auto light = new QQuick3DDirectionalLight(sliceView->scene());
         light->setParent(camera);
         light->setParentItem(camera);
     } else {
-        auto camera = new QQuick3DPerspectiveCamera(sliceView()->scene());
+        auto camera = new QQuick3DPerspectiveCamera(sliceView->scene());
         camera->setFieldOfViewOrientation(
             QQuick3DPerspectiveCamera::FieldOfViewOrientation::Vertical);
         camera->setClipNear(5.f);
         camera->setClipFar(15.f);
         camera->setFieldOfView(35.f);
         camera->setPosition(QVector3D(.0f, .0f, 10.f));
-        sliceView()->setCamera(camera);
+        sliceView->setCamera(camera);
 
-        auto light = new QQuick3DDirectionalLight(sliceView()->scene());
+        auto light = new QQuick3DDirectionalLight(sliceView->scene());
         light->setParent(camera);
         light->setParentItem(camera);
         light->setAmbientColor(QColor::fromRgbF(1.f, 1.f, 1.f));
     }
 }
 
-void QQuickGraphsItem::updateSliceGrid()
+void QQuickGraphsItem::updateSliceGrid(QQuick3DModel *sliceGridGeometryModel,
+                                       QtGraphs3D::SliceType sliceType)
 {
     QAbstract3DAxis *horizontalAxis = nullptr;
     QAbstract3DAxis *verticalAxis = axisY();
@@ -6433,12 +6495,17 @@ void QQuickGraphsItem::updateSliceGrid()
 
     float horizontalScale = 0.0f;
 
-    if (selectionMode().testFlag(QtGraphs3D::SelectionFlag::Row)) {
+    bool isRow = (selectionMode().testFlag(QtGraphs3D::SelectionFlag::Row)
+                  || sliceType == QtGraphs3D::SliceType::SliceRow);
+    bool isColumn = (selectionMode().testFlag(QtGraphs3D::SelectionFlag::Column)
+                     || sliceType == QtGraphs3D::SliceType::SliceColumn);
+
+    if (isRow) {
         horizontalAxis = axisX();
         horizontalScale = backgroundScale.x();
         scale = m_scaleWithBackground.x();
         translate = m_scaleWithBackground.x();
-    } else if (selectionMode().testFlag(QtGraphs3D::SelectionFlag::Column)) {
+    } else if (isColumn) {
         horizontalAxis = axisZ();
         horizontalScale = backgroundScale.z();
         scale = m_scaleWithBackground.z();
@@ -6516,16 +6583,26 @@ void QQuickGraphsItem::updateSliceGrid()
         }
     }
 
-    auto geometry = m_sliceGridGeometryModel->geometry();
+    QQuick3DModel *sliceModel = nullptr;
+    if (sliceGridGeometryModel)
+        sliceModel = sliceGridGeometryModel;
+    else
+        sliceModel = m_sliceGridGeometryModel;
+    QQuick3DGeometry *geometry = sliceModel->geometry();
     geometry->setVertexData(vertices);
     geometry->update();
 
-    QQmlListReference materialRef(m_sliceGridGeometryModel, "materials");
+    QQmlListReference materialRef(sliceModel, "materials");
     auto material = static_cast<QQuick3DPrincipledMaterial *>(materialRef.at(0));
     material->setBaseColor(theme()->grid().mainColor());
 }
 
-void QQuickGraphsItem::updateSliceLabels()
+void QQuickGraphsItem::updateSliceLabels(QQuick3DRepeater *horizontalLabel,
+                                         QQuick3DRepeater *verticalLabel,
+                                         QQuick3DNode *horizontalTitle,
+                                         QQuick3DNode *verticalTitle,
+                                         QQuick3DNode *itemLabel,
+                                         QtGraphs3D::SliceType sliceType)
 {
     QAbstract3DAxis *horizontalAxis = nullptr;
     QAbstract3DAxis *verticalAxis = axisY();
@@ -6534,12 +6611,29 @@ void QQuickGraphsItem::updateSliceLabels()
     float translate;
     QColor horizontalLabelTextColor;
 
-    if (selectionMode().testFlag(QtGraphs3D::SelectionFlag::Row)) {
+    QQuick3DRepeater *sliceHorizontalLabelRepeater = nullptr;
+    if (horizontalLabel)
+        sliceHorizontalLabelRepeater = horizontalLabel;
+    else
+        sliceHorizontalLabelRepeater = m_sliceHorizontalLabelRepeater;
+
+    QQuick3DRepeater *sliceVerticalLabelRepeater = nullptr;
+    if (verticalLabel)
+        sliceVerticalLabelRepeater = verticalLabel;
+    else
+        sliceVerticalLabelRepeater = m_sliceVerticalLabelRepeater;
+
+    bool isRow = (selectionMode().testFlag(QtGraphs3D::SelectionFlag::Row)
+                  || sliceType == QtGraphs3D::SliceType::SliceRow);
+    bool isColumn = (selectionMode().testFlag(QtGraphs3D::SelectionFlag::Column)
+                     || sliceType == QtGraphs3D::SliceType::SliceColumn);
+
+    if (isRow) {
         horizontalAxis = axisX();
         scale = backgroundScale.x() - m_backgroundScaleMargin.x();
         translate = backgroundScale.x() - m_backgroundScaleMargin.x();
         horizontalLabelTextColor = theme()->axisX().labelTextColor();
-    } else if (selectionMode().testFlag(QtGraphs3D::SelectionFlag::Column)) {
+    } else if (isColumn) {
         horizontalAxis = axisZ();
         scale = backgroundScale.z() - m_backgroundScaleMargin.z();
         translate = backgroundScale.z() - m_backgroundScaleMargin.z();
@@ -6553,20 +6647,20 @@ void QQuickGraphsItem::updateSliceLabels()
 
     if (horizontalAxis->type() == QAbstract3DAxis::AxisType::Value) {
         QValue3DAxis *valueAxis = static_cast<QValue3DAxis *>(horizontalAxis);
-        m_sliceHorizontalLabelRepeater->model().clear();
-        m_sliceHorizontalLabelRepeater->setModel(valueAxis->labels().size());
+        sliceHorizontalLabelRepeater->model().clear();
+        sliceHorizontalLabelRepeater->setModel(valueAxis->labels().size());
     } else if (horizontalAxis->type() == QAbstract3DAxis::AxisType::Category) {
-        m_sliceHorizontalLabelRepeater->model().clear();
-        m_sliceHorizontalLabelRepeater->setModel(horizontalAxis->labels().size());
+        sliceHorizontalLabelRepeater->model().clear();
+        sliceHorizontalLabelRepeater->setModel(horizontalAxis->labels().size());
     }
 
     if (verticalAxis->type() == QAbstract3DAxis::AxisType::Value) {
         QValue3DAxis *valueAxis = static_cast<QValue3DAxis *>(verticalAxis);
-        m_sliceVerticalLabelRepeater->model().clear();
-        m_sliceVerticalLabelRepeater->setModel(valueAxis->labels().size());
+        sliceVerticalLabelRepeater->model().clear();
+        sliceVerticalLabelRepeater->setModel(valueAxis->labels().size());
     } else if (horizontalAxis->type() == QAbstract3DAxis::AxisType::Category) {
-        m_sliceVerticalLabelRepeater->model().clear();
-        m_sliceVerticalLabelRepeater->setModel(verticalAxis->labels().size());
+        sliceVerticalLabelRepeater->model().clear();
+        sliceVerticalLabelRepeater->setModel(verticalAxis->labels().size());
     }
 
     float textPadding = 12.0f;
@@ -6591,8 +6685,8 @@ void QQuickGraphsItem::updateSliceLabels()
     QColor backgroundColor = theme()->labelBackgroundColor();
 
     if (horizontalAxis->type() == QAbstract3DAxis::AxisType::Value) {
-        for (int i = 0; i < m_sliceHorizontalLabelRepeater->count(); i++) {
-            auto obj = static_cast<QQuick3DNode *>(m_sliceHorizontalLabelRepeater->objectAt(i));
+        for (int i = 0; i < sliceHorizontalLabelRepeater->count(); i++) {
+            auto obj = static_cast<QQuick3DNode *>(sliceHorizontalLabelRepeater->objectAt(i));
             // It is important to use the position of vertical grids so that they can be in the same
             // position when col/row ranges are updated.
             float linePosX = static_cast<QValue3DAxis *>(horizontalAxis)->gridPositionAt(i) * scale
@@ -6615,13 +6709,13 @@ void QQuickGraphsItem::updateSliceLabels()
                 obj->setVisible(false);
         }
     } else if (horizontalAxis->type() == QAbstract3DAxis::AxisType::Category) {
-        for (int i = 0; i < m_sliceHorizontalLabelRepeater->count(); i++) {
+        for (int i = 0; i < sliceHorizontalLabelRepeater->count(); i++) {
             labelTrans = calculateCategoryLabelPosition(horizontalAxis, labelTrans, i);
             labelTrans.setY(-yPos /*- (adjustment / 2.f)*/);
-            if (selectionMode().testFlag(QtGraphs3D::SelectionFlag::Column))
+            if (isColumn)
                 labelTrans.setX(labelTrans.z());
             labelTrans.setZ(1.0f); // Bring the labels on top of bars and grid
-            auto obj = static_cast<QQuick3DNode *>(m_sliceHorizontalLabelRepeater->objectAt(i));
+            auto obj = static_cast<QQuick3DNode *>(sliceHorizontalLabelRepeater->objectAt(i));
             obj->setScale(fontScaled);
             obj->setPosition(labelTrans);
             obj->setProperty("labelText", labels[i]);
@@ -6645,17 +6739,17 @@ void QQuickGraphsItem::updateSliceLabels()
     fontScaled.setX(scaleFactor * fontRatio);
     adjustment = labelsMaxWidth * scaleFactor;
     float xPos = 0.0f;
-    if (selectionMode().testFlag(QtGraphs3D::SelectionFlag::Row))
+    if (isRow)
         xPos = backgroundScale.x() + (adjustment * 1.5f);
-    else if (selectionMode().testFlag(QtGraphs3D::SelectionFlag::Column))
+    else if (isColumn)
         xPos = backgroundScale.z() + (adjustment * 1.5f);
     labelTrans = QVector3D(xPos, 0.0f, 0.0f);
     QColor verticalLabelTextColor = theme()->axisY().labelTextColor();
 
     if (verticalAxis->type() == QAbstract3DAxis::AxisType::Value) {
         auto valueAxis = static_cast<QValue3DAxis *>(verticalAxis);
-        for (int i = 0; i < m_sliceVerticalLabelRepeater->count(); i++) {
-            auto obj = static_cast<QQuick3DNode *>(m_sliceVerticalLabelRepeater->objectAt(i));
+        for (int i = 0; i < sliceVerticalLabelRepeater->count(); i++) {
+            auto obj = static_cast<QQuick3DNode *>(sliceVerticalLabelRepeater->objectAt(i));
             labelTrans.setY(valueAxis->labelPositionAt(i) * scale * 2.0f - translate);
             obj->setScale(fontScaled);
             obj->setPosition(labelTrans);
@@ -6671,9 +6765,9 @@ void QQuickGraphsItem::updateSliceLabels()
                 obj->setVisible(false);
         }
     } else if (verticalAxis->type() == QAbstract3DAxis::AxisType::Category) {
-        for (int i = 0; i < m_sliceVerticalLabelRepeater->count(); i++) {
+        for (int i = 0; i < sliceVerticalLabelRepeater->count(); i++) {
             labelTrans = calculateCategoryLabelPosition(verticalAxis, labelTrans, i);
-            auto obj = static_cast<QQuick3DNode *>(m_sliceVerticalLabelRepeater->objectAt(i));
+            auto obj = static_cast<QQuick3DNode *>(sliceVerticalLabelRepeater->objectAt(i));
             obj->setScale(fontScaled);
             obj->setPosition(labelTrans);
             obj->setProperty("labelText", labels[i]);
@@ -6692,26 +6786,31 @@ void QQuickGraphsItem::updateSliceLabels()
     QVector3D vTitleScale = fontScaled;
     vTitleScale.setX(fontScaled.y() * labelWidth / labelHeight);
     adjustment = labelHeight * scaleFactor;
-    if (selectionMode().testFlag(QtGraphs3D::SelectionFlag::Row))
+    if (isRow)
         xPos = backgroundScale.x() + adjustment;
-    else if (selectionMode().testFlag(QtGraphs3D::SelectionFlag::Column))
+    else if (isColumn)
         xPos = backgroundScale.z() + adjustment;
     labelTrans = QVector3D(-(xPos + adjustment), 0.0f, 0.0f);
 
+    QQuick3DNode *sliceVerticalTitleLabel = nullptr;
+    if (verticalTitle)
+        sliceVerticalTitleLabel = verticalTitle;
+    else
+        sliceVerticalTitleLabel = m_sliceVerticalTitleLabel;
     if (!verticalAxis->title().isEmpty()) {
-        m_sliceVerticalTitleLabel->setScale(vTitleScale);
-        m_sliceVerticalTitleLabel->setPosition(labelTrans);
-        m_sliceVerticalTitleLabel->setProperty("labelWidth", labelWidth);
-        m_sliceVerticalTitleLabel->setProperty("labelHeight", labelHeight);
-        m_sliceVerticalTitleLabel->setProperty("labelText", verticalAxis->title());
-        m_sliceVerticalTitleLabel->setProperty("labelFont", font);
-        m_sliceVerticalTitleLabel->setProperty("borderVisible", borderVisible);
-        m_sliceVerticalTitleLabel->setProperty("labelTextColor", verticalLabelTextColor);
-        m_sliceVerticalTitleLabel->setProperty("backgroundVisible", backgroundVisible);
-        m_sliceVerticalTitleLabel->setProperty("backgroundColor", backgroundColor);
-        m_sliceVerticalTitleLabel->setEulerRotation(QVector3D(.0f, .0f, 90.0f));
+        sliceVerticalTitleLabel->setScale(vTitleScale);
+        sliceVerticalTitleLabel->setPosition(labelTrans);
+        sliceVerticalTitleLabel->setProperty("labelWidth", labelWidth);
+        sliceVerticalTitleLabel->setProperty("labelHeight", labelHeight);
+        sliceVerticalTitleLabel->setProperty("labelText", verticalAxis->title());
+        sliceVerticalTitleLabel->setProperty("labelFont", font);
+        sliceVerticalTitleLabel->setProperty("borderVisible", borderVisible);
+        sliceVerticalTitleLabel->setProperty("labelTextColor", verticalLabelTextColor);
+        sliceVerticalTitleLabel->setProperty("backgroundVisible", backgroundVisible);
+        sliceVerticalTitleLabel->setProperty("backgroundColor", backgroundColor);
+        sliceVerticalTitleLabel->setEulerRotation(QVector3D(.0f, .0f, 90.0f));
     } else {
-        m_sliceVerticalTitleLabel->setVisible(false);
+        sliceVerticalTitleLabel->setVisible(false);
     }
 
     labelHeight = fm.height() + textPadding;
@@ -6722,26 +6821,36 @@ void QQuickGraphsItem::updateSliceLabels()
     yPos = backgroundScale.y() * 1.5f + (adjustment * 6.f);
     labelTrans = QVector3D(0.0f, -yPos, 0.0f);
 
+    QQuick3DNode *sliceHorizontalTitleLabel = nullptr;
+    if (horizontalTitle)
+        sliceHorizontalTitleLabel = horizontalTitle;
+    else
+        sliceHorizontalTitleLabel = m_sliceHorizontalTitleLabel;
     if (!horizontalAxis->title().isEmpty()) {
-        m_sliceHorizontalTitleLabel->setScale(hTitleScale);
-        m_sliceHorizontalTitleLabel->setPosition(labelTrans);
-        m_sliceHorizontalTitleLabel->setProperty("labelWidth", labelWidth);
-        m_sliceHorizontalTitleLabel->setProperty("labelHeight", labelHeight);
-        m_sliceHorizontalTitleLabel->setProperty("labelText", horizontalAxis->title());
-        m_sliceHorizontalTitleLabel->setProperty("labelFont", font);
-        m_sliceHorizontalTitleLabel->setProperty("borderVisible", borderVisible);
-        m_sliceHorizontalTitleLabel->setProperty("labelTextColor", horizontalLabelTextColor);
-        m_sliceHorizontalTitleLabel->setProperty("backgroundVisible", backgroundVisible);
-        m_sliceHorizontalTitleLabel->setProperty("backgroundColor", backgroundColor);
+        sliceHorizontalTitleLabel->setScale(hTitleScale);
+        sliceHorizontalTitleLabel->setPosition(labelTrans);
+        sliceHorizontalTitleLabel->setProperty("labelWidth", labelWidth);
+        sliceHorizontalTitleLabel->setProperty("labelHeight", labelHeight);
+        sliceHorizontalTitleLabel->setProperty("labelText", horizontalAxis->title());
+        sliceHorizontalTitleLabel->setProperty("labelFont", font);
+        sliceHorizontalTitleLabel->setProperty("borderVisible", borderVisible);
+        sliceHorizontalTitleLabel->setProperty("labelTextColor", horizontalLabelTextColor);
+        sliceHorizontalTitleLabel->setProperty("backgroundVisible", backgroundVisible);
+        sliceHorizontalTitleLabel->setProperty("backgroundColor", backgroundColor);
     } else {
-        m_sliceHorizontalTitleLabel->setVisible(false);
+        sliceHorizontalTitleLabel->setVisible(false);
     }
 
-    m_sliceItemLabel->setProperty("labelFont", font);
-    m_sliceItemLabel->setProperty("borderVisible", borderVisible);
-    m_sliceItemLabel->setProperty("labelTextColor", theme()->labelTextColor());
-    m_sliceItemLabel->setProperty("backgroundVisible", backgroundVisible);
-    m_sliceItemLabel->setProperty("backgroundColor", backgroundColor);
+    QQuick3DNode *sliceItemLabel = nullptr;
+    if (itemLabel)
+        sliceItemLabel = itemLabel;
+    else
+        sliceItemLabel = m_sliceItemLabel;
+    sliceItemLabel->setProperty("labelFont", font);
+    sliceItemLabel->setProperty("borderVisible", borderVisible);
+    sliceItemLabel->setProperty("labelTextColor", theme()->labelTextColor());
+    sliceItemLabel->setProperty("backgroundVisible", backgroundVisible);
+    sliceItemLabel->setProperty("backgroundColor", backgroundColor);
 }
 
 void QQuickGraphsItem::setUpCamera()

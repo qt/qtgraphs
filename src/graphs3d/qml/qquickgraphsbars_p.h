@@ -149,6 +149,12 @@ public:
     bool isDataDirty() const { return m_isDataDirty; }
     void setDataDirty(bool dirty) { m_isDataDirty = dirty; }
 
+    QSharedPointer<QQuickItemGrabResult> renderSliceToImage(int requestedIndex,
+                                                            QtGraphs3D::SliceType sliceType);
+    Q_REVISION(6, 10)
+    Q_INVOKABLE void renderSliceToImage(int requestedIndex, QtGraphs3D::SliceType sliceType,
+                                        const QUrl &filePath);
+
 protected:
     void componentComplete() override;
     void synchData() override;
@@ -171,6 +177,9 @@ protected:
     bool doRayPicking(QVector3D origin, QVector3D direction) override;
     QAbstract3DAxis *createDefaultAxis(QAbstract3DAxis::AxisOrientation orientation) override;
     void updateSliceItemLabel(const QString &label, QVector3D position) override;
+
+    QQuick3DViewport* createOffscreenSliceView(int requestedIndex,
+                                              QtGraphs3D::SliceType sliceType);
 
 public Q_SLOTS:
     void handleAxisXChanged(QAbstract3DAxis *axis) override;
@@ -205,6 +214,13 @@ Q_SIGNALS:
     void floorLevelChanged(float level);
 
 private:
+    enum SelectionType {
+        SelectionNone = 0,
+        SelectionItem,
+        SelectionRow,
+        SelectionColumn,
+    };
+
     Bars3DChangeBitField m_changeTracker;
     QList<ChangeItem> m_changedItems;
     QList<ChangeRow> m_changedRows;
@@ -320,7 +336,7 @@ private:
     void deleteBarItemHolders(BarInstancing *instancing);
     QQuick3DTexture *createTexture();
     void updateSelectedBar();
-    QQuickGraphsItem::SelectionType isSelected(int row, int bar, QBar3DSeries *series);
+    SelectionType isSelected(int row, int bar, QBar3DSeries *series);
     void resetClickedStatus();
     void removeSlicedBarModels();
     void createBarItemHolders(QBar3DSeries *series, QList<BarModel *> barList, bool slice);

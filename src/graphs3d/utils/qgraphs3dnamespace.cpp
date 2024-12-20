@@ -52,6 +52,20 @@ QT_BEGIN_NAMESPACE
 */
 
 /*!
+    \enum QtGraphs3D::SliceType
+    \since 6.10
+
+    Type of slice to grab to an image.
+
+    \value SliceNone
+           Slice type is not defined.
+    \value SliceRow
+           Slice for rows.
+    \value SliceColumn
+           Slice for columns.
+*/
+
+/*!
     \enum QtGraphs3D::ShadowQuality
 
     Quality of shadows.

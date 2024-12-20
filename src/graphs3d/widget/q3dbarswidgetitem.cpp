@@ -449,4 +449,22 @@ const QQuickGraphsBars *Q3DBarsWidgetItem::graphBars() const
     return static_cast<const QQuickGraphsBars *>(d->m_graphsItem.get());
 }
 
+/*!
+ * Exports the requested slice view to an image.
+ * The exported slice is bars of row or column, which is defined by \a sliceType,
+ * at a given \a requestedIndex.
+ * Returns a shared pointer to grab result which can be used to access the
+ * exported image when it's ready. Image is rendered with the current
+ * antialiasing settings.
+ *
+ * \sa QQuickItem::grabToImage()
+ *
+ * \since 6.10
+ */
+QSharedPointer<QQuickItemGrabResult>
+Q3DBarsWidgetItem::renderSliceToImage(int requestedIndex, QtGraphs3D::SliceType sliceType)
+{
+    return graphBars()->renderSliceToImage(requestedIndex, sliceType);
+}
+
 QT_END_NAMESPACE

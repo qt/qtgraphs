@@ -144,6 +144,11 @@ public:
     void handleSeriesVisibilityChangedBySender(QObject *sender) override;
     void adjustAxisRanges() override;
 
+    QSharedPointer<QQuickItemGrabResult> renderSliceToImage(int index, int requestedIndex, QtGraphs3D::SliceType sliceType);
+    Q_REVISION(6, 10)
+    Q_INVOKABLE void renderSliceToImage(int index, int requestedIndex,
+                                        QtGraphs3D::SliceType sliceType, const QUrl &filePath);
+
 protected:
     void componentComplete() override;
     void synchData() override;
@@ -159,6 +164,9 @@ protected:
     void createSliceView() override;
     void updateSliceItemLabel(const QString &label, QVector3D position) override;
     void updateSelectionMode(QtGraphs3D::SelectionFlags mode) override;
+
+    QQuick3DViewport *createOffscreenSliceView(int index, int requestedIndex,
+                                               QtGraphs3D::SliceType sliceType);
 
 public Q_SLOTS:
     void handleAxisXChanged(QAbstract3DAxis *axis) override;

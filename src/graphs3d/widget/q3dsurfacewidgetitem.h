@@ -46,6 +46,10 @@ public:
     void setFlipHorizontalGrid(bool flip);
     bool flipHorizontalGrid() const;
 
+    Q_REVISION(6, 10)
+    QSharedPointer<QQuickItemGrabResult> renderSliceToImage(int index, int requestedIndex,
+                                                            QtGraphs3D::SliceType sliceType);
+
 protected:
     bool event(QEvent *event) override;
 

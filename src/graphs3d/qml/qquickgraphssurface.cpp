@@ -18,6 +18,8 @@
 #include <QtQuick3D/private/qquick3ddefaultmaterial_p.h>
 #include <QtQuick3D/private/qquick3dprincipledmaterial_p.h>
 
+#include <QtQuick/qquickitemgrabresult.h>
+
 QT_BEGIN_NAMESPACE
 
 /*!
@@ -116,6 +118,23 @@ QT_BEGIN_NAMESPACE
  * \qmlmethod void Surface3D::removeSeries(Surface3DSeries series)
  * Removes the \a series from the graph.
  * \sa GraphsItem3D::hasSeries()
+ */
+
+/*!
+ * \qmlmethod void Surface3D::removeSeries(Surface3DSeries series)
+ * Removes the \a series from the graph.
+ * \sa GraphsItem3D::hasSeries()
+ */
+
+/*!
+ * \qmlmethod void Surface3D::renderSliceToImage(int index, int requestedIndex, QtGraphs3D::SliceType sliceType, QUrl filePath)
+ * \since 6.10
+ *
+ * Exports a 2d slice from series at \a index and saves the result to an image
+ * at a specified \a filePath.
+ * To export all series, set \a index to -1.
+ * The exported slice includes lines of row or column, which is defined by
+ * \a sliceType at a given \a requestedIndex.
  */
 
 /*!
@@ -2613,6 +2632,220 @@ void QQuickGraphsSurface::createSliceView()
     }
 }
 
+QQuick3DViewport *QQuickGraphsSurface::createOffscreenSliceView(int index, int requestedIndex,
+                                                                QtGraphs3D::SliceType sliceType)
+{
+    QQuick3DViewport *sliceView = QQuickGraphsItem::createOffscreenSliceView(sliceType);
+
+    bool isRow = (selectionMode().testFlag(QtGraphs3D::SelectionFlag::Row)
+                  || sliceType == QtGraphs3D::SliceType::SliceRow);
+    bool isColumn = (selectionMode().testFlag(QtGraphs3D::SelectionFlag::Column)
+                     || sliceType == QtGraphs3D::SliceType::SliceColumn);
+
+    int modelIndex = 0;
+    for (const auto &model : std::as_const(m_model)) {
+        if (index > 0 && modelIndex++ != index)
+            continue;
+
+        QRect sampleSpace = model->sampleSpace;
+        int rowStart = sampleSpace.top();
+        int columnStart = sampleSpace.left();
+        int rowEnd = sampleSpace.bottom() + 1;
+        int columnEnd = sampleSpace.right() + 1;
+        int rowCount = sampleSpace.height();
+        int columnCount = sampleSpace.width();
+
+        QVector<SurfaceVertex> selectedSeries;
+        int indexCount = 0;
+        const QSurfaceDataArray &array = model->series->dataArray();
+        const qsizetype maxRow = array.size() - 1;
+        const qsizetype maxColumn = array.at(0).size() - 1;
+        const bool ascendingX = array.at(0).at(0).x() < array.at(0).at(maxColumn).x();
+        const bool ascendingZ = array.at(0).at(0).z() < array.at(maxRow).at(0).z();
+
+        if (requestedIndex < 0 || requestedIndex >= maxRow || requestedIndex >= maxColumn) {
+            qWarning("The index is out of range. The render stops.");
+            sliceView->setVisible(false);
+            sliceView->deleteLater();
+            return nullptr;
+        }
+
+        if (isRow && requestedIndex != -1) {
+            selectedSeries.reserve(columnCount * 2);
+            QVector<SurfaceVertex> list;
+            QSurfaceDataRow row = array.at(requestedIndex);
+            for (int i = columnStart; i < columnEnd; i++) {
+                int index = ascendingX ? i : columnEnd - i + columnStart - 1;
+                QVector3D pos = getNormalizedVertex(row.at(index), false, false);
+                SurfaceVertex vertex;
+                vertex.position = pos;
+                vertex.position.setY(vertex.position.y() - .025f);
+                vertex.position.setZ(.0f);
+                selectedSeries.append(vertex);
+                vertex.position.setY(vertex.position.y() + .05f);
+                list.append(vertex);
+            }
+            selectedSeries.append(list);
+            indexCount = columnCount - 1;
+        }
+
+        if (isColumn && requestedIndex != -1) {
+            selectedSeries.reserve(rowCount * 2);
+            QVector<SurfaceVertex> list;
+            for (int i = rowStart; i < rowEnd; i++) {
+                int index = ascendingZ ? i : rowEnd - i + rowStart - 1;
+                QVector3D pos =
+                        getNormalizedVertex(array.at(index).at(requestedIndex), false, false);
+                SurfaceVertex vertex;
+                vertex.position = pos;
+                vertex.position.setX(-vertex.position.z());
+                vertex.position.setY(vertex.position.y() - .025f);
+                vertex.position.setZ(0);
+                selectedSeries.append(vertex);
+                vertex.position.setY(vertex.position.y() + .05f);
+                list.append(vertex);
+            }
+            selectedSeries.append(list);
+            indexCount = rowCount - 1;
+
+            QQmlListReference materialRef(model->sliceModel, "materials");
+            auto material = materialRef.at(0);
+            material->setProperty("isColumn", true);
+        }
+
+        QVector<quint32> indices;
+        indices.reserve(indexCount * 6);
+        for (int i = 0; i < indexCount; i++) {
+            indices.push_back(i + 1);
+            indices.push_back(i + indexCount + 1);
+            indices.push_back(i);
+            indices.push_back(i + indexCount + 2);
+            indices.push_back(i + indexCount + 1);
+            indices.push_back(i + 1);
+        }
+
+        auto surfaceModel = new QQuick3DModel();
+        surfaceModel->setParent(sliceView->scene());
+        surfaceModel->setParentItem(sliceView->scene());
+
+        auto geometry = new QQuick3DGeometry();
+        geometry->setParent(surfaceModel);
+        geometry->setParentItem(surfaceModel);
+        geometry->setStride(sizeof(SurfaceVertex));
+        geometry->setPrimitiveType(QQuick3DGeometry::PrimitiveType::Triangles);
+        geometry->addAttribute(QQuick3DGeometry::Attribute::PositionSemantic, 0,
+                               QQuick3DGeometry::Attribute::F32Type);
+        geometry->addAttribute(QQuick3DGeometry::Attribute::TexCoord0Semantic, sizeof(QVector3D),
+                               QQuick3DGeometry::Attribute::F32Type);
+        geometry->addAttribute(QQuick3DGeometry::Attribute::IndexSemantic, 0,
+                               QQuick3DGeometry::Attribute::U32Type);
+        QByteArray vertexBuffer(reinterpret_cast<char *>(selectedSeries.data()),
+                                selectedSeries.size() * sizeof(SurfaceVertex));
+        geometry->setVertexData(vertexBuffer);
+        QByteArray indexBuffer(reinterpret_cast<char *>(indices.data()),
+                               indices.size() * sizeof(quint32));
+        geometry->setIndexData(indexBuffer);
+        surfaceModel->setGeometry(geometry);
+
+        QQmlListReference materialRef(surfaceModel, "materials");
+        auto material = createQmlCustomMaterial(QStringLiteral(":/materials/SurfaceSliceMaterial"));
+        material->setCullMode(QQuick3DMaterial::NoCulling);
+        QVariant textureInputAsVariant = material->property("custex");
+        QQuick3DShaderUtilsTextureInput *textureInput =
+                textureInputAsVariant.value<QQuick3DShaderUtilsTextureInput *>();
+        QQuick3DTexture *texture = model->texture;
+        textureInput->setTexture(texture);
+        materialRef.append(material);
+
+        if (model->series->drawMode().testFlag(QSurface3DSeries::DrawSurface))
+            surfaceModel->setLocalOpacity(1.f);
+        else
+            surfaceModel->setLocalOpacity(.0f);
+
+        if (model->series->drawMode().testFlag(QSurface3DSeries::DrawWireframe)) {
+            QVector<quint32> gridIndices;
+            gridIndices.reserve(indexCount * 4);
+            for (int i = 0; i < indexCount; i++) {
+                gridIndices.push_back(i);
+                gridIndices.push_back(i + indexCount + 1);
+
+                gridIndices.push_back(i);
+                gridIndices.push_back(i + 1);
+            }
+            QQuick3DModel *gridModel = new QQuick3DModel();
+            gridModel->setParent(sliceView->scene());
+            gridModel->setParentItem(sliceView->scene());
+            gridModel->setDepthBias(1.0f);
+            QQuick3DGeometry *gridGeometry = new QQuick3DGeometry();
+            gridGeometry->setParent(gridModel);
+            gridGeometry->setStride(sizeof(SurfaceVertex));
+            gridGeometry->setPrimitiveType(QQuick3DGeometry::PrimitiveType::Lines);
+            gridGeometry->addAttribute(QQuick3DGeometry::Attribute::PositionSemantic, 0,
+                                       QQuick3DGeometry::Attribute::F32Type);
+            gridGeometry->addAttribute(QQuick3DGeometry::Attribute::IndexSemantic, 0,
+                                       QQuick3DGeometry::Attribute::U32Type);
+            QByteArray gridIndexBuffer(reinterpret_cast<char *>(gridIndices.data()),
+                                       gridIndices.size() * sizeof(quint32));
+            gridGeometry->setVertexData(vertexBuffer);
+            gridGeometry->setIndexData(gridIndexBuffer);
+            gridGeometry->update();
+            gridModel->setGeometry(gridGeometry);
+            QQmlListReference gridMaterialRef(gridModel, "materials");
+            QQuick3DPrincipledMaterial *gridMaterial = new QQuick3DPrincipledMaterial();
+            gridMaterial->setParent(gridModel);
+            gridMaterial->setLighting(QQuick3DPrincipledMaterial::NoLighting);
+            gridMaterial->setParent(gridModel);
+            QColor gridColor = model->series->wireframeColor();
+            gridMaterial->setBaseColor(gridColor);
+            gridMaterialRef.append(gridMaterial);
+        }
+    }
+
+    return sliceView;
+}
+
+QSharedPointer<QQuickItemGrabResult> QQuickGraphsSurface::renderSliceToImage(
+    int index, int requestedIndex, QtGraphs3D::SliceType sliceType)
+{
+    QQuick3DViewport *sliceView = createOffscreenSliceView(index, requestedIndex, sliceType);
+
+    if (!sliceView) {
+        return QSharedPointer<QQuickItemGrabResult>();
+    }
+
+    QSharedPointer<QQuickItemGrabResult> grabbed = sliceView->grabToImage();
+    connect(grabbed.data(), &QQuickItemGrabResult::ready, this, [sliceView]() {
+        sliceView->setVisible(false);
+        sliceView->deleteLater();
+    });
+
+    return grabbed;
+}
+
+void QQuickGraphsSurface::renderSliceToImage(int index, int requestedIndex,
+                                             QtGraphs3D::SliceType sliceType, const QUrl &filePath)
+{
+    QQuick3DViewport *sliceView = createOffscreenSliceView(index, requestedIndex, sliceType);
+
+    if (!sliceView)
+        return;
+
+    if (filePath.isEmpty()) {
+        qWarning("Save path is not defined.");
+        sliceView->setVisible(false);
+        sliceView->deleteLater();
+        return;
+    }
+
+    QSharedPointer<QQuickItemGrabResult> grabbed = sliceView->grabToImage();
+    connect(grabbed.data(), &QQuickItemGrabResult::ready, this, [grabbed, sliceView, filePath]() {
+        if (!grabbed.data()->saveToFile(filePath))
+            qWarning("Saving requested slice view to image failed");
+        sliceView->setVisible(false);
+        sliceView->deleteLater();
+    });
+}
+
 void QQuickGraphsSurface::updateSliceItemLabel(const QString &label, QVector3D position)
 {
     QQuickGraphsItem::updateSliceItemLabel(label, position);
@@ -2657,7 +2890,9 @@ void QQuickGraphsSurface::updateSelectionMode(QtGraphs3D::SelectionFlags mode)
 
 void QQuickGraphsSurface::addSliceModel(SurfaceModel *model)
 {
-    QQuick3DViewport *sliceParent = sliceView();
+    QQuick3DViewport *sliceParent = nullptr;
+
+    sliceParent = sliceView();
 
     auto surfaceModel = new QQuick3DModel();
     surfaceModel->setParent(sliceParent->scene());
