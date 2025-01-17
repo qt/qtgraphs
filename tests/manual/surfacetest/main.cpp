@@ -20,6 +20,8 @@
 #include <QFontComboBox>
 #include <QFrame>
 #include <QDebug>
+#include <qcheckbox.h>
+#include <qobject.h>
 
 const int initialTheme = 4;
 
@@ -73,11 +75,16 @@ int main(int argc, char *argv[])
     seriesVisibleCB->setText(QStringLiteral("Series Visible"));
     seriesVisibleCB->setChecked(true);
 
+    QCheckBox *fillCB = new QCheckBox(widget);
+    fillCB->setText(QStringLiteral("Fill Surface"));
+    fillCB->setChecked(false);
+
 #ifdef MULTI_SERIES
     smoothCB->setText(QStringLiteral("S1 Flat Surface"));
     surfaceGridCB->setText(QStringLiteral("S1 Surface Grid"));
     surfaceCB->setText(QStringLiteral("S1 Surface Visible"));
     seriesVisibleCB->setText(QStringLiteral("Series 1 Visible"));
+    fillCB->setText(QStringLiteral("Series 1 Fill"));
 
     QCheckBox *smoothS2CB = new QCheckBox(widget);
     smoothS2CB->setText(QStringLiteral("S2 Flat Surface"));
@@ -95,6 +102,10 @@ int main(int argc, char *argv[])
     series2VisibleCB->setText(QStringLiteral("Series 2 Visible"));
     series2VisibleCB->setChecked(true);
 
+    QCheckBox *fillS2CB = new QCheckBox(widget);
+    fillS2CB->setText(QStringLiteral("Series 2 Fill"));
+    fillS2CB->setChecked(false);
+
     QCheckBox *smoothS3CB = new QCheckBox(widget);
     smoothS3CB->setText(QStringLiteral("S3 Flat Surface"));
     smoothS3CB->setChecked(true);
@@ -111,6 +122,10 @@ int main(int argc, char *argv[])
     series3VisibleCB->setText(QStringLiteral("Series 3 Visible"));
     series3VisibleCB->setChecked(true);
 
+    QCheckBox *fillS3CB = new QCheckBox(widget);
+    fillS3CB->setText(QStringLiteral("Series 3 Fill"));
+    fillS3CB->setChecked(false);
+
     QCheckBox *smoothS4CB = new QCheckBox(widget);
     smoothS4CB->setText(QStringLiteral("S4 Flat Surface"));
     smoothS4CB->setChecked(true);
@@ -126,6 +141,10 @@ int main(int argc, char *argv[])
     QCheckBox *series4VisibleCB = new QCheckBox(widget);
     series4VisibleCB->setText(QStringLiteral("Series 4 Visible"));
     series4VisibleCB->setChecked(true);
+
+    QCheckBox *fillS4CB = new QCheckBox(widget);
+    fillS4CB->setText(QStringLiteral("Series 4 Fill"));
+    fillS4CB->setChecked(false);
 
     QCheckBox *series1CB = new QCheckBox(widget);
     series1CB->setText(QStringLiteral("Series 1"));
@@ -484,6 +503,7 @@ int main(int argc, char *argv[])
     vLayout->addWidget(surfaceGridCB);
     vLayout->addWidget(surfaceCB);
     vLayout->addWidget(seriesVisibleCB);
+    vLayout->addWidget(fillCB);
 #ifdef MULTI_SERIES
     vLayout->addWidget(line);
     vLayout->addWidget(series2CB);
@@ -491,18 +511,21 @@ int main(int argc, char *argv[])
     vLayout->addWidget(surfaceGridS2CB);
     vLayout->addWidget(surfaceS2CB);
     vLayout->addWidget(series2VisibleCB);
+    vLayout->addWidget(fillS2CB);
     vLayout->addWidget(line2);
     vLayout->addWidget(series3CB);
     vLayout->addWidget(smoothS3CB);
     vLayout->addWidget(surfaceGridS3CB);
     vLayout->addWidget(surfaceS3CB);
     vLayout->addWidget(series3VisibleCB);
+    vLayout->addWidget(fillS3CB);
     vLayout->addWidget(line3);
     vLayout->addWidget(series4CB);
     vLayout->addWidget(smoothS4CB);
     vLayout->addWidget(surfaceGridS4CB);
     vLayout->addWidget(surfaceS4CB);
     vLayout->addWidget(series4VisibleCB);
+    vLayout->addWidget(fillS4CB);
     vLayout->addWidget(surfaceTextureCB, 1, Qt::AlignTop);
 #endif
 #ifndef MULTI_SERIES
@@ -607,6 +630,8 @@ int main(int argc, char *argv[])
                      modifier, &GraphModifier::toggleSurface);
     QObject::connect(seriesVisibleCB, &QCheckBox::checkStateChanged,
                      modifier, &GraphModifier::toggleSeriesVisible);
+    QObject::connect(fillCB, &QCheckBox::checkStateChanged,
+                     modifier, &GraphModifier::toggleFill);
 #ifdef MULTI_SERIES
     QObject::connect(smoothS2CB, &QCheckBox::checkStateChanged,
                      modifier, &GraphModifier::toggleSmoothS2);
@@ -616,6 +641,8 @@ int main(int argc, char *argv[])
                      modifier, &GraphModifier::toggleSurfaceS2);
     QObject::connect(series2VisibleCB, &QCheckBox::checkStateChanged,
                      modifier, &GraphModifier::toggleSeries2Visible);
+    QObject::connect(fillS2CB, &QCheckBox::checkStateChanged,
+                     modifier, &GraphModifier::toggleFillS2);
 
     QObject::connect(smoothS3CB, &QCheckBox::checkStateChanged,
                      modifier, &GraphModifier::toggleSmoothS3);
@@ -625,6 +652,8 @@ int main(int argc, char *argv[])
                      modifier, &GraphModifier::toggleSurfaceS3);
     QObject::connect(series3VisibleCB, &QCheckBox::checkStateChanged,
                      modifier, &GraphModifier::toggleSeries3Visible);
+    QObject::connect(fillS3CB, &QCheckBox::checkStateChanged,
+                     modifier, &GraphModifier::toggleFillS3);
 
     QObject::connect(smoothS4CB, &QCheckBox::checkStateChanged,
                      modifier, &GraphModifier::toggleSmoothS4);
@@ -634,6 +663,8 @@ int main(int argc, char *argv[])
                      modifier, &GraphModifier::toggleSurfaceS4);
     QObject::connect(series4VisibleCB, &QCheckBox::checkStateChanged,
                      modifier, &GraphModifier::toggleSeries4Visible);
+    QObject::connect(fillS4CB, &QCheckBox::checkStateChanged,
+                     modifier, &GraphModifier::toggleFillS4);
 
     CheckBoxWrapper *series1SmoothCBWrapper = new CheckBoxWrapper(smoothCB);
     CheckBoxWrapper *series1SurfaceGridCBWrapper = new CheckBoxWrapper(surfaceGridCB);

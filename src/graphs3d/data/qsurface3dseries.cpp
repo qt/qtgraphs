@@ -166,8 +166,8 @@ QT_BEGIN_NAMESPACE
  * \qmlproperty DrawFlag Surface3DSeries::drawMode
  *
  * Sets the drawing mode to one of
- * \l{QSurface3DSeries::DrawFlag}{Surface3DSeries.DrawFlag}. Clearing all flags
- * is not allowed.
+ * \l{QSurface3DSeries::DrawFlag}{Surface3DSeries.DrawFlag}{QSurface3DSeries.DrawFilledSurface}. 
+*  Either DrawWireframe or DrawSurface must be set
  */
 
 /*!
@@ -248,6 +248,10 @@ QT_BEGIN_NAMESPACE
  *        Only the surface is drawn.
  * \value DrawSurfaceAndWireframe
  *        Both the surface and grid are drawn.
+ *
+ * \value [since 6.10] DrawFilledSurface
+ *        Draws a fill for a surface.
+ *        Setting this mode also sets DrawSurface if it is not already set.
  */
 
 /*!
@@ -695,13 +699,19 @@ void QSurface3DSeriesPrivate::setShading(const QSurface3DSeries::Shading shading
 
 void QSurface3DSeriesPrivate::setDrawMode(QSurface3DSeries::DrawFlags mode)
 {
+    if (mode.testFlag(QSurface3DSeries::DrawFilledSurface)
+        && !mode.testFlag(QSurface3DSeries::DrawSurface)) {
+        qWarning("DrawSurface was not set and is needed for DrawFilledSurface. Setting it "
+                 "automatically");
+        mode |= QSurface3DSeries::DrawSurface;
+    }
     if (mode.testFlag(QSurface3DSeries::DrawWireframe)
         || mode.testFlag(QSurface3DSeries::DrawSurface)) {
         m_drawMode = mode;
         if (m_graph)
             m_graph->markSeriesVisualsDirty();
     } else {
-        qWarning("You may not clear all draw flags. Mode not changed.");
+        qWarning("DrawWireframe or DrawSurface must be set. Mode not changed.");
     }
 }
 

@@ -39,6 +39,7 @@ public:
         DrawWireframe = 1,
         DrawSurface = 2,
         DrawSurfaceAndWireframe = DrawWireframe | DrawSurface,
+        DrawFilledSurface = 4,
     };
     Q_FLAG(DrawFlag)
     Q_DECLARE_FLAGS(DrawFlags, DrawFlag)

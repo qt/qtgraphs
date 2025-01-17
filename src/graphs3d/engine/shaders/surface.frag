@@ -3,11 +3,20 @@ float ambientBrightness = 0.75; // 0...1.0
 float directionalBrightness = 0.50; // 0...1.0
 VARYING vec3 pos;
 VARYING vec2 UV;
+VARYING float overhigh;
 
 void MAIN()
 {
-    if (any(greaterThan(UV, vec2(1.01))) || abs(pos.y) > graphHeight)
+    if ((any(greaterThan(UV, vec2(1.01)))) && (!any(greaterThan(UV0, vec2(1.0)))))
         discard;
+
+    if (abs(pos.y) > graphHeight)
+        discard;
+
+    bool sides = (any(greaterThan(UV0, vec2(1.0))) || any(lessThan(UV0, vec2(0.0))));
+    if (sides && overhigh > 0)
+        discard;
+
     vec4 color;
     vec2 gradientUV;
     switch (colorStyle) {
@@ -22,7 +31,9 @@ void MAIN()
     case 2: // Uniform color
         color = uniformColor;
         break;
-    case 3: // Textured model
+    }
+
+    if (textured && !sides) {
         vec2 offsetNormalized = uvOffset * (1 / (vertCount - 1));
         vec2 texUV = UV0 + offsetNormalized;
         if (flipU)
@@ -30,10 +41,10 @@ void MAIN()
         if (flipV)
             texUV.y = 1 - texUV.y;
         color = texture(baseColor, texUV);
-        break;
     }
 
-    if (flatShading) {
+    // keep sides flat shaded always
+    if (flatShading || sides || overhigh > 0) {
         vec3 dpdx = dFdx(VAR_WORLD_POSITION);
         vec3 dpdy = dFdy(VAR_WORLD_POSITION);
         vec3 n = normalize(cross(dpdy,dpdx));

@@ -259,6 +259,20 @@ void GraphModifier::toggleSeriesVisible(int enable)
 #endif
 }
 
+void GraphModifier::toggleFill(int enable)
+{
+    qDebug() << "GraphModifier::toggleFill" << enable;
+    if (enable)
+        m_drawMode |= QSurface3DSeries::DrawFilledSurface;
+    else
+        m_drawMode &= ~QSurface3DSeries::DrawFilledSurface;
+
+    m_theSeries->setDrawMode(m_drawMode);
+#ifdef MULTI_SERIES
+    m_multiseries[0]->setDrawMode(m_drawMode);
+#endif
+}
+
 void GraphModifier::toggleSmoothS2(int visible)
 {
     qDebug() << __FUNCTION__ << visible;
@@ -296,6 +310,20 @@ void GraphModifier::toggleSeries2Visible(int enable)
 {
     qDebug() << __FUNCTION__ << enable;
     m_multiseries[1]->setVisible(enable);
+}
+
+void GraphModifier::toggleFillS2(int enable)
+{
+    qDebug() << "GraphModifier::toggleFill" << enable;
+    if (enable)
+        m_drawMode2 |= QSurface3DSeries::DrawFilledSurface;
+    else
+        m_drawMode2 &= ~QSurface3DSeries::DrawFilledSurface;
+
+    m_theSeries->setDrawMode(m_drawMode2);
+#ifdef MULTI_SERIES
+    m_multiseries[1]->setDrawMode(m_drawMode2);
+#endif
 }
 
 void GraphModifier::toggleSmoothS3(int enabled)
@@ -337,6 +365,20 @@ void GraphModifier::toggleSeries3Visible(int visible)
     m_multiseries[2]->setVisible(visible);
 }
 
+void GraphModifier::toggleFillS3(int enable)
+{
+    qDebug() << "GraphModifier::toggleFill" << enable;
+    if (enable)
+        m_drawMode3 |= QSurface3DSeries::DrawFilledSurface;
+    else
+        m_drawMode3 &= ~QSurface3DSeries::DrawFilledSurface;
+
+    m_theSeries->setDrawMode(m_drawMode3);
+#ifdef MULTI_SERIES
+    m_multiseries[2]->setDrawMode(m_drawMode3);
+#endif
+}
+
 void GraphModifier::toggleSmoothS4(int visible)
 {
     qDebug() << __FUNCTION__ << visible;
@@ -374,6 +416,20 @@ void GraphModifier::toggleSeries4Visible(int enable)
 {
     qDebug() << __FUNCTION__ << enable;
     m_multiseries[3]->setVisible(enable);
+}
+
+void GraphModifier::toggleFillS4(int enable)
+{
+    qDebug() << "GraphModifier::toggleFill" << enable;
+    if (enable)
+        m_drawMode4 |= QSurface3DSeries::DrawFilledSurface;
+    else
+        m_drawMode4 &= ~QSurface3DSeries::DrawFilledSurface;
+
+    m_theSeries->setDrawMode(m_drawMode);
+#ifdef MULTI_SERIES
+    m_multiseries[3]->setDrawMode(m_drawMode4);
+#endif
 }
 
 void GraphModifier::toggleSqrtSin(int enable)

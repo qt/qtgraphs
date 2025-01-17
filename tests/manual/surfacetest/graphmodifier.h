@@ -35,18 +35,22 @@ public:
     void toggleSurfaceGrid(int enable);
     void toggleSurface(int enable);
     void toggleSeriesVisible(int enable);
+    void toggleFill(int enable);
     void toggleSmoothS2(int visible);
     void toggleSurfaceGridS2(int enable);
     void toggleSurfaceS2(int enable);
     void toggleSeries2Visible(int enable);
+    void toggleFillS2(int enable);
     void toggleSmoothS3(int visible);
     void toggleSurfaceGridS3(int enable);
     void toggleSurfaceS3(int enable);
     void toggleSeries3Visible(int enable);
+    void toggleFillS3(int enable);
     void toggleSmoothS4(int visible);
     void toggleSurfaceGridS4(int enable);
     void toggleSurfaceS4(int enable);
     void toggleSeries4Visible(int enable);
+    void toggleFillS4(int enable);
 
     void toggleSqrtSin(int enable);
     void togglePlane(int enable);

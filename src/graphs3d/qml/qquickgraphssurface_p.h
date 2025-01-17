@@ -200,10 +200,12 @@ private:
         QQuick3DModel *sliceModel;
         QQuick3DModel *sliceGridModel;
         QQuick3DModel *proxyModel;
+        QQuick3DModel *fillModel;
         QVector<SurfaceVertex> vertices;
         QVector<quint32> indices;
         QVector<quint32> gridIndices;
         QSurface3DSeries *series;
+        QQuick3DTexture *gradientTexture;
         QQuick3DTexture *texture;
         QQuick3DTexture *heightTexture;
         QQuick3DCustomMaterial *customMaterial;
@@ -226,11 +228,13 @@ private:
     void createGridlineIndices(SurfaceModel *model, qsizetype x, qsizetype y, qsizetype endX, qsizetype endY);
     void handleChangedSeries();
     void updateModel(SurfaceModel *model);
+    void updateFill(SurfaceModel *model);
     void createProxyModel(SurfaceModel *parentModel);
     void updateProxyModel(SurfaceModel *model);
     void updateMaterial(SurfaceModel *model);
     void updateSelectedPoint();
     void addModel(QSurface3DSeries *series);
+    void addFillModel(SurfaceModel *model);
     void addSliceModel(SurfaceModel *model);
 
     void handleMeshTypeChanged(QAbstract3DSeries::Mesh mesh);
@@ -247,6 +251,7 @@ private:
 
     bool m_isIndexDirty = true;
     bool m_selectionDirty = false;
+    QHash<SurfaceModel *, bool> m_fillDirty;
 
     bool m_pickThisFrame = false;
     bool m_proxyDirty = false;
