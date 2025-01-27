@@ -9,6 +9,7 @@
 #include <QtCore/qstringlist.h>
 #include <QtCore/qtclasshelpermacros.h>
 #include <QtGraphs/qgraphsglobal.h>
+#include <QtQmlIntegration/qqmlintegration.h>
 
 QT_BEGIN_NAMESPACE
 
@@ -37,6 +38,8 @@ class Q_GRAPHS_EXPORT QAbstract3DAxis : public QObject
     Q_PROPERTY(bool titleFixed READ isTitleFixed WRITE setTitleFixed NOTIFY titleFixedChanged FINAL)
     Q_PROPERTY(
         float titleOffset READ titleOffset WRITE setTitleOffset NOTIFY titleOffsetChanged FINAL)
+    QML_NAMED_ELEMENT(Abstract3DAxis)
+    QML_UNCREATABLE("")
 
 public:
     enum class AxisOrientation { None, X, Y, Z };

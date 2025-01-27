@@ -47,6 +47,7 @@ class Q_GRAPHS_EXPORT QCustom3DVolume : public QCustom3DItem
                    sliceFrameGapsChanged FINAL)
     Q_PROPERTY(QVector3D sliceFrameThicknesses READ sliceFrameThicknesses WRITE
                    setSliceFrameThicknesses NOTIFY sliceFrameThicknessesChanged FINAL)
+    QML_NAMED_ELEMENT(Custom3DVolume)
 
 public:
     explicit QCustom3DVolume(QObject *parent = nullptr);

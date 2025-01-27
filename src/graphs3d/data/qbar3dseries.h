@@ -26,7 +26,8 @@ class Q_GRAPHS_EXPORT QBar3DSeries : public QAbstract3DSeries
                    columnLabelsChanged FINAL)
     Q_PROPERTY(
         QBarDataArray dataArray READ dataArray WRITE setDataArray NOTIFY dataArrayChanged FINAL)
-
+    QML_ELEMENT
+    QML_UNCREATABLE("Trying to create uncreatable: QBar3DSeries, use Bar3DSeries instead.")
 public:
     explicit QBar3DSeries(QObject *parent = nullptr);
     explicit QBar3DSeries(QBarDataProxy *dataProxy, QObject *parent = nullptr);
