@@ -616,6 +616,7 @@ void QQuickGraphsScatter::updateItemMaterial(QQuick3DModel *item,
         material->setProperty("colorStyle", 2);
 
     material->setProperty("usePoint", usePoint);
+    material->setProperty("rootScale", rootNode()->scale().y());
 }
 
 void QQuickGraphsScatter::updateInstancedMaterialProperties(ScatterModel *graphModel,
@@ -659,6 +660,7 @@ void QQuickGraphsScatter::updateMaterialProperties(QQuick3DModel *item,
     QQmlListReference materialsRef(item, "materials");
     auto customMaterial = static_cast<QQuick3DCustomMaterial *>(materialsRef.at(0));
     customMaterial->setProperty("transparency", transparency);
+    customMaterial->setProperty("rootScale", rootNode()->scale().y());
 
     int style = customMaterial->property("colorStyle").value<int>();
     if (style == 0) {

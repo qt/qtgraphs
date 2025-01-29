@@ -1776,6 +1776,7 @@ void QQuickGraphsSurface::updateMaterial(SurfaceModel *model)
             texInput->texture()->setSource(QUrl());
         }
     }
+    material->setProperty("rootScale", rootNode()->scale().y());
     material->setProperty("hasTransparency", hasTransparency);
     material->update();
 }

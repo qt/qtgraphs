@@ -1796,6 +1796,8 @@ void QQuickGraphsItem::componentComplete()
 {
     QQuick3DViewport::componentComplete();
 
+    rootNode()->setScale(QVector3D(100,100,100));
+
     auto url = QUrl(QStringLiteral("defaultMeshes/backgroundMesh"));
     m_background = new QQuick3DModel();
     m_backgroundScale = new QQuick3DNode();
@@ -4234,9 +4236,10 @@ void QQuickGraphsItem::updateItemLabel(QVector3D position)
 {
     if (m_labelPosition != position)
         m_labelPosition = position;
-    QVector3D pos2d = mapFrom3DScene(m_labelPosition);
+
+    QVector3D pos2d = mapFrom3DScene(m_labelPosition * rootNode()->scale().z());
     int pointSize = theme()->labelFont().pointSize();
-    float scale = m_labelScale.x() * ((-10.0f * pointSize) + 650.0f) / pos2d.z();
+    float scale = m_labelScale.x() * ((-10.0f * pointSize) + 650.0f) / (pos2d.z() / rootNode()->scale().z());
     scale = scale < 0 ? -scale : scale;
     if (m_sliceView && m_sliceView->isVisible())
         m_itemLabel->setScale(scale * .2f);
@@ -4986,7 +4989,7 @@ void QQuickGraphsItem::updateCamera()
 
     const float scale = qMin(width(), height() * 1.6f);
     const float magnificationScaleFactor = 1.0f / 640.0f;
-    const float magnification = scale * magnificationScaleFactor;
+    const float magnification = scale * magnificationScaleFactor / rootNode()->scale().x();
 
     auto useOrtho = isOrthoProjection();
     if (useOrtho) {
@@ -6746,10 +6749,10 @@ void QQuickGraphsItem::setUpCamera()
     // By default we could get away with a value of 10 or 15, but as camera zoom is implemented
     // by moving it, we have to take into account the maximum zoom out level. The other
     // option would be to adjust far clip whenever zoom level changes.
-    const float farclip = 700.f;
+    const float farclip = 7000.f;
 
     m_pCamera = new QQuick3DPerspectiveCamera(rootNode());
-    m_pCamera->setClipNear(0.001f);
+    m_pCamera->setClipNear(0.1f);
     m_pCamera->setClipFar(farclip);
     m_pCamera->setFieldOfView(45.0f);
     m_pCamera->setPosition(QVector3D(.0f, .0f, 5.f));
@@ -6790,7 +6793,6 @@ void QQuickGraphsItem::setUpLight()
         *QQuick3DObjectPrivate::get(rootNode())->sceneManager);
     light->setParent(camera());
     light->setParentItem(camera());
-    light->setShadowBias(0.1f);
     light->setSoftShadowQuality(QQuick3DAbstractLight::QSSGSoftShadowQuality::Hard);
     m_light = light;
 }

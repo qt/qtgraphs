@@ -15,6 +15,7 @@ CustomMaterial {
     property vector2d uvOffset
     property vector2d size
     property vector2d vertCount
+    property real rootScale
 
     property real gradientMin
     property real gradientHeight
