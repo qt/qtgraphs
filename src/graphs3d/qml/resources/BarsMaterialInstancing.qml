@@ -11,6 +11,7 @@ CustomMaterial {
     property bool isHighlight
     property bool instancing
     property bool transparency: false
+    property real rootScale
 
     property bool valueColoring
 

@@ -1796,6 +1796,7 @@ void QQuickGraphsBars::updateBarVisuals(QBar3DSeries *series)
             QQmlListReference materialsRef(barList.at(i)->model, "materials");
             auto customMaterial = qobject_cast<QQuick3DCustomMaterial *>(materialsRef.at(0));
             customMaterial->setProperty("valueColoring", series->isValueColoringEnabled());
+            customMaterial->setProperty("rootScale", rootNode()->scale().y());
         }
     }
 }
@@ -1861,6 +1862,7 @@ void QQuickGraphsBars::updateMaterialProperties(QQuick3DModel *item,
         customMaterial->setProperty("isHighlight", isHighlight || isMultiHighlight);
     }
     customMaterial->setProperty("specularBrightness", lightStrength() * 0.05);
+    customMaterial->setProperty("rootScale", rootNode()->scale().y());
 }
 
 void QQuickGraphsBars::removeBarModels()

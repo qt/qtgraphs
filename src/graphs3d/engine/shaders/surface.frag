@@ -6,7 +6,7 @@ VARYING vec2 UV;
 
 void MAIN()
 {
-    if (any(greaterThan(UV, vec2(1.01))) || abs(VAR_WORLD_POSITION.y) > graphHeight)
+    if (any(greaterThan(UV, vec2(1.01))) || abs(pos.y) > graphHeight)
         discard;
     vec4 color;
     vec2 gradientUV;
@@ -16,7 +16,7 @@ void MAIN()
         color = texture(custex, gradientUV);
         break;
     case 1: //Range gradient
-        gradientUV = vec2((VAR_WORLD_POSITION.y + 1.0) / 2.0, 0.0);
+        gradientUV = vec2(((VAR_WORLD_POSITION.y + rootScale) / 2.0) / rootScale, 0.0);
         color = texture(custex, gradientUV);
         break;
     case 2: // Uniform color

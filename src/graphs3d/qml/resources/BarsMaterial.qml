@@ -13,6 +13,7 @@ CustomMaterial {
 
     property bool valueColoring
     property real heightValue
+    property real rootScale
 
     property real specularBrightness: 0.25
     readonly property real shininess: (1.0 - specularBrightness) * 100

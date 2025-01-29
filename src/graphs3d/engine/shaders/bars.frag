@@ -20,7 +20,7 @@ void MAIN()
         if (valueColoring)
             gradientUV = vec2(heightValue, 0);
         else
-            gradientUV = vec2((VAR_WORLD_POSITION.y + 1.0) / 2.0, 0.0);
+            gradientUV = vec2(((VAR_WORLD_POSITION.y + rootScale) / 2.0) / rootScale, 0.0);
         color = texture(custex, gradientUV);
         break;
     }
