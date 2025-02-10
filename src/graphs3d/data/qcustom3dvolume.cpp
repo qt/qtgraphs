@@ -28,6 +28,10 @@ QT_BEGIN_NAMESPACE
  * \note Volumetric objects utilize 3D textures, which are not supported in
  * OpenGL ES2 environments.
  *
+ * \note Only two formats are supported:
+ * QImage::Format_Indexed8 and QImage::Format_ARGB32. If an indexed format is
+ * specified, colorTable must also be set. Defaults to QImage::Format_ARGB32.
+ *
  * \sa Q3DGraphsWidgetItem::addCustomItem(), useHighDefShader
  */
 
