@@ -924,8 +924,8 @@ void QQuickGraphsBars::componentComplete()
     m_floorBackgroundScale = new QQuick3DNode();
     m_floorBackgroundRotation = new QQuick3DNode();
 
-    m_floorBackgroundScale->setParent(rootNode());
-    m_floorBackgroundScale->setParentItem(rootNode());
+    m_floorBackgroundScale->setParent(graphNode());
+    m_floorBackgroundScale->setParentItem(graphNode());
 
     m_floorBackgroundRotation->setParent(m_floorBackgroundScale);
     m_floorBackgroundRotation->setParentItem(m_floorBackgroundScale);
@@ -1570,7 +1570,7 @@ void QQuickGraphsBars::generateBars(QList<QBar3DSeries *> &barSeriesList)
                         for (int col = 0; col < newColSize; ++col) {
                             QBarDataItem &dataItem = const_cast<QBarDataItem &>(
                                 dataRow.at(dataColIndex));
-                            auto scene = QQuick3DViewport::scene();
+                            auto scene = graphNode();
                             QQuick3DModel *model = createDataItem(scene, barSeries);
                             model->setVisible(visible);
 
@@ -1589,7 +1589,7 @@ void QQuickGraphsBars::generateBars(QList<QBar3DSeries *> &barSeriesList)
                     }
                 }
             } else if (optimizationHint() == QtGraphs3D::OptimizationHint::Default) {
-                auto scene = QQuick3DViewport::scene();
+                auto scene = graphNode();
                 BarModel *barInstancing = new BarModel();
                 barInstancing->texture = texture;
 
@@ -1929,7 +1929,11 @@ void QQuickGraphsBars::updateBarVisuals(QBar3DSeries *series)
 
     if (optimizationHint() == QtGraphs3D::OptimizationHint::Legacy) {
         // Release resources that might not have been deleted even though deleteLater had been set
-        window()->releaseResources();
+
+        if (m_customView)
+            m_customView->window()->releaseResources();
+        else
+            window()->releaseResources();
 
         for (int i = 0; i < barList.count(); i++) {
             QQuick3DModel *model = barList.at(i)->model;

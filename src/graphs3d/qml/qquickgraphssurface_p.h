@@ -284,6 +284,7 @@ private:
     DataDimensions m_dataDimensions;
 
     friend class Q3DSurfaceWidgetItem;
+    friend class QQuickGraphsSurfaceNode;
 };
 
 QT_END_NAMESPACE

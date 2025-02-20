@@ -34,6 +34,8 @@ else()
             utils/qgraphs3dnamespace.cpp utils/qgraphs3dnamespace.h
 
             qml/qquickgraphsitem.cpp qml/qquickgraphsitem_p.h
+            qml/qquickgraphsnode.cpp qml/qquickgraphsnode_p.h
+
             qml/qquickgraphstexturedata.cpp qml/qquickgraphstexturedata_p.h
             qml/gradientholder_p.h
         INCLUDE_DIRECTORIES
@@ -57,6 +59,7 @@ else()
             engine/barinstancing.cpp engine/barinstancing_p.h
 
             qml/qquickgraphsbars.cpp qml/qquickgraphsbars_p.h
+            qml/qquickgraphsbarsnode.cpp qml/qquickgraphsbarsnode_p.h
             qml/qquickgraphsbarsseries.cpp qml/qquickgraphsbarsseries_p.h
         INCLUDE_DIRECTORIES
             data
@@ -76,6 +79,7 @@ else()
             engine/scatterinstancing.cpp engine/scatterinstancing_p.h
 
             qml/qquickgraphsscatter.cpp qml/qquickgraphsscatter_p.h
+            qml/qquickgraphsscatternode.cpp qml/qquickgraphsscatternode_p.h
             qml/qquickgraphsscatterseries.cpp qml/qquickgraphsscatterseries_p.h
             qml/qquickgraphssplineseries.cpp qml/qquickgraphssplineseries_p.h
         INCLUDE_DIRECTORIES
@@ -94,6 +98,7 @@ else()
             data/surfaceitemmodelhandler.cpp data/surfaceitemmodelhandler_p.h
 
             qml/qquickgraphssurface.cpp qml/qquickgraphssurface_p.h
+            qml/qquickgraphssurfacenode.cpp qml/qquickgraphssurfacenode_p.h
             qml/qquickgraphssurfaceseries.cpp qml/qquickgraphssurfaceseries_p.h
         INCLUDE_DIRECTORIES
             data

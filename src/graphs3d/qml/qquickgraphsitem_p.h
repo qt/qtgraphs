@@ -638,6 +638,7 @@ Q_SIGNALS:
 protected:
     bool event(QEvent *event) override;
 
+    void setParentNode(QQuick3DNode *node);
     virtual void handleWindowChanged(/*QQuickWindow *win*/);
     void itemChange(ItemChange change, const ItemChangeData &value) override;
     virtual void updateWindowParameters();
@@ -807,6 +808,9 @@ protected:
     QMutex m_renderMutex;
     QQuickGraphsItem *m_qml = nullptr;
 
+    QQuick3DViewport *m_customView = nullptr;
+    QQuick3DNode *m_parentNode = nullptr;
+
 private:
     // This is the same as the minimum bound of GridLine model.
     const float angularLineOffset = -49.98f;
@@ -975,6 +979,7 @@ private:
     QGraphsTheme *m_activeTheme = nullptr;
 
     friend class Q3DGraphsWidgetItem;
+    friend class QQuickGraphsNode;
 };
 
 QT_END_NAMESPACE

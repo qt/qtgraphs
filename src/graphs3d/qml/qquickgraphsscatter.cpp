@@ -401,7 +401,10 @@ void QQuickGraphsScatter::updateScatterGraphItemVisuals(ScatterModel *graphModel
 
     if (optimizationHint() == QtGraphs3D::OptimizationHint::Legacy) {
         // Release resources that might not have been deleted even though deleteLater had been set
-        window()->releaseResources();
+        if (m_customView)
+            m_customView->window()->releaseResources();
+        else
+            window()->releaseResources();
 
         if (itemCount != graphModel->dataItems.size())
             qWarning("%ls Item count differs from itemList count",
@@ -698,7 +701,7 @@ QQuick3DNode *QQuickGraphsScatter::createSeriesRoot()
 {
     auto model = new QQuick3DNode();
 
-    model->setParentItem(QQuick3DViewport::scene());
+    model->setParentItem(graphNode());
     return model;
 }
 
@@ -706,7 +709,7 @@ QQuick3DModel *QQuickGraphsScatter::createDataItem(QAbstract3DSeries *series)
 {
     auto model = new QQuick3DModel();
     model->setParent(this);
-    model->setParentItem(QQuick3DViewport::scene());
+    model->setParentItem(graphNode());
     QString fileName = getMeshFileName(series);
     if (fileName.isEmpty())
         fileName = series->userDefinedMesh();

@@ -308,7 +308,7 @@ void QQuickGraphsSurface::changePointerForSeries(const QString &filename, QSurfa
 {
     if (!filename.isEmpty()) {
         // Selection pointer
-        QQuick3DNode *parent = rootNode();
+        QQuick3DNode *parent = graphNode();
 
         QQuick3DPrincipledMaterial *pointerMaterial = nullptr;
         QQuick3DModel *pointer = m_selectionPointers.value(series);
@@ -1025,8 +1025,8 @@ void QQuickGraphsSurface::synchData()
             m_topGridScale = new QQuick3DNode();
             m_topGridRotation = new QQuick3DNode();
 
-            m_topGridScale->setParent(rootNode());
-            m_topGridScale->setParentItem(rootNode());
+            m_topGridScale->setParent(graphNode());
+            m_topGridScale->setParentItem(graphNode());
 
             m_topGridRotation->setParent(m_topGridScale);
             m_topGridRotation->setParentItem(m_topGridScale);

@@ -1793,8 +1793,8 @@ void QQuickGraphsItem::componentComplete()
     m_backgroundRotation = new QQuick3DNode();
     m_graphNode = new QQuick3DNode();
 
-    m_backgroundScale->setParent(rootNode());
-    m_backgroundScale->setParentItem(rootNode());
+    m_backgroundScale->setParent(graphNode());
+    m_backgroundScale->setParentItem(graphNode());
 
     m_backgroundRotation->setParent(m_backgroundScale);
     m_backgroundRotation->setParentItem(m_backgroundScale);
@@ -5277,10 +5277,51 @@ void QQuickGraphsItem::setMsaaSamples(int samples)
     }
 }
 
+void QQuickGraphsItem::setParentNode(QQuick3DNode *node) {
+    if (node) {
+        m_parentNode = node;
+
+        // find active sceneManager
+        auto *p = node->parent();
+        QQuick3DViewport *view = nullptr;
+        while (p && !view) {
+            view = qobject_cast<QQuick3DViewport *>(p);
+            p = p->parent();
+        }
+
+        if (view) {
+            m_customView = view;
+            auto sceneManager = QQuick3DObjectPrivate::get(view->scene())->sceneManager;
+            setParent(view);
+
+            if (graphNode()) {
+                graphNode()->setParent(view->parent());
+                graphNode()->setParentItem(node);
+            }
+
+            connect(sceneManager.data(),
+                    &QQuick3DSceneManager::windowChanged,
+                    this,
+                    &QQuickGraphsItem::handleWindowChanged);
+
+            handleWindowChanged();
+        }
+
+    }
+}
+
 void QQuickGraphsItem::handleWindowChanged(/*QQuickWindow *window*/)
 {
-    auto window = QQuick3DObjectPrivate::get(rootNode())->sceneManager->window();
+
+    QQuick3DSceneManager *manager = nullptr;
+    if (m_customView)
+        manager = QQuick3DObjectPrivate::get(m_customView->scene())->sceneManager;
+    else
+        manager = QQuick3DObjectPrivate::get(rootNode())->sceneManager;
+
+    auto window = manager->window();
     checkWindowList(window);
+
     if (!window)
         return;
 
@@ -5625,7 +5666,10 @@ qreal QQuickGraphsItem::margin() const
 
 QQuick3DNode *QQuickGraphsItem::rootNode() const
 {
-    return QQuick3DViewport::scene();
+    if (m_parentNode)
+        return m_parentNode;
+    else
+        return QQuick3DViewport::scene();
 }
 
 void QQuickGraphsItem::changeLabelBackgroundColor(QQuick3DRepeater *repeater, QColor color)
@@ -6333,8 +6377,10 @@ void QQuickGraphsItem::createSliceView()
     m_sliceView->setParent(parent());
     m_sliceView->setParentItem(parentItem());
     m_sliceView->setVisible(false);
-    m_sliceView->setWidth(parentItem()->width());
-    m_sliceView->setHeight(parentItem()->height());
+    if (!m_parentNode) {
+        m_sliceView->setHeight(parentItem()->height());
+        m_sliceView->setWidth(parentItem()->width());
+    }
     m_sliceView->setZ(-1);
     m_sliceView->environment()->setBackgroundMode(QQuick3DSceneEnvironment::QQuick3DEnvironmentBackgroundTypes::Color);
     m_sliceView->environment()->setClearColor(environment()->clearColor());
