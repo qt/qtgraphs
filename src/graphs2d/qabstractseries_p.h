@@ -17,8 +17,12 @@
 #include <QtGraphs/qabstractseries.h>
 #include <memory>
 #include <private/qobject_p.h>
+#include <QtCore/qloggingcategory.h>
 
 QT_BEGIN_NAMESPACE
+
+Q_DECLARE_LOGGING_CATEGORY(lcSeries2D)
+Q_DECLARE_LOGGING_CATEGORY(lcProperties2D)
 
 class QAbstractAxis;
 class QGraphsView;

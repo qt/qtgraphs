@@ -37,10 +37,13 @@ QGraphsTheme *AxisRenderer::theme() {
 }
 
 void AxisRenderer::initialize() {
-    if (m_initialized)
+    if (m_initialized) {
         return;
-    if (!window())
+    }
+    if (!window()) {
+        qCCritical(lcCritical2D, "window doesn't exist.");
         return;
+    }
 
     if (m_axisGrid)
         m_axisGrid->componentComplete();

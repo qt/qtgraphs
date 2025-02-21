@@ -431,11 +431,15 @@ void PointRenderer::updateSplineSeries(QSplineSeries *series, QLegendData &legen
 void PointRenderer::handlePolish(QXYSeries *series)
 {
     auto theme = m_graph->theme();
-    if (!theme)
+    if (!theme) {
+        qCCritical(lcCritical2D, "Theme not found");
         return;
+    }
 
-    if (!m_graph->m_axisRenderer)
+    if (!m_graph->m_axisRenderer) {
+        qCCritical(lcCritical2D, "Axis renderer not found.");
         return;
+    }
 
     if (series->points().isEmpty()) {
         auto group = m_groups.value(series);

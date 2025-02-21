@@ -760,6 +760,9 @@ void QXYSeries::setColor(QColor newColor)
     if (color() != newColor) {
         d->m_color = newColor;
         emit colorChanged(newColor);
+    } else {
+        qCDebug(lcProperties2D) << "QXYSeries::setColor. Color is already set to:"
+                                << newColor;
     }
 }
 
@@ -783,6 +786,9 @@ void QXYSeries::setSelectedColor(QColor color)
     if (selectedColor() != color) {
         d->m_selectedColor = color;
         emit selectedColorChanged(color);
+    } else {
+        qCDebug(lcProperties2D) << "QXYSeries::setSelectedColor. Selected color is already set to:"
+                                << color;
     }
 }
 
@@ -902,8 +908,12 @@ QQmlComponent *QXYSeries::pointDelegate() const
 void QXYSeries::setPointDelegate(QQmlComponent *newPointDelegate)
 {
     Q_D(QXYSeries);
-    if (d->m_pointDelegate == newPointDelegate)
+    if (d->m_pointDelegate == newPointDelegate) {
+        qCDebug(lcProperties2D) << "QXYSeries::setPointDelegate. Point delegate is already set to:"
+                                << newPointDelegate;
         return;
+    }
+
     d->m_pointDelegate = newPointDelegate;
     emit pointDelegateChanged();
     emit update();
@@ -930,8 +940,11 @@ bool QXYSeries::isDraggable() const
 void QXYSeries::setDraggable(bool newDraggable)
 {
     Q_D(QXYSeries);
-    if (d->m_draggable == newDraggable)
+    if (d->m_draggable == newDraggable) {
+        qCDebug(lcProperties2D) << "QXYSeries::setDraggable. Cannot set draggable, it is already set to:"
+                                << newDraggable;
         return;
+    }
     d->m_draggable = newDraggable;
     emit draggableChanged();
 }
@@ -952,8 +965,10 @@ QXYSeriesPrivate::QXYSeriesPrivate() {}
 
 void QXYSeriesPrivate::setPointSelected(qsizetype index, bool selected, bool &callSignal)
 {
-    if (index < 0 || index > m_points.size() - 1)
+    if (index < 0 || index > m_points.size() - 1) {
+        qCWarning(lcProperties2D, "tried to use invalid index: %" PRIdQSIZETYPE, index);
         return;
+    }
 
     if (selected) {
         if (!isPointSelected(index)) {

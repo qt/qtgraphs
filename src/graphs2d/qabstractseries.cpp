@@ -282,6 +282,9 @@ QT_BEGIN_NAMESPACE
     \brief Constructs QAbstractSeries object with \a parent.
 */
 
+Q_LOGGING_CATEGORY(lcSeries2D, "qt.graphs2d.series")
+Q_LOGGING_CATEGORY(lcProperties2D, "qt.graphs2d.series.properties")
+
 QAbstractSeries::QAbstractSeries(QAbstractSeriesPrivate &dd, QObject *parent)
     : QObject(dd, parent)
 {}
@@ -309,6 +312,9 @@ void QAbstractSeries::setName(const QString &name)
         d->m_name = name;
         update();
         emit nameChanged();
+    } else {
+        qCDebug(lcProperties2D,"QAbstractSeries::setName. Name is already set to: %s",
+                qPrintable(name));
     }
 }
 
@@ -325,6 +331,9 @@ void QAbstractSeries::setVisible(bool visible)
         d->m_visible = visible;
         update();
         emit visibleChanged();
+    } else {
+        qCDebug(lcProperties2D) << "QAbstractSeries::setVisible. series visibility already set to"
+                                << visible;
     }
 }
 
@@ -341,6 +350,9 @@ void QAbstractSeries::setSelectable(bool selectable)
         d->m_selectable = selectable;
         update();
         emit selectableChanged();
+    } else {
+        qCDebug(lcProperties2D) << "QAbstractSeries::setSelectable. Selectable already set to:"
+                                << selectable;
     }
 }
 
@@ -357,6 +369,9 @@ void QAbstractSeries::setHoverable(bool hoverable)
         d->m_hoverable = hoverable;
         update();
         emit hoverableChanged();
+    } else {
+        qCDebug(lcProperties2D) << "QAbstractSeries::setHoverable. Hoverable already set to:"
+                                << hoverable;
     }
 }
 
@@ -395,6 +410,9 @@ void QAbstractSeries::setOpacity(qreal opacity)
         d->m_opacity = opacity;
         update();
         emit opacityChanged();
+    } else {
+        qCDebug(lcProperties2D, "QAbstractSeries::setOpacity. Opacity is already set to: %f",
+                opacity);
     }
 }
 

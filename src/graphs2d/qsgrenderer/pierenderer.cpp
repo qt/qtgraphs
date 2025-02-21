@@ -90,8 +90,10 @@ void PieRenderer::handlePolish(QPieSeries *series)
 
     QGraphsTheme *theme = m_graph->theme();
 
-    if (!theme)
+    if (!theme) {
+        qCCritical(lcCritical2D, "Theme not found.");
         return;
+    }
 
     if (m_colorIndex < 0)
         m_colorIndex = m_graph->graphSeriesCount();

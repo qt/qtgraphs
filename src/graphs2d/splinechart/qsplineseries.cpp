@@ -71,8 +71,12 @@ void QSplineSeries::componentComplete()
     Q_D(QSplineSeries);
 
     for (auto *child : children()) {
-        if (auto point = qobject_cast<QXYPoint *>(child))
+        if (auto point = qobject_cast<QXYPoint *>(child)) {
             append(point->x(), point->y());
+            qCDebug(lcSeries2D, "append points x: %f y: %f to splineSeries",
+                    point->x(),
+                    point->y());
+        }
     }
 
     d->calculateSplinePoints();
@@ -99,6 +103,8 @@ void QSplineSeries::componentComplete()
 
     connect(this, &QSplineSeries::pointsReplaced, this, [d]() { d->calculateSplinePoints(); });
 
+    qCDebug(lcEvents2D, "QSplineSeries::componentComplete.");
+
     QAbstractSeries::componentComplete();
 }
 
@@ -123,11 +129,17 @@ void QSplineSeries::setWidth(qreal newWidth)
 {
     Q_D(QSplineSeries);
 
-    if (newWidth < 0)
+    if (newWidth < 0) {
+        qCWarning(lcProperties2D, "QSplineSeries::setWidth. Tried to use invalid width,"
+                  "width has been automatically set to 0");
         newWidth = 0;
+    }
 
-    if (qFuzzyCompare(d->m_width, newWidth))
+    if (qFuzzyCompare(d->m_width, newWidth)) {
+        qCDebug(lcProperties2D, "QSplineSeries::setWidth. Width is already set to: %f",
+                newWidth);
         return;
+    }
     d->m_width = newWidth;
     emit widthChanged();
     emit update();
@@ -142,8 +154,12 @@ Qt::PenCapStyle QSplineSeries::capStyle() const
 void QSplineSeries::setCapStyle(Qt::PenCapStyle newCapStyle)
 {
     Q_D(QSplineSeries);
-    if (d->m_capStyle == newCapStyle)
+    if (d->m_capStyle == newCapStyle) {
+        qCDebug(lcProperties2D) << "QSplineSeries::setCapStyle. CapStyle is already set to:"
+                                << newCapStyle;
         return;
+    }
+
     d->m_capStyle = newCapStyle;
     emit capStyleChanged();
     emit update();
@@ -160,8 +176,10 @@ void QSplineSeriesPrivate::calculateSplinePoints()
 {
     if (m_points.size() == 0) {
         m_controlPoints.clear();
+        qCWarning(lcSeries2D, "points list size is 0, can't calculate spline points.");
         return;
     } else if (m_points.size() == 1) {
+        qCWarning(lcSeries2D, "points list size is 1, can't calculate spline points.");
         m_controlPoints = {m_points[0], m_points[0]};
         return;
     }

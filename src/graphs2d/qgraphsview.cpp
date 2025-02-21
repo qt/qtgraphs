@@ -55,6 +55,10 @@ After that you can use GraphsView in your qml files:
 \sa BarSeries, LineSeries, BarCategoryAxis, ValueAxis, GraphsTheme
 */
 
+Q_LOGGING_CATEGORY(lcGraphs2D, "qt.graphs2d.general")
+Q_LOGGING_CATEGORY(lcEvents2D, "qt.graphs2d.events")
+Q_LOGGING_CATEGORY(lcCritical2D, "qt.graphs2d.critical")
+
 QGraphsView::QGraphsView(QQuickItem *parent) :
     QQuickItem(parent)
 {
@@ -136,6 +140,9 @@ void QGraphsView::insertSeries(qsizetype index, QObject *object)
                 if (oldIndex < index)
                     index--;
                 m_seriesList.insert(index, series);
+                qCDebug(lcGraphs2D, "series was already in seriesList, removed old series at index: %" PRIdQSIZETYPE
+                        " and inserted new one at index: %" PRIdQSIZETYPE,
+                        oldIndex, index);
             }
         } else {
             m_seriesList.insert(index, series);
@@ -153,6 +160,7 @@ void QGraphsView::insertSeries(qsizetype index, QObject *object)
             if (auto pie = qobject_cast<QPieSeries *>(series))
                 connect(pie, &QPieSeries::removed, m_pieRenderer, &PieRenderer::markedDeleted);
 #endif
+            qCDebug(lcGraphs2D) << series << "added to a list at index of" << index;
         }
         polishAndUpdate();
     }
@@ -176,7 +184,7 @@ void QGraphsView::removeSeries(QObject *object)
         if (auto pie = qobject_cast<QPieSeries *>(series))
             disconnect(pie, &QPieSeries::removed, m_pieRenderer, &PieRenderer::markedDeleted);
 #endif
-
+        qCDebug(lcGraphs2D) << "removing" << series << "from seriesList";
         cleanupSeriesList.append(series);
         polishAndUpdate();
     }
@@ -254,6 +262,7 @@ void QGraphsView::setGraphSeriesCount(qsizetype count)
 void QGraphsView::createBarsRenderer()
 {
     if (!m_barsRenderer) {
+        qCDebug(lcGraphs2D, "creating bars renderer");
         m_barsRenderer = new BarsRenderer(this);
         updateComponentSizes();
     }
@@ -263,6 +272,7 @@ void QGraphsView::createBarsRenderer()
 void QGraphsView::createAxisRenderer()
 {
     if (!m_axisRenderer) {
+        qCDebug(lcGraphs2D) << "creating axis renderer.";
         m_axisRenderer = new AxisRenderer(this);
         m_axisRenderer->setZ(-1);
         updateComponentSizes();
@@ -273,6 +283,7 @@ void QGraphsView::createAxisRenderer()
 void QGraphsView::createPointRenderer()
 {
     if (!m_pointRenderer) {
+        qCDebug(lcGraphs2D, "creating point renderer.");
         m_pointRenderer = new PointRenderer(this);
         updateComponentSizes();
     }
@@ -283,6 +294,7 @@ void QGraphsView::createPointRenderer()
 void QGraphsView::createPieRenderer()
 {
     if (!m_pieRenderer) {
+        qCDebug(lcGraphs2D, "creating pie renderer.");
         m_pieRenderer = new PieRenderer(this);
         updateComponentSizes();
     }
@@ -293,6 +305,7 @@ void QGraphsView::createPieRenderer()
 void QGraphsView::createAreaRenderer()
 {
     if (!m_areaRenderer) {
+        qCDebug(lcGraphs2D, "creating area renderer.");
         m_areaRenderer = new AreaRenderer(this);
         updateComponentSizes();
     }
@@ -316,8 +329,11 @@ qreal QGraphsView::axisXSmoothing() const
 
 void QGraphsView::setAxisXSmoothing(qreal smoothing)
 {
-    if (qFuzzyCompare(m_axisXSmoothing, smoothing))
+    if (qFuzzyCompare(m_axisXSmoothing, smoothing)) {
+        qCDebug(lcGraphs2D, "QGraphsView::setAxisXSmoothing. Axis smoothing is already set to: %f",
+                smoothing);
         return;
+    }
     m_axisXSmoothing = smoothing;
     emit axisXSmoothingChanged();
     polishAndUpdate();
@@ -536,6 +552,7 @@ void QGraphsView::handleHover(const QString &seriesName, QPointF position, QPoin
 
 void QGraphsView::updateComponentSizes()
 {
+    qCDebug(lcEvents2D, "updating component sizes.");
     updateAxisAreas();
     updatePlotArea();
 
@@ -547,6 +564,10 @@ void QGraphsView::updateComponentSizes()
         m_barsRenderer->setX(m_plotArea.x());
         m_barsRenderer->setY(m_plotArea.y());
         m_barsRenderer->setSize(m_plotArea.size());
+        qCDebug(lcEvents2D) << "bars graph size:" << m_plotArea.size();
+        qCDebug(lcEvents2D, "barsRenderer plotArea x: %f y: %f",
+                m_plotArea.x(),
+                m_plotArea.y());
     }
 #endif
 #ifdef USE_POINTS
@@ -554,6 +575,11 @@ void QGraphsView::updateComponentSizes()
         m_pointRenderer->setX(m_plotArea.x());
         m_pointRenderer->setY(m_plotArea.y());
         m_pointRenderer->setSize(m_plotArea.size());
+        qCDebug(lcEvents2D) << "point graph size:" << m_plotArea.size();
+        qCDebug(lcEvents2D, "pointRenderer plotArea x: %f y: %f",
+                m_plotArea.x(),
+                m_plotArea.y());
+
     }
 #endif
 #ifdef USE_PIEGRAPH
@@ -561,6 +587,11 @@ void QGraphsView::updateComponentSizes()
         m_pieRenderer->setX(m_plotArea.x());
         m_pieRenderer->setY(m_plotArea.y());
         m_pieRenderer->setSize(m_plotArea.size());
+        qCDebug(lcEvents2D) << "pie graph size:" << m_plotArea.size();
+        qCDebug(lcEvents2D, "pieRenderer plotArea x: %f y: %f",
+                m_plotArea.x(),
+                m_plotArea.y());
+
     }
 #endif
 #ifdef USE_AREAGRAPH
@@ -568,6 +599,11 @@ void QGraphsView::updateComponentSizes()
         m_areaRenderer->setX(m_plotArea.x());
         m_areaRenderer->setY(m_plotArea.y());
         m_areaRenderer->setSize(m_plotArea.size());
+        qCDebug(lcEvents2D) << "area graph size:" << m_plotArea.size();
+        qCDebug(lcEvents2D, "areaRenderer plotArea x: %f y: %f",
+                m_plotArea.x(),
+                m_plotArea.y());
+
     }
 #endif
 }
@@ -601,11 +637,17 @@ void QGraphsView::componentComplete()
     }
     QQuickItem::componentComplete();
 
+    qCDebug(lcEvents2D, "QGraphsView::componentComplete.");
+
     ensurePolished();
 }
 
 void QGraphsView::geometryChange(const QRectF &newGeometry, const QRectF &oldGeometry)
 {
+    qCDebug(lcEvents2D) << "QGraphsView::geometryChange."
+                        << "oldGeometry:" << oldGeometry
+                        << "newGeometry:" << newGeometry;
+
     QQuickItem::geometryChange(newGeometry, oldGeometry);
 
     updateComponentSizes();
@@ -678,6 +720,7 @@ QSGNode *QGraphsView::updatePaintNode(QSGNode *oldNode, QQuickItem::UpdatePaintN
     Q_UNUSED(updatePaintNodeData);
 
     for (auto series : std::as_const(m_seriesList)) {
+        qCDebug(lcEvents2D) << "QGraphsView::updatePaintNode." << series;
 #ifdef USE_BARGRAPH
         if (m_barsRenderer) {
             if (auto barSeries = qobject_cast<QBarSeries *>(series))
@@ -756,6 +799,8 @@ QSGNode *QGraphsView::updatePaintNode(QSGNode *oldNode, QQuickItem::UpdatePaintN
 
 void QGraphsView::updatePolish()
 {
+    qCDebug(lcEvents2D, "QGraphsView::updatePolish. Start Update and polish.");
+
     if (m_axisRenderer) {
         m_axisRenderer->handlePolish();
         // Initialize shaders after system's event queue

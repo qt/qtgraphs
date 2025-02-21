@@ -11,8 +11,12 @@
 #include <QtGui/qfont.h>
 #include <QtQml/qqmlcomponent.h>
 #include <QtQml/qqmlengine.h>
+#include <QtCore/qloggingcategory.h>
 
 QT_BEGIN_NAMESPACE
+
+
+Q_DECLARE_LOGGING_CATEGORY(lcAxis2D)
 
 class QAbstractAxisPrivate;
 

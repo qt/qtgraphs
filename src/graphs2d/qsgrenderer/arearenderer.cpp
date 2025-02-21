@@ -58,17 +58,23 @@ void AreaRenderer::calculateAxisCoordinates(qreal origX,
 void AreaRenderer::handlePolish(QAreaSeries *series)
 {
     auto theme = m_graph->theme();
-    if (!theme)
+    if (!theme) {
+        qCCritical(lcCritical2D, "theme not found.");
         return;
+    }
 
-    if (!m_graph->m_axisRenderer)
+    if (!m_graph->m_axisRenderer) {
+        qCCritical(lcCritical2D, "axis renderer not found.");
         return;
+    }
 
     QXYSeries *upper = series->upperSeries();
     QXYSeries *lower = series->lowerSeries();
 
-    if (!upper)
+    if (!upper) {
+        qCCritical(lcCritical2D, "upperSeries not found.");
         return;
+    }
 
     if (!m_groups.contains(series)) {
         PointGroup *group = new PointGroup();

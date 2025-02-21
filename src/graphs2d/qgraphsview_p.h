@@ -19,8 +19,13 @@
 #include <QtQml/QQmlListProperty>
 #include <QtGraphs/qabstractseries.h>
 #include <QtGraphs/qgraphstheme.h>
+#include <QtCore/qloggingcategory.h>
 
 QT_BEGIN_NAMESPACE
+
+Q_DECLARE_LOGGING_CATEGORY(lcGraphs2D)
+Q_DECLARE_LOGGING_CATEGORY(lcEvents2D)
+Q_DECLARE_LOGGING_CATEGORY(lcCritical2D)
 
 class QQuickRectangle;
 class QAbstractAxis;

@@ -5,6 +5,7 @@
 #include <private/qpieseries_p.h>
 #include <QtGraphs/qpieslice.h>
 #include <private/qpieslice_p.h>
+#include <private/qgraphsview_p.h>
 
 QT_BEGIN_NAMESPACE
 
@@ -857,8 +858,11 @@ void QPieSeries::setHorizontalPosition(qreal relativePosition)
     if (relativePosition > 1.0)
         relativePosition = 1.0;
 
-    if (qFuzzyCompare(d->m_pieRelativeHorPos, relativePosition))
+    if (qFuzzyCompare(d->m_pieRelativeHorPos, relativePosition)) {
+        qCDebug(lcProperties2D, "QPieSeries::setHorizontalPosition. Position is already set to: %f",
+                relativePosition);
         return;
+    }
 
     d->m_pieRelativeHorPos = relativePosition;
     emit horizontalPositionChanged();
@@ -880,8 +884,11 @@ void QPieSeries::setVerticalPosition(qreal relativePosition)
     if (relativePosition > 1.0)
         relativePosition = 1.0;
 
-    if (qFuzzyCompare(d->m_pieRelativeVerPos, relativePosition))
+    if (qFuzzyCompare(d->m_pieRelativeVerPos, relativePosition)) {
+        qCDebug(lcProperties2D, "QPieSeries::setVerticalPosition. Position is already set to: %f",
+                relativePosition);
         return;
+    }
 
     d->m_pieRelativeVerPos = relativePosition;
     emit verticalPositionChanged();
@@ -919,8 +926,12 @@ qreal QPieSeries::pieSize() const
 void QPieSeries::setStartAngle(qreal angle)
 {
     Q_D(QPieSeries);
-    if (qFuzzyCompare(d->m_pieStartAngle, angle))
+    if (qFuzzyCompare(d->m_pieStartAngle, angle)) {
+        qCDebug(lcSeries2D, "QPieSeries::setStartAngle. Angle is already set to: %f",
+                angle);
         return;
+    }
+
     d->m_pieStartAngle = angle;
     d->updateData();
     emit startAngleChanged();
@@ -952,8 +963,12 @@ qreal QPieSeries::startAngle() const
 void QPieSeries::setEndAngle(qreal angle)
 {
     Q_D(QPieSeries);
-    if (qFuzzyCompare(d->m_pieEndAngle, angle))
+    if (qFuzzyCompare(d->m_pieEndAngle, angle)) {
+        qCDebug(lcSeries2D, "QPieSeries::setEndAngle. Angle is already set to: %f",
+                angle);
         return;
+    }
+
     d->m_pieEndAngle = angle;
     d->updateData();
     emit endAngleChanged();
@@ -976,9 +991,15 @@ qreal QPieSeries::endAngle() const
 void QPieSeries::componentComplete()
 {
     for (QObject *child : children()) {
-        if (qobject_cast<QPieSlice *>(child))
+        if (qobject_cast<QPieSlice *>(child)) {
+
             QPieSeries::append(qobject_cast<QPieSlice *>(child));
+            qCDebug(lcSeries2D) << "append slice: " << child << "to pieSeries";
+        }
     }
+
+    qCDebug(lcEvents2D, "QPieSeries::componentComplete.");
+
     QAbstractSeries::componentComplete();
 }
 
@@ -1092,11 +1113,17 @@ void QPieSeriesPrivate::setSizes(qreal innerSize, qreal outerSize)
     if (!qFuzzyCompare(m_holeRelativeSize, innerSize)) {
         m_holeRelativeSize = innerSize;
         emit q->holeSizeChanged();
+    } else {
+        qCDebug(lcProperties2D, "QPieSeries::setSizes. Inner size is already set to: %f",
+                innerSize);
     }
 
     if (!qFuzzyCompare(m_pieRelativeSize, outerSize)) {
         m_pieRelativeSize = outerSize;
         emit q->pieSizeChanged();
+    } else {
+        qCDebug(lcProperties2D, "QPieSeries::setSizes. Outer size is already set to: %f",
+                outerSize);
     }
 }
 

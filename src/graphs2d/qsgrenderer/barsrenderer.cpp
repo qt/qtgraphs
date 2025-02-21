@@ -488,11 +488,15 @@ void BarsRenderer::updateHorizontalBars(QBarSeries *series, qsizetype setCount, 
 void BarsRenderer::handlePolish(QBarSeries *series)
 {
     auto theme = m_graph->theme();
-    if (!theme)
+    if (!theme) {
+        qCCritical(lcCritical2D, "Theme not found.");
         return;
+    }
 
-    if (!m_graph->m_axisRenderer)
+    if (!m_graph->m_axisRenderer) {
+        qCCritical(lcCritical2D, "Axis renderer not found.");
         return;
+    }
 
     qsizetype setCount = series->barSets().size();
     auto &seriesData = m_seriesData[series];
