@@ -347,6 +347,21 @@ void QQuickGraphsSurfaceNode::clearSelection()
         graphSurface()->clearSelection();
 }
 
+bool QQuickGraphsSurfaceNode::doPicking(QPointF point)
+{
+    if (graphSurface())
+        return graphSurface()->doPicking(point);
+    else
+        return false;
+}
+
+bool QQuickGraphsSurfaceNode::doRayPicking(const QVector3D &origin, const QVector3D &direction)
+{
+    if (graphSurface())
+        return graphSurface()->doRayPicking(origin, direction);
+    else
+        return false;
+}
 /*!
  * \internal
  */

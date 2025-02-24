@@ -2140,7 +2140,11 @@ bool QQuickGraphsBars::doPicking(QPointF position)
         return false;
 
     m_selectionDirty = true;
-    QList<QQuick3DPickResult> pickResults = pickAll(position.x(), position.y());
+    QList<QQuick3DPickResult> pickResults;
+    if (m_customView)
+        pickResults = m_customView->pickAll(position.x(), position.y());
+    else
+        pickResults = pickAll(position.x(), position.y());
     QQuick3DModel *selectedModel = nullptr;
     QVector3D instancePos = {.0f, .0f, .0f};
     if (!selectionMode().testFlag(QtGraphs3D::SelectionFlag::None)) {
@@ -2224,7 +2228,11 @@ bool QQuickGraphsBars::doRayPicking(QVector3D origin, QVector3D direction)
         return false;
 
     m_selectionDirty = true;
-    QList<QQuick3DPickResult> pickResults = rayPickAll(origin, direction);
+    QList<QQuick3DPickResult> pickResults;
+    if (m_customView)
+        pickResults = m_customView->rayPickAll(origin, direction);
+    else
+        pickResults = rayPickAll(origin, direction);
     QQuick3DModel *selectedModel = nullptr;
     QVector3D instancePos = {.0f, .0f, .0f};
     if (!selectionMode().testFlag(QtGraphs3D::SelectionFlag::None)) {

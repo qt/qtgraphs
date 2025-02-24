@@ -113,9 +113,8 @@ public:
     Q_INVOKABLE virtual qsizetype selectedCustomItemIndex() const;
     Q_INVOKABLE virtual QCustom3DItem *selectedCustomItem() const;
 
-    //TODO: get rayPicking to work
-    // Q_INVOKABLE virtual bool doPicking(QPointF point);
-    // Q_INVOKABLE virtual bool doRayPicking(const QVector3D &origin, const QVector3D &direction);
+    Q_INVOKABLE virtual bool doPicking(QPointF point) = 0;
+    Q_INVOKABLE virtual bool doRayPicking(const QVector3D &origin, const QVector3D &direction) = 0;
 
 protected:
     void setGraphParent();

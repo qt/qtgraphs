@@ -45,6 +45,7 @@ Item {
         }
 
         Surface3DNode {
+            id: surface
             scale: Qt.vector3d(cSlider.value, cSlider.value, cSlider.value)
             position: Qt.vector3d(0,0, 4.0 * cSlider.value)
             polar: propertyButton.isEnabled
@@ -77,6 +78,7 @@ Item {
         }
 
         Bars3DNode {
+            id: bars
             scale: Qt.vector3d(cSlider.value, cSlider.value, cSlider.value)
             optimizationHint: propertyButton.isEnabled? Graphs3D.OptimizationHint.Legacy : Graphs3D.OptimizationHint.Default
             theme: GraphsTheme {
@@ -127,6 +129,7 @@ Item {
         }
 
         Scatter3DNode {
+            id: scatter
             scale: Qt.vector3d(cSlider.value, cSlider.value, cSlider.value)
             position: Qt.vector3d(0,0, -4.0 * cSlider.value)
             optimizationHint: propertyButton.isEnabled? Graphs3D.OptimizationHint.Legacy : Graphs3D.OptimizationHint.Default
@@ -179,6 +182,15 @@ Item {
 
         Node {
             id: lookAt
+        }
+
+        MouseArea {
+            anchors.fill: parent
+            onClicked: {
+                bars.doPicking(Qt.point(mouseX, mouseY))
+                scatter.doPicking(Qt.point(mouseX, mouseY))
+                surface.doPicking(Qt.point(mouseX, mouseY))
+            }
         }
     }
 

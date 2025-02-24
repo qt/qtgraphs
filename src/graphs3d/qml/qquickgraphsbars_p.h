@@ -347,6 +347,7 @@ private:
     void adjustSelectionPosition(QPoint &pos, const QBar3DSeries *series);
 
     friend class Q3DBarsWidgetItem;
+    friend class QQuickGraphsBarsNode;
 };
 
 QT_END_NAMESPACE

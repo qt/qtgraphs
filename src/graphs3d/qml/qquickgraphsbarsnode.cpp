@@ -590,6 +590,23 @@ void QQuickGraphsBarsNode::clearSelection()
         graphBars()->clearSelection();
 }
 
+bool QQuickGraphsBarsNode::doPicking(QPointF point)
+{
+    if (graphBars())
+        return graphBars()->doPicking(point);
+    else
+        return false;
+}
+
+bool QQuickGraphsBarsNode::doRayPicking(const QVector3D &origin, const QVector3D &direction)
+{
+    if (graphBars())
+        return graphBars()->doRayPicking(origin, direction);
+    else
+        return false;
+}
+
+
 /*!
  * \internal
  */

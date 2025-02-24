@@ -273,6 +273,7 @@ private slots:
     void cameraRotationChanged();
 
     friend class Q3DScatterWidgetItem;
+    friend class QQuickGraphsScatterNode;
 };
 
 QT_END_NAMESPACE

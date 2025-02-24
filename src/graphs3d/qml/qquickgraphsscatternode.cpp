@@ -305,6 +305,21 @@ void QQuickGraphsScatterNode::clearSelection()
         graphScatter()->clearSelection();
 }
 
+bool QQuickGraphsScatterNode::doPicking(QPointF point)
+{
+    if (graphScatter())
+        return graphScatter()->doPicking(point);
+    else
+        return false;
+}
+
+bool QQuickGraphsScatterNode::doRayPicking(const QVector3D &origin, const QVector3D &direction)
+{
+    if (graphScatter())
+        return graphScatter()->doRayPicking(origin, direction);
+    else
+        return false;
+}
 /*!
  * \internal
  */

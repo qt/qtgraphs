@@ -4224,12 +4224,21 @@ void QQuickGraphsItem::updateShadowQuality(QtGraphs3D::ShadowQuality quality)
 
 void QQuickGraphsItem::updateItemLabel(QVector3D position)
 {
+    if (m_customView)
+        m_itemLabel->setParentItem(m_customView);
+
     if (m_labelPosition != position)
         m_labelPosition = position;
 
-    QVector3D pos2d = mapFrom3DScene(m_labelPosition * rootNode()->scale().z());
+    // QVector3D pos2d = mapFrom3DScene(m_labelPosition * rootNode()->scale().z());
+    QVector3D scenePos = rootNode()->mapPositionToScene(m_labelPosition);
+    QVector3D pos2d = mapFrom3DScene(scenePos);
+    if (m_customView)
+        pos2d = m_customView->mapFrom3DScene(scenePos);
+
     int pointSize = theme()->labelFont().pointSize();
-    float scale = m_labelScale.x() * ((-10.0f * pointSize) + 650.0f) / (pos2d.z() / rootNode()->scale().z());
+    float scale = m_labelScale.x() * ((-10.0f * pointSize) + 650.0f)
+                  / (pos2d.z() / rootNode()->scale().z());
     scale = scale < 0 ? -scale : scale;
     if (m_sliceView && m_sliceView->isVisible())
         m_itemLabel->setScale(scale * .2f);

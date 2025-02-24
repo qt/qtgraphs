@@ -130,6 +130,25 @@ QT_BEGIN_NAMESPACE
  */
 
 /*!
+ * \qmlmethod void GraphsNode::doPicking(QPoint point)
+ *
+ * Performs picking using view coordinates from \a point
+ * on the elements of the graph, selecting the first item hit.
+ * Default input handling performs this upon receiving the onTapped event.
+ *
+ * \sa selectedElement
+ */
+
+/*!
+ * \qmlmethod void GraphsNode::doRayPicking(QVector3D origin, QVector3D direction)
+ *
+ * Performs picking starting from \a origin and in \a direction
+ * on the elements of the graph, selecting the first item hit.
+ *
+ * \sa selectedElement
+ */
+
+/*!
  * \qmlmethod int GraphsNode::selectedLabelIndex()
  *
  * Can be used to query the index of the selected label after receiving

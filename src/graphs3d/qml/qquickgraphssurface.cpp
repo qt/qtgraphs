@@ -2214,7 +2214,11 @@ bool QQuickGraphsSurface::doPicking(QPointF position)
         return false;
 
     m_selectionDirty = true;
-    auto pickResult = pickAll(position.x(), position.y());
+    QList<QQuick3DPickResult> pickResult;
+    if (m_customView)
+        pickResult = m_customView->pickAll(position.x(), position.y());
+    else
+        pickResult = pickAll(position.x(), position.y());
     QVector3D pickedPos(0.0f, 0.0f, 0.0f);
     QQuick3DModel *pickedModel = nullptr;
 
@@ -2304,7 +2308,11 @@ bool QQuickGraphsSurface::doRayPicking(QVector3D origin, QVector3D direction)
         return false;
 
     m_selectionDirty = true;
-    QList<QQuick3DPickResult> pickResult = rayPickAll(origin, direction);
+    QList<QQuick3DPickResult> pickResult;
+    if (m_customView)
+        pickResult = m_customView->rayPickAll(origin, direction);
+    else
+        pickResult = rayPickAll(origin, direction);
     QVector3D pickedPos(0.0f, 0.0f, 0.0f);
     QQuick3DModel *pickedModel = nullptr;
 

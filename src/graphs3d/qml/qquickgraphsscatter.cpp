@@ -1374,7 +1374,11 @@ bool QQuickGraphsScatter::doPicking(QPointF position)
         return false;
 
     if (selectionMode() == QtGraphs3D::SelectionFlag::Item) {
-        QList<QQuick3DPickResult> results = pickAll(position.x(), position.y());
+        QList<QQuick3DPickResult> results;
+        if (m_customView)
+            results = m_customView->pickAll(position.x(), position.y());
+        else
+            results = pickAll(position.x(), position.y());
         if (!results.empty()) {
             for (const auto &result : std::as_const(results)) {
                 if (const auto &hitItem = result.objectHit()) {
@@ -1416,7 +1420,11 @@ bool QQuickGraphsScatter::doRayPicking(QVector3D origin, QVector3D direction)
         return false;
 
     if (selectionMode() == QtGraphs3D::SelectionFlag::Item) {
-        QList<QQuick3DPickResult> results = rayPickAll(origin, direction);
+        QList<QQuick3DPickResult> results;
+        if (m_customView)
+            results = m_customView->rayPickAll(origin, direction);
+        else
+            results = rayPickAll(origin, direction);
         if (!results.empty()) {
             for (const auto &result : std::as_const(results)) {
                 if (const auto &hit = result.objectHit()) {

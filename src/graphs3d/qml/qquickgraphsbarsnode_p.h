@@ -95,6 +95,10 @@ public:
     Q_INVOKABLE void insertSeries(qsizetype index, QBar3DSeries *series);
     Q_INVOKABLE void clearSelection() override;
 
+
+    Q_INVOKABLE bool doPicking(QPointF point) override;
+    Q_INVOKABLE bool doRayPicking(const QVector3D &origin, const QVector3D &direction) override;
+
 protected:
     void componentComplete() override;
 
