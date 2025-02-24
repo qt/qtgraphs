@@ -9,6 +9,7 @@ qt_internal_add_executable(qgraphs_qmlscenegrabber
         Qt::Gui
         Qt::Quick
         Qt::Quick3D
+        Qt::CorePrivate
 )
 
 # Resources:
