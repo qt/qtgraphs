@@ -5,7 +5,7 @@
 #include <QtCore/QDebug>
 #include <QtCore/QFileInfo>
 #include <QtCore/QHashFunctions>
-#include <private/qabstractanimation_p.h>
+#include <QtCore/private/qabstractanimation_p.h>
 #include <QtGui/QGuiApplication>
 #include <QtGui/QImage>
 #include <QtGui/QFontDatabase>
