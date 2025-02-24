@@ -214,7 +214,8 @@ quint16 tst_Graphs::checksumFileOrDir(const QString &path)
     if (fi.isFile()) {
         QFile f(path);
         bool isBinary = path.endsWith(".png") || path.endsWith(".jpg");
-        f.open(isBinary ? QIODevice::ReadOnly : QIODevice::ReadOnly | QIODevice::Text);
+        if (!f.open(isBinary ? QIODevice::ReadOnly : QIODevice::ReadOnly | QIODevice::Text))
+            qFatal("Could not open file %s", qPrintable(path));
         QByteArray contents = f.readAll();
         return qChecksum(contents);
     }
