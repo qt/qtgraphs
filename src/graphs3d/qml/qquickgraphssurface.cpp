@@ -2365,9 +2365,20 @@ void QQuickGraphsSurface::updateSelectedPoint()
         // we must create them
         if (!m_selectionPointers.value(series))
             changePointerMeshTypeForSeries(series->mesh(), series);
-        m_selectionPointers.value(series)->setVisible(false);
-        if (sliceView() && sliceView()->isVisible())
-            m_sliceSelectionPointers.value(series)->setVisible(false);
+
+        if (sliceView() && !m_sliceSelectionPointers.value(series))
+            changeSlicePointerMeshTypeForSeries(series->mesh(), series);
+    }
+
+    for (auto i = m_selectionPointers.keyValueBegin(); i != m_selectionPointers.keyValueEnd(); i++)
+        i->second->setVisible(false);
+
+    if (sliceView() && sliceView()->isVisible()) {
+        for (auto i = m_sliceSelectionPointers.keyValueBegin();
+             i != m_sliceSelectionPointers.keyValueEnd();
+             i++) {
+            i->second->setVisible(false);
+        }
     }
 
     QPointF worldCoord;
