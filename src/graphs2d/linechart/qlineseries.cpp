@@ -174,7 +174,7 @@ QPointF QLineSeries::getDataPointCoordinates(qreal x, qreal y)
 {
     Q_D(QLineSeries);
 
-    auto oPoint = d->m_graph->getDataPointCoordinates(x, y);
+    auto oPoint = d->m_graph->getDataPointCoordinates(this, x, y);
     return oPoint;
 }
 

@@ -76,7 +76,7 @@ Item {
             compare(initial.titleText, "")
             compare(initial.titleVisible, true)
             compare(initial.visible, true)
-            compare(initial.alignment, Qt.AlignBottom)
+            compare(initial.alignment, Qt.AlignAbsolute)
         }
 
         function test_3_initial_change() {

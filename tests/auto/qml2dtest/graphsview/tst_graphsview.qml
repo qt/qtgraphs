@@ -121,8 +121,8 @@ Item {
             compare(initial.marginBottom, 11)
             compare(initial.marginLeft, 12)
             compare(initial.marginRight, 13)
-            verify(initial.plotArea.x !== 0)
-            verify(initial.plotArea.y !== 0)
+            verify(initial.plotArea.x !== 20)
+            verify(initial.plotArea.y !== 20)
             verify(initial.plotArea.width !== 0)
             verify(initial.plotArea.height !== 0)
             compare(initial.axisX, axisX)
@@ -141,11 +141,11 @@ Item {
             compare(point.x, 0)
             compare(point.y, 8)
             var point = lineInitial.getDataPointCoordinates(1, 1)
-            compare(point.x, 0.2)
-            compare(point.y, 7.794871794871795)
+            compare(point.x, 0.04)
+            compare(point.y, 7.89873417721519)
             var point = lineInitial.getDataPointCoordinates(4, 4)
-            compare(point.x, 0.8)
-            compare(point.y, 7.17948717948718)
+            compare(point.x, 0.16)
+            compare(point.y, 7.594936708860759)
         }
     }
 

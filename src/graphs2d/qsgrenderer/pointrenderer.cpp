@@ -90,28 +90,36 @@ qreal PointRenderer::defaultSize(QXYSeries *series)
     return size;
 }
 
-void PointRenderer::calculateRenderCoordinates(
-    AxisRenderer *axisRenderer, qreal origX, qreal origY, qreal *renderX, qreal *renderY)
+void PointRenderer::calculateRenderCoordinates(AxisRenderer *axisRenderer,
+                                               QAbstractSeries *series,
+                                               qreal origX,
+                                               qreal origY,
+                                               qreal *renderX,
+                                               qreal *renderY)
 {
-    auto flipX = axisRenderer->m_axisHorizontalMaxValue < axisRenderer->m_axisHorizontalMinValue
-                     ? -1
-                     : 1;
-    auto flipY = axisRenderer->m_axisVerticalMaxValue < axisRenderer->m_axisVerticalMinValue ? -1
-                                                                                             : 1;
+    auto &axisX = axisRenderer->getAxisX(series);
+    auto &axisY = axisRenderer->getAxisY(series);
+
+    auto flipX = axisX.maxValue < axisX.minValue ? -1 : 1;
+    auto flipY = axisY.maxValue < axisY.minValue ? -1 : 1;
 
     *renderX = m_areaWidth * flipX * origX * m_maxHorizontal - m_horizontalOffset;
     *renderY = m_areaHeight - m_areaHeight * flipY * origY * m_maxVertical
                + m_verticalOffset;
 }
 
-void PointRenderer::reverseRenderCoordinates(
-    AxisRenderer *axisRenderer, qreal renderX, qreal renderY, qreal *origX, qreal *origY)
+void PointRenderer::reverseRenderCoordinates(AxisRenderer *axisRenderer,
+                                             QAbstractSeries *series,
+                                             qreal renderX,
+                                             qreal renderY,
+                                             qreal *origX,
+                                             qreal *origY)
 {
-    auto flipX = axisRenderer->m_axisHorizontalMaxValue < axisRenderer->m_axisHorizontalMinValue
-                     ? -1
-                     : 1;
-    auto flipY = axisRenderer->m_axisVerticalMaxValue < axisRenderer->m_axisVerticalMinValue ? -1
-                                                                                             : 1;
+    auto &axisX = axisRenderer->getAxisX(series);
+    auto &axisY = axisRenderer->getAxisY(series);
+
+    auto flipX = axisX.maxValue < axisX.minValue ? -1 : 1;
+    auto flipY = axisY.maxValue < axisY.minValue ? -1 : 1;
 
     *origX = (renderX + m_horizontalOffset) / (m_areaWidth * flipX * m_maxHorizontal);
     *origY = (renderY - m_areaHeight - m_verticalOffset)
@@ -291,7 +299,12 @@ void PointRenderer::updateScatterSeries(QScatterSeries *series, QLegendData &leg
         group->rects.resize(points.size());
         for (int i = 0; i < points.size(); ++i) {
             qreal x, y;
-            calculateRenderCoordinates(m_graph->m_axisRenderer, points[i].x(), points[i].y(), &x, &y);
+            calculateRenderCoordinates(m_graph->m_axisRenderer,
+                                       series,
+                                       points[i].x(),
+                                       points[i].y(),
+                                       &x,
+                                       &y);
             y *= series->valuesMultiplier();
             if (group->currentMarker) {
                 updatePointDelegate(series, group, i, x, y);
@@ -335,7 +348,12 @@ void PointRenderer::updateLineSeries(QLineSeries *series, QLegendData &legendDat
         group->rects.resize(points.size());
         for (int i = 0; i < points.size(); ++i) {
             qreal x, y;
-            calculateRenderCoordinates(m_graph->m_axisRenderer, points[i].x(), points[i].y(), &x, &y);
+            calculateRenderCoordinates(m_graph->m_axisRenderer,
+                                       series,
+                                       points[i].x(),
+                                       points[i].y(),
+                                       &x,
+                                       &y);
             y *= series->valuesMultiplier();
             if (i == 0)
                 painterPath.moveTo(x, y);
@@ -386,7 +404,12 @@ void PointRenderer::updateSplineSeries(QSplineSeries *series, QLegendData &legen
 
         for (int i = 0, j = 0; i < points.size(); ++i, ++j) {
             qreal x, y;
-            calculateRenderCoordinates(m_graph->m_axisRenderer, points[i].x(), points[i].y(), &x, &y);
+            calculateRenderCoordinates(m_graph->m_axisRenderer,
+                                       series,
+                                       points[i].x(),
+                                       points[i].y(),
+                                       &x,
+                                       &y);
 
             qreal valuesMultiplier = series->valuesMultiplier();
             y *= valuesMultiplier;
@@ -395,11 +418,13 @@ void PointRenderer::updateSplineSeries(QSplineSeries *series, QLegendData &legen
             } else {
                 qreal x1, y1, x2, y2;
                 calculateRenderCoordinates(m_graph->m_axisRenderer,
+                                           series,
                                            fittedPoints[j - 1].x(),
                                            fittedPoints[j - 1].y(),
                                            &x1,
                                            &y1);
                 calculateRenderCoordinates(m_graph->m_axisRenderer,
+                                           series,
                                            fittedPoints[j].x(),
                                            fittedPoints[j].y(),
                                            &x2,
@@ -466,26 +491,17 @@ void PointRenderer::handlePolish(QXYSeries *series)
     m_areaWidth = width();
     m_areaHeight = height();
 
-    m_maxVertical = m_graph->m_axisRenderer->m_axisVerticalValueRange > 0
-                        ? 1.0 / m_graph->m_axisRenderer->m_axisVerticalValueRange
-                        : 100.0;
-    m_maxHorizontal = m_graph->m_axisRenderer->m_axisHorizontalValueRange > 0
-                          ? 1.0 / m_graph->m_axisRenderer->m_axisHorizontalValueRange
-                          : 100.0;
+    auto &axisX = m_graph->m_axisRenderer->getAxisX(series);
+    auto &axisY = m_graph->m_axisRenderer->getAxisY(series);
 
-    auto vmin = m_graph->m_axisRenderer->m_axisVerticalMinValue
-                        > m_graph->m_axisRenderer->m_axisVerticalMaxValue
-                    ? std::abs(m_graph->m_axisRenderer->m_axisVerticalMinValue)
-                    : m_graph->m_axisRenderer->m_axisVerticalMinValue;
+    m_maxVertical = axisY.valueRange > 0 ? 1.0 / axisY.valueRange : 100.0;
+    m_maxHorizontal = axisX.valueRange > 0 ? 1.0 / axisX.valueRange : 100.0;
 
-    m_verticalOffset = (vmin / m_graph->m_axisRenderer->m_axisVerticalValueRange) * m_areaHeight;
+    auto vmin = axisY.minValue > axisY.maxValue ? std::abs(axisY.minValue) : axisY.minValue;
+    m_verticalOffset = (vmin / axisY.valueRange) * m_areaHeight;
 
-    auto hmin = m_graph->m_axisRenderer->m_axisHorizontalMinValue
-                        > m_graph->m_axisRenderer->m_axisHorizontalMaxValue
-                    ? std::abs(m_graph->m_axisRenderer->m_axisHorizontalMinValue)
-                    : m_graph->m_axisRenderer->m_axisHorizontalMinValue;
-
-    m_horizontalOffset = (hmin / m_graph->m_axisRenderer->m_axisHorizontalValueRange) * m_areaWidth;
+    auto hmin = axisX.minValue > axisX.maxValue ? std::abs(axisX.minValue) : axisX.minValue;
+    m_horizontalOffset = (hmin / axisX.valueRange) * m_areaWidth;
 
     if (!m_groups.contains(series)) {
         PointGroup *group = new PointGroup();
@@ -537,12 +553,12 @@ void PointRenderer::handlePolish(QXYSeries *series)
                         float w = width();
                         float h = height();
                         double maxVertical
-                            = m_graph->m_axisRenderer->m_axisVerticalValueRange > 0
-                                  ? 1.0 / m_graph->m_axisRenderer->m_axisVerticalValueRange
+                            = axisY.valueRange > 0
+                                  ? 1.0 / axisY.valueRange
                                   : 100.0;
                         double maxHorizontal
-                            = m_graph->m_axisRenderer->m_axisHorizontalValueRange > 0
-                                  ? 1.0 / m_graph->m_axisRenderer->m_axisHorizontalValueRange
+                            = axisX.valueRange > 0
+                                  ? 1.0 / axisX.valueRange
                                   : 100.0;
 
                         QPoint currentDelta =
@@ -650,10 +666,11 @@ bool PointRenderer::handleHoverMove(QHoverEvent *event)
             continue;
 
         auto axisRenderer = group->series->graph()->m_axisRenderer;
-        bool isHNegative = axisRenderer->m_axisHorizontalMaxValue
-                           < axisRenderer->m_axisHorizontalMinValue;
-        bool isVNegative = axisRenderer->m_axisVerticalMaxValue
-                           < axisRenderer->m_axisVerticalMinValue;
+        auto &axisX = axisRenderer->getAxisX(group->series);
+        auto &axisY = axisRenderer->getAxisY(group->series);
+
+        bool isHNegative = axisX.maxValue < axisX.minValue;
+        bool isVNegative = axisY.maxValue < axisY.minValue;
 
         if (group->series->type() == QAbstractSeries::SeriesType::Scatter) {
             const QString &name = group->series->name();
@@ -805,11 +822,13 @@ bool PointRenderer::handleHoverMove(QHoverEvent *event)
                                     qreal cx1, cy1, cx2, cy2;
 
                                     reverseRenderCoordinates(axisRenderer,
+                                                             group->series,
                                                              it->x(),
                                                              it->y(),
                                                              &cx1,
                                                              &cy1);
                                     reverseRenderCoordinates(axisRenderer,
+                                                             group->series,
                                                              it2->x(),
                                                              it2->y(),
                                                              &cx2,
@@ -847,35 +866,27 @@ bool PointRenderer::handleHoverMove(QHoverEvent *event)
 }
 
 
-QPointF PointRenderer::reverseRenderCoordinates(qreal x, qreal y)
+QPointF PointRenderer::reverseRenderCoordinates(QAbstractSeries *series, qreal x, qreal y)
 {
     m_areaWidth = width();
     m_areaHeight = height();
 
-    m_maxVertical = m_graph->m_axisRenderer->m_axisVerticalValueRange > 0
-                        ? 1.0 / m_graph->m_axisRenderer->m_axisVerticalValueRange
-                        : 100.0;
-    m_maxHorizontal = m_graph->m_axisRenderer->m_axisHorizontalValueRange > 0
-                          ? 1.0 / m_graph->m_axisRenderer->m_axisHorizontalValueRange
-                          : 100.0;
+    auto &axisX = m_graph->m_axisRenderer->getAxisX(series);
+    auto &axisY = m_graph->m_axisRenderer->getAxisY(series);
 
-    auto vmin = m_graph->m_axisRenderer->m_axisVerticalMinValue
-                        > m_graph->m_axisRenderer->m_axisVerticalMaxValue
-                    ? std::abs(m_graph->m_axisRenderer->m_axisVerticalMinValue)
-                    : m_graph->m_axisRenderer->m_axisVerticalMinValue;
+    m_maxVertical = axisY.valueRange > 0 ? 1.0 / axisY.valueRange : 100.0;
+    m_maxHorizontal = axisX.valueRange > 0 ? 1.0 / axisX.valueRange : 100.0;
 
-    m_verticalOffset = (vmin / m_graph->m_axisRenderer->m_axisVerticalValueRange) * m_areaHeight;
+    auto vmin = axisY.minValue > axisY.maxValue ? std::abs(axisY.minValue) : axisY.minValue;
+    m_verticalOffset = (vmin / axisY.valueRange) * m_areaHeight;
 
-    auto hmin = m_graph->m_axisRenderer->m_axisHorizontalMinValue
-                        > m_graph->m_axisRenderer->m_axisHorizontalMaxValue
-                    ? std::abs(m_graph->m_axisRenderer->m_axisHorizontalMinValue)
-                    : m_graph->m_axisRenderer->m_axisHorizontalMinValue;
+    auto hmin = axisX.minValue > axisX.maxValue ? std::abs(axisX.minValue) : axisX.minValue;
+    m_horizontalOffset = (hmin / axisX.valueRange) * m_areaWidth;
 
-    m_horizontalOffset = (hmin / m_graph->m_axisRenderer->m_axisHorizontalValueRange) * m_areaWidth;
     qreal x0;
     qreal y0;
 
-    reverseRenderCoordinates(m_graph->m_axisRenderer, x, y, &x0, &y0);
+    reverseRenderCoordinates(m_graph->m_axisRenderer, series, x, y, &x0, &y0);
 
     return QPointF(x0, y0);
 }

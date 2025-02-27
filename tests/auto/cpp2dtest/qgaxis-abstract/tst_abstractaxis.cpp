@@ -54,7 +54,7 @@ void tst_abstractaxis::initialProperties()
     QCOMPARE(m_axis->titleColor(), QColor());
     QCOMPARE(m_axis->isTitleVisible(), true);
     QCOMPARE(m_axis->titleFont(), QFont());
-    QCOMPARE(m_axis->alignment(), Qt::AlignBottom);
+    QCOMPARE(m_axis->alignment(), Qt::AlignAbsolute);
 }
 
 void tst_abstractaxis::initializeProperties()

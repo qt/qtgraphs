@@ -45,7 +45,7 @@ public:
     void afterUpdate(QList<QAbstractSeries *> &cleanupSeries);
     bool handleHoverMove(QHoverEvent *event);
 
-   QPointF reverseRenderCoordinates(qreal x, qreal y);
+   QPointF reverseRenderCoordinates(QAbstractSeries *series, qreal x, qreal y);
 
 private:
     struct PointGroup
@@ -95,10 +95,18 @@ private:
 
     SeriesStyle getSeriesStyle(PointGroup *group);
 
-    void calculateRenderCoordinates(
-        AxisRenderer *axisRenderer, qreal origX, qreal origY, qreal *renderX, qreal *renderY);
-    void reverseRenderCoordinates(
-        AxisRenderer *axisRenderer, qreal renderX, qreal renderY, qreal *origX, qreal *origY);
+    void calculateRenderCoordinates(AxisRenderer *axisRenderer,
+                                    QAbstractSeries *series,
+                                    qreal origX,
+                                    qreal origY,
+                                    qreal *renderX,
+                                    qreal *renderY);
+    void reverseRenderCoordinates(AxisRenderer *axisRenderer,
+                                  QAbstractSeries *series,
+                                  qreal renderX,
+                                  qreal renderY,
+                                  qreal *origX,
+                                  qreal *origY);
     void updatePointDelegate(
         QXYSeries *series, PointGroup *group, qsizetype pointIndex, qreal x, qreal y);
     void hidePointDelegates(QXYSeries *series);

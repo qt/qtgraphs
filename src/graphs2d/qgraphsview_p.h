@@ -91,7 +91,7 @@ public:
         return m_seriesList;
     }
 
-    QPointF getDataPointCoordinates(qreal x, qreal y);
+    QPointF getDataPointCoordinates(QAbstractSeries *series, qreal x, qreal y);
 
     QQmlListProperty<QObject> seriesList();
     static void appendSeriesFunc(QQmlListProperty<QObject> *list, QObject *series);
@@ -188,6 +188,8 @@ public:
     qreal zoomSensitivity() const;
     void setZoomSensitivity(qreal newZoomSensitivity);
 
+    void calculateAxisCounts(int *xCount, int *yCount, int *leftCount, int *topCount);
+
 protected:
     void handleHoverEnter(const QString &seriesName, QPointF position, QPointF value);
     void handleHoverExit(const QString &seriesName, QPointF position);
@@ -278,14 +280,20 @@ private:
     qreal m_marginRight = 20;
     QRectF m_plotArea;
     // Areas of axis
-    QRectF m_xAxisArea;
-    QRectF m_yAxisArea;
+    QRectF m_x1AxisArea;
+    QRectF m_x2AxisArea;
+    QRectF m_y1AxisArea;
+    QRectF m_y2AxisArea;
     // Areas of axis tickers
-    QRectF m_xAxisTickersArea;
-    QRectF m_yAxisTickersArea;
+    QRectF m_x1AxisTickersArea;
+    QRectF m_x2AxisTickersArea;
+    QRectF m_y1AxisTickersArea;
+    QRectF m_y2AxisTickersArea;
     // Areas of axis labels
-    QRectF m_xAxisLabelsArea;
-    QRectF m_yAxisLabelsArea;
+    QRectF m_x1AxisLabelsArea;
+    QRectF m_x2AxisLabelsArea;
+    QRectF m_y1AxisLabelsArea;
+    QRectF m_y2AxisLabelsArea;
     // Note: Add properties for these
     qreal m_axisTickersWidth = m_defaultAxisTickersWidth;
     qreal m_axisTickersHeight = m_defaultAxisTickersHeight;

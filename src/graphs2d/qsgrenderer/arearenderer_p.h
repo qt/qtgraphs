@@ -71,7 +71,8 @@ private:
     QQuickTapHandler *m_tapHandler = nullptr;
 
     void calculateRenderCoordinates(qreal origX, qreal origY, qreal *renderX, qreal *renderY) const;
-    void calculateAxisCoordinates(qreal origX, qreal origY, qreal *axisX, qreal *axisY) const;
+    void calculateAxisCoordinates(
+        QAreaSeries *series, qreal origX, qreal origY, qreal *axisX, qreal *axisY) const;
     bool pointInArea(QPoint pt, QAreaSeries *series) const;
 };
 

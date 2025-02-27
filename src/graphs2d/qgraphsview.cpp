@@ -162,6 +162,7 @@ void QGraphsView::insertSeries(qsizetype index, QObject *object)
 #endif
             qCDebug(lcGraphs2D) << series << "added to a list at index of" << index;
         }
+        updateComponentSizes();
         polishAndUpdate();
     }
 }
@@ -186,6 +187,7 @@ void QGraphsView::removeSeries(QObject *object)
 #endif
         qCDebug(lcGraphs2D) << "removing" << series << "from seriesList";
         cleanupSeriesList.append(series);
+        updateComponentSizes();
         polishAndUpdate();
     }
 }
@@ -215,16 +217,15 @@ bool QGraphsView::hasSeries(QObject *series)
     return m_seriesList.contains(series);
 }
 
-QPointF QGraphsView::getDataPointCoordinates(qreal x, qreal y)
+QPointF QGraphsView::getDataPointCoordinates(QAbstractSeries *series, qreal x, qreal y)
 {
 #ifdef USE_LINEGRAPH
     if (m_pointRenderer)
-        return m_pointRenderer->reverseRenderCoordinates(x, y);
+        return m_pointRenderer->reverseRenderCoordinates(series, x, y);
 #else
     Q_UNUSED(x);
     Q_UNUSED(y);
 #endif
-    
     return QPointF();
 }
 
@@ -1107,52 +1108,61 @@ void QGraphsView::updateAxisAreas()
                  height() - m_marginTop - m_marginBottom };
     m_axisHeight = m_axisLabelsHeight + m_axisXLabelsMargin + m_axisTickersHeight;
     m_axisWidth = m_axisLabelsWidth + m_axisYLabelsMargin + m_axisTickersWidth;
-    float leftPadding = (m_axisY && m_axisY->alignment() == Qt::AlignLeft) ? m_axisWidth : 0;
-    float topPadding = (m_axisX && m_axisX->alignment() == Qt::AlignTop) ? m_axisHeight : 0;
-    if (m_axisX && m_axisX->alignment() == Qt::AlignTop) {
-        m_xAxisArea = { r.x() + leftPadding, r.y(), r.width() - m_axisWidth, m_axisHeight};
-        m_xAxisLabelsArea = { m_xAxisArea.x(),
-                              m_xAxisArea.y(),
-                              m_xAxisArea.width(),
-                              m_axisLabelsHeight };
-        m_xAxisTickersArea = { m_xAxisArea.x(),
-                               m_xAxisArea.y() + m_axisLabelsHeight + m_axisXLabelsMargin,
-                               m_xAxisArea.width(),
-                               m_axisTickersHeight };
-    } else {
-        m_xAxisArea = { r.x() + leftPadding, r.y() + r.height() - m_axisHeight,
-                        r.width() - m_axisWidth, m_axisHeight };
-        m_xAxisLabelsArea = { m_xAxisArea.x(),
-                              m_xAxisArea.y() + m_axisTickersHeight + m_axisXLabelsMargin,
-                              m_xAxisArea.width(),
-                              m_axisTickersHeight };
-        m_xAxisTickersArea = { m_xAxisArea.x(),
-                               m_xAxisArea.y(),
-                               m_xAxisArea.width(),
-                               m_axisTickersHeight };
-    }
-    if (m_axisY && m_axisY->alignment() == Qt::AlignLeft) {
-        m_yAxisArea = { r.x(), r.y() + topPadding, m_axisWidth, r.height() - m_axisHeight };
-        m_yAxisLabelsArea = { m_yAxisArea.x(),
-                              m_yAxisArea.y(),
-                              m_axisLabelsWidth,
-                              m_yAxisArea.height() };
-        m_yAxisTickersArea = { m_yAxisArea.x() + m_axisLabelsWidth + m_axisYLabelsMargin,
-                               m_yAxisArea.y(),
-                               m_axisTickersWidth,
-                               m_yAxisArea.height() };
-    } else {
-        m_yAxisArea = { r.x() + r.width() - m_axisWidth, r.y() + topPadding,
-                        m_axisWidth, r.height() - m_axisHeight };
-        m_yAxisLabelsArea = { m_yAxisArea.x() + m_axisTickersWidth + m_axisYLabelsMargin,
-                              m_yAxisArea.y(),
-                              m_axisLabelsWidth,
-                              m_yAxisArea.height() };
-        m_yAxisTickersArea = { m_yAxisArea.x(),
-                               m_yAxisArea.y(),
-                               m_axisTickersWidth,
-                               m_yAxisArea.height() };
-    }
+
+    int xCount = 0;
+    int yCount = 0;
+    int topCount = 0;
+    int leftCount = 0;
+
+    calculateAxisCounts(&xCount, &yCount, &leftCount, &topCount);
+
+    m_x1AxisArea = { r.x(),
+                     r.y() + r.height() + m_axisHeight * (2 - xCount)
+                        - m_axisHeight * (2 - topCount),
+                     r.width() - m_axisWidth * yCount,
+                     m_axisHeight };
+    m_x1AxisLabelsArea = { m_x1AxisArea.x(),
+                         m_x1AxisArea.y() + m_axisTickersHeight + m_axisXLabelsMargin,
+                         m_x1AxisArea.width(),
+                         m_axisTickersHeight };
+    m_x1AxisTickersArea = { m_x1AxisArea.x(),
+                          m_x1AxisArea.y(),
+                          m_x1AxisArea.width(),
+                          m_axisTickersHeight };
+
+    m_x2AxisArea = { r.x(), r.y(), r.width() - m_axisWidth * yCount, m_axisHeight };
+    m_x2AxisLabelsArea = { m_x2AxisArea.x(),
+                          m_x2AxisArea.y(),
+                          m_x2AxisArea.width(),
+                          m_axisLabelsHeight };
+    m_x2AxisTickersArea = { m_x2AxisArea.x(),
+                           m_x2AxisArea.y() + m_axisLabelsHeight + m_axisXLabelsMargin,
+                           m_x2AxisArea.width(),
+                           m_axisTickersHeight };
+
+    m_y1AxisArea = { r.x(), r.y(), m_axisWidth, r.height() - m_axisHeight * xCount };
+    m_y1AxisLabelsArea = { m_y1AxisArea.x(),
+                          m_y1AxisArea.y(),
+                          m_axisLabelsWidth,
+                          m_y1AxisArea.height() };
+    m_y1AxisTickersArea = { m_y1AxisArea.x() + m_axisLabelsWidth + m_axisYLabelsMargin,
+                           m_y1AxisArea.y(),
+                           m_axisTickersWidth,
+                           m_y1AxisArea.height() };
+
+    m_y2AxisArea = { r.x() + r.width() + m_axisWidth * (2 - yCount)
+                        - m_axisWidth * (2 - leftCount),
+                     r.y(),
+                     m_axisWidth,
+                     r.height() - m_axisHeight * xCount };
+    m_y2AxisLabelsArea = { m_y2AxisArea.x() + m_axisTickersWidth + m_axisYLabelsMargin,
+                          m_y2AxisArea.y(),
+                          m_axisLabelsWidth,
+                          m_y2AxisArea.height() };
+    m_y2AxisTickersArea = { m_y2AxisArea.x(),
+                           m_y2AxisArea.y(),
+                           m_axisTickersWidth,
+                           m_y2AxisArea.height() };
 }
 
 void QGraphsView::updatePlotArea()
@@ -1162,14 +1172,19 @@ void QGraphsView::updatePlotArea()
     qreal y = m_marginTop;
     qreal w = width() - x - m_marginRight;
     qreal h = height() - y - m_marginBottom;
-    if (m_axisX && m_axisX->alignment() == Qt::AlignTop)
-        y += m_axisHeight;
-    if (m_axisY && m_axisY->alignment() != Qt::AlignRight)
-        x += m_axisWidth;
-    if (m_axisX)
-        h -= m_axisHeight;
-    if (m_axisY)
-        w -= m_axisWidth;
+
+    int xCount = 0;
+    int yCount = 0;
+    int topCount = 0;
+    int leftCount = 0;
+
+    calculateAxisCounts(&xCount, &yCount, &leftCount, &topCount);
+
+    y += m_axisHeight * topCount;
+    x += m_axisWidth * leftCount;
+    h -= m_axisHeight * xCount;
+    w -= m_axisWidth * yCount;
+
     w = qMax(w, 0.0);
     h = qMax(h, 0.0);
     QRectF plotArea = QRectF(x, y, w, h);
@@ -1207,8 +1222,10 @@ void QGraphsView::setAxisX(QAbstractAxis *axis)
             axis->setAlignment(Qt::AlignBottom);
         addAxis(axis);
     }
+    updateComponentSizes();
     emit axisXChanged();
     emit update();
+    polishAndUpdate();
 }
 
 /*!
@@ -1239,8 +1256,10 @@ void QGraphsView::setAxisY(QAbstractAxis *axis)
             axis->setAlignment(Qt::AlignLeft);
         addAxis(axis);
     }
+    updateComponentSizes();
     emit axisYChanged();
     emit update();
+    polishAndUpdate();
 }
 
 /*!
@@ -1273,6 +1292,8 @@ void QGraphsView::setOrientation(Qt::Orientation newOrientation)
     m_orientation = newOrientation;
     emit orientationChanged();
     emit update();
+    updateComponentSizes();
+    polishAndUpdate();
 }
 
 /*!
@@ -1446,6 +1467,46 @@ void QGraphsView::setZoomSensitivity(qreal newZoomSensitivity)
         return;
     m_zoomSensitivity = newZoomSensitivity;
     emit zoomSensitivityChanged();
+}
+
+void QGraphsView::calculateAxisCounts(int *xCount, int *yCount, int *leftCount, int *topCount)
+{
+    if (axisY()) {
+        (*yCount)++;
+
+        if (axisY()->alignment() == Qt::AlignLeft)
+            (*leftCount)++;
+    }
+
+    if (axisX()) {
+        (*xCount)++;
+
+        if (axisX()->alignment() == Qt::AlignTop)
+            (*topCount)++;
+    }
+
+    for (auto&& s : m_seriesList) {
+        if (auto series = qobject_cast<QAbstractSeries *>(s)) {
+            if (series->axisY() && series->axisY() != axisY()) {
+                (*yCount)++;
+
+                if (series->axisY()->alignment() == Qt::AlignLeft)
+                    (*leftCount)++;
+            }
+
+            if (series->axisX() && series->axisX() != axisX()) {
+                (*xCount)++;
+
+                if (series->axisX()->alignment() == Qt::AlignTop)
+                    (*topCount)++;
+            }
+        }
+    }
+
+    if (m_orientation == Qt::Horizontal) {
+        qSwap((*xCount), (*yCount));
+        qSwap((*leftCount), (*topCount));
+    }
 }
 
 int QGraphsView::getSeriesRendererIndex(QAbstractSeries *series)

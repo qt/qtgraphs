@@ -397,6 +397,58 @@ void QAbstractSeries::setHovered(bool enabled)
     }
 }
 
+QAbstractAxis *QAbstractSeries::axisX() const
+{
+    Q_D(const QAbstractSeries);
+    return d->m_axisX;
+}
+
+void QAbstractSeries::setAxisX(QAbstractAxis *newAxisX)
+{
+    Q_D(QAbstractSeries);
+    if (d->m_axisX == newAxisX)
+        return;
+
+    if (d->m_axisX)
+        disconnect(d->m_axisX, &QAbstractAxis::update, this, &QAbstractSeries::update);
+
+    if (newAxisX) {
+        if (newAxisX->alignment() != Qt::AlignBottom && newAxisX->alignment() != Qt::AlignTop)
+            newAxisX->setAlignment(Qt::AlignBottom);
+        connect(newAxisX, &QAbstractAxis::update, this, &QAbstractSeries::update);
+    }
+
+    d->m_axisX = newAxisX;
+    update();
+    emit axisXChanged();
+}
+
+QAbstractAxis *QAbstractSeries::axisY() const
+{
+    Q_D(const QAbstractSeries);
+    return d->m_axisY;
+}
+
+void QAbstractSeries::setAxisY(QAbstractAxis *newAxisY)
+{
+    Q_D(QAbstractSeries);
+    if (d->m_axisY == newAxisY)
+        return;
+
+    if (d->m_axisY)
+        disconnect(d->m_axisY, &QAbstractAxis::update, this, &QAbstractSeries::update);
+
+    if (newAxisY) {
+        if (newAxisY->alignment() != Qt::AlignLeft && newAxisY->alignment() != Qt::AlignRight)
+            newAxisY->setAlignment(Qt::AlignLeft);
+        connect(newAxisY, &QAbstractAxis::update, this, &QAbstractSeries::update);
+    }
+
+    d->m_axisY = newAxisY;
+    update();
+    emit axisYChanged();
+}
+
 qreal QAbstractSeries::opacity() const
 {
     Q_D(const QAbstractSeries);

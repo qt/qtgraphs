@@ -318,6 +318,8 @@ void BarsRenderer::updateVerticalBars(QBarSeries *series, qsizetype setCount, qs
             barSelectionRect->series = series;
         }
 
+        auto &axisY = m_graph->m_axisRenderer->getAxisY(series);
+
         QColor color = getSetColor(series, s, barSeriesIndex);
         QColor borderColor = getSetBorderColor(series, s, barSeriesIndex);
         qreal borderWidth = getSetBorderWidth(series, s);
@@ -334,13 +336,13 @@ void BarsRenderer::updateVerticalBars(QBarSeries *series, qsizetype setCount, qs
         const auto selectedBars = s->selectedBars();
         for (auto variantValue : std::as_const(v)) {
             const float realValue = variantValue.toReal();
-            float value = (realValue - m_graph->m_axisRenderer->m_axisVerticalMinValue) * series->valuesMultiplier();
+            float value = (realValue - axisY.minValue) * series->valuesMultiplier();
             if (percent) {
                 if (auto totalValue = totalValuesListInSet.at(barIndexInSet))
                     value *= (100.0 / totalValue);
             }
             const bool isSelected = selectedBars.contains(barIndexInSet);
-            double delta = m_graph->m_axisRenderer->m_axisVerticalMaxValue - m_graph->m_axisRenderer->m_axisVerticalMinValue;
+            double delta = axisY.maxValue - axisY.minValue;
             double maxValues = delta > 0 ? 1.0 / delta : 100.0;
             float barLength = h * value * maxValues;
             float barY = h - barLength;
@@ -428,6 +430,8 @@ void BarsRenderer::updateHorizontalBars(QBarSeries *series, qsizetype setCount, 
             barSelectionRect->series = series;
         }
 
+        auto &axisX = m_graph->m_axisRenderer->getAxisX(series);
+
         QColor color = getSetColor(series, s, barSerieIndex);
         QColor borderColor = getSetBorderColor(series, s, barSerieIndex);
         qreal borderWidth = getSetBorderWidth(series, s);
@@ -443,13 +447,13 @@ void BarsRenderer::updateHorizontalBars(QBarSeries *series, qsizetype setCount, 
         const auto selectedBars = s->selectedBars();
         for (auto variantValue : std::as_const(v)) {
             const float realValue = variantValue.toReal();
-            float value = (realValue - m_graph->m_axisRenderer->m_axisHorizontalMinValue) * series->valuesMultiplier();
+            float value = (realValue - axisX.minValue) * series->valuesMultiplier();
             if (percent) {
                 if (auto totalValue = totalValuesListInSet.at(barIndexInSet))
                     value *= (100.0 / totalValue);
             }
             const bool isSelected = selectedBars.contains(barIndexInSet);
-            double delta = m_graph->m_axisRenderer->m_axisHorizontalMaxValue - m_graph->m_axisRenderer->m_axisHorizontalMinValue;
+            double delta = axisX.maxValue - axisX.minValue;
             double maxValues = delta > 0 ? 1.0 / delta : 100.0;
             float barLength = w * value * maxValues;
             float barY = seriesPos + posYInSet + barCentering;

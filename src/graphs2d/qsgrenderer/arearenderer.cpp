@@ -44,15 +44,13 @@ void AreaRenderer::calculateRenderCoordinates(qreal origX,
                + m_verticalOffset;
 }
 
-void AreaRenderer::calculateAxisCoordinates(qreal origX,
-                                            qreal origY,
-                                            qreal *axisX,
-                                            qreal *axisY) const
+void AreaRenderer::calculateAxisCoordinates(
+    QAreaSeries *series, qreal origX, qreal origY, qreal *axisX, qreal *axisY) const
 {
-    *axisX = origX / m_areaWidth
-             / m_maxHorizontal;
-    *axisY = m_graph->m_axisRenderer->m_axisVerticalValueRange
-             - origY / m_areaHeight / m_maxVertical;
+    auto &axY = m_graph->m_axisRenderer->getAxisY(series);
+
+    *axisX = origX / m_areaWidth / m_maxHorizontal;
+    *axisY = axY.valueRange - origY / m_areaHeight / m_maxVertical;
 }
 
 void AreaRenderer::handlePolish(QAreaSeries *series)
@@ -98,18 +96,13 @@ void AreaRenderer::handlePolish(QAreaSeries *series)
     m_areaWidth = width();
     m_areaHeight = height();
 
-    m_maxVertical = m_graph->m_axisRenderer->m_axisVerticalValueRange > 0
-                        ? 1.0 / m_graph->m_axisRenderer->m_axisVerticalValueRange
-                        : 100.0;
-    m_maxHorizontal = m_graph->m_axisRenderer->m_axisHorizontalValueRange > 0
-                          ? 1.0 / m_graph->m_axisRenderer->m_axisHorizontalValueRange
-                          : 100.0;
-    m_verticalOffset = (m_graph->m_axisRenderer->m_axisVerticalMinValue
-                        / m_graph->m_axisRenderer->m_axisVerticalValueRange)
-                       * m_areaHeight;
-    m_horizontalOffset = (m_graph->m_axisRenderer->m_axisHorizontalMinValue
-                          / m_graph->m_axisRenderer->m_axisHorizontalValueRange)
-                         * m_areaWidth;
+    auto &axisX = m_graph->m_axisRenderer->getAxisX(group->series);
+    auto &axisY = m_graph->m_axisRenderer->getAxisY(group->series);
+
+    m_maxVertical = axisY.valueRange > 0 ? 1.0 / axisY.valueRange : 100.0;
+    m_maxHorizontal = axisX.valueRange > 0 ? 1.0 / axisX.valueRange : 100.0;
+    m_verticalOffset = (axisY.minValue / axisY.valueRange) * m_areaHeight;
+    m_horizontalOffset = (axisX.minValue / axisX.valueRange) * m_areaWidth;
 
     auto &painterPath = group->painterPath;
     painterPath.clear();
@@ -365,7 +358,7 @@ bool AreaRenderer::handleHoverMove(QHoverEvent *event)
         bool hovering = false;
         if (pointInArea(position.toPoint(), group->series)) {
             qreal x, y;
-            calculateAxisCoordinates(position.x(), position.y(), &x, &y);
+            calculateAxisCoordinates(group->series, position.x(), position.y(), &x, &y);
 
             if (!group->hover) {
                 group->hover = true;
@@ -407,7 +400,11 @@ void AreaRenderer::onSingleTapped(QEventPoint eventPoint, Qt::MouseButton button
             m_graph->polishAndUpdate();
             qreal x;
             qreal y;
-            calculateAxisCoordinates(eventPoint.position().x(), eventPoint.position().y(), &x, &y);
+            calculateAxisCoordinates(group->series,
+                                     eventPoint.position().x(),
+                                     eventPoint.position().y(),
+                                     &x,
+                                     &y);
             emit group->series->clicked(QPoint(x, y));
         }
     }
@@ -430,7 +427,11 @@ void AreaRenderer::onDoubleTapped(QEventPoint eventPoint, Qt::MouseButton button
         if (pointInArea(eventPoint.position().toPoint(), group->series)) {
             qreal x;
             qreal y;
-            calculateAxisCoordinates(eventPoint.position().x(), eventPoint.position().y(), &x, &y);
+            calculateAxisCoordinates(group->series,
+                                     eventPoint.position().x(),
+                                     eventPoint.position().y(),
+                                     &x,
+                                     &y);
             emit group->series->doubleClicked(QPoint(x, y));
         }
     }
@@ -452,7 +453,7 @@ void AreaRenderer::onPressedChanged()
         if (pointInArea(position.toPoint(), group->series)) {
             qreal x;
             qreal y;
-            calculateAxisCoordinates(position.x(), position.y(), &x, &y);
+            calculateAxisCoordinates(group->series, position.x(), position.y(), &x, &y);
             if (m_tapHandler->isPressed())
                 emit group->series->pressed(QPoint(x, y));
             else

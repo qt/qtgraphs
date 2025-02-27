@@ -52,6 +52,9 @@ private:
     qreal m_opacity = 1.0;
     qreal m_valuesMultiplier = 1.0;
     QList<QLegendData> m_legendData;
+
+    QAbstractAxis *m_axisX = nullptr;
+    QAbstractAxis *m_axisY = nullptr;
 };
 
 QT_END_NAMESPACE

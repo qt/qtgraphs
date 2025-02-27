@@ -46,6 +46,8 @@ class Q_GRAPHS_EXPORT QAbstractSeries : public QObject, public QQmlParserStatus
     Q_PROPERTY(QQmlListProperty<QObject> seriesChildren READ seriesChildren CONSTANT FINAL)
     Q_PROPERTY(QList<QLegendData> legendData READ legendData NOTIFY legendDataChanged FINAL)
     Q_PROPERTY(bool hovered READ isHovered NOTIFY hoveredChanged REVISION(6, 10))
+    Q_PROPERTY(QAbstractAxis *axisX READ axisX WRITE setAxisX NOTIFY axisXChanged REVISION(6, 10))
+    Q_PROPERTY(QAbstractAxis *axisY READ axisY WRITE setAxisY NOTIFY axisYChanged REVISION(6, 10))
     Q_CLASSINFO("DefaultProperty", "seriesChildren")
     QML_ANONYMOUS
 
@@ -104,6 +106,12 @@ public:
     bool isHovered() const;
     void setHovered(bool enabled);
 
+    QAbstractAxis *axisX() const;
+    void setAxisX(QAbstractAxis *newAxisX);
+
+    QAbstractAxis *axisY() const;
+    void setAxisY(QAbstractAxis *newAxisY);
+
 Q_SIGNALS:
     void update();
     void nameChanged();
@@ -117,6 +125,9 @@ Q_SIGNALS:
     void hoverExit(const QString &seriesName, QPointF position);
     void hover(const QString &seriesName, QPointF position, QPointF value);
     Q_REVISION(6, 10) void hoveredChanged(bool hovered);
+
+    Q_REVISION(6, 10) void axisXChanged();
+    Q_REVISION(6, 10) void axisYChanged();
 
 protected:
     friend class BarsRenderer;
