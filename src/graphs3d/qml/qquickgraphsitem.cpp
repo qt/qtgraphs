@@ -452,7 +452,7 @@ constexpr float polarRoundness = 64.0f;
  */
 
 /*!
- * \qmlmethod void GraphsItem3D::doPicking(QVector3D origin, QVector3D direction)
+ * \qmlmethod void GraphsItem3D::doRayPicking(QVector3D origin, QVector3D direction)
  *
  * Performs picking starting from \a origin and in \a direction
  * on the elements of the graph, selecting the first item hit.
