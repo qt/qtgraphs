@@ -4,6 +4,229 @@
 
 QT_BEGIN_NAMESPACE
 
+/*!
+ * \qmltype BarsNode
+ * \inherits GraphsNode
+ * \inqmlmodule QtGraphs
+ * \ingroup graphs_qml_3D
+ * \brief 3D bar graph node.
+ *
+ * This type enables developers to render a bar graph node in 3D with Qt Quick.
+ *
+ * You will need to import Qt Graphs module to use this type:
+ *
+ * \snippet doc_src_qmlnodes.qml 0
+ *
+ * After that you can use BarsNode in your qml files:
+ *
+ * \snippet doc_src_qmlnodes.qml 1
+ *
+ * \sa Bar3DSeries, ItemModelBarDataProxy, ScatterNode, SurfaceNode, {Qt Graphs C++ Classes for 3D}
+ */
+
+/*!
+ * \qmlproperty Category3DAxis BarsNode::rowAxis
+ * The active row axis.
+ *
+ * If an axis is not given, a temporary default axis with no labels is created.
+ * This temporary axis is destroyed if another axis is explicitly set to the
+ * same orientation.
+ */
+
+/*!
+ * \qmlproperty ValueAxis3D BarsNode::valueAxis
+ * The active value axis.
+ *
+ * If an axis is not given, a temporary default axis with no labels and an
+ * automatically adjusting range is created.
+ * This temporary axis is destroyed if another axis is explicitly set to the
+ * same orientation.
+ */
+
+/*!
+ * \qmlproperty Category3DAxis BarsNode::columnAxis
+ * The active column axis.
+ *
+ * If an axis is not given, a temporary default axis with no labels is created.
+ * This temporary axis is destroyed if another axis is explicitly set to the
+ * same orientation.
+ */
+
+/*!
+ * \qmlproperty bool BarsNode::multiSeriesUniform
+ * Defines whether bars are to be scaled with proportions set to a single series bar even
+ * if there are multiple series displayed. If set to \c {true}, \l{barSpacing}{bar spacing} will
+ * be correctly applied only to the X-axis. Preset to \c false by default.
+ */
+
+/*!
+ * \qmlproperty real BarsNode::barThickness
+ * The bar thickness ratio between the X and Z dimensions. The value \c 1.0
+ * means that the bars are as wide as they are deep, whereas \c 0.5
+ * makes them twice as deep as they are wide.
+ */
+
+/*!
+ * \qmlproperty size BarsNode::barSpacing
+ * Bar spacing in X and Z dimensions.
+ *
+ * Preset to \c {(1.0, 1.0)} by default. Spacing is affected by the
+ * barSpacingRelative property.
+ */
+
+/*!
+ * \qmlproperty bool BarsNode::barSpacingRelative
+ * Whether spacing is absolute or relative to bar thickness.
+ *
+ * If \c true, the value of \c 0.0 means that the bars are placed
+ * side-to-side, \c 1.0 means that a space as wide as the thickness of one bar
+ * is left between the bars, and so on. Preset to \c true.
+ */
+
+/*!
+ * \qmlproperty size BarsNode::barSeriesMargin
+ *
+ * Margin between series columns in X and Z dimensions. Preset to \c {(0.0, 0.0)} by default.
+ * Sensible values are on the range [0,1).
+ */
+
+/*!
+ * \qmlproperty Bar3DSeries BarsNode::selectedSeries
+ * \readonly
+ *
+ * The selected series or \c null. If \l {GraphsNode::selectionMode}{selectionMode} has
+ * the \c SelectionMultiSeries flag set, this property holds the series that
+ * owns the selected bar.
+ */
+
+/*!
+ * \qmlproperty list<Bar3DSeries> BarsNode::seriesList
+ * \qmldefault
+ * The series of the graph.
+ * By default, this property contains an empty list.
+ * To set the series, either use the addSeries() function or define them as children of the graph.
+ */
+
+/*!
+ * \qmlproperty Bar3DSeries BarsNode::primarySeries
+ * The primary series of the graph. It
+ * is used to determine the row and column axis labels when the labels are not explicitly
+ * set to the axes.
+ *
+ * If the specified series is not yet added to the graph, setting it as the
+ * primary series will also implicitly add it to the graph.
+ *
+ * If the primary series itself is removed from the graph, this property
+ * resets to default.
+ *
+ * If the series is null, this property resets to default.
+ * Defaults to the first added series or zero if no series are added to the graph.
+ */
+
+/*!
+ * \qmlproperty real BarsNode::floorLevel
+ *
+ * The floor level for the bar graph in Y-axis data coordinates.
+ *
+ * The actual floor level will be restricted by the Y-axis minimum and maximum
+ * values.
+ * Defaults to zero.
+ */
+
+/*!
+ * \qmlmethod void BarsNode::addSeries(Bar3DSeries series)
+ * Adds the \a series to the graph. A graph can contain multiple series, but only one set of axes,
+ * so the rows and columns of all series must match for the visualized data to be meaningful.
+ * If the graph has multiple visible series, only the first one added will
+ * generate the row or column labels on the axes in cases where the labels are not explicitly set
+ * to the axes. If the newly added series has specified a selected bar, it will be highlighted and
+ * any existing selection will be cleared. Only one added series can have an active selection.
+ * \sa GraphsNode::hasSeries()
+ */
+
+/*!
+ * \qmlmethod void BarsNode::removeSeries(Bar3DSeries series)
+ * Remove the \a series from the graph.
+ * \sa GraphsNode::hasSeries()
+ */
+
+/*!
+ * \qmlmethod void BarsNode::insertSeries(int index, Bar3DSeries series)
+ * Inserts the \a series into the position \a index in the series list.
+ * If the \a series has already been added to the list, it is moved to the
+ * new \a index.
+ * \note When moving a series to a new \a index that is after its old index,
+ * the new position in list is calculated as if the series was still in its old
+ * index, so the final index is actually the \a index decremented by one.
+ * \sa GraphsNode::hasSeries()
+ */
+
+/*!
+ * \qmlsignal BarsNode::multiSeriesUniformChanged(bool uniform)
+ *
+ * This signal is emitted when multiSeriesUniform changes to \a uniform.
+ */
+
+/*!
+ * \qmlsignal BarsNode::barThicknessChanged(real thicknessRatio)
+ *
+ * This signal is emitted when barThickness changes to \a thicknessRatio.
+ */
+
+/*!
+ * \qmlsignal BarsNode::barSpacingChanged(size spacing)
+ *
+ * This signal is emitted when barSpacing changes to \a spacing.
+ */
+
+/*!
+ * \qmlsignal BarsNode::barSpacingRelativeChanged(bool relative)
+ *
+ * This signal is emitted when barSpacingRelative changes to \a relative.
+ */
+
+/*!
+ * \qmlsignal BarsNode::barSeriesMarginChanged(size margin)
+ *
+ * This signal is emitted when barSeriesMargin changes to \a margin.
+ */
+
+/*!
+ * \qmlsignal BarsNode::rowAxisChanged(Category3DAxis axis)
+ *
+ * This signal is emitted when rowAxis changes to \a axis.
+ */
+
+/*!
+ * \qmlsignal BarsNode::columnAxisChanged(Category3DAxis axis)
+ *
+ * This signal is emitted when columnAxis changes to \a axis.
+ */
+
+/*!
+ * \qmlsignal BarsNode::valueAxisChanged(ValueAxis3D axis)
+ *
+ * This signal is emitted when valueAxis changes to \a axis.
+ */
+
+/*!
+ * \qmlsignal BarsNode::primarySeriesChanged(Bar3DSeries series)
+ *
+ * This signal is emitted when primarySeries changes to \a series.
+ */
+
+/*!
+ * \qmlsignal BarsNode::selectedSeriesChanged(Bar3DSeries series)
+ *
+ * This signal is emitted when selectedSeries changes to \a series.
+ */
+
+/*!
+ * \qmlsignal BarsNode::floorLevelChanged(real level)
+ *
+ * This signal is emitted when floorLevel changes to \a level.
+ */
+
 QQuickGraphsBarsNode::QQuickGraphsBarsNode(QQuick3DNode *parent)
     : QQuickGraphsNode(parent)
     , m_multiSeriesUniform(false)

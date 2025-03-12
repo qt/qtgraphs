@@ -7,6 +7,310 @@
 
 QT_BEGIN_NAMESPACE
 
+/*!
+ * \qmltype GraphsNode
+ * \inherits Node
+ * \qmlabstract
+ * \inqmlmodule QtGraphs
+ * \ingroup graphs_qml_3D
+ * \brief Base type for 3D graphs.
+ *
+ * The uncreatable base type for all 3D graph nodes in Qt Graphs.
+ *
+ * \sa BarsNode, ScatterNode, SurfaceNode, {Qt Graphs C++ Classes for 3D}
+ */
+
+/*!
+ * \qmlproperty Graphs3D.SelectionMode GraphsNode::selectionMode
+ * The active selection mode in the graph.
+ * One of the \l graphs3d.selectionflag enum values.
+ */
+
+/*!
+ * \qmlproperty GraphsTheme GraphsNode::theme
+ * The active theme of the graph.
+ *
+ * \sa GraphsTheme
+ */
+
+/*!
+ * \qmlproperty list<Custom3DItem> GraphsNode::customItemList
+ *
+ * The list of \l{Custom3DItem} items added to the graph. The graph takes
+ * ownership of the added items.
+ */
+
+/*!
+ * \qmlproperty bool GraphsNode::polar
+ *
+ * If \c {true}, the horizontal axes are changed into polar axes. The x-axis
+ * becomes the angular axis and the z-axis becomes the radial axis.
+ * Polar mode is not available for bar graphs.
+ *
+ * Defaults to \c{false}.
+ *
+ * \sa radialLabelOffset
+ */
+
+/*!
+ * \qmlproperty real GraphsNode::labelMargin
+ *
+ * This property specifies the margin for the placement of the axis labels.
+ *
+ * Negative values place the labels inside the plot-area while positive values
+ * place them outside the plot-area. Label automatic rotation is disabled when
+ * the value is negative. Defaults to \c 0.1
+ *
+ * \sa QAbstract3DAxis::labelAutoAngle
+ *
+ */
+
+/*!
+ * \qmlproperty real GraphsNode::radialLabelOffset
+ *
+ * This property specifies the normalized horizontal offset for the axis labels
+ * of the radial polar axis. The value \c 0.0 indicates that the labels should
+ * be drawn next to the 0-angle angular axis grid line. The value \c 1.0
+ * indicates that the labels are drawn in their usual place at the edge of the
+ * graph background. This property is ignored if the polar property value is
+ * \c{false}. Defaults to \c 1.0.
+ *
+ * \sa polar
+ */
+
+/*!
+ * \qmlmethod void GraphsNode::clearSelection()
+ * Clears selection from all attached series.
+ */
+
+/*!
+ * \qmlmethod bool GraphsNode::hasSeries(Abstract3DSeries series)
+ * Returns whether the \a series has already been added to the graph.
+ */
+
+/*!
+ * \qmlmethod qsizetype GraphsNode::addCustomItem(Custom3DItem item)
+ *
+ * Adds a Custom3DItem \a item to the graph. Graph takes ownership of the added
+ * item.
+ *
+ * \return index to the added item if add was successful, -1 if trying to add a
+ * null item, and index of the item if trying to add an already added item.
+ *
+ * \sa removeCustomItems(), removeCustomItem(), removeCustomItemAt()
+ */
+
+/*!
+ * \qmlmethod void GraphsNode::removeCustomItems()
+ *
+ * Removes all custom items. Deletes the resources allocated to them.
+ */
+
+/*!
+ * \qmlmethod void GraphsNode::removeCustomItem(Custom3DItem item)
+ *
+ * Removes the custom \a {item}. Deletes the resources allocated to it.
+ */
+
+/*!
+ * \qmlmethod void GraphsNode::removeCustomItemAt(vector3d position)
+ *
+ * Removes all custom items at \a {position}. Deletes the resources allocated to them.
+ */
+
+/*!
+ * \qmlmethod void GraphsNode::releaseCustomItem(Custom3DItem item)
+ *
+ * Gets ownership of \a item back and removes the \a item from the graph.
+ *
+ * \note If the same item is added back to the graph, the texture file needs to
+ * be re-set.
+ *
+ * \sa Custom3DItem::textureFile
+ */
+
+/*!
+ * \qmlmethod int GraphsNode::selectedLabelIndex()
+ *
+ * Can be used to query the index of the selected label after receiving
+ * \c selectedElementChanged signal with any label type. Selection is valid
+ * until the next \c selectedElementChanged signal.
+ *
+ * \return index of the selected label, or -1.
+ *
+ * \sa selectedElement
+ */
+
+/*!
+ * \qmlmethod Abstract3DAxis GraphsNode::selectedAxis()
+ *
+ * Can be used to get the selected axis after receiving \c selectedElementChanged
+ * signal with any label type. Selection is valid until the next
+ * \c selectedElementChanged signal.
+ *
+ * \return the selected axis, or null.
+ *
+ * \sa selectedElement
+ */
+
+/*!
+ * \qmlmethod qsizetype GraphsNode::selectedCustomItemIndex()
+ *
+ * Can be used to query the index of the selected custom item after receiving
+ * \c selectedElementChanged signal with
+ * \l{QtGraphs3D::ElementType::CustomItem}{ElementType.CustomItem} type.
+ * Selection is valid until the next \c selectedElementChanged signal.
+ *
+ * \return index of the selected custom item, or -1.
+ *
+ * \sa selectedElement
+ */
+
+/*!
+ * \qmlmethod Custom3DItem GraphsNode::selectedCustomItem()
+ *
+ * Can be used to get the selected custom item after receiving
+ * \c selectedElementChanged signal with
+ * \l{QtGraphs3D::ElementType::CustomItem}{ElementType.CustomItem} type.
+ * Ownership of the item remains with the graph.
+ * Selection is valid until the next \c selectedElementChanged signal.
+ *
+ * \return the selected custom item, or null.
+ *
+ * \sa selectedElement
+ */
+
+/*!
+ * \qmlproperty Graphs3D.ElementType GraphsNode::selectedElement
+ * \readonly
+ *
+ * The element selected in the graph.
+ *
+ * This property can be used to query the selected element type.
+ * The type is valid until a new selection is made in the graph and the
+ * \c selectedElementChanged signal is emitted.
+ *
+ * The signal can be used for example for implementing customized input
+ * handling, as demonstrated by the \l {Axis Handling} example.
+ *
+ * \sa selectedLabelIndex(), selectedAxis(), selectedCustomItemIndex(),
+ * selectedCustomItem(), BarsNode::selectedSeries, ScatterNode::selectedSeries,
+ * Scene3D::selectionQueryPosition, Graphs3D.ElementType
+ */
+
+/*!
+ * \qmlproperty real GraphsNode::aspectRatio
+ *
+ * The ratio of the graph scaling between the longest axis on the horizontal
+ * plane and the y-axis. Defaults to \c{2.0}.
+ *
+ * \note Has no effect on Bars3D.
+ *
+ * \sa horizontalAspectRatio
+ */
+
+/*!
+ * \qmlproperty real GraphsNode::horizontalAspectRatio
+ *
+ * The ratio of the graph scaling between the x-axis and z-axis.
+ * The value of \c 0.0 indicates automatic scaling according to axis ranges.
+ * Defaults to \c{0.0}.
+ *
+ * \note Has no effect on BarsNode, which handles scaling on the horizontal plane
+ * via the \l{BarsNode::barThickness}{barThickness} and
+ * \l{BarsNode::barSpacing}{barSpacing} properties. Polar graphs also ignore this
+ * property.
+ *
+ * \sa aspectRatio, polar, BarsNode::barThickness, BarsNode::barSpacing
+ */
+
+/*!
+ * \qmlproperty Graphs3D.OptimizationHint GraphsNode::optimizationHint
+ *
+ * \brief Specifies whether the default or legacy mode is used for rendering optimization.
+ *
+ * The default mode uses instanced rendering, and provides the full feature set
+ * at the best level of performance on most systems. The static mode optimizes
+ * graph rendering and is ideal for large non-changing data sets. It is slower
+ * with dynamic data changes and item rotations. Selection is not optimized, so
+ * using the static mode with massive data sets is not advisable. Legacy mode
+ * renders all items in th graph individually, without instancing. It should be
+ * used only if default mode does not work, that is the same as if the target
+ * system does not support instancing. Defaults to
+ * \l{QtGraphs3D::OptimizationHint::Default}{Default}.
+ *
+ * \note On some environments, large graphs using static optimization may not
+ * render, because all of the items are rendered using a single draw call, and
+ * different graphics drivers support different maximum vertice counts per call.
+ * This is mostly an issue on 32bit and OpenGL ES2 platforms. To work around
+ * this issue, choose an item mesh with a low vertex count or use the point mesh.
+ *
+ * \sa Abstract3DSeries::mesh, Graphs3D.OptimizationHint
+ */
+
+/*!
+ * \qmlproperty locale GraphsNode::locale
+ *
+ * Sets the locale used for formatting various numeric labels.
+ * Defaults to the \c{"C"} locale.
+ *
+ * \sa Value3DAxis::labelFormat
+ */
+
+/*!
+ * \qmlproperty vector3d GraphsNode::queriedGraphPosition
+ * \readonly
+ *
+ * This read-only property contains the latest graph position values along each
+ * axis queried using Scene3D::graphPositionQuery. The values are normalized to
+ * range \c{[-1, 1]}. If the queried position was outside the graph bounds, the
+ * values will not reflect the real position, but will instead be some undefined
+ * position outside the range \c{[-1, 1]}. The value will be undefined until a
+ * query is made.
+ *
+ * There is no single correct 3D coordinate to match a particular screen
+ * position, so to be consistent, the queries are always done against the inner
+ * sides of an invisible box surrounding the graph.
+ *
+ * \note Bar graphs only allow querying graph position at the graph floor level,
+ * so the y-value is always zero for bar graphs and valid queries can be only
+ * made at screen positions that contain the floor of the graph.
+ *
+ * \sa Scene3D::graphPositionQuery
+ */
+
+/*!
+ * \qmlproperty real GraphsNode::margin
+ *
+ * The absolute value used for the space left between the edge of the
+ * plottable graph area and the edge of the graph background.
+ *
+ * If the margin value is negative, the margins are determined automatically and
+ * can vary according to the size of the items in the series and the type of the
+ * graph. The value is interpreted as a fraction of the y-axis range if the
+ * graph aspect ratios have not been changed from the default values.
+ * Defaults to \c{-1.0}.
+ *
+ * \note Setting a smaller margin for a scatter graph than the automatically
+ * determined margin can cause the scatter items at the edges of the graph to
+ * overlap with the graph background.
+ *
+ * \note On scatter and surface graphs, if the margin is small in comparison to
+ * the axis label size, the positions of the edge labels of the axes are
+ * adjusted to avoid overlap with the edge labels of the neighboring axes.
+ */
+
+/*!
+ * \qmlproperty Graphs3D.GridLineType GraphsNode::gridLineType
+ *
+ * Defines whether the grid lines type is \c Graphs3D.GridLineType.Shader or
+ * \c Graphs3D.GridLineType.Geometry.
+ *
+ * This value affects all grid lines.
+ *
+ * \sa Graphs3D.GridLineType
+ */
+
 QQuickGraphsNode::QQuickGraphsNode(QQuick3DNode *parent)
     : QQuick3DNode(parent)
     , m_selectionMode(QtGraphs3D::SelectionFlag::Item)

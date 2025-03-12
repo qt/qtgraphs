@@ -4,6 +4,112 @@
 
 QT_BEGIN_NAMESPACE
 
+/*!
+ * \qmltype ScatterNode
+ * \inherits GraphsNode
+ * \inqmlmodule QtGraphs
+ * \ingroup graphs_qml_3D
+ * \brief 3D scatter graph node.
+ *
+ * This type enables developers to render a scatter graph node in 3D with Qt Quick.
+ *
+ * You will need to import Qt Graphs module to use this type:
+ *
+ * \snippet doc_src_qmlnodes.qml 0
+ *
+ * After that you can use ScatterNode in your qml files:
+ *
+ * \snippet doc_src_qmlnodes.qml 2
+ *
+ * \sa Scatter3DSeries, Spline3DSeries, ScatterDataProxy, BarsNode, SurfaceNode,
+ * {Qt Graphs C++ Classes for 3D}
+ */
+
+/*!
+ * \qmlproperty Value3DAxis ScatterNode::axisX
+ * The active x-axis.
+ *
+ * If an axis is not given, a temporary default axis with no labels and an
+ * automatically adjusting range is created.
+ * This temporary axis is destroyed if another axis is explicitly set to the
+ * same orientation.
+ */
+
+/*!
+ * \qmlproperty Value3DAxis ScatterNode::axisY
+ * The active y-axis.
+ *
+ * If an axis is not given, a temporary default axis with no labels and an
+ * automatically adjusting range is created.
+ * This temporary axis is destroyed if another axis is explicitly set to the
+ * same orientation.
+ */
+
+/*!
+ * \qmlproperty Value3DAxis ScatterNode::axisZ
+ * The active z-axis.
+ *
+ * If an axis is not given, a temporary default axis with no labels and an
+ * automatically adjusting range is created.
+ * This temporary axis is destroyed if another axis is explicitly set to the
+ * same orientation.
+ */
+
+/*!
+ * \qmlproperty Scatter3DSeries ScatterNode::selectedSeries
+ * \readonly
+ *
+ * The selected series or null.
+ */
+
+/*!
+ * \qmlproperty list<Scatter3DSeries> ScatterNode::seriesList
+ * \qmldefault
+ * This property holds the series of the graph.
+ * By default, this property contains an empty list.
+ * To set the series, either use the addSeries() method or define them as
+ * children of the graph.
+ */
+
+/*!
+ * \qmlmethod void ScatterNode::addSeries(Scatter3DSeries series)
+ * Adds the \a series to the graph. A graph can contain multiple series, but has
+ * only one set of axes. If the newly added series has specified a selected
+ * item, it will be highlighted and any existing selection will be cleared. Only
+ * one added series can have an active selection.
+ * \sa GraphsNode::hasSeries()
+ */
+
+/*!
+ * \qmlmethod void ScatterNode::removeSeries(Scatter3DSeries series)
+ * Remove the \a series from the graph.
+ * \sa GraphsNode::hasSeries()
+ */
+
+/*!
+ * \qmlsignal ScatterNode::axisXChanged(ValueAxis3D axis)
+ *
+ * This signal is emitted when axisX changes to \a axis.
+*/
+
+/*!
+ * \qmlsignal ScatterNode::axisYChanged(ValueAxis3D axis)
+ *
+ * This signal is emitted when axisY changes to \a axis.
+*/
+
+/*!
+ * \qmlsignal ScatterNode::axisZChanged(ValueAxis3D axis)
+ *
+ * This signal is emitted when axisZ changes to \a axis.
+*/
+
+/*!
+ * \qmlsignal ScatterNode::selectedSeriesChanged(Scatter3DSeries series)
+ *
+ * This signal is emitted when selectedSeries changes to \a series.
+*/
+
 QQuickGraphsScatterNode::QQuickGraphsScatterNode(QQuick3DNode *parent)
     : QQuickGraphsNode(parent)
 {}
