@@ -50,7 +50,7 @@ constexpr float polarRoundness = 64.0f;
  * \ingroup graphs_qml_3D
  * \brief Base type for 3D graphs.
  *
- * The base type for all 3D graphs in QtGraphs.
+ * The uncreatable base type for all 3D graphs in QtGraphs.
  *
  * \sa Bars3D, Scatter3D, Surface3D, {Qt Graphs C++ Classes for 3D}
  */
@@ -417,17 +417,6 @@ constexpr float polarRoundness = 64.0f;
  * \qmlmethod void GraphsItem3D::removeCustomItemAt(vector3d position)
  *
  * Removes all custom items at \a {position}. Deletes the resources allocated to them.
- */
-
-/*!
- * \qmlmethod void GraphsItem3D::releaseCustomItem(Custom3DItem item)
- *
- * Gets ownership of \a item back and removes the \a item from the graph.
- *
- * \note If the same item is added back to the graph, the texture file needs to
- * be re-set.
- *
- * \sa Custom3DItem::textureFile
  */
 
 /*!
