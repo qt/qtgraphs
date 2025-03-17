@@ -74,3 +74,8 @@ if(QT_FEATURE_graphs_3d)
         endif()
     endif()
 endif()
+
+#2D line test
+if(QT_FEATURE_graphs_2d AND QT_FEATURE_graphs_3d)
+    add_subdirectory(qml2dperformance)
+endif()
