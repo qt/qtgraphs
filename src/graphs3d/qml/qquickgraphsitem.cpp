@@ -1985,6 +1985,7 @@ void QQuickGraphsItem::removeCustomItem(QCustom3DItem *item)
             m_customVolumes.remove(volume);
         }
     } else {
+        m_customItemList[item]->deleteLater();
         m_customItemList.remove(item);
     }
     deleteCustomItem(item);
@@ -2007,7 +2008,7 @@ void QQuickGraphsItem::removeCustomItemAt(QVector3D position)
     while (itemIterator != m_customItemList.constEnd()) {
         QCustom3DItem *item = itemIterator.key();
         if (item->position() == position) {
-            itemIterator.value()->setVisible(false);
+            m_customItemList[item]->deleteLater();
             itemIterator = m_customItemList.erase(itemIterator);
             if (isCustomVolumeItem(item)) {
                 auto volume = static_cast<QCustom3DVolume *>(item);
