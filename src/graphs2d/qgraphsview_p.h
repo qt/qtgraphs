@@ -86,6 +86,8 @@ public:
         return m_seriesList;
     }
 
+    QPointF getDataPointCoordinates(qreal x, qreal y);
+
     QQmlListProperty<QObject> seriesList();
     static void appendSeriesFunc(QQmlListProperty<QObject> *list, QObject *series);
     static qsizetype countSeriesFunc(QQmlListProperty<QObject> *list);

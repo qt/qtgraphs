@@ -135,6 +135,18 @@ Item {
             compare(initial.theme.colorScheme, Qt.Dark)
             compare(initial.theme.seriesColors.length, 5)
         }
+
+        function test_2_getDataPointCoordinate() {
+            var point = lineInitial.getDataPointCoordinates(0, 0)
+            compare(point.x, 0)
+            compare(point.y, 8)
+            var point = lineInitial.getDataPointCoordinates(1, 1)
+            compare(point.x, 0.2)
+            compare(point.y, 7.794871794871795)
+            var point = lineInitial.getDataPointCoordinates(4, 4)
+            compare(point.x, 0.8)
+            compare(point.y, 7.17948717948718)
+        }
     }
 
     TestCase {

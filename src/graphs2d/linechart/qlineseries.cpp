@@ -146,4 +146,23 @@ void QLineSeries::setCapStyle(Qt::PenCapStyle newCapStyle)
     emit update();
 }
 
+
+/*!
+    \qmlmethod LineSeries::getDataPointCoordinates(real x, real y)
+    Returns \a x and \a y rendercoordinates converted into data point
+    coordinates.
+*/
+/*!
+    Returns \a x and \a y rendercoordinates converted into data point
+    coordinates.
+
+*/
+QPointF QLineSeries::getDataPointCoordinates(qreal x, qreal y)
+{
+    Q_D(QLineSeries);
+
+    auto oPoint = d->m_graph->getDataPointCoordinates(x, y);
+    return oPoint;
+}
+
 QT_END_NAMESPACE

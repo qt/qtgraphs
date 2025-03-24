@@ -839,4 +839,38 @@ bool PointRenderer::handleHoverMove(QHoverEvent *event)
     return handled;
 }
 
+
+QPointF PointRenderer::reverseRenderCoordinates(qreal x, qreal y)
+{
+    m_areaWidth = width();
+    m_areaHeight = height();
+
+    m_maxVertical = m_graph->m_axisRenderer->m_axisVerticalValueRange > 0
+                        ? 1.0 / m_graph->m_axisRenderer->m_axisVerticalValueRange
+                        : 100.0;
+    m_maxHorizontal = m_graph->m_axisRenderer->m_axisHorizontalValueRange > 0
+                          ? 1.0 / m_graph->m_axisRenderer->m_axisHorizontalValueRange
+                          : 100.0;
+
+    auto vmin = m_graph->m_axisRenderer->m_axisVerticalMinValue
+                        > m_graph->m_axisRenderer->m_axisVerticalMaxValue
+                    ? std::abs(m_graph->m_axisRenderer->m_axisVerticalMinValue)
+                    : m_graph->m_axisRenderer->m_axisVerticalMinValue;
+
+    m_verticalOffset = (vmin / m_graph->m_axisRenderer->m_axisVerticalValueRange) * m_areaHeight;
+
+    auto hmin = m_graph->m_axisRenderer->m_axisHorizontalMinValue
+                        > m_graph->m_axisRenderer->m_axisHorizontalMaxValue
+                    ? std::abs(m_graph->m_axisRenderer->m_axisHorizontalMinValue)
+                    : m_graph->m_axisRenderer->m_axisHorizontalMinValue;
+
+    m_horizontalOffset = (hmin / m_graph->m_axisRenderer->m_axisHorizontalValueRange) * m_areaWidth;
+    qreal x0;
+    qreal y0;
+
+    reverseRenderCoordinates(m_graph->m_axisRenderer, x, y, &x0, &y0);
+
+    return QPointF(x0, y0);
+}
+
 QT_END_NAMESPACE

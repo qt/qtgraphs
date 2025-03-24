@@ -45,6 +45,8 @@ public:
     void afterUpdate(QList<QAbstractSeries *> &cleanupSeries);
     bool handleHoverMove(QHoverEvent *event);
 
+   QPointF reverseRenderCoordinates(qreal x, qreal y);
+
 private:
     struct PointGroup
     {

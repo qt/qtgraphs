@@ -207,6 +207,15 @@ bool QGraphsView::hasSeries(QObject *series)
     return m_seriesList.contains(series);
 }
 
+QPointF QGraphsView::getDataPointCoordinates(qreal x, qreal y)
+{
+    if (m_pointRenderer)
+        return m_pointRenderer->reverseRenderCoordinates(x, y);
+
+    return QPointF();
+}
+
+
 void QGraphsView::addAxis(QAbstractAxis *axis)
 {
     if (axis) {
