@@ -8,6 +8,7 @@
 #include "qscatter3dseries_p.h"
 #include "qscatterdataproxy_p.h"
 #include "qvalue3daxis_p.h"
+#include "qgraphs3dlogging_p.h"
 
 #include <QColor>
 #include <QtCore/QMutexLocker>
@@ -249,7 +250,7 @@ void QQuickGraphsScatter::updateScatterGraphItemPositions(ScatterModel *graphMod
 
     if (optimizationHint() == QtGraphs3D::OptimizationHint::Legacy) {
         if (dataProxy->itemCount() != itemList.size()) {
-            qWarning("%ls Item count differs from itemList count",
+            qCWarning(lcProperties3D, "%ls Item count differs from itemList count",
                      qUtf16Printable(QString::fromUtf8(__func__)));
         }
 
@@ -974,8 +975,8 @@ void QQuickGraphsScatter::setSelectionMode(QtGraphs3D::SelectionFlags mode)
 {
     // We only support single item selection mode and no selection mode
     if (mode != QtGraphs3D::SelectionFlag::Item && mode != QtGraphs3D::SelectionFlag::None) {
-        qWarning("Unsupported selection mode - only none and item selection modes "
-                 "are supported.");
+        qCWarning(lcProperties3D, "%s unsupported selection mode - only none and item selection modes "
+                 "are supported", qUtf8Printable(QLatin1String(__FUNCTION__)));
         return;
     }
 
@@ -1398,6 +1399,11 @@ bool QQuickGraphsScatter::doPicking(QPointF position)
                         } else if (optimizationHint() == QtGraphs3D::OptimizationHint::Default) {
                             setSelected(hitItem, result.instanceIndex());
                             handleSelectedElementChange(QtGraphs3D::ElementType::Series);
+                            const auto& hitSeries = static_cast<QScatter3DSeries *>(hitItem->parent());
+                            qCDebug(lcInput3D) << "pick results:"
+                                << "\n hit item position:" << position
+                                << "\n hit item instance index:" << result.instanceIndex()
+                                << "\n hit item values:" << hitSeries->dataProxy()->itemAt(result.instanceIndex()).position();
                             break;
                         }
                     } else {
@@ -1437,6 +1443,10 @@ bool QQuickGraphsScatter::doRayPicking(QVector3D origin, QVector3D direction)
                         break;
                     } else if (optimizationHint() == QtGraphs3D::OptimizationHint::Default) {
                         setSelected(hit, result.instanceIndex());
+                        const auto& hitSeries = static_cast<QScatter3DSeries *>(hit->parent());
+                        qCDebug(lcInput3D) << "pick results:"
+                            << "\n hit item instance index:" << result.instanceIndex()
+                            << "\n hit item values:" << hitSeries->dataProxy()->itemAt(result.instanceIndex()).position();
                         break;
                     }
                 }
@@ -1500,6 +1510,7 @@ void QQuickGraphsScatter::componentComplete()
                      &QQuickGraphsScatter::cameraRotationChanged);
 
     graphsInputHandler()->setGraphsItem(this);
+    qCDebug(lcGraphs3D) << "QQuickGraphsScatter::componentComplete";
 }
 
 void QQuickGraphsScatter::connectSeries(QScatter3DSeries *series)
@@ -1879,6 +1890,12 @@ void QQuickGraphsScatter::updateGraph()
                 if (graphModel->instancing == nullptr) {
                     graphModel->instancing = new ScatterInstancing;
                     graphModel->instancing->setParent(graphModel->series);
+                    qCDebug(lcGraphs3D) << "scatter info: "
+                        << "\n series:" << graphModel->series
+                        << "\n dataArray size:" << graphModel->series->dataArray().size()
+                        << "\n basecolor:" << graphModel->series->baseColor()
+                        << "\n customData:" << graphModel->instancing->customData()
+                        << "\n mesh:" << graphModel->series->mesh();
                 }
                 if (graphModel->instancingRootItem == nullptr) {
                     graphModel->instancingRootItem = createDataItem(graphModel->series);
@@ -1934,6 +1951,7 @@ void QQuickGraphsScatter::updateGraph()
 
 void QQuickGraphsScatter::synchData()
 {
+    qCDebug(lcGraphs3D, "%s start syncing", qUtf8Printable(QLatin1String(__FUNCTION__)));
     QList<QScatter3DSeries *> seriesList = scatterSeriesList();
 
     float maxItemSize = 0.0f;
@@ -1961,6 +1979,7 @@ void QQuickGraphsScatter::synchData()
         }
         setSelectedItemChanged(false);
     }
+    qCDebug(lcGraphs3D, "%s end syncing", qUtf8Printable(QLatin1String(__FUNCTION__)));
 }
 
 void QQuickGraphsScatter::cameraRotationChanged()

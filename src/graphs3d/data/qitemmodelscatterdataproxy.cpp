@@ -3,6 +3,7 @@
 
 #include "qitemmodelscatterdataproxy_p.h"
 #include "scatteritemmodelhandler_p.h"
+#include "qgraphs3dlogging_p.h"
 
 QT_BEGIN_NAMESPACE
 
@@ -381,10 +382,13 @@ QAbstractItemModel *QItemModelScatterDataProxy::itemModel() const
 void QItemModelScatterDataProxy::setXPosRole(const QString &role)
 {
     Q_D(QItemModelScatterDataProxy);
-    if (d->m_xPosRole != role) {
-        d->m_xPosRole = role;
-        emit xPosRoleChanged(role);
+    if (d->m_xPosRole == role) {
+        qCDebug(lcProperties3D, "%s value is already set to: %s",
+                qUtf8Printable(QLatin1String(__FUNCTION__)), qUtf8Printable(role));
+        return;
     }
+    d->m_xPosRole = role;
+    emit xPosRoleChanged(role);
 }
 
 QString QItemModelScatterDataProxy::xPosRole() const
@@ -401,10 +405,13 @@ QString QItemModelScatterDataProxy::xPosRole() const
 void QItemModelScatterDataProxy::setYPosRole(const QString &role)
 {
     Q_D(QItemModelScatterDataProxy);
-    if (d->m_yPosRole != role) {
-        d->m_yPosRole = role;
-        emit yPosRoleChanged(role);
+    if (d->m_yPosRole == role) {
+        qCDebug(lcProperties3D, "%s value is already set to: %s",
+                qUtf8Printable(QLatin1String(__FUNCTION__)), qUtf8Printable(role));
+        return;
     }
+    d->m_yPosRole = role;
+    emit yPosRoleChanged(role);
 }
 
 QString QItemModelScatterDataProxy::yPosRole() const
@@ -421,10 +428,13 @@ QString QItemModelScatterDataProxy::yPosRole() const
 void QItemModelScatterDataProxy::setZPosRole(const QString &role)
 {
     Q_D(QItemModelScatterDataProxy);
-    if (d->m_zPosRole != role) {
-        d->m_zPosRole = role;
-        emit zPosRoleChanged(role);
+    if (d->m_zPosRole == role) {
+        qCDebug(lcProperties3D, "%s value is already set to: %s",
+                qUtf8Printable(QLatin1String(__FUNCTION__)), qUtf8Printable(role));
+        return;
     }
+    d->m_zPosRole = role;
+    emit zPosRoleChanged(role);
 }
 
 QString QItemModelScatterDataProxy::zPosRole() const
@@ -447,10 +457,13 @@ QString QItemModelScatterDataProxy::zPosRole() const
 void QItemModelScatterDataProxy::setRotationRole(const QString &role)
 {
     Q_D(QItemModelScatterDataProxy);
-    if (d->m_rotationRole != role) {
-        d->m_rotationRole = role;
-        emit rotationRoleChanged(role);
+    if (d->m_rotationRole == role) {
+        qCDebug(lcProperties3D, "%s value is already set to: %s",
+                qUtf8Printable(QLatin1String(__FUNCTION__)), qUtf8Printable(role));
+        return;
     }
+    d->m_rotationRole = role;
+    emit rotationRoleChanged(role);
 }
 
 QString QItemModelScatterDataProxy::rotationRole() const
@@ -474,10 +487,13 @@ QString QItemModelScatterDataProxy::rotationRole() const
 void QItemModelScatterDataProxy::setXPosRolePattern(const QRegularExpression &pattern)
 {
     Q_D(QItemModelScatterDataProxy);
-    if (d->m_xPosRolePattern != pattern) {
-        d->m_xPosRolePattern = pattern;
-        emit xPosRolePatternChanged(pattern);
+    if (d->m_xPosRolePattern == pattern) {
+        qCDebug(lcProperties3D) << __FUNCTION__
+            << "value is already set to:" << pattern;
+        return;
     }
+    d->m_xPosRolePattern = pattern;
+    emit xPosRolePatternChanged(pattern);
 }
 
 QRegularExpression QItemModelScatterDataProxy::xPosRolePattern() const
@@ -501,10 +517,13 @@ QRegularExpression QItemModelScatterDataProxy::xPosRolePattern() const
 void QItemModelScatterDataProxy::setYPosRolePattern(const QRegularExpression &pattern)
 {
     Q_D(QItemModelScatterDataProxy);
-    if (d->m_yPosRolePattern != pattern) {
-        d->m_yPosRolePattern = pattern;
-        emit yPosRolePatternChanged(pattern);
+    if (d->m_yPosRolePattern == pattern) {
+        qCDebug(lcProperties3D) << __FUNCTION__
+            << "value is already set to:" << pattern;
+        return;
     }
+    d->m_yPosRolePattern = pattern;
+    emit yPosRolePatternChanged(pattern);
 }
 
 QRegularExpression QItemModelScatterDataProxy::yPosRolePattern() const
@@ -528,10 +547,13 @@ QRegularExpression QItemModelScatterDataProxy::yPosRolePattern() const
 void QItemModelScatterDataProxy::setZPosRolePattern(const QRegularExpression &pattern)
 {
     Q_D(QItemModelScatterDataProxy);
-    if (d->m_zPosRolePattern != pattern) {
-        d->m_zPosRolePattern = pattern;
-        emit zPosRolePatternChanged(pattern);
+    if (d->m_zPosRolePattern == pattern) {
+        qCDebug(lcProperties3D) << __FUNCTION__
+            << "value is already set to:" << pattern;
+        return;
     }
+    d->m_zPosRolePattern = pattern;
+    emit zPosRolePatternChanged(pattern);
 }
 
 QRegularExpression QItemModelScatterDataProxy::zPosRolePattern() const
@@ -555,10 +577,13 @@ QRegularExpression QItemModelScatterDataProxy::zPosRolePattern() const
 void QItemModelScatterDataProxy::setRotationRolePattern(const QRegularExpression &pattern)
 {
     Q_D(QItemModelScatterDataProxy);
-    if (d->m_rotationRolePattern != pattern) {
-        d->m_rotationRolePattern = pattern;
-        emit rotationRolePatternChanged(pattern);
+    if (d->m_rotationRolePattern == pattern) {
+        qCDebug(lcProperties3D) << __FUNCTION__
+            << "value is already set to:" << pattern;
+        return;
     }
+    d->m_rotationRolePattern = pattern;
+    emit rotationRolePatternChanged(pattern);
 }
 
 QRegularExpression QItemModelScatterDataProxy::rotationRolePattern() const
@@ -582,10 +607,13 @@ QRegularExpression QItemModelScatterDataProxy::rotationRolePattern() const
 void QItemModelScatterDataProxy::setXPosRoleReplace(const QString &replace)
 {
     Q_D(QItemModelScatterDataProxy);
-    if (d->m_xPosRoleReplace != replace) {
-        d->m_xPosRoleReplace = replace;
-        emit xPosRoleReplaceChanged(replace);
+    if (d->m_xPosRoleReplace == replace) {
+        qCDebug(lcProperties3D, "%s value is already set to: %s",
+                qUtf8Printable(QLatin1String(__FUNCTION__)), qUtf8Printable(replace));
+        return;
     }
+    d->m_xPosRoleReplace = replace;
+    emit xPosRoleReplaceChanged(replace);
 }
 
 QString QItemModelScatterDataProxy::xPosRoleReplace() const
@@ -609,10 +637,13 @@ QString QItemModelScatterDataProxy::xPosRoleReplace() const
 void QItemModelScatterDataProxy::setYPosRoleReplace(const QString &replace)
 {
     Q_D(QItemModelScatterDataProxy);
-    if (d->m_yPosRoleReplace != replace) {
-        d->m_yPosRoleReplace = replace;
-        emit yPosRoleReplaceChanged(replace);
+    if (d->m_yPosRoleReplace == replace) {
+        qCDebug(lcProperties3D, "%s value is already set to: %s",
+                qUtf8Printable(QLatin1String(__FUNCTION__)), qUtf8Printable(replace));
+        return;
     }
+    d->m_yPosRoleReplace = replace;
+    emit yPosRoleReplaceChanged(replace);
 }
 
 QString QItemModelScatterDataProxy::yPosRoleReplace() const
@@ -636,10 +667,13 @@ QString QItemModelScatterDataProxy::yPosRoleReplace() const
 void QItemModelScatterDataProxy::setZPosRoleReplace(const QString &replace)
 {
     Q_D(QItemModelScatterDataProxy);
-    if (d->m_zPosRoleReplace != replace) {
-        d->m_zPosRoleReplace = replace;
-        emit zPosRoleReplaceChanged(replace);
+    if (d->m_zPosRoleReplace == replace) {
+        qCDebug(lcProperties3D, "%s value is already set to: %s",
+                qUtf8Printable(QLatin1String(__FUNCTION__)), qUtf8Printable(replace));
+        return;
     }
+    d->m_zPosRoleReplace = replace;
+    emit zPosRoleReplaceChanged(replace);
 }
 
 QString QItemModelScatterDataProxy::zPosRoleReplace() const
@@ -663,10 +697,13 @@ QString QItemModelScatterDataProxy::zPosRoleReplace() const
 void QItemModelScatterDataProxy::setRotationRoleReplace(const QString &replace)
 {
     Q_D(QItemModelScatterDataProxy);
-    if (d->m_rotationRoleReplace != replace) {
-        d->m_rotationRoleReplace = replace;
-        emit rotationRoleReplaceChanged(replace);
+    if (d->m_rotationRoleReplace == replace) {
+        qCDebug(lcProperties3D, "%s value is already set to: %s",
+                qUtf8Printable(QLatin1String(__FUNCTION__)), qUtf8Printable(replace));
+        return;
     }
+    d->m_rotationRoleReplace = replace;
+    emit rotationRoleReplaceChanged(replace);
 }
 
 QString QItemModelScatterDataProxy::rotationRoleReplace() const

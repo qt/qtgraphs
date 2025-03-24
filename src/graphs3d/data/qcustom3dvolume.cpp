@@ -3,6 +3,7 @@
 // Qt-Security score:critical reason:execute-external-code
 
 #include "qcustom3dvolume_p.h"
+#include "qgraphs3dlogging_p.h"
 
 QT_BEGIN_NAMESPACE
 
@@ -389,14 +390,18 @@ void QCustom3DVolume::setTextureWidth(int value)
 {
     Q_D(QCustom3DVolume);
     if (value >= 0) {
-        if (d->m_textureWidth != value) {
-            d->m_textureWidth = value;
-            d->m_dirtyBitsVolume.textureDimensionsDirty = true;
-            emit textureWidthChanged(value);
-            emit needUpdate();
+        if (d->m_textureWidth == value) {
+            qCDebug(lcProperties3D, "%s value is already set to: %d",
+                    qUtf8Printable(QLatin1String(__FUNCTION__)), value);
+            return;
         }
+        d->m_textureWidth = value;
+        d->m_dirtyBitsVolume.textureDimensionsDirty = true;
+        emit textureWidthChanged(value);
+        emit needUpdate();
     } else {
-        qWarning("%ls Cannot set negative value.", qUtf16Printable(QString::fromUtf8(__func__)));
+        qCWarning(lcProperties3D, "%s cannot set negative value.",
+                  qUtf8Printable(QLatin1String(__FUNCTION__)));
     }
 }
 
@@ -422,14 +427,18 @@ void QCustom3DVolume::setTextureHeight(int value)
 {
     Q_D(QCustom3DVolume);
     if (value >= 0) {
-        if (d->m_textureHeight != value) {
-            d->m_textureHeight = value;
-            d->m_dirtyBitsVolume.textureDimensionsDirty = true;
-            emit textureHeightChanged(value);
-            emit needUpdate();
+        if (d->m_textureHeight == value) {
+            qCDebug(lcProperties3D, "%s value is already set to: %d",
+                    qUtf8Printable(QLatin1String(__FUNCTION__)), value);
+            return;
         }
+        d->m_textureHeight = value;
+        d->m_dirtyBitsVolume.textureDimensionsDirty = true;
+        emit textureHeightChanged(value);
+        emit needUpdate();
     } else {
-        qWarning("%ls Cannot set negative value.", qUtf16Printable(QString::fromUtf8(__func__)));
+        qCWarning(lcProperties3D, "%s cannot set negative value.",
+                  qUtf8Printable(QLatin1String(__FUNCTION__)));
     }
 }
 
@@ -455,14 +464,19 @@ void QCustom3DVolume::setTextureDepth(int value)
 {
     Q_D(QCustom3DVolume);
     if (value >= 0) {
-        if (d->m_textureDepth != value) {
-            d->m_textureDepth = value;
-            d->m_dirtyBitsVolume.textureDimensionsDirty = true;
-            emit textureDepthChanged(value);
-            emit needUpdate();
+        if (d->m_textureDepth == value) {
+            qCDebug(lcProperties3D, "%s value is already set to: %d",
+                    qUtf8Printable(QLatin1String(__FUNCTION__)), value);
+            return;
         }
+
+        d->m_textureDepth = value;
+        d->m_dirtyBitsVolume.textureDimensionsDirty = true;
+        emit textureDepthChanged(value);
+        emit needUpdate();
     } else {
-        qWarning("%ls Cannot set negative value.", qUtf16Printable(QString::fromUtf8(__func__)));
+        qCWarning(lcProperties3D, "%s cannot set negative value.",
+                  qUtf8Printable(QLatin1String(__FUNCTION__)));
     }
 }
 
@@ -519,12 +533,16 @@ int QCustom3DVolume::textureDataWidth() const
 void QCustom3DVolume::setSliceIndexX(int value)
 {
     Q_D(QCustom3DVolume);
-    if (d->m_sliceIndexX != value) {
-        d->m_sliceIndexX = value;
-        d->m_dirtyBitsVolume.slicesDirty = true;
-        emit sliceIndexXChanged(value);
-        emit needUpdate();
+    if (d->m_sliceIndexX == value) {
+        qCDebug(lcProperties3D, "%s value is already set to: %d",
+                qUtf8Printable(QLatin1String(__FUNCTION__)), value);
+        return;
     }
+
+    d->m_sliceIndexX = value;
+    d->m_dirtyBitsVolume.slicesDirty = true;
+    emit sliceIndexXChanged(value);
+    emit needUpdate();
 }
 
 int QCustom3DVolume::sliceIndexX() const
@@ -549,12 +567,15 @@ int QCustom3DVolume::sliceIndexX() const
 void QCustom3DVolume::setSliceIndexY(int value)
 {
     Q_D(QCustom3DVolume);
-    if (d->m_sliceIndexY != value) {
-        d->m_sliceIndexY = value;
-        d->m_dirtyBitsVolume.slicesDirty = true;
-        emit sliceIndexYChanged(value);
-        emit needUpdate();
+    if (d->m_sliceIndexY == value) {
+        qCDebug(lcProperties3D, "%s value is already set to: %d",
+                qUtf8Printable(QLatin1String(__FUNCTION__)), value);
     }
+
+    d->m_sliceIndexY = value;
+    d->m_dirtyBitsVolume.slicesDirty = true;
+    emit sliceIndexYChanged(value);
+    emit needUpdate();
 }
 
 int QCustom3DVolume::sliceIndexY() const
@@ -579,12 +600,15 @@ int QCustom3DVolume::sliceIndexY() const
 void QCustom3DVolume::setSliceIndexZ(int value)
 {
     Q_D(QCustom3DVolume);
-    if (d->m_sliceIndexZ != value) {
-        d->m_sliceIndexZ = value;
-        d->m_dirtyBitsVolume.slicesDirty = true;
-        emit sliceIndexZChanged(value);
-        emit needUpdate();
+    if (d->m_sliceIndexZ == value) {
+        qCDebug(lcProperties3D, "%s value is already set to: %d",
+                qUtf8Printable(QLatin1String(__FUNCTION__)), value);
+        return;
     }
+    d->m_sliceIndexZ = value;
+    d->m_dirtyBitsVolume.slicesDirty = true;
+    emit sliceIndexZChanged(value);
+    emit needUpdate();
 }
 
 int QCustom3DVolume::sliceIndexZ() const
@@ -620,12 +644,16 @@ void QCustom3DVolume::setSliceIndices(int x, int y, int z)
 void QCustom3DVolume::setColorTable(const QList<QRgb> &colors)
 {
     Q_D(QCustom3DVolume);
-    if (d->m_colorTable != colors) {
-        d->m_colorTable = colors;
-        d->m_dirtyBitsVolume.colorTableDirty = true;
-        emit colorTableChanged();
-        emit needUpdate();
+    if (d->m_colorTable == colors) {
+        qCDebug(lcProperties3D) << __FUNCTION__
+            << "value is already set to:" << colors;
+        return;
     }
+
+    d->m_colorTable = colors;
+    d->m_dirtyBitsVolume.colorTableDirty = true;
+    emit colorTableChanged();
+    emit needUpdate();
 }
 
 QList<QRgb> QCustom3DVolume::colorTable() const
@@ -711,7 +739,7 @@ QList<uchar> *QCustom3DVolume::createTextureData(const QList<QImage *> &images)
             for (int i = 0; i < imageCount; i++) {
                 currentImage = images.at(i);
                 if (imageWidth != currentImage->width() || imageHeight != currentImage->height()) {
-                    qWarning("%ls Not all images were of the same size.",
+                    qCWarning(lcProperties3D, "%ls not all images were of the same size.",
                              qUtf16Printable(QString::fromUtf8(__func__)));
                     setTextureData(0);
                     setTextureWidth(0);
@@ -815,7 +843,7 @@ void QCustom3DVolume::setSubTextureData(Qt::Axis axis, int index, const uchar *d
         }
 
         if (invalid) {
-            qWarning("%lsAttempted to set invalid subtexture.",
+            qCWarning(lcProperties3D, "%ls attempted to set invalid subtexture.",
                      qUtf16Printable(QString::fromUtf8(__func__)));
         } else {
             const uchar *sourcePtr = data;
@@ -847,7 +875,8 @@ void QCustom3DVolume::setSubTextureData(Qt::Axis axis, int index, const uchar *d
             emit needUpdate();
         }
     } else {
-        qWarning("%ls Tried to set null data.", qUtf16Printable(QString::fromUtf8(__func__)));
+        qCDebug(lcProperties3D, "%s tried to set null data.",
+                qUtf8Printable(QLatin1String(__FUNCTION__)));
     }
 }
 
@@ -899,7 +928,8 @@ void QCustom3DVolume::setSubTextureData(Qt::Axis axis, int index, const QImage &
         }
         setSubTextureData(axis, index, convertedImage.bits());
     } else {
-        qWarning("%ls Invalid image size or format.", qUtf16Printable(QString::fromUtf8(__func__)));
+        qCWarning(lcProperties3D, "%ls invalid image size or format.",
+                qUtf16Printable(QString::fromUtf8(__func__)));
     }
 }
 
@@ -919,14 +949,17 @@ void QCustom3DVolume::setTextureFormat(QImage::Format format)
 {
     Q_D(QCustom3DVolume);
     if (format == QImage::Format_ARGB32 || format == QImage::Format_Indexed8) {
-        if (d->m_textureFormat != format) {
-            d->m_textureFormat = format;
-            d->m_dirtyBitsVolume.textureFormatDirty = true;
-            emit textureFormatChanged(format);
-            emit needUpdate();
+        if (d->m_textureFormat == format) {
+            qCDebug(lcProperties3D) << __FUNCTION__
+                                    << "value is already set to:" << format;
+            return;
         }
+        d->m_textureFormat = format;
+        d->m_dirtyBitsVolume.textureFormatDirty = true;
+        emit textureFormatChanged(format);
+        emit needUpdate();
     } else {
-        qWarning("%ls Attempted to set invalid texture format.",
+        qCWarning(lcProperties3D, "%ls attempted to set invalid texture format.",
                  qUtf16Printable(QString::fromUtf8(__func__)));
     }
 }
@@ -967,14 +1000,17 @@ void QCustom3DVolume::setAlphaMultiplier(float mult)
 {
     Q_D(QCustom3DVolume);
     if (mult >= 0.0f) {
-        if (d->m_alphaMultiplier != mult) {
-            d->m_alphaMultiplier = mult;
-            d->m_dirtyBitsVolume.alphaDirty = true;
-            emit alphaMultiplierChanged(mult);
-            emit needUpdate();
+        if (qFuzzyCompare(d->m_alphaMultiplier, mult)) {
+            qCDebug(lcProperties3D, "%s value is already set to: %.1f",
+                    qUtf8Printable(QLatin1String(__FUNCTION__)), mult);
+            return;
         }
+        d->m_alphaMultiplier = mult;
+        d->m_dirtyBitsVolume.alphaDirty = true;
+        emit alphaMultiplierChanged(mult);
+        emit needUpdate();
     } else {
-        qWarning("%lsAttempted to set negative multiplier.",
+        qCWarning(lcProperties3D, "%ls Attempted to set negative multiplier.",
                  qUtf16Printable(QString::fromUtf8(__func__)));
     }
 }
@@ -999,12 +1035,16 @@ float QCustom3DVolume::alphaMultiplier() const
 void QCustom3DVolume::setPreserveOpacity(bool enable)
 {
     Q_D(QCustom3DVolume);
-    if (d->m_preserveOpacity != enable) {
-        d->m_preserveOpacity = enable;
-        d->m_dirtyBitsVolume.alphaDirty = true;
-        emit preserveOpacityChanged(enable);
-        emit needUpdate();
+    if (d->m_preserveOpacity == enable) {
+        qCDebug(lcProperties3D) << __FUNCTION__
+            << "value is already set to:" << enable;
+        return;
     }
+
+    d->m_preserveOpacity = enable;
+    d->m_dirtyBitsVolume.alphaDirty = true;
+    emit preserveOpacityChanged(enable);
+    emit needUpdate();
 }
 
 bool QCustom3DVolume::preserveOpacity() const
@@ -1038,12 +1078,16 @@ bool QCustom3DVolume::preserveOpacity() const
 void QCustom3DVolume::setUseHighDefShader(bool enable)
 {
     Q_D(QCustom3DVolume);
-    if (d->m_useHighDefShader != enable) {
-        d->m_useHighDefShader = enable;
-        d->m_dirtyBitsVolume.shaderDirty = true;
-        emit useHighDefShaderChanged(enable);
-        emit needUpdate();
+    if (d->m_useHighDefShader == enable) {
+        qCDebug(lcProperties3D) << __FUNCTION__
+            << "value is already set to:" << enable;
+        return;
     }
+
+    d->m_useHighDefShader = enable;
+    d->m_dirtyBitsVolume.shaderDirty = true;
+    emit useHighDefShaderChanged(enable);
+    emit needUpdate();
 }
 
 bool QCustom3DVolume::useHighDefShader() const
@@ -1069,12 +1113,15 @@ bool QCustom3DVolume::useHighDefShader() const
 void QCustom3DVolume::setDrawSlices(bool enable)
 {
     Q_D(QCustom3DVolume);
-    if (d->m_drawSlices != enable) {
-        d->m_drawSlices = enable;
-        d->m_dirtyBitsVolume.slicesDirty = true;
-        emit drawSlicesChanged(enable);
-        emit needUpdate();
+    if (d->m_drawSlices == enable) {
+        qCDebug(lcProperties3D) << __FUNCTION__
+            << "value is already set to:" << enable;
+        return;
     }
+    d->m_drawSlices = enable;
+    d->m_dirtyBitsVolume.slicesDirty = true;
+    emit drawSlicesChanged(enable);
+    emit needUpdate();
 }
 
 bool QCustom3DVolume::drawSlices() const
@@ -1103,12 +1150,16 @@ bool QCustom3DVolume::drawSlices() const
 void QCustom3DVolume::setDrawSliceFrames(bool enable)
 {
     Q_D(QCustom3DVolume);
-    if (d->m_drawSliceFrames != enable) {
-        d->m_drawSliceFrames = enable;
-        d->m_dirtyBitsVolume.slicesDirty = true;
-        emit drawSliceFramesChanged(enable);
-        emit needUpdate();
+    if (d->m_drawSliceFrames == enable) {
+        qCDebug(lcProperties3D) << __FUNCTION__
+            << "value is already set to:" << enable;
+        return;
     }
+
+    d->m_drawSliceFrames = enable;
+    d->m_dirtyBitsVolume.slicesDirty = true;
+    emit drawSliceFramesChanged(enable);
+    emit needUpdate();
 }
 
 bool QCustom3DVolume::drawSliceFrames() const
@@ -1131,12 +1182,16 @@ bool QCustom3DVolume::drawSliceFrames() const
 void QCustom3DVolume::setSliceFrameColor(QColor color)
 {
     Q_D(QCustom3DVolume);
-    if (d->m_sliceFrameColor != color) {
-        d->m_sliceFrameColor = color;
-        d->m_dirtyBitsVolume.slicesDirty = true;
-        emit sliceFrameColorChanged(color);
-        emit needUpdate();
+    if (d->m_sliceFrameColor == color) {
+        qCDebug(lcProperties3D) << __FUNCTION__
+            << "value is already set to:" << color;
+        return;
     }
+
+    d->m_sliceFrameColor = color;
+    d->m_dirtyBitsVolume.slicesDirty = true;
+    emit sliceFrameColorChanged(color);
+    emit needUpdate();
 }
 
 QColor QCustom3DVolume::sliceFrameColor() const
@@ -1163,14 +1218,19 @@ void QCustom3DVolume::setSliceFrameWidths(QVector3D values)
 {
     Q_D(QCustom3DVolume);
     if (values.x() < 0.0f || values.y() < 0.0f || values.z() < 0.0f) {
-        qWarning("%ls Attempted to set negative values.",
+        qCWarning(lcProperties3D, "%ls attempted to set negative values.",
                  qUtf16Printable(QString::fromUtf8(__func__)));
-    } else if (d->m_sliceFrameWidths != values) {
-        d->m_sliceFrameWidths = values;
-        d->m_dirtyBitsVolume.slicesDirty = true;
-        emit sliceFrameWidthsChanged(values);
-        emit needUpdate();
+        return;
+    } else if (d->m_sliceFrameWidths == values) {
+        qCDebug(lcProperties3D) << __FUNCTION__
+            << "value is already set to:" << values;
+        return;
     }
+
+    d->m_sliceFrameWidths = values;
+    d->m_dirtyBitsVolume.slicesDirty = true;
+    emit sliceFrameWidthsChanged(values);
+    emit needUpdate();
 }
 
 QVector3D QCustom3DVolume::sliceFrameWidths() const
@@ -1196,14 +1256,19 @@ void QCustom3DVolume::setSliceFrameGaps(QVector3D values)
 {
     Q_D(QCustom3DVolume);
     if (values.x() < 0.0f || values.y() < 0.0f || values.z() < 0.0f) {
-        qWarning("%ls Attempted to set negative values.",
+        qCWarning(lcProperties3D, "%ls attempted to set negative values.",
                  qUtf16Printable(QString::fromUtf8(__func__)));
-    } else if (d->m_sliceFrameGaps != values) {
-        d->m_sliceFrameGaps = values;
-        d->m_dirtyBitsVolume.slicesDirty = true;
-        emit sliceFrameGapsChanged(values);
-        emit needUpdate();
+        return;
+    } else if (d->m_sliceFrameGaps == values) {
+        qCDebug(lcProperties3D) << __FUNCTION__
+            << "value is already set to:" << values;
+        return;
     }
+
+    d->m_sliceFrameGaps = values;
+    d->m_dirtyBitsVolume.slicesDirty = true;
+    emit sliceFrameGapsChanged(values);
+    emit needUpdate();
 }
 
 QVector3D QCustom3DVolume::sliceFrameGaps() const
@@ -1228,14 +1293,19 @@ void QCustom3DVolume::setSliceFrameThicknesses(QVector3D values)
 {
     Q_D(QCustom3DVolume);
     if (values.x() < 0.0f || values.y() < 0.0f || values.z() < 0.0f) {
-        qWarning("%ls Attempted to set negative values.",
+        qCWarning(lcProperties3D, "%ls attempted to set negative values.",
                  qUtf16Printable(QString::fromUtf8(__func__)));
-    } else if (d->m_sliceFrameThicknesses != values) {
-        d->m_sliceFrameThicknesses = values;
-        d->m_dirtyBitsVolume.slicesDirty = true;
-        emit sliceFrameThicknessesChanged(values);
-        emit needUpdate();
+        return;
+    } else if (d->m_sliceFrameThicknesses == values) {
+        qCDebug(lcProperties3D) << __FUNCTION__
+            << "value is already set to:" << values;
+        return;
     }
+
+    d->m_sliceFrameThicknesses = values;
+    d->m_dirtyBitsVolume.slicesDirty = true;
+    emit sliceFrameThicknessesChanged(values);
+    emit needUpdate();
 }
 
 QVector3D QCustom3DVolume::sliceFrameThicknesses() const

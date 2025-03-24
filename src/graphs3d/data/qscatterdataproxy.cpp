@@ -4,6 +4,7 @@
 #include "qabstract3daxis_p.h"
 #include "qscatter3dseries_p.h"
 #include "qscatterdataproxy_p.h"
+#include "qgraphs3dlogging_p.h"
 
 QT_BEGIN_NAMESPACE
 
@@ -99,7 +100,8 @@ QScatter3DSeries *QScatterDataProxy::series() const
 {
     Q_D(const QScatterDataProxy);
     if (!d->series())
-        qWarning("Series needs to be created to access data members");
+        qCWarning(lcGraphs3D, "%s series needs to be created to access data members",
+                  qUtf8Printable(QLatin1String(__FUNCTION__)));
     return static_cast<QScatter3DSeries *>(d->series());
 }
 

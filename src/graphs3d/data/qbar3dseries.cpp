@@ -7,6 +7,7 @@
 #include "qcategory3daxis_p.h"
 #include "qquickgraphsbars_p.h"
 #include "qvalue3daxis_p.h"
+#include "qgraphs3dlogging_p.h"
 
 QT_BEGIN_NAMESPACE
 
@@ -450,8 +451,12 @@ bool QBar3DSeries::isValueColoringEnabled() const
 void QBar3DSeries::setDataArray(const QBarDataArray &newDataArray)
 {
     Q_D(QBar3DSeries);
-    if (d->m_dataArray.data() != newDataArray.data())
-        d->m_dataArray = newDataArray;
+    if (d->m_dataArray.data() == newDataArray.data()) {
+        qCDebug(lcProperties3D, "%s newDataArray is the same than the old one",
+                qUtf8Printable(QLatin1String(__FUNCTION__)));
+        return;
+    }
+    d->m_dataArray = newDataArray;
 }
 
 /*!
@@ -501,10 +506,13 @@ QStringList QBar3DSeries::rowLabels() const
 void QBar3DSeries::setRowLabels(const QStringList &labels)
 {
     Q_D(QBar3DSeries);
-    if (rowLabels() != labels) {
-        d->setRowLabels(labels);
-        emit rowLabelsChanged();
+    if (rowLabels() == labels) {
+        qCDebug(lcProperties3D) << __FUNCTION__
+            << "value is already set to:" << labels;
+        return;
     }
+    d->setRowLabels(labels);
+    emit rowLabelsChanged();
 }
 
 /*!
@@ -524,10 +532,13 @@ QStringList QBar3DSeries::columnLabels() const
 void QBar3DSeries::setColumnLabels(const QStringList &labels)
 {
     Q_D(QBar3DSeries);
-    if (columnLabels() != labels) {
-        d->setColumnLabels(labels);
-        emit columnLabelsChanged();
+    if (columnLabels() == labels) {
+        qCDebug(lcProperties3D) << __FUNCTION__
+            << "value is already set to:" << labels;
+        return;
     }
+    d->setColumnLabels(labels);
+    emit columnLabelsChanged();
 }
 
 QList<QColor> QBar3DSeries::rowColors() const
@@ -763,29 +774,40 @@ void QBar3DSeriesPrivate::createItemLabel()
 void QBar3DSeriesPrivate::setSelectedBar(QPoint position)
 {
     Q_Q(QBar3DSeries);
-    if (position != m_selectedBar) {
-        markItemLabelDirty();
-        m_selectedBar = position;
-        emit q->selectedBarChanged(m_selectedBar);
+    if (position == m_selectedBar) {
+        qCDebug(lcProperties3D, "%s value is already set to: %d %d",
+                qUtf8Printable(QLatin1String(__FUNCTION__)), position.x(), position.y());
+        return;
     }
+
+    markItemLabelDirty();
+    m_selectedBar = position;
+    emit q->selectedBarChanged(m_selectedBar);
 }
 
 void QBar3DSeriesPrivate::setRowColors(const QList<QColor> &colors)
 {
     Q_Q(QBar3DSeries);
-    if (m_rowColors != colors) {
-        m_rowColors = colors;
-        emit q->rowColorsChanged(m_rowColors);
+    if (m_rowColors == colors) {
+        qCDebug(lcProperties3D) << __FUNCTION__
+            << "value is already set to:" << colors;
+        return;
     }
+
+    m_rowColors = colors;
+    emit q->rowColorsChanged(m_rowColors);
 }
 
 void QBar3DSeriesPrivate::setValueColoringEnabled(bool enabled)
 {
     Q_Q(QBar3DSeries);
-    if (m_valueColoring != enabled) {
-        m_valueColoring = enabled;
-        emit q->valueColoringEnabledChanged(enabled);
+    if (m_valueColoring == enabled) {
+        qCDebug(lcProperties3D) << __FUNCTION__
+            << "value is already set to:" << enabled;
+        return;
     }
+    m_valueColoring = enabled;
+    emit q->valueColoringEnabledChanged(enabled);
 }
 
 void QBar3DSeriesPrivate::setDataArray(const QBarDataArray &newDataArray)

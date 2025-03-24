@@ -6,6 +6,7 @@
 #include "q3dscene.h"
 #include "qabstractdataproxy.h"
 #include "qquickgraphssurface_p.h"
+#include "qgraphs3dlogging_p.h"
 
 #include "qcategory3daxis_p.h"
 #include "qgraphsinputhandler_p.h"
@@ -776,13 +777,14 @@ void QQuickGraphsSurface::setSelectionMode(QtGraphs3D::SelectionFlags mode)
     if ((mode.testFlag(QtGraphs3D::SelectionFlag::Row)
          || mode.testFlag(QtGraphs3D::SelectionFlag::Column))
         && !mode.testFlag(QtGraphs3D::SelectionFlag::Slice)) {
-        qWarning("Unsupported selection mode.");
+        qCWarning(lcProperties3D, "%s unsupported selection mode",
+                  qUtf8Printable(QLatin1String(__FUNCTION__)));
         return;
     } else if (mode.testFlag(QtGraphs3D::SelectionFlag::Slice)
                && (mode.testFlag(QtGraphs3D::SelectionFlag::Row)
                    == mode.testFlag(QtGraphs3D::SelectionFlag::Column))) {
-        qWarning("Must specify one of either row or column selection mode"
-                 "in conjunction with slicing mode.");
+        qCWarning(lcProperties3D, "%s must specify one of either row or column selection mode"
+                 "in conjunction with slicing mode.", qUtf8Printable(QLatin1String(__FUNCTION__)));
     } else {
         QtGraphs3D::SelectionFlags oldMode = selectionMode();
 
@@ -990,10 +992,13 @@ void QQuickGraphsSurface::componentComplete()
     }
 
     graphsInputHandler()->setGraphsItem(this);
+    qCDebug(lcGraphs3D, " QQuickGraphsSurface::componentComplete");
 }
 
 void QQuickGraphsSurface::synchData()
 {
+    qCDebug(lcGraphs3D, "%s start syncing", qUtf8Printable(QLatin1String(__FUNCTION__)));
+
     if (isFlipHorizontalGridChanged())
         setHorizontalFlipFactor(flipHorizontalGrid() ? -1 : 1);
 
@@ -1065,6 +1070,7 @@ void QQuickGraphsSurface::synchData()
         doPicking(m_lastPick);
         m_pickThisFrame = false;
     }
+    qCDebug(lcGraphs3D, "%s end syncing", qUtf8Printable(QLatin1String(__FUNCTION__)));
 }
 
 void QQuickGraphsSurface::updateGraph()
@@ -1554,6 +1560,14 @@ void QQuickGraphsSurface::updateModel(SurfaceModel *model)
         gridMaterial->setProperty("vertices", QVector2D(columnCount, rowCount));
         gridMaterial->setProperty("graphHeight", scaleWithBackground().y());
         gridMaterial->setProperty("fill", model->series->drawMode().testFlag(QSurface3DSeries::DrawFilledSurface));
+
+        qCDebug(lcGraphs3D) << "surface info"
+            << "\n vertices:" << model->vertices.count()
+            << "\n indices:" << model->indices.count()
+            << "\n dataArray dimensions:" << QVector2D(model->series->dataArray().size(), model->series->dataArray().at(0).size())
+            << "\n plane size:" << QVector2D(sampleSpace.width(), sampleSpace.height())
+            << "\n vertCount:" << QVector2D(columnCount, rowCount);
+
 
         m_proxyDirty = true;
 
@@ -2381,6 +2395,10 @@ bool QQuickGraphsSurface::doPicking(QPointF position)
                     if (!selectedVertex.position.isNull() && model->picked) {
                         model->series->setSelectedPoint(selectedVertex.coord);
                         setSlicingActive(false);
+                        qCDebug(lcInput3D) << "pick results:"
+                            << "\n instance position:" << selectedVertex.position
+                            << "\n picked vertices coords:" << selectedVertex.coord
+                            << "\n picked vertices values:" << model->series->dataProxy()->itemAt(selectedVertex.coord).position();
                         if (isSliceEnabled())
                             setSliceActivatedChanged(true);
                     }
@@ -2469,6 +2487,10 @@ bool QQuickGraphsSurface::doRayPicking(QVector3D origin, QVector3D direction)
                     if (!selectedVertex.position.isNull() && model->picked) {
                         model->series->setSelectedPoint(selectedVertex.coord);
                         setSlicingActive(false);
+                        qCDebug(lcInput3D) << "pick results:"
+                            << "\n instance position:" << selectedVertex.position
+                            << "\n picked vertices coords:" << selectedVertex.coord
+                            << "\n picked vertices values:" << model->series->dataProxy()->itemAt(selectedVertex.coord).position();
                         if (isSliceEnabled())
                             setSliceActivatedChanged(true);
                     }

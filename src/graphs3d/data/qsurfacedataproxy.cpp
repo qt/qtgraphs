@@ -4,6 +4,7 @@
 #include "qabstract3daxis_p.h"
 #include "qsurface3dseries_p.h"
 #include "qsurfacedataproxy_p.h"
+#include "qgraphs3dlogging_p.h"
 
 QT_BEGIN_NAMESPACE
 
@@ -144,7 +145,8 @@ QSurface3DSeries *QSurfaceDataProxy::series() const
 {
     Q_D(const QSurfaceDataProxy);
     if (!d->series())
-        qWarning("Series needs to be created to access data members");
+        qCWarning(lcProperties3D, "%s series needs to be created to access data members",
+                  qUtf8Printable(QLatin1String(__FUNCTION__)));
     return static_cast<QSurface3DSeries *>(d->series());
 }
 

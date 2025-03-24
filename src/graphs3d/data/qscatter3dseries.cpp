@@ -5,6 +5,7 @@
 #include "qquickgraphsscatter_p.h"
 #include "qscatter3dseries_p.h"
 #include "qvalue3daxis.h"
+#include "qgraphs3dlogging_p.h"
 
 QT_BEGIN_NAMESPACE
 
@@ -281,11 +282,16 @@ void QScatter3DSeries::setItemSize(float size)
 {
     Q_D(QScatter3DSeries);
     if (size < 0.0f || size > 1.0f) {
-        qWarning("Invalid size. Valid range for itemSize is 0.0f...1.0f");
-    } else if (size != d->m_itemSize) {
-        d->setItemSize(size);
-        emit itemSizeChanged(size);
+        qCWarning(lcProperties3D, "%s invalid size. Valid range for itemSize is 0.0f...1.0f",
+                  qUtf8Printable(QLatin1String(__FUNCTION__)));
+        return;
+    } else if (size == d->m_itemSize) {
+        qCDebug(lcProperties3D, "%s value is already set to: %.1f",
+                qUtf8Printable(QLatin1String(__FUNCTION__)), size);
+        return;
     }
+    d->setItemSize(size);
+    emit itemSizeChanged(size);
 }
 
 float QScatter3DSeries::itemSize() const
@@ -312,10 +318,13 @@ float QScatter3DSeries::itemSize() const
 void QScatter3DSeries::setDataArray(const QScatterDataArray &newDataArray)
 {
     Q_D(QScatter3DSeries);
-    if (d->m_dataArray.data() != newDataArray.data()) {
-        d->setDataArray(newDataArray);
-        emit dataArrayChanged(newDataArray);
+    if (d->m_dataArray.data() == newDataArray.data()) {
+        qCDebug(lcProperties3D) << __FUNCTION__
+            << "newDataArray is the same than the old one";
+        return;
     }
+    d->setDataArray(newDataArray);
+    emit dataArrayChanged(newDataArray);
 }
 
 /*!
@@ -464,11 +473,14 @@ void QScatter3DSeriesPrivate::createItemLabel()
 void QScatter3DSeriesPrivate::setSelectedItem(qsizetype index)
 {
     Q_Q(QScatter3DSeries);
-    if (index != m_selectedItem) {
-        markItemLabelDirty();
-        m_selectedItem = index;
-        emit q->selectedItemChanged(m_selectedItem);
+    if (index == m_selectedItem) {
+        qCDebug(lcProperties3D, "%s Value is already set to: %" PRIdQSIZETYPE,
+                qUtf8Printable(QLatin1String(__FUNCTION__)), index);
+        return;
     }
+    markItemLabelDirty();
+    m_selectedItem = index;
+    emit q->selectedItemChanged(m_selectedItem);
 }
 
 void QScatter3DSeriesPrivate::setItemSize(float size)
