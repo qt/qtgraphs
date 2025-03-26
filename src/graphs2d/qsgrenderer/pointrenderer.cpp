@@ -686,6 +686,9 @@ bool PointRenderer::handleHoverMove(QHoverEvent *event)
                 bool hovering = false;
                 auto subpath = group->painterPath.toSubpathPolygons();
 
+                if (group->painterPath.elementCount() != points.size())
+                    m_graph->ensurePolished();
+
                 for (int i = 0; i < points.size() - 1; i++) {
                     qreal x1, y1, x2, y2;
                     if (i == 0) {
