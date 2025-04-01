@@ -5,12 +5,22 @@
     \module QtGraphs
     \qtcmakepackage Graphs
     \qtvariable graphs
+    \title Qt Graphs Module
+
+    \brief C++ classes for the Qt Graphs API.
+
 */
 
 /*!
     \module QtGraphsWidgets
     \qtcmakepackage GraphsWidgets
     \qtvariable graphswidgets
+    \title Qt Graphs for Widgets
+
+    \brief C++ classes for the Qt Graphs for 3D API used with widgets.
+
+    Widget support is included in its own module to avoid a hard dependency on
+    QtWidgets when building only QML applications.
 */
 
 /*!
@@ -64,6 +74,11 @@
 
 /*!
     \qmlmodule QtGraphs
+    \title Qt Graphs for QML
+    \brief QML types for the Qt Graphs API.
+
+    The Qt Graphs functionality can be accessed via these QML types.
+
 */
 
 /*!

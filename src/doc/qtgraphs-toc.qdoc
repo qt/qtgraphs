@@ -12,6 +12,8 @@
         \li \l {Qt Graphs Overview for 2D}{Qt Graphs 2D}
             \list
                 \li \l {Qt Graphs Migration from Qt Charts}{Migration from Qt Charts}
+                \li \l {Qt Graphs C++ Classes for 2D}{C++ Classes}
+                \li \l {Qt Graphs QML Types for 2D}{QML Types}
             \endlist
         \li \l {Qt Graphs Overview for 3D}{Qt Graphs 3D}
             \list
@@ -19,8 +21,13 @@
                 \li \l {Qt Graphs Data Handling with 3D}{Data Handling}
                 \li \l {Qt Graphs Interacting with Data in 3D}{Interacting with Data}
                 \li \l {Qt Graphs Migration from Qt DataVisualization}{Migration from Qt DataVisualization}
+                \li \l {C++ Classes}
+                \li \l {QML Types}
             \endlist
         \li \l {Qt Graphs Widgets}
+            \list
+                \li \l {Qt Graphs C++ Classes for Widgets}{C++ Classes}
+            \endlist
         \li \l {Qt Graphs Theme Overview}{Theming}
         \li \l {Qt Graphs Configure Options}{Configure Options}
         \li \l {Qt Graphs Known Issues}{Known Issues}
