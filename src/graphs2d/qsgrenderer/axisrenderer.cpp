@@ -779,7 +779,10 @@ void AxisRenderer::updateAxisTitles(const QRectF xAxisRect, const QRectF yAxisRe
         m_xAxisTitle->setText(m_axisHorizontal->titleText());
         m_xAxisTitle->setX((2 * xAxisRect.x() - m_xAxisTitle->contentWidth() + xAxisRect.width())
                            * 0.5);
-        m_xAxisTitle->setY(xAxisRect.y() + xAxisRect.height());
+        if (m_horizontalAxisOnTop)
+            m_xAxisTitle->setY(xAxisRect.y() - m_xAxisTitle->contentHeight() * 0.5);
+        else
+            m_xAxisTitle->setY(xAxisRect.y() + xAxisRect.height());
         if (m_axisHorizontal->titleColor().isValid())
             m_xAxisTitle->setColor(m_axisHorizontal->titleColor());
         else
@@ -792,7 +795,10 @@ void AxisRenderer::updateAxisTitles(const QRectF xAxisRect, const QRectF yAxisRe
 
     if (m_axisVertical && m_axisVertical->isTitleVisible()) {
         m_yAxisTitle->setText(m_axisVertical->titleText());
-        m_yAxisTitle->setX(0 + m_yAxisTitle->height() - m_yAxisTitle->contentWidth() * 0.5);
+        if (m_verticalAxisOnRight)
+            m_yAxisTitle->setX(yAxisRect.x() + m_yAxisTitle->height());
+        else
+            m_yAxisTitle->setX(yAxisRect.x() + m_yAxisTitle->height() - m_yAxisTitle->contentWidth() * 0.5);
         m_yAxisTitle->setY((2 * yAxisRect.y() - m_yAxisTitle->contentHeight() + yAxisRect.height())
                            * 0.5);
         m_yAxisTitle->setRotation(-90);
