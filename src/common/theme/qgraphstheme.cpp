@@ -332,7 +332,7 @@ QT_BEGIN_NAMESPACE
  *
  * The color of the font used for labels.
  *
- * If an axis has specified \l{graphsline.labelTextColor}{labelTextColor} explicitly,
+ * If an axis has specified \l{graphsline::labelTextColor}{labelTextColor} explicitly,
  * this has no effect.
  *
  * The default value depends on \l colorScheme.

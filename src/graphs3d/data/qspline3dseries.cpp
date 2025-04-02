@@ -21,7 +21,7 @@ QT_BEGIN_NAMESPACE
 
 /*!
  * \qmltype Spline3DSeries
- * \instantiates QSpline3DSeries
+ * \nativetype QSpline3DSeries
  * \inqmlmodule QtGraphs
  * \ingroup graphs_qml_3D
  * \inherits Scatter3DSeries
