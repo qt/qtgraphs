@@ -552,7 +552,7 @@ bool QAbstract3DAxis::isScaleLabelsByCount() const
  * The size of the label.
  * The default for this value is \c 1.0.
  *
- * \sa scaleLabelsByCount()
+ * \sa scaleLabelsByCount
  */
 void QAbstract3DAxis::setLabelSize(qreal size)
 {

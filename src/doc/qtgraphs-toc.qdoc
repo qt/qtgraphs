@@ -21,8 +21,8 @@
                 \li \l {Qt Graphs Data Handling with 3D}{Data Handling}
                 \li \l {Qt Graphs Interacting with Data in 3D}{Interacting with Data}
                 \li \l {Qt Graphs Migration from Qt DataVisualization}{Migration from Qt DataVisualization}
-                \li \l {C++ Classes}
-                \li \l {QML Types}
+                \li \l {Qt Graphs C++ Classes for 3D}{C++ Classes}
+                \li \l {Qt Graphs QML Types for 3D}{QML Types}
             \endlist
         \li \l {Qt Graphs Widgets}
             \list

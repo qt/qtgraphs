@@ -398,6 +398,18 @@ QT_BEGIN_NAMESPACE
 */
 
 /*!
+    \qmlmethod bool BarSeries::append(BarSet barset)
+
+    Adds a set of bars specified by \a barset to the bar series and takes
+    ownership of it. If the set is null or it already belongs to the series,
+    it will not be appended.
+
+    Returns \c true if appending succeeded.
+
+    \sa insert()
+*/
+
+/*!
     \qmlmethod bool BarSeries::remove(BarSet barset)
     Removes the bar set specified by \a barset from the series. Returns \c true if successful,
     \c false otherwise.
