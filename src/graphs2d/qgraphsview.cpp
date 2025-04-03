@@ -217,9 +217,14 @@ bool QGraphsView::hasSeries(QObject *series)
 
 QPointF QGraphsView::getDataPointCoordinates(qreal x, qreal y)
 {
+#ifdef USE_LINEGRAPH
     if (m_pointRenderer)
         return m_pointRenderer->reverseRenderCoordinates(x, y);
-
+#else
+    Q_UNUSED(x);
+    Q_UNUSED(y);
+#endif
+    
     return QPointF();
 }
 
