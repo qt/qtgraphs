@@ -8,7 +8,7 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(USE_CHARTS false)
 
 if (USE_CHARTS)
-    project(tst_qmlbenchmark2d LANGUAGES C CXX ASM)
+    project(tst_qmlbenchmark2d LANGUAGES C CXX)
     find_package(Qt6 REQUIRED COMPONENTS Charts Core Gui Qml Quick)
 
     add_compile_definitions(USE_CHARTS)
@@ -31,7 +31,7 @@ if (USE_CHARTS)
     )
 else()
     if (NOT QT_BUILD_STANDALONE_TESTS AND NOT QT_BUILDING_QT)
-        project(tst_qmlbenchmark2d LANGUAGES C CXX ASM)
+        project(tst_qmlbenchmark2d LANGUAGES C CXX)
         find_package(Qt6BuildInternals COMPONENTS STANDALONE_TEST)
     endif()
 
