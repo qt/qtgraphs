@@ -223,6 +223,7 @@ QPointF QGraphsView::getDataPointCoordinates(QAbstractSeries *series, qreal x, q
     if (m_pointRenderer)
         return m_pointRenderer->reverseRenderCoordinates(series, x, y);
 #else
+    Q_UNUSED(series);
     Q_UNUSED(x);
     Q_UNUSED(y);
 #endif
