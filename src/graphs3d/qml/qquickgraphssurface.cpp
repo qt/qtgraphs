@@ -2151,7 +2151,7 @@ void QQuickGraphsSurface::createIndices(SurfaceModel *model, qsizetype columnCou
     QVector<quint32> *indices = &model->indices;
 
     indices->clear();
-    indices->resize(indexCount);
+    indices->reserve(indexCount);
 
     qsizetype rowEnd = endY * columnCount;
     for (qsizetype row = 0; row < rowEnd; row += columnCount) {
@@ -2185,7 +2185,7 @@ void QQuickGraphsSurface::createGridlineIndices(SurfaceModel *model, qsizetype x
 
     qsizetype gridIndexCount = 2 * nColumns * (nRows - 1) + 2 * nRows * (nColumns - 1);
     model->gridIndices.clear();
-    model->gridIndices.resize(gridIndexCount);
+    model->gridIndices.reserve(gridIndexCount);
 
     for (qsizetype i = y, row = columnCount * y; i <= endY; i++, row += columnCount) {
         for (qsizetype j = x; j < endX; j++) {
