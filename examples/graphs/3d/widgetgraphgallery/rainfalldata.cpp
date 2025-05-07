@@ -17,8 +17,6 @@ RainfallData::RainfallData()
     for (int i = 1; i <= 12; ++i)
         m_numericMonths << QString::number(i);
 
-    m_columnCount = m_numericMonths.size();
-
     updateYearsList(2010, 2022);
 
     // Create proxy and series
@@ -74,8 +72,6 @@ void RainfallData::updateYearsList(int start, int end)
 
     for (int i = start; i <= end; ++i)
         m_years << QString::number(i);
-
-    m_rowCount = m_years.size();
 }
 
 //! [1]

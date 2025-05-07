@@ -27,8 +27,6 @@ public:
 
 private:
     void updateYearsList(int start, int end);
-    int m_columnCount;
-    int m_rowCount;
     QStringList m_years;
     QStringList m_numericMonths;
     VariantBarDataProxy *m_proxy;
