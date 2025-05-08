@@ -5299,9 +5299,10 @@ void QQuickGraphsItem::handleWindowChanged(/*QQuickWindow *window*/)
     bool previousVisibility = window->isVisible();
     // Enable touch events for Mac touchpads
     window->setVisible(true);
-    typedef void *(*EnableTouch)(QWindow *, bool);
-    EnableTouch enableTouch = (EnableTouch) QGuiApplication::platformNativeInterface()
-                                  ->nativeResourceFunctionForIntegration("registertouchwindow");
+    typedef void (*EnableTouch)(QWindow *, bool);
+    EnableTouch enableTouch = reinterpret_cast<EnableTouch>(
+                QFunctionPointer(QGuiApplication::platformNativeInterface()
+                                 ->nativeResourceFunctionForIntegration("registertouchwindow")));
     if (enableTouch)
         enableTouch(window, true);
     window->setVisible(previousVisibility);
