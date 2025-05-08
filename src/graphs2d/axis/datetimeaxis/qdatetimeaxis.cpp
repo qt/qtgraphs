@@ -96,6 +96,18 @@ QT_BEGIN_NAMESPACE
  The default value is 0, which means that intervals are automatically calculated
  based on the min and max range.
 */
+/*!
+ \property QDateTimeAxis::timeZone
+ \brief The time zone that will be used to display labels of the axis.
+ The accepted values are based on IANA time zone IDs. The default time zone is UTC.
+ \since 6.10
+*/
+/*!
+ \qmlproperty string DateTimeAxis::timeZone
+ The time zone that will be used to display labels of the axis.
+ The accepted values are based on IANA time zone IDs. The default time zone is UTC.
+ \since 6.10
+*/
 
 /*!
  \property QDateTimeAxis::labelFormat
@@ -137,14 +149,18 @@ QT_BEGIN_NAMESPACE
  This signal is emitted when the tick interval value, specified by
  \a tickInterval, changes.
 */
+/*!
+ \qmlsignal DateTimeAxis::timeZoneChanged()
+ This signal is emitted when the time zone is changed. It represents a string value for the
+ IANA time zone ID that was set.
+ \since 6.10
+*/
 
 QDateTimeAxis::QDateTimeAxis(QObject *parent)
     : QAbstractAxis(*(new QDateTimeAxisPrivate), parent)
 {}
 
-QDateTimeAxis::~QDateTimeAxis()
-{
-}
+QDateTimeAxis::~QDateTimeAxis() {}
 
 QAbstractAxis::AxisType QDateTimeAxis::type() const
 {
@@ -163,7 +179,7 @@ void QDateTimeAxis::setMin(const QDateTime &min)
 QDateTime QDateTimeAxis::min() const
 {
     Q_D(const QDateTimeAxis);
-    return QDateTime::fromMSecsSinceEpoch(d->m_min, QTimeZone::UTC);
+    return QDateTime::fromMSecsSinceEpoch(d->m_min, d->m_timeZone);
 }
 
 void QDateTimeAxis::setMax(const QDateTime &max)
@@ -178,7 +194,7 @@ void QDateTimeAxis::setMax(const QDateTime &max)
 QDateTime QDateTimeAxis::max() const
 {
     Q_D(const QDateTimeAxis);
-    return QDateTime::fromMSecsSinceEpoch(d->m_max, QTimeZone::UTC);
+    return QDateTime::fromMSecsSinceEpoch(d->m_max, d->m_timeZone);
 }
 
 void QDateTimeAxis::setLabelFormat(const QString &format)
@@ -234,6 +250,35 @@ void QDateTimeAxis::setSubTickCount(int newSubTickCount)
         return;
     d->m_subTickCount = newSubTickCount;
     emit subTickCountChanged();
+    emit update();
+}
+
+QString QDateTimeAxis::timeZone() const
+{
+#if QT_CONFIG(timezone)
+    Q_D(const QDateTimeAxis);
+
+    return QString::fromUtf8(d->m_timeZone.id());
+#else
+    return QString::fromUtf8("UTC");
+#endif
+}
+
+void QDateTimeAxis::setTimeZone(const QString &zoneId)
+{
+    Q_D(QDateTimeAxis);
+
+#if QT_CONFIG(timezone)
+    auto zone = QTimeZone(zoneId.toUtf8());
+#else
+    auto zone = QTimeZone(QTimeZone::Initialization::UTC);
+#endif
+
+    if (!zone.isValid())
+        return;
+
+    d->m_timeZone = zone;
+    emit timeZoneChanged(zoneId);
     emit update();
 }
 
