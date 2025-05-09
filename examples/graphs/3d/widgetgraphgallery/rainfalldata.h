@@ -12,8 +12,10 @@ class RainfallData : public QObject
 {
     Q_OBJECT
 public:
+    Q_DISABLE_COPY_MOVE(RainfallData)
+
     explicit RainfallData();
-    ~RainfallData();
+    ~RainfallData() override;
 
     void addDataSet();
 

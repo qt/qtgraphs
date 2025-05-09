@@ -28,6 +28,7 @@ SurfaceGraphModifier::SurfaceGraphModifier(Q3DSurfaceWidgetItem *surface, QLabel
     : QObject(parent)
     , m_graph(surface)
     , m_textField(label)
+    , m_aspectRatio(aspectRatio)
 {
     m_graph->setCameraZoomLevel(85.f);
     m_graph->setCameraPreset(QtGraphs3D::CameraPreset::IsometricRight);
@@ -153,7 +154,6 @@ SurfaceGraphModifier::SurfaceGraphModifier(Q3DSurfaceWidgetItem *surface, QLabel
     m_axisZMaxValue = m_areaMaxValue;
     m_axisXMinRange = minRange;
     m_axisZMinRange = minRange;
-    m_aspectRatio = aspectRatio;
 
     QObject::connect(m_graph,
                      &Q3DGraphsWidgetItem::dragged,
@@ -163,7 +163,7 @@ SurfaceGraphModifier::SurfaceGraphModifier(Q3DSurfaceWidgetItem *surface, QLabel
     QObject::connect(m_graph, &Q3DGraphsWidgetItem::wheel, this, &SurfaceGraphModifier::onWheel);
 }
 
-SurfaceGraphModifier::~SurfaceGraphModifier() {}
+SurfaceGraphModifier::~SurfaceGraphModifier() = default;
 
 void SurfaceGraphModifier::fillSqrtSinProxy()
 {
