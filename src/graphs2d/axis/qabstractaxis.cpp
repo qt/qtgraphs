@@ -162,6 +162,7 @@ QT_BEGIN_NAMESPACE
     The font of the title of the axis.
 */
 
+
 /*!
     \property QAbstractAxis::alignment
     \since 6.9
@@ -175,6 +176,22 @@ QT_BEGIN_NAMESPACE
     The alignment of the axis. Can be \l{Qt::AlignLeft}{Qt.AlignLeft},
     \l{Qt::AlignRight}{Qt.AlignRight}, \l{Qt::AlignBottom}{Qt.AlignBottom}, or
     \l{Qt::AlignTop}{Qt.AlignTop}.
+*/
+
+/*!
+    \property QAbstractAxis::textElide
+    \since 6.10
+    \brief The textElide of the axis labels.
+
+    Can be Qt::ElideLeft, Qt::ElideRight, Qt::ElideMiddle, or Qt::ElideNone.
+    By default, the value is \c Qt::ElideNone.
+*/
+/*!
+    \qmlproperty enumeration AbstractAxis::textElide
+    \since 6.10
+    The textElide of the axis labels. Can be \l{Qt::ElideLeft}{Qt.ElideLeft},
+    \l{Qt::ElideRight}{Qt.ElideRight}, \l{Qt::ElideMiddle}{Qt.ElideMiddle}, or
+    \l{Qt::ElideNone}{Qt.ElideNone}. By default, the value is \c Qt.ElideNone.
 */
 
 /*!
@@ -237,6 +254,12 @@ QT_BEGIN_NAMESPACE
     \qmlsignal AbstractAxis::rangeChanged(string min, string max)
     This signal is emitted when the axis range changes. \a min and \a max are
     the min and max of the new range.
+*/
+
+/*!
+    \qmlsignal AbstractAxis::textElideChanged(enumeration elide)
+    This signal is emitted when the \l textElide changes. \a elide is the
+    new value of the \l Qt::TextElideMode type.
 */
 
 /*!
@@ -569,6 +592,25 @@ void QAbstractAxis::setAlignment(Qt::Alignment alignment)
         qCWarning(lcAxis2D, "invalid alignment.");
         break;
     }
+}
+
+Qt::TextElideMode QAbstractAxis::textElide() const
+{
+    Q_D(const QAbstractAxis);
+    return d->m_textElide;
+}
+
+void QAbstractAxis::setTextElide(Qt::TextElideMode elide)
+{
+    Q_D(QAbstractAxis);
+    if (d->m_textElide == elide) {
+        qCDebug(lcAxis2D) << "QAbstractAxis::setTextElide. Text elide is already set to:"
+            << elide;
+        return;
+    }
+
+    d->m_textElide = elide;
+    Q_EMIT textElideChanged(d->m_textElide);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -110,8 +110,11 @@ private:
     int getValueDecimalsFromRange(double range);
     void setLabelTextProperties(QQuickItem *item, const QString &text, bool xAxis,
                                 QQuickText::HAlignment hAlign = QQuickText::HAlignment::AlignHCenter,
-                                QQuickText::VAlignment vAlign = QQuickText::VAlignment::AlignVCenter);
-    void updateAxisLabelItems(QList<QQuickItem *> &textItems, qsizetype neededSize, QQmlComponent *component);
+                                QQuickText::VAlignment vAlign = QQuickText::VAlignment::AlignVCenter,
+                                Qt::TextElideMode elide = Qt::ElideNone);
+    void updateAxisLabelItems(QList<QQuickItem *> &textItems, qsizetype neededSize,
+                              QQmlComponent *component);
+
     QVector2D windowToAxisCoords(QVector2D coords);
     bool zoom(qreal delta);
 
