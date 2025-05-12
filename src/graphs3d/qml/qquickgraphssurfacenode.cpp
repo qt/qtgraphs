@@ -5,7 +5,7 @@
 QT_BEGIN_NAMESPACE
 
 /*!
- * \qmltype SurfaceNode
+ * \qmltype Surface3DNode
  * \inherits GraphsNode
  * \inqmlmodule QtGraphs
  * \ingroup graphs_qml_3D
@@ -17,17 +17,17 @@ QT_BEGIN_NAMESPACE
  *
  * \snippet doc_src_qmlnodes.qml 0
  *
- * After that you can use SurfaceNode in your qml files:
+ * After that you can use Surface3DNode in your qml files:
  *
  * \snippet doc_src_qmlnodes.qml 3
  *
  *
- * \sa Surface3DSeries, ItemModelSurfaceDataProxy, BarsNode, ScatterNode,
+ * \sa Surface3DSeries, ItemModelSurfaceDataProxy, Bars3DNode, Scatter3DNode,
  * {Qt Graphs C++ Classes for 3D}
  */
 
 /*!
- * \qmlproperty Value3DAxis SurfaceNode::axisX
+ * \qmlproperty Value3DAxis Surface3DNode::axisX
  * The active x-axis.
  *
  * If an axis is not given, a temporary default axis with no labels and an
@@ -37,7 +37,7 @@ QT_BEGIN_NAMESPACE
  */
 
 /*!
- * \qmlproperty Value3DAxis SurfaceNode::axisY
+ * \qmlproperty Value3DAxis Surface3DNode::axisY
  * The active y-axis.
  *
  * If an axis is not given, a temporary default axis with no labels and an
@@ -47,7 +47,7 @@ QT_BEGIN_NAMESPACE
  */
 
 /*!
- * \qmlproperty Value3DAxis SurfaceNode::axisZ
+ * \qmlproperty Value3DAxis Surface3DNode::axisZ
  * The active z-axis.
  *
  * If an axis is not given, a temporary default axis with no labels and an
@@ -57,7 +57,7 @@ QT_BEGIN_NAMESPACE
  */
 
 /*!
- * \qmlproperty Surface3DSeries SurfaceNode::selectedSeries
+ * \qmlproperty Surface3DSeries Surface3DNode::selectedSeries
  * \readonly
  *
  * The selected series or null. If \l {GraphsNode::selectionMode}{selectionMode}
@@ -66,7 +66,7 @@ QT_BEGIN_NAMESPACE
  */
 
 /*!
- * \qmlproperty list<Surface3DSeries> SurfaceNode::seriesList
+ * \qmlproperty list<Surface3DSeries> Surface3DNode::seriesList
  * \qmldefault
  * This property holds the series of the graph.
  * By default, this property contains an empty list.
@@ -75,7 +75,7 @@ QT_BEGIN_NAMESPACE
  */
 
 /*!
- * \qmlproperty bool SurfaceNode::flipHorizontalGrid
+ * \qmlproperty bool Surface3DNode::flipHorizontalGrid
  *
  * In some use cases the horizontal axis grid is mostly covered by the surface,
  * so it can be more useful to display the horizontal axis grid on top of the
@@ -90,43 +90,43 @@ QT_BEGIN_NAMESPACE
  */
 
 /*!
- * \qmlmethod void SurfaceNode::addSeries(Surface3DSeries series)
+ * \qmlmethod void Surface3DNode::addSeries(Surface3DSeries series)
  * Adds the \a series to the graph.
  * \sa GraphsNode::hasSeries()
  */
 
 /*!
- * \qmlmethod void SurfaceNode::removeSeries(Surface3DSeries series)
+ * \qmlmethod void Surface3DNode::removeSeries(Surface3DSeries series)
  * Removes the \a series from the graph.
  * \sa GraphsNode::hasSeries()
  */
 
 /*!
- * \qmlsignal SurfaceNode::axisXChanged(ValueAxis3D axis)
+ * \qmlsignal Surface3DNode::axisXChanged(ValueAxis3D axis)
  *
  * This signal is emitted when axisX changes to \a axis.
  */
 
 /*!
- * \qmlsignal SurfaceNode::axisYChanged(ValueAxis3D axis)
+ * \qmlsignal Surface3DNode::axisYChanged(ValueAxis3D axis)
  *
  * This signal is emitted when axisY changes to \a axis.
  */
 
 /*!
- * \qmlsignal SurfaceNode::axisZChanged(ValueAxis3D axis)
+ * \qmlsignal Surface3DNode::axisZChanged(ValueAxis3D axis)
  *
  * This signal is emitted when axisZ changes to \a axis.
  */
 
 /*!
- * \qmlsignal SurfaceNode::selectedSeriesChanged(Surface3DSeries series)
+ * \qmlsignal Surface3DNode::selectedSeriesChanged(Surface3DSeries series)
  *
  * This signal is emitted when selectedSeries changes to \a series.
  */
 
 /*!
- * \qmlsignal SurfaceNode::flipHorizontalGridChanged(bool flip)
+ * \qmlsignal Surface3DNode::flipHorizontalGridChanged(bool flip)
  *
  * This signal is emitted when flipHorizontalGrid changes to \a flip.
  */
