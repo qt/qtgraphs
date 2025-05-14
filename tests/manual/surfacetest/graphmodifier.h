@@ -31,6 +31,7 @@ public:
     void toggleSeries2(int enabled);
     void toggleSeries3(int enabled);
     void toggleSeries4(int enabled);
+    void toggleLineSeries(int enabled);
     void toggleSmooth(int enabled);
     void toggleSurfaceGrid(int enable);
     void toggleSurface(int enable);
@@ -51,6 +52,9 @@ public:
     void toggleSurfaceS4(int enable);
     void toggleSeries4Visible(int enable);
     void toggleFillS4(int enable);
+    void toggleLineSurfaceGrid(int enable);
+    void toggleLineSurface(int enable);
+    void toggleFillLine(int enable);
 
     void toggleSqrtSin(int enable);
     void togglePlane(int enable);
@@ -154,6 +158,7 @@ private:
     QSurface3DSeries *m_series2;
     QSurface3DSeries *m_series3;
     QSurface3DSeries *m_series4;
+    QSurface3DSeries *m_lineSeries;
     QSlider *m_gridSliderX;
     QSlider *m_gridSliderZ;
     QSlider *m_axisRangeSliderX;
@@ -164,6 +169,7 @@ private:
     QCheckBox *m_series2CB;
     QCheckBox *m_series3CB;
     QCheckBox *m_series4CB;
+    QCheckBox *m_lineSeriesCB;
     bool m_gridSlidersLocked;
     int m_xCount;
     int m_zCount;
@@ -186,6 +192,7 @@ private:
     QSurface3DSeries::DrawFlags m_drawMode2;
     QSurface3DSeries::DrawFlags m_drawMode3;
     QSurface3DSeries::DrawFlags m_drawMode4;
+    QSurface3DSeries::DrawFlags m_drawMode5;
     float m_limitX;
     float m_limitZ;
     float m_offset;

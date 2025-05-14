@@ -157,6 +157,22 @@ int main(int argc, char *argv[])
 
     QCheckBox *series4CB = new QCheckBox(widget);
     series4CB->setText(QStringLiteral("Series 4"));
+
+    QCheckBox *lineSeriesCB = new QCheckBox(widget);
+    lineSeriesCB->setText(QStringLiteral("Line Series"));
+
+    QCheckBox *surfaceGridLineCB = new QCheckBox(widget);
+    surfaceGridLineCB->setText(QStringLiteral("Line Surface Grid"));
+    surfaceGridLineCB->setChecked(false);
+
+    QCheckBox *lineSeriesVisibleCB = new QCheckBox(widget);
+    lineSeriesVisibleCB->setText(QStringLiteral("Line Series Visible"));
+    lineSeriesVisibleCB->setChecked(true);
+
+    QCheckBox *fillLineCB = new QCheckBox(widget);
+    fillLineCB->setText(QStringLiteral("Line Series Fill"));
+    fillLineCB->setChecked(false);
+
 #else
     //QCheckBox *sqrtSinCB = new QCheckBox(widget);
     QRadioButton *sqrtSinCB = new QRadioButton(widget);
@@ -198,7 +214,7 @@ int main(int argc, char *argv[])
     QSlider *axisRangeSliderY = new QSlider(Qt::Horizontal, widget);
     axisRangeSliderY->setTickInterval(1);
     axisRangeSliderY->setMinimum(1);
-    axisRangeSliderY->setValue(16);
+    axisRangeSliderY->setValue(20);
     axisRangeSliderY->setMaximum(100);
     axisRangeSliderY->setEnabled(true);
     QSlider *axisRangeSliderZ = new QSlider(Qt::Horizontal, widget);
@@ -400,6 +416,10 @@ int main(int argc, char *argv[])
     line3->setFrameShape(QFrame::HLine);
     line3->setFrameShadow(QFrame::Sunken);
 
+    QFrame* line4 = new QFrame();
+    line4->setFrameShape(QFrame::HLine);
+    line4->setFrameShadow(QFrame::Sunken);
+
     QCheckBox *axisTitlesVisibleCB = new QCheckBox(widget);
     axisTitlesVisibleCB->setText(QStringLiteral("Axis titles visible"));
     axisTitlesVisibleCB->setChecked(false);
@@ -526,7 +546,12 @@ int main(int argc, char *argv[])
     vLayout->addWidget(surfaceS4CB);
     vLayout->addWidget(series4VisibleCB);
     vLayout->addWidget(fillS4CB);
-    vLayout->addWidget(surfaceTextureCB, 1, Qt::AlignTop);
+    vLayout->addWidget(surfaceTextureCB);
+    vLayout->addWidget(line4);
+    vLayout->addWidget(lineSeriesCB);
+    vLayout->addWidget(lineSeriesVisibleCB);
+    vLayout->addWidget(surfaceGridLineCB);
+    vLayout->addWidget(fillLineCB, 1, Qt::AlignTop);
 #endif
 #ifndef MULTI_SERIES
     vLayout->addWidget(new QLabel(QStringLiteral("Select surface sample")));
@@ -666,6 +691,14 @@ int main(int argc, char *argv[])
     QObject::connect(fillS4CB, &QCheckBox::checkStateChanged,
                      modifier, &GraphModifier::toggleFillS4);
 
+    QObject::connect(lineSeriesVisibleCB, &QCheckBox::checkStateChanged,
+                     modifier, &GraphModifier::toggleLineSeries);
+    QObject::connect(surfaceGridLineCB, &QCheckBox::checkStateChanged,
+                     modifier, &GraphModifier::toggleLineSurfaceGrid);
+    QObject::connect(fillLineCB, &QCheckBox::checkStateChanged,
+                     modifier, &GraphModifier::toggleFillLine);
+
+
     CheckBoxWrapper *series1SmoothCBWrapper = new CheckBoxWrapper(smoothCB);
     CheckBoxWrapper *series1SurfaceGridCBWrapper = new CheckBoxWrapper(surfaceGridCB);
     CheckBoxWrapper *series1surfaceCBWrapper = new CheckBoxWrapper(surfaceCB);
@@ -726,6 +759,19 @@ int main(int argc, char *argv[])
                      series4surfaceCBWrapper, &CheckBoxWrapper::setEnabled);
     QObject::connect(series4CB, &QCheckBox::checkStateChanged,
                      series4VisibleCBWrapper, &CheckBoxWrapper::setEnabled);
+
+    CheckBoxWrapper *lineSeriesSurfaceGridCBWrapper = new CheckBoxWrapper(surfaceGridLineCB);
+    CheckBoxWrapper *lineSeriessurfaceCBWrapper = new CheckBoxWrapper(lineSeriesCB);
+    CheckBoxWrapper *lineSeriesVisibleCBWrapper = new CheckBoxWrapper(lineSeriesVisibleCB);
+    CheckBoxWrapper *lineSeriesFillCBWrapper = new CheckBoxWrapper(fillLineCB);
+    QObject::connect(lineSeriesCB, &QCheckBox::checkStateChanged,
+                     modifier, &GraphModifier::toggleLineSeries);
+    QObject::connect(lineSeriesCB, &QCheckBox::checkStateChanged,
+                     lineSeriesSurfaceGridCBWrapper, &CheckBoxWrapper::setEnabled);
+    QObject::connect(lineSeriesCB, &QCheckBox::checkStateChanged,
+                     lineSeriesVisibleCBWrapper, &CheckBoxWrapper::setEnabled);
+    QObject::connect(lineSeriesCB, &QCheckBox::checkStateChanged,
+                     lineSeriesFillCBWrapper, &CheckBoxWrapper::setEnabled);
 #else
     QObject::connect(sqrtSinCB, &QRadioButton::toggled,
                      modifier, &GraphModifier::toggleSqrtSin);
@@ -890,6 +936,7 @@ int main(int argc, char *argv[])
     series2CB->setChecked(true);
     series3CB->setChecked(true);
     series4CB->setChecked(true);
+    lineSeriesCB->setChecked(true);
 #endif
     modifier->setAxisRangeSliderX(axisRangeSliderX);
     modifier->setAxisRangeSliderZ(axisRangeSliderZ);

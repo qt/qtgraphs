@@ -4,6 +4,7 @@
 #include <QtCore/QMutexLocker>
 #include "private/qquick3drepeater_p.h"
 #include "q3dscene.h"
+#include "qabstractdataproxy.h"
 #include "qquickgraphssurface_p.h"
 
 #include "qcategory3daxis_p.h"
@@ -1274,7 +1275,7 @@ QRect QQuickGraphsSurface::calculateSampleSpace(SurfaceModel *model)
     QRect sampleSpace;
     const QSurfaceDataArray &array = model->series->dataArray();
     if (array.size() > 0) {
-        if (array.size() >= 2 && array.at(0).size() >= 2) {
+        if (array.size() >= 1 && array.at(0).size() >= 1) {
             const qsizetype maxRow = array.size() - 1;
             const qsizetype maxColumn = array.at(0).size() - 1;
 
@@ -1349,6 +1350,8 @@ void QQuickGraphsSurface::updateModel(SurfaceModel *model)
         const qsizetype maxSize = 4096; // maximum texture size
         columnCount = qMin(maxSize, columnCount);
         rowCount = qMin(maxSize, rowCount);
+
+        bool lineData = (rowCount == 1 || columnCount == 1);
 
         if (model->rowCount != rowCount) {
             model->rowCount = rowCount;
@@ -1425,6 +1428,7 @@ void QQuickGraphsSurface::updateModel(SurfaceModel *model)
             if (dimensionsChanged)
                 heightMapData->setSize(QSize(sampleSpace.width(), sampleSpace.height()));
         }
+
         if (heightMapData->size().width() < 1 || heightMapData->size().height() < 1) {
             heightMapData->setTextureData(QByteArray());
             heightMap->setTextureData(heightMapData);
@@ -1443,6 +1447,7 @@ void QQuickGraphsSurface::updateModel(SurfaceModel *model)
         material->setProperty("flipU", !model->ascendingX);
         material->setProperty("flipV", !model->ascendingZ);
         material->setProperty("fill", model->series->drawMode().testFlag(QSurface3DSeries::DrawFilledSurface));
+        material->setProperty("lineData", lineData);
         for (int i = 0; i < m_seriesList.size(); i++) {
             if (m_seriesList.at(i) == model->series)
                 material->setProperty("order", i);
@@ -1505,7 +1510,15 @@ void QQuickGraphsSurface::updateModel(SurfaceModel *model)
                     vertices.push_back(vertex);
                 }
             }
-            createIndices(model, columnCount, rowCount);
+            if (lineData) {
+                createLineIndices(model, rowCount);
+                model->model->geometry()->setPrimitiveType(QQuick3DGeometry::PrimitiveType::LineStrip);
+
+            } else {
+                createIndices(model, columnCount, rowCount);
+                model->model->geometry()->setPrimitiveType(QQuick3DGeometry::PrimitiveType::Triangles);
+            }
+
             auto geometry = model->model->geometry();
             geometry->vertexData().clear();
             QByteArray vertexBuffer(reinterpret_cast<char *>(vertices.data()),
@@ -1543,8 +1556,12 @@ void QQuickGraphsSurface::updateModel(SurfaceModel *model)
         gridMaterial->setProperty("fill", model->series->drawMode().testFlag(QSurface3DSeries::DrawFilledSurface));
 
         m_proxyDirty = true;
+
+        if (lineData)
+            updateLineFill(model);
+        else
+            updateFill(model);
     }
-    updateFill(model);
     updateMaterial(model);
     updateSelectedPoint();
 }
@@ -1654,6 +1671,81 @@ void QQuickGraphsSurface::updateFill(SurfaceModel *model)
 
     bool surfaceVisible = model->series->drawMode().testFlag(QSurface3DSeries::DrawSurface)
                           && model->series->isVisible();
+    model->fillModel->setVisible(
+        model->series->drawMode().testFlag(QSurface3DSeries::DrawFilledSurface) && surfaceVisible);
+}
+
+void QQuickGraphsSurface::updateLineFill(SurfaceModel *model)
+{
+    bool fillVisible = model->series->drawMode().testFlag(QSurface3DSeries::DrawFilledSurface);
+    if (m_fillDirty[model] && fillVisible) {
+        qsizetype rowCount = model->rowCount;
+        qsizetype colCount = model->columnCount;
+
+        bool oneRow = rowCount == 1;
+
+        float uvX = 1.0f / qMax(float(colCount - 1), 1.0f);
+        float uvY = 1.0f / qMax(float(rowCount - 1), 1.0f);
+        QVector<SurfaceVertex> vertices;
+        for (int i = 0; i < rowCount; i++) {
+            for (int j = 0; j < colCount; j++) {
+                SurfaceVertex vertex;
+                QVector3D pos = QVector3D(0, 0, 0);
+                vertex.position = pos;
+
+                vertex.uv = QVector2D(j * uvX, i * uvY);
+                vertex.coord = QPoint(j, i);
+                float base = -scaleWithBackground().y();
+
+                QVector2D uvOffset;
+                if (oneRow)
+                     uvOffset = QVector2D(0.0f, -0.1f);
+                else
+                     uvOffset = QVector2D(-0.1f, 0.0f);
+                vertex.uv += uvOffset * 0.1f;
+
+                SurfaceVertex botVert = vertex;
+                botVert.position.setY(base);
+                botVert.uv += uvOffset;
+
+                vertices.push_back(vertex);
+                vertices.push_back(botVert);
+
+            }
+        }
+        QVector<quint32> indices;
+
+        int totVerts = oneRow? colCount : rowCount;
+        int idxCount = 6 * (totVerts);
+        indices.reserve(idxCount);
+
+        for (int i = 0; i < totVerts - 1; i++) {
+            quint32 start = i * 2 ;
+            indices.push_back(start + 2);
+            indices.push_back(start);
+            indices.push_back(start + 1);
+
+            indices.push_back(start + 2);
+            indices.push_back(start + 1);
+            indices.push_back(start + 3);
+        }
+
+        QByteArray indexBuffer(reinterpret_cast<char *>(indices.data()),
+                               indices.size() * sizeof(quint32));
+
+        auto sideGeom = model->fillModel->geometry();
+        QByteArray fillVertBuffer(reinterpret_cast<char *>(vertices.data()),
+                                  vertices.size() * sizeof(SurfaceVertex));
+        sideGeom->setVertexData(fillVertBuffer);
+        sideGeom->setBounds(model->boundsMin, model->boundsMax);
+        sideGeom->setIndexData(indexBuffer);
+        sideGeom->update();
+        m_fillDirty[model] = false;
+
+    }
+
+    bool surfaceVisible = model->series->drawMode().testFlag(QSurface3DSeries::DrawSurface)
+        && model->series->isVisible();
     model->fillModel->setVisible(
         model->series->drawMode().testFlag(QSurface3DSeries::DrawFilledSurface) && surfaceVisible);
 }
@@ -2166,6 +2258,15 @@ void QQuickGraphsSurface::createIndices(SurfaceModel *model, qsizetype columnCou
         }
     }
 }
+
+void QQuickGraphsSurface::createLineIndices(SurfaceModel *model, qsizetype pointCount)
+{
+    model->indices.clear();
+    model->gridIndices.reserve(pointCount);
+    for (int i = 0; i < pointCount; i++)
+        model->indices.push_back(i);
+}
+
 void QQuickGraphsSurface::createGridlineIndices(SurfaceModel *model, qsizetype x, qsizetype y, qsizetype endX, qsizetype endY)
 {
     qsizetype columnCount = model->columnCount;

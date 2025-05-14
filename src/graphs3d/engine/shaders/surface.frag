@@ -45,12 +45,16 @@ void MAIN()
 
     // keep sides flat shaded always
     if (flatShading || sides || overhigh > 0) {
-        vec3 dpdx = dFdx(VAR_WORLD_POSITION);
-        vec3 dpdy = dFdy(VAR_WORLD_POSITION);
-        vec3 n = normalize(cross(dpdy,dpdx));
-        if (NEAR_CLIP_VALUE < 0.0) //effectively: if openGL
-            n = normalize(cross(dpdx,dpdy));
-        NORMAL = n;
+        if (lineData && !sides) {
+            NORMAL = -CAMERA_DIRECTION;
+        } else {
+            vec3 dpdx = dFdx(VAR_WORLD_POSITION);
+            vec3 dpdy = dFdy(VAR_WORLD_POSITION);
+            vec3 n = normalize(cross(dpdy,dpdx));
+            if (NEAR_CLIP_VALUE < 0.0) //effectively: if openGL
+                n = normalize(cross(dpdx,dpdy));
+            NORMAL = n;
+        }
     }
     diffuse = vec4(color);
     BASE_COLOR = diffuse;

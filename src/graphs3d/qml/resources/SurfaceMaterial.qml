@@ -24,6 +24,7 @@ CustomMaterial {
     property bool flatShading: false
     property int colorStyle: 0
     property bool fill: false
+    property bool lineData: false
 
     property bool flipU: false
     property bool flipV: false

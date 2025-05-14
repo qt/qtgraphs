@@ -233,10 +233,12 @@ private:
     QPointF mapCoordsToWorldSpace(SurfaceModel *model, QPointF coords);
     QPoint mapCoordsToSampleSpace(SurfaceModel *model, QPointF coords);
     void createIndices(SurfaceModel *model, qsizetype columnCount, qsizetype rowCount);
+    void createLineIndices(SurfaceModel *model, qsizetype pointCount);
     void createGridlineIndices(SurfaceModel *model, qsizetype x, qsizetype y, qsizetype endX, qsizetype endY);
     void handleChangedSeries();
     void updateModel(SurfaceModel *model);
     void updateFill(SurfaceModel *model);
+    void updateLineFill(SurfaceModel *model);
     void createProxyModel(SurfaceModel *parentModel);
     void updateProxyModel(SurfaceModel *model);
     void updateMaterial(SurfaceModel *model);
