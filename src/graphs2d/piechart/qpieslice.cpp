@@ -655,6 +655,7 @@ QPieSlicePrivate::QPieSlicePrivate()
     , m_percentage(0.0)
     , m_startAngle(0.0)
     , m_angleSpan(0.0)
+    , m_hideLabel(false)
     , m_isExploded(false)
     , m_explodeDistanceFactor(.15)
     , m_labelDirty(false)
@@ -698,16 +699,21 @@ void QPieSlicePrivate::setAngleSpan(qreal span)
     Q_Q(QPieSlice);
     if (qFuzzyCompare(m_angleSpan, span))
         return;
+
     m_angleSpan = span;
     emit q->angleSpanChanged();
 }
 
-void QPieSlicePrivate::setLabelVisible(bool visible)
+void QPieSlicePrivate::setLabelVisible(bool visible, bool forceHidden)
 {
-    m_isLabelVisible = visible;
-    m_labelItem->setVisible(visible);
+    if (m_hideLabel)
+        return;
+
+    m_hideLabel = forceHidden;
+    m_isLabelVisible = (visible && !m_hideLabel);
+    m_labelItem->setVisible(m_isLabelVisible);
     if (m_labelPosition == QPieSlice::LabelPosition::Outside)
-        m_labelShape->setVisible(visible);
+        m_labelShape->setVisible(m_isLabelVisible);
 }
 
 void QPieSlicePrivate::setLabelPosition(QPieSlice::LabelPosition position)

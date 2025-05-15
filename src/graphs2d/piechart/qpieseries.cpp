@@ -303,6 +303,89 @@ QT_BEGIN_NAMESPACE
 */
 
 /*!
+    \property QPieSeries::angleSpanVisibleLimit
+    \since 6.10
+
+    \brief The angle span limit for label visibility.
+
+    The angle span that will be used as the visibility limit for a slice label. A slice with
+    angle span under this value will change its visibility based on the \l angleSpanVisibleMode
+    set to the series. The default value is \c {0}, which means no slices will be hidden
+    regardless of the \l {angleSpanVisibleMode}.
+
+    \sa QPieSeries::angleSpanVisibleMode
+*/
+
+/*!
+    \qmlproperty real PieSeries::angleSpanVisibleLimit
+    \since 6.10
+
+    The angle span limit for label visibility.
+
+    The angle span that will be used as the visibility limit for a slice label. A slice with
+    angle span under this value will change its visibility based on the \l angleSpanVisibleMode
+    set to the series. The default value is \c {0}, which means no slices will be hidden
+    regardless of the \l {angleSpanVisibleMode}.
+
+    \sa angleSpanVisibleMode
+*/
+
+/*!
+    \property QPieSeries::angleSpanVisibleMode
+    \since 6.10
+
+    \brief The mode for label visibility.
+
+    The mode which determines which labels will be hidden if they are under the angle span limit
+    set with \l {angleSpanVisibleLimit}. Has no effect if \l angleSpanVisibleLimit has not been
+    set.
+
+    \sa QPieSeries::angleSpanVisibleLimit
+*/
+
+/*!
+    \qmlproperty enumeration PieSeries::angleSpanVisibleMode
+    \since 6.10
+
+    The mode for label visibility.
+
+    The mode which determines which labels will be hidden if they are under the angle span limit
+    set with \l {angleSpanVisibleLimit}. Has no effect if \l angleSpanVisibleLimit has not been
+    set.
+
+    \value PieSeries.VisibleMode.None
+        All of the labels of slices with smaller angle span than the \l angleSpanVisibleLimit
+        will be hidden.
+    \value PieSeries.VisibleMode.First
+        All except the first label of consecutive slices with smaller angle span than
+        the \l angleSpanVisibleLimit will be hidden. This is the default value.
+    \value PieSeries.VisibleMode.EveryOther
+        Every other label of consecutive slices with smaller angle span than
+        the \l angleSpanVisibleLimit will be hidden.
+
+    \sa angleSpanVisibleLimit
+*/
+
+/*!
+    \enum QPieSeries::VisibleMode
+    \since 6.10
+
+    The mode for label visibility.
+
+    \value None
+        All of the labels of slices with smaller angle span than the \l angleSpanVisibleLimit
+        will be hidden.
+    \value First
+        All except the first label of consecutive slices with smaller angle span than
+        the \l angleSpanVisibleLimit will be hidden. This is the default value.
+    \value EveryOther
+        Every other label of consecutive slices with smaller angle span than
+        the \l angleSpanVisibleLimit will be hidden.
+
+    \sa QPieSeries::angleSpanVisibleLimit
+*/
+
+/*!
     \qmlsignal PieSeries::sumChanged()
     This signal is emitted when the sum of all slices changes.
     \sa sum
@@ -379,7 +462,7 @@ QT_BEGIN_NAMESPACE
 /*!
     \qmlmethod bool PieSeries::replace(PieSlice oldSlice, PieSlice newSlice)
     Replaces the slice specified by \a oldSlice with newSlice. Returns \c true if the
-    removal was successful, \c false otherwise. \a oldSlice is destroyed if this 
+    removal was successful, \c false otherwise. \a oldSlice is destroyed if this
     is successful.
 */
 
@@ -416,6 +499,18 @@ QT_BEGIN_NAMESPACE
     \qmlsignal PieSeries::released(PieSlice slice)
     This signal is emitted when the user releases a previously pressed mouse button
     or gesture on the \a slice.
+*/
+
+/*!
+    \qmlsignal PieSeries::angleSpanVisibleLimitChanged()
+    \since 6.10
+    This signal is emitted when the angle span limit has been changed.
+*/
+
+/*!
+    \qmlsignal PieSeries::angleSpanVisibleModeChanged()
+    \since 6.10
+    This signal is emitted when the angle span limit visible mode has been changed.
 */
 
 /*!
@@ -520,7 +615,7 @@ void QPieSeries::removeMultiple(qsizetype index, int count)
 
     emit removed(removedList);
 
-    for (auto slice : removedList) {
+    for (auto slice : std::as_const(removedList)) {
         delete slice;
     }
 
@@ -797,7 +892,7 @@ void QPieSeries::clear()
         return;
 
     QList<QPieSlice *> slices = d->m_slices;
-    for (QPieSlice *s : d->m_slices)
+    for (QPieSlice *s : std::as_const(d->m_slices))
         d->m_slices.removeOne(s);
 
     d->updateData();
@@ -805,7 +900,7 @@ void QPieSeries::clear()
     emit removed(slices);
     emit countChanged();
 
-    for (QPieSlice *s : slices)
+    for (QPieSlice *s : std::as_const(slices))
         delete s;
 }
 
@@ -990,7 +1085,6 @@ void QPieSeries::componentComplete()
 {
     for (QObject *child : children()) {
         if (qobject_cast<QPieSlice *>(child)) {
-
             QPieSeries::append(qobject_cast<QPieSlice *>(child));
             qCDebug(lcSeries2D) << "append slice: " << child << "to pieSeries";
         }
@@ -1012,7 +1106,7 @@ void QPieSeries::componentComplete()
 void QPieSeries::setLabelsVisible(bool visible)
 {
     Q_D(QPieSeries);
-    for (QPieSlice *s : d->m_slices)
+    for (QPieSlice *s : std::as_const(d->m_slices))
         s->setLabelVisible(visible);
 }
 
@@ -1027,7 +1121,7 @@ void QPieSeries::setLabelsVisible(bool visible)
 void QPieSeries::setLabelsPosition(QPieSlice::LabelPosition position)
 {
     Q_D(QPieSeries);
-    for (QPieSlice *s : d->m_slices)
+    for (QPieSlice *s : std::as_const(d->m_slices))
         s->setLabelPosition(position);
 }
 
@@ -1056,6 +1150,44 @@ qreal QPieSeries::holeSize() const
     return d->m_holeRelativeSize;
 }
 
+qreal QPieSeries::angleSpanVisibleLimit() const
+{
+    Q_D(const QPieSeries);
+    return d->m_angleSpanVisibleLimit;
+}
+
+void QPieSeries::setAngleSpanVisibleLimit(qreal newAngleSpanVisibleLimit)
+{
+    Q_D(QPieSeries);
+    if (qFuzzyCompare(d->m_angleSpanVisibleLimit, newAngleSpanVisibleLimit)) {
+        qCDebug(lcProperties2D, "QPieSeries::setAngleSpanVisibleLimit. Limit is already set to: %f",
+                newAngleSpanVisibleLimit);
+        return;
+    }
+    d->m_angleSpanVisibleLimit = newAngleSpanVisibleLimit;
+    d->updateData(true);
+    emit angleSpanVisibleLimitChanged();
+}
+
+QPieSeries::VisibleMode QPieSeries::angleSpanVisibleMode() const
+{
+    Q_D(const QPieSeries);
+    return d->m_angleSpanVisibleMode;
+}
+
+void QPieSeries::setAngleSpanVisibleMode(QPieSeries::VisibleMode newAngleSpanVisibleMode)
+{
+    Q_D(QPieSeries);
+    if (d->m_angleSpanVisibleMode == newAngleSpanVisibleMode) {
+        qCDebug(lcProperties2D) << "QPieSeries::setAngleSpanVisibleMode. Mode is already set to: "
+                                << newAngleSpanVisibleMode;
+        return;
+    }
+    d->m_angleSpanVisibleMode = newAngleSpanVisibleMode;
+    d->updateData(true);
+    emit angleSpanVisibleModeChanged();
+}
+
 QPieSeriesPrivate::QPieSeriesPrivate()
     : m_pieRelativeHorPos(.5)
     , m_pieRelativeVerPos(.5)
@@ -1064,15 +1196,18 @@ QPieSeriesPrivate::QPieSeriesPrivate()
     , m_pieEndAngle(360)
     , m_sum(0)
     , m_holeRelativeSize(.0)
+    , m_angleSpanVisibleLimit(.0)
+    , m_angleSpanVisibleMode(QPieSeries::VisibleMode::First)
+
 {}
 
-void QPieSeriesPrivate::updateData()
+void QPieSeriesPrivate::updateData(bool clearHidden)
 {
     Q_Q(QPieSeries);
 
     // calculate sum of all slices
     qreal sum = 0;
-    for (QPieSlice *s : m_slices)
+    for (QPieSlice *s : std::as_const(m_slices))
         sum += s->value();
 
     if (!qFuzzyCompare(m_sum, sum)) {
@@ -1087,12 +1222,31 @@ void QPieSeriesPrivate::updateData()
     // update slice attributes
     qreal sliceAngle = m_pieStartAngle;
     qreal pieSpan = m_pieEndAngle - m_pieStartAngle;
-    for (QPieSlice *s : m_slices) {
+    auto hideMode = q->angleSpanVisibleMode();
+    bool hideNextSmallSlice = false;
+    for (QPieSlice *s : std::as_const(m_slices)) {
         QPieSlicePrivate *d = s->d_func();
         d->setPercentage(s->value() / m_sum);
         d->setStartAngle(sliceAngle);
         d->setAngleSpan(pieSpan * s->percentage());
         sliceAngle += s->angleSpan();
+        // Reset hidden status
+        if (clearHidden) {
+            d->m_hideLabel = false;
+            d->setLabelVisible(true);
+        }
+        // Check if previous slice was also small, and hide the label on this one if it was
+        if (d->m_angleSpan < m_angleSpanVisibleLimit && (hideNextSmallSlice
+            || hideMode == QPieSeries::VisibleMode::None)) {
+            d->setLabelVisible(false, true);
+        }
+        if (hideMode == QPieSeries::VisibleMode::First) {
+            // Hide every other small slice label after the first shown one
+            hideNextSmallSlice = d->m_angleSpan < m_angleSpanVisibleLimit;
+        } else {
+            // Hide only every other small slice label
+            hideNextSmallSlice = (!hideNextSmallSlice && d->m_angleSpan < m_angleSpanVisibleLimit);
+        }
     }
 
     emit q->update();
