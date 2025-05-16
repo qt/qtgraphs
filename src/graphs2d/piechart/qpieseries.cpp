@@ -505,9 +505,7 @@ void QPieSeries::removeMultiple(qsizetype index, int count)
 {
     Q_D(QPieSeries);
 
-    if (index + count >= d->m_slices.size())
-        return;
-    if (index < 0 || count < 0)
+    if (index < 0 || count < 1 || index + count > d->m_slices.size())
         return;
 
     QList<QPieSlice *> removedList;

@@ -836,9 +836,7 @@ void QBarSeries::removeMultiple(qsizetype index, qsizetype count)
 {
     Q_D(QBarSeries);
 
-    if (index + count >= d->m_barSets.size())
-        return;
-    if (index < 0 || count < 0)
+    if (index < 0 || count < 1 || index + count > d->m_barSets.size())
         return;
 
     for (qsizetype i = index; i < index + count; ++i)
