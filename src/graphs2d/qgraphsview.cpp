@@ -338,7 +338,8 @@ qreal QGraphsView::axisXSmoothing() const
 void QGraphsView::setAxisXSmoothing(qreal smoothing)
 {
     if (qFuzzyCompare(m_axisXSmoothing, smoothing)) {
-        qCDebug(lcGraphs2D, "QGraphsView::setAxisXSmoothing. Axis smoothing is already set to: %f",
+        qCDebug(lcViewProperties2D, "%s axis smoothing is already set to: %.1f",
+                qUtf8Printable(QLatin1String(__FUNCTION__)),
                 smoothing);
         return;
     }
@@ -364,8 +365,11 @@ qreal QGraphsView::axisYSmoothing() const
 
 void QGraphsView::setAxisYSmoothing(qreal smoothing)
 {
-    if (qFuzzyCompare(m_axisYSmoothing, smoothing))
+    if (qFuzzyCompare(m_axisYSmoothing, smoothing)) {
+        qCDebug(lcViewProperties2D, "%s value is already set to: %.1f",
+                qUtf8Printable(QLatin1String(__FUNCTION__)), smoothing);
         return;
+    }
     m_axisYSmoothing = smoothing;
     emit axisYSmoothingChanged();
     polishAndUpdate();
@@ -388,8 +392,11 @@ qreal QGraphsView::gridSmoothing() const
 
 void QGraphsView::setGridSmoothing(qreal smoothing)
 {
-    if (qFuzzyCompare(m_gridSmoothing, smoothing))
+    if (qFuzzyCompare(m_gridSmoothing, smoothing)) {
+        qCDebug(lcViewProperties2D, "%s value is already set to: %.1f",
+                qUtf8Printable(QLatin1String(__FUNCTION__)), smoothing);
         return;
+    }
     m_gridSmoothing = smoothing;
     emit gridSmoothingChanged();
     polishAndUpdate();
@@ -412,8 +419,11 @@ bool QGraphsView::isShadowVisible() const
 
 void QGraphsView::setShadowVisible(bool newShadowVisibility)
 {
-    if (m_isShadowVisible == newShadowVisibility)
+    if (m_isShadowVisible == newShadowVisibility) {
+        qCDebug(lcViewProperties2D) << __FUNCTION__
+            << "value is already set to:" << newShadowVisibility;
         return;
+    }
     m_isShadowVisible = newShadowVisibility;
     emit shadowVisibleChanged();
     polishAndUpdate();
@@ -436,8 +446,11 @@ QColor QGraphsView::shadowColor() const
 
 void QGraphsView::setShadowColor(QColor newShadowColor)
 {
-    if (m_shadowColor == newShadowColor)
+    if (m_shadowColor == newShadowColor) {
+        qCDebug(lcViewProperties2D, "%s value is already set to: %s",
+                qUtf8Printable(QLatin1String(__FUNCTION__)), qUtf8Printable(newShadowColor.name()));
         return;
+    }
     m_shadowColor = newShadowColor;
     emit shadowColorChanged();
     polishAndUpdate();
@@ -460,8 +473,11 @@ qreal QGraphsView::shadowBarWidth() const
 
 void QGraphsView::setShadowBarWidth(qreal newShadowBarWidth)
 {
-    if (qFuzzyCompare(m_shadowBarWidth, newShadowBarWidth))
+    if (qFuzzyCompare(m_shadowBarWidth, newShadowBarWidth)) {
+        qCDebug(lcViewProperties2D, "%s value is already set to: %.1f",
+                qUtf8Printable(QLatin1String(__FUNCTION__)), newShadowBarWidth);
         return;
+    }
     m_shadowBarWidth = newShadowBarWidth;
     emit shadowBarWidthChanged();
     polishAndUpdate();
@@ -484,8 +500,11 @@ qreal QGraphsView::shadowXOffset() const
 
 void QGraphsView::setShadowXOffset(qreal newShadowXOffset)
 {
-    if (qFuzzyCompare(m_shadowXOffset, newShadowXOffset))
+    if (qFuzzyCompare(m_shadowXOffset, newShadowXOffset)) {
+        qCDebug(lcViewProperties2D, "%s value is already set to: %.1f",
+                qUtf8Printable(QLatin1String(__FUNCTION__)), newShadowXOffset);
         return;
+    }
     m_shadowXOffset = newShadowXOffset;
     emit shadowXOffsetChanged();
     polishAndUpdate();
@@ -508,8 +527,11 @@ qreal QGraphsView::shadowYOffset() const
 
 void QGraphsView::setShadowYOffset(qreal newShadowYOffset)
 {
-    if (qFuzzyCompare(m_shadowYOffset, newShadowYOffset))
+    if (qFuzzyCompare(m_shadowYOffset, newShadowYOffset)) {
+        qCDebug(lcViewProperties2D, "%s value is already set to: %.1f",
+                qUtf8Printable(QLatin1String(__FUNCTION__)), newShadowYOffset);
         return;
+    }
     m_shadowYOffset = newShadowYOffset;
     emit shadowYOffsetChanged();
     polishAndUpdate();
@@ -532,8 +554,11 @@ qreal QGraphsView::shadowSmoothing() const
 
 void QGraphsView::setShadowSmoothing(qreal smoothing)
 {
-    if (qFuzzyCompare(m_shadowSmoothing, smoothing))
+    if (qFuzzyCompare(m_shadowSmoothing, smoothing)) {
+        qCDebug(lcViewProperties2D, "%s value is already set to: %.1f",
+                qUtf8Printable(QLatin1String(__FUNCTION__)), smoothing);
         return;
+    }
     m_shadowSmoothing = smoothing;
     emit shadowSmoothingChanged();
     polishAndUpdate();
@@ -964,8 +989,11 @@ QGraphsTheme *QGraphsView::theme() const
 
 void QGraphsView::setTheme(QGraphsTheme *newTheme)
 {
-    if (m_theme == newTheme)
+    if (m_theme == newTheme) {
+        qCDebug(lcViewProperties2D) << __FUNCTION__
+            << "theme is already set to:" << newTheme;
         return;
+    }
 
     if (m_theme)
         QObject::disconnect(m_theme, nullptr, this, nullptr);
@@ -994,8 +1022,11 @@ qreal QGraphsView::marginTop() const
 
 void QGraphsView::setMarginTop(qreal newMarginTop)
 {
-    if (qFuzzyCompare(m_marginTop, newMarginTop))
+    if (qFuzzyCompare(m_marginTop, newMarginTop)) {
+        qCDebug(lcViewProperties2D, "%s value is already set to: %.1f",
+                qUtf8Printable(QLatin1String(__FUNCTION__)), newMarginTop);
         return;
+    }
     m_marginTop = newMarginTop;
     updateComponentSizes();
     polishAndUpdate();
@@ -1014,8 +1045,11 @@ qreal QGraphsView::marginBottom() const
 
 void QGraphsView::setMarginBottom(qreal newMarginBottom)
 {
-    if (qFuzzyCompare(m_marginBottom, newMarginBottom))
+    if (qFuzzyCompare(m_marginBottom, newMarginBottom)) {
+        qCDebug(lcViewProperties2D, "%s value is already set to: %.1f",
+                qUtf8Printable(QLatin1String(__FUNCTION__)), newMarginBottom);
         return;
+    }
     m_marginBottom = newMarginBottom;
     updateComponentSizes();
     polishAndUpdate();
@@ -1034,8 +1068,11 @@ qreal QGraphsView::marginLeft() const
 
 void QGraphsView::setMarginLeft(qreal newMarginLeft)
 {
-    if (qFuzzyCompare(m_marginLeft, newMarginLeft))
+    if (qFuzzyCompare(m_marginLeft, newMarginLeft)) {
+        qCDebug(lcViewProperties2D, "%s value is already set to: %.1f",
+                qUtf8Printable(QLatin1String(__FUNCTION__)), newMarginLeft);
         return;
+    }
     m_marginLeft = newMarginLeft;
     updateComponentSizes();
     polishAndUpdate();
@@ -1054,8 +1091,11 @@ qreal QGraphsView::marginRight() const
 
 void QGraphsView::setMarginRight(qreal newMarginRight)
 {
-    if (qFuzzyCompare(m_marginRight, newMarginRight))
+    if (qFuzzyCompare(m_marginRight, newMarginRight)) {
+        qCDebug(lcViewProperties2D, "%s value is already set to: %.1f",
+                qUtf8Printable(QLatin1String(__FUNCTION__)), newMarginRight);
         return;
+    }
     m_marginRight = newMarginRight;
     updateComponentSizes();
     polishAndUpdate();
@@ -1264,8 +1304,11 @@ QAbstractAxis *QGraphsView::axisX() const
 
 void QGraphsView::setAxisX(QAbstractAxis *axis)
 {
-    if (m_axisX == axis)
+    if (m_axisX == axis) {
+        qCDebug(lcViewProperties2D) << __FUNCTION__
+            << "value is already set to:" << axis;
         return;
+    }
     removeAxis(m_axisX);
     m_axisX = axis;
     if (axis) {
@@ -1298,8 +1341,11 @@ QAbstractAxis *QGraphsView::axisY() const
 
 void QGraphsView::setAxisY(QAbstractAxis *axis)
 {
-    if (m_axisY == axis)
+    if (m_axisY == axis) {
+        qCDebug(lcViewProperties2D) << __FUNCTION__
+            << "value is already set to:" << axis;
         return;
+    }
     removeAxis(m_axisY);
     m_axisY = axis;
     if (axis) {
@@ -1338,8 +1384,11 @@ Qt::Orientation QGraphsView::orientation() const
 
 void QGraphsView::setOrientation(Qt::Orientation newOrientation)
 {
-    if (m_orientation == newOrientation)
+    if (m_orientation == newOrientation) {
+        qCDebug(lcViewProperties2D) << __FUNCTION__
+            << "value is already set to:" << newOrientation;
         return;
+    }
     m_orientation = newOrientation;
     emit orientationChanged();
     emit update();
@@ -1384,8 +1433,11 @@ QGraphsView::ZoomStyle QGraphsView::zoomStyle() const
 
 void QGraphsView::setZoomStyle(ZoomStyle newZoomStyle)
 {
-    if (m_zoomStyle == newZoomStyle)
+    if (m_zoomStyle == newZoomStyle) {
+        qCDebug(lcViewProperties2D) << __FUNCTION__
+            << "value is already set to:" << newZoomStyle;
         return;
+    }
     m_zoomStyle = newZoomStyle;
     emit zoomStyleChanged();
 }
@@ -1426,8 +1478,11 @@ QGraphsView::PanStyle QGraphsView::panStyle() const
 
 void QGraphsView::setPanStyle(PanStyle newPanStyle)
 {
-    if (m_panStyle == newPanStyle)
+    if (m_panStyle == newPanStyle) {
+        qCDebug(lcViewProperties2D) << __FUNCTION__
+            << "value is already set to:" << newPanStyle;
         return;
+    }
     m_panStyle = newPanStyle;
     emit panStyleChanged();
 }
@@ -1457,8 +1512,11 @@ bool QGraphsView::zoomAreaEnabled() const
 
 void QGraphsView::setZoomAreaEnabled(bool newZoomAreaEnabled)
 {
-    if (m_zoomAreaEnabled == newZoomAreaEnabled)
+    if (m_zoomAreaEnabled == newZoomAreaEnabled) {
+        qCDebug(lcViewProperties2D) << __FUNCTION__
+            << "value is already set to:" << newZoomAreaEnabled;
         return;
+    }
     m_zoomAreaEnabled = newZoomAreaEnabled;
     emit zoomAreaEnabledChanged();
 }
@@ -1482,8 +1540,11 @@ QQmlComponent *QGraphsView::zoomAreaDelegate() const
 
 void QGraphsView::setZoomAreaDelegate(QQmlComponent *newZoomAreaDelegate)
 {
-    if (m_zoomAreaDelegate == newZoomAreaDelegate)
+    if (m_zoomAreaDelegate == newZoomAreaDelegate) {
+        qCDebug(lcViewProperties2D) << __FUNCTION__
+            << "value is already set to:" << newZoomAreaDelegate;
         return;
+    }
     m_zoomAreaDelegate = newZoomAreaDelegate;
 
     if (m_zoomAreaDelegate) {
@@ -1514,8 +1575,11 @@ qreal QGraphsView::zoomSensitivity() const
 
 void QGraphsView::setZoomSensitivity(qreal newZoomSensitivity)
 {
-    if (qFuzzyCompare(m_zoomSensitivity, newZoomSensitivity))
+    if (qFuzzyCompare(m_zoomSensitivity, newZoomSensitivity)) {
+        qCDebug(lcViewProperties2D, "%s value is already set to: %.1f",
+                qUtf8Printable(QLatin1String(__FUNCTION__)), newZoomSensitivity);
         return;
+    }
     m_zoomSensitivity = newZoomSensitivity;
     emit zoomSensitivityChanged();
 }
