@@ -36,7 +36,7 @@ class PointRenderer : public QQuickItem
 {
     Q_OBJECT
 public:
-    PointRenderer(QGraphsView *graph);
+    PointRenderer(QGraphsView *graph, bool clipPlotArea);
     ~PointRenderer() override;
 
     void handlePolish(QXYSeries *series);

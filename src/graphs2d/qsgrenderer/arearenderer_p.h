@@ -30,7 +30,7 @@ class AreaRenderer : public QQuickItem
 {
     Q_OBJECT
 public:
-    AreaRenderer(QGraphsView *graph);
+    AreaRenderer(QGraphsView *graph, bool clipPlotArea);
     ~AreaRenderer() override;
 
     void handlePolish(QAreaSeries *series);

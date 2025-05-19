@@ -20,12 +20,12 @@ static const char* TAG_BAR_VALUE = "barValue";
 static const char* TAG_BAR_LABEL = "barLabel";
 static const char* TAG_BAR_INDEX = "barIndex";
 
-BarsRenderer::BarsRenderer(QGraphsView *graph)
+BarsRenderer::BarsRenderer(QGraphsView *graph, bool clipPlotArea)
     : QQuickItem(graph)
     , m_graph(graph)
 {
     setFlag(QQuickItem::ItemHasContents);
-    setClip(true);
+    setClip(clipPlotArea);
 
     m_tapHandler = new QQuickTapHandler(this);
     connect(m_tapHandler, &QQuickTapHandler::singleTapped, this, &BarsRenderer::onSingleTapped);

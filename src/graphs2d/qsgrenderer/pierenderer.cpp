@@ -13,13 +13,13 @@
 #include <private/qquickshape_p.h>
 #include <private/qquicksvgparser_p.h>
 
-PieRenderer::PieRenderer(QGraphsView *graph)
+PieRenderer::PieRenderer(QGraphsView *graph, bool clipPlotArea)
     : QQuickItem(graph)
     , m_graph(graph)
     , m_painterPath()
 {
     setFlag(QQuickItem::ItemHasContents);
-    setClip(true);
+    setClip(clipPlotArea);
 
     m_shape = new QQuickShape(this);
     m_shape->setParentItem(this);

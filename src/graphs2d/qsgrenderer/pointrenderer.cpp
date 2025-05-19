@@ -29,12 +29,13 @@ static const char *TAG_POINT_VALUE_X = "pointValueX";
 static const char *TAG_POINT_VALUE_Y = "pointValueY";
 static const char *TAG_POINT_INDEX = "pointIndex";
 
-PointRenderer::PointRenderer(QGraphsView *graph)
+PointRenderer::PointRenderer(QGraphsView *graph, bool clipPlotArea)
     : QQuickItem(graph)
     , m_graph(graph)
 {
     setFlag(QQuickItem::ItemHasContents);
-    setClip(true);
+    setClip(clipPlotArea);
+
     m_shape.setParentItem(this);
     m_shape.setPreferredRendererType(QQuickShape::CurveRenderer);
 

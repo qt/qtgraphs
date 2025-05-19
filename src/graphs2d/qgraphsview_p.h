@@ -24,6 +24,7 @@
 QT_BEGIN_NAMESPACE
 
 Q_DECLARE_LOGGING_CATEGORY(lcGraphs2D)
+Q_DECLARE_LOGGING_CATEGORY(lcViewProperties2D)
 Q_DECLARE_LOGGING_CATEGORY(lcEvents2D)
 Q_DECLARE_LOGGING_CATEGORY(lcCritical2D)
 
@@ -45,6 +46,7 @@ class Q_GRAPHS_EXPORT QGraphsView : public QQuickItem
     Q_PROPERTY(qreal marginBottom READ marginBottom WRITE setMarginBottom NOTIFY marginBottomChanged FINAL)
     Q_PROPERTY(qreal marginLeft READ marginLeft WRITE setMarginLeft NOTIFY marginLeftChanged FINAL)
     Q_PROPERTY(qreal marginRight READ marginRight WRITE setMarginRight NOTIFY marginRightChanged FINAL)
+    Q_PROPERTY(bool clipPlotArea READ clipPlotArea WRITE setClipPlotArea NOTIFY clipPlotAreaChanged REVISION(6, 10))
     Q_PROPERTY(QRectF plotArea READ plotArea NOTIFY plotAreaChanged REVISION(6, 9))
 
     Q_PROPERTY(qreal axisXSmoothing READ axisXSmoothing WRITE setAxisXSmoothing NOTIFY axisXSmoothingChanged FINAL)
@@ -113,6 +115,9 @@ public:
 
     qreal marginRight() const;
     void setMarginRight(qreal newMarginRight);
+
+    bool clipPlotArea() const;
+    void setClipPlotArea(bool enabled);
 
     QRectF plotArea() const;
     void updatePlotArea();
@@ -208,6 +213,7 @@ Q_SIGNALS:
     void marginBottomChanged();
     void marginLeftChanged();
     void marginRightChanged();
+    Q_REVISION(6, 10) void clipPlotAreaChanged();
     Q_REVISION(6, 9) void plotAreaChanged();
     void hoverEnter(const QString &seriesName, QPointF position, QPointF value);
     void hoverExit(const QString &seriesName, QPointF position);
@@ -274,6 +280,7 @@ private:
 
     qsizetype m_graphSeriesCount = 0;
 
+    bool m_clipPlotArea = true;
     qreal m_marginTop = 20;
     qreal m_marginBottom = 20;
     qreal m_marginLeft = 20;

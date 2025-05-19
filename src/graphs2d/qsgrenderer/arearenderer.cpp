@@ -14,12 +14,12 @@
 
 QT_BEGIN_NAMESPACE
 
-AreaRenderer::AreaRenderer(QGraphsView *graph)
+AreaRenderer::AreaRenderer(QGraphsView *graph, bool clipPlotArea)
     : QQuickItem(graph)
     , m_graph(graph)
 {
     setFlag(QQuickItem::ItemHasContents);
-    setClip(true);
+    setClip(clipPlotArea);
     m_shape.setParentItem(this);
     m_shape.setPreferredRendererType(QQuickShape::CurveRenderer);
 

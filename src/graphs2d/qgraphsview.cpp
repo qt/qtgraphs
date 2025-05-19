@@ -56,6 +56,7 @@ After that you can use GraphsView in your qml files:
 */
 
 Q_LOGGING_CATEGORY(lcGraphs2D, "qt.graphs2d.general")
+Q_LOGGING_CATEGORY(lcViewProperties2D, "qt.graphs2d.graphsview.properties")
 Q_LOGGING_CATEGORY(lcEvents2D, "qt.graphs2d.events")
 Q_LOGGING_CATEGORY(lcCritical2D, "qt.graphs2d.critical")
 
@@ -270,7 +271,7 @@ void QGraphsView::createBarsRenderer()
 {
     if (!m_barsRenderer) {
         qCDebug(lcGraphs2D, "creating bars renderer");
-        m_barsRenderer = new BarsRenderer(this);
+        m_barsRenderer = new BarsRenderer(this, clipPlotArea());
         updateComponentSizes();
     }
 }
@@ -291,7 +292,7 @@ void QGraphsView::createPointRenderer()
 {
     if (!m_pointRenderer) {
         qCDebug(lcGraphs2D, "creating point renderer.");
-        m_pointRenderer = new PointRenderer(this);
+        m_pointRenderer = new PointRenderer(this, clipPlotArea());
         updateComponentSizes();
     }
 }
@@ -302,7 +303,7 @@ void QGraphsView::createPieRenderer()
 {
     if (!m_pieRenderer) {
         qCDebug(lcGraphs2D, "creating pie renderer.");
-        m_pieRenderer = new PieRenderer(this);
+        m_pieRenderer = new PieRenderer(this, clipPlotArea());
         updateComponentSizes();
     }
 }
@@ -313,7 +314,7 @@ void QGraphsView::createAreaRenderer()
 {
     if (!m_areaRenderer) {
         qCDebug(lcGraphs2D, "creating area renderer.");
-        m_areaRenderer = new AreaRenderer(this);
+        m_areaRenderer = new AreaRenderer(this, clipPlotArea());
         updateComponentSizes();
     }
 }
@@ -1059,6 +1060,55 @@ void QGraphsView::setMarginRight(qreal newMarginRight)
     updateComponentSizes();
     polishAndUpdate();
     emit marginRightChanged();
+}
+
+/*!
+    \property QGraphsView::clipPlotArea
+    \since 6.10
+    \brief Controls whether graph items should be clipped
+    if they go outside of a plot area. The default value is \c true.
+
+    \sa QGraphsView::plotArea
+*/
+/*!
+    \qmlproperty bool GraphsView::clipPlotArea
+    \since 6.10
+    Controls whether graph items should be clipped
+    if they go outside of a plot area. The default value is \c true.
+
+    \sa plotArea
+*/
+bool QGraphsView::clipPlotArea() const
+{
+    return m_clipPlotArea;
+}
+
+void QGraphsView::setClipPlotArea(bool enabled)
+{
+    if (m_clipPlotArea == enabled) {
+        qCDebug(lcViewProperties2D, "QGraphsView::setClipPlotArea is already set to %d",
+                 enabled);
+        return;
+    }
+
+    m_clipPlotArea = enabled;
+    emit clipPlotAreaChanged();
+#ifdef USE_POINTS
+    if (m_pointRenderer)
+        m_pointRenderer->setClip(m_clipPlotArea);
+#endif
+#ifdef USE_AREAGRAPH
+    if (m_areaRenderer)
+        m_areaRenderer->setClip(m_clipPlotArea);
+#endif
+#ifdef USE_PIEGRAPH
+    if (m_pieRenderer)
+        m_pieRenderer->setClip(m_clipPlotArea);
+#endif
+#ifdef USE_BARGRAPH
+    if (m_barsRenderer)
+        m_barsRenderer->setClip(m_clipPlotArea);
+#endif
 }
 
 /*!
