@@ -98,6 +98,7 @@ Item {
 
                 Surface3DSeries {
                     id: surfaceSeries
+                    drawMode: Surface3DSeries.DrawSurface
                     // ItemModelSurfaceDataProxy {
                     //     itemModel: stackLayout.currentIndex == 0 ? randomModel : phModel
                     //     useModelCategories: true

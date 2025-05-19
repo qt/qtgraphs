@@ -83,9 +83,7 @@ void RandomGenerator::updateSurface3D()
     for (int i = 0; i < m_rowCount; i++) {
         //append two points
         QVector3D pos = QVector3D(i, m_data[m_currentCache][i], 0);
-        QVector3D pos2 = pos + QVector3D(0, 0.05f, 0);
         dataArray[i].append(QSurfaceDataItem(pos));
-        dataArray[i].append(QSurfaceDataItem(pos2));
     }
 
     m_surface3D->dataProxy()->resetArray(dataArray);
