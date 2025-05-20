@@ -22,7 +22,7 @@ AxisRenderer::AxisRenderer(QQuickItem *parent)
     setFlag(QQuickItem::ItemHasContents);
 
     m_dragHandler = new QQuickDragHandler(this);
-    m_dragHandler->setDragThreshold(0);
+    m_dragHandler->setDragThreshold(10);
     m_dragHandler->setTarget(nullptr);
     connect(m_dragHandler, &QQuickDragHandler::translationChanged,
             this, &AxisRenderer::onTranslationChanged);
@@ -231,7 +231,7 @@ void AxisRenderer::onGrabChanged(QPointingDevice::GrabTransition transition, QEv
 
         if (vaxis)
             m_dragState.panAtPress.setY(vaxis->pan());
-    } else if (m_dragState.dragging && transition == QPointingDevice::UngrabPassive) {
+    } else if (m_dragState.dragging && transition == QPointingDevice::UngrabExclusive) {
         m_dragState.dragging = false;
 
         if (!m_graph->zoomAreaEnabled())
