@@ -1558,6 +1558,10 @@ void QQuickGraphsItem::insertSeries(qsizetype index, QAbstract3DSeries *series)
                              &QAbstract3DSeries::visibleChanged,
                              this,
                              &QQuickGraphsItem::handleSeriesVisibilityChanged);
+            QObject::connect(series,
+                    &QAbstract3DSeries::lightingModeChanged,
+                    this,
+                    &QQuickGraphsItem::handleLightingModeChanged);
             series->d_func()->resetToTheme(*theme(), oldSize, false);
             qCDebug(lcSeries3D) << __FUNCTION__
                 << "insert" << series << "at index of:" << index;
@@ -1575,6 +1579,10 @@ void QQuickGraphsItem::removeSeriesInternal(QAbstract3DSeries *series)
                             &QAbstract3DSeries::visibleChanged,
                             this,
                             &QQuickGraphsItem::handleSeriesVisibilityChanged);
+        QObject::disconnect(series,
+                            &QAbstract3DSeries::lightingModeChanged,
+                            this,
+                            &QQuickGraphsItem::handleLightingModeChanged);
         series->d_func()->setGraph(0);
         m_isDataDirty = true;
         m_isSeriesVisualsDirty = true;

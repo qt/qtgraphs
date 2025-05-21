@@ -159,6 +159,12 @@ int main(int argc, char **argv)
     shadowQuality->addItem(QStringLiteral("High Soft"));
     shadowQuality->setCurrentIndex(0);
 
+    QComboBox *lightingMode = new QComboBox(widget);
+    lightingMode->addItem(QStringLiteral("Shaded"));
+    lightingMode->addItem(QStringLiteral("Unshaded"));
+    lightingMode->setCurrentIndex(0);
+
+
     QFontComboBox *fontList = new QFontComboBox(widget);
 
     QSlider *fontSizeSlider = new QSlider(Qt::Horizontal, widget);
@@ -363,6 +369,8 @@ int main(int argc, char **argv)
     vLayout2->addWidget(gridCheckBox);
     vLayout2->addWidget(new QLabel(QStringLiteral("Adjust shadow quality")));
     vLayout2->addWidget(shadowQuality, 0, Qt::AlignTop);
+    vLayout2->addWidget(new QLabel(QStringLiteral("Adjust lighting mode")));
+    vLayout2->addWidget(lightingMode, 0, Qt::AlignTop);
     vLayout2->addWidget(new QLabel(QStringLiteral("Adjust point size")));
     vLayout2->addWidget(pointSizeSlider, 0, Qt::AlignTop);
     vLayout2->addWidget(new QLabel(QStringLiteral("Adjust data window")));
@@ -486,6 +494,8 @@ int main(int argc, char **argv)
                      &ScatterDataModifier::shadowQualityChanged,
                      shadowQuality,
                      &QComboBox::setCurrentIndex);
+    QObject::connect(lightingMode, &QComboBox::currentIndexChanged, modifier,
+                     &ScatterDataModifier::changeLightingMode);
     QObject::connect(fontList, &QFontComboBox::currentFontChanged, modifier,
                      &ScatterDataModifier::changeFont);
 

@@ -60,6 +60,7 @@ QT_BEGIN_NAMESPACE
  *        Series type for Q3DSurfaceWidgetItem.
  */
 
+
 /*!
  *  \enum QAbstract3DSeries::Mesh
  *
@@ -91,6 +92,17 @@ QT_BEGIN_NAMESPACE
  *         2D point. Usable only with Q3DScatterWidgetItem.
  *         Shadows do not affect this style. Color style QGraphsTheme::ColorStyle::ObjectGradient
  *         is not supported by this style.
+ */
+
+/*!
+ *  \enum QAbstract3DSeries::LightingMode
+ *
+ *  Predefined lighting modes
+ *
+ *  \value Shaded
+ *      Graphs respond to real time lighting
+ *  \value Unshaded
+ *      Graphs do not respond to real time lighting
  */
 
 /*!
@@ -217,6 +229,16 @@ QT_BEGIN_NAMESPACE
  */
 
 /*!
+ * \qmlproperty Abstract3DSeries.LightingMode Abstract3DSeries::lightingMode
+ * \since 6.10
+ *
+ * Sets the lightingMode of the items in the series.
+ * The default value is \l{QAbstract3DSeries::LightingMode::Shaded}
+ *
+ * \sa QAbstract3DSeries::LightingMode
+ */
+
+/*!
  * \qmlproperty string Abstract3DSeries::name
  *
  * The series name.
@@ -318,6 +340,12 @@ QT_BEGIN_NAMESPACE
     \qmlsignal Abstract3DSeries::multiHighlightGradientChanged(Gradient gradient)
 
     This signal is emitted when multiHighlightGradient changes to \a gradient.
+*/
+/*!
+    \qmlsignal Abstract3DSeries::lightingModeChanged(Abstract3DSeries.LightingMode lightingMode)
+
+    This signal is emitted when \l lightingMode changes to \a lightingMode.
+    \since 6.10
 */
 /*!
     \qmlsignal Abstract3DSeries::nameChanged(string name)
@@ -748,6 +776,28 @@ QLinearGradient QAbstract3DSeries::multiHighlightGradient() const
 }
 
 /*!
+ * \property QAbstract3DSeries::lightingMode
+ *
+ * \brief The LightingMode of the series
+ * \since 6.10
+ *
+ */
+void QAbstract3DSeries::setLightingMode(QAbstract3DSeries::LightingMode LightingMode)
+{
+    Q_D(QAbstract3DSeries);
+    if (d->m_lightingMode != LightingMode) {
+        d->setLightingMode(LightingMode);
+        emit lightingModeChanged(LightingMode);
+    }
+}
+
+QAbstract3DSeries::LightingMode QAbstract3DSeries::lightingMode() const
+{
+    Q_D(const QAbstract3DSeries);
+    return d->m_lightingMode;
+}
+
+/*!
  * \property QAbstract3DSeries::name
  *
  * \brief The series name.
@@ -837,6 +887,7 @@ QAbstract3DSeriesPrivate::QAbstract3DSeriesPrivate(QAbstract3DSeries::SeriesType
     , m_multiHighlightColor(Qt::black)
     , m_itemLabelDirty(true)
     , m_itemLabelVisible(true)
+    , m_lightingMode(QAbstract3DSeries::LightingMode::Shaded)
 {}
 
 QAbstract3DSeriesPrivate::~QAbstract3DSeriesPrivate() {}
@@ -988,6 +1039,14 @@ void QAbstract3DSeriesPrivate::setMultiHighlightGradient(const QLinearGradient &
     m_changeTracker.multiHighlightGradientChanged = true;
     if (m_graph)
         m_graph->markSeriesVisualsDirty();
+}
+
+void QAbstract3DSeriesPrivate::setLightingMode(QAbstract3DSeries::LightingMode lightingMode)
+{
+    m_lightingMode = lightingMode;
+    if (m_graph)
+        m_graph->markSeriesVisualsDirty();
+    m_changeTracker.lightingModeChanged = true;
 }
 
 void QAbstract3DSeriesPrivate::setName(const QString &name)

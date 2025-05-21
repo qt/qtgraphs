@@ -11,6 +11,7 @@ ColumnLayout {
 
     property bool barsVisible: barsMode.checked
     property bool valueColoring: valueColoringChange.checked
+    property bool shaded: shadingChange.checked
 
     Label {
         text: "Bars3D Graph"
@@ -175,5 +176,14 @@ ColumnLayout {
         id: valueColoringChange
         checked: false
         visible: bars.visible && !colorStyle.checked
+    }
+
+    Label {
+        text: "Shaded lighting"
+        color: "gray"
+    }
+    CheckBox {
+        id: shadingChange
+        checked: true
     }
 }

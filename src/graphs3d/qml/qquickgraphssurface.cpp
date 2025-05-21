@@ -265,6 +265,17 @@ void QQuickGraphsSurface::changeSlicePointerMeshTypeForSeries(QAbstract3DSeries:
     changeSlicePointerForSeries(getMeshFileName(mesh, series), series);
 }
 
+void QQuickGraphsSurface::handleLightingModeChanged()
+{
+    auto series = static_cast<QSurface3DSeries *>(QObject::sender());
+    for (auto model : m_model) {
+        if (model->series == series) {
+            updateMaterial(model);
+            break;
+        }
+    }
+}
+
 QString QQuickGraphsSurface::getMeshFileName(QAbstract3DSeries::Mesh mesh,
                                              QSurface3DSeries *series) const
 {
@@ -1980,7 +1991,9 @@ void QQuickGraphsSurface::updateMaterial(SurfaceModel *model)
         material->setParentItem(model->model);
         material->setCullMode(QQuick3DMaterial::NoCulling);
         material->setProperty("flatShading", flatShading);
-
+        material->setProperty("shaded",
+                              model->series->lightingMode()
+                                  == QAbstract3DSeries::LightingMode::Shaded);
     }
 
     if (textured) {

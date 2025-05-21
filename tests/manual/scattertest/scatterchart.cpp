@@ -619,6 +619,11 @@ void ScatterDataModifier::shadowQualityUpdatedByVisual(QtGraphs3D::ShadowQuality
     emit shadowQualityChanged(quality);
 }
 
+void ScatterDataModifier::changeLightingMode(int mode)
+{
+    m_targetSeries->setLightingMode(static_cast<QAbstract3DSeries::LightingMode>(mode));
+}
+
 void ScatterDataModifier::clear()
 {
     const auto scatterSeriesList = m_chart->seriesList();

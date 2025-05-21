@@ -271,6 +271,7 @@ public:
     virtual void handleAxisTitleFixedChangedBySender(QObject *sender);
     virtual void handleAxisTitleOffsetChangedBySender(QObject *sender);
     virtual void handleSeriesVisibilityChangedBySender(QObject *sender);
+    virtual void handleLightingModeChanged() = 0;
     virtual void adjustAxisRanges() = 0;
 
     bool graphPositionQueryPending() const { return m_graphPositionQueryPending; }

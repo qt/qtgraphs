@@ -400,6 +400,8 @@ void QQuickGraphsScatter::updateScatterGraphItemVisuals(ScatterModel *graphModel
                              ? true
                              : false;
 
+    const bool shaded = graphModel->series->lightingMode()
+        == QAbstract3DSeries::LightingMode::Shaded;
     if (optimizationHint() == QtGraphs3D::OptimizationHint::Legacy) {
         // Release resources that might not have been deleted even though deleteLater had been set
         if (m_customView)
@@ -450,11 +452,13 @@ void QQuickGraphsScatter::updateScatterGraphItemVisuals(ScatterModel *graphModel
         updateMaterialProperties(graphModel->baseRef,
                                  graphModel->seriesTexture,
                                  graphModel->series->baseColor(),
-                                 transparency);
+                                 transparency,
+                                 shaded);
 
         updateMaterialProperties(graphModel->selectionRef,
                                  graphModel->highlightTexture,
-                                 graphModel->series->singleHighlightColor());
+                                 graphModel->series->singleHighlightColor(),
+                                 shaded);
 
     } else if (optimizationHint() == QtGraphs3D::OptimizationHint::Default) {
         graphModel->instancingRootItem->setVisible(true);
@@ -481,7 +485,8 @@ void QQuickGraphsScatter::updateScatterGraphItemVisuals(ScatterModel *graphModel
             updateMaterialProperties(graphModel->instancingRootItem,
                                      graphModel->seriesTexture,
                                      graphModel->series->baseColor(),
-                                     transparency);
+                                     transparency,
+                                     shaded);
         } else {
             auto textureData = static_cast<QQuickGraphsTextureData *>(
                 graphModel->seriesTexture->textureData());
@@ -526,7 +531,8 @@ void QQuickGraphsScatter::updateScatterGraphItemVisuals(ScatterModel *graphModel
                                    QStringLiteral(":/materials/ScatterMaterial"));
                 updateMaterialProperties(graphModel->selectionIndicator,
                                          graphModel->highlightTexture,
-                                         graphModel->series->singleHighlightColor());
+                                         graphModel->series->singleHighlightColor(),
+                                         shaded);
                 graphModel->selectionIndicator->setCastsShadows(!usePoint);
             } else {
                 // Rangegradient
@@ -639,6 +645,9 @@ void QQuickGraphsScatter::updateInstancedMaterialProperties(ScatterModel *graphM
 
     auto customMaterial = static_cast<QQuick3DCustomMaterial *>(materialsRef.at(0));
     customMaterial->setProperty("transparency", transparency);
+    customMaterial->setProperty("shaded",
+                                graphModel->series->lightingMode()
+                                    == QAbstract3DSeries::LightingMode::Shaded);
 
     QVariant textureInputAsVariant = customMaterial->property("custex");
     QQuick3DShaderUtilsTextureInput *textureInput = textureInputAsVariant
@@ -659,12 +668,14 @@ void QQuickGraphsScatter::updateInstancedMaterialProperties(ScatterModel *graphM
 void QQuickGraphsScatter::updateMaterialProperties(QQuick3DModel *item,
                                                    QQuick3DTexture *texture,
                                                    QColor color,
-                                                   const bool transparency)
+                                                   const bool transparency,
+                                                   const bool shaded)
 {
     QQmlListReference materialsRef(item, "materials");
     auto customMaterial = static_cast<QQuick3DCustomMaterial *>(materialsRef.at(0));
     customMaterial->setProperty("transparency", transparency);
     customMaterial->setProperty("rootScale", rootNode()->scale().y());
+    customMaterial->setProperty("shaded", shaded);
 
     int style = customMaterial->property("colorStyle").value<int>();
     if (style == 0) {
@@ -999,6 +1010,16 @@ void QQuickGraphsScatter::handleAxisRangeChangedBySender(QObject *sender)
 
     // Update selected index - may be moved offscreen
     setSelectedItem(m_selectedItem, m_selectedItemSeries);
+}
+
+void QQuickGraphsScatter::handleLightingModeChanged() {
+    auto series = static_cast<QScatter3DSeries *>(QObject::sender());
+    for (auto model : m_scatterGraphs) {
+        if (model->series == series) {
+            updateScatterGraphItemVisuals(model);
+            break;
+        }
+    }
 }
 
 QQmlListProperty<QScatter3DSeries> QQuickGraphsScatter::seriesList()

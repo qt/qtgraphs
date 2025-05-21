@@ -144,6 +144,8 @@ public:
     void handleSeriesVisibilityChangedBySender(QObject *sender) override;
     void adjustAxisRanges() override;
 
+    void handleLightingModeChanged() override;
+
     QSharedPointer<QQuickItemGrabResult> renderSliceToImage(int index, int requestedIndex, QtGraphs3D::SliceType sliceType);
     Q_REVISION(6, 10)
     Q_INVOKABLE void renderSliceToImage(int index, int requestedIndex,

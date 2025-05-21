@@ -139,6 +139,7 @@ public:
 
     void handleAxisRangeChangedBySender(QObject *sender) override;
     void adjustAxisRanges() override;
+    void handleLightingModeChanged() override;
 
     void setSelectedBar(QPoint coord, QBar3DSeries *series, bool enterSlice);
 

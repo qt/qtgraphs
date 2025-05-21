@@ -1525,6 +1525,12 @@ void QQuickGraphsBars::handleValueColoringChanged()
     emitNeedRender();
 }
 
+void QQuickGraphsBars::handleLightingModeChanged()
+{
+    setSeriesVisualsDirty(true);
+    emitNeedRender();
+}
+
 void QQuickGraphsBars::connectSeries(QBar3DSeries *series)
 {
     m_meshType = series->mesh();
@@ -2005,6 +2011,9 @@ void QQuickGraphsBars::updateBarVisuals(QBar3DSeries *series)
             auto customMaterial = qobject_cast<QQuick3DCustomMaterial *>(materialsRef.at(0));
             customMaterial->setProperty("valueColoring", series->isValueColoringEnabled());
             customMaterial->setProperty("heightValue", barList.at(i)->heightValue);
+            customMaterial->setProperty("shaded",
+                                        series->lightingMode()
+                                            == QAbstract3DSeries::LightingMode::Shaded);
         }
     } else if (optimizationHint() == QtGraphs3D::OptimizationHint::Default) {
         for (int i = 0; i < barList.count(); i++) {
@@ -2039,6 +2048,9 @@ void QQuickGraphsBars::updateBarVisuals(QBar3DSeries *series)
             auto customMaterial = qobject_cast<QQuick3DCustomMaterial *>(materialsRef.at(0));
             customMaterial->setProperty("valueColoring", series->isValueColoringEnabled());
             customMaterial->setProperty("rootScale", rootNode()->scale().y());
+            customMaterial->setProperty("shaded",
+                                        series->lightingMode()
+                                            == QAbstract3DSeries::LightingMode::Shaded);
         }
     }
 }

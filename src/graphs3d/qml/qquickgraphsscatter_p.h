@@ -93,6 +93,8 @@ public:
     void setSeriesVisualsDirty() { m_isSeriesVisualsDirty = true; }
     bool isDataDirty() const { return m_isDataDirty; }
 
+    void handleLightingModeChanged() override;
+
 public Q_SLOTS:
     void handleAxisXChanged(QAbstract3DAxis *axis) override;
     void handleAxisYChanged(QAbstract3DAxis *axis) override;
@@ -218,7 +220,8 @@ private:
     void updateMaterialProperties(QQuick3DModel *item,
                                   QQuick3DTexture *texture,
                                   QColor color = Qt::white,
-                                  const bool transparency = false);
+                                  const bool transparency = false,
+                                  const bool shaded = true);
     QQuick3DTexture *createTexture();
     QQuick3DModel *createDataItemModel(QAbstract3DSeries::Mesh meshType);
     QQuick3DNode *createSeriesRoot();

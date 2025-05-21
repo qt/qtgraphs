@@ -35,6 +35,8 @@ CustomMaterial {
     property real specularBrightness: 0.25
     readonly property real shininess: (1.0 - specularBrightness) * 100
 
+    property bool shaded: false
+
     shadingMode: CustomMaterial.Shaded
     vertexShader: "qrc:/shaders/surfacevert"
     fragmentShader: "qrc:/shaders/surfacefrag"

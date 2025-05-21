@@ -50,6 +50,7 @@ public:
 public Q_SLOTS:
     void changeShadowQuality(int quality);
     void shadowQualityUpdatedByVisual(QtGraphs3D::ShadowQuality shadowQuality);
+    void changeLightingMode(int mode);
     void clear();
     void resetAxes();
     void addOne();
