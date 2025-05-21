@@ -19,6 +19,8 @@ class QGraphsView;
 struct Q_GRAPHS_EXPORT QLegendData
 {
     Q_GADGET
+    QML_VALUE_TYPE(legendData)
+    QML_ADDED_IN_VERSION(6, 10) // formerly anonymous
     Q_PROPERTY(QColor color MEMBER color FINAL)
     Q_PROPERTY(QColor borderColor MEMBER borderColor FINAL)
     Q_PROPERTY(QString label MEMBER label FINAL)

@@ -42,15 +42,18 @@ QT_BEGIN_NAMESPACE
 */
 
 /*!
-    \qmltype LegendData
+    \qmlvaluetype legendData
     \nativetype QLegendData
     \inqmlmodule QtGraphs
     \ingroup graphs_qml__2D
-    \brief The LegendData struct contains information to display on a sets
+    \brief The legendData value type contains information to display on a sets
     legend marker.
 
     The information needed to make a visual association between a set and a
     marker include properties such as color, border color, and a name of a set.
+
+    \note Before Qt 6.10, this value type was only provided as an anonymous
+    type.
 */
 
 /*!
