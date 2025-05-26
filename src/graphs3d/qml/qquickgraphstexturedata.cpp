@@ -31,14 +31,14 @@ void QQuickGraphsTextureData::createGradient(QLinearGradient gradient)
     for (int i = 1; i < stops.size(); i++) {
         QColor startColor = stops.at(i - 1).second;
         QColor endColor = stops.at(i).second;
-        int w = 0;
+        float w = 0.0f;
         w = (stops.at(i).first - stops.at(i - 1).first) * textureWidth;
 
         if (startColor.alphaF() < 1.0 || endColor.alphaF() < 1.0)
             setHasTransparency(true);
 
-        for (int t = 0; t <= w; t++) {
-            QColor color = linearInterpolate(startColor, endColor, t / float(w));
+        for (int t = 0; t <= static_cast<int>(w); t++) {
+            QColor color = linearInterpolate(startColor, endColor, t / w);
             int offset = x * 4;
             gradientScanline.data()[offset + 0] = char(color.red());
             gradientScanline.data()[offset + 1] = char(color.green());
