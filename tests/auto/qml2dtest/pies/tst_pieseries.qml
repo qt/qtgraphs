@@ -192,7 +192,7 @@ Item {
                 visiblecount += pieSeries.at(i).labelVisible
             compare(visiblecount, 1)
 
-            pieSeries.angleSpanVisibleMode = PieSeries.VisibleMode.EveryOther
+            pieSeries.angleSpanVisibleMode = PieSeries.VisibleMode.Even
             compare(modeChangedSpy.count, 3)
 
             visiblecount = 0

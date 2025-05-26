@@ -359,9 +359,12 @@ QT_BEGIN_NAMESPACE
     \value PieSeries.VisibleMode.First
         All except the first label of consecutive slices with smaller angle span than
         the \l angleSpanVisibleLimit will be hidden. This is the default value.
-    \value PieSeries.VisibleMode.EveryOther
+    \value PieSeries.VisibleMode.Even
         Every other label of consecutive slices with smaller angle span than
-        the \l angleSpanVisibleLimit will be hidden.
+        the \l angleSpanVisibleLimit will be hidden, starting from the second one.
+    \value PieSeries.VisibleMode.Odd
+        Every other label of consecutive slices with smaller angle span than
+        the \l angleSpanVisibleLimit will be hidden, starting from the first one.
 
     \sa angleSpanVisibleLimit
 */
@@ -378,9 +381,12 @@ QT_BEGIN_NAMESPACE
     \value First
         All except the first label of consecutive slices with smaller angle span than
         the \l angleSpanVisibleLimit will be hidden. This is the default value.
-    \value EveryOther
+    \value Even
         Every other label of consecutive slices with smaller angle span than
-        the \l angleSpanVisibleLimit will be hidden.
+        the \l angleSpanVisibleLimit will be hidden, starting from the second one.
+    \value Odd
+        Every other label of consecutive slices with smaller angle span than
+        the \l angleSpanVisibleLimit will be hidden, starting from the first one.
 
     \sa QPieSeries::angleSpanVisibleLimit
 */
@@ -1235,16 +1241,21 @@ void QPieSeriesPrivate::updateData(bool clearHidden)
             d->m_hideLabel = false;
             d->setLabelVisible(true);
         }
-        // Check if previous slice was also small, and hide the label on this one if it was
-        if (d->m_angleSpan < m_angleSpanVisibleLimit && (hideNextSmallSlice
-            || hideMode == QPieSeries::VisibleMode::None)) {
+        // Check if current slice is small, and if the previous slice was also small
+        // Hide the label on this one if the mode matches
+        if (d->m_angleSpan < m_angleSpanVisibleLimit
+            && ((!hideNextSmallSlice && hideMode == QPieSeries::VisibleMode::Even)
+                || (hideNextSmallSlice
+                    && (hideMode == QPieSeries::VisibleMode::Odd
+                        || hideMode == QPieSeries::VisibleMode::First))
+                || hideMode == QPieSeries::VisibleMode::None)) {
             d->setLabelVisible(false, true);
         }
         if (hideMode == QPieSeries::VisibleMode::First) {
             // Hide every other small slice label after the first shown one
             hideNextSmallSlice = d->m_angleSpan < m_angleSpanVisibleLimit;
         } else {
-            // Hide only every other small slice label
+            // Hide only every other odd/even small slice label
             hideNextSmallSlice = (!hideNextSmallSlice && d->m_angleSpan < m_angleSpanVisibleLimit);
         }
     }

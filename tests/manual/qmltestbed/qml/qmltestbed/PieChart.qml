@@ -80,7 +80,7 @@ Item {
         }
 
         ComboBox {
-            model: [ "None", "First", "EveryOther" ]
+            model: [ "None", "First", "Odd", "Even" ]
             currentIndex: 1
             Layout.fillHeight: true
             onCurrentIndexChanged: {
@@ -94,7 +94,11 @@ Item {
                     break
                 }
                 case 2: {
-                    pieSeries.angleSpanVisibleMode = PieSeries.VisibleMode.EveryOther
+                    pieSeries.angleSpanVisibleMode = PieSeries.VisibleMode.Odd
+                    break
+                }
+                case 3: {
+                    pieSeries.angleSpanVisibleMode = PieSeries.VisibleMode.Even
                     break
                 }
                 }

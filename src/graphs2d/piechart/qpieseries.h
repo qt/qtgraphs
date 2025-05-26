@@ -36,7 +36,8 @@ public:
     enum class VisibleMode {
         None,
         First,
-        EveryOther,
+        Even,
+        Odd,
     };
     Q_ENUM(VisibleMode)
 

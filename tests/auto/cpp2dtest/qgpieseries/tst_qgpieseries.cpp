@@ -167,8 +167,8 @@ void tst_qgpieseries::properties()
     m_series->setAngleSpanVisibleMode(QPieSeries::VisibleMode::None);
     QCOMPARE(m_series->angleSpanVisibleMode(), QPieSeries::VisibleMode::None);
     QCOMPARE(angleSpanVisibleModeSpy.size(), 1);
-    m_series->setAngleSpanVisibleMode(QPieSeries::VisibleMode::EveryOther);
-    QCOMPARE(m_series->angleSpanVisibleMode(), QPieSeries::VisibleMode::EveryOther);
+    m_series->setAngleSpanVisibleMode(QPieSeries::VisibleMode::Even);
+    QCOMPARE(m_series->angleSpanVisibleMode(), QPieSeries::VisibleMode::Even);
     QCOMPARE(angleSpanVisibleModeSpy.size(), 2);
 }
 
@@ -659,7 +659,7 @@ void tst_qgpieseries::adjust_limits_and_mode()
     QCOMPARE(visiblecount, 1);
 
     // Every other label of slices under the limit should be visible
-    series.setAngleSpanVisibleMode(QPieSeries::VisibleMode::EveryOther);
+    series.setAngleSpanVisibleMode(QPieSeries::VisibleMode::Odd);
     series.setAngleSpanVisibleLimit(36);
     visiblecount = 0;
     for (const QPieSlice *slice : series.slices())
