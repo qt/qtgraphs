@@ -26,8 +26,8 @@
 #include <private/pointrenderer_p.h>
 #endif
 #include <QTimer>
-#include <QtQuick/private/qquickrectangle_p.h>
 #include <QtQuick/private/qquickpinchhandler_p.h>
+#include <QtQuick/private/qquickrectangle_p.h>
 #include <private/axisrenderer_p.h>
 #include <private/qabstractaxis_p.h>
 #include <private/qgraphsview_p.h>
@@ -856,45 +856,87 @@ void QGraphsView::updatePolish()
         m_backgroundRectangle = nullptr;
     }
 
+    std::sort(m_seriesList.begin(), m_seriesList.end(), [](QObject *lhs, QObject *rhs) {
+        auto series1 = qobject_cast<QAbstractSeries *>(lhs);
+        auto series2 = qobject_cast<QAbstractSeries *>(rhs);
+
+        if (series1 && series2)
+            return series1->drawOrder() < series2->drawOrder();
+        return false;
+    });
+
+    #ifdef USE_POINTS
+    if (m_pointRenderer)
+        m_pointRenderer->resetShapePathCount();
+    #endif
+
+    #ifdef USE_AREAGRAPH
+    if (m_areaRenderer)
+        m_areaRenderer->resetShapePathCount();
+    #endif
+
+    float highestBarsZ = -std::numeric_limits<float>::max();
+    float highestPointZ = -std::numeric_limits<float>::max();
+    float highestPieZ = -std::numeric_limits<float>::max();
+    float highestAreaZ = -std::numeric_limits<float>::max();
+
     // Polish for all series
     for (auto series : std::as_const(m_seriesList)) {
 #ifdef USE_BARGRAPH
         if (m_barsRenderer) {
-            if (auto barSeries = qobject_cast<QBarSeries*>(series))
+            if (auto barSeries = qobject_cast<QBarSeries *>(series)) {
                 m_barsRenderer->handlePolish(barSeries);
+                if (barSeries->drawOrder() > highestBarsZ)
+                    highestBarsZ = barSeries->drawOrder();
+            }
         }
 #endif
 
 #ifdef USE_POINTS
         if (m_pointRenderer) {
 #ifdef USE_LINEGRAPH
-            if (auto lineSeries = qobject_cast<QLineSeries *>(series))
+            if (auto lineSeries = qobject_cast<QLineSeries *>(series)) {
                 m_pointRenderer->handlePolish(lineSeries);
+                if (lineSeries->drawOrder() > highestPointZ)
+                    highestPointZ = lineSeries->drawOrder();
+            }
 #endif
 
 #ifdef USE_SCATTERGRAPH
-            if (auto scatterSeries = qobject_cast<QScatterSeries *>(series))
+            if (auto scatterSeries = qobject_cast<QScatterSeries *>(series)) {
                 m_pointRenderer->handlePolish(scatterSeries);
+                if (scatterSeries->drawOrder() > highestPointZ)
+                    highestPointZ = scatterSeries->drawOrder();
+            }
 #endif
 
 #ifdef USE_SPLINEGRAPH
-            if (auto splineSeries = qobject_cast<QSplineSeries *>(series))
+            if (auto splineSeries = qobject_cast<QSplineSeries *>(series)) {
                 m_pointRenderer->handlePolish(splineSeries);
+                if (splineSeries->drawOrder() > highestPointZ)
+                    highestPointZ = splineSeries->drawOrder();
+            }
 #endif
         }
 #endif
 
 #ifdef USE_PIEGRAPH
         if (m_pieRenderer) {
-            if (auto pieSeries = qobject_cast<QPieSeries *>(series))
+            if (auto pieSeries = qobject_cast<QPieSeries *>(series)) {
                 m_pieRenderer->handlePolish(pieSeries);
+                if (pieSeries->drawOrder() > highestPieZ)
+                    highestPieZ = pieSeries->drawOrder();
+            }
         }
 #endif
 
 #ifdef USE_AREAGRAPH
         if (m_areaRenderer) {
-            if (auto areaSeries = qobject_cast<QAreaSeries *>(series))
+            if (auto areaSeries = qobject_cast<QAreaSeries *>(series)) {
                 m_areaRenderer->handlePolish(areaSeries);
+                if (areaSeries->drawOrder() > highestAreaZ)
+                    highestAreaZ = areaSeries->drawOrder();
+            }
         }
 #endif
     }
@@ -903,24 +945,32 @@ void QGraphsView::updatePolish()
     if (m_barsRenderer) {
         auto &cleanupSeriesList = m_cleanupSeriesList[0];
         m_barsRenderer->afterPolish(cleanupSeriesList);
+        if (highestBarsZ > -std::numeric_limits<float>::max())
+            m_barsRenderer->setZ(highestBarsZ);
     }
 #endif
 #ifdef USE_POINTS
     if (m_pointRenderer) {
         auto &cleanupSeriesList = m_cleanupSeriesList[1];
         m_pointRenderer->afterPolish(cleanupSeriesList);
+        if (highestPointZ > -std::numeric_limits<float>::max())
+            m_pointRenderer->setZ(highestPointZ);
     }
 #endif
 #ifdef USE_AREAGRAPH
     if (m_areaRenderer) {
         auto &cleanupSeriesList = m_cleanupSeriesList[2];
         m_areaRenderer->afterPolish(cleanupSeriesList);
+        if (highestAreaZ > -std::numeric_limits<float>::max())
+            m_areaRenderer->setZ(highestAreaZ);
     }
 #endif
 #ifdef USE_PIEGRAPH
     if (m_pieRenderer) {
         auto &cleanupSeriesList = m_cleanupSeriesList[3];
         m_pieRenderer->afterPolish(cleanupSeriesList);
+        if (highestPieZ > -std::numeric_limits<float>::max())
+            m_pieRenderer->setZ(highestPieZ);
     }
 #endif
 }

@@ -52,6 +52,7 @@ private:
     qreal m_opacity = 1.0;
     qreal m_valuesMultiplier = 1.0;
     QList<QLegendData> m_legendData;
+    int m_drawOrder = 0;
 
     QAbstractAxis *m_axisX = nullptr;
     QAbstractAxis *m_axisY = nullptr;

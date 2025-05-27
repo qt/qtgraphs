@@ -39,6 +39,8 @@ public:
     PointRenderer(QGraphsView *graph, bool clipPlotArea);
     ~PointRenderer() override;
 
+    void resetShapePathCount();
+
     void handlePolish(QXYSeries *series);
     void afterPolish(QList<QAbstractSeries *> &cleanupSeries);
     void updateSeries(QXYSeries *series);
@@ -67,7 +69,7 @@ private:
     QGraphsView *m_graph = nullptr;
     QQuickShape m_shape;
     QMap<QXYSeries *, PointGroup *> m_groups;
-    qsizetype m_currentColorIndex = 0;
+    qsizetype m_currentShapePathIndex = 0;
 
     // Point drag variables
     QPoint m_previousDelta;

@@ -200,6 +200,25 @@ QT_BEGIN_NAMESPACE
 */
 
 /*!
+    \property QAbstractSeries::drawOrder
+    \brief Controls the order in which the series is drawn
+    \since 6.10
+
+    The series list of GraphsView is sorted by the drawOrder property. Since each series type is
+    rendered at once, the order mostly works as an internal order of each series type. The highest
+    drawOrder of each series type determines the order of rendering among series types. The default
+    value is 0.
+*/
+/*!
+    \qmlproperty int AbstractSeries::drawOrder
+    \since 6.10
+    The series list of GraphsView is sorted by the drawOrder property. Since each series type is
+    rendered at once, the order mostly works as an internal order of each series type. The highest
+    drawOrder of each series type determines the order of rendering among series types. The default
+    value is 0.
+*/
+
+/*!
     \property QAbstractSeries::legendData
     \brief Contains information needed to create a legend marker for a data set in a graph.
     \sa QLegendData
@@ -483,6 +502,22 @@ void QAbstractSeries::setValuesMultiplier(qreal valuesMultiplier)
         update();
         emit valuesMultiplierChanged();
     }
+}
+
+int QAbstractSeries::drawOrder() const
+{
+    Q_D(const QAbstractSeries);
+    return d->m_drawOrder;
+}
+
+void QAbstractSeries::setDrawOrder(int newDrawOrder)
+{
+    Q_D(QAbstractSeries);
+    if (d->m_drawOrder == newDrawOrder)
+        return;
+    d->m_drawOrder = newDrawOrder;
+    update();
+    emit drawOrderChanged();
 }
 
 /*!

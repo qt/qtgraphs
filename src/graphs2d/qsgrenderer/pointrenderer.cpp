@@ -72,6 +72,11 @@ PointRenderer::~PointRenderer()
     qDeleteAll(m_groups);
 }
 
+void PointRenderer::resetShapePathCount()
+{
+    m_currentShapePathIndex = 0;
+}
+
 qreal PointRenderer::defaultSize(QXYSeries *series)
 {
     qreal size = 16.0;
@@ -513,11 +518,18 @@ void PointRenderer::handlePolish(QXYSeries *series)
             group->shapePath = new QQuickShapePath(&m_shape);
             group->shapePath->setAsynchronous(true);
             auto data = m_shape.data();
-            data.append(&data, m_groups.value(series)->shapePath);
+            data.append(&data, group->shapePath);
         }
     }
 
     auto group = m_groups.value(series);
+
+    if (series->type() != QAbstractSeries::SeriesType::Scatter) {
+        auto data = m_shape.data();
+        group->shapePath = qobject_cast<QQuickShapePath *>(data.at(&data, m_currentShapePathIndex));
+
+        m_currentShapePathIndex++;
+    }
 
     qsizetype pointCount = series->points().size();
 
@@ -596,6 +608,9 @@ void PointRenderer::handlePolish(QXYSeries *series)
             marker->deleteLater();
         group->markers.clear();
     }
+
+    for (auto &&marker : group->markers)
+        marker->setZ(group->series->drawOrder());
 
     if (group->colorIndex < 0) {
         group->colorIndex = m_graph->graphSeriesCount();

@@ -48,6 +48,7 @@ class Q_GRAPHS_EXPORT QAbstractSeries : public QObject, public QQmlParserStatus
     Q_PROPERTY(bool hovered READ isHovered NOTIFY hoveredChanged REVISION(6, 10))
     Q_PROPERTY(QAbstractAxis *axisX READ axisX WRITE setAxisX NOTIFY axisXChanged REVISION(6, 10))
     Q_PROPERTY(QAbstractAxis *axisY READ axisY WRITE setAxisY NOTIFY axisYChanged REVISION(6, 10))
+    Q_PROPERTY(int drawOrder READ drawOrder WRITE setDrawOrder NOTIFY drawOrderChanged REVISION(6, 10))
     Q_CLASSINFO("DefaultProperty", "seriesChildren")
     QML_ANONYMOUS
 
@@ -112,6 +113,9 @@ public:
     QAbstractAxis *axisY() const;
     void setAxisY(QAbstractAxis *newAxisY);
 
+    int drawOrder() const;
+    void setDrawOrder(int newDrawOrder);
+
 Q_SIGNALS:
     void update();
     void nameChanged();
@@ -128,6 +132,8 @@ Q_SIGNALS:
 
     Q_REVISION(6, 10) void axisXChanged();
     Q_REVISION(6, 10) void axisYChanged();
+
+    Q_REVISION(6, 10) void drawOrderChanged();
 
 protected:
     friend class BarsRenderer;

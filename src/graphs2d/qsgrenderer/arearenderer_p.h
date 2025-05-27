@@ -33,6 +33,8 @@ public:
     AreaRenderer(QGraphsView *graph, bool clipPlotArea);
     ~AreaRenderer() override;
 
+    void resetShapePathCount();
+
     void handlePolish(QAreaSeries *series);
     void afterPolish(QList<QAbstractSeries *> &cleanupSeries);
     void afterUpdate(QList<QAbstractSeries *> &cleanupSeries);
@@ -59,6 +61,7 @@ private:
     QGraphsView *m_graph = nullptr;
     QQuickShape m_shape;
     QMap<QAreaSeries *, PointGroup *> m_groups;
+    qsizetype m_currentShapePathIndex = 0;
 
     // Render area variables
     qreal m_maxVertical = 0;

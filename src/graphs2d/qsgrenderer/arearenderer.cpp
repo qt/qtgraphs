@@ -34,6 +34,11 @@ AreaRenderer::~AreaRenderer()
     qDeleteAll(m_groups);
 }
 
+void AreaRenderer::resetShapePathCount()
+{
+    m_currentShapePathIndex = 0;
+}
+
 void AreaRenderer::calculateRenderCoordinates(qreal origX,
                                               qreal origY,
                                               qreal *renderX,
@@ -85,6 +90,11 @@ void AreaRenderer::handlePolish(QAreaSeries *series)
     }
 
     auto group = m_groups.value(series);
+
+    auto data = m_shape.data();
+    group->shapePath = qobject_cast<QQuickShapePath *>(data.at(&data, m_currentShapePathIndex));
+
+    m_currentShapePathIndex++;
 
     if (upper->points().count() < 2 || (lower && lower->points().count() < 2)) {
         auto painterPath = group->painterPath;
