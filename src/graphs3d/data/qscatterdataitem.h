@@ -24,10 +24,22 @@ public:
         , m_rotation(rotation)
     {}
 
+    explicit QScatterDataItem(QVector3D position, const QVector3D &scale) noexcept
+        : m_position(position)
+        , m_scale(scale)
+    {}
+    explicit QScatterDataItem(QVector3D position, const QQuaternion &rotation, const QVector3D &scale) noexcept
+        : m_position(position)
+        , m_rotation(rotation)
+        , m_scale(scale)
+    {}
+
     void setPosition(QVector3D pos) noexcept { m_position = pos; }
     QVector3D position() const noexcept { return m_position; }
     void setRotation(const QQuaternion &rot) noexcept { m_rotation = rot; }
     QQuaternion rotation() const { return m_rotation; }
+    void setScale(const QVector3D &scale) noexcept { m_scale = scale; }
+    QVector3D scale() const noexcept { return m_scale; }
     void setX(float value) noexcept { m_position.setX(value); }
     void setY(float value) noexcept { m_position.setY(value); }
     void setZ(float value) noexcept { m_position.setZ(value); }
@@ -38,6 +50,7 @@ public:
 private:
     QVector3D m_position = {};
     QQuaternion m_rotation = {};
+    QVector3D m_scale = QVector3D(1,1,1);
     Q_DECL_UNUSED_MEMBER quintptr reserved = 0;
 };
 

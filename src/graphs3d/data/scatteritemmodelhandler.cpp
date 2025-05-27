@@ -14,10 +14,12 @@ ScatterItemModelHandler::ScatterItemModelHandler(QItemModelScatterDataProxy *pro
     , m_yPosRole(noRoleIndex)
     , m_zPosRole(noRoleIndex)
     , m_rotationRole(noRoleIndex)
+    , m_scaleRole(noRoleIndex)
     , m_haveXPosPattern(false)
     , m_haveYPosPattern(false)
     , m_haveZPosPattern(false)
     , m_haveRotationPattern(false)
+    , m_haveScalePattern(false)
 {}
 
 ScatterItemModelHandler::~ScatterItemModelHandler() {}
@@ -117,6 +119,32 @@ static inline QQuaternion toQuaternion(const QVariant &variant)
     return QQuaternion();
 }
 
+static inline QVector3D toVector3D(const QVariant &variant)
+{
+    if (variant.canConvert<QVector3D>()) {
+        return variant.value<QVector3D>();
+    } else if (variant.canConvert<QString>()) {
+        QString s = variant.toString();
+        if (!s.isEmpty()) {
+            if (s.count(QLatin1Char(',')) == 2) {
+                qsizetype index = s.indexOf(QLatin1Char(','));
+                qsizetype index2 = s.indexOf(QLatin1Char(','), index + 1);
+
+                bool xGood, yGood, zGood;
+                float xCoord = s.left(index).toFloat(&xGood);
+                float yCoord = s.mid(index + 1, index2 - index - 1).toFloat(&yGood);
+                float zCoord = s.mid(index2 + 1).toFloat(&zGood);
+
+                if (xGood && yGood && zGood) {
+                        return QVector3D(xCoord, yCoord, zCoord);
+                }
+            }
+        }
+    }
+    return QVector3D();
+
+}
+
 void ScatterItemModelHandler::modelPosToScatterItem(int modelRow,
                                                     int modelColumn,
                                                     QScatterDataItem &item)
@@ -161,6 +189,15 @@ void ScatterItemModelHandler::modelPosToScatterItem(int modelRow,
             item.setRotation(toQuaternion(rotationVar));
         }
     }
+    if (m_scaleRole != noRoleIndex) {
+        QVariant scaleVar = index.data(m_scaleRole);
+        if (m_haveScalePattern) {
+            item.setScale(toVector3D(
+                QVariant(scaleVar.toString().replace(m_scalePattern, m_scaleReplace))));
+        } else {
+            item.setScale(toVector3D(scaleVar));
+        }
+    }
 
     item.setPosition(QVector3D(xPos, yPos, zPos));
 }
@@ -179,21 +216,26 @@ void ScatterItemModelHandler::resolveModel()
     m_yPosPattern = m_proxy->yPosRolePattern();
     m_zPosPattern = m_proxy->zPosRolePattern();
     m_rotationPattern = m_proxy->rotationRolePattern();
+    m_scalePattern = m_proxy->scaleRolePattern();
     m_xPosReplace = m_proxy->xPosRoleReplace();
     m_yPosReplace = m_proxy->yPosRoleReplace();
     m_zPosReplace = m_proxy->zPosRoleReplace();
     m_rotationReplace = m_proxy->rotationRoleReplace();
+    m_scaleReplace = m_proxy->scaleRoleReplace();
     m_haveXPosPattern = !m_xPosPattern.namedCaptureGroups().isEmpty() && m_xPosPattern.isValid();
     m_haveYPosPattern = !m_yPosPattern.namedCaptureGroups().isEmpty() && m_yPosPattern.isValid();
     m_haveZPosPattern = !m_zPosPattern.namedCaptureGroups().isEmpty() && m_zPosPattern.isValid();
     m_haveRotationPattern = !m_rotationPattern.namedCaptureGroups().isEmpty()
                             && m_rotationPattern.isValid();
+    m_haveScalePattern = !m_scalePattern.namedCaptureGroups().isEmpty()
+                            && m_scalePattern.isValid();
 
     QHash<int, QByteArray> roleHash = m_itemModel->roleNames();
     m_xPosRole = roleHash.key(m_proxy->xPosRole().toLatin1(), noRoleIndex);
     m_yPosRole = roleHash.key(m_proxy->yPosRole().toLatin1(), noRoleIndex);
     m_zPosRole = roleHash.key(m_proxy->zPosRole().toLatin1(), noRoleIndex);
     m_rotationRole = roleHash.key(m_proxy->rotationRole().toLatin1(), noRoleIndex);
+    m_scaleRole = roleHash.key(m_proxy->scaleRole().toLatin1(), noRoleIndex);
     const int columnCount = m_itemModel->columnCount();
     const int rowCount = m_itemModel->rowCount();
     const int totalCount = rowCount * columnCount;
