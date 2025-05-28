@@ -17,7 +17,7 @@ QT_BEGIN_NAMESPACE
  *
  * The uncreatable base type for all 3D graph nodes in Qt Graphs.
  *
- * \sa BarsNode, ScatterNode, SurfaceNode, {Qt Graphs C++ Classes for 3D}
+ * \sa Bars3DNode, Scatter3DNode, Surface3DNode, {Qt Graphs C++ Classes for 3D}
  */
 
 /*!
@@ -213,7 +213,7 @@ QT_BEGIN_NAMESPACE
  * handling, as demonstrated by the \l {Axis Handling} example.
  *
  * \sa selectedLabelIndex(), selectedAxis(), selectedCustomItemIndex(),
- * selectedCustomItem(), BarsNode::selectedSeries, ScatterNode::selectedSeries,
+ * selectedCustomItem(), Bars3DNode::selectedSeries, Scatter3DNode::selectedSeries,
  * Scene3D::selectionQueryPosition, Graphs3D.ElementType
  */
 
@@ -235,12 +235,12 @@ QT_BEGIN_NAMESPACE
  * The value of \c 0.0 indicates automatic scaling according to axis ranges.
  * Defaults to \c{0.0}.
  *
- * \note Has no effect on BarsNode, which handles scaling on the horizontal plane
- * via the \l{BarsNode::barThickness}{barThickness} and
- * \l{BarsNode::barSpacing}{barSpacing} properties. Polar graphs also ignore this
+ * \note Has no effect on Bars3DNode, which handles scaling on the horizontal plane
+ * via the \l{Bars3DNode::barThickness}{barThickness} and
+ * \l{Bars3DNode::barSpacing}{barSpacing} properties. Polar graphs also ignore this
  * property.
  *
- * \sa aspectRatio, polar, BarsNode::barThickness, BarsNode::barSpacing
+ * \sa aspectRatio, polar, Bars3DNode::barThickness, Bars3DNode::barSpacing
  */
 
 /*!
