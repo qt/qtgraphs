@@ -114,11 +114,20 @@ QT_BEGIN_NAMESPACE
     \property QBarSeries::labelsVisible
     \brief The visibility of the labels in a bar series.
     The default label visibility is \c false.
+
+    \note The default label only displays the value for the set.
+    You can create custom labels with a \l barDelegate.
+    \sa barDelegate
 */
 /*!
     \qmlproperty bool BarSeries::labelsVisible
     The visibility of the labels in a bar series.
     The default label visibility is \c false.
+
+    \note The default label only displays the value for the set.
+    You can create custom labels with a \l barDelegate.
+
+    \sa barDelegate
 */
 
 /*!
