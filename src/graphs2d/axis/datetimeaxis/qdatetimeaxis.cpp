@@ -100,13 +100,13 @@ QT_BEGIN_NAMESPACE
  \property QDateTimeAxis::timeZone
  \brief The time zone that will be used to display labels of the axis.
  The accepted values are based on IANA time zone IDs. The default time zone is UTC.
- \since 6.10
+ \since 6.11
 */
 /*!
  \qmlproperty string DateTimeAxis::timeZone
  The time zone that will be used to display labels of the axis.
  The accepted values are based on IANA time zone IDs. The default time zone is UTC.
- \since 6.10
+ \since 6.11
 */
 
 /*!
@@ -153,7 +153,7 @@ QT_BEGIN_NAMESPACE
  \qmlsignal DateTimeAxis::timeZoneChanged()
  This signal is emitted when the time zone is changed. It represents a string value for the
  IANA time zone ID that was set.
- \since 6.10
+ \since 6.11
 */
 
 QDateTimeAxis::QDateTimeAxis(QObject *parent)
