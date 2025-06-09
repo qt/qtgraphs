@@ -2120,6 +2120,11 @@ QtGraphs3D::ShadowQuality QQuickGraphsItem::shadowQuality() const
 
 qsizetype QQuickGraphsItem::addCustomItem(QCustom3DItem *item)
 {
+    if (!item) {
+        qCWarning(lcProperties3D, "%s invalid item", qUtf8Printable(QLatin1String(__FUNCTION__)));
+        return -1;
+    }
+
     if (isComponentComplete()) {
         if (isCustomLabelItem(item)) {
             QQuick3DNode *label = createTitleLabel();
@@ -2145,11 +2150,6 @@ qsizetype QQuickGraphsItem::addCustomItem(QCustom3DItem *item)
         }
     } else {
         m_pendingCustomItemList.append(item);
-    }
-
-    if (!item) {
-        qCWarning(lcProperties3D, "%s invalid item", qUtf8Printable(QLatin1String(__FUNCTION__)));
-        return -1;
     }
 
     qsizetype index = m_customItems.indexOf(item);
