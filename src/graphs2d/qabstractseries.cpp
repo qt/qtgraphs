@@ -152,11 +152,13 @@ QT_BEGIN_NAMESPACE
 
     Controls if the series can be hovered with mouse/touch.
     By default, \a hoverable is set to \c false.
+    \note In 6.8, QPieSeries does not emit signals related to hovering.
 */
 /*!
     \qmlproperty bool AbstractSeries::hoverable
     Controls if the series can be hovered with mouse/touch.
     By default, \a hoverable is set to \c false.
+    \note In 6.8, PieSeries does not emit signals related to hovering.
 */
 
 /*!
