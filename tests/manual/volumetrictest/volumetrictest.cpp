@@ -300,6 +300,26 @@ void VolumetricModifier::adjustRangeZ(int value)
         m_barGraph->rowAxis()->setRange(zMiddle + adjustment - zRange, zMiddle + adjustment + zRange);
 }
 
+void VolumetricModifier::reverseAxes()
+{
+    if (m_scatterGraph)
+        m_scatterGraph->axisX()->setReversed(!m_scatterGraph->axisX()->reversed());
+    if (m_scatterGraph)
+        m_scatterGraph->axisY()->setReversed(!m_scatterGraph->axisY()->reversed());
+    if (m_scatterGraph)
+        m_scatterGraph->axisZ()->setReversed(!m_scatterGraph->axisZ()->reversed());
+
+    if (m_surfaceGraph)
+        m_surfaceGraph->axisX()->setReversed(!m_surfaceGraph->axisX()->reversed());
+    if (m_surfaceGraph)
+        m_surfaceGraph->axisY()->setReversed(!m_surfaceGraph->axisY()->reversed());
+    if (m_surfaceGraph)
+        m_surfaceGraph->axisZ()->setReversed(!m_surfaceGraph->axisZ()->reversed());
+
+    if (m_barGraph)
+        m_barGraph->valueAxis()->setReversed(!m_barGraph->valueAxis()->reversed());
+}
+
 void VolumetricModifier::testBoundsSetting()
 {
     static QVector3D scaling1 = m_volumeItem->scaling();
