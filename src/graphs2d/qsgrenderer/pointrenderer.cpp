@@ -141,13 +141,16 @@ PointRenderer::SeriesStyle PointRenderer::getSeriesStyle(PointGroup *group)
 
     qsizetype index = group->colorIndex % seriesColors.size();
     QColor color = group->series->color().alpha() != 0 ? group->series->color() : seriesColors.at(index);
+    color.setAlpha(color.alpha() * group->series->opacity());
 
     QColor selectedColor = group->series->selectedColor().alpha() != 0
                                ? group->series->selectedColor()
                                : m_graph->theme()->singleHighlightColor();
+    selectedColor.setAlpha(selectedColor.alpha() * group->series->opacity());
 
     index = group->colorIndex % borderColors.size();
     QColor borderColor = borderColors.at(index);
+    borderColor.setAlpha(borderColor.alpha() * group->series->opacity());
     qreal borderWidth = theme->borderWidth();
 
     return {
