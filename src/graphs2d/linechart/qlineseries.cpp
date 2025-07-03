@@ -112,6 +112,12 @@ QAbstractSeries::SeriesType QLineSeries::type() const
 
 QLineSeriesPrivate::QLineSeriesPrivate() {}
 
+/*!
+    \property QLineSeries::width
+    \brief the width of the line in the series.
+
+    This property holds the pen width used to draw the series line.
+*/
 qreal QLineSeries::width() const
 {
     Q_D(const QLineSeries);
@@ -134,6 +140,13 @@ void QLineSeries::setWidth(qreal newWidth)
     emit update();
 }
 
+/*!
+    \property QLineSeries::capStyle
+    \brief the cap style used for line endings.
+
+    This property holds the pen cap style used for rending line ends
+    in the series.
+ */
 Qt::PenCapStyle QLineSeries::capStyle() const
 {
     Q_D(const QLineSeries);
