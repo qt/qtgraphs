@@ -866,6 +866,20 @@ QString QItemModelScatterDataProxy::scaleRoleReplace() const
 }
 
 /*!
+ * Changes \a xPosRole, \a yPosRole, \a zPosRole, and \a rotationRole mapping.
+ */
+void QItemModelScatterDataProxy::remap(const QString &xPosRole,
+                                       const QString &yPosRole,
+                                       const QString &zPosRole,
+                                       const QString &rotationRole)
+{
+    setXPosRole(xPosRole);
+    setYPosRole(yPosRole);
+    setZPosRole(zPosRole);
+    setRotationRole(rotationRole);
+}
+
+/*!
  * Changes \a xPosRole, \a yPosRole, \a zPosRole, \a rotationRole, and \a scaleRole mapping.
  */
 void QItemModelScatterDataProxy::remap(const QString &xPosRole,
