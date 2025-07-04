@@ -161,7 +161,7 @@ void QLineSeries::setCapStyle(Qt::PenCapStyle newCapStyle)
 
 
 /*!
-    \qmlmethod LineSeries::getDataPointCoordinates(real x, real y)
+    \qmlmethod LineSeries::dataPointCoordinatesAt(real x, real y)
     Returns \a x and \a y rendercoordinates converted into data point
     coordinates.
 */
@@ -170,7 +170,7 @@ void QLineSeries::setCapStyle(Qt::PenCapStyle newCapStyle)
     coordinates.
 
 */
-QPointF QLineSeries::getDataPointCoordinates(qreal x, qreal y)
+QPointF QLineSeries::dataPointCoordinatesAt(qreal x, qreal y)
 {
     Q_D(QLineSeries);
 

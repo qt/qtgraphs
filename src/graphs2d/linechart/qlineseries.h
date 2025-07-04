@@ -30,7 +30,7 @@ public:
     Qt::PenCapStyle capStyle() const;
     void setCapStyle(Qt::PenCapStyle newCapStyle);
 
-    Q_REVISION(6, 10) Q_INVOKABLE QPointF getDataPointCoordinates(qreal x, qreal y);
+    Q_REVISION(6, 10) Q_INVOKABLE QPointF dataPointCoordinatesAt(qreal x, qreal y);
 
 Q_SIGNALS:
     void widthChanged();

@@ -140,13 +140,13 @@ Item {
         }
 
         function test_2_getDataPointCoordinate() {
-            var point = lineInitial.getDataPointCoordinates(0, 0);
+            var point = lineInitial.dataPointCoordinatesAt(0, 0);
             compare(point.x, 0);
             compare(point.y, 8);
-            var point = lineInitial.getDataPointCoordinates(1, 1);
+            var point = lineInitial.dataPointCoordinatesAt(1, 1);
             compare(point.x, 0.04);
             compare(point.y, 7.89873417721519);
-            var point = lineInitial.getDataPointCoordinates(4, 4);
+            var point = lineInitial.dataPointCoordinatesAt(4, 4);
             compare(point.x, 0.16);
             compare(point.y, 7.594936708860759);
         }
