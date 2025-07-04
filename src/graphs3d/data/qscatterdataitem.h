@@ -28,7 +28,7 @@ public:
     QVector3D position() const noexcept { return m_position; }
     void setRotation(const QQuaternion &rot) noexcept { m_rotation = rot; }
     QQuaternion rotation() const { return m_rotation; }
-    void setScale(const QVector3D &scale) noexcept { m_scale = scale; }
+    void setScale(QVector3D scale) noexcept { m_scale = scale; }
     QVector3D scale() const noexcept { return m_scale; }
     void setX(float value) noexcept { m_position.setX(value); }
     void setY(float value) noexcept { m_position.setY(value); }
