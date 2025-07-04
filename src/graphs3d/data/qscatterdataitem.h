@@ -24,16 +24,6 @@ public:
         , m_rotation(rotation)
     {}
 
-    explicit QScatterDataItem(QVector3D position, const QVector3D &scale) noexcept
-        : m_position(position)
-        , m_scale(scale)
-    {}
-    explicit QScatterDataItem(QVector3D position, const QQuaternion &rotation, const QVector3D &scale) noexcept
-        : m_position(position)
-        , m_rotation(rotation)
-        , m_scale(scale)
-    {}
-
     void setPosition(QVector3D pos) noexcept { m_position = pos; }
     QVector3D position() const noexcept { return m_position; }
     void setRotation(const QQuaternion &rot) noexcept { m_rotation = rot; }
