@@ -55,7 +55,7 @@ void tst_abstractaxis::initialProperties()
     QCOMPARE(m_axis->isTitleVisible(), true);
     QCOMPARE(m_axis->titleFont(), QFont());
     QCOMPARE(m_axis->alignment(), Qt::AlignAbsolute);
-    QCOMPARE(m_axis->textElide(), Qt::ElideNone);
+    QCOMPARE(m_axis->textElideMode(), Qt::ElideNone);
 }
 
 void tst_abstractaxis::initializeProperties()
@@ -74,7 +74,7 @@ void tst_abstractaxis::initializeProperties()
     QSignalSpy spy9(m_axis, &QAbstractAxis::titleVisibleChanged);
     QSignalSpy spy10(m_axis, &QAbstractAxis::titleFontChanged);
     QSignalSpy spy11(m_axis, &QAbstractAxis::alignmentChanged);
-    QSignalSpy spy12(m_axis, &QAbstractAxis::textElideChanged);
+    QSignalSpy spy12(m_axis, &QAbstractAxis::textElideModeChanged);
 
     auto font = QFont("Arial", 20, 2, true);
     auto labelDelegate = new QQmlComponent(this);
@@ -91,7 +91,7 @@ void tst_abstractaxis::initializeProperties()
     m_axis->setTitleVisible(false);
     m_axis->setTitleFont(font);
     m_axis->setAlignment(Qt::AlignTop);
-    m_axis->setTextElide(Qt::ElideRight);
+    m_axis->setTextElideMode(Qt::ElideRight);
 
     QCOMPARE(m_axis->isVisible(), false);
     QCOMPARE(m_axis->isLineVisible(), false);
@@ -105,7 +105,7 @@ void tst_abstractaxis::initializeProperties()
     QCOMPARE(m_axis->isTitleVisible(), false);
     QCOMPARE(m_axis->titleFont(), font);
     QCOMPARE(m_axis->alignment(), Qt::AlignTop);
-    QCOMPARE(m_axis->textElide(), Qt::ElideRight);
+    QCOMPARE(m_axis->textElideMode(), Qt::ElideRight);
 
     QCOMPARE(spy0.size(), 1);
     QCOMPARE(spy1.size(), 1);

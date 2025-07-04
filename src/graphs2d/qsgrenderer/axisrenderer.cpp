@@ -1212,12 +1212,12 @@ void AxisRenderer::updateBarXAxisLabels(AxisProperties &ax, const QRectF rect)
                 setLabelTextProperties(textItem, category, true,
                                        QQuickText::HAlignment::AlignHCenter,
                                        QQuickText::VAlignment::AlignBottom,
-                                       axis->textElide());
+                                       axis->textElideMode());
             } else {
                 setLabelTextProperties(textItem, category, true,
                                        QQuickText::HAlignment::AlignHCenter,
                                        QQuickText::VAlignment::AlignTop,
-                                       axis->textElide());
+                                       axis->textElideMode());
             }
             textItem->setHeight(rect.height());
             textItem->setVisible(true);
@@ -1254,12 +1254,12 @@ void AxisRenderer::updateBarYAxisLabels(AxisProperties &ax, const QRectF rect)
                 setLabelTextProperties(textItem, category, false,
                                        QQuickText::HAlignment::AlignLeft,
                                        QQuickText::VAlignment::AlignVCenter,
-                                       axis->textElide());
+                                       axis->textElideMode());
             } else {
                 setLabelTextProperties(textItem, category, false,
                                        QQuickText::HAlignment::AlignRight,
                                        QQuickText::VAlignment::AlignVCenter,
-                                       axis->textElide());
+                                       axis->textElideMode());
             }
             textItem->setHeight(rect.height() / categoriesCount);
             textItem->setVisible(true);
@@ -1325,12 +1325,12 @@ void AxisRenderer::updateValueYAxisLabels(AxisProperties &ax, const QRectF rect)
                 setLabelTextProperties(textItem, label, false,
                                        QQuickText::HAlignment::AlignLeft,
                                        QQuickText::VAlignment::AlignVCenter,
-                                       axis->textElide());
+                                       axis->textElideMode());
             } else {
                 setLabelTextProperties(textItem, label, false,
                                        QQuickText::HAlignment::AlignRight,
                                        QQuickText::VAlignment::AlignVCenter,
-                                       axis->textElide());
+                                       axis->textElideMode());
             }
             textItem->setHeight(0);
             textItem->setVisible(true);
@@ -1397,12 +1397,12 @@ void AxisRenderer::updateValueXAxisLabels(AxisProperties &ax, const QRectF rect)
                 setLabelTextProperties(textItem, label, true,
                                        QQuickText::HAlignment::AlignHCenter,
                                        QQuickText::VAlignment::AlignBottom,
-                                       axis->textElide());
+                                       axis->textElideMode());
             } else {
                 setLabelTextProperties(textItem, label, true,
                                        QQuickText::HAlignment::AlignHCenter,
                                        QQuickText::VAlignment::AlignTop,
-                                       axis->textElide());
+                                       axis->textElideMode());
             }
             textItem->setHeight(rect.height());
             textItem->setVisible(true);
@@ -1450,12 +1450,12 @@ void AxisRenderer::updateDateTimeYAxisLabels(AxisProperties &ax, const QRectF re
                 setLabelTextProperties(textItem, label, false,
                                        QQuickText::HAlignment::AlignLeft,
                                        QQuickText::VAlignment::AlignVCenter,
-                                       axis->textElide());
+                                       axis->textElideMode());
             } else {
                 setLabelTextProperties(textItem, label, false,
                                        QQuickText::HAlignment::AlignRight,
                                        QQuickText::VAlignment::AlignVCenter,
-                                       axis->textElide());
+                                       axis->textElideMode());
             }
             textItem->setHeight(0);
             textItem->setVisible(true);
@@ -1504,12 +1504,12 @@ void AxisRenderer::updateDateTimeXAxisLabels(AxisProperties &ax, const QRectF re
                 setLabelTextProperties(textItem, label, true,
                                        QQuickText::HAlignment::AlignHCenter,
                                        QQuickText::VAlignment::AlignBottom,
-                                       axis->textElide());
+                                       axis->textElideMode());
             } else {
                 setLabelTextProperties(textItem, label, true,
                                        QQuickText::HAlignment::AlignHCenter,
                                        QQuickText::VAlignment::AlignTop,
-                                       axis->textElide());
+                                       axis->textElideMode());
             }
             textItem->setHeight(rect.height());
             textItem->setVisible(true);

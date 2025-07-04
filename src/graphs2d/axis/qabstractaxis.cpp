@@ -179,19 +179,20 @@ QT_BEGIN_NAMESPACE
 */
 
 /*!
-    \property QAbstractAxis::textElide
+    \property QAbstractAxis::textElideMode
     \since 6.10
-    \brief The textElide of the axis labels.
+    \brief Property specifies ellipsis placement for overflowing text.
 
     Can be Qt::ElideLeft, Qt::ElideRight, Qt::ElideMiddle, or Qt::ElideNone.
     By default, the value is \c Qt::ElideNone.
 */
 /*!
-    \qmlproperty enumeration AbstractAxis::textElide
+    \qmlproperty enumeration AbstractAxis::textElideMode
     \since 6.10
-    The textElide of the axis labels. Can be \l{Qt::ElideLeft}{Qt.ElideLeft},
-    \l{Qt::ElideRight}{Qt.ElideRight}, \l{Qt::ElideMiddle}{Qt.ElideMiddle}, or
-    \l{Qt::ElideNone}{Qt.ElideNone}. By default, the value is \c Qt.ElideNone.
+    This enum specifies ellipsis placement for overflowing text.
+    Can be \l{Qt::ElideLeft}{Qt.ElideLeft}, \l{Qt::ElideRight}{Qt.ElideRight},
+    \l{Qt::ElideMiddle}{Qt.ElideMiddle}, or \l{Qt::ElideNone}{Qt.ElideNone}.
+    By default, the value is \c Qt.ElideNone.
 */
 
 /*!
@@ -257,8 +258,8 @@ QT_BEGIN_NAMESPACE
 */
 
 /*!
-    \qmlsignal AbstractAxis::textElideChanged(enumeration elide)
-    This signal is emitted when the \l textElide changes. \a elide is the
+    \qmlsignal AbstractAxis::textElideModeChanged(enumeration elideMode)
+    This signal is emitted when the \l textElideMode changes. \a elideMode is the
     new value of the \l Qt::TextElideMode type.
 */
 
@@ -594,13 +595,13 @@ void QAbstractAxis::setAlignment(Qt::Alignment alignment)
     }
 }
 
-Qt::TextElideMode QAbstractAxis::textElide() const
+Qt::TextElideMode QAbstractAxis::textElideMode() const
 {
     Q_D(const QAbstractAxis);
     return d->m_textElide;
 }
 
-void QAbstractAxis::setTextElide(Qt::TextElideMode elide)
+void QAbstractAxis::setTextElideMode(Qt::TextElideMode elide)
 {
     Q_D(QAbstractAxis);
     if (d->m_textElide == elide) {
@@ -610,7 +611,7 @@ void QAbstractAxis::setTextElide(Qt::TextElideMode elide)
     }
 
     d->m_textElide = elide;
-    Q_EMIT textElideChanged(d->m_textElide);
+    Q_EMIT textElideModeChanged(d->m_textElide);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

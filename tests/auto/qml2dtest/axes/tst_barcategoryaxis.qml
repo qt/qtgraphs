@@ -37,7 +37,7 @@ Item {
         titleText: "Initialized"
         titleVisible: false
         visible: false
-        textElide: Qt.ElideLeft
+        textElideMode: Qt.ElideLeft
     }
 
     TestCase {
@@ -65,7 +65,7 @@ Item {
             compare(initial.titleText, "")
             compare(initial.titleVisible, true)
             compare(initial.visible, true)
-            compare(initial.textElide, Qt.ElideNone)
+            compare(initial.textElideMode, Qt.ElideNone)
         }
 
         function test_3_initial_change() {
@@ -87,7 +87,7 @@ Item {
             initial.titleText = "Dummy"
             initial.titleVisible = false
             initial.visible = false
-            initial.textElide = Qt.ElideRight
+            initial.textElideMode = Qt.ElideRight
 
             // Properties from BarCategoryAxis
             compare(initial.categories, ["one", "two"])
@@ -107,7 +107,7 @@ Item {
             compare(initial.titleText, "Dummy")
             compare(initial.titleVisible, false)
             compare(initial.visible, false)
-            compare(initial.textElide, Qt.ElideRight)
+            compare(initial.textElideMode, Qt.ElideRight)
         }
         function test_4_initial_modify() {
             initial.clear()
@@ -160,7 +160,7 @@ Item {
             compare(initialized.titleText, "Initialized")
             compare(initialized.titleVisible, false)
             compare(initialized.visible, false)
-            compare(initialized.textElide, Qt.ElideLeft)
+            compare(initialized.textElideMode, Qt.ElideLeft)
         }
 
         function test_2_initialized_change() {
@@ -180,7 +180,7 @@ Item {
             initialized.titleText = "Dummy"
             initialized.titleVisible = true
             initialized.visible = true
-            initialized.textElide = Qt.ElideMiddle
+            initialized.textElideMode = Qt.ElideMiddle
 
             // Properties from BarCategoryAxis
             compare(initialized.categories, ["one", "two"])
@@ -200,7 +200,7 @@ Item {
             compare(initialized.titleText, "Dummy")
             compare(initialized.titleVisible, true)
             compare(initialized.visible, true)
-            compare(initialized.textElide, Qt.ElideMiddle)
+            compare(initialized.textElideMode, Qt.ElideMiddle)
 
             // Signals
             compare(countSpy.count, 1)
@@ -220,7 +220,7 @@ Item {
             compare(titleColorSpy.count, 1)
             compare(titleVisibleSpy.count, 1)
             compare(alignmentSpy.count, 0)
-            compare(textElideSpy.count, 1)
+            compare(textElideModeSpy.count, 1)
         }
 
         function test_3_initialized_clear() {
@@ -389,8 +389,8 @@ Item {
         signalName: "alignmentChanged"
     }
     SignalSpy {
-        id: textElideSpy
+        id: textElideModeSpy
         target: initialized
-        signalName: "textElideChanged"
+        signalName: "textElideModeChanged"
     }
 }

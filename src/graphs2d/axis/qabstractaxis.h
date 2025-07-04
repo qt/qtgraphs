@@ -48,8 +48,8 @@ class Q_GRAPHS_EXPORT QAbstractAxis : public QObject
     //alignment
     Q_PROPERTY(Qt::Alignment alignment READ alignment WRITE setAlignment NOTIFY
                       alignmentChanged REVISION(6, 9))
-    Q_PROPERTY(Qt::TextElideMode textElide READ textElide WRITE setTextElide NOTIFY textElideChanged
-                       REVISION(6, 10))
+    Q_PROPERTY(Qt::TextElideMode textElideMode READ textElideMode WRITE setTextElideMode NOTIFY
+                       textElideModeChanged REVISION(6, 10))
 
     QML_FOREIGN(QAbstractAxis)
     QML_UNCREATABLE("")
@@ -109,8 +109,8 @@ public:
     Qt::Alignment alignment() const;
     void setAlignment(Qt::Alignment alignment);
 
-    Qt::TextElideMode textElide() const;
-    void setTextElide(Qt::TextElideMode elide);
+    Qt::TextElideMode textElideMode() const;
+    void setTextElideMode(Qt::TextElideMode elideMode);
 
     //range handling
     void setMin(const QVariant &min);
@@ -130,7 +130,7 @@ Q_SIGNALS:
     void titleVisibleChanged(bool visible);
     void titleFontChanged(const QFont &font);
     Q_REVISION(6, 9) void alignmentChanged(Qt::Alignment alignment);
-    Q_REVISION(6, 10) void textElideChanged(Qt::TextElideMode elide);
+    Q_REVISION(6, 10) void textElideModeChanged(Qt::TextElideMode elideMode);
     void update();
     void rangeChanged(qreal min, qreal max);
 
