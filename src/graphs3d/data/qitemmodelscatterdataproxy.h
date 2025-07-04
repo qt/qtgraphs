@@ -88,6 +88,11 @@ public:
     void remap(const QString &xPosRole,
                const QString &yPosRole,
                const QString &zPosRole,
+               const QString &rotationRole);
+
+    void remap(const QString &xPosRole,
+               const QString &yPosRole,
+               const QString &zPosRole,
                const QString &rotationRole,
                const QString &scaleRole);
 
