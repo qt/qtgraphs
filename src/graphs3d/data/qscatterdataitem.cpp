@@ -73,7 +73,7 @@
  */
 
 /*!
- * \fn void QScatterDataItem::setScale(const QVector3D &scale)
+ * \fn void QScatterDataItem::setScale(QVector3D scale)
  * Sets the scale \a scale for this data item.
  * If the series also has itemSize, scale is multiplied by it.
  * Defaults to QVector3D(1,1,1).
