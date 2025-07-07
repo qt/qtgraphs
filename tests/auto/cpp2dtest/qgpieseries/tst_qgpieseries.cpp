@@ -63,8 +63,10 @@ void tst_qgpieseries::properties()
     QSignalSpy sumSpy(m_series, SIGNAL(sumChanged()));
     QSignalSpy opacitySpy(m_series, SIGNAL(opacityChanged()));
     QSignalSpy valuesMultiplierSpy(m_series, SIGNAL(valuesMultiplierChanged()));
-    QSignalSpy angleSpanVisibleLimitSpy(m_series, SIGNAL(angleSpanVisibleLimitChanged()));
-    QSignalSpy angleSpanLabelVisibilitySpy(m_series, SIGNAL(angleSpanLabelVisibilityChanged()));
+    QSignalSpy angleSpanVisibleLimitSpy(m_series,
+        SIGNAL(angleSpanVisibleLimitChanged(qreal)));
+    QSignalSpy angleSpanLabelVisibilitySpy(m_series,
+        SIGNAL(angleSpanLabelVisibilityChanged(QPieSeries::LabelVisibility)));
 
     QVERIFY(m_series->type() == QAbstractSeries::SeriesType::Pie);
     QVERIFY(m_series->count() == 0);
@@ -163,6 +165,10 @@ void tst_qgpieseries::properties()
     m_series->setAngleSpanVisibleLimit(10.0);
     QCOMPARE(m_series->angleSpanVisibleLimit(), 10.0);
     QCOMPARE(angleSpanVisibleLimitSpy.size(), 2);
+    QList<QVariant> arguments = angleSpanVisibleLimitSpy.takeFirst();
+    QCOMPARE(arguments.at(0).toReal(), 0.5);
+    arguments = angleSpanVisibleLimitSpy.takeFirst();
+    QCOMPARE(arguments.at(0).toReal(), 10.0);
 
     m_series->setAngleSpanLabelVisibility(QPieSeries::LabelVisibility::None);
     QCOMPARE(m_series->angleSpanLabelVisibility(), QPieSeries::LabelVisibility::None);
@@ -170,6 +176,10 @@ void tst_qgpieseries::properties()
     m_series->setAngleSpanLabelVisibility(QPieSeries::LabelVisibility::Even);
     QCOMPARE(m_series->angleSpanLabelVisibility(), QPieSeries::LabelVisibility::Even);
     QCOMPARE(angleSpanLabelVisibilitySpy.size(), 2);
+    arguments = angleSpanLabelVisibilitySpy.takeFirst();
+    QCOMPARE(arguments.at(0).value<QPieSeries::LabelVisibility>(), QPieSeries::LabelVisibility::None);
+    arguments = angleSpanLabelVisibilitySpy.takeFirst();
+    QCOMPARE(arguments.at(0).value<QPieSeries::LabelVisibility>(), QPieSeries::LabelVisibility::Even);
 }
 
 void tst_qgpieseries::append()
