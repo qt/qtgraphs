@@ -132,10 +132,10 @@ Q_SIGNALS:
     void hover(const QString &seriesName, QPointF position, QPointF value);
     Q_REVISION(6, 10) void hoveredChanged(bool hovered);
 
-    Q_REVISION(6, 10) void axisXChanged();
-    Q_REVISION(6, 10) void axisYChanged();
+    Q_REVISION(6, 10) void axisXChanged(QAbstractAxis *newAxis);
+    Q_REVISION(6, 10) void axisYChanged(QAbstractAxis *newAxis);
 
-    Q_REVISION(6, 10) void drawOrderChanged();
+    Q_REVISION(6, 10) void drawOrderChanged(int newDrawOrder);
 
 protected:
     friend class BarsRenderer;

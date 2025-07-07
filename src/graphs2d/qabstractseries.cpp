@@ -277,6 +277,27 @@ QT_BEGIN_NAMESPACE
 */
 
 /*!
+    \qmlsignal QAbstractSeries::axisXChanged(QAbstractAxis *newAxis)
+    \since 6.10
+    This signal is emitted whenever the X axis in control changes.
+    The \a newAxis parameter holds the new axis.
+*/
+
+/*!
+    \qmlsignal QAbstractSeries::axisYChanged(QAbstractAxis *newAxis)
+    \since 6.10
+    This signal is emitted whenever the Y axis in control changes.
+    The \a newAxis parameter holds the new axis.
+*/
+
+/*!
+    \qmlsignal QAbstractSeries::drawOrderChanged(int newDrawOrder)
+    \since 6.10
+    This signal is emitted when the series draw order changes.
+    The \a newAxis parameter specifies the new order.
+*/
+
+/*!
     \fn void QAbstractSeries::hoverEnter(const QString &seriesName, QPointF position, QPointF value)
     This signal is emitted when the series hovering starts. The name of the series is in \a seriesName,
     the mouse/touch position in \a position, and the series value in \a value.
@@ -442,7 +463,7 @@ void QAbstractSeries::setAxisX(QAbstractAxis *newAxisX)
 
     d->m_axisX = newAxisX;
     update();
-    emit axisXChanged();
+    emit axisXChanged(newAxisX);
 }
 
 QAbstractAxis *QAbstractSeries::axisY() const
@@ -468,7 +489,7 @@ void QAbstractSeries::setAxisY(QAbstractAxis *newAxisY)
 
     d->m_axisY = newAxisY;
     update();
-    emit axisYChanged();
+    emit axisYChanged(newAxisY);
 }
 
 qreal QAbstractSeries::opacity() const
@@ -520,7 +541,7 @@ void QAbstractSeries::setDrawOrder(int newDrawOrder)
         return;
     d->m_drawOrder = newDrawOrder;
     update();
-    emit drawOrderChanged();
+    emit drawOrderChanged(newDrawOrder);
 }
 
 /*!
