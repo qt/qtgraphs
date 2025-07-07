@@ -78,18 +78,6 @@ void tst_proxy::construct()
     QCOMPARE(proxy->scaleRole(), QString(""));
     delete proxy;
     delete series;
-
-    proxy = new QItemModelScatterDataProxy(table->model(), "x", "y", "z", "rot", "scale");
-    series = new QScatter3DSeries(proxy);
-    QVERIFY(proxy);
-    QVERIFY(series);
-    QCOMPARE(proxy->xPosRole(), QString("x"));
-    QCOMPARE(proxy->yPosRole(), QString("y"));
-    QCOMPARE(proxy->zPosRole(), QString("z"));
-    QCOMPARE(proxy->rotationRole(), QString("rot"));
-    QCOMPARE(proxy->scaleRole(), QString("scale"));
-    delete proxy;
-    delete series;
 }
 
 void tst_proxy::initialProperties()

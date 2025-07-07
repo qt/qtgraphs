@@ -62,13 +62,7 @@ public:
                                         const QString &zPosRole,
                                         const QString &rotationRole,
                                         QObject *parent = nullptr);
-    explicit QItemModelScatterDataProxy(QAbstractItemModel *itemModel,
-                                        const QString &xPosRole,
-                                        const QString &yPosRole,
-                                        const QString &zPosRole,
-                                        const QString &rotationRole,
-                                        const QString &scaleRole,
-                                        QObject *parent = nullptr);
+
     ~QItemModelScatterDataProxy() override;
 
     void setItemModel(QAbstractItemModel *itemModel);
