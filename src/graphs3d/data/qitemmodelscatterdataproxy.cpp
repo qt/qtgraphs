@@ -396,33 +396,6 @@ QItemModelScatterDataProxy::QItemModelScatterDataProxy(QAbstractItemModel *itemM
 }
 
 /*!
- * Constructs QItemModelScatterDataProxy with \a itemModel and an optional \a
- * parent. The proxy doesn't take ownership of the \a itemModel, as item models
- * are typically owned by other controls. The xPosRole property is set to \a
- * xPosRole, the yPosRole property to \a yPosRole, the zPosRole property to \a
- * zPosRole, the rotation property to \a rotationRole, and the scale role
- * property to \a scaleRole.
- */
-QItemModelScatterDataProxy::QItemModelScatterDataProxy(QAbstractItemModel *itemModel,
-                                                       const QString &xPosRole,
-                                                       const QString &yPosRole,
-                                                       const QString &zPosRole,
-                                                       const QString &rotationRole,
-                                                       const QString &scaleRole,
-                                                       QObject *parent)
-    : QScatterDataProxy(*(new QItemModelScatterDataProxyPrivate(this)), parent)
-{
-    Q_D(QItemModelScatterDataProxy);
-    d->m_itemModelHandler->setItemModel(itemModel);
-    d->m_xPosRole = xPosRole;
-    d->m_yPosRole = yPosRole;
-    d->m_zPosRole = zPosRole;
-    d->m_rotationRole = rotationRole;
-    d->m_scaleRole = scaleRole;
-    d->connectItemModelHandler();
-}
-
-/*!
  * Destroys QItemModelScatterDataProxy.
  */
 QItemModelScatterDataProxy::~QItemModelScatterDataProxy() {}
