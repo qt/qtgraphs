@@ -508,15 +508,17 @@ QT_BEGIN_NAMESPACE
 */
 
 /*!
-    \qmlsignal PieSeries::angleSpanVisibleLimitChanged()
+    \qmlsignal PieSeries::angleSpanVisibleLimitChanged(real limit)
     \since 6.10
     This signal is emitted when the angle span limit has been changed.
+    The \a limit parameter holds the new limit.
 */
 
 /*!
-    \qmlsignal PieSeries::angleSpanLabelVisibilityChanged()
+    \qmlsignal PieSeries::angleSpanLabelVisibilityChanged(LabelVisibility visibility)
     \since 6.10
     This signal is emitted when the angle span limit visible mode has been changed.
+    The \a visibility parameter holds the new visible mode.
 */
 
 /*!
@@ -1173,7 +1175,7 @@ void QPieSeries::setAngleSpanVisibleLimit(qreal newAngleSpanVisibleLimit)
     }
     d->m_angleSpanVisibleLimit = newAngleSpanVisibleLimit;
     d->updateData(true);
-    emit angleSpanVisibleLimitChanged();
+    emit angleSpanVisibleLimitChanged(newAngleSpanVisibleLimit);
 }
 
 QPieSeries::LabelVisibility QPieSeries::angleSpanLabelVisibility() const
@@ -1192,7 +1194,7 @@ void QPieSeries::setAngleSpanLabelVisibility(QPieSeries::LabelVisibility newAngl
     }
     d->m_angleSpanVisibleMode = newAngleSpanVisibleMode;
     d->updateData(true);
-    emit angleSpanLabelVisibilityChanged();
+    emit angleSpanLabelVisibilityChanged(newAngleSpanVisibleMode);
 }
 
 QPieSeriesPrivate::QPieSeriesPrivate()

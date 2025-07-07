@@ -120,8 +120,8 @@ Q_SIGNALS:
     Q_REVISION(6, 9) void pressed(QPieSlice *slice);
     Q_REVISION(6, 9) void released(QPieSlice *slice);
 
-    Q_REVISION(6, 10) void angleSpanVisibleLimitChanged();
-    Q_REVISION(6, 10) void angleSpanLabelVisibilityChanged();
+    Q_REVISION(6, 10) void angleSpanVisibleLimitChanged(qreal limit);
+    Q_REVISION(6, 10) void angleSpanLabelVisibilityChanged(LabelVisibility visibility);
 
 private:
     friend class PieRenderer;
