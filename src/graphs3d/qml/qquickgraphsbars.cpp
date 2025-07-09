@@ -387,7 +387,7 @@ QSizeF QQuickGraphsBars::barSeriesMargin() const
 QList<QBar3DSeries *> QQuickGraphsBars::barSeriesList()
 {
     QList<QBar3DSeries *> barSeriesList;
-    for (QAbstract3DSeries *abstractSeries : m_seriesList) {
+    for (QAbstract3DSeries *abstractSeries : std::as_const(m_seriesList)) {
         QBar3DSeries *barSeries = qobject_cast<QBar3DSeries *>(abstractSeries);
         if (barSeries)
             barSeriesList.append(barSeries);
@@ -936,7 +936,7 @@ void QQuickGraphsBars::updateAxisReversed(bool enable)
 void QQuickGraphsBars::updateLightStrength()
 {
     for (const auto list : std::as_const(m_barModelsMap)) {
-        for (auto barModel : *list) {
+        for (auto barModel : std::as_const(*list)) {
             QQmlListReference materialRef(barModel->model, "materials");
             if (materialRef.size()) {
                 QQuick3DCustomMaterial *material = qobject_cast<QQuick3DCustomMaterial *>(
@@ -1238,7 +1238,7 @@ void QQuickGraphsBars::handleItemChanged(qsizetype rowIndex, qsizetype columnInd
 
     bool newItem = true;
     QPoint candidate((int(rowIndex)), (int(columnIndex)));
-    for (ChangeItem item : m_changedItems) {
+    for (ChangeItem item : std::as_const(m_changedItems)) {
         if (item.point == candidate && item.series == series) {
             newItem = false;
             setDataDirty(true);
@@ -1879,7 +1879,7 @@ void QQuickGraphsBars::updateMaterialProperties(QQuick3DModel *item,
 void QQuickGraphsBars::removeBarModels()
 {
     for (const auto list : std::as_const(m_barModelsMap)) {
-        for (auto barModel : *list) {
+        for (auto barModel : std::as_const(*list)) {
             deleteBarModels(barModel->model);
             if (optimizationHint() == QtGraphs3D::OptimizationHint::Default) {
                 deleteBarItemHolders(barModel->instancing);
@@ -1956,7 +1956,7 @@ bool QQuickGraphsBars::doPicking(QPointF position)
                         if (optimizationHint() == QtGraphs3D::OptimizationHint::Legacy) {
                             selectedModel = hit;
                             for (const auto barlist : std::as_const(m_barModelsMap)) {
-                                for (const auto barModel : *barlist) {
+                                for (const auto barModel : std::as_const(*barlist)) {
                                     if (barModel->model == selectedModel) {
                                         setSelectedBar(barModel->coord,
                                                        m_barModelsMap.key(barlist),
@@ -1975,10 +1975,10 @@ bool QQuickGraphsBars::doPicking(QPointF position)
                                 instancePos = selectedModel->instancing()->instancePosition(
                                     picked.instanceIndex());
                                 for (const auto barlist : std::as_const(m_barModelsMap)) {
-                                    for (const auto barModel : *barlist) {
+                                    for (const auto barModel : std::as_const(*barlist)) {
                                         QList<BarItemHolder *> barItemList = barModel->instancing
                                                                                  ->dataArray();
-                                        for (const auto bih : barItemList) {
+                                        for (const auto bih : std::as_const(barItemList)) {
                                             if (bih->position == instancePos) {
                                                 setSelectedBar(bih->coord,
                                                                m_barModelsMap.key(barlist),
@@ -2040,7 +2040,7 @@ bool QQuickGraphsBars::doRayPicking(QVector3D origin, QVector3D direction)
                         if (optimizationHint() == QtGraphs3D::OptimizationHint::Legacy) {
                             selectedModel = hit;
                             for (const auto barlist : std::as_const(m_barModelsMap)) {
-                                for (const auto barModel : *barlist) {
+                                for (const auto barModel : std::as_const(*barlist)) {
                                     if (barModel->model == selectedModel) {
                                         setSelectedBar(barModel->coord,
                                                        m_barModelsMap.key(barlist),
@@ -2059,10 +2059,10 @@ bool QQuickGraphsBars::doRayPicking(QVector3D origin, QVector3D direction)
                                 instancePos = selectedModel->instancing()->instancePosition(
                                     picked.instanceIndex());
                                 for (const auto barlist : std::as_const(m_barModelsMap)) {
-                                    for (const auto barModel : *barlist) {
+                                    for (const auto barModel : std::as_const(*barlist)) {
                                         QList<BarItemHolder *> barItemList = barModel->instancing
                                                                                  ->dataArray();
-                                        for (const auto bih : barItemList) {
+                                        for (const auto bih : std::as_const(barItemList)) {
                                             if (bih->position == instancePos) {
                                                 setSelectedBar(bih->coord,
                                                                m_barModelsMap.key(barlist),
@@ -2169,7 +2169,7 @@ void QQuickGraphsBars::setSelectedBar(QPoint coord, QBar3DSeries *series, bool e
 
         // Clear selection from other series and finally set new selection to the
         // specified series
-        for (QAbstract3DSeries *otherSeries : m_seriesList) {
+        for (QAbstract3DSeries *otherSeries : std::as_const(m_seriesList)) {
             QBar3DSeries *barSeries = static_cast<QBar3DSeries *>(otherSeries);
             if (barSeries != m_selectedBarSeries)
                 barSeries->d_func()->setSelectedBar(invalidSelectionPosition());
@@ -2194,7 +2194,7 @@ void QQuickGraphsBars::updateSelectedBar()
         if (m_selectedBarSeries && it.key()->isVisible()) {
             QString label = m_selectedBarSeries->itemLabel();
             if (optimizationHint() == QtGraphs3D::OptimizationHint::Legacy) {
-                for (auto barList : *it.value()) {
+                for (auto barList : std::as_const(*it.value())) {
                     QQuickGraphsBars::SelectionType selectionType = isSelected(barList->coord.x(),
                                                                                barList->coord.y(),
                                                                                it.key());
@@ -2308,7 +2308,7 @@ void QQuickGraphsBars::resetClickedStatus()
     if (optimizationHint() == QtGraphs3D::OptimizationHint::Default) {
         for (const auto barList : std::as_const(m_barModelsMap)) {
             QList<BarItemHolder *> barItemList = barList->at(0)->instancing->dataArray();
-            for (auto bih : barItemList)
+            for (auto bih : std::as_const(barItemList))
                 bih->selectedBar = false;
         }
     }
