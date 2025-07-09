@@ -910,7 +910,7 @@ bool QBarSeries::replace(const QList<QBarSet *> &sets)
             return false;
     }
 
-    for (const auto set : d->m_barSets) {
+    for (const auto set : std::as_const(d->m_barSets)) {
         remove(set);
     }
 
@@ -1090,7 +1090,7 @@ void QBarSeries::setBarDelegate(QQmlComponent *newBarDelegate)
 void QBarSeries::selectAll()
 {
     Q_D(QBarSeries);
-    for (auto s : d->m_barSets) {
+    for (auto s : std::as_const(d->m_barSets)) {
         s->selectAllBars();
     }
 }
@@ -1099,7 +1099,7 @@ void QBarSeries::selectAll()
 void QBarSeries::deselectAll()
 {
     Q_D(QBarSeries);
-    for (auto s : d->m_barSets) {
+    for (auto s : std::as_const(d->m_barSets)) {
         s->deselectAllBars();
     }
 }
