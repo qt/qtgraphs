@@ -555,7 +555,8 @@ QPieSlice *QPieSeries::at(qsizetype index)
 */
 QPieSlice *QPieSeries::find(const QString &label)
 {
-    for (QPieSlice *slice : slices()) {
+    auto slicelist = slices();
+    for (QPieSlice *slice : std::as_const(slicelist)) {
         if (slice->label() == label)
             return slice;
     }
