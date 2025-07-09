@@ -135,7 +135,7 @@ bool QGraphTransition::initialized()
 
 bool QGraphTransition::contains(QGraphAnimation::GraphAnimationType type)
 {
-    for (const auto anim : m_animations) {
+    for (const auto anim : std::as_const(m_animations)) {
         if (anim->animationType() == type)
             return true;
     }
