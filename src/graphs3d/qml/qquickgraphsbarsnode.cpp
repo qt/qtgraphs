@@ -269,7 +269,7 @@ void QQuickGraphsBarsNode::componentComplete()
     graphBars()->setBarSpacingRelative(m_barSpacingRelative);
     graphBars()->setFloorLevel(m_floorLevel);
 
-    for (auto series : m_seriesList)
+    for (auto series : std::as_const(m_seriesList))
         graphBars()->addSeries(static_cast<QBar3DSeries *>(series));
 
     //connect signals
@@ -510,7 +510,7 @@ QList<QBar3DSeries *> QQuickGraphsBarsNode::barSeriesList()
         return graphBars()->barSeriesList();
     } else {
         QList<QBar3DSeries *> barSeriesList;
-        for (QAbstract3DSeries *abstractSeries : m_seriesList) {
+        for (QAbstract3DSeries *abstractSeries : std::as_const(m_seriesList)) {
             QBar3DSeries *barSeries = qobject_cast<QBar3DSeries *>(abstractSeries);
             if (barSeries)
                 barSeriesList.append(barSeries);

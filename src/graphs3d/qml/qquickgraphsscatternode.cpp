@@ -141,7 +141,7 @@ void QQuickGraphsScatterNode::componentComplete()
 
     graphScatter()->setSelectionMode(m_selectionMode);
 
-    for (auto series : m_seriesList)
+    for (auto series : std::as_const(m_seriesList))
         graphScatter()->addSeries(static_cast<QScatter3DSeries *>(series));
 
     //connect signals
@@ -232,7 +232,7 @@ QList<QScatter3DSeries *> QQuickGraphsScatterNode::scatterSeriesList()
         return graphScatter()->scatterSeriesList();
     } else {
         QList<QScatter3DSeries *> scatterSeriesList;
-        for (QAbstract3DSeries *abstractSeries : m_seriesList) {
+        for (QAbstract3DSeries *abstractSeries : std::as_const(m_seriesList)) {
             QScatter3DSeries *scatterSeries = qobject_cast<QScatter3DSeries *>(abstractSeries);
             if (scatterSeries)
                 scatterSeriesList.append(scatterSeries);
