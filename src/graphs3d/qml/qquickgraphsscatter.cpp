@@ -756,7 +756,7 @@ void QQuickGraphsScatter::removeDataItems(QList<QQuick3DModel *> &items, qsizety
 QList<QScatter3DSeries *> QQuickGraphsScatter::scatterSeriesList()
 {
     QList<QScatter3DSeries *> scatterSeriesList;
-    for (QAbstract3DSeries *abstractSeries : m_seriesList) {
+    for (QAbstract3DSeries *abstractSeries : std::as_const(m_seriesList)) {
         QScatter3DSeries *scatterSeries = qobject_cast<QScatter3DSeries *>(abstractSeries);
         if (scatterSeries)
             scatterSeriesList.append(scatterSeries);
@@ -770,7 +770,7 @@ void QQuickGraphsScatter::recreateDataItems()
     if (!isComponentComplete())
         return;
     QList<QScatter3DSeries *> seriesList = scatterSeriesList();
-    for (auto series : seriesList) {
+    for (auto series : std::as_const(seriesList)) {
         for (const auto &model : std::as_const(m_scatterGraphs)) {
             if (model->series == series)
                 removeDataItems(model, optimizationHint());
@@ -784,7 +784,7 @@ void QQuickGraphsScatter::recreateDataItems(const QList<ScatterModel *> &graphs)
     if (!isComponentComplete())
         return;
     QList<QScatter3DSeries *> seriesList = scatterSeriesList();
-    for (auto series : seriesList) {
+    for (auto series : std::as_const(seriesList)) {
         for (const auto &model : graphs) {
             if (model->series == series)
                 removeDataItems(model, optimizationHint());
@@ -951,7 +951,7 @@ void QQuickGraphsScatter::setSelectedItem(qsizetype index, QScatter3DSeries *ser
 
         // Clear selection from other series and finally set new selection to the
         // specified series
-        for (QAbstract3DSeries *otherSeries : m_seriesList) {
+        for (QAbstract3DSeries *otherSeries : std::as_const(m_seriesList)) {
             QScatter3DSeries *scatterSeries = static_cast<QScatter3DSeries *>(otherSeries);
             if (scatterSeries != m_selectedItemSeries)
                 scatterSeries->d_func()->setSelectedItem(invalidSelectionIndex());
@@ -1459,7 +1459,7 @@ void QQuickGraphsScatter::updateShadowQuality(QtGraphs3D::ShadowQuality quality)
 
 void QQuickGraphsScatter::updateLightStrength()
 {
-    for (auto graphModel : m_scatterGraphs) {
+    for (auto graphModel : std::as_const(m_scatterGraphs)) {
         for (const auto &obj : std::as_const(graphModel->dataItems)) {
             QQmlListReference materialsRef(obj, "materials");
             auto material = qobject_cast<QQuick3DCustomMaterial *>(materialsRef.at(0));
@@ -1826,7 +1826,7 @@ void QQuickGraphsScatter::clearSelectionModel()
 
 void QQuickGraphsScatter::clearAllSelectionInstanced()
 {
-    for (const auto &graph : m_scatterGraphs) {
+    for (const auto &graph : std::as_const(m_scatterGraphs)) {
         if (graph->instancing)
             graph->instancing->resetVisibilty();
     }
