@@ -1423,7 +1423,7 @@ void QQuickGraphsItem::emitNeedRender()
 void QQuickGraphsItem::handleThemeColorStyleChanged(QGraphsTheme::ColorStyle style)
 {
     // Set value for series that have not explicitly set this value
-    for (QAbstract3DSeries *series : m_seriesList) {
+    for (QAbstract3DSeries *series : std::as_const(m_seriesList)) {
         if (!series->d_func()->m_themeTracker.colorStyleOverride) {
             series->setColorStyle(style);
             series->d_func()->m_themeTracker.colorStyleOverride = false;
@@ -1440,7 +1440,7 @@ void QQuickGraphsItem::handleThemeBaseColorsChanged(const QList<QColor> &colors)
     if (!colors.size())
         return;
 
-    for (QAbstract3DSeries *series : m_seriesList) {
+    for (QAbstract3DSeries *series : std::as_const(m_seriesList)) {
         if (!series->d_func()->m_themeTracker.baseColorOverride) {
             series->setBaseColor(colors.at(colorIdx));
             series->d_func()->m_themeTracker.baseColorOverride = false;
@@ -1457,7 +1457,7 @@ void QQuickGraphsItem::handleThemeBaseGradientsChanged(const QList<QLinearGradie
 {
     int gradientIdx = 0;
     // Set value for series that have not explicitly set this value
-    for (QAbstract3DSeries *series : m_seriesList) {
+    for (QAbstract3DSeries *series : std::as_const(m_seriesList)) {
         if (!series->d_func()->m_themeTracker.baseGradientOverride) {
             series->setBaseGradient(gradients.at(gradientIdx));
             series->d_func()->m_themeTracker.baseGradientOverride = false;
@@ -1472,7 +1472,7 @@ void QQuickGraphsItem::handleThemeBaseGradientsChanged(const QList<QLinearGradie
 void QQuickGraphsItem::handleThemeSingleHighlightColorChanged(QColor color)
 {
     // Set value for series that have not explicitly set this value
-    for (QAbstract3DSeries *series : m_seriesList) {
+    for (QAbstract3DSeries *series : std::as_const(m_seriesList)) {
         if (!series->d_func()->m_themeTracker.singleHighlightColorOverride) {
             series->setSingleHighlightColor(color);
             series->d_func()->m_themeTracker.singleHighlightColorOverride = false;
@@ -1484,7 +1484,7 @@ void QQuickGraphsItem::handleThemeSingleHighlightColorChanged(QColor color)
 void QQuickGraphsItem::handleThemeSingleHighlightGradientChanged(const QLinearGradient &gradient)
 {
     // Set value for series that have not explicitly set this value
-    for (QAbstract3DSeries *series : m_seriesList) {
+    for (QAbstract3DSeries *series : std::as_const(m_seriesList)) {
         if (!series->d_func()->m_themeTracker.singleHighlightGradientOverride) {
             series->setSingleHighlightGradient(gradient);
             series->d_func()->m_themeTracker.singleHighlightGradientOverride = false;
@@ -1496,7 +1496,7 @@ void QQuickGraphsItem::handleThemeSingleHighlightGradientChanged(const QLinearGr
 void QQuickGraphsItem::handleThemeMultiHighlightColorChanged(QColor color)
 {
     // Set value for series that have not explicitly set this value
-    for (QAbstract3DSeries *series : m_seriesList) {
+    for (QAbstract3DSeries *series : std::as_const(m_seriesList)) {
         if (!series->d_func()->m_themeTracker.multiHighlightColorOverride) {
             series->setMultiHighlightColor(color);
             series->d_func()->m_themeTracker.multiHighlightColorOverride = false;
@@ -1508,7 +1508,7 @@ void QQuickGraphsItem::handleThemeMultiHighlightColorChanged(QColor color)
 void QQuickGraphsItem::handleThemeMultiHighlightGradientChanged(const QLinearGradient &gradient)
 {
     // Set value for series that have not explicitly set this value
-    for (QAbstract3DSeries *series : m_seriesList) {
+    for (QAbstract3DSeries *series : std::as_const(m_seriesList)) {
         if (!series->d_func()->m_themeTracker.multiHighlightGradientOverride) {
             series->setMultiHighlightGradient(gradient);
             series->d_func()->m_themeTracker.multiHighlightGradientOverride = false;
@@ -2173,7 +2173,7 @@ qsizetype QQuickGraphsItem::addCustomItem(QCustom3DItem *item)
 
 void QQuickGraphsItem::deleteCustomItems()
 {
-    for (QCustom3DItem *item : m_customItems)
+    for (QCustom3DItem *item : std::as_const(m_customItems))
         delete item;
     m_customItems.clear();
     m_isCustomDataDirty = true;
@@ -2195,7 +2195,7 @@ void QQuickGraphsItem::deleteCustomItem(QCustom3DItem *item)
 void QQuickGraphsItem::deleteCustomItem(QVector3D position)
 {
     // Get the item for the position
-    for (QCustom3DItem *item : m_customItems) {
+    for (QCustom3DItem *item : std::as_const(m_customItems)) {
         if (item->position() == position)
             deleteCustomItem(item);
     }
@@ -5913,7 +5913,7 @@ bool QQuickGraphsItem::doPicking(QPointF point)
     QList<QQuick3DPickResult> results = pickAll(point.x(), point.y());
     if (!m_customItemList.isEmpty()) {
         // Try to pick custom item only
-        for (const auto &result : results) {
+        for (const auto &result : std::as_const(results)) {
             QCustom3DItem *customItem = m_customItemList.key(result.objectHit(), nullptr);
 
             if (customItem) {
@@ -5926,7 +5926,7 @@ bool QQuickGraphsItem::doPicking(QPointF point)
         }
     }
 
-    for (const auto &result : results) {
+    for (const auto &result : std::as_const(results)) {
         if (!result.objectHit())
             continue;
         QString objName = result.objectHit()->objectName();
@@ -5963,7 +5963,7 @@ bool QQuickGraphsItem::doRayPicking(QVector3D origin, QVector3D direction)
     QList<QQuick3DPickResult> results = rayPickAll(origin, direction);
     if (!m_customItemList.isEmpty()) {
         // Try to pick custom item only
-        for (const auto &result : results) {
+        for (const auto &result : std::as_const(results)) {
             QCustom3DItem *customItem = m_customItemList.key(result.objectHit(), nullptr);
 
             if (customItem) {
@@ -5976,7 +5976,7 @@ bool QQuickGraphsItem::doRayPicking(QVector3D origin, QVector3D direction)
         }
     }
 
-    for (const auto &result : results) {
+    for (const auto &result : std::as_const(results)) {
         if (!result.objectHit())
             continue;
         QString objName = result.objectHit()->objectName();
