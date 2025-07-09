@@ -221,7 +221,7 @@ QValue3DAxis *QQuickGraphsSurface::axisZ() const
 void QQuickGraphsSurface::handleShadingChanged()
 {
     auto series = static_cast<QSurface3DSeries *>(sender());
-    for (auto model : m_model) {
+    for (auto model : std::as_const(m_model)) {
         if (model->series == series) {
             updateModel(model);
             break;
@@ -231,7 +231,7 @@ void QQuickGraphsSurface::handleShadingChanged()
 
 void QQuickGraphsSurface::handleWireframeColorChanged()
 {
-    for (auto model : m_model) {
+    for (auto model : std::as_const(m_model)) {
         QQmlListReference gridMaterialRef(model->gridModel, "materials");
         auto gridMaterial = gridMaterialRef.at(0);
         QColor gridColor = model->series->wireframeColor();
@@ -268,7 +268,7 @@ void QQuickGraphsSurface::changeSlicePointerMeshTypeForSeries(QAbstract3DSeries:
 void QQuickGraphsSurface::handleLightingModeChanged()
 {
     auto series = static_cast<QSurface3DSeries *>(QObject::sender());
-    for (auto model : m_model) {
+    for (auto model : std::as_const(m_model)) {
         if (model->series == series) {
             updateMaterial(model);
             break;
@@ -569,7 +569,7 @@ void QQuickGraphsSurface::handleFlatShadingSupportedChange(bool supported)
     if (m_flatShadingSupported != supported) {
         m_flatShadingSupported = supported;
         // Emit the change for all added surfaces
-        for (QAbstract3DSeries *series : m_seriesList) {
+        for (QAbstract3DSeries *series : std::as_const(m_seriesList)) {
             QSurface3DSeries *surfaceSeries = static_cast<QSurface3DSeries *>(series);
             emit surfaceSeries->flatShadingSupportedChanged(m_flatShadingSupported);
         }
@@ -618,7 +618,7 @@ void QQuickGraphsSurface::handleItemChanged(qsizetype rowIndex, qsizetype column
 
     bool newItem = true;
     QPoint candidate((int(rowIndex)), (int(columnIndex)));
-    for (ChangeItem item : m_changedItems) {
+    for (ChangeItem item : std::as_const(m_changedItems)) {
         if (item.point == candidate && item.series == series) {
             newItem = false;
             break;
@@ -767,7 +767,7 @@ void QQuickGraphsSurface::setSelectedPoint(const QPoint position,
 
         // Clear selection from other series and finally set new selection to the
         // specified series
-        for (QAbstract3DSeries *otherSeries : m_seriesList) {
+        for (QAbstract3DSeries *otherSeries : std::as_const(m_seriesList)) {
             QSurface3DSeries *surfaceSeries = static_cast<QSurface3DSeries *>(otherSeries);
             if (surfaceSeries != m_selectedSeries)
                 surfaceSeries->d_func()->setSelectedPoint(invalidSelectionPosition());
@@ -866,7 +866,7 @@ bool QQuickGraphsSurface::isFlatShadingSupported()
 QList<QSurface3DSeries *> QQuickGraphsSurface::surfaceSeriesList()
 {
     QList<QSurface3DSeries *> surfaceSeriesList;
-    for (QAbstract3DSeries *abstractSeries : m_seriesList) {
+    for (QAbstract3DSeries *abstractSeries : std::as_const(m_seriesList)) {
         QSurface3DSeries *surfaceSeries = qobject_cast<QSurface3DSeries *>(abstractSeries);
         if (surfaceSeries)
             surfaceSeriesList.append(surfaceSeries);
@@ -974,7 +974,7 @@ void QQuickGraphsSurface::removeSeries(QSurface3DSeries *series)
 void QQuickGraphsSurface::clearSelection()
 {
     setSelectedPoint(invalidSelectionPosition(), 0, false);
-    for (auto model : m_model)
+    for (auto model : std::as_const(m_model))
         model->picked = false;
 }
 
@@ -997,7 +997,8 @@ void QQuickGraphsSurface::componentComplete()
 {
     QQuickGraphsItem::componentComplete();
 
-    for (auto series : surfaceSeriesList()) {
+    auto serieslist = surfaceSeriesList();
+    for (auto series : std::as_const(serieslist)) {
         addModel(series);
         changePointerMeshTypeForSeries(series->mesh(), series);
     }
@@ -1026,7 +1027,7 @@ void QQuickGraphsSurface::synchData()
 
     if (isSurfaceTextureChanged()) {
         if (!isChangedTexturesEmpty()) {
-            for (auto model : m_model) {
+            for (auto model : std::as_const(m_model)) {
                 if (hasSeriesToChangeTexture(model->series))
                     updateMaterial(model);
             }
@@ -1086,7 +1087,7 @@ void QQuickGraphsSurface::synchData()
 
 void QQuickGraphsSurface::updateGraph()
 {
-    for (auto model : m_model) {
+    for (auto model : std::as_const(m_model)) {
         bool seriesVisible = model->series->isVisible();
         if (isSeriesVisibilityDirty()) {
             if (!seriesVisible) {
@@ -1132,7 +1133,7 @@ void QQuickGraphsSurface::updateGraph()
         if (hasChangedSeriesList()) {
             handleChangedSeries();
         } else {
-            for (auto model : m_model) {
+            for (auto model : std::as_const(m_model)) {
                 bool visible = model->series->isVisible();
                 if (visible)
                     updateModel(model);
@@ -1216,8 +1217,8 @@ void QQuickGraphsSurface::calculateSceneScalingFactors()
 void QQuickGraphsSurface::handleChangedSeries()
 {
     auto changedSeries = changedSeriesList();
-    for (auto series : changedSeries) {
-        for (auto model : m_model) {
+    for (auto series : std::as_const(changedSeries)) {
+        for (auto model : std::as_const(m_model)) {
             if (model->series == series) {
                 updateModel(model);
             }
@@ -1647,7 +1648,7 @@ void QQuickGraphsSurface::updateFill(SurfaceModel *model)
         }
 
         QVector<SurfaceVertex> sideVerts;
-        for (auto side : sideVertsList) {
+        for (auto side : std::as_const(sideVertsList)) {
             for (auto vert : side)
                 sideVerts.append(vert);
         }
@@ -2079,14 +2080,14 @@ void QQuickGraphsSurface::toggleSliceGraph()
         return;
 
     QPointF worldCoord;
-    for (auto model : m_model) {
+    for (auto model : std::as_const(m_model)) {
         if (model->picked) {
             QPoint coords = model->selectedVertex.coord;
             worldCoord = mapCoordsToWorldSpace(model, coords);
         }
     }
 
-    for (auto model : m_model) {
+    for (auto model : std::as_const(m_model)) {
         bool visible = model->series->isVisible();
 
         model->sliceModel->setVisible(visible);
@@ -2334,7 +2335,7 @@ bool QQuickGraphsSurface::doPicking(QPointF position)
     if (!m_pickThisFrame && m_proxyDirty) {
         m_pickThisFrame = true;
         m_lastPick = position;
-        for (auto model : m_model)
+        for (auto model : std::as_const(m_model))
             updateProxyModel(model);
         return false;
     }
@@ -2355,7 +2356,7 @@ bool QQuickGraphsSurface::doPicking(QPointF position)
             createSliceView();
 
         if (!pickResult.isEmpty()) {
-            for (auto picked : pickResult) {
+            for (auto picked : std::as_const(pickResult)) {
                 bool inBounds = qAbs(picked.position().y()) < scaleWithBackground().y();
                 if (inBounds && picked.objectHit()) {
                     pickedPos = picked.position();
@@ -2370,7 +2371,7 @@ bool QQuickGraphsSurface::doPicking(QPointF position)
                         continue;
                     }
                     bool visible = false;
-                    for (auto model : m_model) {
+                    for (auto model : std::as_const(m_model)) {
                         if (model->model == pickedModel)
                             visible = model->series->isVisible();
                     }
@@ -2387,7 +2388,7 @@ bool QQuickGraphsSurface::doPicking(QPointF position)
             if (!pickedPos.isNull() && inRange) {
                 float min = -1.0f;
 
-                for (auto model : m_model) {
+                for (auto model : std::as_const(m_model)) {
                     if (!model->series->isVisible()) {
                         model->picked = false;
                         continue;
@@ -2396,7 +2397,7 @@ bool QQuickGraphsSurface::doPicking(QPointF position)
                     model->picked = (model->model == pickedModel);
 
                     SurfaceVertex selectedVertex;
-                    for (auto vertex : model->vertices) {
+                    for (auto vertex : std::as_const(model->vertices)) {
                         QVector3D pos = vertex.position;
                         float dist = pickedPos.distanceToPoint(pos);
                         if (selectedVertex.position.isNull() || dist < min) {
@@ -2419,7 +2420,7 @@ bool QQuickGraphsSurface::doPicking(QPointF position)
             }
         } else {
             clearSelection();
-            for (auto model : m_model)
+            for (auto model : std::as_const(m_model))
                 model->picked = false;
         }
     }
@@ -2432,7 +2433,7 @@ bool QQuickGraphsSurface::doRayPicking(QVector3D origin, QVector3D direction)
         m_pickThisFrame = true;
         QVector3D toScene = mapFrom3DScene(origin);
         m_lastPick = QPointF(toScene.x(), toScene.y());
-        for (auto model : m_model)
+        for (auto model : std::as_const(m_model))
             updateProxyModel(model);
         return false;
     }
@@ -2453,14 +2454,14 @@ bool QQuickGraphsSurface::doRayPicking(QVector3D origin, QVector3D direction)
             createSliceView();
 
         if (!pickResult.isEmpty()) {
-            for (auto picked : pickResult) {
+            for (auto picked : std::as_const(pickResult)) {
                 bool inBounds = qAbs(picked.position().y()) < scaleWithBackground().y();
                 if (inBounds && picked.objectHit()
                     && picked.objectHit()->objectName().contains(QStringLiteral("ProxyModel"))) {
                     pickedPos = picked.position();
                     pickedModel = qobject_cast<QQuick3DModel *>(picked.objectHit()->parentItem());
                     bool visible = false;
-                    for (auto model : m_model) {
+                    for (auto model : std::as_const(m_model)) {
                         if (model->model == pickedModel)
                             visible = model->series->isVisible();
                     }
@@ -2468,7 +2469,7 @@ bool QQuickGraphsSurface::doRayPicking(QVector3D origin, QVector3D direction)
                         break;
                 } else {
                     clearSelection();
-                    for (auto model : m_model)
+                    for (auto model : std::as_const(m_model))
                         model->picked = false;
                 }
             }
@@ -2479,7 +2480,7 @@ bool QQuickGraphsSurface::doRayPicking(QVector3D origin, QVector3D direction)
             if (!pickedPos.isNull() && inRange) {
                 float min = -1.0f;
 
-                for (auto model : m_model) {
+                for (auto model : std::as_const(m_model)) {
                     if (!model->series->isVisible()) {
                         model->picked = false;
                         continue;
@@ -2488,7 +2489,7 @@ bool QQuickGraphsSurface::doRayPicking(QVector3D origin, QVector3D direction)
                     model->picked = (model->model == pickedModel);
 
                     SurfaceVertex selectedVertex;
-                    for (auto vertex : model->vertices) {
+                    for (auto vertex : std::as_const(model->vertices)) {
                         QVector3D pos = vertex.position;
                         float dist = pickedPos.distanceToPoint(pos);
                         if (selectedVertex.position.isNull() || dist < min) {
@@ -2511,7 +2512,7 @@ bool QQuickGraphsSurface::doRayPicking(QVector3D origin, QVector3D direction)
             }
         } else {
             clearSelection();
-            for (auto model : m_model)
+            for (auto model : std::as_const(m_model))
                 model->picked = false;
         }
     }
@@ -2523,7 +2524,7 @@ void QQuickGraphsSurface::updateSelectedPoint()
     bool labelVisible = false;
 
     auto list = surfaceSeriesList();
-    for (auto series : list) {
+    for (auto series : std::as_const(list)) {
         // If the pointer and its instancing do not exist yet (as will happen in widget case),
         // we must create them
         if (!m_selectionPointers.value(series))
@@ -2545,13 +2546,13 @@ void QQuickGraphsSurface::updateSelectedPoint()
     }
 
     QPointF worldCoord;
-    for (auto model : m_model) {
+    for (auto model : std::as_const(m_model)) {
         if (model->picked) {
             QPoint coords = model->selectedVertex.coord;
             worldCoord = mapCoordsToWorldSpace(model, coords);
         }
     }
-    for (auto model : m_model) {
+    for (auto model : std::as_const(m_model)) {
         if ((!selectionMode().testFlag(QtGraphs3D::SelectionFlag::MultiSeries) && !model->picked)
             || model->selectedVertex.position.isNull()) {
             continue;
@@ -2770,7 +2771,7 @@ void QQuickGraphsSurface::createSliceView()
     setSliceOrthoProjection(true);
     QQuickGraphsItem::createSliceView();
 
-    for (auto surfaceModel : m_model) {
+    for (auto surfaceModel : std::as_const(m_model)) {
         addSliceModel(surfaceModel);
         changeSlicePointerMeshTypeForSeries(surfaceModel->series->mesh(), surfaceModel->series);
     }
@@ -3100,7 +3101,7 @@ void QQuickGraphsSurface::addSliceModel(SurfaceModel *model)
 void QQuickGraphsSurface::updateSingleHighlightColor()
 {
     auto list = surfaceSeriesList();
-    for (auto series : list) {
+    for (auto series : std::as_const(list)) {
         QQmlListReference pMaterialRef(m_selectionPointers.value(series), "materials");
         auto pmat = qobject_cast<QQuick3DPrincipledMaterial *>(pMaterialRef.at(0));
         if (pmat)
@@ -3115,7 +3116,7 @@ void QQuickGraphsSurface::updateSingleHighlightColor()
 
 void QQuickGraphsSurface::updateLightStrength()
 {
-    for (auto model : m_model) {
+    for (auto model : std::as_const(m_model)) {
         QQmlListReference materialRef(model->model, "materials");
         QQuick3DCustomMaterial *material = qobject_cast<QQuick3DCustomMaterial *>(materialRef.at(0));
         material->setProperty("specularBrightness", lightStrength() * 0.05);
@@ -3124,7 +3125,7 @@ void QQuickGraphsSurface::updateLightStrength()
 
 void QQuickGraphsSurface::handleThemeTypeChange()
 {
-    for (auto model : m_model)
+    for (auto model : std::as_const(m_model))
         updateMaterial(model);
 }
 
