@@ -450,7 +450,7 @@ void PointRenderer::handlePolish(QXYSeries *series)
                 group->shapePath->setPath(painterPath);
             }
 
-            for (auto m : group->markers)
+            for (auto m : std::as_const(group->markers))
                 m->deleteLater();
 
             group->markers.clear();
@@ -614,7 +614,7 @@ void PointRenderer::afterPolish(QList<QAbstractSeries *> &cleanupSeries)
         if (xySeries && m_groups.contains(xySeries)) {
             auto group = m_groups.value(xySeries);
 
-            for (auto marker : group->markers)
+            for (auto marker : std::as_const(group->markers))
                 marker->deleteLater();
 
             if (group->shapePath) {
