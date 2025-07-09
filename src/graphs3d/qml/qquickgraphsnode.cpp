@@ -365,7 +365,7 @@ void QQuickGraphsNode::componentComplete()
     m_graph->setMargin(m_margin);
     m_graph->setGridLineType(m_gridLineType);
 
-    for (auto item : m_customItemList)
+    for (auto item : std::as_const(m_customItemList))
         m_graph->addCustomItem(item);
 
     //connect signals
@@ -703,7 +703,7 @@ void QQuickGraphsNode::removeCustomItemAt(QVector3D position)
     if (m_graph)
         m_graph->removeCustomItemAt(position);
 
-    for (QCustom3DItem *item : m_customItemList) {
+    for (QCustom3DItem *item : std::as_const(m_customItemList)) {
         if (item->position() == position)
             m_customItemList.removeOne(item);
     }

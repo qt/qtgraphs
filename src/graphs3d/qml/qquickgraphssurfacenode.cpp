@@ -165,7 +165,7 @@ void QQuickGraphsSurfaceNode::componentComplete()
     graphSurface()->setSelectionMode(m_selectionMode);
     graphSurface()->setFlipHorizontalGrid(m_flipHorizontalGrid);
 
-    for (auto series : m_seriesList)
+    for (auto series : std::as_const(m_seriesList))
         graphSurface()->addSeries(static_cast<QSurface3DSeries *>(series));
 
     //connect signals
@@ -274,7 +274,7 @@ QList<QSurface3DSeries *> QQuickGraphsSurfaceNode::surfaceSeriesList()
         return graphSurface()->surfaceSeriesList();
     } else {
         QList<QSurface3DSeries *> surfaceSeriesList;
-        for (QAbstract3DSeries *abstractSeries : m_seriesList) {
+        for (QAbstract3DSeries *abstractSeries : std::as_const(m_seriesList)) {
             QSurface3DSeries *surfaceSeries = qobject_cast<QSurface3DSeries *>(abstractSeries);
             if (surfaceSeries)
                 surfaceSeriesList.append(surfaceSeries);
