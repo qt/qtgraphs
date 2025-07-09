@@ -40,7 +40,8 @@ void PieRenderer::setSize(QSizeF size)
 
 void PieRenderer::handlePolish(QPieSeries *series)
 {
-    for (QPieSlice *slice : series->slices()) {
+    auto slices = series->slices();
+    for (QPieSlice *slice : std::as_const(slices)) {
         QPieSlicePrivate *d = slice->d_func();
         QQuickShapePath *shapePath = d->m_shapePath;
         QQuickShapePath *labelPath = d->m_labelPath;
@@ -102,7 +103,8 @@ void PieRenderer::handlePolish(QPieSeries *series)
     qreal sliceAngle = series->startAngle();
     int sliceIndex = 0;
     QList<QLegendData> legendDataList;
-    for (QPieSlice *slice : series->slices()) {
+    auto slicelist = series->slices();
+    for (QPieSlice *slice : std::as_const(slicelist)) {
         m_painterPath.clear();
 
         QPieSlicePrivate *d = slice->d_func();
@@ -227,7 +229,8 @@ void PieRenderer::afterPolish(QList<QAbstractSeries *> &cleanupSeries)
     for (auto series : cleanupSeries) {
         auto pieSeries = qobject_cast<QPieSeries *>(series);
         if (pieSeries) {
-            for (QPieSlice *slice : pieSeries->slices()) {
+            auto slices = pieSeries->slices();
+            for (QPieSlice *slice : std::as_const(slices)) {
                 QPieSlicePrivate *d = slice->d_func();
                 auto labelElements = d->m_labelPath->pathElements();
                 auto shapeElements = d->m_shapePath->pathElements();
@@ -318,7 +321,7 @@ bool PieRenderer::handleHoverMove(QHoverEvent *event)
 
     bool hovering = false;
     QList<QPieSlice *> list = m_activeSlices.keys();
-    for (const auto &slice : list) {
+    for (const auto &slice : std::as_const(list)) {
         if (!slice->series()->isHoverable())
             continue;
 
@@ -360,7 +363,7 @@ void PieRenderer::onSingleTapped(QEventPoint eventPoint, Qt::MouseButton button)
     Q_UNUSED(button)
 
     QList<QPieSlice *> list = m_activeSlices.keys();
-    for (const auto &pieSlice : list) {
+    for (const auto &pieSlice : std::as_const(list)) {
         if (!pieSlice->series()->isSelectable())
             continue;
 
@@ -376,7 +379,7 @@ void PieRenderer::onDoubleTapped(QEventPoint eventPoint, Qt::MouseButton button)
     Q_UNUSED(button)
 
     QList<QPieSlice *> list = m_activeSlices.keys();
-    for (const auto &pieSlice : list) {
+    for (const auto &pieSlice : std::as_const(list)) {
         if (!pieSlice->series()->isSelectable())
             continue;
 
@@ -390,7 +393,7 @@ void PieRenderer::onDoubleTapped(QEventPoint eventPoint, Qt::MouseButton button)
 void PieRenderer::onPressedChanged()
 {
     QList<QPieSlice *> list = m_activeSlices.keys();
-    for (const auto &pieSlice : list) {
+    for (const auto &pieSlice : std::as_const(list)) {
         if (!pieSlice->series()->isSelectable())
             continue;
 

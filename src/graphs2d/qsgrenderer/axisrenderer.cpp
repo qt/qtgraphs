@@ -1198,7 +1198,8 @@ void AxisRenderer::updateBarXAxisLabels(AxisProperties &ax, const QRectF rect)
     updateAxisLabelItems(ax.textItems, categoriesCount, axis->labelDelegate());
 
     int textIndex = 0;
-    for (auto category : axis->categories()) {
+    auto categories = axis->categories();
+    for (const auto &category : std::as_const(categories)) {
         auto &textItem = ax.textItems[textIndex];
         if (axis->isVisible() && axis->labelsVisible()) {
             float posX = rect.x() + ((float)textIndex / categoriesCount) *  rect.width() + ax.x;
@@ -1239,7 +1240,8 @@ void AxisRenderer::updateBarYAxisLabels(AxisProperties &ax, const QRectF rect)
     updateAxisLabelItems(ax.textItems, categoriesCount, axis->labelDelegate());
 
     int textIndex = 0;
-    for (auto category : axis->categories()) {
+    auto categories = axis->categories();
+    for (const auto &category : std::as_const(categories)) {
         auto &textItem = ax.textItems[textIndex];
         if (axis->isVisible() && axis->labelsVisible()) {
             float posX = rect.x() + ax.x;

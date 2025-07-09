@@ -256,10 +256,11 @@ void BarsRenderer::updateValueLabels(QBarSeries *series)
 void calculateCategoryTotalValues(QBarSeries *series, QList<float> &totalValues, qsizetype valuesPerSet)
 {
     totalValues.fill(0, valuesPerSet);
-    for (auto s : series->barSets()) {
+    auto barsets = series->barSets();
+    for (auto s : std::as_const(barsets)) {
         QVariantList v = s->values();
         int setIndex = 0;
-        for (auto variantValue : std::as_const(v)) {
+        for (const auto &variantValue : std::as_const(v)) {
             if (setIndex < totalValues.size())
                 totalValues[setIndex] += variantValue.toReal();
             setIndex++;
@@ -305,7 +306,8 @@ void BarsRenderer::updateVerticalBars(QBarSeries *series, qsizetype setCount, qs
     int barIndexInSet = 0;
     int barSeriesIndex = 0;
     QList<QLegendData> legendDataList;
-    for (auto s : series->barSets()) {
+    auto barsets = series->barSets();
+    for (auto s : std::as_const(barsets)) {
         QVariantList v = s->values();
         qsizetype valuesCount = v.size();
         if (valuesCount == 0)
@@ -336,7 +338,7 @@ void BarsRenderer::updateVerticalBars(QBarSeries *series, qsizetype setCount, qs
         color.setAlpha(color.alpha() * series->opacity());
         borderColor.setAlpha(borderColor.alpha() * series->opacity());
         const auto selectedBars = s->selectedBars();
-        for (auto variantValue : std::as_const(v)) {
+        for (const auto &variantValue : std::as_const(v)) {
             const float realValue = variantValue.toReal();
             float value = (realValue - axisY.minValue) * series->valuesMultiplier();
             if (percent) {
@@ -417,7 +419,8 @@ void BarsRenderer::updateHorizontalBars(QBarSeries *series, qsizetype setCount, 
     int barIndexInSet = 0;
     int barSerieIndex = 0;
     QList<QLegendData> legendDataList;
-    for (auto s : series->barSets()) {
+    auto barsets = series->barSets();
+    for (auto s : std::as_const(barsets)) {
         QVariantList v = s->values();
         qsizetype valuesCount = v.size();
         if (valuesCount == 0)
@@ -447,7 +450,7 @@ void BarsRenderer::updateHorizontalBars(QBarSeries *series, qsizetype setCount, 
         color.setAlpha(color.alpha() * series->opacity());
         borderColor.setAlpha(borderColor.alpha() * series->opacity());
         const auto selectedBars = s->selectedBars();
-        for (auto variantValue : std::as_const(v)) {
+        for (const auto &variantValue : std::as_const(v)) {
             const float realValue = variantValue.toReal();
             float value = (realValue - axisX.minValue) * series->valuesMultiplier();
             if (percent) {
