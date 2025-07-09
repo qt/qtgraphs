@@ -1660,7 +1660,7 @@ void QGraphsTheme::setThemePalette()
     d->m_borderThemeColors = d->m_seriesThemeColors;
 
     d->m_seriesThemeGradients.clear();
-    for (QColor color : d->m_seriesThemeColors)
+    for (QColor color : std::as_const(d->m_seriesThemeColors))
         d->m_seriesThemeGradients.append(createGradient(color, defaultColorLevel));
 
     d->m_dirtyBits.seriesColorsDirty = true;
@@ -1805,7 +1805,7 @@ QList<QQuickGraphsColor *> QGraphsTheme::colorList()
         // Create dummy Colors from theme's colors
         d->m_dummyColors = true;
         QList<QColor> list = seriesColors();
-        for (const QColor &item : list) {
+        for (const QColor &item : std::as_const(list)) {
             QQuickGraphsColor *color = new QQuickGraphsColor(this);
             color->setColor(item);
             d->m_colors.append(color);
@@ -1819,7 +1819,7 @@ void QGraphsTheme::clearColors()
 {
     clearDummyColors();
     Q_D(QGraphsTheme);
-    for (QQuickGraphsColor *item : d->m_colors)
+    for (QQuickGraphsColor *item : std::as_const(d->m_colors))
         disconnect(item, 0, this, 0);
     d->m_colors.clear();
     setSeriesColors(QList<QColor>());
@@ -1829,7 +1829,7 @@ void QGraphsTheme::clearDummyColors()
 {
     Q_D(QGraphsTheme);
     if (d->m_dummyColors) {
-        for (QQuickGraphsColor *item : d->m_colors)
+        for (QQuickGraphsColor *item : std::as_const(d->m_colors))
             delete item;
         d->m_colors.clear();
         d->m_dummyColors = false;
