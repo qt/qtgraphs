@@ -2714,7 +2714,7 @@ void QQuickGraphsItem::synchData()
             updateGridLineType();
         else
             updateGrid();
-        updateLabels();
+        m_labelsNeedupdate = true;
         updateCustomData();
         if (m_sliceView && isSliceEnabled()) {
             updateSliceGrid();
@@ -2728,7 +2728,7 @@ void QQuickGraphsItem::synchData()
         m_changeTracker.radialLabelOffsetChanged = false;
     }
     if (m_changeTracker.labelMarginChanged) {
-        updateLabels();
+        m_labelsNeedupdate = true;
         m_changeTracker.labelMarginChanged = false;
     }
 
@@ -2968,7 +2968,7 @@ void QQuickGraphsItem::synchData()
         m_titleLabelY->setProperty("labelFont", font);
         m_titleLabelZ->setProperty("labelFont", font);
         m_itemLabel->setProperty("labelFont", font);
-        updateLabels();
+        m_labelsNeedupdate = true;
 
         if (m_sliceView && isSliceEnabled()) {
             changeLabelFont(m_sliceHorizontalLabelRepeater, font);
@@ -3073,7 +3073,7 @@ void QQuickGraphsItem::synchData()
             updateGridLineType();
         else
             updateGrid();
-        updateLabels();
+        m_labelsNeedupdate = true;
         if (m_sliceView && isSliceEnabled()) {
             updateSliceGrid();
             updateSliceLabels();
