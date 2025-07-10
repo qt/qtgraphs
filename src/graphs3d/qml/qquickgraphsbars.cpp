@@ -775,9 +775,9 @@ void QQuickGraphsBars::synchData()
         m_changeTracker.barSeriesMarginChanged = false;
     }
 
-    if (m_axisRangeChanged) {
-        theme()->resetDirtyBits();
-        m_axisRangeChanged = false;
+    if (m_changeTracker.axisRangeChanged) {
+        adjustAxisRanges();
+        m_changeTracker.axisRangeChanged = false;
     }
 
     QQuickGraphsItem::synchData();
@@ -836,7 +836,7 @@ void QQuickGraphsBars::updateParameters()
         if (m_cachedBarThickness.isValid())
             calculateSceneScalingFactors();
     }
-    m_axisRangeChanged = true;
+    m_changeTracker.axisRangeChanged = true;
     setDataDirty(true);
 }
 
@@ -2690,7 +2690,7 @@ void QQuickGraphsBars::updateBarSpecs(float thicknessRatio, QSizeF spacing, bool
         m_cachedBarSpacing = m_cachedBarThickness * 2 + spacing * 2;
     }
 
-    m_axisRangeChanged = true;
+    m_changeTracker.axisRangeChanged = true;
     m_changeTracker.selectedBarChanged = true;
 
     // Calculate here and at setting sample space
