@@ -34,6 +34,7 @@ struct Bars3DChangeBitField
     bool itemChanged : 1;
     bool floorLevelChanged : 1;
     bool barSeriesMarginChanged : 1;
+    bool axisRangeChanged : 1;
 
     Bars3DChangeBitField()
         : multiSeriesScalingChanged(true)
@@ -43,6 +44,7 @@ struct Bars3DChangeBitField
         , itemChanged(false)
         , floorLevelChanged(false)
         , barSeriesMarginChanged(false)
+        , axisRangeChanged(false)
     {}
 };
 
@@ -268,8 +270,6 @@ private:
     float m_actualFloorLevel = 0.0f;
     float m_heightNormalizer = 1.0f;
     float m_backgroundAdjustment = 0.0f;
-
-    bool m_axisRangeChanged = false;
 
     QQuick3DModel *m_floorBackground = nullptr;
     QQuick3DNode *m_floorBackgroundScale = nullptr;
