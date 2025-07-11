@@ -102,6 +102,7 @@ struct Abstract3DChangeBitField
     bool labelMarginChanged : 1;
     bool radialLabelOffsetChanged : 1;
     bool marginChanged : 1;
+    bool cameraChanged : 1;
 
     Abstract3DChangeBitField()
         : themeChanged(true)
@@ -157,6 +158,7 @@ struct Abstract3DChangeBitField
         , labelMarginChanged(true)
         , radialLabelOffsetChanged(true)
         , marginChanged(true)
+        , cameraChanged(true)
     {}
 };
 

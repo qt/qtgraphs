@@ -2635,7 +2635,10 @@ void QQuickGraphsItem::synchData()
         m_changeTracker.axisZTitleOffsetChanged = false;
     }
 
-    updateCamera();
+    if (m_changeTracker.cameraChanged) {
+        updateCamera();
+        m_changeTracker.cameraChanged = false;
+    }
 
     QVector3D forward = camera()->forward();
     auto targetRotation = cameraTarget()->eulerRotation();
@@ -6138,6 +6141,7 @@ void QQuickGraphsItem::setCameraPreset(QtGraphs3D::CameraPreset preset)
         connect(this, &QQuickGraphsItem::cameraYRotationChanged, m_scene, &Q3DScene::needRender);
         connect(this, &QQuickGraphsItem::cameraZoomLevelChanged, m_scene, &Q3DScene::needRender);
     }
+    m_changeTracker.cameraChanged = true;
 }
 
 void QQuickGraphsItem::setCameraXRotation(float rotation)
@@ -6148,6 +6152,7 @@ void QQuickGraphsItem::setCameraXRotation(float rotation)
         rotation = qBound(m_minXRotation, rotation, m_maxXRotation);
     if (rotation != m_xRotation) {
         m_xRotation = rotation;
+        m_changeTracker.cameraChanged = true;
         emit cameraXRotationChanged(m_xRotation);
     }
 }
@@ -6160,6 +6165,7 @@ void QQuickGraphsItem::setCameraYRotation(float rotation)
         rotation = qBound(m_minYRotation, rotation, m_maxYRotation);
     if (rotation != m_yRotation) {
         m_yRotation = rotation;
+        m_changeTracker.cameraChanged = true;
         emit cameraYRotationChanged(m_yRotation);
     }
 }
@@ -6285,6 +6291,7 @@ void QQuickGraphsItem::setCameraZoomLevel(float level)
         return;
 
     m_zoomLevel = level;
+    m_changeTracker.cameraChanged = true;
     emit cameraZoomLevelChanged(level);
 }
 
@@ -6324,6 +6331,7 @@ void QQuickGraphsItem::setCameraTargetPosition(QVector3D target)
     m_requestedTarget.setX(std::clamp(target.x(), -1.0f, 1.0f));
     m_requestedTarget.setY(std::clamp(target.y(), -1.0f, 1.0f));
     m_requestedTarget.setZ(std::clamp(target.z(), -1.0f, 1.0f));
+    m_changeTracker.cameraChanged = true;
     emit cameraTargetPositionChanged(target);
 }
 
@@ -6804,6 +6812,7 @@ void QQuickGraphsItem::setUpCamera()
         setCamera(m_oCamera);
     else
         setCamera(m_pCamera);
+    m_changeTracker.cameraChanged = true;
 }
 
 void QQuickGraphsItem::setUpLight()
