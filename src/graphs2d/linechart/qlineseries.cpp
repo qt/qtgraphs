@@ -54,6 +54,17 @@ QT_BEGIN_NAMESPACE
 */
 
 /*!
+    \qmlproperty Qt::PenJoinStyle LineSeries::joinStyle
+    \since 6.11
+    Controls the join style of the line. Set to one of \l{Qt::BevelJoin}{Qt.BevelJoin},
+    \l{Qt::MiterJoin}{Qt.MiterJoin} or \l{Qt::RoundJoin}{Qt.RoundJoin}. By
+    default the join style is Qt.BevelJoin. Invalid values are automatically set
+    to the default value.
+
+    \sa Qt::PenJoinStyle
+*/
+
+/*!
     \qmlproperty Component LineSeries::pointDelegate
     Marks the point with the given QML component.
 
@@ -71,6 +82,12 @@ QT_BEGIN_NAMESPACE
 
 /*!
     \qmlsignal LineSeries::capStyleChanged()
+    This signal is emitted when the line series cap style changes.
+*/
+
+/*!
+    \qmlsignal LineSeries::joinStyleChanged()
+    \since 6.11
     This signal is emitted when the line series cap style changes.
 */
 
@@ -172,6 +189,29 @@ void QLineSeries::setCapStyle(Qt::PenCapStyle newCapStyle)
     emit update();
 }
 
+Qt::PenJoinStyle QLineSeries::joinStyle() const
+{
+    Q_D(const QLineSeries);
+    return d->m_joinStyle;
+}
+
+void QLineSeries::setJoinStyle(Qt::PenJoinStyle newJoinStyle)
+{
+    Q_D(QLineSeries);
+    Qt::PenJoinStyle validJoinStyle = newJoinStyle;
+    if (validJoinStyle != Qt::PenJoinStyle::BevelJoin && validJoinStyle != Qt::PenJoinStyle::MiterJoin
+        && validJoinStyle != Qt::PenJoinStyle::RoundJoin) {
+        validJoinStyle = Qt::PenJoinStyle::BevelJoin;
+    }
+    if (d->m_joinStyle == validJoinStyle) {
+        qCDebug(lcProperties2D) << "QLineSeries::setJoinStyle. JoinStyle is already set to:"
+                                << newJoinStyle;
+        return;
+    }
+    d->m_joinStyle = validJoinStyle;
+    emit joinStyleChanged();
+    emit update();
+}
 
 /*!
     \qmlmethod LineSeries::dataPointCoordinatesAt(real x, real y)

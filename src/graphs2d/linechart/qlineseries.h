@@ -16,6 +16,7 @@ class Q_GRAPHS_EXPORT QLineSeries : public QXYSeries
     Q_OBJECT
     Q_PROPERTY(qreal width READ width WRITE setWidth NOTIFY widthChanged FINAL)
     Q_PROPERTY(Qt::PenCapStyle capStyle READ capStyle WRITE setCapStyle NOTIFY capStyleChanged FINAL)
+    Q_PROPERTY(Qt::PenJoinStyle joinStyle READ joinStyle WRITE setJoinStyle NOTIFY joinStyleChanged REVISION(6, 11))
 
     QML_NAMED_ELEMENT(LineSeries)
 public:
@@ -30,11 +31,15 @@ public:
     Qt::PenCapStyle capStyle() const;
     void setCapStyle(Qt::PenCapStyle newCapStyle);
 
+    Qt::PenJoinStyle joinStyle() const;
+    void setJoinStyle(Qt::PenJoinStyle newJoinStyle);
+
     Q_REVISION(6, 10) Q_INVOKABLE QPointF dataPointCoordinatesAt(qreal x, qreal y);
 
 Q_SIGNALS:
     void widthChanged();
     void capStyleChanged();
+    Q_REVISION(6, 11) void joinStyleChanged();
 
 protected:
     QLineSeries(QLineSeriesPrivate &dd, QObject *parent = nullptr);

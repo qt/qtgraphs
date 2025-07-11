@@ -349,6 +349,14 @@ void PointRenderer::updateLineSeries(QLineSeries *series, QLegendData &legendDat
     else if (capStyle == Qt::PenCapStyle::RoundCap)
         group->shapePath->setCapStyle(QQuickShapePath::CapStyle::RoundCap);
 
+    Qt::PenJoinStyle joinStyle = series->joinStyle();
+    if (joinStyle == Qt::PenJoinStyle::BevelJoin)
+        group->shapePath->setJoinStyle(QQuickShapePath::JoinStyle::BevelJoin);
+    else if (joinStyle == Qt::PenJoinStyle::MiterJoin)
+        group->shapePath->setJoinStyle(QQuickShapePath::JoinStyle::MiterJoin);
+    else if (joinStyle == Qt::PenJoinStyle::RoundJoin)
+        group->shapePath->setJoinStyle(QQuickShapePath::JoinStyle::RoundJoin);
+
     auto &painterPath = group->painterPath;
     painterPath.clear();
 

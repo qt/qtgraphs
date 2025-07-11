@@ -19,6 +19,7 @@ Item {
 
         width: 10.0
         capStyle: Qt.RoundCap
+        joinStyle: Qt.RoundJoin
         pointDelegate: Rectangle {
             width: 5
             height: 5
@@ -46,6 +47,7 @@ Item {
             // Properties from QLineSeries
             compare(initial.width, 2.0)
             compare(initial.capStyle, Qt.SquareCap)
+            compare(initial.joinStyle, Qt.BevelJoin)
             compare(initial.pointDelegate, null)
         }
 
@@ -68,6 +70,7 @@ Item {
         function test_3_initial_change() {
             initial.width = 10.0
             initial.capStyle = Qt.RoundCap
+            initial.joinStyle = Qt.BevelJoin;
             initial.pointDelegate = marker
 
             initial.color = "#ff00ff"
@@ -83,6 +86,7 @@ Item {
 
             compare(initial.width, 10.0)
             compare(initial.capStyle, Qt.RoundCap)
+            compare(initial.joinStyle, Qt.BevelJoin)
             compare(initial.pointDelegate, marker)
 
             compare(initial.color, "#ff00ff")
@@ -135,6 +139,7 @@ Item {
         function test_1_initialized() {
             compare(initialized.width, 10.0)
             compare(initialized.capStyle, Qt.RoundCap)
+            compare(initialized.joinStyle, Qt.RoundJoin)
             verify(initialized.pointDelegate)
 
             compare(initialized.color, "#ff00ff")
@@ -152,6 +157,7 @@ Item {
         function test_2_initialized_change() {
             initialized.width = 1.0
             initialized.capStyle = Qt.SquareCap
+            initialized.joinStyle = Qt.BevelJoin
             initialized.pointDelegate = null
 
             initialized.color = "#0000ff"
@@ -167,6 +173,7 @@ Item {
 
             compare(initialized.width, 1.0)
             compare(initialized.capStyle, Qt.SquareCap)
+            compare(initialized.joinStyle, Qt.BevelJoin)
             verify(!initialized.pointDelegate)
 
             compare(initialized.color, "#0000ff")
@@ -183,6 +190,7 @@ Item {
             // LineSeries signals
             compare(widthSpy.count, 1)
             compare(capStyleSpy.count, 1)
+            compare(joinStyleSpy.count, 1)
 
             //QXYSeries signals
             compare(colorSpy.count, 1)
@@ -195,10 +203,12 @@ Item {
         function test_3_initialized_change_to_invalid() {
             initialized.width = -10.0
             initialized.capStyle = -1
+            initialized.joinStyle = -1
             initialized.valuesMultiplier = 2.0 // range 0...1
 
             compare(initialized.width, 0.0)
             compare(initialized.capStyle, Qt.SquareCap)
+            compare(initialized.joinStyle, Qt.BevelJoin)
             compare(initialized.valuesMultiplier, 1.0)
 
             initialized.valuesMultiplier = -1.0 // range 0...1
@@ -216,6 +226,12 @@ Item {
             id: capStyleSpy
             target: initialized
             signalName: "capStyleChanged"
+        }
+
+        SignalSpy {
+            id: joinStyleSpy
+            target: initialized
+            signalName: "joinStyleChanged"
         }
 
         // QXYSeries signals
