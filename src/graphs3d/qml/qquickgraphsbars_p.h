@@ -35,6 +35,7 @@ struct Bars3DChangeBitField
     bool floorLevelChanged : 1;
     bool barSeriesMarginChanged : 1;
     bool axisRangeChanged : 1;
+    bool floorChanged : 1;
 
     Bars3DChangeBitField()
         : multiSeriesScalingChanged(true)
@@ -45,6 +46,7 @@ struct Bars3DChangeBitField
         , floorLevelChanged(false)
         , barSeriesMarginChanged(false)
         , axisRangeChanged(false)
+        , floorChanged(true)
     {}
 };
 
@@ -154,6 +156,7 @@ public:
 protected:
     void componentComplete() override;
     void synchData() override;
+    void updateFloor();
     void updateParameters();
     void updateFloorLevel(float level);
     void updateGraph() override;

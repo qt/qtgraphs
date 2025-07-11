@@ -732,6 +732,7 @@ void QQuickGraphsBars::componentComplete()
     m_floorBackground->setParentItem(m_floorBackgroundRotation);
 
     m_floorBackground->setSource(floorUrl);
+    m_floorBackground->setPickable(false);
 
     setFloorGridInRange(true);
     setVerticalSegmentLine(false);
@@ -782,13 +783,22 @@ void QQuickGraphsBars::synchData()
 
     QQuickGraphsItem::synchData();
 
-    // Draw floor
+    if (m_selectedBarPos.isNull())
+        itemLabel()->setVisible(false);
 
-    //margin for a line to be fully visible on the edge in the grid shader
+    // Draw floor
+    if (m_changeTracker.floorChanged) {
+        updateFloor();
+        m_changeTracker.floorChanged = false;
+    }
+}
+
+void QQuickGraphsBars::updateFloor()
+{
+    // Margin for a line to be fully visible on the edge in the grid shader
     const float halfLineWidth = 50.0;
     const float gridTextureSize = 4096.0;
     const float gridMargin = halfLineWidth / gridTextureSize;
-    m_floorBackground->setPickable(false);
     auto min = qMin(scaleWithBackground().x(), scaleWithBackground().z());
     m_floorBackgroundScale->setScale(QVector3D(scaleWithBackground().x() + gridMargin,
                                                min * gridOffset(),
@@ -810,8 +820,6 @@ void QQuickGraphsBars::synchData()
         bgMatFloor = static_cast<QQuick3DCustomMaterial *>(bbRef.at(0));
         materialsRefF.append(bgMatFloor);
     }
-    if (m_selectedBarPos.isNull())
-        itemLabel()->setVisible(false);
 }
 
 void QQuickGraphsBars::updateParameters()
@@ -971,6 +979,7 @@ void QQuickGraphsBars::calculateSceneScalingFactors()
     setScaleWithBackground(scale);
     setBackgroundScaleMargin({m_hBackgroundMargin, m_vBackgroundMargin, m_hBackgroundMargin});
     setScale(scale);
+    m_changeTracker.floorChanged = true;
 }
 
 void QQuickGraphsBars::calculateHeightAdjustment()
