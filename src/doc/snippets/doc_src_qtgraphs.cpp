@@ -96,3 +96,14 @@ barGraph->setWidget(quickWidget);
 
 auto *hLayout = new QHBoxLayout(quickWidget);
 //! [widget in a layout example]
+
+//! [line gaps]
+QLineSeries *series = new QLineSeries();
+series->append(0, 2);
+series->append(2, 4);
+series->append(3, std::numeric_limits<qreal>::quiet_NaN());
+series->append(4, 1);
+series->append(5, 0);
+series->setLineStyle(QLineSeries::LineStyle::StepCenter);
+series->setColor(Qt::red);
+//! [line gaps]

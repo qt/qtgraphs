@@ -146,18 +146,18 @@ void QXYSeries::append(qreal x, qreal y)
 void QXYSeries::append(QPointF point)
 {
     Q_D(QXYSeries);
-    if (isValidValue(point)) {
-        if (d->m_graphTransition && d->m_graphTransition->initialized()
-            && d->m_graphTransition->contains(QGraphAnimation::GraphAnimationType::GraphPoint)) {
-            d->m_graphTransition->stop();
+    if (d->m_graphTransition && d->m_graphTransition->initialized()
+        && d->m_graphTransition->contains(QGraphAnimation::GraphAnimationType::GraphPoint)) {
+        d->m_graphTransition->stop();
+        if (isValidValue(point)) {
             d->m_graphTransition->onPointChanged(QGraphTransition::TransitionType::PointAdded,
                                                  d->m_points.size(),
                                                  point);
-        } else {
-            d->m_points << point;
-            emit pointAdded(d->m_points.size() - 1);
-            emit countChanged();
         }
+    } else {
+        d->m_points << point;
+        emit pointAdded(d->m_points.size() - 1);
+        emit countChanged();
     }
 }
 
@@ -244,17 +244,17 @@ void QXYSeries::replace(qsizetype index, QPointF newPoint)
     if (index < 0 || index >= d->m_points.size())
         return;
 
-    if (isValidValue(newPoint)) {
-        if (d->m_graphTransition && d->m_graphTransition->initialized()
-            && d->m_graphTransition->contains(QGraphAnimation::GraphAnimationType::GraphPoint)) {
-            d->m_graphTransition->stop();
+    if (d->m_graphTransition && d->m_graphTransition->initialized()
+        && d->m_graphTransition->contains(QGraphAnimation::GraphAnimationType::GraphPoint)) {
+        d->m_graphTransition->stop();
+        if (isValidValue(newPoint)) {
             d->m_graphTransition->onPointChanged(QGraphTransition::TransitionType::PointReplaced,
                                                  index,
                                                  newPoint);
-        } else {
-            d->m_points[index] = newPoint;
-            emit pointReplaced(index);
         }
+    } else {
+        d->m_points[index] = newPoint;
+        emit pointReplaced(index);
     }
 }
 
@@ -438,30 +438,28 @@ void QXYSeries::insert(qsizetype index, QPointF point)
 {
     Q_D(QXYSeries);
 
-    if (isValidValue(point)) {
-        index = qMax(0, qMin(index, d->m_points.size()));
+    index = qMax(0, qMin(index, d->m_points.size()));
 
-        d->m_points.insert(index, point);
+    d->m_points.insert(index, point);
 
-        bool callSignal = false;
-        if (!d->m_selectedPoints.isEmpty()) {
-            // if point was inserted we need to move already selected points by 1
-            QSet<qsizetype> selectedAfterInsert;
-            for (const auto &value : std::as_const(d->m_selectedPoints)) {
-                if (value >= index) {
-                    selectedAfterInsert << value + 1;
-                    callSignal = true;
-                } else {
-                    selectedAfterInsert << value;
-                }
+    bool callSignal = false;
+    if (!d->m_selectedPoints.isEmpty()) {
+        // if point was inserted we need to move already selected points by 1
+        QSet<qsizetype> selectedAfterInsert;
+        for (const auto &value : std::as_const(d->m_selectedPoints)) {
+            if (value >= index) {
+                selectedAfterInsert << value + 1;
+                callSignal = true;
+            } else {
+                selectedAfterInsert << value;
             }
-            d->m_selectedPoints = selectedAfterInsert;
         }
-
-        emit pointAdded(index);
-        if (callSignal)
-            emit selectedPointsChanged();
+        d->m_selectedPoints = selectedAfterInsert;
     }
+
+    emit pointAdded(index);
+    if (callSignal)
+        emit selectedPointsChanged();
 }
 
 /*!

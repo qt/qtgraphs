@@ -17,6 +17,7 @@
 #include <private/qabstractseries_p.h>
 #include <private/qgraphsview_p.h>
 #include <private/qxyseries_p.h>
+#include <private/charthelpers_p.h>
 
 QT_BEGIN_NAMESPACE
 
@@ -189,7 +190,7 @@ void PointRenderer::updatePointDelegate(
 
     marker->setX(x - marker->width() / 2.0);
     marker->setY(y - marker->height() / 2.0);
-    marker->setVisible(true);
+    marker->setVisible(isValidValue(x) && isValidValue(y));
 
     rect = QRectF(x - marker->width() / 2.0,
                   y - marker->height() / 2.0,
@@ -377,24 +378,29 @@ void PointRenderer::updateLineSeries(QLineSeries *series, QLegendData &legendDat
             if (i == 0)
                 painterPath.moveTo(x, y);
             else {
-                switch (series->lineStyle()) {
-                case QLineSeries::LineStyle::StepLeft:
-                    painterPath.lineTo(x, previousRenderCoordinates.y());
-                    painterPath.lineTo(x, y);
-                    break;
-                case QLineSeries::LineStyle::StepRight:
-                    painterPath.lineTo(previousRenderCoordinates.x(), y);
-                    painterPath.lineTo(x, y);
-                    break;
-                case QLineSeries::LineStyle::StepCenter: {
-                    qreal half = (x + previousRenderCoordinates.x()) / 2;
-                    painterPath.lineTo(half, previousRenderCoordinates.y());
-                    painterPath.lineTo(half, y);
-                    painterPath.lineTo(x, y);
-                } break;
-                default:
-                    painterPath.lineTo(x, y);
-                    break;
+                if (!isValidValue(previousRenderCoordinates.x()) || !isValidValue(previousRenderCoordinates.y())) {
+                    if (isValidValue(x) && isValidValue(y))
+                        painterPath.moveTo(x, y);
+                } else if (isValidValue(x) && isValidValue(y)) {
+                    switch (series->lineStyle()) {
+                    case QLineSeries::LineStyle::StepLeft:
+                        painterPath.lineTo(x, previousRenderCoordinates.y());
+                        painterPath.lineTo(x, y);
+                        break;
+                    case QLineSeries::LineStyle::StepRight:
+                        painterPath.lineTo(previousRenderCoordinates.x(), y);
+                        painterPath.lineTo(x, y);
+                        break;
+                    case QLineSeries::LineStyle::StepCenter: {
+                        qreal half = (x + previousRenderCoordinates.x()) / 2;
+                        painterPath.lineTo(half, previousRenderCoordinates.y());
+                        painterPath.lineTo(half, y);
+                        painterPath.lineTo(x, y);
+                    } break;
+                    default:
+                        painterPath.lineTo(x, y);
+                        break;
+                    }
                 }
             }
             previousRenderCoordinates = {x, y};

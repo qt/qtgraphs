@@ -15,7 +15,7 @@ QT_BEGIN_NAMESPACE
     \brief The QLineSeries class presents data in line graphs.
 
     A line graph is used to show information as a series of data points
-    connected by straight lines.
+    connected by straight lines or steps.
 */
 /*!
     \qmltype LineSeries
@@ -27,9 +27,25 @@ QT_BEGIN_NAMESPACE
     \brief Presents data in line graphs.
 
     A line graph is used to show information as a series of data points
-    connected by straight lines.
+    connected by straight lines or steps.
 
     \image graphs2d-line.png
+
+    Series can contain gaps using NaN values as in :
+
+    \snippet doc_src_qmlgraphs.cpp 14
+
+    or
+
+    \snippet doc_src_qtgraphs.cpp line gaps
+
+    which result in :
+
+    \image graphs2d-line-gaps.png
+
+    \note As seen on the above example's first graph, alone points
+    (like the first point of the series) won't be rendered as lines, unless
+    there is a visible \l{LineSeries::pointDelegate}{pointDelegate}
 
     LineSeries uses mostly the same API as ScatterSeries so see ScatterSeries
     documentation for further usage examples.
