@@ -28,6 +28,7 @@ protected:
     qreal m_width = 2.0;
     Qt::PenCapStyle m_capStyle = Qt::PenCapStyle::SquareCap;
     Qt::PenJoinStyle m_joinStyle = Qt::PenJoinStyle::BevelJoin;
+    QLineSeries::LineStyle m_lineStyle = QLineSeries::LineStyle::Straight;
 
 private:
     Q_DECLARE_PUBLIC(QLineSeries)

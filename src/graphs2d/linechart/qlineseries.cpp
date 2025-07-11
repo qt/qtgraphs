@@ -65,6 +65,33 @@ QT_BEGIN_NAMESPACE
 */
 
 /*!
+    \qmlproperty QLineSeries::LineStyle LineSeries::lineStyle
+    \since 6.11
+    Controls the line style of the line. Set to one of \l{QLineSeries::Straight}{LineSeries.Straight},
+    \l{QLineSeries::StepLeft}{LineSeries.StepLeft}, \l{QLineSeries::StepRight}{LineSeries.StepRight}
+    or \l{QLineSeries::StepCenter}{LineSeries.StepCenter}. By default the line style is LineSeries.Straight.
+    Invalid values are automatically set to the default value.
+
+    \sa QLineSeries::LineStyle
+*/
+
+/*!
+ * \enum QLineSeries::LineStyle
+ * \since 6.11
+ *
+ * Represents the line style of the series.
+ *
+ * \value Straight
+ *        The points are connected by a straight line.
+ * \value StepLeft
+ *        The points are connected by steps where each step height is the value from the left.
+ * \value StepRight
+ *        The points are connected by steps where each step height is the value from the right.
+ * \value StepCenter
+ *        The points are connected by steps which change in the middle between two values.
+ */
+
+/*!
     \qmlproperty Component LineSeries::pointDelegate
     Marks the point with the given QML component.
 
@@ -89,6 +116,12 @@ QT_BEGIN_NAMESPACE
     \qmlsignal LineSeries::joinStyleChanged()
     \since 6.11
     This signal is emitted when the line series cap style changes.
+*/
+
+/*!
+    \qmlsignal LineSeries::lineStyleChanged()
+    \since 6.11
+    This signal is emitted when the line series line style changes.
 */
 
 QLineSeries::QLineSeries(QObject *parent)
@@ -210,6 +243,30 @@ void QLineSeries::setJoinStyle(Qt::PenJoinStyle newJoinStyle)
     }
     d->m_joinStyle = validJoinStyle;
     emit joinStyleChanged();
+    emit update();
+}
+
+QLineSeries::LineStyle QLineSeries::lineStyle() const
+{
+    Q_D(const QLineSeries);
+    return d->m_lineStyle;
+}
+
+void QLineSeries::setLineStyle(QLineSeries::LineStyle newLineStyle)
+{
+    Q_D(QLineSeries);
+    QLineSeries::LineStyle validLineStyle = newLineStyle;
+    if (validLineStyle != QLineSeries::LineStyle::Straight && validLineStyle != QLineSeries::LineStyle::StepLeft
+        && validLineStyle != QLineSeries::LineStyle::StepRight && validLineStyle != QLineSeries::LineStyle::StepCenter) {
+        validLineStyle = QLineSeries::LineStyle::Straight;
+    }
+    if (d->m_lineStyle == validLineStyle) {
+        qCDebug(lcProperties2D) << "QLineSeries::setLineStyle. LineStyle is already set to:"
+                                << newLineStyle;
+        return;
+    }
+    d->m_lineStyle = validLineStyle;
+    emit lineStyleChanged();
     emit update();
 }
 

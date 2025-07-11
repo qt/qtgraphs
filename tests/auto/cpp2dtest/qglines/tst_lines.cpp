@@ -90,6 +90,7 @@ void tst_lines::initializeProperties()
     QSignalSpy spy11(m_series, &QLineSeries::valuesMultiplierChanged);
 
     QSignalSpy spy12(m_series, &QLineSeries::joinStyleChanged);
+    QSignalSpy spy13(m_series, &QLineSeries::lineStyleChanged);
 
     auto marker = new QQmlComponent(this);
 
@@ -109,6 +110,7 @@ void tst_lines::initializeProperties()
     m_series->setValuesMultiplier(0.5);
 
     m_series->setJoinStyle(Qt::PenJoinStyle::RoundJoin);
+    m_series->setLineStyle(QLineSeries::LineStyle::StepLeft);
 
     QCOMPARE(m_series->width(), 5.0);
     QCOMPARE(m_series->capStyle(), Qt::PenCapStyle::RoundCap);
@@ -126,6 +128,7 @@ void tst_lines::initializeProperties()
     QCOMPARE(m_series->valuesMultiplier(), 0.5);
 
     QCOMPARE(m_series->joinStyle(), Qt::PenJoinStyle::RoundJoin);
+    QCOMPARE(m_series->lineStyle(), QLineSeries::LineStyle::StepLeft);
 
     QCOMPARE(spy0.size(), 1);
     QCOMPARE(spy1.size(), 1);
@@ -143,6 +146,7 @@ void tst_lines::initializeProperties()
     QCOMPARE(spy11.size(), 1);
 
     QCOMPARE(spy12.size(), 1);
+    QCOMPARE(spy13.size(), 1);
 }
 
 void tst_lines::invalidProperties()

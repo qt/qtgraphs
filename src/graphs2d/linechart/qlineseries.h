@@ -17,9 +17,18 @@ class Q_GRAPHS_EXPORT QLineSeries : public QXYSeries
     Q_PROPERTY(qreal width READ width WRITE setWidth NOTIFY widthChanged FINAL)
     Q_PROPERTY(Qt::PenCapStyle capStyle READ capStyle WRITE setCapStyle NOTIFY capStyleChanged FINAL)
     Q_PROPERTY(Qt::PenJoinStyle joinStyle READ joinStyle WRITE setJoinStyle NOTIFY joinStyleChanged REVISION(6, 11))
+    Q_PROPERTY(QLineSeries::LineStyle lineStyle READ lineStyle WRITE setLineStyle NOTIFY lineStyleChanged REVISION(6, 11))
 
     QML_NAMED_ELEMENT(LineSeries)
 public:
+    enum class LineStyle {
+        Straight,
+        StepLeft,
+        StepRight,
+        StepCenter
+    };
+    Q_ENUM(LineStyle);
+
     explicit QLineSeries(QObject *parent = nullptr);
     ~QLineSeries() override;
     QAbstractSeries::SeriesType type() const override;
@@ -34,12 +43,16 @@ public:
     Qt::PenJoinStyle joinStyle() const;
     void setJoinStyle(Qt::PenJoinStyle newJoinStyle);
 
+    QLineSeries::LineStyle lineStyle() const;
+    void setLineStyle(QLineSeries::LineStyle newLineStyle);
+
     Q_REVISION(6, 10) Q_INVOKABLE QPointF dataPointCoordinatesAt(qreal x, qreal y);
 
 Q_SIGNALS:
     void widthChanged();
     void capStyleChanged();
     Q_REVISION(6, 11) void joinStyleChanged();
+    Q_REVISION(6, 11) void lineStyleChanged();
 
 protected:
     QLineSeries(QLineSeriesPrivate &dd, QObject *parent = nullptr);

@@ -360,6 +360,8 @@ void PointRenderer::updateLineSeries(QLineSeries *series, QLegendData &legendDat
     auto &painterPath = group->painterPath;
     painterPath.clear();
 
+    QPointF previousRenderCoordinates;
+
     if (series->isVisible()) {
         auto &&points = series->points();
         group->rects.resize(points.size());
@@ -374,8 +376,28 @@ void PointRenderer::updateLineSeries(QLineSeries *series, QLegendData &legendDat
             y *= series->valuesMultiplier();
             if (i == 0)
                 painterPath.moveTo(x, y);
-            else
-                painterPath.lineTo(x, y);
+            else {
+                switch (series->lineStyle()) {
+                case QLineSeries::LineStyle::StepLeft:
+                    painterPath.lineTo(x, previousRenderCoordinates.y());
+                    painterPath.lineTo(x, y);
+                    break;
+                case QLineSeries::LineStyle::StepRight:
+                    painterPath.lineTo(previousRenderCoordinates.x(), y);
+                    painterPath.lineTo(x, y);
+                    break;
+                case QLineSeries::LineStyle::StepCenter: {
+                    qreal half = (x + previousRenderCoordinates.x()) / 2;
+                    painterPath.lineTo(half, previousRenderCoordinates.y());
+                    painterPath.lineTo(half, y);
+                    painterPath.lineTo(x, y);
+                } break;
+                default:
+                    painterPath.lineTo(x, y);
+                    break;
+                }
+            }
+            previousRenderCoordinates = {x, y};
 
             if (group->currentMarker) {
                 updatePointDelegate(series, group, i, x, y);
