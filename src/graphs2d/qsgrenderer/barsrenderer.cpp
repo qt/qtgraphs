@@ -267,7 +267,9 @@ void calculateCategoryTotalValues(QBarSeries *series, QList<float> &totalValues,
     }
 }
 
-void BarsRenderer::updateVerticalBars(QBarSeries *series, qsizetype setCount, qsizetype valuesPerSet)
+void BarsRenderer::updateVerticalBars(QBarSeries *series, qsizetype setCount,
+                                      qsizetype valuesPerSet, int barSeriesIndex,
+                                      int barSeriesCount)
 {
     bool stacked = series->barsType() == QBarSeries::BarsType::Stacked
             || series->barsType() == QBarSeries::BarsType::StackedPercent;
@@ -276,15 +278,17 @@ void BarsRenderer::updateVerticalBars(QBarSeries *series, qsizetype setCount, qs
     float w = width();
     float h = height();
     // Max width of a bar if no separation between sets.
-    float maxBarWidth = w / (setCount * valuesPerSet) - m_barMargin;
+    float maxBarWidth = w / (setCount * valuesPerSet * barSeriesCount) - m_barMargin;
     if (stacked)
-        maxBarWidth = w / valuesPerSet;
+        maxBarWidth = w / (valuesPerSet * barSeriesCount);
     // Actual bar width.
     float barWidth = maxBarWidth * series->barWidth();
     // Helper to keep barsets centered when bar width is less than max width.
     float barCentering = (maxBarWidth - barWidth) * setCount * 0.5;
     if (stacked)
         barCentering = (maxBarWidth - barWidth) * 0.5;
+
+    const float barSeriesOffset = ((float)barSeriesIndex / (valuesPerSet * barSeriesCount)) * w;
 
     auto &seriesData = m_seriesData[series];
     auto &rectNodesInputRects = m_rectNodesInputRects[series];
@@ -293,7 +297,7 @@ void BarsRenderer::updateVerticalBars(QBarSeries *series, qsizetype setCount, qs
     rectNodesInputRects.clear();
     seriesData.clear();
 
-    float seriesPos = 0;
+    float seriesPos = barSeriesOffset;
     float posXInSet = 0;
     QList<float> posYListInSet;
     if (stacked)
@@ -303,14 +307,14 @@ void BarsRenderer::updateVerticalBars(QBarSeries *series, qsizetype setCount, qs
         calculateCategoryTotalValues(series, totalValuesListInSet, valuesPerSet);
 
     int barIndexInSet = 0;
-    int barSeriesIndex = 0;
+    int barSetIndex = 0;
     QList<QLegendData> legendDataList;
     for (auto s : series->barSets()) {
         QVariantList v = s->values();
         qsizetype valuesCount = v.size();
         if (valuesCount == 0)
             continue;
-        seriesPos = 0;
+        seriesPos = barSeriesOffset;
         barIndexInSet = 0;
         BarSelectionRect *barSelectionRect = nullptr;
         if (series->isSelectable() || series->isHoverable()) {
@@ -322,8 +326,8 @@ void BarsRenderer::updateVerticalBars(QBarSeries *series, qsizetype setCount, qs
 
         auto &axisY = m_graph->m_axisRenderer->getAxisY(series);
 
-        QColor color = getSetColor(series, s, barSeriesIndex);
-        QColor borderColor = getSetBorderColor(series, s, barSeriesIndex);
+        QColor color = getSetColor(series, s, barSetIndex);
+        QColor borderColor = getSetBorderColor(series, s, barSetIndex);
         qreal borderWidth = getSetBorderWidth(series, s);
 
         // Update legendData
@@ -372,15 +376,17 @@ void BarsRenderer::updateVerticalBars(QBarSeries *series, qsizetype setCount, qs
             if (stacked)
                 posYListInSet[barIndexInSet] += barLength;
             barIndexInSet++;
-            seriesPos = ((float)barIndexInSet / valuesPerSet) * w;
+            seriesPos = ((float)barIndexInSet / valuesPerSet) * w + barSeriesOffset;
         }
         posXInSet += barWidth + m_barMargin;
-        barSeriesIndex++;
+        barSetIndex++;
     }
     series->d_func()->setLegendData(legendDataList);
 }
 
-void BarsRenderer::updateHorizontalBars(QBarSeries *series, qsizetype setCount, qsizetype valuesPerSet)
+void BarsRenderer::updateHorizontalBars(QBarSeries *series, qsizetype setCount,
+                                        qsizetype valuesPerSet, int barSeriesIndex,
+                                        int barSeriesCount)
 {
     bool stacked = series->barsType() == QBarSeries::BarsType::Stacked
             || series->barsType() == QBarSeries::BarsType::StackedPercent;
@@ -389,15 +395,17 @@ void BarsRenderer::updateHorizontalBars(QBarSeries *series, qsizetype setCount, 
     float w = width();
     float h = height();
     // Max width of a bar if no separation between sets.
-    float maxBarWidth = h / (setCount * valuesPerSet) - m_barMargin;
+    float maxBarWidth = h / (setCount * valuesPerSet * barSeriesCount) - m_barMargin;
     if (stacked)
-        maxBarWidth = h / valuesPerSet;
+        maxBarWidth = h / (valuesPerSet * barSeriesCount);
     // Actual bar width.
     float barWidth = maxBarWidth * series->barWidth();
     // Helper to keep barsets centered when bar width is less than max width.
     float barCentering = (maxBarWidth - barWidth) * setCount * 0.5;
     if (stacked)
         barCentering = (maxBarWidth - barWidth) * 0.5;
+
+    const float barSeriesOffset = ((float)barSeriesIndex / (valuesPerSet * barSeriesCount)) * h;
 
     auto &seriesData = m_seriesData[series];
     auto &rectNodesInputRects = m_rectNodesInputRects[series];
@@ -406,7 +414,7 @@ void BarsRenderer::updateHorizontalBars(QBarSeries *series, qsizetype setCount, 
     rectNodesInputRects.clear();
     seriesData.clear();
 
-    float seriesPos = 0;
+    float seriesPos = barSeriesOffset;
     float posYInSet = 0;
     QList<float> posXListInSet;
     if (stacked)
@@ -415,14 +423,14 @@ void BarsRenderer::updateHorizontalBars(QBarSeries *series, qsizetype setCount, 
     if (percent)
         calculateCategoryTotalValues(series, totalValuesListInSet, valuesPerSet);
     int barIndexInSet = 0;
-    int barSerieIndex = 0;
+    int barSetIndex = 0;
     QList<QLegendData> legendDataList;
     for (auto s : series->barSets()) {
         QVariantList v = s->values();
         qsizetype valuesCount = v.size();
         if (valuesCount == 0)
             continue;
-        seriesPos = 0;
+        seriesPos = barSeriesOffset;
         barIndexInSet = 0;
         BarSelectionRect *barSelectionRect = nullptr;
         if (series->isSelectable() || series->isHoverable()) {
@@ -434,8 +442,8 @@ void BarsRenderer::updateHorizontalBars(QBarSeries *series, qsizetype setCount, 
 
         auto &axisX = m_graph->m_axisRenderer->getAxisX(series);
 
-        QColor color = getSetColor(series, s, barSerieIndex);
-        QColor borderColor = getSetBorderColor(series, s, barSerieIndex);
+        QColor color = getSetColor(series, s, barSetIndex);
+        QColor borderColor = getSetBorderColor(series, s, barSetIndex);
         qreal borderWidth = getSetBorderWidth(series, s);
         // Update legendData
         legendDataList.push_back({
@@ -483,15 +491,15 @@ void BarsRenderer::updateHorizontalBars(QBarSeries *series, qsizetype setCount, 
             if (stacked)
                 posXListInSet[barIndexInSet] += barLength;
             barIndexInSet++;
-            seriesPos = ((float)barIndexInSet / valuesPerSet) * h;
+            seriesPos = ((float)barIndexInSet / valuesPerSet) * h + barSeriesOffset;
         }
         posYInSet += barWidth + m_barMargin;
-        barSerieIndex++;
+        barSetIndex++;
     }
     series->d_func()->setLegendData(legendDataList);
 }
 
-void BarsRenderer::handlePolish(QBarSeries *series)
+void BarsRenderer::handlePolish(QBarSeries *series, int barSeriesIndex, int barSeriesCount)
 {
     auto theme = m_graph->theme();
     if (!theme) {
@@ -534,9 +542,9 @@ void BarsRenderer::handlePolish(QBarSeries *series)
     // Get bars values
     qsizetype valuesPerSet = series->barSets().first()->values().size();
     if (m_graph->orientation() == Qt::Orientation::Vertical)
-        updateVerticalBars(series, setCount, valuesPerSet);
+        updateVerticalBars(series, setCount, valuesPerSet, barSeriesIndex, barSeriesCount);
     else
-        updateHorizontalBars(series, setCount, valuesPerSet);
+        updateHorizontalBars(series, setCount, valuesPerSet, barSeriesIndex, barSeriesCount);
     updateComponents(series);
     updateValueLabels(series);
 

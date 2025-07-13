@@ -12,7 +12,8 @@ qtHaveModule(quick) {
                qmllegend \
                qmlsurfacelayers \
                qmltestbed \
-               qmlrenderslicetoimage
+               qmlrenderslicetoimage \
+               qmlmultiplebarseries
 }
 
 !android:!ios:!winrt {

@@ -881,13 +881,20 @@ void QGraphsView::updatePolish()
     float highestAreaZ = -std::numeric_limits<float>::max();
 
     // Polish for all series
+#ifdef USE_BARGRAPH
+    int barSeriesIndex = 0;
+    int barSeriesCount =
+            std::count_if(m_seriesList.begin(), m_seriesList.end(),
+                          [](const auto &series) { return qobject_cast<QBarSeries *>(series); });
+#endif
     for (auto series : std::as_const(m_seriesList)) {
 #ifdef USE_BARGRAPH
         if (m_barsRenderer) {
             if (auto barSeries = qobject_cast<QBarSeries *>(series)) {
-                m_barsRenderer->handlePolish(barSeries);
+                m_barsRenderer->handlePolish(barSeries, barSeriesIndex, barSeriesCount);
                 if (barSeries->drawOrder() > highestBarsZ)
                     highestBarsZ = barSeries->drawOrder();
+                barSeriesIndex++;
             }
         }
 #endif
