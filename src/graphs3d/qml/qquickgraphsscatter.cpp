@@ -20,6 +20,8 @@
 #include <QtQuick3D/private/qquick3dprincipledmaterial_p.h>
 #include <QtQuick3D/private/qquick3drepeater_p.h>
 
+#include <QtGui/qquaternion.h>
+
 QT_BEGIN_NAMESPACE
 
 static const int insertRemoveRecordReserveSize = 31;
