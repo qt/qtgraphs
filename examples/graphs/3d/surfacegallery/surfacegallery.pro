@@ -3,7 +3,7 @@
 }
 
 CONFIG += qmltypes
-QML_IMPORT_NAME = SurfaceGallery
+QML_IMPORT_NAME = SurfaceGalleryExample
 QML_IMPORT_MAJOR_VERSION = 1
 
 QT += graphs
