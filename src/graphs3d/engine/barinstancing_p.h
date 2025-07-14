@@ -16,6 +16,8 @@
 #include <QtGraphs/qgraphsglobal.h>
 #include <private/qquick3dinstancing_p.h>
 
+#include <QtGui/qquaternion.h>
+
 struct BarItemHolder
 {
     QVector3D position = {.0f, .0f, .0f};

@@ -31,6 +31,8 @@
 #include <QtQuick3D/private/qquick3dprincipledmaterial_p.h>
 #include <QtQuick3D/private/qquick3drepeater_p.h>
 
+#include <QtGui/qquaternion.h>
+
 #if defined(Q_OS_IOS)
 #include <QtCore/QTimer>
 #endif
