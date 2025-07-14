@@ -33,6 +33,7 @@ class QCustom3DVolume;
 class QCustom3DLabel;
 class QGraphsInputHandler;
 class QGraphsTheme;
+class QQuaternion;
 class QQuick3DCustomMaterial;
 class QQuick3DDirectionalLight;
 class QQuick3DPrincipledMaterial;
