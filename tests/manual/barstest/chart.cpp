@@ -9,6 +9,9 @@
 #include <QtGraphs/q3dscene.h>
 #include <QtGraphs/qgraphstheme.h>
 #include <QtGraphs/qcustom3ditem.h>
+
+#include <QtGui/qquaternion.h>
+
 #include <QtCore/QRandomGenerator>
 #include <QtCore/QElapsedTimer>
 #include <QtCore/qmath.h>

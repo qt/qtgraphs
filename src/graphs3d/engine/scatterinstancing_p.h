@@ -17,6 +17,8 @@
 #include <QtGraphs/qgraphsglobal.h>
 #include <private/qquick3dinstancing_p.h>
 
+#include <QtGui/qquaternion.h>
+
 struct DataItemHolder
 {
     QVector3D position;

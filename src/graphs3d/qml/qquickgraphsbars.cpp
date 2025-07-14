@@ -17,6 +17,8 @@
 #include <QtQuick3D/private/qquick3dprincipledmaterial_p.h>
 #include <QtQuick3D/private/qquick3drepeater_p.h>
 
+#include <QtGui/qquaternion.h>
+
 /*!
  * \qmltype Bars3D
  * \inherits GraphsItem3D

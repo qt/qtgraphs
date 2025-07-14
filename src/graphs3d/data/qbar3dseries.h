@@ -11,6 +11,7 @@
 QT_BEGIN_NAMESPACE
 
 class QBar3DSeriesPrivate;
+class QQuaternion;
 
 class Q_GRAPHS_EXPORT QBar3DSeries : public QAbstract3DSeries
 {

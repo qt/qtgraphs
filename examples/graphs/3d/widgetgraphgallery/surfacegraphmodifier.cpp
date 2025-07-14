@@ -8,7 +8,9 @@
 #include <QtCore/qmath.h>
 #include <QtGraphs/qgraphstheme.h>
 #include <QtGraphs/qvalue3daxis.h>
+
 #include <QtGui/qimage.h>
+#include <QtGui/qquaternion.h>
 
 using namespace Qt::StringLiterals;
 

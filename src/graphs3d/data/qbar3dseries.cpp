@@ -8,6 +8,8 @@
 #include "qquickgraphsbars_p.h"
 #include "qvalue3daxis_p.h"
 
+#include <QtGui/qquaternion.h>
+
 QT_BEGIN_NAMESPACE
 
 /*!
