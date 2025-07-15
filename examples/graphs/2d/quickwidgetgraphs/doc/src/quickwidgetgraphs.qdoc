@@ -26,13 +26,13 @@
         application layout and UI elements.
 
         \snippet 2d/quickwidgetgraphs/piewidget.cpp 0
-        \dots
+        \dots 0
 
     \li The \c PieGraph class is used to handle logic for adding and removing
         slices, and have other functionalities.
 
         \snippet 2d/quickwidgetgraphs/piewidget.cpp 1
-        \dots
+        \dots 0
 
     \li For \l QQuickWidget, set \l{QQuickWidget::}{source} and
         \l{QQuickWidget::}{resizeMode}, and set the
@@ -44,7 +44,6 @@
     \li Initialize buttons and add them to layout.
 
         \snippet 2d/quickwidgetgraphs/piewidget.cpp 3
-        \dots
     \endlist
 
     \section1 Manipulating Graph data
@@ -55,22 +54,27 @@
     \list 0
     \li In the \c PieGraph class, declare a \c pieSeries property.
 
-        \dots
+        \dots 0
         \snippet 2d/quickwidgetgraphs/piegraph.h 0
-        \dots
+        \dots 0
 
     \li Create functions for adding, removing, exploding slices, and clearing
         pie series.
 
-        \dots
-        \snippet 2d/quickwidgetgraphs/piegraph.h 1
-        \dots
+        \dots 0
+        \quotefromfile 2d/quickwidgetgraphs/piegraph.h
+        \skipto public:
+        \printto explicit PieGraph
+        \dots 0
+        \skipto appendSlice
+        \printto Q_SIGNALS
+        \dots 0
 
     \li Instantiate a pie series and add several slices in your constructor.
 
-        \dots
+        \dots 0
         \snippet 2d/quickwidgetgraphs/piegraph.cpp 0
-        \dots
+        \dots 0
 
     \li The \c appendSlice function creates a \l QPieSlice, sets some of its
         properties and then appends it to the pie series.

@@ -34,7 +34,7 @@ PieWidget::~PieWidget()
     delete m_pieGraph;
 }
 
-    //! [3]
+//! [3]
 void PieWidget::initializeButtons()
 {
     QPushButton *addButton = new QPushButton("Add Slice");
@@ -51,8 +51,8 @@ void PieWidget::initializeButtons()
     QObject::connect(removeButton, &QPushButton::clicked, m_pieGraph, &PieGraph::onRemoveSlice);
     QObject::connect(explodeButton, &QPushButton::clicked, m_pieGraph, &PieGraph::onExplode);
     QObject::connect(clearButton, &QPushButton::clicked, m_pieGraph, &PieGraph::onClearSeries);
-    //! [3]
 }
+//! [3]
 
 void PieWidget::initializeQuickWidget()
 {

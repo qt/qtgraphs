@@ -20,7 +20,6 @@ public:
 
     QPieSeries *pieSeries() const;
     void setPieSeries(QPieSeries *series);
-    //! [1]
     void appendSlice();
     void removeSlice();
     void explodeSlices();
@@ -31,7 +30,6 @@ public Q_SLOTS:
     void onRemoveSlice();
     void onExplode();
     void onClearSeries();
-    //! [1]
 Q_SIGNALS:
     void pieSeriesChanged();
 private:
