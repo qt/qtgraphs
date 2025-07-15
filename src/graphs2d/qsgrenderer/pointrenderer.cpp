@@ -649,7 +649,7 @@ void PointRenderer::handlePolish(QXYSeries *series)
     }
 
     for (auto &&marker : group->markers)
-        marker->setZ(group->series->drawOrder());
+        marker->setZ(group->series->zValue());
 
     if (group->colorIndex < 0) {
         group->colorIndex = m_graph->graphSeriesCount();
