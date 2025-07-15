@@ -42,8 +42,7 @@ QT_BEGIN_NAMESPACE
  * incorrectly if the whole surface does not completely fit within the visible
  * x-axis or z-axis ranges.
  *
- * \note Surfaces with less than two rows or columns are not considered valid
- * surfaces and will not be rendered.
+ * \note Surfaces with less than two rows or columns are rendered as lines.
  *
  * \note On some environments, surfaces with a lot of visible vertices may not
  * render, because they exceed the per-draw vertex count supported by the
