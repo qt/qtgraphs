@@ -861,7 +861,7 @@ void QGraphsView::updatePolish()
         auto series2 = qobject_cast<QAbstractSeries *>(rhs);
 
         if (series1 && series2)
-            return series1->drawOrder() < series2->drawOrder();
+            return series1->zValue() < series2->zValue();
         return false;
     });
 
@@ -886,8 +886,8 @@ void QGraphsView::updatePolish()
         if (m_barsRenderer) {
             if (auto barSeries = qobject_cast<QBarSeries *>(series)) {
                 m_barsRenderer->handlePolish(barSeries);
-                if (barSeries->drawOrder() > highestBarsZ)
-                    highestBarsZ = barSeries->drawOrder();
+                if (barSeries->zValue() > highestBarsZ)
+                    highestBarsZ = barSeries->zValue();
             }
         }
 #endif
@@ -897,24 +897,24 @@ void QGraphsView::updatePolish()
 #ifdef USE_LINEGRAPH
             if (auto lineSeries = qobject_cast<QLineSeries *>(series)) {
                 m_pointRenderer->handlePolish(lineSeries);
-                if (lineSeries->drawOrder() > highestPointZ)
-                    highestPointZ = lineSeries->drawOrder();
+                if (lineSeries->zValue() > highestPointZ)
+                    highestPointZ = lineSeries->zValue();
             }
 #endif
 
 #ifdef USE_SCATTERGRAPH
             if (auto scatterSeries = qobject_cast<QScatterSeries *>(series)) {
                 m_pointRenderer->handlePolish(scatterSeries);
-                if (scatterSeries->drawOrder() > highestPointZ)
-                    highestPointZ = scatterSeries->drawOrder();
+                if (scatterSeries->zValue() > highestPointZ)
+                    highestPointZ = scatterSeries->zValue();
             }
 #endif
 
 #ifdef USE_SPLINEGRAPH
             if (auto splineSeries = qobject_cast<QSplineSeries *>(series)) {
                 m_pointRenderer->handlePolish(splineSeries);
-                if (splineSeries->drawOrder() > highestPointZ)
-                    highestPointZ = splineSeries->drawOrder();
+                if (splineSeries->zValue() > highestPointZ)
+                    highestPointZ = splineSeries->zValue();
             }
 #endif
         }
@@ -924,8 +924,8 @@ void QGraphsView::updatePolish()
         if (m_pieRenderer) {
             if (auto pieSeries = qobject_cast<QPieSeries *>(series)) {
                 m_pieRenderer->handlePolish(pieSeries);
-                if (pieSeries->drawOrder() > highestPieZ)
-                    highestPieZ = pieSeries->drawOrder();
+                if (pieSeries->zValue() > highestPieZ)
+                    highestPieZ = pieSeries->zValue();
             }
         }
 #endif
@@ -934,8 +934,8 @@ void QGraphsView::updatePolish()
         if (m_areaRenderer) {
             if (auto areaSeries = qobject_cast<QAreaSeries *>(series)) {
                 m_areaRenderer->handlePolish(areaSeries);
-                if (areaSeries->drawOrder() > highestAreaZ)
-                    highestAreaZ = areaSeries->drawOrder();
+                if (areaSeries->zValue() > highestAreaZ)
+                    highestAreaZ = areaSeries->zValue();
             }
         }
 #endif

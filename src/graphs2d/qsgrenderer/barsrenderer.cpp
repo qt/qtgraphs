@@ -170,7 +170,7 @@ void BarsRenderer::updateComponents(QBarSeries *series)
                 auto &barItem = barItems[barIndex];
                 barItem->setX(d.rect.x());
                 barItem->setY(d.rect.y());
-                barItem->setZ(series->drawOrder());
+                barItem->setZ(series->zValue());
                 barItem->setWidth(d.rect.width());
                 barItem->setHeight(d.rect.height());
                 barItem->setVisible(series->isVisible());
@@ -195,7 +195,7 @@ void BarsRenderer::updateComponents(QBarSeries *series)
                 if (barItem) {
                     barItem->setX(d.rect.x());
                     barItem->setY(d.rect.y());
-                    barItem->setZ(series->drawOrder());
+                    barItem->setZ(series->zValue());
                     barItem->setWidth(d.rect.width());
                     barItem->setHeight(d.rect.height());
                     barItem->setVisible(series->isVisible());
