@@ -545,6 +545,7 @@ void QAbstractSeries::setZValue(int newDrawOrder)
 }
 
 /*!
+    \internal
     Returns the graph that the series belongs to.
 
     Set automatically when the series is added to the graph,
