@@ -8,6 +8,10 @@
 
 QT_BEGIN_NAMESPACE
 
+// Tag to be used to hide a log axis label when edgeLabelsVisible is set to false
+// or when an item selection label should not be shown
+Q_GLOBAL_STATIC(QString, hiddenLabelTag, QStringLiteral("õ"));
+
 /*!
  * \class QLogValue3DAxisFormatter
  * \inmodule QtGraphs
@@ -350,7 +354,7 @@ void QLogValue3DAxisFormatterPrivate::recalculate()
             if (m_edgeLabelsVisible)
                 m_labelStrings << q->stringForValue(qreal(m_min), labelFormat);
             else
-                m_labelStrings << hiddenLabelTag;
+                m_labelStrings << *hiddenLabelTag;
             index++;
         }
         for (int i = 0; i < segmentCount; i++) {
@@ -361,14 +365,14 @@ void QLogValue3DAxisFormatterPrivate::recalculate()
                 m_labelStrings << q->stringForValue(qPow(m_base, minDiff + qreal(i) + logMin),
                                                     labelFormat);
             } else {
-                m_labelStrings << hiddenLabelTag;
+                m_labelStrings << *hiddenLabelTag;
             }
             index++;
         }
         // Ensure max value doesn't suffer from any rounding errors
         m_gridPositions[segmentCount] = 1.0f;
         m_labelPositions[segmentCount] = 1.0f;
-        QString finalLabel = hiddenLabelTag;
+        QString finalLabel = *hiddenLabelTag;
         if (m_edgeLabelsVisible || m_evenMaxSegment)
             finalLabel = q->stringForValue(qreal(m_max), labelFormat);
 
