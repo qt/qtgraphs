@@ -203,6 +203,38 @@ QT_BEGIN_NAMESPACE
 */
 
 /*!
+    \property QAbstractSeries::axisX
+    \brief X-axis of this series.
+    \since 6.10
+
+    The x-axis used for this series. Creates a separate axis from the one defined
+    in GraphsView showing the user multiple axis per graph.
+*/
+/*!
+    \qmlproperty AbstractAxis AbstractSeries::axisX
+    \since 6.10
+    The x-axis used for this series. Creates a separate axis from the one defined
+    in GraphsView showing the user multiple axis per graph.
+    \sa axisY
+*/
+
+/*!
+    \property QAbstractSeries::axisY
+    \brief Y-axis of this series.
+    \since 6.10
+
+    The y-axis used for this series. Creates a separate axis from the one defined
+    in GraphsView showing the user multiple axis per graph.
+*/
+/*!
+    \qmlproperty AbstractAxis AbstractSeries::axisY
+    \since 6.10
+    The y-axis used for this series. Creates a separate axis from the one defined
+    in GraphsView showing the user multiple axis per graph.
+    \sa axisX
+*/
+
+/*!
     \property QAbstractSeries::zValue
     \brief Controls the order in which the series is drawn
     \since 6.10
