@@ -14,6 +14,7 @@
 #ifndef QGRAPHSGLOBAL_P_H
 #define QGRAPHSGLOBAL_P_H
 
+#include <QtCore/qglobalstatic.h>
 #include <QtCore/qstringliteral.h>
 #include <QtGraphs/qgraphsglobal.h>
 #include <QtGraphs/qtgraphsexports.h>
@@ -32,9 +33,6 @@ static const float itemAlpha = 0.0f;
 static const qreal gradientTextureHeight = 1.;
 // Default to 4096 just in case we don't get real max from rhi
 static const qreal gradientTextureWidth = 4096.;
-// Tag to be used to hide a log axis label when edgeLabelsVisible is set to false
-// or when an item selection label should not be shown
-static const QString hiddenLabelTag = QStringLiteral("õ");
 
 QT_END_NAMESPACE
 

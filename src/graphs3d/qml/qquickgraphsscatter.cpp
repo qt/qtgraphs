@@ -25,6 +25,9 @@
 QT_BEGIN_NAMESPACE
 
 static const int insertRemoveRecordReserveSize = 31;
+// Tag to be used to hide a log axis label when edgeLabelsVisible is set to false
+// or when an item selection label should not be shown
+Q_GLOBAL_STATIC(QString, hiddenLabelTag, QStringLiteral("õ"));
 
 /*!
  * \qmltype Scatter3D
@@ -1961,7 +1964,7 @@ void QQuickGraphsScatter::updateGraph()
             updateItemLabel(selectionPosition);
             QString label = m_selectedItemSeries->itemLabel();
             itemLabel()->setProperty("labelText", label);
-            if (!label.compare(hiddenLabelTag))
+            if (!label.compare(*hiddenLabelTag))
                 itemLabel()->setVisible(false);
         }
     }
@@ -1997,7 +2000,7 @@ void QQuickGraphsScatter::synchData()
         if (m_selectedItem != invalidSelectionIndex()) {
             QString itemLabelText = m_selectedItemSeries->itemLabel();
             itemLabel()->setProperty("labelText", itemLabelText);
-            if (!itemLabelText.compare(hiddenLabelTag))
+            if (!itemLabelText.compare(*hiddenLabelTag))
                 itemLabel()->setVisible(false);
         }
         setSelectedItemChanged(false);
