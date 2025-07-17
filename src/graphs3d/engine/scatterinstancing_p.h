@@ -19,6 +19,8 @@
 
 #include <QtGui/qquaternion.h>
 
+QT_BEGIN_NAMESPACE
+
 struct DataItemHolder
 {
     QVector3D position;
@@ -64,5 +66,7 @@ private:
     bool m_rangeGradient = false;
     qsizetype m_previousHideIndex = -1;
 };
+
+QT_END_NAMESPACE
 
 #endif // SCATTERINSTANCING_H
