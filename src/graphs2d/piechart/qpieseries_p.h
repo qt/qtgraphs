@@ -38,7 +38,7 @@ private:
     qreal m_sum;
     qreal m_holeRelativeSize;
     qreal m_angleSpanVisibleLimit;
-    QPieSeries::VisibleMode m_angleSpanVisibleMode;
+    QPieSeries::LabelVisibility m_angleSpanVisibleMode;
     Q_DECLARE_PUBLIC(QPieSeries)
 };
 

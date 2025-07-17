@@ -41,7 +41,7 @@ Item {
         SignalSpy {
             id: modeChangedSpy
             target: pieSeries
-            signalName: "angleSpanVisibleModeChanged"
+            signalName: "angleSpanLabelVisibilityChanged"
         }
     }
 
@@ -57,7 +57,7 @@ Item {
             compare(pieSeries.sum, 0)
             compare(pieSeries.verticalPosition, 0.5)
             compare(pieSeries.angleSpanVisibleLimit, 0)
-            compare(pieSeries.angleSpanVisibleMode, PieSeries.VisibleMode.First)
+            compare(pieSeries.angleSpanLabelVisibility, PieSeries.LabelVisibility.First)
 
             pieSeries.clear()
         }
@@ -162,7 +162,7 @@ Item {
             for (let i = 0; i < count; i++)
                 pieSeries.append("slice" + i, i + 0.1) // Produces angle span range from ~0.8 to ~71.2
 
-            pieSeries.angleSpanVisibleMode = PieSeries.VisibleMode.None
+            pieSeries.angleSpanLabelVisibility = PieSeries.LabelVisibility.None
             compare(modeChangedSpy.count, 1)
 
             pieSeries.angleSpanVisibleLimit = 20
@@ -181,7 +181,7 @@ Item {
                 visiblecount += pieSeries.at(i).labelVisible
             compare(visiblecount, 5)
 
-            pieSeries.angleSpanVisibleMode = PieSeries.VisibleMode.First
+            pieSeries.angleSpanLabelVisibility = PieSeries.LabelVisibility.First
             compare(modeChangedSpy.count, 2)
 
             pieSeries.angleSpanVisibleLimit = 75 // This covers all the slices
@@ -192,7 +192,7 @@ Item {
                 visiblecount += pieSeries.at(i).labelVisible
             compare(visiblecount, 1)
 
-            pieSeries.angleSpanVisibleMode = PieSeries.VisibleMode.Even
+            pieSeries.angleSpanLabelVisibility = PieSeries.LabelVisibility.Even
             compare(modeChangedSpy.count, 3)
 
             visiblecount = 0
