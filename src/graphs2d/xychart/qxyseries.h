@@ -9,10 +9,6 @@
 
 QT_BEGIN_NAMESPACE
 class QModelIndex;
-QT_END_NAMESPACE
-
-QT_BEGIN_NAMESPACE
-
 class QXYSeriesPrivate;
 class QXYModelMapper;
 
