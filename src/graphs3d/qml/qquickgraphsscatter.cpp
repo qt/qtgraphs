@@ -286,7 +286,8 @@ void QQuickGraphsScatter::updateScatterGraphItemPositions(ScatterModel *graphMod
                     totalRotation = cameraTarget()->rotation();
 
                 dataPoint->setRotation(totalRotation);
-                dataPoint->setScale(QVector3D(itemSize, itemSize, itemSize) * item.scale());
+                dataPoint->setScale(QVector3D(itemSize, itemSize, itemSize)
+                                    * dataProxy->scaleAt(i));
             } else {
                 dataPoint->setVisible(false);
             }
@@ -331,7 +332,7 @@ void QQuickGraphsScatter::updateScatterGraphItemPositions(ScatterModel *graphMod
                     dih.position = {posX, posY, posZ};
                 }
                 dih.rotation = totalRotation;
-                dih.scale = QVector3D(itemSize, itemSize, itemSize) * item.scale();
+                dih.scale = QVector3D(itemSize, itemSize, itemSize) * dataProxy->scaleAt(i);
 
                 positions.push_back(dih);
             } else {

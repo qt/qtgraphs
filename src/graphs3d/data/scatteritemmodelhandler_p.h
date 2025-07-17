@@ -38,6 +38,7 @@ protected:
 
 private:
     void modelPosToScatterItem(int modelRow, int modelColumn, QScatterDataItem &item);
+    QVector3D modelDataToScale(int modelRow, int modelColumn);
 
     QItemModelScatterDataProxy *m_proxy; // Not owned
     QScatterDataArray m_proxyArray;
@@ -45,6 +46,7 @@ private:
     int m_yPosRole;
     int m_zPosRole;
     int m_rotationRole;
+    QList<QVector3D> m_scaleArray;
     int m_scaleRole;
     QRegularExpression m_xPosPattern;
     QRegularExpression m_yPosPattern;

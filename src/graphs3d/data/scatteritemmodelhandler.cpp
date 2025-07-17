@@ -191,17 +191,28 @@ void ScatterItemModelHandler::modelPosToScatterItem(int modelRow,
             item.setRotation(toQuaternion(rotationVar));
         }
     }
-    if (m_scaleRole != noRoleIndex) {
-        QVariant scaleVar = index.data(m_scaleRole);
-        if (m_haveScalePattern) {
-            item.setScale(toVector3D(
-                QVariant(scaleVar.toString().replace(m_scalePattern, m_scaleReplace))));
-        } else {
-            item.setScale(toVector3D(scaleVar));
-        }
-    }
 
     item.setPosition(QVector3D(xPos, yPos, zPos));
+}
+
+QVector3D ScatterItemModelHandler::modelDataToScale(int modelRow,
+                                                    int modelColumn)
+{
+    QModelIndex index = m_itemModel->index(modelRow, modelColumn);
+
+    if (m_scaleRole != noRoleIndex) {
+        QVariant scaleVar = index.data(m_scaleRole);
+        QVector3D scale = QVector3D(1.0, 1.0, 1.0);
+        if (m_haveScalePattern) {
+            scale = toVector3D(
+                    QVariant(scaleVar.toString().replace(m_scalePattern, m_scaleReplace)));
+        } else {
+            scale = toVector3D(scaleVar);
+        }
+        return scale;
+    }
+
+    return QVector3D(1.0f, 1.0f, 1.0f);
 }
 
 // Resolve entire item model into QScatterDataArray.
@@ -247,17 +258,20 @@ void ScatterItemModelHandler::resolveModel()
     if (m_proxyArray.data() != m_proxy->series()->dataArray().data()
         || totalCount != m_proxyArray.size()) {
         m_proxyArray.resize(totalCount);
+        m_scaleArray.resize(totalCount);
     }
 
     // Parse data into newProxyArray
     for (int i = 0; i < rowCount; i++) {
         for (int j = 0; j < columnCount; j++) {
             modelPosToScatterItem(i, j, m_proxyArray[runningCount]);
+            m_scaleArray[runningCount] = modelDataToScale(i, j);
             runningCount++;
         }
     }
 
     m_proxy->resetArray(m_proxyArray);
+    m_proxy->resetScaleArray(m_scaleArray);
 }
 
 QT_END_NAMESPACE

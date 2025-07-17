@@ -134,6 +134,22 @@ void QScatterDataProxy::resetArray(QScatterDataArray newArray)
 }
 
 /*!
+ * Sets the scale array from \a newArray. If the new array is equal to the
+ * existing one, this function simply triggers the scaleArrayReset() signal.
+ */
+void QScatterDataProxy::resetScaleArray(QList<QVector3D> newArray)
+{
+    Q_D(QScatterDataProxy);
+    if (!series())
+        return;
+
+    if (series()->scaleArray().data() != newArray.data())
+        d->resetScaleArray(std::move(newArray));
+
+    emit scaleArrayReset();
+}
+
+/*!
  * Replaces the item at the position \a index with the item \a item.
  */
 void QScatterDataProxy::setItem(qsizetype index, QScatterDataItem item)
@@ -245,6 +261,23 @@ const QScatterDataItem &QScatterDataProxy::itemAt(qsizetype index) const
 }
 
 /*!
+ * Returns the scale data at the index \a index. It is guaranteed to be
+ * valid only until the next call that modifies data.
+ */
+QVector3D QScatterDataProxy::scaleAt(qsizetype index) const
+{
+    QVector3D ret(1.0f, 1.0f, 1.0f);
+    if (series()->scaleArray().isEmpty())
+        return ret;
+    if (series()->scaleArray().size() <= index) {
+        qCWarning(lcGraphs3D, "Scale data size %" PRIdQSIZETYPE " does not match the access index %" PRIdQSIZETYPE
+            ". The default scale value will be returned.", series()->scaleArray().size(), index);
+        return ret;
+    }
+    return series()->scaleArray().at(index);
+}
+
+/*!
  * \fn void QScatterDataProxy::arrayReset()
  *
  * This signal is emitted when the data array is reset.
@@ -302,6 +335,13 @@ void QScatterDataProxyPrivate::resetArray(QScatterDataArray &&newArray)
     auto *scatterSeries = static_cast<QScatter3DSeries *>(series());
     if (newArray.data() != scatterSeries->dataArray().data())
         scatterSeries->setDataArray(newArray);
+}
+
+void QScatterDataProxyPrivate::resetScaleArray(QList<QVector3D> &&newArray)
+{
+    auto *scatterSeries = static_cast<QScatter3DSeries *>(series());
+    if (newArray.data() != scatterSeries->scaleArray().data())
+        scatterSeries->setScaleArray(newArray);
 }
 
 void QScatterDataProxyPrivate::setItem(qsizetype index, QScatterDataItem &&item)

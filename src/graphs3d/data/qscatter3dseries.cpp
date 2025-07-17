@@ -353,6 +353,57 @@ QScatterDataArray QScatter3DSeries::dataArray() &&
 }
 
 /*!
+ * \property QScatter3DSeries::scaleArray
+ *
+ * \brief Scale array for the series.
+ *
+ * Holds the reference to the scale array.
+ *
+ * scaleArrayChanged signal is emitted when scale array is set, unless \a newScaleArray
+ * is identical to the previous one.
+ *
+ * \note Before doing anything regarding the scale array, a series must be created for
+ * the relevant proxy.
+ *
+ * \note If a scale is not specified for the data, a default value of (1.0,1.0,1.0)
+ * will be used.
+ *
+ * \sa clearScaleArray()
+ */
+void QScatter3DSeries::setScaleArray(const QList<QVector3D> &newScaleArray)
+{
+    Q_D(QScatter3DSeries);
+    if (d->m_scaleArray.data() == newScaleArray.data()) {
+        qCDebug(lcProperties3D) << __FUNCTION__
+            << "newScaleArray is the same than the old one";
+        return;
+    }
+    d->setScaleArray(newScaleArray);
+    emit scaleArrayChanged(newScaleArray);
+}
+
+/*!
+ * Clears the scale array.
+ */
+void QScatter3DSeries::clearScaleArray()
+{
+    Q_D(QScatter3DSeries);
+    d->clearScaleArray();
+}
+
+const QList<QVector3D> &QScatter3DSeries::scaleArray() const &
+{
+    Q_D(const QScatter3DSeries);
+    return d->m_scaleArray;
+}
+
+QList<QVector3D> QScatter3DSeries::scaleArray() &&
+{
+    Q_D(QScatter3DSeries);
+    return std::move(d->m_scaleArray);
+}
+
+/*!
  * Returns an invalid index for selection. This index is set to the selectedItem
  * property to clear the selection from this series.
  *
@@ -502,6 +553,16 @@ void QScatter3DSeriesPrivate::setDataArray(const QScatterDataArray &newDataArray
 void QScatter3DSeriesPrivate::clearArray()
 {
     m_dataArray.clear();
+}
+
+void QScatter3DSeriesPrivate::setScaleArray(const QList<QVector3D> &newScaleArray)
+{
+    m_scaleArray = newScaleArray;
+}
+
+void QScatter3DSeriesPrivate::clearScaleArray()
+{
+    m_scaleArray.clear();
 }
 
 QT_END_NAMESPACE
