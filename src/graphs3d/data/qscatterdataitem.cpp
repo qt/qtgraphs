@@ -73,19 +73,6 @@
  */
 
 /*!
- * \fn void QScatterDataItem::setScale(QVector3D scale)
- * Sets the scale \a scale for this data item.
- * If the series also has itemSize, scale is multiplied by it.
- * Defaults to QVector3D(1,1,1).
- */
-
-/*!
- * \fn QQuaternion QScatterDataItem::scale() const
- * Returns the scale of this data item.
- * \sa setScale()
- */
-
-/*!
  * \fn void QScatterDataItem::setX(float value)
  * Sets the x-coordinate of the item position to the value \a value.
  */
