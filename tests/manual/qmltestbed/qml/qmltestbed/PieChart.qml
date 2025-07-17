@@ -86,19 +86,19 @@ Item {
             onCurrentIndexChanged: {
                 switch (currentIndex) {
                 case 0: {
-                    pieSeries.angleSpanVisibleMode = PieSeries.VisibleMode.None
+                    pieSeries.angleSpanLabelVisibility = PieSeries.LabelVisibility.None
                     break
                 }
                 case 1: {
-                    pieSeries.angleSpanVisibleMode = PieSeries.VisibleMode.First
+                    pieSeries.angleSpanLabelVisibility = PieSeries.LabelVisibility.First
                     break
                 }
                 case 2: {
-                    pieSeries.angleSpanVisibleMode = PieSeries.VisibleMode.Odd
+                    pieSeries.angleSpanLabelVisibility = PieSeries.LabelVisibility.Odd
                     break
                 }
                 case 3: {
-                    pieSeries.angleSpanVisibleMode = PieSeries.VisibleMode.Even
+                    pieSeries.angleSpanLabelVisibility = PieSeries.LabelVisibility.Even
                     break
                 }
                 }

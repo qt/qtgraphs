@@ -28,18 +28,18 @@ class Q_GRAPHS_EXPORT QPieSeries : public QAbstractSeries
     Q_PROPERTY(qreal holeSize READ holeSize WRITE setHoleSize NOTIFY holeSizeChanged FINAL)
     Q_PROPERTY(qreal angleSpanVisibleLimit READ angleSpanVisibleLimit WRITE setAngleSpanVisibleLimit
                    NOTIFY angleSpanVisibleLimitChanged REVISION(6, 10))
-    Q_PROPERTY(VisibleMode angleSpanVisibleMode READ angleSpanVisibleMode WRITE setAngleSpanVisibleMode
-                   NOTIFY angleSpanVisibleModeChanged REVISION(6, 10))
+    Q_PROPERTY(LabelVisibility angleSpanLabelVisibility READ angleSpanLabelVisibility
+                   WRITE setAngleSpanLabelVisibility NOTIFY angleSpanLabelVisibilityChanged REVISION(6, 10))
     QML_NAMED_ELEMENT(PieSeries)
 
 public:
-    enum class VisibleMode {
+    enum class LabelVisibility {
         None,
         First,
         Even,
         Odd,
     };
-    Q_ENUM(VisibleMode)
+    Q_ENUM(LabelVisibility)
 
     explicit QPieSeries(QObject *parent = nullptr);
     ~QPieSeries() override;
@@ -92,8 +92,8 @@ public:
     qreal angleSpanVisibleLimit() const;
     void setAngleSpanVisibleLimit(qreal newAngleSpanVisibleLimit);
 
-    VisibleMode angleSpanVisibleMode() const;
-    void setAngleSpanVisibleMode(VisibleMode newAngleSpanVisibleMode);
+    LabelVisibility angleSpanLabelVisibility() const;
+    void setAngleSpanLabelVisibility(LabelVisibility newAngleSpanVisibleMode);
 
 public Q_SLOTS:
     void handleSliceChange();
@@ -121,7 +121,7 @@ Q_SIGNALS:
     Q_REVISION(6, 9) void released(QPieSlice *slice);
 
     Q_REVISION(6, 10) void angleSpanVisibleLimitChanged();
-    Q_REVISION(6, 10) void angleSpanVisibleModeChanged();
+    Q_REVISION(6, 10) void angleSpanLabelVisibilityChanged();
 
 private:
     friend class PieRenderer;
