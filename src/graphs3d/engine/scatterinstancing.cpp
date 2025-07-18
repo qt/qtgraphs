@@ -3,6 +3,8 @@
 
 #include "scatterinstancing_p.h"
 
+QT_BEGIN_NAMESPACE
+
 ScatterInstancing::ScatterInstancing() {}
 
 QByteArray ScatterInstancing::getInstanceBuffer(int *instanceCount)
@@ -107,3 +109,5 @@ void ScatterInstancing::resetVisibilty()
         dih.hide = false;
     markDataDirty();
 }
+
+QT_END_NAMESPACE
