@@ -6,6 +6,8 @@
 
 #include <QtGraphs/private/qgraphsglobal_p.h>
 
+QT_BEGIN_NAMESPACE
+
 QQuickGraphsTextureData::QQuickGraphsTextureData() {}
 
 QQuickGraphsTextureData::~QQuickGraphsTextureData() {}
@@ -63,3 +65,5 @@ QColor QQuickGraphsTextureData::linearInterpolate(QColor startColor, QColor endC
 
     return output;
 }
+
+QT_END_NAMESPACE
