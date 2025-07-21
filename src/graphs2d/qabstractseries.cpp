@@ -484,13 +484,20 @@ void QAbstractSeries::setAxisX(QAbstractAxis *newAxisX)
     if (d->m_axisX == newAxisX)
         return;
 
-    if (d->m_axisX)
+    if (d->m_axisX) {
         disconnect(d->m_axisX, &QAbstractAxis::update, this, &QAbstractSeries::update);
+
+        if (d->m_graph)
+            d->m_graph->removeAxis(d->m_axisX);
+    }
 
     if (newAxisX) {
         if (newAxisX->alignment() != Qt::AlignBottom && newAxisX->alignment() != Qt::AlignTop)
             newAxisX->setAlignment(Qt::AlignBottom);
         connect(newAxisX, &QAbstractAxis::update, this, &QAbstractSeries::update);
+
+        if (d->m_graph)
+            d->m_graph->addAxis(newAxisX);
     }
 
     d->m_axisX = newAxisX;
@@ -510,13 +517,20 @@ void QAbstractSeries::setAxisY(QAbstractAxis *newAxisY)
     if (d->m_axisY == newAxisY)
         return;
 
-    if (d->m_axisY)
+    if (d->m_axisY) {
         disconnect(d->m_axisY, &QAbstractAxis::update, this, &QAbstractSeries::update);
+
+        if (d->m_graph)
+            d->m_graph->removeAxis(d->m_axisY);
+    }
 
     if (newAxisY) {
         if (newAxisY->alignment() != Qt::AlignLeft && newAxisY->alignment() != Qt::AlignRight)
             newAxisY->setAlignment(Qt::AlignLeft);
         connect(newAxisY, &QAbstractAxis::update, this, &QAbstractSeries::update);
+
+        if (d->m_graph)
+            d->m_graph->addAxis(newAxisY);
     }
 
     d->m_axisY = newAxisY;
