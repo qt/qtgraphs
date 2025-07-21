@@ -2240,8 +2240,8 @@ void QQuickGraphsItem::removeCustomItem(QCustom3DItem *item)
 
 void QQuickGraphsItem::removeCustomItemAt(QVector3D position)
 {
-    auto labelIterator = m_customLabelList.constBegin();
-    while (labelIterator != m_customLabelList.constEnd()) {
+    auto labelIterator = m_customLabelList.begin();
+    while (labelIterator != m_customLabelList.end()) {
         QCustom3DLabel *label = labelIterator.key();
         if (label->position() == position) {
             labelIterator.value()->setVisible(false);
@@ -2251,8 +2251,8 @@ void QQuickGraphsItem::removeCustomItemAt(QVector3D position)
         }
     }
 
-    auto itemIterator = m_customItemList.constBegin();
-    while (itemIterator != m_customItemList.constEnd()) {
+    auto itemIterator = m_customItemList.begin();
+    while (itemIterator != m_customItemList.end()) {
         QCustom3DItem *item = itemIterator.key();
         if (item->position() == position) {
             m_customItemList[item]->deleteLater();

@@ -543,7 +543,7 @@ void BarsRenderer::handlePolish(QBarSeries *series, int barSeriesIndex, int barS
     }
 
     // Get bars values
-    qsizetype valuesPerSet = series->barSets().first()->values().size();
+    qsizetype valuesPerSet = series->barSets().constFirst()->values().size();
     if (m_graph->orientation() == Qt::Orientation::Vertical)
         updateVerticalBars(series, setCount, valuesPerSet, barSeriesIndex, barSeriesCount);
     else

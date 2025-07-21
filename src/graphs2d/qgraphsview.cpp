@@ -1375,7 +1375,7 @@ void QGraphsView::setAxisX(QAbstractAxis *axis)
     }
     updateComponentSizes();
     emit axisXChanged();
-    emit update();
+    update();
     polishAndUpdate();
 }
 
@@ -1412,7 +1412,7 @@ void QGraphsView::setAxisY(QAbstractAxis *axis)
     }
     updateComponentSizes();
     emit axisYChanged();
-    emit update();
+    update();
     polishAndUpdate();
 }
 
@@ -1448,7 +1448,7 @@ void QGraphsView::setOrientation(Qt::Orientation newOrientation)
     }
     m_orientation = newOrientation;
     emit orientationChanged();
-    emit update();
+    update();
     updateComponentSizes();
     polishAndUpdate();
 }

@@ -353,7 +353,7 @@ void QAbstractSeries::setName(const QString &name)
     Q_D(QAbstractSeries);
     if (name != d->m_name) {
         d->m_name = name;
-        update();
+        emit update();
         emit nameChanged();
     } else {
         qCDebug(lcProperties2D,"QAbstractSeries::setName. Name is already set to: %s",
@@ -372,7 +372,7 @@ void QAbstractSeries::setVisible(bool visible)
     Q_D(QAbstractSeries);
     if (visible != d->m_visible) {
         d->m_visible = visible;
-        update();
+        emit update();
         emit visibleChanged();
     } else {
         qCDebug(lcProperties2D) << "QAbstractSeries::setVisible. series visibility already set to"
@@ -391,7 +391,7 @@ void QAbstractSeries::setSelectable(bool selectable)
     Q_D(QAbstractSeries);
     if (selectable != d->m_selectable) {
         d->m_selectable = selectable;
-        update();
+        emit update();
         emit selectableChanged();
     } else {
         qCDebug(lcProperties2D) << "QAbstractSeries::setSelectable. Selectable already set to:"
@@ -410,7 +410,7 @@ void QAbstractSeries::setHoverable(bool hoverable)
     Q_D(QAbstractSeries);
     if (hoverable != d->m_hoverable) {
         d->m_hoverable = hoverable;
-        update();
+        emit update();
         emit hoverableChanged();
     } else {
         qCDebug(lcProperties2D) << "QAbstractSeries::setHoverable. Hoverable already set to:"
@@ -462,7 +462,7 @@ void QAbstractSeries::setAxisX(QAbstractAxis *newAxisX)
     }
 
     d->m_axisX = newAxisX;
-    update();
+    emit update();
     emit axisXChanged(newAxisX);
 }
 
@@ -488,7 +488,7 @@ void QAbstractSeries::setAxisY(QAbstractAxis *newAxisY)
     }
 
     d->m_axisY = newAxisY;
-    update();
+    emit update();
     emit axisYChanged(newAxisY);
 }
 
@@ -503,7 +503,7 @@ void QAbstractSeries::setOpacity(qreal opacity)
     Q_D(QAbstractSeries);
     if (opacity != d->m_opacity) {
         d->m_opacity = opacity;
-        update();
+        emit update();
         emit opacityChanged();
     } else {
         qCDebug(lcProperties2D, "QAbstractSeries::setOpacity. Opacity is already set to: %f",
@@ -523,7 +523,7 @@ void QAbstractSeries::setValuesMultiplier(qreal valuesMultiplier)
     valuesMultiplier = std::clamp<qreal>(valuesMultiplier, 0.0, 1.0);
     if (valuesMultiplier != d->m_valuesMultiplier) {
         d->m_valuesMultiplier = valuesMultiplier;
-        update();
+        emit update();
         emit valuesMultiplierChanged();
     }
 }
@@ -540,7 +540,7 @@ void QAbstractSeries::setZValue(int newDrawOrder)
     if (d->m_drawOrder == newDrawOrder)
         return;
     d->m_drawOrder = newDrawOrder;
-    update();
+    emit update();
     emit zValueChanged(newDrawOrder);
 }
 

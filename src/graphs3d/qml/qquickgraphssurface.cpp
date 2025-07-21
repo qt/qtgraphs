@@ -1538,7 +1538,6 @@ void QQuickGraphsSurface::updateModel(SurfaceModel *model)
             }
 
             auto geometry = model->model->geometry();
-            geometry->vertexData().clear();
             QByteArray vertexBuffer(reinterpret_cast<char *>(vertices.data()),
                                     vertices.size() * sizeof(SurfaceVertex));
             geometry->setVertexData(vertexBuffer);
@@ -1550,7 +1549,6 @@ void QQuickGraphsSurface::updateModel(SurfaceModel *model)
 
             createGridlineIndices(model, 0, 0, columnCount, rowCount);
             auto gridGeometry = model->gridModel->geometry();
-            gridGeometry->vertexData().clear();
             gridGeometry->setVertexData(vertexBuffer);
             QByteArray gridIndexBuffer(reinterpret_cast<char *>(model->gridIndices.data()),
                                        model->gridIndices.size() * sizeof(quint32));
@@ -1602,7 +1600,6 @@ void QQuickGraphsSurface::updateFill(SurfaceModel *model)
 
         float uvX = 1.0f / float(colCount - 1);
         float uvY = 1.0f / float(rowCount - 1);
-        QVector<SurfaceVertex> vertices;
         for (int i = 0; i < rowCount; i++) {
             for (int j = 0; j < colCount; j++) {
                 SurfaceVertex vertex;
@@ -1648,7 +1645,7 @@ void QQuickGraphsSurface::updateFill(SurfaceModel *model)
         }
 
         QVector<SurfaceVertex> sideVerts;
-        for (auto side : std::as_const(sideVertsList)) {
+        for (const auto &side : std::as_const(sideVertsList)) {
             for (auto vert : side)
                 sideVerts.append(vert);
         }
@@ -1891,7 +1888,6 @@ void QQuickGraphsSurface::updateProxyModel(SurfaceModel *model)
     }
 
     auto geometry = model->proxyModel->geometry();
-    geometry->vertexData().clear();
     QByteArray vertexBuffer(reinterpret_cast<char *>(proxyVerts.data()),
                             proxyVerts.size() * sizeof(SurfaceVertex));
     geometry->setVertexData(vertexBuffer);
@@ -2182,8 +2178,6 @@ void QQuickGraphsSurface::toggleSliceGraph()
         }
 
         auto geometry = model->sliceModel->geometry();
-        geometry->vertexData().clear();
-        geometry->indexData().clear();
         QByteArray vertexBuffer(reinterpret_cast<char *>(selectedSeries.data()),
                                 selectedSeries.size() * sizeof(SurfaceVertex));
         geometry->setVertexData(vertexBuffer);
@@ -2193,8 +2187,6 @@ void QQuickGraphsSurface::toggleSliceGraph()
         geometry->update();
 
         geometry = model->sliceGridModel->geometry();
-        geometry->vertexData().clear();
-        geometry->indexData().clear();
         geometry->setVertexData(vertexBuffer);
 
         QVector<quint32> gridIndices;
@@ -2206,7 +2198,6 @@ void QQuickGraphsSurface::toggleSliceGraph()
             gridIndices.push_back(i);
             gridIndices.push_back(i + 1);
         }
-        geometry->indexData().clear();
         QByteArray gridIndexBuffer(reinterpret_cast<char *>(gridIndices.data()),
                                    gridIndices.size() * sizeof(quint32));
         geometry->setIndexData(gridIndexBuffer);

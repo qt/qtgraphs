@@ -1186,7 +1186,7 @@ void QBarSeriesPrivate::setBarWidth(qreal width)
     width = std::clamp<qreal>(width, 0.0, 1.0);
     if (!qFuzzyCompare(width, m_barWidth)) {
         m_barWidth = width;
-        q->update();
+        emit q->update();
     }
 }
 
