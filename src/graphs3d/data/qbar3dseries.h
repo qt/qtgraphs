@@ -25,6 +25,10 @@ class Q_GRAPHS_EXPORT QBar3DSeries : public QAbstract3DSeries
     Q_PROPERTY(QStringList rowLabels READ rowLabels WRITE setRowLabels NOTIFY rowLabelsChanged FINAL)
     Q_PROPERTY(QStringList columnLabels READ columnLabels WRITE setColumnLabels NOTIFY
                    columnLabelsChanged FINAL)
+    Q_PROPERTY(QStringList customRowLabels READ customRowLabels WRITE setCustomRowLabels NOTIFY
+                   customRowLabelsChanged REVISION(6, 11))
+    Q_PROPERTY(QStringList customColumnLabels READ customColumnLabels WRITE setCustomColumnLabels
+                   NOTIFY customColumnLabelsChanged REVISION(6, 11))
     Q_PROPERTY(
         QBarDataArray dataArray READ dataArray WRITE setDataArray NOTIFY dataArrayChanged FINAL)
     Q_PROPERTY(bool valueColoringEnabled READ isValueColoringEnabled WRITE setValueColoringEnabled
@@ -62,6 +66,11 @@ public:
     QStringList columnLabels() const;
     void setColumnLabels(const QStringList &labels);
 
+    QStringList customRowLabels() const;
+    void setCustomRowLabels(const QStringList &labels);
+    QStringList customColumnLabels() const;
+    void setCustomColumnLabels(const QStringList &labels);
+
 Q_SIGNALS:
     void dataProxyChanged(QBarDataProxy *proxy);
     void selectedBarChanged(QPoint position);
@@ -69,6 +78,8 @@ Q_SIGNALS:
     void rowColorsChanged(const QList<QColor> &rowcolors);
     void rowLabelsChanged();
     void columnLabelsChanged();
+    Q_REVISION(6, 11) void customRowLabelsChanged();
+    Q_REVISION(6, 11) void customColumnLabelsChanged();
     void dataArrayChanged(const QBarDataArray &array);
     Q_REVISION(6, 9) void valueColoringEnabledChanged(bool enabled);
 

@@ -128,7 +128,7 @@ Item {
                 // baseGradient: customGradient
                 // baseColor: barColor.color
                 lightingMode: graphMod.shaded? Abstract3DSeries.LightingMode.Shaded : Abstract3DSeries.LightingMode.Unshaded
-                columnLabels: [
+                customColumnLabels: [
                     "col 1",
                     "col 2",
                     "col 3",
@@ -136,7 +136,7 @@ Item {
                     "col 5",
                     "col 6",
                 ]
-                rowLabels: [
+                customRowLabels: [
                     "row 1",
                     "row 2",
                     "row 3",

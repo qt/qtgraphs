@@ -44,6 +44,8 @@ public:
 
     void setRowLabels(const QStringList &labels);
     void setColumnLabels(const QStringList &labels);
+    void setCustomRowLabels(const QStringList &labels);
+    void setCustomColumnLabels(const QStringList &labels);
     void fixRowLabels(qsizetype startIndex,
                       qsizetype count,
                       const QStringList &newLabels,
@@ -53,6 +55,8 @@ private:
     QBarDataArray m_dataArray;
     QStringList m_rowLabels;
     QStringList m_columnLabels;
+    QStringList m_customRowLabels;
+    QStringList m_customColumnLabels;
     QPoint m_selectedBar;
     QList<QColor> m_rowColors;
     bool m_valueColoring;

@@ -270,12 +270,12 @@ void BarItemModelHandler::resolveModel()
             }
         }
 
-        if (!m_proxy->series()->rowLabels().isEmpty())
-            rowLabels = m_proxy->series()->rowLabels();
+        if (!m_proxy->series()->customRowLabels().isEmpty())
+            rowLabels = m_proxy->series()->customRowLabels();
         else
             rowLabels = rowList;
-        if (!m_proxy->series()->columnLabels().isEmpty())
-            columnLabels = m_proxy->series()->columnLabels();
+        if (!m_proxy->series()->customColumnLabels().isEmpty())
+            columnLabels = m_proxy->series()->customColumnLabels();
         else
             columnLabels = columnList;
 
