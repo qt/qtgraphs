@@ -249,10 +249,22 @@ void QGraphsView::addAxis(QAbstractAxis *axis)
 
 void QGraphsView::removeAxis(QAbstractAxis *axis)
 {
+    if (m_axisX == axis || m_axisY == axis) {
+        axis->d_func()->setGraph(nullptr);
+        QObject::disconnect(axis, &QAbstractAxis::update, this, &QGraphsView::polishAndUpdate);
+        QObject::disconnect(axis,
+                            &QAbstractAxis::visibleChanged,
+                            this,
+                            &QGraphsView::updateComponentSizes);
+    }
+
     if (m_axisX == axis)
         m_axisX = nullptr;
     if (m_axisY == axis)
         m_axisY = nullptr;
+
+    updateComponentSizes();
+    polishAndUpdate();
 }
 
 qsizetype QGraphsView::graphSeriesCount() const
@@ -1359,7 +1371,8 @@ void QGraphsView::setAxisX(QAbstractAxis *axis)
             << "value is already set to:" << axis;
         return;
     }
-    removeAxis(m_axisX);
+    if (m_axisX)
+        removeAxis(m_axisX);
     m_axisX = axis;
     if (axis) {
         if (axis->alignment() != Qt::AlignBottom && axis->alignment() != Qt::AlignTop)
@@ -1396,7 +1409,8 @@ void QGraphsView::setAxisY(QAbstractAxis *axis)
             << "value is already set to:" << axis;
         return;
     }
-    removeAxis(m_axisY);
+    if (m_axisY)
+        removeAxis(m_axisY);
     m_axisY = axis;
     if (axis) {
         if (axis->alignment() != Qt::AlignLeft && axis->alignment() != Qt::AlignRight)
