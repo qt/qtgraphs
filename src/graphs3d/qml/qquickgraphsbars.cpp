@@ -2468,7 +2468,6 @@ void QQuickGraphsBars::updateSelectedBar()
 {
     for (auto it = m_barModelsMap.begin(); it != m_barModelsMap.end(); it++) {
         if (m_selectedBarSeries && it.key()->isVisible()) {
-            QString label = m_selectedBarSeries->itemLabel();
             if (optimizationHint() == QtGraphs3D::OptimizationHint::Legacy) {
                 for (auto barList : std::as_const(*it.value())) {
                     QQuickGraphsBars::SelectionType selectionType = isSelected(barList->coord.x(),
