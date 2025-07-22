@@ -45,19 +45,19 @@ Rectangle {
         function changeOrder(seriesName) {
             switch (seriesName) {
             case "Bars":
-                barSeries.drawOrder = highestOrder;
+                barSeries.zValue = highestOrder;
                 break;
             case "Lines":
-                lineSeries.drawOrder = highestOrder;
+                lineSeries.zValue = highestOrder;
                 break;
             case "Spline":
-                splineSeries.drawOrder = highestOrder;
+                splineSeries.zValue = highestOrder;
                 break;
             case "Points":
-                scatterSeries.drawOrder = highestOrder;
+                scatterSeries.zValue = highestOrder;
                 break;
             case "Batman":
-                areaSeries.drawOrder = highestOrder;
+                areaSeries.zValue = highestOrder;
                 break;
             }
 
