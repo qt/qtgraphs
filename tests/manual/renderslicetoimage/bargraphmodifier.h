@@ -21,8 +21,7 @@ public:
     void resetTemperatureData();
     void changePresetCamera();
 
-    QSharedPointer<QQuickItemGrabResult> renderSliceToImage(QtGraphs3D::SliceCaptureType sliceType,
-                                                            int requestedIndex);
+    QImage *renderSliceToImage(QtGraphs3D::SliceCaptureType sliceType, int requestedIndex);
 
 private:
     Q3DBarsWidgetItem *m_graph = nullptr;

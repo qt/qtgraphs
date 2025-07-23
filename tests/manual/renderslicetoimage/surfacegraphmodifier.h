@@ -19,8 +19,10 @@ public:
     explicit SurfaceGraphModifier(Q3DSurfaceWidgetItem *surface, QObject *parent);
     ~SurfaceGraphModifier();
 
-    QSharedPointer<QQuickItemGrabResult> renderSliceToImage(QtGraphs3D::SliceCaptureType sliceType,
-                                                            int requestedIndex);
+    QImage *renderSliceToImage(QtGraphs3D::SliceCaptureType sliceType, int requestedIndex);
+
+Q_SIGNALS:
+    void updateSliceImage(QImage image);
 
 private:
     void fillSqrtSinProxy();

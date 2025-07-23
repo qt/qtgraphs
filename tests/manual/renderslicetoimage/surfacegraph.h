@@ -18,12 +18,14 @@ class SurfaceGraph : public QObject
     Q_OBJECT
 public:
     SurfaceGraph(QWidget *parent = nullptr);
+    ~SurfaceGraph();
 
     void initialize();
     QWidget *surfaceWidget() { return m_surfaceWidget; }
 
 private:
     void renderSliceToImage();
+    void applySliceImage(QImage image);
 
     SurfaceGraphModifier *m_modifier = nullptr;
     SurfaceGraphWidget *m_surfaceGraphWidget = nullptr;

@@ -47,8 +47,9 @@ public:
     bool flipHorizontalGrid() const;
 
     Q_REVISION(6, 10)
-    QSharedPointer<QQuickItemGrabResult> renderSliceToImage(int index, int requestedIndex,
-                                                            QtGraphs3D::SliceCaptureType sliceType);
+    QImage *renderSliceToImage(int index,
+                               int requestedIndex,
+                               QtGraphs3D::SliceCaptureType sliceType);
 
 protected:
     bool event(QEvent *event) override;
@@ -59,6 +60,8 @@ Q_SIGNALS:
     void axisZChanged(QValue3DAxis *axis);
     void selectedSeriesChanged(QSurface3DSeries *series);
     void flipHorizontalGridChanged(bool flip);
+    Q_REVISION(6, 10)
+    void sliceImageChanged(QImage image);
 
 private:
     Q_DECLARE_PRIVATE(Q3DSurfaceWidgetItem)

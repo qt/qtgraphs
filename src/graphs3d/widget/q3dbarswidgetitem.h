@@ -75,8 +75,7 @@ public:
     float floorLevel() const;
 
     Q_REVISION(6, 10)
-    QSharedPointer<QQuickItemGrabResult> renderSliceToImage(int requestedIndex,
-                                                            QtGraphs3D::SliceCaptureType sliceType);
+    QImage *renderSliceToImage(int requestedIndex, QtGraphs3D::SliceCaptureType sliceType);
 
 protected:
     bool event(QEvent *event) override;
@@ -93,6 +92,8 @@ Q_SIGNALS:
     void primarySeriesChanged(QBar3DSeries *series);
     void selectedSeriesChanged(QBar3DSeries *series);
     void floorLevelChanged(float level);
+    Q_REVISION(6, 10)
+    void sliceImageChanged(QImage image);
 
 private:
     Q_DECLARE_PRIVATE(Q3DBarsWidgetItem)

@@ -146,8 +146,9 @@ public:
 
     void handleLightingModeChanged() override;
 
-    QSharedPointer<QQuickItemGrabResult> renderSliceToImage(int index, int requestedIndex,
-                                                            QtGraphs3D::SliceCaptureType sliceType);
+    QImage *renderSliceToImage(int index,
+                               int requestedIndex,
+                               QtGraphs3D::SliceCaptureType sliceType);
     Q_REVISION(6, 10)
     Q_INVOKABLE void renderSliceToImage(int index, int requestedIndex,
                                         QtGraphs3D::SliceCaptureType sliceType,
@@ -196,6 +197,8 @@ Q_SIGNALS:
     void axisZChanged(QValue3DAxis *axis);
     void selectedSeriesChanged(QSurface3DSeries *series);
     void flipHorizontalGridChanged(bool flip);
+    Q_REVISION(6, 10)
+    void sliceImageChanged(QImage image);
 
 private:
     struct SurfaceVertex
@@ -288,6 +291,8 @@ private:
     QQuick3DNode *m_topGridRotation = nullptr;
 
     DataDimensions m_dataDimensions;
+
+    QImage *m_grabresult = nullptr;
 
     friend class Q3DSurfaceWidgetItem;
     friend class QQuickGraphsSurfaceNode;

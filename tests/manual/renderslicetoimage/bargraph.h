@@ -5,6 +5,7 @@
 #define BARGRAPH_H
 
 #include <QtCore/qobject.h>
+#include <QtCore/qtimer.h>
 #include <QtQuick/qquickitemgrabresult.h>
 
 class BarGraphModifier;
@@ -18,6 +19,7 @@ class BarGraph : public QObject
     Q_OBJECT
 public:
     BarGraph(QWidget *parent = nullptr);
+    ~BarGraph();
 
     void initialize();
     QWidget *barWidget() { return m_barWidget; }
@@ -29,6 +31,7 @@ private:
     BarGraphWidget *m_barGraphWidget = nullptr;
     QWidget *m_barWidget = nullptr;
 
+    QTimer *m_timer = nullptr;
     QRadioButton *m_rowRadioButton = nullptr;
     QLineEdit *m_lineSelectText = nullptr;
     QLabel *m_sliceResultLabel = nullptr;

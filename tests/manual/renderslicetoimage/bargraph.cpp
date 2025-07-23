@@ -6,6 +6,7 @@
 #include "bargraphwidget.h"
 
 #include <QtCore/qregularexpression.h>
+#include <QtCore/qtimer.h>
 #include <QtGui/qvalidator.h>
 #include <QtQuick/qquickitemgrabresult.h>
 #include <QtWidgets/qboxlayout.h>
@@ -19,7 +20,14 @@ using namespace Qt::StringLiterals;
 BarGraph::BarGraph(QWidget *parent)
 {
     m_barWidget = new QWidget(parent);
+    m_timer = new QTimer();
     initialize();
+}
+
+BarGraph::~BarGraph()
+{
+    delete m_barWidget;
+    delete m_timer;
 }
 
 void BarGraph::initialize()
@@ -81,8 +89,17 @@ void BarGraph::renderSliceToImage()
     if (!m_rowRadioButton->isChecked())
         sliceType = QtGraphs3D::SliceCaptureType::ColumnImage;
 
-    m_grab = m_modifier->renderSliceToImage(sliceType, index);
-    connect(m_grab.data(), &QQuickItemGrabResult::ready, this, [&]() {
-        m_sliceResultLabel->setPixmap(QPixmap::fromImage(m_grab.data()->image()));
+    auto image = m_modifier->renderSliceToImage(sliceType, index);
+
+    m_timer->setSingleShot(true);
+    m_timer->setInterval(50);
+
+    connect(m_timer, &QTimer::timeout, this, [&, image]() {
+        if (image->isNull())
+            m_timer->start();
+        else
+            m_sliceResultLabel->setPixmap(QPixmap::fromImage(*image));
     });
+
+    m_timer->start();
 }
