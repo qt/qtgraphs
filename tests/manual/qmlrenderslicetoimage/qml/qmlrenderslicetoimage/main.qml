@@ -59,7 +59,7 @@ Item {
         Button {
             text: "Slice To Image"
             onClicked: {
-                var rowCol = (rowRadio.checked ? Graphs3D.SelectionFlag.Row : Graphs3D.SelectionFlag.Column)
+                var rowCol = (rowRadio.checked ? Graphs3D.SliceCaptureType.RowImage : Graphs3D.SliceCaptureType.ColumnImage)
                 var index = textField.text
                 if (tabBar.currentIndex === 0)
                     surfaceGraph.graph.renderSliceToImage(-1, index, rowCol, controls.selectedFile);

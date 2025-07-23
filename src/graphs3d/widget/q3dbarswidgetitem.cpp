@@ -462,7 +462,7 @@ const QQuickGraphsBars *Q3DBarsWidgetItem::graphBars() const
  * \since 6.10
  */
 QSharedPointer<QQuickItemGrabResult>
-Q3DBarsWidgetItem::renderSliceToImage(int requestedIndex, QtGraphs3D::SliceType sliceType)
+Q3DBarsWidgetItem::renderSliceToImage(int requestedIndex, QtGraphs3D::SliceCaptureType sliceType)
 {
     return graphBars()->renderSliceToImage(requestedIndex, sliceType);
 }

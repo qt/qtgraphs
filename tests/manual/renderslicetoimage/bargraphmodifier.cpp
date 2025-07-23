@@ -141,7 +141,7 @@ void BarGraphModifier::changePresetCamera()
 }
 
 QSharedPointer<QQuickItemGrabResult>
-BarGraphModifier::renderSliceToImage(QtGraphs3D::SliceType sliceType, int requestedIndex)
+BarGraphModifier::renderSliceToImage(QtGraphs3D::SliceCaptureType sliceType, int requestedIndex)
 {
     return m_graph->renderSliceToImage(requestedIndex, sliceType);
 }

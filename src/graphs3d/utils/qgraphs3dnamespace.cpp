@@ -52,17 +52,17 @@ QT_BEGIN_NAMESPACE
 */
 
 /*!
-    \enum QtGraphs3D::SliceType
+    \enum QtGraphs3D::SliceCaptureType
     \since 6.10
 
     Type of slice to grab to an image.
 
-    \value SliceNone
-           Slice type is not defined.
-    \value SliceRow
-           Slice for rows.
-    \value SliceColumn
-           Slice for columns.
+    \value NoImage
+           Slice type to capture is not defined.
+    \value RowImage
+           Capture slice for rows.
+    \value ColumnImage
+           Capture slice for columns.
 */
 
 /*!

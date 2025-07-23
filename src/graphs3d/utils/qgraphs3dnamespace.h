@@ -28,12 +28,12 @@ enum class SelectionFlag {
 Q_FLAG_NS(SelectionFlag)
 Q_DECLARE_FLAGS(SelectionFlags, SelectionFlag)
 
-enum class SliceType {
-    SliceNone,
-    SliceRow,
-    SliceColumn,
+enum class SliceCaptureType {
+    NoImage,
+    RowImage,
+    ColumnImage,
 };
-Q_ENUM_NS(SliceType)
+Q_ENUM_NS(SliceCaptureType)
 
 enum class ShadowQuality {
     None,

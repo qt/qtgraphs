@@ -48,7 +48,7 @@ public:
 
     Q_REVISION(6, 10)
     QSharedPointer<QQuickItemGrabResult> renderSliceToImage(int index, int requestedIndex,
-                                                            QtGraphs3D::SliceType sliceType);
+                                                            QtGraphs3D::SliceCaptureType sliceType);
 
 protected:
     bool event(QEvent *event) override;

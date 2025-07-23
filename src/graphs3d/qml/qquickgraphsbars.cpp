@@ -181,7 +181,7 @@
  */
 
 /*!
- * \qmlmethod void Bars3D::renderSliceToImage(int requestedIndex, QtGraphs3D::SliceType sliceType, QUrl filePath)
+ * \qmlmethod void Bars3D::renderSliceToImage(int requestedIndex, QtGraphs3D::SliceCaptureType sliceType, QUrl filePath)
  * \since 6.10
  *
  * Exports a 2d slice from series at \a requestedIndex and saves the result to an image
@@ -739,14 +739,14 @@ float QQuickGraphsBars::floorLevel() const
 }
 
 QQuick3DViewport *QQuickGraphsBars::createOffscreenSliceView(int requestedIndex,
-                                                             QtGraphs3D::SliceType sliceType)
+                                                             QtGraphs3D::SliceCaptureType sliceType)
 {
     QQuick3DViewport *sliceView = QQuickGraphsItem::createOffscreenSliceView(sliceType);
 
     bool isRow = (selectionMode().testFlag(QtGraphs3D::SelectionFlag::Row)
-                  || sliceType == QtGraphs3D::SliceType::SliceRow);
+                  || sliceType == QtGraphs3D::SliceCaptureType::RowImage);
     bool isColumn = (selectionMode().testFlag(QtGraphs3D::SelectionFlag::Column)
-                     || sliceType == QtGraphs3D::SliceType::SliceColumn);
+                     || sliceType == QtGraphs3D::SliceCaptureType::ColumnImage);
 
     QList<QBar3DSeries *> barSeriesList = this->barSeriesList();
     for (const auto &barSeries : std::as_const(barSeriesList)) {
@@ -891,7 +891,7 @@ QQuick3DViewport *QQuickGraphsBars::createOffscreenSliceView(int requestedIndex,
 }
 
 QSharedPointer<QQuickItemGrabResult> QQuickGraphsBars::renderSliceToImage(
-    int requestedIndex, QtGraphs3D::SliceType sliceType)
+    int requestedIndex, QtGraphs3D::SliceCaptureType sliceType)
 {
     QQuick3DViewport *sliceView = createOffscreenSliceView(requestedIndex, sliceType);
 
@@ -907,7 +907,8 @@ QSharedPointer<QQuickItemGrabResult> QQuickGraphsBars::renderSliceToImage(
     return grabbed;
 }
 
-void QQuickGraphsBars::renderSliceToImage(int requestedIndex, QtGraphs3D::SliceType sliceType,
+void QQuickGraphsBars::renderSliceToImage(int requestedIndex,
+                                          QtGraphs3D::SliceCaptureType sliceType,
                                           const QUrl &filePath)
 {
     QQuick3DViewport *sliceView = createOffscreenSliceView(requestedIndex, sliceType);

@@ -155,9 +155,9 @@ public:
     void setDataDirty(bool dirty) { m_isDataDirty = dirty; }
 
     QSharedPointer<QQuickItemGrabResult> renderSliceToImage(int requestedIndex,
-                                                            QtGraphs3D::SliceType sliceType);
+                                                            QtGraphs3D::SliceCaptureType sliceType);
     Q_REVISION(6, 10)
-    Q_INVOKABLE void renderSliceToImage(int requestedIndex, QtGraphs3D::SliceType sliceType,
+    Q_INVOKABLE void renderSliceToImage(int requestedIndex, QtGraphs3D::SliceCaptureType sliceType,
                                         const QUrl &filePath);
 
 protected:
@@ -185,7 +185,7 @@ protected:
     void updateSliceItemLabel(const QString &label, QVector3D position) override;
 
     QQuick3DViewport* createOffscreenSliceView(int requestedIndex,
-                                              QtGraphs3D::SliceType sliceType);
+                                              QtGraphs3D::SliceCaptureType sliceType);
 
 public Q_SLOTS:
     void handleAxisXChanged(QAbstract3DAxis *axis) override;
