@@ -21,6 +21,11 @@ SurfaceGraph::SurfaceGraph(QWidget *parent)
     initialize();
 }
 
+SurfaceGraph::~SurfaceGraph()
+{
+    delete m_surfaceWidget;
+}
+
 void SurfaceGraph::initialize()
 {
     m_surfaceGraphWidget = new SurfaceGraphWidget();
@@ -71,6 +76,10 @@ void SurfaceGraph::initialize()
                      &QPushButton::clicked,
                      this,
                      &SurfaceGraph::renderSliceToImage);
+    QObject::connect(m_modifier,
+                     &SurfaceGraphModifier::updateSliceImage,
+                     this,
+                     &SurfaceGraph::applySliceImage);
 }
 
 void SurfaceGraph::renderSliceToImage()
@@ -80,8 +89,10 @@ void SurfaceGraph::renderSliceToImage()
     if (!m_rowRadioButton->isChecked())
         sliceType = QtGraphs3D::SliceCaptureType::ColumnImage;
 
-    m_grab = m_modifier->renderSliceToImage(sliceType, index);
-    connect(m_grab.data(), &QQuickItemGrabResult::ready, this, [&]() {
-        m_sliceResultLabel->setPixmap(QPixmap::fromImage(m_grab.data()->image()));
-    });
+    (void) m_modifier->renderSliceToImage(sliceType, index);
+}
+
+void SurfaceGraph::applySliceImage(QImage image)
+{
+    m_sliceResultLabel->setPixmap(QPixmap::fromImage(image));
 }

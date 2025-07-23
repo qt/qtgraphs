@@ -291,18 +291,45 @@ void Q3DSurfaceWidgetItem::releaseAxis(QValue3DAxis *axis)
  * \a index to -1.
  * The exported slice is a line of row or column, which is defined by \a sliceType,
  * at a given \a requestedIndex.
- * Returns a shared pointer to grab result which can be used to access the
- * exported image when it's ready. Image is rendered with the current
- * antialiasing settings.
+ * Returns a pointer to the grab result's image. Depending on the size of the image grabbing it
+ * might take some milliseconds. \l sliceImageChanged signal is emitted when the image is
+ * ready, or it can be captured with a timer as follows:
  *
- * \sa QQuickItem::grabToImage()
+ * \code
+ * auto image = m_modifier->renderSliceToImage(-1, sliceType, index);
+ *
+ * m_timer->setSingleShot(true);
+ * m_timer->setInterval(50);
+ *
+ * connect(m_timer, &QTimer::timeout, this, [&, image]() {
+ *     if (image->isNull())
+ *         m_timer->start();
+ *     else
+ *         myGrabResultImage->setPixmap(QPixmap::fromImage(*image));
+ * });
+ *
+ * m_timer->start();
+ * \endcode
+ *
+ * Image is rendered with the current antialiasing settings.
+ *
+ * \sa QQuickItem::grabToImage(), sliceImageChanged()
  *
  * \since 6.10
  */
-QSharedPointer<QQuickItemGrabResult>
-Q3DSurfaceWidgetItem::renderSliceToImage(int index, int requestedIndex,
-                                         QtGraphs3D::SliceCaptureType sliceType)
+QImage *Q3DSurfaceWidgetItem::renderSliceToImage(int index,
+                                                 int requestedIndex,
+                                                 QtGraphs3D::SliceCaptureType sliceType)
 {
+    auto graph = graphSurface();
+    disconnect(graph,
+               &QQuickGraphsSurface::sliceImageChanged,
+               this,
+               &Q3DSurfaceWidgetItem::sliceImageChanged);
+    connect(graph,
+            &QQuickGraphsSurface::sliceImageChanged,
+            this,
+            &Q3DSurfaceWidgetItem::sliceImageChanged);
     return graphSurface()->renderSliceToImage(index, requestedIndex, sliceType);
 }
 
@@ -320,6 +347,12 @@ QList<QValue3DAxis *> Q3DSurfaceWidgetItem::axes() const
 
     return retList;
 }
+
+/*!
+ * \fn Q3DSurfaceWidgetItem::sliceImageChanged(QImage image)
+ * \since 6.10
+ * Emitted when \l renderSliceToImage has prepared the \a{image}.
+ */
 
 /*!
  * \internal

@@ -190,6 +190,8 @@ QQuickGraphsSurface::~QQuickGraphsSurface()
     const QMutexLocker locker2(mutex());
     for (const auto &model : std::as_const(m_model))
         delete model;
+    if (m_grabresult)
+        delete m_grabresult;
 }
 
 void QQuickGraphsSurface::setAxisX(QValue3DAxis *axis)
@@ -2972,22 +2974,26 @@ QQuickGraphsSurface::createOffscreenSliceView(int index, int requestedIndex,
     return sliceView;
 }
 
-QSharedPointer<QQuickItemGrabResult> QQuickGraphsSurface::renderSliceToImage(
-    int index, int requestedIndex, QtGraphs3D::SliceCaptureType sliceType)
+QImage *QQuickGraphsSurface::renderSliceToImage(int index,
+                                                int requestedIndex,
+                                                QtGraphs3D::SliceCaptureType sliceType)
 {
     QQuick3DViewport *sliceView = createOffscreenSliceView(index, requestedIndex, sliceType);
 
-    if (!sliceView) {
-        return QSharedPointer<QQuickItemGrabResult>();
+    if (!m_grabresult)
+        m_grabresult = new QImage();
+
+    if (sliceView) {
+        QSharedPointer<QQuickItemGrabResult> grabbed = sliceView->grabToImage();
+        connect(grabbed.data(), &QQuickItemGrabResult::ready, this, [&, grabbed, sliceView]() {
+            sliceView->setVisible(false);
+            sliceView->deleteLater();
+            *m_grabresult = grabbed.data()->image();
+            emit sliceImageChanged(*m_grabresult);
+        });
     }
 
-    QSharedPointer<QQuickItemGrabResult> grabbed = sliceView->grabToImage();
-    connect(grabbed.data(), &QQuickItemGrabResult::ready, this, [sliceView]() {
-        sliceView->setVisible(false);
-        sliceView->deleteLater();
-    });
-
-    return grabbed;
+    return m_grabresult;
 }
 
 void QQuickGraphsSurface::renderSliceToImage(int index, int requestedIndex,

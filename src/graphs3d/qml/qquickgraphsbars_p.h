@@ -154,8 +154,7 @@ public:
     bool isDataDirty() const { return m_isDataDirty; }
     void setDataDirty(bool dirty) { m_isDataDirty = dirty; }
 
-    QSharedPointer<QQuickItemGrabResult> renderSliceToImage(int requestedIndex,
-                                                            QtGraphs3D::SliceCaptureType sliceType);
+    QImage *renderSliceToImage(int requestedIndex, QtGraphs3D::SliceCaptureType sliceType);
     Q_REVISION(6, 10)
     Q_INVOKABLE void renderSliceToImage(int requestedIndex, QtGraphs3D::SliceCaptureType sliceType,
                                         const QUrl &filePath);
@@ -218,6 +217,8 @@ Q_SIGNALS:
     void primarySeriesChanged(QBar3DSeries *series);
     void selectedSeriesChanged(QBar3DSeries *series);
     void floorLevelChanged(float level);
+    Q_REVISION(6, 10)
+    void sliceImageChanged(QImage image);
 
 private:
     enum SelectionType {
@@ -312,6 +313,7 @@ private:
     QQuick3DTexture *m_multiHighlightTexture = nullptr;
     QHash<QBar3DSeries *, QList<BarModel *>> m_slicedBarModels;
     bool m_selectionDirty = false;
+    QImage *m_grabresult = nullptr;
 
     void calculateHeightAdjustment();
     void calculateSeriesStartPosition();

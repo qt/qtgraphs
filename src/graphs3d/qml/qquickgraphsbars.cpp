@@ -280,6 +280,8 @@ QQuickGraphsBars::~QQuickGraphsBars()
     const QMutexLocker locker2(mutex());
     removeBarModels();
     removeSlicedBarModels();
+    if (m_grabresult)
+        delete m_grabresult;
 }
 
 QCategory3DAxis *QQuickGraphsBars::rowAxis() const
@@ -896,21 +898,25 @@ QQuick3DViewport *QQuickGraphsBars::createOffscreenSliceView(int requestedIndex,
     return sliceView;
 }
 
-QSharedPointer<QQuickItemGrabResult> QQuickGraphsBars::renderSliceToImage(
-    int requestedIndex, QtGraphs3D::SliceCaptureType sliceType)
+QImage *QQuickGraphsBars::renderSliceToImage(int requestedIndex,
+                                             QtGraphs3D::SliceCaptureType sliceType)
 {
     QQuick3DViewport *sliceView = createOffscreenSliceView(requestedIndex, sliceType);
 
-    if (!sliceView)
-        return QSharedPointer<QQuickItemGrabResult>();
+    if (!m_grabresult)
+        m_grabresult = new QImage();
 
-    QSharedPointer<QQuickItemGrabResult> grabbed = sliceView->grabToImage();
-    connect(grabbed.data(), &QQuickItemGrabResult::ready, this, [sliceView]() {
-        sliceView->setVisible(false);
-        sliceView->deleteLater();
-    });
+    if (sliceView) {
+        QSharedPointer<QQuickItemGrabResult> grabbed = sliceView->grabToImage();
+        connect(grabbed.data(), &QQuickItemGrabResult::ready, this, [&, grabbed, sliceView]() {
+            sliceView->setVisible(false);
+            sliceView->deleteLater();
+            *m_grabresult = grabbed.data()->image();
+            emit sliceImageChanged(*m_grabresult);
+        });
+    }
 
-    return grabbed;
+    return m_grabresult;
 }
 
 void QQuickGraphsBars::renderSliceToImage(int requestedIndex,

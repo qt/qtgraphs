@@ -432,6 +432,12 @@ QList<QAbstract3DAxis *> Q3DBarsWidgetItem::axes() const
 }
 
 /*!
+ * \fn Q3DBarsWidgetItem::sliceImageChanged(QImage image)
+ * \since 6.10
+ * Emitted when \l renderSliceToImage has prepared the \a{image}.
+ */
+
+/*!
  * \internal
  */
 QQuickGraphsBars *Q3DBarsWidgetItem::graphBars()
@@ -453,17 +459,44 @@ const QQuickGraphsBars *Q3DBarsWidgetItem::graphBars() const
  * Exports the requested slice view to an image.
  * The exported slice is bars of row or column, which is defined by \a sliceType,
  * at a given \a requestedIndex.
- * Returns a shared pointer to grab result which can be used to access the
- * exported image when it's ready. Image is rendered with the current
- * antialiasing settings.
+ * Returns a pointer to the grab result's image. Depending on the size of the image grabbing it
+ * might take some milliseconds. \l sliceImageChanged signal is emitted when the image is
+ * ready, or it can be captured with a timer as follows:
  *
- * \sa QQuickItem::grabToImage()
+ * \code
+ * auto image = m_modifier->renderSliceToImage(sliceType, index);
+ *
+ * m_timer->setSingleShot(true);
+ * m_timer->setInterval(50);
+ *
+ * connect(m_timer, &QTimer::timeout, this, [&, image]() {
+ *     if (image->isNull())
+ *         m_timer->start();
+ *     else
+ *         myGrabResultImage->setPixmap(QPixmap::fromImage(*image));
+ * });
+ *
+ * m_timer->start();
+ * \endcode
+ *
+ * Image is rendered with the current antialiasing settings.
+ *
+ * \sa QQuickItem::grabToImage(), sliceImageChanged()
  *
  * \since 6.10
  */
-QSharedPointer<QQuickItemGrabResult>
-Q3DBarsWidgetItem::renderSliceToImage(int requestedIndex, QtGraphs3D::SliceCaptureType sliceType)
+QImage *Q3DBarsWidgetItem::renderSliceToImage(int requestedIndex,
+                                              QtGraphs3D::SliceCaptureType sliceType)
 {
+    auto graph = graphBars();
+    disconnect(graph,
+               &QQuickGraphsBars::sliceImageChanged,
+               this,
+               &Q3DBarsWidgetItem::sliceImageChanged);
+    connect(graph,
+            &QQuickGraphsBars::sliceImageChanged,
+            this,
+            &Q3DBarsWidgetItem::sliceImageChanged);
     return graphBars()->renderSliceToImage(requestedIndex, sliceType);
 }
 
