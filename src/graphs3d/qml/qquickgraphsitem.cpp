@@ -6587,7 +6587,7 @@ void QQuickGraphsItem::createSliceView()
     m_sliceItemLabel->setVisible(false);
 }
 
-QQuick3DViewport *QQuickGraphsItem::createOffscreenSliceView(QtGraphs3D::SliceType sliceType)
+QQuick3DViewport *QQuickGraphsItem::createOffscreenSliceView(QtGraphs3D::SliceCaptureType sliceType)
 {
     auto sliceView = new QQuick3DViewport();
     sliceView->setParent(this);
@@ -6682,7 +6682,7 @@ void QQuickGraphsItem::createSliceCamera(QQuick3DViewport *sliceView)
 }
 
 void QQuickGraphsItem::updateSliceGrid(QQuick3DModel *sliceGridGeometryModel,
-                                       QtGraphs3D::SliceType sliceType)
+                                       QtGraphs3D::SliceCaptureType sliceType)
 {
     QAbstract3DAxis *horizontalAxis = nullptr;
     QAbstract3DAxis *verticalAxis = axisY();
@@ -6693,9 +6693,9 @@ void QQuickGraphsItem::updateSliceGrid(QQuick3DModel *sliceGridGeometryModel,
     float horizontalScale = 0.0f;
 
     bool isRow = (selectionMode().testFlag(QtGraphs3D::SelectionFlag::Row)
-                  || sliceType == QtGraphs3D::SliceType::SliceRow);
+                  || sliceType == QtGraphs3D::SliceCaptureType::RowImage);
     bool isColumn = (selectionMode().testFlag(QtGraphs3D::SelectionFlag::Column)
-                     || sliceType == QtGraphs3D::SliceType::SliceColumn);
+                     || sliceType == QtGraphs3D::SliceCaptureType::ColumnImage);
 
     if (isRow) {
         horizontalAxis = axisX();
@@ -6800,7 +6800,7 @@ void QQuickGraphsItem::updateSliceLabels(QQuick3DRepeater *horizontalLabel,
                                          QQuick3DNode *horizontalTitle,
                                          QQuick3DNode *verticalTitle,
                                          QQuick3DNode *itemLabel,
-                                         QtGraphs3D::SliceType sliceType)
+                                         QtGraphs3D::SliceCaptureType sliceType)
 {
     QAbstract3DAxis *horizontalAxis = nullptr;
     QAbstract3DAxis *verticalAxis = axisY();
@@ -6822,9 +6822,9 @@ void QQuickGraphsItem::updateSliceLabels(QQuick3DRepeater *horizontalLabel,
         sliceVerticalLabelRepeater = m_sliceVerticalLabelRepeater;
 
     bool isRow = (selectionMode().testFlag(QtGraphs3D::SelectionFlag::Row)
-                  || sliceType == QtGraphs3D::SliceType::SliceRow);
+                  || sliceType == QtGraphs3D::SliceCaptureType::RowImage);
     bool isColumn = (selectionMode().testFlag(QtGraphs3D::SelectionFlag::Column)
-                     || sliceType == QtGraphs3D::SliceType::SliceColumn);
+                     || sliceType == QtGraphs3D::SliceCaptureType::ColumnImage);
 
     if (isRow) {
         horizontalAxis = axisX();

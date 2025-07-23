@@ -76,9 +76,9 @@ void SurfaceGraph::initialize()
 void SurfaceGraph::renderSliceToImage()
 {
     int index = m_lineSelectText->text().isEmpty() ? -1 : m_lineSelectText->text().toInt();
-    QtGraphs3D::SliceType sliceType = QtGraphs3D::SliceType::SliceRow;
+    QtGraphs3D::SliceCaptureType sliceType = QtGraphs3D::SliceCaptureType::RowImage;
     if (!m_rowRadioButton->isChecked())
-        sliceType = QtGraphs3D::SliceType::SliceColumn;
+        sliceType = QtGraphs3D::SliceCaptureType::ColumnImage;
 
     m_grab = m_modifier->renderSliceToImage(sliceType, index);
     connect(m_grab.data(), &QQuickItemGrabResult::ready, this, [&]() {

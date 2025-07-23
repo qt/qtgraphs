@@ -129,7 +129,7 @@ QT_BEGIN_NAMESPACE
  */
 
 /*!
- * \qmlmethod void Surface3D::renderSliceToImage(int index, int requestedIndex, QtGraphs3D::SliceType sliceType, QUrl filePath)
+ * \qmlmethod void Surface3D::renderSliceToImage(int index, int requestedIndex, QtGraphs3D::SliceCaptureType sliceType, QUrl filePath)
  * \since 6.10
  *
  * Exports a 2d slice from series at \a index and saves the result to an image
@@ -2795,15 +2795,16 @@ void QQuickGraphsSurface::createSliceView()
     }
 }
 
-QQuick3DViewport *QQuickGraphsSurface::createOffscreenSliceView(int index, int requestedIndex,
-                                                                QtGraphs3D::SliceType sliceType)
+QQuick3DViewport *
+QQuickGraphsSurface::createOffscreenSliceView(int index, int requestedIndex,
+                                              QtGraphs3D::SliceCaptureType sliceType)
 {
     QQuick3DViewport *sliceView = QQuickGraphsItem::createOffscreenSliceView(sliceType);
 
     bool isRow = (selectionMode().testFlag(QtGraphs3D::SelectionFlag::Row)
-                  || sliceType == QtGraphs3D::SliceType::SliceRow);
+                  || sliceType == QtGraphs3D::SliceCaptureType::RowImage);
     bool isColumn = (selectionMode().testFlag(QtGraphs3D::SelectionFlag::Column)
-                     || sliceType == QtGraphs3D::SliceType::SliceColumn);
+                     || sliceType == QtGraphs3D::SliceCaptureType::ColumnImage);
 
     int modelIndex = 0;
     for (const auto &model : std::as_const(m_model)) {
@@ -2968,7 +2969,7 @@ QQuick3DViewport *QQuickGraphsSurface::createOffscreenSliceView(int index, int r
 }
 
 QSharedPointer<QQuickItemGrabResult> QQuickGraphsSurface::renderSliceToImage(
-    int index, int requestedIndex, QtGraphs3D::SliceType sliceType)
+    int index, int requestedIndex, QtGraphs3D::SliceCaptureType sliceType)
 {
     QQuick3DViewport *sliceView = createOffscreenSliceView(index, requestedIndex, sliceType);
 
@@ -2986,7 +2987,8 @@ QSharedPointer<QQuickItemGrabResult> QQuickGraphsSurface::renderSliceToImage(
 }
 
 void QQuickGraphsSurface::renderSliceToImage(int index, int requestedIndex,
-                                             QtGraphs3D::SliceType sliceType, const QUrl &filePath)
+                                             QtGraphs3D::SliceCaptureType sliceType,
+                                             const QUrl &filePath)
 {
     QQuick3DViewport *sliceView = createOffscreenSliceView(index, requestedIndex, sliceType);
 

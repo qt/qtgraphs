@@ -146,10 +146,12 @@ public:
 
     void handleLightingModeChanged() override;
 
-    QSharedPointer<QQuickItemGrabResult> renderSliceToImage(int index, int requestedIndex, QtGraphs3D::SliceType sliceType);
+    QSharedPointer<QQuickItemGrabResult> renderSliceToImage(int index, int requestedIndex,
+                                                            QtGraphs3D::SliceCaptureType sliceType);
     Q_REVISION(6, 10)
     Q_INVOKABLE void renderSliceToImage(int index, int requestedIndex,
-                                        QtGraphs3D::SliceType sliceType, const QUrl &filePath);
+                                        QtGraphs3D::SliceCaptureType sliceType,
+                                        const QUrl &filePath);
 
 protected:
     void componentComplete() override;
@@ -168,7 +170,7 @@ protected:
     void updateSelectionMode(QtGraphs3D::SelectionFlags mode) override;
 
     QQuick3DViewport *createOffscreenSliceView(int index, int requestedIndex,
-                                               QtGraphs3D::SliceType sliceType);
+                                               QtGraphs3D::SliceCaptureType sliceType);
 
 public Q_SLOTS:
     void handleAxisXChanged(QAbstract3DAxis *axis) override;

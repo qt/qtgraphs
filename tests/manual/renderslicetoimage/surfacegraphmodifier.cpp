@@ -48,7 +48,7 @@ SurfaceGraphModifier::SurfaceGraphModifier(Q3DSurfaceWidgetItem *surface, QObjec
 }
 
 QSharedPointer<QQuickItemGrabResult>
-SurfaceGraphModifier::renderSliceToImage(QtGraphs3D::SliceType sliceType, int requestedIndex)
+SurfaceGraphModifier::renderSliceToImage(QtGraphs3D::SliceCaptureType sliceType, int requestedIndex)
 {
     return m_graph->renderSliceToImage(-1, requestedIndex, sliceType);
 }

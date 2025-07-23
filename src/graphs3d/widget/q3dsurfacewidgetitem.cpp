@@ -301,7 +301,7 @@ void Q3DSurfaceWidgetItem::releaseAxis(QValue3DAxis *axis)
  */
 QSharedPointer<QQuickItemGrabResult>
 Q3DSurfaceWidgetItem::renderSliceToImage(int index, int requestedIndex,
-                                         QtGraphs3D::SliceType sliceType)
+                                         QtGraphs3D::SliceCaptureType sliceType)
 {
     return graphSurface()->renderSliceToImage(index, requestedIndex, sliceType);
 }

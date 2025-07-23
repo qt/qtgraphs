@@ -663,7 +663,7 @@ protected:
     };
 
     virtual void createSliceView();
-    QQuick3DViewport *createOffscreenSliceView(QtGraphs3D::SliceType sliceType);
+    QQuick3DViewport *createOffscreenSliceView(QtGraphs3D::SliceCaptureType sliceType);
 
     void handleQueryPositionChanged(QPoint position);
 
@@ -714,14 +714,16 @@ protected:
     void updateGrid();
     void updateGridLineType();
     void updateLabels();
-    void updateSliceGrid(QQuick3DModel *sliceGrid = nullptr,
-                         QtGraphs3D::SliceType selectedFlag = QtGraphs3D::SliceType::SliceNone);
-    void updateSliceLabels(QQuick3DRepeater *horizontalLabel = nullptr,
-                           QQuick3DRepeater *verticalLabel = nullptr,
-                           QQuick3DNode *horizontalTitle = nullptr,
-                           QQuick3DNode *verticalTitle = nullptr,
-                           QQuick3DNode *itemLabel = nullptr,
-                           QtGraphs3D::SliceType selectedFlag = QtGraphs3D::SliceType::SliceNone);
+    void updateSliceGrid(
+        QQuick3DModel *sliceGrid = nullptr,
+        QtGraphs3D::SliceCaptureType selectedFlag = QtGraphs3D::SliceCaptureType::NoImage);
+    void updateSliceLabels(
+        QQuick3DRepeater *horizontalLabel = nullptr,
+        QQuick3DRepeater *verticalLabel = nullptr,
+        QQuick3DNode *horizontalTitle = nullptr,
+        QQuick3DNode *verticalTitle = nullptr,
+        QQuick3DNode *itemLabel = nullptr,
+        QtGraphs3D::SliceCaptureType selectedFlag = QtGraphs3D::SliceCaptureType::NoImage);
     void updateBackgroundColor();
     void setItemSelected(bool selected);
     virtual void updateShadowQuality(QtGraphs3D::ShadowQuality quality);
