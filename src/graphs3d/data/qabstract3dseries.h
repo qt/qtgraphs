@@ -75,7 +75,7 @@ public:
     };
     Q_ENUM(Mesh)
 
-    enum class LightingMode{
+    enum class LightingMode : bool {
         Shaded,
         Unshaded,
     };
