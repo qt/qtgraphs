@@ -107,6 +107,11 @@ void PointRenderer::calculateRenderCoordinates(AxisRenderer *axisRenderer,
     auto &axisX = axisRenderer->getAxisX(series);
     auto &axisY = axisRenderer->getAxisY(series);
 
+    if (m_graph->orientation() != Qt::Vertical) {
+        std::swap(origX, origY);
+        origY = axisY.maxValue - origY;
+    }
+
     auto flipX = axisX.maxValue < axisX.minValue ? -1 : 1;
     auto flipY = axisY.maxValue < axisY.minValue ? -1 : 1;
 
@@ -124,6 +129,11 @@ void PointRenderer::reverseRenderCoordinates(AxisRenderer *axisRenderer,
 {
     auto &axisX = axisRenderer->getAxisX(series);
     auto &axisY = axisRenderer->getAxisY(series);
+
+    if (m_graph->orientation() != Qt::Vertical) {
+        std::swap(renderX, renderY);
+        renderY = m_areaHeight - renderY;
+    }
 
     auto flipX = axisX.maxValue < axisX.minValue ? -1 : 1;
     auto flipY = axisY.maxValue < axisY.minValue ? -1 : 1;
