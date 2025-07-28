@@ -1281,10 +1281,18 @@ void AxisRenderer::updateValueYAxisLabels(AxisProperties &ax, const QRectF rect)
     // Create label values in the range
     QList<double> yAxisLabelValues;
     const int MAX_LABELS_COUNT = 100;
-    for (double i = ax.minLabel; i <= ax.maxValue; i += ax.valueStep) {
-        yAxisLabelValues << i;
-        if (yAxisLabelValues.size() >= MAX_LABELS_COUNT)
-            break;
+    if (m_graph->orientation() == Qt::Vertical) {
+        for (double i = ax.minLabel; i <= ax.maxValue; i += ax.valueStep) {
+            yAxisLabelValues << i;
+            if (yAxisLabelValues.size() >= MAX_LABELS_COUNT)
+                break;
+        }
+    } else {
+        for (double i = ax.maxValue; i >= ax.minLabel; i -= ax.valueStep) {
+            yAxisLabelValues << i;
+            if (yAxisLabelValues.size() >= MAX_LABELS_COUNT)
+                break;
+        }
     }
     qsizetype categoriesCount = yAxisLabelValues.size();
 

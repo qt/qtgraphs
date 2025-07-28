@@ -168,9 +168,9 @@ Rectangle {
 
             XYPoint { x: 0; y: 2.6 }
             XYPoint { x: 0.2; y: 3.1 }
-            XYPoint { x: 1.3; y: 6.3 }
-            XYPoint { x: 2.4; y: 5.1 }
-            XYPoint { x: 3.5; y: 6.9 }
+            XYPoint { x: 1.3; y: 8.3 }
+            XYPoint { x: 2.4; y: 9.1 }
+            XYPoint { x: 3.5; y: 10.9 }
             XYPoint { x: 3.6; y: 5.2 }
             XYPoint { x: 4.0; y: 3.3 }
         }

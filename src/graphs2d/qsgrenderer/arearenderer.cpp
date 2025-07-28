@@ -39,11 +39,16 @@ void AreaRenderer::resetShapePathCount()
     m_currentShapePathIndex = 0;
 }
 
-void AreaRenderer::calculateRenderCoordinates(qreal origX,
-                                              qreal origY,
-                                              qreal *renderX,
-                                              qreal *renderY) const
+void AreaRenderer::calculateRenderCoordinates(
+    QAreaSeries *series, qreal origX, qreal origY, qreal *renderX, qreal *renderY) const
 {
+    auto &axY = m_graph->m_axisRenderer->getAxisY(series);
+
+    if (m_graph->orientation() != Qt::Vertical) {
+        std::swap(origX, origY);
+        origY = axY.maxValue - origY;
+    }
+
     *renderX = m_areaWidth * origX * m_maxHorizontal - m_horizontalOffset;
     *renderY = m_areaHeight - m_areaHeight * origY * m_maxVertical
                + m_verticalOffset;
@@ -53,6 +58,11 @@ void AreaRenderer::calculateAxisCoordinates(
     QAreaSeries *series, qreal origX, qreal origY, qreal *axisX, qreal *axisY) const
 {
     auto &axY = m_graph->m_axisRenderer->getAxisY(series);
+
+    if (m_graph->orientation() != Qt::Vertical) {
+        std::swap(origX, origY);
+        origY = axY.maxValue - origY;
+    }
 
     *axisX = origX / m_areaWidth / m_maxHorizontal;
     *axisY = axY.valueRange - origY / m_areaHeight / m_maxVertical;
@@ -162,13 +172,17 @@ void AreaRenderer::handlePolish(QAreaSeries *series)
             qreal x;
             qreal y;
             if (i == upperPoints.size())
-                calculateRenderCoordinates(upperPoints[upperPoints.size() - 1].x(), 0, &x, &y);
+                calculateRenderCoordinates(series,
+                                           upperPoints[upperPoints.size() - 1].x(),
+                                           0,
+                                           &x,
+                                           &y);
             else if (i == upperPoints.size() + 1)
-                calculateRenderCoordinates(upperPoints[0].x(), 0, &x, &y);
+                calculateRenderCoordinates(series, upperPoints[0].x(), 0, &x, &y);
             else if (i == upperPoints.size() + 2)
-                calculateRenderCoordinates(upperPoints[0].x(), upperPoints[0].y(), &x, &y);
+                calculateRenderCoordinates(series, upperPoints[0].x(), upperPoints[0].y(), &x, &y);
             else
-                calculateRenderCoordinates(upperPoints[i].x(), upperPoints[i].y(), &x, &y);
+                calculateRenderCoordinates(series, upperPoints[i].x(), upperPoints[i].y(), &x, &y);
 
             if (i == 0) {
                 painterPath.moveTo(x, y);
@@ -176,11 +190,16 @@ void AreaRenderer::handlePolish(QAreaSeries *series)
                 if (i < upper->points().size()
                     && upper->type() == QAbstractSeries::SeriesType::Spline) {
                     qreal x1, y1, x2, y2;
-                    calculateRenderCoordinates(fittedPoints[j - 1].x(),
+                    calculateRenderCoordinates(series,
+                                               fittedPoints[j - 1].x(),
                                                fittedPoints[j - 1].y(),
                                                &x1,
                                                &y1);
-                    calculateRenderCoordinates(fittedPoints[j].x(), fittedPoints[j].y(), &x2, &y2);
+                    calculateRenderCoordinates(series,
+                                               fittedPoints[j].x(),
+                                               fittedPoints[j].y(),
+                                               &x2,
+                                               &y2);
 
                     painterPath.cubicTo(x1, y1, x2, y2, x, y);
                     ++j;
@@ -201,18 +220,21 @@ void AreaRenderer::handlePolish(QAreaSeries *series)
 
         for (int i = 0, j = 0; i < lowerPoints.size(); ++i, ++j) {
             qreal x, y;
-            calculateRenderCoordinates(lowerPoints[lowerPoints.size() - 1 - i].x(),
+            calculateRenderCoordinates(series,
+                                       lowerPoints[lowerPoints.size() - 1 - i].x(),
                                        lowerPoints[lowerPoints.size() - 1 - i].y(),
                                        &x,
                                        &y);
 
             if (i > 0 && lower->type() == QAbstractSeries::SeriesType::Spline) {
                 qreal x1, y1, x2, y2;
-                calculateRenderCoordinates(fittedPoints[fittedPoints.size() - 1 - j + 1].x(),
+                calculateRenderCoordinates(series,
+                                           fittedPoints[fittedPoints.size() - 1 - j + 1].x(),
                                            fittedPoints[fittedPoints.size() - 1 - j + 1].y(),
                                            &x1,
                                            &y1);
-                calculateRenderCoordinates(fittedPoints[fittedPoints.size() - 1 - j].x(),
+                calculateRenderCoordinates(series,
+                                           fittedPoints[fittedPoints.size() - 1 - j].x(),
                                            fittedPoints[fittedPoints.size() - 1 - j].y(),
                                            &x2,
                                            &y2);
@@ -225,7 +247,7 @@ void AreaRenderer::handlePolish(QAreaSeries *series)
         }
 
         qreal x, y;
-        calculateRenderCoordinates(upperPoints[0].x(), upperPoints[0].y(), &x, &y);
+        calculateRenderCoordinates(series, upperPoints[0].x(), upperPoints[0].y(), &x, &y);
         painterPath.lineTo(x, y);
     }
 
@@ -298,8 +320,12 @@ bool AreaRenderer::pointInArea(QPoint pt, QAreaSeries *series) const
 
     for (int i = 0; i < firstPoints->size() - 1; ++i) {
         qreal x1, y1, x2, y2, x3, y3, x4, y4;
-        calculateRenderCoordinates((*firstPoints)[i].x(), (*firstPoints)[i].y(), &x1, &y1);
-        calculateRenderCoordinates((*firstPoints)[i + 1].x(), (*firstPoints)[i + 1].y(), &x2, &y2);
+        calculateRenderCoordinates(series, (*firstPoints)[i].x(), (*firstPoints)[i].y(), &x1, &y1);
+        calculateRenderCoordinates(series,
+                                   (*firstPoints)[i + 1].x(),
+                                   (*firstPoints)[i + 1].y(),
+                                   &x2,
+                                   &y2);
 
         bool needSecondTriangleTest = true;
         if (series->lowerSeries()) {
@@ -315,13 +341,15 @@ bool AreaRenderer::pointInArea(QPoint pt, QAreaSeries *series) const
             if (secondIndex >= secondPoints->size())
                 needSecondTriangleTest = false;
 
-            calculateRenderCoordinates((*secondPoints)[firstIndex].x(),
+            calculateRenderCoordinates(series,
+                                       (*secondPoints)[firstIndex].x(),
                                        (*secondPoints)[firstIndex].y(),
                                        &x3,
                                        &y3);
 
             if (needSecondTriangleTest) {
-                calculateRenderCoordinates((*secondPoints)[secondIndex].x(),
+                calculateRenderCoordinates(series,
+                                           (*secondPoints)[secondIndex].x(),
                                            (*secondPoints)[secondIndex].y(),
                                            &x4,
                                            &y4);
@@ -330,8 +358,8 @@ bool AreaRenderer::pointInArea(QPoint pt, QAreaSeries *series) const
                 y4 = 0.0;
             }
         } else {
-            calculateRenderCoordinates(upperPoints[i].x(), 0, &x3, &y3);
-            calculateRenderCoordinates(upperPoints[i + 1].x(), 0, &x4, &y4);
+            calculateRenderCoordinates(series, upperPoints[i].x(), 0, &x3, &y3);
+            calculateRenderCoordinates(series, upperPoints[i + 1].x(), 0, &x4, &y4);
         }
 
         QPoint point1(x1, y1);
