@@ -958,9 +958,8 @@ void QQuickGraphsSurface::removeSeries(QSurface3DSeries *series)
             m_model[i]->model->deleteLater();
             m_model[i]->gridModel->deleteLater();
             m_model[i]->fillModel->deleteLater();
+            m_model[i]->heights.clear();
             m_fillDirty.remove(m_model.at(i));
-            if (const auto &proxy = m_model[i]->proxyModel)
-                proxy->deleteLater();
             if (sliceView()) {
                 m_model[i]->sliceModel->deleteLater();
                 m_model[i]->sliceGridModel->deleteLater();
@@ -1080,10 +1079,6 @@ void QQuickGraphsSurface::synchData()
         }
     }
 
-    if (m_pickThisFrame) {
-        doPicking(m_lastPick);
-        m_pickThisFrame = false;
-    }
     qCDebug(lcGraphs3D, "%s end syncing", qUtf8Printable(QLatin1String(__FUNCTION__)));
 }
 
@@ -1448,8 +1443,8 @@ void QQuickGraphsSurface::updateModel(SurfaceModel *model)
         QVector3D boundsMin = QVector3D();
         QVector3D boundsMax = QVector3D();
 
-        QVector<QVector4D> heights;
-        heights.reserve(totalSize);
+        model->heights.clear();
+        model->heights.reserve(totalSize);
 
         QQmlListReference materialRef(model->model, "materials");
         auto material = materialRef.at(0);
@@ -1507,7 +1502,7 @@ void QQuickGraphsSurface::updateModel(SurfaceModel *model)
             const QSurfaceDataRow &row = array.at(i);
             for (int j = columnStart; j < columnLimit; j++) {
                 QVector3D pos = getNormalizedVertex(row.at(j), isPolar(), false);
-                heights.push_back(QVector4D(pos, .0f));
+                model->heights.push_back(QVector4D(pos, .0f));
                 SurfaceVertex vertex;
                 vertex.position = pos;
                 vertex.uv = QVector2D(j * uvX, i * uvY);
@@ -1539,9 +1534,8 @@ void QQuickGraphsSurface::updateModel(SurfaceModel *model)
             material->setProperty("gradientMin", -(boundsMin.y() / range));
             material->setProperty("gradientHeight", 1.0f / range);
         }
-
-        QByteArray heightData = QByteArray(reinterpret_cast<char *>(heights.data()),
-                                           heights.size() * sizeof(QVector4D));
+        QByteArray heightData = QByteArray(reinterpret_cast<char *>(model->heights.data()),
+                                           model->heights.size() * sizeof(QVector4D));
         heightMapData->setTextureData(heightData);
         heightMap->setTextureData(heightMapData);
         heightInput->setTexture(heightMap);
@@ -1613,8 +1607,6 @@ void QQuickGraphsSurface::updateModel(SurfaceModel *model)
             << "\n plane size:" << QVector2D(sampleSpace.width(), sampleSpace.height())
             << "\n vertCount:" << QVector2D(columnCount, rowCount);
 
-
-        m_proxyDirty = true;
 
         if (lineData)
             updateLineFill(model);
@@ -1806,170 +1798,6 @@ void QQuickGraphsSurface::updateLineFill(SurfaceModel *model)
         && model->series->isVisible();
     model->fillModel->setVisible(
         model->series->drawMode().testFlag(QSurface3DSeries::DrawFilledSurface) && surfaceVisible);
-}
-
-void QQuickGraphsSurface::updateProxyModel(SurfaceModel *model)
-{
-    if (!model->proxyModel)
-        createProxyModel(model);
-
-    const QSurfaceDataArray &array = model->series->dataArray();
-    if (array.isEmpty())
-        return;
-
-    QRect sampleSpace = model->sampleSpace;
-    int rowCount = sampleSpace.height();
-    int columnCount = sampleSpace.width();
-    int rowStart = sampleSpace.top();
-    int columnStart = sampleSpace.left();
-    int rowLimit = sampleSpace.bottom() + 1;
-    int columnLimit = sampleSpace.right() + 1;
-    if (rowCount == 0 || columnCount == 0)
-        return;
-
-    // calculate decimate factor based on the order of magnitude of total vertices
-
-    int minBeforeDecimate = 1000;
-    float totalSize = rowCount * columnCount;
-    int decimateFactor = qMax(qFloor(std::log10(qMax(1.0, totalSize - minBeforeDecimate))), 1);
-
-    int proxyColumnCount = 0;
-    int proxyRowCount = 0;
-    QVector<SurfaceVertex> proxyVerts;
-
-    float uvY = 1.0f / float(rowCount - 1);
-    float uvX = 1.0f / float(columnCount - 1);
-
-    QVector3D boundsMin = model->boundsMin;
-    QVector3D boundsMax = model->boundsMax;
-
-    int i = rowStart;
-    while (i < rowLimit) {
-        const QSurfaceDataRow &row = array.at(i);
-        proxyRowCount++;
-        int j = columnStart;
-        while (j < columnLimit) {
-            // getNormalizedVertex
-            if (i == rowStart)
-                proxyColumnCount++;
-            QVector3D pos = getNormalizedVertex(row.at(j), isPolar(), false);
-            SurfaceVertex vertex;
-            vertex.position = pos;
-            vertex.uv = QVector2D(j * uvX, i * uvY);
-            vertex.coord = QPoint(i, j);
-            proxyVerts.push_back(vertex);
-            if (!qIsNaN(pos.y()) && !qIsInf(pos.y())) {
-                boundsMin = QVector3D(qMin(boundsMin.x(), pos.x()),
-                                      qMin(boundsMin.y(), pos.y()),
-                                      qMin(boundsMin.z(), pos.z()));
-            }
-            boundsMax = QVector3D(qMax(boundsMax.x(), pos.x()),
-                                  qMax(boundsMax.y(), pos.y()),
-                                  qMax(boundsMax.z(), pos.z()));
-
-            if (j == columnLimit - 1)
-                break;
-
-            j += decimateFactor;
-            if (j >= columnLimit)
-                j = columnLimit - 1;
-        }
-        if (i == rowLimit - 1)
-            break;
-
-        i += decimateFactor;
-        if (i >= rowLimit)
-            i = rowLimit - 1;
-    }
-
-    model->boundsMin = boundsMin;
-    model->boundsMax = boundsMax;
-    int endX = proxyColumnCount - 1;
-    int endY = proxyRowCount - 1;
-    int indexCount = 6 * endX * endY;
-
-    QVector<quint32> proxyIndices;
-    proxyIndices.resize(indexCount);
-
-    int rowEnd = endY * proxyColumnCount;
-    for (int row = 0; row < rowEnd; row += proxyColumnCount) {
-        for (int j = 0; j < endX; j++) {
-            if (model->ascendingX == model->ascendingZ) {
-                proxyIndices.push_back(row + j + 1);
-                proxyIndices.push_back(row + proxyColumnCount + j);
-                proxyIndices.push_back(row + j);
-
-                proxyIndices.push_back(row + proxyColumnCount + j + 1);
-                proxyIndices.push_back(row + proxyColumnCount + j);
-                proxyIndices.push_back(row + j + 1);
-            } else if (!model->ascendingX) {
-                proxyIndices.push_back(row + proxyColumnCount + j);
-                proxyIndices.push_back(row + proxyColumnCount + j + 1);
-                proxyIndices.push_back(row + j);
-
-                proxyIndices.push_back(row + j);
-                proxyIndices.push_back(row + proxyColumnCount + j + 1);
-                proxyIndices.push_back(row + j + 1);
-            } else {
-                proxyIndices.push_back(row + proxyColumnCount + j);
-                proxyIndices.push_back(row + proxyColumnCount + j + 1);
-                proxyIndices.push_back(row + j + 1);
-
-                proxyIndices.push_back(row + j);
-                proxyIndices.push_back(row + proxyColumnCount + j);
-                proxyIndices.push_back(row + j + 1);
-            }
-        }
-    }
-
-    auto geometry = model->proxyModel->geometry();
-    QByteArray vertexBuffer(reinterpret_cast<char *>(proxyVerts.data()),
-                            proxyVerts.size() * sizeof(SurfaceVertex));
-    geometry->setVertexData(vertexBuffer);
-    QByteArray indexBuffer(reinterpret_cast<char *>(proxyIndices.data()),
-                           proxyIndices.size() * sizeof(quint32));
-    geometry->setIndexData(indexBuffer);
-    geometry->setBounds(boundsMin, boundsMax);
-    geometry->update();
-    m_proxyDirty = false;
-}
-
-void QQuickGraphsSurface::createProxyModel(SurfaceModel *model)
-{
-    auto proxyModel = new QQuick3DModel();
-    proxyModel->setParent(graphNode());
-    proxyModel->setParentItem(model->model);
-    proxyModel->setObjectName(QStringLiteral("ProxyModel"));
-    proxyModel->setVisible(true);
-    if (selectionMode().testFlag(QtGraphs3D::SelectionFlag::None))
-        proxyModel->setPickable(false);
-    else
-        proxyModel->setPickable(true);
-
-    auto geometry = new QQuick3DGeometry();
-    geometry->setParent(proxyModel);
-    geometry->setStride(sizeof(SurfaceVertex));
-    geometry->setPrimitiveType(QQuick3DGeometry::PrimitiveType::Triangles);
-    geometry->addAttribute(QQuick3DGeometry::Attribute::PositionSemantic,
-                           0,
-                           QQuick3DGeometry::Attribute::F32Type);
-    geometry->addAttribute(QQuick3DGeometry::Attribute::TexCoord0Semantic,
-                           sizeof(QVector3D),
-                           QQuick3DGeometry::Attribute::F32Type);
-    geometry->addAttribute(QQuick3DGeometry::Attribute::IndexSemantic,
-                           0,
-                           QQuick3DGeometry::Attribute::U32Type);
-    proxyModel->setGeometry(geometry);
-
-    QQmlListReference materialRef(proxyModel, "materials");
-    QQuick3DPrincipledMaterial *material = new QQuick3DPrincipledMaterial();
-    material->setParent(proxyModel);
-    material->setBaseColor(Qt::white);
-    material->setOpacity(0);
-    material->setCullMode(QQuick3DMaterial::NoCulling);
-    materialRef.append(material);
-
-    model->proxyModel = proxyModel;
 }
 
 void QQuickGraphsSurface::updateMaterial(SurfaceModel *model)
@@ -2353,75 +2181,43 @@ void QQuickGraphsSurface::createGridlineIndices(SurfaceModel *model, qsizetype x
 
 bool QQuickGraphsSurface::doPicking(QPointF position)
 {
-    if (!m_pickThisFrame && m_proxyDirty) {
-        m_pickThisFrame = true;
-        m_lastPick = position;
-        for (auto model : std::as_const(m_model))
-            updateProxyModel(model);
-        return false;
-    }
     if (!QQuickGraphsItem::doPicking(position))
         return false;
 
     m_selectionDirty = true;
-    QList<QQuick3DPickResult> pickResult;
-    if (m_customView)
-        pickResult = m_customView->pickAll(position.x(), position.y());
-    else
-        pickResult = pickAll(position.x(), position.y());
-    QVector3D pickedPos(0.0f, 0.0f, 0.0f);
-    QQuick3DModel *pickedModel = nullptr;
+
+    SurfaceModel *pickedModel = nullptr;
+    const QVector3D rayOrigin = rootNode()->mapPositionFromScene(mapTo3DScene(QVector3D(position.x(), position.y(), 0)));
+    const QVector3D rayEnd = rootNode()->mapPositionFromScene(mapTo3DScene(QVector3D(position.x(), position.y(), 1)));
+    const QVector3D rayDir = (rayEnd - rayOrigin).normalized();
+    QVector3D pickedPos = pickSurfaces(rayOrigin, rayDir, pickedModel);
 
     if (!selectionMode().testFlag(QtGraphs3D::SelectionFlag::None)) {
         if (!sliceView() && selectionMode().testFlag(QtGraphs3D::SelectionFlag::Slice))
             createSliceView();
 
-        if (!pickResult.isEmpty()) {
-            for (auto picked : std::as_const(pickResult)) {
-                bool inBounds = qAbs(picked.position().y()) < scaleWithBackground().y();
-                if (inBounds && picked.objectHit()) {
-                    pickedPos = picked.position();
-                    if (picked.objectHit()->objectName().contains(QStringLiteral("ProxyModel"))) {
-                        pickedModel = qobject_cast<QQuick3DModel *>(
-                            picked.objectHit()->parentItem());
-                    } else if (picked.objectHit()->objectName().contains(
-                                   QStringLiteral("SurfaceModel"))) {
-                        pickedModel = qobject_cast<QQuick3DModel *>(picked.objectHit());
-                    } else {
-                        clearSelection();
-                        continue;
-                    }
-                    bool visible = false;
-                    for (auto model : std::as_const(m_model)) {
-                        if (model->model == pickedModel)
-                            visible = model->series->isVisible();
-                    }
-                    if (!pickedPos.isNull() && visible)
-                        break;
-                } else {
-                    clearSelection();
-                }
-            }
+        bool inBounds = qAbs(pickedPos.y()) < scaleWithBackground().y();
+        if (!pickedPos.isNull() && inBounds) {
 
             bool inRange = qAbs(pickedPos.x()) < scaleWithBackground().x()
                            && qAbs(pickedPos.z()) < scaleWithBackground().z();
 
             if (!pickedPos.isNull() && inRange) {
-                float min = -1.0f;
-
                 for (auto model : std::as_const(m_model)) {
                     if (!model->series->isVisible()) {
                         model->picked = false;
                         continue;
                     }
 
-                    model->picked = (model->model == pickedModel);
+                    model->picked = (model == pickedModel);
 
                     SurfaceVertex selectedVertex;
+                    qreal min = std::numeric_limits<qreal>::max();
+
                     for (auto vertex : std::as_const(model->vertices)) {
                         QVector3D pos = vertex.position;
                         float dist = pickedPos.distanceToPoint(pos);
-                        if (selectedVertex.position.isNull() || dist < min) {
+                        if (dist < min) {
                             min = dist;
                             selectedVertex = vertex;
                         }
@@ -2450,70 +2246,39 @@ bool QQuickGraphsSurface::doPicking(QPointF position)
 
 bool QQuickGraphsSurface::doRayPicking(QVector3D origin, QVector3D direction)
 {
-    if (!m_pickThisFrame && m_proxyDirty) {
-        m_pickThisFrame = true;
-        QVector3D toScene = mapFrom3DScene(origin);
-        m_lastPick = QPointF(toScene.x(), toScene.y());
-        for (auto model : std::as_const(m_model))
-            updateProxyModel(model);
-        return false;
-    }
     if (!QQuickGraphsItem::doRayPicking(origin, direction))
         return false;
 
     m_selectionDirty = true;
-    QList<QQuick3DPickResult> pickResult;
-    if (m_customView)
-        pickResult = m_customView->rayPickAll(origin, direction);
-    else
-        pickResult = rayPickAll(origin, direction);
-    QVector3D pickedPos(0.0f, 0.0f, 0.0f);
-    QQuick3DModel *pickedModel = nullptr;
+
+    SurfaceModel *pickedModel = nullptr;
+    QVector3D pickedPos = pickSurfaces(origin, direction, pickedModel);
 
     if (!selectionMode().testFlag(QtGraphs3D::SelectionFlag::None)) {
         if (!sliceView() && selectionMode().testFlag(QtGraphs3D::SelectionFlag::Slice))
             createSliceView();
 
-        if (!pickResult.isEmpty()) {
-            for (auto picked : std::as_const(pickResult)) {
-                bool inBounds = qAbs(picked.position().y()) < scaleWithBackground().y();
-                if (inBounds && picked.objectHit()
-                    && picked.objectHit()->objectName().contains(QStringLiteral("ProxyModel"))) {
-                    pickedPos = picked.position();
-                    pickedModel = qobject_cast<QQuick3DModel *>(picked.objectHit()->parentItem());
-                    bool visible = false;
-                    for (auto model : std::as_const(m_model)) {
-                        if (model->model == pickedModel)
-                            visible = model->series->isVisible();
-                    }
-                    if (!pickedPos.isNull() && visible)
-                        break;
-                } else {
-                    clearSelection();
-                    for (auto model : std::as_const(m_model))
-                        model->picked = false;
-                }
-            }
+        bool inBounds = qAbs(pickedPos.y()) < scaleWithBackground().y();
+        if (!pickedPos.isNull() && inBounds) {
 
             bool inRange = qAbs(pickedPos.x()) < scaleWithBackground().x()
                            && qAbs(pickedPos.z()) < scaleWithBackground().z();
 
             if (!pickedPos.isNull() && inRange) {
-                float min = -1.0f;
-
                 for (auto model : std::as_const(m_model)) {
                     if (!model->series->isVisible()) {
                         model->picked = false;
                         continue;
                     }
-
-                    model->picked = (model->model == pickedModel);
+                    model->picked = (model == pickedModel);
 
                     SurfaceVertex selectedVertex;
+                    qreal min = std::numeric_limits<qreal>::max();
+
                     for (auto vertex : std::as_const(model->vertices)) {
                         QVector3D pos = vertex.position;
                         float dist = pickedPos.distanceToPoint(pos);
-                        if (selectedVertex.position.isNull() || dist < min) {
+                        if (dist < min) {
                             min = dist;
                             selectedVertex = vertex;
                         }
@@ -2538,6 +2303,198 @@ bool QQuickGraphsSurface::doRayPicking(QVector3D origin, QVector3D direction)
         }
     }
     return true;
+}
+
+QVector3D QQuickGraphsSurface::pickSurfaces(QVector3D rayOrigin,
+                                            QVector3D rayDir,
+                                            SurfaceModel *&pickedModel)
+{
+    qreal closestDistance = std::numeric_limits<qreal>::max();
+    qreal closestLineDistance = std::numeric_limits<qreal>::max();
+
+    QVector3D pickedPosition;
+
+    QVector3D pickedLinePosition;
+    SurfaceModel *pickedLineModel = nullptr;
+
+    for (auto model : m_model) {
+        qsizetype columnCount = model->sampleSpace.width();
+        qsizetype rowCount = model->sampleSpace.height();
+        bool lineData = (rowCount == 1 || columnCount == 1);
+
+        if (!model->series->isVisible())
+            continue;
+
+        if (lineData) {
+            QVector3D linePos;
+            for (auto vertex : model->vertices) {
+                QVector3D v = vertex.position - rayOrigin;
+                qreal t = QVector3D::dotProduct(v, rayDir);
+                QVector3D closestRayPos = rayOrigin + rayDir * t;
+                qreal distance = closestRayPos.distanceToPoint(vertex.position);
+                if (distance < closestLineDistance) {
+                    linePos = vertex.position;
+                    closestLineDistance = distance;
+                }
+            }
+            // check distance against reasonable pick radius
+            /*After testing, 0.05 gives a good error margin for
+            picking, without casuing false positives
+            from clicks for surrounding points */
+
+            qreal pickRadius = 0.05f;
+            if (closestLineDistance < pickRadius) {
+                pickedLinePosition = linePos;
+                pickedLineModel = model;
+            }
+            continue;
+        }
+
+        if (!intersectWithAABB(model->boundsMin, model->boundsMax, rayOrigin, rayDir))
+            continue;
+
+        qsizetype endX = columnCount - 1;
+        qsizetype endY = rowCount - 1;
+
+        qsizetype rowEnd = endY * columnCount;
+        for (qsizetype row = 0; row < rowEnd; row += columnCount) {
+            for (qsizetype j = 0; j < endX; j++) {
+                std::array<QVector3D, 3> triangle;
+                triangle[0] = model->heights.at(int(row + j + 1)).toVector3D();
+                triangle[1] = model->heights.at(int(row + columnCount + j)).toVector3D();
+                triangle[2] = model->heights.at(int(row + j)).toVector3D();
+                QVector3D intersection = triangleIntersection(rayOrigin, rayDir, triangle);
+                if (!intersection.isNull()) {
+                    qreal distance = rayOrigin.distanceToPoint(intersection);
+                    if (distance < closestDistance) {
+                        pickedPosition = intersection;
+                        pickedModel = model;
+                        closestDistance = distance;
+                    }
+                }
+
+                triangle[0] = model->heights.at(int(row + columnCount + j + 1)).toVector3D();
+                triangle[1] = model->heights.at(int(row + columnCount + j)).toVector3D();
+                triangle[2] = model->heights.at(int(row + j + 1)).toVector3D();
+                intersection = triangleIntersection(rayOrigin, rayDir, triangle);
+                if (!intersection.isNull()) {
+                    qreal distance = rayOrigin.distanceToPoint(intersection);
+                    if (distance < closestDistance) {
+                        pickedPosition = intersection;
+                        pickedModel = model;
+                        closestDistance = distance;
+                    }
+                }
+            }
+        }
+    }
+    // compare line and surface positions
+    if (!pickedLinePosition.isNull() && pickedLineModel) {
+        qreal lineDistance = rayOrigin.distanceToPoint(pickedLinePosition);
+        if (lineDistance < closestDistance) {
+            pickedPosition = pickedLinePosition;
+            pickedModel = pickedLineModel;
+        }
+    }
+    return pickedPosition;
+}
+
+// Möller-Trumbore ray-triangle intersection
+QVector3D QQuickGraphsSurface::triangleIntersection(QVector3D origin,
+                                                    QVector3D dir,
+                                                    const std::array<QVector3D, 3> &triangle)
+{
+    constexpr qreal epsilon = std::numeric_limits<float>::epsilon();
+
+    const QVector3D edge1 = triangle[1] - triangle[0];
+    const QVector3D edge2 = triangle[2] - triangle[0];
+
+    // Compute the vector P as the cross product of the ray direction and edge2
+    const QVector3D P = QVector3D::crossProduct(dir, edge2);
+
+    // Compute the determinant
+    const float determinant = QVector3D::dotProduct(edge1, P);
+
+    QVector3D Q;
+    qreal u;
+    qreal v;
+
+    if (determinant > epsilon) {
+        // Compute the vector T from the ray origin to the first vertex of the triangle
+        const QVector3D T = origin - triangle[0];
+
+        // Calculate coordinate u and test bounds
+        u = QVector3D::dotProduct(T, P);
+        if (u < 0.0f || u > determinant)
+            return QVector3D();
+
+        // Compute the vector Q as the cross product of vector T and edge1
+        Q = QVector3D::crossProduct(T, edge1);
+
+        // Calculate coordinate v and test bounds
+        v = QVector3D::dotProduct(dir, Q);
+        if (v < 0.0f || ((u + v) > determinant))
+            return QVector3D();
+    } else if (determinant < -epsilon) { //Backfaces
+        // Compute the vector T from the ray origin to the first vertex of the triangle
+        const QVector3D T = origin - triangle[0];
+
+        // Calculate coordinate u and test bounds
+        u = QVector3D::dotProduct(T, P);
+        if (u > 0.0f || u < determinant)
+            return QVector3D();
+
+        // Compute the vector Q as the cross product of vector T and edge1
+        Q = QVector3D::crossProduct(T, edge1);
+
+        // Calculate coordinate v and test bounds
+        v = QVector3D::dotProduct(dir, Q);
+        if (v > 0.0f || ((u + v) < determinant))
+            return QVector3D();
+    } else {
+        // Ray is parallel to the plane of the triangle
+        return QVector3D();
+    }
+
+    const float invDeterminant = 1.0f / determinant;
+
+    // Calculate the value of t, the parameter of the intersection point along the ray
+    const float t = QVector3D::dotProduct(edge2, Q) * invDeterminant;
+
+    if (t > epsilon)
+        return origin + dir * t;
+
+    return QVector3D();
+}
+
+bool QQuickGraphsSurface::intersectWithAABB(QVector3D boundsMin,
+                                            QVector3D boundsMax,
+                                            QVector3D rayOrigin,
+                                            QVector3D rayDir)
+{
+    float tmax = std::numeric_limits<float>::max();
+    float tmin = std::numeric_limits<float>::min();
+    float origin;
+
+    for (int axis = 0; axis < 3; ++axis) {
+        origin = rayOrigin[axis];
+        const bool zeroDir = rayDir[axis] == 0;
+
+        // Pickray is roughly parallel to the plane of the slab
+        // so, if the origin is not in the range, we have no intersection
+        if (zeroDir && (origin < boundsMin[axis] || origin > boundsMax[axis]))
+            return false;
+
+        if (!zeroDir) {
+            float t1 = (boundsMin[axis] - origin) / rayDir[axis];
+            float t2 = (boundsMax[axis] - origin) / rayDir[axis];
+
+            tmin = qMax(tmin, qMin(t1, t2));
+            tmax = qMin(tmax, qMax(t1, t2));
+        }
+    }
+
+    return tmin < tmax;
 }
 
 void QQuickGraphsSurface::updateSelectedPoint()

@@ -214,9 +214,9 @@ private:
         QQuick3DModel *gridModel;
         QQuick3DModel *sliceModel;
         QQuick3DModel *sliceGridModel;
-        QQuick3DModel *proxyModel;
         QQuick3DModel *fillModel;
         QVector<SurfaceVertex> vertices;
+        QVector<QVector4D> heights;
         QVector<quint32> indices;
         QVector<quint32> gridIndices;
         QSurface3DSeries *series;
@@ -246,8 +246,6 @@ private:
     void updateModel(SurfaceModel *model);
     void updateFill(SurfaceModel *model);
     void updateLineFill(SurfaceModel *model);
-    void createProxyModel(SurfaceModel *parentModel);
-    void updateProxyModel(SurfaceModel *model);
     void updateMaterial(SurfaceModel *model);
     void updateSelectedPoint();
     void addModel(QSurface3DSeries *series);
@@ -262,6 +260,12 @@ private:
     void changeSlicePointerForSeries(const QString &filename, QSurface3DSeries *series);
     QString getMeshFileName(QAbstract3DSeries::Mesh mesh, QSurface3DSeries *series) const;
 
+    QVector3D pickSurfaces(QVector3D rayOrigin, QVector3D rayDir, SurfaceModel *&pickedModel);
+    QVector3D triangleIntersection(QVector3D origin,
+                                   QVector3D dir,
+                                   const std::array<QVector3D, 3> &triangle);
+    bool intersectWithAABB(QVector3D boundMin, QVector3D boundsMax, QVector3D origin, QVector3D dir);
+
     QVector<SurfaceModel *> m_model;
     QMap<QSurface3DSeries *, QQuick3DModel *> m_selectionPointers = {};
     QMap<QSurface3DSeries *, QQuick3DModel *> m_sliceSelectionPointers = {};
@@ -269,10 +273,6 @@ private:
     bool m_isIndexDirty = true;
     bool m_selectionDirty = false;
     QHash<SurfaceModel *, bool> m_fillDirty;
-
-    bool m_pickThisFrame = false;
-    bool m_proxyDirty = false;
-    QPointF m_lastPick;
 
     Surface3DChangeBitField m_changeTracker;
     QPoint m_selectedPoint;
