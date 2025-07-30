@@ -2326,7 +2326,7 @@ void QQuickGraphsSurface::updateSelectedPoint()
 
                 updateItemLabel(labelPosition);
                 itemLabel()->setProperty("labelText", label);
-                if (!label.compare(hiddenLabelTag))
+                if (!label.compare(QString(hiddenLabelTag)))
                     itemLabel()->setVisible(false);
                 labelVisible = model->series->isItemLabelVisible();
                 if (sliceView() && sliceView()->isVisible())
@@ -2479,7 +2479,7 @@ void QQuickGraphsSurface::updateSliceItemLabel(const QString &label, QVector3D p
     labelPosition.setY(position.y() + .05f);
     sliceItemLabel()->setPosition(labelPosition);
     sliceItemLabel()->setProperty("labelText", label);
-    if (!label.compare(hiddenLabelTag))
+    if (!label.compare(QString(hiddenLabelTag)))
         sliceItemLabel()->setVisible(false);
 }
 
