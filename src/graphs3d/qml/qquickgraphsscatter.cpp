@@ -1962,7 +1962,7 @@ void QQuickGraphsScatter::updateGraph()
             updateItemLabel(selectionPosition);
             QString label = m_selectedItemSeries->itemLabel();
             itemLabel()->setProperty("labelText", label);
-            if (!label.compare(hiddenLabelTag))
+            if (!label.compare(QString(hiddenLabelTag)))
                 itemLabel()->setVisible(false);
         }
     }
@@ -1998,7 +1998,7 @@ void QQuickGraphsScatter::synchData()
         if (m_selectedItem != invalidSelectionIndex()) {
             QString itemLabelText = m_selectedItemSeries->itemLabel();
             itemLabel()->setProperty("labelText", itemLabelText);
-            if (!itemLabelText.compare(hiddenLabelTag))
+            if (!itemLabelText.compare(QString(hiddenLabelTag)))
                 itemLabel()->setVisible(false);
         }
         setSelectedItemChanged(false);

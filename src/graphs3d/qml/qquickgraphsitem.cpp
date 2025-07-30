@@ -3898,7 +3898,7 @@ void QQuickGraphsItem::updateLabels()
             obj->setProperty("labelText", labels[labelIndex]);
             obj->setProperty("labelWidth", labelsMaxWidth);
             obj->setProperty("labelHeight", labelHeight);
-            if (!labels[i].compare(hiddenLabelTag))
+            if (!labels[i].compare(QString(hiddenLabelTag)))
                 obj->setVisible(false);
         }
     } else if (axisX()->type() == QAbstract3DAxis::AxisType::Category) {
@@ -4000,7 +4000,7 @@ void QQuickGraphsItem::updateLabels()
         obj->setProperty("labelText", labels[labelIndex]);
         obj->setProperty("labelWidth", labelsMaxWidth);
         obj->setProperty("labelHeight", labelHeight);
-        if (!labels[i].compare(hiddenLabelTag))
+        if (!labels[i].compare(QString(hiddenLabelTag)))
             obj->setVisible(false);
     }
 
@@ -4144,7 +4144,7 @@ void QQuickGraphsItem::updateLabels()
             obj->setProperty("labelText", labels[labelIndex]);
             obj->setProperty("labelWidth", labelsMaxWidth);
             obj->setProperty("labelHeight", labelHeight);
-            if (!labels[i].compare(hiddenLabelTag))
+            if (!labels[i].compare(QString(hiddenLabelTag)))
                 obj->setVisible(false);
         }
     } else if (axisZ()->type() == QAbstract3DAxis::AxisType::Category) {
@@ -4212,7 +4212,7 @@ void QQuickGraphsItem::updateLabels()
         obj->setProperty("labelText", labels[labelIndex]);
         obj->setProperty("labelWidth", labelsMaxWidth);
         obj->setProperty("labelHeight", labelHeight);
-        if (!labels[i].compare(hiddenLabelTag))
+        if (!labels[i].compare(QString(hiddenLabelTag)))
             obj->setVisible(false);
     }
 
@@ -6904,7 +6904,7 @@ void QQuickGraphsItem::updateSliceLabels(QQuick3DRepeater *horizontalLabel,
             obj->setProperty("backgroundVisible", backgroundVisible);
             obj->setProperty("backgroundColor", backgroundColor);
             obj->setEulerRotation(QVector3D(.0f, .0f, -45.0f));
-            if (!labels[i].compare(hiddenLabelTag))
+            if (!labels[i].compare(QString(hiddenLabelTag)))
                 obj->setVisible(false);
         }
     } else if (horizontalAxis->type() == QAbstract3DAxis::AxisType::Category) {
@@ -6960,7 +6960,7 @@ void QQuickGraphsItem::updateSliceLabels(QQuick3DRepeater *horizontalLabel,
             obj->setProperty("labelTextColor", verticalLabelTextColor);
             obj->setProperty("backgroundVisible", backgroundVisible);
             obj->setProperty("backgroundColor", backgroundColor);
-            if (!labels[i].compare(hiddenLabelTag))
+            if (!labels[i].compare(QString(hiddenLabelTag)))
                 obj->setVisible(false);
         }
     } else if (verticalAxis->type() == QAbstract3DAxis::AxisType::Category) {
