@@ -24,10 +24,6 @@
 
 QT_BEGIN_NAMESPACE
 
-// Tag to be used to hide a log axis label when edgeLabelsVisible is set to false
-// or when an item selection label should not be shown
-Q_GLOBAL_STATIC(QString, hiddenLabelTag, QStringLiteral("õ"));
-
 /*!
  * \qmltype Surface3D
  * \inherits GraphsItem3D
@@ -2615,7 +2611,7 @@ void QQuickGraphsSurface::updateSelectedPoint()
 
                 updateItemLabel(labelPosition);
                 itemLabel()->setProperty("labelText", label);
-                if (!label.compare(*hiddenLabelTag))
+                if (!label.compare(hiddenLabelTag))
                     itemLabel()->setVisible(false);
                 labelVisible = model->series->isItemLabelVisible();
                 if (sliceView() && sliceView()->isVisible())
@@ -3036,7 +3032,7 @@ void QQuickGraphsSurface::updateSliceItemLabel(const QString &label, QVector3D p
     labelPosition.setY(position.y() + .05f);
     sliceItemLabel()->setPosition(labelPosition);
     sliceItemLabel()->setProperty("labelText", label);
-    if (!label.compare(*hiddenLabelTag))
+    if (!label.compare(hiddenLabelTag))
         sliceItemLabel()->setVisible(false);
 }
 
