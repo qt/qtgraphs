@@ -21,12 +21,6 @@
 
 #include <QtGui/qquaternion.h>
 
-QT_BEGIN_NAMESPACE
-
-// Tag to be used to hide a log axis label when edgeLabelsVisible is set to false
-// or when an item selection label should not be shown
-Q_GLOBAL_STATIC(QString, hiddenLabelTag, QStringLiteral("õ"));
-
 /*!
  * \qmltype Bars3D
  * \inherits GraphsItem3D
@@ -2508,7 +2502,7 @@ void QQuickGraphsBars::updateSelectedBar()
                         updateItemLabel(m_selectedBarPos);
                         itemLabel()->setVisible(theme()->labelsVisible());
                         itemLabel()->setProperty("labelText", label);
-                        if (!label.compare(*hiddenLabelTag))
+                        if (!label.compare(hiddenLabelTag))
                             itemLabel()->setVisible(false);
                         if (isSliceEnabled())
                             updateSliceItemLabel(label, m_selectedBarPos);
@@ -2580,7 +2574,7 @@ void QQuickGraphsBars::updateSliceItemLabel(const QString &label, QVector3D posi
     slicePos.setZ(.1f);
     sliceItemLabel()->setPosition(slicePos);
     sliceItemLabel()->setProperty("labelText", label);
-    if (!label.compare(*hiddenLabelTag))
+    if (!label.compare(hiddenLabelTag))
         sliceItemLabel()->setVisible(false);
     sliceItemLabel()->setEulerRotation(QVector3D(0.0f, 0.0f, 90.0f));
     sliceItemLabel()->setVisible(theme()->labelsVisible());
@@ -2872,7 +2866,7 @@ void QQuickGraphsBars::createBarItemHolders(QBar3DSeries *series,
             updateItemLabel(m_selectedBarPos);
             itemLabel()->setVisible(theme()->labelsVisible());
             itemLabel()->setProperty("labelText", label);
-            if (!label.compare(*hiddenLabelTag))
+            if (!label.compare(hiddenLabelTag))
                 itemLabel()->setVisible(false);
             if (isSliceEnabled())
                 updateSliceItemLabel(label, m_selectedBarPos);
@@ -3002,4 +2996,3 @@ void QQuickGraphsBars::updateBarSeriesMargin(QSizeF margin)
     calculateSceneScalingFactors();
     setSeriesVisualsDirty(true);
 }
-QT_END_NAMESPACE
