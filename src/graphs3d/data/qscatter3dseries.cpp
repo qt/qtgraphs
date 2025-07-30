@@ -8,10 +8,6 @@
 
 QT_BEGIN_NAMESPACE
 
-// Tag to be used to hide a log axis label when edgeLabelsVisible is set to false
-// or when an item selection label should not be shown
-Q_GLOBAL_STATIC(QString, hiddenLabelTag, QStringLiteral("õ"));
-
 /*!
  * \class QScatter3DSeries
  * \inmodule QtGraphs
@@ -432,7 +428,7 @@ void QScatter3DSeriesPrivate::createItemLabel()
     static const QString seriesNameTag(QStringLiteral("@seriesName"));
 
     if (m_selectedItem == QScatter3DSeries::invalidSelectionIndex()) {
-        m_itemLabel = *hiddenLabelTag;
+        m_itemLabel = hiddenLabelTag;
         return;
     }
 
