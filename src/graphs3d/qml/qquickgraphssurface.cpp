@@ -1306,31 +1306,35 @@ QRect QQuickGraphsSurface::calculateSampleSpace(SurfaceModel *model)
             const bool ascendingX = array.at(0).at(0).x() < array.at(0).at(maxColumn).x();
             const bool ascendingZ = array.at(0).at(0).z() < array.at(maxRow).at(0).z();
 
-            // Check if Z is filled before X. If it is, or there's something else that is fishy,
-            // print out a warning about incorrectly formed data.
-            bool incorrectDataFormat = false;
-            qreal val = array.at(0).at(0).z();
-            qreal step = array.at(1).at(0).z() - array.at(0).at(0).z();
-            if (maxRow > 1) {
-                if ((val + step * maxRow == array.at(maxRow).at(0).z() && !ascendingZ)
-                    || (val - step * maxRow == array.at(maxRow).at(0).z() && ascendingZ)) {
-                    incorrectDataFormat = true;
-                }
-            }
-            val = array.at(0).at(0).x();
-            step = array.at(0).at(1).x() - array.at(0).at(0).x();
-            if (maxColumn > 1) {
-                if ((val + step * maxColumn == array.at(0).at(maxColumn).x() && !ascendingX)
-                    || (val - step * maxColumn == array.at(0).at(maxColumn).x() && ascendingX)) {
-                    incorrectDataFormat = true;
-                }
-            }
 
-            if (incorrectDataFormat) {
-                qCWarning(lcProperties3D,
-                          "Data might be in an incorrect format. If the graph looks wrong or "
-                          "is displayed only partially, verify that rows are filled first, "
-                          "and columns after.");
+            if (array.size() > 1 && array.at(0).size() > 1) {
+                // Check if Z is filled before X. If it is, or there's something else that is fishy,
+                // print out a warning about incorrectly formed data.
+                bool incorrectDataFormat = false;
+
+                qreal val = array.at(0).at(0).z();
+                qreal step = array.at(1).at(0).z() - array.at(0).at(0).z();
+                if (maxRow > 1) {
+                    if ((val + step * maxRow == array.at(maxRow).at(0).z() && !ascendingZ)
+                        || (val - step * maxRow == array.at(maxRow).at(0).z() && ascendingZ)) {
+                        incorrectDataFormat = true;
+                    }
+                }
+                val = array.at(0).at(0).x();
+                step = array.at(0).at(1).x() - array.at(0).at(0).x();
+                if (maxColumn > 1) {
+                    if ((val + step * maxColumn == array.at(0).at(maxColumn).x() && !ascendingX)
+                        || (val - step * maxColumn == array.at(0).at(maxColumn).x() && ascendingX)) {
+                        incorrectDataFormat = true;
+                    }
+                }
+
+                if (incorrectDataFormat) {
+                    qCWarning(lcProperties3D,
+                              "Data might be in an incorrect format. If the graph looks wrong or "
+                              "is displayed only partially, verify that rows are filled first, "
+                              "and columns after.");
+                }
             }
 
             if (model->ascendingX != ascendingX) {
