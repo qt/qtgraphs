@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 
 import QtQuick
+import QtQuick.Shapes
 import QtGraphs
 import QtTest
 
@@ -32,6 +33,9 @@ Item {
         hoverable: true
         opacity: 0.75
         valuesMultiplier: 0.75
+
+        gradient: customGradient
+        selectedGradient: customGradient
     }
 
     LineSeries {
@@ -62,6 +66,14 @@ Item {
         XYPoint { x: 2; y: 2 }
     }
 
+    LinearGradient {
+        id: customGradient
+    }
+
+    LinearGradient {
+        id: customGradient2
+    }
+
     TestCase {
         name: "AreaSeries Initial"
 
@@ -74,6 +86,8 @@ Item {
             compare(initial.selected, false)
             compare(initial.upperSeries, null)
             compare(initial.lowerSeries, null)
+            compare(initial.gradient, null)
+            compare(initial.selectedGradient, null)
         }
 
         function test_2_initial_common() {
@@ -95,6 +109,8 @@ Item {
             initial.selected = true
             initial.upperSeries = upperSeries;
             initial.lowerSeries = lowerSeries;
+            initial.gradient = customGradient;
+            initial.selectedGradient = customGradient;
 
             initial.name = "Area"
             initial.visible = false
@@ -111,6 +127,8 @@ Item {
             compare(initial.selected, true);
             compare(initial.upperSeries, upperSeries);
             compare(initial.lowerSeries, lowerSeries);
+            compare(initial.gradient, customGradient);
+            compare(initial.selectedGradient, customGradient);
 
             compare(initial.name, "Area")
             compare(initial.visible, false)
@@ -133,6 +151,8 @@ Item {
             compare(initialized.selected, true)
             compare(initialized.upperSeries, upperSeries);
             compare(initialized.lowerSeries, lowerSeries);
+            compare(initialized.gradient, customGradient);
+            compare(initialized.selectedGradient, customGradient);
 
             compare(initialized.name, "AreaSeries")
             compare(initialized.visible, false)
@@ -151,6 +171,8 @@ Item {
             initialized.selected = false;
             initialized.upperSeries = upperSeries2;
             initialized.lowerSeries = lowerSeries2;
+            initialized.gradient = customGradient2;
+            initialized.selectedGradient = customGradient2;
 
             initialized.name = "Area"
             initialized.visible = true
@@ -167,6 +189,8 @@ Item {
             compare(initialized.selected, false)
             compare(initialized.upperSeries, upperSeries2);
             compare(initialized.lowerSeries, lowerSeries2);
+            compare(initialized.gradient, customGradient2);
+            compare(initialized.selectedGradient, customGradient2);
 
             compare(initialized.name, "Area")
             compare(initialized.visible, true)
@@ -184,6 +208,8 @@ Item {
             compare(selectedSpy.count, 1)
             compare(upperSpy.count, 2)
             compare(lowerSpy.count, 2)
+            compare(gradientSpy.count, 2)
+            compare(selectedGradientSpy.count, 2)
 
             // Common Signals
             compare(nameSpy.count, 1)
@@ -197,9 +223,13 @@ Item {
         function test_3_initialized_change_to_null() {
             initialized.upperSeries = null
             initialized.lowerSeries = null
+            initialized.gradient = null
+            initialized.selectedGradient = null
 
             verify(!initialized.upperSeries)
             verify(!initialized.lowerSeries)
+            verify(!initialized.gradient)
+            verify(!initialized.selectedGradient)
         }
 
         function test_4_initialized_change_to_invalid() {
@@ -257,6 +287,18 @@ Item {
         id: lowerSpy
         target: initialized
         signalName: "lowerSeriesChanged"
+    }
+
+    SignalSpy {
+        id: gradientSpy
+        target: initialized
+        signalName: "gradientChanged"
+    }
+
+    SignalSpy {
+        id: selectedGradientSpy
+        target: initialized
+        signalName: "selectedGradientChanged"
     }
 
     //signals from QAbstractseries

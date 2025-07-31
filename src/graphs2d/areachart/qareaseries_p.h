@@ -15,6 +15,7 @@
 
 #include <QtGraphs/qareaseries.h>
 #include <private/qabstractseries_p.h>
+#include <QtQuickShapes/private/qquickshape_p.h>
 
 QT_BEGIN_NAMESPACE
 
@@ -32,6 +33,8 @@ protected:
     bool m_selected = false;
     QXYSeries *m_upperSeries = nullptr;
     QXYSeries *m_lowerSeries = nullptr;
+    QQuickShapeGradient *m_gradient = nullptr;
+    QQuickShapeGradient *m_selectedGradient = nullptr;
 
 private:
     Q_DECLARE_PUBLIC(QAreaSeries)

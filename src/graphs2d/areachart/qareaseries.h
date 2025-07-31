@@ -11,9 +11,13 @@
 QT_BEGIN_NAMESPACE
 
 class QAreaSeriesPrivate;
+class QQuickShapeGradient;
 
 class Q_GRAPHS_EXPORT QAreaSeries : public QAbstractSeries
 {
+    // For QQuickShapeGradient
+    Q_MOC_INCLUDE(<QtQuickShapes/private/qquickshape_p.h>)
+
     Q_OBJECT
     Q_PROPERTY(QColor color READ color WRITE setColor NOTIFY colorChanged FINAL)
     Q_PROPERTY(QColor selectedColor READ selectedColor WRITE setSelectedColor NOTIFY
@@ -29,6 +33,10 @@ class Q_GRAPHS_EXPORT QAreaSeries : public QAbstractSeries
                    upperSeriesChanged FINAL)
     Q_PROPERTY(QXYSeries *lowerSeries READ lowerSeries WRITE setLowerSeries NOTIFY
                    lowerSeriesChanged FINAL)
+    Q_PROPERTY(QQuickShapeGradient *gradient READ gradient WRITE setGradient NOTIFY
+                   gradientChanged REVISION(6, 11))
+    Q_PROPERTY(QQuickShapeGradient *selectedGradient READ selectedGradient WRITE setSelectedGradient NOTIFY
+                   selectedGradientChanged REVISION(6, 11))
 
     QML_NAMED_ELEMENT(AreaSeries)
 public:
@@ -60,6 +68,12 @@ public:
     QXYSeries *lowerSeries() const;
     void setLowerSeries(QXYSeries *newLowerSeries);
 
+    QQuickShapeGradient *gradient() const;
+    void setGradient(QQuickShapeGradient* newGradient);
+
+    QQuickShapeGradient *selectedGradient() const;
+    void setSelectedGradient(QQuickShapeGradient *newSelectedGradient);
+
 Q_SIGNALS:
     void colorChanged(QColor newColor);
     void selectedColorChanged(QColor newSelectedColor);
@@ -69,6 +83,8 @@ Q_SIGNALS:
     void selectedChanged();
     void upperSeriesChanged();
     void lowerSeriesChanged();
+    Q_REVISION(6, 11) void gradientChanged(QQuickShapeGradient *);
+    Q_REVISION(6, 11) void selectedGradientChanged(QQuickShapeGradient *);
 
     Q_REVISION(6, 9) void clicked(QPoint point);
     Q_REVISION(6, 9) void doubleClicked(QPoint point);

@@ -39,22 +39,30 @@ QT_BEGIN_NAMESPACE
     \property QAreaSeries::color
     \brief The fill color of the area.
     The default value is \c Qt::transparent, meaning the color is defined by the theme.
+    \note If \l gradient is set to something other than \c null, these
+    will take precedence over \c color. The \c color will be ignored in this case.
 */
 /*!
     \qmlproperty color AreaSeries::color
     The fill color of the area.
     The default value is \c transparent, meaning the color is defined by the theme.
+    \note If \l gradient is set to something other than \c null, these
+    will take precedence over \c color. The \c color will be ignored in this case.
 */
 
 /*!
     \property QAreaSeries::selectedColor
     \brief The fill color of the area when selected.
     The default value is \c Qt::transparent, meaning the selected color is defined by the theme.
+    \note If \l selectedGradient is set to something other than \c null, these
+    will take precedence over \c selectedColor. The \c selectedColor will be ignored in this case.
 */
 /*!
     \qmlproperty color AreaSeries::selectedColor
     The fill color of the area when selected.
     The default value is \c transparent, meaning the selected color is defined by the theme.
+    \note If \l selectedGradient is set to something other than \c null, these
+    will take precedence over \c selectedColor. The \c selectedColor will be ignored in this case.
 */
 
 /*!
@@ -122,6 +130,56 @@ QT_BEGIN_NAMESPACE
 */
 
 /*!
+    \property QAreaSeries::gradient
+    \since 6.11
+    This property defines the fill gradient. By default no gradient is enabled
+    and the value is \c null. In this case the fill will be based on the \l{color} property.
+
+    \note The Gradient type cannot be used here. Rather, prefer using one of
+    the advanced subtypes, like LinearGradient.
+
+    \note If set to something other than \c{null}, the \c gradient will take precedence over
+    \l color.
+*/
+/*!
+    \qmlproperty ShapeGradient AreaSeries::gradient
+    \since 6.11
+    This property defines the fill gradient. By default no gradient is enabled
+    and the value is \c null. In this case the fill will be based on the \l{color} property.
+
+    \note The Gradient type cannot be used here. Rather, prefer using one of
+    the advanced subtypes, like LinearGradient.
+
+    \note If set to something other than \c{null}, the \c gradient will take precedence over
+    \l color.
+*/
+
+/*!
+    \property QAreaSeries::selectedGradient
+    \since 6.11
+    This property defines the fill gradient of the area when selected. By default no gradient is enabled
+    and the value is \c null. In this case the fill will be based on the \l{selectedColor} property.
+
+    \note The Gradient type cannot be used here. Rather, prefer using one of
+    the advanced subtypes, like LinearGradient.
+
+    \note If set to something other than \c{null}, the \c selectedGradient will take precedence over
+    \l selectedColor.
+*/
+/*!
+    \qmlproperty ShapeGradient AreaSeries::selectedGradient
+    \since 6.11
+    This property defines the fill gradient of the area when selected. By default no gradient is enabled
+    and the value is \c null. In this case the fill will be based on the \l{selectedColor} property.
+
+    \note The Gradient type cannot be used here. Rather, prefer using one of
+    the advanced subtypes, like LinearGradient.
+
+    \note If set to something other than \c{null}, the \c selectedGradient will take precedence over
+    \l selectedColor.
+*/
+
+/*!
     \qmlsignal AreaSeries::colorChanged(color newColor)
     This signal is emitted when the area \l color changes to \a newColor.
 */
@@ -162,6 +220,18 @@ QT_BEGIN_NAMESPACE
 /*!
     \qmlsignal AreaSeries::lowerSeriesChanged();
     This signal is emitted when the lower series changes.
+*/
+
+/*!
+    \qmlsignal AreaSeries::gradientChanged();
+    \since 6.11
+    This signal is emitted when the gradient changes.
+*/
+
+/*!
+    \qmlsignal AreaSeries::selectedGradientChanged();
+    \since 6.11
+    This signal is emitted when the gradient of a selected area changes.
 */
 
 /*!
@@ -364,6 +434,42 @@ void QAreaSeries::setLowerSeries(QXYSeries *newLowerSeries)
     connect(newLowerSeries, &QXYSeries::update, this, &QAreaSeries::update);
 
     emit lowerSeriesChanged();
+}
+
+QQuickShapeGradient* QAreaSeries::gradient() const
+{
+    Q_D(const QAreaSeries);
+    return d->m_gradient;
+}
+
+void QAreaSeries::setGradient(QQuickShapeGradient* newGradient)
+{
+    Q_D(QAreaSeries);
+    if (d->m_gradient == newGradient) {
+        qCDebug(lcProperties2D) << __FUNCTION__
+            << "value is already set to:" << newGradient;
+        return;
+    }
+    d->m_gradient = newGradient;
+    emit gradientChanged(newGradient);
+}
+
+QQuickShapeGradient* QAreaSeries::selectedGradient() const
+{
+    Q_D(const QAreaSeries);
+    return d->m_selectedGradient;
+}
+
+void QAreaSeries::setSelectedGradient(QQuickShapeGradient* newSelectedGradient)
+{
+    Q_D(QAreaSeries);
+    if (d->m_selectedGradient == newSelectedGradient) {
+        qCDebug(lcProperties2D) << __FUNCTION__
+            << "value is already set to:" << newSelectedGradient;
+        return;
+    }
+    d->m_selectedGradient = newSelectedGradient;
+    emit selectedGradientChanged(newSelectedGradient);
 }
 
 QAreaSeriesPrivate::QAreaSeriesPrivate() {}

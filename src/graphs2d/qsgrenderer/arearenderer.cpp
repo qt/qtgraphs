@@ -143,10 +143,14 @@ void AreaRenderer::handlePolish(QAreaSeries *series)
             ? series->borderColor()
             : borderColors.at(index);
 
+    QQuickShapeGradient *gradient = series->gradient();
+
     if (series->isSelected()) {
         color = series->selectedColor().alpha() != 0 ? series->selectedColor() : color.lighter();
         borderColor = series->selectedBorderColor().alpha() != 0 ? series->selectedBorderColor()
                                                                  : borderColor.lighter();
+        if (series->selectedGradient())
+            gradient = series->selectedGradient();
     }
 
     qreal borderWidth = series->borderWidth();
@@ -156,6 +160,7 @@ void AreaRenderer::handlePolish(QAreaSeries *series)
     group->shapePath->setStrokeWidth(borderWidth);
     group->shapePath->setStrokeColor(borderColor);
     group->shapePath->setFillColor(color);
+    group->shapePath->setFillGradient(gradient);
     group->shapePath->setCapStyle(QQuickShapePath::CapStyle::SquareCap);
 
     auto &&upperPoints = upper->points();
