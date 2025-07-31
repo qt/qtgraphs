@@ -262,7 +262,7 @@ void calculateCategoryTotalValues(QBarSeries *series, QList<float> &totalValues,
         int setIndex = 0;
         for (const auto &variantValue : std::as_const(v)) {
             if (setIndex < totalValues.size())
-                totalValues[setIndex] += variantValue.toReal();
+                totalValues[setIndex] += qAbs(variantValue.toReal());
             setIndex++;
         }
     }
@@ -300,14 +300,18 @@ void BarsRenderer::updateVerticalBars(QBarSeries *series, qsizetype setCount,
 
     float seriesPos = barSeriesOffset;
     float posXInSet = 0;
-    QList<float> posYListInSet;
-    if (stacked)
-        posYListInSet.fill(0, valuesPerSet);
+    QList<float> positiveYListInSet;
+    QList<float> negativeYListInSet;
+    if (stacked) {
+        positiveYListInSet.fill(0, valuesPerSet);
+        negativeYListInSet.fill(0, valuesPerSet);
+    }
     QList<float> totalValuesListInSet;
     if (percent)
         calculateCategoryTotalValues(series, totalValuesListInSet, valuesPerSet);
-
     int barIndexInSet = 0;
+    int positiveBarIndexInSet = 0;
+    int negativeBarIndexInSet = 0;
     int barSetIndex = 0;
     QList<QLegendData> legendDataList;
     auto barsets = series->barSets();
@@ -318,6 +322,8 @@ void BarsRenderer::updateVerticalBars(QBarSeries *series, qsizetype setCount,
             continue;
         seriesPos = barSeriesOffset;
         barIndexInSet = 0;
+        positiveBarIndexInSet = 0;
+        negativeBarIndexInSet = 0;
         BarSelectionRect *barSelectionRect = nullptr;
         if (series->isSelectable() || series->isHoverable()) {
             rectNodesInputRects << BarSelectionRect();
@@ -344,7 +350,7 @@ void BarsRenderer::updateVerticalBars(QBarSeries *series, qsizetype setCount,
         const auto selectedBars = s->selectedBars();
         for (const auto &variantValue : std::as_const(v)) {
             const float realValue = variantValue.toReal();
-            float value = (realValue - axisY.minValue) * series->valuesMultiplier();
+            float value = realValue * series->valuesMultiplier();
             if (percent) {
                 if (auto totalValue = totalValuesListInSet.at(barIndexInSet))
                     value *= (100.0 / totalValue);
@@ -352,12 +358,20 @@ void BarsRenderer::updateVerticalBars(QBarSeries *series, qsizetype setCount,
             const bool isSelected = selectedBars.contains(barIndexInSet);
             double delta = axisY.maxValue - axisY.minValue;
             double maxValues = delta > 0 ? 1.0 / delta : 100.0;
-            float barLength = h * value * maxValues;
+            float barLength = qAbs(h * value * maxValues);
             float barY = h - barLength;
             float barX = seriesPos + posXInSet + barCentering;
+            float offset = h * (- axisY.minValue) * series->valuesMultiplier() * maxValues;
             if (stacked) {
-                barY = h - barLength - posYListInSet[barIndexInSet];
                 barX = seriesPos + barCentering;
+                if (value >= 0)
+                    barY = h - barLength - offset - positiveYListInSet[positiveBarIndexInSet];
+                else
+                    barY = h - offset + negativeYListInSet[negativeBarIndexInSet];
+            } else {
+                barY -= offset;
+                if (value < 0)
+                    barY += barLength;
             }
             QRectF barRect(barX, barY, barWidth, barLength);
             if (barSelectionRect)
@@ -375,8 +389,15 @@ void BarsRenderer::updateVerticalBars(QBarSeries *series, qsizetype setCount,
             d.value = realValue;
             seriesData << d;
 
-            if (stacked)
-                posYListInSet[barIndexInSet] += barLength;
+            if (stacked) {
+                if (value >= 0) {
+                    positiveYListInSet[positiveBarIndexInSet] += barLength;
+                    positiveBarIndexInSet++;
+                } else {
+                    negativeYListInSet[negativeBarIndexInSet] += barLength;
+                    negativeBarIndexInSet++;
+                }
+            }
             barIndexInSet++;
             seriesPos = ((float)barIndexInSet / valuesPerSet) * w + barSeriesOffset;
         }
@@ -418,13 +439,18 @@ void BarsRenderer::updateHorizontalBars(QBarSeries *series, qsizetype setCount,
 
     float seriesPos = barSeriesOffset;
     float posYInSet = 0;
-    QList<float> posXListInSet;
-    if (stacked)
-        posXListInSet.fill(0, valuesPerSet);
+    QList<float> positiveXListInSet;
+    QList<float> negativeXListInSet;
+    if (stacked) {
+        positiveXListInSet.fill(0, valuesPerSet);
+        negativeXListInSet.fill(0, valuesPerSet);
+    }
     QList<float> totalValuesListInSet;
     if (percent)
         calculateCategoryTotalValues(series, totalValuesListInSet, valuesPerSet);
     int barIndexInSet = 0;
+    int positiveBarIndexInSet = 0;
+    int negativeBarIndexInSet = 0;
     int barSetIndex = 0;
     QList<QLegendData> legendDataList;
     auto barsets = series->barSets();
@@ -435,6 +461,8 @@ void BarsRenderer::updateHorizontalBars(QBarSeries *series, qsizetype setCount,
             continue;
         seriesPos = barSeriesOffset;
         barIndexInSet = 0;
+        positiveBarIndexInSet = 0;
+        negativeBarIndexInSet = 0;
         BarSelectionRect *barSelectionRect = nullptr;
         if (series->isSelectable() || series->isHoverable()) {
             rectNodesInputRects << BarSelectionRect();
@@ -460,7 +488,7 @@ void BarsRenderer::updateHorizontalBars(QBarSeries *series, qsizetype setCount,
         const auto selectedBars = s->selectedBars();
         for (const auto &variantValue : std::as_const(v)) {
             const float realValue = variantValue.toReal();
-            float value = (realValue - axisX.minValue) * series->valuesMultiplier();
+            float value = realValue * series->valuesMultiplier();
             if (percent) {
                 if (auto totalValue = totalValuesListInSet.at(barIndexInSet))
                     value *= (100.0 / totalValue);
@@ -468,12 +496,20 @@ void BarsRenderer::updateHorizontalBars(QBarSeries *series, qsizetype setCount,
             const bool isSelected = selectedBars.contains(barIndexInSet);
             double delta = axisX.maxValue - axisX.minValue;
             double maxValues = delta > 0 ? 1.0 / delta : 100.0;
-            float barLength = w * value * maxValues;
+            float barLength = qAbs(w * value * maxValues);
             float barY = seriesPos + posYInSet + barCentering;
             float barX = 0;
+            float offset = w * (- axisX.minValue) * series->valuesMultiplier() * maxValues;
             if (stacked) {
                 barY = seriesPos + barCentering;
-                barX = posXListInSet[barIndexInSet];
+                if (value >= 0)
+                    barX = offset + positiveXListInSet[positiveBarIndexInSet];
+                else
+                    barX = offset - barLength - negativeXListInSet[negativeBarIndexInSet];
+            } else {
+                barX += offset;
+                if (value < 0)
+                    barX -= barLength;
             }
             QRectF barRect(barX, barY, barLength, barWidth);
             if (barSelectionRect)
@@ -491,8 +527,15 @@ void BarsRenderer::updateHorizontalBars(QBarSeries *series, qsizetype setCount,
             d.value = realValue;
             seriesData << d;
 
-            if (stacked)
-                posXListInSet[barIndexInSet] += barLength;
+            if (stacked) {
+                if (value >= 0) {
+                    positiveXListInSet[positiveBarIndexInSet] += barLength;
+                    positiveBarIndexInSet++;
+                } else {
+                    negativeXListInSet[negativeBarIndexInSet] += barLength;
+                    negativeBarIndexInSet++;
+                }
+            }
             barIndexInSet++;
             seriesPos = ((float)barIndexInSet / valuesPerSet) * h + barSeriesOffset;
         }
