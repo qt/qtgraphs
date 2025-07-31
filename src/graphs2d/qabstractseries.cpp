@@ -323,7 +323,7 @@ QT_BEGIN_NAMESPACE
 */
 
 /*!
-    \qmlsignal QAbstractSeries::drawOrderChanged(int newDrawOrder)
+    \qmlsignal QAbstractSeries::zValueChanged(int newDrawOrder)
     \since 6.10
     This signal is emitted when the series draw order changes.
     The \a newAxis parameter specifies the new order.
