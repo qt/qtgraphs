@@ -91,6 +91,7 @@ Item {
             msaaSamples: 4
             aspectRatio: 3.0
             visible: !graphMod.barsVisible
+            transparencyTechnique: graphMod.transparencyTechnique
 
             Surface3DSeries {
                 id: surfaceSeries
@@ -118,6 +119,7 @@ Item {
             msaaSamples: 4
             aspectRatio: 3.0
             visible: graphMod.barsVisible
+            transparencyTechnique: graphMod.transparencyTechnique
 
             Bar3DSeries {
                 id: barsSeries
