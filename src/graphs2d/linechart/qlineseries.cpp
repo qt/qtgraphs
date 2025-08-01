@@ -93,6 +93,36 @@ QT_BEGIN_NAMESPACE
 */
 
 /*!
+    \qmlproperty enumeration LineSeries::strokeStyle
+    \since 6.11
+    \qmlenumeratorsfrom QLineSeries::StrokeStyle
+*/
+
+/*!
+    \qmlproperty real LineSeries::dashOffset
+    \since 6.11
+
+    This property defines the starting point on the dash pattern, measured in
+    units used to specify the dash pattern.
+
+    The default value is \c 0.
+*/
+
+/*!
+    \qmlproperty list<real> LineSeries::dashPattern
+    \since 6.11
+
+    This property defines the dash pattern when \l strokeStyle
+    is set to \l{QLineSeries::DashLine}{LineSeries::DashLine}.
+    The pattern must be specified as an even number of
+    positive entries where the entries 1, 3, 5... are the dashes and 2, 4,
+    6... are the spaces. The pattern is specified in units of the line's width.
+
+    The default value is (4, 2), meaning a dash of 4 * \l width
+    pixels followed by a space of 2 * \l width pixels.
+*/
+
+/*!
  * \enum QLineSeries::LineStyle
  * \since 6.11
  *
@@ -106,6 +136,18 @@ QT_BEGIN_NAMESPACE
  *        The points are connected by steps where each step height is the value from the right.
  * \value StepCenter
  *        The points are connected by steps which change in the middle between two values.
+ */
+
+/*!
+ * \enum QLineSeries::StrokeStyle
+ * \since 6.11
+ *
+ * Represents the stroke style of the series. The default value is StrokeStyle.SolidLine.
+ *
+ * \value SolidLine
+ *        A plain line.
+ * \value DashLine
+ *        Dashes separated by a few pixels.
  */
 
 /*!
@@ -141,6 +183,27 @@ QT_BEGIN_NAMESPACE
     \since 6.11
     This signal is emitted when the line series line style changes.
     The \a newLineStyle parameter holds the new line style.
+*/
+
+/*!
+    \qmlsignal LineSeries::strokeStyleChanged(QLineSeries::StrokeStyle newStrokeStyle)
+    \since 6.11
+    This signal is emitted when the line series stroke style changes.
+    The \a newStrokeStyle parameter holds the new stroke style.
+*/
+
+/*!
+    \qmlsignal LineSeries::dashOffsetChanged(qreal newDashOffset)
+    \since 6.11
+    This signal is emitted when the line series line dash offset changes.
+    The \a newDashOffset parameter holds the new dash offset.
+*/
+
+/*!
+    \qmlsignal LineSeries::dashPatternChanged(QVector<qreal> newDashPattern)
+    \since 6.11
+    This signal is emitted when the line series line dash pattern changes.
+    The \a newDashPattern parameter holds the new dash pattern.
 */
 
 QLineSeries::QLineSeries(QObject *parent)
@@ -288,6 +351,63 @@ void QLineSeries::setLineStyle(QLineSeries::LineStyle newLineStyle)
     }
     d->m_lineStyle = validLineStyle;
     emit lineStyleChanged(validLineStyle);
+    emit update();
+}
+
+QLineSeries::StrokeStyle QLineSeries::strokeStyle() const
+{
+    Q_D(const QLineSeries);
+    return d->m_strokeStyle;
+}
+
+void QLineSeries::setStrokeStyle(QLineSeries::StrokeStyle newStrokeStyle)
+{
+    Q_D(QLineSeries);
+    if (d->m_strokeStyle == newStrokeStyle) {
+        qCDebug(lcProperties2D) << "QLineSeries::setStrokeStyle. StrokeStyle is already set to:"
+                                << newStrokeStyle;
+        return;
+    }
+    d->m_strokeStyle = newStrokeStyle;
+    emit strokeStyleChanged(newStrokeStyle);
+    emit update();
+}
+
+qreal QLineSeries::dashOffset() const
+{
+    Q_D(const QLineSeries);
+    return d->m_dashOffset;
+}
+
+void QLineSeries::setDashOffset(qreal offset)
+{
+    Q_D(QLineSeries);
+    if (d->m_dashOffset == offset) {
+        qCDebug(lcProperties2D) << "QLineSeries::setDashOffset. dashOffset is already set to:"
+                                << offset;
+        return;
+    }
+    d->m_dashOffset = offset;
+    emit dashOffsetChanged(offset);
+    emit update();
+}
+
+QVector<qreal> QLineSeries::dashPattern() const
+{
+    Q_D(const QLineSeries);
+    return d->m_dashPattern;
+}
+
+void QLineSeries::setDashPattern(const QVector<qreal> &array)
+{
+    Q_D(QLineSeries);
+    if (d->m_dashPattern == array) {
+        qCDebug(lcProperties2D) << "QLineSeries::setDashPattern. dashPattern is already set to:"
+                                << array;
+        return;
+    }
+    d->m_dashPattern = array;
+    emit dashPatternChanged(array);
     emit update();
 }
 

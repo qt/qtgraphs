@@ -21,6 +21,9 @@ Item {
         capStyle: Qt.RoundCap
         joinStyle: Qt.RoundJoin
         lineStyle: LineSeries.LineStyle.StepLeft
+        strokeStyle: LineSeries.StrokeStyle.DashLine
+        dashOffset: 1.0
+        dashPattern: [3, 2]
         pointDelegate: Rectangle {
             width: 5
             height: 5
@@ -50,6 +53,9 @@ Item {
             compare(initial.capStyle, Qt.SquareCap)
             compare(initial.joinStyle, Qt.BevelJoin)
             compare(initial.lineStyle, LineSeries.LineStyle.Straight)
+            compare(initial.strokeStyle, LineSeries.StrokeStyle.SolidLine)
+            compare(initial.dashOffset, 0.0)
+            compare(initial.dashPattern, [4, 2])
             compare(initial.pointDelegate, null)
         }
 
@@ -72,8 +78,11 @@ Item {
         function test_3_initial_change() {
             initial.width = 10.0
             initial.capStyle = Qt.RoundCap
-            initial.joinStyle = Qt.BevelJoin;
-            initial.lineStyle = LineSeries.LineStyle.StepLeft;
+            initial.joinStyle = Qt.BevelJoin
+            initial.lineStyle = LineSeries.LineStyle.StepLeft
+            initial.strokeStyle = LineSeries.StrokeStyle.DashLine
+            initial.dashOffset = 1.0
+            initial.dashPattern = [3, 2]
             initial.pointDelegate = marker
 
             initial.color = "#ff00ff"
@@ -91,6 +100,9 @@ Item {
             compare(initial.capStyle, Qt.RoundCap)
             compare(initial.joinStyle, Qt.BevelJoin)
             compare(initial.lineStyle, LineSeries.LineStyle.StepLeft)
+            compare(initial.strokeStyle, LineSeries.StrokeStyle.DashLine)
+            compare(initial.dashOffset, 1.0)
+            compare(initial.dashPattern, [3, 2])
             compare(initial.pointDelegate, marker)
 
             compare(initial.color, "#ff00ff")
@@ -145,6 +157,9 @@ Item {
             compare(initialized.capStyle, Qt.RoundCap)
             compare(initialized.joinStyle, Qt.RoundJoin)
             compare(initialized.lineStyle, LineSeries.LineStyle.StepLeft)
+            compare(initialized.strokeStyle, LineSeries.StrokeStyle.DashLine)
+            compare(initialized.dashOffset, 1.0)
+            compare(initialized.dashPattern, [3, 2])
             verify(initialized.pointDelegate)
 
             compare(initialized.color, "#ff00ff")
@@ -164,6 +179,9 @@ Item {
             initialized.capStyle = Qt.SquareCap
             initialized.joinStyle = Qt.BevelJoin
             initialized.lineStyle = LineSeries.LineStyle.Straight
+            initialized.strokeStyle = LineSeries.StrokeStyle.SolidLine
+            initialized.dashOffset = 0.0
+            initialized.dashPattern = [4, 2]
             initialized.pointDelegate = null
 
             initialized.color = "#0000ff"
@@ -199,6 +217,9 @@ Item {
             compare(capStyleSpy.count, 1)
             compare(joinStyleSpy.count, 1)
             compare(lineStyleSpy.count, 1)
+            compare(strokeStyleSpy.count, 1)
+            compare(dashOffsetSpy.count, 1)
+            compare(dashPatternSpy.count, 2)
 
             //QXYSeries signals
             compare(colorSpy.count, 1)
@@ -248,6 +269,24 @@ Item {
             id: lineStyleSpy
             target: initialized
             signalName: "lineStyleChanged"
+        }
+
+        SignalSpy {
+            id: strokeStyleSpy
+            target: initialized
+            signalName: "strokeStyleChanged"
+        }
+
+        SignalSpy {
+            id: dashOffsetSpy
+            target: initialized
+            signalName: "dashOffsetChanged"
+        }
+
+        SignalSpy {
+            id: dashPatternSpy
+            target: initialized
+            signalName: "dashPatternChanged"
         }
 
         // QXYSeries signals

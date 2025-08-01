@@ -390,6 +390,10 @@ void PointRenderer::updateLineSeries(QLineSeries *series, QLegendData &legendDat
     else if (joinStyle == Qt::PenJoinStyle::RoundJoin)
         group->shapePath->setJoinStyle(QQuickShapePath::JoinStyle::RoundJoin);
 
+    group->shapePath->setStrokeStyle(QQuickShapePath::StrokeStyle(series->strokeStyle()));
+    group->shapePath->setDashOffset(series->dashOffset());
+    group->shapePath->setDashPattern(series->dashPattern());
+
     auto &painterPath = group->painterPath;
     painterPath.clear();
 

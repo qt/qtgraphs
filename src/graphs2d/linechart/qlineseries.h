@@ -18,6 +18,9 @@ class Q_GRAPHS_EXPORT QLineSeries : public QXYSeries
     Q_PROPERTY(Qt::PenCapStyle capStyle READ capStyle WRITE setCapStyle NOTIFY capStyleChanged FINAL)
     Q_PROPERTY(Qt::PenJoinStyle joinStyle READ joinStyle WRITE setJoinStyle NOTIFY joinStyleChanged REVISION(6, 11))
     Q_PROPERTY(QLineSeries::LineStyle lineStyle READ lineStyle WRITE setLineStyle NOTIFY lineStyleChanged REVISION(6, 11))
+    Q_PROPERTY(QLineSeries::StrokeStyle strokeStyle READ strokeStyle WRITE setStrokeStyle NOTIFY strokeStyleChanged REVISION(6, 11))
+    Q_PROPERTY(qreal dashOffset READ dashOffset WRITE setDashOffset NOTIFY dashOffsetChanged REVISION(6, 11))
+    Q_PROPERTY(QVector<qreal> dashPattern READ dashPattern WRITE setDashPattern NOTIFY dashPatternChanged REVISION(6, 11))
 
     QML_NAMED_ELEMENT(LineSeries)
 public:
@@ -28,6 +31,12 @@ public:
         StepCenter
     };
     Q_ENUM(LineStyle);
+
+    enum class StrokeStyle {
+        SolidLine = Qt::SolidLine,
+        DashLine = Qt::DashLine
+    };
+    Q_ENUM(StrokeStyle);
 
     explicit QLineSeries(QObject *parent = nullptr);
     ~QLineSeries() override;
@@ -46,6 +55,15 @@ public:
     QLineSeries::LineStyle lineStyle() const;
     void setLineStyle(QLineSeries::LineStyle newLineStyle);
 
+    QLineSeries::StrokeStyle strokeStyle() const;
+    void setStrokeStyle(QLineSeries::StrokeStyle newStrokeStyle);
+
+    qreal dashOffset() const;
+    void setDashOffset(qreal newDashOffset);
+
+    QVector<qreal> dashPattern() const;
+    void setDashPattern(const QVector<qreal> &array);
+
     Q_REVISION(6, 10) Q_INVOKABLE QPointF dataPointCoordinatesAt(qreal x, qreal y);
 
 Q_SIGNALS:
@@ -53,6 +71,9 @@ Q_SIGNALS:
     void capStyleChanged();
     Q_REVISION(6, 11) void joinStyleChanged(Qt::PenJoinStyle);
     Q_REVISION(6, 11) void lineStyleChanged(QLineSeries::LineStyle);
+    Q_REVISION(6, 11) void strokeStyleChanged(QLineSeries::StrokeStyle);
+    Q_REVISION(6, 11) void dashOffsetChanged(qreal);
+    Q_REVISION(6, 11) void dashPatternChanged(QVector<qreal>);
 
 protected:
     QLineSeries(QLineSeriesPrivate &dd, QObject *parent = nullptr);
