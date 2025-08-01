@@ -26,10 +26,6 @@ int main(int argc, char *argv[])
 
     viewer.setTitle(QStringLiteral("QML Graphs 2D Lines test"));
 
-    viewer.setSource(QUrl("qrc:/qml/main.qml"));
-    viewer.setResizeMode(QQuickView::SizeRootObjectToView);
-    viewer.show();
-
     QLineSeries *series = new QLineSeries();
     series->append(0, 2);
     series->append(2, 4);
@@ -39,6 +35,10 @@ int main(int argc, char *argv[])
     series->setLineStyle(QLineSeries::LineStyle::StepCenter);
     series->setColor(Qt::red);
     viewer.rootContext()->setContextProperty("cppLineSeries", series);
+
+    viewer.setSource(QUrl("qrc:/qml/main.qml"));
+    viewer.setResizeMode(QQuickView::SizeRootObjectToView);
+    viewer.show();
 
     return app.exec();
 }

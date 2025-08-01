@@ -51,8 +51,8 @@ public:
 Q_SIGNALS:
     void widthChanged();
     void capStyleChanged();
-    Q_REVISION(6, 11) void joinStyleChanged();
-    Q_REVISION(6, 11) void lineStyleChanged();
+    Q_REVISION(6, 11) void joinStyleChanged(Qt::PenJoinStyle);
+    Q_REVISION(6, 11) void lineStyleChanged(QLineSeries::LineStyle);
 
 protected:
     QLineSeries(QLineSeriesPrivate &dd, QObject *parent = nullptr);

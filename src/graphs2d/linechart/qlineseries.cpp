@@ -130,15 +130,17 @@ QT_BEGIN_NAMESPACE
 */
 
 /*!
-    \qmlsignal LineSeries::joinStyleChanged()
+    \qmlsignal LineSeries::joinStyleChanged(Qt::PenJoinStyle newJoinStyle)
     \since 6.11
     This signal is emitted when the line series cap style changes.
+    The \a newJoinStyle parameter holds the new join style.
 */
 
 /*!
-    \qmlsignal LineSeries::lineStyleChanged()
+    \qmlsignal LineSeries::lineStyleChanged(QLineSeries::LineStyle newLineStyle)
     \since 6.11
     This signal is emitted when the line series line style changes.
+    The \a newLineStyle parameter holds the new line style.
 */
 
 QLineSeries::QLineSeries(QObject *parent)
@@ -261,7 +263,7 @@ void QLineSeries::setJoinStyle(Qt::PenJoinStyle newJoinStyle)
         return;
     }
     d->m_joinStyle = validJoinStyle;
-    emit joinStyleChanged();
+    emit joinStyleChanged(validJoinStyle);
     emit update();
 }
 
@@ -285,7 +287,7 @@ void QLineSeries::setLineStyle(QLineSeries::LineStyle newLineStyle)
         return;
     }
     d->m_lineStyle = validLineStyle;
-    emit lineStyleChanged();
+    emit lineStyleChanged(validLineStyle);
     emit update();
 }
 
