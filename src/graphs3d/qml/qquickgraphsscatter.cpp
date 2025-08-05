@@ -113,25 +113,25 @@ static const int insertRemoveRecordReserveSize = 31;
  * \qmlsignal Scatter3D::axisXChanged(ValueAxis3D axis)
  *
  * This signal is emitted when axisX changes to \a axis.
-*/
+ */
 
 /*!
  * \qmlsignal Scatter3D::axisYChanged(ValueAxis3D axis)
  *
  * This signal is emitted when axisY changes to \a axis.
-*/
+ */
 
 /*!
  * \qmlsignal Scatter3D::axisZChanged(ValueAxis3D axis)
  *
  * This signal is emitted when axisZ changes to \a axis.
-*/
+ */
 
 /*!
  * \qmlsignal Scatter3D::selectedSeriesChanged(Scatter3DSeries series)
  *
  * This signal is emitted when selectedSeries changes to \a series.
-*/
+ */
 
 QQuickGraphsScatter::QQuickGraphsScatter(QQuickItem *parent)
     : QQuickGraphsItem(parent)
