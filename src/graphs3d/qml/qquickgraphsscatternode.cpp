@@ -90,25 +90,25 @@ QT_BEGIN_NAMESPACE
  * \qmlsignal Scatter3DNode::axisXChanged(ValueAxis3D axis)
  *
  * This signal is emitted when axisX changes to \a axis.
-*/
+ */
 
 /*!
  * \qmlsignal Scatter3DNode::axisYChanged(ValueAxis3D axis)
  *
  * This signal is emitted when axisY changes to \a axis.
-*/
+ */
 
 /*!
  * \qmlsignal Scatter3DNode::axisZChanged(ValueAxis3D axis)
  *
  * This signal is emitted when axisZ changes to \a axis.
-*/
+ */
 
 /*!
  * \qmlsignal Scatter3DNode::selectedSeriesChanged(Scatter3DSeries series)
  *
  * This signal is emitted when selectedSeries changes to \a series.
-*/
+ */
 
 QQuickGraphsScatterNode::QQuickGraphsScatterNode(QQuick3DNode *parent)
     : QQuickGraphsNode(parent)
