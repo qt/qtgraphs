@@ -168,7 +168,7 @@ QT_BEGIN_NAMESPACE
  *
  * Sets the drawing mode to one of
  * \l{QSurface3DSeries::DrawFlag}{Surface3DSeries.DrawFlag}{QSurface3DSeries.DrawFilledSurface}. 
-*  Either DrawWireframe or DrawSurface must be set
+ * Either DrawWireframe or DrawSurface must be set
  */
 
 /*!
