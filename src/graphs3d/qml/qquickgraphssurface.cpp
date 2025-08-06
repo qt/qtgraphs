@@ -1449,8 +1449,8 @@ void QQuickGraphsSurface::updateModel(SurfaceModel *model)
 
         bool flatShading = model->series->shading() == QSurface3DSeries::Shading::Flat;
 
-        QVector3D boundsMin = model->boundsMin;
-        QVector3D boundsMax = model->boundsMax;
+        QVector3D boundsMin = QVector3D();
+        QVector3D boundsMax = QVector3D();
 
         QVector<QVector4D> heights;
         heights.reserve(totalSize);
@@ -1535,8 +1535,14 @@ void QQuickGraphsSurface::updateModel(SurfaceModel *model)
                 }
             }
         }
-        model->boundsMin = boundsMin;
-        model->boundsMax = boundsMax;
+
+        if (model->boundsMin != boundsMin || model->boundsMax != boundsMax) {
+            model->boundsMin = boundsMin;
+            model->boundsMax = boundsMax;
+            float range = boundsMax.y() - boundsMin.y();
+            material->setProperty("gradientMin", -(boundsMin.y() / range));
+            material->setProperty("gradientHeight", 1.0f / range);
+        }
 
         QByteArray heightData = QByteArray(reinterpret_cast<char *>(heights.data()),
                                            heights.size() * sizeof(QVector4D));
@@ -1985,15 +1991,9 @@ void QQuickGraphsSurface::updateMaterial(SurfaceModel *model)
     material->setProperty("textured", textured);
 
     if (isSeriesVisualsDirty()) {
-        float minY = model->boundsMin.y();
-        float maxY = model->boundsMax.y();
-        float range = maxY - minY;
-
         switch (model->series->colorStyle()) {
         case (QGraphsTheme::ColorStyle::ObjectGradient):
             material->setProperty("colorStyle", 0);
-            material->setProperty("gradientMin", -(minY / range));
-            material->setProperty("gradientHeight", 1.0f / range);
             break;
         case (QGraphsTheme::ColorStyle::RangeGradient):
             material->setProperty("colorStyle", 1);
@@ -2053,7 +2053,8 @@ void QQuickGraphsSurface::updateMaterial(SurfaceModel *model)
             texInput->texture()->setSource(QUrl());
         }
     }
-    material->setProperty("rootScale", rootNode()->scale().y());
+    material->setProperty("rootScale", rootNode()->scale().y() * scaleWithBackground().y());
+
     bool colorHasTransparency = false;
     if (model->series->colorStyle() == QGraphsTheme::ColorStyle::Uniform)
         colorHasTransparency = model->series->baseColor().alphaF() < 1.0;
