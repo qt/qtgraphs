@@ -1,6 +1,7 @@
 // Copyright (C) 2023 The Qt Company Ltd.
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 
+#include "graphs2d/qabstractseries.h"
 #include <QtGraphs/qxyseries.h>
 #include <private/qxyseries_p.h>
 #include <private/charthelpers_p.h>
@@ -961,7 +962,9 @@ QXYSeries &QXYSeries::operator<< (const QList<QPointF>& points)
     return *this;
 }
 
-QXYSeriesPrivate::QXYSeriesPrivate() {}
+QXYSeriesPrivate::QXYSeriesPrivate(QAbstractSeries::SeriesType type)
+    : QAbstractSeriesPrivate(type)
+{}
 
 void QXYSeriesPrivate::setPointSelected(qsizetype index, bool selected, bool &callSignal)
 {

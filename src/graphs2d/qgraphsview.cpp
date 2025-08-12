@@ -1,6 +1,8 @@
 // Copyright (C) 2023 The Qt Company Ltd.
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 
+#include "graphs2d/qabstractseries.h"
+#include "graphs2d/qabstractseries_p.h"
 #ifdef USE_AREAGRAPH
 #include <QtGraphs/qareaseries.h>
 #include <private/arearenderer_p.h>
@@ -177,7 +179,7 @@ void QGraphsView::insertSeries(qsizetype index, QObject *object)
 */
 void QGraphsView::removeSeries(QObject *object)
 {
-    if (auto series = reinterpret_cast<QAbstractSeries *>(object)) {
+    if (auto series = qobject_cast<QAbstractSeries *>(object)) {
         series->setGraph(nullptr);
         m_seriesList.removeAll(series);
         auto &cleanupSeriesList = m_cleanupSeriesList[getSeriesRendererIndex(series)];
@@ -1692,7 +1694,7 @@ int QGraphsView::getSeriesRendererIndex(QAbstractSeries *series)
 {
     int index = 0;
     if (series) {
-        switch (series->type()) {
+        switch (QAbstractSeriesPrivate::get(series)->type()) {
         case QAbstractSeries::SeriesType::Bar:
             index = 0;
             break;

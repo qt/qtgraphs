@@ -1,6 +1,7 @@
 // Copyright (C) 2023 The Qt Company Ltd.
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 
+#include "graphs2d/xychart/qxyseries_p.h"
 #include <QtGraphs/qlineseries.h>
 #include <private/qgraphsview_p.h>
 #include <private/qlineseries_p.h>
@@ -110,7 +111,9 @@ QAbstractSeries::SeriesType QLineSeries::type() const
     return QAbstractSeries::SeriesType::Line;
 }
 
-QLineSeriesPrivate::QLineSeriesPrivate() {}
+QLineSeriesPrivate::QLineSeriesPrivate()
+    : QXYSeriesPrivate(QAbstractSeries::SeriesType::Line)
+{}
 
 qreal QLineSeries::width() const
 {
