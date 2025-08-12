@@ -1,6 +1,7 @@
 // Copyright (C) 2024 The Qt Company Ltd.
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 
+#include "graphs2d/qabstractseries_p.h"
 #include <QtGraphs/qareaseries.h>
 #include <private/qareaseries_p.h>
 #include <private/qgraphsview_p.h>
@@ -472,6 +473,8 @@ void QAreaSeries::setSelectedGradient(QQuickShapeGradient* newSelectedGradient)
     emit selectedGradientChanged(newSelectedGradient);
 }
 
-QAreaSeriesPrivate::QAreaSeriesPrivate() {}
+QAreaSeriesPrivate::QAreaSeriesPrivate()
+    : QAbstractSeriesPrivate(QAbstractSeries::SeriesType::Area)
+{}
 
 QT_END_NAMESPACE

@@ -1,6 +1,7 @@
 // Copyright (C) 2023 The Qt Company Ltd.
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 
+#include "graphs2d/qabstractseries_p.h"
 #include <QtGraphs/qabstractseries.h>
 #include <QtGraphs/qbarseries.h>
 #include <QtGraphs/qbarset.h>
@@ -1155,16 +1156,17 @@ void QBarSeries::setBarDelegateDirty(bool dirty)
 }
 
 QBarSeriesPrivate::QBarSeriesPrivate()
-    : m_barWidth(0.5) // Default value is 50% of category width
-      , m_labelsVisible(false)
-      , m_visible(true)
-      , m_blockBarUpdate(false)
-      , m_labelsFormat()
-      , m_labelsMargin(0)
-      , m_labelsAngle(0)
-      , m_labelsPrecision(6)
-      , m_labelsDirty(true)
-      , m_barDelegateDirty(false)
+    : QAbstractSeriesPrivate(QAbstractSeries::SeriesType::Bar)
+    , m_barWidth(0.5) // Default value is 50% of category width
+    , m_labelsVisible(false)
+    , m_visible(true)
+    , m_blockBarUpdate(false)
+    , m_labelsFormat()
+    , m_labelsMargin(0)
+    , m_labelsAngle(0)
+    , m_labelsPrecision(6)
+    , m_labelsDirty(true)
+    , m_barDelegateDirty(false)
 {
 }
 

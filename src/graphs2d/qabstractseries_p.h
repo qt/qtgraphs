@@ -14,8 +14,8 @@
 //
 // We mean it.
 
+#include "graphs2d/qabstractseries.h"
 #include <QtGraphs/qabstractseries.h>
-#include <memory>
 #include <private/qobject_p.h>
 #include <QtCore/qloggingcategory.h>
 
@@ -31,11 +31,15 @@ class QAbstractSeriesPrivate : public QObjectPrivate
 {
     Q_DECLARE_PUBLIC(QAbstractSeries)
 public:
-    explicit QAbstractSeriesPrivate();
+    static QAbstractSeriesPrivate *get(QAbstractSeries *item) { return item->d_func(); }
+    static const QAbstractSeriesPrivate *get(const QAbstractSeries *item) { return item->d_func(); }
+
+    explicit QAbstractSeriesPrivate(QAbstractSeries::SeriesType type);
     ~QAbstractSeriesPrivate() override;
 
     void setLegendData(const QList<QLegendData> &legendData);
     void clearLegendData();
+    QAbstractSeries::SeriesType type() { return m_type; }
 
     static void appendSeriesChildren(QQmlListProperty<QObject> *list, QObject *element);
 
@@ -56,6 +60,8 @@ private:
 
     QAbstractAxis *m_axisX = nullptr;
     QAbstractAxis *m_axisY = nullptr;
+
+    QAbstractSeries::SeriesType m_type;
 };
 
 QT_END_NAMESPACE
