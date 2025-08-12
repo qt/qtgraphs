@@ -1039,7 +1039,8 @@ qreal QPieSeries::holeSize() const
 }
 
 QPieSeriesPrivate::QPieSeriesPrivate()
-    : m_pieRelativeHorPos(.5)
+    : QAbstractSeriesPrivate(QAbstractSeries::SeriesType::Pie)
+    , m_pieRelativeHorPos(.5)
     , m_pieRelativeVerPos(.5)
     , m_pieRelativeSize(.7)
     , m_pieStartAngle(0)
