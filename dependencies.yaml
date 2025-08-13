@@ -7,4 +7,4 @@ dependencies:
     required: true
   ../tqtc-qtquick3d:
     ref: 2f77a472f2c78d3408197a1f0f9b76787cb47d4c
-    required: true
+    required: false
