@@ -8,7 +8,8 @@ if(NOT QT_BUILD_STANDALONE_TESTS AND NOT QT_BUILDING_QT)
 endif()
 
 # Special case: test includes the QBaselineTest module sources from qtbase directly
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/../../../qtbase/tests/baseline/shared")
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/../../../qtbase/tests/baseline/shared"
+    AND TARGET Qt6::Quick3D)
     add_subdirectory(scenegrabber)
     if (QT_FEATURE_process)
         add_subdirectory(graphs)
