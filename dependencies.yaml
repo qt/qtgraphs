@@ -7,4 +7,4 @@ dependencies:
     required: true
   ../qtquick3d:
     ref: 99c0705165969868b53abdcdef63353e4fae0a80
-    required: true
+    required: false
