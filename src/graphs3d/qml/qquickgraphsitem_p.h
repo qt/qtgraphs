@@ -663,7 +663,8 @@ protected:
     virtual void createSliceView();
     QQuick3DViewport *createOffscreenSliceView(QtGraphs3D::SliceCaptureType sliceType);
 
-    void handleQueryPositionChanged(QPoint position);
+    void handleGraphQueryPositionChanged(QPoint position);
+    void handleSelectionQueryPositionChanged(QPoint position);
 
     void handlePrimarySubViewportChanged(const QRect rect);
     void handleSecondarySubViewportChanged(const QRect rect);
