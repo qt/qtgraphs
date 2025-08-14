@@ -821,7 +821,11 @@ QQuickGraphsItem::QQuickGraphsItem(QQuickItem *parent)
     connect(m_scene,
             &Q3DScene::graphPositionQueryChanged,
             this,
-            &QQuickGraphsItem::handleQueryPositionChanged);
+            &QQuickGraphsItem::handleGraphQueryPositionChanged);
+    connect(m_scene,
+            &Q3DScene::selectionQueryPositionChanged,
+            this,
+            &QQuickGraphsItem::handleSelectionQueryPositionChanged);
     connect(m_scene, &Q3DScene::primarySubViewportChanged,
             this,
             &QQuickGraphsItem::handlePrimarySubViewportChanged);
@@ -1070,12 +1074,17 @@ void QQuickGraphsItem::handleRequestShadowQuality(QtGraphs3D::ShadowQuality qual
     setShadowQuality(quality);
 }
 
-void QQuickGraphsItem::handleQueryPositionChanged(QPoint position)
+void QQuickGraphsItem::handleGraphQueryPositionChanged(QPoint position)
 {
     QVector3D data = graphPositionAt(position);
     setGraphPositionQueryPending(false);
     setQueriedGraphPosition(data);
     emit queriedGraphPositionChanged(data);
+}
+
+void QQuickGraphsItem::handleSelectionQueryPositionChanged(QPoint position)
+{
+    doPicking(position);
 }
 
 void QQuickGraphsItem::handlePrimarySubViewportChanged(const QRect rect)
