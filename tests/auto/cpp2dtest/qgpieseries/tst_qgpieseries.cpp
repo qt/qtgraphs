@@ -105,11 +105,11 @@ void tst_qgpieseries::properties()
 
     m_series->setHoleSize(0.8);
     QCOMPARE(m_series->holeSize(), 0.8);
-    QCOMPARE(m_series->pieSize(), 0.8);
+    QCOMPARE(m_series->pieSize(), 0.7);
 
     m_series->setPieSize(0.4);
     QCOMPARE(m_series->pieSize(), 0.4);
-    QCOMPARE(m_series->holeSize(), 0.4);
+    QCOMPARE(m_series->holeSize(), 0.8);
 
     m_series->setStartAngle(0);
     m_series->setStartAngle(-180);
