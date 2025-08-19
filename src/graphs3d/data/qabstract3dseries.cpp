@@ -232,7 +232,7 @@ QT_BEGIN_NAMESPACE
  * \qmlproperty Abstract3DSeries.LightingMode Abstract3DSeries::lightingMode
  * \since 6.10
  *
- * Sets the lightingMode of the items in the series.
+ * Sets the lighting mode of the items in the series.
  * The default value is \l{QAbstract3DSeries::LightingMode::Shaded}
  *
  * \sa QAbstract3DSeries::LightingMode
@@ -778,16 +778,16 @@ QLinearGradient QAbstract3DSeries::multiHighlightGradient() const
 /*!
  * \property QAbstract3DSeries::lightingMode
  *
- * \brief The LightingMode of the series
+ * \brief The lighting mode of the series
  * \since 6.10
- *
+ * \sa LightingMode
  */
-void QAbstract3DSeries::setLightingMode(QAbstract3DSeries::LightingMode LightingMode)
+void QAbstract3DSeries::setLightingMode(LightingMode lightingMode)
 {
     Q_D(QAbstract3DSeries);
-    if (d->m_lightingMode != LightingMode) {
-        d->setLightingMode(LightingMode);
-        emit lightingModeChanged(LightingMode);
+    if (d->m_lightingMode != lightingMode) {
+        d->setLightingMode(lightingMode);
+        emit lightingModeChanged(lightingMode);
     }
 }
 

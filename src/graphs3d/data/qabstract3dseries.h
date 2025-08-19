@@ -47,7 +47,8 @@ class Q_GRAPHS_EXPORT QAbstract3DSeries : public QObject
     Q_PROPERTY(QString itemLabel READ itemLabel NOTIFY itemLabelChanged)
     Q_PROPERTY(bool itemLabelVisible READ isItemLabelVisible WRITE setItemLabelVisible NOTIFY
                    itemLabelVisibleChanged)
-    Q_PROPERTY(QAbstract3DSeries::LightingMode lightingMode READ lightingMode WRITE setLightingMode NOTIFY lightingModeChanged REVISION(6,10))
+    Q_PROPERTY(QAbstract3DSeries::LightingMode lightingMode READ lightingMode WRITE setLightingMode
+               NOTIFY lightingModeChanged REVISION(6,10))
     QML_NAMED_ELEMENT(Abstract3DSeries)
     QML_UNCREATABLE("Uncreatable base type")
 public:
@@ -123,8 +124,8 @@ public:
     void setMultiHighlightGradient(const QLinearGradient &gradient);
     QLinearGradient multiHighlightGradient() const;
 
-    QAbstract3DSeries::LightingMode lightingMode() const;
-    void setLightingMode(QAbstract3DSeries::LightingMode lightingMode);
+    LightingMode lightingMode() const;
+    void setLightingMode(LightingMode lightingMode);
 
     void setName(const QString &name);
     QString name() const;
