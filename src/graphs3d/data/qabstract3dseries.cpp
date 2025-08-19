@@ -123,13 +123,13 @@ QT_BEGIN_NAMESPACE
 
 /*!
  * \qmlproperty bool Abstract3DSeries::visible
- * Sets the visibility of the series. If \c false, the series is not rendered.
+ * The visibility of the series. If \c false, the series is not rendered.
  */
 
 /*!
  * \qmlproperty Abstract3DSeries.Mesh Abstract3DSeries::mesh
  *
- * Sets the mesh of the items in the series, or the selection pointer in case of
+ * The mesh of the items in the series, or the selection pointer in case of
  * Surface3DSeries. If the mesh is
  * \l{QAbstract3DSeries::Mesh::UserDefined}{Abstract3DSeries.Mesh.UserDefined},
  * then the userDefinedMesh property must also be set for items to render
@@ -151,7 +151,7 @@ QT_BEGIN_NAMESPACE
 /*!
  * \qmlproperty quaternion Abstract3DSeries::meshRotation
  *
- * Sets the mesh rotation that is applied to all items of the series.
+ * The mesh rotation that is applied to all items of the series.
  * The rotation should be a normalized quaternion.
  * For those series types that support item specific rotation, the rotations are
  * multiplied together.
@@ -163,7 +163,7 @@ QT_BEGIN_NAMESPACE
 /*!
  * \qmlproperty string Abstract3DSeries::userDefinedMesh
  *
- * Sets the filename for a user defined custom mesh for objects that is used
+ * The filename for a user defined custom mesh for objects that is used
  * when \l mesh is
  * \l{QAbstract3DSeries::Mesh::UserDefined}{Abstract3DSeries.Mesh.UserDefined}.
  * \note The file needs to be in the QtQuick3D mesh format. Use the \c balsam
@@ -173,7 +173,7 @@ QT_BEGIN_NAMESPACE
 /*!
  * \qmlproperty GraphsTheme.ColorStyle Abstract3DSeries::colorStyle
  *
- * Sets the color style for the series.
+ * The color style for the series.
  *
  * \sa {QGraphsTheme::ColorStyle}{GraphsTheme.ColorStyle}
  */
@@ -181,7 +181,7 @@ QT_BEGIN_NAMESPACE
 /*!
  * \qmlproperty color Abstract3DSeries::baseColor
  *
- * Sets the base color of the series.
+ * The base color of the series.
  *
  * \sa colorStyle, {GraphsTheme::seriesColors}{GraphsTheme.seriesColors}
  */
@@ -189,7 +189,7 @@ QT_BEGIN_NAMESPACE
 /*!
  * \qmlproperty Gradient Abstract3DSeries::baseGradient
  *
- * Sets the base gradient of the series.
+ * The base gradient of the series.
  *
  * \sa colorStyle
  */
@@ -197,7 +197,7 @@ QT_BEGIN_NAMESPACE
 /*!
  * \qmlproperty color Abstract3DSeries::singleHighlightColor
  *
- * Sets the single item highlight color of the series.
+ * The single item highlight color of the series.
  *
  * \sa colorStyle, {GraphsTheme::singleHighlightColor}{GraphsTheme.singleHighlightColor}
  */
@@ -205,7 +205,7 @@ QT_BEGIN_NAMESPACE
 /*!
  * \qmlproperty Gradient Abstract3DSeries::singleHighlightGradient
  *
- * Sets the single item highlight gradient of the series.
+ * The single item highlight gradient of the series.
  *
  * \sa colorStyle,
  * {GraphsTheme::singleHighlightGradient}{GraphsTheme.singleHighlightGradient}
@@ -214,7 +214,7 @@ QT_BEGIN_NAMESPACE
 /*!
  * \qmlproperty color Abstract3DSeries::multiHighlightColor
  *
- * Sets the multiple item highlight color of the series.
+ * The multiple item highlight color of the series.
  *
  * \sa colorStyle, {GraphsTheme::multiHighlightColor}{GraphsTheme.multiHighlightColor}
  */
@@ -222,7 +222,7 @@ QT_BEGIN_NAMESPACE
 /*!
  * \qmlproperty Gradient Abstract3DSeries::multiHighlightGradient
  *
- * Sets the multiple item highlight gradient of the series.
+ * The multiple item highlight gradient of the series.
  *
  * \sa colorStyle,
  * {GraphsTheme::multiHighlightGradient}{GraphsTheme.multiHighlightGradient}
@@ -232,7 +232,7 @@ QT_BEGIN_NAMESPACE
  * \qmlproperty Abstract3DSeries.LightingMode Abstract3DSeries::lightingMode
  * \since 6.10
  *
- * Sets the lighting mode of the items in the series.
+ * The lighting mode of the items in the series.
  * The default value is \l{QAbstract3DSeries::LightingMode::Shaded}
  *
  * \sa QAbstract3DSeries::LightingMode
