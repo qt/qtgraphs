@@ -149,17 +149,26 @@ void AreaRenderer::handlePolish(QAreaSeries *series)
     int extraPointCount = lower ? 0 : 3;
 
     if (series->isVisible()) {
+        qreal prevUpperY = 0;
         for (int i = 0, j = 0; i < upperPoints.size() + extraPointCount; ++i, ++j) {
             qreal x;
             qreal y;
-            if (i == upperPoints.size())
-                calculateRenderCoordinates(upperPoints[upperPoints.size() - 1].x(), 0, &x, &y);
-            else if (i == upperPoints.size() + 1)
-                calculateRenderCoordinates(upperPoints[0].x(), 0, &x, &y);
-            else if (i == upperPoints.size() + 2)
-                calculateRenderCoordinates(upperPoints[0].x(), upperPoints[0].y(), &x, &y);
-            else
-                calculateRenderCoordinates(upperPoints[i].x(), upperPoints[i].y(), &x, &y);
+            qreal upperX;
+            qreal upperY;
+            if (i == upperPoints.size()) {
+                upperX = upperPoints[upperPoints.size() - 1].x();
+                upperY = 0;
+            } else if (i == upperPoints.size() + 1) {
+                upperX = upperPoints[0].x();
+                upperY = 0;
+            } else if (i == upperPoints.size() + 2) {
+                upperX = upperPoints[0].x();
+                upperY = upperPoints[0].y();
+            } else {
+                upperX = upperPoints[i].x();
+                upperY = upperPoints[i].y();
+            }
+            calculateRenderCoordinates(upperX, upperY, &x, &y);
 
             if (i == 0) {
                 painterPath.moveTo(x, y);
@@ -177,8 +186,13 @@ void AreaRenderer::handlePolish(QAreaSeries *series)
                     ++j;
                 } else {
                     painterPath.lineTo(x, y);
+                    if (i != 0 && i < upper->points().size()
+                    && upperY == 0 && prevUpperY == 0) {
+                        painterPath.moveTo(x, y);
+                    }
                 }
             }
+            prevUpperY = upperY;
         }
     }
 
