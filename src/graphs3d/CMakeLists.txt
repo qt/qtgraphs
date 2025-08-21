@@ -131,6 +131,14 @@ else()
         )
     endif()
 
+    if(QT_FEATURE_graphs_3d_scatter3d)
+        set(
+            LOCAL_TRACE_SOURCES
+               ${LOCAL_TRACE_SOURCES}
+               graphs3d/qml/qquickgraphsscatter.cpp
+        )
+    endif()
+
     set(
         TRACE_SOURCES
             ${LOCAL_TRACE_SOURCES}
