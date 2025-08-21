@@ -349,7 +349,7 @@ QList<QValue3DAxis *> Q3DSurfaceWidgetItem::axes() const
 }
 
 /*!
- * \fn Q3DSurfaceWidgetItem::sliceImageChanged(QImage image)
+ * \fn Q3DSurfaceWidgetItem::sliceImageChanged(const QImage &image)
  * \since 6.10
  * Emitted when \l renderSliceToImage has prepared the \a{image}.
  */

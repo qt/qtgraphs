@@ -218,7 +218,7 @@ Q_SIGNALS:
     void selectedSeriesChanged(QBar3DSeries *series);
     void floorLevelChanged(float level);
     Q_REVISION(6, 10)
-    void sliceImageChanged(QImage image);
+    void sliceImageChanged(const QImage &image);
 
 private:
     enum SelectionType {
