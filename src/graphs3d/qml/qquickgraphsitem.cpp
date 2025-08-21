@@ -33,6 +33,8 @@
 
 #include <QtGui/qquaternion.h>
 
+#include <qtgraphs_tracepoints_p.h>
+
 #if defined(Q_OS_IOS)
 #include <QtCore/QTimer>
 #endif
@@ -42,6 +44,56 @@
 #endif
 
 QT_BEGIN_NAMESPACE
+
+Q_TRACE_PREFIX(qtgraphs,
+                   "QT_BEGIN_NAMESPACE" \
+                   "class QQuickGraphsItem;" \
+                   "QT_END_NAMESPACE"
+               )
+
+Q_TRACE_POINT(qtgraphs, QGraphs3DItemCtor_entry);
+Q_TRACE_POINT(qtgraphs, QGraphs3DItemCtor_exit);
+
+Q_TRACE_POINT(qtgraphs, QGraphs3DItemInit_entry);
+Q_TRACE_POINT(qtgraphs, QGraphs3DItemInit_exit);
+
+Q_TRACE_POINT(qtgraphs, QGraphs3DItemSynch_entry);
+Q_TRACE_POINT(qtgraphs, QGraphs3DItemSynch_exit);
+
+Q_TRACE_POINT(qtgraphs, QGraphs3DItemUpdateGrid_entry);
+Q_TRACE_POINT(qtgraphs, QGraphs3DItemUpdateGrid_exit);
+
+Q_TRACE_POINT(qtgraphs, QGraphs3DItemUpdateLabels_entry);
+Q_TRACE_POINT(qtgraphs, QGraphs3DItemUpdateLabels_exit);
+
+Q_TRACE_POINT(qtgraphs, QGraphs3DItemUpdateCamera_entry);
+Q_TRACE_POINT(qtgraphs, QGraphs3DItemUpdateCamera_exit);
+
+Q_TRACE_POINT(qtgraphs, QGraphs3DItemDoPicking_entry, float posX, float posY);
+Q_TRACE_POINT(qtgraphs, QGraphs3DItemDoPicking_exit);
+
+Q_TRACE_POINT(qtgraphs, QGraphs3DItemDoRayPicking_entry, float originX, float originY,
+                            float originZ, float directionX, float directionY, float directionZ);
+Q_TRACE_POINT(qtgraphs, QGraphs3DItemDoRayPicking_exit);
+
+Q_TRACE_POINT(qtgraphs, QGraphs3DItemCreateSliceView_entry);
+Q_TRACE_POINT(qtgraphs, QGraphs3DItemCreateSliceView_exit);
+
+Q_TRACE_POINT(qtgraphs, QGraphs3DItemCreateOffscreenSliceView_entry, int sliceType);
+Q_TRACE_POINT(qtgraphs, QGraphs3DItemCreateOffscreenSliceView_exit);
+
+Q_TRACE_POINT(qtgraphs, QGraphs3DItemUpdateSliceGrid_entry);
+Q_TRACE_POINT(qtgraphs, QGraphs3DItemUpdateSliceGrid_exit);
+
+Q_TRACE_POINT(qtgraphs, QGraphs3DItemUpdateSliceLabels_entry);
+Q_TRACE_POINT(qtgraphs, QGraphs3DItemUpdateSliceLabels_exit);
+
+Q_TRACE_POINT(qtgraphs, QGraphs3DItemUpdateCustomData_entry);
+Q_TRACE_POINT(qtgraphs, QGraphs3DItemUpdateCustomData_exit);
+
+Q_TRACE_POINT(qtgraphs, QGraphs3DItemUpdateCustomVolumes_entry);
+Q_TRACE_POINT(qtgraphs, QGraphs3DItemUpdateCustomVolumes_exit);
+
 
 constexpr float doublePi = static_cast<float>(M_PI) * 2.0f;
 constexpr float polarRoundness = 64.0f;
@@ -748,6 +800,7 @@ QQuickGraphsItem::QQuickGraphsItem(QQuickItem *parent)
     : QQuick3DViewport(parent)
     , m_locale(QLocale::c())
 {
+    Q_TRACE(QGraphs3DItemCtor_entry);
     if (!m_scene)
         m_scene = new Q3DScene;
     m_scene->setParent(this);
@@ -804,6 +857,7 @@ QQuickGraphsItem::QQuickGraphsItem(QQuickItem *parent)
     m_inputHandler = new QGraphsInputHandler(this);
     m_inputHandler->bindableHeight().setBinding([&] { return height(); });
     m_inputHandler->bindableWidth().setBinding([&] { return width(); });
+    Q_TRACE(QGraphs3DItemCtor_exit);
 }
 
 QQuickGraphsItem::~QQuickGraphsItem()
@@ -1833,7 +1887,7 @@ void QQuickGraphsItem::handleParentHeightChange()
 void QQuickGraphsItem::componentComplete()
 {
     QQuick3DViewport::componentComplete();
-
+    Q_TRACE(QGraphs3DItemInit_entry);
     rootNode()->setScale(QVector3D(100,100,100));
 
     auto url = QUrl(QStringLiteral("defaultMeshes/backgroundMesh"));
@@ -1948,6 +2002,7 @@ void QQuickGraphsItem::componentComplete()
             addCustomItem(item);
     }
     qCDebug(lcGraphs3D, "QQuickGraphsItem::componentComplete.");
+    Q_TRACE(QGraphs3DItemInit_exit);
 }
 
 QQuick3DDirectionalLight *QQuickGraphsItem::light() const
@@ -2385,6 +2440,8 @@ void QQuickGraphsItem::synchData()
     qCDebug(lcGraphs3D, "%s start sync", qUtf8Printable(QLatin1String(__FUNCTION__)));
     if (!isVisible())
         return;
+
+    Q_TRACE(QGraphs3DItemSynch_entry);
 
     m_renderPending = false;
 
@@ -3112,11 +3169,14 @@ void QQuickGraphsItem::synchData()
     if (m_labelsNeedupdate)
         updateLabels();
 
+    Q_TRACE(QGraphs3DItemSynch_exit);
+
     qCDebug(lcGraphs3D, "%s end syncing", qUtf8Printable(QLatin1String(__FUNCTION__)));
 }
 
 void QQuickGraphsItem::updateGrid()
 {
+    Q_TRACE(QGraphs3DItemUpdateGrid_entry);
 
     QQmlListReference materialsRef(m_background, "materials");
     auto *bgMat = static_cast<QQuick3DCustomMaterial *>(materialsRef.at(0));
@@ -3512,6 +3572,7 @@ void QQuickGraphsItem::updateGrid()
     subgridGeometry->setVertexData(subvertices);
     subgridGeometry->update();
     m_gridUpdate = false;
+    Q_TRACE(QGraphs3DItemUpdateGrid_exit);
 }
 
 void QQuickGraphsItem::updateGridLineType()
@@ -3720,6 +3781,8 @@ QVector3D QQuickGraphsItem::graphPosToAbsolute(QVector3D position)
 
 void QQuickGraphsItem::updateLabels()
 {
+    Q_TRACE(QGraphs3DItemUpdateLabels_entry);
+
     auto labels = axisX()->labels();
     qsizetype labelCount = labels.size();
     float labelAutoAngle = m_labelMargin >= 0? axisX()->labelAutoAngle() : 0;
@@ -4227,6 +4290,7 @@ void QQuickGraphsItem::updateLabels()
                  labelsMaxWidth,
                  m_fontScaled);
     m_labelsNeedupdate = false;
+    Q_TRACE(QGraphs3DItemUpdateLabels_exit);
 }
 
 void QQuickGraphsItem::updateRadialLabelOffset()
@@ -4547,6 +4611,8 @@ void QQuickGraphsItem::updateSliceFrameMaterials(QCustom3DVolume *volume, Volume
 
 void QQuickGraphsItem::updateCustomVolumes()
 {
+    Q_TRACE_SCOPE(QGraphs3DItemUpdateCustomVolumes);
+
     auto itemIterator = m_customItemList.constBegin();
     while (itemIterator != m_customItemList.constEnd()) {
         QCustom3DItem *item = itemIterator.key();
@@ -5070,6 +5136,7 @@ void QQuickGraphsItem::updateZTitle(QVector3D labelRotation,
 
 void QQuickGraphsItem::updateCamera()
 {
+    Q_TRACE(QGraphs3DItemUpdateCamera_entry);
     QVector3D lookingPosition = m_requestedTarget;
 
     const float scale = qMin(width(), height() * 1.6f);
@@ -5093,6 +5160,7 @@ void QQuickGraphsItem::updateCamera()
     m_pCamera->setZ(zoom);
     updateCustomLabelsRotation();
     updateItemLabel(m_labelPosition);
+    Q_TRACE(QGraphs3DItemUpdateCamera_exit);
 }
 
 void QQuickGraphsItem::handleLabelCountChanged(QQuick3DRepeater *repeater, QColor axisLabelColor)
@@ -5124,6 +5192,8 @@ void QQuickGraphsItem::handleLabelCountChanged(QQuick3DRepeater *repeater, QColo
 
 void QQuickGraphsItem::updateCustomData()
 {
+    Q_TRACE_SCOPE(QGraphs3DItemUpdateCustomData);
+
     int maxX = axisX()->max();
     int minX = axisX()->min();
     int maxY = axisY()->max();
@@ -5910,6 +5980,8 @@ bool QQuickGraphsItem::doPicking(QPointF point)
 {
     checkSliceEnabled();
 
+    Q_TRACE_SCOPE(QGraphs3DItemDoPicking, point.x(), point.y());
+
     QList<QQuick3DPickResult> results = pickAll(point.x(), point.y());
     if (!m_customItemList.isEmpty()) {
         // Try to pick custom item only
@@ -5960,6 +6032,8 @@ bool QQuickGraphsItem::doRayPicking(QVector3D origin, QVector3D direction)
 {
     checkSliceEnabled();
 
+    Q_TRACE_SCOPE(QGraphs3DItemDoRayPicking, origin.x(), origin.y(), origin.z(), direction.x(),
+                  direction.y(), direction.z());
     QList<QQuick3DPickResult> results = rayPickAll(origin, direction);
     if (!m_customItemList.isEmpty()) {
         // Try to pick custom item only
@@ -6518,6 +6592,7 @@ void QQuickGraphsItem::createSliceView()
 {
     if (m_sliceView)
         return;
+    Q_TRACE_SCOPE(QGraphs3DItemCreateSliceView);
 
     connect(parentItem(),
             &QQuickItem::widthChanged,
@@ -6589,6 +6664,8 @@ void QQuickGraphsItem::createSliceView()
 
 QQuick3DViewport *QQuickGraphsItem::createOffscreenSliceView(QtGraphs3D::SliceCaptureType sliceType)
 {
+    Q_TRACE_SCOPE(QGraphs3DItemCreateOffscreenSliceView, static_cast<int>(sliceType));
+
     auto sliceView = new QQuick3DViewport();
     sliceView->setParent(this);
     sliceView->setParentItem(this);
@@ -6684,6 +6761,7 @@ void QQuickGraphsItem::createSliceCamera(QQuick3DViewport *sliceView)
 void QQuickGraphsItem::updateSliceGrid(QQuick3DModel *sliceGridGeometryModel,
                                        QtGraphs3D::SliceCaptureType sliceType)
 {
+    Q_TRACE_SCOPE(QGraphs3DItemUpdateSliceGrid);
     QAbstract3DAxis *horizontalAxis = nullptr;
     QAbstract3DAxis *verticalAxis = axisY();
     auto backgroundScale = m_scaleWithBackground + m_backgroundScaleMargin;
@@ -6802,6 +6880,7 @@ void QQuickGraphsItem::updateSliceLabels(QQuick3DRepeater *horizontalLabel,
                                          QQuick3DNode *itemLabel,
                                          QtGraphs3D::SliceCaptureType sliceType)
 {
+    Q_TRACE_SCOPE(QGraphs3DItemUpdateSliceLabels);
     QAbstract3DAxis *horizontalAxis = nullptr;
     QAbstract3DAxis *verticalAxis = axisY();
     auto backgroundScale = m_scaleWithBackground + m_backgroundScaleMargin;

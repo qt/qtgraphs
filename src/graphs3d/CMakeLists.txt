@@ -115,7 +115,19 @@ else()
         PRIVATE_MODULE_INTERFACE
             Qt::GuiPrivate
     )
+
     add_subdirectory(qml/designer)
+
+    set(
+        LOCAL_TRACE_SOURCES
+            graphs3d/qml/qquickgraphsitem.cpp
+    )
+
+    set(
+        TRACE_SOURCES
+            ${LOCAL_TRACE_SOURCES}
+        PARENT_SCOPE
+    )
 endif()
 if(TARGET Qt::Widgets)
     add_subdirectory(widget)
