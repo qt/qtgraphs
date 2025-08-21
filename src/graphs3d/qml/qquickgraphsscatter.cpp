@@ -22,7 +22,45 @@
 
 #include <QtGui/qquaternion.h>
 
+#include <qtgraphs_tracepoints_p.h>
+
 QT_BEGIN_NAMESPACE
+
+Q_TRACE_PREFIX(qtgraphs,
+                   "QT_BEGIN_NAMESPACE" \
+                   "class QQuickGraphsScatter;" \
+                   "QT_END_NAMESPACE"
+               )
+
+Q_TRACE_POINT(qtgraphs, QGraphs3DScatterPointDataUpdate_entry);
+Q_TRACE_POINT(qtgraphs, QGraphs3DScatterPointDataUpdate_exit);
+
+Q_TRACE_POINT(qtgraphs, QGraphs3DScatterPointSelectionUpdate_entry);
+Q_TRACE_POINT(qtgraphs, QGraphs3DScatterPointSelectionUpdate_exit);
+
+Q_TRACE_POINT(qtgraphs, QGraphs3DScatterDoPicking_entry);
+Q_TRACE_POINT(qtgraphs, QGraphs3DScatterDoPicking_exit);
+
+Q_TRACE_POINT(qtgraphs, QGraphs3DScatterDoRayPicking_entry);
+Q_TRACE_POINT(qtgraphs, QGraphs3DScatterDoRayPicking_exit);
+
+Q_TRACE_POINT(qtgraphs, QGraphs3DScatterLegacyModelsCountUpdate_entry);
+Q_TRACE_POINT(qtgraphs, QGraphs3DScatterLegacyModelsCountUpdate_exit);
+
+Q_TRACE_POINT(qtgraphs, QGraphs3DScatterLegacyGeneratePointsForScatterModel_entry, int itemCount);
+Q_TRACE_POINT(qtgraphs, QGraphs3DScatterLegacyGeneratePointsForScatterModel_exit);
+
+Q_TRACE_POINT(qtgraphs, QGraphs3DScatterLegacyModelsPositionUpdate_entry);
+Q_TRACE_POINT(qtgraphs, QGraphs3DScatterLegacyModelsPositionUpdate_exit);
+
+Q_TRACE_POINT(qtgraphs, QGraphs3DScatterDefaultModelsPositionUpdate_entry);
+Q_TRACE_POINT(qtgraphs, QGraphs3DScatterDefaultModelsPositionUpdate_exit);
+
+Q_TRACE_POINT(qtgraphs, QGraphs3DScatterDefaultGeneratePointsForScatterModel_entry);
+Q_TRACE_POINT(qtgraphs, QGraphs3DScatterDefaultGeneratePointsForScatterModel_exit);
+
+Q_TRACE_POINT(qtgraphs, QGraphs3DScatterSplineUpdate_entry);
+Q_TRACE_POINT(qtgraphs, QGraphs3DScatterSplineUpdate_exit);
 
 static const int insertRemoveRecordReserveSize = 31;
 
@@ -196,6 +234,7 @@ void QQuickGraphsScatter::generatePointsForScatterModel(ScatterModel *graphModel
     QList<QQuick3DModel *> itemList;
     if (optimizationHint() == QtGraphs3D::OptimizationHint::Legacy) {
         qsizetype itemCount = graphModel->series->dataProxy()->itemCount();
+        Q_TRACE_SCOPE(QGraphs3DScatterLegacyGeneratePointsForScatterModel, static_cast<int>(itemCount));
         if (graphModel->series->dataProxy()->itemCount() > 0)
             itemList.resize(itemCount);
 
@@ -208,6 +247,8 @@ void QQuickGraphsScatter::generatePointsForScatterModel(ScatterModel *graphModel
         graphModel->dataItems = itemList;
         markDataDirty();
     } else if (optimizationHint() == QtGraphs3D::OptimizationHint::Default) {
+        Q_TRACE_SCOPE(QGraphs3DScatterDefaultGeneratePointsForScatterModel);
+
         graphModel->instancingRootItem = createDataItem(graphModel->series);
         graphModel->instancingRootItem->setParent(graphModel->series);
         graphModel->instancingRootItem->setInstancing(graphModel->instancing);
@@ -255,7 +296,7 @@ void QQuickGraphsScatter::updateScatterGraphItemPositions(ScatterModel *graphMod
             qCWarning(lcProperties3D, "%ls Item count differs from itemList count",
                      qUtf16Printable(QString::fromUtf8(__func__)));
         }
-
+        Q_TRACE_SCOPE(QGraphs3DScatterLegacyModelsPositionUpdate);
         for (int i = 0; i < dataProxy->itemCount(); ++i) {
             const QScatterDataItem item = dataProxy->itemAt(i);
             QQuick3DModel *dataPoint = itemList.at(i);
@@ -293,6 +334,7 @@ void QQuickGraphsScatter::updateScatterGraphItemPositions(ScatterModel *graphMod
         qsizetype count = dataProxy->itemCount();
         QList<DataItemHolder> positions;
 
+        Q_TRACE_SCOPE(QGraphs3DScatterDefaultModelsPositionUpdate);
         for (int i = 0; i < count; i++) {
             const QScatterDataItem &item = dataProxy->itemAt(i);
             QVector3D dotPos = item.position();
@@ -1397,8 +1439,8 @@ bool QQuickGraphsScatter::doPicking(QPointF position)
 {
     if (!QQuickGraphsItem::doPicking(position))
         return false;
-
     if (selectionMode() == QtGraphs3D::SelectionFlag::Item) {
+        Q_TRACE_SCOPE(QGraphs3DScatterDoPicking);
         QList<QQuick3DPickResult> results;
         if (m_customView)
             results = m_customView->pickAll(position.x(), position.y());
@@ -1450,6 +1492,7 @@ bool QQuickGraphsScatter::doRayPicking(QVector3D origin, QVector3D direction)
         return false;
 
     if (selectionMode() == QtGraphs3D::SelectionFlag::Item) {
+        Q_TRACE_SCOPE(QGraphs3DScatterDoRayPicking);
         QList<QQuick3DPickResult> results;
         if (m_customView)
             results = m_customView->rayPickAll(origin, direction);
@@ -1643,6 +1686,7 @@ void QQuickGraphsScatter::calculatePolarXZ(const float posX,
 void QQuickGraphsScatter::updateSpline(ScatterModel *model)
 {
     if (auto series = qobject_cast<QSpline3DSeries *>(model->series)) {
+        Q_TRACE_SCOPE(QGraphs3DScatterSplineUpdate);
         if (!series->isSplineVisible()) {
             if (model->splineModel)
                 model->splineModel->setVisible(false);
@@ -1901,6 +1945,7 @@ void QQuickGraphsScatter::updateGraph()
         if (isDataDirty()) {
             if (optimizationHint() == QtGraphs3D::OptimizationHint::Legacy && seriesVisible) {
                 if (graphModel->dataItems.count() != graphModel->series->dataProxy()->itemCount()) {
+                    Q_TRACE(QGraphs3DScatterLegacyModelsCountUpdate_entry);
                     qsizetype sizeDiff = sizeDifference(graphModel->dataItems.count(),
                                                         graphModel->series->dataProxy()->itemCount());
 
@@ -1908,6 +1953,7 @@ void QQuickGraphsScatter::updateGraph()
                         addPointsToScatterModel(graphModel, sizeDiff);
                     else
                         removeDataItems(graphModel->dataItems, qAbs(sizeDiff));
+                    Q_TRACE(QGraphs3DScatterLegacyModelsCountUpdate_exit);
                 }
             } else if (optimizationHint() == QtGraphs3D::OptimizationHint::Default
                        && seriesVisible) {
@@ -1978,6 +2024,7 @@ void QQuickGraphsScatter::synchData()
     qCDebug(lcGraphs3D, "%s start syncing", qUtf8Printable(QLatin1String(__FUNCTION__)));
     QList<QScatter3DSeries *> seriesList = scatterSeriesList();
 
+    Q_TRACE(QGraphs3DScatterPointDataUpdate_entry);
     float maxItemSize = 0.0f;
     for (const auto &series : std::as_const(seriesList)) {
         if (series->isVisible()) {
@@ -1990,9 +2037,12 @@ void QQuickGraphsScatter::synchData()
     m_maxItemSize = maxItemSize;
 
     updatePointScaleSize();
+    Q_TRACE(QGraphs3DScatterPointDataUpdate_exit);
     QQuickGraphsItem::synchData();
 
     m_pointScale = calculatePointScaleSize();
+
+    Q_TRACE(QGraphs3DScatterPointSelectionUpdate_entry);
 
     if (hasSelectedItemChanged()) {
         if (m_selectedItem != invalidSelectionIndex()) {
@@ -2003,6 +2053,7 @@ void QQuickGraphsScatter::synchData()
         }
         setSelectedItemChanged(false);
     }
+    Q_TRACE(QGraphs3DScatterPointSelectionUpdate_exit);
     qCDebug(lcGraphs3D, "%s end syncing", qUtf8Printable(QLatin1String(__FUNCTION__)));
 }
 
