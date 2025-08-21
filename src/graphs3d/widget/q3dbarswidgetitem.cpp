@@ -432,7 +432,7 @@ QList<QAbstract3DAxis *> Q3DBarsWidgetItem::axes() const
 }
 
 /*!
- * \fn Q3DBarsWidgetItem::sliceImageChanged(QImage image)
+ * \fn Q3DBarsWidgetItem::sliceImageChanged(const QImage &image)
  * \since 6.10
  * Emitted when \l renderSliceToImage has prepared the \a{image}.
  */

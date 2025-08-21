@@ -198,7 +198,7 @@ Q_SIGNALS:
     void selectedSeriesChanged(QSurface3DSeries *series);
     void flipHorizontalGridChanged(bool flip);
     Q_REVISION(6, 10)
-    void sliceImageChanged(QImage image);
+    void sliceImageChanged(const QImage &image);
 
 private:
     struct SurfaceVertex
