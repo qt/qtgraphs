@@ -600,7 +600,7 @@ bool QPieSeries::replace(qsizetype index, QPieSlice *slice)
     delete d->m_slices[index];
 
     slice->setParent(this);
-    slice->d_func()->m_series = this;
+    slice->d_func()->updateSeries(this);
 
     d->m_slices[index] = slice;
 
@@ -683,7 +683,7 @@ bool QPieSeries::replace(QPieSlice *oldSlice, QPieSlice *newSlice)
             delete d->m_slices[i];
 
             newSlice->setParent(this);
-            newSlice->d_func()->m_series = this;
+            newSlice->d_func()->updateSeries(this);
 
             d->m_slices[i] = newSlice;
 
@@ -725,7 +725,7 @@ bool QPieSeries::replace(const QList<QPieSlice *> &slices)
 
     for (auto &slice : slices) {
         slice->setParent(this);
-        slice->d_func()->m_series = this;
+        slice->d_func()->updateSeries(this);
         QObject::connect(slice, SIGNAL(sliceChanged()), this, SLOT(handleSliceChange()));
     }
 
@@ -770,7 +770,7 @@ bool QPieSeries::append(const QList<QPieSlice *> &slices)
 
     for (auto *s : slices) {
         s->setParent(this);
-        s->d_func()->m_series = this;
+        s->d_func()->updateSeries(this);
         d->m_slices << s;
     }
 
@@ -836,7 +836,7 @@ bool QPieSeries::insert(qsizetype index, QPieSlice *slice)
         return false;
 
     slice->setParent(this);
-    slice->d_func()->m_series = this;
+    slice->d_func()->updateSeries(this);
     d->m_slices.insert(index, slice);
 
     d->updateData();
@@ -891,7 +891,7 @@ bool QPieSeries::take(QPieSlice *slice)
     if (!d->m_slices.removeOne(slice))
         return false;
 
-    slice->d_func()->m_series = 0;
+    slice->d_func()->updateSeries(nullptr);
     slice->disconnect(this);
 
     d->updateData();

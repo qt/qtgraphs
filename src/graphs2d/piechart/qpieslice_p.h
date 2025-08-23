@@ -38,6 +38,9 @@ public:
     void setStartAngle(qreal angle);
     void setAngleSpan(qreal span);
 
+    void updateData(bool clearHidden = false);
+    void updateSeries(QPieSeries *series);
+
 private:
     friend class QPieSeries;
     friend class QPieSeriesPrivate;
@@ -76,6 +79,10 @@ private:
     QPointF m_labelArm;
 
     QPieSeries *m_series = nullptr;
+
+    qreal m_sum = 0;
+    QList<QPieSlice *> m_subSlices;
+    qreal m_subSlicesRatio = 0.7;
 
     Q_DECLARE_PUBLIC(QPieSlice)
 };

@@ -33,8 +33,18 @@ public:
     PieRenderer(QGraphsView *graph, bool clipPlotArea);
     ~PieRenderer() override;
 
+    void updateActiveSlices(QPieSeries *series, QList<QPieSlice *> slicelist);
     void handlePolish(QPieSeries *series);
+    void handleSlicesPolish(QPieSeries *series,
+                            QList<QLegendData> &legendDataList,
+                            QList<QPieSlice *> slicelist,
+                            qreal startAngle,
+                            qreal endAngle,
+                            QPointF center,
+                            qreal radius,
+                            qreal radiusRatio);
     void afterPolish(QList<QAbstractSeries *> &cleanupSeries);
+    void handleSlicesAfterPolish(QList<QPieSlice *> slicelist);
     void updateSeries(QPieSeries *series);
     void afterUpdate(QList<QAbstractSeries *> &cleanupSeries);
     void markedDeleted(QList<QPieSlice *> deleted);
@@ -54,6 +64,7 @@ private:
     void onPressedChanged();
 
     bool isPointInSlice(QPointF point, QPieSlice *slice, qreal *angle = nullptr);
+    bool isPointInSubSlices(QPointF point, QPieSlice *slice);
 
     QGraphsView *m_graph = nullptr;
     QQuickShape *m_shape = nullptr;
