@@ -21,8 +21,44 @@
 #include <QtQuick3D/private/qquick3dprincipledmaterial_p.h>
 
 #include <QtQuick/qquickitemgrabresult.h>
+#include <qtgraphs_tracepoints_p.h>
 
 QT_BEGIN_NAMESPACE
+
+Q_TRACE_PREFIX(qtgraphs,
+                   "QT_BEGIN_NAMESPACE" \
+                   "class QQuickGraphsSurface;" \
+                   "class QSurface3DSeries;" \
+                   "QT_END_NAMESPACE"
+               )
+
+Q_TRACE_POINT(qtgraphs, QGraphs3DSurfaceModelUpdate_entry, void *model);
+Q_TRACE_POINT(qtgraphs, QGraphs3DSurfaceModelUpdate_exit);
+
+Q_TRACE_POINT(qtgraphs, QGraphs3DSurfacePointSelectionUpdate_entry, void *model);
+Q_TRACE_POINT(qtgraphs, QGraphs3DSurfacePointSelectionUpdate_exit);
+
+Q_TRACE_POINT(qtgraphs, QGraphs3DSurfaceDoPicking_entry, float posX, float posY);
+Q_TRACE_POINT(qtgraphs, QGraphs3DSurfaceDoPicking_exit);
+
+Q_TRACE_POINT(qtgraphs, QGraphs3DSurfaceDoRayPicking_entry, float originX, float originY,
+              float originZ, float directionX, float directionY, float directionZ);
+Q_TRACE_POINT(qtgraphs, QGraphs3DSurfaceDoRayPicking_exit);
+
+Q_TRACE_POINT(qtgraphs, QGraphs3DSurfaceCreateSliceView_entry);
+Q_TRACE_POINT(qtgraphs, QGraphs3DSurfaceCreateSliceView_exit);
+
+Q_TRACE_POINT(qtgraphs, QGraphs3DSurfaceCreateOffscreenSliceView_entry, int index, int requestedIndex, int sliceType);
+Q_TRACE_POINT(qtgraphs, QGraphs3DSurfaceCreateOffscreenSliceView_exit);
+
+Q_TRACE_POINT(qtgraphs, QGraphs3DSurfaceAddModel_entry, QSurface3DSeries *series);
+Q_TRACE_POINT(qtgraphs, QGraphs3DSurfaceAddModel_exit);
+
+Q_TRACE_POINT(qtgraphs, QGraphs3DSurfaceAddSliceModel_entry);
+Q_TRACE_POINT(qtgraphs, QGraphs3DSurfaceAddSliceModel_exit);
+
+Q_TRACE_POINT(qtgraphs, QGraphs3DSurfaceAddFillModel_entry);
+Q_TRACE_POINT(qtgraphs, QGraphs3DSurfaceAddFillModel_exit);
 
 /*!
  * \qmltype Surface3D
@@ -1386,6 +1422,7 @@ void QQuickGraphsSurface::updateModel(SurfaceModel *model)
     const QSurfaceDataArray &array = model->series->dataArray();
 
     if (!array.isEmpty()) {
+        Q_TRACE(QGraphs3DSurfaceModelUpdate_entry, static_cast<void *>(model));
         qsizetype rowCount = array.size();
         qsizetype columnCount = array.at(0).size();
 
@@ -1476,6 +1513,7 @@ void QQuickGraphsSurface::updateModel(SurfaceModel *model)
             heightMap->setTextureData(heightMapData);
             heightInput->setTexture(heightMap);
             model->heightTexture = heightMap;
+            Q_TRACE(QGraphs3DSurfaceModelUpdate_exit);
             return;
         }
 
@@ -1612,6 +1650,7 @@ void QQuickGraphsSurface::updateModel(SurfaceModel *model)
             updateLineFill(model);
         else
             updateFill(model);
+        Q_TRACE(QGraphs3DSurfaceModelUpdate_exit);
     }
     updateMaterial(model);
     updateSelectedPoint();
@@ -2183,7 +2222,7 @@ bool QQuickGraphsSurface::doPicking(QPointF position)
 {
     if (!QQuickGraphsItem::doPicking(position))
         return false;
-
+    Q_TRACE(QGraphs3DSurfaceDoPicking_entry, position.x(), position.y());
     m_selectionDirty = true;
 
     SurfaceModel *pickedModel = nullptr;
@@ -2241,6 +2280,7 @@ bool QQuickGraphsSurface::doPicking(QPointF position)
                 model->picked = false;
         }
     }
+    Q_TRACE(QGraphs3DSurfaceDoPicking_exit);
     return true;
 }
 
@@ -2249,6 +2289,8 @@ bool QQuickGraphsSurface::doRayPicking(QVector3D origin, QVector3D direction)
     if (!QQuickGraphsItem::doRayPicking(origin, direction))
         return false;
 
+    Q_TRACE(QGraphs3DSurfaceDoRayPicking_entry, origin.x(), origin.y(), origin.z(), direction.x(),
+            direction.y(), direction.z());
     m_selectionDirty = true;
 
     SurfaceModel *pickedModel = nullptr;
@@ -2302,6 +2344,7 @@ bool QQuickGraphsSurface::doRayPicking(QVector3D origin, QVector3D direction)
                 model->picked = false;
         }
     }
+    Q_TRACE(QGraphs3DSurfaceDoRayPicking_exit);
     return true;
 }
 
@@ -2531,8 +2574,11 @@ void QQuickGraphsSurface::updateSelectedPoint()
         }
     }
     for (auto model : std::as_const(m_model)) {
+        Q_TRACE(QGraphs3DSurfacePointSelectionUpdate_entry,static_cast<void *>( model));
+
         if ((!selectionMode().testFlag(QtGraphs3D::SelectionFlag::MultiSeries) && !model->picked)
             || model->selectedVertex.position.isNull()) {
+            Q_TRACE(QGraphs3DSurfacePointSelectionUpdate_exit);
             continue;
         }
         QPoint selectedCoord;
@@ -2540,8 +2586,10 @@ void QQuickGraphsSurface::updateSelectedPoint()
             selectedCoord = model->selectedVertex.coord;
         else
             selectedCoord = mapCoordsToSampleSpace(model, worldCoord);
-        if (selectedCoord.x() == -1 || selectedCoord.y() == -1)
+        if (selectedCoord.x() == -1 || selectedCoord.y() == -1) {
+            Q_TRACE(QGraphs3DSurfacePointSelectionUpdate_exit);
             continue;
+        }
 
         const QSurfaceDataItem &dataPos
             = model->series->dataArray().at(selectedCoord.y()).at(selectedCoord.x());
@@ -2576,6 +2624,7 @@ void QQuickGraphsSurface::updateSelectedPoint()
                     updateSliceItemLabel(label, slicePosition);
             }
         }
+        Q_TRACE(QGraphs3DSurfacePointSelectionUpdate_exit);
     }
     setItemSelected(m_selectedSeries != nullptr);
     itemLabel()->setVisible(labelVisible);
@@ -2585,6 +2634,7 @@ void QQuickGraphsSurface::updateSelectedPoint()
 
 void QQuickGraphsSurface::addModel(QSurface3DSeries *series)
 {
+    Q_TRACE_SCOPE(QGraphs3DSurfaceAddModel, series);
     auto parent = graphNode();
     bool visible = series->isVisible();
 
@@ -2709,6 +2759,7 @@ void QQuickGraphsSurface::addModel(QSurface3DSeries *series)
 
 void QQuickGraphsSurface::addFillModel(SurfaceModel *model)
 {
+    Q_TRACE_SCOPE(QGraphs3DSurfaceAddFillModel);
     auto parent = graphNode();
 
     auto fillModel = new QQuick3DModel();
@@ -2748,6 +2799,7 @@ void QQuickGraphsSurface::createSliceView()
 {
     setSliceOrthoProjection(true);
     QQuickGraphsItem::createSliceView();
+    Q_TRACE_SCOPE(QGraphs3DSurfaceCreateSliceView);
 
     for (auto surfaceModel : std::as_const(m_model)) {
         addSliceModel(surfaceModel);
@@ -2760,6 +2812,8 @@ QQuickGraphsSurface::createOffscreenSliceView(int index, int requestedIndex,
                                               QtGraphs3D::SliceCaptureType sliceType)
 {
     QQuick3DViewport *sliceView = QQuickGraphsItem::createOffscreenSliceView(sliceType);
+    Q_TRACE_SCOPE(QGraphs3DSurfaceCreateOffscreenSliceView, index, requestedIndex,
+                  static_cast<int>(sliceType));
 
     bool isRow = (selectionMode().testFlag(QtGraphs3D::SelectionFlag::Row)
                   || sliceType == QtGraphs3D::SliceCaptureType::RowImage);
@@ -3017,6 +3071,7 @@ void QQuickGraphsSurface::updateSelectionMode(QtGraphs3D::SelectionFlags mode)
 
 void QQuickGraphsSurface::addSliceModel(SurfaceModel *model)
 {
+    Q_TRACE_SCOPE(QGraphs3DSurfaceAddSliceModel);
     QQuick3DViewport *sliceParent = nullptr;
 
     sliceParent = sliceView();
