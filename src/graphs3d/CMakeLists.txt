@@ -123,6 +123,14 @@ else()
             graphs3d/qml/qquickgraphsitem.cpp
     )
 
+    if(QT_FEATURE_graphs_3d_surface3d)
+        set(
+            LOCAL_TRACE_SOURCES
+               ${LOCAL_TRACE_SOURCES}
+               graphs3d/qml/qquickgraphssurface.cpp
+        )
+    endif()
+
     set(
         TRACE_SOURCES
             ${LOCAL_TRACE_SOURCES}
