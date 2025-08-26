@@ -139,6 +139,14 @@ else()
         )
     endif()
 
+    if(QT_FEATURE_graphs_3d_bars3d)
+        set(
+            LOCAL_TRACE_SOURCES
+               ${LOCAL_TRACE_SOURCES}
+               graphs3d/qml/qquickgraphsbars.cpp
+        )
+    endif()
+
     set(
         TRACE_SOURCES
             ${LOCAL_TRACE_SOURCES}
