@@ -27,6 +27,8 @@ Rectangle {
             gridVisible: checkBoxGridXMajor.checked
             subGridVisible: checkBoxGridXMinor.checked
             alignment: checkBoxAxisXAlignment.checked ? Qt.AlignTop : Qt.AlignBottom
+            labelPosition: axisXLabelPosition.checked ? BarCategoryAxis.LabelPosition.LabelPositionCenter
+                                                       : BarCategoryAxis.LabelPosition.LabelPositionOnValue
         }
         axisY: ValueAxis {
             id: yAxis
@@ -336,6 +338,14 @@ Rectangle {
             fromValue: -2
             toValue: 2
             onSliderValueChanged: chartView.shadowYOffset = sliderValue;
+        }
+        CustomLabel {
+            text: "Axis X Label Position (uncheck for OnValue)"
+        }
+        CustomCheckBox {
+            id: axisXLabelPosition
+            text: "PositionCenter"
+            checked: true
         }
     }
 }

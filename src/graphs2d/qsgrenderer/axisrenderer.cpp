@@ -1264,6 +1264,8 @@ void AxisRenderer::updateBarXAxisLabels(AxisProperties &ax, const QRectF rect)
         auto &textItem = ax.textItems[textIndex];
         if (axis->isVisible() && axis->labelsVisible()) {
             float posX = rect.x() + ((float)textIndex / categoriesCount) *  rect.width() + ax.x;
+            if (axis->labelPosition() == QBarCategoryAxis::LabelPosition::LabelPositionOnValue)
+                posX += (1.0 / categoriesCount * rect.width() * 0.5);
             textItem->setX(posX);
             float posY = rect.y() + ax.y;
             textItem->setY(posY);
@@ -1309,6 +1311,8 @@ void AxisRenderer::updateBarYAxisLabels(AxisProperties &ax, const QRectF rect)
             float posX = rect.x() + ax.x;
             textItem->setX(posX);
             float posY = rect.y() + ((float)textIndex / categoriesCount) *  rect.height() + ax.y;
+            if (axis->labelPosition() == QBarCategoryAxis::LabelPosition::LabelPositionOnValue)
+                posY -= (1.0 / categoriesCount * rect.height() * 0.5);
             textItem->setY(posY);
             textItem->setWidth(rect.width());
             textItem->setRotation(axis->labelsAngle());

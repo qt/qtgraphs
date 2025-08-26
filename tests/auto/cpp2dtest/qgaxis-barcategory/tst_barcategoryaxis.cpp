@@ -56,6 +56,7 @@ void tst_barcategoryaxis::initialProperties()
     QCOMPARE(m_axis->min(), "");
     QCOMPARE(m_axis->max(), "");
     QCOMPARE(m_axis->count(), 0);
+    QCOMPARE(m_axis->labelPosition(), QBarCategoryAxis::LabelPosition::LabelPositionCenter);
 }
 
 void tst_barcategoryaxis::initializeProperties()
@@ -67,6 +68,7 @@ void tst_barcategoryaxis::initializeProperties()
     QSignalSpy spy2(m_axis, &QBarCategoryAxis::maxChanged);
     QSignalSpy spy3(m_axis, &QBarCategoryAxis::categoryRangeChanged);
     QSignalSpy spy4(m_axis, &QBarCategoryAxis::countChanged);
+    QSignalSpy spy5(m_axis, &QBarCategoryAxis::labelPositionChanged);
 
     QStringList cats = {"One", "Two", "Three"};
 
@@ -86,11 +88,15 @@ void tst_barcategoryaxis::initializeProperties()
 
     m_axis->setRange("Zero", "Ten");
 
+    m_axis->setLabelPosition(QBarCategoryAxis::LabelPosition::LabelPositionOnValue);
+    QCOMPARE(m_axis->labelPosition(), QBarCategoryAxis::LabelPosition::LabelPositionOnValue);
+
     QCOMPARE(spy0.size(), 1);
     QCOMPARE(spy1.size(), 1);
     QCOMPARE(spy2.size(), 1);
     QCOMPARE(spy3.size(), 1);
     QCOMPARE(spy4.size(), 1);
+    QCOMPARE(spy5.size(), 1);
 
     // TODO: QTBUG-121718
     // QCOMPARE(m_axis->min(), "Zero");

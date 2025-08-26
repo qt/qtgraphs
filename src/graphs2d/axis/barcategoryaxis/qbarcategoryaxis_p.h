@@ -46,6 +46,7 @@ private:
     qreal m_min;
     qreal m_max;
     int m_count;
+    QBarCategoryAxis::LabelPosition m_labelPosition;
 
 private:
     Q_DECLARE_PUBLIC(QBarCategoryAxis)

@@ -15,11 +15,14 @@ class QBarCategoryAxisPrivate;
 class Q_GRAPHS_EXPORT QBarCategoryAxis : public QAbstractAxis
 {
     Q_OBJECT
+    Q_CLASSINFO("RegisterEnumClassesUnscoped", "false")
     Q_PROPERTY(
         QStringList categories READ categories WRITE setCategories NOTIFY categoriesChanged FINAL)
     Q_PROPERTY(QString min READ min WRITE setMin NOTIFY minChanged FINAL)
     Q_PROPERTY(QString max READ max WRITE setMax NOTIFY maxChanged FINAL)
     Q_PROPERTY(qsizetype count READ count NOTIFY countChanged FINAL)
+    Q_PROPERTY(LabelPosition labelPosition READ labelPosition WRITE setLabelPosition NOTIFY
+                   labelPositionChanged REVISION(6, 11))
     QML_NAMED_ELEMENT(BarCategoryAxis)
 
 public:
@@ -30,6 +33,12 @@ protected:
     QBarCategoryAxis(QBarCategoryAxisPrivate &dd, QObject *parent = nullptr);
 
 public:
+    enum class LabelPosition {
+        LabelPositionCenter,
+        LabelPositionOnValue,
+    };
+    Q_ENUM(LabelPosition)
+
     AxisType type() const override;
     Q_INVOKABLE void append(const QStringList &categories);
     Q_INVOKABLE void append(const QString &category);
@@ -42,6 +51,8 @@ public:
     void setCategories(const QStringList &categories);
     QStringList categories();
     qsizetype count() const;
+    void setLabelPosition(LabelPosition position);
+    LabelPosition labelPosition() const;
 
     //range handling
     void setMin(const QString &minCategory);
@@ -56,6 +67,7 @@ Q_SIGNALS:
     void maxChanged(const QString &max);
     void categoryRangeChanged(const QString &min, const QString &max);
     void countChanged();
+    Q_REVISION(6, 11) void labelPositionChanged(LabelPosition position);
 
 private:
     Q_DECLARE_PRIVATE(QBarCategoryAxis)

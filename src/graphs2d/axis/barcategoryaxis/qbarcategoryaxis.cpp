@@ -87,6 +87,25 @@ QT_BEGIN_NAMESPACE
 */
 
 /*!
+    \enum QBarCategoryAxis::LabelPosition
+    \since 6.11
+    This enum describes the position of the category labels.
+    \value LabelPositionCenter Labels are centered to category.
+    \value LabelPositionOnValue Labels are positioned to the high end limit of the category.
+*/
+/*!
+    \property QBarCategoryAxis::labelPosition
+    \since 6.11
+    \brief The position of the category labels. The labels in the beginning and in the end of the
+    axes may overlap other axes' labels when positioned on value.
+*/
+/*!
+    \qmlproperty enumeration BarCategoryAxis::labelPosition
+    \since 6.11
+    \qmlenumeratorsfrom QBarCategoryAxis::LabelPosition
+*/
+
+/*!
     \qmlsignal BarCategoryAxis::categoriesChanged()
     This signal is emitted when the categories of the axis change.
 */
@@ -134,6 +153,7 @@ QBarCategoryAxis::QBarCategoryAxis(QBarCategoryAxisPrivate &dd, QObject *parent)
     : QAbstractAxis(dd, parent)
 {
     QObject::connect(this, &QBarCategoryAxis::categoriesChanged, this, &QAbstractAxis::update);
+    QObject::connect(this, &QBarCategoryAxis::labelPositionChanged, this, &QAbstractAxis::update);
 }
 
 /*!
@@ -384,6 +404,21 @@ qsizetype QBarCategoryAxis::count() const
     return d->m_categories.size();
 }
 
+void QBarCategoryAxis::setLabelPosition(LabelPosition position)
+{
+    Q_D(QBarCategoryAxis);
+    if (d->m_labelPosition != position) {
+        d->m_labelPosition = position;
+        emit labelPositionChanged(position);
+    }
+}
+
+QBarCategoryAxis::LabelPosition QBarCategoryAxis::labelPosition() const
+{
+    Q_D(const QBarCategoryAxis);
+    return d->m_labelPosition;
+}
+
 /*!
     \qmlmethod string BarCategoryAxis::at(int index)
     Returns the category at \a index.
@@ -458,6 +493,7 @@ QBarCategoryAxisPrivate::QBarCategoryAxisPrivate()
     : m_min(0.0)
     , m_max(0.0)
     , m_count(0)
+    , m_labelPosition(QBarCategoryAxis::LabelPosition::LabelPositionCenter)
 {
 
 }
