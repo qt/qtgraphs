@@ -543,7 +543,7 @@ QColor QSurface3DSeries::wireframeColor() const
 void QSurface3DSeries::setDataArray(const QSurfaceDataArray &newDataArray)
 {
     Q_D(QSurface3DSeries);
-    if (d->m_dataArray.data() == newDataArray.data()) {
+    if (d->m_dataArray.isSharedWith(newDataArray)) {
         qCDebug(lcProperties3D, "%s newDataArray is the same than the current one",
                 qUtf8Printable(QLatin1String(__FUNCTION__)));
         return;
