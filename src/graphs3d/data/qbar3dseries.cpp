@@ -452,7 +452,7 @@ bool QBar3DSeries::isValueColoringEnabled() const
 void QBar3DSeries::setDataArray(const QBarDataArray &newDataArray)
 {
     Q_D(QBar3DSeries);
-    if (d->m_dataArray.data() != newDataArray.data())
+    if (!d->m_dataArray.isSharedWith(newDataArray))
         d->m_dataArray = newDataArray;
 }
 
