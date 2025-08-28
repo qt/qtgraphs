@@ -6,7 +6,18 @@
 
 #include <QtGraphs/private/qgraphsglobal_p.h>
 
+#include <qtgraphs_tracepoints_p.h>
+
 QT_BEGIN_NAMESPACE
+
+Q_TRACE_PREFIX(qtgraphs,
+                   "QT_BEGIN_NAMESPACE" \
+                   "class QQuickGraphsTextureData;" \
+                   "QT_END_NAMESPACE"
+               )
+
+Q_TRACE_POINT(qtgraphs, QGraphs3DCreateGradient_entry, QSize textureSize);
+Q_TRACE_POINT(qtgraphs, QGraphs3DCreateGradient_exit);
 
 QQuickGraphsTextureData::QQuickGraphsTextureData() {}
 
@@ -15,6 +26,7 @@ QQuickGraphsTextureData::~QQuickGraphsTextureData() {}
 void QQuickGraphsTextureData::createGradient(QLinearGradient gradient)
 {
     const qreal textureWidth = CommonUtils::maxTextureSize();
+    Q_TRACE_SCOPE(QGraphs3DCreateGradient, QSize(textureWidth, gradientTextureHeight));
     setSize(QSize(textureWidth, gradientTextureHeight));
     setFormat(QQuick3DTextureData::RGBA8);
     setHasTransparency(false);
