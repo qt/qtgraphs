@@ -318,7 +318,7 @@ float QScatter3DSeries::itemSize() const
 void QScatter3DSeries::setDataArray(const QScatterDataArray &newDataArray)
 {
     Q_D(QScatter3DSeries);
-    if (d->m_dataArray.data() == newDataArray.data()) {
+    if (d->m_dataArray.isSharedWith(newDataArray)) {
         qCDebug(lcProperties3D) << __FUNCTION__
             << "newDataArray is the same than the old one";
         return;
@@ -369,7 +369,7 @@ QScatterDataArray QScatter3DSeries::dataArray() &&
 void QScatter3DSeries::setScaleArray(const QList<QVector3D> &newScaleArray)
 {
     Q_D(QScatter3DSeries);
-    if (d->m_scaleArray.data() == newScaleArray.data()) {
+    if (d->m_scaleArray.isSharedWith(newScaleArray)) {
         qCDebug(lcProperties3D) << __FUNCTION__
             << "newScaleArray is the same than the old one";
         return;

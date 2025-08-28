@@ -453,7 +453,7 @@ bool QBar3DSeries::isValueColoringEnabled() const
 void QBar3DSeries::setDataArray(const QBarDataArray &newDataArray)
 {
     Q_D(QBar3DSeries);
-    if (d->m_dataArray.data() == newDataArray.data()) {
+    if (d->m_dataArray.isSharedWith(newDataArray)) {
         qCDebug(lcProperties3D, "%s newDataArray is the same than the old one",
                 qUtf8Printable(QLatin1String(__FUNCTION__)));
         return;

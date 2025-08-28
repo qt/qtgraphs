@@ -126,7 +126,7 @@ void QScatterDataProxy::resetArray(QScatterDataArray newArray)
     if (!series())
         return;
 
-    if (series()->dataArray().data() != newArray.data())
+    if (!series()->dataArray().isSharedWith(newArray))
         d->resetArray(std::move(newArray));
 
     emit arrayReset();
@@ -143,7 +143,7 @@ void QScatterDataProxy::resetScaleArray(QList<QVector3D> newArray)
     if (!series())
         return;
 
-    if (series()->scaleArray().data() != newArray.data())
+    if (!series()->scaleArray().isSharedWith(newArray))
         d->resetScaleArray(std::move(newArray));
 
     emit scaleArrayReset();
@@ -333,14 +333,14 @@ QScatterDataProxyPrivate::~QScatterDataProxyPrivate() {}
 void QScatterDataProxyPrivate::resetArray(QScatterDataArray &&newArray)
 {
     auto *scatterSeries = static_cast<QScatter3DSeries *>(series());
-    if (newArray.data() != scatterSeries->dataArray().data())
+    if (!newArray.isSharedWith(scatterSeries->dataArray()))
         scatterSeries->setDataArray(newArray);
 }
 
 void QScatterDataProxyPrivate::resetScaleArray(QList<QVector3D> &&newArray)
 {
     auto *scatterSeries = static_cast<QScatter3DSeries *>(series());
-    if (newArray.data() != scatterSeries->scaleArray().data())
+    if (!newArray.isSharedWith(scatterSeries->scaleArray()))
         scatterSeries->setScaleArray(newArray);
 }
 
