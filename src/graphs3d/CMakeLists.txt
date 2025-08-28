@@ -121,29 +121,36 @@ else()
     set(
         LOCAL_TRACE_SOURCES
             graphs3d/qml/qquickgraphsitem.cpp
+            graphs3d/qml/qquickgraphstexturedata.cpp
+            graphs3d/data/qcustom3dvolume.cpp
     )
 
     if(QT_FEATURE_graphs_3d_surface3d)
         set(
             LOCAL_TRACE_SOURCES
-               ${LOCAL_TRACE_SOURCES}
-               graphs3d/qml/qquickgraphssurface.cpp
+                ${LOCAL_TRACE_SOURCES}
+                graphs3d/qml/qquickgraphssurface.cpp
+                graphs3d/data/qheightmapsurfacedataproxy.cpp
+                graphs3d/data/surfaceitemmodelhandler.cpp
         )
     endif()
+
 
     if(QT_FEATURE_graphs_3d_scatter3d)
         set(
             LOCAL_TRACE_SOURCES
-               ${LOCAL_TRACE_SOURCES}
-               graphs3d/qml/qquickgraphsscatter.cpp
+                ${LOCAL_TRACE_SOURCES}
+                graphs3d/qml/qquickgraphsscatter.cpp
+                graphs3d/data/scatteritemmodelhandler.cpp
         )
     endif()
 
     if(QT_FEATURE_graphs_3d_bars3d)
         set(
             LOCAL_TRACE_SOURCES
-               ${LOCAL_TRACE_SOURCES}
-               graphs3d/qml/qquickgraphsbars.cpp
+                ${LOCAL_TRACE_SOURCES}
+                graphs3d/data/baritemmodelhandler.cpp
+                graphs3d/qml/qquickgraphsbars.cpp
         )
     endif()
 

@@ -6,7 +6,21 @@
 
 #include <QtGui/qquaternion.h>
 
+#include <qtgraphs_tracepoints_p.h>
+
 QT_BEGIN_NAMESPACE
+
+Q_TRACE_PREFIX(qtgraphs,
+                  "QT_BEGIN_NAMESPACE" \
+                  "class ScatterItemModelHandler;" \
+                  "QT_END_NAMESPACE"
+              )
+
+Q_TRACE_POINT(qtgraphs, QGraphs3DScatterItemModelHandlerResolveModel_entry);
+Q_TRACE_POINT(qtgraphs, QGraphs3DScatterItemModelHandlerResolveModel_exit);
+
+Q_TRACE_POINT(qtgraphs, QGraphs3DScatterItemModelHandlerHandleDataChanged_entry);
+Q_TRACE_POINT(qtgraphs, QGraphs3DScatterItemModelHandlerHandleDataChanged_exit);
 
 ScatterItemModelHandler::ScatterItemModelHandler(QItemModelScatterDataProxy *proxy, QObject *parent)
     : AbstractItemModelHandler(parent)
@@ -32,6 +46,7 @@ void ScatterItemModelHandler::handleDataChanged(const QModelIndex &topLeft,
 {
     // Do nothing if full reset already pending
     if (!m_fullReset) {
+        Q_TRACE_SCOPE(QGraphs3DScatterItemModelHandlerHandleDataChanged);
         if (m_itemModel->columnCount() > 1) {
             // If the data model is multi-column, do full asynchronous reset to
             // simplify things
@@ -224,6 +239,7 @@ void ScatterItemModelHandler::resolveModel()
         m_proxyArray.clear();
         return;
     }
+    Q_TRACE(QGraphs3DScatterItemModelHandlerResolveModel_entry);
 
     m_xPosPattern = m_proxy->xPosRolePattern();
     m_yPosPattern = m_proxy->yPosRolePattern();
@@ -270,6 +286,7 @@ void ScatterItemModelHandler::resolveModel()
         }
     }
 
+    Q_TRACE(QGraphs3DScatterItemModelHandlerResolveModel_exit);
     m_proxy->resetArray(m_proxyArray);
     m_proxy->resetScaleArray(m_scaleArray);
 }

@@ -7,7 +7,21 @@
 
 #include <QtGui/qquaternion.h>
 
+#include <qtgraphs_tracepoints_p.h>
+
 QT_BEGIN_NAMESPACE
+
+Q_TRACE_PREFIX(qtgraphs,
+              "QT_BEGIN_NAMESPACE" \
+              "#include <qnamespace.h>" \
+              "class QCustom3DVolume;" \
+              "QT_END_NAMESPACE"
+          )
+
+Q_TRACE_METADATA(qtgraphs, "ENUM { } Qt::Axis;")
+
+Q_TRACE_POINT(qtgraphs, QGraphs3DCustomVolumeRenderSlice_entry, Qt::Axis axis, int index);
+Q_TRACE_POINT(qtgraphs, QGraphs3DCustomVolumeRenderSlice_exit)
 
 /*!
  * \class QCustom3DVolume
@@ -1425,6 +1439,7 @@ QImage QCustom3DVolumePrivate::renderSlice(Qt::Axis axis, int index)
     if (index < 0)
         return QImage();
 
+    Q_TRACE_SCOPE(QGraphs3DCustomVolumeRenderSlice, axis, index);
     int x;
     int y;
     if (axis == Qt::XAxis) {

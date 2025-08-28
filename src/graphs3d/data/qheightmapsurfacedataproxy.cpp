@@ -7,7 +7,18 @@
 #include "qsurface3dseries_p.h"
 #include "qgraphs3dlogging_p.h"
 
+#include <qtgraphs_tracepoints_p.h>
+
 QT_BEGIN_NAMESPACE
+
+Q_TRACE_PREFIX(qtgraphs,
+                   "QT_BEGIN_NAMESPACE" \
+                   "class QHeightMapSurfaceDataProxy;" \
+                   "QT_END_NAMESPACE"
+               )
+
+Q_TRACE_POINT(qtgraphs, QGraphs3DHeightMapSurfaceDataProxHandlePendingResolve_entry, bool is16Bit);
+Q_TRACE_POINT(qtgraphs, QGraphs3DHeightMapSurfaceDataProxHandlePendingResolve_exit);
 
 // Default ranges correspond value axis defaults
 const float defaultMinValue = 0.0f;
@@ -762,6 +773,7 @@ void QHeightMapSurfaceDataProxyPrivate::handlePendingResolve()
                     || heightImage.format() == QImage::Format_RGBA64_Premultiplied
                     || heightImage.format() == QImage::Format_Grayscale16);
 
+    Q_TRACE(QGraphs3DHeightMapSurfaceDataProxHandlePendingResolve_entry, is16bit);
     // Convert to RGB32 to be sure we're reading the right bytes
     if (is16bit) {
         if (heightImage.format() != QImage::Format_RGBX64)
@@ -854,6 +866,7 @@ void QHeightMapSurfaceDataProxyPrivate::handlePendingResolve()
         }
     }
 
+    Q_TRACE(QGraphs3DHeightMapSurfaceDataProxHandlePendingResolve_exit);
     q->resetArray(dataArray);
     emit q->heightMapChanged(m_heightMap);
 }
