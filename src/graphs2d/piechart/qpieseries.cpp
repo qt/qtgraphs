@@ -7,7 +7,18 @@
 #include <private/qpieslice_p.h>
 #include <private/qgraphsview_p.h>
 
+#include <qtgraphs_tracepoints_p.h>
+
 QT_BEGIN_NAMESPACE
+
+Q_TRACE_PREFIX(qtgraphs,
+              "QT_BEGIN_NAMESPACE" \
+               "class QPieSeries;" \
+              "QT_END_NAMESPACE"
+          )
+
+Q_TRACE_POINT(qtgraphs, QGraphs2DPieSeriesUpdateData_entry);
+Q_TRACE_POINT(qtgraphs, QGraphs2DPieSeriesUpdateData_exit);
 
 /*!
     \class QPieSeries
@@ -1214,6 +1225,7 @@ QPieSeriesPrivate::QPieSeriesPrivate()
 void QPieSeriesPrivate::updateData(bool clearHidden)
 {
     Q_Q(QPieSeries);
+    Q_TRACE_SCOPE(QGraphs2DPieSeriesUpdateData);
 
     // calculate sum of all slices
     qreal sum = 0;

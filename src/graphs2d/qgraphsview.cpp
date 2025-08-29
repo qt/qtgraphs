@@ -34,7 +34,39 @@
 #include <private/qabstractaxis_p.h>
 #include <private/qgraphsview_p.h>
 
+#include <qtgraphs_tracepoints_p.h>
+
 QT_BEGIN_NAMESPACE
+
+Q_TRACE_PREFIX(qtgraphs,
+              "QT_BEGIN_NAMESPACE" \
+               "class QGraphsView;" \
+              "QT_END_NAMESPACE"
+          )
+
+Q_TRACE_POINT(qtgraphs, QGraphs2DGraphsVieUpdatePolish_entry);
+Q_TRACE_POINT(qtgraphs, QGraphs2DGraphsVieUpdatePolish_exit);
+
+Q_TRACE_POINT(qtgraphs, QGraphs2DGraphsViewComponentComplete_entry);
+Q_TRACE_POINT(qtgraphs, QGraphs2DGraphsViewComponentComplete_exit);
+
+Q_TRACE_POINT(qtgraphs, QGraphs2DGraphsViewInsertSeries_entry);
+Q_TRACE_POINT(qtgraphs, QGraphs2DGraphsViewInsertSeries_exit);
+
+Q_TRACE_POINT(qtgraphs, QGraphs2DGraphsViewCreateBarsRenderer_entry);
+Q_TRACE_POINT(qtgraphs, QGraphs2DGraphsViewCreateBarsRenderer_exit);
+
+Q_TRACE_POINT(qtgraphs, QGraphs2DGraphsViewCreateAxisRenderer_entry);
+Q_TRACE_POINT(qtgraphs, QGraphs2DGraphsViewCreateAxisRenderer_exit);
+
+Q_TRACE_POINT(qtgraphs, QGraphs2DGraphsViewCreatePointRenderer_entry);
+Q_TRACE_POINT(qtgraphs, QGraphs2DGraphsViewCreatePointRenderer_exit);
+
+Q_TRACE_POINT(qtgraphs, QGraphs2DGraphsViewCreatePieRenderer_entry);
+Q_TRACE_POINT(qtgraphs, QGraphs2DGraphsViewCreatePieRenderer_exit);
+
+Q_TRACE_POINT(qtgraphs, QGraphs2DGraphsViewCreateAreaRenderer_entry);
+Q_TRACE_POINT(qtgraphs, QGraphs2DGraphsViewCreateAreaRenderer_exit);
 
 /*!
     \qmltype GraphsView
@@ -135,6 +167,7 @@ void QGraphsView::addSeries(QObject *series)
 void QGraphsView::insertSeries(qsizetype index, QObject *object)
 {
     if (auto series = qobject_cast<QAbstractSeries *>(object)) {
+        Q_TRACE(QGraphs2DGraphsViewInsertSeries_entry);
         series->setGraph(this);
         if (m_seriesList.contains(series)) {
             qsizetype oldIndex = m_seriesList.indexOf(series);
@@ -165,6 +198,8 @@ void QGraphsView::insertSeries(qsizetype index, QObject *object)
 #endif
             qCDebug(lcGraphs2D) << series << "added to a list at index of" << index;
         }
+        Q_TRACE(QGraphs2DGraphsViewInsertSeries_exit);
+
         updateComponentSizes();
         polishAndUpdate();
     }
@@ -283,6 +318,7 @@ void QGraphsView::setGraphSeriesCount(qsizetype count)
 #ifdef USE_BARGRAPH
 void QGraphsView::createBarsRenderer()
 {
+    Q_TRACE_SCOPE(QGraphs2DGraphsViewCreateBarsRenderer);
     if (!m_barsRenderer) {
         qCDebug(lcGraphs2D, "creating bars renderer");
         m_barsRenderer = new BarsRenderer(this, clipPlotArea());
@@ -293,6 +329,7 @@ void QGraphsView::createBarsRenderer()
 
 void QGraphsView::createAxisRenderer()
 {
+    Q_TRACE_SCOPE(QGraphs2DGraphsViewCreateAxisRenderer);
     if (!m_axisRenderer) {
         qCDebug(lcGraphs2D) << "creating axis renderer.";
         m_axisRenderer = new AxisRenderer(this);
@@ -304,6 +341,7 @@ void QGraphsView::createAxisRenderer()
 #ifdef USE_POINTS
 void QGraphsView::createPointRenderer()
 {
+    Q_TRACE_SCOPE(QGraphs2DGraphsViewCreatePointRenderer);
     if (!m_pointRenderer) {
         qCDebug(lcGraphs2D, "creating point renderer.");
         m_pointRenderer = new PointRenderer(this, clipPlotArea());
@@ -315,6 +353,7 @@ void QGraphsView::createPointRenderer()
 #ifdef USE_PIEGRAPH
 void QGraphsView::createPieRenderer()
 {
+    Q_TRACE_SCOPE(QGraphs2DGraphsViewCreatePieRenderer);
     if (!m_pieRenderer) {
         qCDebug(lcGraphs2D, "creating pie renderer.");
         m_pieRenderer = new PieRenderer(this, clipPlotArea());
@@ -326,6 +365,7 @@ void QGraphsView::createPieRenderer()
 #ifdef USE_AREAGRAPH
 void QGraphsView::createAreaRenderer()
 {
+    Q_TRACE_SCOPE(QGraphs2DGraphsViewCreateAreaRenderer);
     if (!m_areaRenderer) {
         qCDebug(lcGraphs2D, "creating area renderer.");
         m_areaRenderer = new AreaRenderer(this, clipPlotArea());
@@ -657,6 +697,7 @@ void QGraphsView::updateComponentSizes()
 
 void QGraphsView::componentComplete()
 {
+    Q_TRACE(QGraphs2DGraphsViewComponentComplete_entry);
     if (!m_zoomAreaDelegate && !m_zoomAreaItem) {
         const QString qmlData = QLatin1StringView(R"QML(
             import QtQuick;
@@ -682,6 +723,8 @@ void QGraphsView::componentComplete()
         QObject::connect(m_theme, &QGraphsTheme::update, this, &QQuickItem::update);
         m_theme->resetColorTheme();
     }
+    Q_TRACE(QGraphs2DGraphsViewComponentComplete_exit);
+
     QQuickItem::componentComplete();
 
     qCDebug(lcEvents2D, "QGraphsView::componentComplete.");
@@ -848,6 +891,7 @@ void QGraphsView::updatePolish()
 {
     qCDebug(lcEvents2D, "QGraphsView::updatePolish. Start Update and polish.");
 
+    Q_TRACE_SCOPE(QGraphs2DGraphsVieUpdatePolish);
     if (m_axisRenderer) {
         m_axisRenderer->handlePolish();
         // Initialize shaders after system's event queue
