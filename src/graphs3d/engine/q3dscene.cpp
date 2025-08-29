@@ -375,6 +375,11 @@ QPoint Q3DScene::selectionQueryPosition() const
 }
 
 /*!
+ * \property Q3DScene::invalidSelectionPoint
+ * \brief a point that represents an invalid selection position.
+ */
+
+/*!
  * \return a QPoint signifying an invalid selection position.
  */
 QPoint Q3DScene::invalidSelectionPoint() const
