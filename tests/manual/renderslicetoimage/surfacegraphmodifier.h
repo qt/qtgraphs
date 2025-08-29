@@ -22,7 +22,7 @@ public:
     QImage *renderSliceToImage(QtGraphs3D::SliceCaptureType sliceType, int requestedIndex);
 
 Q_SIGNALS:
-    void updateSliceImage(QImage image);
+    void updateSliceImage(const QImage &image);
 
 private:
     void fillSqrtSinProxy();
