@@ -83,6 +83,11 @@ BarGraphModifier::BarGraphModifier(Q3DBarsWidgetItem *bargraph, QObject *parent)
     changePresetCamera();
 
     resetTemperatureData();
+
+    connect(m_graph,
+            &Q3DBarsWidgetItem::sliceImageChanged,
+            this,
+            &BarGraphModifier::sliceImageChanged);
 }
 
 void BarGraphModifier::resetTemperatureData()
@@ -140,8 +145,8 @@ void BarGraphModifier::changePresetCamera()
         preset = int(QtGraphs3D::CameraPreset::FrontLow);
 }
 
-QImage *BarGraphModifier::renderSliceToImage(QtGraphs3D::SliceCaptureType sliceType,
-                                             int requestedIndex)
+void BarGraphModifier::renderSliceToImage(QtGraphs3D::SliceCaptureType sliceType,
+                                          int requestedIndex)
 {
-    return m_graph->renderSliceToImage(requestedIndex, sliceType);
+    m_graph->renderSliceToImage(requestedIndex, sliceType);
 }

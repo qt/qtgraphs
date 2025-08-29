@@ -146,9 +146,9 @@ public:
 
     void handleLightingModeChanged() override;
 
-    QImage *renderSliceToImage(int index,
-                               int requestedIndex,
-                               QtGraphs3D::SliceCaptureType sliceType);
+    void renderSliceToImage(int index,
+                            int requestedIndex,
+                            QtGraphs3D::SliceCaptureType sliceType);
     Q_REVISION(6, 10)
     Q_INVOKABLE void renderSliceToImage(int index, int requestedIndex,
                                         QtGraphs3D::SliceCaptureType sliceType,

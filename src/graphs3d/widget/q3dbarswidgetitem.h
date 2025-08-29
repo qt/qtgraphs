@@ -75,7 +75,7 @@ public:
     float floorLevel() const;
 
     Q_REVISION(6, 10)
-    QImage *renderSliceToImage(int requestedIndex, QtGraphs3D::SliceCaptureType sliceType);
+    void renderSliceToImage(int requestedIndex, QtGraphs3D::SliceCaptureType sliceType);
 
 protected:
     bool event(QEvent *event) override;

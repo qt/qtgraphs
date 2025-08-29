@@ -89,7 +89,7 @@ void SurfaceGraph::renderSliceToImage()
     if (!m_rowRadioButton->isChecked())
         sliceType = QtGraphs3D::SliceCaptureType::ColumnImage;
 
-    (void) m_modifier->renderSliceToImage(sliceType, index);
+    m_modifier->renderSliceToImage(sliceType, index);
 }
 
 void SurfaceGraph::applySliceImage(QImage image)

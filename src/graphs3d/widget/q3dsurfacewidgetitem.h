@@ -47,9 +47,8 @@ public:
     bool flipHorizontalGrid() const;
 
     Q_REVISION(6, 10)
-    QImage *renderSliceToImage(int index,
-                               int requestedIndex,
-                               QtGraphs3D::SliceCaptureType sliceType);
+    void renderSliceToImage(int index, int requestedIndex,
+                            QtGraphs3D::SliceCaptureType sliceType);
 
 protected:
     bool event(QEvent *event) override;
