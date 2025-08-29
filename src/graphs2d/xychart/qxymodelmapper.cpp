@@ -6,7 +6,27 @@
 #include "qxymodelmapper_p.h"
 #include "qxyseries_p.h"
 
+#include <qtgraphs_tracepoints_p.h>
+
 QT_BEGIN_NAMESPACE
+
+Q_TRACE_PREFIX(qtgraphs,
+            "QT_BEGIN_NAMESPACE" \
+            "class QXYModelMapper;" \
+            "QT_END_NAMESPACE"
+          )
+
+Q_TRACE_POINT(qtgraphs, QGraphs2DXYModelMappeInitXYFromModel_entry);
+Q_TRACE_POINT(qtgraphs, QGraphs2DXYModelMappeInitXYFromModel_exit);
+
+Q_TRACE_POINT(qtgraphs, QGraphs2DXYModelMappeRemoveData_entry, int start, int end);
+Q_TRACE_POINT(qtgraphs, QGraphs2DXYModelMappeRemoveData_exit);
+
+Q_TRACE_POINT(qtgraphs, QGraphs2DXYModelMappeInsertData_entry, int start, int end);
+Q_TRACE_POINT(qtgraphs, QGraphs2DXYModelMappeInsertData_exit);
+
+Q_TRACE_POINT(qtgraphs, QGraphs2DXYModelMapperOnModelUpdated_entry);
+Q_TRACE_POINT(qtgraphs, QGraphs2DXYModelMapperOnModelUpdated_exit);
 
 /*!
     \class QXYModelMapper
@@ -571,6 +591,7 @@ void QXYModelMapperPrivate::onModelUpdated(QModelIndex topLeft, QModelIndex bott
     if (m_modelSignalsBlock)
         return;
 
+    Q_TRACE_SCOPE(QGraphs2DXYModelMapperOnModelUpdated);
     blockSeriesSignals();
     QModelIndex index;
     QPointF newPoint;
@@ -686,6 +707,7 @@ void QXYModelMapperPrivate::insertData(int start, int end)
     if (m_count != -1 && start >= m_first + m_count) {
         return;
     } else {
+        Q_TRACE_SCOPE(QGraphs2DXYModelMappeInsertData, start, end);
         int addedCount = end - start + 1;
         if (m_count != -1 && addedCount > m_count)
             addedCount = m_count;
@@ -721,6 +743,7 @@ void QXYModelMapperPrivate::removeData(int start, int end)
     if (m_count != -1 && start >= m_first + m_count) {
         return;
     } else {
+        Q_TRACE_SCOPE(QGraphs2DXYModelMappeRemoveData, start, end);
         int toRemove = qMin(int(m_series->count()),
                             removedCount); // first find how many items can actually be removed
         int first = qMax(start, m_first);  // get the index of the first item that will be removed.
@@ -761,6 +784,8 @@ void QXYModelMapperPrivate::initializeXYFromModel()
 {
     if (m_model == 0 || m_series == 0)
         return;
+
+    Q_TRACE_SCOPE(QGraphs2DXYModelMappeInitXYFromModel);
 
     blockSeriesSignals();
     // clear current content

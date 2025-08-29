@@ -12,8 +12,45 @@
 #include <private/qgraphsview_p.h>
 #include <private/qvalueaxis_p.h>
 #include <QtQuick/private/qquickdraghandler_p.h>
+#include <qtgraphs_tracepoints_p.h>
 
 QT_BEGIN_NAMESPACE
+
+Q_TRACE_PREFIX(qtgraphs,
+              "QT_BEGIN_NAMESPACE" \
+              "#include <qnamespace.h>" \
+              "class AxisRenderer;" \
+              "QT_END_NAMESPACE"
+          )
+
+Q_TRACE_METADATA(qtgraphs, "ENUM { } Qt::Orientation;")
+
+Q_TRACE_POINT(qtgraphs, QGraphs2DAxisRendererUpdateDateTimeXAxisLabels_entry);
+Q_TRACE_POINT(qtgraphs, QGraphs2DAxisRendererUpdateDateTimeXAxisLabels_exit);
+
+Q_TRACE_POINT(qtgraphs, QGraphs2DAxisRendererUpdateAxisLabelItems_entry, int labelItemCount, int neededCount);
+Q_TRACE_POINT(qtgraphs, QGraphs2DAxisRendererUpdateAxisLabelItems_exit);
+
+Q_TRACE_POINT(qtgraphs, QGraphs2DAxisRendererUpdateDateTimeYAxisLabels_entry);
+Q_TRACE_POINT(qtgraphs, QGraphs2DAxisRendererUpdateDateTimeYAxisLabels_exit);
+
+Q_TRACE_POINT(qtgraphs, QGraphs2DAxisRendererUpdateValueXAxisLabels_entry);
+Q_TRACE_POINT(qtgraphs, QGraphs2DAxisRendererUpdateValueXAxisLabels_exit);
+
+Q_TRACE_POINT(qtgraphs, QGraphs2DAxisRendererUpdateValueYAxisLabels_entry);
+Q_TRACE_POINT(qtgraphs, QGraphs2DAxisRendererUpdateValueYAxisLabels_exit);
+
+Q_TRACE_POINT(qtgraphs, QGraphs2DAxisRendererUpdateBarYAxisLabels_entry);
+Q_TRACE_POINT(qtgraphs, QGraphs2DAxisRendererUpdateBarYAxisLabels_exit);
+
+Q_TRACE_POINT(qtgraphs, QGraphs2DAxisRendererUpdateBarXAxisLabels_entry);
+Q_TRACE_POINT(qtgraphs, QGraphs2DAxisRendererUpdateBarXAxisLabels_exit);
+
+Q_TRACE_POINT(qtgraphs, QGraphs2DAxisRendererUpdateAxis_entry);
+Q_TRACE_POINT(qtgraphs, QGraphs2DAxisRendererUpdateAxis_exit);
+
+Q_TRACE_POINT(qtgraphs, QGraphs2DAxisRendererHandlePolish_entry, Qt::Orientation orientation);
+Q_TRACE_POINT(qtgraphs, QGraphs2DAxisRendererHandlePolish_exit);
 
 AxisRenderer::AxisRenderer(QQuickItem *parent)
     : QQuickItem(parent)
@@ -284,6 +321,7 @@ void AxisRenderer::handlePolish()
     if (m_graph->orientation() == Qt::Orientation::Horizontal)
         vertical = false;
 
+    Q_TRACE(QGraphs2DAxisRendererHandlePolish_entry, m_graph->orientation());
     if (vertical) {
         m_horzAxes = &m_axes1;
         m_vertAxes = &m_axes2;
@@ -516,6 +554,7 @@ void AxisRenderer::handlePolish()
             ax.tickerShadow->setupShaders();
         }
     }
+    Q_TRACE(QGraphs2DAxisRendererHandlePolish_exit);
 
     updateAxis();
 }
@@ -543,6 +582,7 @@ void AxisRenderer::updateAxis()
     int xCount = 0;
     int yCount = 0;
 
+    Q_TRACE_SCOPE(QGraphs2DAxisRendererUpdateAxis);
     for (auto &&ax : *m_horzAxes) {
         if (ax.axis && (ax.axis->alignment() == Qt::AlignTop || ax.axis->alignment() == Qt::AlignLeft))
             topCount++;
@@ -1121,6 +1161,8 @@ void AxisRenderer::updateAxisTitles()
 void AxisRenderer::updateAxisLabelItems(QList<QQuickItem *> &textItems,
                                         qsizetype neededSize, QQmlComponent *component)
 {
+    Q_TRACE_SCOPE(QGraphs2DAxisRendererUpdateAxisLabelItems, textItems.count(),
+                  static_cast<int>(neededSize));
     qsizetype currentTextItemsSize = textItems.size();
     if (currentTextItemsSize < neededSize) {
         for (qsizetype i = currentTextItemsSize; i <= neededSize; i++) {
@@ -1197,6 +1239,7 @@ void AxisRenderer::updateBarXAxisLabels(AxisProperties &ax, const QRectF rect)
     // See if we need more text items
     updateAxisLabelItems(ax.textItems, categoriesCount, axis->labelDelegate());
 
+    Q_TRACE_SCOPE(QGraphs2DAxisRendererUpdateBarXAxisLabels);
     int textIndex = 0;
     auto categories = axis->categories();
     for (const auto &category : std::as_const(categories)) {
@@ -1239,6 +1282,7 @@ void AxisRenderer::updateBarYAxisLabels(AxisProperties &ax, const QRectF rect)
     // See if we need more text items
     updateAxisLabelItems(ax.textItems, categoriesCount, axis->labelDelegate());
 
+    Q_TRACE_SCOPE(QGraphs2DAxisRendererUpdateBarYAxisLabels);
     int textIndex = 0;
     auto categories = axis->categories();
     for (const auto &category : std::as_const(categories)) {
@@ -1299,6 +1343,7 @@ void AxisRenderer::updateValueYAxisLabels(AxisProperties &ax, const QRectF rect)
     // See if we need more text items
     updateAxisLabelItems(ax.textItems, categoriesCount, axis->labelDelegate());
 
+    Q_TRACE_SCOPE(QGraphs2DAxisRendererUpdateValueYAxisLabels);
     for (int i = 0;  i < categoriesCount; i++) {
         auto &textItem = ax.textItems[i];
         if (axis->isVisible() && axis->labelsVisible()) {
@@ -1367,6 +1412,7 @@ void AxisRenderer::updateValueXAxisLabels(AxisProperties &ax, const QRectF rect)
 
     // See if we need more text items
     updateAxisLabelItems(ax.textItems, categoriesCount, axis->labelDelegate());
+    Q_TRACE_SCOPE(QGraphs2DAxisRendererUpdateValueXAxisLabels);
 
     for (int i = 0;  i < categoriesCount; i++) {
         auto &textItem = ax.textItems[i];
@@ -1436,6 +1482,7 @@ void AxisRenderer::updateDateTimeYAxisLabels(AxisProperties &ax, const QRectF re
     // See if we need more text items
     updateAxisLabelItems(ax.textItems, dateTimeSize, axis->labelDelegate());
 
+    Q_TRACE_SCOPE(QGraphs2DAxisRendererUpdateDateTimeYAxisLabels);
     for (auto i = 0; i < dateTimeSize; ++i) {
         auto &textItem = ax.textItems[i];
         if (axis->isVisible() && axis->labelsVisible()) {
@@ -1487,6 +1534,7 @@ void AxisRenderer::updateDateTimeXAxisLabels(AxisProperties &ax, const QRectF re
 
     // See if we need more text items
     updateAxisLabelItems(ax.textItems, dateTimeSize, axis->labelDelegate());
+    Q_TRACE_SCOPE(QGraphs2DAxisRendererUpdateDateTimeXAxisLabels);
 
     for (auto i = 0; i < dateTimeSize; ++i) {
         auto &textItem = ax.textItems[i];

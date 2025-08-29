@@ -19,7 +19,27 @@
 #include <private/qxyseries_p.h>
 #include <private/charthelpers_p.h>
 
+#include <qtgraphs_tracepoints_p.h>
+
 QT_BEGIN_NAMESPACE
+
+Q_TRACE_PREFIX(qtgraphs,
+              "QT_BEGIN_NAMESPACE" \
+              "class PointRenderer;" \
+              "QT_END_NAMESPACE"
+          )
+
+Q_TRACE_POINT(qtgraphs, QGraphs2DPointRendererAfterPolish_entry, int cleanupSeriesCount);
+Q_TRACE_POINT(qtgraphs, QGraphs2DPointRendererAfterPolish_exit);
+
+Q_TRACE_POINT(qtgraphs, QGraphs2DPointRendererUpdateScatterSeries_entry);
+Q_TRACE_POINT(qtgraphs, QGraphs2DPointRendererUpdateScatterSeries_exit);
+
+Q_TRACE_POINT(qtgraphs, QGraphs2DPointRendererUpdateLineSeries_entry);
+Q_TRACE_POINT(qtgraphs, QGraphs2DPointRendererUpdateLineSeries_exit);
+
+Q_TRACE_POINT(qtgraphs, QGraphs2DPointRendererUpdateSplineSeries_entry);
+Q_TRACE_POINT(qtgraphs, QGraphs2DPointRendererUpdateSplineSeries_exit);
 
 static const char *TAG_POINT_COLOR = "pointColor";
 static const char *TAG_POINT_BORDER_COLOR = "pointBorderColor";
@@ -313,6 +333,7 @@ void PointRenderer::updateScatterSeries(QScatterSeries *series, QLegendData &leg
 {
     auto group = m_groups.value(series);
     const auto style = getSeriesStyle(group);
+    Q_TRACE(QGraphs2DPointRendererUpdateScatterSeries_entry);
 
     if (series->isVisible()) {
         auto &&points = series->points();
@@ -337,6 +358,7 @@ void PointRenderer::updateScatterSeries(QScatterSeries *series, QLegendData &leg
     } else {
         hidePointDelegates(series);
     }
+    Q_TRACE(QGraphs2DPointRendererUpdateScatterSeries_exit);
 
     legendData = { style.color, style.borderColor, series->name() };
 }
@@ -373,6 +395,7 @@ void PointRenderer::updateLineSeries(QLineSeries *series, QLegendData &legendDat
 
     QPointF previousRenderCoordinates;
 
+    Q_TRACE(QGraphs2DPointRendererUpdateLineSeries_entry);
     if (series->isVisible()) {
         auto &&points = series->points();
         group->rects.resize(points.size());
@@ -427,6 +450,7 @@ void PointRenderer::updateLineSeries(QLineSeries *series, QLegendData &legendDat
         hidePointDelegates(series);
     }
     group->shapePath->setPath(painterPath);
+    Q_TRACE(QGraphs2DPointRendererUpdateLineSeries_exit);
     legendData = { style.color, style.borderColor, series->name() };
 }
 #endif
@@ -457,6 +481,7 @@ void PointRenderer::updateSplineSeries(QSplineSeries *series, QLegendData &legen
         group->rects.resize(points.size());
         auto fittedPoints = series->getControlPoints();
 
+        Q_TRACE(QGraphs2DPointRendererUpdateSplineSeries_entry);
         for (int i = 0, j = 0; i < points.size(); ++i, ++j) {
             qreal x, y;
             calculateRenderCoordinates(m_graph->m_axisRenderer,
@@ -499,6 +524,7 @@ void PointRenderer::updateSplineSeries(QSplineSeries *series, QLegendData &legen
                 rect = QRectF(x - size / 2.0, y - size / 2.0, size, size);
             }
         }
+        Q_TRACE(QGraphs2DPointRendererUpdateSplineSeries_exit);
     } else {
         hidePointDelegates(series);
     }
@@ -691,6 +717,7 @@ void PointRenderer::handlePolish(QXYSeries *series)
 
 void PointRenderer::afterPolish(QList<QAbstractSeries *> &cleanupSeries)
 {
+    Q_TRACE_SCOPE(QGraphs2DPointRendererAfterPolish, static_cast<int>(cleanupSeries.count()));
     for (auto series : cleanupSeries) {
         auto xySeries = qobject_cast<QXYSeries *>(series);
         if (xySeries && m_groups.contains(xySeries)) {

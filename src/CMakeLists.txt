@@ -362,6 +362,7 @@ qt_configure_add_summary_entry(ARGS "graphs-3d")
 qt_configure_end_summary_section() # end of "Qt Graphs Support" section
 
 set(TRACE_SOURCES "")
+set(TRACE_SOURCES_2D "")
 
 add_subdirectory(common)
 
@@ -382,6 +383,7 @@ endif()
 qt_internal_generate_tracepoints(Graphs graphs
     SOURCES
         ${TRACE_SOURCES}
+        ${TRACE_SOURCES_2D}
 )
 
 qt_internal_add_docs(Graphs

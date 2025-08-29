@@ -6,7 +6,21 @@
 #include <private/qsplineseries_p.h>
 #include <private/qxypoint_p.h>
 
+#include <qtgraphs_tracepoints_p.h>
+
 QT_BEGIN_NAMESPACE
+
+Q_TRACE_PREFIX(qtgraphs,
+              "QT_BEGIN_NAMESPACE" \
+               "class QSplineSeries;" \
+              "QT_END_NAMESPACE"
+          )
+
+Q_TRACE_POINT(qtgraphs, QGraphs2DSplineSeriesCalculateControlPoints_entry, int pointCount);
+Q_TRACE_POINT(qtgraphs, QGraphs2DSplineSeriesCalculateControlPoints_exit);
+
+Q_TRACE_POINT(qtgraphs, QGraphs2DSplineSeriesCalculateSplinePoints_entry, int controlPointCount);
+Q_TRACE_POINT(qtgraphs, QGraphs2DSplineSeriesCalculateSplinePoints_exit);
 
 /*!
     \class QSplineSeries
@@ -188,6 +202,7 @@ void QSplineSeriesPrivate::calculateSplinePoints()
     controlPoints.resize(m_points.size() * 2 - 2);
 
     qsizetype n = m_points.size() - 1;
+    Q_TRACE_SCOPE(QGraphs2DSplineSeriesCalculateSplinePoints, n);
 
     if (n == 1) {
         //for n==1
@@ -254,6 +269,8 @@ QList<qreal> QSplineSeriesPrivate::calculateControlPoints(const QList<qreal> &li
     QList<qreal> result;
 
     qsizetype count = list.size();
+
+    Q_TRACE_SCOPE(QGraphs2DSplineSeriesCalculateControlPoints, count);
     result.resize(count);
     result[0] = list[0] / 2.0;
 

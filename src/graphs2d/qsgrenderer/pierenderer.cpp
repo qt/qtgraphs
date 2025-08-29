@@ -13,7 +13,21 @@
 #include <private/qquickshape_p.h>
 #include <private/qquicksvgparser_p.h>
 
+#include <qtgraphs_tracepoints_p.h>
+
 QT_BEGIN_NAMESPACE
+
+Q_TRACE_PREFIX(qtgraphs,
+              "QT_BEGIN_NAMESPACE" \
+               "class PieRenderer;" \
+              "QT_END_NAMESPACE"
+          )
+
+Q_TRACE_POINT(qtgraphs, QGraphs2DPieRendererAfterPolish_entry, int cleanupSeriesCount);
+Q_TRACE_POINT(qtgraphs, QGraphs2DPieRendererAfterPolish_exit);
+
+Q_TRACE_POINT(qtgraphs, QGraphs2DPieRendererHandlePolish_entry, int sliceCount);
+Q_TRACE_POINT(qtgraphs, QGraphs2DPieRendererHandlePolish_exit);
 
 PieRenderer::PieRenderer(QGraphsView *graph, bool clipPlotArea)
     : QQuickItem(graph)
@@ -106,6 +120,7 @@ void PieRenderer::handlePolish(QPieSeries *series)
     int sliceIndex = 0;
     QList<QLegendData> legendDataList;
     auto slicelist = series->slices();
+    Q_TRACE(QGraphs2DPieRendererHandlePolish_entry, static_cast<int>(slices.count()));
     for (QPieSlice *slice : std::as_const(slicelist)) {
         m_painterPath.clear();
 
@@ -222,12 +237,14 @@ void PieRenderer::handlePolish(QPieSeries *series)
         sliceIndex++;
         legendDataList.push_back({color, borderColor, d->m_labelText});
     }
+    Q_TRACE(QGraphs2DPieRendererAfterPolish_exit);
 
     series->d_func()->setLegendData(legendDataList);
 }
 
 void PieRenderer::afterPolish(QList<QAbstractSeries *> &cleanupSeries)
 {
+    Q_TRACE(QGraphs2DPieRendererAfterPolish_entry, static_cast<int>(cleanupSeries.count()));
     for (auto series : cleanupSeries) {
         auto pieSeries = qobject_cast<QPieSeries *>(series);
         if (pieSeries) {
@@ -247,6 +264,7 @@ void PieRenderer::afterPolish(QList<QAbstractSeries *> &cleanupSeries)
             }
         }
     }
+    Q_TRACE(QGraphs2DPieRendererAfterPolish_exit);
 }
 
 void PieRenderer::updateSeries(QPieSeries *series)
