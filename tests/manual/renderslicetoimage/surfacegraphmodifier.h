@@ -19,7 +19,7 @@ public:
     explicit SurfaceGraphModifier(Q3DSurfaceWidgetItem *surface, QObject *parent);
     ~SurfaceGraphModifier();
 
-    QImage *renderSliceToImage(QtGraphs3D::SliceCaptureType sliceType, int requestedIndex);
+    void renderSliceToImage(QtGraphs3D::SliceCaptureType sliceType, int requestedIndex);
 
 Q_SIGNALS:
     void updateSliceImage(const QImage &image);

@@ -89,17 +89,10 @@ void BarGraph::renderSliceToImage()
     if (!m_rowRadioButton->isChecked())
         sliceType = QtGraphs3D::SliceCaptureType::ColumnImage;
 
-    auto image = m_modifier->renderSliceToImage(sliceType, index);
-
-    m_timer->setSingleShot(true);
-    m_timer->setInterval(50);
-
-    connect(m_timer, &QTimer::timeout, this, [&, image]() {
-        if (image->isNull())
-            m_timer->start();
-        else
-            m_sliceResultLabel->setPixmap(QPixmap::fromImage(*image));
+    connect(m_modifier, &BarGraphModifier::sliceImageChanged, this, [this](const QImage &image) {
+        m_sliceResultLabel->setPixmap(QPixmap::fromImage(image));
     });
+    m_modifier->renderSliceToImage(sliceType, index);
 
     m_timer->start();
 }

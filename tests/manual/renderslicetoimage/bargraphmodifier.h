@@ -21,7 +21,10 @@ public:
     void resetTemperatureData();
     void changePresetCamera();
 
-    QImage *renderSliceToImage(QtGraphs3D::SliceCaptureType sliceType, int requestedIndex);
+    void renderSliceToImage(QtGraphs3D::SliceCaptureType sliceType, int requestedIndex);
+
+Q_SIGNALS:
+    void sliceImageChanged(const QImage &image);
 
 private:
     Q3DBarsWidgetItem *m_graph = nullptr;

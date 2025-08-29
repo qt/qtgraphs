@@ -52,10 +52,10 @@ SurfaceGraphModifier::SurfaceGraphModifier(Q3DSurfaceWidgetItem *surface, QObjec
             &SurfaceGraphModifier::updateSliceImage);
 }
 
-QImage *SurfaceGraphModifier::renderSliceToImage(QtGraphs3D::SliceCaptureType sliceType,
+void SurfaceGraphModifier::renderSliceToImage(QtGraphs3D::SliceCaptureType sliceType,
                                                  int requestedIndex)
 {
-    return m_graph->renderSliceToImage(-1, requestedIndex, sliceType);
+    m_graph->renderSliceToImage(-1, requestedIndex, sliceType);
 }
 
 SurfaceGraphModifier::~SurfaceGraphModifier() {}

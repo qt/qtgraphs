@@ -2932,9 +2932,9 @@ QQuickGraphsSurface::createOffscreenSliceView(int index, int requestedIndex,
     return sliceView;
 }
 
-QImage *QQuickGraphsSurface::renderSliceToImage(int index,
-                                                int requestedIndex,
-                                                QtGraphs3D::SliceCaptureType sliceType)
+void QQuickGraphsSurface::renderSliceToImage(int index,
+                                             int requestedIndex,
+                                             QtGraphs3D::SliceCaptureType sliceType)
 {
     QQuick3DViewport *sliceView = createOffscreenSliceView(index, requestedIndex, sliceType);
 
@@ -2950,8 +2950,6 @@ QImage *QQuickGraphsSurface::renderSliceToImage(int index,
             emit sliceImageChanged(*m_grabresult);
         });
     }
-
-    return m_grabresult;
 }
 
 void QQuickGraphsSurface::renderSliceToImage(int index, int requestedIndex,

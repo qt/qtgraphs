@@ -291,24 +291,16 @@ void Q3DSurfaceWidgetItem::releaseAxis(QValue3DAxis *axis)
  * \a index to -1.
  * The exported slice is a line of row or column, which is defined by \a sliceType,
  * at a given \a requestedIndex.
- * Returns a pointer to the grab result's image. Depending on the size of the image grabbing it
- * might take some milliseconds. \l sliceImageChanged signal is emitted when the image is
- * ready, or it can be captured with a timer as follows:
+ *
+ * The \l sliceImageChanged signal is emitted when the image is ready, and can
+ * be captured as follows:
  *
  * \code
- * auto image = m_modifier->renderSliceToImage(-1, sliceType, index);
- *
- * m_timer->setSingleShot(true);
- * m_timer->setInterval(50);
- *
- * connect(m_timer, &QTimer::timeout, this, [&, image]() {
- *     if (image->isNull())
- *         m_timer->start();
- *     else
- *         myGrabResultImage->setPixmap(QPixmap::fromImage(*image));
+ * connect(item, &Q3DSurfaceWidgetItem::sliceImageChanged, this, [](const QImage &image) {
+ *     // ~~~
  * });
  *
- * m_timer->start();
+ * item->renderSliceToImage(sliceType, index);
  * \endcode
  *
  * Image is rendered with the current antialiasing settings.
@@ -317,9 +309,9 @@ void Q3DSurfaceWidgetItem::releaseAxis(QValue3DAxis *axis)
  *
  * \since 6.10
  */
-QImage *Q3DSurfaceWidgetItem::renderSliceToImage(int index,
-                                                 int requestedIndex,
-                                                 QtGraphs3D::SliceCaptureType sliceType)
+void Q3DSurfaceWidgetItem::renderSliceToImage(int index,
+                                              int requestedIndex,
+                                              QtGraphs3D::SliceCaptureType sliceType)
 {
     auto graph = graphSurface();
     disconnect(graph,
@@ -330,7 +322,7 @@ QImage *Q3DSurfaceWidgetItem::renderSliceToImage(int index,
             &QQuickGraphsSurface::sliceImageChanged,
             this,
             &Q3DSurfaceWidgetItem::sliceImageChanged);
-    return graphSurface()->renderSliceToImage(index, requestedIndex, sliceType);
+    graphSurface()->renderSliceToImage(index, requestedIndex, sliceType);
 }
 
 /*!

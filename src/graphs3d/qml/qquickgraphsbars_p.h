@@ -154,7 +154,7 @@ public:
     bool isDataDirty() const { return m_isDataDirty; }
     void setDataDirty(bool dirty) { m_isDataDirty = dirty; }
 
-    QImage *renderSliceToImage(int requestedIndex, QtGraphs3D::SliceCaptureType sliceType);
+    void renderSliceToImage(int requestedIndex, QtGraphs3D::SliceCaptureType sliceType);
     Q_REVISION(6, 10)
     Q_INVOKABLE void renderSliceToImage(int requestedIndex, QtGraphs3D::SliceCaptureType sliceType,
                                         const QUrl &filePath);

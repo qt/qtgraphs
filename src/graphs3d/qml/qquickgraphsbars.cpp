@@ -892,8 +892,8 @@ QQuick3DViewport *QQuickGraphsBars::createOffscreenSliceView(int requestedIndex,
     return sliceView;
 }
 
-QImage *QQuickGraphsBars::renderSliceToImage(int requestedIndex,
-                                             QtGraphs3D::SliceCaptureType sliceType)
+void QQuickGraphsBars::renderSliceToImage(int requestedIndex,
+                                          QtGraphs3D::SliceCaptureType sliceType)
 {
     QQuick3DViewport *sliceView = createOffscreenSliceView(requestedIndex, sliceType);
 
@@ -909,8 +909,6 @@ QImage *QQuickGraphsBars::renderSliceToImage(int requestedIndex,
             emit sliceImageChanged(*m_grabresult);
         });
     }
-
-    return m_grabresult;
 }
 
 void QQuickGraphsBars::renderSliceToImage(int requestedIndex,
