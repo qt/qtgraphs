@@ -50,7 +50,9 @@ class Q_GRAPHS_EXPORT QAbstractAxis : public QObject
                       alignmentChanged REVISION(6, 9))
     Q_PROPERTY(Qt::TextElideMode textElideMode READ textElideMode WRITE setTextElideMode NOTIFY
                        textElideModeChanged REVISION(6, 10))
-
+    Q_PROPERTY(QColor color READ color WRITE setColor NOTIFY colorChanged REVISION(6, 11))
+    Q_PROPERTY(QColor subColor READ subColor WRITE setSubColor NOTIFY subColorChanged
+        REVISION(6, 11))
     QML_FOREIGN(QAbstractAxis)
     QML_UNCREATABLE("")
     QML_NAMED_ELEMENT(AbstractAxis)
@@ -112,6 +114,12 @@ public:
     Qt::TextElideMode textElideMode() const;
     void setTextElideMode(Qt::TextElideMode elideMode);
 
+    void setSubColor(QColor color);
+    QColor subColor() const;
+
+    void setColor(QColor color);
+    QColor color() const;
+
     //range handling
     void setMin(const QVariant &min);
     void setMax(const QVariant &max);
@@ -131,6 +139,8 @@ Q_SIGNALS:
     void titleFontChanged(const QFont &font);
     Q_REVISION(6, 9) void alignmentChanged(Qt::Alignment alignment);
     Q_REVISION(6, 10) void textElideModeChanged(Qt::TextElideMode elideMode);
+    Q_REVISION(6, 11) void subColorChanged(QColor color);
+    Q_REVISION(6, 11) void colorChanged(QColor color);
     void update();
     void rangeChanged(qreal min, qreal max);
 

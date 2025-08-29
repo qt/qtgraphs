@@ -842,8 +842,14 @@ void AxisRenderer::updateAxisTickers()
 
             // Note: Fix before enabling, see QTBUG-121207 and QTBUG-121211
             //if (theme()->themeDirty()) {
-            ax.ticker->setSubTickColor(theme()->axisY().subColor());
-            ax.ticker->setTickColor(theme()->axisY().mainColor());
+            if (ax.axis->subColor().isValid())
+                ax.ticker->setSubTickColor(ax.axis->subColor());
+            else
+                ax.ticker->setSubTickColor(theme()->axisY().subColor());
+            if (ax.axis->color().isValid())
+                ax.ticker->setTickColor(ax.axis->color());
+            else
+                ax.ticker->setTickColor(theme()->axisY().mainColor());
             ax.ticker->setTickLineWidth(theme()->axisY().mainWidth());
             ax.ticker->setSubTickLineWidth(theme()->axisY().subWidth());
             ax.ticker->setSmoothing(m_graph->axisYSmoothing());
@@ -866,7 +872,10 @@ void AxisRenderer::updateAxisTickers()
                 ax.ticker->setSubTickScale(ax.subGridScale);
                 ax.ticker->setVisible(ax.axis->isVisible());
                 // Axis line
-                ax.line->setColor(theme()->axisY().mainColor());
+                if (ax.axis->color().isValid())
+                    ax.line->setColor(ax.axis->color());
+                else
+                    ax.line->setColor(theme()->axisY().mainColor());
                 ax.line->setLineWidth(theme()->axisY().mainWidth());
                 ax.line->setSmoothing(m_graph->axisYSmoothing());
 
@@ -898,8 +907,14 @@ void AxisRenderer::updateAxisTickers()
                 xAxisRect = m_graph->m_x1AxisTickersArea;
 
             //if (theme()->themeDirty()) {
-            ax.ticker->setSubTickColor(theme()->axisX().subColor());
-            ax.ticker->setTickColor(theme()->axisX().mainColor());
+            if (ax.axis->subColor().isValid())
+                ax.ticker->setSubTickColor(ax.axis->subColor());
+            else
+                ax.ticker->setSubTickColor(theme()->axisX().subColor());
+            if (ax.axis->color().isValid())
+                ax.ticker->setTickColor(ax.axis->color());
+            else
+                ax.ticker->setTickColor(theme()->axisX().mainColor());
             ax.ticker->setTickLineWidth(theme()->axisX().mainWidth());
             ax.ticker->setSubTickLineWidth(theme()->axisX().subWidth());
             ax.ticker->setSmoothing(m_graph->axisXSmoothing());
@@ -922,7 +937,10 @@ void AxisRenderer::updateAxisTickers()
             ax.ticker->setSubTickScale(ax.subGridScale);
             ax.ticker->setVisible(ax.axis->isVisible());
             // Axis line
-            ax.line->setColor(theme()->axisX().mainColor());
+            if (ax.axis->color().isValid())
+                ax.line->setColor(ax.axis->color());
+            else
+                ax.line->setColor(theme()->axisX().mainColor());
             ax.line->setLineWidth(theme()->axisX().mainWidth());
             ax.line->setSmoothing(m_graph->axisXSmoothing());
             ax.line->setX(ax.ticker->x());

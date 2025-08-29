@@ -45,6 +45,8 @@ Item {
         titleVisible: false
         visible: false
         alignment: Qt.AlignLeft
+        color: "#00ff00"
+        subColor: "#0000ff"
     }
 
     TestCase {
@@ -85,6 +87,8 @@ Item {
             compare(initial.lineVisible, true)
             compare(initial.subGridVisible, true)
             compare(initial.titleColor, "#000000")
+            compare(initial.color, "#000000")
+            compare(initial.subColor, "#000000")
             // Initial font needs to be tested like this, as different platforms have different default font (QFont())
             compare(initial.titleFont.family, dummy.font.family)
             compare(initial.titleText, "")
@@ -117,6 +121,8 @@ Item {
             initial.titleVisible = false
             initial.visible = false
             initial.alignment = Qt.AlignTop
+            initial.color = "#ffffff"
+            initial.subColor = "#ffffff"
 
             // Properties from ValueAxis
             compare(initial.labelDecimals, 1)
@@ -139,6 +145,8 @@ Item {
             compare(initial.titleVisible, false)
             compare(initial.visible, false)
             compare(initial.alignment, Qt.AlignTop)
+            compare(initial.color, "#ffffff")
+            compare(initial.subColor, "#ffffff")
         }
     }
 
@@ -168,6 +176,8 @@ Item {
             compare(initialized.titleVisible, false)
             compare(initialized.visible, false)
             compare(initialized.alignment, Qt.AlignLeft)
+            compare(initialized.color, "#00ff00")
+            compare(initialized.subColor, "#0000ff")
         }
 
         function test_2_initialized_change() {
@@ -193,6 +203,8 @@ Item {
             initialized.titleVisible = true
             initialized.visible = true
             initialized.alignment = Qt.AlignRight
+            initialized.color = "#ffffff"
+            initialized.subColor = "#ffffff"
 
             // Properties from ValueAxis
             compare(initialized.labelDecimals, 1)
@@ -219,6 +231,8 @@ Item {
             compare(initialized.titleVisible, true)
             compare(initialized.visible, true)
             compare(initialized.alignment, Qt.AlignRight)
+            compare(initialized.color, "#ffffff")
+            compare(initialized.subColor, "#ffffff")
 
             // Signals
             compare(minSpy.count, 1)
@@ -242,6 +256,8 @@ Item {
             compare(titleVisibleSpy.count, 1)
             compare(titleFontSpy.count, 2)
             compare(alignmentSpy.count, 1)
+            compare(colorSpy.count, 1)
+            compare(subColorSpy.count, 1)
         }
 
         function test_3_initialized_change_to_invalid() {
@@ -367,6 +383,18 @@ Item {
             id: alignmentSpy
             target: initialized
             signalName: "alignmentChanged"
+        }
+
+        SignalSpy {
+            id: colorSpy
+            target: initialized
+            signalName: "colorChanged"
+        }
+
+        SignalSpy {
+            id: subColorSpy
+            target: initialized
+            signalName: "subColorChanged"
         }
     }
 }

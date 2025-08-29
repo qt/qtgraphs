@@ -196,6 +196,30 @@ QT_BEGIN_NAMESPACE
 */
 
 /*!
+    \property QAbstractAxis::color
+    \brief The color used to draw the main ticks and the axis line.
+
+    It overrides the theme color even if the theme changes.
+*/
+/*!
+    \qmlproperty color AbstractAxis::color
+    The color used to draw the main ticks and the axis line.
+    It overrides the theme color even if the theme changes.
+*/
+
+/*!
+    \property QAbstractAxis::subColor
+    \brief The color used to draw the sub ticks.
+
+    It overrides the theme color even if the theme changes.
+*/
+/*!
+    \qmlproperty color AbstractAxis::subColor
+    The color used to draw the sub ticks.
+    It overrides the theme color even if the theme changes.
+*/
+
+/*!
     \fn void QAbstractAxis::update()
     This signal is emitted when the axis needs to be updated.
 */
@@ -261,6 +285,17 @@ QT_BEGIN_NAMESPACE
     \qmlsignal AbstractAxis::textElideModeChanged(enumeration elideMode)
     This signal is emitted when the \l textElideMode changes. \a elideMode is the
     new value of the \l Qt::TextElideMode type.
+*/
+
+/*!
+    \qmlsignal AbstractAxis::colorChanged(color color)
+    This signal is emitted when the color used to draw the axis main ticks and line changes to
+    \a color.
+*/
+
+/*!
+    \qmlsignal AbstractAxis::subColorChanged(color color)
+    This signal is emitted when the color used to draw the axis sub ticks changes to \a color.
 */
 
 /*!
@@ -612,6 +647,48 @@ void QAbstractAxis::setTextElideMode(Qt::TextElideMode elide)
 
     d->m_textElide = elide;
     Q_EMIT textElideModeChanged(d->m_textElide);
+}
+
+void QAbstractAxis::setSubColor(QColor color)
+{
+    Q_D(QAbstractAxis);
+    if (!color.isValid())
+        qCWarning(lcAxis2D) << "QAbstractAxis::setSubColor. Tried to use invalid color.";
+
+    if (d->m_subColor != color) {
+        d->m_subColor = color;
+        emit update();
+        emit subColorChanged(color);
+    } else {
+        qCDebug(lcAxis2D) << "QAbstractAxis::setSubColor. Color is already set to:" << color;
+    }
+}
+
+QColor QAbstractAxis::subColor() const
+{
+    Q_D(const QAbstractAxis);
+    return d->m_subColor;
+}
+
+void QAbstractAxis::setColor(QColor color)
+{
+    Q_D(QAbstractAxis);
+    if (!color.isValid())
+        qCWarning(lcAxis2D) << "QAbstractAxis::setColor. Tried to use invalid color.";
+
+    if (d->m_color != color) {
+        d->m_color = color;
+        emit update();
+        emit colorChanged(color);
+    } else {
+        qCDebug(lcAxis2D) << "QAbstractAxis::setColor. Color is already set to:" << color;
+    }
+}
+
+QColor QAbstractAxis::color() const
+{
+    Q_D(const QAbstractAxis);
+    return d->m_color;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

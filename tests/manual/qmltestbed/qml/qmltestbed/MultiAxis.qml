@@ -80,6 +80,24 @@ Rectangle {
                     chartView.orientation = Qt.Vertical
             }
         }
+        Button {
+            text: "Set axis custom colors and sub colors"
+            onClicked: {
+                yAxis.subColor = "red"
+                xAxis.color = "salmon"
+                xAxis2.subColor = "blue"
+                yAxis2.color = "orange"
+            }
+        }
+        Button {
+            text: "Reset axis theme colors and sub colors"
+            onClicked: {
+                yAxis.subColor = null
+                xAxis.color = null
+                xAxis2.subColor = null
+                yAxis2.color = null
+            }
+        }
     }
 
     GraphsView {
@@ -97,6 +115,7 @@ Rectangle {
         axisY: ValueAxis {
             id: yAxis
             max: 8
+            subTickCount: 4
         }
 
         onHoverEnter: {
@@ -130,6 +149,7 @@ Rectangle {
             axisX: ValueAxis {
                 id: xAxis2
                 max: 8
+                subTickCount: 2
             }
 
             XYPoint { x: 0; y: 6.6 }
@@ -180,6 +200,7 @@ Rectangle {
             name: "Batman"
             hoverable: true
             axisY: ValueAxis {
+                id: yAxis2
                 max: 10
                 alignment: Qt.AlignRight
             }
