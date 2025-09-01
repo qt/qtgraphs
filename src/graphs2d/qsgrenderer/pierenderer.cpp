@@ -13,6 +13,8 @@
 #include <private/qquickshape_p.h>
 #include <private/qquicksvgparser_p.h>
 
+QT_BEGIN_NAMESPACE
+
 PieRenderer::PieRenderer(QGraphsView *graph, bool clipPlotArea)
     : QQuickItem(graph)
     , m_graph(graph)
@@ -406,3 +408,5 @@ void PieRenderer::onPressedChanged()
         }
     }
 }
+
+QT_END_NAMESPACE
