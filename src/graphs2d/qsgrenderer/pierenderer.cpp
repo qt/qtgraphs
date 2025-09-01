@@ -12,6 +12,8 @@
 #include <private/qquickshape_p.h>
 #include <private/qquicksvgparser_p.h>
 
+QT_BEGIN_NAMESPACE
+
 PieRenderer::PieRenderer(QGraphsView *graph)
     : QQuickItem(graph)
     , m_graph(graph)
@@ -268,3 +270,5 @@ void PieRenderer::markedDeleted(QList<QPieSlice *> deleted)
         m_activeSlices.remove(slice);
     }
 }
+
+QT_END_NAMESPACE
