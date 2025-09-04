@@ -1354,11 +1354,15 @@ void QGraphsView::updatePlotArea()
     \brief X-axis of this view.
 
     The x-axis used for the series inside this view.
+
+    \note Setting the same axis to multiple QGraphsViews is not supported.
 */
 /*!
     \qmlproperty AbstractAxis GraphsView::axisX
     The x-axis used for the series inside this view.
     \sa axisY
+
+    \note Setting the same axis to multiple GraphsViews is not supported.
 */
 
 QAbstractAxis *QGraphsView::axisX() const
@@ -1392,11 +1396,15 @@ void QGraphsView::setAxisX(QAbstractAxis *axis)
     \brief Y-axis of this view.
 
     The y-axis used for the series inside this view.
+
+    \note Setting the same axis to multiple QGraphsViews is not supported.
 */
 /*!
     \qmlproperty AbstractAxis GraphsView::axisY
     The y-axis used for the series inside this view.
     \sa axisX
+
+    \note Setting the same axis to multiple GraphsViews is not supported.
 */
 
 QAbstractAxis *QGraphsView::axisY() const
