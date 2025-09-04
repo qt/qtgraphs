@@ -48,7 +48,21 @@ Item {
     }
 
     TestCase {
-        name: "ValueAxis Initial"
+        name: "ValueAxis with GraphsView"
+
+        GraphsView {id: graphsView1}
+        GraphsView {id: graphsView2}
+        ValueAxis {id: axis1}
+
+        function test_1_add_to_multiple() {
+            ignoreWarning(/.*axis already associated with.*/)
+            graphsView1.axisX = axis1
+            graphsView2.axisX = axis1
+        }
+    }
+
+    TestCase {
+        name: "valueaxis initial"
 
         Text { id: dummy }
 
