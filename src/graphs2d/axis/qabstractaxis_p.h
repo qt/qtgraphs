@@ -32,7 +32,7 @@ public:
     ~QAbstractAxisPrivate() override;
 
 public:
-    void setGraph(QGraphsView *graph) { m_graph = graph; }
+    void setGraph(QGraphsView *graph);
 
     //interface for manipulating range form base class
     virtual void setMin(const QVariant &min) = 0;
