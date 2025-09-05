@@ -13,7 +13,6 @@
 #include "qgraphs3dlogging_p.h"
 
 #include <QColor>
-#include <QtCore/QMutexLocker>
 #include <QtQuick3D/private/qquick3dcustommaterial_p.h>
 #include <QtQuick3D/private/qquick3dprincipledmaterial_p.h>
 #include <QtQuick3D/private/qquick3drepeater_p.h>
@@ -313,8 +312,6 @@ QQuickGraphsBars::QQuickGraphsBars(QQuickItem *parent)
 
 QQuickGraphsBars::~QQuickGraphsBars()
 {
-    QMutexLocker locker(m_nodeMutex.data());
-    const QMutexLocker locker2(mutex());
     removeBarModels();
     removeSlicedBarModels();
     if (m_grabresult)
