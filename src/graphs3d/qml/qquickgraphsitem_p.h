@@ -405,8 +405,6 @@ public:
     void setMargin(qreal margin);
     qreal margin() const;
 
-    QMutex *mutex() { return &m_mutex; }
-
     bool isReady() { return isComponentComplete(); }
     QQuick3DNode *rootNode() const;
 
@@ -775,8 +773,6 @@ protected:
                        QAbstract3DAxis **axisPtr);
     virtual void startRecordingRemovesAndInserts();
 
-    QSharedPointer<QMutex> m_nodeMutex;
-
     QMap<QCustom3DVolume *, Volume> m_customVolumes;
 
     Q3DScene *m_scene = nullptr;
@@ -807,7 +803,6 @@ protected:
     qsizetype m_selectedCustomItemIndex = -1;
     qreal m_margin = -1.0;
 
-    QMutex m_renderMutex;
     QQuickGraphsItem *m_qml = nullptr;
 
 private:
@@ -870,7 +865,6 @@ private:
     int m_windowSamples = 0;
     QSize m_initialisedSize = QSize(0, 0);
     bool m_runningInDesigner;
-    QMutex m_mutex;
 
     bool m_xFlipped = false;
     bool m_yFlipped = false;

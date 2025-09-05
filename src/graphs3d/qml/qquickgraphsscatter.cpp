@@ -10,7 +10,6 @@
 #include "qvalue3daxis_p.h"
 
 #include <QColor>
-#include <QtCore/QMutexLocker>
 #include <QtQuick3D/private/qquick3dcustommaterial_p.h>
 #include <QtQuick3D/private/qquick3ddirectionallight_p.h>
 #include <QtQuick3D/private/qquick3dmodel_p.h>
@@ -147,9 +146,6 @@ QQuickGraphsScatter::QQuickGraphsScatter(QQuickItem *parent)
 
 QQuickGraphsScatter::~QQuickGraphsScatter()
 {
-    QMutexLocker locker(m_nodeMutex.data());
-    const QMutexLocker locker2(mutex());
-
     for (auto &graphModel : m_scatterGraphs) {
         delete graphModel;
     }

@@ -786,8 +786,6 @@ QQuickGraphsItem::QQuickGraphsItem(QQuickItem *parent)
             this,
             &QQuickGraphsItem::handleSecondarySubViewportChanged);
 
-    m_nodeMutex = QSharedPointer<QMutex>::create();
-
     QQuick3DSceneEnvironment *scene = environment();
     scene->setBackgroundMode(QQuick3DSceneEnvironment::QQuick3DEnvironmentBackgroundTypes::Color);
     scene->setClearColor(Qt::transparent);
@@ -831,12 +829,6 @@ QQuickGraphsItem::~QQuickGraphsItem()
     delete m_gridGeometryModel;
     delete m_subgridGeometryModel;
     delete m_sliceGridGeometryModel;
-
-    // Make sure not deleting locked mutex
-    QMutexLocker locker(&m_mutex);
-    locker.unlock();
-
-    m_nodeMutex.clear();
 }
 
 void QQuickGraphsItem::handleAxisTitleChanged(const QString &title)
@@ -5379,7 +5371,6 @@ void QQuickGraphsItem::itemChange(ItemChange change, const ItemChangeData &value
 
 void QQuickGraphsItem::updateWindowParameters()
 {
-    const QMutexLocker locker(&m_mutex);
     // Update the device pixel ratio, window size and bounding box
     QQuickWindow *win = window();
     if (win) {

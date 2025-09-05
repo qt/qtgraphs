@@ -1,7 +1,6 @@
 // Copyright (C) 2023 The Qt Company Ltd.
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 
-#include <QtCore/QMutexLocker>
 #include "private/qquick3drepeater_p.h"
 #include "q3dscene.h"
 #include "qquickgraphssurface_p.h"
@@ -161,8 +160,6 @@ QQuickGraphsSurface::QQuickGraphsSurface(QQuickItem *parent)
 
 QQuickGraphsSurface::~QQuickGraphsSurface()
 {
-    QMutexLocker locker(m_nodeMutex.data());
-    const QMutexLocker locker2(mutex());
     for (const auto &model : std::as_const(m_model))
         delete model;
 }
