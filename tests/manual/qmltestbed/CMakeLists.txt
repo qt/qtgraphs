@@ -58,6 +58,7 @@ set(qmltestbed_resource_files
     "qml/qmltestbed/PieModelMapping.qml"
     "qml/qmltestbed/CustomInput.qml"
     "qml/qmltestbed/MultiAxis.qml"
+    "qml/qmltestbed/Custom.qml"
     "qml/qmltestbed/images/arrow_icon.png"
     "qml/qmltestbed/images/icon_settings.png"
     "qml/qmltestbed/images/happy_box.png"
@@ -86,6 +87,7 @@ qt_add_qml_module(tst_qmltestbed
     SOURCES
         custombarseries.h custombarseries.cpp
         customlineseries.h customlineseries.cpp
+        candlestick.h candlestick.cpp
         barsetgenerator.h barsetgenerator.cpp
         barmodelmappermodel.h barmodelmappermodel.cpp
         piemodelmappermodel.h piemodelmappermodel.cpp

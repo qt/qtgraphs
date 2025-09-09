@@ -36,6 +36,11 @@ qt_feature("graphs-2d-spline" PUBLIC
     PURPOSE "Support for Spline graph"
 )
 
+qt_feature("graphs-2d-custom" PUBLIC
+    LABEL "Custom"
+    PURPOSE "Support for Custom graph"
+)
+
 qt_feature("graphs-3d" PUBLIC
     LABEL "3D Graphs"
     PURPOSE "Support for 3D graphs"

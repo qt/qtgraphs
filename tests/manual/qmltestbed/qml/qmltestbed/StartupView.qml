@@ -120,6 +120,10 @@ Item {
             name: "Custom Input"
             file: "CustomInput.qml"
         }
+        ListElement {
+            name: "Custom Series"
+            file: "Custom.qml"
+        }
     }
 
     Component {

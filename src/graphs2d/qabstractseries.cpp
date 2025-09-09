@@ -95,6 +95,7 @@ QT_BEGIN_NAMESPACE
     \value Pie A pie graph.
     \value Spline A spline graph.
     \value Area An area graph.
+    \value Custom A custom graph.
 */
 
 /*!
@@ -112,6 +113,7 @@ QT_BEGIN_NAMESPACE
     \value AbstractSeries.SeriesType.Pie A pie graph.
     \value AbstractSeries.SeriesType.Spline A spline graph.
     \value AbstractSeries.SeriesType.Area An area graph.
+    \value AbstractSeries.SeriesType.Custom A custom graph.
 */
 
 /*!
@@ -630,6 +632,11 @@ void QAbstractSeries::setGraph(QGraphsView *graph)
         case SeriesType::Area:
 #ifdef USE_AREAGRAPH
             graph->createAreaRenderer();
+#endif
+            break;
+        case SeriesType::Custom:
+#ifdef USE_CUSTOMGRAPH
+            graph->createCustomRenderer();
 #endif
             break;
         default:

@@ -35,7 +35,9 @@ class BarsRenderer;
 class PointRenderer;
 class PieRenderer;
 class AreaRenderer;
+class CustomRenderer;
 class QQuickPinchHandler;
+class QCustomSeries;
 
 class Q_GRAPHS_EXPORT QGraphsView : public QQuickItem
 {
@@ -142,6 +144,9 @@ public:
 #ifdef USE_AREAGRAPH
     void createAreaRenderer();
 #endif
+#ifdef USE_CUSTOMGRAPH
+    void createCustomRenderer();
+#endif
 
     qreal axisXSmoothing() const;
     void setAxisXSmoothing(qreal smoothing);
@@ -194,6 +199,9 @@ public:
     void setZoomSensitivity(qreal newZoomSensitivity);
 
     void calculateAxisCounts(int *xCount, int *yCount, int *leftCount, int *topCount);
+
+    qreal mapX(QCustomSeries *series, qreal x);
+    qreal mapY(QCustomSeries *series, qreal y);
 
 protected:
     void handleHoverEnter(const QString &seriesName, QPointF position, QPointF value);
@@ -248,6 +256,7 @@ private:
     friend class BarsRenderer;
     friend class PointRenderer;
     friend class AreaRenderer;
+    friend class CustomRenderer;
     friend class QAbstractAxis;
 
     void polishAndUpdate();
@@ -267,6 +276,7 @@ private:
     PointRenderer *m_pointRenderer = nullptr;
     PieRenderer *m_pieRenderer = nullptr;
     AreaRenderer *m_areaRenderer = nullptr;
+    CustomRenderer *m_customRenderer = nullptr;
     QList<QObject *> m_seriesList;
     QHash<int, QList<QAbstractSeries *>> m_cleanupSeriesList;
     QQuickRectangle *m_backgroundRectangle = nullptr;

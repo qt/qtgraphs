@@ -27,6 +27,10 @@
 #ifdef USE_POINTS
 #include <private/pointrenderer_p.h>
 #endif
+#ifdef USE_CUSTOMGRAPH
+#include <QtGraphs/qcustomseries.h>
+#include <private/customrenderer_p.h>
+#endif
 #include <QTimer>
 #include <QtQuick/private/qquickpinchhandler_p.h>
 #include <QtQuick/private/qquickrectangle_p.h>
@@ -374,6 +378,17 @@ void QGraphsView::createAreaRenderer()
 }
 #endif
 
+#ifdef USE_CUSTOMGRAPH
+void QGraphsView::createCustomRenderer()
+{
+    if (!m_customRenderer) {
+        qCDebug(lcGraphs2D, "creating custom renderer.");
+        m_customRenderer = new CustomRenderer(this, clipPlotArea());
+        updateComponentSizes();
+    }
+}
+#endif
+
 /*!
     \property QGraphsView::axisXSmoothing
     \brief Controls the graph X axis smoothing (antialiasing) amount.
@@ -693,6 +708,15 @@ void QGraphsView::updateComponentSizes()
 
     }
 #endif
+#ifdef USE_CUSTOMGRAPH
+    if (m_customRenderer) {
+        m_customRenderer->setX(m_plotArea.x());
+        m_customRenderer->setY(m_plotArea.y());
+        m_customRenderer->setSize(m_plotArea.size());
+        qCDebug(lcEvents2D) << "custom graph size:" << m_plotArea.size();
+        qCDebug(lcEvents2D, "customaRenderer plotArea x: %f y: %f", m_plotArea.x(), m_plotArea.y());
+    }
+#endif
 }
 
 void QGraphsView::componentComplete()
@@ -848,6 +872,13 @@ QSGNode *QGraphsView::updatePaintNode(QSGNode *oldNode, QQuickItem::UpdatePaintN
                 m_areaRenderer->updateSeries(areaSeries);
         }
 #endif
+
+#ifdef USE_CUSTOMGRAPH
+        if (m_customRenderer) {
+            if (auto customSeries = qobject_cast<QCustomSeries *>(series))
+                m_customRenderer->updateSeries(customSeries);
+        }
+#endif
     }
 
 #ifdef USE_BARGRAPH
@@ -877,6 +908,14 @@ QSGNode *QGraphsView::updatePaintNode(QSGNode *oldNode, QQuickItem::UpdatePaintN
     if (m_pieRenderer) {
         auto &cleanupSeriesList = m_cleanupSeriesList[3];
         m_pieRenderer->afterUpdate(cleanupSeriesList);
+        cleanupSeriesList.clear();
+    }
+#endif
+
+#ifdef USE_CUSTOMGRAPH
+    if (m_customRenderer) {
+        auto &cleanupSeriesList = m_cleanupSeriesList[4];
+        m_customRenderer->afterUpdate(cleanupSeriesList);
         cleanupSeriesList.clear();
     }
 #endif
@@ -937,6 +976,7 @@ void QGraphsView::updatePolish()
     float highestPointZ = -std::numeric_limits<float>::max();
     float highestPieZ = -std::numeric_limits<float>::max();
     float highestAreaZ = -std::numeric_limits<float>::max();
+    float highestCustomZ = -std::numeric_limits<float>::max();
 
     // Polish for all series
 #ifdef USE_BARGRAPH
@@ -1004,6 +1044,16 @@ void QGraphsView::updatePolish()
             }
         }
 #endif
+
+#ifdef USE_CUSTOMGRAPH
+        if (m_customRenderer) {
+            if (auto customSeries = qobject_cast<QCustomSeries *>(series)) {
+                m_customRenderer->handlePolish(customSeries);
+                if (customSeries->zValue() > highestCustomZ)
+                    highestCustomZ = customSeries->zValue();
+            }
+        }
+#endif
     }
 
 #ifdef USE_BARGRAPH
@@ -1036,6 +1086,14 @@ void QGraphsView::updatePolish()
         m_pieRenderer->afterPolish(cleanupSeriesList);
         if (highestPieZ > -std::numeric_limits<float>::max())
             m_pieRenderer->setZ(highestPieZ);
+    }
+#endif
+#ifdef USE_CUSTOMGRAPH
+    if (m_customRenderer) {
+        auto &cleanupSeriesList = m_cleanupSeriesList[4];
+        m_customRenderer->afterPolish(cleanupSeriesList);
+        if (highestCustomZ > -std::numeric_limits<float>::max())
+            m_customRenderer->setZ(highestCustomZ);
     }
 #endif
 }
@@ -1263,6 +1321,10 @@ void QGraphsView::setClipPlotArea(bool enabled)
 #ifdef USE_BARGRAPH
     if (m_barsRenderer)
         m_barsRenderer->setClip(m_clipPlotArea);
+#endif
+#ifdef USE_CUSTOMGRAPH
+    if (m_customRenderer)
+        m_customRenderer->setClip(m_clipPlotArea);
 #endif
 }
 
@@ -1521,6 +1583,20 @@ void QGraphsView::setOrientation(Qt::Orientation newOrientation)
     polishAndUpdate();
 }
 
+/*
+    mapX and mapY functions are used to map custom series data values
+    to the real pixel values of the GraphsView
+*/
+qreal QGraphsView::mapX(QCustomSeries *series, qreal x)
+{
+    return m_customRenderer->mapX(m_axisRenderer, series, x);
+}
+
+qreal QGraphsView::mapY(QCustomSeries *series, qreal y)
+{
+    return m_customRenderer->mapY(m_axisRenderer, series, y);
+}
+
 /*!
     \enum QGraphsView::ZoomStyle
     This enum value describes the zoom style of the graph:
@@ -1767,6 +1843,9 @@ int QGraphsView::getSeriesRendererIndex(QAbstractSeries *series)
             break;
         case QAbstractSeries::SeriesType::Pie:
             index = 3;
+            break;
+        case QAbstractSeries::SeriesType::Custom:
+            index = 4;
             break;
         }
     }

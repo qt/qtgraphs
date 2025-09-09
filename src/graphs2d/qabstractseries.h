@@ -55,14 +55,7 @@ class Q_GRAPHS_EXPORT QAbstractSeries : public QObject, public QQmlParserStatus
     QML_ANONYMOUS
 
 public:
-    enum class SeriesType {
-        Line,
-        Area,
-        Bar,
-        Pie,
-        Scatter,
-        Spline,
-    };
+    enum class SeriesType { Line, Area, Bar, Pie, Scatter, Spline, Custom };
     Q_ENUM(SeriesType)
 
 protected:

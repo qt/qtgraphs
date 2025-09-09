@@ -21,7 +21,6 @@ public:
     ~QScatterSeries() override;
     QAbstractSeries::SeriesType type() const override;
 
-
 protected:
     QScatterSeries(QScatterSeriesPrivate &dd, QObject *parent = nullptr);
 

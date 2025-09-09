@@ -8,9 +8,10 @@ qt_configure_add_summary_entry(ARGS "graphs-2d-donut-pie") # These are tightly w
 qt_configure_add_summary_entry(ARGS "graphs-2d-line")
 qt_configure_add_summary_entry(ARGS "graphs-2d-scatter")
 qt_configure_add_summary_entry(ARGS "graphs-2d-spline")
+qt_configure_add_summary_entry(ARGS "graphs-2d-custom")
 qt_configure_end_summary_section() # end of "Qt Graphs 2D" section
 
-if(NOT QT_FEATURE_graphs_2d_area AND NOT QT_FEATURE_graphs_2d_bar AND NOT QT_FEATURE_graphs_2d_donut_pie AND NOT QT_FEATURE_graphs_2d_line AND NOT QT_FEATURE_graphs_2d_scatter AND NOT QT_FEATURE_graphs_2d_spline)
+if(NOT QT_FEATURE_graphs_2d_area AND NOT QT_FEATURE_graphs_2d_bar AND NOT QT_FEATURE_graphs_2d_donut_pie AND NOT QT_FEATURE_graphs_2d_line AND NOT QT_FEATURE_graphs_2d_scatter AND NOT QT_FEATURE_graphs_2d_spline AND NOT QT_FEATURE_graphs_2d_custom)
     message("You must have one of the 2D features ON, or nothing will be built.")
 else()
     qt_internal_extend_target(Graphs
@@ -98,6 +99,15 @@ else()
             animation/qsplinecontrolanimation.cpp animation/qsplinecontrolanimation_p.h
         DEFINES
             USE_SPLINEGRAPH
+    )
+    qt_internal_extend_target(Graphs CONDITION QT_FEATURE_graphs_2d_custom
+        SOURCES
+            customchart/qcustomseries.cpp customchart/qcustomseries.h customchart/qcustomseries_p.h
+            customchart/qcustomseriesdata.cpp customchart/qcustomseriesdata_p.h
+
+            qsgrenderer/customrenderer.cpp qsgrenderer/customrenderer_p.h
+        DEFINES
+            USE_CUSTOMGRAPH
     )
 
     set(LOCAL_TRACE_SOURCE_2D

@@ -62,6 +62,7 @@ private:
     friend class LinesRenderer;
     friend class PointRenderer;
     friend class AreaRenderer;
+    friend class CustomRenderer;
 
     struct AxisProperties {
         qreal x = 0;
