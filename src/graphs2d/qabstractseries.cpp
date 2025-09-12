@@ -717,4 +717,3 @@ void QAbstractSeriesPrivate::appendSeriesChildren(QQmlListProperty<QObject> *lis
 QT_END_NAMESPACE
 
 #include "moc_qabstractseries.cpp"
-#include "moc_qabstractseries_p.cpp"
