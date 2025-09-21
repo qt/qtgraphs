@@ -387,13 +387,10 @@ QT_BEGIN_NAMESPACE
 */
 
 /*!
-    \qmlmethod BarSet BarSeries::insert(int index, string label, VariantList values)
-    Adds a new bar set with \a label and \a values to \a index. \a values can be a list
-    of real values or a list of XYPoint types.
-
-    If the index value is equal to or less than zero, the new bar set is prepended to the bar
-    series. If the index value is equal to or greater than the number of bar sets in the bar
-    series, the new bar set is appended to the bar series.
+    \qmlmethod BarSet BarSeries::insert(int index, BarSet barset)
+    Inserts a bar set specified by \a barset to a series at the position specified by \a index.
+    If the set is \c null or already belongs to the series, the set is not
+    appended. Returns \c true if inserting succeeds.
 
     \sa append()
 */
