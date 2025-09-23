@@ -242,12 +242,12 @@ void QCustom3DItem::setMeshFile(const QString &meshFile)
 
     if (!validfile.exists() || !validfile.isFile()) {
         qCWarning(lcProperties3D, "%s mesh file %s does not exist",
-                qUtf8Printable(QLatin1String(__FUNCTION__)), qUtf8Printable(meshFile));
+                qUtf8Printable(QLatin1String(__func__)), qUtf8Printable(meshFile));
         return;
     }
     if (d->m_meshFile == meshFile) {
         qCDebug(lcProperties3D, "%s value is already set to: %s",
-                qUtf8Printable(QLatin1String(__FUNCTION__)), qUtf8Printable(meshFile));
+                qUtf8Printable(QLatin1String(__func__)), qUtf8Printable(meshFile));
         return;
     }
 
