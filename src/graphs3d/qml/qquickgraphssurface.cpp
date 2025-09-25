@@ -1541,7 +1541,15 @@ void QQuickGraphsSurface::updateModel(SurfaceModel *model)
             const QSurfaceDataRow &row = array.at(i);
             for (int j = columnStart; j < columnLimit; j++) {
                 QVector3D pos = getNormalizedVertex(row.at(j), isPolar(), false);
-                model->heights.push_back(QVector4D(pos, .0f));
+
+                float alpha = 1.0f;
+                for (int axis = 0; axis < 3; axis++) {
+                    if (qIsNaN(pos[axis])) {
+                        pos[axis] = 0;
+                        alpha = .0f;
+                    }
+                }
+                model->heights.push_back(QVector4D(pos, alpha));
                 SurfaceVertex vertex;
                 vertex.position = pos;
                 vertex.uv = QVector2D(j * uvX, i * uvY);
@@ -1587,6 +1595,11 @@ void QQuickGraphsSurface::updateModel(SurfaceModel *model)
                 for (int j = 0; j < columnCount; j++) {
                     SurfaceVertex vertex;
                     QVector3D pos = getNormalizedVertex(row.at(j), isPolar(), false);
+
+                    for (int axis = 0; axis < 3; axis++) {
+                        if (qIsNaN(pos[axis]))
+                            pos[axis] = 0;
+                    }
                     vertex.position = pos;
                     float uStep = model->ascendingX ? j * uvX : 1 - (j * uvX);
                     float vStep = model->ascendingZ ? i * uvY : 1 - (i * uvY);

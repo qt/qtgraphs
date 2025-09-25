@@ -13,6 +13,9 @@ void MAIN()
     if (abs(pos.y) > graphHeight)
         discard;
 
+    if (texture(height, UV).a != 1.0)
+        discard;
+
     bool sides = (any(greaterThan(UV0, vec2(1.0))) || any(lessThan(UV0, vec2(0.0))));
     if (sides && overhigh > 0)
         discard;

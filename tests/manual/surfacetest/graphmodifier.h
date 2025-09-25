@@ -103,6 +103,7 @@ public:
     void massiveTestAppendAndScroll();
     void testAxisReverse();
     void testDataOrdering();
+    void testNanSeries();
     void setAspectRatio(int ratio);
     void setHorizontalAspectRatio(int ratio);
     void setSurfaceTexture(int enabled);
@@ -151,6 +152,7 @@ private:
     QSurfaceDataRow createMultiRow(int row, int series, bool change);
     void populateRisingSeries(QSurface3DSeries *series, int rows, int columns, float minValue,
                               float maxValue, bool ascendingX, bool ascendingZ);
+    void populateNanSeries(QSurface3DSeries *series, int rows, int columns);
 
     Q3DSurfaceWidgetItem *m_graph;
     QSurface3DSeries *m_multiseries[4];

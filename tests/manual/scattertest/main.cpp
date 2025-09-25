@@ -118,6 +118,9 @@ int main(int argc, char **argv)
     QPushButton *testReverseButton = new QPushButton(widget);
     testReverseButton->setText(QStringLiteral("Test Axis Reversing"));
 
+    QPushButton *testNanSeriesButton = new QPushButton(widget);
+    testNanSeriesButton->setText(QStringLiteral("Test NaN Series"));
+
     QPushButton *renderToImageButton = new QPushButton(widget);
     renderToImageButton->setText(QStringLiteral("Render the graph to an image"));
 
@@ -360,6 +363,7 @@ int main(int argc, char **argv)
     vLayout->addWidget(massiveDataTestButton, 0, Qt::AlignTop);
     vLayout->addWidget(testItemChangesButton, 0, Qt::AlignTop);
     vLayout->addWidget(testReverseButton, 0, Qt::AlignTop);
+    vLayout->addWidget(testNanSeriesButton, 0, Qt::AlignTop);
     vLayout->addWidget(renderToImageButton, 1, Qt::AlignTop);
 
     vLayout2->addWidget(gradientBtoYPB, 0, Qt::AlignTop);
@@ -479,6 +483,8 @@ int main(int argc, char **argv)
                      &ScatterDataModifier::testItemChanges);
     QObject::connect(testReverseButton, &QPushButton::clicked, modifier,
                      &ScatterDataModifier::testAxisReverse);
+    QObject::connect(testNanSeriesButton, &QPushButton::clicked, modifier,
+                     &ScatterDataModifier::testNanSeries);
     QObject::connect(renderToImageButton, &QPushButton::clicked, modifier,
                      &ScatterDataModifier::renderToImage);
     QObject::connect(gradientBtoYPB, &QPushButton::clicked, modifier,

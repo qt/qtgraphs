@@ -1,8 +1,11 @@
 VARYING vec3 pos;
 VARYING float disc;
+VARYING vec2 UV;
+
 void MAIN()
 {
-    vec2 UV = UV0 * (vertices / range);
+    UV = UV0 * (vertices / range);
+
     vec3 v = texture(height, UV).xyz;
     pos = v;
     disc = 0;
