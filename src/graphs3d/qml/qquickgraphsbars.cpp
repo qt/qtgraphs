@@ -1989,6 +1989,9 @@ float QQuickGraphsBars::updateBarHeightParameters(const QBarDataItem *item)
     float value = item->value();
     float heightValue = valueAxis()->positionAt(value);
 
+    if (qIsNaN(heightValue))
+        return 0.0f;
+
     if (m_noZeroInRange) {
         if (m_hasNegativeValues) {
             heightValue = -1.0f + heightValue;

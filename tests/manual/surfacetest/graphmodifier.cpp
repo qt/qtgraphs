@@ -7,6 +7,7 @@
 #include <QtGraphs/QSurface3DSeries>
 #include <QtGraphs/QGraphsTheme>
 
+#include <limits>
 #include <qmath.h>
 #include <qrandom.h>
 #include <QLinearGradient>
@@ -1161,6 +1162,27 @@ void GraphModifier::populateRisingSeries(QSurface3DSeries *series, int rows, int
 
 }
 
+void GraphModifier::populateNanSeries(QSurface3DSeries *series, int rows, int columns)
+{
+    QSurfaceDataArray dataArray;
+    dataArray.reserve(rows);
+    float minValue = 0.0f;
+    float maxValue = 50.0f;
+    float range = maxValue - minValue;
+    int arraySize = rows * columns;
+    for (int i = 0; i < rows; i++) {
+        QSurfaceDataRow dataRow(columns);
+        for (int j = 0; j < columns; j++) {
+            float xValue = float(j);
+            float yValue = i % 2 == 0 ? minValue + (range * i * j / arraySize) : std::numeric_limits<float>::quiet_NaN();
+            float zValue = float(i);
+            dataRow[j].setPosition(QVector3D(xValue, yValue, zValue));
+        }
+        dataArray.append(dataRow);
+    }
+    series->dataProxy()->resetArray(dataArray);
+}
+
 void GraphModifier::changeRows()
 {
     if (m_activeSample == GraphModifier::SqrtSin) {
@@ -1734,6 +1756,31 @@ void GraphModifier::testAxisReverse()
         counter = -1;
     }
     counter++;
+}
+
+void GraphModifier::testNanSeries()
+{
+    static bool initalized = false;
+    const int rowCount = 20;
+    const int colCount = 20;
+    static QSurface3DSeries *series = 0;
+
+    if (!initalized) {
+        const auto axes = m_graph->axes();
+        for (const auto &axis : axes)
+            m_graph->releaseAxis(axis);
+        series = new QSurface3DSeries;
+        populateNanSeries(series, rowCount, colCount);
+        m_graph->addSeries(series);
+        initalized = true;
+    } else {
+        const auto axes = m_graph->axes();
+        for (const auto &axis : axes)
+            m_graph->releaseAxis(axis);
+        m_graph->removeSeries(series);
+        delete series;
+        initalized = false;
+    }
 }
 
 void GraphModifier::testDataOrdering()
