@@ -407,6 +407,9 @@ int main(int argc, char *argv[])
     QPushButton *testNanSeriesButton = new QPushButton(widget);
     testNanSeriesButton->setText(QStringLiteral("Test NaN series"));
 
+    QCheckBox *sanitizeRowsCB = new QCheckBox(widget);
+    sanitizeRowsCB->setText(QStringLiteral("Sanitize Rows"));
+
     QFrame* line = new QFrame();
     line->setFrameShape(QFrame::HLine);
     line->setFrameShadow(QFrame::Sunken);
@@ -639,6 +642,7 @@ int main(int argc, char *argv[])
     vLayout3->addWidget(testReverseButton);
     vLayout3->addWidget(testDataOrderingButton);
     vLayout3->addWidget(testNanSeriesButton);
+    vLayout3->addWidget(sanitizeRowsCB);
     vLayout3->addWidget(axisTitlesVisibleCB);
     vLayout3->addWidget(xAxisLabelsVisibleCB);
     vLayout3->addWidget(yAxisLabelsVisibleCB);
@@ -872,6 +876,8 @@ int main(int argc, char *argv[])
                      modifier, &GraphModifier::testDataOrdering);
     QObject::connect(testNanSeriesButton, &QPushButton::clicked,
                      modifier, &GraphModifier::testNanSeries);
+    QObject::connect(sanitizeRowsCB, &QCheckBox::checkStateChanged,
+                     modifier, &GraphModifier::setRowSanitization);
     QObject::connect(axisTitlesVisibleCB, &QCheckBox::checkStateChanged,
                      modifier, &GraphModifier::toggleAxisTitleVisibility);
     QObject::connect(xAxisLabelsVisibleCB,

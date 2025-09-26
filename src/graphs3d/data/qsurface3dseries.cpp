@@ -184,6 +184,15 @@ QT_BEGIN_NAMESPACE
  * The color used to draw the gridlines of the surface wireframe.
  */
 
+/*
+ * \qmlproperty bool Surface3DSeries::rowsSanitized
+ * \since 6.11
+ *  Whether to perform row sanitization.
+ *
+ *  When \c{true}, removes rows in the series that do not contain valid data.
+ *  \note This may incur a small performance penalty.
+ */
+
 /*!
  * \qmlproperty SurfaceDataArray Surface3DSeries::dataArray
  *
@@ -230,6 +239,11 @@ QT_BEGIN_NAMESPACE
     \qmlsignal Surface3DSeries::wireframeColorChanged(color color)
 
     This signal is emitted when wireframeColor changes to \a color.
+*/
+/*!
+    \qmlsignal Surface3DSeries::rowsSanitizedChanged(bool enabled)
+
+    This signal is emitted when rowsSanitized changes to \a enabled.
 */
 /*!
     \qmlsignal Surface3DSeries::dataArrayChanged(SurfaceDataArray array)
@@ -524,6 +538,31 @@ QColor QSurface3DSeries::wireframeColor() const
 }
 
 /*!
+ *  \property QSurface3DSeries::rowsSanitized
+ *
+ *  \brief Whether to perform row sanitization.
+ *
+ *  When \c{true}, removes rows in the series that do not contain valid data.
+ *  \note This may incur a small performance penalty.
+ */
+void QSurface3DSeries::setRowsSanitized(bool enabled) {
+    Q_D(QSurface3DSeries);
+
+    if (d->m_rowsSanitized == enabled) {
+        qCDebug(lcProperties3D) << __FUNCTION__
+            << "value is already set to " << enabled;
+        return;
+    }
+    d->setRowsSanitized(enabled);
+    emit rowsSanitizedChanged(enabled);
+}
+
+bool QSurface3DSeries::rowsSanitized() const {
+    Q_D(const QSurface3DSeries);
+    return d->m_rowsSanitized;
+}
+
+/*!
  * \property QSurface3DSeries::dataArray
  *
  * \brief Data array for the series.
@@ -590,6 +629,7 @@ QSurface3DSeriesPrivate::QSurface3DSeriesPrivate()
     , m_shading(QSurface3DSeries::Shading::Flat)
     , m_drawMode(QSurface3DSeries::DrawSurfaceAndWireframe)
     , m_wireframeColor(Qt::black)
+    , m_rowsSanitized(false)
 {
     m_itemLabelFormat = QStringLiteral("@xLabel, @yLabel, @zLabel");
     m_mesh = QAbstract3DSeries::Mesh::Sphere;
@@ -755,6 +795,13 @@ void QSurface3DSeriesPrivate::setWireframeColor(QColor color)
     m_wireframeColor = color;
     if (m_graph)
         m_graph->markSeriesVisualsDirty();
+}
+
+void QSurface3DSeriesPrivate::setRowsSanitized(bool enabled)
+{
+    m_rowsSanitized = enabled;
+    if (m_graph)
+        m_graph->markDataDirty();
 }
 
 void QSurface3DSeriesPrivate::setDataArray(const QSurfaceDataArray &newDataArray)

@@ -104,6 +104,7 @@ public:
     void testAxisReverse();
     void testDataOrdering();
     void testNanSeries();
+    void setRowSanitization(int enabled);
     void setAspectRatio(int ratio);
     void setHorizontalAspectRatio(int ratio);
     void setSurfaceTexture(int enabled);
@@ -163,6 +164,7 @@ private:
     QSurface3DSeries *m_series3;
     QSurface3DSeries *m_series4;
     QSurface3DSeries *m_lineSeries;
+    QSurface3DSeries *m_nanSeries;
     QSlider *m_gridSliderX;
     QSlider *m_gridSliderZ;
     QSlider *m_axisRangeSliderX;

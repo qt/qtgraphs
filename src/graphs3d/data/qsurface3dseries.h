@@ -31,6 +31,7 @@ class Q_GRAPHS_EXPORT QSurface3DSeries : public QAbstract3DSeries
                    wireframeColorChanged FINAL)
     Q_PROPERTY(
         QSurfaceDataArray dataArray READ dataArray WRITE setDataArray NOTIFY dataArrayChanged FINAL)
+    Q_PROPERTY(bool rowsSanitized READ rowsSanitized WRITE setRowsSanitized NOTIFY rowsSanitizedChanged REVISION(6, 11))
     QML_ELEMENT
     QML_UNCREATABLE("Trying to create uncreatable: QSurface3DSeries, use Surface3DSeries instead.")
 
@@ -74,6 +75,9 @@ public:
     void setWireframeColor(QColor color);
     QColor wireframeColor() const;
 
+    void setRowsSanitized(bool enabled);
+    bool rowsSanitized() const;
+
     void setDataArray(const QSurfaceDataArray &newDataArray);
     void clearRow(qsizetype rowIndex);
     void clearArray();
@@ -90,6 +94,7 @@ Q_SIGNALS:
     void wireframeColorChanged(QColor color);
     void dataArrayChanged(const QSurfaceDataArray &array);
     void shadingChanged(const Shading shading);
+    Q_REVISION(6, 11)void rowsSanitizedChanged(bool enabled);
 
 protected:
     explicit QSurface3DSeries(QSurface3DSeriesPrivate &d, QObject *parent = nullptr);

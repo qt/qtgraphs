@@ -1761,26 +1761,34 @@ void GraphModifier::testAxisReverse()
 void GraphModifier::testNanSeries()
 {
     static bool initalized = false;
+    static bool enabled = false;
     const int rowCount = 20;
     const int colCount = 20;
-    static QSurface3DSeries *series = 0;
 
     if (!initalized) {
+        m_nanSeries = new QSurface3DSeries;
+        populateNanSeries(m_nanSeries, rowCount, colCount);
+        initalized = true;
+    }
+
+    if (!enabled) {
         const auto axes = m_graph->axes();
         for (const auto &axis : axes)
             m_graph->releaseAxis(axis);
-        series = new QSurface3DSeries;
-        populateNanSeries(series, rowCount, colCount);
-        m_graph->addSeries(series);
-        initalized = true;
+        m_graph->addSeries(m_nanSeries);
+        enabled = true;
     } else {
         const auto axes = m_graph->axes();
         for (const auto &axis : axes)
             m_graph->releaseAxis(axis);
-        m_graph->removeSeries(series);
-        delete series;
-        initalized = false;
+        m_graph->removeSeries(m_nanSeries);
+        enabled = false;
     }
+}
+
+void GraphModifier::setRowSanitization(int enabled) {
+    if (m_nanSeries)
+        m_nanSeries->setRowsSanitized(enabled);
 }
 
 void GraphModifier::testDataOrdering()

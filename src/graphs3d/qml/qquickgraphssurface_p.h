@@ -236,7 +236,7 @@ private:
     };
 
     QVector3D getNormalizedVertex(const QSurfaceDataItem &data, bool polar, bool flipXZ);
-    QRect calculateSampleSpace(SurfaceModel *model);
+    QRect calculateSampleSpace(SurfaceModel *model, const QSurfaceDataArray &array);
     QPointF mapCoordsToWorldSpace(SurfaceModel *model, QPointF coords);
     QPoint mapCoordsToSampleSpace(SurfaceModel *model, QPointF coords);
     void createIndices(SurfaceModel *model, qsizetype columnCount, qsizetype rowCount);
@@ -251,6 +251,7 @@ private:
     void addModel(QSurface3DSeries *series);
     void addFillModel(SurfaceModel *model);
     void addSliceModel(SurfaceModel *model);
+    QSurfaceDataArray removeNaNRows(const QSurfaceDataArray &array);
 
     void handleMeshTypeChanged(QAbstract3DSeries::Mesh mesh);
     void handlePointerChanged(const QString &filename);

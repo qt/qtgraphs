@@ -10,6 +10,7 @@
 #include "qquickgraphssurface_p.h"
 #include "qquickgraphstexturedata_p.h"
 #include "qsurface3dseries_p.h"
+#include "qsurfacedataproxy.h"
 #include "qsurfacedataproxy_p.h"
 #include "qvalue3daxis_p.h"
 #include "utils_p.h"
@@ -1317,10 +1318,9 @@ inline static int binarySearchArray(const QSurfaceDataArray &array,
     return int(retVal);
 }
 
-QRect QQuickGraphsSurface::calculateSampleSpace(SurfaceModel *model)
+QRect QQuickGraphsSurface::calculateSampleSpace(SurfaceModel *model, const QSurfaceDataArray &array)
 {
     QRect sampleSpace;
-    const QSurfaceDataArray &array = model->series->dataArray();
     if (array.size() > 0) {
         if (array.size() >= 1 && array.at(0).size() >= 1) {
             const qsizetype maxRow = array.size() - 1;
@@ -1417,9 +1417,30 @@ QRect QQuickGraphsSurface::calculateSampleSpace(SurfaceModel *model)
     return sampleSpace;
 }
 
+QSurfaceDataArray QQuickGraphsSurface::removeNaNRows(const QSurfaceDataArray &array)
+{
+    QSurfaceDataArray sanitizedArray;
+
+    for (QSurfaceDataRow row : array) {
+        bool foundNan = false;
+        for (QSurfaceDataItem value : row) {
+            if (qIsNaN(value.x()) || qIsNaN(value.y()) || qIsNaN(value.z())) {
+                foundNan = true;
+                break;
+            }
+        }
+        if (!foundNan)
+            sanitizedArray.append(row);
+    }
+
+    return sanitizedArray;
+}
+
 void QQuickGraphsSurface::updateModel(SurfaceModel *model)
 {
-    const QSurfaceDataArray &array = model->series->dataArray();
+    QSurfaceDataArray array = model->series->dataArray();
+    if (model->series->rowsSanitized())
+        array = removeNaNRows(array);
 
     if (!array.isEmpty()) {
         Q_TRACE(QGraphs3DSurfaceModelUpdate_entry, static_cast<void *>(model));
@@ -1442,7 +1463,7 @@ void QQuickGraphsSurface::updateModel(SurfaceModel *model)
         }
 
         bool dimensionsChanged = false;
-        QRect sampleSpace = calculateSampleSpace(model);
+        QRect sampleSpace = calculateSampleSpace(model, array);
         if (sampleSpace != model->sampleSpace) {
             dimensionsChanged = true;
             model->sampleSpace = sampleSpace;

@@ -36,6 +36,7 @@ public:
     void setDrawMode(QSurface3DSeries::DrawFlags mode);
     void setTexture(const QImage &texture);
     void setWireframeColor(QColor color);
+    void setRowsSanitized(bool enabled);
 
     void setDataArray(const QSurfaceDataArray &newDataArray);
     void clearRow(qsizetype rowIndex);
@@ -49,6 +50,7 @@ private:
     QImage m_texture;
     QString m_textureFile;
     QColor m_wireframeColor;
+    bool m_rowsSanitized;
 };
 
 QT_END_NAMESPACE
