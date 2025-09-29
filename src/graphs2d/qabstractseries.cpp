@@ -5,6 +5,7 @@
 #include <QtGraphs/qabstractseries.h>
 #include <private/qabstractseries_p.h>
 #include <private/qgraphsview_p.h>
+#include <private/qabstractaxis_p.h>
 
 QT_BEGIN_NAMESPACE
 
@@ -609,6 +610,23 @@ QGraphsView *QAbstractSeries::graph() const
 void QAbstractSeries::setGraph(QGraphsView *graph)
 {
     Q_D(QAbstractSeries);
+    if (graph && d->m_graph != graph) {
+        if (d->m_graph) {
+            if (d->m_axisX)
+                d->m_graph->removeAxis(d->m_axisX);
+            if (d->m_axisY)
+                d->m_graph->removeAxis(d->m_axisY);
+        }
+        if (d->m_axisX)
+            graph->addAxis(d->m_axisX);
+        if (d->m_axisY)
+            graph->addAxis(d->m_axisY);
+    } else if (!graph && d->m_graph) {
+        if (d->m_axisX)
+            d->m_graph->removeAxis(d->m_axisX);
+        if (d->m_axisY)
+            d->m_graph->removeAxis(d->m_axisY);
+    }
     d->m_graph = graph;
     if (graph) {
         switch (type()) {

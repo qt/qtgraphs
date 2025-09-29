@@ -187,6 +187,10 @@ void QGraphsView::insertSeries(qsizetype index, QObject *object)
         } else {
             m_seriesList.insert(index, series);
 
+            QObject::connect(series,
+                             &QAbstractSeries::update,
+                             this,
+                             &QGraphsView::updateComponentSizes);
             QObject::connect(series, &QAbstractSeries::update,
                              this, &QGraphsView::polishAndUpdate);
             QObject::connect(series, &QAbstractSeries::hoverEnter,
@@ -281,22 +285,19 @@ void QGraphsView::addAxis(QAbstractAxis *axis)
         createAxisRenderer();
         polishAndUpdate();
         QObject::connect(axis, &QAbstractAxis::update, this, &QGraphsView::polishAndUpdate);
-        QObject::connect(axis,
-                         &QAbstractAxis::visibleChanged,
-                         this,
-                         &QGraphsView::updateComponentSizes);
+        QObject::connect(axis, &QAbstractAxis::update, this, &QGraphsView::updateComponentSizes);
     }
 }
 
 void QGraphsView::removeAxis(QAbstractAxis *axis)
 {
-    if (m_axisX == axis || m_axisY == axis) {
+    if (axis) {
         axis->d_func()->setGraph(nullptr);
         QObject::disconnect(axis, &QAbstractAxis::update, this, &QGraphsView::polishAndUpdate);
         QObject::disconnect(axis,
-                            &QAbstractAxis::visibleChanged,
+                            &QAbstractAxis::update,
                             this,
-                            &QGraphsView::updateComponentSizes);
+                             &QGraphsView::updateComponentSizes);
     }
 
     if (m_axisX == axis)
@@ -1381,14 +1382,26 @@ void QGraphsView::updateAxisAreas()
     int yCount = 0;
     int topCount = 0;
     int leftCount = 0;
+    int xTitleCount = 0;
+    int yTitleCount = 0;
+    int topTitleCount = 0;
+    int leftTitleCount = 0;
 
-    calculateAxisCounts(&xCount, &yCount, &leftCount, &topCount);
+    calculateAxisCounts(&xCount,
+                        &yCount,
+                        &leftCount,
+                        &topCount,
+                        &xTitleCount,
+                        &yTitleCount,
+                        &leftTitleCount,
+                        &topTitleCount);
 
-    m_x1AxisArea = { r.x(),
-                     r.y() + r.height() + m_axisHeight * (2 - xCount)
-                        - m_axisHeight * (2 - topCount),
-                     r.width() - m_axisWidth * yCount,
-                     m_axisHeight };
+    m_x1AxisArea = {r.x(),
+                    r.y() + r.height() + m_axisHeight * (2 - xCount)
+                        + m_axisTitleMargin * (2 - xTitleCount) - m_axisHeight * (2 - topCount)
+                        - m_axisTitleMargin * (2 - topTitleCount),
+                    r.width() - m_axisWidth * yCount - m_axisTitleMargin * yTitleCount,
+                    m_axisHeight};
     m_x1AxisLabelsArea = { m_x1AxisArea.x(),
                          m_x1AxisArea.y() + m_axisTickersHeight + m_axisXLabelsMargin,
                          m_x1AxisArea.width(),
@@ -1398,7 +1411,10 @@ void QGraphsView::updateAxisAreas()
                           m_x1AxisArea.width(),
                           m_axisTickersHeight };
 
-    m_x2AxisArea = { r.x(), r.y(), r.width() - m_axisWidth * yCount, m_axisHeight };
+    m_x2AxisArea = {r.x(),
+                    r.y(),
+                    r.width() - m_axisWidth * yCount - m_axisTitleMargin * yTitleCount,
+                    m_axisHeight};
     m_x2AxisLabelsArea = { m_x2AxisArea.x(),
                           m_x2AxisArea.y(),
                           m_x2AxisArea.width(),
@@ -1408,7 +1424,10 @@ void QGraphsView::updateAxisAreas()
                            m_x2AxisArea.width(),
                            m_axisTickersHeight };
 
-    m_y1AxisArea = { r.x(), r.y(), m_axisWidth, r.height() - m_axisHeight * xCount };
+    m_y1AxisArea = {r.x(),
+                    r.y(),
+                    m_axisWidth,
+                    r.height() - m_axisHeight * xCount - m_axisTitleMargin * xTitleCount};
     m_y1AxisLabelsArea = { m_y1AxisArea.x(),
                           m_y1AxisArea.y(),
                           m_axisLabelsWidth,
@@ -1418,11 +1437,12 @@ void QGraphsView::updateAxisAreas()
                            m_axisTickersWidth,
                            m_y1AxisArea.height() };
 
-    m_y2AxisArea = { r.x() + r.width() + m_axisWidth * (2 - yCount)
-                        - m_axisWidth * (2 - leftCount),
-                     r.y(),
-                     m_axisWidth,
-                     r.height() - m_axisHeight * xCount };
+    m_y2AxisArea = {r.x() + r.width() + m_axisWidth * (2 - yCount)
+                        + m_axisTitleMargin * (2 - yTitleCount) - m_axisWidth * (2 - leftCount)
+                        - m_axisTitleMargin * (2 - leftTitleCount),
+                    r.y(),
+                    m_axisWidth,
+                    r.height() - m_axisHeight * xCount - m_axisTitleMargin * xTitleCount};
     m_y2AxisLabelsArea = { m_y2AxisArea.x() + m_axisTickersWidth + m_axisYLabelsMargin,
                           m_y2AxisArea.y(),
                           m_axisLabelsWidth,
@@ -1445,13 +1465,24 @@ void QGraphsView::updatePlotArea()
     int yCount = 0;
     int topCount = 0;
     int leftCount = 0;
+    int xTitleCount = 0;
+    int yTitleCount = 0;
+    int topTitleCount = 0;
+    int leftTitleCount = 0;
 
-    calculateAxisCounts(&xCount, &yCount, &leftCount, &topCount);
+    calculateAxisCounts(&xCount,
+                        &yCount,
+                        &leftCount,
+                        &topCount,
+                        &xTitleCount,
+                        &yTitleCount,
+                        &leftTitleCount,
+                        &topTitleCount);
 
-    y += m_axisHeight * topCount;
-    x += m_axisWidth * leftCount;
-    h -= m_axisHeight * xCount;
-    w -= m_axisWidth * yCount;
+    y += m_axisHeight * topCount + m_axisTitleMargin * topTitleCount;
+    x += m_axisWidth * leftCount + m_axisTitleMargin * leftTitleCount;
+    h -= m_axisHeight * xCount + m_axisTitleMargin * xTitleCount;
+    w -= m_axisWidth * yCount + m_axisTitleMargin * yTitleCount;
 
     w = qMax(w, 0.0);
     h = qMax(h, 0.0);
@@ -1785,36 +1816,57 @@ void QGraphsView::setZoomSensitivity(qreal newZoomSensitivity)
     emit zoomSensitivityChanged();
 }
 
-void QGraphsView::calculateAxisCounts(int *xCount, int *yCount, int *leftCount, int *topCount)
+void QGraphsView::calculateAxisCounts(int *xCount, int *yCount, int *leftCount, int *topCount,
+                                      int *xTitleCount, int *yTitleCount, int *leftTitleCount, int *topTitleCount)
 {
     if (axisY()) {
         (*yCount)++;
+        if (axisY()->isTitleVisible() && !axisY()->titleText().isEmpty())
+            (*yTitleCount)++;
 
-        if (axisY()->alignment() == Qt::AlignLeft)
+        if (axisY()->alignment() == Qt::AlignLeft) {
             (*leftCount)++;
+            if (axisY()->isTitleVisible() && !axisY()->titleText().isEmpty())
+                (*leftTitleCount)++;
+        }
     }
 
     if (axisX()) {
         (*xCount)++;
+        if (axisX()->isTitleVisible() && !axisX()->titleText().isEmpty())
+            (*xTitleCount)++;
 
-        if (axisX()->alignment() == Qt::AlignTop)
+        if (axisX()->alignment() == Qt::AlignTop) {
             (*topCount)++;
+            if (axisX()->isTitleVisible() && !axisX()->titleText().isEmpty())
+                (*topTitleCount)++;
+        }
     }
 
     for (auto&& s : m_seriesList) {
         if (auto series = qobject_cast<QAbstractSeries *>(s)) {
             if (series->axisY() && series->axisY() != axisY()) {
                 (*yCount)++;
+                if (series->axisY()->isTitleVisible() && !series->axisY()->titleText().isEmpty())
+                    (*yTitleCount)++;
 
-                if (series->axisY()->alignment() == Qt::AlignLeft)
+                if (series->axisY()->alignment() == Qt::AlignLeft) {
                     (*leftCount)++;
+                    if (series->axisY()->isTitleVisible() && !series->axisY()->titleText().isEmpty())
+                        (*leftTitleCount)++;
+                }
             }
 
             if (series->axisX() && series->axisX() != axisX()) {
                 (*xCount)++;
+                if (series->axisX()->isTitleVisible() && !series->axisX()->titleText().isEmpty())
+                    (*xTitleCount)++;
 
-                if (series->axisX()->alignment() == Qt::AlignTop)
+                if (series->axisX()->alignment() == Qt::AlignTop) {
                     (*topCount)++;
+                    if (series->axisX()->isTitleVisible() && !series->axisX()->titleText().isEmpty())
+                        (*topTitleCount)++;
+                }
             }
         }
     }
@@ -1822,7 +1874,27 @@ void QGraphsView::calculateAxisCounts(int *xCount, int *yCount, int *leftCount, 
     if (m_orientation == Qt::Horizontal) {
         qSwap((*xCount), (*yCount));
         qSwap((*leftCount), (*topCount));
+        qSwap((*xTitleCount), (*yTitleCount));
+        qSwap((*leftTitleCount), (*topTitleCount));
     }
+
+    if ((*xTitleCount) > 0) {
+        (*xTitleCount)--;
+        if ((*xTitleCount) > 0)
+            (*xTitleCount)--;
+    }
+
+    if ((*yTitleCount) > 0) {
+        (*yTitleCount)--;
+        if ((*yTitleCount) > 0)
+            (*yTitleCount)--;
+    }
+
+    if ((*leftTitleCount) > 0)
+        (*leftTitleCount)--;
+
+    if ((*topTitleCount) > 0)
+        (*topTitleCount)--;
 }
 
 int QGraphsView::getSeriesRendererIndex(QAbstractSeries *series)

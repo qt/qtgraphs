@@ -198,7 +198,8 @@ public:
     qreal zoomSensitivity() const;
     void setZoomSensitivity(qreal newZoomSensitivity);
 
-    void calculateAxisCounts(int *xCount, int *yCount, int *leftCount, int *topCount);
+    void calculateAxisCounts(int *xCount, int *yCount, int *leftCount, int *topCount,
+                             int *xTitleCount, int *yTitleCount, int *leftTitleCount, int *topTitleCount);
 
     qreal mapX(QCustomSeries *series, qreal x);
     qreal mapY(QCustomSeries *series, qreal y);
@@ -270,6 +271,7 @@ private:
     static constexpr qreal m_defaultAxisLabelsHeight = 25;
     static constexpr qreal m_defaultAxisXLabelsMargin = 0;
     static constexpr qreal m_defaultAxisYLabelsMargin = 5;
+    static constexpr qreal m_defaultAxisTitleMargin = 25;
 
     AxisRenderer *m_axisRenderer = nullptr;
     BarsRenderer *m_barsRenderer = nullptr;
@@ -318,6 +320,7 @@ private:
     qreal m_axisLabelsHeight = m_defaultAxisLabelsHeight;
     qreal m_axisXLabelsMargin = m_defaultAxisXLabelsMargin;
     qreal m_axisYLabelsMargin = m_defaultAxisYLabelsMargin;
+    qreal m_axisTitleMargin = m_defaultAxisTitleMargin;
     // Calculated based the the above
     qreal m_axisWidth = 0;
     qreal m_axisHeight = 0;

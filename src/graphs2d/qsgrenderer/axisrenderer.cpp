@@ -582,52 +582,101 @@ void AxisRenderer::updateAxis()
     int xCount = 0;
     int yCount = 0;
 
+    int topTitleCount = 0;
+    int leftTitleCount = 0;
+    int xTitleCount = 0;
+    int yTitleCount = 0;
+
     Q_TRACE_SCOPE(QGraphs2DAxisRendererUpdateAxis);
     for (auto &&ax : *m_horzAxes) {
-        if (ax.axis && (ax.axis->alignment() == Qt::AlignTop || ax.axis->alignment() == Qt::AlignLeft))
+        if (ax.axis && (ax.axis->alignment() == Qt::AlignTop || ax.axis->alignment() == Qt::AlignLeft)) {
             topCount++;
-        if (ax.axis)
+            if (ax.axis->isTitleVisible() && !ax.axis->titleText().isEmpty())
+                topTitleCount++;
+        }
+        if (ax.axis) {
             xCount++;
+            if (ax.axis->isTitleVisible() && !ax.axis->titleText().isEmpty())
+                xTitleCount++;
+        }
     }
 
     for (auto&& ax : *m_vertAxes) {
-        if (ax.axis && (ax.axis->alignment() == Qt::AlignLeft || ax.axis->alignment() == Qt::AlignTop))
+        if (ax.axis && (ax.axis->alignment() == Qt::AlignLeft || ax.axis->alignment() == Qt::AlignTop)) {
             leftCount++;
-        if (ax.axis)
+            if (ax.axis->isTitleVisible() && !ax.axis->titleText().isEmpty())
+                leftTitleCount++;
+        }
+        if (ax.axis) {
             yCount++;
+            if (ax.axis->isTitleVisible() && !ax.axis->titleText().isEmpty())
+                yTitleCount++;
+        }
     }
+
+    if (xTitleCount > 0) {
+        xTitleCount--;
+        if (xTitleCount > 0)
+            xTitleCount--;
+    }
+
+    if (yTitleCount > 0) {
+        yTitleCount--;
+        if (yTitleCount > 0)
+            yTitleCount--;
+    }
+
+    if (leftTitleCount > 0)
+        leftTitleCount--;
+
+    if (topTitleCount > 0)
+        topTitleCount--;
 
     int top = 0;
     int bottom = 0;
+    int topTitle = 0;
+    int bottomTitle = 0;
     for (auto&& ax : *m_horzAxes) {
         if (!ax.axis)
             continue;
 
-        ax.x = leftCount * m_graph->m_axisWidth;
+        ax.x = leftCount * m_graph->m_axisWidth + leftTitleCount * m_graph->m_axisTitleMargin;
 
         if (ax.axis->alignment() == Qt::AlignTop || ax.axis->alignment() == Qt::AlignLeft) {
-            ax.y = (topCount - top - 1) * m_graph->m_axisHeight;
+            ax.y = (topCount - top - 1) * m_graph->m_axisHeight
+                   + (topTitleCount - topTitle) * m_graph->m_axisTitleMargin;
             top++;
+            if (ax.axis->isTitleVisible() && !ax.axis->titleText().isEmpty())
+                topTitle++;
         } else if (ax.axis->alignment() == Qt::AlignBottom || ax.axis->alignment() == Qt::AlignRight) {
-            ax.y = bottom * m_graph->m_axisHeight;
+            ax.y = bottom * m_graph->m_axisHeight + bottomTitle * m_graph->m_axisTitleMargin;
             bottom++;
+            if (ax.axis->isTitleVisible() && !ax.axis->titleText().isEmpty())
+                bottomTitle++;
         }
     }
 
     int left = 0;
     int right = 0;
+    int leftTitle = 0;
+    int rightTitle = 0;
     for (auto&& ax : *m_vertAxes) {
         if (!ax.axis)
             continue;
 
-        ax.y = topCount * m_graph->m_axisHeight;
+        ax.y = topCount * m_graph->m_axisHeight + topTitleCount * m_graph->m_axisTitleMargin;
 
         if (ax.axis->alignment() == Qt::AlignLeft || ax.axis->alignment() == Qt::AlignTop) {
-            ax.x = (leftCount - left - 1) * m_graph->m_axisWidth;
+            ax.x = (leftCount - left - 1) * m_graph->m_axisWidth
+                   + (leftTitleCount - leftTitle) * m_graph->m_axisTitleMargin;
             left++;
+            if (ax.axis->isTitleVisible() && !ax.axis->titleText().isEmpty())
+                leftTitle++;
         } else if (ax.axis->alignment() == Qt::AlignRight || ax.axis->alignment() == Qt::AlignBottom) {
-            ax.x = right * m_graph->m_axisWidth;
+            ax.x = right * m_graph->m_axisWidth + rightTitle * m_graph->m_axisTitleMargin;
             right++;
+            if (ax.axis->isTitleVisible() && !ax.axis->titleText().isEmpty())
+                rightTitle++;
         }
     }
 
@@ -663,8 +712,8 @@ void AxisRenderer::updateAxis()
             ax.subGridScale = axisVerticalSubTickCount > 0 ? 1.0 / (axisVerticalSubTickCount + 1)
                                                             : 1.0;
             ax.stepPx = (height() - m_graph->m_marginTop - m_graph->m_marginBottom
-                          - axisHeight * xCount)
-                         / (ax.valueRange / ax.valueStep);
+                         - axisHeight * xCount - m_graph->m_axisTitleMargin * xTitleCount)
+                        / (ax.valueRange / ax.valueStep);
             double axisVerticalValueDiff = ax.minLabel - ax.minValue;
             ax.displacement = -(axisVerticalValueDiff / ax.valueStep) * ax.stepPx;
 
@@ -707,8 +756,8 @@ void AxisRenderer::updateAxis()
             ax.subGridScale = axisHorizontalSubTickCount > 0 ?
                     1.0 / (axisHorizontalSubTickCount + 1) : 1.0;
             ax.stepPx = (width() - m_graph->m_marginLeft - m_graph->m_marginRight
-                          - axisWidth * yCount)
-                         / (ax.valueRange / ax.valueStep);
+                         - axisWidth * yCount - m_graph->m_axisTitleMargin * yTitleCount)
+                        / (ax.valueRange / ax.valueStep);
             double axisHorizontalValueDiff = ax.minLabel - ax.minValue;
             ax.displacement = -(axisHorizontalValueDiff / ax.valueStep) * ax.stepPx;
 
@@ -1115,24 +1164,22 @@ void AxisRenderer::updateAxisTitles()
     QRectF yAxisRect;
 
     for (auto &&ax : *m_horzAxes) {
-        if (!ax.title) {
+        if (!ax.title)
             ax.title = new QQuickText(this);
-            ax.title->setVAlign(QQuickText::AlignBottom);
-            ax.title->setHAlign(QQuickText::AlignHCenter);
-        }
 
         if (ax.axis && ax.axis->isTitleVisible()) {
+            ax.title->setVAlign(QQuickText::AlignVCenter);
+            ax.title->setHAlign(QQuickText::AlignHCenter);
+            ax.title->setText(ax.axis->titleText());
             if (ax.axis->alignment() == Qt::AlignTop || ax.axis->alignment() == Qt::AlignLeft) {
                 xAxisRect = m_graph->m_x2AxisLabelsArea;
-                ax.title->setY(xAxisRect.y() - ax.title->contentHeight() * 0.5 + ax.y);
+                ax.title->setY(xAxisRect.y() - ax.title->height() * 0.5 + ax.y);
             } else {
                 xAxisRect = m_graph->m_x1AxisLabelsArea;
                 ax.title->setY(xAxisRect.y() + xAxisRect.height() + ax.y);
             }
 
-            ax.title->setText(ax.axis->titleText());
-            ax.title->setX(
-                (2 * xAxisRect.x() - ax.title->contentWidth() + xAxisRect.width()) * 0.5 + ax.x);
+            ax.title->setX((2 * xAxisRect.x() - ax.title->width() + xAxisRect.width()) * 0.5 + ax.x);
             if (ax.axis->titleColor().isValid())
                 ax.title->setColor(ax.axis->titleColor());
             else
@@ -1145,24 +1192,25 @@ void AxisRenderer::updateAxisTitles()
     }
 
     for (auto &&ax : *m_vertAxes) {
-        if (!ax.title) {
+        if (!ax.title)
             ax.title = new QQuickText(this);
-            ax.title->setVAlign(QQuickText::AlignVCenter);
-            ax.title->setHAlign(QQuickText::AlignHCenter);
-        }
 
         if (ax.axis && ax.axis->isTitleVisible()) {
+            ax.title->setVAlign(QQuickText::AlignVCenter);
+            ax.title->setHAlign(QQuickText::AlignHCenter);
+            ax.title->setText(ax.axis->titleText());
             if (ax.axis->alignment() == Qt::AlignRight || ax.axis->alignment() == Qt::AlignBottom) {
                 yAxisRect = m_graph->m_y2AxisLabelsArea;
-                ax.title->setX(yAxisRect.x() + ax.title->height() + ax.x);
+                ax.title->setX(yAxisRect.x() + ax.title->height() * 1.5 - ax.title->width() * 0.5
+                               + ax.x + m_graph->m_axisTitleMargin * 0.5);
             } else {
                 yAxisRect = m_graph->m_y1AxisLabelsArea;
-                ax.title->setX(yAxisRect.x() + ax.title->height() - ax.title->contentWidth() * 0.5 + ax.x);
+                ax.title->setX(yAxisRect.x() + ax.title->height() - ax.title->width() * 0.5 + ax.x
+                               - m_graph->m_axisTitleMargin * 0.5);
             }
 
-            ax.title->setText(ax.axis->titleText());
-            ax.title->setY(
-                (2 * yAxisRect.y() - ax.title->contentHeight() + yAxisRect.height()) * 0.5 + ax.y);
+            ax.title->setY((2 * yAxisRect.y() - ax.title->height() + yAxisRect.height()) * 0.5
+                           + ax.y);
             ax.title->setRotation(-90);
             if (ax.axis->titleColor().isValid())
                 ax.title->setColor(ax.axis->titleColor());

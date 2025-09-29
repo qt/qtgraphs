@@ -81,7 +81,7 @@ Rectangle {
             }
         }
         Button {
-            text: "Set axis custom colors and sub colors"
+            text: "Set axis custom colors"
             onClicked: {
                 yAxis.subColor = "red"
                 xAxis.color = "salmon"
@@ -90,12 +90,32 @@ Rectangle {
             }
         }
         Button {
-            text: "Reset axis theme colors and sub colors"
+            text: "Reset axis theme colors"
             onClicked: {
                 yAxis.subColor = null
                 xAxis.color = null
                 xAxis2.subColor = null
                 yAxis2.color = null
+            }
+        }
+        Button {
+            text: "Toggle titles"
+            onClicked: {
+                if (xAxis.titleText === "") {
+                    xAxis.titleText = "Years"
+                    yAxis.titleText = "Numbers"
+                    lineSeries.axisX.titleText = lineSeries.name
+                    splineSeries.axisX.titleText = splineSeries.name
+                    scatterSeries.axisY.titleText = scatterSeries.name
+                    areaSeries.axisY.titleText = areaSeries.name
+                } else {
+                    xAxis.titleText = ""
+                    yAxis.titleText = ""
+                    lineSeries.axisX.titleText = ""
+                    splineSeries.axisX.titleText = ""
+                    scatterSeries.axisY.titleText = ""
+                    areaSeries.axisY.titleText = ""
+                }
             }
         }
     }

@@ -619,8 +619,6 @@ void QAbstractAxis::setAlignment(Qt::Alignment alignment)
     case Qt::AlignLeft:
     case Qt::AlignRight:
         d->m_alignment = alignment;
-        if (d->m_graph)
-            d->m_graph->updateComponentSizes();
         emit update();
         emit alignmentChanged(alignment);
         break;
