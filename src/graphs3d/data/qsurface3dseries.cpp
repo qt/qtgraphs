@@ -744,6 +744,8 @@ void QSurface3DSeriesPrivate::setTexture(const QImage &texture)
 {
     Q_Q(QSurface3DSeries);
     m_texture = texture;
+    if (m_graph)
+        m_graph->markSeriesVisualsDirty();
     if (static_cast<QQuickGraphsSurface *>(m_graph))
         static_cast<QQuickGraphsSurface *>(m_graph)->updateSurfaceTexture(q);
 }

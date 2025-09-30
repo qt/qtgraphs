@@ -4,16 +4,15 @@
 #include "private/qquick3drepeater_p.h"
 #include "q3dscene.h"
 #include "qabstractdataproxy.h"
-#include "qquickgraphssurface_p.h"
-#include "qgraphs3dlogging_p.h"
-
 #include "qcategory3daxis_p.h"
+#include "qgraphs3dlogging_p.h"
 #include "qgraphsinputhandler_p.h"
 #include "qquickgraphssurface_p.h"
 #include "qquickgraphstexturedata_p.h"
 #include "qsurface3dseries_p.h"
 #include "qsurfacedataproxy_p.h"
 #include "qvalue3daxis_p.h"
+#include "utils_p.h"
 
 #include <QtQuick3D/private/qquick3dcustommaterial_p.h>
 #include <QtQuick3D/private/qquick3ddefaultmaterial_p.h>
@@ -1897,6 +1896,10 @@ void QQuickGraphsSurface::updateMaterial(SurfaceModel *model)
         material->setProperty("shaded",
                               model->series->lightingMode()
                                   == QAbstract3DSeries::LightingMode::Shaded);
+
+        // Not textured, clear transparency flag
+        if (!textured)
+            model->texture->textureData()->setHasTransparency(false);
     }
 
     if (textured) {
@@ -1908,22 +1911,30 @@ void QQuickGraphsSurface::updateMaterial(SurfaceModel *model)
             texture->setParentItem(material);
             texInput->setTexture(texture);
         }
-        if (!model->series->textureFile().isEmpty()) {
-            texInput->texture()->setSource(QUrl::fromLocalFile(model->series->textureFile()));
-        } else if (!model->series->texture().isNull()) {
-            QImage image = model->series->texture();
-            image.convertTo(QImage::Format_RGBA32FPx4);
-            auto textureData = static_cast<QQuickGraphsTextureData *>(model->texture->textureData());
-            textureData->setFormat(QQuick3DTextureData::RGBA32F);
-            textureData->setSize(image.size());
-            textureData->setTextureData(
-                QByteArray(reinterpret_cast<const char *>(image.bits()), image.sizeInBytes()));
-            texInput->texture()->setTextureData(textureData);
-            texInput->texture()->setVerticalTiling(QQuick3DTexture::ClampToEdge);
-            texInput->texture()->setHorizontalTiling(QQuick3DTexture::ClampToEdge);
-
-        } else {
-            texInput->texture()->setSource(QUrl());
+        if (!texInput->texture()->hasSourceData() || isSeriesVisualsDirty()) {
+            if (!model->series->textureFile().isEmpty()) {
+                texInput->texture()->setSource(QUrl::fromLocalFile(model->series->textureFile()));
+                // Check for transparency
+                model->texture->textureData()->setHasTransparency(
+                    Utils::imageHasTransparency(model->series->texture()));
+            } else if (!model->series->texture().isNull()) {
+                QImage image = model->series->texture();
+                // Check for transparency
+                bool hasTransparency = Utils::imageHasTransparency(image);
+                image.convertTo(QImage::Format_RGBA32FPx4);
+                auto textureData = static_cast<QQuickGraphsTextureData *>(
+                    model->texture->textureData());
+                textureData->setHasTransparency(hasTransparency);
+                textureData->setFormat(QQuick3DTextureData::RGBA32F);
+                textureData->setSize(image.size());
+                textureData->setTextureData(
+                    QByteArray(reinterpret_cast<const char *>(image.bits()), image.sizeInBytes()));
+                texInput->texture()->setTextureData(textureData);
+                texInput->texture()->setVerticalTiling(QQuick3DTexture::ClampToEdge);
+                texInput->texture()->setHorizontalTiling(QQuick3DTexture::ClampToEdge);
+            } else {
+                texInput->texture()->setSource(QUrl());
+            }
         }
     }
     material->setProperty("rootScale", rootNode()->scale().y() * scaleWithBackground().y());

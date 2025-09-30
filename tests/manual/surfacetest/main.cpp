@@ -466,6 +466,14 @@ int main(int argc, char *argv[])
     surfaceTextureCB->setText(QStringLiteral("Map texture"));
     surfaceTextureCB->setChecked(false);
 
+    QCheckBox *surfaceAlphaTextureCB = new QCheckBox(widget);
+    surfaceAlphaTextureCB->setText(QStringLiteral("Alpha texture"));
+    surfaceAlphaTextureCB->setChecked(false);
+
+    QCheckBox *surfaceAlphaTextureFileCB = new QCheckBox(widget);
+    surfaceAlphaTextureFileCB->setText(QStringLiteral("Alpha texture file"));
+    surfaceAlphaTextureFileCB->setChecked(false);
+
     QSlider *cameraTargetSliderX = new QSlider(Qt::Horizontal, widget);
     cameraTargetSliderX->setTickInterval(1);
     cameraTargetSliderX->setMinimum(-100);
@@ -535,6 +543,7 @@ int main(int argc, char *argv[])
     vLayout->addWidget(surfaceS2CB);
     vLayout->addWidget(series2VisibleCB);
     vLayout->addWidget(fillS2CB);
+    vLayout->addWidget(surfaceAlphaTextureFileCB);
     vLayout->addWidget(line2);
     vLayout->addWidget(series3CB);
     vLayout->addWidget(smoothS3CB);
@@ -542,6 +551,7 @@ int main(int argc, char *argv[])
     vLayout->addWidget(surfaceS3CB);
     vLayout->addWidget(series3VisibleCB);
     vLayout->addWidget(fillS3CB);
+    vLayout->addWidget(surfaceAlphaTextureCB);
     vLayout->addWidget(line3);
     vLayout->addWidget(series4CB);
     vLayout->addWidget(smoothS4CB);
@@ -895,7 +905,17 @@ int main(int argc, char *argv[])
                      modifier, &GraphModifier::setHorizontalAspectRatio);
     QObject::connect(surfaceTextureCB, &QCheckBox::checkStateChanged,
                      modifier, &GraphModifier::setSurfaceTexture);
-    QObject::connect(cameraTargetSliderX, &QSlider::valueChanged, modifier,
+    QObject::connect(surfaceAlphaTextureCB,
+                     &QCheckBox::checkStateChanged,
+                     modifier,
+                     &GraphModifier::setSurfaceAlphaTexture);
+    QObject::connect(surfaceAlphaTextureFileCB,
+                     &QCheckBox::checkStateChanged,
+                     modifier,
+                     &GraphModifier::setSurfaceAlphaTextureFile);
+    QObject::connect(cameraTargetSliderX,
+                     &QSlider::valueChanged,
+                     modifier,
                      &GraphModifier::setCameraTargetX);
     QObject::connect(cameraTargetSliderY, &QSlider::valueChanged, modifier,
                      &GraphModifier::setCameraTargetY);

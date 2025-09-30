@@ -1927,3 +1927,19 @@ void GraphModifier::setSurfaceTexture(int enabled)
     else
         m_multiseries[3]->setTexture(QImage());
 }
+
+void GraphModifier::setSurfaceAlphaTexture(int enabled)
+{
+    if (enabled)
+        m_multiseries[2]->setTexture(QImage(":/maps/opacitymask"));
+    else
+        m_multiseries[2]->setTexture(QImage());
+}
+
+void GraphModifier::setSurfaceAlphaTextureFile(int enabled)
+{
+    if (enabled)
+        m_multiseries[1]->setTextureFile(":/maps/opacitymask");
+    else
+        m_multiseries[1]->setTextureFile("");
+}
