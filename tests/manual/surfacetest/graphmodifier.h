@@ -107,6 +107,8 @@ public:
     void setAspectRatio(int ratio);
     void setHorizontalAspectRatio(int ratio);
     void setSurfaceTexture(int enabled);
+    void setSurfaceAlphaTexture(int enabled);
+    void setSurfaceAlphaTextureFile(int enabled);
 
 public Q_SLOTS:
     void changeShadowQuality(int quality);

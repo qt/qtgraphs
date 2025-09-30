@@ -40,6 +40,6 @@ CustomMaterial {
     shadingMode: CustomMaterial.Shaded
     vertexShader: "qrc:/shaders/surfacevert"
     fragmentShader: "qrc:/shaders/surfacefrag"
-    sourceBlend: hasTransparency? CustomMaterial.SrcAlpha : CustomMaterial.NoBlend;
-    destinationBlend: hasTransparency? CustomMaterial.OneMinusSrcAlpha : CustomMaterial.NoBlend;
+    sourceBlend: hasTransparency? CustomMaterial.SrcAlpha : CustomMaterial.NoBlend
+    destinationBlend: hasTransparency? CustomMaterial.OneMinusSrcAlpha : CustomMaterial.NoBlend
 }
