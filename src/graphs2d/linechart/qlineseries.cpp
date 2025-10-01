@@ -278,8 +278,7 @@ void QLineSeries::setWidth(qreal newWidth)
     \property QLineSeries::capStyle
     \brief the cap style used for line endings.
 
-    This property holds the pen cap style used for rending line ends
-    in the series.
+    The default value is \l{Qt::SquareCap}{Qt.SquareCap}.
  */
 Qt::PenCapStyle QLineSeries::capStyle() const
 {
@@ -306,6 +305,13 @@ void QLineSeries::setCapStyle(Qt::PenCapStyle newCapStyle)
     emit update();
 }
 
+/*!
+    \property QLineSeries::joinStyle
+    \brief the join style used for line endings.
+    \since 6.11
+
+    The default value is \l{Qt::BevelJoin}{Qt.BevelJoin}.
+ */
 Qt::PenJoinStyle QLineSeries::joinStyle() const
 {
     Q_D(const QLineSeries);
@@ -330,6 +336,13 @@ void QLineSeries::setJoinStyle(Qt::PenJoinStyle newJoinStyle)
     emit update();
 }
 
+/*!
+    \property QLineSeries::lineStyle
+    \brief the line style used for lines rendering.
+    \since 6.11
+
+    The default value is \l{QLineSeries::Straight}{LineSeries.Straight}.
+ */
 QLineSeries::LineStyle QLineSeries::lineStyle() const
 {
     Q_D(const QLineSeries);
@@ -354,6 +367,13 @@ void QLineSeries::setLineStyle(QLineSeries::LineStyle newLineStyle)
     emit update();
 }
 
+/*!
+    \property QLineSeries::strokeStyle
+    \brief the stroke style of the series.
+    \since 6.11
+
+    The default value is \l{QLineSeries::SolidLine}{LineSeries.SolidLine}.
+ */
 QLineSeries::StrokeStyle QLineSeries::strokeStyle() const
 {
     Q_D(const QLineSeries);
@@ -373,6 +393,11 @@ void QLineSeries::setStrokeStyle(QLineSeries::StrokeStyle newStrokeStyle)
     emit update();
 }
 
+/*!
+    \property QLineSeries::dashOffset
+    \brief the dash offset when \l strokeStyle is set to \l{QLineSeries::DashLine}{LineSeries.DashLine}.
+    \since 6.11
+ */
 qreal QLineSeries::dashOffset() const
 {
     Q_D(const QLineSeries);
@@ -392,6 +417,11 @@ void QLineSeries::setDashOffset(qreal offset)
     emit update();
 }
 
+/*!
+    \property QLineSeries::dashPattern
+    \brief the dash pattern when \l strokeStyle is set to \l{QLineSeries::DashLine}{LineSeries.DashLine}.
+    \since 6.11
+ */
 QVector<qreal> QLineSeries::dashPattern() const
 {
     Q_D(const QLineSeries);
