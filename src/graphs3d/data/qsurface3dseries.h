@@ -6,6 +6,7 @@
 
 #include <QtGraphs/qabstract3dseries.h>
 #include <QtGraphs/qsurfacedataproxy.h>
+#include <QtGraphs/qvalue3daxis.h>
 
 QT_BEGIN_NAMESPACE
 
@@ -32,6 +33,9 @@ class Q_GRAPHS_EXPORT QSurface3DSeries : public QAbstract3DSeries
     Q_PROPERTY(
         QSurfaceDataArray dataArray READ dataArray WRITE setDataArray NOTIFY dataArrayChanged FINAL)
     Q_PROPERTY(bool rowsSanitized READ rowsSanitized WRITE setRowsSanitized NOTIFY rowsSanitizedChanged REVISION(6, 11))
+    Q_PROPERTY(QValue3DAxis *axisX READ axisX WRITE setAxisX NOTIFY axisXChanged REVISION(6, 11))
+    Q_PROPERTY(QValue3DAxis *axisY READ axisY WRITE setAxisY NOTIFY axisYChanged REVISION(6, 11))
+    Q_PROPERTY(QValue3DAxis *axisZ READ axisZ WRITE setAxisZ NOTIFY axisZChanged REVISION(6, 11))
     QML_ELEMENT
     QML_UNCREATABLE("Trying to create uncreatable: QSurface3DSeries, use Surface3DSeries instead.")
 
@@ -84,6 +88,16 @@ public:
     const QSurfaceDataArray &dataArray() const &;
     QSurfaceDataArray dataArray() &&;
 
+    void setAxisX(QValue3DAxis *axis);
+    void setAxisY(QValue3DAxis *axis);
+    void setAxisZ(QValue3DAxis *axis);
+    QValue3DAxis *axisX() const;
+    QValue3DAxis *axisY() const;
+    QValue3DAxis *axisZ() const;
+    Q_REVISION(6, 11) Q_INVOKABLE void releaseAxisX();
+    Q_REVISION(6, 11) Q_INVOKABLE void releaseAxisY();
+    Q_REVISION(6, 11) Q_INVOKABLE void releaseAxisZ();
+
 Q_SIGNALS:
     void dataProxyChanged(QSurfaceDataProxy *proxy);
     void selectedPointChanged(QPoint position);
@@ -95,6 +109,9 @@ Q_SIGNALS:
     void dataArrayChanged(const QSurfaceDataArray &array);
     void shadingChanged(const Shading shading);
     Q_REVISION(6, 11)void rowsSanitizedChanged(bool rowsSanitized);
+    Q_REVISION(6, 11) void axisXChanged(QValue3DAxis *axis);
+    Q_REVISION(6, 11) void axisYChanged(QValue3DAxis *axis);
+    Q_REVISION(6, 11) void axisZChanged(QValue3DAxis *axis);
 
 protected:
     explicit QSurface3DSeries(QSurface3DSeriesPrivate &d, QObject *parent = nullptr);

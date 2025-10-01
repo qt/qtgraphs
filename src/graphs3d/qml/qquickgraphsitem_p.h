@@ -18,6 +18,7 @@
 #include "qabstract3daxis.h"
 #include "qabstract3dseries.h"
 #include "qcategory3daxis.h"
+#include "qqmlcomponent.h"
 #include "qvalue3daxis.h"
 
 #include <QtQuick3D/private/qquick3dviewport_p.h>
@@ -98,6 +99,7 @@ struct Abstract3DChangeBitField
     bool axisXTitleOffsetChanged : 1;
     bool axisYTitleOffsetChanged : 1;
     bool axisZTitleOffsetChanged : 1;
+    bool multiAxisChanged : 1;
     bool polarChanged : 1;
     bool labelMarginChanged : 1;
     bool radialLabelOffsetChanged : 1;
@@ -278,6 +280,9 @@ public:
     virtual void handleSeriesVisibilityChangedBySender(QObject *sender);
     virtual void handleLightingModeChanged() = 0;
     virtual void adjustAxisRanges() = 0;
+
+    virtual void handleMultiAxisChanged(QAbstract3DAxis *axis);
+    void handleMultiAxisDirty();
 
     bool graphPositionQueryPending() const { return m_graphPositionQueryPending; }
     void setGraphPositionQueryPending(const bool &pending)
@@ -690,7 +695,9 @@ protected:
                       QVector3D labelTrans,
                       const QQuaternion &totalRotation,
                       float labelsMaxWidth,
-                      QVector3D scale);
+                      QVector3D scale,
+                      QAbstract3DAxis *axis = nullptr,
+                      QQuick3DNode *label = nullptr);
     void updateYTitle(QVector3D sideLabelRotation,
                       QVector3D backLabelRotation,
                       QVector3D sideLabelTrans,
@@ -698,12 +705,16 @@ protected:
                       const QQuaternion &totalSideRotation,
                       const QQuaternion &totalBackRotation,
                       float labelsMaxWidth,
-                      QVector3D scale);
+                      QVector3D scale,
+                      QAbstract3DAxis *axis = nullptr,
+                      QQuick3DNode *label = nullptr);
     void updateZTitle(QVector3D labelRotation,
                       QVector3D labelTrans,
                       const QQuaternion &totalRotation,
                       float labelsMaxWidth,
-                      QVector3D scale);
+                      QVector3D scale,
+                      QAbstract3DAxis *axis = nullptr,
+                      QQuick3DNode *label = nullptr);
 
     virtual void calculateSceneScalingFactors() = 0;
     void positionAndScaleLine(QQuick3DNode *lineNode, QVector3D scale, QVector3D position);
@@ -721,6 +732,10 @@ protected:
     void updateGrid();
     void updateGridLineType();
     void updateLabels();
+    QVector3D calculateLabelRotation(float labelAutoAngle,
+                                     float fractionCamX,
+                                     float fractionCamY,
+                                     Qt::Axis axis);
     void updateSliceGrid(
         QQuick3DModel *sliceGrid = nullptr,
         QtGraphs3D::SliceCaptureType selectedFlag = QtGraphs3D::SliceCaptureType::NoImage);
@@ -773,6 +788,25 @@ protected:
 
     virtual void handleLabelCountChanged(QQuick3DRepeater *repeater, QColor axisLabelColor);
 
+    struct MultiAxis
+    {
+        QQuick3DRepeater *repeater = nullptr;
+        QQuick3DNode *titleLabel = nullptr;
+        QQmlComponent *delegateModel = nullptr;
+        QQuick3DModel *grid = nullptr;
+        qsizetype seriesIndex = -1;
+    };
+
+    void updateMultiAxis();
+    void updateMultiAxisLabels(qsizetype axisIndex, QAbstract3DAxis *axis);
+    MultiAxis getMultiAxis(qsizetype axisIndex, QAbstract3DAxis *axis);
+    MultiAxis createMultiAxis(qsizetype axisIndex);
+    void updateMultiAxisGrid(qsizetype axisIndex, QAbstract3DAxis *axis);
+    void releaseMultiAxis(QAbstract3DAxis::AxisOrientation orientation, qsizetype index);
+    void connectMultiAxis(QAbstract3DAxis *axis);
+    virtual QAbstract3DAxis *getSeriesMultiAxis(QAbstract3DSeries *series,
+                       QAbstract3DAxis::AxisOrientation orientation) = 0;
+
     bool isGridUpdated() { return m_gridUpdated; }
     void setGridUpdated(bool updated) { m_gridUpdated = updated; }
 
@@ -795,6 +829,7 @@ protected:
     QAbstract3DAxis *m_axisZ = nullptr;
 
     QList<QAbstract3DAxis *> m_axes; // List of all added axes
+
     bool m_isDataDirty = true;
     bool m_isCustomDataDirty = true;
     bool m_isCustomItemDirty = true;
@@ -857,6 +892,10 @@ private:
     QQuick3DNode *m_titleLabelX = nullptr;
     QQuick3DNode *m_titleLabelY = nullptr;
     QQuick3DNode *m_titleLabelZ = nullptr;
+
+    QList<MultiAxis> m_multiAxesX;
+    QList<MultiAxis> m_multiAxesY;
+    QList<MultiAxis> m_multiAxesZ;
 
     QQuickItem *m_itemLabel = nullptr;
     QQuick3DNode *m_sliceItemLabel = nullptr;

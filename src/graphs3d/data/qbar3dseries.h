@@ -7,6 +7,8 @@
 #include <QtCore/qpoint.h>
 #include <QtGraphs/qabstract3dseries.h>
 #include <QtGraphs/qbardataproxy.h>
+#include <QtGraphs/qvalue3daxis.h>
+#include <QtGraphs/qcategory3daxis.h>
 
 QT_BEGIN_NAMESPACE
 
@@ -33,6 +35,10 @@ class Q_GRAPHS_EXPORT QBar3DSeries : public QAbstract3DSeries
         QBarDataArray dataArray READ dataArray WRITE setDataArray NOTIFY dataArrayChanged FINAL)
     Q_PROPERTY(bool valueColoringEnabled READ isValueColoringEnabled WRITE setValueColoringEnabled
                    NOTIFY valueColoringEnabledChanged REVISION(6, 9))
+    Q_PROPERTY(QCategory3DAxis *rowAxis READ rowAxis WRITE setRowAxis NOTIFY rowAxisChanged REVISION(6, 11))
+    Q_PROPERTY(QValue3DAxis *valueAxis READ valueAxis WRITE setValueAxis NOTIFY valueAxisChanged REVISION(6, 11))
+    Q_PROPERTY(
+        QCategory3DAxis *columnAxis READ columnAxis WRITE setColumnAxis NOTIFY columnAxisChanged REVISION(6, 11))
     QML_ELEMENT
     QML_UNCREATABLE("Trying to create uncreatable: QBar3DSeries, use Bar3DSeries instead.")
 public:
@@ -71,6 +77,17 @@ public:
     QStringList customColumnLabels() const;
     void setCustomColumnLabels(const QStringList &labels);
 
+    void setRowAxis(QCategory3DAxis *axis);
+    void setValueAxis(QValue3DAxis *axis);
+    void setColumnAxis(QCategory3DAxis *axis);
+    QCategory3DAxis *rowAxis() const;
+    QValue3DAxis *valueAxis() const;
+    QCategory3DAxis *columnAxis() const;
+    Q_REVISION(6, 11) Q_INVOKABLE void releaseRowAxis();
+    Q_REVISION(6, 11) Q_INVOKABLE void releaseValueAxis();
+    Q_REVISION(6, 11) Q_INVOKABLE void releaseColumnAxis();
+
+
 Q_SIGNALS:
     void dataProxyChanged(QBarDataProxy *proxy);
     void selectedBarChanged(QPoint position);
@@ -82,6 +99,9 @@ Q_SIGNALS:
     Q_REVISION(6, 9) void valueColoringEnabledChanged(bool enabled);
     Q_REVISION(6, 11) void customRowLabelsChanged(const QStringList &customRowLabels);
     Q_REVISION(6, 11) void customColumnLabelsChanged(const QStringList &customColumnLabels);
+    Q_REVISION(6, 11) void rowAxisChanged(QCategory3DAxis *axis);
+    Q_REVISION(6, 11) void valueAxisChanged(QValue3DAxis *axis);
+    Q_REVISION(6, 11) void columnAxisChanged(QCategory3DAxis *axis);
 
 private:
     Q_DISABLE_COPY(QBar3DSeries)

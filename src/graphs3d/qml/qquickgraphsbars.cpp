@@ -506,6 +506,13 @@ void QQuickGraphsBars::addSeries(QBar3DSeries *series)
     connectSeries(series);
     if (series->selectedBar() != invalidSelectionPosition())
         updateSelectedBar();
+
+    if (series->rowAxis())
+        handleMultiAxisChanged(series->rowAxis());
+    if (series->valueAxis())
+        handleMultiAxisChanged(series->valueAxis());
+    if (series->columnAxis())
+        handleMultiAxisChanged(series->columnAxis());
 }
 
 void QQuickGraphsBars::removeSeries(QBar3DSeries *series)
@@ -1389,6 +1396,40 @@ void QQuickGraphsBars::handleAxisZChanged(QAbstract3DAxis *axis)
     emit rowAxisChanged(static_cast<QCategory3DAxis *>(axis));
 }
 
+void QQuickGraphsBars::handleMultiAxisChanged(QAbstract3DAxis *axis)
+{
+    QQuickGraphsItem::handleMultiAxisChanged(axis);
+}
+
+QAbstract3DAxis *QQuickGraphsBars::getSeriesMultiAxis(QAbstract3DSeries *series,
+                   QAbstract3DAxis::AxisOrientation orientation)
+{
+    QBar3DSeries *barSeries = qobject_cast<QBar3DSeries *>(series);
+
+    if (!barSeries)
+        return nullptr;
+
+    QAbstract3DAxis *axis = nullptr;
+    switch (orientation)  {
+    case QAbstract3DAxis::AxisOrientation::X:
+        axis = barSeries->rowAxis();
+    break;
+    case QAbstract3DAxis::AxisOrientation::Y:
+        axis = barSeries->valueAxis();
+    break;
+    case QAbstract3DAxis::AxisOrientation::Z:
+        axis = barSeries->columnAxis();
+    break;
+    case QAbstract3DAxis::AxisOrientation::None:
+    break;
+    }
+
+    if (axis)
+        axis->d_func()->setOrientation(orientation);
+
+    return axis;
+}
+
 void QQuickGraphsBars::handleSeriesMeshChanged(QAbstract3DSeries::Mesh mesh)
 {
     m_meshType = mesh;
@@ -1640,6 +1681,19 @@ void QQuickGraphsBars::connectSeries(QBar3DSeries *series)
                      &QBar3DSeries::valueColoringEnabledChanged,
                      this,
                      &QQuickGraphsBars::handleValueColoringChanged);
+    QObject::connect(series,
+                     &QBar3DSeries::rowAxisChanged,
+                     this,
+                     &QQuickGraphsBars::handleMultiAxisChanged);
+    QObject::connect(series,
+                     &QBar3DSeries::valueAxisChanged,
+                     this,
+                     &QQuickGraphsBars::handleMultiAxisChanged);
+    QObject::connect(series,
+                     &QBar3DSeries::columnAxisChanged,
+                     this,
+                     &QQuickGraphsBars::handleMultiAxisChanged);
+
 }
 
 void QQuickGraphsBars::disconnectSeries(QBar3DSeries *series)
@@ -1869,7 +1923,7 @@ void QQuickGraphsBars::updateBarPositions(QBar3DSeries *series)
 
             QBarDataItem *item = barList.at(i)->barItem;
             QQuick3DModel *model = barList.at(i)->model;
-            float heightValue = updateBarHeightParameters(item);
+            float heightValue = updateBarHeightParameters(item, series->valueAxis());
             float angle = item->rotation();
 
             if (angle) {
@@ -1929,7 +1983,7 @@ void QQuickGraphsBars::updateBarPositions(QBar3DSeries *series)
                     newColSize = qMin(dataRow.size() - dataColIndex, m_newCols);
                     for (int col = 0; col < newColSize; col++) {
                         const QBarDataItem &item = dataRow.at(dataColIndex);
-                        float heightValue = updateBarHeightParameters(&item);
+                        float heightValue = updateBarHeightParameters(&item, series->valueAxis());
                         BarItemHolder *bih = new BarItemHolder();
 
                         if (barList.at(i)->model->eulerRotation() != QVector3D()
@@ -1996,10 +2050,13 @@ void QQuickGraphsBars::updateBarPositions(QBar3DSeries *series)
     }
 }
 
-float QQuickGraphsBars::updateBarHeightParameters(const QBarDataItem *item)
+float QQuickGraphsBars::updateBarHeightParameters(const QBarDataItem *item, QValue3DAxis *axis)
 {
+
+    if (!axis)
+        axis = valueAxis();
     float value = item->value();
-    float heightValue = valueAxis()->positionAt(value);
+    float heightValue = axis->positionAt(value);
 
     if (qIsNaN(heightValue))
         return 0.0f;
@@ -2017,7 +2074,7 @@ float QQuickGraphsBars::updateBarHeightParameters(const QBarDataItem *item)
         heightValue -= m_zeroPosition;
     }
 
-    if (valueAxis()->reversed())
+    if (axis->reversed())
         heightValue = -heightValue;
 
     return heightValue;

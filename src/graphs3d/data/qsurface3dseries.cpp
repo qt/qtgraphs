@@ -621,6 +621,115 @@ QSurfaceDataArray QSurface3DSeries::dataArray() &&
     return std::move(d->m_dataArray);
 }
 
+/*!
+ * \property QSurface3DSeries::axisX
+ * \since 6.11
+ *
+ * \brief Holds an additional X-axis for the series
+ *  If an axis is given, the series will be fitted
+ *  to the minimum and maximum values of the axis.
+ *
+ */
+void QSurface3DSeries::setAxisX(QValue3DAxis *axis) {
+    Q_D(QSurface3DSeries);
+    if (d->m_axisX == axis) {
+        qCDebug(lcProperties3D) << __FUNCTION__
+            << "value is already set to:" << axis;
+        return;
+    }
+    d->setAxisX(axis);
+    emit axisXChanged(axis);
+}
+
+QValue3DAxis *QSurface3DSeries::axisX() const {
+    Q_D(const QSurface3DSeries);
+    return d->m_axisX;
+}
+
+void QSurface3DSeries::releaseAxisX()
+{
+    Q_D(QSurface3DSeries);
+    if (!d->m_axisX) {
+        qCDebug(lcProperties3D) << __FUNCTION__
+            << "axis X does not set";
+        return;
+    }
+    d->releaseAxisX();
+    emit axisXChanged(nullptr);
+}
+
+/*!
+ * \property QSurface3DSeries::axisY
+ * \since 6.11
+ *
+ * \brief Holds an additional Y-axis for the series
+ *  If an axis is given, the series will be fitted
+ *  to the minimum and maximum values of the axis.
+ */
+void QSurface3DSeries::setAxisY(QValue3DAxis *axis) {
+    Q_D(QSurface3DSeries);
+    if (d->m_axisY == axis) {
+        qCDebug(lcProperties3D) << __FUNCTION__
+            << "value is already set to:" << axis;
+        return;
+    }
+    d->setAxisY(axis);
+    emit axisYChanged(axis);
+}
+
+QValue3DAxis *QSurface3DSeries::axisY() const {
+    Q_D(const QSurface3DSeries);
+    return d->m_axisY;
+}
+
+void QSurface3DSeries::releaseAxisY()
+{
+    Q_D(QSurface3DSeries);
+    if (!d->m_axisY) {
+        qCDebug(lcProperties3D) << __FUNCTION__
+            << "axis y does not set";
+        return;
+    }
+    d->releaseAxisY();
+    emit axisYChanged(nullptr);
+}
+
+/*!
+ * \property QSurface3DSeries::axisZ
+ * \since 6.11
+ *
+ * \brief Holds an additional Z-axis for the series
+ *  If an axis is given, the series will be fitted
+ *  to the minimum and maximum values of the axis.
+ */
+void QSurface3DSeries::setAxisZ(QValue3DAxis *axis) {
+    Q_D(QSurface3DSeries);
+    if (d->m_axisZ == axis) {
+        qCDebug(lcProperties3D) << __FUNCTION__
+            << "value is already set to:" << axis;
+        return;
+    }
+    d->setAxisZ(axis);
+    emit axisZChanged(axis);
+}
+
+QValue3DAxis *QSurface3DSeries::axisZ() const {
+    Q_D(const QSurface3DSeries);
+    return d->m_axisZ;
+}
+
+void QSurface3DSeries::releaseAxisZ()
+{
+    Q_D(QSurface3DSeries);
+    if (!d->m_axisZ) {
+        qCDebug(lcProperties3D) << __FUNCTION__
+            << "axis z does not set";
+        return;
+    }
+    d->releaseAxisZ();
+    emit axisZChanged(nullptr);
+}
+
 // QSurface3DSeriesPrivate
 
 QSurface3DSeriesPrivate::QSurface3DSeriesPrivate()
@@ -630,6 +739,9 @@ QSurface3DSeriesPrivate::QSurface3DSeriesPrivate()
     , m_drawMode(QSurface3DSeries::DrawSurfaceAndWireframe)
     , m_wireframeColor(Qt::black)
     , m_rowsSanitized(false)
+    , m_axisX(nullptr)
+    , m_axisY(nullptr)
+    , m_axisZ(nullptr)
 {
     m_itemLabelFormat = QStringLiteral("@xLabel, @yLabel, @zLabel");
     m_mesh = QAbstract3DSeries::Mesh::Sphere;
@@ -817,6 +929,36 @@ void QSurface3DSeriesPrivate::clearRow(qsizetype rowIndex)
 void QSurface3DSeriesPrivate::clearArray()
 {
     m_dataArray.clear();
+}
+
+void QSurface3DSeriesPrivate::setAxisX(QValue3DAxis *axis)
+{
+    m_axisX = axis;
+}
+
+void QSurface3DSeriesPrivate::releaseAxisX()
+{
+    m_axisX = nullptr;
+}
+
+void QSurface3DSeriesPrivate::setAxisY(QValue3DAxis *axis)
+{
+    m_axisY = axis;
+}
+
+void QSurface3DSeriesPrivate::releaseAxisY()
+{
+    m_axisY = nullptr;
+}
+
+void QSurface3DSeriesPrivate::setAxisZ(QValue3DAxis *axis)
+{
+    m_axisZ = axis;
+}
+
+void QSurface3DSeriesPrivate::releaseAxisZ()
+{
+    m_axisZ = nullptr;
 }
 
 QT_END_NAMESPACE

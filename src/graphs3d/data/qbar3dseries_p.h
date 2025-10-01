@@ -16,6 +16,8 @@
 
 #include "qabstract3dseries_p.h"
 #include "qbar3dseries.h"
+#include "qvalue3daxis.h"
+#include "qcategory3daxis.h"
 
 QT_BEGIN_NAMESPACE
 
@@ -51,6 +53,13 @@ public:
                       const QStringList &newLabels,
                       bool isInsert);
 
+    void setRowAxis(QCategory3DAxis *axis);
+    void setValueAxis(QValue3DAxis *axis);
+    void setColumnAxis(QCategory3DAxis *axis);
+    void releaseRowAxis();
+    void releaseValueAxis();
+    void releaseColumnAxis();
+
 private:
     QBarDataArray m_dataArray;
     QStringList m_rowLabels;
@@ -60,6 +69,10 @@ private:
     QPoint m_selectedBar;
     QList<QColor> m_rowColors;
     bool m_valueColoring;
+
+    QCategory3DAxis *m_rowAxis = nullptr;
+    QValue3DAxis *m_valueAxis = nullptr;
+    QCategory3DAxis *m_columnAxis = nullptr;
 
     friend class QQuickGraphsBars;
 };

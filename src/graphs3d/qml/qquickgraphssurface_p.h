@@ -145,6 +145,8 @@ public:
     void handleItemLabelVisibleChangedBySender(bool visible, QObject *sender) override;
     void adjustAxisRanges() override;
 
+    void handleMultiAxisChanged(QAbstract3DAxis *axis) override;
+
     void handleLightingModeChanged() override;
 
     void renderSliceToImage(int index,
@@ -166,6 +168,8 @@ protected:
     void handleThemeTypeChange() override;
     bool doPicking(QPointF position) override;
     bool doRayPicking(QVector3D origin, QVector3D direction) override;
+    QAbstract3DAxis *getSeriesMultiAxis(QAbstract3DSeries *series,
+                       QAbstract3DAxis::AxisOrientation orientation) override;
 
     void createSliceView() override;
     void updateSliceItemLabel(const QString &label, QVector3D position) override;
@@ -236,7 +240,7 @@ private:
         bool ascendingZ;
     };
 
-    QVector3D getNormalizedVertex(const QSurfaceDataItem &data, bool polar, bool flipXZ);
+    QVector3D getNormalizedVertex(const QSurfaceDataItem &data, bool polar, bool flipXZ, QSurface3DSeries *series = nullptr);
     QRect calculateSampleSpace(SurfaceModel *model, const QSurfaceDataArray &array);
     QPointF mapCoordsToWorldSpace(SurfaceModel *model, QPointF coords);
     QPoint mapCoordsToSampleSpace(SurfaceModel *model, QPointF coords);

@@ -123,6 +123,9 @@ private:
     Q_DISABLE_COPY(QAbstract3DAxis)
 
     friend class QQuickGraphsItem;
+    friend class QQuickGraphsSurface;
+    friend class QQuickGraphsScatter;
+    friend class QQuickGraphsBars;
     friend class QScatterDataProxyPrivate;
     friend class QSurfaceDataProxyPrivate;
 };

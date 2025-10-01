@@ -606,6 +606,123 @@ QList<QColor> QBar3DSeries::rowColors() const
 }
 
 /*!
+ * \property QBar3DSeries::rowAxis
+ * \since 6.11
+ *
+ * \brief Holds an additional row axis for the series
+ * \note The additional axis does not adjust the
+ * fitting of the graph, but allows for an extra set of
+ * labels and an axis grid.
+ */
+void QBar3DSeries::setRowAxis(QCategory3DAxis *axis)
+{
+    Q_D(QBar3DSeries);
+    if (rowAxis() == axis) {
+        qCDebug(lcProperties3D) << __FUNCTION__
+            << "value is already set to:" << axis;
+        return;
+    }
+    d->setRowAxis(axis);
+    emit rowAxisChanged(axis);
+}
+
+QCategory3DAxis *QBar3DSeries::rowAxis() const
+{
+    Q_D(const QBar3DSeries);
+    return d->m_rowAxis;
+}
+
+void QBar3DSeries::releaseRowAxis()
+{
+    Q_D(QBar3DSeries);
+    if (!d->m_rowAxis) {
+        qCDebug(lcProperties3D) << __FUNCTION__
+            << "row axis not set";
+        return;
+    }
+    d->releaseRowAxis();
+    emit rowAxisChanged(nullptr);
+}
+
+
+/*!
+ * \property QBar3DSeries::valueAxis
+ * \since 6.11
+ *
+ * \brief Holds an additional value axis for the series
+ *  If an axis is given, the series will be fitted
+ *  to the minimum and maximum values of the axis.
+ */
+void QBar3DSeries::setValueAxis(QValue3DAxis *axis)
+{
+    Q_D(QBar3DSeries);
+    if (valueAxis() == axis) {
+        qCDebug(lcProperties3D) << __FUNCTION__
+            << "value is already set to:" << axis;
+        return;
+    }
+    d->setValueAxis(axis);
+    emit valueAxisChanged(axis);
+}
+
+QValue3DAxis *QBar3DSeries::valueAxis() const
+{
+    Q_D(const QBar3DSeries);
+    return d->m_valueAxis;
+}
+
+void QBar3DSeries::releaseValueAxis()
+{
+    Q_D(QBar3DSeries);
+    if (!d->m_valueAxis) {
+        qCDebug(lcProperties3D) << __FUNCTION__
+            << "value axis not set";
+        return;
+    }
+    d->releaseValueAxis();
+    emit valueAxisChanged(nullptr);
+}
+
+/*!
+ * \property QBar3DSeries::columnAxis
+ * \since 6.11
+ *
+ * \brief Holds an additional column axis for the series
+ * \note The additional axis does not adjust the
+ * fitting of the graph, but allows for an extra set of
+ * labels and an axis grid.
+ */
+void QBar3DSeries::setColumnAxis(QCategory3DAxis *axis)
+{
+    Q_D(QBar3DSeries);
+    if (columnAxis() == axis) {
+        qCDebug(lcProperties3D) << __FUNCTION__
+            << "value is already set to:" << axis;
+        return;
+    }
+    d->setColumnAxis(axis);
+    emit columnAxisChanged(axis);
+}
+
+QCategory3DAxis *QBar3DSeries::columnAxis() const
+{
+    Q_D(const QBar3DSeries);
+    return d->m_columnAxis;
+}
+
+void QBar3DSeries::releaseColumnAxis()
+{
+    Q_D(QBar3DSeries);
+    if (!d->m_columnAxis) {
+        qCDebug(lcProperties3D) << __FUNCTION__
+            << "column axis not set";
+        return;
+    }
+    d->releaseColumnAxis();
+    emit columnAxisChanged(nullptr);
+}
+
+/*!
  * \internal
  */
 void QBar3DSeries::connectSignals()
@@ -901,6 +1018,36 @@ void QBar3DSeriesPrivate::setCustomRowLabels(const QStringList &labels)
 void QBar3DSeriesPrivate::setCustomColumnLabels(const QStringList &labels)
 {
     m_customColumnLabels = labels;
+}
+
+void QBar3DSeriesPrivate::setRowAxis(QCategory3DAxis *axis)
+{
+    m_rowAxis = axis;
+}
+
+void QBar3DSeriesPrivate::releaseRowAxis()
+{
+    m_rowAxis = nullptr;
+}
+
+void QBar3DSeriesPrivate::setValueAxis(QValue3DAxis *axis)
+{
+    m_valueAxis = axis;
+}
+
+void QBar3DSeriesPrivate::releaseValueAxis()
+{
+    m_valueAxis = nullptr;
+}
+
+void QBar3DSeriesPrivate::setColumnAxis(QCategory3DAxis *axis)
+{
+    m_columnAxis = axis;
+}
+
+void QBar3DSeriesPrivate::releaseColumnAxis()
+{
+    m_columnAxis = nullptr;
 }
 
 QT_END_NAMESPACE

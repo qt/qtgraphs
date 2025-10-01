@@ -146,6 +146,8 @@ public:
     void adjustAxisRanges() override;
     void handleLightingModeChanged() override;
 
+    void handleMultiAxisChanged(QAbstract3DAxis *axis) override;
+
     void setSelectedBar(QPoint coord, QBar3DSeries *series, bool enterSlice);
 
     QList<QBar3DSeries *> barSeriesList();
@@ -183,6 +185,8 @@ protected:
     bool doRayPicking(QVector3D origin, QVector3D direction) override;
     QAbstract3DAxis *createDefaultAxis(QAbstract3DAxis::AxisOrientation orientation) override;
     void updateSliceItemLabel(const QString &label, QVector3D position) override;
+    QAbstract3DAxis *getSeriesMultiAxis(QAbstract3DSeries *series,
+                       QAbstract3DAxis::AxisOrientation orientation) override;
 
     QQuick3DViewport* createOffscreenSliceView(int requestedIndex,
                                               QtGraphs3D::SliceCaptureType sliceType);
@@ -326,7 +330,7 @@ private:
     void fixMeshFileName(QString &fileName, QAbstract3DSeries::Mesh meshType);
     void updateBarVisuality(QBar3DSeries *series, int visualIndex);
     void updateBarPositions(QBar3DSeries *series);
-    float updateBarHeightParameters(const QBarDataItem *item);
+    float updateBarHeightParameters(const QBarDataItem *item, QValue3DAxis *axis = nullptr);
     void updateBarVisuals(QBar3DSeries *series);
     void updateItemMaterial(QQuick3DModel *item,
                             bool useGradient,

@@ -16,6 +16,7 @@
 
 #include "qabstract3dseries_p.h"
 #include "qsurface3dseries.h"
+#include "qvalue3daxis.h"
 
 QT_BEGIN_NAMESPACE
 
@@ -42,6 +43,13 @@ public:
     void clearRow(qsizetype rowIndex);
     void clearArray();
 
+    void setAxisX(QValue3DAxis *axis);
+    void setAxisY(QValue3DAxis *axis);
+    void setAxisZ(QValue3DAxis *axis);
+    void releaseAxisX();
+    void releaseAxisY();
+    void releaseAxisZ();
+
 private:
     QSurfaceDataArray m_dataArray;
     QPoint m_selectedPoint;
@@ -51,6 +59,9 @@ private:
     QString m_textureFile;
     QColor m_wireframeColor;
     bool m_rowsSanitized;
+    QValue3DAxis *m_axisX = nullptr;
+    QValue3DAxis *m_axisY = nullptr;
+    QValue3DAxis *m_axisZ = nullptr;
 };
 
 QT_END_NAMESPACE

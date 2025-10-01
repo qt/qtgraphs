@@ -6,6 +6,7 @@
 
 #include <QtGraphs/qabstract3dseries.h>
 #include <QtGraphs/qscatterdataproxy.h>
+#include <QtGraphs/qvalue3daxis.h>
 
 QT_BEGIN_NAMESPACE
 
@@ -22,6 +23,10 @@ class Q_GRAPHS_EXPORT QScatter3DSeries : public QAbstract3DSeries
     Q_PROPERTY(QScatterDataArray dataArray READ dataArray WRITE setDataArray NOTIFY dataArrayChanged FINAL)
     Q_PROPERTY(QList<QVector3D> scaleArray READ scaleArray WRITE setScaleArray NOTIFY
         scaleArrayChanged REVISION(6, 10))
+
+    Q_PROPERTY(QValue3DAxis *axisX READ axisX WRITE setAxisX NOTIFY axisXChanged REVISION(6, 11))
+    Q_PROPERTY(QValue3DAxis *axisY READ axisY WRITE setAxisY NOTIFY axisYChanged REVISION(6, 11))
+    Q_PROPERTY(QValue3DAxis *axisZ READ axisZ WRITE setAxisZ NOTIFY axisZChanged REVISION(6, 11))
 
     QML_ELEMENT
     QML_UNCREATABLE("Trying to create uncreatable: QScatter3DSeries, use Scatter3DSeries instead.")
@@ -51,12 +56,25 @@ public:
     const QList<QVector3D> &scaleArray() const &;
     QList<QVector3D> scaleArray() &&;
 
+    void setAxisX(QValue3DAxis *axis);
+    void setAxisY(QValue3DAxis *axis);
+    void setAxisZ(QValue3DAxis *axis);
+    QValue3DAxis *axisX() const;
+    QValue3DAxis *axisY() const;
+    QValue3DAxis *axisZ() const;
+    Q_REVISION(6, 11) Q_INVOKABLE void releaseAxisX();
+    Q_REVISION(6, 11) Q_INVOKABLE void releaseAxisY();
+    Q_REVISION(6, 11) Q_INVOKABLE void releaseAxisZ();
+
 Q_SIGNALS:
     void dataProxyChanged(QScatterDataProxy *proxy);
     void selectedItemChanged(qsizetype index);
     void itemSizeChanged(float size);
     void dataArrayChanged(const QScatterDataArray &array);
     Q_REVISION(6, 10) void scaleArrayChanged(const QList<QVector3D> &scaleArray);
+    Q_REVISION(6, 11) void axisXChanged(QValue3DAxis *axis);
+    Q_REVISION(6, 11) void axisYChanged(QValue3DAxis *axis);
+    Q_REVISION(6, 11) void axisZChanged(QValue3DAxis *axis);
 
 protected:
     explicit QScatter3DSeries(QScatter3DSeriesPrivate &d, QObject *parent = nullptr);

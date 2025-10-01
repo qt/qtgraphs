@@ -40,11 +40,22 @@ public:
     void setScaleArray(const QList<QVector3D> &newScaleArray);
     void clearScaleArray();
 
+    void setAxisX(QValue3DAxis *axis);
+    void setAxisY(QValue3DAxis *axis);
+    void setAxisZ(QValue3DAxis *axis);
+    void releaseAxisX();
+    void releaseAxisY();
+    void releaseAxisZ();
+
 private:
     qsizetype m_selectedItem;
     float m_itemSize;
     QScatterDataArray m_dataArray;
     QList<QVector3D> m_scaleArray;
+
+    QValue3DAxis *m_axisX = nullptr;
+    QValue3DAxis *m_axisY = nullptr;
+    QValue3DAxis *m_axisZ = nullptr;
 
     friend class QQuickGraphsScatter;
 };
