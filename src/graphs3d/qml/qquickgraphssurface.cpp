@@ -1961,9 +1961,16 @@ QVector3D QQuickGraphsSurface::getNormalizedVertex(const QSurfaceDataItem &data,
     QValue3DAxis *axisYValue = static_cast<QValue3DAxis *>(axisY());
     QValue3DAxis *axisZValue = static_cast<QValue3DAxis *>(axisZ());
 
-    float normalizedX = axisXValue->positionAt(data.x());
+    bool xReversed = axisXValue->reversed();
+    bool yReversed = axisYValue->reversed();
+    bool zReversed = axisZValue->reversed();
+
+    float normalizedX = xReversed ? 1.f - axisXValue->positionAt(data.x())
+                                  : axisXValue->positionAt(data.x());
     float normalizedY;
-    float normalizedZ = axisZValue->positionAt(data.z());
+    float normalizedZ = zReversed ? 1.f - axisZValue->positionAt(data.z())
+                                  : axisZValue->positionAt(data.z());
+
     // TODO : Need to handle, flipXZ
 
     float scale, translate;
@@ -1979,7 +1986,8 @@ QVector3D QQuickGraphsSurface::getNormalizedVertex(const QSurfaceDataItem &data,
         normalizedZ = normalizedZ * -scale * 2.0f + translate;
     }
     scale = translate = this->scale().y();
-    normalizedY = axisYValue->positionAt(data.y()) * scale * 2.0f - translate;
+    float yval = (yReversed ? axisYValue->max() - data.y() : data.y());
+    normalizedY = axisYValue->positionAt(yval) * scale * 2.0f - translate;
     return QVector3D(normalizedX, normalizedY, normalizedZ);
 }
 
