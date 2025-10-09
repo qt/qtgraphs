@@ -57,14 +57,6 @@ AxisRenderer::AxisRenderer(QQuickItem *parent)
 {
     m_graph = qobject_cast<QGraphsView *>(parent);
     setFlag(QQuickItem::ItemHasContents);
-
-    m_dragHandler = new QQuickDragHandler(this);
-    m_dragHandler->setDragThreshold(10);
-    m_dragHandler->setTarget(nullptr);
-    connect(m_dragHandler, &QQuickDragHandler::translationChanged,
-            this, &AxisRenderer::onTranslationChanged);
-    connect(m_dragHandler, &QQuickDragHandler::grabChanged,
-            this, &AxisRenderer::onGrabChanged);
 }
 
 AxisRenderer::~AxisRenderer() {}
@@ -316,6 +308,14 @@ void AxisRenderer::onGrabChanged(QPointingDevice::GrabTransition transition, QEv
 
 void AxisRenderer::handlePolish()
 {
+    if (m_graph->panStyle() != QGraphsView::PanStyle::None
+        || m_graph->zoomStyle() != QGraphsView::ZoomStyle::None || m_graph->zoomAreaEnabled()) {
+        if (!m_dragHandler)
+            createDragHandler();
+    } else if (m_dragHandler) {
+        deleteDragHandler();
+    }
+
     // See if series is horizontal, so axis should also switch places.
     bool vertical = true;
     if (m_graph->orientation() == Qt::Orientation::Horizontal)
@@ -1595,6 +1595,28 @@ void AxisRenderer::updateDateTimeXAxisLabels(AxisProperties &ax, const QRectF re
             textItem->setVisible(false);
         }
     }
+}
+
+void AxisRenderer::createDragHandler()
+{
+    m_dragHandler = new QQuickDragHandler(this);
+    m_dragHandler->setDragThreshold(10);
+    m_dragHandler->setTarget(nullptr);
+    connect(m_dragHandler,
+            &QQuickDragHandler::translationChanged,
+            this,
+            &AxisRenderer::onTranslationChanged);
+    connect(m_dragHandler, &QQuickDragHandler::grabChanged, this, &AxisRenderer::onGrabChanged);
+}
+
+void AxisRenderer::deleteDragHandler()
+{
+    disconnect(m_dragHandler,
+               &QQuickDragHandler::translationChanged,
+               this,
+               &AxisRenderer::onTranslationChanged);
+    disconnect(m_dragHandler, &QQuickDragHandler::grabChanged, this, &AxisRenderer::onGrabChanged);
+    m_dragHandler->deleteLater();
 }
 
 // Calculate suitable major step based on range

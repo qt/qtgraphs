@@ -104,6 +104,8 @@ private:
     void updateDateTimeYAxisLabels(AxisProperties &ax, const QRectF rect);
     void updateDateTimeXAxisLabels(AxisProperties &ax, const QRectF rect);
 
+    void createDragHandler();
+    void deleteDragHandler();
     void onTranslationChanged(QVector2D delta);
     void onGrabChanged(QPointingDevice::GrabTransition transition, QEventPoint point);
 
