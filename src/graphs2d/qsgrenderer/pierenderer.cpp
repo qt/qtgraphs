@@ -298,6 +298,11 @@ void PieRenderer::markedDeleted(QList<QPieSlice *> deleted)
         d->m_labelItem->deleteLater();
         m_activeSlices.remove(slice);
     }
+    // We could mark m_currentHoverSlice null only if
+    // it matches to a deleted slice, but as removals
+    // affect other slices positions it is probably
+    // better to just always disable current hovering.
+    m_currentHoverSlice = nullptr;
 }
 
 bool PieRenderer::isPointInSlice(QPointF point, QPieSlice *slice, qreal *angle)
