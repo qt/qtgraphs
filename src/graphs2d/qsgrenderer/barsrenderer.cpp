@@ -331,7 +331,9 @@ void BarsRenderer::updateVerticalBars(QBarSeries *series, qsizetype setCount, qs
     int barSeriesIndex = 0;
     QList<QLegendData> legendDataList;
     auto barsets = series->barSets();
-    Q_TRACE(QGraphs2DBarsRendererUpdateVerticalBars_entry, setCount, valuesPerSet, barSeriesCount);
+    Q_TRACE(QGraphs2DBarsRendererUpdateVerticalBars_entry, setCount, valuesPerSet,
+            std::count_if(m_graph->m_seriesList.begin(), m_graph->m_seriesList.end(),
+                          [](const auto &series) { return qobject_cast<QBarSeries *>(series); }));
     for (auto s : std::as_const(barsets)) {
         QVariantList v = s->values();
         qsizetype valuesCount = v.size();
@@ -446,7 +448,9 @@ void BarsRenderer::updateHorizontalBars(QBarSeries *series, qsizetype setCount, 
     int barSerieIndex = 0;
     QList<QLegendData> legendDataList;
     auto barsets = series->barSets();
-    Q_TRACE(QGraphs2DBarsRendererUpdateupdateHorizontalBars_entry, setCount, valuesPerSet, barSeriesCount);
+    Q_TRACE(QGraphs2DBarsRendererUpdateupdateHorizontalBars_entry, setCount, valuesPerSet,
+            std::count_if(m_graph->m_seriesList.begin(), m_graph->m_seriesList.end(),
+                          [](const auto &series) { return qobject_cast<QBarSeries *>(series); }));
     for (auto s : std::as_const(barsets)) {
         QVariantList v = s->values();
         qsizetype valuesCount = v.size();
