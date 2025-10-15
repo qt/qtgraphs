@@ -30,6 +30,12 @@ int main(int argc, char **argv)
     tst_qmltest skip;
     return QTest::qExec(&skip, argc, argv);
 #endif
+#if defined(Q_OS_WINDOWS) && defined(_M_ARM64)
+    qWarning("This test would fail due to ARM Windows QtQuick3D support shortcomings, so it will "
+             "be skipped.");
+    tst_qmltest skip;
+    return QTest::qExec(&skip, argc, argv);
+#endif
     QTEST_SET_MAIN_SOURCE_PATH
     return quick_test_main(argc, argv, "qmltest", QUICK_TEST_SOURCE_DIR);
 }
