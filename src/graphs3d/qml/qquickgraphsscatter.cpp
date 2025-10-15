@@ -966,9 +966,19 @@ bool QQuickGraphsScatter::selectedItemInSeries(const QScatter3DSeries *series)
 
 bool QQuickGraphsScatter::isDotPositionInAxisRange(QVector3D dotPos)
 {
-    return ((dotPos.x() >= axisX()->min() && dotPos.x() <= axisX()->max())
-            && (dotPos.y() >= axisY()->min() && dotPos.y() <= axisY()->max())
-            && (dotPos.z() >= axisZ()->min() && dotPos.z() <= axisZ()->max()));
+    float cutoffMargin = QQuickGraphsItem::cutoffMargin();
+
+    float axisMinX = axisX()->min() - cutoffMargin;
+    float axisMinY = axisY()->min() - cutoffMargin;
+    float axisMinZ = axisZ()->min() - cutoffMargin;
+
+    float axisMaxX = axisX()->max() + cutoffMargin;
+    float axisMaxY = axisY()->max() + cutoffMargin;
+    float axisMaxZ = axisZ()->max() + cutoffMargin;
+
+    return ((dotPos.x() >= axisMinX && dotPos.x() <= axisMaxX)
+            && (dotPos.y() >= axisMinY && dotPos.y() <= axisMaxY)
+            && (dotPos.z() >= axisMinZ && dotPos.z() <= axisMaxZ));
 }
 
 QScatter3DSeries *QQuickGraphsScatter::selectedSeries() const

@@ -684,6 +684,16 @@ constexpr float polarRoundness = 64.0f;
  */
 
 /*!
+ * \qmlproperty real GraphsItem3D::cutoffMargin
+ * \since 6.11
+ *
+ * The value used for the difference between the axis limits
+ * and the position at which graph elements are culled.
+ *
+ * \note Does not affect bar graphs.
+ */
+
+/*!
  * \qmlproperty Graphs3D.GridLineType GraphsItem3D::gridLineType
  *
  * Defines whether the grid lines type is \c Graphs3D.GridLineType.Shader or
@@ -5881,6 +5891,24 @@ void QQuickGraphsItem::setMargin(qreal margin)
 qreal QQuickGraphsItem::margin() const
 {
     return m_margin;
+}
+
+void QQuickGraphsItem::setCutoffMargin(qreal margin)
+{
+    if (m_cutoffMargin == margin) {
+        qCDebug(lcProperties3D, "%s value is already set to: %.1f",
+                qUtf8Printable(QLatin1String(__FUNCTION__)), margin);
+        return;
+    }
+    m_cutoffMargin = margin;
+    m_isSeriesVisualsDirty = true;
+    emit cutoffMarginChanged(margin);
+    emitNeedRender();
+}
+
+qreal QQuickGraphsItem::cutoffMargin() const
+{
+    return m_cutoffMargin;
 }
 
 QQuick3DNode *QQuickGraphsItem::rootNode() const

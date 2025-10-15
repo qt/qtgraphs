@@ -53,6 +53,8 @@ class Q_GRAPHSWIDGETS_EXPORT Q3DGraphsWidgetItem : public QObject
     Q_PROPERTY(
         QVector3D queriedGraphPosition READ queriedGraphPosition NOTIFY queriedGraphPositionChanged)
     Q_PROPERTY(qreal margin READ margin WRITE setMargin NOTIFY marginChanged)
+    Q_PROPERTY(qreal cutoffMargin READ cutoffMargin WRITE setCutoffMargin NOTIFY
+            cutoffMarginChanged REVISION(6, 11))
     Q_PROPERTY(QtGraphs3D::CameraPreset cameraPreset READ cameraPreset WRITE setCameraPreset NOTIFY
                    cameraPresetChanged)
     Q_PROPERTY(float cameraXRotation READ cameraXRotation WRITE setCameraXRotation NOTIFY
@@ -151,6 +153,9 @@ public:
 
     void setMargin(qreal margin);
     qreal margin() const;
+
+    void setCutoffMargin(qreal margin);
+    qreal cutoffMargin() const;
 
     void clearSelection();
 
@@ -272,6 +277,7 @@ Q_SIGNALS:
     void localeChanged(const QLocale &locale);
     void queriedGraphPositionChanged(QVector3D data);
     void marginChanged(qreal margin);
+    Q_REVISION(6, 11) void cutoffMarginChanged(qreal margin);
     void cameraPresetChanged(QtGraphs3D::CameraPreset preset);
     void cameraXRotationChanged(float rotation);
     void cameraYRotationChanged(float rotation);

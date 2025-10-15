@@ -1341,6 +1341,27 @@ qreal Q3DGraphsWidgetItem::margin() const
 }
 
 /*!
+ * \property Q3DGraphsWidgetItem::cutoffMargin
+ * \since 6.11
+ *
+ * \brief The value used for the space between the axis limits
+ * and the position at which graph elements are culled.
+ *
+ * \note Does not affect bar graphs.
+ */
+void Q3DGraphsWidgetItem::setCutoffMargin(qreal margin)
+{
+    Q_D(Q3DGraphsWidgetItem);
+    d->m_graphsItem->setCutoffMargin(margin);
+}
+
+qreal Q3DGraphsWidgetItem::cutoffMargin() const
+{
+    Q_D(const Q3DGraphsWidgetItem);
+    return d->m_graphsItem->cutoffMargin();
+}
+
+/*!
  * \internal
  */
 bool Q3DGraphsWidgetItem::event(QEvent *event)
@@ -1610,6 +1631,10 @@ void Q3DGraphsWidgetItemPrivate::createGraph()
                      &QQuickGraphsItem::marginChanged,
                      q,
                      &Q3DGraphsWidgetItem::marginChanged);
+    QObject::connect(m_graphsItem.get(),
+                     &QQuickGraphsItem::cutoffMarginChanged,
+                     q,
+                     &Q3DGraphsWidgetItem::cutoffMarginChanged);
 
     m_widget->installEventFilter(q);
 }

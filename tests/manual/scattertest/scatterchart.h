@@ -36,6 +36,7 @@ public:
     void setMaxX(int max);
     void setMaxY(int max);
     void setMaxZ(int max);
+    void setCutoffMargin(int margin);
     void setAspectRatio(int ratio);
     void setHorizontalAspectRatio(int ratio);
     void start();

@@ -1153,6 +1153,11 @@ void ScatterDataModifier::setMaxZ(int max)
     m_chart->axisZ()->setMax(max);
 }
 
+void ScatterDataModifier::setCutoffMargin(int margin)
+{
+    m_chart->setCutoffMargin(float(margin) / 100.0f);
+}
+
 void ScatterDataModifier::setAspectRatio(int ratio)
 {
     qreal aspectRatio = qreal(ratio) / 10.0;

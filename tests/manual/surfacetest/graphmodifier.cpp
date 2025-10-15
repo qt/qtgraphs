@@ -731,6 +731,13 @@ void GraphModifier::adjustZMin(int min)
     qDebug() << "Z Minimum =" << min;
 }
 
+void GraphModifier::adjustCutoffMargin(int margin)
+{
+    m_graph->setCutoffMargin(float(margin) / 100.0f);
+
+    qDebug() << "Cutogg margin" << float(margin) / 100.0f;
+}
+
 void GraphModifier::gradientPressed()
 {
     static QGraphsTheme::ColorStyle colorStyle = QGraphsTheme::ColorStyle::Uniform;

@@ -78,6 +78,7 @@ public:
     void adjustXMin(int min);
     void adjustYMin(int min);
     void adjustZMin(int min);
+    void adjustCutoffMargin(int margin);
     void updateSamples();
     void gradientPressed();
     void changeFont(const QFont &font);

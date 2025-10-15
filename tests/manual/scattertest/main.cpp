@@ -233,6 +233,13 @@ int main(int argc, char **argv)
     maxSliderZ->setValue(50);
     maxSliderZ->setMaximum(100);
 
+    QSlider *cutoffMarginSlider = new QSlider(Qt::Horizontal, widget);
+    cutoffMarginSlider->setTickInterval(500);
+    cutoffMarginSlider->setTickPosition(QSlider::TicksAbove);
+    cutoffMarginSlider->setMinimum(-1000);
+    cutoffMarginSlider->setValue(0);
+    cutoffMarginSlider->setMaximum(1000);
+
     QSlider *aspectRatioSlider = new QSlider(Qt::Horizontal, widget);
     aspectRatioSlider->setTickInterval(10);
     aspectRatioSlider->setTickPosition(QSlider::TicksBelow);
@@ -384,6 +391,8 @@ int main(int argc, char **argv)
     vLayout2->addWidget(maxSliderY, 0, Qt::AlignTop);
     vLayout2->addWidget(minSliderZ, 0, Qt::AlignTop);
     vLayout2->addWidget(maxSliderZ, 0, Qt::AlignTop);
+    vLayout2->addWidget(new QLabel(QStringLiteral("Adjust cutoffMargin")));
+    vLayout2->addWidget(cutoffMarginSlider, 0, Qt::AlignTop);
     vLayout2->addWidget(new QLabel(QStringLiteral("Change font")));
     vLayout2->addWidget(fontList);
     vLayout2->addWidget(new QLabel(QStringLiteral("Adjust font size")));
@@ -528,6 +537,8 @@ int main(int argc, char **argv)
                      &ScatterDataModifier::setMaxY);
     QObject::connect(maxSliderZ, &QSlider::valueChanged, modifier,
                      &ScatterDataModifier::setMaxZ);
+    QObject::connect(cutoffMarginSlider, &QSlider::valueChanged, modifier,
+                     &ScatterDataModifier::setCutoffMargin);
     QObject::connect(optimizationLegacyCB,
                      &QCheckBox::checkStateChanged,
                      modifier,

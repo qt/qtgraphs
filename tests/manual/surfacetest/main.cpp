@@ -243,6 +243,13 @@ int main(int argc, char *argv[])
     axisMinSliderZ->setMaximum(100);
     axisMinSliderZ->setEnabled(true);
 
+    QSlider *cutoffMarginSlider = new QSlider(Qt::Horizontal, widget);
+    cutoffMarginSlider->setTickInterval(500);
+    cutoffMarginSlider->setMinimum(-1000);
+    cutoffMarginSlider->setValue(0);
+    cutoffMarginSlider->setMaximum(1000);
+    cutoffMarginSlider->setEnabled(true);
+
     QSlider *aspectRatioSlider = new QSlider(Qt::Horizontal, widget);
     aspectRatioSlider->setMinimum(1);
     aspectRatioSlider->setValue(20);
@@ -592,6 +599,8 @@ int main(int argc, char *argv[])
     vLayout2->addWidget(axisMinSliderX);
     vLayout2->addWidget(axisMinSliderY);
     vLayout2->addWidget(axisMinSliderZ);
+    vLayout2->addWidget(new QLabel(QStringLiteral("Adjust cutoff margin")));
+    vLayout2->addWidget(cutoffMarginSlider);
     vLayout2->addWidget(xAscendingCB);
     vLayout2->addWidget(zAscendingCB);
     vLayout2->addWidget(polarCB);
@@ -816,6 +825,8 @@ int main(int argc, char *argv[])
                      modifier, &GraphModifier::adjustYMin);
     QObject::connect(axisMinSliderZ, &QSlider::valueChanged,
                      modifier, &GraphModifier::adjustZMin);
+    QObject::connect(cutoffMarginSlider, &QSlider::valueChanged,
+                     modifier, &GraphModifier::adjustCutoffMargin);
     QObject::connect(colorPB, &QPushButton::pressed,
                      modifier, &GraphModifier::gradientPressed);
     QObject::connect(fontList, &QFontComboBox::currentFontChanged,

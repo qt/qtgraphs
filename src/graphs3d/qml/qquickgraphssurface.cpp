@@ -1381,7 +1381,9 @@ QRect QQuickGraphsSurface::calculateSampleSpace(SurfaceModel *model, const QSurf
                 model->ascendingZ = ascendingZ;
             }
 
-            int idx = binarySearchArray(array, maxColumn, axisX()->min(), true, true, ascendingX);
+            float cutoffMargin = QQuickGraphsItem::cutoffMargin();
+            float axisXMin = axisX()->min() - cutoffMargin;
+            int idx = binarySearchArray(array, maxColumn, axisXMin, true, true, ascendingX);
             if (idx != -1) {
                 if (ascendingX)
                     sampleSpace.setLeft(idx);
@@ -1392,7 +1394,8 @@ QRect QQuickGraphsSurface::calculateSampleSpace(SurfaceModel *model, const QSurf
                 return sampleSpace;
             }
 
-            idx = binarySearchArray(array, maxColumn, axisX()->max(), true, false, ascendingX);
+            float axisXMax = axisX()->max() + cutoffMargin;
+            idx = binarySearchArray(array, maxColumn, axisXMax, true, false, ascendingX);
             if (idx != -1) {
                 if (ascendingX)
                     sampleSpace.setRight(idx);
@@ -1403,7 +1406,8 @@ QRect QQuickGraphsSurface::calculateSampleSpace(SurfaceModel *model, const QSurf
                 return sampleSpace;
             }
 
-            idx = binarySearchArray(array, maxRow, axisZ()->min(), false, true, ascendingZ);
+            float axisZMin = axisZ()->min() - cutoffMargin;
+            idx = binarySearchArray(array, maxRow, axisZMin, false, true, ascendingZ);
             if (idx != -1) {
                 if (ascendingZ)
                     sampleSpace.setTop(idx);
@@ -1414,7 +1418,8 @@ QRect QQuickGraphsSurface::calculateSampleSpace(SurfaceModel *model, const QSurf
                 return sampleSpace;
             }
 
-            idx = binarySearchArray(array, maxRow, axisZ()->max(), false, false, ascendingZ);
+            float axisZMax = axisZ()->max() + cutoffMargin;
+            idx = binarySearchArray(array, maxRow, axisZMax, false, false, ascendingZ);
             if (idx != -1) {
                 if (ascendingZ)
                     sampleSpace.setBottom(idx);
@@ -1553,7 +1558,8 @@ void QQuickGraphsSurface::updateModel(SurfaceModel *model)
         material->setProperty("xDiff", 1.0f / float(sampleSpace.width() - 1));
         material->setProperty("yDiff", 1.0f / float(sampleSpace.height() - 1));
         material->setProperty("flatShading", flatShading);
-        material->setProperty("graphHeight", scaleWithBackground().y());
+        material->setProperty("graphHeight",
+                              scaleWithBackground().y() + QQuickGraphsItem::cutoffMargin());
         material->setProperty("uvOffset", QVector2D(columnStart, rowStart));
         material->setProperty("size", QVector2D(sampleSpace.width(), sampleSpace.height()));
         material->setProperty("vertCount", QVector2D(columnCount, rowCount));
@@ -1681,7 +1687,8 @@ void QQuickGraphsSurface::updateModel(SurfaceModel *model)
         gridMaterial->setProperty("gridColor", gridColor);
         gridMaterial->setProperty("range", QVector2D(sampleSpace.width(), sampleSpace.height()));
         gridMaterial->setProperty("vertices", QVector2D(columnCount, rowCount));
-        gridMaterial->setProperty("graphHeight", scaleWithBackground().y());
+        gridMaterial->setProperty("graphHeight",
+                                  scaleWithBackground().y() + QQuickGraphsItem::cutoffMargin());
         gridMaterial->setProperty("fill", model->series->drawMode().testFlag(QSurface3DSeries::DrawFilledSurface));
 
         qCDebug(lcGraphs3D) << "surface info"
