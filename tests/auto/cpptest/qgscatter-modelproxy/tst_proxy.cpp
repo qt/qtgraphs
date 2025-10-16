@@ -103,6 +103,7 @@ void tst_proxy::initialProperties()
     QCOMPARE(m_proxy->zPosRoleReplace(), QString());
 
     QCOMPARE(m_proxy->itemCount(), 0);
+    QCOMPARE(m_proxy->series()->scaleArray().size(), 0);
 
     QCOMPARE(m_proxy->type(), QAbstractDataProxy::DataType::Scatter);
 }
@@ -216,6 +217,7 @@ void tst_proxy::addModel()
     QCoreApplication::processEvents();
 
     QCOMPARE(m_proxy->itemCount(), 2);
+    QCOMPARE(m_proxy->series()->scaleArray().size(), 0);
     QVERIFY(m_proxy->series());
     QCOMPARE(m_proxy->series(), m_series);
 

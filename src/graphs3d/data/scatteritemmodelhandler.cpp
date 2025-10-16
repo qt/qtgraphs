@@ -274,14 +274,16 @@ void ScatterItemModelHandler::resolveModel()
     if (m_proxyArray.data() != m_proxy->series()->dataArray().data()
         || totalCount != m_proxyArray.size()) {
         m_proxyArray.resize(totalCount);
-        m_scaleArray.resize(totalCount);
+        if (m_scaleRole != noRoleIndex)
+            m_scaleArray.resize(totalCount);
     }
 
     // Parse data into newProxyArray
     for (int i = 0; i < rowCount; i++) {
         for (int j = 0; j < columnCount; j++) {
             modelPosToScatterItem(i, j, m_proxyArray[runningCount]);
-            m_scaleArray[runningCount] = modelDataToScale(i, j);
+            if (m_scaleRole != noRoleIndex)
+                m_scaleArray[runningCount] = modelDataToScale(i, j);
             runningCount++;
         }
     }
