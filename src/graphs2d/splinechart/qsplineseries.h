@@ -16,6 +16,8 @@ class Q_GRAPHS_EXPORT QSplineSeries : public QXYSeries
     Q_OBJECT
     Q_PROPERTY(qreal width READ width WRITE setWidth NOTIFY widthChanged FINAL)
     Q_PROPERTY(Qt::PenCapStyle capStyle READ capStyle WRITE setCapStyle NOTIFY capStyleChanged FINAL)
+    Q_PROPERTY(
+        bool optimized READ optimized WRITE setOptimized NOTIFY optimizedChanged REVISION(6, 11))
 
     QML_NAMED_ELEMENT(SplineSeries)
 public:
@@ -30,11 +32,15 @@ public:
     Qt::PenCapStyle capStyle() const;
     void setCapStyle(Qt::PenCapStyle newCapStyle);
 
+    bool optimized() const;
+    void setOptimized(bool optimized);
+
     QList<QPointF> &getControlPoints();
 
 Q_SIGNALS:
     void widthChanged();
     void capStyleChanged();
+    Q_REVISION(6, 11) void optimizedChanged();
 
 protected:
     QSplineSeries(QSplineSeriesPrivate &dd, QObject *parent = nullptr);
