@@ -262,6 +262,8 @@ private:
     void clearSelectionModel();
     void clearAllSelectionInstanced();
 
+    void handleItemLabelVisibleChangedBySender(bool visible, QObject *sender) override;
+
     void optimizationChanged(QtGraphs3D::OptimizationHint toOptimization);
 
     void updateGraph() override;

@@ -5,6 +5,7 @@
 #include "qgraphsinputhandler_p.h"
 #include "qquickgraphsscatter_p.h"
 #include "qquickgraphstexturedata_p.h"
+#include "qscatter3dseries.h"
 #include "qscatter3dseries_p.h"
 #include "qscatterdataproxy_p.h"
 #include "qvalue3daxis_p.h"
@@ -595,6 +596,7 @@ void QQuickGraphsScatter::updateScatterGraphItemVisuals(ScatterModel *graphModel
             graphModel->selectionIndicator->setRotation(dih.rotation);
             graphModel->selectionIndicator->setScale(dih.scale);
             graphModel->selectionIndicator->setVisible(true);
+            itemLabel()->setVisible(graphModel->series->isItemLabelVisible());
             graphModel->instancing->hideDataItem(m_selectedItem);
             updateItemLabel(graphModel->selectionIndicator->position());
             graphModel->instancing->markDataDirty();
@@ -1020,7 +1022,7 @@ void QQuickGraphsScatter::setSelectedItem(qsizetype index, QScatter3DSeries *ser
     }
 
     if (index != invalidSelectionIndex())
-        itemLabel()->setVisible(true);
+        itemLabel()->setVisible(series->isItemLabelVisible());
 }
 
 void QQuickGraphsScatter::setSelectionMode(QtGraphs3D::SelectionFlags mode)
@@ -1914,6 +1916,13 @@ void QQuickGraphsScatter::clearAllSelectionInstanced()
         if (graph->instancing)
             graph->instancing->resetVisibilty();
     }
+}
+
+void QQuickGraphsScatter::handleItemLabelVisibleChangedBySender(bool visible, QObject *sender)
+{
+    auto series = qobject_cast<QScatter3DSeries *>(sender);
+    if (series && series == m_selectedItemSeries)
+        itemLabel()->setVisible(visible);
 }
 
 void QQuickGraphsScatter::optimizationChanged(QtGraphs3D::OptimizationHint toOptimization)

@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 
 #include "q3dscene.h"
+#include "qbar3dseries.h"
 #include "qbar3dseries_p.h"
 #include "qbardataproxy_p.h"
 #include "qcategory3daxis_p.h"
@@ -648,6 +649,17 @@ void QQuickGraphsBars::handleSeriesVisibilityChangedBySender(QObject *sender)
     // Visibility changes may require disabling slicing,
     // so just reset selection to ensure everything is still valid.
     setSelectedBar(m_selectedBar, m_selectedBarSeries, false);
+}
+
+void QQuickGraphsBars::handleItemLabelVisibleChangedBySender(bool visible, QObject *sender)
+{
+    auto series = static_cast<QBar3DSeries *>(sender);
+    if (series == m_selectedBarSeries)
+    {
+        itemLabel()->setVisible(visible);
+        if (auto label = sliceItemLabel(); label && isSlicingActive())
+            label->setVisible(visible);
+    }
 }
 
 void QQuickGraphsBars::handleAxisRangeChangedBySender(QObject *sender)
@@ -2567,7 +2579,8 @@ void QQuickGraphsBars::updateSelectedBar()
                         }
 
                         updateItemLabel(m_selectedBarPos);
-                        itemLabel()->setVisible(theme()->labelsVisible());
+                        itemLabel()->setVisible(m_selectedBarSeries->isItemLabelVisible()
+                                                && theme()->labelsVisible());
                         itemLabel()->setProperty("labelText", label);
                         if (!label.compare(QString(hiddenLabelTag)))
                             itemLabel()->setVisible(false);
@@ -2644,7 +2657,8 @@ void QQuickGraphsBars::updateSliceItemLabel(const QString &label, QVector3D posi
     if (!label.compare(QString(hiddenLabelTag)))
         sliceItemLabel()->setVisible(false);
     sliceItemLabel()->setEulerRotation(QVector3D(0.0f, 0.0f, 90.0f));
-    sliceItemLabel()->setVisible(theme()->labelsVisible());
+    sliceItemLabel()->setVisible(m_selectedBarSeries->isItemLabelVisible()
+                                 && theme()->labelsVisible());
 }
 
 void QQuickGraphsBars::resetClickedStatus()
@@ -2933,7 +2947,8 @@ void QQuickGraphsBars::createBarItemHolders(QBar3DSeries *series,
                 m_selectedBarPos.setY(m_selectedBarPos.y() + bih->heightValue - 0.2f);
 
             updateItemLabel(m_selectedBarPos);
-            itemLabel()->setVisible(theme()->labelsVisible());
+            itemLabel()->setVisible(m_selectedBarSeries->isItemLabelVisible()
+                                    && theme()->labelsVisible());
             itemLabel()->setProperty("labelText", label);
             if (!label.compare(QString(hiddenLabelTag)))
                 itemLabel()->setVisible(false);

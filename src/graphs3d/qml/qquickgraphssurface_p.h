@@ -142,6 +142,7 @@ public:
                                                        bool autoAdjust) override;
     void handleAxisRangeChangedBySender(QObject *sender) override;
     void handleSeriesVisibilityChangedBySender(QObject *sender) override;
+    void handleItemLabelVisibleChangedBySender(bool visible, QObject *sender) override;
     void adjustAxisRanges() override;
 
     void handleLightingModeChanged() override;

@@ -9,6 +9,7 @@
 #include "qgraphsinputhandler_p.h"
 #include "qquickgraphssurface_p.h"
 #include "qquickgraphstexturedata_p.h"
+#include "qsurface3dseries.h"
 #include "qsurface3dseries_p.h"
 #include "qsurfacedataproxy_p.h"
 #include "qvalue3daxis_p.h"
@@ -875,6 +876,17 @@ void QQuickGraphsSurface::handleSeriesVisibilityChangedBySender(QObject *sender)
     // Visibility changes may require disabling slicing,
     // so just reset selection to ensure everything is still valid.
     setSelectedPoint(m_selectedPoint, m_selectedSeries, false);
+}
+
+void QQuickGraphsSurface::handleItemLabelVisibleChangedBySender(bool visible, QObject *sender)
+{
+    auto series = static_cast<QSurface3DSeries *>(sender);
+
+    if (series == m_selectedSeries) {
+        itemLabel()->setVisible(visible);
+        if (auto label = sliceItemLabel(); label && isSlicingActive())
+            label->setVisible(visible);
+    }
 }
 
 void QQuickGraphsSurface::setFlipHorizontalGrid(bool flip)
