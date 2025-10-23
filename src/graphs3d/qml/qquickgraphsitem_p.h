@@ -563,6 +563,8 @@ public Q_SLOTS:
     void handleAxisTitleOffsetChanged(float offset);
     void handleInputPositionChanged(QPoint position);
     void handleSeriesVisibilityChanged(bool visible);
+    void handleItemLabelVisibleChanged(bool visible);
+    virtual void handleItemLabelVisibleChangedBySender(bool visible, QObject *sender) = 0;
 
     void handleThemeColorStyleChanged(QGraphsTheme::ColorStyle style);
     void handleThemeBaseColorsChanged(const QList<QColor> &color);

@@ -140,6 +140,7 @@ public:
     void handleAxisAutoAdjustRangeChangedInOrientation(QAbstract3DAxis::AxisOrientation orientation,
                                                        bool autoAdjust) override;
     void handleSeriesVisibilityChangedBySender(QObject *sender) override;
+    void handleItemLabelVisibleChangedBySender(bool visible, QObject *sender) override;
 
     void handleAxisRangeChangedBySender(QObject *sender) override;
     void adjustAxisRanges() override;

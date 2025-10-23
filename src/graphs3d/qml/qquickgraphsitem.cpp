@@ -1069,6 +1069,11 @@ void QQuickGraphsItem::handleSeriesVisibilityChanged(bool visible)
     handleSeriesVisibilityChangedBySender(sender());
 }
 
+void QQuickGraphsItem::handleItemLabelVisibleChanged(bool visible)
+{
+    handleItemLabelVisibleChangedBySender(visible, sender());
+}
+
 void QQuickGraphsItem::handleRequestShadowQuality(QtGraphs3D::ShadowQuality quality)
 {
     setShadowQuality(quality);
@@ -1619,6 +1624,10 @@ void QQuickGraphsItem::insertSeries(qsizetype index, QAbstract3DSeries *series)
                     &QAbstract3DSeries::lightingModeChanged,
                     this,
                     &QQuickGraphsItem::handleLightingModeChanged);
+            QObject::connect(series,
+                             &QAbstract3DSeries::itemLabelVisibleChanged,
+                             this,
+                             &QQuickGraphsItem::handleItemLabelVisibleChanged);
             series->d_func()->resetToTheme(*theme(), oldSize, false);
             qCDebug(lcSeries3D) << __FUNCTION__
                 << "insert" << series << "at index of:" << index;

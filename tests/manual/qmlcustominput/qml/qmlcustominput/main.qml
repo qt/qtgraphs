@@ -280,6 +280,9 @@ Item {
 
     RowLayout {
         id: buttonLayout
+
+        property int buttonCount: 5
+
         Layout.minimumHeight: shadowToggle.height
         width: parent.width
         anchors.left: parent.left
@@ -288,7 +291,7 @@ Item {
         Button {
             id: shadowToggle
             Layout.fillHeight: true
-            Layout.minimumWidth: parent.width / 4 // 4 buttons divided equally in the layout
+            Layout.minimumWidth: parent.width / parent.buttonCount // Buttons divided equally in the layout
             text: "Hide Shadows"
             onClicked: {
                 if (activeGraph.shadowQuality === Graphs3D.ShadowQuality.None) {
@@ -304,7 +307,7 @@ Item {
         Button {
             id: cameraToggle
             Layout.fillHeight: true
-            Layout.minimumWidth: parent.width / 4
+            Layout.minimumWidth: parent.width / parent.buttonCount
             text: "Pause Camera"
 
             onClicked: {
@@ -321,20 +324,55 @@ Item {
         Button {
             id: graphToggle
             Layout.fillHeight: true
-            Layout.minimumWidth: parent.width / 4
+            Layout.minimumWidth: parent.width / parent.buttonCount
             text: "Switch graph type"
             onClicked : {
-                if (activeGraph == scatterGraph)
+                if (activeGraph == scatterGraph) {
                     activeGraph = surfaceGraph
-                else
+                    if (surfaceSeries.itemLabelVisible)
+                        seriesVisibilityToggle.text = "Hide surface series itemLabel"
+                    else
+                        seriesVisibilityToggle.text = "Show surface series itemLabel"
+                }
+                else {
                     activeGraph = scatterGraph
+                    if (scatterSeriesTwo.itemLabelVisible)
+                        seriesVisibilityToggle.text = "Hide center series itemLabel"
+                    else
+                        seriesVisibilityToggle.text = "Show center series itemLabel"
+                }
+            }
+        }
+
+        Button {
+            id: seriesVisibilityToggle
+            Layout.fillHeight: true
+            Layout.minimumWidth: parent.width / parent.buttonCount
+            text: "Hide center series itemLabel"
+            onClicked : {
+                if (activeGraph == scatterGraph) {
+                    scatterSeriesTwo.itemLabelVisible = !scatterSeriesTwo.itemLabelVisible
+
+                    if (scatterSeriesTwo.itemLabelVisible)
+                        text = "Hide center series itemLabel"
+                    else
+                        text = "Show center series itemLabel"
+                }
+                else if (activeGraph == surfaceGraph) {
+                    surfaceSeries.itemLabelVisible = !surfaceSeries.itemLabelVisible
+
+                    if (surfaceSeries.itemLabelVisible)
+                        text = "Hide surface series itemLabel"
+                    else
+                        text = "Show surface series itemLabel"
+                }
             }
         }
 
         Button {
             id: exitButton
             Layout.fillHeight: true
-            Layout.minimumWidth: parent.width / 4
+            Layout.minimumWidth: parent.width / parent.buttonCount
             text: "Quit"
             onClicked: Qt.quit();
         }
