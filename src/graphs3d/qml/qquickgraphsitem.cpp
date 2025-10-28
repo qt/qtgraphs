@@ -2238,8 +2238,11 @@ qsizetype QQuickGraphsItem::addCustomItem(QCustom3DItem *item)
 
 void QQuickGraphsItem::deleteCustomItems()
 {
-    for (QCustom3DItem *item : std::as_const(m_customItems))
+    for (QCustom3DItem *item : std::as_const(m_customItems)) {
+        if (m_customItemList.contains(item))
+            m_customItemList[item]->deleteLater();
         delete item;
+    }
     m_customItems.clear();
     m_isCustomDataDirty = true;
     emitNeedRender();
@@ -2280,13 +2283,18 @@ void QQuickGraphsItem::updateCustomItem()
 
 void QQuickGraphsItem::removeCustomItems()
 {
+    deleteCustomItems();
     m_customItemList.clear();
     m_customLabelList.clear();
-    deleteCustomItems();
 }
 
 void QQuickGraphsItem::removeCustomItem(QCustom3DItem *item)
 {
+    if (!item) {
+        qCWarning(lcProperties3D, "%s invalid item", qUtf8Printable(QLatin1String(__FUNCTION__)));
+        return;
+    }
+
     if (isCustomLabelItem(item)) {
         m_customLabelList.remove(static_cast<QCustom3DLabel *>(item));
     } else if (isCustomVolumeItem(item)) {
@@ -2297,8 +2305,10 @@ void QQuickGraphsItem::removeCustomItem(QCustom3DItem *item)
             m_customVolumes.remove(volume);
         }
     } else {
-        m_customItemList[item]->deleteLater();
-        m_customItemList.remove(item);
+        if (m_customItemList.contains(item)) {
+            m_customItemList[item]->deleteLater();
+            m_customItemList.remove(item);
+        }
     }
     deleteCustomItem(item);
 }
