@@ -23,6 +23,8 @@ class Q_GRAPHS_EXPORT QDateTimeAxis : public QAbstractAxis
         qreal tickInterval READ tickInterval WRITE setTickInterval NOTIFY tickIntervalChanged FINAL)
     Q_PROPERTY(
         QString timeZone READ timeZone WRITE setTimeZone NOTIFY timeZoneChanged REVISION(6, 11))
+    Q_PROPERTY(qreal zoom READ zoom WRITE setZoom NOTIFY zoomChanged REVISION(6, 11))
+
     QML_NAMED_ELEMENT(DateTimeAxis)
 
 public:
@@ -53,6 +55,9 @@ public:
     QString timeZone() const;
     void setTimeZone(const QString &zoneId);
 
+    void setZoom(qreal zoom);
+    qreal zoom() const;
+
 Q_SIGNALS:
     void minChanged(const QDateTime &min);
     void maxChanged(const QDateTime &max);
@@ -60,6 +65,7 @@ Q_SIGNALS:
     void tickIntervalChanged();
     void subTickCountChanged();
     Q_REVISION(6, 11) void timeZoneChanged(const QString &timeZone);
+    Q_REVISION(6, 11) void zoomChanged(qreal zoom);
 
 private:
     Q_DECLARE_PRIVATE(QDateTimeAxis)

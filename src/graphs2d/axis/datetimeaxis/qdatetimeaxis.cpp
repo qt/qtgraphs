@@ -122,6 +122,23 @@ QT_BEGIN_NAMESPACE
  The format property allows to signify the visual representation of the DateTime object, in days,
   months, and years. The default value is dd-MMMM-yy.
  */
+
+/*!
+ \property QDateTimeAxis::zoom
+ \since 6.11
+ \brief The zoom value of the axis.
+ The zoom value enlarges or shrinks the axis and thus the graph without affecting intervals
+ of grid and labels. The default value is 1.
+*/
+
+/*!
+ \qmlproperty real DateTimeAxis::zoom
+ The zoom value of the axis.
+ The zoom value enlarges or shrinks the axis and thus the graph without affecting intervals
+ of grid and labels. The default value is 1.
+ \since 6.11
+*/
+
 /*!
  \qmlsignal DateTimeAxis::minChanged(DateTime min)
  This signal is emitted when the minimum value of the axis, specified by \a min, changes.
@@ -153,6 +170,11 @@ QT_BEGIN_NAMESPACE
  \qmlsignal DateTimeAxis::timeZoneChanged()
  This signal is emitted when the time zone is changed. It represents a string value for the
  IANA time zone ID that was set.
+ \since 6.11
+*/
+/*!
+ \qmlsignal DateTimeAxis::zoomChanged()
+ This signal is emmited when the zoom value changes.
  \since 6.11
 */
 
@@ -280,6 +302,26 @@ void QDateTimeAxis::setTimeZone(const QString &zoneId)
     d->m_timeZone = zone;
     emit timeZoneChanged(zoneId);
     emit update();
+}
+
+void QDateTimeAxis::setZoom(qreal zoom)
+{
+    Q_D(QDateTimeAxis);
+
+    if (qFuzzyCompare(d->m_zoom, zoom)) {
+        qCDebug(lcAxis2D, "axis already zoomed to value of %f", d->m_zoom);
+        return;
+    }
+
+    d->m_zoom = zoom;
+    emit zoomChanged(zoom);
+    emit update();
+}
+
+qreal QDateTimeAxis::zoom() const
+{
+    Q_D(const QDateTimeAxis);
+    return d->m_zoom;
 }
 
 ///////////////////////////////////////////////////////////////////////////////

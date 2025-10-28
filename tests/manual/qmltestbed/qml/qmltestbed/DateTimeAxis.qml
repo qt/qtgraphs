@@ -75,6 +75,7 @@ Rectangle {
         anchors.bottom: parent.bottom
         anchors.top: bar.bottom
         anchors.margins: 10
+        zoomStyle: GraphsView.ZoomStyle.Center;
         theme: gtheme
 
         GraphsTheme {

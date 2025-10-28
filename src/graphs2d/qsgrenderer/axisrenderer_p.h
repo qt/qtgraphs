@@ -119,6 +119,7 @@ private:
                               QQmlComponent *component);
 
     QVector2D windowToAxisCoords(QVector2D coords);
+    bool calculateZoom(QAbstractAxis *axis, qreal delta);
     bool zoom(qreal delta);
 
     const AxisProperties &getAxisX(QAbstractSeries *series) const;

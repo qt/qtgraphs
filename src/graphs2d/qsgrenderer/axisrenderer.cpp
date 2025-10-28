@@ -115,44 +115,57 @@ QVector2D AxisRenderer::windowToAxisCoords(QVector2D coords)
     return QVector2D(x, y);
 }
 
+bool AxisRenderer::calculateZoom(QAbstractAxis *axis, qreal delta)
+{
+    if (axis->type() == QAbstractAxis::AxisType::Value) {
+        auto valueAxis = qobject_cast<QValueAxis *>(axis);
+        qreal zoom = 1.0;
+        zoom = valueAxis->zoom();
+
+        qreal change = 0.0;
+        if (delta > 0)
+            change = zoom * m_graph->m_zoomSensitivity;
+        else if (delta < 0)
+            change = -zoom * m_graph->m_zoomSensitivity;
+
+        zoom += change;
+
+        if (zoom < 0.01f)
+            zoom = 0.01;
+
+        valueAxis->setZoom(zoom);
+        return true;
+    } else if (axis->type() == QAbstractAxis::AxisType::DateTime) {
+        auto dateAxis = qobject_cast<QDateTimeAxis *>(axis);
+        qreal zoom = 1.0;
+        zoom = dateAxis->zoom();
+
+        qreal change = 0.0;
+        if (delta > 0)
+            change = zoom * m_graph->m_zoomSensitivity;
+        else if (delta < 0)
+            change = -zoom * m_graph->m_zoomSensitivity;
+
+        zoom += change;
+
+        if (zoom < 0.01f)
+            zoom = 0.01;
+
+        dateAxis->setZoom(zoom);
+        return true;
+    }
+    return false;
+}
+
 bool AxisRenderer::zoom(qreal delta)
 {
     if (m_graph->zoomStyle() != QGraphsView::ZoomStyle::Center)
         return false;
 
-    auto haxis = qobject_cast<QValueAxis *>((*m_horzAxes)[0].axis);
-    auto vaxis = qobject_cast<QValueAxis *>((*m_vertAxes)[0].axis);
+    bool hzoomed = calculateZoom((*m_horzAxes)[0].axis, delta);
+    bool vzoomed = calculateZoom((*m_vertAxes)[0].axis, delta);
 
-    if (!haxis && !vaxis)
-        return false;
-
-    QVector2D zoom(1.0, 1.0);
-    if (haxis)
-        zoom.setX(haxis->zoom());
-
-    if (vaxis)
-        zoom.setY(vaxis->zoom());
-
-    QVector2D change;
-    if (delta > 0)
-        change = zoom * m_graph->m_zoomSensitivity;
-    else if (delta < 0)
-        change = -zoom * m_graph->m_zoomSensitivity;
-
-    zoom += change;
-
-    if (zoom.x() < 0.01f)
-        zoom.setX(0.01f);
-    if (zoom.y() < 0.01f)
-        zoom.setY(0.01f);
-
-    if (haxis)
-        haxis->setZoom(zoom.x());
-
-    if (vaxis)
-        vaxis->setZoom(zoom.y());
-
-    return true;
+    return hzoomed && vzoomed;
 }
 
 const AxisRenderer::AxisProperties &AxisRenderer::getAxisX(QAbstractSeries *series) const
@@ -801,9 +814,15 @@ void AxisRenderer::updateAxis()
             const double MAX_DIVS = 100.0;
 
             double interval = std::clamp<double>(vaxis->tickInterval(), 0.0, MAX_DIVS);
-            ax.maxValue = vaxis->max().toMSecsSinceEpoch();
-            ax.minValue = vaxis->min().toMSecsSinceEpoch();
+            qreal diff = vaxis->max().toMSecsSinceEpoch() - vaxis->min().toMSecsSinceEpoch();
+            qreal center = diff / 2.0f + vaxis->min().toMSecsSinceEpoch();
+
+            diff /= vaxis->zoom();
+            ax.maxValue = center + diff / 2.0f;
+            ax.minValue = center - diff / 2.0f;
             ax.valueRange = std::abs(ax.maxValue - ax.minValue);
+            ax.valueRangeZoomless = vaxis->max().toMSecsSinceEpoch()
+                                  - vaxis->min().toMSecsSinceEpoch();
 
             // in ms
             double segment;
@@ -839,9 +858,15 @@ void AxisRenderer::updateAxis()
             const double MAX_DIVS = 100.0;
 
             double interval = std::clamp<double>(haxis->tickInterval(), 0.0, MAX_DIVS);
-            ax.maxValue = haxis->max().toMSecsSinceEpoch();
-            ax.minValue = haxis->min().toMSecsSinceEpoch();
+            double diff = haxis->max().toMSecsSinceEpoch() - haxis->min().toMSecsSinceEpoch();
+            double center = diff / 2.0f + haxis->min().toMSecsSinceEpoch();
+
+            diff /= haxis->zoom();
+            ax.maxValue = center + diff / 2.0f;
+            ax.minValue = center - diff / 2.0f;
             ax.valueRange = std::abs(ax.maxValue - ax.minValue);
+            ax.valueRangeZoomless = haxis->max().toMSecsSinceEpoch()
+                                  - haxis->min().toMSecsSinceEpoch();
 
             // in ms
             double segment;
@@ -1543,10 +1568,10 @@ void AxisRenderer::updateDateTimeYAxisLabels(AxisProperties &ax, const QRectF re
     if (!axis)
         return;
 
-    auto maxDate = axis->max();
-    auto minDate = axis->min();
+    auto maxDate = ax.maxValue;
+    auto minDate = ax.minValue;
     int dateTimeSize = ax.minLabel + 1;
-    auto segment = (maxDate.toMSecsSinceEpoch() - minDate.toMSecsSinceEpoch())
+    auto segment = (maxDate - minDate)
                    / ax.minLabel;
 
     // See if we need more text items
@@ -1570,7 +1595,8 @@ void AxisRenderer::updateDateTimeYAxisLabels(AxisProperties &ax, const QRectF re
             textItem->setY(posY);
             textItem->setWidth(rect.width());
             textItem->setRotation(axis->labelsAngle());
-            QString label = minDate.addMSecs(segment * i).toString(axis->labelFormat());
+            auto date = QDateTime::fromMSecsSinceEpoch(minDate);
+            QString label = date.addMSecs(segment * i).toString(axis->labelFormat());
             if (ax.axis->alignment() == Qt::AlignRight || ax.axis->alignment() == Qt::AlignBottom) {
                 setLabelTextProperties(textItem, label, false,
                                        QQuickText::HAlignment::AlignLeft,
@@ -1596,10 +1622,10 @@ void AxisRenderer::updateDateTimeXAxisLabels(AxisProperties &ax, const QRectF re
     if (!axis)
         return;
 
-    auto maxDate = axis->max();
-    auto minDate = axis->min();
+    auto maxDate = ax.maxValue;
+    auto minDate = ax.minValue;
     int dateTimeSize = ax.minLabel + 1;
-    auto segment = (maxDate.toMSecsSinceEpoch() - minDate.toMSecsSinceEpoch())
+    auto segment = (maxDate - minDate)
                    / ax.minLabel;
 
     // See if we need more text items
@@ -1625,7 +1651,8 @@ void AxisRenderer::updateDateTimeXAxisLabels(AxisProperties &ax, const QRectF re
             textItem->setX(posX);
             textItem->setWidth(textItemWidth);
             textItem->setRotation(axis->labelsAngle());
-            QString label = minDate.addMSecs(segment * i).toString(axis->labelFormat());
+            auto date = QDateTime::fromMSecsSinceEpoch(minDate);
+            QString label = date.addMSecs(segment * i).toString(axis->labelFormat());
             if (ax.axis->alignment() == Qt::AlignTop || ax.axis->alignment() == Qt::AlignLeft) {
                 setLabelTextProperties(textItem, label, true,
                                        QQuickText::HAlignment::AlignHCenter,
