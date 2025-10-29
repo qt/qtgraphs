@@ -155,6 +155,13 @@ else()
         )
     endif()
 
+    if(QT_FEATURE_graphs_2d_custom)
+        set(LOCAL_TRACE_SOURCE_2D
+                ${LOCAL_TRACE_SOURCE_2D}
+                graphs2d/qsgrenderer/customrenderer.cpp
+        )
+    endif()
+
     set(TRACE_SOURCES_2D
             ${LOCAL_TRACE_SOURCE_2D}
         PARENT_SCOPE
