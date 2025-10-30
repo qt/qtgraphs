@@ -16,12 +16,7 @@ endif()
 
 set(INSTALL_EXAMPLEDIR "${INSTALL_EXAMPLESDIR}")
 
-find_package(Qt6 COMPONENTS Core)
-find_package(Qt6 COMPONENTS Gui)
-find_package(Qt6 COMPONENTS Quick)
-find_package(Qt6 COMPONENTS Quick3D)
-find_package(Qt6 COMPONENTS Graphs)
-find_package(Qt6 COMPONENTS PrintSupport)
+find_package(Qt6 REQUIRED COMPONENTS Core Gui GuiPrivate Quick Graphs PrintSupport)
 
 qt_standard_project_setup(REQUIRES 6.8)
 
@@ -37,7 +32,6 @@ target_link_libraries(graphprinting PRIVATE
     Qt::Core
     Qt::Gui
     Qt::Quick
-    Qt::Quick3D
     Qt::Graphs
     Qt::PrintSupport
     Qt::GuiPrivate
