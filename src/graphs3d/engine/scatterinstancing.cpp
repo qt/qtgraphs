@@ -97,7 +97,7 @@ void ScatterInstancing::hideDataItem(qsizetype index)
 
 void ScatterInstancing::unhidePreviousDataItem()
 {
-    if (m_previousHideIndex >= 0) {
+    if (m_previousHideIndex >= 0 && m_previousHideIndex < m_dataArray.size()) {
         m_dataArray[m_previousHideIndex].hide = false;
         markDataDirty();
     }
