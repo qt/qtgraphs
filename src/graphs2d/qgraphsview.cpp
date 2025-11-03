@@ -73,6 +73,12 @@ Q_TRACE_POINT(qtgraphs, QGraphs2DGraphsViewCreateAreaRenderer_entry);
 Q_TRACE_POINT(qtgraphs, QGraphs2DGraphsViewCreateAreaRenderer_exit);
 
 /*!
+    \class QGraphsView
+    \inmodule QtGraphs
+    \internal
+*/
+
+/*!
     \qmltype GraphsView
     \nativetype QGraphsView
     \inqmlmodule QtGraphs
