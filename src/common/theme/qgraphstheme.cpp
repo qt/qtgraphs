@@ -150,7 +150,14 @@ QT_BEGIN_NAMESPACE
  */
 
 /*!
+    \class QGraphsLine
+    \inmodule QtGraphs
+    \brief The QGraphsLine class encapsulates properties of lines on a graph.
+*/
+
+/*!
  * \qmlvaluetype graphsline
+ * \nativetype QGraphsLine
  * \ingroup graphs_qml_common
  * \brief a values for lines based on properties of QGraphsLine.
  *
@@ -169,22 +176,47 @@ QT_BEGIN_NAMESPACE
  */
 
 /*!
+    \property QGraphsLine::mainColor
+    The color of the main lines.
+*/
+
+/*!
     \qmlproperty color graphsline::mainColor
     The color of the main lines.
 */
 
+/*!
+    \property QGraphsLine::subColor
+    The color of the sub lines.
+*/
 /*!
     \qmlproperty color graphsline::subColor
     The color of the sub lines.
 */
 
 /*!
+    \property QGraphsLine::mainWidth
+    The width of the main lines.
+*/
+
+/*!
     \qmlproperty real graphsline::mainWidth
     The width of the main lines.
 */
+
+/*!
+    \property QGraphsLine::subWidth
+    The width of the sub lines.
+*/
+
 /*!
     \qmlproperty real graphsline::subWidth
     The width of the sub lines.
+*/
+
+/*!
+    \property QGraphsLine::labelTextColor
+    The color of the text used for labels.
 */
 
 /*!
