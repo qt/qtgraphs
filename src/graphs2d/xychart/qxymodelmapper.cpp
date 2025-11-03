@@ -183,7 +183,7 @@ Q_TRACE_POINT(qtgraphs, QGraphs2DXYModelMapperOnModelUpdated_exit);
 */
 
 /*!
-    \qmlsignal QXYModelMapper::seriesChanged()
+    \qmlsignal XYModelMapper::seriesChanged()
 
     This signal is emitted when the series that the mapper is connected to changes.
 */

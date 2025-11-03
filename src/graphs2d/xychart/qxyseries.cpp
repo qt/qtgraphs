@@ -926,7 +926,7 @@ void QXYSeries::setPointDelegate(QQmlComponent *newPointDelegate)
     By default, \a draggable is set to \c false.
 */
 /*!
-    \qmlproperty bool QXYSeries::draggable
+    \qmlproperty bool XYSeries::draggable
     Controls if the series can be dragged with mouse/touch.
     By default, \a draggable is set to \c false.
 */

@@ -63,7 +63,7 @@ QT_BEGIN_NAMESPACE
     \brief A legend marker's color.
 */
 /*!
-    \qmlproperty color LegendData::color
+    \qmlproperty color legendData::color
     \brief A legend marker's color.
 */
 
@@ -72,7 +72,7 @@ QT_BEGIN_NAMESPACE
     \brief A border color of a legend marker.
 */
 /*!
-    \qmlproperty color LegendData::borderColor
+    \qmlproperty color legendData::borderColor
     \brief A border color of a legend marker.
 */
 
@@ -81,7 +81,7 @@ QT_BEGIN_NAMESPACE
     \brief A name of a legend marker.
 */
 /*!
-    \qmlproperty string LegendData::label
+    \qmlproperty string legendData::label
     \brief A name of a legend marker.
 */
 
@@ -263,7 +263,7 @@ QT_BEGIN_NAMESPACE
     \sa QLegendData
  */
 /*!
-    \qmlproperty list<LegendData> AbstractSeries::legendData
+    \qmlproperty list<legendData> AbstractSeries::legendData
     Contains information needed to create a legend marker for a data set in a graph.
 */
 
@@ -313,24 +313,24 @@ QT_BEGIN_NAMESPACE
 */
 
 /*!
-    \qmlsignal QAbstractSeries::axisXChanged(QAbstractAxis *newAxis)
+    \qmlsignal AbstractSeries::axisXChanged(AbstractAxis newAxis)
     \since 6.10
     This signal is emitted whenever the X axis in control changes.
     The \a newAxis parameter holds the new axis.
 */
 
 /*!
-    \qmlsignal QAbstractSeries::axisYChanged(QAbstractAxis *newAxis)
+    \qmlsignal AbstractSeries::axisYChanged(AbstractAxis newAxis)
     \since 6.10
     This signal is emitted whenever the Y axis in control changes.
     The \a newAxis parameter holds the new axis.
 */
 
 /*!
-    \qmlsignal QAbstractSeries::zValueChanged(int newDrawOrder)
+    \qmlsignal AbstractSeries::zValueChanged(int newDrawOrder)
     \since 6.10
-    This signal is emitted when the series draw order changes.
-    The \a newAxis parameter specifies the new order.
+    This signal is emitted when the series draw order changes to
+    \a newDrawOrder.
 */
 
 /*!

@@ -82,8 +82,8 @@ QT_BEGIN_NAMESPACE
  */
 
 /*!
- * \qmlproperty int QSpline3DSeries::splineResolution
- * 
+ * \qmlproperty int Spline3DSeries::splineResolution
+ *
  * The resolution of the segments spline.
  * 
  * The number of vertices per spline segment,
