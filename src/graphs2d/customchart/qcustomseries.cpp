@@ -9,6 +9,25 @@
 
 QT_BEGIN_NAMESPACE
 
+/*!
+    \class QCustomSeries
+    \inmodule QtGraphs
+    \brief The QCustomSeries class allows presenting customized graph types.
+    \since 6.11
+
+    //! TODO: Description
+*/
+
+/*!
+    \qmltype CustomSeries
+    \nativetype QCustomSeries
+    \inqmlmodule QtGraphs
+    \brief The CustomSeries type allows presenting customized graph types.
+    \since 6.11
+
+    //! TODO: Description
+*/
+
 QCustomSeries::QCustomSeries(QObject *parent)
     : QAbstractSeries(*(new QCustomSeriesPrivate()), parent)
 {}
@@ -212,9 +231,12 @@ void QCustomSeries::componentComplete()
 }
 
 /*!
-    The graph renderer gives access to the QuickItem representing the data
-    and the index corresponding to the data item through the updateDelegate
-    function. Override to implement custom property values to the QuickItem.
+    Called by the graph renderer to give access to the \a item
+    representing the data, and the \a index corresponding to the
+    data item.
+
+    Override to implement custom property values for QQuickItem
+    instance(s).
 */
 void QCustomSeries::updateDelegate(QQuickItem *item, qsizetype index)
 {
