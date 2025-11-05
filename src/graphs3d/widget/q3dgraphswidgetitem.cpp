@@ -415,6 +415,19 @@ QSharedPointer<QQuickItemGrabResult> Q3DGraphsWidgetItem::renderToImage(QSize im
     return d->m_graphsItem->grabToImage(renderSize);
 }
 
+/*!
+    \property Q3DGraphsWidgetItem::cameraPreset
+
+    The preset camera position that the camera is currently using. The value can be set to one of the
+    CameraPreset enum values. This property can be used to set a predefined camera angle from where
+    the graph is viewed.
+
+    By default, the camera preset is set to \c CameraPreset::FrontLow.
+
+    \note If you have set the cameraXRotation, cameraYRotation or cameraZoomLevel properties, or
+    called setCustomCamera(), this property will return CameraPreset::NoPreset until either
+    setCameraPreset() is called again, or the preset is changed to another value.
+*/
 QtGraphs3D::CameraPreset Q3DGraphsWidgetItem::cameraPreset() const
 {
     Q_D(const Q3DGraphsWidgetItem);

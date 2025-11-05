@@ -583,6 +583,13 @@ QPieSlice::QPieSlice(const QString &label, qreal value, QObject *parent)
 */
 QPieSlice::~QPieSlice() {}
 
+/*!
+    \property QPieSlice::sliceChildren
+
+    The list of sub slices contained within this slice. This is a default property that allows
+    sub slices to be specified within a slice element in QML without explicitly using the children
+    property name.
+*/
 QQmlListProperty<QPieSlice> QPieSlice::sliceChildren()
 {
     return QQmlListProperty<QPieSlice>(this,
@@ -1260,6 +1267,13 @@ void QPieSlice::setSubSlicesRatio(qreal subSlicesRatio)
     emit subSlicesRatioChanged(subSlicesRatio);
 }
 
+/*!
+    \property QPieSlice::subSlicesRatio
+
+    The relative size of the sub slices compared to the parent slice. The value ranges from 0.0 to 1.0,
+    where 1.0 means that the sub slices take up the same amount of space as the parent slice would
+    without sub slices. The default value is 0.6.
+*/
 qreal QPieSlice::subSlicesRatio() const
 {
     Q_D(const QPieSlice);

@@ -689,6 +689,12 @@ const QList<QLegendData> QAbstractSeries::legendData() const
     return d->m_legendData;
 }
 
+/*!
+    \property QAbstractSeries::seriesChildren
+
+    The list of series child objects. This is a default property that allows child objects to be
+    specified within a series element in QML without explicitly using the children property name.
+*/
 QQmlListProperty<QObject> QAbstractSeries::seriesChildren()
 {
     return QQmlListProperty<QObject>(this, 0, &QAbstractSeriesPrivate::appendSeriesChildren, 0, 0, 0);

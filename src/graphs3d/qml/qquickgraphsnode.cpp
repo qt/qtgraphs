@@ -9,7 +9,7 @@ QT_BEGIN_NAMESPACE
 
 /*!
  * \qmltype GraphsNode
- * \inherits Node
+ * \inherits QtQuick3D::Node
  * \qmlabstract
  * \inqmlmodule QtGraphs
  * \ingroup graphs_qml_3D

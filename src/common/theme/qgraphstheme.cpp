@@ -176,27 +176,13 @@ QT_BEGIN_NAMESPACE
  */
 
 /*!
-    \property QGraphsLine::mainColor
-    The color of the main lines.
-*/
-
-/*!
     \qmlproperty color graphsline::mainColor
     The color of the main lines.
 */
 
 /*!
-    \property QGraphsLine::subColor
-    The color of the sub lines.
-*/
-/*!
     \qmlproperty color graphsline::subColor
     The color of the sub lines.
-*/
-
-/*!
-    \property QGraphsLine::mainWidth
-    The width of the main lines.
 */
 
 /*!
@@ -205,18 +191,8 @@ QT_BEGIN_NAMESPACE
 */
 
 /*!
-    \property QGraphsLine::subWidth
-    The width of the sub lines.
-*/
-
-/*!
     \qmlproperty real graphsline::subWidth
     The width of the sub lines.
-*/
-
-/*!
-    \property QGraphsLine::labelTextColor
-    The color of the text used for labels.
 */
 
 /*!
@@ -1740,6 +1716,12 @@ QLinearGradient QGraphsTheme::convertGradient(QQuickGradient *gradient)
     return newGradient;
 }
 
+/*!
+    \property QGraphsTheme::baseColors
+
+    The list of base colors to be used for the series when using the ColorStyle::Uniform
+    color style.
+*/
 QQmlListProperty<QQuickGraphsColor> QGraphsTheme::baseColorsQML()
 {
     return QQmlListProperty<QQuickGraphsColor>(this,
@@ -1772,6 +1754,12 @@ void QGraphsTheme::clearBaseColorsFunc(QQmlListProperty<QQuickGraphsColor> *list
     reinterpret_cast<QGraphsTheme *>(list->data)->clearColors();
 }
 
+/*!
+    \property QGraphsTheme::baseGradients
+
+    The list of base gradients to be used for the series when using the ColorStyle::RangeGradient
+    color style.
+*/
 QQmlListProperty<QQuickGradient> QGraphsTheme::baseGradientsQML()
 {
     return QQmlListProperty<QQuickGradient>(this,
@@ -1804,6 +1792,12 @@ void QGraphsTheme::clearBaseGradientsFunc(QQmlListProperty<QQuickGradient> *list
     reinterpret_cast<QGraphsTheme *>(list->data)->clearGradients();
 }
 
+/*!
+    \property QGraphsTheme::themeChildren
+
+    The list of theme child objects. This is a default property that allows child objects to be
+    specified within the Theme element in QML without explicitly using the children property name.
+*/
 QQmlListProperty<QObject> QGraphsTheme::themeChildren()
 {
     return QQmlListProperty<QObject>(this, this, &QGraphsTheme::appendThemeChildren, 0, 0, 0);
@@ -1949,6 +1943,11 @@ void QGraphsTheme::clearGradients()
     setSeriesGradients(QList<QLinearGradient>());
 }
 
+/*!
+    \property QGraphsTheme::grid
+
+    The grid line styling properties for the graph.
+*/
 QGraphsLine QGraphsTheme::grid() const
 {
     Q_D(const QGraphsTheme);
@@ -1966,6 +1965,11 @@ void QGraphsTheme::setGrid(const QGraphsLine &newGrid)
     Q_EMIT update();
 }
 
+/*!
+    \property QGraphsTheme::axisX
+
+    The X-axis line and label styling properties for the graph.
+*/
 QGraphsLine QGraphsTheme::axisX() const
 {
     Q_D(const QGraphsTheme);
@@ -1983,6 +1987,11 @@ void QGraphsTheme::setAxisX(const QGraphsLine &newAxisX)
     Q_EMIT update();
 }
 
+/*!
+    \property QGraphsTheme::axisY
+
+    The Y-axis line and label styling properties for the graph.
+*/
 QGraphsLine QGraphsTheme::axisY() const
 {
     Q_D(const QGraphsTheme);
@@ -2000,6 +2009,11 @@ void QGraphsTheme::setAxisY(const QGraphsLine &newAxisY)
     Q_EMIT update();
 }
 
+/*!
+    \property QGraphsTheme::axisZ
+
+    The Z-axis line and label styling properties for the graph.
+*/
 QGraphsLine QGraphsTheme::axisZ() const
 {
     Q_D(const QGraphsTheme);
@@ -2056,6 +2070,12 @@ QGraphsLine::QGraphsLine(const QGraphsLine &other)
 QGraphsLine::~QGraphsLine()
     = default;
 
+/*!
+    \property QGraphsLine::mainColor
+
+    The color of the main grid or axis lines. If not set explicitly, the value is determined by the
+    theme.
+*/
 QColor QGraphsLine::mainColor() const
 {
     if (d->m_bits.mainColorCustom)
@@ -2072,6 +2092,12 @@ void QGraphsLine::setMainColor(QColor newColor)
     d->m_mainColor = newColor;
 }
 
+/*!
+    \property QGraphsLine::subColor
+
+    The color of the sub grid or axis lines. If not set explicitly, the value is determined by the
+    theme.
+*/
 QColor QGraphsLine::subColor() const
 {
     if (d->m_bits.subColorCustom)
@@ -2088,6 +2114,11 @@ void QGraphsLine::setSubColor(QColor newColor)
     d->m_subColor = newColor;
 }
 
+/*!
+    \property QGraphsLine::mainWidth
+
+    The width of the main grid or axis lines in pixels.
+*/
 qreal QGraphsLine::mainWidth() const
 {
     return d->m_mainWidth;
@@ -2101,6 +2132,11 @@ void QGraphsLine::setMainWidth(qreal newWidth)
     d->m_mainWidth = newWidth;
 }
 
+/*!
+    \property QGraphsLine::subWidth
+
+    The width of the sub grid or axis lines in pixels.
+*/
 qreal QGraphsLine::subWidth() const
 {
     return d->m_subWidth;
@@ -2114,6 +2150,11 @@ void QGraphsLine::setSubWidth(qreal newWidth)
     d->m_subWidth = newWidth;
 }
 
+/*!
+    \property QGraphsLine::labelTextColor
+
+    The color of the axis label text. If not set explicitly, the value is determined by the theme.
+*/
 QColor QGraphsLine::labelTextColor() const
 {
     if (d->m_bits.labelTextColorCustom)
