@@ -1,10 +1,13 @@
 // Copyright (C) 2024 The Qt Company Ltd.
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 
+#include "pierenderer_p.h"
 #include <QtGraphs/qpieseries.h>
 #include <QtGraphs/qpieslice.h>
 #include <QtQuick/private/qquicktext_p.h>
 #include <QtQuick/private/qquicktaphandler_p.h>
+#include <limits>
+#include <private/qquickdraghandler_p.h>
 #include <private/pierenderer_p.h>
 #include <private/qabstractseries_p.h>
 #include <private/qgraphsview_p.h>
@@ -29,6 +32,8 @@ Q_TRACE_POINT(qtgraphs, QGraphs2DPieRendererAfterPolish_exit);
 Q_TRACE_POINT(qtgraphs, QGraphs2DPieRendererHandlePolish_entry, int sliceCount);
 Q_TRACE_POINT(qtgraphs, QGraphs2DPieRendererHandlePolish_exit);
 
+constexpr qreal qrealMax = std::numeric_limits<qreal>::max();
+
 PieRenderer::PieRenderer(QGraphsView *graph, bool clipPlotArea)
     : QQuickItem(graph)
     , m_graph(graph)
@@ -45,6 +50,12 @@ PieRenderer::PieRenderer(QGraphsView *graph, bool clipPlotArea)
     connect(m_tapHandler, &QQuickTapHandler::singleTapped, this, &PieRenderer::onSingleTapped);
     connect(m_tapHandler, &QQuickTapHandler::doubleTapped, this, &PieRenderer::onDoubleTapped);
     connect(m_tapHandler, &QQuickTapHandler::pressedChanged, this, &PieRenderer::onPressedChanged);
+
+    m_dragHandler = new QQuickDragHandler(this);
+    m_dragHandler->setTarget(nullptr);
+    connect(m_dragHandler, &QQuickDragHandler::grabChanged, this, &PieRenderer::onGrabChanged);
+    connect(m_dragHandler, &QQuickDragHandler::translationChanged, this,
+            &PieRenderer::onTranslationChanged);
 }
 
 PieRenderer::~PieRenderer() {}
@@ -393,6 +404,20 @@ bool PieRenderer::isPointInSubSlices(QPointF point, QPieSlice *slice)
     return false;
 }
 
+qreal PieRenderer::distanceToSegment(const QVector2D p, const QVector2D segmentStart,
+                                     const QVector2D segmentEnd)
+{
+    static qreal maxdistance = 15.0;
+    QVector2D line(segmentEnd - segmentStart);
+    QVector2D startToP(p - segmentStart);
+    qreal t = QVector2D::dotProduct(startToP, line) / line.lengthSquared();
+
+    t = qBound(0.0, t, 1.0);
+    QVector2D proj = segmentStart + t * line;
+    qreal distance = (p - proj).length();
+    return distance <= maxdistance ? distance : qrealMax;
+}
+
 bool PieRenderer::handleHoverMove(QHoverEvent *event)
 {
     bool handled = false;
@@ -484,6 +509,85 @@ void PieRenderer::onPressedChanged()
             return;
         }
     }
+}
+
+void PieRenderer::onGrabChanged(QPointingDevice::GrabTransition transition, QEventPoint eventPoint)
+{
+    QList<QPieSlice *> slices = m_activeSlices.keys();
+    if (transition == QPointingDevice::GrabTransition::GrabPassive) {
+        const qreal radiusRatio = 1.0;
+        for (const auto &slice : std::as_const(slices)) {
+            if (isPointInSlice(eventPoint.position(), slice)) {
+                m_dragSlice = slice;
+                // Slice side length
+                qreal radius = size().width() > size().height() ? size().height() : size().width();
+                radius *= (.5 * slice->series()->pieSize());
+                m_dragState.dragSeriesRadius = radius;
+                qreal startAngle = -slice->startAngle() + 90;
+                qreal startRadian = qDegreesToRadians(startAngle);
+                qreal endRadian = qDegreesToRadians(startAngle - slice->angleSpan());
+                QVector2D center(size().width() * slice->series()->horizontalPosition(),
+                                 size().height() * slice->series()->verticalPosition());
+                m_dragState.dragSeriesCenter = center;
+                QVector2D leftEndPoint(center.x() + (radius * radiusRatio * qCos(startRadian)),
+                                       center.y() - (radius * radiusRatio * qSin(startRadian)));
+                QVector2D rightEndPoint(center.x() + (radius * radiusRatio * qCos(endRadian)),
+                                        center.y() - (radius * radiusRatio * qSin(endRadian)));
+
+                qreal d_left =
+                        distanceToSegment(QVector2D(eventPoint.position()), center, leftEndPoint);
+                qreal d_right =
+                        distanceToSegment(QVector2D(eventPoint.position()), center, rightEndPoint);
+
+                if (d_left < qrealMax && d_left < d_right)
+                    m_closerEdge = Qt::LeftEdge;
+                else if (d_right < qrealMax && d_left > d_right)
+                    m_closerEdge = Qt::RightEdge;
+                else
+                    return;
+
+                m_dragState.dragging = true;
+                break;
+            }
+        }
+    } else if (transition == QPointingDevice::UngrabPassive) {
+        m_dragSlice = nullptr;
+        m_dragState.dragging = false;
+    }
+}
+
+void PieRenderer::onTranslationChanged(QVector2D delta)
+{
+    if (!m_dragState.dragging)
+        return;
+
+    qreal startAngle = -m_dragSlice->startAngle() + 90;
+    qreal startRadian = qDegreesToRadians(startAngle);
+    qreal endRadian = qDegreesToRadians(startAngle - m_dragSlice->angleSpan());
+    QVector2D leftEndPoint(
+            m_dragState.dragSeriesCenter.x() + (m_dragState.dragSeriesRadius * qCos(startRadian)),
+            m_dragState.dragSeriesCenter.y() - (m_dragState.dragSeriesRadius * qSin(startRadian)));
+    QVector2D rightEndPoint(
+            m_dragState.dragSeriesCenter.x() + (m_dragState.dragSeriesRadius * qCos(endRadian)),
+            m_dragState.dragSeriesCenter.y() - (m_dragState.dragSeriesRadius * qSin(endRadian)));
+    // Calculate the edge
+    QVector2D edgeCenter;
+    if (m_closerEdge == Qt::LeftEdge)
+        edgeCenter = (leftEndPoint - m_dragState.dragSeriesCenter) / 2;
+    else if (m_closerEdge == Qt::RightEdge)
+        edgeCenter = (rightEndPoint - m_dragState.dragSeriesCenter) / 2;
+
+    QVector2D perpendicular(-edgeCenter.y(), edgeCenter.x());
+    perpendicular.normalize();
+    delta.normalize();
+    float dragAmount = QVector2D::dotProduct(delta, perpendicular);
+    if (qAbs(dragAmount) < qCos((qDegreesToRadians(45))))
+        return;
+
+    const float sensitivity = 0.1f;
+    qreal change = dragAmount * sensitivity;
+    change = m_closerEdge == Qt::RightEdge ? change : change * -1;
+    m_dragSlice->setValue(m_dragSlice->value() + change);
 }
 
 QT_END_NAMESPACE

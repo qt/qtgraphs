@@ -14,6 +14,7 @@
 //
 // We mean it.
 
+#include "graphs2d/qabstractseries.h"
 #include <QQuickItem>
 #include <QtGui/qpainterpath.h>
 
@@ -25,6 +26,7 @@ class QPieSlice;
 class QQuickShape;
 class QAbstractSeries;
 class QQuickTapHandler;
+class QQuickDragHandler;
 
 class PieRenderer : public QQuickItem
 {
@@ -59,12 +61,27 @@ private:
         bool initialized;
     };
 
+    struct DragState
+    {
+        bool dragging = false;
+        qreal dragSeriesRadius = 0.0;
+        QVector2D dragSeriesCenter;
+    };
+
+    Qt::Edge m_closerEdge = Qt::LeftEdge;
+
     void onSingleTapped(QEventPoint eventPoint, Qt::MouseButton button);
     void onDoubleTapped(QEventPoint eventPoint, Qt::MouseButton button);
     void onPressedChanged();
 
+    void onGrabChanged(QPointingDevice::GrabTransition transition, QEventPoint eventPoint);
+    void onTranslationChanged(QVector2D delta);
+
     bool isPointInSlice(QPointF point, QPieSlice *slice, qreal *angle = nullptr);
     bool isPointInSubSlices(QPointF point, QPieSlice *slice);
+
+    qreal distanceToSegment(const QVector2D p, const QVector2D segmentStart,
+                            const QVector2D segmentEnd);
 
     QGraphsView *m_graph = nullptr;
     QQuickShape *m_shape = nullptr;
@@ -72,6 +89,10 @@ private:
 
     QQuickTapHandler *m_tapHandler = nullptr;
     QPieSlice *m_currentHoverSlice = nullptr;
+
+    QQuickDragHandler *m_dragHandler = nullptr;
+    QPieSlice *m_dragSlice = nullptr;
+    DragState m_dragState;
 
     QPainterPath m_painterPath;
     qsizetype m_colorIndex = -1;

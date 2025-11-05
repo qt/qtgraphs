@@ -31,6 +31,9 @@ class QQuickText;
 class QPieSlicePrivate : public QObjectPrivate
 {
 public:
+    static QPieSlicePrivate *get(QPieSlice *item) { return item->d_func(); }
+    static const QPieSlicePrivate *get(const QPieSlice *item) { return item->d_func(); }
+
     QPieSlicePrivate();
     ~QPieSlicePrivate() override;
 
