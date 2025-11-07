@@ -37,7 +37,7 @@ int main(int argc, char *argv[])
     int frame = 0;
     qreal time = QDateTime::currentMSecsSinceEpoch();
 
-    QObject::connect(&viewer, &QQuickView::frameSwapped, [&]() {
+    QObject::connect(&viewer, &QQuickView::frameSwapped, &viewer, [&]() {
         frame++;
         if (QDateTime::currentMSecsSinceEpoch() >= time + 1000) {
             time = QDateTime::currentMSecsSinceEpoch();
