@@ -107,12 +107,12 @@ ColumnLayout {
     }
 
     Label {
-        visible: testgradientchange.checked && !colorStyle.checked && barsVisible
+        visible: testgradientchange.checked && !colorStyle.checked
         text: "Gradient green alpha"
         color: "gray"
     }
     Slider {
-        visible: testgradientchange.checked && !colorStyle.checked && barsVisible
+        visible: testgradientchange.checked && !colorStyle.checked
         from: 0.0
         to: 1.0
         value: 1.0
@@ -120,12 +120,12 @@ ColumnLayout {
     }
 
     Label {
-        visible: testgradientchange.checked && !colorStyle.checked && barsVisible
+        visible: testgradientchange.checked && !colorStyle.checked
         text: "Gradient red alpha"
         color: "gray"
     }
     Slider {
-        visible: testgradientchange.checked && !colorStyle.checked && barsVisible
+        visible: testgradientchange.checked && !colorStyle.checked
         from: 0.0
         to: 1.0
         value: 1.0

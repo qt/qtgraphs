@@ -337,6 +337,7 @@ constexpr float polarRoundness = 64.0f;
  *
  * Specifies which transparency technique to use. The Default value is \c{Default}.
  * When rendering transparent surface graphs, use \c{Approximate} or \c{Accurate}.
+ * \c Default should be used for other graph types.
  *
  * \value Default
  *        Indicates that order-independent transparency techniques are not used.
@@ -354,9 +355,6 @@ constexpr float polarRoundness = 64.0f;
  * \value Accurate
  *        Indicates that accurate order-independent transparency is used.
  *        Use when perfect transparency rendering is needed.
- *        \note Accurate transparency is not yet implemented
- *              and will be enabled when the required functionality
- *              is added to QtQuick3D.
  */
 
 /*!
@@ -1829,8 +1827,7 @@ void QQuickGraphsItem::setTransparencyTechnique(QtGraphs3D::TransparencyTechniqu
         environment()->setOitMethod(QQuick3DSceneEnvironment::OITWeightedBlended);
         break;
     case QtGraphs3D::TransparencyTechnique::Accurate:
-        // environment()->setOitMethod(QQuick3DSceneEnvironment::OITSpinlock);
-        //TODO: Add this method when it is implemended in QtQuick3D
+        environment()->setOitMethod(QQuick3DSceneEnvironment::OITLinkedList);
         break;
     }
     m_transparencyTechnique = technique;

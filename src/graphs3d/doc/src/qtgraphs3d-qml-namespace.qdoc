@@ -198,7 +198,4 @@
     \value Accurate
            Indicates that accurate order-independent transparency is used.
            Use when perfect transparency rendering is needed.
-           \note Accurate transparency is not yet implemented
-               and will be enabled when the required functionality
-               is added to QtQuick3D.
  */
