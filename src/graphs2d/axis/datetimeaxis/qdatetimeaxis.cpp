@@ -140,6 +140,24 @@ QT_BEGIN_NAMESPACE
 */
 
 /*!
+ \property QDateTimeAxis::pan
+ \since 6.11
+ \brief The pan value of the axis.
+
+ The pan value moves the center of the axis without affecting intervals
+ of grid and labels. The default value is 0.
+*/
+
+/*!
+ \qmlproperty real DateTimeAxis::pan
+ \since 6.11
+ The pan value of the axis.
+
+ The pan value moves the center of the axis without affecting intervals
+ of grid and labels. The default value is 0.
+*/
+
+/*!
  \qmlsignal DateTimeAxis::minChanged(DateTime min)
  This signal is emitted when the minimum value of the axis, specified by \a min, changes.
 */
@@ -322,6 +340,26 @@ qreal QDateTimeAxis::zoom() const
 {
     Q_D(const QDateTimeAxis);
     return d->m_zoom;
+}
+
+void QDateTimeAxis::setPan(qreal pan)
+{
+    Q_D(QDateTimeAxis);
+
+    if (qFuzzyCompare(d->m_pan, pan)) {
+        qCDebug(lcAxis2D, "panning already set to: %f", d->m_pan);
+        return;
+    }
+
+    d->m_pan = pan;
+    emit panChanged(pan);
+    emit update();
+}
+
+qreal QDateTimeAxis::pan() const
+{
+    Q_D(const QDateTimeAxis);
+    return d->m_pan;
 }
 
 ///////////////////////////////////////////////////////////////////////////////

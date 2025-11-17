@@ -32,6 +32,7 @@ protected:
     qsizetype m_subTickCount = 0;
     QString m_format = QStringLiteral("dd-MMMM-yy");
     qreal m_zoom = 1.0;
+    qreal m_pan = 0.0;
 
 public:
     void setMin(const QVariant &min) override;

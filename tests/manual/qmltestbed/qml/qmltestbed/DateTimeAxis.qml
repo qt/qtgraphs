@@ -67,6 +67,18 @@ Rectangle {
             placeholderText: "MMMM-yyyy"
             onAccepted: xAxis.labelFormat = text
         }
+
+        CheckBox {
+            id: zoomAreaEnabled
+            text: "Zoom area enabled"
+            contentItem: Text {
+                text: zoomAreaEnabled.text
+                font: zoomAreaEnabled.font
+                color: "#ffffff"
+                verticalAlignment: Text.AlignVCenter
+                leftPadding: zoomAreaEnabled.indicator.width + zoomAreaEnabled.spacing
+            }
+        }
     }
 
     GraphsView {
@@ -76,6 +88,9 @@ Rectangle {
         anchors.top: bar.bottom
         anchors.margins: 10
         zoomStyle: GraphsView.ZoomStyle.Center;
+        panStyle: zoomAreaEnabled.checked ? GraphsView.PanStyle.None : GraphsView.PanStyle.Drag
+        zoomAreaEnabled: zoomAreaEnabled.checked
+
         theme: gtheme
 
         GraphsTheme {
