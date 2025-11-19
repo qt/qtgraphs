@@ -68,7 +68,6 @@ public:
     static QPieSlice *atSliceChildrenFunc(QQmlListProperty<QPieSlice> *list, qsizetype index);
     static void clearSliceChildrenFunc(QQmlListProperty<QPieSlice> *list);
 
-public:
     void setLabel(const QString &label);
     QString label() const;
     void setLabelVisible(bool visible = true);
@@ -104,20 +103,20 @@ public:
 
     QPieSeries *series() const;
 
-    Q_INVOKABLE bool append(QPieSlice *slice);
-    Q_INVOKABLE bool append(const QList<QPieSlice *> &slices);
-    Q_INVOKABLE bool insert(qsizetype index, QPieSlice *slice);
-    Q_INVOKABLE bool remove(QPieSlice *slice);
-    Q_INVOKABLE void clear();
-    Q_INVOKABLE QPieSlice *append(const QString &label, qreal value);
-    Q_INVOKABLE QPieSlice *at(qsizetype index);
-    Q_INVOKABLE QPieSlice *find(const QString &label);
-    Q_INVOKABLE bool replace(qsizetype index, QPieSlice *slice);
-    Q_INVOKABLE void removeMultiple(qsizetype index, int count);
-    Q_INVOKABLE bool remove(qsizetype index);
-    Q_INVOKABLE bool replace(QPieSlice *oldSlice, QPieSlice *newSlice);
-    Q_INVOKABLE bool replaceAll(const QList<QPieSlice *> &slices);
-    Q_INVOKABLE bool take(QPieSlice *slice);
+    Q_REVISION(6, 11) Q_INVOKABLE bool append(QPieSlice *slice);
+    Q_REVISION(6, 11) Q_INVOKABLE bool append(const QList<QPieSlice *> &slices);
+    Q_REVISION(6, 11) Q_INVOKABLE bool insert(qsizetype index, QPieSlice *slice);
+    Q_REVISION(6, 11) Q_INVOKABLE bool remove(QPieSlice *slice);
+    Q_REVISION(6, 11) Q_INVOKABLE void clear();
+    Q_REVISION(6, 11) Q_INVOKABLE QPieSlice *append(const QString &label, qreal value);
+    Q_REVISION(6, 11) Q_INVOKABLE QPieSlice *at(qsizetype index);
+    Q_REVISION(6, 11) Q_INVOKABLE QPieSlice *find(const QString &label);
+    Q_REVISION(6, 11) Q_INVOKABLE bool replace(qsizetype index, QPieSlice *slice);
+    Q_REVISION(6, 11) Q_INVOKABLE void removeMultiple(qsizetype index, int count);
+    Q_REVISION(6, 11) Q_INVOKABLE bool remove(qsizetype index);
+    Q_REVISION(6, 11) Q_INVOKABLE bool replace(QPieSlice *oldSlice, QPieSlice *newSlice);
+    Q_REVISION(6, 11) Q_INVOKABLE bool replaceAll(const QList<QPieSlice *> &slices);
+    Q_REVISION(6, 11) Q_INVOKABLE bool take(QPieSlice *slice);
 
     QPieSlice &operator<<(QPieSlice *slice);
 
@@ -130,9 +129,6 @@ public:
 
     void setSubSlicesRatio(qreal subSlicesRatio);
     qreal subSlicesRatio() const;
-
-public Q_SLOTS:
-    void handleSliceChange();
 
 Q_SIGNALS:
     void labelChanged();
@@ -157,6 +153,9 @@ Q_SIGNALS:
     Q_REVISION(6, 11) void subSlicesCountChanged(qsizetype count);
     Q_REVISION(6, 11) void subSlicesSumChanged(qreal sum);
     Q_REVISION(6, 11) void subSlicesRatioChanged(qreal subSlicesRatio);
+
+private Q_SLOTS:
+    void handleSliceChange();
 
 private:
     friend class PieRenderer;
