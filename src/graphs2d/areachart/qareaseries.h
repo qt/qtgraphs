@@ -39,6 +39,7 @@ class Q_GRAPHS_EXPORT QAreaSeries : public QAbstractSeries
                    selectedGradientChanged REVISION(6, 11))
 
     QML_NAMED_ELEMENT(AreaSeries)
+
 public:
     explicit QAreaSeries(QObject *parent = nullptr);
     ~QAreaSeries() override;
@@ -69,7 +70,7 @@ public:
     void setLowerSeries(QXYSeries *newLowerSeries);
 
     QQuickShapeGradient *gradient() const;
-    void setGradient(QQuickShapeGradient* newGradient);
+    void setGradient(QQuickShapeGradient *newGradient);
 
     QQuickShapeGradient *selectedGradient() const;
     void setSelectedGradient(QQuickShapeGradient *newSelectedGradient);
@@ -83,8 +84,8 @@ Q_SIGNALS:
     void selectedChanged();
     void upperSeriesChanged();
     void lowerSeriesChanged();
-    Q_REVISION(6, 11) void gradientChanged(QQuickShapeGradient *);
-    Q_REVISION(6, 11) void selectedGradientChanged(QQuickShapeGradient *);
+    Q_REVISION(6, 11) void gradientChanged(QQuickShapeGradient *gradient);
+    Q_REVISION(6, 11) void selectedGradientChanged(QQuickShapeGradient *gradient);
 
     Q_REVISION(6, 9) void clicked(QPoint point);
     Q_REVISION(6, 9) void doubleClicked(QPoint point);
