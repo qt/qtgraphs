@@ -167,7 +167,7 @@ QT_BEGIN_NAMESPACE
  * \qmlproperty DrawFlag Surface3DSeries::drawMode
  *
  * Sets the drawing mode to one of
- * \l{QSurface3DSeries::DrawFlag}{Surface3DSeries.DrawFlag}{QSurface3DSeries.DrawFilledSurface}. 
+ * \l{QSurface3DSeries::DrawFlag}{Surface3DSeries.DrawFlag}{QSurface3DSeries.DrawFilledSurface}.
  * Either DrawWireframe or DrawSurface must be set
  */
 
@@ -542,19 +542,19 @@ QColor QSurface3DSeries::wireframeColor() const
  *
  *  \brief Whether to perform row sanitization.
  *
- *  When \c{true}, removes rows in the series that do not contain valid data.
+ *  When \a sanitized is \c{true}, removes rows in the series that do not contain valid data.
  *  \note This may incur a small performance penalty.
  */
-void QSurface3DSeries::setRowsSanitized(bool enabled) {
+void QSurface3DSeries::setRowsSanitized(bool sanitized)
+{
     Q_D(QSurface3DSeries);
 
-    if (d->m_rowsSanitized == enabled) {
-        qCDebug(lcProperties3D) << __FUNCTION__
-            << "value is already set to " << enabled;
+    if (d->m_rowsSanitized == sanitized) {
+        qCDebug(lcProperties3D) << __FUNCTION__ << "value is already set to " << sanitized;
         return;
     }
-    d->setRowsSanitized(enabled);
-    emit rowsSanitizedChanged(enabled);
+    d->setRowsSanitized(sanitized);
+    emit rowsSanitizedChanged(sanitized);
 }
 
 bool QSurface3DSeries::rowsSanitized() const {

@@ -75,7 +75,7 @@ public:
     void setWireframeColor(QColor color);
     QColor wireframeColor() const;
 
-    void setRowsSanitized(bool enabled);
+    void setRowsSanitized(bool sanitized);
     bool rowsSanitized() const;
 
     void setDataArray(const QSurfaceDataArray &newDataArray);
@@ -94,7 +94,7 @@ Q_SIGNALS:
     void wireframeColorChanged(QColor color);
     void dataArrayChanged(const QSurfaceDataArray &array);
     void shadingChanged(const Shading shading);
-    Q_REVISION(6, 11)void rowsSanitizedChanged(bool enabled);
+    Q_REVISION(6, 11)void rowsSanitizedChanged(bool rowsSanitized);
 
 protected:
     explicit QSurface3DSeries(QSurface3DSeriesPrivate &d, QObject *parent = nullptr);
