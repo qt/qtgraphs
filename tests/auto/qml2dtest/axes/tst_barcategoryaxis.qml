@@ -38,7 +38,7 @@ Item {
         titleVisible: false
         visible: false
         textElideMode: Qt.ElideLeft
-        labelPosition: BarCategoryAxis.LabelPosition.LabelPositionOnValue
+        labelPosition: BarCategoryAxis.LabelPosition.OnValue
     }
 
     TestCase {
@@ -51,7 +51,7 @@ Item {
             compare(initial.count, 0)
             compare(initial.min, "")
             compare(initial.max, "")
-            compare(initial.labelPosition, BarCategoryAxis.LabelPosition.LabelPositionCenter)
+            compare(initial.labelPosition, BarCategoryAxis.LabelPosition.Center)
         }
 
         function test_2_initial_common() {
@@ -90,7 +90,7 @@ Item {
             initial.titleVisible = false
             initial.visible = false
             initial.textElideMode = Qt.ElideRight
-            initial.labelPosition = BarCategoryAxis.LabelPosition.LabelPositionCenter
+            initial.labelPosition = BarCategoryAxis.LabelPosition.Center
 
             // Properties from BarCategoryAxis
             compare(initial.categories, ["one", "two"])
@@ -111,7 +111,7 @@ Item {
             compare(initial.titleVisible, false)
             compare(initial.visible, false)
             compare(initial.textElideMode, Qt.ElideRight)
-            compare(initial.labelPosition, BarCategoryAxis.LabelPosition.LabelPositionCenter)
+            compare(initial.labelPosition, BarCategoryAxis.LabelPosition.Center)
         }
         function test_4_initial_modify() {
             initial.clear()
@@ -165,7 +165,7 @@ Item {
             compare(initialized.titleVisible, false)
             compare(initialized.visible, false)
             compare(initialized.textElideMode, Qt.ElideLeft)
-            compare(initialized.labelPosition, BarCategoryAxis.LabelPosition.LabelPositionOnValue)
+            compare(initialized.labelPosition, BarCategoryAxis.LabelPosition.OnValue)
         }
 
         function test_2_initialized_change() {
@@ -186,7 +186,7 @@ Item {
             initialized.titleVisible = true
             initialized.visible = true
             initialized.textElideMode = Qt.ElideMiddle
-            initialized.labelPosition = BarCategoryAxis.LabelPosition.LabelPositionCenter
+            initialized.labelPosition = BarCategoryAxis.LabelPosition.Center
 
             // Properties from BarCategoryAxis
             compare(initialized.categories, ["one", "two"])
@@ -207,7 +207,7 @@ Item {
             compare(initialized.titleVisible, true)
             compare(initialized.visible, true)
             compare(initialized.textElideMode, Qt.ElideMiddle)
-            compare(initialized.labelPosition, BarCategoryAxis.LabelPosition.LabelPositionCenter)
+            compare(initialized.labelPosition, BarCategoryAxis.LabelPosition.Center)
 
             // Signals
             compare(countSpy.count, 1)

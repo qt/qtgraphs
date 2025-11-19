@@ -90,8 +90,8 @@ QT_BEGIN_NAMESPACE
     \enum QBarCategoryAxis::LabelPosition
     \since 6.11
     This enum describes the position of the category labels.
-    \value LabelPositionCenter Labels are centered to category.
-    \value LabelPositionOnValue Labels are positioned to the high end limit of the category.
+    \value Center Labels are centered to category.
+    \value OnValue Labels are positioned to the high end limit of the category.
 */
 /*!
     \property QBarCategoryAxis::labelPosition
@@ -493,7 +493,7 @@ QBarCategoryAxisPrivate::QBarCategoryAxisPrivate()
     : m_min(0.0)
     , m_max(0.0)
     , m_count(0)
-    , m_labelPosition(QBarCategoryAxis::LabelPosition::LabelPositionCenter)
+    , m_labelPosition(QBarCategoryAxis::LabelPosition::Center)
 {
 
 }

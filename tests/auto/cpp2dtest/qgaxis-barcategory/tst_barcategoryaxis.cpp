@@ -56,7 +56,7 @@ void tst_barcategoryaxis::initialProperties()
     QCOMPARE(m_axis->min(), "");
     QCOMPARE(m_axis->max(), "");
     QCOMPARE(m_axis->count(), 0);
-    QCOMPARE(m_axis->labelPosition(), QBarCategoryAxis::LabelPosition::LabelPositionCenter);
+    QCOMPARE(m_axis->labelPosition(), QBarCategoryAxis::LabelPosition::Center);
 }
 
 void tst_barcategoryaxis::initializeProperties()
@@ -88,8 +88,8 @@ void tst_barcategoryaxis::initializeProperties()
 
     m_axis->setRange("Zero", "Ten");
 
-    m_axis->setLabelPosition(QBarCategoryAxis::LabelPosition::LabelPositionOnValue);
-    QCOMPARE(m_axis->labelPosition(), QBarCategoryAxis::LabelPosition::LabelPositionOnValue);
+    m_axis->setLabelPosition(QBarCategoryAxis::LabelPosition::OnValue);
+    QCOMPARE(m_axis->labelPosition(), QBarCategoryAxis::LabelPosition::OnValue);
 
     QCOMPARE(spy0.size(), 1);
     QCOMPARE(spy1.size(), 1);

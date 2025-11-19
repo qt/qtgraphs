@@ -27,8 +27,8 @@ Rectangle {
             gridVisible: checkBoxGridXMajor.checked
             subGridVisible: checkBoxGridXMinor.checked
             alignment: checkBoxAxisXAlignment.checked ? Qt.AlignTop : Qt.AlignBottom
-            labelPosition: axisXLabelPosition.checked ? BarCategoryAxis.LabelPosition.LabelPositionCenter
-                                                       : BarCategoryAxis.LabelPosition.LabelPositionOnValue
+            labelPosition: axisXLabelPosition.checked ? BarCategoryAxis.LabelPosition.Center
+                                                       : BarCategoryAxis.LabelPosition.OnValue
         }
         axisY: ValueAxis {
             id: yAxis

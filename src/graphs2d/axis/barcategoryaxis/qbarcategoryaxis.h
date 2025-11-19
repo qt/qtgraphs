@@ -34,8 +34,8 @@ protected:
 
 public:
     enum class LabelPosition {
-        LabelPositionCenter,
-        LabelPositionOnValue,
+        Center,
+        OnValue,
     };
     Q_ENUM(LabelPosition)
 
