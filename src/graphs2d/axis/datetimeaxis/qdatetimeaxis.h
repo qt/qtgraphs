@@ -50,8 +50,8 @@ public:
     int subTickCount() const;
     void setSubTickCount(int newSubTickCount);
 
-    Q_REVISION(6, 11) QString timeZone() const;
-    Q_REVISION(6, 11) void setTimeZone(const QString &zoneId);
+    QString timeZone() const;
+    void setTimeZone(const QString &zoneId);
 
 Q_SIGNALS:
     void minChanged(const QDateTime &min);
