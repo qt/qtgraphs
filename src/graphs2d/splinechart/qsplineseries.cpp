@@ -223,7 +223,7 @@ void QSplineSeries::setOptimized(bool optimized)
 
     d->m_optimized = optimized;
     d->calculateSplinePoints();
-    emit optimizedChanged();
+    emit optimizedChanged(optimized);
     emit update();
 }
 

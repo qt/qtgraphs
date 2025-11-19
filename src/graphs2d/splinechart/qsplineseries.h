@@ -40,7 +40,7 @@ public:
 Q_SIGNALS:
     void widthChanged();
     void capStyleChanged();
-    Q_REVISION(6, 11) void optimizedChanged();
+    Q_REVISION(6, 11) void optimizedChanged(bool optimized);
 
 protected:
     QSplineSeries(QSplineSeriesPrivate &dd, QObject *parent = nullptr);
