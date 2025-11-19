@@ -14,6 +14,7 @@ class QLineSeriesPrivate;
 class Q_GRAPHS_EXPORT QLineSeries : public QXYSeries
 {
     Q_OBJECT
+    Q_CLASSINFO("RegisterEnumClassesUnscoped", "false")
     Q_PROPERTY(qreal width READ width WRITE setWidth NOTIFY widthChanged FINAL)
     Q_PROPERTY(Qt::PenCapStyle capStyle READ capStyle WRITE setCapStyle NOTIFY capStyleChanged FINAL)
     Q_PROPERTY(Qt::PenJoinStyle joinStyle READ joinStyle WRITE setJoinStyle NOTIFY joinStyleChanged REVISION(6, 11))
@@ -28,13 +29,13 @@ public:
         Straight,
         StepLeft,
         StepRight,
-        StepCenter
+        StepCenter,
     };
     Q_ENUM(LineStyle);
 
     enum class StrokeStyle {
         SolidLine = Qt::SolidLine,
-        DashLine = Qt::DashLine
+        DashLine = Qt::DashLine,
     };
     Q_ENUM(StrokeStyle);
 
@@ -69,11 +70,11 @@ public:
 Q_SIGNALS:
     void widthChanged();
     void capStyleChanged();
-    Q_REVISION(6, 11) void joinStyleChanged(Qt::PenJoinStyle);
-    Q_REVISION(6, 11) void lineStyleChanged(QLineSeries::LineStyle);
-    Q_REVISION(6, 11) void strokeStyleChanged(QLineSeries::StrokeStyle);
-    Q_REVISION(6, 11) void dashOffsetChanged(qreal);
-    Q_REVISION(6, 11) void dashPatternChanged(QVector<qreal>);
+    Q_REVISION(6, 11) void joinStyleChanged(Qt::PenJoinStyle joinStyle);
+    Q_REVISION(6, 11) void lineStyleChanged(QLineSeries::LineStyle lineStyle);
+    Q_REVISION(6, 11) void strokeStyleChanged(QLineSeries::StrokeStyle strokeStyle);
+    Q_REVISION(6, 11) void dashOffsetChanged(qreal dashOffset);
+    Q_REVISION(6, 11) void dashPatternChanged(QVector<qreal> dashPattern);
 
 protected:
     QLineSeries(QLineSeriesPrivate &dd, QObject *parent = nullptr);
