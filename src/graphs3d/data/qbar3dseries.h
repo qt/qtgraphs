@@ -78,10 +78,10 @@ Q_SIGNALS:
     void rowColorsChanged(const QList<QColor> &rowcolors);
     void rowLabelsChanged();
     void columnLabelsChanged();
-    Q_REVISION(6, 11) void customRowLabelsChanged();
-    Q_REVISION(6, 11) void customColumnLabelsChanged();
     void dataArrayChanged(const QBarDataArray &array);
     Q_REVISION(6, 9) void valueColoringEnabledChanged(bool enabled);
+    Q_REVISION(6, 11) void customRowLabelsChanged(const QStringList &customRowLabels);
+    Q_REVISION(6, 11) void customColumnLabelsChanged(const QStringList &customColumnLabels);
 
 private:
     Q_DISABLE_COPY(QBar3DSeries)

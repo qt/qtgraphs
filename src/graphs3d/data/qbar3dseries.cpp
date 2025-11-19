@@ -568,7 +568,7 @@ void QBar3DSeries::setCustomRowLabels(const QStringList &labels)
         return;
     }
     d->setCustomRowLabels(labels);
-    emit customRowLabelsChanged();
+    emit customRowLabelsChanged(labels);
 }
 
 /*!
@@ -596,7 +596,7 @@ void QBar3DSeries::setCustomColumnLabels(const QStringList &labels)
         return;
     }
     d->setCustomColumnLabels(labels);
-    emit customColumnLabelsChanged();
+    emit customColumnLabelsChanged(labels);
 }
 
 QList<QColor> QBar3DSeries::rowColors() const
