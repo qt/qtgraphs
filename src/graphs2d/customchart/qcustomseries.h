@@ -20,12 +20,6 @@ class Q_GRAPHS_EXPORT QCustomSeries : public QAbstractSeries
 
     QML_NAMED_ELEMENT(CustomSeries)
     QML_ADDED_IN_VERSION(6, 11)
-protected:
-    explicit QCustomSeries(QCustomSeriesPrivate &dd, QObject *parent = nullptr);
-
-    void componentComplete() override;
-
-    virtual void updateDelegate(QQuickItem *item, qsizetype index);
 
 public:
     explicit QCustomSeries(QObject *parent = nullptr);
@@ -40,15 +34,21 @@ public:
     Q_INVOKABLE qreal mapX(qreal x);
     Q_INVOKABLE qreal mapY(qreal y);
 
-    Q_INVOKABLE void append(QVariantMap data);
+    Q_INVOKABLE void append(const QVariantMap &data);
     Q_INVOKABLE void append();
-    Q_INVOKABLE void insert(qsizetype index, QVariantMap data);
+    Q_INVOKABLE void insert(qsizetype index, const QVariantMap &data);
     Q_INVOKABLE void insert(qsizetype index);
     Q_INVOKABLE void remove(qsizetype index);
     Q_INVOKABLE void clear();
 
 Q_SIGNALS:
     void delegateChanged();
+
+protected:
+    explicit QCustomSeries(QCustomSeriesPrivate &dd, QObject *parent = nullptr);
+    void componentComplete() override;
+    virtual void updateDelegate(QQuickItem *item, qsizetype index);
+    bool event(QEvent *event) override;
 
 private:
     friend class CustomRenderer;

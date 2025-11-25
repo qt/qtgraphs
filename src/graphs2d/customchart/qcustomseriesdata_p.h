@@ -23,7 +23,9 @@ class QCustomSeriesData : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(QVariantMap data READ data WRITE setData FINAL)
+
     QML_NAMED_ELEMENT(CustomSeriesData)
+    QML_ADDED_IN_VERSION(6, 11)
 
 public:
     explicit QCustomSeriesData(QObject *parent = 0);

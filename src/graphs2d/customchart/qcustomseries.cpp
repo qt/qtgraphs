@@ -147,7 +147,7 @@ void QCustomSeries::append()
 /*!
     Appends a data item defined by \a data to the series.
 */
-void QCustomSeries::append(QVariantMap data)
+void QCustomSeries::append(const QVariantMap &data)
 {
     Q_D(QCustomSeries);
     QCustomSeriesData *dataItem = new QCustomSeriesData(this);
@@ -174,7 +174,7 @@ void QCustomSeries::insert(qsizetype index)
 /*!
     Appends a data item defined by \a data to the series at position \a index.
 */
-void QCustomSeries::insert(qsizetype index, QVariantMap data)
+void QCustomSeries::insert(qsizetype index, const QVariantMap &data)
 {
     Q_D(QCustomSeries);
     if (d->m_dataItems.size() <= index)
@@ -250,6 +250,11 @@ void QCustomSeries::updateDelegate(QQuickItem *item, qsizetype index)
     auto &&data = dataItems()[index]->data();
     data[QStringLiteral("index")] = index;
     item->setProperty("data", data);
+}
+
+bool QCustomSeries::event(QEvent *event)
+{
+    return QObject::event(event);
 }
 
 QCustomSeriesPrivate::QCustomSeriesPrivate()
