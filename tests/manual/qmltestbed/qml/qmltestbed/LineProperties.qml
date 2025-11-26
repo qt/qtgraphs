@@ -152,6 +152,22 @@ Rectangle {
             toValue: 40
             onSliderValueChanged: yAxis.max = sliderValue;
         }
+        CustomLabel {
+            id: visualRangeMinXLabel
+            text: qsTr("X Axis visualMin: %1").arg(Number(xAxis.visualMin).toLocaleString())
+        }
+        CustomLabel {
+            id: visualRangeMaxXLabel
+            text: qsTr("X Axis visualMax: %1").arg(Number(xAxis.visualMax).toLocaleString())
+        }
+        CustomLabel {
+            id: visualRangeMinYLabel
+            text: qsTr("Y Axis visualMin: %1").arg(Number(yAxis.visualMin).toLocaleString())
+        }
+        CustomLabel {
+            id: visualRangeMaxYLabel
+            text: qsTr("Y Axis visualMax: %1").arg(Number(yAxis.visualMax).toLocaleString())
+        }
     }
 
     GraphsView {

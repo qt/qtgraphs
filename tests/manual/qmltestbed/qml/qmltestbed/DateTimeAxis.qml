@@ -12,80 +12,109 @@ Rectangle {
     width: 800
     height: 600
     color: "#202020"
-
-    RowLayout {
-        id:bar
+    ColumnLayout {
+        id: infoLayout
+        anchors {
+            left: parent.left
+            right: parent.right
+            leftMargin: 25
+        }
         height: 100
-
-        Text {
-            Layout.leftMargin: 20
-            font.pixelSize: 24
-            color: "#ffffff"
-            text: "X:"
-        }
-
-        Slider {
-            id: sliderX
-
-            value: (new Date(1950,1,1)).getTime()
-            from: (new Date(1900,1,1)).getTime()
-            to: (new Date(2000,1,1)).getTime()
-        }
-
-        Text {
-            font.pixelSize: 24
-            color: "#ffffff"
-            text: "Y:"
-        }
-
-        Slider {
-            id: sliderY
-
-            value: (new Date(1950,1,1)).getTime()
-            from: (new Date(1900,1,1)).getTime()
-            to: (new Date(2000,1,1)).getTime()
-        }
-
-        Text {
-            Layout.leftMargin: 20
-            font.pixelSize: 24
-            color: "#ffffff"
-            text: "X Ticks:"
-        }
-
-        SpinBox {
-            onValueChanged: xAxis.tickInterval = value
-        }
-
-        Text {
-            Layout.leftMargin: 20
-            font.pixelSize: 24
-            color: "#ffffff"
-            text: "X Format:"
-        }
-        TextField {
-            placeholderText: "MMMM-yyyy"
-            onAccepted: xAxis.labelFormat = text
-        }
-
-        CheckBox {
-            id: zoomAreaEnabled
-            text: "Zoom area enabled"
-            contentItem: Text {
-                text: zoomAreaEnabled.text
-                font: zoomAreaEnabled.font
+        spacing: 0
+        RowLayout {
+            Layout.fillHeight: true
+            Layout.fillWidth: true
+            Text {
+                Layout.leftMargin: 20
+                font.pixelSize: 24
                 color: "#ffffff"
-                verticalAlignment: Text.AlignVCenter
-                leftPadding: zoomAreaEnabled.indicator.width + zoomAreaEnabled.spacing
+                text: "X:"
+            }
+            Slider {
+                id: sliderX
+                value: (new Date(1950,1,1)).getTime()
+                from: (new Date(1900,1,1)).getTime()
+                to: (new Date(2000,1,1)).getTime()
+            }
+            Text {
+                font.pixelSize: 24
+                color: "#ffffff"
+                text: "Y:"
+            }
+            Slider {
+                id: sliderY
+                value: (new Date(1950,1,1)).getTime()
+                from: (new Date(1900,1,1)).getTime()
+                to: (new Date(2000,1,1)).getTime()
+            }
+            Text {
+                Layout.leftMargin: 20
+                font.pixelSize: 24
+                color: "#ffffff"
+                text: "X Ticks:"
+            }
+            SpinBox {
+                onValueChanged: xAxis.tickInterval = value
+            }
+            Text {
+                Layout.leftMargin: 20
+                font.pixelSize: 24
+                color: "#ffffff"
+                text: "X Format:"
+            }
+            TextField {
+                placeholderText: "MMMM-yyyy"
+                onAccepted: xAxis.labelFormat = text
+            }
+            CheckBox {
+                id: zoomAreaEnabled
+                text: "Zoom area enabled"
+                contentItem: Text {
+                    text: zoomAreaEnabled.text
+                    font: zoomAreaEnabled.font
+                    color: "#ffffff"
+                    verticalAlignment: Text.AlignVCenter
+                    leftPadding: zoomAreaEnabled.indicator.width + zoomAreaEnabled.spacing
+                }
+            }
+        }
+        RowLayout {
+            Layout.fillHeight: true
+            spacing: 50
+            Column {
+                Label {
+                    id: visualXMin
+                    text: "X Axis visualMin: " + xAxis.visualMin
+                    color: "white"
+                }
+                Label {
+                    id: visualXMax
+                    text: "X Axis visualMax: " + xAxis.visualMax
+                    color: "white"
+                }
+            }
+            Column {
+                Label {
+                    id: visualYMin
+                    text: "Y Axis visualMin: " + yAxis.visualMin
+                    color: "white"
+                }
+                Label {
+                    id: visualYMax
+                    text: "Y Axis visualMax: " + yAxis.visualMax
+                    color: "white"
+                }
             }
         }
     }
+
+
 
     GraphsView {
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.bottom: parent.bottom
-        anchors.top: bar.bottom
+        anchors.top: infoLayout.bottom
         anchors.margins: 10
         zoomStyle: GraphsView.ZoomStyle.Center;
         panStyle: zoomAreaEnabled.checked ? GraphsView.PanStyle.None : GraphsView.PanStyle.Drag

@@ -25,6 +25,8 @@ class Q_GRAPHS_EXPORT QDateTimeAxis : public QAbstractAxis
         QString timeZone READ timeZone WRITE setTimeZone NOTIFY timeZoneChanged REVISION(6, 11))
     Q_PROPERTY(qreal zoom READ zoom WRITE setZoom NOTIFY zoomChanged REVISION(6, 11))
     Q_PROPERTY(qreal pan READ pan WRITE setPan NOTIFY panChanged REVISION(6, 11))
+    Q_PROPERTY(QDateTime visualMin READ visualMin NOTIFY visualMinChanged REVISION(6, 11))
+    Q_PROPERTY(QDateTime visualMax READ visualMax NOTIFY visualMaxChanged REVISION(6, 11))
 
     QML_NAMED_ELEMENT(DateTimeAxis)
 
@@ -62,6 +64,9 @@ public:
     qreal pan() const;
     void setPan(qreal pan);
 
+    QDateTime visualMin() const;
+    QDateTime visualMax() const;
+
 Q_SIGNALS:
     void minChanged(const QDateTime &min);
     void maxChanged(const QDateTime &max);
@@ -71,6 +76,8 @@ Q_SIGNALS:
     Q_REVISION(6, 11) void timeZoneChanged(const QString &timeZone);
     Q_REVISION(6, 11) void zoomChanged(qreal zoom);
     Q_REVISION(6, 11) void panChanged(qreal pan);
+    Q_REVISION(6, 11) void visualMinChanged(qreal min);
+    Q_REVISION(6, 11) void visualMaxChanged(qreal max);
 
 private:
     Q_DECLARE_PRIVATE(QDateTimeAxis)

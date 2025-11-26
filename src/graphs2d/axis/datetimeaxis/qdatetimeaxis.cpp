@@ -332,6 +332,7 @@ void QDateTimeAxis::setZoom(qreal zoom)
     }
 
     d->m_zoom = zoom;
+    d->calculateVisualRange();
     emit zoomChanged(zoom);
     emit update();
 }
@@ -352,6 +353,7 @@ void QDateTimeAxis::setPan(qreal pan)
     }
 
     d->m_pan = pan;
+    d->calculateVisualRange();
     emit panChanged(pan);
     emit update();
 }
@@ -360,6 +362,18 @@ qreal QDateTimeAxis::pan() const
 {
     Q_D(const QDateTimeAxis);
     return d->m_pan;
+}
+
+QDateTime QDateTimeAxis::visualMin() const
+{
+    Q_D(const QDateTimeAxis);
+    return QDateTime::fromMSecsSinceEpoch(d->m_visualMin, d->m_timeZone);
+}
+
+QDateTime QDateTimeAxis::visualMax() const
+{
+    Q_D(const QDateTimeAxis);
+    return QDateTime::fromMSecsSinceEpoch(d->m_visualMax, d->m_timeZone);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -407,8 +421,30 @@ void QDateTimeAxisPrivate::setRange(qreal min, qreal max)
         emit q->maxChanged(QDateTime::fromMSecsSinceEpoch(max, QTimeZone::UTC));
     }
 
-    if (changed)
+    if (changed) {
+        calculateVisualRange();
         emit q->rangeChanged(min, max);
+    }
+}
+
+void QDateTimeAxisPrivate::calculateVisualRange()
+{
+    Q_Q(QDateTimeAxis);
+    qreal diff = m_max - m_min;
+    qreal center = diff / 2.0f + m_min + m_pan;
+    diff /= m_zoom;
+    qreal max = center + diff / 2.0f;
+    qreal min = center - diff / 2.0f;
+
+    if (!qFuzzyCompare(m_visualMin, min)) {
+        m_visualMin = min;
+        emit q->visualMinChanged(min);
+    }
+
+    if (!qFuzzyCompare(m_visualMax, max)) {
+        m_visualMax = max;
+        emit q->visualMaxChanged(max);
+    }
 }
 
 QT_END_NAMESPACE

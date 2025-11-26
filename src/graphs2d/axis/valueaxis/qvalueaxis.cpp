@@ -366,6 +366,7 @@ void QValueAxis::setZoom(qreal zoom)
     Q_D(QValueAxis);
     if (d->m_zoom != zoom) {
         d->m_zoom = zoom;
+        d->calculateVisualRange();
         emit update();
         emit zoomChanged(zoom);
     } else {
@@ -385,6 +386,7 @@ void QValueAxis::setPan(qreal pan)
     Q_D(QValueAxis);
     if (d->m_pan != pan) {
         d->m_pan = pan;
+        d->calculateVisualRange();
         emit update();
         emit panChanged(pan);
     } else {
@@ -397,6 +399,18 @@ qreal QValueAxis::pan() const
 {
     Q_D(const QValueAxis);
     return d->m_pan;
+}
+
+qreal QValueAxis::visualMin() const
+{
+    Q_D(const QValueAxis);
+    return d->m_visualMin;
+}
+
+qreal QValueAxis::visualMax() const
+{
+    Q_D(const QValueAxis);
+    return d->m_visualMax;
 }
 
 /*!
@@ -477,8 +491,28 @@ void QValueAxisPrivate::setRange(qreal min, qreal max)
         emit q->maxChanged(max);
     }
 
-    if (changed)
+    if (changed) {
+        calculateVisualRange();
         emit q->rangeChanged(min, max);
+    }
+}
+
+void QValueAxisPrivate::calculateVisualRange()
+{
+    Q_Q(QValueAxis);
+    qreal diff = m_max - m_min;
+    qreal center = diff / 2.0f + m_min + m_pan;
+    diff /= m_zoom;
+    qreal min = center - diff / 2.0f;
+    qreal max = center + diff / 2.0f;
+    if (!qFuzzyCompare(m_visualMin, min)) {
+        m_visualMin = min;
+        emit q->visualMinChanged(min);
+    }
+    if (!qFuzzyCompare(m_visualMax, max)) {
+        m_visualMax = max;
+        emit q->visualMaxChanged(max);
+    }
 }
 
 QT_END_NAMESPACE

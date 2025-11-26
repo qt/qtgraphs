@@ -33,6 +33,8 @@ protected:
     QString m_format = QStringLiteral("dd-MMMM-yy");
     qreal m_zoom = 1.0;
     qreal m_pan = 0.0;
+    qreal m_visualMin;
+    qreal m_visualMax;
 
 public:
     void setMin(const QVariant &min) override;
@@ -41,6 +43,7 @@ public:
     void setRange(qreal min, qreal max) override;
     qreal min() override { return m_min; }
     qreal max() override { return m_max; }
+    void calculateVisualRange();
 
 private:
     Q_DECLARE_PUBLIC(QDateTimeAxis)
