@@ -6645,7 +6645,6 @@ void QQuickGraphsItem::createSliceView()
 
     createSliceCamera(m_sliceView);
 
-    // auto gridDelegate = createRepeaterDelegateComponent(QStringLiteral(":/axis/GridLine"));
     m_labelDelegate.reset(new QQmlComponent(qmlEngine(this), QStringLiteral(":/axis/AxisLabel")));
 
     m_sliceGridGeometryModel = new QQuick3DModel(scene);

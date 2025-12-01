@@ -36,7 +36,6 @@ else()
 
     set(qml_axis_resources
         "graphs3d/qml/resources/AxisLabel.qml"
-        "graphs3d/qml/resources/GridLine.qml"
         "graphs3d/qml/resources/ItemLabel.qml"
         "graphs3d/qml/resources/TitleLabel.qml"
     )
