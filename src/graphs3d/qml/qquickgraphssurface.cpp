@@ -2924,10 +2924,6 @@ QQuickGraphsSurface::createOffscreenSliceView(int index, int requestedIndex,
             }
             selectedSeries.append(list);
             indexCount = rowCount - 1;
-
-            QQmlListReference materialRef(model->sliceModel, "materials");
-            auto material = materialRef.at(0);
-            material->setProperty("isColumn", true);
         }
 
         QVector<quint32> indices;
@@ -2967,6 +2963,7 @@ QQuickGraphsSurface::createOffscreenSliceView(int index, int requestedIndex,
         QQmlListReference materialRef(surfaceModel, "materials");
         auto material = createQmlCustomMaterial(QStringLiteral(":/materials/SurfaceSliceMaterial"));
         material->setCullMode(QQuick3DMaterial::NoCulling);
+        material->setProperty("isColumn", isColumn);
         QVariant textureInputAsVariant = material->property("custex");
         QQuick3DShaderUtilsTextureInput *textureInput =
                 textureInputAsVariant.value<QQuick3DShaderUtilsTextureInput *>();
