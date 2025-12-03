@@ -8,6 +8,7 @@
 #include <QtCore/qregularexpression.h>
 #include <QtGui/qvalidator.h>
 #include <QtWidgets/qboxlayout.h>
+#include <QtWidgets/qcheckbox.h>
 #include <QtWidgets/qlabel.h>
 #include <QtWidgets/qlineedit.h>
 #include <QtWidgets/qpushbutton.h>
@@ -44,6 +45,14 @@ void SurfaceGraph::initialize()
     hLayout->addLayout(vLayout);
     vLayout->setAlignment(Qt::AlignCenter);
 
+    m_pickCheckBox = new QCheckBox(m_surfaceWidget);
+    m_pickCheckBox->setChecked(false);
+    m_pickCheckBox->setText(u"Use for Picking"_s);
+
+    m_invertCheckBox = new QCheckBox(m_surfaceWidget);
+    m_invertCheckBox->setChecked(false);
+    m_invertCheckBox->setText(u"Invert Picking (Row <-> Column)"_s);
+
     m_rowRadioButton = new QRadioButton(m_surfaceWidget);
     m_rowRadioButton->setText(u"Row"_s);
     m_rowRadioButton->setChecked(true);
@@ -62,6 +71,8 @@ void SurfaceGraph::initialize()
 
     m_sliceResultLabel = new QLabel(m_surfaceWidget);
 
+    vLayout->addWidget(m_pickCheckBox);
+    vLayout->addWidget(m_invertCheckBox);
     vLayout->addWidget(m_rowRadioButton);
     vLayout->addWidget(columnRadioButton);
     vLayout->addWidget(m_lineSelectText);
@@ -80,6 +91,15 @@ void SurfaceGraph::initialize()
                      &SurfaceGraphModifier::updateSliceImage,
                      this,
                      &SurfaceGraph::applySliceImage);
+    QObject::connect(m_rowRadioButton,
+                     &QRadioButton::clicked,
+                     this,
+                     &SurfaceGraph::changeSelectionMode);
+    QObject::connect(columnRadioButton,
+                     &QRadioButton::clicked,
+                     this,
+                     &SurfaceGraph::changeSelectionMode);
+    QObject::connect(m_pickCheckBox, &QCheckBox::clicked, this, &SurfaceGraph::changeSelectionMode);
 }
 
 void SurfaceGraph::renderSliceToImage()
@@ -95,4 +115,15 @@ void SurfaceGraph::renderSliceToImage()
 void SurfaceGraph::applySliceImage(QImage image)
 {
     m_sliceResultLabel->setPixmap(QPixmap::fromImage(image));
+}
+
+void SurfaceGraph::changeSelectionMode(bool checked)
+{
+    Q_UNUSED(checked)
+    bool mode = m_invertCheckBox->isChecked() ? !m_rowRadioButton->isChecked()
+                                              : m_rowRadioButton->isChecked();
+    if (m_pickCheckBox->isChecked())
+        m_modifier->changeSelectionMode(mode, false);
+    else
+        m_modifier->changeSelectionMode(false);
 }

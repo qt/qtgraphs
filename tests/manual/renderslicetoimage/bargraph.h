@@ -5,13 +5,13 @@
 #define BARGRAPH_H
 
 #include <QtCore/qobject.h>
-#include <QtCore/qtimer.h>
 #include <QtQuick/qquickitemgrabresult.h>
 
 class BarGraphModifier;
 class BarGraphWidget;
-class QLineEdit;
+class QCheckBox;
 class QLabel;
+class QLineEdit;
 class QRadioButton;
 
 class BarGraph : public QObject
@@ -26,12 +26,14 @@ public:
 
 private:
     void renderSliceToImage();
+    void changeSelectionMode(bool checked);
 
     BarGraphModifier *m_modifier = nullptr;
     BarGraphWidget *m_barGraphWidget = nullptr;
     QWidget *m_barWidget = nullptr;
 
-    QTimer *m_timer = nullptr;
+    QCheckBox *m_pickCheckBox = nullptr;
+    QCheckBox *m_invertCheckBox = nullptr;
     QRadioButton *m_rowRadioButton = nullptr;
     QLineEdit *m_lineSelectText = nullptr;
     QLabel *m_sliceResultLabel = nullptr;

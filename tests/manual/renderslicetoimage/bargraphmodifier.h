@@ -22,6 +22,7 @@ public:
     void changePresetCamera();
 
     void renderSliceToImage(QtGraphs3D::SliceCaptureType sliceType, int requestedIndex);
+    void changeSelectionMode(bool checked, bool nopick = true);
 
 Q_SIGNALS:
     void sliceImageChanged(const QImage &image);

@@ -800,10 +800,8 @@ QQuick3DViewport *QQuickGraphsBars::createOffscreenSliceView(int requestedIndex,
     Q_TRACE_SCOPE(QGraphs3DBarsCreateOffscreenSliceView, requestedIndex,
                   static_cast<int>(sliceType));
 
-    bool isRow = (selectionMode().testFlag(QtGraphs3D::SelectionFlag::Row)
-                  || sliceType == QtGraphs3D::SliceCaptureType::RowImage);
-    bool isColumn = (selectionMode().testFlag(QtGraphs3D::SelectionFlag::Column)
-                     || sliceType == QtGraphs3D::SliceCaptureType::ColumnImage);
+    const bool isRow = (sliceType == QtGraphs3D::SliceCaptureType::RowImage);
+    const bool isColumn = (sliceType == QtGraphs3D::SliceCaptureType::ColumnImage);
 
     QList<QBar3DSeries *> barSeriesList = this->barSeriesList();
     for (const auto &barSeries : std::as_const(barSeriesList)) {

@@ -32,7 +32,7 @@ BarGraphModifier::BarGraphModifier(Q3DBarsWidgetItem *bargraph, QObject *parent)
     m_graph->activeTheme()->setPlotAreaBackgroundVisible(false);
     m_graph->activeTheme()->setLabelFont(QFont("Times New Roman", m_fontSize));
     m_graph->activeTheme()->setLabelBackgroundVisible(true);
-    m_graph->setSelectionMode(QtGraphs3D::SelectionFlag::Column | QtGraphs3D::SelectionFlag::Slice);
+    m_graph->setSelectionMode(QtGraphs3D::SelectionFlag::None);
 
     m_months = {"January",
                 "February",
@@ -145,8 +145,17 @@ void BarGraphModifier::changePresetCamera()
         preset = int(QtGraphs3D::CameraPreset::FrontLow);
 }
 
-void BarGraphModifier::renderSliceToImage(QtGraphs3D::SliceCaptureType sliceType,
-                                          int requestedIndex)
+void BarGraphModifier::renderSliceToImage(QtGraphs3D::SliceCaptureType sliceType, int requestedIndex)
 {
     m_graph->renderSliceToImage(requestedIndex, sliceType);
+}
+
+void BarGraphModifier::changeSelectionMode(bool checked, bool nopick)
+{
+    auto mode = nopick
+                    ? QtGraphs3D::SelectionFlag::None
+                    : (checked ? (QtGraphs3D::SelectionFlag::Row | QtGraphs3D::SelectionFlag::Slice)
+                               : (QtGraphs3D::SelectionFlag::Column
+                                  | QtGraphs3D::SelectionFlag::Slice));
+    m_graph->setSelectionMode(mode);
 }

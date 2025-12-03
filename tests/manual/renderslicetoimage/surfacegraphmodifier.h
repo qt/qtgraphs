@@ -20,6 +20,7 @@ public:
     ~SurfaceGraphModifier();
 
     void renderSliceToImage(QtGraphs3D::SliceCaptureType sliceType, int requestedIndex);
+    void changeSelectionMode(bool checked, bool nopick = true);
 
 Q_SIGNALS:
     void updateSliceImage(const QImage &image);

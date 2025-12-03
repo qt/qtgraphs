@@ -2855,10 +2855,8 @@ QQuickGraphsSurface::createOffscreenSliceView(int index, int requestedIndex,
     Q_TRACE_SCOPE(QGraphs3DSurfaceCreateOffscreenSliceView, index, requestedIndex,
                   static_cast<int>(sliceType));
 
-    bool isRow = (selectionMode().testFlag(QtGraphs3D::SelectionFlag::Row)
-                  || sliceType == QtGraphs3D::SliceCaptureType::RowImage);
-    bool isColumn = (selectionMode().testFlag(QtGraphs3D::SelectionFlag::Column)
-                     || sliceType == QtGraphs3D::SliceCaptureType::ColumnImage);
+    const bool isRow = (sliceType == QtGraphs3D::SliceCaptureType::RowImage);
+    const bool isColumn = (sliceType == QtGraphs3D::SliceCaptureType::ColumnImage);
 
     int modelIndex = 0;
     for (const auto &model : std::as_const(m_model)) {

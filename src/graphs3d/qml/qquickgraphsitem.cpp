@@ -6788,10 +6788,12 @@ void QQuickGraphsItem::updateSliceGrid(QQuick3DModel *sliceGridGeometryModel,
 
     float horizontalScale = 0.0f;
 
-    bool isRow = (selectionMode().testFlag(QtGraphs3D::SelectionFlag::Row)
-                  || sliceType == QtGraphs3D::SliceCaptureType::RowImage);
-    bool isColumn = (selectionMode().testFlag(QtGraphs3D::SelectionFlag::Column)
-                     || sliceType == QtGraphs3D::SliceCaptureType::ColumnImage);
+    const bool isRow = ((sliceType == QtGraphs3D::SliceCaptureType::NoImage
+                         && selectionMode().testFlag(QtGraphs3D::SelectionFlag::Row))
+                        || sliceType == QtGraphs3D::SliceCaptureType::RowImage);
+    const bool isColumn = ((sliceType == QtGraphs3D::SliceCaptureType::NoImage
+                            && selectionMode().testFlag(QtGraphs3D::SelectionFlag::Column))
+                           || sliceType == QtGraphs3D::SliceCaptureType::ColumnImage);
 
     if (isRow) {
         horizontalAxis = axisX();
@@ -6918,10 +6920,12 @@ void QQuickGraphsItem::updateSliceLabels(QQuick3DRepeater *horizontalLabel,
     else
         sliceVerticalLabelRepeater = m_sliceVerticalLabelRepeater;
 
-    bool isRow = (selectionMode().testFlag(QtGraphs3D::SelectionFlag::Row)
-                  || sliceType == QtGraphs3D::SliceCaptureType::RowImage);
-    bool isColumn = (selectionMode().testFlag(QtGraphs3D::SelectionFlag::Column)
-                     || sliceType == QtGraphs3D::SliceCaptureType::ColumnImage);
+    const bool isRow = ((sliceType == QtGraphs3D::SliceCaptureType::NoImage
+                         && selectionMode().testFlag(QtGraphs3D::SelectionFlag::Row))
+                        || sliceType == QtGraphs3D::SliceCaptureType::RowImage);
+    const bool isColumn = ((sliceType == QtGraphs3D::SliceCaptureType::NoImage
+                            && selectionMode().testFlag(QtGraphs3D::SelectionFlag::Column))
+                           || sliceType == QtGraphs3D::SliceCaptureType::ColumnImage);
 
     if (isRow) {
         horizontalAxis = axisX();
