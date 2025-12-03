@@ -120,6 +120,17 @@ QT_BEGIN_NAMESPACE
  * \c {quaternion(0.0, 0.0, 0.0, 0.0)}.
  */
 
+/*! \qmlproperty bool Custom3DItem::rotationAbsolute
+ *  \since 6.11
+ *
+ * Defines whether item rotation is to be handled in data values or in absolute
+ * values. Defaults to \c{true}. Items with absolute rotation will be rotated with
+ * the default coordinates, regardless of axis. Items with data rotation will rotate
+ * according to the axis coordinates.
+ *
+ * \sa rotation
+ */
+
 /*! \qmlproperty bool Custom3DItem::visible
  *
  * The visibility of the item. Defaults to \c{true}.
@@ -448,6 +459,40 @@ QQuaternion QCustom3DItem::rotation()
     return d->m_rotation;
 }
 
+/*! \property QCustom3DItem::rotationAbsolute
+ *  \since 6.11
+ *
+ * \brief Whether item rotation is to be handled in data axis coordinates or in absolute
+ * coordinates.
+ *
+ * Defines whether item rotation is to be handled in data values or in absolute
+ * values. Defaults to \c{true}. Items with absolute rotation will be rotated with
+ * the default coordinates, regardless of axis. Items with data rotation will rotate
+ * according to the axis coordinates.
+ *
+ * \sa rotation
+ */
+ void QCustom3DItem::setRotationAbsolute(bool rotationAbsolute)
+ {
+     Q_D(QCustom3DItem);
+     if (d->m_rotationAbsolute == rotationAbsolute) {
+         qCDebug(lcProperties3D) << __FUNCTION__
+             << "value is already set to:" << rotationAbsolute;
+         return;
+     }
+
+     d->m_rotationAbsolute = rotationAbsolute;
+     d->m_dirtyBits.rotationDirty = true;
+     emit rotationAbsoluteChanged(rotationAbsolute);
+     emit needUpdate();
+ }
+
+ bool QCustom3DItem::isRotationAbsolute() const
+ {
+     Q_D(const QCustom3DItem);
+     return d->m_rotationAbsolute;
+ }
+
 /*! \property QCustom3DItem::visible
  *
  * \brief The visibility of the item.
@@ -609,6 +654,7 @@ QCustom3DItemPrivate::QCustom3DItemPrivate(const QString &meshFile,
     , m_scaling(scaling)
     , m_scalingAbsolute(true)
     , m_rotation(rotation)
+    , m_rotationAbsolute(true)
     , m_visible(true)
     , m_shadowCasting(true)
     , m_isLabelItem(false)

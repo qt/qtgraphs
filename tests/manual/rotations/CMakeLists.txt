@@ -15,6 +15,9 @@ qt_internal_add_manual_test(tst_rotations
     SOURCES
         main.cpp
         scatterdatamodifier.cpp scatterdatamodifier.h
+        magneticfield.cpp magneticfield.h
+        customitemrotation.cpp customitemrotation.h
+        customitemdatamodifier.cpp customitemdatamodifier.h
     )
 
 target_link_libraries(tst_rotations PUBLIC

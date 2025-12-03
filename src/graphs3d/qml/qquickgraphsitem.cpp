@@ -1146,12 +1146,15 @@ void QQuickGraphsItem::handleAxisReversedChangedBySender(QObject *sender)
     // Reversing change needs to dirty the data so item positions are recalculated
     if (sender == m_axisX) {
         m_isDataDirty = true;
+        m_isCustomDataDirty = true;
         m_changeTracker.axisXReversedChanged = true;
     } else if (sender == m_axisY) {
         m_isDataDirty = true;
+        m_isCustomDataDirty = true;
         m_changeTracker.axisYReversedChanged = true;
     } else if (sender == m_axisZ) {
         m_isDataDirty = true;
+        m_isCustomDataDirty = true;
         m_changeTracker.axisZReversedChanged = true;
     } else {
         qCWarning(lcGraphs3D, "%ls invoked for invalid axis",
@@ -6426,7 +6429,51 @@ void QQuickGraphsItem::updateCustomData()
                     QByteArray(reinterpret_cast<const char *>(textureImage.bits()),
                                textureImage.sizeInBytes()));
             }
-            model->setRotation(item->rotation());
+
+            if (!item->isRotationAbsolute()) {
+                auto xValueAxis = qobject_cast<QValue3DAxis *>(axisX());
+                auto yValueAxis = qobject_cast<QValue3DAxis *>(axisY());
+                auto zValueAxis = qobject_cast<QValue3DAxis *>(axisZ());
+
+                if (xValueAxis && yValueAxis && zValueAxis) {
+                    QQuaternion itemRotation(item->rotation());
+
+                    /*
+                      the z axis is initally reversed in qtgraphs,
+                      so we have to reverse the axis in charge
+                      of it initally
+                    */
+                    itemRotation.setX(-itemRotation.x());
+
+                    float sX = xValueAxis->reversed()? -1.0 : 1.0;
+                    float sY = yValueAxis->reversed()? -1.0 : 1.0;
+                    float sZ = zValueAxis->reversed()? -1.0 : 1.0;
+
+                    float handedness = sX * sY * sZ;
+
+                    if (handedness == 1.0f) {
+                        itemRotation = {
+                            itemRotation.scalar(),
+                            itemRotation.x() * sX,
+                            itemRotation.y() * sY,
+                            itemRotation.z() * sZ,
+                        };
+                    } else {
+                        itemRotation = {
+                            item->rotation().scalar(),
+                            -itemRotation.x() * sX,
+                            -itemRotation.y() * sY,
+                            -itemRotation.z() * sZ,
+                        };
+                    }
+
+                    model->setRotation(itemRotation);
+                } else {
+                    model->setRotation(item->rotation());
+                }
+            } else {
+                model->setRotation(item->rotation());
+            }
             model->setVisible(item->isVisible());
         }
         ++itemIterator;

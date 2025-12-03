@@ -65,6 +65,7 @@ public:
     QVector3D m_scaling;
     bool m_scalingAbsolute;
     QQuaternion m_rotation;
+    bool m_rotationAbsolute;
     bool m_visible;
     bool m_shadowCasting;
 

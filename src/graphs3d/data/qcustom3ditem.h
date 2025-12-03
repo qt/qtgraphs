@@ -32,6 +32,8 @@ class Q_GRAPHS_EXPORT QCustom3DItem : public QObject
                    shadowCastingChanged FINAL)
     Q_PROPERTY(bool scalingAbsolute READ isScalingAbsolute WRITE setScalingAbsolute NOTIFY
                    scalingAbsoluteChanged FINAL)
+    Q_PROPERTY(bool rotationAbsolute READ isRotationAbsolute WRITE setRotationAbsolute NOTIFY
+                   rotationAbsoluteChanged REVISION(6, 11))
     QML_NAMED_ELEMENT(Custom3DItem)
 
 public:
@@ -65,6 +67,9 @@ public:
     void setRotation(const QQuaternion &rotation);
     QQuaternion rotation();
 
+    void setRotationAbsolute(bool rotationAbsolute);
+    bool isRotationAbsolute() const;
+
     void setVisible(bool visible);
     bool isVisible() const;
 
@@ -82,6 +87,7 @@ Q_SIGNALS:
     void positionAbsoluteChanged(bool positionAbsolute);
     void scalingChanged(QVector3D scaling);
     void rotationChanged(const QQuaternion &rotation);
+    Q_REVISION(6, 11) void rotationAbsoluteChanged(bool rotationAbsolute);
     void visibleChanged(bool visible);
     void shadowCastingChanged(bool shadowCasting);
     void scalingAbsoluteChanged(bool scalingAbsolute);
