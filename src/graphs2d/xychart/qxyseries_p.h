@@ -15,6 +15,7 @@
 #ifndef QXYSERIES_P_H
 #define QXYSERIES_P_H
 
+#include "graphs2d/xychart/qxyseries.h"
 #include <QtGraphs/qxyseries.h>
 #include <private/qabstractseries_p.h>
 #include <private/qgraphtransition_p.h>
@@ -36,7 +37,14 @@ public:
 
     void append(const QList<QPointF> &points);
 
+    QList<QPointF> pointsFromNumbers(QXYSeries::DeclarativePointHint hint);
+    QList<QPointF> pointsFromPoints();
+
 protected:
+    QVariantList m_declarativePoints;
+    QXYSeries::DeclarativePointHint m_declarativePointHint = QXYSeries::DeclarativePointHint::Y;
+    qreal m_declarativeMin = 0.0;
+    qreal m_stepSize = 1.0;
     QList<QPointF> m_points;
     QSet<qsizetype> m_selectedPoints;
     QColor m_color = QColor(Qt::transparent);

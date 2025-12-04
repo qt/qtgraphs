@@ -41,6 +41,10 @@ Item {
         valuesMultiplier: 0.75
     }
 
+    LineSeries {
+        id: declarative
+    }
+
     // Values used for changing the properties
     Component { id: marker; Rectangle { width: 10; height: 10 } }
 
@@ -318,6 +322,82 @@ Item {
             id: selectedPointsSpy
             target: initialized
             signalName: "selectedPointsChanged"
+        }
+    }
+
+    TestCase {
+        name: "LineSeries declarative"
+
+        function test_1_declarative_numbers() {
+            declarativePointsSpy.clear()
+            compare(declarative.declarativePoints.length, 0)
+            compare(declarative.declarativeMin, 0.0)
+            compare(declarative.stepSize, 1.0)
+            compare(declarative.declarativePointHint, QXYSeries.DeclarativePointHint.Y)
+
+            declarative.declarativePoints = [5,3,6,2,8,5]
+
+            compare(declarative.count, 6)
+            compare(declarative.at(3), Qt.point(3, 2))
+
+            declarative.declarativePointHint = QXYSeries.DeclarativePointHint.X
+
+            compare(declarative.declarativePointHint, QXYSeries.DeclarativePointHint.X)
+            compare(declarative.at(3), Qt.point(2, 3))
+
+            declarative.declarativeMin = -3.5
+            compare(declarative.declarativeMin, -3.5)
+
+            declarative.stepSize = 2.2
+            compare(declarative.stepSize, 2.2)
+
+            compare(declarative.at(1), Qt.point(3, -1.3))
+
+            declarative.declarativePoints = []
+            declarative.declarativeMin = 0
+            declarative.stepSize = 1
+
+            compare(declarativePointsSpy.count, 2)
+            compare(declarativeMinSpy.count, 2)
+            compare(stepSizeSpy.count, 2)
+            compare(declarative.count, 0)
+        }
+
+        function test_2_declarative_points() {
+            declarativePointsSpy.clear()
+            declarative.declarativePoints = [Qt.point(4.4,5.2),
+                                             Qt.point(6,3.6),
+                                             Qt.point(7,9),
+                                             Qt.point(8.8,9.9)]
+            compare(declarative.count, 4)
+
+            compare(declarative.at(1), Qt.point(6,3.6))
+            declarative.declarativeMin = 5
+            compare(declarative.at(1), Qt.point(6,3.6))
+            declarative.stepSize = 3
+            compare(declarative.at(1), Qt.point(6,3.6))
+            declarative.declarativePoints = []
+            compare(declarative.count, 0)
+
+            compare(declarativePointsSpy.count, 2)
+        }
+
+        SignalSpy {
+            id: declarativePointsSpy
+            target: declarative
+            signalName: "declarativePointsChanged"
+        }
+
+        SignalSpy {
+            id: declarativeMinSpy
+            target: declarative
+            signalName: "declarativeMinChanged"
+        }
+
+        SignalSpy {
+            id: stepSizeSpy
+            target: declarative
+            signalName: "stepSizeChanged"
         }
     }
 }

@@ -24,11 +24,25 @@ class Q_GRAPHS_EXPORT QXYSeries : public QAbstractSeries
     Q_PROPERTY(bool draggable READ isDraggable WRITE setDraggable NOTIFY draggableChanged FINAL)
     Q_PROPERTY(QList<qsizetype> selectedPoints READ selectedPoints NOTIFY selectedPointsChanged FINAL)
     Q_PROPERTY(qsizetype count READ count NOTIFY countChanged FINAL)
+    Q_PROPERTY(QVariantList declarativePoints READ declarativePoints WRITE setDeclarativePoints
+                       NOTIFY declarativePointsChanged REVISION(6, 12))
+    Q_PROPERTY(DeclarativePointHint declarativePointHint READ declarativePointHint WRITE
+                       setDeclarativePointHint NOTIFY declarativePointHintChanged REVISION(6, 12))
+    Q_PROPERTY(qreal declarativeMin READ declarativeMin WRITE
+                       setDeclarativeMin NOTIFY declarativeMinChanged REVISION(6, 12))
+    Q_PROPERTY(qreal stepSize READ stepSize WRITE
+                       setStepSize NOTIFY stepSizeChanged REVISION(6, 12))
 
 protected:
     explicit QXYSeries(QXYSeriesPrivate &dd, QObject *parent = nullptr);
 
 public:
+    enum class DeclarativePointHint {
+        X,
+        Y,
+    };
+    Q_ENUM(DeclarativePointHint);
+
     Q_INVOKABLE void append(qreal x, qreal y);
     Q_INVOKABLE void append(QPointF point);
     Q_INVOKABLE void append(const QList<QPointF> &points);
@@ -61,6 +75,8 @@ public:
     QColor selectedColor() const;
 
     qsizetype count() const;
+    QVariantList declarativePoints() const;
+    void setDeclarativePoints(QVariantList declarativePoints);
 
     Q_INVOKABLE bool isPointSelected(qsizetype index) const;
     Q_INVOKABLE void selectPoint(qsizetype index);
@@ -82,6 +98,15 @@ public:
     bool isDraggable() const;
     void setDraggable(bool newDraggable);
 
+    DeclarativePointHint declarativePointHint() const;
+    void setDeclarativePointHint(DeclarativePointHint newHint);
+
+    qreal declarativeMin() const;
+    void setDeclarativeMin(qreal newMin);
+
+    qreal stepSize() const;
+    void setStepSize(qreal stepSize);
+
 Q_SIGNALS:
     void pointReplaced(qsizetype index);
     void pointRemoved(qsizetype index);
@@ -101,6 +126,11 @@ Q_SIGNALS:
     Q_REVISION(6, 9) void doubleClicked(QPoint point);
     Q_REVISION(6, 9) void pressed(QPoint point);
     Q_REVISION(6, 9) void released(QPoint point);
+
+    Q_REVISION(6, 12) void declarativePointsChanged(const QVariantList &declarativePoints);
+    Q_REVISION(6, 12) void declarativePointHintChanged(QXYSeries::DeclarativePointHint newHint);
+    Q_REVISION(6, 12) void declarativeMinChanged(qreal newMin);
+    Q_REVISION(6, 12) void stepSizeChanged(qreal newStepSize);
 
 private:
     friend class PointRenderer;

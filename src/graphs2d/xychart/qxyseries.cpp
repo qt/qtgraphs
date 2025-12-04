@@ -3,10 +3,12 @@
 // Qt-Security score:significant reason:default
 
 
+#include "graphs2d/xychart/qxyseries.h"
 #include "graphs2d/qabstractseries.h"
 #include <QtGraphs/qxyseries.h>
 #include <private/qxyseries_p.h>
 #include <private/charthelpers_p.h>
+#include <utility>
 
 QT_BEGIN_NAMESPACE
 
@@ -699,6 +701,101 @@ qsizetype QXYSeries::count() const
 }
 
 /*!
+    \qmlproperty list<variant> XYSeries::declarativePoints
+     This property can be used to set points declaratively
+     for a \a XYSeries. The variant list can be either points
+     or numbers. If numbers are given, the \l{XYSeries::declarativeHint}
+     can be used to indicate the the number interpreted as X or Y
+     component of a point.
+*/
+QVariantList QXYSeries::declarativePoints() const
+{
+    Q_D(const QXYSeries);
+    return d->m_declarativePoints;
+}
+
+void QXYSeries::setDeclarativePoints(QVariantList declarativePoints)
+{
+    Q_D(QXYSeries);
+    if (!declarativePoints.isSharedWith(d->m_declarativePoints)) {
+        d->m_declarativePoints = declarativePoints;
+        if (!d->m_declarativePoints.isEmpty()) {
+            QList<QPointF> temp;
+            if (declarativePoints.at(0).canConvert<QPointF>())
+                temp = d->pointsFromPoints();
+            else
+                temp = d->pointsFromNumbers(d->m_declarativePointHint);
+
+            replace(temp);
+        } else {
+            clear();
+        }
+        emit declarativePointsChanged(d->m_declarativePoints);
+    }
+}
+
+QXYSeries::DeclarativePointHint QXYSeries::declarativePointHint() const
+{
+    Q_D(const QXYSeries);
+    return d->m_declarativePointHint;
+}
+
+void QXYSeries::setDeclarativePointHint(DeclarativePointHint newHint)
+{
+    Q_D(QXYSeries);
+    if (newHint == d->m_declarativePointHint)
+        return;
+
+    d->m_declarativePointHint = newHint;
+
+    if (d->m_declarativePoints.size() && d->m_declarativePoints[0].canConvert<float>())
+        replace(d->pointsFromNumbers(d->m_declarativePointHint));
+
+    emit declarativePointHintChanged(newHint);
+}
+
+qreal QXYSeries::declarativeMin() const
+{
+    Q_D(const QXYSeries);
+    return d->m_declarativeMin;
+}
+
+void QXYSeries::setDeclarativeMin(qreal newMin)
+{
+    Q_D(QXYSeries);
+    if (qFuzzyCompare(newMin, d->m_declarativeMin))
+        return;
+
+    d->m_declarativeMin = newMin;
+
+    if (d->m_declarativePoints.size() && d->m_declarativePoints[0].canConvert<float>())
+        replace(d->pointsFromNumbers(d->m_declarativePointHint));
+
+    emit declarativeMinChanged(newMin);
+}
+
+qreal QXYSeries::stepSize() const
+{
+    Q_D(const QXYSeries);
+    return d->m_stepSize;
+}
+
+void QXYSeries::setStepSize(qreal newStepSize)
+{
+    Q_D(QXYSeries);
+
+    if (qFuzzyCompare(newStepSize, d->m_stepSize))
+        return;
+
+    d->m_stepSize = newStepSize;
+
+    if (d->m_declarativePoints.size() && d->m_declarativePoints[0].canConvert<float>())
+        replace(d->pointsFromNumbers(d->m_declarativePointHint));
+
+    emit stepSizeChanged(newStepSize);
+}
+
+/*!
     Returns the points in the series.
 */
 QList<QPointF> QXYSeries::points() const
@@ -1017,6 +1114,36 @@ void QXYSeriesPrivate::append(const QList<QPointF> &points)
         Q_EMIT q->pointsAdded(start, m_points.size() - 1);
         Q_EMIT q->countChanged();
     }
+}
+
+QList<QPointF> QXYSeriesPrivate::pointsFromNumbers(QXYSeries::DeclarativePointHint hint)
+{
+    float other = m_declarativeMin;
+    QList<QPointF> temp;
+    temp.reserve(m_declarativePoints.size());
+    if (hint == QXYSeries::DeclarativePointHint::Y) {
+        for (const auto &i : std::as_const(m_declarativePoints)) {
+            temp.append(QPointF(other, i.toFloat()));
+            other += m_stepSize;
+        }
+    } else if (hint == QXYSeries::DeclarativePointHint::X) {
+        for (const auto &i : std::as_const(m_declarativePoints)) {
+            temp.append(QPointF(i.toFloat(), other));
+            other += m_stepSize;
+        }
+    }
+    return temp;
+}
+
+QList<QPointF> QXYSeriesPrivate::pointsFromPoints()
+{
+    QList<QPointF> temp;
+    temp.reserve(m_declarativePoints.size());
+
+    for (const auto &i : std::as_const(m_declarativePoints))
+        temp.append(i.toPointF());
+
+    return temp;
 }
 
 QT_END_NAMESPACE
