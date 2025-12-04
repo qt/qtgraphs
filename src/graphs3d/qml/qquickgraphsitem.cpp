@@ -6117,6 +6117,7 @@ void QQuickGraphsItem::toggleSliceGraph()
     if (m_sliceView->isVisible()) {
         // Maximize main view
         m_sliceView->setVisible(false);
+        m_sliceView->update();
         setSlicingActive(false);
         updateSubViews();
         qCDebug(lcEvents3D, "%s exit sliceView", qUtf8Printable(QLatin1String(__FUNCTION__)));
