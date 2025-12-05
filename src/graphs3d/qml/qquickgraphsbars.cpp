@@ -1,6 +1,7 @@
 // Copyright (C) 2023 The Qt Company Ltd.
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 
+#include "graphs3d/utils/qgraphs3dlogging_p.h"
 #include "q3dscene.h"
 #include "qbar3dseries.h"
 #include "qbar3dseries_p.h"
@@ -981,7 +982,7 @@ void QQuickGraphsBars::renderSliceToImage(int requestedIndex,
         return;
 
     if (filePath.isEmpty()) {
-        qWarning("Save path is not defined.");
+        qCWarning(lcGraphsBars3D, "Save path is not defined.");
         sliceView->setVisible(false);
         sliceView->deleteLater();
         return;
@@ -990,7 +991,7 @@ void QQuickGraphsBars::renderSliceToImage(int requestedIndex,
     QSharedPointer<QQuickItemGrabResult> grabbed = sliceView->grabToImage();
     connect(grabbed.data(), &QQuickItemGrabResult::ready, this, [grabbed, sliceView, filePath]() {
         if (!grabbed.data()->saveToFile(filePath))
-            qWarning("Saving requested slice view to image failed");
+            qCWarning(lcGraphsBars3D, "Saving requested slice view to image failed");
         sliceView->setVisible(false);
         sliceView->deleteLater();
     });

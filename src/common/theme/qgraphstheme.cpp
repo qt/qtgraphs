@@ -16,6 +16,8 @@
 
 QT_BEGIN_NAMESPACE
 
+Q_LOGGING_CATEGORY(lcGraphsCommonTheme, "qt.graphs.common.theme")
+
 /*!
  * \class QGraphsTheme
  * \inmodule QtGraphs
@@ -1702,7 +1704,7 @@ void QGraphsTheme::setThemeGradient(QQuickGradient *gradient, GradientQMLStyle t
         setMultiHighlightGradient(linearGradient);
         break;
     default:
-        qWarning("Incorrect usage. Type may be GradientQMLStyle::SingleHL or "
+        qCWarning(lcGraphsCommonTheme, "Incorrect usage. Type may be GradientQMLStyle::SingleHL or "
                  "GradientQMLStyle::MultiHL.");
         break;
     }
@@ -1812,7 +1814,7 @@ void QGraphsTheme::appendThemeChildren(QQmlListProperty<QObject> *list, QObject 
 void QGraphsTheme::addColor(QQuickGraphsColor *color)
 {
     if (!color) {
-        qWarning("Color is invalid, use Color");
+        qCWarning(lcGraphsCommonTheme, "Color is invalid, use Color");
         return;
     }
     clearDummyColors();
