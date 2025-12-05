@@ -158,6 +158,44 @@ QT_BEGIN_NAMESPACE
 */
 
 /*!
+ \property QDateTimeAxis::visualMin
+ \readonly
+ \since 6.11
+ \brief The visual minimum value of the axis.
+
+ This property holds a a visual minimum axis value when axis has been
+ panned or zoomed. The default value is \l{QDateTimeAxis::min}
+*/
+/*!
+ \qmlproperty real DateTimeAxis::visualMin
+ \readonly
+ \since 6.11
+ The visual minimum value of the axis.
+
+ This property holds a a visual minimum axis value when axis has been
+ panned or zoomed. The default value is \l min
+*/
+
+/*!
+ \property QDateTimeAxis::visualMax
+ \readonly
+ \since 6.11
+ \brief The visual maximum value of the axis.
+
+ This property holds a a visual maximum axis value when axis has been
+ panned or zoomed. The default value is \l{QDateTimeAxis::max}
+*/
+/*!
+ \qmlproperty real DateTimeAxis::visualMax
+ \readonly
+ \since 6.11
+ The visual maximum value of the axis.
+
+ This property holds a a visual maximum axis value when axis has been
+ panned or zoomed. The default value is \l max
+*/
+
+/*!
  \qmlsignal DateTimeAxis::minChanged(DateTime min)
  This signal is emitted when the minimum value of the axis, specified by \a min, changes.
 */

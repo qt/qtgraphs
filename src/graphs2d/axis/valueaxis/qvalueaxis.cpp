@@ -182,6 +182,44 @@ QT_BEGIN_NAMESPACE
 */
 
 /*!
+ \property QValueAxis::visualMin
+ \readonly
+ \since 6.11
+ \brief The visual minimum value of the axis.
+
+ This property holds a a visual minimum axis value when axis has been
+ panned or zoomed. The default value is \l{QValueAxis::min}
+*/
+/*!
+ \qmlproperty real ValueAxis::visualMin
+ \readonly
+ \since 6.11
+ The visual minimum value of the axis.
+
+ This property holds a a visual minimum axis value when axis has been
+ panned or zoomed. The default value is \l min
+*/
+
+/*!
+ \property QValueAxis::visualMax
+ \readonly
+ \since 6.11
+ \brief The visual maximum value of the axis.
+
+ This property holds a a visual maximum axis value when axis has been
+ panned or zoomed. The default value is \l{QValueAxis::max}
+*/
+/*!
+ \qmlproperty real ValueAxis::visualMax
+ \readonly
+ \since 6.11
+ The visual maximum value of the axis.
+
+ This property holds a a visual maximum axis value when axis has been
+ panned or zoomed. The default value is \l max
+*/
+
+/*!
   \qmlsignal ValueAxis::minChanged(real min)
   This signal is emitted when the minimum value of the axis changes to \a min.
 */
