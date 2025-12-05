@@ -1,6 +1,7 @@
 // Copyright (C) 2023 The Qt Company Ltd.
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 
+#include "graphs3d/utils/qgraphs3dlogging_p.h"
 #include "q3dscene.h"
 #include "qgraphsinputhandler_p.h"
 #include "qquickgraphsscatter_p.h"
@@ -452,7 +453,7 @@ void QQuickGraphsScatter::updateScatterGraphItemVisuals(ScatterModel *graphModel
             window()->releaseResources();
 
         if (itemCount != graphModel->dataItems.size())
-            qWarning("%ls Item count differs from itemList count",
+            qCWarning(lcGraphsScatter3D, "%ls Item count differs from itemList count",
                      qUtf16Printable(QString::fromUtf8(__func__)));
 
         bool transparentTexture = false;

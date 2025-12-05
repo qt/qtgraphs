@@ -1,6 +1,7 @@
 // Copyright (C) 2023 The Qt Company Ltd.
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 
+#include "graphs3d/utils/qgraphs3dlogging_p.h"
 #include "private/qquick3drepeater_p.h"
 #include "q3dscene.h"
 #include "qabstractdataproxy.h"
@@ -2880,7 +2881,7 @@ QQuickGraphsSurface::createOffscreenSliceView(int index, int requestedIndex,
         const bool ascendingZ = array.at(0).at(0).z() < array.at(maxRow).at(0).z();
 
         if (requestedIndex < 0 || requestedIndex >= maxRow || requestedIndex >= maxColumn) {
-            qWarning("The index is out of range. The render stops.");
+            qCWarning(lcGraphsSurface3D, "The index is out of range. The render stops.");
             sliceView->setVisible(false);
             sliceView->deleteLater();
             return nullptr;
@@ -3050,7 +3051,7 @@ void QQuickGraphsSurface::renderSliceToImage(int index, int requestedIndex,
         return;
 
     if (filePath.isEmpty()) {
-        qWarning("Save path is not defined.");
+        qCWarning(lcGraphsSurface3D, "Save path is not defined.");
         sliceView->setVisible(false);
         sliceView->deleteLater();
         return;
@@ -3059,7 +3060,7 @@ void QQuickGraphsSurface::renderSliceToImage(int index, int requestedIndex,
     QSharedPointer<QQuickItemGrabResult> grabbed = sliceView->grabToImage();
     connect(grabbed.data(), &QQuickItemGrabResult::ready, this, [grabbed, sliceView, filePath]() {
         if (!grabbed.data()->saveToFile(filePath))
-            qWarning("Saving requested slice view to image failed");
+            qCWarning(lcGraphsSurface3D, "Saving requested slice view to image failed");
         sliceView->setVisible(false);
         sliceView->deleteLater();
     });
