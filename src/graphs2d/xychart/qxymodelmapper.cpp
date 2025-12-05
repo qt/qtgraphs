@@ -10,6 +10,8 @@
 
 QT_BEGIN_NAMESPACE
 
+Q_LOGGING_CATEGORY(lcModelMapper2D, "qt.graphs2d.modelmapper")
+
 Q_TRACE_PREFIX(qtgraphs,
             "QT_BEGIN_NAMESPACE" \
             "class QXYModelMapper;" \
@@ -816,10 +818,10 @@ void QXYModelMapperPrivate::initializeXYFromModel()
         int count = m_orientation == Qt::Vertical ? m_model->rowCount() : m_model->columnCount();
         if (count > 0) {
             if (!xIndex.isValid()) {
-                qWarning("%ls Invalid X coordinate index in model mapper.",
+                qCWarning(lcModelMapper2D, "%ls Invalid X coordinate index in model mapper.",
                          qUtf16Printable(QString::fromUtf8(__func__)));
             } else if (!yIndex.isValid()) {
-                qWarning("%ls Invalid Y coordinate index in model mapper.",
+                qCWarning(lcModelMapper2D, "%ls Invalid Y coordinate index in model mapper.",
                          qUtf16Printable(QString::fromUtf8(__func__)));
             }
         }
