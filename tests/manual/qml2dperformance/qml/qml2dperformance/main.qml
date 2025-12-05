@@ -189,7 +189,7 @@ Item {
                 }
                 LineSeries {
                     id: line2DSeries
-                    width: 4
+                    width: 1
                 }
                 // XYModelMapper  {
                 //     first: 0
@@ -221,7 +221,7 @@ Item {
                 }
                 SplineSeries {
                     id: spline2DSeries
-                    width: 4
+                    width: 1
                 }
                 // XYModelMapper  {
                 //     first: 0
@@ -272,7 +272,16 @@ Item {
         id: updateButton
         anchors.bottom: parent.bottom
         onClicked:  fAnim.running = !fAnim.running
-        text: fAnim.running? "Pause" : "Update"
+        text: fAnim.running ? "Pause" : "Update"
+    }
+
+    Button {
+        id: optimizeButton
+        anchors.bottom: parent.bottom
+        anchors.left: updateButton.right
+        onClicked:  spline2DSeries.optimized = !spline2DSeries.optimized
+        text: spline2DSeries.optimized ? "Optimized" : "Default"
+        visible: tabBar.currentIndex === 4
     }
 
     Text {
@@ -281,11 +290,11 @@ Item {
         text: qsTr("FPS: %1").arg(fAnim.fps.toFixed(0))
         color: "red"
         font.pointSize: 24
-    } 
+    }
 
     SpinBox {
         anchors.bottom: parent.bottom
-        anchors.left: updateButton.right
+        anchors.left: optimizeButton.right
         id: pointsSB
         from: 10
         to: 10000
