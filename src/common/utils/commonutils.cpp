@@ -20,6 +20,9 @@ qreal CommonUtils::maxTextureSize()
 {
     // Query maximum texture size only once
     if (!s_maxTextureSize) {
+#if QT_CONFIG(opengl)
+        std::unique_ptr<QSurface> surfacePtr;
+#endif
         std::unique_ptr<QRhi> rhi;
 #if defined(Q_OS_WIN)
         QRhiD3D12InitParams params;
@@ -29,7 +32,8 @@ qreal CommonUtils::maxTextureSize()
         rhi.reset(QRhi::create(QRhi::Metal, &params));
 #elif QT_CONFIG(opengl)
         QRhiGles2InitParams params;
-        params.fallbackSurface = QRhiGles2InitParams::newFallbackSurface();
+        surfacePtr.reset(QRhiGles2InitParams::newFallbackSurface());
+        params.fallbackSurface = surfacePtr.get();
         rhi.reset(QRhi::create(QRhi::OpenGLES2, &params));
 #elif QT_CONFIG(vulkan)
         if (!qEnvironmentVariable("QSG_RHI_BACKEND").compare("vulkan")) {
