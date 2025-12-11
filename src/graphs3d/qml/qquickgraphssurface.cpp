@@ -754,6 +754,7 @@ void QQuickGraphsSurface::setSelectedPoint(const QPoint position,
 {
     // If the selection targets non-existent point, clear selection instead.
     QPoint pos = position;
+    m_selectionDirty = true;
 
     // Series may already have been removed, so check it before setting the selection.
     if (!m_seriesList.contains(series))
@@ -775,6 +776,7 @@ void QQuickGraphsSurface::setSelectedPoint(const QPoint position,
     }
 
     if (selectionMode().testFlag(QtGraphs3D::SelectionFlag::Slice)) {
+        bool previousSliceActive = isSlicingActive();
         if (pos == invalidSelectionPosition() || !series->isVisible()) {
             scene()->setSlicingActive(false);
         } else {
@@ -792,7 +794,11 @@ void QQuickGraphsSurface::setSelectedPoint(const QPoint position,
             } else if (enterSlice) {
                 scene()->setSlicingActive(true);
             }
+
         }
+        if (previousSliceActive != isSlicingActive())
+            setSliceActivatedChanged(true);
+
         emitNeedRender();
     }
 
@@ -815,6 +821,20 @@ void QQuickGraphsSurface::setSelectedPoint(const QPoint position,
         if (seriesChanged)
             emit selectedSeriesChanged(m_selectedSeries);
 
+        auto hasSeries = [series](SurfaceModel *model){ return model->series == series; };
+        auto hasVertex = [pos](SurfaceVertex vertex) {
+            return vertex.coord == pos;
+        };
+
+        auto it = std::find_if(m_model.constBegin(), m_model.constEnd(), hasSeries);
+        if (it != m_model.constEnd()) {
+            SurfaceModel *model = *it;
+            auto vIt = std::find_if(model->vertices.constBegin(), model->vertices.constEnd(), hasVertex);
+            if (vIt != model->vertices.constEnd()) {
+                model->selectedVertex = *vIt;
+                model->picked = true;
+            }
+        }
         emitNeedRender();
     }
 }
@@ -2403,7 +2423,6 @@ bool QQuickGraphsSurface::doPicking(QPointF position)
     if (!QQuickGraphsItem::doPicking(position))
         return false;
     Q_TRACE(QGraphs3DSurfaceDoPicking_entry, position.x(), position.y());
-    m_selectionDirty = true;
 
     SurfaceModel *pickedModel = nullptr;
     const QVector3D rayOrigin = rootNode()->mapPositionFromScene(mapTo3DScene(QVector3D(position.x(), position.y(), 0)));
@@ -2443,14 +2462,11 @@ bool QQuickGraphsSurface::doPicking(QPointF position)
                     }
                     model->selectedVertex = selectedVertex;
                     if (!selectedVertex.position.isNull() && model->picked) {
-                        model->series->setSelectedPoint(selectedVertex.coord);
-                        setSlicingActive(false);
+                        setSelectedPoint(selectedVertex.coord, model->series, true);
                         qCDebug(lcInput3D) << "pick results:"
                             << "\n instance position:" << selectedVertex.position
                             << "\n picked vertices coords:" << selectedVertex.coord
                             << "\n picked vertices values:" << model->series->dataProxy()->itemAt(selectedVertex.coord).position();
-                        if (isSliceEnabled())
-                            setSliceActivatedChanged(true);
                     }
                 }
             }
@@ -2471,7 +2487,6 @@ bool QQuickGraphsSurface::doRayPicking(QVector3D origin, QVector3D direction)
 
     Q_TRACE(QGraphs3DSurfaceDoRayPicking_entry, origin.x(), origin.y(), origin.z(), direction.x(),
             direction.y(), direction.z());
-    m_selectionDirty = true;
 
     SurfaceModel *pickedModel = nullptr;
     QVector3D pickedPos = pickSurfaces(origin, direction, pickedModel);
@@ -2507,14 +2522,11 @@ bool QQuickGraphsSurface::doRayPicking(QVector3D origin, QVector3D direction)
                     }
                     model->selectedVertex = selectedVertex;
                     if (!selectedVertex.position.isNull() && model->picked) {
-                        model->series->setSelectedPoint(selectedVertex.coord);
-                        setSlicingActive(false);
+                        setSelectedPoint(selectedVertex.coord, model->series, true);
                         qCDebug(lcInput3D) << "pick results:"
                             << "\n instance position:" << selectedVertex.position
                             << "\n picked vertices coords:" << selectedVertex.coord
                             << "\n picked vertices values:" << model->series->dataProxy()->itemAt(selectedVertex.coord).position();
-                        if (isSliceEnabled())
-                            setSliceActivatedChanged(true);
                     }
                 }
             }
