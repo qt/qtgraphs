@@ -10,16 +10,16 @@ if(NOT QT_FEATURE_graphs_2d AND NOT QT_FEATURE_graphs_3d)
 else()
     # 2D specific resources
     set(shader_resource_files_2D
-        "graphs2d/data/gridshader.frag.qsb"
-        "graphs2d/data/gridshader.vert.qsb"
-        "graphs2d/data/tickershader.frag.qsb"
-        "graphs2d/data/tickershader.vert.qsb"
-        "graphs2d/data/tickershaderhorizontal.frag.qsb"
-        "graphs2d/data/tickershaderhorizontal.vert.qsb"
-        "graphs2d/data/lineshaderhorizontal.frag.qsb"
-        "graphs2d/data/lineshaderhorizontal.vert.qsb"
-        "graphs2d/data/lineshadervertical.frag.qsb"
-        "graphs2d/data/lineshadervertical.vert.qsb"
+        "graphs2d/data/gridshader.frag"
+        "graphs2d/data/gridshader.vert"
+        "graphs2d/data/tickershader.frag"
+        "graphs2d/data/tickershader.vert"
+        "graphs2d/data/tickershaderhorizontal.frag"
+        "graphs2d/data/tickershaderhorizontal.vert"
+        "graphs2d/data/lineshaderhorizontal.frag"
+        "graphs2d/data/lineshaderhorizontal.vert"
+        "graphs2d/data/lineshadervertical.frag"
+        "graphs2d/data/lineshadervertical.vert"
     )
 
     set(qml_component_resources
@@ -197,8 +197,12 @@ else()
                 Qt::Quick3DRuntimeRenderPrivate
         )
 
-        # CMake 3.16 forces these to be added here instead of the graphs3d folder
-         qt_internal_add_resource(Graphs "graphsshaders2D"
+        qt_internal_add_shaders(Graphs "graphsshaders2D"
+            SILENT
+            BATCHABLE
+            PRECOMPILE
+            OPTIMIZED
+            MULTIVIEW
             PREFIX
                 "/shaders"
             BASE
@@ -342,8 +346,12 @@ else()
                     Qt::Quick
             )
 
-            # CMake 3.16 forces these to be added here instead of the graphs2d folder
-             qt_internal_add_resource(Graphs "graphsshaders2D"
+            qt_internal_add_shaders(Graphs "graphsshaders2D"
+                SILENT
+                BATCHABLE
+                PRECOMPILE
+                OPTIMIZED
+                MULTIVIEW
                 PREFIX
                     "/shaders"
                 BASE
