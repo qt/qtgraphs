@@ -15,6 +15,8 @@ Item {
     property real maxSegmentCount: 10
     property real minSegmentCount: 1
     property var activeGraph: scatterGraph
+    property var cameraAnimationX: scatterCameraAnimationX
+    property var cameraAnimationY: scatterCameraAnimationY
 
     Data {
         id: graphData
@@ -178,7 +180,7 @@ Item {
 
             onWheel: (wheel)=> {
                 // Adjust zoom level based on what zoom range we're in.
-                var zoomLevel = activeGraph.zoomLevel;
+                var zoomLevel = activeGraph.cameraZoomLevel;
                 if (zoomLevel > 100)
                     zoomLevel += wheel.angleDelta.y / 12.0;
                 else if (zoomLevel > 50)
@@ -190,7 +192,7 @@ Item {
                 else if (zoomLevel < 10)
                     zoomLevel = 10;
 
-                activeGraph.zoomLevel = zoomLevel;
+                activeGraph.cameraZoomLevel = zoomLevel;
             }
             onClicked: {
                 console.log("Queried at: " + Qt.point(mouseX, mouseY))
@@ -329,6 +331,8 @@ Item {
             onClicked : {
                 if (activeGraph == scatterGraph) {
                     activeGraph = surfaceGraph
+                    cameraAnimationX = surfaceCameraAnimationX
+                    cameraAnimationY = surfaceCameraAnimationY
                     if (surfaceSeries.itemLabelVisible)
                         seriesVisibilityToggle.text = "Hide surface series itemLabel"
                     else
@@ -336,6 +340,8 @@ Item {
                 }
                 else {
                     activeGraph = scatterGraph
+                    cameraAnimationX = scatterCameraAnimationX
+                    cameraAnimationY = scatterCameraAnimationY
                     if (scatterSeriesTwo.itemLabelVisible)
                         seriesVisibilityToggle.text = "Hide center series itemLabel"
                     else

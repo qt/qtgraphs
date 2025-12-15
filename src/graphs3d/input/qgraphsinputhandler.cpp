@@ -167,7 +167,7 @@ void QGraphsInputHandler::unsetDefaultPinchHandler()
 
 void QGraphsInputHandler::setDragButton(Qt::MouseButtons button)
 {
-    m_dragHandler->setAcceptedButtons(button | Qt::MouseButton::RightButton);
+    m_dragHandler->setAcceptedButtons(button);
 }
 
 void QGraphsInputHandler::setGraphsItem(QQuickGraphsItem *item)
@@ -212,7 +212,7 @@ void QGraphsInputHandler::onTranslationChanged(QVector2D delta)
     if (!m_rotationEnabled)
         return;
 
-    if (m_dragHandler->centroid().pressedButtons().testFlag(Qt::LeftButton))
+    if (!m_dragHandler->centroid().pressedButtons().testFlags(m_dragHandler->acceptedButtons()))
         return;
 
     float rotationSpeed = 1.0f;
