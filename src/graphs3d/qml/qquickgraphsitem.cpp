@@ -434,6 +434,70 @@ constexpr float polarRoundness = 64.0f;
  * \sa polar
  */
 
+ /*!
+ * \qmlmethod void GraphsItem3D::setDefaultInputHandler()
+ * @brief Restores the default input handling mechanism.
+ *
+ * This method reactivates the internal, pre-defined input handlers.
+ * Use this to revert to default behavior after previously calling
+ * \l{unsetDefaultInputHandler}.
+ * \sa unsetDefaultInputHandler()
+ */
+
+ /*!
+ * \qmlmethod void GraphsItem3D::unsetDefaultInputHandler()
+ * @brief Disables the default input handling mechanism.
+ *
+ * This method deactivates the pre-defined all default input handlers.
+ * Call this method when you intend to override the default behaviors.
+ * \sa unsetDefaultTapHandler(), unsetDefaultDragHandler(), unsetDefaultWheelHandler(), unsetDefaultPinchHandler()
+ */
+
+ /*!
+ * \qmlmethod void GraphsItem3D::unsetDefaultTapHandler()
+ * @brief Disables the default tap event handler.
+ *
+ * This specifically unsets the built-in response to tap or click events,
+ * allowing for custom tap handling logic.
+ * \sa unsetDefaultInputHandler()
+ */
+
+ /*!
+ * \qmlmethod void GraphsItem3D::unsetDefaultDragHandler()
+ * @brief Disables the default drag event handler.
+ *
+ * This specifically unsets the built-in response to drag gestures.
+ * Use this if you need to implement a custom handler for dragging.
+ * \sa unsetDefaultInputHandler()
+ */
+
+ /*!
+ * \qmlmethod void GraphsItem3D::unsetDefaultWheelHandler()
+ * @brief Disables the default mouse wheel event handler.
+ *
+ * This specifically unsets the built-in response to mouse wheel scrolling.
+ * Use this when implementing custom wheel behavior.
+ * \sa unsetDefaultInputHandler()
+ */
+
+ /*!
+ * \qmlmethod void GraphsItem3D::unsetDefaultPinchHandler()
+ * @brief Disables the default pinch gesture handler.
+ *
+ * This specifically unsets the built-in response to pinch gestures.
+ * Use this to implement custom pinch gesture handler.
+ * \sa unsetDefaultInputHandler()
+ */
+
+  /*!
+ * \qmlmethod void GraphsItem3D::setDragButton(Qt::MouseButtons button)
+ * @brief Sets the mouse button used to trigger drag events.
+ *
+ * This method allows changing the mouse button required to initiate
+ * a drag operation to \a button.
+ * Defaults to \c {Qt::RightButton}.
+ */
+
 /*!
  * \qmlmethod void GraphsItem3D::clearSelection()
  * Clears selection from all attached series.
