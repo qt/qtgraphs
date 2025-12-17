@@ -57,14 +57,6 @@ void PieWidget::initializeButtons()
 
 void PieWidget::initializeQuickWidget()
 {
-#ifdef Q_OS_WIN
-    QString extraImportPath(QStringLiteral("%1/../../../../%2"));
-#else
-    QString extraImportPath(QStringLiteral("%1/../../../%2"));
-#endif
-    m_quickWidget->engine()->addImportPath(
-        extraImportPath.arg(QGuiApplication::applicationDirPath(), QString::fromLatin1("qml")));
-
     //! [5]
     auto theme = new QGraphsTheme(m_quickWidget);
     theme->setTheme(QGraphsTheme::Theme::BlueSeries);
