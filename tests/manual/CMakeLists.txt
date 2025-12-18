@@ -76,7 +76,12 @@ if(QT_FEATURE_graphs_3d)
     endif()
 endif()
 
-#2D line test
+# Graphs2D and Graphs3D tests
 if(QT_FEATURE_graphs_2d AND QT_FEATURE_graphs_3d)
-    add_subdirectory(qml2dperformance)
+    if(TARGET Qt::Quick)
+        add_subdirectory(qml2dperformance)
+        if(QT_FEATURE_graphs_2d_donut_pie AND QT_FEATURE_graphs_2d_bar AND QT_FEATURE_graphs_3d_bars3d AND QT_FEATURE_graphs_3d_scatter3d AND QT_FEATURE_graphs_3d_surface3d)
+            add_subdirectory(qmlmultitestwithsingletontheme)
+        endif()
+    endif()
 endif()
