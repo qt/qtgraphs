@@ -410,6 +410,7 @@ void QAreaSeries::setUpperSeries(QXYSeries *newUpperSeries)
     connect(newUpperSeries, &QXYSeries::update, this, &QAreaSeries::update);
 
     emit upperSeriesChanged();
+    emit update();
 }
 
 QXYSeries *QAreaSeries::lowerSeries() const
@@ -435,6 +436,7 @@ void QAreaSeries::setLowerSeries(QXYSeries *newLowerSeries)
     connect(newLowerSeries, &QXYSeries::update, this, &QAreaSeries::update);
 
     emit lowerSeriesChanged();
+    emit update();
 }
 
 QQuickShapeGradient* QAreaSeries::gradient() const
