@@ -52,6 +52,10 @@ Rectangle {
             toValue: 40
             onSliderValueChanged: yAxis.max = sliderValue;
         }
+        CustomCheckBox {
+            id: checkBoxDiamond
+            text: "flip diamond"
+        }
     }
 
     LineSeries {
@@ -73,6 +77,36 @@ Rectangle {
         XYPoint { x: 3; y: 3.9 }
         XYPoint { x: 4; y: 3.2 }
         XYPoint { x: 5; y: 2.8 }
+    }
+
+    LineSeries {
+        id: diamondUpperHalf
+        XYPoint { x: 4.8; y: 3.4 }
+        XYPoint { x: 5.1; y: 3.6 }
+        XYPoint { x: 6.1; y: 3.6 }
+        XYPoint { x: 6.4; y: 3.4 }
+    }
+
+    LineSeries {
+        id: diamondLowerHalf
+        XYPoint { x: 4.8; y: 3.4 }
+        XYPoint { x: 5.6; y: 2.8 }
+        XYPoint { x: 6.4; y: 3.4 }
+    }
+
+    LineSeries {
+        id: changedUpperHalf
+        XYPoint { x: 4.8; y: 3.4 }
+        XYPoint { x: 5.6; y: 4.0 }
+        XYPoint { x: 6.4; y: 3.4 }
+    }
+
+    LineSeries {
+        id: changedLowerHalf
+        XYPoint { x: 4.8; y: 3.4 }
+        XYPoint { x: 5.1; y: 3.2 }
+        XYPoint { x: 6.1; y: 3.2 }
+        XYPoint { x: 6.4; y: 3.4 }
     }
 
     GraphsView {
@@ -166,5 +200,11 @@ Rectangle {
         AreaSeries {
             upperSeries: low
         }
+
+        AreaSeries {
+            upperSeries: checkBoxDiamond.checked ? changedUpperHalf : diamondUpperHalf
+            lowerSeries: checkBoxDiamond.checked ? changedLowerHalf : diamondLowerHalf
+        }
+
     }
 }
