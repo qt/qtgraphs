@@ -63,11 +63,6 @@ public:
 
     QQmlListProperty<QPieSlice> sliceChildren();
 
-    static void appendSliceChildren(QQmlListProperty<QPieSlice> *list, QPieSlice *element);
-    static qsizetype countSliceChildrenFunc(QQmlListProperty<QPieSlice> *list);
-    static QPieSlice *atSliceChildrenFunc(QQmlListProperty<QPieSlice> *list, qsizetype index);
-    static void clearSliceChildrenFunc(QQmlListProperty<QPieSlice> *list);
-
     void setLabel(const QString &label);
     QString label() const;
     void setLabelVisible(bool visible = true);

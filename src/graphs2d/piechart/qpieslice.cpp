@@ -592,32 +592,28 @@ QPieSlice::~QPieSlice() {}
 */
 QQmlListProperty<QPieSlice> QPieSlice::sliceChildren()
 {
-    return QQmlListProperty<QPieSlice>(this,
-                                       this,
-                                       &QPieSlice::appendSliceChildren,
-                                       &QPieSlice::countSliceChildrenFunc,
-                                       &QPieSlice::atSliceChildrenFunc,
-                                       &QPieSlice::clearSliceChildrenFunc);
-}
-
-void QPieSlice::appendSliceChildren(QQmlListProperty<QPieSlice> *list, QPieSlice *element)
-{
-    reinterpret_cast<QPieSlice *>(list->data)->append(element);
-}
-
-qsizetype QPieSlice::countSliceChildrenFunc(QQmlListProperty<QPieSlice> *list)
-{
-    return reinterpret_cast<QPieSlice *>(list->data)->subSlicesCount();
-}
-
-QPieSlice *QPieSlice::atSliceChildrenFunc(QQmlListProperty<QPieSlice> *list, qsizetype index)
-{
-    return reinterpret_cast<QPieSlice *>(list->data)->at(index);
-}
-
-void QPieSlice::clearSliceChildrenFunc(QQmlListProperty<QPieSlice> *list)
-{
-    reinterpret_cast<QPieSlice *>(list->data)->clear();
+    return QQmlListProperty<QPieSlice>(
+        this, this,
+        [](QQmlListProperty<QPieSlice> *list, QPieSlice *element) {
+            static_cast<QPieSlice *>(list->data)->append(element);
+        },
+        [](QQmlListProperty<QPieSlice> *list) -> qsizetype {
+            return static_cast<QPieSlice *>(list->data)->subSlicesCount();
+        },
+        [](QQmlListProperty<QPieSlice> *list, qsizetype index) -> QPieSlice * {
+            return static_cast<QPieSlice *>(list->data)->at(index);
+        },
+        [](QQmlListProperty<QPieSlice> *list) {
+            static_cast<QPieSlice *>(list->data)->clear();
+        },
+        [](QQmlListProperty<QPieSlice> *list, qsizetype index, QPieSlice *slice) {
+            static_cast<QPieSlice *>(list->data)->replace(index, slice);
+        },
+        [](QQmlListProperty<QPieSlice> *list) {
+            const auto size = static_cast<QPieSlice *>(list->data)->subSlicesCount();
+            static_cast<QPieSlice *>(list->data)->remove(size - 1);
+        }
+    );
 }
 
 /*!
