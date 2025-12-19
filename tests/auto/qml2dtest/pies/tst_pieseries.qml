@@ -43,6 +43,46 @@ Item {
             target: pieSeries
             signalName: "angleSpanLabelVisibilityChanged"
         }
+        SignalSpy {
+            id: sliceDataChangedSpy
+            target: pieSeries
+            signalName: "sliceDataChanged"
+        }
+        SignalSpy {
+            id: sliceLabelsChangedSpy
+            target: pieSeries
+            signalName: "sliceLabelsChanged"
+        }
+    }
+
+    PieSeries {
+        id: initializedDeclarative
+
+        sliceData: [3.4,5,8.7,9,0,3]
+        sliceLabels: ["A","B", "C", "D"]
+    }
+
+    PieSeries {
+        id: initializedImperative
+
+        PieSlice { id: sliceImperative1; value: 8 }
+        PieSlice { id: sliceImperative2; value: 7 }
+        PieSlice { id: sliceImperative3; value: 2 }
+    }
+
+    PieSlice {
+        id: slice1
+        value: 4
+    }
+
+    PieSlice {
+        id: slice2
+        value: 2
+    }
+
+    PieSlice {
+        id: slice3
+        value: 8
     }
 
     TestCase {
@@ -201,6 +241,105 @@ Item {
             compare(visiblecount, 5)
 
             pieSeries.clear()
+        }
+
+        function test_08_declarative_sliceData() {
+            sliceDataChangedSpy.clear()
+            compare(pieSeries.sliceData.length, 0)
+            compare(pieSeries.sliceLabels.length, 0)
+
+            pieSeries.sliceData = [4,3,6,7]
+            compare(pieSeries.sliceData.length, 4)
+            compare(pieSeries.count, 4)
+            compare(pieSeries.at(2).value, 6)
+
+            pieSeries.sliceData = [3.4,5,8.7,9,0,3]
+            compare(pieSeries.sliceData.length, 6)
+            compare(pieSeries.count, 6)
+            compare(pieSeries.at(1).value, 5)
+
+
+            pieSeries.sliceData = []
+            compare(pieSeries.sliceData.length, 0)
+            compare(pieSeries.count, 0)
+
+            compare(sliceDataChangedSpy.count, 3)
+
+            pieSeries.clear();
+        }
+
+        function test_09_declarative_sliceLabels() {
+            sliceLabelsChangedSpy.clear()
+            compare(pieSeries.sliceLabels.length, 0)
+
+            pieSeries.sliceLabels = ["A","B", "C", "D"]
+            compare(pieSeries.sliceLabels.length, 4)
+
+            pieSeries.sliceData = [4,3,6,7]
+            compare(pieSeries.at(1).label, 'B')
+
+            pieSeries.sliceData = [3.4,5,8.7,9,0,3]
+            compare(pieSeries.at(1).label, 'B')
+            compare(pieSeries.at(4).label, '5.0')
+
+            pieSeries.sliceLabels = ["h","j", "k"]
+            compare(pieSeries.sliceLabels.length, 3)
+            compare(pieSeries.at(1).label, 'j')
+            compare(pieSeries.at(3).label, '4.0')
+
+            pieSeries.sliceLabels = []
+            compare(sliceLabelsChangedSpy.count, 3)
+
+            pieSeries.clear();
+        }
+
+        function test_10_mix_declarative_imperative() {
+            let warningMessage = new RegExp("Mixing declarative and imperative datainput is not supported.")
+            ignoreWarning(warningMessage)
+            initializedDeclarative.append("slice4" , Math.random() + 0.01)
+
+            ignoreWarning(warningMessage)
+            initializedDeclarative.append(slice1)
+
+            var slices = [slice2, slice3]
+            ignoreWarning(warningMessage)
+            initializedDeclarative.append(slices)
+            ignoreWarning(warningMessage)
+            initializedDeclarative.removeMultiple(1, 2)
+            ignoreWarning(warningMessage)
+            initializedDeclarative.remove(slice1)
+            ignoreWarning(warningMessage)
+            initializedDeclarative.insert(0, slice1)
+            ignoreWarning(warningMessage)
+            initializedDeclarative.replace(0, slice3)
+            ignoreWarning(warningMessage)
+            initializedDeclarative.replace(slice2, slice3)
+            ignoreWarning(warningMessage)
+            initializedDeclarative.replace(slices)
+            ignoreWarning(warningMessage)
+            initializedDeclarative.take(slice2)
+            initializedDeclarative.sliceLabels = ["h","j", "k"]
+            initializedDeclarative.clear()
+            initializedDeclarative.sliceLabels = ["h","j", "k"]
+            ignoreWarning(warningMessage)
+            initializedDeclarative.append(slice1)
+        }
+
+        function test_11_mix_imperative_declarative() {
+            let warningMessage = new RegExp("Mixing declarative and imperative datainput is not supported.")
+            ignoreWarning(warningMessage)
+            initializedImperative.sliceData = [4, 5, 6, 2, 3, 8]
+
+            initializedImperative.clear()
+            initializedImperative.append(slice1)
+
+            ignoreWarning(warningMessage)
+            initializedImperative.sliceData = [4, 5, 6, 2, 3, 8]
+            ignoreWarning(warningMessage)
+            initializedImperative.sliceLabels = ["h","j", "k"]
+
+            initializedImperative.clear()
+            initializedImperative.sliceData = [4, 5, 6, 2, 3, 8]
         }
     }
 }

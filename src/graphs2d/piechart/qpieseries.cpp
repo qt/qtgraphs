@@ -381,6 +381,38 @@ Q_TRACE_POINT(qtgraphs, QGraphs2DPieSeriesUpdateData_exit);
 */
 
 /*!
+    \qmlproperty list<real> PieSeries::sliceData
+    \since 6.12
+
+    \brief Declarative slice values.
+
+    This property can be used to give values declaratively to pie slices.
+    When the property is set, the pieseries will automatically create a pie slice
+    for each value. The Labels for the slices can be given in \l {sliceLabels}.
+
+    \note Mixing declarative and imperative data input is not supported.
+
+    \sa sliceLabels
+*/
+
+/*!
+    \qmlproperty list<string> PieSeries::sliceLabels
+    \since 6.12
+
+    \brief Declarative slice labels.
+
+    This property can be used to give labels declaratively to pie slices.
+    When the property is set, the pieseries sets labels for the declaratively
+    created pie slices. The labels should be in the same order as the values in
+    \l {sliceData}. If there is not enough declarative pie slices, the rest of the
+    labels are ignored.
+
+    \note Mixing declarative and imperative data input is not supported.
+
+    \sa sliceData
+*/
+
+/*!
     \enum QPieSeries::LabelVisibility
     \since 6.10
 
@@ -533,6 +565,20 @@ Q_TRACE_POINT(qtgraphs, QGraphs2DPieSeriesUpdateData_exit);
 */
 
 /*!
+    \qmlsignal PieSeries::sliceDataChanged(list<real> sliceData)
+    \since 6.12
+    This signal is emitted when the slice data has been changed.
+    The \a sliceData parameter holds the slice data.
+*/
+
+/*!
+    \qmlsignal PieSeries::sliceLabelsChanged(list<string> sliceLabels)
+    \since 6.12
+    This signal is emitted when the slice data has been changed.
+    The \a sliceLabels parameter holds the slice data.
+*/
+
+/*!
     Constructs a series object that is a child of \a parent.
 */
 QPieSeries::QPieSeries(QObject *parent)
@@ -585,6 +631,14 @@ bool QPieSeries::replace(qsizetype index, QPieSlice *slice)
 {
     Q_D(QPieSeries);
 
+    if (d->dataInput() == QPieSeriesPrivate::DataInput::Declarative) {
+        qCWarning(lcProperties2D)
+                << __func__ << "Mixing declarative and imperative datainput is not supported.";
+        return false;
+    }
+
+    d->setDataInput(QPieSeriesPrivate::DataInput::Imperative);
+
     if (index < 0)
         index = 0;
     if (!slice || d->m_slices.contains(slice))
@@ -620,26 +674,14 @@ void QPieSeries::removeMultiple(qsizetype index, int count)
 {
     Q_D(QPieSeries);
 
-    if (index < 0 || count < 1 || index + count > d->m_slices.size())
+    if (d->dataInput() == QPieSeriesPrivate::DataInput::Declarative) {
+        qCWarning(lcProperties2D)
+                << __func__ << "Mixing declarative and imperative datainput is not supported.";
         return;
-
-    QList<QPieSlice *> removedList;
-
-    for (qsizetype i = index; i < index + count; ++i) {
-        auto slice = d->m_slices[index];
-        d->m_slices.removeOne(slice);
-        d->updateData();
-
-        removedList << slice;
     }
 
-    emit removed(removedList);
-
-    for (auto slice : std::as_const(removedList)) {
-        delete slice;
-    }
-
-    emit countChanged();
+    d->setDataInput(QPieSeriesPrivate::DataInput::Imperative);
+    d->removeMultiple(index, count);
 }
 
 /*!
@@ -665,6 +707,14 @@ bool QPieSeries::remove(qsizetype index)
 bool QPieSeries::replace(QPieSlice *oldSlice, QPieSlice *newSlice)
 {
     Q_D(QPieSeries);
+
+    if (d->dataInput() == QPieSeriesPrivate::DataInput::Declarative) {
+        qCWarning(lcProperties2D)
+                << __func__ << "Mixing declarative and imperative datainput is not supported.";
+        return false;
+    }
+
+    d->setDataInput(QPieSeriesPrivate::DataInput::Imperative);
 
     if (!oldSlice || !newSlice)
         return false;
@@ -708,6 +758,14 @@ bool QPieSeries::replace(const QList<QPieSlice *> &slices)
 {
     Q_D(QPieSeries);
 
+    if (d->dataInput() == QPieSeriesPrivate::DataInput::Declarative) {
+        qCWarning(lcProperties2D)
+                << __func__ << "Mixing declarative and imperative datainput is not supported.";
+        return false;
+    }
+
+    d->setDataInput(QPieSeriesPrivate::DataInput::Imperative);
+
     for (const auto slice : slices) {
         if (!slice || d->m_slices.contains(slice))
             return false;
@@ -743,7 +801,15 @@ bool QPieSeries::replace(const QList<QPieSlice *> &slices)
 */
 bool QPieSeries::append(QPieSlice *slice)
 {
-    return append(QList<QPieSlice *>() << slice);
+    Q_D(QPieSeries);
+    if (d->dataInput() == QPieSeriesPrivate::DataInput::Declarative) {
+        qCWarning(lcProperties2D)
+                << __func__ << "Mixing declarative and imperative datainput is not supported.";
+        return false;
+    }
+
+    d->setDataInput(QPieSeriesPrivate::DataInput::Imperative);
+    return d->appendImperative(QList<QPieSlice *>() << slice);
 }
 
 /*!
@@ -755,34 +821,13 @@ bool QPieSeries::append(QPieSlice *slice)
 bool QPieSeries::append(const QList<QPieSlice *> &slices)
 {
     Q_D(QPieSeries);
-
-    if (slices.size() == 0)
+    if (d->dataInput() == QPieSeriesPrivate::DataInput::Declarative) {
+        qCWarning(lcProperties2D)
+                << __func__ << "Mixing declarative and imperative datainput is not supported.";
         return false;
-
-    for (auto *s : slices) {
-        if (!s || d->m_slices.contains(s))
-            return false;
-        if (s->series()) // already added to some series
-            return false;
-        if (qIsNaN(s->value()) || qIsInf(s->value()))
-            return false;
     }
 
-    for (auto *s : slices) {
-        s->setParent(this);
-        s->d_func()->updateSeries(this);
-        d->m_slices << s;
-    }
-
-    d->updateData();
-
-    for (auto *s : slices)
-        QObject::connect(s, SIGNAL(sliceChanged()), this, SLOT(handleSliceChange()));
-
-    emit added(slices);
-    emit countChanged();
-
-    return true;
+    return d->appendImperative(slices);
 }
 
 /*!
@@ -803,6 +848,12 @@ QPieSeries &QPieSeries::operator << (QPieSlice *slice)
 */
 QPieSlice *QPieSeries::append(const QString &label, qreal value)
 {
+    Q_D(QPieSeries);
+    if (d->dataInput() == QPieSeriesPrivate::DataInput::Declarative) {
+        qCWarning(lcProperties2D)
+                << __func__ << "Mixing declarative and imperative datainput is not supported.";
+        return nullptr;
+    }
     if (!(qIsNaN(value) || qIsInf(value))) {
         QPieSlice *slice = new QPieSlice(label, value);
         append(slice);
@@ -822,6 +873,14 @@ QPieSlice *QPieSeries::append(const QString &label, qreal value)
 bool QPieSeries::insert(qsizetype index, QPieSlice *slice)
 {
     Q_D(QPieSeries);
+
+    if (d->dataInput() == QPieSeriesPrivate::DataInput::Declarative) {
+        qCWarning(lcProperties2D)
+                << __func__ << "Mixing declarative and imperative datainput is not supported.";
+        return false;
+    }
+
+    d->setDataInput(QPieSeriesPrivate::DataInput::Imperative);
 
     if (index < 0 || index > d->m_slices.size())
         return false;
@@ -861,6 +920,14 @@ bool QPieSeries::remove(QPieSlice *slice)
 {
     Q_D(QPieSeries);
 
+    if (d->dataInput() == QPieSeriesPrivate::DataInput::Declarative) {
+        qCWarning(lcProperties2D)
+                << __func__ << "Mixing declarative and imperative datainput is not supported.";
+        return false;
+    }
+
+    d->setDataInput(QPieSeriesPrivate::DataInput::Imperative);
+
     if (!d->m_slices.removeOne(slice))
         return false;
 
@@ -888,6 +955,14 @@ bool QPieSeries::take(QPieSlice *slice)
 {
     Q_D(QPieSeries);
 
+    if (d->dataInput() == QPieSeriesPrivate::DataInput::Declarative) {
+        qCWarning(lcProperties2D)
+                << __func__ << "Mixing declarative and imperative datainput is not supported.";
+        return false;
+    }
+
+    d->setDataInput(QPieSeriesPrivate::DataInput::Imperative);
+
     if (!d->m_slices.removeOne(slice))
         return false;
 
@@ -908,6 +983,10 @@ bool QPieSeries::take(QPieSlice *slice)
 void QPieSeries::clear()
 {
     Q_D(QPieSeries);
+    d->m_sliceData.clear();
+    d->m_sliceLabels.clear();
+    d->setDataInput(QPieSeriesPrivate::DataInput::Unset);
+
     if (d->m_slices.size() == 0)
         return;
 
@@ -1103,12 +1182,18 @@ qreal QPieSeries::endAngle() const
 
 void QPieSeries::componentComplete()
 {
+    QList<QPieSlice *> slices;
     for (QObject *child : children()) {
-        if (qobject_cast<QPieSlice *>(child)) {
-            QPieSeries::append(qobject_cast<QPieSlice *>(child));
+        if (auto slice = qobject_cast<QPieSlice *>(child)) {
+            slices.append(slice);
             qCDebug(lcSeries2D) << "append slice: " << child << "to pieSeries";
         }
     }
+    Q_D(QPieSeries);
+    if (slices.size() > 0 && d->m_sliceData.size() > 0)
+        d->appendDeclarative(slices);
+    else if (slices.size() > 0)
+        d->appendImperative(slices);
 
     qCDebug(lcEvents2D, "QPieSeries::componentComplete.");
 
@@ -1208,6 +1293,63 @@ void QPieSeries::setAngleSpanLabelVisibility(QPieSeries::LabelVisibility newAngl
     emit angleSpanLabelVisibilityChanged(newAngleSpanVisibleMode);
 }
 
+QList<qreal> QPieSeries::sliceData() const
+{
+    Q_D(const QPieSeries);
+    return d->m_sliceData;
+}
+
+void QPieSeries::setSliceData(const QList<qreal> &newSliceData)
+{
+    Q_D(QPieSeries);
+    if (d->m_sliceData.isSharedWith(newSliceData))
+        return;
+
+    if (d->dataInput() == QPieSeriesPrivate::DataInput::Imperative) {
+        qCWarning(lcProperties2D)
+                << __func__ << "Mixing declarative and imperative datainput is not supported.";
+        return;
+    }
+
+    d->setDataInput(QPieSeriesPrivate::DataInput::Declarative);
+    d->m_sliceData = newSliceData;
+    if (d->m_sliceData.size() != 0)
+        d->handleSliceDataChanged();
+    else
+        clear();
+    emit sliceDataChanged(newSliceData);
+}
+
+const QStringList &QPieSeries::sliceLabels() const &
+{
+    Q_D(const QPieSeries);
+    return d->m_sliceLabels;
+}
+
+QStringList QPieSeries::sliceLabels() &&
+{
+    Q_D(QPieSeries);
+    return d->m_sliceLabels;
+}
+
+void QPieSeries::setSliceLabels(QStringList newLabels)
+{
+    Q_D(QPieSeries);
+    if (d->m_sliceLabels.isSharedWith(newLabels))
+        return;
+
+    if (d->dataInput() == QPieSeriesPrivate::DataInput::Imperative) {
+        qCWarning(lcProperties2D)
+                << __func__ << "Mixing declarative and imperative datainput is not supported.";
+        return;
+    }
+    d->setDataInput(QPieSeriesPrivate::DataInput::Declarative);
+
+    d->m_sliceLabels = newLabels;
+    d->handleSliceLabelsChanged(newLabels);
+    emit sliceLabelsChanged(d->m_sliceLabels);
+}
+
 QPieSeriesPrivate::QPieSeriesPrivate()
     : QAbstractSeriesPrivate(QAbstractSeries::SeriesType::Pie)
     , m_pieRelativeHorPos(.5)
@@ -1219,7 +1361,7 @@ QPieSeriesPrivate::QPieSeriesPrivate()
     , m_holeRelativeSize(.0)
     , m_angleSpanVisibleLimit(.0)
     , m_angleSpanVisibleMode(QPieSeries::LabelVisibility::First)
-
+    , m_dataInput(QPieSeriesPrivate::DataInput::Unset)
 {}
 
 void QPieSeriesPrivate::updateData(bool clearHidden)
@@ -1304,6 +1446,128 @@ void QPieSeriesPrivate::setSizes(qreal innerSize, qreal outerSize)
         qCDebug(lcProperties2D, "QPieSeries::setSizes. Outer size is already set to: %f",
                 outerSize);
     }
+}
+
+void QPieSeriesPrivate::handleSliceDataChanged()
+{
+    const bool hasLabelData = m_sliceLabels.size() > 0;
+    const bool enoughSlices = m_sliceData.size() == m_slices.size();
+
+    if (!enoughSlices) {
+        QList<QPieSlice *> temp;
+
+        if (m_sliceData.size() > m_slices.size()) {
+            // Not enough slices
+            const size_t missingCount = m_sliceData.size() - m_slices.size();
+            temp.reserve(missingCount);
+
+            const qsizetype sliceDataSize = m_sliceData.size();
+            for (qsizetype c = m_slices.size(); c < sliceDataSize; ++c)
+                temp.append(new QPieSlice(QLatin1StringView(""), m_sliceData.at(c)));
+            appendDeclarative(temp);
+        } else {
+            // Too many slices
+            const qsizetype redundantCount = m_slices.size() - m_sliceData.size();
+            removeMultiple(m_sliceData.size() , redundantCount);
+        }
+    }
+    // value count and slice count match
+    // We can just update all slice values
+    int sliceIndex = 0;
+    for (const auto &slice : std::as_const(m_slices))
+        slice->setValue(m_sliceData.at(sliceIndex++));
+
+    if (hasLabelData)
+        handleSliceLabelsChanged(m_sliceLabels);
+}
+
+void QPieSeriesPrivate::handleSliceLabelsChanged(const QStringList &labels)
+{
+    const qsizetype sliceCount = m_slices.size();
+    const qsizetype labelCount = labels.size();
+
+    if (sliceCount == labelCount) {
+        int sliceIndex = 0;
+        for (const auto &i : std::as_const(labels))
+            m_slices.at(sliceIndex++)->setLabel(i);
+    } else if (sliceCount < labelCount) {
+        for (qsizetype i = 0; i < sliceCount; ++i)
+            m_slices.at(i)->setLabel(labels.at(i));
+    } else if (sliceCount > labelCount) {
+        for (qsizetype i = 0; i < labelCount; ++i)
+            m_slices.at(i)->setLabel(labels.at(i));
+        for (qsizetype i = labelCount; i < sliceCount; ++i)
+            m_slices.at(i)->setLabel(QString::number(i + 1, 'f', 1));
+    }
+}
+
+bool QPieSeriesPrivate::appendImperative(const QList<QPieSlice *> &slices)
+{
+    setDataInput(QPieSeriesPrivate::DataInput::Imperative);
+    return append(slices);
+}
+
+bool QPieSeriesPrivate::appendDeclarative(const QList<QPieSlice *> &slices)
+{
+    setDataInput(QPieSeriesPrivate::DataInput::Declarative);
+    return append(slices);
+}
+
+bool QPieSeriesPrivate::append(const QList<QPieSlice *> &slices)
+{
+    if (slices.size() == 0)
+        return false;
+
+    for (auto *s : slices) {
+        if (!s || m_slices.contains(s))
+            return false;
+        if (s->series()) // already added to some series
+            return false;
+        if (qIsNaN(s->value()) || qIsInf(s->value()))
+            return false;
+    }
+
+    Q_Q(QPieSeries);
+    for (auto *s : slices) {
+        s->setParent(q);
+        s->d_func()->updateSeries(q);
+        m_slices << s;
+    }
+
+    updateData();
+
+    for (auto *s : slices)
+        QObject::connect(s, SIGNAL(sliceChanged()), q, SLOT(handleSliceChange()));
+
+    emit q->added(slices);
+    emit q->countChanged();
+
+    return true;
+}
+
+void QPieSeriesPrivate::removeMultiple(qsizetype index, int count)
+{
+    if (index < 0 || count < 1 || index + count > m_slices.size())
+        return;
+
+    QList<QPieSlice *> removedList;
+
+    for (qsizetype i = index; i < index + count; ++i) {
+        auto slice = m_slices[index];
+        m_slices.removeOne(slice);
+        updateData();
+
+        removedList << slice;
+    }
+
+    Q_Q(QPieSeries);
+    emit q->removed(removedList);
+
+    for (auto slice : std::as_const(removedList)) {
+        delete slice;
+    }
+
+    emit q->countChanged();
 }
 
 QT_END_NAMESPACE

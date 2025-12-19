@@ -21,12 +21,26 @@ QT_BEGIN_NAMESPACE
 class QPieSeriesPrivate : public QAbstractSeriesPrivate
 {
 public:
+    enum class DataInput {
+        Unset,
+        Declarative,
+        Imperative,
+    };
+
     QPieSeriesPrivate();
     ~QPieSeriesPrivate() = default;
 
     void updateData(bool clearHidden = false);
     void updateLabels();
     void setSizes(qreal innerSize, qreal outerSize);
+    void handleSliceDataChanged();
+    void handleSliceLabelsChanged(const QStringList &labels);
+    void setDataInput(DataInput inputMode) { m_dataInput = inputMode; }
+    DataInput dataInput() { return m_dataInput; }
+    bool appendImperative(const QList<QPieSlice *> &slices);
+    bool appendDeclarative(const QList<QPieSlice *> &slices);
+    bool append(const QList<QPieSlice *> &slices);
+    void removeMultiple(qsizetype index, int count);
 
 private:
     QList<QPieSlice *> m_slices;
@@ -39,6 +53,10 @@ private:
     qreal m_holeRelativeSize;
     qreal m_angleSpanVisibleLimit;
     QPieSeries::LabelVisibility m_angleSpanVisibleMode;
+    QList<qreal> m_sliceData;
+    QStringList m_sliceLabels;
+    DataInput m_dataInput;
+
     Q_DECLARE_PUBLIC(QPieSeries)
 };
 

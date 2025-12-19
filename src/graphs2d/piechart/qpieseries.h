@@ -30,6 +30,9 @@ class Q_GRAPHS_EXPORT QPieSeries : public QAbstractSeries
                    NOTIFY angleSpanVisibleLimitChanged REVISION(6, 10))
     Q_PROPERTY(LabelVisibility angleSpanLabelVisibility READ angleSpanLabelVisibility
                    WRITE setAngleSpanLabelVisibility NOTIFY angleSpanLabelVisibilityChanged REVISION(6, 10))
+    Q_PROPERTY(QList<qreal> sliceData READ sliceData WRITE setSliceData NOTIFY sliceDataChanged REVISION(6, 12))
+    Q_PROPERTY(QStringList sliceLabels READ sliceLabels WRITE setSliceLabels NOTIFY sliceLabelsChanged REVISION(6, 12))
+
     QML_NAMED_ELEMENT(PieSeries)
 
 public:
@@ -95,6 +98,13 @@ public:
     LabelVisibility angleSpanLabelVisibility() const;
     void setAngleSpanLabelVisibility(LabelVisibility newAngleSpanVisibleMode);
 
+    QList<qreal> sliceData() const;
+    void setSliceData(const QList<qreal> &newSliceData);
+
+    const QStringList &sliceLabels() const &;
+    QStringList sliceLabels() &&;
+    void setSliceLabels(QStringList newLabels);
+
 public Q_SLOTS:
     void handleSliceChange();
 
@@ -122,6 +132,8 @@ Q_SIGNALS:
 
     Q_REVISION(6, 10) void angleSpanVisibleLimitChanged(qreal limit);
     Q_REVISION(6, 10) void angleSpanLabelVisibilityChanged(LabelVisibility visibility);
+    Q_REVISION(6, 12) void sliceDataChanged(const QList<qreal> &sliceData);
+    Q_REVISION(6, 12) void sliceLabelsChanged(const QStringList &sliceLabels);
 
 private:
     friend class PieRenderer;
