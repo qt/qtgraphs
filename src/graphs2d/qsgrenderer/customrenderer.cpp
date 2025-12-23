@@ -41,6 +41,12 @@ CustomRenderer::~CustomRenderer()
 qreal CustomRenderer::mapX(AxisRenderer *axisRenderer, QCustomSeries *series, qreal x)
 {
     auto &axisX = axisRenderer->getAxisX(series);
+
+    if (axisX.isLogarithmic) {
+        float logBase = log(axisX.logBase);
+        x = log(x) / logBase;
+    }
+
     auto flipX = axisX.maxValue < axisX.minValue ? -1 : 1;
     return m_areaWidth * flipX * x * m_maxHorizontal - m_horizontalOffset;
 }
@@ -48,6 +54,11 @@ qreal CustomRenderer::mapX(AxisRenderer *axisRenderer, QCustomSeries *series, qr
 qreal CustomRenderer::mapY(AxisRenderer *axisRenderer, QCustomSeries *series, qreal y)
 {
     auto &axisY = axisRenderer->getAxisY(series);
+
+    if (axisY.isLogarithmic) {
+        float logBase = log(axisY.logBase);
+        y = log(y) / logBase;
+    }
 
     if (m_graph->orientation() != Qt::Vertical)
         y = axisY.maxValue - y;

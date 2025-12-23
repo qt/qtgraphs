@@ -34,6 +34,8 @@ class AxisTicker : public QQuickShaderEffect
     Q_PROPERTY(qreal subTickLength READ subTickLength WRITE setSubTickLength NOTIFY subTickLengthChanged FINAL)
     Q_PROPERTY(bool isHorizontal READ isHorizontal WRITE setIsHorizontal NOTIFY isHorizontalChanged FINAL)
     Q_PROPERTY(bool flipped READ isFlipped WRITE setFlipped NOTIFY flippedChanged FINAL)
+    Q_PROPERTY(bool isLogarithmic READ isLogarithmic WRITE setLogarithmic NOTIFY logarithmicChanged REVISION(6, 12))
+    Q_PROPERTY(qreal base READ base WRITE setBase NOTIFY baseChanged REVISION(6, 12))
 public:
     AxisTicker(QQuickItem *parent = nullptr);
     ~AxisTicker() override;
@@ -81,6 +83,12 @@ public:
     bool isFlipped() const;
     void setFlipped(bool newFlipped);
 
+    bool isLogarithmic() const;
+    void setLogarithmic(bool newLogarithmic);
+
+    qreal base() const;
+    void setBase(qreal newBase);
+
 protected:
     void componentComplete() override;
     void geometryChange(const QRectF &newGeometry, const QRectF &oldGeometry) override;
@@ -100,6 +108,8 @@ Q_SIGNALS:
     void subTickLengthChanged();
     void isHorizontalChanged();
     void flippedChanged();
+    Q_REVISION(6, 12) void logarithmicChanged();
+    Q_REVISION(6, 12) void baseChanged();
 
 private:
     friend class AxisRenderer;
@@ -117,6 +127,8 @@ private:
     qreal m_subTickLength = 0.1;
     bool m_isHorizontal = false;
     bool m_flipped = false;
+    bool m_isLogarithmic = false;
+    qreal m_base = 10.0;
 };
 
 QT_END_NAMESPACE

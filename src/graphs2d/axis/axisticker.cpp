@@ -212,6 +212,34 @@ void AxisTicker::setFlipped(bool newFlipped)
     emit flippedChanged();
 }
 
+bool AxisTicker::isLogarithmic() const
+{
+    return m_isLogarithmic;
+}
+
+void AxisTicker::setLogarithmic(bool newLogarithmic)
+{
+    if (m_isLogarithmic == newLogarithmic)
+        return;
+
+    m_isLogarithmic = newLogarithmic;
+    emit logarithmicChanged();
+}
+
+qreal AxisTicker::base() const
+{
+    return m_base;
+}
+
+void AxisTicker::setBase(qreal newBase)
+{
+    if (qFuzzyCompare(m_base, newBase))
+        return;
+
+    m_base = newBase;
+    emit baseChanged();
+}
+
 QT_END_NAMESPACE
 
 #include "moc_axisticker_p.cpp"

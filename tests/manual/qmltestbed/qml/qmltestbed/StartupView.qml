@@ -105,6 +105,10 @@ Item {
             file: "DateTimeAxis.qml"
         }
         ListElement {
+            name: "LogValue Axis"
+            file: "LogValueAxis.qml"
+        }
+        ListElement {
             name: "BarModelMapping"
             file: "BarModelMapping.qml"
         }

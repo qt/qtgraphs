@@ -35,6 +35,12 @@ class AxisGrid : public QQuickShaderEffect
     Q_PROPERTY(qreal gridLineWidth READ gridLineWidth WRITE setGridLineWidth NOTIFY gridLineWidthChanged FINAL)
     Q_PROPERTY(qreal verticalSubGridScale READ verticalSubGridScale WRITE setVerticalSubGridScale NOTIFY verticalSubGridScaleChanged FINAL)
     Q_PROPERTY(qreal horizontalSubGridScale READ horizontalSubGridScale WRITE setHorizontalSubGridScale NOTIFY horizontalSubGridScaleChanged FINAL)
+    Q_PROPERTY(bool verticalLogarithmic READ isVerticalLogarithmic WRITE
+                   setVerticalLogarithmic NOTIFY verticalLogarithmicChanged REVISION(6, 12))
+    Q_PROPERTY(bool horizontalLogarithmic READ isHorizontalLogarithmic WRITE
+                   setHorizontalLogarithmic NOTIFY horizontalLogarithmicChanged REVISION(6, 12))
+    Q_PROPERTY(qreal verticalBase READ verticalBase WRITE setVerticalBase NOTIFY verticalBaseChanged REVISION(6, 12))
+    Q_PROPERTY(qreal horizontalBase READ horizontalBase WRITE setHorizontalBase NOTIFY horizontalBaseChanged REVISION(6, 12))
 public:
     AxisGrid(QQuickItem *parent = nullptr);
     ~AxisGrid() override;
@@ -81,6 +87,18 @@ public:
     qreal horizontalSubGridScale() const;
     void setHorizontalSubGridScale(qreal newHorizontalSubGridScale);
 
+    bool isVerticalLogarithmic() const;
+    void setVerticalLogarithmic(bool newLogarithmic);
+
+    bool isHorizontalLogarithmic() const;
+    void setHorizontalLogarithmic(bool newLogarithmic);
+
+    qreal verticalBase() const;
+    void setVerticalBase(qreal newBase);
+
+    qreal horizontalBase() const;
+    void setHorizontalBase(qreal newBase);
+
 protected:
     void componentComplete() override;
     void geometryChange(const QRectF &newGeometry, const QRectF &oldGeometry) override;
@@ -100,7 +118,10 @@ Q_SIGNALS:
     void gridLineWidthChanged();
     void verticalSubGridScaleChanged();
     void horizontalSubGridScaleChanged();
-
+    Q_REVISION(6, 12) void verticalLogarithmicChanged(bool logarithmic);
+    Q_REVISION(6, 12) void horizontalLogarithmicChanged(bool logarithmic);
+    Q_REVISION(6, 12) void verticalBaseChanged(qreal base);
+    Q_REVISION(6, 12) void horizontalBaseChanged(qreal base);
 private:
     friend class AxisRenderer;
     qreal m_smoothing = 1.0;
@@ -117,6 +138,10 @@ private:
     qreal m_gridLineWidth = 2.0;
     qreal m_verticalSubGridScale = 0.1;
     qreal m_horizontalSubGridScale = 0.1;
+    bool m_isVerticalLogarithmic = false;
+    bool m_isHorizontalLogarithmic = false;
+    qreal m_verticalBase = 10.0;
+    qreal m_horizontalBase = 10.0;
 };
 
 QT_END_NAMESPACE

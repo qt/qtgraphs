@@ -23,6 +23,10 @@ layout(std140, binding = 0) uniform buf {
     float verticalSubGridScale;
     float horizontalSubGridScale;
     vec4 plotAreaBackgroundColor;
+    bool verticalLogarithmic;
+    bool horizontalLogarithmic;
+    float verticalBase;
+    float horizontalBase;
 };
 
 
@@ -38,15 +42,43 @@ float createBars(float coord, float spacing, float strokeWidth) {
     return bar;
 }
 
+float createLogBars(float coord, float base, int numTicks, float spacing) {
+
+    float pos = fract(coord / spacing);
+    const float logBase = log(base);
+    float logSpacePos = exp(pos * logBase) ;
+
+    float adjustedPos = (logSpacePos - 1) * numTicks / (base - 1);
+    float nearestMinorDecade = floor((adjustedPos) + 0.5);
+
+    float unadjustedDecade = ((nearestMinorDecade * (base - 1)) / numTicks) + 1;
+    float linearDecade = log(unadjustedDecade) / logBase;
+
+    float barWidth = subGridLineWidth / spacing;
+    float c = smoothstep(barWidth, 0.0, abs(linearDecade - pos));
+    return c;
+}
+
 
 void main() {
     {
         // sublines
         float subLines = 0.0;
-        if (gridVisibility.z > 0)
-            subLines += createBars(fragCoord.x, gridWidth * horizontalSubGridScale, subGridLineWidth);
-        if (gridVisibility.w > 0)
-            subLines += createBars(fragCoord.y, gridHeight * verticalSubGridScale, subGridLineWidth) * (1.0 - subLines);
+
+        if (gridVisibility.z > 0) {
+
+            if (horizontalLogarithmic)
+                subLines += createLogBars(fragCoord.x, horizontalBase, int(1 / horizontalSubGridScale), gridWidth);
+            else
+                subLines += createBars(fragCoord.x, gridWidth * horizontalSubGridScale, subGridLineWidth);
+
+        }
+        if (gridVisibility.w > 0) {
+            if (verticalLogarithmic)
+                subLines += createLogBars(fragCoord.y, verticalBase, int(1 / verticalSubGridScale), gridHeight);
+            else
+                subLines += createBars(fragCoord.y, gridHeight * verticalSubGridScale, subGridLineWidth) * (1.0 - subLines);
+        }
         // Major lines
         float lines = 0.0;
         if (gridVisibility.x > 0)

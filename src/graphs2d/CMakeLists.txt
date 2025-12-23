@@ -25,6 +25,7 @@ else()
             axis/axisticker.cpp axis/axisticker_p.h
             axis/axisline.cpp axis/axisline_p.h
             axis/valueaxis/qvalueaxis.cpp axis/valueaxis/qvalueaxis.h axis/valueaxis/qvalueaxis_p.h
+            axis/logvalueaxis/qlogvalueaxis.cpp axis/logvalueaxis/qlogvalueaxis.h axis/logvalueaxis/qlogvalueaxis_p.h
             axis/datetimeaxis/qdatetimeaxis.h axis/datetimeaxis/qdatetimeaxis.cpp axis/datetimeaxis/qdatetimeaxis_p.h
 
             qsgrenderer/axisrenderer.cpp qsgrenderer/axisrenderer_p.h

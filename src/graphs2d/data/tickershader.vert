@@ -23,6 +23,8 @@ layout(std140, binding = 0) uniform buf {
     float smoothing;
     float subTickScale;
     bool flipped;
+    bool isLogarithmic;
+    float base;
 };
 
 out gl_PerVertex { vec4 gl_Position; };

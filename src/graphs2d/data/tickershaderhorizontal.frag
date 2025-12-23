@@ -22,6 +22,8 @@ layout(std140, binding = 0) uniform buf {
     float smoothing;
     float subTickScale;
     bool flipped;
+    bool isLogarithmic;
+    float base;
 };
 
 
@@ -39,6 +41,21 @@ float createBars(float coord, float spacing, float strokeWidth) {
     return bar;
 }
 
+float createLogBars(float coord, float base, int numTicks, float spacing) {
+    float pos = fract(coord / spacing);
+    const float logBase = log(base);
+    float logSpacePos = exp(pos * logBase) ;
+
+    float adjustedPos = (logSpacePos - 1) * numTicks / (base - 1);
+    float nearestMinorDecade = floor((adjustedPos) + 0.5);
+
+    float unadjustedDecade = ((nearestMinorDecade * (base - 1)) / numTicks) + 1;
+    float linearDecade = log(unadjustedDecade) / logBase;
+
+    float barWidth = subTickLineWidth / spacing;
+    float c = smoothstep(barWidth, 0.0, abs(linearDecade - pos));
+    return c;
+}
 
 void main() {
     {
@@ -47,23 +64,29 @@ void main() {
     #if (HORIZONTAL == 1)
         // sublines
         if (subTicksVisible) {
-            if (flipped && fragCoord.y < iResolution.y * subTickLength)
-                subLines += createBars(fragCoord.x, spacing * subTickScale, subTickLineWidth);
-            if (!flipped && fragCoord.y > iResolution.y * (1.0 - subTickLength))
-                subLines += createBars(fragCoord.x, spacing * subTickScale, subTickLineWidth);
+            if ((flipped && fragCoord.y < iResolution.y * subTickLength) ||
+            (!flipped && fragCoord.y > iResolution.y * (1.0 - subTickLength))) {
+                if (isLogarithmic)
+                    subLines += createLogBars(fragCoord.x, base, int(1 / subTickScale), spacing);
+                else
+                    subLines += createBars(fragCoord.x, spacing * subTickScale, subTickLineWidth);
+            }
         }
         // major lines
         lines += createBars(fragCoord.x, spacing, tickLineWidth);
     #else
-        // sublines
-        if (subTicksVisible) {
-            if (flipped && fragCoord.x < iResolution.x * subTickLength)
-                subLines += createBars(fragCoord.y, spacing * subTickScale, subTickLineWidth);
-            if (!flipped && fragCoord.x > iResolution.x * (1.0 - subTickLength))
-                subLines += createBars(fragCoord.y, spacing * subTickScale, subTickLineWidth);
-        }
-        // major lines
-        lines += createBars(fragCoord.y, spacing, tickLineWidth);
+       // sublines
+       if (subTicksVisible) {
+           if ((flipped && fragCoord.x < iResolution.x * subTickLength) ||
+               (!flipped && fragCoord.x > iResolution.x * (1.0 - subTickLength))) {
+                   if (isLogarithmic)
+                       subLines += createLogBars(fragCoord.y, base, int(1 / subTickScale), spacing);
+                   else
+                       subLines += createBars(fragCoord.y, spacing * subTickScale, subTickLineWidth);
+               }
+       }
+       // major lines
+       lines += createBars(fragCoord.y, spacing, tickLineWidth);
     #endif
         // Combine lines, subLines below
         vec3 lineColor = vec3(0.0);

@@ -93,6 +93,9 @@ private:
         // The value of smallest label
         double minLabel = 0;
         double subGridScale = 0.5;
+
+        bool isLogarithmic = false;
+        double logBase = 10;
     };
 
 #ifdef USE_BARGRAPH
@@ -103,6 +106,8 @@ private:
     void updateValueXAxisLabels(AxisProperties &ax, const QRectF rect);
     void updateDateTimeYAxisLabels(AxisProperties &ax, const QRectF rect);
     void updateDateTimeXAxisLabels(AxisProperties &ax, const QRectF rect);
+    void updateLogValueYAxisLabels(AxisProperties &ax, const QRectF rect);
+    void updateLogValueXAxisLabels(AxisProperties &ax, const QRectF rect);
 
     void createDragHandler();
     void deleteDragHandler();

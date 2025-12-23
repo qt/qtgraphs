@@ -51,6 +51,7 @@ set(qmltestbed_resource_files
     "qml/qmltestbed/DynamicSeries.qml"
     "qml/qmltestbed/Donut.qml"
     "qml/qmltestbed/DateTimeAxis.qml"
+    "qml/qmltestbed/LogValueAxis.qml"
     "qml/qmltestbed/LineSelection.qml"
     "qml/qmltestbed/AddRemoveSeries.qml"
     "qml/qmltestbed/AddRemovePie.qml"

@@ -127,16 +127,29 @@ void PointRenderer::calculateRenderCoordinates(AxisRenderer *axisRenderer,
     auto &axisX = axisRenderer->getAxisX(series);
     auto &axisY = axisRenderer->getAxisY(series);
 
+    float x = origX;
+    float y = origY;
+
+    if (axisX.isLogarithmic) {
+        float logBase = log(axisX.logBase);
+        x = log(origX) / logBase;
+    }
+
+    if (axisY.isLogarithmic) {
+        float logBase = log(axisY.logBase);
+        y = log(origY) / logBase;
+    }
+
     if (m_graph->orientation() != Qt::Vertical) {
-        std::swap(origX, origY);
-        origY = axisY.maxValue - origY;
+        std::swap(x, y);
+        y = axisY.maxValue - y;
     }
 
     auto flipX = axisX.maxValue < axisX.minValue ? -1 : 1;
     auto flipY = axisY.maxValue < axisY.minValue ? -1 : 1;
 
-    *renderX = m_areaWidth * flipX * origX * m_maxHorizontal - m_horizontalOffset;
-    *renderY = m_areaHeight - m_areaHeight * flipY * origY * m_maxVertical
+    *renderX = m_areaWidth * flipX * x * m_maxHorizontal - m_horizontalOffset;
+    *renderY = m_areaHeight - m_areaHeight * flipY * y * m_maxVertical
                + m_verticalOffset;
 }
 
@@ -158,9 +171,19 @@ void PointRenderer::reverseRenderCoordinates(AxisRenderer *axisRenderer,
     auto flipX = axisX.maxValue < axisX.minValue ? -1 : 1;
     auto flipY = axisY.maxValue < axisY.minValue ? -1 : 1;
 
-    *origX = (renderX + m_horizontalOffset) / (m_areaWidth * flipX * m_maxHorizontal);
-    *origY = (renderY - m_areaHeight - m_verticalOffset)
+    float x = (renderX + m_horizontalOffset) / (m_areaWidth * flipX * m_maxHorizontal);
+    float y = (renderY - m_areaHeight - m_verticalOffset)
              / (-1 * m_areaHeight * flipY * m_maxVertical);
+
+    if (axisX.isLogarithmic)
+        x = pow(axisX.logBase, x);
+
+    if (axisY.isLogarithmic)
+        y = pow(axisY.logBase, y);
+
+    *origX = x;
+    *origY = y;
+
 }
 
 PointRenderer::SeriesStyle PointRenderer::getSeriesStyle(PointGroup *group)

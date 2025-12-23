@@ -24,6 +24,10 @@ layout(std140, binding = 0) uniform buf {
     float verticalSubGridScale;
     float horizontalSubGridScale;
     vec4 plotAreaBackgroundColor;
+    bool verticalLogarithmic;
+    bool horizontalLogarithmic;
+    float verticalBase;
+    float horizontalBase;
 };
 
 out gl_PerVertex { vec4 gl_Position; };

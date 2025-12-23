@@ -1,6 +1,9 @@
 // Copyright (C) 2023 The Qt Company Ltd.
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 
+#include "datetimeaxis/qdatetimeaxis.h"
+#include "qabstractaxis.h"
+#include "valueaxis/qvalueaxis.h"
 #ifdef USE_BARGRAPH
 #include <QtGraphs/QBarCategoryAxis>
 #endif
@@ -11,6 +14,7 @@
 #include <private/qdatetimeaxis_p.h>
 #include <private/qgraphsview_p.h>
 #include <private/qvalueaxis_p.h>
+#include <private/qlogvalueaxis_p.h>
 #include <QtQuick/private/qquickdraghandler_p.h>
 #include <qtgraphs_tracepoints_p.h>
 
@@ -117,44 +121,46 @@ QVector2D AxisRenderer::windowToAxisCoords(QVector2D coords)
 
 bool AxisRenderer::calculateZoom(QAbstractAxis *axis, qreal delta)
 {
-    if (axis->type() == QAbstractAxis::AxisType::Value) {
-        auto valueAxis = qobject_cast<QValueAxis *>(axis);
-        qreal zoom = 1.0;
-        zoom = valueAxis->zoom();
-
-        qreal change = 0.0;
-        if (delta > 0)
-            change = zoom * m_graph->m_zoomSensitivity;
-        else if (delta < 0)
-            change = -zoom * m_graph->m_zoomSensitivity;
-
-        zoom += change;
-
-        if (zoom < 0.01f)
-            zoom = 0.01;
-
-        valueAxis->setZoom(zoom);
-        return true;
-    } else if (axis->type() == QAbstractAxis::AxisType::DateTime) {
-        auto dateAxis = qobject_cast<QDateTimeAxis *>(axis);
-        qreal zoom = 1.0;
-        zoom = dateAxis->zoom();
-
-        qreal change = 0.0;
-        if (delta > 0)
-            change = zoom * m_graph->m_zoomSensitivity;
-        else if (delta < 0)
-            change = -zoom * m_graph->m_zoomSensitivity;
-
-        zoom += change;
-
-        if (zoom < 0.01f)
-            zoom = 0.01;
-
-        dateAxis->setZoom(zoom);
-        return true;
+    qreal zoom = 1.0;
+    std::function<void(qreal zoom)> setZoom;
+    switch (axis->type()) {
+        case QAbstractAxis::AxisType::Value: {
+            auto valueAxis = qobject_cast<QValueAxis *>(axis);
+            zoom = valueAxis->zoom();
+            setZoom = [valueAxis](qreal zoom) {valueAxis->setZoom(zoom); };
+            break;
+        }
+        case QAbstractAxis::AxisType::DateTime: {
+            auto dateTimeAxis = qobject_cast<QDateTimeAxis *>(axis);
+            zoom = dateTimeAxis->zoom();
+            setZoom = [dateTimeAxis](qreal zoom) {dateTimeAxis->setZoom(zoom); };
+            break;
+        }
+        case QAbstractAxis::AxisType::LogValue: {
+            auto logAxis = qobject_cast<QLogValueAxis *>(axis);
+            zoom = logAxis->zoom();
+            setZoom = [logAxis](qreal zoom) {logAxis->setZoom(zoom); };
+            break;
+        }
+        default: {
+            return false;
+        }
     }
-    return false;
+
+    qreal change = 0.0;
+    if (delta > 0)
+        change = zoom * m_graph->m_zoomSensitivity;
+    else if (delta < 0)
+        change = -zoom * m_graph->m_zoomSensitivity;
+
+    zoom += change;
+
+    if (zoom < 0.01f)
+        zoom = 0.01;
+
+    setZoom(zoom);
+
+    return true;
 }
 
 bool AxisRenderer::zoom(qreal delta)
@@ -244,6 +250,9 @@ void AxisRenderer::onTranslationChanged(QVector2D delta)
     } else if (hax->type() == QAbstractAxis::AxisType::DateTime) {
         auto axis = qobject_cast<QDateTimeAxis *>(hax);
         axis->setPan(m_dragState.panAtPress.x() + change.x());
+    } else if (hax->type() == QAbstractAxis::AxisType::LogValue) {
+        auto axis = qobject_cast<QLogValueAxis *>(hax);
+        axis->setPan(m_dragState.panAtPress.x() + change.x());
     }
 
     if (vax->type() == QAbstractAxis::AxisType::Value) {
@@ -251,6 +260,9 @@ void AxisRenderer::onTranslationChanged(QVector2D delta)
         axis->setPan(m_dragState.panAtPress.y() + change.y());
     } else if (vax->type() == QAbstractAxis::AxisType::DateTime) {
         auto axis = qobject_cast<QDateTimeAxis *>(vax);
+        axis->setPan(m_dragState.panAtPress.y() + change.y());
+    } else if (vax->type() == QAbstractAxis::AxisType::LogValue) {
+        auto axis = qobject_cast<QLogValueAxis *>(vax);
         axis->setPan(m_dragState.panAtPress.y() + change.y());
     }
 }
@@ -274,16 +286,22 @@ void AxisRenderer::onGrabChanged(QPointingDevice::GrabTransition transition, QEv
         if (htype == QAbstractAxis::AxisType::Value) {
             auto axis = qobject_cast<QValueAxis *>(hax.axis);
             m_dragState.panAtPress.setX(axis->pan());
-        } else {
+        } else if (htype == QAbstractAxis::AxisType::DateTime) {
             auto axis = qobject_cast<QDateTimeAxis *>(hax.axis);
+            m_dragState.panAtPress.setX(axis->pan());
+        } else if (htype == QAbstractAxis::AxisType::LogValue) {
+            auto axis = qobject_cast<QLogValueAxis *>(hax.axis);
             m_dragState.panAtPress.setX(axis->pan());
         }
 
         if (vtype == QAbstractAxis::AxisType::Value) {
             auto axis = qobject_cast<QValueAxis *>(vax.axis);
             m_dragState.panAtPress.setY(axis->pan());
-        } else {
+        } else if (vtype == QAbstractAxis::AxisType::DateTime) {
             auto axis = qobject_cast<QDateTimeAxis *>(vax.axis);
+            m_dragState.panAtPress.setY(axis->pan());
+        } else if (vtype == QAbstractAxis::AxisType::LogValue) {
+            auto axis = qobject_cast<QLogValueAxis *>(vax.axis);
             m_dragState.panAtPress.setY(axis->pan());
         }
 
@@ -315,8 +333,12 @@ void AxisRenderer::onGrabChanged(QPointingDevice::GrabTransition transition, QEv
             auto axis = qobject_cast<QValueAxis *>(hax.axis);
             axis->setZoom(hax.valueRangeZoomless / size.x());
             axis->setPan(axis->pan() + center.x());
-        } else {
+        } else if (htype == QAbstractAxis::AxisType::DateTime){
             auto axis = qobject_cast<QDateTimeAxis *>(hax.axis);
+            axis->setZoom(hax.valueRangeZoomless / size.x());
+            axis->setPan(axis->pan() + center.x());
+        } else if (htype == QAbstractAxis::AxisType::LogValue){
+            auto axis = qobject_cast<QLogValueAxis *>(hax.axis);
             axis->setZoom(hax.valueRangeZoomless / size.x());
             axis->setPan(axis->pan() + center.x());
         }
@@ -325,8 +347,12 @@ void AxisRenderer::onGrabChanged(QPointingDevice::GrabTransition transition, QEv
             auto axis = qobject_cast<QValueAxis *>(vax.axis);
             axis->setZoom(vax.valueRangeZoomless / size.y());
             axis->setPan(axis->pan() - center.y());
-        } else {
+        } else if (vtype == QAbstractAxis::AxisType::DateTime){
             auto axis = qobject_cast<QDateTimeAxis *>(vax.axis);
+            axis->setZoom(vax.valueRangeZoomless / size.y());
+            axis->setPan(axis->pan() - center.y());
+        } else if (vtype == QAbstractAxis::AxisType::LogValue){
+            auto axis = qobject_cast<QLogValueAxis *>(vax.axis);
             axis->setZoom(vax.valueRangeZoomless / size.y());
             axis->setPan(axis->pan() - center.y());
         }
@@ -918,6 +944,92 @@ void AxisRenderer::updateAxis()
         }
     }
 
+    for (auto&& ax : *m_vertAxes) {
+        if (auto vaxis = qobject_cast<QLogValueAxis *>(ax.axis)) {
+            ax.isLogarithmic = true;
+            ax.logBase = vaxis->base();
+
+            qreal logBase = log(vaxis->base());
+            qreal logMin = log(vaxis->min()) / logBase;
+            qreal logMax = log(vaxis->max()) / logBase;
+
+            qreal diff = logMax - logMin;
+            qreal center = diff / 2.0f + logMin + vaxis->pan();
+
+            diff /= vaxis->zoom();
+
+            ax.maxValue = center + diff / 2.0f;
+            ax.minValue = center - diff / 2.0f;
+
+            //use log scale to create value range
+            ax.valueRange = ax.maxValue - ax.minValue;
+            ax.valueRangeZoomless = logMax - logMin;
+
+            // Get smallest tick label value
+            ax.minLabel = qRound(ax.minValue);
+            ax.valueStep = 1;
+
+            int axisVerticalSubTickCount = vaxis->subTickCount();
+            if (axisVerticalSubTickCount == -1)
+                axisVerticalSubTickCount = int(qRound(vaxis->base()));
+            ax.subGridScale = axisVerticalSubTickCount > 0 ? 1.0 / (axisVerticalSubTickCount + 1)
+                                                            : 1.0;
+            ax.stepPx = (height() - m_graph->m_marginTop - m_graph->m_marginBottom
+                         - axisHeight * xCount - m_graph->m_axisTitleMargin * xTitleCount)
+                        / (ax.valueRange / ax.valueStep);
+            double axisVerticalValueDiff = ax.minLabel - ax.minValue;
+            ax.displacement = -(axisVerticalValueDiff / ax.valueStep) * ax.stepPx;
+
+            // Update value labels
+            if (ax.axis->alignment() == Qt::AlignRight || ax.axis->alignment() == Qt::AlignBottom)
+                updateLogValueYAxisLabels(ax, m_graph->m_y2AxisLabelsArea);
+            else
+                updateLogValueYAxisLabels(ax, m_graph->m_y1AxisLabelsArea);
+        }
+    }
+    for (auto&& ax : *m_horzAxes) {
+        if (auto haxis = qobject_cast<QLogValueAxis *>(ax.axis)) {
+            ax.isLogarithmic = true;
+            ax.logBase = haxis->base();
+
+            qreal logBase = log(haxis->base());
+            qreal logMin = log(haxis->min()) / logBase;
+            qreal logMax = log(haxis->max()) / logBase;
+
+            qreal diff = logMax - logMin;
+            qreal center = diff / 2.0f + logMin + haxis->pan();
+
+            diff /= haxis->zoom();
+
+            ax.maxValue = center + diff / 2.0f;
+            ax.minValue = center - diff / 2.0f;
+
+            //use log scale to create value range
+            ax.valueRange = ax.maxValue - ax.minValue;
+            ax.valueRangeZoomless = logMax - logMin;
+
+            ax.minLabel = qRound(ax.minValue);
+            ax.valueStep = 1;
+
+            int axisHorizontalSubTickCount = haxis->subTickCount();
+            if (axisHorizontalSubTickCount == -1)
+                axisHorizontalSubTickCount = int(qRound(haxis->base()));
+            ax.subGridScale = axisHorizontalSubTickCount > 0 ? 1.0 / (axisHorizontalSubTickCount + 1)
+                : 1.0;
+            ax.stepPx = (width() - m_graph->m_marginLeft - m_graph->m_marginRight
+                         - axisWidth * yCount - m_graph->m_axisTitleMargin * yTitleCount)
+                        / (ax.valueRange / ax.valueStep);
+            double axisHorizontalValueDiff = ax.minLabel - ax.minValue;
+            ax.displacement = -(axisHorizontalValueDiff / ax.valueStep) * ax.stepPx;
+
+            // Update value labels
+            if (ax.axis->alignment() == Qt::AlignTop || ax.axis->alignment() == Qt::AlignLeft)
+                updateLogValueXAxisLabels(ax, m_graph->m_x2AxisLabelsArea);
+            else
+                updateLogValueXAxisLabels(ax, m_graph->m_x1AxisLabelsArea);
+        }
+    }
+
     updateAxisTickers();
     updateAxisTickersShadow();
     updateAxisGrid();
@@ -965,7 +1077,12 @@ void AxisRenderer::updateAxisTickers()
                                        / (ax.valueRange / ax.valueStep));
                 ax.ticker->setSubTicksVisible(!qFuzzyCompare(ax.subGridScale, 1.0));
                 ax.ticker->setSubTickScale(ax.subGridScale);
+
+                ax.ticker->setLogarithmic(ax.isLogarithmic);
+                ax.ticker->setBase(ax.logBase);
+
                 ax.ticker->setVisible(ax.axis->isVisible());
+
                 // Axis line
                 if (ax.axis->color().isValid())
                     ax.line->setColor(ax.axis->color());
@@ -1030,6 +1147,10 @@ void AxisRenderer::updateAxisTickers()
                                              / (ax.valueRange / ax.valueStep));
             ax.ticker->setSubTicksVisible(!qFuzzyCompare(ax.subGridScale, 1.0));
             ax.ticker->setSubTickScale(ax.subGridScale);
+
+            ax.ticker->setLogarithmic(ax.isLogarithmic);
+            ax.ticker->setBase(ax.logBase);
+
             ax.ticker->setVisible(ax.axis->isVisible());
             // Axis line
             if (ax.axis->color().isValid())
@@ -1080,6 +1201,10 @@ void AxisRenderer::updateAxisTickersShadow()
             ax.tickerShadow->setSpacing(ax.ticker->spacing());
             ax.tickerShadow->setSubTicksVisible(ax.ticker->subTicksVisible());
             ax.tickerShadow->setSubTickScale(ax.ticker->subTickScale());
+
+            ax.tickerShadow->setLogarithmic(ax.ticker->isLogarithmic());
+            ax.tickerShadow->setBase(ax.ticker->base());
+
             ax.tickerShadow->setVisible(ax.ticker->isVisible());
             // Axis line
             ax.lineShadow->setColor(m_graph->shadowColor());
@@ -1176,6 +1301,11 @@ void AxisRenderer::updateAxisGrid()
                                             m_gridVerticalSubLinesVisible));
     m_axisGrid->setVerticalSubGridScale(vax.subGridScale);
     m_axisGrid->setHorizontalSubGridScale(hax.subGridScale);
+
+    m_axisGrid->setVerticalLogarithmic(vax.isLogarithmic);
+    m_axisGrid->setHorizontalLogarithmic(hax.isLogarithmic);
+    m_axisGrid->setVerticalBase(vax.logBase);
+    m_axisGrid->setHorizontalBase(hax.logBase);
 }
 
 void AxisRenderer::updateAxisGridShadow()
@@ -1199,6 +1329,11 @@ void AxisRenderer::updateAxisGridShadow()
         m_axisGridShadow->setVerticalSubGridScale(m_axisGrid->verticalSubGridScale());
         m_axisGridShadow->setHorizontalSubGridScale(m_axisGrid->horizontalSubGridScale());
         m_axisGridShadow->setVisible(true);
+
+        m_axisGridShadow->setVerticalLogarithmic(m_axisGrid->isVerticalLogarithmic());
+        m_axisGridShadow->setHorizontalLogarithmic(m_axisGrid->isHorizontalLogarithmic());
+        m_axisGridShadow->setVerticalBase(m_axisGrid->verticalBase());
+        m_axisGridShadow->setHorizontalBase(m_axisGrid->horizontalBase());
     } else {
         m_axisGridShadow->setVisible(false);
     }
@@ -1549,6 +1684,7 @@ void AxisRenderer::updateValueXAxisLabels(AxisProperties &ax, const QRectF rect)
             textItem->setX(posX);
             textItem->setWidth(textItemWidth);
             textItem->setRotation(axis->labelsAngle());
+
             double number = axisLabelValues.at(i);
             // Format the number
             int decimals = axis->labelDecimals();
@@ -1691,6 +1827,154 @@ void AxisRenderer::updateDateTimeXAxisLabels(AxisProperties &ax, const QRectF re
             }
             textItem->setHeight(rect.height());
             textItem->setVisible(true);
+        } else {
+            textItem->setVisible(false);
+        }
+    }
+}
+
+void AxisRenderer::updateLogValueXAxisLabels(AxisProperties &ax, const QRectF rect)
+{
+    auto axis = qobject_cast<QLogValueAxis *>(ax.axis);
+    if (!axis)
+        return;
+
+    QList<double> axisLabelValues;
+    const int MAX_LABEL_COUNT = 100;
+
+    for (double i = ax.minLabel; i <= ax.maxValue; i += ax.valueStep) {
+        float value = pow(axis->base(), i);
+        axisLabelValues << value;
+        if (axisLabelValues.size() >= MAX_LABEL_COUNT)
+            break;
+    }
+    qsizetype categoriesCount = axisLabelValues.size();
+
+    updateAxisLabelItems(ax.textItems, categoriesCount, axis->labelDelegate());
+    Q_TRACE_SCOPE(QGraphs2DAxisRendererUpdateLogValueXAxisLabels);
+
+    for (int i = 0; i < categoriesCount; i++) {
+        auto &textItem = ax.textItems[i];
+        if (axis->isVisible() && axis->labelsVisible()) {
+            float posY = rect.y() + ax.y;
+            textItem->setY(posY);
+            float textItemWidth = 20;
+            float posX = rect.x() + (((float)i) * ax.stepPx) - ax.displacement;
+            const double titleMargin = 0.01;
+            if ((posX - titleMargin) > (rect.width() + rect.x()) || (posX + titleMargin) < rect.x()) {
+                // Hide text item which are outside the axis area
+                textItem->setVisible(false);
+                continue;
+            }
+
+            // Take text size into account only after hiding
+            posX -= 0.5 * textItemWidth;
+            posX += ax.x;
+            textItem->setX(posX);
+            textItem->setWidth(textItemWidth);
+            textItem->setRotation(axis->labelsAngle());
+            double number = axisLabelValues.at(i);
+            // Format the number
+            const QString f = axis->labelFormat();
+            QString label;
+            if (f.length() <= 1) {
+              char format = f.isEmpty() ? 'g' : f.front().toLatin1();
+              label = QString::number(number, format, axis->labelPrecision());
+            } else {
+              QByteArray array = f.toLatin1();
+              label = QString::asprintf(array.constData(), number);
+            }
+            if (ax.axis->alignment() == Qt::AlignTop || ax.axis->alignment() == Qt::AlignLeft) {
+                setLabelTextProperties(textItem, label, true,
+                                       QQuickText::HAlignment::AlignHCenter,
+                                       QQuickText::VAlignment::AlignBottom,
+                                       axis->textElideMode());
+            } else {
+                setLabelTextProperties(textItem, label, true,
+                                       QQuickText::HAlignment::AlignHCenter,
+                                       QQuickText::VAlignment::AlignTop,
+                                       axis->textElideMode());
+            }
+            textItem->setHeight(rect.height());
+            textItem->setVisible(true);
+            theme()->dirtyBits()->axisXDirty = false;
+        } else {
+            textItem->setVisible(false);
+        }
+    }
+}
+
+void AxisRenderer::updateLogValueYAxisLabels(AxisProperties &ax, const QRectF rect)
+{
+    auto axis = qobject_cast<QLogValueAxis *>(ax.axis);
+    if (!axis)
+        return;
+
+    // Create label values in the range
+    QList<double> yAxisLabelValues;
+    const int MAX_LABELS_COUNT = 100;
+    if (m_graph->orientation() == Qt::Vertical) {
+        for (double i = ax.minLabel; i <= ax.maxValue; i += ax.valueStep) {
+            float value = pow(axis->base(), i);
+            yAxisLabelValues << value;
+            if (yAxisLabelValues.size() >= MAX_LABELS_COUNT)
+                break;
+        }
+    } else {
+        for (double i = ax.maxValue; i >= ax.minLabel; i -= ax.valueStep) {
+            float value = pow(axis->base(), i);
+            yAxisLabelValues << value;
+            if (yAxisLabelValues.size() >= MAX_LABELS_COUNT)
+                break;
+        }
+    }
+    qsizetype categoriesCount = yAxisLabelValues.size();
+
+    // See if we need more text items
+    updateAxisLabelItems(ax.textItems, categoriesCount, axis->labelDelegate());
+
+    Q_TRACE_SCOPE(QGraphs2DAxisRendererUpdateLogValueYAxisLabels);
+    for (int i = 0;  i < categoriesCount; i++) {
+        auto &textItem = ax.textItems[i];
+        if (axis->isVisible() && axis->labelsVisible()) {
+            float posX = rect.x() + ax.x;
+            textItem->setX(posX);
+            float posY = rect.y() + rect.height() - (((float)i) * ax.stepPx) + ax.displacement;
+            const double titleMargin = 0.01;
+            if ((posY - titleMargin) > (rect.height() + rect.y()) || (posY + titleMargin) < rect.y()) {
+                // Hide text item which are outside the axis area
+                textItem->setVisible(false);
+                continue;
+            }
+            posY += ax.y;
+            textItem->setY(posY);
+            textItem->setWidth(rect.width());
+            textItem->setRotation(axis->labelsAngle());
+            double number = yAxisLabelValues.at(i);
+            // Format the number
+            const QString f = axis->labelFormat();
+            QString label;
+            if (f.length() <= 1) {
+                char format = f.isEmpty() ? 'g' : f.front().toLatin1();
+                label = QString::number(number, format, axis->labelPrecision());
+            } else {
+                QByteArray array = f.toLatin1();
+                label = QString::asprintf(array.constData(), number);
+            }
+            if (ax.axis->alignment() == Qt::AlignRight || ax.axis->alignment() == Qt::AlignBottom) {
+                setLabelTextProperties(textItem, label, false,
+                    QQuickText::HAlignment::AlignLeft,
+                    QQuickText::VAlignment::AlignVCenter,
+                    axis->textElideMode());
+            } else {
+                setLabelTextProperties(textItem, label, false,
+                    QQuickText::HAlignment::AlignRight,
+                    QQuickText::VAlignment::AlignVCenter,
+                    axis->textElideMode());
+            }
+            textItem->setHeight(0);
+            textItem->setVisible(true);
+            theme()->dirtyBits()->axisYDirty = false;
         } else {
             textItem->setVisible(false);
         }

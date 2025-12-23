@@ -62,14 +62,28 @@ void AreaRenderer::calculateRenderCoordinates(
     QAreaSeries *series, qreal origX, qreal origY, qreal *renderX, qreal *renderY) const
 {
     auto &axY = m_graph->m_axisRenderer->getAxisY(series);
+    auto &axX = m_graph->m_axisRenderer->getAxisX(series);
 
-    if (m_graph->orientation() != Qt::Vertical) {
-        std::swap(origX, origY);
-        origY = axY.maxValue - origY;
+    float x = origX;
+    float y = origY;
+
+    if (axX.isLogarithmic) {
+        float logBase = log(axX.logBase);
+        x = log(origX) / logBase;
     }
 
-    *renderX = m_areaWidth * origX * m_maxHorizontal - m_horizontalOffset;
-    *renderY = m_areaHeight - m_areaHeight * origY * m_maxVertical
+    if (axY.isLogarithmic) {
+        float logBase = log(axY.logBase);
+        y = log(origY) / logBase;
+    }
+
+    if (m_graph->orientation() != Qt::Vertical) {
+        std::swap(x, y);
+        y = axY.maxValue - y;
+    }
+
+    *renderX = m_areaWidth * x * m_maxHorizontal - m_horizontalOffset;
+    *renderY = m_areaHeight - m_areaHeight * y * m_maxVertical
                + m_verticalOffset;
 }
 
@@ -77,14 +91,25 @@ void AreaRenderer::calculateAxisCoordinates(
     QAreaSeries *series, qreal origX, qreal origY, qreal *axisX, qreal *axisY) const
 {
     auto &axY = m_graph->m_axisRenderer->getAxisY(series);
+    auto &axX = m_graph->m_axisRenderer->getAxisX(series);
 
     if (m_graph->orientation() != Qt::Vertical) {
         std::swap(origX, origY);
         origY = axY.maxValue - origY;
     }
 
-    *axisX = origX / m_areaWidth / m_maxHorizontal;
-    *axisY = axY.valueRange - origY / m_areaHeight / m_maxVertical;
+    qreal x = (origX + m_horizontalOffset) / (m_areaWidth * m_maxHorizontal);
+    qreal y = (origY - m_areaHeight - m_verticalOffset)
+             / (-1 * m_areaHeight * m_maxVertical);
+
+    if (axX.isLogarithmic)
+        x = pow(axX.logBase, x);
+
+    if (axY.isLogarithmic)
+        y = pow(axY.logBase, y);
+
+    *axisX = x;
+    *axisY = y;
 }
 
 void AreaRenderer::handlePolish(QAreaSeries *series)

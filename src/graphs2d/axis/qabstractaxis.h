@@ -64,6 +64,7 @@ public:
         Value,
         BarCategory,
         DateTime,
+        LogValue,
     };
     Q_ENUM(AxisType)
 

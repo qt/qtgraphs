@@ -206,6 +206,57 @@ void AxisGrid::setHorizontalSubGridScale(qreal newHorizontalSubGridScale)
     emit horizontalSubGridScaleChanged();
 }
 
+bool AxisGrid::isVerticalLogarithmic() const
+{
+    return m_isVerticalLogarithmic;
+}
+
+void AxisGrid::setVerticalLogarithmic(bool newLogarithmic)
+{
+    if (m_isVerticalLogarithmic == newLogarithmic)
+        return;
+    m_isVerticalLogarithmic = newLogarithmic;
+    emit verticalLogarithmicChanged(newLogarithmic);
+}
+
+bool AxisGrid::isHorizontalLogarithmic() const
+{
+    return m_isHorizontalLogarithmic;
+}
+
+void AxisGrid::setHorizontalLogarithmic(bool newLogarithmic)
+{
+    if (m_isHorizontalLogarithmic == newLogarithmic)
+        return;
+    m_isHorizontalLogarithmic = newLogarithmic;
+    emit horizontalLogarithmicChanged(newLogarithmic);
+}
+
+qreal AxisGrid::verticalBase() const
+{
+    return m_verticalBase;
+}
+
+void AxisGrid::setVerticalBase(qreal newBase)
+{
+    if (qFuzzyCompare(m_verticalBase, newBase))
+        return;
+    m_verticalBase = newBase;
+    emit verticalBaseChanged(newBase);
+}
+
+qreal AxisGrid::horizontalBase() const
+{
+    return m_horizontalBase;
+}
+
+void AxisGrid::setHorizontalBase(qreal newBase)
+{
+    if (qFuzzyCompare(m_horizontalBase, newBase))
+        return;
+    m_horizontalBase = newBase;
+    emit verticalBaseChanged(newBase);
+}
 QT_END_NAMESPACE
 
 #include "moc_axisgrid_p.cpp"
