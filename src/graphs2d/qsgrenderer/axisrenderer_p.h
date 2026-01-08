@@ -130,10 +130,10 @@ private:
     bool m_initialized = false;
     bool m_wasVertical = false;
 
-    QVector<AxisProperties> m_axes1;
-    QVector<AxisProperties> m_axes2;
-    QVector<AxisProperties> *m_horzAxes = &m_axes1;
-    QVector<AxisProperties> *m_vertAxes = &m_axes2;
+    QList<AxisProperties> m_axes1;
+    QList<AxisProperties> m_axes2;
+    QList<AxisProperties> *m_horzAxes = &m_axes1;
+    QList<AxisProperties> *m_vertAxes = &m_axes2;
 
     AxisGrid *m_axisGrid = nullptr;
     AxisGrid *m_axisGridShadow = nullptr;

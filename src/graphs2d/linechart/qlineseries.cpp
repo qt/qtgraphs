@@ -200,7 +200,7 @@ QT_BEGIN_NAMESPACE
 */
 
 /*!
-    \qmlsignal LineSeries::dashPatternChanged(QVector<qreal> newDashPattern)
+    \qmlsignal LineSeries::dashPatternChanged(QList<qreal> newDashPattern)
     \since 6.11
     This signal is emitted when the line series line dash pattern changes.
     The \a newDashPattern parameter holds the new dash pattern.
@@ -422,13 +422,13 @@ void QLineSeries::setDashOffset(qreal offset)
     \brief the dash pattern when \l strokeStyle is set to \l{QLineSeries::DashLine}{LineSeries.DashLine}.
     \since 6.11
  */
-QVector<qreal> QLineSeries::dashPattern() const
+QList<qreal> QLineSeries::dashPattern() const
 {
     Q_D(const QLineSeries);
     return d->m_dashPattern;
 }
 
-void QLineSeries::setDashPattern(const QVector<qreal> &array)
+void QLineSeries::setDashPattern(const QList<qreal> &array)
 {
     Q_D(QLineSeries);
     if (d->m_dashPattern == array) {

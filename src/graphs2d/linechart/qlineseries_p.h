@@ -31,7 +31,7 @@ protected:
     QLineSeries::LineStyle m_lineStyle = QLineSeries::LineStyle::Straight;
     QLineSeries::StrokeStyle m_strokeStyle = QLineSeries::StrokeStyle::SolidLine;
     qreal m_dashOffset = 0.0;
-    QVector<qreal> m_dashPattern = {4, 2};
+    QList<qreal> m_dashPattern = {4, 2};
 
 private:
     Q_DECLARE_PUBLIC(QLineSeries)
