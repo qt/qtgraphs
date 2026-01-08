@@ -220,10 +220,10 @@ private:
         QQuick3DModel *sliceModel;
         QQuick3DModel *sliceGridModel;
         QQuick3DModel *fillModel;
-        QVector<SurfaceVertex> vertices;
-        QVector<QVector4D> heights;
-        QVector<quint32> indices;
-        QVector<quint32> gridIndices;
+        QList<SurfaceVertex> vertices;
+        QList<QVector4D> heights;
+        QList<quint32> indices;
+        QList<quint32> gridIndices;
         QSurface3DSeries *series;
         QQuick3DTexture *gradientTexture;
         QQuick3DTexture *texture;
@@ -272,7 +272,7 @@ private:
                                    const std::array<QVector3D, 3> &triangle);
     bool intersectWithAABB(QVector3D boundMin, QVector3D boundsMax, QVector3D origin, QVector3D dir);
 
-    QVector<SurfaceModel *> m_model;
+    QList<SurfaceModel *> m_model;
     QMap<QSurface3DSeries *, QQuick3DModel *> m_selectionPointers = {};
     QMap<QSurface3DSeries *, QQuick3DModel *> m_sliceSelectionPointers = {};
 

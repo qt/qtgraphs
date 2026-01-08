@@ -3636,7 +3636,7 @@ void QQuickGraphsItem::updateGrid()
 void QQuickGraphsItem::updateGridLineType()
 {
     const int textureSize = 4096;
-    QVector<QVector4D> grid(textureSize * 2, QVector4D(0, 0, 0, 0));
+    QList<QVector4D> grid(textureSize * 2, QVector4D(0, 0, 0, 0));
     QQmlListReference materialsRef(m_background, "materials");
     QQuick3DCustomMaterial *bgMat;
     if (!materialsRef.size()) {
@@ -3667,20 +3667,20 @@ void QQuickGraphsItem::updateGridLineType()
         mapData = texMap->textureData();
     }
 
-    QVector<qsizetype> lineCounts(6);
+    QList<qsizetype> lineCounts(6);
     gridLineCountHelper(axisX(), lineCounts[0], lineCounts[3]);
     gridLineCountHelper(axisY(), lineCounts[1], lineCounts[4]);
     gridLineCountHelper(axisZ(), lineCounts[2], lineCounts[5]);
 
     float baseWidth = 100;
-    QVector<int> lineWidths(3);
+    QList<int> lineWidths(3);
     lineWidths[0] = baseWidth / m_scaleWithBackground.x();
     lineWidths[1] = baseWidth / m_scaleWithBackground.y();
     lineWidths[2] = baseWidth / m_scaleWithBackground.z();
 
-    QVector<QVector4D> axisMask = {QVector4D(1, 0, 0, 1),
-                                   QVector4D(0, 1, 0, 1),
-                                   QVector4D(0, 0, 1, 1)};
+    QList<QVector4D> axisMask = {QVector4D(1, 0, 0, 1),
+                                 QVector4D(0, 1, 0, 1),
+                                 QVector4D(0, 0, 1, 1)};
 
     bgMat->setProperty("scale", m_scaleWithBackground);
     bgMat->setProperty("polar", isPolar());
@@ -4511,7 +4511,7 @@ void QQuickGraphsItem::connectMultiAxis(QAbstract3DAxis *axis)
 
 void QQuickGraphsItem::updateMultiAxis()
 {
-    const QVector<QAbstract3DAxis::AxisOrientation> orientations = {
+    const QList<QAbstract3DAxis::AxisOrientation> orientations = {
         QAbstract3DAxis::AxisOrientation::X,
         QAbstract3DAxis::AxisOrientation::Y,
         QAbstract3DAxis::AxisOrientation::Z};
@@ -5110,7 +5110,7 @@ void QQuickGraphsItem::updateMultiAxisGrid(qsizetype axisIndex, QAbstract3DAxis 
         labelOffset = labelAdjustment(labelsMaxWidth * axis->labelSize());
     }
 
-    QVector<QVector3D> vertices;
+    QList<QVector3D> vertices;
 
     if (axis->orientation() == QAbstract3DAxis::AxisOrientation::X) {
         if (axis->type() == QAbstract3DAxis::AxisType::Value) {
@@ -6310,8 +6310,8 @@ void QQuickGraphsItem::updateCustomData()
         QQuick3DModel *model = itemIterator.value();
 
         QVector3D pos = item->position();
-        QVector<QAbstract3DAxis *> axes{axisX(), axisY(), axisZ()};
-        QVector<float> bScales{scaleWithBackground().x(),
+        QList<QAbstract3DAxis *> axes{axisX(), axisY(), axisZ()};
+        QList<float> bScales{scaleWithBackground().x(),
                     scaleWithBackground().y(),
                     scaleWithBackground().z()};
         if (!item->isPositionAbsolute()) {
@@ -6327,7 +6327,7 @@ void QQuickGraphsItem::updateCustomData()
         model->setPosition(pos);
 
         if (!item->isScalingAbsolute()) {
-            QVector<float> iScales{item->scaling().x(), item->scaling().y(), item->scaling().z()};
+            QList<float> iScales{item->scaling().x(), item->scaling().y(), item->scaling().z()};
             for (int i = 0; i < axes.count(); i++) {
                 if (auto vAxis = static_cast<QValue3DAxis *>(axes.at(i))) {
                     float axisRange = vAxis->max() - vAxis->min();

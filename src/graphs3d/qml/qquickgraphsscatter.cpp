@@ -1808,8 +1808,8 @@ void QQuickGraphsScatter::updateSpline(ScatterModel *model)
             const QScatterDataArray &array = series->dataArray();
             qsizetype pointCount = array.size();
             if (isDataDirty() && array.size() != 0) {
-                QVector<QVector4D> splinePoints;
-                QVector<SplineVertex> vertices;
+                QList<QVector4D> splinePoints;
+                QList<SplineVertex> vertices;
                 splinePoints.reserve(pointCount + 2);
                 splineData->setSize(QSize(pointCount + 2, 1));
 

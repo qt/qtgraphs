@@ -1721,7 +1721,7 @@ void QQuickGraphsSurface::updateModel(SurfaceModel *model)
         model->heightTexture = heightMap;
 
         if (m_isIndexDirty) {
-            QVector<SurfaceVertex> vertices;
+            QList<SurfaceVertex> vertices;
             for (int i = 0; i < rowCount; i++) {
                 QSurfaceDataRow row = array.at(i);
                 for (int j = 0; j < columnCount; j++) {
@@ -1807,7 +1807,7 @@ void QQuickGraphsSurface::updateFill(SurfaceModel *model)
 {
     bool fillVisible = model->series->drawMode().testFlag(QSurface3DSeries::DrawFilledSurface);
     if (m_fillDirty[model] && fillVisible) {
-        QVector<QVector<SurfaceVertex>> sideVertsList(4);
+        QList<QList<SurfaceVertex>> sideVertsList(4);
         qsizetype rowCount = model->rowCount;
         qsizetype colCount = model->columnCount;
 
@@ -1824,7 +1824,7 @@ void QQuickGraphsSurface::updateFill(SurfaceModel *model)
                 float base = -scaleWithBackground().y();
 
                 auto addVerts = [base](SurfaceVertex vertex,
-                                       QVector<SurfaceVertex> &sideVerts,
+                                       QList<SurfaceVertex> &sideVerts,
                                        QVector2D uvOffset,
                                        bool rev = false) {
                     // add small offset to uv to distinguish them in the shaders
@@ -1842,22 +1842,22 @@ void QQuickGraphsSurface::updateFill(SurfaceModel *model)
                 };
 
                 if (i == 0) { //Bottom row
-                    QVector<SurfaceVertex> &sideVerts = sideVertsList[0];
+                    QList<SurfaceVertex> &sideVerts = sideVertsList[0];
                     addVerts(vertex, sideVerts, QVector2D(0.0f, -0.1f));
                 } else if (j == colCount - 1) {
-                    QVector<SurfaceVertex> &sideVerts = sideVertsList[1];
+                    QList<SurfaceVertex> &sideVerts = sideVertsList[1];
                     addVerts(vertex, sideVerts, QVector2D(0.1f, 0.0f));
                 } else if (i == rowCount - 1) {
-                    QVector<SurfaceVertex> &sideVerts = sideVertsList[2];
+                    QList<SurfaceVertex> &sideVerts = sideVertsList[2];
                     addVerts(vertex, sideVerts, QVector2D(0.0f, 0.1f), true);
                 } else if (j == 0) {
-                    QVector<SurfaceVertex> &sideVerts = sideVertsList[3];
+                    QList<SurfaceVertex> &sideVerts = sideVertsList[3];
                     addVerts(vertex, sideVerts, QVector2D(-0.1f, 0.0f), true);
                 }
             }
         }
 
-        QVector<SurfaceVertex> sideVerts;
+        QList<SurfaceVertex> sideVerts;
         for (const auto &side : std::as_const(sideVertsList)) {
             for (auto vert : side)
                 sideVerts.append(vert);
@@ -1869,7 +1869,7 @@ void QQuickGraphsSurface::updateFill(SurfaceModel *model)
         sideGeom->setBounds(model->boundsMin, model->boundsMax);
         sideGeom->update();
 
-        QVector<quint32> indices;
+        QList<quint32> indices;
         int totVerts = (rowCount * 2 + colCount * 2) - 4;
         int idxCount = 6 * (totVerts);
         indices.reserve(idxCount);
@@ -1922,7 +1922,7 @@ void QQuickGraphsSurface::updateLineFill(SurfaceModel *model)
 
         float uvX = 1.0f / qMax(float(colCount - 1), 1.0f);
         float uvY = 1.0f / qMax(float(rowCount - 1), 1.0f);
-        QVector<SurfaceVertex> vertices;
+        QList<SurfaceVertex> vertices;
         for (int i = 0; i < rowCount; i++) {
             for (int j = 0; j < colCount; j++) {
                 SurfaceVertex vertex;
@@ -1949,7 +1949,7 @@ void QQuickGraphsSurface::updateLineFill(SurfaceModel *model)
 
             }
         }
-        QVector<quint32> indices;
+        QList<quint32> indices;
 
         int totVerts = oneRow? colCount : rowCount;
         int idxCount = 6 * (totVerts);
@@ -2179,7 +2179,7 @@ void QQuickGraphsSurface::toggleSliceGraph()
                 model->sliceModel->setLocalOpacity(.0f);
         }
 
-        QVector<SurfaceVertex> selectedSeries;
+        QList<SurfaceVertex> selectedSeries;
 
         QRect sampleSpace = model->sampleSpace;
         int rowStart = sampleSpace.top();
@@ -2203,7 +2203,7 @@ void QQuickGraphsSurface::toggleSliceGraph()
         const bool ascendingZ = array.at(0).at(0).z() < array.at(maxRow).at(0).z();
         if (selectionMode().testFlag(QtGraphs3D::SelectionFlag::Row) && coord.y() != -1) {
             selectedSeries.reserve(columnCount * 2);
-            QVector<SurfaceVertex> list;
+            QList<SurfaceVertex> list;
             QSurfaceDataRow row = array.at(coord.y());
             for (int i = columnStart; i < columnEnd; i++) {
                 int index = ascendingX ? i : columnEnd - i + columnStart - 1;
@@ -2222,7 +2222,7 @@ void QQuickGraphsSurface::toggleSliceGraph()
 
         if (selectionMode().testFlag(QtGraphs3D::SelectionFlag::Column) && coord.x() != -1) {
             selectedSeries.reserve(rowCount * 2);
-            QVector<SurfaceVertex> list;
+            QList<SurfaceVertex> list;
             for (int i = rowStart; i < rowEnd; i++) {
                 int index = ascendingZ ? i : rowEnd - i + rowStart - 1;
                 QVector3D pos = getNormalizedVertex(array.at(index).at(coord.x()), false, false);
@@ -2243,7 +2243,7 @@ void QQuickGraphsSurface::toggleSliceGraph()
             material->setProperty("isColumn", true);
         }
 
-        QVector<quint32> indices;
+        QList<quint32> indices;
         indices.reserve(indexCount * 6);
         for (int i = 0; i < indexCount; i++) {
             indices.push_back(i + 1);
@@ -2266,7 +2266,7 @@ void QQuickGraphsSurface::toggleSliceGraph()
         geometry = model->sliceGridModel->geometry();
         geometry->setVertexData(vertexBuffer);
 
-        QVector<quint32> gridIndices;
+        QList<quint32> gridIndices;
         gridIndices.reserve(indexCount * 4);
         for (int i = 0; i < indexCount; i++) {
             gridIndices.push_back(i);
@@ -2336,7 +2336,7 @@ void QQuickGraphsSurface::createIndices(SurfaceModel *model, qsizetype columnCou
     qsizetype endY = rowCount - 1;
 
     qsizetype indexCount = 6 * endX * endY;
-    QVector<quint32> *indices = &model->indices;
+    QList<quint32> *indices = &model->indices;
 
     indices->clear();
     indices->reserve(indexCount);
@@ -3011,7 +3011,7 @@ QQuickGraphsSurface::createOffscreenSliceView(int index, int requestedIndex,
         int rowCount = sampleSpace.height();
         int columnCount = sampleSpace.width();
 
-        QVector<SurfaceVertex> selectedSeries;
+        QList<SurfaceVertex> selectedSeries;
         int indexCount = 0;
         const QSurfaceDataArray &array = model->series->dataArray();
         const qsizetype maxRow = array.size() - 1;
@@ -3028,7 +3028,7 @@ QQuickGraphsSurface::createOffscreenSliceView(int index, int requestedIndex,
 
         if (isRow && requestedIndex != -1) {
             selectedSeries.reserve(columnCount * 2);
-            QVector<SurfaceVertex> list;
+            QList<SurfaceVertex> list;
             QSurfaceDataRow row = array.at(requestedIndex);
             for (int i = columnStart; i < columnEnd; i++) {
                 int index = ascendingX ? i : columnEnd - i + columnStart - 1;
@@ -3047,7 +3047,7 @@ QQuickGraphsSurface::createOffscreenSliceView(int index, int requestedIndex,
 
         if (isColumn && requestedIndex != -1) {
             selectedSeries.reserve(rowCount * 2);
-            QVector<SurfaceVertex> list;
+            QList<SurfaceVertex> list;
             for (int i = rowStart; i < rowEnd; i++) {
                 int index = ascendingZ ? i : rowEnd - i + rowStart - 1;
                 QVector3D pos =
@@ -3065,7 +3065,7 @@ QQuickGraphsSurface::createOffscreenSliceView(int index, int requestedIndex,
             indexCount = rowCount - 1;
         }
 
-        QVector<quint32> indices;
+        QList<quint32> indices;
         indices.reserve(indexCount * 6);
         for (int i = 0; i < indexCount; i++) {
             indices.push_back(i + 1);
@@ -3116,7 +3116,7 @@ QQuickGraphsSurface::createOffscreenSliceView(int index, int requestedIndex,
             surfaceModel->setLocalOpacity(.0f);
 
         if (model->series->drawMode().testFlag(QSurface3DSeries::DrawWireframe)) {
-            QVector<quint32> gridIndices;
+            QList<quint32> gridIndices;
             gridIndices.reserve(indexCount * 4);
             for (int i = 0; i < indexCount; i++) {
                 gridIndices.push_back(i);
