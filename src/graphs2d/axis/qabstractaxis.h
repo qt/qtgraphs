@@ -53,6 +53,7 @@ class Q_GRAPHS_EXPORT QAbstractAxis : public QObject
     Q_PROPERTY(QColor color READ color WRITE setColor NOTIFY colorChanged REVISION(6, 11))
     Q_PROPERTY(QColor subColor READ subColor WRITE setSubColor NOTIFY subColorChanged
         REVISION(6, 11))
+
     QML_FOREIGN(QAbstractAxis)
     QML_UNCREATABLE("")
     QML_NAMED_ELEMENT(AbstractAxis)
