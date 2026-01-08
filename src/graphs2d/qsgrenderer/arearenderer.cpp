@@ -192,7 +192,6 @@ void AreaRenderer::handlePolish(QAreaSeries *series)
     int extraPointCount = lower ? 0 : 3;
 
     if (series->isVisible()) {
-        qreal prevUpperY = 0;
         Q_TRACE_SCOPE(QGraphs2DAreaRendererCalculateSeriesU);
         for (int i = 0, j = 0; i < upperPoints.size() + extraPointCount; ++i, ++j) {
             qreal x;
@@ -235,13 +234,8 @@ void AreaRenderer::handlePolish(QAreaSeries *series)
                     ++j;
                 } else {
                     painterPath.lineTo(x, y);
-                    if (i != 0 && i < upper->points().size()
-                    && upperY == 0 && prevUpperY == 0) {
-                        painterPath.moveTo(x, y);
-                    }
                 }
             }
-            prevUpperY = upperY;
         }
     }
 
