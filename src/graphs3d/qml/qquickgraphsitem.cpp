@@ -2183,6 +2183,59 @@ void QQuickGraphsItem::setTheme(QGraphsTheme *theme)
         connect(theme, &QGraphsTheme::update, this, &QQuickGraphsItem::emitNeedRender);
 
         m_activeTheme = theme;
+
+        connect(theme, &QGraphsTheme::colorSchemeChanged, this, [this](){
+            m_changeTracker.themeBackgroundColorChanged = true;
+            m_changeTracker.themePlotAreaBackgroundColorChanged = true;
+            m_changeTracker.themeLabelBackgroundColorChanged = true;
+            m_changeTracker.themeLabelTextColorChanged = true;
+        });
+        connect(theme, &QGraphsTheme::axisXChanged, this, [this](){
+            m_changeTracker.themeAxisXChanged = true;
+        });
+        connect(theme, &QGraphsTheme::axisYChanged, this, [this](){
+            m_changeTracker.themeAxisYChanged = true;
+        });
+        connect(theme, &QGraphsTheme::axisZChanged, this, [this](){
+            m_changeTracker.themeAxisZChanged = true;
+        });
+        connect(theme, &QGraphsTheme::backgroundColorChanged, this, [this](){
+            m_changeTracker.themeBackgroundColorChanged = true;
+        });
+        connect(theme, &QGraphsTheme::backgroundVisibleChanged, this, [this](){
+            m_changeTracker.themeBackgroundVisibilityChanged = true;
+        });
+        connect(theme, &QGraphsTheme::plotAreaBackgroundColorChanged, this, [this](){
+            m_changeTracker.themePlotAreaBackgroundColorChanged = true;
+        });
+        connect(theme, &QGraphsTheme::plotAreaBackgroundVisibleChanged, this, [this](){
+            m_changeTracker.themePlotAreaBackgroundVisibilityChanged = true;
+        });
+        connect(theme, &QGraphsTheme::gridVisibleChanged, this, [this](){
+            m_changeTracker.themeGridVisibilityChanged = true;
+        });
+        connect(theme, &QGraphsTheme::labelsVisibleChanged, this, [this](){
+            m_changeTracker.themeLabelsVisibilityChanged = true;
+        });
+        connect(theme, &QGraphsTheme::labelBackgroundColorChanged, this, [this](){
+            m_changeTracker.themeLabelBackgroundColorChanged = true;
+        });
+        connect(theme, &QGraphsTheme::labelTextColorChanged, this, [this](){
+            m_changeTracker.themeLabelTextColorChanged = true;
+        });
+        connect(theme, &QGraphsTheme::labelFontChanged, this, [this](){
+            m_changeTracker.themeLabelFontChanged = true;
+        });
+        connect(theme, &QGraphsTheme::labelBackgroundVisibleChanged, this, [this](){
+            m_changeTracker.themeLabelBackgroundVisibilityChanged = true;
+        });
+        connect(theme, &QGraphsTheme::labelBorderVisibleChanged, this, [this](){
+            m_changeTracker.themeLabelBorderVisibilityChanged = true;
+        });
+        connect(theme, &QGraphsTheme::gridChanged, this, [this](){
+            m_changeTracker.themeGridChanged = true;
+        });
+
         m_changeTracker.themeChanged = true;
         // Default theme can be created by theme manager, so ensure we have correct theme
         QGraphsTheme *newActiveTheme = m_activeTheme;
@@ -2688,6 +2741,13 @@ void QQuickGraphsItem::synchData()
         axisDirty = true;
     }
 
+    if (m_changeTracker.themeLabelsVisibilityChanged) {
+        repeaterX()->setVisible(theme()->labelsVisible());
+        repeaterY()->setVisible(theme()->labelsVisible());
+        repeaterZ()->setVisible(theme()->labelsVisible());
+        m_changeTracker.themeLabelsVisibilityChanged = false;
+    }
+
     if (m_changeTracker.axisXLabelVisibilityChanged) {
         repeaterX()->setVisible(axisX()->labelsVisible());
         m_changeTracker.axisXLabelVisibilityChanged = false;
@@ -2964,7 +3024,7 @@ void QQuickGraphsItem::synchData()
         m_shadowStrengthDirty = false;
     }
 
-    if (theme()->dirtyBits()->gridDirty) {
+    if (theme()->dirtyBits()->gridDirty || m_changeTracker.themeGridChanged) {
         QQmlListReference materialRef(m_background, "materials");
         Q_ASSERT(materialRef.size());
         float mainWidth = theme()->grid().mainWidth();
@@ -2998,10 +3058,12 @@ void QQuickGraphsItem::synchData()
         subgridMaterial->setBaseColor(gridSubColor);
 
         theme()->dirtyBits()->gridDirty = false;
+        m_changeTracker.themeGridChanged = false;
     }
 
     // label Adjustments
-    if (theme()->dirtyBits()->labelBackgroundColorDirty) {
+    if (theme()->dirtyBits()->labelBackgroundColorDirty
+            || m_changeTracker.themeLabelBackgroundColorChanged) {
         QColor labelBackgroundColor = theme()->labelBackgroundColor();
         changeLabelBackgroundColor(m_repeaterX, labelBackgroundColor);
         changeLabelBackgroundColor(m_repeaterY, labelBackgroundColor);
@@ -3019,9 +3081,11 @@ void QQuickGraphsItem::synchData()
             m_sliceVerticalTitleLabel->setProperty("backgroundColor", labelBackgroundColor);
         }
         theme()->dirtyBits()->labelBackgroundColorDirty = false;
+        m_changeTracker.themeLabelBackgroundColorChanged = false;
     }
 
-    if (theme()->dirtyBits()->labelBackgroundVisibilityDirty) {
+    if (theme()->dirtyBits()->labelBackgroundVisibilityDirty
+            || m_changeTracker.themeLabelsVisibilityChanged) {
         bool visible = theme()->isLabelBackgroundVisible();
         changeLabelBackgroundVisible(m_repeaterX, visible);
         changeLabelBackgroundVisible(m_repeaterY, visible);
@@ -3039,9 +3103,11 @@ void QQuickGraphsItem::synchData()
             m_sliceVerticalTitleLabel->setProperty("backgroundVisible", visible);
         }
         theme()->dirtyBits()->labelBackgroundVisibilityDirty = false;
+        m_changeTracker.themeLabelsVisibilityChanged = false;
     }
 
-    if (theme()->dirtyBits()->labelBorderVisibilityDirty) {
+    if (theme()->dirtyBits()->labelBorderVisibilityDirty
+            || m_changeTracker.themeLabelBorderVisibilityChanged) {
         bool visible = theme()->isLabelBorderVisible();
         changeLabelBorderVisible(m_repeaterX, visible);
         changeLabelBorderVisible(m_repeaterY, visible);
@@ -3059,18 +3125,20 @@ void QQuickGraphsItem::synchData()
             m_sliceVerticalTitleLabel->setProperty("borderVisible", visible);
         }
         theme()->dirtyBits()->labelBorderVisibilityDirty = false;
+        m_changeTracker.themeLabelBorderVisibilityChanged = false;
     }
 
-    if (theme()->dirtyBits()->labelTextColorDirty) {
+    if (theme()->dirtyBits()->labelTextColorDirty || m_changeTracker.themeLabelTextColorChanged) {
         QColor labelTextColor = theme()->labelTextColor();
         m_itemLabel->setProperty("labelTextColor", labelTextColor);
 
         if (m_sliceView && isSliceEnabled())
             m_sliceItemLabel->setProperty("labelTextColor", labelTextColor);
         theme()->dirtyBits()->labelTextColorDirty = false;
+        m_changeTracker.themeLabelTextColorChanged = false;
     }
 
-    if (theme()->dirtyBits()->axisXDirty) {
+    if (theme()->dirtyBits()->axisXDirty || m_changeTracker.themeAxisXChanged) {
         QColor labelTextColor = theme()->axisX().labelTextColor();
         changeLabelTextColor(m_repeaterX, labelTextColor);
         m_titleLabelX->setProperty("labelTextColor", labelTextColor);
@@ -3080,9 +3148,10 @@ void QQuickGraphsItem::synchData()
             m_sliceHorizontalTitleLabel->setProperty("labelTextColor", labelTextColor);
         }
         theme()->dirtyBits()->axisXDirty = false;
+        m_changeTracker.themeAxisXChanged = false;
     }
 
-    if (theme()->dirtyBits()->axisYDirty) {
+    if (theme()->dirtyBits()->axisYDirty || m_changeTracker.themeAxisYChanged) {
         QColor labelTextColor = theme()->axisY().labelTextColor();
         changeLabelTextColor(m_repeaterY, labelTextColor);
         m_titleLabelY->setProperty("labelTextColor", labelTextColor);
@@ -3091,9 +3160,10 @@ void QQuickGraphsItem::synchData()
             m_sliceVerticalTitleLabel->setProperty("labelTextColor", labelTextColor);
         }
         theme()->dirtyBits()->axisYDirty = false;
+        m_changeTracker.themeAxisYChanged = false;
     }
 
-    if (theme()->dirtyBits()->axisZDirty) {
+    if (theme()->dirtyBits()->axisZDirty || m_changeTracker.themeAxisZChanged) {
         QColor labelTextColor = theme()->axisZ().labelTextColor();
         changeLabelTextColor(m_repeaterZ, labelTextColor);
         m_titleLabelZ->setProperty("labelTextColor", labelTextColor);
@@ -3103,9 +3173,10 @@ void QQuickGraphsItem::synchData()
             m_sliceHorizontalTitleLabel->setProperty("labelTextColor", labelTextColor);
         }
         theme()->dirtyBits()->axisZDirty = false;
+        m_changeTracker.themeAxisZChanged = false;
     }
 
-    if (theme()->dirtyBits()->labelFontDirty) {
+    if (theme()->dirtyBits()->labelFontDirty || m_changeTracker.themeLabelFontChanged) {
         auto font = theme()->labelFont();
         changeLabelFont(m_repeaterX, font);
         changeLabelFont(m_repeaterY, font);
@@ -3125,10 +3196,12 @@ void QQuickGraphsItem::synchData()
             updateSliceLabels();
         }
         theme()->dirtyBits()->labelFontDirty = false;
+        m_changeTracker.themeLabelFontChanged = false;
         m_isSeriesVisualsDirty = true;
     }
 
-    if (theme()->dirtyBits()->labelsVisibilityDirty) {
+    if (theme()->dirtyBits()->labelsVisibilityDirty
+            || m_changeTracker.themeLabelsVisibilityChanged) {
         bool visible = theme()->labelsVisible();
         changeLabelsVisible(m_repeaterX, visible);
         changeLabelsVisible(m_repeaterY, visible);
@@ -3147,23 +3220,28 @@ void QQuickGraphsItem::synchData()
             m_sliceVerticalTitleLabel->setProperty("visible", visible);
         }
         theme()->dirtyBits()->labelsVisibilityDirty = false;
+        m_changeTracker.themeLabelsVisibilityChanged = false;
     }
 
     // Grid and background adjustments
-    if (theme()->dirtyBits()->plotAreaBackgroundColorDirty) {
+    if (theme()->dirtyBits()->plotAreaBackgroundColorDirty
+            || m_changeTracker.themePlotAreaBackgroundColorChanged) {
         QQmlListReference materialRef(m_background, "materials");
         Q_ASSERT(materialRef.size());
         auto material = static_cast<QQuick3DCustomMaterial *>(materialRef.at(0));
         material->setProperty("baseColor", theme()->plotAreaBackgroundColor());
         theme()->dirtyBits()->plotAreaBackgroundColorDirty = false;
+        m_changeTracker.themePlotAreaBackgroundColorChanged = false;
     }
 
-    if (theme()->dirtyBits()->plotAreaBackgroundVisibilityDirty) {
+    if (theme()->dirtyBits()->plotAreaBackgroundVisibilityDirty
+            || m_changeTracker.themePlotAreaBackgroundVisibilityChanged) {
         QQmlListReference materialRef(m_background, "materials");
         Q_ASSERT(materialRef.size());
         auto *material = static_cast<QQuick3DCustomMaterial *>(materialRef.at(0));
         material->setProperty("baseVisible", theme()->isPlotAreaBackgroundVisible());
         theme()->dirtyBits()->plotAreaBackgroundVisibilityDirty = false;
+        m_changeTracker.themePlotAreaBackgroundVisibilityChanged = false;
     }
 
     if (m_gridLineTypeDirty) {
@@ -3174,7 +3252,7 @@ void QQuickGraphsItem::synchData()
         m_gridLineTypeDirty = false;
     }
 
-    if (theme()->dirtyBits()->gridVisibilityDirty) {
+    if (theme()->dirtyBits()->gridVisibilityDirty || m_changeTracker.themeGridVisibilityChanged) {
         bool visible = theme()->isGridVisible();
         QQmlListReference materialRef(m_background, "materials");
         Q_ASSERT(materialRef.size());
@@ -3187,6 +3265,7 @@ void QQuickGraphsItem::synchData()
             m_sliceGridGeometryModel->setVisible(visible);
 
         theme()->dirtyBits()->gridVisibilityDirty = false;
+        m_changeTracker.themeGridVisibilityChanged = false;
     }
 
     if (theme()->dirtyBits()->singleHighlightColorDirty) {

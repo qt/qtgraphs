@@ -103,6 +103,21 @@ struct Abstract3DChangeBitField
     bool radialLabelOffsetChanged : 1;
     bool marginChanged : 1;
     bool cameraChanged : 1;
+    bool themeBackgroundColorChanged : 1;
+    bool themeBackgroundVisibilityChanged : 1;
+    bool themeAxisXChanged : 1;
+    bool themeAxisYChanged : 1;
+    bool themeAxisZChanged : 1;
+    bool themeGridChanged : 1;
+    bool themeGridVisibilityChanged : 1;
+    bool themeLabelBackgroundColorChanged : 1;
+    bool themeLabelBackgroundVisibilityChanged : 1;
+    bool themeLabelBorderVisibilityChanged : 1;
+    bool themeLabelFontChanged : 1;
+    bool themeLabelTextColorChanged : 1;
+    bool themeLabelsVisibilityChanged : 1;
+    bool themePlotAreaBackgroundColorChanged : 1;
+    bool themePlotAreaBackgroundVisibilityChanged : 1;
 
     Abstract3DChangeBitField()
         : themeChanged(true)
@@ -159,6 +174,21 @@ struct Abstract3DChangeBitField
         , radialLabelOffsetChanged(true)
         , marginChanged(true)
         , cameraChanged(true)
+        , themeBackgroundColorChanged(true)
+        , themeBackgroundVisibilityChanged(true)
+        , themeAxisXChanged(true)
+        , themeAxisYChanged(true)
+        , themeAxisZChanged(true)
+        , themeGridChanged(true)
+        , themeGridVisibilityChanged(true)
+        , themeLabelBackgroundColorChanged(true)
+        , themeLabelBackgroundVisibilityChanged(true)
+        , themeLabelBorderVisibilityChanged(true)
+        , themeLabelFontChanged(true)
+        , themeLabelTextColorChanged(true)
+        , themeLabelsVisibilityChanged(true)
+        , themePlotAreaBackgroundColorChanged(true)
+        , themePlotAreaBackgroundVisibilityChanged(true)
     {}
 };
 
