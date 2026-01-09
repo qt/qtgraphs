@@ -205,7 +205,7 @@ void QSplineSeries::setCapStyle(Qt::PenCapStyle newCapStyle)
     emit update();
 }
 
-bool QSplineSeries::optimized() const
+bool QSplineSeries::isOptimized() const
 {
     Q_D(const QSplineSeries);
     return d->m_optimized;
