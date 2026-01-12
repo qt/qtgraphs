@@ -43,6 +43,7 @@ public:
 
     void updateData(bool clearHidden = false);
     void updateSeries(QPieSeries *series);
+    void handleSliceChange();
 
 private:
     friend class QPieSeries;

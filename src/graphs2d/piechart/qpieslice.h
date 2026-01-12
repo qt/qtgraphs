@@ -149,9 +149,6 @@ Q_SIGNALS:
     Q_REVISION(6, 11) void subSlicesSumChanged(qreal sum);
     Q_REVISION(6, 11) void subSlicesRatioChanged(qreal subSlicesRatio);
 
-private Q_SLOTS:
-    void handleSliceChange();
-
 private:
     friend class PieRenderer;
     friend class QPieSeries;

@@ -898,7 +898,7 @@ bool QPieSlice::replace(qsizetype index, QPieSlice *slice)
 
     d->updateData();
 
-    QObject::connect(slice, SIGNAL(sliceChanged()), this, SLOT(handleSliceChange()));
+    QObjectPrivate::connect(slice, &QPieSlice::sliceChanged, d, &QPieSlicePrivate::handleSliceChange);
     emit subSlicesReplaced(QList<QPieSlice *>() << slice);
 
     return true;
@@ -980,7 +980,7 @@ bool QPieSlice::replace(QPieSlice *oldSlice, QPieSlice *newSlice)
 
             d->updateData();
 
-            QObject::connect(newSlice, SIGNAL(sliceChanged()), this, SLOT(handleSliceChange()));
+            QObjectPrivate::connect(newSlice, &QPieSlice::sliceChanged, d, &QPieSlicePrivate::handleSliceChange);
             emit subSlicesReplaced(QList<QPieSlice *>() << newSlice);
 
             return true;
@@ -1017,7 +1017,7 @@ bool QPieSlice::replaceAll(const QList<QPieSlice *> &slices)
     for (auto &slice : slices) {
         slice->setParent(this);
         slice->d_func()->updateSeries(d->m_series);
-        QObject::connect(slice, SIGNAL(sliceChanged()), this, SLOT(handleSliceChange()));
+        QObjectPrivate::connect(slice, &QPieSlice::sliceChanged, d, &QPieSlicePrivate::handleSliceChange);
     }
 
     d->m_subSlices = slices;
@@ -1068,7 +1068,7 @@ bool QPieSlice::append(const QList<QPieSlice *> &slices)
     d->updateData();
 
     for (auto *s : slices)
-        QObject::connect(s, SIGNAL(sliceChanged()), this, SLOT(handleSliceChange()));
+        QObjectPrivate::connect(s, &QPieSlice::sliceChanged, d, &QPieSlicePrivate::handleSliceChange);
 
     emit subSlicesAdded(slices);
     emit subSlicesCountChanged(subSlicesCount());
@@ -1132,7 +1132,7 @@ bool QPieSlice::insert(qsizetype index, QPieSlice *slice)
 
     d->updateData();
 
-    connect(slice, SIGNAL(sliceChanged()), this, SLOT(handleSliceChange()));
+    QObjectPrivate::connect(slice, &QPieSlice::sliceChanged, d, &QPieSlicePrivate::handleSliceChange);
 
     emit subSlicesAdded(QList<QPieSlice *>() << slice);
     emit subSlicesCountChanged(subSlicesCount());
@@ -1276,12 +1276,13 @@ qreal QPieSlice::subSlicesRatio() const
     return d->m_subSlicesRatio;
 }
 
-void QPieSlice::handleSliceChange()
+void QPieSlicePrivate::handleSliceChange()
 {
-    QPieSlice *pSlice = qobject_cast<QPieSlice *>(sender());
-    Q_D(QPieSlice);
-    Q_ASSERT(d->m_subSlices.contains(pSlice));
-    d->updateData();
+    Q_Q(QPieSlice);
+
+    QPieSlice *pSlice = qobject_cast<QPieSlice *>(q->sender());
+    Q_ASSERT(m_subSlices.contains(pSlice));
+    updateData();
 }
 
 QPieSlicePrivate::QPieSlicePrivate()
