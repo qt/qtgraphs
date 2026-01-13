@@ -991,7 +991,7 @@ bool QQuickGraphsScatter::isDotPositionInAxisRange(QVector3D dotPos, QScatter3DS
     float axisMinY = yAxis->min() - cutoffMargin;
     float axisMinZ = zAxis->min() - cutoffMargin;
 
-    float axisMaxX = zAxis->max() + cutoffMargin;
+    float axisMaxX = xAxis->max() + cutoffMargin;
     float axisMaxY = yAxis->max() + cutoffMargin;
     float axisMaxZ = zAxis->max() + cutoffMargin;
 
