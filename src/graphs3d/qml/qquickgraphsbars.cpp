@@ -3070,6 +3070,7 @@ void QQuickGraphsBars::updateBarSpecs(float thicknessRatio, QSizeF spacing, bool
 
     // Calculate here and at setting sample space
     calculateSceneScalingFactors();
+    setSeriesVisualsDirty(true);
 }
 
 void QQuickGraphsBars::updateBarSeriesMargin(QSizeF margin)
