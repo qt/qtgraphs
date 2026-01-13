@@ -2777,7 +2777,6 @@ void QQuickGraphsItem::synchData()
         repeaterX()->setVisible(theme()->labelsVisible());
         repeaterY()->setVisible(theme()->labelsVisible());
         repeaterZ()->setVisible(theme()->labelsVisible());
-        m_changeTracker.themeLabelsVisibilityChanged = false;
     }
 
     if (m_changeTracker.axisXLabelVisibilityChanged) {
@@ -3121,7 +3120,7 @@ void QQuickGraphsItem::synchData()
     }
 
     if (theme()->dirtyBits()->labelBackgroundVisibilityDirty
-            || m_changeTracker.themeLabelsVisibilityChanged) {
+            || m_changeTracker.themeBackgroundVisibilityChanged) {
         bool visible = theme()->isLabelBackgroundVisible();
         changeLabelBackgroundVisible(m_repeaterX, visible);
         changeLabelBackgroundVisible(m_repeaterY, visible);
@@ -3139,7 +3138,7 @@ void QQuickGraphsItem::synchData()
             m_sliceVerticalTitleLabel->setProperty("backgroundVisible", visible);
         }
         theme()->dirtyBits()->labelBackgroundVisibilityDirty = false;
-        m_changeTracker.themeLabelsVisibilityChanged = false;
+        m_changeTracker.themeBackgroundVisibilityChanged = false;
     }
 
     if (theme()->dirtyBits()->labelBorderVisibilityDirty
@@ -3310,10 +3309,13 @@ void QQuickGraphsItem::synchData()
     }
 
     // Other adjustments
-    if (theme()->dirtyBits()->backgroundColorDirty || theme()->dirtyBits()->backgroundVisibilityDirty) {
+    if (theme()->dirtyBits()->backgroundColorDirty
+            || theme()->dirtyBits()->backgroundVisibilityDirty
+            || m_changeTracker.themeBackgroundColorChanged) {
         updateBackgroundColor();
         theme()->dirtyBits()->backgroundColorDirty = false;
         theme()->dirtyBits()->backgroundVisibilityDirty = false;
+        m_changeTracker.themeBackgroundColorChanged = false;
     }
 
     if (isCustomDataDirty()) {
