@@ -646,7 +646,7 @@ QValue3DAxis *QSurface3DSeries::axisX() const {
     return d->m_axisX;
 }
 
-void QSurface3DSeries::releaseAxisX()
+void QSurface3DSeries::resetAxisX()
 {
     Q_D(QSurface3DSeries);
     if (!d->m_axisX) {
@@ -654,7 +654,7 @@ void QSurface3DSeries::releaseAxisX()
             << "axis X does not set";
         return;
     }
-    d->releaseAxisX();
+    d->resetAxisX();
     emit axisXChanged(nullptr);
 }
 
@@ -682,7 +682,7 @@ QValue3DAxis *QSurface3DSeries::axisY() const {
     return d->m_axisY;
 }
 
-void QSurface3DSeries::releaseAxisY()
+void QSurface3DSeries::resetAxisY()
 {
     Q_D(QSurface3DSeries);
     if (!d->m_axisY) {
@@ -690,7 +690,7 @@ void QSurface3DSeries::releaseAxisY()
             << "axis y does not set";
         return;
     }
-    d->releaseAxisY();
+    d->resetAxisY();
     emit axisYChanged(nullptr);
 }
 
@@ -718,7 +718,7 @@ QValue3DAxis *QSurface3DSeries::axisZ() const {
     return d->m_axisZ;
 }
 
-void QSurface3DSeries::releaseAxisZ()
+void QSurface3DSeries::resetAxisZ()
 {
     Q_D(QSurface3DSeries);
     if (!d->m_axisZ) {
@@ -726,7 +726,7 @@ void QSurface3DSeries::releaseAxisZ()
             << "axis z does not set";
         return;
     }
-    d->releaseAxisZ();
+    d->resetAxisZ();
     emit axisZChanged(nullptr);
 }
 
@@ -936,7 +936,7 @@ void QSurface3DSeriesPrivate::setAxisX(QValue3DAxis *axis)
     m_axisX = axis;
 }
 
-void QSurface3DSeriesPrivate::releaseAxisX()
+void QSurface3DSeriesPrivate::resetAxisX()
 {
     m_axisX = nullptr;
 }
@@ -946,7 +946,7 @@ void QSurface3DSeriesPrivate::setAxisY(QValue3DAxis *axis)
     m_axisY = axis;
 }
 
-void QSurface3DSeriesPrivate::releaseAxisY()
+void QSurface3DSeriesPrivate::resetAxisY()
 {
     m_axisY = nullptr;
 }
@@ -956,7 +956,7 @@ void QSurface3DSeriesPrivate::setAxisZ(QValue3DAxis *axis)
     m_axisZ = axis;
 }
 
-void QSurface3DSeriesPrivate::releaseAxisZ()
+void QSurface3DSeriesPrivate::resetAxisZ()
 {
     m_axisZ = nullptr;
 }

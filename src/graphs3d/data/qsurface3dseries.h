@@ -33,9 +33,12 @@ class Q_GRAPHS_EXPORT QSurface3DSeries : public QAbstract3DSeries
     Q_PROPERTY(
         QSurfaceDataArray dataArray READ dataArray WRITE setDataArray NOTIFY dataArrayChanged FINAL)
     Q_PROPERTY(bool rowsSanitized READ rowsSanitized WRITE setRowsSanitized NOTIFY rowsSanitizedChanged REVISION(6, 11))
-    Q_PROPERTY(QValue3DAxis *axisX READ axisX WRITE setAxisX NOTIFY axisXChanged REVISION(6, 11))
-    Q_PROPERTY(QValue3DAxis *axisY READ axisY WRITE setAxisY NOTIFY axisYChanged REVISION(6, 11))
-    Q_PROPERTY(QValue3DAxis *axisZ READ axisZ WRITE setAxisZ NOTIFY axisZChanged REVISION(6, 11))
+    Q_PROPERTY(QValue3DAxis *axisX READ axisX WRITE setAxisX RESET resetAxisX NOTIFY axisXChanged
+                       REVISION(6, 11))
+    Q_PROPERTY(QValue3DAxis *axisY READ axisY WRITE setAxisY RESET resetAxisY NOTIFY axisYChanged
+                       REVISION(6, 11))
+    Q_PROPERTY(QValue3DAxis *axisZ READ axisZ WRITE setAxisZ RESET resetAxisZ NOTIFY axisZChanged
+                       REVISION(6, 11))
     QML_ELEMENT
     QML_UNCREATABLE("Trying to create uncreatable: QSurface3DSeries, use Surface3DSeries instead.")
 
@@ -94,9 +97,9 @@ public:
     QValue3DAxis *axisX() const;
     QValue3DAxis *axisY() const;
     QValue3DAxis *axisZ() const;
-    Q_REVISION(6, 11) Q_INVOKABLE void releaseAxisX();
-    Q_REVISION(6, 11) Q_INVOKABLE void releaseAxisY();
-    Q_REVISION(6, 11) Q_INVOKABLE void releaseAxisZ();
+    void resetAxisX();
+    void resetAxisY();
+    void resetAxisZ();
 
 Q_SIGNALS:
     void dataProxyChanged(QSurfaceDataProxy *proxy);

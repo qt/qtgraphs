@@ -35,10 +35,12 @@ class Q_GRAPHS_EXPORT QBar3DSeries : public QAbstract3DSeries
         QBarDataArray dataArray READ dataArray WRITE setDataArray NOTIFY dataArrayChanged FINAL)
     Q_PROPERTY(bool valueColoringEnabled READ isValueColoringEnabled WRITE setValueColoringEnabled
                    NOTIFY valueColoringEnabledChanged REVISION(6, 9))
-    Q_PROPERTY(QCategory3DAxis *rowAxis READ rowAxis WRITE setRowAxis NOTIFY rowAxisChanged REVISION(6, 11))
-    Q_PROPERTY(QValue3DAxis *valueAxis READ valueAxis WRITE setValueAxis NOTIFY valueAxisChanged REVISION(6, 11))
-    Q_PROPERTY(
-        QCategory3DAxis *columnAxis READ columnAxis WRITE setColumnAxis NOTIFY columnAxisChanged REVISION(6, 11))
+    Q_PROPERTY(QCategory3DAxis *rowAxis READ rowAxis WRITE setRowAxis RESET resetRowAxis NOTIFY
+                       rowAxisChanged REVISION(6, 11))
+    Q_PROPERTY(QValue3DAxis *valueAxis READ valueAxis WRITE setValueAxis RESET resetValueAxis NOTIFY
+                       valueAxisChanged REVISION(6, 11))
+    Q_PROPERTY(QCategory3DAxis *columnAxis READ columnAxis WRITE setColumnAxis RESET resetColumnAxis
+                       NOTIFY columnAxisChanged REVISION(6, 11))
     QML_ELEMENT
     QML_UNCREATABLE("Trying to create uncreatable: QBar3DSeries, use Bar3DSeries instead.")
 public:
@@ -83,9 +85,9 @@ public:
     QCategory3DAxis *rowAxis() const;
     QValue3DAxis *valueAxis() const;
     QCategory3DAxis *columnAxis() const;
-    Q_REVISION(6, 11) Q_INVOKABLE void releaseRowAxis();
-    Q_REVISION(6, 11) Q_INVOKABLE void releaseValueAxis();
-    Q_REVISION(6, 11) Q_INVOKABLE void releaseColumnAxis();
+    void resetRowAxis();
+    void resetValueAxis();
+    void resetColumnAxis();
 
 
 Q_SIGNALS:

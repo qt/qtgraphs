@@ -43,9 +43,9 @@ public:
     void setAxisX(QValue3DAxis *axis);
     void setAxisY(QValue3DAxis *axis);
     void setAxisZ(QValue3DAxis *axis);
-    void releaseAxisX();
-    void releaseAxisY();
-    void releaseAxisZ();
+    void resetAxisX();
+    void resetAxisY();
+    void resetAxisZ();
 
 private:
     qsizetype m_selectedItem;

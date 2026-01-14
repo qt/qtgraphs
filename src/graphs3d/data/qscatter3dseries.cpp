@@ -222,7 +222,7 @@ QValue3DAxis *QScatter3DSeries::axisX() const {
     return d->m_axisX;
 }
 
-void QScatter3DSeries::releaseAxisX()
+void QScatter3DSeries::resetAxisX()
 {
     Q_D(QScatter3DSeries);
     if (!d->m_axisX) {
@@ -230,7 +230,7 @@ void QScatter3DSeries::releaseAxisX()
             << "axis X is not set";
         return;
     }
-    d->releaseAxisX();
+    d->resetAxisX();
     emit axisXChanged(nullptr);
 }
 
@@ -258,7 +258,7 @@ QValue3DAxis *QScatter3DSeries::axisY() const {
     return d->m_axisY;
 }
 
-void QScatter3DSeries::releaseAxisY()
+void QScatter3DSeries::resetAxisY()
 {
     Q_D(QScatter3DSeries);
     if (!d->m_axisY) {
@@ -266,7 +266,7 @@ void QScatter3DSeries::releaseAxisY()
             << "axis Y is not set";
         return;
     }
-    d->releaseAxisY();
+    d->resetAxisY();
     emit axisYChanged(nullptr);
 }
 
@@ -294,7 +294,7 @@ QValue3DAxis *QScatter3DSeries::axisZ() const {
     return d->m_axisZ;
 }
 
-void QScatter3DSeries::releaseAxisZ()
+void QScatter3DSeries::resetAxisZ()
 {
     Q_D(QScatter3DSeries);
     if (!d->m_axisZ) {
@@ -302,7 +302,7 @@ void QScatter3DSeries::releaseAxisZ()
             << "axis Z is not set";
         return;
     }
-    d->releaseAxisZ();
+    d->resetAxisZ();
     emit axisZChanged(nullptr);
 }
 
@@ -674,7 +674,7 @@ void QScatter3DSeriesPrivate::setAxisX(QValue3DAxis *axis)
     m_axisX = axis;
 }
 
-void QScatter3DSeriesPrivate::releaseAxisX()
+void QScatter3DSeriesPrivate::resetAxisX()
 {
     m_axisX = nullptr;
 }
@@ -684,7 +684,7 @@ void QScatter3DSeriesPrivate::setAxisY(QValue3DAxis *axis)
     m_axisY = axis;
 }
 
-void QScatter3DSeriesPrivate::releaseAxisY()
+void QScatter3DSeriesPrivate::resetAxisY()
 {
     m_axisY = nullptr;
 }
@@ -694,7 +694,7 @@ void QScatter3DSeriesPrivate::setAxisZ(QValue3DAxis *axis)
     m_axisZ = axis;
 }
 
-void QScatter3DSeriesPrivate::releaseAxisZ()
+void QScatter3DSeriesPrivate::resetAxisZ()
 {
     m_axisZ = nullptr;
 }

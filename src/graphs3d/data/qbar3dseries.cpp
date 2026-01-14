@@ -632,7 +632,7 @@ QCategory3DAxis *QBar3DSeries::rowAxis() const
     return d->m_rowAxis;
 }
 
-void QBar3DSeries::releaseRowAxis()
+void QBar3DSeries::resetRowAxis()
 {
     Q_D(QBar3DSeries);
     if (!d->m_rowAxis) {
@@ -640,7 +640,7 @@ void QBar3DSeries::releaseRowAxis()
             << "row axis not set";
         return;
     }
-    d->releaseRowAxis();
+    d->resetRowAxis();
     emit rowAxisChanged(nullptr);
 }
 
@@ -671,7 +671,7 @@ QValue3DAxis *QBar3DSeries::valueAxis() const
     return d->m_valueAxis;
 }
 
-void QBar3DSeries::releaseValueAxis()
+void QBar3DSeries::resetValueAxis()
 {
     Q_D(QBar3DSeries);
     if (!d->m_valueAxis) {
@@ -679,7 +679,7 @@ void QBar3DSeries::releaseValueAxis()
             << "value axis not set";
         return;
     }
-    d->releaseValueAxis();
+    d->resetValueAxis();
     emit valueAxisChanged(nullptr);
 }
 
@@ -710,7 +710,7 @@ QCategory3DAxis *QBar3DSeries::columnAxis() const
     return d->m_columnAxis;
 }
 
-void QBar3DSeries::releaseColumnAxis()
+void QBar3DSeries::resetColumnAxis()
 {
     Q_D(QBar3DSeries);
     if (!d->m_columnAxis) {
@@ -718,7 +718,7 @@ void QBar3DSeries::releaseColumnAxis()
             << "column axis not set";
         return;
     }
-    d->releaseColumnAxis();
+    d->resetColumnAxis();
     emit columnAxisChanged(nullptr);
 }
 
@@ -1025,7 +1025,7 @@ void QBar3DSeriesPrivate::setRowAxis(QCategory3DAxis *axis)
     m_rowAxis = axis;
 }
 
-void QBar3DSeriesPrivate::releaseRowAxis()
+void QBar3DSeriesPrivate::resetRowAxis()
 {
     m_rowAxis = nullptr;
 }
@@ -1035,7 +1035,7 @@ void QBar3DSeriesPrivate::setValueAxis(QValue3DAxis *axis)
     m_valueAxis = axis;
 }
 
-void QBar3DSeriesPrivate::releaseValueAxis()
+void QBar3DSeriesPrivate::resetValueAxis()
 {
     m_valueAxis = nullptr;
 }
@@ -1045,7 +1045,7 @@ void QBar3DSeriesPrivate::setColumnAxis(QCategory3DAxis *axis)
     m_columnAxis = axis;
 }
 
-void QBar3DSeriesPrivate::releaseColumnAxis()
+void QBar3DSeriesPrivate::resetColumnAxis()
 {
     m_columnAxis = nullptr;
 }
