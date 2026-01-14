@@ -56,9 +56,9 @@ public:
     void setRowAxis(QCategory3DAxis *axis);
     void setValueAxis(QValue3DAxis *axis);
     void setColumnAxis(QCategory3DAxis *axis);
-    void releaseRowAxis();
-    void releaseValueAxis();
-    void releaseColumnAxis();
+    void resetRowAxis();
+    void resetValueAxis();
+    void resetColumnAxis();
 
 private:
     QBarDataArray m_dataArray;

@@ -21,7 +21,7 @@ private slots:
 
     void initialProperties();
     void initializeProperties();
-    void releaseAxes();
+    void resetAxes();
 
 private:
 
@@ -91,7 +91,7 @@ void tst_seriesaxis::initializeProperties()
     QCOMPARE(valueAxisSpy.size(), 1);
 }
 
-void tst_seriesaxis::releaseAxes()
+void tst_seriesaxis::resetAxes()
 {
     m_barSeries->setRowAxis(m_rowAxis);
     m_barSeries->setColumnAxis(m_columnAxis);
@@ -105,9 +105,9 @@ void tst_seriesaxis::releaseAxes()
     QSignalSpy columnAxisSpy(m_barSeries, &QBar3DSeries::columnAxisChanged);
     QSignalSpy valueAxisSpy(m_barSeries, &QBar3DSeries::valueAxisChanged);
 
-    m_barSeries->releaseRowAxis();
-    m_barSeries->releaseColumnAxis();
-    m_barSeries->releaseValueAxis();
+    m_barSeries->resetRowAxis();
+    m_barSeries->resetColumnAxis();
+    m_barSeries->resetValueAxis();
 
     QCOMPARE(m_barSeries->rowAxis(), nullptr);
     QCOMPARE(m_barSeries->columnAxis(), nullptr);

@@ -21,7 +21,7 @@ private slots:
 
     void initialProperties();
     void initializeProperties();
-    void releaseAxes();
+    void resetAxes();
 
 private:
     QValue3DAxis *m_axisX;
@@ -89,7 +89,7 @@ void tst_seriesaxis::initializeProperties()
     QCOMPARE(axisZSpy.size(), 1);
 }
 
-void tst_seriesaxis::releaseAxes()
+void tst_seriesaxis::resetAxes()
 {
     m_surfaceSeries->setAxisX(m_axisX);
     m_surfaceSeries->setAxisY(m_axisY);
@@ -103,9 +103,9 @@ void tst_seriesaxis::releaseAxes()
     QSignalSpy axisYSpy(m_surfaceSeries, &QSurface3DSeries::axisYChanged);
     QSignalSpy axisZSpy(m_surfaceSeries, &QSurface3DSeries::axisZChanged);
 
-    m_surfaceSeries->releaseAxisX();
-    m_surfaceSeries->releaseAxisY();
-    m_surfaceSeries->releaseAxisZ();
+    m_surfaceSeries->resetAxisX();
+    m_surfaceSeries->resetAxisY();
+    m_surfaceSeries->resetAxisZ();
 
     QCOMPARE(m_surfaceSeries->axisX(), nullptr);
     QCOMPARE(m_surfaceSeries->axisY(), nullptr);

@@ -117,13 +117,13 @@ Item {
             compare(barColumnSpy.count, 1)
             compare(barValueSpy.count, 1)
 
-            surfChange.releaseAxisX()
-            surfChange.releaseAxisY()
-            surfChange.releaseAxisZ()
+            surfChange.axisX = undefined
+            surfChange.axisY = undefined
+            surfChange.axisZ = undefined
 
-            barChange.releaseRowAxis();
-            barChange.releaseColumnAxis();
-            barChange.releaseValueAxis();
+            barChange.rowAxis = undefined
+            barChange.columnAxis = undefined
+            barChange.valueAxis = undefined
 
             compare(surfChange.axisX, null)
             compare(surfChange.axisY, null)
