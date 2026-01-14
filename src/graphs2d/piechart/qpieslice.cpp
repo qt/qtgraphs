@@ -5,8 +5,11 @@
 
 #include <QtGraphs/qpieseries.h>
 #include <QtQuick/private/qquicktext_p.h>
-#include <QtQuickShapes/private/qquickshape_p.h>
 #include <private/qpieslice_p.h>
+
+#ifdef USE_SHAPE_BACKEND
+#include <QtQuickShapes/private/qquickshape_p.h>
+#endif
 
 QT_BEGIN_NAMESPACE
 
@@ -1293,18 +1296,22 @@ QPieSlicePrivate::QPieSlicePrivate()
     , m_explodeDistanceFactor(.15)
     , m_labelDirty(false)
     , m_borderWidth(0.0)
-    , m_shapePath(new QQuickShapePath)
     , m_labelItem(new QQuickText)
+#ifdef USE_SHAPE_BACKEND
+    , m_shapePath(new QQuickShapePath)
     , m_labelShape(new QQuickShape)
     , m_labelPath(new QQuickShapePath)
+#endif
 {
     m_labelItem->setColor(Qt::transparent);
     m_labelItem->setVisible(m_isLabelVisible);
+#ifdef USE_SHAPE_BACKEND
     m_labelShape->setVisible(m_isLabelVisible);
     m_labelPath->setParent(m_labelShape);
     auto data = m_labelShape->data();
     data.append(&data, m_labelPath);
     m_labelPath->setFillColor(Qt::transparent);
+#endif
 }
 
 QPieSlicePrivate::~QPieSlicePrivate() {}
@@ -1410,8 +1417,10 @@ void QPieSlicePrivate::setLabelVisible(bool visible, bool forceHidden)
     m_hideLabel = forceHidden;
     m_isLabelVisible = (visible && !m_hideLabel);
     m_labelItem->setVisible(m_isLabelVisible);
+#ifdef USE_SHAPE_BACKEND
     if (m_labelPosition == QPieSlice::LabelPosition::Outside)
         m_labelShape->setVisible(m_isLabelVisible);
+#endif
 }
 
 void QPieSlicePrivate::setLabelPosition(QPieSlice::LabelPosition position)
@@ -1419,7 +1428,10 @@ void QPieSlicePrivate::setLabelPosition(QPieSlice::LabelPosition position)
     m_labelPosition = position;
 
     if (position == QPieSlice::LabelPosition::Outside) {
+#ifdef USE_SHAPE_BACKEND
         m_labelShape->setVisible(m_isLabelVisible);
+#endif
+        m_isLabelPathVisible = m_isLabelVisible;
         qreal radian = qDegreesToRadians(m_startAngle + (m_angleSpan * .5));
         QQuickText *labelItem = m_labelItem;
         qreal height = labelItem->height();
@@ -1431,7 +1443,10 @@ void QPieSlicePrivate::setLabelPosition(QPieSlice::LabelPosition position)
         labelItem->setY(m_labelArm.y() - height);
         labelItem->setRotation(0);
     } else {
+#ifdef USE_SHAPE_BACKEND
         m_labelShape->setVisible(false);
+#endif
+        m_isLabelPathVisible = false;
         qreal centerX = (m_largeArc.x() + m_centerLine.x()) / 2.0;
         qreal centerY = (m_largeArc.y() + m_centerLine.y()) / 2.0;
         QQuickText *labelItem = m_labelItem;

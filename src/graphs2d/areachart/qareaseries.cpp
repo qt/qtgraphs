@@ -2,9 +2,9 @@
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 // Qt-Security score:significant reason:default
 
-
-#include "graphs2d/qabstractseries_p.h"
 #include <QtGraphs/qareaseries.h>
+#include <QtQuickShapes/private/qquickshape_p.h>
+#include "graphs2d/qabstractseries_p.h"
 #include <private/qareaseries_p.h>
 #include <private/qgraphsview_p.h>
 

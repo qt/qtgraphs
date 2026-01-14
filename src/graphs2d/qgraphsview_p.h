@@ -40,6 +40,9 @@ class AreaRenderer;
 class CustomRenderer;
 class QQuickPinchHandler;
 class QCustomSeries;
+#ifdef USE_PAINTER_BACKEND
+class QCPainterItem;
+#endif
 
 class Q_GRAPHS_EXPORT QGraphsView : public QQuickItem
 {
@@ -79,6 +82,8 @@ class Q_GRAPHS_EXPORT QGraphsView : public QQuickItem
                    zoomAreaEnabledChanged REVISION(6, 9))
     Q_PROPERTY(QQmlComponent *zoomAreaDelegate READ zoomAreaDelegate WRITE setZoomAreaDelegate
                    NOTIFY zoomAreaDelegateChanged REVISION(6, 9))
+
+    Q_PROPERTY(bool useCanvasPainter READ useCanvasPainter WRITE setUseCanvasPainter NOTIFY useCanvasPainterChanged REVISION(6, 12))
 
     Q_CLASSINFO("DefaultProperty", "seriesList")
     QML_NAMED_ELEMENT(GraphsView)
@@ -149,6 +154,10 @@ public:
 #ifdef USE_CUSTOMGRAPH
     void createCustomRenderer();
 #endif
+#ifdef USE_PAINTER_BACKEND
+    void createCanvasPainter();
+    void removeCanvasPainter();
+#endif
 
     qreal axisXSmoothing() const;
     void setAxisXSmoothing(qreal smoothing);
@@ -208,6 +217,9 @@ public:
 
     CustomRenderer *customRenderer() const;
 
+    bool useCanvasPainter() const;
+    void setUseCanvasPainter(bool newUseCanvasPainter);
+
 protected:
     void handleHoverEnter(const QString &seriesName, QPointF position, QPointF value);
     void handleHoverExit(const QString &seriesName, QPointF position);
@@ -256,11 +268,14 @@ Q_SIGNALS:
 
     Q_REVISION(6, 9) void zoomSensitivityChanged();
 
+    Q_REVISION(6, 12) void useCanvasPainterChanged();
+
 private:
     friend class AxisRenderer;
     friend class BarsRenderer;
     friend class PointRenderer;
     friend class AreaRenderer;
+    friend class PieRenderer;
     friend class CustomRenderer;
     friend class QAbstractAxis;
 
@@ -286,6 +301,9 @@ private:
     QList<QObject *> m_seriesList;
     QHash<int, QList<QAbstractSeries *>> m_cleanupSeriesList;
     QQuickRectangle *m_backgroundRectangle = nullptr;
+#ifdef USE_PAINTER_BACKEND
+    QCPainterItem *m_painterItem = nullptr;
+#endif
 
     QAbstractAxis *m_axisX = nullptr;
     QAbstractAxis *m_axisY = nullptr;
@@ -350,6 +368,14 @@ private:
     QQmlComponent *m_zoomAreaDelegate = nullptr;
     QQuickItem *m_zoomAreaItem = nullptr;
     QQuickPinchHandler *m_pinchHandler = nullptr;
+
+#ifdef USE_SHAPE_BACKEND
+    bool m_useCanvasPainter = false;
+#elif USE_PAINTER_BACKEND
+    bool m_useCanvasPainter = true;
+#else
+    bool m_useCanvasPainter = false;
+#endif
 };
 
 QT_END_NAMESPACE

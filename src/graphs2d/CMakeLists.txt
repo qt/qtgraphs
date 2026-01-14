@@ -9,6 +9,8 @@ qt_configure_add_summary_entry(ARGS "graphs-2d-line")
 qt_configure_add_summary_entry(ARGS "graphs-2d-scatter")
 qt_configure_add_summary_entry(ARGS "graphs-2d-spline")
 qt_configure_add_summary_entry(ARGS "graphs-2d-custom")
+qt_configure_add_summary_entry(ARGS "graphs-2d-high-quality-backend")
+qt_configure_add_summary_entry(ARGS "graphs-2d-high-performance-backend")
 qt_configure_end_summary_section() # end of "Qt Graphs 2D" section
 
 if(NOT QT_FEATURE_graphs_2d_area AND NOT QT_FEATURE_graphs_2d_bar AND NOT QT_FEATURE_graphs_2d_donut_pie AND NOT QT_FEATURE_graphs_2d_line AND NOT QT_FEATURE_graphs_2d_scatter AND NOT QT_FEATURE_graphs_2d_spline AND NOT QT_FEATURE_graphs_2d_custom)
@@ -115,12 +117,21 @@ else()
         DEFINES
             USE_CUSTOMGRAPH
     )
+    qt_internal_extend_target(Graphs CONDITION QT_FEATURE_graphs_2d_high_performance_backend
+        SOURCES
+            qsgrenderer/qcpainteritem.cpp qsgrenderer/qcpainteritem_p.h
+        DEFINES
+            USE_PAINTER_BACKEND
+    )
+    qt_internal_extend_target(Graphs CONDITION QT_FEATURE_graphs_2d_high_quality_backend
+        DEFINES
+            USE_SHAPE_BACKEND
+    )
 
     set(LOCAL_TRACE_SOURCE_2D
             graphs2d/qsgrenderer/axisrenderer.cpp
             graphs2d/qgraphsview.cpp
     )
-
 
     if(QT_FEATURE_graphs_2d_bar)
         set(LOCAL_TRACE_SOURCE_2D
@@ -165,6 +176,13 @@ else()
         set(LOCAL_TRACE_SOURCE_2D
                 ${LOCAL_TRACE_SOURCE_2D}
                 graphs2d/qsgrenderer/customrenderer.cpp
+        )
+    endif()
+
+    if(QT_FEATURE_graphs_2d_high_performance_backend)
+        set(LOCAL_TRACE_SOURCE_2D
+                ${LOCAL_TRACE_SOURCE_2D}
+                graphs2d/qsgrenderer/qcpainteritem.cpp
         )
     endif()
 

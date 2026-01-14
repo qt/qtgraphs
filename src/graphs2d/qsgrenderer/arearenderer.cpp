@@ -2,17 +2,24 @@
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 // Qt-Security score:significant reason:default
 
-
 #include <QtGraphs/qareaseries.h>
 #include <QtGraphs/qsplineseries.h>
+#include <QtQuick/private/qquicktaphandler_p.h>
+#include <QtQuickShapes/private/qquickshape_p.h>
 #include <private/arearenderer_p.h>
-#include <private/pointrenderer_p.h>
 #include <private/axisrenderer_p.h>
+#include <private/pointrenderer_p.h>
 #include <private/qabstractseries_p.h>
 #include <private/qareaseries_p.h>
 #include <private/qgraphsview_p.h>
 #include <private/qxyseries_p.h>
-#include <QtQuick/private/qquicktaphandler_p.h>
+#ifdef USE_PAINTER_BACKEND
+#include <QtCanvasPainter/QCanvasPainter>
+#include <QtCanvasPainter/QCanvasLinearGradient>
+#include <QtCanvasPainter/QCanvasConicalGradient>
+#include <QtCanvasPainter/QCanvasRadialGradient>
+#endif
+
 #include <qtgraphs_tracepoints_p.h>
 
 QT_BEGIN_NAMESPACE
@@ -41,8 +48,11 @@ AreaRenderer::AreaRenderer(QGraphsView *graph, bool clipPlotArea)
 {
     setFlag(QQuickItem::ItemHasContents);
     setClip(clipPlotArea);
+
+#ifdef USE_SHAPE_BACKEND
     m_shape.setParentItem(this);
     m_shape.setPreferredRendererType(QQuickShape::CurveRenderer);
+#endif
 
     m_tapHandler = new QQuickTapHandler(this);
     connect(m_tapHandler, &QQuickTapHandler::singleTapped, this, &AreaRenderer::onSingleTapped);
@@ -58,6 +68,78 @@ AreaRenderer::~AreaRenderer()
 void AreaRenderer::resetShapePathCount()
 {
     m_currentShapePathIndex = 0;
+}
+
+#ifdef USE_PAINTER_BACKEND
+void AreaRenderer::canvasPaint(QCanvasPainter *p)
+{
+    for (auto &&group : m_groups) {
+        if (group->painterPath.elementCount() == 0)
+            continue;
+
+        const auto style = getSeriesStyle(group);
+
+        if (auto linear = qobject_cast<QQuickShapeLinearGradient *>(style.gradient)) {
+            QCanvasLinearGradient qcLinear(linear->x1(), linear->y1(),
+                                           linear->x2(), linear->y2());
+            for (auto&& stop : linear->gradientStops())
+                qcLinear.setColorAt(stop.first, stop.second);
+            p->setFillStyle(qcLinear);
+        } else if (auto radial = qobject_cast<QQuickShapeRadialGradient *>(style.gradient)) {
+            QCanvasRadialGradient qcRadial(radial->centerX(), radial->centerY(),
+                                           radial->focalRadius(), radial->centerRadius());
+            for (auto&& stop : radial->gradientStops())
+                qcRadial.setColorAt(stop.first, stop.second);
+            p->setFillStyle(qcRadial);
+        } else if (auto conical = qobject_cast<QQuickShapeConicalGradient *>(style.gradient)) {
+            QCanvasConicalGradient qcConical(conical->centerX(), conical->centerY(), conical->angle());
+            for (auto&& stop : conical->gradientStops())
+                qcConical.setColorAt(stop.first, stop.second);
+            p->setFillStyle(qcConical);
+        } else {
+            p->setFillStyle(style.color);
+        }
+
+        p->setStrokeStyle(style.borderColor);
+        p->setLineWidth(style.borderWidth);
+        p->beginPath();
+        p->addPath(group->painterPath);
+        p->fill();
+        p->stroke();
+    }
+}
+#endif
+
+AreaRenderer::SeriesStyle AreaRenderer::getSeriesStyle(PointGroup *group)
+{
+    auto theme = m_graph->theme();
+
+    const auto &seriesColors = theme->seriesColors();
+    qsizetype index = group->colorIndex % seriesColors.size();
+    QColor color = group->series->color().alpha() != 0 ? group->series->color()
+                                                       : seriesColors.at(index);
+    const auto &borderColors = theme->borderColors();
+    index = group->colorIndex % borderColors.size();
+    QColor borderColor = group->series->borderColor().alpha() != 0 ? group->series->borderColor()
+                                                                   : borderColors.at(index);
+
+    QQuickShapeGradient *gradient = group->series->gradient();
+
+    if (group->series->isSelected()) {
+        color = group->series->selectedColor().alpha() != 0 ? group->series->selectedColor()
+                                                            : color.lighter();
+        borderColor = group->series->selectedBorderColor().alpha() != 0
+                          ? group->series->selectedBorderColor()
+                          : borderColor.lighter();
+        if (group->series->selectedGradient())
+            gradient = group->series->selectedGradient();
+    }
+
+    qreal borderWidth = group->series->borderWidth();
+    if (qFuzzyCompare(borderWidth, qreal(-1.0)))
+        borderWidth = theme->borderWidth();
+
+    return {color, gradient, borderColor, borderWidth};
 }
 
 void AreaRenderer::calculateRenderCoordinates(
@@ -140,22 +222,27 @@ void AreaRenderer::handlePolish(QAreaSeries *series)
         group->series = series;
         m_groups.insert(series, group);
 
+#ifdef USE_SHAPE_BACKEND
         group->shapePath = new QQuickShapePath(&m_shape);
         auto data = m_shape.data();
         data.append(&data, m_groups.value(series)->shapePath);
+#endif
     }
 
     auto group = m_groups.value(series);
 
+#ifdef USE_SHAPE_BACKEND
     auto data = m_shape.data();
     group->shapePath = qobject_cast<QQuickShapePath *>(data.at(&data, m_currentShapePathIndex));
+#endif
 
     m_currentShapePathIndex++;
 
     if (upper->points().count() < 2 || (lower && lower->points().count() < 2)) {
-        auto painterPath = group->painterPath;
-        painterPath.clear();
-        group->shapePath->setPath(painterPath);
+        group->painterPath.clear();
+#ifdef USE_SHAPE_BACKEND
+        group->shapePath->setPath(group->painterPath);
+#endif
         return;
     }
 
@@ -178,36 +265,17 @@ void AreaRenderer::handlePolish(QAreaSeries *series)
         m_graph->setGraphSeriesCount(group->colorIndex + 1);
     }
 
-    const auto &seriesColors = theme->seriesColors();
-    qsizetype index = group->colorIndex % seriesColors.size();
-    QColor color = series->color().alpha() != 0
-            ? series->color()
-            : seriesColors.at(index);
-    const auto &borderColors = theme->borderColors();
-    index = group->colorIndex % borderColors.size();
-    QColor borderColor = series->borderColor().alpha() != 0
-            ? series->borderColor()
-            : borderColors.at(index);
+    const auto style = getSeriesStyle(group);
 
-    QQuickShapeGradient *gradient = series->gradient();
-
-    if (series->isSelected()) {
-        color = series->selectedColor().alpha() != 0 ? series->selectedColor() : color.lighter();
-        borderColor = series->selectedBorderColor().alpha() != 0 ? series->selectedBorderColor()
-                                                                 : borderColor.lighter();
-        if (series->selectedGradient())
-            gradient = series->selectedGradient();
+#ifdef USE_SHAPE_BACKEND
+    if (!m_graph->useCanvasPainter()) {
+        group->shapePath->setStrokeWidth(style.borderWidth);
+        group->shapePath->setStrokeColor(style.borderColor);
+        group->shapePath->setFillColor(style.color);
+        group->shapePath->setFillGradient(style.gradient);
+        group->shapePath->setCapStyle(QQuickShapePath::CapStyle::SquareCap);
     }
-
-    qreal borderWidth = series->borderWidth();
-    if (qFuzzyCompare(borderWidth, qreal(-1.0)))
-        borderWidth = theme->borderWidth();
-
-    group->shapePath->setStrokeWidth(borderWidth);
-    group->shapePath->setStrokeColor(borderColor);
-    group->shapePath->setFillColor(color);
-    group->shapePath->setFillGradient(gradient);
-    group->shapePath->setCapStyle(QQuickShapePath::CapStyle::SquareCap);
+#endif
 
     auto &&upperPoints = upper->points();
     QList<QPointF> fittedPoints;
@@ -308,9 +376,12 @@ void AreaRenderer::handlePolish(QAreaSeries *series)
         painterPath.lineTo(x, y);
     }
 
-    group->shapePath->setPath(painterPath);
+#ifdef USE_SHAPE_BACKEND
+    if (!m_graph->useCanvasPainter())
+        group->shapePath->setPath(painterPath);
+#endif
 
-    QList<QLegendData> legendDataList = {{color, borderColor, series->name()}};
+    QList<QLegendData> legendDataList = {{style.color, style.borderColor, series->name()}};
     series->d_func()->setLegendData(legendDataList);
 }
 
@@ -322,10 +393,6 @@ void AreaRenderer::afterPolish(QList<QAbstractSeries *> &cleanupSeries)
         auto areaSeries = qobject_cast<QAreaSeries *>(series);
         if (areaSeries && m_groups.contains(areaSeries)) {
             auto group = m_groups.value(areaSeries);
-
-            auto painterPath = group->painterPath;
-            painterPath.clear();
-            group->shapePath->setPath(painterPath);
 
             delete group;
             m_groups.remove(areaSeries);

@@ -14,6 +14,7 @@ QT_BEGIN_NAMESPACE
 class QCustomSeriesPrivate;
 class QCustomSeriesData;
 class QQuickItem;
+class QCanvasPainter;
 
 class Q_GRAPHS_EXPORT QCustomSeries : public QAbstractSeries
 {
@@ -50,6 +51,7 @@ protected:
     explicit QCustomSeries(QCustomSeriesPrivate &dd, QObject *parent = nullptr);
     void componentComplete() override;
     virtual void updateDelegate(QQuickItem *item, qsizetype index);
+    virtual void canvasPaint(QCanvasPainter *p);
     bool event(QEvent *event) override;
 
 private:

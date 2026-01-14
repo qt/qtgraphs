@@ -29,6 +29,9 @@ class QQuickShape;
 class QAbstractSeries;
 class QQuickTapHandler;
 class QQuickDragHandler;
+#ifdef USE_PAINTER_BACKEND
+class QCanvasPainter;
+#endif
 
 class PieRenderer : public QQuickItem
 {
@@ -37,6 +40,9 @@ public:
     PieRenderer(QGraphsView *graph, bool clipPlotArea);
     ~PieRenderer() override;
 
+#ifdef USE_PAINTER_BACKEND
+    void canvasPaint(QCanvasPainter *p);
+#endif
     void updateActiveSlices(QPieSeries *series, QList<QPieSlice *> slicelist);
     void handlePolish(QPieSeries *series);
     void handleSlicesPolish(QPieSeries *series,
@@ -61,6 +67,7 @@ private:
     struct SliceData
     {
         bool initialized;
+        int sliceIndex = 0;
     };
 
     struct DragState
@@ -98,6 +105,8 @@ private:
 
     QPainterPath m_painterPath;
     qsizetype m_colorIndex = -1;
+
+    friend class PiePainter;
 };
 
 QT_END_NAMESPACE

@@ -16,11 +16,14 @@
 //
 // We mean it.
 
+#include <QPainterPath>
 #include <QQuickItem>
 #include <QtGraphs/qabstractseries.h>
 #include <QtQuick/private/qsgdefaultinternalrectanglenode_p.h>
+
+#ifdef USE_SHAPE_BACKEND
 #include <QtQuickShapes/private/qquickshape_p.h>
-#include <QPainterPath>
+#endif
 
 QT_BEGIN_NAMESPACE
 
@@ -33,6 +36,9 @@ class AxisRenderer;
 class QQuickTapHandler;
 class QQuickDragHandler;
 struct QLegendData;
+#ifdef USE_PAINTER_BACKEND
+class QCanvasPainter;
+#endif
 
 class PointRenderer : public QQuickItem
 {
@@ -43,6 +49,9 @@ public:
 
     void resetShapePathCount();
 
+#ifdef USE_PAINTER_BACKEND
+    void canvasPaint(QCanvasPainter *p);
+#endif
     void handlePolish(QXYSeries *series);
     void afterPolish(QList<QAbstractSeries *> &cleanupSeries);
     void updateSeries(QXYSeries *series);
@@ -55,7 +64,6 @@ private:
     struct PointGroup
     {
         QXYSeries *series = nullptr;
-        QQuickShapePath *shapePath = nullptr;
         QPainterPath painterPath;
         QList<QQuickItem *> markers;
         QList<QQuickDragHandler *> dragHandlers;
@@ -64,14 +72,20 @@ private:
         QList<QRectF> rects;
         qsizetype colorIndex = -1;
         bool hover = false;
+#ifdef USE_SHAPE_BACKEND
+        QQuickShapePath *shapePath = nullptr;
+#endif
     };
 
     QQmlComponent *m_tempMarker = nullptr;
 
     QGraphsView *m_graph = nullptr;
-    QQuickShape m_shape;
     QMap<QXYSeries *, PointGroup *> m_groups;
     qsizetype m_currentShapePathIndex = 0;
+
+#ifdef USE_SHAPE_BACKEND
+    QQuickShape m_shape;
+#endif
 
     // Point drag variables
     QPoint m_previousDelta;

@@ -18,7 +18,9 @@
 
 #include <QPainterPath>
 #include <QQuickItem>
+#ifdef USE_SHAPE_BACKEND
 #include <QtQuickShapes/private/qquickshape_p.h>
+#endif
 
 QT_BEGIN_NAMESPACE
 
@@ -27,6 +29,10 @@ class QAreaSeries;
 class AxisRenderer;
 class QAbstractSeries;
 class QQuickTapHandler;
+#ifdef USE_PAINTER_BACKEND
+class QCanvasPainter;
+#endif
+class QQuickShapeGradient;
 
 class AreaRenderer : public QQuickItem
 {
@@ -37,6 +43,9 @@ public:
 
     void resetShapePathCount();
 
+#ifdef USE_PAINTER_BACKEND
+    void canvasPaint(QCanvasPainter *p);
+#endif
     void handlePolish(QAreaSeries *series);
     void afterPolish(QList<QAbstractSeries *> &cleanupSeries);
     void afterUpdate(QList<QAbstractSeries *> &cleanupSeries);
@@ -49,11 +58,13 @@ private:
     struct PointGroup
     {
         QAreaSeries *series = nullptr;
-        QQuickShapePath *shapePath = nullptr;
         QPainterPath painterPath;
         qsizetype colorIndex = -1;
         qsizetype borderColorIndex = -1;
         bool hover = false;
+#ifdef USE_SHAPE_BACKEND
+        QQuickShapePath *shapePath = nullptr;
+#endif
     };
 
     void onSingleTapped(QEventPoint eventPoint, Qt::MouseButton button);
@@ -61,9 +72,12 @@ private:
     void onPressedChanged();
 
     QGraphsView *m_graph = nullptr;
-    QQuickShape m_shape;
     QMap<QAreaSeries *, PointGroup *> m_groups;
     qsizetype m_currentShapePathIndex = 0;
+
+#ifdef USE_SHAPE_BACKEND
+    QQuickShape m_shape;
+#endif
 
     // Render area variables
     qreal m_maxVertical = 0;
@@ -74,6 +88,16 @@ private:
     qreal m_areaHeight = 0;
 
     QQuickTapHandler *m_tapHandler = nullptr;
+
+    struct SeriesStyle
+    {
+        QColor color;
+        QQuickShapeGradient *gradient;
+        QColor borderColor;
+        qreal borderWidth;
+    };
+
+    SeriesStyle getSeriesStyle(PointGroup *group);
 
     void calculateRenderCoordinates(
         QAreaSeries *series, qreal origX, qreal origY, qreal *renderX, qreal *renderY) const;

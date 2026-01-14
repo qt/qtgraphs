@@ -17,9 +17,10 @@
 
 #include <QtGraphs/qareaseries.h>
 #include <private/qabstractseries_p.h>
-#include <QtQuickShapes/private/qquickshape_p.h>
 
 QT_BEGIN_NAMESPACE
+
+class QQuickShapeGradient;
 
 class QAreaSeriesPrivate : public QAbstractSeriesPrivate
 {

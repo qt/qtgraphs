@@ -20,6 +20,7 @@
 #include <QtGraphs/qpieslice.h>
 #include <QtGui/QColor>
 #include <QtGui/QFont>
+#include <QtGui/QPainterPath>
 
 QT_BEGIN_NAMESPACE
 
@@ -75,8 +76,12 @@ private:
     QColor m_borderColor;
     qreal m_borderWidth;
 
-    QQuickShapePath *m_shapePath;
+    QPainterPath m_shapePainterPath;
+    QPainterPath m_labelPainterPath;
+    bool m_isLabelPathVisible = true;
+
     QQuickText *m_labelItem = nullptr;
+    QQuickShapePath *m_shapePath = nullptr;
     QQuickShape *m_labelShape = nullptr;
     QQuickShapePath *m_labelPath = nullptr;
 

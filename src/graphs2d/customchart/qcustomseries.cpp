@@ -365,6 +365,11 @@ void QCustomSeries::updateDelegate(QQuickItem *item, qsizetype index)
     item->setProperty("data", data);
 }
 
+void QCustomSeries::canvasPaint(QCanvasPainter *p)
+{
+    Q_UNUSED(p);
+}
+
 bool QCustomSeries::event(QEvent *event)
 {
     return QObject::event(event);

@@ -26,6 +26,9 @@ class QGraphsView;
 class QCustomSeries;
 class AxisRenderer;
 struct QLegendData;
+#ifdef USE_PAINTER_BACKEND
+class QCanvasPainter;
+#endif
 
 class CustomRenderer : public QQuickItem
 {
@@ -36,6 +39,9 @@ public:
     CustomRenderer(QGraphsView *graph, bool clipPlotArea);
     ~CustomRenderer() override;
 
+#ifdef USE_PAINTER_BACKEND
+    void canvasPaint(QCanvasPainter *p);
+#endif
     void handlePolish(QCustomSeries *series);
     void afterPolish(QList<QAbstractSeries *> &cleanupSeries);
     void updateSeries(QCustomSeries *series);

@@ -41,6 +41,18 @@ qt_feature("graphs-2d-custom" PUBLIC
     PURPOSE "Support for Custom graph"
 )
 
+qt_feature("graphs-2d-high-quality-backend" PUBLIC
+    LABEL "High Quality"
+    PURPOSE "Qt Quick Shapes Rendering Backend"
+)
+
+qt_feature("graphs-2d-high-performance-backend" PUBLIC
+    LABEL "High Performance"
+    PURPOSE "Qt Canvas Painter Rendering Backend"
+    AUTODETECT OFF
+    CONDITION TARGET Qt6::CanvasPainter
+)
+
 qt_feature("graphs-3d" PUBLIC
     LABEL "3D Graphs"
     PURPOSE "Support for 3D graphs"

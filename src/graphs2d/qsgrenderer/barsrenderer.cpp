@@ -3,14 +3,17 @@
 // Qt-Security score:significant reason:default
 
 
-#include <QtQuick/private/qquickrectangle_p.h>
-#include <QtQuick/private/qquicktaphandler_p.h>
 #include <QtGraphs/qbarseries.h>
 #include <QtGraphs/qbarset.h>
-#include <private/barsrenderer_p.h>
+#include <QtQuick/private/qquickrectangle_p.h>
+#include <QtQuick/private/qquicktaphandler_p.h>
 #include <private/axisrenderer_p.h>
+#include <private/barsrenderer_p.h>
 #include <private/qbarseries_p.h>
 #include <private/qgraphsview_p.h>
+#ifdef USE_PAINTER_BACKEND
+#include <QtCanvasPainter/QCanvasPainter>
+#endif
 
 #include <qtgraphs_tracepoints_p.h>
 
@@ -56,6 +59,23 @@ BarsRenderer::BarsRenderer(QGraphsView *graph, bool clipPlotArea)
 }
 
 BarsRenderer::~BarsRenderer() {}
+
+#ifdef USE_PAINTER_BACKEND
+void BarsRenderer::canvasPaint(QCanvasPainter *p)
+{
+    for (auto &&dataList : m_seriesData) {
+        for (auto&& d : dataList) {
+            p->setFillStyle(d.color);
+            p->setStrokeStyle(d.borderColor);
+            p->setLineWidth(d.borderWidth);
+            p->beginPath();
+            p->rect(d.rect);
+            p->fill();
+            p->stroke();
+        }
+    }
+}
+#endif
 
 // Returns color in this order:
 // 1) QBarSet::color if that is defined (alpha > 0).
@@ -213,19 +233,21 @@ void BarsRenderer::updateComponents(QBarSeries *series)
                 if (barItem->property(TAG_BAR_INDEX).isValid())
                     barItem->setProperty(TAG_BAR_INDEX, barIndex);
             } else {
-                // Set default rectangle bars
-                auto barItem = qobject_cast<QQuickRectangle *>(barItems[barIndex]);
-                if (barItem) {
-                    barItem->setX(d.rect.x());
-                    barItem->setY(d.rect.y());
-                    barItem->setZ(series->zValue());
-                    barItem->setWidth(d.rect.width());
-                    barItem->setHeight(d.rect.height());
-                    barItem->setVisible(series->isVisible());
-                    barItem->setColor(d.color);
-                    barItem->border()->setColor(d.borderColor);
-                    barItem->border()->setWidth(d.borderWidth);
-                    barItem->setRadius(4.0);
+                if (!m_graph->useCanvasPainter()) {
+                    // Set default rectangle bars
+                    auto barItem = qobject_cast<QQuickRectangle *>(barItems[barIndex]);
+                    if (barItem) {
+                        barItem->setX(d.rect.x());
+                        barItem->setY(d.rect.y());
+                        barItem->setZ(series->zValue());
+                        barItem->setWidth(d.rect.width());
+                        barItem->setHeight(d.rect.height());
+                        barItem->setVisible(series->isVisible());
+                        barItem->setColor(d.color);
+                        barItem->border()->setColor(d.borderColor);
+                        barItem->border()->setWidth(d.borderWidth);
+                        barItem->setRadius(4.0);
+                    }
                 }
             }
         }

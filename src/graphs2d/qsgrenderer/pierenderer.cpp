@@ -3,20 +3,25 @@
 // Qt-Security score:significant reason:default
 
 
-#include "pierenderer_p.h"
 #include <QtGraphs/qpieseries.h>
 #include <QtGraphs/qpieslice.h>
-#include <QtQuick/private/qquicktext_p.h>
 #include <QtQuick/private/qquicktaphandler_p.h>
+#include <QtQuick/private/qquicktext_p.h>
+#include "pierenderer_p.h"
 #include <limits>
-#include <private/qquickdraghandler_p.h>
 #include <private/pierenderer_p.h>
 #include <private/qabstractseries_p.h>
 #include <private/qgraphsview_p.h>
 #include <private/qpieseries_p.h>
 #include <private/qpieslice_p.h>
+#include <private/qquickdraghandler_p.h>
+#ifdef USE_SHAPE_BACKEND
 #include <private/qquickshape_p.h>
+#endif
 #include <private/qquicksvgparser_p.h>
+#ifdef USE_PAINTER_BACKEND
+#include <QtCanvasPainter/QCanvasPainter>
+#endif
 
 #include <qtgraphs_tracepoints_p.h>
 
@@ -44,9 +49,11 @@ PieRenderer::PieRenderer(QGraphsView *graph, bool clipPlotArea)
     setFlag(QQuickItem::ItemHasContents);
     setClip(clipPlotArea);
 
+#ifdef USE_SHAPE_BACKEND
     m_shape = new QQuickShape(this);
     m_shape->setParentItem(this);
     m_shape->setPreferredRendererType(QQuickShape::CurveRenderer);
+#endif
 
     m_tapHandler = new QQuickTapHandler(this);
     connect(m_tapHandler, &QQuickTapHandler::singleTapped, this, &PieRenderer::onSingleTapped);
@@ -56,7 +63,9 @@ PieRenderer::PieRenderer(QGraphsView *graph, bool clipPlotArea)
     m_dragHandler = new QQuickDragHandler(this);
     m_dragHandler->setTarget(nullptr);
     connect(m_dragHandler, &QQuickDragHandler::grabChanged, this, &PieRenderer::onGrabChanged);
-    connect(m_dragHandler, &QQuickDragHandler::translationChanged, this,
+    connect(m_dragHandler,
+            &QQuickDragHandler::translationChanged,
+            this,
             &PieRenderer::onTranslationChanged);
 }
 
@@ -67,46 +76,113 @@ void PieRenderer::setSize(QSizeF size)
     QQuickItem::setSize(size);
 }
 
+#ifdef USE_PAINTER_BACKEND
+void PieRenderer::canvasPaint(QCanvasPainter *p)
+{
+    QGraphsTheme *theme = m_graph->theme();
+
+    for (auto it = m_activeSlices.begin(); it != m_activeSlices.end(); it++) {
+        auto slice = it.key();
+        auto data = it.value();
+
+        QPieSlicePrivate *d = slice->d_func();
+
+        // border color
+        const auto &borderColors = theme->borderColors();
+        int index = data.sliceIndex % borderColors.size();
+        QColor borderColor = borderColors.at(index);
+        if (d->m_borderColor.isValid() && d->m_borderColor.alpha() != 0)
+            borderColor = d->m_borderColor;
+
+        // border width
+        qreal borderWidth = theme->borderWidth();
+        if (d->m_borderWidth >= 1.0)
+            borderWidth = d->m_borderWidth;
+
+        // color
+        const auto &seriesColors = theme->seriesColors();
+        index = data.sliceIndex % seriesColors.size();
+        QColor color = seriesColors.at(index);
+        if (d->m_color.isValid() && d->m_color.alpha() != 0)
+            color = d->m_color;
+
+        p->setFillStyle(color);
+        p->setStrokeStyle(borderColor);
+        p->setLineWidth(borderWidth);
+        p->beginPath();
+        p->addPath(d->m_shapePainterPath);
+        p->fill();
+        p->stroke();
+
+        QColor labelTextColor = theme->labelTextColor();
+        if (d->m_labelColor.isValid())
+            labelTextColor = d->m_labelColor;
+
+        if (d->m_series->isVisible() && d->m_isLabelPathVisible) {
+            p->setStrokeStyle(labelTextColor);
+            p->beginPath();
+            p->addPath(d->m_labelPainterPath);
+            p->stroke();
+        }
+    }
+}
+#endif
+
 void PieRenderer::updateActiveSlices(QPieSeries *series, QList<QPieSlice *> slicelist)
 {
     for (QPieSlice *slice : std::as_const(slicelist)) {
         QPieSlicePrivate *d = slice->d_func();
+#ifdef USE_SHAPE_BACKEND
         QQuickShapePath *shapePath = d->m_shapePath;
         QQuickShapePath *labelPath = d->m_labelPath;
         auto labelElements = labelPath->pathElements();
         auto pathElements = shapePath->pathElements();
+#endif
         auto labelItem = d->m_labelItem;
 
-        if (!m_activeSlices.contains(slice)) {
+        auto it = m_activeSlices.find(slice);
+
+        if (it == m_activeSlices.end()) {
+#ifdef USE_SHAPE_BACKEND
             auto data = m_shape->data();
             data.append(&data, shapePath);
+#endif
             SliceData sliceData{};
             sliceData.initialized = false;
+
             m_activeSlices.insert(slice, sliceData);
         }
 
+#ifdef USE_SHAPE_BACKEND
         QQuickShape *labelShape = d->m_labelShape;
         labelShape->setVisible(series->isVisible() && d->m_isLabelVisible);
+#endif
         labelItem->setVisible(series->isVisible() && d->m_isLabelVisible);
 
         if (!series->isVisible()) {
+#ifdef USE_SHAPE_BACKEND
             pathElements.clear(&pathElements);
             labelElements.clear(&labelElements);
+#endif
             continue;
         }
 
+#ifdef USE_SHAPE_BACKEND
         if (!shapePath->parent())
             shapePath->setParent(m_shape);
+#endif
 
         if (!d->m_labelItem->parent()) {
             d->m_labelItem->setParent(this);
             d->m_labelItem->setParentItem(this);
         }
 
+#ifdef USE_SHAPE_BACKEND
         if (!labelShape->parent()) {
             labelShape->setParent(this);
             labelShape->setParentItem(this);
         }
+#endif
 
         updateActiveSlices(series, slice->subSlices());
     }
@@ -168,7 +244,9 @@ void PieRenderer::handleSlicesPolish(QPieSeries *series,
                         * series->valuesMultiplier());
 
         // update slice
+#ifdef USE_SHAPE_BACKEND
         QQuickShapePath *shapePath = d->m_shapePath;
+#endif
 
         // border color
         const auto &borderColors = theme->borderColors();
@@ -189,18 +267,24 @@ void PieRenderer::handleSlicesPolish(QPieSeries *series,
         if (d->m_color.isValid() && d->m_color.alpha() != 0)
             color = d->m_color;
 
+#ifdef USE_SHAPE_BACKEND
         shapePath->setStrokeWidth(borderWidth);
         shapePath->setStrokeColor(borderColor);
         shapePath->setFillColor(color);
+#endif
 
         QColor labelTextColor = theme->labelTextColor();
         if (d->m_labelColor.isValid())
             labelTextColor = d->m_labelColor;
         d->m_labelItem->setColor(labelTextColor);
+#ifdef USE_SHAPE_BACKEND
         d->m_labelPath->setStrokeColor(labelTextColor);
+#endif
 
         if (!m_activeSlices.contains(slice))
             return;
+
+        m_activeSlices[slice].sliceIndex = sliceIndex;
 
         qreal radian = qDegreesToRadians(slice->startAngle());
         qreal startBigX = radius * qSin(radian) * radiusRatio;
@@ -226,8 +310,10 @@ void PieRenderer::handleSlicesPolish(QPieSeries *series,
                     radius * 2 * radiusRatio,
                     radius * 2 * radiusRatio);
 
+#ifdef USE_SHAPE_BACKEND
         shapePath->setStartX(center.x());
         shapePath->setStartY(center.y());
+#endif
 
         if (series->holeSize() > 0) {
             QRectF insideRect(center.x() - series->holeSize() * radius
@@ -256,7 +342,12 @@ void PieRenderer::handleSlicesPolish(QPieSeries *series,
 
         d->m_largeArc = {xShift + pointX, yShift - pointY};
 
-        shapePath->setPath(m_painterPath);
+#ifdef USE_SHAPE_BACKEND
+        if (!m_graph->useCanvasPainter())
+            shapePath->setPath(m_painterPath);
+        else
+#endif
+            d->m_shapePainterPath = m_painterPath;
         m_painterPath.clear();
 
         radian = qDegreesToRadians(slice->startAngle() + (slice->angleSpan() * .5));
@@ -277,7 +368,13 @@ void PieRenderer::handleSlicesPolish(QPieSeries *series,
         m_painterPath.lineTo(d->m_labelArm.x() + labelWidth, d->m_labelArm.y());
 
         d->setLabelPosition(d->m_labelPosition);
-        d->m_labelPath->setPath(m_painterPath);
+
+#ifdef USE_SHAPE_BACKEND
+        if (!m_graph->useCanvasPainter())
+            d->m_labelPath->setPath(m_painterPath);
+        else
+#endif
+            d->m_labelPainterPath = m_painterPath;
 
         sliceAngle += slice->angleSpan();
         sliceIndex++;
@@ -309,11 +406,13 @@ void PieRenderer::handleSlicesAfterPolish(QList<QPieSlice *> slicelist)
 {
     for (QPieSlice *slice : std::as_const(slicelist)) {
         QPieSlicePrivate *d = slice->d_func();
+#ifdef USE_SHAPE_BACKEND
         auto labelElements = d->m_labelPath->pathElements();
         auto shapeElements = d->m_shapePath->pathElements();
 
         labelElements.clear(&labelElements);
         shapeElements.clear(&shapeElements);
+#endif
 
         slice->deleteLater();
         d->m_labelItem->deleteLater();
@@ -351,8 +450,12 @@ void PieRenderer::markedDeleted(QList<QPieSlice *> deleted)
 
     for (auto slice : deleted) {
         auto d = slice->d_func();
+#ifdef USE_SHAPE_BACKEND
         d->m_shapePath->setPath(emptyPath);
         d->m_labelPath->setPath(emptyPath);
+#endif
+        d->m_shapePainterPath.clear();
+        d->m_labelPainterPath.clear();
         d->m_labelItem->deleteLater();
         m_activeSlices.remove(slice);
     }
@@ -392,8 +495,14 @@ bool PieRenderer::isPointInSlice(QPointF point, QPieSlice *slice, qreal *angle)
         return false;
 
     QPieSlicePrivate *d = slice->d_func();
+    QPainterPath painterPath;
+#ifdef USE_SHAPE_BACKEND
     QQuickShapePath *shapePath = d->m_shapePath;
-    QPainterPath painterPath = shapePath->path();
+    if (!m_graph->useCanvasPainter())
+        painterPath = shapePath->path();
+    else
+#endif
+        painterPath = d->m_shapePainterPath;
     return painterPath.contains(point);
 }
 
@@ -402,8 +511,16 @@ bool PieRenderer::isPointInSubSlices(QPointF point, QPieSlice *slice)
     auto slices = slice->subSlices();
     for (const auto &subSlice : std::as_const(slices)) {
         QPieSlicePrivate *d = subSlice->d_func();
+        QPainterPath painterPath;
+
+#ifdef USE_SHAPE_BACKEND
         QQuickShapePath *shapePath = d->m_shapePath;
-        QPainterPath painterPath = shapePath->path();
+        if (!m_graph->useCanvasPainter())
+            painterPath = shapePath->path();
+        else
+#endif
+            painterPath = d->m_shapePainterPath;
+
         if (painterPath.contains(point))
             return true;
         if (isPointInSubSlices(point, subSlice))

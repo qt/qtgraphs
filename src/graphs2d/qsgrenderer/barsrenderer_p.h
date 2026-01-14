@@ -30,6 +30,9 @@ class QBarSeries;
 class QBarSet;
 class QAbstractSeries;
 class QQuickTapHandler;
+#ifdef USE_PAINTER_BACKEND
+class QCanvasPainter;
+#endif
 
 class BarsRenderer : public QQuickItem
 {
@@ -38,6 +41,9 @@ public:
     BarsRenderer(QGraphsView *graph, bool clipPlotArea);
     ~BarsRenderer() override;
 
+#ifdef USE_PAINTER_BACKEND
+    void canvasPaint(QCanvasPainter *p);
+#endif
     void handlePolish(QBarSeries *series, int barSeriesIndex, int barSeriesCount);
     void updateSeries(QBarSeries *series);
     void afterUpdate(QList<QAbstractSeries *> &cleanupSeries);

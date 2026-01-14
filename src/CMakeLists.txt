@@ -160,41 +160,44 @@ else()
         set_source_files_properties(${file} PROPERTIES QT_RESOURCE_ALIAS ${RESOURCE_NAME})
     endforeach()
 
-    # First check if both 2D and 3D are enabled. If it is, we must add dependencies to
-    # both (i.e. QtQuick3D, Quick3DPrivate, Quick3DRuntimeRenderPrivate,
-    # QtQuickPrivate, and QtQuickShapesPrivate).
-    if(QT_FEATURE_graphs_3d AND QT_FEATURE_graphs_2d)
-        qt_internal_add_qml_module(Graphs
-            URI "QtGraphs"
-            TARGET_PRODUCT "Qt Graphs (Qt $$QT_VERSION)"
-            TARGET_DESCRIPTION "Qt Graphs Visualization component for Qt."
-            VERSION "${PROJECT_VERSION}"
-            PAST_MAJOR_VERSIONS 1
-            DEPENDENCIES
-                QtQuick
-                # 3D specific
-                QtQuick3D
+    # qt_internal_extend_target doesn't support adding dependencies
+    # so create the dependencies list conditionally here
+    set(graphs_qml_dependencies QtQuick)
+    if(QT_FEATURE_graphs_3d)
+        list(APPEND graphs_qml_dependencies QtQuick3D)
+    endif()
+
+    qt_internal_add_qml_module(Graphs
+        URI "QtGraphs"
+        TARGET_PRODUCT "Qt Graphs (Qt $$QT_VERSION)"
+        TARGET_DESCRIPTION "Qt Graphs Visualization component for Qt."
+        VERSION "${PROJECT_VERSION}"
+        PAST_MAJOR_VERSIONS 1
+        DEPENDENCIES
+            ${graphs_qml_dependencies}
+        LIBRARIES
+            Qt::CorePrivate
+            Qt::QuickPrivate
+        PUBLIC_LIBRARIES
+            Qt::Core
+            Qt::Gui
+            Qt::Quick
+        PRIVATE_MODULE_INTERFACE
+            Qt::CorePrivate
+            Qt::QuickPrivate
+    )
+
+    if(QT_FEATURE_graphs_2d)
+        qt_internal_extend_target(Graphs
             LIBRARIES
-                # Common
-                Qt::CorePrivate
-                Qt::QuickPrivate
-                # 2D specific
                 Qt::QuickShapesPrivate
-                # 3D specific
-                Qt::Quick3DPrivate
-                Qt::Quick3DRuntimeRenderPrivate
+        )
+
+        qt_internal_extend_target(Graphs CONDITION QT_FEATURE_graphs_2d_high_performance_backend
+            LIBRARIES
+                Qt::CanvasPainterPrivate
             PUBLIC_LIBRARIES
-                Qt::Core
-                Qt::Gui
-                Qt::Quick
-                Qt::Quick3D
-            PRIVATE_MODULE_INTERFACE
-                # Common
-                Qt::CorePrivate
-                Qt::QuickPrivate
-                # 3D specific
-                Qt::Quick3DPrivate
-                Qt::Quick3DRuntimeRenderPrivate
+                Qt::CanvasPainter
         )
 
         qt_internal_add_shaders(Graphs "graphsshaders2D"
@@ -209,6 +212,19 @@ else()
                 "graphs2d/data"
             FILES
                 ${shader_resource_files_2D}
+        )
+    endif()
+
+    if(QT_FEATURE_graphs_3d)
+        qt_internal_extend_target(Graphs
+            LIBRARIES
+                Qt::Quick3DPrivate
+                Qt::Quick3DRuntimeRenderPrivate
+            PUBLIC_LIBRARIES
+                Qt::Quick3D
+            PRIVATE_MODULE_INTERFACE
+                Qt::Quick3DPrivate
+                Qt::Quick3DRuntimeRenderPrivate
         )
 
         qt_internal_add_resource(Graphs "graphsshaders"
@@ -256,111 +272,7 @@ else()
             FILES
                 ${qml_material_resources}
         )
-    else()
-        if(QT_FEATURE_graphs_3d)
-            qt_internal_add_qml_module(Graphs
-                URI "QtGraphs"
-                TARGET_PRODUCT "Qt Graphs (Qt $$QT_VERSION)"
-                TARGET_DESCRIPTION "Qt Graphs Visualization component for Qt."
-                VERSION "${PROJECT_VERSION}"
-                PAST_MAJOR_VERSIONS 1
-                DEPENDENCIES
-                    QtQuick
-                    QtQuick3D
-                LIBRARIES
-                    Qt::QuickPrivate
-                    Qt::Quick3DPrivate
-                    Qt::Quick3DRuntimeRenderPrivate
-                PUBLIC_LIBRARIES
-                    Qt::Core
-                    Qt::Gui
-                    Qt::Quick
-                    Qt::Quick3D
-                PRIVATE_MODULE_INTERFACE
-                    Qt::QuickPrivate
-                    Qt::Quick3DPrivate
-                    Qt::Quick3DRuntimeRenderPrivate
-            )
-
-            # CMake 3.16 forces these to be added here instead of the graphs3d folder
-            qt_internal_add_resource(Graphs "graphsshaders"
-                PREFIX
-                    "/shaders"
-                BASE
-                    "graphs3d/engine/shaders"
-                FILES
-                    ${shader_resource_files}
-            )
-
-            qt_internal_add_resource(Graphs "graphsmeshes"
-                PREFIX
-                    "/defaultMeshes"
-                BASE
-                    "graphs3d/engine/meshes"
-                FILES
-                    ${mesh_resource_files}
-                    ${obj_resource_files}
-            )
-
-            qt_internal_add_resource(Graphs "qml_component_resources"
-                PREFIX
-                    "/datapointModels"
-                BASE
-                    "graphs3d/qml"
-                FILES
-                    ${qml_component_resources}
-            )
-
-            qt_internal_add_resource(Graphs "qml_axis_resources"
-                PREFIX
-                    "/axis"
-                BASE
-                    "graphs3d/qml"
-                FILES
-                    ${qml_axis_resources}
-            )
-
-            qt_internal_add_resource(Graphs "qml_material_resources"
-                PREFIX
-                    "/materials"
-                BASE
-                    "graphs3d/qml"
-                FILES
-                    ${qml_material_resources}
-            )
-        else(QT_FEATURE_graphs_2d)
-            qt_internal_add_qml_module(Graphs
-                URI "QtGraphs"
-                TARGET_PRODUCT "Qt Graphs (Qt $$QT_VERSION)"
-                TARGET_DESCRIPTION "Qt Graphs Visualization component for Qt."
-                VERSION "${PROJECT_VERSION}"
-                PAST_MAJOR_VERSIONS 1
-                DEPENDENCIES
-                    QtQuick
-                LIBRARIES
-                    Qt::QuickPrivate
-                    Qt::QuickShapesPrivate
-                PUBLIC_LIBRARIES
-                    Qt::Core
-                    Qt::Gui
-                    Qt::Quick
-            )
-
-            qt_internal_add_shaders(Graphs "graphsshaders2D"
-                SILENT
-                BATCHABLE
-                PRECOMPILE
-                OPTIMIZED
-                MULTIVIEW
-                PREFIX
-                    "/shaders"
-                BASE
-                    "graphs2d/data"
-                FILES
-                    ${shader_resource_files_2D}
-            )
-        endif()
-    endif() # if(QT_FEATURE_graphs_3d AND QT_FEATURE_graphs_2d)
+    endif()
 endif()
 
 qt_configure_add_summary_section(NAME "Qt Graphs Support")
@@ -385,7 +297,6 @@ endif()
 if(QT_FEATURE_graphs_2d)
     add_subdirectory(graphs2d)
 endif()
-
 
 qt_internal_generate_tracepoints(Graphs graphs
     SOURCES

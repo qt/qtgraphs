@@ -3,6 +3,9 @@
 // Qt-Security score:significant reason:default
 
 
+#ifdef USE_PAINTER_BACKEND
+#include <QtCanvasPainter/QCanvasPainter>
+#endif
 #include <QtGraphs/qcustomseries.h>
 #include <private/axisrenderer_p.h>
 #include <private/charthelpers_p.h>
@@ -68,6 +71,15 @@ CustomRenderer::~CustomRenderer()
 {
     qDeleteAll(m_groups);
 }
+
+
+#ifdef USE_PAINTER_BACKEND
+void CustomRenderer::canvasPaint(QCanvasPainter *p)
+{
+    for (const auto& group : m_groups)
+        group->series->canvasPaint(p);
+}
+#endif
 
 qreal CustomRenderer::mapX(AxisRenderer *axisRenderer, QCustomSeries *series, qreal x)
 {

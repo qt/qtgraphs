@@ -33,6 +33,9 @@
 #include <QtGraphs/qcustomseries.h>
 #include <private/customrenderer_p.h>
 #endif
+#ifdef USE_PAINTER_BACKEND
+#include "qcpainteritem_p.h"
+#endif
 #include <QTimer>
 #include <QtQuick/private/qquickpinchhandler_p.h>
 #include <QtQuick/private/qquickrectangle_p.h>
@@ -116,6 +119,11 @@ QGraphsView::QGraphsView(QQuickItem *parent) :
     m_defaultTheme = new QGraphsTheme(this);
     m_pinchHandler = new QQuickPinchHandler(this);
     m_pinchHandler->setTarget(nullptr);
+
+#ifdef USE_PAINTER_BACKEND
+    if (m_useCanvasPainter)
+        createCanvasPainter();
+#endif
 
     QObject::connect(m_pinchHandler,
                      &QQuickPinchHandler::scaleChanged,
@@ -402,6 +410,29 @@ void QGraphsView::createCustomRenderer()
         qCDebug(lcGraphs2D, "creating custom renderer.");
         m_customRenderer = new CustomRenderer(this, clipPlotArea());
         updateComponentSizes();
+    }
+}
+#endif
+
+#ifdef USE_PAINTER_BACKEND
+void QGraphsView::createCanvasPainter()
+{
+    if (!m_painterItem) {
+        qCDebug(lcGraphs2D, "creating canvas painter item.");
+        m_painterItem = new QCPainterItem(m_areaRenderer, m_barsRenderer, m_pieRenderer,
+                                          m_pointRenderer, m_customRenderer, this);
+        m_painterItem->setAlphaBlending(true);
+        m_painterItem->setFillColor(Qt::transparent);
+        m_painterItem->setAntialiasing(true);
+        updateComponentSizes();
+    }
+}
+
+void QGraphsView::removeCanvasPainter()
+{
+    if (m_painterItem) {
+        m_painterItem->deleteLater();
+        m_painterItem = nullptr;
     }
 }
 #endif
@@ -732,6 +763,13 @@ void QGraphsView::updateComponentSizes()
         m_customRenderer->setSize(m_plotArea.size());
         qCDebug(lcEvents2D) << "custom graph size:" << m_plotArea.size();
         qCDebug(lcEvents2D, "customaRenderer plotArea x: %f y: %f", m_plotArea.x(), m_plotArea.y());
+    }
+#endif
+#ifdef USE_PAINTER_BACKEND
+    if (m_painterItem) {
+        m_painterItem->setX(m_plotArea.x());
+        m_painterItem->setY(m_plotArea.y());
+        m_painterItem->setSize(m_plotArea.size());
     }
 #endif
 }
@@ -1112,6 +1150,10 @@ void QGraphsView::updatePolish()
         if (highestCustomZ > -std::numeric_limits<float>::max())
             m_customRenderer->setZ(highestCustomZ);
     }
+#endif
+#ifdef USE_PAINTER_BACKEND
+    if (m_painterItem)
+        m_painterItem->update();
 #endif
 }
 
@@ -1949,6 +1991,33 @@ int QGraphsView::getSeriesRendererIndex(QAbstractSeries *series)
         }
     }
     return index;
+}
+
+bool QGraphsView::useCanvasPainter() const
+{
+#ifdef USE_PAINTER_BACKEND
+    return m_useCanvasPainter;
+#else
+    return false;
+#endif
+}
+
+void QGraphsView::setUseCanvasPainter(bool newUseCanvasPainter)
+{
+#ifdef USE_PAINTER_BACKEND
+    if (m_useCanvasPainter == newUseCanvasPainter)
+        return;
+    m_useCanvasPainter = newUseCanvasPainter;
+
+    if (m_useCanvasPainter)
+        createCanvasPainter();
+    else
+        removeCanvasPainter();
+
+    emit useCanvasPainterChanged();
+#else
+    Q_UNUSED(newUseCanvasPainter);
+#endif
 }
 
 QT_END_NAMESPACE

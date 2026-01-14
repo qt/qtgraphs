@@ -12,19 +12,21 @@
 #ifdef USE_SPLINEGRAPH
 #include <QtGraphs/qsplineseries.h>
 #endif
+#ifdef USE_PAINTER_BACKEND
+#include <QtCanvasPainter/QCanvasPainter>
+#endif
 #include <QtQuick/private/qquickdraghandler_p.h>
 #include <QtQuick/private/qquicktaphandler_p.h>
 #include <private/axisrenderer_p.h>
+#include <private/charthelpers_p.h>
 #include <private/pointrenderer_p.h>
 #include <private/qabstractseries_p.h>
 #include <private/qgraphsview_p.h>
 #include <private/qxyseries_p.h>
-#include <private/charthelpers_p.h>
 
 #include <qtgraphs_tracepoints_p.h>
 
 QT_BEGIN_NAMESPACE
-
 Q_TRACE_PREFIX(qtgraphs,
               "QT_BEGIN_NAMESPACE" \
               "class PointRenderer;" \
@@ -59,8 +61,10 @@ PointRenderer::PointRenderer(QGraphsView *graph, bool clipPlotArea)
     setFlag(QQuickItem::ItemHasContents);
     setClip(clipPlotArea);
 
+#ifdef USE_SHAPE_BACKEND
     m_shape.setParentItem(this);
     m_shape.setPreferredRendererType(QQuickShape::CurveRenderer);
+#endif
 
     const QString qmlData = QLatin1StringView(R"QML(
         import QtQuick;
@@ -86,8 +90,7 @@ PointRenderer::PointRenderer(QGraphsView *graph, bool clipPlotArea)
             this, &PointRenderer::onSingleTapped);
     connect(m_tapHandler, &QQuickTapHandler::doubleTapped,
             this, &PointRenderer::onDoubleTapped);
-    connect(m_tapHandler, &QQuickTapHandler::pressedChanged,
-            this, &PointRenderer::onPressedChanged);
+    connect(m_tapHandler, &QQuickTapHandler::pressedChanged, this, &PointRenderer::onPressedChanged);
 }
 
 PointRenderer::~PointRenderer()
@@ -99,6 +102,61 @@ void PointRenderer::resetShapePathCount()
 {
     m_currentShapePathIndex = 0;
 }
+
+#ifdef USE_PAINTER_BACKEND
+void PointRenderer::canvasPaint(QCanvasPainter *p)
+{
+    p->setLineJoin(QCanvasPainter::LineJoin::Round);
+
+    for (auto&& group : m_groups) {
+        if (group->painterPath.elementCount() == 0)
+            continue;
+
+        const auto style = getSeriesStyle(group);
+
+        qreal width = 1.0;
+        QCanvasPainter::LineCap capStyle = QCanvasPainter::LineCap::Round;
+        if (auto line = qobject_cast<QLineSeries *>(group->series)) {
+            width = line->width();
+            switch (line->capStyle()) {
+            case Qt::PenCapStyle::FlatCap:
+                capStyle = QCanvasPainter::LineCap::Butt;
+                break;
+            case Qt::PenCapStyle::RoundCap:
+                capStyle = QCanvasPainter::LineCap::Round;
+                break;
+            case Qt::PenCapStyle::SquareCap:
+                capStyle = QCanvasPainter::LineCap::Square;
+                break;
+            default:
+                break;
+            }
+        } else if (auto spline = qobject_cast<QSplineSeries *>(group->series)) {
+            width = spline->width();
+            switch (spline->capStyle()) {
+            case Qt::PenCapStyle::FlatCap:
+                capStyle = QCanvasPainter::LineCap::Butt;
+                break;
+            case Qt::PenCapStyle::RoundCap:
+                capStyle = QCanvasPainter::LineCap::Round;
+                break;
+            case Qt::PenCapStyle::SquareCap:
+                capStyle = QCanvasPainter::LineCap::Square;
+                break;
+            default:
+                break;
+            }
+        }
+
+        p->setStrokeStyle(style.color);
+        p->setLineWidth(width);
+        p->setLineCap(capStyle);
+        p->beginPath();
+        p->addPath(group->painterPath);
+        p->stroke();
+    }
+}
+#endif
 
 qreal PointRenderer::defaultSize(QXYSeries *series)
 {
@@ -395,29 +453,33 @@ void PointRenderer::updateLineSeries(QLineSeries *series, QLegendData &legendDat
     auto group = m_groups.value(series);
     const auto style = getSeriesStyle(group);
 
-    group->shapePath->setStrokeColor(style.color);
-    group->shapePath->setStrokeWidth(series->width());
-    group->shapePath->setFillColor(QColorConstants::Transparent);
+#ifdef USE_SHAPE_BACKEND
+    if (!m_graph->useCanvasPainter()) {
+        group->shapePath->setStrokeColor(style.color);
+        group->shapePath->setStrokeWidth(series->width());
+        group->shapePath->setFillColor(QColorConstants::Transparent);
 
-    Qt::PenCapStyle capStyle = series->capStyle();
-    if (capStyle == Qt::PenCapStyle::SquareCap)
-        group->shapePath->setCapStyle(QQuickShapePath::CapStyle::SquareCap);
-    else if (capStyle == Qt::PenCapStyle::FlatCap)
-        group->shapePath->setCapStyle(QQuickShapePath::CapStyle::FlatCap);
-    else if (capStyle == Qt::PenCapStyle::RoundCap)
-        group->shapePath->setCapStyle(QQuickShapePath::CapStyle::RoundCap);
+        Qt::PenCapStyle capStyle = series->capStyle();
+        if (capStyle == Qt::PenCapStyle::SquareCap)
+            group->shapePath->setCapStyle(QQuickShapePath::CapStyle::SquareCap);
+        else if (capStyle == Qt::PenCapStyle::FlatCap)
+            group->shapePath->setCapStyle(QQuickShapePath::CapStyle::FlatCap);
+        else if (capStyle == Qt::PenCapStyle::RoundCap)
+            group->shapePath->setCapStyle(QQuickShapePath::CapStyle::RoundCap);
 
-    Qt::PenJoinStyle joinStyle = series->joinStyle();
-    if (joinStyle == Qt::PenJoinStyle::BevelJoin)
-        group->shapePath->setJoinStyle(QQuickShapePath::JoinStyle::BevelJoin);
-    else if (joinStyle == Qt::PenJoinStyle::MiterJoin)
-        group->shapePath->setJoinStyle(QQuickShapePath::JoinStyle::MiterJoin);
-    else if (joinStyle == Qt::PenJoinStyle::RoundJoin)
-        group->shapePath->setJoinStyle(QQuickShapePath::JoinStyle::RoundJoin);
+        Qt::PenJoinStyle joinStyle = series->joinStyle();
+        if (joinStyle == Qt::PenJoinStyle::BevelJoin)
+            group->shapePath->setJoinStyle(QQuickShapePath::JoinStyle::BevelJoin);
+        else if (joinStyle == Qt::PenJoinStyle::MiterJoin)
+            group->shapePath->setJoinStyle(QQuickShapePath::JoinStyle::MiterJoin);
+        else if (joinStyle == Qt::PenJoinStyle::RoundJoin)
+            group->shapePath->setJoinStyle(QQuickShapePath::JoinStyle::RoundJoin);
 
-    group->shapePath->setStrokeStyle(QQuickShapePath::StrokeStyle(series->strokeStyle()));
-    group->shapePath->setDashOffset(series->dashOffset());
-    group->shapePath->setDashPattern(series->dashPattern());
+        group->shapePath->setStrokeStyle(QQuickShapePath::StrokeStyle(series->strokeStyle()));
+        group->shapePath->setDashOffset(series->dashOffset());
+        group->shapePath->setDashPattern(series->dashPattern());
+    }
+#endif
 
     auto &painterPath = group->painterPath;
     painterPath.clear();
@@ -478,7 +540,12 @@ void PointRenderer::updateLineSeries(QLineSeries *series, QLegendData &legendDat
     } else {
         hidePointDelegates(series);
     }
-    group->shapePath->setPath(painterPath);
+
+#ifdef USE_SHAPE_BACKEND
+    if (!m_graph->useCanvasPainter())
+        group->shapePath->setPath(painterPath);
+#endif
+
     Q_TRACE(QGraphs2DPointRendererUpdateLineSeries_exit);
     legendData = { style.color, style.borderColor, series->name() };
 }
@@ -490,17 +557,21 @@ void PointRenderer::updateSplineSeries(QSplineSeries *series, QLegendData &legen
     auto group = m_groups.value(series);
     const auto style = getSeriesStyle(group);
 
-    group->shapePath->setStrokeColor(style.color);
-    group->shapePath->setStrokeWidth(series->width());
-    group->shapePath->setFillColor(QColorConstants::Transparent);
+#ifdef USE_SHAPE_BACKEND
+    if (!m_graph->useCanvasPainter()) {
+        group->shapePath->setStrokeColor(style.color);
+        group->shapePath->setStrokeWidth(series->width());
+        group->shapePath->setFillColor(QColorConstants::Transparent);
 
-    Qt::PenCapStyle capStyle = series->capStyle();
-    if (capStyle == Qt::PenCapStyle::SquareCap)
-        group->shapePath->setCapStyle(QQuickShapePath::CapStyle::SquareCap);
-    else if (capStyle == Qt::PenCapStyle::FlatCap)
-        group->shapePath->setCapStyle(QQuickShapePath::CapStyle::FlatCap);
-    else if (capStyle == Qt::PenCapStyle::RoundCap)
-        group->shapePath->setCapStyle(QQuickShapePath::CapStyle::RoundCap);
+        Qt::PenCapStyle capStyle = series->capStyle();
+        if (capStyle == Qt::PenCapStyle::SquareCap)
+            group->shapePath->setCapStyle(QQuickShapePath::CapStyle::SquareCap);
+        else if (capStyle == Qt::PenCapStyle::FlatCap)
+            group->shapePath->setCapStyle(QQuickShapePath::CapStyle::FlatCap);
+        else if (capStyle == Qt::PenCapStyle::RoundCap)
+            group->shapePath->setCapStyle(QQuickShapePath::CapStyle::RoundCap);
+    }
+#endif
 
     auto &painterPath = group->painterPath;
     painterPath.clear();
@@ -558,7 +629,11 @@ void PointRenderer::updateSplineSeries(QSplineSeries *series, QLegendData &legen
         hidePointDelegates(series);
     }
 
-    group->shapePath->setPath(painterPath);
+#ifdef USE_SHAPE_BACKEND
+    if (!m_graph->useCanvasPainter())
+        group->shapePath->setPath(painterPath);
+#endif
+
     legendData = { style.color, style.borderColor, series->name() };
 }
 #endif
@@ -580,11 +655,13 @@ void PointRenderer::handlePolish(QXYSeries *series)
         auto group = m_groups.value(series);
 
         if (group) {
+#ifdef USE_SHAPE_BACKEND
             if (group->shapePath) {
                 auto &painterPath = group->painterPath;
                 painterPath.clear();
                 group->shapePath->setPath(painterPath);
             }
+#endif
 
             for (auto m : std::as_const(group->markers))
                 m->deleteLater();
@@ -618,19 +695,23 @@ void PointRenderer::handlePolish(QXYSeries *series)
         group->series = series;
         m_groups.insert(series, group);
 
+#ifdef USE_SHAPE_BACKEND
         if (series->type() != QAbstractSeries::SeriesType::Scatter) {
             group->shapePath = new QQuickShapePath(&m_shape);
             group->shapePath->setAsynchronous(true);
             auto data = m_shape.data();
             data.append(&data, group->shapePath);
         }
+#endif
     }
 
     auto group = m_groups.value(series);
 
     if (series->type() != QAbstractSeries::SeriesType::Scatter) {
+#ifdef USE_SHAPE_BACKEND
         auto data = m_shape.data();
         group->shapePath = qobject_cast<QQuickShapePath *>(data.at(&data, m_currentShapePathIndex));
+#endif
 
         m_currentShapePathIndex++;
     }
@@ -755,11 +836,13 @@ void PointRenderer::afterPolish(QList<QAbstractSeries *> &cleanupSeries)
             for (auto marker : std::as_const(group->markers))
                 marker->deleteLater();
 
+#ifdef USE_SHAPE_BACKEND
             if (group->shapePath) {
                 auto painterPath = group->painterPath;
                 painterPath.clear();
                 group->shapePath->setPath(painterPath);
             }
+#endif
 
             delete group;
             m_groups.remove(xySeries);
