@@ -58,7 +58,7 @@ void tst_datetimeaxis::initialProperties()
     QCOMPARE(m_axis->labelFormat(), "dd-MMMM-yy");
     QCOMPARE(m_axis->subTickCount(), 0);
     QCOMPARE(m_axis->tickInterval(), 0.0);
-    QCOMPARE(m_axis->timeZone(), "UTC");
+    QCOMPARE(m_axis->timeZoneAsString(), "UTC");
 }
 
 void tst_datetimeaxis::initializeProperties()
@@ -66,7 +66,7 @@ void tst_datetimeaxis::initializeProperties()
     QVERIFY(m_axis);
 
 #ifdef QT_FEATURE_timezone
-    QString tzone = "Europe/Helsinki";
+    QString timeZoneString = "Europe/Helsinki";
 #else
     QString tzone = "UTC";
 #endif
@@ -96,8 +96,8 @@ void tst_datetimeaxis::initializeProperties()
     QCOMPARE(m_axis->subTickCount(), 2);
     QCOMPARE(m_axis->tickInterval(), 0.5);
 
-    auto tz = QString(tzone).toUtf8();
-    m_axis->setTimeZone(tz);
+    auto tz = QString(timeZoneString).toUtf8();
+    m_axis->setTimeZone(QTimeZone(tz));
 
     auto max = QDateTime(QDate::currentDate(), QTime::fromMSecsSinceStartOfDay(0), QTimeZone::UTC)
                  .addYears(20);
@@ -105,7 +105,7 @@ void tst_datetimeaxis::initializeProperties()
     max.toTimeZone(QTimeZone(tz));
     min.toTimeZone(QTimeZone(tz));
 
-    QCOMPARE(m_axis->timeZone(), tzone);
+    QCOMPARE(m_axis->timeZoneAsString(), timeZoneString);
     QCOMPARE(m_axis->min(), min);
     QCOMPARE(m_axis->max(), max);
     QCOMPARE(m_axis->min().timeZone().offsetFromUtc(m_axis->min()), QTimeZone(tz).offsetFromUtc(m_axis->min()));
