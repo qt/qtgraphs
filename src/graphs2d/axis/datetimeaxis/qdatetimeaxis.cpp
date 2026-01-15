@@ -1,9 +1,10 @@
 // Copyright (C) 2024 The Qt Company Ltd.
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 
-#include <QtCore/QObject>
-#include <QtGraphs/QDateTimeAxis>
-#include "private/qdatetimeaxis_p.h"
+#include <QtGraphs/qdatetimeaxis.h>
+#include <QtGraphs/private/qdatetimeaxis_p.h>
+#include <QtCore/qobject.h>
+#include <QtCore/qdatetime.h>
 
 QT_BEGIN_NAMESPACE
 /*!
@@ -101,7 +102,7 @@ QT_BEGIN_NAMESPACE
  \since 6.11
 */
 /*!
- \qmlproperty string DateTimeAxis::timeZone
+ \qmlproperty QTimeZone DateTimeAxis::timeZone
  The time zone that will be used to display labels of the axis.
  The accepted values are based on IANA time zone IDs. The default time zone is UTC.
  \since 6.11
@@ -191,6 +192,20 @@ QT_BEGIN_NAMESPACE
 
  This property holds a a visual maximum axis value when axis has been
  panned or zoomed. The default value is \l max
+*/
+
+/*!
+ \qmlmethod QTimeZone DateTimeAxis::timeZone(string zoneId)
+ \since 6.11
+ Returns the QTimeZone corresponding to IANA based \a zoneId.
+ \note This is the converter method for setting the \l {timeZone}.
+ \sa QDateTimeAxis::timeZone, timeZoneAsString
+*/
+/*!
+ \qmlmethod string DateTimeAxis::timeZoneAsString()
+ \since 6.11
+ Returns the \l {QDateTimeAxis::timeZone}'s IANA based zone ID as a string.
+ \sa timeZone
 */
 
 /*!
@@ -329,20 +344,31 @@ void QDateTimeAxis::setSubTickCount(int newSubTickCount)
     emit update();
 }
 
-QString QDateTimeAxis::timeZone() const
+QTimeZone QDateTimeAxis::timeZone() const
 {
 #if QT_CONFIG(timezone)
     Q_D(const QDateTimeAxis);
 
-    return QString::fromUtf8(d->m_timeZone.id());
+    return d->m_timeZone;
 #else
-    return QString::fromUtf8("UTC");
+    return QTimeZone(QTimeZone::Initialization::UTC);
 #endif
 }
 
-void QDateTimeAxis::setTimeZone(const QString &zoneId)
+void QDateTimeAxis::setTimeZone(const QTimeZone &timeZone)
 {
     Q_D(QDateTimeAxis);
+
+    if (!timeZone.isValid())
+        return;
+
+    d->m_timeZone = timeZone;
+    emit timeZoneChanged(timeZone);
+    emit update();
+}
+
+QTimeZone QDateTimeAxis::timeZone(const QString &zoneId) const
+{
 
 #if QT_CONFIG(timezone)
     auto zone = QTimeZone(zoneId.toUtf8());
@@ -350,12 +376,17 @@ void QDateTimeAxis::setTimeZone(const QString &zoneId)
     auto zone = QTimeZone(QTimeZone::Initialization::UTC);
 #endif
 
-    if (!zone.isValid())
-        return;
+    return zone;
+}
 
-    d->m_timeZone = zone;
-    emit timeZoneChanged(zoneId);
-    emit update();
+QString QDateTimeAxis::timeZoneAsString() const
+{
+#if QT_CONFIG(timezone)
+    Q_D(const QDateTimeAxis);
+    return QString::fromLatin1(d->m_timeZone.id());
+#else
+    return QString::fromLatin1("UTC");
+#endif
 }
 
 void QDateTimeAxis::setZoom(qreal zoom)

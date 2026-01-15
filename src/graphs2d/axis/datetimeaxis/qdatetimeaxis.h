@@ -5,6 +5,7 @@
 #define QTGRAPHS_QDATETIMEAXIS_H
 
 #include <QtGraphs/qabstractaxis.h>
+#include <QtCore/qtimezone.h>
 
 QT_BEGIN_NAMESPACE
 
@@ -22,7 +23,7 @@ class Q_GRAPHS_EXPORT QDateTimeAxis : public QAbstractAxis
     Q_PROPERTY(
         qreal tickInterval READ tickInterval WRITE setTickInterval NOTIFY tickIntervalChanged FINAL)
     Q_PROPERTY(
-        QString timeZone READ timeZone WRITE setTimeZone NOTIFY timeZoneChanged REVISION(6, 11))
+        QTimeZone timeZone READ timeZone WRITE setTimeZone NOTIFY timeZoneChanged REVISION(6, 11))
     Q_PROPERTY(qreal zoom READ zoom WRITE setZoom NOTIFY zoomChanged REVISION(6, 11))
     Q_PROPERTY(qreal pan READ pan WRITE setPan NOTIFY panChanged REVISION(6, 11))
     Q_PROPERTY(QDateTime visualMin READ visualMin NOTIFY visualMinChanged REVISION(6, 11))
@@ -55,8 +56,8 @@ public:
     int subTickCount() const;
     void setSubTickCount(int newSubTickCount);
 
-    QString timeZone() const;
-    void setTimeZone(const QString &zoneId);
+    QTimeZone timeZone() const;
+    void setTimeZone(const QTimeZone &zoneId);
 
     void setZoom(qreal zoom);
     qreal zoom() const;
@@ -67,13 +68,16 @@ public:
     QDateTime visualMin() const;
     QDateTime visualMax() const;
 
+   Q_REVISION(6, 11) Q_INVOKABLE QTimeZone timeZone(const QString &zoneId) const;
+   Q_REVISION(6, 11) Q_INVOKABLE QString timeZoneAsString() const;
+
 Q_SIGNALS:
     void minChanged(const QDateTime &min);
     void maxChanged(const QDateTime &max);
     void labelFormatChanged(const QString &format);
     void tickIntervalChanged();
     void subTickCountChanged();
-    Q_REVISION(6, 11) void timeZoneChanged(const QString &timeZone);
+    Q_REVISION(6, 11) void timeZoneChanged(const QTimeZone &timeZone);
     Q_REVISION(6, 11) void zoomChanged(qreal zoom);
     Q_REVISION(6, 11) void panChanged(qreal pan);
     Q_REVISION(6, 11) void visualMinChanged(qreal min);
