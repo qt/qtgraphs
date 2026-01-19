@@ -56,24 +56,6 @@ qreal CustomRenderer::mapY(AxisRenderer *axisRenderer, QCustomSeries *series, qr
     return m_areaHeight - m_areaHeight * flipY * y * m_maxVertical + m_verticalOffset;
 }
 
-void CustomRenderer::calculateRenderCoordinates(AxisRenderer *axisRenderer,
-                                                QAbstractSeries *series,
-                                                qreal origX,
-                                                qreal origY,
-                                                qreal *renderX,
-                                                qreal *renderY)
-{
-    auto &axisX = axisRenderer->getAxisX(series);
-    auto &axisY = axisRenderer->getAxisY(series);
-
-    auto flipX = axisX.maxValue < axisX.minValue ? -1 : 1;
-    auto flipY = axisY.maxValue < axisY.minValue ? -1 : 1;
-
-    *renderX = m_areaWidth * flipX * origX * m_maxHorizontal - m_horizontalOffset;
-    *renderY = m_areaHeight - m_areaHeight * flipY * origY * m_maxVertical
-               + m_verticalOffset;
-}
-
 void CustomRenderer::hideDelegates(QCustomSeries *series)
 {
     auto group = m_groups.value(series);
@@ -198,6 +180,12 @@ void CustomRenderer::handlePolish(QCustomSeries *series)
         hideDelegates(series);
     }
 
+    if (m_plotArea.width() != m_areaWidth || m_plotArea.height() != m_areaHeight) {
+        m_plotArea.setWidth(m_areaWidth);
+        m_plotArea.setHeight(m_areaHeight);
+        emit plotAreaChanged();
+    }
+
     Q_TRACE(QGraphs2DCustomRendererHandlePolish_exit);
 }
 
@@ -229,6 +217,11 @@ void CustomRenderer::updateSeries(QCustomSeries *series)
 void CustomRenderer::afterUpdate(QList<QAbstractSeries *> &cleanupSeries)
 {
     Q_UNUSED(cleanupSeries);
+}
+
+QRectF CustomRenderer::plotArea() const
+{
+    return m_plotArea;
 }
 
 QT_END_NAMESPACE

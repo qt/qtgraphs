@@ -1634,6 +1634,11 @@ qreal QGraphsView::mapY(QCustomSeries *series, qreal y)
     return m_customRenderer->mapY(m_axisRenderer, series, y);
 }
 
+CustomRenderer *QGraphsView::customRenderer() const
+{
+    return m_customRenderer;
+}
+
 /*!
     \enum QGraphsView::ZoomStyle
     This enum value describes the zoom style of the graph:

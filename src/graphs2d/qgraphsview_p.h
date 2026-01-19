@@ -204,6 +204,8 @@ public:
     qreal mapX(QCustomSeries *series, qreal x);
     qreal mapY(QCustomSeries *series, qreal y);
 
+    CustomRenderer *customRenderer() const;
+
 protected:
     void handleHoverEnter(const QString &seriesName, QPointF position, QPointF value);
     void handleHoverExit(const QString &seriesName, QPointF position);
