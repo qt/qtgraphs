@@ -27,6 +27,8 @@ struct QLegendData;
 
 class CustomRenderer : public QQuickItem
 {
+    Q_PROPERTY(QRectF plotArea READ plotArea NOTIFY plotAreaChanged FINAL)
+
     Q_OBJECT
 public:
     CustomRenderer(QGraphsView *graph, bool clipPlotArea);
@@ -39,6 +41,11 @@ public:
 
     qreal mapX(AxisRenderer *axisRenderer, QCustomSeries *series, qreal x);
     qreal mapY(AxisRenderer *axisRenderer, QCustomSeries *series, qreal y);
+
+    QRectF plotArea() const;
+
+signals:
+    void plotAreaChanged();
 
 private:
     struct DataGroup
@@ -59,13 +66,8 @@ private:
     qreal m_horizontalOffset = 0;
     qreal m_areaWidth = 0;
     qreal m_areaHeight = 0;
+    QRectF m_plotArea;
 
-    void calculateRenderCoordinates(AxisRenderer *axisRenderer,
-                                    QAbstractSeries *series,
-                                    qreal origX,
-                                    qreal origY,
-                                    qreal *renderX,
-                                    qreal *renderY);
     void hideDelegates(QCustomSeries *series);
 };
 

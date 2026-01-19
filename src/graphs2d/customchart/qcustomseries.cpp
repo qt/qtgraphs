@@ -6,6 +6,7 @@
 #include <private/qcustomseries_p.h>
 #include <private/qcustomseriesdata_p.h>
 #include <private/qgraphsview_p.h>
+#include <QtGraphs/private/customrenderer_p.h>
 
 QT_BEGIN_NAMESPACE
 
@@ -198,8 +199,18 @@ void QCustomSeries::setDelegate(QQmlComponent *newDelegate)
 qreal QCustomSeries::mapX(qreal x)
 {
     Q_D(const QCustomSeries);
-    if (d->m_graph)
+    if (d->m_graph) {
+        auto renderer = d->m_graph->customRenderer();
+        if (renderer) {
+            auto metaObj = renderer->metaObject();
+            auto propIndex = metaObj->indexOfProperty("plotArea");
+            if (propIndex >= 0) {
+                auto prop = metaObj->property(propIndex);
+                qmlEngine(this)->captureProperty(renderer, prop);
+            }
+        }
         return d->m_graph->mapX(this, x);
+    }
     return x;
 }
 
@@ -213,8 +224,18 @@ qreal QCustomSeries::mapX(qreal x)
 qreal QCustomSeries::mapY(qreal y)
 {
     Q_D(const QCustomSeries);
-    if (d->m_graph)
+    if (d->m_graph) {
+        auto renderer = d->m_graph->customRenderer();
+        if (renderer) {
+            auto metaObj = renderer->metaObject();
+            auto propIndex = metaObj->indexOfProperty("plotArea");
+            if (propIndex >= 0) {
+                auto prop = metaObj->property(propIndex);
+                qmlEngine(this)->captureProperty(renderer, prop);
+            }
+        }
         return d->m_graph->mapY(this, y);
+    }
     return y;
 }
 
