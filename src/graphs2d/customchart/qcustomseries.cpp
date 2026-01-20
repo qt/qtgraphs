@@ -15,7 +15,21 @@ QT_BEGIN_NAMESPACE
     \brief The QCustomSeries class allows presenting customized graph types.
     \since 6.11
 
-    //! TODO: Description
+    Use QCustomSeries to create customized graphs. Think of it as a scatter graph
+    that lets you access custom data for each element.
+
+    QCustomSeries defines a delegate that is used to render every item added to
+    the graph. Each item includes user-defined data stored in a \l QVariantMap.
+    Index of the item in the graph is also automatically added to the data map.
+    The series passes this map to each element created based on the delegate.
+    The delegate determines how to use the data.
+
+    To map data to the render coordinates defined by the \l QGraphView axes,
+    use the \l mapX and \l mapY functions.
+
+    \note Currently, individual elements in a custom series do not share
+    information with one another. For this reason, you can't implement a custom
+    line series.
 */
 
 /*!
@@ -25,7 +39,83 @@ QT_BEGIN_NAMESPACE
     \brief The CustomSeries type allows presenting customized graph types.
     \since 6.11
 
-    //! TODO: Description
+    Use CustomSeries to create customized graphs. Think of it as a scatter graph
+    that lets you access custom data for each element.
+
+    CustomSeries defines a delegate that is used to render every item added to
+    the graph. Each item includes user-defined data stored in a \l QVariantMap.
+    Index of the item in the graph is also automatically added to the data map.
+    In the QML context the variant map is defined by a JavaScript object.
+    The series passes this map to each element created based on the delegate.
+    The delegate determines how to use the data.
+
+    To map data to the render coordinates defined by the \l GraphView axes,
+    use the \l mapX and \l mapY functions.
+
+    \note Currently, individual elements in a custom series do not share
+    information with one another. For this reason, you can't implement a custom
+    line series.
+
+    \image graphs2d-custom.png
+
+    The following code implements the depicted custom graph. In this case the
+    custom data contains two values: upper and lower. Those are then defined
+    in the delegate to affect the height and the y coordinate of the element.
+
+    \qml
+    import QtQuick
+    import QtGraphs
+
+    Window {
+        width: 640
+        height: 480
+        visible: true
+
+        GraphsView {
+            anchors.fill: parent
+
+            axisX: BarCategoryAxis {
+                categories: ["ABC", "DEF"]
+            }
+
+            axisY: ValueAxis {
+                max: 8
+                tickInterval: 1
+            }
+
+            CustomSeries {
+                id: custom
+
+                delegate: Rectangle {
+                    property var data
+                    gradient: Gradient {
+                        GradientStop { position: 0.0; color: "lightsteelblue" }
+                        GradientStop { position: 1.0; color: "blue" }
+                    }
+                    border.width: 1
+                    x: custom.mapX(data.index + 0.5) - width * 0.5
+                    y: custom.mapY((data.upper + data.lower) * 0.5) - height * 0.5
+                    width: Math.abs(custom.mapX(1) - custom.mapX(0)) * 0.5
+                    height: Math.abs(custom.mapY(data.upper) - custom.mapY(data.lower))
+                }
+
+                CustomSeriesData {
+                    data: ({
+                        upper: 5,
+                        lower: 1
+                    })
+                }
+
+                CustomSeriesData {
+                    data: ({
+                        upper: 6,
+                        lower: 4
+                    })
+                }
+            }
+        }
+    }
+    \endqml
 */
 
 QCustomSeries::QCustomSeries(QObject *parent)
