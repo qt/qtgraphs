@@ -86,16 +86,14 @@ QT_BEGIN_NAMESPACE
 */
 /*!
  \property QDateTimeAxis::tickInterval
- \brief The interval between dynamically placed tick marks and labels.
- The default value is 0, which means that intervals are automatically calculated
- based on the min and max range.
+ \brief The amount of major ticks are placed on an axis. If value is 0 or lower, axis will
+ automatically calculate appropriate amount of ticks. The default value is 0.
 */
 /*!
  \qmlproperty real DateTimeAxis::tickInterval
- The interval between dynamically placed tick marks and labels.
- The default value is 0, which means that intervals are automatically calculated
- based on the min and max range.
-*/
+ \brief The amount of major ticks are placed on an axis. If value is 0 or lower, axis will
+ automatically calculate appropriate amount of ticks. The default value is 0.
+ */
 /*!
  \property QDateTimeAxis::timeZone
  \brief The time zone that will be used to display labels of the axis.
