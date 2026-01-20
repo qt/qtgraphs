@@ -334,3 +334,5 @@ void SurfaceItemModelHandler::resolveModel()
 }
 
 QT_END_NAMESPACE
+
+#include "moc_surfaceitemmodelhandler_p.cpp"

@@ -1051,3 +1051,5 @@ void QBar3DSeriesPrivate::resetColumnAxis()
 }
 
 QT_END_NAMESPACE
+
+#include "moc_qbar3dseries.cpp"

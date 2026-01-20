@@ -7,6 +7,8 @@
 #include "private/qgraphtransition_p.h"
 #include "private/qxyseries_p.h"
 
+QT_BEGIN_NAMESPACE
+
 /*!
     \qmltype GraphPointAnimation
     \inqmlmodule QtGraphs
@@ -193,3 +195,7 @@ void QGraphPointAnimation::valueUpdated(const QVariant &value)
 
     emit series->update();
 }
+
+QT_END_NAMESPACE
+
+#include "moc_qgraphpointanimation_p.cpp"

@@ -9,8 +9,6 @@
 #include <QtGraphs/qabstractdataproxy.h>
 #include <QtGraphs/qbardataitem.h>
 
-Q_MOC_INCLUDE(<QtGraphs / qbar3dseries.h>)
-
 QT_BEGIN_NAMESPACE
 
 class QBarDataProxyPrivate;

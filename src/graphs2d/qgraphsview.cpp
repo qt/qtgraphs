@@ -1931,3 +1931,5 @@ int QGraphsView::getSeriesRendererIndex(QAbstractSeries *series)
 }
 
 QT_END_NAMESPACE
+
+#include "moc_qgraphsview_p.cpp"

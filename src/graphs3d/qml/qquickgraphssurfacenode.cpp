@@ -379,3 +379,5 @@ const QQuickGraphsSurface *QQuickGraphsSurfaceNode::graphSurface() const
 }
 
 QT_END_NAMESPACE
+
+#include "moc_qquickgraphssurfacenode_p.cpp"

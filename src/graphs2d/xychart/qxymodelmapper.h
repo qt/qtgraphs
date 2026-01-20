@@ -7,9 +7,6 @@
 #include <QtGraphs/qgraphsglobal.h>
 #include <QtQmlIntegration/qqmlintegration.h>
 
-Q_MOC_INCLUDE(<QtGraphs / qxyseries.h>)
-Q_MOC_INCLUDE(<QtCore / qabstractitemmodel.h>)
-
 QT_BEGIN_NAMESPACE
 
 class QXYModelMapperPrivate;

@@ -7,9 +7,6 @@
 #include <QtGraphs/qgraphsglobal.h>
 #include <QtQmlIntegration/qqmlintegration.h>
 
-Q_MOC_INCLUDE(<QtCore / qabstractitemmodel.h>)
-Q_MOC_INCLUDE(<QtGraphs / qbarseries.h>)
-
 QT_BEGIN_NAMESPACE
 
 class QAbstractItemModel;

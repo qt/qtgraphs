@@ -389,3 +389,5 @@ void QCustom3DLabelPrivate::resetDirtyBits()
 }
 
 QT_END_NAMESPACE
+
+#include "moc_qcustom3dlabel.cpp"

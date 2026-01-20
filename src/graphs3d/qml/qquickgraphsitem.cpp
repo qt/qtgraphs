@@ -8580,3 +8580,5 @@ void QQuickGraphsItem::setItemSelected(bool selected)
 }
 
 QT_END_NAMESPACE
+
+#include "moc_qquickgraphsitem_p.cpp"

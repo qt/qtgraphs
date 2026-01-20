@@ -10,6 +10,8 @@
 #include "private/qxyseries_p.h"
 #include "private/qxyseriesanimation_p.h"
 
+QT_BEGIN_NAMESPACE
+
 /*!
     \qmltype GraphTransition
     \inqmlmodule QtGraphs
@@ -176,3 +178,7 @@ void QGraphTransition::clear(QQmlListProperty<QObject> *)
 {
     Q_UNIMPLEMENTED();
 }
+
+QT_END_NAMESPACE
+
+#include "moc_qgraphtransition_p.cpp"

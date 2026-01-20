@@ -700,3 +700,5 @@ void QScatter3DSeriesPrivate::resetAxisZ()
 }
 
 QT_END_NAMESPACE
+
+#include "moc_qscatter3dseries.cpp"

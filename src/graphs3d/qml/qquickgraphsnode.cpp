@@ -749,3 +749,5 @@ QCustom3DItem *QQuickGraphsNode::selectedCustomItem() const
 }
 
 QT_END_NAMESPACE
+
+#include "moc_qquickgraphsnode_p.cpp"

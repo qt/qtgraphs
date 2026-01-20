@@ -602,3 +602,5 @@ void QValue3DAxisFormatterPrivate::markDirty(bool labelsChange)
 }
 
 QT_END_NAMESPACE
+
+#include "moc_qvalue3daxisformatter.cpp"

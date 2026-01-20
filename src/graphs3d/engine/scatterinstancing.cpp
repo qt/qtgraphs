@@ -111,3 +111,5 @@ void ScatterInstancing::resetVisibilty()
 }
 
 QT_END_NAMESPACE
+
+#include "moc_scatterinstancing_p.cpp"

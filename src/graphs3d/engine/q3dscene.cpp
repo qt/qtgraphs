@@ -645,3 +645,5 @@ bool Q3DScenePrivate::isInArea(const QRect area, int x, int y) const
 }
 
 QT_END_NAMESPACE
+
+#include "moc_q3dscene.cpp"

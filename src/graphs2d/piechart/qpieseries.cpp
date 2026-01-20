@@ -1307,3 +1307,5 @@ void QPieSeriesPrivate::setSizes(qreal innerSize, qreal outerSize)
 }
 
 QT_END_NAMESPACE
+
+#include "moc_qpieseries.cpp"

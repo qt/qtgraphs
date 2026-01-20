@@ -484,3 +484,5 @@ void QDateTimeAxisPrivate::calculateVisualRange()
 }
 
 QT_END_NAMESPACE
+
+#include "moc_qdatetimeaxis.cpp"

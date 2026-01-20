@@ -79,3 +79,5 @@ QColor QQuickGraphsTextureData::linearInterpolate(QColor startColor, QColor endC
 }
 
 QT_END_NAMESPACE
+
+#include "moc_qquickgraphstexturedata_p.cpp"

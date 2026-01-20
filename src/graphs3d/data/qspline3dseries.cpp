@@ -363,3 +363,5 @@ QSpline3DSeriesPrivate::QSpline3DSeriesPrivate()
 QSpline3DSeriesPrivate::~QSpline3DSeriesPrivate() {}
 
 QT_END_NAMESPACE
+
+#include "moc_qspline3dseries.cpp"

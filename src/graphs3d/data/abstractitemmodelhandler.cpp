@@ -231,3 +231,5 @@ void AbstractItemModelHandler::handlePendingResolve()
 }
 
 QT_END_NAMESPACE
+
+#include "moc_abstractitemmodelhandler_p.cpp"

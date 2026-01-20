@@ -237,3 +237,5 @@ QT_BEGIN_NAMESPACE
  */
 
 QT_END_NAMESPACE
+
+#include "moc_qgraphs3dnamespace.cpp"

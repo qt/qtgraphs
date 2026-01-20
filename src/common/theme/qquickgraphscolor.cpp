@@ -25,3 +25,5 @@ QColor QQuickGraphsColor::color() const
 }
 
 QT_END_NAMESPACE
+
+#include "moc_qquickgraphscolor_p.cpp"

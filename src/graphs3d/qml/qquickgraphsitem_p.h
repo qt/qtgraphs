@@ -22,9 +22,9 @@
 #include "qvalue3daxis.h"
 
 #include <QtQuick3D/private/qquick3dviewport_p.h>
-Q_MOC_INCLUDE(<QtGraphs / q3dscene.h>)
 
 QT_BEGIN_NAMESPACE
+
 class Q3DScene;
 
 class QAbstract3DAxis;

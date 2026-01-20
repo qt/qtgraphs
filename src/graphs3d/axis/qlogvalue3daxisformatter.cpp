@@ -452,3 +452,5 @@ float QLogValue3DAxisFormatterPrivate::valueAt(float position) const
 }
 
 QT_END_NAMESPACE
+
+#include "moc_qlogvalue3daxisformatter.cpp"

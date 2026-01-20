@@ -11,6 +11,8 @@
 #include "qquickgraphsitem_p.h"
 #include "qgraphs3dlogging_p.h"
 
+QT_BEGIN_NAMESPACE
+
 QGraphsInputHandler::QGraphsInputHandler(QQuickItem *parent)
     : QQuickItem(parent)
     , m_zoomEnabled(true)
@@ -381,3 +383,7 @@ void QGraphsInputHandler::hoverMoveEvent(QHoverEvent *event)
 {
     Q_EMIT mouseMove(event->oldPos());
 }
+
+QT_END_NAMESPACE
+
+#include "moc_qgraphsinputhandler_p.cpp"

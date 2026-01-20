@@ -22,6 +22,8 @@
 
 #include <QtGui/qquaternion.h>
 
+QT_BEGIN_NAMESPACE
+
 #include <qtgraphs_tracepoints_p.h>
 
 Q_TRACE_PREFIX(qtgraphs,
@@ -3141,3 +3143,7 @@ void QQuickGraphsBars::updateBarSeriesMargin(QSizeF margin)
     calculateSceneScalingFactors();
     setSeriesVisualsDirty(true);
 }
+
+QT_END_NAMESPACE
+
+#include "moc_qquickgraphsbars_p.cpp"

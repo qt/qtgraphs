@@ -656,3 +656,5 @@ void QSurfaceDataProxyPrivate::setSeries(QAbstract3DSeries *series)
 }
 
 QT_END_NAMESPACE
+
+#include "moc_qsurfacedataproxy.cpp"

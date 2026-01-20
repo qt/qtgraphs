@@ -1460,3 +1460,5 @@ void QPieSlicePrivate::setLabelPosition(QPieSlice::LabelPosition position)
 }
 
 QT_END_NAMESPACE
+
+#include "moc_qpieslice.cpp"

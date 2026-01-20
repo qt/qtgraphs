@@ -232,3 +232,5 @@ void CustomRenderer::afterUpdate(QList<QAbstractSeries *> &cleanupSeries)
 }
 
 QT_END_NAMESPACE
+
+#include "moc_customrenderer_p.cpp"

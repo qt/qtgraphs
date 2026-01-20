@@ -384,3 +384,5 @@ QList<QPointF> QSplineSeriesPrivate::calculateCatmullRomPoints(const QList<QPoin
 }
 
 QT_END_NAMESPACE
+
+#include "moc_qsplineseries.cpp"

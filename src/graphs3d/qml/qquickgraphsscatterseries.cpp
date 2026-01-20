@@ -131,3 +131,5 @@ void QQuickGraphsScatter3DSeries::setGradientHelper(QQuickGradient *newGradient,
 }
 
 QT_END_NAMESPACE
+
+#include "moc_qquickgraphsscatterseries_p.cpp"

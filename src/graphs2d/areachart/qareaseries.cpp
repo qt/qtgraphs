@@ -487,3 +487,5 @@ QAreaSeriesPrivate::QAreaSeriesPrivate()
 {}
 
 QT_END_NAMESPACE
+
+#include "moc_qareaseries.cpp"

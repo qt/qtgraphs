@@ -624,3 +624,5 @@ const QQuickGraphsBars *QQuickGraphsBarsNode::graphBars() const
 }
 
 QT_END_NAMESPACE
+
+#include "moc_qquickgraphsbarsnode_p.cpp"

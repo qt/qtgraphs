@@ -337,3 +337,5 @@ const QQuickGraphsScatter *QQuickGraphsScatterNode::graphScatter() const
 }
 
 QT_END_NAMESPACE
+
+#include "moc_qquickgraphsscatternode_p.cpp"

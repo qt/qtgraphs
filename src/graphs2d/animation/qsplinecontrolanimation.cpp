@@ -6,6 +6,8 @@
 #include "private/qsplinecontrolanimation_p.h"
 #include "private/qsplineseries_p.h"
 
+QT_BEGIN_NAMESPACE
+
 /*!
     \qmltype SplineControlAnimation
     \inqmlmodule QtGraphs
@@ -135,3 +137,7 @@ void QSplineControlAnimation::valueUpdated(const QVariant &value)
 
     emit series->update();
 }
+
+QT_END_NAMESPACE
+
+#include "moc_qsplinecontrolanimation_p.cpp"

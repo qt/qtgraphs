@@ -96,3 +96,5 @@ void AxisLine::setIsHorizontal(bool newIsHorizontal)
 }
 
 QT_END_NAMESPACE
+
+#include "moc_axisline_p.cpp"

@@ -6,8 +6,6 @@
 #include <QtCore/qobject.h>
 #include <QtGraphs/qgraphsglobal.h>
 #include <QtQmlIntegration/qqmlintegration.h>
-Q_MOC_INCLUDE(<QtGraphs / qpieseries.h>)
-Q_MOC_INCLUDE(<QtCore / qabstractitemmodel.h>)
 
 QT_BEGIN_NAMESPACE
 

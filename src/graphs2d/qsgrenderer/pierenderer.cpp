@@ -597,3 +597,5 @@ void PieRenderer::onTranslationChanged(QVector2D delta)
 }
 
 QT_END_NAMESPACE
+
+#include "moc_pierenderer_p.cpp"

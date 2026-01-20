@@ -767,3 +767,5 @@ void BarsRenderer::onPressedChanged()
 }
 
 QT_END_NAMESPACE
+
+#include "moc_barsrenderer_p.cpp"

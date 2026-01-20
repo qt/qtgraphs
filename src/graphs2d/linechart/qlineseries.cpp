@@ -460,3 +460,5 @@ QPointF QLineSeries::dataPointCoordinatesAt(qreal x, qreal y)
 }
 
 QT_END_NAMESPACE
+
+#include "moc_qlineseries.cpp"
