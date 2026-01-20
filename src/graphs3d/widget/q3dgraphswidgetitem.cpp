@@ -758,6 +758,46 @@ void Q3DGraphsWidgetItem::setRotationEnabled(bool enable)
     d->m_graphsItem->setRotationEnabled(enable);
 }
 
+/*!
+ * \property Q3DGraphsWidgetItem::panEnabled
+ * \since 6.12
+ *
+ * \brief Whether this input handler allows graph panning.
+ *
+ * Defaults to \c{true}.
+ */
+ bool Q3DGraphsWidgetItem::isPanEnabled() const
+ {
+     Q_D(const Q3DGraphsWidgetItem);
+     return d->m_graphsItem->panEnabled();
+ }
+
+ void Q3DGraphsWidgetItem::setPanEnabled(bool enable)
+ {
+     Q_D(Q3DGraphsWidgetItem);
+     d->m_graphsItem->setPanEnabled(enable);
+ }
+
+ /*!
+  * \property Q3DGraphsWidgetItem::panModeEnabled
+  * \since 6.12
+  *
+  * Whether this input handler considers drag events as pan events instead.
+  *
+  * Defaults to \c{false}.
+  */
+ bool Q3DGraphsWidgetItem::isPanModeEnabled() const
+ {
+     Q_D(const Q3DGraphsWidgetItem);
+     return d->m_graphsItem->isPanModeEnabled();
+ }
+
+ void Q3DGraphsWidgetItem::setPanModeEnabled(bool enable)
+ {
+     Q_D(Q3DGraphsWidgetItem);
+     d->m_graphsItem->setPanModeEnabled(enable);
+ }
+
 void Q3DGraphsWidgetItem::setDefaultInputHandler()
 {
     Q_D(Q3DGraphsWidgetItem);
@@ -798,6 +838,12 @@ void Q3DGraphsWidgetItem::setDragButton(Qt::MouseButtons button)
 {
     Q_D(Q3DGraphsWidgetItem);
     d->m_graphsItem->setDragButton(button);
+}
+
+void Q3DGraphsWidgetItem::setPanButton(Qt::MouseButtons button)
+{
+    Q_D(Q3DGraphsWidgetItem);
+    d->m_graphsItem->setPanButton(button);
 }
 
 /*!

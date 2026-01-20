@@ -212,6 +212,24 @@ constexpr float polarRoundness = 64.0f;
  * Defaults to \c{true}.
  */
 
+ /*!
+  * \qmlproperty bool GraphsItem3D::panEnabled
+  * \since 6.12
+  *
+  * Whether this input handler allows graph panning.
+  *
+  * Defaults to \c{true}.
+  */
+
+  /*!
+   * \qmlproperty bool GraphsItem3D::panModeEnabled
+   * \since 6.12
+   *
+   * Whether this input handler considers drag events as pan events instead.
+   *
+   * Defaults to \c{false}.
+   */
+
 /*!
  * \qmlproperty real GraphsItem3D::cameraZoomLevel
  *
@@ -498,6 +516,16 @@ constexpr float polarRoundness = 64.0f;
  * a drag operation to \a button.
  * Defaults to \c {Qt::RightButton}.
  */
+
+ /*!
+* \qmlmethod void GraphsItem3D::setPanButton(Qt::MouseButtons button)
+* \since 6.12
+* @brief Sets the mouse button used to trigger pan events.
+*
+* This method allows changing the mouse button required to initiate
+* a drag operation to \a button.
+* Defaults to \c {Qt::MiddleButton}.
+*/
 
 /*!
  * \qmlmethod void GraphsItem3D::clearSelection()
@@ -7743,6 +7771,16 @@ bool QQuickGraphsItem::rotationEnabled()
     return m_inputHandler->isRotationEnabled();
 }
 
+void QQuickGraphsItem::setPanEnabled(bool enable)
+{
+    m_inputHandler->setPanEnabled(enable);
+}
+
+bool QQuickGraphsItem::panEnabled()
+{
+    return m_inputHandler->isPanEnabled();
+}
+
 void QQuickGraphsItem::unsetDefaultInputHandler()
 {
     m_inputHandler->unsetDefaultInputHandler();
@@ -7771,6 +7809,21 @@ void QQuickGraphsItem::unsetDefaultPinchHandler()
 void QQuickGraphsItem::setDragButton(Qt::MouseButtons button)
 {
     m_inputHandler->setDragButton(button);
+}
+
+void QQuickGraphsItem::setPanButton(Qt::MouseButtons button)
+{
+    m_inputHandler->setPanButton(button);
+}
+
+void QQuickGraphsItem::setPanModeEnabled(bool enabled)
+{
+    m_inputHandler->setPanModeEnabled(enabled);
+}
+
+bool QQuickGraphsItem::isPanModeEnabled() const
+{
+    return m_inputHandler->isPanModeEnabled();
 }
 
 void QQuickGraphsItem::setDefaultInputHandler()

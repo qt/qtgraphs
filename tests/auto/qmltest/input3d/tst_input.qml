@@ -17,6 +17,7 @@ Item {
     Bars3D {
         id: initialized
         rotationEnabled: false
+        panEnabled: false
         selectionEnabled: false
         zoomAtTargetEnabled: false
         zoomEnabled: false
@@ -31,6 +32,7 @@ Item {
 
         function test_initial() {
             compare(initial.rotationEnabled, true)
+            compare(initial.panEnabled, true)
             compare(initial.selectionEnabled, true)
             compare(initial.zoomAtTargetEnabled, true)
             compare(initial.zoomEnabled, true)
@@ -42,6 +44,7 @@ Item {
 
         function test_initialized() {
             compare(initialized.rotationEnabled, false)
+            compare(initialized.panEnabled, false)
             compare(initialized.selectionEnabled, false)
             compare(initialized.zoomAtTargetEnabled, false)
             compare(initialized.zoomEnabled, false)

@@ -61,6 +61,7 @@ void tst_input::initialProperties()
     QCOMPARE(m_input->isZoomAtTargetEnabled(), true);
     QCOMPARE(m_input->isZoomEnabled(), true);
     QCOMPARE(m_input->isRotationEnabled(), true);
+    QCOMPARE(m_input->isPanEnabled(), true);
     QCOMPARE(m_input->isSelectionEnabled(), true);
 }
 
@@ -71,11 +72,13 @@ void tst_input::initializeProperties()
     m_input->setZoomAtTargetEnabled(false);
     m_input->setZoomEnabled(false);
     m_input->setRotationEnabled(false);
+    m_input->setPanEnabled(false);
     m_input->setSelectionEnabled(false);
 
     QCOMPARE(m_input->isZoomAtTargetEnabled(), false);
     QCOMPARE(m_input->isZoomEnabled(), false);
     QCOMPARE(m_input->isRotationEnabled(), false);
+    QCOMPARE(m_input->isPanEnabled(), false);
     QCOMPARE(m_input->isSelectionEnabled(), false);
 }
 

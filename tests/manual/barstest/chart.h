@@ -79,6 +79,7 @@ public:
     void testItemAndRowChanges(bool checked);
     void testNanSeries(bool checked);
     void reverseValueAxis(int enabled);
+    void setPanMode(int enabled);
     void setInputHandlerRotationEnabled(int enabled);
     void setInputHandlerZoomEnabled(int enabled);
     void setInputHandlerSelectionEnabled(int enabled);

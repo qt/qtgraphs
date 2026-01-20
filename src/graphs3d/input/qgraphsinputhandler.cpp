@@ -18,6 +18,8 @@ QGraphsInputHandler::QGraphsInputHandler(QQuickItem *parent)
     , m_zoomEnabled(true)
     , m_zoomAtTarget(true)
     , m_rotationEnabled(true)
+    , m_panEnabled(true)
+    , m_panModeEnabled(false)
     , m_selectionEnabled(true)
     , m_pendingPoint(QPoint())
     , m_pinchDiff(.0f)
@@ -29,12 +31,18 @@ QGraphsInputHandler::QGraphsInputHandler(QQuickItem *parent)
     // This is to support QQuickGraphsItem's mouseMove signal.
     setAcceptHoverEvents(true);
     m_dragHandler = new QQuickDragHandler(this);
+    m_panHandler = new QQuickDragHandler(this);
     m_wheelHandler = new QQuickWheelHandler(this);
     m_dragHandler->setAcceptedButtons(Qt::MouseButton::RightButton);
+    m_panHandler->setAcceptedButtons(Qt::MouseButton::MiddleButton);
     m_wheelHandler->setAcceptedDevices(QInputDevice::DeviceType::Mouse
                                        | QInputDevice::DeviceType::TouchPad);
     QObject::connect(m_tapHandler, &QQuickTapHandler::tapped, this, &QGraphsInputHandler::onTapped);
     QObject::connect(m_dragHandler,
+                     &QQuickDragHandler::translationChanged,
+                     this,
+                     &QGraphsInputHandler::onTranslationChanged);
+    QObject::connect(m_panHandler,
                      &QQuickDragHandler::translationChanged,
                      this,
                      &QGraphsInputHandler::onTranslationChanged);
@@ -108,6 +116,38 @@ bool QGraphsInputHandler::isRotationEnabled()
     return m_rotationEnabled;
 }
 
+void QGraphsInputHandler::setPanEnabled(bool enable)
+{
+    if (m_panEnabled == enable) {
+        qCDebug(lcProperties3D) << __FUNCTION__
+            << "value is already set to:" << enable;
+    }
+    m_panEnabled = enable;
+    if (m_graphsItem)
+        emit m_graphsItem->panEnabledChanged(enable);
+}
+
+bool QGraphsInputHandler::isPanEnabled()
+{
+    return m_panEnabled;
+}
+
+void QGraphsInputHandler::setPanModeEnabled(bool enable)
+{
+    if (m_panModeEnabled == enable) {
+        qCDebug(lcProperties3D) << __FUNCTION__
+            << "value is already set to:" << enable;
+    }
+    m_panModeEnabled = enable;
+    if (m_graphsItem)
+        emit m_graphsItem->panModeEnabledChanged(enable);
+}
+
+bool QGraphsInputHandler::isPanModeEnabled()
+{
+    return m_panModeEnabled;
+}
+
 void QGraphsInputHandler::setSelectionEnabled(bool enable)
 {
     if (m_selectionEnabled == enable) {
@@ -172,6 +212,11 @@ void QGraphsInputHandler::setDragButton(Qt::MouseButtons button)
     m_dragHandler->setAcceptedButtons(button);
 }
 
+void QGraphsInputHandler::setPanButton(Qt::MouseButtons button)
+{
+    m_panHandler->setAcceptedButtons(button);
+}
+
 void QGraphsInputHandler::setGraphsItem(QQuickGraphsItem *item)
 {
     m_graphsItem = item;
@@ -211,25 +256,41 @@ void QGraphsInputHandler::onTapped()
 
 void QGraphsInputHandler::onTranslationChanged(QVector2D delta)
 {
-    if (!m_rotationEnabled)
-        return;
 
-    if (!m_dragHandler->centroid().pressedButtons().testFlags(m_dragHandler->acceptedButtons()))
-        return;
+  bool dragButtons = m_dragHandler->centroid().pressedButtons().testAnyFlags(
+                  m_dragHandler->acceptedButtons());
 
-    float rotationSpeed = 1.0f;
-#if !defined(Q_OS_IOS)
-    rotationSpeed = 10.0f;
-#endif
+  bool panButtons = m_panHandler->centroid().pressedButtons().testAnyFlags(
+                  m_panHandler->acceptedButtons());
+
     QQuickGraphsItem *item = m_graphsItem;
-    // Calculate mouse movement since last frame
     float xRotation = item->cameraXRotation();
     float yRotation = item->cameraYRotation();
-    // Apply to rotations
-    xRotation += (delta.x() / rotationSpeed);
-    yRotation += (delta.y() / rotationSpeed);
-    item->setCameraXRotation(xRotation);
-    item->setCameraYRotation(yRotation);
+
+    if (panButtons || (dragButtons && m_panModeEnabled)) {
+        if (!m_panEnabled)
+            return;
+
+        QVector3D camPos = item->cameraTargetPosition();
+        QVector3D diff = item->cameraTarget()->mapDirectionToScene({delta.x(), -delta.y(), 0});
+        float zoom = 1 / (item->cameraZoomLevel() / 100.0f);
+        item->setCameraTargetPosition(camPos - diff * zoom);
+
+    } else if (dragButtons && !m_panModeEnabled) {
+        if (!m_rotationEnabled)
+            return;
+
+        float rotationSpeed = 1.0f;
+    #if !defined(Q_OS_IOS)
+        rotationSpeed = 10.0f;
+    #endif
+        // Calculate mouse movement since last frame
+        // Apply to rotations
+        xRotation += (delta.x() / rotationSpeed);
+        yRotation += (delta.y() / rotationSpeed);
+        item->setCameraXRotation(xRotation);
+        item->setCameraYRotation(yRotation);
+    }
 }
 
 void QGraphsInputHandler::onGrabChanged(QPointingDevice::GrabTransition transition,

@@ -1437,6 +1437,11 @@ void GraphModifier::reverseValueAxis(int enabled)
     m_graph->valueAxis()->setReversed(enabled);
 }
 
+void GraphModifier::setPanMode(int enabled)
+{
+    m_graph->setPanModeEnabled(enabled);
+}
+
 void GraphModifier::setInputHandlerRotationEnabled(int enabled)
 {
     m_graph->setRotationEnabled(enabled);

@@ -43,6 +43,10 @@ public:
     bool isZoomAtTargetEnabled();
     void setRotationEnabled(bool enable);
     bool isRotationEnabled();
+    void setPanEnabled(bool enable);
+    bool isPanEnabled();
+    void setPanModeEnabled(bool enable);
+    bool isPanModeEnabled();
     void setSelectionEnabled(bool enable);
     bool isSelectionEnabled();
 
@@ -53,6 +57,7 @@ public:
     void unsetDefaultWheelHandler();
     void unsetDefaultPinchHandler();
     void setDragButton(Qt::MouseButtons button);
+    void setPanButton(Qt::MouseButtons button);
 
     void onTapped();
     void onTranslationChanged(QVector2D delta);
@@ -69,6 +74,8 @@ private:
     bool m_zoomEnabled;
     bool m_zoomAtTarget;
     bool m_rotationEnabled;
+    bool m_panEnabled;
+    bool m_panModeEnabled;
     bool m_selectionEnabled;
     QPoint m_pendingPoint;
     qreal m_pinchDiff;
@@ -77,6 +84,7 @@ private:
     QQuickPinchHandler *m_pinchHandler;
     QQuickWheelHandler *m_wheelHandler;
     QQuickDragHandler *m_dragHandler;
+    QQuickDragHandler *m_panHandler;
 
     QQuickGraphsItem *m_graphsItem;
 };

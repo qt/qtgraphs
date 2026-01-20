@@ -84,6 +84,10 @@ class Q_GRAPHSWIDGETS_EXPORT Q3DGraphsWidgetItem : public QObject
     Q_PROPERTY(int msaaSamples READ msaaSamples WRITE setMsaaSamples NOTIFY msaaSamplesChanged)
     Q_PROPERTY(bool rotationEnabled READ isRotationEnabled WRITE setRotationEnabled NOTIFY
                    rotationEnabledChanged)
+    Q_PROPERTY(bool panEnabled READ isPanEnabled WRITE setPanEnabled NOTIFY
+    panEnabledChanged REVISION (6, 12))
+    Q_PROPERTY(bool panModeEnabled READ isPanModeEnabled WRITE setPanModeEnabled NOTIFY
+    panModeEnabledChanged REVISION (6, 12))
     Q_PROPERTY(bool zoomAtTargetEnabled READ isZoomAtTargetEnabled WRITE setZoomAtTargetEnabled NOTIFY
                    zoomAtTargetEnabledChanged)
     Q_PROPERTY(bool selectionEnabled READ isSelectionEnabled WRITE setSelectionEnabled NOTIFY
@@ -202,6 +206,10 @@ public:
     bool isSelectionEnabled() const;
     void setRotationEnabled(bool enable);
     bool isRotationEnabled() const;
+    void setPanEnabled(bool enable);
+    bool isPanEnabled() const;
+    void setPanModeEnabled(bool enable);
+    bool isPanModeEnabled() const;
 
     void setDefaultInputHandler();
     void unsetDefaultInputHandler();
@@ -210,6 +218,7 @@ public:
     void unsetDefaultWheelHandler();
     void unsetDefaultPinchHandler();
     void setDragButton(Qt::MouseButtons button);
+    void setPanButton(Qt::MouseButtons button);
 
     float cameraZoomLevel() const;
     void setCameraZoomLevel(float level);
@@ -304,6 +313,8 @@ Q_SIGNALS:
     void zoomEnabledChanged(bool enable);
     void zoomAtTargetEnabledChanged(bool enable);
     void rotationEnabledChanged(bool enable);
+    Q_REVISION(6, 12)void panEnabledChanged(bool enable);
+    Q_REVISION(6, 12)void panModeEnabledChanged(bool enable);
     void selectionEnabledChanged(bool enable);
 
     void ambientLightStrengthChanged();

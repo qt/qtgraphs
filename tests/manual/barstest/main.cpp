@@ -215,6 +215,10 @@ int main(int argc, char **argv)
     staticCheckBox->setText("Use dynamic data");
     staticCheckBox->setChecked(false);
 
+    QCheckBox *panModeCheckBox = new QCheckBox(widget);
+    panModeCheckBox->setText("Pan Mode");
+    panModeCheckBox->setChecked(false);
+
     QCheckBox *inputHandlerRotationCheckBox = new QCheckBox(widget);
     inputHandlerRotationCheckBox->setText("IH: Allow rotation");
     inputHandlerRotationCheckBox->setChecked(true);
@@ -428,6 +432,7 @@ int main(int argc, char **argv)
     vLayout3->addWidget(reverseValueAxisCheckBox, 0, Qt::AlignTop);
     vLayout3->addWidget(backgroundCheckBox, 0, Qt::AlignTop);
     vLayout3->addWidget(gridCheckBox, 0, Qt::AlignTop);
+    vLayout3->addWidget(panModeCheckBox, 0, Qt::AlignTop);
     vLayout3->addWidget(inputHandlerRotationCheckBox, 0, Qt::AlignTop);
     vLayout3->addWidget(inputHandlerZoomCheckBox, 0, Qt::AlignTop);
     vLayout3->addWidget(inputHandlerSelectionCheckBox, 0, Qt::AlignTop);
@@ -576,6 +581,10 @@ int main(int argc, char **argv)
                      &QCheckBox::checkStateChanged,
                      modifier,
                      &GraphModifier::setGridVisible);
+    QObject::connect(panModeCheckBox,
+                     &QCheckBox::checkStateChanged,
+                     modifier,
+                     &GraphModifier::setPanMode);
     QObject::connect(inputHandlerRotationCheckBox,
                      &QCheckBox::checkStateChanged,
                      modifier,

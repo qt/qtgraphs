@@ -12,6 +12,7 @@ ColumnLayout {
     property bool barsVisible: barsMode.checked
     property bool valueColoring: valueColoringChange.checked
     property bool shaded: shadingChange.checked
+    property bool panModeEnabled: panMode.checked
     property int transparencyTechnique: transparencyTechniqueChange.currentValue
 
     Label {
@@ -202,5 +203,14 @@ ColumnLayout {
             { value: Graphs3D.TransparencyTechnique.Approximate, text: qsTr("Approximate") },
             { value: Graphs3D.TransparencyTechnique.Accurate, text: qsTr("Accurate") }
         ]
+    }
+
+    Label {
+        text: "Pan Mode"
+        color: "gray"
+    }
+    CheckBox {
+        id: panMode
+        checked: false
     }
 }
