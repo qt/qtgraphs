@@ -294,3 +294,5 @@ void ScatterItemModelHandler::resolveModel()
 }
 
 QT_END_NAMESPACE
+
+#include "moc_scatteritemmodelhandler_p.cpp"

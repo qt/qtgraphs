@@ -802,3 +802,5 @@ void QPieModelMapperPrivate::initializePieFromModel() {
 }
 
 QT_END_NAMESPACE
+
+#include "moc_qpiemodelmapper.cpp"

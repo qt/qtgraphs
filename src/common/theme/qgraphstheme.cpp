@@ -2290,3 +2290,5 @@ bool comparesEqual(const QGraphsLinePrivate &lhs, const QGraphsLinePrivate &rhs)
 }
 
 QT_END_NAMESPACE
+
+#include "moc_qgraphstheme.cpp"

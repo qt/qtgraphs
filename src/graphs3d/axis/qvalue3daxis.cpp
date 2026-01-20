@@ -425,3 +425,5 @@ bool QValue3DAxisPrivate::allowMinMaxSame()
 }
 
 QT_END_NAMESPACE
+
+#include "moc_qvalue3daxis.cpp"

@@ -311,3 +311,5 @@ void BarItemModelHandler::resolveModel()
 }
 
 QT_END_NAMESPACE
+
+#include "moc_baritemmodelhandler_p.cpp"

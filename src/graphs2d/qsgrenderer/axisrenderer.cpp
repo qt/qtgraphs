@@ -1744,3 +1744,5 @@ int AxisRenderer::getValueDecimalsFromRange(double range)
 }
 
 QT_END_NAMESPACE
+
+#include "moc_axisrenderer_p.cpp"

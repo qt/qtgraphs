@@ -534,3 +534,5 @@ void AreaRenderer::onPressedChanged()
 }
 
 QT_END_NAMESPACE
+
+#include "moc_arearenderer_p.cpp"

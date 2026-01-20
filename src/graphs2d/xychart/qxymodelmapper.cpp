@@ -829,4 +829,7 @@ void QXYModelMapperPrivate::initializeXYFromModel()
 
     blockSeriesSignals(false);
 }
+
 QT_END_NAMESPACE
+
+#include "moc_qxymodelmapper.cpp"

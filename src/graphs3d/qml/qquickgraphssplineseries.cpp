@@ -131,3 +131,5 @@ void QQuickGraphsSpline3DSeries::setGradientHelper(QQuickGradient *newGradient,
 }
 
 QT_END_NAMESPACE
+
+#include "moc_qquickgraphssplineseries_p.cpp"

@@ -1175,3 +1175,5 @@ void QItemModelBarDataProxyPrivate::connectItemModelHandler()
 }
 
 QT_END_NAMESPACE
+
+#include "moc_qitemmodelbardataproxy.cpp"

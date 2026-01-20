@@ -853,3 +853,5 @@ void QAbstract3DAxisPrivate::setMax(float max)
 }
 
 QT_END_NAMESPACE
+
+#include "moc_qabstract3daxis.cpp"

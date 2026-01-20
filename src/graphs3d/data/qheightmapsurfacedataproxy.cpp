@@ -872,3 +872,5 @@ void QHeightMapSurfaceDataProxyPrivate::handlePendingResolve()
 }
 
 QT_END_NAMESPACE
+
+#include "moc_qheightmapsurfacedataproxy.cpp"

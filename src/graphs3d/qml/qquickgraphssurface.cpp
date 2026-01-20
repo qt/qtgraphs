@@ -3354,3 +3354,5 @@ void QQuickGraphsSurface::handleThemeTypeChange()
 }
 
 QT_END_NAMESPACE
+
+#include "moc_qquickgraphssurface_p.cpp"

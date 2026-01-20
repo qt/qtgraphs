@@ -1018,3 +1018,5 @@ void QXYSeriesPrivate::append(const QList<QPointF> &points)
 }
 
 QT_END_NAMESPACE
+
+#include "moc_qxyseries.cpp"

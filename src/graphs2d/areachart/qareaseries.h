@@ -15,9 +15,6 @@ class QQuickShapeGradient;
 
 class Q_GRAPHS_EXPORT QAreaSeries : public QAbstractSeries
 {
-    // For QQuickShapeGradient
-    Q_MOC_INCLUDE(<QtQuickShapes/private/qquickshape_p.h>)
-
     Q_OBJECT
     Q_PROPERTY(QColor color READ color WRITE setColor NOTIFY colorChanged FINAL)
     Q_PROPERTY(QColor selectedColor READ selectedColor WRITE setSelectedColor NOTIFY

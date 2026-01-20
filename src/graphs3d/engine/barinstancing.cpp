@@ -91,3 +91,5 @@ void BarInstancing::setDataArray(const QList<BarItemHolder *> &newDataArray)
 }
 
 QT_END_NAMESPACE
+
+#include "moc_barinstancing_p.cpp"

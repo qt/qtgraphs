@@ -1388,3 +1388,5 @@ void QItemModelSurfaceDataProxyPrivate::connectItemModelHandler()
 }
 
 QT_END_NAMESPACE
+
+#include "moc_qitemmodelsurfacedataproxy.cpp"

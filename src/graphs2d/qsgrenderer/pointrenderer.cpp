@@ -988,3 +988,5 @@ QPointF PointRenderer::reverseRenderCoordinates(QAbstractSeries *series, qreal x
 }
 
 QT_END_NAMESPACE
+
+#include "moc_pointrenderer_p.cpp"

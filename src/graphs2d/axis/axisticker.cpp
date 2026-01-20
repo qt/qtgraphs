@@ -213,3 +213,5 @@ void AxisTicker::setFlipped(bool newFlipped)
 }
 
 QT_END_NAMESPACE
+
+#include "moc_axisticker_p.cpp"

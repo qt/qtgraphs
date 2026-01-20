@@ -21,3 +21,5 @@ void QCustomSeriesData::setData(const QVariantMap &newData)
 }
 
 QT_END_NAMESPACE
+
+#include "moc_qcustomseriesdata_p.cpp"

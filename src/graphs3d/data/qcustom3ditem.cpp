@@ -686,3 +686,5 @@ void QCustom3DItemPrivate::resetDirtyBits()
 }
 
 QT_END_NAMESPACE
+
+#include "moc_qcustom3ditem.cpp"

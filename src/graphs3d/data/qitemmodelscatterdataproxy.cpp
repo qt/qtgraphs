@@ -949,3 +949,5 @@ void QItemModelScatterDataProxyPrivate::connectItemModelHandler()
 }
 
 QT_END_NAMESPACE
+
+#include "moc_qitemmodelscatterdataproxy.cpp"

@@ -207,3 +207,5 @@ void AxisGrid::setHorizontalSubGridScale(qreal newHorizontalSubGridScale)
 }
 
 QT_END_NAMESPACE
+
+#include "moc_axisgrid_p.cpp"

@@ -838,4 +838,7 @@ void QBarModelMapperPrivate::handleSeriesDestroyed()
 {
     m_series = nullptr;
 }
+
 QT_END_NAMESPACE
+
+#include "moc_qbarmodelmapper.cpp"

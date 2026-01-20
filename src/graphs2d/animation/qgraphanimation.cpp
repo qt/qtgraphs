@@ -78,3 +78,5 @@ void QGraphAnimation::setAnimating(AnimationState newAnimating)
 }
 
 QT_END_NAMESPACE
+
+#include "moc_qgraphanimation_p.cpp"

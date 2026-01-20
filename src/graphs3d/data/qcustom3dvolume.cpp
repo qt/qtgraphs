@@ -1531,3 +1531,5 @@ int QCustom3DVolumePrivate::multipliedAlphaValue(int alpha)
 }
 
 QT_END_NAMESPACE
+
+#include "moc_qcustom3dvolume.cpp"

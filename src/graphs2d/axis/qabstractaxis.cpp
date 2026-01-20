@@ -714,3 +714,5 @@ void QAbstractAxisPrivate::handleRangeChanged(qreal min, qreal max)
 }
 
 QT_END_NAMESPACE
+
+#include "moc_qabstractaxis.cpp"

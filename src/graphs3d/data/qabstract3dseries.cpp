@@ -1131,3 +1131,5 @@ bool QAbstract3DSeriesPrivate::isUsingGradient()
 }
 
 QT_END_NAMESPACE
+
+#include "moc_qabstract3dseries.cpp"

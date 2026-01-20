@@ -131,9 +131,6 @@ class Q_GRAPHS_EXPORT QGraphsTheme : public QObject, public QQmlParserStatus
 {
     Q_OBJECT
 
-    // For QQuickGradient
-    Q_MOC_INCLUDE(<QtQuick/private/qquickrectangle_p.h>)
-
     Q_INTERFACES(QQmlParserStatus)
     Q_CLASSINFO("RegisterEnumClassesUnscoped", "false")
     Q_PROPERTY(QGraphsTheme::ColorScheme colorScheme READ colorScheme WRITE setColorScheme NOTIFY

@@ -1571,3 +1571,5 @@ void QPieSeriesPrivate::removeMultiple(qsizetype index, int count)
 }
 
 QT_END_NAMESPACE
+
+#include "moc_qpieseries.cpp"

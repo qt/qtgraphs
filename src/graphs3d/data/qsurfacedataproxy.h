@@ -7,8 +7,6 @@
 #include <QtGraphs/qabstractdataproxy.h>
 #include <QtGraphs/qsurfacedataitem.h>
 
-Q_MOC_INCLUDE(<QtGraphs/qsurface3dseries.h>)
-
 QT_BEGIN_NAMESPACE
 
 class QSurfaceDataProxyPrivate;

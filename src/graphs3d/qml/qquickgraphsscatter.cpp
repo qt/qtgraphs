@@ -2215,4 +2215,7 @@ QQuickGraphsScatter::ScatterModel *QQuickGraphsScatter::findGraphModel(QScatter3
     }
     return nullptr;
 }
+
 QT_END_NAMESPACE
+
+#include "moc_qquickgraphsscatter_p.cpp"

@@ -7,8 +7,6 @@
 #include <QtGraphs/qabstractdataproxy.h>
 #include <QtGraphs/qscatterdataitem.h>
 
-Q_MOC_INCLUDE(<QtGraphs/qscatter3dseries.h>)
-
 QT_BEGIN_NAMESPACE
 
 class QScatterDataProxyPrivate;

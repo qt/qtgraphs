@@ -147,3 +147,5 @@ void QQuickGraphsSurface3DSeries::setGradientHelper(QQuickGradient *newGradient,
 }
 
 QT_END_NAMESPACE
+
+#include "moc_qquickgraphssurfaceseries_p.cpp"

@@ -962,3 +962,5 @@ void QSurface3DSeriesPrivate::resetAxisZ()
 }
 
 QT_END_NAMESPACE
+
+#include "moc_qsurface3dseries.cpp"
