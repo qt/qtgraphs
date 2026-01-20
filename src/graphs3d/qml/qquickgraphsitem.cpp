@@ -3027,15 +3027,15 @@ void QQuickGraphsItem::synchData()
         QQmlListReference materialRef(m_background, "materials");
         Q_ASSERT(materialRef.size());
         float mainWidth = theme()->grid().mainWidth();
-        if ((m_gridLineType == QtGraphs3D::GridLineType::Shader) && mainWidth > 1.0f) {
+        if ((m_gridLineType == QtGraphs3D::GridLineType::Shader) && mainWidth > 10.0f) {
             qCWarning(lcProperties3D, "%s invalid value for shader grid. Valid range for grid width is between"
-                     " 0.0 and 1.0. Value exceeds 1.0. Set it to 1.0", qUtf8Printable(QLatin1String(__FUNCTION__)));
-            mainWidth = 1.0f;
+                     " 0.0 and 1.0. Value exceeds 10.0. Set it to 10.0", qUtf8Printable(QLatin1String(__FUNCTION__)));
+            mainWidth = 4.0f;
         }
 
         if ((m_gridLineType == QtGraphs3D::GridLineType::Shader) && mainWidth < 0.0f) {
             qCWarning(lcProperties3D, "%s invalid value for shader grid. Valid range for grid width is between"
-                     " 0.0 and 1.0. Value is smaller than 0.0. Set it to 0.0", qUtf8Printable(QLatin1String(__FUNCTION__)));
+                     " 0.0 and 10.0. Value is smaller than 0.0. Set it to 0.0", qUtf8Printable(QLatin1String(__FUNCTION__)));
             mainWidth = 0.0f;
         }
         auto *material = static_cast<QQuick3DCustomMaterial *>(materialRef.at(0));
@@ -3792,6 +3792,7 @@ void QQuickGraphsItem::updateGridLineType()
                                    QVector4D(0, 0, 1, 1)};
 
     bgMat->setProperty("scale", m_scaleWithBackground);
+    bgMat->setProperty("rootScale", rootNode()->scale());
     bgMat->setProperty("polar", isPolar());
     bool xCat = axisX()->type() == QAbstract3DAxis::AxisType::Category;
     bool zCat = axisZ()->type() == QAbstract3DAxis::AxisType::Category;
