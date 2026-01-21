@@ -849,7 +849,7 @@ qreal QPieSlice::borderWidth() const
 /*!
     Returns the PieSlice at the position \a index. Returns null if no PieSlice was found.
 */
-QPieSlice *QPieSlice::at(qsizetype index)
+QPieSlice *QPieSlice::at(qsizetype index) const
 {
     QList<QPieSlice *> sliceList = subSlices();
     if (index >= 0 && index < sliceList.size())
@@ -861,7 +861,7 @@ QPieSlice *QPieSlice::at(qsizetype index)
 /*!
     Searches for a PieSlice which contains the label \a label. Returns the PieSlice if found, null otherwise.
 */
-QPieSlice *QPieSlice::find(const QString &label)
+QPieSlice *QPieSlice::find(const QString &label) const
 {
     auto slicelist = subSlices();
     for (QPieSlice *slice : std::as_const(slicelist)) {
