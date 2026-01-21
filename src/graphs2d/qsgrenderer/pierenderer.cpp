@@ -132,19 +132,25 @@ void PieRenderer::handlePolish(QPieSeries *series)
         // update slice
         QQuickShapePath *shapePath = d->m_shapePath;
 
+        // border color
         const auto &borderColors = theme->borderColors();
         int index = sliceIndex % borderColors.size();
         QColor borderColor = borderColors.at(index);
-        if (d->m_borderColor.isValid())
+        if (d->m_borderColor.isValid() && d->m_borderColor.alpha() != 0)
             borderColor = d->m_borderColor;
+
+        // border width
         qreal borderWidth = theme->borderWidth();
         if (d->m_borderWidth >= 1.0)
             borderWidth = d->m_borderWidth;
+
+        // color
         const auto &seriesColors = theme->seriesColors();
         index = sliceIndex % seriesColors.size();
         QColor color = seriesColors.at(index);
-        if (d->m_color.isValid())
+        if (d->m_color.isValid() && d->m_color.alpha() != 0)
             color = d->m_color;
+
         shapePath->setStrokeWidth(borderWidth);
         shapePath->setStrokeColor(borderColor);
         shapePath->setFillColor(color);
