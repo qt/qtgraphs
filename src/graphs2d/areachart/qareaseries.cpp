@@ -292,6 +292,7 @@ void QAreaSeries::setColor(QColor newColor)
     }
     d->m_color = newColor;
     emit colorChanged(newColor);
+    emit update();
 }
 
 QColor QAreaSeries::selectedColor() const
@@ -311,6 +312,7 @@ void QAreaSeries::setSelectedColor(QColor newSelectedColor)
     }
     d->m_selectedColor = newSelectedColor;
     emit selectedColorChanged(newSelectedColor);
+    emit update();
 }
 
 QColor QAreaSeries::borderColor() const
@@ -330,6 +332,7 @@ void QAreaSeries::setBorderColor(QColor newBorderColor)
     }
     d->m_borderColor = newBorderColor;
     emit borderColorChanged(newBorderColor);
+    emit update();
 }
 
 QColor QAreaSeries::selectedBorderColor() const
@@ -349,6 +352,7 @@ void QAreaSeries::setSelectedBorderColor(QColor newSelectedBorderColor)
     }
     d->m_selectedBorderColor = newSelectedBorderColor;
     emit selectedBorderColorChanged(newSelectedBorderColor);
+    emit update();
 }
 
 qreal QAreaSeries::borderWidth() const
@@ -367,6 +371,7 @@ void QAreaSeries::setBorderWidth(qreal newBorderWidth)
     }
     d->m_borderWidth = newBorderWidth;
     emit borderWidthChanged();
+    emit update();
 }
 
 bool QAreaSeries::isSelected() const
@@ -455,6 +460,7 @@ void QAreaSeries::setGradient(QQuickShapeGradient* newGradient)
     }
     d->m_gradient = newGradient;
     emit gradientChanged(newGradient);
+    emit update();
 }
 
 QQuickShapeGradient* QAreaSeries::selectedGradient() const
@@ -473,6 +479,7 @@ void QAreaSeries::setSelectedGradient(QQuickShapeGradient* newSelectedGradient)
     }
     d->m_selectedGradient = newSelectedGradient;
     emit selectedGradientChanged(newSelectedGradient);
+    emit update();
 }
 
 QAreaSeriesPrivate::QAreaSeriesPrivate()
