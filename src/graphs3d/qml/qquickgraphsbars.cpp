@@ -1090,14 +1090,11 @@ void QQuickGraphsBars::synchData()
 
 void QQuickGraphsBars::updateFloor()
 {
-    // Margin for a line to be fully visible on the edge in the grid shader
-    const float halfLineWidth = 50.0;
-    const float gridTextureSize = 4096.0;
-    const float gridMargin = halfLineWidth / gridTextureSize;
     auto min = qMin(scaleWithBackground().x(), scaleWithBackground().z());
-    m_floorBackgroundScale->setScale(QVector3D(scaleWithBackground().x() + gridMargin,
-                                               min * gridOffset(),
-                                               scaleWithBackground().z() + gridMargin));
+    m_floorBackgroundScale->setScale(QVector3D(
+        scaleWithBackground().x() + m_hBackgroundMargin,
+        min * gridOffset(),
+        scaleWithBackground().z() + m_hBackgroundMargin));
     m_floorBackgroundScale->setPosition(QVector3D(0.0f, -m_backgroundAdjustment, 0.0f));
 
     QQuaternion m_xRightAngleRotation(QQuaternion::fromAxisAndAngle(1.0f, 0.0f, 0.0f, 90.0f));
@@ -1271,6 +1268,13 @@ void QQuickGraphsBars::calculateSceneScalingFactors()
         m_hBackgroundMargin = margin();
         m_vBackgroundMargin = margin();
     }
+
+    // Margin for a line to be fully visible on the edge in the grid shader
+    const float halfLineWidth = 50.0;
+    const float gridTextureSize = 4096.0;
+    const float gridMargin = halfLineWidth / gridTextureSize;
+    m_hBackgroundMargin += gridMargin;
+    m_vBackgroundMargin += gridMargin;
 
     auto scale = QVector3D(m_xScaleFactor, 1.0f, m_zScaleFactor);
     setScaleWithBackground(scale);
