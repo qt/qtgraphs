@@ -57,8 +57,8 @@ void tst_datetimeaxis::initialProperties()
                  .addYears(10));
     QCOMPARE(m_axis->labelFormat(), "dd-MMMM-yy");
     QCOMPARE(m_axis->subTickCount(), 0);
-    QCOMPARE(m_axis->tickInterval(), 0.0);
     QCOMPARE(m_axis->timeZoneAsString(), "UTC");
+    QCOMPARE(m_axis->tickCount(), 0.0);
 }
 
 void tst_datetimeaxis::initializeProperties()
@@ -74,7 +74,7 @@ void tst_datetimeaxis::initializeProperties()
     QSignalSpy minSpy(m_axis, &QDateTimeAxis::minChanged);
     QSignalSpy maxSpy(m_axis, &QDateTimeAxis::maxChanged);
     QSignalSpy labelFormatSpy(m_axis, &QDateTimeAxis::labelFormatChanged);
-    QSignalSpy tickIntervalSpy(m_axis, &QDateTimeAxis::tickIntervalChanged);
+    QSignalSpy tickCountSpy(m_axis, &QDateTimeAxis::tickCountChanged);
     QSignalSpy subTickCountSpy(m_axis, &QDateTimeAxis::subTickCountChanged);
     QSignalSpy timeZoneSpy(m_axis, &QDateTimeAxis::timeZoneChanged);
 
@@ -84,7 +84,7 @@ void tst_datetimeaxis::initializeProperties()
             .addYears(20));
     m_axis->setLabelFormat("yyyy");
     m_axis->setSubTickCount(2);
-    m_axis->setTickInterval(0.5);
+    m_axis->setTickCount(0.5);
 
     QCOMPARE(m_axis->min(), QDateTime(QDate::currentDate(), QTime::fromMSecsSinceStartOfDay(0)));
     QCOMPARE(m_axis->max(),
@@ -94,7 +94,7 @@ void tst_datetimeaxis::initializeProperties()
     QCOMPARE(m_axis->max().timeZone(), QTimeZone::utc());
     QCOMPARE(m_axis->labelFormat(), "yyyy");
     QCOMPARE(m_axis->subTickCount(), 2);
-    QCOMPARE(m_axis->tickInterval(), 0.5);
+    QCOMPARE(m_axis->tickCount(), 0.5);
 
     auto tz = QString(timeZoneString).toUtf8();
     m_axis->setTimeZone(QTimeZone(tz));
@@ -114,7 +114,7 @@ void tst_datetimeaxis::initializeProperties()
     QCOMPARE(minSpy.size(), 1);
     QCOMPARE(maxSpy.size(), 1);
     QCOMPARE(labelFormatSpy.size(), 1);
-    QCOMPARE(tickIntervalSpy.size(), 1);
+    QCOMPARE(tickCountSpy.size(), 1);
     QCOMPARE(subTickCountSpy.size(), 1);
     QCOMPARE(timeZoneSpy.size(), 1);
 }
@@ -124,10 +124,10 @@ void tst_datetimeaxis::invalidProperties()
     QVERIFY(m_axis);
 
     m_axis->setSubTickCount(-1);
-    m_axis->setTickInterval(-1);
+    m_axis->setTickCount(-1);
 
     QCOMPARE(m_axis->subTickCount(), 0);
-    QCOMPARE(m_axis->tickInterval(), 0);
+    QCOMPARE(m_axis->tickCount(), 0);
 }
 
 QTEST_MAIN(tst_datetimeaxis)

@@ -21,7 +21,7 @@ Item {
         min: new Date(1960,1,1)
         max: new Date(2000,1,1)
         subTickCount: 2
-        tickInterval:  2
+        tickCount: 2
 
         gridVisible: false
         labelsAngle: 90
@@ -39,7 +39,7 @@ Item {
             compare(initial.min.getTime(), Date.UTC(1970))
             compare(initial.max.getTime(), Date.UTC(1980))
             compare(initial.subTickCount, 0)
-            compare(initial.tickInterval, 0)
+            compare(initial.tickCount, 0)
         }
 
         function test_2_initial_common() {
@@ -56,7 +56,7 @@ Item {
             initial.min = new Date(1960, 1, 1)
             initial.max = new Date(2000, 1, 1)
             initial.subTickCount = 2
-            initial.tickInterval = 2
+            initial.tickCount = 2
 
             initial.gridVisible = false
             initial.labelsAngle = 90
@@ -69,7 +69,7 @@ Item {
             compare(initial.min, new Date(1960, 1, 1))
             compare(initial.max, new Date(2000, 1, 1))
             compare(initial.subTickCount, 2)
-            compare(initial.tickInterval, 2)
+            compare(initial.tickCount, 2)
 
             compare(initial.gridVisible, false)
             compare(initial.labelsAngle, 90)
@@ -88,7 +88,7 @@ Item {
             compare(initialized.min, new Date(1960, 1, 1))
             compare(initialized.max, new Date(2000, 1, 1))
             compare(initialized.subTickCount, 2)
-            compare(initialized.tickInterval, 2)
+            compare(initialized.tickCount, 2)
 
             compare(initialized.gridVisible, false)
             compare(initialized.labelsAngle, 90)
@@ -103,7 +103,7 @@ Item {
             initialized.min = new Date(2000, 1, 1)
             initialized.max = new Date(2025, 1, 1)
             initialized.subTickCount = 8
-            initialized.tickInterval = 8
+            initialized.tickCount = 8
 
             initialized.gridVisible = true
             initialized.labelsAngle = 50
@@ -116,7 +116,7 @@ Item {
             compare(initialized.min, new Date(2000, 1, 1))
             compare(initialized.max, new Date(2025, 1, 1))
             compare(initialized.subTickCount, 8)
-            compare(initialized.tickInterval, 8)
+            compare(initialized.tickCount, 8)
 
             compare(initialized.gridVisible, true)
             compare(initialized.labelsAngle, 50)
@@ -130,7 +130,7 @@ Item {
             compare(maxSpy.count, 2)
             compare(labelFormatSpy.count, 1)
             compare(subTickCountSpy.count, 1)
-            compare(tickIntervalSpy.count, 1)
+            compare(tickCountSpy.count, 1)
 
             // Common signals
             compare(visibleSpy.count, 1)
@@ -143,9 +143,9 @@ Item {
 
         function test_3_invalid() {
             initialized.subTickCount = -1;
-            initialized.tickInterval = -1;
+            initialized.tickCount = -1;
 
-            compare(initialized.tickInterval, 0)
+            compare(initialized.tickCount, 0)
             compare(initialized.subTickCount, 0)
         }
     }
@@ -175,9 +175,9 @@ Item {
     }
 
     SignalSpy {
-        id: tickIntervalSpy
+        id: tickCountSpy
         target: initialized
-        signalName: "tickIntervalChanged"
+        signalName: "tickCountChanged"
     }
 
     // Common signals

@@ -28,6 +28,8 @@ class Q_GRAPHS_EXPORT QDateTimeAxis : public QAbstractAxis
     Q_PROPERTY(qreal pan READ pan WRITE setPan NOTIFY panChanged REVISION(6, 11))
     Q_PROPERTY(QDateTime visualMin READ visualMin NOTIFY visualMinChanged REVISION(6, 11))
     Q_PROPERTY(QDateTime visualMax READ visualMax NOTIFY visualMaxChanged REVISION(6, 11))
+    Q_PROPERTY(
+        qreal tickCount READ tickCount WRITE setTickCount NOTIFY tickCountChanged REVISION(6, 12))
 
     QML_NAMED_ELEMENT(DateTimeAxis)
 
@@ -50,8 +52,12 @@ public:
     void setLabelFormat(const QString &format);
     QString labelFormat() const;
 
+#if QT_REMOVAL_QT7_DEPRECATED_SINCE(6, 12)
+    QT_DEPRECATED_VERSION_X_6_12("use tickCount() instead.")
     qreal tickInterval() const;
+    QT_DEPRECATED_VERSION_X_6_12("use setTickCount() instead.")
     void setTickInterval(qreal newTickInterval);
+#endif
 
     int subTickCount() const;
     void setSubTickCount(int newSubTickCount);
@@ -68,20 +74,29 @@ public:
     QDateTime visualMin() const;
     QDateTime visualMax() const;
 
-   Q_REVISION(6, 11) Q_INVOKABLE QTimeZone timeZone(const QString &zoneId) const;
-   Q_REVISION(6, 11) Q_INVOKABLE QString timeZoneAsString() const;
+    Q_REVISION(6, 11) Q_INVOKABLE QTimeZone timeZone(const QString &zoneId) const;
+    Q_REVISION(6, 11) Q_INVOKABLE QString timeZoneAsString() const;
+
+    qreal tickCount() const;
+    void setTickCount(qreal count);
 
 Q_SIGNALS:
     void minChanged(const QDateTime &min);
     void maxChanged(const QDateTime &max);
     void labelFormatChanged(const QString &format);
+#if QT_REMOVAL_QT7_DEPRECATED_SINCE(6, 12)
+    QT_DEPRECATED_VERSION_X_6_12("use tickCountChanged() instead.")
     void tickIntervalChanged();
+#endif
     void subTickCountChanged();
     Q_REVISION(6, 11) void timeZoneChanged(const QTimeZone &timeZone);
     Q_REVISION(6, 11) void zoomChanged(qreal zoom);
     Q_REVISION(6, 11) void panChanged(qreal pan);
     Q_REVISION(6, 11) void visualMinChanged(const QDateTime &min);
     Q_REVISION(6, 11) void visualMaxChanged(const QDateTime &max);
+    Q_REVISION(6, 11) void visualMinChanged(qreal min);
+    Q_REVISION(6, 11) void visualMaxChanged(qreal max);
+    Q_REVISION(6, 12) void tickCountChanged(qreal count);
 
 private:
     Q_DECLARE_PRIVATE(QDateTimeAxis)

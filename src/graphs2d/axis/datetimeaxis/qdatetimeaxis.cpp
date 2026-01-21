@@ -89,11 +89,13 @@ QT_BEGIN_NAMESPACE
  \property QDateTimeAxis::tickInterval
  \brief The amount of major ticks are placed on an axis. If value is 0 or lower, axis will
  automatically calculate appropriate amount of ticks. The default value is 0.
+ \deprecated [6.12] use tickCount instead.
 */
 /*!
  \qmlproperty real DateTimeAxis::tickInterval
  \brief The amount of major ticks are placed on an axis. If value is 0 or lower, axis will
  automatically calculate appropriate amount of ticks. The default value is 0.
+ \deprecated [6.12] use tickCount instead.
  */
 /*!
  \property QDateTimeAxis::timeZone
@@ -206,6 +208,20 @@ QT_BEGIN_NAMESPACE
  \since 6.11
  Returns the \l {QDateTimeAxis::timeZone}'s IANA based zone ID as a string.
  \sa timeZone
+ */
+
+/*!
+ \property QDateTimeAxis::tickCount
+ \since 6.12
+ \brief The amount of major ticks placed on an axis. If the value is 0 or lower, the axis
+ automatically calculates the appropriate amount of ticks. The default value is 0.
+*/
+/*!
+ \qmlproperty real DateTimeAxis::tickCount
+ \since 6.12
+ The amount of major ticks placed on an axis. If the value is 0 or lower,
+ the axis automatically calculates the appropriate amount of ticks.
+ The default value is 0.
 */
 
 /*!
@@ -234,6 +250,7 @@ QT_BEGIN_NAMESPACE
  \qmlsignal DateTimeAxis::tickIntervalChanged(real tickInterval)
  This signal is emitted when the tick interval value, specified by
  \a tickInterval, changes.
+ \deprecated [6.12] use tickCountChanged instead.
 */
 /*!
  \qmlsignal DateTimeAxis::timeZoneChanged()
@@ -246,6 +263,13 @@ QT_BEGIN_NAMESPACE
  This signal is emmited when the zoom value changes.
  \since 6.11
 */
+/*!
+ \qmlsignal DateTimeAxis::tickCountChanged(real count)
+ This signal is emitted when the tickCount of the axis, specified by
+ \a count, changes.
+ \since 6.12
+*/
+
 
 QDateTimeAxis::QDateTimeAxis(QObject *parent)
     : QAbstractAxis(*(new QDateTimeAxisPrivate), parent)
@@ -304,12 +328,17 @@ QString QDateTimeAxis::labelFormat() const
     return d->m_format;
 }
 
+#if QT_REMOVAL_QT7_DEPRECATED_SINCE(6, 12)
+    QT_DEPRECATED_VERSION_X_6_12("use tickCount() instead.")
 qreal QDateTimeAxis::tickInterval() const
 {
     Q_D(const QDateTimeAxis);
-    return d->m_tickInterval;
+    return d->m_tickCount;
 }
+#endif
 
+#if QT_REMOVAL_QT7_DEPRECATED_SINCE(6, 12)
+    QT_DEPRECATED_VERSION_X_6_12("use setTickCount() instead.")
 void QDateTimeAxis::setTickInterval(qreal newTickInterval)
 {
     Q_D(QDateTimeAxis);
@@ -317,12 +346,13 @@ void QDateTimeAxis::setTickInterval(qreal newTickInterval)
     if (newTickInterval < 0.0)
         newTickInterval = 0.0;
 
-    if (qFuzzyCompare(d->m_tickInterval, newTickInterval))
+    if (qFuzzyCompare(d->m_tickCount, newTickInterval))
         return;
-    d->m_tickInterval = newTickInterval;
+    d->m_tickCount = newTickInterval;
     emit tickIntervalChanged();
     emit update();
 }
+#endif
 
 int QDateTimeAxis::subTickCount() const
 {
@@ -441,6 +471,29 @@ QDateTime QDateTimeAxis::visualMax() const
 {
     Q_D(const QDateTimeAxis);
     return QDateTime::fromMSecsSinceEpoch(d->m_visualMax, d->m_timeZone);
+}
+
+qreal QDateTimeAxis::tickCount() const
+{
+    Q_D(const QDateTimeAxis);
+    return d->m_tickCount;
+}
+
+void QDateTimeAxis::setTickCount(qreal newCount)
+{
+    Q_D(QDateTimeAxis);
+
+    if (newCount < 0.0)
+        newCount = 0.0;
+
+    if (qFuzzyCompare(newCount + 1 , d->m_tickCount + 1)) {
+        qCDebug(lcAxis2D, "tickCount already set to: %f", d->m_tickCount);
+        return;
+    }
+
+    d->m_tickCount = newCount;
+    emit tickCountChanged(newCount);
+    emit update();
 }
 
 ///////////////////////////////////////////////////////////////////////////////

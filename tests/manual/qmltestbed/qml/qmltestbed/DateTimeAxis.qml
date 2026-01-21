@@ -54,7 +54,7 @@ Rectangle {
                 text: "X Ticks:"
             }
             SpinBox {
-                onValueChanged: xAxis.tickInterval = value
+                onValueChanged: xAxis.tickCount = value
             }
             Text {
                 Layout.leftMargin: 20
@@ -134,7 +134,7 @@ Rectangle {
             subTickCount: 2
             labelsAngle: 45
             labelFormat: "MMMM-yyyy"
-            tickInterval: 0
+            tickCount: 0
             min: new Date(1930,12,31)
             max: new Date(sliderX.value)
         }
@@ -144,7 +144,7 @@ Rectangle {
             subTickCount: 2
             labelsAngle: 45
             labelFormat: "MMMM-yyyy"
-            tickInterval: 10
+            tickCount: 10
             min: new Date(1930,12,31)
             max: new Date(sliderY.value)
         }

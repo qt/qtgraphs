@@ -853,7 +853,7 @@ void AxisRenderer::updateAxis()
             // Todo: make constant for all axis, or clamp in class? (QTBUG-124736)
             const double MAX_DIVS = 100.0;
 
-            double interval = std::clamp<double>(vaxis->tickInterval(), 0.0, MAX_DIVS);
+            double tickCount = std::clamp<double>(vaxis->tickCount(), 0.0, MAX_DIVS);
             qreal diff = vaxis->max().toMSecsSinceEpoch() - vaxis->min().toMSecsSinceEpoch();
             qreal center = diff / 2.0f + vaxis->min().toMSecsSinceEpoch()
                                        + vaxis->pan();
@@ -867,14 +867,14 @@ void AxisRenderer::updateAxis()
 
             // in ms
             double segment;
-            if (interval <= 0) {
+            if (tickCount <= 0) {
                 segment = getValueStepsFromRange(ax.valueRange);
-                interval = ax.valueRange / segment;
+                tickCount = ax.valueRange / segment;
             } else {
-                segment = ax.valueRange / interval;
+                segment = ax.valueRange / tickCount;
             }
 
-            ax.minLabel = std::clamp(interval, 1.0, MAX_DIVS);
+            ax.minLabel = std::clamp(tickCount, 1.0, MAX_DIVS);
 
             ax.valueStep = segment;
             int axisVerticalSubTickCount = vaxis->subTickCount();
@@ -884,7 +884,7 @@ void AxisRenderer::updateAxis()
             ax.stepPx = (height() - m_graph->m_marginTop - m_graph->m_marginBottom
                                     - axisHeight)
                                    / (qFuzzyCompare(segment, 0)
-                                          ? interval
+                                          ? tickCount
                                           : (ax.valueRange / ax.valueStep));
             double axisVerticalValueDiff = fmod(ax.minValue, ax.valueStep) / ax.valueStep;
             ax.displacement = axisVerticalValueDiff * ax.stepPx;
@@ -900,7 +900,7 @@ void AxisRenderer::updateAxis()
         if (auto haxis = qobject_cast<QDateTimeAxis *>(ax.axis)) {
             const double MAX_DIVS = 100.0;
 
-            double interval = std::clamp<double>(haxis->tickInterval(), 0.0, MAX_DIVS);
+            double tickCount = std::clamp<double>(haxis->tickCount(), 0.0, MAX_DIVS);
             double diff = haxis->max().toMSecsSinceEpoch() - haxis->min().toMSecsSinceEpoch();
             double center = diff / 2.0f + haxis->min().toMSecsSinceEpoch()
                                         + haxis->pan();
@@ -914,14 +914,14 @@ void AxisRenderer::updateAxis()
 
             // in ms
             double segment;
-            if (interval <= 0) {
+            if (tickCount <= 0) {
                 segment = getValueStepsFromRange(ax.valueRange);
-                interval = ax.valueRange / segment;
+                tickCount = ax.valueRange / segment;
             } else {
-                segment = ax.valueRange / interval;
+                segment = ax.valueRange / tickCount;
             }
 
-            ax.minLabel = std::clamp(interval, 1.0, MAX_DIVS);
+            ax.minLabel = std::clamp(tickCount, 1.0, MAX_DIVS);
 
             ax.valueStep = segment;
             int axisHorizontalSubTickCount = haxis->subTickCount();
@@ -931,7 +931,7 @@ void AxisRenderer::updateAxis()
             ax.stepPx = (width() - m_graph->m_marginLeft - m_graph->m_marginRight
                                       - axisWidth)
                                      / (qFuzzyCompare(segment, 0)
-                                            ? interval
+                                            ? tickCount
                                             : (ax.valueRange / ax.valueStep));
 
             double axisHorizontalValueDiff = fmod(ax.minValue, ax.valueStep) / ax.valueStep;
