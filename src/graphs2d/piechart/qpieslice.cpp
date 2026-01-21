@@ -803,6 +803,7 @@ void QPieSlice::setColor(QColor color)
 
     d->m_color = color;
     emit colorChanged();
+    emit sliceChanged();
 }
 
 QColor QPieSlice::color() const
@@ -819,6 +820,7 @@ void QPieSlice::setBorderColor(QColor borderColor)
 
     d->m_borderColor = borderColor;
     emit borderColorChanged();
+    emit sliceChanged();
 }
 
 QColor QPieSlice::borderColor() const
@@ -835,6 +837,7 @@ void QPieSlice::setBorderWidth(qreal borderWidth)
 
     d->m_borderWidth = borderWidth;
     emit borderWidthChanged();
+    emit sliceChanged();
 }
 
 qreal QPieSlice::borderWidth() const
