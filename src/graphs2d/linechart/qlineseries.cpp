@@ -428,16 +428,16 @@ QList<qreal> QLineSeries::dashPattern() const
     return d->m_dashPattern;
 }
 
-void QLineSeries::setDashPattern(const QList<qreal> &array)
+void QLineSeries::setDashPattern(const QList<qreal> &pattern)
 {
     Q_D(QLineSeries);
-    if (d->m_dashPattern == array) {
+    if (d->m_dashPattern == pattern) {
         qCDebug(lcProperties2D) << "QLineSeries::setDashPattern. dashPattern is already set to:"
-                                << array;
+                                << pattern;
         return;
     }
-    d->m_dashPattern = array;
-    emit dashPatternChanged(array);
+    d->m_dashPattern = pattern;
+    emit dashPatternChanged(pattern);
     emit update();
 }
 

@@ -63,7 +63,7 @@ public:
     void setDashOffset(qreal newDashOffset);
 
     QList<qreal> dashPattern() const;
-    void setDashPattern(const QList<qreal> &array);
+    void setDashPattern(const QList<qreal> &pattern);
 
     Q_REVISION(6, 10) Q_INVOKABLE QPointF dataPointCoordinatesAt(qreal x, qreal y);
 
@@ -74,7 +74,7 @@ Q_SIGNALS:
     Q_REVISION(6, 11) void lineStyleChanged(QLineSeries::LineStyle lineStyle);
     Q_REVISION(6, 11) void strokeStyleChanged(QLineSeries::StrokeStyle strokeStyle);
     Q_REVISION(6, 11) void dashOffsetChanged(qreal dashOffset);
-    Q_REVISION(6, 11) void dashPatternChanged(QList<qreal> dashPattern);
+    Q_REVISION(6, 11) void dashPatternChanged(const QList<qreal> &dashPattern);
 
 protected:
     QLineSeries(QLineSeriesPrivate &dd, QObject *parent = nullptr);
