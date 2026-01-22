@@ -80,8 +80,8 @@ Q_SIGNALS:
     Q_REVISION(6, 11) void timeZoneChanged(const QTimeZone &timeZone);
     Q_REVISION(6, 11) void zoomChanged(qreal zoom);
     Q_REVISION(6, 11) void panChanged(qreal pan);
-    Q_REVISION(6, 11) void visualMinChanged(qreal min);
-    Q_REVISION(6, 11) void visualMaxChanged(qreal max);
+    Q_REVISION(6, 11) void visualMinChanged(const QDateTime &min);
+    Q_REVISION(6, 11) void visualMaxChanged(const QDateTime &max);
 
 private:
     Q_DECLARE_PRIVATE(QDateTimeAxis)
