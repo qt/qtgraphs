@@ -8,6 +8,7 @@
 #include <private/qabstractseries_p.h>
 #include <private/qcustomseriesdata_p.h>
 #include <private/qgraphsview_p.h>
+#include <QQmlIncubator>
 
 #include <qtgraphs_tracepoints_p.h>
 
@@ -24,6 +25,34 @@ Q_TRACE_POINT(qtgraphs, QGraphs2DCustomRendererHandlePolish_exit);
 
 Q_TRACE_POINT(qtgraphs, QGraphs2DCustomRendererAfterPolish_entry, int cleanupSeriesCount);
 Q_TRACE_POINT(qtgraphs, QGraphs2DCustomRendererAfterPolish_exit);
+
+class DataItemIncubator : public QQmlIncubator
+{
+public:
+    DataItemIncubator(CustomRenderer *renderer) : m_renderer(renderer) {};
+
+private:
+    void setInitialState(QObject *object) override
+    {
+        auto item = qobject_cast<QQuickItem *>(object);
+        item->setParent(m_renderer);
+        item->setParentItem(m_renderer);
+        recursivelySetParents(item);
+    }
+
+    void recursivelySetParents(QQuickItem *item)
+    {
+        for (const auto &child : item->children()) {
+            auto childItem = qobject_cast<QQuickItem *>(child);
+            if (childItem) {
+                childItem->setParentItem(item);
+                recursivelySetParents(childItem);
+            }
+        }
+    }
+
+    CustomRenderer *m_renderer = nullptr;
+};
 
 CustomRenderer::CustomRenderer(QGraphsView *graph, bool clipPlotArea)
     : QQuickItem(graph)
@@ -63,17 +92,6 @@ void CustomRenderer::hideDelegates(QCustomSeries *series)
         for (int i = 0; i < group->dataItems.size(); ++i) {
             auto *dataItem = group->dataItems[i];
             dataItem->setVisible(false);
-        }
-    }
-}
-
-void recursivelySetParents(QQuickItem *item)
-{
-    for (auto &&child : item->children()) {
-        auto childItem = qobject_cast<QQuickItem *>(child);
-        if (childItem) {
-            childItem->setParentItem(item);
-            recursivelySetParents(childItem);
         }
     }
 }
@@ -148,12 +166,11 @@ void CustomRenderer::handlePolish(QCustomSeries *series)
         qsizetype dataItemVisualCount = group->dataItems.size();
         if (dataItemVisualCount < dataItemCount) {
             for (qsizetype i = dataItemVisualCount; i < dataItemCount; ++i) {
-                QQuickItem *item = qobject_cast<QQuickItem *>(
-                    group->currentDataItem->create(group->currentDataItem->creationContext()));
-                item->setParent(this);
-                item->setParentItem(this);
-                recursivelySetParents(item);
-                group->dataItems << item;
+                DataItemIncubator incubator(this);
+                group->currentDataItem->create(
+                    incubator, group->currentDataItem->creationContext());
+                incubator.forceCompletion();
+                group->dataItems << qobject_cast<QQuickItem *>(incubator.object());
             }
         } else if (dataItemVisualCount > dataItemCount) {
             for (qsizetype i = dataItemCount; i < dataItemVisualCount; ++i)
@@ -166,15 +183,11 @@ void CustomRenderer::handlePolish(QCustomSeries *series)
         group->dataItems.clear();
     }
 
-    for (auto &&dataItem : group->dataItems) {
-        dataItem->setZ(group->series->zValue());
-    }
-
     if (series->isVisible()) {
-        auto &&dataItems = series->dataItems();
-        for (int i = 0; i < dataItems.size(); ++i) {
-            if (group->currentDataItem)
-                series->updateDelegate(group->dataItems[i], i);
+        for (int i = 0; i < group->dataItems.size(); ++i) {
+            auto item = group->dataItems.at(i);
+            series->updateDelegate(item, i);
+            item->setZ(group->series->zValue());
         }
     } else {
         hideDelegates(series);
