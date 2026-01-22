@@ -113,8 +113,6 @@ public:
     Q_REVISION(6, 11) Q_INVOKABLE bool replaceAll(const QList<QPieSlice *> &slices);
     Q_REVISION(6, 11) Q_INVOKABLE bool take(QPieSlice *slice);
 
-    QPieSlice &operator<<(QPieSlice *slice);
-
     QList<QPieSlice *> subSlices() const;
 
     qsizetype subSlicesCount() const;

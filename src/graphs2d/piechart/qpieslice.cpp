@@ -1080,16 +1080,6 @@ bool QPieSlice::append(const QList<QPieSlice *> &slices)
 }
 
 /*!
-    Appends the sub slice specified by \a slice to the slice and returns a reference to the slice.
-    Sub slice ownership is passed to the slice.
-*/
-QPieSlice &QPieSlice::operator << (QPieSlice *slice)
-{
-    append(slice);
-    return *this;
-}
-
-/*!
     Appends a single sub slice with the specified \a value and \a label to the slice.
     Sub slice ownership is passed to the slice.
     Returns null if \a value is \c NaN, \c Inf, or \c -Inf and adds nothing to the
