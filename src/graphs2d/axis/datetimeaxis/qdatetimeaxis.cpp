@@ -474,12 +474,12 @@ void QDateTimeAxisPrivate::calculateVisualRange()
 
     if (!qFuzzyCompare(m_visualMin, min)) {
         m_visualMin = min;
-        emit q->visualMinChanged(min);
+        emit q->visualMinChanged(QDateTime::fromMSecsSinceEpoch(min, m_timeZone));
     }
 
     if (!qFuzzyCompare(m_visualMax, max)) {
         m_visualMax = max;
-        emit q->visualMaxChanged(max);
+        emit q->visualMaxChanged(QDateTime::fromMSecsSinceEpoch(max, m_timeZone));
     }
 }
 
