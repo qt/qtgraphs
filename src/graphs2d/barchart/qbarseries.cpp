@@ -1183,7 +1183,7 @@ void QBarSeriesPrivate::setBarWidth(qreal width)
 {
     Q_Q(QBarSeries);
     width = std::clamp<qreal>(width, 0.0, 1.0);
-    if (!qFuzzyCompare(width, m_barWidth)) {
+    if (!qFuzzyCompare(width + 1, m_barWidth + 1)) {
         m_barWidth = width;
         emit q->update();
     }
@@ -1267,7 +1267,7 @@ qreal QBarSeriesPrivate::percentageAt(int set, int category)
 
     qreal value = m_barSets.at(set)->at(category);
     qreal sum = categorySum(category);
-    if (qFuzzyCompare(sum, 0))
+    if (qFuzzyIsNull(sum))
         return 0;
 
     return value / sum;

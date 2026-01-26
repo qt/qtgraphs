@@ -364,7 +364,7 @@ qreal QAreaSeries::borderWidth() const
 void QAreaSeries::setBorderWidth(qreal newBorderWidth)
 {
     Q_D(QAreaSeries);
-    if (qFuzzyCompare(d->m_borderWidth, newBorderWidth)) {
+    if (QtPrivate::fuzzyCompare(d->m_borderWidth, newBorderWidth)) {
         qCDebug(lcProperties2D, "%s value is already set to: %.1f",
                 qUtf8Printable(QLatin1String(__FUNCTION__)), newBorderWidth);
         return;

@@ -543,11 +543,11 @@ void QValueAxisPrivate::calculateVisualRange()
     diff /= m_zoom;
     qreal min = center - diff / 2.0f;
     qreal max = center + diff / 2.0f;
-    if (!qFuzzyCompare(m_visualMin, min)) {
+    if (!QtPrivate::fuzzyCompare(m_visualMin, min)) {
         m_visualMin = min;
         emit q->visualMinChanged(min);
     }
-    if (!qFuzzyCompare(m_visualMax, max)) {
+    if (!QtPrivate::fuzzyCompare(m_visualMax, max)) {
         m_visualMax = max;
         emit q->visualMaxChanged(max);
     }

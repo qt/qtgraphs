@@ -175,7 +175,7 @@ void QSplineSeries::setWidth(qreal newWidth)
         newWidth = 0;
     }
 
-    if (qFuzzyCompare(d->m_width, newWidth)) {
+    if (qFuzzyCompare(d->m_width + 1, newWidth + 1)) {
         qCDebug(lcProperties2D, "QSplineSeries::setWidth. Width is already set to: %f",
                 newWidth);
         return;

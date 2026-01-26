@@ -413,7 +413,7 @@ qreal QGraphsView::axisXSmoothing() const
 
 void QGraphsView::setAxisXSmoothing(qreal smoothing)
 {
-    if (qFuzzyCompare(m_axisXSmoothing, smoothing)) {
+    if (QtPrivate::fuzzyCompare(m_axisXSmoothing, smoothing)) {
         qCDebug(lcViewProperties2D, "%s axis smoothing is already set to: %.1f",
                 qUtf8Printable(QLatin1String(__FUNCTION__)),
                 smoothing);
@@ -441,7 +441,7 @@ qreal QGraphsView::axisYSmoothing() const
 
 void QGraphsView::setAxisYSmoothing(qreal smoothing)
 {
-    if (qFuzzyCompare(m_axisYSmoothing, smoothing)) {
+    if (QtPrivate::fuzzyCompare(m_axisYSmoothing, smoothing)) {
         qCDebug(lcViewProperties2D, "%s value is already set to: %.1f",
                 qUtf8Printable(QLatin1String(__FUNCTION__)), smoothing);
         return;
@@ -468,7 +468,7 @@ qreal QGraphsView::gridSmoothing() const
 
 void QGraphsView::setGridSmoothing(qreal smoothing)
 {
-    if (qFuzzyCompare(m_gridSmoothing, smoothing)) {
+    if (QtPrivate::fuzzyCompare(m_gridSmoothing, smoothing)) {
         qCDebug(lcViewProperties2D, "%s value is already set to: %.1f",
                 qUtf8Printable(QLatin1String(__FUNCTION__)), smoothing);
         return;
@@ -549,7 +549,7 @@ qreal QGraphsView::shadowBarWidth() const
 
 void QGraphsView::setShadowBarWidth(qreal newShadowBarWidth)
 {
-    if (qFuzzyCompare(m_shadowBarWidth, newShadowBarWidth)) {
+    if (QtPrivate::fuzzyCompare(m_shadowBarWidth, newShadowBarWidth)) {
         qCDebug(lcViewProperties2D, "%s value is already set to: %.1f",
                 qUtf8Printable(QLatin1String(__FUNCTION__)), newShadowBarWidth);
         return;
@@ -576,7 +576,7 @@ qreal QGraphsView::shadowXOffset() const
 
 void QGraphsView::setShadowXOffset(qreal newShadowXOffset)
 {
-    if (qFuzzyCompare(m_shadowXOffset, newShadowXOffset)) {
+    if (QtPrivate::fuzzyCompare(m_shadowXOffset, newShadowXOffset)) {
         qCDebug(lcViewProperties2D, "%s value is already set to: %.1f",
                 qUtf8Printable(QLatin1String(__FUNCTION__)), newShadowXOffset);
         return;
@@ -603,7 +603,7 @@ qreal QGraphsView::shadowYOffset() const
 
 void QGraphsView::setShadowYOffset(qreal newShadowYOffset)
 {
-    if (qFuzzyCompare(m_shadowYOffset, newShadowYOffset)) {
+    if (QtPrivate::fuzzyCompare(m_shadowYOffset, newShadowYOffset)) {
         qCDebug(lcViewProperties2D, "%s value is already set to: %.1f",
                 qUtf8Printable(QLatin1String(__FUNCTION__)), newShadowYOffset);
         return;
@@ -630,7 +630,7 @@ qreal QGraphsView::shadowSmoothing() const
 
 void QGraphsView::setShadowSmoothing(qreal smoothing)
 {
-    if (qFuzzyCompare(m_shadowSmoothing, smoothing)) {
+    if (QtPrivate::fuzzyCompare(m_shadowSmoothing, smoothing)) {
         qCDebug(lcViewProperties2D, "%s value is already set to: %.1f",
                 qUtf8Printable(QLatin1String(__FUNCTION__)), smoothing);
         return;
@@ -1202,7 +1202,7 @@ qreal QGraphsView::marginTop() const
 
 void QGraphsView::setMarginTop(qreal newMarginTop)
 {
-    if (qFuzzyCompare(m_marginTop, newMarginTop)) {
+    if (QtPrivate::fuzzyCompare(m_marginTop, newMarginTop)) {
         qCDebug(lcViewProperties2D, "%s value is already set to: %.1f",
                 qUtf8Printable(QLatin1String(__FUNCTION__)), newMarginTop);
         return;
@@ -1225,7 +1225,7 @@ qreal QGraphsView::marginBottom() const
 
 void QGraphsView::setMarginBottom(qreal newMarginBottom)
 {
-    if (qFuzzyCompare(m_marginBottom, newMarginBottom)) {
+    if (QtPrivate::fuzzyCompare(m_marginBottom, newMarginBottom)) {
         qCDebug(lcViewProperties2D, "%s value is already set to: %.1f",
                 qUtf8Printable(QLatin1String(__FUNCTION__)), newMarginBottom);
         return;
@@ -1248,7 +1248,7 @@ qreal QGraphsView::marginLeft() const
 
 void QGraphsView::setMarginLeft(qreal newMarginLeft)
 {
-    if (qFuzzyCompare(m_marginLeft, newMarginLeft)) {
+    if (QtPrivate::fuzzyCompare(m_marginLeft, newMarginLeft)) {
         qCDebug(lcViewProperties2D, "%s value is already set to: %.1f",
                 qUtf8Printable(QLatin1String(__FUNCTION__)), newMarginLeft);
         return;
@@ -1271,7 +1271,7 @@ qreal QGraphsView::marginRight() const
 
 void QGraphsView::setMarginRight(qreal newMarginRight)
 {
-    if (qFuzzyCompare(m_marginRight, newMarginRight)) {
+    if (QtPrivate::fuzzyCompare(m_marginRight, newMarginRight)) {
         qCDebug(lcViewProperties2D, "%s value is already set to: %.1f",
                 qUtf8Printable(QLatin1String(__FUNCTION__)), newMarginRight);
         return;
@@ -1818,7 +1818,7 @@ qreal QGraphsView::zoomSensitivity() const
 
 void QGraphsView::setZoomSensitivity(qreal newZoomSensitivity)
 {
-    if (qFuzzyCompare(m_zoomSensitivity, newZoomSensitivity)) {
+    if (QtPrivate::fuzzyCompare(m_zoomSensitivity, newZoomSensitivity)) {
         qCDebug(lcViewProperties2D, "%s value is already set to: %.1f",
                 qUtf8Printable(QLatin1String(__FUNCTION__)), newZoomSensitivity);
         return;
