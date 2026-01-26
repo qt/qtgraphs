@@ -971,7 +971,7 @@ void QPieSeries::setHorizontalPosition(qreal relativePosition)
     if (relativePosition > 1.0)
         relativePosition = 1.0;
 
-    if (qFuzzyCompare(d->m_pieRelativeHorPos, relativePosition)) {
+    if (qFuzzyCompare(d->m_pieRelativeHorPos + 1, relativePosition + 1)) {
         qCDebug(lcProperties2D, "QPieSeries::setHorizontalPosition. Position is already set to: %f",
                 relativePosition);
         return;
@@ -997,7 +997,7 @@ void QPieSeries::setVerticalPosition(qreal relativePosition)
     if (relativePosition > 1.0)
         relativePosition = 1.0;
 
-    if (qFuzzyCompare(d->m_pieRelativeVerPos, relativePosition)) {
+    if (qFuzzyCompare(d->m_pieRelativeVerPos + 1, relativePosition + 1)) {
         qCDebug(lcProperties2D, "QPieSeries::setVerticalPosition. Position is already set to: %f",
                 relativePosition);
         return;
@@ -1039,7 +1039,7 @@ qreal QPieSeries::pieSize() const
 void QPieSeries::setStartAngle(qreal angle)
 {
     Q_D(QPieSeries);
-    if (qFuzzyCompare(d->m_pieStartAngle, angle)) {
+    if (QtPrivate::fuzzyCompare(d->m_pieStartAngle, angle)) {
         qCDebug(lcSeries2D, "QPieSeries::setStartAngle. Angle is already set to: %f",
                 angle);
         return;
@@ -1076,7 +1076,7 @@ qreal QPieSeries::startAngle() const
 void QPieSeries::setEndAngle(qreal angle)
 {
     Q_D(QPieSeries);
-    if (qFuzzyCompare(d->m_pieEndAngle, angle)) {
+    if (QtPrivate::fuzzyCompare(d->m_pieEndAngle, angle)) {
         qCDebug(lcSeries2D, "QPieSeries::setEndAngle. Angle is already set to: %f",
                 angle);
         return;
@@ -1179,7 +1179,7 @@ qreal QPieSeries::angleSpanVisibleLimit() const
 void QPieSeries::setAngleSpanVisibleLimit(qreal newAngleSpanVisibleLimit)
 {
     Q_D(QPieSeries);
-    if (qFuzzyCompare(d->m_angleSpanVisibleLimit, newAngleSpanVisibleLimit)) {
+    if (QtPrivate::fuzzyCompare(d->m_angleSpanVisibleLimit, newAngleSpanVisibleLimit)) {
         qCDebug(lcProperties2D, "QPieSeries::setAngleSpanVisibleLimit. Limit is already set to: %f",
                 newAngleSpanVisibleLimit);
         return;
@@ -1232,13 +1232,15 @@ void QPieSeriesPrivate::updateData(bool clearHidden)
     for (QPieSlice *s : std::as_const(m_slices))
         sum += s->value();
 
-    if (!qFuzzyCompare(m_sum, sum)) {
+    Q_ASSERT(sum >= 0.0);
+
+    if (!qFuzzyCompare(m_sum + 1, sum + 1)) {
         m_sum = sum;
         emit q->sumChanged();
     }
 
     // nothing to show..
-    if (qFuzzyCompare(m_sum, 0))
+    if (qFuzzyIsNull(m_sum))
         return;
 
     // update slice attributes
@@ -1289,7 +1291,7 @@ void QPieSeriesPrivate::updateLabels()
 void QPieSeriesPrivate::setSizes(qreal innerSize, qreal outerSize)
 {
     Q_Q(QPieSeries);
-    if (!qFuzzyCompare(m_holeRelativeSize, innerSize)) {
+    if (!QtPrivate::fuzzyCompare(m_holeRelativeSize, innerSize)) {
         m_holeRelativeSize = innerSize;
         emit q->holeSizeChanged();
     } else {
@@ -1297,7 +1299,7 @@ void QPieSeriesPrivate::setSizes(qreal innerSize, qreal outerSize)
                 innerSize);
     }
 
-    if (!qFuzzyCompare(m_pieRelativeSize, outerSize)) {
+    if (!QtPrivate::fuzzyCompare(m_pieRelativeSize, outerSize)) {
         m_pieRelativeSize = outerSize;
         emit q->pieSizeChanged();
     } else {

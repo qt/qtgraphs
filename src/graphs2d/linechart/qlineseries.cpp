@@ -126,7 +126,7 @@ void QLineSeries::setWidth(qreal newWidth)
     Q_D(QLineSeries);
     if (newWidth < 0.0)
         newWidth = 0.0;
-    if (qFuzzyCompare(d->m_width, newWidth)) {
+    if (qFuzzyCompare(d->m_width + 1, newWidth + 1)) {
         qCDebug(lcProperties2D, "QLineSeries::setWidth. Set value width is already %f",
                 newWidth);
         return;
