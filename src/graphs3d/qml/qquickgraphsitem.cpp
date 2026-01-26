@@ -5929,7 +5929,7 @@ bool QQuickGraphsItem::isPolar() const
 
 void QQuickGraphsItem::setLabelMargin(float margin)
 {
-    if (qFuzzyCompare(m_labelMargin, margin)) {
+    if (QtPrivate::fuzzyCompare(m_labelMargin, margin)) {
         qCDebug(lcProperties3D, "%s value is already set to: %.1f",
                 qUtf8Printable(QLatin1String(__FUNCTION__)), margin);
         return;
@@ -5947,7 +5947,7 @@ float QQuickGraphsItem::labelMargin() const
 
 void QQuickGraphsItem::setRadialLabelOffset(float offset)
 {
-    if (qFuzzyCompare(m_radialLabelOffset, offset)) {
+    if (QtPrivate::fuzzyCompare(m_radialLabelOffset, offset)) {
         qCDebug(lcProperties3D, "%s value is already set to: %.1f",
                 qUtf8Printable(QLatin1String(__FUNCTION__)), offset);
         return;
@@ -7385,7 +7385,7 @@ float QQuickGraphsItem::ambientLightStrength() const
 
 void QQuickGraphsItem::setAmbientLightStrength(float newAmbientLightStrength)
 {
-    if (qFuzzyCompare(m_ambientLightStrength, newAmbientLightStrength)) {
+    if (QtPrivate::fuzzyCompare(m_ambientLightStrength, newAmbientLightStrength)) {
         qCDebug(lcProperties3D, "%s value is already set to: %.1f",
                 qUtf8Printable(QLatin1String(__FUNCTION__)), newAmbientLightStrength);
         return;
@@ -7409,7 +7409,7 @@ float QQuickGraphsItem::lightStrength() const
 
 void QQuickGraphsItem::setLightStrength(float newLightStrength)
 {
-    if (qFuzzyCompare(m_lightStrength, newLightStrength)) {
+    if (QtPrivate::fuzzyCompare(m_lightStrength, newLightStrength)) {
         qCDebug(lcProperties3D, "%s value is already set to: %.1f",
                 qUtf8Printable(QLatin1String(__FUNCTION__)), newLightStrength);
         return;
@@ -7433,7 +7433,7 @@ float QQuickGraphsItem::shadowStrength() const
 
 void QQuickGraphsItem::setShadowStrength(float newShadowStrength)
 {
-    if (qFuzzyCompare(m_shadowStrength, newShadowStrength)) {
+    if (QtPrivate::fuzzyCompare(m_shadowStrength, newShadowStrength)) {
         qCDebug(lcProperties3D, "%s value is already set to: %.1f",
                 qUtf8Printable(QLatin1String(__FUNCTION__)), newShadowStrength);
         return;
