@@ -883,7 +883,7 @@ void AxisRenderer::updateAxis()
                                                : 1.0;
             ax.stepPx = (height() - m_graph->m_marginTop - m_graph->m_marginBottom
                                     - axisHeight)
-                                   / (qFuzzyCompare(segment, 0)
+                                   / (qFuzzyIsNull(segment)
                                           ? tickCount
                                           : (ax.valueRange / ax.valueStep));
             double axisVerticalValueDiff = fmod(ax.minValue, ax.valueStep) / ax.valueStep;
@@ -930,7 +930,7 @@ void AxisRenderer::updateAxis()
                                                  : 1.0;
             ax.stepPx = (width() - m_graph->m_marginLeft - m_graph->m_marginRight
                                       - axisWidth)
-                                     / (qFuzzyCompare(segment, 0)
+                                     / (qFuzzyIsNull(segment)
                                             ? tickCount
                                             : (ax.valueRange / ax.valueStep));
 

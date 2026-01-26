@@ -728,7 +728,7 @@ void QPieSlice::setLabelArmLengthFactor(qreal factor)
 {
     Q_D(QPieSlice);
 
-    if (qFuzzyCompare(d->m_labelArmLengthFactor, factor))
+    if (QtPrivate::fuzzyCompare(d->m_labelArmLengthFactor, factor))
         return;
 
     d->m_labelArmLengthFactor = factor;
@@ -745,7 +745,7 @@ void QPieSlice::setValue(qreal value)
 {
     Q_D(QPieSlice);
     value = qAbs(value); // negative values not allowed
-    if (qFuzzyCompare(d->m_value, value))
+    if (qFuzzyCompare(d->m_value + 1, value + 1))
         return;
 
     d->m_value = value;
@@ -781,7 +781,7 @@ void QPieSlice::setExplodeDistanceFactor(qreal factor)
 {
     Q_D(QPieSlice);
 
-    if (qFuzzyCompare(d->m_explodeDistanceFactor, factor))
+    if (QtPrivate::fuzzyCompare(d->m_explodeDistanceFactor, factor))
         return;
 
     d->m_explodeDistanceFactor = factor;
@@ -1314,12 +1314,15 @@ void QPieSlicePrivate::updateData(bool clearHidden)
     qreal sum = 0;
     for (QPieSlice *s : std::as_const(m_subSlices))
         sum += s->value();
-    if (!qFuzzyCompare(m_sum, sum)) {
+
+    Q_ASSERT(sum >= 0.0);
+
+    if (!qFuzzyCompare(m_sum + 1, sum + 1)) {
         m_sum = sum;
         emit q->subSlicesSumChanged(m_sum);
     }
     // nothing to show..
-    if (qFuzzyCompare(m_sum, 0))
+    if (qFuzzyIsNull(m_sum))
         return;
     // update slice attributes
     for (QPieSlice *s : std::as_const(m_subSlices)) {
@@ -1372,7 +1375,7 @@ void QPieSlicePrivate::updateSeries(QPieSeries *series)
 void QPieSlicePrivate::setPercentage(qreal percentage)
 {
     Q_Q(QPieSlice);
-    if (qFuzzyCompare(m_percentage, percentage))
+    if (QtPrivate::fuzzyCompare(m_percentage, percentage))
         return;
     m_percentage = percentage;
     emit q->percentageChanged();
@@ -1381,7 +1384,7 @@ void QPieSlicePrivate::setPercentage(qreal percentage)
 void QPieSlicePrivate::setStartAngle(qreal angle)
 {
     Q_Q(QPieSlice);
-    if (qFuzzyCompare(m_startAngle, angle))
+    if (QtPrivate::fuzzyCompare(m_startAngle, angle))
         return;
     m_startAngle = angle;
     emit q->startAngleChanged();
@@ -1390,7 +1393,7 @@ void QPieSlicePrivate::setStartAngle(qreal angle)
 void QPieSlicePrivate::setAngleSpan(qreal span)
 {
     Q_Q(QPieSlice);
-    if (qFuzzyCompare(m_angleSpan, span))
+    if (QtPrivate::fuzzyCompare(m_angleSpan, span))
         return;
 
     m_angleSpan = span;

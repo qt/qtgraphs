@@ -346,7 +346,7 @@ void QDateTimeAxis::setTickInterval(qreal newTickInterval)
     if (newTickInterval < 0.0)
         newTickInterval = 0.0;
 
-    if (qFuzzyCompare(d->m_tickCount, newTickInterval))
+    if (qFuzzyCompare(d->m_tickCount + 1, newTickInterval + 1))
         return;
     d->m_tickCount = newTickInterval;
     emit tickIntervalChanged();
@@ -423,7 +423,7 @@ void QDateTimeAxis::setZoom(qreal zoom)
 {
     Q_D(QDateTimeAxis);
 
-    if (qFuzzyCompare(d->m_zoom, zoom)) {
+    if (QtPrivate::fuzzyCompare(d->m_zoom, zoom)) {
         qCDebug(lcAxis2D, "axis already zoomed to value of %f", d->m_zoom);
         return;
     }
@@ -444,7 +444,7 @@ void QDateTimeAxis::setPan(qreal pan)
 {
     Q_D(QDateTimeAxis);
 
-    if (qFuzzyCompare(d->m_pan, pan)) {
+    if (QtPrivate::fuzzyCompare(d->m_pan, pan)) {
         qCDebug(lcAxis2D, "panning already set to: %f", d->m_pan);
         return;
     }
@@ -556,12 +556,12 @@ void QDateTimeAxisPrivate::calculateVisualRange()
     qreal max = center + diff / 2.0f;
     qreal min = center - diff / 2.0f;
 
-    if (!qFuzzyCompare(m_visualMin, min)) {
+    if (!QtPrivate::fuzzyCompare(m_visualMin, min)) {
         m_visualMin = min;
         emit q->visualMinChanged(QDateTime::fromMSecsSinceEpoch(min, m_timeZone));
     }
 
-    if (!qFuzzyCompare(m_visualMax, max)) {
+    if (!QtPrivate::fuzzyCompare(m_visualMax, max)) {
         m_visualMax = max;
         emit q->visualMaxChanged(QDateTime::fromMSecsSinceEpoch(max, m_timeZone));
     }
