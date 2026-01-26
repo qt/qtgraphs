@@ -1016,7 +1016,7 @@ void QCustom3DVolume::setAlphaMultiplier(float mult)
 {
     Q_D(QCustom3DVolume);
     if (mult >= 0.0f) {
-        if (qFuzzyCompare(d->m_alphaMultiplier, mult)) {
+        if (qFuzzyCompare(d->m_alphaMultiplier + 1, mult + 1)) {
             qCDebug(lcProperties3D, "%s value is already set to: %.1f",
                     qUtf8Printable(QLatin1String(__FUNCTION__)), mult);
             return;
