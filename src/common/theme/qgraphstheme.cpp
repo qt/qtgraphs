@@ -1420,7 +1420,7 @@ qreal QGraphsTheme::borderWidth() const
 void QGraphsTheme::setBorderWidth(qreal newBorderWidth)
 {
     Q_D(QGraphsTheme);
-    if (qFuzzyCompare(d->m_borderWidth + 1, newBorderWidth + 1))
+    if (QtPrivate::fuzzyCompare(d->m_borderWidth, newBorderWidth))
         return;
     d->m_borderWidth = newBorderWidth;
     Q_EMIT borderWidthChanged();
@@ -2146,7 +2146,7 @@ qreal QGraphsLine::mainWidth() const
 
 void QGraphsLine::setMainWidth(qreal newWidth)
 {
-    if (qFuzzyCompare(d->m_mainWidth + 1, newWidth + 1))
+    if (QtPrivate::fuzzyCompare(d->m_mainWidth, newWidth))
         return;
     detach();
     d->m_mainWidth = newWidth;
@@ -2164,7 +2164,7 @@ qreal QGraphsLine::subWidth() const
 
 void QGraphsLine::setSubWidth(qreal newWidth)
 {
-    if (qFuzzyCompare(d->m_subWidth + 1, newWidth + 1))
+    if (QtPrivate::fuzzyCompare(d->m_subWidth, newWidth))
         return;
     detach();
     d->m_subWidth = newWidth;
@@ -2267,10 +2267,10 @@ bool comparesEqual(const QGraphsLinePrivate &lhs, const QGraphsLinePrivate &rhs)
     ret = ret && (lhs.m_subColor == rhs.m_subColor);
     if (!ret)
         return ret;
-    ret = ret && qFuzzyCompare(lhs.m_mainWidth + 1, rhs.m_mainWidth + 1);
+    ret = ret && QtPrivate::fuzzyCompare(lhs.m_mainWidth, rhs.m_mainWidth);
     if (!ret)
         return ret;
-    ret = ret && qFuzzyCompare(lhs.m_subWidth + 1, rhs.m_subWidth + 1);
+    ret = ret && QtPrivate::fuzzyCompare(lhs.m_subWidth, rhs.m_subWidth);
     if (!ret)
         return ret;
     ret = ret && (lhs.m_labelTextColor == rhs.m_labelTextColor);
