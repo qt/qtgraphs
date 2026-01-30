@@ -7893,6 +7893,7 @@ void QQuickGraphsItem::setCameraTargetPosition(QVector3D target)
     m_requestedTarget.setZ(std::clamp(target.z(), -1.0f, 1.0f));
     m_changeTracker.cameraChanged = true;
     emit cameraTargetPositionChanged(target);
+    emitNeedRender();
 }
 
 void QQuickGraphsItem::setCameraPosition(float horizontal, float vertical, float zoom)
