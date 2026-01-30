@@ -3346,6 +3346,8 @@ void QQuickGraphsItem::updateGrid()
     Q_TRACE(QGraphs3DItemUpdateGrid_entry);
 
     QQmlListReference materialsRef(m_background, "materials");
+    if (!materialsRef.count())
+        return;
     auto *bgMat = static_cast<QQuick3DCustomMaterial *>(materialsRef.at(0));
     bgMat->setProperty("scale", m_scaleWithBackground);
     qsizetype gridLineCountX = 0;
