@@ -1053,6 +1053,10 @@ void QQuickGraphsBars::synchData()
     // Floor level update requires data update, so do before qquickgraphicsitem sync
     if (m_changeTracker.floorLevelChanged) {
         updateFloorLevel(m_floorLevel);
+        // Update labels and grid as well, unless we are in shader grid mode
+        updateLabels();
+        if (gridLineType() != QtGraphs3D::GridLineType::Shader)
+            updateGrid();
         m_changeTracker.floorLevelChanged = false;
     }
 
