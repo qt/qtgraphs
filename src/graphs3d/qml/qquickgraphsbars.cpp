@@ -1556,8 +1556,8 @@ void QQuickGraphsBars::handleItemChanged(qsizetype rowIndex, qsizetype columnInd
             series->d_func()->markItemLabelDirty();
         if (series->isVisible())
             adjustAxisRanges();
-        emitNeedRender();
     }
+    emitNeedRender();
 }
 
 void QQuickGraphsBars::handleDataRowLabelsChanged()
