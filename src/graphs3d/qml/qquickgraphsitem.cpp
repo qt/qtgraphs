@@ -4092,6 +4092,7 @@ void QQuickGraphsItem::updateLabels()
     if (zFlipped)
         zPos *= -1.0f;
 
+    yPos *= m_horizontalFlipFactor;
     auto labelTrans = QVector3D(0.0f, yPos, zPos);
     float angularLabelZPos = 0.0f;
 
@@ -4282,6 +4283,7 @@ void QQuickGraphsItem::updateLabels()
     if (!yFlipped)
         yPos *= -1.0f;
 
+    yPos *= m_horizontalFlipFactor;
     labelTrans = QVector3D(xPos, yPos, 0.0f);
     if (axisZ()->type() == QAbstract3DAxis::AxisType::Value) {
         auto valueAxisZ = static_cast<QValue3DAxis *>(axisZ());

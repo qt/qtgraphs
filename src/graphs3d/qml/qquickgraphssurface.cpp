@@ -430,33 +430,7 @@ void QQuickGraphsSurface::changeSlicePointerForSeries(const QString &filename,
 
 void QQuickGraphsSurface::handleFlipHorizontalGridChanged(bool flip)
 {
-    float factor = -1.0f;
-    if (isGridUpdated())
-        factor = flip ? -1.0f : 1.0f;
-
-    for (int i = 0; i < repeaterX()->count(); i++) {
-        QQuick3DNode *obj = static_cast<QQuick3DNode *>(repeaterX()->objectAt(i));
-        QVector3D pos = obj->position();
-        pos.setY(pos.y() * factor);
-        obj->setPosition(pos);
-    }
-
-    for (int i = 0; i < repeaterZ()->count(); i++) {
-        QQuick3DNode *obj = static_cast<QQuick3DNode *>(repeaterZ()->objectAt(i));
-        QVector3D pos = obj->position();
-        pos.setY(pos.y() * factor);
-        obj->setPosition(pos);
-    }
-
-    QVector3D pos = titleLabelX()->position();
-    pos.setY(pos.y() * factor);
-    titleLabelX()->setPosition(pos);
-
-    pos = titleLabelZ()->position();
-    pos.setY(pos.y() * factor);
-    titleLabelZ()->setPosition(pos);
-
-    setGridUpdated(false);
+    updateLabels();
     emit flipHorizontalGridChanged(flip);
     setFlipHorizontalGridChanged(false);
 }
@@ -1156,8 +1130,10 @@ void QQuickGraphsSurface::synchData()
 {
     qCDebug(lcGraphs3D, "%s start syncing", qUtf8Printable(QLatin1String(__FUNCTION__)));
 
-    if (isFlipHorizontalGridChanged())
+    if (isFlipHorizontalGridChanged()) {
         setHorizontalFlipFactor(flipHorizontalGrid() ? -1 : 1);
+        handleFlipHorizontalGridChanged(flipHorizontalGrid());
+    }
 
     QQuickGraphsItem::synchData();
 
@@ -1166,9 +1142,6 @@ void QQuickGraphsSurface::synchData()
             updateSelectedPoint();
         setSelectedPointChanged(false);
     }
-
-    if (isGridUpdated() || isFlipHorizontalGridChanged())
-        handleFlipHorizontalGridChanged(flipHorizontalGrid());
 
     if (isSurfaceTextureChanged()) {
         if (!isChangedTexturesEmpty()) {
