@@ -46,6 +46,12 @@ Q_TRACE_POINT(qtgraphs, QGraphs2DAxisRendererUpdateValueXAxisLabels_exit);
 Q_TRACE_POINT(qtgraphs, QGraphs2DAxisRendererUpdateValueYAxisLabels_entry);
 Q_TRACE_POINT(qtgraphs, QGraphs2DAxisRendererUpdateValueYAxisLabels_exit);
 
+Q_TRACE_POINT(qtgraphs, QGraphs2DAxisRendererUpdateLogValueXAxisLabels_entry);
+Q_TRACE_POINT(qtgraphs, QGraphs2DAxisRendererUpdateLogValueXAxisLabels_exit);
+
+Q_TRACE_POINT(qtgraphs, QGraphs2DAxisRendererUpdateLogValueYAxisLabels_entry);
+Q_TRACE_POINT(qtgraphs, QGraphs2DAxisRendererUpdateLogValueYAxisLabels_exit);
+
 Q_TRACE_POINT(qtgraphs, QGraphs2DAxisRendererUpdateBarYAxisLabels_entry);
 Q_TRACE_POINT(qtgraphs, QGraphs2DAxisRendererUpdateBarYAxisLabels_exit);
 
