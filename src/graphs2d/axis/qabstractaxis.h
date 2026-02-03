@@ -143,8 +143,8 @@ Q_SIGNALS:
     void titleFontChanged(const QFont &font);
     Q_REVISION(6, 9) void alignmentChanged(Qt::Alignment alignment);
     Q_REVISION(6, 10) void textElideModeChanged(Qt::TextElideMode elideMode);
-    Q_REVISION(6, 11) void subColorChanged(QColor color);
-    Q_REVISION(6, 11) void colorChanged(QColor color);
+    Q_REVISION(6, 11) void subColorChanged(QColor newColor);
+    Q_REVISION(6, 11) void colorChanged(QColor newColor);
     void update();
     void rangeChanged(qreal min, qreal max);
 

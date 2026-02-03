@@ -288,7 +288,7 @@ Q_SIGNALS:
     void localeChanged(const QLocale &locale);
     void queriedGraphPositionChanged(QVector3D data);
     void marginChanged(qreal margin);
-    Q_REVISION(6, 11) void cutoffMarginChanged(qreal margin);
+    Q_REVISION(6, 11) void cutoffMarginChanged(qreal newMargin);
     void cameraPresetChanged(QtGraphs3D::CameraPreset preset);
     void cameraXRotationChanged(float rotation);
     void cameraYRotationChanged(float rotation);

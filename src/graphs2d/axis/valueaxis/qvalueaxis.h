@@ -85,8 +85,8 @@ Q_SIGNALS:
     void tickIntervalChanged(qreal tickInterval);
     Q_REVISION(6, 9) void zoomChanged(qreal zoom);
     Q_REVISION(6, 9) void panChanged(qreal pan);
-    Q_REVISION(6, 11) void visualMinChanged(qreal visualMin);
-    Q_REVISION(6, 11) void visualMaxChanged(qreal visualMax);
+    Q_REVISION(6, 11) void visualMinChanged(qreal newVisualMin);
+    Q_REVISION(6, 11) void visualMaxChanged(qreal newVisualMax);
 
 private:
     Q_DECLARE_PRIVATE(QValueAxis)

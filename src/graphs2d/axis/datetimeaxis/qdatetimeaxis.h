@@ -91,13 +91,13 @@ Q_SIGNALS:
     void tickIntervalChanged();
 #endif
     void subTickCountChanged();
-    Q_REVISION(6, 11) void timeZoneChanged(const QTimeZone &timeZone);
-    Q_REVISION(6, 11) void zoomChanged(qreal zoom);
-    Q_REVISION(6, 11) void panChanged(qreal pan);
-    Q_REVISION(6, 11) void visualMinChanged(const QDateTime &min);
-    Q_REVISION(6, 11) void visualMaxChanged(const QDateTime &max);
-    Q_REVISION(6, 11) void visualMinChanged(qreal min);
-    Q_REVISION(6, 11) void visualMaxChanged(qreal max);
+    Q_REVISION(6, 11) void timeZoneChanged(const QTimeZone &newTimeZone);
+    Q_REVISION(6, 11) void zoomChanged(qreal newZoom);
+    Q_REVISION(6, 11) void panChanged(qreal newPan);
+    Q_REVISION(6, 11) void visualMinChanged(const QDateTime &newMin);
+    Q_REVISION(6, 11) void visualMaxChanged(const QDateTime &newMax);
+    Q_REVISION(6, 11) void visualMinChanged(qreal newMin);
+    Q_REVISION(6, 11) void visualMaxChanged(qreal newMax);
     Q_REVISION(6, 12) void tickCountChanged(qreal count);
 
 private:

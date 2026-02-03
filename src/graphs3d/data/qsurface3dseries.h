@@ -113,7 +113,7 @@ Q_SIGNALS:
     void wireframeColorChanged(QColor color);
     void dataArrayChanged(const QSurfaceDataArray &array);
     void shadingChanged(const Shading shading);
-    Q_REVISION(6, 11) void rowsSanitizedChanged(bool rowsSanitized);
+    Q_REVISION(6, 11) void rowsSanitizedChanged(bool newRowsSanitized);
     Q_REVISION(6, 11) void axisXChanged(QValue3DAxis *axis);
     Q_REVISION(6, 11) void axisYChanged(QValue3DAxis *axis);
     Q_REVISION(6, 11) void axisZChanged(QValue3DAxis *axis);
