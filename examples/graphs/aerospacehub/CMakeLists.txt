@@ -30,6 +30,7 @@ qt_add_qml_module(aerospacehub
         qml/Bar2DGraph.qml
         qml/Bar3DGraph.qml
         qml/BigGraphItem.qml
+        qml/DashboardPane.qml
         qml/GlobalSettings.qml
         qml/GraphHeaderItem.qml
         qml/ImageItem.qml
@@ -42,7 +43,9 @@ qt_add_qml_module(aerospacehub
         qml/SettingsSlider.qml
         qml/SmallGraphItem.qml
         qml/StatusItem.qml
+        qml/StatusPane.qml
         qml/Surface3DGraph.qml
+        qml/ToolBarItem.qml
         qml/ToolTip2D.qml
     RESOURCES
         fonts/Inter-VariableFont_opsz,wght.ttf

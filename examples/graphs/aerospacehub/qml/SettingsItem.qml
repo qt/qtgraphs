@@ -1,12 +1,12 @@
 // Copyright (C) 2026 The Qt Company Ltd.
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR BSD-3-Clause
 
+pragma ComponentBehavior: Bound
+
 import QtQuick
 import QtQuick.Controls.Universal
 import QtQuick.Layouts
 import QtGraphs
-
-pragma ComponentBehavior: Bound
 
 Item {
     id: settingsitem
@@ -18,6 +18,7 @@ Item {
 
     visible: opacity > 0.5
 
+    //! [settingsview]
     // Graph detail
     BigGraphItem {
         id: settingsgraph
@@ -35,6 +36,7 @@ Item {
     // Settings pane
     StackLayout {
         id: settingspane
+        //! [settingsview]
         anchors.left: settingsgraph.right
         anchors.right: parent.right
         anchors.top: parent.top

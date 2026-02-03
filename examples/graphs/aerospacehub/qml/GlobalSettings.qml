@@ -1,14 +1,19 @@
 // Copyright (C) 2026 The Qt Company Ltd.
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR BSD-3-Clause
 
+//! [singleton]
 pragma Singleton
+
+//! [singleton]
 
 import QtGraphs
 import QtQuick
 import AerospaceHubExample
 
+//! [global]
 QtObject {
     id: global
+    //! [global]
 
     // Window size
     property int rootwidth: 1920
@@ -123,6 +128,7 @@ QtObject {
     property int winddir: 254
     property real windspeed: 12
 
+    //! [sharedtheme]
     // Common graph theme
     property var theme: GraphsTheme {
         plotAreaBackgroundVisible: false
@@ -136,4 +142,5 @@ QtObject {
         grid.mainWidth: 1
         baseGradients: [ global.customgradient ]
     }
+    //! [sharedtheme]
 }

@@ -1,13 +1,13 @@
 // Copyright (C) 2026 The Qt Company Ltd.
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR BSD-3-Clause
 
+pragma ComponentBehavior: Bound
+
 import QtGraphs
 import QtQuick
 import QtQuick.Controls.Universal
 import QtQuick.Layouts
 import AerospaceHubExample
-
-pragma ComponentBehavior: Bound
 
 Rectangle {
     id: biggraph
@@ -53,22 +53,8 @@ Rectangle {
             descsize: GlobalSettings.fontsize28px
         }
 
+        //! [graphs]
         // Graphs
-        Bar2DGraph {
-            id: bar2dbig
-            Layout.fillWidth: true
-            Layout.fillHeight: true
-            Layout.margins: GlobalSettings.defaultmargin
-            opacity: 0
-            panStyle: GraphsView.PanStyle.Drag
-            zoomStyle: GraphsView.ZoomStyle.Center
-            barsimulator: biggraph.barsimulator
-            onVisibleChanged: {
-                if (visible)
-                    biggraph.activegraph = bar2dbig
-            }
-        }
-
         Area2DGraph {
             id: area2dbig
             Layout.fillWidth: true
@@ -83,6 +69,22 @@ Rectangle {
                     biggraph.activegraph = area2dbig
             }
         }
+
+        Bar2DGraph {
+            id: bar2dbig
+            Layout.fillWidth: true
+            Layout.fillHeight: true
+            Layout.margins: GlobalSettings.defaultmargin
+            opacity: 0
+            panStyle: GraphsView.PanStyle.Drag
+            zoomStyle: GraphsView.ZoomStyle.Center
+            barsimulator: biggraph.barsimulator
+            onVisibleChanged: {
+                if (visible)
+                    biggraph.activegraph = bar2dbig
+            }
+        }
+        //! [graphs]
 
         Pie2DGraph {
             id: pie2dbig
