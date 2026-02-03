@@ -60,7 +60,7 @@ navigation.qmltypespage = Qt Graphs QML Types
 navigation.toctitles = "Qt Graphs module topics"
 navigation.toctitles.inclusive = false
 
-manifestmeta.highlighted.names = "QtGraphs/Surface Graph Gallery"
+manifestmeta.highlighted.names = "QtGraphs/Surface Graph Gallery" "QtGraphs/Wind Turbine Dashboard"
 
 # Enforce zero documentation warnings
 warninglimit = 0

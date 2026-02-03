@@ -1,13 +1,13 @@
 // Copyright (C) 2026 The Qt Company Ltd.
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR BSD-3-Clause
 
+pragma ComponentBehavior: Bound
+
 import QtGraphs
 import QtQuick
 import QtQuick.Controls.Universal
 import QtQuick.Layouts
 import AerospaceHubExample
-
-pragma ComponentBehavior: Bound
 
 Rectangle {
     id: smallgraph
@@ -51,6 +51,7 @@ Rectangle {
         linesimulator: smallgraph.linesimulator
     }
 
+    //! [previewgraphs]
     Pie2DGraph {
         id: pie2d
         anchors.topMargin: header.height + GlobalSettings.defaultspacing
@@ -69,6 +70,7 @@ Rectangle {
         cameraZoomLevel: GlobalSettings.defaultzoom
         cameraPreset: GlobalSettings.defaultpreset
     }
+    //! [previewgraphs]
 
     Scatter3DGraph {
         id: scatter3d
@@ -90,6 +92,7 @@ Rectangle {
         cameraPreset: GlobalSettings.defaultpreset
     }
 
+    // Darken the preview graph with an overlaid semitransparent black rectangle
     Rectangle {
         id: control
         anchors.fill: parent
@@ -106,6 +109,8 @@ Rectangle {
         }
     }
 
+    // Put a mouse area on a preview graph for handling hover to show the details and
+    // settings buttons and handle mouse clicks on any of them
     MouseArea {
         anchors.fill: parent
         hoverEnabled: true

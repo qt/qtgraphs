@@ -1,14 +1,17 @@
 // Copyright (C) 2026 The Qt Company Ltd.
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR BSD-3-Clause
 
+pragma ComponentBehavior: Bound
+
 import QtGraphs
 import QtQuick
 import AerospaceHubExample
 
-pragma ComponentBehavior: Bound
-
+//! [bargraph]
 Bars3D {
     id: graph
+    visible: opacity > 0.5
+    //! [bargraph]
 
     property alias series: barseries3d
     property var dataModel: GlobalSettings.barDataModel
@@ -24,8 +27,6 @@ Bars3D {
     msaaSamples: 8
 
     theme: GlobalSettings.theme
-
-    visible: opacity > 0.5
 
     rotationEnabled: false
     zoomEnabled: false

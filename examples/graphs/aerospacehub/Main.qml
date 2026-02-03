@@ -75,8 +75,8 @@ ApplicationWindow {
         id: barDataSimulator
         max: 10.0
         min: 1.0
-        numberOfRows: 30
-        numberOfColumns: 30
+        numberOfRows: 10
+        numberOfColumns: 10
         dataModel: GlobalSettings.barDataModel
         live: GlobalSettings.livedata
         updatePeriod: GlobalSettings.updateinterval * 100
@@ -93,11 +93,11 @@ ApplicationWindow {
 
     Data3DSimulator {
         id: scatterDataSimulator
-        max: 30.0
+        max: 10.0
         min: 1.0
-        numberOfRows: 30
-        numberOfColumns: 30
-        numberOfData: 3
+        numberOfRows: 10
+        numberOfColumns: 5
+        numberOfData: 5
         dataModel: GlobalSettings.scatterDataModel
         live: GlobalSettings.livedata
         updatePeriod: GlobalSettings.updateinterval * 100
@@ -164,11 +164,7 @@ ApplicationWindow {
             GlobalSettings.rootwidth = width
         }
 
-        // Grouping for vertical toolbar buttons
-        ButtonGroup {
-            buttons: viewbuttons.children
-        }
-
+        //! [rootitem]
         // Background image
         Image {
             anchors.fill: parent
@@ -180,6 +176,7 @@ ApplicationWindow {
         // Everything except background image
         ColumnLayout {
             anchors.fill: parent
+            //! [rootitem]
             anchors.leftMargin: GlobalSettings.doublespacing
             anchors.rightMargin: GlobalSettings.doublespacing
             anchors.bottomMargin: GlobalSettings.defaultspacing
@@ -229,80 +226,11 @@ ApplicationWindow {
                 Layout.fillHeight: true
                 spacing: GlobalSettings.doublespacing
 
+                //! [toolbar]
                 // Vertical toolbar
-                Rectangle {
-                    id: verticaltoolbar
+                ToolBarItem {
                     Layout.preferredWidth: GlobalSettings.toolbarwidth
                     Layout.fillHeight: true
-                    color: "#181818"
-                    radius: GlobalSettings.defaultradius / 2
-
-                    ColumnLayout {
-                        id: viewbuttons
-                        spacing: GlobalSettings.defaultspacing
-                        anchors.top: parent.top
-                        anchors.left: parent.left
-                        anchors.right: parent.right
-                        anchors.topMargin: GlobalSettings.defaultspacing * 1.5
-                        anchors.leftMargin: GlobalSettings.defaultspacing
-                        anchors.rightMargin: GlobalSettings.defaultspacing
-
-                        Button {
-                            Layout.fillWidth: true
-                            Layout.preferredHeight: width
-                            icon.source: "images/dashboard-icon.png"
-                            icon.color: checked ? "#181818" : "#F2F2F2"
-                            autoExclusive: true
-                            checkable: true
-                            checked: root.state !== "ShowSettings"
-                            enabled: root.state === "ShowSettings"
-                            background: Rectangle {
-                                anchors.centerIn: parent
-                                color: parent.checked ? "#F2F2F2" : "#181818"
-                                radius: width / 9
-                                width: verticaltoolbar.width * 0.7
-                                height: width
-                            }
-                            onClicked: {
-                                root.state = "ShowDashboard"
-                            }
-                        }
-
-                        Button {
-                            Layout.fillWidth: true
-                            Layout.preferredHeight: width
-                            icon.source: "images/settings-icon.png"
-                            icon.color: checked ? "#181818" : "#F2F2F2"
-                            autoExclusive: true
-                            checkable: true
-                            checked: root.state === "ShowSettings"
-                            background: Rectangle {
-                                anchors.centerIn: parent
-                                color: parent.checked ? "#F2F2F2" : "#181818"
-                                radius: width / 9
-                                width: verticaltoolbar.width * 0.7
-                                height: width
-                            }
-                            onClicked: root.state = "ShowSettings"
-                        }
-
-                        Button {
-                            Layout.fillWidth: true
-                            Layout.preferredHeight: width
-                            icon.source: "images/split-icon.png"
-                            icon.color: "gray"
-                            autoExclusive: true
-                            checkable: true
-                            enabled: false
-                            background: Rectangle {
-                                anchors.centerIn: parent
-                                color: parent.checked ? "#EFEFEF" : "#181818"
-                                radius: width / 9
-                                width: verticaltoolbar.width * 0.7
-                                height: width
-                            }
-                        }
-                    }
                 }
 
                 // Everything except vertical toolbar, header, and background image
@@ -310,6 +238,7 @@ ApplicationWindow {
                     id: maincontentview
                     Layout.fillWidth: true
                     Layout.fillHeight: true
+                    //! [toolbar]
 
                     // Status row: back button (when applicable) and view name
                     RowLayout {
@@ -360,55 +289,36 @@ ApplicationWindow {
                         }
                     }
 
+                    //! [maincontent]
                     // Main content
                     RowLayout {
                         id: maincontent
                         Layout.fillWidth: true
                         Layout.fillHeight: true
+                        //! [maincontent]
                         spacing: GlobalSettings.doublespacing
 
+                        //! [dashboard]
                         // Status area; turbine image, notification, status texts, and turbine name
-                        Item {
-                            id: turbineimage
+                        StatusPane {
+                            id: statuspane
                             Layout.preferredWidth: GlobalSettings.statusimagewidth
                             Layout.fillHeight: true
-
-                            // Image
-                            ImageItem {
-                                anchors.fill: parent
-                            }
-
-                            // Notification
-                            NotificationItem {
-                                anchors.top: turbineimage.top
-                                anchors.horizontalCenter: turbineimage.horizontalCenter
-                                anchors.topMargin: GlobalSettings.doublespacing
-                                width: turbineimage.width / 1.25
-                            }
-
-                            // Status
-                            StatusItem {
-                                anchors.centerIn: turbineimage
-                                width: turbineimage.width / 1.5
-                                height: turbineimage.width / 1.75
-                            }
-
-                            // Turbine name
-                            Label {
-                                anchors.bottom: turbineimage.bottom
-                                anchors.right: turbineimage.right
-                                anchors.bottomMargin: GlobalSettings.defaultspacing * 1.5
-                                anchors.rightMargin: GlobalSettings.doublespacing
-                                text: "Turbine " + GlobalSettings.turbineid
-                                color: "#EFEFEF"
-                                font.pixelSize: GlobalSettings.fontsize54px
-                                font.bold: true
-                            }
                         }
 
-                        // Big single graph, when in correct state
+                        // Scrollable dashboard graph area, shown when in ShowDashboard state
+                        DashboardPane {
+                            id: dashboardpane
+                            contentheight: statuspane.height * 1.5
+                            Layout.preferredWidth: GlobalSettings.dashboardwidth
+                            Layout.fillHeight: true
+                        }
+                        //! [dashboard]
+
+                        //! [detail]
+                        // Details graph, shown when in correct state
                         BigGraphItem {
-                            id: bigraph
+                            id: detailspane
                             Layout.preferredWidth: GlobalSettings.dashboardwidth
                             Layout.fillHeight: true
                             state: root.state
@@ -418,88 +328,18 @@ ApplicationWindow {
                             linesimulator: linesim
                             detailsview: true
                         }
-
-                        // Scrollable dashboard graph area, when in ShowDashboard state
-                        Flickable {
-                            id: flick
-                            Layout.preferredWidth: GlobalSettings.dashboardwidth
-                            Layout.fillHeight: true
-                            clip: true
-
-                            contentHeight: content.height
-
-                            boundsBehavior: Flickable.StopAtBounds
-                            interactive: true
-                            visible: opacity > 0.5
-
-                            Item {
-                                id: content
-                                width: parent.width
-                                height: turbineimage.height * 1.5
-
-                                GridLayout {
-                                    id: grid
-                                    columns: 2
-                                    rowSpacing: GlobalSettings.doublespacing
-                                    columnSpacing: GlobalSettings.doublespacing
-                                    anchors.fill: parent
-
-                                    // Graph 1: Power output over time
-                                    SmallGraphItem {
-                                        Layout.fillWidth: true
-                                        Layout.fillHeight: true
-                                        state: "Area2D"
-                                        linesimulator: linesim
-                                    }
-
-                                    // Graph 2: Energy production x Turbine
-                                    SmallGraphItem {
-                                        Layout.fillWidth: true
-                                        Layout.fillHeight: true
-                                        state: "Bar2D"
-                                        barsimulator: barsim
-                                    }
-
-                                    // Graph 3: Power curve visualization
-                                    SmallGraphItem {
-                                        Layout.fillWidth: true
-                                        Layout.fillHeight: true
-                                        state: "Surface3D"
-                                    }
-
-                                    // Graph 4: Fleet-level performance distribution
-                                    SmallGraphItem {
-                                        Layout.fillWidth: true
-                                        Layout.fillHeight: true
-                                        state: "Scatter3D"
-                                    }
-
-                                    // Graph 5: Component failure distribution
-                                    SmallGraphItem {
-                                        Layout.fillWidth: true
-                                        Layout.fillHeight: true
-                                        state: "Pie2D"
-                                        piesimulator: piesim
-                                    }
-
-                                    // Graph 6: Energy production breakdown x Turbine
-                                    SmallGraphItem {
-                                        Layout.fillWidth: true
-                                        Layout.fillHeight: true
-                                        state: "Bar3D"
-                                    }
-                                }
-                            }
-                        }
+                        //! [detail]
                     }
                 }
             }
         }
 
+        //! [settings]
         // Settings
         SettingsItem {
             id: settingscontent
             anchors.fill: parent
+            //! [settings]
             anchors.leftMargin: GlobalSettings.settingsleftmargin
             anchors.rightMargin: GlobalSettings.defaultmargin
             anchors.topMargin: GlobalSettings.settingstopmargin
@@ -510,6 +350,7 @@ ApplicationWindow {
             linesimulator: linesim
         }
 
+        //! [states]
         states: [
             State {
                 name: "ShowDashboard"
@@ -524,13 +365,14 @@ ApplicationWindow {
                     viewtextdesc.text: "/  Settings"
                 }
             },
+            //! [states]
             State {
                 name: "ShowArea2D"
                 PropertyChanges {
-                    flick.opacity: 0
+                    dashboardpane.opacity: 0
                 }
                 PropertyChanges {
-                    bigraph.opacity: 1
+                    detailspane.opacity: 1
                 }
                 PropertyChanges {
                     viewtextdesc.text: "/  Power output over time"
@@ -539,10 +381,10 @@ ApplicationWindow {
             State {
                 name: "ShowBar2D"
                 PropertyChanges {
-                    flick.opacity: 0
+                    dashboardpane.opacity: 0
                 }
                 PropertyChanges {
-                    bigraph.opacity: 1
+                    detailspane.opacity: 1
                 }
                 PropertyChanges {
                     viewtextdesc.text: "/  Energy production x Turbine"
@@ -551,10 +393,10 @@ ApplicationWindow {
             State {
                 name: "ShowSurface3D"
                 PropertyChanges {
-                    flick.opacity: 0
+                    dashboardpane.opacity: 0
                 }
                 PropertyChanges {
-                    bigraph.opacity: 1
+                    detailspane.opacity: 1
                 }
                 PropertyChanges {
                     viewtextdesc.text: "/  Power curve visualization"
@@ -563,10 +405,10 @@ ApplicationWindow {
             State {
                 name: "ShowScatter3D"
                 PropertyChanges {
-                    flick.opacity: 0
+                    dashboardpane.opacity: 0
                 }
                 PropertyChanges {
-                    bigraph.opacity: 1
+                    detailspane.opacity: 1
                 }
                 PropertyChanges {
                     viewtextdesc.text: "/  Fleet-level performance distribution"
@@ -575,10 +417,10 @@ ApplicationWindow {
             State {
                 name: "ShowPie2D"
                 PropertyChanges {
-                    flick.opacity: 0
+                    dashboardpane.opacity: 0
                 }
                 PropertyChanges {
-                    bigraph.opacity: 1
+                    detailspane.opacity: 1
                 }
                 PropertyChanges {
                     viewtextdesc.text: "/  Component failure distribution"
@@ -587,10 +429,10 @@ ApplicationWindow {
             State {
                 name: "ShowBar3D"
                 PropertyChanges {
-                    flick.opacity: 0
+                    dashboardpane.opacity: 0
                 }
                 PropertyChanges {
-                    bigraph.opacity: 1
+                    detailspane.opacity: 1
                 }
                 PropertyChanges {
                     viewtextdesc.text: "/  Energy production breakdown x Turbine"
@@ -598,7 +440,8 @@ ApplicationWindow {
             }
         ]
 
-        // Use transitions to bring the selected graph to front
+        //! [transitions]
+        // Use transitions to bring the selected view to the front
         transitions: [
             Transition {
                 NumberAnimation {
@@ -608,5 +451,6 @@ ApplicationWindow {
                 }
             }
         ]
+        //! [transitions]
     }
 }
