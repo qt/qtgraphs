@@ -99,8 +99,8 @@ Q_SIGNALS:
     void columnLabelsChanged();
     void dataArrayChanged(const QBarDataArray &array);
     Q_REVISION(6, 9) void valueColoringEnabledChanged(bool enabled);
-    Q_REVISION(6, 11) void customRowLabelsChanged(const QStringList &customRowLabels);
-    Q_REVISION(6, 11) void customColumnLabelsChanged(const QStringList &customColumnLabels);
+    Q_REVISION(6, 11) void customRowLabelsChanged(const QStringList &newCustomRowLabels);
+    Q_REVISION(6, 11) void customColumnLabelsChanged(const QStringList &newCustomColumnLabels);
     Q_REVISION(6, 11) void rowAxisChanged(QCategory3DAxis *axis);
     Q_REVISION(6, 11) void valueAxisChanged(QValue3DAxis *axis);
     Q_REVISION(6, 11) void columnAxisChanged(QCategory3DAxis *axis);

@@ -77,11 +77,11 @@ Q_SIGNALS:
     void labelFormatChanged(const QString &format);
     void tickIntervalChanged();
     void subTickCountChanged();
-    Q_REVISION(6, 11) void timeZoneChanged(const QTimeZone &timeZone);
-    Q_REVISION(6, 11) void zoomChanged(qreal zoom);
-    Q_REVISION(6, 11) void panChanged(qreal pan);
-    Q_REVISION(6, 11) void visualMinChanged(const QDateTime &min);
-    Q_REVISION(6, 11) void visualMaxChanged(const QDateTime &max);
+    Q_REVISION(6, 11) void timeZoneChanged(const QTimeZone &newTimeZone);
+    Q_REVISION(6, 11) void zoomChanged(qreal newZoom);
+    Q_REVISION(6, 11) void panChanged(qreal newPan);
+    Q_REVISION(6, 11) void visualMinChanged(const QDateTime &newMin);
+    Q_REVISION(6, 11) void visualMaxChanged(const QDateTime &newMax);
 
 private:
     Q_DECLARE_PRIVATE(QDateTimeAxis)

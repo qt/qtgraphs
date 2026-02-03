@@ -81,8 +81,8 @@ Q_SIGNALS:
     void selectedChanged();
     void upperSeriesChanged();
     void lowerSeriesChanged();
-    Q_REVISION(6, 11) void gradientChanged(QQuickShapeGradient *gradient);
-    Q_REVISION(6, 11) void selectedGradientChanged(QQuickShapeGradient *gradient);
+    Q_REVISION(6, 11) void gradientChanged(QQuickShapeGradient *newGradient);
+    Q_REVISION(6, 11) void selectedGradientChanged(QQuickShapeGradient *newGradient);
 
     Q_REVISION(6, 9) void clicked(QPoint point);
     Q_REVISION(6, 9) void doubleClicked(QPoint point);

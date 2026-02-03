@@ -87,7 +87,7 @@ Q_SIGNALS:
     void positionAbsoluteChanged(bool positionAbsolute);
     void scalingChanged(QVector3D scaling);
     void rotationChanged(const QQuaternion &rotation);
-    Q_REVISION(6, 11) void rotationAbsoluteChanged(bool rotationAbsolute);
+    Q_REVISION(6, 11) void rotationAbsoluteChanged(bool newRotationAbsolute);
     void visibleChanged(bool visible);
     void shadowCastingChanged(bool shadowCasting);
     void scalingAbsoluteChanged(bool scalingAbsolute);

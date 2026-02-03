@@ -145,7 +145,7 @@ Q_SIGNALS:
     Q_REVISION(6, 11) void subSlicesReplaced(const QList<QPieSlice *> &slices);
     Q_REVISION(6, 11) void subSlicesCountChanged(qsizetype count);
     Q_REVISION(6, 11) void subSlicesSumChanged(qreal sum);
-    Q_REVISION(6, 11) void subSlicesRatioChanged(qreal subSlicesRatio);
+    Q_REVISION(6, 11) void subSlicesRatioChanged(qreal newSubSlicesRatio);
 
 private:
     friend class PieRenderer;

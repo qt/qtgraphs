@@ -70,11 +70,11 @@ public:
 Q_SIGNALS:
     void widthChanged();
     void capStyleChanged();
-    Q_REVISION(6, 11) void joinStyleChanged(Qt::PenJoinStyle joinStyle);
-    Q_REVISION(6, 11) void lineStyleChanged(QLineSeries::LineStyle lineStyle);
-    Q_REVISION(6, 11) void strokeStyleChanged(QLineSeries::StrokeStyle strokeStyle);
-    Q_REVISION(6, 11) void dashOffsetChanged(qreal dashOffset);
-    Q_REVISION(6, 11) void dashPatternChanged(const QList<qreal> &dashPattern);
+    Q_REVISION(6, 11) void joinStyleChanged(Qt::PenJoinStyle newJoinStyle);
+    Q_REVISION(6, 11) void lineStyleChanged(QLineSeries::LineStyle newLineStyle);
+    Q_REVISION(6, 11) void strokeStyleChanged(QLineSeries::StrokeStyle newStrokeStyle);
+    Q_REVISION(6, 11) void dashOffsetChanged(qreal newDashOffset);
+    Q_REVISION(6, 11) void dashPatternChanged(const QList<qreal> &newDashPattern);
 
 protected:
     QLineSeries(QLineSeriesPrivate &dd, QObject *parent = nullptr);
