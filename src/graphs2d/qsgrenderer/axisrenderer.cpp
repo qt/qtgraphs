@@ -274,7 +274,7 @@ void AxisRenderer::onGrabChanged(QPointingDevice::GrabTransition transition, QEv
         if (htype == QAbstractAxis::AxisType::Value) {
             auto axis = qobject_cast<QValueAxis *>(hax.axis);
             m_dragState.panAtPress.setX(axis->pan());
-        } else {
+        } else if (htype == QAbstractAxis::AxisType::DateTime) {
             auto axis = qobject_cast<QDateTimeAxis *>(hax.axis);
             m_dragState.panAtPress.setX(axis->pan());
         }
@@ -282,11 +282,10 @@ void AxisRenderer::onGrabChanged(QPointingDevice::GrabTransition transition, QEv
         if (vtype == QAbstractAxis::AxisType::Value) {
             auto axis = qobject_cast<QValueAxis *>(vax.axis);
             m_dragState.panAtPress.setY(axis->pan());
-        } else {
+        } else if (vtype == QAbstractAxis::AxisType::DateTime) {
             auto axis = qobject_cast<QDateTimeAxis *>(vax.axis);
             m_dragState.panAtPress.setY(axis->pan());
         }
-
     } else if (m_dragState.dragging && transition == QPointingDevice::UngrabExclusive) {
         m_dragState.dragging = false;
 
