@@ -13,20 +13,6 @@ Item {
     width: 1280
     height: 1024
 
-    ValueAxis {
-        id: axisX
-        min: 0
-        max: 10
-        titleText: "X Axis"
-    }
-
-    ValueAxis {
-        id: axisY
-        min: 0
-        max: 10
-        titleText: "Y Axis"
-    }
-
     GridLayout {
         anchors.fill: parent
         columns: 2
@@ -37,8 +23,17 @@ Item {
             Layout.fillWidth: true
             Layout.fillHeight: true
 
-            axisX: axisX
-            axisY: axisY
+            axisX: ValueAxis {
+                    min: 0
+                    max: 10
+                    titleText: "X Axis"
+                }
+
+            axisY: ValueAxis {
+                    min: 0
+                    max: 10
+                    titleText: "Y Axis"
+                }
 
             AreaSeries {
                 color: "#cc88aaff"
@@ -66,8 +61,17 @@ Item {
             Layout.fillWidth: true
             Layout.fillHeight: true
 
-            axisX: axisX
-            axisY: axisY
+            axisX: ValueAxis {
+                    min: 0
+                    max: 10
+                    titleText: "X Axis"
+                }
+
+            axisY: ValueAxis {
+                    min: 0
+                    max: 10
+                    titleText: "Y Axis"
+                }
 
             AreaSeries {
                 color: "#cc88aaff"
