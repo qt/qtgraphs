@@ -104,7 +104,7 @@ public:
     Q_REVISION(6, 11) Q_INVOKABLE bool append(const QList<QPieSlice *> &slices);
     Q_REVISION(6, 11) Q_INVOKABLE bool insert(qsizetype index, QPieSlice *slice);
     Q_REVISION(6, 11) Q_INVOKABLE bool remove(QPieSlice *slice);
-    Q_REVISION(6, 11) Q_INVOKABLE void clear();
+    Q_REVISION(6, 11) Q_SLOT void clear();
     Q_REVISION(6, 11) Q_INVOKABLE QPieSlice *append(const QString &label, qreal value);
     Q_REVISION(6, 11) Q_INVOKABLE QPieSlice *at(qsizetype index) const;
     Q_REVISION(6, 11) Q_INVOKABLE QPieSlice *find(const QString &label) const;
