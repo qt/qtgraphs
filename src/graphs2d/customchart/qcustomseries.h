@@ -39,7 +39,7 @@ public:
     Q_INVOKABLE void insert(qsizetype index, const QVariantMap &data);
     Q_INVOKABLE void insert(qsizetype index);
     Q_INVOKABLE void remove(qsizetype index);
-    Q_INVOKABLE void clear();
+    Q_SLOT void clear();
 
 Q_SIGNALS:
     void delegateChanged();
