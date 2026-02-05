@@ -6,11 +6,11 @@
 
 #include <QtGraphs/qabstract3dseries.h>
 #include <QtGraphs/qscatterdataproxy.h>
-#include <QtGraphs/qvalue3daxis.h>
 
 QT_BEGIN_NAMESPACE
 
 class QScatter3DSeriesPrivate;
+class QValue3DAxis;
 
 class Q_GRAPHS_EXPORT QScatter3DSeries : public QAbstract3DSeries
 {
