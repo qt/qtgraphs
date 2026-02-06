@@ -22,9 +22,12 @@ ApplicationWindow {
     // Data simulators
     PieSimulator {
         id: piesim
-        max: 10.0
+        max: 1000.0
         min: 1.0
         numberOfData: 3
+        live: GlobalSettings.livedata
+        deviation: 1
+        updatePeriod: GlobalSettings.updateinterval * 3
 
         Component.onCompleted: {
             generateData()
@@ -37,6 +40,9 @@ ApplicationWindow {
         min: 1.0
         numberOfData: 3
         numberOfCategory: 12
+        live: GlobalSettings.livedata
+        deviation: 1
+        updatePeriod: GlobalSettings.updateinterval * 50
 
         Component.onCompleted: {
             generateData()
@@ -49,11 +55,19 @@ ApplicationWindow {
         min: 0.0
         numberOfData: 25
         order: LineSimulator.SortingOrder.Ascending
-        deviation: 4
+        deviation: 2
+        live: GlobalSettings.livedata
+        updatePeriod: GlobalSettings.updateinterval * 10
 
         Component.onCompleted: {
             generateData()
             GlobalSettings.area2ddataready = true
+            GlobalSettings.area2ddataready = false
+        }
+
+        onSimulateDataCompleted: {
+            GlobalSettings.area2ddataready = true
+            GlobalSettings.area2ddataready = false
         }
     }
 
@@ -64,14 +78,17 @@ ApplicationWindow {
         numberOfRows: 30
         numberOfColumns: 30
         dataModel: GlobalSettings.barDataModel
+        live: GlobalSettings.livedata
+        updatePeriod: GlobalSettings.updateinterval * 100
+        deviation: 2
 
         Component.onCompleted: {
             generateData()
         }
 
-        onSimulateDataCompleted: (data) => {
-                                     GlobalSettings.bar3ddataready = true
-                                 }
+        onSimulateDataCompleted: {
+            GlobalSettings.bar3ddataready = true
+        }
     }
 
     Data3DSimulator {
@@ -82,38 +99,43 @@ ApplicationWindow {
         numberOfColumns: 30
         numberOfData: 3
         dataModel: GlobalSettings.scatterDataModel
+        live: GlobalSettings.livedata
+        updatePeriod: GlobalSettings.updateinterval * 100
+        deviation: 10
 
         Component.onCompleted: {
             generateData()
         }
 
-        onSimulateDataCompleted: (data) => {
-                                     GlobalSettings.scatter3ddataready = true
-                                 }
+        onSimulateDataCompleted: {
+            GlobalSettings.scatter3ddataready = true
+        }
     }
 
     Data3DSimulator {
         id: surfaceDataSimulator
         max: 10.0
-        min: 1.0
-        numberOfRows: 30
-        numberOfColumns: 30
+        min: 0.0
+        numberOfRows: 20
+        numberOfColumns: 20
         dataModel: GlobalSettings.surfaceDataModel
         order: Data3DSimulator.SortingOrder.Ascending
-        deviation: 5
+        deviation: 50
+        live: GlobalSettings.livedata
+        updatePeriod: GlobalSettings.updateinterval * 100
 
         Component.onCompleted: {
             generateData()
         }
 
-        onSimulateDataCompleted: (data) => {
-                                     GlobalSettings.surface3ddataready = true
-                                 }
+        onSimulateDataCompleted: {
+            GlobalSettings.surface3ddataready = true
+        }
     }
 
     Timer {
-        running: true
-        interval: 1000
+        running: GlobalSettings.livedata
+        interval: GlobalSettings.updateinterval * 100
         repeat: true
         onTriggered: {
             GlobalSettings.winddir += Math.floor(Math.random() * 3) - 1

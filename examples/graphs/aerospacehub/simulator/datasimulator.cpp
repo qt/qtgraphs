@@ -4,10 +4,36 @@
 
 #include <QRandomGenerator>
 #include <QDebug>
+#include <QThread>
+#include <QTimer>
 #include <QVariant>
 
 DataSimulator::DataSimulator(QObject *parent) : QObject(parent)
-{ }
+{
+}
+
+void DataSimulator::createThread()
+{
+    m_updateThread = QThread::create([this]() {
+        QTimer timer;
+        QEventLoop eventLoop;
+        connect(&timer, &QTimer::timeout, this, [this]() {
+            if (m_isRunning.load())
+                return;
+
+            m_isRunning = true;
+
+            updateData();
+
+            m_isRunning = false;
+        });
+
+        timer.start(m_updatePeriod);
+
+        connect(m_updateThread, &QThread::finished, &eventLoop, &QEventLoop::quit);
+        eventLoop.exec();
+    });
+}
 
 qreal DataSimulator::max() const
 {
@@ -51,7 +77,7 @@ void DataSimulator::setNumberOfData(int numberOfData)
     emit numberOfDataChanged(numberOfData);
 }
 
-bool DataSimulator::live() const
+bool DataSimulator::isLive() const
 {
     return m_live;
 }
@@ -62,6 +88,13 @@ void DataSimulator::setLive(bool live)
         return;
 
     m_live = live;
+    if (m_live && m_hasData) {
+        createThread();
+        m_updateThread->start();
+    } else {
+        m_updateThread->quit();
+        delete m_updateThread;
+    }
     emit liveChanged(live);
 }
 
@@ -93,9 +126,29 @@ void DataSimulator::setDeviation(int deviation)
     emit deviationChanged(deviation);
 }
 
+int DataSimulator::updatePeriod() const
+{
+    return m_updatePeriod;
+}
+
+void DataSimulator::setUpdatePeriod(int updatePeriod)
+{
+    if (m_updatePeriod == updatePeriod)
+        return;
+
+    const bool wasLive = isLive();
+
+    setLive(false);
+
+    m_updatePeriod = updatePeriod;
+    emit updatePeriodChanged(updatePeriod);
+
+    setLive(wasLive);
+}
+
 QVariantList DataSimulator::data()
 {
-    return m_Data;
+    return m_data;
 }
 
 void DataSimulator::generateData()
@@ -105,51 +158,73 @@ void DataSimulator::generateData()
 
 void DataSimulator::generateData(int numberOfSet, int numberOfColumns, int numberOfRows)
 {
+    m_numberOfColumns = numberOfColumns;
+    m_numberOfRows = numberOfRows;
     int numberOfCategory = numberOfColumns * numberOfRows;
     int size = m_numberOfData * numberOfCategory * numberOfSet;
     qreal range = m_max - m_min;
     qreal prev = m_order == SortingOrder::Ascending ? m_min : m_max;
-    m_Data.clear();
+    m_data.clear();
 
     for (int i = 0; i < size; i++) {
         qreal randData;
         qreal diff;
-        // TODO : DataSimulaotr just generates random numbers (i.e. diff). The actual data (i.e. m_min + randData) should be done at each types of simulator
         if (m_order != SortingOrder::NotSorted) {
             diff = QRandomGenerator::global()->bounded(range / numberOfSet);
-            if (m_deviation > 0) {
-                if (numberOfSet == 2) {
-                    if (i % numberOfSet)
-                        diff *= QRandomGenerator::global()->bounded(-1, m_deviation);
-                    else
-                        diff *= QRandomGenerator::global()->bounded(0, m_deviation);
-                } else {
-                    diff *= QRandomGenerator::global()->bounded(-1 * m_deviation, m_deviation);
-                }
-            }
-            if (m_order == SortingOrder::Ascending) {
-                if (numberOfSet == 2)
-                    randData = (prev + diff) < m_min ? prev - diff : prev + diff;
-                else
-                    randData = prev + diff;
-            } else if (m_order == SortingOrder::Descending)
+            if (m_deviation > 0)
+                diff *= QRandomGenerator::global()->bounded(qreal(m_deviation));
+                diff *= QRandomGenerator::global()->bounded(-1, 2);
+            if (m_order == SortingOrder::Ascending)
+                randData = prev + diff;
+            else
                 randData = prev - diff;
         } else {
             diff = QRandomGenerator::global()->bounded(range);
             randData = diff;
         }
 
-        m_Data.append(QVariant(m_min + randData));
+        m_data.append(QVariant(m_min + randData));
         if (i + 1 < numberOfSet)
             continue;
-        prev = m_Data.at(m_Data.size() - numberOfSet).toReal();
+        prev = m_data.at(m_data.size() - numberOfSet).toReal();
     }
 
     m_hasData = true;
-    emit simulateDataCompleted(m_Data, numberOfColumns, numberOfRows, m_numberOfData);
+    if (m_live) {
+        if (m_updateThread->isRunning()) {
+            connect(m_updateThread, &QThread::finished, this, [this]() {
+                m_updateThread->start();
+            }, Qt::SingleShotConnection);
+            m_updateThread->quit();
+        } else {
+            m_updateThread->start();
+        }
+    }
+    emit simulateDataCompleted(m_data, numberOfColumns, numberOfRows, m_numberOfData);
 }
 
 bool DataSimulator::hasData() const
 {
     return m_hasData;
+}
+
+void DataSimulator::updateData()
+{
+    QMutexLocker locker(&m_mutex);
+
+    for (int i = 0; i < m_data.size(); i++) {
+        QVariant data = m_data.at(i);
+        qreal diff = QRandomGenerator::global()->bounded(qreal(m_deviation));
+        diff *= QRandomGenerator::global()->bounded(-1, 2);
+        QVariant rand = data.toReal() + diff;
+        while (rand.toReal() < m_min || rand.toReal() > m_max) {
+            diff = QRandomGenerator::global()->bounded(qreal(m_deviation));
+            diff *= QRandomGenerator::global()->bounded(-1, 2);
+            rand = data.toReal() + diff;
+            if (data.toReal() > m_max || data.toReal() < m_min)
+                break;
+        }
+        m_data.replace(i, rand);
+    }
+    emit simulateDataCompleted(m_data, m_numberOfColumns, m_numberOfRows, m_numberOfData);
 }

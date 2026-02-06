@@ -59,6 +59,20 @@ Item {
                 anchors.rightMargin: GlobalSettings.doublemargin
                 spacing: GlobalSettings.halfspacing
 
+                Label {
+                    Layout.fillWidth: true
+                    text: "Theme Settings"
+                    color: "#EFEFEF"
+                    font.pixelSize: GlobalSettings.fontsize22px
+                    font.bold: true
+                }
+
+                Rectangle {
+                    Layout.fillWidth: true
+                    height: 2
+                    color: "#FCFCFC"
+                }
+
                 RowLayout {
                     Layout.fillWidth: true
 
@@ -190,6 +204,61 @@ Item {
                         Layout.alignment: Qt.AlignRight
                         checked: GlobalSettings.theme.labelsVisible
                         onCheckedChanged: GlobalSettings.theme.labelsVisible = checked
+                    }
+                }
+
+                Label {
+                    Layout.fillWidth: true
+                    text: "Data Settings"
+                    color: "#EFEFEF"
+                    font.pixelSize: GlobalSettings.fontsize22px
+                    font.bold: true
+                }
+
+                Rectangle {
+                    Layout.fillWidth: true
+                    height: 2
+                    color: "#FCFCFC"
+                }
+
+                RowLayout {
+                    Layout.fillWidth: true
+
+                    Label {
+                        Layout.fillWidth: true
+                        text: "Live data"
+                        color: "#EFEFEF"
+                        font.pixelSize: GlobalSettings.fontsize14px
+                    }
+
+                    SettingsCheckBox {
+                        Layout.alignment: Qt.AlignRight
+                        checked: GlobalSettings.livedata
+                        onCheckedChanged: GlobalSettings.livedata = checked
+                    }
+                }
+
+                RowLayout {
+                    Layout.fillWidth: true
+
+                    Label {
+                        Layout.fillWidth: true
+                        text: "Update interval"
+                        color: "#EFEFEF"
+                        font.pixelSize: GlobalSettings.fontsize14px
+                    }
+
+                    SettingsSlider {
+                        Layout.alignment: Qt.AlignRight
+                        from: 1.0
+                        to: 100.0
+                        value: GlobalSettings.updateinterval
+                        stepSize: 1.0
+                        onValueChanged: {
+                            if (!GlobalSettings.activegraph)
+                                return
+                            GlobalSettings.updateinterval = value
+                        }
                     }
                 }
             }

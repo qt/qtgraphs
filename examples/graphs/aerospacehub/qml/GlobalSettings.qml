@@ -63,6 +63,7 @@ QtObject {
     property real fontsize36px: rootwidth / 53
     property real fontsize28px: rootwidth / 68.5
     property real fontsize24px: rootwidth / 80
+    property real fontsize22px: rootwidth / 87.3
     property real fontsize20px: rootwidth / 96
     property real fontsize18px: rootwidth / 106.7
     property real fontsize14px: rootwidth / 137
@@ -110,6 +111,12 @@ QtObject {
     }
 
     property bool area2ddataready: false
+
+    // Simulation settings
+    // Live data
+    property bool livedata: false
+    // Update interval multiplier
+    property int updateinterval: 10
 
     // Turbine status
     property string turbineid: "36.12"
