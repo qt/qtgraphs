@@ -113,6 +113,10 @@ QHash<int, QByteArray> SimulatedDataModel::roleNames() const
 
 void SimulatedDataModel::generateModelData(QVariantList data, int numberOfColumns, int numberOfRows, int numberOfData)
 {
+    Q_UNUSED(numberOfColumns)
+
+    beginResetModel();
+    m_data.clear();
     for (int i = 0; i < data.size() / (numberOfRows * numberOfData); i++) {
         for (int j = 0; j < numberOfRows; j++) {
             ModelData modelData;
@@ -122,4 +126,5 @@ void SimulatedDataModel::generateModelData(QVariantList data, int numberOfColumn
             m_data.append(modelData);
         }
     }
+    endResetModel();
 }
