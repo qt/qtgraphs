@@ -25,7 +25,7 @@ QT_BEGIN_NAMESPACE
     The series passes this map to each element created based on the delegate.
     The delegate determines how to use the data.
 
-    To map data to the render coordinates defined by the \l QGraphView axes,
+    To map data to the render coordinates defined by the \c QGraphsView axes,
     use the \l mapX and \l mapY functions.
 
     \note Currently, individual elements in a custom series do not share
@@ -50,7 +50,7 @@ QT_BEGIN_NAMESPACE
     The series passes this map to each element created based on the delegate.
     The delegate determines how to use the data.
 
-    To map data to the render coordinates defined by the \l GraphView axes,
+    To map data to the render coordinates defined by the \l GraphsView axes,
     use the \l mapX and \l mapY functions.
 
     \note Currently, individual elements in a custom series do not share
