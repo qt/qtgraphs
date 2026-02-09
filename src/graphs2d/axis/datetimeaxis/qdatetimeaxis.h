@@ -76,7 +76,7 @@ public:
     QDateTime visualMin() const;
     QDateTime visualMax() const;
 
-    Q_REVISION(6, 11) Q_INVOKABLE QTimeZone timeZone(const QString &zoneId) const;
+    Q_REVISION(6, 11) Q_INVOKABLE QTimeZone timeZoneFromString(const QString &zoneId) const;
     Q_REVISION(6, 11) Q_INVOKABLE QString timeZoneAsString() const;
 
     qreal tickCount() const;

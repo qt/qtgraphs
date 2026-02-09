@@ -199,7 +199,7 @@ QT_BEGIN_NAMESPACE
 */
 
 /*!
- \qmlmethod QTimeZone DateTimeAxis::timeZone(string zoneId)
+ \qmlmethod QTimeZone DateTimeAxis::timeZoneFromString(string zoneId)
  \since 6.11
  Returns the QTimeZone corresponding to IANA based \a zoneId.
  \note This is the converter method for setting the \l {timeZone}.
@@ -399,7 +399,7 @@ void QDateTimeAxis::setTimeZone(const QTimeZone &timeZone)
     emit update();
 }
 
-QTimeZone QDateTimeAxis::timeZone(const QString &zoneId) const
+QTimeZone QDateTimeAxis::timeZoneFromString(const QString &zoneId) const
 {
 
 #if QT_CONFIG(timezone)
