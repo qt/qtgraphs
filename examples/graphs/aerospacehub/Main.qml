@@ -36,7 +36,7 @@ ApplicationWindow {
 
     BarSimulator {
         id: barsim
-        max: 33.0
+        max: 50
         min: 1.0
         numberOfData: 3
         numberOfCategory: 12
@@ -75,8 +75,8 @@ ApplicationWindow {
         id: barDataSimulator
         max: 10.0
         min: 1.0
-        numberOfRows: 10
-        numberOfColumns: 10
+        numberOfRows: GlobalSettings.turbineCountPerAxis
+        numberOfColumns: GlobalSettings.turbineCountPerAxis
         dataModel: GlobalSettings.barDataModel
         live: GlobalSettings.livedata
         updatePeriod: GlobalSettings.updateinterval * 100
@@ -85,17 +85,13 @@ ApplicationWindow {
         Component.onCompleted: {
             generateData()
         }
-
-        onSimulateDataCompleted: {
-            GlobalSettings.bar3ddataready = true
-        }
     }
 
     Data3DSimulator {
         id: scatterDataSimulator
         max: 10.0
-        min: 1.0
-        numberOfRows: 10
+        min: 0.0
+        numberOfRows: GlobalSettings.turbineCountPerAxis
         numberOfColumns: 5
         numberOfData: 5
         dataModel: GlobalSettings.scatterDataModel
@@ -105,10 +101,6 @@ ApplicationWindow {
 
         Component.onCompleted: {
             generateData()
-        }
-
-        onSimulateDataCompleted: {
-            GlobalSettings.scatter3ddataready = true
         }
     }
 
@@ -120,16 +112,12 @@ ApplicationWindow {
         numberOfColumns: 20
         dataModel: GlobalSettings.surfaceDataModel
         order: Data3DSimulator.SortingOrder.Ascending
-        deviation: 50
+        deviation: 5
         live: GlobalSettings.livedata
         updatePeriod: GlobalSettings.updateinterval * 100
 
         Component.onCompleted: {
             generateData()
-        }
-
-        onSimulateDataCompleted: {
-            GlobalSettings.surface3ddataready = true
         }
     }
 
@@ -139,6 +127,7 @@ ApplicationWindow {
         repeat: true
         onTriggered: {
             GlobalSettings.winddir += Math.floor(Math.random() * 3) - 1
+            GlobalSettings.windspeed += Math.floor(Math.random() * 3) - 1
             if (GlobalSettings.winddir > 360)
                 GlobalSettings.winddir = 0
             else if (GlobalSettings.winddir < 0)
@@ -387,7 +376,7 @@ ApplicationWindow {
                     detailspane.opacity: 1
                 }
                 PropertyChanges {
-                    viewtextdesc.text: "/  Energy production x Turbine"
+                    viewtextdesc.text: "/  Energy production per Month"
                 }
             },
             State {

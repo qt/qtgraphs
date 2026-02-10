@@ -5,6 +5,10 @@
 
 SimulatedDataModel::SimulatedDataModel(QObject *parent)
     : QAbstractListModel(parent)
+    , m_rowMin(0.0)
+    , m_rowMax(1.0)
+    , m_columnMin(0.0)
+    , m_columnMax(1.0)
 { }
 
 int SimulatedDataModel::numberOfRows() const
@@ -102,6 +106,60 @@ QVariant SimulatedDataModel::data(const QModelIndex &index, int role) const
     }
 }
 
+void SimulatedDataModel::setRowMin(qreal min)
+{
+    if (qFuzzyCompare(m_rowMin, min))
+        return;
+
+    m_rowMin = min;
+    emit rowMinChanged(min);
+}
+
+void SimulatedDataModel::setRowMax(qreal max)
+{
+    if (qFuzzyCompare(m_rowMax, max))
+        return;
+
+    m_rowMax = max;
+    emit rowMaxChanged(max);
+}
+
+void SimulatedDataModel::setColumnMin(qreal min)
+{
+    if (qFuzzyCompare(m_columnMin, min))
+        return;
+
+    m_columnMin = min;
+    emit columnMinChanged(min);
+}
+
+void SimulatedDataModel::setColumnMax(qreal max)
+{
+    if (qFuzzyCompare(m_columnMax, max))
+        return;
+
+    m_columnMax = max;
+    emit columnMaxChanged(max);
+}
+
+void SimulatedDataModel::setRowReversed(bool reversed)
+{
+    if (m_rowReversed == reversed)
+        return;
+
+    m_rowReversed = reversed;
+    emit rowReversedChanged(reversed);
+}
+
+void SimulatedDataModel::setColumnReversed(bool reversed)
+{
+    if (m_columnReversed == reversed)
+        return;
+
+    m_columnReversed = reversed;
+    emit columnReversedChanged(reversed);
+}
+
 QHash<int, QByteArray> SimulatedDataModel::roleNames() const
 {
     QHash<int, QByteArray> ret;
@@ -117,11 +175,25 @@ void SimulatedDataModel::generateModelData(QVariantList data, int numberOfColumn
 
     beginResetModel();
     m_data.clear();
+    int columnSize  = data.size() / (numberOfRows * numberOfData);
     for (int i = 0; i < data.size() / (numberOfRows * numberOfData); i++) {
         for (int j = 0; j < numberOfRows; j++) {
             ModelData modelData;
-            modelData.row = j + 1;
-            modelData.column = i + 1;
+
+            int rowIdx = m_rowReversed ? numberOfRows - j : j;
+            int columnIdx = m_columnReversed ? columnSize - i : i;
+
+            if (numberOfRows == int(m_rowMax - m_rowMin))
+                modelData.row = rowIdx + int(m_rowMin);
+            else
+                modelData.row = (float(rowIdx) / float(numberOfRows)) * (m_rowMax - m_rowMin) + m_rowMin;
+
+            if (columnSize == int(m_columnMax - m_columnMin))
+                modelData.column = columnIdx+ int(m_columnMin);
+            else
+                modelData.column = (float(columnIdx) / float(columnSize)) * (m_columnMax - m_columnMin) + m_columnMin;
+
+
             modelData.value = data.at(i * numberOfRows + j);
             m_data.append(modelData);
         }

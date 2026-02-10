@@ -166,6 +166,9 @@ void DataSimulator::generateData(int numberOfSet, int numberOfColumns, int numbe
     qreal prev = m_order == SortingOrder::Ascending ? m_min : m_max;
     m_data.clear();
 
+    float highValue = -1000;
+    float lowValue = 1000;
+
     for (int i = 0; i < size; i++) {
         qreal randData;
         qreal diff;
@@ -183,10 +186,19 @@ void DataSimulator::generateData(int numberOfSet, int numberOfColumns, int numbe
             randData = diff;
         }
 
-        m_data.append(QVariant(m_min + randData));
+        m_data.append(QVariant(randData));
         if (i + 1 < numberOfSet)
             continue;
         prev = m_data.at(m_data.size() - numberOfSet).toReal();
+        highValue = qMax(highValue, prev);
+        lowValue = qMin(lowValue, prev);
+    }
+
+    //remap data to min-max
+    qreal currentRange = highValue - lowValue;
+    for (auto &data : m_data) {
+        qreal normalizedData = (data.toReal() - lowValue) / currentRange;
+        data = QVariant(normalizedData * range + m_min);
     }
 
     m_hasData = true;

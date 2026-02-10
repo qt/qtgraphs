@@ -17,13 +17,6 @@ Bars3D {
     property var dataModel: GlobalSettings.barDataModel
     property bool dataready: GlobalSettings.bar3ddataready
 
-    onDatareadyChanged: {
-        // TODO: Anything needs doing here?
-        if (dataready) {
-            console.log("Data ready on Bars3D: " + this)
-        }
-    }
-
     msaaSamples: 8
 
     theme: GlobalSettings.theme
@@ -31,10 +24,19 @@ Bars3D {
     rotationEnabled: false
     zoomEnabled: false
 
+    rowAxis.title: "Grid X"
+    valueAxis.title: "Power (MW)"
+    columnAxis.title: "Grid Z"
+
+    valueAxis.min: 0
+    valueAxis.max: 10
+
     Bar3DSeries {
         id: barseries3d
 
         colorStyle: GlobalSettings.colorstyle
+
+        itemLabelFormat: "@rowLabel/@colLabel: @valueLabel MW"
 
         ItemModelBarDataProxy {
             itemModel: graph.dataModel
@@ -43,10 +45,9 @@ Bars3D {
             valueRole: "value"
         }
 
-        // TODO: Does this make sense in this graph, or should it be only in scatter?
-        // onSelectedBarChanged: (position) => {
-        //     GlobalSettings.windspeed = itemLabel
-        //     GlobalSettings.turbineid = position.x + "/" + position.y
-        // }
+        onSelectedBarChanged: (position) => {
+            let count = GlobalSettings.turbineCountPerAxis
+            GlobalSettings.turbineid = position.x + "/" + position.y
+        }
     }
 }
