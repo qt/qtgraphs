@@ -386,7 +386,7 @@ Rectangle {
                 bar2dbig.opacity: 1
             }
             PropertyChanges {
-                header.titletext: "Energy production x Turbine"
+                header.titletext: "Energy production per month"
                 header.desctext: "Compare discrete categories"
                 header.imagesource: "../images/energy-production-icon_96px.png"
             }

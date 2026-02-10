@@ -94,25 +94,31 @@ QtObject {
     property int colorstyle: GraphsTheme.ColorStyle.RangeGradient
 
     // Simulated data in data models
-    property bool bar3ddataready: false
     property var barDataModel: SimulatedDataModel {
         rowRole: "row"
         columnRole: "column"
         valueRole: "value"
+        rowMax: turbineCountPerAxis
+        columnMax: turbineCountPerAxis
     }
 
-    property bool scatter3ddataready: false
     property var scatterDataModel: SimulatedDataModel {
         rowRole: "x"
-        columnRole: "y"
-        valueRole: "z"
+        columnRole: "z"
+        valueRole: "y"
+        rowMin: 0.6
+        rowMax: 1
+        columnMin: 0.4
+        columnMax: 1
     }
 
-    property bool surface3ddataready: false
     property var surfaceDataModel: SimulatedDataModel {
         rowRole: "row"
         columnRole: "column"
         valueRole: "y"
+        rowMax: 1.5
+        columnMax: 30
+        columnReversed: true
     }
 
     property bool area2ddataready: false
@@ -124,7 +130,8 @@ QtObject {
     property int updateinterval: 10
 
     // Turbine status
-    property string turbineid: "36.12"
+    property int turbineCountPerAxis: 10
+    property string turbineid: "9/8"
     property int winddir: 254
     property real windspeed: 12
 
@@ -136,7 +143,7 @@ QtObject {
         colorScheme: GraphsTheme.ColorScheme.Dark
         theme: GraphsTheme.Theme.BlueSeries
         labelTextColor: "#AEAEAE"
-        labelBackgroundVisible: false
+        labelBackgroundVisible: true
         labelFont.pointSize: global.fontsize28px
         grid.mainColor: "#AEAEAE"
         grid.mainWidth: 1

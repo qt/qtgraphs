@@ -14,16 +14,24 @@ Scatter3D {
     property var dataModel: GlobalSettings.scatterDataModel
     property bool dataready: GlobalSettings.scatter3ddataready
 
-    onDatareadyChanged: {
-        // TODO: Anything needs doing here?
-        if (dataready) {
-            console.log("Data ready on Scatter3D: " + this)
-        }
-    }
-
     msaaSamples: 8
 
     theme: GlobalSettings.theme
+
+    axisX.title: "Capacity factor (%)"
+    axisY.title: "Mean Power (MW)"
+    axisZ.title: "Availability (%)"
+
+    axisX.titleVisible: true
+    axisY.titleVisible: true
+    axisZ.titleVisible: true
+
+    axisX.min: 0
+    axisX.max: 1
+    axisY.min: 0
+    axisY.max: 10
+    axisZ.min: 0
+    axisZ.max: 1
 
     visible: opacity > 0.5
 
@@ -33,6 +41,8 @@ Scatter3D {
     Scatter3DSeries {
         id: scatterseries3d
 
+        itemLabelFormat: "Capacity factor: @xLabel %\nAvailability: @zLabel %\nMean Power: @yLabel MW"
+
         colorStyle: GlobalSettings.colorstyle
 
         ItemModelScatterDataProxy {
@@ -40,16 +50,6 @@ Scatter3D {
             xPosRole: "x"
             yPosRole: "y"
             zPosRole: "z"
-        }
-
-        onSelectedItemChanged: (index) => {
-            if (index < 0)
-                return
-            let values = itemLabel.split(", ")
-            GlobalSettings.windspeed = values[1]
-            var x = values[0].split(".")[0]
-            var y = values[2].split(".")[0]
-            GlobalSettings.turbineid = x + "/" + y
         }
     }
 }

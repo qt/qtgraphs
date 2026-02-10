@@ -14,13 +14,6 @@ Surface3D {
     property var dataModel: GlobalSettings.surfaceDataModel
     property bool dataready: GlobalSettings.surface3ddataready
 
-    onDatareadyChanged: {
-        // TODO: Anything needs doing here?
-        if (dataready) {
-            console.log("Data ready on Surface3D: " + this)
-        }
-    }
-
     msaaSamples: 8
 
     theme: GlobalSettings.theme
@@ -30,10 +23,29 @@ Surface3D {
     rotationEnabled: false
     zoomEnabled: false
 
+    axisX.title: "Air speed (m/s)"
+    axisY.title: "Power (MW)"
+    axisZ.title: "Air density (kg/m3)"
+
+    axisX.titleVisible: true
+    axisY.titleVisible: true
+    axisZ.titleVisible: true
+
+    axisX.min: 0
+    axisX.max: 30
+    axisY.min: 0
+    axisY.max: 10
+    axisZ.min: 0
+    axisZ.max: 1.5
+
+    horizontalAspectRatio: 1.0
+
     Surface3DSeries {
         id: surfaceseries3d
 
         colorStyle: GlobalSettings.colorstyle
+
+        itemLabelFormat: "Air speed: @xLabel m/s\nAir density: @zLabel kg/m3\nPower: @yLabel MW"
 
         ItemModelSurfaceDataProxy {
             itemModel: graph.dataModel

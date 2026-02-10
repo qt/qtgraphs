@@ -49,8 +49,8 @@ GraphsView {
 
     ToolTip2D {
         id: tooltip
-        firstname: "Power (kW)"
-        secondname: "Acc. (kWh)"
+        firstname: "Power (MW)"
+        secondname: "Acc. (MWh)"
         thirdname: "Hour"
         secondicon: "../images/layers_24px.png"
         thirdicon: "../images/clock_24px.png"
@@ -77,7 +77,7 @@ GraphsView {
     axisY: ValueAxis {
         max: 100
         tickInterval: 20
-        titleText: "Power output (kWh)"
+        titleText: "Power output (MWh)"
     }
 
     SplineSeries {
