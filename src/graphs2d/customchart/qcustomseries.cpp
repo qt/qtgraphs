@@ -192,7 +192,7 @@ void QCustomSeries::setDelegate(QQmlComponent *newDelegate)
 }
 
 /*!
-    \qmlmethod CustomSeries::mapX(real x)
+    \qmlmethod real CustomSeries::mapX(real x)
     Returns \a x axis-space coordinate converted into render-space.
 */
 /*!
@@ -217,7 +217,7 @@ qreal QCustomSeries::mapX(qreal x)
 }
 
 /*!
-    \qmlmethod CustomSeries::mapY(real y)
+    \qmlmethod real CustomSeries::mapY(real y)
     Returns \a y axis-space coordinate converted into render-space.
 */
 /*!
@@ -242,7 +242,7 @@ qreal QCustomSeries::mapY(qreal y)
 }
 
 /*!
-    \qmlmethod CustomSeries::append()
+    \qmlmethod void CustomSeries::append()
     Appends an empty data item to the series.
 */
 /*!
@@ -254,7 +254,7 @@ void QCustomSeries::append()
 }
 
 /*!
-    \qmlmethod CustomSeries::append(var data)
+    \qmlmethod void CustomSeries::append(var data)
     Appends a data item defined by \a data to the series.
 */
 /*!
@@ -269,7 +269,7 @@ void QCustomSeries::append(const QVariantMap &data)
 }
 
 /*!
-    \qmlmethod CustomSeries::insert(int index)
+    \qmlmethod void CustomSeries::insert(int index)
     Appends an empty data item to the series at position \a index.
 */
 /*!
@@ -281,7 +281,7 @@ void QCustomSeries::insert(qsizetype index)
 }
 
 /*!
-    \qmlmethod CustomSeries::insert(int index, var data)
+    \qmlmethod void CustomSeries::insert(int index, var data)
     Appends a data item defined by \a data to the series at position \a index.
 */
 /*!
@@ -299,7 +299,7 @@ void QCustomSeries::insert(qsizetype index, const QVariantMap &data)
 }
 
 /*!
-    \qmlmethod CustomSeries::remove(int index)
+    \qmlmethod void CustomSeries::remove(int index)
     Remove a data item at position \a index.
 */
 /*!
@@ -317,7 +317,7 @@ void QCustomSeries::remove(qsizetype index)
 }
 
 /*!
-    \qmlmethod CustomSeries::clear()
+    \qmlmethod void CustomSeries::clear()
     Clear all data items.
 */
 /*!

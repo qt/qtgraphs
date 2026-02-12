@@ -524,7 +524,7 @@ QT_BEGIN_NAMESPACE
 */
 
 /*!
-    \qmlmethod PieSlice::clear()
+    \qmlmethod void PieSlice::clear()
     Removes all sub slices from the slice.
 */
 

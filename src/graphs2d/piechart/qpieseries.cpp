@@ -494,7 +494,7 @@ Q_TRACE_POINT(qtgraphs, QGraphs2DPieSeriesUpdateData_exit);
 */
 
 /*!
-    \qmlmethod PieSeries::clear()
+    \qmlmethod void PieSeries::clear()
     Removes all slices from the pie.
 */
 
