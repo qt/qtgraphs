@@ -150,7 +150,7 @@ void QGraphsView::onPinchGrabChanged(QPointingDevice::GrabTransition transition,
 }
 
 /*!
-    \qmlmethod GraphsView::addSeries(AbstractSeries series)
+    \qmlmethod void GraphsView::addSeries(AbstractSeries series)
     Appends a \a series into GraphsView.
     If the \a series is null, it will not be added. If the \a series already
     belongs to the graph, it will be moved into the end.
@@ -166,7 +166,7 @@ void QGraphsView::addSeries(QObject *series)
 }
 
 /*!
-    \qmlmethod GraphsView::insertSeries(int index, AbstractSeries series)
+    \qmlmethod void GraphsView::insertSeries(int index, AbstractSeries series)
     Inserts a \a series at the position specified by \a index.
     If the \a series is null, it will not be inserted. If the \a series already
     belongs to the graph, it will be moved into \a index.
@@ -222,7 +222,7 @@ void QGraphsView::insertSeries(qsizetype index, QObject *object)
 }
 
 /*!
-    \qmlmethod GraphsView::removeSeries(AbstractSeries series)
+    \qmlmethod void GraphsView::removeSeries(AbstractSeries series)
     Removes the \a series from the graph.
 */
 /*!
@@ -247,7 +247,7 @@ void QGraphsView::removeSeries(QObject *object)
 }
 
 /*!
-    \qmlmethod GraphsView::removeSeries(int index)
+    \qmlmethod void GraphsView::removeSeries(int index)
     Removes the series specified by \a index from the graph.
 */
 /*!

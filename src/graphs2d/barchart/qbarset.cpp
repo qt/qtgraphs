@@ -324,7 +324,7 @@ QString QBarSet::label() const
 }
 
 /*!
-    \qmlmethod BarSet::append(real value)
+    \qmlmethod void BarSet::append(real value)
     Appends the new value specified by \a value to the end of the bar set.
 */
 /*!
@@ -342,7 +342,7 @@ void QBarSet::append(qreal value)
 }
 
 /*!
-    \qmlmethod BarSet::append(list<real> values)
+    \qmlmethod void BarSet::append(list<real> values)
     Appends the list of real values specified by \a values to the end of the bar set.
 
     \sa append()
@@ -363,7 +363,7 @@ void QBarSet::append(const QList<qreal> &values)
 }
 
 /*!
-    \qmlmethod BarSet::insert(int index, real value)
+    \qmlmethod void BarSet::insert(int index, real value)
     Inserts \a value in the position specified by \a index.
     The values following the inserted value are moved up one position.
 
@@ -403,7 +403,7 @@ void QBarSet::insert(qsizetype index, qreal value)
 }
 
 /*!
-    \qmlmethod BarSet::remove(int index, int count)
+    \qmlmethod void BarSet::remove(int index, int count)
     Removes the number of values specified by \a count from the bar set starting
     with the value specified by \a index.
 
@@ -426,7 +426,7 @@ void QBarSet::remove(qsizetype index, qsizetype count)
 }
 
 /*!
-    \qmlmethod BarSet::replace(int index, real value)
+    \qmlmethod void BarSet::replace(int index, real value)
     Adds the value specified by \a value to the bar set at the position
     specified by \a index.
 */
@@ -490,7 +490,7 @@ qreal QBarSet::sum() const
 }
 
 /*!
-    \qmlmethod BarSet::clear()
+    \qmlmethod void BarSet::clear()
     Removes all values from the set.
 */
 /*!
@@ -718,7 +718,7 @@ bool QBarSet::isBarSelected(qsizetype index) const
 }
 
 /*!
-    \qmlmethod BarSet::selectBar(int index)
+    \qmlmethod void BarSet::selectBar(int index)
     Marks the bar at \a index as selected.
     \note Emits BarSet::selectedBarsChanged.
     \sa setBarSelected()
@@ -734,7 +734,7 @@ void QBarSet::selectBar(qsizetype index)
 }
 
 /*!
-    \qmlmethod BarSet::deselectBar(int index)
+    \qmlmethod void BarSet::deselectBar(int index)
     Deselects the bar at \a index.
     \note Emits BarSet::selectedBarsChanged.
     \sa setBarSelected()
@@ -750,7 +750,7 @@ void QBarSet::deselectBar(qsizetype index)
 }
 
 /*!
-    \qmlmethod BarSet::setBarSelected(int index, bool selected)
+    \qmlmethod void BarSet::setBarSelected(int index, bool selected)
     Marks the bar at \a index as either selected or deselected as specified by \a selected.
     \note Selected bars are drawn using the selected color if it was specified. Emits BarSet::selectedBarsChanged.
     \sa selectedColor
@@ -772,7 +772,7 @@ void QBarSet::setBarSelected(qsizetype index, bool selected)
 }
 
 /*!
-    \qmlmethod BarSet::selectAllBars()
+    \qmlmethod void BarSet::selectAllBars()
     Marks all bars in the set as selected.
     \note Emits BarSet::selectedBarsChanged.
     \sa setBarSelected()
@@ -795,7 +795,7 @@ void QBarSet::selectAllBars()
 }
 
 /*!
-    \qmlmethod BarSet::deselectAllBars()
+    \qmlmethod void BarSet::deselectAllBars()
     Deselects all bars in the set.
     \note Emits BarSet::selectedBarsChanged.
     \sa setBarSelected()
@@ -818,7 +818,7 @@ void QBarSet::deselectAllBars()
 }
 
 /*!
-    \qmlmethod BarSet::selectBars(list<int> indexes)
+    \qmlmethod void BarSet::selectBars(list<int> indexes)
     Marks multiple bars passed in an \a indexes list as selected.
     \note Emits BarSet::selectedBarsChanged.
     \sa setBarSelected()
@@ -841,7 +841,7 @@ void QBarSet::selectBars(const QList<qsizetype> &indexes)
 }
 
 /*!
-    \qmlmethod BarSet::deselectBars(list<int> indexes)
+    \qmlmethod void BarSet::deselectBars(list<int> indexes)
     Marks multiple bars passed in an \a indexes list as deselected.
     \note Emits BarSet::selectedBarsChanged.
     \sa setBarSelected()
@@ -864,7 +864,7 @@ void QBarSet::deselectBars(const QList<qsizetype> &indexes)
 }
 
 /*!
-    \qmlmethod BarSet::toggleSelection(list<int> indexes)
+    \qmlmethod void BarSet::toggleSelection(list<int> indexes)
     Changes the selection state of bars at the given \a indexes to the opposite one.
     \note Emits BarSet::selectedBarsChanged.
     \sa setBarSelected()

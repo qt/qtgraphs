@@ -159,7 +159,7 @@ QBarCategoryAxis::QBarCategoryAxis(QBarCategoryAxisPrivate &dd, QObject *parent)
 }
 
 /*!
-    \qmlmethod BarCategoryAxis::append(list categories)
+    \qmlmethod void BarCategoryAxis::append(list categories)
     Appends \a categories to an axis. The maximum value on the axis will be changed
     to match the last category in \a categories. If no categories were previously defined,
     the minimum value on the axis will also be changed to match the first category in
@@ -205,7 +205,7 @@ void QBarCategoryAxis::append(const QStringList &categories)
 }
 
 /*!
-    \qmlmethod BarCategoryAxis::append(string category)
+    \qmlmethod void BarCategoryAxis::append(string category)
     Appends \a category to an axis. The maximum value on the axis will be changed
     to match the last \a category. If no categories were previously defined, the minimum
     value on the axis will also be changed to match \a category.
@@ -243,7 +243,7 @@ void QBarCategoryAxis::append(const QString &category)
 }
 
 /*!
-    \qmlmethod BarCategoryAxis::remove(string category)
+    \qmlmethod void BarCategoryAxis::remove(string category)
     Removes \a category from the axis. Removing a category that currently sets the
     maximum or minimum value on the axis will affect the axis range.
 */
@@ -272,7 +272,7 @@ void QBarCategoryAxis::remove(const QString &category)
 }
 
 /*!
-    \qmlmethod BarCategoryAxis::remove(int index)
+    \qmlmethod void BarCategoryAxis::remove(int index)
     Removes a category at \a index from the axis. Removing a category that currently sets the
     maximum or minimum value on the axis will affect the axis range.
 */
@@ -289,7 +289,7 @@ void QBarCategoryAxis::remove(qsizetype index)
 }
 
 /*!
-    \qmlmethod BarCategoryAxis::insert(int index, string category)
+    \qmlmethod void BarCategoryAxis::insert(int index, string category)
     Inserts \a category to the axis at \a index. \a category has to be a valid QString
     and it cannot be duplicated. If \a category is prepended or appended to other
     categories, the minimum and maximum values on the axis are updated accordingly.
@@ -324,7 +324,7 @@ void QBarCategoryAxis::insert(qsizetype index, const QString &category)
 }
 
 /*!
-    \qmlmethod BarCategoryAxis::replace(string oldCategory, string newCategory)
+    \qmlmethod void BarCategoryAxis::replace(string oldCategory, string newCategory)
     Replaces \a oldCategory with \a newCategory. If \a oldCategory does not exist on the axis,
     nothing is done. \a newCategory has to be a valid QString and it cannot be duplicated. If
     the minimum or maximum category is replaced, the minimum and maximum values on the axis are
@@ -355,7 +355,7 @@ void QBarCategoryAxis::replace(const QString &oldCategory, const QString &newCat
 }
 
 /*!
-    \qmlmethod BarCategoryAxis::clear()
+    \qmlmethod void BarCategoryAxis::clear()
     Removes all categories. Sets the maximum and minimum values of the axis range to QString::null.
 */
 /*!

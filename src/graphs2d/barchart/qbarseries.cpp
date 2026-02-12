@@ -425,7 +425,7 @@ QT_BEGIN_NAMESPACE
 */
 
 /*!
-    \qmlmethod BarSeries::clear()
+    \qmlmethod void BarSeries::clear()
     Removes all bar sets from the series.
 */
 
@@ -447,7 +447,7 @@ QT_BEGIN_NAMESPACE
 */
 
 /*!
-    \qmlmethod BarSeries::removeMultiple(int index, int count)
+    \qmlmethod void BarSeries::removeMultiple(int index, int count)
     Removes a range of bar sets as specified by the \a index and \a count. The call
     traverses over all sets even if removal of one fails.
 */

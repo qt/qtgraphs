@@ -444,7 +444,7 @@ void QLineSeries::setDashPattern(const QList<qreal> &pattern)
 }
 
 /*!
-    \qmlmethod LineSeries::dataPointCoordinatesAt(real x, real y)
+    \qmlmethod point LineSeries::dataPointCoordinatesAt(real x, real y)
     Returns \a x and \a y rendercoordinates converted into data point
     coordinates.
 */
