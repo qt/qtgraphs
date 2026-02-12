@@ -1946,13 +1946,16 @@ void QQuickGraphsBars::updateBarPositions(QBar3DSeries *series)
                                 + series->meshRotation();
 
                             bih->rotation = rotation;
-                            if (heightValue < 0.f) {
-                                bih->rotation = QQuaternion(
-                                    QVector3D(-180.f, rotation.y(), rotation.z()).toVector4D());
-                            }
                         } else {
                             bih->rotation = QQuaternion::fromEulerAngles(
                                 QVector3D(.0f, item.rotation(), .0f));
+                        }
+                        if (heightValue < 0.f) {
+                            // if bars need to be rendered negative(under the floor)
+                            // construct a temporary quaternion(normalized) that rotates through
+                            // angle (in degrees) around x axis and multiply rotation with it.
+                            QQuaternion  rot = QQuaternion::fromAxisAndAngle(1.0f, 0.0f, 0.0f, 180.0f);
+                            bih->rotation *= rot;
                         }
 
                         float colPos = (col + seriesPos) * m_cachedBarSpacing.width();
