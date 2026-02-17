@@ -5,6 +5,12 @@ cmake_minimum_required(VERSION 3.16)
 
 project(aerospacehub VERSION 0.1 LANGUAGES CXX)
 
+if(NOT DEFINED INSTALL_EXAMPLESDIR)
+  set(INSTALL_EXAMPLESDIR "examples")
+endif()
+
+set(INSTALL_EXAMPLEDIR "${INSTALL_EXAMPLESDIR}")
+
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(Qt6 REQUIRED COMPONENTS Quick Graphs Quick3D)
