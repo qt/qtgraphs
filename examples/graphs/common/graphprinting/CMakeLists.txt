@@ -4,6 +4,12 @@
 cmake_minimum_required(VERSION 3.16)
 project(graphprinting LANGUAGES CXX)
 
+if(NOT DEFINED INSTALL_EXAMPLESDIR)
+  set(INSTALL_EXAMPLESDIR "examples")
+endif()
+
+set(INSTALL_EXAMPLEDIR "${INSTALL_EXAMPLESDIR}")
+
 find_package(Qt6 REQUIRED COMPONENTS Core Gui GuiPrivate Quick Graphs PrintSupport)
 
 qt_standard_project_setup(REQUIRES 6.8)
