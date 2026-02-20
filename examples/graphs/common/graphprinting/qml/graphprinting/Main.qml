@@ -1,5 +1,7 @@
 // Copyright (C) 2024 The Qt Company Ltd.
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR BSD-3-Clause
+
+import QtCore
 import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls.Fusion
@@ -153,6 +155,7 @@ Rectangle {
     //! [1.1]
     FolderDialog {
         id: dialog
+        currentFolder: StandardPaths.writableLocation(StandardPaths.PicturesLocation)
         property bool folderset: false
         onAccepted: {
             folderset = true
@@ -248,7 +251,10 @@ Rectangle {
                 text: "Print"
                 DialogButtonBox.buttonRole: DialogButtonBox.AcceptRole
             }
-            standardButtons: Dialog.Cancel
+            Button {
+                text: "Cancel"
+                DialogButtonBox.buttonRole: DialogButtonBox.RejectRole
+            }
         }
     }
 
