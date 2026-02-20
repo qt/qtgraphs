@@ -74,7 +74,7 @@
     The 2D and 3D graphs are laid out in a Stacklayout. Users can navigate it
     with a TabBar.
 
-    \snippet common/graphprinting/qml/graphprinting/main.qml 0
+    \snippet common/graphprinting/qml/graphprinting/Main.qml 0
 
     The FolderDialog component is used to select a folder for saving the
     exported file. This component has no visual representation in the
@@ -82,20 +82,20 @@
 
     The \inlineimage common/graphprinting/qml/graphprinting/folder.svg button invokes a folder dialog.
 
-    \snippet common/graphprinting/qml/graphprinting/main.qml 1.1
+    \snippet common/graphprinting/qml/graphprinting/Main.qml 1.1
     \dots 0
-    \snippet common/graphprinting/qml/graphprinting/main.qml 1.2
+    \snippet common/graphprinting/qml/graphprinting/Main.qml 1.2
     \dots
-    \snippet common/graphprinting/qml/graphprinting/main.qml 1.3
+    \snippet common/graphprinting/qml/graphprinting/Main.qml 1.3
 
     A custom printing dialog is created for selecting a printer, and is triggered
     with the \inlineimage common/graphprinting/qml/graphprinting/print.svg button.
     The Dialog retrieves the list of available printers and displays them in a
     list view.
 
-    \snippet common/graphprinting/qml/graphprinting/main.qml 2.1
+    \snippet common/graphprinting/qml/graphprinting/Main.qml 2.1
     \dots 0
-    \snippet common/graphprinting/qml/graphprinting/main.qml 2.2
+    \snippet common/graphprinting/qml/graphprinting/Main.qml 2.2
 
     The \inlineimage common/graphprinting/qml/graphprinting/documents.svg button triggers the
     PDF export, if a folder has been already selected.
@@ -109,15 +109,15 @@
             \c generatePDF or \c print function in the \c GraphPrinter class.
 
             PDF export:
-            \snippet common/graphprinting/qml/graphprinting/main.qml 3.1
+            \snippet common/graphprinting/qml/graphprinting/Main.qml 3.1
 
             Print:
-            \snippet common/graphprinting/qml/graphprinting/main.qml 3.2
+            \snippet common/graphprinting/qml/graphprinting/Main.qml 3.2
 
             For the size, the code makes the image render at 4x the actual
             resolution. For 3D graphs, the item must also be expanded
             for the duration of printing:
 
-            \snippet common/graphprinting/qml/graphprinting/main.qml 3.3
+            \snippet common/graphprinting/qml/graphprinting/Main.qml 3.3
     \endlist
 */

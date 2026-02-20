@@ -33,11 +33,10 @@ target_link_libraries(graphprinting PRIVATE
 
 qt6_add_qml_module(graphprinting
     URI GraphPrintingExample
-    NO_RESOURCE_TARGET_PATH
     SOURCES
         graphprinter.h graphprinter.cpp
     QML_FILES
-        qml/graphprinting/main.qml
+        qml/graphprinting/Main.qml
         qml/graphprinting/Graph2D.qml
         qml/graphprinting/Graph3D.qml
     RESOURCES
