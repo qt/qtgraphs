@@ -1,24 +1,25 @@
 // Copyright (C) 2024 The Qt Company Ltd.
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR BSD-3-Clause
+
 #include "graphprinter.h"
-#include <QtGui/qtguiglobal.h>
+
+#include <QtGui/qpainter.h>
+#include <QtGui/qpdfwriter.h>
 #include <QtGui/qtransform.h>
-#include <QtPrintSupport/QtPrintSupport>
+#include <QtPrintSupport/qprinter.h>
+#include <QtPrintSupport/qprinterinfo.h>
 #if QT_CONFIG(opengl)
-#include <QtGui/qoffscreensurface.h>
+#  include <QtGui/qoffscreensurface.h>
 #endif
 #include <rhi/qrhi.h>
 
-GraphPrinter::GraphPrinter(QObject *parent)
-    : QObject(parent)
-{}
+using namespace Qt::StringLiterals;
 
-GraphPrinter::~GraphPrinter() {}
-
-static qreal s_maxTextureSize = 0.;
+GraphPrinter::~GraphPrinter() = default;
 
 qreal GraphPrinter::maxTextureSize()
 {
+    static qreal s_maxTextureSize = 0.;
     // Query maximum texture size only once
     if (!s_maxTextureSize) {
         std::unique_ptr<QRhi> rhi;
@@ -57,11 +58,11 @@ qreal GraphPrinter::maxTextureSize()
 QString GraphPrinter::generatePDF(const QUrl &path, const QImage &image)
 {
     //! [0]
-    const QFile file = QFile(path.toLocalFile() + QStringLiteral("/graph.pdf"));
+    const QFile file = QFile(path.toLocalFile() + "/graph.pdf"_L1);
 
     QPdfWriter writer(file.fileName());
     writer.setResolution(90);
-    writer.setTitle("Graph");
+    writer.setTitle(u"Graph"_s);
     writer.setPageSize(QPageSize(image.size()));
     writer.setPageMargins(QMarginsF(0, 0, 0, 0));
     writer.newPage();
@@ -78,11 +79,11 @@ QString GraphPrinter::generatePDF(const QUrl &path, const QImage &image)
 }
 
 //! [2]
-QString GraphPrinter::print(const QImage &image, const QString printerName)
+QString GraphPrinter::print(const QImage &image, const QString &printerName)
 {
     QPrinterInfo printInfo = QPrinterInfo::printerInfo(printerName);
     if (printInfo.isNull())
-        return QLatin1String("%1 is not a valid printer").arg(printerName);
+        return tr("%1 is not a valid printer").arg(printerName);
 
     QPrinter printer(printInfo, QPrinter::HighResolution);
     printer.setOutputFormat(QPrinter::NativeFormat);
@@ -92,7 +93,7 @@ QString GraphPrinter::print(const QImage &image, const QString printerName)
     painter.setRenderHint(QPainter::LosslessImageRendering);
     painter.drawImage(finalImage.rect(), finalImage);
 
-    return QLatin1String("Printed to %1").arg(printerName);
+    return tr("Printed to %1").arg(printerName);
 }
 //! [2]
 
