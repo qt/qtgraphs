@@ -55,6 +55,16 @@ qreal GraphPrinter::maxTextureSize()
     return s_maxTextureSize;
 }
 
+//! [1]
+static void paintImage(const QImage &image, QPaintDevice *paintDevice)
+{
+    QPainter painter(paintDevice);
+    const QImage finalImage = image.scaled(painter.viewport().size(), Qt::KeepAspectRatio);
+    painter.setRenderHint(QPainter::LosslessImageRendering);
+    painter.drawImage(finalImage.rect(), finalImage);
+}
+//! [1]
+
 QString GraphPrinter::generatePDF(const QUrl &path, const QImage &image)
 {
     //! [0]
@@ -66,14 +76,9 @@ QString GraphPrinter::generatePDF(const QUrl &path, const QImage &image)
     writer.setPageSize(QPageSize(image.size()));
     writer.setPageMargins(QMarginsF(0, 0, 0, 0));
     writer.newPage();
-    //! [0]
 
-    //! [1]
-    QPainter painter(&writer);
-    const QImage finalImage = image.scaled(painter.viewport().size(), Qt::KeepAspectRatio);
-    painter.setRenderHint(QPainter::LosslessImageRendering);
-    painter.drawImage(finalImage.rect(), finalImage);
-    //! [1]
+    paintImage(image, &writer);
+    //! [0]
 
     return file.fileName();
 }
@@ -88,10 +93,7 @@ QString GraphPrinter::print(const QImage &image, const QString &printerName)
     QPrinter printer(printInfo, QPrinter::HighResolution);
     printer.setOutputFormat(QPrinter::NativeFormat);
 
-    QPainter painter(&printer);
-    const QImage finalImage = image.scaled(painter.viewport().size(), Qt::KeepAspectRatio);
-    painter.setRenderHint(QPainter::LosslessImageRendering);
-    painter.drawImage(finalImage.rect(), finalImage);
+    paintImage(image, &printer);
 
     return tr("Printed to %1").arg(printerName);
 }
