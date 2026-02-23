@@ -34,20 +34,6 @@ Rectangle {
                 id: buttonLayout
                 spacing: 0
                 uniformCellSizes: true
-                //! [1.2]
-                Button {
-                    id: setFolderButton
-                    //! [1.2]
-                    text: qsTr("Set save location")
-                    flat: true
-
-                    icon.source: pressed ? "folder_fill.svg" : "folder.svg"
-                    icon.height: 36
-                    icon.width: 36
-                    //! [1.3]
-                    onClicked: dialog.open()
-                }
-                //! [1.3]
                 Button {
                     id: captureButton
                     text: qsTr("Save to PDF")
@@ -57,27 +43,7 @@ Rectangle {
                     icon.height: 36
                     icon.width: 36
 
-                    //! [3.1]
-                    onPressed: {
-                        if (!dialog.folderset) {
-                            message.title = "No Folder Set"
-                            message.text = "Please select folder first"
-                            message.open()
-                        } else {
-                            mainView.prepareForPrint()
-                            mainView.item.grabToImage(function (result) {
-                                message.title = "Save PDF"
-                                message.text = "PDF saved to " + graphPrinter.generatePDF(
-                                            dialog.currentFolder, result.image)
-                                message.open()
-                            }, mainView.outputsize)
-                        }
-                    }
-
-                    onReleased: {
-                        mainView.cleanAfterPrint()
-                    }
-                    //! [3.1]
+                    onPressed: dialog.open()
                 }
 
                 Button {
@@ -153,18 +119,27 @@ Rectangle {
     }
 
     //! [1.1]
-    FolderDialog {
+    FileDialog {
         id: dialog
         currentFolder: StandardPaths.writableLocation(StandardPaths.PicturesLocation)
-        property bool folderset: false
+        nameFilters: ["PDF files (*.pdf)"]
+        defaultSuffix: "pdf"
+
+        fileMode: FileDialog.SaveFile
+        //! [1.1]
+        //! [3.1]
         onAccepted: {
-            folderset = true
-            message.title = "Folder Set"
-            message.text = "Folder set to " + selectedFolder.toString().replace(/^(file:\/{3})/, "")
-            message.open()
+            mainView.prepareForPrint()
+
+            mainView.item.grabToImage(function (result) {
+                message.title = "Save PDF"
+                message.text = "PDF saved to " + graphPrinter.generatePDF(
+                            dialog.selectedFile, result.image)
+                message.open()
+            }, mainView.outputsize)
         }
+        //! [3.1]
     }
-    //! [1.1]
 
     //! [2.1]
     Dialog {

@@ -13,7 +13,7 @@
     The \e {Graph Printing} example demonstrates how to print or export to PDF
     2D and 3D graphs.
 
-    \image graphprinting-example.png
+    \image graphprinting-example.webp
 
     \include examples-run.qdocinc
 
@@ -84,17 +84,11 @@
 
     \snippet common/graphprinting/qml/graphprinting/Main.qml 0
 
-    The FolderDialog component is used to select a folder for saving the
-    exported file. This component has no visual representation in the
+    The FileDialog component is used to choose the PDF file to be written.
+    This component has no visual representation in the
     application layout, but its API is accessible from the current QML file.
 
-    The \inlineimage common/graphprinting/qml/graphprinting/folder.svg button invokes a folder dialog.
-
     \snippet common/graphprinting/qml/graphprinting/Main.qml 1.1
-    \dots 0
-    \snippet common/graphprinting/qml/graphprinting/Main.qml 1.2
-    \dots
-    \snippet common/graphprinting/qml/graphprinting/Main.qml 1.3
 
     A custom printing dialog is created for selecting a printer, and is triggered
     with the \inlineimage common/graphprinting/qml/graphprinting/print.svg button.
@@ -106,7 +100,7 @@
     \snippet common/graphprinting/qml/graphprinting/Main.qml 2.2
 
     The \inlineimage common/graphprinting/qml/graphprinting/documents.svg button triggers the
-    PDF export, if a folder has been already selected.
+    PDF export.
 
     When either PDF export or printing is triggered, the following code is executed:
 
