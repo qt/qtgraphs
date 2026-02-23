@@ -35,16 +35,24 @@
                     \snippet common/graphprinting/graphprinter.cpp 0
                 \li Sets up image processing.
 
-                    The function creates a \l QPainter referring to the previously
-                    created \l QPdfWriter.
+                    The static helper \c paintImage function draws the image
+                    captured from QML onto an instance of the
+                    \l QPaintDevice class:
+
+
+                    The function creates a \l QPainter referring to the device.
 
                     To ensure the graph is printed correctly, it is scaled to the
-                    painter's viewport size with the original aspect ratio
+                    painter's viewport size with the original aspect ratio.
 
                     The painter's rendering hint is set to lossless image rendering.
                     After this, the function draws the image to the PDF file.
 
                     \snippet common/graphprinting/graphprinter.cpp 1
+
+                    Since \l QPdfWriter and \l QPrinter inherit \l QPaintDevice,
+                    the helper function can be called from the \c generatePDF function
+                    and the \c print function explained below.
             \endlist
 
             The function returns a status message to be displayed in the application's
