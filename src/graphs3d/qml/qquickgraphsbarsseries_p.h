@@ -31,11 +31,6 @@ class QQuickGraphsBar3DSeries : public QBar3DSeries
 {
     Q_OBJECT
     Q_PROPERTY(QQmlListProperty<QObject> seriesChildren READ seriesChildren CONSTANT)
-    // This property is overloaded to use QPointF instead of QPoint to work around
-    // qml bug where Qt.point(0, 0) can't be assigned due to error "Cannot assign
-    // QPointF to QPoint".
-    Q_PROPERTY(
-        QPointF selectedBar READ selectedBar WRITE setSelectedBar NOTIFY selectedBarChanged FINAL)
     // This is static method in parent class, overload as constant property for qml.
     Q_PROPERTY(QPointF invalidSelectionPosition READ invalidSelectionPosition CONSTANT)
     Q_PROPERTY(QQuickGradient *baseGradient READ baseGradient WRITE setBaseGradient NOTIFY
@@ -56,8 +51,6 @@ public:
     QQmlListProperty<QObject> seriesChildren();
     static void appendSeriesChildren(QQmlListProperty<QObject> *list, QObject *element);
 
-    void setSelectedBar(QPointF position);
-    QPointF selectedBar() const;
     QPointF invalidSelectionPosition() const;
 
     void setBaseGradient(QQuickGradient *gradient);
@@ -82,7 +75,6 @@ public Q_SLOTS:
     void handleRowColorUpdate();
 
 Q_SIGNALS:
-    void selectedBarChanged(QPointF position);
     void baseGradientChanged(QQuickGradient *gradient);
     void singleHighlightGradientChanged(QQuickGradient *gradient);
     void multiHighlightGradientChanged(QQuickGradient *gradient);

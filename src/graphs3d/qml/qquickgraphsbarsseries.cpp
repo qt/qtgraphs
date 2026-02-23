@@ -14,10 +14,6 @@ QQuickGraphsBar3DSeries::QQuickGraphsBar3DSeries(QObject *parent)
     : QBar3DSeries(parent)
 
 {
-    QObject::connect(this,
-                     &QBar3DSeries::selectedBarChanged,
-                     this,
-                     &QQuickGraphsBar3DSeries::selectedBarChanged);
 }
 
 QQuickGraphsBar3DSeries::~QQuickGraphsBar3DSeries() {}
@@ -37,16 +33,6 @@ void QQuickGraphsBar3DSeries::appendSeriesChildren(QQmlListProperty<QObject> *li
     QBarDataProxy *proxy = qobject_cast<QBarDataProxy *>(element);
     if (proxy)
         reinterpret_cast<QQuickGraphsBar3DSeries *>(list->data)->setDataProxy(proxy);
-}
-
-void QQuickGraphsBar3DSeries::setSelectedBar(QPointF position)
-{
-    QBar3DSeries::setSelectedBar(position.toPoint());
-}
-
-QPointF QQuickGraphsBar3DSeries::selectedBar() const
-{
-    return QPointF(QBar3DSeries::selectedBar());
 }
 
 QPointF QQuickGraphsBar3DSeries::invalidSelectionPosition() const
