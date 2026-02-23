@@ -3,6 +3,7 @@
 
 #include "graphprinter.h"
 
+#include <QtGui/qdesktopservices.h>
 #include <QtGui/qpainter.h>
 #include <QtGui/qpdfwriter.h>
 #include <QtGui/qtransform.h>
@@ -68,17 +69,20 @@ static void paintImage(const QImage &image, QPaintDevice *paintDevice)
 QString GraphPrinter::generatePDF(const QUrl &path, const QImage &image)
 {
     //! [0]
-    const QFile file = QFile(path.toLocalFile() + "/graph.pdf"_L1);
+    QFile file = QFile(path.toLocalFile());
 
-    QPdfWriter writer(file.fileName());
-    writer.setResolution(90);
-    writer.setTitle(u"Graph"_s);
-    writer.setPageSize(QPageSize(image.size()));
-    writer.setPageMargins(QMarginsF(0, 0, 0, 0));
-    writer.newPage();
-
-    paintImage(image, &writer);
+    {
+        QPdfWriter writer(file.fileName());
+        writer.setResolution(90);
+        writer.setTitle(u"Graph"_s);
+        writer.setPageSize(QPageSize(image.size()));
+        writer.setPageMargins(QMarginsF(0, 0, 0, 0));
+        writer.newPage();
+        paintImage(image, &writer);
+    }
     //! [0]
+
+    QDesktopServices::openUrl(path);
 
     return file.fileName();
 }
