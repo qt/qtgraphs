@@ -9,6 +9,7 @@
     Quick 3D scenes into the graphs.
 
     \image q3dbars-qtquick3d-integration.png
+           {3D bar graph with reflective spheres on red platform}
 
     \section1 Scene Environment
 

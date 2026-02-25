@@ -13,6 +13,7 @@
     The graphs have their own tabs in the application.
 
     \image widgetgraphgallery-example.png
+           {3D surface plot with gradient coloring and customization options}
 
     \include examples-run.qdocinc
 

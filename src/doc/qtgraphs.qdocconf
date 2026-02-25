@@ -64,3 +64,6 @@ manifestmeta.highlighted.names = "QtGraphs/Surface Graph Gallery" "QtGraphs/Wind
 
 # Enforce zero documentation warnings
 warninglimit = 0
+
+# Report warnings for images without alt text
+reportmissingalttextforimages = true

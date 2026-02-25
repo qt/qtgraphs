@@ -59,7 +59,7 @@ QT_BEGIN_NAMESPACE
     information with one another. For this reason, you can't implement a custom
     line series.
 
-    \image graphs2d-custom.png
+    \image graphs2d-custom.png {Bar graph with two gradient-filled bars}
 
     The following code implements the depicted custom graph. In this case the
     custom data contains two values: upper and lower. Those are then defined

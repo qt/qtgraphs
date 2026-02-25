@@ -17,7 +17,7 @@
     The following sections concentrate on those features only and skip explaining the basic
     functionality - for more detailed QML example documentation, see \l{Simple Scatter Graph}.
 
-    \image axishandling-example.png
+    \image axishandling-example.png {3D scatter plot with spheres and date-based axes}
 
     \include examples-run.qdocinc
 

@@ -12,6 +12,7 @@
     \e {Volumetric Rendering} shows how to use QCustom3DVolume to display volumetric data.
 
     \image widgetvolumetric-example.png
+           {3D volumetric terrain with colored elevation layers and slice controls}
 
     \include examples-run.qdocinc
 

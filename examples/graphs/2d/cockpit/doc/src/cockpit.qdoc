@@ -11,6 +11,8 @@
     \brief Example application imitating an airplane cockpit using Graphs.
 
     \image cockpit-example.png
+           {Aircraft cockpit dashboard with speedometer, vibration graph,
+           navigation map, and flight display}
 
     The cockpit example features a number of different graph types to draw fictional airplane control screens.
     The graphs used in the example are:

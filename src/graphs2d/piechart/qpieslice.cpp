@@ -101,7 +101,7 @@ QT_BEGIN_NAMESPACE
         }
     \endqml
 
-    \image graphs2d-subpieslice.png
+    \image graphs2d-subpieslice.png {Pie slice being separated into two sub-slices}
 
     \sa PieSeries
 */

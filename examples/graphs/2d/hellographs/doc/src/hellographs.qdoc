@@ -12,6 +12,7 @@
     \e {HelloGraphs} shows how to make a simple 2D bar graph and line graph.
 
     \image hellographs-example.png
+           {Bar graph for 2024-2026 and line graph with two data series}
 
     The following sections describe how to create a bar graph using BarSeries
     and a line graph using LineSeries.

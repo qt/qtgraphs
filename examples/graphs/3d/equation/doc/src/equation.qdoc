@@ -14,6 +14,7 @@
     and how to adjust the outlook of the graph using \l{ExtendedSceneEnvironment}.
 
     \image equation-example.png
+           {3D surface showing mathematical equation with glow effect and controls}
 
     For more information about basic QML application functionality, see \l{Simple Scatter Graph}.
 

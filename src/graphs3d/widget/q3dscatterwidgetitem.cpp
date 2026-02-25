@@ -61,7 +61,7 @@ QT_BEGIN_NAMESPACE
  *
  * And this is what those few lines of code produce:
  *
- * \image q3dscatter-minimal.png
+ * \image q3dscatter-minimal.png {3D scatter plot with green spheres}
  *
  * The scene can be rotated, zoomed into, and an item can be selected to view
  * its position, but no other interactions are included in this minimal code

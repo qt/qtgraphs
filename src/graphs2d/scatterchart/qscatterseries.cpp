@@ -35,7 +35,7 @@ QT_BEGIN_NAMESPACE
     each point, two values are specified that determine its position on the
     horizontal axis and the vertical axis.
 
-    \image graphs2d-scatter.png
+    \image graphs2d-scatter.png {Scatter plot with data points in a grid}
 
     You can represent scatter data by creating a ScatterSeries inside
     GraphsView. The data can be added to the graph by creating XYPoints as

@@ -14,6 +14,8 @@
     in a simulated real-world application.
 
     \image aerospacehub-example.webp
+           {Wind turbine dashboard with status panel, power and energy graphs,
+           and 3D visualizations}
 
     \include examples-run.qdocinc
 
@@ -40,6 +42,7 @@
     visualizations and quickly assess key performance metrics at a glance.
 
     \image aerospacehub-dashboard.webp
+           {Dashboard view with turbine status and four graph previews}
 
     \section2 Detail View
 
@@ -50,6 +53,7 @@
     to reveal more detailed information about the specific item of interest.
 
     \image aerospacehub-detailview.webp
+           {Detail view with turbine status and power output area graph}
 
     \section2 Settings View
 
@@ -60,6 +64,7 @@
     flexibility for both temporary and permanent adjustments.
 
     \image aerospacehub-settingsview.webp
+           {Settings view with bar graph and graph customization controls}
 
 \omit
     \section1 Data Simulation

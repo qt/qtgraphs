@@ -42,7 +42,7 @@
     is defined, the area is then between the bottom of the graph and the upper
     series.
 
-    \image graphs2d-area-graph.png
+    \image graphs2d-area-graph.png {Multiple colored area graphs with filled regions}
 
     See \l{AreaSeries} and \l{XYPoint} for more information.
 
@@ -51,7 +51,7 @@
     The data is drawn as a series of vertical bars grouped by category, with one
     bar per category from each bar set added to the series.
 
-    \image graphs2d-bar-graph.png
+    \image graphs2d-bar-graph.png {Two bar graphs comparing values for 2023 and 2024}
 
     See \l{BarSeries} and \l{BarSet} for more information.
 
@@ -60,7 +60,7 @@
     A donut graph is a special case of a \l{2D Pie Graphs}{Pie graph}, with an
     additional property for defining the \l{PieSeries::holeSize}{hole size}.
 
-    \image graphs2d-donut-graph.png
+    \image graphs2d-donut-graph.png {Donut graph with nested rings showing category data}
 
     See \l{PieSeries} and \l{PieSlice} for more information.
 
@@ -70,7 +70,7 @@
     connected by straight lines. For each point, two values are specified that
     determine its position on the horizontal axis and the vertical axis.
 
-    \image graphs2d-line-graph.png
+    \image graphs2d-line-graph.png {Line graph with two intersecting data series}
 
     See \l{LineSeries} and \l{XYPoint} for more information.
 
@@ -81,7 +81,7 @@
     percentage of a slice compared with the sum of all slices in the series to
     determine the actual size of the slice in the graph.
 
-    \image graphs2d-pie-graph.png
+    \image graphs2d-pie-graph.png {Pie chart with car manufacturer slices}
 
     See \l{PieSeries} and \l{PieSlice} for more information.
 
@@ -91,7 +91,7 @@
     each point, two values are specified that determine its position on the
     horizontal axis and the vertical axis.
 
-    \image graphs2d-scatter-graph.png
+    \image graphs2d-scatter-graph.png {Scatter plot with colored square data points}
 
     See \l{ScatterSeries} and \l{XYPoint} for more information.
 
@@ -101,7 +101,7 @@
     connected by smooth spline segments that moves through all the points
     defined in the graph.
 
-    \image graphs2d-spline-graph.png
+    \image graphs2d-spline-graph.png {Spline graph with smooth curve through data points}
 
     See \l{SplineSeries} and \l{XYPoint} for more information.
 */

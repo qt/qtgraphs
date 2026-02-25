@@ -18,6 +18,7 @@
     For instructions on how to create a new Qt Quick application of your own, see Qt Creator help.
 
     \image scatter-example.png
+           {3D scatter plot with colored spheres and visualization controls}
 
     \include examples-run.qdocinc
 
