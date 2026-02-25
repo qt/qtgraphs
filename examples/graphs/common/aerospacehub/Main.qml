@@ -122,7 +122,8 @@ ApplicationWindow {
     }
 
     Timer {
-        running: GlobalSettings.livedata
+        // In case graph data cannot be live (as in Wasm), animate at least these values
+        running: GlobalSettings.livedata || GlobalSettings.hidelivedata
         interval: GlobalSettings.updateinterval * 100
         repeat: true
         onTriggered: {

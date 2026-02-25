@@ -176,7 +176,7 @@ void DataSimulator::generateData(int numberOfSet, int numberOfColumns, int numbe
             diff = QRandomGenerator::global()->bounded(range / numberOfSet);
             if (m_deviation > 0)
                 diff *= QRandomGenerator::global()->bounded(qreal(m_deviation));
-                diff *= QRandomGenerator::global()->bounded(-1, 2);
+            diff *= QRandomGenerator::global()->bounded(-1, 2);
             if (m_order == SortingOrder::Ascending)
                 randData = prev + diff;
             else
