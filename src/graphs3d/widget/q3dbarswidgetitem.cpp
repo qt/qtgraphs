@@ -69,7 +69,7 @@ QT_BEGIN_NAMESPACE
  *
  * And this is what those few lines of code produce:
  *
- * \image q3dbars-minimal.png
+ * \image q3dbars-minimal.png {3D bar chart with green bars of varying heights}
  *
  * The scene can be rotated, zoomed into, and a bar can be selected to view its
  * value, but no other interactions are included in this minimal code example.

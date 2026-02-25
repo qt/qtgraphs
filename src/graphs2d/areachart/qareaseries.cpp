@@ -35,7 +35,7 @@ QT_BEGIN_NAMESPACE
     The area between the series is drawn as a graph. If only the upperSeries
     is defined, the area is then between the bottom of the graph and the upper series.
 
-    \image graphs2d-area.png
+    \image graphs2d-area.png {Area graph with regions filled in three colors}
 */
 
 /*!

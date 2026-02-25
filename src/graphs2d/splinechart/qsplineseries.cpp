@@ -45,7 +45,7 @@ Q_TRACE_POINT(qtgraphs, QGraphs2DSplineSeriesCalculateSplinePoints_exit);
     The graph displays smooth spline segments that moves through all the points
     defined in the graph.
 
-    \image graphs2d-spline.png
+    \image graphs2d-spline.png {Spline graph with smooth curve through data points}
 */
 
 /*!

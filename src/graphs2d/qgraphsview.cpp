@@ -100,7 +100,7 @@ After that you can use GraphsView in your qml files:
 
 \snippet doc_src_qmlgraphs.cpp 10
 
-\image graphsview-minimal.png
+\image graphsview-minimal.png {Bar graph displaying values for 2023, 2024, and 2025}
 
 \sa BarSeries, LineSeries, BarCategoryAxis, ValueAxis, GraphsTheme
 */

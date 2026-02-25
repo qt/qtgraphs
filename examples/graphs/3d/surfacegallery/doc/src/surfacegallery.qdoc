@@ -16,6 +16,7 @@
     functionality - for more detailed QML example documentation, see \l{Simple Scatter Graph}.
 
     \image surfacegallery-example.png
+           {3D height map surface with terrain and grid controls}
 
     \include examples-run.qdocinc
 

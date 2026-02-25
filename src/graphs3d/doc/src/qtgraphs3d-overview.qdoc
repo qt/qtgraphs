@@ -57,7 +57,7 @@
     and shading. In QML, the corresponding types are \l Bars3D, \l Bar3DSeries,
     and \l BarDataProxy.
 
-    \image q3dbars-minimal.png
+    \image q3dbars-minimal.png {3D bar chart with green bars of varying heights}
 
     For more information, see \l{How to construct a minimal Q3DBarsWidgetItem graph}
     and \l {Simple Bar Graph} examples.
@@ -71,7 +71,7 @@
     corresponding types are \l Scatter3D, \l Scatter3DSeries, \l Spline3DSeries, and
     \l ScatterDataProxy.
 
-    \image q3dscatter-minimal.png
+    \image q3dscatter-minimal.png {3D scatter plot with green spheres}
 
     For more information, see \l{How to construct a minimal Q3DScatterWidgetItem graph}
     and \l{Simple Scatter Graph} examples.
@@ -85,7 +85,7 @@
     corresponding types are \l Surface3D, \l Surface3DSeries, and
     \l SurfaceDataProxy.
 
-    \image q3dsurface-minimal.png
+    \image q3dsurface-minimal.png {3D surface plot with sloped green plane}
 
     For more information, see \l{How to construct a minimal Q3DSurfaceWidgetItem graph},
     \l{Graph Gallery}, and \l{Surface Graph Gallery} examples.

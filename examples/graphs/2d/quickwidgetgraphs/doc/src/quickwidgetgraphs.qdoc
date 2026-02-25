@@ -15,6 +15,7 @@
     \l QQuickWidget.
 
     \image quickwidgetgraphs-example.png
+           {Pie chart with labeled fruit slices and control buttons}
 
     \include examples-run.qdocinc
 

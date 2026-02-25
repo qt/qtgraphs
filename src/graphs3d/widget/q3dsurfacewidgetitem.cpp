@@ -74,7 +74,7 @@ QT_BEGIN_NAMESPACE
  *
  * And this is what those few lines of code produce:
  *
- * \image q3dsurface-minimal.png
+ * \image q3dsurface-minimal.png {3D surface plot with sloped green plane}
  *
  * The scene can be rotated, zoomed into, and a surface point can be selected to
  * view its position, but no other interactions are included in this minimal code

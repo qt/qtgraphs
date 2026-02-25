@@ -32,7 +32,7 @@ QT_BEGIN_NAMESPACE
     A line graph is used to show information as a series of data points
     connected by straight lines or steps.
 
-    \image graphs2d-line.png
+    \image graphs2d-line.png {Angular line graph in a grid}
 
     Series can contain gaps using NaN values as in :
 
@@ -45,6 +45,7 @@ QT_BEGIN_NAMESPACE
     which result in :
 
     \image graphs2d-line-gaps.png
+           {Two grids with green angular line on left and red step line on right}
 
     \note As seen on the above example's first graph, alone points
     (like the first point of the series) won't be rendered as lines, unless

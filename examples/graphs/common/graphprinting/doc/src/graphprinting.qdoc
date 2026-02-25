@@ -92,7 +92,7 @@
     \snippet common/graphprinting/qml/graphprinting/Main.qml 1.1
 
     A custom printing dialog is created for selecting a printer, and is triggered
-    with the \inlineimage common/graphprinting/qml/graphprinting/print.svg button.
+    with the \inlineimage common/graphprinting/qml/graphprinting/print.svg {Printer icon} button.
     The Dialog retrieves the list of available printers and displays them in a
     list view.
 
@@ -100,7 +100,7 @@
     \dots 0
     \snippet common/graphprinting/qml/graphprinting/Main.qml 2.2
 
-    The \inlineimage common/graphprinting/qml/graphprinting/documents.svg button triggers the
+    The \inlineimage common/graphprinting/qml/graphprinting/documents.svg {Document icon} button triggers the
     PDF export.
 
     When either PDF export or printing is triggered, the following code is executed:
