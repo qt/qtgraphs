@@ -128,6 +128,7 @@ QtObject {
     property bool livedata: false
     // Update interval multiplier
     property int updateinterval: 10
+    property bool hidelivedata: Qt.platform.os === "wasm"
 
     // Turbine status
     property int turbineCountPerAxis: 10

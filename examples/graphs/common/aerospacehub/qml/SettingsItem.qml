@@ -211,6 +211,7 @@ Item {
 
                 Label {
                     Layout.fillWidth: true
+                    visible: !GlobalSettings.hidelivedata
                     text: "Data Settings"
                     color: "#EFEFEF"
                     font.pixelSize: GlobalSettings.fontsize22px
@@ -219,12 +220,14 @@ Item {
 
                 Rectangle {
                     Layout.fillWidth: true
+                    visible: !GlobalSettings.hidelivedata
                     height: 2
                     color: "#FCFCFC"
                 }
 
                 RowLayout {
                     Layout.fillWidth: true
+                    visible: !GlobalSettings.hidelivedata
 
                     Label {
                         Layout.fillWidth: true
@@ -242,6 +245,7 @@ Item {
 
                 RowLayout {
                     Layout.fillWidth: true
+                    visible: !GlobalSettings.hidelivedata
 
                     Label {
                         Layout.fillWidth: true
