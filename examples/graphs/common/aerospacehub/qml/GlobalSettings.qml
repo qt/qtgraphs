@@ -21,7 +21,6 @@ QtObject {
 
     // Component heights
     property int headerheight: rootheight / 6                   // 180
-    property int qtlogoheight: rootheight / 10                  // 108
     property int statusheaderheight: rootheight / 20            // 54
     property int notificationheight: rootheight / 27            // 40
     property int graphdetailheaderheight: rootheight / 12       // 90
@@ -45,6 +44,7 @@ QtObject {
     property int settingssliderwidth: graphdetailcomboboxwidth          // 213
     property int settingscomboboxwidth: settingssliderwidth / 1.5       // 142
     property int settingscheckboxwidth: rootwidth / 30                  // 64
+    property int qtlogowidth: rootwidth / 8                             // 240
 
     // Default visual dimensions
     property int defaultspacing: rootheight / 54        // 20
@@ -73,6 +73,11 @@ QtObject {
     property real fontsize18px: rootwidth / 106.7
     property real fontsize14px: rootwidth / 137
     property real fontsize12px: rootwidth / 160
+
+    // Image (icon) sizes
+    property real imagesize110px: rootwidth / 17.5
+    property real imagesize96px: rootwidth / 20
+    property real imagesize48px: imagesize96px / 2
 
     // 3D graph defaults
     property int defaultzoom: 120

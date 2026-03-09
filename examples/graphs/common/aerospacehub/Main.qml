@@ -182,7 +182,7 @@ ApplicationWindow {
                     id: icon
                     anchors.verticalCenter: parent.verticalCenter
                     source: "images/turbine-logo.png"
-                    height: GlobalSettings.headerheight * 0.61
+                    height: GlobalSettings.imagesize110px
                     sourceSize.width: 110
                     sourceSize.height: 110
                     fillMode: Image.PreserveAspectFit
@@ -203,7 +203,7 @@ ApplicationWindow {
                     anchors.verticalCenter: parent.verticalCenter
                     anchors.right: parent.right
                     source: "images/BuiltWithQtLogo.png"
-                    height: GlobalSettings.qtlogoheight
+                    width: GlobalSettings.qtlogowidth
                     sourceSize.width: 242
                     sourceSize.height: 72
                     fillMode: Image.PreserveAspectFit
