@@ -77,8 +77,11 @@
     \title Qt Graphs for QML
     \brief QML types for the Qt Graphs API.
 
-    The Qt Graphs functionality can be accessed via these QML types.
+    To use the types in this module, import the module with the following line:
 
+    \qml
+    import QtGraphs
+    \endqml
 */
 
 /*!
