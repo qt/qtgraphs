@@ -183,8 +183,9 @@ Rectangle {
                     if (GlobalSettings.is3dgraph) {
                         biggraph.activegraph.cameraPreset = GlobalSettings.defaultpreset
                     } else {
-                        biggraph.activegraph.axisX.pan = 0
                         biggraph.activegraph.axisY.pan = 0
+                        if (biggraph.activegraph.axisX.pan)
+                            biggraph.activegraph.axisX.pan = 0
                     }
                 }
                 onHoveredChanged: {
@@ -216,8 +217,9 @@ Rectangle {
                     if (GlobalSettings.is3dgraph) {
                         biggraph.activegraph.cameraZoomLevel = GlobalSettings.defaultzoom
                     } else {
-                        biggraph.activegraph.axisX.zoom = 1
                         biggraph.activegraph.axisY.zoom = 1
+                        if (biggraph.activegraph.axisX.zoom)
+                            biggraph.activegraph.axisX.zoom = 1
                     }
                 }
                 onHoveredChanged: {
