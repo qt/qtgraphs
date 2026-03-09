@@ -15,9 +15,15 @@ RowLayout {
     property alias desctext: description.text
     property alias descsize: description.font.pixelSize
     property alias imagesource: image.source
+    property bool small: false
 
     Image {
         id: image
+        sourceSize.width: graphheader.small ? 48 : 96
+        sourceSize.height: graphheader.small ? 48 : 96
+        Layout.preferredWidth: graphheader.small ? GlobalSettings.imagesize48px
+                                         : GlobalSettings.imagesize96px
+        Layout.preferredHeight: Layout.preferredWidth
     }
 
     ColumnLayout {

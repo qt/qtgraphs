@@ -67,7 +67,7 @@ GraphsView {
 
             Label {
                 anchors.centerIn: parent
-                text: parent.barValue
+                text: parent.barValue.toFixed(1)
                 color: GlobalSettings.theme.labelTextColor
                 visible: barseries2d.labelsVisible
                 rotation: barseries2d.labelsAngle

@@ -31,6 +31,7 @@ Rectangle {
         Layout.preferredHeight: GlobalSettings.dashboardgraphheaderheight
         titlesize: GlobalSettings.fontsize18px
         descsize: GlobalSettings.fontsize14px
+        small: true
     }
 
     Bar2DGraph {
