@@ -70,7 +70,7 @@
     \section1 Implementation Details
 
     Everything in the application has been designed in a modular fashion. Main view, which is
-    the \c {Main.qml} file, is an \l {ApplicationWindow}, which instantiaties the data simulators
+    the \c {Main.qml} file, is an \l {ApplicationWindow}, which instantiates the data simulators
     for each graph, as well as the root \l Item holding all of the UI elements.
 
     The \l {FontLoader} is used for applying a global font for the whole UI.
