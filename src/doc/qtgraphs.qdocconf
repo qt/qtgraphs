@@ -21,7 +21,7 @@ exampledirs += \
 imagedirs  += images \
                 ../graphs3d/widget/doc/images
 
-depends = qtcore qtgui qtqml qtquick qtdoc qtcmake qtwidgets qtquick3d qtqmlmodels qtprintsupport
+depends = qtcore qtgui qtqml qtquick qtquickcontrols qtdoc qtcmake qtwidgets qtquick3d qtqmlmodels qtprintsupport
 
 qhp.projects                 = QtGraphs
 

@@ -14,6 +14,7 @@
     2D and 3D graphs.
 
     \image graphprinting-example.webp
+           {2D line graph with PDF export and print controls}
 
     \include examples-run.qdocinc
 
