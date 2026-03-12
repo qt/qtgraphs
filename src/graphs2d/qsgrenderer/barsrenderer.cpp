@@ -336,8 +336,6 @@ void BarsRenderer::updateVerticalBars(QBarSeries *series, qsizetype setCount,
     if (percent)
         calculateCategoryTotalValues(series, totalValuesListInSet, valuesPerSet);
     int barIndexInSet = 0;
-    int positiveBarIndexInSet = 0;
-    int negativeBarIndexInSet = 0;
     int barSetIndex = 0;
     QList<QLegendData> legendDataList;
     auto barsets = series->barSets();
@@ -349,8 +347,6 @@ void BarsRenderer::updateVerticalBars(QBarSeries *series, qsizetype setCount,
             continue;
         seriesPos = barSeriesOffset;
         barIndexInSet = 0;
-        positiveBarIndexInSet = 0;
-        negativeBarIndexInSet = 0;
         BarSelectionRect *barSelectionRect = nullptr;
         if (series->isSelectable() || series->isHoverable()) {
             rectNodesInputRects << BarSelectionRect();
@@ -392,9 +388,9 @@ void BarsRenderer::updateVerticalBars(QBarSeries *series, qsizetype setCount,
             if (stacked) {
                 barX = seriesPos + barCentering;
                 if (value >= 0)
-                    barY = h - barLength - offset - positiveYListInSet[positiveBarIndexInSet];
+                    barY = h - barLength - offset - positiveYListInSet[barIndexInSet];
                 else
-                    barY = h - offset + negativeYListInSet[negativeBarIndexInSet];
+                    barY = h - offset + negativeYListInSet[barIndexInSet];
             } else {
                 barY -= offset;
                 if (value < 0)
@@ -417,13 +413,10 @@ void BarsRenderer::updateVerticalBars(QBarSeries *series, qsizetype setCount,
             seriesData << d;
 
             if (stacked) {
-                if (value >= 0) {
-                    positiveYListInSet[positiveBarIndexInSet] += barLength;
-                    positiveBarIndexInSet++;
-                } else {
-                    negativeYListInSet[negativeBarIndexInSet] += barLength;
-                    negativeBarIndexInSet++;
-                }
+                if (value >= 0)
+                    positiveYListInSet[barIndexInSet] += barLength;
+                else
+                    negativeYListInSet[barIndexInSet] += barLength;
             }
             barIndexInSet++;
             seriesPos = ((float)barIndexInSet / valuesPerSet) * w + barSeriesOffset;
@@ -477,8 +470,6 @@ void BarsRenderer::updateHorizontalBars(QBarSeries *series, qsizetype setCount,
     if (percent)
         calculateCategoryTotalValues(series, totalValuesListInSet, valuesPerSet);
     int barIndexInSet = 0;
-    int positiveBarIndexInSet = 0;
-    int negativeBarIndexInSet = 0;
     int barSetIndex = 0;
     QList<QLegendData> legendDataList;
     auto barsets = series->barSets();
@@ -490,8 +481,6 @@ void BarsRenderer::updateHorizontalBars(QBarSeries *series, qsizetype setCount,
             continue;
         seriesPos = barSeriesOffset;
         barIndexInSet = 0;
-        positiveBarIndexInSet = 0;
-        negativeBarIndexInSet = 0;
         BarSelectionRect *barSelectionRect = nullptr;
         if (series->isSelectable() || series->isHoverable()) {
             rectNodesInputRects << BarSelectionRect();
@@ -532,9 +521,9 @@ void BarsRenderer::updateHorizontalBars(QBarSeries *series, qsizetype setCount,
             if (stacked) {
                 barY = seriesPos + barCentering;
                 if (value >= 0)
-                    barX = offset + positiveXListInSet[positiveBarIndexInSet];
+                    barX = offset + positiveXListInSet[barIndexInSet];
                 else
-                    barX = offset - barLength - negativeXListInSet[negativeBarIndexInSet];
+                    barX = offset - barLength - negativeXListInSet[barIndexInSet];
             } else {
                 barX += offset;
                 if (value < 0)
@@ -557,13 +546,10 @@ void BarsRenderer::updateHorizontalBars(QBarSeries *series, qsizetype setCount,
             seriesData << d;
 
             if (stacked) {
-                if (value >= 0) {
-                    positiveXListInSet[positiveBarIndexInSet] += barLength;
-                    positiveBarIndexInSet++;
-                } else {
-                    negativeXListInSet[negativeBarIndexInSet] += barLength;
-                    negativeBarIndexInSet++;
-                }
+                if (value >= 0)
+                    positiveXListInSet[barIndexInSet] += barLength;
+                else
+                    negativeXListInSet[barIndexInSet] += barLength;
             }
             barIndexInSet++;
             seriesPos = ((float)barIndexInSet / valuesPerSet) * h + barSeriesOffset;
