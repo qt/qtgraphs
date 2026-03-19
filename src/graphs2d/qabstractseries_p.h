@@ -39,6 +39,8 @@ public:
     explicit QAbstractSeriesPrivate(QAbstractSeries::SeriesType type);
     ~QAbstractSeriesPrivate() override;
 
+    void removeAxis(QAbstractAxis *axis);
+
     void setLegendData(const QList<QLegendData> &legendData);
     void clearLegendData();
     QAbstractSeries::SeriesType type() { return m_type; }

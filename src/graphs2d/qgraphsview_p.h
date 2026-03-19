@@ -128,7 +128,7 @@ public:
     void updateAxisAreas();
 
     void addAxis(QAbstractAxis *axis);
-    void removeAxis(QAbstractAxis *axis);
+    void removeAxis(QAbstractAxis *axis, bool removeAllReferences = false);
 
     qsizetype graphSeriesCount() const;
     void setGraphSeriesCount(qsizetype count);

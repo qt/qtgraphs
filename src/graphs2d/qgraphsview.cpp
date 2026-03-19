@@ -298,7 +298,7 @@ void QGraphsView::addAxis(QAbstractAxis *axis)
     }
 }
 
-void QGraphsView::removeAxis(QAbstractAxis *axis)
+void QGraphsView::removeAxis(QAbstractAxis *axis, bool removeAllReferences)
 {
     if (axis) {
         axis->d_func()->setGraph(nullptr);
@@ -313,6 +313,13 @@ void QGraphsView::removeAxis(QAbstractAxis *axis)
         m_axisX = nullptr;
     if (m_axisY == axis)
         m_axisY = nullptr;
+
+    if (removeAllReferences) {
+        for (auto&& s : m_seriesList) {
+            if (auto series = qobject_cast<QAbstractSeries *>(s))
+                series->d_func()->removeAxis(axis);
+        }
+    }
 
     updateComponentSizes();
     polishAndUpdate();

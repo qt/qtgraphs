@@ -699,7 +699,7 @@ QAbstractAxisPrivate::~QAbstractAxisPrivate()
 {
     Q_Q(QAbstractAxis);
     if (m_graph)
-        m_graph->removeAxis(q);
+        m_graph->removeAxis(q, true);
 }
 
 void QAbstractAxisPrivate::setGraph(QGraphsView *graph)

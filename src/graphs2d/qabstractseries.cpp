@@ -723,6 +723,14 @@ QAbstractSeriesPrivate::~QAbstractSeriesPrivate()
 {
 }
 
+void QAbstractSeriesPrivate::removeAxis(QAbstractAxis *axis)
+{
+    if (m_axisX == axis)
+        m_axisX = nullptr;
+    if (m_axisY == axis)
+        m_axisY = nullptr;
+}
+
 void QAbstractSeriesPrivate::setLegendData(const QList<QLegendData> &legendData)
 {
     if (legendData.data() != m_legendData.data()) {
