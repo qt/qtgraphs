@@ -144,6 +144,7 @@ protected:
     friend class PointRenderer;
     friend class PieRenderer;
     friend class AreaRenderer;
+    friend class QGraphsView;
 };
 
 QT_END_NAMESPACE
