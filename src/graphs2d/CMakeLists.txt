@@ -86,6 +86,11 @@ else()
         DEFINES
             USE_LINEGRAPH
     )
+    qt_internal_extend_target(Graphs CONDITION (QT_FEATURE_graphs_2d_line OR QT_FEATURE_graphs_2d_area) AND MSVC
+        NO_UNITY_BUILD_SOURCES
+            # QDebug lookup issue with QList<qreal>
+            linechart/qlineseries.cpp
+    )
     qt_internal_extend_target(Graphs CONDITION QT_FEATURE_graphs_2d_scatter
         SOURCES
             scatterchart/qscatterseries.cpp scatterchart/qscatterseries.h scatterchart/qscatterseries_p.h
