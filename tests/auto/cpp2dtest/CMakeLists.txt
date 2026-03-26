@@ -2,6 +2,7 @@
 # SPDX-License-Identifier: BSD-3-Clause
 
 add_subdirectory(qgaxis-value)
+add_subdirectory(qgaxis-logvalue)
 if (QT_FEATURE_timezone)
     add_subdirectory(qgaxis-datetime)
 endif()

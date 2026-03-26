@@ -328,7 +328,17 @@ qreal QLogValueAxis::min() const
 void QLogValueAxis::setMax(qreal max)
 {
     Q_D(QLogValueAxis);
-    setRange(qMin(d->m_min, max), max);
+    // m_min=0 is the uninitialized default (invalid for log axis), so don't pass
+    // it to setRange — just store max directly to avoid the min=0 rejection.
+    if (qFuzzyCompare(d->m_min, 0.0)) {
+        if (d->m_max != max) {
+            d->m_max = max;
+            emit maxChanged(max);
+            emit update();
+        }
+    } else {
+        setRange(qMin(d->m_min, max), max);
+    }
 }
 
 qreal QLogValueAxis::max() const
