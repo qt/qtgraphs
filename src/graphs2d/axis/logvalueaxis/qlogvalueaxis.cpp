@@ -130,6 +130,7 @@ QT_BEGIN_NAMESPACE
 
   The format string supports the following conversion specifiers, length modifiers, and flags
   provided by \c printf() in the standard C++ library: d, i, o, x, X, f, F, e, E, g, G, c.
+  Then the formatted string goes through \l{QLogValueAxis::labelPostFormat}.
 
   The default value is empty, in which case 'f' format is used.
 
@@ -140,10 +141,37 @@ QT_BEGIN_NAMESPACE
 
   The format string supports the following conversion specifiers, length modifiers, and flags
   provided by \c printf() in the standard C++ library: d, i, o, x, X, f, F, e, E, g, G, c.
+  Then the formatted string goes through \l{LogValueAxis::labelPostFormat}.
 
   The default value is empty, in which case 'f' format is used.
 
+  \snippet doc_src_qmlaxis.qml 2
+
   \sa QString::asprintf()
+*/
+
+/*!
+  \property QLogValueAxis::labelPostFormat
+  \brief The label post format of the axis.
+
+  The label first goes through \l{QLogValueAxis::labelFormat} to format the value,
+  then goes through this.
+
+  The default value is "%1".
+
+  \sa QString::arg()
+*/
+/*!
+  \qmlproperty string LogValueAxis::labelPostFormat
+
+  The label first goes through \l{LogValueAxis::labelFormat} to format the value,
+  then goes through this.
+
+  The default value is "%1".
+
+  \snippet doc_src_qmlaxis.qml 2
+
+  \sa QString::arg()
 */
 
 /*!
@@ -246,6 +274,11 @@ QT_BEGIN_NAMESPACE
 /*!
   \qmlsignal LogValueAxis::labelFormatChanged(string format)
   This signal is emitted when the format of axis labels changes to \a format.
+*/
+
+/*!
+  \qmlsignal LogValueAxis::labelPostFormatChanged(string format)
+  This signal is emitted when the post format of axis labels changes to \a format.
 */
 
 /*!
@@ -377,6 +410,20 @@ QString QLogValueAxis::labelFormat() const
     return d->m_format;
 }
 
+void QLogValueAxis::setLabelPostFormat(const QString &format)
+{
+    Q_D(QLogValueAxis);
+    d->m_postFormat = format;
+    emit update();
+    emit labelPostFormatChanged(format);
+}
+
+QString QLogValueAxis::labelPostFormat() const
+{
+    Q_D(const QLogValueAxis);
+    return d->m_postFormat;
+}
+
 void QLogValueAxis::setlabelPrecision(int precision)
 {
     Q_D(QLogValueAxis);
@@ -464,6 +511,7 @@ QLogValueAxisPrivate::QLogValueAxisPrivate()
     , m_base(10.0)
     , m_subTickCount(-1)
     , m_format()
+    , m_postFormat("%1")
     , m_precision(6)
     , m_tickAnchor(0.0)
     , m_tickCount(-1)

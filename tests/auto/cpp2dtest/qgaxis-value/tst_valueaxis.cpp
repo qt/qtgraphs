@@ -56,6 +56,7 @@ void tst_valueaxis::initialProperties()
     QCOMPARE(m_axis->min(), 0);
     QCOMPARE(m_axis->max(), 10);
     QCOMPARE(m_axis->labelFormat(), "");
+    QCOMPARE(m_axis->labelPostFormat(), "%1");
     QCOMPARE(m_axis->labelDecimals(), -1);
     QCOMPARE(m_axis->subTickCount(), 0);
     QCOMPARE(m_axis->tickAnchor(), 0.0);
@@ -75,10 +76,12 @@ void tst_valueaxis::initializeProperties()
     QSignalSpy spy4(m_axis, &QValueAxis::subTickCountChanged);
     QSignalSpy spy5(m_axis, &QValueAxis::tickAnchorChanged);
     QSignalSpy spy6(m_axis, &QValueAxis::tickIntervalChanged);
+    QSignalSpy spy7(m_axis, &QValueAxis::labelPostFormatChanged);
 
     m_axis->setMin(5);
     m_axis->setMax(100);
     m_axis->setLabelFormat("d");
+    m_axis->setLabelPostFormat("%1 specials");
     m_axis->setLabelDecimals(2);
     m_axis->setSubTickCount(2);
     m_axis->setTickAnchor(0.5);
@@ -89,6 +92,7 @@ void tst_valueaxis::initializeProperties()
     QCOMPARE(m_axis->min(), 5);
     QCOMPARE(m_axis->max(), 100);
     QCOMPARE(m_axis->labelFormat(), "d");
+    QCOMPARE(m_axis->labelPostFormat(), "%1 specials");
     QCOMPARE(m_axis->labelDecimals(), 2);
     QCOMPARE(m_axis->subTickCount(), 2);
     QCOMPARE(m_axis->tickAnchor(), 0.5);
@@ -101,9 +105,9 @@ void tst_valueaxis::initializeProperties()
 
     //Constuct a string same way we do in axisRenderer.
     QByteArray format = m_axis->labelFormat().toLatin1();
-    QString formatTest = QString::asprintf(format.constData(), m_axis->min());
+    QString formatTest = m_axis->labelPostFormat().arg(QString::asprintf(format.constData(), m_axis->min()));
 
-    QCOMPARE(formatTest, "5.00 cakes");
+    QCOMPARE(formatTest, "5.00 cakes specials");
 
     QCOMPARE(spy0.size(), 1);
     QCOMPARE(spy1.size(), 1);
@@ -112,6 +116,7 @@ void tst_valueaxis::initializeProperties()
     QCOMPARE(spy4.size(), 1);
     QCOMPARE(spy5.size(), 1);
     QCOMPARE(spy6.size(), 1);
+    QCOMPARE(spy7.size(), 1);
 }
 
 void tst_valueaxis::invalidProperties()

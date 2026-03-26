@@ -43,6 +43,7 @@ private:
     qreal m_base;
     qsizetype m_subTickCount;
     QString m_format;
+    QString m_postFormat;
     int m_precision;
     qreal m_tickAnchor;
     qsizetype m_tickCount;

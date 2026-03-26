@@ -42,6 +42,7 @@ private:
     qreal m_max;
     qsizetype m_subTickCount;
     QString m_format;
+    QString m_postFormat;
     int m_decimals;
     qreal m_tickAnchor;
     qreal m_tickInterval;

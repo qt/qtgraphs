@@ -71,6 +71,7 @@ Item {
         function test_1_initial() {
             compare(initial.labelDecimals, -1)
             compare(initial.labelFormat, "")
+            compare(initial.labelPostFormat, "%1")
             compare(initial.min, 0.0)
             compare(initial.max, 10.0)
             compare(initial.subTickCount, 0)
@@ -103,6 +104,7 @@ Item {
             // Properties from ValueAxis
             initial.labelDecimals = 1
             initial.labelFormat = "d"
+            initial.labelPostFormat = "%1 specials"
             initial.min = -10
             initial.max = 0
             initial.subTickCount = 2
@@ -127,6 +129,7 @@ Item {
             // Properties from ValueAxis
             compare(initial.labelDecimals, 1)
             compare(initial.labelFormat, "d")
+            compare(initial.labelPostFormat, "%1 specials")
             compare(initial.min, -10.0)
             compare(initial.max, 0.0)
             compare(initial.subTickCount, 2)
@@ -215,8 +218,10 @@ Item {
             compare(initialized.tickAnchor, 2)
             compare(initialized.tickInterval, 3.0)
 
-            initialized.labelFormat = "%.1f test"
-            compare(initialized.labelFormat, "%.1f test")
+            initialized.labelFormat = "%.1f"
+            initialized.labelPostFormat = "%1 test"
+            compare(initialized.labelFormat, "%.1f")
+            compare(initialized.labelPostFormat, "%1 test")
 
             // Common properties from AbstractAxis
             compare(initialized.gridVisible, true)
@@ -238,6 +243,7 @@ Item {
             compare(minSpy.count, 1)
             compare(maxSpy.count, 1)
             compare(labelFormatSpy.count, 2)
+            compare(labelPostFormatSpy.count, 1)
             compare(labelDecimalsSpy.count, 1)
             compare(tickSpy.count, 1)
             compare(subTickSpy.count, 1)
@@ -286,6 +292,12 @@ Item {
             id: labelFormatSpy
             target: initialized
             signalName: "labelFormatChanged"
+        }
+
+        SignalSpy {
+            id: labelPostFormatSpy
+            target: initialized
+            signalName: "labelPostFormatChanged"
         }
 
         SignalSpy {

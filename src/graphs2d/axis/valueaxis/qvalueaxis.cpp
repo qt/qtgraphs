@@ -122,6 +122,7 @@ QT_BEGIN_NAMESPACE
 
   The format string supports the following conversion specifiers, length modifiers, and flags
   provided by \c printf() in the standard C++ library: d, i, o, x, X, f, F, e, E, g, G, c.
+  Then the formatted string goes through \l{QValueAxis::labelPostFormat}.
 
   The default value is empty, in which case 'f' format is used.
 
@@ -132,10 +133,37 @@ QT_BEGIN_NAMESPACE
 
   The format string supports the following conversion specifiers, length modifiers, and flags
   provided by \c printf() in the standard C++ library: d, i, o, x, X, f, F, e, E, g, G, c.
+  Then the formatted string goes through \l{ValueAxis::labelPostFormat}.
 
   The default value is empty, in which case 'f' format is used.
 
+  \snippet doc_src_qmlaxis.qml 1
+
   \sa QString::asprintf()
+*/
+
+/*!
+  \property QValueAxis::labelPostFormat
+  \brief The label post format of the axis.
+
+  The label first goes through \l{QValueAxis::labelFormat} to format the value,
+  then goes through this.
+
+  The default value is "%1".
+
+  \sa QString::arg()
+*/
+/*!
+  \qmlproperty string ValueAxis::labelPostFormat
+
+  The label first goes through \l{ValueAxis::labelFormat} to format the value,
+  then goes through this.
+
+  The default value is "%1".
+
+  \snippet doc_src_qmlaxis.qml 1
+
+  \sa QString::arg()
 */
 
 /*!
@@ -246,6 +274,11 @@ QT_BEGIN_NAMESPACE
 /*!
   \qmlsignal ValueAxis::labelFormatChanged(string format)
   This signal is emitted when the format of axis labels changes to \a format.
+*/
+
+/*!
+  \qmlsignal ValueAxis::labelPostFormatChanged(string format)
+  This signal is emitted when the post format of axis labels changes to \a format.
 */
 
 /*!
@@ -382,6 +415,20 @@ QString QValueAxis::labelFormat() const
     return d->m_format;
 }
 
+void QValueAxis::setLabelPostFormat(const QString &format)
+{
+    Q_D(QValueAxis);
+    d->m_postFormat = format;
+    emit update();
+    emit labelPostFormatChanged(format);
+}
+
+QString QValueAxis::labelPostFormat() const
+{
+    Q_D(const QValueAxis);
+    return d->m_postFormat;
+}
+
 void QValueAxis::setLabelDecimals(int decimals)
 {
     Q_D(QValueAxis);
@@ -468,6 +515,7 @@ QValueAxisPrivate::QValueAxisPrivate()
     , m_max(10)
     , m_subTickCount(0)
     , m_format()
+    , m_postFormat("%1")
     , m_decimals(-1)
     , m_tickAnchor(0.0)
     , m_tickInterval(0.0)

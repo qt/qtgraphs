@@ -1633,6 +1633,7 @@ void AxisRenderer::updateValueYAxisLabels(AxisProperties &ax, const QRectF rect)
               QByteArray array = f.toLatin1();
               label = QString::asprintf(array.constData(), number);
             }
+            label = axis->labelPostFormat().arg(label);
             if (ax.axis->alignment() == Qt::AlignRight || ax.axis->alignment() == Qt::AlignBottom) {
                 setLabelTextProperties(textItem, label, false,
                                        QQuickText::HAlignment::AlignLeft,
@@ -1707,6 +1708,7 @@ void AxisRenderer::updateValueXAxisLabels(AxisProperties &ax, const QRectF rect)
               QByteArray array = f.toLatin1();
               label = QString::asprintf(array.constData(), number);
             }
+            label = axis->labelPostFormat().arg(label);
             if (ax.axis->alignment() == Qt::AlignTop || ax.axis->alignment() == Qt::AlignLeft) {
                 setLabelTextProperties(textItem, label, true,
                                        QQuickText::HAlignment::AlignHCenter,
@@ -1892,6 +1894,7 @@ void AxisRenderer::updateLogValueXAxisLabels(AxisProperties &ax, const QRectF re
               QByteArray array = f.toLatin1();
               label = QString::asprintf(array.constData(), number);
             }
+            label = axis->labelPostFormat().arg(label);
             if (ax.axis->alignment() == Qt::AlignTop || ax.axis->alignment() == Qt::AlignLeft) {
                 setLabelTextProperties(textItem, label, true,
                                        QQuickText::HAlignment::AlignHCenter,
@@ -1969,6 +1972,7 @@ void AxisRenderer::updateLogValueYAxisLabels(AxisProperties &ax, const QRectF re
                 QByteArray array = f.toLatin1();
                 label = QString::asprintf(array.constData(), number);
             }
+            label = axis->labelPostFormat().arg(label);
             if (ax.axis->alignment() == Qt::AlignRight || ax.axis->alignment() == Qt::AlignBottom) {
                 setLabelTextProperties(textItem, label, false,
                     QQuickText::HAlignment::AlignLeft,

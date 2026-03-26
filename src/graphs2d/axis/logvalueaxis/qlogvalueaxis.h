@@ -22,6 +22,8 @@ class Q_GRAPHS_EXPORT QLogValueAxis : public QAbstractAxis
     Q_PROPERTY(qreal base READ base WRITE setBase NOTIFY baseChanged FINAL)
     Q_PROPERTY(
         QString labelFormat READ labelFormat WRITE setLabelFormat NOTIFY labelFormatChanged FINAL)
+    Q_PROPERTY(QString labelPostFormat READ labelPostFormat WRITE setLabelPostFormat NOTIFY
+                   labelPostFormatChanged REVISION(6, 12))
     Q_PROPERTY(int labelPrecision READ labelPrecision WRITE setlabelPrecision NOTIFY
                    labelPrecisionChanged FINAL)
     Q_PROPERTY(qsizetype subTickCount READ subTickCount WRITE setSubTickCount NOTIFY
@@ -63,6 +65,8 @@ public:
     //label formatting
     void setLabelFormat(const QString &format);
     QString labelFormat() const;
+    void setLabelPostFormat(const QString &format);
+    QString labelPostFormat() const;
     void setlabelPrecision(int decimals);
     int labelPrecision() const;
 
@@ -82,6 +86,7 @@ Q_SIGNALS:
     void rangeChanged(qreal min, qreal max);
     void subTickCountChanged(qsizetype subTickCount);
     void labelFormatChanged(const QString &format);
+    Q_REVISION(6, 12) void labelPostFormatChanged(const QString &format);
     void labelPrecisionChanged(int precision);
     void tickAnchorChanged(qreal tickAnchor);
     void tickCountChanged(qreal tickCount);
