@@ -56,8 +56,11 @@ void tst_Graphs::initTestCase()
     if (dataDir.isEmpty())
         dataDir = QStringLiteral("data");
     QFileInfo fi(dataDir);
-    if (!fi.exists() || !fi.isDir() || !fi.isReadable())
-        QSKIP("Test suite data directory missing or unreadable: " + fi.canonicalFilePath().toLatin1());
+    if (!fi.exists() || !fi.isDir() || !fi.isReadable()) {
+        QString msg("Test suite data directory missing or unreadable: ");
+        msg.append(fi.canonicalFilePath());
+        QSKIP(msg.toStdString().c_str());
+    }
     testSuitePath = fi.canonicalFilePath();
 
 #if defined(Q_OS_WIN)
@@ -73,7 +76,7 @@ void tst_Graphs::initTestCase()
 
     QByteArray msg;
     if (!QBaselineTest::connectToBaselineServer(&msg))
-        QSKIP(msg);
+        QSKIP(msg.toStdString().c_str());
 }
 
 void tst_Graphs::cleanup()
@@ -129,12 +132,15 @@ void tst_Graphs::setupTestSuite(const QByteArray &filter)
     std::sort(itemFiles.begin(), itemFiles.end());
     for (const QString &filePath : std::as_const(itemFiles)) {
         QByteArray itemName = filePath.mid(testSuitePath.length() + 1).toLatin1();
-        QBaselineTest::newRow(itemName, checksumFileOrDir(filePath)) << filePath;
+        QBaselineTest::newRow(itemName.toStdString().c_str(), checksumFileOrDir(filePath)) << filePath;
         numItems++;
     }
 
-    if (!numItems)
-        QSKIP("No .qml test files found in " + testSuitePath.toLatin1());
+    if (!numItems) {
+        QString msg("No .qml test files found in  ");
+        msg.append(testSuitePath);
+        QSKIP(msg.toStdString().c_str());
+    }
 }
 
 void tst_Graphs::runTest(const QStringList &extraArgs)
