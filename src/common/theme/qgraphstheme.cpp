@@ -174,7 +174,7 @@ Q_LOGGING_CATEGORY(lcGraphsCommonTheme, "qt.graphs.common.theme")
  * \l{qtqml-cppintegration-data.html}{passed into QML from C++} is automatically
  * converted into a \c graphsline value, and vice-versa.
  *
- * This value type is provided by the QtQuick import.
+ * This value type is provided by the \l[QML]{QtGraphs} import.
  *
  * \sa {QML Value Types}
  */
