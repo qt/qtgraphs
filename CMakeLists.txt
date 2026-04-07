@@ -17,7 +17,7 @@ find_package(Qt6 ${PROJECT_VERSION} CONFIG REQUIRED COMPONENTS BuildInternals)
 # defined.
 qt_internal_project_setup()
 
-find_package(Qt6 ${PROJECT_VERSION} CONFIG OPTIONAL_COMPONENTS Core Quick Gui Widgets QuickTest QuickWidgets Test Quick3D QuickShapesPrivate PrintSupport)
+find_package(Qt6 ${PROJECT_VERSION} CONFIG OPTIONAL_COMPONENTS Core Quick Gui Widgets QuickTest QuickWidgets Test ShaderTools Quick3D QuickShapesPrivate PrintSupport)
 
 macro(assertTargets)
     foreach(qtTarget IN ITEMS ${ARGN})
