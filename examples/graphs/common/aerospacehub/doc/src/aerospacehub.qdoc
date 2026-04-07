@@ -61,11 +61,27 @@
 
     \image aerospacehub-settingsview.webp
 
-\omit
     \section1 Data Simulation
 
-    TODO
-\endomit
+    All graph data is produced by a hierarchy of simulator classes implemented in C++.
+    The base class, \c DataSimulator, generates random values within a configurable
+    \c min to \c max range. The \c order property controls whether the sequence is
+    \c Ascending, \c Descending, or \c NotSorted, and the \c deviation property limits
+    how much each value may differ from the previous one. When \c live is set to \c true,
+    data is automatically updated at the interval specified by \c updatePeriod.
+    The updates run on a dedicated background thread, simulating a real data source.
+
+    Each subclass is a QML element that targets a specific series type:
+
+    \list
+    \li \c LineSimulator — populates \l QSplineSeries with the generated values.
+    \li \c BarSimulator — populates \l QBarSeries, grouping values into bar sets according
+        to the \c numberOfCategory property.
+    \li \c PieSimulator — populates \l QPieSeries, creating one slice per generated value.
+    \li \c Data3DSimulator — feeds a \c SimulatedDataModel (\l QAbstractListModel) used by
+        the 3D graph types. The \c numberOfRows and \c numberOfColumns properties define
+        the grid dimensions of the data.
+    \endlist
 
     \section1 Implementation Details
 
