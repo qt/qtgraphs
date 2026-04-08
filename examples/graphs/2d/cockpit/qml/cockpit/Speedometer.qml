@@ -15,7 +15,7 @@ Item {
         font.bold: true
         font.family: "Akshar"
         anchors.centerIn: parent
-        transform: Translate { y: -20 }
+        transform: Translate { y: -root.height * 0.075 }
         text: "AIRSPEED"
     }
 
@@ -103,8 +103,8 @@ Item {
         width: chart.width * 0.3
         height: 5
         transform: [
-            Translate {x: 55},
-            Rotation {angle: needle.sAngle; origin.x: 55; origin.y: 2.5}
+            Translate {x: needle.width / 2},
+            Rotation {angle: needle.sAngle; origin.x: needle.width / 2; origin.y: 2.5}
         ]
         color: "grey"
     }
@@ -137,8 +137,8 @@ Item {
         width: chart.width * 0.1
         height: 5
         transform: [
-            Translate {x: 20; y: 90},
-            Rotation {angle: needle2.sAngle; origin.x: 20; origin.y: 90+2.5}
+            Translate {x: needle2.width / 2; y: root.height * 0.34},
+            Rotation {angle: needle2.sAngle; origin.x: needle2.width / 2; origin.y: root.height * 0.34 + 2.5}
         ]
         color: "white"
     }

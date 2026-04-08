@@ -15,7 +15,7 @@ Item {
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.top: parent.top
-        height: 275
+        height: parent.height * 0.38
 
         Rectangle {
             Layout.margins: 5

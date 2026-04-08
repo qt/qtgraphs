@@ -116,10 +116,12 @@ Item {
                                 return Math.sin (speed * elapsedTime + offset) + Math.sin(3.142 * (speed * elapsedTime + offset))
                             }
 
-                            triangle1.x = 10 * fn(0, 1) + 50;
-                            triangle2.x = 15 * fn(10, 2) + 50;
-                            triangle3.x = 12 * fn(20, 0.3) + 50;
-                            triangle4.x = 11 * fn(30, 1.3) + 50;
+                            var cx = navColumn.width * 0.4;
+                            var sx = navColumn.width * 0.08;
+                            triangle1.x = sx * fn(0, 1) + cx;
+                            triangle2.x = sx * 1.5 * fn(10, 2) + cx;
+                            triangle3.x = sx * 1.2 * fn(20, 0.3) + cx;
+                            triangle4.x = sx * 1.1 * fn(30, 1.3) + cx;
                         }
                     }
                     //! [1]
@@ -162,10 +164,10 @@ Item {
                     //! [1]
                 }
 
-                Loader { id: triangle1; sourceComponent: triangle; x: 50; y: 85 }
-                Loader { id: triangle2; sourceComponent: triangle; x: 50; y: 174 }
-                Loader { id: triangle3; sourceComponent: triangle; x: 50; y: 260 }
-                Loader { id: triangle4; sourceComponent: triangle; x: 50; y: 350 }
+                Loader { id: triangle1; sourceComponent: triangle; x: navColumn.width * 0.4; y: navColumn.height * 0.22 }
+                Loader { id: triangle2; sourceComponent: triangle; x: navColumn.width * 0.4; y: navColumn.height * 0.44 }
+                Loader { id: triangle3; sourceComponent: triangle; x: navColumn.width * 0.4; y: navColumn.height * 0.66 }
+                Loader { id: triangle4; sourceComponent: triangle; x: navColumn.width * 0.4; y: navColumn.height * 0.90 }
 
                 Component {
                     id: navigatorText
@@ -182,10 +184,10 @@ Item {
                     }
                 }
 
-                Loader { sourceComponent: navigatorText; onLoaded: { item.text = "OIL TEMP"; item.y = 30 } }
-                Loader { sourceComponent: navigatorText; onLoaded: { item.text = "OIL PRES"; item.x = 0; item.y = 120 } }
-                Loader { sourceComponent: navigatorText; onLoaded: { item.text = "COOLANT TEMP"; item.y = 210 } }
-                Loader { sourceComponent: navigatorText; onLoaded: { item.text = "FUEL TEMP"; item.y = 300 } }
+                Loader { sourceComponent: navigatorText; y: navColumn.height * 0.08; onLoaded: { item.text = "OIL TEMP" } }
+                Loader { sourceComponent: navigatorText; y: navColumn.height * 0.31; onLoaded: { item.text = "OIL PRES" } }
+                Loader { sourceComponent: navigatorText; y: navColumn.height * 0.54; onLoaded: { item.text = "COOLANT TEMP" } }
+                Loader { sourceComponent: navigatorText; y: navColumn.height * 0.77; onLoaded: { item.text = "FUEL TEMP" } }
             }
 
             Item {

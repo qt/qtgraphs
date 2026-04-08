@@ -126,10 +126,10 @@ Item {
     Rectangle {
         anchors.top: col.top
         anchors.left: col.left
-        height: 275
-        width : 100
-        anchors.leftMargin: 30
-        anchors.topMargin: 60
+        height: root.height * 0.63
+        width : root.width * 0.16
+        anchors.leftMargin: root.width * 0.05
+        anchors.topMargin: root.height * 0.14
         color: "#00000000"
 
         GraphsView {
@@ -218,10 +218,10 @@ Item {
         anchors.bottom: col.bottom
         anchors.left: col.left
         anchors.right: col.right
-        anchors.leftMargin: 30
-        anchors.rightMargin: 30
+        anchors.leftMargin: root.width * 0.05
+        anchors.rightMargin: root.width * 0.05
         anchors.bottomMargin: 0
-        height: 100
+        height: root.height * 0.23
         clip: true
         color: "transparent"
 
