@@ -351,7 +351,7 @@ void QDateTimeAxis::setTickInterval(qreal newTickInterval)
     if (qFuzzyCompare(d->m_tickCount + 1, newTickInterval + 1))
         return;
     d->m_tickCount = newTickInterval;
-    emit tickIntervalChanged();
+    QT_IGNORE_DEPRECATIONS(emit tickIntervalChanged();)
     emit update();
 }
 #endif
