@@ -118,6 +118,12 @@ Rectangle {
                 }
             }
         }
+        Button {
+            text: "Dynamic label margins"
+            onClicked: {
+                chartView.dynamicLabelMargins = !chartView.dynamicLabelMargins
+            }
+        }
     }
 
     GraphsView {
@@ -127,6 +133,7 @@ Rectangle {
         anchors.bottom: parent.bottom
         anchors.top: graphToolbar.bottom
         anchors.margins: 10
+        dynamicLabelMargins: true
 
         axisX: BarCategoryAxis {
             id: xAxis
@@ -136,6 +143,7 @@ Rectangle {
             id: yAxis
             max: 8
             subTickCount: 4
+            labelDecimals: 10
         }
 
         onHoverEnter: {
@@ -170,6 +178,7 @@ Rectangle {
                 id: xAxis2
                 max: 8
                 subTickCount: 2
+                labelDecimals: 10
             }
 
             XYPoint { x: 0; y: 6.6 }

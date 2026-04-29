@@ -44,12 +44,6 @@ public:
     ~AxisRenderer() override;
 
     void handlePolish();
-    void updateAxis();
-    void updateAxisTickers();
-    void updateAxisTickersShadow();
-    void updateAxisGrid();
-    void updateAxisGridShadow();
-    void updateAxisTitles();
     void initialize();
 
     bool handleWheel(QWheelEvent *event);
@@ -95,10 +89,29 @@ private:
         // The value of smallest label
         double minLabel = 0;
         double subGridScale = 0.5;
+        double tickCount = 0.0;
+        // Pre-measured label size based on contents
+        qreal labelSize = 0;
+        // Total space needed by axis: labelSize + labels margin + tickers size
+        qreal size = 0;
+        // Per-axis labels and tickers rectangles
+        QRectF labelsRect;
+        QRectF tickersRect;
 
         bool isLogarithmic = false;
         double logBase = 10;
     };
+
+    void populateAxisItems();
+    void updateAxis();
+    void updateAxisTickers();
+    void updateAxisTickersShadow();
+    void updateAxisGrid();
+    void updateAxisGridShadow();
+    void updateAxisTitles();
+
+    bool hasAxisTitle(const AxisProperties &ax) const;
+    bool isAxisBottomOrRight(const AxisProperties &ax) const;
 
 #ifdef USE_BARGRAPH
     void updateBarXAxisLabels(AxisProperties &ax, const QRectF rect);
@@ -111,13 +124,17 @@ private:
     void updateLogValueYAxisLabels(AxisProperties &ax, const QRectF rect);
     void updateLogValueXAxisLabels(AxisProperties &ax, const QRectF rect);
 
+    void updateAxisMeasurements();
+    QString formatValueLabel(double number, int decimals, const QString &format,
+                             char defaultFormat = 'f') const;
+
     void createDragHandler();
     void deleteDragHandler();
     void onTranslationChanged(QVector2D delta);
     void onGrabChanged(QPointingDevice::GrabTransition transition, QEventPoint point);
 
-    double getValueStepsFromRange(double range);
-    int getValueDecimalsFromRange(double range);
+    double getValueStepsFromRange(double range) const;
+    int getValueDecimalsFromRange(double range) const;
     void setLabelTextProperties(QQuickItem *item, const QString &text, bool xAxis,
                                 QQuickText::HAlignment hAlign = QQuickText::HAlignment::AlignHCenter,
                                 QQuickText::VAlignment vAlign = QQuickText::VAlignment::AlignVCenter,
@@ -133,7 +150,7 @@ private:
     const AxisProperties &getAxisY(QAbstractSeries *series) const;
 
     QGraphsView *m_graph = nullptr;
-    QGraphsTheme *theme();
+    QGraphsTheme *theme() const;
     bool m_initialized = false;
     bool m_wasVertical = false;
 
@@ -149,6 +166,11 @@ private:
     bool m_gridVerticalLinesVisible = true;
     bool m_gridHorizontalSubLinesVisible = false;
     bool m_gridVerticalSubLinesVisible = false;
+
+    qreal m_y1AxisWidth = 0;
+    qreal m_y2AxisWidth = 0;
+    qreal m_x1AxisHeight = 0;
+    qreal m_x2AxisHeight = 0;
 
     QQuickDragHandler *m_dragHandler = nullptr;
 

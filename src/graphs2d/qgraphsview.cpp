@@ -703,6 +703,15 @@ void QGraphsView::handleHover(const QString &seriesName, QPointF position, QPoin
 void QGraphsView::updateComponentSizes()
 {
     qCDebug(lcEvents2D, "updating component sizes.");
+
+    if (m_axisRenderer) {
+        m_axisRenderer->updateAxisMeasurements();
+        m_y1AxisWidth = m_axisRenderer->m_y1AxisWidth;
+        m_y2AxisWidth = m_axisRenderer->m_y2AxisWidth;
+        m_x1AxisHeight = m_axisRenderer->m_x1AxisHeight;
+        m_x2AxisHeight = m_axisRenderer->m_x2AxisHeight;
+    }
+
     updateAxisAreas();
     updatePlotArea();
 
@@ -792,6 +801,8 @@ void QGraphsView::componentComplete()
     if (!m_theme) {
         m_theme = m_defaultTheme;
         QObject::connect(m_theme, &QGraphsTheme::update, this, &QQuickItem::update);
+        QObject::connect(m_theme, &QGraphsTheme::update,
+                         this, &QGraphsView::updateComponentSizes);
         m_theme->resetColorTheme();
     }
     Q_TRACE(QGraphs2DGraphsViewComponentComplete_exit);
@@ -1230,7 +1241,10 @@ void QGraphsView::setTheme(QGraphsTheme *newTheme)
     }
 
     QObject::connect(m_theme, &QGraphsTheme::update, this, &QGraphsView::polishAndUpdate);
+    QObject::connect(m_theme, &QGraphsTheme::update,
+                     this, &QGraphsView::updateComponentSizes);
     emit themeChanged();
+    updateComponentSizes();
     polishAndUpdate();
 }
 
@@ -1401,106 +1415,33 @@ QRectF QGraphsView::plotArea() const
 
 void QGraphsView::updateAxisAreas()
 {
-    if (m_axisX && !m_axisX->isVisible()) {
-        m_axisXLabelsMargin = 0;
-        m_axisTickersHeight = 0;
-        m_axisLabelsHeight = 0;
-    } else {
-        m_axisTickersHeight = m_defaultAxisTickersHeight;
-        m_axisLabelsHeight = m_defaultAxisLabelsHeight;
-        m_axisXLabelsMargin = m_defaultAxisXLabelsMargin;
-    }
-
-    if (m_axisY && !m_axisY->isVisible()) {
-        m_axisTickersWidth = 0;
-        m_axisLabelsWidth = 0;
-        m_axisYLabelsMargin = 0;
-    } else {
-        m_axisLabelsWidth = m_defaultAxisLabelsWidth;
-        m_axisTickersWidth = m_defaultAxisTickersWidth;
-        m_axisYLabelsMargin = m_defaultAxisYLabelsMargin;
-    }
-
     QRectF r = { m_marginLeft,
                  m_marginTop,
                  width() - m_marginLeft - m_marginRight,
                  height() - m_marginTop - m_marginBottom };
-    m_axisHeight = m_axisLabelsHeight + m_axisXLabelsMargin + m_axisTickersHeight;
-    m_axisWidth = m_axisLabelsWidth + m_axisYLabelsMargin + m_axisTickersWidth;
 
-    int xCount = 0;
-    int yCount = 0;
-    int topCount = 0;
-    int leftCount = 0;
-    int xTitleCount = 0;
-    int yTitleCount = 0;
-    int topTitleCount = 0;
-    int leftTitleCount = 0;
+    const qreal plotWidth = r.width() - m_y1AxisWidth - m_y2AxisWidth;
+    const qreal plotHeight = r.height() - m_x1AxisHeight - m_x2AxisHeight;
 
-    calculateAxisCounts(&xCount,
-                        &yCount,
-                        &leftCount,
-                        &topCount,
-                        &xTitleCount,
-                        &yTitleCount,
-                        &leftTitleCount,
-                        &topTitleCount);
+    m_x1AxisArea = {r.x() + m_y1AxisWidth,
+                    r.y() + r.height() - m_x1AxisHeight,
+                    plotWidth,
+                    m_x1AxisHeight};
 
-    m_x1AxisArea = {r.x(),
-                    r.y() + r.height() + m_axisHeight * (2 - xCount)
-                        + m_axisTitleMargin * (2 - xTitleCount) - m_axisHeight * (2 - topCount)
-                        - m_axisTitleMargin * (2 - topTitleCount),
-                    r.width() - m_axisWidth * yCount - m_axisTitleMargin * yTitleCount,
-                    m_axisHeight};
-    m_x1AxisLabelsArea = { m_x1AxisArea.x(),
-                         m_x1AxisArea.y() + m_axisTickersHeight + m_axisXLabelsMargin,
-                         m_x1AxisArea.width(),
-                         m_axisTickersHeight };
-    m_x1AxisTickersArea = { m_x1AxisArea.x(),
-                          m_x1AxisArea.y(),
-                          m_x1AxisArea.width(),
-                          m_axisTickersHeight };
-
-    m_x2AxisArea = {r.x(),
+    m_x2AxisArea = {r.x() + m_y1AxisWidth,
                     r.y(),
-                    r.width() - m_axisWidth * yCount - m_axisTitleMargin * yTitleCount,
-                    m_axisHeight};
-    m_x2AxisLabelsArea = { m_x2AxisArea.x(),
-                          m_x2AxisArea.y(),
-                          m_x2AxisArea.width(),
-                          m_axisLabelsHeight };
-    m_x2AxisTickersArea = { m_x2AxisArea.x(),
-                           m_x2AxisArea.y() + m_axisLabelsHeight + m_axisXLabelsMargin,
-                           m_x2AxisArea.width(),
-                           m_axisTickersHeight };
+                    plotWidth,
+                    m_x2AxisHeight};
 
     m_y1AxisArea = {r.x(),
-                    r.y(),
-                    m_axisWidth,
-                    r.height() - m_axisHeight * xCount - m_axisTitleMargin * xTitleCount};
-    m_y1AxisLabelsArea = { m_y1AxisArea.x(),
-                          m_y1AxisArea.y(),
-                          m_axisLabelsWidth,
-                          m_y1AxisArea.height() };
-    m_y1AxisTickersArea = { m_y1AxisArea.x() + m_axisLabelsWidth + m_axisYLabelsMargin,
-                           m_y1AxisArea.y(),
-                           m_axisTickersWidth,
-                           m_y1AxisArea.height() };
+                    r.y() + m_x2AxisHeight,
+                    m_y1AxisWidth,
+                    plotHeight};
 
-    m_y2AxisArea = {r.x() + r.width() + m_axisWidth * (2 - yCount)
-                        + m_axisTitleMargin * (2 - yTitleCount) - m_axisWidth * (2 - leftCount)
-                        - m_axisTitleMargin * (2 - leftTitleCount),
-                    r.y(),
-                    m_axisWidth,
-                    r.height() - m_axisHeight * xCount - m_axisTitleMargin * xTitleCount};
-    m_y2AxisLabelsArea = { m_y2AxisArea.x() + m_axisTickersWidth + m_axisYLabelsMargin,
-                          m_y2AxisArea.y(),
-                          m_axisLabelsWidth,
-                          m_y2AxisArea.height() };
-    m_y2AxisTickersArea = { m_y2AxisArea.x(),
-                           m_y2AxisArea.y(),
-                           m_axisTickersWidth,
-                           m_y2AxisArea.height() };
+    m_y2AxisArea = {r.x() + r.width() - m_y2AxisWidth,
+                    r.y() + m_x2AxisHeight,
+                    m_y2AxisWidth,
+                    plotHeight};
 }
 
 void QGraphsView::updatePlotArea()
@@ -1511,28 +1452,10 @@ void QGraphsView::updatePlotArea()
     qreal w = width() - x - m_marginRight;
     qreal h = height() - y - m_marginBottom;
 
-    int xCount = 0;
-    int yCount = 0;
-    int topCount = 0;
-    int leftCount = 0;
-    int xTitleCount = 0;
-    int yTitleCount = 0;
-    int topTitleCount = 0;
-    int leftTitleCount = 0;
-
-    calculateAxisCounts(&xCount,
-                        &yCount,
-                        &leftCount,
-                        &topCount,
-                        &xTitleCount,
-                        &yTitleCount,
-                        &leftTitleCount,
-                        &topTitleCount);
-
-    y += m_axisHeight * topCount + m_axisTitleMargin * topTitleCount;
-    x += m_axisWidth * leftCount + m_axisTitleMargin * leftTitleCount;
-    h -= m_axisHeight * xCount + m_axisTitleMargin * xTitleCount;
-    w -= m_axisWidth * yCount + m_axisTitleMargin * yTitleCount;
+    y += m_x2AxisHeight;
+    x += m_y1AxisWidth;
+    h -= m_x1AxisHeight + m_x2AxisHeight;
+    w -= m_y1AxisWidth + m_y2AxisWidth;
 
     w = qMax(w, 0.0);
     h = qMax(h, 0.0);
@@ -1871,91 +1794,40 @@ void QGraphsView::setZoomSensitivity(qreal newZoomSensitivity)
     emit zoomSensitivityChanged();
 }
 
-void QGraphsView::calculateAxisCounts(int *xCount, int *yCount, int *leftCount, int *topCount,
-                                      int *xTitleCount, int *yTitleCount, int *leftTitleCount, int *topTitleCount)
+/*!
+    \property QGraphsView::dynamicLabelMargins
+    \brief Calculate label margins dynamically based on content
+
+    This property holds whether label margins adjust dynamically.
+
+    By default, labels wider than the allocated margin overlap other
+    graph elements. When enabled, the renderer reserves extra space
+    for such labels and repositions axes to prevent overlap.
+*/
+/*!
+    \qmlproperty bool GraphsView::dynamicLabelMargins
+    This property holds whether label margins adjust dynamically.
+
+    By default, labels wider than the allocated margin overlap other
+    graph elements. When enabled, the renderer reserves extra space
+    for such labels and repositions axes to prevent overlap.
+*/
+bool QGraphsView::dynamicLabelMargins() const
 {
-    if (axisY()) {
-        (*yCount)++;
-        if (axisY()->isTitleVisible() && !axisY()->titleText().isEmpty())
-            (*yTitleCount)++;
+    return m_dynamicLabelMargins;
+}
 
-        if (axisY()->alignment() == Qt::AlignLeft) {
-            (*leftCount)++;
-            if (axisY()->isTitleVisible() && !axisY()->titleText().isEmpty())
-                (*leftTitleCount)++;
-        }
+void QGraphsView::setDynamicLabelMargins(bool newDynamicLabelMargins)
+{
+    if (m_dynamicLabelMargins == newDynamicLabelMargins) {
+        qCDebug(lcViewProperties2D) << __FUNCTION__
+                                    << "value is already set to:" << newDynamicLabelMargins;
+        return;
     }
-
-    if (axisX()) {
-        (*xCount)++;
-        if (axisX()->isTitleVisible() && !axisX()->titleText().isEmpty())
-            (*xTitleCount)++;
-
-        if (axisX()->alignment() == Qt::AlignTop) {
-            (*topCount)++;
-            if (axisX()->isTitleVisible() && !axisX()->titleText().isEmpty())
-                (*topTitleCount)++;
-        }
-    }
-
-    QSet<QAbstractAxis *> countedAxes;
-
-    for (auto&& s : m_seriesList) {
-        if (auto series = qobject_cast<QAbstractSeries *>(s)) {
-            QAbstractAxis *seriesYAxis = series->axisY();
-            if (seriesYAxis && seriesYAxis != axisY() && !countedAxes.contains(seriesYAxis)) {
-                countedAxes.insert(seriesYAxis);
-                (*yCount)++;
-                if (seriesYAxis->isTitleVisible() && !seriesYAxis->titleText().isEmpty())
-                    (*yTitleCount)++;
-
-                if (seriesYAxis->alignment() == Qt::AlignLeft) {
-                    (*leftCount)++;
-                    if (seriesYAxis->isTitleVisible() && !seriesYAxis->titleText().isEmpty())
-                        (*leftTitleCount)++;
-                }
-            }
-
-            QAbstractAxis *seriesXAxis = series->axisX();
-            if (seriesXAxis && seriesXAxis != axisX() && !countedAxes.contains(seriesXAxis)) {
-                countedAxes.insert(seriesXAxis);
-                (*xCount)++;
-                if (seriesXAxis->isTitleVisible() && !seriesXAxis->titleText().isEmpty())
-                    (*xTitleCount)++;
-
-                if (seriesXAxis->alignment() == Qt::AlignTop) {
-                    (*topCount)++;
-                    if (seriesXAxis->isTitleVisible() && !seriesXAxis->titleText().isEmpty())
-                        (*topTitleCount)++;
-                }
-            }
-        }
-    }
-
-    if (m_orientation == Qt::Horizontal) {
-        qSwap((*xCount), (*yCount));
-        qSwap((*leftCount), (*topCount));
-        qSwap((*xTitleCount), (*yTitleCount));
-        qSwap((*leftTitleCount), (*topTitleCount));
-    }
-
-    if ((*xTitleCount) > 0) {
-        (*xTitleCount)--;
-        if ((*xTitleCount) > 0)
-            (*xTitleCount)--;
-    }
-
-    if ((*yTitleCount) > 0) {
-        (*yTitleCount)--;
-        if ((*yTitleCount) > 0)
-            (*yTitleCount)--;
-    }
-
-    if ((*leftTitleCount) > 0)
-        (*leftTitleCount)--;
-
-    if ((*topTitleCount) > 0)
-        (*topTitleCount)--;
+    m_dynamicLabelMargins = newDynamicLabelMargins;
+    updateComponentSizes();
+    emit dynamicLabelMarginsChanged();
+    polishAndUpdate();
 }
 
 int QGraphsView::getSeriesRendererIndex(QAbstractSeries *series)

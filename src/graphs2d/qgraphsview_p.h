@@ -84,6 +84,8 @@ class Q_GRAPHS_EXPORT QGraphsView : public QQuickItem
                    NOTIFY zoomAreaDelegateChanged REVISION(6, 9))
 
     Q_PROPERTY(bool useCanvasPainter READ useCanvasPainter WRITE setUseCanvasPainter NOTIFY useCanvasPainterChanged REVISION(6, 12))
+    Q_PROPERTY(bool dynamicLabelMargins READ dynamicLabelMargins WRITE setDynamicLabelMargins NOTIFY
+                   dynamicLabelMarginsChanged REVISION(6, 12))
 
     Q_CLASSINFO("DefaultProperty", "seriesList")
     QML_NAMED_ELEMENT(GraphsView)
@@ -209,9 +211,6 @@ public:
     qreal zoomSensitivity() const;
     void setZoomSensitivity(qreal newZoomSensitivity);
 
-    void calculateAxisCounts(int *xCount, int *yCount, int *leftCount, int *topCount,
-                             int *xTitleCount, int *yTitleCount, int *leftTitleCount, int *topTitleCount);
-
     qreal mapX(QCustomSeries *series, qreal x);
     qreal mapY(QCustomSeries *series, qreal y);
 
@@ -219,6 +218,9 @@ public:
 
     bool useCanvasPainter() const;
     void setUseCanvasPainter(bool newUseCanvasPainter);
+
+    bool dynamicLabelMargins() const;
+    void setDynamicLabelMargins(bool newDynamicLabelMargins);
 
 protected:
     void handleHoverEnter(const QString &seriesName, QPointF position, QPointF value);
@@ -269,6 +271,7 @@ Q_SIGNALS:
     Q_REVISION(6, 9) void zoomSensitivityChanged();
 
     Q_REVISION(6, 12) void useCanvasPainterChanged();
+    Q_REVISION(6, 12) void dynamicLabelMarginsChanged();
 
 private:
     friend class AxisRenderer;
@@ -325,27 +328,11 @@ private:
     QRectF m_x2AxisArea;
     QRectF m_y1AxisArea;
     QRectF m_y2AxisArea;
-    // Areas of axis tickers
-    QRectF m_x1AxisTickersArea;
-    QRectF m_x2AxisTickersArea;
-    QRectF m_y1AxisTickersArea;
-    QRectF m_y2AxisTickersArea;
-    // Areas of axis labels
-    QRectF m_x1AxisLabelsArea;
-    QRectF m_x2AxisLabelsArea;
-    QRectF m_y1AxisLabelsArea;
-    QRectF m_y2AxisLabelsArea;
-    // Note: Add properties for these
-    qreal m_axisTickersWidth = m_defaultAxisTickersWidth;
-    qreal m_axisTickersHeight = m_defaultAxisTickersHeight;
-    qreal m_axisLabelsWidth = m_defaultAxisLabelsWidth;
-    qreal m_axisLabelsHeight = m_defaultAxisLabelsHeight;
-    qreal m_axisXLabelsMargin = m_defaultAxisXLabelsMargin;
-    qreal m_axisYLabelsMargin = m_defaultAxisYLabelsMargin;
-    qreal m_axisTitleMargin = m_defaultAxisTitleMargin;
-    // Calculated based the the above
-    qreal m_axisWidth = 0;
-    qreal m_axisHeight = 0;
+    // Per-side totals computed from each axis's slot size
+    qreal m_y1AxisWidth = 0;
+    qreal m_y2AxisWidth = 0;
+    qreal m_x1AxisHeight = 0;
+    qreal m_x2AxisHeight = 0;
 
     int m_hoverCount = 0;
 
@@ -376,6 +363,8 @@ private:
 #else
     bool m_useCanvasPainter = false;
 #endif
+
+    bool m_dynamicLabelMargins = false;
 };
 
 QT_END_NAMESPACE
