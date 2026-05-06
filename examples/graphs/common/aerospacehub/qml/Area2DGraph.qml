@@ -94,13 +94,13 @@ GraphsView {
         zValue: 0
         color: graph.customcolors ? "#173DDE" : "#00000000"
 
-        borderColor: legendData[0].color
+        borderColor: area2d.legendData[0] ? legendData[0].color : "transparent"
 
         gradient: LinearGradient {
             x1: 0; y1: 0
             x2: 0; y2: graph.plotArea.height
-            GradientStop { position: 0.0; color: area2d.legendData[0].color }
-            GradientStop { position: 1.0; color: area2d.legendData[0].color.darker(2) }
+            GradientStop { position: 0.0; color: area2d.legendData[0] ? area2d.legendData[0].color : "transparent" }
+            GradientStop { position: 1.0; color: area2d.legendData[0] ? area2d.legendData[0].color.darker(2) : "transparent" }
         }
 
         upperSeries: SplineSeries {
@@ -109,7 +109,8 @@ GraphsView {
     }
 
     Component.onCompleted: {
-        linesimulator.addSeries(lineseries2d)
+        if (linesimulator)
+            linesimulator.addSeries(lineseries2d)
     }
 
     function fillArea() {

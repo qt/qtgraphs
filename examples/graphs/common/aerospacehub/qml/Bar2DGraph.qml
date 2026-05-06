@@ -84,6 +84,7 @@ GraphsView {
     }
 
     Component.onCompleted: {
-        barsimulator.addSeries(barseries2d)
+        if (barsimulator)
+            barsimulator.addSeries(barseries2d)
     }
 }

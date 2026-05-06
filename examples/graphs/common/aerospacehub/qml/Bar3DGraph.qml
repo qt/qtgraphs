@@ -15,7 +15,6 @@ Bars3D {
 
     property alias series: barseries3d
     property var dataModel: GlobalSettings.barDataModel
-    property bool dataready: GlobalSettings.bar3ddataready
 
     msaaSamples: 8
 
