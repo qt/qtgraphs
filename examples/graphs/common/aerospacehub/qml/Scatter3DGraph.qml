@@ -12,7 +12,6 @@ Scatter3D {
 
     property alias series: scatterseries3d
     property var dataModel: GlobalSettings.scatterDataModel
-    property bool dataready: GlobalSettings.scatter3ddataready
 
     msaaSamples: 8
 

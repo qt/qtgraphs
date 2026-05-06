@@ -12,7 +12,6 @@ Surface3D {
 
     property alias series: surfaceseries3d
     property var dataModel: GlobalSettings.surfaceDataModel
-    property bool dataready: GlobalSettings.surface3ddataready
 
     msaaSamples: 8
 

@@ -80,6 +80,7 @@ GraphsView {
     }
 
     Component.onCompleted: {
-        piesimulator.addSeries(pieseries2d)
+        if (piesimulator)
+            piesimulator.addSeries(pieseries2d)
     }
 }
