@@ -25,9 +25,15 @@ void LineSimulator::generatePoints()
     if (m_seriesList.isEmpty())
         return;
 
-    for (QSplineSeries *series : std::as_const(m_seriesList)) {
-        series->clear();
-        for (int i = 0; i < data().size(); ++i)
-            series->append(i + 1, qAbs(data().at(i).toReal()));
-    }
+    // Create a temp point list
+    QList<QPointF> points;
+    points.reserve(data().size());
+
+    // Populate temp list
+    for (int i = 0; i < data().size(); ++i)
+        points.append(QPointF(i + 1, qAbs(data().at(i).toReal())));
+
+    // Replace points of each series in one go
+    for (QSplineSeries *series : std::as_const(m_seriesList))
+        series->replace(points);
 }

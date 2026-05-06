@@ -86,6 +86,9 @@ GraphsView {
         width: 3
         zValue: 1
         color: graph.customcolors ? "#3673FC" : "#00000000"
+        // Add dummy points to remove a warning before data simulator starts feeding data
+        XYPoint { x: 0; y: 0 }
+        XYPoint { x: 0; y: 0 }
     }
 
     AreaSeries {
@@ -105,6 +108,9 @@ GraphsView {
 
         upperSeries: SplineSeries {
             id: areaseries2d
+            // Add dummy points to remove a warning before data simulator starts feeding data
+            XYPoint { x: 0; y: 0 }
+            XYPoint { x: 0; y: 0 }
         }
     }
 
@@ -114,12 +120,15 @@ GraphsView {
     }
 
     function fillArea() {
-        areaseries2d.clear()
         let accumulation = 0
+        // Use a temp series to be able to replace all points at once
+        let tempseries = []
         for (let i = 0; i < lineseries2d.count; ++i) {
             accumulation += lineseries2d.at(i).y
-            areaseries2d.append(i + 1, accumulation)
+            tempseries.push(Qt.point(i + 1, accumulation))
         }
+        // Replace the points in one go
+        areaseries2d.replace(tempseries)
         axisY.max = accumulation
         axisY.tickInterval = accumulation / 5
     }
