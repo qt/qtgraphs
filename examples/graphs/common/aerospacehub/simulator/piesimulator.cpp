@@ -21,12 +21,21 @@ void PieSimulator::generatePieSlices()
     if (m_seriesList.isEmpty())
         return;
 
+    const auto values = data();
+
+    // Create all slices first
     for (QPieSeries *series : std::as_const(m_seriesList)) {
-        series->clear();
-        for (auto data : data()) {
-            QPieSlice *pieSlice = new QPieSlice();
-            pieSlice->setValue(data.toDouble());
-            series->append(pieSlice);
+        QList<QPieSlice *> slices;
+        slices.reserve(values.size());
+
+        for (const auto &value : values) {
+            auto *slice = new QPieSlice();
+            slice->setValue(value.toDouble());
+            slices.append(slice);
         }
+
+        series->clear();
+        // Append all the slices in one go
+        series->append(slices);
     }
 }
