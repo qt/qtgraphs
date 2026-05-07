@@ -40,12 +40,21 @@ void BarSimulator::generateBarSet()
     if (m_seriesList.isEmpty())
         return;
 
+    const auto values = data();
+
     for (QBarSeries *series : std::as_const(m_seriesList)) {
-        series->clear();
-        for (int i = 0; i < data().size() - m_numberOfCategory + 1; i += m_numberOfCategory) {
-            QBarSet *barSet = new QBarSet();
-            barSet->setValues(data().sliced(i, m_numberOfCategory));
-            series->append(barSet);
+        // Create all bar sets first
+        QList<QBarSet *> sets;
+        sets.reserve(values.size() / m_numberOfCategory);
+
+        for (int i = 0; i < values.size() - m_numberOfCategory + 1; i += m_numberOfCategory) {
+            auto *barSet = new QBarSet();
+            barSet->setValues(values.sliced(i, m_numberOfCategory));
+            sets.append(barSet);
         }
+
+        series->clear();
+        // Append all the sets in one go
+        series->append(sets);
     }
 }

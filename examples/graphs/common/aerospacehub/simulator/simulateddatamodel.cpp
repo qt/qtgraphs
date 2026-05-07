@@ -169,34 +169,42 @@ QHash<int, QByteArray> SimulatedDataModel::roleNames() const
     return ret;
 }
 
-void SimulatedDataModel::generateModelData(QVariantList data, int numberOfColumns, int numberOfRows, int numberOfData)
+void SimulatedDataModel::generateModelData(const QVariantList &data,
+                                           int numberOfColumns,
+                                           int numberOfRows,
+                                           int numberOfData)
 {
     Q_UNUSED(numberOfColumns)
 
     beginResetModel();
+
     m_data.clear();
-    int columnSize  = data.size() / (numberOfRows * numberOfData);
-    for (int i = 0; i < data.size() / (numberOfRows * numberOfData); i++) {
-        for (int j = 0; j < numberOfRows; j++) {
+    m_data.reserve(data.size());
+
+    const int columnSize = data.size() / (numberOfRows * numberOfData);
+    const bool intRows = (numberOfRows == int(m_rowMax - m_rowMin));
+    const bool intColumns = (columnSize == int(m_columnMax - m_columnMin));
+    const float rowRange = m_rowMax - m_rowMin;
+    const float columnRange = m_columnMax - m_columnMin;
+    const float rowScale = rowRange / float(numberOfRows);
+    const float columnScale = columnRange / float(columnSize);
+
+    for (int i = 0; i < columnSize; ++i) {
+        const int columnIdx = m_columnReversed ? (columnSize - 1 - i) : i;
+        const float columnValue = intColumns ? columnIdx + m_columnMin
+                                             : columnIdx * columnScale + m_columnMin;
+        const int baseIndex = i * numberOfRows;
+
+        for (int j = 0; j < numberOfRows; ++j) {
+            const int rowIdx = m_rowReversed ? (numberOfRows - 1 - j) : j;
             ModelData modelData;
+            modelData.row = intRows ? rowIdx + m_rowMin : rowIdx * rowScale + m_rowMin;
+            modelData.column = columnValue;
+            modelData.value = data.at(baseIndex + j);
 
-            int rowIdx = m_rowReversed ? numberOfRows - j : j;
-            int columnIdx = m_columnReversed ? columnSize - i : i;
-
-            if (numberOfRows == int(m_rowMax - m_rowMin))
-                modelData.row = rowIdx + int(m_rowMin);
-            else
-                modelData.row = (float(rowIdx) / float(numberOfRows)) * (m_rowMax - m_rowMin) + m_rowMin;
-
-            if (columnSize == int(m_columnMax - m_columnMin))
-                modelData.column = columnIdx+ int(m_columnMin);
-            else
-                modelData.column = (float(columnIdx) / float(columnSize)) * (m_columnMax - m_columnMin) + m_columnMin;
-
-
-            modelData.value = data.at(i * numberOfRows + j);
             m_data.append(modelData);
         }
     }
+
     endResetModel();
 }

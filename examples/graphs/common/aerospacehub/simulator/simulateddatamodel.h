@@ -59,7 +59,10 @@ public:
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
     QHash<int, QByteArray> roleNames() const override;
 
-    void generateModelData(QVariantList data, int numberOfColumns, int numberOfRows, int numberOfData);
+    void generateModelData(const QVariantList &data,
+                           int numberOfColumns,
+                           int numberOfRows,
+                           int numberOfData);
 
 Q_SIGNALS:
     void rowRoleChanged(const QString &role);
