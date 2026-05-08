@@ -823,18 +823,21 @@ void PointRenderer::afterPolish(QList<QAbstractSeries *> &cleanupSeries)
             for (auto marker : std::as_const(group->markers))
                 marker->deleteLater();
 
-#ifdef USE_SHAPE_BACKEND
-            if (group->shapePath) {
-                auto painterPath = group->painterPath;
-                painterPath.clear();
-                group->shapePath->setPath(painterPath);
-            }
-#endif
-
             delete group;
             m_groups.remove(xySeries);
         }
     }
+
+#ifdef USE_SHAPE_BACKEND
+    auto data = m_shape.data();
+    for (qsizetype i = m_currentShapePathIndex, count = data.count(&data); i < count; ++i) {
+        auto shapePath = qobject_cast<QQuickShapePath *>(data.at(&data, i));
+        if (shapePath) {
+            QPainterPath empty;
+            shapePath->setPath(empty);
+        }
+    }
+#endif
 }
 
 void PointRenderer::updateSeries(QXYSeries *series)
