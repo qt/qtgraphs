@@ -398,6 +398,17 @@ void AreaRenderer::afterPolish(QList<QAbstractSeries *> &cleanupSeries)
             m_groups.remove(areaSeries);
         }
     }
+
+#ifdef USE_SHAPE_BACKEND
+    auto data = m_shape.data();
+    for (qsizetype i = m_currentShapePathIndex, count = data.count(&data); i < count; ++i) {
+        auto shapePath = qobject_cast<QQuickShapePath *>(data.at(&data, i));
+        if (shapePath) {
+            QPainterPath empty;
+            shapePath->setPath(empty);
+        }
+    }
+#endif
 }
 
 void AreaRenderer::afterUpdate(QList<QAbstractSeries *> &cleanupSeries)
