@@ -66,24 +66,8 @@ PointRenderer::PointRenderer(QGraphsView *graph, bool clipPlotArea)
     m_shape.setPreferredRendererType(QQuickShape::CurveRenderer);
 #endif
 
-    const QString qmlData = QLatin1StringView(R"QML(
-        import QtQuick;
-
-        Rectangle {
-            property bool pointSelected
-            property color pointColor
-            property color pointBorderColor
-            property color pointSelectedColor
-            property real pointBorderWidth
-            color: pointSelected ? pointSelectedColor : pointColor
-            border.color: pointBorderColor
-            border.width: pointBorderWidth
-            width: %1
-            height: %1
-        }
-    )QML").arg(QString::number((int) defaultSize()));
     m_tempMarker = new QQmlComponent(qmlEngine(m_graph), this);
-    m_tempMarker->setData(qmlData.toUtf8(), QUrl());
+    m_tempMarker->loadFromModule(u"QtGraphs2D.impl"_s, u"PointMarker"_s);
 
     m_tapHandler = new QQuickTapHandler(this);
     connect(m_tapHandler, &QQuickTapHandler::singleTapped,
@@ -733,11 +717,14 @@ void PointRenderer::handlePolish(QXYSeries *series)
     if (group->currentMarker) {
         qsizetype markerCount = group->markers.size();
         if (markerCount < pointCount) {
+            auto size = defaultSize();
             for (qsizetype i = markerCount; i < pointCount; ++i) {
                 QQuickItem *item = qobject_cast<QQuickItem *>(
-                    group->currentMarker->create(group->currentMarker->creationContext()));
+                    group->currentMarker->createWithInitialProperties({{"implicitWidth", size}, {"implicitHeight", size}},
+                        group->currentMarker->creationContext()));
                 item->setParent(this);
                 item->setParentItem(this);
+
                 QQuickDragHandler *handler = new QQuickDragHandler(item);
                 handler->setEnabled(series->isDraggable());
                 connect(series, &QXYSeries::draggableChanged, this, [handler, series]() {

@@ -128,6 +128,13 @@ else()
             USE_SHAPE_BACKEND
     )
 
+    add_subdirectory(qml/delegates)
+
+    qt_internal_extend_target(Graphs
+        LIBRARIES
+           Graphs2DImpl
+    )
+
     set(LOCAL_TRACE_SOURCE_2D
             graphs2d/qsgrenderer/axisrenderer.cpp
             graphs2d/qgraphsview.cpp

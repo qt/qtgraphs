@@ -778,20 +778,12 @@ void QGraphsView::componentComplete()
 {
     Q_TRACE(QGraphs2DGraphsViewComponentComplete_entry);
     if (!m_zoomAreaDelegate && !m_zoomAreaItem) {
-        const QString qmlData = QLatin1StringView(R"QML(
-            import QtQuick;
-            Rectangle {
-                color: "#8888aaff"
-                border.width: 1
-                border.color: "#4466aa"
-            }
-        )QML");
 
-        QQmlComponent *tempZoomAreaDelegate = new QQmlComponent(qmlEngine(this), this);
-        tempZoomAreaDelegate->setData(qmlData.toUtf8(), QUrl());
+        QQmlComponent tempZoomAreaDelegate(qmlEngine(this));
+        tempZoomAreaDelegate.loadFromModule(u"QtGraphs2D.impl"_s, u"ZoomAreaDelegate"_s);
 
         m_zoomAreaItem = qobject_cast<QQuickItem *>(
-            tempZoomAreaDelegate->create(tempZoomAreaDelegate->creationContext()));
+            tempZoomAreaDelegate.create(tempZoomAreaDelegate.creationContext()));
         m_zoomAreaItem->setParent(this);
         m_zoomAreaItem->setParentItem(this);
         m_zoomAreaItem->setVisible(false);
