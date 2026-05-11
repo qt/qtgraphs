@@ -171,6 +171,16 @@ else()
             ${LOCAL_TRACE_SOURCE_2D}
         PARENT_SCOPE
     )
+
+    qt_internal_add_resource(Graphs "graphs2d_resources"
+        PREFIX
+            "/graphs2d/delegates"
+        BASE
+            "qml"
+        FILES
+            "qml/ZoomAreaDelegate.qml"
+            "qml/PointMarker.qml"
+        )
 endif()
 
 add_subdirectory(qml/designer)

@@ -749,11 +749,11 @@ void QGraphsView::componentComplete()
             }
         )QML");
 
-        QQmlComponent *tempZoomAreaDelegate = new QQmlComponent(qmlEngine(this), this);
-        tempZoomAreaDelegate->setData(qmlData.toUtf8(), QUrl());
+        QQmlComponent tempZoomAreaDelegate(qmlEngine(this));
+        tempZoomAreaDelegate.loadUrl(QUrl(u"qrc:/graphs2d/delegates/ZoomAreaDelegate.qml"_s));
 
         m_zoomAreaItem = qobject_cast<QQuickItem *>(
-            tempZoomAreaDelegate->create(tempZoomAreaDelegate->creationContext()));
+            tempZoomAreaDelegate.create(tempZoomAreaDelegate.creationContext()));
         m_zoomAreaItem->setParent(this);
         m_zoomAreaItem->setParentItem(this);
         m_zoomAreaItem->setVisible(false);
