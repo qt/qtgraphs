@@ -70,6 +70,11 @@ AxisRenderer::AxisRenderer(QQuickItem *parent)
 {
     m_graph = qobject_cast<QGraphsView *>(parent);
     setFlag(QQuickItem::ItemHasContents);
+    if (m_axes1.empty())
+        m_axes1.emplace_back();
+
+    if (m_axes2.empty())
+        m_axes2.emplace_back();
 }
 
 AxisRenderer::~AxisRenderer() {}
