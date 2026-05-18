@@ -612,11 +612,39 @@ QGraphsView *QAbstractSeries::graph() const
 void QAbstractSeries::setGraph(QGraphsView *graph)
 {
     Q_D(QAbstractSeries);
+
+    bool isAxisXInUse = false;
+    bool isAxisYInUse = false;
+    if (d->m_graph) {
+        const auto &seriesList = d->m_graph->getSeriesList();
+        for (QObject *obj : seriesList) {
+            auto other = qobject_cast<QAbstractSeries *>(obj);
+            if (!other || other == this)
+                continue;
+
+            auto od = QAbstractSeriesPrivate::get(other);
+            if (!isAxisXInUse) {
+                if (od->m_axisX == d->m_axisX
+                    || od->m_axisY == d->m_axisX) {
+                    isAxisXInUse = true;
+                }
+            }
+            if (!isAxisYInUse) {
+                if (od->m_axisX == d->m_axisY
+                    || od->m_axisY == d->m_axisY) {
+                    isAxisYInUse = true;
+                }
+            }
+            if (isAxisXInUse && isAxisYInUse)
+                break;
+        }
+    }
+
     if (graph && d->m_graph != graph) {
         if (d->m_graph) {
-            if (d->m_axisX)
+            if (d->m_axisX && !isAxisXInUse)
                 d->m_graph->removeAxis(d->m_axisX);
-            if (d->m_axisY)
+            if (d->m_axisY && !isAxisYInUse)
                 d->m_graph->removeAxis(d->m_axisY);
         }
         if (d->m_axisX)
@@ -624,9 +652,9 @@ void QAbstractSeries::setGraph(QGraphsView *graph)
         if (d->m_axisY)
             graph->addAxis(d->m_axisY);
     } else if (!graph && d->m_graph) {
-        if (d->m_axisX)
+        if (d->m_axisX && !isAxisXInUse)
             d->m_graph->removeAxis(d->m_axisX);
-        if (d->m_axisY)
+        if (d->m_axisY && !isAxisYInUse)
             d->m_graph->removeAxis(d->m_axisY);
     }
     d->m_graph = graph;
