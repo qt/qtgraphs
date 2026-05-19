@@ -704,7 +704,7 @@ QAbstractAxisPrivate::~QAbstractAxisPrivate()
 
 void QAbstractAxisPrivate::setGraph(QGraphsView *graph)
 {
-    if (m_graph && graph)
+    if (m_graph && graph && m_graph != graph)
         qCWarning(lcAxis2D, "%p axis already associated with %p", this, m_graph);
 
     m_graph = graph;
