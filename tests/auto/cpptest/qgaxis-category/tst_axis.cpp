@@ -57,6 +57,7 @@ void tst_axis::initialProperties()
     QCOMPARE(m_axis->labels().size(), 0);
 
     // Common (from QAbstract3DAxis)
+    QCOMPARE(m_axis->isVisible(), true);
     QCOMPARE(m_axis->isAutoAdjustRange(), true);
     QCOMPARE(m_axis->labelAutoAngle(), 0.0f);
     QCOMPARE(m_axis->max(), 10.0f);
@@ -78,6 +79,7 @@ void tst_axis::initializeProperties()
     QSignalSpy rowLabelSpy(m_axis, &QCategory3DAxis::rowLabelsChanged);
     QSignalSpy columnLabelSpy(m_axis, &QCategory3DAxis::columnLabelsChanged);
 
+    QSignalSpy axisVisibilitySpy(m_axis, &QCategory3DAxis::visibilityChanged);
     QSignalSpy autoAdjustSpy(m_axis, &QCategory3DAxis::autoAdjustRangeChanged);
     QSignalSpy labelAutoAngleSpy(m_axis, &QCategory3DAxis::labelAutoAngleChanged);
     QSignalSpy maxSpy(m_axis, &QCategory3DAxis::maxChanged);
@@ -95,6 +97,7 @@ void tst_axis::initializeProperties()
     QCOMPARE(columnLabelSpy.size(), 0);
 
     // Common (from QAbstract3DAxis)
+    m_axis->setVisible(false);
     m_axis->setAutoAdjustRange(false);
     m_axis->setLabelAutoAngle(15.0f);
     m_axis->setMax(25.0f);
@@ -105,6 +108,7 @@ void tst_axis::initializeProperties()
     m_axis->setScaleLabelsByCount(true);
     m_axis->setLabelSize(2.0f);
 
+    QCOMPARE(m_axis->isVisible(), false);
     QCOMPARE(m_axis->isAutoAdjustRange(), false);
     QCOMPARE(m_axis->labelAutoAngle(), 15.0f);
     QCOMPARE(m_axis->max(), 25.0f);
@@ -115,6 +119,7 @@ void tst_axis::initializeProperties()
     QCOMPARE(m_axis->isScaleLabelsByCount(), true);
     QCOMPARE(m_axis->labelSize(), 2.0f);
 
+    QCOMPARE(axisVisibilitySpy.size(), 1);
     QCOMPARE(autoAdjustSpy.size(), 1);
     QCOMPARE(labelAutoAngleSpy.size(), 1);
     QCOMPARE(maxSpy.size(), 1);

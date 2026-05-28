@@ -44,6 +44,7 @@ protected:
     virtual bool allowNegatives() = 0;
     virtual bool allowMinMaxSame() = 0;
 
+    bool m_visible;
     QString m_title;
     QStringList m_labels;
     QAbstract3DAxis::AxisOrientation m_orientation;

@@ -597,6 +597,7 @@ public Q_SLOTS:
     void handleFpsChanged();
     void windowDestroyed(QObject *obj);
 
+    void handleAxisVisibilityChanged(bool visible);
     void handleAxisTitleChanged(const QString &title);
     void handleAxisLabelsChanged();
     void handleAxisRangeChanged(float min, float max);

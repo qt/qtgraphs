@@ -994,6 +994,28 @@ QQuickGraphsItem::~QQuickGraphsItem()
     delete m_sliceGridGeometryModel;
 }
 
+void QQuickGraphsItem::handleAxisVisibilityChanged(bool visible)
+{
+    Q_UNUSED(visible)
+
+    if (sender() == m_axisX) {
+        m_changeTracker.axisXTitleVisibilityChanged = true;
+        m_changeTracker.axisXLabelVisibilityChanged = true;
+    }
+    else if (sender() == m_axisY) {
+        m_changeTracker.axisYTitleVisibilityChanged = true;
+        m_changeTracker.axisYLabelVisibilityChanged = true;
+    }
+    else if (sender() == m_axisZ) {
+        m_changeTracker.axisZTitleVisibilityChanged = true;
+        m_changeTracker.axisZLabelVisibilityChanged = true;
+    }
+    else {
+        qCWarning(lcGraphs3D, "%ls invoked for invalid axis",
+                  qUtf16Printable(QString::fromUtf8(__func__)));
+    }
+}
+
 void QQuickGraphsItem::handleAxisTitleChanged(const QString &title)
 {
     Q_UNUSED(title);
@@ -1487,6 +1509,10 @@ void QQuickGraphsItem::setAxisHelper(QAbstract3DAxis::AxisOrientation orientatio
 
     axis->d_func()->setOrientation(orientation);
 
+    QObject::connect(axis,
+                     &QAbstract3DAxis::visibilityChanged,
+                     this,
+                     &QQuickGraphsItem::handleAxisVisibilityChanged);
     QObject::connect(axis,
                      &QAbstract3DAxis::titleChanged,
                      this,
@@ -2813,17 +2839,17 @@ void QQuickGraphsItem::synchData()
     }
 
     if (m_changeTracker.axisXLabelVisibilityChanged) {
-        repeaterX()->setVisible(axisX()->labelsVisible());
+        repeaterX()->setVisible(axisX()->labelsVisible() && axisX()->isVisible());
         m_changeTracker.axisXLabelVisibilityChanged = false;
     }
 
     if (m_changeTracker.axisYLabelVisibilityChanged) {
-        repeaterY()->setVisible(axisY()->labelsVisible());
+        repeaterY()->setVisible(axisY()->labelsVisible() && axisY()->isVisible());
         m_changeTracker.axisYLabelVisibilityChanged = false;
     }
 
     if (m_changeTracker.axisZLabelVisibilityChanged) {
-        repeaterZ()->setVisible(axisZ()->labelsVisible());
+        repeaterZ()->setVisible(axisZ()->labelsVisible() && axisZ()->isVisible());
         m_changeTracker.axisZLabelVisibilityChanged = false;
     }
     updateTitleLabels();
@@ -4625,6 +4651,10 @@ void QQuickGraphsItem::releaseMultiAxis(QAbstract3DAxis::AxisOrientation orienta
 void QQuickGraphsItem::connectMultiAxis(QAbstract3DAxis *axis)
 {
     QObject::connect(axis,
+                     &QAbstract3DAxis::visibilityChanged,
+                     this,
+                     &QQuickGraphsItem::handleMultiAxisDirty);
+    QObject::connect(axis,
                      &QAbstract3DAxis::titleChanged,
                      this,
                      &QQuickGraphsItem::handleMultiAxisDirty);
@@ -4750,7 +4780,7 @@ void QQuickGraphsItem::updateMultiAxisLabels(qsizetype axisIndex, QAbstract3DAxi
     repeater->setModel(axis->orientation() == QAbstract3DAxis::AxisOrientation::Y
                            ? 2 * labelCount
                            : labelCount);
-    repeater->setVisible(axis->labelsVisible());
+    repeater->setVisible(axis->labelsVisible() && axis->isVisible());
 
     if (axis->orientation() == QAbstract3DAxis::AxisOrientation::X) {
         float labelAutoAngle = m_labelMargin >= 0? axis->labelAutoAngle() : 0;
@@ -5268,6 +5298,8 @@ void QQuickGraphsItem::updateMultiAxisGrid(qsizetype axisIndex, QAbstract3DAxis 
     if (multiAxis.seriesIndex == -1) // uninitalized axis
         return;
     QQuick3DModel *model = multiAxis.grid;
+
+    model->setVisible(axis->isVisible());
     QQuick3DRepeater *repeater = multiAxis.repeater;
 
     QValue3DAxis *valueAxis = qobject_cast<QValue3DAxis *>(axis);
@@ -7235,17 +7267,17 @@ void QQuickGraphsItem::changeGridLineColor(QQuick3DRepeater *repeater, QColor co
 void QQuickGraphsItem::updateTitleLabels()
 {
     if (m_changeTracker.axisXTitleVisibilityChanged) {
-        m_titleLabelX->setVisible(axisX()->isTitleVisible());
+        m_titleLabelX->setVisible(axisX()->isTitleVisible() && axisX()->isVisible());
         m_changeTracker.axisXTitleVisibilityChanged = false;
     }
 
     if (m_changeTracker.axisYTitleVisibilityChanged) {
-        m_titleLabelY->setVisible(axisY()->isTitleVisible());
+        m_titleLabelY->setVisible(axisY()->isTitleVisible() && axisY()->isVisible());
         m_changeTracker.axisYTitleVisibilityChanged = false;
     }
 
     if (m_changeTracker.axisZTitleVisibilityChanged) {
-        m_titleLabelZ->setVisible(axisZ()->isTitleVisible());
+        m_titleLabelZ->setVisible(axisZ()->isTitleVisible() && axisZ()->isVisible());
         m_changeTracker.axisZTitleVisibilityChanged = false;
     }
 

@@ -94,6 +94,10 @@ Item {
             transparencyTechnique: graphMod.transparencyTechnique
             dragMode: graphMod.dragMode
 
+            axisX.visible: backMod.axisXVisible
+            axisY.visible: backMod.axisYVisible
+            axisZ.visible: backMod.axisZVisible
+
             Surface3DSeries {
                 id: surfaceSeries
                 // If you want to check with series colors, uncomment these

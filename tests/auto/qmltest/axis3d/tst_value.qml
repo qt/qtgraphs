@@ -22,6 +22,7 @@ Item {
         segmentCount: 10
         subSegmentCount: 5
 
+        visible: false
         autoAdjustRange: false
         labelAutoAngle: 10.0
         max: 20
@@ -51,6 +52,7 @@ Item {
             compare(initial.segmentCount, 5)
             compare(initial.subSegmentCount, 1)
 
+            compare(initial.visible, true)
             compare(initial.autoAdjustRange, true)
             compare(initial.labelAutoAngle, 0.0)
             compare(initial.max, 10)
@@ -75,6 +77,7 @@ Item {
             compare(initialized.segmentCount, 10)
             compare(initialized.subSegmentCount, 5)
 
+            compare(initialized.visible, false)
             compare(initialized.autoAdjustRange, false)
             compare(initialized.labelAutoAngle, 10.0)
             compare(initialized.max, 20)
@@ -105,6 +108,7 @@ Item {
             compare(change.segmentCount, 10)
             compare(change.subSegmentCount, 5)
 
+            change.visible = false
             change.autoAdjustRange = false
             change.labelAutoAngle = 10.0
             change.max = 20
@@ -115,6 +119,7 @@ Item {
             change.labelsVisible = false
             change.titleOffset = -1
 
+            compare(change.visible, false)
             compare(change.autoAdjustRange, false)
             compare(change.labelAutoAngle, 10.0)
             compare(change.max, 20)

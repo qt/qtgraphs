@@ -66,6 +66,8 @@ Rectangle {
 
     Value3DAxis {
         id: axisX
+
+        visible: settingsX.axisVisible
         segmentCount: settingsX.segmentCount
         subSegmentCount: settingsX.subSegmentCount
         reversed: settingsX.reversed
@@ -85,6 +87,8 @@ Rectangle {
 
     Value3DAxis {
         id: axisY
+
+        visible: settingsY.axisVisible
         segmentCount: settingsY.segmentCount
         subSegmentCount: settingsY.subSegmentCount
         reversed: settingsY.reversed
@@ -104,6 +108,8 @@ Rectangle {
 
     Value3DAxis {
         id: axisZ
+
+        visible: settingsZ.axisVisible
         segmentCount: settingsZ.segmentCount
         subSegmentCount: settingsZ.subSegmentCount
         reversed: settingsZ.reversed

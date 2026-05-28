@@ -11,6 +11,9 @@ ColumnLayout {
     spacing: 10
 
     property alias testgridChange: testgridChange
+    property bool axisXVisible: axisXVisibleCB.checked
+    property bool axisYVisible: axisYVisibleCB.checked
+    property bool axisZVisible: axisZVisibleCB.checked
 
     Label {
         visible: testgridChange.checked
@@ -26,6 +29,42 @@ ColumnLayout {
             if (testgridChange.checked) {
                 customTheme.grid.mainWidth = value
             }
+        }
+    }
+
+    Row {
+        Label {
+            text: "Axis-X Visible"
+            color: "gray"
+        }
+
+        CheckBox {
+            id: axisXVisibleCB
+            checked: true
+        }
+    }
+
+    Row {
+        Label {
+            text: "Axis-Y Visible"
+            color: "gray"
+        }
+
+        CheckBox {
+            id: axisYVisibleCB
+            checked: true
+        }
+    }
+
+    Row {
+        Label {
+            text: "Axis-Z Visible"
+            color: "gray"
+        }
+
+        CheckBox {
+            id: axisZVisibleCB
+            checked: true
         }
     }
 

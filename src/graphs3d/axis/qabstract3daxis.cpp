@@ -34,6 +34,13 @@ QT_BEGIN_NAMESPACE
  */
 
 /*!
+ * \qmlproperty bool Abstract3DAxis::visible
+ * \since 6.13
+ * The visibility for the axis.
+ *
+ */
+
+/*!
  * \qmlproperty string Abstract3DAxis::title
  * The title for the axis.
  *
@@ -153,6 +160,13 @@ QT_BEGIN_NAMESPACE
  *
  * \sa scaleLabelsByCount
  */
+
+/*!
+    \qmlsignal Abstract3DAxis::visibilityChanged(bool visible)
+    \since 6.13
+
+    This signal is emitted when \l visibility changes to \a visible.
+*/
 
 /*!
     \qmlsignal Abstract3DAxis::titleChanged(string newTitle)
@@ -292,6 +306,32 @@ QAbstract3DAxis::AxisType QAbstract3DAxis::type() const
 {
     Q_D(const QAbstract3DAxis);
     return d->m_type;
+}
+
+/*!
+ * \property QAbstract3DAxis::visible
+ * \since 6.13
+ *
+ * \brief The visibility for the axis.
+ *
+ */
+void QAbstract3DAxis::setVisible(bool visible)
+{
+    Q_D(QAbstract3DAxis);
+    if (d->m_visible == visible) {
+        qCDebug(lcAProperties3D) << __FUNCTION__
+            << "visibility is already set to:" << visible;
+        return;
+    }
+
+    d->m_visible = visible;
+    emit visibilityChanged(visible);
+}
+
+bool QAbstract3DAxis::isVisible() const
+{
+    Q_D(const QAbstract3DAxis);
+    return d->m_visible;
 }
 
 /*!
@@ -655,7 +695,8 @@ float QAbstract3DAxis::titleOffset() const
 
 // QAbstract3DAxisPrivate
 QAbstract3DAxisPrivate::QAbstract3DAxisPrivate(QAbstract3DAxis::AxisType type)
-    : m_orientation(QAbstract3DAxis::AxisOrientation::None)
+    : m_visible(true)
+    , m_orientation(QAbstract3DAxis::AxisOrientation::None)
     , m_type(type)
     , m_isDefaultAxis(false)
     , m_min(0.0f)

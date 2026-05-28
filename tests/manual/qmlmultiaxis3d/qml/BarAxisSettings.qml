@@ -69,6 +69,7 @@ Rectangle {
 
         labels: settingsRow.labels
 
+        visible: settingsRow.axisVisible
         labelsVisible: settingsRow.labelsVisible
         labelAutoAngle: settingsRow.labelAutoAngle
         labelSize: settingsRow.labelSize
@@ -87,6 +88,7 @@ Rectangle {
 
         labels: settingsColumn.labels
 
+        visible: settingsColumn.axisVisible
         labelsVisible: settingsColumn.labelsVisible
         labelAutoAngle: settingsColumn.labelAutoAngle
         labelSize: settingsColumn.labelSize
@@ -102,6 +104,8 @@ Rectangle {
 
     Value3DAxis {
         id: valueAxis
+
+        visible: settingsValue.axisVisible
         segmentCount: settingsValue.segmentCount
         subSegmentCount: settingsValue.subSegmentCount
         reversed: settingsValue.reversed

@@ -12,6 +12,7 @@ Item {
     required property string axisDir
     required property bool isAxis
 
+    property bool axisVisible: visibleCB.checked
     property real segmentCount: segmentsSlider.value
     property real subSegmentCount: subSegmentsSlider.value
     property bool reversed: reversedCB.checked
@@ -80,6 +81,17 @@ Item {
         clip: true
 
         model: ObjectModel {
+
+            RowLayout {
+                Text {
+                    Layout.alignment: Qt.AlignHCenter
+                    text: "Axis Visible"
+                }
+                CheckBox {
+                    id: visibleCB
+                    checked: true
+                }
+            }
 
             RowLayout {
                 Text {

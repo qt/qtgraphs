@@ -18,6 +18,7 @@ Item {
         id: initialized
         labels: ["first", "second"]
 
+        visible: false
         autoAdjustRange: false
         labelAutoAngle: 10.0
         max: 20
@@ -45,6 +46,7 @@ Item {
         function test_initial() {
             compare(initial.labels.length, 0)
 
+            compare(initial.visible, true)
             compare(initial.autoAdjustRange, true)
             compare(initial.labelAutoAngle, 0.0)
             compare(initial.max, 10)
@@ -69,6 +71,7 @@ Item {
             compare(initialized.labels[0], "first")
             compare(initialized.labels[1], "second")
 
+            compare(initialized.visible, false)
             compare(initialized.autoAdjustRange, false)
             compare(initialized.labelAutoAngle, 10.0)
             compare(initialized.max, 20)
@@ -97,6 +100,7 @@ Item {
             change.labels[1] = "another"
             compare(change.labels[1], "another")
 
+            change.visible = false
             change.autoAdjustRange = false
             change.labelAutoAngle = 10.0
             change.max = 20
@@ -109,6 +113,7 @@ Item {
             change.scaleLabelsByCount = true
             change.labelSize = 2
 
+            compare(change.visible, false)
             compare(change.autoAdjustRange, false)
             compare(change.labelAutoAngle, 10.0)
             compare(change.max, 20)

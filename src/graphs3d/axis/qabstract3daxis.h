@@ -22,6 +22,7 @@ class Q_GRAPHS_EXPORT QAbstract3DAxis : public QObject
     Q_OBJECT
     Q_DECLARE_PRIVATE(QAbstract3DAxis)
     Q_CLASSINFO("RegisterEnumClassesUnscoped", "false")
+    Q_PROPERTY(bool visible READ isVisible WRITE setVisible NOTIFY visibilityChanged REVISION(6, 13))
     Q_PROPERTY(QString title READ title WRITE setTitle NOTIFY titleChanged FINAL)
     Q_PROPERTY(QStringList labels READ labels WRITE setLabels NOTIFY labelsChanged)
     Q_PROPERTY(bool labelsVisible READ labelsVisible WRITE setLabelsVisible NOTIFY
@@ -63,6 +64,9 @@ protected:
 
 public:
     ~QAbstract3DAxis() override;
+
+    void setVisible(bool visible);
+    bool isVisible() const;
 
     void setTitle(const QString &title);
     QString title() const;
@@ -106,6 +110,7 @@ public:
     float titleOffset() const;
 
 Q_SIGNALS:
+    Q_REVISION(6, 13) void visibilityChanged(bool visible);
     void titleChanged(const QString &newTitle);
     void labelsChanged();
     void orientationChanged(QAbstract3DAxis::AxisOrientation orientation);

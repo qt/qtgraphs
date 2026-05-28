@@ -14,6 +14,7 @@ Item {
     required property bool isAxis
 
     property list<string> labels: [0]
+    property bool axisVisible: visibleCB.checked
     property bool labelsVisible: labelsVisibleCB.checked
     property real labelAutoAngle: autoAngleSlider.value
     property real labelSize: sizeSlider.value
@@ -62,6 +63,18 @@ Item {
         clip: true
 
         model: ObjectModel {
+
+            RowLayout {
+                Text {
+                    Layout.alignment: Qt.AlignHCenter
+                    text: "Axis Visible"
+                }
+                CheckBox {
+                    id: visibleCB
+                    checked: true
+                }
+            }
+
             RowLayout {
                 Text {
                     Layout.alignment: Qt.AlignHCenter
