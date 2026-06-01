@@ -51,8 +51,9 @@ public:
         DrawSurfaceAndWireframe = DrawWireframe | DrawSurface,
         DrawFilledSurface = 0x4,
     };
-    Q_FLAG(DrawFlag)
+    Q_ENUM(DrawFlag)
     Q_DECLARE_FLAGS(DrawFlags, DrawFlag)
+    Q_FLAG(DrawFlags)
 
     enum class Shading { Smooth, Flat };
     Q_ENUM(Shading)

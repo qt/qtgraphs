@@ -15,6 +15,8 @@ private slots:
     void init();
     void cleanup();
 
+    void enumFlagRegisteredProperly();
+
     void construct();
 
     void initialProperties();
@@ -41,6 +43,16 @@ void tst_series::init()
 void tst_series::cleanup()
 {
     delete m_series;
+}
+
+void tst_series::enumFlagRegisteredProperly()
+{
+    const auto drawFlagEnum = QMetaEnum::fromType<QSurface3DSeries::DrawFlag>();
+    QVERIFY(drawFlagEnum.isValid());
+    QVERIFY(!drawFlagEnum.isFlag());
+    const auto drawFlagsFlag = QMetaEnum::fromType<QSurface3DSeries::DrawFlags>();
+    QVERIFY(drawFlagsFlag.isValid());
+    QVERIFY(drawFlagsFlag.isFlag());
 }
 
 void tst_series::construct()

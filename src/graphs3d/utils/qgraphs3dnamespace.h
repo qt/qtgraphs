@@ -27,8 +27,9 @@ enum class SelectionFlag {
     Slice = 0x08,
     MultiSeries = 0x10,
 };
-Q_FLAG_NS(SelectionFlag)
+Q_ENUM_NS(SelectionFlag)
 Q_DECLARE_FLAGS(SelectionFlags, SelectionFlag)
+Q_FLAG_NS(SelectionFlags)
 
 enum class SliceCaptureType {
     NoImage,
