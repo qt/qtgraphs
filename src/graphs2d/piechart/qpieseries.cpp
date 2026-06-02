@@ -383,6 +383,19 @@ Q_TRACE_POINT(qtgraphs, QGraphs2DPieSeriesUpdateData_exit);
 */
 
 /*!
+    \property QPieSeries::sliceData
+    \since 6.12
+    \brief Declarative slice values.
+
+    Set this property to create pie slices declaratively. The series
+    automatically creates one slice per value. Labels can be supplied
+    via \l sliceLabels.
+
+    \note Mixing declarative and imperative data input is not supported.
+
+    \sa sliceLabels
+*/
+/*!
     \qmlproperty list<real> PieSeries::sliceData
     \since 6.12
 
@@ -397,6 +410,19 @@ Q_TRACE_POINT(qtgraphs, QGraphs2DPieSeriesUpdateData_exit);
     \sa sliceLabels
 */
 
+/*!
+    \property QPieSeries::sliceLabels
+    \since 6.12
+    \brief Declarative slice labels.
+
+    Provides labels for slices created via \l sliceData. Labels must be
+    in the same order as the values. Extra labels beyond the number of
+    slices are ignored.
+
+    \note Mixing declarative and imperative data input is not supported.
+
+    \sa sliceData
+*/
 /*!
     \qmlproperty list<string> PieSeries::sliceLabels
     \since 6.12
