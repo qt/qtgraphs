@@ -701,12 +701,24 @@ qsizetype QXYSeries::count() const
 }
 
 /*!
+    \property QXYSeries::declarativePoints
+    \since 6.12
+    \brief The points of the series, set declaratively.
+
+    The variant list can contain either \l QPointF values or numbers.
+    If numbers are given, \l{declarativePointHint} controls
+    whether each number is interpreted as an X or Y component.
+
+    \sa declarativePointHint, declarativeMin, stepSize
+*/
+/*!
     \qmlproperty list<variant> XYSeries::declarativePoints
-     This property can be used to set points declaratively
-     for a \a XYSeries. The variant list can be either points
-     or numbers. If numbers are given, the \l{XYSeries::declarativeHint}
-     can be used to indicate the the number interpreted as X or Y
-     component of a point.
+    \since 6.12
+
+    This property can be used to set points declaratively for a XYSeries.
+    The variant list can be either points or numbers. If numbers are given,
+    the \l{XYSeries::}{declarativePointHint} can be used to indicate whether
+    the number is interpreted as the X or Y component of a point.
 */
 QVariantList QXYSeries::declarativePoints() const
 {
@@ -734,6 +746,22 @@ void QXYSeries::setDeclarativePoints(QVariantList declarativePoints)
     }
 }
 
+/*!
+    \property QXYSeries::declarativePointHint
+    \since 6.12
+    \brief Controls how numbers in \l declarativePoints are interpreted.
+
+    When \l declarativePoints contains plain numbers rather than \l QPointF
+    values, this hint determines whether each number is the X or Y component
+    of a point.
+
+    \value QXYSeries::DeclarativePointHint::X Each number is the X value;
+           Y is generated from the index and \l stepSize.
+    \value QXYSeries::DeclarativePointHint::Y Each number is the Y value;
+           X is generated from \l declarativeMin and \l stepSize.
+
+    \sa declarativePoints, declarativeMin, stepSize
+*/
 QXYSeries::DeclarativePointHint QXYSeries::declarativePointHint() const
 {
     Q_D(const QXYSeries);
@@ -754,6 +782,19 @@ void QXYSeries::setDeclarativePointHint(DeclarativePointHint newHint)
     emit declarativePointHintChanged(newHint);
 }
 
+/*!
+    \property QXYSeries::declarativeMin
+    \since 6.12
+    \brief The minimum X (or Y) value used when generating points from
+    plain numbers in \l declarativePoints.
+
+    Used together with \l stepSize when \l declarativePointHint is
+    \c DeclarativePointHint::Y to generate the X values for each point.
+
+    The default value is 0.
+
+    \sa declarativePoints, declarativePointHint, stepSize
+*/
 qreal QXYSeries::declarativeMin() const
 {
     Q_D(const QXYSeries);
@@ -774,6 +815,16 @@ void QXYSeries::setDeclarativeMin(qreal newMin)
     emit declarativeMinChanged(newMin);
 }
 
+/*!
+    \property QXYSeries::stepSize
+    \since 6.12
+    \brief The step size between auto-generated X (or Y) values when
+    populating the series from plain numbers via \l declarativePoints.
+
+    The default value is 1.
+
+    \sa declarativePoints, declarativePointHint, declarativeMin
+*/
 qreal QXYSeries::stepSize() const
 {
     Q_D(const QXYSeries);
