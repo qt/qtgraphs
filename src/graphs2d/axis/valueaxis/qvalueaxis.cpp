@@ -144,6 +144,7 @@ QT_BEGIN_NAMESPACE
 
 /*!
   \property QValueAxis::labelPostFormat
+  \since 6.12
   \brief The label post format of the axis.
 
   The label first goes through \l{QValueAxis::labelFormat} to format the value,
@@ -155,6 +156,7 @@ QT_BEGIN_NAMESPACE
 */
 /*!
   \qmlproperty string ValueAxis::labelPostFormat
+  \since 6.12
 
   The label first goes through \l{ValueAxis::labelFormat} to format the value,
   then goes through this.
@@ -278,6 +280,7 @@ QT_BEGIN_NAMESPACE
 
 /*!
   \qmlsignal ValueAxis::labelPostFormatChanged(string format)
+  \since 6.12
   This signal is emitted when the post format of axis labels changes to \a format.
 */
 
