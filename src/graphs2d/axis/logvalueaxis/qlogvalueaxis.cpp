@@ -153,6 +153,7 @@ QT_BEGIN_NAMESPACE
 /*!
   \property QLogValueAxis::labelPostFormat
   \brief The label post format of the axis.
+  \since 6.12
 
   The label first goes through \l{QLogValueAxis::labelFormat} to format the value,
   then goes through this.
@@ -163,6 +164,7 @@ QT_BEGIN_NAMESPACE
 */
 /*!
   \qmlproperty string LogValueAxis::labelPostFormat
+  \since 6.12
 
   The label first goes through \l{LogValueAxis::labelFormat} to format the value,
   then goes through this.
@@ -278,6 +280,7 @@ QT_BEGIN_NAMESPACE
 
 /*!
   \qmlsignal LogValueAxis::labelPostFormatChanged(string format)
+  \since 6.12
   This signal is emitted when the post format of axis labels changes to \a format.
 */
 
