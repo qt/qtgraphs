@@ -767,6 +767,8 @@ void Q3DGraphsWidgetItem::setRotationEnabled(bool enable)
  * \brief Whether this input handler allows graph panning.
  *
  * Defaults to \c{true}.
+ *
+ * \sa panModeEnabled, setPanButton()
  */
  bool Q3DGraphsWidgetItem::isPanEnabled() const
  {
@@ -787,6 +789,8 @@ void Q3DGraphsWidgetItem::setRotationEnabled(bool enable)
   * Whether this input handler considers drag events as pan events instead.
   *
   * Defaults to \c{false}.
+  *
+  * \sa panEnabled
   */
  bool Q3DGraphsWidgetItem::isPanModeEnabled() const
  {
@@ -842,6 +846,14 @@ void Q3DGraphsWidgetItem::setDragButton(Qt::MouseButtons button)
     d->m_graphsItem->setDragButton(button);
 }
 
+/*!
+ * \fn Q3DGraphsWidgetItem::setPanButton(Qt::MouseButtons button)
+ * \since 6.12
+ *
+ * Sets the mouse \a button used to trigger panning in 3D graphs.
+ *
+ * \sa panEnabled
+ */
 void Q3DGraphsWidgetItem::setPanButton(Qt::MouseButtons button)
 {
     Q_D(Q3DGraphsWidgetItem);
