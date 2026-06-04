@@ -379,7 +379,7 @@ void AxisRenderer::onGrabChanged(QPointingDevice::GrabTransition transition, QEv
 
 void AxisRenderer::handlePolish()
 {
-    Q_TRACE_SCOPE(QGraphs2DAxisRendererHandlePolish);
+    Q_TRACE_SCOPE(QGraphs2DAxisRendererHandlePolish, m_graph->orientation());
 
     if (m_graph->panStyle() != QGraphsView::PanStyle::None
         || m_graph->zoomStyle() != QGraphsView::ZoomStyle::None || m_graph->zoomAreaEnabled()) {
