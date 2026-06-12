@@ -1853,6 +1853,9 @@ void AxisRenderer::updateDateTimeXAxisLabels(AxisProperties &ax, const QRectF re
     qint64 segment = (maxDate - minDate)
                    / ax.minLabel;
 
+    //Avoid division through zero
+    if (segment == 0)
+        segment = 1;
     qint64 anchor = (minDate / segment) * segment;
 
     // See if we need more text items
