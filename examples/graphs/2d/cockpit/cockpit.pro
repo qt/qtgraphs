@@ -1,6 +1,6 @@
-!include( ../examples.pri ) {
-    error( "Couldn't find the examples.pri file!" )
-}
+TEMPLATE = app
+
+QT += graphs qml quick
 
 SOURCES += main.cpp
 

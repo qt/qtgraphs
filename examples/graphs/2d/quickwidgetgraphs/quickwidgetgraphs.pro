@@ -1,8 +1,6 @@
-!include( ../examples.pri ) {
-    error( "Couldn't find the examples.pri file!" )
-}
+TEMPLATE = app
 
-QT += widgets \
+QT += graphs quick widgets \
     quickwidgets
 
 SOURCES += main.cpp \

@@ -1,12 +1,10 @@
-!include( ../examples.pri ) {
-    error( "Couldn't find the examples.pri file!" )
-}
+TEMPLATE = app
+
+QT += graphs quick quick3d
 
 CONFIG += qmltypes
 QML_IMPORT_NAME = SurfaceGalleryExample
 QML_IMPORT_MAJOR_VERSION = 1
-
-QT += graphs
 
 SOURCES += main.cpp \
            datasource.cpp
