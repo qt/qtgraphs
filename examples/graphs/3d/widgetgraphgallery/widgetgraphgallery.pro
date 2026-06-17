@@ -2,11 +2,9 @@ android|winrt {
     error( "This example is not supported for android or winrt." )
 }
 
-!include( ../examples.pri ) {
-    error( "Couldn't find the examples.pri file!" )
-}
+TEMPLATE = app
 
-QT += widgets
+QT += graphs graphswidgets widgets
 
 requires(qtConfig(fontcombobox))
 requires(qtConfig(combobox))
