@@ -388,17 +388,7 @@ void AreaRenderer::handlePolish(QAreaSeries *series)
 void AreaRenderer::afterPolish(QList<QAbstractSeries *> &cleanupSeries)
 {
     Q_TRACE_SCOPE(QGraphs2DAreaRendereAfterPolish);
-
-    for (auto series : cleanupSeries) {
-        auto areaSeries = qobject_cast<QAreaSeries *>(series);
-        if (areaSeries && m_groups.contains(areaSeries)) {
-            auto group = m_groups.value(areaSeries);
-
-            delete group;
-            m_groups.remove(areaSeries);
-        }
-    }
-
+    Q_UNUSED(cleanupSeries);
 #ifdef USE_SHAPE_BACKEND
     auto data = m_shape.data();
     for (qsizetype i = m_currentShapePathIndex, count = data.count(&data); i < count; ++i) {
@@ -419,6 +409,18 @@ void AreaRenderer::afterUpdate(QList<QAbstractSeries *> &cleanupSeries)
 void AreaRenderer::updateSeries(QAreaSeries *series)
 {
     Q_UNUSED(series);
+}
+
+void AreaRenderer::seriesAboutToBeRemoved(QAbstractSeries *series)
+{
+    if (auto *areaSeries = qobject_cast<QAreaSeries *>(series)) {
+        auto iter = m_groups.find(areaSeries);
+
+        if (iter != m_groups.end()) {
+            delete *iter;
+            m_groups.erase(iter);
+        }
+    }
 }
 
 // Point inside triangle code from

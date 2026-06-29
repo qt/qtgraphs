@@ -55,6 +55,7 @@ public:
     void handlePolish(QXYSeries *series);
     void afterPolish(QList<QAbstractSeries *> &cleanupSeries);
     void updateSeries(QXYSeries *series);
+    void seriesAboutToBeRemoved(QAbstractSeries *series);
     void afterUpdate(QList<QAbstractSeries *> &cleanupSeries);
     bool handleHoverMove(QHoverEvent *event);
 

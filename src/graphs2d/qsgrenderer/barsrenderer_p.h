@@ -46,6 +46,7 @@ public:
 #endif
     void handlePolish(QBarSeries *series, int barSeriesIndex, int barSeriesCount);
     void updateSeries(QBarSeries *series);
+    void seriesAboutToBeRemoved(QAbstractSeries *series);
     void afterUpdate(QList<QAbstractSeries *> &cleanupSeries);
     void afterPolish(QList<QAbstractSeries *> &cleanupSeries);
     bool handleHoverMove(QHoverEvent *event);
