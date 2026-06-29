@@ -56,6 +56,7 @@ public:
     void afterPolish(QList<QAbstractSeries *> &cleanupSeries);
     void handleSlicesAfterPolish(QList<QPieSlice *> slicelist);
     void updateSeries(QPieSeries *series);
+    void seriesAboutToBeRemoved(QAbstractSeries *series);
     void afterUpdate(QList<QAbstractSeries *> &cleanupSeries);
     void markedDeleted(QList<QPieSlice *> deleted);
 

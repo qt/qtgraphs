@@ -395,17 +395,13 @@ void PieRenderer::handleSlicesPolish(QPieSeries *series,
 void PieRenderer::afterPolish(QList<QAbstractSeries *> &cleanupSeries)
 {
     Q_TRACE(QGraphs2DPieRendererAfterPolish_entry, static_cast<int>(cleanupSeries.count()));
-    for (auto series : cleanupSeries) {
-        auto pieSeries = qobject_cast<QPieSeries *>(series);
-        if (pieSeries)
-            handleSlicesAfterPolish(pieSeries->slices());
-    }
+    Q_UNUSED(cleanupSeries);
 }
 
 void PieRenderer::handleSlicesAfterPolish(QList<QPieSlice *> slicelist)
 {
     for (QPieSlice *slice : std::as_const(slicelist)) {
-        QPieSlicePrivate *d = slice->d_func();
+        const auto *d = QPieSlicePrivate::get(slice);
 #ifdef USE_SHAPE_BACKEND
         auto labelElements = d->m_labelPath->pathElements();
         auto shapeElements = d->m_shapePath->pathElements();
@@ -437,6 +433,13 @@ void PieRenderer::updateSeries(QPieSeries *series)
 
     if (needPolish)
         handlePolish(series);
+}
+
+void PieRenderer::seriesAboutToBeRemoved(QAbstractSeries *series)
+{
+    if (auto pieSeries = qobject_cast<QPieSeries *>(series))
+        handleSlicesAfterPolish(pieSeries->slices());
+
 }
 
 void PieRenderer::afterUpdate(QList<QAbstractSeries *> &cleanupSeries)

@@ -230,26 +230,29 @@ void CustomRenderer::handlePolish(QCustomSeries *series)
 void CustomRenderer::afterPolish(QList<QAbstractSeries *> &cleanupSeries)
 {
     Q_TRACE(QGraphs2DCustomRendererAfterPolish_entry, static_cast<int>(cleanupSeries.count()));
-
-    for (auto series : cleanupSeries) {
-        auto customSeries = qobject_cast<QCustomSeries *>(series);
-        if (customSeries && m_groups.contains(customSeries)) {
-            auto group = m_groups.value(customSeries);
-
-            for (auto dataItem : std::as_const(group->dataItems))
-                dataItem->deleteLater();
-
-            delete group;
-            m_groups.remove(customSeries);
-        }
-    }
-
+    Q_UNUSED(cleanupSeries);
     Q_TRACE(QGraphs2DCustomRendererAfterPolish_exit);
 }
 
 void CustomRenderer::updateSeries(QCustomSeries *series)
 {
     Q_UNUSED(series);
+}
+
+void CustomRenderer::seriesAboutToBeRemoved(QAbstractSeries *series)
+{
+    if (auto *customSeries = qobject_cast<QCustomSeries *>(series)) {
+        auto iter = m_groups.find(customSeries);
+        if (iter != m_groups.end()) {
+            auto group = *iter;
+
+            for (const auto &dataItem : std::as_const(group->dataItems))
+                dataItem->deleteLater();
+
+            delete group;
+            m_groups.erase(iter);
+        }
+    }
 }
 
 void CustomRenderer::afterUpdate(QList<QAbstractSeries *> &cleanupSeries)

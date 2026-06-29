@@ -50,6 +50,7 @@ public:
     void afterPolish(QList<QAbstractSeries *> &cleanupSeries);
     void afterUpdate(QList<QAbstractSeries *> &cleanupSeries);
     void updateSeries(QAreaSeries *series);
+    void seriesAboutToBeRemoved(QAbstractSeries *series);
     bool handleHoverMove(QHoverEvent *event);
 
 Q_SIGNALS:

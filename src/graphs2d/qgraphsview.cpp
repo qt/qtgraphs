@@ -250,6 +250,26 @@ void QGraphsView::removeSeries(QObject *object)
 #endif
         qCDebug(lcGraphs2D) << "removing" << series << "from seriesList";
         cleanupSeriesList.append(series);
+#ifdef USE_POINTS
+        if (m_pointRenderer)
+            m_pointRenderer->seriesAboutToBeRemoved(series);
+#endif
+#ifdef USE_BARGRAPH
+        if (m_barsRenderer)
+            m_barsRenderer->seriesAboutToBeRemoved(series);
+#endif
+#ifdef USE_PIEGRAPH
+        if (m_pieRenderer)
+            m_pieRenderer->seriesAboutToBeRemoved(series);
+#endif
+#ifdef USE_AREAGRAPH
+        if (m_areaRenderer)
+            m_areaRenderer->seriesAboutToBeRemoved(series);
+#endif
+#ifdef USE_CUSTOMGRAPH
+        if (m_customRenderer)
+            m_customRenderer->seriesAboutToBeRemoved(series);
+#endif
         updateComponentSizes();
         polishAndUpdate();
     }
@@ -1118,6 +1138,7 @@ void QGraphsView::updatePolish()
     if (m_barsRenderer) {
         auto &cleanupSeriesList = m_cleanupSeriesList[0];
         m_barsRenderer->afterPolish(cleanupSeriesList);
+        cleanupSeriesList.clear();
         if (highestBarsZ > -std::numeric_limits<float>::max())
             m_barsRenderer->setZ(highestBarsZ);
     }
@@ -1126,6 +1147,7 @@ void QGraphsView::updatePolish()
     if (m_pointRenderer) {
         auto &cleanupSeriesList = m_cleanupSeriesList[1];
         m_pointRenderer->afterPolish(cleanupSeriesList);
+       cleanupSeriesList.clear();
         if (highestPointZ > -std::numeric_limits<float>::max())
             m_pointRenderer->setZ(highestPointZ);
     }
@@ -1134,6 +1156,7 @@ void QGraphsView::updatePolish()
     if (m_areaRenderer) {
         auto &cleanupSeriesList = m_cleanupSeriesList[2];
         m_areaRenderer->afterPolish(cleanupSeriesList);
+        cleanupSeriesList.clear();
         if (highestAreaZ > -std::numeric_limits<float>::max())
             m_areaRenderer->setZ(highestAreaZ);
     }
@@ -1142,6 +1165,7 @@ void QGraphsView::updatePolish()
     if (m_pieRenderer) {
         auto &cleanupSeriesList = m_cleanupSeriesList[3];
         m_pieRenderer->afterPolish(cleanupSeriesList);
+        cleanupSeriesList.clear();
         if (highestPieZ > -std::numeric_limits<float>::max())
             m_pieRenderer->setZ(highestPieZ);
     }
@@ -1150,6 +1174,7 @@ void QGraphsView::updatePolish()
     if (m_customRenderer) {
         auto &cleanupSeriesList = m_cleanupSeriesList[4];
         m_customRenderer->afterPolish(cleanupSeriesList);
+        cleanupSeriesList.clear();
         if (highestCustomZ > -std::numeric_limits<float>::max())
             m_customRenderer->setZ(highestCustomZ);
     }

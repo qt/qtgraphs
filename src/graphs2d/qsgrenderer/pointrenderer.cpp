@@ -815,18 +815,7 @@ void PointRenderer::handlePolish(QXYSeries *series)
 void PointRenderer::afterPolish(QList<QAbstractSeries *> &cleanupSeries)
 {
     Q_TRACE_SCOPE(QGraphs2DPointRendererAfterPolish, static_cast<int>(cleanupSeries.count()));
-    for (auto series : cleanupSeries) {
-        auto xySeries = qobject_cast<QXYSeries *>(series);
-        if (xySeries && m_groups.contains(xySeries)) {
-            auto group = m_groups.value(xySeries);
-
-            for (auto marker : std::as_const(group->markers))
-                marker->deleteLater();
-
-            delete group;
-            m_groups.remove(xySeries);
-        }
-    }
+    Q_UNUSED(cleanupSeries);
 
 #ifdef USE_SHAPE_BACKEND
     auto data = m_shape.data();
@@ -843,6 +832,21 @@ void PointRenderer::afterPolish(QList<QAbstractSeries *> &cleanupSeries)
 void PointRenderer::updateSeries(QXYSeries *series)
 {
     Q_UNUSED(series);
+}
+
+void PointRenderer::seriesAboutToBeRemoved(QAbstractSeries *series)
+{
+    if (auto *xySeries = qobject_cast<QXYSeries *>(series)) {
+        auto iter = m_groups.find(xySeries);
+
+        if (iter != m_groups.end()) {
+            for (auto marker : std::as_const((*iter)->markers))
+                marker->deleteLater();
+
+            delete *iter;
+            m_groups.erase(iter);
+        }
+    }
 }
 
 void PointRenderer::afterUpdate(QList<QAbstractSeries *> &cleanupSeries)
