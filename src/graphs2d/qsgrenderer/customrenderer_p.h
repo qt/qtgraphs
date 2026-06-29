@@ -39,6 +39,7 @@ public:
     void handlePolish(QCustomSeries *series);
     void afterPolish(QList<QAbstractSeries *> &cleanupSeries);
     void updateSeries(QCustomSeries *series);
+    void seriesAboutToBeRemoved(QAbstractSeries *series);
     void afterUpdate(QList<QAbstractSeries *> &cleanupSeries);
 
     qreal mapX(AxisRenderer *axisRenderer, QCustomSeries *series, qreal x);

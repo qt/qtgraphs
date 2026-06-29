@@ -623,6 +623,31 @@ void BarsRenderer::updateSeries(QBarSeries *series)
     Q_UNUSED(series);
 }
 
+void BarsRenderer::seriesAboutToBeRemoved(QAbstractSeries *series)
+{
+    if (auto *barsSeries = qobject_cast<QBarSeries *>(series)) {
+        auto barItemsIter = m_barItems.find(barsSeries);
+        if (barItemsIter != m_barItems.end()) {
+            // Remove custom bar items
+            auto &barItems = *barItemsIter;
+            for (const auto &item : std::as_const(barItems))
+                item->deleteLater();
+            barItems.clear();
+            m_barItems.erase(barItemsIter);
+        }
+
+        auto textItemsIter = m_labelTextItems.find(barsSeries);
+        if (textItemsIter != m_labelTextItems.end()) {
+            // Remove bar label items
+            auto &labelTextItems = *textItemsIter;
+            for (const auto &item : std::as_const(labelTextItems))
+                item->deleteLater();
+            labelTextItems.clear();
+            m_labelTextItems.erase(textItemsIter);
+        }
+    }
+}
+
 void BarsRenderer::afterUpdate(QList<QAbstractSeries *> &cleanupSeries)
 {
     Q_UNUSED(cleanupSeries);
@@ -630,25 +655,7 @@ void BarsRenderer::afterUpdate(QList<QAbstractSeries *> &cleanupSeries)
 
 void BarsRenderer::afterPolish(QList<QAbstractSeries *> &cleanupSeries)
 {
-    for (auto &cleanupSerie : cleanupSeries) {
-        auto series = qobject_cast<QBarSeries *>(cleanupSerie);
-        if (series && m_barItems.contains(series)) {
-            // Remove custom bar items
-            auto &barItems = m_barItems[series];
-            for (int i = 0; i < barItems.size(); i++)
-                barItems[i]->deleteLater();
-            barItems.clear();
-            m_barItems.remove(series);
-        }
-        if (series && m_labelTextItems.contains(series)) {
-            // Remove bar label items
-            auto &labelTextItems = m_labelTextItems[series];
-            for (int i = 0; i < labelTextItems.size(); i++)
-                labelTextItems[i]->deleteLater();
-            labelTextItems.clear();
-            m_labelTextItems.remove(series);
-        }
-    }
+    Q_UNUSED(cleanupSeries);
 }
 
 bool BarsRenderer::handleHoverMove(QHoverEvent *event)
