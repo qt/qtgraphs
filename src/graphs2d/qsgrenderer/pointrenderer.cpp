@@ -171,8 +171,8 @@ void PointRenderer::calculateRenderCoordinates(AxisRenderer *axisRenderer,
     auto &axisX = axisRenderer->getAxisX(series);
     auto &axisY = axisRenderer->getAxisY(series);
 
-    float x = origX;
-    float y = origY;
+    qreal x = origX;
+    qreal y = origY;
 
     if (axisX.isLogarithmic) {
         float logBase = log(axisX.logBase);
