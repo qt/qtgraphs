@@ -22,8 +22,10 @@ class Q_GRAPHS_EXPORT QDateTimeAxis : public QAbstractAxis
         QString labelFormat READ labelFormat WRITE setLabelFormat NOTIFY labelFormatChanged FINAL)
     Q_PROPERTY(
         int subTickCount READ subTickCount WRITE setSubTickCount NOTIFY subTickCountChanged FINAL)
+#if QT_REMOVAL_QT7_DEPRECATED_SINCE(6, 12)
     Q_PROPERTY(
         qreal tickInterval READ tickInterval WRITE setTickInterval NOTIFY tickIntervalChanged FINAL)
+#endif
     Q_PROPERTY(
         QTimeZone timeZone READ timeZone WRITE setTimeZone NOTIFY timeZoneChanged REVISION(6, 11))
     Q_PROPERTY(qreal zoom READ zoom WRITE setZoom NOTIFY zoomChanged REVISION(6, 11))
