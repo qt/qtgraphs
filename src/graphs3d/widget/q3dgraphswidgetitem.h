@@ -85,11 +85,11 @@ class Q_GRAPHSWIDGETS_EXPORT Q3DGraphsWidgetItem : public QObject
                    setCameraTargetPosition NOTIFY cameraTargetPositionChanged)
     Q_PROPERTY(int msaaSamples READ msaaSamples WRITE setMsaaSamples NOTIFY msaaSamplesChanged)
     Q_PROPERTY(bool rotationEnabled READ isRotationEnabled WRITE setRotationEnabled NOTIFY
-                   rotationEnabledChanged)
+                    rotationEnabledChanged)
     Q_PROPERTY(bool panEnabled READ isPanEnabled WRITE setPanEnabled NOTIFY
-    panEnabledChanged REVISION (6, 12))
+                    panEnabledChanged REVISION(6, 12))
     Q_PROPERTY(bool panModeEnabled READ isPanModeEnabled WRITE setPanModeEnabled NOTIFY
-    panModeEnabledChanged REVISION (6, 12))
+                    panModeEnabledChanged REVISION(6, 12))
     Q_PROPERTY(bool zoomAtTargetEnabled READ isZoomAtTargetEnabled WRITE setZoomAtTargetEnabled NOTIFY
                    zoomAtTargetEnabledChanged)
     Q_PROPERTY(bool selectionEnabled READ isSelectionEnabled WRITE setSelectionEnabled NOTIFY
@@ -315,8 +315,8 @@ Q_SIGNALS:
     void zoomEnabledChanged(bool enable);
     void zoomAtTargetEnabledChanged(bool enable);
     void rotationEnabledChanged(bool enable);
-    Q_REVISION(6, 12)void panEnabledChanged(bool enable);
-    Q_REVISION(6, 12)void panModeEnabledChanged(bool enable);
+    Q_REVISION(6, 12) void panEnabledChanged(bool enable);
+    Q_REVISION(6, 12) void panModeEnabledChanged(bool enable);
     void selectionEnabledChanged(bool enable);
 
     void ambientLightStrengthChanged();
