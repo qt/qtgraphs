@@ -33,7 +33,7 @@ class Q_GRAPHS_EXPORT QDateTimeAxis : public QAbstractAxis
     Q_PROPERTY(QDateTime visualMin READ visualMin NOTIFY visualMinChanged REVISION(6, 11))
     Q_PROPERTY(QDateTime visualMax READ visualMax NOTIFY visualMaxChanged REVISION(6, 11))
     Q_PROPERTY(
-        qreal tickCount READ tickCount WRITE setTickCount NOTIFY tickCountChanged REVISION(6, 12))
+        qsizetype tickCount READ tickCount WRITE setTickCount NOTIFY tickCountChanged REVISION(6, 12))
 
     QML_NAMED_ELEMENT(DateTimeAxis)
 
@@ -81,8 +81,8 @@ public:
     Q_REVISION(6, 11) Q_INVOKABLE QTimeZone timeZoneFromString(const QString &zoneId) const;
     Q_REVISION(6, 11) Q_INVOKABLE QString timeZoneAsString() const;
 
-    qreal tickCount() const;
-    void setTickCount(qreal count);
+    qsizetype tickCount() const;
+    void setTickCount(qsizetype count);
 
 Q_SIGNALS:
     void minChanged(const QDateTime &min);
@@ -98,7 +98,7 @@ Q_SIGNALS:
     Q_REVISION(6, 11) void panChanged(qreal newPan);
     Q_REVISION(6, 11) void visualMinChanged(const QDateTime &newMin);
     Q_REVISION(6, 11) void visualMaxChanged(const QDateTime &newMax);
-    Q_REVISION(6, 12) void tickCountChanged(qreal count);
+    Q_REVISION(6, 12) void tickCountChanged(qsizetype count);
 
 private:
     Q_DECLARE_PRIVATE(QDateTimeAxis)
