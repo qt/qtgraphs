@@ -729,6 +729,11 @@ ColumnLayout {
                                          lineDoubleClickedPoint.text = "Point : " + point
                                      }
 
+                    onHovered: (state, point) => {
+                                   lineHoveredPoint.text = "Point : " + point
+                                   lineHoveredState.text = "State : " + state
+                               }
+
                     onHoverEnter: (seriesName, position, value) => {
                                       lineHoverEnteredSeries.text = "Series : " + seriesName
                                       lineHoverEnteredPosition.text = "Position : " + position
@@ -795,6 +800,24 @@ ColumnLayout {
                 Text {
                     id: lineDoubleClickedPoint
                     text: "Point Label :"
+                    color: "white"
+                }
+
+                Text {
+                    text: "Hovered"
+                    color: "white"
+                    font.pointSize: 20
+                }
+
+                Text {
+                    id: lineHoveredPoint
+                    text: "Point :"
+                    color: "white"
+                }
+
+                Text {
+                    id: lineHoveredState
+                    text: "State :"
                     color: "white"
                 }
 

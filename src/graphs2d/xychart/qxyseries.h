@@ -132,6 +132,8 @@ Q_SIGNALS:
     Q_REVISION(6, 12) void valueMinChanged(qreal newMin);
     Q_REVISION(6, 12) void stepSizeChanged(qreal newStepSize);
 
+    Q_REVISION(6, 13) void hovered(bool state, const QPointF &point);
+
 private:
     friend class PointRenderer;
     friend class QGraphPointAnimation;

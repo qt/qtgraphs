@@ -117,6 +117,13 @@ QT_BEGIN_NAMESPACE
     button or gesture on the data \a point.
 */
 
+/*!
+    \qmlsignal XYSeries::hovered(bool state, point point)
+    This signal is emitted when the cursor moves close to the data \a point in the graph.
+    \a state is \c true when the cursor enters the vicinity of the point and \c false when
+    it leaves it.
+*/
+
 QXYSeries::QXYSeries(QXYSeriesPrivate &dd, QObject *parent)
     : QAbstractSeries(dd, parent)
 {

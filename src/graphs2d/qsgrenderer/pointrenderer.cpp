@@ -840,8 +840,20 @@ void PointRenderer::seriesAboutToBeRemoved(QAbstractSeries *series)
         auto iter = m_groups.find(xySeries);
 
         if (iter != m_groups.end()) {
-            for (auto marker : std::as_const((*iter)->markers))
+            auto group = (*iter);
+
+            for (auto marker : std::as_const(group->markers))
                 marker->deleteLater();
+
+            if (group == m_currentHoverGroup) {
+                emit group->series->hovered(false, m_currentHoverPoint);
+                m_currentHoverGroup = nullptr;
+                m_currentHoverPointIndex = -1;
+            }
+            if (group == m_pressedGroup) {
+                m_pressedGroup = nullptr;
+                m_pressedPointIndex = 0;
+            }
 
             delete *iter;
             m_groups.erase(iter);
@@ -859,9 +871,27 @@ bool PointRenderer::handleHoverMove(QHoverEvent *event)
     bool handled = false;
     const QPointF &position = event->position();
 
+    PointGroup *hoveredGroup = nullptr;
+    qsizetype hoveredPointIndex = -1;
+    qreal closestPointDistance = -1;
+
     for (auto &&group : m_groups) {
         if (!group->series->isHoverable() || !group->series->isVisible())
             continue;
+
+        qsizetype pointIndex = 0;
+        for (auto &&rect : group->rects) {
+            if (rect.contains(position.toPoint())) {
+                const QPointF &delta = position - rect.center();
+                const qreal distance = qSqrt(delta.x() * delta.x() + delta.y() * delta.y());
+                if (!hoveredGroup || distance < closestPointDistance) {
+                    closestPointDistance = distance;
+                    hoveredGroup = group;
+                    hoveredPointIndex = pointIndex;
+                }
+            }
+            pointIndex++;
+        }
 
         auto axisRenderer = group->series->graph()->m_axisRenderer;
         auto &axisX = axisRenderer->getAxisX(group->series);
@@ -1060,6 +1090,19 @@ bool PointRenderer::handleHoverMove(QHoverEvent *event)
             }
         }
     }
+
+    if (hoveredGroup != m_currentHoverGroup || hoveredPointIndex != m_currentHoverPointIndex) {
+        if (m_currentHoverGroup)
+            emit m_currentHoverGroup->series->hovered(false, m_currentHoverPoint);
+        if (hoveredGroup) {
+            m_currentHoverPoint = hoveredGroup->series->at(hoveredPointIndex);
+            emit hoveredGroup->series->hovered(true, m_currentHoverPoint);
+        }
+        m_currentHoverGroup = hoveredGroup;
+        m_currentHoverPointIndex = hoveredPointIndex;
+        handled = true;
+    }
+
     return handled;
 }
 

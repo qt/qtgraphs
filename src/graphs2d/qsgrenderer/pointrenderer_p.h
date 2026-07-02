@@ -93,6 +93,13 @@ private:
     PointGroup *m_pressedGroup = nullptr;
     qsizetype m_pressedPointIndex = 0;
 
+    // Point hover variables
+    PointGroup *m_currentHoverGroup = nullptr;
+    qsizetype m_currentHoverPointIndex = -1;
+    // Cached so the hover-off signal still reports the correct point even if
+    // it has since been removed or shifted to another index in the series.
+    QPointF m_currentHoverPoint;
+
     // Render area variables
     qreal m_maxVertical = 0;
     qreal m_maxHorizontal = 0;
