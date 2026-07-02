@@ -2,6 +2,9 @@ dependencies:
   ../qtbase:
     ref: 0a07be02139256c3079a214e572dfe58cdf06475
     required: true
+  ../qtcanvaspainter:
+    ref: 89a94d700f06785da92d80394e1eda9ee044114f
+    required: false
   ../qtdeclarative:
     ref: 23b64741bcb877552505a88717445bcb43115adb
     required: true
