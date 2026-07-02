@@ -475,21 +475,21 @@ QDateTime QDateTimeAxis::visualMax() const
     return QDateTime::fromMSecsSinceEpoch(d->m_visualMax, d->m_timeZone);
 }
 
-qreal QDateTimeAxis::tickCount() const
+qsizetype QDateTimeAxis::tickCount() const
 {
     Q_D(const QDateTimeAxis);
     return d->m_tickCount;
 }
 
-void QDateTimeAxis::setTickCount(qreal newCount)
+void QDateTimeAxis::setTickCount(qsizetype newCount)
 {
     Q_D(QDateTimeAxis);
 
-    if (newCount < 0.0)
-        newCount = 0.0;
+    if (newCount < 0)
+        newCount = 0;
 
-    if (qFuzzyCompare(newCount + 1 , d->m_tickCount + 1)) {
-        qCDebug(lcAxis2D, "tickCount already set to: %f", d->m_tickCount);
+    if (newCount == d->m_tickCount) {
+        qCDebug(lcAxis2D, "tickCount already set to: %" PRIdQSIZETYPE, d->m_tickCount);
         return;
     }
 

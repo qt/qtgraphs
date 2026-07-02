@@ -58,7 +58,7 @@ void tst_datetimeaxis::initialProperties()
     QCOMPARE(m_axis->labelFormat(), "dd-MMMM-yy");
     QCOMPARE(m_axis->subTickCount(), 0);
     QCOMPARE(m_axis->timeZoneAsString(), "UTC");
-    QCOMPARE(m_axis->tickCount(), 0.0);
+    QCOMPARE(m_axis->tickCount(), 0);
 }
 
 void tst_datetimeaxis::initializeProperties()
@@ -84,7 +84,7 @@ void tst_datetimeaxis::initializeProperties()
             .addYears(20));
     m_axis->setLabelFormat("yyyy");
     m_axis->setSubTickCount(2);
-    m_axis->setTickCount(0.5);
+    m_axis->setTickCount(1);
 
     QCOMPARE(m_axis->min(), QDateTime(QDate::currentDate(), QTime::fromMSecsSinceStartOfDay(0)));
     QCOMPARE(m_axis->max(),
@@ -94,7 +94,7 @@ void tst_datetimeaxis::initializeProperties()
     QCOMPARE(m_axis->max().timeZone(), QTimeZone::utc());
     QCOMPARE(m_axis->labelFormat(), "yyyy");
     QCOMPARE(m_axis->subTickCount(), 2);
-    QCOMPARE(m_axis->tickCount(), 0.5);
+    QCOMPARE(m_axis->tickCount(), 1);
 
     auto tz = QString(timeZoneString).toUtf8();
     m_axis->setTimeZone(QTimeZone(tz));
