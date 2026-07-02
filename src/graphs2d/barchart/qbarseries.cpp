@@ -497,6 +497,13 @@ QT_BEGIN_NAMESPACE
 */
 
 /*!
+    \qmlsignal BarSeries::hovered(bool state, int index, BarSet barset)
+    This signal is emitted when a mouse or touch hovers over the bar specified by \a index
+    in the bar set specified by \a barset. \a state is \c true when the cursor enters the
+    bar and \c false when it leaves it.
+*/
+
+/*!
     \internal
 */
 

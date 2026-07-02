@@ -144,6 +144,7 @@ Q_SIGNALS:
     Q_REVISION(6, 9) void doubleClicked(qsizetype index, QBarSet *barset);
     Q_REVISION(6, 9) void pressed(qsizetype index, QBarSet *barset);
     Q_REVISION(6, 9) void released(qsizetype index, QBarSet *barset);
+    Q_REVISION(6, 13) void hovered(bool state, qsizetype index, QBarSet *barset);
 
 private Q_SLOTS:
     void handleSetValueChange(qsizetype index);

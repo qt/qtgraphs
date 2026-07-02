@@ -668,6 +668,14 @@ void BarsRenderer::seriesAboutToBeRemoved(QAbstractSeries *series)
             labelTextItems.clear();
             m_labelTextItems.erase(textItemsIter);
         }
+
+        if (barsSeries && barsSeries == m_currentHoverSeries)
+            m_currentHoverSeries = nullptr;
+        if (barsSeries && barsSeries == m_currentHoverBarSeries) {
+            m_currentHoverBarSeries = nullptr;
+            m_currentHoverBarSet = nullptr;
+            m_currentHoverBarIndex = -1;
+        }
     }
 }
 
@@ -681,12 +689,27 @@ void BarsRenderer::afterPolish(QList<QAbstractSeries *> &cleanupSeries)
     Q_UNUSED(cleanupSeries);
 }
 
+void BarsRenderer::handleBarSetsRemoved(const QList<QBarSet *> &sets)
+{
+    if (m_currentHoverBarSet && sets.contains(m_currentHoverBarSet)) {
+        if (m_currentHoverBarSeries)
+            emit m_currentHoverBarSeries->hovered(false, m_currentHoverBarIndex, m_currentHoverBarSet);
+        m_currentHoverBarSeries = nullptr;
+        m_currentHoverBarSet = nullptr;
+        m_currentHoverBarIndex = -1;
+    }
+}
+
 bool BarsRenderer::handleHoverMove(QHoverEvent *event)
 {
     bool handled = false;
     const QPointF &position = event->position();
 
     bool hovering = false;
+    QBarSeries *hoveredSeries = nullptr;
+    QBarSet *hoveredBarSet = nullptr;
+    qsizetype hoveredBarIndex = -1;
+
     for (auto &rectNodesInputRects : m_rectNodesInputRects) {
         for (auto &barSelection : rectNodesInputRects) {
             int indexInSet = 0;
@@ -705,10 +728,25 @@ bool BarsRenderer::handleHoverMove(QHoverEvent *event)
                     emit barSelection.series->hover(name, position, point);
                     hovering = true;
                     handled = true;
+
+                    hoveredSeries = barSelection.series;
+                    hoveredBarSet = barSelection.barSet;
+                    hoveredBarIndex = indexInSet;
                 }
                 indexInSet++;
             }
         }
+    }
+
+    if (hoveredBarSet != m_currentHoverBarSet || hoveredBarIndex != m_currentHoverBarIndex) {
+        if (m_currentHoverBarSet)
+            emit m_currentHoverBarSeries->hovered(false, m_currentHoverBarIndex, m_currentHoverBarSet);
+        if (hoveredBarSet)
+            emit hoveredSeries->hovered(true, hoveredBarIndex, hoveredBarSet);
+        m_currentHoverBarSeries = hoveredSeries;
+        m_currentHoverBarSet = hoveredBarSet;
+        m_currentHoverBarIndex = hoveredBarIndex;
+        handled = true;
     }
 
     if (!hovering && m_currentHoverSeries) {

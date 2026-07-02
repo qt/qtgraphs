@@ -51,6 +51,8 @@ public:
     void afterPolish(QList<QAbstractSeries *> &cleanupSeries);
     bool handleHoverMove(QHoverEvent *event);
 
+    void handleBarSetsRemoved(const QList<QBarSet *> &sets);
+
 Q_SIGNALS:
 
 private:
@@ -96,6 +98,9 @@ private:
     QQuickTapHandler *m_tapHandler = nullptr;
 
     QBarSeries *m_currentHoverSeries = nullptr;
+    QBarSeries *m_currentHoverBarSeries = nullptr;
+    QBarSet *m_currentHoverBarSet = nullptr;
+    qsizetype m_currentHoverBarIndex = -1;
     qsizetype m_colorIndex = -1;
     // Margin between bars.
     float m_barMargin = 2.0;

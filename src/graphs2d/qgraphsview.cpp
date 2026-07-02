@@ -221,6 +221,14 @@ void QGraphsView::insertSeries(qsizetype index, QObject *object)
             if (auto pie = qobject_cast<QPieSeries *>(series))
                 connect(pie, &QPieSeries::removed, m_pieRenderer, &PieRenderer::markedDeleted);
 #endif
+#ifdef USE_BARGRAPH
+            if (auto bar = qobject_cast<QBarSeries *>(series); bar && m_barsRenderer) {
+                connect(bar,
+                        &QBarSeries::barsetsRemoved,
+                        m_barsRenderer,
+                        &BarsRenderer::handleBarSetsRemoved);
+            }
+#endif
             qCDebug(lcGraphs2D) << series << "added to a list at index of" << index;
         }
         Q_TRACE(QGraphs2DGraphsViewInsertSeries_exit);
@@ -247,6 +255,14 @@ void QGraphsView::removeSeries(QObject *object)
 #ifdef USE_PIEGRAPH
         if (auto pie = qobject_cast<QPieSeries *>(series))
             disconnect(pie, &QPieSeries::removed, m_pieRenderer, &PieRenderer::markedDeleted);
+#endif
+#ifdef USE_BARGRAPH
+        if (auto bar = qobject_cast<QBarSeries *>(series); bar && m_barsRenderer) {
+            disconnect(bar,
+                       &QBarSeries::barsetsRemoved,
+                       m_barsRenderer,
+                       &BarsRenderer::handleBarSetsRemoved);
+        }
 #endif
         qCDebug(lcGraphs2D) << "removing" << series << "from seriesList";
         cleanupSeriesList.append(series);

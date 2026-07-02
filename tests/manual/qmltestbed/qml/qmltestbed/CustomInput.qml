@@ -75,6 +75,11 @@ ColumnLayout {
                                          barDoubleClickedIndex.text = "Index : " + index
                                          barDoubleClickedLabel.text = "Label : " + barset.label
                                      }
+                    onHovered: (state, index, barset) => {
+                                   barHoveredState.text = "State : " + state
+                                   barHoveredIndex.text = "Index : " + index
+                                   barHoveredLabel.text = "Label : " + barset.label
+                               }
                     onHoverEnter: (seriesName, position, value) => {
                                       barHoverEnteredSeries.text = "Series : " + seriesName
                                       barHoverEnteredPosition.text = "Position : " + position
@@ -164,6 +169,30 @@ ColumnLayout {
 
                 Text {
                     id: barDoubleClickedLabel
+                    text: "Label :"
+                    color: "white"
+                }
+
+                Text {
+                    text: "Hovered"
+                    color: "white"
+                    font.pointSize: 20
+                }
+
+                Text {
+                    id: barHoveredState
+                    text: "State :"
+                    color: "white"
+                }
+
+                Text {
+                    id: barHoveredIndex
+                    text: "Index :"
+                    color: "white"
+                }
+
+                Text {
+                    id: barHoveredLabel
                     text: "Label :"
                     color: "white"
                 }
