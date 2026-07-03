@@ -23,8 +23,8 @@ class Q_GRAPHS_EXPORT QLogValueAxis : public QAbstractAxis
     Q_PROPERTY(
         QString labelFormat READ labelFormat WRITE setLabelFormat NOTIFY labelFormatChanged FINAL)
     Q_PROPERTY(QString labelPostFormat READ labelPostFormat WRITE setLabelPostFormat NOTIFY
-                   labelPostFormatChanged REVISION(6, 12))
-    Q_PROPERTY(int labelPrecision READ labelPrecision WRITE setlabelPrecision NOTIFY
+                   labelPostFormatChanged FINAL)
+    Q_PROPERTY(int labelPrecision READ labelPrecision WRITE setLabelPrecision NOTIFY
                    labelPrecisionChanged FINAL)
     Q_PROPERTY(qsizetype subTickCount READ subTickCount WRITE setSubTickCount NOTIFY
                    subTickCountChanged FINAL)
@@ -67,7 +67,7 @@ public:
     QString labelFormat() const;
     void setLabelPostFormat(const QString &format);
     QString labelPostFormat() const;
-    void setlabelPrecision(int decimals);
+    void setLabelPrecision(int decimals);
     int labelPrecision() const;
 
     void setZoom(qreal zoom);
@@ -86,10 +86,9 @@ Q_SIGNALS:
     void rangeChanged(qreal min, qreal max);
     void subTickCountChanged(qsizetype subTickCount);
     void labelFormatChanged(const QString &format);
-    Q_REVISION(6, 12) void labelPostFormatChanged(const QString &format);
+    void labelPostFormatChanged(const QString &format);
     void labelPrecisionChanged(int precision);
-    void tickAnchorChanged(qreal tickAnchor);
-    void tickCountChanged(qreal tickCount);
+    void tickCountChanged(qsizetype tickCount);
     void zoomChanged(qreal zoom);
     void panChanged(qreal pan);
     void visualMinChanged(qreal visualMin);
@@ -97,7 +96,7 @@ Q_SIGNALS:
 
 private:
     Q_DECLARE_PRIVATE(QLogValueAxis)
-    Q_DISABLE_COPY(QLogValueAxis)
+    Q_DISABLE_COPY_MOVE(QLogValueAxis)
 };
 
 QT_END_NAMESPACE

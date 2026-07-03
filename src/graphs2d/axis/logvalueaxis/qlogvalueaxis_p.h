@@ -45,7 +45,6 @@ private:
     QString m_format;
     QString m_postFormat;
     int m_precision;
-    qreal m_tickAnchor;
     qsizetype m_tickCount;
     qreal m_zoom = 1.0;
     qreal m_pan = 0.0;
