@@ -437,7 +437,7 @@ QString QLogValueAxis::labelPostFormat() const
     return d->m_postFormat;
 }
 
-void QLogValueAxis::setlabelPrecision(int precision)
+void QLogValueAxis::setLabelPrecision(int precision)
 {
     Q_D(QLogValueAxis);
     if (d->m_precision != precision) {
@@ -526,7 +526,6 @@ QLogValueAxisPrivate::QLogValueAxisPrivate()
     , m_format()
     , m_postFormat(QLatin1StringView("%1"))
     , m_precision(6)
-    , m_tickAnchor(0.0)
     , m_tickCount(-1)
 {}
 
