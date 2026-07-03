@@ -42,7 +42,7 @@ QT_BEGIN_NAMESPACE
     \value Value
     \value BarCategory
     \value DateTime
-    \value LogValue
+    \value [since 6.12] LogValue
 */
 
 /*!
