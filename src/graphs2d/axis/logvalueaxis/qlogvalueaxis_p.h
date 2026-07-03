@@ -15,7 +15,7 @@
 #ifndef QLOGVALUEAXIS_P_H
 #define QLOGVALUEAXIS_P_H
 
-#include <QtGraphs/QLogValueAxis>
+#include <QtGraphs/qlogvalueaxis.h>
 #include <private/qabstractaxis_p.h>
 
 QT_BEGIN_NAMESPACE
