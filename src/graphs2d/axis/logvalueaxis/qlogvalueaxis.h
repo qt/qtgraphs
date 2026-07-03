@@ -8,7 +8,7 @@
 
 #include <QtGraphs/qabstractaxis.h>
 #include <QtGraphs/qgraphsglobal.h>
-#include <QtQml/qqmlengine.h>
+#include <QtQml/qqmlregistration.h>
 
 QT_BEGIN_NAMESPACE
 
