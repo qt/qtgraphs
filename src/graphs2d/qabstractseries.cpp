@@ -174,7 +174,7 @@ QT_BEGIN_NAMESPACE
 
     Can be used to check whether mouse/touch is currently
     hovering on a series.
-    \sa QAbstractSeries::hovered
+    \sa QAbstractSeries::hoverable
 */
 /*!
     \qmlproperty bool AbstractSeries::hovered

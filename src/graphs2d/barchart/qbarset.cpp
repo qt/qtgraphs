@@ -345,12 +345,12 @@ void QBarSet::append(qreal value)
     \qmlmethod void BarSet::append(list<real> values)
     Appends the list of real values specified by \a values to the end of the bar set.
 
-    \sa append()
+    \sa insert()
 */
 /*!
     Appends the list of real values specified by \a values to the end of the bar set.
 
-    \sa append()
+    \sa insert()
 */
 void QBarSet::append(const QList<qreal> &values)
 {
