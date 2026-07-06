@@ -96,8 +96,6 @@ Q_SIGNALS:
     Q_REVISION(6, 11) void panChanged(qreal newPan);
     Q_REVISION(6, 11) void visualMinChanged(const QDateTime &newMin);
     Q_REVISION(6, 11) void visualMaxChanged(const QDateTime &newMax);
-    Q_REVISION(6, 11) void visualMinChanged(qreal newMin);
-    Q_REVISION(6, 11) void visualMaxChanged(qreal newMax);
     Q_REVISION(6, 12) void tickCountChanged(qreal count);
 
 private:
