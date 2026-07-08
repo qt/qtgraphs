@@ -355,6 +355,7 @@ private:
     QQmlComponent *m_zoomAreaDelegate = nullptr;
     QQuickItem *m_zoomAreaItem = nullptr;
     QQuickPinchHandler *m_pinchHandler = nullptr;
+    bool m_initialized = false;
 
 #ifdef USE_SHAPE_BACKEND
     bool m_useCanvasPainter = false;
