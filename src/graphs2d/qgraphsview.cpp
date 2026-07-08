@@ -133,6 +133,7 @@ QGraphsView::QGraphsView(QQuickItem *parent) :
                      &QQuickPinchHandler::grabChanged,
                      this,
                      &QGraphsView::onPinchGrabChanged);
+    m_initialized = true;
 }
 
 QGraphsView::~QGraphsView()
@@ -460,7 +461,9 @@ void QGraphsView::createCanvasPainter()
         m_painterItem->setAlphaBlending(true);
         m_painterItem->setFillColor(Qt::transparent);
         m_painterItem->setAntialiasing(true);
-        updateComponentSizes();
+
+        if (m_initialized)
+            updateComponentSizes();
     }
 }
 
@@ -1066,14 +1069,10 @@ void QGraphsView::updatePolish()
         m_areaRenderer->resetShapePathCount();
     #endif
 
-    float highestBarsZ = -std::numeric_limits<float>::max();
-    float highestPointZ = -std::numeric_limits<float>::max();
-    float highestPieZ = -std::numeric_limits<float>::max();
-    float highestAreaZ = -std::numeric_limits<float>::max();
-    float highestCustomZ = -std::numeric_limits<float>::max();
 
     // Polish for all series
 #ifdef USE_BARGRAPH
+    float highestBarsZ = std::numeric_limits<float>::lowest();
     int barSeriesIndex = 0;
     int barSeriesCount =
             std::count_if(m_seriesList.begin(), m_seriesList.end(),
@@ -1092,6 +1091,8 @@ void QGraphsView::updatePolish()
 #endif
 
 #ifdef USE_POINTS
+        float highestPointZ = std::numeric_limits<float>::lowest();
+
         if (m_pointRenderer) {
 #ifdef USE_LINEGRAPH
             if (auto lineSeries = qobject_cast<QLineSeries *>(series)) {
@@ -1120,6 +1121,8 @@ void QGraphsView::updatePolish()
 #endif
 
 #ifdef USE_PIEGRAPH
+        float highestPieZ = std::numeric_limits<float>::lowest();
+
         if (m_pieRenderer) {
             if (auto pieSeries = qobject_cast<QPieSeries *>(series)) {
                 m_pieRenderer->handlePolish(pieSeries);
@@ -1130,6 +1133,8 @@ void QGraphsView::updatePolish()
 #endif
 
 #ifdef USE_AREAGRAPH
+        float highestAreaZ = std::numeric_limits<float>::lowest();
+
         if (m_areaRenderer) {
             if (auto areaSeries = qobject_cast<QAreaSeries *>(series)) {
                 m_areaRenderer->handlePolish(areaSeries);
@@ -1140,6 +1145,8 @@ void QGraphsView::updatePolish()
 #endif
 
 #ifdef USE_CUSTOMGRAPH
+        float highestCustomZ = std::numeric_limits<float>::lowest();
+
         if (m_customRenderer) {
             if (auto customSeries = qobject_cast<QCustomSeries *>(series)) {
                 m_customRenderer->handlePolish(customSeries);
@@ -1155,43 +1162,51 @@ void QGraphsView::updatePolish()
         auto &cleanupSeriesList = m_cleanupSeriesList[0];
         m_barsRenderer->afterPolish(cleanupSeriesList);
         cleanupSeriesList.clear();
-        if (highestBarsZ > -std::numeric_limits<float>::max())
+        if (highestBarsZ > std::numeric_limits<float>::lowest())
             m_barsRenderer->setZ(highestBarsZ);
     }
 #endif
 #ifdef USE_POINTS
     if (m_pointRenderer) {
+        float highestPointZ = std::numeric_limits<float>::lowest();
+
         auto &cleanupSeriesList = m_cleanupSeriesList[1];
         m_pointRenderer->afterPolish(cleanupSeriesList);
        cleanupSeriesList.clear();
-        if (highestPointZ > -std::numeric_limits<float>::max())
+        if (highestPointZ > std::numeric_limits<float>::lowest())
             m_pointRenderer->setZ(highestPointZ);
     }
 #endif
 #ifdef USE_AREAGRAPH
     if (m_areaRenderer) {
+        float highestAreaZ = std::numeric_limits<float>::lowest();
+
         auto &cleanupSeriesList = m_cleanupSeriesList[2];
         m_areaRenderer->afterPolish(cleanupSeriesList);
         cleanupSeriesList.clear();
-        if (highestAreaZ > -std::numeric_limits<float>::max())
+        if (highestAreaZ > std::numeric_limits<float>::lowest())
             m_areaRenderer->setZ(highestAreaZ);
     }
 #endif
 #ifdef USE_PIEGRAPH
     if (m_pieRenderer) {
+        float highestPieZ = std::numeric_limits<float>::lowest();
+
         auto &cleanupSeriesList = m_cleanupSeriesList[3];
         m_pieRenderer->afterPolish(cleanupSeriesList);
         cleanupSeriesList.clear();
-        if (highestPieZ > -std::numeric_limits<float>::max())
+        if (highestPieZ > std::numeric_limits<float>::lowest())
             m_pieRenderer->setZ(highestPieZ);
     }
 #endif
 #ifdef USE_CUSTOMGRAPH
     if (m_customRenderer) {
+        float highestCustomZ = std::numeric_limits<float>::lowest();
+
         auto &cleanupSeriesList = m_cleanupSeriesList[4];
         m_customRenderer->afterPolish(cleanupSeriesList);
         cleanupSeriesList.clear();
-        if (highestCustomZ > -std::numeric_limits<float>::max())
+        if (highestCustomZ > std::numeric_limits<float>::lowest())
             m_customRenderer->setZ(highestCustomZ);
     }
 #endif

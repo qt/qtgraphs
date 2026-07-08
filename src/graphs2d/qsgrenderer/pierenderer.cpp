@@ -255,11 +255,6 @@ void PieRenderer::handleSlicesPolish(QPieSeries *series,
         if (d->m_borderColor.isValid() && d->m_borderColor.alpha() != 0)
             borderColor = d->m_borderColor;
 
-        // border width
-        qreal borderWidth = theme->borderWidth();
-        if (d->m_borderWidth >= 1.0)
-            borderWidth = d->m_borderWidth;
-
         // color
         const auto &seriesColors = theme->seriesColors();
         index = sliceIndex % seriesColors.size();
@@ -268,6 +263,11 @@ void PieRenderer::handleSlicesPolish(QPieSeries *series,
             color = d->m_color;
 
 #ifdef USE_SHAPE_BACKEND
+        // border width
+        qreal borderWidth = theme->borderWidth();
+        if (d->m_borderWidth >= 1.0)
+            borderWidth = d->m_borderWidth;
+
         shapePath->setStrokeWidth(borderWidth);
         shapePath->setStrokeColor(borderColor);
         shapePath->setFillColor(color);

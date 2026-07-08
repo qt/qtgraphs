@@ -20,7 +20,8 @@ QCPainterItemRenderer::QCPainterItemRenderer(AreaRenderer *&areaRenderer,
     , pieRenderer(pieRenderer)
     , pointRenderer(pointRenderer)
     , customRenderer(customRenderer)
-{}
+{
+}
 
 void QCPainterItemRenderer::paint(QCanvasPainter *p)
 {
@@ -39,16 +40,36 @@ void QCPainterItemRenderer::paint(QCanvasPainter *p)
     });
 
     for (auto renderer : renderers) {
-        if (auto area = qobject_cast<AreaRenderer *>(renderer))
+#ifdef USE_AREAGRAPH
+        if (auto area = qobject_cast<AreaRenderer *>(renderer)) {
             area->canvasPaint(p);
-        else if (auto bars = qobject_cast<BarsRenderer *>(renderer))
+            continue;
+        }
+#endif
+#ifdef USE_BARGRAPH
+        if (auto bars = qobject_cast<BarsRenderer *>(renderer)) {
             bars->canvasPaint(p);
-        else if (auto pie = qobject_cast<PieRenderer *>(renderer))
+            continue;
+        }
+#endif
+#ifdef USE_PIEGRAPH
+        if (auto pie = qobject_cast<PieRenderer *>(renderer)) {
             pie->canvasPaint(p);
-        else if (auto point = qobject_cast<PointRenderer *>(renderer))
+            continue;
+        }
+#endif
+#ifdef USE_POINTS
+        if (auto point = qobject_cast<PointRenderer *>(renderer)) {
             point->canvasPaint(p);
-        else if (auto custom = qobject_cast<CustomRenderer *>(renderer))
+            continue;
+        }
+#endif
+#ifdef USE_CUSTOMGRAPH
+        if (auto custom = qobject_cast<CustomRenderer *>(renderer)) {
             custom->canvasPaint(p);
+            continue;
+        }
+#endif
     }
 }
 
