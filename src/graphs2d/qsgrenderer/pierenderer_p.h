@@ -37,11 +37,29 @@ class PieRenderer : public QQuickItem
 {
     Q_OBJECT
 public:
+    struct SliceData
+    {
+        QPainterPath shapePainterPath;
+        QPainterPath labelPainterPath;
+        qreal resolvedBorderWidth;
+        QColor resolvedColor;
+        QColor resolvedBorderColor;
+        QColor resolvedLabelTextColor;
+        int sliceIndex;
+        bool initialized;
+        bool seriesVisible;
+        bool labelPathVisible;
+    };
+
     PieRenderer(QGraphsView *graph, bool clipPlotArea);
     ~PieRenderer() override;
 
 #ifdef USE_PAINTER_BACKEND
-    void canvasPaint(QCanvasPainter *p);
+    using PaintSnapshot = QHash<QPieSlice *, SliceData>;
+
+    static void paintSnapshot(const PaintSnapshot &paintSnapshot, QCanvasPainter *p);
+    void synchronizeData();
+    PaintSnapshot paintSnapshot() const;
 #endif
     void updateActiveSlices(QPieSeries *series, QList<QPieSlice *> slicelist);
     void handlePolish(QPieSeries *series);
@@ -65,12 +83,6 @@ public:
     bool handleHoverMove(QHoverEvent *event);
 
 private:
-    struct SliceData
-    {
-        bool initialized;
-        int sliceIndex = 0;
-    };
-
     struct DragState
     {
         bool dragging = false;
@@ -96,6 +108,9 @@ private:
     QGraphsView *m_graph = nullptr;
     QQuickShape *m_shape = nullptr;
     QHash<QPieSlice *, SliceData> m_activeSlices;
+#ifdef USE_PAINTER_BACKEND
+    QHash<QPieSlice *, SliceData> m_paintSnapshot;
+#endif
 
     QQuickTapHandler *m_tapHandler = nullptr;
     QPieSlice *m_currentHoverSlice = nullptr;
@@ -106,8 +121,6 @@ private:
 
     QPainterPath m_painterPath;
     qsizetype m_colorIndex = -1;
-
-    friend class PiePainter;
 };
 
 QT_END_NAMESPACE

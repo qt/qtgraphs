@@ -88,11 +88,24 @@ void PointRenderer::resetShapePathCount()
 }
 
 #ifdef USE_PAINTER_BACKEND
-void PointRenderer::canvasPaint(QCanvasPainter *p)
-{
+void PointRenderer::paintSnapshot(const PaintSnapshot &snapshot, QCanvasPainter *p) {
+
     p->setLineJoin(QCanvasPainter::LineJoin::Round);
 
-    for (auto&& group : m_groups) {
+    for (const auto &pointSnapshot : snapshot) {
+        p->setStrokeStyle(pointSnapshot.strokeColor);
+        p->setLineWidth(pointSnapshot.lineWidth);
+        p->setLineCap(pointSnapshot.lineCap);
+        p->beginPath();
+        p->addPath(pointSnapshot.painterPath);
+        p->stroke();
+    }
+}
+
+void PointRenderer::synchronizeData()
+{
+    m_pointPaintSnapshot.clear();
+    for (const auto &group : std::as_const(m_groups)) {
         if (group->painterPath.elementCount() == 0)
             continue;
 
@@ -100,6 +113,7 @@ void PointRenderer::canvasPaint(QCanvasPainter *p)
 
         qreal width = 1.0;
         QCanvasPainter::LineCap capStyle = QCanvasPainter::LineCap::Round;
+#ifdef USE_LINEGRAPH
         if (auto line = qobject_cast<QLineSeries *>(group->series)) {
             width = line->width();
             switch (line->capStyle()) {
@@ -115,7 +129,13 @@ void PointRenderer::canvasPaint(QCanvasPainter *p)
             default:
                 break;
             }
-        } else if (auto spline = qobject_cast<QSplineSeries *>(group->series)) {
+        }
+#endif
+#ifdef USE_SPLINEGRAPH
+#ifdef USE_LINEGRAPH
+        else
+#endif
+        if (auto spline = qobject_cast<QSplineSeries *>(group->series)) {
             width = spline->width();
             switch (spline->capStyle()) {
             case Qt::PenCapStyle::FlatCap:
@@ -131,15 +151,16 @@ void PointRenderer::canvasPaint(QCanvasPainter *p)
                 break;
             }
         }
-
-        p->setStrokeStyle(style.color);
-        p->setLineWidth(width);
-        p->setLineCap(capStyle);
-        p->beginPath();
-        p->addPath(group->painterPath);
-        p->stroke();
+#endif
+        m_pointPaintSnapshot.append({group->painterPath, style.color, width, capStyle});
     }
 }
+
+PointRenderer::PaintSnapshot PointRenderer::paintSnapshot() const
+{
+    return m_pointPaintSnapshot;
+}
+
 #endif
 
 qreal PointRenderer::defaultSize(QXYSeries *series)

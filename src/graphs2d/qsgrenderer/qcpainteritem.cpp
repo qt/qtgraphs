@@ -10,63 +10,92 @@
 
 QT_BEGIN_NAMESPACE
 
-QCPainterItemRenderer::QCPainterItemRenderer(AreaRenderer *&areaRenderer,
-                                             BarsRenderer *&barsRenderer,
-                                             PieRenderer *&pieRenderer,
-                                             PointRenderer *&pointRenderer,
-                                             CustomRenderer *&customRenderer)
-    : areaRenderer(areaRenderer)
-    , barsRenderer(barsRenderer)
-    , pieRenderer(pieRenderer)
-    , pointRenderer(pointRenderer)
-    , customRenderer(customRenderer)
+QCPainterItemRenderer::QCPainterItemRenderer() = default;
+
+QCPainterItemRenderer::~QCPainterItemRenderer() = default;
+
+void QCPainterItemRenderer::initializeResources(QCanvasPainter *p)
 {
+    Q_UNUSED(p);
 }
 
-void QCPainterItemRenderer::paint(QCanvasPainter *p)
+void QCPainterItemRenderer::prePaint(QCanvasPainter *painter)
 {
-    std::array<QQuickItem *, 5> renderers = {areaRenderer,
-                                             barsRenderer,
-                                             pieRenderer,
-                                             pointRenderer,
-                                             customRenderer};
+    Q_UNUSED(painter);
+}
 
-    std::sort(renderers.begin(), renderers.end(), [](const QQuickItem *lhs, const QQuickItem *rhs) {
-        if (!lhs)
-            return false;
-        if (!rhs)
-            return true;
-        return lhs->z() < rhs->z();
-    });
+void QCPainterItemRenderer::paint(QCanvasPainter *p) {
+    for (auto rendererKind : std::as_const(m_rendererSlots)) {
+        switch (rendererKind) {
+#ifdef USE_AREAGRAPH
+        case RendererKind::Area:
+            AreaRenderer::paintSnapshot(m_areaPaintSnapshot, p);
+            break;
+#endif
+#ifdef USE_BARGRAPH
+        case RendererKind::Bars:
+            BarsRenderer::paintSnapshot(m_barsSnapshot, p);
+            break;
+#endif
+#ifdef USE_PIEGRAPH
+        case RendererKind::Pie:
+            PieRenderer::paintSnapshot(m_piePaintSnapshot, p);
+            break;
+#endif
+#ifdef USE_POINTS
+        case RendererKind::Point:
+            PointRenderer::paintSnapshot(m_pointPaintSnapshot, p);
+            break;
+#endif
+        }
+    }
+}
 
+void QCPainterItemRenderer::synchronizeData(QCanvasPainterItem *item)
+{
+    auto graphsPainterItem = static_cast<QCPainterItem *>(item);
+    std::array<QQuickItem *, 5> renderers = { graphsPainterItem->m_areaRenderer, graphsPainterItem->m_barsRenderer, graphsPainterItem->m_pieRenderer,
+                                              graphsPainterItem->m_pointRenderer, graphsPainterItem->m_customRenderer };
+    std::stable_sort(renderers.begin(),
+                     renderers.end(),
+                     [](QQuickItem *lhs, QQuickItem *rhs) {
+                         if (!lhs)
+                             return false;
+                         if (!rhs)
+                             return true;
+                         return lhs->z() < rhs->z();
+                     });
+    m_rendererSlots.clear();
     for (auto renderer : renderers) {
 #ifdef USE_AREAGRAPH
         if (auto area = qobject_cast<AreaRenderer *>(renderer)) {
-            area->canvasPaint(p);
+            area->synchronizeData();
+            m_areaPaintSnapshot = area->paintSnapshot();
+            m_rendererSlots.append(RendererKind::Area);
             continue;
         }
 #endif
 #ifdef USE_BARGRAPH
         if (auto bars = qobject_cast<BarsRenderer *>(renderer)) {
-            bars->canvasPaint(p);
+            bars->synchronizeData();
+            m_barsSnapshot = bars->paintSnapshot();
+            m_rendererSlots.append(RendererKind::Bars);
             continue;
         }
 #endif
 #ifdef USE_PIEGRAPH
         if (auto pie = qobject_cast<PieRenderer *>(renderer)) {
-            pie->canvasPaint(p);
+            pie->synchronizeData();
+            m_piePaintSnapshot = pie->paintSnapshot();
+            m_rendererSlots.append(RendererKind::Pie);
             continue;
         }
 #endif
 #ifdef USE_POINTS
         if (auto point = qobject_cast<PointRenderer *>(renderer)) {
-            point->canvasPaint(p);
-            continue;
-        }
-#endif
-#ifdef USE_CUSTOMGRAPH
-        if (auto custom = qobject_cast<CustomRenderer *>(renderer)) {
-            custom->canvasPaint(p);
+            point->synchronizeData();
+            m_pointPaintSnapshot = point->paintSnapshot();
+            m_rendererSlots.append(RendererKind::Point);
             continue;
         }
 #endif
@@ -80,16 +109,16 @@ QCPainterItem::QCPainterItem(AreaRenderer *&areaRenderer,
                              CustomRenderer *&customRenderer,
                              QQuickItem *parent)
     : QCanvasPainterItem(parent)
-    , areaRenderer(areaRenderer)
-    , barsRenderer(barsRenderer)
-    , pieRenderer(pieRenderer)
-    , pointRenderer(pointRenderer)
-    , customRenderer(customRenderer)
+    , m_areaRenderer(areaRenderer)
+    , m_barsRenderer(barsRenderer)
+    , m_pieRenderer(pieRenderer)
+    , m_pointRenderer(pointRenderer)
+    , m_customRenderer(customRenderer)
 {}
 
 QCPainterItemRenderer *QCPainterItem::createItemRenderer() const
 {
-    return new QCPainterItemRenderer(areaRenderer, barsRenderer, pieRenderer, pointRenderer, customRenderer);
+    return new QCPainterItemRenderer();
 }
 
 QT_END_NAMESPACE

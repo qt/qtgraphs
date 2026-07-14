@@ -62,10 +62,11 @@ BarsRenderer::BarsRenderer(QGraphsView *graph, bool clipPlotArea)
 BarsRenderer::~BarsRenderer() {}
 
 #ifdef USE_PAINTER_BACKEND
-void BarsRenderer::canvasPaint(QCanvasPainter *p)
+void BarsRenderer::paintSnapshot(const PaintSnapshot &snapshot,
+                                 QCanvasPainter *p)
 {
-    for (auto &&dataList : m_seriesData) {
-        for (auto&& d : dataList) {
+    for (const auto &dataList : snapshot) {
+        for (const auto &d : dataList) {
             p->setFillStyle(d.color);
             p->setStrokeStyle(d.borderColor);
             p->setLineWidth(d.borderWidth);
@@ -75,6 +76,16 @@ void BarsRenderer::canvasPaint(QCanvasPainter *p)
             p->stroke();
         }
     }
+}
+
+void BarsRenderer::synchronizeData()
+{
+    m_paintSnapshot = m_seriesData;
+}
+
+BarsRenderer::PaintSnapshot BarsRenderer::paintSnapshot() const
+{
+    return m_paintSnapshot;
 }
 #endif
 
