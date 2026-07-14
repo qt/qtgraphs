@@ -18,6 +18,9 @@
 #include <QtCanvasPainter/QCanvasLinearGradient>
 #include <QtCanvasPainter/QCanvasConicalGradient>
 #include <QtCanvasPainter/QCanvasRadialGradient>
+#include <QLinearGradient>
+#include <QRadialGradient>
+#include <QConicalGradient>
 #endif
 
 #include <qtgraphs_tracepoints_p.h>
@@ -71,39 +74,87 @@ void AreaRenderer::resetShapePathCount()
 }
 
 #ifdef USE_PAINTER_BACKEND
-void AreaRenderer::canvasPaint(QCanvasPainter *p)
+AreaRenderer::PaintSnapshot AreaRenderer::paintSnapshot() const
 {
+    return m_areaPaintSnapshot;
+}
+
+void AreaRenderer::synchronizeData()
+{
+    m_areaPaintSnapshot.clear();
     for (auto &&group : m_groups) {
         if (group->painterPath.elementCount() == 0)
             continue;
 
         const auto style = getSeriesStyle(group);
-
+        AreaPaintData paintData;
         if (auto linear = qobject_cast<QQuickShapeLinearGradient *>(style.gradient)) {
-            QCanvasLinearGradient qcLinear(linear->x1(), linear->y1(),
-                                           linear->x2(), linear->y2());
-            for (auto&& stop : linear->gradientStops())
-                qcLinear.setColorAt(stop.first, stop.second);
-            p->setFillStyle(qcLinear);
+            QLinearGradient gradient(linear->x1(), linear->y1(), linear->x2(), linear->y2());
+            gradient.setStops(linear->gradientStops());
+            paintData.gradient = gradient;
         } else if (auto radial = qobject_cast<QQuickShapeRadialGradient *>(style.gradient)) {
-            QCanvasRadialGradient qcRadial(radial->centerX(), radial->centerY(),
-                                           radial->focalRadius(), radial->centerRadius());
-            for (auto&& stop : radial->gradientStops())
-                qcRadial.setColorAt(stop.first, stop.second);
-            p->setFillStyle(qcRadial);
+            QPointF center(radial->centerX(), radial->centerY());
+            QPointF focal(radial->focalX(), radial->focalY());
+            QRadialGradient gradient(center, radial->centerRadius(), focal, radial->focalRadius());
+            gradient.setStops(radial->gradientStops());
+            paintData.gradient = gradient;
         } else if (auto conical = qobject_cast<QQuickShapeConicalGradient *>(style.gradient)) {
-            QCanvasConicalGradient qcConical(conical->centerX(), conical->centerY(), conical->angle());
-            for (auto&& stop : conical->gradientStops())
-                qcConical.setColorAt(stop.first, stop.second);
-            p->setFillStyle(qcConical);
+            QConicalGradient gradient(conical->centerX(), conical->centerY(), conical->angle());
+            gradient.setStops(conical->gradientStops());
+            paintData.gradient = gradient;
         } else {
-            p->setFillStyle(style.color);
+            paintData.resolvedColor = style.color;
         }
+        paintData.resolvedBorderColor = style.borderColor;
+        paintData.resolvedBorderWidth = style.borderWidth;
+        paintData.painterPath = group->painterPath;
+        m_areaPaintSnapshot.append(paintData);
+    }
+}
 
-        p->setStrokeStyle(style.borderColor);
-        p->setLineWidth(style.borderWidth);
+void AreaRenderer::paintSnapshot(const PaintSnapshot &snapshot, QCanvasPainter *p)
+{
+    for (const auto &areaPaintSnapshot : snapshot) {
+        const auto &gradient = areaPaintSnapshot.gradient;
+        switch (gradient.type()) {
+        case QGradient::LinearGradient: {
+            const auto &lg = static_cast<const QLinearGradient &>(gradient);
+            QCanvasLinearGradient canvasGradient(lg.start().x(),
+                                                 lg.start().y(),
+                                                 lg.finalStop().x(),
+                                                 lg.finalStop().y());
+            const QGradientStops stops = lg.stops();
+            for (const auto &stop : stops)
+                canvasGradient.setColorAt(stop.first, stop.second);
+            p->setFillStyle(canvasGradient);
+        } break;
+        case QGradient::RadialGradient: {
+            const auto &rg = static_cast<const QRadialGradient &>(gradient);
+            QCanvasRadialGradient canvasGradient(rg.center().x(),
+                                                 rg.center().y(),
+                                                 rg.centerRadius(),
+                                                 rg.focalRadius());
+            const QGradientStops stops = rg.stops();
+            for (const auto &stop : stops)
+                canvasGradient.setColorAt(stop.first, stop.second);
+            p->setFillStyle(canvasGradient);
+        } break;
+        case QGradient::ConicalGradient: {
+            const auto &cg = static_cast<const QConicalGradient &>(gradient);
+            QCanvasConicalGradient canvasGradient(cg.center().x(), cg.center().y(), cg.angle());
+            const QGradientStops stops = cg.stops();
+            for (const auto &stop : stops)
+                canvasGradient.setColorAt(stop.first, stop.second);
+            p->setFillStyle(canvasGradient);
+        } break;
+        case QGradient::NoGradient: {
+            p->setFillStyle(areaPaintSnapshot.resolvedColor);
+        }
+        }
+        p->setStrokeStyle(areaPaintSnapshot.resolvedBorderColor);
+        p->setLineWidth(areaPaintSnapshot.resolvedBorderWidth);
         p->beginPath();
-        p->addPath(group->painterPath);
+        p->addPath(areaPaintSnapshot.painterPath);
         p->fill();
         p->stroke();
     }

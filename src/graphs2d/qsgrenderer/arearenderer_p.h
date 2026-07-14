@@ -16,12 +16,17 @@
 //
 // We mean it.
 
+#include <QGradient>
 #include <QPainterPath>
 #include <QQuickItem>
 #ifdef USE_SHAPE_BACKEND
 #include <QtQuickShapes/private/qquickshape_p.h>
 #endif
-
+#ifdef USE_PAINTER_BACKEND
+#include <QtCanvasPainter/qcanvasconicalgradient.h>
+#include <QtCanvasPainter/qcanvaslineargradient.h>
+#include <QtCanvasPainter/qcanvasradialgradient.h>
+#endif
 QT_BEGIN_NAMESPACE
 
 class QGraphsView;
@@ -38,13 +43,25 @@ class AreaRenderer : public QQuickItem
 {
     Q_OBJECT
 public:
+    struct AreaPaintData
+    {
+        QGradient gradient;
+        QPainterPath painterPath;
+        qreal resolvedBorderWidth;
+        QColor resolvedBorderColor;
+        QColor resolvedColor;
+    };
+    using PaintSnapshot = QList<AreaPaintData>;
+
     AreaRenderer(QGraphsView *graph, bool clipPlotArea);
     ~AreaRenderer() override;
 
     void resetShapePathCount();
 
 #ifdef USE_PAINTER_BACKEND
-    void canvasPaint(QCanvasPainter *p);
+    PaintSnapshot paintSnapshot() const;
+    void synchronizeData();
+    static void paintSnapshot(const PaintSnapshot &snapshot, QCanvasPainter *p);
 #endif
     void handlePolish(QAreaSeries *series);
     void afterPolish(QList<QAbstractSeries *> &cleanupSeries);
@@ -58,14 +75,14 @@ Q_SIGNALS:
 private:
     struct PointGroup
     {
-        QAreaSeries *series = nullptr;
         QPainterPath painterPath;
-        qsizetype colorIndex = -1;
-        qsizetype borderColorIndex = -1;
-        bool hover = false;
+        QAreaSeries *series = nullptr;
 #ifdef USE_SHAPE_BACKEND
         QQuickShapePath *shapePath = nullptr;
 #endif
+        qsizetype colorIndex = -1;
+        qsizetype borderColorIndex = -1;
+        bool hover = false;
     };
 
     void onSingleTapped(QEventPoint eventPoint, Qt::MouseButton button);
@@ -78,6 +95,10 @@ private:
 
 #ifdef USE_SHAPE_BACKEND
     QQuickShape m_shape;
+#endif
+
+#ifdef USE_PAINTER_BACKEND
+    PaintSnapshot m_areaPaintSnapshot;
 #endif
 
     // Render area variables

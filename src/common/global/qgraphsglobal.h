@@ -7,6 +7,7 @@
 #define QTGRAPHS_QGRAPHSGLOBAL_H
 
 #include <QtCore/qglobal.h>
+#include <QtGraphs/qtgraphs-config.h>
 #include <QtGraphs/qtgraphsexports.h>
 
 #ifdef QTDATAVIS3D_HEADERS

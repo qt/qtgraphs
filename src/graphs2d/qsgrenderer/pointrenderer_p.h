@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 // Qt-Security score:significant reason:default
 
-
 #ifndef POINTRENDERER_H
 #define POINTRENDERER_H
 
@@ -24,6 +23,9 @@
 #ifdef USE_SHAPE_BACKEND
 #include <QtQuickShapes/private/qquickshape_p.h>
 #endif
+#ifdef USE_PAINTER_BACKEND
+#include <QtCanvasPainter/qcanvaspainter.h>
+#endif
 
 QT_BEGIN_NAMESPACE
 
@@ -36,21 +38,29 @@ class AxisRenderer;
 class QQuickTapHandler;
 class QQuickDragHandler;
 struct QLegendData;
-#ifdef USE_PAINTER_BACKEND
-class QCanvasPainter;
-#endif
 
 class PointRenderer : public QQuickItem
 {
     Q_OBJECT
 public:
+
     PointRenderer(QGraphsView *graph, bool clipPlotArea);
     ~PointRenderer() override;
 
     void resetShapePathCount();
 
 #ifdef USE_PAINTER_BACKEND
-    void canvasPaint(QCanvasPainter *p);
+    struct PointPaintData
+    {
+        QPainterPath painterPath;
+        QColor strokeColor;
+        qreal lineWidth;
+        QCanvasPainter::LineCap lineCap;
+    };
+    using PaintSnapshot = QList<PointPaintData>;
+    static void paintSnapshot(const PaintSnapshot &snapshot, QCanvasPainter *p);
+    void synchronizeData();
+    QList<PointPaintData> paintSnapshot() const;
 #endif
     void handlePolish(QXYSeries *series);
     void afterPolish(QList<QAbstractSeries *> &cleanupSeries);
@@ -77,6 +87,10 @@ private:
         QQuickShapePath *shapePath = nullptr;
 #endif
     };
+
+#ifdef USE_PAINTER_BACKEND
+    PaintSnapshot m_pointPaintSnapshot;
+#endif
 
     QQmlComponent *m_tempMarker = nullptr;
 

@@ -77,54 +77,49 @@ void PieRenderer::setSize(QSizeF size)
 }
 
 #ifdef USE_PAINTER_BACKEND
-void PieRenderer::canvasPaint(QCanvasPainter *p)
+void PieRenderer::paintSnapshot(const PaintSnapshot &paintSnapshot, QCanvasPainter *p)
 {
-    QGraphsTheme *theme = m_graph->theme();
+    for (auto it = paintSnapshot.cbegin(); it != paintSnapshot.cend(); it++) {
+         const auto &data = it.value();
 
-    for (auto it = m_activeSlices.begin(); it != m_activeSlices.end(); it++) {
-        auto slice = it.key();
-        auto data = it.value();
+        if (data.seriesVisible) {
+            // border color
+            QColor borderColor = data.resolvedBorderColor;
 
-        QPieSlicePrivate *d = slice->d_func();
+            // border width
+            qreal borderWidth = data.resolvedBorderWidth;
 
-        // border color
-        const auto &borderColors = theme->borderColors();
-        int index = data.sliceIndex % borderColors.size();
-        QColor borderColor = borderColors.at(index);
-        if (d->m_borderColor.isValid() && d->m_borderColor.alpha() != 0)
-            borderColor = d->m_borderColor;
+            // color
+            QColor color = data.resolvedColor;
 
-        // border width
-        qreal borderWidth = theme->borderWidth();
-        if (d->m_borderWidth >= 1.0)
-            borderWidth = d->m_borderWidth;
+            p->setFillStyle(color);
+            p->setStrokeStyle(borderColor);
+            p->setLineWidth(borderWidth);
+            p->beginPath();
+            p->addPath(data.shapePainterPath);
+            p->fill();
+            p->stroke();
+        }
 
-        // color
-        const auto &seriesColors = theme->seriesColors();
-        index = data.sliceIndex % seriesColors.size();
-        QColor color = seriesColors.at(index);
-        if (d->m_color.isValid() && d->m_color.alpha() != 0)
-            color = d->m_color;
+        QColor labelTextColor = data.resolvedLabelTextColor;
 
-        p->setFillStyle(color);
-        p->setStrokeStyle(borderColor);
-        p->setLineWidth(borderWidth);
-        p->beginPath();
-        p->addPath(d->m_shapePainterPath);
-        p->fill();
-        p->stroke();
-
-        QColor labelTextColor = theme->labelTextColor();
-        if (d->m_labelColor.isValid())
-            labelTextColor = d->m_labelColor;
-
-        if (d->m_series->isVisible() && d->m_isLabelPathVisible) {
+        if (data.seriesVisible && data.labelPathVisible) {
             p->setStrokeStyle(labelTextColor);
             p->beginPath();
-            p->addPath(d->m_labelPainterPath);
+            p->addPath(data.labelPainterPath);
             p->stroke();
         }
     }
+}
+
+void PieRenderer::synchronizeData()
+{
+    m_paintSnapshot = m_activeSlices;
+}
+
+PieRenderer::PaintSnapshot PieRenderer::paintSnapshot() const
+{
+    return m_paintSnapshot;
 }
 #endif
 
@@ -150,14 +145,18 @@ void PieRenderer::updateActiveSlices(QPieSeries *series, QList<QPieSlice *> slic
             SliceData sliceData{};
             sliceData.initialized = false;
 
-            m_activeSlices.insert(slice, sliceData);
+            it = m_activeSlices.insert(slice, sliceData);
         }
+
+        it->seriesVisible = series->isVisible();
 
 #ifdef USE_SHAPE_BACKEND
         QQuickShape *labelShape = d->m_labelShape;
         labelShape->setVisible(series->isVisible() && d->m_isLabelVisible);
 #endif
         labelItem->setVisible(series->isVisible() && d->m_isLabelVisible);
+
+        updateActiveSlices(series, slice->subSlices());
 
         if (!series->isVisible()) {
 #ifdef USE_SHAPE_BACKEND
@@ -183,8 +182,6 @@ void PieRenderer::updateActiveSlices(QPieSeries *series, QList<QPieSlice *> slic
             labelShape->setParentItem(this);
         }
 #endif
-
-        updateActiveSlices(series, slice->subSlices());
     }
 }
 
@@ -238,7 +235,7 @@ void PieRenderer::handleSlicesPolish(QPieSeries *series,
     for (QPieSlice *slice : std::as_const(slicelist)) {
         m_painterPath.clear();
 
-        QPieSlicePrivate *d = slice->d_func();
+        auto *d = QPieSlicePrivate::get(slice);
         d->setStartAngle(sliceAngle);
         d->setAngleSpan((endAngle - startAngle) * slice->percentage()
                         * series->valuesMultiplier());
@@ -247,7 +244,6 @@ void PieRenderer::handleSlicesPolish(QPieSeries *series,
 #ifdef USE_SHAPE_BACKEND
         QQuickShapePath *shapePath = d->m_shapePath;
 #endif
-
         // border color
         const auto &borderColors = theme->borderColors();
         int index = sliceIndex % borderColors.size();
@@ -262,15 +258,15 @@ void PieRenderer::handleSlicesPolish(QPieSeries *series,
         if (d->m_color.isValid() && d->m_color.alpha() != 0)
             color = d->m_color;
 
-#ifdef USE_SHAPE_BACKEND
         // border width
         qreal borderWidth = theme->borderWidth();
         if (d->m_borderWidth >= 1.0)
             borderWidth = d->m_borderWidth;
 
-        shapePath->setStrokeWidth(borderWidth);
+#ifdef USE_SHAPE_BACKEND
         shapePath->setStrokeColor(borderColor);
         shapePath->setFillColor(color);
+        shapePath->setStrokeWidth(borderWidth);
 #endif
 
         QColor labelTextColor = theme->labelTextColor();
@@ -282,9 +278,14 @@ void PieRenderer::handleSlicesPolish(QPieSeries *series,
 #endif
 
         if (!m_activeSlices.contains(slice))
-            return;
+            continue;
 
         m_activeSlices[slice].sliceIndex = sliceIndex;
+        m_activeSlices[slice].resolvedColor = color;
+        m_activeSlices[slice].resolvedBorderColor = borderColor;
+        m_activeSlices[slice].resolvedBorderWidth = borderWidth;
+        m_activeSlices[slice].resolvedLabelTextColor = labelTextColor;
+        m_activeSlices[slice].labelPathVisible = d->m_isLabelPathVisible;
 
         qreal radian = qDegreesToRadians(slice->startAngle());
         qreal startBigX = radius * qSin(radian) * radiusRatio;
@@ -348,7 +349,8 @@ void PieRenderer::handleSlicesPolish(QPieSeries *series,
         else
 #endif
             d->m_shapePainterPath = m_painterPath;
-        m_painterPath.clear();
+
+        m_activeSlices[slice].shapePainterPath = std::exchange(m_painterPath, {});
 
         radian = qDegreesToRadians(slice->startAngle() + (slice->angleSpan() * .5));
         startBigX = radius * qSin(radian) * radiusRatio;
@@ -375,6 +377,8 @@ void PieRenderer::handleSlicesPolish(QPieSeries *series,
         else
 #endif
             d->m_labelPainterPath = m_painterPath;
+
+        m_activeSlices[slice].labelPainterPath = m_painterPath;
 
         sliceAngle += slice->angleSpan();
         sliceIndex++;

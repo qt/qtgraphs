@@ -212,9 +212,10 @@ public:
     qreal zoomSensitivity() const;
     void setZoomSensitivity(qreal newZoomSensitivity);
 
+#ifdef USE_CUSTOMGRAPH
     qreal mapX(QCustomSeries *series, qreal x);
     qreal mapY(QCustomSeries *series, qreal y);
-
+#endif
     CustomRenderer *customRenderer() const;
 
     bool useCanvasPainter() const;
