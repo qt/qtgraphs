@@ -43,7 +43,7 @@ public:
 
 protected:
     QLogValueAxis(QLogValueAxisPrivate &d, QObject *parent = nullptr);
-
+    bool event(QEvent *event) override;
 public:
     AxisType type() const override;
 
