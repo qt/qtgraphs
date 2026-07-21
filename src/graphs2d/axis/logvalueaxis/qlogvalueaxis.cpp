@@ -310,6 +310,14 @@ QLogValueAxis::QLogValueAxis(QLogValueAxisPrivate &d, QObject *parent)
 {}
 
 /*!
+    \reimp
+*/
+bool QLogValueAxis::event(QEvent *event)
+{
+    return QAbstractAxis::event(event);
+}
+
+/*!
     Destroys the object.
 */
 QLogValueAxis::~QLogValueAxis()
