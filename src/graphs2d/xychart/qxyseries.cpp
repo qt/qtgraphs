@@ -701,129 +701,135 @@ qsizetype QXYSeries::count() const
 }
 
 /*!
-    \property QXYSeries::declarativePoints
+    \property QXYSeries::values
     \since 6.12
     \brief The points of the series, set declaratively.
 
     The variant list can contain either \l QPointF values or numbers.
-    If numbers are given, \l{declarativePointHint} controls
+    If numbers are given, \l{valueMapping} controls
     whether each number is interpreted as an X or Y component.
 
-    \sa declarativePointHint, declarativeMin, stepSize
+    \sa valueMapping, valueMin, stepSize
 */
 /*!
-    \qmlproperty list<variant> XYSeries::declarativePoints
+    \qmlproperty list<variant> XYSeries::values
     \since 6.12
 
     This property can be used to set points declaratively for a XYSeries.
     The variant list can be either points or numbers. If numbers are given,
-    the \l{XYSeries::}{declarativePointHint} can be used to indicate whether
+    the \l{XYSeries::}{valueMapping} can be used to indicate whether
     the number is interpreted as the X or Y component of a point.
 */
-QVariantList QXYSeries::declarativePoints() const
+QVariantList QXYSeries::values() const
 {
     Q_D(const QXYSeries);
-    return d->m_declarativePoints;
+    return d->m_values;
 }
 
-void QXYSeries::setDeclarativePoints(QVariantList declarativePoints)
+void QXYSeries::setValues(QVariantList values)
 {
     Q_D(QXYSeries);
-    if (!declarativePoints.isSharedWith(d->m_declarativePoints)) {
-        d->m_declarativePoints = declarativePoints;
-        if (!d->m_declarativePoints.isEmpty()) {
+    if (!values.isSharedWith(d->m_values)) {
+        d->m_values = values;
+        if (!d->m_values.isEmpty()) {
             QList<QPointF> temp;
-            if (declarativePoints.at(0).canConvert<QPointF>())
+            if (values.at(0).canConvert<QPointF>())
                 temp = d->pointsFromPoints();
             else
-                temp = d->pointsFromNumbers(d->m_declarativePointHint);
+                temp = d->pointsFromNumbers(d->m_valueMapping);
 
             replace(temp);
         } else {
             clear();
         }
-        emit declarativePointsChanged(d->m_declarativePoints);
+        emit valuesChanged(d->m_values);
     }
 }
 
 /*!
-    \property QXYSeries::declarativePointHint
+    \enum QXYSeries::ValueMapping
     \since 6.12
-    \brief Controls how numbers in \l declarativePoints are interpreted.
 
-    When \l declarativePoints contains plain numbers rather than \l QPointF
-    values, this hint determines whether each number is the X or Y component
+    This enum describes how plain numbers in \l values are interpreted.
+
+    \value X Each number is the X value; Y is generated from the index
+           and \l stepSize.
+    \value Y Each number is the Y value; X is generated from \l valueMin
+           and \l stepSize.
+*/
+/*!
+    \property QXYSeries::valueMapping
+    \since 6.12
+    \brief Controls how numbers in \l values are interpreted.
+
+    When \l values contains plain numbers rather than \l QPointF
+    values, this property determines whether each number is the X or Y component
     of a point.
 
-    \value QXYSeries::DeclarativePointHint::X Each number is the X value;
-           Y is generated from the index and \l stepSize.
-    \value QXYSeries::DeclarativePointHint::Y Each number is the Y value;
-           X is generated from \l declarativeMin and \l stepSize.
-
-    \sa declarativePoints, declarativeMin, stepSize
+    \sa values, valueMin, stepSize
 */
-QXYSeries::DeclarativePointHint QXYSeries::declarativePointHint() const
+QXYSeries::ValueMapping QXYSeries::valueMapping() const
 {
     Q_D(const QXYSeries);
-    return d->m_declarativePointHint;
+    return d->m_valueMapping;
 }
 
-void QXYSeries::setDeclarativePointHint(DeclarativePointHint newHint)
+void QXYSeries::setValueMapping(ValueMapping newHint)
 {
     Q_D(QXYSeries);
-    if (newHint == d->m_declarativePointHint)
+    if (newHint == d->m_valueMapping)
         return;
 
-    d->m_declarativePointHint = newHint;
+    d->m_valueMapping = newHint;
 
-    if (d->m_declarativePoints.size() && d->m_declarativePoints[0].canConvert<float>())
-        replace(d->pointsFromNumbers(d->m_declarativePointHint));
+    if (d->m_values.size() && d->m_values[0].canConvert<float>())
+        replace(d->pointsFromNumbers(d->m_valueMapping));
 
-    emit declarativePointHintChanged(newHint);
+    emit valueMappingChanged(newHint);
 }
 
 /*!
-    \property QXYSeries::declarativeMin
+    \property QXYSeries::valueMin
     \since 6.12
     \brief The minimum X (or Y) value used when generating points from
-    plain numbers in \l declarativePoints.
+    plain numbers in \l values.
 
-    Used together with \l stepSize when \l declarativePointHint is
-    \c DeclarativePointHint::Y to generate the X values for each point.
+    Used together with \l stepSize when \l valueMapping is
+    \c ValueMapping::Y to generate the X values for each point.
 
     The default value is 0.
 
-    \sa declarativePoints, declarativePointHint, stepSize
+    \sa values, valueMapping, stepSize
 */
-qreal QXYSeries::declarativeMin() const
+qreal QXYSeries::valueMin() const
 {
     Q_D(const QXYSeries);
-    return d->m_declarativeMin;
+    return d->m_valueMin;
 }
 
-void QXYSeries::setDeclarativeMin(qreal newMin)
+void QXYSeries::setValueMin(qreal newMin)
 {
     Q_D(QXYSeries);
-    if (qFuzzyCompare(newMin, d->m_declarativeMin))
+    if (qFuzzyCompare(newMin, d->m_valueMin))
         return;
 
-    d->m_declarativeMin = newMin;
+    d->m_valueMin = newMin;
 
-    if (d->m_declarativePoints.size() && d->m_declarativePoints[0].canConvert<float>())
-        replace(d->pointsFromNumbers(d->m_declarativePointHint));
+    if (d->m_values.size() && d->m_values[0].canConvert<float>())
+        replace(d->pointsFromNumbers(d->m_valueMapping));
 
-    emit declarativeMinChanged(newMin);
+    emit valueMinChanged(newMin);
 }
 
 /*!
     \property QXYSeries::stepSize
     \since 6.12
     \brief The step size between auto-generated X (or Y) values when
-    populating the series from plain numbers via \l declarativePoints.
+    populating the series from plain numbers via \l values.
 
     The default value is 1.
 
-    \sa declarativePoints, declarativePointHint, declarativeMin
+    \sa values, valueMapping, valueMin
 */
 qreal QXYSeries::stepSize() const
 {
@@ -840,8 +846,8 @@ void QXYSeries::setStepSize(qreal newStepSize)
 
     d->m_stepSize = newStepSize;
 
-    if (d->m_declarativePoints.size() && d->m_declarativePoints[0].canConvert<float>())
-        replace(d->pointsFromNumbers(d->m_declarativePointHint));
+    if (d->m_values.size() && d->m_values[0].canConvert<float>())
+        replace(d->pointsFromNumbers(d->m_valueMapping));
 
     emit stepSizeChanged(newStepSize);
 }
@@ -1167,18 +1173,18 @@ void QXYSeriesPrivate::append(const QList<QPointF> &points)
     }
 }
 
-QList<QPointF> QXYSeriesPrivate::pointsFromNumbers(QXYSeries::DeclarativePointHint hint)
+QList<QPointF> QXYSeriesPrivate::pointsFromNumbers(QXYSeries::ValueMapping hint)
 {
-    float other = m_declarativeMin;
+    float other = m_valueMin;
     QList<QPointF> temp;
-    temp.reserve(m_declarativePoints.size());
-    if (hint == QXYSeries::DeclarativePointHint::Y) {
-        for (const auto &i : std::as_const(m_declarativePoints)) {
+    temp.reserve(m_values.size());
+    if (hint == QXYSeries::ValueMapping::Y) {
+        for (const auto &i : std::as_const(m_values)) {
             temp.append(QPointF(other, i.toFloat()));
             other += m_stepSize;
         }
-    } else if (hint == QXYSeries::DeclarativePointHint::X) {
-        for (const auto &i : std::as_const(m_declarativePoints)) {
+    } else if (hint == QXYSeries::ValueMapping::X) {
+        for (const auto &i : std::as_const(m_values)) {
             temp.append(QPointF(i.toFloat(), other));
             other += m_stepSize;
         }
@@ -1189,9 +1195,9 @@ QList<QPointF> QXYSeriesPrivate::pointsFromNumbers(QXYSeries::DeclarativePointHi
 QList<QPointF> QXYSeriesPrivate::pointsFromPoints()
 {
     QList<QPointF> temp;
-    temp.reserve(m_declarativePoints.size());
+    temp.reserve(m_values.size());
 
-    for (const auto &i : std::as_const(m_declarativePoints))
+    for (const auto &i : std::as_const(m_values))
         temp.append(i.toPointF());
 
     return temp;

@@ -24,12 +24,12 @@ class Q_GRAPHS_EXPORT QXYSeries : public QAbstractSeries
     Q_PROPERTY(bool draggable READ isDraggable WRITE setDraggable NOTIFY draggableChanged FINAL)
     Q_PROPERTY(QList<qsizetype> selectedPoints READ selectedPoints NOTIFY selectedPointsChanged FINAL)
     Q_PROPERTY(qsizetype count READ count NOTIFY countChanged FINAL)
-    Q_PROPERTY(QVariantList declarativePoints READ declarativePoints WRITE setDeclarativePoints
-                       NOTIFY declarativePointsChanged REVISION(6, 12))
-    Q_PROPERTY(DeclarativePointHint declarativePointHint READ declarativePointHint WRITE
-                       setDeclarativePointHint NOTIFY declarativePointHintChanged REVISION(6, 12))
-    Q_PROPERTY(qreal declarativeMin READ declarativeMin WRITE
-                       setDeclarativeMin NOTIFY declarativeMinChanged REVISION(6, 12))
+    Q_PROPERTY(QVariantList values READ values WRITE setValues
+                       NOTIFY valuesChanged REVISION(6, 12))
+    Q_PROPERTY(ValueMapping valueMapping READ valueMapping WRITE
+                       setValueMapping NOTIFY valueMappingChanged REVISION(6, 12))
+    Q_PROPERTY(qreal valueMin READ valueMin WRITE
+                       setValueMin NOTIFY valueMinChanged REVISION(6, 12))
     Q_PROPERTY(qreal stepSize READ stepSize WRITE
                        setStepSize NOTIFY stepSizeChanged REVISION(6, 12))
 
@@ -37,11 +37,11 @@ protected:
     explicit QXYSeries(QXYSeriesPrivate &dd, QObject *parent = nullptr);
 
 public:
-    enum class DeclarativePointHint {
+    enum class ValueMapping {
         X,
         Y,
     };
-    Q_ENUM(DeclarativePointHint);
+    Q_ENUM(ValueMapping);
 
     Q_INVOKABLE void append(qreal x, qreal y);
     Q_INVOKABLE void append(QPointF point);
@@ -75,8 +75,8 @@ public:
     QColor selectedColor() const;
 
     qsizetype count() const;
-    QVariantList declarativePoints() const;
-    void setDeclarativePoints(QVariantList declarativePoints);
+    QVariantList values() const;
+    void setValues(QVariantList values);
 
     Q_INVOKABLE bool isPointSelected(qsizetype index) const;
     Q_INVOKABLE void selectPoint(qsizetype index);
@@ -98,11 +98,11 @@ public:
     bool isDraggable() const;
     void setDraggable(bool newDraggable);
 
-    DeclarativePointHint declarativePointHint() const;
-    void setDeclarativePointHint(DeclarativePointHint newHint);
+    ValueMapping valueMapping() const;
+    void setValueMapping(ValueMapping newHint);
 
-    qreal declarativeMin() const;
-    void setDeclarativeMin(qreal newMin);
+    qreal valueMin() const;
+    void setValueMin(qreal newMin);
 
     qreal stepSize() const;
     void setStepSize(qreal stepSize);
@@ -127,9 +127,9 @@ Q_SIGNALS:
     Q_REVISION(6, 9) void pressed(QPoint point);
     Q_REVISION(6, 9) void released(QPoint point);
 
-    Q_REVISION(6, 12) void declarativePointsChanged(const QVariantList &declarativePoints);
-    Q_REVISION(6, 12) void declarativePointHintChanged(QXYSeries::DeclarativePointHint newHint);
-    Q_REVISION(6, 12) void declarativeMinChanged(qreal newMin);
+    Q_REVISION(6, 12) void valuesChanged(const QVariantList &values);
+    Q_REVISION(6, 12) void valueMappingChanged(QXYSeries::ValueMapping newHint);
+    Q_REVISION(6, 12) void valueMinChanged(qreal newMin);
     Q_REVISION(6, 12) void stepSizeChanged(qreal newStepSize);
 
 private:
