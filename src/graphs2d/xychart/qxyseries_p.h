@@ -37,13 +37,13 @@ public:
 
     void append(const QList<QPointF> &points);
 
-    QList<QPointF> pointsFromNumbers(QXYSeries::DeclarativePointHint hint);
+    QList<QPointF> pointsFromNumbers(QXYSeries::ValueMapping hint);
     QList<QPointF> pointsFromPoints();
 
 protected:
-    QVariantList m_declarativePoints;
-    QXYSeries::DeclarativePointHint m_declarativePointHint = QXYSeries::DeclarativePointHint::Y;
-    qreal m_declarativeMin = 0.0;
+    QVariantList m_values;
+    QXYSeries::ValueMapping m_valueMapping = QXYSeries::ValueMapping::Y;
+    qreal m_valueMin = 0.0;
     qreal m_stepSize = 1.0;
     QList<QPointF> m_points;
     QSet<qsizetype> m_selectedPoints;
