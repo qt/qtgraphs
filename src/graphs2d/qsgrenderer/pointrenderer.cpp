@@ -314,6 +314,40 @@ void PointRenderer::onPressedChanged()
     }
 }
 
+void PointRenderer::adjustPressedPointIndexForRemoval(QXYSeries *series,
+                                                      qsizetype removedIndex,
+                                                      qsizetype removedCount)
+{
+    if (!m_pressedGroup || m_pressedGroup->series != series)
+        return;
+
+    if (m_pressedPointIndex >= removedIndex + removedCount) {
+        m_pressedPointIndex -= removedCount;
+    } else if (m_pressedPointIndex >= removedIndex) {
+        m_pressedGroup = nullptr;
+        m_pressedPointIndex = 0;
+    }
+}
+
+void PointRenderer::adjustPressedPointIndexForInsertion(QXYSeries *series,
+                                                        qsizetype insertedIndex,
+                                                        qsizetype insertedCount)
+{
+    if (!m_pressedGroup || m_pressedGroup->series != series)
+        return;
+
+    if (m_pressedPointIndex >= insertedIndex)
+        m_pressedPointIndex += insertedCount;
+}
+
+void PointRenderer::forgetPressedPoint(QXYSeries *series)
+{
+    if (m_pressedGroup && m_pressedGroup->series == series) {
+        m_pressedGroup = nullptr;
+        m_pressedPointIndex = 0;
+    }
+}
+
 #ifdef USE_SCATTERGRAPH
 void PointRenderer::updateScatterSeries(QScatterSeries *series, QLegendData &legendData)
 {
@@ -579,6 +613,24 @@ void PointRenderer::handlePolish(QXYSeries *series)
         group->series = series;
         m_groups.insert(series, group);
 
+        connect(series, &QXYSeries::pointRemoved, this, [this, series](qsizetype index) {
+            adjustPressedPointIndexForRemoval(series, index, 1);
+        });
+        connect(series, &QXYSeries::pointsRemoved, this,
+                [this, series](qsizetype index, qsizetype count) {
+                    adjustPressedPointIndexForRemoval(series, index, count);
+                });
+        connect(series, &QXYSeries::pointAdded, this, [this, series](qsizetype index) {
+            adjustPressedPointIndexForInsertion(series, index, 1);
+        });
+        connect(series, &QXYSeries::pointsAdded, this,
+                [this, series](qsizetype start, qsizetype end) {
+                    adjustPressedPointIndexForInsertion(series, start, end - start + 1);
+                });
+        connect(series, &QXYSeries::pointsReplaced, this, [this, series]() {
+            forgetPressedPoint(series);
+        });
+
         if (series->type() != QAbstractSeries::SeriesType::Scatter) {
             group->shapePath = new QQuickShapePath(&m_shape);
             group->shapePath->setAsynchronous(true);
@@ -728,8 +780,21 @@ void PointRenderer::seriesAboutToBeRemoved(QAbstractSeries *series)
         auto iter = m_groups.find(xySeries);
 
         if (iter != m_groups.end()) {
-            for (auto marker : std::as_const((*iter)->markers))
+            auto group = (*iter);
+
+            disconnect(xySeries, &QXYSeries::pointRemoved, this, nullptr);
+            disconnect(xySeries, &QXYSeries::pointsRemoved, this, nullptr);
+            disconnect(xySeries, &QXYSeries::pointAdded, this, nullptr);
+            disconnect(xySeries, &QXYSeries::pointsAdded, this, nullptr);
+            disconnect(xySeries, &QXYSeries::pointsReplaced, this, nullptr);
+
+            for (auto marker : std::as_const(group->markers))
                 marker->deleteLater();
+
+            if (group == m_pressedGroup) {
+                m_pressedGroup = nullptr;
+                m_pressedPointIndex = 0;
+            }
 
             delete *iter;
             m_groups.erase(iter);
