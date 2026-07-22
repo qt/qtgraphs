@@ -157,6 +157,14 @@ private:
     void onDoubleTapped(QEventPoint eventPoint, Qt::MouseButton button);
     void onPressedChanged();
 
+    void adjustPressedPointIndexForRemoval(QXYSeries *series,
+                                           qsizetype removedIndex,
+                                           qsizetype removedCount);
+    void adjustPressedPointIndexForInsertion(QXYSeries *series,
+                                             qsizetype insertedIndex,
+                                             qsizetype insertedCount);
+    void forgetPressedPoint(QXYSeries *series);
+
 #if QT_CONFIG(graphs_2d_scatter)
     void updateScatterSeries(QScatterSeries *scatter, QLegendData &legendData);
 #endif
