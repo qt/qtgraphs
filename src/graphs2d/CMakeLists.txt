@@ -120,6 +120,7 @@ else()
     qt_internal_extend_target(Graphs CONDITION QT_FEATURE_graphs_2d_high_performance_backend
         SOURCES
             qsgrenderer/qcpainteritem.cpp qsgrenderer/qcpainteritem_p.h
+            qsgrenderer/qcustomseriescanvasrenderer.cpp qsgrenderer/qcustomseriescanvasrenderer.h
         DEFINES
             USE_PAINTER_BACKEND
     )

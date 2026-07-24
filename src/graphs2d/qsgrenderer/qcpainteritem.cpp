@@ -12,7 +12,12 @@ QT_BEGIN_NAMESPACE
 
 QCPainterItemRenderer::QCPainterItemRenderer() = default;
 
-QCPainterItemRenderer::~QCPainterItemRenderer() = default;
+QCPainterItemRenderer::~QCPainterItemRenderer()
+{
+#ifdef USE_CUSTOMGRAPH
+    qDeleteAll(m_customPainters);
+#endif
+}
 
 void QCPainterItemRenderer::initializeResources(QCanvasPainter *p)
 {
@@ -45,6 +50,11 @@ void QCPainterItemRenderer::paint(QCanvasPainter *p) {
 #ifdef USE_POINTS
         case RendererKind::Point:
             PointRenderer::paintSnapshot(m_pointPaintSnapshot, p);
+            break;
+#endif
+#ifdef USE_CUSTOMGRAPH
+        case RendererKind::Custom:
+            CustomRenderer::paintSnapshot(m_customPaintSnapshot, p);
             break;
 #endif
         }
@@ -96,6 +106,14 @@ void QCPainterItemRenderer::synchronizeData(QCanvasPainterItem *item)
             point->synchronizeData();
             m_pointPaintSnapshot = point->paintSnapshot();
             m_rendererSlots.append(RendererKind::Point);
+            continue;
+        }
+#endif
+#ifdef USE_CUSTOMGRAPH
+        if (auto custom = qobject_cast<CustomRenderer *>(renderer)) {
+            custom->synchronizeData(item, m_customPainters);
+            m_customPaintSnapshot = custom->paintSnapshot();
+            m_rendererSlots.append(RendererKind::Custom);
             continue;
         }
 #endif
