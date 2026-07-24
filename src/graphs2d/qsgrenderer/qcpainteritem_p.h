@@ -68,6 +68,9 @@ public:
 #ifdef USE_POINTS
         Point,
 #endif
+#ifdef USE_CUSTOMGRAPH
+        Custom,
+#endif
     };
 
     QCPainterItemRenderer();
@@ -90,6 +93,10 @@ private:
 #endif
 #ifdef USE_POINTS
     PointRenderer::PaintSnapshot m_pointPaintSnapshot;
+#endif
+#ifdef USE_CUSTOMGRAPH
+    CustomRenderer::PaintSnapshot m_customPaintSnapshot;
+    QHash<QCustomSeries *, QCustomSeriesCanvasRenderer *> m_customPainters;
 #endif
 
     QVarLengthArray<RendererKind, 5> m_rendererSlots{};

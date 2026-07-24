@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 // Qt-Security score:significant reason:default
 
-
 #ifndef QTGRAPHS_QCUSTOMSERIES_H
 #define QTGRAPHS_QCUSTOMSERIES_H
 
@@ -15,6 +14,7 @@ class QCustomSeriesPrivate;
 class QCustomSeriesData;
 class QQuickItem;
 class QCanvasPainter;
+class QCustomSeriesCanvasRenderer;
 
 class Q_GRAPHS_EXPORT QCustomSeries : public QAbstractSeries
 {
@@ -33,7 +33,9 @@ public:
 
     QQmlComponent *delegate() const;
     void setDelegate(QQmlComponent *newDelegate);
-
+#if QT_CONFIG(graphs_2d_high_performance_backend) || defined(Q_QDOC)
+    void setCustomSeriesPainter(QCustomSeriesCanvasRenderer *painter);
+#endif
     Q_INVOKABLE qreal mapX(qreal x);
     Q_INVOKABLE qreal mapY(qreal y);
 
@@ -51,7 +53,6 @@ protected:
     explicit QCustomSeries(QCustomSeriesPrivate &dd, QObject *parent = nullptr);
     void componentComplete() override;
     virtual void updateDelegate(QQuickItem *item, qsizetype index);
-    virtual void canvasPaint(QCanvasPainter *p);
     bool event(QEvent *event) override;
 
 private:

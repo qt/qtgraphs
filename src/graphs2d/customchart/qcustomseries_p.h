@@ -21,6 +21,7 @@
 QT_BEGIN_NAMESPACE
 
 class QCustomSeriesData;
+class QCustomSeriesCanvasRenderer;
 
 class QCustomSeriesPrivate : public QAbstractSeriesPrivate
 {
@@ -29,6 +30,8 @@ public:
     static const QCustomSeriesPrivate *get(const QCustomSeries *item) { return item->d_func(); }
 
     QCustomSeriesPrivate();
+
+    QCustomSeriesCanvasRenderer *m_customSeriesPainter = nullptr;
 
 protected:
     QQmlComponent *m_delegate = nullptr;

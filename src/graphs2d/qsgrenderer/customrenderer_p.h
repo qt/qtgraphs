@@ -24,10 +24,12 @@ QT_BEGIN_NAMESPACE
 
 class QGraphsView;
 class QCustomSeries;
+class QCustomSeriesCanvasRenderer;
 class AxisRenderer;
 struct QLegendData;
 #ifdef USE_PAINTER_BACKEND
 class QCanvasPainter;
+class QCanvasPainterItem;
 #endif
 
 class CustomRenderer : public QQuickItem
@@ -36,11 +38,15 @@ class CustomRenderer : public QQuickItem
 
     Q_OBJECT
 public:
+    using PaintSnapshot = QList<QCustomSeriesCanvasRenderer *>;
+
     CustomRenderer(QGraphsView *graph, bool clipPlotArea);
     ~CustomRenderer() override;
 
 #ifdef USE_PAINTER_BACKEND
-    void canvasPaint(QCanvasPainter *p);
+    PaintSnapshot paintSnapshot() const;
+    void synchronizeData(QCanvasPainterItem *item, QHash<QCustomSeries *, QCustomSeriesCanvasRenderer *> &painters);
+    static void paintSnapshot(const PaintSnapshot &snapshot, QCanvasPainter *p);
 #endif
     void handlePolish(QCustomSeries *series);
     void afterPolish(QList<QAbstractSeries *> &cleanupSeries);
@@ -67,6 +73,10 @@ private:
 
     QGraphsView *m_graph = nullptr;
     QMap<QCustomSeries *, DataGroup *> m_groups;
+#ifdef USE_PAINTER_BACKEND
+    PaintSnapshot m_paintSnapshot;
+    QSet<QCustomSeries *> m_removedCustomSeries;
+#endif
 
     // Render area variables
     qreal m_maxVertical = 0;

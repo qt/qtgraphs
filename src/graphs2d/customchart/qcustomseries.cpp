@@ -2,13 +2,15 @@
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 // Qt-Security score:significant reason:default
 
-
+#include <QtGraphs/private/customrenderer_p.h>
 #include <QtGraphs/qcustomseries.h>
+#if QT_CONFIG(graphs_2d_high_performance_backend)
+#include <QtGraphs/qcustomseriescanvasrenderer.h>
+#endif
 #include <private/charthelpers_p.h>
 #include <private/qcustomseries_p.h>
 #include <private/qcustomseriesdata_p.h>
 #include <private/qgraphsview_p.h>
-#include <QtGraphs/private/customrenderer_p.h>
 
 QT_BEGIN_NAMESPACE
 
@@ -125,7 +127,13 @@ QCustomSeries::QCustomSeries(QObject *parent)
     : QAbstractSeries(*(new QCustomSeriesPrivate()), parent)
 {}
 
-QCustomSeries::~QCustomSeries() {}
+QCustomSeries::~QCustomSeries()
+{
+#if QT_CONFIG(graphs_2d_high_performance_backend)
+    Q_D(QCustomSeries);
+    delete d->m_customSeriesPainter;
+#endif
+}
 
 QCustomSeries::QCustomSeries(QCustomSeriesPrivate &dd, QObject *parent)
     : QAbstractSeries(dd, parent)
@@ -190,7 +198,29 @@ void QCustomSeries::setDelegate(QQmlComponent *newDelegate)
     emit delegateChanged();
     emit update();
 }
+#if QT_CONFIG(graphs_2d_high_performance_backend) || defined(Q_QDOC)
+/*!
+    Sets \a painter as the canvas painter renderer used to draw this series
+    when the high-performance canvas painter backend is in use.
 
+    QCustomSeries takes ownership of \a painter. It is adopted by the
+    CanvasPainter-backend renderer the next time this series is
+    synchronized, after which it is destroyed only by the renderer, on the
+    render thread -- never by QCustomSeries directly. If \a painter is
+    replaced or cleared before that first synchronization, or if this series
+    is destroyed before it, QCustomSeries deletes it itself.
+*/
+void QCustomSeries::setCustomSeriesPainter(QCustomSeriesCanvasRenderer *painter)
+{
+    Q_D(QCustomSeries);
+    if (d->m_customSeriesPainter == painter)
+        return;
+
+    delete d->m_customSeriesPainter;
+    d->m_customSeriesPainter = painter;
+    update();
+}
+#endif
 /*!
     \qmlmethod real CustomSeries::mapX(real x)
     Returns \a x axis-space coordinate converted into render-space.
@@ -363,11 +393,6 @@ void QCustomSeries::updateDelegate(QQuickItem *item, qsizetype index)
     auto &&data = dataItems()[index]->data();
     data[QStringLiteral("index")] = index;
     item->setProperty("data", data);
-}
-
-void QCustomSeries::canvasPaint(QCanvasPainter *p)
-{
-    Q_UNUSED(p);
 }
 
 bool QCustomSeries::event(QEvent *event)

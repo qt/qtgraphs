@@ -2,11 +2,12 @@
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 // Qt-Security score:significant reason:default
 
-
 #ifdef USE_PAINTER_BACKEND
 #include <QtCanvasPainter/QCanvasPainter>
+#include <QtGraphs/qcustomseriescanvasrenderer.h>
 #endif
 #include <QtGraphs/qcustomseries.h>
+#include <private/qcustomseries_p.h>
 #include <private/axisrenderer_p.h>
 #include <private/charthelpers_p.h>
 #include <private/customrenderer_p.h>
@@ -72,12 +73,44 @@ CustomRenderer::~CustomRenderer()
     qDeleteAll(m_groups);
 }
 
-
 #ifdef USE_PAINTER_BACKEND
-void CustomRenderer::canvasPaint(QCanvasPainter *p)
+CustomRenderer::PaintSnapshot CustomRenderer::paintSnapshot() const
 {
-    for (const auto& group : m_groups)
-        group->series->canvasPaint(p);
+    return m_paintSnapshot;
+}
+void CustomRenderer::paintSnapshot(const PaintSnapshot &snapshot, QCanvasPainter *p)
+{
+    for (auto csp : snapshot) {
+        csp->canvasPrePaint(p);
+        csp->canvasPaint(p);
+    }
+}
+
+void CustomRenderer::synchronizeData(QCanvasPainterItem *item, QHash<QCustomSeries *, QCustomSeriesCanvasRenderer *> &painters)
+{
+    for (auto series : std::as_const(m_removedCustomSeries))
+        delete painters.take(series);
+    m_removedCustomSeries.clear();
+
+    m_paintSnapshot.clear();
+    m_paintSnapshot.reserve(m_groups.size());
+    for (const auto &group : std::as_const(m_groups)) {
+        auto *d = QCustomSeriesPrivate::get(group->series);
+        if (d->m_customSeriesPainter) {
+            // Adopt: the renderer now owns this instance exclusively; the
+            // series has already relinquished it (see setCustomSeriesPainter()).
+            // Delete any previously-adopted instance being replaced.
+            delete painters.take(group->series);
+            painters.insert(group->series, d->m_customSeriesPainter);
+            d->m_customSeriesPainter = nullptr;
+        }
+        auto it = painters.find(group->series);
+        if (it == painters.end())
+            continue;
+
+        (*it)->synchronizeData(group->series, item);
+        m_paintSnapshot.append(*it);
+    }
 }
 #endif
 
@@ -249,6 +282,9 @@ void CustomRenderer::seriesAboutToBeRemoved(QAbstractSeries *series)
             for (const auto &dataItem : std::as_const(group->dataItems))
                 dataItem->deleteLater();
 
+#ifdef USE_PAINTER_BACKEND
+            m_removedCustomSeries.insert(customSeries);
+#endif
             delete group;
             m_groups.erase(iter);
         }
