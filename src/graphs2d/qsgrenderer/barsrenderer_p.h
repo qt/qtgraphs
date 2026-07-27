@@ -22,6 +22,7 @@
 #include <QtCore/QList>
 #include <QtCore/QRectF>
 #include <QtGui/QColor>
+#include <private/qgraphsglobal_p.h>
 
 QT_BEGIN_NAMESPACE
 
@@ -30,7 +31,7 @@ class QBarSeries;
 class QBarSet;
 class QAbstractSeries;
 class QQuickTapHandler;
-#ifdef USE_PAINTER_BACKEND
+#if QT_CONFIG(graphs_2d_high_performance_backend)
 class QCanvasPainter;
 #endif
 
@@ -52,7 +53,7 @@ public:
     BarsRenderer(QGraphsView *graph, bool clipPlotArea);
     ~BarsRenderer() override;
 
-#ifdef USE_PAINTER_BACKEND
+#if QT_CONFIG(graphs_2d_high_performance_backend)
     static void paintSnapshot(const PaintSnapshot &snapshot,
                               QCanvasPainter *p);
     PaintSnapshot paintSnapshot() const;
@@ -98,7 +99,7 @@ private:
     QHash<QBarSeries *, QList<QQuickItem *>> m_barItems;
     QHash<QBarSeries *, QList<QQuickText *>> m_labelTextItems;
     QHash<QBarSeries *, QList<BarSeriesData>> m_seriesData;
-#ifdef USE_PAINTER_BACKEND
+#if QT_CONFIG(graphs_2d_high_performance_backend)
     QHash<QBarSeries *, QList<BarSeriesData>> m_paintSnapshot;
 #endif
 

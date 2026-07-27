@@ -22,6 +22,7 @@
 #include <QtGraphs/qabstractseries.h>
 #include <QtGraphs/qgraphstheme.h>
 #include <QtCore/qloggingcategory.h>
+#include <private/qgraphsglobal_p.h>
 
 QT_BEGIN_NAMESPACE
 
@@ -40,7 +41,7 @@ class AreaRenderer;
 class CustomRenderer;
 class QQuickPinchHandler;
 class QCustomSeries;
-#ifdef USE_PAINTER_BACKEND
+#if QT_CONFIG(graphs_2d_high_performance_backend)
 class QCPainterItem;
 #endif
 
@@ -141,23 +142,23 @@ public:
     qsizetype graphSeriesCount() const;
     void setGraphSeriesCount(qsizetype count);
 
-#ifdef USE_BARGRAPH
+#if QT_CONFIG(graphs_2d_bar)
     void createBarsRenderer();
 #endif
     void createAxisRenderer();
-#ifdef USE_POINTS
+#if QT_CONFIG(graphs_2d_area) || QT_CONFIG(graphs_2d_line) || QT_CONFIG(graphs_2d_scatter) || QT_CONFIG(graphs_2d_spline)
     void createPointRenderer();
 #endif
-#ifdef USE_PIEGRAPH
+#if QT_CONFIG(graphs_2d_donut_pie)
     void createPieRenderer();
 #endif
-#ifdef USE_AREAGRAPH
+#if QT_CONFIG(graphs_2d_area)
     void createAreaRenderer();
 #endif
-#ifdef USE_CUSTOMGRAPH
+#if QT_CONFIG(graphs_2d_custom)
     void createCustomRenderer();
 #endif
-#ifdef USE_PAINTER_BACKEND
+#if QT_CONFIG(graphs_2d_high_performance_backend)
     void createCanvasPainter();
     void removeCanvasPainter();
 #endif
@@ -212,7 +213,7 @@ public:
     qreal zoomSensitivity() const;
     void setZoomSensitivity(qreal newZoomSensitivity);
 
-#ifdef USE_CUSTOMGRAPH
+#if QT_CONFIG(graphs_2d_custom)
     qreal mapX(QCustomSeries *series, qreal x);
     qreal mapY(QCustomSeries *series, qreal y);
 #endif
@@ -306,7 +307,7 @@ private:
     QList<QObject *> m_seriesList;
     QHash<int, QList<QAbstractSeries *>> m_cleanupSeriesList;
     QQuickRectangle *m_backgroundRectangle = nullptr;
-#ifdef USE_PAINTER_BACKEND
+#if QT_CONFIG(graphs_2d_high_performance_backend)
     QCPainterItem *m_painterItem = nullptr;
 #endif
 
@@ -359,9 +360,9 @@ private:
     QQuickPinchHandler *m_pinchHandler = nullptr;
     bool m_initialized = false;
 
-#ifdef USE_SHAPE_BACKEND
+#if QT_CONFIG(graphs_2d_high_quality_backend)
     bool m_useCanvasPainter = false;
-#elif USE_PAINTER_BACKEND
+#elif QT_CONFIG(graphs_2d_high_performance_backend)
     bool m_useCanvasPainter = true;
 #else
     bool m_useCanvasPainter = false;

@@ -20,6 +20,7 @@
 #include <QtGraphs/qgraphsglobal.h>
 #include <QtGraphs/qtgraphsexports.h>
 #include <QtGui/qvector3d.h>
+#include <private/qtgraphs-config_p.h>
 
 QT_BEGIN_NAMESPACE
 

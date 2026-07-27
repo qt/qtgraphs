@@ -4,11 +4,13 @@
 
 
 #include <QtCore/QList>
-#include "QtGraphs/QSplineSeries"
+#include <QtGraphs/qgraphsglobal.h>
 #include "QtGraphs/QXYSeries"
 #include "private/qgraphtransition_p.h"
+#if QT_CONFIG(graphs_2d_spline)
 #include "private/qsplinecontrolanimation_p.h"
 #include "private/qsplineseries_p.h"
+#endif
 #include "private/qxyseries_p.h"
 #include "private/qxyseriesanimation_p.h"
 
@@ -92,7 +94,7 @@ void QGraphTransition::onPointChanged(TransitionType type, int index, QPointF po
         childAnimation->animate();
     }
 
-#ifdef USE_SPLINEGRAPH
+#if QT_CONFIG(graphs_2d_spline)
     auto spline = qobject_cast<QSplineSeries *>(series);
 
     if (spline && !contains(QGraphAnimation::GraphAnimationType::ControlPoint))

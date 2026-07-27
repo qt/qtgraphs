@@ -12,7 +12,7 @@
 #include <private/qbarseries_p.h>
 #include <private/qgraphsview_p.h>
 #include <utility>
-#ifdef USE_PAINTER_BACKEND
+#if QT_CONFIG(graphs_2d_high_performance_backend)
 #include <QtCanvasPainter/QCanvasPainter>
 #endif
 
@@ -61,7 +61,7 @@ BarsRenderer::BarsRenderer(QGraphsView *graph, bool clipPlotArea)
 
 BarsRenderer::~BarsRenderer() {}
 
-#ifdef USE_PAINTER_BACKEND
+#if QT_CONFIG(graphs_2d_high_performance_backend)
 void BarsRenderer::paintSnapshot(const PaintSnapshot &snapshot,
                                  QCanvasPainter *p)
 {

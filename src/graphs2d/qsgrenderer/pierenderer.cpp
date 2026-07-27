@@ -15,10 +15,10 @@
 #include <private/qpieseries_p.h>
 #include <private/qpieslice_p.h>
 #include <private/qquickdraghandler_p.h>
-#ifdef USE_SHAPE_BACKEND
+#if QT_CONFIG(graphs_2d_high_quality_backend)
 #include <private/qquickshape_p.h>
 #endif
-#ifdef USE_PAINTER_BACKEND
+#if QT_CONFIG(graphs_2d_high_performance_backend)
 #include <QtCanvasPainter/QCanvasPainter>
 #endif
 
@@ -48,7 +48,7 @@ PieRenderer::PieRenderer(QGraphsView *graph, bool clipPlotArea)
     setFlag(QQuickItem::ItemHasContents);
     setClip(clipPlotArea);
 
-#ifdef USE_SHAPE_BACKEND
+#if QT_CONFIG(graphs_2d_high_quality_backend)
     m_shape = new QQuickShape(this);
     m_shape->setParentItem(this);
     m_shape->setPreferredRendererType(QQuickShape::CurveRenderer);
@@ -75,7 +75,7 @@ void PieRenderer::setSize(QSizeF size)
     QQuickItem::setSize(size);
 }
 
-#ifdef USE_PAINTER_BACKEND
+#if QT_CONFIG(graphs_2d_high_performance_backend)
 void PieRenderer::paintSnapshot(const PaintSnapshot &paintSnapshot, QCanvasPainter *p)
 {
     for (auto it = paintSnapshot.cbegin(); it != paintSnapshot.cend(); it++) {
@@ -126,7 +126,7 @@ void PieRenderer::updateActiveSlices(QPieSeries *series, QList<QPieSlice *> slic
 {
     for (QPieSlice *slice : std::as_const(slicelist)) {
         QPieSlicePrivate *d = slice->d_func();
-#ifdef USE_SHAPE_BACKEND
+#if QT_CONFIG(graphs_2d_high_quality_backend)
         QQuickShapePath *shapePath = d->m_shapePath;
         QQuickShapePath *labelPath = d->m_labelPath;
         auto labelElements = labelPath->pathElements();
@@ -137,7 +137,7 @@ void PieRenderer::updateActiveSlices(QPieSeries *series, QList<QPieSlice *> slic
         auto it = m_activeSlices.find(slice);
 
         if (it == m_activeSlices.end()) {
-#ifdef USE_SHAPE_BACKEND
+#if QT_CONFIG(graphs_2d_high_quality_backend)
             auto data = m_shape->data();
             data.append(&data, shapePath);
 #endif
@@ -149,7 +149,7 @@ void PieRenderer::updateActiveSlices(QPieSeries *series, QList<QPieSlice *> slic
 
         it->seriesVisible = series->isVisible();
 
-#ifdef USE_SHAPE_BACKEND
+#if QT_CONFIG(graphs_2d_high_quality_backend)
         QQuickShape *labelShape = d->m_labelShape;
         labelShape->setVisible(series->isVisible() && d->m_isLabelVisible);
 #endif
@@ -158,14 +158,14 @@ void PieRenderer::updateActiveSlices(QPieSeries *series, QList<QPieSlice *> slic
         updateActiveSlices(series, slice->subSlices());
 
         if (!series->isVisible()) {
-#ifdef USE_SHAPE_BACKEND
+#if QT_CONFIG(graphs_2d_high_quality_backend)
             pathElements.clear(&pathElements);
             labelElements.clear(&labelElements);
 #endif
             continue;
         }
 
-#ifdef USE_SHAPE_BACKEND
+#if QT_CONFIG(graphs_2d_high_quality_backend)
         if (!shapePath->parent())
             shapePath->setParent(m_shape);
 #endif
@@ -175,7 +175,7 @@ void PieRenderer::updateActiveSlices(QPieSeries *series, QList<QPieSlice *> slic
             d->m_labelItem->setParentItem(this);
         }
 
-#ifdef USE_SHAPE_BACKEND
+#if QT_CONFIG(graphs_2d_high_quality_backend)
         if (!labelShape->parent()) {
             labelShape->setParent(this);
             labelShape->setParentItem(this);
@@ -240,7 +240,7 @@ void PieRenderer::handleSlicesPolish(QPieSeries *series,
                         * series->valuesMultiplier());
 
         // update slice
-#ifdef USE_SHAPE_BACKEND
+#if QT_CONFIG(graphs_2d_high_quality_backend)
         QQuickShapePath *shapePath = d->m_shapePath;
 #endif
         // border color
@@ -262,7 +262,7 @@ void PieRenderer::handleSlicesPolish(QPieSeries *series,
         if (d->m_borderWidth >= 1.0)
             borderWidth = d->m_borderWidth;
 
-#ifdef USE_SHAPE_BACKEND
+#if QT_CONFIG(graphs_2d_high_quality_backend)
         shapePath->setStrokeColor(borderColor);
         shapePath->setFillColor(color);
         shapePath->setStrokeWidth(borderWidth);
@@ -272,7 +272,7 @@ void PieRenderer::handleSlicesPolish(QPieSeries *series,
         if (d->m_labelColor.isValid())
             labelTextColor = d->m_labelColor;
         d->m_labelItem->setColor(labelTextColor);
-#ifdef USE_SHAPE_BACKEND
+#if QT_CONFIG(graphs_2d_high_quality_backend)
         d->m_labelPath->setStrokeColor(labelTextColor);
 #endif
 
@@ -310,7 +310,7 @@ void PieRenderer::handleSlicesPolish(QPieSeries *series,
                     radius * 2 * radiusRatio,
                     radius * 2 * radiusRatio);
 
-#ifdef USE_SHAPE_BACKEND
+#if QT_CONFIG(graphs_2d_high_quality_backend)
         shapePath->setStartX(center.x());
         shapePath->setStartY(center.y());
 #endif
@@ -342,7 +342,7 @@ void PieRenderer::handleSlicesPolish(QPieSeries *series,
 
         d->m_largeArc = {xShift + pointX, yShift - pointY};
 
-#ifdef USE_SHAPE_BACKEND
+#if QT_CONFIG(graphs_2d_high_quality_backend)
         if (!m_graph->useCanvasPainter())
             shapePath->setPath(m_painterPath);
         else
@@ -370,7 +370,7 @@ void PieRenderer::handleSlicesPolish(QPieSeries *series,
 
         d->setLabelPosition(d->m_labelPosition);
 
-#ifdef USE_SHAPE_BACKEND
+#if QT_CONFIG(graphs_2d_high_quality_backend)
         if (!m_graph->useCanvasPainter())
             d->m_labelPath->setPath(m_painterPath);
         else
@@ -405,7 +405,7 @@ void PieRenderer::handleSlicesAfterPolish(QList<QPieSlice *> slicelist)
 {
     for (QPieSlice *slice : std::as_const(slicelist)) {
         const auto *d = QPieSlicePrivate::get(slice);
-#ifdef USE_SHAPE_BACKEND
+#if QT_CONFIG(graphs_2d_high_quality_backend)
         auto labelElements = d->m_labelPath->pathElements();
         auto shapeElements = d->m_shapePath->pathElements();
 
@@ -456,7 +456,7 @@ void PieRenderer::markedDeleted(QList<QPieSlice *> deleted)
 
     for (auto slice : deleted) {
         auto d = slice->d_func();
-#ifdef USE_SHAPE_BACKEND
+#if QT_CONFIG(graphs_2d_high_quality_backend)
         d->m_shapePath->setPath(emptyPath);
         d->m_labelPath->setPath(emptyPath);
 #endif
@@ -502,7 +502,7 @@ bool PieRenderer::isPointInSlice(QPointF point, QPieSlice *slice, qreal *angle)
 
     QPieSlicePrivate *d = slice->d_func();
     QPainterPath painterPath;
-#ifdef USE_SHAPE_BACKEND
+#if QT_CONFIG(graphs_2d_high_quality_backend)
     QQuickShapePath *shapePath = d->m_shapePath;
     if (!m_graph->useCanvasPainter())
         painterPath = shapePath->path();
@@ -519,7 +519,7 @@ bool PieRenderer::isPointInSubSlices(QPointF point, QPieSlice *slice)
         QPieSlicePrivate *d = subSlice->d_func();
         QPainterPath painterPath;
 
-#ifdef USE_SHAPE_BACKEND
+#if QT_CONFIG(graphs_2d_high_quality_backend)
         QQuickShapePath *shapePath = d->m_shapePath;
         if (!m_graph->useCanvasPainter())
             painterPath = shapePath->path();

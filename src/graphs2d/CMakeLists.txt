@@ -49,16 +49,12 @@ else()
             animation/qgraphpointanimation.cpp animation/qgraphpointanimation_p.h
             animation/qgraphtransition_p.h animation/qgraphtransition.cpp
             animation/qxyseriesanimation_p.h animation/qxyseriesanimation.cpp
-        DEFINES
-            USE_POINTS
         )
     qt_internal_extend_target(Graphs CONDITION QT_FEATURE_graphs_2d_area
         SOURCES
             areachart/qareaseries.cpp areachart/qareaseries.h areachart/qareaseries_p.h
 
             qsgrenderer/arearenderer.cpp qsgrenderer/arearenderer_p.h
-        DEFINES
-            USE_AREAGRAPH
     )
     qt_internal_extend_target(Graphs CONDITION QT_FEATURE_graphs_2d_bar
         SOURCES
@@ -69,8 +65,6 @@ else()
             axis/barcategoryaxis/qbarcategoryaxis.cpp axis/barcategoryaxis/qbarcategoryaxis.h axis/barcategoryaxis/qbarcategoryaxis_p.h
 
             qsgrenderer/barsrenderer.cpp qsgrenderer/barsrenderer_p.h
-        DEFINES
-            USE_BARGRAPH
     )
     qt_internal_extend_target(Graphs CONDITION QT_FEATURE_graphs_2d_donut_pie
         SOURCES
@@ -79,15 +73,11 @@ else()
             piechart/qpiemodelmapper.cpp piechart/qpiemodelmapper.h piechart/qpiemodelmapper_p.h
 
             qsgrenderer/pierenderer.cpp qsgrenderer/pierenderer_p.h
-        DEFINES
-            USE_PIEGRAPH
     )
     qt_internal_extend_target(Graphs CONDITION QT_FEATURE_graphs_2d_line OR QT_FEATURE_graphs_2d_area
         # area graph requires at least line series support
         SOURCES
             linechart/qlineseries.cpp linechart/qlineseries.h linechart/qlineseries_p.h
-        DEFINES
-            USE_LINEGRAPH
     )
     qt_internal_extend_target(Graphs CONDITION (QT_FEATURE_graphs_2d_line OR QT_FEATURE_graphs_2d_area) AND MSVC
         NO_UNITY_BUILD_SOURCES
@@ -97,16 +87,12 @@ else()
     qt_internal_extend_target(Graphs CONDITION QT_FEATURE_graphs_2d_scatter
         SOURCES
             scatterchart/qscatterseries.cpp scatterchart/qscatterseries.h scatterchart/qscatterseries_p.h
-        DEFINES
-            USE_SCATTERGRAPH
     )
     qt_internal_extend_target(Graphs CONDITION QT_FEATURE_graphs_2d_spline
         SOURCES
             splinechart/qsplineseries.cpp splinechart/qsplineseries.h splinechart/qsplineseries_p.h
 
             animation/qsplinecontrolanimation.cpp animation/qsplinecontrolanimation_p.h
-        DEFINES
-            USE_SPLINEGRAPH
     )
     qt_internal_extend_target(Graphs CONDITION QT_FEATURE_graphs_2d_custom
         SOURCES
@@ -114,19 +100,13 @@ else()
             customchart/qcustomseriesdata.cpp customchart/qcustomseriesdata_p.h
 
             qsgrenderer/customrenderer.cpp qsgrenderer/customrenderer_p.h
-        DEFINES
-            USE_CUSTOMGRAPH
     )
     qt_internal_extend_target(Graphs CONDITION QT_FEATURE_graphs_2d_high_performance_backend
         SOURCES
             qsgrenderer/qcpainteritem.cpp qsgrenderer/qcpainteritem_p.h
             qsgrenderer/qcustomseriescanvasrenderer.cpp qsgrenderer/qcustomseriescanvasrenderer.h
-        DEFINES
-            USE_PAINTER_BACKEND
     )
     qt_internal_extend_target(Graphs CONDITION QT_FEATURE_graphs_2d_high_quality_backend
-        DEFINES
-            USE_SHAPE_BACKEND
     )
 
     add_subdirectory(qml/delegates)

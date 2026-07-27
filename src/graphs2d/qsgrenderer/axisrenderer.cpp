@@ -5,7 +5,7 @@
 #include "datetimeaxis/qdatetimeaxis.h"
 #include "qabstractaxis.h"
 #include "valueaxis/qvalueaxis.h"
-#ifdef USE_BARGRAPH
+#if QT_CONFIG(graphs_2d_bar)
 #include <QtGraphs/QBarCategoryAxis>
 #include <private/qbarseries_p.h>
 #endif
@@ -710,7 +710,7 @@ void AxisRenderer::updateAxis()
             ax.stepPx = plotWidth / (ax.valueRange / ax.valueStep);
             updateLogValueXAxisLabels(ax, ax.labelsRect);
         }
-#ifdef USE_BARGRAPH
+#if QT_CONFIG(graphs_2d_bar)
         else if (qobject_cast<QBarCategoryAxis *>(ax.axis)) {
             updateBarXAxisLabels(ax, ax.labelsRect);
         }
@@ -765,7 +765,7 @@ void AxisRenderer::updateAxis()
             ax.stepPx = plotHeight / (ax.valueRange / ax.valueStep);
             updateLogValueYAxisLabels(ax, ax.labelsRect);
         }
-#ifdef USE_BARGRAPH
+#if QT_CONFIG(graphs_2d_bar)
         else if (qobject_cast<QBarCategoryAxis *>(ax.axis)) {
             updateBarYAxisLabels(ax, ax.labelsRect);
         }
@@ -928,7 +928,7 @@ void AxisRenderer::updateAxisMeasurements()
                                 yFontMetrics.horizontalAdvance(
                                     formatValueLabel(vaxis->max(), precision, format, 'g')));
         }
-#ifdef USE_BARGRAPH
+#if QT_CONFIG(graphs_2d_bar)
         else if (auto vaxis = qobject_cast<QBarCategoryAxis *>(ax.axis)) {
             ax.maxValue = vaxis->categories().size();
             ax.minValue = 0;
@@ -1043,7 +1043,7 @@ void AxisRenderer::updateAxisMeasurements()
             double axisHorizontalValueDiff = ax.minLabel - ax.minValue;
             ax.displacement = -(axisHorizontalValueDiff / ax.valueStep) * ax.stepPx;
         }
-#ifdef USE_BARGRAPH
+#if QT_CONFIG(graphs_2d_bar)
         else if (auto haxis = qobject_cast<QBarCategoryAxis *>(ax.axis)) {
             ax.maxValue = haxis->categories().size();
             ax.minValue = 0;
@@ -1551,7 +1551,7 @@ void AxisRenderer::setLabelTextProperties(QQuickItem *item, const QString &text,
     }
 }
 
-#ifdef USE_BARGRAPH
+#if QT_CONFIG(graphs_2d_bar)
 void AxisRenderer::updateBarXAxisLabels(AxisProperties &ax, const QRectF rect)
 {
     auto axis = qobject_cast<QBarCategoryAxis *>(ax.axis);

@@ -19,11 +19,12 @@
 #include <QQuickItem>
 #include <QtGraphs/qabstractseries.h>
 #include <QtQuick/private/qsgdefaultinternalrectanglenode_p.h>
+#include <private/qgraphsglobal_p.h>
 
-#ifdef USE_SHAPE_BACKEND
+#if QT_CONFIG(graphs_2d_high_quality_backend)
 #include <QtQuickShapes/private/qquickshape_p.h>
 #endif
-#ifdef USE_PAINTER_BACKEND
+#if QT_CONFIG(graphs_2d_high_performance_backend)
 #include <QtCanvasPainter/qcanvaspainter.h>
 #endif
 
@@ -49,7 +50,7 @@ public:
 
     void resetShapePathCount();
 
-#ifdef USE_PAINTER_BACKEND
+#if QT_CONFIG(graphs_2d_high_performance_backend)
     struct PointPaintData
     {
         QPainterPath painterPath;
@@ -83,12 +84,12 @@ private:
         QList<QRectF> rects;
         qsizetype colorIndex = -1;
         bool hover = false;
-#ifdef USE_SHAPE_BACKEND
+#if QT_CONFIG(graphs_2d_high_quality_backend)
         QQuickShapePath *shapePath = nullptr;
 #endif
     };
 
-#ifdef USE_PAINTER_BACKEND
+#if QT_CONFIG(graphs_2d_high_performance_backend)
     PaintSnapshot m_pointPaintSnapshot;
 #endif
 
@@ -98,7 +99,7 @@ private:
     QMap<QXYSeries *, PointGroup *> m_groups;
     qsizetype m_currentShapePathIndex = 0;
 
-#ifdef USE_SHAPE_BACKEND
+#if QT_CONFIG(graphs_2d_high_quality_backend)
     QQuickShape m_shape;
 #endif
 
@@ -156,13 +157,13 @@ private:
     void onDoubleTapped(QEventPoint eventPoint, Qt::MouseButton button);
     void onPressedChanged();
 
-#ifdef USE_SCATTERGRAPH
+#if QT_CONFIG(graphs_2d_scatter)
     void updateScatterSeries(QScatterSeries *scatter, QLegendData &legendData);
 #endif
-#ifdef USE_LINEGRAPH
+#if QT_CONFIG(graphs_2d_line) || QT_CONFIG(graphs_2d_area)
     void updateLineSeries(QLineSeries *line, QLegendData &legendData);
 #endif
-#ifdef USE_SPLINEGRAPH
+#if QT_CONFIG(graphs_2d_spline)
     void updateSplineSeries(QSplineSeries *spline, QLegendData &legendData);
 #endif
 };

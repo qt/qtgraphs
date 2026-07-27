@@ -19,6 +19,7 @@
 #include "graphs2d/qabstractseries.h"
 #include <QQuickItem>
 #include <QtGui/qpainterpath.h>
+#include <private/qgraphsglobal_p.h>
 
 QT_BEGIN_NAMESPACE
 
@@ -29,7 +30,7 @@ class QQuickShape;
 class QAbstractSeries;
 class QQuickTapHandler;
 class QQuickDragHandler;
-#ifdef USE_PAINTER_BACKEND
+#if QT_CONFIG(graphs_2d_high_performance_backend)
 class QCanvasPainter;
 #endif
 
@@ -54,7 +55,7 @@ public:
     PieRenderer(QGraphsView *graph, bool clipPlotArea);
     ~PieRenderer() override;
 
-#ifdef USE_PAINTER_BACKEND
+#if QT_CONFIG(graphs_2d_high_performance_backend)
     using PaintSnapshot = QHash<QPieSlice *, SliceData>;
 
     static void paintSnapshot(const PaintSnapshot &paintSnapshot, QCanvasPainter *p);
@@ -108,7 +109,7 @@ private:
     QGraphsView *m_graph = nullptr;
     QQuickShape *m_shape = nullptr;
     QHash<QPieSlice *, SliceData> m_activeSlices;
-#ifdef USE_PAINTER_BACKEND
+#if QT_CONFIG(graphs_2d_high_performance_backend)
     QHash<QPieSlice *, SliceData> m_paintSnapshot;
 #endif
 

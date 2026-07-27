@@ -24,6 +24,7 @@
 #include <private/axisgrid_p.h>
 #include <private/axisticker_p.h>
 #include <private/axisline_p.h>
+#include <private/qgraphsglobal_p.h>
 
 QT_BEGIN_NAMESPACE
 
@@ -113,7 +114,7 @@ private:
     bool hasAxisTitle(const AxisProperties &ax) const;
     bool isAxisBottomOrRight(const AxisProperties &ax) const;
 
-#ifdef USE_BARGRAPH
+#if QT_CONFIG(graphs_2d_bar)
     void updateBarXAxisLabels(AxisProperties &ax, const QRectF rect);
     void updateBarYAxisLabels(AxisProperties &ax, const QRectF rect);
 #endif

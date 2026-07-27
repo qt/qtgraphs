@@ -3,7 +3,9 @@
 // Qt-Security score:significant reason:default
 
 #include <QtGraphs/qareaseries.h>
+#if QT_CONFIG(graphs_2d_spline)
 #include <QtGraphs/qsplineseries.h>
+#endif
 #include <QtQuick/private/qquicktaphandler_p.h>
 #include <QtQuickShapes/private/qquickshape_p.h>
 #include <private/arearenderer_p.h>
@@ -13,7 +15,7 @@
 #include <private/qareaseries_p.h>
 #include <private/qgraphsview_p.h>
 #include <private/qxyseries_p.h>
-#ifdef USE_PAINTER_BACKEND
+#if QT_CONFIG(graphs_2d_high_performance_backend)
 #include <QtCanvasPainter/QCanvasPainter>
 #include <QtCanvasPainter/QCanvasLinearGradient>
 #include <QtCanvasPainter/QCanvasConicalGradient>
@@ -52,7 +54,7 @@ AreaRenderer::AreaRenderer(QGraphsView *graph, bool clipPlotArea)
     setFlag(QQuickItem::ItemHasContents);
     setClip(clipPlotArea);
 
-#ifdef USE_SHAPE_BACKEND
+#if QT_CONFIG(graphs_2d_high_quality_backend)
     m_shape.setParentItem(this);
     m_shape.setPreferredRendererType(QQuickShape::CurveRenderer);
 #endif
@@ -73,7 +75,7 @@ void AreaRenderer::resetShapePathCount()
     m_currentShapePathIndex = 0;
 }
 
-#ifdef USE_PAINTER_BACKEND
+#if QT_CONFIG(graphs_2d_high_performance_backend)
 AreaRenderer::PaintSnapshot AreaRenderer::paintSnapshot() const
 {
     return m_areaPaintSnapshot;
@@ -273,7 +275,7 @@ void AreaRenderer::handlePolish(QAreaSeries *series)
         group->series = series;
         m_groups.insert(series, group);
 
-#ifdef USE_SHAPE_BACKEND
+#if QT_CONFIG(graphs_2d_high_quality_backend)
         group->shapePath = new QQuickShapePath(&m_shape);
         auto data = m_shape.data();
         data.append(&data, m_groups.value(series)->shapePath);
@@ -282,7 +284,7 @@ void AreaRenderer::handlePolish(QAreaSeries *series)
 
     auto group = m_groups.value(series);
 
-#ifdef USE_SHAPE_BACKEND
+#if QT_CONFIG(graphs_2d_high_quality_backend)
     auto data = m_shape.data();
     group->shapePath = qobject_cast<QQuickShapePath *>(data.at(&data, m_currentShapePathIndex));
 #endif
@@ -291,7 +293,7 @@ void AreaRenderer::handlePolish(QAreaSeries *series)
 
     if (upper->points().count() < 2 || (lower && lower->points().count() < 2)) {
         group->painterPath.clear();
-#ifdef USE_SHAPE_BACKEND
+#if QT_CONFIG(graphs_2d_high_quality_backend)
         group->shapePath->setPath(group->painterPath);
 #endif
         return;
@@ -318,7 +320,7 @@ void AreaRenderer::handlePolish(QAreaSeries *series)
 
     const auto style = getSeriesStyle(group);
 
-#ifdef USE_SHAPE_BACKEND
+#if QT_CONFIG(graphs_2d_high_quality_backend)
     if (!m_graph->useCanvasPainter()) {
         group->shapePath->setStrokeWidth(style.borderWidth);
         group->shapePath->setStrokeColor(style.borderColor);
@@ -330,7 +332,7 @@ void AreaRenderer::handlePolish(QAreaSeries *series)
 
     auto &&upperPoints = upper->points();
     QList<QPointF> fittedPoints;
-#ifdef USE_SPLINEGRAPH
+#if QT_CONFIG(graphs_2d_spline)
     if (upper->type() == QAbstractSeries::SeriesType::Spline)
         fittedPoints = qobject_cast<QSplineSeries *>(upper)->getControlPoints();
 #endif
@@ -389,7 +391,7 @@ void AreaRenderer::handlePolish(QAreaSeries *series)
         Q_TRACE_SCOPE(QGraphs2DAreaRendererCalculateSeriesL);
         auto &&lowerPoints = lower->points();
         QList<QPointF> fittedPoints;
-#ifdef USE_SPLINEGRAPH
+#if QT_CONFIG(graphs_2d_spline)
         if (lower->type() == QAbstractSeries::SeriesType::Spline)
             fittedPoints = qobject_cast<QSplineSeries *>(lower)->getControlPoints();
 #endif
@@ -427,7 +429,7 @@ void AreaRenderer::handlePolish(QAreaSeries *series)
         painterPath.lineTo(x, y);
     }
 
-#ifdef USE_SHAPE_BACKEND
+#if QT_CONFIG(graphs_2d_high_quality_backend)
     if (!m_graph->useCanvasPainter())
         group->shapePath->setPath(painterPath);
 #endif
@@ -440,7 +442,7 @@ void AreaRenderer::afterPolish(QList<QAbstractSeries *> &cleanupSeries)
 {
     Q_TRACE_SCOPE(QGraphs2DAreaRendereAfterPolish);
     Q_UNUSED(cleanupSeries);
-#ifdef USE_SHAPE_BACKEND
+#if QT_CONFIG(graphs_2d_high_quality_backend)
     auto data = m_shape.data();
     for (qsizetype i = m_currentShapePathIndex, count = data.count(&data); i < count; ++i) {
         auto shapePath = qobject_cast<QQuickShapePath *>(data.at(&data, i));
