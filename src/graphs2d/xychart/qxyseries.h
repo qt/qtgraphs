@@ -41,7 +41,7 @@ public:
         X,
         Y,
     };
-    Q_ENUM(ValueMapping);
+    Q_ENUM(ValueMapping)
 
     Q_INVOKABLE void append(qreal x, qreal y);
     Q_INVOKABLE void append(QPointF point);
