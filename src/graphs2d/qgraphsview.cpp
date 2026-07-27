@@ -5,35 +5,35 @@
 
 #include "graphs2d/qabstractseries.h"
 #include "graphs2d/qabstractseries_p.h"
-#ifdef USE_AREAGRAPH
+#if QT_CONFIG(graphs_2d_area)
 #include <QtGraphs/qareaseries.h>
 #include <private/arearenderer_p.h>
 #endif
-#ifdef USE_BARGRAPH
+#if QT_CONFIG(graphs_2d_bar)
 #include <QtGraphs/qbarseries.h>
 #include <private/barsrenderer_p.h>
 #endif
-#ifdef USE_PIEGRAPH
+#if QT_CONFIG(graphs_2d_donut_pie)
 #include <QtGraphs/qpieseries.h>
 #include <private/pierenderer_p.h>
 #endif
-#ifdef USE_LINEGRAPH
+#if QT_CONFIG(graphs_2d_line) || QT_CONFIG(graphs_2d_area)
 #include <QtGraphs/qlineseries.h>
 #endif
-#ifdef USE_SCATTERGRAPH
+#if QT_CONFIG(graphs_2d_scatter)
 #include <QtGraphs/qscatterseries.h>
 #endif
-#ifdef USE_SPLINEGRAPH
+#if QT_CONFIG(graphs_2d_spline)
 #include <QtGraphs/qsplineseries.h>
 #endif
-#ifdef USE_POINTS
+#if QT_CONFIG(graphs_2d_area) || QT_CONFIG(graphs_2d_line) || QT_CONFIG(graphs_2d_scatter) || QT_CONFIG(graphs_2d_spline)
 #include <private/pointrenderer_p.h>
 #endif
-#ifdef USE_CUSTOMGRAPH
+#if QT_CONFIG(graphs_2d_custom)
 #include <QtGraphs/qcustomseries.h>
 #include <private/customrenderer_p.h>
 #endif
-#ifdef USE_PAINTER_BACKEND
+#if QT_CONFIG(graphs_2d_high_performance_backend)
 #include "qcpainteritem_p.h"
 #endif
 #include <QTimer>
@@ -120,7 +120,7 @@ QGraphsView::QGraphsView(QQuickItem *parent) :
     m_pinchHandler = new QQuickPinchHandler(this);
     m_pinchHandler->setTarget(nullptr);
 
-#ifdef USE_PAINTER_BACKEND
+#if QT_CONFIG(graphs_2d_high_performance_backend)
     if (m_useCanvasPainter)
         createCanvasPainter();
 #endif
@@ -218,7 +218,7 @@ void QGraphsView::insertSeries(qsizetype index, QObject *object)
             QObject::connect(series, &QAbstractSeries::hover,
                              this, &QGraphsView::handleHover);
 
-#ifdef USE_PIEGRAPH
+#if QT_CONFIG(graphs_2d_donut_pie)
             if (auto pie = qobject_cast<QPieSeries *>(series))
                 connect(pie, &QPieSeries::removed, m_pieRenderer, &PieRenderer::markedDeleted);
 #endif
@@ -245,29 +245,29 @@ void QGraphsView::removeSeries(QObject *object)
         m_seriesList.removeAll(series);
         auto &cleanupSeriesList = m_cleanupSeriesList[getSeriesRendererIndex(series)];
 
-#ifdef USE_PIEGRAPH
+#if QT_CONFIG(graphs_2d_donut_pie)
         if (auto pie = qobject_cast<QPieSeries *>(series))
             disconnect(pie, &QPieSeries::removed, m_pieRenderer, &PieRenderer::markedDeleted);
 #endif
         qCDebug(lcGraphs2D) << "removing" << series << "from seriesList";
         cleanupSeriesList.append(series);
-#ifdef USE_POINTS
+#if QT_CONFIG(graphs_2d_area) || QT_CONFIG(graphs_2d_line) || QT_CONFIG(graphs_2d_scatter) || QT_CONFIG(graphs_2d_spline)
         if (m_pointRenderer)
             m_pointRenderer->seriesAboutToBeRemoved(series);
 #endif
-#ifdef USE_BARGRAPH
+#if QT_CONFIG(graphs_2d_bar)
         if (m_barsRenderer)
             m_barsRenderer->seriesAboutToBeRemoved(series);
 #endif
-#ifdef USE_PIEGRAPH
+#if QT_CONFIG(graphs_2d_donut_pie)
         if (m_pieRenderer)
             m_pieRenderer->seriesAboutToBeRemoved(series);
 #endif
-#ifdef USE_AREAGRAPH
+#if QT_CONFIG(graphs_2d_area)
         if (m_areaRenderer)
             m_areaRenderer->seriesAboutToBeRemoved(series);
 #endif
-#ifdef USE_CUSTOMGRAPH
+#if QT_CONFIG(graphs_2d_custom)
         if (m_customRenderer)
             m_customRenderer->seriesAboutToBeRemoved(series);
 #endif
@@ -303,7 +303,7 @@ bool QGraphsView::hasSeries(QObject *series)
 
 QPointF QGraphsView::getDataPointCoordinates(QAbstractSeries *series, qreal x, qreal y)
 {
-#ifdef USE_LINEGRAPH
+#if QT_CONFIG(graphs_2d_line) || QT_CONFIG(graphs_2d_area)
     if (m_pointRenderer)
         return m_pointRenderer->reverseRenderCoordinates(series, x, y);
 #else
@@ -365,7 +365,7 @@ void QGraphsView::setGraphSeriesCount(qsizetype count)
         m_graphSeriesCount = count;
 }
 
-#ifdef USE_BARGRAPH
+#if QT_CONFIG(graphs_2d_bar)
 void QGraphsView::createBarsRenderer()
 {
     Q_TRACE_SCOPE(QGraphs2DGraphsViewCreateBarsRenderer);
@@ -388,7 +388,7 @@ void QGraphsView::createAxisRenderer()
     }
 }
 
-#ifdef USE_POINTS
+#if QT_CONFIG(graphs_2d_area) || QT_CONFIG(graphs_2d_line) || QT_CONFIG(graphs_2d_scatter) || QT_CONFIG(graphs_2d_spline)
 void QGraphsView::createPointRenderer()
 {
     Q_TRACE_SCOPE(QGraphs2DGraphsViewCreatePointRenderer);
@@ -400,7 +400,7 @@ void QGraphsView::createPointRenderer()
 }
 #endif
 
-#ifdef USE_PIEGRAPH
+#if QT_CONFIG(graphs_2d_donut_pie)
 void QGraphsView::createPieRenderer()
 {
     Q_TRACE_SCOPE(QGraphs2DGraphsViewCreatePieRenderer);
@@ -412,7 +412,7 @@ void QGraphsView::createPieRenderer()
 }
 #endif
 
-#ifdef USE_AREAGRAPH
+#if QT_CONFIG(graphs_2d_area)
 void QGraphsView::createAreaRenderer()
 {
     Q_TRACE_SCOPE(QGraphs2DGraphsViewCreateAreaRenderer);
@@ -424,7 +424,7 @@ void QGraphsView::createAreaRenderer()
 }
 #endif
 
-#ifdef USE_CUSTOMGRAPH
+#if QT_CONFIG(graphs_2d_custom)
 void QGraphsView::createCustomRenderer()
 {
     if (!m_customRenderer) {
@@ -435,7 +435,7 @@ void QGraphsView::createCustomRenderer()
 }
 #endif
 
-#ifdef USE_PAINTER_BACKEND
+#if QT_CONFIG(graphs_2d_high_performance_backend)
 void QGraphsView::createCanvasPainter()
 {
     if (!m_painterItem) {
@@ -741,7 +741,7 @@ void QGraphsView::updateComponentSizes()
     if (m_axisRenderer)
         m_axisRenderer->setSize(size());
 
-#ifdef USE_BARGRAPH
+#if QT_CONFIG(graphs_2d_bar)
     if (m_barsRenderer) {
         m_barsRenderer->setX(m_plotArea.x());
         m_barsRenderer->setY(m_plotArea.y());
@@ -752,7 +752,7 @@ void QGraphsView::updateComponentSizes()
                 m_plotArea.y());
     }
 #endif
-#ifdef USE_POINTS
+#if QT_CONFIG(graphs_2d_area) || QT_CONFIG(graphs_2d_line) || QT_CONFIG(graphs_2d_scatter) || QT_CONFIG(graphs_2d_spline)
     if (m_pointRenderer) {
         m_pointRenderer->setX(m_plotArea.x());
         m_pointRenderer->setY(m_plotArea.y());
@@ -764,7 +764,7 @@ void QGraphsView::updateComponentSizes()
 
     }
 #endif
-#ifdef USE_PIEGRAPH
+#if QT_CONFIG(graphs_2d_donut_pie)
     if (m_pieRenderer) {
         m_pieRenderer->setX(m_plotArea.x());
         m_pieRenderer->setY(m_plotArea.y());
@@ -776,7 +776,7 @@ void QGraphsView::updateComponentSizes()
 
     }
 #endif
-#ifdef USE_AREAGRAPH
+#if QT_CONFIG(graphs_2d_area)
     if (m_areaRenderer) {
         m_areaRenderer->setX(m_plotArea.x());
         m_areaRenderer->setY(m_plotArea.y());
@@ -788,7 +788,7 @@ void QGraphsView::updateComponentSizes()
 
     }
 #endif
-#ifdef USE_CUSTOMGRAPH
+#if QT_CONFIG(graphs_2d_custom)
     if (m_customRenderer) {
         m_customRenderer->setX(m_plotArea.x());
         m_customRenderer->setY(m_plotArea.y());
@@ -797,7 +797,7 @@ void QGraphsView::updateComponentSizes()
         qCDebug(lcEvents2D, "customaRenderer plotArea x: %f y: %f", m_plotArea.x(), m_plotArea.y());
     }
 #endif
-#ifdef USE_PAINTER_BACKEND
+#if QT_CONFIG(graphs_2d_high_performance_backend)
     if (m_painterItem) {
         m_painterItem->setX(m_plotArea.x());
         m_painterItem->setY(m_plotArea.y());
@@ -860,22 +860,22 @@ void QGraphsView::hoverMoveEvent(QHoverEvent *event)
                             event->oldPosF(), event->modifiers());
     mappedEvent.setAccepted(false);
 
-#ifdef USE_BARGRAPH
+#if QT_CONFIG(graphs_2d_bar)
     if (m_barsRenderer)
         handled |= m_barsRenderer->handleHoverMove(&mappedEvent);
 #endif
 
-#ifdef USE_POINTS
+#if QT_CONFIG(graphs_2d_area) || QT_CONFIG(graphs_2d_line) || QT_CONFIG(graphs_2d_scatter) || QT_CONFIG(graphs_2d_spline)
     if (m_pointRenderer)
         handled |= m_pointRenderer->handleHoverMove(&mappedEvent);
 #endif
 
-#ifdef USE_PIEGRAPH
+#if QT_CONFIG(graphs_2d_donut_pie)
     if (m_pieRenderer)
         handled |= m_pieRenderer->handleHoverMove(&mappedEvent);
 #endif
 
-#ifdef USE_AREAGRAPH
+#if QT_CONFIG(graphs_2d_area)
     if (m_areaRenderer)
         handled |= m_areaRenderer->handleHoverMove(&mappedEvent);
 #endif
@@ -916,45 +916,45 @@ QSGNode *QGraphsView::updatePaintNode(QSGNode *oldNode, QQuickItem::UpdatePaintN
 
     for (auto series : std::as_const(m_seriesList)) {
         qCDebug(lcEvents2D) << "QGraphsView::updatePaintNode." << series;
-#ifdef USE_BARGRAPH
+#if QT_CONFIG(graphs_2d_bar)
         if (m_barsRenderer) {
             if (auto barSeries = qobject_cast<QBarSeries *>(series))
                 m_barsRenderer->updateSeries(barSeries);
         }
 #endif
 
-#ifdef USE_POINTS
+#if QT_CONFIG(graphs_2d_area) || QT_CONFIG(graphs_2d_line) || QT_CONFIG(graphs_2d_scatter) || QT_CONFIG(graphs_2d_spline)
         if (m_pointRenderer) {
-#ifdef USE_LINEGRAPH
+#if QT_CONFIG(graphs_2d_line) || QT_CONFIG(graphs_2d_area)
             if (auto lineSeries = qobject_cast<QLineSeries *>(series))
                 m_pointRenderer->updateSeries(lineSeries);
 #endif
-#ifdef USE_SCATTERGRAPH
+#if QT_CONFIG(graphs_2d_scatter)
             if (auto scatterSeries = qobject_cast<QScatterSeries *>(series))
                 m_pointRenderer->updateSeries(scatterSeries);
 #endif
-#ifdef USE_SPLINEGRAPH
+#if QT_CONFIG(graphs_2d_spline)
             if (auto splineSeries = qobject_cast<QSplineSeries *>(series))
                 m_pointRenderer->updateSeries(splineSeries);
 #endif
         }
 #endif
 
-#ifdef USE_PIEGRAPH
+#if QT_CONFIG(graphs_2d_donut_pie)
         if (m_pieRenderer) {
             if (auto pieSeries = qobject_cast<QPieSeries *>(series))
                 m_pieRenderer->updateSeries(pieSeries);
         }
 #endif
 
-#ifdef USE_AREAGRAPH
+#if QT_CONFIG(graphs_2d_area)
         if (m_areaRenderer) {
             if (auto areaSeries = qobject_cast<QAreaSeries *>(series))
                 m_areaRenderer->updateSeries(areaSeries);
         }
 #endif
 
-#ifdef USE_CUSTOMGRAPH
+#if QT_CONFIG(graphs_2d_custom)
         if (m_customRenderer) {
             if (auto customSeries = qobject_cast<QCustomSeries *>(series))
                 m_customRenderer->updateSeries(customSeries);
@@ -962,7 +962,7 @@ QSGNode *QGraphsView::updatePaintNode(QSGNode *oldNode, QQuickItem::UpdatePaintN
 #endif
     }
 
-#ifdef USE_BARGRAPH
+#if QT_CONFIG(graphs_2d_bar)
     if (m_barsRenderer) {
         auto &cleanupSeriesList = m_cleanupSeriesList[0];
         m_barsRenderer->afterUpdate(cleanupSeriesList);
@@ -970,7 +970,7 @@ QSGNode *QGraphsView::updatePaintNode(QSGNode *oldNode, QQuickItem::UpdatePaintN
     }
 #endif
 
-#ifdef USE_POINTS
+#if QT_CONFIG(graphs_2d_area) || QT_CONFIG(graphs_2d_line) || QT_CONFIG(graphs_2d_scatter) || QT_CONFIG(graphs_2d_spline)
     if (m_pointRenderer) {
         auto &cleanupSeriesList = m_cleanupSeriesList[1];
         m_pointRenderer->afterUpdate(cleanupSeriesList);
@@ -978,14 +978,14 @@ QSGNode *QGraphsView::updatePaintNode(QSGNode *oldNode, QQuickItem::UpdatePaintN
     }
 #endif
 
-#ifdef USE_AREAGRAPH
+#if QT_CONFIG(graphs_2d_area)
     if (m_areaRenderer) {
         auto &cleanupSeriesList = m_cleanupSeriesList[2];
         m_areaRenderer->afterUpdate(cleanupSeriesList);
     }
 #endif
 
-#ifdef USE_PIEGRAPH
+#if QT_CONFIG(graphs_2d_donut_pie)
     if (m_pieRenderer) {
         auto &cleanupSeriesList = m_cleanupSeriesList[3];
         m_pieRenderer->afterUpdate(cleanupSeriesList);
@@ -993,7 +993,7 @@ QSGNode *QGraphsView::updatePaintNode(QSGNode *oldNode, QQuickItem::UpdatePaintN
     }
 #endif
 
-#ifdef USE_CUSTOMGRAPH
+#if QT_CONFIG(graphs_2d_custom)
     if (m_customRenderer) {
         auto &cleanupSeriesList = m_cleanupSeriesList[4];
         m_customRenderer->afterUpdate(cleanupSeriesList);
@@ -1043,19 +1043,19 @@ void QGraphsView::updatePolish()
         return false;
     });
 
-    #ifdef USE_POINTS
+    #if QT_CONFIG(graphs_2d_area) || QT_CONFIG(graphs_2d_line) || QT_CONFIG(graphs_2d_scatter) || QT_CONFIG(graphs_2d_spline)
     if (m_pointRenderer)
         m_pointRenderer->resetShapePathCount();
     #endif
 
-    #ifdef USE_AREAGRAPH
+    #if QT_CONFIG(graphs_2d_area)
     if (m_areaRenderer)
         m_areaRenderer->resetShapePathCount();
     #endif
 
 
     // Polish for all series
-#ifdef USE_BARGRAPH
+#if QT_CONFIG(graphs_2d_bar)
     float highestBarsZ = std::numeric_limits<float>::lowest();
     int barSeriesIndex = 0;
     int barSeriesCount =
@@ -1063,7 +1063,7 @@ void QGraphsView::updatePolish()
                           [](const auto &series) { return qobject_cast<QBarSeries *>(series); });
 #endif
     for (auto series : std::as_const(m_seriesList)) {
-#ifdef USE_BARGRAPH
+#if QT_CONFIG(graphs_2d_bar)
         if (m_barsRenderer) {
             if (auto barSeries = qobject_cast<QBarSeries *>(series)) {
                 m_barsRenderer->handlePolish(barSeries, barSeriesIndex, barSeriesCount);
@@ -1074,11 +1074,11 @@ void QGraphsView::updatePolish()
         }
 #endif
 
-#ifdef USE_POINTS
+#if QT_CONFIG(graphs_2d_area) || QT_CONFIG(graphs_2d_line) || QT_CONFIG(graphs_2d_scatter) || QT_CONFIG(graphs_2d_spline)
         float highestPointZ = std::numeric_limits<float>::lowest();
 
         if (m_pointRenderer) {
-#ifdef USE_LINEGRAPH
+#if QT_CONFIG(graphs_2d_line) || QT_CONFIG(graphs_2d_area)
             if (auto lineSeries = qobject_cast<QLineSeries *>(series)) {
                 m_pointRenderer->handlePolish(lineSeries);
                 if (lineSeries->zValue() > highestPointZ)
@@ -1086,7 +1086,7 @@ void QGraphsView::updatePolish()
             }
 #endif
 
-#ifdef USE_SCATTERGRAPH
+#if QT_CONFIG(graphs_2d_scatter)
             if (auto scatterSeries = qobject_cast<QScatterSeries *>(series)) {
                 m_pointRenderer->handlePolish(scatterSeries);
                 if (scatterSeries->zValue() > highestPointZ)
@@ -1094,7 +1094,7 @@ void QGraphsView::updatePolish()
             }
 #endif
 
-#ifdef USE_SPLINEGRAPH
+#if QT_CONFIG(graphs_2d_spline)
             if (auto splineSeries = qobject_cast<QSplineSeries *>(series)) {
                 m_pointRenderer->handlePolish(splineSeries);
                 if (splineSeries->zValue() > highestPointZ)
@@ -1104,7 +1104,7 @@ void QGraphsView::updatePolish()
         }
 #endif
 
-#ifdef USE_PIEGRAPH
+#if QT_CONFIG(graphs_2d_donut_pie)
         float highestPieZ = std::numeric_limits<float>::lowest();
 
         if (m_pieRenderer) {
@@ -1116,7 +1116,7 @@ void QGraphsView::updatePolish()
         }
 #endif
 
-#ifdef USE_AREAGRAPH
+#if QT_CONFIG(graphs_2d_area)
         float highestAreaZ = std::numeric_limits<float>::lowest();
 
         if (m_areaRenderer) {
@@ -1128,7 +1128,7 @@ void QGraphsView::updatePolish()
         }
 #endif
 
-#ifdef USE_CUSTOMGRAPH
+#if QT_CONFIG(graphs_2d_custom)
         float highestCustomZ = std::numeric_limits<float>::lowest();
 
         if (m_customRenderer) {
@@ -1141,7 +1141,7 @@ void QGraphsView::updatePolish()
 #endif
     }
 
-#ifdef USE_BARGRAPH
+#if QT_CONFIG(graphs_2d_bar)
     if (m_barsRenderer) {
         auto &cleanupSeriesList = m_cleanupSeriesList[0];
         m_barsRenderer->afterPolish(cleanupSeriesList);
@@ -1150,7 +1150,7 @@ void QGraphsView::updatePolish()
             m_barsRenderer->setZ(highestBarsZ);
     }
 #endif
-#ifdef USE_POINTS
+#if QT_CONFIG(graphs_2d_area) || QT_CONFIG(graphs_2d_line) || QT_CONFIG(graphs_2d_scatter) || QT_CONFIG(graphs_2d_spline)
     if (m_pointRenderer) {
         float highestPointZ = std::numeric_limits<float>::lowest();
 
@@ -1161,7 +1161,7 @@ void QGraphsView::updatePolish()
             m_pointRenderer->setZ(highestPointZ);
     }
 #endif
-#ifdef USE_AREAGRAPH
+#if QT_CONFIG(graphs_2d_area)
     if (m_areaRenderer) {
         float highestAreaZ = std::numeric_limits<float>::lowest();
 
@@ -1172,7 +1172,7 @@ void QGraphsView::updatePolish()
             m_areaRenderer->setZ(highestAreaZ);
     }
 #endif
-#ifdef USE_PIEGRAPH
+#if QT_CONFIG(graphs_2d_donut_pie)
     if (m_pieRenderer) {
         float highestPieZ = std::numeric_limits<float>::lowest();
 
@@ -1183,7 +1183,7 @@ void QGraphsView::updatePolish()
             m_pieRenderer->setZ(highestPieZ);
     }
 #endif
-#ifdef USE_CUSTOMGRAPH
+#if QT_CONFIG(graphs_2d_custom)
     if (m_customRenderer) {
         float highestCustomZ = std::numeric_limits<float>::lowest();
 
@@ -1194,7 +1194,7 @@ void QGraphsView::updatePolish()
             m_customRenderer->setZ(highestCustomZ);
     }
 #endif
-#ifdef USE_PAINTER_BACKEND
+#if QT_CONFIG(graphs_2d_high_performance_backend)
     if (m_painterItem)
         m_painterItem->update();
 #endif
@@ -1411,23 +1411,23 @@ void QGraphsView::setClipPlotArea(bool enabled)
 
     m_clipPlotArea = enabled;
     emit clipPlotAreaChanged();
-#ifdef USE_POINTS
+#if QT_CONFIG(graphs_2d_area) || QT_CONFIG(graphs_2d_line) || QT_CONFIG(graphs_2d_scatter) || QT_CONFIG(graphs_2d_spline)
     if (m_pointRenderer)
         m_pointRenderer->setClip(m_clipPlotArea);
 #endif
-#ifdef USE_AREAGRAPH
+#if QT_CONFIG(graphs_2d_area)
     if (m_areaRenderer)
         m_areaRenderer->setClip(m_clipPlotArea);
 #endif
-#ifdef USE_PIEGRAPH
+#if QT_CONFIG(graphs_2d_donut_pie)
     if (m_pieRenderer)
         m_pieRenderer->setClip(m_clipPlotArea);
 #endif
-#ifdef USE_BARGRAPH
+#if QT_CONFIG(graphs_2d_bar)
     if (m_barsRenderer)
         m_barsRenderer->setClip(m_clipPlotArea);
 #endif
-#ifdef USE_CUSTOMGRAPH
+#if QT_CONFIG(graphs_2d_custom)
     if (m_customRenderer)
         m_customRenderer->setClip(m_clipPlotArea);
 #endif
@@ -1627,6 +1627,7 @@ void QGraphsView::setOrientation(Qt::Orientation newOrientation)
     polishAndUpdate();
 }
 
+#if QT_CONFIG(graphs_2d_custom)
 /*
     mapX and mapY functions are used to map custom series data values
     to the real pixel values of the GraphsView
@@ -1640,6 +1641,7 @@ qreal QGraphsView::mapY(QCustomSeries *series, qreal y)
 {
     return m_customRenderer->mapY(m_axisRenderer, series, y);
 }
+#endif
 
 CustomRenderer *QGraphsView::customRenderer() const
 {
@@ -1899,7 +1901,7 @@ int QGraphsView::getSeriesRendererIndex(QAbstractSeries *series)
 
 bool QGraphsView::useCanvasPainter() const
 {
-#ifdef USE_PAINTER_BACKEND
+#if QT_CONFIG(graphs_2d_high_performance_backend)
     return m_useCanvasPainter;
 #else
     return false;
@@ -1908,7 +1910,7 @@ bool QGraphsView::useCanvasPainter() const
 
 void QGraphsView::setUseCanvasPainter(bool newUseCanvasPainter)
 {
-#ifdef USE_PAINTER_BACKEND
+#if QT_CONFIG(graphs_2d_high_performance_backend)
     if (m_useCanvasPainter == newUseCanvasPainter)
         return;
     m_useCanvasPainter = newUseCanvasPainter;

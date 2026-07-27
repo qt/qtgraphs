@@ -7,7 +7,7 @@
 #include <QtQuick/private/qquicktext_p.h>
 #include <private/qpieslice_p.h>
 
-#ifdef USE_SHAPE_BACKEND
+#if QT_CONFIG(graphs_2d_high_quality_backend)
 #include <QtQuickShapes/private/qquickshape_p.h>
 #endif
 
@@ -1297,7 +1297,7 @@ QPieSlicePrivate::QPieSlicePrivate()
     , m_labelDirty(false)
     , m_borderWidth(0.0)
     , m_labelItem(new QQuickText)
-#ifdef USE_SHAPE_BACKEND
+#if QT_CONFIG(graphs_2d_high_quality_backend)
     , m_shapePath(new QQuickShapePath)
     , m_labelShape(new QQuickShape)
     , m_labelPath(new QQuickShapePath)
@@ -1305,7 +1305,7 @@ QPieSlicePrivate::QPieSlicePrivate()
 {
     m_labelItem->setColor(Qt::transparent);
     m_labelItem->setVisible(m_isLabelVisible);
-#ifdef USE_SHAPE_BACKEND
+#if QT_CONFIG(graphs_2d_high_quality_backend)
     m_labelShape->setVisible(m_isLabelVisible);
     m_labelPath->setParent(m_labelShape);
     auto data = m_labelShape->data();
@@ -1417,7 +1417,7 @@ void QPieSlicePrivate::setLabelVisible(bool visible, bool forceHidden)
     m_hideLabel = forceHidden;
     m_isLabelVisible = (visible && !m_hideLabel);
     m_labelItem->setVisible(m_isLabelVisible);
-#ifdef USE_SHAPE_BACKEND
+#if QT_CONFIG(graphs_2d_high_quality_backend)
     if (m_labelPosition == QPieSlice::LabelPosition::Outside)
         m_labelShape->setVisible(m_isLabelVisible);
 #endif
@@ -1428,7 +1428,7 @@ void QPieSlicePrivate::setLabelPosition(QPieSlice::LabelPosition position)
     m_labelPosition = position;
 
     if (position == QPieSlice::LabelPosition::Outside) {
-#ifdef USE_SHAPE_BACKEND
+#if QT_CONFIG(graphs_2d_high_quality_backend)
         m_labelShape->setVisible(m_isLabelVisible);
 #endif
         m_isLabelPathVisible = m_isLabelVisible;
@@ -1443,7 +1443,7 @@ void QPieSlicePrivate::setLabelPosition(QPieSlice::LabelPosition position)
         labelItem->setY(m_labelArm.y() - height);
         labelItem->setRotation(0);
     } else {
-#ifdef USE_SHAPE_BACKEND
+#if QT_CONFIG(graphs_2d_high_quality_backend)
         m_labelShape->setVisible(false);
 #endif
         m_isLabelPathVisible = false;

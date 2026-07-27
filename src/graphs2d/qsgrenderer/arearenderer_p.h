@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 // Qt-Security score:significant reason:default
 
-
 #ifndef AREARENDERER_H
 #define AREARENDERER_H
 
@@ -19,10 +18,11 @@
 #include <QGradient>
 #include <QPainterPath>
 #include <QQuickItem>
-#ifdef USE_SHAPE_BACKEND
+#include <private/qgraphsglobal_p.h>
+#if QT_CONFIG(graphs_2d_high_quality_backend)
 #include <QtQuickShapes/private/qquickshape_p.h>
 #endif
-#ifdef USE_PAINTER_BACKEND
+#if QT_CONFIG(graphs_2d_high_performance_backend)
 #include <QtCanvasPainter/qcanvasconicalgradient.h>
 #include <QtCanvasPainter/qcanvaslineargradient.h>
 #include <QtCanvasPainter/qcanvasradialgradient.h>
@@ -34,7 +34,7 @@ class QAreaSeries;
 class AxisRenderer;
 class QAbstractSeries;
 class QQuickTapHandler;
-#ifdef USE_PAINTER_BACKEND
+#if QT_CONFIG(graphs_2d_high_performance_backend)
 class QCanvasPainter;
 #endif
 class QQuickShapeGradient;
@@ -58,7 +58,7 @@ public:
 
     void resetShapePathCount();
 
-#ifdef USE_PAINTER_BACKEND
+#if QT_CONFIG(graphs_2d_high_performance_backend)
     PaintSnapshot paintSnapshot() const;
     void synchronizeData();
     static void paintSnapshot(const PaintSnapshot &snapshot, QCanvasPainter *p);
@@ -77,7 +77,7 @@ private:
     {
         QPainterPath painterPath;
         QAreaSeries *series = nullptr;
-#ifdef USE_SHAPE_BACKEND
+#if QT_CONFIG(graphs_2d_high_quality_backend)
         QQuickShapePath *shapePath = nullptr;
 #endif
         qsizetype colorIndex = -1;
@@ -93,11 +93,11 @@ private:
     QMap<QAreaSeries *, PointGroup *> m_groups;
     qsizetype m_currentShapePathIndex = 0;
 
-#ifdef USE_SHAPE_BACKEND
+#if QT_CONFIG(graphs_2d_high_quality_backend)
     QQuickShape m_shape;
 #endif
 
-#ifdef USE_PAINTER_BACKEND
+#if QT_CONFIG(graphs_2d_high_performance_backend)
     PaintSnapshot m_areaPaintSnapshot;
 #endif
 

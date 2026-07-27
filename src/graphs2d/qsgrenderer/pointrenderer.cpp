@@ -2,17 +2,17 @@
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 // Qt-Security score:significant reason:default
 
-
-#ifdef USE_LINEGRAPH
+#include <private/qgraphsglobal_p.h>
+#if QT_CONFIG(graphs_2d_line) || QT_CONFIG(graphs_2d_area)
 #include <QtGraphs/qlineseries.h>
 #endif
-#ifdef USE_SCATTERGRAPH
+#if QT_CONFIG(graphs_2d_scatter)
 #include <QtGraphs/qscatterseries.h>
 #endif
-#ifdef USE_SPLINEGRAPH
+#if QT_CONFIG(graphs_2d_spline)
 #include <QtGraphs/qsplineseries.h>
 #endif
-#ifdef USE_PAINTER_BACKEND
+#if QT_CONFIG(graphs_2d_high_performance_backend)
 #include <QtCanvasPainter/QCanvasPainter>
 #endif
 #include <QtQuick/private/qquickdraghandler_p.h>
@@ -61,7 +61,7 @@ PointRenderer::PointRenderer(QGraphsView *graph, bool clipPlotArea)
     setFlag(QQuickItem::ItemHasContents);
     setClip(clipPlotArea);
 
-#ifdef USE_SHAPE_BACKEND
+#if QT_CONFIG(graphs_2d_high_quality_backend)
     m_shape.setParentItem(this);
     m_shape.setPreferredRendererType(QQuickShape::CurveRenderer);
 #endif
@@ -87,7 +87,7 @@ void PointRenderer::resetShapePathCount()
     m_currentShapePathIndex = 0;
 }
 
-#ifdef USE_PAINTER_BACKEND
+#if QT_CONFIG(graphs_2d_high_performance_backend)
 void PointRenderer::paintSnapshot(const PaintSnapshot &snapshot, QCanvasPainter *p) {
 
     p->setLineJoin(QCanvasPainter::LineJoin::Round);
@@ -113,7 +113,7 @@ void PointRenderer::synchronizeData()
 
         qreal width = 1.0;
         QCanvasPainter::LineCap capStyle = QCanvasPainter::LineCap::Round;
-#ifdef USE_LINEGRAPH
+#if QT_CONFIG(graphs_2d_line) || QT_CONFIG(graphs_2d_area)
         if (auto line = qobject_cast<QLineSeries *>(group->series)) {
             width = line->width();
             switch (line->capStyle()) {
@@ -131,8 +131,8 @@ void PointRenderer::synchronizeData()
             }
         }
 #endif
-#ifdef USE_SPLINEGRAPH
-#ifdef USE_LINEGRAPH
+#if QT_CONFIG(graphs_2d_spline)
+#if QT_CONFIG(graphs_2d_line)
         else
 #endif
         if (auto spline = qobject_cast<QSplineSeries *>(group->series)) {
@@ -167,14 +167,14 @@ qreal PointRenderer::defaultSize(QXYSeries *series)
 {
     qreal size = 16.0;
     if (series != nullptr) {
-#ifdef USE_LINEGRAPH
+#if QT_CONFIG(graphs_2d_line) || QT_CONFIG(graphs_2d_area)
         if (auto line = qobject_cast<QLineSeries *>(series))
             size = qMax(size, line->width());
 #endif
-#if defined(USE_LINEGRAPH) && defined(USE_SPLINEGRAPH)
+#if (QT_CONFIG(graphs_2d_line) || QT_CONFIG(graphs_2d_area)) && QT_CONFIG(graphs_2d_spline)
         else
 #endif
-#ifdef USE_SPLINEGRAPH
+#if QT_CONFIG(graphs_2d_spline)
             if (auto spline = qobject_cast<QSplineSeries *>(series))
             size = qMax(size, spline->width());
 #endif
@@ -416,7 +416,7 @@ void PointRenderer::onPressedChanged()
     }
 }
 
-#ifdef USE_SCATTERGRAPH
+#if QT_CONFIG(graphs_2d_scatter)
 void PointRenderer::updateScatterSeries(QScatterSeries *series, QLegendData &legendData)
 {
     auto group = m_groups.value(series);
@@ -452,13 +452,13 @@ void PointRenderer::updateScatterSeries(QScatterSeries *series, QLegendData &leg
 }
 #endif
 
-#ifdef USE_LINEGRAPH
+#if QT_CONFIG(graphs_2d_line) || QT_CONFIG(graphs_2d_area)
 void PointRenderer::updateLineSeries(QLineSeries *series, QLegendData &legendData)
 {
     auto group = m_groups.value(series);
     const auto style = getSeriesStyle(group);
 
-#ifdef USE_SHAPE_BACKEND
+#if QT_CONFIG(graphs_2d_high_quality_backend)
     if (!m_graph->useCanvasPainter()) {
         group->shapePath->setStrokeColor(style.color);
         group->shapePath->setStrokeWidth(series->width());
@@ -546,7 +546,7 @@ void PointRenderer::updateLineSeries(QLineSeries *series, QLegendData &legendDat
         hidePointDelegates(series);
     }
 
-#ifdef USE_SHAPE_BACKEND
+#if QT_CONFIG(graphs_2d_high_quality_backend)
     if (!m_graph->useCanvasPainter())
         group->shapePath->setPath(painterPath);
 #endif
@@ -556,13 +556,13 @@ void PointRenderer::updateLineSeries(QLineSeries *series, QLegendData &legendDat
 }
 #endif
 
-#ifdef USE_SPLINEGRAPH
+#if QT_CONFIG(graphs_2d_spline)
 void PointRenderer::updateSplineSeries(QSplineSeries *series, QLegendData &legendData)
 {
     auto group = m_groups.value(series);
     const auto style = getSeriesStyle(group);
 
-#ifdef USE_SHAPE_BACKEND
+#if QT_CONFIG(graphs_2d_high_quality_backend)
     if (!m_graph->useCanvasPainter()) {
         group->shapePath->setStrokeColor(style.color);
         group->shapePath->setStrokeWidth(series->width());
@@ -634,7 +634,7 @@ void PointRenderer::updateSplineSeries(QSplineSeries *series, QLegendData &legen
         hidePointDelegates(series);
     }
 
-#ifdef USE_SHAPE_BACKEND
+#if QT_CONFIG(graphs_2d_high_quality_backend)
     if (!m_graph->useCanvasPainter())
         group->shapePath->setPath(painterPath);
 #endif
@@ -660,7 +660,7 @@ void PointRenderer::handlePolish(QXYSeries *series)
         auto group = m_groups.value(series);
 
         if (group) {
-#ifdef USE_SHAPE_BACKEND
+#if QT_CONFIG(graphs_2d_high_quality_backend)
             if (group->shapePath) {
                 auto &painterPath = group->painterPath;
                 painterPath.clear();
@@ -700,7 +700,7 @@ void PointRenderer::handlePolish(QXYSeries *series)
         group->series = series;
         m_groups.insert(series, group);
 
-#ifdef USE_SHAPE_BACKEND
+#if QT_CONFIG(graphs_2d_high_quality_backend)
         if (series->type() != QAbstractSeries::SeriesType::Scatter) {
             group->shapePath = new QQuickShapePath(&m_shape);
             group->shapePath->setAsynchronous(true);
@@ -713,7 +713,7 @@ void PointRenderer::handlePolish(QXYSeries *series)
     auto group = m_groups.value(series);
 
     if (series->type() != QAbstractSeries::SeriesType::Scatter) {
-#ifdef USE_SHAPE_BACKEND
+#if QT_CONFIG(graphs_2d_high_quality_backend)
         auto data = m_shape.data();
         group->shapePath = qobject_cast<QQuickShapePath *>(data.at(&data, m_currentShapePathIndex));
 #endif
@@ -811,23 +811,23 @@ void PointRenderer::handlePolish(QXYSeries *series)
     }
 
     QLegendData legendData;
-#ifdef USE_SCATTERGRAPH
+#if QT_CONFIG(graphs_2d_scatter)
     if (auto scatter = qobject_cast<QScatterSeries *>(series))
         updateScatterSeries(scatter, legendData);
 #endif
-#if defined(USE_SCATTERGRAPH) && defined(USE_LINEGRAPH)
+#if QT_CONFIG(graphs_2d_scatter) && (QT_CONFIG(graphs_2d_line) || QT_CONFIG(graphs_2d_area))
     else
 #endif
-#ifdef USE_LINEGRAPH
+#if QT_CONFIG(graphs_2d_line) || QT_CONFIG(graphs_2d_area)
         if (auto line = qobject_cast<QLineSeries *>(series))
-        updateLineSeries(line, legendData);
+            updateLineSeries(line, legendData);
 #endif
-#if defined(USE_LINEGRAPH) && defined(USE_SPLINEGRAPH)
+#if (QT_CONFIG(graphs_2d_line) || QT_CONFIG(graphs_2d_area)) && QT_CONFIG(graphs_2d_spline)
     else
 #endif
-#ifdef USE_SPLINEGRAPH
+#if QT_CONFIG(graphs_2d_spline)
         if (auto spline = qobject_cast<QSplineSeries *>(series))
-        updateSplineSeries(spline, legendData);
+            updateSplineSeries(spline, legendData);
 #endif
 
     updateLegendData(series, legendData);
@@ -838,7 +838,7 @@ void PointRenderer::afterPolish(QList<QAbstractSeries *> &cleanupSeries)
     Q_TRACE_SCOPE(QGraphs2DPointRendererAfterPolish, static_cast<int>(cleanupSeries.count()));
     Q_UNUSED(cleanupSeries);
 
-#ifdef USE_SHAPE_BACKEND
+#if QT_CONFIG(graphs_2d_high_quality_backend)
     auto data = m_shape.data();
     for (qsizetype i = m_currentShapePathIndex, count = data.count(&data); i < count; ++i) {
         auto shapePath = qobject_cast<QQuickShapePath *>(data.at(&data, i));

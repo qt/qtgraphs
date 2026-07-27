@@ -18,6 +18,7 @@
 
 #include <QQuickItem>
 #include <QtGraphs/qabstractseries.h>
+#include <private/qgraphsglobal_p.h>
 #include <private/qquickdraghandler_p.h>
 
 QT_BEGIN_NAMESPACE
@@ -27,7 +28,7 @@ class QCustomSeries;
 class QCustomSeriesCanvasRenderer;
 class AxisRenderer;
 struct QLegendData;
-#ifdef USE_PAINTER_BACKEND
+#if QT_CONFIG(graphs_2d_high_performance_backend)
 class QCanvasPainter;
 class QCanvasPainterItem;
 #endif
@@ -43,7 +44,7 @@ public:
     CustomRenderer(QGraphsView *graph, bool clipPlotArea);
     ~CustomRenderer() override;
 
-#ifdef USE_PAINTER_BACKEND
+#if QT_CONFIG(graphs_2d_high_performance_backend)
     PaintSnapshot paintSnapshot() const;
     void synchronizeData(QCanvasPainterItem *item, QHash<QCustomSeries *, QCustomSeriesCanvasRenderer *> &painters);
     static void paintSnapshot(const PaintSnapshot &snapshot, QCanvasPainter *p);
@@ -73,7 +74,7 @@ private:
 
     QGraphsView *m_graph = nullptr;
     QMap<QCustomSeries *, DataGroup *> m_groups;
-#ifdef USE_PAINTER_BACKEND
+#if QT_CONFIG(graphs_2d_high_performance_backend)
     PaintSnapshot m_paintSnapshot;
     QSet<QCustomSeries *> m_removedCustomSeries;
 #endif

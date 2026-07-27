@@ -661,29 +661,29 @@ void QAbstractSeries::setGraph(QGraphsView *graph)
     if (graph) {
         switch (type()) {
         case SeriesType::Bar:
-#ifdef USE_BARGRAPH
+#if QT_CONFIG(graphs_2d_bar)
             graph->createBarsRenderer();
 #endif
             break;
         case SeriesType::Scatter:
         case SeriesType::Line:
         case SeriesType::Spline:
-#ifdef USE_POINTS
+#if QT_CONFIG(graphs_2d_area) || QT_CONFIG(graphs_2d_line) || QT_CONFIG(graphs_2d_scatter) || QT_CONFIG(graphs_2d_spline)
             graph->createPointRenderer();
 #endif
             break;
         case SeriesType::Pie:
-#ifdef USE_PIEGRAPH
+#if QT_CONFIG(graphs_2d_donut_pie)
             graph->createPieRenderer();
 #endif
             break;
         case SeriesType::Area:
-#ifdef USE_AREAGRAPH
+#if QT_CONFIG(graphs_2d_area)
             graph->createAreaRenderer();
 #endif
             break;
         case SeriesType::Custom:
-#ifdef USE_CUSTOMGRAPH
+#if QT_CONFIG(graphs_2d_custom)
             graph->createCustomRenderer();
 #endif
             break;

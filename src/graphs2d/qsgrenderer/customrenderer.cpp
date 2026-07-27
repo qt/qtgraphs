@@ -2,7 +2,8 @@
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 // Qt-Security score:significant reason:default
 
-#ifdef USE_PAINTER_BACKEND
+#include <private/qgraphsglobal_p.h>
+#if QT_CONFIG(graphs_2d_high_performance_backend)
 #include <QtCanvasPainter/QCanvasPainter>
 #include <QtGraphs/qcustomseriescanvasrenderer.h>
 #endif
@@ -73,7 +74,7 @@ CustomRenderer::~CustomRenderer()
     qDeleteAll(m_groups);
 }
 
-#ifdef USE_PAINTER_BACKEND
+#if QT_CONFIG(graphs_2d_high_performance_backend)
 CustomRenderer::PaintSnapshot CustomRenderer::paintSnapshot() const
 {
     return m_paintSnapshot;
@@ -282,7 +283,7 @@ void CustomRenderer::seriesAboutToBeRemoved(QAbstractSeries *series)
             for (const auto &dataItem : std::as_const(group->dataItems))
                 dataItem->deleteLater();
 
-#ifdef USE_PAINTER_BACKEND
+#if QT_CONFIG(graphs_2d_high_performance_backend)
             m_removedCustomSeries.insert(customSeries);
 #endif
             delete group;

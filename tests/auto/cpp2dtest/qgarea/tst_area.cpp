@@ -3,7 +3,7 @@
 
 #include <QtGraphs/QAreaSeries>
 #include <QtGraphs/QLineSeries>
-#ifdef USE_SPLINEGRAPH
+#if QT_CONFIG(graphs_2d_spline)
 #include <QtGraphs/QSplineSeries>
 #endif
 #include <QtGraphs/QValueAxis>
@@ -24,7 +24,7 @@ private slots:
 
     void initialProperties();
     void initializeProperties();
-#ifdef USE_SPLINEGRAPH
+#if QT_CONFIG(graphs_2d_spline)
     void initializePropertiesWithSpline();
 #endif
     void invalidProperties();
@@ -150,7 +150,7 @@ void tst_area::initializeProperties()
     QCOMPARE(spy13.size(), 1);
 }
 
-#ifdef USE_SPLINEGRAPH
+#if QT_CONFIG(graphs_2d_spline)
 void tst_area::initializePropertiesWithSpline()
 {
     QVERIFY(m_series);

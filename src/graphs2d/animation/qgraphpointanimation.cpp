@@ -4,7 +4,10 @@
 
 
 #include <QtCore/QPointF>
+#include <QtGraphs/qgraphsglobal.h>
+#if QT_CONFIG(graphs_2d_area) || QT_CONFIG(graphs_2d_line)
 #include <QtGraphs/QLineSeries>
+#endif
 #include "private/qgraphpointanimation_p.h"
 #include "private/qgraphtransition_p.h"
 #include "private/qxyseries_p.h"

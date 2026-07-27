@@ -18,37 +18,38 @@
 #include <QtCanvasPainter/QCanvasPainterItem>
 #include <QtCanvasPainter/QCanvasPainterItemRenderer>
 #include <QtCore/qvarlengtharray.h>
-#ifdef USE_AREAGRAPH
+#include <private/qgraphsglobal_p.h>
+#if QT_CONFIG(graphs_2d_area)
 #include <QtGraphs/private/arearenderer_p.h>
 #endif
-#ifdef USE_BARGRAPH
+#if QT_CONFIG(graphs_2d_bar)
 #include <QtGraphs/private/barsrenderer_p.h>
 #endif
-#ifdef USE_CUSTOMGRAPH
+#if QT_CONFIG(graphs_2d_custom)
 #include <QtGraphs/private/customrenderer_p.h>
 #endif
-#ifdef USE_PIEGRAPH
+#if QT_CONFIG(graphs_2d_donut_pie)
 #include <QtGraphs/private/pierenderer_p.h>
 #endif
-#ifdef USE_POINTS
+#if QT_CONFIG(graphs_2d_area) || QT_CONFIG(graphs_2d_line) || QT_CONFIG(graphs_2d_scatter) || QT_CONFIG(graphs_2d_spline)
 #include <QtGraphs/private/pointrenderer_p.h>
 #endif
 
 QT_BEGIN_NAMESPACE
 
-#ifndef USE_AREAGRAPH
+#if !QT_CONFIG(graphs_2d_area)
 class AreaRenderer;
 #endif
-#ifndef USE_BARGRAPH
+#if !QT_CONFIG(graphs_2d_bar)
 class BarsRenderer;
 #endif
-#ifndef USE_CUSTOMGRAPH
+#if !QT_CONFIG(graphs_2d_custom)
 class CustomRenderer;
 #endif
-#ifndef USE_PIEGRAPH
+#if !QT_CONFIG(graphs_2d_donut_pie)
 class PieRenderer;
 #endif
-#ifndef USE_POINTS
+#if !QT_CONFIG(graphs_2d_area) && !QT_CONFIG(graphs_2d_line) && !QT_CONFIG(graphs_2d_scatter) && !QT_CONFIG(graphs_2d_spline)
 class PointRenderer;
 #endif
 
@@ -56,19 +57,19 @@ class QCPainterItemRenderer : public QCanvasPainterItemRenderer
 {
 public:
     enum class RendererKind {
-#ifdef USE_AREAGRAPH
+#if QT_CONFIG(graphs_2d_area)
         Area,
 #endif
-#ifdef USE_BARGRAPH
+#if QT_CONFIG(graphs_2d_bar)
         Bars,
 #endif
-#ifdef USE_PIEGRAPH
+#if QT_CONFIG(graphs_2d_donut_pie)
         Pie,
 #endif
-#ifdef USE_POINTS
+#if QT_CONFIG(graphs_2d_area) || QT_CONFIG(graphs_2d_line) || QT_CONFIG(graphs_2d_scatter) || QT_CONFIG(graphs_2d_spline)
         Point,
 #endif
-#ifdef USE_CUSTOMGRAPH
+#if QT_CONFIG(graphs_2d_custom)
         Custom,
 #endif
     };
@@ -82,19 +83,19 @@ public:
     void paint(QCanvasPainter *p) override;
 
 private:
-#ifdef USE_AREAGRAPH
+#if QT_CONFIG(graphs_2d_area)
     AreaRenderer::PaintSnapshot m_areaPaintSnapshot;
 #endif
-#ifdef USE_BARGRAPH
+#if QT_CONFIG(graphs_2d_bar)
     BarsRenderer::PaintSnapshot m_barsSnapshot;
 #endif
-#ifdef USE_PIEGRAPH
+#if QT_CONFIG(graphs_2d_donut_pie)
     PieRenderer::PaintSnapshot m_piePaintSnapshot;
 #endif
-#ifdef USE_POINTS
+#if QT_CONFIG(graphs_2d_area) || QT_CONFIG(graphs_2d_line) || QT_CONFIG(graphs_2d_scatter) || QT_CONFIG(graphs_2d_spline)
     PointRenderer::PaintSnapshot m_pointPaintSnapshot;
 #endif
-#ifdef USE_CUSTOMGRAPH
+#if QT_CONFIG(graphs_2d_custom)
     CustomRenderer::PaintSnapshot m_customPaintSnapshot;
     QHash<QCustomSeries *, QCustomSeriesCanvasRenderer *> m_customPainters;
 #endif
