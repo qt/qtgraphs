@@ -2,14 +2,13 @@
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 // Qt-Security score:significant reason:default
 
-
 #ifdef USE_BARGRAPH
 #include <QtGraphs/QBarCategoryAxis>
+#include <private/qbarseries_p.h>
 #endif
 #include <QtGraphs/QGraphsTheme>
 #include <private/axisrenderer_p.h>
 #include <private/qabstractaxis_p.h>
-#include <private/qbarseries_p.h>
 #include <private/qdatetimeaxis_p.h>
 #include <private/qgraphsview_p.h>
 #include <private/qvalueaxis_p.h>
