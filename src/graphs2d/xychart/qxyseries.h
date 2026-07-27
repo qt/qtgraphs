@@ -17,6 +17,7 @@ class QXYModelMapper;
 class Q_GRAPHS_EXPORT QXYSeries : public QAbstractSeries
 {
     Q_OBJECT
+    Q_CLASSINFO("RegisterEnumClassesUnscoped", "false")
     Q_PROPERTY(QColor color READ color WRITE setColor NOTIFY colorChanged FINAL)
     Q_PROPERTY(QColor selectedColor READ selectedColor WRITE setSelectedColor NOTIFY
                    selectedColorChanged FINAL)
