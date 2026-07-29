@@ -18,6 +18,7 @@ class Q_GRAPHS_EXPORT QSurface3DSeries : public QAbstract3DSeries
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(QSurface3DSeries)
+    Q_CLASSINFO("RegisterEnumClassesUnscoped", "false")
     Q_PROPERTY(QSurfaceDataProxy *dataProxy READ dataProxy WRITE setDataProxy NOTIFY
                    dataProxyChanged FINAL)
     Q_PROPERTY(
