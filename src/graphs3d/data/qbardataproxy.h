@@ -22,6 +22,7 @@ using QBarDataArray = QList<QBarDataRow>;
 class Q_GRAPHS_EXPORT QBarDataProxy : public QAbstractDataProxy
 {
     Q_OBJECT
+    Q_CLASSINFO("RegisterEnumClassesUnscoped", "false")
     Q_DECLARE_PRIVATE(QBarDataProxy)
     Q_PROPERTY(qsizetype rowCount READ rowCount NOTIFY rowCountChanged FINAL)
     Q_PROPERTY(qsizetype colCount READ colCount NOTIFY colCountChanged FINAL)
