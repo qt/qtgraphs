@@ -8,6 +8,7 @@
 
 #include <QtGraphs/qabstractseries.h>
 #include <QtGraphs/qgraphsglobal.h>
+#include <QtGraphs/qbarset.h>
 
 QT_BEGIN_NAMESPACE
 
