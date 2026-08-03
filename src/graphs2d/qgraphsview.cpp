@@ -139,8 +139,10 @@ QGraphsView::QGraphsView(QQuickItem *parent) :
 QGraphsView::~QGraphsView()
 {
     const auto slist = m_seriesList;
-    for (const auto &s : slist)
-        removeSeries(s);
+    for (const auto &s : slist) {
+        if (auto series = qobject_cast<QAbstractSeries *>(s))
+            detachSeries(series);
+    }
     if (m_axisX)
         m_axisX->d_func()->setGraph(nullptr);
     if (m_axisY)
@@ -188,6 +190,9 @@ void QGraphsView::addSeries(QObject *series)
 */
 void QGraphsView::insertSeries(qsizetype index, QObject *object)
 {
+    if (!isSeriesSupported(object))
+        return;
+
     if (auto series = qobject_cast<QAbstractSeries *>(object)) {
         Q_TRACE(QGraphs2DGraphsViewInsertSeries_entry);
         series->setGraph(this);
@@ -249,9 +254,17 @@ void QGraphsView::insertSeries(qsizetype index, QObject *object)
 void QGraphsView::removeSeries(QObject *object)
 {
     if (auto series = qobject_cast<QAbstractSeries *>(object)) {
-        series->setGraph(nullptr);
-        m_seriesList.removeAll(series);
-        auto &cleanupSeriesList = m_cleanupSeriesList[getSeriesRendererIndex(series)];
+        detachSeries(series);
+        updateComponentSizes();
+        polishAndUpdate();
+    }
+}
+
+void QGraphsView::detachSeries(QAbstractSeries *series)
+{
+    series->setGraph(nullptr);
+    m_seriesList.removeAll(series);
+    auto &cleanupSeriesList = m_cleanupSeriesList[getSeriesRendererIndex(series)];
 
 #if QT_CONFIG(graphs_2d_donut_pie)
         if (auto pie = qobject_cast<QPieSeries *>(series))
@@ -287,9 +300,6 @@ void QGraphsView::removeSeries(QObject *object)
         if (m_customRenderer)
             m_customRenderer->seriesAboutToBeRemoved(series);
 #endif
-        updateComponentSizes();
-        polishAndUpdate();
-    }
 }
 
 /*!
@@ -330,8 +340,13 @@ QPointF QGraphsView::getDataPointCoordinates(QAbstractSeries *series, qreal x, q
     return QPointF();
 }
 
+bool QGraphsView::isSeriesSupported(QObject *series) const
+{
+    Q_UNUSED(series);
+    return true;
+}
 
-void QGraphsView::addAxis(QAbstractAxis *axis)
+bool QGraphsView::addAxis(QAbstractAxis *axis)
 {
     if (axis) {
         axis->d_func()->setGraph(this);
@@ -340,7 +355,9 @@ void QGraphsView::addAxis(QAbstractAxis *axis)
         polishAndUpdate();
         QObject::connect(axis, &QAbstractAxis::update, this, &QGraphsView::polishAndUpdate);
         QObject::connect(axis, &QAbstractAxis::update, this, &QGraphsView::updateComponentSizes);
+        return true;
     }
+    return false;
 }
 
 void QGraphsView::removeAxis(QAbstractAxis *axis, bool removeAllReferences)
@@ -1559,12 +1576,13 @@ void QGraphsView::setAxisX(QAbstractAxis *axis)
     }
     if (m_axisX)
         removeAxis(m_axisX);
-    m_axisX = axis;
     if (axis) {
         if (axis->alignment() != Qt::AlignBottom && axis->alignment() != Qt::AlignTop)
             axis->setAlignment(Qt::AlignBottom);
-        addAxis(axis);
+        if (!addAxis(axis))
+            axis = nullptr;
     }
+    m_axisX = axis;
     updateComponentSizes();
     emit axisXChanged();
     update();
@@ -1601,12 +1619,13 @@ void QGraphsView::setAxisY(QAbstractAxis *axis)
     }
     if (m_axisY)
         removeAxis(m_axisY);
-    m_axisY = axis;
     if (axis) {
         if (axis->alignment() != Qt::AlignLeft && axis->alignment() != Qt::AlignRight)
             axis->setAlignment(Qt::AlignLeft);
-        addAxis(axis);
+        if (!addAxis(axis))
+            axis = nullptr;
     }
+    m_axisY = axis;
     updateComponentSizes();
     emit axisYChanged();
     update();

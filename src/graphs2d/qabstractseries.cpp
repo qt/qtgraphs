@@ -500,10 +500,11 @@ void QAbstractSeries::setAxisX(QAbstractAxis *newAxisX)
     if (newAxisX) {
         if (newAxisX->alignment() != Qt::AlignBottom && newAxisX->alignment() != Qt::AlignTop)
             newAxisX->setAlignment(Qt::AlignBottom);
-        connect(newAxisX, &QAbstractAxis::update, this, &QAbstractSeries::update);
 
-        if (d->m_graph)
-            d->m_graph->addAxis(newAxisX);
+        if (d->m_graph && !d->m_graph->addAxis(newAxisX))
+            newAxisX = nullptr;
+        else
+            connect(newAxisX, &QAbstractAxis::update, this, &QAbstractSeries::update);
     }
 
     d->m_axisX = newAxisX;
@@ -533,10 +534,11 @@ void QAbstractSeries::setAxisY(QAbstractAxis *newAxisY)
     if (newAxisY) {
         if (newAxisY->alignment() != Qt::AlignLeft && newAxisY->alignment() != Qt::AlignRight)
             newAxisY->setAlignment(Qt::AlignLeft);
-        connect(newAxisY, &QAbstractAxis::update, this, &QAbstractSeries::update);
 
-        if (d->m_graph)
-            d->m_graph->addAxis(newAxisY);
+        if (d->m_graph && !d->m_graph->addAxis(newAxisY))
+            newAxisY = nullptr;
+        else
+            connect(newAxisY, &QAbstractAxis::update, this, &QAbstractSeries::update);
     }
 
     d->m_axisY = newAxisY;
@@ -647,10 +649,16 @@ void QAbstractSeries::setGraph(QGraphsView *graph)
             if (d->m_axisY && !isAxisYInUse)
                 d->m_graph->removeAxis(d->m_axisY);
         }
-        if (d->m_axisX)
-            graph->addAxis(d->m_axisX);
-        if (d->m_axisY)
-            graph->addAxis(d->m_axisY);
+        if (d->m_axisX && !graph->addAxis(d->m_axisX)) {
+            disconnect(d->m_axisX, &QAbstractAxis::update, this, &QAbstractSeries::update);
+            d->m_axisX = nullptr;
+            emit axisXChanged(nullptr);
+        }
+        if (d->m_axisY && !graph->addAxis(d->m_axisY)) {
+            disconnect(d->m_axisY, &QAbstractAxis::update, this, &QAbstractSeries::update);
+            d->m_axisY = nullptr;
+            emit axisYChanged(nullptr);
+        }
     } else if (!graph && d->m_graph) {
         if (d->m_axisX && !isAxisXInUse)
             d->m_graph->removeAxis(d->m_axisX);

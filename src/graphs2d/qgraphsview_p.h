@@ -41,6 +41,7 @@ class AreaRenderer;
 class CustomRenderer;
 class QQuickPinchHandler;
 class QCustomSeries;
+class QPolarView;
 #if QT_CONFIG(graphs_2d_high_performance_backend)
 class QCPainterItem;
 #endif
@@ -135,7 +136,9 @@ public:
     void updatePlotArea();
     void updateAxisAreas();
 
-    void addAxis(QAbstractAxis *axis);
+    virtual bool isSeriesSupported(QObject *series) const;
+
+    virtual bool addAxis(QAbstractAxis *axis);
     void removeAxis(QAbstractAxis *axis, bool removeAllReferences = false);
 
     qsizetype graphSeriesCount() const;
@@ -144,7 +147,7 @@ public:
 #if QT_CONFIG(graphs_2d_bar)
     void createBarsRenderer();
 #endif
-    void createAxisRenderer();
+    virtual void createAxisRenderer();
 #if QT_CONFIG(graphs_2d_area) || QT_CONFIG(graphs_2d_line) || QT_CONFIG(graphs_2d_scatter) || QT_CONFIG(graphs_2d_spline)
     void createPointRenderer();
 #endif
@@ -228,7 +231,7 @@ protected:
     void handleHoverEnter(const QString &seriesName, QPointF position, QPointF value);
     void handleHoverExit(const QString &seriesName, QPointF position);
     void handleHover(const QString &seriesName, QPointF position, QPointF value);
-    void updateComponentSizes();
+    virtual void updateComponentSizes();
     void componentComplete() override;
     void geometryChange(const QRectF &newGeometry, const QRectF &oldGeometry) override;
     void hoverMoveEvent(QHoverEvent *event) override;
@@ -277,6 +280,7 @@ Q_SIGNALS:
 
 private:
     friend class AxisRenderer;
+    friend class QPolarView;
     friend class BarsRenderer;
     friend class PointRenderer;
     friend class AreaRenderer;
@@ -285,6 +289,7 @@ private:
     friend class QAbstractAxis;
 
     void polishAndUpdate();
+    void detachSeries(QAbstractSeries *series);
     int getSeriesRendererIndex(QAbstractSeries *series);
     void onPinchScaleChanged(qreal delta);
     void onPinchGrabChanged(QPointingDevice::GrabTransition transition, QEventPoint point);

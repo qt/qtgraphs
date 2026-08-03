@@ -124,9 +124,16 @@ Item {
             name: "Custom Input"
             file: "CustomInput.qml"
         }
+    }
+    ListModel {
+        id: testsModel3
         ListElement {
             name: "Custom Series"
             file: "Custom.qml"
+        }
+        ListElement {
+            name: "Polar Chart"
+            file: "PolarChart.qml"
         }
     }
 
@@ -189,6 +196,13 @@ Item {
             width: mainView.listItemWidth
             height: parent.height
             model: testsModel2
+            delegate: listComponent
+        }
+        ListView {
+            id: examplesListView3
+            width: mainView.listItemWidth
+            height: parent.height
+            model: testsModel3
             delegate: listComponent
         }
     }

@@ -44,7 +44,7 @@ public:
     AxisRenderer(QQuickItem *parent = nullptr);
     ~AxisRenderer() override;
 
-    void handlePolish();
+    virtual void handlePolish();
     void initialize();
 
     bool handleWheel(QWheelEvent *event);
@@ -60,6 +60,8 @@ private:
     friend class PointRenderer;
     friend class AreaRenderer;
     friend class CustomRenderer;
+    friend class PolarAxisRenderer;
+    friend class QPolarView;
 
     struct AxisProperties {
         qreal x = 0;
@@ -81,6 +83,8 @@ private:
         // Values range, so m_axisVerticalMaxValue - m_axisVerticalMinValue
         double valueRange = 0;
         double valueRangeZoomless = 0;
+        // minValue as it would be at zoom() == 1.0, pan() == 0
+        double minValueZoomless = 0;
         // How much each major value step is
         double valueStep = 1.0;
         // px between major ticks
@@ -125,7 +129,7 @@ private:
     void updateLogValueYAxisLabels(AxisProperties &ax, const QRectF rect);
     void updateLogValueXAxisLabels(AxisProperties &ax, const QRectF rect);
 
-    void updateAxisMeasurements();
+    virtual void updateAxisMeasurements();
     QString formatValueLabel(double number, int decimals, const QString &format,
                              char defaultFormat = 'f') const;
 
@@ -146,6 +150,10 @@ private:
     QVector2D windowToAxisCoords(QVector2D coords);
     bool calculateZoom(QAbstractAxis *axis, qreal delta);
     bool zoom(qreal delta);
+
+    // Polar views only ever zoom around the radial (vertical) axis; zooming the
+    // angular axis has no sensible meaning.
+    virtual bool zoomsHorizontalAxis() const { return true; }
 
     const AxisProperties &getAxisX(QAbstractSeries *series) const;
     const AxisProperties &getAxisY(QAbstractSeries *series) const;

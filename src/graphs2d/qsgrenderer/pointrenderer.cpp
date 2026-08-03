@@ -15,6 +15,7 @@
 #if QT_CONFIG(graphs_2d_high_performance_backend)
 #include <QtCanvasPainter/QCanvasPainter>
 #endif
+#include <QtCore/qmath.h>
 #include <QtQuick/private/qquickdraghandler_p.h>
 #include <QtQuick/private/qquicktaphandler_p.h>
 #include <private/axisrenderer_p.h>
@@ -22,6 +23,7 @@
 #include <private/pointrenderer_p.h>
 #include <private/qabstractseries_p.h>
 #include <private/qgraphsview_p.h>
+#include <private/qpolarview_p.h>
 #include <private/qxyseries_p.h>
 
 #include <qtgraphs_tracepoints_p.h>
@@ -57,6 +59,7 @@ static const char *TAG_POINT_INDEX = "pointIndex";
 PointRenderer::PointRenderer(QGraphsView *graph, bool clipPlotArea)
     : QQuickItem(graph)
     , m_graph(graph)
+    , m_polarView(qobject_cast<QPolarView *>(graph))
 {
     setFlag(QQuickItem::ItemHasContents);
     setClip(clipPlotArea);
@@ -211,6 +214,19 @@ void PointRenderer::calculateRenderCoordinates(AxisRenderer *axisRenderer,
         y = log(origY) / logBase;
     }
 
+    if (m_polarView) {
+        qreal angleFrac = !qFuzzyIsNull(axisX.valueRange) ? (x - axisX.minValue) / axisX.valueRange : 0;
+        qreal yClamped = std::max(y, axisY.minValue);
+        qreal radiusFrac = !qFuzzyIsNull(axisY.valueRange) ? (yClamped - axisY.minValue) / axisY.valueRange
+                                                  : 0;
+        qreal radius = radiusFrac * m_polarView->polarRadius();
+        qreal rad = qDegreesToRadians(angleFrac * 360.0);
+        const QPointF center = m_polarView->polarCenter();
+        *renderX = center.x() + qSin(rad) * radius;
+        *renderY = center.y() - qCos(rad) * radius;
+        return;
+    }
+
     if (m_graph->orientation() != Qt::Vertical) {
         std::swap(x, y);
         y = axisY.maxValue - y;
@@ -233,6 +249,30 @@ void PointRenderer::reverseRenderCoordinates(AxisRenderer *axisRenderer,
 {
     auto &axisX = axisRenderer->getAxisX(series);
     auto &axisY = axisRenderer->getAxisY(series);
+
+    if (m_polarView) {
+        const QPointF center = m_polarView->polarCenter();
+        const qreal dx = renderX - center.x();
+        const qreal dy = renderY - center.y();
+        const qreal radius = std::hypot(dx, dy);
+        qreal angleDeg = qRadiansToDegrees(std::atan2(dx, -dy));
+        if (angleDeg < 0)
+            angleDeg += 360.0;
+
+        const qreal polarRadius = m_polarView->polarRadius();
+        qreal x = axisX.minValue + (angleDeg / 360.0) * axisX.valueRange;
+        qreal y = axisY.minValue
+                  + (polarRadius != 0 ? radius / polarRadius : 0) * axisY.valueRange;
+
+        if (axisX.isLogarithmic)
+            x = pow(axisX.logBase, x);
+        if (axisY.isLogarithmic)
+            y = pow(axisY.logBase, y);
+
+        *origX = x;
+        *origY = y;
+        return;
+    }
 
     if (m_graph->orientation() != Qt::Vertical) {
         std::swap(renderX, renderY);
@@ -584,6 +624,23 @@ void PointRenderer::updateLineSeries(QLineSeries *series, QLegendData &legendDat
                         painterPath.lineTo(x, y);
                     } break;
                     default:
+                        if (m_polarView && i > 0) {
+                            // A direct chord between points more than half a
+                            // turn apart is meaningless on a polar plot; draw
+                            // via the center instead.
+                            auto &axisX = m_graph->m_axisRenderer->getAxisX(series);
+                            // Only the angular distance between the two points matters,
+                            // and axisX.minValue cancels out of the difference, so derive
+                            // it from the x delta rather than from two absolute angles.
+                            const qreal angleDelta = axisX.valueRange != 0
+                                ? qAbs((points[i].x() - points[i - 1].x()) / axisX.valueRange
+                                       * 360.0)
+                                : 0;
+                            if (angleDelta > 180.0) {
+                                const QPointF center = m_polarView->polarCenter();
+                                painterPath.lineTo(center.x(), center.y());
+                            }
+                        }
                         painterPath.lineTo(x, y);
                         break;
                     }

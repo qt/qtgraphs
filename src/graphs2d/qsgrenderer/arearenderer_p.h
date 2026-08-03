@@ -30,6 +30,7 @@
 QT_BEGIN_NAMESPACE
 
 class QGraphsView;
+class QPolarView;
 class QAreaSeries;
 class AxisRenderer;
 class QAbstractSeries;
@@ -79,6 +80,10 @@ private:
         QAreaSeries *series = nullptr;
 #if QT_CONFIG(graphs_2d_high_quality_backend)
         QQuickShapePath *shapePath = nullptr;
+        // Owned copy of a polar area's radial gradient with centerRadius/focalRadius
+        // rescaled to the current zoom; the series' own gradient object is user-owned
+        // and can't be mutated in place.
+        QQuickShapeRadialGradient *cachedPolarRadialGradient = nullptr;
 #endif
         qsizetype colorIndex = -1;
         qsizetype borderColorIndex = -1;
@@ -90,6 +95,7 @@ private:
     void onPressedChanged();
 
     QGraphsView *m_graph = nullptr;
+    QPolarView *m_polarView = nullptr;
     QMap<QAreaSeries *, PointGroup *> m_groups;
     qsizetype m_currentShapePathIndex = 0;
 
@@ -126,6 +132,14 @@ private:
     void calculateAxisCoordinates(
         QAreaSeries *series, qreal origX, qreal origY, qreal *axisX, qreal *axisY) const;
     bool pointInArea(QPoint pt, QAreaSeries *series) const;
+
+    bool polarRadiusAffine(QAreaSeries *series, qreal *k, qreal *c) const;
+#if QT_CONFIG(graphs_2d_high_quality_backend)
+    QQuickShapeRadialGradient *ensurePolarRadialGradient(PointGroup *group,
+                                                         QQuickShapeRadialGradient *radial,
+                                                         QAreaSeries *series);
+    void releasePolarRadialGradient(PointGroup *group);
+#endif
 };
 
 QT_END_NAMESPACE

@@ -31,6 +31,7 @@
 QT_BEGIN_NAMESPACE
 
 class QGraphsView;
+class QPolarView;
 class QXYSeries;
 class QLineSeries;
 class QScatterSeries;
@@ -96,6 +97,7 @@ private:
     QQmlComponent *m_tempMarker = nullptr;
 
     QGraphsView *m_graph = nullptr;
+    QPolarView *m_polarView = nullptr;
     QMap<QXYSeries *, PointGroup *> m_groups;
     qsizetype m_currentShapePathIndex = 0;
 

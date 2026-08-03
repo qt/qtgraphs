@@ -185,7 +185,7 @@ bool AxisRenderer::zoom(qreal delta)
     if (m_graph->zoomStyle() != QGraphsView::ZoomStyle::Center)
         return false;
 
-    bool hzoomed = calculateZoom((*m_horzAxes)[0].axis, delta);
+    bool hzoomed = !zoomsHorizontalAxis() || calculateZoom((*m_horzAxes)[0].axis, delta);
     bool vzoomed = calculateZoom((*m_vertAxes)[0].axis, delta);
     return hzoomed && vzoomed;
 }
@@ -346,7 +346,9 @@ void AxisRenderer::onGrabChanged(QPointingDevice::GrabTransition transition, QEv
         center = windowToAxisCoords(center);
         center -= QVector2D(hax.valueRange / 2.0f, vax.valueRange / 2.0f);
 
-        if (htype == QAbstractAxis::AxisType::Value) {
+        if (!zoomsHorizontalAxis()) {
+            // Polar views only zoom around the radial (vertical) axis.
+        } else if (htype == QAbstractAxis::AxisType::Value) {
             auto axis = qobject_cast<QValueAxis *>(hax.axis);
             axis->setZoom(hax.valueRangeZoomless / size.x());
             axis->setPan(axis->pan() + center.x());

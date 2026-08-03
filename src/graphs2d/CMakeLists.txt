@@ -19,6 +19,7 @@ else()
     qt_internal_extend_target(Graphs
         SOURCES
             qgraphsview.cpp qgraphsview_p.h
+            qpolarview.cpp qpolarview_p.h
             qabstractseries.cpp qabstractseries.h qabstractseries_p.h
             charthelpers_p.h
 
@@ -31,6 +32,7 @@ else()
             axis/datetimeaxis/qdatetimeaxis.h axis/datetimeaxis/qdatetimeaxis.cpp axis/datetimeaxis/qdatetimeaxis_p.h
 
             qsgrenderer/axisrenderer.cpp qsgrenderer/axisrenderer_p.h
+            qsgrenderer/polaraxisrenderer.cpp qsgrenderer/polaraxisrenderer_p.h
 
             animation/qgraphanimation.cpp animation/qgraphanimation_p.h
         INCLUDE_DIRECTORIES

@@ -60,6 +60,7 @@ set(qmltestbed_resource_files
     "qml/qmltestbed/CustomInput.qml"
     "qml/qmltestbed/MultiAxis.qml"
     "qml/qmltestbed/Custom.qml"
+    "qml/qmltestbed/PolarChart.qml"
     "qml/qmltestbed/images/arrow_icon.png"
     "qml/qmltestbed/images/icon_settings.png"
     "qml/qmltestbed/images/happy_box.png"

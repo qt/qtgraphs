@@ -2,6 +2,8 @@
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 // Qt-Security score:significant reason:default
 
+#include <QtCore/qline.h>
+#include <QtCore/qmath.h>
 #include <QtGraphs/qareaseries.h>
 #if QT_CONFIG(graphs_2d_spline)
 #include <QtGraphs/qsplineseries.h>
@@ -14,6 +16,7 @@
 #include <private/qabstractseries_p.h>
 #include <private/qareaseries_p.h>
 #include <private/qgraphsview_p.h>
+#include <private/qpolarview_p.h>
 #include <private/qxyseries_p.h>
 #if QT_CONFIG(graphs_2d_high_performance_backend)
 #include <QtCanvasPainter/QCanvasPainter>
@@ -47,9 +50,54 @@ Q_TRACE_POINT(qtgraphs, QGraphs2DAreaRendererCalculateSeriesU_exit);
 Q_TRACE_POINT(qtgraphs, QGraphs2DAreaRendererCalculateSeriesL_entry);
 Q_TRACE_POINT(qtgraphs, QGraphs2DAreaRendererCalculateSeriesL_exit);
 
+// Rescales a radial gradient's focalRadius/centerRadius by (k, c) - see
+// AreaRenderer::polarRadiusAffine() - so that, for a gradient centered on the polar
+// center, sampling the unchanged original stops at the new radii reproduces exactly
+// the color the original gradient would have shown at the corresponding fixed
+// (pre-zoom/pan) radius. If a rescaled radius goes negative, both are shifted by the
+// same amount instead of naively clamping just one, which preserves the
+// (centerRadius - focalRadius) span - and thus the gradient's rate of color change.
+static void applyPolarRadiusAffine(qreal k, qreal c, qreal *focalRadius, qreal *centerRadius)
+{
+    qreal newFocal = c + k * (*focalRadius);
+    qreal newCenter = c + k * (*centerRadius);
+    const qreal shift = std::min(newFocal, newCenter);
+    if (shift < 0) {
+        newFocal -= shift;
+        newCenter -= shift;
+    }
+    *focalRadius = newFocal;
+    *centerRadius = newCenter;
+}
+
+#if QT_CONFIG(graphs_2d_high_quality_backend)
+static void syncGradientStops(QQuickShapeGradient *gradient, const QGradientStops &stops)
+{
+    auto stopsProperty = gradient->stops();
+    const qsizetype existing = stopsProperty.count(&stopsProperty);
+
+    if (existing != stops.size()) {
+        // Safe to delete before clearing: the list holds raw pointers, so destroying
+        // a stop does not touch it, and no already-deleted entry is read back.
+        for (qsizetype i = 0; i < existing; ++i)
+            delete stopsProperty.at(&stopsProperty, i);
+        stopsProperty.clear(&stopsProperty);
+        for (qsizetype i = 0; i < stops.size(); ++i)
+            stopsProperty.append(&stopsProperty, new QQuickGradientStop(gradient));
+    }
+
+    for (qsizetype i = 0; i < stops.size(); ++i) {
+        auto *gradientStop = stopsProperty.at(&stopsProperty, i);
+        gradientStop->setPosition(stops.at(i).first);
+        gradientStop->setColor(stops.at(i).second);
+    }
+}
+#endif
+
 AreaRenderer::AreaRenderer(QGraphsView *graph, bool clipPlotArea)
     : QQuickItem(graph)
     , m_graph(graph)
+    , m_polarView(qobject_cast<QPolarView *>(graph))
 {
     setFlag(QQuickItem::ItemHasContents);
     setClip(clipPlotArea);
@@ -67,6 +115,12 @@ AreaRenderer::AreaRenderer(QGraphsView *graph, bool clipPlotArea)
 
 AreaRenderer::~AreaRenderer()
 {
+#if QT_CONFIG(graphs_2d_high_quality_backend)
+    // m_shape is a member, so it is still alive here and its shapePaths can still be
+    // unhooked from the gradients about to be destroyed.
+    for (auto &&group : m_groups)
+        releasePolarRadialGradient(group);
+#endif
     qDeleteAll(m_groups);
 }
 
@@ -101,9 +155,14 @@ void AreaRenderer::synchronizeData()
             gradient.setStops(linear->gradientStops());
             paintData.gradient = gradient;
         } else if (auto radial = qobject_cast<QQuickShapeRadialGradient *>(style.gradient)) {
+            qreal centerRadius = radial->centerRadius();
+            qreal focalRadius = radial->focalRadius();
+            qreal k, c;
+            if (polarRadiusAffine(group->series, &k, &c))
+                applyPolarRadiusAffine(k, c, &focalRadius, &centerRadius);
             QPointF center(radial->centerX(), radial->centerY());
             QPointF focal(radial->focalX(), radial->focalY());
-            QRadialGradient gradient(center, radial->centerRadius(), focal, radial->focalRadius());
+            QRadialGradient gradient(center, centerRadius, focal, focalRadius);
             gradient.setStops(radial->gradientStops());
             paintData.gradient = gradient;
         } else if (auto conical = qobject_cast<QQuickShapeConicalGradient *>(style.gradient)) {
@@ -201,14 +260,93 @@ AreaRenderer::SeriesStyle AreaRenderer::getSeriesStyle(PointGroup *group)
     return {color, gradient, borderColor, borderWidth};
 }
 
+// Radial-axis-value-to-pixel-radius mapping is affine in a polar view, so the
+// fixed(zoomless)-radius -> live(zoomed)-radius mapping is itself affine:
+// liveRadius = k * fixedRadius + c. Returns false if series isn't on a polar
+// view or the axis range is degenerate.
+bool AreaRenderer::polarRadiusAffine(QAreaSeries *series, qreal *k, qreal *c) const
+{
+    if (!m_polarView)
+        return false;
+
+    auto &axisY = m_graph->m_axisRenderer->getAxisY(series);
+    if (qFuzzyIsNull(axisY.valueRange) || qFuzzyIsNull(axisY.valueRangeZoomless))
+        return false;
+
+    // Radius-of-value is affine (see calculateRenderCoordinates()'s polar branch), so the
+    // fixed(zoomless)-radius -> live(zoomed) radius mapping is itself affine:
+    // liveRadius = k * fixedRadius + c.
+    const qreal polarRadius = m_polarView->polarRadius();
+    *k = axisY.valueRangeZoomless / axisY.valueRange;
+    *c = polarRadius * (axisY.minValueZoomless - axisY.minValue) / axisY.valueRange;
+    return true;
+}
+
+#if QT_CONFIG(graphs_2d_high_quality_backend)
+// Returns an owned QQuickShapeRadialGradient mirroring \a radial but with
+// centerRadius/focalRadius rescaled to the current zoom.
+QQuickShapeRadialGradient *AreaRenderer::ensurePolarRadialGradient(PointGroup *group,
+                                                                   QQuickShapeRadialGradient *radial,
+                                                                   QAreaSeries *series)
+{
+    qreal k, c;
+    if (!polarRadiusAffine(series, &k, &c))
+        return radial;
+
+    if (!group->cachedPolarRadialGradient)
+        group->cachedPolarRadialGradient = new QQuickShapeRadialGradient(group->shapePath);
+
+    qreal centerRadius = radial->centerRadius();
+    qreal focalRadius = radial->focalRadius();
+    applyPolarRadiusAffine(k, c, &focalRadius, &centerRadius);
+
+    auto *gradient = group->cachedPolarRadialGradient;
+    gradient->setCenterX(radial->centerX());
+    gradient->setCenterY(radial->centerY());
+    gradient->setCenterRadius(centerRadius);
+    gradient->setFocalX(radial->focalX());
+    gradient->setFocalY(radial->focalY());
+    gradient->setFocalRadius(focalRadius);
+    gradient->setSpread(radial->spread());
+    syncGradientStops(gradient, radial->gradientStops());
+
+    return gradient;
+}
+
+// The cached gradient is parented to whichever shapePath was current when it was
+// created, but shapePaths outlive the group they were resolved for: they stay in the
+// shape's data list to be reused by whichever series next takes their index. Relying
+// on the QObject parent chain would therefore only reclaim the gradient when the whole
+// renderer goes away, so destroy it explicitly here. Every reference has to be dropped
+// first - QQuickShapePath holds fillGradient as a raw pointer with no destroyed()
+// handling - and not just the one on the group's current shapePath: an index shift can
+// leave a now-surplus shapePath still pointing at the same gradient, since afterPolish()
+// only blanks its path.
+void AreaRenderer::releasePolarRadialGradient(PointGroup *group)
+{
+    if (!group->cachedPolarRadialGradient)
+        return;
+
+    auto data = m_shape.data();
+    for (qsizetype i = 0, count = data.count(&data); i < count; ++i) {
+        auto *shapePath = qobject_cast<QQuickShapePath *>(data.at(&data, i));
+        if (shapePath && shapePath->fillGradient() == group->cachedPolarRadialGradient)
+            shapePath->setFillGradient(nullptr);
+    }
+
+    delete group->cachedPolarRadialGradient;
+    group->cachedPolarRadialGradient = nullptr;
+}
+#endif
+
 void AreaRenderer::calculateRenderCoordinates(
     QAreaSeries *series, qreal origX, qreal origY, qreal *renderX, qreal *renderY) const
 {
     auto &axY = m_graph->m_axisRenderer->getAxisY(series);
     auto &axX = m_graph->m_axisRenderer->getAxisX(series);
 
-    float x = origX;
-    float y = origY;
+    qreal x = origX;
+    qreal y = origY;
 
     if (axX.isLogarithmic) {
         float logBase = log(axX.logBase);
@@ -218,6 +356,18 @@ void AreaRenderer::calculateRenderCoordinates(
     if (axY.isLogarithmic) {
         float logBase = log(axY.logBase);
         y = log(origY) / logBase;
+    }
+
+    if (m_polarView) {
+        qreal angleFrac = !qFuzzyIsNull(axX.valueRange) ? (x - axX.minValue) / axX.valueRange : 0;
+        qreal yClamped = std::max(y, axY.minValue);
+        qreal radiusFrac = !qFuzzyIsNull(axY.valueRange) != 0 ? (yClamped - axY.minValue) / axY.valueRange : 0;
+        qreal radius = radiusFrac * m_polarView->polarRadius();
+        qreal rad = qDegreesToRadians(angleFrac * 360.0);
+        const QPointF center = m_polarView->polarCenter();
+        *renderX = center.x() + qSin(rad) * radius;
+        *renderY = center.y() - qCos(rad) * radius;
+        return;
     }
 
     if (m_graph->orientation() != Qt::Vertical) {
@@ -331,7 +481,10 @@ void AreaRenderer::handlePolish(QAreaSeries *series)
         group->shapePath->setStrokeWidth(style.borderWidth);
         group->shapePath->setStrokeColor(style.borderColor);
         group->shapePath->setFillColor(style.color);
-        group->shapePath->setFillGradient(style.gradient);
+        QQuickShapeGradient *fillGradient = style.gradient;
+        if (auto radial = qobject_cast<QQuickShapeRadialGradient *>(style.gradient))
+            fillGradient = ensurePolarRadialGradient(group, radial, series);
+        group->shapePath->setFillGradient(fillGradient);
         group->shapePath->setCapStyle(QQuickShapePath::CapStyle::SquareCap);
     }
 #endif
@@ -344,6 +497,20 @@ void AreaRenderer::handlePolish(QAreaSeries *series)
 #endif
 
     int extraPointCount = lower ? 0 : 3;
+
+    // On a polar view, an area with no lowerSeries normally closes down to
+    // the pole (calculateRenderCoordinates() maps y == 0 to radius == 0),
+    // which is correct for a partial wedge but draws two spurious spokes
+    // through the center when the upper curve already forms a closed loop
+    // (first and last points land on the same angle). Detect that case from
+    // the actual rendered positions and just let the loop close on itself.
+    if (m_polarView && !lower && upperPoints.size() >= 2) {
+        qreal x0, y0, x1, y1;
+        calculateRenderCoordinates(series, upperPoints.first().x(), upperPoints.first().y(), &x0, &y0);
+        calculateRenderCoordinates(series, upperPoints.last().x(), upperPoints.last().y(), &x1, &y1);
+        if (QLineF(QPointF(x0, y0), QPointF(x1, y1)).length() < 0.5)
+            extraPointCount = 0;
+    }
 
     if (series->isVisible()) {
         Q_TRACE_SCOPE(QGraphs2DAreaRendererCalculateSeriesU);
@@ -476,6 +643,9 @@ void AreaRenderer::seriesAboutToBeRemoved(QAbstractSeries *series)
         auto iter = m_groups.find(areaSeries);
 
         if (iter != m_groups.end()) {
+#if QT_CONFIG(graphs_2d_high_quality_backend)
+            releasePolarRadialGradient(*iter);
+#endif
             delete *iter;
             m_groups.erase(iter);
         }
