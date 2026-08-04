@@ -768,7 +768,7 @@ void Q3DGraphsWidgetItem::setRotationEnabled(bool enable)
  *
  * Defaults to \c{true}.
  *
- * \sa panModeEnabled, setPanButton()
+ * \sa dragMode, setPanButton()
  */
  bool Q3DGraphsWidgetItem::isPanEnabled() const
  {
@@ -783,25 +783,26 @@ void Q3DGraphsWidgetItem::setRotationEnabled(bool enable)
  }
 
  /*!
-  * \property Q3DGraphsWidgetItem::panModeEnabled
+  * \property Q3DGraphsWidgetItem::dragMode
   * \since 6.12
   *
-  * Whether this input handler considers drag events as pan events instead.
+  * \brief Determines how drag events on the graph are interpreted, one of
+  * QtGraphs3D::DragMode enum values.
   *
-  * Defaults to \c{false}.
+  * Defaults to \c{QtGraphs3D::DragMode::Rotate}.
   *
   * \sa panEnabled
   */
- bool Q3DGraphsWidgetItem::isPanModeEnabled() const
+QtGraphs3D::DragMode Q3DGraphsWidgetItem::dragMode() const
  {
      Q_D(const Q3DGraphsWidgetItem);
-     return d->m_graphsItem->isPanModeEnabled();
+     return d->m_graphsItem->dragMode();
  }
 
- void Q3DGraphsWidgetItem::setPanModeEnabled(bool enable)
+ void Q3DGraphsWidgetItem::setDragMode(QtGraphs3D::DragMode newDragMode)
  {
      Q_D(Q3DGraphsWidgetItem);
-     d->m_graphsItem->setPanModeEnabled(enable);
+     d->m_graphsItem->setDragMode(newDragMode);
  }
 
 void Q3DGraphsWidgetItem::setDefaultInputHandler()

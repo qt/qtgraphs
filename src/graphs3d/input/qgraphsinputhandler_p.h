@@ -17,6 +17,7 @@
 #define QGRAPHSINPUTHANDLER_P_H
 
 #include <QtQuick/qquickitem.h>
+#include <QtGraphs/qgraphs3dnamespace.h>
 
 QT_BEGIN_NAMESPACE
 
@@ -47,8 +48,8 @@ public:
     bool isRotationEnabled();
     void setPanEnabled(bool enable);
     bool isPanEnabled();
-    void setPanModeEnabled(bool enable);
-    bool isPanModeEnabled();
+    void setDragMode(QtGraphs3D::DragMode mode);
+    QtGraphs3D::DragMode dragMode();
     void setSelectionEnabled(bool enable);
     bool isSelectionEnabled();
 
@@ -73,12 +74,14 @@ protected:
     void hoverMoveEvent(QHoverEvent *event) override;
 
 private:
-    bool m_zoomEnabled;
-    bool m_zoomAtTarget;
-    bool m_rotationEnabled;
-    bool m_panEnabled;
-    bool m_panModeEnabled;
-    bool m_selectionEnabled;
+    QtGraphs3D::DragMode m_dragMode;
+    struct {
+        bool zoomEnabled : 1;
+        bool zoomAtTarget : 1;
+        bool rotationEnabled : 1;
+        bool panEnabled : 1;
+        bool selectionEnabled : 1;
+    }  m_flags;
     QPoint m_pendingPoint;
     qreal m_pinchDiff;
 
