@@ -17,12 +17,8 @@ QT_BEGIN_NAMESPACE
 
 QGraphsInputHandler::QGraphsInputHandler(QQuickItem *parent)
     : QQuickItem(parent)
-    , m_zoomEnabled(true)
-    , m_zoomAtTarget(true)
-    , m_rotationEnabled(true)
-    , m_panEnabled(true)
-    , m_panModeEnabled(false)
-    , m_selectionEnabled(true)
+    , m_dragMode(QtGraphs3D::DragMode::Rotate)
+    , m_flags{true, true, true, true, true}
     , m_pendingPoint(QPoint())
     , m_pinchDiff(.0f)
     , m_graphsItem(nullptr)
@@ -70,101 +66,101 @@ QGraphsInputHandler::~QGraphsInputHandler() {}
 
 void QGraphsInputHandler::setZoomEnabled(bool enable)
 {
-    if (m_zoomEnabled == enable) {
+    if (m_flags.zoomEnabled == enable) {
         qCDebug(lcProperties3D) << __FUNCTION__
             << "value is already set to:" << enable;
         return;
     }
-    m_zoomEnabled = enable;
+    m_flags.zoomEnabled = enable;
     if (m_graphsItem)
         emit m_graphsItem->zoomEnabledChanged(enable);
 }
 
 bool QGraphsInputHandler::isZoomEnabled()
 {
-    return m_zoomEnabled;
+    return m_flags.zoomEnabled;
 }
 
 void QGraphsInputHandler::setZoomAtTargetEnabled(bool enable)
 {
-    if (m_zoomAtTarget == enable) {
+    if (m_flags.zoomAtTarget == enable) {
         qCDebug(lcProperties3D) << __FUNCTION__
             << "value is already set to:" << enable;
         return;
     }
-    m_zoomAtTarget = enable;
+    m_flags.zoomAtTarget = enable;
     if (m_graphsItem)
         emit m_graphsItem->zoomAtTargetEnabledChanged(enable);
 }
 
 bool QGraphsInputHandler::isZoomAtTargetEnabled()
 {
-    return m_zoomAtTarget;
+    return m_flags.zoomAtTarget;
 }
 
 void QGraphsInputHandler::setRotationEnabled(bool enable)
 {
-    if (m_rotationEnabled == enable) {
+    if (m_flags.rotationEnabled == enable) {
         qCDebug(lcProperties3D) << __FUNCTION__
             << "value is already set to:" << enable;
     }
-    m_rotationEnabled = enable;
+    m_flags.rotationEnabled = enable;
     if (m_graphsItem)
         emit m_graphsItem->rotationEnabledChanged(enable);
 }
 
 bool QGraphsInputHandler::isRotationEnabled()
 {
-    return m_rotationEnabled;
+    return m_flags.rotationEnabled;
 }
 
 void QGraphsInputHandler::setPanEnabled(bool enable)
 {
-    if (m_panEnabled == enable) {
+    if (m_flags.panEnabled == enable) {
         qCDebug(lcProperties3D) << __FUNCTION__
             << "value is already set to:" << enable;
     }
-    m_panEnabled = enable;
+    m_flags.panEnabled = enable;
     if (m_graphsItem)
         emit m_graphsItem->panEnabledChanged(enable);
 }
 
 bool QGraphsInputHandler::isPanEnabled()
 {
-    return m_panEnabled;
+    return m_flags.panEnabled;
 }
 
-void QGraphsInputHandler::setPanModeEnabled(bool enable)
+void QGraphsInputHandler::setDragMode(QtGraphs3D::DragMode mode)
 {
-    if (m_panModeEnabled == enable) {
+    if (m_dragMode == mode) {
         qCDebug(lcProperties3D) << __FUNCTION__
-            << "value is already set to:" << enable;
+            << "value is already set to:" << mode;
     }
-    m_panModeEnabled = enable;
+    m_dragMode = mode;
     if (m_graphsItem)
-        emit m_graphsItem->panModeEnabledChanged(enable);
+        emit m_graphsItem->dragModeChanged(mode);
 }
 
-bool QGraphsInputHandler::isPanModeEnabled()
+QtGraphs3D::DragMode QGraphsInputHandler::dragMode()
 {
-    return m_panModeEnabled;
+    return m_dragMode;
 }
 
 void QGraphsInputHandler::setSelectionEnabled(bool enable)
 {
-    if (m_selectionEnabled == enable) {
+    if (m_flags.selectionEnabled == enable) {
         qCDebug(lcProperties3D) << __FUNCTION__
             << "value is already set to:" << enable;
         return;
     }
-    m_selectionEnabled = enable;
+    m_flags.selectionEnabled = enable;
     if (m_graphsItem)
         emit m_graphsItem->selectionEnabledChanged(enable);
 }
 
 bool QGraphsInputHandler::isSelectionEnabled()
 {
-    return m_selectionEnabled;
+    return m_flags.selectionEnabled;
 }
 
 void QGraphsInputHandler::setDefaultInputHandler()
@@ -245,7 +241,7 @@ void QGraphsInputHandler::setGraphsItem(QQuickGraphsItem *item)
 
 void QGraphsInputHandler::onTapped()
 {
-    if (!m_selectionEnabled)
+    if (!m_flags.selectionEnabled)
         return;
 
     if (m_graphsItem->isSlicingActive()) {
@@ -269,8 +265,8 @@ void QGraphsInputHandler::onTranslationChanged(QVector2D delta)
     float xRotation = item->cameraXRotation();
     float yRotation = item->cameraYRotation();
 
-    if (panButtons || (dragButtons && m_panModeEnabled)) {
-        if (!m_panEnabled)
+    if (panButtons || (dragButtons && m_dragMode == QtGraphs3D::DragMode::Pan)) {
+        if (!m_flags.panEnabled)
             return;
 
         QVector3D camPos = item->cameraTargetPosition();
@@ -278,8 +274,8 @@ void QGraphsInputHandler::onTranslationChanged(QVector2D delta)
         float zoom = 1 / (item->cameraZoomLevel() / 100.0f);
         item->setCameraTargetPosition(camPos - diff * zoom);
 
-    } else if (dragButtons && !m_panModeEnabled) {
-        if (!m_rotationEnabled)
+    } else if (dragButtons && m_dragMode == QtGraphs3D::DragMode::Rotate) {
+        if (!m_flags.rotationEnabled)
             return;
 
         float rotationSpeed = 1.0f;
@@ -317,7 +313,7 @@ void QGraphsInputHandler::onGrabChanged(QPointingDevice::GrabTransition transiti
 
 void QGraphsInputHandler::onWheel(QQuickWheelEvent *event)
 {
-    if (!m_zoomEnabled) {
+    if (!m_flags.zoomEnabled) {
         qCWarning(lcEvents3D, "%s zooming needs to be enabled",
                 qUtf8Printable(QLatin1String(__FUNCTION__)));
         return;
@@ -349,7 +345,7 @@ void QGraphsInputHandler::onWheel(QQuickWheelEvent *event)
         zoomLevel += event->angleDelta().y() / farZoomRangeDivider;
     zoomLevel = qBound(minZoomLevel, zoomLevel, maxZoomLevel);
 
-    if (m_zoomAtTarget) {
+    if (m_flags.zoomAtTarget) {
         QVector3D targetPosition = item->graphPositionAt(QPoint(event->x(), event->y()));
         float previousZoom = item->cameraZoomLevel();
         item->setCameraZoomLevel(zoomLevel);
@@ -388,7 +384,7 @@ void QGraphsInputHandler::onWheel(QQuickWheelEvent *event)
 
 void QGraphsInputHandler::onPinchScaleChanged(qreal delta)
 {
-    if (!m_zoomEnabled) {
+    if (!m_flags.zoomEnabled) {
         qCWarning(lcEvents3D, "%s zooming needs to be enabled",
                 qUtf8Printable(QLatin1String(__FUNCTION__)));
         return;
@@ -408,7 +404,7 @@ void QGraphsInputHandler::onPinchScaleChanged(qreal delta)
     else
         zoomLevel -= zoomRate;
     zoomLevel = qBound(minZoomLevel, zoomLevel, maxZoomLevel);
-    if (m_zoomAtTarget) {
+    if (m_flags.zoomAtTarget) {
         QVector3D targetPosition = item->graphPositionAt(
             m_pinchHandler->centroid().position().toPoint());
         item->setCameraZoomLevel(zoomLevel);

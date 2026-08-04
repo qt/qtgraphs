@@ -238,6 +238,18 @@ QT_BEGIN_NAMESPACE
            Use when perfect transparency rendering is needed.
  */
 
+/*!
+    \enum QtGraphs3D::DragMode
+    \since 6.12
+
+    Determines how mouse or touch drag events on the graph are interpreted.
+
+    \value Rotate
+           Dragging rotates the graph.
+    \value Pan
+           Dragging pans the graph.
+*/
+
 QT_END_NAMESPACE
 
 #include "moc_qgraphs3dnamespace.cpp"

@@ -88,8 +88,8 @@ class Q_GRAPHSWIDGETS_EXPORT Q3DGraphsWidgetItem : public QObject
                     rotationEnabledChanged)
     Q_PROPERTY(bool panEnabled READ isPanEnabled WRITE setPanEnabled NOTIFY
                     panEnabledChanged REVISION(6, 12))
-    Q_PROPERTY(bool panModeEnabled READ isPanModeEnabled WRITE setPanModeEnabled NOTIFY
-                    panModeEnabledChanged REVISION(6, 12))
+    Q_PROPERTY(QtGraphs3D::DragMode dragMode READ dragMode WRITE setDragMode NOTIFY
+                    dragModeChanged REVISION(6, 12))
     Q_PROPERTY(bool zoomAtTargetEnabled READ isZoomAtTargetEnabled WRITE setZoomAtTargetEnabled NOTIFY
                    zoomAtTargetEnabledChanged)
     Q_PROPERTY(bool selectionEnabled READ isSelectionEnabled WRITE setSelectionEnabled NOTIFY
@@ -210,8 +210,8 @@ public:
     bool isRotationEnabled() const;
     void setPanEnabled(bool enable);
     bool isPanEnabled() const;
-    void setPanModeEnabled(bool enable);
-    bool isPanModeEnabled() const;
+    void setDragMode(QtGraphs3D::DragMode newDragMode);
+    QtGraphs3D::DragMode dragMode() const;
 
     void setDefaultInputHandler();
     void unsetDefaultInputHandler();
@@ -316,7 +316,7 @@ Q_SIGNALS:
     void zoomAtTargetEnabledChanged(bool enable);
     void rotationEnabledChanged(bool enable);
     Q_REVISION(6, 12) void panEnabledChanged(bool enable);
-    Q_REVISION(6, 12) void panModeEnabledChanged(bool enable);
+    Q_REVISION(6, 12) void dragModeChanged(QtGraphs3D::DragMode dragMode);
     void selectionEnabledChanged(bool enable);
 
     void ambientLightStrengthChanged();

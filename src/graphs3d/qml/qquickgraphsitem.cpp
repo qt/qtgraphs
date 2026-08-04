@@ -224,12 +224,15 @@ constexpr float polarRoundness = 64.0f;
   */
 
   /*!
-   * \qmlproperty bool GraphsItem3D::panModeEnabled
+   * \qmlproperty Graphs3D.DragMode GraphsItem3D::dragMode
    * \since 6.12
    *
-   * Whether this input handler considers drag events as pan events instead.
+   * Determines how drag events on the graph are interpreted, one of
+   * \l Graphs3D.DragMode enum values.
    *
-   * Defaults to \c{false}.
+   * Defaults to \c{Graphs3D.DragMode.Rotate}.
+   *
+   * \sa panEnabled
    */
 
 /*!
@@ -7822,14 +7825,14 @@ void QQuickGraphsItem::setPanButton(Qt::MouseButtons button)
     m_inputHandler->setPanButton(button);
 }
 
-void QQuickGraphsItem::setPanModeEnabled(bool enabled)
+void QQuickGraphsItem::setDragMode(QtGraphs3D::DragMode newDragMode)
 {
-    m_inputHandler->setPanModeEnabled(enabled);
+    m_inputHandler->setDragMode(newDragMode);
 }
 
-bool QQuickGraphsItem::isPanModeEnabled() const
+QtGraphs3D::DragMode QQuickGraphsItem::dragMode() const
 {
-    return m_inputHandler->isPanModeEnabled();
+    return m_inputHandler->dragMode();
 }
 
 void QQuickGraphsItem::setDefaultInputHandler()

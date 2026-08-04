@@ -20,6 +20,7 @@
 #include "qabstract3daxis.h"
 #include "qabstract3dseries.h"
 #include "qcategory3daxis.h"
+#include "qgraphs3dnamespace.h"
 #include "qqmlcomponent.h"
 #include "qvalue3daxis.h"
 
@@ -263,8 +264,8 @@ class Q_GRAPHS_EXPORT QQuickGraphsItem : public QQuick3DViewport
                    rotationEnabledChanged)
     Q_PROPERTY(bool panEnabled READ panEnabled WRITE setPanEnabled NOTIFY
                 panEnabledChanged REVISION(6, 12))
-    Q_PROPERTY(bool panModeEnabled READ isPanModeEnabled WRITE setPanModeEnabled NOTIFY
-                panModeEnabledChanged REVISION(6, 12))
+    Q_PROPERTY(QtGraphs3D::DragMode dragMode READ dragMode WRITE setDragMode NOTIFY
+                dragModeChanged REVISION(6, 12))
     Q_PROPERTY(bool zoomAtTargetEnabled READ zoomAtTargetEnabled WRITE setZoomAtTargetEnabled NOTIFY
                    zoomAtTargetEnabledChanged)
     Q_PROPERTY(bool selectionEnabled READ selectionEnabled WRITE setSelectionEnabled NOTIFY
@@ -523,8 +524,8 @@ public:
     bool rotationEnabled();
     void setPanEnabled(bool enable);
     bool panEnabled();
-    void setPanModeEnabled(bool enabled);
-    bool isPanModeEnabled() const;
+    void setDragMode(QtGraphs3D::DragMode newDragMode);
+    QtGraphs3D::DragMode dragMode() const;
 
     Q_INVOKABLE void setDefaultInputHandler();
     Q_INVOKABLE void unsetDefaultInputHandler();
@@ -684,7 +685,7 @@ Q_SIGNALS:
     void zoomAtTargetEnabledChanged(bool enable);
     void rotationEnabledChanged(bool enable);
     Q_REVISION(6, 12) void panEnabledChanged(bool enable);
-    Q_REVISION(6, 12) void panModeEnabledChanged(bool enable);
+    Q_REVISION(6, 12) void dragModeChanged(QtGraphs3D::DragMode newDragMode);
 
     void selectionEnabledChanged(bool enable);
 

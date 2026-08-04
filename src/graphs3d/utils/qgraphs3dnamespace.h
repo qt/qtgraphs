@@ -110,6 +110,12 @@ enum class TransparencyTechnique {
 };
 Q_ENUM_NS(TransparencyTechnique)
 
+enum class DragMode
+{
+    Rotate,
+    Pan,
+};
+Q_ENUM_NS(DragMode)
 } // namespace QtGraphs3D
 Q_DECLARE_OPERATORS_FOR_FLAGS(QtGraphs3D::SelectionFlags)
 
