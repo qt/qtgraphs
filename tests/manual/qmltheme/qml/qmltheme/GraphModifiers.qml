@@ -12,7 +12,7 @@ ColumnLayout {
     property bool barsVisible: barsMode.checked
     property bool valueColoring: valueColoringChange.checked
     property bool shaded: shadingChange.checked
-    property bool panModeEnabled: panMode.checked
+    property int dragMode: panMode.checked ? Graphs3D.DragMode.Pan : Graphs3D.DragMode.Rotate
     property int transparencyTechnique: transparencyTechniqueChange.currentValue
 
     Label {

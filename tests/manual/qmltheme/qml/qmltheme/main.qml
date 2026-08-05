@@ -92,7 +92,7 @@ Item {
             aspectRatio: 3.0
             visible: !graphMod.barsVisible
             transparencyTechnique: graphMod.transparencyTechnique
-            panModeEnabled: graphMod.panModeEnabled
+            dragMode: graphMod.dragMode
 
             Surface3DSeries {
                 id: surfaceSeries
@@ -117,7 +117,7 @@ Item {
             selectionMode: Graphs3D.SelectionFlag.ItemAndRow
             cameraPreset: Graphs3D.CameraPreset.IsometricLeft
             //optimizationHint: Graphs3D.OptimizationHint.Legacy
-            panModeEnabled: graphMod.panModeEnabled
+            dragMode: graphMod.dragMode
             msaaSamples: 4
             aspectRatio: 3.0
             visible: graphMod.barsVisible

@@ -1439,7 +1439,7 @@ void GraphModifier::reverseValueAxis(int enabled)
 
 void GraphModifier::setPanMode(int enabled)
 {
-    m_graph->setPanModeEnabled(enabled);
+    m_graph->setDragMode(enabled ? QtGraphs3D::DragMode::Pan : QtGraphs3D::DragMode::Rotate);
 }
 
 void GraphModifier::setInputHandlerRotationEnabled(int enabled)
