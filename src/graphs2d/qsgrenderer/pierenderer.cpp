@@ -18,7 +18,6 @@
 #ifdef USE_SHAPE_BACKEND
 #include <private/qquickshape_p.h>
 #endif
-#include <private/qquicksvgparser_p.h>
 #ifdef USE_PAINTER_BACKEND
 #include <QtCanvasPainter/QCanvasPainter>
 #endif
