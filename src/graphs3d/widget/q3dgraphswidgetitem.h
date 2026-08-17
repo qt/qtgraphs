@@ -111,56 +111,41 @@ public:
     void addTheme(QGraphsTheme *theme);
     void releaseTheme(QGraphsTheme *theme);
     QGraphsTheme *activeTheme() const;
-    void setActiveTheme(QGraphsTheme *activeTheme);
     QList<QGraphsTheme *> themes() const;
 
-    void setTransparencyTechnique(QtGraphs3D::TransparencyTechnique technique);
     QtGraphs3D::TransparencyTechnique transparencyTechnique() const;
 
     QtGraphs3D::ShadowQuality shadowQuality() const;
-    void setShadowQuality(const QtGraphs3D::ShadowQuality &shadowQuality);
 
     QtGraphs3D::SelectionFlags selectionMode() const;
-    void setSelectionMode(const QtGraphs3D::SelectionFlags &selectionMode);
 
     Q3DScene *scene() const;
 
-    void setMeasureFps(bool enable);
     bool measureFps() const;
     int currentFps() const;
 
-    void setOrthoProjection(bool enable);
     bool isOrthoProjection() const;
 
     QtGraphs3D::ElementType selectedElement() const;
 
-    void setAspectRatio(qreal ratio);
     qreal aspectRatio() const;
 
-    void setOptimizationHint(QtGraphs3D::OptimizationHint hint);
     QtGraphs3D::OptimizationHint optimizationHint() const;
 
-    void setPolar(bool enable);
     bool isPolar() const;
 
-    void setLabelMargin(float margin);
     float labelMargin() const;
 
-    void setRadialLabelOffset(float offset);
     float radialLabelOffset() const;
 
-    void setHorizontalAspectRatio(qreal ratio);
     qreal horizontalAspectRatio() const;
 
-    void setLocale(const QLocale &locale);
     QLocale locale() const;
 
     QVector3D queriedGraphPosition() const;
 
-    void setMargin(qreal margin);
     qreal margin() const;
 
-    void setCutoffMargin(qreal margin);
     qreal cutoffMargin() const;
 
     void clearSelection();
@@ -183,36 +168,79 @@ public:
     QSharedPointer<QQuickItemGrabResult> renderToImage(QSize imageSize = QSize()) const;
 
     QtGraphs3D::CameraPreset cameraPreset() const;
-    void setCameraPreset(QtGraphs3D::CameraPreset preset);
 
     float cameraXRotation() const;
-    void setCameraXRotation(float rotation);
     float cameraYRotation() const;
-    void setCameraYRotation(float rotation);
 
     float minCameraXRotation() const;
-    void setMinCameraXRotation(float rotation);
     float maxCameraXRotation() const;
-    void setMaxCameraXRotation(float rotation);
 
     float minCameraYRotation() const;
-    void setMinCameraYRotation(float rotation);
     float maxCameraYRotation() const;
-    void setMaxCameraYRotation(float rotation);
 
-    void setZoomAtTargetEnabled(bool enable);
     bool isZoomAtTargetEnabled() const;
-    void setZoomEnabled(bool enable);
     bool isZoomEnabled() const;
-    void setSelectionEnabled(bool enable);
     bool isSelectionEnabled() const;
-    void setRotationEnabled(bool enable);
     bool isRotationEnabled() const;
-    void setPanEnabled(bool enable);
     bool isPanEnabled() const;
-    void setDragMode(QtGraphs3D::DragMode newDragMode);
     QtGraphs3D::DragMode dragMode() const;
 
+    float cameraZoomLevel() const;
+
+    float minCameraZoomLevel() const;
+
+    float maxCameraZoomLevel() const;
+
+    QVector3D cameraTargetPosition() const;
+
+    bool wrapCameraXRotation() const;
+
+    bool wrapCameraYRotation() const;
+
+    int msaaSamples() const;
+
+    void doPicking(QPoint point);
+    void doRayPicking(QVector3D origin, QVector3D direction);
+
+    float ambientLightStrength() const;
+    float lightStrength() const;
+    float shadowStrength() const;
+    QColor lightColor() const;
+    QtGraphs3D::GridLineType gridLineType() const;
+
+    QQuickWidget *widget() const;
+
+    ~Q3DGraphsWidgetItem() override;
+
+public Q_SLOTS:
+    void setActiveTheme(QGraphsTheme *activeTheme);
+    void setTransparencyTechnique(QtGraphs3D::TransparencyTechnique technique);
+    void setShadowQuality(const QtGraphs3D::ShadowQuality &shadowQuality);
+    void setSelectionMode(const QtGraphs3D::SelectionFlags &selectionMode);
+    void setMeasureFps(bool enable);
+    void setOrthoProjection(bool enable);
+    void setAspectRatio(qreal ratio);
+    void setOptimizationHint(QtGraphs3D::OptimizationHint hint);
+    void setPolar(bool enable);
+    void setLabelMargin(float margin);
+    void setRadialLabelOffset(float offset);
+    void setHorizontalAspectRatio(qreal ratio);
+    void setLocale(const QLocale &locale);
+    void setMargin(qreal margin);
+    void setCutoffMargin(qreal margin);
+    void setCameraPreset(QtGraphs3D::CameraPreset preset);
+    void setCameraXRotation(float rotation);
+    void setCameraYRotation(float rotation);
+    void setMinCameraXRotation(float rotation);
+    void setMaxCameraXRotation(float rotation);
+    void setMinCameraYRotation(float rotation);
+    void setMaxCameraYRotation(float rotation);
+    void setZoomAtTargetEnabled(bool enable);
+    void setZoomEnabled(bool enable);
+    void setSelectionEnabled(bool enable);
+    void setRotationEnabled(bool enable);
+    void setPanEnabled(bool enable);
+    void setDragMode(QtGraphs3D::DragMode newDragMode);
     void setDefaultInputHandler();
     void unsetDefaultInputHandler();
     void unsetDefaultTapHandler();
@@ -221,48 +249,20 @@ public:
     void unsetDefaultPinchHandler();
     void setDragButton(Qt::MouseButtons button);
     void setPanButton(Qt::MouseButtons button);
-
-    float cameraZoomLevel() const;
     void setCameraZoomLevel(float level);
-
-    float minCameraZoomLevel() const;
     void setMinCameraZoomLevel(float level);
-
-    float maxCameraZoomLevel() const;
     void setMaxCameraZoomLevel(float level);
-
-    QVector3D cameraTargetPosition() const;
     void setCameraTargetPosition(QVector3D target);
-
-    bool wrapCameraXRotation() const;
     void setWrapCameraXRotation(bool wrap);
-
-    bool wrapCameraYRotation() const;
     void setWrapCameraYRotation(bool wrap);
-
     void setCameraPosition(float horizontal, float vertical, float zoom = 100.0f);
-
-    int msaaSamples() const;
     void setMsaaSamples(int samples);
-
-    void doPicking(QPoint point);
-    void doRayPicking(QVector3D origin, QVector3D direction);
-
-    float ambientLightStrength() const;
     void setAmbientLightStrength(float newAmbientLightStrength);
-    float lightStrength() const;
     void setLightStrength(float newLightStrength);
-    float shadowStrength() const;
     void setShadowStrength(float newShadowStrength);
-    QColor lightColor() const;
     void setLightColor(QColor newLightColor);
-    QtGraphs3D::GridLineType gridLineType() const;
     void setGridLineType(const QtGraphs3D::GridLineType &gridLineType);
-
     void setWidget(QQuickWidget *widget);
-    QQuickWidget *widget() const;
-
-    ~Q3DGraphsWidgetItem() override;
 
 protected:
     Q3DGraphsWidgetItem(Q3DGraphsWidgetItemPrivate &dd, QObject *parent, const QString &graph);

@@ -34,23 +34,25 @@ public:
     QList<QSurface3DSeries *> seriesList() const;
 
     // Axes
-    void setAxisX(QValue3DAxis *axis);
     QValue3DAxis *axisX() const;
-    void setAxisY(QValue3DAxis *axis);
     QValue3DAxis *axisY() const;
-    void setAxisZ(QValue3DAxis *axis);
     QValue3DAxis *axisZ() const;
     void addAxis(QValue3DAxis *axis);
     void releaseAxis(QValue3DAxis *axis);
     QList<QValue3DAxis *> axes() const;
 
     QSurface3DSeries *selectedSeries() const;
-    void setFlipHorizontalGrid(bool flip);
     bool flipHorizontalGrid() const;
 
     Q_REVISION(6, 10)
     void renderSliceToImage(int index, int requestedIndex,
                             QtGraphs3D::SliceCaptureType sliceType);
+
+public Q_SLOTS:
+    void setAxisX(QValue3DAxis *axis);
+    void setAxisY(QValue3DAxis *axis);
+    void setAxisZ(QValue3DAxis *axis);
+    void setFlipHorizontalGrid(bool flip);
 
 protected:
     bool event(QEvent *event) override;

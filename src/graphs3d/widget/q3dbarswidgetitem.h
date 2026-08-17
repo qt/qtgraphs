@@ -40,44 +40,46 @@ public:
     explicit Q3DBarsWidgetItem(QObject *parent = nullptr);
     ~Q3DBarsWidgetItem() override;
 
-    void setPrimarySeries(QBar3DSeries *series);
     QBar3DSeries *primarySeries() const;
     void addSeries(QBar3DSeries *series);
     void removeSeries(QBar3DSeries *series);
     void insertSeries(int index, QBar3DSeries *series);
     QList<QBar3DSeries *> seriesList() const;
 
-    void setMultiSeriesUniform(bool uniform);
     bool isMultiSeriesUniform() const;
 
-    void setBarThickness(float thicknessRatio);
     float barThickness() const;
 
-    void setBarSpacing(QSizeF spacing);
     QSizeF barSpacing() const;
 
-    void setBarSpacingRelative(bool relative);
     bool isBarSpacingRelative() const;
 
-    void setBarSeriesMargin(QSizeF margin);
     QSizeF barSeriesMargin() const;
 
-    void setRowAxis(QCategory3DAxis *axis);
     QCategory3DAxis *rowAxis() const;
-    void setColumnAxis(QCategory3DAxis *axis);
     QCategory3DAxis *columnAxis() const;
-    void setValueAxis(QValue3DAxis *axis);
     QValue3DAxis *valueAxis() const;
     void addAxis(QAbstract3DAxis *axis);
     void releaseAxis(QAbstract3DAxis *axis);
     QList<QAbstract3DAxis *> axes() const;
 
     QBar3DSeries *selectedSeries() const;
-    void setFloorLevel(float level);
     float floorLevel() const;
 
     Q_REVISION(6, 10)
     void renderSliceToImage(int requestedIndex, QtGraphs3D::SliceCaptureType sliceType);
+
+public Q_SLOTS:
+    void setPrimarySeries(QBar3DSeries *series);
+    void setMultiSeriesUniform(bool uniform);
+    void setBarThickness(float thicknessRatio);
+    void setBarSpacing(QSizeF spacing);
+    void setBarSpacingRelative(bool relative);
+    void setBarSeriesMargin(QSizeF margin);
+    void setRowAxis(QCategory3DAxis *axis);
+    void setColumnAxis(QCategory3DAxis *axis);
+    void setValueAxis(QValue3DAxis *axis);
+    void setFloorLevel(float level);
 
 protected:
     bool event(QEvent *event) override;

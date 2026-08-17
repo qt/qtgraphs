@@ -31,17 +31,19 @@ public:
     void removeSeries(QScatter3DSeries *series);
     QList<QScatter3DSeries *> seriesList() const;
 
-    void setAxisX(QValue3DAxis *axis);
     QValue3DAxis *axisX() const;
-    void setAxisY(QValue3DAxis *axis);
     QValue3DAxis *axisY() const;
-    void setAxisZ(QValue3DAxis *axis);
     QValue3DAxis *axisZ() const;
     void addAxis(QValue3DAxis *axis);
     void releaseAxis(QValue3DAxis *axis);
     QList<QValue3DAxis *> axes() const;
 
     QScatter3DSeries *selectedSeries() const;
+
+public Q_SLOTS:
+    void setAxisX(QValue3DAxis *axis);
+    void setAxisY(QValue3DAxis *axis);
+    void setAxisZ(QValue3DAxis *axis);
 
 protected:
     bool event(QEvent *event) override;
