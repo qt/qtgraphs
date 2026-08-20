@@ -602,6 +602,8 @@ void PointRenderer::handlePolish(QXYSeries *series)
         group->currentMarker = m_tempMarker;
     else if (series->pointDelegate())
         group->currentMarker = series->pointDelegate();
+    else
+        group->currentMarker = nullptr;
 
     if (group->currentMarker != group->previousMarker) {
         for (auto &&marker : group->markers)
