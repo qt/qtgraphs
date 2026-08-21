@@ -328,6 +328,23 @@ void PointRenderer::hidePointDelegates(QXYSeries *series)
     group->rects.clear();
 }
 
+void PointRenderer::destroyGroupMarkers(PointGroup *group, qsizetype keepCount)
+{
+    for (qsizetype i = keepCount; i < group->markers.size(); ++i)
+        group->markers.at(i)->deleteLater();
+    group->markers.resize(keepCount);
+    group->dragHandlers.resize(keepCount);
+
+    if (group == m_pressedGroup && m_pressedPointIndex >= keepCount)
+        forgetPressedPoint(group->series);
+
+    if (group == m_currentHoverGroup && m_currentHoverPointIndex >= keepCount) {
+        emit group->series->hovered(false, m_currentHoverPoint);
+        m_currentHoverGroup = nullptr;
+        m_currentHoverPointIndex = -1;
+    }
+}
+
 void PointRenderer::updateLegendData(QXYSeries *series, QLegendData &legendData)
 {
     QList<QLegendData> legendDataList = {legendData};
@@ -702,10 +719,7 @@ void PointRenderer::handlePolish(QXYSeries *series)
             }
 #endif
 
-            for (auto m : std::as_const(group->markers))
-                m->deleteLater();
-
-            group->markers.clear();
+            destroyGroupMarkers(group);
         }
 
         return;
@@ -782,11 +796,9 @@ void PointRenderer::handlePolish(QXYSeries *series)
     else
         group->currentMarker = nullptr;
 
-    if (group->currentMarker != group->previousMarker) {
-        for (auto &&marker : group->markers)
-            marker->deleteLater();
-        group->markers.clear();
-    }
+    if (group->currentMarker != group->previousMarker)
+        destroyGroupMarkers(group);
+
     group->previousMarker = group->currentMarker;
 
     if (group->currentMarker) {
@@ -821,18 +833,21 @@ void PointRenderer::handlePolish(QXYSeries *series)
                                   ? 1.0 / axisX.valueRange
                                   : 100.0;
 
-                        QPoint currentDelta =
-                            m_pressedGroup->dragHandlers.at(m_pressedPointIndex)
-                                ->activeTranslation().toPoint();
-                        QPoint delta = currentDelta - m_previousDelta;
-                        m_previousDelta = currentDelta;
+                        if (m_pressedPointIndex < m_pressedGroup->dragHandlers.size()) {
+                            QPoint currentDelta = m_pressedGroup->dragHandlers
+                                                      .at(m_pressedPointIndex)
+                                                      ->activeTranslation()
+                                                      .toPoint();
+                            QPoint delta = currentDelta - m_previousDelta;
+                            m_previousDelta = currentDelta;
 
-                        qreal deltaX = delta.x() / w / maxHorizontal;
-                        qreal deltaY = -delta.y() / h / maxVertical;
+                            qreal deltaX = delta.x() / w / maxHorizontal;
+                            qreal deltaY = -delta.y() / h / maxVertical;
 
-                        QPointF point = m_pressedGroup->series->at(m_pressedPointIndex)
-                                        + QPointF(deltaX, deltaY);
-                        m_pressedGroup->series->replace(m_pressedPointIndex, point);
+                            QPointF point = m_pressedGroup->series->at(m_pressedPointIndex)
+                                            + QPointF(deltaX, deltaY);
+                            m_pressedGroup->series->replace(m_pressedPointIndex, point);
+                        }
                     }
                 });
                 connect(handler, &QQuickDragHandler::grabChanged, this,
@@ -846,14 +861,10 @@ void PointRenderer::handlePolish(QXYSeries *series)
                         });
             }
         } else if (markerCount > pointCount) {
-            for (qsizetype i = pointCount; i < markerCount; ++i)
-                group->markers[i]->deleteLater();
-            group->markers.resize(pointCount);
+            destroyGroupMarkers(group, pointCount);
         }
     } else if (group->markers.size() > 0) {
-        for (auto &&marker : group->markers)
-            marker->deleteLater();
-        group->markers.clear();
+        destroyGroupMarkers(group);
     }
 
     for (auto &&marker : group->markers)
@@ -923,18 +934,7 @@ void PointRenderer::seriesAboutToBeRemoved(QAbstractSeries *series)
             disconnect(xySeries, &QXYSeries::pointsAdded, this, nullptr);
             disconnect(xySeries, &QXYSeries::pointsReplaced, this, nullptr);
 
-            for (auto marker : std::as_const(group->markers))
-                marker->deleteLater();
-
-            if (group == m_currentHoverGroup) {
-                emit group->series->hovered(false, m_currentHoverPoint);
-                m_currentHoverGroup = nullptr;
-                m_currentHoverPointIndex = -1;
-            }
-            if (group == m_pressedGroup) {
-                m_pressedGroup = nullptr;
-                m_pressedPointIndex = 0;
-            }
+            destroyGroupMarkers(group);
 
             delete *iter;
             m_groups.erase(iter);

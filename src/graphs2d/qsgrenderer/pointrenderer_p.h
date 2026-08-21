@@ -151,6 +151,7 @@ private:
     void updatePointDelegate(
         QXYSeries *series, PointGroup *group, qsizetype pointIndex, qreal x, qreal y);
     void hidePointDelegates(QXYSeries *series);
+    void destroyGroupMarkers(PointGroup *group, qsizetype keepCount = 0);
     void updateLegendData(QXYSeries *series, QLegendData &legendData);
 
     void onSingleTapped(QEventPoint eventPoint, Qt::MouseButton button);
