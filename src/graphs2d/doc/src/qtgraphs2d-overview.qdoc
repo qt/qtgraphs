@@ -26,12 +26,15 @@
         \li \l{2D Donut Graphs}{Donut graphs}
         \li \l{2D Line Graphs}{Line graphs}
         \li \l{2D Pie Graphs}{Pie graphs}
+        \li \l{2D Polar Graphs}{Polar graphs}
         \li \l{2D Scatter Graphs}{Scatter graphs}
         \li \l{2D Spline Graphs}{Spline graphs}
     \endlist
 
     \l GraphsView is the base container for all 2D graph types, into which
-    graphs are added as series.
+    graphs are added as series. \l{2D Polar Graphs}{Polar graphs} use
+    \l PolarView, a GraphsView that draws its series on a polar coordinate
+    system.
 
     \section2 2D Area Graphs
 
@@ -85,6 +88,19 @@
     \image graphs2d-pie-graph.png {Pie chart with car manufacturer slices}
 
     See \l{PieSeries} and \l{PieSlice} for more information.
+
+    \section2 2D Polar Graphs
+
+    A polar graph draws its data on a polar coordinate system instead of a
+    Cartesian one. Polar graphs use \l PolarView as their container, where
+    the \l{GraphsView::axisX}{x axis} defines the angular axis and the
+    \l{GraphsView::axisY}{y axis} defines the radial axis.
+
+    Polar graphs support the area, line, scatter, and spline series types.
+
+    \image graphs2d-polar-graph.png {Polar graph with a circular grid and three data series}
+
+    See \l{PolarView} for more information.
 
     \section2 2D Scatter Graphs
 

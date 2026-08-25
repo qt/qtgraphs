@@ -49,15 +49,13 @@
 
     \section1 Features missing in Qt Graphs
 
-    These features are missing in Qt Graphs in 6.8 release:
+    The following Qt Charts features have no Qt Graphs equivalent:
 
     \list
         \li Qt Graphs Widgets
         \li Candlestick charts
         \li Box-and-whiskers chart
         \li Titles and legends
-        \li Log value axis
-        \li Polar chart view
     \endlist
 
     \section2 Theme APIs
