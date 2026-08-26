@@ -76,7 +76,7 @@ void AxisRenderer::initialize() {
         return;
     }
     if (!window()) {
-        qCCritical(lcCritical2D, "window doesn't exist.");
+        qCDebug(lcGraphs2D, "window doesn't exist.");
         return;
     }
 
