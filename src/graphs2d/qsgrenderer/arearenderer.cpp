@@ -134,8 +134,8 @@ void AreaRenderer::paintSnapshot(const PaintSnapshot &snapshot, QCanvasPainter *
             const auto &rg = static_cast<const QRadialGradient &>(gradient);
             QCanvasRadialGradient canvasGradient(rg.center().x(),
                                                  rg.center().y(),
-                                                 rg.centerRadius(),
-                                                 rg.focalRadius());
+                                                 rg.focalRadius(),
+                                                 rg.centerRadius());
             const QGradientStops stops = rg.stops();
             for (const auto &stop : stops)
                 canvasGradient.setColorAt(stop.first, stop.second);
