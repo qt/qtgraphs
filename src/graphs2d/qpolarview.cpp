@@ -45,10 +45,15 @@ QT_BEGIN_NAMESPACE
     The following example code illustrates how to use the PolarView type:
     \qml
     PolarView {
+        anchors.fill: parent
+        labelPadding: 12
         axisX: ValueAxis { min: 0; max: 360 }   // angular
         axisY: ValueAxis { min: 0; max: 10 }    // radial
 
         LineSeries {
+            color: "#46f477"
+            width: 2
+
             XYPoint { x: 0; y: 10 }
             XYPoint { x: 120; y: 3 }
             XYPoint { x: 240; y: 4 }
@@ -56,6 +61,10 @@ QT_BEGIN_NAMESPACE
         }
     }
     \endqml
+
+    The image below illustrates the result:
+
+    \image graphs2d-polarview.webp {A polar view with a single line series.}
 
     \sa GraphsView, LineSeries, ScatterSeries, SplineSeries, AreaSeries,
         ValueAxis
