@@ -91,13 +91,13 @@ QT_BEGIN_NAMESPACE
  \property QDateTimeAxis::tickInterval
  \brief The amount of major ticks are placed on an axis. If value is 0 or lower, axis will
  automatically calculate appropriate amount of ticks. The default value is 0.
- \deprecated [6.12] use tickCount instead.
+ \deprecated [6.15] use tickCount instead.
 */
 /*!
  \qmlproperty real DateTimeAxis::tickInterval
  \brief The amount of major ticks are placed on an axis. If value is 0 or lower, axis will
  automatically calculate appropriate amount of ticks. The default value is 0.
- \deprecated [6.12] use tickCount instead.
+ \deprecated [6.15] use tickCount instead.
  */
 /*!
  \property QDateTimeAxis::timeZone
@@ -252,7 +252,7 @@ QT_BEGIN_NAMESPACE
  \qmlsignal DateTimeAxis::tickIntervalChanged(real tickInterval)
  This signal is emitted when the tick interval value, specified by
  \a tickInterval, changes.
- \deprecated [6.12] use tickCountChanged instead.
+ \deprecated [6.15] use tickCountChanged instead.
 */
 /*!
  \qmlsignal DateTimeAxis::timeZoneChanged()
@@ -330,8 +330,8 @@ QString QDateTimeAxis::labelFormat() const
     return d->m_format;
 }
 
-#if QT_REMOVAL_QT7_DEPRECATED_SINCE(6, 12)
-    QT_DEPRECATED_VERSION_X_6_12("use tickCount() instead.")
+#if QT_REMOVAL_QT7_DEPRECATED_SINCE(6, 15)
+    QT_DEPRECATED_VERSION_X_6_15("use tickCount() instead.")
 qreal QDateTimeAxis::tickInterval() const
 {
     Q_D(const QDateTimeAxis);
@@ -339,8 +339,8 @@ qreal QDateTimeAxis::tickInterval() const
 }
 #endif
 
-#if QT_REMOVAL_QT7_DEPRECATED_SINCE(6, 12)
-    QT_DEPRECATED_VERSION_X_6_12("use setTickCount() instead.")
+#if QT_REMOVAL_QT7_DEPRECATED_SINCE(6, 15)
+    QT_DEPRECATED_VERSION_X_6_15("use setTickCount() instead.")
 void QDateTimeAxis::setTickInterval(qreal newTickInterval)
 {
     Q_D(QDateTimeAxis);
