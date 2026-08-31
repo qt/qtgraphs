@@ -783,6 +783,13 @@ void QGraphsView::componentComplete()
         m_theme = m_defaultTheme;
         QObject::connect(m_theme, &QGraphsTheme::update, this, &QQuickItem::update);
         m_theme->resetColorTheme();
+        // resetColorTheme() only emits QGraphsTheme::update (and thus triggers
+        // updateComponentSizes()) if the theme actually changes, which it doesn't
+        // here since QtGreen is already the default. Recompute axis margins
+        // explicitly so they don't stay at their stale, theme-less construction-time
+        // values for the first frame.
+        if (m_axisRenderer)
+            updateComponentSizes();
     }
     Q_TRACE(QGraphs2DGraphsViewComponentComplete_exit);
 
