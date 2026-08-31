@@ -22,7 +22,7 @@ class Q_GRAPHS_EXPORT QDateTimeAxis : public QAbstractAxis
         QString labelFormat READ labelFormat WRITE setLabelFormat NOTIFY labelFormatChanged FINAL)
     Q_PROPERTY(
         int subTickCount READ subTickCount WRITE setSubTickCount NOTIFY subTickCountChanged FINAL)
-#if QT_REMOVAL_QT7_DEPRECATED_SINCE(6, 12)
+#if QT_REMOVAL_QT7_DEPRECATED_SINCE(6, 15)
     Q_PROPERTY(
         qreal tickInterval READ tickInterval WRITE setTickInterval NOTIFY tickIntervalChanged FINAL)
 #endif
@@ -56,10 +56,10 @@ public:
     void setLabelFormat(const QString &format);
     QString labelFormat() const;
 
-#if QT_REMOVAL_QT7_DEPRECATED_SINCE(6, 12)
-    QT_DEPRECATED_VERSION_X_6_12("use tickCount() instead.")
+#if QT_REMOVAL_QT7_DEPRECATED_SINCE(6, 15)
+    QT_DEPRECATED_VERSION_X_6_15("use tickCount() instead.")
     qreal tickInterval() const;
-    QT_DEPRECATED_VERSION_X_6_12("use setTickCount() instead.")
+    QT_DEPRECATED_VERSION_X_6_15("use setTickCount() instead.")
     void setTickInterval(qreal newTickInterval);
 #endif
 
@@ -88,8 +88,8 @@ Q_SIGNALS:
     void minChanged(const QDateTime &min);
     void maxChanged(const QDateTime &max);
     void labelFormatChanged(const QString &format);
-#if QT_REMOVAL_QT7_DEPRECATED_SINCE(6, 12)
-    QT_DEPRECATED_VERSION_X_6_12("use tickCountChanged() instead.")
+#if QT_REMOVAL_QT7_DEPRECATED_SINCE(6, 15)
+    QT_DEPRECATED_VERSION_X_6_15("use tickCountChanged() instead.")
     void tickIntervalChanged();
 #endif
     void subTickCountChanged();
