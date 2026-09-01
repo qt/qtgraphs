@@ -42,7 +42,7 @@ QT_BEGIN_NAMESPACE
     \property QAreaSeries::color
     \brief The fill color of the area.
     The default value is \c Qt::transparent, meaning the color is defined by the theme.
-    \note If \l gradient is set to something other than \c null, these
+    \note If \l AreaSeries::gradient is set to something other than \c null, these
     will take precedence over \c color. The \c color will be ignored in this case.
 */
 /*!
@@ -57,7 +57,7 @@ QT_BEGIN_NAMESPACE
     \property QAreaSeries::selectedColor
     \brief The fill color of the area when selected.
     The default value is \c Qt::transparent, meaning the selected color is defined by the theme.
-    \note If \l selectedGradient is set to something other than \c null, these
+    \note If \l AreaSeries::selectedGradient is set to something other than \c null, these
     will take precedence over \c selectedColor. The \c selectedColor will be ignored in this case.
 */
 /*!
@@ -134,6 +134,7 @@ QT_BEGIN_NAMESPACE
 
 /*!
     \property QAreaSeries::gradient
+    \internal
     \since 6.11
     This property defines the fill gradient. By default no gradient is enabled
     and the value is \c null. In this case the fill will be based on the \l{color} property.
@@ -159,6 +160,7 @@ QT_BEGIN_NAMESPACE
 
 /*!
     \property QAreaSeries::selectedGradient
+    \internal
     \since 6.11
     This property defines the fill gradient of the area when selected. By default no gradient is enabled
     and the value is \c null. In this case the fill will be based on the \l{selectedColor} property.
