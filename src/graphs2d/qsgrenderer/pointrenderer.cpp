@@ -85,6 +85,12 @@ PointRenderer::~PointRenderer()
 void PointRenderer::resetShapePathCount()
 {
     m_currentShapePathIndex = 0;
+#if QT_CONFIG(graphs_2d_high_quality_backend)
+    // The shape's paths are only refreshed while the canvas painter is off, so leaving it
+    // visible after a switch to the canvas painter would keep drawing the geometry from the
+    // last polish underneath that backend's output.
+    m_shape.setVisible(!m_graph->useCanvasPainter());
+#endif
 }
 
 #if QT_CONFIG(graphs_2d_high_performance_backend)

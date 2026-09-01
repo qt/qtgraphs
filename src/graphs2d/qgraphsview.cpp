@@ -1967,6 +1967,11 @@ void QGraphsView::setUseCanvasPainter(bool newUseCanvasPainter)
         removeCanvasPainter();
 
     emit useCanvasPainterChanged();
+    // The renderers only refresh their backend-specific geometry during a polish, so without
+    // this the outgoing backend's last-drawn output would linger until something else happened
+    // to trigger one.
+    update();
+    polishAndUpdate();
 #else
     Q_UNUSED(newUseCanvasPainter);
 #endif

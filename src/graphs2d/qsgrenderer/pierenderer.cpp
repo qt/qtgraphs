@@ -186,6 +186,12 @@ void PieRenderer::updateActiveSlices(QPieSeries *series, QList<QPieSlice *> slic
 
 void PieRenderer::handlePolish(QPieSeries *series)
 {
+#if QT_CONFIG(graphs_2d_high_quality_backend)
+    // The shape's paths are only refreshed while the canvas painter is off, so leaving it
+    // visible after a switch to the canvas painter would keep drawing the geometry from the
+    // last polish underneath that backend's output.
+    m_shape->setVisible(!m_graph->useCanvasPainter());
+#endif
     auto slices = series->slices();
     updateActiveSlices(series, slices);
 
