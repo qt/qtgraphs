@@ -446,7 +446,7 @@ public:
     void setCutoffMargin(qreal margin);
     qreal cutoffMargin() const;
 
-    bool isReady() { return isComponentComplete(); }
+    bool isReady() { return isComponentComplete() && m_graphInitialized; }
     QQuick3DNode *rootNode() const;
 
     QQuick3DNode *cameraTarget() { return m_cameraTarget; }
@@ -881,6 +881,7 @@ protected:
     bool m_isCustomItemDirty = true;
     bool m_isSeriesVisualsDirty = true;
     bool m_renderPending = false;
+    bool m_graphInitialized = false;
     bool m_isPolar = false;
     float m_radialLabelOffset = 1.0f;
     float m_polarRadius = 2.0f;

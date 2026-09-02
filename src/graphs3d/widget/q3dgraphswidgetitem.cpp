@@ -1504,6 +1504,12 @@ void Q3DGraphsWidgetItemPrivate::createGraph()
     QQmlComponent *component = new QQmlComponent(m_widget->engine(), q);
     component->setData(qmlData.toUtf8(), QUrl());
     m_graphsItem.reset(qobject_cast<QQuickGraphsItem *>(component->create()));
+    if (!m_graphsItem) {
+        qWarning("Failed to create %ls: %ls",
+                 qUtf16Printable(m_graphType),
+                 qUtf16Printable(component->errorString().trimmed()));
+        return;
+    }
     m_widget->setContent(component->url(), component, m_graphsItem.get());
 
     QObject::connect(m_graphsItem.get(),

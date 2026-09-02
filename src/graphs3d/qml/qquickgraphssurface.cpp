@@ -1115,6 +1115,8 @@ QAbstract3DAxis *QQuickGraphsSurface::getSeriesMultiAxis(QAbstract3DSeries *seri
 void QQuickGraphsSurface::componentComplete()
 {
     QQuickGraphsItem::componentComplete();
+    if (!isReady())
+        return;
 
     auto serieslist = surfaceSeriesList();
     for (auto series : std::as_const(serieslist)) {
@@ -1129,6 +1131,8 @@ void QQuickGraphsSurface::componentComplete()
 void QQuickGraphsSurface::synchData()
 {
     qCDebug(lcGraphs3D, "%s start syncing", qUtf8Printable(QLatin1String(__FUNCTION__)));
+    if (!isReady())
+        return;
 
     if (isFlipHorizontalGridChanged()) {
         setHorizontalFlipFactor(flipHorizontalGrid() ? -1 : 1);
