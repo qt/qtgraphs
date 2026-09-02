@@ -48,7 +48,6 @@ class QCPainterItem;
 class Q_GRAPHS_EXPORT QGraphsView : public QQuickItem
 {
     Q_OBJECT
-    Q_CLASSINFO("RegisterEnumClassesUnscoped", "false")
     Q_PROPERTY(QGraphsTheme *theme READ theme WRITE setTheme NOTIFY themeChanged FINAL)
     Q_PROPERTY(QQmlListProperty<QObject> seriesList READ seriesList CONSTANT)
     Q_PROPERTY(qreal marginTop READ marginTop WRITE setMarginTop NOTIFY marginTopChanged FINAL)
