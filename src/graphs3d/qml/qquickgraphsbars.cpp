@@ -1006,6 +1006,8 @@ void QQuickGraphsBars::renderSliceToImage(int requestedIndex,
 void QQuickGraphsBars::componentComplete()
 {
     QQuickGraphsItem::componentComplete();
+    if (!isReady())
+        return;
 
     auto wallBackground = background();
     QUrl wallUrl = QUrl(QStringLiteral("defaultMeshes/backgroundNoFloorMesh"));
@@ -1044,6 +1046,8 @@ void QQuickGraphsBars::componentComplete()
 void QQuickGraphsBars::synchData()
 {
     qCDebug(lcGraphs3D, "%s start of sync", qUtf8Printable(QLatin1String(__FUNCTION__)));
+    if (!isReady())
+        return;
 
     Q_TRACE(QGraphs3DBarsSynch_entry_beforeGraphsItem);
 

@@ -2065,6 +2065,10 @@ void QQuickGraphsItem::componentComplete()
     m_repeaterY = createRepeater();
     m_repeaterZ = createRepeater();
 
+    // Without the QtQuick3D types there is no graph to set up.
+    if (!m_repeaterX || !m_repeaterY || !m_repeaterZ)
+        return;
+
     m_delegateModelX.reset(new QQmlComponent(qmlEngine(this), (QStringLiteral(":/axis/AxisLabel"))));
     m_delegateModelY.reset(new QQmlComponent(qmlEngine(this), (QStringLiteral(":/axis/AxisLabel"))));
     m_delegateModelZ.reset(new QQmlComponent(qmlEngine(this), (QStringLiteral(":/axis/AxisLabel"))));
@@ -2075,14 +2079,18 @@ void QQuickGraphsItem::componentComplete()
 
     // title labels for axes
     m_titleLabelX = createTitleLabel();
+    m_titleLabelY = createTitleLabel();
+    m_titleLabelZ = createTitleLabel();
+
+    if (!m_titleLabelX || !m_titleLabelY || !m_titleLabelZ)
+        return;
+
     m_titleLabelX->setVisible(axisX()->isTitleVisible());
     m_titleLabelX->setProperty("labelText", axisX()->title());
 
-    m_titleLabelY = createTitleLabel();
     m_titleLabelY->setVisible(axisY()->isTitleVisible());
     m_titleLabelY->setProperty("labelText", axisY()->title());
 
-    m_titleLabelZ = createTitleLabel();
     m_titleLabelZ->setVisible(axisZ()->isTitleVisible());
     m_titleLabelZ->setProperty("labelText", axisZ()->title());
 
@@ -2123,6 +2131,10 @@ void QQuickGraphsItem::componentComplete()
     subgridMaterialRef.append(subgridMaterial);
 
     createItemLabel();
+    if (!m_itemLabel)
+        return;
+
+    m_graphInitialized = true;
 
     auto axis = axisX();
     m_repeaterX->setModel(axis->labels().size());
@@ -2640,7 +2652,7 @@ void QQuickGraphsItem::clearCustomItemFunc(QQmlListProperty<QCustom3DItem> *list
 void QQuickGraphsItem::synchData()
 {
     qCDebug(lcGraphs3D, "%s start sync", qUtf8Printable(QLatin1String(__FUNCTION__)));
-    if (!isVisible())
+    if (!isReady() || !isVisible())
         return;
 
     Q_TRACE(QGraphs3DItemSynch_entry);
@@ -3414,6 +3426,9 @@ void QQuickGraphsItem::synchData()
 
 void QQuickGraphsItem::updateGrid()
 {
+    if (!isReady())
+        return;
+
     Q_TRACE(QGraphs3DItemUpdateGrid_entry);
 
     QQmlListReference materialsRef(m_background, "materials");
@@ -4022,6 +4037,9 @@ QVector3D QQuickGraphsItem::graphPosToAbsolute(QVector3D position)
 
 void QQuickGraphsItem::updateLabels()
 {
+    if (!isReady())
+        return;
+
     Q_TRACE(QGraphs3DItemUpdateLabels_entry);
 
     auto labels = axisX()->labels();
@@ -4568,6 +4586,9 @@ QVector3D QQuickGraphsItem::calculateLabelRotation(float labelAutoAngle,
 
 void QQuickGraphsItem::updateRadialLabelOffset()
 {
+    if (!isReady())
+        return;
+
     if (!isPolar())
         return;
 
@@ -5586,6 +5607,9 @@ void QQuickGraphsItem::updateShadowQuality(QtGraphs3D::ShadowQuality quality)
 
 void QQuickGraphsItem::updateItemLabel(QVector3D position)
 {
+    if (!isReady())
+        return;
+
     if (m_customView)
         m_itemLabel->setParentItem(m_customView);
 
@@ -6108,6 +6132,8 @@ void QQuickGraphsItem::updateXTitle(QVector3D labelRotation,
                                     QAbstract3DAxis *axis,
                                     QQuick3DNode *label)
 {
+    if (!isReady())
+        return;
 
     if (axis == nullptr)
         axis = axisX();
@@ -6225,6 +6251,9 @@ void QQuickGraphsItem::updateYTitle(QVector3D sideLabelRotation,
                                     QAbstract3DAxis *axis,
                                     QQuick3DNode *label)
 {
+    if (!isReady())
+        return;
+
     if (axis == nullptr)
         axis = axisY();
     QFont font = theme()->axisYLabelFont() == QFont() ? theme()->labelFont() : theme()->axisYLabelFont();
@@ -6284,6 +6313,8 @@ void QQuickGraphsItem::updateZTitle(QVector3D labelRotation,
                                     QAbstract3DAxis *axis,
                                     QQuick3DNode *label)
 {
+    if (!isReady())
+        return;
 
     if (axis == nullptr)
         axis = axisZ();
@@ -7234,6 +7265,9 @@ void QQuickGraphsItem::changeGridLineColor(QQuick3DRepeater *repeater, QColor co
 
 void QQuickGraphsItem::updateTitleLabels()
 {
+    if (!isReady())
+        return;
+
     if (m_changeTracker.axisXTitleVisibilityChanged) {
         m_titleLabelX->setVisible(axisX()->isTitleVisible());
         m_changeTracker.axisXTitleVisibilityChanged = false;
@@ -7458,10 +7492,23 @@ void QQuickGraphsItem::windowDestroyed(QObject *obj)
         m_graphWindowList.remove(this);
 }
 
+static QObject *createComponentObject(QQmlComponent &component, const char *type)
+{
+    QObject *object = component.create();
+    if (!object) {
+        // The caller only gets a null object, so report why here.
+        qCCritical(lcCritical3D,
+                   "Failed to create %s: %ls",
+                   type,
+                   qUtf16Printable(component.errorString().trimmed()));
+    }
+    return object;
+}
+
 QQmlComponent *QQuickGraphsItem::createRepeaterDelegateComponent(const QString &fileName)
 {
     QQmlComponent component(qmlEngine(this), fileName);
-    return qobject_cast<QQmlComponent *>(component.create());
+    return qobject_cast<QQmlComponent *>(createComponentObject(component, "repeater delegate"));
 }
 
 QQuick3DRepeater *QQuickGraphsItem::createRepeater(QQuick3DNode *parent)
@@ -7469,7 +7516,10 @@ QQuick3DRepeater *QQuickGraphsItem::createRepeater(QQuick3DNode *parent)
     auto engine = qmlEngine(this);
     QQmlComponent repeaterComponent(engine);
     repeaterComponent.setData("import QtQuick3D; Repeater3D{}", QUrl());
-    auto repeater = qobject_cast<QQuick3DRepeater *>(repeaterComponent.create());
+    auto repeater = qobject_cast<QQuick3DRepeater *>(
+            createComponentObject(repeaterComponent, "Repeater3D"));
+    if (!repeater)
+        return nullptr;
     repeater->setParent(parent ? parent : graphNode());
     repeater->setParentItem(parent ? parent : graphNode());
     return repeater;
@@ -7479,7 +7529,9 @@ QQuick3DNode *QQuickGraphsItem::createTitleLabel(QQuick3DNode *parent)
 {
     auto engine = qmlEngine(this);
     QQmlComponent comp(engine, QStringLiteral(":/axis/TitleLabel"));
-    auto titleLabel = qobject_cast<QQuick3DNode *>(comp.create());
+    auto titleLabel = qobject_cast<QQuick3DNode *>(createComponentObject(comp, "TitleLabel"));
+    if (!titleLabel)
+        return nullptr;
     titleLabel->setParent(parent ? parent : graphNode());
     titleLabel->setParentItem(parent ? parent : graphNode());
     titleLabel->setVisible(false);
@@ -7491,7 +7543,9 @@ void QQuickGraphsItem::createItemLabel()
 {
     auto engine = qmlEngine(this);
     QQmlComponent comp(engine, QStringLiteral(":/axis/ItemLabel"));
-    m_itemLabel = qobject_cast<QQuickItem *>(comp.create());
+    m_itemLabel = qobject_cast<QQuickItem *>(createComponentObject(comp, "ItemLabel"));
+    if (!m_itemLabel)
+        return;
     m_itemLabel->setParent(this);
     m_itemLabel->setParentItem(this);
     m_itemLabel->setVisible(false);
@@ -7500,15 +7554,16 @@ void QQuickGraphsItem::createItemLabel()
 QQuick3DCustomMaterial *QQuickGraphsItem::createQmlCustomMaterial(const QString &fileName)
 {
     QQmlComponent component(qmlEngine(this), fileName);
-    QQuick3DCustomMaterial *material = qobject_cast<QQuick3DCustomMaterial *>(component.create());
-    return material;
+    return qobject_cast<QQuick3DCustomMaterial *>(
+            createComponentObject(component, "custom material"));
 }
 
 QQuick3DPrincipledMaterial *QQuickGraphsItem::createPrincipledMaterial()
 {
     QQmlComponent component(qmlEngine(this));
     component.setData("import QtQuick3D; PrincipledMaterial{}", QUrl());
-    return qobject_cast<QQuick3DPrincipledMaterial *>(component.create());
+    return qobject_cast<QQuick3DPrincipledMaterial *>(
+            createComponentObject(component, "PrincipledMaterial"));
 }
 
 QtGraphs3D::CameraPreset QQuickGraphsItem::cameraPreset() const
