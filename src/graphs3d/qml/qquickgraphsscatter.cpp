@@ -1655,6 +1655,9 @@ void QQuickGraphsScatter::startRecordingRemovesAndInserts()
 void QQuickGraphsScatter::componentComplete()
 {
     QQuickGraphsItem::componentComplete();
+    if (!isReady())
+        return;
+
     QObject::connect(cameraTarget(),
                      &QQuick3DNode::rotationChanged,
                      this,
@@ -2135,6 +2138,9 @@ void QQuickGraphsScatter::updateGraph()
 void QQuickGraphsScatter::synchData()
 {
     qCDebug(lcGraphs3D, "%s start syncing", qUtf8Printable(QLatin1String(__FUNCTION__)));
+    if (!isReady())
+        return;
+
     QList<QScatter3DSeries *> seriesList = scatterSeriesList();
 
     Q_TRACE(QGraphs3DScatterPointDataUpdate_entry);
