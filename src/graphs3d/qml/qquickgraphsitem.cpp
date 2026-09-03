@@ -4752,14 +4752,18 @@ void QQuickGraphsItem::updateMultiAxis()
         QAbstract3DAxis::AxisOrientation::Y,
         QAbstract3DAxis::AxisOrientation::Z};
 
-    for (qsizetype i = 0; i < m_seriesList.count(); i++) {
-        auto series = m_seriesList.at(i);
+    for (auto orientation : orientations) {
+        // Axis positions are counted per orientation. A series without an axis of this
+        // orientation must not reserve a position, or the axes of the series after it get
+        // pushed outwards by the axes that are not there.
+        qsizetype axisPositionIndex = 0;
 
-        for (auto orientation : orientations) {
-            QAbstract3DAxis *axis = getSeriesMultiAxis(series, orientation);
+        for (qsizetype i = 0; i < m_seriesList.count(); i++) {
+            QAbstract3DAxis *axis = getSeriesMultiAxis(m_seriesList.at(i), orientation);
             if (axis) {
-                updateMultiAxisLabels(i, axis);
+                updateMultiAxisLabels(i, axisPositionIndex, axis);
                 updateMultiAxisGrid(i, axis);
+                ++axisPositionIndex;
             } else {
                 releaseMultiAxis(orientation, i);
             }
@@ -4769,8 +4773,10 @@ void QQuickGraphsItem::updateMultiAxis()
     m_isDataDirty = true;
 }
 
-void QQuickGraphsItem::updateMultiAxisLabels(qsizetype axisIndex, QAbstract3DAxis *axis) {
-
+void QQuickGraphsItem::updateMultiAxisLabels(qsizetype axisIndex,
+                                            qsizetype axisPositionIndex,
+                                            QAbstract3DAxis *axis)
+{
     auto labels = axis->labels();
     qsizetype labelCount = labels.size();
     const bool xFlipped = isXFlipped();
@@ -4840,7 +4846,7 @@ void QQuickGraphsItem::updateMultiAxisLabels(qsizetype axisIndex, QAbstract3DAxi
 
         zPos = backgroundScale.z() + adjustment + m_labelMargin;
 
-        zPos += (axisIndex + 1) * 0.3f;
+        zPos += (axisPositionIndex + 1) * 0.3f;
 
         yPos = backgroundScale.y() - labelDepthMargin;
 
@@ -4869,7 +4875,7 @@ void QQuickGraphsItem::updateMultiAxisLabels(qsizetype axisIndex, QAbstract3DAxi
                         obj->setVisible(false);
                         break;
                     }
-                    float polarRadius = m_polarRadius + (axisIndex) * 2.0f;
+                    float polarRadius = m_polarRadius + (axisPositionIndex) * 2.0f;
                     float rad = qDegreesToRadians(valueAxisX->labelPositionAt(i) * 360.0f);
                     labelTrans.setX((-qSin(rad) * -scale + qSin(rad) * m_labelMargin * polarRadius)
                                     * angularAdjustment);
@@ -4999,7 +5005,7 @@ void QQuickGraphsItem::updateMultiAxisLabels(qsizetype axisIndex, QAbstract3DAxi
         labelTrans.setX(xPos);
 
         zPos = backgroundScale.z() + adjustment + m_labelMargin;
-        zPos += (axisIndex + 1) * 0.3f;
+        zPos += (axisPositionIndex + 1) * 0.3f;
         if (zFlipped)
             zPos *= -1.0f;
         labelTrans.setZ(zPos);
@@ -5050,7 +5056,7 @@ void QQuickGraphsItem::updateMultiAxisLabels(qsizetype axisIndex, QAbstract3DAxi
     }
 
     xPos = backgroundScale.x() + adjustment + m_labelMargin;
-    xPos += (axisIndex + 1) * 0.3f;
+    xPos += (axisPositionIndex + 1) * 0.3f;
     if (xFlipped)
         xPos *= -1.0f;
     labelTrans.setX(xPos);
@@ -5141,7 +5147,7 @@ void QQuickGraphsItem::updateMultiAxisLabels(qsizetype axisIndex, QAbstract3DAxi
         }
 
         xPos = backgroundScale.x() + adjustment + m_labelMargin;
-        xPos += (axisIndex +1) * 0.3f;
+        xPos += (axisPositionIndex + 1) * 0.3f;
         if (xFlipped)
             xPos *= -1.0f;
 
@@ -5166,7 +5172,7 @@ void QQuickGraphsItem::updateMultiAxisLabels(qsizetype axisIndex, QAbstract3DAxi
                 if (isPolar()) {
                     // RADIAL LABELS
                     float polarX = backgroundScale.x() * offset + m_labelMargin * 2.0f;
-                    polarX += (axisIndex + 1) * 0.3f;
+                    polarX += (axisPositionIndex + 1) * 0.3f;
                     if (xFlipped)
                         polarX *= -1;
                     labelTrans.setX(polarX);
