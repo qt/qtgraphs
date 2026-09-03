@@ -231,6 +231,40 @@
             support into the Qt Graphs module. It is \c ON by default.
 
             To disable, pass \c{-DFEATURE_graphs_2d_spline=OFF} to CMake.
+        \li \c QT_FEATURE_graphs_2d_custom enables building the custom graph
+            support into the Qt Graphs module. It is \c ON by default.
+
+            To disable, pass \c{-DFEATURE_graphs_2d_custom=OFF} to CMake.
+    \endlist
+
+    \section1 Qt Graphs for 2D Rendering Backends
+
+    These two options select which rendering backends the build includes for
+    the Qt Graphs for 2D module. Area, line, pie, and spline graphs need one
+    of them, so you can disable both only if you also disable those graph
+    types. These options are not in effect if \c QT_FEATURE_graphs_2d is
+    disabled.
+
+    For a description of what the backends do and how to pick between them,
+    see \l {Qt Graphs 2D Rendering Backends}.
+
+    \list
+        \li \c QT_FEATURE_graphs_2d_high_quality_backend enables building the
+            rendering backend based on \l {Qt Quick Shapes} into the Qt Graphs
+            module. It is \c ON by default.
+
+            To disable, pass \c{-DFEATURE_graphs_2d_high_quality_backend=OFF}
+            to CMake, or \c{-no-feature-graphs-2d-high-quality-backend} to
+            \c configure.
+        \li \c QT_FEATURE_graphs_2d_high_performance_backend enables building
+            the rendering backend based on \l {Qt Canvas Painter} into the Qt
+            Graphs module. It is \c OFF by default.
+
+            To enable, pass \c{-DFEATURE_graphs_2d_high_performance_backend=ON}
+            to CMake, or \c{-feature-graphs-2d-high-performance-backend} to
+            \c configure.
+
+            This option requires the Qt Canvas Painter module.
     \endlist
 
     \section1 Qt Graphs for 3D Features

@@ -1,0 +1,193 @@
+// Copyright (C) 2026 The Qt Company Ltd.
+// SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GFDL-1.3-no-invariants-only
+
+/*!
+    \title Qt Graphs 2D Rendering Backends
+    \page qtgraphs-backends-2D.html
+    \brief Comparison of the two rendering backends available for 2D graphs.
+
+    Qt Graphs for 2D can draw a \l GraphsView with either of two rendering
+    backends:
+
+    \list
+        \li The \b {high-quality} backend, which draws with
+            \l {Qt Quick Shapes}. This is the default.
+        \li The \b {high-performance} backend, which draws with
+            \l {Qt Canvas Painter}. This backend is available only if you
+            enable it when you build the Qt Graphs module.
+    \endlist
+
+    Both backends produce the same graphs from the same API. They differ only
+    in how they draw them.
+
+    \note \l {Building with a Backend}{The build} determines which backends
+    are available. Each graph then picks one of them
+    \l {Selecting the Backend at Run Time}{at run time}.
+
+    \section1 High-Quality Backend
+
+    The high-quality backend draws each series with \l {Qt Quick Shapes},
+    using \l{QtQuick.Shapes::Shape::preferredRendererType}{Shape.CurveRenderer},
+    which keeps strokes and curved edges smooth at any scale. The shapes become
+    part of the scene graph, so the graph is rendered without an intermediate
+    render target.
+
+    \section1 High-Performance Backend
+
+    The high-performance backend draws the whole graph with
+    \l {Qt Canvas Painter}. All of the 2D renderers paint into a single
+    \l QCanvasPainterItem, a \l QQuickRhiItem that renders into an offscreen
+    color buffer sized to the item, so the graph is one scene graph item no
+    matter how many series it contains, and it is resampled rather than
+    redrawn if the item is scaled by a transformation.
+
+    \section1 Choosing a Backend
+
+    The high-quality backend is the default, and is the right choice unless
+    there is a specific reason to change.
+
+    Neither backend redraws a graph that does not change, so for a graph that
+    is drawn once and then left alone, the choice only affects visual quality.
+    The difference in rendering cost shows up when the data, the axis ranges,
+    or the size of the graph keep changing, because that is when the
+    high-quality backend has to rebuild its shape geometry.
+
+    The choice does not affect \l ScatterSeries. Neither backend draws its
+    points. They are Qt Quick items, created from the component set as
+    \l {XYSeries::pointDelegate}{pointDelegate}, or from a built-in marker
+    when the series sets none. The other XY series draw their points the
+    same way when they set a delegate. Their lines and areas still go
+    through the backend.
+
+    Consider the high-performance backend when:
+
+    \list
+        \li The graph contains a large number of series, or series with a
+            large number of points.
+        \li The data is updated continuously, for example from a live sensor
+            feed, so the shape geometry would have to be rebuilt on every
+            frame.
+        \li The application runs on hardware where the number of scene graph
+            nodes and draw calls is the limiting factor.
+    \endlist
+
+    Stay with the high-quality backend when:
+
+    \list
+        \li The graph is scaled, rotated, or otherwise transformed by its
+            parent items, or is rendered into a
+            \l {QtQuick::Item::layer.enabled}{layer} that is scaled.
+        \li Visual fidelity of strokes and curves matters more than the cost
+            of drawing them.
+        \li You don't want to add a dependency on the
+            \l {Qt Canvas Painter} module.
+    \endlist
+
+    \section1 Building with a Backend
+
+    The following table describes the two configure features that control the
+    backends.
+
+    \table
+        \header
+            \li Feature
+            \li Default
+            \li Requires
+        \row
+            \li \c graphs-2d-high-quality-backend
+            \li \c ON
+            \li Nothing beyond the normal Qt Graphs dependencies.
+        \row
+            \li \c graphs-2d-high-performance-backend
+            \li \c OFF
+            \li The \l {Qt Canvas Painter} module (\c qtcanvaspainter).
+    \endtable
+
+    You can enable the high-performance backend only if Qt Canvas Painter is
+    available. If you request the feature in a build without that module,
+    configure fails with an error.
+
+    To enable the high-performance backend when configuring Qt:
+
+    \badcode
+    ./configure -feature-graphs-2d-high-performance-backend
+    \endcode
+
+    To do the same with CMake:
+
+    \badcode
+    cmake -DFEATURE_graphs_2d_high_performance_backend=ON <source>
+    \endcode
+
+    To disable the high-quality backend, pass
+    \c{-no-feature-graphs-2d-high-quality-backend} to \c configure, or
+    \c{-DFEATURE_graphs_2d_high_quality_backend=OFF} to CMake.
+
+    The \c {Qt Graphs 2D} section of the configure summary lists the resulting
+    state as \c {High Quality} and \c {High Performance}.
+
+    The two features are independent, and you can enable both. A graph then
+    chooses between them
+    \l {Selecting the Backend at Run Time}{at run time}.
+
+    Axes, grids, \l BarSeries, \l ScatterSeries, and the delegates of
+    \l CustomSeries do not go through either backend, so Qt Graphs draws
+    them even in a build that has neither. \l AreaSeries, \l LineSeries,
+    \l PieSeries, and \l SplineSeries do need one, and configuring a build
+    that has those graph types but no backend fails with an error. To build
+    the backend-less variant, disable those graph types as well:
+
+    \badcode
+    ./configure -no-feature-graphs-2d-high-quality-backend \
+                -no-feature-graphs-2d-area \
+                -no-feature-graphs-2d-donut-pie \
+                -no-feature-graphs-2d-line \
+                -no-feature-graphs-2d-spline
+    \endcode
+
+    \l {Qt Graphs Configure Options} describes how to enable only the graph
+    types that you need.
+
+    \section1 Selecting the Backend at Run Time
+
+    The high-performance backend is off by default. Unless Qt Graphs was built
+    with it enabled, there is nothing to select between, and the graph is
+    always drawn with Qt Quick Shapes.
+
+    In a build that has both backends, each \l GraphsView selects its backend
+    with the \l {GraphsView::useCanvasPainter} property:
+
+    \qml
+    GraphsView {
+        anchors.fill: parent
+
+        // Draw this graph with the high-performance backend.
+        useCanvasPainter: true
+
+        LineSeries {
+            XYPoint { x: 0; y: 0 }
+            XYPoint { x: 1; y: 1 }
+        }
+    }
+    \endqml
+
+    The property defaults to \c false when the high-quality backend is
+    available, and to \c true when the build has only the high-performance
+    backend. In a build without the high-performance backend, setting the
+    property to \c true has no effect and produces no warning.
+
+    \section1 Extending the Backends
+
+    A \l CustomSeries draws itself with its
+    \l {CustomSeries::delegate}{delegate} component, which works regardless of
+    which backend draws the rest of the graph.
+
+    A custom series can also paint with \l QCanvasPainter, by passing a
+    \l QCustomSeriesCanvasRenderer subclass to
+    \l {QCustomSeries::setCustomSeriesPainter()}. That method only exists in a
+    build that has the high-performance backend, and the painter is only used
+    while that backend is drawing the graph.
+
+    \sa {Qt Graphs Configure Options}, {Qt Graphs Overview for 2D},
+        GraphsView, {Qt Canvas Painter}
+*/

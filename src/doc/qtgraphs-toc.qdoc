@@ -11,6 +11,7 @@
     \list
         \li \l {Qt Graphs Overview for 2D}{Qt Graphs 2D}
             \list
+                \li \l {Qt Graphs 2D Rendering Backends}{Rendering Backends}
                 \li \l {Qt Graphs Migration from Qt Charts}{Migration from Qt Charts}
                 \li \l {Qt Graphs C++ Classes for 2D}{C++ Classes}
                 \li \l {Qt Graphs QML Types for 2D}{QML Types}
