@@ -104,4 +104,17 @@
     \image graphs2d-spline-graph.png {Spline graph with smooth curve through data points}
 
     See \l{SplineSeries} and \l{XYPoint} for more information.
+
+    \section1 Rendering Backends
+
+    Qt Graphs draws the graphs with one of two backends:
+
+    \list
+        \li Qt Quick Shapes (the default).
+        \li Qt Canvas Painter, which trades some rendering quality for better
+            performance with large or rapidly changing data sets.
+    \endlist
+
+    See \l{Qt Graphs 2D Rendering Backends} for a comparison of the two and for
+    instructions on how to build and select them.
 */

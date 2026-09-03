@@ -53,6 +53,38 @@ qt_feature("graphs-2d-high-performance-backend" PUBLIC
     CONDITION TARGET Qt6::CanvasPainter
 )
 
+qt_configure_add_report_entry(
+    TYPE ERROR
+    MESSAGE "Area graphs need graphs-2d-high-quality-backend or graphs-2d-high-performance-backend."
+    CONDITION QT_FEATURE_graphs_2d AND QT_FEATURE_graphs_2d_area
+        AND ( NOT QT_FEATURE_graphs_2d_high_quality_backend )
+        AND ( NOT QT_FEATURE_graphs_2d_high_performance_backend )
+)
+
+qt_configure_add_report_entry(
+    TYPE ERROR
+    MESSAGE "Donut and pie graphs need graphs-2d-high-quality-backend or graphs-2d-high-performance-backend."
+    CONDITION QT_FEATURE_graphs_2d AND QT_FEATURE_graphs_2d_donut_pie
+        AND ( NOT QT_FEATURE_graphs_2d_high_quality_backend )
+        AND ( NOT QT_FEATURE_graphs_2d_high_performance_backend )
+)
+
+qt_configure_add_report_entry(
+    TYPE ERROR
+    MESSAGE "Line graphs need graphs-2d-high-quality-backend or graphs-2d-high-performance-backend."
+    CONDITION QT_FEATURE_graphs_2d AND QT_FEATURE_graphs_2d_line
+        AND ( NOT QT_FEATURE_graphs_2d_high_quality_backend )
+        AND ( NOT QT_FEATURE_graphs_2d_high_performance_backend )
+)
+
+qt_configure_add_report_entry(
+    TYPE ERROR
+    MESSAGE "Spline graphs need graphs-2d-high-quality-backend or graphs-2d-high-performance-backend."
+    CONDITION QT_FEATURE_graphs_2d AND QT_FEATURE_graphs_2d_spline
+        AND ( NOT QT_FEATURE_graphs_2d_high_quality_backend )
+        AND ( NOT QT_FEATURE_graphs_2d_high_performance_backend )
+)
+
 qt_feature("graphs-3d" PUBLIC
     LABEL "3D Graphs"
     PURPOSE "Support for 3D graphs"

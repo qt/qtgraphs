@@ -1916,6 +1916,19 @@ int QGraphsView::getSeriesRendererIndex(QAbstractSeries *series)
     return index;
 }
 
+/*!
+    \qmlproperty bool GraphsView::useCanvasPainter
+    \since 6.12
+    This property holds whether the graph draws with \l {Qt Canvas Painter}
+    instead of \l {Qt Quick Shapes}. The default is \c false, except in a
+    build where the high-performance backend is the only one available.
+
+    In a build without the high-performance backend, this property stays
+    \c false and setting it has no effect.
+
+    For a comparison of the two renderers and for how to build them, see
+    \l {Qt Graphs 2D Rendering Backends}.
+*/
 bool QGraphsView::useCanvasPainter() const
 {
 #if QT_CONFIG(graphs_2d_high_performance_backend)
