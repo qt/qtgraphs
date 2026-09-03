@@ -843,7 +843,9 @@ protected:
     };
 
     void updateMultiAxis();
-    void updateMultiAxisLabels(qsizetype axisIndex, QAbstract3DAxis *axis);
+    void updateMultiAxisLabels(qsizetype axisIndex,
+                               qsizetype axisPositionIndex,
+                               QAbstract3DAxis *axis);
     MultiAxis getMultiAxis(qsizetype axisIndex, QAbstract3DAxis *axis);
     MultiAxis createMultiAxis(qsizetype axisIndex);
     void updateMultiAxisGrid(qsizetype axisIndex, QAbstract3DAxis *axis);
