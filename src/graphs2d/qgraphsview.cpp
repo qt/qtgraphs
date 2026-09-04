@@ -1667,6 +1667,7 @@ CustomRenderer *QGraphsView::customRenderer() const
 
 /*!
     \property QGraphsView::zoomStyle
+    \since 6.9
     \brief Zoom style of the GraphsView.
 
     Determines the zoom style of the QGraphsView. Zooming works by
@@ -1675,6 +1676,7 @@ CustomRenderer *QGraphsView::customRenderer() const
 */
 /*!
     \qmlproperty enumeration GraphsView::zoomStyle
+    \since 6.9
     Determines the zoom style of the GraphsView. Zooming works by
     manipulating the ValueAxis zoom property. The default value
     is \c {GraphsView.ZoomStyle.None}.
@@ -1713,6 +1715,7 @@ void QGraphsView::setZoomStyle(ZoomStyle newZoomStyle)
 
 /*!
     \property QGraphsView::panStyle
+    \since 6.9
     \brief Pan style of the GraphsView.
 
     Determines the pan style of the QGraphsView. Panning works by
@@ -1721,6 +1724,7 @@ void QGraphsView::setZoomStyle(ZoomStyle newZoomStyle)
 */
 /*!
     \qmlproperty enumeration GraphsView::panStyle
+    \since 6.9
     Determines the pan style of the GraphsView. Panning works by
     manipulating the pan property of a ValueAxis.
     The default value is \c {GraphsView.PanStyle.None}.
@@ -1748,6 +1752,7 @@ void QGraphsView::setPanStyle(PanStyle newPanStyle)
 
 /*!
     \property QGraphsView::zoomAreaEnabled
+    \since 6.9
     \brief Enables zoom area
 
     Zoom area changes mouse and touch dragging to draw a box determined
@@ -1758,6 +1763,7 @@ void QGraphsView::setPanStyle(PanStyle newPanStyle)
 */
 /*!
     \qmlproperty bool GraphsView::zoomAreaEnabled
+    \since 6.9
     Zoom area changes mouse and touch dragging to draw a box determined
     by \c zoomAreaDelegate. Upon release the graph ValueAxis zoom and pan
     properties are changed so that the view covers only the area intersected
@@ -1782,6 +1788,7 @@ void QGraphsView::setZoomAreaEnabled(bool newZoomAreaEnabled)
 
 /*!
     \property QGraphsView::zoomAreaDelegate
+    \since 6.9
     \brief Zoom area visual delegate
 
     Determines the QML element that is drawn when the user performs a drag
@@ -1789,6 +1796,7 @@ void QGraphsView::setZoomAreaEnabled(bool newZoomAreaEnabled)
 */
 /*!
     \qmlproperty Component GraphsView::zoomAreaDelegate
+    \since 6.9
     Determines the QML element that is drawn when the user performs a drag
     motion to zoom in to an area.
 */
@@ -1819,12 +1827,14 @@ void QGraphsView::setZoomAreaDelegate(QQmlComponent *newZoomAreaDelegate)
 
 /*!
     \property QGraphsView::zoomSensitivity
+    \since 6.9
     \brief Zoom value change sensitivity
 
     Determines how fast zoom value changes while zooming.
 */
 /*!
     \qmlproperty real GraphsView::zoomSensitivity
+    \since 6.9
     Determines how fast zoom value changes while zooming.
 */
 qreal QGraphsView::zoomSensitivity() const
