@@ -953,9 +953,9 @@ QQuickGraphsItem::~QQuickGraphsItem()
 
     for (MultiAxis axis : m_multiAxesX)
         releaseMultiAxis(QAbstract3DAxis::AxisOrientation::X, axis.seriesIndex);
-    for (MultiAxis axis : m_multiAxesX)
+    for (MultiAxis axis : m_multiAxesY)
         releaseMultiAxis(QAbstract3DAxis::AxisOrientation::Y, axis.seriesIndex);
-    for (MultiAxis axis : m_multiAxesX)
+    for (MultiAxis axis : m_multiAxesZ)
         releaseMultiAxis(QAbstract3DAxis::AxisOrientation::Z, axis.seriesIndex);
 
     delete m_gridGeometryModel;
