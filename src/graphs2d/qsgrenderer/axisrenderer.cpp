@@ -2063,6 +2063,7 @@ void AxisRenderer::deleteDragHandler()
                &AxisRenderer::onTranslationChanged);
     disconnect(m_dragHandler, &QQuickDragHandler::grabChanged, this, &AxisRenderer::onGrabChanged);
     m_dragHandler->deleteLater();
+    m_dragHandler = nullptr;
 }
 
 QString AxisRenderer::formatValueLabel(double number,
