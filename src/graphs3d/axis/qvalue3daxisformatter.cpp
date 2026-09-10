@@ -116,6 +116,11 @@ void QValue3DAxisFormatter::setAxis(QValue3DAxis *axis)
 {
     Q_ASSERT(axis);
     Q_D(QValue3DAxisFormatter);
+    if (d->m_axis == axis) {
+        qCDebug(lcAProperties3D) << __FUNCTION__
+            << "value is already set to: " << axis;
+        return;
+    }
 
     // These signals are all connected to markDirtyNoLabelChange slot, even though
     // most of them do require labels to be regenerated. This is because the label
@@ -310,6 +315,12 @@ QList<float> QValue3DAxisFormatter::gridPositions() &&
 void QValue3DAxisFormatter::setGridPoitions(QList<float> gridPositions)
 {
     Q_D(QValue3DAxisFormatter);
+    if (d->m_gridPositions == gridPositions) {
+        qCDebug(lcAProperties3D) << __FUNCTION__
+            << "value is already set to: " << gridPositions;
+        return;
+    }
+
     d->m_gridPositions = gridPositions;
 }
 
@@ -352,6 +363,12 @@ QList<float> QValue3DAxisFormatter::subGridPositions() &&
 void QValue3DAxisFormatter::setSubGridPositions(QList<float> subGridPositions)
 {
     Q_D(QValue3DAxisFormatter);
+    if (d->m_subGridPositions == subGridPositions) {
+        qCDebug(lcAProperties3D) << __FUNCTION__
+            << "value is already set to: " << subGridPositions;
+        return;
+    }
+
     d->m_subGridPositions = subGridPositions;
 }
 
@@ -396,6 +413,12 @@ QList<float> QValue3DAxisFormatter::labelPositions() &&
 void QValue3DAxisFormatter::setlabelPositions(QList<float> labelPositions)
 {
     Q_D(QValue3DAxisFormatter);
+    if (d->m_labelPositions == labelPositions) {
+        qCDebug(lcAProperties3D) << __FUNCTION__
+            << "value is already set to: " << labelPositions;
+        return;
+    }
+
     d->m_labelPositions = labelPositions;
 }
 
@@ -430,6 +453,12 @@ QStringList QValue3DAxisFormatter::labelStrings() &&
 void QValue3DAxisFormatter::setLabelStrings(QStringList labelStrings)
 {
     Q_D(QValue3DAxisFormatter);
+    if (d->m_labelStrings == labelStrings) {
+        qCDebug(lcAProperties3D) << __FUNCTION__
+            << "value is already set to: " << labelStrings;
+        return;
+    }
+
     d->m_labelStrings = labelStrings;
 }
 
@@ -445,6 +474,12 @@ void QValue3DAxisFormatter::setLabelStrings(QStringList labelStrings)
 void QValue3DAxisFormatter::setLocale(const QLocale &locale)
 {
     Q_D(QValue3DAxisFormatter);
+    if (d->m_locale == locale) {
+        qCDebug(lcAProperties3D) << __FUNCTION__
+            << "value is already set to: " << locale;
+        return;
+    }
+
     d->m_cLocaleInUse = (locale == QLocale::c());
     d->m_locale = locale;
     markDirty(true);

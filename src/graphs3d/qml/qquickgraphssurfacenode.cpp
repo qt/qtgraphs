@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 // Qt-Security score:significant reason:default
 
+#include "qgraphs3dlogging_p.h"
 #include "qquickgraphssurfacenode_p.h"
 
 QT_BEGIN_NAMESPACE
@@ -199,8 +200,11 @@ QValue3DAxis *QQuickGraphsSurfaceNode::axisX() const
 
 void QQuickGraphsSurfaceNode::setAxisX(QValue3DAxis *axis)
 {
-    if (m_axisX == axis)
+    if (m_axisX == axis) {
+        qCDebug(lcProperties3D) << __FUNCTION__
+            << "value is already set to:" << axis;
         return;
+    }
     m_axisX = axis;
     if (graphSurface())
         graphSurface()->setAxisX(axis);
@@ -215,8 +219,11 @@ QValue3DAxis *QQuickGraphsSurfaceNode::axisY() const
 }
 void QQuickGraphsSurfaceNode::setAxisY(QValue3DAxis *axis)
 {
-    if (m_axisY == axis)
+    if (m_axisY == axis) {
+        qCDebug(lcProperties3D) << __FUNCTION__
+            << "value is already set to:" << axis;
         return;
+    }
     m_axisY = axis;
     if (graphSurface())
         graphSurface()->setAxisY(axis);
@@ -231,8 +238,11 @@ QValue3DAxis *QQuickGraphsSurfaceNode::axisZ() const
 }
 void QQuickGraphsSurfaceNode::setAxisZ(QValue3DAxis *axis)
 {
-    if (m_axisZ == axis)
+    if (m_axisZ == axis) {
+        qCDebug(lcProperties3D) << __FUNCTION__
+            << "value is already set to:" << axis;
         return;
+    }
     m_axisZ = axis;
     if (graphSurface())
         graphSurface()->setAxisZ(axis);
@@ -263,8 +273,11 @@ bool QQuickGraphsSurfaceNode::flipHorizontalGrid() const
 }
 void QQuickGraphsSurfaceNode::setFlipHorizontalGrid(bool flip)
 {
-    if (m_flipHorizontalGrid == flip)
+    if (m_flipHorizontalGrid == flip) {
+        qCDebug(lcProperties3D) << __FUNCTION__
+            << "value is already set to:" << flip;
         return;
+    }
     m_flipHorizontalGrid = flip;
     if (graphSurface())
         graphSurface()->setFlipHorizontalGrid(flip);

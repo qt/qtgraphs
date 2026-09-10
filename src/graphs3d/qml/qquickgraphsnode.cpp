@@ -4,6 +4,7 @@
 
 
 #include "qcustom3ditem.h"
+#include "qgraphs3dlogging_p.h"
 #include "qquickgraphsnode_p.h"
 #include <qtconfigmacros.h>
 
@@ -417,8 +418,11 @@ void QQuickGraphsNode::setGraphParent()
 
 void QQuickGraphsNode::setSelectionMode(QtGraphs3D::SelectionFlags selectionMode)
 {
-    if (m_selectionMode == selectionMode)
+    if (m_selectionMode == selectionMode) {
+        qCDebug(lcProperties3D) << __FUNCTION__
+            << "value is already set to:" << selectionMode;
         return;
+    }
 
     m_selectionMode = selectionMode;
     if (m_graph)
@@ -435,8 +439,11 @@ QtGraphs3D::SelectionFlags QQuickGraphsNode::selectionMode() const
 
 void QQuickGraphsNode::setTheme(QGraphsTheme *theme)
 {
-    if (m_theme == theme)
+    if (m_theme == theme) {
+        qCDebug(lcProperties3D) << __FUNCTION__
+            << "theme is already set to:" << theme;
         return;
+    }
 
     m_theme = theme;
     if (m_graph)
@@ -470,8 +477,11 @@ QtGraphs3D::ElementType QQuickGraphsNode::selectedElement() const
 
 void QQuickGraphsNode::setAspectRatio(qreal aspectRatio)
 {
-    if (m_aspectRatio == aspectRatio)
+    if (m_aspectRatio == aspectRatio) {
+        qCDebug(lcProperties3D) << __FUNCTION__
+            << "value is already set to:" << aspectRatio;
         return;
+    }
 
     m_aspectRatio = aspectRatio;
     if (m_graph)
@@ -488,8 +498,11 @@ qreal QQuickGraphsNode::aspectRatio() const
 
 void QQuickGraphsNode::setOptimizationHint(QtGraphs3D::OptimizationHint optimizationHint)
 {
-    if (m_optimizationHint == optimizationHint)
+    if (m_optimizationHint == optimizationHint) {
+        qCDebug(lcProperties3D) << __FUNCTION__
+            << "value is already set to:" << optimizationHint;
         return;
+    }
 
     m_optimizationHint = optimizationHint;
     if (m_graph)
@@ -504,8 +517,11 @@ QtGraphs3D::OptimizationHint QQuickGraphsNode::optimizationHint() const
 }
 void QQuickGraphsNode::setPolar(bool enabled)
 {
-    if (m_polar == enabled)
+    if (m_polar == enabled) {
+        qCDebug(lcProperties3D) << __FUNCTION__
+            << "value is already set to:" << enabled;
         return;
+    }
 
     m_polar = enabled;
     if (m_graph)
@@ -522,8 +538,11 @@ bool QQuickGraphsNode::isPolar() const
 
 void QQuickGraphsNode::setLabelMargin(float labelMargin)
 {
-    if (m_labelMargin == labelMargin)
+    if (m_labelMargin == labelMargin) {
+        qCDebug(lcProperties3D) << __FUNCTION__
+            << "value is already set to:" << labelMargin;
         return;
+    }
 
     m_labelMargin = labelMargin;
     if (m_graph)
@@ -540,8 +559,11 @@ float QQuickGraphsNode::labelMargin() const
 
 void QQuickGraphsNode::setRadialLabelOffset(float radialLabelOffset)
 {
-    if (m_radialLabelOffset == radialLabelOffset)
+    if (m_radialLabelOffset == radialLabelOffset) {
+        qCDebug(lcProperties3D) << __FUNCTION__
+            << "value is already set to:" << radialLabelOffset;
         return;
+    }
 
     m_radialLabelOffset = radialLabelOffset;
     if (m_graph)
@@ -558,8 +580,11 @@ float QQuickGraphsNode::radialLabelOffset() const
 
 void QQuickGraphsNode::setHorizontalAspectRatio(qreal horizontalAspectRatio)
 {
-    if (m_horizontalAspectRatio == horizontalAspectRatio)
+    if (m_horizontalAspectRatio == horizontalAspectRatio) {
+        qCDebug(lcProperties3D) << __FUNCTION__
+            << "value is already set to:" << horizontalAspectRatio;
         return;
+    }
 
     m_horizontalAspectRatio = horizontalAspectRatio;
     if (m_graph)
@@ -576,8 +601,11 @@ qreal QQuickGraphsNode::horizontalAspectRatio() const
 
 void QQuickGraphsNode::setLocale(QLocale locale)
 {
-    if (m_locale == locale)
+    if (m_locale == locale) {
+        qCDebug(lcProperties3D) << __FUNCTION__
+            << "value is already set to:" << locale;
         return;
+    }
 
     m_locale = locale;
     if (m_graph)
@@ -610,8 +638,11 @@ qreal QQuickGraphsNode::margin() const
 
 void QQuickGraphsNode::setMargin(qreal margin)
 {
-    if (m_margin == margin)
+    if (m_margin == margin) {
+        qCDebug(lcProperties3D) << __FUNCTION__
+            << "value is already set to:" << margin;
         return;
+    }
 
     m_margin = margin;
     if (m_graph)
@@ -627,8 +658,11 @@ QtGraphs3D::GridLineType QQuickGraphsNode::gridLineType() const
 }
 void QQuickGraphsNode::setGridLineType(const QtGraphs3D::GridLineType &gridLineType)
 {
-    if (m_gridLineType == gridLineType)
+    if (m_gridLineType == gridLineType) {
+        qCDebug(lcProperties3D) << __FUNCTION__
+            << "value is already set to:" << gridLineType;
         return;
+    }
 
     m_gridLineType = gridLineType;
     if (m_graph)

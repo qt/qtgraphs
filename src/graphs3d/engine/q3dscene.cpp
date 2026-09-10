@@ -257,6 +257,9 @@ void Q3DScene::setPrimarySubViewport(QRect primarySubViewport)
 
         emit primarySubViewportChanged(primarySubViewport);
         emit needRender();
+    } else {
+        qCDebug(lcGraphsScene3D) << "Q3DScene::setPrimarySubViewport. value is already set to:"
+                                  << primarySubViewport;
     }
 }
 
@@ -341,6 +344,9 @@ void Q3DScene::setSecondarySubViewport(QRect secondarySubViewport)
 
         emit secondarySubViewportChanged(secondarySubViewport);
         emit needRender();
+    } else {
+        qCDebug(lcGraphsScene3D) << "Q3DScene::setSecondarySubViewport. value is already set to:"
+                                  << secondarySubViewport;
     }
 }
 
@@ -368,6 +374,9 @@ void Q3DScene::setSelectionQueryPosition(QPoint point)
 
         emit selectionQueryPositionChanged(point);
         emit needRender();
+    } else {
+        qCDebug(lcGraphsScene3D) << "Q3DScene::setSelectionQueryPosition. value is already set to:"
+                                  << point;
     }
 }
 
@@ -422,6 +431,9 @@ void Q3DScene::setGraphPositionQuery(QPoint point)
 
         emit graphPositionQueryChanged(point);
         emit needRender();
+    } else {
+        qCDebug(lcGraphsScene3D) << "Q3DScene::setGraphPositionQuery. value is already set to:"
+                                  << point;
     }
 }
 
@@ -457,6 +469,9 @@ void Q3DScene::setSlicingActive(bool isSlicing)
 
         emit slicingActiveChanged(isSlicing);
         emit needRender();
+    } else {
+        qCDebug(lcGraphsScene3D) << "Q3DScene::setSlicingActive. value is already set to:"
+                                  << isSlicing;
     }
 }
 
@@ -481,6 +496,9 @@ void Q3DScene::setSecondarySubviewOnTop(bool isSecondaryOnTop)
 
         emit secondarySubviewOnTopChanged(isSecondaryOnTop);
         emit needRender();
+    } else {
+        qCDebug(lcGraphsScene3D) << "Q3DScene::setSecondarySubviewOnTop. value is already set to:"
+                                  << isSecondaryOnTop;
     }
 }
 
@@ -506,6 +524,9 @@ void Q3DScene::setDevicePixelRatio(qreal pixelRatio)
 
         emit devicePixelRatioChanged(pixelRatio);
         emit needRender();
+    } else {
+        qCDebug(lcGraphsScene3D) << "Q3DScene::setDevicePixelRatio. value is already set to:"
+                                  << pixelRatio;
     }
 }
 
@@ -588,6 +609,9 @@ void Q3DScenePrivate::setViewport(const QRect viewport)
         m_viewport = viewport;
         updateDefaultViewports();
         emit q->needRender();
+    } else {
+        qCDebug(lcGraphsScene3D) << "Q3DScenePrivate::setViewport. value is already set to:"
+                                  << viewport;
     }
 }
 
@@ -599,6 +623,9 @@ void Q3DScenePrivate::setViewportSize(int width, int height)
         m_viewport.setHeight(height);
         updateDefaultViewports();
         emit q->needRender();
+    } else {
+        qCDebug(lcGraphsScene3D) << "Q3DScenePrivate::setViewportSize. value is already set to:"
+                                  << width << height;
     }
 }
 
@@ -616,6 +643,9 @@ void Q3DScenePrivate::setWindowSize(QSize size)
         m_windowSize = size;
         m_changeTracker.windowSizeChanged = true;
         emit q->needRender();
+    } else {
+        qCDebug(lcGraphsScene3D) << "Q3DScenePrivate::setWindowSize. value is already set to:"
+                                  << size;
     }
 }
 

@@ -4,6 +4,7 @@
 
 
 #include "abstractitemmodelhandler_p.h"
+#include "qgraphs3dlogging_p.h"
 
 QT_BEGIN_NAMESPACE
 
@@ -71,6 +72,9 @@ void AbstractItemModelHandler::setItemModel(QAbstractItemModel *itemModel)
             m_resolveTimer.start(0);
 
         emit itemModelChanged(itemModel);
+    } else {
+        qCDebug(lcProperties3D) << "AbstractItemModelHandler::setItemModel. Item model is"
+                                 << "already set to:" << itemModel;
     }
 }
 
