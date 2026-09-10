@@ -130,6 +130,11 @@ void QSplineSeries::componentComplete()
         d->calculateSplinePoints();
     });
 
+    connect(this, &QSplineSeries::pointsAdded, this,
+            [d]([[maybe_unused]] qsizetype start, [[maybe_unused]] qsizetype end) {
+        d->calculateSplinePoints();
+    });
+
     connect(this, &QSplineSeries::pointRemoved, this, [d]([[maybe_unused]] int index) {
         d->calculateSplinePoints();
     });
