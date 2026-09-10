@@ -6,6 +6,7 @@
 #include <QtGraphs/qbarset.h>
 #include <private/qbarset_p.h>
 #include <private/charthelpers_p.h>
+#include <private/qabstractseries_p.h>
 
 QT_BEGIN_NAMESPACE
 
@@ -311,6 +312,8 @@ void QBarSet::setLabel(const QString &label)
         d->setLabelsDirty(true);
         emit update();
         emit labelChanged();
+    } else {
+        qCDebug(lcProperties2D) << "QBarSet::setLabel. Label is already set to:" << label;
     }
 }
 
@@ -542,6 +545,8 @@ void QBarSet::setColor(QColor color)
         d->m_color = color;
         emit update();
         emit colorChanged(color);
+    } else {
+        qCDebug(lcProperties2D) << "QBarSet::setColor. Color is already set to:" << color;
     }
 }
 
@@ -564,6 +569,9 @@ void QBarSet::setBorderColor(QColor color)
         d->m_borderColor = color;
         emit update();
         emit borderColorChanged(color);
+    } else {
+        qCDebug(lcProperties2D) << "QBarSet::setBorderColor. Border color is already set to:"
+                                << color;
     }
 }
 
@@ -586,6 +594,9 @@ void QBarSet::setLabelColor(QColor color)
         d->m_labelColor = color;
         emit update();
         emit labelColorChanged(color);
+    } else {
+        qCDebug(lcProperties2D) << "QBarSet::setLabelColor. Label color is already set to:"
+                                << color;
     }
 }
 
@@ -615,6 +626,9 @@ void QBarSet::setSelectedColor(QColor color)
         emit update();
         emit updatedBars();
         emit selectedColorChanged(color);
+    } else {
+        qCDebug(lcProperties2D) << "QBarSet::setSelectedColor. Selected color is already set to:"
+                                << color;
     }
 }
 
@@ -633,6 +647,9 @@ void QBarSet::setBorderWidth(qreal width)
         d->m_borderWidth = width;
         emit update();
         emit borderWidthChanged(width);
+    } else {
+        qCDebug(lcProperties2D) << "QBarSet::setBorderWidth. Border width is already set to:"
+                                << width;
     }
 }
 
@@ -697,6 +714,8 @@ void QBarSet::setValues(const QVariantList &values)
     emit update();
     if (valuesUpdated)
         emit valuesChanged();
+    else
+        qCDebug(lcProperties2D) << "QBarSet::setValues. Values are already set to:" << values;
 }
 
 
@@ -1017,8 +1036,10 @@ qreal QBarSetPrivate::value(qsizetype index) const
 
 void QBarSetPrivate::setBarSelected(qsizetype index, bool selected, bool &callSignal)
 {
-    if (index < 0 || index > m_values.size() - 1)
+    if (index < 0 || index > m_values.size() - 1) {
+        qCWarning(lcProperties2D, "tried to use invalid index: %" PRIdQSIZETYPE, index);
         return;
+    }
 
     if (selected) {
         if (!isBarSelected(index)) {

@@ -5,6 +5,7 @@
 
 #include <QtGraphs/qpieseries.h>
 #include <QtQuick/private/qquicktext_p.h>
+#include <private/qabstractseries_p.h>
 #include <private/qpieslice_p.h>
 
 #if QT_CONFIG(graphs_2d_high_quality_backend)
@@ -653,8 +654,10 @@ qreal QPieSlice::angleSpan() const
 void QPieSlice::setLabel(const QString &label)
 {
     Q_D(QPieSlice);
-    if (d->m_labelText == label)
+    if (d->m_labelText == label) {
+        qCDebug(lcProperties2D) << "QPieSlice::setLabel. Label is already set to:" << label;
         return;
+    }
     d->m_labelText = label;
     d->m_labelItem->setText(label);
     emit labelChanged();
@@ -669,8 +672,11 @@ QString QPieSlice::label() const
 void QPieSlice::setLabelVisible(bool visible)
 {
     Q_D(QPieSlice);
-    if (d->m_isLabelVisible == visible)
+    if (d->m_isLabelVisible == visible) {
+        qCDebug(lcProperties2D) << "QPieSlice::setLabelVisible. Label visible is already set to:"
+                                << visible;
         return;
+    }
 
     d->setLabelVisible(visible);
     emit labelVisibleChanged();
@@ -685,8 +691,11 @@ bool QPieSlice::isLabelVisible() const
 void QPieSlice::setLabelPosition(LabelPosition position)
 {
     Q_D(QPieSlice);
-    if (d->m_labelPosition == position)
+    if (d->m_labelPosition == position) {
+        qCDebug(lcProperties2D) << "QPieSlice::setLabelPosition. Label position is already set to:"
+                                << position;
         return;
+    }
 
     d->setLabelPosition(position);
     emit labelPositionChanged();
@@ -701,8 +710,11 @@ QPieSlice::LabelPosition QPieSlice::labelPosition()
 void QPieSlice::setLabelColor(QColor color)
 {
     Q_D(QPieSlice);
-    if (d->m_labelColor == color)
+    if (d->m_labelColor == color) {
+        qCDebug(lcProperties2D) << "QPieSlice::setLabelColor. Label color is already set to:"
+                                << color;
         return;
+    }
 
     d->m_labelItem->setColor(color);
     d->m_labelColor = color;
@@ -718,6 +730,10 @@ QColor QPieSlice::labelColor() const
 void QPieSlice::setLabelFont(const QFont &font)
 {
     Q_D(QPieSlice);
+    if (d->m_labelFont == font) {
+        qCDebug(lcProperties2D) << "QPieSlice::setLabelFont. Font is already set to:" << font;
+        return;
+    }
     d->m_labelFont = font;
     d->m_labelItem->setFont(font);
     emit labelFontChanged();
@@ -733,8 +749,11 @@ void QPieSlice::setLabelArmLengthFactor(qreal factor)
 {
     Q_D(QPieSlice);
 
-    if (QtPrivate::fuzzyCompare(d->m_labelArmLengthFactor, factor))
+    if (QtPrivate::fuzzyCompare(d->m_labelArmLengthFactor, factor)) {
+        qCDebug(lcProperties2D) << "QPieSlice::setLabelArmLengthFactor. Label arm length factor "
+                                   "is already set to:" << factor;
         return;
+    }
 
     d->m_labelArmLengthFactor = factor;
     emit labelArmLengthFactorChanged();
@@ -750,8 +769,10 @@ void QPieSlice::setValue(qreal value)
 {
     Q_D(QPieSlice);
     value = qAbs(value); // negative values not allowed
-    if (qFuzzyCompare(d->m_value + 1, value + 1))
+    if (qFuzzyCompare(d->m_value + 1, value + 1)) {
+        qCDebug(lcProperties2D) << "QPieSlice::setValue. Value is already set to:" << value;
         return;
+    }
 
     d->m_value = value;
     emit sliceChanged();
@@ -768,8 +789,11 @@ void QPieSlice::setExploded(bool exploded)
 {
     Q_D(QPieSlice);
 
-    if (d->m_isExploded == exploded)
+    if (d->m_isExploded == exploded) {
+        qCDebug(lcProperties2D) << "QPieSlice::setExploded. Exploded is already set to:"
+                                << exploded;
         return;
+    }
 
     d->m_isExploded = exploded;
     emit sliceChanged();
@@ -786,8 +810,11 @@ void QPieSlice::setExplodeDistanceFactor(qreal factor)
 {
     Q_D(QPieSlice);
 
-    if (QtPrivate::fuzzyCompare(d->m_explodeDistanceFactor, factor))
+    if (QtPrivate::fuzzyCompare(d->m_explodeDistanceFactor, factor)) {
+        qCDebug(lcProperties2D) << "QPieSlice::setExplodeDistanceFactor. Explode distance factor "
+                                   "is already set to:" << factor;
         return;
+    }
 
     d->m_explodeDistanceFactor = factor;
     emit sliceChanged();
@@ -803,8 +830,10 @@ qreal QPieSlice::explodeDistanceFactor() const
 void QPieSlice::setColor(QColor color)
 {
     Q_D(QPieSlice);
-    if (d->m_color == color)
+    if (d->m_color == color) {
+        qCDebug(lcProperties2D) << "QPieSlice::setColor. Color is already set to:" << color;
         return;
+    }
 
     d->m_color = color;
     emit colorChanged();
@@ -820,8 +849,11 @@ QColor QPieSlice::color() const
 void QPieSlice::setBorderColor(QColor borderColor)
 {
     Q_D(QPieSlice);
-    if (d->m_borderColor == borderColor)
+    if (d->m_borderColor == borderColor) {
+        qCDebug(lcProperties2D) << "QPieSlice::setBorderColor. Border color is already set to:"
+                                << borderColor;
         return;
+    }
 
     d->m_borderColor = borderColor;
     emit borderColorChanged();
@@ -837,8 +869,11 @@ QColor QPieSlice::borderColor() const
 void QPieSlice::setBorderWidth(qreal borderWidth)
 {
     Q_D(QPieSlice);
-    if (d->m_borderWidth == borderWidth)
+    if (d->m_borderWidth == borderWidth) {
+        qCDebug(lcProperties2D) << "QPieSlice::setBorderWidth. Border width is already set to:"
+                                << borderWidth;
         return;
+    }
 
     d->m_borderWidth = borderWidth;
     emit borderWidthChanged();
@@ -1254,8 +1289,11 @@ qreal QPieSlice::subSlicesSum() const
 void QPieSlice::setSubSlicesRatio(qreal subSlicesRatio)
 {
     Q_D(QPieSlice);
-    if (d->m_subSlicesRatio == subSlicesRatio)
+    if (d->m_subSlicesRatio == subSlicesRatio) {
+        qCDebug(lcProperties2D) << "QPieSlice::setSubSlicesRatio. Sub slices ratio is already"
+                                << "set to:" << subSlicesRatio;
         return;
+    }
 
     d->m_subSlicesRatio = subSlicesRatio;
     emit subSlicesRatioChanged(subSlicesRatio);
@@ -1384,8 +1422,11 @@ void QPieSlicePrivate::updateSeries(QPieSeries *series)
 void QPieSlicePrivate::setPercentage(qreal percentage)
 {
     Q_Q(QPieSlice);
-    if (QtPrivate::fuzzyCompare(m_percentage, percentage))
+    if (QtPrivate::fuzzyCompare(m_percentage, percentage)) {
+        qCDebug(lcProperties2D) << "QPieSlicePrivate::setPercentage. Percentage is already set to:"
+                                << percentage;
         return;
+    }
     m_percentage = percentage;
     emit q->percentageChanged();
 }
@@ -1393,8 +1434,11 @@ void QPieSlicePrivate::setPercentage(qreal percentage)
 void QPieSlicePrivate::setStartAngle(qreal angle)
 {
     Q_Q(QPieSlice);
-    if (QtPrivate::fuzzyCompare(m_startAngle, angle))
+    if (QtPrivate::fuzzyCompare(m_startAngle, angle)) {
+        qCDebug(lcProperties2D) << "QPieSlicePrivate::setStartAngle. Start angle is already set to:"
+                                << angle;
         return;
+    }
     m_startAngle = angle;
     emit q->startAngleChanged();
 }
@@ -1402,8 +1446,11 @@ void QPieSlicePrivate::setStartAngle(qreal angle)
 void QPieSlicePrivate::setAngleSpan(qreal span)
 {
     Q_Q(QPieSlice);
-    if (QtPrivate::fuzzyCompare(m_angleSpan, span))
+    if (QtPrivate::fuzzyCompare(m_angleSpan, span)) {
+        qCDebug(lcProperties2D) << "QPieSlicePrivate::setAngleSpan. Angle span is already set to:"
+                                << span;
         return;
+    }
 
     m_angleSpan = span;
     emit q->angleSpanChanged();

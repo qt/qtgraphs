@@ -363,6 +363,15 @@ void QValueAxis::setSubTickCount(qsizetype count)
         d->m_subTickCount = count;
         emit update();
         emit subTickCountChanged(count);
+    } else if (count < 0) {
+        qCWarning(lcAxis2D,
+                  "QValueAxis::setSubTickCount. Sub tick count cannot be negative: %"
+                  PRIdQSIZETYPE,
+                  count);
+    } else {
+        qCDebug(lcAxis2D,
+                "QValueAxis::setSubTickCount. Sub tick count is already set to: %" PRIdQSIZETYPE,
+                count);
     }
 }
 
@@ -379,6 +388,8 @@ void QValueAxis::setTickAnchor(qreal anchor)
         d->m_tickAnchor = anchor;
         emit update();
         emit tickAnchorChanged(anchor);
+    } else {
+        qCDebug(lcAxis2D, "QValueAxis::setTickAnchor. Tick anchor is already set to: %f", anchor);
     }
 }
 
@@ -395,6 +406,10 @@ void QValueAxis::setTickInterval(qreal interval)
         d->m_tickInterval = interval;
         emit update();
         emit tickIntervalChanged(interval);
+    } else {
+        qCDebug(lcAxis2D,
+                "QValueAxis::setTickInterval. Tick interval is already set to: %f",
+                interval);
     }
 }
 
@@ -585,6 +600,8 @@ void QValueAxisPrivate::setRange(qreal min, qreal max)
     if (changed) {
         calculateVisualRange();
         emit q->rangeChanged(min, max);
+    } else {
+        qCDebug(lcAxis2D, "QValueAxis::setRange. Range is already set to: [%f - %f]", min, max);
     }
 }
 
