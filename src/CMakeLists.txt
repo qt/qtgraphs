@@ -163,6 +163,9 @@ else()
     # qt_internal_extend_target doesn't support adding dependencies
     # so create the dependencies list conditionally here
     set(graphs_qml_dependencies QtQuick)
+    if(QT_FEATURE_graphs_2d)
+        list(APPEND graphs_qml_dependencies QtGraphs2D.impl)
+    endif()
     if(QT_FEATURE_graphs_3d)
         list(APPEND graphs_qml_dependencies QtQuick3D)
     endif()
