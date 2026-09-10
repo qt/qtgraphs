@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 // Qt-Security score:significant reason:default
 
+#include "qgraphs3dlogging_p.h"
 #include "qquickgraphsbarsnode_p.h"
 
 QT_BEGIN_NAMESPACE
@@ -323,8 +324,11 @@ void QQuickGraphsBarsNode::componentComplete()
 
 void QQuickGraphsBarsNode::setRowAxis(QCategory3DAxis *axis)
 {
-    if (m_axisZ == axis)
+    if (m_axisZ == axis) {
+        qCDebug(lcProperties3D) << __FUNCTION__
+            << "value is already set to:" << axis;
         return;
+    }
 
     m_axisZ = axis;
     if (graphBars())
@@ -341,8 +345,11 @@ QCategory3DAxis *QQuickGraphsBarsNode::rowAxis() const
 
 void QQuickGraphsBarsNode::setValueAxis(QValue3DAxis *axis)
 {
-    if (m_axisY == axis)
+    if (m_axisY == axis) {
+        qCDebug(lcProperties3D) << __FUNCTION__
+            << "value is already set to:" << axis;
         return;
+    }
 
     m_axisY = axis;
     if (graphBars())
@@ -359,8 +366,11 @@ QValue3DAxis *QQuickGraphsBarsNode::valueAxis() const
 
 void QQuickGraphsBarsNode::setColumnAxis(QCategory3DAxis *axis)
 {
-    if (m_axisX == axis)
+    if (m_axisX == axis) {
+        qCDebug(lcProperties3D) << __FUNCTION__
+            << "value is already set to:" << axis;
         return;
+    }
 
     m_axisX = axis;
     if (graphBars())
@@ -377,8 +387,11 @@ QCategory3DAxis *QQuickGraphsBarsNode::columnAxis() const
 
 void QQuickGraphsBarsNode::setMultiSeriesUniform(bool uniform)
 {
-    if (m_multiSeriesUniform == uniform)
+    if (m_multiSeriesUniform == uniform) {
+        qCDebug(lcProperties3D) << __FUNCTION__
+            << "value is already set to:" << uniform;
         return;
+    }
     m_multiSeriesUniform = uniform;
     if (graphBars())
         graphBars()->setMultiSeriesUniform(uniform);
@@ -394,8 +407,11 @@ bool QQuickGraphsBarsNode::isMultiSeriesUniform() const
 
 void QQuickGraphsBarsNode::setBarThickness(float thickness)
 {
-    if (m_barThickness == thickness)
+    if (m_barThickness == thickness) {
+        qCDebug(lcProperties3D) << __FUNCTION__
+            << "value is already set to:" << thickness;
         return;
+    }
     m_barThickness = thickness;
     if (graphBars())
         graphBars()->setBarThickness(thickness);
@@ -411,8 +427,11 @@ float QQuickGraphsBarsNode::barThickness() const
 
 void QQuickGraphsBarsNode::setBarSpacing(QSizeF spacing)
 {
-    if (m_barSpacing == spacing)
+    if (m_barSpacing == spacing) {
+        qCDebug(lcProperties3D) << __FUNCTION__
+            << "value is already set to:" << spacing;
         return;
+    }
     m_barSpacing = spacing;
     if (graphBars())
         graphBars()->setBarSpacing(spacing);
@@ -428,8 +447,11 @@ QSizeF QQuickGraphsBarsNode::barSpacing() const
 
 void QQuickGraphsBarsNode::setBarSpacingRelative(bool relative)
 {
-    if (m_barSpacingRelative == relative)
+    if (m_barSpacingRelative == relative) {
+        qCDebug(lcProperties3D) << __FUNCTION__
+            << "value is already set to:" << relative;
         return;
+    }
     m_barSpacingRelative = relative;
 
     if (graphBars())
@@ -446,8 +468,11 @@ bool QQuickGraphsBarsNode::isBarSpacingRelative() const
 
 void QQuickGraphsBarsNode::setBarSeriesMargin(QSizeF margin)
 {
-    if (m_barSeriesMargin == margin)
+    if (m_barSeriesMargin == margin) {
+        qCDebug(lcProperties3D) << __FUNCTION__
+            << "value is already set to:" << margin;
         return;
+    }
 
     m_barSeriesMargin = margin;
     if (graphBars())
@@ -472,8 +497,11 @@ QBar3DSeries *QQuickGraphsBarsNode::selectedSeries() const
 
 void QQuickGraphsBarsNode::setPrimarySeries(QBar3DSeries *series)
 {
-    if (m_primarySeries == series)
+    if (m_primarySeries == series) {
+        qCDebug(lcProperties3D) << __FUNCTION__
+            << "value is already set to:" << series;
         return;
+    }
 
     m_primarySeries = series;
     if (graphBars())
@@ -490,8 +518,11 @@ QBar3DSeries *QQuickGraphsBarsNode::primarySeries() const
 
 void QQuickGraphsBarsNode::setFloorLevel(float floorLevel)
 {
-    if (m_floorLevel == floorLevel)
+    if (m_floorLevel == floorLevel) {
+        qCDebug(lcProperties3D) << __FUNCTION__
+            << "value is already set to:" << floorLevel;
         return;
+    }
 
     m_floorLevel = floorLevel;
     if (graphBars())

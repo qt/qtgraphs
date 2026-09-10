@@ -6,6 +6,7 @@
 #include <QtCore/QMetaMethod>
 #include "qquickgraphssplineseries_p.h"
 #include "utils_p.h"
+#include "qgraphs3dlogging_p.h"
 
 QT_BEGIN_NAMESPACE
 
@@ -35,11 +36,14 @@ void QQuickGraphsSpline3DSeries::appendSeriesChildren(QQmlListProperty<QObject> 
 
 void QQuickGraphsSpline3DSeries::setBaseGradient(QQuickGradient *gradient)
 {
-    if (m_baseGradient != gradient) {
-        setGradientHelper(gradient, m_baseGradient, GradientType::Base);
-        m_baseGradient = gradient;
-        Q_EMIT baseGradientChanged(m_baseGradient);
+    if (m_baseGradient == gradient) {
+        qCDebug(lcProperties3D) << __FUNCTION__
+            << "value is already set to:" << gradient;
+        return;
     }
+    setGradientHelper(gradient, m_baseGradient, GradientType::Base);
+    m_baseGradient = gradient;
+    Q_EMIT baseGradientChanged(m_baseGradient);
 }
 
 QQuickGradient *QQuickGraphsSpline3DSeries::baseGradient() const
@@ -49,11 +53,14 @@ QQuickGradient *QQuickGraphsSpline3DSeries::baseGradient() const
 
 void QQuickGraphsSpline3DSeries::setSingleHighlightGradient(QQuickGradient *gradient)
 {
-    if (m_singleHighlightGradient != gradient) {
-        setGradientHelper(gradient, m_singleHighlightGradient, GradientType::Single);
-        m_singleHighlightGradient = gradient;
-        Q_EMIT singleHighlightGradientChanged(m_singleHighlightGradient);
+    if (m_singleHighlightGradient == gradient) {
+        qCDebug(lcProperties3D) << __FUNCTION__
+            << "value is already set to:" << gradient;
+        return;
     }
+    setGradientHelper(gradient, m_singleHighlightGradient, GradientType::Single);
+    m_singleHighlightGradient = gradient;
+    Q_EMIT singleHighlightGradientChanged(m_singleHighlightGradient);
 }
 
 QQuickGradient *QQuickGraphsSpline3DSeries::singleHighlightGradient() const
@@ -63,11 +70,14 @@ QQuickGradient *QQuickGraphsSpline3DSeries::singleHighlightGradient() const
 
 void QQuickGraphsSpline3DSeries::setMultiHighlightGradient(QQuickGradient *gradient)
 {
-    if (m_multiHighlightGradient != gradient) {
-        setGradientHelper(gradient, m_multiHighlightGradient, GradientType::Multi);
-        m_multiHighlightGradient = gradient;
-        Q_EMIT multiHighlightGradientChanged(m_multiHighlightGradient);
+    if (m_multiHighlightGradient == gradient) {
+        qCDebug(lcProperties3D) << __FUNCTION__
+            << "value is already set to:" << gradient;
+        return;
     }
+    setGradientHelper(gradient, m_multiHighlightGradient, GradientType::Multi);
+    m_multiHighlightGradient = gradient;
+    Q_EMIT multiHighlightGradientChanged(m_multiHighlightGradient);
 }
 
 QQuickGradient *QQuickGraphsSpline3DSeries::multiHighlightGradient() const

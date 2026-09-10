@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 // Qt-Security score:significant reason:default
 
+#include "qgraphs3dlogging_p.h"
 #include "qquickgraphsscatternode_p.h"
 
 QT_BEGIN_NAMESPACE
@@ -171,8 +172,11 @@ QValue3DAxis *QQuickGraphsScatterNode::axisX() const
 
 void QQuickGraphsScatterNode::setAxisX(QValue3DAxis *axis)
 {
-    if (m_axisX == axis)
+    if (m_axisX == axis) {
+        qCDebug(lcProperties3D) << __FUNCTION__
+            << "value is already set to:" << axis;
         return;
+    }
     m_axisX = axis;
     if (graphScatter())
         graphScatter()->setAxisX(axis);
@@ -188,8 +192,11 @@ QValue3DAxis *QQuickGraphsScatterNode::axisY() const
 
 void QQuickGraphsScatterNode::setAxisY(QValue3DAxis *axis)
 {
-    if (m_axisY == axis)
+    if (m_axisY == axis) {
+        qCDebug(lcProperties3D) << __FUNCTION__
+            << "value is already set to:" << axis;
         return;
+    }
     m_axisY = axis;
     if (graphScatter())
         graphScatter()->setAxisY(axis);
@@ -205,8 +212,11 @@ QValue3DAxis *QQuickGraphsScatterNode::axisZ() const
 
 void QQuickGraphsScatterNode::setAxisZ(QValue3DAxis *axis)
 {
-    if (m_axisZ == axis)
+    if (m_axisZ == axis) {
+        qCDebug(lcProperties3D) << __FUNCTION__
+            << "value is already set to:" << axis;
         return;
+    }
     m_axisZ = axis;
     if (graphScatter())
         graphScatter()->setAxisZ(axis);

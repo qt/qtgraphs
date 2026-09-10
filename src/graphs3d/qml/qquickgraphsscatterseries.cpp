@@ -6,6 +6,7 @@
 #include <QtCore/QMetaMethod>
 #include "qquickgraphsscatterseries_p.h"
 #include "utils_p.h"
+#include "qgraphs3dlogging_p.h"
 
 QT_BEGIN_NAMESPACE
 
@@ -35,11 +36,14 @@ void QQuickGraphsScatter3DSeries::appendSeriesChildren(QQmlListProperty<QObject>
 
 void QQuickGraphsScatter3DSeries::setBaseGradient(QQuickGradient *gradient)
 {
-    if (m_gradients.m_baseGradient != gradient) {
-        setGradientHelper(gradient, m_gradients.m_baseGradient, GradientType::Base);
-        m_gradients.m_baseGradient = gradient;
-        Q_EMIT baseGradientChanged(m_gradients.m_baseGradient);
+    if (m_gradients.m_baseGradient == gradient) {
+        qCDebug(lcProperties3D) << __FUNCTION__
+            << "value is already set to:" << gradient;
+        return;
     }
+    setGradientHelper(gradient, m_gradients.m_baseGradient, GradientType::Base);
+    m_gradients.m_baseGradient = gradient;
+    Q_EMIT baseGradientChanged(m_gradients.m_baseGradient);
 }
 
 QQuickGradient *QQuickGraphsScatter3DSeries::baseGradient() const
@@ -49,11 +53,14 @@ QQuickGradient *QQuickGraphsScatter3DSeries::baseGradient() const
 
 void QQuickGraphsScatter3DSeries::setSingleHighlightGradient(QQuickGradient *gradient)
 {
-    if (m_gradients.m_singleHighlightGradient != gradient) {
-        setGradientHelper(gradient, m_gradients.m_singleHighlightGradient, GradientType::Single);
-        m_gradients.m_singleHighlightGradient = gradient;
-        Q_EMIT singleHighlightGradientChanged(m_gradients.m_singleHighlightGradient);
+    if (m_gradients.m_singleHighlightGradient == gradient) {
+        qCDebug(lcProperties3D) << __FUNCTION__
+            << "value is already set to:" << gradient;
+        return;
     }
+    setGradientHelper(gradient, m_gradients.m_singleHighlightGradient, GradientType::Single);
+    m_gradients.m_singleHighlightGradient = gradient;
+    Q_EMIT singleHighlightGradientChanged(m_gradients.m_singleHighlightGradient);
 }
 
 QQuickGradient *QQuickGraphsScatter3DSeries::singleHighlightGradient() const
@@ -63,11 +70,14 @@ QQuickGradient *QQuickGraphsScatter3DSeries::singleHighlightGradient() const
 
 void QQuickGraphsScatter3DSeries::setMultiHighlightGradient(QQuickGradient *gradient)
 {
-    if (m_gradients.m_multiHighlightGradient != gradient) {
-        setGradientHelper(gradient, m_gradients.m_multiHighlightGradient, GradientType::Multi);
-        m_gradients.m_multiHighlightGradient = gradient;
-        Q_EMIT multiHighlightGradientChanged(m_gradients.m_multiHighlightGradient);
+    if (m_gradients.m_multiHighlightGradient == gradient) {
+        qCDebug(lcProperties3D) << __FUNCTION__
+            << "value is already set to:" << gradient;
+        return;
     }
+    setGradientHelper(gradient, m_gradients.m_multiHighlightGradient, GradientType::Multi);
+    m_gradients.m_multiHighlightGradient = gradient;
+    Q_EMIT multiHighlightGradientChanged(m_gradients.m_multiHighlightGradient);
 }
 
 QQuickGradient *QQuickGraphsScatter3DSeries::multiHighlightGradient() const
