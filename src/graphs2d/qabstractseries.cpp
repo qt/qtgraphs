@@ -487,8 +487,11 @@ QAbstractAxis *QAbstractSeries::axisX() const
 void QAbstractSeries::setAxisX(QAbstractAxis *newAxisX)
 {
     Q_D(QAbstractSeries);
-    if (d->m_axisX == newAxisX)
+    if (d->m_axisX == newAxisX) {
+        qCDebug(lcProperties2D) << "QAbstractSeries::setAxisX. Axis X is already set to:"
+                                << newAxisX;
         return;
+    }
 
     if (d->m_axisX) {
         disconnect(d->m_axisX, &QAbstractAxis::update, this, &QAbstractSeries::update);
@@ -521,8 +524,11 @@ QAbstractAxis *QAbstractSeries::axisY() const
 void QAbstractSeries::setAxisY(QAbstractAxis *newAxisY)
 {
     Q_D(QAbstractSeries);
-    if (d->m_axisY == newAxisY)
+    if (d->m_axisY == newAxisY) {
+        qCDebug(lcProperties2D) << "QAbstractSeries::setAxisY. Axis Y is already set to:"
+                                << newAxisY;
         return;
+    }
 
     if (d->m_axisY) {
         disconnect(d->m_axisY, &QAbstractAxis::update, this, &QAbstractSeries::update);
@@ -579,6 +585,9 @@ void QAbstractSeries::setValuesMultiplier(qreal valuesMultiplier)
         d->m_valuesMultiplier = valuesMultiplier;
         emit update();
         emit valuesMultiplierChanged();
+    } else {
+        qCDebug(lcProperties2D, "QAbstractSeries::setValuesMultiplier. Values multiplier is "
+                                 "already set to: %f", valuesMultiplier);
     }
 }
 
@@ -591,8 +600,11 @@ int QAbstractSeries::zValue() const
 void QAbstractSeries::setZValue(int newDrawOrder)
 {
     Q_D(QAbstractSeries);
-    if (d->m_drawOrder == newDrawOrder)
+    if (d->m_drawOrder == newDrawOrder) {
+        qCDebug(lcProperties2D) << "QAbstractSeries::setZValue. Z value is already set to:"
+                                << newDrawOrder;
         return;
+    }
     d->m_drawOrder = newDrawOrder;
     emit update();
     emit zValueChanged(newDrawOrder);

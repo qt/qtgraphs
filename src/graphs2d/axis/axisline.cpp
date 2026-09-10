@@ -5,6 +5,8 @@
 
 #include "axisline_p.h"
 
+#include <QtGraphs/QAbstractAxis>
+
 QT_BEGIN_NAMESPACE
 
 AxisLine::AxisLine(QQuickItem *parent) :
@@ -52,8 +54,10 @@ qreal AxisLine::smoothing() const
 
 void AxisLine::setSmoothing(qreal newSmoothing)
 {
-    if (QtPrivate::fuzzyCompare(m_smoothing, newSmoothing))
+    if (QtPrivate::fuzzyCompare(m_smoothing, newSmoothing)) {
+        qCDebug(lcAxis2D) << "AxisLine::setSmoothing. value is already set to:" << newSmoothing;
         return;
+    }
     m_smoothing = newSmoothing;
     emit smoothingChanged();
 }
@@ -65,8 +69,10 @@ QColor AxisLine::color() const
 
 void AxisLine::setColor(QColor newColor)
 {
-    if (m_color == newColor)
+    if (m_color == newColor) {
+        qCDebug(lcAxis2D) << "AxisLine::setColor. value is already set to:" << newColor;
         return;
+    }
     m_color = newColor;
     emit colorChanged();
 }
@@ -78,8 +84,10 @@ qreal AxisLine::lineWidth() const
 
 void AxisLine::setLineWidth(qreal newLineWidth)
 {
-    if (QtPrivate::fuzzyCompare(m_lineWidth, newLineWidth))
+    if (QtPrivate::fuzzyCompare(m_lineWidth, newLineWidth)) {
+        qCDebug(lcAxis2D) << "AxisLine::setLineWidth. value is already set to:" << newLineWidth;
         return;
+    }
     m_lineWidth = newLineWidth;
     emit lineWidthChanged();
 }
@@ -91,8 +99,11 @@ bool AxisLine::isHorizontal() const
 
 void AxisLine::setIsHorizontal(bool newIsHorizontal)
 {
-    if (m_isHorizontal == newIsHorizontal)
+    if (m_isHorizontal == newIsHorizontal) {
+        qCDebug(lcAxis2D) << "AxisLine::setIsHorizontal. value is already set to:"
+                           << newIsHorizontal;
         return;
+    }
     m_isHorizontal = newIsHorizontal;
     emit isHorizontalChanged();
 }

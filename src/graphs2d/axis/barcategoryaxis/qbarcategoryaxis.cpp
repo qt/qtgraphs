@@ -412,6 +412,10 @@ void QBarCategoryAxis::setLabelPosition(LabelPosition position)
     if (d->m_labelPosition != position) {
         d->m_labelPosition = position;
         emit labelPositionChanged(position);
+    } else {
+        qCDebug(lcAxis2D,
+                "QBarCategoryAxis::setLabelPosition. Label position is already set to: %d",
+                int(position));
     }
 }
 
@@ -571,6 +575,11 @@ void QBarCategoryAxisPrivate::setRange(qreal min, qreal max)
 
     if (changed) {
         emit q->rangeChanged(m_min, m_max);
+    } else {
+        qCDebug(lcAxis2D,
+                "QBarCategoryAxis::setRange. Range is already set to: [%f - %f]",
+                m_min,
+                m_max);
     }
 }
 
@@ -616,6 +625,11 @@ void  QBarCategoryAxisPrivate::setRange(const QString &minCategory, const QStrin
         m_count = m_max - m_min;
         emit q->categoryRangeChanged(m_minCategory, m_maxCategory);
         emit q->rangeChanged(m_min, m_max);
+    } else {
+        qCDebug(lcAxis2D,
+                "QBarCategoryAxis::setRange. Range is already set to: [%s - %s]",
+                qUtf8Printable(minCategory),
+                qUtf8Printable(maxCategory));
     }
 }
 

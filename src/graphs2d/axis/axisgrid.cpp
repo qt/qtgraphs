@@ -5,6 +5,8 @@
 
 #include "axisgrid_p.h"
 
+#include <QtGraphs/QAbstractAxis>
+
 QT_BEGIN_NAMESPACE
 
 AxisGrid::AxisGrid(QQuickItem *parent) :
@@ -46,8 +48,10 @@ qreal AxisGrid::smoothing() const
 
 void AxisGrid::setSmoothing(qreal newSmoothing)
 {
-    if (QtPrivate::fuzzyCompare(m_smoothing, newSmoothing))
+    if (QtPrivate::fuzzyCompare(m_smoothing, newSmoothing)) {
+        qCDebug(lcAxis2D) << "AxisGrid::setSmoothing. value is already set to:" << newSmoothing;
         return;
+    }
     m_smoothing = newSmoothing;
     emit smoothingChanged();
 }
@@ -59,8 +63,10 @@ int AxisGrid::origo() const
 
 void AxisGrid::setOrigo(int newOrigo)
 {
-    if (m_origo == newOrigo)
+    if (m_origo == newOrigo) {
+        qCDebug(lcAxis2D) << "AxisGrid::setOrigo. value is already set to:" << newOrigo;
         return;
+    }
     m_origo = newOrigo;
     emit origoChanged();
 }
@@ -72,8 +78,11 @@ QVector4D AxisGrid::gridVisibility() const
 
 void AxisGrid::setGridVisibility(const QVector4D &newGridVisibility)
 {
-    if (m_gridVisibility == newGridVisibility)
+    if (m_gridVisibility == newGridVisibility) {
+        qCDebug(lcAxis2D) << "AxisGrid::setGridVisibility. value is already set to:"
+                           << newGridVisibility;
         return;
+    }
     m_gridVisibility = newGridVisibility;
     emit gridVisibilityChanged();
 }
@@ -85,8 +94,10 @@ qreal AxisGrid::gridWidth() const
 
 void AxisGrid::setGridWidth(qreal newGridWidth)
 {
-    if (QtPrivate::fuzzyCompare(m_gridWidth, newGridWidth))
+    if (QtPrivate::fuzzyCompare(m_gridWidth, newGridWidth)) {
+        qCDebug(lcAxis2D) << "AxisGrid::setGridWidth. value is already set to:" << newGridWidth;
         return;
+    }
     m_gridWidth = newGridWidth;
     emit gridWidthChanged();
 }
@@ -98,8 +109,10 @@ qreal AxisGrid::gridHeight() const
 
 void AxisGrid::setGridHeight(qreal newGridHeight)
 {
-    if (QtPrivate::fuzzyCompare(m_gridHeight, newGridHeight))
+    if (QtPrivate::fuzzyCompare(m_gridHeight, newGridHeight)) {
+        qCDebug(lcAxis2D) << "AxisGrid::setGridHeight. value is already set to:" << newGridHeight;
         return;
+    }
     m_gridHeight = newGridHeight;
     emit gridHeightChanged();
 }
@@ -111,8 +124,11 @@ QPointF AxisGrid::gridMovement() const
 
 void AxisGrid::setGridMovement(QPointF newGridMovement)
 {
-    if (m_gridMovement == newGridMovement)
+    if (m_gridMovement == newGridMovement) {
+        qCDebug(lcAxis2D) << "AxisGrid::setGridMovement. value is already set to:"
+                           << newGridMovement;
         return;
+    }
     m_gridMovement = newGridMovement;
     emit gridMovementChanged();
 }
@@ -124,8 +140,11 @@ QColor AxisGrid::subGridColor() const
 
 void AxisGrid::setSubGridColor(QColor newSubGridColor)
 {
-    if (m_subGridColor == newSubGridColor)
+    if (m_subGridColor == newSubGridColor) {
+        qCDebug(lcAxis2D) << "AxisGrid::setSubGridColor. value is already set to:"
+                           << newSubGridColor;
         return;
+    }
     m_subGridColor = newSubGridColor;
     emit subGridColorChanged();
 }
@@ -137,8 +156,10 @@ QColor AxisGrid::gridColor() const
 
 void AxisGrid::setGridColor(QColor newGridColor)
 {
-    if (m_gridColor == newGridColor)
+    if (m_gridColor == newGridColor) {
+        qCDebug(lcAxis2D) << "AxisGrid::setGridColor. value is already set to:" << newGridColor;
         return;
+    }
     m_gridColor = newGridColor;
     emit gridColorChanged();
 }
@@ -150,8 +171,11 @@ QColor AxisGrid::plotAreaBackgroundColor() const
 
 void AxisGrid::setPlotAreaBackgroundColor(QColor color)
 {
-    if (m_plotAreaBackgroundColor == color)
+    if (m_plotAreaBackgroundColor == color) {
+        qCDebug(lcAxis2D) << "AxisGrid::setPlotAreaBackgroundColor. value is already set to:"
+                           << color;
         return;
+    }
     m_plotAreaBackgroundColor = color;
     emit plotAreaBackgroundColorChanged();
 }
@@ -163,8 +187,11 @@ qreal AxisGrid::subGridLineWidth() const
 
 void AxisGrid::setSubGridLineWidth(qreal newSubGridLineWidth)
 {
-    if (QtPrivate::fuzzyCompare(m_subGridLineWidth, newSubGridLineWidth))
+    if (QtPrivate::fuzzyCompare(m_subGridLineWidth, newSubGridLineWidth)) {
+        qCDebug(lcAxis2D) << "AxisGrid::setSubGridLineWidth. value is already set to:"
+                           << newSubGridLineWidth;
         return;
+    }
     m_subGridLineWidth = newSubGridLineWidth;
     emit subGridLineWidthChanged();
 }
@@ -176,8 +203,11 @@ qreal AxisGrid::gridLineWidth() const
 
 void AxisGrid::setGridLineWidth(qreal newGridLineWidth)
 {
-    if (QtPrivate::fuzzyCompare(m_gridLineWidth, newGridLineWidth))
+    if (QtPrivate::fuzzyCompare(m_gridLineWidth, newGridLineWidth)) {
+        qCDebug(lcAxis2D) << "AxisGrid::setGridLineWidth. value is already set to:"
+                           << newGridLineWidth;
         return;
+    }
     m_gridLineWidth = newGridLineWidth;
     emit gridLineWidthChanged();
 }
@@ -189,8 +219,11 @@ qreal AxisGrid::verticalSubGridScale() const
 
 void AxisGrid::setVerticalSubGridScale(qreal newVerticalSubGridScale)
 {
-    if (QtPrivate::fuzzyCompare(m_verticalSubGridScale, newVerticalSubGridScale))
+    if (QtPrivate::fuzzyCompare(m_verticalSubGridScale, newVerticalSubGridScale)) {
+        qCDebug(lcAxis2D) << "AxisGrid::setVerticalSubGridScale. value is already set to:"
+                           << newVerticalSubGridScale;
         return;
+    }
     m_verticalSubGridScale = newVerticalSubGridScale;
     emit verticalSubGridScaleChanged();
 }
@@ -202,8 +235,11 @@ qreal AxisGrid::horizontalSubGridScale() const
 
 void AxisGrid::setHorizontalSubGridScale(qreal newHorizontalSubGridScale)
 {
-    if (QtPrivate::fuzzyCompare(m_horizontalSubGridScale, newHorizontalSubGridScale))
+    if (QtPrivate::fuzzyCompare(m_horizontalSubGridScale, newHorizontalSubGridScale)) {
+        qCDebug(lcAxis2D) << "AxisGrid::setHorizontalSubGridScale. value is already set to:"
+                           << newHorizontalSubGridScale;
         return;
+    }
     m_horizontalSubGridScale = newHorizontalSubGridScale;
     emit horizontalSubGridScaleChanged();
 }
@@ -215,8 +251,11 @@ bool AxisGrid::isVerticalLogarithmic() const
 
 void AxisGrid::setVerticalLogarithmic(bool newLogarithmic)
 {
-    if (m_isVerticalLogarithmic == newLogarithmic)
+    if (m_isVerticalLogarithmic == newLogarithmic) {
+        qCDebug(lcAxis2D) << "AxisGrid::setVerticalLogarithmic. value is already set to:"
+                           << newLogarithmic;
         return;
+    }
     m_isVerticalLogarithmic = newLogarithmic;
     emit verticalLogarithmicChanged(newLogarithmic);
 }
@@ -228,8 +267,11 @@ bool AxisGrid::isHorizontalLogarithmic() const
 
 void AxisGrid::setHorizontalLogarithmic(bool newLogarithmic)
 {
-    if (m_isHorizontalLogarithmic == newLogarithmic)
+    if (m_isHorizontalLogarithmic == newLogarithmic) {
+        qCDebug(lcAxis2D) << "AxisGrid::setHorizontalLogarithmic. value is already set to:"
+                           << newLogarithmic;
         return;
+    }
     m_isHorizontalLogarithmic = newLogarithmic;
     emit horizontalLogarithmicChanged(newLogarithmic);
 }
@@ -241,8 +283,10 @@ qreal AxisGrid::verticalBase() const
 
 void AxisGrid::setVerticalBase(qreal newBase)
 {
-    if (qFuzzyCompare(m_verticalBase, newBase))
+    if (qFuzzyCompare(m_verticalBase, newBase)) {
+        qCDebug(lcAxis2D) << "AxisGrid::setVerticalBase. value is already set to:" << newBase;
         return;
+    }
     m_verticalBase = newBase;
     emit verticalBaseChanged(newBase);
 }
@@ -254,8 +298,10 @@ qreal AxisGrid::horizontalBase() const
 
 void AxisGrid::setHorizontalBase(qreal newBase)
 {
-    if (qFuzzyCompare(m_horizontalBase, newBase))
+    if (qFuzzyCompare(m_horizontalBase, newBase)) {
+        qCDebug(lcAxis2D) << "AxisGrid::setHorizontalBase. value is already set to:" << newBase;
         return;
+    }
     m_horizontalBase = newBase;
     emit verticalBaseChanged(newBase);
 }

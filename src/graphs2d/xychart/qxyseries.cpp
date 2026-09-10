@@ -750,6 +750,8 @@ void QXYSeries::setValues(QVariantList values)
             clear();
         }
         emit valuesChanged(d->m_values);
+    } else {
+        qCDebug(lcProperties2D) << "QXYSeries::setValues. Values are already set to:" << values;
     }
 }
 
@@ -784,8 +786,11 @@ QXYSeries::ValueMapping QXYSeries::valueMapping() const
 void QXYSeries::setValueMapping(ValueMapping newHint)
 {
     Q_D(QXYSeries);
-    if (newHint == d->m_valueMapping)
+    if (newHint == d->m_valueMapping) {
+        qCDebug(lcProperties2D) << "QXYSeries::setValueMapping. Value mapping is already set to:"
+                                << newHint;
         return;
+    }
 
     d->m_valueMapping = newHint;
 
@@ -817,8 +822,11 @@ qreal QXYSeries::valueMin() const
 void QXYSeries::setValueMin(qreal newMin)
 {
     Q_D(QXYSeries);
-    if (qFuzzyCompare(newMin, d->m_valueMin))
+    if (qFuzzyCompare(newMin, d->m_valueMin)) {
+        qCDebug(lcProperties2D) << "QXYSeries::setValueMin. Value min is already set to:"
+                                << newMin;
         return;
+    }
 
     d->m_valueMin = newMin;
 
@@ -848,8 +856,11 @@ void QXYSeries::setStepSize(qreal newStepSize)
 {
     Q_D(QXYSeries);
 
-    if (qFuzzyCompare(newStepSize, d->m_stepSize))
+    if (qFuzzyCompare(newStepSize, d->m_stepSize)) {
+        qCDebug(lcProperties2D) << "QXYSeries::setStepSize. Step size is already set to:"
+                                << newStepSize;
         return;
+    }
 
     d->m_stepSize = newStepSize;
 

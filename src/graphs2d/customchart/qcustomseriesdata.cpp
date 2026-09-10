@@ -4,6 +4,7 @@
 
 
 #include <QtCore/QDataStream>
+#include <private/qabstractseries_p.h>
 #include <private/qcustomseriesdata_p.h>
 
 QT_BEGIN_NAMESPACE
@@ -19,6 +20,11 @@ QVariantMap QCustomSeriesData::data() const
 
 void QCustomSeriesData::setData(const QVariantMap &newData)
 {
+    if (m_data == newData) {
+        qCDebug(lcProperties2D) << "QCustomSeriesData::setData. Data is already set to:"
+                                << newData;
+        return;
+    }
     m_data = newData;
 }
 

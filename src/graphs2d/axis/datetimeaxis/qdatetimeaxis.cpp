@@ -321,6 +321,8 @@ void QDateTimeAxis::setLabelFormat(const QString &format)
         d->m_format = format;
         emit labelFormatChanged(format);
         emit update();
+    } else {
+        qCDebug(lcAxis2D, "label format already set to: %s", qUtf8Printable(format));
     }
 }
 
@@ -546,6 +548,8 @@ void QDateTimeAxisPrivate::setRange(qreal min, qreal max)
     if (changed) {
         calculateVisualRange();
         emit q->rangeChanged(min, max);
+    } else {
+        qCDebug(lcAxis2D, "range is already set to: [%f - %f]", min, max);
     }
 }
 
