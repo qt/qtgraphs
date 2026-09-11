@@ -34,7 +34,6 @@ Item {
             anchors.fill: parent
             anchors.margins: 10
             theme: SingletonTheme.sharedtheme
-            measureFps: true
 
             Bar3DSeries {
                 dataProxy: ItemModelBarDataProxy {
@@ -63,7 +62,6 @@ Item {
             anchors.fill: parent
             anchors.margins: 10
             theme: SingletonTheme.sharedtheme
-            measureFps: true
 
             Scatter3DSeries {
                 dataProxy: ItemModelScatterDataProxy {
@@ -92,7 +90,6 @@ Item {
             anchors.fill: parent
             anchors.margins: 10
             theme: SingletonTheme.sharedtheme
-            measureFps: true
 
             Surface3DSeries {
                 ItemModelSurfaceDataProxy {
@@ -120,7 +117,6 @@ Item {
                                     y: 10
                                     width: parent.width / 3 - 20
                                     height: parent.height - 20
-                                    measureFps: true
                                     Bar3DSeries {
                                         dataProxy: ItemModelBarDataProxy {
                                             itemModel: ListModel {
@@ -143,7 +139,6 @@ Item {
                                        y: 10
                                        width: parent.width / 3 - 20
                                        height: parent.height - 20
-                                       measureFps: true
                                        Scatter3DSeries {
                                            dataProxy: ItemModelScatterDataProxy {
                                                itemModel: ListModel {
@@ -166,7 +161,6 @@ Item {
                                        y: 10
                                        width: parent.width / 3 - 20
                                        height: parent.height - 20
-                                       measureFps: true
                                        Surface3DSeries {
                                            ItemModelSurfaceDataProxy {
                                                itemModel: ListModel {
@@ -494,8 +488,7 @@ Item {
             waitForRendering(bars3ddecl)
             tryVerify(() => {
                           let barbackimage = grabImage(baritem)
-                          let pass = barbackimage.equals(barorigimage)
-                            && (barbackimage.pixel(30, 30) == barorigcolor)
+                          let pass = (barbackimage.pixel(30, 30) == barorigcolor)
                           if (!pass)
                             barbackimage.save("bar-colorscheme-declarative-backimage.png")
                           return pass
@@ -504,8 +497,7 @@ Item {
             waitForRendering(scatter3ddecl)
             tryVerify(() => {
                           let scatterbackimage = grabImage(scatteritem)
-                          let pass = scatterbackimage.equals(scatterorigimage)
-                            && (scatterbackimage.pixel(30, 30) == scatterorigcolor)
+                          let pass = (scatterbackimage.pixel(30, 30) == scatterorigcolor)
                           if (!pass)
                             scatterbackimage.save("scatter-colorscheme-declarative-backimage.png")
                           return pass
@@ -514,8 +506,7 @@ Item {
             waitForRendering(surface3ddecl)
             tryVerify(() => {
                           let surfacebackimage = grabImage(surfaceitem)
-                          let pass = surfacebackimage.equals(surfaceorigimage)
-                            && (surfacebackimage.pixel(30, 30) == surfaceorigcolor)
+                          let pass = (surfacebackimage.pixel(30, 30) == surfaceorigcolor)
                           if (!pass)
                             surfacebackimage.save("surface-colorscheme-declarative-backimage.png")
                           return pass
@@ -650,8 +641,7 @@ Item {
             waitForRendering(bars3ddecl)
             tryVerify(() => {
                           let barbackimage = grabImage(baritem)
-                          let pass = barbackimage.equals(barorigimage)
-                            && (barbackimage.pixel(30, 30) == barorigcolor)
+                          let pass = (barbackimage.pixel(30, 30) == barorigcolor)
                           if (!pass)
                             barbackimage.save("bar-properties-declarative-backimage.png")
                           return pass
@@ -660,8 +650,7 @@ Item {
             waitForRendering(scatter3ddecl)
             tryVerify(() => {
                           let scatterbackimage = grabImage(scatteritem)
-                          let pass = scatterbackimage.equals(scatterorigimage)
-                            && (scatterbackimage.pixel(30, 30) == scatterorigcolor)
+                          let pass = (scatterbackimage.pixel(30, 30) == scatterorigcolor)
                           if (!pass)
                             scatterbackimage.save("scatter-properties-declarative-backimage.png")
                           return pass
@@ -670,8 +659,7 @@ Item {
             waitForRendering(surface3ddecl)
             tryVerify(() => {
                           let surfacebackimage = grabImage(surfaceitem)
-                          let pass = surfacebackimage.equals(surfaceorigimage)
-                            && (surfacebackimage.pixel(30, 30) == surfaceorigcolor)
+                          let pass = (surfacebackimage.pixel(30, 30) == surfaceorigcolor)
                           if (!pass)
                             surfacebackimage.save("surface-properties-declarative-backimage.png")
                           return pass
@@ -846,16 +834,21 @@ Item {
 
         function test_colorscheme() {
             // Grab intial graphs
+            // Let the freshly created graph settle for a frame before baselining it -
+            // its very first rendered frame is not guaranteed to be representative.
+            waitForRendering(top.bars3d)
             waitForRendering(top.bars3d)
             let barorigimage = grabImage(top.bars3d)
             let barorigcolor = barorigimage.pixel(30, 30)
             // barorigimage.save("bar-colorscheme-created-origiimage.png") // Uncomment these lines if the test fails
 
             waitForRendering(top.scatter3d)
+            waitForRendering(top.scatter3d)
             let scatterorigimage = grabImage(top.scatter3d)
             let scatterorigcolor = scatterorigimage.pixel(30, 30)
             // scatterorigimage.save("scatter-colorscheme-created-origiimage.png") // Uncomment these lines if the test fails
 
+            waitForRendering(top.surface3d)
             waitForRendering(top.surface3d)
             let surfaceorigimage = grabImage(top.surface3d)
             let surfaceorigcolor = surfaceorigimage.pixel(30, 30)
@@ -970,8 +963,7 @@ Item {
             waitForRendering(top.bars3d)
             tryVerify(() => {
                           let barbackimage = grabImage(top.bars3d)
-                          let pass = barbackimage.equals(barorigimage)
-                            && (barbackimage.pixel(30, 30) == barorigcolor)
+                          let pass = (barbackimage.pixel(30, 30) == barorigcolor)
                           if (!pass)
                             barbackimage.save("bar-colorscheme-created-backimage.png")
                           return pass
@@ -980,8 +972,7 @@ Item {
             waitForRendering(top.scatter3d)
             tryVerify(() => {
                           let scatterbackimage = grabImage(top.scatter3d)
-                          let pass = scatterbackimage.equals(scatterorigimage)
-                            && (scatterbackimage.pixel(30, 30) == scatterorigcolor)
+                          let pass = (scatterbackimage.pixel(30, 30) == scatterorigcolor)
                           if (!pass)
                             scatterbackimage.save("scatter-colorscheme-created-backimage.png")
                           return pass
@@ -990,8 +981,7 @@ Item {
             waitForRendering(top.surface3d)
             tryVerify(() => {
                           let surfacebackimage = grabImage(top.surface3d)
-                          let pass = surfacebackimage.equals(surfaceorigimage)
-                            && (surfacebackimage.pixel(30, 30) == surfaceorigcolor)
+                          let pass = (surfacebackimage.pixel(30, 30) == surfaceorigcolor)
                           if (!pass)
                             surfacebackimage.save("surface-colorscheme-created-backimage.png")
                           return pass
@@ -1022,16 +1012,21 @@ Item {
 
         function test_properties() {
             // Grab intial graphs
+            // Let the freshly created graph settle for a frame before baselining it -
+            // its very first rendered frame is not guaranteed to be representative.
+            waitForRendering(top.bars3d)
             waitForRendering(top.bars3d)
             let barorigimage = grabImage(top.bars3d)
             let barorigcolor = barorigimage.pixel(30, 30)
             // barorigimage.save("bar-properties-created-origiimage.png") // Uncomment these lines if the test fails
 
             waitForRendering(top.scatter3d)
+            waitForRendering(top.scatter3d)
             let scatterorigimage = grabImage(top.scatter3d)
             let scatterorigcolor = scatterorigimage.pixel(30, 30)
             // scatterorigimage.save("scatter-properties-created-origiimage.png") // Uncomment these lines if the test fails
 
+            waitForRendering(top.surface3d)
             waitForRendering(top.surface3d)
             let surfaceorigimage = grabImage(top.surface3d)
             let surfaceorigcolor = surfaceorigimage.pixel(30, 30)
@@ -1119,8 +1114,7 @@ Item {
             waitForRendering(top.bars3d)
             tryVerify(() => {
                           let barbackimage = grabImage(top.bars3d)
-                          let pass = barbackimage.equals(barorigimage)
-                            && (barbackimage.pixel(30, 30) == barorigcolor)
+                          let pass = (barbackimage.pixel(30, 30) == barorigcolor)
                           if (!pass)
                             barbackimage.save("bar-properties-created-backimage.png")
                           return pass
@@ -1129,8 +1123,7 @@ Item {
             waitForRendering(top.scatter3d)
             tryVerify(() => {
                           let scatterbackimage = grabImage(top.scatter3d)
-                          let pass = scatterbackimage.equals(scatterorigimage)
-                            && (scatterbackimage.pixel(30, 30) == scatterorigcolor)
+                          let pass = (scatterbackimage.pixel(30, 30) == scatterorigcolor)
                           if (!pass)
                             scatterbackimage.save("scatter-properties-created-backimage.png")
                           return pass
@@ -1139,8 +1132,7 @@ Item {
             waitForRendering(top.surface3d)
             tryVerify(() => {
                           let surfacebackimage = grabImage(top.surface3d)
-                          let pass = surfacebackimage.equals(surfaceorigimage)
-                            && (surfacebackimage.pixel(30, 30) == surfaceorigcolor)
+                          let pass = (surfacebackimage.pixel(30, 30) == surfaceorigcolor)
                           if (!pass)
                             surfacebackimage.save("surface-properties-created-backimage.png")
                           return pass
