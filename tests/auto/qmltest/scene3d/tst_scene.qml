@@ -83,7 +83,12 @@ Item {
         name: "Scene3D Change"
 
         function test_change() {
-            change.scene.devicePixelRatio = 2.0
+            var initialDprSpyCount = devicePixelRatioSpy.count
+            // Setting a viewport further down triggers a resync of devicePixelRatio to the
+            // real screen ratio, so use a value guaranteed to differ from it, to reliably
+            // exercise both that change and the resync back.
+            var newDevicePixelRatio = change.scene.devicePixelRatio + 1
+            change.scene.devicePixelRatio = newDevicePixelRatio
             change.scene.graphPositionQuery = Qt.point(0, 0)
             change.scene.primarySubViewport = Qt.rect(0, 0, 50, 50)
             change.scene.secondarySubViewport = Qt.rect(50, 50, 100, 100)
@@ -106,7 +111,9 @@ Item {
             compare(change.scene.slicingActive, true)
 
             // Signals
-            compare(devicePixelRatioSpy.count, 2)
+            // One emission for the explicit override above, one for the automatic resync back
+            // to the real screen ratio triggered by the primarySubViewport change below.
+            compare(devicePixelRatioSpy.count, initialDprSpyCount + 2)
             compare(graphPosQuerySpy.count, 1)
             compare(primarySubViewportSpy.count, 1)
             compare(secondarySubViewportSpy.count, 1)
