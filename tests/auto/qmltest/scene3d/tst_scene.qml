@@ -38,7 +38,10 @@ Item {
         name: "Scene3D Initial"
 
         function test_initial() {
-            compare(initial.scene.devicePixelRatio, Screen.devicePixelRatio)
+            // Compare against the window's own ratio, not Screen.devicePixelRatio: on some
+            // platforms (e.g. Linux/Wayland with fractional scaling) QScreen::devicePixelRatio()
+            // can report a rounded value that differs from the per-window ratio qtgraphs uses.
+            compare(initial.scene.devicePixelRatio, top.Window.window.devicePixelRatio)
             compare(initial.scene.graphPositionQuery, Qt.point(-1, -1))
             compare(initial.scene.invalidSelectionPoint, Qt.point(-1, -1))
             compare(initial.scene.primarySubViewport.x, 0)
@@ -63,7 +66,10 @@ Item {
         name: "Scene3D Initialized"
 
         function test_initialized() {
-            compare(initialized.scene.devicePixelRatio, Screen.devicePixelRatio)
+            // See test_initial() for why this compares against the window's ratio rather than
+            // Screen.devicePixelRatio: any explicitly set value is resynced to the window's real
+            // ratio as soon as the item's window parameters are (re-)evaluated.
+            compare(initialized.scene.devicePixelRatio, top.Window.window.devicePixelRatio)
             compare(initialized.scene.graphPositionQuery, Qt.point(0, 0))
             compare(initialized.scene.primarySubViewport.x, 0)
             compare(initialized.scene.primarySubViewport.y, 0)
@@ -85,7 +91,7 @@ Item {
         function test_change() {
             var initialDprSpyCount = devicePixelRatioSpy.count
             // Setting a viewport further down triggers a resync of devicePixelRatio to the
-            // real screen ratio, so use a value guaranteed to differ from it, to reliably
+            // window's real ratio, so use a value guaranteed to differ from it, to reliably
             // exercise both that change and the resync back.
             var newDevicePixelRatio = change.scene.devicePixelRatio + 1
             change.scene.devicePixelRatio = newDevicePixelRatio
@@ -96,7 +102,9 @@ Item {
             change.scene.selectionQueryPosition = Qt.point(0, 0) // TODO: When doing signal checks, add tests to check that queries return something (asynchronously)
             change.scene.slicingActive = true
 
-            compare(change.scene.devicePixelRatio, Screen.devicePixelRatio)
+            // See test_initial() for why this compares against the window's ratio rather than
+            // Screen.devicePixelRatio.
+            compare(change.scene.devicePixelRatio, top.Window.window.devicePixelRatio)
             compare(change.scene.graphPositionQuery, Qt.point(0, 0))
             compare(change.scene.primarySubViewport.x, 0)
             compare(change.scene.primarySubViewport.y, 0)
@@ -112,7 +120,7 @@ Item {
 
             // Signals
             // One emission for the explicit override above, one for the automatic resync back
-            // to the real screen ratio triggered by the primarySubViewport change below.
+            // to the window's real ratio triggered by the primarySubViewport change below.
             compare(devicePixelRatioSpy.count, initialDprSpyCount + 2)
             compare(graphPosQuerySpy.count, 1)
             compare(primarySubViewportSpy.count, 1)
