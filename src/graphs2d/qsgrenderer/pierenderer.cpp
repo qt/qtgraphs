@@ -420,7 +420,7 @@ void PieRenderer::handleSlicesAfterPolish(QList<QPieSlice *> slicelist)
 #endif
 
         slice->deleteLater();
-        d->m_labelItem->deleteLater();
+        freeSlice(d);
 
         m_activeSlices.remove(slice);
 
@@ -461,14 +461,14 @@ void PieRenderer::markedDeleted(QList<QPieSlice *> deleted)
     auto emptyPath = QPainterPath{};
 
     for (auto slice : deleted) {
-        auto d = slice->d_func();
+        const auto d = QPieSlicePrivate::get(slice);
 #if QT_CONFIG(graphs_2d_high_quality_backend)
         d->m_shapePath->setPath(emptyPath);
         d->m_labelPath->setPath(emptyPath);
 #endif
         d->m_shapePainterPath.clear();
         d->m_labelPainterPath.clear();
-        d->m_labelItem->deleteLater();
+        freeSlice(d);
         m_activeSlices.remove(slice);
     }
     // We could mark m_currentHoverSlice null only if
@@ -553,6 +553,15 @@ qreal PieRenderer::distanceToSegment(const QVector2D p, const QVector2D segmentS
     QVector2D proj = segmentStart + t * line;
     qreal distance = (p - proj).length();
     return distance <= maxdistance ? distance : qrealMax;
+}
+
+void PieRenderer::freeSlice(const QPieSlicePrivate *privSlice)
+{
+#if QT_CONFIG(graphs_2d_high_quality_backend)
+        privSlice->m_labelShape->deleteLater();
+        privSlice->m_shapePath->deleteLater();
+#endif
+        privSlice->m_labelItem->deleteLater();
 }
 
 bool PieRenderer::handleHoverMove(QHoverEvent *event)

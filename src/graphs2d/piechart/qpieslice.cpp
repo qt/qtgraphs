@@ -1352,7 +1352,15 @@ QPieSlicePrivate::QPieSlicePrivate()
 #endif
 }
 
-QPieSlicePrivate::~QPieSlicePrivate() {}
+QPieSlicePrivate::~QPieSlicePrivate()
+{
+    if (m_labelItem && !m_labelItem->parent())
+        m_labelItem->deleteLater();
+    if (m_shapePath && !m_shapePath->parent())
+        m_shapePath->deleteLater();
+    if (m_labelShape && !m_labelShape->parent())
+        m_labelShape->deleteLater();
+}
 
 void QPieSlicePrivate::updateData(bool clearHidden)
 {
