@@ -17,6 +17,7 @@
 
 #include <QtCore/private/qobject_p.h>
 #include <QtCore/qpoint.h>
+#include <QtCore/qpointer.h>
 #include <QtGraphs/qpieslice.h>
 #include <QtGui/QColor>
 #include <QtGui/QFont>
@@ -80,10 +81,10 @@ private:
     QPainterPath m_labelPainterPath;
     bool m_isLabelPathVisible = true;
 
-    QQuickText *m_labelItem = nullptr;
-    QQuickShapePath *m_shapePath = nullptr;
-    QQuickShape *m_labelShape = nullptr;
-    QQuickShapePath *m_labelPath = nullptr;
+    QPointer<QQuickText> m_labelItem;
+    QPointer<QQuickShapePath> m_shapePath;
+    QPointer<QQuickShape> m_labelShape;
+    QPointer<QQuickShapePath> m_labelPath;
 
     QPointF m_largeArc;
     QPointF m_centerLine;

@@ -26,6 +26,7 @@ QT_BEGIN_NAMESPACE
 class QGraphsView;
 class QPieSeries;
 class QPieSlice;
+class QPieSlicePrivate;
 class QQuickShape;
 class QAbstractSeries;
 class QQuickTapHandler;
@@ -105,6 +106,7 @@ private:
 
     qreal distanceToSegment(const QVector2D p, const QVector2D segmentStart,
                             const QVector2D segmentEnd);
+    void freeSlice(const QPieSlicePrivate *privSlice);
 
     QGraphsView *m_graph = nullptr;
     QQuickShape *m_shape = nullptr;
