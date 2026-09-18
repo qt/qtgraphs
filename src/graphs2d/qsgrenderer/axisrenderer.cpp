@@ -700,14 +700,20 @@ void AxisRenderer::updateAxis()
 
         if (qobject_cast<QValueAxis *>(ax.axis)) {
             ax.stepPx = plotWidth / (ax.valueRange / ax.valueStep);
+            double axisHorizontalValueDiff = ax.minLabel - ax.minValue;
+            ax.displacement = -(axisHorizontalValueDiff / ax.valueStep) * ax.stepPx;
             updateValueXAxisLabels(ax, ax.labelsRect);
         } else if (qobject_cast<QDateTimeAxis *>(ax.axis)) {
             ax.stepPx = plotWidth
                         / (qFuzzyIsNull(ax.valueStep) ? ax.tickCount
                                                       : (ax.valueRange / ax.valueStep));
+            double axisHorizontalValueDiff = fmod(ax.minValue, ax.valueStep) / ax.valueStep;
+            ax.displacement = axisHorizontalValueDiff * ax.stepPx;
             updateDateTimeXAxisLabels(ax, ax.labelsRect);
         } else if (qobject_cast<QLogValueAxis *>(ax.axis)) {
             ax.stepPx = plotWidth / (ax.valueRange / ax.valueStep);
+            double axisHorizontalValueDiff = ax.minLabel - ax.minValue;
+            ax.displacement = -(axisHorizontalValueDiff / ax.valueStep) * ax.stepPx;
             updateLogValueXAxisLabels(ax, ax.labelsRect);
         }
 #if QT_CONFIG(graphs_2d_bar)
@@ -755,14 +761,20 @@ void AxisRenderer::updateAxis()
 
         if (qobject_cast<QValueAxis *>(ax.axis)) {
             ax.stepPx = plotHeight / (ax.valueRange / ax.valueStep);
+            double axisVerticalValueDiff = ax.minLabel - ax.minValue;
+            ax.displacement = -(axisVerticalValueDiff / ax.valueStep) * ax.stepPx;
             updateValueYAxisLabels(ax, ax.labelsRect);
         } else if (qobject_cast<QDateTimeAxis *>(ax.axis)) {
             ax.stepPx = plotHeight
                         / (qFuzzyIsNull(ax.valueStep) ? ax.tickCount
                                                       : (ax.valueRange / ax.valueStep));
+            double axisVerticalValueDiff = fmod(ax.minValue, ax.valueStep) / ax.valueStep;
+            ax.displacement = axisVerticalValueDiff * ax.stepPx;
             updateDateTimeYAxisLabels(ax, ax.labelsRect);
         } else if (qobject_cast<QLogValueAxis *>(ax.axis)) {
             ax.stepPx = plotHeight / (ax.valueRange / ax.valueStep);
+            double axisVerticalValueDiff = ax.minLabel - ax.minValue;
+            ax.displacement = -(axisVerticalValueDiff / ax.valueStep) * ax.stepPx;
             updateLogValueYAxisLabels(ax, ax.labelsRect);
         }
 #if QT_CONFIG(graphs_2d_bar)
@@ -832,8 +844,6 @@ void AxisRenderer::updateAxisMeasurements()
             int axisVerticalSubTickCount = vaxis->subTickCount();
             ax.subGridScale = axisVerticalSubTickCount > 0 ? 1.0 / (axisVerticalSubTickCount + 1)
                                                             : 1.0;
-            double axisVerticalValueDiff = ax.minLabel - ax.minValue;
-            ax.displacement = -(axisVerticalValueDiff / ax.valueStep) * ax.stepPx;
 
             int decimals = vaxis->labelDecimals();
             if (decimals < 0)
@@ -877,8 +887,6 @@ void AxisRenderer::updateAxisMeasurements()
             ax.subGridScale = axisVerticalSubTickCount > 0 ? 1.0 / (axisVerticalSubTickCount + 1)
                                                            : 1.0;
             ax.tickCount = tickCount;
-            double axisVerticalValueDiff = fmod(ax.minValue, ax.valueStep) / ax.valueStep;
-            ax.displacement = axisVerticalValueDiff * ax.stepPx;
 
             const QString format = vaxis->labelFormat();
             ax.labelSize = qMax(ax.labelSize,
@@ -916,8 +924,6 @@ void AxisRenderer::updateAxisMeasurements()
                 axisVerticalSubTickCount = int(qRound(vaxis->base()));
             ax.subGridScale = axisVerticalSubTickCount > 0 ? 1.0 / (axisVerticalSubTickCount + 1)
                                                            : 1.0;
-            double axisVerticalValueDiff = ax.minLabel - ax.minValue;
-            ax.displacement = -(axisVerticalValueDiff / ax.valueStep) * ax.stepPx;
 
             const QString format = vaxis->labelFormat();
             int precision = vaxis->labelPrecision();
@@ -974,8 +980,6 @@ void AxisRenderer::updateAxisMeasurements()
             ax.subGridScale = axisHorizontalSubTickCount > 0
                                   ? 1.0 / (axisHorizontalSubTickCount + 1)
                                   : 1.0;
-            double axisHorizontalValueDiff = ax.minLabel - ax.minValue;
-            ax.displacement = -(axisHorizontalValueDiff / ax.valueStep) * ax.stepPx;
 
         } else if (auto haxis = qobject_cast<QDateTimeAxis *>(ax.axis)) {
             const double MAX_DIVS = 100.0;
@@ -1010,8 +1014,6 @@ void AxisRenderer::updateAxisMeasurements()
                                                  : 1.0;
             ax.tickCount = tickCount;
 
-            double axisHorizontalValueDiff = fmod(ax.minValue, ax.valueStep) / ax.valueStep;
-            ax.displacement = axisHorizontalValueDiff * ax.stepPx;
         } else if (auto haxis = qobject_cast<QLogValueAxis *>(ax.axis)) {
             ax.isLogarithmic = true;
             ax.logBase = haxis->base();
@@ -1040,8 +1042,6 @@ void AxisRenderer::updateAxisMeasurements()
                 axisHorizontalSubTickCount = int(qRound(haxis->base()));
             ax.subGridScale = axisHorizontalSubTickCount > 0 ? 1.0 / (axisHorizontalSubTickCount + 1)
                 : 1.0;
-            double axisHorizontalValueDiff = ax.minLabel - ax.minValue;
-            ax.displacement = -(axisHorizontalValueDiff / ax.valueStep) * ax.stepPx;
         }
 #if QT_CONFIG(graphs_2d_bar)
         else if (auto haxis = qobject_cast<QBarCategoryAxis *>(ax.axis)) {
