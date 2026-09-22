@@ -127,8 +127,8 @@ private:
     void updateLogValueXAxisLabels(AxisProperties &ax, const QRectF rect);
 
     virtual void updateAxisMeasurements();
-    QString formatValueLabel(double number, int decimals, const QString &format,
-                             char defaultFormat = 'f') const;
+    QString formatValueLabel(double number,  const QString &format,
+                             QLatin1StringView defaultFormat) const;
 
     void createDragHandler();
     void deleteDragHandler();
