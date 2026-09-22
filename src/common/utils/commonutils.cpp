@@ -10,6 +10,7 @@
 
 #include "commonutils_p.h"
 
+#include <QtCore/qvarlengtharray.h>
 #include <rhi/qrhi.h>
 
 QT_BEGIN_NAMESPACE
@@ -57,6 +58,41 @@ qreal CommonUtils::maxTextureSize()
     }
 
     return s_maxTextureSize;
+}
+
+QString CommonUtils::formatNumber(double number, const QString &format)
+{
+    const qsizetype len = format.length();
+    if (len == 1) {
+        static constexpr auto floatConversions = QLatin1StringView("eEfFgG");
+        const QChar c = format.front();
+        if (floatConversions.contains(c))
+            return QString::number(number, c.toLatin1());
+    }
+
+    // Build the printf-style spec in stack storage (QVarLengthArray) instead of
+    // QByteArray/QString concatenation, avoiding a heap allocation for the common
+    // case of short format strings. A bare single-letter conversion (e.g. "d")
+    // needs a leading '%' added.
+    const bool prependPercent = (len == 1);
+    const qsizetype fmtLen = len + prependPercent;
+    QVarLengthArray<char, 32> fmt(fmtLen + 1);
+    char *dst = fmt.data();
+    if (prependPercent)
+        *dst++ = '%';
+    for (QChar ch : format)
+        *dst++ = ch.toLatin1();
+    *dst = '\0';
+
+    static constexpr auto intConversions = QLatin1StringView("iIoOxX");
+    const QChar conv = format.back();
+    if (intConversions.contains(conv)) {
+        return QString::asprintf(
+            fmt.constData(),
+            fmtLen > 2 ? static_cast<qint64>(number) : static_cast<qint32>(number));
+    } else {
+        return QString::asprintf(fmt.constData(), number);
+    }
 }
 
 QT_END_NAMESPACE

@@ -16,6 +16,7 @@
 #include <private/qgraphsview_p.h>
 #include <private/qvalueaxis_p.h>
 #include <private/qlogvalueaxis_p.h>
+#include <private/commonutils_p.h>
 #include <QtQuick/private/qquickdraghandler_p.h>
 #include <qfontmetrics.h>
 #include <qtgraphs_tracepoints_p.h>
@@ -797,6 +798,19 @@ bool AxisRenderer::isAxisBottomOrRight(const AxisProperties &ax) const
     return ax.axis->alignment() == Qt::AlignBottom || ax.axis->alignment() == Qt::AlignRight;
 }
 
+// Builds a printf-style spec combining decimals with the axis label format so it can be
+// passed to AxisRenderer::formatValueLabel(), which itself no longer takes a decimals argument.
+// A format longer than a single conversion char is a user-supplied full spec and is used as-is.
+static QString decimalFormatSpec(const QString &format, int decimals, char defaultConversion)
+{
+    if (format.length() <= 1) {
+        const QChar conversion = format.isEmpty() ? QLatin1Char(defaultConversion)
+                                                    : format.front();
+        return QStringLiteral("%.%1%2").arg(decimals).arg(conversion);
+    }
+    return format;
+}
+
 void AxisRenderer::updateAxisMeasurements()
 {
     populateAxisItems();
@@ -846,12 +860,13 @@ void AxisRenderer::updateAxisMeasurements()
                 decimals = getValueDecimalsFromRange(ax.valueRange);
 
             const QString format = vaxis->labelFormat();
+            const QString spec = decimalFormatSpec(format, decimals, 'f');
             ax.labelSize = qMax(ax.labelSize,
                                 yFontMetrics.horizontalAdvance(
-                                    formatValueLabel(vaxis->min(), decimals, format)));
+                                    formatValueLabel(vaxis->min(), spec, QLatin1StringView("f"))));
             ax.labelSize = qMax(ax.labelSize,
                                 yFontMetrics.horizontalAdvance(
-                                    formatValueLabel(vaxis->max(), decimals, format)));
+                                    formatValueLabel(vaxis->max(), spec, QLatin1StringView("f"))));
         } else if (auto vaxis = qobject_cast<QDateTimeAxis *>(ax.axis)) {
             // Todo: make constant for all axis, or clamp in class? (QTBUG-124736)
             const double MAX_DIVS = 100.0;
@@ -923,12 +938,13 @@ void AxisRenderer::updateAxisMeasurements()
 
             const QString format = vaxis->labelFormat();
             int precision = vaxis->labelPrecision();
+            const QString spec = decimalFormatSpec(format, precision, 'g');
             ax.labelSize = qMax(ax.labelSize,
                                 yFontMetrics.horizontalAdvance(
-                                    formatValueLabel(vaxis->min(), precision, format, 'g')));
+                                    formatValueLabel(vaxis->min(), spec, QLatin1StringView("g"))));
             ax.labelSize = qMax(ax.labelSize,
                                 yFontMetrics.horizontalAdvance(
-                                    formatValueLabel(vaxis->max(), precision, format, 'g')));
+                                    formatValueLabel(vaxis->max(), spec, QLatin1StringView("g"))));
         }
 #if QT_CONFIG(graphs_2d_bar)
         else if (auto vaxis = qobject_cast<QBarCategoryAxis *>(ax.axis)) {
@@ -1688,7 +1704,8 @@ void AxisRenderer::updateValueYAxisLabels(AxisProperties &ax, const QRectF rect)
             if (decimals < 0)
                 decimals = getValueDecimalsFromRange(ax.valueRange);
             const QString f = axis->labelFormat();
-            QString label = formatValueLabel(number, decimals, f);
+            QString label = formatValueLabel(
+                number, decimalFormatSpec(f, decimals, 'f'), QLatin1StringView("f"));
             label = axis->labelPostFormat().arg(label);
             if (ax.axis->alignment() == Qt::AlignRight || ax.axis->alignment() == Qt::AlignBottom) {
                 setLabelTextProperties(textItem, label, false,
@@ -1756,7 +1773,8 @@ void AxisRenderer::updateValueXAxisLabels(AxisProperties &ax, const QRectF rect)
             if (decimals < 0)
                 decimals = getValueDecimalsFromRange(ax.valueRange);
             const QString f = axis->labelFormat();
-            QString label = formatValueLabel(number, decimals, f);
+            QString label = formatValueLabel(
+                number, decimalFormatSpec(f, decimals, 'f'), QLatin1StringView("f"));
             label = axis->labelPostFormat().arg(label);
 
             if (ax.axis->alignment() == Qt::AlignTop || ax.axis->alignment() == Qt::AlignLeft) {
@@ -1939,10 +1957,10 @@ void AxisRenderer::updateLogValueXAxisLabels(AxisProperties &ax, const QRectF re
 
             double number = axisLabelValues.at(i);
             // Format the number
-            QString label = formatValueLabel(number,
-                                             axis->labelPrecision(),
-                                             axis->labelFormat(),
-                                             'g');
+            QString label = formatValueLabel(
+                number,
+                decimalFormatSpec(axis->labelFormat(), axis->labelPrecision(), 'g'),
+                QLatin1StringView("g"));
             label = axis->labelPostFormat().arg(label);
 
             if (ax.axis->alignment() == Qt::AlignTop || ax.axis->alignment() == Qt::AlignLeft) {
@@ -2013,10 +2031,10 @@ void AxisRenderer::updateLogValueYAxisLabels(AxisProperties &ax, const QRectF re
             textItem->setRotation(axis->labelsAngle());
             double number = yAxisLabelValues.at(i);
             // Format the number
-            QString label = formatValueLabel(number,
-                                             axis->labelPrecision(),
-                                             axis->labelFormat(),
-                                             'g');
+            QString label = formatValueLabel(
+                number,
+                decimalFormatSpec(axis->labelFormat(), axis->labelPrecision(), 'g'),
+                QLatin1StringView("g"));
             label = axis->labelPostFormat().arg(label);
             if (ax.axis->alignment() == Qt::AlignRight || ax.axis->alignment() == Qt::AlignBottom) {
                 setLabelTextProperties(textItem, label, false,
@@ -2062,16 +2080,10 @@ void AxisRenderer::deleteDragHandler()
 }
 
 QString AxisRenderer::formatValueLabel(double number,
-                                       int decimals,
                                        const QString &format,
-                                       char defaultFormat) const
+                                       QLatin1StringView defaultFormat) const
 {
-    if (format.length() <= 1) {
-        char f = format.isEmpty() ? defaultFormat : format.front().toLatin1();
-        return QString::number(number, f, decimals);
-    } else {
-        return QString::asprintf(format.toLatin1().constData(), number);
-    }
+    return CommonUtils::formatNumber(number, format.isEmpty() ? defaultFormat : format);
 }
 
 // Calculate suitable major step based on range

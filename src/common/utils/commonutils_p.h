@@ -27,6 +27,7 @@ class CommonUtils
 {
 public:
     static qreal maxTextureSize();
+    static QString formatNumber(double number, const QString &format);
 };
 
 QT_END_NAMESPACE
