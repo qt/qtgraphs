@@ -342,7 +342,7 @@ void AxisRenderer::onGrabChanged(QPointingDevice::GrabTransition transition, QEv
 
         size = windowToAxisCoords(size);
 
-        center -= QVector2D(m_graph->m_marginLeft + m_graph->m_y1AxisWidth, m_graph->m_marginTop);
+        center -= QVector2D(m_graph->m_marginLeft + m_y1AxisWidth, m_graph->m_marginTop);
         center = windowToAxisCoords(center);
         center -= QVector2D(hax.valueRange / 2.0f, vax.valueRange / 2.0f);
 

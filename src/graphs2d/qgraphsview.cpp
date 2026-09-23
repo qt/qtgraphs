@@ -727,13 +727,8 @@ void QGraphsView::updateComponentSizes()
 {
     qCDebug(lcEvents2D, "updating component sizes.");
 
-    if (m_axisRenderer) {
+    if (m_axisRenderer)
         m_axisRenderer->updateAxisMeasurements();
-        m_y1AxisWidth = m_axisRenderer->m_y1AxisWidth;
-        m_y2AxisWidth = m_axisRenderer->m_y2AxisWidth;
-        m_x1AxisHeight = m_axisRenderer->m_x1AxisHeight;
-        m_x2AxisHeight = m_axisRenderer->m_x2AxisHeight;
-    }
 
     updateAxisAreas();
     updatePlotArea();
@@ -1460,49 +1455,63 @@ QRectF QGraphsView::plotArea() const
     return m_plotArea;
 }
 
+QGraphsView::AxisSizes QGraphsView::axisSizes() const
+{
+    if (!m_axisRenderer)
+        return {};
+    return {m_axisRenderer->m_y1AxisWidth,
+            m_axisRenderer->m_y2AxisWidth,
+            m_axisRenderer->m_x1AxisHeight,
+            m_axisRenderer->m_x2AxisHeight};
+}
+
 void QGraphsView::updateAxisAreas()
 {
+    const AxisSizes axes = axisSizes();
+
     QRectF r = { m_marginLeft,
                  m_marginTop,
                  width() - m_marginLeft - m_marginRight,
                  height() - m_marginTop - m_marginBottom };
 
-    const qreal plotWidth = r.width() - m_y1AxisWidth - m_y2AxisWidth;
-    const qreal plotHeight = r.height() - m_x1AxisHeight - m_x2AxisHeight;
+    const qreal plotWidth = r.width() - axes.y1 - axes.y2;
+    const qreal plotHeight = r.height() - axes.x1 - axes.x2;
 
-    m_x1AxisArea = {r.x() + m_y1AxisWidth,
-                    r.y() + r.height() - m_x1AxisHeight,
+    m_x1AxisArea = {r.x() + axes.y1,
+                    r.y() + r.height() - axes.x1,
                     plotWidth,
-                    m_x1AxisHeight};
+                    axes.x1};
 
-    m_x2AxisArea = {r.x() + m_y1AxisWidth,
+    m_x2AxisArea = {r.x() + axes.y1,
                     r.y(),
                     plotWidth,
-                    m_x2AxisHeight};
+                    axes.x2};
 
     m_y1AxisArea = {r.x(),
-                    r.y() + m_x2AxisHeight,
-                    m_y1AxisWidth,
+                    r.y() + axes.x2,
+                    axes.y1,
                     plotHeight};
 
-    m_y2AxisArea = {r.x() + r.width() - m_y2AxisWidth,
-                    r.y() + m_x2AxisHeight,
-                    m_y2AxisWidth,
+    m_y2AxisArea = {r.x() + r.width() - axes.y2,
+                    r.y() + axes.x2,
+                    axes.y2,
                     plotHeight};
 }
 
 void QGraphsView::updatePlotArea()
 {
+    const AxisSizes axes = axisSizes();
+
     // When axis are in left & bottom
     qreal x = m_marginLeft;
     qreal y = m_marginTop;
     qreal w = width() - x - m_marginRight;
     qreal h = height() - y - m_marginBottom;
 
-    y += m_x2AxisHeight;
-    x += m_y1AxisWidth;
-    h -= m_x1AxisHeight + m_x2AxisHeight;
-    w -= m_y1AxisWidth + m_y2AxisWidth;
+    y += axes.x2;
+    x += axes.y1;
+    h -= axes.x1 + axes.x2;
+    w -= axes.y1 + axes.y2;
 
     w = qMax(w, 0.0);
     h = qMax(h, 0.0);

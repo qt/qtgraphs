@@ -289,6 +289,17 @@ private:
     void onPinchScaleChanged(qreal delta);
     void onPinchGrabChanged(QPointingDevice::GrabTransition transition, QEventPoint point);
 
+    // Per-side totals, read from AxisRenderer's measurements (0 if there's no
+    // axis renderer yet).
+    struct AxisSizes
+    {
+        qreal y1 = 0;
+        qreal y2 = 0;
+        qreal x1 = 0;
+        qreal x2 = 0;
+    };
+    AxisSizes axisSizes() const;
+
     static constexpr qreal m_defaultAxisTickersWidth = 15;
     static constexpr qreal m_defaultAxisTickersHeight = 15;
     static constexpr qreal m_defaultAxisLabelsWidth = 40;
@@ -330,11 +341,6 @@ private:
     QRectF m_x2AxisArea;
     QRectF m_y1AxisArea;
     QRectF m_y2AxisArea;
-    // Per-side totals computed from each axis's slot size
-    qreal m_y1AxisWidth = 0;
-    qreal m_y2AxisWidth = 0;
-    qreal m_x1AxisHeight = 0;
-    qreal m_x2AxisHeight = 0;
 
     int m_hoverCount = 0;
 
