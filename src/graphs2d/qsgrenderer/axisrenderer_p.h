@@ -62,9 +62,6 @@ private:
     friend class CustomRenderer;
 
     struct AxisProperties {
-        qreal x = 0;
-        qreal y = 0;
-
         QAbstractAxis *axis = nullptr;
 
         QList<QQuickItem *> textItems;

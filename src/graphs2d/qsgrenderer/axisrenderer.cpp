@@ -681,8 +681,7 @@ void AxisRenderer::updateAxis()
             ax.tickersRect = QRectF(bottomSide.x(), sizeY, bottomSide.width(), xTicker);
             ax.labelsRect = QRectF(bottomSide.x(), sizeY + xTicker + xMargin,
                                    bottomSide.width(), labelSize);
-            ax.x = 0;
-            ax.y = 0;
+
             bottomMargin += ax.size;
             prevBottomTitled = hasAxisTitle(ax);
         } else {
@@ -691,8 +690,7 @@ void AxisRenderer::updateAxis()
             ax.labelsRect = QRectF(topSide.x(), sizeY, topSide.width(), labelSize);
             ax.tickersRect = QRectF(topSide.x(), sizeY + labelSize + xMargin,
                                     topSide.width(), xTicker);
-            ax.x = 0;
-            ax.y = 0;
+
             topRemaining -= ax.size;
             if (hasAxisTitle(ax))
                 topRemaining -= titleMargin;
@@ -742,8 +740,7 @@ void AxisRenderer::updateAxis()
             ax.tickersRect = QRectF(sizeX, rightSide.y(), yTicker, rightSide.height());
             ax.labelsRect = QRectF(sizeX + yTicker + yMargin, rightSide.y(),
                                    labelSize, rightSide.height());
-            ax.x = 0;
-            ax.y = 0;
+
             rightMargin += ax.size;
             prevRightTitled = hasAxisTitle(ax);
         } else {
@@ -752,8 +749,7 @@ void AxisRenderer::updateAxis()
             ax.labelsRect = QRectF(sizeX, leftSide.y(), labelSize, leftSide.height());
             ax.tickersRect = QRectF(sizeX + labelSize + yMargin, leftSide.y(),
                                     yTicker, leftSide.height());
-            ax.x = 0;
-            ax.y = 0;
+
             leftRemaining -= ax.size;
             if (hasAxisTitle(ax))
                 leftRemaining -= titleMargin;
@@ -1155,8 +1151,8 @@ void AxisRenderer::updateAxisTickers()
                 // TODO Only when changed
                 ax.ticker->setDisplacement(ax.displacement);
                 QRectF &rect = yAxisRect;
-                ax.ticker->setX(rect.x() + ax.x);
-                ax.ticker->setY(rect.y() + ax.y);
+                ax.ticker->setX(rect.x());
+                ax.ticker->setY(rect.y());
                 ax.ticker->setWidth(rect.width());
                 ax.ticker->setHeight(rect.height());
                 ax.ticker->setFlipped(ax.axis->alignment() == Qt::AlignRight || ax.axis->alignment() == Qt::AlignBottom);
@@ -1220,8 +1216,8 @@ void AxisRenderer::updateAxisTickers()
             // TODO Only when changed
             ax.ticker->setDisplacement(ax.displacement);
             QRectF &rect = xAxisRect;
-            ax.ticker->setX(rect.x() + ax.x);
-            ax.ticker->setY(rect.y() + ax.y);
+            ax.ticker->setX(rect.x());
+            ax.ticker->setY(rect.y());
             ax.ticker->setWidth(rect.width());
             ax.ticker->setHeight(rect.height());
             ax.ticker->setFlipped(ax.axis->alignment() == Qt::AlignTop || ax.axis->alignment() == Qt::AlignLeft);
@@ -1435,11 +1431,11 @@ void AxisRenderer::updateAxisTitles()
 
             const QRectF &xAxisRect = ax.labelsRect;
             if (ax.axis->alignment() == Qt::AlignTop || ax.axis->alignment() == Qt::AlignLeft)
-                ax.title->setY(xAxisRect.y() - ax.title->height() * 0.5 + ax.y);
+                ax.title->setY(xAxisRect.y() - ax.title->height() * 0.5);
             else
-                ax.title->setY(xAxisRect.y() + xAxisRect.height() - ax.title->height() * 0.5 + ax.y);
+                ax.title->setY(xAxisRect.y() + xAxisRect.height() - ax.title->height() * 0.5);
 
-            ax.title->setX((2 * xAxisRect.x() - ax.title->width() + xAxisRect.width()) * 0.5 + ax.x);
+            ax.title->setX((2 * xAxisRect.x() - ax.title->width() + xAxisRect.width()) * 0.5);
             if (ax.axis->titleColor().isValid())
                 ax.title->setColor(ax.axis->titleColor());
             else
@@ -1462,12 +1458,11 @@ void AxisRenderer::updateAxisTitles()
 
             const QRectF &yAxisRect = ax.labelsRect;
             if (ax.axis->alignment() == Qt::AlignRight || ax.axis->alignment() == Qt::AlignBottom)
-                ax.title->setX(yAxisRect.x() + yAxisRect.width() - ax.title->width() * 0.5 + ax.x);
+                ax.title->setX(yAxisRect.x() + yAxisRect.width() - ax.title->width() * 0.5);
             else
-                ax.title->setX(yAxisRect.x() - ax.title->width() * 0.5 + ax.x);
+                ax.title->setX(yAxisRect.x() - ax.title->width() * 0.5);
 
-            ax.title->setY((2 * yAxisRect.y() - ax.title->height() + yAxisRect.height()) * 0.5
-                           + ax.y);
+            ax.title->setY((2 * yAxisRect.y() - ax.title->height() + yAxisRect.height()) * 0.5);
             ax.title->setRotation(-90);
             if (ax.axis->titleColor().isValid())
                 ax.title->setColor(ax.axis->titleColor());
@@ -1568,11 +1563,11 @@ void AxisRenderer::updateBarXAxisLabels(AxisProperties &ax, const QRectF rect)
     for (const auto &category : std::as_const(categories)) {
         auto &textItem = ax.textItems[textIndex];
         if (axis->isVisible() && axis->labelsVisible()) {
-            float posX = rect.x() + ((float)textIndex / categoriesCount) *  rect.width() + ax.x;
+            float posX = rect.x() + ((float)textIndex / categoriesCount) *  rect.width();
             if (axis->labelPosition() == QBarCategoryAxis::LabelPosition::OnValue)
                 posX += (1.0 / categoriesCount * rect.width() * 0.5);
             textItem->setX(posX);
-            float posY = rect.y() + ax.y;
+            float posY = rect.y();
             textItem->setY(posY);
             textItem->setWidth(rect.width() / categoriesCount);
             textItem->setRotation(axis->labelsAngle());
@@ -1613,9 +1608,9 @@ void AxisRenderer::updateBarYAxisLabels(AxisProperties &ax, const QRectF rect)
     for (const auto &category : std::as_const(categories)) {
         auto &textItem = ax.textItems[textIndex];
         if (axis->isVisible() && axis->labelsVisible()) {
-            float posX = rect.x() + ax.x;
+            float posX = rect.x();
             textItem->setX(posX);
-            float posY = rect.y() + ((float)textIndex / categoriesCount) *  rect.height() + ax.y;
+            float posY = rect.y() + ((float)textIndex / categoriesCount) *  rect.height();
             if (axis->labelPosition() == QBarCategoryAxis::LabelPosition::OnValue)
                 posY -= (1.0 / categoriesCount * rect.height() * 0.5);
             textItem->setY(posY);
@@ -1674,7 +1669,7 @@ void AxisRenderer::updateValueYAxisLabels(AxisProperties &ax, const QRectF rect)
     for (int i = 0;  i < categoriesCount; i++) {
         auto &textItem = ax.textItems[i];
         if (axis->isVisible() && axis->labelsVisible()) {
-            float posX = rect.x() + ax.x;
+            float posX = rect.x();
             textItem->setX(posX);
             float posY = rect.y() + rect.height() - (((float)i) * ax.stepPx) + ax.displacement;
             const double titleMargin = 0.01;
@@ -1683,7 +1678,7 @@ void AxisRenderer::updateValueYAxisLabels(AxisProperties &ax, const QRectF rect)
                 textItem->setVisible(false);
                 continue;
             }
-            posY += ax.y;
+
             textItem->setY(posY);
             textItem->setWidth(rect.width());
             textItem->setRotation(axis->labelsAngle());
@@ -1738,7 +1733,7 @@ void AxisRenderer::updateValueXAxisLabels(AxisProperties &ax, const QRectF rect)
     for (int i = 0;  i < categoriesCount; i++) {
         auto &textItem = ax.textItems[i];
         if (axis->isVisible() && axis->labelsVisible()) {
-            float posY = rect.y() + ax.y;
+            float posY = rect.y();
             textItem->setY(posY);
             float textItemWidth = 20;
             float posX = rect.x() + (((float)i) * ax.stepPx) - ax.displacement;
@@ -1750,7 +1745,7 @@ void AxisRenderer::updateValueXAxisLabels(AxisProperties &ax, const QRectF rect)
             }
             // Take text size into account only after hiding
             posX -= 0.5 * textItemWidth;
-            posX += ax.x;
+
             textItem->setX(posX);
             textItem->setWidth(textItemWidth);
             textItem->setRotation(axis->labelsAngle());
@@ -1805,7 +1800,7 @@ void AxisRenderer::updateDateTimeYAxisLabels(AxisProperties &ax, const QRectF re
     for (auto i = 0; i < dateTimeSize; ++i) {
         auto &textItem = ax.textItems[i];
         if (axis->isVisible() && axis->labelsVisible()) {
-            float posX = rect.x() + ax.x;
+            float posX = rect.x();
             textItem->setX(posX);
             float posY = rect.y() + rect.height() - (((float) i) * ax.stepPx) + ax.displacement;
             const double titleMargin = 0.01;
@@ -1815,7 +1810,7 @@ void AxisRenderer::updateDateTimeYAxisLabels(AxisProperties &ax, const QRectF re
                 textItem->setVisible(false);
                 continue;
             }
-            posY += ax.y;
+
             textItem->setY(posY);
             textItem->setWidth(rect.width());
             textItem->setRotation(axis->labelsAngle());
@@ -1864,7 +1859,7 @@ void AxisRenderer::updateDateTimeXAxisLabels(AxisProperties &ax, const QRectF re
     for (auto i = 0; i < dateTimeSize; ++i) {
         auto &textItem = ax.textItems[i];
         if (axis->isVisible() && axis->labelsVisible()) {
-            float posY = rect.y() + ax.y;
+            float posY = rect.y();
             textItem->setY(posY);
             float textItemWidth = 20;
             float posX = rect.x() + (((float) i) * ax.stepPx) - ax.displacement;
@@ -1876,7 +1871,7 @@ void AxisRenderer::updateDateTimeXAxisLabels(AxisProperties &ax, const QRectF re
                 continue;
             }
             // Take text size into account only after hiding
-            posX += ax.x - 0.5 * textItemWidth;
+            posX +=  - 0.5 * textItemWidth;
             textItem->setX(posX);
             textItem->setWidth(textItemWidth);
             textItem->setRotation(axis->labelsAngle());
@@ -1924,7 +1919,7 @@ void AxisRenderer::updateLogValueXAxisLabels(AxisProperties &ax, const QRectF re
     for (int i = 0; i < categoriesCount; i++) {
         auto &textItem = ax.textItems[i];
         if (axis->isVisible() && axis->labelsVisible()) {
-            float posY = rect.y() + ax.y;
+            float posY = rect.y();
             textItem->setY(posY);
             float textItemWidth = 20;
             float posX = rect.x() + (((float)i) * ax.stepPx) - ax.displacement;
@@ -1937,7 +1932,7 @@ void AxisRenderer::updateLogValueXAxisLabels(AxisProperties &ax, const QRectF re
 
             // Take text size into account only after hiding
             posX -= 0.5 * textItemWidth;
-            posX += ax.x;
+
             textItem->setX(posX);
             textItem->setWidth(textItemWidth);
             textItem->setRotation(axis->labelsAngle());
@@ -2003,7 +1998,7 @@ void AxisRenderer::updateLogValueYAxisLabels(AxisProperties &ax, const QRectF re
     for (int i = 0;  i < categoriesCount; i++) {
         auto &textItem = ax.textItems[i];
         if (axis->isVisible() && axis->labelsVisible()) {
-            float posX = rect.x() + ax.x;
+            float posX = rect.x();
             textItem->setX(posX);
             float posY = rect.y() + rect.height() - (((float)i) * ax.stepPx) + ax.displacement;
             const double titleMargin = 0.01;
@@ -2012,7 +2007,7 @@ void AxisRenderer::updateLogValueYAxisLabels(AxisProperties &ax, const QRectF re
                 textItem->setVisible(false);
                 continue;
             }
-            posY += ax.y;
+
             textItem->setY(posY);
             textItem->setWidth(rect.width());
             textItem->setRotation(axis->labelsAngle());
