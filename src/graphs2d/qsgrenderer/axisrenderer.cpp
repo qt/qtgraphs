@@ -662,22 +662,19 @@ void AxisRenderer::updateAxis()
     const qreal xMargin = m_graph->m_defaultAxisXLabelsMargin;
     const qreal yTicker = m_graph->m_defaultAxisTickersWidth;
     const qreal xTicker = m_graph->m_defaultAxisTickersHeight;
-    const qreal titleMargin = m_graph->m_defaultAxisTitleMargin;
 
     const QRectF &topSide = m_graph->m_x2AxisArea;
     const QRectF &bottomSide = m_graph->m_x1AxisArea;
 
     qreal topRemaining = m_x2AxisHeight;
     qreal bottomMargin = 0;
-    bool prevBottomTitled = false;
-
+    qreal prevBottomGap = 0;
     for (auto &ax : *m_horzAxes) {
         if (!ax.axis)
             continue;
 
         if (isAxisBottomOrRight(ax)) {
-            if (prevBottomTitled)
-                bottomMargin += titleMargin;
+            bottomMargin += prevBottomGap;
 
             const qreal sizeY = bottomSide.y() + bottomMargin;
             const qreal labelSize = qMax(0.0, ax.size - xMargin - xTicker);
@@ -686,7 +683,7 @@ void AxisRenderer::updateAxis()
                                    bottomSide.width(), labelSize);
 
             bottomMargin += ax.size;
-            prevBottomTitled = hasAxisTitle(ax);
+            prevBottomGap = titleGap(ax);
         } else {
             const qreal sizeY = topSide.y() + topRemaining - ax.size;
             const qreal labelSize = qMax(0.0, ax.size - xMargin - xTicker);
@@ -695,8 +692,7 @@ void AxisRenderer::updateAxis()
                                     topSide.width(), xTicker);
 
             topRemaining -= ax.size;
-            if (hasAxisTitle(ax))
-                topRemaining -= titleMargin;
+            topRemaining -= titleGap(ax);
         }
 
         if (qobject_cast<QValueAxis *>(ax.axis)) {
@@ -729,15 +725,14 @@ void AxisRenderer::updateAxis()
 
     qreal leftRemaining = m_y1AxisWidth;
     qreal rightMargin = 0;
-    bool prevRightTitled = false;
+    qreal prevRightGap = 0;
 
     for (auto &ax : *m_vertAxes) {
         if (!ax.axis)
             continue;
 
         if (isAxisBottomOrRight(ax)) {
-            if (prevRightTitled)
-                rightMargin += titleMargin;
+            rightMargin += prevRightGap;
             const qreal sizeX = rightSide.x() + rightMargin;
             const qreal labelSize = qMax<qreal>(0, ax.size - yMargin - yTicker);
             ax.tickersRect = QRectF(sizeX, rightSide.y(), yTicker, rightSide.height());
@@ -745,7 +740,7 @@ void AxisRenderer::updateAxis()
                                    labelSize, rightSide.height());
 
             rightMargin += ax.size;
-            prevRightTitled = hasAxisTitle(ax);
+            prevRightGap = titleGap(ax);
         } else {
             const qreal sizeX = leftSide.x() + leftRemaining - ax.size;
             const qreal labelSize = qMax<qreal>(0, ax.size - yMargin - yTicker);
@@ -754,8 +749,7 @@ void AxisRenderer::updateAxis()
                                     yTicker, leftSide.height());
 
             leftRemaining -= ax.size;
-            if (hasAxisTitle(ax))
-                leftRemaining -= titleMargin;
+            leftRemaining -= titleGap(ax);
         }
 
         if (qobject_cast<QValueAxis *>(ax.axis)) {
@@ -800,6 +794,25 @@ bool AxisRenderer::isAxisBottomOrRight(const AxisProperties &ax) const
     return ax.axis->alignment() == Qt::AlignBottom || ax.axis->alignment() == Qt::AlignRight;
 }
 
+// Space reserved between a titled axis and whatever comes next (another axis, or the outer
+// view margin). Grows past the default margin only when the title itself needs more room.
+qreal AxisRenderer::titleGap(const AxisProperties &ax) const
+{
+    if (!hasAxisTitle(ax))
+        return 0;
+    return qMax(m_graph->m_defaultAxisTitleMargin, ax.titleSize);
+}
+
+// How far the title extends past the outer edge of the axis' labelsRect, i.e. beyond where a
+// default-sized title would end.
+qreal AxisRenderer::titleOutwardExtent(const AxisProperties &ax) const
+{
+    if (!hasAxisTitle(ax))
+        return 0;
+    const qreal margin = m_graph->m_defaultAxisTitleMargin;
+    return ax.titleSize <= margin ? ax.titleSize * 0.5 : ax.titleSize - margin * 0.5;
+}
+
 // Builds a printf-style spec combining decimals with the axis label format so it can be
 // passed to AxisRenderer::formatValueLabel(), which itself no longer takes a decimals argument.
 // A format longer than a single conversion char is a user-supplied full spec and is used as-is.
@@ -822,8 +835,10 @@ void AxisRenderer::updateAxisMeasurements()
 
     const QFontMetricsF yFontMetrics(theme()->axisYLabelFont());
 
-    for (auto &ax : *m_vertAxes)
+    for (auto &ax : *m_vertAxes) {
         ax.labelSize = 0;
+        ax.titleSize = hasAxisTitle(ax) ? QFontMetricsF(ax.axis->titleFont()).height() : 0;
+    }
 
     for (auto &ax : *m_vertAxes) {
         if (auto vaxis = qobject_cast<QValueAxis *>(ax.axis)) {
@@ -962,6 +977,9 @@ void AxisRenderer::updateAxisMeasurements()
 #endif
     }
 
+    for (auto &ax : *m_horzAxes)
+        ax.titleSize = hasAxisTitle(ax) ? QFontMetricsF(ax.axis->titleFont()).height() : 0;
+
     for (auto&& ax : *m_horzAxes) {
         if (auto haxis = qobject_cast<QValueAxis *>(ax.axis)) {
             double step = haxis->tickInterval();
@@ -1080,17 +1098,22 @@ void AxisRenderer::updateAxisMeasurements()
     const qreal xMargin = m_graph->m_defaultAxisXLabelsMargin;
     const qreal yTicker = m_graph->m_defaultAxisTickersWidth;
     const qreal xTicker = m_graph->m_defaultAxisTickersHeight;
-    const qreal titleMargin = m_graph->m_defaultAxisTitleMargin;
 
     m_y1AxisWidth = 0;
     m_y2AxisWidth = 0;
     m_x1AxisHeight = 0;
     m_x2AxisHeight = 0;
 
-    bool prevLeftTitled = false;
-    bool prevRightTitled = false;
-    bool prevTopTitled = false;
-    bool prevBottomTitled = false;
+    qreal leftGap = 0;
+    qreal rightGap = 0;
+    qreal topGap = 0;
+    qreal bottomGap = 0;
+    // Outward extent of the outermost titled axis on each side, updated on every iteration so
+    // that after the loop it reflects the actual outermost axis (0 if that axis has no title).
+    qreal leftExtent = 0;
+    qreal rightExtent = 0;
+    qreal topExtent = 0;
+    qreal bottomExtent = 0;
 
     for (auto &ax : *m_vertAxes) {
         if (!ax.axis || !ax.axis->isVisible()) {
@@ -1105,17 +1128,19 @@ void AxisRenderer::updateAxisMeasurements()
             ax.size += yLabelDefault;
 
         if (isAxisBottomOrRight(ax)) {
-            if (prevRightTitled)
-                m_y2AxisWidth += titleMargin;
+            m_y2AxisWidth += rightGap;
             m_y2AxisWidth += ax.size;
-            prevRightTitled = hasAxisTitle(ax);
+            rightGap = titleGap(ax);
+            rightExtent = titleOutwardExtent(ax);
         } else {
-            if (prevLeftTitled)
-                m_y1AxisWidth += titleMargin;
+            m_y1AxisWidth += leftGap;
             m_y1AxisWidth += ax.size;
-            prevLeftTitled = hasAxisTitle(ax);
+            leftGap = titleGap(ax);
+            leftExtent = titleOutwardExtent(ax);
         }
     }
+    m_y2AxisWidth += qMax(0.0, rightExtent - m_graph->m_marginRight);
+    m_y1AxisWidth += qMax(0.0, leftExtent - m_graph->m_marginLeft);
 
     for (auto &ax : *m_horzAxes) {
         if (!ax.axis || !ax.axis->isVisible()) {
@@ -1130,17 +1155,19 @@ void AxisRenderer::updateAxisMeasurements()
             ax.size += xLabelDefault;
 
         if (isAxisBottomOrRight(ax)) {
-            if (prevBottomTitled)
-                m_x1AxisHeight += titleMargin;
+            m_x1AxisHeight += bottomGap;
             m_x1AxisHeight += ax.size;
-            prevBottomTitled = hasAxisTitle(ax);
+            bottomGap = titleGap(ax);
+            bottomExtent = titleOutwardExtent(ax);
         } else {
-            if (prevTopTitled)
-                m_x2AxisHeight += titleMargin;
+            m_x2AxisHeight += topGap;
             m_x2AxisHeight += ax.size;
-            prevTopTitled = hasAxisTitle(ax);
+            topGap = titleGap(ax);
+            topExtent = titleOutwardExtent(ax);
         }
     }
+    m_x1AxisHeight += qMax(0.0, bottomExtent - m_graph->m_marginBottom);
+    m_x2AxisHeight += qMax(0.0, topExtent - m_graph->m_marginTop);
 }
 
 void AxisRenderer::updateAxisTickers()
@@ -1446,19 +1473,26 @@ void AxisRenderer::updateAxisTitles()
             ax.title->setVAlign(QQuickText::AlignVCenter);
             ax.title->setHAlign(QQuickText::AlignHCenter);
             ax.title->setText(ax.axis->titleText());
-
-            const QRectF &xAxisRect = ax.labelsRect;
-            if (ax.axis->alignment() == Qt::AlignTop || ax.axis->alignment() == Qt::AlignLeft)
-                ax.title->setY(xAxisRect.y() - ax.title->height() * 0.5);
-            else
-                ax.title->setY(xAxisRect.y() + xAxisRect.height() - ax.title->height() * 0.5);
-
-            ax.title->setX((2 * xAxisRect.x() - ax.title->width() + xAxisRect.width()) * 0.5);
             if (ax.axis->titleColor().isValid())
                 ax.title->setColor(ax.axis->titleColor());
             else
                 ax.title->setColor(theme()->labelTextColor());
             ax.title->setFont(ax.axis->titleFont());
+
+            // setFont()/setText() above must run before width()/height() are read below, so
+            // the position is computed from the title's up-to-date size, not last frame's.
+            const QRectF &xAxisRect = ax.labelsRect;
+            const qreal offset = qMax(0.0, ax.title->height() - m_graph->m_defaultAxisTitleMargin)
+                                  * 0.5;
+            if (ax.axis->alignment() == Qt::AlignTop || ax.axis->alignment() == Qt::AlignLeft) {
+                ax.title->setY(xAxisRect.y() - ax.title->height() * 0.5 - offset);
+            }
+            else {
+                ax.title->setY(xAxisRect.y() + xAxisRect.height() - ax.title->height() * 0.5
+                                + offset);
+            }
+
+            ax.title->setX((2 * xAxisRect.x() - ax.title->width() + xAxisRect.width()) * 0.5);
             ax.title->setVisible(true);
         } else {
             ax.title->setVisible(false);
@@ -1473,20 +1507,26 @@ void AxisRenderer::updateAxisTitles()
             ax.title->setVAlign(QQuickText::AlignVCenter);
             ax.title->setHAlign(QQuickText::AlignHCenter);
             ax.title->setText(ax.axis->titleText());
-
-            const QRectF &yAxisRect = ax.labelsRect;
-            if (ax.axis->alignment() == Qt::AlignRight || ax.axis->alignment() == Qt::AlignBottom)
-                ax.title->setX(yAxisRect.x() + yAxisRect.width() - ax.title->width() * 0.5);
-            else
-                ax.title->setX(yAxisRect.x() - ax.title->width() * 0.5);
-
-            ax.title->setY((2 * yAxisRect.y() - ax.title->height() + yAxisRect.height()) * 0.5);
-            ax.title->setRotation(-90);
             if (ax.axis->titleColor().isValid())
                 ax.title->setColor(ax.axis->titleColor());
             else
                 ax.title->setColor(theme()->labelTextColor());
             ax.title->setFont(ax.axis->titleFont());
+
+            // setFont()/setText() above must run before width()/height() are read below, so
+            // the position is computed from the title's up-to-date size, not last frame's.
+            const QRectF &yAxisRect = ax.labelsRect;
+            // The title is rotated -90 degrees around its center, so its footprint along X is
+            // its (pre-rotation) height, not its width.
+            const qreal offset = qMax(0.0, ax.title->height() - m_graph->m_defaultAxisTitleMargin)
+                                  * 0.5;
+            if (ax.axis->alignment() == Qt::AlignRight || ax.axis->alignment() == Qt::AlignBottom)
+                ax.title->setX(yAxisRect.x() + yAxisRect.width() - ax.title->width() * 0.5 + offset);
+            else
+                ax.title->setX(yAxisRect.x() - ax.title->width() * 0.5 - offset);
+
+            ax.title->setY((2 * yAxisRect.y() - ax.title->height() + yAxisRect.height()) * 0.5);
+            ax.title->setRotation(-90);
             ax.title->setVisible(true);
         } else {
             ax.title->setVisible(false);

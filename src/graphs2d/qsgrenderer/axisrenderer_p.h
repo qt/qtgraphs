@@ -94,6 +94,8 @@ private:
         double tickCount = 0.0;
         // Pre-measured label size based on contents
         qreal labelSize = 0;
+        // Pre-measured title height, 0 if the axis has no title
+        qreal titleSize = 0;
         // Total space needed by axis: labelSize + labels margin + tickers size
         qreal size = 0;
         // Per-axis labels and tickers rectangles
@@ -114,6 +116,8 @@ private:
 
     bool hasAxisTitle(const AxisProperties &ax) const;
     bool isAxisBottomOrRight(const AxisProperties &ax) const;
+    qreal titleGap(const AxisProperties &ax) const;
+    qreal titleOutwardExtent(const AxisProperties &ax) const;
 
 #if QT_CONFIG(graphs_2d_bar)
     void updateBarXAxisLabels(AxisProperties &ax, const QRectF rect);
