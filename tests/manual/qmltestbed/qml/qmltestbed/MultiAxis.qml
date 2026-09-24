@@ -126,12 +126,45 @@ Rectangle {
         }
     }
 
+    Row {
+        anchors.top: graphToolbar.bottom
+        anchors.margins: 10
+        anchors.left: parent.left
+        anchors.leftMargin: 60
+        spacing: 10
+
+        id: fontSizeToolbar
+
+        Text {
+            anchors.verticalCenter: parent.verticalCenter
+            color: "white"
+            text: "Axis title font size: " + titleFontSizeSlider.value.toFixed(0)
+        }
+        Slider {
+            id: titleFontSizeSlider
+            anchors.verticalCenter: parent.verticalCenter
+            from: 8
+            to: 48
+            value: 20
+            onValueChanged: {
+                xAxis.titleFont.pixelSize = value
+                yAxis.titleFont.pixelSize = value
+                xAxis2.titleFont.pixelSize = value
+                yAxis2.titleFont.pixelSize = value
+                lineSeries.axisX.titleFont.pixelSize = value
+                splineSeries.axisX.titleFont.pixelSize = value
+                scatterSeries.axisY.titleFont.pixelSize = value
+                areaSeries.axisY.titleFont.pixelSize = value
+            }
+        }
+    }
+
     GraphsView {
         id: chartView
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.bottom: parent.bottom
-        anchors.top: graphToolbar.bottom
+        anchors.top: fontSizeToolbar.bottom
         anchors.margins: 10
         dynamicLabelMargins: true
 
