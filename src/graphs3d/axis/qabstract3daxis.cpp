@@ -165,7 +165,7 @@ QT_BEGIN_NAMESPACE
     \qmlsignal Abstract3DAxis::visibilityChanged(bool visible)
     \since 6.13
 
-    This signal is emitted when \l visibility changes to \a visible.
+    This signal is emitted when \l visible changes to \a visible.
 */
 
 /*!

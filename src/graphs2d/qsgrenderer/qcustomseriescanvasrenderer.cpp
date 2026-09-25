@@ -15,8 +15,7 @@ QT_BEGIN_NAMESPACE
     \since 6.12
 
     Implement canvasPaint() to draw a \l QCustomSeries. Set the renderer
-    on the series with \l QCustomSeries::setCustomSeriesPainter(), which
-    the series then exposes through \l QCustomSeries::customSeriesPainter().
+    on the series with \l QCustomSeries::setCustomSeriesPainter().
 
     canvasPaint() and canvasPrePaint() are called from the \l {Scene Graph
     and Rendering}{Qt Quick scene graph render thread} and, unlike
@@ -65,8 +64,6 @@ void QCustomSeriesCanvasRenderer::synchronizeData(QCustomSeries *series, QCanvas
     previously copied into this instance by synchronizeData(). This is
     called immediately before canvasPaint() for this same instance, from the
     render thread; do not access series or item state here.
-
-    \sa canvasPaint()
 */
 void QCustomSeriesCanvasRenderer::canvasPrePaint(QCanvasPainter *p)
 {

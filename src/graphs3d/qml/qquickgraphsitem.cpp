@@ -228,7 +228,7 @@ constexpr float polarRoundness = 64.0f;
    * \since 6.12
    *
    * Determines how drag events on the graph are interpreted, one of
-   * \l Graphs3D.DragMode enum values.
+   * \l {QtGraphs3D::DragMode}{Graphs3D.DragMode} enum values.
    *
    * Defaults to \c{Graphs3D.DragMode.Rotate}.
    *

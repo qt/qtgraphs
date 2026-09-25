@@ -724,7 +724,7 @@ qsizetype QXYSeries::count() const
 
     This property can be used to set points declaratively for a XYSeries.
     The variant list can be either points or numbers. If numbers are given,
-    the \l{XYSeries::}{valueMapping} can be used to indicate whether
+    the \l{QXYSeries::valueMapping}{valueMapping} can be used to indicate whether
     the number is interpreted as the X or Y component of a point.
 */
 QVariantList QXYSeries::values() const
