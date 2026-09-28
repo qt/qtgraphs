@@ -58,10 +58,11 @@ install(TARGETS graphprinting
     LIBRARY DESTINATION ${CMAKE_INSTALL_BINDIR}
 )
 
-qt_generate_deploy_app_script(
+qt_generate_deploy_qml_app_script(
     TARGET graphprinting
     OUTPUT_SCRIPT deploy_script
     NO_UNSUPPORTED_PLATFORM_ERROR
 )
 
 install(SCRIPT ${deploy_script})
+
