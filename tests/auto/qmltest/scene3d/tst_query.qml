@@ -98,7 +98,9 @@ Item {
             waitForRendering(top)
             compare(graphPositionQuerySpy.count, 1)
             compare(valid.scene.graphPositionQuery, Qt.point(valid.middleX + 1, valid.middleY))
-            verify(valid.queriedGraphPosition.fuzzyEquals(Qt.vector3d(2.68778, 0, 233.333)))
+            // Fractional DPR shifts the pick ray, 1 logical px is ~2.7 units
+            verify(valid.queriedGraphPosition.fuzzyEquals(Qt.vector3d(2.68778, 0, 233.333), 1.0),
+                   "Unexpected queriedGraphPosition " + valid.queriedGraphPosition)
         }
     }
 
