@@ -51,7 +51,7 @@ void tst_logvalueaxis::initialProperties()
 {
     QVERIFY(m_axis);
 
-    QCOMPARE(m_axis->min(), 0);
+    QCOMPARE(m_axis->min(), 1);
     QCOMPARE(m_axis->max(), 10);
     QCOMPARE(m_axis->base(), 10.0);
     QCOMPARE(m_axis->labelFormat(), "");
@@ -100,7 +100,7 @@ void tst_logvalueaxis::initializeProperties()
 
     QCOMPARE(formatTest, "1.00 cakes units");
 
-    QCOMPARE(spy0.size(), 1);
+    QCOMPARE(spy0.size(), 0);
     QCOMPARE(spy1.size(), 1);
     QCOMPARE(spy2.size(), 2);
     QCOMPARE(spy3.size(), 1);

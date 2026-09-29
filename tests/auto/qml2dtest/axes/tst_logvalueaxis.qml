@@ -75,7 +75,7 @@ Item {
             compare(initial.labelFormat, "")
             compare(initial.labelPostFormat, "%1")
             compare(initial.labelPrecision, 6)
-            compare(initial.min, 0.0)
+            compare(initial.min, 1.0)
             compare(initial.max, 10.0)
             compare(initial.subTickCount, -1)
             compare(initial.zoom, 1.0)

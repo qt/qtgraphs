@@ -467,6 +467,10 @@ int QLogValueAxis::labelPrecision() const
 void QLogValueAxis::setZoom(qreal zoom)
 {
     Q_D(QLogValueAxis);
+    if (zoom <= 0.0) {
+        qCWarning(lcAxis2D, "Zoom cannot be negative.");
+        return;
+    }
     if (d->m_zoom != zoom) {
         d->m_zoom = zoom;
         d->calculateVisualRange();
@@ -527,7 +531,7 @@ QAbstractAxis::AxisType QLogValueAxis::type() const
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 QLogValueAxisPrivate::QLogValueAxisPrivate()
-    : m_min(0)
+    : m_min(1)
     , m_max(10)
     , m_base(10.0)
     , m_subTickCount(-1)
@@ -573,8 +577,8 @@ void QLogValueAxisPrivate::setRange(qreal min, qreal max)
     Q_Q(QLogValueAxis);
     bool changed = false;
 
-    if (qFuzzyCompare(min, 0)) {
-        qCWarning(lcAxis2D, "min value cannot be zero.");
+    if (qFuzzyIsNull(min) || min < 0.0) {
+        qCWarning(lcAxis2D, "min value cannot be zero or negative.");
         return;
     }
 
@@ -632,7 +636,7 @@ void QLogValueAxisPrivate::calculateVisualRange()
         emit q->visualMaxChanged(max);
     }
 
-    int tickCount = qFloor(logMax) - qCeil(logMin) + 1;
+    int tickCount = qAbs(qFloor(logMax) - qCeil(logMin) + 1);
     if (m_tickCount != tickCount) {
         m_tickCount = tickCount;
         emit q->tickCountChanged(tickCount);
