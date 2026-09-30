@@ -331,6 +331,11 @@
     }
     \endqml
 
+    Qt Charts supported customizing the points in the \c{QtCharts::QXYSeries}
+    with \c{QtCharts::QXYSeries::setPointConfiguration}. Qt Graphs offers
+    more flexible point configuration for \l {LineSeries}, \l {ScatterSeries},
+    and \l {SplineSeries} with \l {XYSeries::pointDelegate}{XYSeries::pointDelegate}.
+
     \section2 Migrating Pie series
 
     With Qt Charts:
