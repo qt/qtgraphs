@@ -25,9 +25,25 @@ QT_BEGIN_NAMESPACE
     thread is blocked and is the only place it is safe to read GUI-thread
     data.
 
+    \section1 How to implement a simple QCustomSeries and a QCustomSeriesCanvasRenderer
+    First, create a QCustomSeries subclass.
+    \snippet doc_src_qcustomseriescanvasrenderer.cpp customseries
+
+    Then implement a QCustomSeriesCanvasRenderer subclass
+    \snippet doc_src_qcustomseriescanvasrenderer.cpp customseries_renderer
+
     \sa QCustomSeries, QCustomSeries::setCustomSeriesPainter()
 */
 
+/*!
+    \fn void QCustomSeriesCanvasRenderer::canvasPaint(QCanvasPainter *p)
+    Reimplement this method to paint the series using \a p.
+
+    \note Before painting, the series should be synchronized to the renderer
+    using \l synchronizeData().
+
+    \sa synchronizeData(), canvasPrePaint(), initializeResources()
+ */
 QCustomSeriesCanvasRenderer::~QCustomSeriesCanvasRenderer() = default;
 
 /*!
