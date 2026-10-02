@@ -11,78 +11,92 @@ Rectangle {
     anchors.fill: parent
     color: "#404040"
 
+    property real minCount: -1.0
+    property real minFirst: 0.0
+    property real minFirstSetSection: 0.0
+    property real minLastSetSection: 0.0
+
+    property real startCount: -1.0
+    property real startFirst: 4.0
+    property real startFirstSetSection: 0.0
+    property real startLastSetSection: 1.0
+
+    property real maxCount: 6.0
+    property real maxFirst: 6.0
+    property real maxFirstSetSection: 5.0
+    property real maxLastSetSection: 5.0
+
     function addMapping() {
-        myModel.clearMapping()
+        myModel.clearMapping();
         if (vModelMapper.orientation === Qt.Vertical) {
             for (var i = 0; i < barSeries.legendData.length; i++) {
-                var cf = vModelMapper.firstBarSetSection + i
-                var cl = 1
-                var rf = vModelMapper.first
-                var rl = barSeries.barSets[i].count
-                var c = barSeries.legendData[i].color
-                myModel.addMapping(c, cf, rf, cl, rl)
+                var cf = vModelMapper.firstBarSetSection + i;
+                var cl = 1;
+                var rf = vModelMapper.first;
+                var rl = barSeries.barSets[i].count;
+                var c = barSeries.legendData[i].color;
+                myModel.addMapping(c, cf, rf, cl, rl);
             }
         } else {
             for (var i = 0; i < barSeries.legendData.length; i++) {
-                var rf = vModelMapper.firstBarSetSection + i
-                var rl = 1
-                var cf = vModelMapper.first
-                var cl = barSeries.barSets[i].count
-                var c = barSeries.legendData[i].color
-                myModel.addMapping(c, cf, rf, cl, rl)
+                var rf = vModelMapper.firstBarSetSection + i;
+                var rl = 1;
+                var cf = vModelMapper.first;
+                var cl = barSeries.barSets[i].count;
+                var c = barSeries.legendData[i].color;
+                myModel.addMapping(c, cf, rf, cl, rl);
             }
         }
     }
     function updateCategoryAxis() {
         if (vModelMapper.orientation === Qt.Vertical) {
-            var categories = copyArray(vHeaderView.rowNames)
-            var categorySubset = categories.splice(vModelMapper.first,
-                                                   vModelMapper.count)
-            categoryAxis.categories = categorySubset
+            var categories = copyArray(vHeaderView.rowNames);
+            var categorySubset = categories.splice(vModelMapper.first, vModelMapper.count);
+            categoryAxis.categories = categorySubset;
         } else {
-            var categories = []
-            var end = vModelMapper.first + vModelMapper.count
+            var categories = [];
+            var end = vModelMapper.first + vModelMapper.count;
             if (end >= myModel.columnCount())
-                end = myModel.columnCount()
+                end = myModel.columnCount();
 
             for (var i = vModelMapper.first; i < end; ++i)
-                categories.push(myModel.headerData(i, Qt.Horizontal))
+                categories.push(myModel.headerData(i, Qt.Horizontal));
 
-            categoryAxis.categories = categories
+            categoryAxis.categories = categories;
         }
     }
 
     function handleOrientationChange() {
         if (vModelMapper.orientation === Qt.Vertical) {
-            firstSelectionLabel.text = "first row"
-            countSelectionLabel.text = "row count"
-            firstSetSectionSelectionLabel.text = "first column"
-            lastSetSectionSelectionLabel.text = "last column"
-            countSelectionSlider.to = 12
-            firstSelectionSlider.to = 12
-            firstSetSectionSelectionSlider.to = 5
-            lastSetSectionSelectionSlider.to = 5
+            firstSelectionLabel.text = "first row";
+            countSelectionLabel.text = "row count";
+            firstSetSectionSelectionLabel.text = "first column";
+            lastSetSectionSelectionLabel.text = "last column";
+            countSelectionSlider.to = 12;
+            firstSelectionSlider.to = 12;
+            firstSetSectionSelectionSlider.to = 5;
+            lastSetSectionSelectionSlider.to = 5;
         } else {
-            firstSelectionLabel.text = "first column"
-            countSelectionLabel.text = "column count"
-            firstSetSectionSelectionLabel.text = "first row"
-            lastSetSectionSelectionLabel.text = "last row"
-            countSelectionSlider.to = 6
-            firstSelectionSlider.to = 5
-            firstSetSectionSelectionSlider.to = 12
-            lastSetSectionSelectionSlider.to = 12
+            firstSelectionLabel.text = "first column";
+            countSelectionLabel.text = "column count";
+            firstSetSectionSelectionLabel.text = "first row";
+            lastSetSectionSelectionLabel.text = "last row";
+            countSelectionSlider.to = 6;
+            firstSelectionSlider.to = 5;
+            firstSetSectionSelectionSlider.to = 12;
+            lastSetSectionSelectionSlider.to = 12;
         }
-        myModel.startAddMapping()
-        addMapping()
-        myModel.endAddMapping()
-        updateCategoryAxis()
+        myModel.startAddMapping();
+        addMapping();
+        myModel.endAddMapping();
+        updateCategoryAxis();
     }
 
     function copyArray(arr) {
-        var copy = []
+        var copy = [];
         for (var i = 0; i < arr.length; ++i)
-            copy.push(arr[i])
-        return copy
+            copy.push(arr[i]);
+        return copy;
     }
 
     Item {
@@ -105,12 +119,15 @@ Rectangle {
                 horizontalAlignment: Text.AlignHCenter
                 verticalAlignment: Text.AlignVCenter
                 elide: Text.ElideRight
+                color: "#FFFFFF"
+                font.pointSize: 10
             }
         }
         VerticalHeaderView {
             id: vHeaderView
 
-            readonly property var rowNames: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+            readonly property var rowNames: ["January", "February", "March", "April", "May", "June",
+                "July", "August", "September", "October", "November", "December"]
             anchors.top: tableView.top
             anchors.left: tableViewItem.left
             syncView: tableView
@@ -122,6 +139,8 @@ Rectangle {
                 horizontalAlignment: Text.AlignHCenter
                 verticalAlignment: Text.AlignVCenter
                 elide: Text.ElideRight
+                color: "#FFFFFF"
+                font.pointSize: 16
             }
         }
         TableView {
@@ -141,7 +160,7 @@ Rectangle {
                 required property string display
                 required property color background
                 implicitHeight: 30
-                implicitWidth: tableView.width / 5
+                implicitWidth: tableView.width / 6
 
                 border.width: 1
                 color: background
@@ -166,101 +185,194 @@ Rectangle {
                 Text {
                     id: firstSelectionLabel
                     text: qsTr("first row")
+                    color: "#FFFFFF"
+                    font.pointSize: 16
                 }
                 Text {
                     id: firstSelectionValueLabel
                     leftPadding: 50
                     text: firstSelectionSlider.value
+                    color: "#FFFFFF"
+                    font.pointSize: 16
                 }
             }
 
             Slider {
                 id: firstSelectionSlider
-                from: 0
-                to: 11
-                stepSize: 1.0
-                value: 3
+                from: background.minFirst
+                to: background.maxFirst
+                stepSize: 2.0
+                value: background.startFirst
+                handle: Rectangle {
+                    // Position the handle based on the slider's value
+                    x: firstSelectionSlider.leftPadding
+                       + firstSelectionSlider.visualPosition
+                       * firstSelectionSlider.availableWidth - width / 2
+                    y: firstSelectionSlider.topPadding
+                       + firstSelectionSlider.availableHeight / 2 - height / 2
+
+                    width: 24 // Custom width for the handle
+                    height: 24 // Custom height for the handle
+                    radius: 12 // Make it a circle
+
+                    color: "white"
+
+                    // --- THE CORE LOGIC FOR HIGHLIGHTING ---
+                    // Bind the border properties to the slider's focus state
+                    border.color: firstSelectionSlider.focus ? "#41a8e0" : "#7f8c8d"
+                    border.width: firstSelectionSlider.focus ? 3 : 1
+                }
                 onMoved: () => {
-                             myModel.startAddMapping()
-                             vModelMapper.first = firstSelectionSlider.value
-                             myModel.endAddMapping()
-                             updateCategoryAxis()
-                         }
+                    myModel.startAddMapping();
+                    vModelMapper.first = firstSelectionSlider.value;
+                    myModel.endAddMapping();
+                    updateCategoryAxis();
+                }
             }
             Row {
                 anchors.horizontalCenter: countSelectionSlider.horizontalCenter
                 Text {
                     id: countSelectionLabel
                     text: qsTr("row count")
+                    color: "#FFFFFF"
+                    font.pointSize: 16
                 }
                 Text {
                     id: countSelectionValueLabel
                     text: countSelectionSlider.value
                     leftPadding: 50
+                    color: "#FFFFFF"
+                    font.pointSize: 16
                 }
             }
             Slider {
                 id: countSelectionSlider
-                from: 1
-                to: 12
-                value: 5
+                from: background.minCount
+                to: background.maxCount
+                value: background.startCount
                 stepSize: 1.0
+
+                handle: Rectangle {
+                    // Position the handle based on the slider's value
+                    x: countSelectionSlider.leftPadding + countSelectionSlider.visualPosition
+                       * countSelectionSlider.availableWidth - width / 2
+                    y: countSelectionSlider.topPadding + countSelectionSlider.availableHeight / 2 - height / 2
+
+                    width: 24
+                    height: 24
+                    radius: 12
+
+                    color: "white"
+
+                    // --- THE CORE LOGIC FOR HIGHLIGHTING ---
+                    // Bind the border properties to the slider's focus state
+                    border.color: countSelectionSlider.focus ? "#41a8e0" : "#7f8c8d"
+                    border.width: countSelectionSlider.focus ? 3 : 1
+                }
+
                 onMoved: () => {
-                             myModel.startAddMapping()
-                             vModelMapper.count = countSelectionSlider.value
-                             myModel.endAddMapping()
-                             updateCategoryAxis()
-                         }
+                    myModel.startAddMapping();
+                    vModelMapper.count = countSelectionSlider.value;
+                    myModel.endAddMapping();
+                    updateCategoryAxis();
+                }
             }
             Row {
                 anchors.horizontalCenter: firstSetSectionSelectionSlider.horizontalCenter
                 Text {
                     id: firstSetSectionSelectionLabel
                     text: qsTr("first column")
+                    color: "#FFFFFF"
+                    font.pointSize: 16
                 }
                 Text {
                     id: firstSetSectionSelectionValueLabel
                     text: firstSetSectionSelectionSlider.value
                     leftPadding: 50
+                    color: "#FFFFFF"
+                    font.pointSize: 16
                 }
             }
             Slider {
                 id: firstSetSectionSelectionSlider
-                from: 0
-                to: 5
-                value: 1
+                from: background.minFirstSetSection
+                to: background.maxFirstSetSection
+                value: background.startFirstSetSection
+
+                handle: Rectangle {
+                    // Position the handle based on the slider's value
+                    x: firstSetSectionSelectionSlider.leftPadding
+                       + firstSetSectionSelectionSlider.visualPosition
+                       * firstSetSectionSelectionSlider.availableWidth - width / 2
+                    y: firstSetSectionSelectionSlider.topPadding
+                       + firstSetSectionSelectionSlider.availableHeight / 2 - height / 2
+
+                    width: 24
+                    height: 24
+                    radius: 12
+
+                    color: "white"
+
+                    // --- THE CORE LOGIC FOR HIGHLIGHTING ---
+                    // Bind the border properties to the slider's focus state
+                    border.color: firstSetSectionSelectionSlider.focus ? "#41a8e0" : "#7f8c8d"
+                    border.width: firstSetSectionSelectionSlider.focus ? 3 : 1
+                }
                 stepSize: 1.0
                 onMoved: () => {
-                             myModel.startAddMapping()
-                             vModelMapper.firstBarSetSection = firstSetSectionSelectionSlider.value
-                             myModel.endAddMapping()
-                             updateCategoryAxis()
-                         }
+                    myModel.startAddMapping()
+                    vModelMapper.firstBarSetSection = firstSetSectionSelectionSlider.value;
+                    myModel.endAddMapping()
+                    updateCategoryAxis();
+                }
             }
             Row {
                 anchors.horizontalCenter: lastSetSectionSelectionSlider.horizontalCenter
                 Text {
                     id: lastSetSectionSelectionLabel
                     text: qsTr("last column")
+                    color: "#FFFFFF"
+                    font.pointSize: 16
                 }
                 Text {
                     id: lastSetSectionSelectionValueLabel
                     text: lastSetSectionSelectionSlider.value
                     leftPadding: 50
+                    color: "#FFFFFF"
+                    font.pointSize: 16
                 }
             }
             Slider {
                 id: lastSetSectionSelectionSlider
-                from: 0
-                to: 5
+                from: background.minLastSetSection
+                to: background.maxLastSetSection
                 stepSize: 1.0
-                value: 4
+                value: background.startLastSetSection
+                handle: Rectangle {
+                    // Position the handle based on the slider's value
+                    x: lastSetSectionSelectionSlider.leftPadding
+                       + lastSetSectionSelectionSlider.visualPosition
+                       * lastSetSectionSelectionSlider.availableWidth - width / 2
+                    y: lastSetSectionSelectionSlider.topPadding
+                       + lastSetSectionSelectionSlider.availableHeight / 2 - height / 2
+
+                    width: 24
+                    height: 24
+                    radius: 12
+
+                    color: "white"
+
+                    // --- THE CORE LOGIC FOR HIGHLIGHTING ---
+                    // Bind the border properties to the slider's focus state
+                    border.color: lastSetSectionSelectionSlider.focus ? "#41a8e0" : "#7f8c8d"
+                    border.width: lastSetSectionSelectionSlider.focus ? 3 : 1
+                }
                 onMoved: () => {
-                             myModel.startAddMapping()
-                             vModelMapper.lastBarSetSection = lastSetSectionSelectionSlider.value
-                             myModel.endAddMapping()
-                             updateCategoryAxis()
-                         }
+                    myModel.startAddMapping();
+                    vModelMapper.lastBarSetSection = lastSetSectionSelectionSlider.value;
+                    myModel.endAddMapping();
+                    updateCategoryAxis();
+                }
             }
         }
     }
@@ -301,7 +413,6 @@ Rectangle {
 
             axisX: BarCategoryAxis {
                 id: categoryAxis
-                categories: ["April", "May", "June", "July", "August"]
                 subGridVisible: false
             }
             axisY: ValueAxis {
@@ -320,10 +431,10 @@ Rectangle {
                 id: vModelMapper
                 series: barSeries
                 model: myModel
-                firstBarSetSection: 1
-                lastBarSetSection: 4
-                first: 3
-                count: 5
+                firstBarSetSection: background.startFirstSetSection
+                lastBarSetSection: background.startLastSetSection
+                first: background.startFirst
+                count: background.startCount
                 orientation: Qt.Vertical
                 onOrientationChanged: handleOrientationChange()
             }
@@ -340,11 +451,11 @@ Rectangle {
             text: "Vertical/Horizontal bars"
             onClicked: {
                 if (chartView.orientation === Qt.Vertical)
-                    chartView.orientation = Qt.Horizontal
+                    chartView.orientation = Qt.Horizontal;
                 else
-                    chartView.orientation = Qt.Vertical
-                myModel.startAddMapping()
-                myModel.endAddMapping()
+                    chartView.orientation = Qt.Vertical;
+                myModel.startAddMapping();
+                myModel.endAddMapping();
             }
         }
 
@@ -352,9 +463,11 @@ Rectangle {
             width: 250
             text: "Vertical/Horizontal mapper"
             onClicked: {
-                vModelMapper.orientation = vModelMapper.orientation
-                        === Qt.Vertical ? Qt.Horizontal : Qt.Vertical
+                vModelMapper.orientation = vModelMapper.orientation === Qt.Vertical
+                        ? Qt.Horizontal
+                        : Qt.Vertical;
             }
         }
     }
+    Component.onCompleted: updateCategoryAxis()
 }
