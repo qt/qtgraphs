@@ -37,6 +37,16 @@ protected:
     QBarSet *barSet(QModelIndex index);
     void insertData(qsizetype start, qsizetype end);
     void removeData(qsizetype start, qsizetype end);
+    void insertBarSets(qsizetype start, qsizetype end);
+    void removeBarSets(qsizetype start, qsizetype end);
+
+    QBarSet *createBarSet(qsizetype section);
+    void connectBarSet(QBarSet *set);
+    void disconnectBarSet(QBarSet *set);
+    qreal barValue(qsizetype section, qsizetype posInBar);
+    qsizetype mappedValueCount() const;
+    void fillValues(QBarSet *set);
+    void refreshLabels();
 
 private:
     QAbstractItemModel *m_model = nullptr;
