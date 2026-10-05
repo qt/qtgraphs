@@ -11,6 +11,31 @@
 
 QT_USE_NAMESPACE
 
+// Model that, like some custom/QML models, reports structural changes as a reset
+class ResettingModel : public QStandardItemModel
+{
+public:
+    using QStandardItemModel::QStandardItemModel;
+
+    bool insertRows(int row, int count, const QModelIndex &parent = {}) override
+    {
+        const bool ok = QStandardItemModel::insertRows(row, count, parent);
+        resetNow();
+        return ok;
+    }
+    bool removeRows(int row, int count, const QModelIndex &parent = {}) override
+    {
+        const bool ok = QStandardItemModel::removeRows(row, count, parent);
+        resetNow();
+        return ok;
+    }
+    void resetNow()
+    {
+        beginResetModel();
+        endResetModel();
+    }
+};
+
 class tst_qgxymodelmapper : public QObject
 {
     Q_OBJECT
@@ -45,6 +70,10 @@ private Q_SLOTS:
     void modelUpdateCell();
     void verticalMapperSignals();
     void horizontalMapperSignals();
+    void seriesEditDoesNotReinitialize();
+    void externalModelResetReinitializes();
+    void unchangedModelResetKeepsSeries();
+    void unchangedSettersDoNothing();
 
 private:
     QStandardItemModel *m_model;
@@ -577,6 +606,121 @@ void tst_qgxymodelmapper::horizontalMapperSignals()
     QCOMPARE(spy5.size(), 1);
 
     delete mapper;
+}
+
+void tst_qgxymodelmapper::seriesEditDoesNotReinitialize()
+{
+    auto *model = new ResettingModel(m_modelRowCount, m_modelColumnCount, this);
+    for (int row = 0; row < m_modelRowCount; ++row) {
+        for (int column = 0; column < m_modelColumnCount; ++column)
+            model->setData(model->index(row, column), row * column);
+    }
+
+    m_vMapper = new QXYModelMapper;
+    m_vMapper->setXSection(0);
+    m_vMapper->setYSection(1);
+    m_vMapper->setModel(model);
+    m_vMapper->setSeries(m_series);
+    QCOMPARE(m_series->count(), m_modelRowCount);
+
+    // A full rebuild clears the series first, which emits pointsRemoved.
+    QSignalSpy removedSpy(m_series, &QXYSeries::pointsRemoved);
+
+    m_series->append(QPointF(100, 200));
+    m_series->replace(0, QPointF(25, 75));
+    m_series->remove(m_series->points().last());
+    QCOMPARE(removedSpy.size(), 0);
+    QCOMPARE(m_series->count(), m_modelRowCount);
+    QCOMPARE(model->rowCount(), m_modelRowCount);
+    QCOMPARE(model->data(model->index(0, 0)).toReal(), 25.0);
+    QCOMPARE(model->data(model->index(0, 1)).toReal(), 75.0);
+
+    delete m_vMapper;
+    m_vMapper = nullptr;
+    delete model;
+}
+
+void tst_qgxymodelmapper::externalModelResetReinitializes()
+{
+    auto *model = new ResettingModel(m_modelRowCount, m_modelColumnCount, this);
+    m_vMapper = new QXYModelMapper;
+    m_vMapper->setXSection(0);
+    m_vMapper->setYSection(1);
+    m_vMapper->setModel(model);
+    m_vMapper->setSeries(m_series);
+    QCOMPARE(m_series->count(), m_modelRowCount);
+
+    // Change the model content without telling the mapper, then report a reset
+    model->blockSignals(true);
+    model->setData(model->index(2, 0), 42);
+    model->setData(model->index(2, 1), 43);
+    model->blockSignals(false);
+    QCOMPARE_NE(m_series->points().at(2), QPointF(42, 43));
+
+    model->resetNow();
+    QCOMPARE(m_series->count(), m_modelRowCount);
+    QCOMPARE(m_series->points().at(2), QPointF(42, 43));
+
+    delete m_vMapper;
+    m_vMapper = nullptr;
+    delete model;
+}
+
+void tst_qgxymodelmapper::unchangedModelResetKeepsSeries()
+{
+    auto *model = new ResettingModel(m_modelRowCount, m_modelColumnCount, this);
+    m_vMapper = new QXYModelMapper;
+    m_vMapper->setXSection(0);
+    m_vMapper->setYSection(1);
+    m_vMapper->setModel(model);
+    m_vMapper->setSeries(m_series);
+
+    QSignalSpy removedSpy(m_series, &QXYSeries::pointsRemoved);
+    QSignalSpy addedSpy(m_series, &QXYSeries::pointsAdded);
+    model->resetNow();
+    QCOMPARE(removedSpy.size(), 0);
+    QCOMPARE(addedSpy.size(), 0);
+    QCOMPARE(m_series->count(), m_modelRowCount);
+
+    delete m_vMapper;
+    m_vMapper = nullptr;
+    delete model;
+}
+
+void tst_qgxymodelmapper::unchangedSettersDoNothing()
+{
+    createVerticalMapper();
+    QSignalSpy removedSpy(m_series, &QXYSeries::pointsRemoved);
+    QSignalSpy firstSpy(m_vMapper, &QXYModelMapper::firstChanged);
+    QSignalSpy countSpy(m_vMapper, &QXYModelMapper::countChanged);
+    QSignalSpy orientationSpy(m_vMapper, &QXYModelMapper::orientationChanged);
+    QSignalSpy xSpy(m_vMapper, &QXYModelMapper::xSectionChanged);
+    QSignalSpy ySpy(m_vMapper, &QXYModelMapper::ySectionChanged);
+    QSignalSpy modelSpy(m_vMapper, &QXYModelMapper::modelChanged);
+    QSignalSpy seriesSpy(m_vMapper, &QXYModelMapper::seriesChanged);
+
+    m_vMapper->setFirst(0);
+    m_vMapper->setCount(-1);
+    m_vMapper->setOrientation(Qt::Vertical);
+    m_vMapper->setXSection(0);
+    m_vMapper->setYSection(1);
+    m_vMapper->setModel(m_model);
+    m_vMapper->setSeries(m_series);
+
+    QCOMPARE(removedSpy.size(), 0);
+    QCOMPARE(firstSpy.size(), 0);
+    QCOMPARE(countSpy.size(), 0);
+    QCOMPARE(orientationSpy.size(), 0);
+    QCOMPARE(xSpy.size(), 0);
+    QCOMPARE(ySpy.size(), 0);
+    QCOMPARE(modelSpy.size(), 0);
+    QCOMPARE(seriesSpy.size(), 0);
+    QCOMPARE(m_series->count(), m_modelRowCount);
+
+    // A real change still takes effect
+    m_vMapper->setCount(3);
+    QCOMPARE(countSpy.size(), 1);
+    QCOMPARE(m_series->count(), 3);
 }
 
 QTEST_MAIN(tst_qgxymodelmapper)
