@@ -36,6 +36,7 @@ public Q_SLOTS:
     void onModelRowsRemoved(QModelIndex parent, qsizetype start, qsizetype end);
     void onModelColumnsAdded(QModelIndex parent, qsizetype start, qsizetype end);
     void onModelColumnsRemoved(QModelIndex parent, qsizetype start, qsizetype end);
+    void onModelReset();
     void handleModelDestroyed();
 
     // for the series

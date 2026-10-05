@@ -249,6 +249,9 @@ void QXYModelMapper::setModel(QAbstractItemModel *model)
         return;
 
     Q_D(QXYModelMapper);
+    if (d->m_model == model)
+        return;
+
     if (d->m_model) {
         QObjectPrivate::disconnect(d->m_model,
                                    &QAbstractItemModel::dataChanged,
@@ -273,11 +276,11 @@ void QXYModelMapper::setModel(QAbstractItemModel *model)
         QObjectPrivate::disconnect(d->m_model,
                                    &QAbstractItemModel::modelReset,
                                    d,
-                                   &QXYModelMapperPrivate::initializeXYFromModel);
+                                   &QXYModelMapperPrivate::onModelReset);
         QObjectPrivate::disconnect(d->m_model,
                                    &QAbstractItemModel::layoutChanged,
                                    d,
-                                   &QXYModelMapperPrivate::initializeXYFromModel);
+                                   &QXYModelMapperPrivate::onModelReset);
         QObjectPrivate::disconnect(d->m_model,
                                    &QAbstractItemModel::destroyed,
                                    d,
@@ -311,11 +314,11 @@ void QXYModelMapper::setModel(QAbstractItemModel *model)
     QObjectPrivate::connect(d->m_model,
                             &QAbstractItemModel::modelReset,
                             d,
-                            &QXYModelMapperPrivate::initializeXYFromModel);
+                            &QXYModelMapperPrivate::onModelReset);
     QObjectPrivate::connect(d->m_model,
                             &QAbstractItemModel::layoutChanged,
                             d,
-                            &QXYModelMapperPrivate::initializeXYFromModel);
+                            &QXYModelMapperPrivate::onModelReset);
     QObjectPrivate::connect(d->m_model,
                             &QAbstractItemModel::destroyed,
                             d,
@@ -332,6 +335,9 @@ QXYSeries *QXYModelMapper::series() const
 void QXYModelMapper::setSeries(QXYSeries *series)
 {
     Q_D(QXYModelMapper);
+    if (series && d->m_series == series)
+        return;
+
     if (d->m_series) {
         QObjectPrivate::disconnect(d->m_series,
                                    &QXYSeries::pointAdded,
@@ -393,7 +399,10 @@ qsizetype QXYModelMapper::first() const
 void QXYModelMapper::setFirst(qsizetype first)
 {
     Q_D(QXYModelMapper);
-    d->m_first = qMax(first, 0);
+    first = qMax(first, 0);
+    if (d->m_first == first)
+        return;
+    d->m_first = first;
     d->initializeXYFromModel();
     Q_EMIT firstChanged();
 }
@@ -407,7 +416,10 @@ qsizetype QXYModelMapper::count() const
 void QXYModelMapper::setCount(qsizetype count)
 {
     Q_D(QXYModelMapper);
-    d->m_count = qMax(count, -1);
+    count = qMax(count, -1);
+    if (d->m_count == count)
+        return;
+    d->m_count = count;
     d->initializeXYFromModel();
     Q_EMIT countChanged();
 }
@@ -421,6 +433,8 @@ Qt::Orientation QXYModelMapper::orientation() const
 void QXYModelMapper::setOrientation(Qt::Orientation orientation)
 {
     Q_D(QXYModelMapper);
+    if (d->m_orientation == orientation)
+        return;
     d->m_orientation = orientation;
     d->initializeXYFromModel();
     Q_EMIT orientationChanged();
@@ -435,7 +449,10 @@ qsizetype QXYModelMapper::xSection() const
 void QXYModelMapper::setXSection(qsizetype xSection)
 {
     Q_D(QXYModelMapper);
-    d->m_xSection = qMax(-1, xSection);
+    xSection = qMax(-1, xSection);
+    if (d->m_xSection == xSection)
+        return;
+    d->m_xSection = xSection;
     d->initializeXYFromModel();
     Q_EMIT xSectionChanged();
 }
@@ -449,7 +466,10 @@ qsizetype QXYModelMapper::ySection() const
 void QXYModelMapper::setYSection(qsizetype ySection)
 {
     Q_D(QXYModelMapper);
-    d->m_ySection = qMax(-1, ySection);
+    ySection = qMax(-1, ySection);
+    if (d->m_ySection == ySection)
+        return;
+    d->m_ySection = ySection;
     d->initializeXYFromModel();
     Q_EMIT ySectionChanged();
 }
@@ -698,6 +718,16 @@ void QXYModelMapperPrivate::onModelColumnsRemoved(QModelIndex parent, qsizetype 
     blockSeriesSignals(false);
 }
 
+void QXYModelMapperPrivate::onModelReset()
+{
+    // Models may emit modelReset/layoutChanged from insertRows()/removeRows() while we are
+    // writing a series change back to them. The series already holds the change.
+    if (m_modelSignalsBlock)
+        return;
+
+    initializeXYFromModel();
+}
+
 void QXYModelMapperPrivate::handleModelDestroyed()
 {
     m_model = 0;
@@ -791,29 +821,27 @@ void QXYModelMapperPrivate::initializeXYFromModel()
 
     Q_TRACE_SCOPE(QGraphs2DXYModelMappeInitXYFromModel);
 
-    blockSeriesSignals();
-    // clear current content
-    m_series->clear();
-
     // create the initial points set
+    QList<QPointF> points;
     int pointPos = 0;
     QModelIndex xIndex = xModelIndex(pointPos);
     QModelIndex yIndex = yModelIndex(pointPos);
     if (xIndex.isValid() && yIndex.isValid()) {
-        QList<QPointF> temp;
+        const int available = m_orientation == Qt::Vertical ? m_model->rowCount()
+                                                            : m_model->columnCount();
+        points.reserve(qMax(0, available - int(m_first)));
 
         while (xIndex.isValid() && yIndex.isValid()) {
             QPointF point;
             point.setX(valueFromModel(xIndex));
             point.setY(valueFromModel(yIndex));
-            temp.append(point);
+            points.append(point);
             pointPos++;
             xIndex = xModelIndex(pointPos);
             yIndex = yModelIndex(pointPos);
             // Don't warn about invalid index after the first, those are valid and used to
             // determine when we should end looping.
         }
-        QXYSeriesPrivate::get(m_series)->append(temp);
     } else {
         // Invalid index right off the bat means series will be left empty, so output a warning,
         // unless model is also empty
@@ -829,6 +857,15 @@ void QXYModelMapperPrivate::initializeXYFromModel()
         }
     }
 
+    // Nothing to do if the series already matches the model; avoids needless signals and
+    // renderer updates.
+    if (m_series->points() == points)
+        return;
+
+    blockSeriesSignals();
+    m_series->clear();
+    if (!points.isEmpty())
+        QXYSeriesPrivate::get(m_series)->append(points);
     blockSeriesSignals(false);
 }
 
