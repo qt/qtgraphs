@@ -776,6 +776,9 @@ void QBarSeries::clear()
         emit countChanged();
         for (QBarSet *set : sets) {
             QObject::disconnect(set, &QBarSet::update, this, &QBarSeries::update);
+            // Detaching here prevents a crash in componentComplete if the QBarModelMapper has
+            // already destroyed "set".
+            set->setParent(nullptr);
             set->deleteLater();
         }
         emit update();
@@ -1106,7 +1109,8 @@ void QBarSeries::deselectAll()
 
 void QBarSeries::componentComplete()
 {
-    for (auto *child : children()) {
+    const auto kids = children();
+    for (auto *child : kids) {
         if (auto bs = qobject_cast<QBarSet *>(child)) {
             append(bs);
             qCDebug(lcSeries2D) << "append barset" << bs << "to barseries. barset values:" << bs->values();
