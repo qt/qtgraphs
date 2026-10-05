@@ -7,6 +7,14 @@
 #include <QtGraphs/QBarCategoryAxis>
 #include <QtTest/QtTest>
 
+// QBarSeries::componentComplete() is protected; expose it so the test can emulate what the QML
+// engine does after creating the object.
+class CompleteProbe : public QBarSeries
+{
+public:
+    using QBarSeries::componentComplete;
+};
+
 class tst_bars : public QObject
 {
     Q_OBJECT
@@ -22,6 +30,7 @@ private slots:
     void initialProperties();
     void initializeProperties();
     void invalidProperties();
+    void clearThenComplete();
 
 private:
     QBarSeries *m_series;
@@ -343,6 +352,31 @@ void tst_bars::modifySeries()
     QCOMPARE(spy5.size(), 4);
     QCOMPARE(spy6.size(), 4);
     QCOMPARE(spy7.size(), 17);
+}
+
+void tst_bars::clearThenComplete()
+{
+    // clear() must detach removed sets from the series. Otherwise componentComplete() finds them
+    // among the children and appends them again, and they dangle once the deferred delete runs.
+    CompleteProbe series;
+    QPointer<QBarSet> set1 = new QBarSet(QStringLiteral("set1"));
+    QPointer<QBarSet> set2 = new QBarSet(QStringLiteral("set2"));
+    series.append(set1);
+    series.append(set2);
+    QCOMPARE(series.count(), 2);
+
+    series.clear();
+    QCOMPARE(series.count(), 0);
+    QVERIFY(series.findChildren<QBarSet *>(Qt::FindDirectChildrenOnly).isEmpty());
+
+    series.componentComplete();
+    QCOMPARE(series.count(), 0);
+    QVERIFY(series.barSets().isEmpty());
+
+    QCoreApplication::sendPostedEvents(nullptr, QEvent::DeferredDelete);
+    QVERIFY(!set1);
+    QVERIFY(!set2);
+    QVERIFY(series.barSets().isEmpty());
 }
 
 QTEST_MAIN(tst_bars)
