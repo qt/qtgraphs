@@ -32,6 +32,12 @@ public:
 
     void onSliceLabelChanged(const QPieSlice *slice);
     void onSliceValueChanged(const QPieSlice *slice);
+
+    QPieSlice *createSlice(QString label, double value);
+    void connectSlice(QPieSlice *slice);
+    void disconnectSlices();
+    qsizetype mappedSliceCount() const;
+
 public Q_SLOTS:
     // for the model
     void onModelUpdated(QModelIndex topLeft, QModelIndex bottomRight);
@@ -40,6 +46,7 @@ public Q_SLOTS:
     void onModelColumnsAdded(QModelIndex parent, qsizetype start, qsizetype end);
     void onModelColumnsRemoved(QModelIndex parent, qsizetype start, qsizetype end);
     void handleModelDestroyed();
+    void onModelReset();
 
     // for the series
     void onSlicesAdded(const QList<QPieSlice *> &slices);
@@ -47,6 +54,8 @@ public Q_SLOTS:
     void handleSeriesDestroyed();
 
     void initializePieFromModel();
+
+    void syncSlices();
 
 private:
     QPieSlice *pieSlice(QModelIndex index) const;

@@ -245,14 +245,14 @@ QAbstractItemModel *QPieModelMapper::model() const {
 }
 
 void QPieModelMapper::setModel(QAbstractItemModel *model) {
-    if (model == nullptr)
-        return;
     Q_D(QPieModelMapper);
+    if (model == d->m_model)
+        return;
     if (d->m_model) {
         QObjectPrivate::disconnect(d->m_model,
                                    &QAbstractItemModel::modelReset,
                                    d,
-                                   &QPieModelMapperPrivate::initializePieFromModel);
+                                   &QPieModelMapperPrivate::onModelReset);
         QObjectPrivate::disconnect(d->m_model,
                                    &QAbstractItemModel::dataChanged,
                                    d,
@@ -278,13 +278,17 @@ void QPieModelMapper::setModel(QAbstractItemModel *model) {
                                    d,
                                    &QPieModelMapperPrivate::handleModelDestroyed);
     }
+
     d->m_model = model;
+    if (model == nullptr)
+        return;
+
     d->initializePieFromModel();
 
     QObjectPrivate::connect(d->m_model,
                             &QAbstractItemModel::modelReset,
                             d,
-                            &QPieModelMapperPrivate::initializePieFromModel);
+                            &QPieModelMapperPrivate::onModelReset);
     QObjectPrivate::connect(d->m_model,
                             &QAbstractItemModel::dataChanged,
                             d,
@@ -319,6 +323,10 @@ QPieSeries *QPieModelMapper::series() const {
 
 void QPieModelMapper::setSeries(QPieSeries *series) {
     Q_D(QPieModelMapper);
+
+    if (series == d->m_series)
+        return;
+
     if (d->m_series) {
         QObjectPrivate::disconnect(d->m_series,
                                    &QPieSeries::added,
@@ -332,12 +340,14 @@ void QPieModelMapper::setSeries(QPieSeries *series) {
                                    &QPieSeries::destroyed,
                                    d,
                                    &QPieModelMapperPrivate::handleSeriesDestroyed);
+        // The old series keeps its slices, but they must no longer write to the model
+        d->disconnectSlices();
     }
 
-    if (series == 0)
+    d->m_series = series;
+    if (series == nullptr)
         return;
 
-    d->m_series = series;
     d->initializePieFromModel();
     // connect the signals from the series
     QObjectPrivate::connect(d->m_series,
@@ -364,8 +374,12 @@ qsizetype QPieModelMapper::first() const
 void QPieModelMapper::setFirst(qsizetype first)
 {
     Q_D(QPieModelMapper);
-    d->m_first = qMax(first, 0);
-    d->initializePieFromModel();
+    first = qMax(first, 0);
+    if (first == d->m_first)
+        return;
+    d->m_first = first;
+
+    d->syncSlices();
     Q_EMIT firstChanged();
 }
 
@@ -378,8 +392,12 @@ qsizetype QPieModelMapper::count() const
 void QPieModelMapper::setCount(qsizetype count)
 {
     Q_D(QPieModelMapper);
-    d->m_count = qMax(count, -1);
-    d->initializePieFromModel();
+    count = qMax(count, -1);
+    if (count == d->m_count)
+        return;
+
+    d->m_count = count;
+    d->syncSlices();
     Q_EMIT countChanged();
 }
 
@@ -390,8 +408,11 @@ Qt::Orientation QPieModelMapper::orientation() const {
 
 void QPieModelMapper::setOrientation(Qt::Orientation orientation) {
     Q_D(QPieModelMapper);
+    if (orientation == d->m_orientation)
+        return;
+
     d->m_orientation = orientation;
-    d->initializePieFromModel();
+    d->syncSlices();
     Q_EMIT orientationChanged();
 }
 
@@ -404,8 +425,12 @@ qsizetype QPieModelMapper::valuesSection() const
 void QPieModelMapper::setValuesSection(qsizetype valuesSection)
 {
     Q_D(QPieModelMapper);
-    d->m_valuesSection = qMax(-1, valuesSection);
-    d->initializePieFromModel();
+    valuesSection = qMax(-1, valuesSection);
+    if (valuesSection == d->m_valuesSection)
+        return;
+
+    d->m_valuesSection = valuesSection;
+    d->syncSlices();
     Q_EMIT valuesSectionChanged();
 }
 
@@ -418,8 +443,11 @@ qsizetype QPieModelMapper::labelsSection() const
 void QPieModelMapper::setLabelsSection(qsizetype labelsSection)
 {
     Q_D(QPieModelMapper);
-    d->m_labelsSection = qMax(-1, labelsSection);
-    d->initializePieFromModel();
+    labelsSection = qMax(-1, labelsSection);
+    if (labelsSection == d->m_labelsSection)
+        return;
+    d->m_labelsSection = labelsSection;
+    d->syncSlices();
     Q_EMIT labelsSectionChanged();
 }
 
@@ -446,7 +474,7 @@ QPieSlice *QPieModelMapperPrivate::pieSlice(QModelIndex index) const {
         if (index.row() >= m_first && (m_count == -1 || index.row() < m_first + m_count)) {
             if (m_model->index(index.row(), m_valuesSection).isValid()
                 && m_model->index(index.row(), m_labelsSection).isValid())
-                return m_series->slices().at(index.row() - m_first);
+                return m_series->slices().value(index.row() - m_first, nullptr);
             else
                 return 0;
         }
@@ -455,7 +483,7 @@ QPieSlice *QPieModelMapperPrivate::pieSlice(QModelIndex index) const {
         if (index.column() >= m_first && (m_count == -1 || index.column() < m_first + m_count)) {
             if (m_model->index(m_valuesSection, index.column()).isValid()
                 && m_model->index(m_labelsSection, index.column()).isValid())
-                return m_series->slices().at(index.column() - m_first);
+                return m_series->slices().value(index.column() - m_first, nullptr);
             else
                 return 0;
         }
@@ -502,7 +530,7 @@ bool QPieModelMapperPrivate::isValueIndex(QModelIndex index) const {
 }
 
 void QPieModelMapperPrivate::onSlicesAdded(const QList<QPieSlice *> &slices) {
-    if (m_seriesSignalsBlock)
+    if (m_seriesSignalsBlock || m_model == nullptr || m_series == nullptr)
         return;
 
     if (slices.size() == 0)
@@ -541,7 +569,7 @@ void QPieModelMapperPrivate::onSlicesAdded(const QList<QPieSlice *> &slices) {
 }
 
 void QPieModelMapperPrivate::onSlicesRemoved(const QList<QPieSlice *> &slices) {
-    if (m_seriesSignalsBlock)
+    if (m_seriesSignalsBlock || m_model == nullptr || m_series == nullptr)
         return;
 
     if (slices.size() == 0)
@@ -566,7 +594,7 @@ void QPieModelMapperPrivate::onSlicesRemoved(const QList<QPieSlice *> &slices) {
 }
 
 void QPieModelMapperPrivate::onSliceLabelChanged(const QPieSlice *slice) {
-    if (m_seriesSignalsBlock)
+    if (m_seriesSignalsBlock || m_model == nullptr || m_series == nullptr)
         return;
 
     blockModelSignals();
@@ -575,15 +603,54 @@ void QPieModelMapperPrivate::onSliceLabelChanged(const QPieSlice *slice) {
 }
 
 void QPieModelMapperPrivate::onSliceValueChanged(const QPieSlice *slice) {
-    if (m_seriesSignalsBlock)
+    if (m_seriesSignalsBlock || m_model == nullptr || m_series == nullptr)
         return;
 
     blockModelSignals();
     m_model->setData(valueModelIndex(m_series->slices().indexOf(slice)), slice->value());
     blockModelSignals(false);
 }
+QPieSlice *QPieModelMapperPrivate::createSlice(QString label, double value)
+{
+    auto slice = new QPieSlice(label, value);
+    connectSlice(slice);
+    return slice;
+}
+void QPieModelMapperPrivate::connectSlice(QPieSlice *slice)
+{
+    Q_Q(QPieModelMapper);
+    QObject::connect(slice, &QPieSlice::labelChanged, q, &QPieModelMapper::onSliceLabelChanged);
+    QObject::connect(slice, &QPieSlice::valueChanged, q, &QPieModelMapper::onSliceValueChanged);
+}
 
-void QPieModelMapperPrivate::handleSeriesDestroyed() { m_series = nullptr; }
+void QPieModelMapperPrivate::disconnectSlices()
+{
+    Q_Q(QPieModelMapper);
+    for (QPieSlice *slice : std::as_const(m_slices)) {
+        QObject::disconnect(slice, &QPieSlice::labelChanged, q, &QPieModelMapper::onSliceLabelChanged);
+        QObject::disconnect(slice, &QPieSlice::valueChanged, q, &QPieModelMapper::onSliceValueChanged);
+    }
+    m_slices.clear();
+}
+
+qsizetype QPieModelMapperPrivate::mappedSliceCount() const {
+    const bool vertical = m_orientation == Qt::Vertical;
+    const qsizetype available = vertical ? m_model->rowCount() : m_model->columnCount();
+    const qsizetype sections = vertical ? m_model->columnCount() : m_model->rowCount();
+
+    if ((m_valuesSection < 0 || m_valuesSection >= sections)
+        || (m_labelsSection < 0 || m_labelsSection >= sections)) {
+        return 0;
+    }
+    const qsizetype n = qMax<qsizetype>(available - m_first, 0);
+    return m_count == -1 ? n : qMin(n, m_count);
+}
+
+void QPieModelMapperPrivate::handleSeriesDestroyed()
+{
+    m_series = nullptr;
+    m_slices.clear(); // the slices are destroyed together with the series
+}
 
 void QPieModelMapperPrivate::onModelUpdated(QModelIndex topLeft, QModelIndex bottomRight)
 {
@@ -622,7 +689,7 @@ void QPieModelMapperPrivate::onModelRowsAdded(QModelIndex parent, qsizetype star
         insertData(start, end);
     } else if (start <= m_valuesSection
                || start <= m_labelsSection) { // if the changes affect the map - reinitialize the pie
-        initializePieFromModel();
+        syncSlices();
     }
     blockSeriesSignals(false);
 }
@@ -638,7 +705,7 @@ void QPieModelMapperPrivate::onModelRowsRemoved(QModelIndex parent, qsizetype st
         removeData(start, end);
     } else if (start <= m_valuesSection || start <= m_labelsSection) {
         // if the changes affect the map - reinitialize the pie
-        initializePieFromModel();
+        syncSlices();
     }
     blockSeriesSignals(false);
 }
@@ -654,7 +721,7 @@ void QPieModelMapperPrivate::onModelColumnsAdded(QModelIndex parent, qsizetype s
         insertData(start, end);
     } else if (start <= m_valuesSection || start <= m_labelsSection) {
         // if the changes affect the map - reinitialize the pie
-        initializePieFromModel();
+        syncSlices();
     }
     blockSeriesSignals(false);
 }
@@ -670,12 +737,23 @@ void QPieModelMapperPrivate::onModelColumnsRemoved(QModelIndex parent, qsizetype
         removeData(start, end);
     } else if (start <= m_valuesSection || start <= m_labelsSection) {
         // if the changes affect the map - reinitialize the pie
-        initializePieFromModel();
+        syncSlices();
     }
     blockSeriesSignals(false);
 }
 
-void QPieModelMapperPrivate::handleModelDestroyed() { m_model = nullptr; }
+void QPieModelMapperPrivate::handleModelDestroyed()
+{
+    m_model = nullptr;
+}
+
+void QPieModelMapperPrivate::onModelReset()
+{
+    if (m_modelSignalsBlock)
+        return;
+
+    syncSlices();
+}
 
 void QPieModelMapperPrivate::insertData(qsizetype start, qsizetype end) {
     if (m_model == nullptr || m_series == nullptr)
@@ -787,13 +865,10 @@ void QPieModelMapperPrivate::initializePieFromModel() {
     int slicePos = 0;
     QModelIndex valueIndex = valueModelIndex(slicePos);
     QModelIndex labelIndex = labelModelIndex(slicePos);
-    Q_Q(QPieModelMapper);
     while (valueIndex.isValid() && labelIndex.isValid()) {
-        QPieSlice *slice = new QPieSlice;
-        slice->setLabel(m_model->data(labelIndex, Qt::DisplayRole).toString());
-        slice->setValue(m_model->data(valueIndex, Qt::DisplayRole).toDouble());
-        QObject::connect(slice, &QPieSlice::labelChanged, q, &QPieModelMapper::onSliceLabelChanged);
-        QObject::connect(slice, &QPieSlice::valueChanged, q, &QPieModelMapper::onSliceValueChanged);
+        QPieSlice *slice = createSlice(
+            m_model->data(labelIndex, Qt::DisplayRole).toString(),
+            m_model->data(valueIndex, Qt::DisplayRole).toReal());
         m_series->append(slice);
         m_slices.append(slice);
         slicePos++;
@@ -801,6 +876,43 @@ void QPieModelMapperPrivate::initializePieFromModel() {
         labelIndex = labelModelIndex(slicePos);
     }
     blockSeriesSignals(false);
+}
+
+void QPieModelMapperPrivate::syncSlices()
+{
+    if (m_model == nullptr || m_series == nullptr)
+        return;
+
+    // Callers may already have series signals blocked, so restore the previous state.
+    const bool wasBlocked = m_seriesSignalsBlock;
+    blockSeriesSignals();
+
+    const qsizetype target = mappedSliceCount();
+    const qsizetype current = m_series->count();
+
+    // Slice i maps to model position m_first + i, so surplus slices are always dropped
+    // from the tail and the remaining ones are refreshed below.
+    if (current > target) {
+        m_series->removeMultiple(target, int(current - target));
+        m_slices.remove(target, current - target);
+    }
+
+    for (qsizetype pos = 0; pos < target; ++pos) {
+        const QString label = m_model->data(labelModelIndex(pos), Qt::DisplayRole).toString();
+        const qreal value = m_model->data(valueModelIndex(pos), Qt::DisplayRole).toReal();
+        if (pos < m_slices.size()) {
+            // setLabel() and setValue() do nothing if the value is unchanged
+            QPieSlice *slice = m_slices.at(pos);
+            slice->setLabel(label);
+            slice->setValue(value);
+        } else {
+            QPieSlice *slice = createSlice(label, value);
+            m_series->append(slice);
+            m_slices.append(slice);
+        }
+    }
+
+    blockSeriesSignals(wasBlocked);
 }
 
 QT_END_NAMESPACE
