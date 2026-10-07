@@ -12,24 +12,24 @@
     \section1 QML Import Statement
 
     The import statement in Qt Charts:
-    \code
+    \qml
     import QtCharts
-    \endcode
+    \endqml
     has to be changed to:
-    \code
+    \qml
     import QtGraphs
-    \endcode
+    \endqml
     for Qt Graphs.
 
     \section1 CMake Module Inclusion
 
     The inclusion in Qt Charts:
-    \code
+    \code [cmake]
     find_package(Qt6 REQUIRED COMPONENTS Charts)
     target_link_libraries(mytarget PRIVATE Qt6::Charts)
     \endcode
     has to be changed to:
-    \code
+    \code [cmake]
     find_package(Qt6 REQUIRED COMPONENTS Graphs)
     target_link_libraries(mytarget PRIVATE Qt6::Graphs)
     \endcode
@@ -38,11 +38,11 @@
     \section1 Qmake Module Inclusion
 
     The inclusion in Qt Charts:
-    \code
+    \code [text]
     QT += charts
     \endcode
     has to be changed to:
-    \code
+    \code [text]
     QT += graphs
     \endcode
     for Qt Graphs.
