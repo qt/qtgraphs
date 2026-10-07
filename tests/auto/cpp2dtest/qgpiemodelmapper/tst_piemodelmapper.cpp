@@ -7,6 +7,31 @@
 #include <QtGraphs/QPieSlice>
 #include <QtTest/QtTest>
 
+// Model that, like some custom/QML models, reports structural changes as a reset
+class ResettingModel : public QStandardItemModel
+{
+public:
+    using QStandardItemModel::QStandardItemModel;
+
+    bool insertRows(int row, int count, const QModelIndex &parent = {}) override
+    {
+        const bool ok = QStandardItemModel::insertRows(row, count, parent);
+        resetNow();
+        return ok;
+    }
+    bool removeRows(int row, int count, const QModelIndex &parent = {}) override
+    {
+        const bool ok = QStandardItemModel::removeRows(row, count, parent);
+        resetNow();
+        return ok;
+    }
+    void resetNow()
+    {
+        beginResetModel();
+        endResetModel();
+    }
+};
+
 class tst_piemodelmapper : public QObject
 {
     Q_OBJECT
@@ -41,6 +66,15 @@ private Q_SLOTS:
     void modelUpdateCell();
     void verticalMapperSignals();
     void horizontalMapperSignals();
+    void seriesEditDoesNotReinitialize();
+    void externalModelResetReinitializes();
+    void unchangedModelResetKeepsSeries();
+    void unchangedSettersDoNothing();
+    void sliceStyleSurvivesReconcile();
+    void otherOrientationSectionShiftUpdatesInPlace();
+    void setSeriesNullDetaches();
+    void previousSeriesSlicesAreDisconnected();
+    void setModelNullDetaches();
 
 private:
     QStandardItemModel *m_model = nullptr;
@@ -558,6 +592,315 @@ void tst_piemodelmapper::horizontalMapperSignals()
     QCOMPARE(spy3.size(), 1);
     QCOMPARE(spy4.size(), 1);
     QCOMPARE(spy5.size(), 1);
+}
+
+void tst_piemodelmapper::seriesEditDoesNotReinitialize()
+{
+    auto *model = new ResettingModel(m_modelRowCount, m_modelColumnCount, this);
+    for (int row = 0; row < m_modelRowCount; ++row) {
+        for (int column = 0; column < m_modelColumnCount; ++column)
+            model->setData(model->index(row, column), row * column);
+    }
+
+    m_vMapper = new QPieModelMapper;
+    m_vMapper->setValuesSection(0);
+    m_vMapper->setLabelsSection(1);
+    m_vMapper->setModel(model);
+    m_vMapper->setSeries(m_series);
+    QCOMPARE(m_series->count(), m_modelRowCount);
+    const QList<QPieSlice *> before = m_series->slices();
+
+    // A full rebuild clears the series first, which emits removed.
+    QSignalSpy removedSpy(m_series, &QPieSeries::removed);
+
+    QPieSlice *added = m_series->append("added", 100);
+    before.at(0)->setValue(25);
+    QCOMPARE(removedSpy.size(), 0);
+    QCOMPARE(m_series->count(), m_modelRowCount + 1);
+    QCOMPARE(model->rowCount(), m_modelRowCount + 1);
+    QCOMPARE(model->data(model->index(0, 0)).toReal(), 25.0);
+
+    QVERIFY(m_series->remove(added));
+    QCOMPARE(removedSpy.size(), 1);
+    QCOMPARE(m_series->count(), m_modelRowCount);
+    QCOMPARE(model->rowCount(), m_modelRowCount);
+    QCOMPARE(m_series->slices(), before);
+
+    delete m_vMapper;
+    m_vMapper = nullptr;
+    delete model;
+}
+
+void tst_piemodelmapper::externalModelResetReinitializes()
+{
+    auto *model = new ResettingModel(m_modelRowCount, m_modelColumnCount, this);
+    m_vMapper = new QPieModelMapper;
+    m_vMapper->setValuesSection(0);
+    m_vMapper->setLabelsSection(1);
+    m_vMapper->setModel(model);
+    m_vMapper->setSeries(m_series);
+    QCOMPARE(m_series->count(), m_modelRowCount);
+
+    // Change the model content without telling the mapper, then report a reset
+    model->blockSignals(true);
+    model->setData(model->index(2, 0), 42);
+    model->setData(model->index(2, 1), 43);
+    model->blockSignals(false);
+    QCOMPARE_NE(m_series->slices().at(2)->value(), 42.0);
+
+    model->resetNow();
+    QCOMPARE(m_series->count(), m_modelRowCount);
+    QCOMPARE(m_series->slices().at(2)->value(), 42.0);
+    QCOMPARE(m_series->slices().at(2)->label(), QString("43"));
+
+    // A reset that changes the row count adds and removes slices to match
+    model->blockSignals(true);
+    model->removeRows(m_modelRowCount - 3, 3);
+    model->blockSignals(false);
+    model->resetNow();
+    QCOMPARE(m_series->count(), m_modelRowCount - 3);
+
+    model->blockSignals(true);
+    model->insertRows(m_modelRowCount - 3, 5);
+    model->blockSignals(false);
+    model->resetNow();
+    QCOMPARE(m_series->count(), m_modelRowCount + 2);
+
+    delete m_vMapper;
+    m_vMapper = nullptr;
+    delete model;
+}
+
+void tst_piemodelmapper::unchangedModelResetKeepsSeries()
+{
+    auto *model = new ResettingModel(m_modelRowCount, m_modelColumnCount, this);
+    m_vMapper = new QPieModelMapper;
+    m_vMapper->setValuesSection(0);
+    m_vMapper->setLabelsSection(1);
+    m_vMapper->setModel(model);
+    m_vMapper->setSeries(m_series);
+    const QList<QPieSlice *> before = m_series->slices();
+
+    QSignalSpy removedSpy(m_series, &QPieSeries::removed);
+    QSignalSpy addedSpy(m_series, &QPieSeries::added);
+    model->resetNow();
+    QCOMPARE(removedSpy.size(), 0);
+    QCOMPARE(addedSpy.size(), 0);
+    QCOMPARE(m_series->count(), m_modelRowCount);
+    QCOMPARE(m_series->slices(), before);
+
+    delete m_vMapper;
+    m_vMapper = nullptr;
+    delete model;
+}
+
+void tst_piemodelmapper::unchangedSettersDoNothing()
+{
+    createVerticalMapper();
+    const QList<QPieSlice *> before = m_series->slices();
+    QSignalSpy removedSpy(m_series, &QPieSeries::removed);
+    QSignalSpy addedSpy(m_series, &QPieSeries::added);
+    QSignalSpy firstSpy(m_vMapper, &QPieModelMapper::firstChanged);
+    QSignalSpy countSpy(m_vMapper, &QPieModelMapper::countChanged);
+    QSignalSpy orientationSpy(m_vMapper, &QPieModelMapper::orientationChanged);
+    QSignalSpy valuesSpy(m_vMapper, &QPieModelMapper::valuesSectionChanged);
+    QSignalSpy labelsSpy(m_vMapper, &QPieModelMapper::labelsSectionChanged);
+    QSignalSpy modelSpy(m_vMapper, &QPieModelMapper::modelChanged);
+    QSignalSpy seriesSpy(m_vMapper, &QPieModelMapper::seriesChanged);
+
+    m_vMapper->setFirst(0);
+    m_vMapper->setCount(-1);
+    m_vMapper->setOrientation(Qt::Vertical);
+    m_vMapper->setValuesSection(0);
+    m_vMapper->setLabelsSection(1);
+    m_vMapper->setModel(m_model);
+    m_vMapper->setSeries(m_series);
+
+    QCOMPARE(removedSpy.size(), 0);
+    QCOMPARE(addedSpy.size(), 0);
+    QCOMPARE(firstSpy.size(), 0);
+    QCOMPARE(countSpy.size(), 0);
+    QCOMPARE(orientationSpy.size(), 0);
+    QCOMPARE(valuesSpy.size(), 0);
+    QCOMPARE(labelsSpy.size(), 0);
+    QCOMPARE(modelSpy.size(), 0);
+    QCOMPARE(seriesSpy.size(), 0);
+    QCOMPARE(m_series->slices(), before);
+
+    // A real change still takes effect
+    m_vMapper->setCount(3);
+    QCOMPARE(countSpy.size(), 1);
+    QCOMPARE(m_series->count(), 3);
+}
+
+void tst_piemodelmapper::sliceStyleSurvivesReconcile()
+{
+    auto *model = new ResettingModel(m_modelRowCount, m_modelColumnCount, this);
+    for (int row = 0; row < m_modelRowCount; ++row) {
+        for (int column = 0; column < m_modelColumnCount; ++column)
+            model->setData(model->index(row, column), row * column);
+    }
+    m_vMapper = new QPieModelMapper;
+    m_vMapper->setValuesSection(0);
+    m_vMapper->setLabelsSection(1);
+    m_vMapper->setModel(model);
+    m_vMapper->setSeries(m_series);
+
+    QPieSlice *styled = m_series->slices().at(0);
+    styled->setColor(Qt::magenta);
+    styled->setExploded(true);
+
+    // Mapping changes keep the slice object and its styling, and only refresh its data
+    m_vMapper->setFirst(1);
+    QCOMPARE(m_series->count(), m_modelRowCount - 1);
+    QCOMPARE(m_series->slices().at(0), styled);
+    QCOMPARE(styled->label(), QString("1"));
+    QCOMPARE(styled->color(), QColor(Qt::magenta));
+    QVERIFY(styled->isExploded());
+
+    m_vMapper->setCount(5);
+    QCOMPARE(m_series->count(), 5);
+    QCOMPARE(m_series->slices().at(0), styled);
+    QCOMPARE(styled->color(), QColor(Qt::magenta));
+
+    m_vMapper->setCount(-1);
+    QCOMPARE(m_series->count(), m_modelRowCount - 1);
+    QCOMPARE(m_series->slices().at(0), styled);
+
+    m_vMapper->setLabelsSection(2);
+    QCOMPARE(m_series->slices().at(0), styled);
+    QCOMPARE(styled->label(), QString("2"));
+    QCOMPARE(styled->color(), QColor(Qt::magenta));
+
+    model->resetNow();
+    QCOMPARE(m_series->slices().at(0), styled);
+    QCOMPARE(styled->color(), QColor(Qt::magenta));
+    QVERIFY(styled->isExploded());
+
+    delete m_vMapper;
+    m_vMapper = nullptr;
+    delete model;
+}
+
+void tst_piemodelmapper::otherOrientationSectionShiftUpdatesInPlace()
+{
+    createHorizontalMapper();
+    QCOMPARE(m_series->count(), m_modelColumnCount);
+    const QList<QPieSlice *> before = m_series->slices();
+    QSignalSpy removedSpy(m_series, &QPieSeries::removed);
+    QSignalSpy addedSpy(m_series, &QPieSeries::added);
+    QCOMPARE(before.at(3)->label(), QString("3")); // row 1, column 3
+
+    // The new empty row 0 shifts the labels row (1) onto what was row 0
+    QVERIFY(m_model->insertRow(0));
+    QCOMPARE(m_series->slices(), before);
+    QCOMPARE(before.at(3)->label(), QString("0"));
+    QCOMPARE(before.at(3)->value(), 0.0);
+
+    // Removing it restores the old mapping
+    QVERIFY(m_model->removeRow(0));
+    QCOMPARE(m_series->slices(), before);
+    QCOMPARE(before.at(3)->label(), QString("3"));
+
+    QCOMPARE(removedSpy.size(), 0);
+    QCOMPARE(addedSpy.size(), 0);
+}
+
+void tst_piemodelmapper::setSeriesNullDetaches()
+{
+    createVerticalMapper();
+    QCOMPARE(m_series->count(), m_modelRowCount);
+    const qreal value = m_series->slices().at(1)->value();
+
+    m_vMapper->setSeries(nullptr);
+    QCOMPARE(m_vMapper->series(), nullptr);
+
+    // Neither side affects the other any more
+    m_series->slices().at(0)->setValue(99);
+    m_series->append("added", 1);
+    QCOMPARE(m_model->rowCount(), m_modelRowCount);
+    QCOMPARE(m_model->data(m_model->index(0, 0)).toReal(), 0.0);
+
+    m_model->setData(m_model->index(1, 0), value + 5);
+    QVERIFY(m_model->insertRow(0));
+    QCOMPARE(m_series->slices().at(1)->value(), value);
+    QCOMPARE(m_series->count(), m_modelRowCount + 1);
+
+    // Setting a series again maps it from scratch
+    m_vMapper->setSeries(m_series);
+    QCOMPARE(m_vMapper->series(), m_series);
+    QCOMPARE(m_series->count(), m_model->rowCount());
+}
+
+void tst_piemodelmapper::previousSeriesSlicesAreDisconnected()
+{
+    createVerticalMapper();
+    m_vMapper->setFirst(1);
+    QCOMPARE(m_series->count(), m_modelRowCount - 1);
+
+    QList<QList<QVariant>> snapshot;
+    for (int row = 0; row < m_model->rowCount(); ++row) {
+        QList<QVariant> rowData;
+        for (int column = 0; column < m_model->columnCount(); ++column)
+            rowData.append(m_model->data(m_model->index(row, column)));
+        snapshot.append(rowData);
+    }
+    auto modelUnchanged = [&] {
+        for (int row = 0; row < m_model->rowCount(); ++row) {
+            for (int column = 0; column < m_model->columnCount(); ++column) {
+                if (m_model->data(m_model->index(row, column)) != snapshot.at(row).at(column))
+                    return false;
+            }
+        }
+        return m_model->rowCount() == snapshot.size();
+    };
+
+    auto *other = new QPieSeries;
+    m_vMapper->setSeries(other);
+    QCOMPARE(other->count(), m_modelRowCount - 1);
+
+    // The old series keeps its data, but is no longer mapped to the model
+    QCOMPARE(m_series->count(), m_modelRowCount - 1);
+    m_series->slices().at(0)->setValue(99);
+    m_series->slices().at(0)->setLabel("old");
+    m_series->append("added", 1);
+    m_series->remove(m_series->slices().at(2));
+    QVERIFY(modelUnchanged());
+    QCOMPARE(other->count(), m_modelRowCount - 1);
+
+    // The new series is mapped
+    other->slices().at(0)->setValue(7);
+    QCOMPARE(m_model->data(m_model->index(1, 0)).toReal(), 7.0);
+
+    delete other;
+    QCOMPARE(m_vMapper->series(), nullptr);
+}
+
+void tst_piemodelmapper::setModelNullDetaches()
+{
+    createVerticalMapper();
+    QCOMPARE(m_series->count(), m_modelRowCount);
+    const qreal value = m_series->slices().at(1)->value();
+
+    m_vMapper->setModel(nullptr);
+    QCOMPARE(m_vMapper->model(), nullptr);
+
+    // Neither side affects the other any more
+    m_series->slices().at(0)->setValue(99);
+    m_series->slices().at(0)->setLabel("changed");
+    m_series->append("added", 1);
+    QCOMPARE(m_model->rowCount(), m_modelRowCount);
+    QCOMPARE(m_model->data(m_model->index(0, 0)).toReal(), 0.0);
+
+    m_model->setData(m_model->index(1, 0), value + 5);
+    QVERIFY(m_model->insertRow(0));
+    QCOMPARE(m_series->slices().at(1)->value(), value);
+    QCOMPARE(m_series->count(), m_modelRowCount + 1);
+
+    // Setting a model again maps it from scratch
+    m_vMapper->setModel(m_model);
+    QCOMPARE(m_vMapper->model(), m_model);
+    QCOMPARE(m_series->count(), m_model->rowCount());
 }
 
 QTEST_MAIN(tst_piemodelmapper)
