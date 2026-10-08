@@ -28,6 +28,7 @@ class QPieSeries;
 class QPieSlice;
 class QPieSlicePrivate;
 class QQuickShape;
+class QQuickShapePath;
 class QAbstractSeries;
 class QQuickTapHandler;
 class QQuickDragHandler;
@@ -51,6 +52,9 @@ public:
         bool initialized;
         bool seriesVisible;
         bool labelPathVisible;
+#if QT_CONFIG(graphs_2d_high_quality_backend)
+        QQuickShapePath *shapePath;
+#endif
     };
 
     PieRenderer(QGraphsView *graph, bool clipPlotArea);
@@ -107,6 +111,9 @@ private:
     qreal distanceToSegment(const QVector2D p, const QVector2D segmentStart,
                             const QVector2D segmentEnd);
     void freeSlice(const QPieSlicePrivate *privSlice);
+#if QT_CONFIG(graphs_2d_high_quality_backend)
+    void rebuildShapePaths();
+#endif
 
     QGraphsView *m_graph = nullptr;
     QQuickShape *m_shape = nullptr;

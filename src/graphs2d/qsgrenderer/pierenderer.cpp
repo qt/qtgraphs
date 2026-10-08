@@ -143,6 +143,9 @@ void PieRenderer::updateActiveSlices(QPieSeries *series, QList<QPieSlice *> slic
 #endif
             SliceData sliceData{};
             sliceData.initialized = false;
+#if QT_CONFIG(graphs_2d_high_quality_backend)
+            sliceData.shapePath = shapePath;
+#endif
 
             it = m_activeSlices.insert(slice, sliceData);
         }
@@ -446,9 +449,12 @@ void PieRenderer::updateSeries(QPieSeries *series)
 
 void PieRenderer::seriesAboutToBeRemoved(QAbstractSeries *series)
 {
-    if (auto pieSeries = qobject_cast<QPieSeries *>(series))
+    if (auto pieSeries = qobject_cast<QPieSeries *>(series)) {
         handleSlicesAfterPolish(pieSeries->slices());
-
+#if QT_CONFIG(graphs_2d_high_quality_backend)
+        rebuildShapePaths();
+#endif
+    }
 }
 
 void PieRenderer::afterUpdate(QList<QAbstractSeries *> &cleanupSeries)
@@ -476,6 +482,9 @@ void PieRenderer::markedDeleted(QList<QPieSlice *> deleted)
     // affect other slices positions it is probably
     // better to just always disable current hovering.
     m_currentHoverSlice = nullptr;
+#if QT_CONFIG(graphs_2d_high_quality_backend)
+    rebuildShapePaths();
+#endif
 }
 
 bool PieRenderer::isPointInSlice(QPointF point, QPieSlice *slice, qreal *angle)
@@ -563,6 +572,20 @@ void PieRenderer::freeSlice(const QPieSlicePrivate *privSlice)
 #endif
         privSlice->m_labelItem->deleteLater();
 }
+
+#if QT_CONFIG(graphs_2d_high_quality_backend)
+// QQuickShape keeps raw pointers to its shape paths and never drops a path that gets destroyed,
+// so a path freed by freeSlice() would stay in the shape's list and be dereferenced on the next
+// path change. There is no way to remove a single path, so reset the list and re-add the paths
+// of the slices that are still active.
+void PieRenderer::rebuildShapePaths()
+{
+    auto data = m_shape->data();
+    data.clear(&data);
+    for (const auto &sliceData : std::as_const(m_activeSlices))
+        data.append(&data, sliceData.shapePath);
+}
+#endif
 
 bool PieRenderer::handleHoverMove(QHoverEvent *event)
 {
