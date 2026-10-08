@@ -1,6 +1,7 @@
 // Copyright (C) 2023 The Qt Company Ltd.
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 
+#include "graphs2d/qabstractseries.h"
 #include <QtGraphs/qabstractseries.h>
 #include <private/qabstractseries_p.h>
 #include <private/qgraphsview_p.h>
@@ -152,11 +153,13 @@ QT_BEGIN_NAMESPACE
 
     Controls if the series can be hovered with mouse/touch.
     By default, \a hoverable is set to \c false.
+    \note In 6.8, QPieSeries does not emit signals related to hovering.
 */
 /*!
     \qmlproperty bool AbstractSeries::hoverable
     Controls if the series can be hovered with mouse/touch.
     By default, \a hoverable is set to \c false.
+    \note In 6.8, PieSeries does not emit signals related to hovering.
 */
 
 /*!
@@ -378,6 +381,7 @@ void QAbstractSeries::setValuesMultiplier(qreal valuesMultiplier)
 }
 
 /*!
+    \internal
     Returns the graph that the series belongs to.
 
     Set automatically when the series is added to the graph,
@@ -458,7 +462,8 @@ void QAbstractSeries::componentComplete()
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
-QAbstractSeriesPrivate::QAbstractSeriesPrivate()
+QAbstractSeriesPrivate::QAbstractSeriesPrivate(QAbstractSeries::SeriesType type)
+    : m_type(type)
 {
 }
 

@@ -30,6 +30,8 @@
 #include <QtQuick3D/private/qquick3dprincipledmaterial_p.h>
 #include <QtQuick3D/private/qquick3drepeater_p.h>
 
+#include <QtGui/qquaternion.h>
+
 #if defined(Q_OS_IOS)
 #include <QtCore/QTimer>
 #endif
@@ -673,8 +675,6 @@ QQuickGraphsItem::QQuickGraphsItem(QQuickItem *parent)
             this,
             &QQuickGraphsItem::handleSecondarySubViewportChanged);
 
-    m_nodeMutex = QSharedPointer<QMutex>::create();
-
     QQuick3DSceneEnvironment *scene = environment();
     scene->setBackgroundMode(QQuick3DSceneEnvironment::QQuick3DEnvironmentBackgroundTypes::Color);
     scene->setClearColor(Qt::transparent);
@@ -716,12 +716,6 @@ QQuickGraphsItem::~QQuickGraphsItem()
     delete m_gridGeometryModel;
     delete m_subgridGeometryModel;
     delete m_sliceGridGeometryModel;
-
-    // Make sure not deleting locked mutex
-    QMutexLocker locker(&m_mutex);
-    locker.unlock();
-
-    m_nodeMutex.clear();
 }
 
 void QQuickGraphsItem::handleAxisTitleChanged(const QString &title)
@@ -3398,7 +3392,23 @@ QVector3D QQuickGraphsItem::graphPosToAbsolute(QVector3D position)
     const int minY = axisY()->min();
     const int maxZ = axisZ()->max();
     const int minZ = axisZ()->min();
-    const QVector3D adjustment = m_scaleWithBackground * QVector3D(1.0f, 1.0f, -1.0f);
+
+    float xAdjust = 1.0f;
+    float yAdjust = 1.0f;
+    float zAdjust = 1.0f;
+
+    auto xValueAxis = qobject_cast<QValue3DAxis *>(axisX());
+    auto yValueAxis = qobject_cast<QValue3DAxis *>(axisY());
+    auto zValueAxis = qobject_cast<QValue3DAxis *>(axisZ());
+
+    if (xValueAxis)
+        xAdjust = xValueAxis->reversed()? -1.0f: 1.0f;
+    if (yValueAxis)
+        yAdjust = yValueAxis->reversed()? -1.0f: 1.0f;
+    if (zValueAxis)
+        zAdjust = zValueAxis->reversed()? 1.0f: -1.0f;
+
+    const QVector3D adjustment = m_scaleWithBackground * QVector3D(xAdjust, yAdjust, zAdjust);
 
     float xNormalizer = maxX - minX;
     float xPos = (pos.x() - minX) / xNormalizer;
@@ -5075,7 +5085,6 @@ void QQuickGraphsItem::itemChange(ItemChange change, const ItemChangeData &value
 
 void QQuickGraphsItem::updateWindowParameters()
 {
-    const QMutexLocker locker(&m_mutex);
     // Update the device pixel ratio, window size and bounding box
     QQuickWindow *win = window();
     if (win) {

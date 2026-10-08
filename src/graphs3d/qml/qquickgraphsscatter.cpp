@@ -10,7 +10,6 @@
 #include "qvalue3daxis_p.h"
 
 #include <QColor>
-#include <QtCore/QMutexLocker>
 #include <QtQuick3D/private/qquick3dcustommaterial_p.h>
 #include <QtQuick3D/private/qquick3ddirectionallight_p.h>
 #include <QtQuick3D/private/qquick3dmodel_p.h>
@@ -18,6 +17,8 @@
 #include <QtQuick3D/private/qquick3dpointlight_p.h>
 #include <QtQuick3D/private/qquick3dprincipledmaterial_p.h>
 #include <QtQuick3D/private/qquick3drepeater_p.h>
+
+#include <QtGui/qquaternion.h>
 
 QT_BEGIN_NAMESPACE
 
@@ -111,25 +112,25 @@ static const int insertRemoveRecordReserveSize = 31;
  * \qmlsignal Scatter3D::axisXChanged(ValueAxis3D axis)
  *
  * This signal is emitted when axisX changes to \a axis.
-*/
+ */
 
 /*!
  * \qmlsignal Scatter3D::axisYChanged(ValueAxis3D axis)
  *
  * This signal is emitted when axisY changes to \a axis.
-*/
+ */
 
 /*!
  * \qmlsignal Scatter3D::axisZChanged(ValueAxis3D axis)
  *
  * This signal is emitted when axisZ changes to \a axis.
-*/
+ */
 
 /*!
  * \qmlsignal Scatter3D::selectedSeriesChanged(Scatter3DSeries series)
  *
  * This signal is emitted when selectedSeries changes to \a series.
-*/
+ */
 
 QQuickGraphsScatter::QQuickGraphsScatter(QQuickItem *parent)
     : QQuickGraphsItem(parent)
@@ -145,9 +146,6 @@ QQuickGraphsScatter::QQuickGraphsScatter(QQuickItem *parent)
 
 QQuickGraphsScatter::~QQuickGraphsScatter()
 {
-    QMutexLocker locker(m_nodeMutex.data());
-    const QMutexLocker locker2(mutex());
-
     for (auto &graphModel : m_scatterGraphs) {
         delete graphModel;
     }

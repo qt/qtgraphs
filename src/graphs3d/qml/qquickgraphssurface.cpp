@@ -1,7 +1,6 @@
 // Copyright (C) 2023 The Qt Company Ltd.
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 
-#include <QtCore/QMutexLocker>
 #include "private/qquick3drepeater_p.h"
 #include "q3dscene.h"
 #include "qquickgraphssurface_p.h"
@@ -161,8 +160,6 @@ QQuickGraphsSurface::QQuickGraphsSurface(QQuickItem *parent)
 
 QQuickGraphsSurface::~QQuickGraphsSurface()
 {
-    QMutexLocker locker(m_nodeMutex.data());
-    const QMutexLocker locker2(mutex());
     for (const auto &model : std::as_const(m_model))
         delete model;
 }
@@ -1260,6 +1257,32 @@ QRect QQuickGraphsSurface::calculateSampleSpace(SurfaceModel *model)
             const bool ascendingX = array.at(0).at(0).x() < array.at(0).at(maxColumn).x();
             const bool ascendingZ = array.at(0).at(0).z() < array.at(maxRow).at(0).z();
 
+            // Check if Z is filled before X. If it is, or there's something else that is fishy,
+            // print out a warning about incorrectly formed data.
+            bool incorrectDataFormat = false;
+            qreal val = array.at(0).at(0).z();
+            qreal step = array.at(1).at(0).z() - array.at(0).at(0).z();
+            if (maxRow > 1) {
+                if ((val + step * maxRow == array.at(maxRow).at(0).z() && !ascendingZ)
+                    || (val - step * maxRow == array.at(maxRow).at(0).z() && ascendingZ)) {
+                    incorrectDataFormat = true;
+                }
+            }
+            val = array.at(0).at(0).x();
+            step = array.at(0).at(1).x() - array.at(0).at(0).x();
+            if (maxColumn > 1) {
+                if ((val + step * maxColumn == array.at(0).at(maxColumn).x() && !ascendingX)
+                    || (val - step * maxColumn == array.at(0).at(maxColumn).x() && ascendingX)) {
+                    incorrectDataFormat = true;
+                }
+            }
+
+            if (incorrectDataFormat) {
+                qWarning("Data might be in an incorrect format. If the graph looks wrong or "
+                         "is displayed only partially, verify that rows are filled first, "
+                         "and columns after.");
+            }
+
             if (model->ascendingX != ascendingX) {
                 setIndexDirty(true);
                 model->ascendingX = ascendingX;
@@ -1374,8 +1397,8 @@ void QQuickGraphsSurface::updateModel(SurfaceModel *model)
 
         bool flatShading = model->series->shading() == QSurface3DSeries::Shading::Flat;
 
-        QVector3D boundsMin = model->boundsMin;
-        QVector3D boundsMax = model->boundsMax;
+        QVector3D boundsMin = QVector3D();
+        QVector3D boundsMax = QVector3D();
 
         QVector<QVector4D> heights;
         heights.reserve(totalSize);
@@ -1453,8 +1476,14 @@ void QQuickGraphsSurface::updateModel(SurfaceModel *model)
                 }
             }
         }
-        model->boundsMin = boundsMin;
-        model->boundsMax = boundsMax;
+
+        if (model->boundsMin != boundsMin || model->boundsMax != boundsMax) {
+            model->boundsMin = boundsMin;
+            model->boundsMax = boundsMax;
+            float range = boundsMax.y() - boundsMin.y();
+            material->setProperty("gradientMin", -(boundsMin.y() / range));
+            material->setProperty("gradientHeight", 1.0f / range);
+        }
 
         QByteArray heightData = QByteArray(reinterpret_cast<char *>(heights.data()),
                                            heights.size() * sizeof(QVector4D));
@@ -1699,15 +1728,9 @@ void QQuickGraphsSurface::updateMaterial(SurfaceModel *model)
     bool textured = !(model->series->texture().isNull() && model->series->textureFile().isEmpty());
 
     if (isSeriesVisualsDirty() || !textured) {
-        float minY = model->boundsMin.y();
-        float maxY = model->boundsMax.y();
-        float range = maxY - minY;
-
         switch (model->series->colorStyle()) {
         case (QGraphsTheme::ColorStyle::ObjectGradient):
             material->setProperty("colorStyle", 0);
-            material->setProperty("gradientMin", -(minY / range));
-            material->setProperty("gradientHeight", 1.0f / range);
             break;
         case (QGraphsTheme::ColorStyle::RangeGradient):
             material->setProperty("colorStyle", 1);
@@ -2150,9 +2173,20 @@ void QQuickGraphsSurface::updateSelectedPoint()
         // we must create them
         if (!m_selectionPointers.value(series))
             changePointerMeshTypeForSeries(series->mesh(), series);
-        m_selectionPointers.value(series)->setVisible(false);
-        if (sliceView() && sliceView()->isVisible())
-            m_sliceSelectionPointers.value(series)->setVisible(false);
+
+        if (sliceView() && !m_sliceSelectionPointers.value(series))
+            changeSlicePointerMeshTypeForSeries(series->mesh(), series);
+    }
+
+    for (auto i = m_selectionPointers.keyValueBegin(); i != m_selectionPointers.keyValueEnd(); i++)
+        i->second->setVisible(false);
+
+    if (sliceView() && sliceView()->isVisible()) {
+        for (auto i = m_sliceSelectionPointers.keyValueBegin();
+             i != m_sliceSelectionPointers.keyValueEnd();
+             i++) {
+            i->second->setVisible(false);
+        }
     }
 
     QPointF worldCoord;

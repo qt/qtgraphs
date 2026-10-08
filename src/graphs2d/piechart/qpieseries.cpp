@@ -875,7 +875,7 @@ void QPieSeries::setPieSize(qreal relativeSize)
 {
     Q_D(QPieSeries);
     relativeSize = qBound((qreal)0.0, relativeSize, (qreal)1.0);
-    d->setSizes(qMin(d->m_holeRelativeSize, relativeSize), relativeSize);
+    d->setSizes(d->m_holeRelativeSize, relativeSize);
 }
 
 qreal QPieSeries::pieSize() const
@@ -1005,7 +1005,7 @@ void QPieSeries::setHoleSize(qreal holeSize)
 {
     Q_D(QPieSeries);
     holeSize = qBound((qreal)0.0, holeSize, (qreal)1.0);
-    d->setSizes(holeSize, qMax(d->m_pieRelativeSize, holeSize));
+    d->setSizes(holeSize, d->m_pieRelativeSize);
 }
 
 qreal QPieSeries::holeSize() const
@@ -1015,7 +1015,8 @@ qreal QPieSeries::holeSize() const
 }
 
 QPieSeriesPrivate::QPieSeriesPrivate()
-    : m_pieRelativeHorPos(.5)
+    : QAbstractSeriesPrivate(QAbstractSeries::SeriesType::Pie)
+    , m_pieRelativeHorPos(.5)
     , m_pieRelativeVerPos(.5)
     , m_pieRelativeSize(.7)
     , m_pieStartAngle(0)
