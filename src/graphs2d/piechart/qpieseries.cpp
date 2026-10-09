@@ -1258,6 +1258,16 @@ void QPieSeries::setLabelsPosition(QPieSlice::LabelPosition position)
         s->setLabelPosition(position);
 }
 
+/*!
+    \internal
+
+    Handles QPieSlice::sliceChanged() emitted by one of the top-level slices of this series (the
+    sender), for example when its value changes. Recalculates the percentages, angle spans and
+    label visibility of all the slices in the series, relative to the sum of the slice values.
+
+    This is the top-level counterpart of QPieSlicePrivate::handleSliceChange(), which does the
+    same for the sub slices of a slice.
+*/
 void QPieSeries::handleSliceChange()
 {
     QPieSlice *pSlice = qobject_cast<QPieSlice *>(sender());
@@ -1397,10 +1407,7 @@ void QPieSeriesPrivate::updateData(bool clearHidden)
     Q_Q(QPieSeries);
     Q_TRACE_SCOPE(QGraphs2DPieSeriesUpdateData);
 
-    // calculate sum of all slices
-    qreal sum = 0;
-    for (QPieSlice *s : std::as_const(m_slices))
-        sum += s->value();
+    qreal sum = QPieSlicePrivate::getSlicesSum(m_slices);
 
     Q_ASSERT(sum >= 0.0);
 
@@ -1416,37 +1423,14 @@ void QPieSeriesPrivate::updateData(bool clearHidden)
     // update slice attributes
     qreal sliceAngle = m_pieStartAngle;
     qreal pieSpan = m_pieEndAngle - m_pieStartAngle;
-    auto hideMode = q->angleSpanLabelVisibility();
-    bool hideNextSmallSlice = false;
     for (QPieSlice *s : std::as_const(m_slices)) {
         QPieSlicePrivate *d = s->d_func();
         d->setPercentage(s->value() / m_sum);
         d->setStartAngle(sliceAngle);
         d->setAngleSpan(pieSpan * s->percentage());
         sliceAngle += s->angleSpan();
-        // Reset hidden status
-        if (clearHidden) {
-            d->m_hideLabel = false;
-            d->setLabelVisible(true);
-        }
-        // Check if current slice is small, and if the previous slice was also small
-        // Hide the label on this one if the mode matches
-        if (d->m_angleSpan < m_angleSpanVisibleLimit
-            && ((!hideNextSmallSlice && hideMode == QPieSeries::LabelVisibility::Even)
-                || (hideNextSmallSlice
-                    && (hideMode == QPieSeries::LabelVisibility::Odd
-                        || hideMode == QPieSeries::LabelVisibility::First))
-                || hideMode == QPieSeries::LabelVisibility::None)) {
-            d->setLabelVisible(false, true);
-        }
-        if (hideMode == QPieSeries::LabelVisibility::First) {
-            // Hide every other small slice label after the first shown one
-            hideNextSmallSlice = d->m_angleSpan < m_angleSpanVisibleLimit;
-        } else {
-            // Hide only every other odd/even small slice label
-            hideNextSmallSlice = (!hideNextSmallSlice && d->m_angleSpan < m_angleSpanVisibleLimit);
-        }
     }
+    QPieSlicePrivate::updateSmallSliceLabels(m_slices, q, clearHidden);
 
     emit q->update();
 }
