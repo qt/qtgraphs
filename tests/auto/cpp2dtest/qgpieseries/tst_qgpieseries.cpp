@@ -28,6 +28,12 @@ private slots:
     void destruction();
     void adjust_limits_and_mode();
     void limit_set_before_values();
+    void valueChangedListenerBeforeAppend();
+    void valueChangedListenerAfterAppend();
+    void valueChangedListenerSubSlice();
+    void valueChangedSeriesSum();
+    void takenSliceValueChange();
+    void visualChangeOnlyRedraws();
 
 private:
     void verifyCalculatedData(const QPieSeries &series, bool *ok);
@@ -730,6 +736,93 @@ QList<QPoint> tst_qgpieseries::slicePoints(QRectF rect)
     points << QPoint(x1, y2);
     points << QPoint(x1, y1);
     return points;
+}
+
+void tst_qgpieseries::valueChangedListenerBeforeAppend()
+{
+    // Mimics QML: onValueChanged handler is connected when the slice is created, before the
+    // slice is added to the series.
+    auto *a = new QPieSlice("a", 1);
+    auto *b = new QPieSlice("b", 1);
+    qreal seenA = -1;
+    QObject::connect(a, &QPieSlice::valueChanged, a, [&] { seenA = a->percentage(); });
+    m_series->append(a);
+    m_series->append(b);
+    QCOMPARE(a->percentage(), 0.5);
+    a->setValue(3);
+    QCOMPARE(a->percentage(), 0.75);
+    QCOMPARE(seenA, 0.75);
+}
+
+void tst_qgpieseries::valueChangedListenerAfterAppend()
+{
+    auto *a = new QPieSlice("a", 1);
+    auto *b = new QPieSlice("b", 1);
+    m_series->append(a);
+    m_series->append(b);
+    qreal seenA = -1;
+    QObject::connect(a, &QPieSlice::valueChanged, a, [&] { seenA = a->percentage(); });
+    a->setValue(3);
+    QCOMPARE(seenA, 0.75);
+}
+
+void tst_qgpieseries::valueChangedListenerSubSlice()
+{
+    auto *top = new QPieSlice("top", 1);
+    m_series->append(top);
+    auto *a = new QPieSlice("a", 1);
+    auto *b = new QPieSlice("b", 1);
+    qreal seenA = -1;
+    QObject::connect(a, &QPieSlice::valueChanged, a, [&] { seenA = a->percentage(); });
+    top->append(a);
+    top->append(b);
+    QCOMPARE(a->percentage(), 0.5);
+    a->setValue(3);
+    QCOMPARE(a->percentage(), 0.75);
+    QCOMPARE(seenA, 0.75);
+}
+
+void tst_qgpieseries::valueChangedSeriesSum()
+{
+    auto *a = new QPieSlice("a", 1);
+    auto *b = new QPieSlice("b", 1);
+    qreal seenSum = -1;
+    QObject::connect(a, &QPieSlice::valueChanged, a, [&] { seenSum = m_series->sum(); });
+    m_series->append(a);
+    m_series->append(b);
+    a->setValue(3);
+    QCOMPARE(seenSum, 4.0);
+}
+
+void tst_qgpieseries::takenSliceValueChange()
+{
+    auto *a = new QPieSlice("a", 1);
+    auto *b = new QPieSlice("b", 1);
+    m_series->append(a);
+    m_series->append(b);
+    QVERIFY(m_series->take(a));
+    a->setValue(5); // must not touch the series (and not trip the Q_ASSERT)
+    QCOMPARE(b->percentage(), 1.0);
+    QVERIFY(m_series->take(b));
+    b->setValue(5);
+    delete a;
+    delete b;
+}
+
+void tst_qgpieseries::visualChangeOnlyRedraws()
+{
+    auto *a = new QPieSlice("a", 1);
+    auto *b = new QPieSlice("b", 1);
+    m_series->append(a);
+    m_series->append(b);
+    QSignalSpy updateSpy(m_series, &QPieSeries::update);
+    QSignalSpy pctSpy(a, &QPieSlice::percentageChanged);
+    a->setColor(Qt::red);
+    a->setBorderColor(Qt::blue);
+    a->setExploded(true);
+    QVERIFY(updateSpy.count() >= 3);
+    QCOMPARE(pctSpy.count(), 0);
+    QCOMPARE(a->percentage(), 0.5);
 }
 
 QTEST_MAIN(tst_qgpieseries)
