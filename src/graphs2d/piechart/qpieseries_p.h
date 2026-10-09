@@ -23,6 +23,7 @@ QT_BEGIN_NAMESPACE
 class QPieSeriesPrivate : public QAbstractSeriesPrivate
 {
 public:
+
     enum class DataInput {
         Unset,
         Declarative,

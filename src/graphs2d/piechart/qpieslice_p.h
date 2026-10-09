@@ -49,6 +49,14 @@ public:
     void updateSeries(QPieSeries *series);
     void handleSliceChange();
 
+    static qreal getSlicesSum(const QList<QPieSlice *> slices);
+
+    // Applies the series' angleSpanVisibleLimit/angleSpanLabelVisibility rules to the labels of
+    // the given sibling slices. Angle spans must already be up to date.
+    static void updateSmallSliceLabels(const QList<QPieSlice *> &slices,
+                                       const QPieSeries *series,
+                                       bool clearHidden);
+
 private:
     friend class QPieSeries;
     friend class QPieSeriesPrivate;
