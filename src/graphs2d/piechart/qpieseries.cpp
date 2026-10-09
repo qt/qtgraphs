@@ -690,7 +690,7 @@ bool QPieSeries::replace(qsizetype index, QPieSlice *slice)
 
     d->updateData();
 
-    QObject::connect(slice, SIGNAL(sliceChanged()), this, SLOT(handleSliceChange()));
+    d->connectSlice(slice);
     emit replaced(QList<QPieSlice *>() << slice);
 
     return true;
@@ -770,7 +770,7 @@ bool QPieSeries::replace(QPieSlice *oldSlice, QPieSlice *newSlice)
 
             d->updateData();
 
-            QObject::connect(newSlice, SIGNAL(sliceChanged()), this, SLOT(handleSliceChange()));
+            d->connectSlice(newSlice);
             emit replaced(QList<QPieSlice *>() << newSlice);
 
             return true;
@@ -815,7 +815,7 @@ bool QPieSeries::replace(const QList<QPieSlice *> &slices)
     for (auto &slice : slices) {
         slice->setParent(this);
         slice->d_func()->updateSeries(this);
-        QObject::connect(slice, SIGNAL(sliceChanged()), this, SLOT(handleSliceChange()));
+        d->connectSlice(slice);
     }
 
     d->m_slices = slices;
@@ -931,7 +931,7 @@ bool QPieSeries::insert(qsizetype index, QPieSlice *slice)
 
     d->updateData();
 
-    connect(slice, SIGNAL(sliceChanged()), this, SLOT(handleSliceChange()));
+    d->connectSlice(slice);
 
     emit added(QList<QPieSlice *>() << slice);
     emit countChanged();
@@ -1265,18 +1265,22 @@ void QPieSeries::setLabelsPosition(QPieSlice::LabelPosition position)
     \internal
 
     Handles QPieSlice::sliceChanged() emitted by one of the top-level slices of this series (the
-    sender), for example when its value changes. Recalculates the percentages, angle spans and
-    label visibility of all the slices in the series, relative to the sum of the slice values.
+    sender). Recalculates the percentages, angle spans and label visibility only if the value of the
+    slice changed, as this is emitted also for purely visual changes such as the color or the
+    border of a slice. Otherwise only requests a redraw.
 
-    This is the top-level counterpart of QPieSlicePrivate::handleSliceChange(), which does the
+    This is the top-level counterpart of QPieSlicePrivate::handleSubsliceChange(), which does the
     same for the sub slices of a slice.
 */
 void QPieSeries::handleSliceChange()
 {
-    QPieSlice *pSlice = qobject_cast<QPieSlice *>(sender());
     Q_D(QPieSeries);
-    Q_ASSERT(d->m_slices.contains(pSlice));
-    d->updateData();
+    auto *slice = qobject_cast<QPieSlice *>(sender());
+    Q_ASSERT(d->m_slices.contains(slice));
+    if (QPieSlicePrivate::get(slice)->m_valueChanging)
+        d->updateData();
+    else
+        emit update();
 }
 
 QPieSeries::QPieSeries(QPieSeriesPrivate &dd, QObject *parent)
@@ -1438,6 +1442,18 @@ void QPieSeriesPrivate::updateData(bool clearHidden)
     emit q->update();
 }
 
+/*!
+    \internal
+
+    Starts listening to changes of the slice \a slice.
+*/
+void QPieSeriesPrivate::connectSlice(QPieSlice *slice)
+{
+    Q_Q(QPieSeries);
+
+    QObject::connect(slice, &QPieSlice::sliceChanged, q, &QPieSeries::handleSliceChange);
+}
+
 void QPieSeriesPrivate::updateLabels()
 {
     Q_Q(QPieSeries);
@@ -1554,7 +1570,7 @@ bool QPieSeriesPrivate::append(const QList<QPieSlice *> &slices)
     updateData();
 
     for (auto *s : slices)
-        QObject::connect(s, SIGNAL(sliceChanged()), q, SLOT(handleSliceChange()));
+        connectSlice(s);
 
     emit q->added(slices);
     emit q->countChanged();

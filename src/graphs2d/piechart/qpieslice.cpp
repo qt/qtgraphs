@@ -778,7 +778,11 @@ void QPieSlice::setValue(qreal value)
     }
 
     d->m_value = value;
+    // The owner recalculates percentages in its sliceChanged() handler, which is guaranteed to
+    // run before any valueChanged() listener, regardless of the connection order.
+    d->m_valueChanging = true;
     emit sliceChanged();
+    d->m_valueChanging = false;
     emit valueChanged();
 }
 
@@ -944,7 +948,7 @@ bool QPieSlice::replace(qsizetype index, QPieSlice *slice)
 
     d->updateData();
 
-    QObjectPrivate::connect(slice, &QPieSlice::sliceChanged, d, &QPieSlicePrivate::handleSliceChange);
+    d->connectSubslice(slice);
     emit subSlicesReplaced(QList<QPieSlice *>() << slice);
 
     return true;
@@ -1027,7 +1031,7 @@ bool QPieSlice::replace(QPieSlice *oldSlice, QPieSlice *newSlice)
 
             d->updateData();
 
-            QObjectPrivate::connect(newSlice, &QPieSlice::sliceChanged, d, &QPieSlicePrivate::handleSliceChange);
+            d->connectSubslice(newSlice);
             emit subSlicesReplaced(QList<QPieSlice *>() << newSlice);
 
             return true;
@@ -1064,7 +1068,7 @@ bool QPieSlice::replaceAll(const QList<QPieSlice *> &slices)
     for (auto &slice : slices) {
         slice->setParent(this);
         slice->d_func()->updateSeries(d->m_series);
-        QObjectPrivate::connect(slice, &QPieSlice::sliceChanged, d, &QPieSlicePrivate::handleSliceChange);
+        d->connectSubslice(slice);
     }
 
     d->m_subSlices = slices;
@@ -1115,7 +1119,7 @@ bool QPieSlice::append(const QList<QPieSlice *> &slices)
     d->updateData();
 
     for (auto *s : slices)
-        QObjectPrivate::connect(s, &QPieSlice::sliceChanged, d, &QPieSlicePrivate::handleSliceChange);
+        d->connectSubslice(s);
 
     emit subSlicesAdded(slices);
     emit subSlicesCountChanged(subSlicesCount());
@@ -1169,7 +1173,7 @@ bool QPieSlice::insert(qsizetype index, QPieSlice *slice)
 
     d->updateData();
 
-    QObjectPrivate::connect(slice, &QPieSlice::sliceChanged, d, &QPieSlicePrivate::handleSliceChange);
+    d->connectSubslice(slice);
 
     emit subSlicesAdded(QList<QPieSlice *>() << slice);
     emit subSlicesCountChanged(subSlicesCount());
@@ -1321,20 +1325,35 @@ qreal QPieSlice::subSlicesRatio() const
 /*!
     \internal
 
-    Handles QPieSlice::sliceChanged() emitted by one of this slice's sub slices (the sender),
-    for example when its value changes. Recalculates the percentages, angle spans and label
-    visibility of all the sub slices of this slice, relative to the sum of the sub slice values.
+    Handles QPieSlice::sliceChanged() emitted by one of this slice's sub slices (the sender).
+    Recalculates the percentages, angle spans and label visibility only if the value of the sub
+    slice changed, as this is emitted also for purely visual changes such as the color or the
+    border of a sub slice. Otherwise only requests a redraw.
 
     This is the sub slice counterpart of QPieSeries::handleSliceChange(), which does the same for
     the top-level slices of a series.
 */
-void QPieSlicePrivate::handleSliceChange()
+void QPieSlicePrivate::handleSubsliceChange()
 {
     Q_Q(QPieSlice);
 
-    QPieSlice *pSlice = qobject_cast<QPieSlice *>(q->sender());
-    Q_ASSERT(m_subSlices.contains(pSlice));
-    updateData();
+    auto *slice = qobject_cast<QPieSlice *>(q->sender());
+    Q_ASSERT(m_subSlices.contains(slice));
+    if (QPieSlicePrivate::get(slice)->m_valueChanging)
+        updateData();
+    else if (m_series)
+        emit m_series->update();
+}
+
+/*!
+    \internal
+
+    Starts listening to changes of the sub slice \a slice.
+*/
+void QPieSlicePrivate::connectSubslice(QPieSlice *slice)
+{
+    QObjectPrivate::connect(slice, &QPieSlice::sliceChanged, this,
+                            &QPieSlicePrivate::handleSubsliceChange);
 }
 
 QPieSlicePrivate::QPieSlicePrivate()

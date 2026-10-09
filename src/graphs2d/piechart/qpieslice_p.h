@@ -47,7 +47,8 @@ public:
 
     void updateData(bool clearHidden = false);
     void updateSeries(QPieSeries *series);
-    void handleSliceChange();
+    void handleSubsliceChange();
+    void connectSubslice(QPieSlice *slice);
 
     static qreal getSlicesSum(const QList<QPieSlice *> slices);
 
@@ -73,6 +74,9 @@ private:
     QFont m_labelFont;
     qreal m_labelArmLengthFactor;
     qreal m_value;
+    // True while QPieSlice::sliceChanged() is emitted due to a value change. Lets the parent
+    // recalculate the geometry before valueChanged() listeners run.
+    bool m_valueChanging = false;
     qreal m_percentage;
     qreal m_startAngle;
     qreal m_angleSpan;

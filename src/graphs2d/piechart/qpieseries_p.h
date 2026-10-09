@@ -36,6 +36,7 @@ public:
     void updateData(bool clearHidden = false);
     void updateLabels();
     void setSizes(qreal innerSize, qreal outerSize);
+    void connectSlice(QPieSlice *slice);
     void handleSliceDataChanged();
     void handleSliceLabelsChanged(const QStringList &labels);
     void setDataInput(DataInput inputMode) { m_dataInput = inputMode; }
