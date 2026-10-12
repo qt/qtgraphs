@@ -77,6 +77,7 @@ private:
     qreal m_startAngle;
     qreal m_angleSpan;
     bool m_hideLabel;
+    bool m_labelVisibleRequested;
     bool m_isExploded;
     qreal m_explodeDistanceFactor;
 
