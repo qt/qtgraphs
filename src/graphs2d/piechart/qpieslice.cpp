@@ -672,6 +672,8 @@ QString QPieSlice::label() const
 void QPieSlice::setLabelVisible(bool visible)
 {
     Q_D(QPieSlice);
+
+    d->m_labelVisibleRequested = visible;
     if (d->m_isLabelVisible == visible) {
         qCDebug(lcProperties2D) << "QPieSlice::setLabelVisible. Label visible is already set to:"
                                 << visible;
@@ -1340,6 +1342,7 @@ QPieSlicePrivate::QPieSlicePrivate()
     , m_startAngle(0.0)
     , m_angleSpan(0.0)
     , m_hideLabel(false)
+    , m_labelVisibleRequested(false)
     , m_isExploded(false)
     , m_explodeDistanceFactor(.15)
     , m_labelDirty(false)
@@ -1407,21 +1410,26 @@ qreal QPieSlicePrivate::getSlicesSum(const QList<QPieSlice *> slices)
     return sum;
 }
 
-void QPieSlicePrivate::updateSmallSliceLabels(const QList<QPieSlice *> &slices,
-                                              const QPieSeries *series,
-                                              bool clearHidden)
+void QPieSlicePrivate::updateSmallSliceLabels(
+    const QList<QPieSlice *> &slices, const QPieSeries *series, bool clearHidden)
 {
     const auto hideMode = series->angleSpanLabelVisibility();
     const qreal visibleLimit = series->angleSpanVisibleLimit();
     bool hideNextSmallSlice = false;
     for (QPieSlice *s : slices) {
         auto slicePriv = QPieSlicePrivate::get(s);
-        // Reset hidden status
-        if (clearHidden) {
+
+        // Changing the limit or mode makes all labels visible again before the rules are applied
+        if (clearHidden)
+            slicePriv->m_labelVisibleRequested = true;
+        if (clearHidden || slicePriv->m_hideLabel) {
+            // Reset hidden status
             slicePriv->m_hideLabel = false;
-            slicePriv->setLabelVisible(true);
+            slicePriv->setLabelVisible(slicePriv->m_labelVisibleRequested);
         }
+
         const bool isSmall = slicePriv->m_angleSpan < visibleLimit;
+
         // Check if current slice is small, and if the previous slice was also small
         // Hide the label on this one if the mode matches
         if (isSmall

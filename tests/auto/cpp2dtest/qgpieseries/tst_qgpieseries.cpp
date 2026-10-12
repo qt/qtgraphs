@@ -27,6 +27,7 @@ private slots:
     void sliceSeries();
     void destruction();
     void adjust_limits_and_mode();
+    void limit_set_before_values();
 
 private:
     void verifyCalculatedData(const QPieSeries &series, bool *ok);
@@ -681,6 +682,40 @@ void tst_qgpieseries::adjust_limits_and_mode()
     for (const QPieSlice *slice : series.slices())
         visiblecount += slice->isLabelVisible();
     QCOMPARE(visiblecount, 5);
+}
+
+void tst_qgpieseries::limit_set_before_values()
+{
+    // QTBUG-143546: the limit is set before the slices get their values,
+    // as happens when it is set declaratively in QML
+    QPieSeries series;
+    series.setAngleSpanVisibleLimit(30);
+    series.setAngleSpanLabelVisibility(QPieSeries::LabelVisibility::None);
+    for (int i = 0; i < 4; ++i) {
+        auto slice = new QPieSlice("slice", 0.0);
+        slice->setLabelVisible(true);
+        series.append(slice);
+    }
+
+    // While the values arrive one by one, the later slices are momentarily under the limit
+    for (int i = 0; i < 4; ++i)
+        series.slices().at(i)->setValue((i + 1) * 10); // Angle spans 36, 72, 108 and 144
+    for (const QPieSlice *slice : series.slices())
+        QVERIFY(slice->isLabelVisible());
+
+    // A label hidden under the limit comes back when its slice grows past it again
+    QPieSlice *first = series.slices().first();
+    first->setValue(1);
+    QVERIFY(!first->isLabelVisible());
+    first->setValue(10);
+    QVERIFY(first->isLabelVisible());
+
+    // ... but only if the label is meant to be visible
+    first->setValue(1);
+    series.setLabelsVisible(false);
+    first->setValue(10);
+    for (const QPieSlice *slice : series.slices())
+        QVERIFY(!slice->isLabelVisible());
 }
 
 QList<QPoint> tst_qgpieseries::slicePoints(QRectF rect)
