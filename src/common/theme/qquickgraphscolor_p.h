@@ -38,8 +38,10 @@ public:
     QQuickGraphsColor(QObject *parent = 0);
     ~QQuickGraphsColor() override;
 
-    void setColor(QColor color);
     QColor color() const;
+
+public Q_SLOTS:
+    void setColor(QColor color);
 
 Q_SIGNALS:
     void colorChanged(QColor color);

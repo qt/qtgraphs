@@ -233,77 +233,48 @@ public:
     void resetDirtyBits();
 
     ColorScheme colorScheme() const;
-    void setColorScheme(ColorScheme newColorScheme);
 
     Theme theme() const;
-    void setTheme(Theme newTheme, ForceTheme force = ForceTheme::No);
 
     ColorStyle colorStyle() const;
-    void setColorStyle(ColorStyle newColorStyle);
 
     QColor backgroundColor() const;
-    void setBackgroundColor(QColor newBackgroundColor);
     bool isBackgroundVisible() const;
-    void setBackgroundVisible(bool newBackgroundVisible);
 
     QColor plotAreaBackgroundColor() const;
-    void setPlotAreaBackgroundColor(QColor newBackgroundColor);
     bool isPlotAreaBackgroundVisible() const;
-    void setPlotAreaBackgroundVisible(bool newBackgroundVisibility);
 
     bool isGridVisible() const;
-    void setGridVisible(bool newGridVisibility);
 
     bool labelsVisible() const;
-    void setLabelsVisible(bool newLabelsVisibility);
     QColor labelBackgroundColor() const;
-    void setLabelBackgroundColor(QColor newLabelBackgroundColor);
     QColor labelTextColor() const;
-    void setLabelTextColor(QColor newLabelTextColor);
 
     QColor singleHighlightColor() const;
-    void setSingleHighlightColor(QColor newSingleHighlightColor);
     QColor multiHighlightColor() const;
-    void setMultiHighlightColor(QColor newMultiHighlightColor);
-    void setSingleHighlightGradient(const QLinearGradient &gradient);
     QLinearGradient singleHighlightGradient() const;
-    void setMultiHighlightGradient(const QLinearGradient &gradient);
     QLinearGradient multiHighlightGradient() const;
 
     QFont labelFont() const;
-    void setLabelFont(const QFont &newFont);
 
     QList<QColor> seriesColors() const;
-    void setSeriesColors(const QList<QColor> &newSeriesColors);
     QList<QColor> borderColors() const;
-    void setBorderColors(const QList<QColor> &newBorderColors);
     QList<QLinearGradient> seriesGradients() const;
-    void setSeriesGradients(const QList<QLinearGradient> &newSeriesGradients);
 
     bool isLabelBackgroundVisible() const;
-    void setLabelBackgroundVisible(bool newLabelBackgroundVisibility);
 
     bool isLabelBorderVisible() const;
-    void setLabelBorderVisible(bool newLabelBorderVisibility);
 
     qreal borderWidth() const;
-    void setBorderWidth(qreal newBorderWidth);
 
     QFont axisXLabelFont() const;
-    void setAxisXLabelFont(const QFont &newAxisXLabelFont);
     QFont axisYLabelFont() const;
-    void setAxisYLabelFont(const QFont &newAxisYLabelFont);
     QFont axisZLabelFont() const;
-    void setAxisZLabelFont(const QFont &newAxisZLabelFont);
 
     QGraphsLine grid() const;
-    void setGrid(const QGraphsLine &newGrid);
     QGraphsLine axisX() const;
-    void setAxisX(const QGraphsLine &newAxisX);
     QGraphsLine axisY() const;
-    void setAxisY(const QGraphsLine &newAxisY);
     QGraphsLine axisZ() const;
-    void setAxisZ(const QGraphsLine &newAxisZ);
 
 Q_SIGNALS:
     void update();
@@ -354,6 +325,35 @@ Q_SIGNALS:
 public Q_SLOTS:
     void handleBaseColorUpdate();
     void handleBaseGradientUpdate();
+    void setColorScheme(ColorScheme newColorScheme);
+    void setTheme(Theme newTheme, ForceTheme force = ForceTheme::No);
+    void setColorStyle(ColorStyle newColorStyle);
+    void setBackgroundColor(QColor newBackgroundColor);
+    void setBackgroundVisible(bool newBackgroundVisible);
+    void setPlotAreaBackgroundColor(QColor newBackgroundColor);
+    void setPlotAreaBackgroundVisible(bool newBackgroundVisibility);
+    void setGridVisible(bool newGridVisibility);
+    void setLabelsVisible(bool newLabelsVisibility);
+    void setLabelBackgroundColor(QColor newLabelBackgroundColor);
+    void setLabelTextColor(QColor newLabelTextColor);
+    void setSingleHighlightColor(QColor newSingleHighlightColor);
+    void setMultiHighlightColor(QColor newMultiHighlightColor);
+    void setSingleHighlightGradient(const QLinearGradient &gradient);
+    void setMultiHighlightGradient(const QLinearGradient &gradient);
+    void setLabelFont(const QFont &newFont);
+    void setSeriesColors(const QList<QColor> &newSeriesColors);
+    void setBorderColors(const QList<QColor> &newBorderColors);
+    void setSeriesGradients(const QList<QLinearGradient> &newSeriesGradients);
+    void setLabelBackgroundVisible(bool newLabelBackgroundVisibility);
+    void setLabelBorderVisible(bool newLabelBorderVisibility);
+    void setBorderWidth(qreal newBorderWidth);
+    void setAxisXLabelFont(const QFont &newAxisXLabelFont);
+    void setAxisYLabelFont(const QFont &newAxisYLabelFont);
+    void setAxisZLabelFont(const QFont &newAxisZLabelFont);
+    void setGrid(const QGraphsLine &newGrid);
+    void setAxisX(const QGraphsLine &newAxisX);
+    void setAxisY(const QGraphsLine &newAxisY);
+    void setAxisZ(const QGraphsLine &newAxisZ);
 
 protected:
     explicit QGraphsTheme(QGraphsThemePrivate &dd, QObject *parent = nullptr);
