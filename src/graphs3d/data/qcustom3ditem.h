@@ -48,38 +48,38 @@ public:
                            QObject *parent = nullptr);
     ~QCustom3DItem() override;
 
-    void setMeshFile(const QString &meshFile);
     QString meshFile() const;
 
-    void setTextureFile(const QString &textureFile);
     QString textureFile() const;
 
-    void setPosition(QVector3D position);
     QVector3D position() const;
 
-    void setPositionAbsolute(bool positionAbsolute);
     bool isPositionAbsolute() const;
 
-    void setScaling(QVector3D scaling);
     QVector3D scaling() const;
 
-    void setScalingAbsolute(bool scalingAbsolute);
     bool isScalingAbsolute() const;
 
-    void setRotation(const QQuaternion &rotation);
     QQuaternion rotation();
 
-    void setRotationAbsolute(bool rotationAbsolute);
     bool isRotationAbsolute() const;
 
-    void setVisible(bool visible);
     bool isVisible() const;
 
-    void setShadowCasting(bool enabled);
     bool isShadowCasting() const;
 
-    Q_INVOKABLE void setRotationAxisAndAngle(QVector3D axis, float angle);
-
+public Q_SLOTS:
+    void setMeshFile(const QString &meshFile);
+    void setTextureFile(const QString &textureFile);
+    void setPosition(QVector3D position);
+    void setPositionAbsolute(bool positionAbsolute);
+    void setScaling(QVector3D scaling);
+    void setScalingAbsolute(bool scalingAbsolute);
+    void setRotation(const QQuaternion &rotation);
+    void setRotationAbsolute(bool rotationAbsolute);
+    void setVisible(bool visible);
+    void setShadowCasting(bool enabled);
+    void setRotationAxisAndAngle(QVector3D axis, float angle);
     void setTextureImage(const QImage &textureImage);
 
 Q_SIGNALS:

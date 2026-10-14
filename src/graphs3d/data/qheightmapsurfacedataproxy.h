@@ -36,26 +36,28 @@ public:
     explicit QHeightMapSurfaceDataProxy(const QString &filename, QObject *parent = nullptr);
     ~QHeightMapSurfaceDataProxy() override;
 
-    void setHeightMap(const QImage &image);
     QImage heightMap() const;
-    void setHeightMapFile(const QString &filename);
     QString heightMapFile() const;
 
+    float minXValue() const;
+    float maxXValue() const;
+    float minZValue() const;
+    float maxZValue() const;
+    float minYValue() const;
+    float maxYValue() const;
+    bool autoScaleY() const;
+
+public Q_SLOTS:
+    void setHeightMap(const QImage &image);
+    void setHeightMapFile(const QString &filename);
     void setValueRanges(float minX, float maxX, float minZ, float maxZ);
     void setMinXValue(float min);
-    float minXValue() const;
     void setMaxXValue(float max);
-    float maxXValue() const;
     void setMinZValue(float min);
-    float minZValue() const;
     void setMaxZValue(float max);
-    float maxZValue() const;
     void setMinYValue(float min);
-    float minYValue() const;
     void setMaxYValue(float max);
-    float maxYValue() const;
     void setAutoScaleY(bool enabled);
-    bool autoScaleY() const;
 
 Q_SIGNALS:
     void heightMapChanged(const QImage &image);

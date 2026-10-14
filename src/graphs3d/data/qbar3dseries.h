@@ -50,40 +50,27 @@ public:
     explicit QBar3DSeries(QBarDataProxy *dataProxy, QObject *parent = nullptr);
     ~QBar3DSeries() override;
 
-    void setDataProxy(QBarDataProxy *proxy);
     QBarDataProxy *dataProxy() const;
 
-    void setSelectedBar(QPoint position);
     QPoint selectedBar() const;
     static QPoint invalidSelectionPosition();
 
-    void setMeshAngle(float angle);
     float meshAngle() const;
 
     QList<QColor> rowColors() const;
-    void setRowColors(const QList<QColor> &colors);
 
     bool isValueColoringEnabled() const;
-    void setValueColoringEnabled(bool enabled);
 
-    void setDataArray(const QBarDataArray &newDataArray);
     void clearRow(qsizetype rowIndex);
     void clearArray();
     const QBarDataArray &dataArray() const &;
     QBarDataArray dataArray() &&;
     QStringList rowLabels() const;
-    void setRowLabels(const QStringList &labels);
     QStringList columnLabels() const;
-    void setColumnLabels(const QStringList &labels);
 
     QStringList customRowLabels() const;
-    void setCustomRowLabels(const QStringList &labels);
     QStringList customColumnLabels() const;
-    void setCustomColumnLabels(const QStringList &labels);
 
-    void setRowAxis(QCategory3DAxis *axis);
-    void setValueAxis(QValue3DAxis *axis);
-    void setColumnAxis(QCategory3DAxis *axis);
     QCategory3DAxis *rowAxis() const;
     QValue3DAxis *valueAxis() const;
     QCategory3DAxis *columnAxis() const;
@@ -91,6 +78,20 @@ public:
     void resetValueAxis();
     void resetColumnAxis();
 
+public Q_SLOTS:
+    void setDataProxy(QBarDataProxy *proxy);
+    void setSelectedBar(QPoint position);
+    void setMeshAngle(float angle);
+    void setRowColors(const QList<QColor> &colors);
+    void setValueColoringEnabled(bool enabled);
+    void setDataArray(const QBarDataArray &newDataArray);
+    void setRowLabels(const QStringList &labels);
+    void setColumnLabels(const QStringList &labels);
+    void setCustomRowLabels(const QStringList &labels);
+    void setCustomColumnLabels(const QStringList &labels);
+    void setRowAxis(QCategory3DAxis *axis);
+    void setValueAxis(QValue3DAxis *axis);
+    void setColumnAxis(QCategory3DAxis *axis);
 
 Q_SIGNALS:
     void dataProxyChanged(QBarDataProxy *proxy);

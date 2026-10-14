@@ -40,12 +40,6 @@ public:
     void resetArray();
     void resetArray(QSurfaceDataArray newArray);
 
-    void setRow(qsizetype rowIndex, QSurfaceDataRow row);
-    void setRows(qsizetype rowIndex, QSurfaceDataArray rows);
-
-    void setItem(qsizetype rowIndex, qsizetype columnIndex, QSurfaceDataItem item);
-    void setItem(QPoint position, QSurfaceDataItem item);
-
     qsizetype addRow(QSurfaceDataRow row);
     qsizetype addRows(QSurfaceDataArray rows);
 
@@ -53,6 +47,12 @@ public:
     void insertRows(qsizetype rowIndex, QSurfaceDataArray rows);
 
     void removeRows(qsizetype rowIndex, qsizetype removeCount);
+
+public Q_SLOTS:
+    void setRow(qsizetype rowIndex, QSurfaceDataRow row);
+    void setRows(qsizetype rowIndex, QSurfaceDataArray rows);
+    void setItem(qsizetype rowIndex, qsizetype columnIndex, QSurfaceDataItem item);
+    void setItem(QPoint position, QSurfaceDataItem item);
 
 Q_SIGNALS:
     void arrayReset();

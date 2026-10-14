@@ -63,47 +63,49 @@ public:
     explicit QSurface3DSeries(QSurfaceDataProxy *dataProxy, QObject *parent = nullptr);
     ~QSurface3DSeries() override;
 
-    void setDataProxy(QSurfaceDataProxy *proxy);
     QSurfaceDataProxy *dataProxy() const;
 
-    void setSelectedPoint(QPoint position);
     QPoint selectedPoint() const;
     static QPoint invalidSelectionPosition();
 
-    void setShading(const QSurface3DSeries::Shading shading);
     QSurface3DSeries::Shading shading() const;
 
-    void setDrawMode(QSurface3DSeries::DrawFlags mode);
     QSurface3DSeries::DrawFlags drawMode() const;
 
     bool isFlatShadingSupported() const;
 
-    void setTexture(const QImage &texture);
     QImage texture() const;
-    void setTextureFile(const QString &filename);
     QString textureFile() const;
 
-    void setWireframeColor(QColor color);
     QColor wireframeColor() const;
 
-    void setRowsSanitized(bool sanitized);
     bool rowsSanitized() const;
 
-    void setDataArray(const QSurfaceDataArray &newDataArray);
     void clearRow(qsizetype rowIndex);
     void clearArray();
     const QSurfaceDataArray &dataArray() const &;
     QSurfaceDataArray dataArray() &&;
 
-    void setAxisX(QValue3DAxis *axis);
-    void setAxisY(QValue3DAxis *axis);
-    void setAxisZ(QValue3DAxis *axis);
     QValue3DAxis *axisX() const;
     QValue3DAxis *axisY() const;
     QValue3DAxis *axisZ() const;
     void resetAxisX();
     void resetAxisY();
     void resetAxisZ();
+
+public Q_SLOTS:
+    void setDataProxy(QSurfaceDataProxy *proxy);
+    void setSelectedPoint(QPoint position);
+    void setShading(const QSurface3DSeries::Shading shading);
+    void setDrawMode(QSurface3DSeries::DrawFlags mode);
+    void setTexture(const QImage &texture);
+    void setTextureFile(const QString &filename);
+    void setWireframeColor(QColor color);
+    void setRowsSanitized(bool sanitized);
+    void setDataArray(const QSurfaceDataArray &newDataArray);
+    void setAxisX(QValue3DAxis *axis);
+    void setAxisY(QValue3DAxis *axis);
+    void setAxisZ(QValue3DAxis *axis);
 
 Q_SIGNALS:
     void dataProxyChanged(QSurfaceDataProxy *proxy);

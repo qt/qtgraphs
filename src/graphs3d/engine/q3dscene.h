@@ -46,29 +46,31 @@ public:
     QRect viewport() const;
 
     QRect primarySubViewport() const;
-    void setPrimarySubViewport(QRect primarySubViewport);
     bool isPointInPrimarySubView(QPoint point);
 
     QRect secondarySubViewport() const;
-    void setSecondarySubViewport(QRect secondarySubViewport);
     bool isPointInSecondarySubView(QPoint point);
 
-    void setSelectionQueryPosition(QPoint point);
     QPoint selectionQueryPosition() const;
 
-    void setGraphPositionQuery(QPoint point);
     QPoint graphPositionQuery() const;
 
-    void setSlicingActive(bool isSlicing);
     bool isSlicingActive() const;
 
-    void setSecondarySubviewOnTop(bool isSecondaryOnTop);
     bool isSecondarySubviewOnTop() const;
 
     qreal devicePixelRatio() const;
-    void setDevicePixelRatio(qreal pixelRatio);
 
     QPoint invalidSelectionPoint() const;
+
+public Q_SLOTS:
+    void setPrimarySubViewport(QRect primarySubViewport);
+    void setSecondarySubViewport(QRect secondarySubViewport);
+    void setSelectionQueryPosition(QPoint point);
+    void setGraphPositionQuery(QPoint point);
+    void setSlicingActive(bool isSlicing);
+    void setSecondarySubviewOnTop(bool isSecondaryOnTop);
+    void setDevicePixelRatio(qreal pixelRatio);
 
 Q_SIGNALS:
     void viewportChanged(QRect viewport);

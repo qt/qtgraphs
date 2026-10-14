@@ -53,24 +53,24 @@ public:
     QQuickGraphsSurface3DSeries(QObject *parent = 0);
     ~QQuickGraphsSurface3DSeries() override;
 
-    void setSelectedPoint(QPointF position);
     QPointF selectedPoint() const;
     QPointF invalidSelectionPosition() const;
 
     QQmlListProperty<QObject> seriesChildren();
     static void appendSeriesChildren(QQmlListProperty<QObject> *list, QObject *element);
 
-    void setBaseGradient(QQuickGradient *gradient);
     QQuickGradient *baseGradient() const;
-    void setSingleHighlightGradient(QQuickGradient *gradient);
     QQuickGradient *singleHighlightGradient() const;
-    void setMultiHighlightGradient(QQuickGradient *gradient);
     QQuickGradient *multiHighlightGradient() const;
 
 public Q_SLOTS:
     void handleBaseGradientUpdate();
     void handleSingleHighlightGradientUpdate();
     void handleMultiHighlightGradientUpdate();
+    void setSelectedPoint(QPointF position);
+    void setBaseGradient(QQuickGradient *gradient);
+    void setSingleHighlightGradient(QQuickGradient *gradient);
+    void setMultiHighlightGradient(QQuickGradient *gradient);
 
 Q_SIGNALS:
     void selectedPointChanged(QPointF position);

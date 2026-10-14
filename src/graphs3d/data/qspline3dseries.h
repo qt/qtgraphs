@@ -34,23 +34,25 @@ public:
     explicit QSpline3DSeries(QScatterDataProxy *dataProxy, QObject *parent = nullptr);
     ~QSpline3DSeries() override;
 
-    void setSplineVisible(bool draw);
     bool isSplineVisible() const;
 
-    void setSplineTension(qreal tension);
     qreal splineTension() const;
 
-    void setSplineKnotting(qreal knotting);
     qreal splineKnotting() const;
 
-    void setSplineLooping(bool looping);
     bool isSplineLooping() const;
 
-    void setSplineColor(QColor color);
     QColor splineColor() const;
 
-    void setSplineResolution(int resolution);
     int splineResolution() const;
+
+public Q_SLOTS:
+    void setSplineVisible(bool draw);
+    void setSplineTension(qreal tension);
+    void setSplineKnotting(qreal knotting);
+    void setSplineLooping(bool looping);
+    void setSplineColor(QColor color);
+    void setSplineResolution(int resolution);
 
 Q_SIGNALS:
     void splineVisibilityChanged(bool visible);

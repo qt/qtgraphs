@@ -98,28 +98,18 @@ public:
                                     QObject *parent = nullptr);
     ~QItemModelBarDataProxy() override;
 
-    void setItemModel(QAbstractItemModel *itemModel);
     QAbstractItemModel *itemModel() const;
 
-    void setRowRole(const QString &role);
     QString rowRole() const;
-    void setColumnRole(const QString &role);
     QString columnRole() const;
-    void setValueRole(const QString &role);
     QString valueRole() const;
-    void setRotationRole(const QString &role);
     QString rotationRole() const;
 
-    void setRowCategories(const QStringList &categories);
     QStringList rowCategories() const;
-    void setColumnCategories(const QStringList &categories);
     QStringList columnCategories() const;
 
-    void setUseModelCategories(bool enable);
     bool useModelCategories() const;
-    void setAutoRowCategories(bool enable);
     bool autoRowCategories() const;
-    void setAutoColumnCategories(bool enable);
     bool autoColumnCategories() const;
 
     void remap(const QString &rowRole,
@@ -132,26 +122,38 @@ public:
     Q_INVOKABLE qsizetype rowCategoryIndex(const QString &category);
     Q_INVOKABLE qsizetype columnCategoryIndex(const QString &category);
 
-    void setRowRolePattern(const QRegularExpression &pattern);
     QRegularExpression rowRolePattern() const;
-    void setColumnRolePattern(const QRegularExpression &pattern);
     QRegularExpression columnRolePattern() const;
-    void setValueRolePattern(const QRegularExpression &pattern);
     QRegularExpression valueRolePattern() const;
-    void setRotationRolePattern(const QRegularExpression &pattern);
     QRegularExpression rotationRolePattern() const;
 
-    void setRowRoleReplace(const QString &replace);
     QString rowRoleReplace() const;
-    void setColumnRoleReplace(const QString &replace);
     QString columnRoleReplace() const;
-    void setValueRoleReplace(const QString &replace);
     QString valueRoleReplace() const;
-    void setRotationRoleReplace(const QString &replace);
     QString rotationRoleReplace() const;
 
-    void setMultiMatchBehavior(QItemModelBarDataProxy::MultiMatchBehavior behavior);
     QItemModelBarDataProxy::MultiMatchBehavior multiMatchBehavior() const;
+
+public Q_SLOTS:
+    void setItemModel(QAbstractItemModel *itemModel);
+    void setRowRole(const QString &role);
+    void setColumnRole(const QString &role);
+    void setValueRole(const QString &role);
+    void setRotationRole(const QString &role);
+    void setRowCategories(const QStringList &categories);
+    void setColumnCategories(const QStringList &categories);
+    void setUseModelCategories(bool enable);
+    void setAutoRowCategories(bool enable);
+    void setAutoColumnCategories(bool enable);
+    void setRowRolePattern(const QRegularExpression &pattern);
+    void setColumnRolePattern(const QRegularExpression &pattern);
+    void setValueRolePattern(const QRegularExpression &pattern);
+    void setRotationRolePattern(const QRegularExpression &pattern);
+    void setRowRoleReplace(const QString &replace);
+    void setColumnRoleReplace(const QString &replace);
+    void setValueRoleReplace(const QString &replace);
+    void setRotationRoleReplace(const QString &replace);
+    void setMultiMatchBehavior(QItemModelBarDataProxy::MultiMatchBehavior behavior);
 
 Q_SIGNALS:
     void itemModelChanged(const QAbstractItemModel *itemModel);

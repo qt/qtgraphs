@@ -32,19 +32,14 @@ public:
     explicit QValue3DAxis(QObject *parent = nullptr);
     ~QValue3DAxis() override;
 
-    void setSegmentCount(qsizetype count);
     qsizetype segmentCount() const;
 
-    void setSubSegmentCount(qsizetype count);
     qsizetype subSegmentCount() const;
 
-    void setLabelFormat(const QString &format);
     QString labelFormat() const;
 
-    void setFormatter(QValue3DAxisFormatter *formatter);
     QValue3DAxisFormatter *formatter() const;
 
-    void setReversed(bool enable);
     bool reversed() const;
 
     void recalculate();
@@ -55,6 +50,13 @@ public:
     float labelPositionAt(qsizetype index);
     float positionAt(float x);
     QString stringForValue(float x);
+
+public Q_SLOTS:
+    void setSegmentCount(qsizetype count);
+    void setSubSegmentCount(qsizetype count);
+    void setLabelFormat(const QString &format);
+    void setFormatter(QValue3DAxisFormatter *formatter);
+    void setReversed(bool enable);
 
 Q_SIGNALS:
     void segmentCountChanged(qsizetype count);

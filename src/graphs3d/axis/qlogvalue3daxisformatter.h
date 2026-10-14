@@ -29,12 +29,14 @@ public:
     explicit QLogValue3DAxisFormatter(QObject *parent = nullptr);
     ~QLogValue3DAxisFormatter() override;
 
-    void setBase(qreal base);
     qreal base() const;
-    void setAutoSubGrid(bool enabled);
     bool autoSubGrid() const;
-    void setEdgeLabelsVisible(bool enabled);
     bool edgeLabelsVisible() const;
+
+public Q_SLOTS:
+    void setBase(qreal base);
+    void setAutoSubGrid(bool enabled);
+    void setEdgeLabelsVisible(bool enabled);
 
 Q_SIGNALS:
     void baseChanged(qreal base);

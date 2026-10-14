@@ -23,8 +23,10 @@ public:
     explicit QCategory3DAxis(QObject *parent = nullptr);
     ~QCategory3DAxis() override;
 
-    void setLabels(const QStringList &labels);
     QStringList labels() const;
+
+public Q_SLOTS:
+    void setLabels(const QStringList &labels);
 
 Q_SIGNALS:
     void rowLabelsChanged();

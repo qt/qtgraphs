@@ -80,11 +80,8 @@ public:
     };
     Q_DECLARE_FLAGS(DataDimensions, DataDimension)
 
-    void setAxisX(QValue3DAxis *axis);
     QValue3DAxis *axisX() const;
-    void setAxisY(QValue3DAxis *axis);
     QValue3DAxis *axisY() const;
-    void setAxisZ(QValue3DAxis *axis);
     QValue3DAxis *axisZ() const;
 
     QQmlListProperty<QSurface3DSeries> seriesList();
@@ -96,44 +93,30 @@ public:
     Q_INVOKABLE void removeSeries(QSurface3DSeries *series);
     Q_INVOKABLE void clearSelection() override;
 
-    void setFlipHorizontalGrid(bool flip);
     bool flipHorizontalGrid() const;
     bool isFlatShadingSupported();
     QList<QSurface3DSeries *> surfaceSeriesList();
     void updateSurfaceTexture(QSurface3DSeries *series);
 
     static QPoint invalidSelectionPosition();
-    void setSelectedPoint(QPoint position, QSurface3DSeries *series, bool enterSlice);
 
     QSurface3DSeries *selectedSeries() const { return m_selectedSeries; }
-    void setSelectionMode(QtGraphs3D::SelectionFlags mode) override;
 
-    void setDataDimensions(DataDimensions dimension) { m_dataDimensions = dimension; }
     DataDimensions dataDimensions() { return m_dataDimensions; }
 
     bool hasChangedSeriesList() const { return !m_changedSeriesList.isEmpty(); }
     bool isSeriesVisibilityDirty() const { return m_isSeriesVisibilityDirty; }
-    void setSeriesVisibilityDirty(bool dirty) { m_isSeriesVisibilityDirty = dirty; }
     bool isDataDirty() const { return m_isDataDirty; }
-    void setDataDirty(bool dirty) { m_isDataDirty = dirty; }
     bool isSeriesVisualsDirty() const { return m_isSeriesVisualsDirty; }
-    void setSeriesVisualsDirty(bool dirty) { m_isSeriesVisualsDirty = dirty; }
     bool isIndexDirty() const { return m_isIndexDirty; }
-    void setIndexDirty(bool dirty) { m_isIndexDirty = dirty; }
 
     QList<QAbstract3DSeries *> changedSeriesList() { return m_changedSeriesList; }
 
     bool isSelectedPointChanged() const { return m_changeTracker.selectedPointChanged; }
-    void setSelectedPointChanged(bool changed) { m_changeTracker.selectedPointChanged = changed; }
 
     bool isFlipHorizontalGridChanged() const { return m_changeTracker.flipHorizontalGridChanged; }
-    void setFlipHorizontalGridChanged(bool changed)
-    {
-        m_changeTracker.flipHorizontalGridChanged = changed;
-    }
 
     bool isSurfaceTextureChanged() const { return m_changeTracker.surfaceTextureChanged; }
-    void setSurfaceTextureChanged(bool changed) { m_changeTracker.surfaceTextureChanged = changed; }
     bool isChangedTexturesEmpty() const { return m_changedTextures.empty(); }
     bool hasSeriesToChangeTexture(QSurface3DSeries *series) const
     {
@@ -197,6 +180,23 @@ public Q_SLOTS:
     void handleItemChanged(qsizetype rowIndex, qsizetype columnIndex);
 
     void handleFlatShadingSupportedChange(bool supported);
+    void setAxisX(QValue3DAxis *axis);
+    void setAxisY(QValue3DAxis *axis);
+    void setAxisZ(QValue3DAxis *axis);
+    void setFlipHorizontalGrid(bool flip);
+    void setSelectedPoint(QPoint position, QSurface3DSeries *series, bool enterSlice);
+    void setSelectionMode(QtGraphs3D::SelectionFlags mode) override;
+    void setDataDimensions(DataDimensions dimension) { m_dataDimensions = dimension; }
+    void setSeriesVisibilityDirty(bool dirty) { m_isSeriesVisibilityDirty = dirty; }
+    void setDataDirty(bool dirty) { m_isDataDirty = dirty; }
+    void setSeriesVisualsDirty(bool dirty) { m_isSeriesVisualsDirty = dirty; }
+    void setIndexDirty(bool dirty) { m_isIndexDirty = dirty; }
+    void setSelectedPointChanged(bool changed) { m_changeTracker.selectedPointChanged = changed; }
+    void setFlipHorizontalGridChanged(bool changed)
+    {
+        m_changeTracker.flipHorizontalGridChanged = changed;
+    }
+    void setSurfaceTextureChanged(bool changed) { m_changeTracker.surfaceTextureChanged = changed; }
 
 Q_SIGNALS:
     void axisXChanged(QValue3DAxis *axis);

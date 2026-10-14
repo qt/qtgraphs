@@ -44,26 +44,28 @@ public:
                             QObject *parent = nullptr);
     ~QCustom3DLabel() override;
 
-    void setText(const QString &text);
     QString text() const;
 
-    void setFont(const QFont &font);
     QFont font() const;
 
-    void setTextColor(QColor color);
     QColor textColor() const;
 
-    void setBackgroundColor(QColor color);
     QColor backgroundColor() const;
 
-    void setBorderVisible(bool visible);
     bool isBorderVisible() const;
 
-    void setBackgroundVisible(bool visible);
     bool isBackgroundVisible() const;
 
-    void setFacingCamera(bool enabled);
     bool isFacingCamera() const;
+
+public Q_SLOTS:
+    void setText(const QString &text);
+    void setFont(const QFont &font);
+    void setTextColor(QColor color);
+    void setBackgroundColor(QColor color);
+    void setBorderVisible(bool visible);
+    void setBackgroundVisible(bool visible);
+    void setFacingCamera(bool enabled);
 
 Q_SIGNALS:
     void textChanged(const QString &text);

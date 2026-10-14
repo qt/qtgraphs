@@ -58,11 +58,8 @@ public:
         qsizetype index;
     };
 
-    void setAxisX(QValue3DAxis *axis);
     QValue3DAxis *axisX() const;
-    void setAxisY(QValue3DAxis *axis);
     QValue3DAxis *axisY() const;
-    void setAxisZ(QValue3DAxis *axis);
     QValue3DAxis *axisZ() const;
 
     QQmlListProperty<QScatter3DSeries> seriesList();
@@ -76,15 +73,11 @@ public:
     QList<QScatter3DSeries *> scatterSeriesList();
 
     QScatter3DSeries *selectedSeries() const;
-    void setSelectedItem(qsizetype index, QScatter3DSeries *series);
 
     static constexpr qsizetype invalidSelectionIndex() { return -1; }
-    void setSelectionMode(QtGraphs3D::SelectionFlags mode) override;
 
     bool hasSelectedItemChanged() const { return m_changeTracker.selectedItemChanged; }
-    void setSelectedItemChanged(bool changed) { m_changeTracker.selectedItemChanged = changed; }
     bool hasItemChanged() const { return m_changeTracker.itemChanged; }
-    void setItemChanged(bool changed) { m_changeTracker.itemChanged = changed; }
 
     void handleAxisAutoAdjustRangeChangedInOrientation(QAbstract3DAxis::AxisOrientation orientation,
                                                        bool autoAdjust) override;
@@ -95,7 +88,6 @@ public:
 
     bool hasChangedSeriesList() const { return !m_changedSeriesList.empty(); }
     bool isSeriesVisualsDirty() const { return m_isSeriesVisualsDirty; }
-    void setSeriesVisualsDirty() { m_isSeriesVisualsDirty = true; }
     bool isDataDirty() const { return m_isDataDirty; }
 
     void handleLightingModeChanged() override;
@@ -112,6 +104,14 @@ public Q_SLOTS:
     void handleItemsChanged(qsizetype startIndex, qsizetype count);
     void handleItemsRemoved(qsizetype startIndex, qsizetype count);
     void handleItemsInserted(qsizetype startIndex, qsizetype count);
+    void setAxisX(QValue3DAxis *axis);
+    void setAxisY(QValue3DAxis *axis);
+    void setAxisZ(QValue3DAxis *axis);
+    void setSelectedItem(qsizetype index, QScatter3DSeries *series);
+    void setSelectionMode(QtGraphs3D::SelectionFlags mode) override;
+    void setSelectedItemChanged(bool changed) { m_changeTracker.selectedItemChanged = changed; }
+    void setItemChanged(bool changed) { m_changeTracker.itemChanged = changed; }
+    void setSeriesVisualsDirty() { m_isSeriesVisualsDirty = true; }
 
 Q_SIGNALS:
     void axisXChanged(QValue3DAxis *axis);

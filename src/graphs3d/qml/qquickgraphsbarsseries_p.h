@@ -53,11 +53,8 @@ public:
 
     QPointF invalidSelectionPosition() const;
 
-    void setBaseGradient(QQuickGradient *gradient);
     QQuickGradient *baseGradient() const;
-    void setSingleHighlightGradient(QQuickGradient *gradient);
     QQuickGradient *singleHighlightGradient() const;
-    void setMultiHighlightGradient(QQuickGradient *gradient);
     QQuickGradient *multiHighlightGradient() const;
 
     QQmlListProperty<QQuickGraphsColor> rowColors();
@@ -73,6 +70,9 @@ public Q_SLOTS:
     void handleSingleHighlightGradientUpdate();
     void handleMultiHighlightGradientUpdate();
     void handleRowColorUpdate();
+    void setBaseGradient(QQuickGradient *gradient);
+    void setSingleHighlightGradient(QQuickGradient *gradient);
+    void setMultiHighlightGradient(QQuickGradient *gradient);
 
 Q_SIGNALS:
     void baseGradientChanged(QQuickGradient *gradient);

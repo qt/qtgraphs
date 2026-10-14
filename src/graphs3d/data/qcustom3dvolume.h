@@ -66,58 +66,60 @@ public:
                              QObject *parent = nullptr);
     ~QCustom3DVolume() override;
 
-    void setTextureWidth(int value);
     int textureWidth() const;
-    void setTextureHeight(int value);
     int textureHeight() const;
-    void setTextureDepth(int value);
     int textureDepth() const;
-    void setTextureDimensions(int width, int height, int depth);
     int textureDataWidth() const;
 
-    void setSliceIndexX(int value);
     int sliceIndexX() const;
-    void setSliceIndexY(int value);
     int sliceIndexY() const;
-    void setSliceIndexZ(int value);
     int sliceIndexZ() const;
-    void setSliceIndices(int x, int y, int z);
 
-    void setColorTable(const QList<QRgb> &colors);
     QList<QRgb> colorTable() const;
 
-    void setTextureData(QList<uchar> *data);
     QList<uchar> *createTextureData(const QList<QImage *> &images);
     QList<uchar> *textureData() const;
-    void setSubTextureData(Qt::Axis axis, int index, const uchar *data);
-    void setSubTextureData(Qt::Axis axis, int index, const QImage &image);
 
-    void setTextureFormat(QImage::Format format);
     QImage::Format textureFormat() const;
 
-    void setAlphaMultiplier(float mult);
     float alphaMultiplier() const;
-    void setPreserveOpacity(bool enable);
     bool preserveOpacity() const;
 
-    void setUseHighDefShader(bool enable);
     bool useHighDefShader() const;
 
-    void setDrawSlices(bool enable);
     bool drawSlices() const;
-    void setDrawSliceFrames(bool enable);
     bool drawSliceFrames() const;
 
-    void setSliceFrameColor(QColor color);
     QColor sliceFrameColor() const;
-    void setSliceFrameWidths(QVector3D values);
     QVector3D sliceFrameWidths() const;
-    void setSliceFrameGaps(QVector3D values);
     QVector3D sliceFrameGaps() const;
-    void setSliceFrameThicknesses(QVector3D values);
     QVector3D sliceFrameThicknesses() const;
 
     QImage renderSlice(Qt::Axis axis, int index);
+
+public Q_SLOTS:
+    void setTextureWidth(int value);
+    void setTextureHeight(int value);
+    void setTextureDepth(int value);
+    void setTextureDimensions(int width, int height, int depth);
+    void setSliceIndexX(int value);
+    void setSliceIndexY(int value);
+    void setSliceIndexZ(int value);
+    void setSliceIndices(int x, int y, int z);
+    void setColorTable(const QList<QRgb> &colors);
+    void setTextureData(QList<uchar> *data);
+    void setSubTextureData(Qt::Axis axis, int index, const uchar *data);
+    void setSubTextureData(Qt::Axis axis, int index, const QImage &image);
+    void setTextureFormat(QImage::Format format);
+    void setAlphaMultiplier(float mult);
+    void setPreserveOpacity(bool enable);
+    void setUseHighDefShader(bool enable);
+    void setDrawSlices(bool enable);
+    void setDrawSliceFrames(bool enable);
+    void setSliceFrameColor(QColor color);
+    void setSliceFrameWidths(QVector3D values);
+    void setSliceFrameGaps(QVector3D values);
+    void setSliceFrameThicknesses(QVector3D values);
 
 Q_SIGNALS:
     void textureWidthChanged(int value);

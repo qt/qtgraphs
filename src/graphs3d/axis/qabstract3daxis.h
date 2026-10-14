@@ -65,49 +65,50 @@ protected:
 public:
     ~QAbstract3DAxis() override;
 
-    void setVisible(bool visible);
     bool isVisible() const;
 
-    void setTitle(const QString &title);
     QString title() const;
 
-    void setLabels(const QStringList &labels);
     QStringList labels() const;
 
     QAbstract3DAxis::AxisOrientation orientation() const;
     QAbstract3DAxis::AxisType type() const;
 
-    void setMin(float min);
     float min() const;
 
-    void setMax(float max);
     float max() const;
 
-    void setAutoAdjustRange(bool autoAdjust);
     bool isAutoAdjustRange() const;
 
-    void setScaleLabelsByCount(bool adjust);
     bool isScaleLabelsByCount() const;
 
-    void setLabelSize(qreal size);
     qreal labelSize() const;
 
-    void setRange(float min, float max);
-
-    void setLabelAutoAngle(float degree);
     float labelAutoAngle() const;
 
-    void setTitleVisible(bool visible);
     bool isTitleVisible() const;
 
-    void setLabelsVisible(bool visible);
     bool labelsVisible() const;
 
-    void setTitleFixed(bool fixed);
     bool isTitleFixed() const;
 
-    void setTitleOffset(float offset);
     float titleOffset() const;
+
+public Q_SLOTS:
+    void setVisible(bool visible);
+    void setTitle(const QString &title);
+    void setLabels(const QStringList &labels);
+    void setMin(float min);
+    void setMax(float max);
+    void setAutoAdjustRange(bool autoAdjust);
+    void setScaleLabelsByCount(bool adjust);
+    void setLabelSize(qreal size);
+    void setRange(float min, float max);
+    void setLabelAutoAngle(float degree);
+    void setTitleVisible(bool visible);
+    void setLabelsVisible(bool visible);
+    void setTitleFixed(bool fixed);
+    void setTitleOffset(float offset);
 
 Q_SIGNALS:
     Q_REVISION(6, 13) void visibilityChanged(bool visible);

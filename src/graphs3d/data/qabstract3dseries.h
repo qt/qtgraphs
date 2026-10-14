@@ -92,49 +92,51 @@ public:
 
     QAbstract3DSeries::SeriesType type() const;
 
-    void setItemLabelFormat(const QString &format);
     QString itemLabelFormat() const;
 
-    void setVisible(bool visible);
     bool isVisible() const;
 
-    void setMesh(QAbstract3DSeries::Mesh mesh);
     QAbstract3DSeries::Mesh mesh() const;
 
-    void setMeshSmooth(bool enable);
     bool isMeshSmooth() const;
 
-    void setMeshRotation(const QQuaternion &rotation);
     QQuaternion meshRotation() const;
-    Q_INVOKABLE void setMeshAxisAndAngle(QVector3D axis, float angle);
 
-    void setUserDefinedMesh(const QString &fileName);
     QString userDefinedMesh() const;
 
-    void setColorStyle(QGraphsTheme::ColorStyle style);
     QGraphsTheme::ColorStyle colorStyle() const;
-    void setBaseColor(QColor color);
     QColor baseColor() const;
-    void setBaseGradient(const QLinearGradient &gradient);
     QLinearGradient baseGradient() const;
-    void setSingleHighlightColor(QColor color);
     QColor singleHighlightColor() const;
-    void setSingleHighlightGradient(const QLinearGradient &gradient);
     QLinearGradient singleHighlightGradient() const;
-    void setMultiHighlightColor(QColor color);
     QColor multiHighlightColor() const;
-    void setMultiHighlightGradient(const QLinearGradient &gradient);
     QLinearGradient multiHighlightGradient() const;
 
     LightingMode lightingMode() const;
-    void setLightingMode(LightingMode lightingMode);
 
-    void setName(const QString &name);
     QString name() const;
 
     QString itemLabel();
-    void setItemLabelVisible(bool visible);
     bool isItemLabelVisible() const;
+
+public Q_SLOTS:
+    void setItemLabelFormat(const QString &format);
+    void setVisible(bool visible);
+    void setMesh(QAbstract3DSeries::Mesh mesh);
+    void setMeshSmooth(bool enable);
+    void setMeshRotation(const QQuaternion &rotation);
+    void setMeshAxisAndAngle(QVector3D axis, float angle);
+    void setUserDefinedMesh(const QString &fileName);
+    void setColorStyle(QGraphsTheme::ColorStyle style);
+    void setBaseColor(QColor color);
+    void setBaseGradient(const QLinearGradient &gradient);
+    void setSingleHighlightColor(QColor color);
+    void setSingleHighlightGradient(const QLinearGradient &gradient);
+    void setMultiHighlightColor(QColor color);
+    void setMultiHighlightGradient(const QLinearGradient &gradient);
+    void setLightingMode(LightingMode lightingMode);
+    void setName(const QString &name);
+    void setItemLabelVisible(bool visible);
 
 Q_SIGNALS:
     void itemLabelFormatChanged(const QString &format);

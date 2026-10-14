@@ -50,11 +50,8 @@ public:
     QQmlListProperty<QObject> seriesChildren();
     static void appendSeriesChildren(QQmlListProperty<QObject> *list, QObject *element);
 
-    void setBaseGradient(QQuickGradient *gradient);
     QQuickGradient *baseGradient() const;
-    void setSingleHighlightGradient(QQuickGradient *gradient);
     QQuickGradient *singleHighlightGradient() const;
-    void setMultiHighlightGradient(QQuickGradient *gradient);
     QQuickGradient *multiHighlightGradient() const;
 
     qsizetype invalidSelectionIndex() const;
@@ -63,6 +60,9 @@ public Q_SLOTS:
     void handleBaseGradientUpdate();
     void handleSingleHighlightGradientUpdate();
     void handleMultiHighlightGradientUpdate();
+    void setBaseGradient(QQuickGradient *gradient);
+    void setSingleHighlightGradient(QQuickGradient *gradient);
+    void setMultiHighlightGradient(QQuickGradient *gradient);
 
 Q_SIGNALS:
     void baseGradientChanged(QQuickGradient *gradient);

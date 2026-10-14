@@ -67,18 +67,12 @@ public:
 
     ~QItemModelScatterDataProxy() override;
 
-    void setItemModel(QAbstractItemModel *itemModel);
     QAbstractItemModel *itemModel() const;
 
-    void setXPosRole(const QString &role);
     QString xPosRole() const;
-    void setYPosRole(const QString &role);
     QString yPosRole() const;
-    void setZPosRole(const QString &role);
     QString zPosRole() const;
-    void setRotationRole(const QString &role);
     QString rotationRole() const;
-    void setScaleRole(const QString &role);
     QString scaleRole() const;
 
     void remap(const QString &xPosRole,
@@ -92,27 +86,35 @@ public:
                const QString &rotationRole,
                const QString &scaleRole);
 
-    void setXPosRolePattern(const QRegularExpression &pattern);
     QRegularExpression xPosRolePattern() const;
-    void setYPosRolePattern(const QRegularExpression &pattern);
     QRegularExpression yPosRolePattern() const;
-    void setZPosRolePattern(const QRegularExpression &pattern);
     QRegularExpression zPosRolePattern() const;
-    void setRotationRolePattern(const QRegularExpression &pattern);
     QRegularExpression rotationRolePattern() const;
-    void setScaleRolePattern(const QRegularExpression &pattern);
     QRegularExpression scaleRolePattern() const;
 
-    void setXPosRoleReplace(const QString &replace);
     QString xPosRoleReplace() const;
-    void setYPosRoleReplace(const QString &replace);
     QString yPosRoleReplace() const;
-    void setZPosRoleReplace(const QString &replace);
     QString zPosRoleReplace() const;
-    void setRotationRoleReplace(const QString &replace);
     QString rotationRoleReplace() const;
-    void setScaleRoleReplace(const QString &replace);
     QString scaleRoleReplace() const;
+
+public Q_SLOTS:
+    void setItemModel(QAbstractItemModel *itemModel);
+    void setXPosRole(const QString &role);
+    void setYPosRole(const QString &role);
+    void setZPosRole(const QString &role);
+    void setRotationRole(const QString &role);
+    void setScaleRole(const QString &role);
+    void setXPosRolePattern(const QRegularExpression &pattern);
+    void setYPosRolePattern(const QRegularExpression &pattern);
+    void setZPosRolePattern(const QRegularExpression &pattern);
+    void setRotationRolePattern(const QRegularExpression &pattern);
+    void setScaleRolePattern(const QRegularExpression &pattern);
+    void setXPosRoleReplace(const QString &replace);
+    void setYPosRoleReplace(const QString &replace);
+    void setZPosRoleReplace(const QString &replace);
+    void setRotationRoleReplace(const QString &replace);
+    void setScaleRoleReplace(const QString &replace);
 
 Q_SIGNALS:
     void itemModelChanged(const QAbstractItemModel *itemModel);

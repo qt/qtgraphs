@@ -49,14 +49,6 @@ public:
     void resetArray(QBarDataArray newArray);
     void resetArray(QBarDataArray newArray, QStringList rowLabels, QStringList columnLabels);
 
-    void setRow(qsizetype rowIndex, QBarDataRow row);
-    void setRow(qsizetype rowIndex, QBarDataRow row, QString label);
-    void setRows(qsizetype rowIndex, QBarDataArray rows);
-    void setRows(qsizetype rowIndex, QBarDataArray rows, QStringList labels);
-
-    void setItem(qsizetype rowIndex, qsizetype columnIndex, QBarDataItem item);
-    void setItem(QPoint position, QBarDataItem item);
-
     qsizetype addRow(QBarDataRow row);
     qsizetype addRow(QBarDataRow row, QString label);
     qsizetype addRows(QBarDataArray rows);
@@ -70,6 +62,14 @@ public:
     void removeRows(qsizetype rowIndex,
                     qsizetype removeCount,
                     RemoveLabels removeLabels = RemoveLabels::No);
+
+public Q_SLOTS:
+    void setRow(qsizetype rowIndex, QBarDataRow row);
+    void setRow(qsizetype rowIndex, QBarDataRow row, QString label);
+    void setRows(qsizetype rowIndex, QBarDataArray rows);
+    void setRows(qsizetype rowIndex, QBarDataArray rows, QStringList labels);
+    void setItem(qsizetype rowIndex, qsizetype columnIndex, QBarDataItem item);
+    void setItem(QPoint position, QBarDataItem item);
 
 Q_SIGNALS:
     void arrayReset();

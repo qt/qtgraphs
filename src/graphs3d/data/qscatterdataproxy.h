@@ -38,9 +38,6 @@ public:
     void resetArray(QScatterDataArray newArray);
     void resetScaleArray(QList<QVector3D> newArray);
 
-    void setItem(qsizetype index, QScatterDataItem item);
-    void setItems(qsizetype index, QScatterDataArray items);
-
     qsizetype addItem(QScatterDataItem item);
     qsizetype addItem(QScatterDataItem &&item);
     qsizetype addItems(QScatterDataArray items);
@@ -50,6 +47,10 @@ public:
     void insertItems(qsizetype index, QScatterDataArray items);
 
     void removeItems(qsizetype index, qsizetype removeCount);
+
+public Q_SLOTS:
+    void setItem(qsizetype index, QScatterDataItem item);
+    void setItems(qsizetype index, QScatterDataArray items);
 
 Q_SIGNALS:
     void arrayReset();

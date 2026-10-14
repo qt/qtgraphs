@@ -41,35 +41,37 @@ public:
     explicit QScatter3DSeries(QScatterDataProxy *dataProxy, QObject *parent = nullptr);
     ~QScatter3DSeries() override;
 
-    void setDataProxy(QScatterDataProxy *proxy);
     QScatterDataProxy *dataProxy() const;
 
-    void setSelectedItem(qsizetype index);
     qsizetype selectedItem() const;
     static qsizetype invalidSelectionIndex();
 
-    void setItemSize(float size);
     float itemSize() const;
 
-    void setDataArray(const QScatterDataArray &newDataArray);
     void clearArray();
     const QScatterDataArray &dataArray() const &;
     QScatterDataArray dataArray() &&;
 
-    void setScaleArray(const QList<QVector3D> &newScaleArray);
     void clearScaleArray();
     const QList<QVector3D> &scaleArray() const &;
     QList<QVector3D> scaleArray() &&;
 
-    void setAxisX(QValue3DAxis *axis);
-    void setAxisY(QValue3DAxis *axis);
-    void setAxisZ(QValue3DAxis *axis);
     QValue3DAxis *axisX() const;
     QValue3DAxis *axisY() const;
     QValue3DAxis *axisZ() const;
     void resetAxisX();
     void resetAxisY();
     void resetAxisZ();
+
+public Q_SLOTS:
+    void setDataProxy(QScatterDataProxy *proxy);
+    void setSelectedItem(qsizetype index);
+    void setItemSize(float size);
+    void setDataArray(const QScatterDataArray &newDataArray);
+    void setScaleArray(const QList<QVector3D> &newScaleArray);
+    void setAxisX(QValue3DAxis *axis);
+    void setAxisY(QValue3DAxis *axis);
+    void setAxisZ(QValue3DAxis *axis);
 
 Q_SIGNALS:
     void dataProxyChanged(QScatterDataProxy *proxy);

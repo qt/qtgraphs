@@ -92,35 +92,21 @@ public:
     };
 
     QCategory3DAxis *rowAxis() const;
-    void setRowAxis(QCategory3DAxis *axis);
     QValue3DAxis *valueAxis() const;
-    void setValueAxis(QValue3DAxis *axis);
     QCategory3DAxis *columnAxis() const;
-    void setColumnAxis(QCategory3DAxis *axis);
 
-    void setMultiSeriesUniform(bool uniform);
     bool isMultiSeriesUniform() const;
 
-    void setBarThickness(float thicknessRatio);
     float barThickness() const;
 
-    void setBarSpacing(QSizeF spacing);
     QSizeF barSpacing() const;
 
-    void setBarSpacingRelative(bool relative);
     bool isBarSpacingRelative() const;
 
-    void setBarSeriesMargin(QSizeF margin);
     QSizeF barSeriesMargin() const;
 
-    void setMultiSeriesScaling(bool uniform);
     bool multiSeriesScaling() const;
 
-    void setBarSpecs(float thicknessRatio = 1.0f,
-                     QSizeF spacing = QSizeF(1.0, 1.0),
-                     bool relative = true);
-
-    void setFloorLevel(float level);
     float floorLevel() const;
 
     QQmlListProperty<QBar3DSeries> seriesList();
@@ -133,11 +119,9 @@ public:
     Q_INVOKABLE void insertSeries(qsizetype index, QBar3DSeries *series);
     Q_INVOKABLE void clearSelection() override;
 
-    void setPrimarySeries(QBar3DSeries *series);
     QBar3DSeries *primarySeries() const;
     QBar3DSeries *selectedSeries() const;
     static QPoint invalidSelectionPosition() { return QPoint(-1, -1); }
-    void setSelectionMode(QtGraphs3D::SelectionFlags mode) override;
 
     void handleAxisAutoAdjustRangeChangedInOrientation(QAbstract3DAxis::AxisOrientation orientation,
                                                        bool autoAdjust) override;
@@ -150,14 +134,10 @@ public:
 
     void handleMultiAxisChanged(QAbstract3DAxis *axis) override;
 
-    void setSelectedBar(QPoint coord, QBar3DSeries *series, bool enterSlice);
-
     QList<QBar3DSeries *> barSeriesList();
 
     bool isSeriesVisualsDirty() const { return m_isSeriesVisualsDirty; }
-    void setSeriesVisualsDirty(bool dirty) { m_isSeriesVisualsDirty = dirty; }
     bool isDataDirty() const { return m_isDataDirty; }
-    void setDataDirty(bool dirty) { m_isDataDirty = dirty; }
 
     void renderSliceToImage(int requestedIndex, QtGraphs3D::SliceCaptureType sliceType);
     Q_REVISION(6, 10)
@@ -210,6 +190,24 @@ public Q_SLOTS:
     void handleDataColumnLabelsChanged();
     void handleRowColorsChanged();
     void handleValueColoringChanged();
+    void setRowAxis(QCategory3DAxis *axis);
+    void setValueAxis(QValue3DAxis *axis);
+    void setColumnAxis(QCategory3DAxis *axis);
+    void setMultiSeriesUniform(bool uniform);
+    void setBarThickness(float thicknessRatio);
+    void setBarSpacing(QSizeF spacing);
+    void setBarSpacingRelative(bool relative);
+    void setBarSeriesMargin(QSizeF margin);
+    void setMultiSeriesScaling(bool uniform);
+    void setBarSpecs(float thicknessRatio = 1.0f,
+                     QSizeF spacing = QSizeF(1.0, 1.0),
+                     bool relative = true);
+    void setFloorLevel(float level);
+    void setPrimarySeries(QBar3DSeries *series);
+    void setSelectionMode(QtGraphs3D::SelectionFlags mode) override;
+    void setSelectedBar(QPoint coord, QBar3DSeries *series, bool enterSlice);
+    void setSeriesVisualsDirty(bool dirty) { m_isSeriesVisualsDirty = dirty; }
+    void setDataDirty(bool dirty) { m_isDataDirty = dirty; }
 
 Q_SIGNALS:
     void rowAxisChanged(QCategory3DAxis *axis);
