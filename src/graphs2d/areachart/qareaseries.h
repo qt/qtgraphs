@@ -45,33 +45,35 @@ public:
     QAbstractSeries::SeriesType type() const override;
 
     QColor color() const;
-    void setColor(QColor newColor);
 
     QColor selectedColor() const;
-    void setSelectedColor(QColor newColor);
 
     QColor borderColor() const;
-    void setBorderColor(QColor newBorderColor);
 
     QColor selectedBorderColor() const;
-    void setSelectedBorderColor(QColor newSelectedBorderColor);
 
     qreal borderWidth() const;
-    void setBorderWidth(qreal newBorderWidth);
 
     bool isSelected() const;
-    void setSelected(bool newSelected);
 
     QXYSeries *upperSeries() const;
-    void setUpperSeries(QXYSeries *newUpperSeries);
 
     QXYSeries *lowerSeries() const;
-    void setLowerSeries(QXYSeries *newLowerSeries);
 
     QQuickShapeGradient *gradient() const;
-    void setGradient(QQuickShapeGradient *newGradient);
 
     QQuickShapeGradient *selectedGradient() const;
+
+public Q_SLOTS:
+    void setColor(QColor newColor);
+    void setSelectedColor(QColor newColor);
+    void setBorderColor(QColor newBorderColor);
+    void setSelectedBorderColor(QColor newSelectedBorderColor);
+    void setBorderWidth(qreal newBorderWidth);
+    void setSelected(bool newSelected);
+    void setUpperSeries(QXYSeries *newUpperSeries);
+    void setLowerSeries(QXYSeries *newLowerSeries);
+    void setGradient(QQuickShapeGradient *newGradient);
     void setSelectedGradient(QQuickShapeGradient *newSelectedGradient);
 
 Q_SIGNALS:

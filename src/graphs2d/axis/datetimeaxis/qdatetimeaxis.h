@@ -48,12 +48,9 @@ public:
     AxisType type() const override;
 
     //range handling
-    void setMin(const QDateTime &min);
     QDateTime min() const;
-    void setMax(const QDateTime &max);
     QDateTime max() const;
 
-    void setLabelFormat(const QString &format);
     QString labelFormat() const;
 
 #if QT_REMOVAL_QT7_DEPRECATED_SINCE(6, 15)
@@ -64,16 +61,12 @@ public:
 #endif
 
     int subTickCount() const;
-    void setSubTickCount(int newSubTickCount);
 
     QTimeZone timeZone() const;
-    void setTimeZone(const QTimeZone &zoneId);
 
-    void setZoom(qreal zoom);
     qreal zoom() const;
 
     qreal pan() const;
-    void setPan(qreal pan);
 
     QDateTime visualMin() const;
     QDateTime visualMax() const;
@@ -82,6 +75,15 @@ public:
     Q_REVISION(6, 11) Q_INVOKABLE QString timeZoneAsString() const;
 
     qsizetype tickCount() const;
+
+public Q_SLOTS:
+    void setMin(const QDateTime &min);
+    void setMax(const QDateTime &max);
+    void setLabelFormat(const QString &format);
+    void setSubTickCount(int newSubTickCount);
+    void setTimeZone(const QTimeZone &zoneId);
+    void setZoom(qreal zoom);
+    void setPan(qreal pan);
     void setTickCount(qsizetype count);
 
 Q_SIGNALS:

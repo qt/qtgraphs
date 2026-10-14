@@ -48,36 +48,38 @@ public:
     AxisType type() const override;
 
     //range handling
-    void setMin(qreal min);
     qreal min() const;
-    void setMax(qreal max);
     qreal max() const;
-    void setRange(qreal min, qreal max);
 
-    void setBase(qreal base);
     qreal base() const;
 
     //ticks handling
-    void setSubTickCount(qsizetype count);
     qsizetype subTickCount() const;
     qsizetype tickCount() const;
 
     //label formatting
-    void setLabelFormat(const QString &format);
     QString labelFormat() const;
-    void setLabelPostFormat(const QString &format);
     QString labelPostFormat() const;
-    void setLabelPrecision(int decimals);
     int labelPrecision() const;
 
-    void setZoom(qreal zoom);
     qreal zoom() const;
 
-    void setPan(qreal pan);
     qreal pan() const;
 
     qreal visualMin() const;
     qreal visualMax() const;
+
+public Q_SLOTS:
+    void setMin(qreal min);
+    void setMax(qreal max);
+    void setRange(qreal min, qreal max);
+    void setBase(qreal base);
+    void setSubTickCount(qsizetype count);
+    void setLabelFormat(const QString &format);
+    void setLabelPostFormat(const QString &format);
+    void setLabelPrecision(int decimals);
+    void setZoom(qreal zoom);
+    void setPan(qreal pan);
 
 Q_SIGNALS:
     void minChanged(qreal min);

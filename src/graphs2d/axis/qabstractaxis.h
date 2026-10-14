@@ -80,50 +80,51 @@ public:
 
     //visibility handling
     bool isVisible() const;
-    void setVisible(bool visible = true);
     void show();
     void hide();
 
     //arrow handling
     bool isLineVisible() const;
-    void setLineVisible(bool visible = true);
 
     //grid handling
     bool isGridVisible() const;
-    void setGridVisible(bool visible = true);
     bool isSubGridVisible() const;
-    void setSubGridVisible(bool visible = true);
 
     //labels handling
     bool labelsVisible() const;
-    void setLabelsVisible(bool visible = true);
-    void setLabelsAngle(qreal angle);
     qreal labelsAngle() const;
     QQmlComponent *labelDelegate() const;
-    void setLabelDelegate(QQmlComponent *newLabelDelegate);
 
     //title handling
     bool isTitleVisible() const;
-    void setTitleVisible(bool visible = true);
-    void setTitleColor(QColor color);
     QColor titleColor() const;
-    void setTitleFont(const QFont &font);
     QFont titleFont() const;
-    void setTitleText(const QString &title);
     QString titleText() const;
 
     Qt::Alignment alignment() const;
-    void setAlignment(Qt::Alignment alignment);
 
     Qt::TextElideMode textElideMode() const;
-    void setTextElideMode(Qt::TextElideMode elideMode);
 
-    void setSubColor(QColor color);
     QColor subColor() const;
 
-    void setColor(QColor color);
     QColor color() const;
 
+public Q_SLOTS:
+    void setVisible(bool visible = true);
+    void setLineVisible(bool visible = true);
+    void setGridVisible(bool visible = true);
+    void setSubGridVisible(bool visible = true);
+    void setLabelsVisible(bool visible = true);
+    void setLabelsAngle(qreal angle);
+    void setLabelDelegate(QQmlComponent *newLabelDelegate);
+    void setTitleVisible(bool visible = true);
+    void setTitleColor(QColor color);
+    void setTitleFont(const QFont &font);
+    void setTitleText(const QString &title);
+    void setAlignment(Qt::Alignment alignment);
+    void setTextElideMode(Qt::TextElideMode elideMode);
+    void setSubColor(QColor color);
+    void setColor(QColor color);
     //range handling
     void setMin(const QVariant &min);
     void setMax(const QVariant &max);

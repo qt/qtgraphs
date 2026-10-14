@@ -179,6 +179,10 @@ Item {
         }
 
         function test_2_initialized_change() {
+            lineStyleSpy.clear()
+            strokeStyleSpy.clear()
+            dashOffsetSpy.clear()
+            dashPatternSpy.clear()
             initialized.width = 1.0
             initialized.capStyle = Qt.SquareCap
             initialized.joinStyle = Qt.BevelJoin
@@ -223,7 +227,7 @@ Item {
             compare(lineStyleSpy.count, 1)
             compare(strokeStyleSpy.count, 1)
             compare(dashOffsetSpy.count, 1)
-            compare(dashPatternSpy.count, 2)
+            compare(dashPatternSpy.count, 1)
 
             //QXYSeries signals
             compare(colorSpy.count, 1)

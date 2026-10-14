@@ -115,22 +115,16 @@ public:
     static void clearSeriesFunc(QQmlListProperty<QObject> *list);
 
     QGraphsTheme *theme() const;
-    void setTheme(QGraphsTheme *newTheme);
 
     qreal marginTop() const;
-    void setMarginTop(qreal newMarginTop);
 
     qreal marginBottom() const;
-    void setMarginBottom(qreal newMarginBottom);
 
     qreal marginLeft() const;
-    void setMarginLeft(qreal newMarginLeft);
 
     qreal marginRight() const;
-    void setMarginRight(qreal newMarginRight);
 
     bool clipPlotArea() const;
-    void setClipPlotArea(bool enabled);
 
     QRectF plotArea() const;
     void updatePlotArea();
@@ -142,7 +136,6 @@ public:
     void removeAxis(QAbstractAxis *axis, bool removeAllReferences = false);
 
     qsizetype graphSeriesCount() const;
-    void setGraphSeriesCount(qsizetype count);
 
 #if QT_CONFIG(graphs_2d_bar)
     void createBarsRenderer();
@@ -166,33 +159,21 @@ public:
 #endif
 
     qreal axisXSmoothing() const;
-    void setAxisXSmoothing(qreal smoothing);
     qreal axisYSmoothing() const;
-    void setAxisYSmoothing(qreal smoothing);
     qreal gridSmoothing() const;
-    void setGridSmoothing(qreal smoothing);
 
     bool isShadowVisible() const;
-    void setShadowVisible(bool newShadowVisibility);
     QColor shadowColor() const;
-    void setShadowColor(QColor newShadowColor);
     qreal shadowBarWidth() const;
-    void setShadowBarWidth(qreal newShadowBarWidth);
     qreal shadowXOffset() const;
-    void setShadowXOffset(qreal newShadowXOffset);
     qreal shadowYOffset() const;
-    void setShadowYOffset(qreal newShadowYOffset);
     qreal shadowSmoothing() const;
-    void setShadowSmoothing(qreal smoothing);
 
     QAbstractAxis *axisX() const;
-    void setAxisX(QAbstractAxis *axis);
 
     QAbstractAxis *axisY() const;
-    void setAxisY(QAbstractAxis *axis);
 
     Qt::Orientation orientation() const;
-    void setOrientation(Qt::Orientation newOrientation);
 
     enum class ZoomStyle { None, Center };
     Q_ENUM(ZoomStyle)
@@ -201,19 +182,14 @@ public:
     Q_ENUM(PanStyle)
 
     ZoomStyle zoomStyle() const;
-    void setZoomStyle(ZoomStyle newZoomStyle);
 
     PanStyle panStyle() const;
-    void setPanStyle(PanStyle newPanStyle);
 
     bool zoomAreaEnabled() const;
-    void setZoomAreaEnabled(bool newZoomAreaEnabled);
 
     QQmlComponent *zoomAreaDelegate() const;
-    void setZoomAreaDelegate(QQmlComponent *newZoomAreaDelegate);
 
     qreal zoomSensitivity() const;
-    void setZoomSensitivity(qreal newZoomSensitivity);
 
 #if QT_CONFIG(graphs_2d_custom)
     qreal mapX(QCustomSeries *series, qreal x);
@@ -222,9 +198,35 @@ public:
     CustomRenderer *customRenderer() const;
 
     bool useCanvasPainter() const;
-    void setUseCanvasPainter(bool newUseCanvasPainter);
 
     bool dynamicLabelMargins() const;
+
+public Q_SLOTS:
+    void setTheme(QGraphsTheme *newTheme);
+    void setMarginTop(qreal newMarginTop);
+    void setMarginBottom(qreal newMarginBottom);
+    void setMarginLeft(qreal newMarginLeft);
+    void setMarginRight(qreal newMarginRight);
+    void setClipPlotArea(bool enabled);
+    void setGraphSeriesCount(qsizetype count);
+    void setAxisXSmoothing(qreal smoothing);
+    void setAxisYSmoothing(qreal smoothing);
+    void setGridSmoothing(qreal smoothing);
+    void setShadowVisible(bool newShadowVisibility);
+    void setShadowColor(QColor newShadowColor);
+    void setShadowBarWidth(qreal newShadowBarWidth);
+    void setShadowXOffset(qreal newShadowXOffset);
+    void setShadowYOffset(qreal newShadowYOffset);
+    void setShadowSmoothing(qreal smoothing);
+    void setAxisX(QAbstractAxis *axis);
+    void setAxisY(QAbstractAxis *axis);
+    void setOrientation(Qt::Orientation newOrientation);
+    void setZoomStyle(ZoomStyle newZoomStyle);
+    void setPanStyle(PanStyle newPanStyle);
+    void setZoomAreaEnabled(bool newZoomAreaEnabled);
+    void setZoomAreaDelegate(QQmlComponent *newZoomAreaDelegate);
+    void setZoomSensitivity(qreal newZoomSensitivity);
+    void setUseCanvasPainter(bool newUseCanvasPainter);
     void setDynamicLabelMargins(bool newDynamicLabelMargins);
 
 protected:

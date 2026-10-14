@@ -65,33 +65,21 @@ public:
 
     QQmlListProperty<QPieSlice> sliceChildren();
 
-    void setLabel(const QString &label);
     QString label() const;
-    void setLabelVisible(bool visible = true);
     bool isLabelVisible() const;
-    void setLabelPosition(LabelPosition position);
     LabelPosition labelPosition();
-    void setLabelColor(QColor color);
     QColor labelColor() const;
-    void setLabelFont(const QFont &font);
     QFont labelFont() const;
-    void setLabelArmLengthFactor(qreal factor);
     qreal labelArmLengthFactor() const;
 
-    void setColor(QColor color);
     QColor color() const;
 
-    void setBorderColor(QColor color);
     QColor borderColor() const;
-    void setBorderWidth(qreal borderWidth);
     qreal borderWidth() const;
 
-    void setValue(qreal value);
     qreal value() const;
 
-    void setExploded(bool exploded);
     bool isExploded() const;
-    void setExplodeDistanceFactor(qreal factor);
     qreal explodeDistanceFactor() const;
 
     qreal percentage() const;
@@ -122,8 +110,22 @@ public:
 
     qreal subSlicesSum() const;
 
-    void setSubSlicesRatio(qreal subSlicesRatio);
     qreal subSlicesRatio() const;
+
+public Q_SLOTS:
+    void setLabel(const QString &label);
+    void setLabelVisible(bool visible = true);
+    void setLabelPosition(LabelPosition position);
+    void setLabelColor(QColor color);
+    void setLabelFont(const QFont &font);
+    void setLabelArmLengthFactor(qreal factor);
+    void setColor(QColor color);
+    void setBorderColor(QColor color);
+    void setBorderWidth(qreal borderWidth);
+    void setValue(qreal value);
+    void setExploded(bool exploded);
+    void setExplodeDistanceFactor(qreal factor);
+    void setSubSlicesRatio(qreal subSlicesRatio);
 
 Q_SIGNALS:
     void labelChanged();

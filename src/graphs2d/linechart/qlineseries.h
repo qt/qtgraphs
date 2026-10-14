@@ -45,29 +45,30 @@ public:
     ~QLineSeries() override;
     QAbstractSeries::SeriesType type() const override;
 
-
     qreal width() const;
-    void setWidth(qreal newWidth);
 
     Qt::PenCapStyle capStyle() const;
-    void setCapStyle(Qt::PenCapStyle newCapStyle);
 
     Qt::PenJoinStyle joinStyle() const;
-    void setJoinStyle(Qt::PenJoinStyle newJoinStyle);
 
     QLineSeries::LineStyle lineStyle() const;
-    void setLineStyle(QLineSeries::LineStyle newLineStyle);
 
     QLineSeries::StrokeStyle strokeStyle() const;
-    void setStrokeStyle(QLineSeries::StrokeStyle newStrokeStyle);
 
     qreal dashOffset() const;
-    void setDashOffset(qreal newDashOffset);
 
     QList<qreal> dashPattern() const;
-    void setDashPattern(const QList<qreal> &pattern);
 
     Q_REVISION(6, 10) Q_INVOKABLE QPointF dataPointCoordinatesAt(qreal x, qreal y);
+
+public Q_SLOTS:
+    void setWidth(qreal newWidth);
+    void setCapStyle(Qt::PenCapStyle newCapStyle);
+    void setJoinStyle(Qt::PenJoinStyle newJoinStyle);
+    void setLineStyle(QLineSeries::LineStyle newLineStyle);
+    void setStrokeStyle(QLineSeries::StrokeStyle newStrokeStyle);
+    void setDashOffset(qreal newDashOffset);
+    void setDashPattern(const QList<qreal> &pattern);
 
 Q_SIGNALS:
     void widthChanged();

@@ -36,24 +36,26 @@ public:
     ~QBarModelMapper() override;
 
     QAbstractItemModel *model() const;
-    void setModel(QAbstractItemModel *model);
 
     QBarSeries *series() const;
-    void setSeries(QBarSeries *series);
 
     qsizetype firstBarSetSection() const;
-    void setFirstBarSetSection(qsizetype newFirstBarSetSection);
 
     qsizetype lastBarSetSection() const;
-    void setLastBarSetSection(qsizetype newLastBarSetSection);
 
     qsizetype count() const;
-    void setCount(qsizetype newCount);
 
     qsizetype first() const;
-    void setFirst(qsizetype newFirst);
 
     Qt::Orientation orientation() const;
+
+public Q_SLOTS:
+    void setModel(QAbstractItemModel *model);
+    void setSeries(QBarSeries *series);
+    void setFirstBarSetSection(qsizetype newFirstBarSetSection);
+    void setLastBarSetSection(qsizetype newLastBarSetSection);
+    void setCount(qsizetype newCount);
+    void setFirst(qsizetype newFirst);
     void setOrientation(Qt::Orientation orientation);
 
 Q_SIGNALS:

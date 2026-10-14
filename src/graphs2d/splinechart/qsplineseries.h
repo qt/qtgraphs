@@ -27,17 +27,18 @@ public:
     ~QSplineSeries() override;
     QAbstractSeries::SeriesType type() const override;
 
-
     qreal width() const;
-    void setWidth(qreal newWidth);
 
     Qt::PenCapStyle capStyle() const;
-    void setCapStyle(Qt::PenCapStyle newCapStyle);
 
     bool isOptimized() const;
-    void setOptimized(bool optimized);
 
     QList<QPointF> &getControlPoints();
+
+public Q_SLOTS:
+    void setWidth(qreal newWidth);
+    void setCapStyle(Qt::PenCapStyle newCapStyle);
+    void setOptimized(bool optimized);
 
 Q_SIGNALS:
     void widthChanged();

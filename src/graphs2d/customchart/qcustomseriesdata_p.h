@@ -32,6 +32,8 @@ class QCustomSeriesData : public QObject
 public:
     explicit QCustomSeriesData(QObject *parent = 0);
     QVariantMap data() const;
+
+public Q_SLOTS:
     void setData(const QVariantMap &newData);
 
 private:

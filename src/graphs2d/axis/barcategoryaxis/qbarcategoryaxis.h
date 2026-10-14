@@ -50,17 +50,19 @@ public:
     Q_INVOKABLE void replace(const QString &oldCategory, const QString &newCategory);
     Q_INVOKABLE void clear();
     Q_INVOKABLE QString at(qsizetype index) const;
-    void setCategories(const QStringList &categories);
     QStringList categories();
     qsizetype count() const;
-    void setLabelPosition(LabelPosition position);
     LabelPosition labelPosition() const;
 
     //range handling
-    void setMin(const QString &minCategory);
     QString min() const;
-    void setMax(const QString &maxCategory);
     QString max() const;
+
+public Q_SLOTS:
+    void setCategories(const QStringList &categories);
+    void setLabelPosition(LabelPosition position);
+    void setMin(const QString &minCategory);
+    void setMax(const QString &maxCategory);
     void setRange(const QString &minCategory, const QString &maxCategory);
 
 Q_SIGNALS:

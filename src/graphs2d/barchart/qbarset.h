@@ -40,7 +40,6 @@ public:
     explicit QBarSet(const QString &label, QObject *parent = nullptr);
     ~QBarSet() override;
 
-    void setLabel(const QString &label);
     QString label() const;
 
     Q_INVOKABLE void append(qreal value);
@@ -57,32 +56,35 @@ public:
     QBarSet &operator << (qreal value);
 
     QColor color() const;
-    void setColor(QColor color);
 
     QColor borderColor() const;
-    void setBorderColor(QColor color);
 
     QColor labelColor() const;
-    void setLabelColor(QColor color);
 
     QColor selectedColor() const;
-    void setSelectedColor(QColor color);
 
     QVariantList values() const;
-    void setValues(const QVariantList &values);
     qreal borderWidth() const;
-    void setBorderWidth(qreal borderWidth);
 
     Q_INVOKABLE bool isBarSelected(qsizetype index) const;
     Q_INVOKABLE void selectBar(qsizetype index);
     Q_INVOKABLE void deselectBar(qsizetype index);
-    Q_INVOKABLE void setBarSelected(qsizetype index, bool selected);
     Q_INVOKABLE void selectAllBars();
     Q_INVOKABLE void deselectAllBars();
     Q_INVOKABLE void selectBars(const QList<qsizetype> &indexes);
     Q_INVOKABLE void deselectBars(const QList<qsizetype> &indexes);
     Q_INVOKABLE void toggleSelection(const QList<qsizetype> &indexes);
     QList<qsizetype> selectedBars() const;
+
+public Q_SLOTS:
+    void setLabel(const QString &label);
+    void setColor(QColor color);
+    void setBorderColor(QColor color);
+    void setLabelColor(QColor color);
+    void setSelectedColor(QColor color);
+    void setValues(const QVariantList &values);
+    void setBorderWidth(qreal borderWidth);
+    void setBarSelected(qsizetype index, bool selected);
 
 Q_SIGNALS:
     void update();

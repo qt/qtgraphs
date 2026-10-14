@@ -74,41 +74,40 @@ public:
 
     qreal sum() const;
 
-    void setHorizontalPosition(qreal relativePosition);
     qreal horizontalPosition() const;
 
-    void setVerticalPosition(qreal relativePosition);
     qreal verticalPosition() const;
-    void setPieSize(qreal relativeSize);
     qreal pieSize() const;
 
-    void setStartAngle(qreal startAngle);
     qreal startAngle() const;
 
-    void setEndAngle(qreal endAngle);
     qreal endAngle() const;
 
-    void setHoleSize(qreal holeSize);
     qreal holeSize() const;
 
-    void setLabelsVisible(bool visible);
-    void setLabelsPosition(QPieSlice::LabelPosition position);
-
     qreal angleSpanVisibleLimit() const;
-    void setAngleSpanVisibleLimit(qreal newAngleSpanVisibleLimit);
 
     LabelVisibility angleSpanLabelVisibility() const;
-    void setAngleSpanLabelVisibility(LabelVisibility newAngleSpanVisibleMode);
 
     QList<qreal> sliceData() const;
-    void setSliceData(const QList<qreal> &newSliceData);
 
     const QStringList &sliceLabels() const &;
     QStringList sliceLabels() &&;
-    void setSliceLabels(QStringList newLabels);
 
 public Q_SLOTS:
     void handleSliceChange();
+    void setHorizontalPosition(qreal relativePosition);
+    void setVerticalPosition(qreal relativePosition);
+    void setPieSize(qreal relativeSize);
+    void setStartAngle(qreal startAngle);
+    void setEndAngle(qreal endAngle);
+    void setHoleSize(qreal holeSize);
+    void setLabelsVisible(bool visible);
+    void setLabelsPosition(QPieSlice::LabelPosition position);
+    void setAngleSpanVisibleLimit(qreal newAngleSpanVisibleLimit);
+    void setAngleSpanLabelVisibility(LabelVisibility newAngleSpanVisibleMode);
+    void setSliceData(const QList<qreal> &newSliceData);
+    void setSliceLabels(QStringList newLabels);
 
 protected:
     QPieSeries(QPieSeriesPrivate &dd, QObject *parent = nullptr);

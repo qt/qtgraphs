@@ -69,20 +69,16 @@ public:
     QXYSeries &operator<<(QPointF point);
     QXYSeries &operator<<(const QList<QPointF> &points);
 
-    void setColor(QColor newColor);
     QColor color() const;
 
-    void setSelectedColor(QColor color);
     QColor selectedColor() const;
 
     qsizetype count() const;
     QVariantList values() const;
-    void setValues(QVariantList values);
 
     Q_INVOKABLE bool isPointSelected(qsizetype index) const;
     Q_INVOKABLE void selectPoint(qsizetype index);
     Q_INVOKABLE void deselectPoint(qsizetype index);
-    Q_INVOKABLE void setPointSelected(qsizetype index, bool selected);
     Q_INVOKABLE void selectAllPoints();
     Q_INVOKABLE void deselectAllPoints();
     Q_INVOKABLE void selectPoints(const QList<qsizetype> &indexes);
@@ -91,21 +87,27 @@ public:
     QList<qsizetype> selectedPoints() const;
 
     QQmlComponent *pointDelegate() const;
-    void setPointDelegate(QQmlComponent *newPointDelegate);
 
     QML_ELEMENT
     QML_UNCREATABLE("XYSeries is an abstract base class.")
 
     bool isDraggable() const;
-    void setDraggable(bool newDraggable);
 
     ValueMapping valueMapping() const;
-    void setValueMapping(ValueMapping newHint);
 
     qreal valueMin() const;
-    void setValueMin(qreal newMin);
 
     qreal stepSize() const;
+
+public Q_SLOTS:
+    void setColor(QColor newColor);
+    void setSelectedColor(QColor color);
+    void setValues(QVariantList values);
+    void setPointSelected(qsizetype index, bool selected);
+    void setPointDelegate(QQmlComponent *newPointDelegate);
+    void setDraggable(bool newDraggable);
+    void setValueMapping(ValueMapping newHint);
+    void setValueMin(qreal newMin);
     void setStepSize(qreal stepSize);
 
 Q_SIGNALS:

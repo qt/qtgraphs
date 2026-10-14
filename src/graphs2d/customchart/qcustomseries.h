@@ -32,10 +32,6 @@ public:
     QList<QCustomSeriesData *> dataItems() const;
 
     QQmlComponent *delegate() const;
-    void setDelegate(QQmlComponent *newDelegate);
-#if QT_CONFIG(graphs_2d_high_performance_backend) || defined(Q_QDOC)
-    void setCustomSeriesPainter(QCustomSeriesCanvasRenderer *painter);
-#endif
     Q_INVOKABLE qreal mapX(qreal x);
     Q_INVOKABLE qreal mapY(qreal y);
 
@@ -45,6 +41,12 @@ public:
     Q_INVOKABLE void insert(qsizetype index);
     Q_INVOKABLE void remove(qsizetype index);
     Q_SLOT void clear();
+
+public Q_SLOTS:
+    void setDelegate(QQmlComponent *newDelegate);
+#if QT_CONFIG(graphs_2d_high_performance_backend) || defined(Q_QDOC)
+    void setCustomSeriesPainter(QCustomSeriesCanvasRenderer *painter);
+#endif
 
 Q_SIGNALS:
     void delegateChanged();

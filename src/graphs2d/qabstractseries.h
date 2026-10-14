@@ -80,22 +80,16 @@ public:
     virtual SeriesType type() const = 0;
 
     QString name() const;
-    void setName(const QString &name);
 
     bool isVisible() const;
-    void setVisible(bool visible = true);
 
     bool isSelectable() const;
-    void setSelectable(bool selectable);
 
     qreal opacity() const;
-    void setOpacity(qreal opacity);
 
     qreal valuesMultiplier() const;
-    void setValuesMultiplier(qreal valuesMultiplier);
 
     QGraphsView *graph() const;
-    void setGraph(QGraphsView *graph);
 
     const QList<QLegendData> legendData() const;
 
@@ -105,20 +99,28 @@ public:
     QQmlListProperty<QObject> seriesChildren();
 
     bool isHoverable() const;
-    void setHoverable(bool newHoverable);
 
     bool hasLoaded() const;
 
     bool isHovered() const;
-    void setHovered(bool enabled);
 
     QAbstractAxis *axisX() const;
-    void setAxisX(QAbstractAxis *newAxisX);
 
     QAbstractAxis *axisY() const;
-    void setAxisY(QAbstractAxis *newAxisY);
 
     int zValue() const;
+
+public Q_SLOTS:
+    void setName(const QString &name);
+    void setVisible(bool visible = true);
+    void setSelectable(bool selectable);
+    void setOpacity(qreal opacity);
+    void setValuesMultiplier(qreal valuesMultiplier);
+    void setGraph(QGraphsView *graph);
+    void setHoverable(bool newHoverable);
+    void setHovered(bool enabled);
+    void setAxisX(QAbstractAxis *newAxisX);
+    void setAxisY(QAbstractAxis *newAxisY);
     void setZValue(int newDrawOrder);
 
 Q_SIGNALS:

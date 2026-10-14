@@ -33,25 +33,28 @@ public:
     ~QXYModelMapper() override;
 
     QAbstractItemModel *model() const;
-    void setModel(QAbstractItemModel *model);
 
     QXYSeries *series() const;
-    void setSeries(QXYSeries *series);
 
     qsizetype first() const;
-    void setFirst(qsizetype first);
 
     qsizetype count() const;
-    void setCount(qsizetype count);
 
     Qt::Orientation orientation() const;
-    void setOrientation(Qt::Orientation orientation);
 
     qsizetype xSection() const;
-    void setXSection(qsizetype xSection);
 
     qsizetype ySection() const;
+
+public Q_SLOTS:
+    void setModel(QAbstractItemModel *model);
+    void setSeries(QXYSeries *series);
+    void setFirst(qsizetype first);
+    void setCount(qsizetype count);
+    void setOrientation(Qt::Orientation orientation);
+    void setXSection(qsizetype xSection);
     void setYSection(qsizetype ySection);
+
 Q_SIGNALS:
     void seriesChanged();
     void modelChanged();

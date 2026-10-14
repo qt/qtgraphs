@@ -36,25 +36,18 @@ public:
     ~QPieModelMapper() override;
 
     QPieSeries *series() const;
-    void setSeries(QPieSeries *series);
 
     qsizetype first() const;
-    void setFirst(qsizetype first);
 
     qsizetype count() const;
-    void setCount(qsizetype count);
 
     qsizetype valuesSection() const;
-    void setValuesSection(qsizetype valuesSection);
 
     qsizetype labelsSection() const;
-    void setLabelsSection(qsizetype labelsSection);
 
     Qt::Orientation orientation() const;
-    void setOrientation(Qt::Orientation orientation);
 
     QAbstractItemModel *model() const;
-    void setModel(QAbstractItemModel *model);
 Q_SIGNALS:
     void seriesChanged();
     void modelChanged();
@@ -67,6 +60,13 @@ Q_SIGNALS:
 public Q_SLOTS:
     void onSliceLabelChanged();
     void onSliceValueChanged();
+    void setSeries(QPieSeries *series);
+    void setFirst(qsizetype first);
+    void setCount(qsizetype count);
+    void setValuesSection(qsizetype valuesSection);
+    void setLabelsSection(qsizetype labelsSection);
+    void setOrientation(Qt::Orientation orientation);
+    void setModel(QAbstractItemModel *model);
 
 protected:
     QPieModelMapper(QPieModelMapperPrivate &dd, QObject *parent = nullptr);

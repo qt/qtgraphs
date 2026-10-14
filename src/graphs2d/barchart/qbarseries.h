@@ -61,15 +61,11 @@ public:
     QAbstractSeries::SeriesType type() const override;
 
     QList<QColor> seriesColors() const;
-    void setSeriesColors(const QList<QColor> &newSeriesColors);
 
     QList<QColor> borderColors() const;
-    void setBorderColors(const QList<QColor> &newBorderColors);
 
-    void setBarsType(QBarSeries::BarsType type);
     QBarSeries::BarsType barsType() const;
 
-    void setBarWidth(qreal width);
     qreal barWidth() const;
 
     Q_INVOKABLE bool append(QBarSet *set);
@@ -89,30 +85,34 @@ public:
 
     QList<QBarSet *> barSets() const;
 
-    void setLabelsVisible(bool visible = true);
     bool labelsVisible() const;
 
-    void setLabelsFormat(const QString &format);
     QString labelsFormat() const;
 
-    void setLabelsMargin(qreal margin);
     qreal labelsMargin() const;
 
-    void setLabelsAngle(qreal angle);
     qreal labelsAngle() const;
 
-    void setLabelsPosition(QBarSeries::LabelsPosition position);
     QBarSeries::LabelsPosition labelsPosition() const;
 
-    void setLabelsPrecision(int precision);
     int labelsPrecision() const;
 
     QQmlComponent *barDelegate() const;
-    void setBarDelegate(QQmlComponent *newBarDelegate);
 
 public Q_SLOTS:
     void selectAll();
     void deselectAll();
+    void setSeriesColors(const QList<QColor> &newSeriesColors);
+    void setBorderColors(const QList<QColor> &newBorderColors);
+    void setBarsType(QBarSeries::BarsType type);
+    void setBarWidth(qreal width);
+    void setLabelsVisible(bool visible = true);
+    void setLabelsFormat(const QString &format);
+    void setLabelsMargin(qreal margin);
+    void setLabelsAngle(qreal angle);
+    void setLabelsPosition(QBarSeries::LabelsPosition position);
+    void setLabelsPrecision(int precision);
+    void setBarDelegate(QQmlComponent *newBarDelegate);
 
 protected:
     QBarSeries(QBarSeriesPrivate &dd, QObject *parent = nullptr);
