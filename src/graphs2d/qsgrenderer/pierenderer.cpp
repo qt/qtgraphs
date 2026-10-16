@@ -577,13 +577,27 @@ void PieRenderer::freeSlice(const QPieSlicePrivate *privSlice)
 // QQuickShape keeps raw pointers to its shape paths and never drops a path that gets destroyed,
 // so a path freed by freeSlice() would stay in the shape's list and be dereferenced on the next
 // path change. There is no way to remove a single path, so reset the list and re-add the paths
-// of the slices that are still active.
+// of the slices that are still active. The shape draws its paths in list order, so re-add them
+// in series and slice order to keep the original stacking.
 void PieRenderer::rebuildShapePaths()
 {
     auto data = m_shape->data();
     data.clear(&data);
-    for (const auto &sliceData : std::as_const(m_activeSlices))
-        data.append(&data, sliceData.shapePath);
+    for (QObject *object : std::as_const(m_graph->m_seriesList)) {
+        if (auto pieSeries = qobject_cast<QPieSeries *>(object))
+            appendShapePaths(data, pieSeries->slices());
+    }
+}
+
+void PieRenderer::appendShapePaths(QQmlListProperty<QObject> &data,
+                                   const QList<QPieSlice *> &slicelist)
+{
+    for (QPieSlice *slice : slicelist) {
+        auto it = m_activeSlices.constFind(slice);
+        if (it != m_activeSlices.cend())
+            data.append(&data, it->shapePath);
+        appendShapePaths(data, slice->subSlices());
+    }
 }
 #endif
 

@@ -113,6 +113,7 @@ private:
     void freeSlice(const QPieSlicePrivate *privSlice);
 #if QT_CONFIG(graphs_2d_high_quality_backend)
     void rebuildShapePaths();
+    void appendShapePaths(QQmlListProperty<QObject> &data, const QList<QPieSlice *> &slicelist);
 #endif
 
     QGraphsView *m_graph = nullptr;
