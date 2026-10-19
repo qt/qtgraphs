@@ -4,6 +4,7 @@
 #include <QtTest/QtTest>
 
 #include <QtGraphs/QCustom3DItem>
+#include <QtQuick/QQuickItem>
 #include <QtGraphsWidgets/q3dbarswidgetitem.h>
 
 #include "cpptestutil.h"
@@ -36,10 +37,17 @@ private slots:
 
     void addCustomItem();
     void removeCustomItem();
+    void removeCustomItemsModels();
+    void removeCustomItemModel();
+    void removeCustomItemAtModel();
+    void removeUnknownCustomItem();
+    void addAfterRelease();
 
     void renderToImage();
 
 private:
+    int modelCount() const;
+
     Q3DBarsWidgetItem *m_graph;
     QQuickWidget *m_quickWidget;
 };
@@ -483,6 +491,117 @@ void tst_bars::removeCustomItem()
     QCOMPARE(m_graph->customItems().size(), 1);
     m_graph->removeCustomItems();
     QCOMPARE(m_graph->customItems().size(), 0);
+}
+
+int tst_bars::modelCount() const
+{
+    // The custom item models live under the viewport's scene root node, which isn't a QObject
+    // child of the graph item. The graph shadows the "scene" property, so read the base class one.
+    QObject *graph = m_quickWidget->rootObject();
+    const QMetaObject *mo = graph->metaObject();
+    while (mo && qstrcmp(mo->className(), "QQuick3DViewport") != 0)
+        mo = mo->superClass();
+    Q_ASSERT(mo);
+    auto *sceneRoot = mo->property(mo->indexOfProperty("scene")).read(graph).value<QObject *>();
+    Q_ASSERT(sceneRoot);
+
+    int count = 0;
+    const auto children = sceneRoot->findChildren<QObject *>();
+    for (const QObject *child : children) {
+        if (child->inherits("QQuick3DModel"))
+            ++count;
+    }
+    return count;
+}
+
+void tst_bars::removeCustomItemsModels()
+{
+    const int baseline = modelCount();
+
+    m_graph->addCustomItem(new QCustom3DItem());
+    m_graph->addCustomItem(new QCustom3DItem());
+    m_graph->addCustomItem(new QCustom3DItem());
+    QCOMPARE(modelCount(), baseline + 3);
+
+    m_graph->removeCustomItems();
+    QCOMPARE(m_graph->customItems().size(), 0);
+    QTRY_COMPARE(modelCount(), baseline);
+}
+
+void tst_bars::removeCustomItemModel()
+{
+    const int baseline = modelCount();
+
+    QCustom3DItem *item = new QCustom3DItem();
+    QCustom3DItem *item2 = new QCustom3DItem();
+    m_graph->addCustomItem(item);
+    m_graph->addCustomItem(item2);
+    QCOMPARE(modelCount(), baseline + 2);
+
+    m_graph->removeCustomItem(item);
+    QTRY_COMPARE(modelCount(), baseline + 1);
+
+    m_graph->removeCustomItem(item2);
+    QTRY_COMPARE(modelCount(), baseline);
+}
+
+void tst_bars::removeCustomItemAtModel()
+{
+    const int baseline = modelCount();
+
+    QCustom3DItem *item = new QCustom3DItem();
+    item->setPosition(QVector3D(1, 1, 1));
+    QCustom3DItem *item2 = new QCustom3DItem();
+    m_graph->addCustomItem(item);
+    m_graph->addCustomItem(item2);
+    QCOMPARE(modelCount(), baseline + 2);
+
+    m_graph->removeCustomItemAt(QVector3D(1, 1, 1));
+    QCOMPARE(m_graph->customItems().size(), 1);
+    QTRY_COMPARE(modelCount(), baseline + 1);
+}
+
+void tst_bars::removeUnknownCustomItem()
+{
+    // Items that the graph doesn't track must be handled without crashing.
+    QTest::ignoreMessage(
+        QtWarningMsg,
+        QRegularExpression(QStringLiteral("^(QQuickGraphsItem::)?removeCustomItem invalid item$")));
+    m_graph->removeCustomItem(nullptr);
+
+    QPointer<QCustom3DItem> neverAdded = new QCustom3DItem();
+    m_graph->removeCustomItem(neverAdded);
+    QVERIFY(!neverAdded);
+
+    QPointer<QCustom3DItem> released = new QCustom3DItem();
+    m_graph->addCustomItem(released);
+    m_graph->releaseCustomItem(released);
+    QVERIFY(released);
+    const int afterRelease = modelCount();
+    m_graph->removeCustomItem(released);
+    QVERIFY(!released);
+
+    QCOMPARE(m_graph->customItems().size(), 0);
+    // Removing an item the graph no longer tracks must not touch any other model
+    QCOMPARE(modelCount(), afterRelease);
+}
+
+void tst_bars::addAfterRelease()
+{
+    QCustom3DItem *item = new QCustom3DItem();
+    m_graph->addCustomItem(item);
+    m_graph->releaseCustomItem(item);
+    QCOMPARE(m_graph->customItems().size(), 0);
+
+    const int beforeReAdd = modelCount();
+    QCOMPARE(m_graph->addCustomItem(item), 0);
+    QCOMPARE(m_graph->customItems().size(), 1);
+    QCOMPARE(modelCount(), beforeReAdd + 1);
+
+    // Removing the re-added item deletes its model
+    m_graph->removeCustomItem(item);
+    QCOMPARE(m_graph->customItems().size(), 0);
+    QTRY_COMPARE(modelCount(), beforeReAdd);
 }
 
 void tst_bars::renderToImage()
